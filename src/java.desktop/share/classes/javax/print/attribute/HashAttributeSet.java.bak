@@ -1,526 +1,526 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbsiMbp;
 
 /**
- * Class HashAttributeSet provides an <code>AttributeSet</code>
- * implementation with characteristics of a hash map.
+ * Clbss HbsiAttributfSft providfs bn <dodf>AttributfSft</dodf>
+ * implfmfntbtion witi dibrbdtfristids of b ibsi mbp.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public class HashAttributeSet implements AttributeSet, Serializable {
+publid dlbss HbsiAttributfSft implfmfnts AttributfSft, Sfriblizbblf {
 
-    private static final long serialVersionUID = 5311560590283707917L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5311560590283707917L;
 
     /**
-     * The interface of which all members of this attribute set must be an
-     * instance. It is assumed to be interface {@link Attribute Attribute}
-     * or a subinterface thereof.
-     * @serial
+     * Tif intfrfbdf of wiidi bll mfmbfrs of tiis bttributf sft must bf bn
+     * instbndf. It is bssumfd to bf intfrfbdf {@link Attributf Attributf}
+     * or b subintfrfbdf tifrfof.
+     * @sfribl
      */
-    private Class<?> myInterface;
+    privbtf Clbss<?> myIntfrfbdf;
 
     /*
-     * A HashMap used by the implementation.
-     * The serialised form doesn't include this instance variable.
+     * A HbsiMbp usfd by tif implfmfntbtion.
+     * Tif sfriblisfd form dofsn't indludf tiis instbndf vbribblf.
      */
-    private transient HashMap<Class<?>, Attribute> attrMap = new HashMap<>();
+    privbtf trbnsifnt HbsiMbp<Clbss<?>, Attributf> bttrMbp = nfw HbsiMbp<>();
 
     /**
-     * Write the instance to a stream (ie serialize the object)
+     * Writf tif instbndf to b strfbm (if sfriblizf tif objfdt)
      *
-     * @serialData
-     * The serialized form of an attribute set explicitly writes the
-     * number of attributes in the set, and each of the attributes.
-     * This does not guarantee equality of serialized forms since
-     * the order in which the attributes are written is not defined.
+     * @sfriblDbtb
+     * Tif sfriblizfd form of bn bttributf sft fxpliditly writfs tif
+     * numbfr of bttributfs in tif sft, bnd fbdi of tif bttributfs.
+     * Tiis dofs not gubrbntff fqublity of sfriblizfd forms sindf
+     * tif ordfr in wiidi tif bttributfs brf writtfn is not dffinfd.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
 
-        s.defaultWriteObject();
-        Attribute [] attrs = toArray();
-        s.writeInt(attrs.length);
-        for (int i = 0; i < attrs.length; i++) {
-            s.writeObject(attrs[i]);
+        s.dffbultWritfObjfdt();
+        Attributf [] bttrs = toArrby();
+        s.writfInt(bttrs.lfngti);
+        for (int i = 0; i < bttrs.lfngti; i++) {
+            s.writfObjfdt(bttrs[i]);
         }
     }
 
     /**
-     * Reconstitute an instance from a stream that is, deserialize it).
+     * Rfdonstitutf bn instbndf from b strfbm tibt is, dfsfriblizf it).
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption {
 
-        s.defaultReadObject();
-        attrMap = new HashMap<>();
-        int count = s.readInt();
-        Attribute attr;
-        for (int i = 0; i < count; i++) {
-            attr = (Attribute)s.readObject();
-            add(attr);
+        s.dffbultRfbdObjfdt();
+        bttrMbp = nfw HbsiMbp<>();
+        int dount = s.rfbdInt();
+        Attributf bttr;
+        for (int i = 0; i < dount; i++) {
+            bttr = (Attributf)s.rfbdObjfdt();
+            bdd(bttr);
         }
     }
 
     /**
-     * Construct a new, empty attribute set.
+     * Construdt b nfw, fmpty bttributf sft.
      */
-    public HashAttributeSet() {
-        this(Attribute.class);
+    publid HbsiAttributfSft() {
+        tiis(Attributf.dlbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the given attribute.
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd witi tif givfn bttributf.
      *
-     * @param  attribute  Attribute value to add to the set.
+     * @pbrbm  bttributf  Attributf vbluf to bdd to tif sft.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>bttributf</CODE> is null.
      */
-    public HashAttributeSet(Attribute attribute) {
-        this (attribute, Attribute.class);
+    publid HbsiAttributfSft(Attributf bttributf) {
+        tiis (bttributf, Attributf.dlbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the values from the
-     * given array. The new attribute set is populated by
-     * adding the elements of <CODE>attributes</CODE> array to the set in
-     * sequence, starting at index 0. Thus, later array elements may replace
-     * earlier array elements if the array contains duplicate attribute
-     * values or attribute categories.
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd witi tif vblufs from tif
+     * givfn brrby. Tif nfw bttributf sft is populbtfd by
+     * bdding tif flfmfnts of <CODE>bttributfs</CODE> brrby to tif sft in
+     * sfqufndf, stbrting bt indfx 0. Tius, lbtfr brrby flfmfnts mby rfplbdf
+     * fbrlifr brrby flfmfnts if tif brrby dontbins duplidbtf bttributf
+     * vblufs or bttributf dbtfgorifs.
      *
-     * @param  attributes  Array of attribute values to add to the set.
-     *                    If null, an empty attribute set is constructed.
+     * @pbrbm  bttributfs  Arrby of bttributf vblufs to bdd to tif sft.
+     *                    If null, bn fmpty bttributf sft is donstrudtfd.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if any element of
-     *     <CODE>attributes</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if bny flfmfnt of
+     *     <CODE>bttributfs</CODE> is null.
      */
-    public HashAttributeSet(Attribute[] attributes) {
-        this (attributes, Attribute.class);
+    publid HbsiAttributfSft(Attributf[] bttributfs) {
+        tiis (bttributfs, Attributf.dlbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the values from the  given set.
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd witi tif vblufs from tif  givfn sft.
      *
-     * @param  attributes Set of attributes from which to initialise this set.
-     *                 If null, an empty attribute set is constructed.
+     * @pbrbm  bttributfs Sft of bttributfs from wiidi to initiblisf tiis sft.
+     *                 If null, bn fmpty bttributf sft is donstrudtfd.
      *
      */
-    public HashAttributeSet(AttributeSet attributes) {
-        this (attributes, Attribute.class);
+    publid HbsiAttributfSft(AttributfSft bttributfs) {
+        tiis (bttributfs, Attributf.dlbss);
     }
 
     /**
-     * Construct a new, empty attribute set, where the members of
-     * the attribute set are restricted to the given interface.
+     * Construdt b nfw, fmpty bttributf sft, wifrf tif mfmbfrs of
+     * tif bttributf sft brf rfstridtfd to tif givfn intfrfbdf.
      *
-     * @param  interfaceName  The interface of which all members of this
-     *                     attribute set must be an instance. It is assumed to
-     *                     be interface {@link Attribute Attribute} or a
-     *                     subinterface thereof.
-     * @exception NullPointerException if interfaceName is null.
+     * @pbrbm  intfrfbdfNbmf  Tif intfrfbdf of wiidi bll mfmbfrs of tiis
+     *                     bttributf sft must bf bn instbndf. It is bssumfd to
+     *                     bf intfrfbdf {@link Attributf Attributf} or b
+     *                     subintfrfbdf tifrfof.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
      */
-    protected HashAttributeSet(Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protfdtfd HbsiAttributfSft(Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            tirow nfw NullPointfrExdfption("null intfrfbdf");
         }
-        myInterface = interfaceName;
+        myIntfrfbdf = intfrfbdfNbmf;
     }
 
     /**
-     * Construct a new attribute set, initially populated with the given
-     * attribute, where the members of the attribute set are restricted to the
-     * given interface.
+     * Construdt b nfw bttributf sft, initiblly populbtfd witi tif givfn
+     * bttributf, wifrf tif mfmbfrs of tif bttributf sft brf rfstridtfd to tif
+     * givfn intfrfbdf.
      *
-     * @param  attribute      Attribute value to add to the set.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttributf      Attributf vbluf to bdd to tif sft.
+     * @pbrbm  intfrfbdfNbmf  Tif intfrfbdf of wiidi bll mfmbfrs of tiis
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf tifrfof.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is null.
-     * @exception NullPointerException if interfaceName is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is not an
-     *     instance of <CODE>interfaceName</CODE>.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>bttributf</CODE> is null.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>bttributf</CODE> is not bn
+     *     instbndf of <CODE>intfrfbdfNbmf</CODE>.
      */
-    protected HashAttributeSet(Attribute attribute, Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protfdtfd HbsiAttributfSft(Attributf bttributf, Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            tirow nfw NullPointfrExdfption("null intfrfbdf");
         }
-        myInterface = interfaceName;
-        add (attribute);
+        myIntfrfbdf = intfrfbdfNbmf;
+        bdd (bttributf);
     }
 
     /**
-     * Construct a new attribute set, where the members of the attribute
-     * set are restricted to the given interface.
-     * The new attribute set is populated
-     * by adding the elements of <CODE>attributes</CODE> array to the set in
-     * sequence, starting at index 0. Thus, later array elements may replace
-     * earlier array elements if the array contains duplicate attribute
-     * values or attribute categories.
+     * Construdt b nfw bttributf sft, wifrf tif mfmbfrs of tif bttributf
+     * sft brf rfstridtfd to tif givfn intfrfbdf.
+     * Tif nfw bttributf sft is populbtfd
+     * by bdding tif flfmfnts of <CODE>bttributfs</CODE> brrby to tif sft in
+     * sfqufndf, stbrting bt indfx 0. Tius, lbtfr brrby flfmfnts mby rfplbdf
+     * fbrlifr brrby flfmfnts if tif brrby dontbins duplidbtf bttributf
+     * vblufs or bttributf dbtfgorifs.
      *
-     * @param  attributes Array of attribute values to add to the set. If
-     *                    null, an empty attribute set is constructed.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttributfs Arrby of bttributf vblufs to bdd to tif sft. If
+     *                    null, bn fmpty bttributf sft is donstrudtfd.
+     * @pbrbm  intfrfbdfNbmf  Tif intfrfbdf of wiidi bll mfmbfrs of tiis
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf tifrfof.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is null.
-     * @exception NullPointerException if interfaceName is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is not an instance of
-     * <CODE>interfaceName</CODE>.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is null.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is not bn instbndf of
+     * <CODE>intfrfbdfNbmf</CODE>.
      */
-    protected HashAttributeSet(Attribute[] attributes, Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protfdtfd HbsiAttributfSft(Attributf[] bttributfs, Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            tirow nfw NullPointfrExdfption("null intfrfbdf");
         }
-        myInterface = interfaceName;
-        int n = attributes == null ? 0 : attributes.length;
+        myIntfrfbdf = intfrfbdfNbmf;
+        int n = bttributfs == null ? 0 : bttributfs.lfngti;
         for (int i = 0; i < n; ++ i) {
-            add (attributes[i]);
+            bdd (bttributfs[i]);
         }
     }
 
     /**
-     * Construct a new attribute set, initially populated with the
-     * values from the  given set where the members of the attribute
-     * set are restricted to the given interface.
+     * Construdt b nfw bttributf sft, initiblly populbtfd witi tif
+     * vblufs from tif  givfn sft wifrf tif mfmbfrs of tif bttributf
+     * sft brf rfstridtfd to tif givfn intfrfbdf.
      *
-     * @param  attributes set of attribute values to initialise the set. If
-     *                    null, an empty attribute set is constructed.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttributfs sft of bttributf vblufs to initiblisf tif sft. If
+     *                    null, bn fmpty bttributf sft is donstrudtfd.
+     * @pbrbm  intfrfbdfNbmf  Tif intfrfbdf of wiidi bll mfmbfrs of tiis
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf tifrfof.
      *
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is not an instance of
-     * <CODE>interfaceName</CODE>.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is not bn instbndf of
+     * <CODE>intfrfbdfNbmf</CODE>.
      */
-    protected HashAttributeSet(AttributeSet attributes, Class<?> interfaceName) {
-      myInterface = interfaceName;
-      if (attributes != null) {
-        Attribute[] attribArray = attributes.toArray();
-        int n = attribArray == null ? 0 : attribArray.length;
+    protfdtfd HbsiAttributfSft(AttributfSft bttributfs, Clbss<?> intfrfbdfNbmf) {
+      myIntfrfbdf = intfrfbdfNbmf;
+      if (bttributfs != null) {
+        Attributf[] bttribArrby = bttributfs.toArrby();
+        int n = bttribArrby == null ? 0 : bttribArrby.lfngti;
         for (int i = 0; i < n; ++ i) {
-          add (attribArray[i]);
+          bdd (bttribArrby[i]);
         }
       }
     }
 
     /**
-     * Returns the attribute value which this attribute set contains in the
-     * given attribute category. Returns <tt>null</tt> if this attribute set
-     * does not contain any attribute value in the given attribute category.
+     * Rfturns tif bttributf vbluf wiidi tiis bttributf sft dontbins in tif
+     * givfn bttributf dbtfgory. Rfturns <tt>null</tt> if tiis bttributf sft
+     * dofs not dontbin bny bttributf vbluf in tif givfn bttributf dbtfgory.
      *
-     * @param  category  Attribute category whose associated attribute value
-     *                   is to be returned. It must be a
-     *                   {@link java.lang.Class Class}
-     *                   that implements interface {@link Attribute
-     *                   Attribute}.
+     * @pbrbm  dbtfgory  Attributf dbtfgory wiosf bssodibtfd bttributf vbluf
+     *                   is to bf rfturnfd. It must bf b
+     *                   {@link jbvb.lbng.Clbss Clbss}
+     *                   tibt implfmfnts intfrfbdf {@link Attributf
+     *                   Attributf}.
      *
-     * @return  The attribute value in the given attribute category contained
-     *          in this attribute set, or <tt>null</tt> if this attribute set
-     *          does not contain any attribute value in the given attribute
-     *          category.
+     * @rfturn  Tif bttributf vbluf in tif givfn bttributf dbtfgory dontbinfd
+     *          in tiis bttributf sft, or <tt>null</tt> if tiis bttributf sft
+     *          dofs not dontbin bny bttributf vbluf in tif givfn bttributf
+     *          dbtfgory.
      *
-     * @throws  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is not a
-     *     {@link java.lang.Class Class} that implements interface {@link
-     *     Attribute Attribute}.
+     * @tirows  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is null.
+     * @tirows  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts intfrfbdf {@link
+     *     Attributf Attributf}.
      */
-    public Attribute get(Class<?> category) {
-        return attrMap.get(AttributeSetUtilities.
-                           verifyAttributeCategory(category,
-                                                   Attribute.class));
+    publid Attributf gft(Clbss<?> dbtfgory) {
+        rfturn bttrMbp.gft(AttributfSftUtilitifs.
+                           vfrifyAttributfCbtfgory(dbtfgory,
+                                                   Attributf.dlbss));
     }
 
     /**
-     * Adds the specified attribute to this attribute set if it is not
-     * already present, first removing any existing in the same
-     * attribute category as the specified attribute value.
+     * Adds tif spfdififd bttributf to tiis bttributf sft if it is not
+     * blrfbdy prfsfnt, first rfmoving bny fxisting in tif sbmf
+     * bttributf dbtfgory bs tif spfdififd bttributf vbluf.
      *
-     * @param  attribute  Attribute value to be added to this attribute set.
+     * @pbrbm  bttributf  Attributf vbluf to bf bddfd to tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call, i.e., the given attribute value was not already a
-     *          member of this attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *          dbll, i.f., tif givfn bttributf vbluf wbs not blrfbdy b
+     *          mfmbfr of tiis bttributf sft.
      *
-     * @throws  NullPointerException
-     *    (unchecked exception) Thrown if the <CODE>attribute</CODE> is null.
-     * @throws  UnmodifiableSetException
-     *    (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>add()</CODE> operation.
+     * @tirows  NullPointfrExdfption
+     *    (undifdkfd fxdfption) Tirown if tif <CODE>bttributf</CODE> is null.
+     * @tirows  UnmodifibblfSftExdfption
+     *    (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>bdd()</CODE> opfrbtion.
      */
-    public boolean add(Attribute attribute) {
-        Object oldAttribute =
-            attrMap.put(attribute.getCategory(),
-                        AttributeSetUtilities.
-                        verifyAttributeValue(attribute, myInterface));
-        return (!attribute.equals(oldAttribute));
+    publid boolfbn bdd(Attributf bttributf) {
+        Objfdt oldAttributf =
+            bttrMbp.put(bttributf.gftCbtfgory(),
+                        AttributfSftUtilitifs.
+                        vfrifyAttributfVbluf(bttributf, myIntfrfbdf));
+        rfturn (!bttributf.fqubls(oldAttributf));
     }
 
     /**
-     * Removes any attribute for this category from this attribute set if
-     * present. If <CODE>category</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Rfmovfs bny bttributf for tiis dbtfgory from tiis bttributf sft if
+     * prfsfnt. If <CODE>dbtfgory</CODE> is null, tifn
+     * <CODE>rfmovf()</CODE> dofs notiing bnd rfturns <tt>fblsf</tt>.
      *
-     * @param  category Attribute category to be removed from this
-     *                  attribute set.
+     * @pbrbm  dbtfgory Attributf dbtfgory to bf rfmovfd from tiis
+     *                  bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute category had been a member of
-     *         this attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *         dbll, i.f., tif givfn bttributf dbtfgory ibd bffn b mfmbfr of
+     *         tiis bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not
-     *     support the <CODE>remove()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not
+     *     support tif <CODE>rfmovf()</CODE> opfrbtion.
      */
-    public boolean remove(Class<?> category) {
-        return
-            category != null &&
-            AttributeSetUtilities.
-            verifyAttributeCategory(category, Attribute.class) != null &&
-            attrMap.remove(category) != null;
+    publid boolfbn rfmovf(Clbss<?> dbtfgory) {
+        rfturn
+            dbtfgory != null &&
+            AttributfSftUtilitifs.
+            vfrifyAttributfCbtfgory(dbtfgory, Attributf.dlbss) != null &&
+            bttrMbp.rfmovf(dbtfgory) != null;
     }
 
     /**
-     * Removes the specified attribute from this attribute set if
-     * present. If <CODE>attribute</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Rfmovfs tif spfdififd bttributf from tiis bttributf sft if
+     * prfsfnt. If <CODE>bttributf</CODE> is null, tifn
+     * <CODE>rfmovf()</CODE> dofs notiing bnd rfturns <tt>fblsf</tt>.
      *
-     * @param attribute Attribute value to be removed from this attribute set.
+     * @pbrbm bttributf Attributf vbluf to bf rfmovfd from tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute value had been a member of
-     *         this attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *         dbll, i.f., tif givfn bttributf vbluf ibd bffn b mfmbfr of
+     *         tiis bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not
-     *     support the <CODE>remove()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not
+     *     support tif <CODE>rfmovf()</CODE> opfrbtion.
      */
-    public boolean remove(Attribute attribute) {
-        return
-            attribute != null &&
-            attrMap.remove(attribute.getCategory()) != null;
+    publid boolfbn rfmovf(Attributf bttributf) {
+        rfturn
+            bttributf != null &&
+            bttrMbp.rfmovf(bttributf.gftCbtfgory()) != null;
     }
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains an
-     * attribute for the specified category.
+     * Rfturns <tt>truf</tt> if tiis bttributf sft dontbins bn
+     * bttributf for tif spfdififd dbtfgory.
      *
-     * @param  category whose presence in this attribute set is
-     *            to be tested.
+     * @pbrbm  dbtfgory wiosf prfsfndf in tiis bttributf sft is
+     *            to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this attribute set contains an attribute
-     *         value for the specified category.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dontbins bn bttributf
+     *         vbluf for tif spfdififd dbtfgory.
      */
-    public boolean containsKey(Class<?> category) {
-        return
-            category != null &&
-            AttributeSetUtilities.
-            verifyAttributeCategory(category, Attribute.class) != null &&
-            attrMap.get(category) != null;
+    publid boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+        rfturn
+            dbtfgory != null &&
+            AttributfSftUtilitifs.
+            vfrifyAttributfCbtfgory(dbtfgory, Attributf.dlbss) != null &&
+            bttrMbp.gft(dbtfgory) != null;
     }
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains the given
-     * attribute.
+     * Rfturns <tt>truf</tt> if tiis bttributf sft dontbins tif givfn
+     * bttributf.
      *
-     * @param  attribute  value whose presence in this attribute set is
-     *            to be tested.
+     * @pbrbm  bttributf  vbluf wiosf prfsfndf in tiis bttributf sft is
+     *            to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this attribute set contains the given
-     *      attribute    value.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dontbins tif givfn
+     *      bttributf    vbluf.
      */
-    public boolean containsValue(Attribute attribute) {
-        return
-           attribute != null &&
-           attribute instanceof Attribute &&
-           attribute.equals(attrMap.get(attribute.getCategory()));
+    publid boolfbn dontbinsVbluf(Attributf bttributf) {
+        rfturn
+           bttributf != null &&
+           bttributf instbndfof Attributf &&
+           bttributf.fqubls(bttrMbp.gft(bttributf.gftCbtfgory()));
     }
 
     /**
-     * Adds all of the elements in the specified set to this attribute.
-     * The outcome is the same as if the
-     * {@link #add(Attribute) add(Attribute)}
-     * operation had been applied to this attribute set successively with
-     * each element from the specified set.
-     * The behavior of the <CODE>addAll(AttributeSet)</CODE>
-     * operation is unspecified if the specified set is modified while
-     * the operation is in progress.
+     * Adds bll of tif flfmfnts in tif spfdififd sft to tiis bttributf.
+     * Tif outdomf is tif sbmf bs if tif
+     * {@link #bdd(Attributf) bdd(Attributf)}
+     * opfrbtion ibd bffn bpplifd to tiis bttributf sft suddfssivfly witi
+     * fbdi flfmfnt from tif spfdififd sft.
+     * Tif bfibvior of tif <CODE>bddAll(AttributfSft)</CODE>
+     * opfrbtion is unspfdififd if tif spfdififd sft is modififd wiilf
+     * tif opfrbtion is in progrfss.
      * <P>
-     * If the <CODE>addAll(AttributeSet)</CODE> operation throws an exception,
-     * the effect on this attribute set's state is implementation dependent;
-     * elements from the specified set before the point of the exception may
-     * or may not have been added to this attribute set.
+     * If tif <CODE>bddAll(AttributfSft)</CODE> opfrbtion tirows bn fxdfption,
+     * tif ffffdt on tiis bttributf sft's stbtf is implfmfntbtion dfpfndfnt;
+     * flfmfnts from tif spfdififd sft bfforf tif point of tif fxdfption mby
+     * or mby not ibvf bffn bddfd to tiis bttributf sft.
      *
-     * @param  attributes  whose elements are to be added to this attribute
-     *            set.
+     * @pbrbm  bttributfs  wiosf flfmfnts brf to bf bddfd to tiis bttributf
+     *            sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *          dbll.
      *
-     * @throws  UnmodifiableSetException
-     *    (Unchecked exception) Thrown if this attribute set does not
-     *     support the <tt>addAll(AttributeSet)</tt> method.
-     * @throws  NullPointerException
-     *     (Unchecked exception) Thrown if some element in the specified
-     *     set is null, or the set is null.
+     * @tirows  UnmodifibblfSftExdfption
+     *    (Undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not
+     *     support tif <tt>bddAll(AttributfSft)</tt> mftiod.
+     * @tirows  NullPointfrExdfption
+     *     (Undifdkfd fxdfption) Tirown if somf flfmfnt in tif spfdififd
+     *     sft is null, or tif sft is null.
      *
-     * @see #add(Attribute)
+     * @sff #bdd(Attributf)
      */
-    public boolean addAll(AttributeSet attributes) {
+    publid boolfbn bddAll(AttributfSft bttributfs) {
 
-        Attribute []attrs = attributes.toArray();
-        boolean result = false;
-        for (int i=0; i<attrs.length; i++) {
-            Attribute newValue =
-                AttributeSetUtilities.verifyAttributeValue(attrs[i],
-                                                           myInterface);
-            Object oldValue = attrMap.put(newValue.getCategory(), newValue);
-            result = (! newValue.equals(oldValue)) || result;
+        Attributf []bttrs = bttributfs.toArrby();
+        boolfbn rfsult = fblsf;
+        for (int i=0; i<bttrs.lfngti; i++) {
+            Attributf nfwVbluf =
+                AttributfSftUtilitifs.vfrifyAttributfVbluf(bttrs[i],
+                                                           myIntfrfbdf);
+            Objfdt oldVbluf = bttrMbp.put(nfwVbluf.gftCbtfgory(), nfwVbluf);
+            rfsult = (! nfwVbluf.fqubls(oldVbluf)) || rfsult;
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns the number of attributes in this attribute set. If this
-     * attribute set contains more than <tt>Integer.MAX_VALUE</tt> elements,
-     * returns  <tt>Integer.MAX_VALUE</tt>.
+     * Rfturns tif numbfr of bttributfs in tiis bttributf sft. If tiis
+     * bttributf sft dontbins morf tibn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts,
+     * rfturns  <tt>Intfgfr.MAX_VALUE</tt>.
      *
-     * @return  The number of attributes in this attribute set.
+     * @rfturn  Tif numbfr of bttributfs in tiis bttributf sft.
      */
-    public int size() {
-        return attrMap.size();
+    publid int sizf() {
+        rfturn bttrMbp.sizf();
     }
 
     /**
      *
-     * @return the Attributes contained in this set as an array, zero length
-     * if the AttributeSet is empty.
+     * @rfturn tif Attributfs dontbinfd in tiis sft bs bn brrby, zfro lfngti
+     * if tif AttributfSft is fmpty.
      */
-    public Attribute[] toArray() {
-        Attribute []attrs = new Attribute[size()];
-        attrMap.values().toArray(attrs);
-        return attrs;
+    publid Attributf[] toArrby() {
+        Attributf []bttrs = nfw Attributf[sizf()];
+        bttrMbp.vblufs().toArrby(bttrs);
+        rfturn bttrs;
     }
 
 
     /**
-     * Removes all attributes from this attribute set.
+     * Rfmovfs bll bttributfs from tiis bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *   (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>clear()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *   (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>dlfbr()</CODE> opfrbtion.
      */
-    public void clear() {
-        attrMap.clear();
+    publid void dlfbr() {
+        bttrMbp.dlfbr();
     }
 
    /**
-     * Returns true if this attribute set contains no attributes.
+     * Rfturns truf if tiis bttributf sft dontbins no bttributfs.
      *
-     * @return true if this attribute set contains no attributes.
+     * @rfturn truf if tiis bttributf sft dontbins no bttributfs.
      */
-    public boolean isEmpty() {
-        return attrMap.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn bttrMbp.isEmpty();
     }
 
     /**
-     * Compares the specified object with this attribute set for equality.
-     * Returns <tt>true</tt> if the given object is also an attribute set and
-     * the two attribute sets contain the same attribute category-attribute
-     * value mappings. This ensures that the
-     * <tt>equals()</tt> method works properly across different
-     * implementations of the AttributeSet interface.
+     * Compbrfs tif spfdififd objfdt witi tiis bttributf sft for fqublity.
+     * Rfturns <tt>truf</tt> if tif givfn objfdt is blso bn bttributf sft bnd
+     * tif two bttributf sfts dontbin tif sbmf bttributf dbtfgory-bttributf
+     * vbluf mbppings. Tiis fnsurfs tibt tif
+     * <tt>fqubls()</tt> mftiod works propfrly bdross difffrfnt
+     * implfmfntbtions of tif AttributfSft intfrfbdf.
      *
-     * @param  object to be compared for equality with this attribute set.
+     * @pbrbm  objfdt to bf dompbrfd for fqublity witi tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if the specified object is equal to this
-     *       attribute   set.
+     * @rfturn  <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis
+     *       bttributf   sft.
      */
 
-    public boolean equals(Object object) {
-        if (object == null || !(object instanceof AttributeSet)) {
-            return false;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt == null || !(objfdt instbndfof AttributfSft)) {
+            rfturn fblsf;
         }
 
-        AttributeSet aset = (AttributeSet)object;
-        if (aset.size() != size()) {
-            return false;
+        AttributfSft bsft = (AttributfSft)objfdt;
+        if (bsft.sizf() != sizf()) {
+            rfturn fblsf;
         }
 
-        Attribute[] attrs = toArray();
-        for (int i=0;i<attrs.length; i++) {
-            if (!aset.containsValue(attrs[i])) {
-                return false;
+        Attributf[] bttrs = toArrby();
+        for (int i=0;i<bttrs.lfngti; i++) {
+            if (!bsft.dontbinsVbluf(bttrs[i])) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this attribute set.
-     * The hash code of an attribute set is defined to be the sum
-     * of the hash codes of each entry in the AttributeSet.
-     * This ensures that <tt>t1.equals(t2)</tt> implies that
-     * <tt>t1.hashCode()==t2.hashCode()</tt> for any two attribute sets
-     * <tt>t1</tt> and <tt>t2</tt>, as required by the general contract of
-     * {@link java.lang.Object#hashCode() Object.hashCode()}.
+     * Rfturns tif ibsi dodf vbluf for tiis bttributf sft.
+     * Tif ibsi dodf of bn bttributf sft is dffinfd to bf tif sum
+     * of tif ibsi dodfs of fbdi fntry in tif AttributfSft.
+     * Tiis fnsurfs tibt <tt>t1.fqubls(t2)</tt> implifs tibt
+     * <tt>t1.ibsiCodf()==t2.ibsiCodf()</tt> for bny two bttributf sfts
+     * <tt>t1</tt> bnd <tt>t2</tt>, bs rfquirfd by tif gfnfrbl dontrbdt of
+     * {@link jbvb.lbng.Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
-     * @return  The hash code value for this attribute set.
+     * @rfturn  Tif ibsi dodf vbluf for tiis bttributf sft.
      */
-    public int hashCode() {
-        int hcode = 0;
-        Attribute[] attrs = toArray();
-        for (int i=0;i<attrs.length; i++) {
-            hcode += attrs[i].hashCode();
+    publid int ibsiCodf() {
+        int idodf = 0;
+        Attributf[] bttrs = toArrby();
+        for (int i=0;i<bttrs.lfngti; i++) {
+            idodf += bttrs[i].ibsiCodf();
         }
-        return hcode;
+        rfturn idodf;
     }
 
 }

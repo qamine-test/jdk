@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.security.AccessController;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.X509CertSelector;
-import java.security.cert.X509CRLSelector;
-import javax.security.auth.x500.X500Principal;
-import java.io.IOException;
+import jbvb.nft.URI;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.X509CRLSflfdtor;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import jbvb.io.IOExdfption;
 
-import sun.security.util.Cache;
+import sun.sfdurity.util.Cbdif;
 
 /**
- * Helper used by URICertStore and others when delegating to another CertStore
- * to fetch certs and CRLs.
+ * Hflpfr usfd by URICfrtStorf bnd otifrs wifn dflfgbting to bnotifr CfrtStorf
+ * to fftdi dfrts bnd CRLs.
  */
 
-public abstract class CertStoreHelper {
+publid bbstrbdt dlbss CfrtStorfHflpfr {
 
-    private static final int NUM_TYPES = 2;
-    private final static Map<String,String> classMap = new HashMap<>(NUM_TYPES);
-    static {
-        classMap.put(
+    privbtf stbtid finbl int NUM_TYPES = 2;
+    privbtf finbl stbtid Mbp<String,String> dlbssMbp = nfw HbsiMbp<>(NUM_TYPES);
+    stbtid {
+        dlbssMbp.put(
             "LDAP",
-            "sun.security.provider.certpath.ldap.LDAPCertStoreHelper");
-        classMap.put(
-            "SSLServer",
-            "sun.security.provider.certpath.ssl.SSLServerCertStoreHelper");
+            "sun.sfdurity.providfr.dfrtpbti.ldbp.LDAPCfrtStorfHflpfr");
+        dlbssMbp.put(
+            "SSLSfrvfr",
+            "sun.sfdurity.providfr.dfrtpbti.ssl.SSLSfrvfrCfrtStorfHflpfr");
     };
-    private static Cache<String, CertStoreHelper> cache
-        = Cache.newSoftMemoryCache(NUM_TYPES);
+    privbtf stbtid Cbdif<String, CfrtStorfHflpfr> dbdif
+        = Cbdif.nfwSoftMfmoryCbdif(NUM_TYPES);
 
-    public static CertStoreHelper getInstance(final String type)
-        throws NoSuchAlgorithmException
+    publid stbtid CfrtStorfHflpfr gftInstbndf(finbl String typf)
+        tirows NoSudiAlgoritimExdfption
     {
-        CertStoreHelper helper = cache.get(type);
-        if (helper != null) {
-            return helper;
+        CfrtStorfHflpfr iflpfr = dbdif.gft(typf);
+        if (iflpfr != null) {
+            rfturn iflpfr;
         }
-        final String cl = classMap.get(type);
-        if (cl == null) {
-            throw new NoSuchAlgorithmException(type + " not available");
+        finbl String dl = dlbssMbp.gft(typf);
+        if (dl == null) {
+            tirow nfw NoSudiAlgoritimExdfption(typf + " not bvbilbblf");
         }
         try {
-            helper = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<CertStoreHelper>() {
-                    public CertStoreHelper run() throws ClassNotFoundException {
+            iflpfr = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<CfrtStorfHflpfr>() {
+                    publid CfrtStorfHflpfr run() tirows ClbssNotFoundExdfption {
                         try {
-                            Class<?> c = Class.forName(cl, true, null);
-                            CertStoreHelper csh
-                                = (CertStoreHelper)c.newInstance();
-                            cache.put(type, csh);
-                            return csh;
-                        } catch (InstantiationException |
-                                 IllegalAccessException e) {
-                            throw new AssertionError(e);
+                            Clbss<?> d = Clbss.forNbmf(dl, truf, null);
+                            CfrtStorfHflpfr dsi
+                                = (CfrtStorfHflpfr)d.nfwInstbndf();
+                            dbdif.put(typf, dsi);
+                            rfturn dsi;
+                        } dbtdi (InstbntibtionExdfption |
+                                 IllfgblAddfssExdfption f) {
+                            tirow nfw AssfrtionError(f);
                         }
                     }
             });
-            return helper;
-        } catch (PrivilegedActionException e) {
-            throw new NoSuchAlgorithmException(type + " not available",
-                                               e.getException());
+            rfturn iflpfr;
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption(typf + " not bvbilbblf",
+                                               f.gftExdfption());
         }
     }
 
-    static boolean isCausedByNetworkIssue(String type, CertStoreException cse) {
-        switch (type) {
-            case "LDAP":
-            case "SSLServer":
+    stbtid boolfbn isCbusfdByNftworkIssuf(String typf, CfrtStorfExdfption dsf) {
+        switdi (typf) {
+            dbsf "LDAP":
+            dbsf "SSLSfrvfr":
                 try {
-                    CertStoreHelper csh = CertStoreHelper.getInstance(type);
-                    return csh.isCausedByNetworkIssue(cse);
-                } catch (NoSuchAlgorithmException nsae) {
-                    return false;
+                    CfrtStorfHflpfr dsi = CfrtStorfHflpfr.gftInstbndf(typf);
+                    rfturn dsi.isCbusfdByNftworkIssuf(dsf);
+                } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                    rfturn fblsf;
                 }
-            case "URI":
-                Throwable t = cse.getCause();
-                return (t != null && t instanceof IOException);
-            default:
-                // we don't know about any other remote CertStore types
-                return false;
+            dbsf "URI":
+                Tirowbblf t = dsf.gftCbusf();
+                rfturn (t != null && t instbndfof IOExdfption);
+            dffbult:
+                // wf don't know bbout bny otifr rfmotf CfrtStorf typfs
+                rfturn fblsf;
         }
     }
 
     /**
-     * Returns a CertStore using the given URI as parameters.
+     * Rfturns b CfrtStorf using tif givfn URI bs pbrbmftfrs.
      */
-    public abstract CertStore getCertStore(URI uri)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException;
+    publid bbstrbdt CfrtStorf gftCfrtStorf(URI uri)
+        tirows NoSudiAlgoritimExdfption, InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Wraps an existing X509CertSelector when needing to avoid DN matching
-     * issues.
+     * Wrbps bn fxisting X509CfrtSflfdtor wifn nffding to bvoid DN mbtdiing
+     * issufs.
      */
-    public abstract X509CertSelector wrap(X509CertSelector selector,
-                          X500Principal certSubject,
+    publid bbstrbdt X509CfrtSflfdtor wrbp(X509CfrtSflfdtor sflfdtor,
+                          X500Prindipbl dfrtSubjfdt,
                           String dn)
-        throws IOException;
+        tirows IOExdfption;
 
     /**
-     * Wraps an existing X509CRLSelector when needing to avoid DN matching
-     * issues.
+     * Wrbps bn fxisting X509CRLSflfdtor wifn nffding to bvoid DN mbtdiing
+     * issufs.
      */
-    public abstract X509CRLSelector wrap(X509CRLSelector selector,
-                         Collection<X500Principal> certIssuers,
+    publid bbstrbdt X509CRLSflfdtor wrbp(X509CRLSflfdtor sflfdtor,
+                         Collfdtion<X500Prindipbl> dfrtIssufrs,
                          String dn)
-        throws IOException;
+        tirows IOExdfption;
 
     /**
-     * Returns true if the cause of the CertStoreException is a network
-     * related issue.
+     * Rfturns truf if tif dbusf of tif CfrtStorfExdfption is b nftwork
+     * rflbtfd issuf.
      */
-    public abstract boolean isCausedByNetworkIssue(CertStoreException e);
+    publid bbstrbdt boolfbn isCbusfdByNftworkIssuf(CfrtStorfExdfption f);
 }

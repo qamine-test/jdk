@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,275 +30,275 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.report;
+pbdkbgf j2dbfndi.rfport;
 
-import java.io.*;
-import java.text.DecimalFormat;
-import java.util.*;
-import j2dbench.report.J2DAnalyzer.ResultHolder;
-import j2dbench.report.J2DAnalyzer.ResultSetHolder;
+import jbvb.io.*;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.util.*;
+import j2dbfndi.rfport.J2DAnblyzfr.RfsultHoldfr;
+import j2dbfndi.rfport.J2DAnblyzfr.RfsultSftHoldfr;
 
 /**
- * This simple utility generates a wiki- or html-formatted table, which
- * compares the performance of various image loading routines (relative
- * to the core Image I/O plugins).
+ * Tiis simplf utility gfnfrbtfs b wiki- or itml-formbttfd tbblf, wiidi
+ * dompbrfs tif pfrformbndf of vbrious imbgf lobding routinfs (rflbtivf
+ * to tif dorf Imbgf I/O plugins).
  */
-public class IIOComparator {
+publid dlbss IIOCompbrbtor {
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.0");
+    privbtf stbtid finbl DfdimblFormbt dfdimblFormbt =
+        nfw DfdimblFormbt("0.0");
 
     /**
-     * List of methods, given in the order we want them to appear in
-     * the printed columns.
+     * List of mftiods, givfn in tif ordfr wf wbnt tifm to bppfbr in
+     * tif printfd dolumns.
      */
-    private static final String[] methodKeys = new String[] {
-        "IIO-Core", "IIO-Ext", "Toolkit", "JPEGCodec", "GdkPixBuf"
+    privbtf stbtid finbl String[] mftiodKfys = nfw String[] {
+        "IIO-Corf", "IIO-Ext", "Toolkit", "JPEGCodfd", "GdkPixBuf"
     };
 
-    private static final Hashtable allResults = new Hashtable();
+    privbtf stbtid finbl Hbsitbblf bllRfsults = nfw Hbsitbblf();
 
-    private static boolean wikiStyle;
+    privbtf stbtid boolfbn wikiStylf;
 
-    private static void printIIOTable(String resultsFile) {
+    privbtf stbtid void printIIOTbblf(String rfsultsFilf) {
         try {
-            J2DAnalyzer.readResults(resultsFile);
-        } catch (Exception e) {
-            System.err.println("Error reading results file: " +
-                               e.getMessage());
-            return;
+            J2DAnblyzfr.rfbdRfsults(rfsultsFilf);
+        } dbtdi (Exdfption f) {
+            Systfm.frr.println("Error rfbding rfsults filf: " +
+                               f.gftMfssbgf());
+            rfturn;
         }
 
-        Vector results = J2DAnalyzer.results;
-        int numsets = results.size();
+        Vfdtor rfsults = J2DAnblyzfr.rfsults;
+        int numsfts = rfsults.sizf();
 
-        ResultSetHolder base = (ResultSetHolder)results.elementAt(0);
-        Enumeration basekeys = base.getKeyEnumeration();
-        String[] keys = toSortedArray(basekeys, false);
+        RfsultSftHoldfr bbsf = (RfsultSftHoldfr)rfsults.flfmfntAt(0);
+        Enumfrbtion bbsfkfys = bbsf.gftKfyEnumfrbtion();
+        String[] kfys = toSortfdArrby(bbsfkfys, fblsf);
 
-        // build results table
-        for (int k = 0; k < keys.length; k++) {
-            String key = keys[k];
-            ResultHolder rh = base.getResultByKey(key);
-            double score = rh.getScore();
-            Hashtable opts = rh.getOptions();
+        // build rfsults tbblf
+        for (int k = 0; k < kfys.lfngti; k++) {
+            String kfy = kfys[k];
+            RfsultHoldfr ri = bbsf.gftRfsultByKfy(kfy);
+            doublf sdorf = ri.gftSdorf();
+            Hbsitbblf opts = ri.gftOptions();
 
-            String imgsize = (String)opts.get("imageio.opts.size");
-            String content = (String)opts.get("imageio.opts.content");
-            String testname = "size=" + imgsize + ",content=" + content;
+            String imgsizf = (String)opts.gft("imbgfio.opts.sizf");
+            String dontfnt = (String)opts.gft("imbgfio.opts.dontfnt");
+            String tfstnbmf = "sizf=" + imgsizf + ",dontfnt=" + dontfnt;
 
-            String format = null;
-            String method = null;
-            String name = rh.getName();
-            if (name.equals("imageio.input.image.imageio.reader.tests.read")) {
-                format = (String)opts.get("imageio.input.image.imageio.opts.format");
-                String type = format.substring(0, format.indexOf('-'));
-                format = format.substring(format.indexOf('-')+1);
-                if (format.equals("jpeg")) {
-                    format = "jpg";
+            String formbt = null;
+            String mftiod = null;
+            String nbmf = ri.gftNbmf();
+            if (nbmf.fqubls("imbgfio.input.imbgf.imbgfio.rfbdfr.tfsts.rfbd")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.imbgfio.opts.formbt");
+                String typf = formbt.substring(0, formbt.indfxOf('-'));
+                formbt = formbt.substring(formbt.indfxOf('-')+1);
+                if (formbt.fqubls("jpfg")) {
+                    formbt = "jpg";
                 }
-                method = "IIO-" + (type.equals("core") ? "Core" : "Ext");
-            } else if (name.equals("imageio.input.image.toolkit.tests.createImage")) {
-                format = (String)opts.get("imageio.input.image.toolkit.opts.format");
-                method = "Toolkit";
-            } else if (name.equals("imageio.input.image.toolkit.tests.gdkLoadImage")) {
-                format = (String)opts.get("imageio.input.image.toolkit.opts.format");
-                method = "GdkPixBuf";
-            } else if (name.equals("imageio.input.image.jpegcodec.tests.decodeAsBufferedImage")) {
-                format = "jpg";
-                method = "JPEGCodec";
-            } else {
-                System.err.println("skipping unrecognized key: " + name);
-                continue;
+                mftiod = "IIO-" + (typf.fqubls("dorf") ? "Corf" : "Ext");
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.toolkit.tfsts.drfbtfImbgf")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.toolkit.opts.formbt");
+                mftiod = "Toolkit";
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.toolkit.tfsts.gdkLobdImbgf")) {
+                formbt = (String)opts.gft("imbgfio.input.imbgf.toolkit.opts.formbt");
+                mftiod = "GdkPixBuf";
+            } flsf if (nbmf.fqubls("imbgfio.input.imbgf.jpfgdodfd.tfsts.dfdodfAsBufffrfdImbgf")) {
+                formbt = "jpg";
+                mftiod = "JPEGCodfd";
+            } flsf {
+                Systfm.frr.println("skipping unrfdognizfd kfy: " + nbmf);
+                dontinuf;
             }
 
-            //System.out.println(format + ": " + method + " = " + score);
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
-            if (fmtResults == null) {
-                fmtResults = new Hashtable();
-                allResults.put(format, fmtResults);
+            //Systfm.out.println(formbt + ": " + mftiod + " = " + sdorf);
+            Hbsitbblf fmtRfsults = (Hbsitbblf)bllRfsults.gft(formbt);
+            if (fmtRfsults == null) {
+                fmtRfsults = nfw Hbsitbblf();
+                bllRfsults.put(formbt, fmtRfsults);
             }
-            Hashtable testResults = (Hashtable)fmtResults.get(testname);
-            if (testResults == null) {
-                testResults = new Hashtable();
-                fmtResults.put(testname, testResults);
+            Hbsitbblf tfstRfsults = (Hbsitbblf)fmtRfsults.gft(tfstnbmf);
+            if (tfstRfsults == null) {
+                tfstRfsults = nfw Hbsitbblf();
+                fmtRfsults.put(tfstnbmf, tfstRfsults);
             }
-            testResults.put(method, new Double(score));
+            tfstRfsults.put(mftiod, nfw Doublf(sdorf));
         }
 
-        if (wikiStyle) {
-            printWikiTable();
-        } else {
-            printHtmlTable();
+        if (wikiStylf) {
+            printWikiTbblf();
+        } flsf {
+            printHtmlTbblf();
         }
     }
 
-    private static void printWikiTable() {
-        // print a table for each format
-        Enumeration allKeys = allResults.keys();
-        while (allKeys.hasMoreElements()) {
-            String format = (String)allKeys.nextElement();
-            System.out.println("---+++ " + format.toUpperCase());
+    privbtf stbtid void printWikiTbblf() {
+        // print b tbblf for fbdi formbt
+        Enumfrbtion bllKfys = bllRfsults.kfys();
+        wiilf (bllKfys.ibsMorfElfmfnts()) {
+            String formbt = (String)bllKfys.nfxtElfmfnt();
+            Systfm.out.println("---+++ " + formbt.toUppfrCbsf());
 
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
-            Enumeration testKeys = fmtResults.keys();
-            String[] tests = toSortedArray(testKeys, true);
+            Hbsitbblf fmtRfsults = (Hbsitbblf)bllRfsults.gft(formbt);
+            Enumfrbtion tfstKfys = fmtRfsults.kfys();
+            String[] tfsts = toSortfdArrby(tfstKfys, truf);
 
-            // print the column headers
-            Hashtable testResults = (Hashtable)fmtResults.get(tests[0]);
-            String[] methods = new String[testResults.keySet().size()];
-            for (int k = 0, i = 0; i < methodKeys.length; i++) {
-                if (testResults.containsKey(methodKeys[i])) {
-                    methods[k++] = methodKeys[i];
+            // print tif dolumn ifbdfrs
+            Hbsitbblf tfstRfsults = (Hbsitbblf)fmtRfsults.gft(tfsts[0]);
+            String[] mftiods = nfw String[tfstRfsults.kfySft().sizf()];
+            for (int k = 0, i = 0; i < mftiodKfys.lfngti; i++) {
+                if (tfstRfsults.dontbinsKfy(mftiodKfys[i])) {
+                    mftiods[k++] = mftiodKfys[i];
                 }
             }
-            System.out.print("| |");
-            for (int i = 0; i < methods.length; i++) {
-                System.out.print(" *" + methods[i] + "* |");
+            Systfm.out.print("| |");
+            for (int i = 0; i < mftiods.lfngti; i++) {
+                Systfm.out.print(" *" + mftiods[i] + "* |");
                 if (i > 0) {
-                    System.out.print(" *%* |");
+                    Systfm.out.print(" *%* |");
                 }
             }
-            System.out.println("");
+            Systfm.out.println("");
 
-            // print all rows in the table
-            for (int i = 0; i < tests.length; i++) {
-                String testname = tests[i];
-                testResults = (Hashtable)fmtResults.get(testname);
-                System.out.print("| " + testname + " |");
-                double baseres = 0.0;
-                for (int j = 0; j < methods.length; j++) {
-                    Double result = (Double)testResults.get(methods[j]);
-                    double res = result.doubleValue();
+            // print bll rows in tif tbblf
+            for (int i = 0; i < tfsts.lfngti; i++) {
+                String tfstnbmf = tfsts[i];
+                tfstRfsults = (Hbsitbblf)fmtRfsults.gft(tfstnbmf);
+                Systfm.out.print("| " + tfstnbmf + " |");
+                doublf bbsfrfs = 0.0;
+                for (int j = 0; j < mftiods.lfngti; j++) {
+                    Doublf rfsult = (Doublf)tfstRfsults.gft(mftiods[j]);
+                    doublf rfs = rfsult.doublfVbluf();
 
-                    System.out.print("   " +
-                                     decimalFormat.format(res) +
+                    Systfm.out.print("   " +
+                                     dfdimblFormbt.formbt(rfs) +
                                      " | ");
 
                     if (j == 0) {
-                        baseres = res;
-                    } else {
-                        double diff = ((res - baseres) / baseres) * 100.0;
-                        System.out.print("   "+
-                                         decimalFormat.format(diff) +
+                        bbsfrfs = rfs;
+                    } flsf {
+                        doublf diff = ((rfs - bbsfrfs) / bbsfrfs) * 100.0;
+                        Systfm.out.print("   "+
+                                         dfdimblFormbt.formbt(diff) +
                                          " |");
                     }
                 }
-                System.out.println("");
+                Systfm.out.println("");
             }
-            System.out.println("");
+            Systfm.out.println("");
         }
     }
 
-    private static void printHtmlTable() {
-        System.out.println("<html><body>\n");
+    privbtf stbtid void printHtmlTbblf() {
+        Systfm.out.println("<itml><body>\n");
 
-        // print a table for each format
-        Enumeration allKeys = allResults.keys();
-        while (allKeys.hasMoreElements()) {
-            String format = (String)allKeys.nextElement();
-            System.out.println("<h3>" + format.toUpperCase() + "</h3>");
-            System.out.println("<table border=\"1\">");
+        // print b tbblf for fbdi formbt
+        Enumfrbtion bllKfys = bllRfsults.kfys();
+        wiilf (bllKfys.ibsMorfElfmfnts()) {
+            String formbt = (String)bllKfys.nfxtElfmfnt();
+            Systfm.out.println("<i3>" + formbt.toUppfrCbsf() + "</i3>");
+            Systfm.out.println("<tbblf bordfr=\"1\">");
 
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
-            Enumeration testKeys = fmtResults.keys();
-            String[] tests = toSortedArray(testKeys, true);
+            Hbsitbblf fmtRfsults = (Hbsitbblf)bllRfsults.gft(formbt);
+            Enumfrbtion tfstKfys = fmtRfsults.kfys();
+            String[] tfsts = toSortfdArrby(tfstKfys, truf);
 
-            // print the column headers
-            Hashtable testResults = (Hashtable)fmtResults.get(tests[0]);
-            String[] methods = new String[testResults.keySet().size()];
-            for (int k = 0, i = 0; i < methodKeys.length; i++) {
-                if (testResults.containsKey(methodKeys[i])) {
-                    methods[k++] = methodKeys[i];
+            // print tif dolumn ifbdfrs
+            Hbsitbblf tfstRfsults = (Hbsitbblf)fmtRfsults.gft(tfsts[0]);
+            String[] mftiods = nfw String[tfstRfsults.kfySft().sizf()];
+            for (int k = 0, i = 0; i < mftiodKfys.lfngti; i++) {
+                if (tfstRfsults.dontbinsKfy(mftiodKfys[i])) {
+                    mftiods[k++] = mftiodKfys[i];
                 }
             }
-            System.out.print("<tr><td></td>");
-            for (int i = 0; i < methods.length; i++) {
-                printHtmlCell("<b>"+methods[i]+"</b>", "#99CCCC", "center");
+            Systfm.out.print("<tr><td></td>");
+            for (int i = 0; i < mftiods.lfngti; i++) {
+                printHtmlCfll("<b>"+mftiods[i]+"</b>", "#99CCCC", "dfntfr");
                 if (i > 0) {
-                    printHtmlCell("<b>%</b>", "#99CCCC", "center");
+                    printHtmlCfll("<b>%</b>", "#99CCCC", "dfntfr");
                 }
             }
-            System.out.println("</tr>");
+            Systfm.out.println("</tr>");
 
-            // print all rows in the table
-            for (int i = 0; i < tests.length; i++) {
-                String rowcolor = (i % 2 == 0) ? "#FFFFCC" : "#FFFFFF";
-                String testname = tests[i];
-                testResults = (Hashtable)fmtResults.get(testname);
-                System.out.print("<tr>");
-                printHtmlCell(testname, rowcolor, "left");
-                double baseres = 0.0;
-                for (int j = 0; j < methods.length; j++) {
-                    Double result = (Double)testResults.get(methods[j]);
-                    double res = result.doubleValue();
+            // print bll rows in tif tbblf
+            for (int i = 0; i < tfsts.lfngti; i++) {
+                String rowdolor = (i % 2 == 0) ? "#FFFFCC" : "#FFFFFF";
+                String tfstnbmf = tfsts[i];
+                tfstRfsults = (Hbsitbblf)fmtRfsults.gft(tfstnbmf);
+                Systfm.out.print("<tr>");
+                printHtmlCfll(tfstnbmf, rowdolor, "lfft");
+                doublf bbsfrfs = 0.0;
+                for (int j = 0; j < mftiods.lfngti; j++) {
+                    Doublf rfsult = (Doublf)tfstRfsults.gft(mftiods[j]);
+                    doublf rfs = rfsult.doublfVbluf();
 
-                    printHtmlCell(decimalFormat.format(res),
-                                  rowcolor, "right");
+                    printHtmlCfll(dfdimblFormbt.formbt(rfs),
+                                  rowdolor, "rigit");
 
                     if (j == 0) {
-                        baseres = res;
-                    } else {
-                        double diff = ((res - baseres) / baseres) * 100.0;
-                        String cellcolor;
-                        if (Math.abs(diff) <= 5.0) {
-                            cellcolor = "#CFCFFF";
-                        } else if (diff < -5.0) {
-                            cellcolor = "#CFFFCF";
-                        } else {
-                            cellcolor = "#FFCFCF";
+                        bbsfrfs = rfs;
+                    } flsf {
+                        doublf diff = ((rfs - bbsfrfs) / bbsfrfs) * 100.0;
+                        String dflldolor;
+                        if (Mbti.bbs(diff) <= 5.0) {
+                            dflldolor = "#CFCFFF";
+                        } flsf if (diff < -5.0) {
+                            dflldolor = "#CFFFCF";
+                        } flsf {
+                            dflldolor = "#FFCFCF";
                         }
-                        String difftext = decimalFormat.format(diff);
+                        String difftfxt = dfdimblFormbt.formbt(diff);
                         if (diff > 0.0) {
-                            difftext = "+" + difftext;
+                            difftfxt = "+" + difftfxt;
                         }
-                        printHtmlCell(difftext, cellcolor, "right");
-                        System.out.println("");
+                        printHtmlCfll(difftfxt, dflldolor, "rigit");
+                        Systfm.out.println("");
                     }
                 }
-                System.out.println("</tr>");
+                Systfm.out.println("</tr>");
             }
-            System.out.println("</table><br>\n");
+            Systfm.out.println("</tbblf><br>\n");
         }
 
-        System.out.println("</body></html>");
+        Systfm.out.println("</body></itml>");
     }
 
-    private static void printHtmlCell(String s, String color, String align) {
-        System.out.print("<td bgcolor=\"" + color +
-                         "\" align=\"" + align + "\">" + s +
+    privbtf stbtid void printHtmlCfll(String s, String dolor, String blign) {
+        Systfm.out.print("<td bgdolor=\"" + dolor +
+                         "\" blign=\"" + blign + "\">" + s +
                          "</td>");
     }
 
-    private static String[] toSortedArray(Enumeration e, boolean special) {
-        Vector keylist = new Vector();
-        while (e.hasMoreElements()) {
-            String key = (String)e.nextElement();
-            keylist.add(key);
+    privbtf stbtid String[] toSortfdArrby(Enumfrbtion f, boolfbn spfdibl) {
+        Vfdtor kfylist = nfw Vfdtor();
+        wiilf (f.ibsMorfElfmfnts()) {
+            String kfy = (String)f.nfxtElfmfnt();
+            kfylist.bdd(kfy);
         }
-        String keys[] = new String[keylist.size()];
-        keylist.copyInto(keys);
-        if (special) {
-            sort2(keys);
-        } else {
-            sort(keys);
+        String kfys[] = nfw String[kfylist.sizf()];
+        kfylist.dopyInto(kfys);
+        if (spfdibl) {
+            sort2(kfys);
+        } flsf {
+            sort(kfys);
         }
-        return keys;
+        rfturn kfys;
     }
 
-    public static void sort(String strs[]) {
-        for (int i = 1; i < strs.length; i++) {
+    publid stbtid void sort(String strs[]) {
+        for (int i = 1; i < strs.lfngti; i++) {
             for (int j = i; j > 0; j--) {
-                if (strs[j].compareTo(strs[j-1]) >= 0) {
-                    break;
+                if (strs[j].dompbrfTo(strs[j-1]) >= 0) {
+                    brfbk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -307,11 +307,11 @@ public class IIOComparator {
         }
     }
 
-    public static void sort2(String strs[]) {
-        for (int i = 1; i < strs.length; i++) {
+    publid stbtid void sort2(String strs[]) {
+        for (int i = 1; i < strs.lfngti; i++) {
             for (int j = i; j > 0; j--) {
-                if (compare(strs[j-1], strs[j])) {
-                    break;
+                if (dompbrf(strs[j-1], strs[j])) {
+                    brfbk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -320,48 +320,48 @@ public class IIOComparator {
         }
     }
 
-    private static int magic(String s) {
-        if (s.endsWith("random")) {
-            return 3;
-        } else if (s.endsWith("photo")) {
-            return 2;
-        } else if (s.endsWith("vector")) {
-            return 1;
-        } else {
-            return 0;
+    privbtf stbtid int mbgid(String s) {
+        if (s.fndsWiti("rbndom")) {
+            rfturn 3;
+        } flsf if (s.fndsWiti("pioto")) {
+            rfturn 2;
+        } flsf if (s.fndsWiti("vfdtor")) {
+            rfturn 1;
+        } flsf {
+            rfturn 0;
         }
     }
 
-    private static boolean compare(String s1, String s2) {
-        String sizestr1 = s1.substring(s1.indexOf('=')+1, s1.indexOf(','));
-        String sizestr2 = s2.substring(s2.indexOf('=')+1, s2.indexOf(','));
-        int size1 = Integer.parseInt(sizestr1);
-        int size2 = Integer.parseInt(sizestr2);
-        if (size1 == size2) {
-            return (magic(s1) < magic(s2));
-        } else {
-            return (size1 < size2);
+    privbtf stbtid boolfbn dompbrf(String s1, String s2) {
+        String sizfstr1 = s1.substring(s1.indfxOf('=')+1, s1.indfxOf(','));
+        String sizfstr2 = s2.substring(s2.indfxOf('=')+1, s2.indfxOf(','));
+        int sizf1 = Intfgfr.pbrsfInt(sizfstr1);
+        int sizf2 = Intfgfr.pbrsfInt(sizfstr2);
+        if (sizf1 == sizf2) {
+            rfturn (mbgid(s1) < mbgid(s2));
+        } flsf {
+            rfturn (sizf1 < sizf2);
         }
     }
 
-    private static void printUsage() {
-        System.out.println("java -cp J2DAnalyzer.jar " +
-                           IIOComparator.class.getName() +
-                           " [-wiki] <resultfile>");
+    privbtf stbtid void printUsbgf() {
+        Systfm.out.println("jbvb -dp J2DAnblyzfr.jbr " +
+                           IIOCompbrbtor.dlbss.gftNbmf() +
+                           " [-wiki] <rfsultfilf>");
     }
 
-    public static void main(String[] args) {
-        if (args.length == 2) {
-            if (args[0].equals("-wiki")) {
-                wikiStyle = true;
-                printIIOTable(args[1]);
-            } else {
-                printUsage();
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngti == 2) {
+            if (brgs[0].fqubls("-wiki")) {
+                wikiStylf = truf;
+                printIIOTbblf(brgs[1]);
+            } flsf {
+                printUsbgf();
             }
-        } else if (args.length == 1) {
-            printIIOTable(args[0]);
-        } else {
-            printUsage();
+        } flsf if (brgs.lfngti == 1) {
+            printIIOTbblf(brgs[0]);
+        } flsf {
+            printUsbgf();
         }
     }
 }

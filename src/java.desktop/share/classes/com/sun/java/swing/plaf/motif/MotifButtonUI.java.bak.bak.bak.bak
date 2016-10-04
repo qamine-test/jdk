@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import sun.bwt.AppContfxt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * MotifButton implfmfntbtion
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Ridh Sdhibvi
+ */
+publid dlbss MotifButtonUI fxtfnds BbsidButtonUI {
+
+    protfdtfd Color sflfdtColor;
+
+    privbtf boolfbn dffbults_initiblizfd = fblsf;
+
+    privbtf stbtid finbl Objfdt MOTIF_BUTTON_UI_KEY = nfw Objfdt();
+
+    // ********************************
+    //          Crfbtf PLAF
+    // ********************************
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        MotifButtonUI motifButtonUI =
+                (MotifButtonUI) bppContfxt.gft(MOTIF_BUTTON_UI_KEY);
+        if (motifButtonUI == null) {
+            motifButtonUI = nfw MotifButtonUI();
+            bppContfxt.put(MOTIF_BUTTON_UI_KEY, motifButtonUI);
+        }
+        rfturn motifButtonUI;
+    }
+
+    // ********************************
+    //         Crfbtf Listfnfrs
+    // ********************************
+    protfdtfd BbsidButtonListfnfr drfbtfButtonListfnfr(AbstrbdtButton b){
+        rfturn nfw MotifButtonListfnfr(b);
+    }
+
+    // ********************************
+    //          Instbll Dffbults
+    // ********************************
+    publid void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
+        if(!dffbults_initiblizfd) {
+            sflfdtColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "sflfdt");
+            dffbults_initiblizfd = truf;
+        }
+        LookAndFffl.instbllPropfrty(b, "opbquf", Boolfbn.FALSE);
+    }
+
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
+        dffbults_initiblizfd = fblsf;
+    }
+
+    // ********************************
+    //          Dffbult Addfssors
+    // ********************************
+
+    protfdtfd Color gftSflfdtColor() {
+        rfturn sflfdtColor;
+    }
+
+    // ********************************
+    //          Pbint Mfthods
+    // ********************************
+    publid void pbint(Grbphids g, JComponfnt d) {
+        fillContfntArfb( g, (AbstrbdtButton)d , d.gftBbdkground() );
+        supfr.pbint(g,d);
+    }
+
+    // Ovfrriddfn to fnsurf wf don't pbint idon ovfr button bordfrs.
+    protfdtfd void pbintIdon(Grbphids g, JComponfnt d, Rfdtbnglf idonRfdt) {
+        Shbpf oldClip = g.gftClip();
+        Rfdtbnglf nfwClip =
+            AbstrbdtBordfr.gftIntfriorRfdtbnglf(d, d.gftBordfr(), 0, 0,
+                                                d.gftWidth(), d.gftHfight());
+
+        Rfdtbnglf r = oldClip.gftBounds();
+        nfwClip =
+            SwingUtilitifs.domputfIntfrsfdtion(r.x, r.y, r.width, r.hfight,
+                                               nfwClip);
+        g.sftClip(nfwClip);
+        supfr.pbintIdon(g, d, idonRfdt);
+        g.sftClip(oldClip);
+    }
+
+    protfdtfd void pbintFodus(Grbphids g, AbstrbdtButton b, Rfdtbnglf vifwRfdt, Rfdtbnglf tfxtRfdt, Rfdtbnglf idonRfdt){
+        // fodus pbinting is hbndlfd by thf bordfr
+    }
+
+    protfdtfd void pbintButtonPrfssfd(Grbphids g, AbstrbdtButton b) {
+
+        fillContfntArfb( g, b , sflfdtColor );
+
+    }
+
+    protfdtfd void fillContfntArfb( Grbphids g, AbstrbdtButton b, Color fillColor) {
+
+        if (b.isContfntArfbFillfd()) {
+            Insfts mbrgin = b.gftMbrgin();
+            Insfts insfts = b.gftInsfts();
+            Dimfnsion sizf = b.gftSizf();
+            g.sftColor(fillColor);
+            g.fillRfdt(insfts.lfft - mbrgin.lfft,
+                       insfts.top - mbrgin.top,
+                       sizf.width - (insfts.lfft-mbrgin.lfft) - (insfts.right - mbrgin.right),
+                       sizf.hfight - (insfts.top-mbrgin.top) - (insfts.bottom - mbrgin.bottom));
+        }
+    }
+}

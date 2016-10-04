@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.security.AccessController;
+import jbvb.bwt.*;
+import jbvb.sfdurity.AddfssControllfr;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicMenuBarUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuBbrUI;
 
-import sun.lwawt.macosx.LWCToolkit;
-import sun.security.action.GetBooleanAction;
-import sun.security.action.GetPropertyAction;
+import sun.lwbwt.mbdosx.LWCToolkit;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-// MenuBar implementation for Mac L&F
-public class AquaMenuBarUI extends BasicMenuBarUI implements ScreenMenuBarProvider {
-    // Utilities
-    public void uninstallUI(final JComponent c) {
-        if (fScreenMenuBar != null) {
-            final JFrame frame = (JFrame)(c.getTopLevelAncestor());
-            if (frame.getMenuBar() == fScreenMenuBar) {
-                frame.setMenuBar((MenuBar)null);
+// MfnuBbr implfmfntbtion for Mbd L&F
+publid dlbss AqubMfnuBbrUI fxtfnds BbsidMfnuBbrUI implfmfnts SdrffnMfnuBbrProvidfr {
+    // Utilitifs
+    publid void uninstbllUI(finbl JComponfnt d) {
+        if (fSdrffnMfnuBbr != null) {
+            finbl JFrbmf frbmf = (JFrbmf)(d.gftTopLfvflAndfstor());
+            if (frbmf.gftMfnuBbr() == fSdrffnMfnuBbr) {
+                frbmf.sftMfnuBbr((MfnuBbr)null);
             }
-            fScreenMenuBar = null;
+            fSdrffnMfnuBbr = null;
         }
-        super.uninstallUI(c);
+        supfr.uninstbllUI(d);
     }
 
-    // Create PLAF
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaMenuBarUI();
+    // Crfbtf PLAF
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubMfnuBbrUI();
     }
 
-    // [3320390] -- If the screen menu bar is in use, don't register keyboard actions that
-    // show the menus when F10 is pressed.
-    protected void installKeyboardActions() {
-        if (!useScreenMenuBar) {
-            super.installKeyboardActions();
-        }
-    }
-
-    protected void uninstallKeyboardActions() {
-        if (!useScreenMenuBar) {
-            super.uninstallKeyboardActions();
+    // [3320390] -- If tif sdrffn mfnu bbr is in usf, don't rfgistfr kfybobrd bdtions tibt
+    // siow tif mfnus wifn F10 is prfssfd.
+    protfdtfd void instbllKfybobrdAdtions() {
+        if (!usfSdrffnMfnuBbr) {
+            supfr.instbllKfybobrdAdtions();
         }
     }
 
-    // Paint Methods
-    public void paint(final Graphics g, final JComponent c) {
-        AquaMenuPainter.instance().paintMenuBarBackground(g, c.getWidth(), c.getHeight(), c);
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        if (!usfSdrffnMfnuBbr) {
+            supfr.uninstbllKfybobrdAdtions();
+        }
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        if (isScreenMenuBar((JMenuBar)c)) {
-            if (setScreenMenuBar((JFrame)(c.getTopLevelAncestor()))) {
-                return new Dimension(0, 0);
+    // Pbint Mftiods
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        AqubMfnuPbintfr.instbndf().pbintMfnuBbrBbdkground(g, d.gftWidti(), d.gftHfigit(), d);
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (isSdrffnMfnuBbr((JMfnuBbr)d)) {
+            if (sftSdrffnMfnuBbr((JFrbmf)(d.gftTopLfvflAndfstor()))) {
+                rfturn nfw Dimfnsion(0, 0);
             }
         }
-        return null;
+        rfturn null;
     }
 
-    void clearScreenMenuBar(final JFrame frame) {
-        if (useScreenMenuBar) {
-            frame.setMenuBar(null);
+    void dlfbrSdrffnMfnuBbr(finbl JFrbmf frbmf) {
+        if (usfSdrffnMfnuBbr) {
+            frbmf.sftMfnuBbr(null);
         }
     }
 
-    boolean setScreenMenuBar(final JFrame frame) {
-        if (useScreenMenuBar) {
+    boolfbn sftSdrffnMfnuBbr(finbl JFrbmf frbmf) {
+        if (usfSdrffnMfnuBbr) {
             try {
-                getScreenMenuBar();
-            } catch(final Throwable t) {
-                return false;
+                gftSdrffnMfnuBbr();
+            } dbtdi(finbl Tirowbblf t) {
+                rfturn fblsf;
             }
 
-            frame.setMenuBar(fScreenMenuBar);
+            frbmf.sftMfnuBbr(fSdrffnMfnuBbr);
         }
 
-        return true;
+        rfturn truf;
     }
 
-    public ScreenMenuBar getScreenMenuBar() {
-        // Lazy init of member variables means we should use a synchronized block.
-        synchronized(this) {
-            if (fScreenMenuBar == null) fScreenMenuBar = new ScreenMenuBar(this.menuBar);
+    publid SdrffnMfnuBbr gftSdrffnMfnuBbr() {
+        // Lbzy init of mfmbfr vbribblfs mfbns wf siould usf b syndironizfd blodk.
+        syndironizfd(tiis) {
+            if (fSdrffnMfnuBbr == null) fSdrffnMfnuBbr = nfw SdrffnMfnuBbr(tiis.mfnuBbr);
         }
-        return fScreenMenuBar;
+        rfturn fSdrffnMfnuBbr;
     }
 
-    // JMenuBars are in frame unless we're using ScreenMenuBars *and* it's
-    //   been set by JFrame.setJMenuBar
-    // unless the JFrame has a normal java.awt.MenuBar (it's possible!)
-    // Other JMenuBars appear where the programmer puts them - top of window or elsewhere
-    public static final boolean isScreenMenuBar(final JMenuBar c) {
-        final javax.swing.plaf.ComponentUI ui = c.getUI();
-        if (ui instanceof AquaMenuBarUI) {
-            if (!((AquaMenuBarUI)ui).useScreenMenuBar) return false;
+    // JMfnuBbrs brf in frbmf unlfss wf'rf using SdrffnMfnuBbrs *bnd* it's
+    //   bffn sft by JFrbmf.sftJMfnuBbr
+    // unlfss tif JFrbmf ibs b normbl jbvb.bwt.MfnuBbr (it's possiblf!)
+    // Otifr JMfnuBbrs bppfbr wifrf tif progrbmmfr puts tifm - top of window or flsfwifrf
+    publid stbtid finbl boolfbn isSdrffnMfnuBbr(finbl JMfnuBbr d) {
+        finbl jbvbx.swing.plbf.ComponfntUI ui = d.gftUI();
+        if (ui instbndfof AqubMfnuBbrUI) {
+            if (!((AqubMfnuBbrUI)ui).usfSdrffnMfnuBbr) rfturn fblsf;
 
-            final Component parent = c.getTopLevelAncestor();
-            if (parent instanceof JFrame) {
-                final MenuBar mb = ((JFrame)parent).getMenuBar();
-                final boolean thisIsTheJMenuBar = (((JFrame)parent).getJMenuBar() == c);
-                if (mb == null) return thisIsTheJMenuBar;
-                return (mb instanceof ScreenMenuBar && thisIsTheJMenuBar);
+            finbl Componfnt pbrfnt = d.gftTopLfvflAndfstor();
+            if (pbrfnt instbndfof JFrbmf) {
+                finbl MfnuBbr mb = ((JFrbmf)pbrfnt).gftMfnuBbr();
+                finbl boolfbn tiisIsTifJMfnuBbr = (((JFrbmf)pbrfnt).gftJMfnuBbr() == d);
+                if (mb == null) rfturn tiisIsTifJMfnuBbr;
+                rfturn (mb instbndfof SdrffnMfnuBbr && tiisIsTifJMfnuBbr);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    ScreenMenuBar fScreenMenuBar;
-    boolean useScreenMenuBar = getScreenMenuBarProperty();
+    SdrffnMfnuBbr fSdrffnMfnuBbr;
+    boolfbn usfSdrffnMfnuBbr = gftSdrffnMfnuBbrPropfrty();
 
-    static boolean getScreenMenuBarProperty() {
-        // Do not allow AWT to set the screen menu bar if it's embedded in another UI toolkit
-        if (LWCToolkit.isEmbedded()) return false;
-        if (AccessController.doPrivileged(
-                new GetBooleanAction(AquaLookAndFeel.sPropertyPrefix + "useScreenMenuBar"))) {
-            return true;
+    stbtid boolfbn gftSdrffnMfnuBbrPropfrty() {
+        // Do not bllow AWT to sft tif sdrffn mfnu bbr if it's fmbfddfd in bnotifr UI toolkit
+        if (LWCToolkit.isEmbfddfd()) rfturn fblsf;
+        if (AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion(AqubLookAndFffl.sPropfrtyPrffix + "usfSdrffnMfnuBbr"))) {
+            rfturn truf;
         }
-        if (AccessController.doPrivileged(
-                new GetBooleanAction(AquaLookAndFeel.sOldPropertyPrefix + "useScreenMenuBar"))) {
-                System.err.println(AquaLookAndFeel.sOldPropertyPrefix +
-                        "useScreenMenuBar has been deprecated. Please switch to " +
-                        AquaLookAndFeel.sPropertyPrefix + "useScreenMenuBar");
-                return true;
+        if (AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion(AqubLookAndFffl.sOldPropfrtyPrffix + "usfSdrffnMfnuBbr"))) {
+                Systfm.frr.println(AqubLookAndFffl.sOldPropfrtyPrffix +
+                        "usfSdrffnMfnuBbr ibs bffn dfprfdbtfd. Plfbsf switdi to " +
+                        AqubLookAndFffl.sPropfrtyPrffix + "usfSdrffnMfnuBbr");
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 }

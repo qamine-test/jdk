@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.event;
+pbdkbgf dom.sun.jdi.fvfnt;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
 /**
- * Notification of step completion in the target VM.
- * The step event
- * is generated immediately before the code at its location is executed;
- * thus, if the step is entering a new method (as might occur with
- * {@link com.sun.jdi.request.StepRequest#STEP_INTO StepRequest.STEP_INTO})
- * the location of the event is the first instruction of the method.
- * When a step leaves a method, the location of the event will be the
- * first instruction after the call in the calling method; note that
- * this location may not be at a line boundary, even if
- * {@link com.sun.jdi.request.StepRequest#STEP_LINE StepRequest.STEP_LINE}
- * was used.
+ * Notifidbtion of stfp domplftion in tif tbrgft VM.
+ * Tif stfp fvfnt
+ * is gfnfrbtfd immfdibtfly bfforf tif dodf bt its lodbtion is fxfdutfd;
+ * tius, if tif stfp is fntfring b nfw mftiod (bs migit oddur witi
+ * {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_INTO StfpRfqufst.STEP_INTO})
+ * tif lodbtion of tif fvfnt is tif first instrudtion of tif mftiod.
+ * Wifn b stfp lfbvfs b mftiod, tif lodbtion of tif fvfnt will bf tif
+ * first instrudtion bftfr tif dbll in tif dblling mftiod; notf tibt
+ * tiis lodbtion mby not bf bt b linf boundbry, fvfn if
+ * {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_LINE StfpRfqufst.STEP_LINE}
+ * wbs usfd.
  *
- * @see com.sun.jdi.request.StepRequest
- * @see EventQueue
+ * @sff dom.sun.jdi.rfqufst.StfpRfqufst
+ * @sff EvfntQufuf
  *
- * @author Robert Field
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface StepEvent extends LocatableEvent {
+@jdk.Exportfd
+publid intfrfbdf StfpEvfnt fxtfnds LodbtbblfEvfnt {
 }

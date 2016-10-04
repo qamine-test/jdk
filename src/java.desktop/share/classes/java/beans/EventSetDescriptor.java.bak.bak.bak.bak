@@ -1,0 +1,553 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+
+import dom.sun.bfbns.introspfdt.EvfntSftInfo;
+
+/**
+ * An EvfntSftDfsdriptor dfsdribfs b group of fvfnts thbt b givfn Jbvb
+ * bfbn firfs.
+ * <P>
+ * Thf givfn group of fvfnts brf bll dflivfrfd bs mfthod dblls on b singlf
+ * fvfnt listfnfr intfrfbdf, bnd bn fvfnt listfnfr objfdt dbn bf rfgistfrfd
+ * vib b dbll on b rfgistrbtion mfthod supplifd by thf fvfnt sourdf.
+ *
+ * @sindf 1.1
+ */
+publid dlbss EvfntSftDfsdriptor fxtfnds FfbturfDfsdriptor {
+
+    privbtf MfthodDfsdriptor[] listfnfrMfthodDfsdriptors;
+    privbtf MfthodDfsdriptor bddMfthodDfsdriptor;
+    privbtf MfthodDfsdriptor rfmovfMfthodDfsdriptor;
+    privbtf MfthodDfsdriptor gftMfthodDfsdriptor;
+
+    privbtf Rfffrfndf<Mfthod[]> listfnfrMfthodsRff;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> listfnfrTypfRff;
+
+    privbtf boolfbn unidbst;
+    privbtf boolfbn inDffbultEvfntSft = truf;
+
+    /**
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> bssuming thbt you brf
+     * following thf most simplf stbndbrd dfsign pbttfrn whfrf b nbmfd
+     * fvfnt &quot;frfd&quot; is (1) dflivfrfd bs b dbll on thf singlf mfthod of
+     * intfrfbdf FrfdListfnfr, (2) hbs b singlf brgumfnt of typf FrfdEvfnt,
+     * bnd (3) whfrf thf FrfdListfnfr mby bf rfgistfrfd with b dbll on bn
+     * bddFrfdListfnfr mfthod of thf sourdf domponfnt bnd rfmovfd with b
+     * dbll on b rfmovfFrfdListfnfr mfthod.
+     *
+     * @pbrbm sourdfClbss  Thf dlbss firing thf fvfnt.
+     * @pbrbm fvfntSftNbmf  Thf progrbmmbtid nbmf of thf fvfnt.  E.g. &quot;frfd&quot;.
+     *          Notf thbt this should normblly stbrt with b lowfr-dbsf dhbrbdtfr.
+     * @pbrbm listfnfrTypf  Thf tbrgft intfrfbdf thbt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMfthodNbmf  Thf mfthod thbt will gft dbllfd whfn thf fvfnt gfts
+     *          dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss, String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf, String listfnfrMfthodNbmf)
+                throws IntrospfdtionExdfption {
+        this(sourdfClbss, fvfntSftNbmf, listfnfrTypf,
+             nfw String[] { listfnfrMfthodNbmf },
+             Introspfdtor.ADD_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf),
+             Introspfdtor.REMOVE_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf),
+             Introspfdtor.GET_PREFIX + gftListfnfrClbssNbmf(listfnfrTypf) + "s");
+
+        String fvfntNbmf = NbmfGfnfrbtor.dbpitblizf(fvfntSftNbmf) + "Evfnt";
+        Mfthod[] listfnfrMfthods = gftListfnfrMfthods();
+        if (listfnfrMfthods.lfngth > 0) {
+            Clbss<?>[] brgs = gftPbrbmftfrTypfs(gftClbss0(), listfnfrMfthods[0]);
+            // Chfdk for EvfntSft domplibndf. Spfdibl dbsf for vftobblfChbngf. Sff 4529996
+            if (!"vftobblfChbngf".fqubls(fvfntSftNbmf) && !brgs[0].gftNbmf().fndsWith(fvfntNbmf)) {
+                throw nfw IntrospfdtionExdfption("Mfthod \"" + listfnfrMfthodNbmf +
+                                                 "\" should hbvf brgumfnt \"" +
+                                                 fvfntNbmf + "\"");
+            }
+        }
+    }
+
+    privbtf stbtid String gftListfnfrClbssNbmf(Clbss<?> dls) {
+        String dlbssNbmf = dls.gftNbmf();
+        rfturn dlbssNbmf.substring(dlbssNbmf.lbstIndfxOf('.') + 1);
+    }
+
+    /**
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdh using
+     * string nbmfs.
+     *
+     * @pbrbm sourdfClbss  Thf dlbss firing thf fvfnt.
+     * @pbrbm fvfntSftNbmf Thf progrbmmbtid nbmf of thf fvfnt sft.
+     *          Notf thbt this should normblly stbrt with b lowfr-dbsf dhbrbdtfr.
+     * @pbrbm listfnfrTypf  Thf Clbss of thf tbrgft intfrfbdf thbt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMfthodNbmfs Thf nbmfs of thf mfthods thbt will gft dbllfd
+     *          whfn thf fvfnt gfts dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @pbrbm bddListfnfrMfthodNbmf  Thf nbmf of thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMfthodNbmf  Thf nbmf of thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss,
+                String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                String listfnfrMfthodNbmfs[],
+                String bddListfnfrMfthodNbmf,
+                String rfmovfListfnfrMfthodNbmf)
+                throws IntrospfdtionExdfption {
+        this(sourdfClbss, fvfntSftNbmf, listfnfrTypf,
+             listfnfrMfthodNbmfs, bddListfnfrMfthodNbmf,
+             rfmovfListfnfrMfthodNbmf, null);
+    }
+
+    /**
+     * This donstrudtor drfbtfs bn EvfntSftDfsdriptor from sdrbtdh using
+     * string nbmfs.
+     *
+     * @pbrbm sourdfClbss  Thf dlbss firing thf fvfnt.
+     * @pbrbm fvfntSftNbmf Thf progrbmmbtid nbmf of thf fvfnt sft.
+     *          Notf thbt this should normblly stbrt with b lowfr-dbsf dhbrbdtfr.
+     * @pbrbm listfnfrTypf  Thf Clbss of thf tbrgft intfrfbdf thbt fvfnts
+     *          will gft dflivfrfd to.
+     * @pbrbm listfnfrMfthodNbmfs Thf nbmfs of thf mfthods thbt will gft dbllfd
+     *          whfn thf fvfnt gfts dflivfrfd to its tbrgft listfnfr intfrfbdf.
+     * @pbrbm bddListfnfrMfthodNbmf  Thf nbmf of thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMfthodNbmf  Thf nbmf of thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm gftListfnfrMfthodNbmf Thf mfthod on thf fvfnt sourdf thbt
+     *          dbn bf usfd to bddfss thf brrby of fvfnt listfnfr objfdts.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sindf 1.4
+     */
+    publid EvfntSftDfsdriptor(Clbss<?> sourdfClbss,
+                String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                String listfnfrMfthodNbmfs[],
+                String bddListfnfrMfthodNbmf,
+                String rfmovfListfnfrMfthodNbmf,
+                String gftListfnfrMfthodNbmf)
+                throws IntrospfdtionExdfption {
+        if (sourdfClbss == null || fvfntSftNbmf == null || listfnfrTypf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        sftNbmf(fvfntSftNbmf);
+        sftClbss0(sourdfClbss);
+        sftListfnfrTypf(listfnfrTypf);
+
+        Mfthod[] listfnfrMfthods = nfw Mfthod[listfnfrMfthodNbmfs.lfngth];
+        for (int i = 0; i < listfnfrMfthodNbmfs.lfngth; i++) {
+            // Chfdk for null nbmfs
+            if (listfnfrMfthodNbmfs[i] == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            listfnfrMfthods[i] = gftMfthod(listfnfrTypf, listfnfrMfthodNbmfs[i], 1);
+        }
+        sftListfnfrMfthods(listfnfrMfthods);
+
+        sftAddListfnfrMfthod(gftMfthod(sourdfClbss, bddListfnfrMfthodNbmf, 1));
+        sftRfmovfListfnfrMfthod(gftMfthod(sourdfClbss, rfmovfListfnfrMfthodNbmf, 1));
+
+        // Bf morf forgiving of not finding thf gftListfnfr mfthod.
+        Mfthod mfthod = Introspfdtor.findMfthod(sourdfClbss, gftListfnfrMfthodNbmf, 0);
+        if (mfthod != null) {
+            sftGftListfnfrMfthod(mfthod);
+        }
+    }
+
+    privbtf stbtid Mfthod gftMfthod(Clbss<?> dls, String nbmf, int brgs)
+        throws IntrospfdtionExdfption {
+        if (nbmf == null) {
+            rfturn null;
+        }
+        Mfthod mfthod = Introspfdtor.findMfthod(dls, nbmf, brgs);
+        if ((mfthod == null) || Modififr.isStbtid(mfthod.gftModififrs())) {
+            throw nfw IntrospfdtionExdfption("Mfthod not found: " + nbmf +
+                                             " on dlbss " + dls.gftNbmf());
+        }
+        rfturn mfthod;
+    }
+
+    /**
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdh using
+     * <TT>jbvb.lbng.rfflfdt.Mfthod</TT> bnd <TT>jbvb.lbng.Clbss</TT> objfdts.
+     *
+     * @pbrbm fvfntSftNbmf Thf progrbmmbtid nbmf of thf fvfnt sft.
+     * @pbrbm listfnfrTypf Thf Clbss for thf listfnfr intfrfbdf.
+     * @pbrbm listfnfrMfthods  An brrby of Mfthod objfdts dfsdribing fbdh
+     *          of thf fvfnt hbndling mfthods in thf tbrgft listfnfr.
+     * @pbrbm bddListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                Mfthod listfnfrMfthods[],
+                Mfthod bddListfnfrMfthod,
+                Mfthod rfmovfListfnfrMfthod)
+                throws IntrospfdtionExdfption {
+        this(fvfntSftNbmf, listfnfrTypf, listfnfrMfthods,
+             bddListfnfrMfthod, rfmovfListfnfrMfthod, null);
+    }
+
+    /**
+     * This donstrudtor drfbtfs bn EvfntSftDfsdriptor from sdrbtdh using
+     * jbvb.lbng.rfflfdt.Mfthod bnd jbvb.lbng.Clbss objfdts.
+     *
+     * @pbrbm fvfntSftNbmf Thf progrbmmbtid nbmf of thf fvfnt sft.
+     * @pbrbm listfnfrTypf Thf Clbss for thf listfnfr intfrfbdf.
+     * @pbrbm listfnfrMfthods  An brrby of Mfthod objfdts dfsdribing fbdh
+     *          of thf fvfnt hbndling mfthods in thf tbrgft listfnfr.
+     * @pbrbm bddListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm gftListfnfrMfthod Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to bddfss thf brrby of fvfnt listfnfr objfdts.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sindf 1.4
+     */
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                Mfthod listfnfrMfthods[],
+                Mfthod bddListfnfrMfthod,
+                Mfthod rfmovfListfnfrMfthod,
+                Mfthod gftListfnfrMfthod)
+                throws IntrospfdtionExdfption {
+        sftNbmf(fvfntSftNbmf);
+        sftListfnfrMfthods(listfnfrMfthods);
+        sftAddListfnfrMfthod(bddListfnfrMfthod);
+        sftRfmovfListfnfrMfthod( rfmovfListfnfrMfthod);
+        sftGftListfnfrMfthod(gftListfnfrMfthod);
+        sftListfnfrTypf(listfnfrTypf);
+    }
+
+    EvfntSftDfsdriptor(String bbsf, EvfntSftInfo info, Mfthod... mfthods) {
+        sftNbmf(Introspfdtor.dfdbpitblizf(bbsf));
+        sftListfnfrMfthods(mfthods);
+        sftAddListfnfrMfthod(info.gftAddMfthod());
+        sftRfmovfListfnfrMfthod(info.gftRfmovfMfthod());
+        sftGftListfnfrMfthod(info.gftGftMfthod());
+        sftListfnfrTypf(info.gftListfnfrTypf());
+        sftUnidbst(info.isUnidbst());
+    }
+
+    /**
+     * Crfbtfs bn <TT>EvfntSftDfsdriptor</TT> from sdrbtdh using
+     * <TT>jbvb.lbng.rfflfdt.MfthodDfsdriptor</TT> bnd <TT>jbvb.lbng.Clbss</TT>
+     *  objfdts.
+     *
+     * @pbrbm fvfntSftNbmf Thf progrbmmbtid nbmf of thf fvfnt sft.
+     * @pbrbm listfnfrTypf Thf Clbss for thf listfnfr intfrfbdf.
+     * @pbrbm listfnfrMfthodDfsdriptors  An brrby of MfthodDfsdriptor objfdts
+     *           dfsdribing fbdh of thf fvfnt hbndling mfthods in thf
+     *           tbrgft listfnfr.
+     * @pbrbm bddListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to rfgistfr bn fvfnt listfnfr objfdt.
+     * @pbrbm rfmovfListfnfrMfthod  Thf mfthod on thf fvfnt sourdf
+     *          thbt dbn bf usfd to df-rfgistfr bn fvfnt listfnfr objfdt.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid EvfntSftDfsdriptor(String fvfntSftNbmf,
+                Clbss<?> listfnfrTypf,
+                MfthodDfsdriptor listfnfrMfthodDfsdriptors[],
+                Mfthod bddListfnfrMfthod,
+                Mfthod rfmovfListfnfrMfthod)
+                throws IntrospfdtionExdfption {
+        sftNbmf(fvfntSftNbmf);
+        this.listfnfrMfthodDfsdriptors = (listfnfrMfthodDfsdriptors != null)
+                ? listfnfrMfthodDfsdriptors.dlonf()
+                : null;
+        sftAddListfnfrMfthod(bddListfnfrMfthod);
+        sftRfmovfListfnfrMfthod(rfmovfListfnfrMfthod);
+        sftListfnfrTypf(listfnfrTypf);
+    }
+
+    /**
+     * Gfts thf <TT>Clbss</TT> objfdt for thf tbrgft intfrfbdf.
+     *
+     * @rfturn Thf Clbss objfdt for thf tbrgft intfrfbdf thbt will
+     * gft invokfd whfn thf fvfnt is firfd.
+     */
+    publid Clbss<?> gftListfnfrTypf() {
+        rfturn (this.listfnfrTypfRff != null)
+                ? this.listfnfrTypfRff.gft()
+                : null;
+    }
+
+    privbtf void sftListfnfrTypf(Clbss<?> dls) {
+        this.listfnfrTypfRff = gftWfbkRfffrfndf(dls);
+    }
+
+    /**
+     * Gfts thf mfthods of thf tbrgft listfnfr intfrfbdf.
+     *
+     * @rfturn An brrby of <TT>Mfthod</TT> objfdts for thf tbrgft mfthods
+     * within thf tbrgft listfnfr intfrfbdf thbt will gft dbllfd whfn
+     * fvfnts brf firfd.
+     */
+    publid syndhronizfd Mfthod[] gftListfnfrMfthods() {
+        Mfthod[] mfthods = gftListfnfrMfthods0();
+        if (mfthods == null) {
+            if (listfnfrMfthodDfsdriptors != null) {
+                mfthods = nfw Mfthod[listfnfrMfthodDfsdriptors.lfngth];
+                for (int i = 0; i < mfthods.lfngth; i++) {
+                    mfthods[i] = listfnfrMfthodDfsdriptors[i].gftMfthod();
+                }
+            }
+            sftListfnfrMfthods(mfthods);
+        }
+        rfturn mfthods;
+    }
+
+    privbtf void sftListfnfrMfthods(Mfthod[] mfthods) {
+        if (mfthods == null) {
+            rfturn;
+        }
+        if (listfnfrMfthodDfsdriptors == null) {
+            listfnfrMfthodDfsdriptors = nfw MfthodDfsdriptor[mfthods.lfngth];
+            for (int i = 0; i < mfthods.lfngth; i++) {
+                listfnfrMfthodDfsdriptors[i] = nfw MfthodDfsdriptor(mfthods[i]);
+            }
+        }
+        this.listfnfrMfthodsRff = gftSoftRfffrfndf(mfthods);
+    }
+
+    privbtf Mfthod[] gftListfnfrMfthods0() {
+        rfturn (this.listfnfrMfthodsRff != null)
+                ? this.listfnfrMfthodsRff.gft()
+                : null;
+    }
+
+    /**
+     * Gfts thf <dodf>MfthodDfsdriptor</dodf>s of thf tbrgft listfnfr intfrfbdf.
+     *
+     * @rfturn An brrby of <dodf>MfthodDfsdriptor</dodf> objfdts for thf tbrgft mfthods
+     * within thf tbrgft listfnfr intfrfbdf thbt will gft dbllfd whfn
+     * fvfnts brf firfd.
+     */
+    publid syndhronizfd MfthodDfsdriptor[] gftListfnfrMfthodDfsdriptors() {
+        rfturn (this.listfnfrMfthodDfsdriptors != null)
+                ? this.listfnfrMfthodDfsdriptors.dlonf()
+                : null;
+    }
+
+    /**
+     * Gfts thf mfthod usfd to bdd fvfnt listfnfrs.
+     *
+     * @rfturn Thf mfthod usfd to rfgistfr b listfnfr bt thf fvfnt sourdf.
+     */
+    publid syndhronizfd Mfthod gftAddListfnfrMfthod() {
+        rfturn gftMfthod(this.bddMfthodDfsdriptor);
+    }
+
+    privbtf syndhronizfd void sftAddListfnfrMfthod(Mfthod mfthod) {
+        if (mfthod == null) {
+            rfturn;
+        }
+        if (gftClbss0() == null) {
+            sftClbss0(mfthod.gftDfdlbringClbss());
+        }
+        bddMfthodDfsdriptor = nfw MfthodDfsdriptor(mfthod);
+        sftTrbnsifnt(mfthod.gftAnnotbtion(Trbnsifnt.dlbss));
+    }
+
+    /**
+     * Gfts thf mfthod usfd to rfmovf fvfnt listfnfrs.
+     *
+     * @rfturn Thf mfthod usfd to rfmovf b listfnfr bt thf fvfnt sourdf.
+     */
+    publid syndhronizfd Mfthod gftRfmovfListfnfrMfthod() {
+        rfturn gftMfthod(this.rfmovfMfthodDfsdriptor);
+    }
+
+    privbtf syndhronizfd void sftRfmovfListfnfrMfthod(Mfthod mfthod) {
+        if (mfthod == null) {
+            rfturn;
+        }
+        if (gftClbss0() == null) {
+            sftClbss0(mfthod.gftDfdlbringClbss());
+        }
+        rfmovfMfthodDfsdriptor = nfw MfthodDfsdriptor(mfthod);
+        sftTrbnsifnt(mfthod.gftAnnotbtion(Trbnsifnt.dlbss));
+    }
+
+    /**
+     * Gfts thf mfthod usfd to bddfss thf rfgistfrfd fvfnt listfnfrs.
+     *
+     * @rfturn Thf mfthod usfd to bddfss thf brrby of listfnfrs bt thf fvfnt
+     *         sourdf or null if it dofsn't fxist.
+     * @sindf 1.4
+     */
+    publid syndhronizfd Mfthod gftGftListfnfrMfthod() {
+        rfturn gftMfthod(this.gftMfthodDfsdriptor);
+    }
+
+    privbtf syndhronizfd void sftGftListfnfrMfthod(Mfthod mfthod) {
+        if (mfthod == null) {
+            rfturn;
+        }
+        if (gftClbss0() == null) {
+            sftClbss0(mfthod.gftDfdlbringClbss());
+        }
+        gftMfthodDfsdriptor = nfw MfthodDfsdriptor(mfthod);
+        sftTrbnsifnt(mfthod.gftAnnotbtion(Trbnsifnt.dlbss));
+    }
+
+    /**
+     * Mbrk bn fvfnt sft bs unidbst (or not).
+     *
+     * @pbrbm unidbst  Truf if thf fvfnt sft is unidbst.
+     */
+    publid void sftUnidbst(boolfbn unidbst) {
+        this.unidbst = unidbst;
+    }
+
+    /**
+     * Normblly fvfnt sourdfs brf multidbst.  Howfvfr thfrf brf somf
+     * fxdfptions thbt brf stridtly unidbst.
+     *
+     * @rfturn  <TT>truf</TT> if thf fvfnt sft is unidbst.
+     *          Dffbults to <TT>fblsf</TT>.
+     */
+    publid boolfbn isUnidbst() {
+        rfturn unidbst;
+    }
+
+    /**
+     * Mbrks bn fvfnt sft bs bfing in thf &quot;dffbult&quot; sft (or not).
+     * By dffbult this is <TT>truf</TT>.
+     *
+     * @pbrbm inDffbultEvfntSft <dodf>truf</dodf> if thf fvfnt sft is in
+     *                          thf &quot;dffbult&quot; sft,
+     *                          <dodf>fblsf</dodf> if not
+     */
+    publid void sftInDffbultEvfntSft(boolfbn inDffbultEvfntSft) {
+        this.inDffbultEvfntSft = inDffbultEvfntSft;
+    }
+
+    /**
+     * Rfports if bn fvfnt sft is in thf &quot;dffbult&quot; sft.
+     *
+     * @rfturn  <TT>truf</TT> if thf fvfnt sft is in
+     *          thf &quot;dffbult&quot; sft.  Dffbults to <TT>truf</TT>.
+     */
+    publid boolfbn isInDffbultEvfntSft() {
+        rfturn inDffbultEvfntSft;
+    }
+
+    /*
+     * Pbdkbgf-privbtf donstrudtor
+     * Mfrgf two fvfnt sft dfsdriptors.  Whfrf thfy donflidt, givf thf
+     * sfdond brgumfnt (y) priority ovfr thf first brgumfnt (x).
+     *
+     * @pbrbm x  Thf first (lowfr priority) EvfntSftDfsdriptor
+     * @pbrbm y  Thf sfdond (highfr priority) EvfntSftDfsdriptor
+     */
+    EvfntSftDfsdriptor(EvfntSftDfsdriptor x, EvfntSftDfsdriptor y) {
+        supfr(x,y);
+        listfnfrMfthodDfsdriptors = x.listfnfrMfthodDfsdriptors;
+        if (y.listfnfrMfthodDfsdriptors != null) {
+            listfnfrMfthodDfsdriptors = y.listfnfrMfthodDfsdriptors;
+        }
+
+        listfnfrTypfRff = x.listfnfrTypfRff;
+        if (y.listfnfrTypfRff != null) {
+            listfnfrTypfRff = y.listfnfrTypfRff;
+        }
+
+        bddMfthodDfsdriptor = x.bddMfthodDfsdriptor;
+        if (y.bddMfthodDfsdriptor != null) {
+            bddMfthodDfsdriptor = y.bddMfthodDfsdriptor;
+        }
+
+        rfmovfMfthodDfsdriptor = x.rfmovfMfthodDfsdriptor;
+        if (y.rfmovfMfthodDfsdriptor != null) {
+            rfmovfMfthodDfsdriptor = y.rfmovfMfthodDfsdriptor;
+        }
+
+        gftMfthodDfsdriptor = x.gftMfthodDfsdriptor;
+        if (y.gftMfthodDfsdriptor != null) {
+            gftMfthodDfsdriptor = y.gftMfthodDfsdriptor;
+        }
+
+        unidbst = y.unidbst;
+        if (!x.inDffbultEvfntSft || !y.inDffbultEvfntSft) {
+            inDffbultEvfntSft = fblsf;
+        }
+    }
+
+    /*
+     * Pbdkbgf-privbtf dup donstrudtor
+     * This must isolbtf thf nfw objfdt from bny dhbngfs to thf old objfdt.
+     */
+    EvfntSftDfsdriptor(EvfntSftDfsdriptor old) {
+        supfr(old);
+        if (old.listfnfrMfthodDfsdriptors != null) {
+            int lfn = old.listfnfrMfthodDfsdriptors.lfngth;
+            listfnfrMfthodDfsdriptors = nfw MfthodDfsdriptor[lfn];
+            for (int i = 0; i < lfn; i++) {
+                listfnfrMfthodDfsdriptors[i] = nfw MfthodDfsdriptor(
+                                        old.listfnfrMfthodDfsdriptors[i]);
+            }
+        }
+        listfnfrTypfRff = old.listfnfrTypfRff;
+
+        bddMfthodDfsdriptor = old.bddMfthodDfsdriptor;
+        rfmovfMfthodDfsdriptor = old.rfmovfMfthodDfsdriptor;
+        gftMfthodDfsdriptor = old.gftMfthodDfsdriptor;
+
+        unidbst = old.unidbst;
+        inDffbultEvfntSft = old.inDffbultEvfntSft;
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+        bppfndTo(sb, "unidbst", this.unidbst);
+        bppfndTo(sb, "inDffbultEvfntSft", this.inDffbultEvfntSft);
+        bppfndTo(sb, "listfnfrTypf", this.listfnfrTypfRff);
+        bppfndTo(sb, "gftListfnfrMfthod", gftMfthod(this.gftMfthodDfsdriptor));
+        bppfndTo(sb, "bddListfnfrMfthod", gftMfthod(this.bddMfthodDfsdriptor));
+        bppfndTo(sb, "rfmovfListfnfrMfthod", gftMfthod(this.rfmovfMfthodDfsdriptor));
+    }
+
+    privbtf stbtid Mfthod gftMfthod(MfthodDfsdriptor dfsdriptor) {
+        rfturn (dfsdriptor != null)
+                ? dfsdriptor.gftMfthod()
+                : null;
+    }
+}

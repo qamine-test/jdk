@@ -1,1401 +1,1401 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Util;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
 
-import java.lang.reflect.Constructor;
+import jbvb.lbng.rfflfdt.Construdtor;
 
-import java.security.AccessController;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.logging.Level;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.TrffMbp;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanException;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
-import sun.reflect.misc.ReflectUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * This class represents the metadata set for a ModelMBean element.  A
- * descriptor is part of the ModelMBeanInfo,
- * ModelMBeanNotificationInfo, ModelMBeanAttributeInfo,
- * ModelMBeanConstructorInfo, and ModelMBeanParameterInfo.
+ * Tiis dlbss rfprfsfnts tif mftbdbtb sft for b ModflMBfbn flfmfnt.  A
+ * dfsdriptor is pbrt of tif ModflMBfbnInfo,
+ * ModflMBfbnNotifidbtionInfo, ModflMBfbnAttributfInfo,
+ * ModflMBfbnConstrudtorInfo, bnd ModflMBfbnPbrbmftfrInfo.
  * <P>
- * A descriptor consists of a collection of fields.  Each field is in
- * fieldname=fieldvalue format.  Field names are not case sensitive,
- * case will be preserved on field values.
+ * A dfsdriptor donsists of b dollfdtion of fiflds.  Ebdi fifld is in
+ * fifldnbmf=fifldvbluf formbt.  Fifld nbmfs brf not dbsf sfnsitivf,
+ * dbsf will bf prfsfrvfd on fifld vblufs.
  * <P>
- * All field names and values are not predefined. New fields can be
- * defined and added by any program.  Some fields have been predefined
- * for consistency of implementation and support by the
- * ModelMBeanInfo, ModelMBeanAttributeInfo, ModelMBeanConstructorInfo,
- * ModelMBeanNotificationInfo, ModelMBeanOperationInfo and ModelMBean
- * classes.
+ * All fifld nbmfs bnd vblufs brf not prfdffinfd. Nfw fiflds dbn bf
+ * dffinfd bnd bddfd by bny progrbm.  Somf fiflds ibvf bffn prfdffinfd
+ * for donsistfndy of implfmfntbtion bnd support by tif
+ * ModflMBfbnInfo, ModflMBfbnAttributfInfo, ModflMBfbnConstrudtorInfo,
+ * ModflMBfbnNotifidbtionInfo, ModflMBfbnOpfrbtionInfo bnd ModflMBfbn
+ * dlbssfs.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6292969195866300415L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-6292969195866300415L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class DescriptorSupport
-         implements javax.management.Descriptor
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss DfsdriptorSupport
+         implfmfnts jbvbx.mbnbgfmfnt.Dfsdriptor
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 8071560848919417985L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 8071560848919417985L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6292969195866300415L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -6292969195866300415L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("descriptor", HashMap.class),
-      new ObjectStreamField("currClass", String.class)
+      nfw ObjfdtStrfbmFifld("dfsdriptor", HbsiMbp.dlbss),
+      nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("descriptor", HashMap.class)
+      nfw ObjfdtStrfbmFifld("dfsdriptor", HbsiMbp.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField descriptor HashMap The collection of fields representing this descriptor
+     * @sfriblFifld dfsdriptor HbsiMbp Tif dollfdtion of fiflds rfprfsfnting tiis dfsdriptor
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static final String serialForm;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid finbl String sfriblForm;
+    stbtid {
         String form = null;
-        boolean compat = false;
+        boolfbn dompbt = fblsf;
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            form = AccessController.doPrivileged(act);
-            compat = "1.0".equals(form);  // form may be null
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = "1.0".fqubls(form);  // form mby bf null
+        } dbtdi (Exdfption f) {
+            // OK: No dompbt witi 1.0
         }
-        serialForm = form;
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        sfriblForm = form;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
-    /* Spec says that field names are case-insensitive, but that case
-       is preserved.  This means that we need to be able to map from a
-       name that may differ in case to the actual name that is used in
-       the HashMap.  Thus, descriptorMap is a TreeMap with a Comparator
-       that ignores case.
+    /* Spfd sbys tibt fifld nbmfs brf dbsf-insfnsitivf, but tibt dbsf
+       is prfsfrvfd.  Tiis mfbns tibt wf nffd to bf bblf to mbp from b
+       nbmf tibt mby difffr in dbsf to tif bdtubl nbmf tibt is usfd in
+       tif HbsiMbp.  Tius, dfsdriptorMbp is b TrffMbp witi b Compbrbtor
+       tibt ignorfs dbsf.
 
-       Previous versions of this class had a field called "descriptor"
-       of type HashMap where the keys were directly Strings.  This is
-       hard to reconcile with the required semantics, so we fabricate
-       that field virtually during serialization and deserialization
-       but keep the real information in descriptorMap.
+       Prfvious vfrsions of tiis dlbss ibd b fifld dbllfd "dfsdriptor"
+       of typf HbsiMbp wifrf tif kfys wfrf dirfdtly Strings.  Tiis is
+       ibrd to rfdondilf witi tif rfquirfd sfmbntids, so wf fbbridbtf
+       tibt fifld virtublly during sfriblizbtion bnd dfsfriblizbtion
+       but kffp tif rfbl informbtion in dfsdriptorMbp.
     */
-    private transient SortedMap<String, Object> descriptorMap;
+    privbtf trbnsifnt SortfdMbp<String, Objfdt> dfsdriptorMbp;
 
-    private static final String currClass = "DescriptorSupport";
+    privbtf stbtid finbl String durrClbss = "DfsdriptorSupport";
 
 
     /**
-     * Descriptor default constructor.
-     * Default initial descriptor size is 20.  It will grow as needed.<br>
-     * Note that the created empty descriptor is not a valid descriptor
-     * (the method {@link #isValid isValid} returns <CODE>false</CODE>)
+     * Dfsdriptor dffbult donstrudtor.
+     * Dffbult initibl dfsdriptor sizf is 20.  It will grow bs nffdfd.<br>
+     * Notf tibt tif drfbtfd fmpty dfsdriptor is not b vblid dfsdriptor
+     * (tif mftiod {@link #isVblid isVblid} rfturns <CODE>fblsf</CODE>)
      */
-    public DescriptorSupport() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "DescriptorSupport()" , "Constructor");
+    publid DfsdriptorSupport() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "DfsdriptorSupport()" , "Construdtor");
         }
         init(null);
     }
 
     /**
-     * Descriptor constructor.  Takes as parameter the initial
-     * capacity of the Map that stores the descriptor fields.
-     * Capacity will grow as needed.<br> Note that the created empty
-     * descriptor is not a valid descriptor (the method {@link
-     * #isValid isValid} returns <CODE>false</CODE>).
+     * Dfsdriptor donstrudtor.  Tbkfs bs pbrbmftfr tif initibl
+     * dbpbdity of tif Mbp tibt storfs tif dfsdriptor fiflds.
+     * Cbpbdity will grow bs nffdfd.<br> Notf tibt tif drfbtfd fmpty
+     * dfsdriptor is not b vblid dfsdriptor (tif mftiod {@link
+     * #isVblid isVblid} rfturns <CODE>fblsf</CODE>).
      *
-     * @param initNumFields The initial capacity of the Map that
-     * stores the descriptor fields.
+     * @pbrbm initNumFiflds Tif initibl dbpbdity of tif Mbp tibt
+     * storfs tif dfsdriptor fiflds.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * initNumFields (&lt;= 0)
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * initNumFiflds (&lt;= 0)
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
      */
-    public DescriptorSupport(int initNumFields)
-            throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(initNumFields = " + initNumFields + ")",
-                    "Constructor");
+    publid DfsdriptorSupport(int initNumFiflds)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(initNumFiflds = " + initNumFiflds + ")",
+                    "Construdtor");
         }
-        if (initNumFields <= 0) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "Descriptor(initNumFields)",
-                        "Illegal arguments: initNumFields <= 0");
+        if (initNumFiflds <= 0) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "Dfsdriptor(initNumFiflds)",
+                        "Illfgbl brgumfnts: initNumFiflds <= 0");
             }
-            final String msg =
-                "Descriptor field limit invalid: " + initNumFields;
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Dfsdriptor fifld limit invblid: " + initNumFiflds;
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
         init(null);
     }
 
     /**
-     * Descriptor constructor taking a Descriptor as parameter.
-     * Creates a new descriptor initialized to the values of the
-     * descriptor passed in parameter.
+     * Dfsdriptor donstrudtor tbking b Dfsdriptor bs pbrbmftfr.
+     * Crfbtfs b nfw dfsdriptor initiblizfd to tif vblufs of tif
+     * dfsdriptor pbssfd in pbrbmftfr.
      *
-     * @param inDescr the descriptor to be used to initialize the
-     * constructed descriptor. If it is null or contains no descriptor
-     * fields, an empty Descriptor will be created.
+     * @pbrbm inDfsdr tif dfsdriptor to bf usfd to initiblizf tif
+     * donstrudtfd dfsdriptor. If it is null or dontbins no dfsdriptor
+     * fiflds, bn fmpty Dfsdriptor will bf drfbtfd.
      */
-    public DescriptorSupport(DescriptorSupport inDescr) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(Descriptor)", "Constructor");
+    publid DfsdriptorSupport(DfsdriptorSupport inDfsdr) {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(Dfsdriptor)", "Construdtor");
         }
-        if (inDescr == null)
+        if (inDfsdr == null)
             init(null);
-        else
-            init(inDescr.descriptorMap);
+        flsf
+            init(inDfsdr.dfsdriptorMbp);
     }
 
 
     /**
-     * <p>Descriptor constructor taking an XML String.</p>
+     * <p>Dfsdriptor donstrudtor tbking bn XML String.</p>
      *
-     * <p>The format of the XML string is not defined, but an
-     * implementation must ensure that the string returned by
-     * {@link #toXMLString() toXMLString()} on an existing
-     * descriptor can be used to instantiate an equivalent
-     * descriptor using this constructor.</p>
+     * <p>Tif formbt of tif XML string is not dffinfd, but bn
+     * implfmfntbtion must fnsurf tibt tif string rfturnfd by
+     * {@link #toXMLString() toXMLString()} on bn fxisting
+     * dfsdriptor dbn bf usfd to instbntibtf bn fquivblfnt
+     * dfsdriptor using tiis donstrudtor.</p>
      *
-     * <p>In this implementation, all field values will be created
-     * as Strings.  If the field values are not Strings, the
-     * programmer will have to reset or convert these fields
-     * correctly.</p>
+     * <p>In tiis implfmfntbtion, bll fifld vblufs will bf drfbtfd
+     * bs Strings.  If tif fifld vblufs brf not Strings, tif
+     * progrbmmfr will ibvf to rfsft or donvfrt tifsf fiflds
+     * dorrfdtly.</p>
      *
-     * @param inStr An XML-formatted string used to populate this
-     * Descriptor.  The format is not defined, but any
-     * implementation must ensure that the string returned by
-     * method {@link #toXMLString toXMLString} on an existing
-     * descriptor can be used to instantiate an equivalent
-     * descriptor when instantiated using this constructor.
+     * @pbrbm inStr An XML-formbttfd string usfd to populbtf tiis
+     * Dfsdriptor.  Tif formbt is not dffinfd, but bny
+     * implfmfntbtion must fnsurf tibt tif string rfturnfd by
+     * mftiod {@link #toXMLString toXMLString} on bn fxisting
+     * dfsdriptor dbn bf usfd to instbntibtf bn fquivblfnt
+     * dfsdriptor wifn instbntibtfd using tiis donstrudtor.
      *
-     * @exception RuntimeOperationsException If the String inStr
-     * passed in parameter is null
-     * @exception XMLParseException XML parsing problem while parsing
-     * the input String
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @fxdfption RuntimfOpfrbtionsExdfption If tif String inStr
+     * pbssfd in pbrbmftfr is null
+     * @fxdfption XMLPbrsfExdfption XML pbrsing problfm wiilf pbrsing
+     * tif input String
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
      */
-    /* At some stage we should rewrite this code to be cleverer.  Using
-       a StringTokenizer as we do means, first, that we accept a lot of
-       bogus strings without noticing they are bogus, and second, that we
-       split the string being parsed at characters like > even if they
-       occur in the middle of a field value. */
-    public DescriptorSupport(String inStr)
-            throws MBeanException, RuntimeOperationsException,
-                   XMLParseException {
-        /* parse an XML-formatted string and populate internal
-         * structure with it */
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(String = '" + inStr + "')", "Constructor");
+    /* At somf stbgf wf siould rfwritf tiis dodf to bf dlfvfrfr.  Using
+       b StringTokfnizfr bs wf do mfbns, first, tibt wf bddfpt b lot of
+       bogus strings witiout notiding tify brf bogus, bnd sfdond, tibt wf
+       split tif string bfing pbrsfd bt dibrbdtfrs likf > fvfn if tify
+       oddur in tif middlf of b fifld vbluf. */
+    publid DfsdriptorSupport(String inStr)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption,
+                   XMLPbrsfExdfption {
+        /* pbrsf bn XML-formbttfd string bnd populbtf intfrnbl
+         * strudturf witi it */
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(String = '" + inStr + "')", "Construdtor");
         }
         if (inStr == null) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "Descriptor(String = null)", "Illegal arguments");
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "Dfsdriptor(String = null)", "Illfgbl brgumfnts");
             }
-            final String msg = "String in parameter is null";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "String in pbrbmftfr is null";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
 
-        final String lowerInStr = inStr.toLowerCase();
-        if (!lowerInStr.startsWith("<descriptor>")
-            || !lowerInStr.endsWith("</descriptor>")) {
-            throw new XMLParseException("No <descriptor>, </descriptor> pair");
+        finbl String lowfrInStr = inStr.toLowfrCbsf();
+        if (!lowfrInStr.stbrtsWiti("<dfsdriptor>")
+            || !lowfrInStr.fndsWiti("</dfsdriptor>")) {
+            tirow nfw XMLPbrsfExdfption("No <dfsdriptor>, </dfsdriptor> pbir");
         }
 
-        // parse xmlstring into structures
+        // pbrsf xmlstring into strudturfs
         init(null);
-        // create dummy descriptor: should have same size
-        // as number of fields in xmlstring
-        // loop through structures and put them in descriptor
+        // drfbtf dummy dfsdriptor: siould ibvf sbmf sizf
+        // bs numbfr of fiflds in xmlstring
+        // loop tirougi strudturfs bnd put tifm in dfsdriptor
 
-        StringTokenizer st = new StringTokenizer(inStr, "<> \t\n\r\f");
+        StringTokfnizfr st = nfw StringTokfnizfr(inStr, "<> \t\n\r\f");
 
-        boolean inFld = false;
-        boolean inDesc = false;
-        String fieldName = null;
-        String fieldValue = null;
+        boolfbn inFld = fblsf;
+        boolfbn inDfsd = fblsf;
+        String fifldNbmf = null;
+        String fifldVbluf = null;
 
 
-        while (st.hasMoreTokens()) {  // loop through tokens
-            String tok = st.nextToken();
+        wiilf (st.ibsMorfTokfns()) {  // loop tirougi tokfns
+            String tok = st.nfxtTokfn();
 
-            if (tok.equalsIgnoreCase("FIELD")) {
-                inFld = true;
-            } else if (tok.equalsIgnoreCase("/FIELD")) {
-                if ((fieldName != null) && (fieldValue != null)) {
-                    fieldName =
-                        fieldName.substring(fieldName.indexOf('"') + 1,
-                                            fieldName.lastIndexOf('"'));
-                    final Object fieldValueObject =
-                        parseQuotedFieldValue(fieldValue);
-                    setField(fieldName, fieldValueObject);
+            if (tok.fqublsIgnorfCbsf("FIELD")) {
+                inFld = truf;
+            } flsf if (tok.fqublsIgnorfCbsf("/FIELD")) {
+                if ((fifldNbmf != null) && (fifldVbluf != null)) {
+                    fifldNbmf =
+                        fifldNbmf.substring(fifldNbmf.indfxOf('"') + 1,
+                                            fifldNbmf.lbstIndfxOf('"'));
+                    finbl Objfdt fifldVblufObjfdt =
+                        pbrsfQuotfdFifldVbluf(fifldVbluf);
+                    sftFifld(fifldNbmf, fifldVblufObjfdt);
                 }
-                fieldName = null;
-                fieldValue = null;
-                inFld = false;
-            } else if (tok.equalsIgnoreCase("DESCRIPTOR")) {
-                inDesc = true;
-            } else if (tok.equalsIgnoreCase("/DESCRIPTOR")) {
-                inDesc = false;
-                fieldName = null;
-                fieldValue = null;
-                inFld = false;
-            } else if (inFld && inDesc) {
-                // want kw=value, eg, name="myname" value="myvalue"
-                int eq_separator = tok.indexOf('=');
-                if (eq_separator > 0) {
-                    String kwPart = tok.substring(0,eq_separator);
-                    String valPart = tok.substring(eq_separator+1);
-                    if (kwPart.equalsIgnoreCase("NAME"))
-                        fieldName = valPart;
-                    else if (kwPart.equalsIgnoreCase("VALUE"))
-                        fieldValue = valPart;
-                    else {  // xml parse exception
-                        final String msg =
-                            "Expected `name' or `value', got `" + tok + "'";
-                        throw new XMLParseException(msg);
+                fifldNbmf = null;
+                fifldVbluf = null;
+                inFld = fblsf;
+            } flsf if (tok.fqublsIgnorfCbsf("DESCRIPTOR")) {
+                inDfsd = truf;
+            } flsf if (tok.fqublsIgnorfCbsf("/DESCRIPTOR")) {
+                inDfsd = fblsf;
+                fifldNbmf = null;
+                fifldVbluf = null;
+                inFld = fblsf;
+            } flsf if (inFld && inDfsd) {
+                // wbnt kw=vbluf, fg, nbmf="mynbmf" vbluf="myvbluf"
+                int fq_sfpbrbtor = tok.indfxOf('=');
+                if (fq_sfpbrbtor > 0) {
+                    String kwPbrt = tok.substring(0,fq_sfpbrbtor);
+                    String vblPbrt = tok.substring(fq_sfpbrbtor+1);
+                    if (kwPbrt.fqublsIgnorfCbsf("NAME"))
+                        fifldNbmf = vblPbrt;
+                    flsf if (kwPbrt.fqublsIgnorfCbsf("VALUE"))
+                        fifldVbluf = vblPbrt;
+                    flsf {  // xml pbrsf fxdfption
+                        finbl String msg =
+                            "Expfdtfd `nbmf' or `vbluf', got `" + tok + "'";
+                        tirow nfw XMLPbrsfExdfption(msg);
                     }
-                } else { // xml parse exception
-                    final String msg =
-                        "Expected `keyword=value', got `" + tok + "'";
-                    throw new XMLParseException(msg);
+                } flsf { // xml pbrsf fxdfption
+                    finbl String msg =
+                        "Expfdtfd `kfyword=vbluf', got `" + tok + "'";
+                    tirow nfw XMLPbrsfExdfption(msg);
                 }
             }
-        }  // while tokens
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(XMLString)", "Exit");
+        }  // wiilf tokfns
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(XMLString)", "Exit");
         }
     }
 
     /**
-     * Constructor taking field names and field values.  Neither array
-     * can be null.
+     * Construdtor tbking fifld nbmfs bnd fifld vblufs.  Nfitifr brrby
+     * dbn bf null.
      *
-     * @param fieldNames String array of field names.  No elements of
-     * this array can be null.
-     * @param fieldValues Object array of the corresponding field
-     * values.  Elements of the array can be null. The
-     * <code>fieldValue</code> must be valid for the
-     * <code>fieldName</code> (as defined in method {@link #isValid
-     * isValid})
+     * @pbrbm fifldNbmfs String brrby of fifld nbmfs.  No flfmfnts of
+     * tiis brrby dbn bf null.
+     * @pbrbm fifldVblufs Objfdt brrby of tif dorrfsponding fifld
+     * vblufs.  Elfmfnts of tif brrby dbn bf null. Tif
+     * <dodf>fifldVbluf</dodf> must bf vblid for tif
+     * <dodf>fifldNbmf</dodf> (bs dffinfd in mftiod {@link #isVblid
+     * isVblid})
      *
-     * <p>Note: array sizes of parameters should match. If both arrays
-     * are empty, then an empty descriptor is created.</p>
+     * <p>Notf: brrby sizfs of pbrbmftfrs siould mbtdi. If boti brrbys
+     * brf fmpty, tifn bn fmpty dfsdriptor is drfbtfd.</p>
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  The array lengths must be equal.
-     * If the descriptor construction fails for any reason, this
-     * exception will be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * fifld Nbmfs or fifld Vblufs.  Tif brrby lfngtis must bf fqubl.
+     * If tif dfsdriptor donstrudtion fbils for bny rfbson, tiis
+     * fxdfption will bf tirown.
      *
      */
-    public DescriptorSupport(String[] fieldNames, Object[] fieldValues)
-            throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(fieldNames,fieldObjects)", "Constructor");
+    publid DfsdriptorSupport(String[] fifldNbmfs, Objfdt[] fifldVblufs)
+            tirows RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(fifldNbmfs,fifldObjfdts)", "Construdtor");
         }
 
-        if ((fieldNames == null) || (fieldValues == null) ||
-            (fieldNames.length != fieldValues.length)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "Descriptor(fieldNames,fieldObjects)",
-                        "Illegal arguments");
+        if ((fifldNbmfs == null) || (fifldVblufs == null) ||
+            (fifldNbmfs.lfngti != fifldVblufs.lfngti)) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "Dfsdriptor(fifldNbmfs,fifldObjfdts)",
+                        "Illfgbl brgumfnts");
             }
 
-            final String msg =
-                "Null or invalid fieldNames or fieldValues";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Null or invblid fifldNbmfs or fifldVblufs";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
 
-        /* populate internal structure with fields */
+        /* populbtf intfrnbl strudturf witi fiflds */
         init(null);
-        for (int i=0; i < fieldNames.length; i++) {
-            // setField will throw an exception if a fieldName is be null.
-            // the fieldName and fieldValue will be validated in setField.
-            setField(fieldNames[i], fieldValues[i]);
+        for (int i=0; i < fifldNbmfs.lfngti; i++) {
+            // sftFifld will tirow bn fxdfption if b fifldNbmf is bf null.
+            // tif fifldNbmf bnd fifldVbluf will bf vblidbtfd in sftFifld.
+            sftFifld(fifldNbmfs[i], fifldVblufs[i]);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(fieldNames,fieldObjects)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(fifldNbmfs,fifldObjfdts)", "Exit");
         }
     }
 
     /**
-     * Constructor taking fields in the <i>fieldName=fieldValue</i>
-     * format.
+     * Construdtor tbking fiflds in tif <i>fifldNbmf=fifldVbluf</i>
+     * formbt.
      *
-     * @param fields String array with each element containing a
-     * field name and value.  If this array is null or empty, then the
-     * default constructor will be executed. Null strings or empty
-     * strings will be ignored.
+     * @pbrbm fiflds String brrby witi fbdi flfmfnt dontbining b
+     * fifld nbmf bnd vbluf.  If tiis brrby is null or fmpty, tifn tif
+     * dffbult donstrudtor will bf fxfdutfd. Null strings or fmpty
+     * strings will bf ignorfd.
      *
-     * <p>All field values should be Strings.  If the field values are
-     * not Strings, the programmer will have to reset or convert these
-     * fields correctly.
+     * <p>All fifld vblufs siould bf Strings.  If tif fifld vblufs brf
+     * not Strings, tif progrbmmfr will ibvf to rfsft or donvfrt tifsf
+     * fiflds dorrfdtly.
      *
-     * <p>Note: Each string should be of the form
-     * <i>fieldName=fieldValue</i>.  The field name
-     * ends at the first {@code =} character; for example if the String
-     * is {@code a=b=c} then the field name is {@code a} and its value
-     * is {@code b=c}.
+     * <p>Notf: Ebdi string siould bf of tif form
+     * <i>fifldNbmf=fifldVbluf</i>.  Tif fifld nbmf
+     * fnds bt tif first {@dodf =} dibrbdtfr; for fxbmplf if tif String
+     * is {@dodf b=b=d} tifn tif fifld nbmf is {@dodf b} bnd its vbluf
+     * is {@dodf b=d}.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  The field must contain an
-     * "=". "=fieldValue", "fieldName", and "fieldValue" are illegal.
-     * FieldName cannot be null.  "fieldName=" will cause the value to
-     * be null.  If the descriptor construction fails for any reason,
-     * this exception will be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * fifld Nbmfs or fifld Vblufs.  Tif fifld must dontbin bn
+     * "=". "=fifldVbluf", "fifldNbmf", bnd "fifldVbluf" brf illfgbl.
+     * FifldNbmf dbnnot bf null.  "fifldNbmf=" will dbusf tif vbluf to
+     * bf null.  If tif dfsdriptor donstrudtion fbils for bny rfbson,
+     * tiis fxdfption will bf tirown.
      *
      */
-    public DescriptorSupport(String... fields)
+    publid DfsdriptorSupport(String... fiflds)
     {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(String... fields)", "Constructor");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(String... fiflds)", "Construdtor");
         }
         init(null);
-        if (( fields == null ) || ( fields.length == 0))
-            return;
+        if (( fiflds == null ) || ( fiflds.lfngti == 0))
+            rfturn;
 
         init(null);
 
-        for (int i=0; i < fields.length; i++) {
-            if ((fields[i] == null) || (fields[i].equals(""))) {
-                continue;
+        for (int i=0; i < fiflds.lfngti; i++) {
+            if ((fiflds[i] == null) || (fiflds[i].fqubls(""))) {
+                dontinuf;
             }
-            int eq_separator = fields[i].indexOf('=');
-            if (eq_separator < 0) {
-                // illegal if no = or is first character
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "Descriptor(String... fields)",
-                            "Illegal arguments: field does not have " +
-                            "'=' as a name and value separator");
+            int fq_sfpbrbtor = fiflds[i].indfxOf('=');
+            if (fq_sfpbrbtor < 0) {
+                // illfgbl if no = or is first dibrbdtfr
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                            DfsdriptorSupport.dlbss.gftNbmf(),
+                            "Dfsdriptor(String... fiflds)",
+                            "Illfgbl brgumfnts: fifld dofs not ibvf " +
+                            "'=' bs b nbmf bnd vbluf sfpbrbtor");
                 }
-                final String msg = "Field in invalid format: no equals sign";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "Fifld in invblid formbt: no fqubls sign";
+                finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+                tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
             }
 
-            String fieldName = fields[i].substring(0,eq_separator);
-            String fieldValue = null;
-            if (eq_separator < fields[i].length()) {
-                // = is not in last character
-                fieldValue = fields[i].substring(eq_separator+1);
+            String fifldNbmf = fiflds[i].substring(0,fq_sfpbrbtor);
+            String fifldVbluf = null;
+            if (fq_sfpbrbtor < fiflds[i].lfngti()) {
+                // = is not in lbst dibrbdtfr
+                fifldVbluf = fiflds[i].substring(fq_sfpbrbtor+1);
             }
 
-            if (fieldName.equals("")) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "Descriptor(String... fields)",
-                            "Illegal arguments: fieldName is empty");
+            if (fifldNbmf.fqubls("")) {
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                            DfsdriptorSupport.dlbss.gftNbmf(),
+                            "Dfsdriptor(String... fiflds)",
+                            "Illfgbl brgumfnts: fifldNbmf is fmpty");
                 }
 
-                final String msg = "Field in invalid format: no fieldName";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "Fifld in invblid formbt: no fifldNbmf";
+                finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+                tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
             }
 
-            setField(fieldName,fieldValue);
+            sftFifld(fifldNbmf,fifldVbluf);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(String... fields)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "Dfsdriptor(String... fiflds)", "Exit");
         }
     }
 
-    private void init(Map<String, ?> initMap) {
-        descriptorMap =
-                new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        if (initMap != null)
-            descriptorMap.putAll(initMap);
+    privbtf void init(Mbp<String, ?> initMbp) {
+        dfsdriptorMbp =
+                nfw TrffMbp<String, Objfdt>(String.CASE_INSENSITIVE_ORDER);
+        if (initMbp != null)
+            dfsdriptorMbp.putAll(initMbp);
     }
 
-    // Implementation of the Descriptor interface
+    // Implfmfntbtion of tif Dfsdriptor intfrfbdf
 
 
-    public synchronized Object getFieldValue(String fieldName)
-            throws RuntimeOperationsException {
+    publid syndironizfd Objfdt gftFifldVbluf(String fifldNbmf)
+            tirows RuntimfOpfrbtionsExdfption {
 
-        if ((fieldName == null) || (fieldName.equals(""))) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "getFieldValue(String fieldName)",
-                        "Illegal arguments: null field name");
+        if ((fifldNbmf == null) || (fifldNbmf.fqubls(""))) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "gftFifldVbluf(String fifldNbmf)",
+                        "Illfgbl brgumfnts: null fifld nbmf");
             }
-            final String msg = "Fieldname requested is null";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "Fifldnbmf rfqufstfd is null";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
-        Object retValue = descriptorMap.get(fieldName);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValue(String fieldName = " + fieldName + ")",
-                    "Returns '" + retValue + "'");
+        Objfdt rftVbluf = dfsdriptorMbp.gft(fifldNbmf);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldVbluf(String fifldNbmf = " + fifldNbmf + ")",
+                    "Rfturns '" + rftVbluf + "'");
         }
-        return(retValue);
+        rfturn(rftVbluf);
     }
 
-    public synchronized void setField(String fieldName, Object fieldValue)
-            throws RuntimeOperationsException {
+    publid syndironizfd void sftFifld(String fifldNbmf, Objfdt fifldVbluf)
+            tirows RuntimfOpfrbtionsExdfption {
 
-        // field name cannot be null or empty
-        if ((fieldName == null) || (fieldName.equals(""))) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setField(fieldName,fieldValue)",
-                        "Illegal arguments: null or empty field name");
+        // fifld nbmf dbnnot bf null or fmpty
+        if ((fifldNbmf == null) || (fifldNbmf.fqubls(""))) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "sftFifld(fifldNbmf,fifldVbluf)",
+                        "Illfgbl brgumfnts: null or fmpty fifld nbmf");
             }
 
-            final String msg = "Field name to be set is null or empty";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "Fifld nbmf to bf sft is null or fmpty";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
 
-        if (!validateField(fieldName, fieldValue)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setField(fieldName,fieldValue)",
-                        "Illegal arguments");
+        if (!vblidbtfFifld(fifldNbmf, fifldVbluf)) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "sftFifld(fifldNbmf,fifldVbluf)",
+                        "Illfgbl brgumfnts");
             }
 
-            final String msg =
-                "Field value invalid: " + fieldName + "=" + fieldValue;
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Fifld vbluf invblid: " + fifldNbmf + "=" + fifldVbluf;
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setField(fieldName,fieldValue)", "Entry: setting '"
-                    + fieldName + "' to '" + fieldValue + "'");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "sftFifld(fifldNbmf,fifldVbluf)", "Entry: sftting '"
+                    + fifldNbmf + "' to '" + fifldVbluf + "'");
         }
 
-        // Since we do not remove any existing entry with this name,
-        // the field will preserve whatever case it had, ignoring
-        // any difference there might be in fieldName.
-        descriptorMap.put(fieldName, fieldValue);
+        // Sindf wf do not rfmovf bny fxisting fntry witi tiis nbmf,
+        // tif fifld will prfsfrvf wibtfvfr dbsf it ibd, ignoring
+        // bny difffrfndf tifrf migit bf in fifldNbmf.
+        dfsdriptorMbp.put(fifldNbmf, fifldVbluf);
     }
 
-    public synchronized String[] getFields() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFields()", "Entry");
+    publid syndironizfd String[] gftFiflds() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFiflds()", "Entry");
         }
-        int numberOfEntries = descriptorMap.size();
+        int numbfrOfEntrifs = dfsdriptorMbp.sizf();
 
-        String[] responseFields = new String[numberOfEntries];
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        String[] rfsponsfFiflds = nfw String[numbfrOfEntrifs];
+        Sft<Mbp.Entry<String, Objfdt>> rfturnfdSft = dfsdriptorMbp.fntrySft();
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFields()", "Returning " + numberOfEntries + " fields");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFiflds()", "Rfturning " + numbfrOfEntrifs + " fiflds");
         }
-        for (Iterator<Map.Entry<String, Object>> iter = returnedSet.iterator();
-             iter.hasNext(); i++) {
-            Map.Entry<String, Object> currElement = iter.next();
+        for (Itfrbtor<Mbp.Entry<String, Objfdt>> itfr = rfturnfdSft.itfrbtor();
+             itfr.ibsNfxt(); i++) {
+            Mbp.Entry<String, Objfdt> durrElfmfnt = itfr.nfxt();
 
-            if (currElement == null) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "getFields()", "Element is null");
+            if (durrElfmfnt == null) {
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                            DfsdriptorSupport.dlbss.gftNbmf(),
+                            "gftFiflds()", "Elfmfnt is null");
                 }
-            } else {
-                Object currValue = currElement.getValue();
-                if (currValue == null) {
-                    responseFields[i] = currElement.getKey() + "=";
-                } else {
-                    if (currValue instanceof java.lang.String) {
-                        responseFields[i] =
-                            currElement.getKey() + "=" + currValue.toString();
-                    } else {
-                        responseFields[i] =
-                            currElement.getKey() + "=(" +
-                            currValue.toString() + ")";
+            } flsf {
+                Objfdt durrVbluf = durrElfmfnt.gftVbluf();
+                if (durrVbluf == null) {
+                    rfsponsfFiflds[i] = durrElfmfnt.gftKfy() + "=";
+                } flsf {
+                    if (durrVbluf instbndfof jbvb.lbng.String) {
+                        rfsponsfFiflds[i] =
+                            durrElfmfnt.gftKfy() + "=" + durrVbluf.toString();
+                    } flsf {
+                        rfsponsfFiflds[i] =
+                            durrElfmfnt.gftKfy() + "=(" +
+                            durrVbluf.toString() + ")";
                     }
                 }
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFields()", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFiflds()", "Exit");
         }
 
-        return responseFields;
+        rfturn rfsponsfFiflds;
     }
 
-    public synchronized String[] getFieldNames() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()", "Entry");
+    publid syndironizfd String[] gftFifldNbmfs() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldNbmfs()", "Entry");
         }
-        int numberOfEntries = descriptorMap.size();
+        int numbfrOfEntrifs = dfsdriptorMbp.sizf();
 
-        String[] responseFields = new String[numberOfEntries];
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        String[] rfsponsfFiflds = nfw String[numbfrOfEntrifs];
+        Sft<Mbp.Entry<String, Objfdt>> rfturnfdSft = dfsdriptorMbp.fntrySft();
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()",
-                    "Returning " + numberOfEntries + " fields");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldNbmfs()",
+                    "Rfturning " + numbfrOfEntrifs + " fiflds");
         }
 
-        for (Iterator<Map.Entry<String, Object>> iter = returnedSet.iterator();
-             iter.hasNext(); i++) {
-            Map.Entry<String, Object> currElement = iter.next();
+        for (Itfrbtor<Mbp.Entry<String, Objfdt>> itfr = rfturnfdSft.itfrbtor();
+             itfr.ibsNfxt(); i++) {
+            Mbp.Entry<String, Objfdt> durrElfmfnt = itfr.nfxt();
 
-            if (( currElement == null ) || (currElement.getKey() == null)) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "getFieldNames()", "Field is null");
+            if (( durrElfmfnt == null ) || (durrElfmfnt.gftKfy() == null)) {
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                            DfsdriptorSupport.dlbss.gftNbmf(),
+                            "gftFifldNbmfs()", "Fifld is null");
                 }
-            } else {
-                responseFields[i] = currElement.getKey().toString();
+            } flsf {
+                rfsponsfFiflds[i] = durrElfmfnt.gftKfy().toString();
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldNbmfs()", "Exit");
         }
 
-        return responseFields;
+        rfturn rfsponsfFiflds;
     }
 
 
-    public synchronized Object[] getFieldValues(String... fieldNames) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)", "Entry");
+    publid syndironizfd Objfdt[] gftFifldVblufs(String... fifldNbmfs) {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldVblufs(String... fifldNbmfs)", "Entry");
         }
-        // if fieldNames == null return all values
-        // if fieldNames is String[0] return no values
+        // if fifldNbmfs == null rfturn bll vblufs
+        // if fifldNbmfs is String[0] rfturn no vblufs
 
-        final int numberOfEntries =
-            (fieldNames == null) ? descriptorMap.size() : fieldNames.length;
-        final Object[] responseFields = new Object[numberOfEntries];
+        finbl int numbfrOfEntrifs =
+            (fifldNbmfs == null) ? dfsdriptorMbp.sizf() : fifldNbmfs.lfngti;
+        finbl Objfdt[] rfsponsfFiflds = nfw Objfdt[numbfrOfEntrifs];
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)",
-                    "Returning " + numberOfEntries + " fields");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldVblufs(String... fifldNbmfs)",
+                    "Rfturning " + numbfrOfEntrifs + " fiflds");
         }
 
-        if (fieldNames == null) {
-            for (Object value : descriptorMap.values())
-                responseFields[i++] = value;
-        } else {
-            for (i=0; i < fieldNames.length; i++) {
-                if ((fieldNames[i] == null) || (fieldNames[i].equals(""))) {
-                    responseFields[i] = null;
-                } else {
-                    responseFields[i] = getFieldValue(fieldNames[i]);
+        if (fifldNbmfs == null) {
+            for (Objfdt vbluf : dfsdriptorMbp.vblufs())
+                rfsponsfFiflds[i++] = vbluf;
+        } flsf {
+            for (i=0; i < fifldNbmfs.lfngti; i++) {
+                if ((fifldNbmfs[i] == null) || (fifldNbmfs[i].fqubls(""))) {
+                    rfsponsfFiflds[i] = null;
+                } flsf {
+                    rfsponsfFiflds[i] = gftFifldVbluf(fifldNbmfs[i]);
                 }
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "gftFifldVblufs(String... fifldNbmfs)", "Exit");
         }
 
-        return responseFields;
+        rfturn rfsponsfFiflds;
     }
 
-    public synchronized void setFields(String[] fieldNames,
-                                       Object[] fieldValues)
-            throws RuntimeOperationsException {
+    publid syndironizfd void sftFiflds(String[] fifldNbmfs,
+                                       Objfdt[] fifldVblufs)
+            tirows RuntimfOpfrbtionsExdfption {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setFields(fieldNames,fieldValues)", "Entry");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "sftFiflds(fifldNbmfs,fifldVblufs)", "Entry");
         }
 
-        if ((fieldNames == null) || (fieldValues == null) ||
-            (fieldNames.length != fieldValues.length)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setFields(fieldNames,fieldValues)",
-                        "Illegal arguments");
+        if ((fifldNbmfs == null) || (fifldVblufs == null) ||
+            (fifldNbmfs.lfngti != fifldVblufs.lfngti)) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "sftFiflds(fifldNbmfs,fifldVblufs)",
+                        "Illfgbl brgumfnts");
             }
 
-            final String msg = "fieldNames and fieldValues are null or invalid";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "fifldNbmfs bnd fifldVblufs brf null or invblid";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
         }
 
-        for (int i=0; i < fieldNames.length; i++) {
-            if (( fieldNames[i] == null) || (fieldNames[i].equals(""))) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                    MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "setFields(fieldNames,fieldValues)",
-                            "Null field name encountered at element " + i);
+        for (int i=0; i < fifldNbmfs.lfngti; i++) {
+            if (( fifldNbmfs[i] == null) || (fifldNbmfs[i].fqubls(""))) {
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                            DfsdriptorSupport.dlbss.gftNbmf(),
+                            "sftFiflds(fifldNbmfs,fifldVblufs)",
+                            "Null fifld nbmf fndountfrfd bt flfmfnt " + i);
                 }
-                final String msg = "fieldNames is null or invalid";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "fifldNbmfs is null or invblid";
+                finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+                tirow nfw RuntimfOpfrbtionsExdfption(ibf, msg);
             }
-            setField(fieldNames[i], fieldValues[i]);
+            sftFifld(fifldNbmfs[i], fifldVblufs[i]);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setFields(fieldNames,fieldValues)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "sftFiflds(fifldNbmfs,fifldVblufs)", "Exit");
         }
     }
 
     /**
-     * Returns a new Descriptor which is a duplicate of the Descriptor.
+     * Rfturns b nfw Dfsdriptor wiidi is b duplidbtf of tif Dfsdriptor.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the descriptor construction
-     * fails for any reason, this exception will be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * fifld Nbmfs or fifld Vblufs.  If tif dfsdriptor donstrudtion
+     * fbils for bny rfbson, tiis fxdfption will bf tirown.
      */
 
-    @Override
-    public synchronized Object clone() throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "clone()", "Entry");
+    @Ovfrridf
+    publid syndironizfd Objfdt dlonf() tirows RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "dlonf()", "Entry");
         }
-        return(new DescriptorSupport(this));
+        rfturn(nfw DfsdriptorSupport(tiis));
     }
 
-    public synchronized void removeField(String fieldName) {
-        if ((fieldName == null) || (fieldName.equals(""))) {
-            return;
+    publid syndironizfd void rfmovfFifld(String fifldNbmf) {
+        if ((fifldNbmf == null) || (fifldNbmf.fqubls(""))) {
+            rfturn;
         }
 
-        descriptorMap.remove(fieldName);
+        dfsdriptorMbp.rfmovf(fifldNbmf);
     }
 
     /**
-     * Compares this descriptor to the given object.  The objects are equal if
-     * the given object is also a Descriptor, and if the two Descriptors have
-     * the same field names (possibly differing in case) and the same
-     * associated values.  The respective values for a field in the two
-     * Descriptors are equal if the following conditions hold:
+     * Compbrfs tiis dfsdriptor to tif givfn objfdt.  Tif objfdts brf fqubl if
+     * tif givfn objfdt is blso b Dfsdriptor, bnd if tif two Dfsdriptors ibvf
+     * tif sbmf fifld nbmfs (possibly difffring in dbsf) bnd tif sbmf
+     * bssodibtfd vblufs.  Tif rfspfdtivf vblufs for b fifld in tif two
+     * Dfsdriptors brf fqubl if tif following donditions iold:
      *
      * <ul>
-     * <li>If one value is null then the other must be too.</li>
-     * <li>If one value is a primitive array then the other must be a primitive
-     * array of the same type with the same elements.</li>
-     * <li>If one value is an object array then the other must be too and
-     * {@link java.util.Arrays#deepEquals(Object[],Object[]) Arrays.deepEquals}
-     * must return true.</li>
-     * <li>Otherwise {@link Object#equals(Object)} must return true.</li>
+     * <li>If onf vbluf is null tifn tif otifr must bf too.</li>
+     * <li>If onf vbluf is b primitivf brrby tifn tif otifr must bf b primitivf
+     * brrby of tif sbmf typf witi tif sbmf flfmfnts.</li>
+     * <li>If onf vbluf is bn objfdt brrby tifn tif otifr must bf too bnd
+     * {@link jbvb.util.Arrbys#dffpEqubls(Objfdt[],Objfdt[]) Arrbys.dffpEqubls}
+     * must rfturn truf.</li>
+     * <li>Otifrwisf {@link Objfdt#fqubls(Objfdt)} must rfturn truf.</li>
      * </ul>
      *
-     * @param o the object to compare with.
+     * @pbrbm o tif objfdt to dompbrf witi.
      *
-     * @return {@code true} if the objects are the same; {@code false}
-     * otherwise.
+     * @rfturn {@dodf truf} if tif objfdts brf tif sbmf; {@dodf fblsf}
+     * otifrwisf.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
-    //       due to 6369229.
-    @Override
-    public synchronized boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (! (o instanceof Descriptor))
-            return false;
-        if (o instanceof ImmutableDescriptor)
-            return o.equals(this);
-        return new ImmutableDescriptor(descriptorMap).equals(o);
+    // Notf: tiis Jbvbdod is dopifd from jbvbx.mbnbgfmfnt.Dfsdriptor
+    //       duf to 6369229.
+    @Ovfrridf
+    publid syndironizfd boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (! (o instbndfof Dfsdriptor))
+            rfturn fblsf;
+        if (o instbndfof ImmutbblfDfsdriptor)
+            rfturn o.fqubls(tiis);
+        rfturn nfw ImmutbblfDfsdriptor(dfsdriptorMbp).fqubls(o);
     }
 
     /**
-     * <p>Returns the hash code value for this descriptor.  The hash
-     * code is computed as the sum of the hash codes for each field in
-     * the descriptor.  The hash code of a field with name {@code n}
-     * and value {@code v} is {@code n.toLowerCase().hashCode() ^ h}.
-     * Here {@code h} is the hash code of {@code v}, computed as
+     * <p>Rfturns tif ibsi dodf vbluf for tiis dfsdriptor.  Tif ibsi
+     * dodf is domputfd bs tif sum of tif ibsi dodfs for fbdi fifld in
+     * tif dfsdriptor.  Tif ibsi dodf of b fifld witi nbmf {@dodf n}
+     * bnd vbluf {@dodf v} is {@dodf n.toLowfrCbsf().ibsiCodf() ^ i}.
+     * Hfrf {@dodf i} is tif ibsi dodf of {@dodf v}, domputfd bs
      * follows:</p>
      *
      * <ul>
-     * <li>If {@code v} is null then {@code h} is 0.</li>
-     * <li>If {@code v} is a primitive array then {@code h} is computed using
-     * the appropriate overloading of {@code java.util.Arrays.hashCode}.</li>
-     * <li>If {@code v} is an object array then {@code h} is computed using
-     * {@link java.util.Arrays#deepHashCode(Object[]) Arrays.deepHashCode}.</li>
-     * <li>Otherwise {@code h} is {@code v.hashCode()}.</li>
+     * <li>If {@dodf v} is null tifn {@dodf i} is 0.</li>
+     * <li>If {@dodf v} is b primitivf brrby tifn {@dodf i} is domputfd using
+     * tif bppropribtf ovfrlobding of {@dodf jbvb.util.Arrbys.ibsiCodf}.</li>
+     * <li>If {@dodf v} is bn objfdt brrby tifn {@dodf i} is domputfd using
+     * {@link jbvb.util.Arrbys#dffpHbsiCodf(Objfdt[]) Arrbys.dffpHbsiCodf}.</li>
+     * <li>Otifrwisf {@dodf i} is {@dodf v.ibsiCodf()}.</li>
      * </ul>
      *
-     * @return A hash code value for this object.
+     * @rfturn A ibsi dodf vbluf for tiis objfdt.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
-    //       due to 6369229.
-    @Override
-    public synchronized int hashCode() {
-        final int size = descriptorMap.size();
-        // descriptorMap is sorted with a comparator that ignores cases.
+    // Notf: tiis Jbvbdod is dopifd from jbvbx.mbnbgfmfnt.Dfsdriptor
+    //       duf to 6369229.
+    @Ovfrridf
+    publid syndironizfd int ibsiCodf() {
+        finbl int sizf = dfsdriptorMbp.sizf();
+        // dfsdriptorMbp is sortfd witi b dompbrbtor tibt ignorfs dbsfs.
         //
-        return Util.hashCode(
-                descriptorMap.keySet().toArray(new String[size]),
-                descriptorMap.values().toArray(new Object[size]));
+        rfturn Util.ibsiCodf(
+                dfsdriptorMbp.kfySft().toArrby(nfw String[sizf]),
+                dfsdriptorMbp.vblufs().toArrby(nfw Objfdt[sizf]));
     }
 
     /**
-     * Returns true if all of the fields have legal values given their
-     * names.
+     * Rfturns truf if bll of tif fiflds ibvf lfgbl vblufs givfn tifir
+     * nbmfs.
      * <P>
-     * This implementation does not support  interoperating with a directory
-     * or lookup service. Thus, conforming to the specification, no checking is
-     * done on the <i>"export"</i> field.
+     * Tiis implfmfntbtion dofs not support  intfropfrbting witi b dirfdtory
+     * or lookup sfrvidf. Tius, donforming to tif spfdifidbtion, no difdking is
+     * donf on tif <i>"fxport"</i> fifld.
      * <P>
-     * Otherwise this implementation returns false if:
+     * Otifrwisf tiis implfmfntbtion rfturns fblsf if:
      * <UL>
-     * <LI> name and descriptorType fieldNames are not defined, or
-     * null, or empty, or not String
-     * <LI> class, role, getMethod, setMethod fieldNames, if defined,
-     * are null or not String
-     * <LI> persistPeriod, currencyTimeLimit, lastUpdatedTimeStamp,
-     * lastReturnedTimeStamp if defined, are null, or not a Numeric
-     * String or not a Numeric Value {@literal >= -1}
-     * <LI> log fieldName, if defined, is null, or not a Boolean or
-     * not a String with value "t", "f", "true", "false". These String
-     * values must not be case sensitive.
-     * <LI> visibility fieldName, if defined, is null, or not a
-     * Numeric String or a not Numeric Value {@literal >= 1 and <= 4}
-     * <LI> severity fieldName, if defined, is null, or not a Numeric
-     * String or not a Numeric Value {@literal >= 0 and <= 6}<br>
-     * <LI> persistPolicy fieldName, if defined, is null, or not one of
-     * the following strings:<br>
-     *   "OnUpdate", "OnTimer", "NoMoreOftenThan", "OnUnregister", "Always",
-     *   "Never". These String values must not be case sensitive.<br>
+     * <LI> nbmf bnd dfsdriptorTypf fifldNbmfs brf not dffinfd, or
+     * null, or fmpty, or not String
+     * <LI> dlbss, rolf, gftMftiod, sftMftiod fifldNbmfs, if dffinfd,
+     * brf null or not String
+     * <LI> pfrsistPfriod, durrfndyTimfLimit, lbstUpdbtfdTimfStbmp,
+     * lbstRfturnfdTimfStbmp if dffinfd, brf null, or not b Numfrid
+     * String or not b Numfrid Vbluf {@litfrbl >= -1}
+     * <LI> log fifldNbmf, if dffinfd, is null, or not b Boolfbn or
+     * not b String witi vbluf "t", "f", "truf", "fblsf". Tifsf String
+     * vblufs must not bf dbsf sfnsitivf.
+     * <LI> visibility fifldNbmf, if dffinfd, is null, or not b
+     * Numfrid String or b not Numfrid Vbluf {@litfrbl >= 1 bnd <= 4}
+     * <LI> sfvfrity fifldNbmf, if dffinfd, is null, or not b Numfrid
+     * String or not b Numfrid Vbluf {@litfrbl >= 0 bnd <= 6}<br>
+     * <LI> pfrsistPolidy fifldNbmf, if dffinfd, is null, or not onf of
+     * tif following strings:<br>
+     *   "OnUpdbtf", "OnTimfr", "NoMorfOftfnTibn", "OnUnrfgistfr", "Alwbys",
+     *   "Nfvfr". Tifsf String vblufs must not bf dbsf sfnsitivf.<br>
      * </UL>
      *
-     * @exception RuntimeOperationsException If the validity checking
-     * fails for any reason, this exception will be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption If tif vblidity difdking
+     * fbils for bny rfbson, tiis fxdfption will bf tirown.
      */
 
-    public synchronized boolean isValid() throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "isValid()", "Entry");
+    publid syndironizfd boolfbn isVblid() tirows RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "isVblid()", "Entry");
         }
-        // verify that the descriptor is valid, by iterating over each field...
+        // vfrify tibt tif dfsdriptor is vblid, by itfrbting ovfr fbdi fifld...
 
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        Sft<Mbp.Entry<String, Objfdt>> rfturnfdSft = dfsdriptorMbp.fntrySft();
 
-        if (returnedSet == null) {   // null descriptor, not valid
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "isValid()", "Returns false (null set)");
+        if (rfturnfdSft == null) {   // null dfsdriptor, not vblid
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "isVblid()", "Rfturns fblsf (null sft)");
             }
-            return false;
+            rfturn fblsf;
         }
-        // must have a name and descriptor type field
-        String thisName = (String)(this.getFieldValue("name"));
-        String thisDescType = (String)(getFieldValue("descriptorType"));
+        // must ibvf b nbmf bnd dfsdriptor typf fifld
+        String tiisNbmf = (String)(tiis.gftFifldVbluf("nbmf"));
+        String tiisDfsdTypf = (String)(gftFifldVbluf("dfsdriptorTypf"));
 
-        if ((thisName == null) || (thisDescType == null) ||
-            (thisName.equals("")) || (thisDescType.equals(""))) {
-            return false;
+        if ((tiisNbmf == null) || (tiisDfsdTypf == null) ||
+            (tiisNbmf.fqubls("")) || (tiisDfsdTypf.fqubls(""))) {
+            rfturn fblsf;
         }
 
-        // According to the descriptor type we validate the fields contained
+        // Addording to tif dfsdriptor typf wf vblidbtf tif fiflds dontbinfd
 
-        for (Map.Entry<String, Object> currElement : returnedSet) {
-            if (currElement != null) {
-                if (currElement.getValue() != null) {
-                    // validate the field valued...
-                    if (validateField((currElement.getKey()).toString(),
-                                      (currElement.getValue()).toString())) {
-                        continue;
-                    } else {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                                    DescriptorSupport.class.getName(),
-                                    "isValid()",
-                                    "Field " + currElement.getKey() + "=" +
-                                    currElement.getValue() + " is not valid");
+        for (Mbp.Entry<String, Objfdt> durrElfmfnt : rfturnfdSft) {
+            if (durrElfmfnt != null) {
+                if (durrElfmfnt.gftVbluf() != null) {
+                    // vblidbtf tif fifld vblufd...
+                    if (vblidbtfFifld((durrElfmfnt.gftKfy()).toString(),
+                                      (durrElfmfnt.gftVbluf()).toString())) {
+                        dontinuf;
+                    } flsf {
+                        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                                    DfsdriptorSupport.dlbss.gftNbmf(),
+                                    "isVblid()",
+                                    "Fifld " + durrElfmfnt.gftKfy() + "=" +
+                                    durrElfmfnt.gftVbluf() + " is not vblid");
                         }
-                        return false;
+                        rfturn fblsf;
                     }
                 }
             }
         }
 
-        // fell through, all fields OK
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "isValid()", "Returns true");
+        // ffll tirougi, bll fiflds OK
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "isVblid()", "Rfturns truf");
         }
-        return true;
+        rfturn truf;
     }
 
 
-    // worker routine for isValid()
-    // name is not null
-    // descriptorType is not null
-    // getMethod and setMethod are not null
-    // persistPeriod is numeric
-    // currencyTimeLimit is numeric
-    // lastUpdatedTimeStamp is numeric
+    // workfr routinf for isVblid()
+    // nbmf is not null
+    // dfsdriptorTypf is not null
+    // gftMftiod bnd sftMftiod brf not null
+    // pfrsistPfriod is numfrid
+    // durrfndyTimfLimit is numfrid
+    // lbstUpdbtfdTimfStbmp is numfrid
     // visibility is 1-4
-    // severity is 0-6
+    // sfvfrity is 0-6
     // log is T or F
-    // role is not null
-    // class is not null
-    // lastReturnedTimeStamp is numeric
+    // rolf is not null
+    // dlbss is not null
+    // lbstRfturnfdTimfStbmp is numfrid
 
 
-    private boolean validateField(String fldName, Object fldValue) {
-        if ((fldName == null) || (fldName.equals("")))
-            return false;
-        String SfldValue = "";
-        boolean isAString = false;
-        if ((fldValue != null) && (fldValue instanceof java.lang.String)) {
-            SfldValue = (String) fldValue;
-            isAString = true;
+    privbtf boolfbn vblidbtfFifld(String fldNbmf, Objfdt fldVbluf) {
+        if ((fldNbmf == null) || (fldNbmf.fqubls("")))
+            rfturn fblsf;
+        String SfldVbluf = "";
+        boolfbn isAString = fblsf;
+        if ((fldVbluf != null) && (fldVbluf instbndfof jbvb.lbng.String)) {
+            SfldVbluf = (String) fldVbluf;
+            isAString = truf;
         }
 
-        boolean nameOrDescriptorType =
-            (fldName.equalsIgnoreCase("Name") ||
-             fldName.equalsIgnoreCase("DescriptorType"));
-        if (nameOrDescriptorType ||
-            fldName.equalsIgnoreCase("SetMethod") ||
-            fldName.equalsIgnoreCase("GetMethod") ||
-            fldName.equalsIgnoreCase("Role") ||
-            fldName.equalsIgnoreCase("Class")) {
-            if (fldValue == null || !isAString)
-                return false;
-            if (nameOrDescriptorType && SfldValue.equals(""))
-                return false;
-            return true;
-        } else if (fldName.equalsIgnoreCase("visibility")) {
+        boolfbn nbmfOrDfsdriptorTypf =
+            (fldNbmf.fqublsIgnorfCbsf("Nbmf") ||
+             fldNbmf.fqublsIgnorfCbsf("DfsdriptorTypf"));
+        if (nbmfOrDfsdriptorTypf ||
+            fldNbmf.fqublsIgnorfCbsf("SftMftiod") ||
+            fldNbmf.fqublsIgnorfCbsf("GftMftiod") ||
+            fldNbmf.fqublsIgnorfCbsf("Rolf") ||
+            fldNbmf.fqublsIgnorfCbsf("Clbss")) {
+            if (fldVbluf == null || !isAString)
+                rfturn fblsf;
+            if (nbmfOrDfsdriptorTypf && SfldVbluf.fqubls(""))
+                rfturn fblsf;
+            rfturn truf;
+        } flsf if (fldNbmf.fqublsIgnorfCbsf("visibility")) {
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Integer) {
-                v = ((Integer)fldValue).intValue();
-            } else return false;
+            if ((fldVbluf != null) && (isAString)) {
+                v = toNumfrid(SfldVbluf);
+            } flsf if (fldVbluf instbndfof jbvb.lbng.Intfgfr) {
+                v = ((Intfgfr)fldVbluf).intVbluf();
+            } flsf rfturn fblsf;
 
             if (v >= 1 &&  v <= 4)
-                return true;
-            else
-                return false;
-        } else if (fldName.equalsIgnoreCase("severity")) {
+                rfturn truf;
+            flsf
+                rfturn fblsf;
+        } flsf if (fldNbmf.fqublsIgnorfCbsf("sfvfrity")) {
 
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Integer) {
-                v = ((Integer)fldValue).intValue();
-            } else return false;
+            if ((fldVbluf != null) && (isAString)) {
+                v = toNumfrid(SfldVbluf);
+            } flsf if (fldVbluf instbndfof jbvb.lbng.Intfgfr) {
+                v = ((Intfgfr)fldVbluf).intVbluf();
+            } flsf rfturn fblsf;
 
-            return (v >= 0 && v <= 6);
-        } else if (fldName.equalsIgnoreCase("PersistPolicy")) {
-            return (((fldValue != null) && (isAString)) &&
-                    ( SfldValue.equalsIgnoreCase("OnUpdate") ||
-                      SfldValue.equalsIgnoreCase("OnTimer") ||
-                      SfldValue.equalsIgnoreCase("NoMoreOftenThan") ||
-                      SfldValue.equalsIgnoreCase("Always") ||
-                      SfldValue.equalsIgnoreCase("Never") ||
-                      SfldValue.equalsIgnoreCase("OnUnregister")));
-        } else if (fldName.equalsIgnoreCase("PersistPeriod") ||
-                   fldName.equalsIgnoreCase("CurrencyTimeLimit") ||
-                   fldName.equalsIgnoreCase("LastUpdatedTimeStamp") ||
-                   fldName.equalsIgnoreCase("LastReturnedTimeStamp")) {
+            rfturn (v >= 0 && v <= 6);
+        } flsf if (fldNbmf.fqublsIgnorfCbsf("PfrsistPolidy")) {
+            rfturn (((fldVbluf != null) && (isAString)) &&
+                    ( SfldVbluf.fqublsIgnorfCbsf("OnUpdbtf") ||
+                      SfldVbluf.fqublsIgnorfCbsf("OnTimfr") ||
+                      SfldVbluf.fqublsIgnorfCbsf("NoMorfOftfnTibn") ||
+                      SfldVbluf.fqublsIgnorfCbsf("Alwbys") ||
+                      SfldVbluf.fqublsIgnorfCbsf("Nfvfr") ||
+                      SfldVbluf.fqublsIgnorfCbsf("OnUnrfgistfr")));
+        } flsf if (fldNbmf.fqublsIgnorfCbsf("PfrsistPfriod") ||
+                   fldNbmf.fqublsIgnorfCbsf("CurrfndyTimfLimit") ||
+                   fldNbmf.fqublsIgnorfCbsf("LbstUpdbtfdTimfStbmp") ||
+                   fldNbmf.fqublsIgnorfCbsf("LbstRfturnfdTimfStbmp")) {
 
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Number) {
-                v = ((Number)fldValue).longValue();
-            } else return false;
+            if ((fldVbluf != null) && (isAString)) {
+                v = toNumfrid(SfldVbluf);
+            } flsf if (fldVbluf instbndfof jbvb.lbng.Numbfr) {
+                v = ((Numbfr)fldVbluf).longVbluf();
+            } flsf rfturn fblsf;
 
-            return (v >= -1);
-        } else if (fldName.equalsIgnoreCase("log")) {
-            return ((fldValue instanceof java.lang.Boolean) ||
+            rfturn (v >= -1);
+        } flsf if (fldNbmf.fqublsIgnorfCbsf("log")) {
+            rfturn ((fldVbluf instbndfof jbvb.lbng.Boolfbn) ||
                     (isAString &&
-                     (SfldValue.equalsIgnoreCase("T") ||
-                      SfldValue.equalsIgnoreCase("true") ||
-                      SfldValue.equalsIgnoreCase("F") ||
-                      SfldValue.equalsIgnoreCase("false") )));
+                     (SfldVbluf.fqublsIgnorfCbsf("T") ||
+                      SfldVbluf.fqublsIgnorfCbsf("truf") ||
+                      SfldVbluf.fqublsIgnorfCbsf("F") ||
+                      SfldVbluf.fqublsIgnorfCbsf("fblsf") )));
         }
 
-        // default to true, it is a field we aren't validating (user etc.)
-        return true;
+        // dffbult to truf, it is b fifld wf brfn't vblidbting (usfr ftd.)
+        rfturn truf;
     }
 
 
 
     /**
-     * <p>Returns an XML String representing the descriptor.</p>
+     * <p>Rfturns bn XML String rfprfsfnting tif dfsdriptor.</p>
      *
-     * <p>The format is not defined, but an implementation must
-     * ensure that the string returned by this method can be
-     * used to build an equivalent descriptor when instantiated
-     * using the constructor {@link #DescriptorSupport(String)
-     * DescriptorSupport(String inStr)}.</p>
+     * <p>Tif formbt is not dffinfd, but bn implfmfntbtion must
+     * fnsurf tibt tif string rfturnfd by tiis mftiod dbn bf
+     * usfd to build bn fquivblfnt dfsdriptor wifn instbntibtfd
+     * using tif donstrudtor {@link #DfsdriptorSupport(String)
+     * DfsdriptorSupport(String inStr)}.</p>
      *
-     * <p>Fields which are not String objects will have toString()
-     * called on them to create the value. The value will be
-     * enclosed in parentheses.  It is not guaranteed that you can
-     * reconstruct these objects unless they have been
-     * specifically set up to support toString() in a meaningful
-     * format and have a matching constructor that accepts a
-     * String in the same format.</p>
+     * <p>Fiflds wiidi brf not String objfdts will ibvf toString()
+     * dbllfd on tifm to drfbtf tif vbluf. Tif vbluf will bf
+     * fndlosfd in pbrfntifsfs.  It is not gubrbntffd tibt you dbn
+     * rfdonstrudt tifsf objfdts unlfss tify ibvf bffn
+     * spfdifidblly sft up to support toString() in b mfbningful
+     * formbt bnd ibvf b mbtdiing donstrudtor tibt bddfpts b
+     * String in tif sbmf formbt.</p>
      *
-     * <p>If the descriptor is empty the following String is
-     * returned: &lt;Descriptor&gt;&lt;/Descriptor&gt;</p>
+     * <p>If tif dfsdriptor is fmpty tif following String is
+     * rfturnfd: &lt;Dfsdriptor&gt;&lt;/Dfsdriptor&gt;</p>
      *
-     * @return the XML string.
+     * @rfturn tif XML string.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the XML formatted string
-     * construction fails for any reason, this exception will be
-     * thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * fifld Nbmfs or fifld Vblufs.  If tif XML formbttfd string
+     * donstrudtion fbils for bny rfbson, tiis fxdfption will bf
+     * tirown.
      */
-    public synchronized String toXMLString() {
-        final StringBuilder buf = new StringBuilder("<Descriptor>");
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
-        for (Map.Entry<String, Object> currElement : returnedSet) {
-            final String name = currElement.getKey();
-            Object value = currElement.getValue();
-            String valueString = null;
-            /* Set valueString to non-null if and only if this is a string that
-               cannot be confused with the encoding of an object.  If it
-               could be so confused (surrounded by parentheses) then we
-               call makeFieldValue as for any non-String object and end
-               up with an encoding like "(java.lang.String/(thing))".  */
-            if (value instanceof String) {
-                final String svalue = (String) value;
-                if (!svalue.startsWith("(") || !svalue.endsWith(")"))
-                    valueString = quote(svalue);
+    publid syndironizfd String toXMLString() {
+        finbl StringBuildfr buf = nfw StringBuildfr("<Dfsdriptor>");
+        Sft<Mbp.Entry<String, Objfdt>> rfturnfdSft = dfsdriptorMbp.fntrySft();
+        for (Mbp.Entry<String, Objfdt> durrElfmfnt : rfturnfdSft) {
+            finbl String nbmf = durrElfmfnt.gftKfy();
+            Objfdt vbluf = durrElfmfnt.gftVbluf();
+            String vblufString = null;
+            /* Sft vblufString to non-null if bnd only if tiis is b string tibt
+               dbnnot bf donfusfd witi tif fndoding of bn objfdt.  If it
+               dould bf so donfusfd (surroundfd by pbrfntifsfs) tifn wf
+               dbll mbkfFifldVbluf bs for bny non-String objfdt bnd fnd
+               up witi bn fndoding likf "(jbvb.lbng.String/(tiing))".  */
+            if (vbluf instbndfof String) {
+                finbl String svbluf = (String) vbluf;
+                if (!svbluf.stbrtsWiti("(") || !svbluf.fndsWiti(")"))
+                    vblufString = quotf(svbluf);
             }
-            if (valueString == null)
-                valueString = makeFieldValue(value);
-            buf.append("<field name=\"").append(name).append("\" value=\"")
-                .append(valueString).append("\"></field>");
+            if (vblufString == null)
+                vblufString = mbkfFifldVbluf(vbluf);
+            buf.bppfnd("<fifld nbmf=\"").bppfnd(nbmf).bppfnd("\" vbluf=\"")
+                .bppfnd(vblufString).bppfnd("\"></fifld>");
         }
-        buf.append("</Descriptor>");
-        return buf.toString();
+        buf.bppfnd("</Dfsdriptor>");
+        rfturn buf.toString();
     }
 
-    private static final String[] entities = {
+    privbtf stbtid finbl String[] fntitifs = {
         " &#32;",
         "\"&quot;",
         "<&lt;",
         ">&gt;",
-        "&&amp;",
+        "&&bmp;",
         "\r&#13;",
         "\t&#9;",
         "\n&#10;",
         "\f&#12;",
     };
-    private static final Map<String,Character> entityToCharMap =
-        new HashMap<String,Character>();
-    private static final String[] charToEntityMap;
+    privbtf stbtid finbl Mbp<String,Cibrbdtfr> fntityToCibrMbp =
+        nfw HbsiMbp<String,Cibrbdtfr>();
+    privbtf stbtid finbl String[] dibrToEntityMbp;
 
-    static {
-        char maxChar = 0;
-        for (int i = 0; i < entities.length; i++) {
-            final char c = entities[i].charAt(0);
-            if (c > maxChar)
-                maxChar = c;
+    stbtid {
+        dibr mbxCibr = 0;
+        for (int i = 0; i < fntitifs.lfngti; i++) {
+            finbl dibr d = fntitifs[i].dibrAt(0);
+            if (d > mbxCibr)
+                mbxCibr = d;
         }
-        charToEntityMap = new String[maxChar + 1];
-        for (int i = 0; i < entities.length; i++) {
-            final char c = entities[i].charAt(0);
-            final String entity = entities[i].substring(1);
-            charToEntityMap[c] = entity;
-            entityToCharMap.put(entity, c);
+        dibrToEntityMbp = nfw String[mbxCibr + 1];
+        for (int i = 0; i < fntitifs.lfngti; i++) {
+            finbl dibr d = fntitifs[i].dibrAt(0);
+            finbl String fntity = fntitifs[i].substring(1);
+            dibrToEntityMbp[d] = fntity;
+            fntityToCibrMbp.put(fntity, d);
         }
     }
 
-    private static boolean isMagic(char c) {
-        return (c < charToEntityMap.length && charToEntityMap[c] != null);
+    privbtf stbtid boolfbn isMbgid(dibr d) {
+        rfturn (d < dibrToEntityMbp.lfngti && dibrToEntityMbp[d] != null);
     }
 
     /*
-     * Quote the string so that it will be acceptable to the (String)
-     * constructor.  Since the parsing code in that constructor is fairly
-     * stupid, we're obliged to quote apparently innocuous characters like
-     * space, <, and >.  In a future version, we should rewrite the parser
-     * and only quote " plus either \ or & (depending on the quote syntax).
+     * Quotf tif string so tibt it will bf bddfptbblf to tif (String)
+     * donstrudtor.  Sindf tif pbrsing dodf in tibt donstrudtor is fbirly
+     * stupid, wf'rf obligfd to quotf bppbrfntly innoduous dibrbdtfrs likf
+     * spbdf, <, bnd >.  In b futurf vfrsion, wf siould rfwritf tif pbrsfr
+     * bnd only quotf " plus fitifr \ or & (dfpfnding on tif quotf syntbx).
      */
-    private static String quote(String s) {
-        boolean found = false;
-        for (int i = 0; i < s.length(); i++) {
-            if (isMagic(s.charAt(i))) {
-                found = true;
-                break;
+    privbtf stbtid String quotf(String s) {
+        boolfbn found = fblsf;
+        for (int i = 0; i < s.lfngti(); i++) {
+            if (isMbgid(s.dibrAt(i))) {
+                found = truf;
+                brfbk;
             }
         }
         if (!found)
-            return s;
-        final StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (isMagic(c))
-                buf.append(charToEntityMap[c]);
-            else
-                buf.append(c);
+            rfturn s;
+        finbl StringBuildfr buf = nfw StringBuildfr();
+        for (int i = 0; i < s.lfngti(); i++) {
+            dibr d = s.dibrAt(i);
+            if (isMbgid(d))
+                buf.bppfnd(dibrToEntityMbp[d]);
+            flsf
+                buf.bppfnd(d);
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
-    private static String unquote(String s) throws XMLParseException {
-        if (!s.startsWith("\"") || !s.endsWith("\""))
-            throw new XMLParseException("Value must be quoted: <" + s + ">");
-        final StringBuilder buf = new StringBuilder();
-        final int len = s.length() - 1;
-        for (int i = 1; i < len; i++) {
-            final char c = s.charAt(i);
-            final int semi;
-            final Character quoted;
-            if (c == '&'
-                && (semi = s.indexOf(';', i + 1)) >= 0
-                && ((quoted = entityToCharMap.get(s.substring(i, semi+1)))
+    privbtf stbtid String unquotf(String s) tirows XMLPbrsfExdfption {
+        if (!s.stbrtsWiti("\"") || !s.fndsWiti("\""))
+            tirow nfw XMLPbrsfExdfption("Vbluf must bf quotfd: <" + s + ">");
+        finbl StringBuildfr buf = nfw StringBuildfr();
+        finbl int lfn = s.lfngti() - 1;
+        for (int i = 1; i < lfn; i++) {
+            finbl dibr d = s.dibrAt(i);
+            finbl int sfmi;
+            finbl Cibrbdtfr quotfd;
+            if (d == '&'
+                && (sfmi = s.indfxOf(';', i + 1)) >= 0
+                && ((quotfd = fntityToCibrMbp.gft(s.substring(i, sfmi+1)))
                     != null)) {
-                buf.append(quoted);
-                i = semi;
-            } else
-                buf.append(c);
+                buf.bppfnd(quotfd);
+                i = sfmi;
+            } flsf
+                buf.bppfnd(d);
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
     /**
-     * Make the string that will go inside "..." for a value that is not
-     * a plain String.
-     * @throws RuntimeOperationsException if the value cannot be encoded.
+     * Mbkf tif string tibt will go insidf "..." for b vbluf tibt is not
+     * b plbin String.
+     * @tirows RuntimfOpfrbtionsExdfption if tif vbluf dbnnot bf fndodfd.
      */
-    private static String makeFieldValue(Object value) {
-        if (value == null)
-            return "(null)";
+    privbtf stbtid String mbkfFifldVbluf(Objfdt vbluf) {
+        if (vbluf == null)
+            rfturn "(null)";
 
-        Class<?> valueClass = value.getClass();
+        Clbss<?> vblufClbss = vbluf.gftClbss();
         try {
-            valueClass.getConstructor(String.class);
-        } catch (NoSuchMethodException e) {
-            final String msg =
-                "Class " + valueClass + " does not have a public " +
-                "constructor with a single string arg";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae,
-                                                 "Cannot make XML descriptor");
-        } catch (SecurityException e) {
-            // OK: we'll pretend the constructor is there
-            // too bad if it's not: we'll find out when we try to
-            // reconstruct the DescriptorSupport
+            vblufClbss.gftConstrudtor(String.dlbss);
+        } dbtdi (NoSudiMftiodExdfption f) {
+            finbl String msg =
+                "Clbss " + vblufClbss + " dofs not ibvf b publid " +
+                "donstrudtor witi b singlf string brg";
+            finbl RuntimfExdfption ibf = nfw IllfgblArgumfntExdfption(msg);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf,
+                                                 "Cbnnot mbkf XML dfsdriptor");
+        } dbtdi (SfdurityExdfption f) {
+            // OK: wf'll prftfnd tif donstrudtor is tifrf
+            // too bbd if it's not: wf'll find out wifn wf try to
+            // rfdonstrudt tif DfsdriptorSupport
         }
 
-        final String quotedValueString = quote(value.toString());
+        finbl String quotfdVblufString = quotf(vbluf.toString());
 
-        return "(" + valueClass.getName() + "/" + quotedValueString + ")";
+        rfturn "(" + vblufClbss.gftNbmf() + "/" + quotfdVblufString + ")";
     }
 
     /*
-     * Parse a field value from the XML produced by toXMLString().
-     * Given a descriptor XML containing <field name="nnn" value="vvv">,
-     * the argument to this method will be "vvv" (a string including the
-     * containing quote characters).  If vvv begins and ends with parentheses,
-     * then it may contain:
-     * - the characters "null", in which case the result is null;
-     * - a value of the form "some.class.name/xxx", in which case the
-     * result is equivalent to `new some.class.name("xxx")';
-     * - some other string, in which case the result is that string,
-     * without the parentheses.
+     * Pbrsf b fifld vbluf from tif XML produdfd by toXMLString().
+     * Givfn b dfsdriptor XML dontbining <fifld nbmf="nnn" vbluf="vvv">,
+     * tif brgumfnt to tiis mftiod will bf "vvv" (b string indluding tif
+     * dontbining quotf dibrbdtfrs).  If vvv bfgins bnd fnds witi pbrfntifsfs,
+     * tifn it mby dontbin:
+     * - tif dibrbdtfrs "null", in wiidi dbsf tif rfsult is null;
+     * - b vbluf of tif form "somf.dlbss.nbmf/xxx", in wiidi dbsf tif
+     * rfsult is fquivblfnt to `nfw somf.dlbss.nbmf("xxx")';
+     * - somf otifr string, in wiidi dbsf tif rfsult is tibt string,
+     * witiout tif pbrfntifsfs.
      */
-    private static Object parseQuotedFieldValue(String s)
-            throws XMLParseException {
-        s = unquote(s);
-        if (s.equalsIgnoreCase("(null)"))
-            return null;
-        if (!s.startsWith("(") || !s.endsWith(")"))
-            return s;
-        final int slash = s.indexOf('/');
-        if (slash < 0) {
-            // compatibility: old code didn't include class name
-            return s.substring(1, s.length() - 1);
+    privbtf stbtid Objfdt pbrsfQuotfdFifldVbluf(String s)
+            tirows XMLPbrsfExdfption {
+        s = unquotf(s);
+        if (s.fqublsIgnorfCbsf("(null)"))
+            rfturn null;
+        if (!s.stbrtsWiti("(") || !s.fndsWiti(")"))
+            rfturn s;
+        finbl int slbsi = s.indfxOf('/');
+        if (slbsi < 0) {
+            // dompbtibility: old dodf didn't indludf dlbss nbmf
+            rfturn s.substring(1, s.lfngti() - 1);
         }
-        final String className = s.substring(1, slash);
+        finbl String dlbssNbmf = s.substring(1, slbsi);
 
-        final Constructor<?> constr;
+        finbl Construdtor<?> donstr;
         try {
-            ReflectUtil.checkPackageAccess(className);
-            final ClassLoader contextClassLoader =
-                Thread.currentThread().getContextClassLoader();
-            final Class<?> c =
-                Class.forName(className, false, contextClassLoader);
-            constr = c.getConstructor(new Class<?>[] {String.class});
-        } catch (Exception e) {
-            throw new XMLParseException(e,
-                                        "Cannot parse value: <" + s + ">");
+            RfflfdtUtil.difdkPbdkbgfAddfss(dlbssNbmf);
+            finbl ClbssLobdfr dontfxtClbssLobdfr =
+                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+            finbl Clbss<?> d =
+                Clbss.forNbmf(dlbssNbmf, fblsf, dontfxtClbssLobdfr);
+            donstr = d.gftConstrudtor(nfw Clbss<?>[] {String.dlbss});
+        } dbtdi (Exdfption f) {
+            tirow nfw XMLPbrsfExdfption(f,
+                                        "Cbnnot pbrsf vbluf: <" + s + ">");
         }
-        final String arg = s.substring(slash + 1, s.length() - 1);
+        finbl String brg = s.substring(slbsi + 1, s.lfngti() - 1);
         try {
-            return constr.newInstance(new Object[] {arg});
-        } catch (Exception e) {
-            final String msg =
-                "Cannot construct instance of " + className +
-                " with arg: <" + s + ">";
-            throw new XMLParseException(e, msg);
+            rfturn donstr.nfwInstbndf(nfw Objfdt[] {brg});
+        } dbtdi (Exdfption f) {
+            finbl String msg =
+                "Cbnnot donstrudt instbndf of " + dlbssNbmf +
+                " witi brg: <" + s + ">";
+            tirow nfw XMLPbrsfExdfption(f, msg);
         }
     }
 
     /**
-     * Returns a human readable string representing the
-     * descriptor.  The string will be in the format of
-     * "fieldName=fieldValue,fieldName2=fieldValue2,..."<br>
+     * Rfturns b iumbn rfbdbblf string rfprfsfnting tif
+     * dfsdriptor.  Tif string will bf in tif formbt of
+     * "fifldNbmf=fifldVbluf,fifldNbmf2=fifldVbluf2,..."<br>
      *
-     * If there are no fields in the descriptor, then an empty String
-     * is returned.<br>
+     * If tifrf brf no fiflds in tif dfsdriptor, tifn bn fmpty String
+     * is rfturnfd.<br>
      *
-     * If a fieldValue is an object then the toString() method is
-     * called on it and its returned value is used as the value for
-     * the field enclosed in parenthesis.
+     * If b fifldVbluf is bn objfdt tifn tif toString() mftiod is
+     * dbllfd on it bnd its rfturnfd vbluf is usfd bs tif vbluf for
+     * tif fifld fndlosfd in pbrfntifsis.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the descriptor string fails
-     * for any reason, this exception will be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+     * fifld Nbmfs or fifld Vblufs.  If tif dfsdriptor string fbils
+     * for bny rfbson, tiis fxdfption will bf tirown.
      */
-    @Override
-    public synchronized String toString() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+    @Ovfrridf
+    publid syndironizfd String toString() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
                     "toString()", "Entry");
         }
 
-        String respStr = "";
-        String[] fields = getFields();
+        String rfspStr = "";
+        String[] fiflds = gftFiflds();
 
-        if ((fields == null) || (fields.length == 0)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-                MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "toString()", "Empty Descriptor");
+        if ((fiflds == null) || (fiflds.lfngti == 0)) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                        DfsdriptorSupport.dlbss.gftNbmf(),
+                        "toString()", "Empty Dfsdriptor");
             }
-            return respStr;
+            rfturn rfspStr;
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "toString()", "Printing " + fields.length + " fields");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "toString()", "Printing " + fiflds.lfngti + " fiflds");
         }
 
-        for (int i=0; i < fields.length; i++) {
-            if (i == (fields.length - 1)) {
-                respStr = respStr.concat(fields[i]);
-            } else {
-                respStr = respStr.concat(fields[i] + ", ");
+        for (int i=0; i < fiflds.lfngti; i++) {
+            if (i == (fiflds.lfngti - 1)) {
+                rfspStr = rfspStr.dondbt(fiflds[i]);
+            } flsf {
+                rfspStr = rfspStr.dondbt(fiflds[i] + ", ");
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
-            MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "toString()", "Exit returning " + respStr);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINEST,
+                    DfsdriptorSupport.dlbss.gftNbmf(),
+                    "toString()", "Exit rfturning " + rfspStr);
         }
 
-        return respStr;
+        rfturn rfspStr;
     }
 
-    // utility to convert to int, returns -2 if bogus.
+    // utility to donvfrt to int, rfturns -2 if bogus.
 
-    private long toNumeric(String inStr) {
+    privbtf long toNumfrid(String inStr) {
         try {
-            return java.lang.Long.parseLong(inStr);
-        } catch (Exception e) {
-            return -2;
+            rfturn jbvb.lbng.Long.pbrsfLong(inStr);
+        } dbtdi (Exdfption f) {
+            rfturn -2;
         }
     }
 
 
     /**
-     * Deserializes a {@link DescriptorSupport} from an {@link
-     * ObjectInputStream}.
+     * Dfsfriblizfs b {@link DfsdriptorSupport} from bn {@link
+     * ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = in.readFields();
-        Map<String, Object> descriptor = cast(fields.get("descriptor", null));
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        Mbp<String, Objfdt> dfsdriptor = dbst(fiflds.gft("dfsdriptor", null));
         init(null);
-        if (descriptor != null) {
-            descriptorMap.putAll(descriptor);
+        if (dfsdriptor != null) {
+            dfsdriptorMbp.putAll(dfsdriptor);
         }
     }
 
 
     /**
-     * Serializes a {@link DescriptorSupport} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link DfsdriptorSupport} to bn {@link ObjfdtOutputStrfbm}.
      */
-    /* If you set jmx.serial.form to "1.2.0" or "1.2.1", then we are
-       bug-compatible with those versions.  Specifically, field names
-       are forced to lower-case before being written.  This
-       contradicts the spec, which, though it does not mention
-       serialization explicitly, does say that the case of field names
-       is preserved.  But in 1.2.0 and 1.2.1, this requirement was not
-       met.  Instead, field names in the descriptor map were forced to
-       lower case.  Those versions expect this to have happened to a
-       descriptor they deserialize and e.g. getFieldValue will not
-       find a field whose name is spelt with a different case.
+    /* If you sft jmx.sfribl.form to "1.2.0" or "1.2.1", tifn wf brf
+       bug-dompbtiblf witi tiosf vfrsions.  Spfdifidblly, fifld nbmfs
+       brf fordfd to lowfr-dbsf bfforf bfing writtfn.  Tiis
+       dontrbdidts tif spfd, wiidi, tiougi it dofs not mfntion
+       sfriblizbtion fxpliditly, dofs sby tibt tif dbsf of fifld nbmfs
+       is prfsfrvfd.  But in 1.2.0 bnd 1.2.1, tiis rfquirfmfnt wbs not
+       mft.  Instfbd, fifld nbmfs in tif dfsdriptor mbp wfrf fordfd to
+       lowfr dbsf.  Tiosf vfrsions fxpfdt tiis to ibvf ibppfnfd to b
+       dfsdriptor tify dfsfriblizf bnd f.g. gftFifldVbluf will not
+       find b fifld wiosf nbmf is spflt witi b difffrfnt dbsf.
     */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ObjectOutputStream.PutField fields = out.putFields();
-        boolean compat = "1.0".equals(serialForm);
-        if (compat)
-            fields.put("currClass", currClass);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        boolfbn dompbt = "1.0".fqubls(sfriblForm);
+        if (dompbt)
+            fiflds.put("durrClbss", durrClbss);
 
-        /* Purge the field "targetObject" from the DescriptorSupport before
-         * serializing since the referenced object is typically not
-         * serializable.  We do this here rather than purging the "descriptor"
-         * variable below because that HashMap doesn't do case-insensitivity.
-         * See CR 6332962.
+        /* Purgf tif fifld "tbrgftObjfdt" from tif DfsdriptorSupport bfforf
+         * sfriblizing sindf tif rfffrfndfd objfdt is typidblly not
+         * sfriblizbblf.  Wf do tiis ifrf rbtifr tibn purging tif "dfsdriptor"
+         * vbribblf bflow bfdbusf tibt HbsiMbp dofsn't do dbsf-insfnsitivity.
+         * Sff CR 6332962.
          */
-        SortedMap<String, Object> startMap = descriptorMap;
-        if (startMap.containsKey("targetObject")) {
-            startMap = new TreeMap<String, Object>(descriptorMap);
-            startMap.remove("targetObject");
+        SortfdMbp<String, Objfdt> stbrtMbp = dfsdriptorMbp;
+        if (stbrtMbp.dontbinsKfy("tbrgftObjfdt")) {
+            stbrtMbp = nfw TrffMbp<String, Objfdt>(dfsdriptorMbp);
+            stbrtMbp.rfmovf("tbrgftObjfdt");
         }
 
-        final HashMap<String, Object> descriptor;
-        if (compat || "1.2.0".equals(serialForm) ||
-                "1.2.1".equals(serialForm)) {
-            descriptor = new HashMap<String, Object>();
-            for (Map.Entry<String, Object> entry : startMap.entrySet())
-                descriptor.put(entry.getKey().toLowerCase(), entry.getValue());
-        } else
-            descriptor = new HashMap<String, Object>(startMap);
+        finbl HbsiMbp<String, Objfdt> dfsdriptor;
+        if (dompbt || "1.2.0".fqubls(sfriblForm) ||
+                "1.2.1".fqubls(sfriblForm)) {
+            dfsdriptor = nfw HbsiMbp<String, Objfdt>();
+            for (Mbp.Entry<String, Objfdt> fntry : stbrtMbp.fntrySft())
+                dfsdriptor.put(fntry.gftKfy().toLowfrCbsf(), fntry.gftVbluf());
+        } flsf
+            dfsdriptor = nfw HbsiMbp<String, Objfdt>(stbrtMbp);
 
-        fields.put("descriptor", descriptor);
-        out.writeFields();
+        fiflds.put("dfsdriptor", dfsdriptor);
+        out.writfFiflds();
     }
 
 }

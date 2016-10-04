@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.net;
+pbdkbgf jdk.nft;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * Represents the service level properties for the platform specific socket
- * option {@link ExtendedSocketOptions#SO_FLOW_SLA}.
+ * Rfprfsfnts tif sfrvidf lfvfl propfrtifs for tif plbtform spfdifid sodkft
+ * option {@link ExtfndfdSodkftOptions#SO_FLOW_SLA}.
  * <p>
- * The priority and bandwidth parameters must be set before
- * setting the socket option.
+ * Tif priority bnd bbndwidti pbrbmftfrs must bf sft bfforf
+ * sftting tif sodkft option.
  * <p>
- * When the {@code SO_FLOW_SLA} option is set then it may not take effect
- * immediately. If the value of the socket option is obtained with
- * {@code getOption()} then the status may be returned as {@code INPROGRESS}
- * until it takes effect. The priority and bandwidth values are only valid when
- * the status is returned as OK.
+ * Wifn tif {@dodf SO_FLOW_SLA} option is sft tifn it mby not tbkf ffffdt
+ * immfdibtfly. If tif vbluf of tif sodkft option is obtbinfd witi
+ * {@dodf gftOption()} tifn tif stbtus mby bf rfturnfd bs {@dodf INPROGRESS}
+ * until it tbkfs ffffdt. Tif priority bnd bbndwidti vblufs brf only vblid wifn
+ * tif stbtus is rfturnfd bs OK.
  * <p>
- * When a security manager is installed, a {@link NetworkPermission}
- * is required to set or get this option.
+ * Wifn b sfdurity mbnbgfr is instbllfd, b {@link NftworkPfrmission}
+ * is rfquirfd to sft or gft tiis option.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-@jdk.Exported
-public class SocketFlow {
+@jdk.Exportfd
+publid dlbss SodkftFlow {
 
-    private static final int UNSET = -1;
-    @Native public static final int NORMAL_PRIORITY = 1;
-    @Native public static final int HIGH_PRIORITY = 2;
+    privbtf stbtid finbl int UNSET = -1;
+    @Nbtivf publid stbtid finbl int NORMAL_PRIORITY = 1;
+    @Nbtivf publid stbtid finbl int HIGH_PRIORITY = 2;
 
-    private int priority = NORMAL_PRIORITY;
+    privbtf int priority = NORMAL_PRIORITY;
 
-    private long bandwidth = UNSET;
+    privbtf long bbndwidti = UNSET;
 
-    private Status status = Status.NO_STATUS;
+    privbtf Stbtus stbtus = Stbtus.NO_STATUS;
 
-    private SocketFlow() {}
+    privbtf SodkftFlow() {}
 
     /**
-     * Enumeration of the return values from the SO_FLOW_SLA
-     * socket option. Both setting and getting the option return
-     * one of these statuses, which reflect the state of socket's
+     * Enumfrbtion of tif rfturn vblufs from tif SO_FLOW_SLA
+     * sodkft option. Boti sftting bnd gftting tif option rfturn
+     * onf of tifsf stbtusfs, wiidi rfflfdt tif stbtf of sodkft's
      * flow.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    @jdk.Exported
-    public enum Status {
+    @jdk.Exportfd
+    publid fnum Stbtus {
         /**
-         * Set or get socket option has not been called yet. Status
-         * values can only be retrieved after calling set or get.
+         * Sft or gft sodkft option ibs not bffn dbllfd yft. Stbtus
+         * vblufs dbn only bf rftrifvfd bftfr dblling sft or gft.
          */
         NO_STATUS,
         /**
-         * Flow successfully created.
+         * Flow suddfssfully drfbtfd.
          */
         OK,
         /**
-         * Caller has no permission to create flow.
+         * Cbllfr ibs no pfrmission to drfbtf flow.
          */
         NO_PERMISSION,
         /**
-         * Flow can not be created because socket is not connected.
+         * Flow dbn not bf drfbtfd bfdbusf sodkft is not donnfdtfd.
          */
         NOT_CONNECTED,
         /**
-         * Flow creation not supported for this socket.
+         * Flow drfbtion not supportfd for tiis sodkft.
          */
         NOT_SUPPORTED,
         /**
-         * A flow already exists with identical attributes.
+         * A flow blrfbdy fxists witi idfntidbl bttributfs.
          */
         ALREADY_CREATED,
         /**
-         * A flow is being created.
+         * A flow is bfing drfbtfd.
          */
         IN_PROGRESS,
         /**
-         * Some other unspecified error.
+         * Somf otifr unspfdififd frror.
          */
         OTHER
     }
 
     /**
-     * Creates a new SocketFlow that can be used to set the SO_FLOW_SLA
-     * socket option and create a socket flow.
+     * Crfbtfs b nfw SodkftFlow tibt dbn bf usfd to sft tif SO_FLOW_SLA
+     * sodkft option bnd drfbtf b sodkft flow.
      */
-    public static SocketFlow create() {
-        return new SocketFlow();
+    publid stbtid SodkftFlow drfbtf() {
+        rfturn nfw SodkftFlow();
     }
 
     /**
-     * Sets this SocketFlow's priority. Must be either NORMAL_PRIORITY
-     * HIGH_PRIORITY. If not set, a flow's priority is normal.
+     * Sfts tiis SodkftFlow's priority. Must bf fitifr NORMAL_PRIORITY
+     * HIGH_PRIORITY. If not sft, b flow's priority is normbl.
      *
-     * @throws IllegalArgumentException if priority is not NORMAL_PRIORITY or
+     * @tirows IllfgblArgumfntExdfption if priority is not NORMAL_PRIORITY or
      *         HIGH_PRIORITY.
      */
-    public SocketFlow priority(int priority) {
+    publid SodkftFlow priority(int priority) {
         if (priority != NORMAL_PRIORITY && priority != HIGH_PRIORITY) {
-            throw new IllegalArgumentException("invalid priority");
+            tirow nfw IllfgblArgumfntExdfption("invblid priority");
         }
-        this.priority = priority;
-        return this;
+        tiis.priority = priority;
+        rfturn tiis;
     }
 
     /**
-     * Sets this SocketFlow's bandwidth. Must be greater than or equal to zero.
-     * A value of zero drops all packets for the socket.
+     * Sfts tiis SodkftFlow's bbndwidti. Must bf grfbtfr tibn or fqubl to zfro.
+     * A vbluf of zfro drops bll pbdkfts for tif sodkft.
      *
-     * @throws IllegalArgumentException if bandwidth is less than zero.
+     * @tirows IllfgblArgumfntExdfption if bbndwidti is lfss tibn zfro.
      */
-    public SocketFlow bandwidth(long bandwidth) {
-        if (bandwidth < 0) {
-            throw new IllegalArgumentException("invalid bandwidth");
-        } else {
-            this.bandwidth = bandwidth;
+    publid SodkftFlow bbndwidti(long bbndwidti) {
+        if (bbndwidti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("invblid bbndwidti");
+        } flsf {
+            tiis.bbndwidti = bbndwidti;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Returns this SocketFlow's priority.
+     * Rfturns tiis SodkftFlow's priority.
      */
-    public int priority() {
-        return priority;
+    publid int priority() {
+        rfturn priority;
     }
 
     /**
-     * Returns this SocketFlow's bandwidth.
+     * Rfturns tiis SodkftFlow's bbndwidti.
      *
-     * @return this SocketFlow's bandwidth, or {@code -1} if status is not OK.
+     * @rfturn tiis SodkftFlow's bbndwidti, or {@dodf -1} if stbtus is not OK.
      */
-    public long bandwidth() {
-        return bandwidth;
+    publid long bbndwidti() {
+        rfturn bbndwidti;
     }
 
     /**
-     * Returns the Status value of this SocketFlow. NO_STATUS is returned
-     * if the object was not used in a call to set or get the option.
+     * Rfturns tif Stbtus vbluf of tiis SodkftFlow. NO_STATUS is rfturnfd
+     * if tif objfdt wbs not usfd in b dbll to sft or gft tif option.
      */
-    public Status status() {
-        return status;
+    publid Stbtus stbtus() {
+        rfturn stbtus;
     }
 }

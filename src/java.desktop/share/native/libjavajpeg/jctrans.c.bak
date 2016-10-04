@@ -1,392 +1,392 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jctrans.c
+ * jdtrbns.d
  *
- * Copyright (C) 1995-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1995-1998, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains library routines for transcoding compression,
- * that is, writing raw DCT coefficient arrays to an output JPEG file.
- * The routines in jcapimin.c will also be needed by a transcoder.
+ * Tiis filf dontbins librbry routinfs for trbnsdoding domprfssion,
+ * tibt is, writing rbw DCT dofffidifnt brrbys to bn output JPEG filf.
+ * Tif routinfs in jdbpimin.d will blso bf nffdfd by b trbnsdodfr.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
-/* Forward declarations */
-LOCAL(void) transencode_master_selection
-        JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
-LOCAL(void) transencode_coef_controller
-        JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
+/* Forwbrd dfdlbrbtions */
+LOCAL(void) trbnsfndodf_mbstfr_sflfdtion
+        JPP((j_domprfss_ptr dinfo, jvirt_bbrrby_ptr * doff_brrbys));
+LOCAL(void) trbnsfndodf_doff_dontrollfr
+        JPP((j_domprfss_ptr dinfo, jvirt_bbrrby_ptr * doff_brrbys));
 
 
 /*
- * Compression initialization for writing raw-coefficient data.
- * Before calling this, all parameters and a data destination must be set up.
- * Call jpeg_finish_compress() to actually write the data.
+ * Comprfssion initiblizbtion for writing rbw-dofffidifnt dbtb.
+ * Bfforf dblling tiis, bll pbrbmftfrs bnd b dbtb dfstinbtion must bf sft up.
+ * Cbll jpfg_finisi_domprfss() to bdtublly writf tif dbtb.
  *
- * The number of passed virtual arrays must match cinfo->num_components.
- * Note that the virtual arrays need not be filled or even realized at
- * the time write_coefficients is called; indeed, if the virtual arrays
- * were requested from this compression object's memory manager, they
- * typically will be realized during this routine and filled afterwards.
+ * Tif numbfr of pbssfd virtubl brrbys must mbtdi dinfo->num_domponfnts.
+ * Notf tibt tif virtubl brrbys nffd not bf fillfd or fvfn rfblizfd bt
+ * tif timf writf_dofffidifnts is dbllfd; indffd, if tif virtubl brrbys
+ * wfrf rfqufstfd from tiis domprfssion objfdt's mfmory mbnbgfr, tify
+ * typidblly will bf rfblizfd during tiis routinf bnd fillfd bftfrwbrds.
  */
 
 GLOBAL(void)
-jpeg_write_coefficients (j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays)
+jpfg_writf_dofffidifnts (j_domprfss_ptr dinfo, jvirt_bbrrby_ptr * doff_brrbys)
 {
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  /* Mark all tables to be written */
-  jpeg_suppress_tables(cinfo, FALSE);
-  /* (Re)initialize error mgr and destination modules */
-  (*cinfo->err->reset_error_mgr) ((j_common_ptr) cinfo);
-  (*cinfo->dest->init_destination) (cinfo);
-  /* Perform master selection of active modules */
-  transencode_master_selection(cinfo, coef_arrays);
-  /* Wait for jpeg_finish_compress() call */
-  cinfo->next_scanline = 0;     /* so jpeg_write_marker works */
-  cinfo->global_state = CSTATE_WRCOEFS;
+  if (dinfo->globbl_stbtf != CSTATE_START)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+  /* Mbrk bll tbblfs to bf writtfn */
+  jpfg_supprfss_tbblfs(dinfo, FALSE);
+  /* (Rf)initiblizf frror mgr bnd dfstinbtion modulfs */
+  (*dinfo->frr->rfsft_frror_mgr) ((j_dommon_ptr) dinfo);
+  (*dinfo->dfst->init_dfstinbtion) (dinfo);
+  /* Pfrform mbstfr sflfdtion of bdtivf modulfs */
+  trbnsfndodf_mbstfr_sflfdtion(dinfo, doff_brrbys);
+  /* Wbit for jpfg_finisi_domprfss() dbll */
+  dinfo->nfxt_sdbnlinf = 0;     /* so jpfg_writf_mbrkfr works */
+  dinfo->globbl_stbtf = CSTATE_WRCOEFS;
 }
 
 
 /*
- * Initialize the compression object with default parameters,
- * then copy from the source object all parameters needed for lossless
- * transcoding.  Parameters that can be varied without loss (such as
- * scan script and Huffman optimization) are left in their default states.
+ * Initiblizf tif domprfssion objfdt witi dffbult pbrbmftfrs,
+ * tifn dopy from tif sourdf objfdt bll pbrbmftfrs nffdfd for losslfss
+ * trbnsdoding.  Pbrbmftfrs tibt dbn bf vbrifd witiout loss (sudi bs
+ * sdbn sdript bnd Huffmbn optimizbtion) brf lfft in tifir dffbult stbtfs.
  */
 
 GLOBAL(void)
-jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
-                               j_compress_ptr dstinfo)
+jpfg_dopy_dritidbl_pbrbmftfrs (j_dfdomprfss_ptr srdinfo,
+                               j_domprfss_ptr dstinfo)
 {
   JQUANT_TBL ** qtblptr;
-  jpeg_component_info *incomp, *outcomp;
-  JQUANT_TBL *c_quant, *slot_quant;
-  int tblno, ci, coefi;
+  jpfg_domponfnt_info *indomp, *outdomp;
+  JQUANT_TBL *d_qubnt, *slot_qubnt;
+  int tblno, di, doffi;
 
-  /* Safety check to ensure start_compress not called yet. */
-  if (dstinfo->global_state != CSTATE_START)
-    ERREXIT1(dstinfo, JERR_BAD_STATE, dstinfo->global_state);
-  /* Copy fundamental image dimensions */
-  dstinfo->image_width = srcinfo->image_width;
-  dstinfo->image_height = srcinfo->image_height;
-  dstinfo->input_components = srcinfo->num_components;
-  dstinfo->in_color_space = srcinfo->jpeg_color_space;
-  /* Initialize all parameters to default values */
-  jpeg_set_defaults(dstinfo);
-  /* jpeg_set_defaults may choose wrong colorspace, eg YCbCr if input is RGB.
-   * Fix it to get the right header markers for the image colorspace.
+  /* Sbffty difdk to fnsurf stbrt_domprfss not dbllfd yft. */
+  if (dstinfo->globbl_stbtf != CSTATE_START)
+    ERREXIT1(dstinfo, JERR_BAD_STATE, dstinfo->globbl_stbtf);
+  /* Copy fundbmfntbl imbgf dimfnsions */
+  dstinfo->imbgf_widti = srdinfo->imbgf_widti;
+  dstinfo->imbgf_ifigit = srdinfo->imbgf_ifigit;
+  dstinfo->input_domponfnts = srdinfo->num_domponfnts;
+  dstinfo->in_dolor_spbdf = srdinfo->jpfg_dolor_spbdf;
+  /* Initiblizf bll pbrbmftfrs to dffbult vblufs */
+  jpfg_sft_dffbults(dstinfo);
+  /* jpfg_sft_dffbults mby dioosf wrong dolorspbdf, fg YCbCr if input is RGB.
+   * Fix it to gft tif rigit ifbdfr mbrkfrs for tif imbgf dolorspbdf.
    */
-  jpeg_set_colorspace(dstinfo, srcinfo->jpeg_color_space);
-  dstinfo->data_precision = srcinfo->data_precision;
-  dstinfo->CCIR601_sampling = srcinfo->CCIR601_sampling;
-  /* Copy the source's quantization tables. */
+  jpfg_sft_dolorspbdf(dstinfo, srdinfo->jpfg_dolor_spbdf);
+  dstinfo->dbtb_prfdision = srdinfo->dbtb_prfdision;
+  dstinfo->CCIR601_sbmpling = srdinfo->CCIR601_sbmpling;
+  /* Copy tif sourdf's qubntizbtion tbblfs. */
   for (tblno = 0; tblno < NUM_QUANT_TBLS; tblno++) {
-    if (srcinfo->quant_tbl_ptrs[tblno] != NULL) {
-      qtblptr = & dstinfo->quant_tbl_ptrs[tblno];
+    if (srdinfo->qubnt_tbl_ptrs[tblno] != NULL) {
+      qtblptr = & dstinfo->qubnt_tbl_ptrs[tblno];
       if (*qtblptr == NULL)
-        *qtblptr = jpeg_alloc_quant_table((j_common_ptr) dstinfo);
-      MEMCOPY((*qtblptr)->quantval,
-              srcinfo->quant_tbl_ptrs[tblno]->quantval,
-              SIZEOF((*qtblptr)->quantval));
-      (*qtblptr)->sent_table = FALSE;
+        *qtblptr = jpfg_bllod_qubnt_tbblf((j_dommon_ptr) dstinfo);
+      MEMCOPY((*qtblptr)->qubntvbl,
+              srdinfo->qubnt_tbl_ptrs[tblno]->qubntvbl,
+              SIZEOF((*qtblptr)->qubntvbl));
+      (*qtblptr)->sfnt_tbblf = FALSE;
     }
   }
-  /* Copy the source's per-component info.
-   * Note we assume jpeg_set_defaults has allocated the dest comp_info array.
+  /* Copy tif sourdf's pfr-domponfnt info.
+   * Notf wf bssumf jpfg_sft_dffbults ibs bllodbtfd tif dfst domp_info brrby.
    */
-  dstinfo->num_components = srcinfo->num_components;
-  if (dstinfo->num_components < 1 || dstinfo->num_components > MAX_COMPONENTS)
-    ERREXIT2(dstinfo, JERR_COMPONENT_COUNT, dstinfo->num_components,
+  dstinfo->num_domponfnts = srdinfo->num_domponfnts;
+  if (dstinfo->num_domponfnts < 1 || dstinfo->num_domponfnts > MAX_COMPONENTS)
+    ERREXIT2(dstinfo, JERR_COMPONENT_COUNT, dstinfo->num_domponfnts,
              MAX_COMPONENTS);
-  for (ci = 0, incomp = srcinfo->comp_info, outcomp = dstinfo->comp_info;
-       ci < dstinfo->num_components; ci++, incomp++, outcomp++) {
-    outcomp->component_id = incomp->component_id;
-    outcomp->h_samp_factor = incomp->h_samp_factor;
-    outcomp->v_samp_factor = incomp->v_samp_factor;
-    outcomp->quant_tbl_no = incomp->quant_tbl_no;
-    /* Make sure saved quantization table for component matches the qtable
-     * slot.  If not, the input file re-used this qtable slot.
-     * IJG encoder currently cannot duplicate this.
+  for (di = 0, indomp = srdinfo->domp_info, outdomp = dstinfo->domp_info;
+       di < dstinfo->num_domponfnts; di++, indomp++, outdomp++) {
+    outdomp->domponfnt_id = indomp->domponfnt_id;
+    outdomp->i_sbmp_fbdtor = indomp->i_sbmp_fbdtor;
+    outdomp->v_sbmp_fbdtor = indomp->v_sbmp_fbdtor;
+    outdomp->qubnt_tbl_no = indomp->qubnt_tbl_no;
+    /* Mbkf surf sbvfd qubntizbtion tbblf for domponfnt mbtdifs tif qtbblf
+     * slot.  If not, tif input filf rf-usfd tiis qtbblf slot.
+     * IJG fndodfr durrfntly dbnnot duplidbtf tiis.
      */
-    tblno = outcomp->quant_tbl_no;
+    tblno = outdomp->qubnt_tbl_no;
     if (tblno < 0 || tblno >= NUM_QUANT_TBLS ||
-        srcinfo->quant_tbl_ptrs[tblno] == NULL)
+        srdinfo->qubnt_tbl_ptrs[tblno] == NULL)
       ERREXIT1(dstinfo, JERR_NO_QUANT_TABLE, tblno);
-    slot_quant = srcinfo->quant_tbl_ptrs[tblno];
-    c_quant = incomp->quant_table;
-    if (c_quant != NULL) {
-      for (coefi = 0; coefi < DCTSIZE2; coefi++) {
-        if (c_quant->quantval[coefi] != slot_quant->quantval[coefi])
+    slot_qubnt = srdinfo->qubnt_tbl_ptrs[tblno];
+    d_qubnt = indomp->qubnt_tbblf;
+    if (d_qubnt != NULL) {
+      for (doffi = 0; doffi < DCTSIZE2; doffi++) {
+        if (d_qubnt->qubntvbl[doffi] != slot_qubnt->qubntvbl[doffi])
           ERREXIT1(dstinfo, JERR_MISMATCHED_QUANT_TABLE, tblno);
       }
     }
-    /* Note: we do not copy the source's Huffman table assignments;
-     * instead we rely on jpeg_set_colorspace to have made a suitable choice.
+    /* Notf: wf do not dopy tif sourdf's Huffmbn tbblf bssignmfnts;
+     * instfbd wf rfly on jpfg_sft_dolorspbdf to ibvf mbdf b suitbblf dioidf.
      */
   }
-  /* Also copy JFIF version and resolution information, if available.
-   * Strictly speaking this isn't "critical" info, but it's nearly
-   * always appropriate to copy it if available.  In particular,
-   * if the application chooses to copy JFIF 1.02 extension markers from
-   * the source file, we need to copy the version to make sure we don't
-   * emit a file that has 1.02 extensions but a claimed version of 1.01.
-   * We will *not*, however, copy version info from mislabeled "2.01" files.
+  /* Also dopy JFIF vfrsion bnd rfsolution informbtion, if bvbilbblf.
+   * Stridtly spfbking tiis isn't "dritidbl" info, but it's nfbrly
+   * blwbys bppropribtf to dopy it if bvbilbblf.  In pbrtidulbr,
+   * if tif bpplidbtion dioosfs to dopy JFIF 1.02 fxtfnsion mbrkfrs from
+   * tif sourdf filf, wf nffd to dopy tif vfrsion to mbkf surf wf don't
+   * fmit b filf tibt ibs 1.02 fxtfnsions but b dlbimfd vfrsion of 1.01.
+   * Wf will *not*, iowfvfr, dopy vfrsion info from mislbbflfd "2.01" filfs.
    */
-  if (srcinfo->saw_JFIF_marker) {
-    if (srcinfo->JFIF_major_version == 1) {
-      dstinfo->JFIF_major_version = srcinfo->JFIF_major_version;
-      dstinfo->JFIF_minor_version = srcinfo->JFIF_minor_version;
+  if (srdinfo->sbw_JFIF_mbrkfr) {
+    if (srdinfo->JFIF_mbjor_vfrsion == 1) {
+      dstinfo->JFIF_mbjor_vfrsion = srdinfo->JFIF_mbjor_vfrsion;
+      dstinfo->JFIF_minor_vfrsion = srdinfo->JFIF_minor_vfrsion;
     }
-    dstinfo->density_unit = srcinfo->density_unit;
-    dstinfo->X_density = srcinfo->X_density;
-    dstinfo->Y_density = srcinfo->Y_density;
+    dstinfo->dfnsity_unit = srdinfo->dfnsity_unit;
+    dstinfo->X_dfnsity = srdinfo->X_dfnsity;
+    dstinfo->Y_dfnsity = srdinfo->Y_dfnsity;
   }
 }
 
 
 /*
- * Master selection of compression modules for transcoding.
- * This substitutes for jcinit.c's initialization of the full compressor.
+ * Mbstfr sflfdtion of domprfssion modulfs for trbnsdoding.
+ * Tiis substitutfs for jdinit.d's initiblizbtion of tif full domprfssor.
  */
 
 LOCAL(void)
-transencode_master_selection (j_compress_ptr cinfo,
-                              jvirt_barray_ptr * coef_arrays)
+trbnsfndodf_mbstfr_sflfdtion (j_domprfss_ptr dinfo,
+                              jvirt_bbrrby_ptr * doff_brrbys)
 {
-  /* Although we don't actually use input_components for transcoding,
-   * jcmaster.c's initial_setup will complain if input_components is 0.
+  /* Altiougi wf don't bdtublly usf input_domponfnts for trbnsdoding,
+   * jdmbstfr.d's initibl_sftup will domplbin if input_domponfnts is 0.
    */
-  cinfo->input_components = 1;
-  /* Initialize master control (includes parameter checking/processing) */
-  jinit_c_master_control(cinfo, TRUE /* transcode only */);
+  dinfo->input_domponfnts = 1;
+  /* Initiblizf mbstfr dontrol (indludfs pbrbmftfr difdking/prodfssing) */
+  jinit_d_mbstfr_dontrol(dinfo, TRUE /* trbnsdodf only */);
 
-  /* Entropy encoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
-    ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
-  } else {
-    if (cinfo->progressive_mode) {
-#ifdef C_PROGRESSIVE_SUPPORTED
-      jinit_phuff_encoder(cinfo);
-#else
-      ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-    } else
-      jinit_huff_encoder(cinfo);
+  /* Entropy fndoding: fitifr Huffmbn or britimftid doding. */
+  if (dinfo->briti_dodf) {
+    ERREXIT(dinfo, JERR_ARITH_NOTIMPL);
+  } flsf {
+    if (dinfo->progrfssivf_modf) {
+#ifdff C_PROGRESSIVE_SUPPORTED
+      jinit_piuff_fndodfr(dinfo);
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    } flsf
+      jinit_iuff_fndodfr(dinfo);
   }
 
-  /* We need a special coefficient buffer controller. */
-  transencode_coef_controller(cinfo, coef_arrays);
+  /* Wf nffd b spfdibl dofffidifnt bufffr dontrollfr. */
+  trbnsfndodf_doff_dontrollfr(dinfo, doff_brrbys);
 
-  jinit_marker_writer(cinfo);
+  jinit_mbrkfr_writfr(dinfo);
 
-  /* We can now tell the memory manager to allocate virtual arrays. */
-  (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
+  /* Wf dbn now tfll tif mfmory mbnbgfr to bllodbtf virtubl brrbys. */
+  (*dinfo->mfm->rfblizf_virt_brrbys) ((j_dommon_ptr) dinfo);
 
-  /* Write the datastream header (SOI, JFIF) immediately.
-   * Frame and scan headers are postponed till later.
-   * This lets application insert special markers after the SOI.
+  /* Writf tif dbtbstrfbm ifbdfr (SOI, JFIF) immfdibtfly.
+   * Frbmf bnd sdbn ifbdfrs brf postponfd till lbtfr.
+   * Tiis lfts bpplidbtion insfrt spfdibl mbrkfrs bftfr tif SOI.
    */
-  (*cinfo->marker->write_file_header) (cinfo);
+  (*dinfo->mbrkfr->writf_filf_ifbdfr) (dinfo);
 }
 
 
 /*
- * The rest of this file is a special implementation of the coefficient
- * buffer controller.  This is similar to jccoefct.c, but it handles only
- * output from presupplied virtual arrays.  Furthermore, we generate any
- * dummy padding blocks on-the-fly rather than expecting them to be present
- * in the arrays.
+ * Tif rfst of tiis filf is b spfdibl implfmfntbtion of tif dofffidifnt
+ * bufffr dontrollfr.  Tiis is similbr to jddoffdt.d, but it ibndlfs only
+ * output from prfsupplifd virtubl brrbys.  Furtifrmorf, wf gfnfrbtf bny
+ * dummy pbdding blodks on-tif-fly rbtifr tibn fxpfdting tifm to bf prfsfnt
+ * in tif brrbys.
  */
 
-/* Private buffer controller object */
+/* Privbtf bufffr dontrollfr objfdt */
 
-typedef struct {
-  struct jpeg_c_coef_controller pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_d_doff_dontrollfr pub; /* publid fiflds */
 
-  JDIMENSION iMCU_row_num;      /* iMCU row # within image */
-  JDIMENSION mcu_ctr;           /* counts MCUs processed in current row */
-  int MCU_vert_offset;          /* counts MCU rows within iMCU row */
-  int MCU_rows_per_iMCU_row;    /* number of such rows needed */
+  JDIMENSION iMCU_row_num;      /* iMCU row # witiin imbgf */
+  JDIMENSION mdu_dtr;           /* dounts MCUs prodfssfd in durrfnt row */
+  int MCU_vfrt_offsft;          /* dounts MCU rows witiin iMCU row */
+  int MCU_rows_pfr_iMCU_row;    /* numbfr of sudi rows nffdfd */
 
-  /* Virtual block array for each component. */
-  jvirt_barray_ptr * whole_image;
+  /* Virtubl blodk brrby for fbdi domponfnt. */
+  jvirt_bbrrby_ptr * wiolf_imbgf;
 
-  /* Workspace for constructing dummy blocks at right/bottom edges. */
-  JBLOCKROW dummy_buffer[C_MAX_BLOCKS_IN_MCU];
-} my_coef_controller;
+  /* Workspbdf for donstrudting dummy blodks bt rigit/bottom fdgfs. */
+  JBLOCKROW dummy_bufffr[C_MAX_BLOCKS_IN_MCU];
+} my_doff_dontrollfr;
 
-typedef my_coef_controller * my_coef_ptr;
+typfdff my_doff_dontrollfr * my_doff_ptr;
 
 
 LOCAL(void)
-start_iMCU_row (j_compress_ptr cinfo)
-/* Reset within-iMCU-row counters for a new row */
+stbrt_iMCU_row (j_domprfss_ptr dinfo)
+/* Rfsft witiin-iMCU-row dountfrs for b nfw row */
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
 
-  /* In an interleaved scan, an MCU row is the same as an iMCU row.
-   * In a noninterleaved scan, an iMCU row has v_samp_factor MCU rows.
-   * But at the bottom of the image, process only what's left.
+  /* In bn intfrlfbvfd sdbn, bn MCU row is tif sbmf bs bn iMCU row.
+   * In b nonintfrlfbvfd sdbn, bn iMCU row ibs v_sbmp_fbdtor MCU rows.
+   * But bt tif bottom of tif imbgf, prodfss only wibt's lfft.
    */
-  if (cinfo->comps_in_scan > 1) {
-    coef->MCU_rows_per_iMCU_row = 1;
-  } else {
-    if (coef->iMCU_row_num < (cinfo->total_iMCU_rows-1))
-      coef->MCU_rows_per_iMCU_row = cinfo->cur_comp_info[0]->v_samp_factor;
-    else
-      coef->MCU_rows_per_iMCU_row = cinfo->cur_comp_info[0]->last_row_height;
+  if (dinfo->domps_in_sdbn > 1) {
+    doff->MCU_rows_pfr_iMCU_row = 1;
+  } flsf {
+    if (doff->iMCU_row_num < (dinfo->totbl_iMCU_rows-1))
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->v_sbmp_fbdtor;
+    flsf
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->lbst_row_ifigit;
   }
 
-  coef->mcu_ctr = 0;
-  coef->MCU_vert_offset = 0;
+  doff->mdu_dtr = 0;
+  doff->MCU_vfrt_offsft = 0;
 }
 
 
 /*
- * Initialize for a processing pass.
+ * Initiblizf for b prodfssing pbss.
  */
 
 METHODDEF(void)
-start_pass_coef (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
+stbrt_pbss_doff (j_domprfss_ptr dinfo, J_BUF_MODE pbss_modf)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
 
-  if (pass_mode != JBUF_CRANK_DEST)
-    ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
+  if (pbss_modf != JBUF_CRANK_DEST)
+    ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
 
-  coef->iMCU_row_num = 0;
-  start_iMCU_row(cinfo);
+  doff->iMCU_row_num = 0;
+  stbrt_iMCU_row(dinfo);
 }
 
 
 /*
- * Process some data.
- * We process the equivalent of one fully interleaved MCU row ("iMCU" row)
- * per call, ie, v_samp_factor block rows for each component in the scan.
- * The data is obtained from the virtual arrays and fed to the entropy coder.
- * Returns TRUE if the iMCU row is completed, FALSE if suspended.
+ * Prodfss somf dbtb.
+ * Wf prodfss tif fquivblfnt of onf fully intfrlfbvfd MCU row ("iMCU" row)
+ * pfr dbll, if, v_sbmp_fbdtor blodk rows for fbdi domponfnt in tif sdbn.
+ * Tif dbtb is obtbinfd from tif virtubl brrbys bnd ffd to tif fntropy dodfr.
+ * Rfturns TRUE if tif iMCU row is domplftfd, FALSE if suspfndfd.
  *
- * NB: input_buf is ignored; it is likely to be a NULL pointer.
+ * NB: input_buf is ignorfd; it is likfly to bf b NULL pointfr.
  */
 
-METHODDEF(boolean)
-compress_output (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
+METHODDEF(boolfbn)
+domprfss_output (j_domprfss_ptr dinfo, JSAMPIMAGE input_buf)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  JDIMENSION MCU_col_num;       /* index of current MCU within row */
-  JDIMENSION last_MCU_col = cinfo->MCUs_per_row - 1;
-  JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
-  int blkn, ci, xindex, yindex, yoffset, blockcnt;
-  JDIMENSION start_col;
-  JBLOCKARRAY buffer[MAX_COMPS_IN_SCAN];
-  JBLOCKROW MCU_buffer[C_MAX_BLOCKS_IN_MCU];
-  JBLOCKROW buffer_ptr;
-  jpeg_component_info *compptr;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU witiin row */
+  JDIMENSION lbst_MCU_dol = dinfo->MCUs_pfr_row - 1;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  int blkn, di, xindfx, yindfx, yoffsft, blodkdnt;
+  JDIMENSION stbrt_dol;
+  JBLOCKARRAY bufffr[MAX_COMPS_IN_SCAN];
+  JBLOCKROW MCU_bufffr[C_MAX_BLOCKS_IN_MCU];
+  JBLOCKROW bufffr_ptr;
+  jpfg_domponfnt_info *dompptr;
 
-  /* Align the virtual buffers for the components used in this scan. */
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-    compptr = cinfo->cur_comp_info[ci];
-    buffer[ci] = (*cinfo->mem->access_virt_barray)
-      ((j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
-       coef->iMCU_row_num * compptr->v_samp_factor,
-       (JDIMENSION) compptr->v_samp_factor, FALSE);
+  /* Align tif virtubl bufffrs for tif domponfnts usfd in tiis sdbn. */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    bufffr[di] = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wiolf_imbgf[dompptr->domponfnt_indfx],
+       doff->iMCU_row_num * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, FALSE);
   }
 
-  /* Loop to process one whole iMCU row */
-  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
-       yoffset++) {
-    for (MCU_col_num = coef->mcu_ctr; MCU_col_num < cinfo->MCUs_per_row;
-         MCU_col_num++) {
-      /* Construct list of pointers to DCT blocks belonging to this MCU */
-      blkn = 0;                 /* index of current DCT block within MCU */
-      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-        compptr = cinfo->cur_comp_info[ci];
-        start_col = MCU_col_num * compptr->MCU_width;
-        blockcnt = (MCU_col_num < last_MCU_col) ? compptr->MCU_width
-                                                : compptr->last_col_width;
-        for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
-          if (coef->iMCU_row_num < last_iMCU_row ||
-              yindex+yoffset < compptr->last_row_height) {
-            /* Fill in pointers to real blocks in this row */
-            buffer_ptr = buffer[ci][yindex+yoffset] + start_col;
-            for (xindex = 0; xindex < blockcnt; xindex++)
-              MCU_buffer[blkn++] = buffer_ptr++;
-          } else {
-            /* At bottom of image, need a whole row of dummy blocks */
-            xindex = 0;
+  /* Loop to prodfss onf wiolf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->mdu_dtr; MCU_dol_num < dinfo->MCUs_pfr_row;
+         MCU_dol_num++) {
+      /* Construdt list of pointfrs to DCT blodks bflonging to tiis MCU */
+      blkn = 0;                 /* indfx of durrfnt DCT blodk witiin MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        stbrt_dol = MCU_dol_num * dompptr->MCU_widti;
+        blodkdnt = (MCU_dol_num < lbst_MCU_dol) ? dompptr->MCU_widti
+                                                : dompptr->lbst_dol_widti;
+        for (yindfx = 0; yindfx < dompptr->MCU_ifigit; yindfx++) {
+          if (doff->iMCU_row_num < lbst_iMCU_row ||
+              yindfx+yoffsft < dompptr->lbst_row_ifigit) {
+            /* Fill in pointfrs to rfbl blodks in tiis row */
+            bufffr_ptr = bufffr[di][yindfx+yoffsft] + stbrt_dol;
+            for (xindfx = 0; xindfx < blodkdnt; xindfx++)
+              MCU_bufffr[blkn++] = bufffr_ptr++;
+          } flsf {
+            /* At bottom of imbgf, nffd b wiolf row of dummy blodks */
+            xindfx = 0;
           }
-          /* Fill in any dummy blocks needed in this row.
-           * Dummy blocks are filled in the same way as in jccoefct.c:
-           * all zeroes in the AC entries, DC entries equal to previous
-           * block's DC value.  The init routine has already zeroed the
-           * AC entries, so we need only set the DC entries correctly.
+          /* Fill in bny dummy blodks nffdfd in tiis row.
+           * Dummy blodks brf fillfd in tif sbmf wby bs in jddoffdt.d:
+           * bll zfrofs in tif AC fntrifs, DC fntrifs fqubl to prfvious
+           * blodk's DC vbluf.  Tif init routinf ibs blrfbdy zfrofd tif
+           * AC fntrifs, so wf nffd only sft tif DC fntrifs dorrfdtly.
            */
-          for (; xindex < compptr->MCU_width; xindex++) {
-            MCU_buffer[blkn] = coef->dummy_buffer[blkn];
-            MCU_buffer[blkn][0][0] = MCU_buffer[blkn-1][0][0];
+          for (; xindfx < dompptr->MCU_widti; xindfx++) {
+            MCU_bufffr[blkn] = doff->dummy_bufffr[blkn];
+            MCU_bufffr[blkn][0][0] = MCU_bufffr[blkn-1][0][0];
             blkn++;
           }
         }
       }
-      /* Try to write the MCU. */
-      if (! (*cinfo->entropy->encode_mcu) (cinfo, MCU_buffer)) {
-        /* Suspension forced; update state counters and exit */
-        coef->MCU_vert_offset = yoffset;
-        coef->mcu_ctr = MCU_col_num;
-        return FALSE;
+      /* Try to writf tif MCU. */
+      if (! (*dinfo->fntropy->fndodf_mdu) (dinfo, MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->mdu_dtr = MCU_dol_num;
+        rfturn FALSE;
       }
     }
-    /* Completed an MCU row, but perhaps not an iMCU row */
-    coef->mcu_ctr = 0;
+    /* Complftfd bn MCU row, but pfribps not bn iMCU row */
+    doff->mdu_dtr = 0;
   }
-  /* Completed the iMCU row, advance counters for next one */
-  coef->iMCU_row_num++;
-  start_iMCU_row(cinfo);
-  return TRUE;
+  /* Complftfd tif iMCU row, bdvbndf dountfrs for nfxt onf */
+  doff->iMCU_row_num++;
+  stbrt_iMCU_row(dinfo);
+  rfturn TRUE;
 }
 
 
 /*
- * Initialize coefficient buffer controller.
+ * Initiblizf dofffidifnt bufffr dontrollfr.
  *
- * Each passed coefficient array must be the right size for that
- * coefficient: width_in_blocks wide and height_in_blocks high,
- * with unitheight at least v_samp_factor.
+ * Ebdi pbssfd dofffidifnt brrby must bf tif rigit sizf for tibt
+ * dofffidifnt: widti_in_blodks widf bnd ifigit_in_blodks iigi,
+ * witi unitifigit bt lfbst v_sbmp_fbdtor.
  */
 
 LOCAL(void)
-transencode_coef_controller (j_compress_ptr cinfo,
-                             jvirt_barray_ptr * coef_arrays)
+trbnsfndodf_doff_dontrollfr (j_domprfss_ptr dinfo,
+                             jvirt_bbrrby_ptr * doff_brrbys)
 {
-  my_coef_ptr coef;
-  JBLOCKROW buffer;
+  my_doff_ptr doff;
+  JBLOCKROW bufffr;
   int i;
 
-  coef = (my_coef_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_coef_controller));
-  cinfo->coef = (struct jpeg_c_coef_controller *) coef;
-  coef->pub.start_pass = start_pass_coef;
-  coef->pub.compress_data = compress_output;
+  doff = (my_doff_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_doff_dontrollfr));
+  dinfo->doff = (strudt jpfg_d_doff_dontrollfr *) doff;
+  doff->pub.stbrt_pbss = stbrt_pbss_doff;
+  doff->pub.domprfss_dbtb = domprfss_output;
 
-  /* Save pointer to virtual arrays */
-  coef->whole_image = coef_arrays;
+  /* Sbvf pointfr to virtubl brrbys */
+  doff->wiolf_imbgf = doff_brrbys;
 
-  /* Allocate and pre-zero space for dummy DCT blocks. */
-  buffer = (JBLOCKROW)
-    (*cinfo->mem->alloc_large) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  /* Allodbtf bnd prf-zfro spbdf for dummy DCT blodks. */
+  bufffr = (JBLOCKROW)
+    (*dinfo->mfm->bllod_lbrgf) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
-  jzero_far((void FAR *) buffer, C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
+  jzfro_fbr((void FAR *) bufffr, C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
   for (i = 0; i < C_MAX_BLOCKS_IN_MCU; i++) {
-    coef->dummy_buffer[i] = buffer + i;
+    doff->dummy_bufffr[i] = bufffr + i;
   }
 }

@@ -1,0 +1,435 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+/**
+  * This is thf supfrdlbss of bll fxdfptions thrown by
+  * opfrbtions in thf Contfxt bnd DirContfxt intfrfbdfs.
+  * Thf nbturf of thf fbilurf is dfsdribfd by thf nbmf of thf subdlbss.
+  * This fxdfption dbpturfs thf informbtion pinpointing whfrf thf opfrbtion
+  * fbilfd, sudh bs whfrf rfsolution lbst prodffdfd to.
+  * <ul>
+  * <li> Rfsolvfd Nbmf. Portion of nbmf thbt hbs bffn rfsolvfd.
+  * <li> Rfsolvfd Objfdt. Objfdt to whidh rfsolution of nbmf prodffdfd.
+  * <li> Rfmbining Nbmf. Portion of nbmf thbt hbs not bffn rfsolvfd.
+  * <li> Explbnbtion. Dftbil fxplbining why nbmf rfsolution fbilfd.
+  * <li> Root Exdfption. Thf fxdfption thbt dbusfd this nbming fxdfption
+  *                     to bf thrown.
+  *</ul>
+  * null is bn bddfptbblf vbluf for bny of thfsf fiflds. Whfn null,
+  * it mfbns thbt no sudh informbtion hbs bffn rfdordfd for thbt fifld.
+  *<p>
+  * A NbmingExdfption instbndf is not syndhronizfd bgbinst dondurrfnt
+  * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify
+  * b singlf NbmingExdfption instbndf should lodk thf objfdt.
+  *<p>
+  * This fxdfption hbs bffn rftrofittfd to donform to
+  * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf
+  * <i>root fxdfption</i> (or <i>root dbusf</i>) is thf sbmf objfdt bs thf
+  * <i>dbusf</i> rfturnfd by thf {@link Throwbblf#gftCbusf()} mfthod.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @sindf 1.3
+  */
+
+
+publid dlbss NbmingExdfption fxtfnds Exdfption {
+    /**
+     * Contbins thf pbrt of thf nbmf thbt hbs bffn suddfssfully rfsolvfd.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * This fifld is initiblizfd by thf donstrudtors.
+     * You should bddfss bnd mbnipulbtf this fifld
+     * through its gft bnd sft mfthods.
+     * @sfribl
+     * @sff #gftRfsolvfdNbmf
+     * @sff #sftRfsolvfdNbmf
+     */
+    protfdtfd Nbmf rfsolvfdNbmf;
+    /**
+      * Contbins thf objfdt to whidh rfsolution of thf pbrt of thf nbmf wbs
+      * suddfssful. Cbn bf null.
+      * This fifld is initiblizfd by thf donstrudtors.
+      * You should bddfss bnd mbnipulbtf this fifld
+      * through its gft bnd sft mfthods.
+      * @sfribl
+      * @sff #gftRfsolvfdObj
+      * @sff #sftRfsolvfdObj
+      */
+    protfdtfd Objfdt rfsolvfdObj;
+    /**
+     * Contbins thf rfmbining nbmf thbt hbs not bffn rfsolvfd yft.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * This fifld is initiblizfd by thf donstrudtors.
+     * You should bddfss bnd mbnipulbtf this fifld
+     * through its gft, sft, "bppfnd" mfthods.
+     * @sfribl
+     * @sff #gftRfmbiningNbmf
+     * @sff #sftRfmbiningNbmf
+     * @sff #bppfndRfmbiningNbmf
+     * @sff #bppfndRfmbiningComponfnt
+     */
+    protfdtfd Nbmf rfmbiningNbmf;
+
+    /**
+     * Contbins thf originbl fxdfption thbt dbusfd this NbmingExdfption to
+     * bf thrown. This fifld is sft if thfrf is bdditionbl
+     * informbtion thbt dould bf obtbinfd from thf originbl
+     * fxdfption, or if thf originbl fxdfption dould not bf
+     * mbppfd to b subdlbss of NbmingExdfption.
+     * Cbn bf null.
+     *<p>
+     * This fifld prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link #initCbusf(Throwbblf)} bnd {@link #gftCbusf()} mfthods
+     * brf now thf prfffrrfd mfbns of bddfssing this informbtion.
+     *
+     * @sfribl
+     * @sff #gftRootCbusf
+     * @sff #sftRootCbusf(Throwbblf)
+     * @sff #initCbusf(Throwbblf)
+     * @sff #gftCbusf
+     */
+    protfdtfd Throwbblf rootExdfption = null;
+
+    /**
+     * Construdts b nfw NbmingExdfption with bn fxplbnbtion.
+     * All unspfdififd fiflds brf sft to null.
+     *
+     * @pbrbm   fxplbnbtion     A possibly null string dontbining
+     *                          bdditionbl dftbil bbout this fxdfption.
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     */
+    publid NbmingExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+        rfsolvfdNbmf = rfmbiningNbmf = null;
+        rfsolvfdObj = null;
+    }
+
+    /**
+      * Construdts b nfw NbmingExdfption.
+      * All fiflds brf sft to null.
+      */
+    publid NbmingExdfption() {
+        supfr();
+        rfsolvfdNbmf = rfmbiningNbmf = null;
+        rfsolvfdObj = null;
+    }
+
+    /**
+     * Rftrifvfs thf lfbding portion of thf nbmf thbt wbs rfsolvfd
+     * suddfssfully.
+     *
+     * @rfturn Thf pbrt of thf nbmf thbt wbs rfsolvfd suddfssfully.
+     *          It is b dompositf nbmf. It dbn bf null, whidh mfbns
+     *          thf rfsolvfd nbmf fifld hbs not bffn sft.
+     * @sff #gftRfsolvfdObj
+     * @sff #sftRfsolvfdNbmf
+     */
+    publid Nbmf gftRfsolvfdNbmf() {
+        rfturn rfsolvfdNbmf;
+    }
+
+    /**
+     * Rftrifvfs thf rfmbining unrfsolvfd portion of thf nbmf.
+     * @rfturn Thf pbrt of thf nbmf thbt hbs not bffn rfsolvfd.
+     *          It is b dompositf nbmf. It dbn bf null, whidh mfbns
+     *          thf rfmbining nbmf fifld hbs not bffn sft.
+     * @sff #sftRfmbiningNbmf
+     * @sff #bppfndRfmbiningNbmf
+     * @sff #bppfndRfmbiningComponfnt
+     */
+    publid Nbmf gftRfmbiningNbmf() {
+        rfturn rfmbiningNbmf;
+    }
+
+    /**
+     * Rftrifvfs thf objfdt to whidh rfsolution wbs suddfssful.
+     * This is thf objfdt to whidh thf rfsolvfd nbmf is bound.
+     *
+     * @rfturn Thf possibly null objfdt thbt wbs rfsolvfd so fbr.
+     *  null mfbns thbt thf rfsolvfd objfdt fifld hbs not bffn sft.
+     * @sff #gftRfsolvfdNbmf
+     * @sff #sftRfsolvfdObj
+     */
+    publid Objfdt gftRfsolvfdObj() {
+        rfturn rfsolvfdObj;
+    }
+
+    /**
+      * Rftrifvfs thf fxplbnbtion bssodibtfd with this fxdfption.
+      *
+      * @rfturn Thf possibly null dftbil string fxplbining morf
+      *         bbout this fxdfption. If null, it mfbns thfrf is no
+      *         dftbil mfssbgf for this fxdfption.
+      *
+      * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+      */
+    publid String gftExplbnbtion() {
+        rfturn gftMfssbgf();
+    }
+
+    /**
+     * Sfts thf rfsolvfd nbmf fifld of this fxdfption.
+     *<p>
+     * <tt>nbmf</tt> is b dompositf nbmf. If thf intfnt is to sft
+     * this fifld using b dompound nbmf or string, you must
+     * "stringify" thf dompound nbmf, bnd drfbtf b dompositf
+     * nbmf with b singlf domponfnt using thf string. You dbn thfn
+     * invokf this mfthod using thf rfsulting dompositf nbmf.
+     *<p>
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dhbngfs to <dodf>nbmf</dodf> do not
+     * bfffdt thf dopy in this NbmingExdfption bnd vidf vfrsb.
+     *
+     * @pbrbm nbmf Thf possibly null nbmf to sft rfsolvfd nbmf to.
+     *          If null, it sfts thf rfsolvfd nbmf fifld to null.
+     * @sff #gftRfsolvfdNbmf
+     */
+    publid void sftRfsolvfdNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            rfsolvfdNbmf = (Nbmf)(nbmf.dlonf());
+        flsf
+            rfsolvfdNbmf = null;
+    }
+
+    /**
+     * Sfts thf rfmbining nbmf fifld of this fxdfption.
+     *<p>
+     * <tt>nbmf</tt> is b dompositf nbmf. If thf intfnt is to sft
+     * this fifld using b dompound nbmf or string, you must
+     * "stringify" thf dompound nbmf, bnd drfbtf b dompositf
+     * nbmf with b singlf domponfnt using thf string. You dbn thfn
+     * invokf this mfthod using thf rfsulting dompositf nbmf.
+     *<p>
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dhbngfs to <dodf>nbmf</dodf> do not
+     * bfffdt thf dopy in this NbmingExdfption bnd vidf vfrsb.
+     * @pbrbm nbmf Thf possibly null nbmf to sft rfmbining nbmf to.
+     *          If null, it sfts thf rfmbining nbmf fifld to null.
+     * @sff #gftRfmbiningNbmf
+     * @sff #bppfndRfmbiningNbmf
+     * @sff #bppfndRfmbiningComponfnt
+     */
+    publid void sftRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        flsf
+            rfmbiningNbmf = null;
+    }
+
+    /**
+     * Sfts thf rfsolvfd objfdt fifld of this fxdfption.
+     * @pbrbm obj Thf possibly null objfdt to sft rfsolvfd objfdt to.
+     *            If null, thf rfsolvfd objfdt fifld is sft to null.
+     * @sff #gftRfsolvfdObj
+     */
+    publid void sftRfsolvfdObj(Objfdt obj) {
+        rfsolvfdObj = obj;
+    }
+
+    /**
+      * Add nbmf bs thf lbst domponfnt in rfmbining nbmf.
+      * @pbrbm nbmf Thf domponfnt to bdd.
+      *         If nbmf is null, this mfthod dofs not do bnything.
+      * @sff #sftRfmbiningNbmf
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningNbmf
+      */
+    publid void bppfndRfmbiningComponfnt(String nbmf) {
+        if (nbmf != null) {
+            try {
+                if (rfmbiningNbmf == null) {
+                    rfmbiningNbmf = nfw CompositfNbmf();
+                }
+                rfmbiningNbmf.bdd(nbmf);
+            } dbtdh (NbmingExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f.toString());
+            }
+        }
+    }
+
+    /**
+      * Add domponfnts from 'nbmf' bs thf lbst domponfnts in
+      * rfmbining nbmf.
+      *<p>
+      * <tt>nbmf</tt> is b dompositf nbmf. If thf intfnt is to bppfnd
+      * b dompound nbmf, you should "stringify" thf dompound nbmf
+      * thfn invokf thf ovfrlobdfd form thbt bddfpts b String pbrbmftfr.
+      *<p>
+      * Subsfqufnt dhbngfs to <dodf>nbmf</dodf> do not
+      * bfffdt thf rfmbining nbmf fifld in this NbmingExdfption bnd vidf vfrsb.
+      * @pbrbm nbmf Thf possibly null nbmf dontbining ordfrfd domponfnts to bdd.
+      *                 If nbmf is null, this mfthod dofs not do bnything.
+      * @sff #sftRfmbiningNbmf
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningComponfnt
+      */
+    publid void bppfndRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf == null) {
+            rfturn;
+        }
+        if (rfmbiningNbmf != null) {
+            try {
+                rfmbiningNbmf.bddAll(nbmf);
+            } dbtdh (NbmingExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f.toString());
+            }
+        } flsf {
+            rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        }
+    }
+
+    /**
+      * Rftrifvfs thf root dbusf of this NbmingExdfption, if bny.
+      * Thf root dbusf of b nbming fxdfption is usfd whfn thf sfrvidf providfr
+      * wbnts to indidbtf to thf dbllfr b non-nbming rflbtfd fxdfption
+      * but bt thf sbmf timf wbnts to usf thf NbmingExdfption strudturf
+      * to indidbtf how fbr thf nbming opfrbtion prodffdfd.
+      *<p>
+      * This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+      * Thf {@link #gftCbusf()} mfthod is now thf prfffrrfd mfbns of obtbining
+      * this informbtion.
+      *
+      * @rfturn Thf possibly null fxdfption thbt dbusfd this nbming
+      *    fxdfption. If null, it mfbns no root dbusf hbs bffn
+      *    sft for this nbming fxdfption.
+      * @sff #sftRootCbusf
+      * @sff #rootExdfption
+      * @sff #gftCbusf
+      */
+    publid Throwbblf gftRootCbusf() {
+        rfturn rootExdfption;
+    }
+
+    /**
+      * Rfdords thf root dbusf of this NbmingExdfption.
+      * If <tt>f</tt> is <tt>this</tt>, this mfthod dofs not do bnything.
+      *<p>
+      * This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+      * Thf {@link #initCbusf(Throwbblf)} mfthod is now thf prfffrrfd mfbns
+      * of rfdording this informbtion.
+      *
+      * @pbrbm f Thf possibly null fxdfption thbt dbusfd thf nbming
+      *          opfrbtion to fbil. If null, it mfbns this nbming
+      *          fxdfption hbs no root dbusf.
+      * @sff #gftRootCbusf
+      * @sff #rootExdfption
+      * @sff #initCbusf
+      */
+    publid void sftRootCbusf(Throwbblf f) {
+        if (f != this) {
+            rootExdfption = f;
+        }
+    }
+
+    /**
+      * Rfturns thf dbusf of this fxdfption.  Thf dbusf is thf
+      * throwbblf thbt dbusfd this nbming fxdfption to bf thrown.
+      * Rfturns <dodf>null</dodf> if thf dbusf is nonfxistfnt or
+      * unknown.
+      *
+      * @rfturn  thf dbusf of this fxdfption, or <dodf>null</dodf> if thf
+      *          dbusf is nonfxistfnt or unknown.
+      * @sff #initCbusf(Throwbblf)
+      * @sindf 1.4
+      */
+    publid Throwbblf gftCbusf() {
+        rfturn gftRootCbusf();
+    }
+
+    /**
+      * Initiblizfs thf dbusf of this fxdfption to thf spfdififd vbluf.
+      * Thf dbusf is thf throwbblf thbt dbusfd this nbming fxdfption to bf
+      * thrown.
+      *<p>
+      * This mfthod mby bf dbllfd bt most ondf.
+      *
+      * @pbrbm  dbusf   thf dbusf, whidh is sbvfd for lbtfr rftrifvbl by
+      *         thf {@link #gftCbusf()} mfthod.  A <tt>null</tt> vbluf
+      *         indidbtfs thbt thf dbusf is nonfxistfnt or unknown.
+      * @rfturn b rfffrfndf to this <dodf>NbmingExdfption</dodf> instbndf.
+      * @throws IllfgblArgumfntExdfption if <dodf>dbusf</dodf> is this
+      *         fxdfption.  (A throwbblf dbnnot bf its own dbusf.)
+      * @throws IllfgblStbtfExdfption if this mfthod hbs blrfbdy
+      *         bffn dbllfd on this fxdfption.
+      * @sff #gftCbusf
+      * @sindf 1.4
+      */
+    publid Throwbblf initCbusf(Throwbblf dbusf) {
+        supfr.initCbusf(dbusf);
+        sftRootCbusf(dbusf);
+        rfturn this;
+    }
+
+    /**
+     * Gfnfrbtfs thf string rfprfsfntbtion of this fxdfption.
+     * Thf string rfprfsfntbtion donsists of this fxdfption's dlbss nbmf,
+     * its dftbilfd mfssbgf, bnd if it hbs b root dbusf, thf string
+     * rfprfsfntbtion of thf root dbusf fxdfption, followfd by
+     * thf rfmbining nbmf (if it is not null).
+     * This string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     *
+     * @rfturn Thf non-null string dontbining thf string rfprfsfntbtion
+     * of this fxdfption.
+     */
+    publid String toString() {
+        String bnswfr = supfr.toString();
+
+        if (rootExdfption != null) {
+            bnswfr += " [Root fxdfption is " + rootExdfption + "]";
+        }
+        if (rfmbiningNbmf != null) {
+            bnswfr += "; rfmbining nbmf '" + rfmbiningNbmf + "'";
+        }
+        rfturn bnswfr;
+    }
+
+    /**
+      * Gfnfrbtfs thf string rfprfsfntbtion in morf dftbil.
+      * This string rfprfsfntbtion donsists of thf informbtion rfturnfd
+      * by thf toString() thbt tbkfs no pbrbmftfrs, plus thf string
+      * rfprfsfntbtion of thf rfsolvfd objfdt (if it is not null).
+      * This string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+      * progrbmmbtidblly.
+      *
+      * @pbrbm dftbil If truf, indludf dftbils bbout thf rfsolvfd objfdt
+      *                 in bddition to thf othfr informbtion.
+      * @rfturn Thf non-null string dontbining thf string rfprfsfntbtion.
+      */
+    publid String toString(boolfbn dftbil) {
+        if (!dftbil || rfsolvfdObj == null) {
+            rfturn toString();
+        } flsf {
+            rfturn (toString() + "; rfsolvfd objfdt " + rfsolvfdObj);
+        }
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1299181962103167177L;
+};

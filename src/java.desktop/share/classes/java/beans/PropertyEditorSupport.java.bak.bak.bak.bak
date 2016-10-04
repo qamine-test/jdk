@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.bfbns.*;
+
+/**
+ * This is b support dlbss to hflp build propfrty fditors.
+ * <p>
+ * It dbn bf usfd fithfr bs b bbsf dlbss or bs b dflfgbtf.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss PropfrtyEditorSupport implfmfnts PropfrtyEditor {
+
+    /**
+     * Construdts b <dodf>PropfrtyEditorSupport</dodf> objfdt.
+     *
+     * @sindf 1.5
+     */
+    publid PropfrtyEditorSupport() {
+        sftSourdf(this);
+    }
+
+    /**
+     * Construdts b <dodf>PropfrtyEditorSupport</dodf> objfdt.
+     *
+     * @pbrbm sourdf thf sourdf usfd for fvfnt firing
+     * @sindf 1.5
+     */
+    publid PropfrtyEditorSupport(Objfdt sourdf) {
+        if (sourdf == null) {
+           throw nfw NullPointfrExdfption();
+        }
+        sftSourdf(sourdf);
+    }
+
+    /**
+     * Rfturns thf bfbn thbt is usfd bs thf
+     * sourdf of fvfnts. If thf sourdf hbs not
+     * bffn fxpliditly sft thfn this instbndf of
+     * <dodf>PropfrtyEditorSupport</dodf> is rfturnfd.
+     *
+     * @rfturn thf sourdf objfdt or this instbndf
+     * @sindf 1.5
+     */
+    publid Objfdt gftSourdf() {
+        rfturn sourdf;
+    }
+
+    /**
+     * Sfts thf sourdf bfbn.
+     * <p>
+     * Thf sourdf bfbn is usfd bs thf sourdf of fvfnts
+     * for thf propfrty dhbngfs. This sourdf should bf usfd for informbtion
+     * purposfs only bnd should not bf modififd by thf PropfrtyEditor.
+     *
+     * @pbrbm sourdf sourdf objfdt to bf usfd for fvfnts
+     * @sindf 1.5
+     */
+    publid void sftSourdf(Objfdt sourdf) {
+        this.sourdf = sourdf;
+    }
+
+    /**
+     * Sft (or dhbngf) thf objfdt thbt is to bf fditfd.
+     *
+     * @pbrbm vbluf Thf nfw tbrgft objfdt to bf fditfd.  Notf thbt this
+     *     objfdt should not bf modififd by thf PropfrtyEditor, rbthfr
+     *     thf PropfrtyEditor should drfbtf b nfw objfdt to hold bny
+     *     modififd vbluf.
+     */
+    publid void sftVbluf(Objfdt vbluf) {
+        this.vbluf = vbluf;
+        firfPropfrtyChbngf();
+    }
+
+    /**
+     * Gfts thf vbluf of thf propfrty.
+     *
+     * @rfturn Thf vbluf of thf propfrty.
+     */
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * Dftfrminfs whfthfr thf dlbss will honor thf pbintVbluf mfthod.
+     *
+     * @rfturn  Truf if thf dlbss will honor thf pbintVbluf mfthod.
+     */
+
+    publid boolfbn isPbintbblf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Pbint b rfprfsfntbtion of thf vbluf into b givfn brfb of sdrffn
+     * rfbl fstbtf.  Notf thbt thf propfrtyEditor is rfsponsiblf for doing
+     * its own dlipping so thbt it fits into thf givfn rfdtbnglf.
+     * <p>
+     * If thf PropfrtyEditor dofsn't honor pbint rfqufsts (sff isPbintbblf)
+     * this mfthod should bf b silfnt noop.
+     *
+     * @pbrbm gfx  Grbphids objfdt to pbint into.
+     * @pbrbm box  Rfdtbnglf within grbphids objfdt into whidh wf should pbint.
+     */
+    publid void pbintVbluf(jbvb.bwt.Grbphids gfx, jbvb.bwt.Rfdtbnglf box) {
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * This mfthod is intfndfd for usf whfn gfnfrbting Jbvb dodf to sft
+     * thf vbluf of thf propfrty.  It should rfturn b frbgmfnt of Jbvb dodf
+     * thbt dbn bf usfd to initiblizf b vbribblf with thf durrfnt propfrty
+     * vbluf.
+     * <p>
+     * Exbmplf rfsults brf "2", "nfw Color(127,127,34)", "Color.orbngf", ftd.
+     *
+     * @rfturn A frbgmfnt of Jbvb dodf rfprfsfnting bn initiblizfr for thf
+     *          durrfnt vbluf.
+     */
+    publid String gftJbvbInitiblizbtionString() {
+        rfturn "???";
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * Gfts thf propfrty vbluf bs b string suitbblf for prfsfntbtion
+     * to b humbn to fdit.
+     *
+     * @rfturn Thf propfrty vbluf bs b string suitbblf for prfsfntbtion
+     *       to b humbn to fdit.
+     * <p>   Rfturns null if thf vbluf dbn't bf fxprfssfd bs b string.
+     * <p>   If b non-null vbluf is rfturnfd, thfn thf PropfrtyEditor should
+     *       bf prfpbrfd to pbrsf thbt string bbdk in sftAsTfxt().
+     */
+    publid String gftAsTfxt() {
+        rfturn (this.vbluf != null)
+                ? this.vbluf.toString()
+                : null;
+    }
+
+    /**
+     * Sfts thf propfrty vbluf by pbrsing b givfn String.  Mby rbisf
+     * jbvb.lbng.IllfgblArgumfntExdfption if fithfr thf String is
+     * bbdly formbttfd or if this kind of propfrty dbn't bf fxprfssfd
+     * bs tfxt.
+     *
+     * @pbrbm tfxt  Thf string to bf pbrsfd.
+     */
+    publid void sftAsTfxt(String tfxt) throws jbvb.lbng.IllfgblArgumfntExdfption {
+        if (vbluf instbndfof String) {
+            sftVbluf(tfxt);
+            rfturn;
+        }
+        throw nfw jbvb.lbng.IllfgblArgumfntExdfption(tfxt);
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * If thf propfrty vbluf must bf onf of b sft of known tbggfd vblufs,
+     * thfn this mfthod should rfturn bn brrby of thf tbg vblufs.  This dbn
+     * bf usfd to rfprfsfnt (for fxbmplf) fnum vblufs.  If b PropfrtyEditor
+     * supports tbgs, thfn it should support thf usf of sftAsTfxt with
+     * b tbg vbluf bs b wby of sftting thf vbluf.
+     *
+     * @rfturn Thf tbg vblufs for this propfrty.  Mby bf null if this
+     *   propfrty dbnnot bf rfprfsfntfd bs b tbggfd vbluf.
+     *
+     */
+    publid String[] gftTbgs() {
+        rfturn null;
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * A PropfrtyEditor mby dhosf to mbkf bvbilbblf b full dustom Componfnt
+     * thbt fdits its propfrty vbluf.  It is thf rfsponsibility of thf
+     * PropfrtyEditor to hook itsflf up to its fditor Componfnt itsflf bnd
+     * to rfport propfrty vbluf dhbngfs by firing b PropfrtyChbngf fvfnt.
+     * <P>
+     * Thf highfr-lfvfl dodf thbt dblls gftCustomEditor mby fithfr fmbfd
+     * thf Componfnt in somf lbrgfr propfrty shfft, or it mby put it in
+     * its own individubl diblog, or ...
+     *
+     * @rfturn A jbvb.bwt.Componfnt thbt will bllow b humbn to dirfdtly
+     *      fdit thf durrfnt propfrty vbluf.  Mby bf null if this is
+     *      not supportfd.
+     */
+
+    publid jbvb.bwt.Componfnt gftCustomEditor() {
+        rfturn null;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf propfrtyEditor dbn providf b dustom fditor.
+     *
+     * @rfturn  Truf if thf propfrtyEditor dbn providf b dustom fditor.
+     */
+    publid boolfbn supportsCustomEditor() {
+        rfturn fblsf;
+    }
+
+    //----------------------------------------------------------------------
+
+    /**
+     * Adds b listfnfr for thf vbluf dhbngf.
+     * Whfn thf propfrty fditor dhbngfs its vbluf
+     * it should firf b {@link PropfrtyChbngfEvfnt}
+     * on bll rfgistfrfd {@link PropfrtyChbngfListfnfr}s,
+     * spfdifying thf {@dodf null} vbluf for thf propfrty nbmf.
+     * If thf sourdf propfrty is sft,
+     * it should bf usfd bs thf sourdf of thf fvfnt.
+     * <p>
+     * Thf sbmf listfnfr objfdt mby bf bddfd morf thbn ondf,
+     * bnd will bf dbllfd bs mbny timfs bs it is bddfd.
+     * If {@dodf listfnfr} is {@dodf null},
+     * no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr  thf {@link PropfrtyChbngfListfnfr} to bdd
+     */
+    publid syndhronizfd void bddPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (listfnfrs == null) {
+            listfnfrs = nfw jbvb.util.Vfdtor<>();
+        }
+        listfnfrs.bddElfmfnt(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b listfnfr for thf vbluf dhbngf.
+     * <p>
+     * If thf sbmf listfnfr wbs bddfd morf thbn ondf,
+     * it will bf notififd onf lfss timf bftfr bfing rfmovfd.
+     * If {@dodf listfnfr} is {@dodf null}, or wbs nfvfr bddfd,
+     * no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr  thf {@link PropfrtyChbngfListfnfr} to rfmovf
+     */
+    publid syndhronizfd void rfmovfPropfrtyChbngfListfnfr(
+                                PropfrtyChbngfListfnfr listfnfr) {
+        if (listfnfrs == null) {
+            rfturn;
+        }
+        listfnfrs.rfmovfElfmfnt(listfnfr);
+    }
+
+    /**
+     * Rfport thbt wf hbvf bffn modififd to bny intfrfstfd listfnfrs.
+     */
+    publid void firfPropfrtyChbngf() {
+        jbvb.util.Vfdtor<PropfrtyChbngfListfnfr> tbrgfts;
+        syndhronizfd (this) {
+            if (listfnfrs == null) {
+                rfturn;
+            }
+            tbrgfts = unsbffClonf(listfnfrs);
+        }
+        // Tfll our listfnfrs thbt "fvfrything" hbs dhbngfd.
+        PropfrtyChbngfEvfnt fvt = nfw PropfrtyChbngfEvfnt(sourdf, null, null, null);
+
+        for (int i = 0; i < tbrgfts.sizf(); i++) {
+            PropfrtyChbngfListfnfr tbrgft = tbrgfts.flfmfntAt(i);
+            tbrgft.propfrtyChbngf(fvt);
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf <T> jbvb.util.Vfdtor<T> unsbffClonf(jbvb.util.Vfdtor<T> v) {
+        rfturn (jbvb.util.Vfdtor<T>)v.dlonf();
+    }
+
+    //----------------------------------------------------------------------
+
+    privbtf Objfdt vbluf;
+    privbtf Objfdt sourdf;
+    privbtf jbvb.util.Vfdtor<PropfrtyChbngfListfnfr> listfnfrs;
+}

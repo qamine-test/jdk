@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.jgss.wrapper;
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
 
-import org.ietf.jgss.*;
-import javax.security.auth.kerberos.ServicePermission;
+import org.iftf.jgss.*;
+import jbvbx.sfdurity.buti.kfrbfros.SfrvidfPfrmission;
 
 /**
- * This class is an utility class for Kerberos related stuff.
- * @author Valerie Peng
- * @since 1.6
+ * Tiis dlbss is bn utility dlbss for Kfrbfros rflbtfd stuff.
+ * @butior Vblfrif Pfng
+ * @sindf 1.6
  */
-class Krb5Util {
+dlbss Krb5Util {
 
-    // Return the Kerberos TGS principal name using the domain
-    // of the specified <code>name</code>
-    static String getTGSName(GSSNameElement name)
-        throws GSSException {
-        String krbPrinc = name.getKrbName();
-        int atIndex = krbPrinc.indexOf('@');
-        String realm = krbPrinc.substring(atIndex + 1);
-        StringBuilder sb = new StringBuilder("krbtgt/");
-        sb.append(realm).append('@').append(realm);
-        return sb.toString();
+    // Rfturn tif Kfrbfros TGS prindipbl nbmf using tif dombin
+    // of tif spfdififd <dodf>nbmf</dodf>
+    stbtid String gftTGSNbmf(GSSNbmfElfmfnt nbmf)
+        tirows GSSExdfption {
+        String krbPrind = nbmf.gftKrbNbmf();
+        int btIndfx = krbPrind.indfxOf('@');
+        String rfblm = krbPrind.substring(btIndfx + 1);
+        StringBuildfr sb = nfw StringBuildfr("krbtgt/");
+        sb.bppfnd(rfblm).bppfnd('@').bppfnd(rfblm);
+        rfturn sb.toString();
     }
 
-    // Perform the Service Permission check using the specified
-    // <code>target</code> and <code>action</code>
-    static void checkServicePermission(String target, String action) {
-        SecurityManager sm = System.getSecurityManager();
+    // Pfrform tif Sfrvidf Pfrmission difdk using tif spfdififd
+    // <dodf>tbrgft</dodf> bnd <dodf>bdtion</dodf>
+    stbtid void difdkSfrvidfPfrmission(String tbrgft, String bdtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            SunNativeProvider.debug("Checking ServicePermission(" +
-                                    target + ", " + action + ")");
-            ServicePermission perm =
-                new ServicePermission(target, action);
-            sm.checkPermission(perm);
+            SunNbtivfProvidfr.dfbug("Cifdking SfrvidfPfrmission(" +
+                                    tbrgft + ", " + bdtion + ")");
+            SfrvidfPfrmission pfrm =
+                nfw SfrvidfPfrmission(tbrgft, bdtion);
+            sm.difdkPfrmission(pfrm);
         }
     }
 }

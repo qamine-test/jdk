@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import sun.awt.*;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.pipe.GlyphListPipe;
-import sun.java2d.xr.*;
+import sun.bwt.*;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.pipf.GlypiListPipf;
+import sun.jbvb2d.xr.*;
 
 /**
- * A delegate pipe of SG2D for drawing any text to a XRender surface
+ * A dflfgbtf pipf of SG2D for drbwing bny tfxt to b XRfndfr surfbdf
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
-public class XRTextRenderer extends GlyphListPipe {
-    // Workarround for a bug in libXrender.
-    // In case the number of glyphs of an ELT is a multiple of 254,
-    // a few garbage bytes are sent to the XServer causing hangs.
-    static final int MAX_ELT_GLYPH_COUNT = 253;
+publid dlbss XRTfxtRfndfrfr fxtfnds GlypiListPipf {
+    // Workbrround for b bug in libXrfndfr.
+    // In dbsf tif numbfr of glypis of bn ELT is b multiplf of 254,
+    // b ffw gbrbbgf bytfs brf sfnt to tif XSfrvfr dbusing ibngs.
+    stbtid finbl int MAX_ELT_GLYPH_COUNT = 253;
 
-    XRGlyphCache glyphCache;
-    XRCompositeManager maskBuffer;
-    XRBackend backend;
+    XRGlypiCbdif glypiCbdif;
+    XRCompositfMbnbgfr mbskBufffr;
+    XRBbdkfnd bbdkfnd;
 
-    GrowableEltArray eltList;
+    GrowbblfEltArrby fltList;
 
-    public XRTextRenderer(XRCompositeManager buffer) {
-        glyphCache = new XRGlyphCache(buffer);
-        maskBuffer = buffer;
-        backend = buffer.getBackend();
-        eltList = new GrowableEltArray(64);
+    publid XRTfxtRfndfrfr(XRCompositfMbnbgfr bufffr) {
+        glypiCbdif = nfw XRGlypiCbdif(bufffr);
+        mbskBufffr = bufffr;
+        bbdkfnd = bufffr.gftBbdkfnd();
+        fltList = nfw GrowbblfEltArrby(64);
     }
 
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl) {
-        if (gl.getNumGlyphs() == 0) {
-            return;
+    protfdtfd void drbwGlypiList(SunGrbpiids2D sg2d, GlypiList gl) {
+        if (gl.gftNumGlypis() == 0) {
+            rfturn;
         }
 
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLodk();
 
-            XRSurfaceData x11sd = (XRSurfaceData) sg2d.surfaceData;
-            x11sd.validateAsDestination(null, sg2d.getCompClip());
-            x11sd.maskBuffer.validateCompositeState(sg2d.composite, sg2d.transform, sg2d.paint, sg2d);
+            XRSurfbdfDbtb x11sd = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+            x11sd.vblidbtfAsDfstinbtion(null, sg2d.gftCompClip());
+            x11sd.mbskBufffr.vblidbtfCompositfStbtf(sg2d.dompositf, sg2d.trbnsform, sg2d.pbint, sg2d);
 
-            float advX = gl.getX();
-            float advY = gl.getY();
+            flobt bdvX = gl.gftX();
+            flobt bdvY = gl.gftY();
             int oldPosX = 0, oldPosY = 0;
 
             if (gl.isSubPixPos()) {
-                advX += 0.1666667f;
-                advY += 0.1666667f;
-            } else {
-                advX += 0.5f;
-                advY += 0.5f;
+                bdvX += 0.1666667f;
+                bdvY += 0.1666667f;
+            } flsf {
+                bdvX += 0.5f;
+                bdvY += 0.5f;
             }
 
-            XRGlyphCacheEntry[] cachedGlyphs = glyphCache.cacheGlyphs(gl);
-            boolean containsLCDGlyphs = false;
-            int activeGlyphSet = cachedGlyphs[0].getGlyphSet();
+            XRGlypiCbdifEntry[] dbdifdGlypis = glypiCbdif.dbdifGlypis(gl);
+            boolfbn dontbinsLCDGlypis = fblsf;
+            int bdtivfGlypiSft = dbdifdGlypis[0].gftGlypiSft();
 
-            int eltIndex = -1;
-            gl.getBounds();
-            float[] positions = gl.getPositions();
-            for (int i = 0; i < gl.getNumGlyphs(); i++) {
-                gl.setGlyphIndex(i);
-                XRGlyphCacheEntry cacheEntry = cachedGlyphs[i];
+            int fltIndfx = -1;
+            gl.gftBounds();
+            flobt[] positions = gl.gftPositions();
+            for (int i = 0; i < gl.gftNumGlypis(); i++) {
+                gl.sftGlypiIndfx(i);
+                XRGlypiCbdifEntry dbdifEntry = dbdifdGlypis[i];
 
-                eltList.getGlyphs().addInt(cacheEntry.getGlyphID());
-                int glyphSet = cacheEntry.getGlyphSet();
+                fltList.gftGlypis().bddInt(dbdifEntry.gftGlypiID());
+                int glypiSft = dbdifEntry.gftGlypiSft();
 
-                containsLCDGlyphs |= (glyphSet == glyphCache.lcdGlyphSet);
+                dontbinsLCDGlypis |= (glypiSft == glypiCbdif.lddGlypiSft);
 
                 int posX = 0, posY = 0;
-                if (gl.usePositions()
-                        || cacheEntry.getXAdvance() != ((float) cacheEntry.getXOff())
-                        || cacheEntry.getYAdvance() != ((float) cacheEntry.getYOff())
-                        || glyphSet != activeGlyphSet
-                        || eltIndex < 0
-                        || eltList.getCharCnt(eltIndex) == MAX_ELT_GLYPH_COUNT) {
+                if (gl.usfPositions()
+                        || dbdifEntry.gftXAdvbndf() != ((flobt) dbdifEntry.gftXOff())
+                        || dbdifEntry.gftYAdvbndf() != ((flobt) dbdifEntry.gftYOff())
+                        || glypiSft != bdtivfGlypiSft
+                        || fltIndfx < 0
+                        || fltList.gftCibrCnt(fltIndfx) == MAX_ELT_GLYPH_COUNT) {
 
-                    eltIndex = eltList.getNextIndex();
-                    eltList.setCharCnt(eltIndex, 1);
-                    activeGlyphSet = glyphSet;
-                    eltList.setGlyphSet(eltIndex, glyphSet);
+                    fltIndfx = fltList.gftNfxtIndfx();
+                    fltList.sftCibrCnt(fltIndfx, 1);
+                    bdtivfGlypiSft = glypiSft;
+                    fltList.sftGlypiSft(fltIndfx, glypiSft);
 
-                    if (gl.usePositions()) {
-                        // In this case advX only stores rounding errors
-                        float x = positions[i * 2] + advX;
-                        float y = positions[i * 2 + 1] + advY;
-                        posX = (int) Math.floor(x);
-                        posY = (int) Math.floor(y);
-                        advX -= cacheEntry.getXOff();
-                        advY -= cacheEntry.getYOff();
-                    } else {
+                    if (gl.usfPositions()) {
+                        // In tiis dbsf bdvX only storfs rounding frrors
+                        flobt x = positions[i * 2] + bdvX;
+                        flobt y = positions[i * 2 + 1] + bdvY;
+                        posX = (int) Mbti.floor(x);
+                        posY = (int) Mbti.floor(y);
+                        bdvX -= dbdifEntry.gftXOff();
+                        bdvY -= dbdifEntry.gftYOff();
+                    } flsf {
                         /*
-                         * Calculate next glyph's position in the case of
-                         * relative positioning. In XRender we can only position
-                         * glyphs using integer coordinates, therefor we sum all
-                         * the advances up as float, and convert them to integer
-                         * later. This way rounding-error can be corrected, and
-                         * is required to be consistent with the software loops.
+                         * Cbldulbtf nfxt glypi's position in tif dbsf of
+                         * rflbtivf positioning. In XRfndfr wf dbn only position
+                         * glypis using intfgfr doordinbtfs, tifrffor wf sum bll
+                         * tif bdvbndfs up bs flobt, bnd donvfrt tifm to intfgfr
+                         * lbtfr. Tiis wby rounding-frror dbn bf dorrfdtfd, bnd
+                         * is rfquirfd to bf donsistfnt witi tif softwbrf loops.
                          */
-                        posX = (int) Math.floor(advX);
-                        posY = (int) Math.floor(advY);
+                        posX = (int) Mbti.floor(bdvX);
+                        posY = (int) Mbti.floor(bdvY);
 
-                        // Advance of ELT = difference between stored relative
-                        // positioning information and required float.
-                        advX += (cacheEntry.getXAdvance() - cacheEntry.getXOff());
-                        advY += (cacheEntry.getYAdvance() - cacheEntry.getYOff());
+                        // Advbndf of ELT = difffrfndf bftwffn storfd rflbtivf
+                        // positioning informbtion bnd rfquirfd flobt.
+                        bdvX += (dbdifEntry.gftXAdvbndf() - dbdifEntry.gftXOff());
+                        bdvY += (dbdifEntry.gftYAdvbndf() - dbdifEntry.gftYOff());
                     }
 
-                    // Offset of the current glyph is the difference
-                    // to the last glyph and this one
-                    eltList.setXOff(eltIndex, (posX - oldPosX));
-                    eltList.setYOff(eltIndex, (posY - oldPosY));
+                    // Offsft of tif durrfnt glypi is tif difffrfndf
+                    // to tif lbst glypi bnd tiis onf
+                    fltList.sftXOff(fltIndfx, (posX - oldPosX));
+                    fltList.sftYOff(fltIndfx, (posY - oldPosY));
 
                     oldPosX = posX;
                     oldPosY = posY;
 
-                } else {
-                    eltList.setCharCnt(eltIndex, eltList.getCharCnt(eltIndex) + 1);
+                } flsf {
+                    fltList.sftCibrCnt(fltIndfx, fltList.gftCibrCnt(fltIndfx) + 1);
                 }
             }
 
-            int maskFormat = containsLCDGlyphs ? XRUtils.PictStandardARGB32 : XRUtils.PictStandardA8;
-            maskBuffer.compositeText(x11sd, (int) gl.getX(), (int) gl.getY(), 0, maskFormat, eltList);
+            int mbskFormbt = dontbinsLCDGlypis ? XRUtils.PidtStbndbrdARGB32 : XRUtils.PidtStbndbrdA8;
+            mbskBufffr.dompositfTfxt(x11sd, (int) gl.gftX(), (int) gl.gftY(), 0, mbskFormbt, fltList);
 
-            eltList.clear();
-        } finally {
-            SunToolkit.awtUnlock();
+            fltList.dlfbr();
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
     }
 }

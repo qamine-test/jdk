@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Defines interfaces and classes for the Java virtual machine to access files,
- * file attributes, and file systems.
+ * Dffinfs intfrfbdfs bnd dlbssfs for tif Jbvb virtubl mbdiinf to bddfss filfs,
+ * filf bttributfs, bnd filf systfms.
  *
- * <p> The java.nio.file package defines classes to access files and file
- * systems. The API to access file and file system attributes is defined in the
- * {@link java.nio.file.attribute} package. The {@link java.nio.file.spi}
- * package is used by service provider implementors wishing to extend the
- * platform default provider, or to construct other provider implementations. </p>
+ * <p> Tif jbvb.nio.filf pbdkbgf dffinfs dlbssfs to bddfss filfs bnd filf
+ * systfms. Tif API to bddfss filf bnd filf systfm bttributfs is dffinfd in tif
+ * {@link jbvb.nio.filf.bttributf} pbdkbgf. Tif {@link jbvb.nio.filf.spi}
+ * pbdkbgf is usfd by sfrvidf providfr implfmfntors wisiing to fxtfnd tif
+ * plbtform dffbult providfr, or to donstrudt otifr providfr implfmfntbtions. </p>
  *
- * <h3><a name="links">Symbolic Links</a></h3>
- * <p> Many operating systems and file systems support for <em>symbolic links</em>.
- * A symbolic link is a special file that serves as a reference to another file.
- * For the most part, symbolic links are transparent to applications and
- * operations on symbolic links are automatically redirected to the <em>target</em>
- * of the link. Exceptions to this are when a symbolic link is deleted or
- * renamed/moved in which case the link is deleted or removed rather than the
- * target of the link. This package includes support for symbolic links where
- * implementations provide these semantics. File systems may support other types
- * that are semantically close but support for these other types of links is
- * not included in this package. </p>
+ * <i3><b nbmf="links">Symbolid Links</b></i3>
+ * <p> Mbny opfrbting systfms bnd filf systfms support for <fm>symbolid links</fm>.
+ * A symbolid link is b spfdibl filf tibt sfrvfs bs b rfffrfndf to bnotifr filf.
+ * For tif most pbrt, symbolid links brf trbnspbrfnt to bpplidbtions bnd
+ * opfrbtions on symbolid links brf butombtidblly rfdirfdtfd to tif <fm>tbrgft</fm>
+ * of tif link. Exdfptions to tiis brf wifn b symbolid link is dflftfd or
+ * rfnbmfd/movfd in wiidi dbsf tif link is dflftfd or rfmovfd rbtifr tibn tif
+ * tbrgft of tif link. Tiis pbdkbgf indludfs support for symbolid links wifrf
+ * implfmfntbtions providf tifsf sfmbntids. Filf systfms mby support otifr typfs
+ * tibt brf sfmbntidblly dlosf but support for tifsf otifr typfs of links is
+ * not indludfd in tiis pbdkbgf. </p>
  *
- * <h3><a name="interop">Interoperability</a></h3>
- * <p> The {@link java.io.File} class defines the {@link java.io.File#toPath
- * toPath} method to construct a {@link java.nio.file.Path} by converting
- * the abstract path represented by the {@code java.io.File} object. The resulting
- * {@code Path} can be used to operate on the same file as the {@code File}
- * object. The {@code Path} specification provides further information
- * on the <a href="Path.html#interop">interoperability</a> between {@code Path}
- * and {@code java.io.File} objects. </p>
+ * <i3><b nbmf="intfrop">Intfropfrbbility</b></i3>
+ * <p> Tif {@link jbvb.io.Filf} dlbss dffinfs tif {@link jbvb.io.Filf#toPbti
+ * toPbti} mftiod to donstrudt b {@link jbvb.nio.filf.Pbti} by donvfrting
+ * tif bbstrbdt pbti rfprfsfntfd by tif {@dodf jbvb.io.Filf} objfdt. Tif rfsulting
+ * {@dodf Pbti} dbn bf usfd to opfrbtf on tif sbmf filf bs tif {@dodf Filf}
+ * objfdt. Tif {@dodf Pbti} spfdifidbtion providfs furtifr informbtion
+ * on tif <b irff="Pbti.itml#intfrop">intfropfrbbility</b> bftwffn {@dodf Pbti}
+ * bnd {@dodf jbvb.io.Filf} objfdts. </p>
  *
- * <h3>Visibility</h3>
- * <p> The view of the files and file system provided by classes in this package are
- * guaranteed to be consistent with other views provided by other instances in the
- * same Java virtual machine.  The view may or may not, however, be consistent with
- * the view of the file system as seen by other concurrently running programs due
- * to caching performed by the underlying operating system and delays induced by
- * network-filesystem protocols. This is true regardless of the language in which
- * these other programs are written, and whether they are running on the same machine
- * or on some other machine.  The exact nature of any such inconsistencies are
- * system-dependent and are therefore unspecified. </p>
+ * <i3>Visibility</i3>
+ * <p> Tif vifw of tif filfs bnd filf systfm providfd by dlbssfs in tiis pbdkbgf brf
+ * gubrbntffd to bf donsistfnt witi otifr vifws providfd by otifr instbndfs in tif
+ * sbmf Jbvb virtubl mbdiinf.  Tif vifw mby or mby not, iowfvfr, bf donsistfnt witi
+ * tif vifw of tif filf systfm bs sffn by otifr dondurrfntly running progrbms duf
+ * to dbdiing pfrformfd by tif undfrlying opfrbting systfm bnd dflbys indudfd by
+ * nftwork-filfsystfm protodols. Tiis is truf rfgbrdlfss of tif lbngubgf in wiidi
+ * tifsf otifr progrbms brf writtfn, bnd wiftifr tify brf running on tif sbmf mbdiinf
+ * or on somf otifr mbdiinf.  Tif fxbdt nbturf of bny sudi indonsistfndifs brf
+ * systfm-dfpfndfnt bnd brf tifrfforf unspfdififd. </p>
  *
- * <h3><a name="integrity">Synchronized I/O File Integrity</a></h3>
- * <p> The {@link java.nio.file.StandardOpenOption#SYNC SYNC} and {@link
- * java.nio.file.StandardOpenOption#DSYNC DSYNC} options are used when opening a file
- * to require that updates to the file are written synchronously to the underlying
- * storage device. In the case of the default provider, and the file resides on
- * a local storage device, and the {@link java.nio.channels.SeekableByteChannel
- * seekable} channel is connected to a file that was opened with one of these
- * options, then an invocation of the {@link
- * java.nio.channels.WritableByteChannel#write(java.nio.ByteBuffer) write}
- * method is only guaranteed to return when all changes made to the file
- * by that invocation have been written to the device. These options are useful
- * for ensuring that critical information is not lost in the event of a system
- * crash. If the file does not reside on a local device then no such guarantee
- * is made. Whether this guarantee is possible with other {@link
- * java.nio.file.spi.FileSystemProvider provider} implementations is provider
- * specific. </p>
+ * <i3><b nbmf="intfgrity">Syndironizfd I/O Filf Intfgrity</b></i3>
+ * <p> Tif {@link jbvb.nio.filf.StbndbrdOpfnOption#SYNC SYNC} bnd {@link
+ * jbvb.nio.filf.StbndbrdOpfnOption#DSYNC DSYNC} options brf usfd wifn opfning b filf
+ * to rfquirf tibt updbtfs to tif filf brf writtfn syndironously to tif undfrlying
+ * storbgf dfvidf. In tif dbsf of tif dffbult providfr, bnd tif filf rfsidfs on
+ * b lodbl storbgf dfvidf, bnd tif {@link jbvb.nio.dibnnfls.SffkbblfBytfCibnnfl
+ * sffkbblf} dibnnfl is donnfdtfd to b filf tibt wbs opfnfd witi onf of tifsf
+ * options, tifn bn invodbtion of tif {@link
+ * jbvb.nio.dibnnfls.WritbblfBytfCibnnfl#writf(jbvb.nio.BytfBufffr) writf}
+ * mftiod is only gubrbntffd to rfturn wifn bll dibngfs mbdf to tif filf
+ * by tibt invodbtion ibvf bffn writtfn to tif dfvidf. Tifsf options brf usfful
+ * for fnsuring tibt dritidbl informbtion is not lost in tif fvfnt of b systfm
+ * drbsi. If tif filf dofs not rfsidf on b lodbl dfvidf tifn no sudi gubrbntff
+ * is mbdf. Wiftifr tiis gubrbntff is possiblf witi otifr {@link
+ * jbvb.nio.filf.spi.FilfSystfmProvidfr providfr} implfmfntbtions is providfr
+ * spfdifid. </p>
  *
- * <h3>General Exceptions</h3>
- * <p> Unless otherwise noted, passing a {@code null} argument to a constructor
- * or method of any class or interface in this package will cause a {@link
- * java.lang.NullPointerException NullPointerException} to be thrown. Additionally,
- * invoking a method with a collection containing a {@code null} element will
- * cause a {@code NullPointerException}, unless otherwise specified. </p>
+ * <i3>Gfnfrbl Exdfptions</i3>
+ * <p> Unlfss otifrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mftiod of bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+ * jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown. Additionblly,
+ * invoking b mftiod witi b dollfdtion dontbining b {@dodf null} flfmfnt will
+ * dbusf b {@dodf NullPointfrExdfption}, unlfss otifrwisf spfdififd. </p>
  *
- * <p> Unless otherwise noted, methods that attempt to access the file system
- * will throw {@link java.nio.file.ClosedFileSystemException} when invoked on
- * objects associated with a {@link java.nio.file.FileSystem} that has been
- * {@link java.nio.file.FileSystem#close closed}. Additionally, any methods
- * that attempt write access to a file system will throw {@link
- * java.nio.file.ReadOnlyFileSystemException} when invoked on an object associated
- * with a {@link java.nio.file.FileSystem} that only provides read-only
- * access. </p>
+ * <p> Unlfss otifrwisf notfd, mftiods tibt bttfmpt to bddfss tif filf systfm
+ * will tirow {@link jbvb.nio.filf.ClosfdFilfSystfmExdfption} wifn invokfd on
+ * objfdts bssodibtfd witi b {@link jbvb.nio.filf.FilfSystfm} tibt ibs bffn
+ * {@link jbvb.nio.filf.FilfSystfm#dlosf dlosfd}. Additionblly, bny mftiods
+ * tibt bttfmpt writf bddfss to b filf systfm will tirow {@link
+ * jbvb.nio.filf.RfbdOnlyFilfSystfmExdfption} wifn invokfd on bn objfdt bssodibtfd
+ * witi b {@link jbvb.nio.filf.FilfSystfm} tibt only providfs rfbd-only
+ * bddfss. </p>
  *
- * <p> Unless otherwise noted, invoking a method of any class or interface in
- * this package created by one {@link java.nio.file.spi.FileSystemProvider
- * provider} with a parameter that is an object created by another provider,
- * will throw {@link java.nio.file.ProviderMismatchException}. </p>
+ * <p> Unlfss otifrwisf notfd, invoking b mftiod of bny dlbss or intfrfbdf in
+ * tiis pbdkbgf drfbtfd by onf {@link jbvb.nio.filf.spi.FilfSystfmProvidfr
+ * providfr} witi b pbrbmftfr tibt is bn objfdt drfbtfd by bnotifr providfr,
+ * will tirow {@link jbvb.nio.filf.ProvidfrMismbtdiExdfption}. </p>
  *
- * <h3>Optional Specific Exceptions</h3>
- * Most of the methods defined by classes in this package that access the
- * file system specify that {@link java.io.IOException} be thrown when an I/O
- * error occurs. In some cases, these methods define specific I/O exceptions
- * for common cases. These exceptions, noted as <i>optional specific exceptions</i>,
- * are thrown by the implementation where it can detect the specific error.
- * Where the specific error cannot be detected then the more general {@code
- * IOException} is thrown.
+ * <i3>Optionbl Spfdifid Exdfptions</i3>
+ * Most of tif mftiods dffinfd by dlbssfs in tiis pbdkbgf tibt bddfss tif
+ * filf systfm spfdify tibt {@link jbvb.io.IOExdfption} bf tirown wifn bn I/O
+ * frror oddurs. In somf dbsfs, tifsf mftiods dffinf spfdifid I/O fxdfptions
+ * for dommon dbsfs. Tifsf fxdfptions, notfd bs <i>optionbl spfdifid fxdfptions</i>,
+ * brf tirown by tif implfmfntbtion wifrf it dbn dftfdt tif spfdifid frror.
+ * Wifrf tif spfdifid frror dbnnot bf dftfdtfd tifn tif morf gfnfrbl {@dodf
+ * IOExdfption} is tirown.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;

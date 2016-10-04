@@ -1,0 +1,322 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.util.List;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+
+/**
+ * A simplf dontbinfr dlbss to bggrfgbtf bn imbgf, b sft of
+ * thumbnbil (prfvifw) imbgfs, bnd bn objfdt rfprfsfnting mftbdbtb
+ * bssodibtfd with thf imbgf.
+ *
+ * <p> Thf imbgf dbtb mby tbkf thf form of fithfr b
+ * <dodf>RfndfrfdImbgf</dodf>, or b <dodf>Rbstfr</dodf>.  Rfbdfr
+ * mfthods thbt rfturn bn <dodf>IIOImbgf</dodf> will blwbys rfturn b
+ * <dodf>BufffrfdImbgf</dodf> using thf <dodf>RfndfrfdImbgf</dodf>
+ * rfffrfndf.  Writfr mfthods thbt bddfpt bn <dodf>IIOImbgf</dodf>
+ * will blwbys bddfpt b <dodf>RfndfrfdImbgf</dodf>, bnd mby optionblly
+ * bddfpt b <dodf>Rbstfr</dodf>.
+ *
+ * <p> Exbdtly onf of <dodf>gftRfndfrfdImbgf</dodf> bnd
+ * <dodf>gftRbstfr</dodf> will rfturn b non-<dodf>null</dodf> vbluf.
+ * Subdlbssfs brf rfsponsiblf for fnsuring this bfhbvior.
+ *
+ * @sff ImbgfRfbdfr#rfbdAll(int, ImbgfRfbdPbrbm)
+ * @sff ImbgfRfbdfr#rfbdAll(jbvb.util.Itfrbtor)
+ * @sff ImbgfWritfr#writf(jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb,
+ *                        IIOImbgf, ImbgfWritfPbrbm)
+ * @sff ImbgfWritfr#writf(IIOImbgf)
+ * @sff ImbgfWritfr#writfToSfqufndf(IIOImbgf, ImbgfWritfPbrbm)
+ * @sff ImbgfWritfr#writfInsfrt(int, IIOImbgf, ImbgfWritfPbrbm)
+ *
+ */
+publid dlbss IIOImbgf {
+
+    /**
+     * Thf <dodf>RfndfrfdImbgf</dodf> bfing rfffrfndfd.
+     */
+    protfdtfd RfndfrfdImbgf imbgf;
+
+    /**
+     * Thf <dodf>Rbstfr</dodf> bfing rfffrfndfd.
+     */
+    protfdtfd Rbstfr rbstfr;
+
+    /**
+     * A <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf> thumbnbils,
+     * or <dodf>null</dodf>.  Non-<dodf>BufffrfdImbgf</dodf> objfdts
+     * must not bf storfd in this <dodf>List</dodf>.
+     */
+    protfdtfd List<? fxtfnds BufffrfdImbgf> thumbnbils = null;
+
+    /**
+     * An <dodf>IIOMftbdbtb</dodf> objfdt dontbining mftbdbtb
+     * bssodibtfd with thf imbgf.
+     */
+    protfdtfd IIOMftbdbtb mftbdbtb;
+
+    /**
+     * Construdts bn <dodf>IIOImbgf</dodf> dontbining b
+     * <dodf>RfndfrfdImbgf</dodf>, bnd thumbnbils bnd mftbdbtb
+     * bssodibtfd with it.
+     *
+     * <p> All pbrbmftfrs brf storfd by rfffrfndf.
+     *
+     * <p> Thf <dodf>thumbnbils</dodf> brgumfnt must fithfr bf
+     * <dodf>null</dodf> or dontbin only <dodf>BufffrfdImbgf</dodf>
+     * objfdts.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
+     * @pbrbm thumbnbils b <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf>s,
+     * or <dodf>null</dodf>.
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid IIOImbgf(RfndfrfdImbgf imbgf,
+                    List<? fxtfnds BufffrfdImbgf> thumbnbils,
+                    IIOMftbdbtb mftbdbtb) {
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+        }
+        this.imbgf = imbgf;
+        this.rbstfr = null;
+        this.thumbnbils = thumbnbils;
+        this.mftbdbtb = mftbdbtb;
+    }
+
+    /**
+     * Construdts bn <dodf>IIOImbgf</dodf> dontbining b
+     * <dodf>Rbstfr</dodf>, bnd thumbnbils bnd mftbdbtb
+     * bssodibtfd with it.
+     *
+     * <p> All pbrbmftfrs brf storfd by rfffrfndf.
+     *
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf>.
+     * @pbrbm thumbnbils b <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf>s,
+     * or <dodf>null</dodf>.
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbstfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid IIOImbgf(Rbstfr rbstfr,
+                    List<? fxtfnds BufffrfdImbgf> thumbnbils,
+                    IIOMftbdbtb mftbdbtb) {
+        if (rbstfr == null) {
+            throw nfw IllfgblArgumfntExdfption("rbstfr == null!");
+        }
+        this.rbstfr = rbstfr;
+        this.imbgf = null;
+        this.thumbnbils = thumbnbils;
+        this.mftbdbtb = mftbdbtb;
+    }
+
+    /**
+     * Rfturns thf durrfntly sft <dodf>RfndfrfdImbgf</dodf>, or
+     * <dodf>null</dodf> if only b <dodf>Rbstfr</dodf> is bvbilbblf.
+     *
+     * @rfturn b <dodf>RfndfrfdImbgf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftRfndfrfdImbgf
+     */
+    publid RfndfrfdImbgf gftRfndfrfdImbgf() {
+        syndhronizfd(this) {
+            rfturn imbgf;
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt <dodf>RfndfrfdImbgf</dodf>.  Thf vbluf is
+     * storfd by rfffrfndf.  Any fxisting <dodf>Rbstfr</dodf> is
+     * disdbrdfd.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     *
+     * @sff #gftRfndfrfdImbgf
+     */
+    publid void sftRfndfrfdImbgf(RfndfrfdImbgf imbgf) {
+        syndhronizfd(this) {
+            if (imbgf == null) {
+                throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+            }
+            this.imbgf = imbgf;
+            this.rbstfr = null;
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>IIOImbgf</dodf> storfs
+     * b <dodf>Rbstfr</dodf> rbthfr thbn b <dodf>RfndfrfdImbgf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if b <dodf>Rbstfr</dodf> is
+     * bvbilbblf.
+     */
+    publid boolfbn hbsRbstfr() {
+        syndhronizfd(this) {
+            rfturn (rbstfr != null);
+        }
+    }
+
+    /**
+     * Rfturns thf durrfntly sft <dodf>Rbstfr</dodf>, or
+     * <dodf>null</dodf> if only b <dodf>RfndfrfdImbgf</dodf> is
+     * bvbilbblf.
+     *
+     * @rfturn b <dodf>Rbstfr</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftRbstfr
+     */
+    publid Rbstfr gftRbstfr() {
+        syndhronizfd(this) {
+            rfturn rbstfr;
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt <dodf>Rbstfr</dodf>.  Thf vbluf is
+     * storfd by rfffrfndf.  Any fxisting <dodf>RfndfrfdImbgf</dodf> is
+     * disdbrdfd.
+     *
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbstfr</dodf> is
+     * <dodf>null</dodf>.
+     *
+     * @sff #gftRbstfr
+     */
+    publid void sftRbstfr(Rbstfr rbstfr) {
+        syndhronizfd(this) {
+            if (rbstfr == null) {
+                throw nfw IllfgblArgumfntExdfption("rbstfr == null!");
+            }
+            this.rbstfr = rbstfr;
+            this.imbgf = null;
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of thumbnbils storfd in this
+     * <dodf>IIOImbgf</dodf>.
+     *
+     * @rfturn thf numbfr of thumbnbils, bs bn <dodf>int</dodf>.
+     */
+    publid int gftNumThumbnbils() {
+        rfturn thumbnbils == null ? 0 : thumbnbils.sizf();
+    }
+
+    /**
+     * Rfturns b thumbnbil bssodibtfd with thf mbin imbgf.
+     *
+     * @pbrbm indfx thf indfx of thf dfsirfd thumbnbil imbgf.
+     *
+     * @rfturn b thumbnbil imbgf, bs b <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * nfgbtivf or lbrgfr thbn thf lbrgfst vblid indfx.
+     * @fxdfption ClbssCbstExdfption if b
+     * non-<dodf>BufffrfdImbgf</dodf> objfdt is fndountfrfd in thf
+     * list of thumbnbils bt thf givfn indfx.
+     *
+     * @sff #gftThumbnbils
+     * @sff #sftThumbnbils
+     */
+    publid BufffrfdImbgf gftThumbnbil(int indfx) {
+        if (thumbnbils == null) {
+            throw nfw IndfxOutOfBoundsExdfption("No thumbnbils bvbilbblf!");
+        }
+        rfturn (BufffrfdImbgf)thumbnbils.gft(indfx);
+    }
+
+    /**
+     * Rfturns thf durrfnt <dodf>List</dodf> of thumbnbil
+     * <dodf>BufffrfdImbgf</dodf>s, or <dodf>null</dodf> if nonf is
+     * sft.  A livf rfffrfndf is rfturnfd.
+     *
+     * @rfturn thf durrfnt <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> thumbnbils, or <dodf>null</dodf>.
+     *
+     * @sff #gftThumbnbil(int)
+     * @sff #sftThumbnbils
+     */
+    publid List<? fxtfnds BufffrfdImbgf> gftThumbnbils() {
+        rfturn thumbnbils;
+    }
+
+    /**
+     * Sfts thf list of thumbnbils to b nfw <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf>s, or to <dodf>null</dodf>.  Thf
+     * rfffrfndf to thf prfvious <dodf>List</dodf> is disdbrdfd.
+     *
+     * <p> Thf <dodf>thumbnbils</dodf> brgumfnt must fithfr bf
+     * <dodf>null</dodf> or dontbin only <dodf>BufffrfdImbgf</dodf>
+     * objfdts.
+     *
+     * @pbrbm thumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> thumbnbils, or <dodf>null</dodf>.
+     *
+     * @sff #gftThumbnbil(int)
+     * @sff #gftThumbnbils
+     */
+    publid void sftThumbnbils(List<? fxtfnds BufffrfdImbgf> thumbnbils) {
+        this.thumbnbils = thumbnbils;
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf durrfnt <dodf>IIOMftbdbtb</dodf>
+     * objfdt, or <dodf>null</dodf> is nonf is sft.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or <dodf>null</dodf>.
+     *
+     * @sff #sftMftbdbtb
+     */
+    publid IIOMftbdbtb gftMftbdbtb() {
+        rfturn mftbdbtb;
+    }
+
+    /**
+     * Sfts thf <dodf>IIOMftbdbtb</dodf> to b nfw objfdt, or
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
+     *
+     * @sff #gftMftbdbtb
+     */
+    publid void sftMftbdbtb(IIOMftbdbtb mftbdbtb) {
+        this.mftbdbtb = mftbdbtb;
+    }
+}

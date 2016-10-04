@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.util.*;
-import sun.misc.Unsafe;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import sun.misd.Unsbff;
 
 /**
- * Maintains a mapping of pending I/O requests (identified by the address of
- * an OVERLAPPED structure) to Futures.
+ * Mbintbins b mbpping of pfnding I/O rfqufsts (idfntififd by tif bddrfss of
+ * bn OVERLAPPED strudturf) to Futurfs.
  */
 
-class PendingIoCache {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final int addressSize = unsafe.addressSize();
+dlbss PfndingIoCbdif {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl int bddrfssSizf = unsbff.bddrfssSizf();
 
-    private static int dependsArch(int value32, int value64) {
-        return (addressSize == 4) ? value32 : value64;
+    privbtf stbtid int dfpfndsArdi(int vbluf32, int vbluf64) {
+        rfturn (bddrfssSizf == 4) ? vbluf32 : vbluf64;
     }
 
     /*
-     * typedef struct _OVERLAPPED {
-     *     DWORD  Internal;
-     *     DWORD  InternalHigh;
-     *     DWORD  Offset;
-     *     DWORD  OffsetHigh;
-     *     HANDLE hEvent;
+     * typfdff strudt _OVERLAPPED {
+     *     DWORD  Intfrnbl;
+     *     DWORD  IntfrnblHigi;
+     *     DWORD  Offsft;
+     *     DWORD  OffsftHigi;
+     *     HANDLE iEvfnt;
      * } OVERLAPPED;
      */
-    private static final int SIZEOF_OVERLAPPED = dependsArch(20, 32);
+    privbtf stbtid finbl int SIZEOF_OVERLAPPED = dfpfndsArdi(20, 32);
 
-    // set to true when closed
-    private boolean closed;
+    // sft to truf wifn dlosfd
+    privbtf boolfbn dlosfd;
 
-    // set to true when thread is waiting for all I/O operations to complete
-    private boolean closePending;
+    // sft to truf wifn tirfbd is wbiting for bll I/O opfrbtions to domplftf
+    privbtf boolfbn dlosfPfnding;
 
-    // maps OVERLAPPED to PendingFuture
-    @SuppressWarnings("rawtypes")
-    private final Map<Long,PendingFuture> pendingIoMap =
-        new HashMap<Long,PendingFuture>();
+    // mbps OVERLAPPED to PfndingFuturf
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl Mbp<Long,PfndingFuturf> pfndingIoMbp =
+        nfw HbsiMbp<Long,PfndingFuturf>();
 
-    // per-channel cache of OVERLAPPED structures
-    private long[] overlappedCache = new long[4];
-    private int overlappedCacheCount = 0;
+    // pfr-dibnnfl dbdif of OVERLAPPED strudturfs
+    privbtf long[] ovfrlbppfdCbdif = nfw long[4];
+    privbtf int ovfrlbppfdCbdifCount = 0;
 
-    PendingIoCache() {
+    PfndingIoCbdif() {
     }
 
-    long add(PendingFuture<?,?> result) {
-        synchronized (this) {
-            if (closed)
-                throw new AssertionError("Should not get here");
+    long bdd(PfndingFuturf<?,?> rfsult) {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                tirow nfw AssfrtionError("Siould not gft ifrf");
             long ov;
-            if (overlappedCacheCount > 0) {
-                ov = overlappedCache[--overlappedCacheCount];
-            } else {
-                ov = unsafe.allocateMemory(SIZEOF_OVERLAPPED);
+            if (ovfrlbppfdCbdifCount > 0) {
+                ov = ovfrlbppfdCbdif[--ovfrlbppfdCbdifCount];
+            } flsf {
+                ov = unsbff.bllodbtfMfmory(SIZEOF_OVERLAPPED);
             }
-            pendingIoMap.put(ov, result);
-            return ov;
+            pfndingIoMbp.put(ov, rfsult);
+            rfturn ov;
         }
     }
 
-    @SuppressWarnings("unchecked")
-    <V,A> PendingFuture<V,A> remove(long overlapped) {
-        synchronized (this) {
-            PendingFuture<V,A> res = pendingIoMap.remove(overlapped);
-            if (res != null) {
-                if (overlappedCacheCount < overlappedCache.length) {
-                    overlappedCache[overlappedCacheCount++] = overlapped;
-                } else {
-                    // cache full or channel closing
-                    unsafe.freeMemory(overlapped);
+    @SupprfssWbrnings("undifdkfd")
+    <V,A> PfndingFuturf<V,A> rfmovf(long ovfrlbppfd) {
+        syndironizfd (tiis) {
+            PfndingFuturf<V,A> rfs = pfndingIoMbp.rfmovf(ovfrlbppfd);
+            if (rfs != null) {
+                if (ovfrlbppfdCbdifCount < ovfrlbppfdCbdif.lfngti) {
+                    ovfrlbppfdCbdif[ovfrlbppfdCbdifCount++] = ovfrlbppfd;
+                } flsf {
+                    // dbdif full or dibnnfl dlosing
+                    unsbff.frffMfmory(ovfrlbppfd);
                 }
-                // notify closing thread.
-                if (closePending) {
-                    this.notifyAll();
+                // notify dlosing tirfbd.
+                if (dlosfPfnding) {
+                    tiis.notifyAll();
                 }
             }
-            return res;
+            rfturn rfs;
         }
     }
 
-    void close() {
-        synchronized (this) {
-            if (closed)
-                return;
+    void dlosf() {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                rfturn;
 
-            // handle case where I/O operations that have not completed.
-            if (!pendingIoMap.isEmpty())
-                clearPendingIoMap();
+            // ibndlf dbsf wifrf I/O opfrbtions tibt ibvf not domplftfd.
+            if (!pfndingIoMbp.isEmpty())
+                dlfbrPfndingIoMbp();
 
-            // release memory for any cached OVERLAPPED structures
-            while (overlappedCacheCount > 0) {
-                unsafe.freeMemory( overlappedCache[--overlappedCacheCount] );
+            // rflfbsf mfmory for bny dbdifd OVERLAPPED strudturfs
+            wiilf (ovfrlbppfdCbdifCount > 0) {
+                unsbff.frffMfmory( ovfrlbppfdCbdif[--ovfrlbppfdCbdifCount] );
             }
 
-            // done
-            closed = true;
+            // donf
+            dlosfd = truf;
         }
     }
 
-    private void clearPendingIoMap() {
-        assert Thread.holdsLock(this);
+    privbtf void dlfbrPfndingIoMbp() {
+        bssfrt Tirfbd.ioldsLodk(tiis);
 
-        // wait up to 50ms for the I/O operations to complete
-        closePending = true;
+        // wbit up to 50ms for tif I/O opfrbtions to domplftf
+        dlosfPfnding = truf;
         try {
-            this.wait(50);
-        } catch (InterruptedException x) {
-            Thread.currentThread().interrupt();
+            tiis.wbit(50);
+        } dbtdi (IntfrruptfdExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        closePending = false;
-        if (pendingIoMap.isEmpty())
-            return;
+        dlosfPfnding = fblsf;
+        if (pfndingIoMbp.isEmpty())
+            rfturn;
 
-        // cause all pending I/O operations to fail
-        // simulate the failure of all pending I/O operations.
-        for (Long ov: pendingIoMap.keySet()) {
-            PendingFuture<?,?> result = pendingIoMap.get(ov);
-            assert !result.isDone();
+        // dbusf bll pfnding I/O opfrbtions to fbil
+        // simulbtf tif fbilurf of bll pfnding I/O opfrbtions.
+        for (Long ov: pfndingIoMbp.kfySft()) {
+            PfndingFuturf<?,?> rfsult = pfndingIoMbp.gft(ov);
+            bssfrt !rfsult.isDonf();
 
-            // make I/O port aware of the stale OVERLAPPED structure
-            Iocp iocp = (Iocp)((Groupable)result.channel()).group();
-            iocp.makeStale(ov);
+            // mbkf I/O port bwbrf of tif stblf OVERLAPPED strudturf
+            Iodp iodp = (Iodp)((Groupbblf)rfsult.dibnnfl()).group();
+            iodp.mbkfStblf(ov);
 
-            // execute a task that invokes the result handler's failed method
-            final Iocp.ResultHandler rh = (Iocp.ResultHandler)result.getContext();
-            Runnable task = new Runnable() {
-                public void run() {
-                    rh.failed(-1, new AsynchronousCloseException());
+            // fxfdutf b tbsk tibt invokfs tif rfsult ibndlfr's fbilfd mftiod
+            finbl Iodp.RfsultHbndlfr ri = (Iodp.RfsultHbndlfr)rfsult.gftContfxt();
+            Runnbblf tbsk = nfw Runnbblf() {
+                publid void run() {
+                    ri.fbilfd(-1, nfw AsyndironousClosfExdfption());
                 }
             };
-            iocp.executeOnPooledThread(task);
+            iodp.fxfdutfOnPoolfdTirfbd(tbsk);
         }
-        pendingIoMap.clear();
+        pfndingIoMbp.dlfbr();
     }
 }

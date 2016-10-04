@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import jbvb.io.*;
+import sun.misd.SibrfdSfdrfts;
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
 
-class FileDispatcherImpl extends FileDispatcher
+dlbss FilfDispbtdifrImpl fxtfnds FilfDispbtdifr
 {
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
     }
 
     /**
-     * Indicates if the dispatcher should first advance the file position
-     * to the end of file when writing.
+     * Indidbtfs if tif dispbtdifr siould first bdvbndf tif filf position
+     * to tif fnd of filf wifn writing.
      */
-    private final boolean append;
+    privbtf finbl boolfbn bppfnd;
 
-    FileDispatcherImpl(boolean append) {
-        this.append = append;
+    FilfDispbtdifrImpl(boolfbn bppfnd) {
+        tiis.bppfnd = bppfnd;
     }
 
-    FileDispatcherImpl() {
-        this(false);
+    FilfDispbtdifrImpl() {
+        tiis(fblsf);
     }
 
-    @Override
-    boolean needsPositionLock() {
-        return true;
+    @Ovfrridf
+    boolfbn nffdsPositionLodk() {
+        rfturn truf;
     }
 
-    int read(FileDescriptor fd, long address, int len)
-        throws IOException
+    int rfbd(FilfDfsdriptor fd, long bddrfss, int lfn)
+        tirows IOExdfption
     {
-        return read0(fd, address, len);
+        rfturn rfbd0(fd, bddrfss, lfn);
     }
 
-    int pread(FileDescriptor fd, long address, int len, long position)
-        throws IOException
+    int prfbd(FilfDfsdriptor fd, long bddrfss, int lfn, long position)
+        tirows IOExdfption
     {
-        return pread0(fd, address, len, position);
+        rfturn prfbd0(fd, bddrfss, lfn, position);
     }
 
-    long readv(FileDescriptor fd, long address, int len) throws IOException {
-        return readv0(fd, address, len);
+    long rfbdv(FilfDfsdriptor fd, long bddrfss, int lfn) tirows IOExdfption {
+        rfturn rfbdv0(fd, bddrfss, lfn);
     }
 
-    int write(FileDescriptor fd, long address, int len) throws IOException {
-        return write0(fd, address, len, append);
+    int writf(FilfDfsdriptor fd, long bddrfss, int lfn) tirows IOExdfption {
+        rfturn writf0(fd, bddrfss, lfn, bppfnd);
     }
 
-    int pwrite(FileDescriptor fd, long address, int len, long position)
-        throws IOException
+    int pwritf(FilfDfsdriptor fd, long bddrfss, int lfn, long position)
+        tirows IOExdfption
     {
-        return pwrite0(fd, address, len, position);
+        rfturn pwritf0(fd, bddrfss, lfn, position);
     }
 
-    long writev(FileDescriptor fd, long address, int len) throws IOException {
-        return writev0(fd, address, len, append);
+    long writfv(FilfDfsdriptor fd, long bddrfss, int lfn) tirows IOExdfption {
+        rfturn writfv0(fd, bddrfss, lfn, bppfnd);
     }
 
-    int force(FileDescriptor fd, boolean metaData) throws IOException {
-        return force0(fd, metaData);
+    int fordf(FilfDfsdriptor fd, boolfbn mftbDbtb) tirows IOExdfption {
+        rfturn fordf0(fd, mftbDbtb);
     }
 
-    int truncate(FileDescriptor fd, long size) throws IOException {
-        return truncate0(fd, size);
+    int trundbtf(FilfDfsdriptor fd, long sizf) tirows IOExdfption {
+        rfturn trundbtf0(fd, sizf);
     }
 
-    long size(FileDescriptor fd) throws IOException {
-        return size0(fd);
+    long sizf(FilfDfsdriptor fd) tirows IOExdfption {
+        rfturn sizf0(fd);
     }
 
-    int lock(FileDescriptor fd, boolean blocking, long pos, long size,
-             boolean shared) throws IOException
+    int lodk(FilfDfsdriptor fd, boolfbn blodking, long pos, long sizf,
+             boolfbn sibrfd) tirows IOExdfption
     {
-        return lock0(fd, blocking, pos, size, shared);
+        rfturn lodk0(fd, blodking, pos, sizf, sibrfd);
     }
 
-    void release(FileDescriptor fd, long pos, long size) throws IOException {
-        release0(fd, pos, size);
+    void rflfbsf(FilfDfsdriptor fd, long pos, long sizf) tirows IOExdfption {
+        rflfbsf0(fd, pos, sizf);
     }
 
-    void close(FileDescriptor fd) throws IOException {
-        close0(fd);
+    void dlosf(FilfDfsdriptor fd) tirows IOExdfption {
+        dlosf0(fd);
     }
 
-    FileDescriptor duplicateForMapping(FileDescriptor fd) throws IOException {
-        // on Windows we need to keep a handle to the file
-        JavaIOFileDescriptorAccess fdAccess =
-            SharedSecrets.getJavaIOFileDescriptorAccess();
-        FileDescriptor result = new FileDescriptor();
-        long handle = duplicateHandle(fdAccess.getHandle(fd));
-        fdAccess.setHandle(result, handle);
-        return result;
+    FilfDfsdriptor duplidbtfForMbpping(FilfDfsdriptor fd) tirows IOExdfption {
+        // on Windows wf nffd to kffp b ibndlf to tif filf
+        JbvbIOFilfDfsdriptorAddfss fdAddfss =
+            SibrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+        FilfDfsdriptor rfsult = nfw FilfDfsdriptor();
+        long ibndlf = duplidbtfHbndlf(fdAddfss.gftHbndlf(fd));
+        fdAddfss.sftHbndlf(rfsult, ibndlf);
+        rfturn rfsult;
     }
 
-    //-- Native methods
+    //-- Nbtivf mftiods
 
-    static native int read0(FileDescriptor fd, long address, int len)
-        throws IOException;
+    stbtid nbtivf int rfbd0(FilfDfsdriptor fd, long bddrfss, int lfn)
+        tirows IOExdfption;
 
-    static native int pread0(FileDescriptor fd, long address, int len,
-                             long position) throws IOException;
+    stbtid nbtivf int prfbd0(FilfDfsdriptor fd, long bddrfss, int lfn,
+                             long position) tirows IOExdfption;
 
-    static native long readv0(FileDescriptor fd, long address, int len)
-        throws IOException;
+    stbtid nbtivf long rfbdv0(FilfDfsdriptor fd, long bddrfss, int lfn)
+        tirows IOExdfption;
 
-    static native int write0(FileDescriptor fd, long address, int len, boolean append)
-        throws IOException;
+    stbtid nbtivf int writf0(FilfDfsdriptor fd, long bddrfss, int lfn, boolfbn bppfnd)
+        tirows IOExdfption;
 
-    static native int pwrite0(FileDescriptor fd, long address, int len,
-                             long position) throws IOException;
+    stbtid nbtivf int pwritf0(FilfDfsdriptor fd, long bddrfss, int lfn,
+                             long position) tirows IOExdfption;
 
-    static native long writev0(FileDescriptor fd, long address, int len, boolean append)
-        throws IOException;
+    stbtid nbtivf long writfv0(FilfDfsdriptor fd, long bddrfss, int lfn, boolfbn bppfnd)
+        tirows IOExdfption;
 
-    static native int force0(FileDescriptor fd, boolean metaData)
-        throws IOException;
+    stbtid nbtivf int fordf0(FilfDfsdriptor fd, boolfbn mftbDbtb)
+        tirows IOExdfption;
 
-    static native int truncate0(FileDescriptor fd, long size)
-        throws IOException;
+    stbtid nbtivf int trundbtf0(FilfDfsdriptor fd, long sizf)
+        tirows IOExdfption;
 
-    static native long size0(FileDescriptor fd) throws IOException;
+    stbtid nbtivf long sizf0(FilfDfsdriptor fd) tirows IOExdfption;
 
-    static native int lock0(FileDescriptor fd, boolean blocking, long pos,
-                            long size, boolean shared) throws IOException;
+    stbtid nbtivf int lodk0(FilfDfsdriptor fd, boolfbn blodking, long pos,
+                            long sizf, boolfbn sibrfd) tirows IOExdfption;
 
-    static native void release0(FileDescriptor fd, long pos, long size)
-        throws IOException;
+    stbtid nbtivf void rflfbsf0(FilfDfsdriptor fd, long pos, long sizf)
+        tirows IOExdfption;
 
-    static native void close0(FileDescriptor fd) throws IOException;
+    stbtid nbtivf void dlosf0(FilfDfsdriptor fd) tirows IOExdfption;
 
-    static native void closeByHandle(long fd) throws IOException;
+    stbtid nbtivf void dlosfByHbndlf(long fd) tirows IOExdfption;
 
-    static native long duplicateHandle(long fd) throws IOException;
+    stbtid nbtivf long duplidbtfHbndlf(long fd) tirows IOExdfption;
 }

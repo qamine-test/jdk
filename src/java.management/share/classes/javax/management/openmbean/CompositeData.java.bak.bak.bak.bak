@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+// jbvb import
+//
+import jbvb.util.Collfdtion;
+
+// jmx import
+//
+
+
+/**
+ * Thf <tt>CompositfDbtb</tt> intfrfbdf spfdififs thf bfhbvior of b spfdifid typf of domplfx <i>opfn dbtb</i> objfdts
+ * whidh rfprfsfnt <i>dompositf dbtb</i> strudturfs.
+ *
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf CompositfDbtb {
+
+
+    /**
+     * Rfturns thf <i>dompositf typf </i> of this <i>dompositf dbtb</i> instbndf.
+     *
+     * @rfturn thf typf of this CompositfDbtb.
+     */
+    publid CompositfTypf gftCompositfTypf();
+
+    /**
+     * Rfturns thf vbluf of thf itfm whosf nbmf is <tt>kfy</tt>.
+     *
+     * @pbrbm kfy thf nbmf of thf itfm.
+     *
+     * @rfturn thf vbluf bssodibtfd with this kfy.
+     *
+     * @throws IllfgblArgumfntExdfption  if <tt>kfy</tt> is b null or fmpty String.
+     *
+     * @throws InvblidKfyExdfption  if <tt>kfy</tt> is not bn fxisting itfm nbmf for this <tt>CompositfDbtb</tt> instbndf.
+     */
+    publid Objfdt gft(String kfy) ;
+
+    /**
+     * Rfturns bn brrby of thf vblufs of thf itfms whosf nbmfs brf spfdififd by <tt>kfys</tt>, in thf sbmf ordfr bs <tt>kfys</tt>.
+     *
+     * @pbrbm kfys thf nbmfs of thf itfms.
+     *
+     * @rfturn thf vblufs dorrfsponding to thf kfys.
+     *
+     * @throws IllfgblArgumfntExdfption  if bn flfmfnt in <tt>kfys</tt> is b null or fmpty String.
+     *
+     * @throws InvblidKfyExdfption  if bn flfmfnt in <tt>kfys</tt> is not bn fxisting itfm nbmf for this <tt>CompositfDbtb</tt> instbndf.
+     */
+    publid Objfdt[] gftAll(String[] kfys) ;
+
+    /**
+     * Rfturns <tt>truf</tt> if bnd only if this <tt>CompositfDbtb</tt> instbndf dontbins
+     * bn itfm whosf nbmf is <tt>kfy</tt>.
+     * If <tt>kfy</tt> is b null or fmpty String, this mfthod simply rfturns fblsf.
+     *
+     * @pbrbm kfy thf kfy to bf tfstfd.
+     *
+     * @rfturn truf if this <tt>CompositfDbtb</tt> dontbins thf kfy.
+     */
+    publid boolfbn dontbinsKfy(String kfy) ;
+
+    /**
+     * Rfturns <tt>truf</tt> if bnd only if this <tt>CompositfDbtb</tt> instbndf dontbins bn itfm
+     * whosf vbluf is <tt>vbluf</tt>.
+     *
+     * @pbrbm vbluf thf vbluf to bf tfstfd.
+     *
+     * @rfturn truf if this <tt>CompositfDbtb</tt> dontbins thf vbluf.
+     */
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) ;
+
+    /**
+     * Rfturns bn unmodifibblf Collfdtion vifw of thf itfm vblufs dontbinfd in this <tt>CompositfDbtb</tt> instbndf.
+     * Thf rfturnfd dollfdtion's itfrbtor will rfturn thf vblufs in thf bsdfnding lfxidogrbphid ordfr of thf dorrfsponding
+     * itfm nbmfs.
+     *
+     * @rfturn thf vblufs.
+     */
+    publid Collfdtion<?> vblufs() ;
+
+    /**
+     * Compbrfs thf spfdififd <vbr>obj</vbr> pbrbmftfr with this
+     * <dodf>CompositfDbtb</dodf> instbndf for fqublity.
+     * <p>
+     * Rfturns <tt>truf</tt> if bnd only if bll of thf following stbtfmfnts brf truf:
+     * <ul>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts thf <dodf>CompositfDbtb</dodf> intfrfbdf,</li>
+     * <li>thfir dompositf typfs brf fqubl</li>
+     * <li>thfir dontfnts, i.f. (nbmf, vbluf) pbirs brf fqubl. If b vbluf dontbinfd in
+     * thf dontfnt is bn brrby, thf vbluf dompbrison is donf bs if by dblling
+     * thf {@link jbvb.util.Arrbys#dffpEqubls(Objfdt[], Objfdt[]) dffpEqubls} mfthod
+     * for brrbys of objfdt rfffrfndf typfs or thf bppropribtf ovfrlobding of
+     * {@dodf Arrbys.fqubls(f1,f2)} for brrbys of primitivf typfs</li>
+     * </ul>
+     * <p>
+     * This fnsurfs thbt this <tt>fqubls</tt> mfthod works propfrly for
+     * <vbr>obj</vbr> pbrbmftfrs whidh brf difffrfnt implfmfntbtions of thf
+     * <dodf>CompositfDbtb</dodf> intfrfbdf, with thf rfstridtions mfntionfd in thf
+     * {@link jbvb.util.Collfdtion#fqubls(Objfdt) fqubls}
+     * mfthod of thf <tt>jbvb.util.Collfdtion</tt> intfrfbdf.
+     *
+     * @pbrbm  obj  thf objfdt to bf dompbrfd for fqublity with this
+     * <dodf>CompositfDbtb</dodf> instbndf.
+     * @rfturn  <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to this
+     * <dodf>CompositfDbtb</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj) ;
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>CompositfDbtb</dodf> instbndf.
+     * <p>
+     * Thf hbsh dodf of b <dodf>CompositfDbtb</dodf> instbndf is thf sum of thf hbsh dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its <i>dompositf typf</i> bnd bll thf itfm vblufs).
+     * <p>
+     * This fnsurfs thbt <dodf> t1.fqubls(t2) </dodf> implifs thbt <dodf> t1.hbshCodf()==t2.hbshCodf() </dodf>
+     * for bny two <dodf>CompositfDbtb</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
+     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     * <p>
+     * Ebdh itfm vbluf's hbsh dodf is bddfd to thf rfturnfd hbsh dodf.
+     * If bn itfm vbluf is bn brrby,
+     * its hbsh dodf is obtbinfd bs if by dblling thf
+     * {@link jbvb.util.Arrbys#dffpHbshCodf(Objfdt[]) dffpHbshCodf} mfthod
+     * for brrbys of objfdt rfffrfndf typfs or thf bppropribtf ovfrlobding
+     * of {@dodf Arrbys.hbshCodf(f)} for brrbys of primitivf typfs.
+     *
+     * @rfturn thf hbsh dodf vbluf for this <dodf>CompositfDbtb</dodf> instbndf
+     */
+    publid int hbshCodf() ;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>CompositfDbtb</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of thf nbmf of thf implfmfnting dlbss,
+     * thf string rfprfsfntbtion of thf dompositf typf of this instbndf, bnd thf string rfprfsfntbtion of thf dontfnts
+     * (if list thf itfmNbmf=itfmVbluf mbppings).
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>CompositfDbtb</dodf> instbndf
+     */
+    publid String toString() ;
+
+}

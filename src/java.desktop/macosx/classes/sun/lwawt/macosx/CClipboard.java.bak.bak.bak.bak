@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.NotSfriblizbblfExdfption;
+import jbvb.util.*;
+
+import sun.bwt.dbtbtrbnsffr.*;
+
+
+/**
+* A dlbss whidh intfrfbdfs with Codob's pbstfbobrd in ordfr to support
+ * dbtb trbnsffr vib Clipbobrd opfrbtions. Most of thf work is providfd by
+ * sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr.
+ */
+
+finbl dlbss CClipbobrd fxtfnds SunClipbobrd {
+
+    publid CClipbobrd(String nbmf) {
+        supfr(nbmf);
+    }
+
+    @Ovfrridf
+    publid long gftID() {
+        rfturn 0;
+    }
+
+    @Ovfrridf
+    protfdtfd void dlfbrNbtivfContfxt() {
+        // Lfbving Empty, bs WClipbobrd.dlfbrNbtivfContfxt is fmpty bs wfll.
+    }
+
+    @Ovfrridf
+    protfdtfd void sftContfntsNbtivf(Trbnsffrbblf dontfnts) {
+        FlbvorTbblf flbvorMbp = gftDffbultFlbvorTbblf();
+        // Don't usf dflbyfd Clipbobrd rfndfring for thf Trbnsffrbblf's dbtb.
+        // If wf did thbt, wf would dbll Trbnsffrbblf.gftTrbnsffrDbtb on
+        // thf Toolkit thrfbd, whidh is b sfdurity holf.
+        //
+        // Gft bll of thf tbrgft formbts into whidh thf Trbnsffrbblf dbn bf
+        // trbnslbtfd. Thfn, for fbdh formbt, trbnslbtf thf dbtb bnd post
+        // it to thf Clipbobrd.
+        DbtbTrbnsffrfr dbtbTrbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+        long[] formbtArrby = dbtbTrbnsffrfr.gftFormbtsForTrbnsffrbblfAsArrby(dontfnts, flbvorMbp);
+        dfdlbrfTypfs(formbtArrby, this);
+
+        Mbp<Long, DbtbFlbvor> formbtMbp = dbtbTrbnsffrfr.gftFormbtsForTrbnsffrbblf(dontfnts, flbvorMbp);
+        for (Mbp.Entry<Long, DbtbFlbvor> fntry : formbtMbp.fntrySft()) {
+            long formbt = fntry.gftKfy();
+            DbtbFlbvor flbvor = fntry.gftVbluf();
+
+            try {
+                bytf[] bytfs = DbtbTrbnsffrfr.gftInstbndf().trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt);
+                sftDbtb(bytfs, formbt);
+            } dbtdh (IOExdfption f) {
+                // Fix 4696186: don't print fxdfption if dbtb with
+                // jbvbJVMLodblObjfdtMimfTypf fbilfd to sfriblizf.
+                // Mby rfmovf this if-dhfdk whfn 5078787 is fixfd.
+                if (!(flbvor.isMimfTypfEqubl(DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf) &&
+                        f instbndfof NotSfriblizbblfExdfption)) {
+                    f.printStbdkTrbdf();
+                }
+            }
+        }
+
+        notifyChbngfd();
+    }
+
+    @Ovfrridf
+    protfdtfd nbtivf long[] gftClipbobrdFormbts();
+    @Ovfrridf
+    protfdtfd nbtivf bytf[] gftClipbobrdDbtb(long formbt) throws IOExdfption;
+
+    // 1.5 pffr mfthod
+    @Ovfrridf
+    protfdtfd void unrfgistfrClipbobrdVifwfrChfdkfd() {
+        // no-op bfdbusf wf lbdk OS support. This rfquirfs 4048791, whidh rfquirfs 4048792
+    }
+
+    // 1.5 pffr mfthod
+    @Ovfrridf
+    protfdtfd void rfgistfrClipbobrdVifwfrChfdkfd()    {
+        // no-op bfdbusf wf lbdk OS support. This rfquirfs 4048791, whidh rfquirfs 4048792
+    }
+
+    // 1.5 pffr mfthod
+    // no-op. This bppfbrs to bf win32 spfdifid. Filfd 4048790 for invfstigbtion
+    //protfdtfd Trbnsffrbblf drfbtfLodblfTrbnsffrbblf(long[] formbts) throws IOExdfption;
+
+    privbtf nbtivf void dfdlbrfTypfs(long[] formbts, SunClipbobrd nfwOwnfr);
+    privbtf nbtivf void sftDbtb(bytf[] dbtb, long formbt);
+
+    /**
+     * Invokfs nbtivf dhfdk whfthfr b dhbngf dount on thf gfnfrbl pbstfbobrd is difffrfnt
+     * thbn whfn wf sft it. Thf difffrfnt dount vbluf mfbns thf durrfnt ownfr lost
+     * pbstfbobrd ownfrship bnd somfonf flsf put dbtb on thf dlipbobrd.
+     * @sindf 1.7
+     */
+    nbtivf void dhfdkPbstfbobrd();
+
+    /*** Nbtivf Cbllbbdks ***/
+    privbtf void notifyLostOwnfrship() {
+        lostOwnfrshipImpl();
+    }
+
+    privbtf stbtid void notifyChbngfd() {
+        CClipbobrd dlipbobrd = (CClipbobrd) Toolkit.gftDffbultToolkit().gftSystfmClipbobrd();
+        if (!dlipbobrd.brfFlbvorListfnfrsRfgistfrfd()) {
+            rfturn;
+        }
+        dlipbobrd.dhfdkChbngf(dlipbobrd.gftClipbobrdFormbts());
+    }
+}

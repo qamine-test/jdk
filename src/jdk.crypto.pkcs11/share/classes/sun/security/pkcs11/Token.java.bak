@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.io.*;
+import jbvb.lbng.rff.*;
 
-import java.security.*;
-import javax.security.auth.login.LoginException;
+import jbvb.sfdurity.*;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.TemplateManager.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * PKCS#11 token.
+ * PKCS#11 tokfn.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-class Token implements Serializable {
+dlbss Tokfn implfmfnts Sfriblizbblf {
 
-    // need to be serializable to allow SecureRandom to be serialized
-    private static final long serialVersionUID = 2541527649100571747L;
+    // nffd to bf sfriblizbblf to bllow SfdurfRbndom to bf sfriblizfd
+    privbtf stbtid finbl long sfriblVfrsionUID = 2541527649100571747L;
 
-    // how often to check if the token is still present (in ms)
-    // this is different from checking if a token has been inserted,
-    // that is done in SunPKCS11. Currently 50 ms.
-    private final static long CHECK_INTERVAL = 50;
+    // iow oftfn to difdk if tif tokfn is still prfsfnt (in ms)
+    // tiis is difffrfnt from difdking if b tokfn ibs bffn insfrtfd,
+    // tibt is donf in SunPKCS11. Currfntly 50 ms.
+    privbtf finbl stbtid long CHECK_INTERVAL = 50;
 
-    final SunPKCS11 provider;
+    finbl SunPKCS11 providfr;
 
-    final PKCS11 p11;
+    finbl PKCS11 p11;
 
-    final Config config;
+    finbl Config donfig;
 
-    final CK_TOKEN_INFO tokenInfo;
+    finbl CK_TOKEN_INFO tokfnInfo;
 
-    // session manager to pool sessions
-    final SessionManager sessionManager;
+    // sfssion mbnbgfr to pool sfssions
+    finbl SfssionMbnbgfr sfssionMbnbgfr;
 
-    // template manager to customize the attributes used when creating objects
-    private final TemplateManager templateManager;
+    // tfmplbtf mbnbgfr to dustomizf tif bttributfs usfd wifn drfbting objfdts
+    privbtf finbl TfmplbtfMbnbgfr tfmplbtfMbnbgfr;
 
-    // flag indicating whether we need to explicitly cancel operations
-    // we started on the token. If false, we assume operations are
-    // automatically cancelled once we start another one
-    final boolean explicitCancel;
+    // flbg indidbting wiftifr wf nffd to fxpliditly dbndfl opfrbtions
+    // wf stbrtfd on tif tokfn. If fblsf, wf bssumf opfrbtions brf
+    // butombtidblly dbndfllfd ondf wf stbrt bnotifr onf
+    finbl boolfbn fxpliditCbndfl;
 
-    // translation cache for secret keys
-    final KeyCache secretCache;
+    // trbnslbtion dbdif for sfdrft kfys
+    finbl KfyCbdif sfdrftCbdif;
 
-    // translation cache for asymmetric keys (public and private)
-    final KeyCache privateCache;
+    // trbnslbtion dbdif for bsymmftrid kfys (publid bnd privbtf)
+    finbl KfyCbdif privbtfCbdif;
 
-    // cached instances of the various key factories, initialized on demand
-    private volatile P11KeyFactory rsaFactory, dsaFactory, dhFactory, ecFactory;
+    // dbdifd instbndfs of tif vbrious kfy fbdtorifs, initiblizfd on dfmbnd
+    privbtf volbtilf P11KfyFbdtory rsbFbdtory, dsbFbdtory, diFbdtory, fdFbdtory;
 
-    // table which maps mechanisms to the corresponding cached
-    // MechanismInfo objects
-    private final Map<Long, CK_MECHANISM_INFO> mechInfoMap;
+    // tbblf wiidi mbps mfdibnisms to tif dorrfsponding dbdifd
+    // MfdibnismInfo objfdts
+    privbtf finbl Mbp<Long, CK_MECHANISM_INFO> mfdiInfoMbp;
 
-    // single SecureRandomSpi instance we use per token
-    // initialized on demand (if supported)
-    private volatile P11SecureRandom secureRandom;
+    // singlf SfdurfRbndomSpi instbndf wf usf pfr tokfn
+    // initiblizfd on dfmbnd (if supportfd)
+    privbtf volbtilf P11SfdurfRbndom sfdurfRbndom;
 
-    // single KeyStoreSpi instance we use per provider
-    // initialized on demand
-    private volatile P11KeyStore keyStore;
+    // singlf KfyStorfSpi instbndf wf usf pfr providfr
+    // initiblizfd on dfmbnd
+    privbtf volbtilf P11KfyStorf kfyStorf;
 
-    // whether this token is a removable token
-    private final boolean removable;
+    // wiftifr tiis tokfn is b rfmovbblf tokfn
+    privbtf finbl boolfbn rfmovbblf;
 
-    // for removable tokens: whether this token is valid or has been removed
-    private volatile boolean valid;
+    // for rfmovbblf tokfns: wiftifr tiis tokfn is vblid or ibs bffn rfmovfd
+    privbtf volbtilf boolfbn vblid;
 
-    // for removable tokens: time last checked for token presence
-    private long lastPresentCheck;
+    // for rfmovbblf tokfns: timf lbst difdkfd for tokfn prfsfndf
+    privbtf long lbstPrfsfntCifdk;
 
-    // unique token id, used for serialization only
-    private byte[] tokenId;
+    // uniquf tokfn id, usfd for sfriblizbtion only
+    privbtf bytf[] tokfnId;
 
-    // flag indicating whether the token is write protected
-    private boolean writeProtected;
+    // flbg indidbting wiftifr tif tokfn is writf protfdtfd
+    privbtf boolfbn writfProtfdtfd;
 
-    // flag indicating whether we are logged in
-    private volatile boolean loggedIn;
+    // flbg indidbting wiftifr wf brf loggfd in
+    privbtf volbtilf boolfbn loggfdIn;
 
-    // time we last checked login status
-    private long lastLoginCheck;
+    // timf wf lbst difdkfd login stbtus
+    privbtf long lbstLoginCifdk;
 
-    // mutex for token-present-check
-    private final static Object CHECK_LOCK = new Object();
+    // mutfx for tokfn-prfsfnt-difdk
+    privbtf finbl stbtid Objfdt CHECK_LOCK = nfw Objfdt();
 
-    // object for indicating unsupported mechanism in 'mechInfoMap'
-    private final static CK_MECHANISM_INFO INVALID_MECH =
-        new CK_MECHANISM_INFO(0, 0, 0);
+    // objfdt for indidbting unsupportfd mfdibnism in 'mfdiInfoMbp'
+    privbtf finbl stbtid CK_MECHANISM_INFO INVALID_MECH =
+        nfw CK_MECHANISM_INFO(0, 0, 0);
 
-    // flag indicating whether the token supports raw secret key material import
-    private Boolean supportsRawSecretKeyImport;
+    // flbg indidbting wiftifr tif tokfn supports rbw sfdrft kfy mbtfribl import
+    privbtf Boolfbn supportsRbwSfdrftKfyImport;
 
-    Token(SunPKCS11 provider) throws PKCS11Exception {
-        this.provider = provider;
-        this.removable = provider.removable;
-        this.valid = true;
-        p11 = provider.p11;
-        config = provider.config;
-        tokenInfo = p11.C_GetTokenInfo(provider.slotID);
-        writeProtected = (tokenInfo.flags & CKF_WRITE_PROTECTED) != 0;
-        // create session manager and open a test session
-        SessionManager sessionManager;
+    Tokfn(SunPKCS11 providfr) tirows PKCS11Exdfption {
+        tiis.providfr = providfr;
+        tiis.rfmovbblf = providfr.rfmovbblf;
+        tiis.vblid = truf;
+        p11 = providfr.p11;
+        donfig = providfr.donfig;
+        tokfnInfo = p11.C_GftTokfnInfo(providfr.slotID);
+        writfProtfdtfd = (tokfnInfo.flbgs & CKF_WRITE_PROTECTED) != 0;
+        // drfbtf sfssion mbnbgfr bnd opfn b tfst sfssion
+        SfssionMbnbgfr sfssionMbnbgfr;
         try {
-            sessionManager = new SessionManager(this);
-            Session s = sessionManager.getOpSession();
-            sessionManager.releaseSession(s);
-        } catch (PKCS11Exception e) {
-            if (writeProtected) {
-                throw e;
+            sfssionMbnbgfr = nfw SfssionMbnbgfr(tiis);
+            Sfssion s = sfssionMbnbgfr.gftOpSfssion();
+            sfssionMbnbgfr.rflfbsfSfssion(s);
+        } dbtdi (PKCS11Exdfption f) {
+            if (writfProtfdtfd) {
+                tirow f;
             }
-            // token might not permit RW sessions even though
-            // CKF_WRITE_PROTECTED is not set
-            writeProtected = true;
-            sessionManager = new SessionManager(this);
-            Session s = sessionManager.getOpSession();
-            sessionManager.releaseSession(s);
+            // tokfn migit not pfrmit RW sfssions fvfn tiougi
+            // CKF_WRITE_PROTECTED is not sft
+            writfProtfdtfd = truf;
+            sfssionMbnbgfr = nfw SfssionMbnbgfr(tiis);
+            Sfssion s = sfssionMbnbgfr.gftOpSfssion();
+            sfssionMbnbgfr.rflfbsfSfssion(s);
         }
-        this.sessionManager = sessionManager;
-        secretCache = new KeyCache();
-        privateCache = new KeyCache();
-        templateManager = config.getTemplateManager();
-        explicitCancel = config.getExplicitCancel();
-        mechInfoMap =
-            new ConcurrentHashMap<Long, CK_MECHANISM_INFO>(10);
+        tiis.sfssionMbnbgfr = sfssionMbnbgfr;
+        sfdrftCbdif = nfw KfyCbdif();
+        privbtfCbdif = nfw KfyCbdif();
+        tfmplbtfMbnbgfr = donfig.gftTfmplbtfMbnbgfr();
+        fxpliditCbndfl = donfig.gftExpliditCbndfl();
+        mfdiInfoMbp =
+            nfw CondurrfntHbsiMbp<Long, CK_MECHANISM_INFO>(10);
     }
 
-    boolean isWriteProtected() {
-        return writeProtected;
+    boolfbn isWritfProtfdtfd() {
+        rfturn writfProtfdtfd;
     }
 
-    // return whether the token supports raw secret key material import
-    boolean supportsRawSecretKeyImport() {
-        if (supportsRawSecretKeyImport == null) {
-            SecureRandom random = JCAUtil.getSecureRandom();
-            byte[] encoded = new byte[48];
-            random.nextBytes(encoded);
+    // rfturn wiftifr tif tokfn supports rbw sfdrft kfy mbtfribl import
+    boolfbn supportsRbwSfdrftKfyImport() {
+        if (supportsRbwSfdrftKfyImport == null) {
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            bytf[] fndodfd = nfw bytf[48];
+            rbndom.nfxtBytfs(fndodfd);
 
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[3];
-            attributes[0] = new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
-            attributes[1] = new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET);
-            attributes[2] = new CK_ATTRIBUTE(CKA_VALUE, encoded);
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[3];
+            bttributfs[0] = nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
+            bttributfs[1] = nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET);
+            bttributfs[2] = nfw CK_ATTRIBUTE(CKA_VALUE, fndodfd);
 
-            Session session = null;
+            Sfssion sfssion = null;
             try {
-                attributes = getAttributes(O_IMPORT,
-                        CKO_SECRET_KEY, CKK_GENERIC_SECRET, attributes);
-                session = getObjSession();
-                long keyID = p11.C_CreateObject(session.id(), attributes);
+                bttributfs = gftAttributfs(O_IMPORT,
+                        CKO_SECRET_KEY, CKK_GENERIC_SECRET, bttributfs);
+                sfssion = gftObjSfssion();
+                long kfyID = p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
 
-                supportsRawSecretKeyImport = Boolean.TRUE;
-            } catch (PKCS11Exception e) {
-                supportsRawSecretKeyImport = Boolean.FALSE;
-            } finally {
-                releaseSession(session);
+                supportsRbwSfdrftKfyImport = Boolfbn.TRUE;
+            } dbtdi (PKCS11Exdfption f) {
+                supportsRbwSfdrftKfyImport = Boolfbn.FALSE;
+            } finblly {
+                rflfbsfSfssion(sfssion);
             }
         }
 
-        return supportsRawSecretKeyImport;
+        rfturn supportsRbwSfdrftKfyImport;
     }
 
-    // return whether we are logged in
-    // uses cached result if current. session is optional and may be null
-    boolean isLoggedIn(Session session) throws PKCS11Exception {
-        // volatile load first
-        boolean loggedIn = this.loggedIn;
-        long time = System.currentTimeMillis();
-        if (time - lastLoginCheck > CHECK_INTERVAL) {
-            loggedIn = isLoggedInNow(session);
-            lastLoginCheck = time;
+    // rfturn wiftifr wf brf loggfd in
+    // usfs dbdifd rfsult if durrfnt. sfssion is optionbl bnd mby bf null
+    boolfbn isLoggfdIn(Sfssion sfssion) tirows PKCS11Exdfption {
+        // volbtilf lobd first
+        boolfbn loggfdIn = tiis.loggfdIn;
+        long timf = Systfm.durrfntTimfMillis();
+        if (timf - lbstLoginCifdk > CHECK_INTERVAL) {
+            loggfdIn = isLoggfdInNow(sfssion);
+            lbstLoginCifdk = timf;
         }
-        return loggedIn;
+        rfturn loggfdIn;
     }
 
-    // return whether we are logged in now
-    // does not use cache
-    boolean isLoggedInNow(Session session) throws PKCS11Exception {
-        boolean allocSession = (session == null);
+    // rfturn wiftifr wf brf loggfd in now
+    // dofs not usf dbdif
+    boolfbn isLoggfdInNow(Sfssion sfssion) tirows PKCS11Exdfption {
+        boolfbn bllodSfssion = (sfssion == null);
         try {
-            if (allocSession) {
-                session = getOpSession();
+            if (bllodSfssion) {
+                sfssion = gftOpSfssion();
             }
-            CK_SESSION_INFO info = p11.C_GetSessionInfo(session.id());
-            boolean loggedIn = (info.state == CKS_RO_USER_FUNCTIONS) ||
-                                (info.state == CKS_RW_USER_FUNCTIONS);
-            this.loggedIn = loggedIn;
-            return loggedIn;
-        } finally {
-            if (allocSession) {
-                releaseSession(session);
+            CK_SESSION_INFO info = p11.C_GftSfssionInfo(sfssion.id());
+            boolfbn loggfdIn = (info.stbtf == CKS_RO_USER_FUNCTIONS) ||
+                                (info.stbtf == CKS_RW_USER_FUNCTIONS);
+            tiis.loggfdIn = loggfdIn;
+            rfturn loggfdIn;
+        } finblly {
+            if (bllodSfssion) {
+                rflfbsfSfssion(sfssion);
             }
         }
     }
 
-    // ensure that we are logged in
-    // call provider.login() if not
-    void ensureLoggedIn(Session session) throws PKCS11Exception, LoginException {
-        if (isLoggedIn(session) == false) {
-            provider.login(null, null);
+    // fnsurf tibt wf brf loggfd in
+    // dbll providfr.login() if not
+    void fnsurfLoggfdIn(Sfssion sfssion) tirows PKCS11Exdfption, LoginExdfption {
+        if (isLoggfdIn(sfssion) == fblsf) {
+            providfr.login(null, null);
         }
     }
 
-    // return whether this token object is valid (i.e. token not removed)
-    // returns value from last check, does not perform new check
-    boolean isValid() {
-        if (removable == false) {
-            return true;
+    // rfturn wiftifr tiis tokfn objfdt is vblid (i.f. tokfn not rfmovfd)
+    // rfturns vbluf from lbst difdk, dofs not pfrform nfw difdk
+    boolfbn isVblid() {
+        if (rfmovbblf == fblsf) {
+            rfturn truf;
         }
-        return valid;
+        rfturn vblid;
     }
 
-    void ensureValid() {
-        if (isValid() == false) {
-            throw new ProviderException("Token has been removed");
+    void fnsurfVblid() {
+        if (isVblid() == fblsf) {
+            tirow nfw ProvidfrExdfption("Tokfn ibs bffn rfmovfd");
         }
     }
 
-    // return whether a token is present (i.e. token not removed)
-    // returns cached value if current, otherwise performs new check
-    boolean isPresent(long sessionID) {
-        if (removable == false) {
-            return true;
+    // rfturn wiftifr b tokfn is prfsfnt (i.f. tokfn not rfmovfd)
+    // rfturns dbdifd vbluf if durrfnt, otifrwisf pfrforms nfw difdk
+    boolfbn isPrfsfnt(long sfssionID) {
+        if (rfmovbblf == fblsf) {
+            rfturn truf;
         }
-        if (valid == false) {
-            return false;
+        if (vblid == fblsf) {
+            rfturn fblsf;
         }
-        long time = System.currentTimeMillis();
-        if ((time - lastPresentCheck) >= CHECK_INTERVAL) {
-            synchronized (CHECK_LOCK) {
-                if ((time - lastPresentCheck) >= CHECK_INTERVAL) {
-                    boolean ok = false;
+        long timf = Systfm.durrfntTimfMillis();
+        if ((timf - lbstPrfsfntCifdk) >= CHECK_INTERVAL) {
+            syndironizfd (CHECK_LOCK) {
+                if ((timf - lbstPrfsfntCifdk) >= CHECK_INTERVAL) {
+                    boolfbn ok = fblsf;
                     try {
-                        // check if token still present
+                        // difdk if tokfn still prfsfnt
                         CK_SLOT_INFO slotInfo =
-                                provider.p11.C_GetSlotInfo(provider.slotID);
-                        if ((slotInfo.flags & CKF_TOKEN_PRESENT) != 0) {
-                            // if the token has been removed and re-inserted,
-                            // the token should return an error
-                            CK_SESSION_INFO sessInfo =
-                                    provider.p11.C_GetSessionInfo
-                                    (sessionID);
-                            ok = true;
+                                providfr.p11.C_GftSlotInfo(providfr.slotID);
+                        if ((slotInfo.flbgs & CKF_TOKEN_PRESENT) != 0) {
+                            // if tif tokfn ibs bffn rfmovfd bnd rf-insfrtfd,
+                            // tif tokfn siould rfturn bn frror
+                            CK_SESSION_INFO sfssInfo =
+                                    providfr.p11.C_GftSfssionInfo
+                                    (sfssionID);
+                            ok = truf;
                         }
-                    } catch (PKCS11Exception e) {
-                        // empty
+                    } dbtdi (PKCS11Exdfption f) {
+                        // fmpty
                     }
-                    valid = ok;
-                    lastPresentCheck = System.currentTimeMillis();
-                    if (ok == false) {
-                        destroy();
+                    vblid = ok;
+                    lbstPrfsfntCifdk = Systfm.durrfntTimfMillis();
+                    if (ok == fblsf) {
+                        dfstroy();
                     }
                 }
             }
         }
-        return valid;
+        rfturn vblid;
     }
 
-    void destroy() {
-        valid = false;
-        provider.uninitToken(this);
+    void dfstroy() {
+        vblid = fblsf;
+        providfr.uninitTokfn(tiis);
     }
 
-    Session getObjSession() throws PKCS11Exception {
-        return sessionManager.getObjSession();
+    Sfssion gftObjSfssion() tirows PKCS11Exdfption {
+        rfturn sfssionMbnbgfr.gftObjSfssion();
     }
 
-    Session getOpSession() throws PKCS11Exception {
-        return sessionManager.getOpSession();
+    Sfssion gftOpSfssion() tirows PKCS11Exdfption {
+        rfturn sfssionMbnbgfr.gftOpSfssion();
     }
 
-    Session releaseSession(Session session) {
-        return sessionManager.releaseSession(session);
+    Sfssion rflfbsfSfssion(Sfssion sfssion) {
+        rfturn sfssionMbnbgfr.rflfbsfSfssion(sfssion);
     }
 
-    Session killSession(Session session) {
-        return sessionManager.killSession(session);
+    Sfssion killSfssion(Sfssion sfssion) {
+        rfturn sfssionMbnbgfr.killSfssion(sfssion);
     }
 
-    CK_ATTRIBUTE[] getAttributes(String op, long type, long alg,
-            CK_ATTRIBUTE[] attrs) throws PKCS11Exception {
-        CK_ATTRIBUTE[] newAttrs =
-                    templateManager.getAttributes(op, type, alg, attrs);
-        for (CK_ATTRIBUTE attr : newAttrs) {
-            if (attr.type == CKA_TOKEN) {
-                if (attr.getBoolean()) {
+    CK_ATTRIBUTE[] gftAttributfs(String op, long typf, long blg,
+            CK_ATTRIBUTE[] bttrs) tirows PKCS11Exdfption {
+        CK_ATTRIBUTE[] nfwAttrs =
+                    tfmplbtfMbnbgfr.gftAttributfs(op, typf, blg, bttrs);
+        for (CK_ATTRIBUTE bttr : nfwAttrs) {
+            if (bttr.typf == CKA_TOKEN) {
+                if (bttr.gftBoolfbn()) {
                     try {
-                        ensureLoggedIn(null);
-                    } catch (LoginException e) {
-                        throw new ProviderException("Login failed", e);
+                        fnsurfLoggfdIn(null);
+                    } dbtdi (LoginExdfption f) {
+                        tirow nfw ProvidfrExdfption("Login fbilfd", f);
                     }
                 }
-                // break once we have found a CKA_TOKEN attribute
-                break;
+                // brfbk ondf wf ibvf found b CKA_TOKEN bttributf
+                brfbk;
             }
         }
-        return newAttrs;
+        rfturn nfwAttrs;
     }
 
-    P11KeyFactory getKeyFactory(String algorithm) {
-        P11KeyFactory f;
-        if (algorithm.equals("RSA")) {
-            f = rsaFactory;
+    P11KfyFbdtory gftKfyFbdtory(String blgoritim) {
+        P11KfyFbdtory f;
+        if (blgoritim.fqubls("RSA")) {
+            f = rsbFbdtory;
             if (f == null) {
-                f = new P11RSAKeyFactory(this, algorithm);
-                rsaFactory = f;
+                f = nfw P11RSAKfyFbdtory(tiis, blgoritim);
+                rsbFbdtory = f;
             }
-        } else if (algorithm.equals("DSA")) {
-            f = dsaFactory;
+        } flsf if (blgoritim.fqubls("DSA")) {
+            f = dsbFbdtory;
             if (f == null) {
-                f = new P11DSAKeyFactory(this, algorithm);
-                dsaFactory = f;
+                f = nfw P11DSAKfyFbdtory(tiis, blgoritim);
+                dsbFbdtory = f;
             }
-        } else if (algorithm.equals("DH")) {
-            f = dhFactory;
+        } flsf if (blgoritim.fqubls("DH")) {
+            f = diFbdtory;
             if (f == null) {
-                f = new P11DHKeyFactory(this, algorithm);
-                dhFactory = f;
+                f = nfw P11DHKfyFbdtory(tiis, blgoritim);
+                diFbdtory = f;
             }
-        } else if (algorithm.equals("EC")) {
-            f = ecFactory;
+        } flsf if (blgoritim.fqubls("EC")) {
+            f = fdFbdtory;
             if (f == null) {
-                f = new P11ECKeyFactory(this, algorithm);
-                ecFactory = f;
+                f = nfw P11ECKfyFbdtory(tiis, blgoritim);
+                fdFbdtory = f;
             }
-        } else {
-            throw new ProviderException("Unknown algorithm " + algorithm);
+        } flsf {
+            tirow nfw ProvidfrExdfption("Unknown blgoritim " + blgoritim);
         }
-        return f;
+        rfturn f;
     }
 
-    P11SecureRandom getRandom() {
-        if (secureRandom == null) {
-            secureRandom = new P11SecureRandom(this);
+    P11SfdurfRbndom gftRbndom() {
+        if (sfdurfRbndom == null) {
+            sfdurfRbndom = nfw P11SfdurfRbndom(tiis);
         }
-        return secureRandom;
+        rfturn sfdurfRbndom;
     }
 
-    P11KeyStore getKeyStore() {
-        if (keyStore == null) {
-            keyStore = new P11KeyStore(this);
+    P11KfyStorf gftKfyStorf() {
+        if (kfyStorf == null) {
+            kfyStorf = nfw P11KfyStorf(tiis);
         }
-        return keyStore;
+        rfturn kfyStorf;
     }
 
-    CK_MECHANISM_INFO getMechanismInfo(long mechanism) throws PKCS11Exception {
-        CK_MECHANISM_INFO result = mechInfoMap.get(mechanism);
-        if (result == null) {
+    CK_MECHANISM_INFO gftMfdibnismInfo(long mfdibnism) tirows PKCS11Exdfption {
+        CK_MECHANISM_INFO rfsult = mfdiInfoMbp.gft(mfdibnism);
+        if (rfsult == null) {
             try {
-                result = p11.C_GetMechanismInfo(provider.slotID,
-                                                mechanism);
-                mechInfoMap.put(mechanism, result);
-            } catch (PKCS11Exception e) {
-                if (e.getErrorCode() != PKCS11Constants.CKR_MECHANISM_INVALID) {
-                    throw e;
-                } else {
-                    mechInfoMap.put(mechanism, INVALID_MECH);
+                rfsult = p11.C_GftMfdibnismInfo(providfr.slotID,
+                                                mfdibnism);
+                mfdiInfoMbp.put(mfdibnism, rfsult);
+            } dbtdi (PKCS11Exdfption f) {
+                if (f.gftErrorCodf() != PKCS11Constbnts.CKR_MECHANISM_INVALID) {
+                    tirow f;
+                } flsf {
+                    mfdiInfoMbp.put(mfdibnism, INVALID_MECH);
                 }
             }
-        } else if (result == INVALID_MECH) {
-            result = null;
+        } flsf if (rfsult == INVALID_MECH) {
+            rfsult = null;
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private synchronized byte[] getTokenId() {
-        if (tokenId == null) {
-            SecureRandom random = JCAUtil.getSecureRandom();
-            tokenId = new byte[20];
-            random.nextBytes(tokenId);
-            serializedTokens.add(new WeakReference<Token>(this));
+    privbtf syndironizfd bytf[] gftTokfnId() {
+        if (tokfnId == null) {
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            tokfnId = nfw bytf[20];
+            rbndom.nfxtBytfs(tokfnId);
+            sfriblizfdTokfns.bdd(nfw WfbkRfffrfndf<Tokfn>(tiis));
         }
-        return tokenId;
+        rfturn tokfnId;
     }
 
-    // list of all tokens that have been serialized within this VM
-    // NOTE that elements are never removed from this list
-    // the assumption is that the number of tokens that are serialized
-    // is relatively small
-    private static final List<Reference<Token>> serializedTokens =
-        new ArrayList<Reference<Token>>();
+    // list of bll tokfns tibt ibvf bffn sfriblizfd witiin tiis VM
+    // NOTE tibt flfmfnts brf nfvfr rfmovfd from tiis list
+    // tif bssumption is tibt tif numbfr of tokfns tibt brf sfriblizfd
+    // is rflbtivfly smbll
+    privbtf stbtid finbl List<Rfffrfndf<Tokfn>> sfriblizfdTokfns =
+        nfw ArrbyList<Rfffrfndf<Tokfn>>();
 
-    private Object writeReplace() throws ObjectStreamException {
-        if (isValid() == false) {
-            throw new NotSerializableException("Token has been removed");
+    privbtf Objfdt writfRfplbdf() tirows ObjfdtStrfbmExdfption {
+        if (isVblid() == fblsf) {
+            tirow nfw NotSfriblizbblfExdfption("Tokfn ibs bffn rfmovfd");
         }
-        return new TokenRep(this);
+        rfturn nfw TokfnRfp(tiis);
     }
 
-    // serialized representation of a token
-    // tokens can only be de-serialized within the same VM invocation
-    // and if the token has not been removed in the meantime
-    private static class TokenRep implements Serializable {
+    // sfriblizfd rfprfsfntbtion of b tokfn
+    // tokfns dbn only bf df-sfriblizfd witiin tif sbmf VM invodbtion
+    // bnd if tif tokfn ibs not bffn rfmovfd in tif mfbntimf
+    privbtf stbtid dlbss TokfnRfp implfmfnts Sfriblizbblf {
 
-        private static final long serialVersionUID = 3503721168218219807L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 3503721168218219807L;
 
-        private final byte[] tokenId;
+        privbtf finbl bytf[] tokfnId;
 
-        TokenRep(Token token) {
-            tokenId = token.getTokenId();
+        TokfnRfp(Tokfn tokfn) {
+            tokfnId = tokfn.gftTokfnId();
         }
 
-        private Object readResolve() throws ObjectStreamException {
-            for (Reference<Token> tokenRef : serializedTokens) {
-                Token token = tokenRef.get();
-                if ((token != null) && token.isValid()) {
-                    if (Arrays.equals(token.getTokenId(), tokenId)) {
-                        return token;
+        privbtf Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
+            for (Rfffrfndf<Tokfn> tokfnRff : sfriblizfdTokfns) {
+                Tokfn tokfn = tokfnRff.gft();
+                if ((tokfn != null) && tokfn.isVblid()) {
+                    if (Arrbys.fqubls(tokfn.gftTokfnId(), tokfnId)) {
+                        rfturn tokfn;
                     }
                 }
             }
-            throw new NotSerializableException("Could not find token");
+            tirow nfw NotSfriblizbblfExdfption("Could not find tokfn");
         }
     }
 

@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.lbf;
+
+publid dlbss JRSUIFodus {
+    privbtf stbtid finbl int SUCCESS = 0;
+    privbtf stbtid finbl int NULL_PTR = -1;
+    privbtf stbtid finbl int NULL_CG_REF = -2;
+
+    // from HIThfmf.h
+    publid stbtid finbl int RING_ONLY = 0;
+    publid stbtid finbl int RING_ABOVE = 1;
+    publid stbtid finbl int RING_BELOW = 2;
+
+    privbtf stbtid nbtivf int bfginNbtivfFodus(finbl long dgContfxt, finbl int ringStylf);
+    privbtf stbtid nbtivf int fndNbtivfFodus(finbl long dgContfxt);
+
+    finbl long dgContfxt;
+    publid JRSUIFodus(finbl long dgContfxt) {
+        this.dgContfxt = dgContfxt;
+    }
+
+    publid void bfginFodus(finbl int ringStylf) {
+        tfstForFbilurf(bfginNbtivfFodus(dgContfxt, ringStylf));
+    }
+
+    publid void fndFodus() {
+        tfstForFbilurf(fndNbtivfFodus(dgContfxt));
+    }
+
+    stbtid void tfstForFbilurf(finbl int stbtus) {
+        if (stbtus == SUCCESS) rfturn;
+
+        switdh(stbtus) {
+            dbsf NULL_PTR: throw nfw RuntimfExdfption("Null pointfr fxdfption in nbtivf JRSUI");
+            dbsf NULL_CG_REF: throw nfw RuntimfExdfption("Null CG rfffrfndf in nbtivf JRSUI");
+            dffbult: throw nfw RuntimfExdfption("JRSUI drbw fodus problfm: " + stbtus);
+        }
+    }
+}

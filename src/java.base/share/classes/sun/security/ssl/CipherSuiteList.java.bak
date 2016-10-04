@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.net.ssl.SSLException;
+import jbvbx.nft.ssl.SSLExdfption;
 
 /**
- * A list of CipherSuites. Also maintains the lists of supported and
- * default ciphersuites and supports I/O from handshake streams.
+ * A list of CipifrSuitfs. Also mbintbins tif lists of supportfd bnd
+ * dffbult dipifrsuitfs bnd supports I/O from ibndsibkf strfbms.
  *
- * Instances of this class are immutable.
+ * Instbndfs of tiis dlbss brf immutbblf.
  *
  */
-final class CipherSuiteList {
+finbl dlbss CipifrSuitfList {
 
-    private final Collection<CipherSuite> cipherSuites;
-    private String[] suiteNames;
+    privbtf finbl Collfdtion<CipifrSuitf> dipifrSuitfs;
+    privbtf String[] suitfNbmfs;
 
-    // flag indicating whether this list contains any ECC ciphersuites.
-    // null if not yet checked.
-    private volatile Boolean containsEC;
+    // flbg indidbting wiftifr tiis list dontbins bny ECC dipifrsuitfs.
+    // null if not yft difdkfd.
+    privbtf volbtilf Boolfbn dontbinsEC;
 
-    // for use by buildAvailableCache() and
-    // Handshaker.getKickstartMessage() only
-    CipherSuiteList(Collection<CipherSuite> cipherSuites) {
-        this.cipherSuites = cipherSuites;
+    // for usf by buildAvbilbblfCbdif() bnd
+    // Hbndsibkfr.gftKidkstbrtMfssbgf() only
+    CipifrSuitfList(Collfdtion<CipifrSuitf> dipifrSuitfs) {
+        tiis.dipifrSuitfs = dipifrSuitfs;
     }
 
     /**
-     * Create a CipherSuiteList with a single element.
+     * Crfbtf b CipifrSuitfList witi b singlf flfmfnt.
      */
-    CipherSuiteList(CipherSuite suite) {
-        cipherSuites = new ArrayList<CipherSuite>(1);
-        cipherSuites.add(suite);
+    CipifrSuitfList(CipifrSuitf suitf) {
+        dipifrSuitfs = nfw ArrbyList<CipifrSuitf>(1);
+        dipifrSuitfs.bdd(suitf);
     }
 
     /**
-     * Construct a CipherSuiteList from a array of names. We don't bother
-     * to eliminate duplicates.
+     * Construdt b CipifrSuitfList from b brrby of nbmfs. Wf don't botifr
+     * to fliminbtf duplidbtfs.
      *
-     * @exception IllegalArgumentException if the array or any of its elements
-     * is null or if the ciphersuite name is unrecognized or unsupported
-     * using currently installed providers.
+     * @fxdfption IllfgblArgumfntExdfption if tif brrby or bny of its flfmfnts
+     * is null or if tif dipifrsuitf nbmf is unrfdognizfd or unsupportfd
+     * using durrfntly instbllfd providfrs.
      */
-    CipherSuiteList(String[] names) {
-        if (names == null) {
-            throw new IllegalArgumentException("CipherSuites may not be null");
+    CipifrSuitfList(String[] nbmfs) {
+        if (nbmfs == null) {
+            tirow nfw IllfgblArgumfntExdfption("CipifrSuitfs mby not bf null");
         }
-        cipherSuites = new ArrayList<CipherSuite>(names.length);
-        // refresh available cache once if a CipherSuite is not available
-        // (maybe new JCE providers have been installed)
-        boolean refreshed = false;
-        for (int i = 0; i < names.length; i++) {
-            String suiteName = names[i];
-            CipherSuite suite = CipherSuite.valueOf(suiteName);
-            if (suite.isAvailable() == false) {
-                if (refreshed == false) {
-                    // clear the cache so that the isAvailable() call below
-                    // does a full check
-                    clearAvailableCache();
-                    refreshed = true;
+        dipifrSuitfs = nfw ArrbyList<CipifrSuitf>(nbmfs.lfngti);
+        // rffrfsi bvbilbblf dbdif ondf if b CipifrSuitf is not bvbilbblf
+        // (mbybf nfw JCE providfrs ibvf bffn instbllfd)
+        boolfbn rffrfsifd = fblsf;
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            String suitfNbmf = nbmfs[i];
+            CipifrSuitf suitf = CipifrSuitf.vblufOf(suitfNbmf);
+            if (suitf.isAvbilbblf() == fblsf) {
+                if (rffrfsifd == fblsf) {
+                    // dlfbr tif dbdif so tibt tif isAvbilbblf() dbll bflow
+                    // dofs b full difdk
+                    dlfbrAvbilbblfCbdif();
+                    rffrfsifd = truf;
                 }
                 // still missing?
-                if (suite.isAvailable() == false) {
-                    throw new IllegalArgumentException("Cannot support "
-                        + suiteName + " with currently installed providers");
+                if (suitf.isAvbilbblf() == fblsf) {
+                    tirow nfw IllfgblArgumfntExdfption("Cbnnot support "
+                        + suitfNbmf + " witi durrfntly instbllfd providfrs");
                 }
             }
-            cipherSuites.add(suite);
+            dipifrSuitfs.bdd(suitf);
         }
     }
 
     /**
-     * Read a CipherSuiteList from a HandshakeInStream in V3 ClientHello
-     * format. Does not check if the listed ciphersuites are known or
-     * supported.
+     * Rfbd b CipifrSuitfList from b HbndsibkfInStrfbm in V3 ClifntHfllo
+     * formbt. Dofs not difdk if tif listfd dipifrsuitfs brf known or
+     * supportfd.
      */
-    CipherSuiteList(HandshakeInStream in) throws IOException {
-        byte[] bytes = in.getBytes16();
-        if ((bytes.length & 1) != 0) {
-            throw new SSLException("Invalid ClientHello message");
+    CipifrSuitfList(HbndsibkfInStrfbm in) tirows IOExdfption {
+        bytf[] bytfs = in.gftBytfs16();
+        if ((bytfs.lfngti & 1) != 0) {
+            tirow nfw SSLExdfption("Invblid ClifntHfllo mfssbgf");
         }
-        cipherSuites = new ArrayList<CipherSuite>(bytes.length >> 1);
-        for (int i = 0; i < bytes.length; i += 2) {
-            cipherSuites.add(CipherSuite.valueOf(bytes[i], bytes[i+1]));
+        dipifrSuitfs = nfw ArrbyList<CipifrSuitf>(bytfs.lfngti >> 1);
+        for (int i = 0; i < bytfs.lfngti; i += 2) {
+            dipifrSuitfs.bdd(CipifrSuitf.vblufOf(bytfs[i], bytfs[i+1]));
         }
     }
 
     /**
-     * Return whether this list contains the given CipherSuite.
+     * Rfturn wiftifr tiis list dontbins tif givfn CipifrSuitf.
      */
-    boolean contains(CipherSuite suite) {
-        return cipherSuites.contains(suite);
+    boolfbn dontbins(CipifrSuitf suitf) {
+        rfturn dipifrSuitfs.dontbins(suitf);
     }
 
-    // Return whether this list contains any ECC ciphersuites
-    boolean containsEC() {
-        if (containsEC == null) {
-            for (CipherSuite c : cipherSuites) {
-                switch (c.keyExchange) {
-                case K_ECDH_ECDSA:
-                case K_ECDH_RSA:
-                case K_ECDHE_ECDSA:
-                case K_ECDHE_RSA:
-                case K_ECDH_ANON:
-                    containsEC = true;
-                    return true;
-                default:
-                    break;
+    // Rfturn wiftifr tiis list dontbins bny ECC dipifrsuitfs
+    boolfbn dontbinsEC() {
+        if (dontbinsEC == null) {
+            for (CipifrSuitf d : dipifrSuitfs) {
+                switdi (d.kfyExdibngf) {
+                dbsf K_ECDH_ECDSA:
+                dbsf K_ECDH_RSA:
+                dbsf K_ECDHE_ECDSA:
+                dbsf K_ECDHE_RSA:
+                dbsf K_ECDH_ANON:
+                    dontbinsEC = truf;
+                    rfturn truf;
+                dffbult:
+                    brfbk;
                 }
             }
-            containsEC = false;
+            dontbinsEC = fblsf;
         }
-        return containsEC;
+        rfturn dontbinsEC;
     }
 
     /**
-     * Return an Iterator for the CipherSuites in this list.
+     * Rfturn bn Itfrbtor for tif CipifrSuitfs in tiis list.
      */
-    Iterator<CipherSuite> iterator() {
-        return cipherSuites.iterator();
+    Itfrbtor<CipifrSuitf> itfrbtor() {
+        rfturn dipifrSuitfs.itfrbtor();
     }
 
     /**
-     * Return a reference to the internal Collection of CipherSuites.
-     * The Collection MUST NOT be modified.
+     * Rfturn b rfffrfndf to tif intfrnbl Collfdtion of CipifrSuitfs.
+     * Tif Collfdtion MUST NOT bf modififd.
      */
-    Collection<CipherSuite> collection() {
-        return cipherSuites;
+    Collfdtion<CipifrSuitf> dollfdtion() {
+        rfturn dipifrSuitfs;
     }
 
     /**
-     * Return the number of CipherSuites in this list.
+     * Rfturn tif numbfr of CipifrSuitfs in tiis list.
      */
-    int size() {
-        return cipherSuites.size();
+    int sizf() {
+        rfturn dipifrSuitfs.sizf();
     }
 
     /**
-     * Return an array with the names of the CipherSuites in this list.
+     * Rfturn bn brrby witi tif nbmfs of tif CipifrSuitfs in tiis list.
      */
-    synchronized String[] toStringArray() {
-        if (suiteNames == null) {
-            suiteNames = new String[cipherSuites.size()];
+    syndironizfd String[] toStringArrby() {
+        if (suitfNbmfs == null) {
+            suitfNbmfs = nfw String[dipifrSuitfs.sizf()];
             int i = 0;
-            for (CipherSuite c : cipherSuites) {
-                suiteNames[i++] = c.name;
+            for (CipifrSuitf d : dipifrSuitfs) {
+                suitfNbmfs[i++] = d.nbmf;
             }
         }
-        return suiteNames.clone();
+        rfturn suitfNbmfs.dlonf();
     }
 
-    @Override
-    public String toString() {
-        return cipherSuites.toString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn dipifrSuitfs.toString();
     }
 
     /**
-     * Write this list to an HandshakeOutStream in V3 ClientHello format.
+     * Writf tiis list to bn HbndsibkfOutStrfbm in V3 ClifntHfllo formbt.
      */
-    void send(HandshakeOutStream s) throws IOException {
-        byte[] suiteBytes = new byte[cipherSuites.size() * 2];
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        bytf[] suitfBytfs = nfw bytf[dipifrSuitfs.sizf() * 2];
         int i = 0;
-        for (CipherSuite c : cipherSuites) {
-            suiteBytes[i] = (byte)(c.id >> 8);
-            suiteBytes[i+1] = (byte)c.id;
+        for (CipifrSuitf d : dipifrSuitfs) {
+            suitfBytfs[i] = (bytf)(d.id >> 8);
+            suitfBytfs[i+1] = (bytf)d.id;
             i += 2;
         }
-        s.putBytes16(suiteBytes);
+        s.putBytfs16(suitfBytfs);
     }
 
     /**
-     * Clear cache of available ciphersuites. If we support all ciphers
-     * internally, there is no need to clear the cache and calling this
-     * method has no effect.
+     * Clfbr dbdif of bvbilbblf dipifrsuitfs. If wf support bll dipifrs
+     * intfrnblly, tifrf is no nffd to dlfbr tif dbdif bnd dblling tiis
+     * mftiod ibs no ffffdt.
      */
-    static synchronized void clearAvailableCache() {
-        if (CipherSuite.DYNAMIC_AVAILABILITY) {
-            CipherSuite.BulkCipher.clearAvailableCache();
-            JsseJce.clearEcAvailable();
+    stbtid syndironizfd void dlfbrAvbilbblfCbdif() {
+        if (CipifrSuitf.DYNAMIC_AVAILABILITY) {
+            CipifrSuitf.BulkCipifr.dlfbrAvbilbblfCbdif();
+            JssfJdf.dlfbrEdAvbilbblf();
         }
     }
 }

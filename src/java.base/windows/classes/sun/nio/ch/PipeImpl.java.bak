@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.util.Random;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.util.Rbndom;
 
 
 /**
- * A simple Pipe implementation based on a socket connection.
+ * A simplf Pipf implfmfntbtion bbsfd on b sodkft donnfdtion.
  */
 
-class PipeImpl
-    extends Pipe
+dlbss PipfImpl
+    fxtfnds Pipf
 {
 
-    // Source and sink channels
-    private SourceChannel source;
-    private SinkChannel sink;
+    // Sourdf bnd sink dibnnfls
+    privbtf SourdfCibnnfl sourdf;
+    privbtf SinkCibnnfl sink;
 
-    // Random object for handshake values
-    private static final Random rnd;
+    // Rbndom objfdt for ibndsibkf vblufs
+    privbtf stbtid finbl Rbndom rnd;
 
-    static {
-        byte[] someBytes = new byte[8];
-        boolean resultOK = IOUtil.randomBytes(someBytes);
-        if (resultOK) {
-            rnd = new Random(ByteBuffer.wrap(someBytes).getLong());
-        } else {
-            rnd = new Random();
+    stbtid {
+        bytf[] somfBytfs = nfw bytf[8];
+        boolfbn rfsultOK = IOUtil.rbndomBytfs(somfBytfs);
+        if (rfsultOK) {
+            rnd = nfw Rbndom(BytfBufffr.wrbp(somfBytfs).gftLong());
+        } flsf {
+            rnd = nfw Rbndom();
         }
     }
 
-    private class Initializer
-        implements PrivilegedExceptionAction<Void>
+    privbtf dlbss Initiblizfr
+        implfmfnts PrivilfgfdExdfptionAdtion<Void>
     {
 
-        private final SelectorProvider sp;
+        privbtf finbl SflfdtorProvidfr sp;
 
-        private IOException ioe = null;
+        privbtf IOExdfption iof = null;
 
-        private Initializer(SelectorProvider sp) {
-            this.sp = sp;
+        privbtf Initiblizfr(SflfdtorProvidfr sp) {
+            tiis.sp = sp;
         }
 
-        @Override
-        public Void run() throws IOException {
-            LoopbackConnector connector = new LoopbackConnector();
-            connector.run();
-            if (ioe instanceof ClosedByInterruptException) {
-                ioe = null;
-                Thread connThread = new Thread(connector) {
-                    @Override
-                    public void interrupt() {}
+        @Ovfrridf
+        publid Void run() tirows IOExdfption {
+            LoopbbdkConnfdtor donnfdtor = nfw LoopbbdkConnfdtor();
+            donnfdtor.run();
+            if (iof instbndfof ClosfdByIntfrruptExdfption) {
+                iof = null;
+                Tirfbd donnTirfbd = nfw Tirfbd(donnfdtor) {
+                    @Ovfrridf
+                    publid void intfrrupt() {}
                 };
-                connThread.start();
+                donnTirfbd.stbrt();
                 for (;;) {
                     try {
-                        connThread.join();
-                        break;
-                    } catch (InterruptedException ex) {}
+                        donnTirfbd.join();
+                        brfbk;
+                    } dbtdi (IntfrruptfdExdfption fx) {}
                 }
-                Thread.currentThread().interrupt();
+                Tirfbd.durrfntTirfbd().intfrrupt();
             }
 
-            if (ioe != null)
-                throw new IOException("Unable to establish loopback connection", ioe);
+            if (iof != null)
+                tirow nfw IOExdfption("Unbblf to fstbblisi loopbbdk donnfdtion", iof);
 
-            return null;
+            rfturn null;
         }
 
-        private class LoopbackConnector implements Runnable {
+        privbtf dlbss LoopbbdkConnfdtor implfmfnts Runnbblf {
 
-            @Override
-            public void run() {
-                ServerSocketChannel ssc = null;
-                SocketChannel sc1 = null;
-                SocketChannel sc2 = null;
+            @Ovfrridf
+            publid void run() {
+                SfrvfrSodkftCibnnfl ssd = null;
+                SodkftCibnnfl sd1 = null;
+                SodkftCibnnfl sd2 = null;
 
                 try {
-                    // Loopback address
-                    InetAddress lb = InetAddress.getByName("127.0.0.1");
-                    assert(lb.isLoopbackAddress());
-                    InetSocketAddress sa = null;
+                    // Loopbbdk bddrfss
+                    InftAddrfss lb = InftAddrfss.gftByNbmf("127.0.0.1");
+                    bssfrt(lb.isLoopbbdkAddrfss());
+                    InftSodkftAddrfss sb = null;
                     for(;;) {
-                        // Bind ServerSocketChannel to a port on the loopback
-                        // address
-                        if (ssc == null || !ssc.isOpen()) {
-                            ssc = ServerSocketChannel.open();
-                            ssc.socket().bind(new InetSocketAddress(lb, 0));
-                            sa = new InetSocketAddress(lb, ssc.socket().getLocalPort());
+                        // Bind SfrvfrSodkftCibnnfl to b port on tif loopbbdk
+                        // bddrfss
+                        if (ssd == null || !ssd.isOpfn()) {
+                            ssd = SfrvfrSodkftCibnnfl.opfn();
+                            ssd.sodkft().bind(nfw InftSodkftAddrfss(lb, 0));
+                            sb = nfw InftSodkftAddrfss(lb, ssd.sodkft().gftLodblPort());
                         }
 
-                        // Establish connection (assume connections are eagerly
-                        // accepted)
-                        sc1 = SocketChannel.open(sa);
-                        ByteBuffer bb = ByteBuffer.allocate(8);
-                        long secret = rnd.nextLong();
-                        bb.putLong(secret).flip();
-                        sc1.write(bb);
+                        // Estbblisi donnfdtion (bssumf donnfdtions brf fbgfrly
+                        // bddfptfd)
+                        sd1 = SodkftCibnnfl.opfn(sb);
+                        BytfBufffr bb = BytfBufffr.bllodbtf(8);
+                        long sfdrft = rnd.nfxtLong();
+                        bb.putLong(sfdrft).flip();
+                        sd1.writf(bb);
 
-                        // Get a connection and verify it is legitimate
-                        sc2 = ssc.accept();
-                        bb.clear();
-                        sc2.read(bb);
-                        bb.rewind();
-                        if (bb.getLong() == secret)
-                            break;
-                        sc2.close();
-                        sc1.close();
+                        // Gft b donnfdtion bnd vfrify it is lfgitimbtf
+                        sd2 = ssd.bddfpt();
+                        bb.dlfbr();
+                        sd2.rfbd(bb);
+                        bb.rfwind();
+                        if (bb.gftLong() == sfdrft)
+                            brfbk;
+                        sd2.dlosf();
+                        sd1.dlosf();
                     }
 
-                    // Create source and sink channels
-                    source = new SourceChannelImpl(sp, sc1);
-                    sink = new SinkChannelImpl(sp, sc2);
-                } catch (IOException e) {
+                    // Crfbtf sourdf bnd sink dibnnfls
+                    sourdf = nfw SourdfCibnnflImpl(sp, sd1);
+                    sink = nfw SinkCibnnflImpl(sp, sd2);
+                } dbtdi (IOExdfption f) {
                     try {
-                        if (sc1 != null)
-                            sc1.close();
-                        if (sc2 != null)
-                            sc2.close();
-                    } catch (IOException e2) {}
-                    ioe = e;
-                } finally {
+                        if (sd1 != null)
+                            sd1.dlosf();
+                        if (sd2 != null)
+                            sd2.dlosf();
+                    } dbtdi (IOExdfption f2) {}
+                    iof = f;
+                } finblly {
                     try {
-                        if (ssc != null)
-                            ssc.close();
-                    } catch (IOException e2) {}
+                        if (ssd != null)
+                            ssd.dlosf();
+                    } dbtdi (IOExdfption f2) {}
                 }
             }
         }
     }
 
-    PipeImpl(final SelectorProvider sp) throws IOException {
+    PipfImpl(finbl SflfdtorProvidfr sp) tirows IOExdfption {
         try {
-            AccessController.doPrivileged(new Initializer(sp));
-        } catch (PrivilegedActionException x) {
-            throw (IOException)x.getCause();
+            AddfssControllfr.doPrivilfgfd(nfw Initiblizfr(sp));
+        } dbtdi (PrivilfgfdAdtionExdfption x) {
+            tirow (IOExdfption)x.gftCbusf();
         }
     }
 
-    public SourceChannel source() {
-        return source;
+    publid SourdfCibnnfl sourdf() {
+        rfturn sourdf;
     }
 
-    public SinkChannel sink() {
-        return sink;
+    publid SinkCibnnfl sink() {
+        rfturn sink;
     }
 
 }

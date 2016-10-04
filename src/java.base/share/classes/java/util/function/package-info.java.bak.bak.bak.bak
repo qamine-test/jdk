@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * <fm>Fundtionbl intfrfbdfs</fm> providf tbrgft typfs for lbmbdb fxprfssions
+ * bnd mfthod rfffrfndfs.  Ebdh fundtionbl intfrfbdf hbs b singlf bbstrbdt
+ * mfthod, dbllfd thf <fm>fundtionbl mfthod</fm> for thbt fundtionbl intfrfbdf,
+ * to whidh thf lbmbdb fxprfssion's pbrbmftfr bnd rfturn typfs brf mbtdhfd or
+ * bdbptfd.  Fundtionbl intfrfbdfs dbn providf b tbrgft typf in multiplf
+ * dontfxts, sudh bs bssignmfnt dontfxt, mfthod invodbtion, or dbst dontfxt:
+ *
+ * <prf>{@dodf
+ *     // Assignmfnt dontfxt
+ *     Prfdidbtf<String> p = String::isEmpty;
+ *
+ *     // Mfthod invodbtion dontfxt
+ *     strfbm.filtfr(f -> f.gftSizf() > 10)...
+ *
+ *     // Cbst dontfxt
+ *     strfbm.mbp((ToIntFundtion) f -> f.gftSizf())...
+ * }</prf>
+ *
+ * <p>Thf intfrfbdfs in this pbdkbgf brf gfnfrbl purposf fundtionbl intfrfbdfs
+ * usfd by thf JDK, bnd brf bvbilbblf to bf usfd by usfr dodf bs wfll.  Whilf
+ * thfy do not idfntify b domplftf sft of fundtion shbpfs to whidh lbmbdb
+ * fxprfssions might bf bdbptfd, thfy providf fnough to dovfr dommon
+ * rfquirfmfnts. Othfr fundtionbl intfrfbdfs providfd for spfdifid purposfs,
+ * sudh bs {@link jbvb.io.FilfFiltfr}, brf dffinfd in thf pbdkbgfs whfrf thfy
+ * brf usfd.
+ *
+ * <p>Thf intfrfbdfs in this pbdkbgf brf bnnotbtfd with
+ * {@link jbvb.lbng.FundtionblIntfrfbdf}. This bnnotbtion is not b rfquirfmfnt
+ * for thf dompilfr to rfdognizf bn intfrfbdf bs b fundtionbl intfrfbdf, but
+ * mfrfly bn bid to dbpturf dfsign intfnt bnd fnlist thf hflp of thf dompilfr in
+ * idfntifying bddidfntbl violbtions of dfsign intfnt.
+ *
+ * <p>Fundtionbl intfrfbdfs oftfn rfprfsfnt bbstrbdt dondfpts likf fundtions,
+ * bdtions, or prfdidbtfs.  In dodumfnting fundtionbl intfrfbdfs, or rfffrring
+ * to vbribblfs typfd bs fundtionbl intfrfbdfs, it is dommon to rfffr dirfdtly
+ * to thosf bbstrbdt dondfpts, for fxbmplf using "this fundtion" instfbd of
+ * "thf fundtion rfprfsfntfd by this objfdt".  Whfn bn API mfthod is sbid to
+ * bddfpt or rfturn b fundtionbl intfrfbdf in this mbnnfr, sudh bs "bpplifs thf
+ * providfd fundtion to...", this is undfrstood to mfbn b <i>non-null</i>
+ * rfffrfndf to bn objfdt implfmfnting thf bppropribtf fundtionbl intfrfbdf,
+ * unlfss potfntibl nullity is fxpliditly spfdififd.
+ *
+ * <p>Thf fundtionbl intfrfbdfs in this pbdkbgf follow bn fxtfnsiblf nbming
+ * donvfntion, bs follows:
+ *
+ * <ul>
+ *     <li>Thfrf brf sfvfrbl bbsid fundtion shbpfs, indluding
+ *     {@link jbvb.util.fundtion.Fundtion} (unbry fundtion from {@dodf T} to {@dodf R}),
+ *     {@link jbvb.util.fundtion.Consumfr} (unbry fundtion from {@dodf T} to {@dodf void}),
+ *     {@link jbvb.util.fundtion.Prfdidbtf} (unbry fundtion from {@dodf T} to {@dodf boolfbn}),
+ *     bnd {@link jbvb.util.fundtion.Supplifr} (nilbry fundtion to {@dodf R}).
+ *     </li>
+ *
+ *     <li>Fundtion shbpfs hbvf b nbturbl brity bbsfd on how thfy brf most
+ *     dommonly usfd.  Thf bbsid shbpfs dbn bf modififd by bn brity prffix to
+ *     indidbtf b difffrfnt brity, sudh bs
+ *     {@link jbvb.util.fundtion.BiFundtion} (binbry fundtion from {@dodf T} bnd
+ *     {@dodf U} to {@dodf R}).
+ *     </li>
+ *
+ *     <li>Thfrf brf bdditionbl dfrivfd fundtion shbpfs whidh fxtfnd thf bbsid
+ *     fundtion shbpfs, indluding {@link jbvb.util.fundtion.UnbryOpfrbtor}
+ *     (fxtfnds {@dodf Fundtion}) bnd {@link jbvb.util.fundtion.BinbryOpfrbtor}
+ *     (fxtfnds {@dodf BiFundtion}).
+ *     </li>
+ *
+ *     <li>Typf pbrbmftfrs of fundtionbl intfrfbdfs dbn bf spfdiblizfd to
+ *     primitivfs with bdditionbl typf prffixfs.  To spfdiblizf thf rfturn typf
+ *     for b typf thbt hbs both gfnfrid rfturn typf bnd gfnfrid brgumfnts, wf
+ *     prffix {@dodf ToXxx}, bs in {@link jbvb.util.fundtion.ToIntFundtion}.
+ *     Othfrwisf, typf brgumfnts brf spfdiblizfd lfft-to-right, bs in
+ *     {@link jbvb.util.fundtion.DoublfConsumfr}
+ *     or {@link jbvb.util.fundtion.ObjIntConsumfr}.
+ *     (Thf typf prffix {@dodf Obj} is usfd to indidbtf thbt wf don't wbnt to
+ *     spfdiblizf this pbrbmftfr, but wbnt to movf on to thf nfxt pbrbmftfr,
+ *     bs in {@link jbvb.util.fundtion.ObjIntConsumfr}.)
+ *     Thfsf sdhfmfs dbn bf dombinfd, bs in {@dodf IntToDoublfFundtion}.
+ *     </li>
+ *
+ *     <li>If thfrf brf spfdiblizbtion prffixfs for bll brgumfnts, thf brity
+ *     prffix mby bf lfft out (bs in {@link jbvb.util.fundtion.ObjIntConsumfr}).
+ *     </li>
+ * </ul>
+ *
+ * @sff jbvb.lbng.FundtionblIntfrfbdf
+ * @sindf 1.8
+ */
+pbdkbgf jbvb.util.fundtion;

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
 
 /**
-  * This interface represents a collection of attributes.
+  * Tiis intfrfbdf rfprfsfnts b dollfdtion of bttributfs.
   *<p>
-  * In a directory, named objects can have associated with them
-  * attributes.  The Attributes interface represents a collection of attributes.
-  * For example, you can request from the directory the attributes
-  * associated with an object.  Those attributes are returned in
-  * an object that implements the Attributes interface.
+  * In b dirfdtory, nbmfd objfdts dbn ibvf bssodibtfd witi tifm
+  * bttributfs.  Tif Attributfs intfrfbdf rfprfsfnts b dollfdtion of bttributfs.
+  * For fxbmplf, you dbn rfqufst from tif dirfdtory tif bttributfs
+  * bssodibtfd witi bn objfdt.  Tiosf bttributfs brf rfturnfd in
+  * bn objfdt tibt implfmfnts tif Attributfs intfrfbdf.
   *<p>
-  * Attributes in an object that implements the  Attributes interface are
-  * unordered. The object can have zero or more attributes.
-  * Attributes is either case-sensitive or case-insensitive (case-ignore).
-  * This property is determined at the time the Attributes object is
-  * created. (see BasicAttributes constructor for example).
-  * In a case-insensitive Attributes, the case of its attribute identifiers
-  * is ignored when searching for an attribute, or adding attributes.
-  * In a case-sensitive Attributes, the case is significant.
+  * Attributfs in bn objfdt tibt implfmfnts tif  Attributfs intfrfbdf brf
+  * unordfrfd. Tif objfdt dbn ibvf zfro or morf bttributfs.
+  * Attributfs is fitifr dbsf-sfnsitivf or dbsf-insfnsitivf (dbsf-ignorf).
+  * Tiis propfrty is dftfrminfd bt tif timf tif Attributfs objfdt is
+  * drfbtfd. (sff BbsidAttributfs donstrudtor for fxbmplf).
+  * In b dbsf-insfnsitivf Attributfs, tif dbsf of its bttributf idfntififrs
+  * is ignorfd wifn sfbrdiing for bn bttributf, or bdding bttributfs.
+  * In b dbsf-sfnsitivf Attributfs, tif dbsf is signifidbnt.
   *<p>
-  * Note that updates to Attributes (such as adding or removing an attribute)
-  * do not affect the corresponding representation in the directory.
-  * Updates to the directory can only be effected
-  * using operations in the DirContext interface.
+  * Notf tibt updbtfs to Attributfs (sudi bs bdding or rfmoving bn bttributf)
+  * do not bfffdt tif dorrfsponding rfprfsfntbtion in tif dirfdtory.
+  * Updbtfs to tif dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in tif DirContfxt intfrfbdf.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirContext#getAttributes
-  * @see DirContext#modifyAttributes
-  * @see DirContext#bind
-  * @see DirContext#rebind
-  * @see DirContext#createSubcontext
-  * @see DirContext#search
-  * @see BasicAttributes
-  * @since 1.3
+  * @sff DirContfxt#gftAttributfs
+  * @sff DirContfxt#modifyAttributfs
+  * @sff DirContfxt#bind
+  * @sff DirContfxt#rfbind
+  * @sff DirContfxt#drfbtfSubdontfxt
+  * @sff DirContfxt#sfbrdi
+  * @sff BbsidAttributfs
+  * @sindf 1.3
   */
 
-public interface Attributes extends Cloneable, java.io.Serializable {
+publid intfrfbdf Attributfs fxtfnds Clonfbblf, jbvb.io.Sfriblizbblf {
     /**
-      * Determines whether the attribute set ignores the case of
-      * attribute identifiers when retrieving or adding attributes.
-      * @return true if case is ignored; false otherwise.
+      * Dftfrminfs wiftifr tif bttributf sft ignorfs tif dbsf of
+      * bttributf idfntififrs wifn rftrifving or bdding bttributfs.
+      * @rfturn truf if dbsf is ignorfd; fblsf otifrwisf.
       */
-    boolean isCaseIgnored();
+    boolfbn isCbsfIgnorfd();
 
     /**
-      * Retrieves the number of attributes in the attribute set.
+      * Rftrifvfs tif numbfr of bttributfs in tif bttributf sft.
       *
-      * @return The nonnegative number of attributes in this attribute set.
+      * @rfturn Tif nonnfgbtivf numbfr of bttributfs in tiis bttributf sft.
       */
-    int size();
+    int sizf();
 
     /**
-      * Retrieves the attribute with the given attribute id from the
-      * attribute set.
+      * Rftrifvfs tif bttributf witi tif givfn bttributf id from tif
+      * bttributf sft.
       *
-      * @param attrID The non-null id of the attribute to retrieve.
-      *           If this attribute set ignores the character
-      *           case of its attribute ids, the case of attrID
-      *           is ignored.
-      * @return The attribute identified by attrID; null if not found.
-      * @see #put
-      * @see #remove
+      * @pbrbm bttrID Tif non-null id of tif bttributf to rftrifvf.
+      *           If tiis bttributf sft ignorfs tif dibrbdtfr
+      *           dbsf of its bttributf ids, tif dbsf of bttrID
+      *           is ignorfd.
+      * @rfturn Tif bttributf idfntififd by bttrID; null if not found.
+      * @sff #put
+      * @sff #rfmovf
       */
-    Attribute get(String attrID);
+    Attributf gft(String bttrID);
 
     /**
-      * Retrieves an enumeration of the attributes in the attribute set.
-      * The effects of updates to this attribute set on this enumeration
-      * are undefined.
+      * Rftrifvfs bn fnumfrbtion of tif bttributfs in tif bttributf sft.
+      * Tif ffffdts of updbtfs to tiis bttributf sft on tiis fnumfrbtion
+      * brf undffinfd.
       *
-      * @return A non-null enumeration of the attributes in this attribute set.
-      *         Each element of the enumeration is of class <tt>Attribute</tt>.
-      *         If attribute set has zero attributes, an empty enumeration
-      *         is returned.
+      * @rfturn A non-null fnumfrbtion of tif bttributfs in tiis bttributf sft.
+      *         Ebdi flfmfnt of tif fnumfrbtion is of dlbss <tt>Attributf</tt>.
+      *         If bttributf sft ibs zfro bttributfs, bn fmpty fnumfrbtion
+      *         is rfturnfd.
       */
-    NamingEnumeration<? extends Attribute> getAll();
+    NbmingEnumfrbtion<? fxtfnds Attributf> gftAll();
 
     /**
-      * Retrieves an enumeration of the ids of the attributes in the
-      * attribute set.
-      * The effects of updates to this attribute set on this enumeration
-      * are undefined.
+      * Rftrifvfs bn fnumfrbtion of tif ids of tif bttributfs in tif
+      * bttributf sft.
+      * Tif ffffdts of updbtfs to tiis bttributf sft on tiis fnumfrbtion
+      * brf undffinfd.
       *
-      * @return A non-null enumeration of the attributes' ids in
-      *         this attribute set. Each element of the enumeration is
-      *         of class String.
-      *         If attribute set has zero attributes, an empty enumeration
-      *         is returned.
+      * @rfturn A non-null fnumfrbtion of tif bttributfs' ids in
+      *         tiis bttributf sft. Ebdi flfmfnt of tif fnumfrbtion is
+      *         of dlbss String.
+      *         If bttributf sft ibs zfro bttributfs, bn fmpty fnumfrbtion
+      *         is rfturnfd.
       */
-    NamingEnumeration<String> getIDs();
+    NbmingEnumfrbtion<String> gftIDs();
 
     /**
-      * Adds a new attribute to the attribute set.
+      * Adds b nfw bttributf to tif bttributf sft.
       *
-      * @param attrID   non-null The id of the attribute to add.
-      *           If the attribute set ignores the character
-      *           case of its attribute ids, the case of attrID
-      *           is ignored.
-      * @param val      The possibly null value of the attribute to add.
-      *                 If null, the attribute does not have any values.
-      * @return The Attribute with attrID that was previous in this attribute set;
-      *         null if no such attribute existed.
-      * @see #remove
+      * @pbrbm bttrID   non-null Tif id of tif bttributf to bdd.
+      *           If tif bttributf sft ignorfs tif dibrbdtfr
+      *           dbsf of its bttributf ids, tif dbsf of bttrID
+      *           is ignorfd.
+      * @pbrbm vbl      Tif possibly null vbluf of tif bttributf to bdd.
+      *                 If null, tif bttributf dofs not ibvf bny vblufs.
+      * @rfturn Tif Attributf witi bttrID tibt wbs prfvious in tiis bttributf sft;
+      *         null if no sudi bttributf fxistfd.
+      * @sff #rfmovf
       */
-    Attribute put(String attrID, Object val);
+    Attributf put(String bttrID, Objfdt vbl);
 
     /**
-      * Adds a new attribute to the attribute set.
+      * Adds b nfw bttributf to tif bttributf sft.
       *
-      * @param attr     The non-null attribute to add.
-      *                 If the attribute set ignores the character
-      *                 case of its attribute ids, the case of
-      *                 attr's identifier is ignored.
-      * @return The Attribute with the same ID as attr that was previous
-      *         in this attribute set;
-      *         null if no such attribute existed.
-      * @see #remove
+      * @pbrbm bttr     Tif non-null bttributf to bdd.
+      *                 If tif bttributf sft ignorfs tif dibrbdtfr
+      *                 dbsf of its bttributf ids, tif dbsf of
+      *                 bttr's idfntififr is ignorfd.
+      * @rfturn Tif Attributf witi tif sbmf ID bs bttr tibt wbs prfvious
+      *         in tiis bttributf sft;
+      *         null if no sudi bttributf fxistfd.
+      * @sff #rfmovf
       */
-    Attribute put(Attribute attr);
+    Attributf put(Attributf bttr);
 
     /**
-      * Removes the attribute with the attribute id 'attrID' from
-      * the attribute set. If the attribute does not exist, ignore.
+      * Rfmovfs tif bttributf witi tif bttributf id 'bttrID' from
+      * tif bttributf sft. If tif bttributf dofs not fxist, ignorf.
       *
-      * @param attrID   The non-null id of the attribute to remove.
-      *                 If the attribute set ignores the character
-      *                 case of its attribute ids, the case of
-      *                 attrID is ignored.
-      * @return The Attribute with the same ID as attrID that was previous
-      *         in the attribute set;
-      *         null if no such attribute existed.
+      * @pbrbm bttrID   Tif non-null id of tif bttributf to rfmovf.
+      *                 If tif bttributf sft ignorfs tif dibrbdtfr
+      *                 dbsf of its bttributf ids, tif dbsf of
+      *                 bttrID is ignorfd.
+      * @rfturn Tif Attributf witi tif sbmf ID bs bttrID tibt wbs prfvious
+      *         in tif bttributf sft;
+      *         null if no sudi bttributf fxistfd.
       */
-    Attribute remove(String attrID);
+    Attributf rfmovf(String bttrID);
 
     /**
-      * Makes a copy of the attribute set.
-      * The new set contains the same attributes as the original set:
-      * the attributes are not themselves cloned.
-      * Changes to the copy will not affect the original and vice versa.
+      * Mbkfs b dopy of tif bttributf sft.
+      * Tif nfw sft dontbins tif sbmf bttributfs bs tif originbl sft:
+      * tif bttributfs brf not tifmsflvfs dlonfd.
+      * Cibngfs to tif dopy will not bfffdt tif originbl bnd vidf vfrsb.
       *
-      * @return A non-null copy of this attribute set.
+      * @rfturn A non-null dopy of tiis bttributf sft.
       */
-    Object clone();
+    Objfdt dlonf();
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    // static final long serialVersionUID = -7247874645443605347L;
+    // stbtid finbl long sfriblVfrsionUID = -7247874645443605347L;
 }

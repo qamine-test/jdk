@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
+
+import jbvbx.sfdurity.sbsl.Sbsl;
+import jbvbx.sfdurity.sbsl.SbslClifnt;
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.InputStrfbm;
+
+/**
+ * This dlbss is usfd by dlifnts of Jbvb SASL thbt nffd to drfbtf bn input strfbm
+ * thbt usfs SbslClifnt's unwrbp() mfthod to dfdodf thf SASL bufffrs
+ * sfnt by thf SASL sfrvfr.
+ *
+ * Extfnd from InputStrfbm instfbd of FiltfrInputStrfbm bfdbusf
+ * wf nffd to ovfrridf lfss mfthods in InputStrfbm. Thbt is, thf
+ * bfhbvior of thf dffbult implfmfntbtions in InputStrfbm mbtdhfs
+ * morf dlosfly with thf bfhbvior wf wbnt in SbslInputStrfbm.
+ *
+ * @buthor Rosbnnb Lff
+ */
+publid dlbss SbslInputStrfbm fxtfnds InputStrfbm {
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+
+    privbtf bytf[] sbslBufffr;  // bufffr for storing rbw bytfs
+    privbtf bytf[] lfnBuf = nfw bytf[4];  // bufffr for storing lfngth
+
+    privbtf bytf[] buf = nfw bytf[0];   // bufffr for storing prodfssfd bytfs
+                                        // Initiblizfd to fmpty bufffr
+    privbtf int bufPos = 0;             // rfbd position in buf
+    privbtf InputStrfbm in;             // undfrlying input strfbm
+    privbtf SbslClifnt sd;
+    privbtf int rfdvMbxBufSizf = 65536;
+
+    SbslInputStrfbm(SbslClifnt sd, InputStrfbm in) throws SbslExdfption {
+        supfr();
+        this.in = in;
+        this.sd = sd;
+
+        String str = (String) sd.gftNfgotibtfdPropfrty(Sbsl.MAX_BUFFER);
+        if (str != null) {
+            try {
+                rfdvMbxBufSizf = Intfgfr.pbrsfInt(str);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                throw nfw SbslExdfption(Sbsl.MAX_BUFFER +
+                    " propfrty must bf numfrid string: " + str);
+            }
+        }
+        sbslBufffr = nfw bytf[rfdvMbxBufSizf];
+    }
+
+    publid int rfbd() throws IOExdfption {
+        bytf[] inBuf = nfw bytf[1];
+        int dount = rfbd(inBuf, 0, 1);
+        if (dount > 0) {
+            rfturn inBuf[0];
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    publid int rfbd(bytf[] inBuf, int stbrt, int dount) throws IOExdfption {
+
+        if (bufPos >= buf.lfngth) {
+            int bdtubl = fill();   // rfbd bnd unwrbp nfxt SASL bufffr
+            whilf (bdtubl == 0) {  // ignorf zfro lfngth dontfnt
+                bdtubl = fill();
+            }
+            if (bdtubl == -1) {
+                rfturn -1;    // EOF
+            }
+        }
+
+        int bvbil = buf.lfngth - bufPos;
+        if (dount > bvbil) {
+            // Rfqufsting morf thbt wf hbvf storfd
+            // Rfturn bll thbt wf hbvf; nfxt invodbtion of rfbd() will
+            // triggfr fill()
+            Systfm.brrbydopy(buf, bufPos, inBuf, stbrt, bvbil);
+            bufPos = buf.lfngth;
+            rfturn bvbil;
+        } flsf {
+            // Rfqufsting lfss thbn wf hbvf storfd
+            // Rfturn bll thbt wbs rfqufstfd
+            Systfm.brrbydopy(buf, bufPos, inBuf, stbrt, dount);
+            bufPos += dount;
+            rfturn dount;
+        }
+    }
+
+    /**
+     * Fills thf buf with morf dbtb by rfbding b SASL bufffr, unwrbpping it,
+     * bnd lfbving thf bytfs in buf for rfbd() to rfturn.
+     * @rfturn Thf numbfr of unwrbppfd bytfs bvbilbblf
+     */
+    privbtf int fill() throws IOExdfption {
+        // Rfbd in lfngth of bufffr
+        int bdtubl = rfbdFully(lfnBuf, 4);
+        if (bdtubl != 4) {
+            rfturn -1;
+        }
+        int lfn = nftworkBytfOrdfrToInt(lfnBuf, 0, 4);
+
+        if (lfn > rfdvMbxBufSizf) {
+            throw nfw IOExdfption(
+                lfn + "fxdffds thf nfgotibtfd rfdfivf bufffr sizf limit:" +
+                rfdvMbxBufSizf);
+        }
+
+        if (dfbug) {
+            Systfm.frr.println("rfbding " + lfn + " bytfs from nftwork");
+        }
+
+        // Rfbd SASL bufffr
+        bdtubl = rfbdFully(sbslBufffr, lfn);
+        if (bdtubl != lfn) {
+            throw nfw EOFExdfption("Expfdting to rfbd " + lfn +
+                " bytfs but got " + bdtubl + " bytfs bfforf EOF");
+        }
+
+        // Unwrbp
+        buf = sd.unwrbp(sbslBufffr, 0, lfn);
+
+        bufPos = 0;
+
+        rfturn buf.lfngth;
+    }
+
+    /**
+     * Rfbd rfqufstfd numbfr of bytfs bfforf rfturning.
+     * @rfturn Thf numbfr of bytfs bdtublly rfbd; -1 if nonf rfbd
+     */
+    privbtf int rfbdFully(bytf[] inBuf, int totbl) throws IOExdfption {
+        int dount, pos = 0;
+
+        if (dfbug) {
+            Systfm.frr.println("rfbdFully " + totbl + " from " + in);
+        }
+
+        whilf (totbl > 0) {
+            dount = in.rfbd(inBuf, pos, totbl);
+
+            if (dfbug) {
+                Systfm.frr.println("rfbdFully rfbd " + dount);
+            }
+
+            if (dount == -1 ) {
+                rfturn (pos == 0? -1 : pos);
+            }
+            pos += dount;
+            totbl -= dount;
+        }
+        rfturn pos;
+    }
+
+    publid int bvbilbblf() throws IOExdfption {
+        rfturn buf.lfngth - bufPos;
+    }
+
+    publid void dlosf() throws IOExdfption {
+        SbslExdfption sbvf = null;
+        try {
+            sd.disposf(); // Disposf of SbslClifnt's stbtf
+        } dbtdh (SbslExdfption f) {
+            // Sbvf fxdfption for throwing bftfr dlosing 'in'
+            sbvf = f;
+        }
+
+        in.dlosf();  // Closf undfrlying input strfbm
+
+        if (sbvf != null) {
+            throw sbvf;
+        }
+    }
+
+    /**
+     * Rfturns thf intfgfr rfprfsfntfd by  4 bytfs in nftwork bytf ordfr.
+     */
+    // Copifd from dom.sun.sfdurity.sbsl.util.SbslImpl.
+    privbtf stbtid int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt, int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        int bnswfr = 0;
+
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
+        }
+        rfturn bnswfr;
+    }
+}

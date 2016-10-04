@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.x11;
+pbdkbgf sun.jbvb2d.x11;
 
-import sun.awt.SunToolkit;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.BlitBg;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
-import java.awt.Color;
-import java.awt.Composite;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivfMgr;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.BlitBg;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
 
 /**
  * X11PMBlitBgLoops
  *
- * This class accelerates Blits between two surfaces of types *PM.  Since
- * the onscreen surface is of that type and some of the offscreen surfaces
- * may be of that type (if they were created via X11OffScreenImage), then
- * this type of BlitBg will accelerated double-buffer copies between those
- * two surfaces.
+ * Tiis dlbss bddflfrbtfs Blits bftwffn two surfbdfs of typfs *PM.  Sindf
+ * tif onsdrffn surfbdf is of tibt typf bnd somf of tif offsdrffn surfbdfs
+ * mby bf of tibt typf (if tify wfrf drfbtfd vib X11OffSdrffnImbgf), tifn
+ * tiis typf of BlitBg will bddflfrbtfd doublf-bufffr dopifs bftwffn tiosf
+ * two surfbdfs.
 */
-public class X11PMBlitBgLoops extends BlitBg {
+publid dlbss X11PMBlitBgLoops fxtfnds BlitBg {
 
-    public static void register()
+    publid stbtid void rfgistfr()
     {
-        GraphicsPrimitive[] primitives = {
-            new X11PMBlitBgLoops(X11SurfaceData.IntBgrX11_BM,
-                                 X11SurfaceData.IntBgrX11),
-            new X11PMBlitBgLoops(X11SurfaceData.IntRgbX11_BM,
-                                 X11SurfaceData.IntRgbX11),
-            new X11PMBlitBgLoops(X11SurfaceData.ThreeByteBgrX11_BM,
-                                 X11SurfaceData.ThreeByteBgrX11),
-            new X11PMBlitBgLoops(X11SurfaceData.ThreeByteRgbX11_BM,
-                                 X11SurfaceData.ThreeByteRgbX11),
-            new X11PMBlitBgLoops(X11SurfaceData.ByteIndexedX11_BM,
-                                 X11SurfaceData.ByteIndexedOpaqueX11),
-            new X11PMBlitBgLoops(X11SurfaceData.ByteGrayX11_BM,
-                                 X11SurfaceData.ByteGrayX11),
-            new X11PMBlitBgLoops(X11SurfaceData.Index8GrayX11_BM,
-                                 X11SurfaceData.Index8GrayX11),
-            new X11PMBlitBgLoops(X11SurfaceData.UShort555RgbX11_BM,
-                                 X11SurfaceData.UShort555RgbX11),
-            new X11PMBlitBgLoops(X11SurfaceData.UShort565RgbX11_BM,
-                                 X11SurfaceData.UShort565RgbX11),
-            new X11PMBlitBgLoops(X11SurfaceData.UShortIndexedX11_BM,
-                                 X11SurfaceData.UShortIndexedX11),
-            new X11PMBlitBgLoops(X11SurfaceData.IntRgbX11_BM,
-                                 X11SurfaceData.IntArgbPreX11),
-            new X11PMBlitBgLoops(X11SurfaceData.IntBgrX11_BM,
-                                 X11SurfaceData.FourByteAbgrPreX11),
+        GrbpiidsPrimitivf[] primitivfs = {
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                                 X11SurfbdfDbtb.IntBgrX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                                 X11SurfbdfDbtb.IntRgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.TirffBytfBgrX11_BM,
+                                 X11SurfbdfDbtb.TirffBytfBgrX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.TirffBytfRgbX11_BM,
+                                 X11SurfbdfDbtb.TirffBytfRgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.BytfIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.BytfIndfxfdOpbqufX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.BytfGrbyX11_BM,
+                                 X11SurfbdfDbtb.BytfGrbyX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.Indfx8GrbyX11_BM,
+                                 X11SurfbdfDbtb.Indfx8GrbyX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.USiort555RgbX11_BM,
+                                 X11SurfbdfDbtb.USiort555RgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.USiort565RgbX11_BM,
+                                 X11SurfbdfDbtb.USiort565RgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.USiortIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.USiortIndfxfdX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                                 X11SurfbdfDbtb.IntArgbPrfX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                                 X11SurfbdfDbtb.FourBytfAbgrPrfX11),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbpiidsPrimitivfMgr.rfgistfr(primitivfs);
     }
 
-    public X11PMBlitBgLoops(SurfaceType srcType, SurfaceType dstType)
+    publid X11PMBlitBgLoops(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf)
     {
-        super(srcType, CompositeType.SrcNoEa, dstType);
+        supfr(srdTypf, CompositfTypf.SrdNoEb, dstTypf);
     }
 
-    @Override
-    public void BlitBg(SurfaceData src, SurfaceData dst,
-                       Composite comp, Region clip, int bgColor,
+    @Ovfrridf
+    publid void BlitBg(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                       Compositf domp, Rfgion dlip, int bgColor,
                        int sx, int sy,
                        int dx, int dy,
-                       int w, int h)
+                       int w, int i)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLodk();
         try {
-            int pixel = dst.pixelFor(bgColor);
-            X11SurfaceData x11sd = (X11SurfaceData)dst;
-            // use false for needExposures since we clip to the pixmap
-            long xgc = x11sd.getBlitGC(clip, false);
-            nativeBlitBg(src.getNativeOps(), dst.getNativeOps(),
-                         xgc, pixel,
-                         sx, sy, dx, dy, w, h);
-        } finally {
-            SunToolkit.awtUnlock();
+            int pixfl = dst.pixflFor(bgColor);
+            X11SurfbdfDbtb x11sd = (X11SurfbdfDbtb)dst;
+            // usf fblsf for nffdExposurfs sindf wf dlip to tif pixmbp
+            long xgd = x11sd.gftBlitGC(dlip, fblsf);
+            nbtivfBlitBg(srd.gftNbtivfOps(), dst.gftNbtivfOps(),
+                         xgd, pixfl,
+                         sx, sy, dx, dy, w, i);
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * This native method is where all of the work happens in the
-     * accelerated Blit.
+     * Tiis nbtivf mftiod is wifrf bll of tif work ibppfns in tif
+     * bddflfrbtfd Blit.
      */
-    private native void nativeBlitBg(long srcData, long dstData,
-                                     long xgc, int pixel,
+    privbtf nbtivf void nbtivfBlitBg(long srdDbtb, long dstDbtb,
+                                     long xgd, int pixfl,
                                      int sx, int sy,
                                      int dx, int dy,
-                                     int w, int h);
+                                     int w, int i);
 }

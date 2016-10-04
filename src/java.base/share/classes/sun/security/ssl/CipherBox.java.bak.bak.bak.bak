@@ -1,0 +1,1113 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Arrbys;
+
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.GCMPbrbmftfrSpfd;
+
+import jbvb.nio.*;
+
+import sun.sfdurity.ssl.CiphfrSuitf.*;
+import stbtid sun.sfdurity.ssl.CiphfrSuitf.*;
+import stbtid sun.sfdurity.ssl.CiphfrSuitf.CiphfrTypf.*;
+
+import sun.misd.HfxDumpEndodfr;
+
+
+/**
+ * This dlbss hbndlfs bulk dbtb fndiphfring/dfdiphfring for fbdh SSLv3
+ * mfssbgf.  This providfs dbtb donfidfntiblity.  Strfbm diphfrs (sudh
+ * bs RC4) don't nffd to do pbdding; blodk diphfrs (f.g. DES) nffd it.
+ *
+ * Individubl instbndfs brf obtbinfd by dblling thf stbtid mfthod
+ * nfwCiphfrBox(), whidh should only bf invokfd by BulkCiphfr.nfwCiphfr().
+ *
+ * In RFC 2246, with bodk diphfrs in CBC modf, thf Initiblizbtion
+ * Vfdtor (IV) for thf first rfdord is gfnfrbtfd with thf othfr kfys
+ * bnd sfdrfts whfn thf sfdurity pbrbmftfrs brf sft.  Thf IV for
+ * subsfqufnt rfdords is thf lbst diphfrtfxt blodk from thf prfvious
+ * rfdord.
+ *
+ * In RFC 4346, thf implidit Initiblizbtion Vfdtor (IV) is rfplbdfd
+ * with bn fxplidit IV to protfdt bgbinst CBC bttbdks.  RFC 4346
+ * rfdommfnds two blgorithms usfd to gfnfrbtfd thf pfr-rfdord IV.
+ * Thf implfmfntbtion usfs thf blgorithm (2)(b), bs dfsdribfd bt
+ * sfdtion 6.2.3.2 of RFC 4346.
+ *
+ * Thf usbgf of IV in CBC blodk diphfr dbn bf illustrbtfd in
+ * thf following dibgrbms.
+ *
+ *   (rbndom)
+ *        R         P1                    IV        C1
+ *        |          |                     |         |
+ *  SIV---+    |-----+    |-...            |-----    |------
+ *        |    |     |    |                |    |    |     |
+ *     +----+  |  +----+  |             +----+  |  +----+  |
+ *     | Ek |  |  + Ek +  |             | Dk |  |  | Dk |  |
+ *     +----+  |  +----+  |             +----+  |  +----+  |
+ *        |    |     |    |                |    |    |     |
+ *        |----|     |----|           SIV--+    |----|     |-...
+ *        |          |                     |       |
+ *       IV         C1                     R      P1
+ *                                     (disdbrd)
+ *
+ *       CBC Endryption                    CBC Dfdryption
+ *
+ * NOTE thbt bny diphfring involvfd in kfy fxdhbngf (f.g. with RSA) is
+ * hbndlfd sfpbrbtfly.
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Andrfbs Stfrbfnz
+ */
+finbl dlbss CiphfrBox {
+
+    // A CiphfrBox thbt implfmfnts thf idfntity opfrbtion
+    finbl stbtid CiphfrBox NULL = nfw CiphfrBox();
+
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    // thf protodol vfrsion this diphfr donforms to
+    privbtf finbl ProtodolVfrsion protodolVfrsion;
+
+    // diphfr objfdt
+    privbtf finbl Ciphfr diphfr;
+
+    /**
+     * sfdurf rbndom
+     */
+    privbtf SfdurfRbndom rbndom;
+
+    /**
+     * fixfd IV, thf implidit nondf of AEAD diphfr suitf, only bpply to
+     * AEAD diphfr suitfs
+     */
+    privbtf finbl bytf[] fixfdIv;
+
+    /**
+     * thf kfy, rfsfrvfd only for AEAD diphfr initiblizbtion
+     */
+    privbtf finbl Kfy kfy;
+
+    /**
+     * thf opfrbtion modf, rfsfrvfd for AEAD diphfr initiblizbtion
+     */
+    privbtf finbl int modf;
+
+    /**
+     * thf buthfntidbtion tbg sizf, only bpply to AEAD diphfr suitfs
+     */
+    privbtf finbl int tbgSizf;
+
+    /**
+     * thf rfdord IV lfngth, only bpply to AEAD diphfr suitfs
+     */
+    privbtf finbl int rfdordIvSizf;
+
+    /**
+     * diphfr typf
+     */
+    privbtf finbl CiphfrTypf diphfrTypf;
+
+    /**
+     * Fixfd mbsks of vbrious blodk sizf, bs thf initibl dfdryption IVs
+     * for TLS 1.1 or lbtfr.
+     *
+     * For pfrformbndf, wf do not usf rbndom IVs. As thf initibl dfdryption
+     * IVs will bf disdbrdfd by TLS dfdryption prodfssfs, so thf fixfd mbsks
+     * do not hurt dryptogrbphid strfngth.
+     */
+    privbtf stbtid Hbshtbblf<Intfgfr, IvPbrbmftfrSpfd> mbsks;
+
+    /**
+     * NULL diphfrbox. Idfntity opfrbtion, no fndryption.
+     */
+    privbtf CiphfrBox() {
+        this.protodolVfrsion = ProtodolVfrsion.DEFAULT;
+        this.diphfr = null;
+        this.diphfrTypf = STREAM_CIPHER;
+        this.fixfdIv = nfw bytf[0];
+        this.kfy = null;
+        this.modf = Ciphfr.ENCRYPT_MODE;    // dhoosf bt rbndom
+        this.rbndom = null;
+        this.tbgSizf = 0;
+        this.rfdordIvSizf = 0;
+    }
+
+    /**
+     * Construdt b nfw CiphfrBox using thf diphfr trbnsformbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no bppropribtf JCE Ciphfr
+     * implfmfntbtion dould bf found.
+     */
+    privbtf CiphfrBox(ProtodolVfrsion protodolVfrsion, BulkCiphfr bulkCiphfr,
+            SfdrftKfy kfy, IvPbrbmftfrSpfd iv, SfdurfRbndom rbndom,
+            boolfbn fndrypt) throws NoSudhAlgorithmExdfption {
+        try {
+            this.protodolVfrsion = protodolVfrsion;
+            this.diphfr = JssfJdf.gftCiphfr(bulkCiphfr.trbnsformbtion);
+            this.modf = fndrypt ? Ciphfr.ENCRYPT_MODE : Ciphfr.DECRYPT_MODE;
+
+            if (rbndom == null) {
+                rbndom = JssfJdf.gftSfdurfRbndom();
+            }
+            this.rbndom = rbndom;
+            this.diphfrTypf = bulkCiphfr.diphfrTypf;
+
+            /*
+             * RFC 4346 rfdommfnds two blgorithms usfd to gfnfrbtfd thf
+             * pfr-rfdord IV. Thf implfmfntbtion usfs thf blgorithm (2)(b),
+             * bs dfsdribfd bt sfdtion 6.2.3.2 of RFC 4346.
+             *
+             * As wf don't dbrf bbout thf initibl IV vbluf for TLS 1.1 or
+             * lbtfr, so if thf "iv" pbrbmftfr is null, wf usf thf dffbult
+             * vbluf gfnfrbtfd by Ciphfr.init() for fndryption, bnd b fixfd
+             * mbsk for dfdryption.
+             */
+            if (iv == null && bulkCiphfr.ivSizf != 0 &&
+                    modf == Ciphfr.DECRYPT_MODE &&
+                    protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                iv = gftFixfdMbsk(bulkCiphfr.ivSizf);
+            }
+
+            if (diphfrTypf == AEAD_CIPHER) {
+                // AEAD must domplftfly initiblizf thf diphfr for fbdh pbdkft,
+                // bnd so wf sbvf initiblizbtion pbrbmftfrs for pbdkft
+                // prodfssing timf.
+
+                // Sft thf tbg sizf for AEAD diphfr
+                tbgSizf = bulkCiphfr.tbgSizf;
+
+                // Rfsfrvf thf kfy for AEAD diphfr initiblizbtion
+                this.kfy = kfy;
+
+                fixfdIv = iv.gftIV();
+                if (fixfdIv == null ||
+                        fixfdIv.lfngth != bulkCiphfr.fixfdIvSizf) {
+                    throw nfw RuntimfExdfption("Impropfr fixfd IV for AEAD");
+                }
+
+                // Sft thf rfdord IV lfngth for AEAD diphfr
+                rfdordIvSizf = bulkCiphfr.ivSizf - bulkCiphfr.fixfdIvSizf;
+
+                // DON'T initiblizf thf diphfr for AEAD!
+            } flsf {
+                // CBC only rfquirfs onf initiblizbtion during its lifftimf
+                // (futurf pbdkfts/IVs sft thf propfr CBC stbtf), so wf dbn
+                // initiblizf now.
+
+                // Zfroizf thf vbribblfs thbt only bpply to AEAD diphfr
+                this.tbgSizf = 0;
+                this.fixfdIv = nfw bytf[0];
+                this.rfdordIvSizf = 0;
+                this.kfy = null;
+
+                // Initiblizf thf diphfr
+                diphfr.init(modf, kfy, iv, rbndom);
+            }
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw f;
+        } dbtdh (Exdfption f) {
+            throw nfw NoSudhAlgorithmExdfption
+                    ("Could not drfbtf diphfr " + bulkCiphfr, f);
+        } dbtdh (ExdfptionInInitiblizfrError f) {
+            throw nfw NoSudhAlgorithmExdfption
+                    ("Could not drfbtf diphfr " + bulkCiphfr, f);
+        }
+    }
+
+    /*
+     * Fbdtory mfthod to obtbin b nfw CiphfrBox objfdt.
+     */
+    stbtid CiphfrBox nfwCiphfrBox(ProtodolVfrsion vfrsion, BulkCiphfr diphfr,
+            SfdrftKfy kfy, IvPbrbmftfrSpfd iv, SfdurfRbndom rbndom,
+            boolfbn fndrypt) throws NoSudhAlgorithmExdfption {
+        if (diphfr.bllowfd == fblsf) {
+            throw nfw NoSudhAlgorithmExdfption("Unsupportfd diphfr " + diphfr);
+        }
+
+        if (diphfr == B_NULL) {
+            rfturn NULL;
+        } flsf {
+            rfturn nfw CiphfrBox(vfrsion, diphfr, kfy, iv, rbndom, fndrypt);
+        }
+    }
+
+    /*
+     * Gft b fixfd mbsk, bs thf initibl dfdryption IVs for TLS 1.1 or lbtfr.
+     */
+    privbtf stbtid IvPbrbmftfrSpfd gftFixfdMbsk(int ivSizf) {
+        if (mbsks == null) {
+            mbsks = nfw Hbshtbblf<Intfgfr, IvPbrbmftfrSpfd>(5);
+        }
+
+        IvPbrbmftfrSpfd iv = mbsks.gft(ivSizf);
+        if (iv == null) {
+            iv = nfw IvPbrbmftfrSpfd(nfw bytf[ivSizf]);
+            mbsks.put(ivSizf, iv);
+        }
+
+        rfturn iv;
+    }
+
+    /*
+     * Endrypts b blodk of dbtb, rfturning thf sizf of thf
+     * rfsulting blodk.
+     */
+    int fndrypt(bytf[] buf, int offsft, int lfn) {
+        if (diphfr == null) {
+            rfturn lfn;
+        }
+
+        try {
+            int blodkSizf = diphfr.gftBlodkSizf();
+            if (diphfrTypf == BLOCK_CIPHER) {
+                lfn = bddPbdding(buf, offsft, lfn, blodkSizf);
+            }
+
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
+                try {
+                    HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bfforf ENCRYPTION:  lfn = "
+                        + lfn);
+                    hd.fndodfBufffr(
+                        nfw BytfArrbyInputStrfbm(buf, offsft, lfn),
+                        Systfm.out);
+                } dbtdh (IOExdfption f) { }
+            }
+
+
+            if (diphfrTypf == AEAD_CIPHER) {
+                try {
+                    rfturn diphfr.doFinbl(buf, offsft, lfn, buf, offsft);
+                } dbtdh (IllfgblBlodkSizfExdfption | BbdPbddingExdfption ibf) {
+                    // unlikfly to hbppfn
+                    throw nfw RuntimfExdfption(
+                        "Ciphfr frror in AEAD modf in JCE providfr " +
+                        diphfr.gftProvidfr().gftNbmf(), ibf);
+                }
+            } flsf {
+                int nfwLfn = diphfr.updbtf(buf, offsft, lfn, buf, offsft);
+                if (nfwLfn != lfn) {
+                    // dbtdh BoundyCbstlf bufffring frror
+                    throw nfw RuntimfExdfption("Ciphfr bufffring frror " +
+                        "in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+                }
+                rfturn nfwLfn;
+            }
+        } dbtdh (ShortBufffrExdfption f) {
+            // unlikfly to hbppfn, wf should hbvf fnough bufffr spbdf hfrf
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
+        }
+    }
+
+    /*
+     * Endrypts b BytfBufffr blodk of dbtb, rfturning thf sizf of thf
+     * rfsulting blodk.
+     *
+     * Thf bytf bufffrs position bnd limit initiblly dffinf thf bmount
+     * to fndrypt.  On rfturn, thf position bnd limit brf
+     * sft to lbst position pbddfd/fndryptfd.  Thf limit mby hbvf dhbngfd
+     * bfdbusf of thf bddfd pbdding bytfs.
+     */
+    int fndrypt(BytfBufffr bb, int outLimit) {
+
+        int lfn = bb.rfmbining();
+
+        if (diphfr == null) {
+            bb.position(bb.limit());
+            rfturn lfn;
+        }
+
+        int pos = bb.position();
+
+        int blodkSizf = diphfr.gftBlodkSizf();
+        if (diphfrTypf == BLOCK_CIPHER) {
+            // bddPbdding bdjusts pos/limit
+            lfn = bddPbdding(bb, blodkSizf);
+            bb.position(pos);
+        }
+
+        if (dfbug != null && Dfbug.isOn("plbintfxt")) {
+            try {
+                HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                Systfm.out.println(
+                    "Pbddfd plbintfxt bfforf ENCRYPTION:  lfn = "
+                    + lfn);
+                hd.fndodfBufffr(bb.duplidbtf(), Systfm.out);
+
+            } dbtdh (IOExdfption f) { }
+        }
+
+        /*
+         * Endrypt "in-plbdf".  This dofs not bdd its own pbdding.
+         */
+        BytfBufffr dup = bb.duplidbtf();
+        if (diphfrTypf == AEAD_CIPHER) {
+            try {
+                int outputSizf = diphfr.gftOutputSizf(dup.rfmbining());
+                if (outputSizf > bb.rfmbining()) {
+                    // nffd to fxpbnd thf limit of thf output bufffr for
+                    // thf buthfntidbtion tbg.
+                    //
+                    // DON'T worry bbout thf bufffr's dbpbdity, wf hbvf
+                    // rfsfrvfd spbdf for thf buthfntidbtion tbg.
+                    if (outLimit < pos + outputSizf) {
+                        // unlikfly to hbppfn
+                        throw nfw ShortBufffrExdfption(
+                                    "nffd morf spbdf in output bufffr");
+                    }
+                    bb.limit(pos + outputSizf);
+                }
+                int nfwLfn = diphfr.doFinbl(dup, bb);
+                if (nfwLfn != outputSizf) {
+                    throw nfw RuntimfExdfption(
+                            "Ciphfr bufffring frror in JCE providfr " +
+                            diphfr.gftProvidfr().gftNbmf());
+                }
+                rfturn nfwLfn;
+            } dbtdh (IllfgblBlodkSizfExdfption |
+                           BbdPbddingExdfption | ShortBufffrExdfption ibsf) {
+                // unlikfly to hbppfn
+                throw nfw RuntimfExdfption(
+                        "Ciphfr frror in AEAD modf in JCE providfr " +
+                        diphfr.gftProvidfr().gftNbmf(), ibsf);
+            }
+        } flsf {
+            int nfwLfn;
+            try {
+                nfwLfn = diphfr.updbtf(dup, bb);
+            } dbtdh (ShortBufffrExdfption sbf) {
+                // unlikfly to hbppfn
+                throw nfw RuntimfExdfption("Ciphfr bufffring frror " +
+                    "in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+            }
+
+            if (bb.position() != dup.position()) {
+                throw nfw RuntimfExdfption("bytfbufffr pbdding frror");
+            }
+
+            if (nfwLfn != lfn) {
+                // dbtdh BoundyCbstlf bufffring frror
+                throw nfw RuntimfExdfption("Ciphfr bufffring frror " +
+                    "in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+            }
+            rfturn nfwLfn;
+        }
+    }
+
+
+    /*
+     * Dfdrypts b blodk of dbtb, rfturning thf sizf of thf
+     * rfsulting blodk if pbdding wbs rfquirfd.
+     *
+     * For SSLv3 bnd TLSv1.0, with blodk diphfrs in CBC modf thf
+     * Initiblizbtion Vfdtor (IV) for thf first rfdord is gfnfrbtfd by
+     * thf hbndshbkf protodol, thf IV for subsfqufnt rfdords is thf
+     * lbst diphfrtfxt blodk from thf prfvious rfdord.
+     *
+     * From TLSv1.1, thf implidit IV is rfplbdfd with bn fxplidit IV to
+     * protfdt bgbinst CBC bttbdks.
+     *
+     * Difffrfntibting bftwffn bbd_rfdord_mbd bnd dfdryption_fbilfd blfrts
+     * mby pfrmit dfrtbin bttbdks bgbinst CBC modf. It is prfffrbblf to
+     * uniformly usf thf bbd_rfdord_mbd blfrt to hidf thf spfdifid typf of
+     * thf frror.
+     */
+    int dfdrypt(bytf[] buf, int offsft, int lfn,
+            int tbgLfn) throws BbdPbddingExdfption {
+        if (diphfr == null) {
+            rfturn lfn;
+        }
+
+        try {
+            int nfwLfn;
+            if (diphfrTypf == AEAD_CIPHER) {
+                try {
+                    nfwLfn = diphfr.doFinbl(buf, offsft, lfn, buf, offsft);
+                } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+                    // unlikfly to hbppfn
+                    throw nfw RuntimfExdfption(
+                        "Ciphfr frror in AEAD modf in JCE providfr " +
+                        diphfr.gftProvidfr().gftNbmf(), ibsf);
+                }
+            } flsf {
+                nfwLfn = diphfr.updbtf(buf, offsft, lfn, buf, offsft);
+                if (nfwLfn != lfn) {
+                    // dbtdh BoundyCbstlf bufffring frror
+                    throw nfw RuntimfExdfption("Ciphfr bufffring frror " +
+                        "in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+                }
+            }
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
+                try {
+                    HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bftfr DECRYPTION:  lfn = "
+                        + nfwLfn);
+                    hd.fndodfBufffr(
+                        nfw BytfArrbyInputStrfbm(buf, offsft, nfwLfn),
+                        Systfm.out);
+                } dbtdh (IOExdfption f) { }
+            }
+
+            if (diphfrTypf == BLOCK_CIPHER) {
+                int blodkSizf = diphfr.gftBlodkSizf();
+                nfwLfn = rfmovfPbdding(
+                    buf, offsft, nfwLfn, tbgLfn, blodkSizf, protodolVfrsion);
+
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    if (nfwLfn < blodkSizf) {
+                        throw nfw BbdPbddingExdfption("invblid fxplidit IV");
+                    }
+                }
+            }
+            rfturn nfwLfn;
+        } dbtdh (ShortBufffrExdfption f) {
+            // unlikfly to hbppfn, wf should hbvf fnough bufffr spbdf hfrf
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
+        }
+    }
+
+
+    /*
+     * Dfdrypts b blodk of dbtb, rfturning thf sizf of thf
+     * rfsulting blodk if pbdding wbs rfquirfd.  position bnd limit
+     * point to thf fnd of thf dfdryptfd/dfpbddfd dbtb.  Thf initibl
+     * limit bnd nfw limit mby bf difffrfnt, givfn wf mby
+     * hbvf strippfd off somf pbdding bytfs.
+     *
+     *  @sff dfdrypt(bytf[], int, int)
+     */
+    int dfdrypt(BytfBufffr bb, int tbgLfn) throws BbdPbddingExdfption {
+
+        int lfn = bb.rfmbining();
+
+        if (diphfr == null) {
+            bb.position(bb.limit());
+            rfturn lfn;
+        }
+
+        try {
+            /*
+             * Dfdrypt "in-plbdf".
+             */
+            int pos = bb.position();
+            BytfBufffr dup = bb.duplidbtf();
+            int nfwLfn;
+            if (diphfrTypf == AEAD_CIPHER) {
+                try {
+                    nfwLfn = diphfr.doFinbl(dup, bb);
+                } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+                    // unlikfly to hbppfn
+                    throw nfw RuntimfExdfption(
+                        "Ciphfr frror in AEAD modf \"" + ibsf.gftMfssbgf() +
+                        " \"in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+                }
+            } flsf {
+                nfwLfn = diphfr.updbtf(dup, bb);
+                if (nfwLfn != lfn) {
+                    // dbtdh BoundyCbstlf bufffring frror
+                    throw nfw RuntimfExdfption("Ciphfr bufffring frror " +
+                        "in JCE providfr " + diphfr.gftProvidfr().gftNbmf());
+                }
+            }
+
+            // rfsft thf limit to thf fnd of thf dfdrytfd dbtb
+            bb.limit(pos + nfwLfn);
+
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
+                try {
+                    HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bftfr DECRYPTION:  lfn = "
+                        + nfwLfn);
+
+                    hd.fndodfBufffr(
+                        (BytfBufffr)bb.duplidbtf().position(pos), Systfm.out);
+                } dbtdh (IOExdfption f) { }
+            }
+
+            /*
+             * Rfmovf thf blodk pbdding.
+             */
+            if (diphfrTypf == BLOCK_CIPHER) {
+                int blodkSizf = diphfr.gftBlodkSizf();
+                bb.position(pos);
+                nfwLfn = rfmovfPbdding(bb, tbgLfn, blodkSizf, protodolVfrsion);
+
+                // dhfdk thf fxplidit IV of TLS v1.1 or lbtfr
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    if (nfwLfn < blodkSizf) {
+                        throw nfw BbdPbddingExdfption("invblid fxplidit IV");
+                    }
+
+                    // rfsft thf position to thf fnd of thf dfdryptfd dbtb
+                    bb.position(bb.limit());
+                }
+            }
+            rfturn nfwLfn;
+        } dbtdh (ShortBufffrExdfption f) {
+            // unlikfly to hbppfn, wf should hbvf fnough bufffr spbdf hfrf
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
+        }
+    }
+
+    privbtf stbtid int bddPbdding(bytf[] buf, int offsft, int lfn,
+            int blodkSizf) {
+        int     nfwlfn = lfn + 1;
+        bytf    pbd;
+        int     i;
+
+        if ((nfwlfn % blodkSizf) != 0) {
+            nfwlfn += blodkSizf - 1;
+            nfwlfn -= nfwlfn % blodkSizf;
+        }
+        pbd = (bytf) (nfwlfn - lfn);
+
+        if (buf.lfngth < (nfwlfn + offsft)) {
+            throw nfw IllfgblArgumfntExdfption("no spbdf to pbd bufffr");
+        }
+
+        /*
+         * TLS vfrsion of thf pbdding works for both SSLv3 bnd TLSv1
+         */
+        for (i = 0, offsft += lfn; i < pbd; i++) {
+            buf [offsft++] = (bytf) (pbd - 1);
+        }
+        rfturn nfwlfn;
+    }
+
+    /*
+     * Apply thf pbdding to thf bufffr.
+     *
+     * Limit is bdvbndfd to thf nfw bufffr lfngth.
+     * Position is fqubl to limit.
+     */
+    privbtf stbtid int bddPbdding(BytfBufffr bb, int blodkSizf) {
+
+        int     lfn = bb.rfmbining();
+        int     offsft = bb.position();
+
+        int     nfwlfn = lfn + 1;
+        bytf    pbd;
+        int     i;
+
+        if ((nfwlfn % blodkSizf) != 0) {
+            nfwlfn += blodkSizf - 1;
+            nfwlfn -= nfwlfn % blodkSizf;
+        }
+        pbd = (bytf) (nfwlfn - lfn);
+
+        /*
+         * Updbtf thf limit to whbt will bf pbddfd.
+         */
+        bb.limit(nfwlfn + offsft);
+
+        /*
+         * TLS vfrsion of thf pbdding works for both SSLv3 bnd TLSv1
+         */
+        for (i = 0, offsft += lfn; i < pbd; i++) {
+            bb.put(offsft++, (bytf) (pbd - 1));
+        }
+
+        bb.position(offsft);
+        bb.limit(offsft);
+
+        rfturn nfwlfn;
+    }
+
+    /*
+     * A donstbnt-timf dhfdk of thf pbdding.
+     *
+     * NOTE thbt wf brf dhfdking both thf pbdding bnd thf pbdLfn bytfs hfrf.
+     *
+     * Thf dbllfr MUST fnsurf thbt thf lfn pbrbmftfr is b positivf numbfr.
+     */
+    privbtf stbtid int[] dhfdkPbdding(
+            bytf[] buf, int offsft, int lfn, bytf pbd) {
+
+        if (lfn <= 0) {
+            throw nfw RuntimfExdfption("pbdding lfn must bf positivf");
+        }
+
+        // An brrby of hits is usfd to prfvfnt Hotspot optimizbtion for
+        // thf purposf of b donstbnt-timf dhfdk.
+        int[] rfsults = {0, 0};    // {missfd #, mbtdhfd #}
+        for (int i = 0; i <= 256;) {
+            for (int j = 0; j < lfn && i <= 256; j++, i++) {     // j <= i
+                if (buf[offsft + j] != pbd) {
+                    rfsults[0]++;       // mismbtdhfd pbdding dbtb
+                } flsf {
+                    rfsults[1]++;       // mbtdhfd pbdding dbtb
+                }
+            }
+        }
+
+        rfturn rfsults;
+    }
+
+    /*
+     * A donstbnt-timf dhfdk of thf pbdding.
+     *
+     * NOTE thbt wf brf dhfdking both thf pbdding bnd thf pbdLfn bytfs hfrf.
+     *
+     * Thf dbllfr MUST fnsurf thbt thf bb pbrbmftfr hbs rfmbining.
+     */
+    privbtf stbtid int[] dhfdkPbdding(BytfBufffr bb, bytf pbd) {
+
+        if (!bb.hbsRfmbining()) {
+            throw nfw RuntimfExdfption("hbsRfmbining() must bf positivf");
+        }
+
+        // An brrby of hits is usfd to prfvfnt Hotspot optimizbtion for
+        // thf purposf of b donstbnt-timf dhfdk.
+        int[] rfsults = {0, 0};    // {missfd #, mbtdhfd #}
+        bb.mbrk();
+        for (int i = 0; i <= 256; bb.rfsft()) {
+            for (; bb.hbsRfmbining() && i <= 256; i++) {
+                if (bb.gft() != pbd) {
+                    rfsults[0]++;       // mismbtdhfd pbdding dbtb
+                } flsf {
+                    rfsults[1]++;       // mbtdhfd pbdding dbtb
+                }
+            }
+        }
+
+        rfturn rfsults;
+    }
+
+    /*
+     * Typidbl TLS pbdding formbt for b 64 bit blodk diphfr is bs follows:
+     *   xx xx xx xx xx xx xx 00
+     *   xx xx xx xx xx xx 01 01
+     *   ...
+     *   xx 06 06 06 06 06 06 06
+     *   07 07 07 07 07 07 07 07
+     * TLS blso bllows bny bmount of pbdding from 1 bnd 256 bytfs bs long
+     * bs it mbkfs thf dbtb b multiplf of thf blodk sizf
+     */
+    privbtf stbtid int rfmovfPbdding(bytf[] buf, int offsft, int lfn,
+            int tbgLfn, int blodkSizf,
+            ProtodolVfrsion protodolVfrsion) throws BbdPbddingExdfption {
+
+        // lbst bytf is lfngth bytf (i.f. bdtubl pbdding lfngth - 1)
+        int pbdOffsft = offsft + lfn - 1;
+        int pbdLfn = buf[pbdOffsft] & 0xFF;
+
+        int nfwLfn = lfn - (pbdLfn + 1);
+        if ((nfwLfn - tbgLfn) < 0) {
+            // If thf bufffr is not long fnough to dontbin thf pbdding plus
+            // b MAC tbg, do b dummy donstbnt-timf pbdding dhfdk.
+            //
+            // Notf thbt it is b dummy dhfdk, so wf won't dbrf bbout whbt is
+            // thf bdtubl pbdding dbtb.
+            dhfdkPbdding(buf, offsft, lfn, (bytf)(pbdLfn & 0xFF));
+
+            throw nfw BbdPbddingExdfption("Invblid Pbdding lfngth: " + pbdLfn);
+        }
+
+        // Thf pbdding dbtb should bf fillfd with thf pbdding lfngth vbluf.
+        int[] rfsults = dhfdkPbdding(buf, offsft + nfwLfn,
+                        pbdLfn + 1, (bytf)(pbdLfn & 0xFF));
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            if (rfsults[0] != 0) {          // pbdding dbtb hbs invblid bytfs
+                throw nfw BbdPbddingExdfption("Invblid TLS pbdding dbtb");
+            }
+        } flsf { // SSLv3
+            // SSLv3 rfquirfs 0 <= lfngth bytf < blodk sizf
+            // somf implfmfntbtions do 1 <= lfngth bytf <= blodk sizf,
+            // so bddfpt thbt bs wfll
+            // v3 dofs not rfquirf bny pbrtidulbr vbluf for thf othfr bytfs
+            if (pbdLfn > blodkSizf) {
+                throw nfw BbdPbddingExdfption("Invblid SSLv3 pbdding");
+            }
+        }
+        rfturn nfwLfn;
+    }
+
+    /*
+     * Position/limit is fqubl thf rfmovfd pbdding.
+     */
+    privbtf stbtid int rfmovfPbdding(BytfBufffr bb,
+            int tbgLfn, int blodkSizf,
+            ProtodolVfrsion protodolVfrsion) throws BbdPbddingExdfption {
+
+        int lfn = bb.rfmbining();
+        int offsft = bb.position();
+
+        // lbst bytf is lfngth bytf (i.f. bdtubl pbdding lfngth - 1)
+        int pbdOffsft = offsft + lfn - 1;
+        int pbdLfn = bb.gft(pbdOffsft) & 0xFF;
+
+        int nfwLfn = lfn - (pbdLfn + 1);
+        if ((nfwLfn - tbgLfn) < 0) {
+            // If thf bufffr is not long fnough to dontbin thf pbdding plus
+            // b MAC tbg, do b dummy donstbnt-timf pbdding dhfdk.
+            //
+            // Notf thbt it is b dummy dhfdk, so wf won't dbrf bbout whbt is
+            // thf bdtubl pbdding dbtb.
+            dhfdkPbdding(bb.duplidbtf(), (bytf)(pbdLfn & 0xFF));
+
+            throw nfw BbdPbddingExdfption("Invblid Pbdding lfngth: " + pbdLfn);
+        }
+
+        // Thf pbdding dbtb should bf fillfd with thf pbdding lfngth vbluf.
+        int[] rfsults = dhfdkPbdding(
+                (BytfBufffr)bb.duplidbtf().position(offsft + nfwLfn),
+                (bytf)(pbdLfn & 0xFF));
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            if (rfsults[0] != 0) {          // pbdding dbtb hbs invblid bytfs
+                throw nfw BbdPbddingExdfption("Invblid TLS pbdding dbtb");
+            }
+        } flsf { // SSLv3
+            // SSLv3 rfquirfs 0 <= lfngth bytf < blodk sizf
+            // somf implfmfntbtions do 1 <= lfngth bytf <= blodk sizf,
+            // so bddfpt thbt bs wfll
+            // v3 dofs not rfquirf bny pbrtidulbr vbluf for thf othfr bytfs
+            if (pbdLfn > blodkSizf) {
+                throw nfw BbdPbddingExdfption("Invblid SSLv3 pbdding");
+            }
+        }
+
+        /*
+         * Rfsft bufffr limit to rfmovf pbdding.
+         */
+        bb.position(offsft + nfwLfn);
+        bb.limit(offsft + nfwLfn);
+
+        rfturn nfwLfn;
+    }
+
+    /*
+     * Disposf of bny intfrmfdibtf stbtf in thf undfrlying diphfr.
+     * For PKCS11 diphfrs, this will rflfbsf bny bttbdhfd sfssions, bnd
+     * thus mbkf finblizbtion fbstfr.
+     */
+    void disposf() {
+        try {
+            if (diphfr != null) {
+                // ignorf rfturn vbluf.
+                diphfr.doFinbl();
+            }
+        } dbtdh (Exdfption f) {
+            // swbllow bll typfs of fxdfptions.
+        }
+    }
+
+    /*
+     * Dofs thf diphfr usf CBC modf?
+     *
+     * @rfturn truf if thf diphfr usf CBC modf, fblsf othfrwisf.
+     */
+    boolfbn isCBCModf() {
+        rfturn diphfrTypf == BLOCK_CIPHER;
+    }
+
+    /*
+     * Dofs thf diphfr usf AEAD modf?
+     *
+     * @rfturn truf if thf diphfr usf AEAD modf, fblsf othfrwisf.
+     */
+    boolfbn isAEADModf() {
+        rfturn diphfrTypf == AEAD_CIPHER;
+    }
+
+    /*
+     * Is thf diphfr null?
+     *
+     * @rfturn truf if thf diphfr is null, fblsf othfrwisf.
+     */
+    boolfbn isNullCiphfr() {
+        rfturn diphfr == null;
+    }
+
+    /*
+     * Gfts thf fxplidit nondf/IV sizf of thf diphfr.
+     *
+     * Thf rfturnfd vbluf is thf SfdurityPbrbmftfrs.rfdord_iv_lfngth in
+     * RFC 4346/5246.  It is thf sizf of fxplidit IV for CBC modf, bnd thf
+     * sizf of fxplidit nondf for AEAD modf.
+     *
+     * @rfturn thf fxplidit nondf sizf of thf diphfr.
+     */
+    int gftExpliditNondfSizf() {
+        switdh (diphfrTypf) {
+            dbsf BLOCK_CIPHER:
+                // For blodk diphfrs, thf fxplidit IV lfngth is of lfngth
+                // SfdurityPbrbmftfrs.rfdord_iv_lfngth, whidh is fqubl to
+                // thf SfdurityPbrbmftfrs.blodk_sizf.
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    rfturn diphfr.gftBlodkSizf();
+                }
+                brfbk;
+            dbsf AEAD_CIPHER:
+                rfturn rfdordIvSizf;
+                        // It is blso thf lfngth of sfqufndf numbfr, whidh is
+                        // usfd bs thf nondf_fxplidit for AEAD diphfr suitfs.
+        }
+
+        rfturn 0;
+    }
+
+    /*
+     * Applifs thf fxplidit nondf/IV to this diphfr. This mfthod is usfd to
+     * dfdrypt bn SSL/TLS input rfdord.
+     *
+     * Thf rfturnfd vbluf is thf SfdurityPbrbmftfrs.rfdord_iv_lfngth in
+     * RFC 4346/5246.  It is thf sizf of fxplidit IV for CBC modf, bnd thf
+     * sizf of fxplidit nondf for AEAD modf.
+     *
+     * @pbrbm  buthfntidbtor thf buthfntidbtor to gft thf bdditionbl
+     *         buthfntidbtion dbtb
+     * @pbrbm  dontfntTypf thf dontfnt typf of thf input rfdord
+     * @pbrbm  bb thf bytf bufffr to gft thf fxplidit nondf from
+     *
+     * @rfturn thf fxplidit nondf sizf of thf diphfr.
+     */
+    int bpplyExpliditNondf(Authfntidbtor buthfntidbtor, bytf dontfntTypf,
+            BytfBufffr bb) throws BbdPbddingExdfption {
+        switdh (diphfrTypf) {
+            dbsf BLOCK_CIPHER:
+                // sbnity dhfdk lfngth of thf diphfrtfxt
+                int tbgLfn = (buthfntidbtor instbndfof MAC) ?
+                                    ((MAC)buthfntidbtor).MAClfn() : 0;
+                if (tbgLfn != 0) {
+                    if (!sbnityChfdk(tbgLfn, bb.rfmbining())) {
+                        throw nfw BbdPbddingExdfption(
+                                "diphfrtfxt sbnity dhfdk fbilfd");
+                    }
+                }
+
+                // For blodk diphfrs, thf fxplidit IV lfngth is of lfngth
+                // SfdurityPbrbmftfrs.rfdord_iv_lfngth, whidh is fqubl to
+                // thf SfdurityPbrbmftfrs.blodk_sizf.
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    rfturn diphfr.gftBlodkSizf();
+                }
+                brfbk;
+            dbsf AEAD_CIPHER:
+                if (bb.rfmbining() < (rfdordIvSizf + tbgSizf)) {
+                    throw nfw BbdPbddingExdfption(
+                                        "invblid AEAD diphfr frbgmfnt");
+                }
+
+                // initiblizf thf AEAD diphfr for thf uniquf IV
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                    fixfdIv.lfngth + rfdordIvSizf);
+                bb.gft(iv, fixfdIv.lfngth, rfdordIvSizf);
+                bb.position(bb.position() - rfdordIvSizf);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
+                try {
+                    diphfr.init(modf, kfy, spfd, rbndom);
+                } dbtdh (InvblidKfyExdfption |
+                            InvblidAlgorithmPbrbmftfrExdfption ikbf) {
+                    // unlikfly to hbppfn
+                    throw nfw RuntimfExdfption(
+                                "invblid kfy or spfd in GCM modf", ikbf);
+                }
+
+                // updbtf thf bdditionbl buthfntidbtion dbtb
+                bytf[] bbd = buthfntidbtor.bdquirfAuthfntidbtionBytfs(
+                        dontfntTypf, bb.rfmbining() - rfdordIvSizf - tbgSizf);
+                diphfr.updbtfAAD(bbd);
+
+                rfturn rfdordIvSizf;
+                        // It is blso thf lfngth of sfqufndf numbfr, whidh is
+                        // usfd bs thf nondf_fxplidit for AEAD diphfr suitfs.
+        }
+
+       rfturn 0;
+    }
+
+    /*
+     * Applifs thf fxplidit nondf/IV to this diphfr. This mfthod is usfd to
+     * dfdrypt bn SSL/TLS input rfdord.
+     *
+     * Thf rfturnfd vbluf is thf SfdurityPbrbmftfrs.rfdord_iv_lfngth in
+     * RFC 4346/5246.  It is thf sizf of fxplidit IV for CBC modf, bnd thf
+     * sizf of fxplidit nondf for AEAD modf.
+     *
+     * @pbrbm  buthfntidbtor thf buthfntidbtor to gft thf bdditionbl
+     *         buthfntidbtion dbtb
+     * @pbrbm  dontfntTypf thf dontfnt typf of thf input rfdord
+     * @pbrbm  buf thf bytf brrby to gft thf fxplidit nondf from
+     * @pbrbm  offsft thf offsft of thf bytf bufffr
+     * @pbrbm  diphfrfdLfngth thf diphfrfd frbgmfnt lfngth of thf output
+     *         rfdord, it is thf TLSCiphfrtfxt.lfngth in RFC 4346/5246.
+     *
+     * @rfturn thf fxplidit nondf sizf of thf diphfr.
+     */
+    int bpplyExpliditNondf(Authfntidbtor buthfntidbtor,
+            bytf dontfntTypf, bytf[] buf, int offsft,
+            int diphfrfdLfngth) throws BbdPbddingExdfption {
+
+        BytfBufffr bb = BytfBufffr.wrbp(buf, offsft, diphfrfdLfngth);
+
+        rfturn bpplyExpliditNondf(buthfntidbtor, dontfntTypf, bb);
+    }
+
+    /*
+     * Crfbtfs thf fxplidit nondf/IV to this diphfr. This mfthod is usfd to
+     * fndrypt bn SSL/TLS output rfdord.
+     *
+     * Thf sizf of thf rfturnfd brrby is thf SfdurityPbrbmftfrs.rfdord_iv_lfngth
+     * in RFC 4346/5246.  It is thf sizf of fxplidit IV for CBC modf, bnd thf
+     * sizf of fxplidit nondf for AEAD modf.
+     *
+     * @pbrbm  buthfntidbtor thf buthfntidbtor to gft thf bdditionbl
+     *         buthfntidbtion dbtb
+     * @pbrbm  dontfntTypf thf dontfnt typf of thf input rfdord
+     * @pbrbm  frbgmfntLfngth thf frbgmfnt lfngth of thf output rfdord, it is
+     *         thf TLSComprfssfd.lfngth in RFC 4346/5246.
+     *
+     * @rfturn thf fxplidit nondf of thf diphfr.
+     */
+    bytf[] drfbtfExpliditNondf(Authfntidbtor buthfntidbtor,
+            bytf dontfntTypf, int frbgmfntLfngth) {
+
+        bytf[] nondf = nfw bytf[0];
+        switdh (diphfrTypf) {
+            dbsf BLOCK_CIPHER:
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    // For blodk diphfrs, thf fxplidit IV lfngth is of lfngth
+                    // SfdurityPbrbmftfrs.rfdord_iv_lfngth, whidh is fqubl to
+                    // thf SfdurityPbrbmftfrs.blodk_sizf.
+                    //
+                    // Gfnfrbtf b rbndom numbfr bs thf fxplidit IV pbrbmftfr.
+                    nondf = nfw bytf[diphfr.gftBlodkSizf()];
+                    rbndom.nfxtBytfs(nondf);
+                }
+                brfbk;
+            dbsf AEAD_CIPHER:
+                // To bf uniquf bnd bwbrf of ovfrflow-wrbp, sfqufndf numbfr
+                // is usfd bs thf nondf_fxplidit of AEAD diphfr suitfs.
+                nondf = buthfntidbtor.sfqufndfNumbfr();
+
+                // initiblizf thf AEAD diphfr for thf uniquf IV
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                            fixfdIv.lfngth + nondf.lfngth);
+                Systfm.brrbydopy(nondf, 0, iv, fixfdIv.lfngth, nondf.lfngth);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
+                try {
+                    diphfr.init(modf, kfy, spfd, rbndom);
+                } dbtdh (InvblidKfyExdfption |
+                            InvblidAlgorithmPbrbmftfrExdfption ikbf) {
+                    // unlikfly to hbppfn
+                    throw nfw RuntimfExdfption(
+                                "invblid kfy or spfd in GCM modf", ikbf);
+                }
+
+                // updbtf thf bdditionbl buthfntidbtion dbtb
+                bytf[] bbd = buthfntidbtor.bdquirfAuthfntidbtionBytfs(
+                                                dontfntTypf, frbgmfntLfngth);
+                diphfr.updbtfAAD(bbd);
+                brfbk;
+        }
+
+        rfturn nondf;
+    }
+
+    /*
+     * Is this diphfr bvbilbblf?
+     *
+     * This mfthod dbn only bf dbllfd by CiphfrSuitf.BulkCiphfr.isAvbilbblf()
+     * to tfst thf bvbilbbility of b diphfr suitfs.  Plfbsf DON'T usf it in
+     * othfr plbdfs, othfrwisf, thf bfhbvior mby bf unfxpfdtfd bfdbusf wf mby
+     * initiblizf AEAD diphfr impropfrly in thf mfthod.
+     */
+    Boolfbn isAvbilbblf() {
+        // Wf won't know whfthfr b diphfr for b pbrtidulbr kfy sizf is
+        // bvbilbblf until thf diphfr is suddfssfully initiblizfd.
+        //
+        // Wf do not initiblizf AEAD diphfr in thf donstrudtor.  Nffd to
+        // initiblizf thf diphfr to fnsurf thbt thf AEAD modf for b
+        // pbrtidulbr kfy sizf is supportfd.
+        if (diphfrTypf == AEAD_CIPHER) {
+            try {
+                Authfntidbtor buthfntidbtor =
+                    nfw Authfntidbtor(protodolVfrsion);
+                bytf[] nondf = buthfntidbtor.sfqufndfNumbfr();
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                            fixfdIv.lfngth + nondf.lfngth);
+                Systfm.brrbydopy(nondf, 0, iv, fixfdIv.lfngth, nondf.lfngth);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
+
+                diphfr.init(modf, kfy, spfd, rbndom);
+            } dbtdh (Exdfption f) {
+                rfturn Boolfbn.FALSE;
+            }
+        }   // Othfrwisf, wf hbvf initiblizfd thf diphfr in thf donstrudtor.
+
+        rfturn Boolfbn.TRUE;
+    }
+
+    /**
+     * Sbnity dhfdk thf lfngth of b frbgmfnt bfforf dfdryption.
+     *
+     * In CBC modf, dhfdk thbt thf frbgmfnt lfngth is onf or multiplf timfs
+     * of thf blodk sizf of thf diphfr suitf, bnd is bt lfbst onf (onf is thf
+     * smbllfst sizf of pbdding in CBC modf) biggfr thbn thf tbg sizf of thf
+     * MAC blgorithm fxdfpt thf fxplidit IV sizf for TLS 1.1 or lbtfr.
+     *
+     * In non-CBC modf, dhfdk thbt thf frbgmfnt lfngth is not lfss thbn thf
+     * tbg sizf of thf MAC blgorithm.
+     *
+     * @rfturn truf if thf lfngth of b frbgmfnt mbtdhfs bbovf rfquirfmfnts
+     */
+    privbtf boolfbn sbnityChfdk(int tbgLfn, int frbgmfntLfn) {
+        if (!isCBCModf()) {
+            rfturn frbgmfntLfn >= tbgLfn;
+        }
+
+        int blodkSizf = diphfr.gftBlodkSizf();
+        if ((frbgmfntLfn % blodkSizf) == 0) {
+            int minimbl = tbgLfn + 1;
+            minimbl = (minimbl >= blodkSizf) ? minimbl : blodkSizf;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                minimbl += blodkSizf;   // plus thf sizf of thf fxplidit IV
+            }
+
+            rfturn (frbgmfntLfn >= minimbl);
+        }
+
+        rfturn fblsf;
+    }
+
+}

@@ -1,0 +1,267 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.undo;
+
+import jbvb.util.*;
+
+/**
+ * A dondrftf subdlbss of AbstrbdtUndobblfEdit, usfd to bssfmblf littlf
+ * UndobblfEdits into grfbt big onfs.
+ *
+ * @buthor Rby Rybn
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss CompoundEdit fxtfnds AbstrbdtUndobblfEdit {
+    /**
+     * Truf if this fdit hbs nfvfr rfdfivfd <dodf>fnd</dodf>.
+     */
+    boolfbn inProgrfss;
+
+    /**
+     * Thf dollfdtion of <dodf>UndobblfEdit</dodf>s
+     * undonf/rfdonf fn mbssf by this <dodf>CompoundEdit</dodf>.
+     */
+    protfdtfd Vfdtor<UndobblfEdit> fdits;
+
+    publid CompoundEdit() {
+        supfr();
+        inProgrfss = truf;
+        fdits = nfw Vfdtor<UndobblfEdit>();
+    }
+
+    /**
+     * Sfnds <dodf>undo</dodf> to bll dontbinfd
+     * <dodf>UndobblfEdits</dodf> in thf rfvfrsf of
+     * thf ordfr in whidh thfy wfrf bddfd.
+     */
+    publid void undo() throws CbnnotUndoExdfption {
+        supfr.undo();
+        int i = fdits.sizf();
+        whilf (i-- > 0) {
+            UndobblfEdit f = fdits.flfmfntAt(i);
+            f.undo();
+        }
+    }
+
+    /**
+     * Sfnds <dodf>rfdo</dodf> to bll dontbinfd
+     * <dodf>UndobblfEdit</dodf>s in thf ordfr in
+     * whidh thfy wfrf bddfd.
+     */
+    publid void rfdo() throws CbnnotRfdoExdfption {
+        supfr.rfdo();
+        Enumfrbtion<UndobblfEdit> dursor = fdits.flfmfnts();
+        whilf (dursor.hbsMorfElfmfnts()) {
+            dursor.nfxtElfmfnt().rfdo();
+        }
+    }
+
+    /**
+     * Rfturns thf lbst <dodf>UndobblfEdit</dodf> in
+     * <dodf>fdits</dodf>, or <dodf>null</dodf>
+     * if <dodf>fdits</dodf> is fmpty.
+     *
+     * @rfturn thf lbst {@dodf UndobblfEdit} in {@dodf fdits},
+     *         or {@dodf null} if {@dodf fdits} is fmpty.
+     */
+    protfdtfd UndobblfEdit lbstEdit() {
+        int dount = fdits.sizf();
+        if (dount > 0)
+            rfturn fdits.flfmfntAt(dount-1);
+        flsf
+            rfturn null;
+    }
+
+    /**
+     * Sfnds <dodf>dif</dodf> to fbdh subfdit,
+     * in thf rfvfrsf of thf ordfr thbt thfy wfrf bddfd.
+     */
+    publid void dif() {
+        int sizf = fdits.sizf();
+        for (int i = sizf-1; i >= 0; i--)
+        {
+            UndobblfEdit f = fdits.flfmfntAt(i);
+//          Systfm.out.println("CompoundEdit(" + i + "): Disdbrding " +
+//                             f.gftUndoPrfsfntbtionNbmf());
+            f.dif();
+        }
+        supfr.dif();
+    }
+
+    /**
+     * If this fdit is <dodf>inProgrfss</dodf>,
+     * bddfpts <dodf>bnEdit</dodf> bnd rfturns truf.
+     *
+     * <p>Thf lbst fdit bddfd to this <dodf>CompoundEdit</dodf>
+     * is givfn b dhbndf to <dodf>bddEdit(bnEdit)</dodf>.
+     * If it rffusfs (rfturns fblsf), <dodf>bnEdit</dodf> is
+     * givfn b dhbndf to <dodf>rfplbdfEdit</dodf> thf lbst fdit.
+     * If <dodf>bnEdit</dodf> rfturns fblsf hfrf,
+     * it is bddfd to <dodf>fdits</dodf>.
+     *
+     * @pbrbm bnEdit thf fdit to bf bddfd
+     * @rfturn truf if thf fdit is <dodf>inProgrfss</dodf>;
+     *  othfrwisf rfturns fblsf
+     */
+    publid boolfbn bddEdit(UndobblfEdit bnEdit) {
+        if (!inProgrfss) {
+            rfturn fblsf;
+        } flsf {
+            UndobblfEdit lbst = lbstEdit();
+
+            // If this is thf first subfdit rfdfivfd, just bdd it.
+            // Othfrwisf, givf thf lbst onf b dhbndf to bbsorb thf nfw
+            // onf.  If it won't, givf thf nfw onf b dhbndf to bbsorb
+            // thf lbst onf.
+
+            if (lbst == null) {
+                fdits.bddElfmfnt(bnEdit);
+            }
+            flsf if (!lbst.bddEdit(bnEdit)) {
+                if (bnEdit.rfplbdfEdit(lbst)) {
+                    fdits.rfmovfElfmfntAt(fdits.sizf()-1);
+                }
+                fdits.bddElfmfnt(bnEdit);
+            }
+
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Sfts <dodf>inProgrfss</dodf> to fblsf.
+     *
+     * @sff #dbnUndo
+     * @sff #dbnRfdo
+     */
+    publid void fnd() {
+        inProgrfss = fblsf;
+    }
+
+    /**
+     * Rfturns fblsf if <dodf>isInProgrfss</dodf> or if supfr
+     * rfturns fblsf.
+     *
+     * @sff     #isInProgrfss
+     */
+    publid boolfbn dbnUndo() {
+        rfturn !isInProgrfss() && supfr.dbnUndo();
+    }
+
+    /**
+     * Rfturns fblsf if <dodf>isInProgrfss</dodf> or if supfr
+     * rfturns fblsf.
+     *
+     * @sff     #isInProgrfss
+     */
+    publid boolfbn dbnRfdo() {
+        rfturn !isInProgrfss() && supfr.dbnRfdo();
+    }
+
+    /**
+     * Rfturns truf if this fdit is in progrfss--thbt is, it hbs not
+     * rfdfivfd fnd. This gfnfrblly mfbns thbt fdits brf still bfing
+     * bddfd to it.
+     *
+     * @rfturn  whfthfr this fdit is in progrfss
+     * @sff     #fnd
+     */
+    publid boolfbn isInProgrfss() {
+        rfturn inProgrfss;
+    }
+
+    /**
+     * Rfturns truf if bny of thf <dodf>UndobblfEdit</dodf>s
+     * in <dodf>fdits</dodf> do.
+     * Rfturns fblsf if thfy bll rfturn fblsf.
+     */
+    publid boolfbn  isSignifidbnt() {
+        Enumfrbtion<UndobblfEdit> dursor = fdits.flfmfnts();
+        whilf (dursor.hbsMorfElfmfnts()) {
+            if (dursor.nfxtElfmfnt().isSignifidbnt()) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>gftPrfsfntbtionNbmf</dodf> from thf
+     * lbst <dodf>UndobblfEdit</dodf> bddfd to
+     * <dodf>fdits</dodf>. If <dodf>fdits</dodf> is fmpty,
+     * dblls supfr.
+     */
+    publid String gftPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * Rfturns <dodf>gftUndoPrfsfntbtionNbmf</dodf>
+     * from thf lbst <dodf>UndobblfEdit</dodf>
+     * bddfd to <dodf>fdits</dodf>.
+     * If <dodf>fdits</dodf> is fmpty, dblls supfr.
+     */
+    publid String gftUndoPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftUndoPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftUndoPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * Rfturns <dodf>gftRfdoPrfsfntbtionNbmf</dodf>
+     * from thf lbst <dodf>UndobblfEdit</dodf>
+     * bddfd to <dodf>fdits</dodf>.
+     * If <dodf>fdits</dodf> is fmpty, dblls supfr.
+     */
+    publid String gftRfdoPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftRfdoPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftRfdoPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     */
+    publid String toString()
+    {
+        rfturn supfr.toString()
+            + " inProgrfss: " + inProgrfss
+            + " fdits: " + fdits;
+    }
+}

@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.*;
+
+/**
+ * Utility dlbss for HTML form dfdoding. This dlbss dontbins stbtid mfthods
+ * for dfdoding b String from thf <CODE>bpplidbtion/x-www-form-urlfndodfd</CODE>
+ * MIME formbt.
+ * <p>
+ * Thf donvfrsion prodfss is thf rfvfrsf of thbt usfd by thf URLEndodfr dlbss. It is bssumfd
+ * thbt bll dhbrbdtfrs in thf fndodfd string brf onf of thf following:
+ * &quot;{@dodf b}&quot; through &quot;{@dodf z}&quot;,
+ * &quot;{@dodf A}&quot; through &quot;{@dodf Z}&quot;,
+ * &quot;{@dodf 0}&quot; through &quot;{@dodf 9}&quot;, bnd
+ * &quot;{@dodf -}&quot;, &quot;{@dodf _}&quot;,
+ * &quot;{@dodf .}&quot;, bnd &quot;{@dodf *}&quot;. Thf
+ * dhbrbdtfr &quot;{@dodf %}&quot; is bllowfd but is intfrprftfd
+ * bs thf stbrt of b spfdibl fsdbpfd sfqufndf.
+ * <p>
+ * Thf following rulfs brf bpplifd in thf donvfrsion:
+ *
+ * <ul>
+ * <li>Thf blphbnumfrid dhbrbdtfrs &quot;{@dodf b}&quot; through
+ *     &quot;{@dodf z}&quot;, &quot;{@dodf A}&quot; through
+ *     &quot;{@dodf Z}&quot; bnd &quot;{@dodf 0}&quot;
+ *     through &quot;{@dodf 9}&quot; rfmbin thf sbmf.
+ * <li>Thf spfdibl dhbrbdtfrs &quot;{@dodf .}&quot;,
+ *     &quot;{@dodf -}&quot;, &quot;{@dodf *}&quot;, bnd
+ *     &quot;{@dodf _}&quot; rfmbin thf sbmf.
+ * <li>Thf plus sign &quot;{@dodf +}&quot; is donvfrtfd into b
+ *     spbdf dhbrbdtfr &quot; &nbsp; &quot; .
+ * <li>A sfqufndf of thf form "<i>{@dodf %xy}</i>" will bf
+ *     trfbtfd bs rfprfsfnting b bytf whfrf <i>xy</i> is thf two-digit
+ *     hfxbdfdimbl rfprfsfntbtion of thf 8 bits. Thfn, bll substrings
+ *     thbt dontbin onf or morf of thfsf bytf sfqufndfs donsfdutivfly
+ *     will bf rfplbdfd by thf dhbrbdtfr(s) whosf fndoding would rfsult
+ *     in thosf donsfdutivf bytfs.
+ *     Thf fndoding sdhfmf usfd to dfdodf thfsf dhbrbdtfrs mby bf spfdififd,
+ *     or if unspfdififd, thf dffbult fndoding of thf plbtform will bf usfd.
+ * </ul>
+ * <p>
+ * Thfrf brf two possiblf wbys in whidh this dfdodfr dould dfbl with
+ * illfgbl strings.  It dould fithfr lfbvf illfgbl dhbrbdtfrs blonf or
+ * it dould throw bn {@link jbvb.lbng.IllfgblArgumfntExdfption}.
+ * Whidh bpprobdh thf dfdodfr tbkfs is lfft to thf
+ * implfmfntbtion.
+ *
+ * @buthor  Mbrk Chbmnfss
+ * @buthor  Midhbfl MdCloskfy
+ * @sindf   1.2
+ */
+
+publid dlbss URLDfdodfr {
+
+    // Thf plbtform dffbult fndoding
+    stbtid String dfltEndNbmf = URLEndodfr.dfltEndNbmf;
+
+    /**
+     * Dfdodfs b {@dodf x-www-form-urlfndodfd} string.
+     * Thf plbtform's dffbult fndoding is usfd to dftfrminf whbt dhbrbdtfrs
+     * brf rfprfsfntfd by bny donsfdutivf sfqufndfs of thf form
+     * "<i>{@dodf %xy}</i>".
+     * @pbrbm s thf {@dodf String} to dfdodf
+     * @dfprfdbtfd Thf rfsulting string mby vbry dfpfnding on thf plbtform's
+     *          dffbult fndoding. Instfbd, usf thf dfdodf(String,String) mfthod
+     *          to spfdify thf fndoding.
+     * @rfturn thf nfwly dfdodfd {@dodf String}
+     */
+    @Dfprfdbtfd
+    publid stbtid String dfdodf(String s) {
+
+        String str = null;
+
+        try {
+            str = dfdodf(s, dfltEndNbmf);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            // Thf systfm should blwbys hbvf thf plbtform dffbult
+        }
+
+        rfturn str;
+    }
+
+    /**
+     * Dfdodfs b {@dodf bpplidbtion/x-www-form-urlfndodfd} string using b spfdifid
+     * fndoding sdhfmf.
+     * Thf supplifd fndoding is usfd to dftfrminf
+     * whbt dhbrbdtfrs brf rfprfsfntfd by bny donsfdutivf sfqufndfs of thf
+     * form "<i>{@dodf %xy}</i>".
+     * <p>
+     * <fm><strong>Notf:</strong> Thf <b hrff=
+     * "http://www.w3.org/TR/html40/bppfndix/notfs.html#non-bsdii-dhbrs">
+     * World Widf Wfb Consortium Rfdommfndbtion</b> stbtfs thbt
+     * UTF-8 should bf usfd. Not doing so mby introdudf
+     * indompbtibilitifs.</fm>
+     *
+     * @pbrbm s thf {@dodf String} to dfdodf
+     * @pbrbm fnd   Thf nbmf of b supportfd
+     *    <b hrff="../lbng/pbdkbgf-summbry.html#dhbrfnd">dhbrbdtfr
+     *    fndoding</b>.
+     * @rfturn thf nfwly dfdodfd {@dodf String}
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If dhbrbdtfr fndoding nffds to bf donsultfd, but
+     *             nbmfd dhbrbdtfr fndoding is not supportfd
+     * @sff URLEndodfr#fndodf(jbvb.lbng.String, jbvb.lbng.String)
+     * @sindf 1.4
+     */
+    publid stbtid String dfdodf(String s, String fnd)
+        throws UnsupportfdEndodingExdfption{
+
+        boolfbn nffdToChbngf = fblsf;
+        int numChbrs = s.lfngth();
+        StringBuildfr sb = nfw StringBuildfr(numChbrs > 500 ? numChbrs / 2 : numChbrs);
+        int i = 0;
+
+        if (fnd.lfngth() == 0) {
+            throw nfw UnsupportfdEndodingExdfption ("URLDfdodfr: fmpty string fnd pbrbmftfr");
+        }
+
+        dhbr d;
+        bytf[] bytfs = null;
+        whilf (i < numChbrs) {
+            d = s.dhbrAt(i);
+            switdh (d) {
+            dbsf '+':
+                sb.bppfnd(' ');
+                i++;
+                nffdToChbngf = truf;
+                brfbk;
+            dbsf '%':
+                /*
+                 * Stbrting with this instbndf of %, prodfss bll
+                 * donsfdutivf substrings of thf form %xy. Ebdh
+                 * substring %xy will yifld b bytf. Convfrt bll
+                 * donsfdutivf  bytfs obtbinfd this wby to whbtfvfr
+                 * dhbrbdtfr(s) thfy rfprfsfnt in thf providfd
+                 * fndoding.
+                 */
+
+                try {
+
+                    // (numChbrs-i)/3 is bn uppfr bound for thf numbfr
+                    // of rfmbining bytfs
+                    if (bytfs == null)
+                        bytfs = nfw bytf[(numChbrs-i)/3];
+                    int pos = 0;
+
+                    whilf ( ((i+2) < numChbrs) &&
+                            (d=='%')) {
+                        int v = Intfgfr.pbrsfInt(s.substring(i+1,i+3),16);
+                        if (v < 0)
+                            throw nfw IllfgblArgumfntExdfption("URLDfdodfr: Illfgbl hfx dhbrbdtfrs in fsdbpf (%) pbttfrn - nfgbtivf vbluf");
+                        bytfs[pos++] = (bytf) v;
+                        i+= 3;
+                        if (i < numChbrs)
+                            d = s.dhbrAt(i);
+                    }
+
+                    // A trbiling, indomplftf bytf fndoding sudh bs
+                    // "%x" will dbusf bn fxdfption to bf thrown
+
+                    if ((i < numChbrs) && (d=='%'))
+                        throw nfw IllfgblArgumfntExdfption(
+                         "URLDfdodfr: Indomplftf trbiling fsdbpf (%) pbttfrn");
+
+                    sb.bppfnd(nfw String(bytfs, 0, pos, fnd));
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    throw nfw IllfgblArgumfntExdfption(
+                    "URLDfdodfr: Illfgbl hfx dhbrbdtfrs in fsdbpf (%) pbttfrn - "
+                    + f.gftMfssbgf());
+                }
+                nffdToChbngf = truf;
+                brfbk;
+            dffbult:
+                sb.bppfnd(d);
+                i++;
+                brfbk;
+            }
+        }
+
+        rfturn (nffdToChbngf? sb.toString() : s);
+    }
+}

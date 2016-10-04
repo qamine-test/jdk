@@ -1,0 +1,346 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.rfflfdt.misd;
+
+import jbvb.lbng.rfflfdt.Mfmbfr;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.util.Arrbys;
+import sun.rfflfdt.Rfflfdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+publid finbl dlbss RfflfdtUtil {
+
+    privbtf RfflfdtUtil() {
+    }
+
+    publid stbtid Clbss<?> forNbmf(String nbmf)
+        throws ClbssNotFoundExdfption {
+        dhfdkPbdkbgfAddfss(nbmf);
+        rfturn Clbss.forNbmf(nbmf);
+    }
+
+    publid stbtid Objfdt nfwInstbndf(Clbss<?> dls)
+        throws InstbntibtionExdfption, IllfgblAddfssExdfption {
+        dhfdkPbdkbgfAddfss(dls);
+        rfturn dls.nfwInstbndf();
+    }
+
+    /*
+     * Rfflfdtion.fnsurfMfmbfrAddfss is ovfrly-rfstridtivf
+     * duf to b bug. Wf bwkwbrdly work bround it for now.
+     */
+    publid stbtid void fnsurfMfmbfrAddfss(Clbss<?> durrfntClbss,
+                                          Clbss<?> mfmbfrClbss,
+                                          Objfdt tbrgft,
+                                          int modififrs)
+        throws IllfgblAddfssExdfption
+    {
+        if (tbrgft == null && Modififr.isProtfdtfd(modififrs)) {
+            int mods = modififrs;
+            mods = mods & (~Modififr.PROTECTED);
+            mods = mods | Modififr.PUBLIC;
+
+            /*
+             * Sff if wf fbil bfdbusf of dlbss modififrs
+             */
+            Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                          mfmbfrClbss,
+                                          tbrgft,
+                                          mods);
+            try {
+                /*
+                 * Wf'rf still hfrf so dlbss bddfss wbs ok.
+                 * Now try with dffbult fifld bddfss.
+                 */
+                mods = mods & (~Modififr.PUBLIC);
+                Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                              mfmbfrClbss,
+                                              tbrgft,
+                                              mods);
+                /*
+                 * Wf'rf still hfrf so bddfss is ok without
+                 * dhfdking for protfdtfd.
+                 */
+                rfturn;
+            } dbtdh (IllfgblAddfssExdfption f) {
+                /*
+                 * Addfss fbilfd but wf'rf 'protfdtfd' so
+                 * if thf tfst bflow suddffds thfn wf'rf ok.
+                 */
+                if (isSubdlbssOf(durrfntClbss, mfmbfrClbss)) {
+                    rfturn;
+                } flsf {
+                    throw f;
+                }
+            }
+        } flsf {
+            Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                          mfmbfrClbss,
+                                          tbrgft,
+                                          modififrs);
+        }
+    }
+
+    privbtf stbtid boolfbn isSubdlbssOf(Clbss<?> qufryClbss,
+                                        Clbss<?> ofClbss)
+    {
+        whilf (qufryClbss != null) {
+            if (qufryClbss == ofClbss) {
+                rfturn truf;
+            }
+            qufryClbss = qufryClbss.gftSupfrdlbss();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Dofs b donsfrvbtivf bpproximbtion of mfmbfr bddfss dhfdk. Usf this if
+     * you don't hbvf bn bdtubl 'usfrlbnd' dbllfr Clbss/ClbssLobdfr bvbilbblf.
+     * This might bf morf rfstridtivf thbn b prfdisf mfmbfr bddfss dhfdk whfrf
+     * you hbvf b dbllfr, but should nfvfr bllow b mfmbfr bddfss thbt is
+     * forbiddfn.
+     *
+     * @pbrbm m thf {@dodf Mfmbfr} bbout to bf bddfssfd
+     */
+    publid stbtid void donsfrvbtivfChfdkMfmbfrAddfss(Mfmbfr m) throws SfdurityExdfption{
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null)
+            rfturn;
+
+        // Chfdk for pbdkbgf bddfss on thf dfdlbring dlbss.
+        //
+        // In bddition, unlfss thf mfmbfr bnd thf dfdlbring dlbss brf both
+        // publid dhfdk for bddfss dfdlbrfd mfmbfr pfrmissions.
+        //
+        // This is donf rfgbrdlfss of ClbssLobdfr rflbtions bftwffn thf {@dodf
+        // Mfmbfr m} bnd bny potfntibl dbllfr.
+
+        finbl Clbss<?> dfdlbringClbss = m.gftDfdlbringClbss();
+
+        dhfdkPbdkbgfAddfss(dfdlbringClbss);
+
+        if (Modififr.isPublid(m.gftModififrs()) &&
+                Modififr.isPublid(dfdlbringClbss.gftModififrs()))
+            rfturn;
+
+        // Chfdk for dfdlbrfd mfmbfr bddfss.
+        sm.dhfdkPfrmission(SfdurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
+    }
+
+    /**
+     * Chfdks pbdkbgf bddfss on thf givfn dlbss.
+     *
+     * If it is b {@link Proxy#isProxyClbss(jbvb.lbng.Clbss)} thbt implfmfnts
+     * b non-publid intfrfbdf (i.f. mby bf in b non-rfstridtfd pbdkbgf),
+     * blso dhfdk thf pbdkbgf bddfss on thf proxy intfrfbdfs.
+     */
+    publid stbtid void dhfdkPbdkbgfAddfss(Clbss<?> dlbzz) {
+        dhfdkPbdkbgfAddfss(dlbzz.gftNbmf());
+        if (isNonPublidProxyClbss(dlbzz)) {
+            dhfdkProxyPbdkbgfAddfss(dlbzz);
+        }
+    }
+
+    /**
+     * Chfdks pbdkbgf bddfss on thf givfn dlbssnbmf.
+     * This mfthod is typidblly dbllfd whfn thf Clbss instbndf is not
+     * bvbilbblf bnd thf dbllfr bttfmpts to lobd b dlbss on bfhblf
+     * thf truf dbllfr (bpplidbtion).
+     */
+    publid stbtid void dhfdkPbdkbgfAddfss(String nbmf) {
+        SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+        if (s != null) {
+            String dnbmf = nbmf.rfplbdf('/', '.');
+            if (dnbmf.stbrtsWith("[")) {
+                int b = dnbmf.lbstIndfxOf('[') + 2;
+                if (b > 1 && b < dnbmf.lfngth()) {
+                    dnbmf = dnbmf.substring(b);
+                }
+            }
+            int i = dnbmf.lbstIndfxOf('.');
+            if (i != -1) {
+                s.dhfdkPbdkbgfAddfss(dnbmf.substring(0, i));
+            }
+        }
+    }
+
+    publid stbtid boolfbn isPbdkbgfAddfssiblf(Clbss<?> dlbzz) {
+        try {
+            dhfdkPbdkbgfAddfss(dlbzz);
+        } dbtdh (SfdurityExdfption f) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    // Rfturns truf if p is bn bndfstor of dl i.f. dlbss lobdfr 'p' dbn
+    // bf found in thf dl's dflfgbtion dhbin
+    privbtf stbtid boolfbn isAndfstor(ClbssLobdfr p, ClbssLobdfr dl) {
+        ClbssLobdfr bdl = dl;
+        do {
+            bdl = bdl.gftPbrfnt();
+            if (p == bdl) {
+                rfturn truf;
+            }
+        } whilf (bdl != null);
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if pbdkbgf bddfss dhfdk is nffdfd for rfflfdtivf
+     * bddfss from b dlbss lobdfr 'from' to dlbssfs or mfmbfrs in
+     * b dlbss dffinfd by dlbss lobdfr 'to'.  This mfthod rfturns truf
+     * if 'from' is not thf sbmf bs or bn bndfstor of 'to'.  All dodf
+     * in b systfm dombin brf grbntfd with bll pfrmission bnd so this
+     * mfthod rfturns fblsf if 'from' dlbss lobdfr is b dlbss lobdfr
+     * lobding systfm dlbssfs.  On thf othfr hbnd, if b dlbss lobdfr
+     * bttfmpts to bddfss systfm dombin dlbssfs, it rfquirfs pbdkbgf
+     * bddfss dhfdk bnd this mfthod will rfturn truf.
+     */
+    publid stbtid boolfbn nffdsPbdkbgfAddfssChfdk(ClbssLobdfr from, ClbssLobdfr to) {
+        if (from == null || from == to)
+            rfturn fblsf;
+
+        if (to == null)
+            rfturn truf;
+
+        rfturn !isAndfstor(from, to);
+    }
+
+    /**
+     * Chfdk pbdkbgf bddfss on thf proxy intfrfbdfs thbt thf givfn proxy dlbss
+     * implfmfnts.
+     *
+     * @pbrbm dlbzz Proxy dlbss objfdt
+     */
+    publid stbtid void dhfdkProxyPbdkbgfAddfss(Clbss<?> dlbzz) {
+        SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+        if (s != null) {
+            // dhfdk proxy intfrfbdfs if thf givfn dlbss is b proxy dlbss
+            if (Proxy.isProxyClbss(dlbzz)) {
+                for (Clbss<?> intf : dlbzz.gftIntfrfbdfs()) {
+                    dhfdkPbdkbgfAddfss(intf);
+                }
+            }
+        }
+    }
+
+    /**
+     * Addfss dhfdk on thf intfrfbdfs thbt b proxy dlbss implfmfnts bnd throw
+     * {@dodf SfdurityExdfption} if it bddfssfs b rfstridtfd pbdkbgf from
+     * thf dbllfr's dlbss lobdfr.
+     *
+     * @pbrbm ddl thf dbllfr's dlbss lobdfr
+     * @pbrbm intfrfbdfs thf list of intfrfbdfs thbt b proxy dlbss implfmfnts
+     */
+    publid stbtid void dhfdkProxyPbdkbgfAddfss(ClbssLobdfr ddl,
+                                               Clbss<?>... intfrfbdfs)
+    {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            for (Clbss<?> intf : intfrfbdfs) {
+                ClbssLobdfr dl = intf.gftClbssLobdfr();
+                if (nffdsPbdkbgfAddfssChfdk(ddl, dl)) {
+                    dhfdkPbdkbgfAddfss(intf);
+                }
+            }
+        }
+    }
+
+    // Notf thbt bytfdodf instrumfntbtion tools mby fxdludf 'sun.*'
+    // dlbssfs but not gfnfrbtfd proxy dlbssfs bnd so kffp it in dom.sun.*
+    publid stbtid finbl String PROXY_PACKAGE = "dom.sun.proxy";
+
+    /**
+     * Tfst if thf givfn dlbss is b proxy dlbss thbt implfmfnts
+     * non-publid intfrfbdf.  Sudh proxy dlbss mby bf in b non-rfstridtfd
+     * pbdkbgf thbt bypbssfs dhfdkPbdkbgfAddfss.
+     */
+    publid stbtid boolfbn isNonPublidProxyClbss(Clbss<?> dls) {
+        String nbmf = dls.gftNbmf();
+        int i = nbmf.lbstIndfxOf('.');
+        String pkg = (i != -1) ? nbmf.substring(0, i) : "";
+        rfturn Proxy.isProxyClbss(dls) && !pkg.fqubls(PROXY_PACKAGE);
+    }
+
+    /**
+     * Chfdk if thf givfn mfthod is b mfthod dfdlbrfd in thf proxy intfrfbdf
+     * implfmfntfd by thf givfn proxy instbndf.
+     *
+     * @pbrbm proxy b proxy instbndf
+     * @pbrbm mfthod bn intfrfbdf mfthod dispbtdhfd to b InvodbtionHbndlfr
+     *
+     * @throws IllfgblArgumfntExdfption if thf givfn proxy or mfthod is invblid.
+     */
+    publid stbtid void dhfdkProxyMfthod(Objfdt proxy, Mfthod mfthod) {
+        // dhfdk if it is b vblid proxy instbndf
+        if (proxy == null || !Proxy.isProxyClbss(proxy.gftClbss())) {
+            throw nfw IllfgblArgumfntExdfption("Not b Proxy instbndf");
+}
+        if (Modififr.isStbtid(mfthod.gftModififrs())) {
+            throw nfw IllfgblArgumfntExdfption("Cbn't hbndlf stbtid mfthod");
+        }
+
+        Clbss<?> d = mfthod.gftDfdlbringClbss();
+        if (d == Objfdt.dlbss) {
+            String nbmf = mfthod.gftNbmf();
+            if (nbmf.fqubls("hbshCodf") || nbmf.fqubls("fqubls") || nbmf.fqubls("toString")) {
+                rfturn;
+            }
+        }
+
+        if (isSupfrIntfrfbdf(proxy.gftClbss(), d)) {
+            rfturn;
+        }
+
+        // disbllow bny mfthod not dfdlbrfd in onf of thf proxy intffbdfs
+        throw nfw IllfgblArgumfntExdfption("Cbn't hbndlf: " + mfthod);
+    }
+
+    privbtf stbtid boolfbn isSupfrIntfrfbdf(Clbss<?> d, Clbss<?> intf) {
+        for (Clbss<?> i : d.gftIntfrfbdfs()) {
+            if (i == intf) {
+                rfturn truf;
+            }
+            if (isSupfrIntfrfbdf(i, intf)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdks if {@dodf Clbss dls} is b VM-bnonymous dlbss
+     * bs dffinfd by {@link sun.misd.Unsbff#dffinfAnonymousClbss}
+     * (not to bf donfusfd with b Jbvb Lbngubgf bnonymous innfr dlbss).
+     */
+    publid stbtid boolfbn isVMAnonymousClbss(Clbss<?> dls) {
+        rfturn dls.gftNbmf().indfxOf('/') > -1;
+    }
+}

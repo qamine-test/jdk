@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * This dlbss dffinfs thf API for itfrbting through thf bbnds
+ * of b rfgion objfdt.
+ */
+publid dlbss RfgionItfrbtor {
+    Rfgion rfgion;
+    int durIndfx;
+    int numXbbnds;
+
+    RfgionItfrbtor(Rfgion r) {
+        rfgion = r;
+    }
+
+    /**
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting thf sbmf
+     * itfrbtion stbtf bs this objfdt to bllow multiplf itfrbtion
+     * brbndhfs from thf durrfnt position.
+     */
+    publid RfgionItfrbtor drfbtfCopy() {
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        r.durIndfx = this.durIndfx;
+        r.numXbbnds = this.numXbbnds;
+        rfturn r;
+    }
+
+    /**
+     * Copifs thf itfrbtion stbtf from this RfgionItfrbtor objfdt
+     * into bnothfr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * brbndhfs from thf durrfnt position.
+     */
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+        if (this.rfgion != ri.rfgion) {
+            throw nfw IntfrnblError("rfgion mismbtdh");
+        }
+        this.durIndfx = ri.durIndfx;
+        this.numXbbnds = ri.numXbbnds;
+    }
+
+    /**
+     * Movfs thf itfrbtion stbtf to thf bfginning of thf nfxt
+     * Y rbngf in thf rfgion rfturning truf if onf is found
+     * bnd rfdording thf low bnd high Y doordinbtfs of thf
+     * rbngf in thf brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     */
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+        durIndfx += numXbbnds * 2;
+        numXbbnds = 0;
+        if (durIndfx >= rfgion.fndIndfx) {
+            rfturn fblsf;
+        }
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        rfturn truf;
+    }
+
+    /**
+     * Movfs thf itfrbtion stbtf to thf bfginning of thf nfxt
+     * X bbnd in thf durrfnt Y rbngf rfturning truf if onf is
+     * found bnd rfdording thf low bnd high X doordinbtfs of
+     * thf rbngf in thf brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     */
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+        if (numXbbnds <= 0) {
+            rfturn fblsf;
+        }
+        numXbbnds--;
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rfturn truf;
+    }
+}

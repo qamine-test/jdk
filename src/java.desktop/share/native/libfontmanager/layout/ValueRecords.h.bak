@@ -1,98 +1,98 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __VALUERECORDS_H
-#define __VALUERECORDS_H
+#ifndff __VALUERECORDS_H
+#dffinf __VALUERECORDS_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphIterator.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiItfrbtor.i"
 
 U_NAMESPACE_BEGIN
 
-typedef le_uint16 ValueFormat;
-typedef le_int16 ValueRecordField;
+typfdff lf_uint16 VblufFormbt;
+typfdff lf_int16 VblufRfdordFifld;
 
-struct ValueRecord
+strudt VblufRfdord
 {
-    le_int16   values[ANY_NUMBER];
+    lf_int16   vblufs[ANY_NUMBER];
 
-    le_int16   getFieldValue(ValueFormat valueFormat, ValueRecordField field) const;
-    le_int16   getFieldValue(le_int16 index, ValueFormat valueFormat, ValueRecordField field) const;
-    void    adjustPosition(ValueFormat valueFormat, const LETableReference &base, GlyphIterator &glyphIterator,
-                const LEFontInstance *fontInstance, LEErrorCode &success) const;
-    void    adjustPosition(le_int16 index, ValueFormat valueFormat, const LETableReference &base, GlyphIterator &glyphIterator,
-                const LEFontInstance *fontInstance, LEErrorCode &success) const;
+    lf_int16   gftFifldVbluf(VblufFormbt vblufFormbt, VblufRfdordFifld fifld) donst;
+    lf_int16   gftFifldVbluf(lf_int16 indfx, VblufFormbt vblufFormbt, VblufRfdordFifld fifld) donst;
+    void    bdjustPosition(VblufFormbt vblufFormbt, donst LETbblfRfffrfndf &bbsf, GlypiItfrbtor &glypiItfrbtor,
+                donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
+    void    bdjustPosition(lf_int16 indfx, VblufFormbt vblufFormbt, donst LETbblfRfffrfndf &bbsf, GlypiItfrbtor &glypiItfrbtor,
+                donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
 
-    static le_int16    getSize(ValueFormat valueFormat);
+    stbtid lf_int16    gftSizf(VblufFormbt vblufFormbt);
 
-private:
-    static le_int16    getFieldCount(ValueFormat valueFormat);
-    static le_int16    getFieldIndex(ValueFormat valueFormat, ValueRecordField field);
+privbtf:
+    stbtid lf_int16    gftFifldCount(VblufFormbt vblufFormbt);
+    stbtid lf_int16    gftFifldIndfx(VblufFormbt vblufFormbt, VblufRfdordFifld fifld);
 };
-LE_VAR_ARRAY(ValueRecord, values)
+LE_VAR_ARRAY(VblufRfdord, vblufs)
 
-enum ValueRecordFields
+fnum VblufRfdordFiflds
 {
-    vrfXPlacement   = 0,
-    vrfYPlacement   = 1,
-    vrfXAdvance     = 2,
-    vrfYAdvance     = 3,
-    vrfXPlaDevice   = 4,
-    vrfYPlaDevice   = 5,
-    vrfXAdvDevice   = 6,
-    vrfYAdvDevice   = 7
+    vrfXPlbdfmfnt   = 0,
+    vrfYPlbdfmfnt   = 1,
+    vrfXAdvbndf     = 2,
+    vrfYAdvbndf     = 3,
+    vrfXPlbDfvidf   = 4,
+    vrfYPlbDfvidf   = 5,
+    vrfXAdvDfvidf   = 6,
+    vrfYAdvDfvidf   = 7
 };
 
-enum ValueFormatBits
+fnum VblufFormbtBits
 {
-    vfbXPlacement   = 0x0001,
-    vfbYPlacement   = 0x0002,
-    vfbXAdvance     = 0x0004,
-    vfbYAdvance     = 0x0008,
-    vfbXPlaDevice   = 0x0010,
-    vfbYPlaDevice   = 0x0020,
-    vfbXAdvDevice   = 0x0040,
-    vfbYAdvDevice   = 0x0080,
-    vfbReserved     = 0xFF00,
-    vfbAnyDevice    = vfbXPlaDevice + vfbYPlaDevice + vfbXAdvDevice + vfbYAdvDevice
+    vfbXPlbdfmfnt   = 0x0001,
+    vfbYPlbdfmfnt   = 0x0002,
+    vfbXAdvbndf     = 0x0004,
+    vfbYAdvbndf     = 0x0008,
+    vfbXPlbDfvidf   = 0x0010,
+    vfbYPlbDfvidf   = 0x0020,
+    vfbXAdvDfvidf   = 0x0040,
+    vfbYAdvDfvidf   = 0x0080,
+    vfbRfsfrvfd     = 0xFF00,
+    vfbAnyDfvidf    = vfbXPlbDfvidf + vfbYPlbDfvidf + vfbXAdvDfvidf + vfbYAdvDfvidf
 };
 
 U_NAMESPACE_END
-#endif
+#fndif
 
 

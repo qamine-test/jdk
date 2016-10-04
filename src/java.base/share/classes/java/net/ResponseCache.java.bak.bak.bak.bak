@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Rfprfsfnts implfmfntbtions of URLConnfdtion dbdhfs. An instbndf of
+ * sudh b dlbss dbn bf rfgistfrfd with thf systfm by doing
+ * RfsponsfCbdhf.sftDffbult(RfsponsfCbdhf), bnd thf systfm will dbll
+ * this objfdt in ordfr to:
+ *
+ *    <ul><li>storf rfsourdf dbtb whidh hbs bffn rftrifvfd from bn
+ *            fxtfrnbl sourdf into thf dbdhf</li>
+ *         <li>try to fftdh b rfqufstfd rfsourdf thbt mby hbvf bffn
+ *            storfd in thf dbdhf</li>
+ *    </ul>
+ *
+ * Thf RfsponsfCbdhf implfmfntbtion dfdidfs whidh rfsourdfs
+ * should bf dbdhfd, bnd for how long thfy should bf dbdhfd. If b
+ * rfqufst rfsourdf dbnnot bf rftrifvfd from thf dbdhf, thfn thf
+ * protodol hbndlfrs will fftdh thf rfsourdf from its originbl
+ * lodbtion.
+ *
+ * Thf sfttings for URLConnfdtion#usfCbdhfs dontrols whfthfr thf
+ * protodol is bllowfd to usf b dbdhfd rfsponsf.
+ *
+ * For morf informbtion on HTTP dbdhing, sff <b
+ * hrff="http://www.iftf.org/rfd/rfd2616.txt"><i>RFC&nbsp;2616: Hypfrtfxt
+ * Trbnsffr Protodol -- HTTP/1.1</i></b>
+ *
+ * @buthor Yingxibn Wbng
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss RfsponsfCbdhf {
+
+    /**
+     * Thf systfm widf dbdhf thbt providfs bddfss to b url
+     * dbdhing mfdhbnism.
+     *
+     * @sff #sftDffbult(RfsponsfCbdhf)
+     * @sff #gftDffbult()
+     */
+    privbtf stbtid RfsponsfCbdhf thfRfsponsfCbdhf;
+
+    /**
+     * Gfts thf systfm-widf rfsponsf dbdhf.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftRfsponsfCbdhf")}
+     *
+     * @sff #sftDffbult(RfsponsfCbdhf)
+     * @rfturn thf systfm-widf {@dodf RfsponsfCbdhf}
+     * @sindf 1.5
+     */
+    publid syndhronizfd  stbtid RfsponsfCbdhf gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.GET_RESPONSECACHE_PERMISSION);
+        }
+        rfturn thfRfsponsfCbdhf;
+    }
+
+    /**
+     * Sfts (or unsfts) thf systfm-widf dbdhf.
+     *
+     * Notf: non-stbndbrd prodotol hbndlfrs mby ignorf this sftting.
+     *
+     * @pbrbm rfsponsfCbdhf Thf rfsponsf dbdhf, or
+     *          {@dodf null} to unsft thf dbdhf.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftRfsponsfCbdhf")}
+     *
+     * @sff #gftDffbult()
+     * @sindf 1.5
+     */
+    publid syndhronizfd stbtid void sftDffbult(RfsponsfCbdhf rfsponsfCbdhf) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.SET_RESPONSECACHE_PERMISSION);
+        }
+        thfRfsponsfCbdhf = rfsponsfCbdhf;
+    }
+
+    /**
+     * Rftrifvf thf dbdhfd rfsponsf bbsfd on thf rfqufsting uri,
+     * rfqufst mfthod bnd rfqufst hfbdfrs. Typidblly this mfthod is
+     * dbllfd by thf protodol hbndlfr bfforf it sfnds out thf rfqufst
+     * to gft thf nftwork rfsourdf. If b dbdhfd rfsponsf is rfturnfd,
+     * thbt rfsourdf is usfd instfbd.
+     *
+     * @pbrbm uri b {@dodf URI} usfd to rfffrfndf thf rfqufstfd
+     *            nftwork rfsourdf
+     * @pbrbm rqstMfthod b {@dodf String} rfprfsfnting thf rfqufst
+     *            mfthod
+     * @pbrbm rqstHfbdfrs - b Mbp from rfqufst hfbdfr
+     *            fifld nbmfs to lists of fifld vblufs rfprfsfnting
+     *            thf durrfnt rfqufst hfbdfrs
+     * @rfturn b {@dodf CbdhfRfsponsf} instbndf if bvbilbblf
+     *          from dbdhf, or null othfrwisf
+     * @throws  IOExdfption if bn I/O frror oddurs
+     * @throws  IllfgblArgumfntExdfption if bny onf of thf brgumfnts is null
+     *
+     * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdhfs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftUsfCbdhfs()
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdhfs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftDffbultUsfCbdhfs()
+     */
+    publid bbstrbdt CbdhfRfsponsf
+        gft(URI uri, String rqstMfthod, Mbp<String, List<String>> rqstHfbdfrs)
+        throws IOExdfption;
+
+    /**
+     * Thf protodol hbndlfr dblls this mfthod bftfr b rfsourdf hbs
+     * bffn rftrifvfd, bnd thf RfsponsfCbdhf must dfdidf whfthfr or
+     * not to storf thf rfsourdf in its dbdhf. If thf rfsourdf is to
+     * bf dbdhfd, thfn put() must rfturn b CbdhfRfqufst objfdt whidh
+     * dontbins bn OutputStrfbm thbt thf protodol hbndlfr will
+     * usf to writf thf rfsourdf into thf dbdhf. If thf rfsourdf is
+     * not to bf dbdhfd, thfn put must rfturn null.
+     *
+     * @pbrbm uri b {@dodf URI} usfd to rfffrfndf thf rfqufstfd
+     *            nftwork rfsourdf
+     * @pbrbm donn - b URLConnfdtion instbndf thbt is usfd to fftdh
+     *            thf rfsponsf to bf dbdhfd
+     * @rfturn b {@dodf CbdhfRfqufst} for rfdording thf
+     *            rfsponsf to bf dbdhfd. Null rfturn indidbtfs thbt
+     *            thf dbllfr dofs not intfnd to dbdhf thf rfsponsf.
+     * @throws IOExdfption if bn I/O frror oddurs
+     * @throws IllfgblArgumfntExdfption if bny onf of thf brgumfnts is
+     *            null
+     */
+    publid bbstrbdt CbdhfRfqufst put(URI uri, URLConnfdtion donn)  throws IOExdfption;
+}

@@ -1,508 +1,508 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountedCompleter;
-import java.util.concurrent.ForkJoinTask;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.dondurrfnt.ForkJoinTbsk;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
 
 /**
- * Factory for creating instances of {@code TerminalOp} that perform an
- * action for every element of a stream.  Supported variants include unordered
- * traversal (elements are provided to the {@code Consumer} as soon as they are
- * available), and ordered traversal (elements are provided to the
- * {@code Consumer} in encounter order.)
+ * Fbdtory for drfbting instbndfs of {@dodf TfrminblOp} tibt pfrform bn
+ * bdtion for fvfry flfmfnt of b strfbm.  Supportfd vbribnts indludf unordfrfd
+ * trbvfrsbl (flfmfnts brf providfd to tif {@dodf Consumfr} bs soon bs tify brf
+ * bvbilbblf), bnd ordfrfd trbvfrsbl (flfmfnts brf providfd to tif
+ * {@dodf Consumfr} in fndountfr ordfr.)
  *
- * <p>Elements are provided to the {@code Consumer} on whatever thread and
- * whatever order they become available.  For ordered traversals, it is
- * guaranteed that processing an element <em>happens-before</em> processing
- * subsequent elements in the encounter order.
+ * <p>Elfmfnts brf providfd to tif {@dodf Consumfr} on wibtfvfr tirfbd bnd
+ * wibtfvfr ordfr tify bfdomf bvbilbblf.  For ordfrfd trbvfrsbls, it is
+ * gubrbntffd tibt prodfssing bn flfmfnt <fm>ibppfns-bfforf</fm> prodfssing
+ * subsfqufnt flfmfnts in tif fndountfr ordfr.
  *
- * <p>Exceptions occurring as a result of sending an element to the
- * {@code Consumer} will be relayed to the caller and traversal will be
- * prematurely terminated.
+ * <p>Exdfptions oddurring bs b rfsult of sfnding bn flfmfnt to tif
+ * {@dodf Consumfr} will bf rflbyfd to tif dbllfr bnd trbvfrsbl will bf
+ * prfmbturfly tfrminbtfd.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class ForEachOps {
+finbl dlbss ForEbdiOps {
 
-    private ForEachOps() { }
+    privbtf ForEbdiOps() { }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a stream.
+     * Construdts b {@dodf TfrminblOp} tibt pfrform bn bdtion for fvfry flfmfnt
+     * of b strfbm.
      *
-     * @param action the {@code Consumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @param <T> the type of the stream elements
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bdtion tif {@dodf Consumfr} tibt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd wiftifr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @pbrbm <T> tif typf of tif strfbm flfmfnts
+     * @rfturn tif {@dodf TfrminblOp} instbndf
      */
-    public static <T> TerminalOp<T, Void> makeRef(Consumer<? super T> action,
-                                                  boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfRef<>(action, ordered);
+    publid stbtid <T> TfrminblOp<T, Void> mbkfRff(Consumfr<? supfr T> bdtion,
+                                                  boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdiOp.OfRff<>(bdtion, ordfrfd);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of an {@code IntStream}.
+     * Construdts b {@dodf TfrminblOp} tibt pfrform bn bdtion for fvfry flfmfnt
+     * of bn {@dodf IntStrfbm}.
      *
-     * @param action the {@code IntConsumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bdtion tif {@dodf IntConsumfr} tibt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd wiftifr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn tif {@dodf TfrminblOp} instbndf
      */
-    public static TerminalOp<Integer, Void> makeInt(IntConsumer action,
-                                                    boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfInt(action, ordered);
+    publid stbtid TfrminblOp<Intfgfr, Void> mbkfInt(IntConsumfr bdtion,
+                                                    boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdiOp.OfInt(bdtion, ordfrfd);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a {@code LongStream}.
+     * Construdts b {@dodf TfrminblOp} tibt pfrform bn bdtion for fvfry flfmfnt
+     * of b {@dodf LongStrfbm}.
      *
-     * @param action the {@code LongConsumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bdtion tif {@dodf LongConsumfr} tibt rfdfivfs bll flfmfnts of b
+     *        strfbm
+     * @pbrbm ordfrfd wiftifr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn tif {@dodf TfrminblOp} instbndf
      */
-    public static TerminalOp<Long, Void> makeLong(LongConsumer action,
-                                                  boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfLong(action, ordered);
+    publid stbtid TfrminblOp<Long, Void> mbkfLong(LongConsumfr bdtion,
+                                                  boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdiOp.OfLong(bdtion, ordfrfd);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a {@code DoubleStream}.
+     * Construdts b {@dodf TfrminblOp} tibt pfrform bn bdtion for fvfry flfmfnt
+     * of b {@dodf DoublfStrfbm}.
      *
-     * @param action the {@code DoubleConsumer} that receives all elements of
-     *        a stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bdtion tif {@dodf DoublfConsumfr} tibt rfdfivfs bll flfmfnts of
+     *        b strfbm
+     * @pbrbm ordfrfd wiftifr bn ordfrfd trbvfrsbl is rfqufstfd
+     * @rfturn tif {@dodf TfrminblOp} instbndf
      */
-    public static TerminalOp<Double, Void> makeDouble(DoubleConsumer action,
-                                                      boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfDouble(action, ordered);
+    publid stbtid TfrminblOp<Doublf, Void> mbkfDoublf(DoublfConsumfr bdtion,
+                                                      boolfbn ordfrfd) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw ForEbdiOp.OfDoublf(bdtion, ordfrfd);
     }
 
     /**
-     * A {@code TerminalOp} that evaluates a stream pipeline and sends the
-     * output to itself as a {@code TerminalSink}.  Elements will be sent in
-     * whatever thread they become available.  If the traversal is unordered,
-     * they will be sent independent of the stream's encounter order.
+     * A {@dodf TfrminblOp} tibt fvblubtfs b strfbm pipflinf bnd sfnds tif
+     * output to itsflf bs b {@dodf TfrminblSink}.  Elfmfnts will bf sfnt in
+     * wibtfvfr tirfbd tify bfdomf bvbilbblf.  If tif trbvfrsbl is unordfrfd,
+     * tify will bf sfnt indfpfndfnt of tif strfbm's fndountfr ordfr.
      *
-     * <p>This terminal operation is stateless.  For parallel evaluation, each
-     * leaf instance of a {@code ForEachTask} will send elements to the same
-     * {@code TerminalSink} reference that is an instance of this class.
+     * <p>Tiis tfrminbl opfrbtion is stbtflfss.  For pbrbllfl fvblubtion, fbdi
+     * lfbf instbndf of b {@dodf ForEbdiTbsk} will sfnd flfmfnts to tif sbmf
+     * {@dodf TfrminblSink} rfffrfndf tibt is bn instbndf of tiis dlbss.
      *
-     * @param <T> the output type of the stream pipeline
+     * @pbrbm <T> tif output typf of tif strfbm pipflinf
      */
-    static abstract class ForEachOp<T>
-            implements TerminalOp<T, Void>, TerminalSink<T, Void> {
-        private final boolean ordered;
+    stbtid bbstrbdt dlbss ForEbdiOp<T>
+            implfmfnts TfrminblOp<T, Void>, TfrminblSink<T, Void> {
+        privbtf finbl boolfbn ordfrfd;
 
-        protected ForEachOp(boolean ordered) {
-            this.ordered = ordered;
+        protfdtfd ForEbdiOp(boolfbn ordfrfd) {
+            tiis.ordfrfd = ordfrfd;
         }
 
-        // TerminalOp
+        // TfrminblOp
 
-        @Override
-        public int getOpFlags() {
-            return ordered ? 0 : StreamOpFlag.NOT_ORDERED;
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn ordfrfd ? 0 : StrfbmOpFlbg.NOT_ORDERED;
         }
 
-        @Override
-        public <S> Void evaluateSequential(PipelineHelper<T> helper,
-                                           Spliterator<S> spliterator) {
-            return helper.wrapAndCopyInto(this, spliterator).get();
+        @Ovfrridf
+        publid <S> Void fvblubtfSfqufntibl(PipflinfHflpfr<T> iflpfr,
+                                           Splitfrbtor<S> splitfrbtor) {
+            rfturn iflpfr.wrbpAndCopyInto(tiis, splitfrbtor).gft();
         }
 
-        @Override
-        public <S> Void evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<S> spliterator) {
-            if (ordered)
-                new ForEachOrderedTask<>(helper, spliterator, this).invoke();
-            else
-                new ForEachTask<>(helper, spliterator, helper.wrapSink(this)).invoke();
-            return null;
+        @Ovfrridf
+        publid <S> Void fvblubtfPbrbllfl(PipflinfHflpfr<T> iflpfr,
+                                         Splitfrbtor<S> splitfrbtor) {
+            if (ordfrfd)
+                nfw ForEbdiOrdfrfdTbsk<>(iflpfr, splitfrbtor, tiis).invokf();
+            flsf
+                nfw ForEbdiTbsk<>(iflpfr, splitfrbtor, iflpfr.wrbpSink(tiis)).invokf();
+            rfturn null;
         }
 
-        // TerminalSink
+        // TfrminblSink
 
-        @Override
-        public Void get() {
-            return null;
+        @Ovfrridf
+        publid Void gft() {
+            rfturn null;
         }
 
-        // Implementations
+        // Implfmfntbtions
 
-        /** Implementation class for reference streams */
-        static final class OfRef<T> extends ForEachOp<T> {
-            final Consumer<? super T> consumer;
+        /** Implfmfntbtion dlbss for rfffrfndf strfbms */
+        stbtid finbl dlbss OfRff<T> fxtfnds ForEbdiOp<T> {
+            finbl Consumfr<? supfr T> donsumfr;
 
-            OfRef(Consumer<? super T> consumer, boolean ordered) {
-                super(ordered);
-                this.consumer = consumer;
+            OfRff(Consumfr<? supfr T> donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                tiis.donsumfr = donsumfr;
             }
 
-            @Override
-            public void accept(T t) {
-                consumer.accept(t);
-            }
-        }
-
-        /** Implementation class for {@code IntStream} */
-        static final class OfInt extends ForEachOp<Integer>
-                implements Sink.OfInt {
-            final IntConsumer consumer;
-
-            OfInt(IntConsumer consumer, boolean ordered) {
-                super(ordered);
-                this.consumer = consumer;
-            }
-
-            @Override
-            public StreamShape inputShape() {
-                return StreamShape.INT_VALUE;
-            }
-
-            @Override
-            public void accept(int t) {
-                consumer.accept(t);
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                donsumfr.bddfpt(t);
             }
         }
 
-        /** Implementation class for {@code LongStream} */
-        static final class OfLong extends ForEachOp<Long>
-                implements Sink.OfLong {
-            final LongConsumer consumer;
+        /** Implfmfntbtion dlbss for {@dodf IntStrfbm} */
+        stbtid finbl dlbss OfInt fxtfnds ForEbdiOp<Intfgfr>
+                implfmfnts Sink.OfInt {
+            finbl IntConsumfr donsumfr;
 
-            OfLong(LongConsumer consumer, boolean ordered) {
-                super(ordered);
-                this.consumer = consumer;
+            OfInt(IntConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                tiis.donsumfr = donsumfr;
             }
 
-            @Override
-            public StreamShape inputShape() {
-                return StreamShape.LONG_VALUE;
+            @Ovfrridf
+            publid StrfbmSibpf inputSibpf() {
+                rfturn StrfbmSibpf.INT_VALUE;
             }
 
-            @Override
-            public void accept(long t) {
-                consumer.accept(t);
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                donsumfr.bddfpt(t);
             }
         }
 
-        /** Implementation class for {@code DoubleStream} */
-        static final class OfDouble extends ForEachOp<Double>
-                implements Sink.OfDouble {
-            final DoubleConsumer consumer;
+        /** Implfmfntbtion dlbss for {@dodf LongStrfbm} */
+        stbtid finbl dlbss OfLong fxtfnds ForEbdiOp<Long>
+                implfmfnts Sink.OfLong {
+            finbl LongConsumfr donsumfr;
 
-            OfDouble(DoubleConsumer consumer, boolean ordered) {
-                super(ordered);
-                this.consumer = consumer;
+            OfLong(LongConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                tiis.donsumfr = donsumfr;
             }
 
-            @Override
-            public StreamShape inputShape() {
-                return StreamShape.DOUBLE_VALUE;
+            @Ovfrridf
+            publid StrfbmSibpf inputSibpf() {
+                rfturn StrfbmSibpf.LONG_VALUE;
             }
 
-            @Override
-            public void accept(double t) {
-                consumer.accept(t);
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                donsumfr.bddfpt(t);
+            }
+        }
+
+        /** Implfmfntbtion dlbss for {@dodf DoublfStrfbm} */
+        stbtid finbl dlbss OfDoublf fxtfnds ForEbdiOp<Doublf>
+                implfmfnts Sink.OfDoublf {
+            finbl DoublfConsumfr donsumfr;
+
+            OfDoublf(DoublfConsumfr donsumfr, boolfbn ordfrfd) {
+                supfr(ordfrfd);
+                tiis.donsumfr = donsumfr;
+            }
+
+            @Ovfrridf
+            publid StrfbmSibpf inputSibpf() {
+                rfturn StrfbmSibpf.DOUBLE_VALUE;
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                donsumfr.bddfpt(t);
             }
         }
     }
 
-    /** A {@code ForkJoinTask} for performing a parallel for-each operation */
-    @SuppressWarnings("serial")
-    static final class ForEachTask<S, T> extends CountedCompleter<Void> {
-        private Spliterator<S> spliterator;
-        private final Sink<S> sink;
-        private final PipelineHelper<T> helper;
-        private long targetSize;
+    /** A {@dodf ForkJoinTbsk} for pfrforming b pbrbllfl for-fbdi opfrbtion */
+    @SupprfssWbrnings("sfribl")
+    stbtid finbl dlbss ForEbdiTbsk<S, T> fxtfnds CountfdComplftfr<Void> {
+        privbtf Splitfrbtor<S> splitfrbtor;
+        privbtf finbl Sink<S> sink;
+        privbtf finbl PipflinfHflpfr<T> iflpfr;
+        privbtf long tbrgftSizf;
 
-        ForEachTask(PipelineHelper<T> helper,
-                    Spliterator<S> spliterator,
+        ForEbdiTbsk(PipflinfHflpfr<T> iflpfr,
+                    Splitfrbtor<S> splitfrbtor,
                     Sink<S> sink) {
-            super(null);
-            this.sink = sink;
-            this.helper = helper;
-            this.spliterator = spliterator;
-            this.targetSize = 0L;
+            supfr(null);
+            tiis.sink = sink;
+            tiis.iflpfr = iflpfr;
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.tbrgftSizf = 0L;
         }
 
-        ForEachTask(ForEachTask<S, T> parent, Spliterator<S> spliterator) {
-            super(parent);
-            this.spliterator = spliterator;
-            this.sink = parent.sink;
-            this.targetSize = parent.targetSize;
-            this.helper = parent.helper;
+        ForEbdiTbsk(ForEbdiTbsk<S, T> pbrfnt, Splitfrbtor<S> splitfrbtor) {
+            supfr(pbrfnt);
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.sink = pbrfnt.sink;
+            tiis.tbrgftSizf = pbrfnt.tbrgftSizf;
+            tiis.iflpfr = pbrfnt.iflpfr;
         }
 
-        // Similar to AbstractTask but doesn't need to track child tasks
-        public void compute() {
-            Spliterator<S> rightSplit = spliterator, leftSplit;
-            long sizeEstimate = rightSplit.estimateSize(), sizeThreshold;
-            if ((sizeThreshold = targetSize) == 0L)
-                targetSize = sizeThreshold = AbstractTask.suggestTargetSize(sizeEstimate);
-            boolean isShortCircuit = StreamOpFlag.SHORT_CIRCUIT.isKnown(helper.getStreamAndOpFlags());
-            boolean forkRight = false;
-            Sink<S> taskSink = sink;
-            ForEachTask<S, T> task = this;
-            while (!isShortCircuit || !taskSink.cancellationRequested()) {
-                if (sizeEstimate <= sizeThreshold ||
-                    (leftSplit = rightSplit.trySplit()) == null) {
-                    task.helper.copyInto(taskSink, rightSplit);
-                    break;
+        // Similbr to AbstrbdtTbsk but dofsn't nffd to trbdk diild tbsks
+        publid void domputf() {
+            Splitfrbtor<S> rigitSplit = splitfrbtor, lfftSplit;
+            long sizfEstimbtf = rigitSplit.fstimbtfSizf(), sizfTirfsiold;
+            if ((sizfTirfsiold = tbrgftSizf) == 0L)
+                tbrgftSizf = sizfTirfsiold = AbstrbdtTbsk.suggfstTbrgftSizf(sizfEstimbtf);
+            boolfbn isSiortCirduit = StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(iflpfr.gftStrfbmAndOpFlbgs());
+            boolfbn forkRigit = fblsf;
+            Sink<S> tbskSink = sink;
+            ForEbdiTbsk<S, T> tbsk = tiis;
+            wiilf (!isSiortCirduit || !tbskSink.dbndfllbtionRfqufstfd()) {
+                if (sizfEstimbtf <= sizfTirfsiold ||
+                    (lfftSplit = rigitSplit.trySplit()) == null) {
+                    tbsk.iflpfr.dopyInto(tbskSink, rigitSplit);
+                    brfbk;
                 }
-                ForEachTask<S, T> leftTask = new ForEachTask<>(task, leftSplit);
-                task.addToPendingCount(1);
-                ForEachTask<S, T> taskToFork;
-                if (forkRight) {
-                    forkRight = false;
-                    rightSplit = leftSplit;
-                    taskToFork = task;
-                    task = leftTask;
+                ForEbdiTbsk<S, T> lfftTbsk = nfw ForEbdiTbsk<>(tbsk, lfftSplit);
+                tbsk.bddToPfndingCount(1);
+                ForEbdiTbsk<S, T> tbskToFork;
+                if (forkRigit) {
+                    forkRigit = fblsf;
+                    rigitSplit = lfftSplit;
+                    tbskToFork = tbsk;
+                    tbsk = lfftTbsk;
                 }
-                else {
-                    forkRight = true;
-                    taskToFork = leftTask;
+                flsf {
+                    forkRigit = truf;
+                    tbskToFork = lfftTbsk;
                 }
-                taskToFork.fork();
-                sizeEstimate = rightSplit.estimateSize();
+                tbskToFork.fork();
+                sizfEstimbtf = rigitSplit.fstimbtfSizf();
             }
-            task.spliterator = null;
-            task.propagateCompletion();
+            tbsk.splitfrbtor = null;
+            tbsk.propbgbtfComplftion();
         }
     }
 
     /**
-     * A {@code ForkJoinTask} for performing a parallel for-each operation
-     * which visits the elements in encounter order
+     * A {@dodf ForkJoinTbsk} for pfrforming b pbrbllfl for-fbdi opfrbtion
+     * wiidi visits tif flfmfnts in fndountfr ordfr
      */
-    @SuppressWarnings("serial")
-    static final class ForEachOrderedTask<S, T> extends CountedCompleter<Void> {
+    @SupprfssWbrnings("sfribl")
+    stbtid finbl dlbss ForEbdiOrdfrfdTbsk<S, T> fxtfnds CountfdComplftfr<Void> {
         /*
-         * Our goal is to ensure that the elements associated with a task are
-         * processed according to an in-order traversal of the computation tree.
-         * We use completion counts for representing these dependencies, so that
-         * a task does not complete until all the tasks preceding it in this
-         * order complete.  We use the "completion map" to associate the next
-         * task in this order for any left child.  We increase the pending count
-         * of any node on the right side of such a mapping by one to indicate
-         * its dependency, and when a node on the left side of such a mapping
-         * completes, it decrements the pending count of its corresponding right
-         * side.  As the computation tree is expanded by splitting, we must
-         * atomically update the mappings to maintain the invariant that the
-         * completion map maps left children to the next node in the in-order
-         * traversal.
+         * Our gobl is to fnsurf tibt tif flfmfnts bssodibtfd witi b tbsk brf
+         * prodfssfd bddording to bn in-ordfr trbvfrsbl of tif domputbtion trff.
+         * Wf usf domplftion dounts for rfprfsfnting tifsf dfpfndfndifs, so tibt
+         * b tbsk dofs not domplftf until bll tif tbsks prfdfding it in tiis
+         * ordfr domplftf.  Wf usf tif "domplftion mbp" to bssodibtf tif nfxt
+         * tbsk in tiis ordfr for bny lfft diild.  Wf indrfbsf tif pfnding dount
+         * of bny nodf on tif rigit sidf of sudi b mbpping by onf to indidbtf
+         * its dfpfndfndy, bnd wifn b nodf on tif lfft sidf of sudi b mbpping
+         * domplftfs, it dfdrfmfnts tif pfnding dount of its dorrfsponding rigit
+         * sidf.  As tif domputbtion trff is fxpbndfd by splitting, wf must
+         * btomidblly updbtf tif mbppings to mbintbin tif invbribnt tibt tif
+         * domplftion mbp mbps lfft diildrfn to tif nfxt nodf in tif in-ordfr
+         * trbvfrsbl.
          *
-         * Take, for example, the following computation tree of tasks:
+         * Tbkf, for fxbmplf, tif following domputbtion trff of tbsks:
          *
-         *       a
+         *       b
          *      / \
-         *     b   c
+         *     b   d
          *    / \ / \
-         *   d  e f  g
+         *   d  f f  g
          *
-         * The complete map will contain (not necessarily all at the same time)
-         * the following associations:
+         * Tif domplftf mbp will dontbin (not nfdfssbrily bll bt tif sbmf timf)
+         * tif following bssodibtions:
          *
-         *   d -> e
+         *   d -> f
          *   b -> f
          *   f -> g
          *
-         * Tasks e, f, g will have their pending counts increased by 1.
+         * Tbsks f, f, g will ibvf tifir pfnding dounts indrfbsfd by 1.
          *
-         * The following relationships hold:
+         * Tif following rflbtionsiips iold:
          *
-         *   - completion of d "happens-before" e;
-         *   - completion of d and e "happens-before b;
-         *   - completion of b "happens-before" f; and
-         *   - completion of f "happens-before" g
+         *   - domplftion of d "ibppfns-bfforf" f;
+         *   - domplftion of d bnd f "ibppfns-bfforf b;
+         *   - domplftion of b "ibppfns-bfforf" f; bnd
+         *   - domplftion of f "ibppfns-bfforf" g
          *
-         * Thus overall the "happens-before" relationship holds for the
-         * reporting of elements, covered by tasks d, e, f and g, as specified
-         * by the forEachOrdered operation.
+         * Tius ovfrbll tif "ibppfns-bfforf" rflbtionsiip iolds for tif
+         * rfporting of flfmfnts, dovfrfd by tbsks d, f, f bnd g, bs spfdififd
+         * by tif forEbdiOrdfrfd opfrbtion.
          */
 
-        private final PipelineHelper<T> helper;
-        private Spliterator<S> spliterator;
-        private final long targetSize;
-        private final ConcurrentHashMap<ForEachOrderedTask<S, T>, ForEachOrderedTask<S, T>> completionMap;
-        private final Sink<T> action;
-        private final ForEachOrderedTask<S, T> leftPredecessor;
-        private Node<T> node;
+        privbtf finbl PipflinfHflpfr<T> iflpfr;
+        privbtf Splitfrbtor<S> splitfrbtor;
+        privbtf finbl long tbrgftSizf;
+        privbtf finbl CondurrfntHbsiMbp<ForEbdiOrdfrfdTbsk<S, T>, ForEbdiOrdfrfdTbsk<S, T>> domplftionMbp;
+        privbtf finbl Sink<T> bdtion;
+        privbtf finbl ForEbdiOrdfrfdTbsk<S, T> lfftPrfdfdfssor;
+        privbtf Nodf<T> nodf;
 
-        protected ForEachOrderedTask(PipelineHelper<T> helper,
-                                     Spliterator<S> spliterator,
-                                     Sink<T> action) {
-            super(null);
-            this.helper = helper;
-            this.spliterator = spliterator;
-            this.targetSize = AbstractTask.suggestTargetSize(spliterator.estimateSize());
-            // Size map to avoid concurrent re-sizes
-            this.completionMap = new ConcurrentHashMap<>(Math.max(16, AbstractTask.LEAF_TARGET << 1));
-            this.action = action;
-            this.leftPredecessor = null;
+        protfdtfd ForEbdiOrdfrfdTbsk(PipflinfHflpfr<T> iflpfr,
+                                     Splitfrbtor<S> splitfrbtor,
+                                     Sink<T> bdtion) {
+            supfr(null);
+            tiis.iflpfr = iflpfr;
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.tbrgftSizf = AbstrbdtTbsk.suggfstTbrgftSizf(splitfrbtor.fstimbtfSizf());
+            // Sizf mbp to bvoid dondurrfnt rf-sizfs
+            tiis.domplftionMbp = nfw CondurrfntHbsiMbp<>(Mbti.mbx(16, AbstrbdtTbsk.LEAF_TARGET << 1));
+            tiis.bdtion = bdtion;
+            tiis.lfftPrfdfdfssor = null;
         }
 
-        ForEachOrderedTask(ForEachOrderedTask<S, T> parent,
-                           Spliterator<S> spliterator,
-                           ForEachOrderedTask<S, T> leftPredecessor) {
-            super(parent);
-            this.helper = parent.helper;
-            this.spliterator = spliterator;
-            this.targetSize = parent.targetSize;
-            this.completionMap = parent.completionMap;
-            this.action = parent.action;
-            this.leftPredecessor = leftPredecessor;
+        ForEbdiOrdfrfdTbsk(ForEbdiOrdfrfdTbsk<S, T> pbrfnt,
+                           Splitfrbtor<S> splitfrbtor,
+                           ForEbdiOrdfrfdTbsk<S, T> lfftPrfdfdfssor) {
+            supfr(pbrfnt);
+            tiis.iflpfr = pbrfnt.iflpfr;
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.tbrgftSizf = pbrfnt.tbrgftSizf;
+            tiis.domplftionMbp = pbrfnt.domplftionMbp;
+            tiis.bdtion = pbrfnt.bdtion;
+            tiis.lfftPrfdfdfssor = lfftPrfdfdfssor;
         }
 
-        @Override
-        public final void compute() {
-            doCompute(this);
+        @Ovfrridf
+        publid finbl void domputf() {
+            doComputf(tiis);
         }
 
-        private static <S, T> void doCompute(ForEachOrderedTask<S, T> task) {
-            Spliterator<S> rightSplit = task.spliterator, leftSplit;
-            long sizeThreshold = task.targetSize;
-            boolean forkRight = false;
-            while (rightSplit.estimateSize() > sizeThreshold &&
-                   (leftSplit = rightSplit.trySplit()) != null) {
-                ForEachOrderedTask<S, T> leftChild =
-                    new ForEachOrderedTask<>(task, leftSplit, task.leftPredecessor);
-                ForEachOrderedTask<S, T> rightChild =
-                    new ForEachOrderedTask<>(task, rightSplit, leftChild);
+        privbtf stbtid <S, T> void doComputf(ForEbdiOrdfrfdTbsk<S, T> tbsk) {
+            Splitfrbtor<S> rigitSplit = tbsk.splitfrbtor, lfftSplit;
+            long sizfTirfsiold = tbsk.tbrgftSizf;
+            boolfbn forkRigit = fblsf;
+            wiilf (rigitSplit.fstimbtfSizf() > sizfTirfsiold &&
+                   (lfftSplit = rigitSplit.trySplit()) != null) {
+                ForEbdiOrdfrfdTbsk<S, T> lfftCiild =
+                    nfw ForEbdiOrdfrfdTbsk<>(tbsk, lfftSplit, tbsk.lfftPrfdfdfssor);
+                ForEbdiOrdfrfdTbsk<S, T> rigitCiild =
+                    nfw ForEbdiOrdfrfdTbsk<>(tbsk, rigitSplit, lfftCiild);
 
-                // Fork the parent task
-                // Completion of the left and right children "happens-before"
-                // completion of the parent
-                task.addToPendingCount(1);
-                // Completion of the left child "happens-before" completion of
-                // the right child
-                rightChild.addToPendingCount(1);
-                task.completionMap.put(leftChild, rightChild);
+                // Fork tif pbrfnt tbsk
+                // Complftion of tif lfft bnd rigit diildrfn "ibppfns-bfforf"
+                // domplftion of tif pbrfnt
+                tbsk.bddToPfndingCount(1);
+                // Complftion of tif lfft diild "ibppfns-bfforf" domplftion of
+                // tif rigit diild
+                rigitCiild.bddToPfndingCount(1);
+                tbsk.domplftionMbp.put(lfftCiild, rigitCiild);
 
-                // If task is not on the left spine
-                if (task.leftPredecessor != null) {
+                // If tbsk is not on tif lfft spinf
+                if (tbsk.lfftPrfdfdfssor != null) {
                     /*
-                     * Completion of left-predecessor, or left subtree,
-                     * "happens-before" completion of left-most leaf node of
-                     * right subtree.
-                     * The left child's pending count needs to be updated before
-                     * it is associated in the completion map, otherwise the
-                     * left child can complete prematurely and violate the
-                     * "happens-before" constraint.
+                     * Complftion of lfft-prfdfdfssor, or lfft subtrff,
+                     * "ibppfns-bfforf" domplftion of lfft-most lfbf nodf of
+                     * rigit subtrff.
+                     * Tif lfft diild's pfnding dount nffds to bf updbtfd bfforf
+                     * it is bssodibtfd in tif domplftion mbp, otifrwisf tif
+                     * lfft diild dbn domplftf prfmbturfly bnd violbtf tif
+                     * "ibppfns-bfforf" donstrbint.
                      */
-                    leftChild.addToPendingCount(1);
-                    // Update association of left-predecessor to left-most
-                    // leaf node of right subtree
-                    if (task.completionMap.replace(task.leftPredecessor, task, leftChild)) {
-                        // If replaced, adjust the pending count of the parent
-                        // to complete when its children complete
-                        task.addToPendingCount(-1);
-                    } else {
-                        // Left-predecessor has already completed, parent's
-                        // pending count is adjusted by left-predecessor;
-                        // left child is ready to complete
-                        leftChild.addToPendingCount(-1);
+                    lfftCiild.bddToPfndingCount(1);
+                    // Updbtf bssodibtion of lfft-prfdfdfssor to lfft-most
+                    // lfbf nodf of rigit subtrff
+                    if (tbsk.domplftionMbp.rfplbdf(tbsk.lfftPrfdfdfssor, tbsk, lfftCiild)) {
+                        // If rfplbdfd, bdjust tif pfnding dount of tif pbrfnt
+                        // to domplftf wifn its diildrfn domplftf
+                        tbsk.bddToPfndingCount(-1);
+                    } flsf {
+                        // Lfft-prfdfdfssor ibs blrfbdy domplftfd, pbrfnt's
+                        // pfnding dount is bdjustfd by lfft-prfdfdfssor;
+                        // lfft diild is rfbdy to domplftf
+                        lfftCiild.bddToPfndingCount(-1);
                     }
                 }
 
-                ForEachOrderedTask<S, T> taskToFork;
-                if (forkRight) {
-                    forkRight = false;
-                    rightSplit = leftSplit;
-                    task = leftChild;
-                    taskToFork = rightChild;
+                ForEbdiOrdfrfdTbsk<S, T> tbskToFork;
+                if (forkRigit) {
+                    forkRigit = fblsf;
+                    rigitSplit = lfftSplit;
+                    tbsk = lfftCiild;
+                    tbskToFork = rigitCiild;
                 }
-                else {
-                    forkRight = true;
-                    task = rightChild;
-                    taskToFork = leftChild;
+                flsf {
+                    forkRigit = truf;
+                    tbsk = rigitCiild;
+                    tbskToFork = lfftCiild;
                 }
-                taskToFork.fork();
+                tbskToFork.fork();
             }
 
             /*
-             * Task's pending count is either 0 or 1.  If 1 then the completion
-             * map will contain a value that is task, and two calls to
-             * tryComplete are required for completion, one below and one
-             * triggered by the completion of task's left-predecessor in
-             * onCompletion.  Therefore there is no data race within the if
-             * block.
+             * Tbsk's pfnding dount is fitifr 0 or 1.  If 1 tifn tif domplftion
+             * mbp will dontbin b vbluf tibt is tbsk, bnd two dblls to
+             * tryComplftf brf rfquirfd for domplftion, onf bflow bnd onf
+             * triggfrfd by tif domplftion of tbsk's lfft-prfdfdfssor in
+             * onComplftion.  Tifrfforf tifrf is no dbtb rbdf witiin tif if
+             * blodk.
              */
-            if (task.getPendingCount() > 0) {
-                // Cannot complete just yet so buffer elements into a Node
-                // for use when completion occurs
-                @SuppressWarnings("unchecked")
-                IntFunction<T[]> generator = size -> (T[]) new Object[size];
-                Node.Builder<T> nb = task.helper.makeNodeBuilder(
-                        task.helper.exactOutputSizeIfKnown(rightSplit),
-                        generator);
-                task.node = task.helper.wrapAndCopyInto(nb, rightSplit).build();
-                task.spliterator = null;
+            if (tbsk.gftPfndingCount() > 0) {
+                // Cbnnot domplftf just yft so bufffr flfmfnts into b Nodf
+                // for usf wifn domplftion oddurs
+                @SupprfssWbrnings("undifdkfd")
+                IntFundtion<T[]> gfnfrbtor = sizf -> (T[]) nfw Objfdt[sizf];
+                Nodf.Buildfr<T> nb = tbsk.iflpfr.mbkfNodfBuildfr(
+                        tbsk.iflpfr.fxbdtOutputSizfIfKnown(rigitSplit),
+                        gfnfrbtor);
+                tbsk.nodf = tbsk.iflpfr.wrbpAndCopyInto(nb, rigitSplit).build();
+                tbsk.splitfrbtor = null;
             }
-            task.tryComplete();
+            tbsk.tryComplftf();
         }
 
-        @Override
-        public void onCompletion(CountedCompleter<?> caller) {
-            if (node != null) {
-                // Dump buffered elements from this leaf into the sink
-                node.forEach(action);
-                node = null;
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (nodf != null) {
+                // Dump bufffrfd flfmfnts from tiis lfbf into tif sink
+                nodf.forEbdi(bdtion);
+                nodf = null;
             }
-            else if (spliterator != null) {
-                // Dump elements output from this leaf's pipeline into the sink
-                helper.wrapAndCopyInto(action, spliterator);
-                spliterator = null;
+            flsf if (splitfrbtor != null) {
+                // Dump flfmfnts output from tiis lfbf's pipflinf into tif sink
+                iflpfr.wrbpAndCopyInto(bdtion, splitfrbtor);
+                splitfrbtor = null;
             }
 
-            // The completion of this task *and* the dumping of elements
-            // "happens-before" completion of the associated left-most leaf task
-            // of right subtree (if any, which can be this task's right sibling)
+            // Tif domplftion of tiis tbsk *bnd* tif dumping of flfmfnts
+            // "ibppfns-bfforf" domplftion of tif bssodibtfd lfft-most lfbf tbsk
+            // of rigit subtrff (if bny, wiidi dbn bf tiis tbsk's rigit sibling)
             //
-            ForEachOrderedTask<S, T> leftDescendant = completionMap.remove(this);
-            if (leftDescendant != null)
-                leftDescendant.tryComplete();
+            ForEbdiOrdfrfdTbsk<S, T> lfftDfsdfndbnt = domplftionMbp.rfmovf(tiis);
+            if (lfftDfsdfndbnt != null)
+                lfftDfsdfndbnt.tryComplftf();
         }
     }
 }

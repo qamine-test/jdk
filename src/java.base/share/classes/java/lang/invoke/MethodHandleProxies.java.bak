@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.invoke.WrapperInstance;
-import java.util.ArrayList;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.invokf.WrbppfrInstbndf;
+import jbvb.util.ArrbyList;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * This class consists exclusively of static methods that help adapt
- * method handles to other JVM types, such as interfaces.
+ * Tiis dlbss donsists fxdlusivfly of stbtid mftiods tibt iflp bdbpt
+ * mftiod ibndlfs to otifr JVM typfs, sudi bs intfrfbdfs.
  */
-public class MethodHandleProxies {
+publid dlbss MftiodHbndlfProxifs {
 
-    private MethodHandleProxies() { }  // do not instantiate
+    privbtf MftiodHbndlfProxifs() { }  // do not instbntibtf
 
     /**
-     * Produces an instance of the given single-method interface which redirects
-     * its calls to the given method handle.
+     * Produdfs bn instbndf of tif givfn singlf-mftiod intfrfbdf wiidi rfdirfdts
+     * its dblls to tif givfn mftiod ibndlf.
      * <p>
-     * A single-method interface is an interface which declares a uniquely named method.
-     * When determining the uniquely named method of a single-method interface,
-     * the public {@code Object} methods ({@code toString}, {@code equals}, {@code hashCode})
-     * are disregarded.  For example, {@link java.util.Comparator} is a single-method interface,
-     * even though it re-declares the {@code Object.equals} method.
+     * A singlf-mftiod intfrfbdf is bn intfrfbdf wiidi dfdlbrfs b uniqufly nbmfd mftiod.
+     * Wifn dftfrmining tif uniqufly nbmfd mftiod of b singlf-mftiod intfrfbdf,
+     * tif publid {@dodf Objfdt} mftiods ({@dodf toString}, {@dodf fqubls}, {@dodf ibsiCodf})
+     * brf disrfgbrdfd.  For fxbmplf, {@link jbvb.util.Compbrbtor} is b singlf-mftiod intfrfbdf,
+     * fvfn tiougi it rf-dfdlbrfs tif {@dodf Objfdt.fqubls} mftiod.
      * <p>
-     * The interface must be public.  No additional access checks are performed.
+     * Tif intfrfbdf must bf publid.  No bdditionbl bddfss difdks brf pfrformfd.
      * <p>
-     * The resulting instance of the required type will respond to
-     * invocation of the type's uniquely named method by calling
-     * the given target on the incoming arguments,
-     * and returning or throwing whatever the target
-     * returns or throws.  The invocation will be as if by
-     * {@code target.invoke}.
-     * The target's type will be checked before the
-     * instance is created, as if by a call to {@code asType},
-     * which may result in a {@code WrongMethodTypeException}.
+     * Tif rfsulting instbndf of tif rfquirfd typf will rfspond to
+     * invodbtion of tif typf's uniqufly nbmfd mftiod by dblling
+     * tif givfn tbrgft on tif indoming brgumfnts,
+     * bnd rfturning or tirowing wibtfvfr tif tbrgft
+     * rfturns or tirows.  Tif invodbtion will bf bs if by
+     * {@dodf tbrgft.invokf}.
+     * Tif tbrgft's typf will bf difdkfd bfforf tif
+     * instbndf is drfbtfd, bs if by b dbll to {@dodf bsTypf},
+     * wiidi mby rfsult in b {@dodf WrongMftiodTypfExdfption}.
      * <p>
-     * The uniquely named method is allowed to be multiply declared,
-     * with distinct type descriptors.  (E.g., it can be overloaded,
-     * or can possess bridge methods.)  All such declarations are
-     * connected directly to the target method handle.
-     * Argument and return types are adjusted by {@code asType}
-     * for each individual declaration.
+     * Tif uniqufly nbmfd mftiod is bllowfd to bf multiply dfdlbrfd,
+     * witi distindt typf dfsdriptors.  (E.g., it dbn bf ovfrlobdfd,
+     * or dbn possfss bridgf mftiods.)  All sudi dfdlbrbtions brf
+     * donnfdtfd dirfdtly to tif tbrgft mftiod ibndlf.
+     * Argumfnt bnd rfturn typfs brf bdjustfd by {@dodf bsTypf}
+     * for fbdi individubl dfdlbrbtion.
      * <p>
-     * The wrapper instance will implement the requested interface
-     * and its super-types, but no other single-method interfaces.
-     * This means that the instance will not unexpectedly
-     * pass an {@code instanceof} test for any unrequested type.
-     * <p style="font-size:smaller;">
-     * <em>Implementation Note:</em>
-     * Therefore, each instance must implement a unique single-method interface.
-     * Implementations may not bundle together
-     * multiple single-method interfaces onto single implementation classes
-     * in the style of {@link java.awt.AWTEventMulticaster}.
+     * Tif wrbppfr instbndf will implfmfnt tif rfqufstfd intfrfbdf
+     * bnd its supfr-typfs, but no otifr singlf-mftiod intfrfbdfs.
+     * Tiis mfbns tibt tif instbndf will not unfxpfdtfdly
+     * pbss bn {@dodf instbndfof} tfst for bny unrfqufstfd typf.
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Implfmfntbtion Notf:</fm>
+     * Tifrfforf, fbdi instbndf must implfmfnt b uniquf singlf-mftiod intfrfbdf.
+     * Implfmfntbtions mby not bundlf togftifr
+     * multiplf singlf-mftiod intfrfbdfs onto singlf implfmfntbtion dlbssfs
+     * in tif stylf of {@link jbvb.bwt.AWTEvfntMultidbstfr}.
      * <p>
-     * The method handle may throw an <em>undeclared exception</em>,
-     * which means any checked exception (or other checked throwable)
-     * not declared by the requested type's single abstract method.
-     * If this happens, the throwable will be wrapped in an instance of
-     * {@link java.lang.reflect.UndeclaredThrowableException UndeclaredThrowableException}
-     * and thrown in that wrapped form.
+     * Tif mftiod ibndlf mby tirow bn <fm>undfdlbrfd fxdfption</fm>,
+     * wiidi mfbns bny difdkfd fxdfption (or otifr difdkfd tirowbblf)
+     * not dfdlbrfd by tif rfqufstfd typf's singlf bbstrbdt mftiod.
+     * If tiis ibppfns, tif tirowbblf will bf wrbppfd in bn instbndf of
+     * {@link jbvb.lbng.rfflfdt.UndfdlbrfdTirowbblfExdfption UndfdlbrfdTirowbblfExdfption}
+     * bnd tirown in tibt wrbppfd form.
      * <p>
-     * Like {@link java.lang.Integer#valueOf Integer.valueOf},
-     * {@code asInterfaceInstance} is a factory method whose results are defined
-     * by their behavior.
-     * It is not guaranteed to return a new instance for every call.
+     * Likf {@link jbvb.lbng.Intfgfr#vblufOf Intfgfr.vblufOf},
+     * {@dodf bsIntfrfbdfInstbndf} is b fbdtory mftiod wiosf rfsults brf dffinfd
+     * by tifir bfibvior.
+     * It is not gubrbntffd to rfturn b nfw instbndf for fvfry dbll.
      * <p>
-     * Because of the possibility of {@linkplain java.lang.reflect.Method#isBridge bridge methods}
-     * and other corner cases, the interface may also have several abstract methods
-     * with the same name but having distinct descriptors (types of returns and parameters).
-     * In this case, all the methods are bound in common to the one given target.
-     * The type check and effective {@code asType} conversion is applied to each
-     * method type descriptor, and all abstract methods are bound to the target in common.
-     * Beyond this type check, no further checks are made to determine that the
-     * abstract methods are related in any way.
+     * Bfdbusf of tif possibility of {@linkplbin jbvb.lbng.rfflfdt.Mftiod#isBridgf bridgf mftiods}
+     * bnd otifr dornfr dbsfs, tif intfrfbdf mby blso ibvf sfvfrbl bbstrbdt mftiods
+     * witi tif sbmf nbmf but ibving distindt dfsdriptors (typfs of rfturns bnd pbrbmftfrs).
+     * In tiis dbsf, bll tif mftiods brf bound in dommon to tif onf givfn tbrgft.
+     * Tif typf difdk bnd ffffdtivf {@dodf bsTypf} donvfrsion is bpplifd to fbdi
+     * mftiod typf dfsdriptor, bnd bll bbstrbdt mftiods brf bound to tif tbrgft in dommon.
+     * Bfyond tiis typf difdk, no furtifr difdks brf mbdf to dftfrminf tibt tif
+     * bbstrbdt mftiods brf rflbtfd in bny wby.
      * <p>
-     * Future versions of this API may accept additional types,
-     * such as abstract classes with single abstract methods.
-     * Future versions of this API may also equip wrapper instances
-     * with one or more additional public "marker" interfaces.
+     * Futurf vfrsions of tiis API mby bddfpt bdditionbl typfs,
+     * sudi bs bbstrbdt dlbssfs witi singlf bbstrbdt mftiods.
+     * Futurf vfrsions of tiis API mby blso fquip wrbppfr instbndfs
+     * witi onf or morf bdditionbl publid "mbrkfr" intfrfbdfs.
      * <p>
-     * If a security manager is installed, this method is caller sensitive.
-     * During any invocation of the target method handle via the returned wrapper,
-     * the original creator of the wrapper (the caller) will be visible
-     * to context checks requested by the security manager.
+     * If b sfdurity mbnbgfr is instbllfd, tiis mftiod is dbllfr sfnsitivf.
+     * During bny invodbtion of tif tbrgft mftiod ibndlf vib tif rfturnfd wrbppfr,
+     * tif originbl drfbtor of tif wrbppfr (tif dbllfr) will bf visiblf
+     * to dontfxt difdks rfqufstfd by tif sfdurity mbnbgfr.
      *
-     * @param <T> the desired type of the wrapper, a single-method interface
-     * @param intfc a class object representing {@code T}
-     * @param target the method handle to invoke from the wrapper
-     * @return a correctly-typed wrapper for the given target
-     * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException if the {@code intfc} is not a
-     *         valid argument to this method
-     * @throws WrongMethodTypeException if the target cannot
-     *         be converted to the type required by the requested interface
+     * @pbrbm <T> tif dfsirfd typf of tif wrbppfr, b singlf-mftiod intfrfbdf
+     * @pbrbm intfd b dlbss objfdt rfprfsfnting {@dodf T}
+     * @pbrbm tbrgft tif mftiod ibndlf to invokf from tif wrbppfr
+     * @rfturn b dorrfdtly-typfd wrbppfr for tif givfn tbrgft
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf intfd} is not b
+     *         vblid brgumfnt to tiis mftiod
+     * @tirows WrongMftiodTypfExdfption if tif tbrgft dbnnot
+     *         bf donvfrtfd to tif typf rfquirfd by tif rfqufstfd intfrfbdf
      */
-    // Other notes to implementors:
+    // Otifr notfs to implfmfntors:
     // <p>
-    // No stable mapping is promised between the single-method interface and
-    // the implementation class C.  Over time, several implementation
-    // classes might be used for the same type.
+    // No stbblf mbpping is promisfd bftwffn tif singlf-mftiod intfrfbdf bnd
+    // tif implfmfntbtion dlbss C.  Ovfr timf, sfvfrbl implfmfntbtion
+    // dlbssfs migit bf usfd for tif sbmf typf.
     // <p>
-    // If the implementation is able
-    // to prove that a wrapper of the required type
-    // has already been created for a given
-    // method handle, or for another method handle with the
-    // same behavior, the implementation may return that wrapper in place of
-    // a new wrapper.
+    // If tif implfmfntbtion is bblf
+    // to provf tibt b wrbppfr of tif rfquirfd typf
+    // ibs blrfbdy bffn drfbtfd for b givfn
+    // mftiod ibndlf, or for bnotifr mftiod ibndlf witi tif
+    // sbmf bfibvior, tif implfmfntbtion mby rfturn tibt wrbppfr in plbdf of
+    // b nfw wrbppfr.
     // <p>
-    // This method is designed to apply to common use cases
-    // where a single method handle must interoperate with
-    // an interface that implements a function-like
-    // API.  Additional variations, such as single-abstract-method classes with
-    // private constructors, or interfaces with multiple but related
-    // entry points, must be covered by hand-written or automatically
-    // generated adapter classes.
+    // Tiis mftiod is dfsignfd to bpply to dommon usf dbsfs
+    // wifrf b singlf mftiod ibndlf must intfropfrbtf witi
+    // bn intfrfbdf tibt implfmfnts b fundtion-likf
+    // API.  Additionbl vbribtions, sudi bs singlf-bbstrbdt-mftiod dlbssfs witi
+    // privbtf donstrudtors, or intfrfbdfs witi multiplf but rflbtfd
+    // fntry points, must bf dovfrfd by ibnd-writtfn or butombtidblly
+    // gfnfrbtfd bdbptfr dlbssfs.
     //
-    @CallerSensitive
-    public static
-    <T> T asInterfaceInstance(final Class<T> intfc, final MethodHandle target) {
-        if (!intfc.isInterface() || !Modifier.isPublic(intfc.getModifiers()))
-            throw new IllegalArgumentException("not a public interface: "+intfc.getName());
-        final MethodHandle mh;
-        if (System.getSecurityManager() != null) {
-            final Class<?> caller = Reflection.getCallerClass();
-            final ClassLoader ccl = caller != null ? caller.getClassLoader() : null;
-            ReflectUtil.checkProxyPackageAccess(ccl, intfc);
-            mh = ccl != null ? bindCaller(target, caller) : target;
-        } else {
-            mh = target;
+    @CbllfrSfnsitivf
+    publid stbtid
+    <T> T bsIntfrfbdfInstbndf(finbl Clbss<T> intfd, finbl MftiodHbndlf tbrgft) {
+        if (!intfd.isIntfrfbdf() || !Modififr.isPublid(intfd.gftModififrs()))
+            tirow nfw IllfgblArgumfntExdfption("not b publid intfrfbdf: "+intfd.gftNbmf());
+        finbl MftiodHbndlf mi;
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            finbl Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+            finbl ClbssLobdfr ddl = dbllfr != null ? dbllfr.gftClbssLobdfr() : null;
+            RfflfdtUtil.difdkProxyPbdkbgfAddfss(ddl, intfd);
+            mi = ddl != null ? bindCbllfr(tbrgft, dbllfr) : tbrgft;
+        } flsf {
+            mi = tbrgft;
         }
-        ClassLoader proxyLoader = intfc.getClassLoader();
-        if (proxyLoader == null) {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader(); // avoid use of BCP
-            proxyLoader = cl != null ? cl : ClassLoader.getSystemClassLoader();
+        ClbssLobdfr proxyLobdfr = intfd.gftClbssLobdfr();
+        if (proxyLobdfr == null) {
+            ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr(); // bvoid usf of BCP
+            proxyLobdfr = dl != null ? dl : ClbssLobdfr.gftSystfmClbssLobdfr();
         }
-        final Method[] methods = getSingleNameMethods(intfc);
-        if (methods == null)
-            throw new IllegalArgumentException("not a single-method interface: "+intfc.getName());
-        final MethodHandle[] vaTargets = new MethodHandle[methods.length];
-        for (int i = 0; i < methods.length; i++) {
-            Method sm = methods[i];
-            MethodType smMT = MethodType.methodType(sm.getReturnType(), sm.getParameterTypes());
-            MethodHandle checkTarget = mh.asType(smMT);  // make throw WMT
-            checkTarget = checkTarget.asType(checkTarget.type().changeReturnType(Object.class));
-            vaTargets[i] = checkTarget.asSpreader(Object[].class, smMT.parameterCount());
+        finbl Mftiod[] mftiods = gftSinglfNbmfMftiods(intfd);
+        if (mftiods == null)
+            tirow nfw IllfgblArgumfntExdfption("not b singlf-mftiod intfrfbdf: "+intfd.gftNbmf());
+        finbl MftiodHbndlf[] vbTbrgfts = nfw MftiodHbndlf[mftiods.lfngti];
+        for (int i = 0; i < mftiods.lfngti; i++) {
+            Mftiod sm = mftiods[i];
+            MftiodTypf smMT = MftiodTypf.mftiodTypf(sm.gftRfturnTypf(), sm.gftPbrbmftfrTypfs());
+            MftiodHbndlf difdkTbrgft = mi.bsTypf(smMT);  // mbkf tirow WMT
+            difdkTbrgft = difdkTbrgft.bsTypf(difdkTbrgft.typf().dibngfRfturnTypf(Objfdt.dlbss));
+            vbTbrgfts[i] = difdkTbrgft.bsSprfbdfr(Objfdt[].dlbss, smMT.pbrbmftfrCount());
         }
-        final InvocationHandler ih = new InvocationHandler() {
-                private Object getArg(String name) {
-                    if ((Object)name == "getWrapperInstanceTarget")  return target;
-                    if ((Object)name == "getWrapperInstanceType")    return intfc;
-                    throw new AssertionError();
+        finbl InvodbtionHbndlfr ii = nfw InvodbtionHbndlfr() {
+                privbtf Objfdt gftArg(String nbmf) {
+                    if ((Objfdt)nbmf == "gftWrbppfrInstbndfTbrgft")  rfturn tbrgft;
+                    if ((Objfdt)nbmf == "gftWrbppfrInstbndfTypf")    rfturn intfd;
+                    tirow nfw AssfrtionError();
                 }
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    for (int i = 0; i < methods.length; i++) {
-                        if (method.equals(methods[i]))
-                            return vaTargets[i].invokeExact(args);
+                publid Objfdt invokf(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs) tirows Tirowbblf {
+                    for (int i = 0; i < mftiods.lfngti; i++) {
+                        if (mftiod.fqubls(mftiods[i]))
+                            rfturn vbTbrgfts[i].invokfExbdt(brgs);
                     }
-                    if (method.getDeclaringClass() == WrapperInstance.class)
-                        return getArg(method.getName());
-                    if (isObjectMethod(method))
-                        return callObjectMethod(proxy, method, args);
-                    throw new InternalError("bad proxy method: "+method);
+                    if (mftiod.gftDfdlbringClbss() == WrbppfrInstbndf.dlbss)
+                        rfturn gftArg(mftiod.gftNbmf());
+                    if (isObjfdtMftiod(mftiod))
+                        rfturn dbllObjfdtMftiod(proxy, mftiod, brgs);
+                    tirow nfw IntfrnblError("bbd proxy mftiod: "+mftiod);
                 }
             };
 
-        final Object proxy;
-        if (System.getSecurityManager() != null) {
-            // sun.invoke.WrapperInstance is a restricted interface not accessible
-            // by any non-null class loader.
-            final ClassLoader loader = proxyLoader;
-            proxy = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    return Proxy.newProxyInstance(
-                            loader,
-                            new Class<?>[]{ intfc, WrapperInstance.class },
-                            ih);
+        finbl Objfdt proxy;
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            // sun.invokf.WrbppfrInstbndf is b rfstridtfd intfrfbdf not bddfssiblf
+            // by bny non-null dlbss lobdfr.
+            finbl ClbssLobdfr lobdfr = proxyLobdfr;
+            proxy = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    rfturn Proxy.nfwProxyInstbndf(
+                            lobdfr,
+                            nfw Clbss<?>[]{ intfd, WrbppfrInstbndf.dlbss },
+                            ii);
                 }
             });
-        } else {
-            proxy = Proxy.newProxyInstance(proxyLoader,
-                                           new Class<?>[]{ intfc, WrapperInstance.class },
-                                           ih);
+        } flsf {
+            proxy = Proxy.nfwProxyInstbndf(proxyLobdfr,
+                                           nfw Clbss<?>[]{ intfd, WrbppfrInstbndf.dlbss },
+                                           ii);
         }
-        return intfc.cast(proxy);
+        rfturn intfd.dbst(proxy);
     }
 
-    private static MethodHandle bindCaller(MethodHandle target, Class<?> hostClass) {
-        MethodHandle cbmh = MethodHandleImpl.bindCaller(target, hostClass);
-        if (target.isVarargsCollector()) {
-            MethodType type = cbmh.type();
-            int arity = type.parameterCount();
-            return cbmh.asVarargsCollector(type.parameterType(arity-1));
+    privbtf stbtid MftiodHbndlf bindCbllfr(MftiodHbndlf tbrgft, Clbss<?> iostClbss) {
+        MftiodHbndlf dbmi = MftiodHbndlfImpl.bindCbllfr(tbrgft, iostClbss);
+        if (tbrgft.isVbrbrgsCollfdtor()) {
+            MftiodTypf typf = dbmi.typf();
+            int brity = typf.pbrbmftfrCount();
+            rfturn dbmi.bsVbrbrgsCollfdtor(typf.pbrbmftfrTypf(brity-1));
         }
-        return cbmh;
+        rfturn dbmi;
     }
 
     /**
-     * Determines if the given object was produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * @param x any reference
-     * @return true if the reference is not null and points to an object produced by {@code asInterfaceInstance}
+     * Dftfrminfs if tif givfn objfdt wbs produdfd by b dbll to {@link #bsIntfrfbdfInstbndf bsIntfrfbdfInstbndf}.
+     * @pbrbm x bny rfffrfndf
+     * @rfturn truf if tif rfffrfndf is not null bnd points to bn objfdt produdfd by {@dodf bsIntfrfbdfInstbndf}
      */
-    public static
-    boolean isWrapperInstance(Object x) {
-        return x instanceof WrapperInstance;
+    publid stbtid
+    boolfbn isWrbppfrInstbndf(Objfdt x) {
+        rfturn x instbndfof WrbppfrInstbndf;
     }
 
-    private static WrapperInstance asWrapperInstance(Object x) {
+    privbtf stbtid WrbppfrInstbndf bsWrbppfrInstbndf(Objfdt x) {
         try {
             if (x != null)
-                return (WrapperInstance) x;
-        } catch (ClassCastException ex) {
+                rfturn (WrbppfrInstbndf) x;
+        } dbtdi (ClbssCbstExdfption fx) {
         }
-        throw new IllegalArgumentException("not a wrapper instance");
+        tirow nfw IllfgblArgumfntExdfption("not b wrbppfr instbndf");
     }
 
     /**
-     * Produces or recovers a target method handle which is behaviorally
-     * equivalent to the unique method of this wrapper instance.
-     * The object {@code x} must have been produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * This requirement may be tested via {@link #isWrapperInstance isWrapperInstance}.
-     * @param x any reference
-     * @return a method handle implementing the unique method
-     * @throws IllegalArgumentException if the reference x is not to a wrapper instance
+     * Produdfs or rfdovfrs b tbrgft mftiod ibndlf wiidi is bfibviorblly
+     * fquivblfnt to tif uniquf mftiod of tiis wrbppfr instbndf.
+     * Tif objfdt {@dodf x} must ibvf bffn produdfd by b dbll to {@link #bsIntfrfbdfInstbndf bsIntfrfbdfInstbndf}.
+     * Tiis rfquirfmfnt mby bf tfstfd vib {@link #isWrbppfrInstbndf isWrbppfrInstbndf}.
+     * @pbrbm x bny rfffrfndf
+     * @rfturn b mftiod ibndlf implfmfnting tif uniquf mftiod
+     * @tirows IllfgblArgumfntExdfption if tif rfffrfndf x is not to b wrbppfr instbndf
      */
-    public static
-    MethodHandle wrapperInstanceTarget(Object x) {
-        return asWrapperInstance(x).getWrapperInstanceTarget();
+    publid stbtid
+    MftiodHbndlf wrbppfrInstbndfTbrgft(Objfdt x) {
+        rfturn bsWrbppfrInstbndf(x).gftWrbppfrInstbndfTbrgft();
     }
 
     /**
-     * Recovers the unique single-method interface type for which this wrapper instance was created.
-     * The object {@code x} must have been produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * This requirement may be tested via {@link #isWrapperInstance isWrapperInstance}.
-     * @param x any reference
-     * @return the single-method interface type for which the wrapper was created
-     * @throws IllegalArgumentException if the reference x is not to a wrapper instance
+     * Rfdovfrs tif uniquf singlf-mftiod intfrfbdf typf for wiidi tiis wrbppfr instbndf wbs drfbtfd.
+     * Tif objfdt {@dodf x} must ibvf bffn produdfd by b dbll to {@link #bsIntfrfbdfInstbndf bsIntfrfbdfInstbndf}.
+     * Tiis rfquirfmfnt mby bf tfstfd vib {@link #isWrbppfrInstbndf isWrbppfrInstbndf}.
+     * @pbrbm x bny rfffrfndf
+     * @rfturn tif singlf-mftiod intfrfbdf typf for wiidi tif wrbppfr wbs drfbtfd
+     * @tirows IllfgblArgumfntExdfption if tif rfffrfndf x is not to b wrbppfr instbndf
      */
-    public static
-    Class<?> wrapperInstanceType(Object x) {
-        return asWrapperInstance(x).getWrapperInstanceType();
+    publid stbtid
+    Clbss<?> wrbppfrInstbndfTypf(Objfdt x) {
+        rfturn bsWrbppfrInstbndf(x).gftWrbppfrInstbndfTypf();
     }
 
-    private static
-    boolean isObjectMethod(Method m) {
-        switch (m.getName()) {
-        case "toString":
-            return (m.getReturnType() == String.class
-                    && m.getParameterTypes().length == 0);
-        case "hashCode":
-            return (m.getReturnType() == int.class
-                    && m.getParameterTypes().length == 0);
-        case "equals":
-            return (m.getReturnType() == boolean.class
-                    && m.getParameterTypes().length == 1
-                    && m.getParameterTypes()[0] == Object.class);
+    privbtf stbtid
+    boolfbn isObjfdtMftiod(Mftiod m) {
+        switdi (m.gftNbmf()) {
+        dbsf "toString":
+            rfturn (m.gftRfturnTypf() == String.dlbss
+                    && m.gftPbrbmftfrTypfs().lfngti == 0);
+        dbsf "ibsiCodf":
+            rfturn (m.gftRfturnTypf() == int.dlbss
+                    && m.gftPbrbmftfrTypfs().lfngti == 0);
+        dbsf "fqubls":
+            rfturn (m.gftRfturnTypf() == boolfbn.dlbss
+                    && m.gftPbrbmftfrTypfs().lfngti == 1
+                    && m.gftPbrbmftfrTypfs()[0] == Objfdt.dlbss);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static
-    Object callObjectMethod(Object self, Method m, Object[] args) {
-        assert(isObjectMethod(m)) : m;
-        switch (m.getName()) {
-        case "toString":
-            return self.getClass().getName() + "@" + Integer.toHexString(self.hashCode());
-        case "hashCode":
-            return System.identityHashCode(self);
-        case "equals":
-            return (self == args[0]);
+    privbtf stbtid
+    Objfdt dbllObjfdtMftiod(Objfdt sflf, Mftiod m, Objfdt[] brgs) {
+        bssfrt(isObjfdtMftiod(m)) : m;
+        switdi (m.gftNbmf()) {
+        dbsf "toString":
+            rfturn sflf.gftClbss().gftNbmf() + "@" + Intfgfr.toHfxString(sflf.ibsiCodf());
+        dbsf "ibsiCodf":
+            rfturn Systfm.idfntityHbsiCodf(sflf);
+        dbsf "fqubls":
+            rfturn (sflf == brgs[0]);
         }
-        return null;
+        rfturn null;
     }
 
-    private static
-    Method[] getSingleNameMethods(Class<?> intfc) {
-        ArrayList<Method> methods = new ArrayList<>();
-        String uniqueName = null;
-        for (Method m : intfc.getMethods()) {
-            if (isObjectMethod(m))  continue;
-            if (!Modifier.isAbstract(m.getModifiers()))  continue;
-            String mname = m.getName();
-            if (uniqueName == null)
-                uniqueName = mname;
-            else if (!uniqueName.equals(mname))
-                return null;  // too many abstract methods
-            methods.add(m);
+    privbtf stbtid
+    Mftiod[] gftSinglfNbmfMftiods(Clbss<?> intfd) {
+        ArrbyList<Mftiod> mftiods = nfw ArrbyList<>();
+        String uniqufNbmf = null;
+        for (Mftiod m : intfd.gftMftiods()) {
+            if (isObjfdtMftiod(m))  dontinuf;
+            if (!Modififr.isAbstrbdt(m.gftModififrs()))  dontinuf;
+            String mnbmf = m.gftNbmf();
+            if (uniqufNbmf == null)
+                uniqufNbmf = mnbmf;
+            flsf if (!uniqufNbmf.fqubls(mnbmf))
+                rfturn null;  // too mbny bbstrbdt mftiods
+            mftiods.bdd(m);
         }
-        if (uniqueName == null)  return null;
-        return methods.toArray(new Method[methods.size()]);
+        if (uniqufNbmf == null)  rfturn null;
+        rfturn mftiods.toArrby(nfw Mftiod[mftiods.sizf()]);
     }
 }

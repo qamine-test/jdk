@@ -1,927 +1,927 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * jrunscript JavaScript built-in functions and objects.
+ * jrunsdript JbvbSdript built-in fundtions bnd objfdts.
  */
 
 /**
- * Creates an object that delegates all method calls on
- * it to the 'invoke' method on the given delegate object.<br>
+ * Crfbtfs bn objfdt tibt dflfgbtfs bll mftiod dblls on
+ * it to tif 'invokf' mftiod on tif givfn dflfgbtf objfdt.<br>
  *
- * Example:
- * <pre>
- * <code>
- *     var x  = { invoke: function(name, args) { //code...}
- *     var y = new JSInvoker(x);
- *     y.func(3, 3); // calls x.invoke('func', args); where args is array of arguments
- * </code>
- * </pre>
- * @param obj object to be wrapped by JSInvoker
- * @constructor
+ * Exbmplf:
+ * <prf>
+ * <dodf>
+ *     vbr x  = { invokf: fundtion(nbmf, brgs) { //dodf...}
+ *     vbr y = nfw JSInvokfr(x);
+ *     y.fund(3, 3); // dblls x.invokf('fund', brgs); wifrf brgs is brrby of brgumfnts
+ * </dodf>
+ * </prf>
+ * @pbrbm obj objfdt to bf wrbppfd by JSInvokfr
+ * @donstrudtor
  */
-function JSInvoker(obj) {
-    return new JSAdapter({
-        __get__ : function(name) {
-            return function() {
-                return obj.invoke(name, arguments);
+fundtion JSInvokfr(obj) {
+    rfturn nfw JSAdbptfr({
+        __gft__ : fundtion(nbmf) {
+            rfturn fundtion() {
+                rfturn obj.invokf(nbmf, brgumfnts);
             }
         }
     });
 }
 
 /**
- * This variable represents OS environment. Environment
- * variables can be accessed as fields of this object. For
- * example, env.PATH will return PATH value configured.
+ * Tiis vbribblf rfprfsfnts OS fnvironmfnt. Environmfnt
+ * vbribblfs dbn bf bddfssfd bs fiflds of tiis objfdt. For
+ * fxbmplf, fnv.PATH will rfturn PATH vbluf donfigurfd.
  */
-var env = new JSAdapter({
-    __get__ : function (name) {
-        return java.lang.System.getenv(name);
+vbr fnv = nfw JSAdbptfr({
+    __gft__ : fundtion (nbmf) {
+        rfturn jbvb.lbng.Systfm.gftfnv(nbmf);
     },
-    __has__ : function (name) {
-        return java.lang.System.getenv().containsKey(name);
+    __ibs__ : fundtion (nbmf) {
+        rfturn jbvb.lbng.Systfm.gftfnv().dontbinsKfy(nbmf);
     },
-    __getIds__ : function() {
-        return java.lang.System.getenv().keySet().toArray();
+    __gftIds__ : fundtion() {
+        rfturn jbvb.lbng.Systfm.gftfnv().kfySft().toArrby();
     },
-    __delete__ : function(name) {
-        println("can't delete env item");
+    __dflftf__ : fundtion(nbmf) {
+        println("dbn't dflftf fnv itfm");
     },
-    __put__ : function (name, value) {
-        println("can't change env item");
+    __put__ : fundtion (nbmf, vbluf) {
+        println("dbn't dibngf fnv itfm");
     },
-    toString: function() {
-        return java.lang.System.getenv().toString();
+    toString: fundtion() {
+        rfturn jbvb.lbng.Systfm.gftfnv().toString();
     }
 });
 
 /**
- * Creates a convenient script object to deal with java.util.Map instances.
- * The result script object's field names are keys of the Map. For example,
- * scriptObj.keyName can be used to access value associated with given key.<br>
- * Example:
- * <pre>
- * <code>
- *     var x = java.lang.SystemProperties();
- *     var y = jmap(x);
- *     println(y['java.class.path']); // prints java.class.path System property
- *     delete y['java.class.path']; // remove java.class.path System property
- * </code>
- * </pre>
+ * Crfbtfs b donvfnifnt sdript objfdt to dfbl witi jbvb.util.Mbp instbndfs.
+ * Tif rfsult sdript objfdt's fifld nbmfs brf kfys of tif Mbp. For fxbmplf,
+ * sdriptObj.kfyNbmf dbn bf usfd to bddfss vbluf bssodibtfd witi givfn kfy.<br>
+ * Exbmplf:
+ * <prf>
+ * <dodf>
+ *     vbr x = jbvb.lbng.SystfmPropfrtifs();
+ *     vbr y = jmbp(x);
+ *     println(y['jbvb.dlbss.pbti']); // prints jbvb.dlbss.pbti Systfm propfrty
+ *     dflftf y['jbvb.dlbss.pbti']; // rfmovf jbvb.dlbss.pbti Systfm propfrty
+ * </dodf>
+ * </prf>
  *
- * @param map java.util.Map instance that will be wrapped
- * @constructor
+ * @pbrbm mbp jbvb.util.Mbp instbndf tibt will bf wrbppfd
+ * @donstrudtor
  */
-function jmap(map) {
-    return new JSAdapter({
-        __get__ : function(name) {
-            if (map.containsKey(name)) {
-                return map.get(name);
-            } else {
-                return undefined;
+fundtion jmbp(mbp) {
+    rfturn nfw JSAdbptfr({
+        __gft__ : fundtion(nbmf) {
+            if (mbp.dontbinsKfy(nbmf)) {
+                rfturn mbp.gft(nbmf);
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __has__ :  function(name) {
-            return map.containsKey(name);
+        __ibs__ :  fundtion(nbmf) {
+            rfturn mbp.dontbinsKfy(nbmf);
         },
 
-        __delete__ : function (name) {
-            return map.remove(name);
+        __dflftf__ : fundtion (nbmf) {
+            rfturn mbp.rfmovf(nbmf);
         },
-        __put__ : function(name, value) {
-            map.put(name, value);
+        __put__ : fundtion(nbmf, vbluf) {
+            mbp.put(nbmf, vbluf);
         },
-        __getIds__ : function() {
-            return map.keySet().toArray();
+        __gftIds__ : fundtion() {
+            rfturn mbp.kfySft().toArrby();
         },
-        toString: function() {
-            return map.toString();
+        toString: fundtion() {
+            rfturn mbp.toString();
         }
     });
 }
 
 /**
- * Creates a convenient script object to deal with java.util.List instances.
- * The result script object behaves like an array. For example,
- * scriptObj[index] syntax can be used to access values in the List instance.
- * 'length' field gives size of the List. <br>
+ * Crfbtfs b donvfnifnt sdript objfdt to dfbl witi jbvb.util.List instbndfs.
+ * Tif rfsult sdript objfdt bfibvfs likf bn brrby. For fxbmplf,
+ * sdriptObj[indfx] syntbx dbn bf usfd to bddfss vblufs in tif List instbndf.
+ * 'lfngti' fifld givfs sizf of tif List. <br>
  *
- * Example:
- * <pre>
- * <code>
- *    var x = new java.util.ArrayList(4);
- *    x.add('Java');
- *    x.add('JavaScript');
- *    x.add('SQL');
- *    x.add('XML');
+ * Exbmplf:
+ * <prf>
+ * <dodf>
+ *    vbr x = nfw jbvb.util.ArrbyList(4);
+ *    x.bdd('Jbvb');
+ *    x.bdd('JbvbSdript');
+ *    x.bdd('SQL');
+ *    x.bdd('XML');
  *
- *    var y = jlist(x);
- *    println(y[2]); // prints third element of list
- *    println(y.length); // prints size of the list
+ *    vbr y = jlist(x);
+ *    println(y[2]); // prints tiird flfmfnt of list
+ *    println(y.lfngti); // prints sizf of tif list
  *
- * @param map java.util.List instance that will be wrapped
- * @constructor
+ * @pbrbm mbp jbvb.util.List instbndf tibt will bf wrbppfd
+ * @donstrudtor
  */
-function jlist(list) {
-    function isValid(index) {
-        return typeof(index) == 'number' &&
-            index > -1 && index < list.size();
+fundtion jlist(list) {
+    fundtion isVblid(indfx) {
+        rfturn typfof(indfx) == 'numbfr' &&
+            indfx > -1 && indfx < list.sizf();
     }
-    return new JSAdapter({
-        __get__ :  function(name) {
-            if (isValid(name)) {
-                return list.get(name);
-            } else if (name == 'length') {
-                return list.size();
-            } else {
-                return undefined;
+    rfturn nfw JSAdbptfr({
+        __gft__ :  fundtion(nbmf) {
+            if (isVblid(nbmf)) {
+                rfturn list.gft(nbmf);
+            } flsf if (nbmf == 'lfngti') {
+                rfturn list.sizf();
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __has__ : function (name) {
-            return isValid(name) || name == 'length';
+        __ibs__ : fundtion (nbmf) {
+            rfturn isVblid(nbmf) || nbmf == 'lfngti';
         },
-        __delete__ : function(name) {
-            if (isValid(name)) {
-                list.remove(name);
+        __dflftf__ : fundtion(nbmf) {
+            if (isVblid(nbmf)) {
+                list.rfmovf(nbmf);
             }
         },
-        __put__ : function(name, value) {
-            if (isValid(name)) {
-                list.set(name, value);
+        __put__ : fundtion(nbmf, vbluf) {
+            if (isVblid(nbmf)) {
+                list.sft(nbmf, vbluf);
             }
         },
-        __getIds__: function() {
-            var res = new Array(list.size());
-            for (var i = 0; i < res.length; i++) {
-                res[i] = i;
+        __gftIds__: fundtion() {
+            vbr rfs = nfw Arrby(list.sizf());
+            for (vbr i = 0; i < rfs.lfngti; i++) {
+                rfs[i] = i;
             }
-            return res;
+            rfturn rfs;
         },
-        toString: function() {
-            return list.toString();
+        toString: fundtion() {
+            rfturn list.toString();
         }
     });
 }
 
 /**
- * This is java.lang.System properties wrapped by JSAdapter.
- * For eg. to access java.class.path property, you can use
- * the syntax sysProps["java.class.path"]
+ * Tiis is jbvb.lbng.Systfm propfrtifs wrbppfd by JSAdbptfr.
+ * For fg. to bddfss jbvb.dlbss.pbti propfrty, you dbn usf
+ * tif syntbx sysProps["jbvb.dlbss.pbti"]
  */
-var sysProps = new JSAdapter({
-    __get__ : function (name) {
-        return java.lang.System.getProperty(name);
+vbr sysProps = nfw JSAdbptfr({
+    __gft__ : fundtion (nbmf) {
+        rfturn jbvb.lbng.Systfm.gftPropfrty(nbmf);
     },
-    __has__ : function (name) {
-        return java.lang.System.getProperty(name) != null;
+    __ibs__ : fundtion (nbmf) {
+        rfturn jbvb.lbng.Systfm.gftPropfrty(nbmf) != null;
     },
-    __getIds__ : function() {
-        return java.lang.System.getProperties().keySet().toArray();
+    __gftIds__ : fundtion() {
+        rfturn jbvb.lbng.Systfm.gftPropfrtifs().kfySft().toArrby();
     },
-    __delete__ : function(name) {
-        java.lang.System.clearProperty(name);
-        return true;
+    __dflftf__ : fundtion(nbmf) {
+        jbvb.lbng.Systfm.dlfbrPropfrty(nbmf);
+        rfturn truf;
     },
-    __put__ : function (name, value) {
-        java.lang.System.setProperty(name, value);
+    __put__ : fundtion (nbmf, vbluf) {
+        jbvb.lbng.Systfm.sftPropfrty(nbmf, vbluf);
     },
-    toString: function() {
-        return "<system properties>";
+    toString: fundtion() {
+        rfturn "<systfm propfrtifs>";
     }
 });
 
-// stdout, stderr & stdin
-var out = java.lang.System.out;
-var err = java.lang.System.err;
-// can't use 'in' because it is a JavaScript keyword :-(
-var inp = java.lang.System["in"];
+// stdout, stdfrr & stdin
+vbr out = jbvb.lbng.Systfm.out;
+vbr frr = jbvb.lbng.Systfm.frr;
+// dbn't usf 'in' bfdbusf it is b JbvbSdript kfyword :-(
+vbr inp = jbvb.lbng.Systfm["in"];
 
-var BufferedInputStream = java.io.BufferedInputStream;
-var BufferedOutputStream = java.io.BufferedOutputStream;
-var BufferedReader = java.io.BufferedReader;
-var DataInputStream = java.io.DataInputStream;
-var File = java.io.File;
-var FileInputStream = java.io.FileInputStream;
-var FileOutputStream = java.io.FileOutputStream;
-var InputStream = java.io.InputStream;
-var InputStreamReader = java.io.InputStreamReader;
-var OutputStream = java.io.OutputStream;
-var Reader = java.io.Reader;
-var URL = java.net.URL;
+vbr BufffrfdInputStrfbm = jbvb.io.BufffrfdInputStrfbm;
+vbr BufffrfdOutputStrfbm = jbvb.io.BufffrfdOutputStrfbm;
+vbr BufffrfdRfbdfr = jbvb.io.BufffrfdRfbdfr;
+vbr DbtbInputStrfbm = jbvb.io.DbtbInputStrfbm;
+vbr Filf = jbvb.io.Filf;
+vbr FilfInputStrfbm = jbvb.io.FilfInputStrfbm;
+vbr FilfOutputStrfbm = jbvb.io.FilfOutputStrfbm;
+vbr InputStrfbm = jbvb.io.InputStrfbm;
+vbr InputStrfbmRfbdfr = jbvb.io.InputStrfbmRfbdfr;
+vbr OutputStrfbm = jbvb.io.OutputStrfbm;
+vbr Rfbdfr = jbvb.io.Rfbdfr;
+vbr URL = jbvb.nft.URL;
 
 /**
- * Generic any object to input stream mapper
- * @param str input file name, URL or InputStream
- * @return InputStream object
- * @private
+ * Gfnfrid bny objfdt to input strfbm mbppfr
+ * @pbrbm str input filf nbmf, URL or InputStrfbm
+ * @rfturn InputStrfbm objfdt
+ * @privbtf
  */
-function inStream(str) {
-    if (typeof(str) == "string") {
-        // '-' means standard input
+fundtion inStrfbm(str) {
+    if (typfof(str) == "string") {
+        // '-' mfbns stbndbrd input
         if (str == '-') {
-            return java.lang.System["in"];
+            rfturn jbvb.lbng.Systfm["in"];
         }
-        // try file first
-        var file = null;
+        // try filf first
+        vbr filf = null;
         try {
-            file = pathToFile(str);
-        } catch (e) {
+            filf = pbtiToFilf(str);
+        } dbtdi (f) {
         }
-        if (file && file.exists()) {
-            return new FileInputStream(file);
-        } else {
+        if (filf && filf.fxists()) {
+            rfturn nfw FilfInputStrfbm(filf);
+        } flsf {
             try {
-                // treat the string as URL
-                return new URL(str).openStream();
-            } catch (e) {
-                throw 'file or URL ' + str + ' not found';
+                // trfbt tif string bs URL
+                rfturn nfw URL(str).opfnStrfbm();
+            } dbtdi (f) {
+                tirow 'filf or URL ' + str + ' not found';
             }
         }
-    } else {
-        if (str instanceof InputStream) {
-            return str;
-        } else if (str instanceof URL) {
-            return str.openStream();
-        } else if (str instanceof File) {
-            return new FileInputStream(str);
+    } flsf {
+        if (str instbndfof InputStrfbm) {
+            rfturn str;
+        } flsf if (str instbndfof URL) {
+            rfturn str.opfnStrfbm();
+        } flsf if (str instbndfof Filf) {
+            rfturn nfw FilfInputStrfbm(str);
         }
     }
-    // everything failed, just give input stream
-    return java.lang.System["in"];
+    // fvfrytiing fbilfd, just givf input strfbm
+    rfturn jbvb.lbng.Systfm["in"];
 }
 
 /**
- * Generic any object to output stream mapper
+ * Gfnfrid bny objfdt to output strfbm mbppfr
  *
- * @param out output file name or stream
- * @return OutputStream object
- * @private
+ * @pbrbm out output filf nbmf or strfbm
+ * @rfturn OutputStrfbm objfdt
+ * @privbtf
  */
-function outStream(out) {
-    if (typeof(out) == "string") {
+fundtion outStrfbm(out) {
+    if (typfof(out) == "string") {
         if (out == '>') {
-            return java.lang.System.out;
-        } else {
-            // treat it as file
-            return new FileOutputStream(pathToFile(out));
+            rfturn jbvb.lbng.Systfm.out;
+        } flsf {
+            // trfbt it bs filf
+            rfturn nfw FilfOutputStrfbm(pbtiToFilf(out));
         }
-    } else {
-        if (out instanceof OutputStream) {
-            return out;
-        } else if (out instanceof File) {
-            return new FileOutputStream(out);
+    } flsf {
+        if (out instbndfof OutputStrfbm) {
+            rfturn out;
+        } flsf if (out instbndfof Filf) {
+            rfturn nfw FilfOutputStrfbm(out);
         }
     }
 
-    // everything failed, just return System.out
-    return java.lang.System.out;
+    // fvfrytiing fbilfd, just rfturn Systfm.out
+    rfturn jbvb.lbng.Systfm.out;
 }
 
 /**
- * stream close takes care not to close stdin, out & err.
- * @private
+ * strfbm dlosf tbkfs dbrf not to dlosf stdin, out & frr.
+ * @privbtf
  */
-function streamClose(stream) {
-    if (stream) {
-        if (stream != java.lang.System["in"] &&
-            stream != java.lang.System.out &&
-            stream != java.lang.System.err) {
+fundtion strfbmClosf(strfbm) {
+    if (strfbm) {
+        if (strfbm != jbvb.lbng.Systfm["in"] &&
+            strfbm != jbvb.lbng.Systfm.out &&
+            strfbm != jbvb.lbng.Systfm.frr) {
             try {
-                stream.close();
-            } catch (e) {
-                println(e);
+                strfbm.dlosf();
+            } dbtdi (f) {
+                println(f);
             }
         }
     }
 }
 
 /**
- * Loads and evaluates JavaScript code from a stream or file or URL<br>
+ * Lobds bnd fvblubtfs JbvbSdript dodf from b strfbm or filf or URL<br>
  *
- * Examples:
- * <pre>
- * <code>
- *    load('test.js'); // load script file 'test.js'
- *    load('http://java.sun.com/foo.js'); // load from a URL
- * </code>
- * </pre>
+ * Exbmplfs:
+ * <prf>
+ * <dodf>
+ *    lobd('tfst.js'); // lobd sdript filf 'tfst.js'
+ *    lobd('ittp://jbvb.sun.dom/foo.js'); // lobd from b URL
+ * </dodf>
+ * </prf>
  *
- * @param str input from which script is loaded and evaluated
+ * @pbrbm str input from wiidi sdript is lobdfd bnd fvblubtfd
  */
-if (typeof(load) == 'undefined') {
-    this.load = function(str) {
-        var stream = inStream(str);
-        var bstream = new BufferedInputStream(stream);
-        var reader = new BufferedReader(new InputStreamReader(bstream));
-        var oldFilename = engine.get(engine.FILENAME);
-        engine.put(engine.FILENAME, str);
+if (typfof(lobd) == 'undffinfd') {
+    tiis.lobd = fundtion(str) {
+        vbr strfbm = inStrfbm(str);
+        vbr bstrfbm = nfw BufffrfdInputStrfbm(strfbm);
+        vbr rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(bstrfbm));
+        vbr oldFilfnbmf = fnginf.gft(fnginf.FILENAME);
+        fnginf.put(fnginf.FILENAME, str);
         try {
-            engine.eval(reader);
-        } finally {
-            engine.put(engine.FILENAME, oldFilename);
-            streamClose(stream);
+            fnginf.fvbl(rfbdfr);
+        } finblly {
+            fnginf.put(fnginf.FILENAME, oldFilfnbmf);
+            strfbmClosf(strfbm);
         }
     }
 }
 
-// file system utilities
+// filf systfm utilitifs
 
 /**
- * Creates a Java byte[] of given length
- * @param len size of the array to create
- * @private
+ * Crfbtfs b Jbvb bytf[] of givfn lfngti
+ * @pbrbm lfn sizf of tif brrby to drfbtf
+ * @privbtf
  */
-function javaByteArray(len) {
-    return java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, len);
+fundtion jbvbBytfArrby(lfn) {
+    rfturn jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(jbvb.lbng.Bytf.TYPE, lfn);
 }
 
-var curDir = new File('.');
+vbr durDir = nfw Filf('.');
 
 /**
- * Print present working directory
+ * Print prfsfnt working dirfdtory
  */
-function pwd() {
-    println(curDir.getAbsolutePath());
-}
-
-/**
- * Changes present working directory to given directory
- * @param target directory to change to. optional, defaults to user's HOME
- */
-function cd(target) {
-    if (target == undefined) {
-        target = sysProps["user.home"];
-    }
-    if (!(target instanceof File)) {
-        target = pathToFile(target);
-    }
-    if (target.exists() && target.isDirectory()) {
-        curDir = target;
-    } else {
-        println(target + " is not a directory");
-    }
+fundtion pwd() {
+    println(durDir.gftAbsolutfPbti());
 }
 
 /**
- * Converts path to java.io.File taking care of shell present working dir
+ * Cibngfs prfsfnt working dirfdtory to givfn dirfdtory
+ * @pbrbm tbrgft dirfdtory to dibngf to. optionbl, dffbults to usfr's HOME
+ */
+fundtion dd(tbrgft) {
+    if (tbrgft == undffinfd) {
+        tbrgft = sysProps["usfr.iomf"];
+    }
+    if (!(tbrgft instbndfof Filf)) {
+        tbrgft = pbtiToFilf(tbrgft);
+    }
+    if (tbrgft.fxists() && tbrgft.isDirfdtory()) {
+        durDir = tbrgft;
+    } flsf {
+        println(tbrgft + " is not b dirfdtory");
+    }
+}
+
+/**
+ * Convfrts pbti to jbvb.io.Filf tbking dbrf of sifll prfsfnt working dir
  *
- * @param pathname file path to be converted
- * @private
+ * @pbrbm pbtinbmf filf pbti to bf donvfrtfd
+ * @privbtf
  */
-function pathToFile(pathname) {
-    var tmp = pathname;
-    if (!(tmp instanceof File)) {
-        tmp = new File(tmp);
+fundtion pbtiToFilf(pbtinbmf) {
+    vbr tmp = pbtinbmf;
+    if (!(tmp instbndfof Filf)) {
+        tmp = nfw Filf(tmp);
     }
-    if (!tmp.isAbsolute()) {
-        return new File(curDir, pathname);
-    } else {
-        return tmp;
+    if (!tmp.isAbsolutf()) {
+        rfturn nfw Filf(durDir, pbtinbmf);
+    } flsf {
+        rfturn tmp;
     }
 }
 
 /**
- * Copies a file or URL or stream to another file or stream
+ * Copifs b filf or URL or strfbm to bnotifr filf or strfbm
  *
- * @param from input file or URL or stream
- * @param to output stream or file
+ * @pbrbm from input filf or URL or strfbm
+ * @pbrbm to output strfbm or filf
  */
-function cp(from, to) {
+fundtion dp(from, to) {
     if (from == to) {
-        println("file " + from + " cannot be copied onto itself!");
-        return;
+        println("filf " + from + " dbnnot bf dopifd onto itsflf!");
+        rfturn;
     }
-    var inp = inStream(from);
-    var out = outStream(to);
-    var binp = new BufferedInputStream(inp);
-    var bout = new BufferedOutputStream(out);
-    var buff = javaByteArray(1024);
-    var len;
-    while ((len = binp.read(buff)) > 0 )
-        bout.write(buff, 0, len);
+    vbr inp = inStrfbm(from);
+    vbr out = outStrfbm(to);
+    vbr binp = nfw BufffrfdInputStrfbm(inp);
+    vbr bout = nfw BufffrfdOutputStrfbm(out);
+    vbr buff = jbvbBytfArrby(1024);
+    vbr lfn;
+    wiilf ((lfn = binp.rfbd(buff)) > 0 )
+        bout.writf(buff, 0, lfn);
 
-    bout.flush();
-    streamClose(inp);
-    streamClose(out);
+    bout.flusi();
+    strfbmClosf(inp);
+    strfbmClosf(out);
 }
 
 /**
- * Shows the content of a file or URL or any InputStream<br>
- * Examples:
- * <pre>
- * <code>
- *    cat('test.txt'); // show test.txt file contents
- *    cat('http://java.net'); // show the contents from the URL http://java.net
- * </code>
- * </pre>
- * @param obj input to show
- * @param pattern optional. show only the lines matching the pattern
+ * Siows tif dontfnt of b filf or URL or bny InputStrfbm<br>
+ * Exbmplfs:
+ * <prf>
+ * <dodf>
+ *    dbt('tfst.txt'); // siow tfst.txt filf dontfnts
+ *    dbt('ittp://jbvb.nft'); // siow tif dontfnts from tif URL ittp://jbvb.nft
+ * </dodf>
+ * </prf>
+ * @pbrbm obj input to siow
+ * @pbrbm pbttfrn optionbl. siow only tif linfs mbtdiing tif pbttfrn
  */
-function cat(obj, pattern) {
-    if (obj instanceof File && obj.isDirectory()) {
+fundtion dbt(obj, pbttfrn) {
+    if (obj instbndfof Filf && obj.isDirfdtory()) {
         ls(obj);
-        return;
+        rfturn;
     }
 
-    var inp = null;
-    if (!(obj instanceof Reader)) {
-        inp = inStream(obj);
-        obj = new BufferedReader(new InputStreamReader(inp));
+    vbr inp = null;
+    if (!(obj instbndfof Rfbdfr)) {
+        inp = inStrfbm(obj);
+        obj = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(inp));
     }
-    var line;
-    if (pattern) {
-        var count = 1;
-        while ((line=obj.readLine()) != null) {
-            if (line.match(pattern)) {
-                println(count + "\t: " + line);
+    vbr linf;
+    if (pbttfrn) {
+        vbr dount = 1;
+        wiilf ((linf=obj.rfbdLinf()) != null) {
+            if (linf.mbtdi(pbttfrn)) {
+                println(dount + "\t: " + linf);
             }
-            count++;
+            dount++;
         }
-    } else {
-        while ((line=obj.readLine()) != null) {
-            println(line);
+    } flsf {
+        wiilf ((linf=obj.rfbdLinf()) != null) {
+            println(linf);
         }
     }
 }
 
 /**
- * Returns directory part of a filename
+ * Rfturns dirfdtory pbrt of b filfnbmf
  *
- * @param pathname input path name
- * @return directory part of the given file name
+ * @pbrbm pbtinbmf input pbti nbmf
+ * @rfturn dirfdtory pbrt of tif givfn filf nbmf
  */
-function dirname(pathname) {
-    var dirName = ".";
-    // Normalize '/' to local file separator before work.
-    var i = pathname.replace('/', File.separatorChar ).lastIndexOf(
-        File.separator );
+fundtion dirnbmf(pbtinbmf) {
+    vbr dirNbmf = ".";
+    // Normblizf '/' to lodbl filf sfpbrbtor bfforf work.
+    vbr i = pbtinbmf.rfplbdf('/', Filf.sfpbrbtorCibr ).lbstIndfxOf(
+        Filf.sfpbrbtor );
     if ( i != -1 )
-        dirName = pathname.substring(0, i);
-    return dirName;
+        dirNbmf = pbtinbmf.substring(0, i);
+    rfturn dirNbmf;
 }
 
 /**
- * Creates a new dir of given name
+ * Crfbtfs b nfw dir of givfn nbmf
  *
- * @param dir name of the new directory
+ * @pbrbm dir nbmf of tif nfw dirfdtory
  */
-function mkdir(dir) {
-    dir = pathToFile(dir);
-    println(dir.mkdir()? "created" : "can not create dir");
+fundtion mkdir(dir) {
+    dir = pbtiToFilf(dir);
+    println(dir.mkdir()? "drfbtfd" : "dbn not drfbtf dir");
 }
 
 /**
- * Creates the directory named by given pathname, including
- * any necessary but nonexistent parent directories.
+ * Crfbtfs tif dirfdtory nbmfd by givfn pbtinbmf, indluding
+ * bny nfdfssbry but nonfxistfnt pbrfnt dirfdtorifs.
  *
- * @param dir input path name
+ * @pbrbm dir input pbti nbmf
  */
-function mkdirs(dir) {
-    dir = pathToFile(dir);
-    println(dir.mkdirs()? "created" : "can not create dirs");
+fundtion mkdirs(dir) {
+    dir = pbtiToFilf(dir);
+    println(dir.mkdirs()? "drfbtfd" : "dbn not drfbtf dirs");
 }
 
 /**
- * Removes a given file
+ * Rfmovfs b givfn filf
  *
- * @param pathname name of the file
+ * @pbrbm pbtinbmf nbmf of tif filf
  */
-function rm(pathname) {
-    var file = pathToFile(pathname);
-    if (!file.exists()) {
-        println("file not found: " + pathname);
-        return false;
+fundtion rm(pbtinbmf) {
+    vbr filf = pbtiToFilf(pbtinbmf);
+    if (!filf.fxists()) {
+        println("filf not found: " + pbtinbmf);
+        rfturn fblsf;
     }
-    // note that delete is a keyword in JavaScript!
-    println(file["delete"]()? "deleted" : "can not delete");
+    // notf tibt dflftf is b kfyword in JbvbSdript!
+    println(filf["dflftf"]()? "dflftfd" : "dbn not dflftf");
 }
 
 /**
- * Removes a given directory
+ * Rfmovfs b givfn dirfdtory
  *
- * @param pathname name of the directory
+ * @pbrbm pbtinbmf nbmf of tif dirfdtory
  */
-function rmdir(pathname) {
-    rm(pathname);
+fundtion rmdir(pbtinbmf) {
+    rm(pbtinbmf);
 }
 
 /**
  * Synonym for 'rm'
  */
-function del(pathname) {
-    rm(pathname);
+fundtion dfl(pbtinbmf) {
+    rm(pbtinbmf);
 }
 
 /**
- * Moves a file to another
+ * Movfs b filf to bnotifr
  *
- * @param from original name of the file
- * @param to new name for the file
+ * @pbrbm from originbl nbmf of tif filf
+ * @pbrbm to nfw nbmf for tif filf
  */
-function mv(from, to) {
-    println(pathToFile(from).renameTo(pathToFile(to))?
-        "moved" : "can not move");
+fundtion mv(from, to) {
+    println(pbtiToFilf(from).rfnbmfTo(pbtiToFilf(to))?
+        "movfd" : "dbn not movf");
 }
 
 /**
  * Synonym for 'mv'.
  */
-function ren(from, to) {
+fundtion rfn(from, to) {
     mv(from, to);
 }
 
-var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+vbr montis = [ "Jbn", "Ffb", "Mbr", "Apr", "Mby", "Jun",
+        "Jul", "Aug", "Sfp", "Odt", "Nov", "Dfd" ];
 
 /**
- * Helper function called by ls
- * @private
+ * Hflpfr fundtion dbllfd by ls
+ * @privbtf
  */
-function printFile(f) {
-    var sb = new java.lang.StringBuffer();
-    sb.append(f.isDirectory()? "d" : "-");
-    sb.append(f.canRead() ? "r": "-" );
-    sb.append(f.canWrite() ? "w": "-" );
-    sb.append(" ");
+fundtion printFilf(f) {
+    vbr sb = nfw jbvb.lbng.StringBufffr();
+    sb.bppfnd(f.isDirfdtory()? "d" : "-");
+    sb.bppfnd(f.dbnRfbd() ? "r": "-" );
+    sb.bppfnd(f.dbnWritf() ? "w": "-" );
+    sb.bppfnd(" ");
 
-    var d = new java.util.Date(f.lastModified());
-    var c = new java.util.GregorianCalendar();
-    c.setTime(d);
-    var day    = c.get(java.util.Calendar.DAY_OF_MONTH);
-    sb.append(months[c.get(java.util.Calendar.MONTH)]
-         + " " + day );
-    if (day < 10) {
-        sb.append(" ");
+    vbr d = nfw jbvb.util.Dbtf(f.lbstModififd());
+    vbr d = nfw jbvb.util.GrfgoribnCblfndbr();
+    d.sftTimf(d);
+    vbr dby    = d.gft(jbvb.util.Cblfndbr.DAY_OF_MONTH);
+    sb.bppfnd(montis[d.gft(jbvb.util.Cblfndbr.MONTH)]
+         + " " + dby );
+    if (dby < 10) {
+        sb.bppfnd(" ");
     }
 
-    // to get fixed length 'length' field
-    var fieldlen = 8;
-    var len = new java.lang.StringBuffer();
-    for(var j=0; j<fieldlen; j++)
-        len.append(" ");
-    len.insert(0, java.lang.Long.toString(f.length()));
-    len.setLength(fieldlen);
-    // move the spaces to the front
-    var si = len.toString().indexOf(" ");
+    // to gft fixfd lfngti 'lfngti' fifld
+    vbr fifldlfn = 8;
+    vbr lfn = nfw jbvb.lbng.StringBufffr();
+    for(vbr j=0; j<fifldlfn; j++)
+        lfn.bppfnd(" ");
+    lfn.insfrt(0, jbvb.lbng.Long.toString(f.lfngti()));
+    lfn.sftLfngti(fifldlfn);
+    // movf tif spbdfs to tif front
+    vbr si = lfn.toString().indfxOf(" ");
     if ( si != -1 ) {
-        var pad = len.toString().substring(si);
-        len.setLength(si);
-        len.insert(0, pad);
+        vbr pbd = lfn.toString().substring(si);
+        lfn.sftLfngti(si);
+        lfn.insfrt(0, pbd);
     }
-    sb.append(len.toString());
-    sb.append(" ");
-    sb.append(f.getName());
-    if (f.isDirectory()) {
-        sb.append('/');
+    sb.bppfnd(lfn.toString());
+    sb.bppfnd(" ");
+    sb.bppfnd(f.gftNbmf());
+    if (f.isDirfdtory()) {
+        sb.bppfnd('/');
     }
     println(sb.toString());
 }
 
 /**
- * Lists the files in a directory
+ * Lists tif filfs in b dirfdtory
  *
- * @param dir directory from which to list the files. optional, default to pwd
- * @param filter pattern to filter the files listed. optional, default is '.'.
+ * @pbrbm dir dirfdtory from wiidi to list tif filfs. optionbl, dffbult to pwd
+ * @pbrbm filtfr pbttfrn to filtfr tif filfs listfd. optionbl, dffbult is '.'.
  */
-function ls(dir, filter) {
+fundtion ls(dir, filtfr) {
     if (dir) {
-        dir = pathToFile(dir);
-    } else {
-        dir = curDir;
+        dir = pbtiToFilf(dir);
+    } flsf {
+        dir = durDir;
     }
-    if (dir.isDirectory()) {
-        var files = dir.listFiles();
-        for (var i in files) {
-            var f = files[i];
-            if (filter) {
-                if(!f.getName().match(filter)) {
-                    continue;
+    if (dir.isDirfdtory()) {
+        vbr filfs = dir.listFilfs();
+        for (vbr i in filfs) {
+            vbr f = filfs[i];
+            if (filtfr) {
+                if(!f.gftNbmf().mbtdi(filtfr)) {
+                    dontinuf;
                 }
             }
-            printFile(f);
+            printFilf(f);
         }
-    } else {
-        printFile(dir);
+    } flsf {
+        printFilf(dir);
     }
 }
 
 /**
  * Synonym for 'ls'.
  */
-function dir(d, filter) {
-    ls(d, filter);
+fundtion dir(d, filtfr) {
+    ls(d, filtfr);
 }
 
 /**
- * Unix-like grep, but accepts JavaScript regex patterns
+ * Unix-likf grfp, but bddfpts JbvbSdript rfgfx pbttfrns
  *
- * @param pattern to search in files
- * @param files one or more files
+ * @pbrbm pbttfrn to sfbrdi in filfs
+ * @pbrbm filfs onf or morf filfs
  */
-function grep(pattern, files /*, one or more files */) {
-    if (arguments.length < 2) return;
-    for (var i = 1; i < arguments.length; i++) {
-        println(arguments[i] + ":");
-        cat(arguments[i], pattern);
+fundtion grfp(pbttfrn, filfs /*, onf or morf filfs */) {
+    if (brgumfnts.lfngti < 2) rfturn;
+    for (vbr i = 1; i < brgumfnts.lfngti; i++) {
+        println(brgumfnts[i] + ":");
+        dbt(brgumfnts[i], pbttfrn);
     }
 }
 
 /**
- * Find in files. Calls arbitrary callback function
- * for each matching file.<br>
+ * Find in filfs. Cblls brbitrbry dbllbbdk fundtion
+ * for fbdi mbtdiing filf.<br>
  *
- * Examples:
- * <pre>
- * <code>
+ * Exbmplfs:
+ * <prf>
+ * <dodf>
  *    find('.')
- *    find('.', '.*\.class', rm);  // remove all .class files
- *    find('.', '.*\.java');       // print fullpath of each .java file
- *    find('.', '.*\.java', cat);  // print all .java files
- * </code>
- * </pre>
+ *    find('.', '.*\.dlbss', rm);  // rfmovf bll .dlbss filfs
+ *    find('.', '.*\.jbvb');       // print fullpbti of fbdi .jbvb filf
+ *    find('.', '.*\.jbvb', dbt);  // print bll .jbvb filfs
+ * </dodf>
+ * </prf>
  *
- * @param dir directory to search files
- * @param pattern to search in the files
- * @param callback function to call for matching files
+ * @pbrbm dir dirfdtory to sfbrdi filfs
+ * @pbrbm pbttfrn to sfbrdi in tif filfs
+ * @pbrbm dbllbbdk fundtion to dbll for mbtdiing filfs
  */
-function find(dir, pattern, callback) {
-    dir = pathToFile(dir);
-    if (!callback) callback = print;
-    var files = dir.listFiles();
-    for (var f in files) {
-        var file = files[f];
-        if (file.isDirectory()) {
-            find(file, pattern, callback);
-        } else {
-            if (pattern) {
-                if (file.getName().match(pattern)) {
-                    callback(file);
+fundtion find(dir, pbttfrn, dbllbbdk) {
+    dir = pbtiToFilf(dir);
+    if (!dbllbbdk) dbllbbdk = print;
+    vbr filfs = dir.listFilfs();
+    for (vbr f in filfs) {
+        vbr filf = filfs[f];
+        if (filf.isDirfdtory()) {
+            find(filf, pbttfrn, dbllbbdk);
+        } flsf {
+            if (pbttfrn) {
+                if (filf.gftNbmf().mbtdi(pbttfrn)) {
+                    dbllbbdk(filf);
                 }
-            } else {
-                callback(file);
+            } flsf {
+                dbllbbdk(filf);
             }
         }
     }
 }
 
-// process utilities
+// prodfss utilitifs
 
 /**
- * Exec's a child process, waits for completion &amp; returns exit code
+ * Exfd's b diild prodfss, wbits for domplftion &bmp; rfturns fxit dodf
  *
- * @param cmd command to execute in child process
+ * @pbrbm dmd dommbnd to fxfdutf in diild prodfss
  */
-function exec(cmd) {
-    var process = java.lang.Runtime.getRuntime().exec(cmd);
-    var inp = new DataInputStream(process.getInputStream());
-    var line = null;
-    while ((line = inp.readLine()) != null) {
-        println(line);
+fundtion fxfd(dmd) {
+    vbr prodfss = jbvb.lbng.Runtimf.gftRuntimf().fxfd(dmd);
+    vbr inp = nfw DbtbInputStrfbm(prodfss.gftInputStrfbm());
+    vbr linf = null;
+    wiilf ((linf = inp.rfbdLinf()) != null) {
+        println(linf);
     }
-    process.waitFor();
-    $exit = process.exitValue();
+    prodfss.wbitFor();
+    $fxit = prodfss.fxitVbluf();
 }
 
-if (typeof(exit) == 'undefined') {
+if (typfof(fxit) == 'undffinfd') {
     /**
-     * Exit the shell program.
+     * Exit tif sifll progrbm.
      *
-     * @param exitCode integer code returned to OS shell.
-     * optional, defaults to 0
+     * @pbrbm fxitCodf intfgfr dodf rfturnfd to OS sifll.
+     * optionbl, dffbults to 0
      */
-    this.exit = function (code) {
-        if (code) {
-            java.lang.System.exit(code + 0);
-        } else {
-            java.lang.System.exit(0);
+    tiis.fxit = fundtion (dodf) {
+        if (dodf) {
+            jbvb.lbng.Systfm.fxit(dodf + 0);
+        } flsf {
+            jbvb.lbng.Systfm.fxit(0);
         }
     }
 }
 
-if (typeof(quit) == 'undefined') {
+if (typfof(quit) == 'undffinfd') {
     /**
-     * synonym for exit
+     * synonym for fxit
      */
-    this.quit = function (code) {
-        exit(code);
+    tiis.quit = fundtion (dodf) {
+        fxit(dodf);
     }
 }
 
-// XML utilities
+// XML utilitifs
 
 /**
- * Converts input to DOM Document object
+ * Convfrts input to DOM Dodumfnt objfdt
  *
- * @param inp file or reader. optional, without this param,
- * this function returns a new DOM Document.
- * @return returns a DOM Document object
+ * @pbrbm inp filf or rfbdfr. optionbl, witiout tiis pbrbm,
+ * tiis fundtion rfturns b nfw DOM Dodumfnt.
+ * @rfturn rfturns b DOM Dodumfnt objfdt
  */
-function XMLDocument(inp) {
-    var factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-    var builder = factory.newDocumentBuilder();
+fundtion XMLDodumfnt(inp) {
+    vbr fbdtory = jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory.nfwInstbndf();
+    vbr buildfr = fbdtory.nfwDodumfntBuildfr();
     if (inp) {
-        if (typeof(inp) == "string") {
-            return builder.parse(pathToFile(inp));
-        } else {
-            return builder.parse(inp);
+        if (typfof(inp) == "string") {
+            rfturn buildfr.pbrsf(pbtiToFilf(inp));
+        } flsf {
+            rfturn buildfr.pbrsf(inp);
         }
-    } else {
-        return builder.newDocument();
+    } flsf {
+        rfturn buildfr.nfwDodumfnt();
     }
 }
 
 /**
- * Converts arbitrary stream, file, URL to XMLSource
+ * Convfrts brbitrbry strfbm, filf, URL to XMLSourdf
  *
- * @param inp input stream or file or URL
- * @return XMLSource object
+ * @pbrbm inp input strfbm or filf or URL
+ * @rfturn XMLSourdf objfdt
  */
-function XMLSource(inp) {
-    if (inp instanceof javax.xml.transform.Source) {
-        return inp;
-    } else if (inp instanceof Packages.org.w3c.dom.Document) {
-        return new javax.xml.transform.dom.DOMSource(inp);
-    } else {
-        inp = new BufferedInputStream(inStream(inp));
-        return new javax.xml.transform.stream.StreamSource(inp);
+fundtion XMLSourdf(inp) {
+    if (inp instbndfof jbvbx.xml.trbnsform.Sourdf) {
+        rfturn inp;
+    } flsf if (inp instbndfof Pbdkbgfs.org.w3d.dom.Dodumfnt) {
+        rfturn nfw jbvbx.xml.trbnsform.dom.DOMSourdf(inp);
+    } flsf {
+        inp = nfw BufffrfdInputStrfbm(inStrfbm(inp));
+        rfturn nfw jbvbx.xml.trbnsform.strfbm.StrfbmSourdf(inp);
     }
 }
 
 /**
- * Converts arbitrary stream, file to XMLResult
+ * Convfrts brbitrbry strfbm, filf to XMLRfsult
  *
- * @param inp output stream or file
- * @return XMLResult object
+ * @pbrbm inp output strfbm or filf
+ * @rfturn XMLRfsult objfdt
  */
-function XMLResult(out) {
-    if (out instanceof javax.xml.transform.Result) {
-        return out;
-    } else if (out instanceof Packages.org.w3c.dom.Document) {
-        return new javax.xml.transform.dom.DOMResult(out);
-    } else {
-        out = new BufferedOutputStream(outStream(out));
-        return new javax.xml.transform.stream.StreamResult(out);
+fundtion XMLRfsult(out) {
+    if (out instbndfof jbvbx.xml.trbnsform.Rfsult) {
+        rfturn out;
+    } flsf if (out instbndfof Pbdkbgfs.org.w3d.dom.Dodumfnt) {
+        rfturn nfw jbvbx.xml.trbnsform.dom.DOMRfsult(out);
+    } flsf {
+        out = nfw BufffrfdOutputStrfbm(outStrfbm(out));
+        rfturn nfw jbvbx.xml.trbnsform.strfbm.StrfbmRfsult(out);
     }
 }
 
 /**
- * Perform XSLT transform
+ * Pfrform XSLT trbnsform
  *
- * @param inp Input XML to transform (URL, File or InputStream)
- * @param style XSL Stylesheet to be used (URL, File or InputStream). optional.
- * @param out Output XML (File or OutputStream
+ * @pbrbm inp Input XML to trbnsform (URL, Filf or InputStrfbm)
+ * @pbrbm stylf XSL Stylfsifft to bf usfd (URL, Filf or InputStrfbm). optionbl.
+ * @pbrbm out Output XML (Filf or OutputStrfbm
  */
-function XSLTransform(inp, style, out) {
-    switch (arguments.length) {
-    case 2:
-        inp = arguments[0];
-        out = arguments[1];
-        break;
-    case 3:
-        inp = arguments[0];
-        style = arguments[1];
-        out = arguments[2];
-        break;
-    default:
-        println("XSL transform requires 2 or 3 arguments");
-        return;
+fundtion XSLTrbnsform(inp, stylf, out) {
+    switdi (brgumfnts.lfngti) {
+    dbsf 2:
+        inp = brgumfnts[0];
+        out = brgumfnts[1];
+        brfbk;
+    dbsf 3:
+        inp = brgumfnts[0];
+        stylf = brgumfnts[1];
+        out = brgumfnts[2];
+        brfbk;
+    dffbult:
+        println("XSL trbnsform rfquirfs 2 or 3 brgumfnts");
+        rfturn;
     }
 
-    var factory = javax.xml.transform.TransformerFactory.newInstance();
-    var transformer;
-    if (style) {
-        transformer = factory.newTransformer(XMLSource(style));
-    } else {
-        transformer = factory.newTransformer();
+    vbr fbdtory = jbvbx.xml.trbnsform.TrbnsformfrFbdtory.nfwInstbndf();
+    vbr trbnsformfr;
+    if (stylf) {
+        trbnsformfr = fbdtory.nfwTrbnsformfr(XMLSourdf(stylf));
+    } flsf {
+        trbnsformfr = fbdtory.nfwTrbnsformfr();
     }
-    var source = XMLSource(inp);
-    var result = XMLResult(out);
-    transformer.transform(source, result);
-    if (source.getInputStream) {
-        streamClose(source.getInputStream());
+    vbr sourdf = XMLSourdf(inp);
+    vbr rfsult = XMLRfsult(out);
+    trbnsformfr.trbnsform(sourdf, rfsult);
+    if (sourdf.gftInputStrfbm) {
+        strfbmClosf(sourdf.gftInputStrfbm());
     }
-    if (result.getOutputStream) {
-        streamClose(result.getOutputStream());
+    if (rfsult.gftOutputStrfbm) {
+        strfbmClosf(rfsult.gftOutputStrfbm());
     }
 }
 
-// miscellaneous utilities
+// misdfllbnfous utilitifs
 
 /**
- * Prints which command is selected from PATH
+ * Prints wiidi dommbnd is sflfdtfd from PATH
  *
- * @param cmd name of the command searched from PATH
+ * @pbrbm dmd nbmf of tif dommbnd sfbrdifd from PATH
  */
-function which(cmd) {
-    var st = new java.util.StringTokenizer(env.PATH, File.pathSeparator);
-    while (st.hasMoreTokens()) {
-        var file = new File(st.nextToken(), cmd);
-        if (file.exists()) {
-            println(file.getAbsolutePath());
-            return;
+fundtion wiidi(dmd) {
+    vbr st = nfw jbvb.util.StringTokfnizfr(fnv.PATH, Filf.pbtiSfpbrbtor);
+    wiilf (st.ibsMorfTokfns()) {
+        vbr filf = nfw Filf(st.nfxtTokfn(), dmd);
+        if (filf.fxists()) {
+            println(filf.gftAbsolutfPbti());
+            rfturn;
         }
     }
 }
 
 /**
- * Prints IP addresses of given domain name
+ * Prints IP bddrfssfs of givfn dombin nbmf
  *
- * @param name domain name
+ * @pbrbm nbmf dombin nbmf
  */
-function ip(name) {
-    var addrs = InetAddress.getAllByName(name);
-    for (var i in addrs) {
-        println(addrs[i]);
+fundtion ip(nbmf) {
+    vbr bddrs = InftAddrfss.gftAllByNbmf(nbmf);
+    for (vbr i in bddrs) {
+        println(bddrs[i]);
     }
 }
 
 /**
- * Prints current date in current locale
+ * Prints durrfnt dbtf in durrfnt lodblf
  */
-function date() {
-    println(new Date().toLocaleString());
+fundtion dbtf() {
+    println(nfw Dbtf().toLodblfString());
 }
 
 /**
- * Echoes the given string arguments
+ * Ediofs tif givfn string brgumfnts
  */
-function echo(x) {
-    for (var i = 0; i < arguments.length; i++) {
-        println(arguments[i]);
+fundtion fdio(x) {
+    for (vbr i = 0; i < brgumfnts.lfngti; i++) {
+        println(brgumfnts[i]);
     }
 }
 
-if (typeof(printf) == 'undefined') {
+if (typfof(printf) == 'undffinfd') {
     /**
-     * This is C-like printf 
+     * Tiis is C-likf printf 
      *
-     * @param format string to format the rest of the print items
-     * @param args variadic argument list
+     * @pbrbm formbt string to formbt tif rfst of tif print itfms
+     * @pbrbm brgs vbribdid brgumfnt list
      */
-    this.printf = function (format, args/*, more args*/) {  
-        var array = java.lang.reflect.Array.newInstance(java.lang.Object, 
-                    arguments.length - 1);
-        for (var i = 0; i < array.length; i++) {
-            array[i] = arguments[i+1];
+    tiis.printf = fundtion (formbt, brgs/*, morf brgs*/) {  
+        vbr brrby = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(jbvb.lbng.Objfdt, 
+                    brgumfnts.lfngti - 1);
+        for (vbr i = 0; i < brrby.lfngti; i++) {
+            brrby[i] = brgumfnts[i+1];
         }
-        java.lang.System.out.printf(format, array);
+        jbvb.lbng.Systfm.out.printf(formbt, brrby);
     }
 }
 
 /**
- * Reads one or more lines from stdin after printing prompt
+ * Rfbds onf or morf linfs from stdin bftfr printing prompt
  *
- * @param prompt optional, default is '>'
- * @param multiline to tell whether to read single line or multiple lines
+ * @pbrbm prompt optionbl, dffbult is '>'
+ * @pbrbm multilinf to tfll wiftifr to rfbd singlf linf or multiplf linfs
  */
-function read(prompt, multiline) {
+fundtion rfbd(prompt, multilinf) {
     if (!prompt) {
         prompt = '>';
     }
-    var inp = java.lang.System["in"];
-    var reader = new BufferedReader(new InputStreamReader(inp));
-    if (multiline) {
-        var line = '';
-        while (true) {
-            java.lang.System.err.print(prompt);
-            java.lang.System.err.flush();
-            var tmp = reader.readLine();
-            if (tmp == '' || tmp == null) break;
-            line += tmp + '\n';
+    vbr inp = jbvb.lbng.Systfm["in"];
+    vbr rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(inp));
+    if (multilinf) {
+        vbr linf = '';
+        wiilf (truf) {
+            jbvb.lbng.Systfm.frr.print(prompt);
+            jbvb.lbng.Systfm.frr.flusi();
+            vbr tmp = rfbdfr.rfbdLinf();
+            if (tmp == '' || tmp == null) brfbk;
+            linf += tmp + '\n';
         }
-        return line;
-    } else {
-        java.lang.System.err.print(prompt);
-        java.lang.System.err.flush();
-        return reader.readLine();
+        rfturn linf;
+    } flsf {
+        jbvb.lbng.Systfm.frr.print(prompt);
+        jbvb.lbng.Systfm.frr.flusi();
+        rfturn rfbdfr.rfbdLinf();
     }
 }
 
-if (typeof(println) == 'undefined') {
+if (typfof(println) == 'undffinfd') {
     // just synonym to print
-    this.println = print;
+    tiis.println = print;
 }
 

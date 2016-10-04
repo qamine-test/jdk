@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.RC2PbrbmftfrSpfd;
+
+/**
+ * JCE CiphfrSpi for thf RC2(tm) blgorithm bs dfsdribfd in RFC 2268.
+ * Thf rfbl dodf is in CiphfrCorf bnd RC2Crypt.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RC2Ciphfr fxtfnds CiphfrSpi {
+
+    // intfrnbl CiphfrCorf & RC2Crypt objfdts whidh do thf rfbl work.
+    privbtf finbl CiphfrCorf dorf;
+    privbtf finbl RC2Crypt fmbfddfdCiphfr;
+
+    publid RC2Ciphfr() {
+        fmbfddfdCiphfr = nfw RC2Crypt();
+        dorf = nfw CiphfrCorf(fmbfddfdCiphfr, 8);
+    }
+
+    protfdtfd void fnginfSftModf(String modf)
+            throws NoSudhAlgorithmExdfption {
+        dorf.sftModf(modf);
+    }
+
+    protfdtfd void fnginfSftPbdding(String pbddingSdhfmf)
+            throws NoSudhPbddingExdfption {
+        dorf.sftPbdding(pbddingSdhfmf);
+    }
+
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn 8;
+    }
+
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn dorf.gftOutputSizf(inputLfn);
+    }
+
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn dorf.gftIV();
+    }
+
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn dorf.gftPbrbmftfrs("RC2");
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        fmbfddfdCiphfr.initEfffdtivfKfyBits(0);
+        dorf.init(opmodf, kfy, rbndom);
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null && pbrbms instbndfof RC2PbrbmftfrSpfd) {
+            fmbfddfdCiphfr.initEfffdtivfKfyBits
+                (((RC2PbrbmftfrSpfd)pbrbms).gftEfffdtivfKfyBits());
+        } flsf {
+            fmbfddfdCiphfr.initEfffdtivfKfyBits(0);
+        }
+        dorf.init(opmodf, kfy, pbrbms, rbndom);
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrs pbrbms, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null && pbrbms.gftAlgorithm().fqubls("RC2")) {
+            try {
+                RC2PbrbmftfrSpfd rd2Pbrbms =
+                        pbrbms.gftPbrbmftfrSpfd(RC2PbrbmftfrSpfd.dlbss);
+                fnginfInit(opmodf, kfy, rd2Pbrbms, rbndom);
+            } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("Wrong pbrbmftfr typf: RC2 fxpfdtfd");
+            }
+        } flsf {
+            fmbfddfdCiphfr.initEfffdtivfKfyBits(0);
+            dorf.init(opmodf, kfy, pbrbms, rbndom);
+        }
+    }
+
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOfs, int inLfn) {
+        rfturn dorf.updbtf(in, inOfs, inLfn);
+    }
+
+    protfdtfd int fnginfUpdbtf(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) throws ShortBufffrExdfption {
+        rfturn dorf.updbtf(in, inOfs, inLfn, out, outOfs);
+    }
+
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOfs, int inLfn)
+            throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        rfturn dorf.doFinbl(in, inOfs, inLfn);
+    }
+
+    protfdtfd int fnginfDoFinbl(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) throws IllfgblBlodkSizfExdfption,
+            ShortBufffrExdfption, BbdPbddingExdfption {
+        rfturn dorf.doFinbl(in, inOfs, inLfn, out, outOfs);
+    }
+
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) throws InvblidKfyExdfption {
+        bytf[] kfyBytfs = CiphfrCorf.gftKfyBytfs(kfy);
+        RC2Crypt.dhfdkKfy(kfy.gftAlgorithm(), kfyBytfs.lfngth);
+        rfturn kfyBytfs.lfngth << 3;
+    }
+
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+            throws IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        rfturn dorf.wrbp(kfy);
+    }
+
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy, String wrbppfdKfyAlgorithm,
+            int wrbppfdKfyTypf) throws InvblidKfyExdfption,
+            NoSudhAlgorithmExdfption {
+        rfturn dorf.unwrbp(wrbppfdKfy, wrbppfdKfyAlgorithm, wrbppfdKfyTypf);
+    }
+
+}

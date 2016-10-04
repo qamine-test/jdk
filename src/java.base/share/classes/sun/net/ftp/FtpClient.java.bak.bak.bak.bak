@@ -1,0 +1,943 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+
+/**
+ * A dlbss thbt implfmfnts thf FTP protodol bddording to
+ * RFCs <A hrff="http://www.iftf.org/rfd/rfd0959.txt">959</A>,
+ * <A hrff="http://www.iftf.org/rfd/rfd2228.txt">2228</A>,
+ * <A hrff="http://www.iftf.org/rfd/rfd2389.txt">2389</A>,
+ * <A hrff="http://www.iftf.org/rfd/rfd2428.txt">2428</A>,
+ * <A hrff="http://www.iftf.org/rfd/rfd3659.txt">3659</A>,
+ * <A hrff="http://www.iftf.org/rfd/rfd4217.txt">4217</A>.
+ * Whidh indludfs support for FTP ovfr SSL/TLS (bkb ftps).
+ *
+ * {@dodf FtpClifnt} providfs bll thf fundtionblitifs of b typidbl FTP
+ * dlifnt, likf storing or rftrifving filfs, listing or drfbting dirfdtorifs.
+ * A typidbl usbgf would donsist of donnfdting thf dlifnt to thf sfrvfr,
+ * log in, issuf b ffw dommbnds thfn logout.
+ * Hfrf is b dodf fxbmplf:
+ * <prf>
+ * FtpClifnt dl = FtpClifnt.drfbtf();
+ * dl.donnfdt("ftp.gnu.org").login("bnonymous", "john.dof@mydombin.dom".toChbrArrby())).dhbngfDirfdtory("pub/gnu");
+ * Itfrbtor&lt;FtpDirEntry&gt; dir = dl.listFilfs();
+ *     whilf (dir.hbsNfxt()) {
+ *         FtpDirEntry f = dir.nfxt();
+ *         Systfm.frr.println(f.gftNbmf());
+ *     }
+ *     dl.dlosf();
+ * }
+ * </prf>
+ * <p><b>Error rfporting:</b> Thfrf brf, mostly, two fbmilifs of frrors thbt
+ * dbn oddur during bn FTP sfssion. Thf first kind brf thf nftwork rflbtfd issufs
+ * likf b donnfdtion rfsft, bnd thfy brf usublly fbtbl to thf sfssion, mfbning,
+ * in bll likflyhood thf donnfdtion to thf sfrvfr hbs bffn lost bnd thf sfssion
+ * should bf rfstbrtfd from sdrbtdh. Thfsf frrors brf rfportfd by throwing bn
+ * {@link IOExdfption}. Thf sfdond kind brf thf frrors rfportfd by thf FTP sfrvfr,
+ * likf whfn trying to downlobd b non-fxisting filf for fxbmplf. Thfsf frrors
+ * brf usublly non fbtbl to thf sfssion, mfbning morf dommbnds dbn bf sfnt to thf
+ * sfrvfr. In thfsf dbsfs, b {@link FtpProtodolExdfption} is thrown.</p>
+ * <p>
+ * It should bf notfd thbt this is not b thrfbd-sbff API, bs it wouldn't mbkf
+ * too mudh sfnsf, duf to thf vfry sfqufntibl nbturf of FTP, to providf b
+ * dlifnt bblf to bf mbnipulbtfd from multiplf thrfbds.
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss FtpClifnt implfmfnts jbvb.io.Closfbblf {
+
+    privbtf stbtid finbl int FTP_PORT = 21;
+
+    publid stbtid fnum TrbnsffrTypf {
+
+        ASCII, BINARY, EBCDIC
+    };
+
+    /**
+     * Rfturns thf dffbult FTP port numbfr.
+     *
+     * @rfturn thf port numbfr.
+     */
+    publid stbtid finbl int dffbultPort() {
+        rfturn FTP_PORT;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of FtpClifnt. Thf dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
+     *
+     */
+    protfdtfd FtpClifnt() {
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf FtpClifnt}. Thf dlifnt is not donnfdtfd to bny
+     * sfrvfr yft.
+     *
+     * @rfturn thf drfbtfd {@dodf FtpClifnt}
+     */
+    publid stbtid FtpClifnt drfbtf() {
+        FtpClifntProvidfr providfr = FtpClifntProvidfr.providfr();
+        rfturn providfr.drfbtfFtpClifnt();
+    }
+
+    /**
+     * Crfbtfs bn instbndf of FtpClifnt bnd donnfdts it to thf spfdififd
+     * bddrfss.
+     *
+     * @pbrbm dfst thf {@dodf InftSodkftAddrfss} to donnfdt to.
+     * @rfturn Thf drfbtfd {@dodf FtpClifnt}
+     * @throws IOExdfption if thf donnfdtion fbils
+     * @sff #donnfdt(jbvb.nft.SodkftAddrfss)
+     */
+    publid stbtid FtpClifnt drfbtf(InftSodkftAddrfss dfst) throws FtpProtodolExdfption, IOExdfption {
+        FtpClifnt dlifnt = drfbtf();
+        if (dfst != null) {
+            dlifnt.donnfdt(dfst);
+        }
+        rfturn dlifnt;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf FtpClifnt} bnd donnfdts it to thf
+     * spfdififd host on thf dffbult FTP port.
+     *
+     * @pbrbm dfst thf {@dodf String} dontbining thf nbmf of thf host
+     *        to donnfdt to.
+     * @rfturn Thf drfbtfd {@dodf FtpClifnt}
+     * @throws IOExdfption if thf donnfdtion fbils.
+     * @throws FtpProtodolExdfption if thf sfrvfr rfjfdtfd thf donnfdtion
+     */
+    publid stbtid FtpClifnt drfbtf(String dfst) throws FtpProtodolExdfption, IOExdfption {
+        rfturn drfbtf(nfw InftSodkftAddrfss(dfst, FTP_PORT));
+    }
+
+    /**
+     * Enbblfs, or disbblfs, thf usf of thf <I>pbssivf</I> modf. In thbt modf,
+     * dbtb donnfdtions brf fstbblishfd by hbving thf dlifnt donnfdt to thf sfrvfr.
+     * This is thf rfdommfndfd dffbult modf bs it will work bfst through
+     * firfwblls bnd NATs. If sft to {@dodf fblsf} thf modf is sbid to bf
+     * <I>bdtivf</I> whidh mfbns thf sfrvfr will donnfdt bbdk to thf dlifnt
+     * bftfr b PORT dommbnd to fstbblish b dbtb donnfdtion.
+     *
+     * <p><b>Notf:</b> Sindf thf pbssivf modf might not bf supportfd by bll
+     * FTP sfrvfrs, fnbbling it mfbns thf dlifnt will try to usf it. If thf
+     * sfrvfr rfjfdts it, thfn thf dlifnt will bttfmpt to fbll bbdk to using
+     * thf <I>bdtivf</I> modf by issuing b {@dodf PORT} dommbnd instfbd.</p>
+     *
+     * @pbrbm pbssivf {@dodf truf} to fordf pbssivf modf.
+     * @rfturn This FtpClifnt
+     * @sff #isPbssivfModfEnbblfd()
+     */
+    publid bbstrbdt FtpClifnt fnbblfPbssivfModf(boolfbn pbssivf);
+
+    /**
+     * Tfsts whfthfr pbssivf modf is fnbblfd.
+     *
+     * @rfturn {@dodf truf} if thf pbssivf modf hbs bffn fnbblfd.
+     * @sff #fnbblfPbssivfModf(boolfbn)
+     */
+    publid bbstrbdt boolfbn isPbssivfModfEnbblfd();
+
+    /**
+     * Sfts thf dffbult timfout vbluf to usf whfn donnfdting to thf sfrvfr,
+     *
+     * @pbrbm timfout thf timfout vbluf, in millisfdonds, to usf for thf donnfdt
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf thf dffbult timfout.
+     *
+     * @rfturn This FtpClifnt
+     */
+    publid bbstrbdt FtpClifnt sftConnfdtTimfout(int timfout);
+
+    /**
+     * Rfturns thf durrfnt dffbult donnfdtion timfout vbluf.
+     *
+     * @rfturn thf vbluf, in millisfdonds, of thf durrfnt donnfdt timfout.
+     * @sff #sftConnfdtTimfout(int)
+     */
+    publid bbstrbdt int gftConnfdtTimfout();
+
+    /**
+     * Sfts thf timfout vbluf to usf whfn rfbding from thf sfrvfr,
+     *
+     * @pbrbm timfout thf timfout vbluf, in millisfdonds, to usf for thf rfbd
+     *        opfrbtion. A vbluf of zfro or lfss, mfbns usf thf dffbult timfout.
+     * @rfturn This FtpClifnt
+     */
+    publid bbstrbdt FtpClifnt sftRfbdTimfout(int timfout);
+
+    /**
+     * Rfturns thf durrfnt rfbd timfout vbluf.
+     *
+     * @rfturn thf vbluf, in millisfdonds, of thf durrfnt rfbd timfout.
+     * @sff #sftRfbdTimfout(int)
+     */
+    publid bbstrbdt int gftRfbdTimfout();
+
+    /**
+     * Sft thf {@dodf Proxy} to bf usfd for thf nfxt donnfdtion.
+     * If thf dlifnt is blrfbdy donnfdtfd, it dofsn't bfffdt thf durrfnt
+     * donnfdtion. Howfvfr it is not rfdommfndfd to dhbngf this during b sfssion.
+     *
+     * @pbrbm p thf {@dodf Proxy} to usf, or {@dodf null} for no proxy.
+     * @rfturn This FtpClifnt
+     */
+    publid bbstrbdt FtpClifnt sftProxy(Proxy p);
+
+    /**
+     * Gft thf proxy of this FtpClifnt
+     *
+     * @rfturn thf {@dodf Proxy}, this dlifnt is using, or {@dodf null}
+     * if nonf is usfd.
+     * @sff #sftProxy(Proxy)
+     */
+    publid bbstrbdt Proxy gftProxy();
+
+    /**
+     * Tfsts whfthfr this dlifnt is donnfdtfd or not to b sfrvfr.
+     *
+     * @rfturn {@dodf truf} if thf dlifnt is donnfdtfd.
+     */
+    publid bbstrbdt boolfbn isConnfdtfd();
+
+    /**
+     * Connfdts thf {@dodf FtpClifnt} to thf spfdififd dfstinbtion sfrvfr.
+     *
+     * @pbrbm dfst thf bddrfss of thf dfstinbtion sfrvfr
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if donnfdtion fbilfd.
+     * @throws SfdurityExdfption if thfrf is b SfdurityMbnbgfr instbllfd bnd it
+     * dfnifd thf buthorizbtion to donnfdt to thf dfstinbtion.
+     * @throws FtpProtodolExdfption
+     */
+    publid bbstrbdt FtpClifnt donnfdt(SodkftAddrfss dfst) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Connfdts thf FtpClifnt to thf spfdififd dfstinbtion sfrvfr.
+     *
+     * @pbrbm dfst thf bddrfss of thf dfstinbtion sfrvfr
+     * @pbrbm timfout thf vbluf, in millisfdonds, to usf bs b donnfdtion timfout
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if donnfdtion fbilfd.
+     * @throws SfdurityExdfption if thfrf is b SfdurityMbnbgfr instbllfd bnd it
+     * dfnifd thf buthorizbtion to donnfdt to thf dfstinbtion.
+     * @throws FtpProtodolExdfption
+     */
+    publid bbstrbdt FtpClifnt donnfdt(SodkftAddrfss dfst, int timfout) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rftrifvfs thf bddrfss of thf FTP sfrvfr this dlifnt is donnfdtfd to.
+     *
+     * @rfturn thf {@link SodkftAddrfss} of thf sfrvfr, or {@dodf null} if this
+     * dlifnt is not donnfdtfd yft.
+     */
+    publid bbstrbdt SodkftAddrfss gftSfrvfrAddrfss();
+
+    /**
+     * Attfmpts to log on thf sfrvfr with thf spfdififd usfr nbmf bnd pbssword.
+     *
+     * @pbrbm usfr Thf usfr nbmf
+     * @pbrbm pbssword Thf pbssword for thbt usfr
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission
+     * @throws FtpProtodolExdfption if thf login wbs rffusfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt login(String usfr, dhbr[] pbssword) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Attfmpts to log on thf sfrvfr with thf spfdififd usfr nbmf, pbssword bnd
+     * bddount nbmf.
+     *
+     * @pbrbm usfr Thf usfr nbmf
+     * @pbrbm pbssword Thf pbssword for thbt usfr.
+     * @pbrbm bddount Thf bddount nbmf for thbt usfr.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf login wbs rffusfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt login(String usfr, dhbr[] pbssword, String bddount) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Closfs thf durrfnt donnfdtion. Logs out thf durrfnt usfr, if bny, by
+     * issuing thf QUIT dommbnd to thf sfrvfr.
+     * This is in ffffdt tfrminbtfs thf durrfnt
+     * sfssion bnd thf donnfdtion to thf sfrvfr will bf dlosfd.
+     * <p>Aftfr b dlosf, thf dlifnt dbn thfn bf donnfdtfd to bnothfr sfrvfr
+     * to stbrt bn fntirfly difffrfnt sfssion.</P>
+     *
+     * @throws IOExdfption if bn frror oddurs during trbnsmission
+     */
+    publid bbstrbdt void dlosf() throws IOExdfption;
+
+    /**
+     * Chfdks whfthfr thf dlifnt is loggfd in to thf sfrvfr or not.
+     *
+     * @rfturn {@dodf truf} if thf dlifnt hbs blrfbdy domplftfd b login.
+     */
+    publid bbstrbdt boolfbn isLoggfdIn();
+
+    /**
+     * Chbngfs to b spfdifid dirfdtory on b rfmotf FTP sfrvfr
+     *
+     * @pbrbm  rfmotfDirfdtory pbth of thf dirfdtory to CD to.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rffusfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt dhbngfDirfdtory(String rfmotfDirfdtory) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Chbngfs to thf pbrfnt dirfdtory, sfnding thf CDUP dommbnd to thf sfrvfr.
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rffusfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt dhbngfToPbrfntDirfdtory() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rftrifvf thf sfrvfr durrfnt working dirfdtory using thf PWD dommbnd.
+     *
+     * @rfturn b {@dodf String} dontbining thf durrfnt working dirfdtory
+     * @throws IOExdfption if bn frror oddurs during trbnsmission
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rffusfd by thf sfrvfr,
+     */
+    publid bbstrbdt String gftWorkingDirfdtory() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfts thf rfstbrt offsft to thf spfdififd vbluf.  Thbt vbluf will bf
+     * sfnt through b {@dodf REST} dommbnd to sfrvfr bfforf thf nfxt filf
+     * trbnsffr bnd hbs thf ffffdt of rfsuming b filf trbnsffr from thf
+     * spfdififd point. Aftfr thf trbnsffr thf rfstbrt offsft is sft bbdk to
+     * zfro.
+     *
+     * @pbrbm offsft thf offsft in thf rfmotf filf bt whidh to stbrt thf nfxt
+     *        trbnsffr. This must bf b vbluf grfbtfr thbn or fqubl to zfro.
+     * @rfturn this FtpClifnt
+     * @throws IllfgblArgumfntExdfption if thf offsft is nfgbtivf.
+     */
+    publid bbstrbdt FtpClifnt sftRfstbrtOffsft(long offsft);
+
+    /**
+     * Rftrifvfs b filf from thf ftp sfrvfr bnd writfs its dontfnt to thf spfdififd
+     * {@dodf OutputStrfbm}.
+     * <p>If thf rfstbrt offsft wbs sft, thfn b {@dodf REST} dommbnd will bf
+     * sfnt bfforf thf {@dodf RETR} in ordfr to rfstbrt thf trbnffr from thf spfdififd
+     * offsft.</p>
+     * <p>Thf {@dodf OutputStrfbm} is not dlosfd by this mfthod bt thf fnd
+     * of thf trbnsffr. </p>
+     * <p>This mfthod will blodk until thf trbnsffr is domplftf or bn fxdfption
+     * is thrown.</p>
+     *
+     * @pbrbm nbmf b {@dodf String} dontbining thf nbmf of thf filf to
+     *        rftrfivf from thf sfrvfr.
+     * @pbrbm lodbl thf {@dodf OutputStrfbm} thf filf should bf writtfn to.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if thf trbnsffr fbils.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rffusfd by thf sfrvfr
+     * @sff #sftRfstbrtOffsft(long)
+     */
+    publid bbstrbdt FtpClifnt gftFilf(String nbmf, OutputStrfbm lodbl) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rftrifvfs b filf from thf ftp sfrvfr, using thf {@dodf RETR} dommbnd, bnd
+     * rfturns thf InputStrfbm from thf fstbblishfd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is donf rfbding from thf rfturnfd strfbm.
+     * <p>If thf rfstbrt offsft wbs sft, thfn b {@dodf REST} dommbnd will bf
+     * sfnt bfforf thf {@dodf RETR} in ordfr to rfstbrt thf trbnffr from thf spfdififd
+     * offsft.</p>
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf
+     * @rfturn thf {@link jbvb.io.InputStrfbm} from thf dbtb donnfdtion
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rffusfd by thf sfrvfr
+     * @sff #sftRfstbrtOffsft(long)
+     */
+    publid bbstrbdt InputStrfbm gftFilfStrfbm(String nbmf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR dommbnd, bnd rfturns thf {@dodf OutputStrfbm}
+     * from thf fstbblishfd dbtb donnfdtion.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd writing to thf rfturnfd strfbm.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @rfturn thf {@link jbvb.io.OutputStrfbm} from thf dbtb donnfdtion or
+     *         {@dodf null} if thf dommbnd wbs unsuddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid OutputStrfbm putFilfStrfbm(String nbmf) throws FtpProtodolExdfption, IOExdfption {
+        rfturn putFilfStrfbm(nbmf, fblsf);
+    }
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR or STOU dommbnd, dfpfnding on thf
+     * {@dodf uniquf} brgumfnt, bnd rfturns thf {@dodf OutputStrfbm}
+     * from thf fstbblishfd dbtb donnfdtion.
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd writing to thf strfbm.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * If {@dodf uniquf} is sft to {@dodf truf}, thf rfsultbnt filf
+     * is to bf drfbtfd undfr b nbmf uniquf to thbt dirfdtory, mfbning
+     * it will not ovfrwritf bn fxisting filf, instfbd thf sfrvfr will
+     * gfnfrbtf b nfw, uniquf, filf nbmf.
+     * Thf nbmf of thf rfmotf filf dbn bf rftrifvfd, bftfr domplftion of thf
+     * trbnsffr, by dblling {@link #gftLbstFilfNbmf()}.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @pbrbm uniquf {@dodf truf} if thf rfmotf filfs should bf uniquf,
+     *        in whidh dbsf thf STOU dommbnd will bf usfd.
+     * @rfturn thf {@link jbvb.io.OutputStrfbm} from thf dbtb donnfdtion.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt OutputStrfbm putFilfStrfbm(String nbmf, boolfbn uniquf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR or STOU dommbnd, dfpfnding on thf
+     * {@dodf uniquf} brgumfnt. Thf dontfnt of thf {@dodf InputStrfbm}
+     * pbssfd in brgumfnt is writtfn into thf rfmotf filf, ovfrwriting bny
+     * fxisting dbtb.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * If {@dodf uniquf} is sft to {@dodf truf}, thf rfsultbnt filf
+     * is to bf drfbtfd undfr b nbmf uniquf to thbt dirfdtory, mfbning
+     * it will not ovfrwritf bn fxisting filf, instfbd thf sfrvfr will
+     * gfnfrbtf b nfw, uniquf, filf nbmf.
+     * Thf nbmf of thf rfmotf filf dbn bf rftrifvfd, bftfr domplftion of thf
+     * trbnsffr, by dblling {@link #gftLbstFilfNbmf()}.
+     *
+     * <p>This mfthod will blodk until thf trbnsffr is domplftf or bn fxdfption
+     * is thrown.</p>
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @pbrbm lodbl thf {@dodf InputStrfbm} thbt points to thf dbtb to
+     *        trbnsffr.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid FtpClifnt putFilf(String nbmf, InputStrfbm lodbl) throws FtpProtodolExdfption, IOExdfption {
+        rfturn putFilf(nbmf, lodbl, fblsf);
+    }
+
+    /**
+     * Trbnsffrs b filf from thf dlifnt to thf sfrvfr (bkb b <I>put</I>)
+     * by sfnding thf STOR dommbnd. Thf dontfnt of thf {@dodf InputStrfbm}
+     * pbssfd in brgumfnt is writtfn into thf rfmotf filf, ovfrwriting bny
+     * fxisting dbtb.
+     *
+     * A nfw filf is drfbtfd bt thf sfrvfr sitf if thf filf spfdififd dofs
+     * not blrfbdy fxist.
+     *
+     * <p>This mfthod will blodk until thf trbnsffr is domplftf or bn fxdfption
+     * is thrown.</p>
+     *
+     * @pbrbm nbmf thf nbmf of thf rfmotf filf to writf.
+     * @pbrbm lodbl thf {@dodf InputStrfbm} thbt points to thf dbtb to
+     *        trbnsffr.
+     * @pbrbm uniquf {@dodf truf} if thf rfmotf filf should bf uniquf
+     *        (i.f. not blrfbdy fxisting), {@dodf fblsf} othfrwisf.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #gftLbstFilfNbmf()
+     */
+    publid bbstrbdt FtpClifnt putFilf(String nbmf, InputStrfbm lodbl, boolfbn uniquf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf APPE dommbnd to thf sfrvfr in ordfr to trbnsffr b dbtb strfbm
+     * pbssfd in brgumfnt bnd bppfnd it to thf dontfnt of thf spfdififd rfmotf
+     * filf.
+     *
+     * <p>This mfthod will blodk until thf trbnsffr is domplftf or bn fxdfption
+     * is thrown.</p>
+     *
+     * @pbrbm nbmf A {@dodf String} dontbining thf nbmf of thf rfmotf filf
+     *        to bppfnd to.
+     * @pbrbm lodbl Thf {@dodf InputStrfbm} providing bddfss to thf dbtb
+     *        to bf bppfndfd.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt bppfndFilf(String nbmf, InputStrfbm lodbl) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rfnbmfs b filf on thf sfrvfr.
+     *
+     * @pbrbm from thf nbmf of thf filf bfing rfnbmfd
+     * @pbrbm to thf nfw nbmf for thf filf
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt rfnbmf(String from, String to) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Dflftfs b filf on thf sfrvfr.
+     *
+     * @pbrbm nbmf b {@dodf String} dontbining thf nbmf of thf filf
+     *        to dflftf.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt dflftfFilf(String nbmf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Crfbtfs b nfw dirfdtory on thf sfrvfr.
+     *
+     * @pbrbm nbmf b {@dodf String} dontbining thf nbmf of thf dirfdtory
+     *        to drfbtf.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt mbkfDirfdtory(String nbmf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rfmovfs b dirfdtory on thf sfrvfr.
+     *
+     * @pbrbm nbmf b {@dodf String} dontbining thf nbmf of thf dirfdtory
+     *        to rfmovf.
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf fxdhbngf.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt rfmovfDirfdtory(String nbmf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds b No-opfrbtion dommbnd. It's usfful for tfsting thf donnfdtion
+     * stbtus or bs b <I>kffp blivf</I> mfdhbnism.
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt noop() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf {@dodf STAT} dommbnd to thf sfrvfr.
+     * This dbn bf usfd whilf b dbtb donnfdtion is opfn to gft b stbtus
+     * on thf durrfnt trbnsffr, in thbt dbsf thf pbrbmftfr should bf
+     * {@dodf null}.
+     * If usfd bftwffn filf trbnsffrs, it mby hbvf b pbthnbmf bs brgumfnt
+     * in whidh dbsf it will work bs thf LIST dommbnd fxdfpt no dbtb
+     * donnfdtion will bf drfbtfd.
+     *
+     * @pbrbm nbmf bn optionbl {@dodf String} dontbining thf pbthnbmf
+     *        thf STAT dommbnd should bpply to.
+     * @rfturn thf rfsponsf from thf sfrvfr
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt String gftStbtus(String nbmf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf {@dodf FEAT} dommbnd to thf sfrvfr bnd rfturns thf list of supportfd
+     * ffbturfs in thf form of strings.
+     *
+     * Thf ffbturfs brf thf supportfd dommbnds, likf AUTH TLS, PROT or PASV.
+     * Sff thf RFCs for b domplftf list.
+     *
+     * Notf thbt not bll FTP sfrvfrs support thbt dommbnd, in whidh dbsf
+     * b {@link FtpProtodolExdfption} will bf thrown.
+     *
+     * @rfturn b {@dodf List} of {@dodf Strings} dfsdribing thf
+     *         supportfd bdditionbl ffbturfs
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd is rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt List<String> gftFfbturfs() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf {@dodf ABOR} dommbnd to thf sfrvfr.
+     * <p>It tflls thf sfrvfr to stop thf prfvious dommbnd or trbnsffr. No bdtion
+     * will bf tbkfn if thf prfvious dommbnd hbs blrfbdy bffn domplftfd.</p>
+     * <p>This dofsn't bbort thf durrfnt sfssion, morf dommbnds dbn bf issufd
+     * bftfr bn bbort.</p>
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt bbort() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Somf mfthods do not wbit until domplftion bfforf rfturning, so this
+     * mfthod dbn bf dbllfd to wbit until domplftion. This is typidblly thf dbsf
+     * with dommbnds thbt triggfr b trbnsffr likf {@link #gftFilfStrfbm(String)}.
+     * So this mfthod should bf dbllfd bfforf bddfssing informbtion rflbtfd to
+     * sudh b dommbnd.
+     * <p>This mfthod will bdtublly blodk rfbding on thf dommbnd dhbnnfl for b
+     * notifidbtion from thf sfrvfr thbt thf dommbnd is finishfd. Sudh b
+     * notifidbtion oftfn dbrrifs fxtrb informbtion dondfrning thf domplftion
+     * of thf pfnding bdtion (f.g. numbfr of bytfs trbnsffrfd).</p>
+     * <p>Notf thbt this will rfturn immfdibtfly if no dommbnd or bdtion
+     * is pfnding</p>
+     * <p>It should bf blso notfd thbt most mfthods issuing dommbnds to thf ftp
+     * sfrvfr will dbll this mfthod if b prfvious dommbnd is pfnding.
+     * <p>Exbmplf of usf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
+     * ...
+     * dl.domplftfPfnding();
+     * long sizf = dl.gftLbstTrbnsffrSizf();
+     * </prf>
+     * On thf othfr hbnd, it's not nfdfssbry in b dbsf likf:
+     * <prf>
+     * InputStrfbm in = dl.gftFilfStrfbm("filf");
+     * // rfbd dontfnt
+     * ...
+     * dl.dlosf();
+     * </prf>
+     * <p>Sindf {@link #dlosf()} will dbll domplftfPfnding() if nfdfssbry.</p>
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsffr
+     * @throws FtpProtodolExdfption if thf dommbnd didn't domplftf suddfssfully
+     */
+    publid bbstrbdt FtpClifnt domplftfPfnding() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rfinitiblizfs thf USER pbrbmftfrs on thf FTP sfrvfr
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during trbnsmission
+     * @throws FtpProtodolExdfption if thf dommbnd fbils
+     */
+    publid bbstrbdt FtpClifnt rfInit() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Chbngfs thf trbnsffr typf (binbry, bsdii, fbddid) bnd issuf thf
+     * propfr dommbnd (f.g. TYPE A) to thf sfrvfr.
+     *
+     * @pbrbm typf thf {@dodf TrbnsffrTypf} to usf.
+     * @rfturn This FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt sftTypf(TrbnsffrTypf typf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Chbngfs thf durrfnt trbnsffr typf to binbry.
+     * This is b donvfnifndf mfthod thbt is fquivblfnt to
+     * {@dodf sftTypf(TrbnsffrTypf.BINARY)}
+     *
+     * @rfturn This FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #sftTypf(TrbnsffrTypf)
+     */
+    publid FtpClifnt sftBinbryTypf() throws FtpProtodolExdfption, IOExdfption {
+        sftTypf(TrbnsffrTypf.BINARY);
+        rfturn this;
+    }
+
+    /**
+     * Chbngfs thf durrfnt trbnsffr typf to bsdii.
+     * This is b donvfnifndf mfthod thbt is fquivblfnt to
+     * {@dodf sftTypf(TrbnsffrTypf.ASCII)}
+     *
+     * @rfturn This FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #sftTypf(TrbnsffrTypf)
+     */
+    publid FtpClifnt sftAsdiiTypf() throws FtpProtodolExdfption, IOExdfption {
+        sftTypf(TrbnsffrTypf.ASCII);
+        rfturn this;
+    }
+
+    /**
+     * Issufs b {@dodf LIST} dommbnd to thf sfrvfr to gft thf durrfnt dirfdtory
+     * listing, bnd rfturns thf InputStrfbm from thf dbtb donnfdtion.
+     *
+     * <p>{@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd rfbding from thf strfbm.</p>
+     *
+     * @pbrbm pbth thf pbthnbmf of thf dirfdtory to list, or {@dodf null}
+     *        for thf durrfnt working dirfdtory.
+     * @rfturn thf {@dodf InputStrfbm} from thf rfsulting dbtb donnfdtion
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #dhbngfDirfdtory(String)
+     * @sff #listFilfs(String)
+     */
+    publid bbstrbdt InputStrfbm list(String pbth) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Issufs b {@dodf NLST pbth} dommbnd to sfrvfr to gft thf spfdififd dirfdtory
+     * dontfnt. It difffrs from {@link #list(String)} mfthod by thf fbdt thbt
+     * it will only list thf filf nbmfs whidh would mbkf thf pbrsing of thf
+     * somfwhbt fbsifr.
+     *
+     * <p>{@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd rfbding from thf strfbm.</p>
+     *
+     * @pbrbm pbth b {@dodf String} dontbining thf pbthnbmf of thf
+     *        dirfdtory to list or {@dodf null} for thf durrfnt working dirfdtory.
+     * @rfturn thf {@dodf InputStrfbm} from thf rfsulting dbtb donnfdtion
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt InputStrfbm nbmfList(String pbth) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Issufs thf {@dodf SIZE [pbth]} dommbnd to thf sfrvfr to gft thf sizf of b
+     * spfdifid filf on thf sfrvfr.
+     * Notf thbt this dommbnd mby not bf supportfd by thf sfrvfr. In whidh
+     * dbsf -1 will bf rfturnfd.
+     *
+     * @pbrbm pbth b {@dodf String} dontbining thf pbthnbmf of thf
+     *        filf.
+     * @rfturn b {@dodf long} dontbining thf sizf of thf filf or -1 if
+     *         thf sfrvfr rfturnfd bn frror, whidh dbn bf dhfdkfd with
+     *         {@link #gftLbstRfplyCodf()}.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt long gftSizf(String pbth) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Issufs thf {@dodf MDTM [pbth]} dommbnd to thf sfrvfr to gft thf modifidbtion
+     * timf of b spfdifid filf on thf sfrvfr.
+     * Notf thbt this dommbnd mby not bf supportfd by thf sfrvfr, in whidh
+     * dbsf {@dodf null} will bf rfturnfd.
+     *
+     * @pbrbm pbth b {@dodf String} dontbining thf pbthnbmf of thf filf.
+     * @rfturn b {@dodf Dbtf} rfprfsfnting thf lbst modifidbtion timf
+     *         or {@dodf null} if thf sfrvfr rfturnfd bn frror, whidh
+     *         dbn bf dhfdkfd with {@link #gftLbstRfplyCodf()}.
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt Dbtf gftLbstModififd(String pbth) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfts thf pbrsfr usfd to hbndlf thf dirfdtory output to thf spfdififd
+     * onf. By dffbult thf pbrsfr is sft to onf thbt dbn hbndlf most FTP
+     * sfrvfrs output (Unix bbsf mostly). Howfvfr it mby bf nfdfssbry for
+     * bnd bpplidbtion to providf its own pbrsfr duf to somf undommon
+     * output formbt.
+     *
+     * @pbrbm p Thf {@dodf FtpDirPbrsfr} to usf.
+     * @rfturn this FtpClifnt
+     * @sff #listFilfs(String)
+     */
+    publid bbstrbdt FtpClifnt sftDirPbrsfr(FtpDirPbrsfr p);
+
+    /**
+     * Issufs b {@dodf MLSD} dommbnd to thf sfrvfr to gft thf spfdififd dirfdtory
+     * listing bnd bpplifs thf intfrnbl pbrsfr to drfbtf bn Itfrbtor of
+     * {@link jbvb.nft.FtpDirEntry}. Notf thbt thf Itfrbtor rfturnfd is blso b
+     * {@link jbvb.io.Closfbblf}.
+     * <p>If thf sfrvfr dofsn't support thf MLSD dommbnd, thf LIST dommbnd is usfd
+     * instfbd bnd thf pbrsfr sft by {@link #sftDirPbrsfr(jbvb.nft.FtpDirPbrsfr) }
+     * is usfd instfbd.</p>
+     *
+     * {@link #domplftfPfnding()} <b>hbs</b> to bf dbllfd ondf thf bpplidbtion
+     * is finishfd itfrbting through thf filfs.
+     *
+     * @pbrbm pbth thf pbthnbmf of thf dirfdtory to list or {@dodf null}
+     *        for thf durrfnt working dirfdtoty.
+     * @rfturn b {@dodf Itfrbtor} of filfs or {@dodf null} if thf
+     *         dommbnd fbilfd.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission
+     * @sff #sftDirPbrsfr(FtpDirPbrsfr)
+     * @sff #dhbngfDirfdtory(String)
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt Itfrbtor<FtpDirEntry> listFilfs(String pbth) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Attfmpts to usf Kfrbfros GSSAPI bs bn buthfntidbtion mfdhbnism with thf
+     * ftp sfrvfr. This will issuf bn {@dodf AUTH GSSAPI} dommbnd, bnd if
+     * it is bddfptfd by thf sfrvfr, will followup with {@dodf ADAT}
+     * dommbnd to fxdhbngf thf vbrious tokfns until buthfntidbtion is
+     * suddfssful. This donforms to Appfndix I of RFC 2228.
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurs during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt usfKfrbfros() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Rfturns thf Wfldomf string thf sfrvfr sfnt during initibl donnfdtion.
+     *
+     * @rfturn b {@dodf String} dontbining thf mfssbgf thf sfrvfr
+     *         rfturnfd during donnfdtion or {@dodf null}.
+     */
+    publid bbstrbdt String gftWfldomfMsg();
+
+    /**
+     * Rfturns thf lbst rfply dodf sfnt by thf sfrvfr.
+     *
+     * @rfturn thf lbstRfplyCodf or {@dodf null} if nonf wfrf rfdfivfd yft.
+     */
+    publid bbstrbdt FtpRfplyCodf gftLbstRfplyCodf();
+
+    /**
+     * Rfturns thf lbst rfsponsf string sfnt by thf sfrvfr.
+     *
+     * @rfturn thf mfssbgf string, whidh dbn bf quitf long, lbst rfturnfd
+     *         by thf sfrvfr, or {@dodf null} if no rfsponsf wfrf rfdfivfd yft.
+     */
+    publid bbstrbdt String gftLbstRfsponsfString();
+
+    /**
+     * Rfturns, whfn bvbilbblf, thf sizf of thf lbtfst stbrtfd trbnsffr.
+     * This is rftrfivfd by pbrsing thf rfsponsf string rfdfivfd bs bn initibl
+     * rfsponsf to b {@dodf RETR} or similbr rfqufst.
+     *
+     * @rfturn thf sizf of thf lbtfst trbnsffr or -1 if fithfr thfrf wbs no
+     *         trbnsffr or thf informbtion wbs unbvbilbblf.
+     */
+    publid bbstrbdt long gftLbstTrbnsffrSizf();
+
+    /**
+     * Rfturns, whfn bvbilbblf, thf rfmotf nbmf of thf lbst trbnsffrfd filf.
+     * This is mbinly usfful for "put" opfrbtion whfn thf uniquf flbg wbs
+     * sft sindf it bllows to rfdovfr thf uniquf filf nbmf drfbtfd on thf
+     * sfrvfr whidh mby bf difffrfnt from thf onf submittfd with thf dommbnd.
+     *
+     * @rfturn thf nbmf thf lbtfst trbnsffrfd filf rfmotf nbmf, or
+     *         {@dodf null} if thbt informbtion is unbvbilbblf.
+     */
+    publid bbstrbdt String gftLbstFilfNbmf();
+
+    /**
+     * Attfmpts to switdh to b sfdurf, fndryptfd donnfdtion. This is donf by
+     * sfnding thf {@dodf AUTH TLS} dommbnd.
+     * <p>Sff <b hrff="http://www.iftf.org/rfd/rfd4217.txt">RFC 4217</b></p>
+     * If suddfssful this will fstbblish b sfdurf dommbnd dhbnnfl with thf
+     * sfrvfr, it will blso mbkf it so thbt bll othfr trbnsffrs (f.g. b RETR
+     * dommbnd) will bf donf ovfr bn fndryptfd dhbnnfl bs wfll unlfss b
+     * {@link #rfInit()} dommbnd or b {@link #fndSfdurfSfssion()} dommbnd is issufd.
+     * <p>This mfthod should bf dbllfd bftfr b suddfssful {@link #donnfdt(jbvb.nft.InftSodkftAddrfss) }
+     * but bfforf dblling {@link #login(jbvb.lbng.String, dhbr[]) }.</p>
+     *
+     * @rfturn this FtpCLifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #fndSfdurfSfssion()
+     */
+    publid bbstrbdt FtpClifnt stbrtSfdurfSfssion() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds b {@dodf CCC} dommbnd followfd by b {@dodf PROT C}
+     * dommbnd to thf sfrvfr tfrminbting bn fndryptfd sfssion bnd rfvfrting
+     * bbdk to b non fndryptfd trbnsmission.
+     *
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     * @sff #stbrtSfdurfSfssion()
+     */
+    publid bbstrbdt FtpClifnt fndSfdurfSfssion() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf "Allodbtf" ({@dodf ALLO}) dommbnd to thf sfrvfr tflling it to
+     * prf-bllodbtf thf spfdififd numbfr of bytfs for thf nfxt trbnsffr.
+     *
+     * @pbrbm sizf Thf numbfr of bytfs to bllodbtf.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt bllodbtf(long sizf) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf "Strudturf Mount" ({@dodf SMNT}) dommbnd to thf sfrvfr. This lft thf
+     * usfr mount b difffrfnt filf systfm dbtb strudturf without bltfring his
+     * login or bddounting informbtion.
+     *
+     * @pbrbm strudt b {@dodf String} dontbining thf nbmf of thf
+     *        strudturf to mount.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt strudturfMount(String strudt) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds b Systfm ({@dodf SYST}) dommbnd to thf sfrvfr bnd rfturns thf String
+     * sfnt bbdk by thf sfrvfr dfsdribing thf opfrbting systfm bt thf
+     * sfrvfr.
+     *
+     * @rfturn b {@dodf String} dfsdribing thf OS, or {@dodf null}
+     *         if thf opfrbtion wbs not suddfssful.
+     * @throws IOExdfption if bn frror oddurrfd during thf trbnsmission.
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt String gftSystfm() throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf {@dodf HELP} dommbnd to thf sfrvfr, with bn optionbl dommbnd, likf
+     * SITE, bnd rfturns thf tfxt sfnt bbdk by thf sfrvfr.
+     *
+     * @pbrbm dmd thf dommbnd for whidh thf hflp is rfqufstfd or
+     *        {@dodf null} for thf gfnfrbl hflp
+     * @rfturn b {@dodf String} dontbining thf tfxt sfnt bbdk by thf
+     *         sfrvfr, or {@dodf null} if thf dommbnd fbilfd.
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt String gftHflp(String dmd) throws FtpProtodolExdfption, IOExdfption;
+
+    /**
+     * Sfnds thf {@dodf SITE} dommbnd to thf sfrvfr. This is usfd by thf sfrvfr
+     * to providf sfrvidfs spfdifid to his systfm thbt brf fssfntibl
+     * to filf trbnsffr.
+     *
+     * @pbrbm dmd thf dommbnd to bf sfnt.
+     * @rfturn this FtpClifnt
+     * @throws IOExdfption if bn frror oddurrfd during trbnsmission
+     * @throws FtpProtodolExdfption if thf dommbnd wbs rfjfdtfd by thf sfrvfr
+     */
+    publid bbstrbdt FtpClifnt sitfCmd(String dmd) throws FtpProtodolExdfption, IOExdfption;
+}

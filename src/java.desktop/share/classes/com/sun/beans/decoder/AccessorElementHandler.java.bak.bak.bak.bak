@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+/**
+ * This is bbsf dlbss thbt simplififs bddfss to fntitifs (fiflds or propfrtifs).
+ * Thf {@dodf nbmf} bttributf spfdififs thf nbmf of thf bddfssiblf fntity.
+ * Thf flfmfnt dffinfs gfttfr if it dontbins no brgumfnt
+ * or sfttfr if it dontbins onf brgumfnt.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+bbstrbdt dlbss AddfssorElfmfntHbndlfr fxtfnds ElfmfntHbndlfr {
+    privbtf String nbmf;
+    privbtf VblufObjfdt vbluf;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>nbmf
+     * <dd>thf nbmf of thf bddfssiblf fntity
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("nbmf")) { // NON-NLS: thf bttributf nbmf
+            this.nbmf = vbluf;
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Adds thf brgumfnt thbt is usfd to sft thf vbluf of this flfmfnt.
+     *
+     * @pbrbm brgumfnt  thf vbluf of thf flfmfnt thbt dontbinfd in this onf
+     */
+    @Ovfrridf
+    protfdtfd finbl void bddArgumfnt(Objfdt brgumfnt) {
+        if (this.vbluf != null) {
+            throw nfw IllfgblStbtfExdfption("Could not bdd brgumfnt to fvblubtfd flfmfnt");
+        }
+        sftVbluf(this.nbmf, brgumfnt);
+        this.vbluf = VblufObjfdtImpl.VOID;
+    }
+
+    /**
+     * Rfturns thf vbluf of this flfmfnt.
+     *
+     * @rfturn thf vbluf of this flfmfnt
+     */
+    @Ovfrridf
+    protfdtfd finbl VblufObjfdt gftVblufObjfdt() {
+        if (this.vbluf == null) {
+            this.vbluf = VblufObjfdtImpl.drfbtf(gftVbluf(this.nbmf));
+        }
+        rfturn this.vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf fntity with spfdififd {@dodf nbmf}.
+     *
+     * @pbrbm nbmf  thf nbmf of thf bddfssiblf fntity
+     * @rfturn thf vbluf of thf spfdififd fntity
+     */
+    protfdtfd bbstrbdt Objfdt gftVbluf(String nbmf);
+
+    /**
+     * Sfts thf nfw vbluf for thf fntity with spfdififd {@dodf nbmf}.
+     *
+     * @pbrbm nbmf   thf nbmf of thf bddfssiblf fntity
+     * @pbrbm vbluf  thf nfw vbluf for thf spfdififd fntity
+     */
+    protfdtfd bbstrbdt void sftVbluf(String nbmf, Objfdt vbluf);
+}

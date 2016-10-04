@@ -1,471 +1,471 @@
 <!--
- Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 
-<html>
+<itml>
 
-<head>
+<ifbd>
 
-    <title>The AWT Modality</title>
+    <titlf>Tif AWT Modblity</titlf>
 
-</head>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-    <h1 align="center">The AWT Modality</h1>
+    <i1 blign="dfntfr">Tif AWT Modblity</i1>
 
     <p>
-      This document, together with the API documentation for modality-related
-      classes (such as <code>java.awt.Dialog</code>), briefly describes the new
-      modality features and how to use them. It contains the following sections:
+      Tiis dodumfnt, togftifr witi tif API dodumfntbtion for modblity-rflbtfd
+      dlbssfs (sudi bs <dodf>jbvb.bwt.Diblog</dodf>), briffly dfsdribfs tif nfw
+      modblity ffbturfs bnd iow to usf tifm. It dontbins tif following sfdtions:
     </p><ul>
-      <li><a href="#Definitions">Definitions</a></li>
-      <li><a href="#ModalityTypes">Modality types</a></li>
-      <li><a href="#ShowHideBlocking">Show/hide blocking</a></li>
-      <li><a href="#ModalExclusion">Modal exclusion</a></li>
-      <li><a href="#Related">Related AWT features</a></li>
-      <li><a href="#Security">Security</a></li>
-      <li><a href="#PlatformSupport">Platform support</a></li>
-      <li><a href="#Compatibility">Compatibility</a></li>
-      <li><a href="#Examples">Examples</a></li>
+      <li><b irff="#Dffinitions">Dffinitions</b></li>
+      <li><b irff="#ModblityTypfs">Modblity typfs</b></li>
+      <li><b irff="#SiowHidfBlodking">Siow/iidf blodking</b></li>
+      <li><b irff="#ModblExdlusion">Modbl fxdlusion</b></li>
+      <li><b irff="#Rflbtfd">Rflbtfd AWT ffbturfs</b></li>
+      <li><b irff="#Sfdurity">Sfdurity</b></li>
+      <li><b irff="#PlbtformSupport">Plbtform support</b></li>
+      <li><b irff="#Compbtibility">Compbtibility</b></li>
+      <li><b irff="#Exbmplfs">Exbmplfs</b></li>
     </ul>
 
-    <a name="Definitions"></a>
-    <h3>Definitions</h3>
+    <b nbmf="Dffinitions"></b>
+    <i3>Dffinitions</i3>
 
     <p>
-      <u>Document</u> - a window without an owner that, together with
-      all its child hierarchy, may be operated on as a single self-contained
-      document.
-      Every window belongs to some document &mdash; its root can be found as
-      the closest ancestor window without an owner.
+      <u>Dodumfnt</u> - b window witiout bn ownfr tibt, togftifr witi
+      bll its diild iifrbrdiy, mby bf opfrbtfd on bs b singlf sflf-dontbinfd
+      dodumfnt.
+      Evfry window bflongs to somf dodumfnt &mdbsi; its root dbn bf found bs
+      tif dlosfst bndfstor window witiout bn ownfr.
     </p><p>
-      <a name="ModalBlocked"></a>
-      <u>Modal blocked window</u> - a window, that:
+      <b nbmf="ModblBlodkfd"></b>
+      <u>Modbl blodkfd window</u> - b window, tibt:
       </p><ul>
-        <li>doesn't receive any user input events
-        </li><li>doesn't receive input focus
-        </li><li>keeps its Z-order below the modal dialog that blocks it
+        <li>dofsn't rfdfivf bny usfr input fvfnts
+        </li><li>dofsn't rfdfivf input fodus
+        </li><li>kffps its Z-ordfr bflow tif modbl diblog tibt blodks it
       </li></ul>
-      <blockquote>
-        <hr>
-          <b>Warning!</b> Some window managers allow users to change the window
-          Z-order in an arbitrary way &mdash; in that case the last requirement 
-          may not be met.
-        <hr>
-      </blockquote>
+      <blodkquotf>
+        <ir>
+          <b>Wbrning!</b> Somf window mbnbgfrs bllow usfrs to dibngf tif window
+          Z-ordfr in bn brbitrbry wby &mdbsi; in tibt dbsf tif lbst rfquirfmfnt 
+          mby not bf mft.
+        <ir>
+      </blodkquotf>
     <p>
-      <u>Modal dialog</u> - a dialog that blocks some windows while it is
-      visible. The blocked windows are determined according to the dialog's
-      scope of blocking.
+      <u>Modbl diblog</u> - b diblog tibt blodks somf windows wiilf it is
+      visiblf. Tif blodkfd windows brf dftfrminfd bddording to tif diblog's
+      sdopf of blodking.
     </p><p>
-      <u>Modal excluded window</u> - a window that stays unblocked
-      while the modal dialog is visible. If a window is modal excluded
-      then all its owned windows and child components are also excluded.
+      <u>Modbl fxdludfd window</u> - b window tibt stbys unblodkfd
+      wiilf tif modbl diblog is visiblf. If b window is modbl fxdludfd
+      tifn bll its ownfd windows bnd diild domponfnts brf blso fxdludfd.
     </p><p>
-      <u>Scope of blocking (SB)</u> - the set of windows (instances of
-      <code>java.awt.Window</code> and all derived classes) that are blocked by 
-      the modal dialog while it is visible.
+      <u>Sdopf of blodking (SB)</u> - tif sft of windows (instbndfs of
+      <dodf>jbvb.bwt.Window</dodf> bnd bll dfrivfd dlbssfs) tibt brf blodkfd by 
+      tif modbl diblog wiilf it is visiblf.
     </p><p>
-     <blockquote><hr>
-      <b>Note</b>: Everywhere in this document the notion of "window" is equal
-      to a top-level window in the Java programming language &mdash; in other words
-      an instance of <code>java.awt.Window</code> or any descendant class.
-      <hr></blockquote>
+     <blodkquotf><ir>
+      <b>Notf</b>: Evfrywifrf in tiis dodumfnt tif notion of "window" is fqubl
+      to b top-lfvfl window in tif Jbvb progrbmming lbngubgf &mdbsi; in otifr words
+      bn instbndf of <dodf>jbvb.bwt.Window</dodf> or bny dfsdfndbnt dlbss.
+      <ir></blodkquotf>
 
-    <a name="ModalityTypes"></a>
-    <h3>Modality types</h3>
+    <b nbmf="ModblityTypfs"></b>
+    <i3>Modblity typfs</i3>
 
     <p>
-      There are four supported modality types :
+      Tifrf brf four supportfd modblity typfs :
       </p><ul>
         <li>toolkit
-        </li><li>application
-        </li><li>document
-        </li><li>modeless
+        </li><li>bpplidbtion
+        </li><li>dodumfnt
+        </li><li>modflfss
       </li></ul>
-      A dialog is, by default, modeless.  A modal dialog is, by default,
-      application-modal.
+      A diblog is, by dffbult, modflfss.  A modbl diblog is, by dffbult,
+      bpplidbtion-modbl.
     <p>
     </p><ol>
-      <li><u>Modeless dialogs</u><br>
-        A modeless dialog doesn't block any windows while visible.
-      </li><li><u>Document-modal dialogs</u><br>
-        A document-modal dialog blocks all windows from the same
-        document except those from its child hierarchy. The document root
-        is determined as the closest ancestor window without an
-        owner.
-      </li><li><u>Application-modal dialogs</u><br>
-        An application-modal dialog blocks all windows from the same
-        application except for those from its child hierarchy.
-        If there are several applets launched in a browser, they can be
-        treated either as separate applications or a single application.
-	This behavior is implementation-dependent.
-      </li><li><u>Toolkit-modal dialogs</u><br>
-        A toolkit-modal dialog blocks all windows that run in the same
-        toolkit except those from its child hierarchy. If there
-        are several applets launched all of them run with the same toolkit,
-        so a toolkit-modal dialog shown from an applet may affect other
-        applets and all windows of the browser instance which embeds the
-        Java runtime environment for this toolkit.
-        See the security section below.
+      <li><u>Modflfss diblogs</u><br>
+        A modflfss diblog dofsn't blodk bny windows wiilf visiblf.
+      </li><li><u>Dodumfnt-modbl diblogs</u><br>
+        A dodumfnt-modbl diblog blodks bll windows from tif sbmf
+        dodumfnt fxdfpt tiosf from its diild iifrbrdiy. Tif dodumfnt root
+        is dftfrminfd bs tif dlosfst bndfstor window witiout bn
+        ownfr.
+      </li><li><u>Applidbtion-modbl diblogs</u><br>
+        An bpplidbtion-modbl diblog blodks bll windows from tif sbmf
+        bpplidbtion fxdfpt for tiosf from its diild iifrbrdiy.
+        If tifrf brf sfvfrbl bpplfts lbundifd in b browsfr, tify dbn bf
+        trfbtfd fitifr bs sfpbrbtf bpplidbtions or b singlf bpplidbtion.
+	Tiis bfibvior is implfmfntbtion-dfpfndfnt.
+      </li><li><u>Toolkit-modbl diblogs</u><br>
+        A toolkit-modbl diblog blodks bll windows tibt run in tif sbmf
+        toolkit fxdfpt tiosf from its diild iifrbrdiy. If tifrf
+        brf sfvfrbl bpplfts lbundifd bll of tifm run witi tif sbmf toolkit,
+        so b toolkit-modbl diblog siown from bn bpplft mby bfffdt otifr
+        bpplfts bnd bll windows of tif browsfr instbndf wiidi fmbfds tif
+        Jbvb runtimf fnvironmfnt for tiis toolkit.
+        Sff tif sfdurity sfdtion bflow.
     </li></ol>
     <p>
-      Modality priority is arranged by the strength of blocking: modeless,
-      document-modal, application-modal and toolkit-modal. This arrangement
-      is used when determining what dialog should remain unblocked if two
-      are visible and block each other. It naturally reflects the nesting
-      of a dialog's scope of blocking (SB): a modeless dialog has an empty SB,
-      a document-modal dialog's SB is complete in some applications,
-      and all the applications are run in one toolkit.  </p><p>
-      Notes about owners:
+      Modblity priority is brrbngfd by tif strfngti of blodking: modflfss,
+      dodumfnt-modbl, bpplidbtion-modbl bnd toolkit-modbl. Tiis brrbngfmfnt
+      is usfd wifn dftfrmining wibt diblog siould rfmbin unblodkfd if two
+      brf visiblf bnd blodk fbdi otifr. It nbturblly rfflfdts tif nfsting
+      of b diblog's sdopf of blodking (SB): b modflfss diblog ibs bn fmpty SB,
+      b dodumfnt-modbl diblog's SB is domplftf in somf bpplidbtions,
+      bnd bll tif bpplidbtions brf run in onf toolkit.  </p><p>
+      Notfs bbout ownfrs:
       </p><ul>
-        <li>Creating a document-modal dialog without an owner:<br>
-          Since <code>Dialog</code> is a class derived from
-	  <code>Window</code>, a <code>Dialog</code> instance automatically
-          becomes the root of the document if it has no owner. Thus, if
-          such a dialog is document-modal, its scope of blocking is empty
-          and it behaves the same way as a modeless dialog.
-        </li><li>Creating an application-modal or toolkit-modal dialog with an
-	  owner:<br>
-          The scope of blocking for an application- or toolkit-modal
-          dialog, as opposed to a document-modal dialog, doesn't depend on
-          its owner. Thus, in this case the only thing that the owner
-          affects is the Z-order: the dialog always stays on top of its owner.
+        <li>Crfbting b dodumfnt-modbl diblog witiout bn ownfr:<br>
+          Sindf <dodf>Diblog</dodf> is b dlbss dfrivfd from
+	  <dodf>Window</dodf>, b <dodf>Diblog</dodf> instbndf butombtidblly
+          bfdomfs tif root of tif dodumfnt if it ibs no ownfr. Tius, if
+          sudi b diblog is dodumfnt-modbl, its sdopf of blodking is fmpty
+          bnd it bfibvfs tif sbmf wby bs b modflfss diblog.
+        </li><li>Crfbting bn bpplidbtion-modbl or toolkit-modbl diblog witi bn
+	  ownfr:<br>
+          Tif sdopf of blodking for bn bpplidbtion- or toolkit-modbl
+          diblog, bs opposfd to b dodumfnt-modbl diblog, dofsn't dfpfnd on
+          its ownfr. Tius, in tiis dbsf tif only tiing tibt tif ownfr
+          bfffdts is tif Z-ordfr: tif diblog blwbys stbys on top of its ownfr.
       </li></ul>
     <p>
-    <blockquote><hr>
-      <b>Implementation note</b>: Changing the modality type for a visible
-      dialog may have no effect until it is hidden and then shown again.
-      <hr></blockquote>
+    <blodkquotf><ir>
+      <b>Implfmfntbtion notf</b>: Cibnging tif modblity typf for b visiblf
+      diblog mby ibvf no ffffdt until it is iiddfn bnd tifn siown bgbin.
+      <ir></blodkquotf>
 
-    <a name="ShowHideBlocking"></a>
-    <h3>Show/hide blocking</h3>
+    <b nbmf="SiowHidfBlodking"></b>
+    <i3>Siow/iidf blodking</i3>
 
     <p>
-      <u>Showing the window or modeless dialog: "F"</u><br>
-      All the visible modal dialogs are looked through &mdash; if F is from the SB
-      of one of them, it becomes blocked by it. If there are several such
-      dialogs, the first shown is used. If no such dialogs exist, F remains
-      unblocked.
+      <u>Siowing tif window or modflfss diblog: "F"</u><br>
+      All tif visiblf modbl diblogs brf lookfd tirougi &mdbsi; if F is from tif SB
+      of onf of tifm, it bfdomfs blodkfd by it. If tifrf brf sfvfrbl sudi
+      diblogs, tif first siown is usfd. If no sudi diblogs fxist, F rfmbins
+      unblodkfd.
     </p><p>
-      <u>Showing the modal dialog: "M"</u><br>
-      When modal dialog M is shown, all the visible windows fall into one of
-      three distinct groups: 
+      <u>Siowing tif modbl diblog: "M"</u><br>
+      Wifn modbl diblog M is siown, bll tif visiblf windows fbll into onf of
+      tirff distindt groups: 
       <ul>
-      <li>Blockers of M (modal dialogs that block M and
-      either are in M's child hierarchy, or are not blocked by M, or have
-      a greater mode of modality, or block some other blocker of M)
-      <li>Blocked by M (windows from M's SB that are not blockers and are
-      not in child hierarchy of any blocker)
-      <li>All other windows (windows or modeless
-      dialogs outside M's SB and modal dialogs outside M's SB that do not
-      block M).
+      <li>Blodkfrs of M (modbl diblogs tibt blodk M bnd
+      fitifr brf in M's diild iifrbrdiy, or brf not blodkfd by M, or ibvf
+      b grfbtfr modf of modblity, or blodk somf otifr blodkfr of M)
+      <li>Blodkfd by M (windows from M's SB tibt brf not blodkfrs bnd brf
+      not in diild iifrbrdiy of bny blodkfr)
+      <li>All otifr windows (windows or modflfss
+      diblogs outsidf M's SB bnd modbl diblogs outsidf M's SB tibt do not
+      blodk M).
       </ul>
       <p>
-      After the modal dialog M is shown, it becomes blocked by the first shown
-      dialog from the first group (if there are any), all the windows from the
-      second one become blocked by M, and all the windows from the third group
-      remain untouched.
+      Aftfr tif modbl diblog M is siown, it bfdomfs blodkfd by tif first siown
+      diblog from tif first group (if tifrf brf bny), bll tif windows from tif
+      sfdond onf bfdomf blodkfd by M, bnd bll tif windows from tif tiird group
+      rfmbin untoudifd.
     </p><p>
-      <u>In typical cases</u>, when no child dialogs are shown before their owners,
-      this rule can be simplified. (The following, simplified case, may
-      leave out some details).
+      <u>In typidbl dbsfs</u>, wifn no diild diblogs brf siown bfforf tifir ownfrs,
+      tiis rulf dbn bf simplififd. (Tif following, simplififd dbsf, mby
+      lfbvf out somf dftbils).
       </p><p>
-      <u>Showing the document-modal dialog: "M"</u><br>
-      All the visible application- and toolkit-modal dialogs are looked
-      through &mdash; if M is from the SB of one of them,
-      it becomes blocked by it. If there are several such dialogs,
-      the first shown is used. If no such dialogs exist, M remains unblocked.
+      <u>Siowing tif dodumfnt-modbl diblog: "M"</u><br>
+      All tif visiblf bpplidbtion- bnd toolkit-modbl diblogs brf lookfd
+      tirougi &mdbsi; if M is from tif SB of onf of tifm,
+      it bfdomfs blodkfd by it. If tifrf brf sfvfrbl sudi diblogs,
+      tif first siown is usfd. If no sudi diblogs fxist, M rfmbins unblodkfd.
       </p><p>
-      <u>Showing the application-modal dialog: "M"</u><br>
-      All the visible toolkit-modal dialogs are looked through &mdash;
-      if M is from the SB of one of them, it becomes blocked by it.
-      If there are several such dialogs, the first shown is used.
-      If no such dialogs exist, M remains unblocked.
+      <u>Siowing tif bpplidbtion-modbl diblog: "M"</u><br>
+      All tif visiblf toolkit-modbl diblogs brf lookfd tirougi &mdbsi;
+      if M is from tif SB of onf of tifm, it bfdomfs blodkfd by it.
+      If tifrf brf sfvfrbl sudi diblogs, tif first siown is usfd.
+      If no sudi diblogs fxist, M rfmbins unblodkfd.
       </p><p>
-      <u>Showing the toolkit-modal dialog: "M"</u><br>
-      M remains unblocked.
+      <u>Siowing tif toolkit-modbl diblog: "M"</u><br>
+      M rfmbins unblodkfd.
       </p><p>
-<!--        <center> -->
+<!--        <dfntfr> -->
           </p>
-          <table border="1">
-	  <caption>The Standard Blocking Matrix</caption>
-            <tbody><tr align="center">
-              <td align="center">current/shown</td>
-              <td align="center">frame &amp; modeless</td>
-              <td align="center">document</td>
-              <td align="center">application</td>
-              <td align="center">toolkit</td>
+          <tbblf bordfr="1">
+	  <dbption>Tif Stbndbrd Blodking Mbtrix</dbption>
+            <tbody><tr blign="dfntfr">
+              <td blign="dfntfr">durrfnt/siown</td>
+              <td blign="dfntfr">frbmf &bmp; modflfss</td>
+              <td blign="dfntfr">dodumfnt</td>
+              <td blign="dfntfr">bpplidbtion</td>
+              <td blign="dfntfr">toolkit</td>
             </tr>
-            <tr align="center">
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">document</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">dodumfnt</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">application</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">bpplidbtion</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">toolkit</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">toolkit</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
             </tr>
-          </tbody></table>
-<!--        </center> -->
+          </tbody></tbblf>
+<!--        </dfntfr> -->
       <p>
-      After the modal dialog is shown, all the windows from its SB are blocked,
-      except those that block this modal dialog.
+      Aftfr tif modbl diblog is siown, bll tif windows from its SB brf blodkfd,
+      fxdfpt tiosf tibt blodk tiis modbl diblog.
     </p><p>
-      <u>Hiding the window or modeless dialog: "F"</u><br>
-      If F was blocked by any modal dialog M, it becomes unblocked and is
-      removed from M's blocked windows list.
+      <u>Hiding tif window or modflfss diblog: "F"</u><br>
+      If F wbs blodkfd by bny modbl diblog M, it bfdomfs unblodkfd bnd is
+      rfmovfd from M's blodkfd windows list.
     </p><p>
-      <u>Hiding the modal dialog: "M"</u><br>
-      If M was blocked by any other modal dialog, for example, "N",
-      it becomes unblocked and
-      is removed from N's blocked windows list. Then, all the windows and dialogs
-      blocked by M become unblocked, and after that the same checks 
-      (as in Showing the modal dialog: "M")
-      are performed for each of them in the order they were initially shown.
+      <u>Hiding tif modbl diblog: "M"</u><br>
+      If M wbs blodkfd by bny otifr modbl diblog, for fxbmplf, "N",
+      it bfdomfs unblodkfd bnd
+      is rfmovfd from N's blodkfd windows list. Tifn, bll tif windows bnd diblogs
+      blodkfd by M bfdomf unblodkfd, bnd bftfr tibt tif sbmf difdks 
+      (bs in Siowing tif modbl diblog: "M")
+      brf pfrformfd for fbdi of tifm in tif ordfr tify wfrf initiblly siown.
 
-    <a name="ModalExclusion"></a>
-    </p><h3>Modal exclusion</h3>
+    <b nbmf="ModblExdlusion"></b>
+    </p><i3>Modbl fxdlusion</i3>
 
     <p>
-      There are two modal exclusion types introduced as of JDK 6
+      Tifrf brf two modbl fxdlusion typfs introdudfd bs of JDK 6
       </p><ul>
-        <li>Exclusion from blocking of toolkit-modal dialogs
-        </li><li>Exclusion from blocking of application-modal dialogs
+        <li>Exdlusion from blodking of toolkit-modbl diblogs
+        </li><li>Exdlusion from blodking of bpplidbtion-modbl diblogs
       </li></ul>
-      By default, a window's modal exclusion property is turned off.
+      By dffbult, b window's modbl fxdlusion propfrty is turnfd off.
     <p>
       </p><ol>
-        <li><u>Application-modal exclusion</u><br>
-          If a window is application-modal excluded, it is not blocked by any
-          application-modal dialogs. Also, it is not blocked by document-modal
-          dialogs from outside of its child hierarchy.
-        </li><li><u>Toolkit-modal exclusion</u><br>
-          If a window is toolkit-modal excluded, it is not blocked
-          by any application- or toolkit-modal dialogs. Also, it is not
-          blocked by document-modal dialogs from outside of their child hierarchy.
+        <li><u>Applidbtion-modbl fxdlusion</u><br>
+          If b window is bpplidbtion-modbl fxdludfd, it is not blodkfd by bny
+          bpplidbtion-modbl diblogs. Also, it is not blodkfd by dodumfnt-modbl
+          diblogs from outsidf of its diild iifrbrdiy.
+        </li><li><u>Toolkit-modbl fxdlusion</u><br>
+          If b window is toolkit-modbl fxdludfd, it is not blodkfd
+          by bny bpplidbtion- or toolkit-modbl diblogs. Also, it is not
+          blodkfd by dodumfnt-modbl diblogs from outsidf of tifir diild iifrbrdiy.
       </li></ol>
     <p>
-    <blockquote>
-      <hr>
-        <b>Implementation note</b>: Changing the modal exclusion type for a visible window
-        may have no effect until it is hidden and then shown again.
-    </blockquote>
+    <blodkquotf>
+      <ir>
+        <b>Implfmfntbtion notf</b>: Cibnging tif modbl fxdlusion typf for b visiblf window
+        mby ibvf no ffffdt until it is iiddfn bnd tifn siown bgbin.
+    </blodkquotf>
 
-    <a name="Related"></a>
-    <h3>Related AWT features</h3>
+    <b nbmf="Rflbtfd"></b>
+    <i3>Rflbtfd AWT ffbturfs</i3>
 
     <p>
-      <u>Always-On-Top</u><br>
-      When a modal dialog that is not always-on-top blocks an always-on-top window,
-      their relative Z-order is unspecified and platform-dependent.
+      <u>Alwbys-On-Top</u><br>
+      Wifn b modbl diblog tibt is not blwbys-on-top blodks bn blwbys-on-top window,
+      tifir rflbtivf Z-ordfr is unspfdififd bnd plbtform-dfpfndfnt.
     </p>
     <p>
-      <u>The <code>toFront()</code> and <code>toBack()</code> methods</u><br>
-      A modal dialog should always be above all its blocked windows. Thus, if a blocked
-      window is brought to the front, its blocking dialog, if any, is also brought to the
-      front and remains above the blocked window. Likewise, if a modal dialog is sent to
-      the back, all of its blocked windows are sent to the back to keep them below the
-      blocking dialog.
+      <u>Tif <dodf>toFront()</dodf> bnd <dodf>toBbdk()</dodf> mftiods</u><br>
+      A modbl diblog siould blwbys bf bbovf bll its blodkfd windows. Tius, if b blodkfd
+      window is brougit to tif front, its blodking diblog, if bny, is blso brougit to tif
+      front bnd rfmbins bbovf tif blodkfd window. Likfwisf, if b modbl diblog is sfnt to
+      tif bbdk, bll of its blodkfd windows brf sfnt to tif bbdk to kffp tifm bflow tif
+      blodking diblog.
     </p>
     <p>
-      <u>Minimizing, maximizing and closing blocked windows</u><br>
-      When a modal dialog blocks a window, the user may not be able to maximize or
-      minimize the blocked window&mdash; however, the actual behavior is unspecified
-      and platform-dependent. In any case, the user can't close the blocked window
-      interactively&mdash; but it can be closed programmatically by calling the
-      <code>setVisible(false)</code> or <code>dispose()</code> methods on the blocked
+      <u>Minimizing, mbximizing bnd dlosing blodkfd windows</u><br>
+      Wifn b modbl diblog blodks b window, tif usfr mby not bf bblf to mbximizf or
+      minimizf tif blodkfd window&mdbsi; iowfvfr, tif bdtubl bfibvior is unspfdififd
+      bnd plbtform-dfpfndfnt. In bny dbsf, tif usfr dbn't dlosf tif blodkfd window
+      intfrbdtivfly&mdbsi; but it dbn bf dlosfd progrbmmbtidblly by dblling tif
+      <dodf>sftVisiblf(fblsf)</dodf> or <dodf>disposf()</dodf> mftiods on tif blodkfd
       window.
     </p>
     <p>
-      <u>Blocked windows activations</u><br>
-      When the user selects a blocked window, it may be brought to the front, along
-      with the blocking modal dialog which would then become the active window&mdash;
-      however, the actual behavior is unspecified and platform-dependent.
+      <u>Blodkfd windows bdtivbtions</u><br>
+      Wifn tif usfr sflfdts b blodkfd window, it mby bf brougit to tif front, blong
+      witi tif blodking modbl diblog wiidi would tifn bfdomf tif bdtivf window&mdbsi;
+      iowfvfr, tif bdtubl bfibvior is unspfdififd bnd plbtform-dfpfndfnt.
     </p>
     <p>
-      <u>Hiding a modal dialog</u><br>
-      When the modal dialog that currently has focus is hidden, it is unspecified
-      and platform-dependent, which other window will become the active window.
-      Any of the following may become the active window:
+      <u>Hiding b modbl diblog</u><br>
+      Wifn tif modbl diblog tibt durrfntly ibs fodus is iiddfn, it is unspfdififd
+      bnd plbtform-dfpfndfnt, wiidi otifr window will bfdomf tif bdtivf window.
+      Any of tif following mby bfdomf tif bdtivf window:
       <ol>
-        <li>The owner of the modal dialog - if the owner is unblocked.
-        </li><li>The <code>Window</code>, which was active before this modal dialog gained
-        focus - if the owner of the modal dialog is absent or is blocked.
+        <li>Tif ownfr of tif modbl diblog - if tif ownfr is unblodkfd.
+        </li><li>Tif <dodf>Window</dodf>, wiidi wbs bdtivf bfforf tiis modbl diblog gbinfd
+        fodus - if tif ownfr of tif modbl diblog is bbsfnt or is blodkfd.
       </li></ol>
-      If the modal dialog to be hidden does not have focus, the active window remains
-      unchanged.
+      If tif modbl diblog to bf iiddfn dofs not ibvf fodus, tif bdtivf window rfmbins
+      undibngfd.
     
-    <a name="Security"></a>
-    <h3>Security</h3>
+    <b nbmf="Sfdurity"></b>
+    <i3>Sfdurity</i3>
 
     <p>
-      A special <code>AWTPermission</code>, <code>"toolkitModality"</code>,
-      is required to show toolkit-modal
-      dialogs. This would prevent, for example, blocking a browser or 
-      Java Web Start (JWS) by modal dialogs shown from applets.
+      A spfdibl <dodf>AWTPfrmission</dodf>, <dodf>"toolkitModblity"</dodf>,
+      is rfquirfd to siow toolkit-modbl
+      diblogs. Tiis would prfvfnt, for fxbmplf, blodking b browsfr or 
+      Jbvb Wfb Stbrt (JWS) by modbl diblogs siown from bpplfts.
     </p><p>
-      The same permission is required to exclude a window from toolkit modality.
-      This would prevent, for example, a dialog shown from an applet not to be
-      blocked by a browser's or JWS's modal dialog.
+      Tif sbmf pfrmission is rfquirfd to fxdludf b window from toolkit modblity.
+      Tiis would prfvfnt, for fxbmplf, b diblog siown from bn bpplft not to bf
+      blodkfd by b browsfr's or JWS's modbl diblog.
 
-    <a name="PlatformSupport"></a>
-    </p><h3>Platform support</h3>
+    <b nbmf="PlbtformSupport"></b>
+    </p><i3>Plbtform support</i3>
 
     <p>
-      Two <code>java.awt.Toolkit</code> methods allow you to check whether
-      the current platform supports specific modality features:
+      Two <dodf>jbvb.bwt.Toolkit</dodf> mftiods bllow you to difdk wiftifr
+      tif durrfnt plbtform supports spfdifid modblity ffbturfs:
       </p><ul>
-        <li><code>isModalityTypeSupported(modalityType)</code><br>
-          Returns whether the specified modality type is supported on
-	  the current platform.
-          If mode "M" is not supported and a dialog is set to M-modal,
-          it behaves as modeless.
+        <li><dodf>isModblityTypfSupportfd(modblityTypf)</dodf><br>
+          Rfturns wiftifr tif spfdififd modblity typf is supportfd on
+	  tif durrfnt plbtform.
+          If modf "M" is not supportfd bnd b diblog is sft to M-modbl,
+          it bfibvfs bs modflfss.
         </li>
-	<li><code>isModalExclusionTypeSupported(modalExclusionType)</code><br>
-          Returns whether the given modal exclusion type is supported on
-	  the current platform. If exclusion type "E" is not supported
-	  and a window is marked as E-excluded, this has no effect.
+	<li><dodf>isModblExdlusionTypfSupportfd(modblExdlusionTypf)</dodf><br>
+          Rfturns wiftifr tif givfn modbl fxdlusion typf is supportfd on
+	  tif durrfnt plbtform. If fxdlusion typf "E" is not supportfd
+	  bnd b window is mbrkfd bs E-fxdludfd, tiis ibs no ffffdt.
       </li></ul>
 
-    <a name="Compatibility"></a>
-    <h3>Compatibility</h3>
+    <b nbmf="Compbtibility"></b>
+    <i3>Compbtibility</i3>
 
     <p>
-      The default modality type is application-modal. It is used by the API
-      calls: <code>Dialog.setModal(true)</code>, 
-      <code>Dialog(owner, true)</code>, etc. Prior to JDK 6
-      the default type was toolkit-modal,
-      but the only distinction between application- and toolkit-modality is for
-      applets and applications launched from Java Web Start.
+      Tif dffbult modblity typf is bpplidbtion-modbl. It is usfd by tif API
+      dblls: <dodf>Diblog.sftModbl(truf)</dodf>, 
+      <dodf>Diblog(ownfr, truf)</dodf>, ftd. Prior to JDK 6
+      tif dffbult typf wbs toolkit-modbl,
+      but tif only distindtion bftwffn bpplidbtion- bnd toolkit-modblity is for
+      bpplfts bnd bpplidbtions lbundifd from Jbvb Wfb Stbrt.
 
-    <a name="Examples"></a>
-    </p><h3>Examples</h3>
+    <b nbmf="Exbmplfs"></b>
+    </p><i3>Exbmplfs</i3>
 
-    <table border="0">
+    <tbblf bordfr="0">
       <tbody><tr>
-        <td align="left" >
+        <td blign="lfft" >
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Document-modal dialog "D<sub>i</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>i</sub> &mdash; it's in the same document<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash; it's in the
-	      same document<br>
+          <li>Frbmf "F" is siown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>i</sub>" is siown<br>
+          <li>F bfdomfs blodkfd by D<sub>i</sub> &mdbsi; it's in tif sbmf dodumfnt<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is siown<br>
+          <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsi; it's in tif
+	      sbmf dodumfnt<br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example1.gif">
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf1.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="lfft">
 	<ol>
-         <li>Frame "F" is shown<br>
-         <li>Document-modal dialog "D<sub>i</sub>" is shown<br>
-         <li>F becomes blocked by D<sub>i</sub> &mdash; it's in the same document<br>
-         <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-         <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash;
-	     it's in the same document<br>
-         <li>D<sub>i</sub> is hidden<br>
-         <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
+         <li>Frbmf "F" is siown<br>
+         <li>Dodumfnt-modbl diblog "D<sub>i</sub>" is siown<br>
+         <li>F bfdomfs blodkfd by D<sub>i</sub> &mdbsi; it's in tif sbmf dodumfnt<br>
+         <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is siown<br>
+         <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsi;
+	     it's in tif sbmf dodumfnt<br>
+         <li>D<sub>i</sub> is iiddfn<br>
+         <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsi; it's in tif sbmf dodumfnt<br>
          </ol>
 	 <br>
         </td>
-        <td align="center">
-          <img src="modal-example2.gif">
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf2.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="lfft">
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Toolkit-modal dialog "D<sub>i</sub>" is created, but not shown<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
-          <li>Application-modal dialog "D<sub>iii</sub>" is shown<br>
-          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdash;
-	      it's in the same application<br>
-          <li>D<sub>i</sub> is shown<br>
-          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash; it's its owner<br>
-          <li>D<sub>iii</sub> remains unblocked &mdash; it blocks D<sub>ii</sub> and 
-	      D<sub>ii</sub> blocks D<sub>i</sub><br>
+          <li>Frbmf "F" is siown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is drfbtfd, but not siown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is siown<br>
+          <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsi; it's in tif sbmf dodumfnt<br>
+          <li>Applidbtion-modbl diblog "D<sub>iii</sub>" is siown<br>
+          <li>D<sub>ii</sub> bfdomfs blodkfd by D<sub>iii</sub> &mdbsi;
+	      it's in tif sbmf bpplidbtion<br>
+          <li>D<sub>i</sub> is siown<br>
+          <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsi; it's its ownfr<br>
+          <li>D<sub>iii</sub> rfmbins unblodkfd &mdbsi; it blodks D<sub>ii</sub> bnd 
+	      D<sub>ii</sub> blodks D<sub>i</sub><br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example3.gif">
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf3.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="lfft">
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Toolkit-modal dialog "D<sub>i</sub>" is created, but not shown<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
-          <li>Application-modal dialog "D<sub>iii</sub>" is shown<br>
-          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdash; it's in the
-	      same application<br>
-          <li>D<sub>i</sub> is shown<br>
-          <li>D<sub>iii</sub> becomes blocked by D<sub>i</sub> &mdash; D<sub>i</sub>
-	      is not blocked<br>
-          <li>D<sub>i</sub> remains unblocked<br>
+          <li>Frbmf "F" is siown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is drfbtfd, but not siown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is siown<br>
+          <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsi; it's in tif sbmf dodumfnt<br>
+          <li>Applidbtion-modbl diblog "D<sub>iii</sub>" is siown<br>
+          <li>D<sub>ii</sub> bfdomfs blodkfd by D<sub>iii</sub> &mdbsi; it's in tif
+	      sbmf bpplidbtion<br>
+          <li>D<sub>i</sub> is siown<br>
+          <li>D<sub>iii</sub> bfdomfs blodkfd by D<sub>i</sub> &mdbsi; D<sub>i</sub>
+	      is not blodkfd<br>
+          <li>D<sub>i</sub> rfmbins unblodkfd<br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example4.gif">
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf4.gif">
           <br>
         </td>
       </tr>
-    </tbody></table>
+    </tbody></tbblf>
 
-</body></html>
+</body></itml>

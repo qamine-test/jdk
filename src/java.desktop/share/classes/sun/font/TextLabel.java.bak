@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *
- * (C) Copyright IBM Corp. 1998-2003 All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Sibpf;
 
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * A label.
- * Visual bounds is a rect that encompasses the entire rendered area.
- * Logical bounds is a rect that defines how to position this next
- * to other objects.
- * Align bounds is a rect that defines how to align this to margins.
- * it generally allows some overhang that logical bounds would prevent.
+ * A lbbfl.
+ * Visubl bounds is b rfdt tibt fndompbssfs tif fntirf rfndfrfd brfb.
+ * Logidbl bounds is b rfdt tibt dffinfs iow to position tiis nfxt
+ * to otifr objfdts.
+ * Align bounds is b rfdt tibt dffinfs iow to blign tiis to mbrgins.
+ * it gfnfrblly bllows somf ovfribng tibt logidbl bounds would prfvfnt.
  */
-public abstract class TextLabel {
+publid bbstrbdt dlbss TfxtLbbfl {
 
   /**
-   * Return a rectangle that surrounds the text outline when this label is rendered at x, y.
+   * Rfturn b rfdtbnglf tibt surrounds tif tfxt outlinf wifn tiis lbbfl is rfndfrfd bt x, y.
    */
-  public abstract Rectangle2D getVisualBounds(float x, float y);
+  publid bbstrbdt Rfdtbnglf2D gftVisublBounds(flobt x, flobt y);
 
   /**
-   * Return a rectangle that corresponds to the logical bounds of the text
-   * when this label is rendered at x, y.
-   * This rectangle is used when positioning text next to other text.
+   * Rfturn b rfdtbnglf tibt dorrfsponds to tif logidbl bounds of tif tfxt
+   * wifn tiis lbbfl is rfndfrfd bt x, y.
+   * Tiis rfdtbnglf is usfd wifn positioning tfxt nfxt to otifr tfxt.
    */
-  public abstract Rectangle2D getLogicalBounds(float x, float y);
+  publid bbstrbdt Rfdtbnglf2D gftLogidblBounds(flobt x, flobt y);
 
   /**
-   * Return a rectangle that corresponds to the alignment bounds of the text
-   * when this label is rendered at x, y. This rectangle is used when positioning text next
-   * to a margin.  It differs from the logical bounds in that it does not include leading or
-   * trailing whitespace.
+   * Rfturn b rfdtbnglf tibt dorrfsponds to tif blignmfnt bounds of tif tfxt
+   * wifn tiis lbbfl is rfndfrfd bt x, y. Tiis rfdtbnglf is usfd wifn positioning tfxt nfxt
+   * to b mbrgin.  It difffrs from tif logidbl bounds in tibt it dofs not indludf lfbding or
+   * trbiling wiitfspbdf.
    */
-  public abstract Rectangle2D getAlignBounds(float x, float y);
+  publid bbstrbdt Rfdtbnglf2D gftAlignBounds(flobt x, flobt y);
 
   /**
-   * Return a rectangle that corresponds to the logical bounds of the text, adjusted
-   * to angle the leading and trailing edges by the italic angle.
+   * Rfturn b rfdtbnglf tibt dorrfsponds to tif logidbl bounds of tif tfxt, bdjustfd
+   * to bnglf tif lfbding bnd trbiling fdgfs by tif itblid bnglf.
    */
-  public abstract Rectangle2D getItalicBounds(float x, float y);
+  publid bbstrbdt Rfdtbnglf2D gftItblidBounds(flobt x, flobt y);
 
   /**
-   * Return an outline of the characters in the label when rendered at x, y.
+   * Rfturn bn outlinf of tif dibrbdtfrs in tif lbbfl wifn rfndfrfd bt x, y.
    */
-  public abstract Shape getOutline(float x, float y);
+  publid bbstrbdt Sibpf gftOutlinf(flobt x, flobt y);
 
   /**
-   * Render the label at x, y in the graphics.
+   * Rfndfr tif lbbfl bt x, y in tif grbpiids.
    */
-  public abstract void draw(Graphics2D g, float x, float y);
+  publid bbstrbdt void drbw(Grbpiids2D g, flobt x, flobt y);
 
   /**
-   * A convenience method that returns the visual bounds when rendered at 0, 0.
+   * A donvfnifndf mftiod tibt rfturns tif visubl bounds wifn rfndfrfd bt 0, 0.
    */
-  public Rectangle2D getVisualBounds() {
-    return getVisualBounds(0f, 0f);
+  publid Rfdtbnglf2D gftVisublBounds() {
+    rfturn gftVisublBounds(0f, 0f);
   }
 
   /**
-   * A convenience method that returns the logical bounds when rendered at 0, 0.
+   * A donvfnifndf mftiod tibt rfturns tif logidbl bounds wifn rfndfrfd bt 0, 0.
    */
-  public Rectangle2D getLogicalBounds() {
-    return getLogicalBounds(0f, 0f);
+  publid Rfdtbnglf2D gftLogidblBounds() {
+    rfturn gftLogidblBounds(0f, 0f);
   }
 
   /**
-   * A convenience method that returns the align bounds when rendered at 0, 0.
+   * A donvfnifndf mftiod tibt rfturns tif blign bounds wifn rfndfrfd bt 0, 0.
    */
-  public Rectangle2D getAlignBounds() {
-    return getAlignBounds(0f, 0f);
+  publid Rfdtbnglf2D gftAlignBounds() {
+    rfturn gftAlignBounds(0f, 0f);
   }
 
   /**
-   * A convenience method that returns the italic bounds when rendered at 0, 0.
+   * A donvfnifndf mftiod tibt rfturns tif itblid bounds wifn rfndfrfd bt 0, 0.
    */
-  public Rectangle2D getItalicBounds() {
-    return getItalicBounds(0f, 0f);
+  publid Rfdtbnglf2D gftItblidBounds() {
+    rfturn gftItblidBounds(0f, 0f);
   }
 
   /**
-   * A convenience method that returns the outline when rendered at 0, 0.
+   * A donvfnifndf mftiod tibt rfturns tif outlinf wifn rfndfrfd bt 0, 0.
    */
-  public Shape getOutline() {
-    return getOutline(0f, 0f);
+  publid Sibpf gftOutlinf() {
+    rfturn gftOutlinf(0f, 0f);
   }
 
   /**
-   * A convenience method that renders the label at 0, 0.
+   * A donvfnifndf mftiod tibt rfndfrs tif lbbfl bt 0, 0.
    */
-  public void draw(Graphics2D g) {
-    draw(g, 0f, 0f);
+  publid void drbw(Grbpiids2D g) {
+    drbw(g, 0f, 0f);
   }
 }

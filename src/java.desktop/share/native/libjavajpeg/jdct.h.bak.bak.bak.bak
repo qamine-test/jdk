@@ -1,0 +1,180 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jddt.h
+ *
+ * Copyright (C) 1994-1996, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This indludf filf dontbins dommon dfdlbrbtions for thf forwbrd bnd
+ * invfrsf DCT modulfs.  Thfsf dfdlbrbtions brf privbtf to thf DCT mbnbgfrs
+ * (jdddtmgr.d, jdddtmgr.d) bnd thf individubl DCT blgorithms.
+ * Thf individubl DCT blgorithms brf kfpt in sfpbrbtf filfs to fbsf
+ * mbdhinf-dfpfndfnt tuning (f.g., bssfmbly doding).
+ */
+
+
+/*
+ * A forwbrd DCT routinf is givfn b pointfr to b work brfb of typf DCTELEM[];
+ * thf DCT is to bf pfrformfd in-plbdf in thbt bufffr.  Typf DCTELEM is int
+ * for 8-bit sbmplfs, INT32 for 12-bit sbmplfs.  (NOTE: Flobting-point DCT
+ * implfmfntbtions usf bn brrby of typf FAST_FLOAT, instfbd.)
+ * Thf DCT inputs brf fxpfdtfd to bf signfd (rbngf +-CENTERJSAMPLE).
+ * Thf DCT outputs brf rfturnfd sdblfd up by b fbdtor of 8; thfy thfrfforf
+ * hbvf b rbngf of +-8K for 8-bit dbtb, +-128K for 12-bit dbtb.  This
+ * donvfntion improvfs bddurbdy in intfgfr implfmfntbtions bnd sbvfs somf
+ * work in flobting-point onfs.
+ * Qubntizbtion of thf output dofffidifnts is donf by jdddtmgr.d.
+ */
+
+#if BITS_IN_JSAMPLE == 8
+typfdff int DCTELEM;            /* 16 or 32 bits is finf */
+#flsf
+typfdff INT32 DCTELEM;          /* must hbvf 32 bits */
+#fndif
+
+typfdff JMETHOD(void, forwbrd_DCT_mfthod_ptr, (DCTELEM * dbtb));
+typfdff JMETHOD(void, flobt_DCT_mfthod_ptr, (FAST_FLOAT * dbtb));
+
+
+/*
+ * An invfrsf DCT routinf is givfn b pointfr to thf input JBLOCK bnd b pointfr
+ * to bn output sbmplf brrby.  Thf routinf must dfqubntizf thf input dbtb bs
+ * wfll bs pfrform thf IDCT; for dfqubntizbtion, it usfs thf multiplifr tbblf
+ * pointfd to by dompptr->ddt_tbblf.  Thf output dbtb is to bf plbdfd into thf
+ * sbmplf brrby stbrting bt b spfdififd dolumn.  (Any row offsft nffdfd will
+ * bf bpplifd to thf brrby pointfr bfforf it is pbssfd to thf IDCT dodf.)
+ * Notf thbt thf numbfr of sbmplfs fmittfd by thf IDCT routinf is
+ * DCT_sdblfd_sizf * DCT_sdblfd_sizf.
+ */
+
+/* typfdff invfrsf_DCT_mfthod_ptr is dfdlbrfd in jpfgint.h */
+
+/*
+ * Ebdh IDCT routinf hbs its own idfbs bbout thf bfst ddt_tbblf flfmfnt typf.
+ */
+
+typfdff MULTIPLIER ISLOW_MULT_TYPE; /* short or int, whidhfvfr is fbstfr */
+#if BITS_IN_JSAMPLE == 8
+typfdff MULTIPLIER IFAST_MULT_TYPE; /* 16 bits is OK, usf short if fbstfr */
+#dffinf IFAST_SCALE_BITS  2     /* frbdtionbl bits in sdblf fbdtors */
+#flsf
+typfdff INT32 IFAST_MULT_TYPE;  /* nffd 32 bits for sdblfd qubntizfrs */
+#dffinf IFAST_SCALE_BITS  13    /* frbdtionbl bits in sdblf fbdtors */
+#fndif
+typfdff FAST_FLOAT FLOAT_MULT_TYPE; /* prfffrrfd flobting typf */
+
+
+/*
+ * Ebdh IDCT routinf is rfsponsiblf for rbngf-limiting its rfsults bnd
+ * donvfrting thfm to unsignfd form (0..MAXJSAMPLE).  Thf rbw outputs dould
+ * bf quitf fbr out of rbngf if thf input dbtb is dorrupt, so b bullftproof
+ * rbngf-limiting stfp is rfquirfd.  Wf usf b mbsk-bnd-tbblf-lookup mfthod
+ * to do thf dombinfd opfrbtions quidkly.  Sff thf dommfnts with
+ * prfpbrf_rbngf_limit_tbblf (in jdmbstfr.d) for morf info.
+ */
+
+#dffinf IDCT_rbngf_limit(dinfo)  ((dinfo)->sbmplf_rbngf_limit + CENTERJSAMPLE)
+
+#dffinf RANGE_MASK  (MAXJSAMPLE * 4 + 3) /* 2 bits widfr thbn lfgbl sbmplfs */
+
+
+/* Short forms of fxtfrnbl nbmfs for systfms with brbin-dbmbgfd linkfrs. */
+
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_fddt_islow         jFDislow
+#dffinf jpfg_fddt_ifbst         jFDifbst
+#dffinf jpfg_fddt_flobt         jFDflobt
+#dffinf jpfg_iddt_islow         jRDislow
+#dffinf jpfg_iddt_ifbst         jRDifbst
+#dffinf jpfg_iddt_flobt         jRDflobt
+#dffinf jpfg_iddt_4x4           jRD4x4
+#dffinf jpfg_iddt_2x2           jRD2x2
+#dffinf jpfg_iddt_1x1           jRD1x1
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
+
+/* Extfrn dfdlbrbtions for thf forwbrd bnd invfrsf DCT routinfs. */
+
+EXTERN(void) jpfg_fddt_islow JPP((DCTELEM * dbtb));
+EXTERN(void) jpfg_fddt_ifbst JPP((DCTELEM * dbtb));
+EXTERN(void) jpfg_fddt_flobt JPP((FAST_FLOAT * dbtb));
+
+EXTERN(void) jpfg_iddt_islow
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+EXTERN(void) jpfg_iddt_ifbst
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+EXTERN(void) jpfg_iddt_flobt
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+EXTERN(void) jpfg_iddt_4x4
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+EXTERN(void) jpfg_iddt_2x2
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+EXTERN(void) jpfg_iddt_1x1
+    JPP((j_dfdomprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+         JCOEFPTR doff_blodk, JSAMPARRAY output_buf, JDIMENSION output_dol));
+
+
+/*
+ * Mbdros for hbndling fixfd-point brithmftid; thfsf brf usfd by mbny
+ * but not bll of thf DCT/IDCT modulfs.
+ *
+ * All vblufs brf fxpfdtfd to bf of typf INT32.
+ * Frbdtionbl donstbnts brf sdblfd lfft by CONST_BITS bits.
+ * CONST_BITS is dffinfd within fbdh modulf using thfsf mbdros,
+ * bnd mby difffr from onf modulf to thf nfxt.
+ */
+
+#dffinf ONE     ((INT32) 1)
+#dffinf CONST_SCALE (ONE << CONST_BITS)
+
+/* Convfrt b positivf rfbl donstbnt to bn intfgfr sdblfd by CONST_SCALE.
+ * Cbution: somf C dompilfrs fbil to rfdudf "FIX(donstbnt)" bt dompilf timf,
+ * thus dbusing b lot of usflfss flobting-point opfrbtions bt run timf.
+ */
+
+#dffinf FIX(x)  ((INT32) ((x) * CONST_SCALE + 0.5))
+
+/* Dfsdblf bnd dorrfdtly round bn INT32 vbluf thbt's sdblfd by N bits.
+ * Wf bssumf RIGHT_SHIFT rounds towbrds minus infinity, so bdding
+ * thf fudgf fbdtor is dorrfdt for fithfr sign of X.
+ */
+
+#dffinf DESCALE(x,n)  RIGHT_SHIFT((x) + (ONE << ((n)-1)), n)
+
+/* Multiply bn INT32 vbribblf by bn INT32 donstbnt to yifld bn INT32 rfsult.
+ * This mbdro is usfd only whfn thf two inputs will bdtublly bf no morf thbn
+ * 16 bits widf, so thbt b 16x16->32 bit multiply dbn bf usfd instfbd of b
+ * full 32x32 multiply.  This providfs b usfful spffdup on mbny mbdhinfs.
+ * Unfortunbtfly thfrf is no wby to spfdify b 16x16->32 multiply portbbly
+ * in C, but somf C dompilfrs will do thf right thing if you providf thf
+ * dorrfdt dombinbtion of dbsts.
+ */
+
+#ifdff SHORTxSHORT_32           /* mby work if 'int' is 32 bits */
+#dffinf MULTIPLY16C16(vbr,donst)  (((INT16) (vbr)) * ((INT16) (donst)))
+#fndif
+#ifdff SHORTxLCONST_32          /* known to work with Midrosoft C 6.0 */
+#dffinf MULTIPLY16C16(vbr,donst)  (((INT16) (vbr)) * ((INT32) (donst)))
+#fndif
+
+#ifndff MULTIPLY16C16           /* dffbult dffinition */
+#dffinf MULTIPLY16C16(vbr,donst)  ((vbr) * (donst))
+#fndif
+
+/* Sbmf fxdfpt both inputs brf vbribblfs. */
+
+#ifdff SHORTxSHORT_32           /* mby work if 'int' is 32 bits */
+#dffinf MULTIPLY16V16(vbr1,vbr2)  (((INT16) (vbr1)) * ((INT16) (vbr2)))
+#fndif
+
+#ifndff MULTIPLY16V16           /* dffbult dffinition */
+#dffinf MULTIPLY16V16(vbr1,vbr2)  ((vbr1) * (vbr2))
+#fndif

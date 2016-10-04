@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf <stdlib.h>
+#indludf <dlfdn.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <sys/poll.h>
+#indludf <sys/inotify.h>
+
+#indludf "sun_nio_fs_LinuxWbtdhSfrvidf.h"
+
+stbtid void throwUnixExdfption(JNIEnv* fnv, int frrnum) {
+    jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "sun/nio/fs/UnixExdfption",
+        "(I)V", frrnum);
+    if (x != NULL) {
+        (*fnv)->Throw(fnv, x);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_fvfntSizf(JNIEnv *fnv, jdlbss dlbzz)
+{
+    rfturn (jint)sizfof(strudt inotify_fvfnt);
+}
+
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_fvfntOffsfts(JNIEnv *fnv, jdlbss dlbzz)
+{
+    jintArrby rfsult = (*fnv)->NfwIntArrby(fnv, 5);
+    if (rfsult != NULL) {
+        jint brr[5];
+        brr[0] = (jint)offsftof(strudt inotify_fvfnt, wd);
+        brr[1] = (jint)offsftof(strudt inotify_fvfnt, mbsk);
+        brr[2] = (jint)offsftof(strudt inotify_fvfnt, dookif);
+        brr[3] = (jint)offsftof(strudt inotify_fvfnt, lfn);
+        brr[4] = (jint)offsftof(strudt inotify_fvfnt, nbmf);
+        (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 5, brr);
+    }
+    rfturn rfsult;
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_inotifyInit
+    (JNIEnv* fnv, jdlbss dlbzz)
+{
+    int ifd = inotify_init();
+    if (ifd == -1) {
+        throwUnixExdfption(fnv, frrno);
+    }
+    rfturn (jint)ifd;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_inotifyAddWbtdh
+    (JNIEnv* fnv, jdlbss dlbzz, jint fd, jlong bddrfss, jint mbsk)
+{
+    int wfd = -1;
+    donst dhbr* pbth = (donst dhbr*)jlong_to_ptr(bddrfss);
+
+    wfd = inotify_bdd_wbtdh((int)fd, pbth, mbsk);
+    if (wfd == -1) {
+        throwUnixExdfption(fnv, frrno);
+    }
+    rfturn (jint)wfd;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_inotifyRmWbtdh
+    (JNIEnv* fnv, jdlbss dlbzz, jint fd, jint wd)
+{
+    int frr = inotify_rm_wbtdh((int)fd, (int)wd);
+    if (frr == -1)
+        throwUnixExdfption(fnv, frrno);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_donfigurfBlodking
+    (JNIEnv* fnv, jdlbss dlbzz, jint fd, jboolfbn blodking)
+{
+    int flbgs = fdntl(fd, F_GETFL);
+
+    if ((blodking == JNI_FALSE) && !(flbgs & O_NONBLOCK))
+        fdntl(fd, F_SETFL, flbgs | O_NONBLOCK);
+    flsf if ((blodking == JNI_TRUE) && (flbgs & O_NONBLOCK))
+        fdntl(fd, F_SETFL, flbgs & ~O_NONBLOCK);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_sodkftpbir
+    (JNIEnv* fnv, jdlbss dlbzz, jintArrby sv)
+{
+    int sp[2];
+    if (sodkftpbir(PF_UNIX, SOCK_STREAM, 0, sp) == -1) {
+        throwUnixExdfption(fnv, frrno);
+    } flsf {
+        jint rfs[2];
+        rfs[0] = (jint)sp[0];
+        rfs[1] = (jint)sp[1];
+        (*fnv)->SftIntArrbyRfgion(fnv, sv, 0, 2, &rfs[0]);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxWbtdhSfrvidf_poll
+    (JNIEnv* fnv, jdlbss dlbzz, jint fd1, jint fd2)
+{
+    strudt pollfd ufds[2];
+    int n;
+
+    ufds[0].fd = fd1;
+    ufds[0].fvfnts = POLLIN;
+    ufds[1].fd = fd2;
+    ufds[1].fvfnts = POLLIN;
+
+    n = poll(&ufds[0], 2, -1);
+    if (n == -1) {
+        if (frrno == EINTR) {
+            n = 0;
+        } flsf {
+            throwUnixExdfption(fnv, frrno);
+        }
+     }
+    rfturn (jint)n;
+}

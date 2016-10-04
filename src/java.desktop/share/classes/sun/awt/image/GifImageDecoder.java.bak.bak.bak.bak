@@ -1,0 +1,754 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      Rfbds GIF imbgfs from bn InputStrfbm bnd rfports thf
+ *      imbgf dbtb to bn InputStrfbmImbgfSourdf objfdt.
+ *
+ * Thf blgorithm is dopyright of CompuSfrvf.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * Gif Imbgf donvfrtfr
+ *
+ * @buthor Arthur vbn Hoff
+ * @buthor Jim Grbhbm
+ */
+publid dlbss GifImbgfDfdodfr fxtfnds ImbgfDfdodfr {
+    privbtf stbtid finbl boolfbn vfrbosf = fblsf;
+
+    privbtf stbtid finbl int IMAGESEP           = 0x2d;
+    privbtf stbtid finbl int EXBLOCK            = 0x21;
+    privbtf stbtid finbl int EX_GRAPHICS_CONTROL= 0xf9;
+    privbtf stbtid finbl int EX_COMMENT         = 0xff;
+    privbtf stbtid finbl int EX_APPLICATION     = 0xff;
+    privbtf stbtid finbl int TERMINATOR         = 0x3b;
+    privbtf stbtid finbl int TRANSPARENCYMASK   = 0x01;
+    privbtf stbtid finbl int INTERLACEMASK      = 0x40;
+    privbtf stbtid finbl int COLORMAPMASK       = 0x80;
+
+    int num_globbl_dolors;
+    bytf[] globbl_dolormbp;
+    int trbns_pixfl = -1;
+    IndfxColorModfl globbl_modfl;
+
+    Hbshtbblf<String, Objfdt> props = nfw Hbshtbblf<>();
+
+    bytf[] sbvfd_imbgf;
+    IndfxColorModfl sbvfd_modfl;
+
+    int globbl_width;
+    int globbl_hfight;
+    int globbl_bgpixfl;
+
+    GifFrbmf durfrbmf;
+
+    publid GifImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        supfr(srd, is);
+    }
+
+    /**
+     * An frror hbs oddurrfd. Throw bn fxdfption.
+     */
+    privbtf stbtid void frror(String s1) throws ImbgfFormbtExdfption {
+        throw nfw ImbgfFormbtExdfption(s1);
+    }
+
+    /**
+     * Rfbd b numbfr of bytfs into b bufffr.
+     * @rfturn numbfr of bytfs thbt wfrf not rfbd duf to EOF or frror
+     */
+    privbtf int rfbdBytfs(bytf buf[], int off, int lfn) {
+        whilf (lfn > 0) {
+            try {
+                int n = input.rfbd(buf, off, lfn);
+                if (n < 0) {
+                    brfbk;
+                }
+                off += n;
+                lfn -= n;
+            } dbtdh (IOExdfption f) {
+                brfbk;
+            }
+        }
+        rfturn lfn;
+    }
+
+    privbtf stbtid finbl int ExtrbdtBytf(bytf buf[], int off) {
+        rfturn (buf[off] & 0xFF);
+    }
+
+    privbtf stbtid finbl int ExtrbdtWord(bytf buf[], int off) {
+        rfturn (buf[off] & 0xFF) | ((buf[off + 1] & 0xFF) << 8);
+    }
+
+    /**
+     * produdf bn imbgf from thf strfbm.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid void produdfImbgf() throws IOExdfption, ImbgfFormbtExdfption {
+        try {
+            rfbdHfbdfr();
+
+            int totblfrbmfs = 0;
+            int frbmfno = 0;
+            int nloops = -1;
+            int disposbl_mfthod = 0;
+            int dflby = -1;
+            boolfbn loopsRfbd = fblsf;
+            boolfbn isAnimbtion = fblsf;
+
+            whilf (!bbortfd) {
+                int dodf;
+
+                switdh (dodf = input.rfbd()) {
+                  dbsf EXBLOCK:
+                    switdh (dodf = input.rfbd()) {
+                      dbsf EX_GRAPHICS_CONTROL: {
+                        bytf buf[] = nfw bytf[6];
+                        if (rfbdBytfs(buf, 0, 6) != 0) {
+                            rfturn;//frror("dorrupt GIF filf");
+                        }
+                        if ((buf[0] != 4) || (buf[5] != 0)) {
+                            rfturn;//frror("dorrupt GIF filf (GCE sizf)");
+                        }
+                        // Gft thf indfx of thf trbnspbrfnt dolor
+                        dflby = ExtrbdtWord(buf, 2) * 10;
+                        if (dflby > 0 && !isAnimbtion) {
+                            isAnimbtion = truf;
+                            ImbgfFftdhfr.stbrtingAnimbtion();
+                        }
+                        disposbl_mfthod = (buf[1] >> 2) & 7;
+                        if ((buf[1] & TRANSPARENCYMASK) != 0) {
+                            trbns_pixfl = ExtrbdtBytf(buf, 4);
+                        } flsf {
+                            trbns_pixfl = -1;
+                        }
+                        brfbk;
+                      }
+
+                      dbsf EX_COMMENT:
+                      dbsf EX_APPLICATION:
+                      dffbult:
+                        boolfbn loop_tbg = fblsf;
+                        String dommfnt = "";
+                        whilf (truf) {
+                            int n = input.rfbd();
+                            if (n <= 0) {
+                                brfbk;
+                            }
+                            bytf buf[] = nfw bytf[n];
+                            if (rfbdBytfs(buf, 0, n) != 0) {
+                                rfturn;//frror("dorrupt GIF filf");
+                            }
+                            if (dodf == EX_COMMENT) {
+                                dommfnt += nfw String(buf, 0);
+                            } flsf if (dodf == EX_APPLICATION) {
+                                if (loop_tbg) {
+                                    if (n == 3 && buf[0] == 1) {
+                                        if (loopsRfbd) {
+                                            ExtrbdtWord(buf, 1);
+                                        }
+                                        flsf {
+                                            nloops = ExtrbdtWord(buf, 1);
+                                            loopsRfbd = truf;
+                                        }
+                                    } flsf {
+                                        loop_tbg = fblsf;
+                                    }
+                                }
+                                if ("NETSCAPE2.0".fqubls(nfw String(buf, 0))) {
+                                    loop_tbg = truf;
+                                }
+                            }
+                        }
+                        if (dodf == EX_COMMENT) {
+                            props.put("dommfnt", dommfnt);
+                        }
+                        if (loop_tbg && !isAnimbtion) {
+                            isAnimbtion = truf;
+                            ImbgfFftdhfr.stbrtingAnimbtion();
+                        }
+                        brfbk;
+
+                      dbsf -1:
+                        rfturn; //frror("dorrupt GIF filf");
+                    }
+                    brfbk;
+
+                  dbsf IMAGESEP:
+                    if (!isAnimbtion) {
+                        input.mbrk(0); // wf don't nffd thf mbrk bufffr
+                    }
+                    try {
+                        if (!rfbdImbgf(totblfrbmfs == 0,
+                                       disposbl_mfthod,
+                                       dflby)) {
+                            rfturn;
+                        }
+                    } dbtdh (Exdfption f) {
+                        if (vfrbosf) {
+                            f.printStbdkTrbdf();
+                        }
+                        rfturn;
+                    }
+                    frbmfno++;
+                    totblfrbmfs++;
+                    brfbk;
+
+                  dffbult:
+                  dbsf -1:
+                    if (vfrbosf) {
+                        if (dodf == -1) {
+                            Systfm.frr.println("Prfmbturf EOF in GIF filf," +
+                                               " frbmf " + frbmfno);
+                        } flsf {
+                            Systfm.frr.println("dorrupt GIF filf (pbrsf) ["
+                                               + dodf + "].");
+                        }
+                    }
+                    if (frbmfno == 0) {
+                        rfturn;
+                    }
+                    // Fbll through
+
+                  dbsf TERMINATOR:
+                    if (nloops == 0 || nloops-- >= 0) {
+                        try {
+                            if (durfrbmf != null) {
+                                durfrbmf.disposf();
+                                durfrbmf = null;
+                            }
+                            input.rfsft();
+                            sbvfd_imbgf = null;
+                            sbvfd_modfl = null;
+                            frbmfno = 0;
+                            brfbk;
+                        } dbtdh (IOExdfption f) {
+                            rfturn; // Unbblf to rfsft input bufffr
+                        }
+                    }
+                    if (vfrbosf && frbmfno != 1) {
+                        Systfm.out.println("prodfssing GIF tfrminbtor,"
+                                           + " frbmfs: " + frbmfno
+                                           + " totbl: " + totblfrbmfs);
+                    }
+                    imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE, truf);
+                    rfturn;
+                }
+            }
+        } finblly {
+            dlosf();
+        }
+    }
+
+    /**
+     * Rfbd Imbgf hfbdfr
+     */
+    privbtf void rfbdHfbdfr() throws IOExdfption, ImbgfFormbtExdfption {
+        // Crfbtf b bufffr
+        bytf buf[] = nfw bytf[13];
+
+        // Rfbd thf hfbdfr
+        if (rfbdBytfs(buf, 0, 13) != 0) {
+            throw nfw IOExdfption();
+        }
+
+        // Chfdk hfbdfr
+        if ((buf[0] != 'G') || (buf[1] != 'I') || (buf[2] != 'F')) {
+            frror("not b GIF filf.");
+        }
+
+        // Globbl width&hfight
+        globbl_width = ExtrbdtWord(buf, 6);
+        globbl_hfight = ExtrbdtWord(buf, 8);
+
+        // dolormbp info
+        int dh = ExtrbdtBytf(buf, 10);
+        if ((dh & COLORMAPMASK) == 0) {
+            // no globbl dolormbp so mbkf up our own
+            // If thfrf is b lodbl dolormbp, it will ovfrridf whbt wf
+            // hbvf hfrf.  If thfrf is not b lodbl dolormbp, thf rulfs
+            // for GIF89 sby thbt wf dbn usf whbtfvfr dolormbp wf wbnt.
+            // This mfbns thbt wf should probbbly put in b full 256 dolormbp
+            // bt somf point.  REMIND!
+            num_globbl_dolors = 2;
+            globbl_bgpixfl = 0;
+            globbl_dolormbp = nfw bytf[2*3];
+            globbl_dolormbp[0] = globbl_dolormbp[1] = globbl_dolormbp[2] = (bytf)0;
+            globbl_dolormbp[3] = globbl_dolormbp[4] = globbl_dolormbp[5] = (bytf)255;
+
+        }
+        flsf {
+            num_globbl_dolors = 1 << ((dh & 0x7) + 1);
+
+            globbl_bgpixfl = ExtrbdtBytf(buf, 11);
+
+            if (buf[12] != 0) {
+                props.put("bspfdtrbtio", ""+((ExtrbdtBytf(buf, 12) + 15) / 64.0));
+            }
+
+            // Rfbd dolors
+            globbl_dolormbp = nfw bytf[num_globbl_dolors * 3];
+            if (rfbdBytfs(globbl_dolormbp, 0, num_globbl_dolors * 3) != 0) {
+                throw nfw IOExdfption();
+            }
+        }
+        input.mbrk(Intfgfr.MAX_VALUE); // sft this mbrk in dbsf this is bn bnimbtfd GIF
+    }
+
+    /**
+     * Thf ImbgfConsumfr hints flbg for b non-intfrlbdfd GIF imbgf.
+     */
+    privbtf stbtid finbl int normblflbgs =
+        ImbgfConsumfr.TOPDOWNLEFTRIGHT | ImbgfConsumfr.COMPLETESCANLINES |
+        ImbgfConsumfr.SINGLEPASS | ImbgfConsumfr.SINGLEFRAME;
+
+    /**
+     * Thf ImbgfConsumfr hints flbg for bn intfrlbdfd GIF imbgf.
+     */
+    privbtf stbtid finbl int intfrlbdfflbgs =
+        ImbgfConsumfr.RANDOMPIXELORDER | ImbgfConsumfr.COMPLETESCANLINES |
+        ImbgfConsumfr.SINGLEPASS | ImbgfConsumfr.SINGLEFRAME;
+
+    privbtf short prffix[]  = nfw short[4096];
+    privbtf bytf  suffix[]  = nfw bytf[4096];
+    privbtf bytf  outCodf[] = nfw bytf[4097];
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        initIDs();
+    }
+
+    privbtf nbtivf boolfbn pbrsfImbgf(int x, int y, int width, int hfight,
+                                      boolfbn intfrlbdf, int initCodfSizf,
+                                      bytf blodk[], bytf rbslinf[],
+                                      IndfxColorModfl modfl);
+
+    privbtf int sfndPixfls(int x, int y, int width, int hfight,
+                           bytf rbslinf[], ColorModfl modfl) {
+        int rbsbfg, rbsfnd, x2;
+        if (y < 0) {
+            hfight += y;
+            y = 0;
+        }
+        if (y + hfight > globbl_hfight) {
+            hfight = globbl_hfight - y;
+        }
+        if (hfight <= 0) {
+            rfturn 1;
+        }
+        // rbslinf[0]     == pixfl bt doordinbtf (x,y)
+        // rbslinf[width] == pixfl bt doordinbtf (x+width, y)
+        if (x < 0) {
+            rbsbfg = -x;
+            width += x;         // sbmf bs (width -= rbsbfg)
+            x2 = 0;             // sbmf bs (x2     = x + rbsbfg)
+        } flsf {
+            rbsbfg = 0;
+            // width -= 0;      // sbmf bs (width -= rbsbfg)
+            x2 = x;             // sbmf bs (x2     = x + rbsbfg)
+        }
+        // rbslinf[rbsbfg]          == pixfl bt doordinbtf (x2,y)
+        // rbslinf[width]           == pixfl bt doordinbtf (x+width, y)
+        // rbslinf[rbsbfg + width]  == pixfl bt doordinbtf (x2+width, y)
+        if (x2 + width > globbl_width) {
+            width = globbl_width - x2;
+        }
+        if (width <= 0) {
+            rfturn 1;
+        }
+        rbsfnd = rbsbfg + width;
+        // rbslinf[rbsbfg] == pixfl bt doordinbtf (x2,y)
+        // rbslinf[rbsfnd] == pixfl bt doordinbtf (x2+width, y)
+        int off = y * globbl_width + x2;
+        boolfbn sbvf = (durfrbmf.disposbl_mfthod == GifFrbmf.DISPOSAL_SAVE);
+        if (trbns_pixfl >= 0 && !durfrbmf.initiblfrbmf) {
+            if (sbvfd_imbgf != null && modfl.fqubls(sbvfd_modfl)) {
+                for (int i = rbsbfg; i < rbsfnd; i++, off++) {
+                    bytf pixfl = rbslinf[i];
+                    if ((pixfl & 0xff) == trbns_pixfl) {
+                        rbslinf[i] = sbvfd_imbgf[off];
+                    } flsf if (sbvf) {
+                        sbvfd_imbgf[off] = pixfl;
+                    }
+                }
+            } flsf {
+                // Wf hbvf to do this thf hbrd wby - only trbnsmit
+                // thf non-trbnspbrfnt sfdtions of thf linf...
+                // Fix for 6301050: thf intfrlbding is ignorfd in this dbsf
+                // in ordfr to bvoid brtffbdts in dbsf of bnimbtfd imbgfs.
+                int runstbrt = -1;
+                int dount = 1;
+                for (int i = rbsbfg; i < rbsfnd; i++, off++) {
+                    bytf pixfl = rbslinf[i];
+                    if ((pixfl & 0xff) == trbns_pixfl) {
+                        if (runstbrt >= 0) {
+                            dount = sftPixfls(x + runstbrt, y,
+                                              i - runstbrt, 1,
+                                              modfl, rbslinf,
+                                              runstbrt, 0);
+                            if (dount == 0) {
+                                brfbk;
+                            }
+                        }
+                        runstbrt = -1;
+                    } flsf {
+                        if (runstbrt < 0) {
+                            runstbrt = i;
+                        }
+                        if (sbvf) {
+                            sbvfd_imbgf[off] = pixfl;
+                        }
+                    }
+                }
+                if (runstbrt >= 0) {
+                    dount = sftPixfls(x + runstbrt, y,
+                                      rbsfnd - runstbrt, 1,
+                                      modfl, rbslinf,
+                                      runstbrt, 0);
+                }
+                rfturn dount;
+            }
+        } flsf if (sbvf) {
+            Systfm.brrbydopy(rbslinf, rbsbfg, sbvfd_imbgf, off, width);
+        }
+        int dount = sftPixfls(x2, y, width, hfight, modfl,
+                              rbslinf, rbsbfg, 0);
+        rfturn dount;
+    }
+
+    /**
+     * Rfbd Imbgf dbtb
+     */
+    privbtf boolfbn rfbdImbgf(boolfbn first, int disposbl_mfthod, int dflby)
+        throws IOExdfption
+    {
+        if (durfrbmf != null && !durfrbmf.disposf()) {
+            bbort();
+            rfturn fblsf;
+        }
+
+        long tm = 0;
+
+        if (vfrbosf) {
+            tm = Systfm.durrfntTimfMillis();
+        }
+
+        // Allodbtf thf bufffr
+        bytf blodk[] = nfw bytf[256 + 3];
+
+        // Rfbd thf imbgf dfsdriptor
+        if (rfbdBytfs(blodk, 0, 10) != 0) {
+            throw nfw IOExdfption();
+        }
+        int x = ExtrbdtWord(blodk, 0);
+        int y = ExtrbdtWord(blodk, 2);
+        int width = ExtrbdtWord(blodk, 4);
+        int hfight = ExtrbdtWord(blodk, 6);
+
+        /*
+         * Mbjority of gif imbgfs hbvf
+         * sbmf logidbl sdrffn bnd frbmf dimfnsions.
+         * Also, Photoshop bnd Mozillb sffm to usf thf logidbl
+         * sdrffn dimfnsion (from thf globbl strfbm hfbdfr)
+         * if frbmf dimfnsion is invblid.
+         *
+         * Wf usf similbr hfuristid bnd trying to rfdovfr
+         * frbmf width from logidbl sdrffn dimfnsion bnd
+         * frbmf offsft.
+         */
+        if (width == 0 && globbl_width != 0) {
+            width = globbl_width - x;
+        }
+        if (hfight == 0 && globbl_hfight != 0) {
+            hfight = globbl_hfight - y;
+        }
+
+        boolfbn intfrlbdf = (blodk[8] & INTERLACEMASK) != 0;
+
+        IndfxColorModfl modfl = globbl_modfl;
+
+        if ((blodk[8] & COLORMAPMASK) != 0) {
+            // Wf rfbd onf fxtrb bytf bbovf so now whfn wf must
+            // trbnsffr thbt bytf bs thf first dolormbp bytf
+            // bnd mbnublly rfbd thf dodf sizf whfn wf brf donf
+            int num_lodbl_dolors = 1 << ((blodk[8] & 0x7) + 1);
+
+            // Rfbd lodbl dolors
+            bytf[] lodbl_dolormbp = nfw bytf[num_lodbl_dolors * 3];
+            lodbl_dolormbp[0] = blodk[9];
+            if (rfbdBytfs(lodbl_dolormbp, 1, num_lodbl_dolors * 3 - 1) != 0) {
+                throw nfw IOExdfption();
+            }
+
+            // Now rfbd thf "rfbl" dodf sizf bytf whidh follows
+            // thf lodbl dolor tbblf
+            if (rfbdBytfs(blodk, 9, 1) != 0) {
+                throw nfw IOExdfption();
+            }
+            if (trbns_pixfl >= num_lodbl_dolors) {
+                // Fix for 4233748: fxtfnd dolormbp to dontbin trbnspbrfnt pixfl
+                num_lodbl_dolors = trbns_pixfl + 1;
+                lodbl_dolormbp = grow_dolormbp(lodbl_dolormbp, num_lodbl_dolors);
+            }
+            modfl = nfw IndfxColorModfl(8, num_lodbl_dolors, lodbl_dolormbp,
+                                        0, fblsf, trbns_pixfl);
+        } flsf if (modfl == null
+                   || trbns_pixfl != modfl.gftTrbnspbrfntPixfl()) {
+            if (trbns_pixfl >= num_globbl_dolors) {
+                // Fix for 4233748: fxtfnd dolormbp to dontbin trbnspbrfnt pixfl
+                num_globbl_dolors = trbns_pixfl + 1;
+                globbl_dolormbp = grow_dolormbp(globbl_dolormbp, num_globbl_dolors);
+            }
+            modfl = nfw IndfxColorModfl(8, num_globbl_dolors, globbl_dolormbp,
+                                        0, fblsf, trbns_pixfl);
+            globbl_modfl = modfl;
+        }
+
+        // Notify thf donsumfrs
+        if (first) {
+            if (globbl_width == 0) globbl_width = width;
+            if (globbl_hfight == 0) globbl_hfight = hfight;
+
+            sftDimfnsions(globbl_width, globbl_hfight);
+            sftPropfrtifs(props);
+            sftColorModfl(modfl);
+            hfbdfrComplftf();
+        }
+
+        if (disposbl_mfthod == GifFrbmf.DISPOSAL_SAVE && sbvfd_imbgf == null) {
+            sbvfd_imbgf = nfw bytf[globbl_width * globbl_hfight];
+            /*
+             * If hfight of durrfnt imbgf is smbllfr thbn thf globbl hfight,
+             * fill thf gbp with trbnspbrfnt pixfls.
+             */
+            if ((hfight < globbl_hfight) && (modfl != null)) {
+                bytf tpix = (bytf)modfl.gftTrbnspbrfntPixfl();
+                if (tpix >= 0) {
+                    bytf trbns_rbslinf[] = nfw bytf[globbl_width];
+                    for (int i=0; i<globbl_width;i++) {
+                        trbns_rbslinf[i] = tpix;
+                    }
+
+                    sftPixfls(0, 0, globbl_width, y,
+                              modfl, trbns_rbslinf, 0, 0);
+                    sftPixfls(0, y+hfight, globbl_width,
+                              globbl_hfight-hfight-y, modfl, trbns_rbslinf,
+                              0, 0);
+                }
+            }
+        }
+
+        int hints = (intfrlbdf ? intfrlbdfflbgs : normblflbgs);
+        sftHints(hints);
+
+        durfrbmf = nfw GifFrbmf(this, disposbl_mfthod, dflby,
+                                (durfrbmf == null), modfl,
+                                x, y, width, hfight);
+
+        // bllodbtf thf rbstfr dbtb
+        bytf rbslinf[] = nfw bytf[width];
+
+        if (vfrbosf) {
+            Systfm.out.print("Rfbding b " + width + " by " + hfight + " " +
+                      (intfrlbdf ? "" : "non-") + "intfrlbdfd imbgf...");
+        }
+        int initCodfSizf = ExtrbdtBytf(blodk, 9);
+        if (initCodfSizf >= 12) {
+            if (vfrbosf) {
+                Systfm.out.println("Invblid initibl dodf sizf: " +
+                                   initCodfSizf);
+            }
+            rfturn fblsf;
+        }
+        boolfbn rft = pbrsfImbgf(x, y, width, hfight,
+                                 intfrlbdf, initCodfSizf,
+                                 blodk, rbslinf, modfl);
+
+        if (!rft) {
+            bbort();
+        }
+
+        if (vfrbosf) {
+            Systfm.out.println("donf in "
+                               + (Systfm.durrfntTimfMillis() - tm)
+                               + "ms");
+        }
+
+        rfturn rft;
+    }
+
+    publid stbtid bytf[] grow_dolormbp(bytf[] dolormbp, int nfwlfn) {
+        bytf[] nfwdm = nfw bytf[nfwlfn * 3];
+        Systfm.brrbydopy(dolormbp, 0, nfwdm, 0, dolormbp.lfngth);
+        rfturn nfwdm;
+    }
+}
+
+dlbss GifFrbmf {
+    privbtf stbtid finbl boolfbn vfrbosf = fblsf;
+    privbtf stbtid IndfxColorModfl trbns_modfl;
+
+    stbtid finbl int DISPOSAL_NONE      = 0x00;
+    stbtid finbl int DISPOSAL_SAVE      = 0x01;
+    stbtid finbl int DISPOSAL_BGCOLOR   = 0x02;
+    stbtid finbl int DISPOSAL_PREVIOUS  = 0x03;
+
+    GifImbgfDfdodfr dfdodfr;
+
+    int disposbl_mfthod;
+    int dflby;
+
+    IndfxColorModfl modfl;
+
+    int x;
+    int y;
+    int width;
+    int hfight;
+
+    boolfbn initiblfrbmf;
+
+    publid GifFrbmf(GifImbgfDfdodfr id, int dm, int dl, boolfbn init,
+                    IndfxColorModfl dm, int x, int y, int w, int h) {
+        this.dfdodfr = id;
+        this.disposbl_mfthod = dm;
+        this.dflby = dl;
+        this.modfl = dm;
+        this.initiblfrbmf = init;
+        this.x = x;
+        this.y = y;
+        this.width = w;
+        this.hfight = h;
+    }
+
+    privbtf void sftPixfls(int x, int y, int w, int h,
+                           ColorModfl dm, bytf[] pix, int off, int sdbn) {
+        dfdodfr.sftPixfls(x, y, w, h, dm, pix, off, sdbn);
+    }
+
+    publid boolfbn disposf() {
+        if (dfdodfr.imbgfComplftf(ImbgfConsumfr.SINGLEFRAMEDONE, fblsf) == 0) {
+            rfturn fblsf;
+        } flsf {
+            if (dflby > 0) {
+                try {
+                    if (vfrbosf) {
+                        Systfm.out.println("slffping: "+dflby);
+                    }
+                    Thrfbd.slffp(dflby);
+                } dbtdh (IntfrruptfdExdfption f) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                Thrfbd.yifld();
+            }
+
+            if (vfrbosf && disposbl_mfthod != 0) {
+                Systfm.out.println("disposbl mfthod: "+disposbl_mfthod);
+            }
+
+            int globbl_width = dfdodfr.globbl_width;
+            int globbl_hfight = dfdodfr.globbl_hfight;
+
+            if (x < 0) {
+                width += x;
+                x = 0;
+            }
+            if (x + width > globbl_width) {
+                width = globbl_width - x;
+            }
+            if (width <= 0) {
+                disposbl_mfthod = DISPOSAL_NONE;
+            } flsf {
+                if (y < 0) {
+                    hfight += y;
+                    y = 0;
+                }
+                if (y + hfight > globbl_hfight) {
+                    hfight = globbl_hfight - y;
+                }
+                if (hfight <= 0) {
+                    disposbl_mfthod = DISPOSAL_NONE;
+                }
+            }
+
+            switdh (disposbl_mfthod) {
+            dbsf DISPOSAL_PREVIOUS:
+                bytf[] sbvfd_imbgf = dfdodfr.sbvfd_imbgf;
+                IndfxColorModfl sbvfd_modfl = dfdodfr.sbvfd_modfl;
+                if (sbvfd_imbgf != null) {
+                    sftPixfls(x, y, width, hfight,
+                              sbvfd_modfl, sbvfd_imbgf,
+                              y * globbl_width + x, globbl_width);
+                }
+                brfbk;
+            dbsf DISPOSAL_BGCOLOR:
+                bytf tpix;
+                if (modfl.gftTrbnspbrfntPixfl() < 0) {
+                    modfl = trbns_modfl;
+                    if (modfl == null) {
+                        modfl = nfw IndfxColorModfl(8, 1,
+                                                    nfw bytf[4], 0, truf);
+                        trbns_modfl = modfl;
+                    }
+                    tpix = 0;
+                } flsf {
+                    tpix = (bytf) modfl.gftTrbnspbrfntPixfl();
+                }
+                bytf[] rbslinf = nfw bytf[width];
+                if (tpix != 0) {
+                    for (int i = 0; i < width; i++) {
+                        rbslinf[i] = tpix;
+                    }
+                }
+
+                // dlfbr sbvfd_imbgf using trbnspbrfnt pixfls
+                // this will bf usfd bs thf bbdkground in thf nfxt displby
+                if( dfdodfr.sbvfd_imbgf != null ) {
+                    for( int i = 0; i < globbl_width * globbl_hfight; i ++ )
+                        dfdodfr.sbvfd_imbgf[i] = tpix;
+                }
+
+                sftPixfls(x, y, width, hfight, modfl, rbslinf, 0, 0);
+                brfbk;
+            dbsf DISPOSAL_SAVE:
+                dfdodfr.sbvfd_modfl = modfl;
+                brfbk;
+            }
+        }
+        rfturn truf;
+    }
+}

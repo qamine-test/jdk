@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * The <code>Dictionary</code> class is the abstract parent of any
- * class, such as <code>Hashtable</code>, which maps keys to values.
- * Every key and every value is an object. In any one <tt>Dictionary</tt>
- * object, every key is associated with at most one value. Given a
- * <tt>Dictionary</tt> and a key, the associated element can be looked up.
- * Any non-<code>null</code> object can be used as a key and as a value.
+ * Tif <dodf>Didtionbry</dodf> dlbss is tif bbstrbdt pbrfnt of bny
+ * dlbss, sudi bs <dodf>Hbsitbblf</dodf>, wiidi mbps kfys to vblufs.
+ * Evfry kfy bnd fvfry vbluf is bn objfdt. In bny onf <tt>Didtionbry</tt>
+ * objfdt, fvfry kfy is bssodibtfd witi bt most onf vbluf. Givfn b
+ * <tt>Didtionbry</tt> bnd b kfy, tif bssodibtfd flfmfnt dbn bf lookfd up.
+ * Any non-<dodf>null</dodf> objfdt dbn bf usfd bs b kfy bnd bs b vbluf.
  * <p>
- * As a rule, the <code>equals</code> method should be used by
- * implementations of this class to decide if two keys are the same.
+ * As b rulf, tif <dodf>fqubls</dodf> mftiod siould bf usfd by
+ * implfmfntbtions of tiis dlbss to dfdidf if two kfys brf tif sbmf.
  * <p>
- * <strong>NOTE: This class is obsolete.  New implementations should
- * implement the Map interface, rather than extending this class.</strong>
+ * <strong>NOTE: Tiis dlbss is obsolftf.  Nfw implfmfntbtions siould
+ * implfmfnt tif Mbp intfrfbdf, rbtifr tibn fxtfnding tiis dlbss.</strong>
  *
- * @author  unascribed
- * @see     java.util.Map
- * @see     java.lang.Object#equals(java.lang.Object)
- * @see     java.lang.Object#hashCode()
- * @see     java.util.Hashtable
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.util.Mbp
+ * @sff     jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt)
+ * @sff     jbvb.lbng.Objfdt#ibsiCodf()
+ * @sff     jbvb.util.Hbsitbblf
+ * @sindf   1.0
  */
-public abstract
-class Dictionary<K,V> {
+publid bbstrbdt
+dlbss Didtionbry<K,V> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    public Dictionary() {
+    publid Didtionbry() {
     }
 
     /**
-     * Returns the number of entries (distinct keys) in this dictionary.
+     * Rfturns tif numbfr of fntrifs (distindt kfys) in tiis didtionbry.
      *
-     * @return  the number of keys in this dictionary.
+     * @rfturn  tif numbfr of kfys in tiis didtionbry.
      */
-    abstract public int size();
+    bbstrbdt publid int sizf();
 
     /**
-     * Tests if this dictionary maps no keys to value. The general contract
-     * for the <tt>isEmpty</tt> method is that the result is true if and only
-     * if this dictionary contains no entries.
+     * Tfsts if tiis didtionbry mbps no kfys to vbluf. Tif gfnfrbl dontrbdt
+     * for tif <tt>isEmpty</tt> mftiod is tibt tif rfsult is truf if bnd only
+     * if tiis didtionbry dontbins no fntrifs.
      *
-     * @return  <code>true</code> if this dictionary maps no keys to values;
-     *          <code>false</code> otherwise.
+     * @rfturn  <dodf>truf</dodf> if tiis didtionbry mbps no kfys to vblufs;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    abstract public boolean isEmpty();
+    bbstrbdt publid boolfbn isEmpty();
 
     /**
-     * Returns an enumeration of the keys in this dictionary. The general
-     * contract for the keys method is that an <tt>Enumeration</tt> object
-     * is returned that will generate all the keys for which this dictionary
-     * contains entries.
+     * Rfturns bn fnumfrbtion of tif kfys in tiis didtionbry. Tif gfnfrbl
+     * dontrbdt for tif kfys mftiod is tibt bn <tt>Enumfrbtion</tt> objfdt
+     * is rfturnfd tibt will gfnfrbtf bll tif kfys for wiidi tiis didtionbry
+     * dontbins fntrifs.
      *
-     * @return  an enumeration of the keys in this dictionary.
-     * @see     java.util.Dictionary#elements()
-     * @see     java.util.Enumeration
+     * @rfturn  bn fnumfrbtion of tif kfys in tiis didtionbry.
+     * @sff     jbvb.util.Didtionbry#flfmfnts()
+     * @sff     jbvb.util.Enumfrbtion
      */
-    abstract public Enumeration<K> keys();
+    bbstrbdt publid Enumfrbtion<K> kfys();
 
     /**
-     * Returns an enumeration of the values in this dictionary. The general
-     * contract for the <tt>elements</tt> method is that an
-     * <tt>Enumeration</tt> is returned that will generate all the elements
-     * contained in entries in this dictionary.
+     * Rfturns bn fnumfrbtion of tif vblufs in tiis didtionbry. Tif gfnfrbl
+     * dontrbdt for tif <tt>flfmfnts</tt> mftiod is tibt bn
+     * <tt>Enumfrbtion</tt> is rfturnfd tibt will gfnfrbtf bll tif flfmfnts
+     * dontbinfd in fntrifs in tiis didtionbry.
      *
-     * @return  an enumeration of the values in this dictionary.
-     * @see     java.util.Dictionary#keys()
-     * @see     java.util.Enumeration
+     * @rfturn  bn fnumfrbtion of tif vblufs in tiis didtionbry.
+     * @sff     jbvb.util.Didtionbry#kfys()
+     * @sff     jbvb.util.Enumfrbtion
      */
-    abstract public Enumeration<V> elements();
+    bbstrbdt publid Enumfrbtion<V> flfmfnts();
 
     /**
-     * Returns the value to which the key is mapped in this dictionary.
-     * The general contract for the <tt>isEmpty</tt> method is that if this
-     * dictionary contains an entry for the specified key, the associated
-     * value is returned; otherwise, <tt>null</tt> is returned.
+     * Rfturns tif vbluf to wiidi tif kfy is mbppfd in tiis didtionbry.
+     * Tif gfnfrbl dontrbdt for tif <tt>isEmpty</tt> mftiod is tibt if tiis
+     * didtionbry dontbins bn fntry for tif spfdififd kfy, tif bssodibtfd
+     * vbluf is rfturnfd; otifrwisf, <tt>null</tt> is rfturnfd.
      *
-     * @return  the value to which the key is mapped in this dictionary;
-     * @param   key   a key in this dictionary.
-     *          <code>null</code> if the key is not mapped to any value in
-     *          this dictionary.
-     * @exception NullPointerException if the <tt>key</tt> is <tt>null</tt>.
-     * @see     java.util.Dictionary#put(java.lang.Object, java.lang.Object)
+     * @rfturn  tif vbluf to wiidi tif kfy is mbppfd in tiis didtionbry;
+     * @pbrbm   kfy   b kfy in tiis didtionbry.
+     *          <dodf>null</dodf> if tif kfy is not mbppfd to bny vbluf in
+     *          tiis didtionbry.
+     * @fxdfption NullPointfrExdfption if tif <tt>kfy</tt> is <tt>null</tt>.
+     * @sff     jbvb.util.Didtionbry#put(jbvb.lbng.Objfdt, jbvb.lbng.Objfdt)
      */
-    abstract public V get(Object key);
+    bbstrbdt publid V gft(Objfdt kfy);
 
     /**
-     * Maps the specified <code>key</code> to the specified
-     * <code>value</code> in this dictionary. Neither the key nor the
-     * value can be <code>null</code>.
+     * Mbps tif spfdififd <dodf>kfy</dodf> to tif spfdififd
+     * <dodf>vbluf</dodf> in tiis didtionbry. Nfitifr tif kfy nor tif
+     * vbluf dbn bf <dodf>null</dodf>.
      * <p>
-     * If this dictionary already contains an entry for the specified
-     * <tt>key</tt>, the value already in this dictionary for that
-     * <tt>key</tt> is returned, after modifying the entry to contain the
-     *  new element. <p>If this dictionary does not already have an entry
-     *  for the specified <tt>key</tt>, an entry is created for the
-     *  specified <tt>key</tt> and <tt>value</tt>, and <tt>null</tt> is
-     *  returned.
+     * If tiis didtionbry blrfbdy dontbins bn fntry for tif spfdififd
+     * <tt>kfy</tt>, tif vbluf blrfbdy in tiis didtionbry for tibt
+     * <tt>kfy</tt> is rfturnfd, bftfr modifying tif fntry to dontbin tif
+     *  nfw flfmfnt. <p>If tiis didtionbry dofs not blrfbdy ibvf bn fntry
+     *  for tif spfdififd <tt>kfy</tt>, bn fntry is drfbtfd for tif
+     *  spfdififd <tt>kfy</tt> bnd <tt>vbluf</tt>, bnd <tt>null</tt> is
+     *  rfturnfd.
      * <p>
-     * The <code>value</code> can be retrieved by calling the
-     * <code>get</code> method with a <code>key</code> that is equal to
-     * the original <code>key</code>.
+     * Tif <dodf>vbluf</dodf> dbn bf rftrifvfd by dblling tif
+     * <dodf>gft</dodf> mftiod witi b <dodf>kfy</dodf> tibt is fqubl to
+     * tif originbl <dodf>kfy</dodf>.
      *
-     * @param      key     the hashtable key.
-     * @param      value   the value.
-     * @return     the previous value to which the <code>key</code> was mapped
-     *             in this dictionary, or <code>null</code> if the key did not
-     *             have a previous mapping.
-     * @exception  NullPointerException  if the <code>key</code> or
-     *               <code>value</code> is <code>null</code>.
-     * @see        java.lang.Object#equals(java.lang.Object)
-     * @see        java.util.Dictionary#get(java.lang.Object)
+     * @pbrbm      kfy     tif ibsitbblf kfy.
+     * @pbrbm      vbluf   tif vbluf.
+     * @rfturn     tif prfvious vbluf to wiidi tif <dodf>kfy</dodf> wbs mbppfd
+     *             in tiis didtionbry, or <dodf>null</dodf> if tif kfy did not
+     *             ibvf b prfvious mbpping.
+     * @fxdfption  NullPointfrExdfption  if tif <dodf>kfy</dodf> or
+     *               <dodf>vbluf</dodf> is <dodf>null</dodf>.
+     * @sff        jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt)
+     * @sff        jbvb.util.Didtionbry#gft(jbvb.lbng.Objfdt)
      */
-    abstract public V put(K key, V value);
+    bbstrbdt publid V put(K kfy, V vbluf);
 
     /**
-     * Removes the <code>key</code> (and its corresponding
-     * <code>value</code>) from this dictionary. This method does nothing
-     * if the <code>key</code> is not in this dictionary.
+     * Rfmovfs tif <dodf>kfy</dodf> (bnd its dorrfsponding
+     * <dodf>vbluf</dodf>) from tiis didtionbry. Tiis mftiod dofs notiing
+     * if tif <dodf>kfy</dodf> is not in tiis didtionbry.
      *
-     * @param   key   the key that needs to be removed.
-     * @return  the value to which the <code>key</code> had been mapped in this
-     *          dictionary, or <code>null</code> if the key did not have a
-     *          mapping.
-     * @exception NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm   kfy   tif kfy tibt nffds to bf rfmovfd.
+     * @rfturn  tif vbluf to wiidi tif <dodf>kfy</dodf> ibd bffn mbppfd in tiis
+     *          didtionbry, or <dodf>null</dodf> if tif kfy did not ibvf b
+     *          mbpping.
+     * @fxdfption NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    abstract public V remove(Object key);
+    bbstrbdt publid V rfmovf(Objfdt kfy);
 }

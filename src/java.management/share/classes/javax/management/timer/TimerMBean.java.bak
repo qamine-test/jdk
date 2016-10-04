@@ -1,376 +1,376 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.timer;
+pbdkbgf jbvbx.mbnbgfmfnt.timfr;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Date;
-import java.util.Vector;
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//import java.io.Serializable;
-// end of NPCTE fix for bugId 4464388
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//import jbvb.io.Sfriblizbblf;
+// fnd of NPCTE fix for bugId 4464388
 
 // jmx imports
 //
-import javax.management.InstanceNotFoundException;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
 
 /**
- * Exposes the management interface of the timer MBean.
+ * Exposfs tif mbnbgfmfnt intfrfbdf of tif timfr MBfbn.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface TimerMBean {
+publid intfrfbdf TimfrMBfbn {
 
     /**
-     * Starts the timer.
+     * Stbrts tif timfr.
      * <P>
-     * If there is one or more timer notifications before the time in the list of notifications, the notification
-     * is sent according to the <CODE>sendPastNotifications</CODE> flag and then, updated
-     * according to its period and remaining number of occurrences.
-     * If the timer notification date remains earlier than the current date, this notification is just removed
-     * from the list of notifications.
+     * If tifrf is onf or morf timfr notifidbtions bfforf tif timf in tif list of notifidbtions, tif notifidbtion
+     * is sfnt bddording to tif <CODE>sfndPbstNotifidbtions</CODE> flbg bnd tifn, updbtfd
+     * bddording to its pfriod bnd rfmbining numbfr of oddurrfndfs.
+     * If tif timfr notifidbtion dbtf rfmbins fbrlifr tibn tif durrfnt dbtf, tiis notifidbtion is just rfmovfd
+     * from tif list of notifidbtions.
      */
-    public void start();
+    publid void stbrt();
 
     /**
-     * Stops the timer.
+     * Stops tif timfr.
      */
-    public void stop();
+    publid void stop();
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, tif notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, tif first notifidbtion is dflivfrfd immfdibtfly bnd tif
+     * subsfqufnt onfs brf spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Notf tibt ondf tif timfr notifidbtion ibs bffn bddfd into tif list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
      * <P>
-     * In the case of a periodic notification, the value of parameter <i>fixedRate</i> is used to
-     * specify the execution scheme, as specified in {@link java.util.Timer}.
+     * In tif dbsf of b pfriodid notifidbtion, tif vbluf of pbrbmftfr <i>fixfdRbtf</i> is usfd to
+     * spfdify tif fxfdution sdifmf, bs spfdififd in {@link jbvb.util.Timfr}.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
-     * @param fixedRate If <code>true</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-rate</i> execution scheme. If
-     *                  <code>false</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-delay</i> execution scheme. Ignored if the
-     *                  notification is not periodic.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Tif totbl numbfr tif timfr notifidbtion will bf fmittfd.
+     * @pbrbm fixfdRbtf If <dodf>truf</dodf> bnd if tif notifidbtion is pfriodid, tif notifidbtion
+     *                  is sdifdulfd witi b <i>fixfd-rbtf</i> fxfdution sdifmf. If
+     *                  <dodf>fblsf</dodf> bnd if tif notifidbtion is pfriodid, tif notifidbtion
+     *                  is sdifdulfd witi b <i>fixfd-dflby</i> fxfdution sdifmf. Ignorfd if tif
+     *                  notifidbtion is not pfriodid.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod or tif numbfr of oddurrfndfs is nfgbtivf.
      *
-     * @see #addNotification(String, String, Object, Date, long, long)
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                                Date date, long period, long nbOccurences)
-// end of NPCTE fix for bugId 4464388
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                                Dbtf dbtf, long pfriod, long nbOddurfndfs)
+// fnd of NPCTE fix for bugId 4464388
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period, long nbOccurences, boolean fixedRate)
-        throws java.lang.IllegalArgumentException;
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod, long nbOddurfndfs, boolfbn fixfdRbtf)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, tif notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, tif first notifidbtion is dflivfrfd immfdibtfly bnd tif
+     * subsfqufnt onfs brf spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Notf tibt ondf tif timfr notifidbtion ibs bffn bddfd into tif list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
      * <P>
-     * In the case of a periodic notification, uses a <i>fixed-delay</i> execution scheme, as specified in
-     * {@link java.util.Timer}. In order to use a <i>fixed-rate</i> execution scheme, use
-     * {@link #addNotification(String, String, Object, Date, long, long, boolean)} instead.
+     * In tif dbsf of b pfriodid notifidbtion, usfs b <i>fixfd-dflby</i> fxfdution sdifmf, bs spfdififd in
+     * {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i> fxfdution sdifmf, usf
+     * {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)} instfbd.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Tif totbl numbfr tif timfr notifidbtion will bf fmittfd.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod or tif numbfr of oddurrfndfs is nfgbtivf.
      *
-     * @see #addNotification(String, String, Object, Date, long, long, boolean)
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
-// end of NPCTE fix for bugId 4464388 */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period, long nbOccurences)
-        throws java.lang.IllegalArgumentException;
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod, long nbOddurfndfs)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and period and a null number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf
+     * bnd pfriod bnd b null numbfr of oddurrfndfs.
      * <P>
-     * The timer notification will repeat continuously using the timer period using a <i>fixed-delay</i>
-     * execution scheme, as specified in {@link java.util.Timer}. In order to use a <i>fixed-rate</i>
-     * execution scheme, use {@link #addNotification(String, String, Object, Date, long, long,
-     * boolean)} instead.
+     * Tif timfr notifidbtion will rfpfbt dontinuously using tif timfr pfriod using b <i>fixfd-dflby</i>
+     * fxfdution sdifmf, bs spfdififd in {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i>
+     * fxfdution sdifmf, usf {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long,
+     * boolfbn)} instfbd.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. The
-     * first notification is delivered immediately and the subsequent ones are
-     * spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. Tif
+     * first notifidbtion is dflivfrfd immfdibtfly bnd tif subsfqufnt onfs brf
+     * spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod is nfgbtivf.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
-// end of NPCTE fix for bugId 4464388 */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period)
-        throws java.lang.IllegalArgumentException;
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and a null period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf
+     * bnd b null pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * The timer notification will be handled once at the specified date.
+     * Tif timfr notifidbtion will bf ibndlfd ondf bt tif spfdififd dbtf.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date and the
-     * notification is delivered immediately.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf bnd tif
+     * notifidbtion is dflivfrfd immfdibtfly.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null}.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null}.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData, Date date)
-//      throws java.lang.IllegalArgumentException {
-// end of NPCTE fix for bugId 4464388
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb, Dbtf dbtf)
+//      tirows jbvb.lbng.IllfgblArgumfntExdfption {
+// fnd of NPCTE fix for bugId 4464388
 
-    public Integer addNotification(String type, String message, Object userData, Date date)
-        throws java.lang.IllegalArgumentException;
-
-    /**
-     * Removes the timer notification corresponding to the specified identifier from the list of notifications.
-     *
-     * @param id The timer notification identifier.
-     *
-     * @exception InstanceNotFoundException The specified identifier does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
-     */
-    public void removeNotification(Integer id) throws InstanceNotFoundException;
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb, Dbtf dbtf)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Removes all the timer notifications corresponding to the specified type from the list of notifications.
+     * Rfmovfs tif timfr notifidbtion dorrfsponding to tif spfdififd idfntififr from tif list of notifidbtions.
      *
-     * @param type The timer notification type.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @exception InstanceNotFoundException The specified type does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd idfntififr dofs not dorrfspond to bny timfr notifidbtion
+     * in tif list of notifidbtions of tiis timfr MBfbn.
      */
-    public void removeNotifications(String type) throws InstanceNotFoundException;
+    publid void rfmovfNotifidbtion(Intfgfr id) tirows InstbndfNotFoundExdfption;
 
     /**
-     * Removes all the timer notifications from the list of notifications
-     * and resets the counter used to update the timer notification identifiers.
+     * Rfmovfs bll tif timfr notifidbtions dorrfsponding to tif spfdififd typf from tif list of notifidbtions.
+     *
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd typf dofs not dorrfspond to bny timfr notifidbtion
+     * in tif list of notifidbtions of tiis timfr MBfbn.
      */
-    public void removeAllNotifications();
+    publid void rfmovfNotifidbtions(String typf) tirows InstbndfNotFoundExdfption;
+
+    /**
+     * Rfmovfs bll tif timfr notifidbtions from tif list of notifidbtions
+     * bnd rfsfts tif dountfr usfd to updbtf tif timfr notifidbtion idfntififrs.
+     */
+    publid void rfmovfAllNotifidbtions();
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the number of timer notifications registered into the list of notifications.
+     * Gfts tif numbfr of timfr notifidbtions rfgistfrfd into tif list of notifidbtions.
      *
-     * @return The number of timer notifications.
+     * @rfturn Tif numbfr of timfr notifidbtions.
      */
-    public int getNbNotifications();
+    publid int gftNbNotifidbtions();
 
     /**
-     * Gets all timer notification identifiers registered into the list of notifications.
+     * Gfts bll timfr notifidbtion idfntififrs rfgistfrfd into tif list of notifidbtions.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the timer notification identifiers.
-     * <BR>The vector is empty if there is no timer notification registered for this timer MBean.
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll tif timfr notifidbtion idfntififrs.
+     * <BR>Tif vfdtor is fmpty if tifrf is no timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public Vector<Integer> getAllNotificationIDs();
+    publid Vfdtor<Intfgfr> gftAllNotifidbtionIDs();
 
     /**
-     * Gets all the identifiers of timer notifications corresponding to the specified type.
+     * Gfts bll tif idfntififrs of timfr notifidbtions dorrfsponding to tif spfdififd typf.
      *
-     * @param type The timer notification type.
+     * @pbrbm typf Tif timfr notifidbtion typf.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the identifiers of
-     * timer notifications with the specified <CODE>type</CODE>.
-     * <BR>The vector is empty if there is no timer notifications registered for this timer MBean
-     * with the specified <CODE>type</CODE>.
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll tif idfntififrs of
+     * timfr notifidbtions witi tif spfdififd <CODE>typf</CODE>.
+     * <BR>Tif vfdtor is fmpty if tifrf is no timfr notifidbtions rfgistfrfd for tiis timfr MBfbn
+     * witi tif spfdififd <CODE>typf</CODE>.
      */
-    public Vector<Integer> getNotificationIDs(String type);
+    publid Vfdtor<Intfgfr> gftNotifidbtionIDs(String typf);
 
     /**
-     * Gets the timer notification type corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion typf dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification type or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion typf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public String getNotificationType(Integer id);
+    publid String gftNotifidbtionTypf(Intfgfr id);
 
     /**
-     * Gets the timer notification detailed message corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion dftbilfd mfssbgf dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification detailed message or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion dftbilfd mfssbgf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public String getNotificationMessage(Integer id);
+    publid String gftNotifidbtionMfssbgf(Intfgfr id);
 
     /**
-     * Gets the timer notification user data object corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion usfr dbtb objfdt dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification user data object or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion usfr dbtb objfdt or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    // NPCTE fix for bugId 4464388, esc 0 , MR , 03 sept 2001 , to be added after modification of jmx spec
-    //public Serializable getNotificationUserData(Integer id);
-    // end of NPCTE fix for bugId 4464388
-    public Object getNotificationUserData(Integer id);
+    // NPCTE fix for bugId 4464388, fsd 0 , MR , 03 sfpt 2001 , to bf bddfd bftfr modifidbtion of jmx spfd
+    //publid Sfriblizbblf gftNotifidbtionUsfrDbtb(Intfgfr id);
+    // fnd of NPCTE fix for bugId 4464388
+    publid Objfdt gftNotifidbtionUsfrDbtb(Intfgfr id);
     /**
-     * Gets a copy of the date associated to a timer notification.
+     * Gfts b dopy of tif dbtf bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the date or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif dbtf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public Date getDate(Integer id);
+    publid Dbtf gftDbtf(Intfgfr id);
 
     /**
-     * Gets a copy of the period (in milliseconds) associated to a timer notification.
+     * Gfts b dopy of tif pfriod (in millisfdonds) bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the period or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif pfriod or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public Long getPeriod(Integer id);
+    publid Long gftPfriod(Intfgfr id);
 
     /**
-     * Gets a copy of the remaining number of occurrences associated to a timer notification.
+     * Gfts b dopy of tif rfmbining numbfr of oddurrfndfs bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the remaining number of occurrences or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif rfmbining numbfr of oddurrfndfs or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public Long getNbOccurences(Integer id);
+    publid Long gftNbOddurfndfs(Intfgfr id);
 
     /**
-     * Gets a copy of the flag indicating whether a periodic notification is
-     * executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * Gfts b dopy of tif flbg indidbting wiftifr b pfriodid notifidbtion is
+     * fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the flag indicating whether a periodic notification is
-     *         executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * @rfturn A dopy of tif flbg indidbting wiftifr b pfriodid notifidbtion is
+     *         fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
      */
-    public Boolean getFixedRate(Integer id);
+    publid Boolfbn gftFixfdRbtf(Intfgfr id);
 
     /**
-     * Gets the flag indicating whether or not the timer sends past notifications.
+     * Gfts tif flbg indidbting wiftifr or not tif timfr sfnds pbst notifidbtions.
      *
-     * @return The past notifications sending on/off flag value.
+     * @rfturn Tif pbst notifidbtions sfnding on/off flbg vbluf.
      *
-     * @see #setSendPastNotifications
+     * @sff #sftSfndPbstNotifidbtions
      */
-    public boolean getSendPastNotifications();
+    publid boolfbn gftSfndPbstNotifidbtions();
 
     /**
-     * Sets the flag indicating whether the timer sends past notifications or not.
+     * Sfts tif flbg indidbting wiftifr tif timfr sfnds pbst notifidbtions or not.
      *
-     * @param value The past notifications sending on/off flag value.
+     * @pbrbm vbluf Tif pbst notifidbtions sfnding on/off flbg vbluf.
      *
-     * @see #getSendPastNotifications
+     * @sff #gftSfndPbstNotifidbtions
      */
-    public void setSendPastNotifications(boolean value);
+    publid void sftSfndPbstNotifidbtions(boolfbn vbluf);
 
     /**
-     * Tests whether the timer MBean is active.
-     * A timer MBean is marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is called.
+     * Tfsts wiftifr tif timfr MBfbn is bdtivf.
+     * A timfr MBfbn is mbrkfd bdtivf wifn tif {@link #stbrt stbrt} mftiod is dbllfd.
+     * It bfdomfs inbdtivf wifn tif {@link #stop stop} mftiod is dbllfd.
      *
-     * @return <CODE>true</CODE> if the timer MBean is active, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif timfr MBfbn is bdtivf, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean isActive();
+    publid boolfbn isAdtivf();
 
     /**
-     * Tests whether the list of timer notifications is empty.
+     * Tfsts wiftifr tif list of timfr notifidbtions is fmpty.
      *
-     * @return <CODE>true</CODE> if the list of timer notifications is empty, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif list of timfr notifidbtions is fmpty, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean isEmpty();
+    publid boolfbn isEmpty();
 }

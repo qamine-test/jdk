@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.dns;
+
+import jbvb.util.List;
+
+/**
+ * Thf donfigurbtion of thf dlifnt rfsolvfr.
+ *
+ * <p>A RfsolvfrConfigurbtion is b singlfton thbt rfprfsfnts thf
+ * donfigurbtion of thf dlifnt rfsolvfr. Thf RfsolvfrConfigurbtion
+ * is opfnfd by invoking thf {@link #opfn() opfn} mfthod.
+ *
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss RfsolvfrConfigurbtion {
+
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+
+    privbtf stbtid RfsolvfrConfigurbtion providfr;
+
+    protfdtfd RfsolvfrConfigurbtion() { }
+
+    /**
+     * Opfns thf rfsolvfr donfigurbtion.
+     *
+     * @rfturn thf rfsolvfr donfigurbtion
+     */
+    publid stbtid RfsolvfrConfigurbtion opfn() {
+        syndhronizfd (lodk) {
+            if (providfr == null) {
+                providfr = nfw sun.nft.dns.RfsolvfrConfigurbtionImpl();
+            }
+            rfturn providfr;
+        }
+    }
+
+    /**
+     * Rfturns b list dorrfsponding to thf dombin sfbrdh pbth. Thf
+     * list is ordfrfd by thf sfbrdh ordfr usfd for host nbmf lookup.
+     * Ebdh flfmfnt in thf list rfturns b {@link jbvb.lbng.String}
+     * dontbining b dombin nbmf or suffix.
+     *
+     * @rfturn list of dombin nbmfs
+     */
+    publid bbstrbdt List<String> sfbrdhlist();
+
+    /**
+     * Rfturns b list of nbmf sfrvfrs usfd for host nbmf lookup.
+     * Ebdh flfmfnt in thf list rfturns b {@link jbvb.lbng.String}
+     * dontbining thf tfxtubl rfprfsfntbtion of thf IP bddrfss of
+     * thf nbmf sfrvfr.
+     *
+     * @rfturn list of thf nbmf sfrvfrs
+     */
+    publid bbstrbdt List<String> nbmfsfrvfrs();
+
+
+    /**
+     * Options rfprfsfnting dfrtbin rfsolvfr vbribblfs of
+     * b {@link RfsolvfrConfigurbtion}.
+     */
+    publid stbtid bbstrbdt dlbss Options {
+
+        /**
+         * Rfturns thf mbximum numbfr of bttfmpts thf rfsolvfr
+         * will donnfdt to fbdh nbmf sfrvfr bfforf giving up
+         * bnd rfturning bn frror.
+         *
+         * @rfturn thf rfsolvfr bttfmpts vbluf or -1 is unknown
+         */
+        publid int bttfmpts() {
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf bbsid rftrbnsmit timfout, in millisfdonds,
+         * usfd by thf rfsolvfr. Thf rfsolvfr will typidblly usf
+         * bn fxponfntibl bbdkoff blgorithm whfrf thf timfout is
+         * doublfd for fvfry rftrbnsmit bttfmpt. Thf bbsid
+         * rftrbnsmit timfout, rfturnfd hfrf, is thf initibl
+         * timfout for thf fxponfntibl bbdkoff blgorithm.
+         *
+         * @rfturn thf bbsid rftrbnsmit timfout vbluf or -1
+         *         if unknown
+         */
+        publid int rftrbns() {
+            rfturn -1;
+        }
+    }
+
+    /**
+     * Rfturns thf {@link #Options} for thf rfsolvfr.
+     *
+     * @rfturn options for thf rfsolvfr
+     */
+    publid bbstrbdt Options options();
+}

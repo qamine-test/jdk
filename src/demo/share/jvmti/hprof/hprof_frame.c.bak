@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,181 +30,181 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* This file contains support for handling frames, or (method,location) pairs. */
+/* Tiis filf dontbins support for ibndling frbmfs, or (mftiod,lodbtion) pbirs. */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
 /*
- *  Frames map 1-to-1 to (methodID,location) pairs.
- *  When no line number is known, -1 should be used.
+ *  Frbmfs mbp 1-to-1 to (mftiodID,lodbtion) pbirs.
+ *  Wifn no linf numbfr is known, -1 siould bf usfd.
  *
- *  Frames are mostly used in traces (see hprof_trace.c) and will be marked
- *    with their status flag as they are written out to the hprof output file.
+ *  Frbmfs brf mostly usfd in trbdfs (sff iprof_trbdf.d) bnd will bf mbrkfd
+ *    witi tifir stbtus flbg bs tify brf writtfn out to tif iprof output filf.
  *
  */
 
-enum LinenoState {
+fnum LinfnoStbtf {
     LINENUM_UNINITIALIZED = 0,
     LINENUM_AVAILABLE     = 1,
     LINENUM_UNAVAILABLE   = 2
 };
 
-typedef struct FrameKey {
-    jmethodID   method;
-    jlocation   location;
-} FrameKey;
+typfdff strudt FrbmfKfy {
+    jmftiodID   mftiod;
+    jlodbtion   lodbtion;
+} FrbmfKfy;
 
-typedef struct FrameInfo {
-    unsigned short      lineno;
-    unsigned char       lineno_state; /* LinenoState */
-    unsigned char       status;
-    SerialNumber serial_num;
-} FrameInfo;
+typfdff strudt FrbmfInfo {
+    unsignfd siort      linfno;
+    unsignfd dibr       linfno_stbtf; /* LinfnoStbtf */
+    unsignfd dibr       stbtus;
+    SfriblNumbfr sfribl_num;
+} FrbmfInfo;
 
-static FrameKey*
-get_pkey(FrameIndex index)
+stbtid FrbmfKfy*
+gft_pkfy(FrbmfIndfx indfx)
 {
-    void *key_ptr;
-    int   key_len;
+    void *kfy_ptr;
+    int   kfy_lfn;
 
-    table_get_key(gdata->frame_table, index, &key_ptr, &key_len);
-    HPROF_ASSERT(key_len==sizeof(FrameKey));
-    HPROF_ASSERT(key_ptr!=NULL);
-    return (FrameKey*)key_ptr;
+    tbblf_gft_kfy(gdbtb->frbmf_tbblf, indfx, &kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==sizfof(FrbmfKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (FrbmfKfy*)kfy_ptr;
 }
 
-static FrameInfo *
-get_info(FrameIndex index)
+stbtid FrbmfInfo *
+gft_info(FrbmfIndfx indfx)
 {
-    FrameInfo *info;
+    FrbmfInfo *info;
 
-    info = (FrameInfo*)table_get_info(gdata->frame_table, index);
-    return info;
+    info = (FrbmfInfo*)tbblf_gft_info(gdbtb->frbmf_tbblf, indfx);
+    rfturn info;
 }
 
-static void
-list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    FrameKey   key;
-    FrameInfo *info;
+    FrbmfKfy   kfy;
+    FrbmfInfo *info;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(FrameKey));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(FrbmfKfy));
     HPROF_ASSERT(info_ptr!=NULL);
 
-    key = *((FrameKey*)key_ptr);
-    info = (FrameInfo*)info_ptr;
-    debug_message(
-        "Frame 0x%08x: method=%p, location=%d, lineno=%d(%d), status=%d \n",
-                i, (void*)key.method, (jint)key.location,
-                info->lineno, info->lineno_state, info->status);
+    kfy = *((FrbmfKfy*)kfy_ptr);
+    info = (FrbmfInfo*)info_ptr;
+    dfbug_mfssbgf(
+        "Frbmf 0x%08x: mftiod=%p, lodbtion=%d, linfno=%d(%d), stbtus=%d \n",
+                i, (void*)kfy.mftiod, (jint)kfy.lodbtion,
+                info->linfno, info->linfno_stbtf, info->stbtus);
 }
 
 void
-frame_init(void)
+frbmf_init(void)
 {
-    gdata->frame_table = table_initialize("Frame",
-                            1024, 1024, 1023, (int)sizeof(FrameInfo));
+    gdbtb->frbmf_tbblf = tbblf_initiblizf("Frbmf",
+                            1024, 1024, 1023, (int)sizfof(FrbmfInfo));
 }
 
-FrameIndex
-frame_find_or_create(jmethodID method, jlocation location)
+FrbmfIndfx
+frbmf_find_or_drfbtf(jmftiodID mftiod, jlodbtion lodbtion)
 {
-    FrameIndex index;
-    static FrameKey empty_key;
-    FrameKey key;
-    jboolean new_one;
+    FrbmfIndfx indfx;
+    stbtid FrbmfKfy fmpty_kfy;
+    FrbmfKfy kfy;
+    jboolfbn nfw_onf;
 
-    key          = empty_key;
-    key.method   = method;
-    key.location = location;
-    new_one      = JNI_FALSE;
-    index        = table_find_or_create_entry(gdata->frame_table,
-                        &key, (int)sizeof(key), &new_one, NULL);
-    if ( new_one ) {
-        FrameInfo *info;
+    kfy          = fmpty_kfy;
+    kfy.mftiod   = mftiod;
+    kfy.lodbtion = lodbtion;
+    nfw_onf      = JNI_FALSE;
+    indfx        = tbblf_find_or_drfbtf_fntry(gdbtb->frbmf_tbblf,
+                        &kfy, (int)sizfof(kfy), &nfw_onf, NULL);
+    if ( nfw_onf ) {
+        FrbmfInfo *info;
 
-        info = get_info(index);
-        info->lineno_state = LINENUM_UNINITIALIZED;
-        if ( location < 0 ) {
-            info->lineno_state = LINENUM_UNAVAILABLE;
+        info = gft_info(indfx);
+        info->linfno_stbtf = LINENUM_UNINITIALIZED;
+        if ( lodbtion < 0 ) {
+            info->linfno_stbtf = LINENUM_UNAVAILABLE;
         }
-        info->serial_num = gdata->frame_serial_number_counter++;
+        info->sfribl_num = gdbtb->frbmf_sfribl_numbfr_dountfr++;
     }
-    return index;
+    rfturn indfx;
 }
 
 void
-frame_list(void)
+frbmf_list(void)
 {
-    debug_message(
-        "--------------------- Frame Table ------------------------\n");
-    table_walk_items(gdata->frame_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Frbmf Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->frbmf_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-frame_cleanup(void)
+frbmf_dlfbnup(void)
 {
-    table_cleanup(gdata->frame_table, NULL, NULL);
-    gdata->frame_table = NULL;
+    tbblf_dlfbnup(gdbtb->frbmf_tbblf, NULL, NULL);
+    gdbtb->frbmf_tbblf = NULL;
 }
 
 void
-frame_set_status(FrameIndex index, jint status)
+frbmf_sft_stbtus(FrbmfIndfx indfx, jint stbtus)
 {
-    FrameInfo *info;
+    FrbmfInfo *info;
 
-    info = get_info(index);
-    info->status = (unsigned char)status;
+    info = gft_info(indfx);
+    info->stbtus = (unsignfd dibr)stbtus;
 }
 
 void
-frame_get_location(FrameIndex index, SerialNumber *pserial_num,
-                   jmethodID *pmethod, jlocation *plocation, jint *plineno)
+frbmf_gft_lodbtion(FrbmfIndfx indfx, SfriblNumbfr *psfribl_num,
+                   jmftiodID *pmftiod, jlodbtion *plodbtion, jint *plinfno)
 {
-    FrameKey  *pkey;
-    FrameInfo *info;
-    jint       lineno;
+    FrbmfKfy  *pkfy;
+    FrbmfInfo *info;
+    jint       linfno;
 
-    pkey       = get_pkey(index);
-    *pmethod   = pkey->method;
-    *plocation = pkey->location;
-    info       = get_info(index);
-    lineno     = (jint)info->lineno;
-    if ( info->lineno_state == LINENUM_UNINITIALIZED ) {
-        info->lineno_state = LINENUM_UNAVAILABLE;
-        if ( gdata->lineno_in_traces ) {
-            if ( pkey->location >= 0 && !isMethodNative(pkey->method) ) {
-                lineno = getLineNumber(pkey->method, pkey->location);
-                if ( lineno >= 0 ) {
-                    info->lineno = (unsigned short)lineno; /* save it */
-                    info->lineno_state = LINENUM_AVAILABLE;
+    pkfy       = gft_pkfy(indfx);
+    *pmftiod   = pkfy->mftiod;
+    *plodbtion = pkfy->lodbtion;
+    info       = gft_info(indfx);
+    linfno     = (jint)info->linfno;
+    if ( info->linfno_stbtf == LINENUM_UNINITIALIZED ) {
+        info->linfno_stbtf = LINENUM_UNAVAILABLE;
+        if ( gdbtb->linfno_in_trbdfs ) {
+            if ( pkfy->lodbtion >= 0 && !isMftiodNbtivf(pkfy->mftiod) ) {
+                linfno = gftLinfNumbfr(pkfy->mftiod, pkfy->lodbtion);
+                if ( linfno >= 0 ) {
+                    info->linfno = (unsignfd siort)linfno; /* sbvf it */
+                    info->linfno_stbtf = LINENUM_AVAILABLE;
                 }
             }
         }
     }
-    if ( info->lineno_state == LINENUM_UNAVAILABLE ) {
-        lineno = -1;
+    if ( info->linfno_stbtf == LINENUM_UNAVAILABLE ) {
+        linfno = -1;
     }
-    *plineno     = lineno;
-    *pserial_num = info->serial_num;
+    *plinfno     = linfno;
+    *psfribl_num = info->sfribl_num;
 }
 
 jint
-frame_get_status(FrameIndex index)
+frbmf_gft_stbtus(FrbmfIndfx indfx)
 {
-    FrameInfo *info;
+    FrbmfInfo *info;
 
-    info = get_info(index);
-    return (jint)info->status;
+    info = gft_info(indfx);
+    rfturn (jint)info->stbtus;
 }

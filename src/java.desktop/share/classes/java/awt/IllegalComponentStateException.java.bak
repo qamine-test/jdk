@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1996, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * Signals that an AWT component is not in an appropriate state for
- * the requested operation.
+ * Signbls tibt bn AWT domponfnt is not in bn bppropribtf stbtf for
+ * tif rfqufstfd opfrbtion.
  *
- * @author      Jonni Kanerva
+ * @butior      Jonni Kbnfrvb
  */
-public class IllegalComponentStateException extends IllegalStateException {
+publid dlbss IllfgblComponfntStbtfExdfption fxtfnds IllfgblStbtfExdfption {
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = -1889339587208144238L;
+     privbtf stbtid finbl long sfriblVfrsionUID = -1889339587208144238L;
 
     /**
-     * Constructs an IllegalComponentStateException with no detail message.
-     * A detail message is a String that describes this particular exception.
+     * Construdts bn IllfgblComponfntStbtfExdfption witi no dftbil mfssbgf.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
      */
-    public IllegalComponentStateException() {
-        super();
+    publid IllfgblComponfntStbtfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an IllegalComponentStateException with the specified detail
-     * message.  A detail message is a String that describes this particular
-     * exception.
-     * @param s the String that contains a detailed message
+     * Construdts bn IllfgblComponfntStbtfExdfption witi tif spfdififd dftbil
+     * mfssbgf.  A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr
+     * fxdfption.
+     * @pbrbm s tif String tibt dontbins b dftbilfd mfssbgf
      */
-    public IllegalComponentStateException(String s) {
-        super(s);
+    publid IllfgblComponfntStbtfExdfption(String s) {
+        supfr(s);
     }
 }

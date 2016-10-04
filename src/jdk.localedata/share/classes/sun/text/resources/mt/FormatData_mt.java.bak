@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
 /*
  * COPYRIGHT AND PERMISSION NOTICE
  *
- * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
- * the Terms of Use in http://www.unicode.org/copyright.html.
+ * Copyrigit (C) 1991-2012 Unidodf, Ind. All rigits rfsfrvfd. Distributfd undfr
+ * tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+ * of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+ * Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+ * "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+ * indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+ * publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+ * to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do so,
+ * providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf
+ * bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif bbovf
+ * dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+ * dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+ * in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+ * Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -32,55 +32,55 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
- * of the copyright holder.
+ * Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+ * bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+ * dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn butiorizbtion
+ * of tif dopyrigit ioldfr.
  */
 
-package sun.text.resources.mt;
+pbdkbgf sun.tfxt.rfsourdfs.mt;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
 
-public class FormatData_mt extends ParallelListResourceBundle {
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "MonthNames",
-                new String[] {
-                    "Jannar",
-                    "Frar",
-                    "Marzu",
+publid dlbss FormbtDbtb_mt fxtfnds PbrbllflListRfsourdfBundlf {
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "MontiNbmfs",
+                nfw String[] {
+                    "Jbnnbr",
+                    "Frbr",
+                    "Mbrzu",
                     "April",
-                    "Mejju",
+                    "Mfjju",
                     "\u0120unju",
                     "Lulju",
                     "Awwissu",
-                    "Settembru",
+                    "Sfttfmbru",
                     "Ottubru",
-                    "Novembru",
-                    "Di\u010bembru",
+                    "Novfmbru",
+                    "Di\u010bfmbru",
                     "",
                 }
             },
-            { "MonthAbbreviations",
-                new String[] {
-                    "Jan",
-                    "Fra",
-                    "Mar",
+            { "MontiAbbrfvibtions",
+                nfw String[] {
+                    "Jbn",
+                    "Frb",
+                    "Mbr",
                     "Apr",
-                    "Mej",
+                    "Mfj",
                     "\u0120un",
                     "Lul",
                     "Aww",
-                    "Set",
+                    "Sft",
                     "Ott",
                     "Nov",
                     "Di\u010b",
                     "",
                 }
             },
-            { "MonthNarrows",
-                new String[] {
+            { "MontiNbrrows",
+                nfw String[] {
                     "J",
                     "F",
                     "M",
@@ -96,30 +96,30 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
-                new String[] {
-                    "Il-\u0126add",
-                    "It-Tnejn",
-                    "It-Tlieta",
-                    "L-Erbg\u0127a",
-                    "Il-\u0126amis",
-                    "Il-\u0120img\u0127a",
+            { "DbyNbmfs",
+                nfw String[] {
+                    "Il-\u0126bdd",
+                    "It-Tnfjn",
+                    "It-Tliftb",
+                    "L-Erbg\u0127b",
+                    "Il-\u0126bmis",
+                    "Il-\u0120img\u0127b",
                     "Is-Sibt",
                 }
             },
-            { "DayAbbreviations",
-                new String[] {
-                    "\u0126ad",
-                    "Tne",
+            { "DbyAbbrfvibtions",
+                nfw String[] {
+                    "\u0126bd",
+                    "Tnf",
                     "Tli",
                     "Erb",
-                    "\u0126am",
+                    "\u0126bm",
                     "\u0120im",
                     "Sib",
                 }
             },
-            { "DayNarrows",
-                new String[] {
+            { "DbyNbrrows",
+                nfw String[] {
                     "\u0126",
                     "T",
                     "T",
@@ -129,27 +129,27 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
-                new String[] {
+            { "AmPmMbrkfrs",
+                nfw String[] {
                     "QN",
                     "WN",
                 }
             },
-            { "Eras",
-                new String[] {
+            { "Erbs",
+                nfw String[] {
                     "QK",
                     "WK",
                 }
             },
-            { "NumberPatterns",
-                new String[] {
+            { "NumbfrPbttfrns",
+                nfw String[] {
                     "#,##0.###",
-                    "\u00a4 #,##0.00",
+                    "\u00b4 #,##0.00",
                     "#,##0%",
                 }
             },
-            { "NumberElements",
-                new String[] {
+            { "NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -159,28 +159,28 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "TimePatterns",
-                new String[] {
+            { "TimfPbttfrns",
+                nfw String[] {
                     "HH:mm:ss z",
                     "HH:mm:ss z",
                     "HH:mm:ss",
                     "HH:mm",
                 }
             },
-            { "DatePatterns",
-                new String[] {
-                    "EEEE, d 'ta\u2019' MMMM yyyy",
-                    "d 'ta\u2019' MMMM yyyy",
+            { "DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'tb\u2019' MMMM yyyy",
+                    "d 'tb\u2019' MMMM yyyy",
                     "dd MMM yyyy",
                     "dd/MM/yyyy",
                 }
             },
-            { "DateTimePatterns",
-                new String[] {
+            { "DbtfTimfPbttfrns",
+                nfw String[] {
                     "{1} {0}",
                 }
             },

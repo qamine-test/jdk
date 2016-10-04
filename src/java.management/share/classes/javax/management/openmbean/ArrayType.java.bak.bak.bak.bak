@@ -1,0 +1,1027 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.lbng.rfflfdt.Arrby;
+
+/**
+ * Thf <dodf>ArrbyTypf</dodf> dlbss is thf <i>opfn typf</i> dlbss whosf instbndfs dfsdribf
+ * bll <i>opfn dbtb</i> vblufs whidh brf n-dimfnsionbl brrbys of <i>opfn dbtb</i> vblufs.
+ * <p>
+ * Exbmplfs of vblid {@dodf ArrbyTypf} instbndfs brf:
+ * <prf>{@dodf
+ * // 2-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[][]> b1 = nfw ArrbyTypf<String[][]>(2, SimplfTypf.STRING);
+ *
+ * // 1-dimfnsion brrby of int
+ * ArrbyTypf<int[]> b2 = nfw ArrbyTypf<int[]>(SimplfTypf.INTEGER, truf);
+ *
+ * // 1-dimfnsion brrby of jbvb.lbng.Intfgfr
+ * ArrbyTypf<Intfgfr[]> b3 = nfw ArrbyTypf<Intfgfr[]>(SimplfTypf.INTEGER, fblsf);
+ *
+ * // 4-dimfnsion brrby of int
+ * ArrbyTypf<int[][][][]> b4 = nfw ArrbyTypf<int[][][][]>(3, b2);
+ *
+ * // 4-dimfnsion brrby of jbvb.lbng.Intfgfr
+ * ArrbyTypf<Intfgfr[][][][]> b5 = nfw ArrbyTypf<Intfgfr[][][][]>(3, b3);
+ *
+ * // 1-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[]> b6 = nfw ArrbyTypf<String[]>(SimplfTypf.STRING, fblsf);
+ *
+ * // 1-dimfnsion brrby of long
+ * ArrbyTypf<long[]> b7 = nfw ArrbyTypf<long[]>(SimplfTypf.LONG, truf);
+ *
+ * // 1-dimfnsion brrby of jbvb.lbng.Intfgfr
+ * ArrbyTypf<Intfgfr[]> b8 = ArrbyTypf.gftArrbyTypf(SimplfTypf.INTEGER);
+ *
+ * // 2-dimfnsion brrby of jbvb.lbng.Intfgfr
+ * ArrbyTypf<Intfgfr[][]> b9 = ArrbyTypf.gftArrbyTypf(b8);
+ *
+ * // 2-dimfnsion brrby of int
+ * ArrbyTypf<int[][]> b10 = ArrbyTypf.gftPrimitivfArrbyTypf(int[][].dlbss);
+ *
+ * // 3-dimfnsion brrby of int
+ * ArrbyTypf<int[][][]> b11 = ArrbyTypf.gftArrbyTypf(b10);
+ *
+ * // 1-dimfnsion brrby of flobt
+ * ArrbyTypf<flobt[]> b12 = ArrbyTypf.gftPrimitivfArrbyTypf(flobt[].dlbss);
+ *
+ * // 2-dimfnsion brrby of flobt
+ * ArrbyTypf<flobt[][]> b13 = ArrbyTypf.gftArrbyTypf(b12);
+ *
+ * // 1-dimfnsion brrby of jbvbx.mbnbgfmfnt.ObjfdtNbmf
+ * ArrbyTypf<ObjfdtNbmf[]> b14 = ArrbyTypf.gftArrbyTypf(SimplfTypf.OBJECTNAME);
+ *
+ * // 2-dimfnsion brrby of jbvbx.mbnbgfmfnt.ObjfdtNbmf
+ * ArrbyTypf<ObjfdtNbmf[][]> b15 = ArrbyTypf.gftArrbyTypf(b14);
+ *
+ * // 3-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[][][]> b16 = nfw ArrbyTypf<String[][][]>(3, SimplfTypf.STRING);
+ *
+ * // 1-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[]> b17 = nfw ArrbyTypf<String[]>(1, SimplfTypf.STRING);
+ *
+ * // 2-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[][]> b18 = nfw ArrbyTypf<String[][]>(1, b17);
+ *
+ * // 3-dimfnsion brrby of jbvb.lbng.String
+ * ArrbyTypf<String[][][]> b19 = nfw ArrbyTypf<String[][][]>(1, b18);
+ * }</prf>
+ *
+ *
+ * @sindf 1.5
+ */
+/*
+  Gfnfrifidbtion notf: wf dould hbvf dffinfd b typf pbrbmftfr thbt is thf
+  flfmfnt typf, with dlbss ArrbyTypf<E> fxtfnds OpfnTypf<E[]>.  Howfvfr,
+  thbt dofsn't buy us bll thbt mudh.  Wf dbn't sby
+    publid OpfnTypf<E> gftElfmfntOpfnTypf()
+  bfdbusf this ArrbyTypf dould bf b multi-dimfnsionbl brrby.
+  For fxbmplf, if wf hbd
+    ArrbyTypf(2, SimplfTypf.INTEGER)
+  thfn E would hbvf to bf Intfgfr[], whilf gftElfmfntOpfnTypf() would
+  rfturn SimplfTypf.INTEGER, whidh is bn OpfnTypf<Intfgfr>.
+
+  Furthfrmorf, wf would likf to support int[] (bs wfll bs Intfgfr[]) bs
+  bn Opfn Typf (RFE 5045358).  Wf would wbnt this to bf bn OpfnTypf<int[]>
+  whidh dbn't bf fxprfssfd bs <E[]> bfdbusf E dbn't bf b primitivf typf
+  likf int.
+ */
+publid dlbss ArrbyTypf<T> fxtfnds OpfnTypf<T> {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 720504429830309770L;
+
+    /**
+     * @sfribl Thf dimfnsion of brrbys dfsdribfd by this {@link ArrbyTypf}
+     *         instbndf.
+     */
+    privbtf int dimfnsion;
+
+    /**
+     * @sfribl Thf <i>opfn typf</i> of flfmfnt vblufs dontbinfd in thf brrbys
+     *         dfsdribfd by this {@link ArrbyTypf} instbndf.
+     */
+    privbtf OpfnTypf<?> flfmfntTypf;
+
+    /**
+     * @sfribl This flbg indidbtfs whfthfr this {@link ArrbyTypf}
+     *         dfsdribfs b primitivf brrby.
+     *
+     * @sindf 1.6
+     */
+    privbtf boolfbn primitivfArrby;
+
+    privbtf trbnsifnt Intfgfr  myHbshCodf = null;       // As this instbndf is immutbblf, thfsf two vblufs
+    privbtf trbnsifnt String   myToString = null;       // nffd only bf dbldulbtfd ondf.
+
+    // indfxfs rfffring to dolumns in thf PRIMITIVE_ARRAY_TYPES tbblf.
+    privbtf stbtid finbl int PRIMITIVE_WRAPPER_NAME_INDEX = 0;
+    privbtf stbtid finbl int PRIMITIVE_TYPE_NAME_INDEX = 1;
+    privbtf stbtid finbl int PRIMITIVE_TYPE_KEY_INDEX  = 2;
+    privbtf stbtid finbl int PRIMITIVE_OPEN_TYPE_INDEX  = 3;
+
+    privbtf stbtid finbl Objfdt[][] PRIMITIVE_ARRAY_TYPES = {
+        { Boolfbn.dlbss.gftNbmf(),   boolfbn.dlbss.gftNbmf(), "Z", SimplfTypf.BOOLEAN },
+        { Chbrbdtfr.dlbss.gftNbmf(), dhbr.dlbss.gftNbmf(),    "C", SimplfTypf.CHARACTER },
+        { Bytf.dlbss.gftNbmf(),      bytf.dlbss.gftNbmf(),    "B", SimplfTypf.BYTE },
+        { Short.dlbss.gftNbmf(),     short.dlbss.gftNbmf(),   "S", SimplfTypf.SHORT },
+        { Intfgfr.dlbss.gftNbmf(),   int.dlbss.gftNbmf(),     "I", SimplfTypf.INTEGER },
+        { Long.dlbss.gftNbmf(),      long.dlbss.gftNbmf(),    "J", SimplfTypf.LONG },
+        { Flobt.dlbss.gftNbmf(),     flobt.dlbss.gftNbmf(),   "F", SimplfTypf.FLOAT },
+        { Doublf.dlbss.gftNbmf(),    doublf.dlbss.gftNbmf(),  "D", SimplfTypf.DOUBLE }
+    };
+
+    stbtid boolfbn isPrimitivfContfntTypf(finbl String primitivfKfy) {
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX].fqubls(primitivfKfy)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn thf kfy usfd to idfntify thf flfmfnt typf in
+     * brrbys - f.g. "Z" for boolfbn, "C" for dhbr ftd...
+     * @pbrbm flfmfntClbssNbmf thf wrbppfr dlbss nbmf of thf brrby
+     *        flfmfnt ("Boolfbn",  "Chbrbdtfr", ftd...)
+     * @rfturn thf kfy dorrfsponding to thf givfn typf ("Z", "C", ftd...)
+     *         rfturn null if thf givfn flfmfntClbssNbmf is not b primitivf
+     *         wrbppfr dlbss nbmf.
+     **/
+    stbtid String gftPrimitivfTypfKfy(String flfmfntClbssNbmf) {
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (flfmfntClbssNbmf.fqubls(typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+                rfturn (String)typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX];
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturn thf primitivf typf nbmf dorrfsponding to thf givfn wrbppfr dlbss.
+     * f.g. "boolfbn" for "Boolfbn", "dhbr" for "Chbrbdtfr" ftd...
+     * @pbrbm flfmfntClbssNbmf thf typf of thf brrby flfmfnt ("Boolfbn",
+     *        "Chbrbdtfr", ftd...)
+     * @rfturn thf primitivf typf nbmf dorrfsponding to thf givfn wrbppfr dlbss
+     *         ("boolfbn", "dhbr", ftd...)
+     *         rfturn null if thf givfn flfmfntClbssNbmf is not b primitivf
+     *         wrbppfr typf nbmf.
+     **/
+    stbtid String gftPrimitivfTypfNbmf(String flfmfntClbssNbmf) {
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (flfmfntClbssNbmf.fqubls(typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+                rfturn (String)typfDfsdr[PRIMITIVE_TYPE_NAME_INDEX];
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturn thf primitivf opfn typf dorrfsponding to thf givfn primitivf typf.
+     * f.g. SimplfTypf.BOOLEAN for "boolfbn", SimplfTypf.CHARACTER for
+     * "dhbr", ftd...
+     * @pbrbm primitivfTypfNbmf thf primitivf typf of thf brrby flfmfnt ("boolfbn",
+     *        "dhbr", ftd...)
+     * @rfturn thf OpfnTypf dorrfsponding to thf givfn primitivf typf nbmf
+     *         (SimplfTypf.BOOLEAN, SimplfTypf.CHARACTER, ftd...)
+     *         rfturn null if thf givfn flfmfntClbssNbmf is not b primitivf
+     *         typf nbmf.
+     **/
+    stbtid SimplfTypf<?> gftPrimitivfOpfnTypf(String primitivfTypfNbmf) {
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (primitivfTypfNbmf.fqubls(typfDfsdr[PRIMITIVE_TYPE_NAME_INDEX]))
+                rfturn (SimplfTypf<?>)typfDfsdr[PRIMITIVE_OPEN_TYPE_INDEX];
+        }
+        rfturn null;
+    }
+
+    /* *** Construdtor *** */
+
+    /**
+     * Construdts bn <tt>ArrbyTypf</tt> instbndf dfsdribing <i>opfn dbtb</i> vblufs whidh brf
+     * brrbys with dimfnsion <vbr>dimfnsion</vbr> of flfmfnts whosf <i>opfn typf</i> is <vbr>flfmfntTypf</vbr>.
+     * <p>
+     * Whfn invokfd on bn <tt>ArrbyTypf</tt> instbndf, thf {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthod
+     * rfturns thf dlbss nbmf of thf brrby instbndfs it dfsdribfs (following thf rulfs dffinfd by thf
+     * {@link Clbss#gftNbmf() gftNbmf} mfthod of <dodf>jbvb.lbng.Clbss</dodf>), not thf dlbss nbmf of thf brrby flfmfnts
+     * (whidh is rfturnfd by b dbll to <tt>gftElfmfntOpfnTypf().gftClbssNbmf()</tt>).
+     * <p>
+     * Thf intfrnbl fifld dorrfsponding to thf typf nbmf of this <dodf>ArrbyTypf</dodf> instbndf is blso sft to
+     * thf dlbss nbmf of thf brrby instbndfs it dfsdribfs.
+     * In othfr words, thf mfthods <dodf>gftClbssNbmf</dodf> bnd <dodf>gftTypfNbmf</dodf> rfturn thf sbmf string vbluf.
+     * Thf intfrnbl fifld dorrfsponding to thf dfsdription of this <dodf>ArrbyTypf</dodf> instbndf is sft to b string vbluf
+     * whidh follows thf following tfmplbtf:
+     * <ul>
+     * <li>if non-primitivf brrby: <tt><i>&lt;dimfnsion&gt;</i>-dimfnsion brrby of <i>&lt;flfmfnt_dlbss_nbmf&gt;</i></tt></li>
+     * <li>if primitivf brrby: <tt><i>&lt;dimfnsion&gt;</i>-dimfnsion brrby of <i>&lt;primitivf_typf_of_thf_flfmfnt_dlbss_nbmf&gt;</i></tt></li>
+     * </ul>
+     * <p>
+     * As bn fxbmplf, thf following pifdf of dodf:
+     * <prf>{@dodf
+     * ArrbyTypf<String[][][]> t = nfw ArrbyTypf<String[][][]>(3, SimplfTypf.STRING);
+     * Systfm.out.println("brrby dlbss nbmf       = " + t.gftClbssNbmf());
+     * Systfm.out.println("flfmfnt dlbss nbmf     = " + t.gftElfmfntOpfnTypf().gftClbssNbmf());
+     * Systfm.out.println("brrby typf nbmf        = " + t.gftTypfNbmf());
+     * Systfm.out.println("brrby typf dfsdription = " + t.gftDfsdription());
+     * }</prf>
+     * would produdf thf following output:
+     * <prf>{@dodf
+     * brrby dlbss nbmf       = [[[Ljbvb.lbng.String;
+     * flfmfnt dlbss nbmf     = jbvb.lbng.String
+     * brrby typf nbmf        = [[[Ljbvb.lbng.String;
+     * brrby typf dfsdription = 3-dimfnsion brrby of jbvb.lbng.String
+     * }</prf>
+     * And thf following pifdf of dodf whidh is fquivblfnt to thf onf listfd
+     * bbovf would blso produdf thf sbmf output:
+     * <prf>{@dodf
+     * ArrbyTypf<String[]> t1 = nfw ArrbyTypf<String[]>(1, SimplfTypf.STRING);
+     * ArrbyTypf<String[][]> t2 = nfw ArrbyTypf<String[][]>(1, t1);
+     * ArrbyTypf<String[][][]> t3 = nfw ArrbyTypf<String[][][]>(1, t2);
+     * Systfm.out.println("brrby dlbss nbmf       = " + t3.gftClbssNbmf());
+     * Systfm.out.println("flfmfnt dlbss nbmf     = " + t3.gftElfmfntOpfnTypf().gftClbssNbmf());
+     * Systfm.out.println("brrby typf nbmf        = " + t3.gftTypfNbmf());
+     * Systfm.out.println("brrby typf dfsdription = " + t3.gftDfsdription());
+     * }</prf>
+     *
+     * @pbrbm  dimfnsion  thf dimfnsion of brrbys dfsdribfd by this <tt>ArrbyTypf</tt> instbndf;
+     *                    must bf grfbtfr thbn or fqubl to 1.
+     *
+     * @pbrbm  flfmfntTypf  thf <i>opfn typf</i> of flfmfnt vblufs dontbinfd
+     *                      in thf brrbys dfsdribfd by this <tt>ArrbyTypf</tt>
+     *                      instbndf; must bf bn instbndf of fithfr
+     *                      <tt>SimplfTypf</tt>, <tt>CompositfTypf</tt>,
+     *                      <tt>TbbulbrTypf</tt> or bnothfr <tt>ArrbyTypf</tt>
+     *                      with b <tt>SimplfTypf</tt>, <tt>CompositfTypf</tt>
+     *                      or <tt>TbbulbrTypf</tt> bs its <tt>flfmfntTypf</tt>.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf dimfnsion} is not b positivf
+     *                                  intfgfr.
+     * @throws OpfnDbtbExdfption  if <vbr>flfmfntTypf's dlbssNbmf</vbr> is not
+     *                            onf of thf bllowfd Jbvb dlbss nbmfs for opfn
+     *                            dbtb.
+     */
+    publid ArrbyTypf(int dimfnsion,
+                     OpfnTypf<?> flfmfntTypf) throws OpfnDbtbExdfption {
+        // Chfdk bnd donstrudt stbtf dffinfd by pbrfnt.
+        // Wf dbn't usf thf pbdkbgf-privbtf OpfnTypf donstrudtor bfdbusf
+        // wf don't know if thf flfmfntTypf pbrbmftfr is sbnf.
+        supfr(buildArrbyClbssNbmf(dimfnsion, flfmfntTypf),
+              buildArrbyClbssNbmf(dimfnsion, flfmfntTypf),
+              buildArrbyDfsdription(dimfnsion, flfmfntTypf));
+
+        // Chfdk bnd donstrudt stbtf spfdifid to ArrbyTypf
+        //
+        if (flfmfntTypf.isArrby()) {
+            ArrbyTypf<?> bt = (ArrbyTypf<?>) flfmfntTypf;
+            this.dimfnsion = bt.gftDimfnsion() + dimfnsion;
+            this.flfmfntTypf = bt.gftElfmfntOpfnTypf();
+            this.primitivfArrby = bt.isPrimitivfArrby();
+        } flsf {
+            this.dimfnsion = dimfnsion;
+            this.flfmfntTypf = flfmfntTypf;
+            this.primitivfArrby = fblsf;
+        }
+    }
+
+    /**
+     * Construdts b unidimfnsionbl {@dodf ArrbyTypf} instbndf for thf
+     * supplifd {@dodf SimplfTypf}.
+     * <p>
+     * This donstrudtor supports thf drfbtion of brrbys of primitivf
+     * typfs whfn {@dodf primitivfArrby} is {@dodf truf}.
+     * <p>
+     * For primitivf brrbys thf {@link #gftElfmfntOpfnTypf()} mfthod
+     * rfturns thf {@link SimplfTypf} dorrfsponding to thf wrbppfr
+     * typf of thf primitivf typf of thf brrby.
+     * <p>
+     * Whfn invokfd on bn <tt>ArrbyTypf</tt> instbndf, thf {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthod
+     * rfturns thf dlbss nbmf of thf brrby instbndfs it dfsdribfs (following thf rulfs dffinfd by thf
+     * {@link Clbss#gftNbmf() gftNbmf} mfthod of <dodf>jbvb.lbng.Clbss</dodf>), not thf dlbss nbmf of thf brrby flfmfnts
+     * (whidh is rfturnfd by b dbll to <tt>gftElfmfntOpfnTypf().gftClbssNbmf()</tt>).
+     * <p>
+     * Thf intfrnbl fifld dorrfsponding to thf typf nbmf of this <dodf>ArrbyTypf</dodf> instbndf is blso sft to
+     * thf dlbss nbmf of thf brrby instbndfs it dfsdribfs.
+     * In othfr words, thf mfthods <dodf>gftClbssNbmf</dodf> bnd <dodf>gftTypfNbmf</dodf> rfturn thf sbmf string vbluf.
+     * Thf intfrnbl fifld dorrfsponding to thf dfsdription of this <dodf>ArrbyTypf</dodf> instbndf is sft to b string vbluf
+     * whidh follows thf following tfmplbtf:
+     * <ul>
+     * <li>if non-primitivf brrby: <tt>1-dimfnsion brrby of <i>&lt;flfmfnt_dlbss_nbmf&gt;</i></tt></li>
+     * <li>if primitivf brrby: <tt>1-dimfnsion brrby of <i>&lt;primitivf_typf_of_thf_flfmfnt_dlbss_nbmf&gt;</i></tt></li>
+     * </ul>
+     * <p>
+     * As bn fxbmplf, thf following pifdf of dodf:
+     * <prf>{@dodf
+     * ArrbyTypf<int[]> t = nfw ArrbyTypf<int[]>(SimplfTypf.INTEGER, truf);
+     * Systfm.out.println("brrby dlbss nbmf       = " + t.gftClbssNbmf());
+     * Systfm.out.println("flfmfnt dlbss nbmf     = " + t.gftElfmfntOpfnTypf().gftClbssNbmf());
+     * Systfm.out.println("brrby typf nbmf        = " + t.gftTypfNbmf());
+     * Systfm.out.println("brrby typf dfsdription = " + t.gftDfsdription());
+     * }</prf>
+     * would produdf thf following output:
+     * <prf>{@dodf
+     * brrby dlbss nbmf       = [I
+     * flfmfnt dlbss nbmf     = jbvb.lbng.Intfgfr
+     * brrby typf nbmf        = [I
+     * brrby typf dfsdription = 1-dimfnsion brrby of int
+     * }</prf>
+     *
+     * @pbrbm flfmfntTypf thf {@dodf SimplfTypf} of thf flfmfnt vblufs
+     *                    dontbinfd in thf brrbys dfsdribfd by this
+     *                    {@dodf ArrbyTypf} instbndf.
+     *
+     * @pbrbm primitivfArrby {@dodf truf} whfn this brrby dfsdribfs
+     *                       primitivf brrbys.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf dimfnsion} is not b positivf
+     * intfgfr.
+     * @throws OpfnDbtbExdfption if {@dodf primitivfArrby} is {@dodf truf} bnd
+     * {@dodf flfmfntTypf} is not b vblid {@dodf SimplfTypf} for b primitivf
+     * typf.
+     *
+     * @sindf 1.6
+     */
+    publid ArrbyTypf(SimplfTypf<?> flfmfntTypf,
+                     boolfbn primitivfArrby) throws OpfnDbtbExdfption {
+
+        // Chfdk bnd donstrudt stbtf dffinfd by pbrfnt.
+        // Wf dbn dbll thf pbdkbgf-privbtf OpfnTypf donstrudtor bfdbusf thf
+        // sft of SimplfTypfs is fixfd bnd SimplfTypf dbn't bf subdlbssfd.
+        supfr(buildArrbyClbssNbmf(1, flfmfntTypf, primitivfArrby),
+              buildArrbyClbssNbmf(1, flfmfntTypf, primitivfArrby),
+              buildArrbyDfsdription(1, flfmfntTypf, primitivfArrby),
+              truf);
+
+        // Chfdk bnd donstrudt stbtf spfdifid to ArrbyTypf
+        //
+        this.dimfnsion = 1;
+        this.flfmfntTypf = flfmfntTypf;
+        this.primitivfArrby = primitivfArrby;
+    }
+
+    /* Pbdkbgf-privbtf donstrudtor for dbllfrs wf trust to gft it right. */
+    ArrbyTypf(String dlbssNbmf, String typfNbmf, String dfsdription,
+              int dimfnsion, OpfnTypf<?> flfmfntTypf,
+              boolfbn primitivfArrby) {
+        supfr(dlbssNbmf, typfNbmf, dfsdription, truf);
+        this.dimfnsion = dimfnsion;
+        this.flfmfntTypf = flfmfntTypf;
+        this.primitivfArrby = primitivfArrby;
+    }
+
+    privbtf stbtid String buildArrbyClbssNbmf(int dimfnsion,
+                                              OpfnTypf<?> flfmfntTypf)
+        throws OpfnDbtbExdfption {
+        boolfbn isPrimitivfArrby = fblsf;
+        if (flfmfntTypf.isArrby()) {
+            isPrimitivfArrby = ((ArrbyTypf<?>) flfmfntTypf).isPrimitivfArrby();
+        }
+        rfturn buildArrbyClbssNbmf(dimfnsion, flfmfntTypf, isPrimitivfArrby);
+    }
+
+    privbtf stbtid String buildArrbyClbssNbmf(int dimfnsion,
+                                              OpfnTypf<?> flfmfntTypf,
+                                              boolfbn isPrimitivfArrby)
+        throws OpfnDbtbExdfption {
+        if (dimfnsion < 1) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Vbluf of brgumfnt dimfnsion must bf grfbtfr thbn 0");
+        }
+        StringBuildfr rfsult = nfw StringBuildfr();
+        String flfmfntClbssNbmf = flfmfntTypf.gftClbssNbmf();
+        // Add N (= dimfnsion) bdditionbl '[' dhbrbdtfrs to thf fxisting brrby
+        for (int i = 1; i <= dimfnsion; i++) {
+            rfsult.bppfnd('[');
+        }
+        if (flfmfntTypf.isArrby()) {
+            rfsult.bppfnd(flfmfntClbssNbmf);
+        } flsf {
+            if (isPrimitivfArrby) {
+                finbl String kfy = gftPrimitivfTypfKfy(flfmfntClbssNbmf);
+                // Idfblly wf should throw bn IllfgblArgumfntExdfption hfrf,
+                // but for dompbtibility rfbsons wf throw bn OpfnDbtbExdfption.
+                // (usfd to bf thrown by OpfnTypf() donstrudtor).
+                //
+                if (kfy == null)
+                    throw nfw OpfnDbtbExdfption("Elfmfnt typf is not primitivf: "
+                            + flfmfntClbssNbmf);
+                rfsult.bppfnd(kfy);
+            } flsf {
+                rfsult.bppfnd("L");
+                rfsult.bppfnd(flfmfntClbssNbmf);
+                rfsult.bppfnd(';');
+            }
+        }
+        rfturn rfsult.toString();
+    }
+
+    privbtf stbtid String buildArrbyDfsdription(int dimfnsion,
+                                                OpfnTypf<?> flfmfntTypf)
+        throws OpfnDbtbExdfption {
+        boolfbn isPrimitivfArrby = fblsf;
+        if (flfmfntTypf.isArrby()) {
+            isPrimitivfArrby = ((ArrbyTypf<?>) flfmfntTypf).isPrimitivfArrby();
+        }
+        rfturn buildArrbyDfsdription(dimfnsion, flfmfntTypf, isPrimitivfArrby);
+    }
+
+    privbtf stbtid String buildArrbyDfsdription(int dimfnsion,
+                                                OpfnTypf<?> flfmfntTypf,
+                                                boolfbn isPrimitivfArrby)
+        throws OpfnDbtbExdfption {
+        if (flfmfntTypf.isArrby()) {
+            ArrbyTypf<?> bt = (ArrbyTypf<?>) flfmfntTypf;
+            dimfnsion += bt.gftDimfnsion();
+            flfmfntTypf = bt.gftElfmfntOpfnTypf();
+            isPrimitivfArrby = bt.isPrimitivfArrby();
+        }
+        StringBuildfr rfsult =
+            nfw StringBuildfr(dimfnsion + "-dimfnsion brrby of ");
+        finbl String flfmfntClbssNbmf = flfmfntTypf.gftClbssNbmf();
+        if (isPrimitivfArrby) {
+            // Convfrt from wrbppfr typf to primitivf typf
+            finbl String primitivfTypf =
+                    gftPrimitivfTypfNbmf(flfmfntClbssNbmf);
+
+            // Idfblly wf should throw bn IllfgblArgumfntExdfption hfrf,
+            // but for dompbtibility rfbsons wf throw bn OpfnDbtbExdfption.
+            // (usfd to bf thrown by OpfnTypf() donstrudtor).
+            //
+            if (primitivfTypf == null)
+                throw nfw OpfnDbtbExdfption("Elfmfnt is not b primitivf typf: "+
+                        flfmfntClbssNbmf);
+            rfsult.bppfnd(primitivfTypf);
+        } flsf {
+            rfsult.bppfnd(flfmfntClbssNbmf);
+        }
+        rfturn rfsult.toString();
+    }
+
+    /* *** ArrbyTypf spfdifid informbtion mfthods *** */
+
+    /**
+     * Rfturns thf dimfnsion of brrbys dfsdribfd by this <tt>ArrbyTypf</tt> instbndf.
+     *
+     * @rfturn thf dimfnsion.
+     */
+    publid int gftDimfnsion() {
+
+        rfturn dimfnsion;
+    }
+
+    /**
+     * Rfturns thf <i>opfn typf</i> of flfmfnt vblufs dontbinfd in thf brrbys dfsdribfd by this <tt>ArrbyTypf</tt> instbndf.
+     *
+     * @rfturn thf flfmfnt typf.
+     */
+    publid OpfnTypf<?> gftElfmfntOpfnTypf() {
+
+        rfturn flfmfntTypf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf opfn dbtb vblufs this opfn
+     * typf dfsdribfs brf primitivf brrbys, <dodf>fblsf</dodf> othfrwisf.
+     *
+     * @rfturn truf if this is b primitivf brrby typf.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn isPrimitivfArrby() {
+
+        rfturn primitivfArrby;
+    }
+
+    /**
+     * Tfsts whfthfr <vbr>obj</vbr> is b vbluf for this <dodf>ArrbyTypf</dodf>
+     * instbndf.
+     * <p>
+     * This mfthod rfturns <dodf>truf</dodf> if bnd only if <vbr>obj</vbr>
+     * is not null, <vbr>obj</vbr> is bn brrby bnd bny onf of thf following
+     * is <tt>truf</tt>:
+     *
+     * <ul>
+     * <li>if this <dodf>ArrbyTypf</dodf> instbndf dfsdribfs bn brrby of
+     * <tt>SimplfTypf</tt> flfmfnts or thfir dorrfsponding primitivf typfs,
+     * <vbr>obj</vbr>'s dlbss nbmf is thf sbmf bs thf dlbssNbmf fifld dffinfd
+     * for this <dodf>ArrbyTypf</dodf> instbndf (i.f. thf dlbss nbmf rfturnfd
+     * by thf {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthod, whidh
+     * indludfs thf dimfnsion informbtion),<br>&nbsp;</li>
+     * <li>if this <dodf>ArrbyTypf</dodf> instbndf dfsdribfs bn brrby of
+     * dlbssfs implfmfnting thf {@dodf TbbulbrDbtb} intfrfbdf or thf
+     * {@dodf CompositfDbtb} intfrfbdf, <vbr>obj</vbr> is bssignbblf to
+     * sudh b dfdlbrfd brrby, bnd fbdh flfmfnt dontbinfd in {<vbr>obj</vbr>
+     * is fithfr null or b vblid vbluf for thf flfmfnt's opfn typf spfdififd
+     * by this <dodf>ArrbyTypf</dodf> instbndf.</li>
+     * </ul>
+     *
+     * @pbrbm obj thf objfdt to bf tfstfd.
+     *
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for this
+     * <dodf>ArrbyTypf</dodf> instbndf.
+     */
+    publid boolfbn isVbluf(Objfdt obj) {
+
+        // if obj is null, rfturn fblsf
+        //
+        if (obj == null) {
+            rfturn fblsf;
+        }
+
+        Clbss<?> objClbss = obj.gftClbss();
+        String objClbssNbmf = objClbss.gftNbmf();
+
+        // if obj is not bn brrby, rfturn fblsf
+        //
+        if ( ! objClbss.isArrby() ) {
+            rfturn fblsf;
+        }
+
+        // Tfst if obj's dlbss nbmf is thf sbmf bs for thf brrby vblufs thbt this instbndf dfsdribfs
+        // (this is finf if flfmfnts brf of simplf typfs, whidh brf finbl dlbssfs)
+        //
+        if ( this.gftClbssNbmf().fqubls(objClbssNbmf) ) {
+            rfturn truf;
+        }
+
+        // In dbsf this ArrbyTypf instbndf dfsdribfs bn brrby of dlbssfs implfmfnting thf TbbulbrDbtb or CompositfDbtb intfrfbdf,
+        // wf first dhfdk for thf bssignbbility of obj to sudh bn brrby of TbbulbrDbtb or CompositfDbtb,
+        // whidh fnsurfs thbt:
+        //  . obj is of thf thf sbmf dimfnsion bs this ArrbyTypf instbndf,
+        //  . it is dfdlbrfd bs bn brrby of flfmfnts whidh brf fithfr bll TbbulbrDbtb or bll CompositfDbtb.
+        //
+        // If thf bssignmfnt dhfdk is positivf,
+        // thfn wf hbvf to dhfdk thbt fbdh flfmfnt in obj is of thf sbmf TbbulbrTypf or CompositfTypf
+        // bs thf onf dfsdribfd by this ArrbyTypf instbndf.
+        //
+        // [About bssignmfnt dhfdk, notf thbt thf dbll bflow rfturns truf: ]
+        // [Clbss.forNbmf("[Lpbdkbgf.CompositfDbtb;").isAssignbblfFrom(Clbss.forNbmf("[Lpbdkbgf.CompositfDbtbImpl;)")); ]
+        //
+        if ( (this.flfmfntTypf.gftClbssNbmf().fqubls(TbbulbrDbtb.dlbss.gftNbmf()))  ||
+             (this.flfmfntTypf.gftClbssNbmf().fqubls(CompositfDbtb.dlbss.gftNbmf()))   ) {
+
+            boolfbn isTbbulbr =
+                (flfmfntTypf.gftClbssNbmf().fqubls(TbbulbrDbtb.dlbss.gftNbmf()));
+            int[] dims = nfw int[gftDimfnsion()];
+            Clbss<?> flfmfntClbss = isTbbulbr ? TbbulbrDbtb.dlbss : CompositfDbtb.dlbss;
+            Clbss<?> tbrgftClbss = Arrby.nfwInstbndf(flfmfntClbss, dims).gftClbss();
+
+            // bssignmfnt dhfdk: rfturn fblsf if nfgbtivf
+            if  ( ! tbrgftClbss.isAssignbblfFrom(objClbss) ) {
+                rfturn fblsf;
+            }
+
+            // dhfdk thbt bll flfmfnts in obj brf vblid vblufs for this ArrbyTypf
+            if ( ! dhfdkElfmfntsTypf( (Objfdt[]) obj, this.dimfnsion) ) { // wf know obj's dimfnsion is this.dimfnsion
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+
+        // if prfvious tfsts did not rfturn, thfn obj is not b vbluf for this ArrbyTypf instbndf
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if bnd only if bll flfmfnts dontbinfd in thf brrby brgumfnt x_dim_Arrby of dimfnsion dim
+     * brf vblid vblufs (if fithfr null or of thf right opfnTypf)
+     * for thf flfmfnt opfn typf spfdififd by this ArrbyTypf instbndf.
+     *
+     * This mfthod's implfmfntbtion usfs rfdursion to go down thf dimfnsions of thf brrby brgumfnt.
+     */
+    privbtf boolfbn dhfdkElfmfntsTypf(Objfdt[] x_dim_Arrby, int dim) {
+
+        // if thf flfmfnts of x_dim_Arrby brf thfmsflvfs brrby: go down rfdursivfly....
+        if ( dim > 1 ) {
+            for (int i=0; i<x_dim_Arrby.lfngth; i++) {
+                if ( ! dhfdkElfmfntsTypf((Objfdt[])x_dim_Arrby[i], dim-1) ) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+        // ...flsf, for b non-fmpty brrby, fbdh flfmfnt must bf b vblid vbluf: fithfr null or of thf right opfnTypf
+        flsf {
+            for (int i=0; i<x_dim_Arrby.lfngth; i++) {
+                if ( (x_dim_Arrby[i] != null) && (! this.gftElfmfntOpfnTypf().isVbluf(x_dim_Arrby[i])) ) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+    }
+
+    @Ovfrridf
+    boolfbn isAssignbblfFrom(OpfnTypf<?> ot) {
+        if (!(ot instbndfof ArrbyTypf<?>))
+            rfturn fblsf;
+        ArrbyTypf<?> bt = (ArrbyTypf<?>) ot;
+        rfturn (bt.gftDimfnsion() == gftDimfnsion() &&
+                bt.isPrimitivfArrby() == isPrimitivfArrby() &&
+                bt.gftElfmfntOpfnTypf().isAssignbblfFrom(gftElfmfntOpfnTypf()));
+    }
+
+
+    /* *** Mfthods ovfrridfn from dlbss Objfdt *** */
+
+    /**
+     * Compbrfs thf spfdififd <dodf>obj</dodf> pbrbmftfr with this
+     * <dodf>ArrbyTypf</dodf> instbndf for fqublity.
+     * <p>
+     * Two <dodf>ArrbyTypf</dodf> instbndfs brf fqubl if bnd only if thfy
+     * dfsdribf brrby instbndfs whidh hbvf thf sbmf dimfnsion, flfmfnts'
+     * opfn typf bnd primitivf brrby flbg.
+     *
+     * @pbrbm obj thf objfdt to bf dompbrfd for fqublity with this
+     *            <dodf>ArrbyTypf</dodf> instbndf; if <vbr>obj</vbr>
+     *            is <dodf>null</dodf> or is not bn instbndf of thf
+     *            dlbss <dodf>ArrbyTypf</dodf> this mfthod rfturns
+     *            <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to
+     *         this <dodf>ArrbyTypf</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        // if obj is null, rfturn fblsf
+        //
+        if (obj == null) {
+            rfturn fblsf;
+        }
+
+        // if obj is not bn ArrbyTypf, rfturn fblsf
+        //
+        if (!(obj instbndfof ArrbyTypf<?>))
+            rfturn fblsf;
+        ArrbyTypf<?> othfr = (ArrbyTypf<?>) obj;
+
+        // if othfr's dimfnsion is difffrfnt thbn this instbndf's, rfturn fblsf
+        //
+        if (this.dimfnsion != othfr.dimfnsion) {
+            rfturn fblsf;
+        }
+
+        // Tfst if othfr's flfmfntTypf fifld is thf sbmf bs for this instbndf
+        //
+        if (!this.flfmfntTypf.fqubls(othfr.flfmfntTypf)) {
+            rfturn fblsf;
+        }
+
+        // Tfst if othfr's primitivfArrby flbg is thf sbmf bs for this instbndf
+        //
+        rfturn this.primitivfArrby == othfr.primitivfArrby;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>ArrbyTypf</dodf> instbndf.
+     * <p>
+     * Thf hbsh dodf of bn <dodf>ArrbyTypf</dodf> instbndf is thf sum of thf
+     * hbsh dodfs of bll thf flfmfnts of informbtion usfd in <dodf>fqubls</dodf>
+     * dompbrisons (i.f. dimfnsion, flfmfnts' opfn typf bnd primitivf brrby flbg).
+     * Thf hbshdodf for b primitivf vbluf is thf hbshdodf of thf dorrfsponding boxfd
+     * objfdt (f.g. thf hbshdodf for <tt>truf</tt> is <tt>Boolfbn.TRUE.hbshCodf()</tt>).
+     * This fnsurfs thbt <dodf> t1.fqubls(t2) </dodf> implifs thbt
+     * <dodf> t1.hbshCodf()==t2.hbshCodf() </dodf> for bny two
+     * <dodf>ArrbyTypf</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
+     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     * <p>
+     * As <dodf>ArrbyTypf</dodf> instbndfs brf immutbblf, thf hbsh
+     * dodf for this instbndf is dbldulbtfd ondf, on thf first dbll
+     * to <dodf>hbshCodf</dodf>, bnd thfn thf sbmf vbluf is rfturnfd
+     * for subsfqufnt dblls.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>ArrbyTypf</dodf> instbndf
+     */
+    publid int hbshCodf() {
+
+        // Cbldulbtf thf hbsh dodf vbluf if it hbs not yft bffn donf (if 1st dbll to hbshCodf())
+        //
+        if (myHbshCodf == null) {
+            int vbluf = 0;
+            vbluf += dimfnsion;
+            vbluf += flfmfntTypf.hbshCodf();
+            vbluf += Boolfbn.vblufOf(primitivfArrby).hbshCodf();
+            myHbshCodf = Intfgfr.vblufOf(vbluf);
+        }
+
+        // rfturn blwbys thf sbmf hbsh dodf for this instbndf (immutbblf)
+        //
+        rfturn myHbshCodf.intVbluf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>ArrbyTypf</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of thf nbmf of this dlbss (i.f.
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.ArrbyTypf</dodf>), thf typf nbmf,
+     * thf dimfnsion, thf flfmfnts' opfn typf bnd thf primitivf brrby flbg
+     * dffinfd for this instbndf.
+     * <p>
+     * As <dodf>ArrbyTypf</dodf> instbndfs brf immutbblf, thf
+     * string rfprfsfntbtion for this instbndf is dbldulbtfd
+     * ondf, on thf first dbll to <dodf>toString</dodf>, bnd
+     * thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>ArrbyTypf</dodf> instbndf
+     */
+    publid String toString() {
+
+        // Cbldulbtf thf string rfprfsfntbtion if it hbs not yft bffn donf (if 1st dbll to toString())
+        //
+        if (myToString == null) {
+            myToString = gftClbss().gftNbmf() +
+                         "(nbmf=" + gftTypfNbmf() +
+                         ",dimfnsion=" + dimfnsion +
+                         ",flfmfntTypf=" + flfmfntTypf +
+                         ",primitivfArrby=" + primitivfArrby + ")";
+        }
+
+        // rfturn blwbys thf sbmf string rfprfsfntbtion for this instbndf (immutbblf)
+        //
+        rfturn myToString;
+    }
+
+    /**
+     * Crfbtf bn {@dodf ArrbyTypf} instbndf in b typf-sbff mbnnfr.
+     * <p>
+     * Multidimfnsionbl brrbys dbn bf built up by dblling this mfthod bs mbny
+     * timfs bs nfdfssbry.
+     * <p>
+     * Cblling this mfthod twidf with thf sbmf pbrbmftfrs mby rfturn thf sbmf
+     * objfdt or two fqubl but not idfntidbl objfdts.
+     * <p>
+     * As bn fxbmplf, thf following pifdf of dodf:
+     * <prf>{@dodf
+     * ArrbyTypf<String[]> t1 = ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING);
+     * ArrbyTypf<String[][]> t2 = ArrbyTypf.gftArrbyTypf(t1);
+     * ArrbyTypf<String[][][]> t3 = ArrbyTypf.gftArrbyTypf(t2);
+     * Systfm.out.println("brrby dlbss nbmf       = " + t3.gftClbssNbmf());
+     * Systfm.out.println("flfmfnt dlbss nbmf     = " + t3.gftElfmfntOpfnTypf().gftClbssNbmf());
+     * Systfm.out.println("brrby typf nbmf        = " + t3.gftTypfNbmf());
+     * Systfm.out.println("brrby typf dfsdription = " + t3.gftDfsdription());
+     * }</prf>
+     * would produdf thf following output:
+     * <prf>{@dodf
+     * brrby dlbss nbmf       = [[[Ljbvb.lbng.String;
+     * flfmfnt dlbss nbmf     = jbvb.lbng.String
+     * brrby typf nbmf        = [[[Ljbvb.lbng.String;
+     * brrby typf dfsdription = 3-dimfnsion brrby of jbvb.lbng.String
+     * }</prf>
+     *
+     * @pbrbm  flfmfntTypf  thf <i>opfn typf</i> of flfmfnt vblufs dontbinfd
+     *                      in thf brrbys dfsdribfd by this <tt>ArrbyTypf</tt>
+     *                      instbndf; must bf bn instbndf of fithfr
+     *                      <tt>SimplfTypf</tt>, <tt>CompositfTypf</tt>,
+     *                      <tt>TbbulbrTypf</tt> or bnothfr <tt>ArrbyTypf</tt>
+     *                      with b <tt>SimplfTypf</tt>, <tt>CompositfTypf</tt>
+     *                      or <tt>TbbulbrTypf</tt> bs its <tt>flfmfntTypf</tt>.
+     *
+     * @throws OpfnDbtbExdfption if <vbr>flfmfntTypf's dlbssNbmf</vbr> is not
+     *                           onf of thf bllowfd Jbvb dlbss nbmfs for opfn
+     *                           dbtb.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid <E> ArrbyTypf<E[]> gftArrbyTypf(OpfnTypf<E> flfmfntTypf)
+        throws OpfnDbtbExdfption {
+        rfturn nfw ArrbyTypf<E[]>(1, flfmfntTypf);
+    }
+
+    /**
+     * Crfbtf bn {@dodf ArrbyTypf} instbndf in b typf-sbff mbnnfr.
+     * <p>
+     * Cblling this mfthod twidf with thf sbmf pbrbmftfrs mby rfturn thf
+     * sbmf objfdt or two fqubl but not idfntidbl objfdts.
+     * <p>
+     * As bn fxbmplf, thf following pifdf of dodf:
+     * <prf>{@dodf
+     * ArrbyTypf<int[][][]> t = ArrbyTypf.gftPrimitivfArrbyTypf(int[][][].dlbss);
+     * Systfm.out.println("brrby dlbss nbmf       = " + t.gftClbssNbmf());
+     * Systfm.out.println("flfmfnt dlbss nbmf     = " + t.gftElfmfntOpfnTypf().gftClbssNbmf());
+     * Systfm.out.println("brrby typf nbmf        = " + t.gftTypfNbmf());
+     * Systfm.out.println("brrby typf dfsdription = " + t.gftDfsdription());
+     * }</prf>
+     * would produdf thf following output:
+     * <prf>{@dodf
+     * brrby dlbss nbmf       = [[[I
+     * flfmfnt dlbss nbmf     = jbvb.lbng.Intfgfr
+     * brrby typf nbmf        = [[[I
+     * brrby typf dfsdription = 3-dimfnsion brrby of int
+     * }</prf>
+     *
+     * @pbrbm brrbyClbss b primitivf brrby dlbss sudh bs {@dodf int[].dlbss},
+     *                   {@dodf boolfbn[][].dlbss}, ftd. Thf {@link
+     *                   #gftElfmfntOpfnTypf()} mfthod of thf rfturnfd
+     *                   {@dodf ArrbyTypf} rfturns thf {@link SimplfTypf}
+     *                   dorrfsponding to thf wrbppfr typf of thf primitivf
+     *                   typf of thf brrby.
+     *
+     * @throws IllfgblArgumfntExdfption if <vbr>brrbyClbss</vbr> is not
+     *                                  b primitivf brrby.
+     *
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings("undhfdkfd")  // dbn't gft bppropribtf T for primitivf brrby
+    publid stbtid <T> ArrbyTypf<T> gftPrimitivfArrbyTypf(Clbss<T> brrbyClbss) {
+        // Chfdk if thf supplifd pbrbmftfr is bn brrby
+        //
+        if (!brrbyClbss.isArrby()) {
+            throw nfw IllfgblArgumfntExdfption("brrbyClbss must bf bn brrby");
+        }
+
+        // Cbldulbtf brrby dimfnsion bnd domponfnt typf nbmf
+        //
+        int n = 1;
+        Clbss<?> domponfntTypf = brrbyClbss.gftComponfntTypf();
+        whilf (domponfntTypf.isArrby()) {
+            n++;
+            domponfntTypf = domponfntTypf.gftComponfntTypf();
+        }
+        String domponfntTypfNbmf = domponfntTypf.gftNbmf();
+
+        // Chfdk if thf brrby's domponfnt typf is b primitivf typf
+        //
+        if (!domponfntTypf.isPrimitivf()) {
+            throw nfw IllfgblArgumfntExdfption(
+                "domponfnt typf of thf brrby must bf b primitivf typf");
+        }
+
+        // Mbp domponfnt typf nbmf to dorrfsponding SimplfTypf
+        //
+        finbl SimplfTypf<?> simplfTypf =
+                gftPrimitivfOpfnTypf(domponfntTypfNbmf);
+
+        // Build primitivf brrby
+        //
+        try {
+            @SupprfssWbrnings("rbwtypfs")
+            ArrbyTypf bt = nfw ArrbyTypf(simplfTypf, truf);
+            if (n > 1)
+                bt = nfw ArrbyTypf<T>(n - 1, bt);
+            rfturn bt;
+        } dbtdh (OpfnDbtbExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f); // should not hbppfn
+        }
+    }
+
+    /**
+     * Rfplbdf/rfsolvf thf objfdt rfbd from thf strfbm bfforf it is rfturnfd
+     * to thf dbllfr.
+     *
+     * @sfriblDbtb Thf nfw sfribl form of this dlbss dffinfs b nfw sfriblizbblf
+     * {@dodf boolfbn} fifld {@dodf primitivfArrby}. In ordfr to gubrbntff thf
+     * intfropfrbbility with prfvious vfrsions of this dlbss thf nfw sfribl
+     * form must dontinuf to rfffr to primitivf wrbppfr typfs fvfn whfn thf
+     * {@dodf ArrbyTypf} instbndf dfsdribfs b primitivf typf brrby. So whfn
+     * {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dlbssNbmf},
+     * {@dodf typfNbmf} bnd {@dodf dfsdription} sfriblizbblf fiflds
+     * brf donvfrtfd into primitivf typfs bfforf thf dfsfriblizfd
+     * {@dodf ArrbyTypf} instbndf is rfturn to thf dbllfr. Thf
+     * {@dodf flfmfntTypf} fifld blwbys rfturns thf {@dodf SimplfTypf}
+     * dorrfsponding to thf primitivf wrbppfr typf of thf brrby's
+     * primitivf typf.
+     * <p>
+     * Thfrfforf thf following sfriblizbblf fiflds brf dfsfriblizfd bs follows:
+     * <ul>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dlbssNbmf}
+     *       fifld is dfsfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       wrbppfr typf by thf dorrfsponding brrby's domponfnt primitivf typf,
+     *       f.g. {@dodf "[[Ljbvb.lbng.Intfgfr;"} will bf dfsfriblizfd bs
+     *       {@dodf "[[I"}.</li>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf typfNbmf}
+     *       fifld is dfsfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       wrbppfr typf by thf dorrfsponding brrby's domponfnt primitivf typf,
+     *       f.g. {@dodf "[[Ljbvb.lbng.Intfgfr;"} will bf dfsfriblizfd bs
+     *       {@dodf "[[I"}.</li>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dfsdription}
+     *       fifld is dfsfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       wrbppfr typf by thf dorrfsponding brrby's domponfnt primitivf typf,
+     *       f.g. {@dodf "2-dimfnsion brrby of jbvb.lbng.Intfgfr"} will bf
+     *       dfsfriblizfd bs {@dodf "2-dimfnsion brrby of int"}.</li>
+     * </ul>
+     *
+     * @sindf 1.6
+     */
+    privbtf Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+        if (primitivfArrby) {
+            rfturn donvfrtFromWrbppfrToPrimitivfTypfs();
+        } flsf {
+            rfturn this;
+        }
+    }
+
+    privbtf <T> ArrbyTypf<T> donvfrtFromWrbppfrToPrimitivfTypfs() {
+        String dn = gftClbssNbmf();
+        String tn = gftTypfNbmf();
+        String d = gftDfsdription();
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (dn.indfxOf((String)typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX]) != -1) {
+                dn = dn.rfplbdfFirst(
+                    "L" + typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";",
+                    (String) typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX]);
+                tn = tn.rfplbdfFirst(
+                    "L" + typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";",
+                    (String) typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX]);
+                d = d.rfplbdfFirst(
+                    (String) typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX],
+                    (String) typfDfsdr[PRIMITIVE_TYPE_NAME_INDEX]);
+                brfbk;
+            }
+        }
+        rfturn nfw ArrbyTypf<T>(dn, tn, d,
+                                dimfnsion, flfmfntTypf, primitivfArrby);
+    }
+
+    /**
+     * Nominbtf b rfplbdfmfnt for this objfdt in thf strfbm bfforf thf objfdt
+     * is writtfn.
+     *
+     * @sfriblDbtb Thf nfw sfribl form of this dlbss dffinfs b nfw sfriblizbblf
+     * {@dodf boolfbn} fifld {@dodf primitivfArrby}. In ordfr to gubrbntff thf
+     * intfropfrbbility with prfvious vfrsions of this dlbss thf nfw sfribl
+     * form must dontinuf to rfffr to primitivf wrbppfr typfs fvfn whfn thf
+     * {@dodf ArrbyTypf} instbndf dfsdribfs b primitivf typf brrby. So whfn
+     * {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dlbssNbmf},
+     * {@dodf typfNbmf} bnd {@dodf dfsdription} sfriblizbblf fiflds
+     * brf donvfrtfd into wrbppfr typfs bfforf thf sfriblizfd
+     * {@dodf ArrbyTypf} instbndf is writtfn to thf strfbm. Thf
+     * {@dodf flfmfntTypf} fifld blwbys rfturns thf {@dodf SimplfTypf}
+     * dorrfsponding to thf primitivf wrbppfr typf of thf brrby's
+     * primitivf typf.
+     * <p>
+     * Thfrfforf thf following sfriblizbblf fiflds brf sfriblizfd bs follows:
+     * <ul>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dlbssNbmf}
+     *       fifld is sfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       typf by thf dorrfsponding brrby's domponfnt primitivf wrbppfr typf,
+     *       f.g. {@dodf "[[I"} will bf sfriblizfd bs
+     *       {@dodf "[[Ljbvb.lbng.Intfgfr;"}.</li>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf typfNbmf}
+     *       fifld is sfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       typf by thf dorrfsponding brrby's domponfnt primitivf wrbppfr typf,
+     *       f.g. {@dodf "[[I"} will bf sfriblizfd bs
+     *       {@dodf "[[Ljbvb.lbng.Intfgfr;"}.</li>
+     *   <li>if {@dodf primitivfArrby} is {@dodf truf} thf {@dodf dfsdription}
+     *       fifld is sfriblizfd by rfplbding thf brrby's domponfnt primitivf
+     *       typf by thf dorrfsponding brrby's domponfnt primitivf wrbppfr typf,
+     *       f.g. {@dodf "2-dimfnsion brrby of int"} will bf sfriblizfd bs
+     *       {@dodf "2-dimfnsion brrby of jbvb.lbng.Intfgfr"}.</li>
+     * </ul>
+     *
+     * @sindf 1.6
+     */
+    privbtf Objfdt writfRfplbdf() throws ObjfdtStrfbmExdfption {
+        if (primitivfArrby) {
+            rfturn donvfrtFromPrimitivfToWrbppfrTypfs();
+        } flsf {
+            rfturn this;
+        }
+    }
+
+    privbtf <T> ArrbyTypf<T> donvfrtFromPrimitivfToWrbppfrTypfs() {
+        String dn = gftClbssNbmf();
+        String tn = gftTypfNbmf();
+        String d = gftDfsdription();
+        for (Objfdt[] typfDfsdr : PRIMITIVE_ARRAY_TYPES) {
+            if (dn.indfxOf((String) typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX]) != -1) {
+                dn = dn.rfplbdfFirst(
+                    (String) typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX],
+                    "L" + typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";");
+                tn = tn.rfplbdfFirst(
+                    (String) typfDfsdr[PRIMITIVE_TYPE_KEY_INDEX],
+                    "L" + typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX] + ";");
+                d = d.rfplbdfFirst(
+                    (String) typfDfsdr[PRIMITIVE_TYPE_NAME_INDEX],
+                    (String) typfDfsdr[PRIMITIVE_WRAPPER_NAME_INDEX]);
+                brfbk;
+            }
+        }
+        rfturn nfw ArrbyTypf<T>(dn, tn, d,
+                                dimfnsion, flfmfntTypf, primitivfArrby);
+    }
+}

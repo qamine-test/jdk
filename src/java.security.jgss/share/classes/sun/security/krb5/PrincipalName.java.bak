@@ -1,683 +1,683 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.util.*;
-import java.net.*;
-import java.util.Vector;
-import java.util.Locale;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Arrays;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
-import sun.security.krb5.internal.util.KerberosString;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.util.*;
+import jbvb.nft.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
 
 
 /**
- * Implements the ASN.1 PrincipalName type and its realm in a single class.
+ * Implfmfnts tif ASN.1 PrindipblNbmf typf bnd its rfblm in b singlf dlbss.
  * <xmp>
- *    Realm           ::= KerberosString
+ *    Rfblm           ::= KfrbfrosString
  *
- *    PrincipalName   ::= SEQUENCE {
- *            name-type       [0] Int32,
- *            name-string     [1] SEQUENCE OF KerberosString
+ *    PrindipblNbmf   ::= SEQUENCE {
+ *            nbmf-typf       [0] Int32,
+ *            nbmf-string     [1] SEQUENCE OF KfrbfrosString
  *    }
  * </xmp>
- * This class is immutable.
- * @see Realm
+ * Tiis dlbss is immutbblf.
+ * @sff Rfblm
  */
-public class PrincipalName implements Cloneable {
+publid dlbss PrindipblNbmf implfmfnts Clonfbblf {
 
-    //name types
-
-    /**
-     * Name type not known
-     */
-    public static final int KRB_NT_UNKNOWN =   0;
+    //nbmf typfs
 
     /**
-     * Just the name of the principal as in DCE, or for users
+     * Nbmf typf not known
      */
-    public static final int KRB_NT_PRINCIPAL = 1;
+    publid stbtid finbl int KRB_NT_UNKNOWN =   0;
 
     /**
-     * Service and other unique instance (krbtgt)
+     * Just tif nbmf of tif prindipbl bs in DCE, or for usfrs
      */
-    public static final int KRB_NT_SRV_INST =  2;
+    publid stbtid finbl int KRB_NT_PRINCIPAL = 1;
 
     /**
-     * Service with host name as instance (telnet, rcommands)
+     * Sfrvidf bnd otifr uniquf instbndf (krbtgt)
      */
-    public static final int KRB_NT_SRV_HST =   3;
+    publid stbtid finbl int KRB_NT_SRV_INST =  2;
 
     /**
-     * Service with host as remaining components
+     * Sfrvidf witi iost nbmf bs instbndf (tflnft, rdommbnds)
      */
-    public static final int KRB_NT_SRV_XHST =  4;
+    publid stbtid finbl int KRB_NT_SRV_HST =   3;
 
     /**
-     * Unique ID
+     * Sfrvidf witi iost bs rfmbining domponfnts
      */
-    public static final int KRB_NT_UID = 5;
+    publid stbtid finbl int KRB_NT_SRV_XHST =  4;
 
     /**
-     * TGS Name
+     * Uniquf ID
      */
-    public static final String TGS_DEFAULT_SRV_NAME = "krbtgt";
-    public static final int TGS_DEFAULT_NT = KRB_NT_SRV_INST;
-
-    public static final char NAME_COMPONENT_SEPARATOR = '/';
-    public static final char NAME_REALM_SEPARATOR = '@';
-    public static final char REALM_COMPONENT_SEPARATOR = '.';
-
-    public static final String NAME_COMPONENT_SEPARATOR_STR = "/";
-    public static final String NAME_REALM_SEPARATOR_STR = "@";
-    public static final String REALM_COMPONENT_SEPARATOR_STR = ".";
-
-    // Instance fields.
+    publid stbtid finbl int KRB_NT_UID = 5;
 
     /**
-     * The name type, from PrincipalName's name-type field.
+     * TGS Nbmf
      */
-    private final int nameType;
+    publid stbtid finbl String TGS_DEFAULT_SRV_NAME = "krbtgt";
+    publid stbtid finbl int TGS_DEFAULT_NT = KRB_NT_SRV_INST;
+
+    publid stbtid finbl dibr NAME_COMPONENT_SEPARATOR = '/';
+    publid stbtid finbl dibr NAME_REALM_SEPARATOR = '@';
+    publid stbtid finbl dibr REALM_COMPONENT_SEPARATOR = '.';
+
+    publid stbtid finbl String NAME_COMPONENT_SEPARATOR_STR = "/";
+    publid stbtid finbl String NAME_REALM_SEPARATOR_STR = "@";
+    publid stbtid finbl String REALM_COMPONENT_SEPARATOR_STR = ".";
+
+    // Instbndf fiflds.
 
     /**
-     * The name strings, from PrincipalName's name-strings field. This field
-     * must be neither null nor empty. Each entry of it must also be neither
-     * null nor empty. Make sure to clone the field when it's passed in or out.
+     * Tif nbmf typf, from PrindipblNbmf's nbmf-typf fifld.
      */
-    private final String[] nameStrings;
+    privbtf finbl int nbmfTypf;
 
     /**
-     * The realm this principal belongs to.
+     * Tif nbmf strings, from PrindipblNbmf's nbmf-strings fifld. Tiis fifld
+     * must bf nfitifr null nor fmpty. Ebdi fntry of it must blso bf nfitifr
+     * null nor fmpty. Mbkf surf to dlonf tif fifld wifn it's pbssfd in or out.
      */
-    private final Realm nameRealm;      // not null
-
-    // cached default salt, not used in clone
-    private transient String salt = null;
-
-    // There are 3 basic constructors. All other constructors must call them.
-    // All basic constructors must call validateNameStrings.
-    // 1. From name components
-    // 2. From name
-    // 3. From DER encoding
+    privbtf finbl String[] nbmfStrings;
 
     /**
-     * Creates a PrincipalName.
+     * Tif rfblm tiis prindipbl bflongs to.
      */
-    public PrincipalName(int nameType, String[] nameStrings, Realm nameRealm) {
-        if (nameRealm == null) {
-            throw new IllegalArgumentException("Null realm not allowed");
+    privbtf finbl Rfblm nbmfRfblm;      // not null
+
+    // dbdifd dffbult sblt, not usfd in dlonf
+    privbtf trbnsifnt String sblt = null;
+
+    // Tifrf brf 3 bbsid donstrudtors. All otifr donstrudtors must dbll tifm.
+    // All bbsid donstrudtors must dbll vblidbtfNbmfStrings.
+    // 1. From nbmf domponfnts
+    // 2. From nbmf
+    // 3. From DER fndoding
+
+    /**
+     * Crfbtfs b PrindipblNbmf.
+     */
+    publid PrindipblNbmf(int nbmfTypf, String[] nbmfStrings, Rfblm nbmfRfblm) {
+        if (nbmfRfblm == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null rfblm not bllowfd");
         }
-        validateNameStrings(nameStrings);
-        this.nameType = nameType;
-        this.nameStrings = nameStrings.clone();
-        this.nameRealm = nameRealm;
+        vblidbtfNbmfStrings(nbmfStrings);
+        tiis.nbmfTypf = nbmfTypf;
+        tiis.nbmfStrings = nbmfStrings.dlonf();
+        tiis.nbmfRfblm = nbmfRfblm;
     }
 
-    // This method is called by Windows NativeCred.c
-    public PrincipalName(String[] nameParts, String realm) throws RealmException {
-        this(KRB_NT_UNKNOWN, nameParts, new Realm(realm));
+    // Tiis mftiod is dbllfd by Windows NbtivfCrfd.d
+    publid PrindipblNbmf(String[] nbmfPbrts, String rfblm) tirows RfblmExdfption {
+        tiis(KRB_NT_UNKNOWN, nbmfPbrts, nfw Rfblm(rfblm));
     }
 
-    public PrincipalName(String[] nameParts, int type)
-            throws IllegalArgumentException, RealmException {
-        this(type, nameParts, Realm.getDefault());
+    publid PrindipblNbmf(String[] nbmfPbrts, int typf)
+            tirows IllfgblArgumfntExdfption, RfblmExdfption {
+        tiis(typf, nbmfPbrts, Rfblm.gftDffbult());
     }
 
-    // Validate a nameStrings argument
-    private static void validateNameStrings(String[] ns) {
+    // Vblidbtf b nbmfStrings brgumfnt
+    privbtf stbtid void vblidbtfNbmfStrings(String[] ns) {
         if (ns == null) {
-            throw new IllegalArgumentException("Null nameStrings not allowed");
+            tirow nfw IllfgblArgumfntExdfption("Null nbmfStrings not bllowfd");
         }
-        if (ns.length == 0) {
-            throw new IllegalArgumentException("Empty nameStrings not allowed");
+        if (ns.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Empty nbmfStrings not bllowfd");
         }
         for (String s: ns) {
             if (s == null) {
-                throw new IllegalArgumentException("Null nameString not allowed");
+                tirow nfw IllfgblArgumfntExdfption("Null nbmfString not bllowfd");
             }
             if (s.isEmpty()) {
-                throw new IllegalArgumentException("Empty nameString not allowed");
+                tirow nfw IllfgblArgumfntExdfption("Empty nbmfString not bllowfd");
             }
         }
     }
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            PrincipalName pName = (PrincipalName) super.clone();
-            UNSAFE.putObject(this, NAME_STRINGS_OFFSET, nameStrings.clone());
-            return pName;
-        } catch (CloneNotSupportedException ex) {
-            throw new AssertionError("Should never happen");
+            PrindipblNbmf pNbmf = (PrindipblNbmf) supfr.dlonf();
+            UNSAFE.putObjfdt(tiis, NAME_STRINGS_OFFSET, nbmfStrings.dlonf());
+            rfturn pNbmf;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            tirow nfw AssfrtionError("Siould nfvfr ibppfn");
         }
     }
 
-    private static final long NAME_STRINGS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbtf stbtid finbl long NAME_STRINGS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    stbtid {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            NAME_STRINGS_OFFSET = unsafe.objectFieldOffset(
-                    PrincipalName.class.getDeclaredField("nameStrings"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
-            throw new Error(e);
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            NAME_STRINGS_OFFSET = unsbff.objfdtFifldOffsft(
+                    PrindipblNbmf.dlbss.gftDfdlbrfdFifld("nbmfStrings"));
+            UNSAFE = unsbff;
+        } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+            tirow nfw Error(f);
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
-        if (o instanceof PrincipalName) {
-            PrincipalName other = (PrincipalName)o;
-            return nameRealm.equals(other.nameRealm) &&
-                    Arrays.equals(nameStrings, other.nameStrings);
+        if (o instbndfof PrindipblNbmf) {
+            PrindipblNbmf otifr = (PrindipblNbmf)o;
+            rfturn nbmfRfblm.fqubls(otifr.nbmfRfblm) &&
+                    Arrbys.fqubls(nbmfStrings, otifr.nbmfStrings);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the ASN.1 encoding of the
+     * Rfturns tif ASN.1 fndoding of tif
      * <xmp>
-     * PrincipalName    ::= SEQUENCE {
-     *          name-type       [0] Int32,
-     *          name-string     [1] SEQUENCE OF KerberosString
+     * PrindipblNbmf    ::= SEQUENCE {
+     *          nbmf-typf       [0] Int32,
+     *          nbmf-string     [1] SEQUENCE OF KfrbfrosString
      * }
      *
-     * KerberosString   ::= GeneralString (IA5String)
+     * KfrbfrosString   ::= GfnfrblString (IA5String)
      * </xmp>
      *
      * <p>
-     * This definition reflects the Network Working Group RFC 4120
-     * specification available at
-     * <a href="http://www.ietf.org/rfc/rfc4120.txt">
-     * http://www.ietf.org/rfc/rfc4120.txt</a>.
+     * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+     * spfdifidbtion bvbilbblf bt
+     * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+     * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
      *
-     * @param encoding a Der-encoded data.
-     * @param realm the realm for this name
-     * @exception Asn1Exception if an error occurs while decoding
-     * an ASN1 encoded data.
-     * @exception Asn1Exception if there is an ASN1 encoding error
-     * @exception IOException if an I/O error occurs
-     * @exception IllegalArgumentException if encoding is null
-     * reading encoded data.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @pbrbm rfblm tif rfblm for tiis nbmf
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding
+     * bn ASN1 fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if tifrf is bn ASN1 fndoding frror
+     * @fxdfption IOExdfption if bn I/O frror oddurs
+     * @fxdfption IllfgblArgumfntExdfption if fndoding is null
+     * rfbding fndodfd dbtb.
      */
-    public PrincipalName(DerValue encoding, Realm realm)
-            throws Asn1Exception, IOException {
-        if (realm == null) {
-            throw new IllegalArgumentException("Null realm not allowed");
+    publid PrindipblNbmf(DfrVbluf fndoding, Rfblm rfblm)
+            tirows Asn1Exdfption, IOExdfption {
+        if (rfblm == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null rfblm not bllowfd");
         }
-        nameRealm = realm;
-        DerValue der;
-        if (encoding == null) {
-            throw new IllegalArgumentException("Null encoding not allowed");
+        nbmfRfblm = rfblm;
+        DfrVbluf dfr;
+        if (fndoding == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null fndoding not bllowfd");
         }
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00) {
-            BigInteger bint = der.getData().getBigInteger();
-            nameType = bint.intValue();
-        } else {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00) {
+            BigIntfgfr bint = dfr.gftDbtb().gftBigIntfgfr();
+            nbmfTypf = bint.intVbluf();
+        } flsf {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x01F) == 0x01) {
-            DerValue subDer = der.getData().getDerValue();
-            if (subDer.getTag() != DerValue.tag_SequenceOf) {
-                throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x01F) == 0x01) {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            if (subDfr.gftTbg() != DfrVbluf.tbg_SfqufndfOf) {
+                tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
             }
-            Vector<String> v = new Vector<>();
-            DerValue subSubDer;
-            while(subDer.getData().available() > 0) {
-                subSubDer = subDer.getData().getDerValue();
-                String namePart = new KerberosString(subSubDer).toString();
-                v.addElement(namePart);
+            Vfdtor<String> v = nfw Vfdtor<>();
+            DfrVbluf subSubDfr;
+            wiilf(subDfr.gftDbtb().bvbilbblf() > 0) {
+                subSubDfr = subDfr.gftDbtb().gftDfrVbluf();
+                String nbmfPbrt = nfw KfrbfrosString(subSubDfr).toString();
+                v.bddElfmfnt(nbmfPbrt);
             }
-            nameStrings = new String[v.size()];
-            v.copyInto(nameStrings);
-            validateNameStrings(nameStrings);
-        } else  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+            nbmfStrings = nfw String[v.sizf()];
+            v.dopyInto(nbmfStrings);
+            vblidbtfNbmfStrings(nbmfStrings);
+        } flsf  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Parse (unmarshal) a <code>PrincipalName</code> from a DER
-     * input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrsf (unmbrsibl) b <dodf>PrindipblNbmf</dodf> from b DER
+     * input strfbm.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception on error.
-     * @param data the Der input stream value, which contains one or
-     * more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicate if this data field is optional
-     * @param realm the realm for the name
-     * @return an instance of <code>PrincipalName</code>, or null if the
-     * field is optional and missing.
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or
+     * morf mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if tiis dbtb fifld is optionbl
+     * @pbrbm rfblm tif rfblm for tif nbmf
+     * @rfturn bn instbndf of <dodf>PrindipblNbmf</dodf>, or null if tif
+     * fifld is optionbl bnd missing.
      */
-    public static PrincipalName parse(DerInputStream data,
-                                      byte explicitTag, boolean
-                                      optional,
-                                      Realm realm)
-        throws Asn1Exception, IOException, RealmException {
+    publid stbtid PrindipblNbmf pbrsf(DfrInputStrfbm dbtb,
+                                      bytf fxpliditTbg, boolfbn
+                                      optionbl,
+                                      Rfblm rfblm)
+        tirows Asn1Exdfption, IOExdfption, RfblmExdfption {
 
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F) !=
-                           explicitTag))
-            return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F)) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        } else {
-            DerValue subDer = der.getData().getDerValue();
-            if (realm == null) {
-                realm = Realm.getDefault();
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) !=
+                           fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F)) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            if (rfblm == null) {
+                rfblm = Rfblm.gftDffbult();
             }
-            return new PrincipalName(subDer, realm);
+            rfturn nfw PrindipblNbmf(subDfr, rfblm);
         }
     }
 
 
-    // XXX Error checkin consistent with MIT krb5_parse_name
-    // Code repetition, realm parsed again by class Realm
-    private static String[] parseName(String name) {
+    // XXX Error difdkin donsistfnt witi MIT krb5_pbrsf_nbmf
+    // Codf rfpftition, rfblm pbrsfd bgbin by dlbss Rfblm
+    privbtf stbtid String[] pbrsfNbmf(String nbmf) {
 
-        Vector<String> tempStrings = new Vector<>();
-        String temp = name;
+        Vfdtor<String> tfmpStrings = nfw Vfdtor<>();
+        String tfmp = nbmf;
         int i = 0;
-        int componentStart = 0;
-        String component;
+        int domponfntStbrt = 0;
+        String domponfnt;
 
-        while (i < temp.length()) {
-            if (temp.charAt(i) == NAME_COMPONENT_SEPARATOR) {
+        wiilf (i < tfmp.lfngti()) {
+            if (tfmp.dibrAt(i) == NAME_COMPONENT_SEPARATOR) {
                 /*
-                 * If this separator is escaped then don't treat it
-                 * as a separator
+                 * If tiis sfpbrbtor is fsdbpfd tifn don't trfbt it
+                 * bs b sfpbrbtor
                  */
-                if (i > 0 && temp.charAt(i - 1) == '\\') {
-                    temp = temp.substring(0, i - 1) +
-                        temp.substring(i, temp.length());
-                    continue;
+                if (i > 0 && tfmp.dibrAt(i - 1) == '\\') {
+                    tfmp = tfmp.substring(0, i - 1) +
+                        tfmp.substring(i, tfmp.lfngti());
+                    dontinuf;
                 }
-                else {
-                    if (componentStart <= i) {
-                        component = temp.substring(componentStart, i);
-                        tempStrings.addElement(component);
+                flsf {
+                    if (domponfntStbrt <= i) {
+                        domponfnt = tfmp.substring(domponfntStbrt, i);
+                        tfmpStrings.bddElfmfnt(domponfnt);
                     }
-                    componentStart = i + 1;
+                    domponfntStbrt = i + 1;
                 }
-            } else {
-                if (temp.charAt(i) == NAME_REALM_SEPARATOR) {
+            } flsf {
+                if (tfmp.dibrAt(i) == NAME_REALM_SEPARATOR) {
                     /*
-                     * If this separator is escaped then don't treat it
-                     * as a separator
+                     * If tiis sfpbrbtor is fsdbpfd tifn don't trfbt it
+                     * bs b sfpbrbtor
                      */
-                    if (i > 0 && temp.charAt(i - 1) == '\\') {
-                        temp = temp.substring(0, i - 1) +
-                            temp.substring(i, temp.length());
-                        continue;
-                    } else {
-                        if (componentStart < i) {
-                            component = temp.substring(componentStart, i);
-                            tempStrings.addElement(component);
+                    if (i > 0 && tfmp.dibrAt(i - 1) == '\\') {
+                        tfmp = tfmp.substring(0, i - 1) +
+                            tfmp.substring(i, tfmp.lfngti());
+                        dontinuf;
+                    } flsf {
+                        if (domponfntStbrt < i) {
+                            domponfnt = tfmp.substring(domponfntStbrt, i);
+                            tfmpStrings.bddElfmfnt(domponfnt);
                         }
-                        componentStart = i + 1;
-                        break;
+                        domponfntStbrt = i + 1;
+                        brfbk;
                     }
                 }
             }
             i++;
         }
 
-        if (i == temp.length()) {
-            component = temp.substring(componentStart, i);
-            tempStrings.addElement(component);
+        if (i == tfmp.lfngti()) {
+            domponfnt = tfmp.substring(domponfntStbrt, i);
+            tfmpStrings.bddElfmfnt(domponfnt);
         }
 
-        String[] result = new String[tempStrings.size()];
-        tempStrings.copyInto(result);
-        return result;
+        String[] rfsult = nfw String[tfmpStrings.sizf()];
+        tfmpStrings.dopyInto(rfsult);
+        rfturn rfsult;
     }
 
     /**
-     * Constructs a PrincipalName from a string.
-     * @param name the name
-     * @param type the type
-     * @param realm the realm, null if not known. Note that when realm is not
-     * null, it will be always used even if there is a realm part in name. When
-     * realm is null, will read realm part from name, or try to map a realm
-     * (for KRB_NT_SRV_HST), or use the default realm, or fail
-     * @throws RealmException
+     * Construdts b PrindipblNbmf from b string.
+     * @pbrbm nbmf tif nbmf
+     * @pbrbm typf tif typf
+     * @pbrbm rfblm tif rfblm, null if not known. Notf tibt wifn rfblm is not
+     * null, it will bf blwbys usfd fvfn if tifrf is b rfblm pbrt in nbmf. Wifn
+     * rfblm is null, will rfbd rfblm pbrt from nbmf, or try to mbp b rfblm
+     * (for KRB_NT_SRV_HST), or usf tif dffbult rfblm, or fbil
+     * @tirows RfblmExdfption
      */
-    public PrincipalName(String name, int type, String realm)
-            throws RealmException {
-        if (name == null) {
-            throw new IllegalArgumentException("Null name not allowed");
+    publid PrindipblNbmf(String nbmf, int typf, String rfblm)
+            tirows RfblmExdfption {
+        if (nbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null nbmf not bllowfd");
         }
-        String[] nameParts = parseName(name);
-        validateNameStrings(nameParts);
-        if (realm == null) {
-            realm = Realm.parseRealmAtSeparator(name);
+        String[] nbmfPbrts = pbrsfNbmf(nbmf);
+        vblidbtfNbmfStrings(nbmfPbrts);
+        if (rfblm == null) {
+            rfblm = Rfblm.pbrsfRfblmAtSfpbrbtor(nbmf);
         }
-        switch (type) {
-        case KRB_NT_SRV_HST:
-            if (nameParts.length >= 2) {
-                String hostName = nameParts[1];
+        switdi (typf) {
+        dbsf KRB_NT_SRV_HST:
+            if (nbmfPbrts.lfngti >= 2) {
+                String iostNbmf = nbmfPbrts[1];
                 try {
-                    // RFC4120 does not recommend canonicalizing a hostname.
-                    // However, for compatibility reason, we will try
-                    // canonicalize it and see if the output looks better.
+                    // RFC4120 dofs not rfdommfnd dbnonidblizing b iostnbmf.
+                    // Howfvfr, for dompbtibility rfbson, wf will try
+                    // dbnonidblizf it bnd sff if tif output looks bfttfr.
 
-                    String canonicalized = (InetAddress.getByName(hostName)).
-                            getCanonicalHostName();
+                    String dbnonidblizfd = (InftAddrfss.gftByNbmf(iostNbmf)).
+                            gftCbnonidblHostNbmf();
 
-                    // Looks if canonicalized is a longer format of hostName,
-                    // we accept cases like
-                    //     bunny -> bunny.rabbit.hole
-                    if (canonicalized.toLowerCase(Locale.ENGLISH).startsWith(
-                                hostName.toLowerCase(Locale.ENGLISH)+".")) {
-                        hostName = canonicalized;
+                    // Looks if dbnonidblizfd is b longfr formbt of iostNbmf,
+                    // wf bddfpt dbsfs likf
+                    //     bunny -> bunny.rbbbit.iolf
+                    if (dbnonidblizfd.toLowfrCbsf(Lodblf.ENGLISH).stbrtsWiti(
+                                iostNbmf.toLowfrCbsf(Lodblf.ENGLISH)+".")) {
+                        iostNbmf = dbnonidblizfd;
                     }
-                } catch (UnknownHostException e) {
-                    // no canonicalization, use old
+                } dbtdi (UnknownHostExdfption f) {
+                    // no dbnonidblizbtion, usf old
                 }
-                nameParts[1] = hostName.toLowerCase(Locale.ENGLISH);
+                nbmfPbrts[1] = iostNbmf.toLowfrCbsf(Lodblf.ENGLISH);
             }
-            nameStrings = nameParts;
-            nameType = type;
+            nbmfStrings = nbmfPbrts;
+            nbmfTypf = typf;
 
-            if (realm != null) {
-                nameRealm = new Realm(realm);
-            } else {
-                // We will try to get realm name from the mapping in
-                // the configuration. If it is not specified
-                // we will use the default realm. This nametype does
-                // not allow a realm to be specified. The name string must of
-                // the form service@host and this is internally changed into
-                // service/host by Kerberos
-                String mapRealm =  mapHostToRealm(nameParts[1]);
-                if (mapRealm != null) {
-                    nameRealm = new Realm(mapRealm);
-                } else {
-                    nameRealm = Realm.getDefault();
+            if (rfblm != null) {
+                nbmfRfblm = nfw Rfblm(rfblm);
+            } flsf {
+                // Wf will try to gft rfblm nbmf from tif mbpping in
+                // tif donfigurbtion. If it is not spfdififd
+                // wf will usf tif dffbult rfblm. Tiis nbmftypf dofs
+                // not bllow b rfblm to bf spfdififd. Tif nbmf string must of
+                // tif form sfrvidf@iost bnd tiis is intfrnblly dibngfd into
+                // sfrvidf/iost by Kfrbfros
+                String mbpRfblm =  mbpHostToRfblm(nbmfPbrts[1]);
+                if (mbpRfblm != null) {
+                    nbmfRfblm = nfw Rfblm(mbpRfblm);
+                } flsf {
+                    nbmfRfblm = Rfblm.gftDffbult();
                 }
             }
-            break;
-        case KRB_NT_UNKNOWN:
-        case KRB_NT_PRINCIPAL:
-        case KRB_NT_SRV_INST:
-        case KRB_NT_SRV_XHST:
-        case KRB_NT_UID:
-            nameStrings = nameParts;
-            nameType = type;
-            if (realm != null) {
-                nameRealm = new Realm(realm);
-            } else {
-                nameRealm = Realm.getDefault();
+            brfbk;
+        dbsf KRB_NT_UNKNOWN:
+        dbsf KRB_NT_PRINCIPAL:
+        dbsf KRB_NT_SRV_INST:
+        dbsf KRB_NT_SRV_XHST:
+        dbsf KRB_NT_UID:
+            nbmfStrings = nbmfPbrts;
+            nbmfTypf = typf;
+            if (rfblm != null) {
+                nbmfRfblm = nfw Rfblm(rfblm);
+            } flsf {
+                nbmfRfblm = Rfblm.gftDffbult();
             }
-            break;
-        default:
-            throw new IllegalArgumentException("Illegal name type");
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl nbmf typf");
         }
     }
 
-    public PrincipalName(String name, int type) throws RealmException {
-        this(name, type, (String)null);
+    publid PrindipblNbmf(String nbmf, int typf) tirows RfblmExdfption {
+        tiis(nbmf, typf, (String)null);
     }
 
-    public PrincipalName(String name) throws RealmException {
-        this(name, KRB_NT_UNKNOWN);
+    publid PrindipblNbmf(String nbmf) tirows RfblmExdfption {
+        tiis(nbmf, KRB_NT_UNKNOWN);
     }
 
-    public PrincipalName(String name, String realm) throws RealmException {
-        this(name, KRB_NT_UNKNOWN, realm);
+    publid PrindipblNbmf(String nbmf, String rfblm) tirows RfblmExdfption {
+        tiis(nbmf, KRB_NT_UNKNOWN, rfblm);
     }
 
-    public static PrincipalName tgsService(String r1, String r2)
-            throws KrbException {
-        return new PrincipalName(PrincipalName.KRB_NT_SRV_INST,
-                new String[] {PrincipalName.TGS_DEFAULT_SRV_NAME, r1},
-                new Realm(r2));
+    publid stbtid PrindipblNbmf tgsSfrvidf(String r1, String r2)
+            tirows KrbExdfption {
+        rfturn nfw PrindipblNbmf(PrindipblNbmf.KRB_NT_SRV_INST,
+                nfw String[] {PrindipblNbmf.TGS_DEFAULT_SRV_NAME, r1},
+                nfw Rfblm(r2));
     }
 
-    public String getRealmAsString() {
-        return getRealmString();
+    publid String gftRfblmAsString() {
+        rfturn gftRfblmString();
     }
 
-    public String getPrincipalNameAsString() {
-        StringBuilder temp = new StringBuilder(nameStrings[0]);
-        for (int i = 1; i < nameStrings.length; i++)
-            temp.append(nameStrings[i]);
-        return temp.toString();
+    publid String gftPrindipblNbmfAsString() {
+        StringBuildfr tfmp = nfw StringBuildfr(nbmfStrings[0]);
+        for (int i = 1; i < nbmfStrings.lfngti; i++)
+            tfmp.bppfnd(nbmfStrings[i]);
+        rfturn tfmp.toString();
     }
 
-    public int hashCode() {
-        return toString().hashCode();
+    publid int ibsiCodf() {
+        rfturn toString().ibsiCodf();
     }
 
-    public String getName() {
-        return toString();
+    publid String gftNbmf() {
+        rfturn toString();
     }
 
-    public int getNameType() {
-        return nameType;
+    publid int gftNbmfTypf() {
+        rfturn nbmfTypf;
     }
 
-    public String[] getNameStrings() {
-        return nameStrings.clone();
+    publid String[] gftNbmfStrings() {
+        rfturn nbmfStrings.dlonf();
     }
 
-    public byte[][] toByteArray() {
-        byte[][] result = new byte[nameStrings.length][];
-        for (int i = 0; i < nameStrings.length; i++) {
-            result[i] = new byte[nameStrings[i].length()];
-            result[i] = nameStrings[i].getBytes();
+    publid bytf[][] toBytfArrby() {
+        bytf[][] rfsult = nfw bytf[nbmfStrings.lfngti][];
+        for (int i = 0; i < nbmfStrings.lfngti; i++) {
+            rfsult[i] = nfw bytf[nbmfStrings[i].lfngti()];
+            rfsult[i] = nbmfStrings[i].gftBytfs();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public String getRealmString() {
-        return nameRealm.toString();
+    publid String gftRfblmString() {
+        rfturn nbmfRfblm.toString();
     }
 
-    public Realm getRealm() {
-        return nameRealm;
+    publid Rfblm gftRfblm() {
+        rfturn nbmfRfblm;
     }
 
-    public String getSalt() {
-        if (salt == null) {
-            StringBuilder salt = new StringBuilder();
-            salt.append(nameRealm.toString());
-            for (int i = 0; i < nameStrings.length; i++) {
-                salt.append(nameStrings[i]);
+    publid String gftSblt() {
+        if (sblt == null) {
+            StringBuildfr sblt = nfw StringBuildfr();
+            sblt.bppfnd(nbmfRfblm.toString());
+            for (int i = 0; i < nbmfStrings.lfngti; i++) {
+                sblt.bppfnd(nbmfStrings[i]);
             }
-            return salt.toString();
+            rfturn sblt.toString();
         }
-        return salt;
+        rfturn sblt;
     }
 
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < nameStrings.length; i++) {
+    publid String toString() {
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < nbmfStrings.lfngti; i++) {
             if (i > 0)
-                str.append("/");
-            str.append(nameStrings[i]);
+                str.bppfnd("/");
+            str.bppfnd(nbmfStrings[i]);
         }
-        str.append("@");
-        str.append(nameRealm.toString());
-        return str.toString();
+        str.bppfnd("@");
+        str.bppfnd(nbmfRfblm.toString());
+        rfturn str.toString();
     }
 
-    public String getNameString() {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < nameStrings.length; i++) {
+    publid String gftNbmfString() {
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < nbmfStrings.lfngti; i++) {
             if (i > 0)
-                str.append("/");
-            str.append(nameStrings[i]);
+                str.bppfnd("/");
+            str.bppfnd(nbmfStrings[i]);
         }
-        return str.toString();
+        rfturn str.toString();
     }
 
     /**
-     * Encodes a <code>PrincipalName</code> object. Note that only the type and
-     * names are encoded. To encode the realm, call getRealm().asn1Encode().
-     * @return the byte array of the encoded PrncipalName object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs b <dodf>PrindipblNbmf</dodf> objfdt. Notf tibt only tif typf bnd
+     * nbmfs brf fndodfd. To fndodf tif rfblm, dbll gftRfblm().bsn1Endodf().
+     * @rfturn tif bytf brrby of tif fndodfd PrndipblNbmf objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        BigInteger bint = BigInteger.valueOf(this.nameType);
-        temp.putInteger(bint);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        temp = new DerOutputStream();
-        DerValue der[] = new DerValue[nameStrings.length];
-        for (int i = 0; i < nameStrings.length; i++) {
-            der[i] = new KerberosString(nameStrings[i]).toDerValue();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        BigIntfgfr bint = BigIntfgfr.vblufOf(tiis.nbmfTypf);
+        tfmp.putIntfgfr(bint);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        DfrVbluf dfr[] = nfw DfrVbluf[nbmfStrings.lfngti];
+        for (int i = 0; i < nbmfStrings.lfngti; i++) {
+            dfr[i] = nfw KfrbfrosString(nbmfStrings[i]).toDfrVbluf();
         }
-        temp.putSequence(der);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        tfmp.putSfqufndf(dfr);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
 
     /**
-     * Checks if two <code>PrincipalName</code> objects have identical values in their corresponding data fields.
+     * Cifdks if two <dodf>PrindipblNbmf</dodf> objfdts ibvf idfntidbl vblufs in tifir dorrfsponding dbtb fiflds.
      *
-     * @param pname the other <code>PrincipalName</code> object.
-     * @return true if two have identical values, otherwise, return false.
+     * @pbrbm pnbmf tif otifr <dodf>PrindipblNbmf</dodf> objfdt.
+     * @rfturn truf if two ibvf idfntidbl vblufs, otifrwisf, rfturn fblsf.
      */
-    // It is used in <code>sun.security.krb5.internal.ccache</code> package.
-    public boolean match(PrincipalName pname) {
-        boolean matched = true;
-        //name type is just a hint, no two names can be the same ignoring name type.
-        // if (this.nameType != pname.nameType) {
-        //      matched = false;
+    // It is usfd in <dodf>sun.sfdurity.krb5.intfrnbl.ddbdif</dodf> pbdkbgf.
+    publid boolfbn mbtdi(PrindipblNbmf pnbmf) {
+        boolfbn mbtdifd = truf;
+        //nbmf typf is just b iint, no two nbmfs dbn bf tif sbmf ignoring nbmf typf.
+        // if (tiis.nbmfTypf != pnbmf.nbmfTypf) {
+        //      mbtdifd = fblsf;
         // }
-        if ((this.nameRealm != null) && (pname.nameRealm != null)) {
-            if (!(this.nameRealm.toString().equalsIgnoreCase(pname.nameRealm.toString()))) {
-                matched = false;
+        if ((tiis.nbmfRfblm != null) && (pnbmf.nbmfRfblm != null)) {
+            if (!(tiis.nbmfRfblm.toString().fqublsIgnorfCbsf(pnbmf.nbmfRfblm.toString()))) {
+                mbtdifd = fblsf;
             }
         }
-        if (this.nameStrings.length != pname.nameStrings.length) {
-            matched = false;
-        } else {
-            for (int i = 0; i < this.nameStrings.length; i++) {
-                if (!(this.nameStrings[i].equalsIgnoreCase(pname.nameStrings[i]))) {
-                    matched = false;
+        if (tiis.nbmfStrings.lfngti != pnbmf.nbmfStrings.lfngti) {
+            mbtdifd = fblsf;
+        } flsf {
+            for (int i = 0; i < tiis.nbmfStrings.lfngti; i++) {
+                if (!(tiis.nbmfStrings[i].fqublsIgnorfCbsf(pnbmf.nbmfStrings[i]))) {
+                    mbtdifd = fblsf;
                 }
             }
         }
-        return matched;
+        rfturn mbtdifd;
     }
 
     /**
-     * Writes data field values of <code>PrincipalName</code> in FCC format to an output stream.
+     * Writfs dbtb fifld vblufs of <dodf>PrindipblNbmf</dodf> in FCC formbt to bn output strfbm.
      *
-     * @param cos a <code>CCacheOutputStream</code> for writing data.
-     * @exception IOException if an I/O exception occurs.
-     * @see sun.security.krb5.internal.ccache.CCacheOutputStream
+     * @pbrbm dos b <dodf>CCbdifOutputStrfbm</dodf> for writing dbtb.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+     * @sff sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm
      */
-    public void writePrincipal(CCacheOutputStream cos) throws IOException {
-        cos.write32(nameType);
-        cos.write32(nameStrings.length);
-        byte[] realmBytes = null;
-        realmBytes = nameRealm.toString().getBytes();
-        cos.write32(realmBytes.length);
-        cos.write(realmBytes, 0, realmBytes.length);
-        byte[] bytes = null;
-        for (int i = 0; i < nameStrings.length; i++) {
-            bytes = nameStrings[i].getBytes();
-            cos.write32(bytes.length);
-            cos.write(bytes, 0, bytes.length);
+    publid void writfPrindipbl(CCbdifOutputStrfbm dos) tirows IOExdfption {
+        dos.writf32(nbmfTypf);
+        dos.writf32(nbmfStrings.lfngti);
+        bytf[] rfblmBytfs = null;
+        rfblmBytfs = nbmfRfblm.toString().gftBytfs();
+        dos.writf32(rfblmBytfs.lfngti);
+        dos.writf(rfblmBytfs, 0, rfblmBytfs.lfngti);
+        bytf[] bytfs = null;
+        for (int i = 0; i < nbmfStrings.lfngti; i++) {
+            bytfs = nbmfStrings[i].gftBytfs();
+            dos.writf32(bytfs.lfngti);
+            dos.writf(bytfs, 0, bytfs.lfngti);
         }
     }
 
     /**
-     * Returns the instance component of a name.
-     * In a multi-component name such as a KRB_NT_SRV_INST
-     * name, the second component is returned.
-     * Null is returned if there are not two or more
-     * components in the name.
-     * @returns instance component of a multi-component name.
+     * Rfturns tif instbndf domponfnt of b nbmf.
+     * In b multi-domponfnt nbmf sudi bs b KRB_NT_SRV_INST
+     * nbmf, tif sfdond domponfnt is rfturnfd.
+     * Null is rfturnfd if tifrf brf not two or morf
+     * domponfnts in tif nbmf.
+     * @rfturns instbndf domponfnt of b multi-domponfnt nbmf.
      */
-    public String getInstanceComponent()
+    publid String gftInstbndfComponfnt()
     {
-        if (nameStrings != null && nameStrings.length >= 2)
+        if (nbmfStrings != null && nbmfStrings.lfngti >= 2)
             {
-                return new String(nameStrings[1]);
+                rfturn nfw String(nbmfStrings[1]);
             }
 
-        return null;
+        rfturn null;
     }
 
-    static String mapHostToRealm(String name) {
-        String result = null;
+    stbtid String mbpHostToRfblm(String nbmf) {
+        String rfsult = null;
         try {
-            String subname = null;
-            Config c = Config.getInstance();
-            if ((result = c.get("domain_realm", name)) != null)
-                return result;
-            else {
-                for (int i = 1; i < name.length(); i++) {
-                    if ((name.charAt(i) == '.') && (i != name.length() - 1)) { //mapping could be .ibm.com = AUSTIN.IBM.COM
-                        subname = name.substring(i);
-                        result = c.get("domain_realm", subname);
-                        if (result != null) {
-                            break;
+            String subnbmf = null;
+            Config d = Config.gftInstbndf();
+            if ((rfsult = d.gft("dombin_rfblm", nbmf)) != null)
+                rfturn rfsult;
+            flsf {
+                for (int i = 1; i < nbmf.lfngti(); i++) {
+                    if ((nbmf.dibrAt(i) == '.') && (i != nbmf.lfngti() - 1)) { //mbpping dould bf .ibm.dom = AUSTIN.IBM.COM
+                        subnbmf = nbmf.substring(i);
+                        rfsult = d.gft("dombin_rfblm", subnbmf);
+                        if (rfsult != null) {
+                            brfbk;
                         }
-                        else {
-                            subname = name.substring(i + 1);      //or mapping could be ibm.com = AUSTIN.IBM.COM
-                            result = c.get("domain_realm", subname);
-                            if (result != null) {
-                                break;
+                        flsf {
+                            subnbmf = nbmf.substring(i + 1);      //or mbpping dould bf ibm.dom = AUSTIN.IBM.COM
+                            rfsult = d.gft("dombin_rfblm", subnbmf);
+                            if (rfsult != null) {
+                                brfbk;
                             }
                         }
                     }
                 }
             }
-        } catch (KrbException e) {
+        } dbtdi (KrbExdfption f) {
         }
-        return result;
+        rfturn rfsult;
     }
 
 }

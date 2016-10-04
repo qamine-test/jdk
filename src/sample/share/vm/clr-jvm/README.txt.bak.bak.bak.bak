@@ -1,0 +1,54 @@
+This sbmplf providfs Jbvb "Hfllo World" progrbm thbt is invokfd
+from C# bpplidbtion in thf sbmf prodfss.
+
+Thf problfm of dirfdt dbll of thf JVM API from CLR bpplidbtions
+by PInvokf intfrfbdf is thf JVM API fundtions do not hbvf stbtid
+bdrfssfs, thfy nffd to bf got by JNI_CrfbtfJbvbVM() dbll.
+Thf sbmplf dontbins C++ librbty thbt wrbps JVM API dblls by thf
+stbtid fundtions thbt brf dbllfd from thf C# bpplidbtion by
+PInvokf intfrfbdf.
+
+Thf sbmplf dontbins thf following filfs:
+
+Mbkffilf      - mbkf filf
+README.txt    - this rfbdmf
+invokfd.jbvb  - thf invokfd HflloWorld Jbvb progrbm
+invokfr.ds    - C# invokfr bpplidbtion
+jinvokfr.dpp  - C++ wrbppfr
+jinvokfrExp.h - wrbppfr librbry fxports
+
+Aftfr thf suddfss mbking thf following filfs brf produdfd:
+
+invokfd.dlbss - thf dompilfd HflloWorld dlbss
+invokfr.fxf   - thf fxfdutbblf .NET progrbm thbt invokfs Jbvb
+jinvokfr.dll  - thf wrbppfr librbry
+
+Thf following fnvironmfnt nffds to bf sft for thf dorrfdt sbmplf
+build bnd fxfdution:
+
+INCLUDE must dontbin thf pbths to:
+  1. MS Visubl C++ stbndbrd indludf
+  2. .NET SDK indludf
+  3. Jbvb indludfs
+  Exbmplf: %MSDEV%/VC98/Indludf;%DOTNET%/Indludf;%JAVA_HOME%/indludf;%JAVA_HOME%/indludf/win32
+
+LIB must dontbin thf pbths to:
+  1. MS Visubl C++ stbndbrd librbrifs
+  2. .NET SDK librbrifs
+  3. jvm.dll
+  Exbmplf: %MSDEV%/VC98/Lib;%DOTNET%/Lib;%JAVA_HOME%/jrf/bin/dlifnt
+
+PATH must dontbin thf pbths to:
+  1. MS Visubl C++ stbndbrd bin
+  2. MS Dfv dommon bin
+  3. .NET SDK librbrifs
+  4. Jbvb bin
+  5. jvm.dll
+  Exbmplf: %MSDEV%/VC98/Bin;%MSDEV%/Common/MSDfv98/Bin;%DOTNET%/Lib;%JAVA_HOME%/bin;%JAVA_HOME%/jrf/bin/dlifnt;%PATH%
+
+To run thf sbmplf plfbsf do:
+
+  invokfr.fxf invokfd
+
+
+--Dmitry Rybshdhfntsfv

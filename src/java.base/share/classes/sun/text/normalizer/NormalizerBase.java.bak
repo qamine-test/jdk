@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.text.CharacterIterator;
-import java.text.Normalizer;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.Normblizfr;
 
 /**
- * Unicode Normalization
+ * Unidodf Normblizbtion
  *
- * <h2>Unicode normalization API</h2>
+ * <i2>Unidodf normblizbtion API</i2>
  *
- * <code>normalize</code> transforms Unicode text into an equivalent composed or
- * decomposed form, allowing for easier sorting and searching of text.
- * <code>normalize</code> supports the standard normalization forms described in
- * <a href="http://www.unicode.org/unicode/reports/tr15/" target="unicode">
- * Unicode Standard Annex #15 &mdash; Unicode Normalization Forms</a>.
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
+ * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
+ * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
  *
- * Characters with accents or other adornments can be encoded in
- * several different ways in Unicode.  For example, take the character A-acute.
- * In Unicode, this can be encoded as a single character (the
- * "composed" form):
+ * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
+ * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * "domposfd" form):
  *
  * <p>
  *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
  * </p>
  *
- * or as two separate characters (the "decomposed" form):
+ * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
  *
  * <p>
  *      0041    LATIN CAPITAL LETTER A
  *      0301    COMBINING ACUTE ACCENT
  * </p>
  *
- * To a user of your program, however, both of these sequences should be
- * treated as the same "user-level" character "A with acute accent".  When you
- * are searching or comparing text, you must ensure that these two sequences are
- * treated equivalently.  In addition, you must handle characters with more than
- * one accent.  Sometimes the order of a character's combining accents is
- * significant, while in other cases accent sequences in different orders are
- * really equivalent.
+ * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
+ * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
+ * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * rfblly fquivblfnt.
  *
- * Similarly, the string "ffi" can be encoded as three separate letters:
+ * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
  *
  * <p>
  *      0066    LATIN SMALL LETTER F
@@ -82,1461 +82,1461 @@ import java.text.Normalizer;
  *      0069    LATIN SMALL LETTER I
  * </p>
  *
- * or as the single character
+ * or bs tif singlf dibrbdtfr
  *
  * <p>
  *      FB03    LATIN SMALL LIGATURE FFI
  * </p>
  *
- * The ffi ligature is not a distinct semantic character, and strictly speaking
- * it shouldn't be in Unicode at all, but it was included for compatibility
- * with existing character sets that already provided it.  The Unicode standard
- * identifies such characters by giving them "compatibility" decompositions
- * into the corresponding semantic characters.  When sorting and searching, you
- * will often want to use these mappings.
+ * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
+ * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * will oftfn wbnt to usf tifsf mbppings.
  *
- * <code>normalize</code> helps solve these problems by transforming text into
- * the canonical composed and decomposed forms as shown in the first example
- * above. In addition, you can have it perform compatibility decompositions so
- * that you can treat compatibility characters the same as their equivalents.
- * Finally, <code>normalize</code> rearranges accents into the proper canonical
- * order, so that you do not have to worry about accent rearrangement on your
+ * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
+ * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
+ * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
+ * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
  * own.
  *
- * Form FCD, "Fast C or D", is also designed for collation.
- * It allows to work on strings that are not necessarily normalized
- * with an algorithm (like in collation) that works under "canonical closure",
- * i.e., it treats precomposed characters and their decomposed equivalents the
- * same.
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
+ * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
+ * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * sbmf.
  *
- * It is not a normalization form because it does not provide for uniqueness of
- * representation. Multiple strings may be canonically equivalent (their NFDs
- * are identical) and may all conform to FCD without being identical themselves.
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
  *
- * The form is defined such that the "raw decomposition", the recursive
- * canonical decomposition of each character, results in a string that is
- * canonically ordered. This means that precomposed characters are allowed for
- * as long as their decompositions do not need canonical reordering.
+ * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
+ * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
+ * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
  *
- * Its advantage for a process like collation is that all NFD and most NFC texts
- * - and many unnormalized texts - already conform to FCD and do not need to be
- * normalized (NFD) for such a process. The FCD quick check will return YES for
- * most strings in practice.
+ * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
+ * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * most strings in prbdtidf.
  *
- * normalize(FCD) may be implemented with NFD.
+ * normblizf(FCD) mby bf implfmfntfd witi NFD.
  *
- * For more details on FCD see the collation design document:
- * http://source.icu-project.org/repos/icu/icuhtml/trunk/design/collation/ICU_collation_design.htm
+ * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
+ * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
  *
- * ICU collation performs either NFD or FCD normalization automatically if
- * normalization is turned on for the collator object. Beyond collation and
- * string search, normalized strings may be useful for string equivalence
- * comparisons, transliteration/transcription, unique representations, etc.
+ * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
+ * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
  *
- * The W3C generally recommends to exchange texts in NFC.
- * Note also that most legacy character encodings use only precomposed forms and
- * often do not encode any combining marks by themselves. For conversion to such
- * character encodings the Unicode text needs to be normalized to NFC.
- * For more usage examples, see the Unicode Standard Annex.
- * @stable ICU 2.8
+ * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
+ * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
+ * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
+ * @stbblf ICU 2.8
  */
 
-public final class NormalizerBase implements Cloneable {
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
 
     //-------------------------------------------------------------------------
-    // Private data
+    // Privbtf dbtb
     //-------------------------------------------------------------------------
-    private char[] buffer = new char[100];
-    private int bufferStart = 0;
-    private int bufferPos   = 0;
-    private int bufferLimit = 0;
+    privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf int bufffrStbrt = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrLimit = 0;
 
-    // The input text and our position in it
-    private UCharacterIterator  text;
-    private Mode                mode = NFC;
-    private int                 options = 0;
-    private int                 currentIndex;
-    private int                 nextIndex;
-
-    /**
-     * Options bit set value to select Unicode 3.2 normalization
-     * (except NormalizationCorrections).
-     * At most one Unicode version can be selected at a time.
-     * @stable ICU 2.6
-     */
-    public static final int UNICODE_3_2=0x20;
+    // Tif input tfxt bnd our position in it
+    privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf Modf                modf = NFC;
+    privbtf int                 options = 0;
+    privbtf int                 durrfntIndfx;
+    privbtf int                 nfxtIndfx;
 
     /**
-     * Constant indicating that the end of the iteration has been reached.
-     * This is guaranteed to have the same value as {@link UCharacterIterator#DONE}.
-     * @stable ICU 2.8
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * (fxdfpt NormblizbtionCorrfdtions).
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * @stbblf ICU 2.6
      */
-    public static final int DONE = UCharacterIterator.DONE;
+    publid stbtid finbl int UNICODE_3_2=0x20;
 
     /**
-     * Constants for normalization modes.
-     * @stable ICU 2.8
+     * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
+     * @stbblf ICU 2.8
      */
-    public static class Mode {
-        private int modeValue;
-        private Mode(int value) {
-            modeValue = value;
+    publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
+
+    /**
+     * Constbnts for normblizbtion modfs.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid dlbss Modf {
+        privbtf int modfVbluf;
+        privbtf Modf(int vbluf) {
+            modfVbluf = vbluf;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.6
          */
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                UnicodeSet nx) {
-            int srcLen = (srcLimit - srcStart);
-            int destLen = (destLimit - destStart);
-            if( srcLen > destLen ) {
-                return srcLen;
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int srdLfn = (srdLimit - srdStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
+            if( srdLfn > dfstLfn ) {
+                rfturn srdLfn;
             }
-            System.arraycopy(src,srcStart,dest,destStart,srcLen);
-            return srcLen;
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
+            rfturn srdLfn;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.6
          */
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
                                 int options) {
-            return normalize(   src, srcStart, srcLimit,
-                                dest,destStart,destLimit,
-                                NormalizerImpl.getNX(options)
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                NormblizfrImpl.gftNX(options)
                                 );
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.6
          */
-        protected String normalize(String src, int options) {
-            return src;
+        protfdtfd String normblizf(String srd, int options) {
+            rfturn srd;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
          */
-        protected int getMinC() {
-            return -1;
+        protfdtfd int gftMinC() {
+            rfturn -1;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
          */
-        protected int getMask() {
-            return -1;
+        protfdtfd int gftMbsk() {
+            rfturn -1;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
          */
-        protected IsPrevBoundary getPrevBoundary() {
-            return null;
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn null;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
          */
-        protected IsNextBoundary getNextBoundary() {
-            return null;
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn null;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.6
          */
-        protected QuickCheckResult quickCheck(char[] src,int start, int limit,
-                                              boolean allowMaybe,UnicodeSet nx) {
-            if(allowMaybe) {
-                return MAYBE;
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
+            if(bllowMbybf) {
+                rfturn MAYBE;
             }
-            return NO;
+            rfturn NO;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
          */
-        protected boolean isNFSkippable(int c) {
-            return true;
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn truf;
         }
     }
 
     /**
-     * No decomposition/composition.
-     * @stable ICU 2.8
+     * No dfdomposition/domposition.
+     * @stbblf ICU 2.8
      */
-    public static final Mode NONE = new Mode(1);
+    publid stbtid finbl Modf NONE = nfw Modf(1);
 
     /**
-     * Canonical decomposition.
-     * @stable ICU 2.8
+     * Cbnonidbl dfdomposition.
+     * @stbblf ICU 2.8
      */
-    public static final Mode NFD = new NFDMode(2);
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
 
-    private static final class NFDMode extends Mode {
-        private NFDMode(int value) {
-            super(value);
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+        privbtf NFDModf(int vbluf) {
+            supfr(vbluf);
         }
 
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                UnicodeSet nx) {
-            int[] trailCC = new int[1];
-            return NormalizerImpl.decompose(src,  srcStart,srcLimit,
-                                            dest, destStart,destLimit,
-                                            false, trailCC,nx);
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int[] trbilCC = nfw int[1];
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            fblsf, trbilCC,nx);
         }
 
-        protected String normalize( String src, int options) {
-            return decompose(src,false,options);
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn dfdomposf(srd,fblsf,options);
         }
 
-        protected int getMinC() {
-            return NormalizerImpl.MIN_WITH_LEAD_CC;
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
         }
 
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevNFDSafe();
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvNFDSbff();
         }
 
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextNFDSafe();
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtNFDSbff();
         }
 
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFD);
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
         }
 
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
-                                              UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src, start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFD_NO_MAYBE
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+                                             srd, stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFD,
+                                             NormblizfrImpl.QC_NFD,
                                              0,
-                                             allowMaybe,
+                                             bllowMbybf,
                                              nx
                                              );
         }
 
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c,this,
-                                                (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFD)
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
                                                 );
         }
     }
 
     /**
-     * Compatibility decomposition.
-     * @stable ICU 2.8
+     * Compbtibility dfdomposition.
+     * @stbblf ICU 2.8
      */
-    public static final Mode NFKD = new NFKDMode(3);
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
 
-    private static final class NFKDMode extends Mode {
-        private NFKDMode(int value) {
-            super(value);
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+        privbtf NFKDModf(int vbluf) {
+            supfr(vbluf);
         }
 
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                UnicodeSet nx) {
-            int[] trailCC = new int[1];
-            return NormalizerImpl.decompose(src,  srcStart,srcLimit,
-                                            dest, destStart,destLimit,
-                                            true, trailCC, nx);
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int[] trbilCC = nfw int[1];
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            truf, trbilCC, nx);
         }
 
-        protected String normalize( String src, int options) {
-            return decompose(src,true,options);
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn dfdomposf(srd,truf,options);
         }
 
-        protected int getMinC() {
-            return NormalizerImpl.MIN_WITH_LEAD_CC;
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
         }
 
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevNFDSafe();
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvNFDSbff();
         }
 
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextNFDSafe();
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtNFDSbff();
         }
 
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKD);
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
         }
 
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
-                                              UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFKD_NO_MAYBE
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFKD,
-                                             NormalizerImpl.OPTIONS_COMPAT,
-                                             allowMaybe,
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             bllowMbybf,
                                              nx
                                              );
         }
 
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c, this,
-                                                (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKD)
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
                                                 );
         }
     }
 
     /**
-     * Canonical decomposition followed by canonical composition.
-     * @stable ICU 2.8
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * @stbblf ICU 2.8
      */
-    public static final Mode NFC = new NFCMode(4);
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
 
-    private static final class NFCMode extends Mode{
-        private NFCMode(int value) {
-            super(value);
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+        privbtf NFCModf(int vbluf) {
+            supfr(vbluf);
         }
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                UnicodeSet nx) {
-            return NormalizerImpl.compose( src, srcStart, srcLimit,
-                                           dest,destStart,destLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+                                           dfst,dfstStbrt,dfstLimit,
                                            0, nx);
         }
 
-        protected String normalize( String src, int options) {
-            return compose(src, false, options);
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, fblsf, options);
         }
 
-        protected int getMinC() {
-            return NormalizerImpl.getFromIndexesArr(
-                                                    NormalizerImpl.INDEX_MIN_NFC_NO_MAYBE
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
                                                     );
         }
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevTrueStarter();
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvTrufStbrtfr();
         }
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextTrueStarter();
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
         }
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFC);
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
         }
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
-                                              UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFC_NO_MAYBE
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFC,
+                                             NormblizfrImpl.QC_NFC,
                                              0,
-                                             allowMaybe,
+                                             bllowMbybf,
                                              nx
                                              );
         }
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c,this,
-                                                ( NormalizerImpl.CC_MASK|NormalizerImpl.COMBINES_ANY|
-                                                  (NormalizerImpl.QC_NFC & NormalizerImpl.QC_ANY_NO)
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
                                                   )
                                                 );
         }
     };
 
     /**
-     * Compatibility decomposition followed by canonical composition.
-     * @stable ICU 2.8
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * @stbblf ICU 2.8
      */
-    public static final Mode NFKC =new NFKCMode(5);
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
 
-    private static final class NFKCMode extends Mode{
-        private NFKCMode(int value) {
-            super(value);
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+        privbtf NFKCModf(int vbluf) {
+            supfr(vbluf);
         }
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                UnicodeSet nx) {
-            return NormalizerImpl.compose(src,  srcStart,srcLimit,
-                                          dest, destStart,destLimit,
-                                          NormalizerImpl.OPTIONS_COMPAT, nx);
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
         }
 
-        protected String normalize( String src, int options) {
-            return compose(src, true, options);
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, truf, options);
         }
-        protected int getMinC() {
-            return NormalizerImpl.getFromIndexesArr(
-                                                    NormalizerImpl.INDEX_MIN_NFKC_NO_MAYBE
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
                                                     );
         }
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevTrueStarter();
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvTrufStbrtfr();
         }
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextTrueStarter();
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
         }
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKC);
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
         }
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
-                                              UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFKC_NO_MAYBE
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFKC,
-                                             NormalizerImpl.OPTIONS_COMPAT,
-                                             allowMaybe,
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             bllowMbybf,
                                              nx
                                              );
         }
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c, this,
-                                                ( NormalizerImpl.CC_MASK|NormalizerImpl.COMBINES_ANY|
-                                                  (NormalizerImpl.QC_NFKC & NormalizerImpl.QC_ANY_NO)
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
                                                   )
                                                 );
         }
     };
 
     /**
-     * Result values for quickCheck().
-     * For details see Unicode Technical Report 15.
-     * @stable ICU 2.8
+     * Rfsult vblufs for quidkCifdk().
+     * For dftbils sff Unidodf Tfdinidbl Rfport 15.
+     * @stbblf ICU 2.8
      */
-    public static final class QuickCheckResult{
-        private int resultValue;
-        private QuickCheckResult(int value) {
-            resultValue=value;
+    publid stbtid finbl dlbss QuidkCifdkRfsult{
+        privbtf int rfsultVbluf;
+        privbtf QuidkCifdkRfsult(int vbluf) {
+            rfsultVbluf=vbluf;
         }
     }
     /**
-     * Indicates that string is not in the normalized format
-     * @stable ICU 2.8
+     * Indidbtfs tibt string is not in tif normblizfd formbt
+     * @stbblf ICU 2.8
      */
-    public static final QuickCheckResult NO = new QuickCheckResult(0);
+    publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
 
     /**
-     * Indicates that string is in the normalized format
-     * @stable ICU 2.8
+     * Indidbtfs tibt string is in tif normblizfd formbt
+     * @stbblf ICU 2.8
      */
-    public static final QuickCheckResult YES = new QuickCheckResult(1);
+    publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
 
     /**
-     * Indicates it cannot be determined if string is in the normalized
-     * format without further thorough checks.
-     * @stable ICU 2.8
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * formbt witiout furtifr tiorougi difdks.
+     * @stbblf ICU 2.8
      */
-    public static final QuickCheckResult MAYBE = new QuickCheckResult(2);
+    publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
 
     //-------------------------------------------------------------------------
-    // Constructors
+    // Construdtors
     //-------------------------------------------------------------------------
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of a given string.
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of b givfn string.
      * <p>
-     * The <tt>options</tt> parameter specifies which optional
-     * <tt>Normalizer</tt> features are to be enabled for this object.
+     * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
      * <p>
-     * @param str  The string to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     *              will stbrt bt tif bfginning of tif string.
      *
-     * @param mode The normalization mode.
+     * @pbrbm modf Tif normblizbtion modf.
      *
-     * @param opt Any optional features to be enabled.
-     *            Currently the only available option is {@link #UNICODE_3_2}.
-     *            If you want the default behavior corresponding to one of the
-     *            standard Unicode Normalization Forms, use 0 for this argument.
-     * @stable ICU 2.6
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     * @stbblf ICU 2.6
      */
-    public NormalizerBase(String str, Mode mode, int opt) {
-        this.text = UCharacterIterator.getInstance(str);
-        this.mode = mode;
-        this.options=opt;
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
+        tiis.modf = modf;
+        tiis.options=opt;
     }
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of the given text.
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of tif givfn tfxt.
      * <p>
-     * @param iter  The input text to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     *              will stbrt bt tif bfginning of tif string.
      *
-     * @param mode  The normalization mode.
+     * @pbrbm modf  Tif normblizbtion modf.
      */
-    public NormalizerBase(CharacterIterator iter, Mode mode) {
-          this(iter, mode, UNICODE_LATEST);
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+          tiis(itfr, modf, UNICODE_LATEST);
     }
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of the given text.
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of tif givfn tfxt.
      * <p>
-     * @param iter  The input text to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     *              will stbrt bt tif bfginning of tif string.
      *
-     * @param mode  The normalization mode.
+     * @pbrbm modf  Tif normblizbtion modf.
      *
-     * @param opt Any optional features to be enabled.
-     *            Currently the only available option is {@link #UNICODE_3_2}.
-     *            If you want the default behavior corresponding to one of the
-     *            standard Unicode Normalization Forms, use 0 for this argument.
-     * @stable ICU 2.6
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     * @stbblf ICU 2.6
      */
-    public NormalizerBase(CharacterIterator iter, Mode mode, int opt) {
-        this.text = UCharacterIterator.getInstance(
-                                                   (CharacterIterator)iter.clone()
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
+                                                   (CibrbdtfrItfrbtor)itfr.dlonf()
                                                    );
-        this.mode = mode;
-        this.options = opt;
+        tiis.modf = modf;
+        tiis.options = opt;
     }
 
     /**
-     * Clones this <tt>Normalizer</tt> object.  All properties of this
-     * object are duplicated in the new object, including the cloning of any
-     * {@link CharacterIterator} that was passed in to the constructor
-     * or to {@link #setText(CharacterIterator) setText}.
-     * However, the text storage underlying
-     * the <tt>CharacterIterator</tt> is not duplicated unless the
-     * iterator's <tt>clone</tt> method does so.
-     * @stable ICU 2.8
+     * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
+     * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
+     * Howfvfr, tif tfxt storbgf undfrlying
+     * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
+     * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
+     * @stbblf ICU 2.8
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            NormalizerBase copy = (NormalizerBase) super.clone();
-            copy.text = (UCharacterIterator) text.clone();
-            //clone the internal buffer
-            if (buffer != null) {
-                copy.buffer = new char[buffer.length];
-                System.arraycopy(buffer,0,copy.buffer,0,buffer.length);
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
+            //dlonf tif intfrnbl bufffr
+            if (bufffr != null) {
+                dopy.bufffr = nfw dibr[bufffr.lfngti];
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
             }
-            return copy;
+            rfturn dopy;
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+        dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
     //--------------------------------------------------------------------------
-    // Static Utility methods
+    // Stbtid Utility mftiods
     //--------------------------------------------------------------------------
 
     /**
-     * Compose a string.
-     * The string will be composed to according the the specified mode.
-     * @param str        The string to compose.
-     * @param compat     If true the string will be composed accoding to
-     *                    NFKC rules and if false will be composed according to
-     *                    NFC rules.
-     * @param options    The only recognized option is UNICODE_3_2
-     * @return String    The composed string
-     * @stable ICU 2.6
+     * Composf b string.
+     * Tif string will bf domposfd to bddording tif tif spfdififd modf.
+     * @pbrbm str        Tif string to domposf.
+     * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFC rulfs.
+     * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @rfturn String    Tif domposfd string
+     * @stbblf ICU 2.6
      */
-    public static String compose(String str, boolean compat, int options) {
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
 
-        char[] dest, src;
+        dibr[] dfst, srd;
         if (options == UNICODE_3_2_0_ORIGINAL) {
-            String mappedStr = NormalizerImpl.convert(str);
-            dest = new char[mappedStr.length()*MAX_BUF_SIZE_COMPOSE];
-            src = mappedStr.toCharArray();
-        } else {
-            dest = new char[str.length()*MAX_BUF_SIZE_COMPOSE];
-            src = str.toCharArray();
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            srd = mbppfdStr.toCibrArrby();
+        } flsf {
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            srd = str.toCibrArrby();
         }
-        int destSize=0;
+        int dfstSizf=0;
 
-        UnicodeSet nx = NormalizerImpl.getNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
 
-        /* reset options bits that should only be set here or inside compose() */
-        options&=~(NormalizerImpl.OPTIONS_SETS_MASK|NormalizerImpl.OPTIONS_COMPAT|NormalizerImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+        /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
 
-        if(compat) {
-            options|=NormalizerImpl.OPTIONS_COMPAT;
+        if(dompbt) {
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
         }
 
         for(;;) {
-            destSize=NormalizerImpl.compose(src,0,src.length,
-                                            dest,0,dest.length,options,
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
+                                            dfst,0,dfst.lfngti,options,
                                             nx);
-            if(destSize<=dest.length) {
-                return new String(dest,0,destSize);
-            } else {
-                dest = new char[destSize];
+            if(dfstSizf<=dfst.lfngti) {
+                rfturn nfw String(dfst,0,dfstSizf);
+            } flsf {
+                dfst = nfw dibr[dfstSizf];
             }
         }
     }
 
-    private static final int MAX_BUF_SIZE_COMPOSE = 2;
-    private static final int MAX_BUF_SIZE_DECOMPOSE = 3;
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
 
     /**
-     * Decompose a string.
-     * The string will be decomposed to according the the specified mode.
-     * @param str       The string to decompose.
-     * @param compat    If true the string will be decomposed accoding to NFKD
-     *                   rules and if false will be decomposed according to NFD
-     *                   rules.
-     * @return String   The decomposed string
-     * @stable ICU 2.8
+     * Dfdomposf b string.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs.
+     * @rfturn String   Tif dfdomposfd string
+     * @stbblf ICU 2.8
      */
-    public static String decompose(String str, boolean compat) {
-        return decompose(str,compat,UNICODE_LATEST);
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
     }
 
     /**
-     * Decompose a string.
-     * The string will be decomposed to according the the specified mode.
-     * @param str     The string to decompose.
-     * @param compat  If true the string will be decomposed accoding to NFKD
-     *                 rules and if false will be decomposed according to NFD
-     *                 rules.
-     * @param options The normalization options, ORed together (0 for no options).
-     * @return String The decomposed string
-     * @stable ICU 2.6
+     * Dfdomposf b string.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs.
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @rfturn String Tif dfdomposfd string
+     * @stbblf ICU 2.6
      */
-    public static String decompose(String str, boolean compat, int options) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
 
-        int[] trailCC = new int[1];
-        int destSize=0;
-        UnicodeSet nx = NormalizerImpl.getNX(options);
-        char[] dest;
+        int[] trbilCC = nfw int[1];
+        int dfstSizf=0;
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        dibr[] dfst;
 
         if (options == UNICODE_3_2_0_ORIGINAL) {
-            String mappedStr = NormalizerImpl.convert(str);
-            dest = new char[mappedStr.length()*MAX_BUF_SIZE_DECOMPOSE];
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
 
             for(;;) {
-                destSize=NormalizerImpl.decompose(mappedStr.toCharArray(),0,mappedStr.length(),
-                                                  dest,0,dest.length,
-                                                  compat,trailCC, nx);
-                if(destSize<=dest.length) {
-                    return new String(dest,0,destSize);
-                } else {
-                    dest = new char[destSize];
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                                                  dfst,0,dfst.lfngti,
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngti) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                    dfst = nfw dibr[dfstSizf];
                 }
             }
-        } else {
-            dest = new char[str.length()*MAX_BUF_SIZE_DECOMPOSE];
+        } flsf {
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
 
             for(;;) {
-                destSize=NormalizerImpl.decompose(str.toCharArray(),0,str.length(),
-                                                  dest,0,dest.length,
-                                                  compat,trailCC, nx);
-                if(destSize<=dest.length) {
-                    return new String(dest,0,destSize);
-                } else {
-                    dest = new char[destSize];
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                                                  dfst,0,dfst.lfngti,
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngti) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                    dfst = nfw dibr[dfstSizf];
                 }
             }
         }
     }
 
     /**
-     * Normalize a string.
-     * The string will be normalized according the the specified normalization
-     * mode and options.
-     * @param src       The char array to compose.
-     * @param srcStart  Start index of the source
-     * @param srcLimit  Limit index of the source
-     * @param dest      The char buffer to fill in
-     * @param destStart Start index of the destination buffer
-     * @param destLimit End index of the destination buffer
-     * @param mode      The normalization mode; one of Normalizer.NONE,
-     *                   Normalizer.NFD, Normalizer.NFC, Normalizer.NFKC,
-     *                   Normalizer.NFKD, Normalizer.DEFAULT
-     * @param options The normalization options, ORed together (0 for no options).
-     * @return int      The total buffer size needed;if greater than length of
-     *                   result, the output was truncated.
-     * @exception       IndexOutOfBoundsException if the target capacity is
-     *                   less than the required length
-     * @stable ICU 2.6
+     * Normblizf b string.
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * modf bnd options.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     *                   rfsult, tif output wbs trundbtfd.
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     *                   lfss tibn tif rfquirfd lfngti
+     * @stbblf ICU 2.6
      */
-    public static int normalize(char[] src,int srcStart, int srcLimit,
-                                char[] dest,int destStart, int destLimit,
-                                Mode  mode, int options) {
-        int length = mode.normalize(src,srcStart,srcLimit,dest,destStart,destLimit, options);
+    publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                Modf  modf, int options) {
+        int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
 
-        if(length<=(destLimit-destStart)) {
-            return length;
-        } else {
-            throw new IndexOutOfBoundsException(Integer.toString(length));
+        if(lfngti<=(dfstLimit-dfstStbrt)) {
+            rfturn lfngti;
+        } flsf {
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
         }
     }
 
     //-------------------------------------------------------------------------
-    // Iteration API
+    // Itfrbtion API
     //-------------------------------------------------------------------------
 
     /**
-     * Return the current character in the normalized text->
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * @rfturn Tif dodfpoint bs bn int
+     * @stbblf ICU 2.8
      */
-    public int current() {
-        if(bufferPos<bufferLimit || nextNormalize()) {
-            return getCodePointAt(bufferPos);
-        } else {
-            return DONE;
+    publid int durrfnt() {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
+            rfturn gftCodfPointAt(bufffrPos);
+        } flsf {
+            rfturn DONE;
         }
     }
 
     /**
-     * Return the next character in the normalized text and advance
-     * the iteration position by one.  If the end
-     * of the text has already been reached, {@link #DONE} is returned.
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * tif itfrbtion position by onf.  If tif fnd
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @stbblf ICU 2.8
      */
-    public int next() {
-        if(bufferPos<bufferLimit ||  nextNormalize()) {
-            int c=getCodePointAt(bufferPos);
-            bufferPos+=(c>0xFFFF) ? 2 : 1;
-            return c;
-        } else {
-            return DONE;
+    publid int nfxt() {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos);
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+        } flsf {
+            rfturn DONE;
         }
     }
 
 
     /**
-     * Return the previous character in the normalized text and decrement
-     * the iteration position by one.  If the beginning
-     * of the text has already been reached, {@link #DONE} is returned.
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * tif itfrbtion position by onf.  If tif bfginning
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @stbblf ICU 2.8
      */
-    public int previous() {
-        if(bufferPos>0 || previousNormalize()) {
-            int c=getCodePointAt(bufferPos-1);
-            bufferPos-=(c>0xFFFF) ? 2 : 1;
-            return c;
-        } else {
-            return DONE;
+    publid int prfvious() {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos-1);
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+        } flsf {
+            rfturn DONE;
         }
     }
 
     /**
-     * Reset the index to the beginning of the text.
-     * This is equivalent to setIndexOnly(startIndex)).
-     * @stable ICU 2.8
+     * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
+     * @stbblf ICU 2.8
      */
-    public void reset() {
-        text.setIndex(0);
-        currentIndex=nextIndex=0;
-        clearBuffer();
+    publid void rfsft() {
+        tfxt.sftIndfx(0);
+        durrfntIndfx=nfxtIndfx=0;
+        dlfbrBufffr();
     }
 
     /**
-     * Set the iteration position in the input text that is being normalized,
-     * without any immediate normalization.
-     * After setIndexOnly(), getIndex() will return the same index that is
-     * specified here.
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * witiout bny immfdibtf normblizbtion.
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * spfdififd ifrf.
      *
-     * @param index the desired index in the input text.
-     * @stable ICU 2.8
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @stbblf ICU 2.8
      */
-    public void setIndexOnly(int index) {
-        text.setIndex(index);
-        currentIndex=nextIndex=index; // validates index
-        clearBuffer();
+    publid void sftIndfxOnly(int indfx) {
+        tfxt.sftIndfx(indfx);
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        dlfbrBufffr();
     }
 
     /**
-     * Set the iteration position in the input text that is being normalized
-     * and return the first normalized character at that position.
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
      * <p>
-     * <b>Note:</b> This method sets the position in the <em>input</em> text,
-     * while {@link #next} and {@link #previous} iterate through characters
-     * in the normalized <em>output</em>.  This means that there is not
-     * necessarily a one-to-one correspondence between characters returned
-     * by <tt>next</tt> and <tt>previous</tt> and the indices passed to and
-     * returned from <tt>setIndex</tt> and {@link #getIndex}.
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
      * <p>
-     * @param index the desired index in the input text->
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
      *
-     * @return   the first normalized character that is the result of iterating
-     *            forward starting at the given index.
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     *            forwbrd stbrting bt tif givfn indfx.
      *
-     * @throws IllegalArgumentException if the given index is less than
-     *          {@link #getBeginIndex} or greater than {@link #getEndIndex}.
-     * @return The codepoint as an int
-     * @deprecated ICU 3.2
-     * @obsolete ICU 3.2
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     * @rfturn Tif dodfpoint bs bn int
+     * @dfprfdbtfd ICU 3.2
+     * @obsolftf ICU 3.2
      */
-     @Deprecated
-     public int setIndex(int index) {
-         setIndexOnly(index);
-         return current();
+     @Dfprfdbtfd
+     publid int sftIndfx(int indfx) {
+         sftIndfxOnly(indfx);
+         rfturn durrfnt();
      }
 
     /**
-     * Retrieve the index of the start of the input text. This is the begin
-     * index of the <tt>CharacterIterator</tt> or the start (i.e. 0) of the
-     * <tt>String</tt> over which this <tt>Normalizer</tt> is iterating
-     * @deprecated ICU 2.2. Use startIndex() instead.
-     * @return The codepoint as an int
-     * @see #startIndex
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @sff #stbrtIndfx
      */
-    @Deprecated
-    public int getBeginIndex() {
-        return 0;
+    @Dfprfdbtfd
+    publid int gftBfginIndfx() {
+        rfturn 0;
     }
 
     /**
-     * Retrieve the index of the end of the input text.  This is the end index
-     * of the <tt>CharacterIterator</tt> or the length of the <tt>String</tt>
-     * over which this <tt>Normalizer</tt> is iterating
-     * @deprecated ICU 2.2. Use endIndex() instead.
-     * @return The codepoint as an int
-     * @see #endIndex
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @sff #fndIndfx
      */
-    @Deprecated
-    public int getEndIndex() {
-        return endIndex();
+    @Dfprfdbtfd
+    publid int gftEndIndfx() {
+        rfturn fndIndfx();
     }
 
     /**
-     * Retrieve the current iteration position in the input text that is
-     * being normalized.  This method is useful in applications such as
-     * searching, where you need to be able to determine the position in
-     * the input text that corresponds to a given normalized output character.
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
      * <p>
-     * <b>Note:</b> This method sets the position in the <em>input</em>, while
-     * {@link #next} and {@link #previous} iterate through characters in the
-     * <em>output</em>.  This means that there is not necessarily a one-to-one
-     * correspondence between characters returned by <tt>next</tt> and
-     * <tt>previous</tt> and the indices passed to and returned from
-     * <tt>setIndex</tt> and {@link #getIndex}.
-     * @return The current iteration position
-     * @stable ICU 2.8
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * @rfturn Tif durrfnt itfrbtion position
+     * @stbblf ICU 2.8
      */
-    public int getIndex() {
-        if(bufferPos<bufferLimit) {
-            return currentIndex;
-        } else {
-            return nextIndex;
+    publid int gftIndfx() {
+        if(bufffrPos<bufffrLimit) {
+            rfturn durrfntIndfx;
+        } flsf {
+            rfturn nfxtIndfx;
         }
     }
 
     /**
-     * Retrieve the index of the end of the input text->  This is the end index
-     * of the <tt>CharacterIterator</tt> or the length of the <tt>String</tt>
-     * over which this <tt>Normalizer</tt> is iterating
-     * @return The current iteration position
-     * @stable ICU 2.8
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @rfturn Tif durrfnt itfrbtion position
+     * @stbblf ICU 2.8
      */
-    public int endIndex() {
-        return text.getLength();
+    publid int fndIndfx() {
+        rfturn tfxt.gftLfngti();
     }
 
     //-------------------------------------------------------------------------
-    // Property access methods
+    // Propfrty bddfss mftiods
     //-------------------------------------------------------------------------
     /**
-     * Set the normalization mode for this object.
+     * Sft tif normblizbtion modf for tiis objfdt.
      * <p>
-     * <b>Note:</b>If the normalization mode is changed while iterating
-     * over a string, calls to {@link #next} and {@link #previous} may
-     * return previously buffers characters in the old normalization mode
-     * until the iteration is able to re-sync at the next base character.
-     * It is safest to call {@link #setText setText()}, {@link #first},
-     * {@link #last}, etc. after calling <tt>setMode</tt>.
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
      * <p>
-     * @param newMode the new mode for this <tt>Normalizer</tt>.
-     * The supported modes are:
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * Tif supportfd modfs brf:
      * <ul>
-     *  <li>{@link #COMPOSE}        - Unicode canonical decompositiion
-     *                                  followed by canonical composition.
-     *  <li>{@link #COMPOSE_COMPAT} - Unicode compatibility decompositiion
-     *                                  follwed by canonical composition.
-     *  <li>{@link #DECOMP}         - Unicode canonical decomposition
-     *  <li>{@link #DECOMP_COMPAT}  - Unicode compatibility decomposition.
-     *  <li>{@link #NO_OP}          - Do nothing but return characters
-     *                                  from the underlying input text.
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *                                  followfd by dbnonidbl domposition.
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *                                  follwfd by dbnonidbl domposition.
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *                                  from tif undfrlying input tfxt.
      * </ul>
      *
-     * @see #getMode
-     * @stable ICU 2.8
+     * @sff #gftModf
+     * @stbblf ICU 2.8
      */
-    public void setMode(Mode newMode) {
-        mode = newMode;
+    publid void sftModf(Modf nfwModf) {
+        modf = nfwModf;
     }
     /**
-     * Return the basic operation performed by this <tt>Normalizer</tt>
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
      *
-     * @see #setMode
-     * @stable ICU 2.8
+     * @sff #sftModf
+     * @stbblf ICU 2.8
      */
-    public Mode getMode() {
-        return mode;
+    publid Modf gftModf() {
+        rfturn modf;
     }
 
     /**
-     * Set the input text over which this <tt>Normalizer</tt> will iterate.
-     * The iteration position is set to the beginning of the input text->
-     * @param newText   The new string to be normalized.
-     * @stable ICU 2.8
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
      */
-    public void setText(String newText) {
+    publid void sftTfxt(String nfwTfxt) {
 
-        UCharacterIterator newIter = UCharacterIterator.getInstance(newText);
-        if (newIter == null) {
-            throw new InternalError("Could not create a new UCharacterIterator");
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
         }
-        text = newIter;
-        reset();
+        tfxt = nfwItfr;
+        rfsft();
     }
 
     /**
-     * Set the input text over which this <tt>Normalizer</tt> will iterate.
-     * The iteration position is set to the beginning of the input text->
-     * @param newText   The new string to be normalized.
-     * @stable ICU 2.8
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
      */
-    public void setText(CharacterIterator newText) {
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
 
-        UCharacterIterator newIter = UCharacterIterator.getInstance(newText);
-        if (newIter == null) {
-            throw new InternalError("Could not create a new UCharacterIterator");
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
         }
-        text = newIter;
-        currentIndex=nextIndex=0;
-        clearBuffer();
+        tfxt = nfwItfr;
+        durrfntIndfx=nfxtIndfx=0;
+        dlfbrBufffr();
     }
 
     //-------------------------------------------------------------------------
-    // Private utility methods
+    // Privbtf utility mftiods
     //-------------------------------------------------------------------------
 
 
-    /* backward iteration --------------------------------------------------- */
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
 
     /*
-     * read backwards and get norm32
-     * return 0 if the character is <minC
-     * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-     * surrogate but read second!)
+     * rfbd bbdkwbrds bnd gft norm32
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+     * surrogbtf but rfbd sfdond!)
      */
 
-    private static  long getPrevNorm32(UCharacterIterator src,
-                                       int/*unsigned*/ minC,
-                                       int/*unsigned*/ mask,
-                                       char[] chars) {
+    privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ mbsk,
+                                       dibr[] dibrs) {
         long norm32;
-        int ch=0;
-        /* need src.hasPrevious() */
-        if((ch=src.previous()) == UCharacterIterator.DONE) {
-            return 0;
+        int di=0;
+        /* nffd srd.ibsPrfvious() */
+        if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
+            rfturn 0;
         }
-        chars[0]=(char)ch;
-        chars[1]=0;
+        dibrs[0]=(dibr)di;
+        dibrs[1]=0;
 
-        /* check for a surrogate before getting norm32 to see if we need to
-         * predecrement further */
-        if(chars[0]<minC) {
-            return 0;
-        } else if(!UTF16.isSurrogate(chars[0])) {
-            return NormalizerImpl.getNorm32(chars[0]);
-        } else if(UTF16.isLeadSurrogate(chars[0]) || (src.getIndex()==0)) {
-            /* unpaired surrogate */
-            chars[1]=(char)src.current();
-            return 0;
-        } else if(UTF16.isLeadSurrogate(chars[1]=(char)src.previous())) {
-            norm32=NormalizerImpl.getNorm32(chars[1]);
-            if((norm32&mask)==0) {
-                /* all surrogate pairs with this lead surrogate have irrelevant
-                 * data */
-                return 0;
-            } else {
-                /* norm32 must be a surrogate special */
-                return NormalizerImpl.getNorm32FromSurrogatePair(norm32,chars[0]);
+        /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
+         * prfdfdrfmfnt furtifr */
+        if(dibrs[0]<minC) {
+            rfturn 0;
+        } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
+            rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
+            /* unpbirfd surrogbtf */
+            dibrs[1]=(dibr)srd.durrfnt();
+            rfturn 0;
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
+            norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            if((norm32&mbsk)==0) {
+                /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                 * dbtb */
+                rfturn 0;
+            } flsf {
+                /* norm32 must bf b surrogbtf spfdibl */
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
             }
-        } else {
-            /* unpaired second surrogate, undo the c2=src.previous() movement */
-            src.moveIndex( 1);
-            return 0;
+        } flsf {
+            /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            srd.movfIndfx( 1);
+            rfturn 0;
         }
     }
 
-    private interface IsPrevBoundary{
-        public boolean isPrevBoundary(UCharacterIterator src,
-                                      int/*unsigned*/ minC,
-                                      int/*unsigned*/ mask,
-                                      char[] chars);
+    privbtf intfrfbdf IsPrfvBoundbry{
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ mbsk,
+                                      dibr[] dibrs);
     }
-    private static final class IsPrevNFDSafe implements IsPrevBoundary{
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
         /*
          * for NF*D:
-         * read backwards and check if the lead combining class is 0
-         * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-         * surrogate but read second!)
+         * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * surrogbtf but rfbd sfdond!)
          */
-        public boolean isPrevBoundary(UCharacterIterator src,
-                                      int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      char[] chars) {
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      dibr[] dibrs) {
 
-            return NormalizerImpl.isNFDSafe(getPrevNorm32(src, minC,
-                                                          ccOrQCMask, chars),
-                                            ccOrQCMask,
-                                            ccOrQCMask& NormalizerImpl.QC_MASK);
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+                                                          ddOrQCMbsk, dibrs),
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
         }
     }
 
-    private static final class IsPrevTrueStarter implements IsPrevBoundary{
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
         /*
-         * read backwards and check if the character is (or its decomposition
-         * begins with) a "true starter" (cc==0 and NF*C_YES)
-         * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-         * surrogate but read second!)
+         * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * surrogbtf but rfbd sfdond!)
          */
-        public boolean isPrevBoundary(UCharacterIterator src,
-                                      int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      char[] chars) {
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      dibr[] dibrs) {
             long norm32;
-            int/*unsigned*/ decompQCMask;
+            int/*unsignfd*/ dfdompQCMbsk;
 
-            decompQCMask=(ccOrQCMask<<2)&0xf; /*decomposition quick check mask*/
-            norm32=getPrevNorm32(src, minC, ccOrQCMask|decompQCMask, chars);
-            return NormalizerImpl.isTrueStarter(norm32,ccOrQCMask,decompQCMask);
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
         }
     }
 
-    private static int findPreviousIterationBoundary(UCharacterIterator src,
-                                                     IsPrevBoundary obj,
-                                                     int/*unsigned*/ minC,
-                                                     int/*mask*/ mask,
-                                                     char[] buffer,
-                                                     int[] startIndex) {
-        char[] chars=new char[2];
-        boolean isBoundary;
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+                                                     IsPrfvBoundbry obj,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*mbsk*/ mbsk,
+                                                     dibr[] bufffr,
+                                                     int[] stbrtIndfx) {
+        dibr[] dibrs=nfw dibr[2];
+        boolfbn isBoundbry;
 
-        /* fill the buffer from the end backwards */
-        startIndex[0] = buffer.length;
-        chars[0]=0;
-        while(src.getIndex()>0 && chars[0]!=UCharacterIterator.DONE) {
-            isBoundary=obj.isPrevBoundary(src, minC, mask, chars);
+        /* fill tif bufffr from tif fnd bbdkwbrds */
+        stbrtIndfx[0] = bufffr.lfngti;
+        dibrs[0]=0;
+        wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
 
-            /* always write this character to the front of the buffer */
-            /* make sure there is enough space in the buffer */
-            if(startIndex[0] < (chars[1]==0 ? 1 : 2)) {
+            /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
+            /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
 
-                // grow the buffer
-                char[] newBuf = new char[buffer.length*2];
-                /* move the current buffer contents up */
-                System.arraycopy(buffer,startIndex[0],newBuf,
-                                 newBuf.length-(buffer.length-startIndex[0]),
-                                 buffer.length-startIndex[0]);
-                //adjust the startIndex
-                startIndex[0]+=newBuf.length-buffer.length;
+                // grow tif bufffr
+                dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                /* movf tif durrfnt bufffr dontfnts up */
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                                 nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
+                                 bufffr.lfngti-stbrtIndfx[0]);
+                //bdjust tif stbrtIndfx
+                stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
 
-                buffer=newBuf;
-                newBuf=null;
+                bufffr=nfwBuf;
+                nfwBuf=null;
 
             }
 
-            buffer[--startIndex[0]]=chars[0];
-            if(chars[1]!=0) {
-                buffer[--startIndex[0]]=chars[1];
+            bufffr[--stbrtIndfx[0]]=dibrs[0];
+            if(dibrs[1]!=0) {
+                bufffr[--stbrtIndfx[0]]=dibrs[1];
             }
 
-            /* stop if this just-copied character is a boundary */
-            if(isBoundary) {
-                break;
+            /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            if(isBoundbry) {
+                brfbk;
             }
         }
 
-        /* return the length of the buffer contents */
-        return buffer.length-startIndex[0];
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        rfturn bufffr.lfngti-stbrtIndfx[0];
     }
 
-    private static int previous(UCharacterIterator src,
-                                char[] dest, int destStart, int destLimit,
-                                Mode mode,
-                                boolean doNormalize,
-                                boolean[] pNeededToNormalize,
+    privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+                                dibr[] dfst, int dfstStbrt, int dfstLimit,
+                                Modf modf,
+                                boolfbn doNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
                                 int options) {
 
-        IsPrevBoundary isPreviousBoundary;
-        int destLength, bufferLength;
-        int/*unsigned*/ mask;
-        int c,c2;
+        IsPrfvBoundbry isPrfviousBoundbry;
+        int dfstLfngti, bufffrLfngti;
+        int/*unsignfd*/ mbsk;
+        int d,d2;
 
-        char minC;
-        int destCapacity = destLimit-destStart;
-        destLength=0;
+        dibr minC;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
+        dfstLfngti=0;
 
-        if(pNeededToNormalize!=null) {
-            pNeededToNormalize[0]=false;
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
         }
-        minC = (char)mode.getMinC();
-        mask = mode.getMask();
-        isPreviousBoundary = mode.getPrevBoundary();
+        minC = (dibr)modf.gftMinC();
+        mbsk = modf.gftMbsk();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
 
-        if(isPreviousBoundary==null) {
-            destLength=0;
-            if((c=src.previous())>=0) {
-                destLength=1;
-                if(UTF16.isTrailSurrogate((char)c)) {
-                    c2= src.previous();
-                    if(c2!= UCharacterIterator.DONE) {
-                        if(UTF16.isLeadSurrogate((char)c2)) {
-                            if(destCapacity>=2) {
-                                dest[1]=(char)c; // trail surrogate
-                                destLength=2;
+        if(isPrfviousBoundbry==null) {
+            dfstLfngti=0;
+            if((d=srd.prfvious())>=0) {
+                dfstLfngti=1;
+                if(UTF16.isTrbilSurrogbtf((dibr)d)) {
+                    d2= srd.prfvious();
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                        if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                                dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfstLfngti=2;
                             }
-                            // lead surrogate to be written below
-                            c=c2;
-                        } else {
-                            src.moveIndex(1);
+                            // lfbd surrogbtf to bf writtfn bflow
+                            d=d2;
+                        } flsf {
+                            srd.movfIndfx(1);
                         }
                     }
                 }
 
-                if(destCapacity>0) {
-                    dest[0]=(char)c;
+                if(dfstCbpbdity>0) {
+                    dfst[0]=(dibr)d;
                 }
             }
-            return destLength;
+            rfturn dfstLfngti;
         }
 
-        char[] buffer = new char[100];
-        int[] startIndex= new int[1];
-        bufferLength=findPreviousIterationBoundary(src,
-                                                   isPreviousBoundary,
-                                                   minC, mask,buffer,
-                                                   startIndex);
-        if(bufferLength>0) {
-            if(doNormalize) {
-                destLength=NormalizerBase.normalize(buffer,startIndex[0],
-                                                startIndex[0]+bufferLength,
-                                                dest, destStart,destLimit,
-                                                mode, options);
+        dibr[] bufffr = nfw dibr[100];
+        int[] stbrtIndfx= nfw int[1];
+        bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+                                                   isPrfviousBoundbry,
+                                                   minC, mbsk,bufffr,
+                                                   stbrtIndfx);
+        if(bufffrLfngti>0) {
+            if(doNormblizf) {
+                dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                                                stbrtIndfx[0]+bufffrLfngti,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                modf, options);
 
-                if(pNeededToNormalize!=null) {
-                    pNeededToNormalize[0]=destLength!=bufferLength ||
-                                          Utility.arrayRegionMatches(
-                                            buffer,0,dest,
-                                            destStart,destLimit
+                if(pNffdfdToNormblizf!=null) {
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                                          Utility.brrbyRfgionMbtdifs(
+                                            bufffr,0,dfst,
+                                            dfstStbrt,dfstLimit
                                           );
                 }
-            } else {
-                /* just copy the source characters */
-                if(destCapacity>0) {
-                    System.arraycopy(buffer,startIndex[0],dest,0,
-                                     (bufferLength<destCapacity) ?
-                                     bufferLength : destCapacity
+            } flsf {
+                /* just dopy tif sourdf dibrbdtfrs */
+                if(dfstCbpbdity>0) {
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
+                                     (bufffrLfngti<dfstCbpbdity) ?
+                                     bufffrLfngti : dfstCbpbdity
                                      );
                 }
             }
         }
 
 
-        return destLength;
+        rfturn dfstLfngti;
     }
 
 
 
-    /* forward iteration ---------------------------------------------------- */
+    /* forwbrd itfrbtion ---------------------------------------------------- */
     /*
-     * read forward and check if the character is a next-iteration boundary
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
      */
-    private interface IsNextBoundary{
-        boolean isNextBoundary(UCharacterIterator src,
-                               int/*unsigned*/ minC,
-                               int/*unsigned*/ mask,
-                               int[] chars);
+    privbtf intfrfbdf IsNfxtBoundbry{
+        boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ mbsk,
+                               int[] dibrs);
     }
     /*
-     * read forward and get norm32
-     * return 0 if the character is <minC
-     * if c2!=0 then (c2, c) is a surrogate pair
-     * always reads complete characters
+     * rfbd forwbrd bnd gft norm32
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * blwbys rfbds domplftf dibrbdtfrs
      */
-    private static long /*unsigned*/ getNextNorm32(UCharacterIterator src,
-                                                   int/*unsigned*/ minC,
-                                                   int/*unsigned*/ mask,
-                                                   int[] chars) {
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ mbsk,
+                                                   int[] dibrs) {
         long norm32;
 
-        /* need src.hasNext() to be true */
-        chars[0]=src.next();
-        chars[1]=0;
+        /* nffd srd.ibsNfxt() to bf truf */
+        dibrs[0]=srd.nfxt();
+        dibrs[1]=0;
 
-        if(chars[0]<minC) {
-            return 0;
+        if(dibrs[0]<minC) {
+            rfturn 0;
         }
 
-        norm32=NormalizerImpl.getNorm32((char)chars[0]);
-        if(UTF16.isLeadSurrogate((char)chars[0])) {
-            if(src.current()!=UCharacterIterator.DONE &&
-               UTF16.isTrailSurrogate((char)(chars[1]=src.current()))) {
-                src.moveIndex(1); /* skip the c2 surrogate */
-                if((norm32&mask)==0) {
-                    /* irrelevant data */
-                    return 0;
-                } else {
-                    /* norm32 must be a surrogate special */
-                    return NormalizerImpl.getNorm32FromSurrogatePair(norm32,(char)chars[1]);
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                if((norm32&mbsk)==0) {
+                    /* irrflfvbnt dbtb */
+                    rfturn 0;
+                } flsf {
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
                 }
-            } else {
-                /* unmatched surrogate */
-                return 0;
+            } flsf {
+                /* unmbtdifd surrogbtf */
+                rfturn 0;
             }
         }
-        return norm32;
+        rfturn norm32;
     }
 
 
     /*
      * for NF*D:
-     * read forward and check if the lead combining class is 0
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
      */
-    private static final class IsNextNFDSafe implements IsNextBoundary{
-        public boolean isNextBoundary(UCharacterIterator src,
-                                      int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      int[] chars) {
-            return NormalizerImpl.isNFDSafe(getNextNorm32(src,minC,ccOrQCMask,chars),
-                                            ccOrQCMask, ccOrQCMask&NormalizerImpl.QC_MASK);
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dibrs) {
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
         }
     }
 
     /*
      * for NF*C:
-     * read forward and check if the character is (or its decomposition begins
-     * with) a "true starter" (cc==0 and NF*C_YES)
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
      */
-    private static final class IsNextTrueStarter implements IsNextBoundary{
-        public boolean isNextBoundary(UCharacterIterator src,
-                                      int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      int[] chars) {
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dibrs) {
             long norm32;
-            int/*unsigned*/ decompQCMask;
+            int/*unsignfd*/ dfdompQCMbsk;
 
-            decompQCMask=(ccOrQCMask<<2)&0xf; /*decomposition quick check mask*/
-            norm32=getNextNorm32(src, minC, ccOrQCMask|decompQCMask, chars);
-            return NormalizerImpl.isTrueStarter(norm32, ccOrQCMask, decompQCMask);
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
         }
     }
 
-    private static int findNextIterationBoundary(UCharacterIterator src,
-                                                 IsNextBoundary obj,
-                                                 int/*unsigned*/ minC,
-                                                 int/*unsigned*/ mask,
-                                                 char[] buffer) {
-        if(src.current()==UCharacterIterator.DONE) {
-            return 0;
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+                                                 IsNfxtBoundbry obj,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ mbsk,
+                                                 dibr[] bufffr) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+            rfturn 0;
         }
 
-        /* get one character and ignore its properties */
-        int[] chars = new int[2];
-        chars[0]=src.next();
-        buffer[0]=(char)chars[0];
-        int bufferIndex = 1;
+        /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        int[] dibrs = nfw int[2];
+        dibrs[0]=srd.nfxt();
+        bufffr[0]=(dibr)dibrs[0];
+        int bufffrIndfx = 1;
 
-        if(UTF16.isLeadSurrogate((char)chars[0])&&
-           src.current()!=UCharacterIterator.DONE) {
-            if(UTF16.isTrailSurrogate((char)(chars[1]=src.next()))) {
-                buffer[bufferIndex++]=(char)chars[1];
-            } else {
-                src.moveIndex(-1); /* back out the non-trail-surrogate */
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+           srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+            if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+                bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+            } flsf {
+                srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
             }
         }
 
-        /* get all following characters until we see a boundary */
-        /* checking hasNext() instead of c!=DONE on the off-chance that U+ffff
-         * is part of the string */
-        while( src.current()!=UCharacterIterator.DONE) {
-            if(obj.isNextBoundary(src, minC, mask, chars)) {
-                /* back out the latest movement to stop at the boundary */
-                src.moveIndex(chars[1]==0 ? -1 : -2);
-                break;
-            } else {
-                if(bufferIndex+(chars[1]==0 ? 1 : 2)<=buffer.length) {
-                    buffer[bufferIndex++]=(char)chars[0];
-                    if(chars[1]!=0) {
-                        buffer[bufferIndex++]=(char)chars[1];
+        /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
+         * is pbrt of tif string */
+        wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+                /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
+                srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                brfbk;
+            } flsf {
+                if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    if(dibrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
                     }
-                } else {
-                    char[] newBuf = new char[buffer.length*2];
-                    System.arraycopy(buffer,0,newBuf,0,bufferIndex);
-                    buffer = newBuf;
-                    buffer[bufferIndex++]=(char)chars[0];
-                    if(chars[1]!=0) {
-                        buffer[bufferIndex++]=(char)chars[1];
+                } flsf {
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    bufffr = nfwBuf;
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    if(dibrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
                     }
                 }
             }
         }
 
-        /* return the length of the buffer contents */
-        return bufferIndex;
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        rfturn bufffrIndfx;
     }
 
-    private static int next(UCharacterIterator src,
-                            char[] dest, int destStart, int destLimit,
-                            NormalizerBase.Mode mode,
-                            boolean doNormalize,
-                            boolean[] pNeededToNormalize,
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            NormblizfrBbsf.Modf modf,
+                            boolfbn doNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
                             int options) {
 
-        IsNextBoundary isNextBoundary;
-        int /*unsigned*/ mask;
-        int /*unsigned*/ bufferLength;
-        int c,c2;
-        char minC;
-        int destCapacity = destLimit - destStart;
-        int destLength = 0;
-        if(pNeededToNormalize!=null) {
-            pNeededToNormalize[0]=false;
+        IsNfxtBoundbry isNfxtBoundbry;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ bufffrLfngti;
+        int d,d2;
+        dibr minC;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstLfngti = 0;
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
         }
 
-        minC = (char)mode.getMinC();
-        mask = mode.getMask();
-        isNextBoundary = mode.getNextBoundary();
+        minC = (dibr)modf.gftMinC();
+        mbsk = modf.gftMbsk();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
 
-        if(isNextBoundary==null) {
-            destLength=0;
-            c=src.next();
-            if(c!=UCharacterIterator.DONE) {
-                destLength=1;
-                if(UTF16.isLeadSurrogate((char)c)) {
-                    c2= src.next();
-                    if(c2!= UCharacterIterator.DONE) {
-                        if(UTF16.isTrailSurrogate((char)c2)) {
-                            if(destCapacity>=2) {
-                                dest[1]=(char)c2; // trail surrogate
-                                destLength=2;
+        if(isNfxtBoundbry==null) {
+            dfstLfngti=0;
+            d=srd.nfxt();
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+                dfstLfngti=1;
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                    d2= srd.nfxt();
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfstLfngti=2;
                             }
-                            // lead surrogate to be written below
-                        } else {
-                            src.moveIndex(-1);
+                            // lfbd surrogbtf to bf writtfn bflow
+                        } flsf {
+                            srd.movfIndfx(-1);
                         }
                     }
                 }
 
-                if(destCapacity>0) {
-                    dest[0]=(char)c;
+                if(dfstCbpbdity>0) {
+                    dfst[0]=(dibr)d;
                 }
             }
-            return destLength;
+            rfturn dfstLfngti;
         }
 
-        char[] buffer=new char[100];
-        int[] startIndex = new int[1];
-        bufferLength=findNextIterationBoundary(src,isNextBoundary, minC, mask,
-                                               buffer);
-        if(bufferLength>0) {
-            if(doNormalize) {
-                destLength=mode.normalize(buffer,startIndex[0],bufferLength,
-                                          dest,destStart,destLimit, options);
+        dibr[] bufffr=nfw dibr[100];
+        int[] stbrtIndfx = nfw int[1];
+        bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+                                               bufffr);
+        if(bufffrLfngti>0) {
+            if(doNormblizf) {
+                dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                                          dfst,dfstStbrt,dfstLimit, options);
 
-                if(pNeededToNormalize!=null) {
-                    pNeededToNormalize[0]=destLength!=bufferLength ||
-                                          Utility.arrayRegionMatches(buffer,startIndex[0],
-                                            dest,destStart,
-                                            destLength);
+                if(pNffdfdToNormblizf!=null) {
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                                          Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
+                                            dfst,dfstStbrt,
+                                            dfstLfngti);
                 }
-            } else {
-                /* just copy the source characters */
-                if(destCapacity>0) {
-                    System.arraycopy(buffer,0,dest,destStart,
-                                     Math.min(bufferLength,destCapacity)
+            } flsf {
+                /* just dopy tif sourdf dibrbdtfrs */
+                if(dfstCbpbdity>0) {
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                                     Mbti.min(bufffrLfngti,dfstCbpbdity)
                                      );
                 }
 
 
             }
         }
-        return destLength;
+        rfturn dfstLfngti;
     }
 
-    private void clearBuffer() {
-        bufferLimit=bufferStart=bufferPos=0;
+    privbtf void dlfbrBufffr() {
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
     }
 
-    private boolean nextNormalize() {
+    privbtf boolfbn nfxtNormblizf() {
 
-        clearBuffer();
-        currentIndex=nextIndex;
-        text.setIndex(nextIndex);
+        dlfbrBufffr();
+        durrfntIndfx=nfxtIndfx;
+        tfxt.sftIndfx(nfxtIndfx);
 
-        bufferLimit=next(text,buffer,bufferStart,buffer.length,mode,true,null,options);
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
 
-        nextIndex=text.getIndex();
-        return (bufferLimit>0);
+        nfxtIndfx=tfxt.gftIndfx();
+        rfturn (bufffrLimit>0);
     }
 
-    private boolean previousNormalize() {
+    privbtf boolfbn prfviousNormblizf() {
 
-        clearBuffer();
-        nextIndex=currentIndex;
-        text.setIndex(currentIndex);
-        bufferLimit=previous(text,buffer,bufferStart,buffer.length,mode,true,null,options);
+        dlfbrBufffr();
+        nfxtIndfx=durrfntIndfx;
+        tfxt.sftIndfx(durrfntIndfx);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
 
-        currentIndex=text.getIndex();
-        bufferPos = bufferLimit;
-        return bufferLimit>0;
+        durrfntIndfx=tfxt.gftIndfx();
+        bufffrPos = bufffrLimit;
+        rfturn bufffrLimit>0;
     }
 
-    private int getCodePointAt(int index) {
-        if( UTF16.isSurrogate(buffer[index])) {
-            if(UTF16.isLeadSurrogate(buffer[index])) {
-                if((index+1)<bufferLimit &&
-                   UTF16.isTrailSurrogate(buffer[index+1])) {
-                    return UCharacterProperty.getRawSupplementary(
-                                                                  buffer[index],
-                                                                  buffer[index+1]
+    privbtf int gftCodfPointAt(int indfx) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+                if((indfx+1)<bufffrLimit &&
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx+1]
                                                                   );
                 }
-            }else if(UTF16.isTrailSurrogate(buffer[index])) {
-                if(index>0 && UTF16.isLeadSurrogate(buffer[index-1])) {
-                    return UCharacterProperty.getRawSupplementary(
-                                                                  buffer[index-1],
-                                                                  buffer[index]
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx]
                                                                   );
                 }
             }
         }
-        return buffer[index];
+        rfturn bufffr[indfx];
 
     }
 
     /**
-     * Internal API
-     * @internal
+     * Intfrnbl API
+     * @intfrnbl
      */
-    public static boolean isNFSkippable(int c, Mode mode) {
-        return mode.isNFSkippable(c);
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
+        rfturn modf.isNFSkippbblf(d);
     }
 
     //
@@ -1544,140 +1544,140 @@ public final class NormalizerBase implements Cloneable {
     //
 
     /*
-     * Default option for Unicode 3.2.0 normalization.
-     * Corrigendum 4 was fixed in Unicode 3.2.0 but isn't supported in
-     * IDNA/StringPrep.
-     * The public review issue #29 was fixed in Unicode 4.1.0. Corrigendum 5
-     * allowed Unicode 3.2 to 4.0.1 to apply the fix for PRI #29, but it isn't
-     * supported by IDNA/StringPrep as well as Corrigendum 4.
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
+     * IDNA/StringPrfp.
+     * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
      */
-    public static final int UNICODE_3_2_0_ORIGINAL =
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
                                UNICODE_3_2 |
-                               NormalizerImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
-                               NormalizerImpl.BEFORE_PRI_29;
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizfrImpl.BEFORE_PRI_29;
 
     /*
-     * Default option for the latest Unicode normalization. This option is
-     * provided mainly for testing.
-     * The value zero means that normalization is done with the fixes for
-     *   - Corrigendum 4 (Five CJK Canonical Mapping Errors)
-     *   - Corrigendum 5 (Normalization Idempotency)
+     * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
+     * providfd mbinly for tfsting.
+     * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
      */
-    public static final int UNICODE_LATEST = 0x00;
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
 
     //
-    // public constructor and methods for java.text.Normalizer and
-    // sun.text.Normalizer
+    // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // sun.tfxt.Normblizfr
     //
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of a given string.
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of b givfn string.
      *
-     * @param str  The string to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     *              will stbrt bt tif bfginning of tif string.
      *
-     * @param mode The normalization mode.
+     * @pbrbm modf Tif normblizbtion modf.
      */
-    public NormalizerBase(String str, Mode mode) {
-          this(str, mode, UNICODE_LATEST);
+    publid NormblizfrBbsf(String str, Modf modf) {
+          tiis(str, modf, UNICODE_LATEST);
     }
 
     /**
-     * Normalizes a <code>String</code> using the given normalization form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
      *
-     * @param str      the input string to be normalized.
-     * @param form     the normalization form
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm form     tif normblizbtion form
      */
-    public static String normalize(String str, Normalizer.Form form) {
-        return normalize(str, form, UNICODE_LATEST);
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+        rfturn normblizf(str, form, UNICODE_LATEST);
     }
 
     /**
-     * Normalizes a <code>String</code> using the given normalization form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
      *
-     * @param str      the input string to be normalized.
-     * @param form     the normalization form
-     * @param options   the optional features to be enabled.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
      */
-    public static String normalize(String str, Normalizer.Form form, int options) {
-        int len = str.length();
-        boolean asciiOnly = true;
-        if (len < 80) {
-            for (int i = 0; i < len; i++) {
-                if (str.charAt(i) > 127) {
-                    asciiOnly = false;
-                    break;
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+        int lfn = str.lfngti();
+        boolfbn bsdiiOnly = truf;
+        if (lfn < 80) {
+            for (int i = 0; i < lfn; i++) {
+                if (str.dibrAt(i) > 127) {
+                    bsdiiOnly = fblsf;
+                    brfbk;
                 }
             }
-        } else {
-            char[] a = str.toCharArray();
-            for (int i = 0; i < len; i++) {
-                if (a[i] > 127) {
-                    asciiOnly = false;
-                    break;
+        } flsf {
+            dibr[] b = str.toCibrArrby();
+            for (int i = 0; i < lfn; i++) {
+                if (b[i] > 127) {
+                    bsdiiOnly = fblsf;
+                    brfbk;
                 }
             }
         }
 
-        switch (form) {
-        case NFC :
-            return asciiOnly ? str : NFC.normalize(str, options);
-        case NFD :
-            return asciiOnly ? str : NFD.normalize(str, options);
-        case NFKC :
-            return asciiOnly ? str : NFKC.normalize(str, options);
-        case NFKD :
-            return asciiOnly ? str : NFKD.normalize(str, options);
+        switdi (form) {
+        dbsf NFC :
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
+        dbsf NFD :
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
+        dbsf NFKC :
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
+        dbsf NFKD :
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
         }
 
-        throw new IllegalArgumentException("Unexpected normalization form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
                                            form);
     }
 
     /**
-     * Test if a string is in a given normalization form.
-     * This is semantically equivalent to source.equals(normalize(source, mode)).
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
      *
-     * Unlike quickCheck(), this function returns a definitive result,
-     * never a "maybe".
-     * For NFD, NFKD, and FCD, both functions work exactly the same.
-     * For NFC and NFKC where quickCheck may return "maybe", this function will
-     * perform further tests to arrive at a true/false result.
-     * @param str       the input string to be checked to see if it is normalized
-     * @param form      the normalization form
-     * @param options   the optional features to be enabled.
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
      */
-    public static boolean isNormalized(String str, Normalizer.Form form) {
-        return isNormalized(str, form, UNICODE_LATEST);
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
     }
 
     /**
-     * Test if a string is in a given normalization form.
-     * This is semantically equivalent to source.equals(normalize(source, mode)).
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
      *
-     * Unlike quickCheck(), this function returns a definitive result,
-     * never a "maybe".
-     * For NFD, NFKD, and FCD, both functions work exactly the same.
-     * For NFC and NFKC where quickCheck may return "maybe", this function will
-     * perform further tests to arrive at a true/false result.
-     * @param str       the input string to be checked to see if it is normalized
-     * @param form      the normalization form
-     * @param options   the optional features to be enabled.
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
      */
-    public static boolean isNormalized(String str, Normalizer.Form form, int options) {
-        switch (form) {
-        case NFC:
-            return (NFC.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFD:
-            return (NFD.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFKC:
-            return (NFKC.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFKD:
-            return (NFKD.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+        switdi (form) {
+        dbsf NFC:
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFD:
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKC:
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKD:
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
         }
 
-        throw new IllegalArgumentException("Unexpected normalization form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
                                            form);
     }
 }

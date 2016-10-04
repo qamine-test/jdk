@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVA_JMM_H_
-#define _JAVA_JMM_H_
+#ifndff _JAVA_JMM_H_
+#dffinf _JAVA_JMM_H_
 
 /*
- * This is a private interface used by JDK for JVM monitoring
- * and management.
+ * Tiis is b privbtf intfrfbdf usfd by JDK for JVM monitoring
+ * bnd mbnbgfmfnt.
  *
- * Bump the version number when either of the following happens:
+ * Bump tif vfrsion numbfr wifn fitifr of tif following ibppfns:
  *
- * 1. There is a change in functions in JmmInterface.
+ * 1. Tifrf is b dibngf in fundtions in JmmIntfrfbdf.
  *
- * 2. There is a change in the contract between VM and Java classes.
+ * 2. Tifrf is b dibngf in tif dontrbdt bftwffn VM bnd Jbvb dlbssfs.
  */
 
-#include "jni.h"
+#indludf "jni.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-enum {
+fnum {
   JMM_VERSION_1   = 0x20010000,
   JMM_VERSION_1_0 = 0x20010000,
   JMM_VERSION_1_1 = 0x20010100, // JDK 6
@@ -53,297 +53,297 @@ enum {
   JMM_VERSION     = 0x20010203
 };
 
-typedef struct {
-  unsigned int isLowMemoryDetectionSupported : 1;
-  unsigned int isCompilationTimeMonitoringSupported : 1;
-  unsigned int isThreadContentionMonitoringSupported : 1;
-  unsigned int isCurrentThreadCpuTimeSupported : 1;
-  unsigned int isOtherThreadCpuTimeSupported : 1;
-  unsigned int isBootClassPathSupported : 1;
-  unsigned int isObjectMonitorUsageSupported : 1;
-  unsigned int isSynchronizerUsageSupported : 1;
-  unsigned int isThreadAllocatedMemorySupported : 1;
-  unsigned int isRemoteDiagnosticCommandsSupported : 1;
-  unsigned int : 22;
-} jmmOptionalSupport;
+typfdff strudt {
+  unsignfd int isLowMfmoryDftfdtionSupportfd : 1;
+  unsignfd int isCompilbtionTimfMonitoringSupportfd : 1;
+  unsignfd int isTirfbdContfntionMonitoringSupportfd : 1;
+  unsignfd int isCurrfntTirfbdCpuTimfSupportfd : 1;
+  unsignfd int isOtifrTirfbdCpuTimfSupportfd : 1;
+  unsignfd int isBootClbssPbtiSupportfd : 1;
+  unsignfd int isObjfdtMonitorUsbgfSupportfd : 1;
+  unsignfd int isSyndironizfrUsbgfSupportfd : 1;
+  unsignfd int isTirfbdAllodbtfdMfmorySupportfd : 1;
+  unsignfd int isRfmotfDibgnostidCommbndsSupportfd : 1;
+  unsignfd int : 22;
+} jmmOptionblSupport;
 
-typedef enum {
-  JMM_CLASS_LOADED_COUNT             = 1,    /* Total number of loaded classes */
-  JMM_CLASS_UNLOADED_COUNT           = 2,    /* Total number of unloaded classes */
-  JMM_THREAD_TOTAL_COUNT             = 3,    /* Total number of threads that have been started */
-  JMM_THREAD_LIVE_COUNT              = 4,    /* Current number of live threads */
-  JMM_THREAD_PEAK_COUNT              = 5,    /* Peak number of live threads */
-  JMM_THREAD_DAEMON_COUNT            = 6,    /* Current number of daemon threads */
-  JMM_JVM_INIT_DONE_TIME_MS          = 7,    /* Time when the JVM finished initialization */
-  JMM_COMPILE_TOTAL_TIME_MS          = 8,    /* Total accumulated time spent in compilation */
-  JMM_GC_TIME_MS                     = 9,    /* Total accumulated time spent in collection */
-  JMM_GC_COUNT                       = 10,   /* Total number of collections */
-  JMM_JVM_UPTIME_MS                  = 11,   /* The JVM uptime in milliseconds */
+typfdff fnum {
+  JMM_CLASS_LOADED_COUNT             = 1,    /* Totbl numbfr of lobdfd dlbssfs */
+  JMM_CLASS_UNLOADED_COUNT           = 2,    /* Totbl numbfr of unlobdfd dlbssfs */
+  JMM_THREAD_TOTAL_COUNT             = 3,    /* Totbl numbfr of tirfbds tibt ibvf bffn stbrtfd */
+  JMM_THREAD_LIVE_COUNT              = 4,    /* Currfnt numbfr of livf tirfbds */
+  JMM_THREAD_PEAK_COUNT              = 5,    /* Pfbk numbfr of livf tirfbds */
+  JMM_THREAD_DAEMON_COUNT            = 6,    /* Currfnt numbfr of dbfmon tirfbds */
+  JMM_JVM_INIT_DONE_TIME_MS          = 7,    /* Timf wifn tif JVM finisifd initiblizbtion */
+  JMM_COMPILE_TOTAL_TIME_MS          = 8,    /* Totbl bddumulbtfd timf spfnt in dompilbtion */
+  JMM_GC_TIME_MS                     = 9,    /* Totbl bddumulbtfd timf spfnt in dollfdtion */
+  JMM_GC_COUNT                       = 10,   /* Totbl numbfr of dollfdtions */
+  JMM_JVM_UPTIME_MS                  = 11,   /* Tif JVM uptimf in millisfdonds */
 
   JMM_INTERNAL_ATTRIBUTE_INDEX       = 100,
-  JMM_CLASS_LOADED_BYTES             = 101,  /* Number of bytes loaded instance classes */
-  JMM_CLASS_UNLOADED_BYTES           = 102,  /* Number of bytes unloaded instance classes */
-  JMM_TOTAL_CLASSLOAD_TIME_MS        = 103,  /* Accumulated VM class loader time (TraceClassLoadingTime) */
-  JMM_VM_GLOBAL_COUNT                = 104,  /* Number of VM internal flags */
-  JMM_SAFEPOINT_COUNT                = 105,  /* Total number of safepoints */
-  JMM_TOTAL_SAFEPOINTSYNC_TIME_MS    = 106,  /* Accumulated time spent getting to safepoints */
-  JMM_TOTAL_STOPPED_TIME_MS          = 107,  /* Accumulated time spent at safepoints */
-  JMM_TOTAL_APP_TIME_MS              = 108,  /* Accumulated time spent in Java application */
-  JMM_VM_THREAD_COUNT                = 109,  /* Current number of VM internal threads */
-  JMM_CLASS_INIT_TOTAL_COUNT         = 110,  /* Number of classes for which initializers were run */
-  JMM_CLASS_INIT_TOTAL_TIME_MS       = 111,  /* Accumulated time spent in class initializers */
-  JMM_METHOD_DATA_SIZE_BYTES         = 112,  /* Size of method data in memory */
-  JMM_CLASS_VERIFY_TOTAL_TIME_MS     = 113,  /* Accumulated time spent in class verifier */
-  JMM_SHARED_CLASS_LOADED_COUNT      = 114,  /* Number of shared classes loaded */
-  JMM_SHARED_CLASS_UNLOADED_COUNT    = 115,  /* Number of shared classes unloaded */
-  JMM_SHARED_CLASS_LOADED_BYTES      = 116,  /* Number of bytes loaded shared classes */
-  JMM_SHARED_CLASS_UNLOADED_BYTES    = 117,  /* Number of bytes unloaded shared classes */
+  JMM_CLASS_LOADED_BYTES             = 101,  /* Numbfr of bytfs lobdfd instbndf dlbssfs */
+  JMM_CLASS_UNLOADED_BYTES           = 102,  /* Numbfr of bytfs unlobdfd instbndf dlbssfs */
+  JMM_TOTAL_CLASSLOAD_TIME_MS        = 103,  /* Addumulbtfd VM dlbss lobdfr timf (TrbdfClbssLobdingTimf) */
+  JMM_VM_GLOBAL_COUNT                = 104,  /* Numbfr of VM intfrnbl flbgs */
+  JMM_SAFEPOINT_COUNT                = 105,  /* Totbl numbfr of sbffpoints */
+  JMM_TOTAL_SAFEPOINTSYNC_TIME_MS    = 106,  /* Addumulbtfd timf spfnt gftting to sbffpoints */
+  JMM_TOTAL_STOPPED_TIME_MS          = 107,  /* Addumulbtfd timf spfnt bt sbffpoints */
+  JMM_TOTAL_APP_TIME_MS              = 108,  /* Addumulbtfd timf spfnt in Jbvb bpplidbtion */
+  JMM_VM_THREAD_COUNT                = 109,  /* Currfnt numbfr of VM intfrnbl tirfbds */
+  JMM_CLASS_INIT_TOTAL_COUNT         = 110,  /* Numbfr of dlbssfs for wiidi initiblizfrs wfrf run */
+  JMM_CLASS_INIT_TOTAL_TIME_MS       = 111,  /* Addumulbtfd timf spfnt in dlbss initiblizfrs */
+  JMM_METHOD_DATA_SIZE_BYTES         = 112,  /* Sizf of mftiod dbtb in mfmory */
+  JMM_CLASS_VERIFY_TOTAL_TIME_MS     = 113,  /* Addumulbtfd timf spfnt in dlbss vfrififr */
+  JMM_SHARED_CLASS_LOADED_COUNT      = 114,  /* Numbfr of sibrfd dlbssfs lobdfd */
+  JMM_SHARED_CLASS_UNLOADED_COUNT    = 115,  /* Numbfr of sibrfd dlbssfs unlobdfd */
+  JMM_SHARED_CLASS_LOADED_BYTES      = 116,  /* Numbfr of bytfs lobdfd sibrfd dlbssfs */
+  JMM_SHARED_CLASS_UNLOADED_BYTES    = 117,  /* Numbfr of bytfs unlobdfd sibrfd dlbssfs */
 
   JMM_OS_ATTRIBUTE_INDEX             = 200,
-  JMM_OS_PROCESS_ID                  = 201,  /* Process id of the JVM */
-  JMM_OS_MEM_TOTAL_PHYSICAL_BYTES    = 202,  /* Physical memory size */
+  JMM_OS_PROCESS_ID                  = 201,  /* Prodfss id of tif JVM */
+  JMM_OS_MEM_TOTAL_PHYSICAL_BYTES    = 202,  /* Piysidbl mfmory sizf */
 
-  JMM_GC_EXT_ATTRIBUTE_INFO_SIZE     = 401   /* the size of the GC specific attributes for a given GC memory manager */
-} jmmLongAttribute;
+  JMM_GC_EXT_ATTRIBUTE_INFO_SIZE     = 401   /* tif sizf of tif GC spfdifid bttributfs for b givfn GC mfmory mbnbgfr */
+} jmmLongAttributf;
 
-typedef enum {
+typfdff fnum {
   JMM_VERBOSE_GC                     = 21,
   JMM_VERBOSE_CLASS                  = 22,
   JMM_THREAD_CONTENTION_MONITORING   = 23,
   JMM_THREAD_CPU_TIME                = 24,
   JMM_THREAD_ALLOCATED_MEMORY        = 25
-} jmmBoolAttribute;
+} jmmBoolAttributf;
 
 
-enum {
+fnum {
   JMM_THREAD_STATE_FLAG_SUSPENDED = 0x00100000,
   JMM_THREAD_STATE_FLAG_NATIVE    = 0x00400000
 };
 
-#define JMM_THREAD_STATE_FLAG_MASK  0xFFF00000
+#dffinf JMM_THREAD_STATE_FLAG_MASK  0xFFF00000
 
-typedef enum {
+typfdff fnum {
   JMM_STAT_PEAK_THREAD_COUNT         = 801,
   JMM_STAT_THREAD_CONTENTION_COUNT   = 802,
   JMM_STAT_THREAD_CONTENTION_TIME    = 803,
   JMM_STAT_THREAD_CONTENTION_STAT    = 804,
   JMM_STAT_PEAK_POOL_USAGE           = 805,
   JMM_STAT_GC_STAT                   = 806
-} jmmStatisticType;
+} jmmStbtistidTypf;
 
-typedef enum {
+typfdff fnum {
   JMM_USAGE_THRESHOLD_HIGH            = 901,
   JMM_USAGE_THRESHOLD_LOW             = 902,
   JMM_COLLECTION_USAGE_THRESHOLD_HIGH = 903,
   JMM_COLLECTION_USAGE_THRESHOLD_LOW  = 904
-} jmmThresholdType;
+} jmmTirfsioldTypf;
 
-/* Should match what is allowed in globals.hpp */
-typedef enum {
+/* Siould mbtdi wibt is bllowfd in globbls.ipp */
+typfdff fnum {
   JMM_VMGLOBAL_TYPE_UNKNOWN  = 0,
   JMM_VMGLOBAL_TYPE_JBOOLEAN = 1,
   JMM_VMGLOBAL_TYPE_JSTRING  = 2,
   JMM_VMGLOBAL_TYPE_JLONG    = 3
-} jmmVMGlobalType;
+} jmmVMGlobblTypf;
 
-typedef enum {
-  JMM_VMGLOBAL_ORIGIN_DEFAULT      = 1,   /* Default value */
-  JMM_VMGLOBAL_ORIGIN_COMMAND_LINE = 2,   /* Set at command line (or JNI invocation) */
-  JMM_VMGLOBAL_ORIGIN_MANAGEMENT   = 3,   /* Set via management interface */
-  JMM_VMGLOBAL_ORIGIN_ENVIRON_VAR  = 4,   /* Set via environment variables */
-  JMM_VMGLOBAL_ORIGIN_CONFIG_FILE  = 5,   /* Set via config file (such as .hotspotrc) */
-  JMM_VMGLOBAL_ORIGIN_ERGONOMIC    = 6,   /* Set via ergonomic */
-  JMM_VMGLOBAL_ORIGIN_ATTACH_ON_DEMAND = 7,   /* Set via attach */
-  JMM_VMGLOBAL_ORIGIN_OTHER        = 99   /* Set via some other mechanism */
-} jmmVMGlobalOrigin;
+typfdff fnum {
+  JMM_VMGLOBAL_ORIGIN_DEFAULT      = 1,   /* Dffbult vbluf */
+  JMM_VMGLOBAL_ORIGIN_COMMAND_LINE = 2,   /* Sft bt dommbnd linf (or JNI invodbtion) */
+  JMM_VMGLOBAL_ORIGIN_MANAGEMENT   = 3,   /* Sft vib mbnbgfmfnt intfrfbdf */
+  JMM_VMGLOBAL_ORIGIN_ENVIRON_VAR  = 4,   /* Sft vib fnvironmfnt vbribblfs */
+  JMM_VMGLOBAL_ORIGIN_CONFIG_FILE  = 5,   /* Sft vib donfig filf (sudi bs .iotspotrd) */
+  JMM_VMGLOBAL_ORIGIN_ERGONOMIC    = 6,   /* Sft vib frgonomid */
+  JMM_VMGLOBAL_ORIGIN_ATTACH_ON_DEMAND = 7,   /* Sft vib bttbdi */
+  JMM_VMGLOBAL_ORIGIN_OTHER        = 99   /* Sft vib somf otifr mfdibnism */
+} jmmVMGlobblOrigin;
 
-typedef struct {
-  jstring           name;
-  jvalue            value;
-  jmmVMGlobalType   type;           /* Data type */
-  jmmVMGlobalOrigin origin;         /* Default or non-default value */
-  unsigned int      writeable : 1;  /* dynamically writeable */
-  unsigned int      external  : 1;  /* external supported interface */
-  unsigned int      reserved  : 30;
-  void *reserved1;
-  void *reserved2;
-} jmmVMGlobal;
+typfdff strudt {
+  jstring           nbmf;
+  jvbluf            vbluf;
+  jmmVMGlobblTypf   typf;           /* Dbtb typf */
+  jmmVMGlobblOrigin origin;         /* Dffbult or non-dffbult vbluf */
+  unsignfd int      writfbblf : 1;  /* dynbmidblly writfbblf */
+  unsignfd int      fxtfrnbl  : 1;  /* fxtfrnbl supportfd intfrfbdf */
+  unsignfd int      rfsfrvfd  : 30;
+  void *rfsfrvfd1;
+  void *rfsfrvfd2;
+} jmmVMGlobbl;
 
-typedef struct {
-  const char*  name;
-  char         type;
-  const char*  description;
-} jmmExtAttributeInfo;
+typfdff strudt {
+  donst dibr*  nbmf;
+  dibr         typf;
+  donst dibr*  dfsdription;
+} jmmExtAttributfInfo;
 
-/* Caller has to set the following fields before calling GetLastGCStat
- *   o usage_before_gc               - array of MemoryUsage objects
- *   o usage_after_gc                - array of MemoryUsage objects
- *   o gc_ext_attribute_values_size - size of gc_ext_atttribute_values array
- *   o gc_ext_attribtue_values      - array of jvalues
+/* Cbllfr ibs to sft tif following fiflds bfforf dblling GftLbstGCStbt
+ *   o usbgf_bfforf_gd               - brrby of MfmoryUsbgf objfdts
+ *   o usbgf_bftfr_gd                - brrby of MfmoryUsbgf objfdts
+ *   o gd_fxt_bttributf_vblufs_sizf - sizf of gd_fxt_btttributf_vblufs brrby
+ *   o gd_fxt_bttribtuf_vblufs      - brrby of jvblufs
  */
-typedef struct {
-  jlong        gc_index;                       /* Index of the collections */
-  jlong        start_time;                     /* Start time of the GC */
-  jlong        end_time;                       /* End time of the GC */
-  jobjectArray usage_before_gc;                /* Memory usage array before GC */
-  jobjectArray usage_after_gc;                 /* Memory usage array after GC */
-  jint         gc_ext_attribute_values_size;   /* set by the caller of GetGCStat */
-  jvalue*      gc_ext_attribute_values;        /* Array of jvalue for GC extension attributes */
-  jint         num_gc_ext_attributes;          /* number of GC extension attribute values s are filled */
-                                               /* -1 indicates gc_ext_attribute_values is not big enough */
-} jmmGCStat;
+typfdff strudt {
+  jlong        gd_indfx;                       /* Indfx of tif dollfdtions */
+  jlong        stbrt_timf;                     /* Stbrt timf of tif GC */
+  jlong        fnd_timf;                       /* End timf of tif GC */
+  jobjfdtArrby usbgf_bfforf_gd;                /* Mfmory usbgf brrby bfforf GC */
+  jobjfdtArrby usbgf_bftfr_gd;                 /* Mfmory usbgf brrby bftfr GC */
+  jint         gd_fxt_bttributf_vblufs_sizf;   /* sft by tif dbllfr of GftGCStbt */
+  jvbluf*      gd_fxt_bttributf_vblufs;        /* Arrby of jvbluf for GC fxtfnsion bttributfs */
+  jint         num_gd_fxt_bttributfs;          /* numbfr of GC fxtfnsion bttributf vblufs s brf fillfd */
+                                               /* -1 indidbtfs gd_fxt_bttributf_vblufs is not big fnougi */
+} jmmGCStbt;
 
-typedef struct {
-  const char* name;                /* Name of the diagnostic command */
-  const char* description;         /* Short description */
-  const char* impact;              /* Impact on the JVM */
-  const char* permission_class;    /* Class name of the required permission if any */
-  const char* permission_name;     /* Permission name of the required permission if any */
-  const char* permission_action;   /* Action name of the required permission if any*/
-  int         num_arguments;       /* Number of supported options or arguments */
-  jboolean    enabled;             /* True if the diagnostic command can be invoked, false otherwise*/
-} dcmdInfo;
+typfdff strudt {
+  donst dibr* nbmf;                /* Nbmf of tif dibgnostid dommbnd */
+  donst dibr* dfsdription;         /* Siort dfsdription */
+  donst dibr* impbdt;              /* Impbdt on tif JVM */
+  donst dibr* pfrmission_dlbss;    /* Clbss nbmf of tif rfquirfd pfrmission if bny */
+  donst dibr* pfrmission_nbmf;     /* Pfrmission nbmf of tif rfquirfd pfrmission if bny */
+  donst dibr* pfrmission_bdtion;   /* Adtion nbmf of tif rfquirfd pfrmission if bny*/
+  int         num_brgumfnts;       /* Numbfr of supportfd options or brgumfnts */
+  jboolfbn    fnbblfd;             /* Truf if tif dibgnostid dommbnd dbn bf invokfd, fblsf otifrwisf*/
+} ddmdInfo;
 
-typedef struct {
-  const char* name;                /* Option/Argument name*/
-  const char* description;         /* Short description */
-  const char* type;                /* Type: STRING, BOOLEAN, etc. */
-  const char* default_string;      /* Default value in a parsable string */
-  jboolean    mandatory;           /* True if the option/argument is mandatory */
-  jboolean    option;              /* True if it is an option, false if it is an argument */
-                                   /* (see diagnosticFramework.hpp for option/argument definitions) */
-  jboolean    multiple;            /* True is the option can be specified several time */
-  int         position;            /* Expected position for this argument (this field is */
-                                   /* meaningless for options) */
-} dcmdArgInfo;
+typfdff strudt {
+  donst dibr* nbmf;                /* Option/Argumfnt nbmf*/
+  donst dibr* dfsdription;         /* Siort dfsdription */
+  donst dibr* typf;                /* Typf: STRING, BOOLEAN, ftd. */
+  donst dibr* dffbult_string;      /* Dffbult vbluf in b pbrsbblf string */
+  jboolfbn    mbndbtory;           /* Truf if tif option/brgumfnt is mbndbtory */
+  jboolfbn    option;              /* Truf if it is bn option, fblsf if it is bn brgumfnt */
+                                   /* (sff dibgnostidFrbmfwork.ipp for option/brgumfnt dffinitions) */
+  jboolfbn    multiplf;            /* Truf is tif option dbn bf spfdififd sfvfrbl timf */
+  int         position;            /* Expfdtfd position for tiis brgumfnt (tiis fifld is */
+                                   /* mfbninglfss for options) */
+} ddmdArgInfo;
 
-typedef struct jmmInterface_1_ {
-  void*        reserved1;
-  void*        reserved2;
+typfdff strudt jmmIntfrfbdf_1_ {
+  void*        rfsfrvfd1;
+  void*        rfsfrvfd2;
 
-  jint         (JNICALL *GetVersion)             (JNIEnv *env);
+  jint         (JNICALL *GftVfrsion)             (JNIEnv *fnv);
 
-  jint         (JNICALL *GetOptionalSupport)     (JNIEnv *env,
-                                                  jmmOptionalSupport* support_ptr);
+  jint         (JNICALL *GftOptionblSupport)     (JNIEnv *fnv,
+                                                  jmmOptionblSupport* support_ptr);
 
-  /* This is used by JDK 6 and earlier.
-   * For JDK 7 and after, use GetInputArgumentArray.
+  /* Tiis is usfd by JDK 6 bnd fbrlifr.
+   * For JDK 7 bnd bftfr, usf GftInputArgumfntArrby.
    */
-  jobject      (JNICALL *GetInputArguments)      (JNIEnv *env);
+  jobjfdt      (JNICALL *GftInputArgumfnts)      (JNIEnv *fnv);
 
-  jint         (JNICALL *GetThreadInfo)          (JNIEnv *env,
-                                                  jlongArray ids,
-                                                  jint maxDepth,
-                                                  jobjectArray infoArray);
-  jobjectArray (JNICALL *GetInputArgumentArray)  (JNIEnv *env);
+  jint         (JNICALL *GftTirfbdInfo)          (JNIEnv *fnv,
+                                                  jlongArrby ids,
+                                                  jint mbxDfpti,
+                                                  jobjfdtArrby infoArrby);
+  jobjfdtArrby (JNICALL *GftInputArgumfntArrby)  (JNIEnv *fnv);
 
-  jobjectArray (JNICALL *GetMemoryPools)         (JNIEnv* env, jobject mgr);
+  jobjfdtArrby (JNICALL *GftMfmoryPools)         (JNIEnv* fnv, jobjfdt mgr);
 
-  jobjectArray (JNICALL *GetMemoryManagers)      (JNIEnv* env, jobject pool);
+  jobjfdtArrby (JNICALL *GftMfmoryMbnbgfrs)      (JNIEnv* fnv, jobjfdt pool);
 
-  jobject      (JNICALL *GetMemoryPoolUsage)     (JNIEnv* env, jobject pool);
-  jobject      (JNICALL *GetPeakMemoryPoolUsage) (JNIEnv* env, jobject pool);
+  jobjfdt      (JNICALL *GftMfmoryPoolUsbgf)     (JNIEnv* fnv, jobjfdt pool);
+  jobjfdt      (JNICALL *GftPfbkMfmoryPoolUsbgf) (JNIEnv* fnv, jobjfdt pool);
 
-  void         (JNICALL *GetThreadAllocatedMemory)
-                                                 (JNIEnv *env,
-                                                  jlongArray ids,
-                                                  jlongArray sizeArray);
+  void         (JNICALL *GftTirfbdAllodbtfdMfmory)
+                                                 (JNIEnv *fnv,
+                                                  jlongArrby ids,
+                                                  jlongArrby sizfArrby);
 
-  jobject      (JNICALL *GetMemoryUsage)         (JNIEnv* env, jboolean heap);
+  jobjfdt      (JNICALL *GftMfmoryUsbgf)         (JNIEnv* fnv, jboolfbn ifbp);
 
-  jlong        (JNICALL *GetLongAttribute)       (JNIEnv *env, jobject obj, jmmLongAttribute att);
-  jboolean     (JNICALL *GetBoolAttribute)       (JNIEnv *env, jmmBoolAttribute att);
-  jboolean     (JNICALL *SetBoolAttribute)       (JNIEnv *env, jmmBoolAttribute att, jboolean flag);
+  jlong        (JNICALL *GftLongAttributf)       (JNIEnv *fnv, jobjfdt obj, jmmLongAttributf btt);
+  jboolfbn     (JNICALL *GftBoolAttributf)       (JNIEnv *fnv, jmmBoolAttributf btt);
+  jboolfbn     (JNICALL *SftBoolAttributf)       (JNIEnv *fnv, jmmBoolAttributf btt, jboolfbn flbg);
 
-  jint         (JNICALL *GetLongAttributes)      (JNIEnv *env,
-                                                  jobject obj,
-                                                  jmmLongAttribute* atts,
-                                                  jint count,
-                                                  jlong* result);
+  jint         (JNICALL *GftLongAttributfs)      (JNIEnv *fnv,
+                                                  jobjfdt obj,
+                                                  jmmLongAttributf* btts,
+                                                  jint dount,
+                                                  jlong* rfsult);
 
-  jobjectArray (JNICALL *FindCircularBlockedThreads) (JNIEnv *env);
+  jobjfdtArrby (JNICALL *FindCirdulbrBlodkfdTirfbds) (JNIEnv *fnv);
 
-  // Not used in JDK 6 or JDK 7
-  jlong        (JNICALL *GetThreadCpuTime)       (JNIEnv *env, jlong thread_id);
+  // Not usfd in JDK 6 or JDK 7
+  jlong        (JNICALL *GftTirfbdCpuTimf)       (JNIEnv *fnv, jlong tirfbd_id);
 
-  jobjectArray (JNICALL *GetVMGlobalNames)       (JNIEnv *env);
-  jint         (JNICALL *GetVMGlobals)           (JNIEnv *env,
-                                                  jobjectArray names,
-                                                  jmmVMGlobal *globals,
-                                                  jint count);
+  jobjfdtArrby (JNICALL *GftVMGlobblNbmfs)       (JNIEnv *fnv);
+  jint         (JNICALL *GftVMGlobbls)           (JNIEnv *fnv,
+                                                  jobjfdtArrby nbmfs,
+                                                  jmmVMGlobbl *globbls,
+                                                  jint dount);
 
-  jint         (JNICALL *GetInternalThreadTimes) (JNIEnv *env,
-                                                  jobjectArray names,
-                                                  jlongArray times);
+  jint         (JNICALL *GftIntfrnblTirfbdTimfs) (JNIEnv *fnv,
+                                                  jobjfdtArrby nbmfs,
+                                                  jlongArrby timfs);
 
-  jboolean     (JNICALL *ResetStatistic)         (JNIEnv *env,
-                                                  jvalue obj,
-                                                  jmmStatisticType type);
+  jboolfbn     (JNICALL *RfsftStbtistid)         (JNIEnv *fnv,
+                                                  jvbluf obj,
+                                                  jmmStbtistidTypf typf);
 
-  void         (JNICALL *SetPoolSensor)          (JNIEnv *env,
-                                                  jobject pool,
-                                                  jmmThresholdType type,
-                                                  jobject sensor);
+  void         (JNICALL *SftPoolSfnsor)          (JNIEnv *fnv,
+                                                  jobjfdt pool,
+                                                  jmmTirfsioldTypf typf,
+                                                  jobjfdt sfnsor);
 
-  jlong        (JNICALL *SetPoolThreshold)       (JNIEnv *env,
-                                                  jobject pool,
-                                                  jmmThresholdType type,
-                                                  jlong threshold);
-  jobject      (JNICALL *GetPoolCollectionUsage) (JNIEnv* env, jobject pool);
+  jlong        (JNICALL *SftPoolTirfsiold)       (JNIEnv *fnv,
+                                                  jobjfdt pool,
+                                                  jmmTirfsioldTypf typf,
+                                                  jlong tirfsiold);
+  jobjfdt      (JNICALL *GftPoolCollfdtionUsbgf) (JNIEnv* fnv, jobjfdt pool);
 
-  jint         (JNICALL *GetGCExtAttributeInfo)  (JNIEnv *env,
-                                                  jobject mgr,
-                                                  jmmExtAttributeInfo *ext_info,
-                                                  jint count);
-  void         (JNICALL *GetLastGCStat)          (JNIEnv *env,
-                                                  jobject mgr,
-                                                  jmmGCStat *gc_stat);
+  jint         (JNICALL *GftGCExtAttributfInfo)  (JNIEnv *fnv,
+                                                  jobjfdt mgr,
+                                                  jmmExtAttributfInfo *fxt_info,
+                                                  jint dount);
+  void         (JNICALL *GftLbstGCStbt)          (JNIEnv *fnv,
+                                                  jobjfdt mgr,
+                                                  jmmGCStbt *gd_stbt);
 
-  jlong        (JNICALL *GetThreadCpuTimeWithKind)
-                                                 (JNIEnv *env,
-                                                  jlong thread_id,
-                                                  jboolean user_sys_cpu_time);
-  void         (JNICALL *GetThreadCpuTimesWithKind)
-                                                 (JNIEnv *env,
-                                                  jlongArray ids,
-                                                  jlongArray timeArray,
-                                                  jboolean user_sys_cpu_time);
+  jlong        (JNICALL *GftTirfbdCpuTimfWitiKind)
+                                                 (JNIEnv *fnv,
+                                                  jlong tirfbd_id,
+                                                  jboolfbn usfr_sys_dpu_timf);
+  void         (JNICALL *GftTirfbdCpuTimfsWitiKind)
+                                                 (JNIEnv *fnv,
+                                                  jlongArrby ids,
+                                                  jlongArrby timfArrby,
+                                                  jboolfbn usfr_sys_dpu_timf);
 
-  jint         (JNICALL *DumpHeap0)              (JNIEnv *env,
-                                                  jstring outputfile,
-                                                  jboolean live);
-  jobjectArray (JNICALL *FindDeadlocks)          (JNIEnv *env,
-                                                  jboolean object_monitors_only);
-  void         (JNICALL *SetVMGlobal)            (JNIEnv *env,
-                                                  jstring flag_name,
-                                                  jvalue  new_value);
-  void*        reserved6;
-  jobjectArray (JNICALL *DumpThreads)            (JNIEnv *env,
-                                                  jlongArray ids,
-                                                  jboolean lockedMonitors,
-                                                  jboolean lockedSynchronizers);
-  void         (JNICALL *SetGCNotificationEnabled) (JNIEnv *env,
-                                                    jobject mgr,
-                                                    jboolean enabled);
-  jobjectArray (JNICALL *GetDiagnosticCommands)  (JNIEnv *env);
-  void         (JNICALL *GetDiagnosticCommandInfo)
-                                                 (JNIEnv *env,
-                                                  jobjectArray cmds,
-                                                  dcmdInfo *infoArray);
-  void         (JNICALL *GetDiagnosticCommandArgumentsInfo)
-                                                 (JNIEnv *env,
-                                                  jstring commandName,
-                                                  dcmdArgInfo *infoArray);
-  jstring      (JNICALL *ExecuteDiagnosticCommand)
-                                                 (JNIEnv *env,
-                                                  jstring command);
-  void         (JNICALL *SetDiagnosticFrameworkNotificationEnabled)
-                                                 (JNIEnv *env,
-                                                  jboolean enabled);
-} JmmInterface;
+  jint         (JNICALL *DumpHfbp0)              (JNIEnv *fnv,
+                                                  jstring outputfilf,
+                                                  jboolfbn livf);
+  jobjfdtArrby (JNICALL *FindDfbdlodks)          (JNIEnv *fnv,
+                                                  jboolfbn objfdt_monitors_only);
+  void         (JNICALL *SftVMGlobbl)            (JNIEnv *fnv,
+                                                  jstring flbg_nbmf,
+                                                  jvbluf  nfw_vbluf);
+  void*        rfsfrvfd6;
+  jobjfdtArrby (JNICALL *DumpTirfbds)            (JNIEnv *fnv,
+                                                  jlongArrby ids,
+                                                  jboolfbn lodkfdMonitors,
+                                                  jboolfbn lodkfdSyndironizfrs);
+  void         (JNICALL *SftGCNotifidbtionEnbblfd) (JNIEnv *fnv,
+                                                    jobjfdt mgr,
+                                                    jboolfbn fnbblfd);
+  jobjfdtArrby (JNICALL *GftDibgnostidCommbnds)  (JNIEnv *fnv);
+  void         (JNICALL *GftDibgnostidCommbndInfo)
+                                                 (JNIEnv *fnv,
+                                                  jobjfdtArrby dmds,
+                                                  ddmdInfo *infoArrby);
+  void         (JNICALL *GftDibgnostidCommbndArgumfntsInfo)
+                                                 (JNIEnv *fnv,
+                                                  jstring dommbndNbmf,
+                                                  ddmdArgInfo *infoArrby);
+  jstring      (JNICALL *ExfdutfDibgnostidCommbnd)
+                                                 (JNIEnv *fnv,
+                                                  jstring dommbnd);
+  void         (JNICALL *SftDibgnostidFrbmfworkNotifidbtionEnbblfd)
+                                                 (JNIEnv *fnv,
+                                                  jboolfbn fnbblfd);
+} JmmIntfrfbdf;
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
 
-#endif /* !_JAVA_JMM_H_ */
+#fndif /* !_JAVA_JMM_H_ */

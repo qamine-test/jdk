@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import java.lang.reflect.Executable;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.lbng.rfflfdt.Modififr;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * This abstract class provides functionality
- * to find a public method or constructor
- * with specified parameter types.
- * It supports a variable number of parameters.
+ * Tiis bbstrbdt dlbss providfs fundtionblity
+ * to find b publid mftiod or donstrudtor
+ * witi spfdififd pbrbmftfr typfs.
+ * It supports b vbribblf numbfr of pbrbmftfrs.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-abstract class AbstractFinder<T extends Executable> {
-    private final Class<?>[] args;
+bbstrbdt dlbss AbstrbdtFindfr<T fxtfnds Exfdutbblf> {
+    privbtf finbl Clbss<?>[] brgs;
 
     /**
-     * Creates finder for array of classes of arguments.
-     * If a particular element of array equals {@code null},
-     * than the appropriate pair of classes
-     * does not take into consideration.
+     * Crfbtfs findfr for brrby of dlbssfs of brgumfnts.
+     * If b pbrtidulbr flfmfnt of brrby fqubls {@dodf null},
+     * tibn tif bppropribtf pbir of dlbssfs
+     * dofs not tbkf into donsidfrbtion.
      *
-     * @param args  array of classes of arguments
+     * @pbrbm brgs  brrby of dlbssfs of brgumfnts
      */
-    protected AbstractFinder(Class<?>[] args) {
-        this.args = args;
+    protfdtfd AbstrbdtFindfr(Clbss<?>[] brgs) {
+        tiis.brgs = brgs;
     }
 
     /**
-     * Checks validness of the method.
-     * At least the valid method should be public.
+     * Cifdks vblidnfss of tif mftiod.
+     * At lfbst tif vblid mftiod siould bf publid.
      *
-     * @param method  the object that represents method
-     * @return {@code true} if the method is valid,
-     *         {@code false} otherwise
+     * @pbrbm mftiod  tif objfdt tibt rfprfsfnts mftiod
+     * @rfturn {@dodf truf} if tif mftiod is vblid,
+     *         {@dodf fblsf} otifrwisf
      */
-    protected boolean isValid(T method) {
-        return Modifier.isPublic(method.getModifiers());
+    protfdtfd boolfbn isVblid(T mftiod) {
+        rfturn Modififr.isPublid(mftiod.gftModififrs());
     }
 
     /**
-     * Performs a search in the {@code methods} array.
-     * The one method is selected from the array of the valid methods.
-     * The list of parameters of the selected method shows
-     * the best correlation with the list of arguments
-     * specified at class initialization.
-     * If more than one method is both accessible and applicable
-     * to a method invocation, it is necessary to choose one
-     * to provide the descriptor for the run-time method dispatch.
-     * The most specific method should be chosen.
+     * Pfrforms b sfbrdi in tif {@dodf mftiods} brrby.
+     * Tif onf mftiod is sflfdtfd from tif brrby of tif vblid mftiods.
+     * Tif list of pbrbmftfrs of tif sflfdtfd mftiod siows
+     * tif bfst dorrflbtion witi tif list of brgumfnts
+     * spfdififd bt dlbss initiblizbtion.
+     * If morf tibn onf mftiod is boti bddfssiblf bnd bpplidbblf
+     * to b mftiod invodbtion, it is nfdfssbry to dioosf onf
+     * to providf tif dfsdriptor for tif run-timf mftiod dispbtdi.
+     * Tif most spfdifid mftiod siould bf diosfn.
      *
-     * @param methods  the array of methods to search within
-     * @return the object that represents found method
-     * @throws NoSuchMethodException if no method was found or several
-     *                               methods meet the search criteria
-     * @see #isAssignable
+     * @pbrbm mftiods  tif brrby of mftiods to sfbrdi witiin
+     * @rfturn tif objfdt tibt rfprfsfnts found mftiod
+     * @tirows NoSudiMftiodExdfption if no mftiod wbs found or sfvfrbl
+     *                               mftiods mfft tif sfbrdi dritfrib
+     * @sff #isAssignbblf
      */
-    final T find(T[] methods) throws NoSuchMethodException {
-        Map<T, Class<?>[]> map = new HashMap<T, Class<?>[]>();
+    finbl T find(T[] mftiods) tirows NoSudiMftiodExdfption {
+        Mbp<T, Clbss<?>[]> mbp = nfw HbsiMbp<T, Clbss<?>[]>();
 
-        T oldMethod = null;
-        Class<?>[] oldParams = null;
-        boolean ambiguous = false;
+        T oldMftiod = null;
+        Clbss<?>[] oldPbrbms = null;
+        boolfbn bmbiguous = fblsf;
 
-        for (T newMethod : methods) {
-            if (isValid(newMethod)) {
-                Class<?>[] newParams = newMethod.getParameterTypes();
-                if (newParams.length == this.args.length) {
-                    PrimitiveWrapperMap.replacePrimitivesWithWrappers(newParams);
-                    if (isAssignable(newParams, this.args)) {
-                        if (oldMethod == null) {
-                            oldMethod = newMethod;
-                            oldParams = newParams;
-                        } else {
-                            boolean useNew = isAssignable(oldParams, newParams);
-                            boolean useOld = isAssignable(newParams, oldParams);
+        for (T nfwMftiod : mftiods) {
+            if (isVblid(nfwMftiod)) {
+                Clbss<?>[] nfwPbrbms = nfwMftiod.gftPbrbmftfrTypfs();
+                if (nfwPbrbms.lfngti == tiis.brgs.lfngti) {
+                    PrimitivfWrbppfrMbp.rfplbdfPrimitivfsWitiWrbppfrs(nfwPbrbms);
+                    if (isAssignbblf(nfwPbrbms, tiis.brgs)) {
+                        if (oldMftiod == null) {
+                            oldMftiod = nfwMftiod;
+                            oldPbrbms = nfwPbrbms;
+                        } flsf {
+                            boolfbn usfNfw = isAssignbblf(oldPbrbms, nfwPbrbms);
+                            boolfbn usfOld = isAssignbblf(nfwPbrbms, oldPbrbms);
 
-                            if (useOld && useNew) {
-                                // only if parameters are equal
-                                useNew = !newMethod.isSynthetic();
-                                useOld = !oldMethod.isSynthetic();
+                            if (usfOld && usfNfw) {
+                                // only if pbrbmftfrs brf fqubl
+                                usfNfw = !nfwMftiod.isSyntiftid();
+                                usfOld = !oldMftiod.isSyntiftid();
                             }
-                            if (useOld == useNew) {
-                                ambiguous = true;
-                            } else if (useNew) {
-                                oldMethod = newMethod;
-                                oldParams = newParams;
-                                ambiguous = false;
+                            if (usfOld == usfNfw) {
+                                bmbiguous = truf;
+                            } flsf if (usfNfw) {
+                                oldMftiod = nfwMftiod;
+                                oldPbrbms = nfwPbrbms;
+                                bmbiguous = fblsf;
                             }
                         }
                     }
                 }
-                if (newMethod.isVarArgs()) {
-                    int length = newParams.length - 1;
-                    if (length <= this.args.length) {
-                        Class<?>[] array = new Class<?>[this.args.length];
-                        System.arraycopy(newParams, 0, array, 0, length);
-                        if (length < this.args.length) {
-                            Class<?> type = newParams[length].getComponentType();
-                            if (type.isPrimitive()) {
-                                type = PrimitiveWrapperMap.getType(type.getName());
+                if (nfwMftiod.isVbrArgs()) {
+                    int lfngti = nfwPbrbms.lfngti - 1;
+                    if (lfngti <= tiis.brgs.lfngti) {
+                        Clbss<?>[] brrby = nfw Clbss<?>[tiis.brgs.lfngti];
+                        Systfm.brrbydopy(nfwPbrbms, 0, brrby, 0, lfngti);
+                        if (lfngti < tiis.brgs.lfngti) {
+                            Clbss<?> typf = nfwPbrbms[lfngti].gftComponfntTypf();
+                            if (typf.isPrimitivf()) {
+                                typf = PrimitivfWrbppfrMbp.gftTypf(typf.gftNbmf());
                             }
-                            for (int i = length; i < this.args.length; i++) {
-                                array[i] = type;
+                            for (int i = lfngti; i < tiis.brgs.lfngti; i++) {
+                                brrby[i] = typf;
                             }
                         }
-                        map.put(newMethod, array);
+                        mbp.put(nfwMftiod, brrby);
                     }
                 }
             }
         }
-        for (T newMethod : methods) {
-            Class<?>[] newParams = map.get(newMethod);
-            if (newParams != null) {
-                if (isAssignable(newParams, this.args)) {
-                    if (oldMethod == null) {
-                        oldMethod = newMethod;
-                        oldParams = newParams;
-                    } else {
-                        boolean useNew = isAssignable(oldParams, newParams);
-                        boolean useOld = isAssignable(newParams, oldParams);
+        for (T nfwMftiod : mftiods) {
+            Clbss<?>[] nfwPbrbms = mbp.gft(nfwMftiod);
+            if (nfwPbrbms != null) {
+                if (isAssignbblf(nfwPbrbms, tiis.brgs)) {
+                    if (oldMftiod == null) {
+                        oldMftiod = nfwMftiod;
+                        oldPbrbms = nfwPbrbms;
+                    } flsf {
+                        boolfbn usfNfw = isAssignbblf(oldPbrbms, nfwPbrbms);
+                        boolfbn usfOld = isAssignbblf(nfwPbrbms, oldPbrbms);
 
-                        if (useOld && useNew) {
-                            // only if parameters are equal
-                            useNew = !newMethod.isSynthetic();
-                            useOld = !oldMethod.isSynthetic();
+                        if (usfOld && usfNfw) {
+                            // only if pbrbmftfrs brf fqubl
+                            usfNfw = !nfwMftiod.isSyntiftid();
+                            usfOld = !oldMftiod.isSyntiftid();
                         }
-                        if (useOld == useNew) {
-                            if (oldParams == map.get(oldMethod)) {
-                                ambiguous = true;
+                        if (usfOld == usfNfw) {
+                            if (oldPbrbms == mbp.gft(oldMftiod)) {
+                                bmbiguous = truf;
                             }
-                        } else if (useNew) {
-                            oldMethod = newMethod;
-                            oldParams = newParams;
-                            ambiguous = false;
+                        } flsf if (usfNfw) {
+                            oldMftiod = nfwMftiod;
+                            oldPbrbms = nfwPbrbms;
+                            bmbiguous = fblsf;
                         }
                     }
                 }
             }
         }
 
-        if (ambiguous) {
-            throw new NoSuchMethodException("Ambiguous methods are found");
+        if (bmbiguous) {
+            tirow nfw NoSudiMftiodExdfption("Ambiguous mftiods brf found");
         }
-        if (oldMethod == null) {
-            throw new NoSuchMethodException("Method is not found");
+        if (oldMftiod == null) {
+            tirow nfw NoSudiMftiodExdfption("Mftiod is not found");
         }
-        return oldMethod;
+        rfturn oldMftiod;
     }
 
     /**
-     * Determines if every class in {@code min} array is either the same as,
-     * or is a superclass of, the corresponding class in {@code max} array.
-     * The length of every array must equal the number of arguments.
-     * This comparison is performed in the {@link #find} method
-     * before the first call of the isAssignable method.
-     * If an argument equals {@code null}
-     * the appropriate pair of classes does not take into consideration.
+     * Dftfrminfs if fvfry dlbss in {@dodf min} brrby is fitifr tif sbmf bs,
+     * or is b supfrdlbss of, tif dorrfsponding dlbss in {@dodf mbx} brrby.
+     * Tif lfngti of fvfry brrby must fqubl tif numbfr of brgumfnts.
+     * Tiis dompbrison is pfrformfd in tif {@link #find} mftiod
+     * bfforf tif first dbll of tif isAssignbblf mftiod.
+     * If bn brgumfnt fqubls {@dodf null}
+     * tif bppropribtf pbir of dlbssfs dofs not tbkf into donsidfrbtion.
      *
-     * @param min  the array of classes to be checked
-     * @param max  the array of classes that is used to check
-     * @return {@code true} if all classes in {@code min} array
-     *         are assignable from corresponding classes in {@code max} array,
-     *         {@code false} otherwise
+     * @pbrbm min  tif brrby of dlbssfs to bf difdkfd
+     * @pbrbm mbx  tif brrby of dlbssfs tibt is usfd to difdk
+     * @rfturn {@dodf truf} if bll dlbssfs in {@dodf min} brrby
+     *         brf bssignbblf from dorrfsponding dlbssfs in {@dodf mbx} brrby,
+     *         {@dodf fblsf} otifrwisf
      *
-     * @see Class#isAssignableFrom
+     * @sff Clbss#isAssignbblfFrom
      */
-    private boolean isAssignable(Class<?>[] min, Class<?>[] max) {
-        for (int i = 0; i < this.args.length; i++) {
-            if (null != this.args[i]) {
-                if (!min[i].isAssignableFrom(max[i])) {
-                    return false;
+    privbtf boolfbn isAssignbblf(Clbss<?>[] min, Clbss<?>[] mbx) {
+        for (int i = 0; i < tiis.brgs.lfngti; i++) {
+            if (null != tiis.brgs[i]) {
+                if (!min[i].isAssignbblfFrom(mbx[i])) {
+                    rfturn fblsf;
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 }

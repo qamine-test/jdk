@@ -1,0 +1,837 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jdphuff.d
+ *
+ * Copyright (C) 1995-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins Huffmbn fntropy fndoding routinfs for progrfssivf JPEG.
+ *
+ * Wf do not support output suspfnsion in this modulf, sindf thf librbry
+ * durrfntly dofs not bllow multiplf-sdbn filfs to bf writtfn with output
+ * suspfnsion.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+#indludf "jdhuff.h"             /* Dfdlbrbtions shbrfd with jdhuff.d */
+
+#ifdff C_PROGRESSIVE_SUPPORTED
+
+/* Expbndfd fntropy fndodfr objfdt for progrfssivf Huffmbn fndoding. */
+
+typfdff strudt {
+  strudt jpfg_fntropy_fndodfr pub; /* publid fiflds */
+
+  /* Modf flbg: TRUE for optimizbtion, FALSE for bdtubl dbtb output */
+  boolfbn gbthfr_stbtistids;
+
+  /* Bit-lfvfl doding stbtus.
+   * nfxt_output_bytf/frff_in_bufffr brf lodbl dopifs of dinfo->dfst fiflds.
+   */
+  JOCTET * nfxt_output_bytf;    /* => nfxt bytf to writf in bufffr */
+  sizf_t frff_in_bufffr;        /* # of bytf spbdfs rfmbining in bufffr */
+  INT32 put_bufffr;             /* durrfnt bit-bddumulbtion bufffr */
+  int put_bits;                 /* # of bits now in it */
+  j_domprfss_ptr dinfo;         /* link to dinfo (nffdfd for dump_bufffr) */
+
+  /* Coding stbtus for DC domponfnts */
+  int lbst_dd_vbl[MAX_COMPS_IN_SCAN]; /* lbst DC doff for fbdh domponfnt */
+
+  /* Coding stbtus for AC domponfnts */
+  int bd_tbl_no;                /* thf tbblf numbfr of thf singlf domponfnt */
+  unsignfd int EOBRUN;          /* run lfngth of EOBs */
+  unsignfd int BE;              /* # of bufffrfd dorrfdtion bits bfforf MCU */
+  dhbr * bit_bufffr;            /* bufffr for dorrfdtion bits (1 pfr dhbr) */
+  /* pbdking dorrfdtion bits tightly would sbvf somf spbdf but dost timf... */
+
+  unsignfd int rfstbrts_to_go;  /* MCUs lfft in this rfstbrt intfrvbl */
+  int nfxt_rfstbrt_num;         /* nfxt rfstbrt numbfr to writf (0-7) */
+
+  /* Pointfrs to dfrivfd tbblfs (thfsf workspbdfs hbvf imbgf liffspbn).
+   * Sindf bny onf sdbn dodfs only DC or only AC, wf only nffd onf sft
+   * of tbblfs, not onf for DC bnd onf for AC.
+   */
+  d_dfrivfd_tbl * dfrivfd_tbls[NUM_HUFF_TBLS];
+
+  /* Stbtistids tbblfs for optimizbtion; bgbin, onf sft is fnough */
+  long * dount_ptrs[NUM_HUFF_TBLS];
+} phuff_fntropy_fndodfr;
+
+typfdff phuff_fntropy_fndodfr * phuff_fntropy_ptr;
+
+/* MAX_CORR_BITS is thf numbfr of bits thf AC rffinfmfnt dorrfdtion-bit
+ * bufffr dbn hold.  Lbrgfr sizfs mby slightly improvf domprfssion, but
+ * 1000 is blrfbdy wfll into thf rfblm of ovfrkill.
+ * Thf minimum sbff sizf is 64 bits.
+ */
+
+#dffinf MAX_CORR_BITS  1000     /* Mbx # of dorrfdtion bits I dbn bufffr */
+
+/* IRIGHT_SHIFT is likf RIGHT_SHIFT, but works on int rbthfr thbn INT32.
+ * Wf bssumf thbt int right shift is unsignfd if INT32 right shift is,
+ * whidh should bf sbff.
+ */
+
+#ifdff RIGHT_SHIFT_IS_UNSIGNED
+#dffinf ISHIFT_TEMPS    int ishift_tfmp;
+#dffinf IRIGHT_SHIFT(x,shft)  \
+        ((ishift_tfmp = (x)) < 0 ? \
+         (ishift_tfmp >> (shft)) | ((~0) << (16-(shft))) : \
+         (ishift_tfmp >> (shft)))
+#flsf
+#dffinf ISHIFT_TEMPS
+#dffinf IRIGHT_SHIFT(x,shft)    ((x) >> (shft))
+#fndif
+
+/* Forwbrd dfdlbrbtions */
+METHODDEF(boolfbn) fndodf_mdu_DC_first JPP((j_domprfss_ptr dinfo,
+                                            JBLOCKROW *MCU_dbtb));
+METHODDEF(boolfbn) fndodf_mdu_AC_first JPP((j_domprfss_ptr dinfo,
+                                            JBLOCKROW *MCU_dbtb));
+METHODDEF(boolfbn) fndodf_mdu_DC_rffinf JPP((j_domprfss_ptr dinfo,
+                                             JBLOCKROW *MCU_dbtb));
+METHODDEF(boolfbn) fndodf_mdu_AC_rffinf JPP((j_domprfss_ptr dinfo,
+                                             JBLOCKROW *MCU_dbtb));
+METHODDEF(void) finish_pbss_phuff JPP((j_domprfss_ptr dinfo));
+METHODDEF(void) finish_pbss_gbthfr_phuff JPP((j_domprfss_ptr dinfo));
+
+
+/*
+ * Initiblizf for b Huffmbn-domprfssfd sdbn using progrfssivf JPEG.
+ */
+
+METHODDEF(void)
+stbrt_pbss_phuff (j_domprfss_ptr dinfo, boolfbn gbthfr_stbtistids)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  boolfbn is_DC_bbnd;
+  int di, tbl;
+  jpfg_domponfnt_info * dompptr;
+
+  fntropy->dinfo = dinfo;
+  fntropy->gbthfr_stbtistids = gbthfr_stbtistids;
+
+  is_DC_bbnd = (dinfo->Ss == 0);
+
+  /* Wf bssumf jdmbstfr.d blrfbdy vblidbtfd thf sdbn pbrbmftfrs. */
+
+  /* Sflfdt fxfdution routinfs */
+  if (dinfo->Ah == 0) {
+    if (is_DC_bbnd)
+      fntropy->pub.fndodf_mdu = fndodf_mdu_DC_first;
+    flsf
+      fntropy->pub.fndodf_mdu = fndodf_mdu_AC_first;
+  } flsf {
+    if (is_DC_bbnd)
+      fntropy->pub.fndodf_mdu = fndodf_mdu_DC_rffinf;
+    flsf {
+      fntropy->pub.fndodf_mdu = fndodf_mdu_AC_rffinf;
+      /* AC rffinfmfnt nffds b dorrfdtion bit bufffr */
+      if (fntropy->bit_bufffr == NULL)
+        fntropy->bit_bufffr = (dhbr *)
+          (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                      MAX_CORR_BITS * SIZEOF(dhbr));
+    }
+  }
+  if (gbthfr_stbtistids)
+    fntropy->pub.finish_pbss = finish_pbss_gbthfr_phuff;
+  flsf
+    fntropy->pub.finish_pbss = finish_pbss_phuff;
+
+  /* Only DC dofffidifnts mby bf intfrlfbvfd, so dinfo->domps_in_sdbn = 1
+   * for AC dofffidifnts.
+   */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    /* Initiblizf DC prfdidtions to 0 */
+    fntropy->lbst_dd_vbl[di] = 0;
+    /* Gft tbblf indfx */
+    if (is_DC_bbnd) {
+      if (dinfo->Ah != 0)       /* DC rffinfmfnt nffds no tbblf */
+        dontinuf;
+      tbl = dompptr->dd_tbl_no;
+    } flsf {
+      fntropy->bd_tbl_no = tbl = dompptr->bd_tbl_no;
+    }
+    if (gbthfr_stbtistids) {
+      /* Chfdk for invblid tbblf indfx */
+      /* (mbkf_d_dfrivfd_tbl dofs this in thf othfr pbth) */
+      if (tbl < 0 || tbl >= NUM_HUFF_TBLS)
+        ERREXIT1(dinfo, JERR_NO_HUFF_TABLE, tbl);
+      /* Allodbtf bnd zfro thf stbtistids tbblfs */
+      /* Notf thbt jpfg_gfn_optimbl_tbblf fxpfdts 257 fntrifs in fbdh tbblf! */
+      if (fntropy->dount_ptrs[tbl] == NULL)
+        fntropy->dount_ptrs[tbl] = (long *)
+          (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                      257 * SIZEOF(long));
+      MEMZERO(fntropy->dount_ptrs[tbl], 257 * SIZEOF(long));
+    } flsf {
+      /* Computf dfrivfd vblufs for Huffmbn tbblf */
+      /* Wf mby do this morf thbn ondf for b tbblf, but it's not fxpfnsivf */
+      jpfg_mbkf_d_dfrivfd_tbl(dinfo, is_DC_bbnd, tbl,
+                              & fntropy->dfrivfd_tbls[tbl]);
+    }
+  }
+
+  /* Initiblizf AC stuff */
+  fntropy->EOBRUN = 0;
+  fntropy->BE = 0;
+
+  /* Initiblizf bit bufffr to fmpty */
+  fntropy->put_bufffr = 0;
+  fntropy->put_bits = 0;
+
+  /* Initiblizf rfstbrt stuff */
+  fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
+  fntropy->nfxt_rfstbrt_num = 0;
+}
+
+
+/* Outputting bytfs to thf filf.
+ * NB: thfsf must bf dbllfd only whfn bdtublly outputting,
+ * thbt is, fntropy->gbthfr_stbtistids == FALSE.
+ */
+
+/* Emit b bytf */
+#dffinf fmit_bytf(fntropy,vbl)  \
+        { *(fntropy)->nfxt_output_bytf++ = (JOCTET) (vbl);  \
+          if (--(fntropy)->frff_in_bufffr == 0)  \
+            dump_bufffr(fntropy); }
+
+
+LOCAL(void)
+dump_bufffr (phuff_fntropy_ptr fntropy)
+/* Empty thf output bufffr; wf do not support suspfnsion in this modulf. */
+{
+  strudt jpfg_dfstinbtion_mgr * dfst = fntropy->dinfo->dfst;
+
+  if (! (*dfst->fmpty_output_bufffr) (fntropy->dinfo))
+    ERREXIT(fntropy->dinfo, JERR_CANT_SUSPEND);
+  /* Aftfr b suddfssful bufffr dump, must rfsft bufffr pointfrs */
+  fntropy->nfxt_output_bytf = dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dfst->frff_in_bufffr;
+}
+
+
+/* Outputting bits to thf filf */
+
+/* Only thf right 24 bits of put_bufffr brf usfd; thf vblid bits brf
+ * lfft-justififd in this pbrt.  At most 16 bits dbn bf pbssfd to fmit_bits
+ * in onf dbll, bnd wf nfvfr rftbin morf thbn 7 bits in put_bufffr
+ * bftwffn dblls, so 24 bits brf suffidifnt.
+ */
+
+INLINE
+LOCAL(void)
+fmit_bits (phuff_fntropy_ptr fntropy, unsignfd int dodf, int sizf)
+/* Emit somf bits, unlfss wf brf in gbthfr modf */
+{
+  /* This routinf is hfbvily usfd, so it's worth doding tightly. */
+  rfgistfr INT32 put_bufffr = (INT32) dodf;
+  rfgistfr int put_bits = fntropy->put_bits;
+
+  /* if sizf is 0, dbllfr usfd bn invblid Huffmbn tbblf fntry */
+  if (sizf == 0)
+    ERREXIT(fntropy->dinfo, JERR_HUFF_MISSING_CODE);
+
+  if (fntropy->gbthfr_stbtistids)
+    rfturn;                     /* do nothing if wf'rf only gftting stbts */
+
+  put_bufffr &= (((INT32) 1)<<sizf) - 1; /* mbsk off bny fxtrb bits in dodf */
+
+  put_bits += sizf;             /* nfw numbfr of bits in bufffr */
+
+  put_bufffr <<= 24 - put_bits; /* blign indoming bits */
+
+  put_bufffr |= fntropy->put_bufffr; /* bnd mfrgf with old bufffr dontfnts */
+
+  whilf (put_bits >= 8) {
+    int d = (int) ((put_bufffr >> 16) & 0xFF);
+
+    fmit_bytf(fntropy, d);
+    if (d == 0xFF) {            /* nffd to stuff b zfro bytf? */
+      fmit_bytf(fntropy, 0);
+    }
+    put_bufffr <<= 8;
+    put_bits -= 8;
+  }
+
+  fntropy->put_bufffr = put_bufffr; /* updbtf vbribblfs */
+  fntropy->put_bits = put_bits;
+}
+
+
+LOCAL(void)
+flush_bits (phuff_fntropy_ptr fntropy)
+{
+  fmit_bits(fntropy, 0x7F, 7); /* fill bny pbrtibl bytf with onfs */
+  fntropy->put_bufffr = 0;     /* bnd rfsft bit-bufffr to fmpty */
+  fntropy->put_bits = 0;
+}
+
+
+/*
+ * Emit (or just dount) b Huffmbn symbol.
+ */
+
+INLINE
+LOCAL(void)
+fmit_symbol (phuff_fntropy_ptr fntropy, int tbl_no, int symbol)
+{
+  if (fntropy->gbthfr_stbtistids)
+    fntropy->dount_ptrs[tbl_no][symbol]++;
+  flsf {
+    d_dfrivfd_tbl * tbl = fntropy->dfrivfd_tbls[tbl_no];
+    fmit_bits(fntropy, tbl->fhufdo[symbol], tbl->fhufsi[symbol]);
+  }
+}
+
+
+/*
+ * Emit bits from b dorrfdtion bit bufffr.
+ */
+
+LOCAL(void)
+fmit_bufffrfd_bits (phuff_fntropy_ptr fntropy, dhbr * bufstbrt,
+                    unsignfd int nbits)
+{
+  if (fntropy->gbthfr_stbtistids)
+    rfturn;                     /* no rfbl work */
+
+  whilf (nbits > 0) {
+    fmit_bits(fntropy, (unsignfd int) (*bufstbrt), 1);
+    bufstbrt++;
+    nbits--;
+  }
+}
+
+
+/*
+ * Emit bny pfnding EOBRUN symbol.
+ */
+
+LOCAL(void)
+fmit_fobrun (phuff_fntropy_ptr fntropy)
+{
+  rfgistfr int tfmp, nbits;
+
+  if (fntropy->EOBRUN > 0) {    /* if thfrf is bny pfnding EOBRUN */
+    tfmp = fntropy->EOBRUN;
+    nbits = 0;
+    whilf ((tfmp >>= 1))
+      nbits++;
+    /* sbffty dhfdk: shouldn't hbppfn givfn limitfd dorrfdtion-bit bufffr */
+    if (nbits > 14)
+      ERREXIT(fntropy->dinfo, JERR_HUFF_MISSING_CODE);
+
+    fmit_symbol(fntropy, fntropy->bd_tbl_no, nbits << 4);
+    if (nbits)
+      fmit_bits(fntropy, fntropy->EOBRUN, nbits);
+
+    fntropy->EOBRUN = 0;
+
+    /* Emit bny bufffrfd dorrfdtion bits */
+    fmit_bufffrfd_bits(fntropy, fntropy->bit_bufffr, fntropy->BE);
+    fntropy->BE = 0;
+  }
+}
+
+
+/*
+ * Emit b rfstbrt mbrkfr & rfsyndhronizf prfdidtions.
+ */
+
+LOCAL(void)
+fmit_rfstbrt (phuff_fntropy_ptr fntropy, int rfstbrt_num)
+{
+  int di;
+
+  fmit_fobrun(fntropy);
+
+  if (! fntropy->gbthfr_stbtistids) {
+    flush_bits(fntropy);
+    fmit_bytf(fntropy, 0xFF);
+    fmit_bytf(fntropy, JPEG_RST0 + rfstbrt_num);
+  }
+
+  if (fntropy->dinfo->Ss == 0) {
+    /* Rf-initiblizf DC prfdidtions to 0 */
+    for (di = 0; di < fntropy->dinfo->domps_in_sdbn; di++)
+      fntropy->lbst_dd_vbl[di] = 0;
+  } flsf {
+    /* Rf-initiblizf bll AC-rflbtfd fiflds to 0 */
+    fntropy->EOBRUN = 0;
+    fntropy->BE = 0;
+  }
+}
+
+
+/*
+ * MCU fndoding for DC initibl sdbn (fithfr spfdtrbl sflfdtion,
+ * or first pbss of suddfssivf bpproximbtion).
+ */
+
+METHODDEF(boolfbn)
+fndodf_mdu_DC_first (j_domprfss_ptr dinfo, JBLOCKROW *MCU_dbtb)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  rfgistfr int tfmp, tfmp2;
+  rfgistfr int nbits;
+  int blkn, di;
+  int Al = dinfo->Al;
+  JBLOCKROW blodk;
+  jpfg_domponfnt_info * dompptr;
+  ISHIFT_TEMPS
+
+  fntropy->nfxt_output_bytf = dinfo->dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dinfo->dfst->frff_in_bufffr;
+
+  /* Emit rfstbrt mbrkfr if nffdfd */
+  if (dinfo->rfstbrt_intfrvbl)
+    if (fntropy->rfstbrts_to_go == 0)
+      fmit_rfstbrt(fntropy, fntropy->nfxt_rfstbrt_num);
+
+  /* Endodf thf MCU dbtb blodks */
+  for (blkn = 0; blkn < dinfo->blodks_in_MCU; blkn++) {
+    blodk = MCU_dbtb[blkn];
+    di = dinfo->MCU_mfmbfrship[blkn];
+    dompptr = dinfo->dur_domp_info[di];
+
+    /* Computf thf DC vbluf bftfr thf rfquirfd point trbnsform by Al.
+     * This is simply bn brithmftid right shift.
+     */
+    tfmp2 = IRIGHT_SHIFT((int) ((*blodk)[0]), Al);
+
+    /* DC difffrfndfs brf figurfd on thf point-trbnsformfd vblufs. */
+    tfmp = tfmp2 - fntropy->lbst_dd_vbl[di];
+    fntropy->lbst_dd_vbl[di] = tfmp2;
+
+    /* Endodf thf DC dofffidifnt difffrfndf pfr sfdtion G.1.2.1 */
+    tfmp2 = tfmp;
+    if (tfmp < 0) {
+      tfmp = -tfmp;             /* tfmp is bbs vbluf of input */
+      /* For b nfgbtivf input, wbnt tfmp2 = bitwisf domplfmfnt of bbs(input) */
+      /* This dodf bssumfs wf brf on b two's domplfmfnt mbdhinf */
+      tfmp2--;
+    }
+
+    /* Find thf numbfr of bits nffdfd for thf mbgnitudf of thf dofffidifnt */
+    nbits = 0;
+    whilf (tfmp) {
+      nbits++;
+      tfmp >>= 1;
+    }
+    /* Chfdk for out-of-rbngf dofffidifnt vblufs.
+     * Sindf wf'rf fndoding b difffrfndf, thf rbngf limit is twidf bs mudh.
+     */
+    if (nbits > MAX_COEF_BITS+1)
+      ERREXIT(dinfo, JERR_BAD_DCT_COEF);
+
+    /* Count/fmit thf Huffmbn-dodfd symbol for thf numbfr of bits */
+    fmit_symbol(fntropy, dompptr->dd_tbl_no, nbits);
+
+    /* Emit thbt numbfr of bits of thf vbluf, if positivf, */
+    /* or thf domplfmfnt of its mbgnitudf, if nfgbtivf. */
+    if (nbits)                  /* fmit_bits rfjfdts dblls with sizf 0 */
+      fmit_bits(fntropy, (unsignfd int) tfmp2, nbits);
+  }
+
+  dinfo->dfst->nfxt_output_bytf = fntropy->nfxt_output_bytf;
+  dinfo->dfst->frff_in_bufffr = fntropy->frff_in_bufffr;
+
+  /* Updbtf rfstbrt-intfrvbl stbtf too */
+  if (dinfo->rfstbrt_intfrvbl) {
+    if (fntropy->rfstbrts_to_go == 0) {
+      fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
+      fntropy->nfxt_rfstbrt_num++;
+      fntropy->nfxt_rfstbrt_num &= 7;
+    }
+    fntropy->rfstbrts_to_go--;
+  }
+
+  rfturn TRUE;
+}
+
+
+/*
+ * MCU fndoding for AC initibl sdbn (fithfr spfdtrbl sflfdtion,
+ * or first pbss of suddfssivf bpproximbtion).
+ */
+
+METHODDEF(boolfbn)
+fndodf_mdu_AC_first (j_domprfss_ptr dinfo, JBLOCKROW *MCU_dbtb)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  rfgistfr int tfmp, tfmp2;
+  rfgistfr int nbits;
+  rfgistfr int r, k;
+  int Sf = dinfo->Sf;
+  int Al = dinfo->Al;
+  JBLOCKROW blodk;
+
+  fntropy->nfxt_output_bytf = dinfo->dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dinfo->dfst->frff_in_bufffr;
+
+  /* Emit rfstbrt mbrkfr if nffdfd */
+  if (dinfo->rfstbrt_intfrvbl)
+    if (fntropy->rfstbrts_to_go == 0)
+      fmit_rfstbrt(fntropy, fntropy->nfxt_rfstbrt_num);
+
+  /* Endodf thf MCU dbtb blodk */
+  blodk = MCU_dbtb[0];
+
+  /* Endodf thf AC dofffidifnts pfr sfdtion G.1.2.2, fig. G.3 */
+
+  r = 0;                        /* r = run lfngth of zfros */
+
+  for (k = dinfo->Ss; k <= Sf; k++) {
+    if ((tfmp = (*blodk)[jpfg_nbturbl_ordfr[k]]) == 0) {
+      r++;
+      dontinuf;
+    }
+    /* Wf must bpply thf point trbnsform by Al.  For AC dofffidifnts this
+     * is bn intfgfr division with rounding towbrds 0.  To do this portbbly
+     * in C, wf shift bftfr obtbining thf bbsolutf vbluf; so thf dodf is
+     * intfrwovfn with finding thf bbs vbluf (tfmp) bnd output bits (tfmp2).
+     */
+    if (tfmp < 0) {
+      tfmp = -tfmp;             /* tfmp is bbs vbluf of input */
+      tfmp >>= Al;              /* bpply thf point trbnsform */
+      /* For b nfgbtivf doff, wbnt tfmp2 = bitwisf domplfmfnt of bbs(doff) */
+      tfmp2 = ~tfmp;
+    } flsf {
+      tfmp >>= Al;              /* bpply thf point trbnsform */
+      tfmp2 = tfmp;
+    }
+    /* Wbtdh out for dbsf thbt nonzfro doff is zfro bftfr point trbnsform */
+    if (tfmp == 0) {
+      r++;
+      dontinuf;
+    }
+
+    /* Emit bny pfnding EOBRUN */
+    if (fntropy->EOBRUN > 0)
+      fmit_fobrun(fntropy);
+    /* if run lfngth > 15, must fmit spfdibl run-lfngth-16 dodfs (0xF0) */
+    whilf (r > 15) {
+      fmit_symbol(fntropy, fntropy->bd_tbl_no, 0xF0);
+      r -= 16;
+    }
+
+    /* Find thf numbfr of bits nffdfd for thf mbgnitudf of thf dofffidifnt */
+    nbits = 1;                  /* thfrf must bf bt lfbst onf 1 bit */
+    whilf ((tfmp >>= 1))
+      nbits++;
+    /* Chfdk for out-of-rbngf dofffidifnt vblufs */
+    if (nbits > MAX_COEF_BITS)
+      ERREXIT(dinfo, JERR_BAD_DCT_COEF);
+
+    /* Count/fmit Huffmbn symbol for run lfngth / numbfr of bits */
+    fmit_symbol(fntropy, fntropy->bd_tbl_no, (r << 4) + nbits);
+
+    /* Emit thbt numbfr of bits of thf vbluf, if positivf, */
+    /* or thf domplfmfnt of its mbgnitudf, if nfgbtivf. */
+    fmit_bits(fntropy, (unsignfd int) tfmp2, nbits);
+
+    r = 0;                      /* rfsft zfro run lfngth */
+  }
+
+  if (r > 0) {                  /* If thfrf brf trbiling zfrofs, */
+    fntropy->EOBRUN++;          /* dount bn EOB */
+    if (fntropy->EOBRUN == 0x7FFF)
+      fmit_fobrun(fntropy);     /* fordf it out to bvoid ovfrflow */
+  }
+
+  dinfo->dfst->nfxt_output_bytf = fntropy->nfxt_output_bytf;
+  dinfo->dfst->frff_in_bufffr = fntropy->frff_in_bufffr;
+
+  /* Updbtf rfstbrt-intfrvbl stbtf too */
+  if (dinfo->rfstbrt_intfrvbl) {
+    if (fntropy->rfstbrts_to_go == 0) {
+      fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
+      fntropy->nfxt_rfstbrt_num++;
+      fntropy->nfxt_rfstbrt_num &= 7;
+    }
+    fntropy->rfstbrts_to_go--;
+  }
+
+  rfturn TRUE;
+}
+
+
+/*
+ * MCU fndoding for DC suddfssivf bpproximbtion rffinfmfnt sdbn.
+ * Notf: wf bssumf sudh sdbns dbn bf multi-domponfnt, blthough thf spfd
+ * is not vfry dlfbr on thf point.
+ */
+
+METHODDEF(boolfbn)
+fndodf_mdu_DC_rffinf (j_domprfss_ptr dinfo, JBLOCKROW *MCU_dbtb)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  rfgistfr int tfmp;
+  int blkn;
+  int Al = dinfo->Al;
+  JBLOCKROW blodk;
+
+  fntropy->nfxt_output_bytf = dinfo->dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dinfo->dfst->frff_in_bufffr;
+
+  /* Emit rfstbrt mbrkfr if nffdfd */
+  if (dinfo->rfstbrt_intfrvbl)
+    if (fntropy->rfstbrts_to_go == 0)
+      fmit_rfstbrt(fntropy, fntropy->nfxt_rfstbrt_num);
+
+  /* Endodf thf MCU dbtb blodks */
+  for (blkn = 0; blkn < dinfo->blodks_in_MCU; blkn++) {
+    blodk = MCU_dbtb[blkn];
+
+    /* Wf simply fmit thf Al'th bit of thf DC dofffidifnt vbluf. */
+    tfmp = (*blodk)[0];
+    fmit_bits(fntropy, (unsignfd int) (tfmp >> Al), 1);
+  }
+
+  dinfo->dfst->nfxt_output_bytf = fntropy->nfxt_output_bytf;
+  dinfo->dfst->frff_in_bufffr = fntropy->frff_in_bufffr;
+
+  /* Updbtf rfstbrt-intfrvbl stbtf too */
+  if (dinfo->rfstbrt_intfrvbl) {
+    if (fntropy->rfstbrts_to_go == 0) {
+      fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
+      fntropy->nfxt_rfstbrt_num++;
+      fntropy->nfxt_rfstbrt_num &= 7;
+    }
+    fntropy->rfstbrts_to_go--;
+  }
+
+  rfturn TRUE;
+}
+
+
+/*
+ * MCU fndoding for AC suddfssivf bpproximbtion rffinfmfnt sdbn.
+ */
+
+METHODDEF(boolfbn)
+fndodf_mdu_AC_rffinf (j_domprfss_ptr dinfo, JBLOCKROW *MCU_dbtb)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  rfgistfr int tfmp;
+  rfgistfr int r, k;
+  int EOB;
+  dhbr *BR_bufffr;
+  unsignfd int BR;
+  int Sf = dinfo->Sf;
+  int Al = dinfo->Al;
+  JBLOCKROW blodk;
+  int bbsvblufs[DCTSIZE2];
+
+  fntropy->nfxt_output_bytf = dinfo->dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dinfo->dfst->frff_in_bufffr;
+
+  /* Emit rfstbrt mbrkfr if nffdfd */
+  if (dinfo->rfstbrt_intfrvbl)
+    if (fntropy->rfstbrts_to_go == 0)
+      fmit_rfstbrt(fntropy, fntropy->nfxt_rfstbrt_num);
+
+  /* Endodf thf MCU dbtb blodk */
+  blodk = MCU_dbtb[0];
+
+  /* It is donvfnifnt to mbkf b prf-pbss to dftfrminf thf trbnsformfd
+   * dofffidifnts' bbsolutf vblufs bnd thf EOB position.
+   */
+  EOB = 0;
+  for (k = dinfo->Ss; k <= Sf; k++) {
+    tfmp = (*blodk)[jpfg_nbturbl_ordfr[k]];
+    /* Wf must bpply thf point trbnsform by Al.  For AC dofffidifnts this
+     * is bn intfgfr division with rounding towbrds 0.  To do this portbbly
+     * in C, wf shift bftfr obtbining thf bbsolutf vbluf.
+     */
+    if (tfmp < 0)
+      tfmp = -tfmp;             /* tfmp is bbs vbluf of input */
+    tfmp >>= Al;                /* bpply thf point trbnsform */
+    bbsvblufs[k] = tfmp;        /* sbvf bbs vbluf for mbin pbss */
+    if (tfmp == 1)
+      EOB = k;                  /* EOB = indfx of lbst nfwly-nonzfro doff */
+  }
+
+  /* Endodf thf AC dofffidifnts pfr sfdtion G.1.2.3, fig. G.7 */
+
+  r = 0;                        /* r = run lfngth of zfros */
+  BR = 0;                       /* BR = dount of bufffrfd bits bddfd now */
+  BR_bufffr = fntropy->bit_bufffr + fntropy->BE; /* Appfnd bits to bufffr */
+
+  for (k = dinfo->Ss; k <= Sf; k++) {
+    if ((tfmp = bbsvblufs[k]) == 0) {
+      r++;
+      dontinuf;
+    }
+
+    /* Emit bny rfquirfd ZRLs, but not if thfy dbn bf foldfd into EOB */
+    whilf (r > 15 && k <= EOB) {
+      /* fmit bny pfnding EOBRUN bnd thf BE dorrfdtion bits */
+      fmit_fobrun(fntropy);
+      /* Emit ZRL */
+      fmit_symbol(fntropy, fntropy->bd_tbl_no, 0xF0);
+      r -= 16;
+      /* Emit bufffrfd dorrfdtion bits thbt must bf bssodibtfd with ZRL */
+      fmit_bufffrfd_bits(fntropy, BR_bufffr, BR);
+      BR_bufffr = fntropy->bit_bufffr; /* BE bits brf gonf now */
+      BR = 0;
+    }
+
+    /* If thf doff wbs prfviously nonzfro, it only nffds b dorrfdtion bit.
+     * NOTE: b strbight trbnslbtion of thf spfd's figurf G.7 would suggfst
+     * thbt wf blso nffd to tfst r > 15.  But if r > 15, wf dbn only gft hfrf
+     * if k > EOB, whidh implifs thbt this dofffidifnt is not 1.
+     */
+    if (tfmp > 1) {
+      /* Thf dorrfdtion bit is thf nfxt bit of thf bbsolutf vbluf. */
+      BR_bufffr[BR++] = (dhbr) (tfmp & 1);
+      dontinuf;
+    }
+
+    /* Emit bny pfnding EOBRUN bnd thf BE dorrfdtion bits */
+    fmit_fobrun(fntropy);
+
+    /* Count/fmit Huffmbn symbol for run lfngth / numbfr of bits */
+    fmit_symbol(fntropy, fntropy->bd_tbl_no, (r << 4) + 1);
+
+    /* Emit output bit for nfwly-nonzfro doff */
+    tfmp = ((*blodk)[jpfg_nbturbl_ordfr[k]] < 0) ? 0 : 1;
+    fmit_bits(fntropy, (unsignfd int) tfmp, 1);
+
+    /* Emit bufffrfd dorrfdtion bits thbt must bf bssodibtfd with this dodf */
+    fmit_bufffrfd_bits(fntropy, BR_bufffr, BR);
+    BR_bufffr = fntropy->bit_bufffr; /* BE bits brf gonf now */
+    BR = 0;
+    r = 0;                      /* rfsft zfro run lfngth */
+  }
+
+  if (r > 0 || BR > 0) {        /* If thfrf brf trbiling zfrofs, */
+    fntropy->EOBRUN++;          /* dount bn EOB */
+    fntropy->BE += BR;          /* dondbt my dorrfdtion bits to oldfr onfs */
+    /* Wf fordf out thf EOB if wf risk fithfr:
+     * 1. ovfrflow of thf EOB dountfr;
+     * 2. ovfrflow of thf dorrfdtion bit bufffr during thf nfxt MCU.
+     */
+    if (fntropy->EOBRUN == 0x7FFF || fntropy->BE > (MAX_CORR_BITS-DCTSIZE2+1))
+      fmit_fobrun(fntropy);
+  }
+
+  dinfo->dfst->nfxt_output_bytf = fntropy->nfxt_output_bytf;
+  dinfo->dfst->frff_in_bufffr = fntropy->frff_in_bufffr;
+
+  /* Updbtf rfstbrt-intfrvbl stbtf too */
+  if (dinfo->rfstbrt_intfrvbl) {
+    if (fntropy->rfstbrts_to_go == 0) {
+      fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
+      fntropy->nfxt_rfstbrt_num++;
+      fntropy->nfxt_rfstbrt_num &= 7;
+    }
+    fntropy->rfstbrts_to_go--;
+  }
+
+  rfturn TRUE;
+}
+
+
+/*
+ * Finish up bt thf fnd of b Huffmbn-domprfssfd progrfssivf sdbn.
+ */
+
+METHODDEF(void)
+finish_pbss_phuff (j_domprfss_ptr dinfo)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+
+  fntropy->nfxt_output_bytf = dinfo->dfst->nfxt_output_bytf;
+  fntropy->frff_in_bufffr = dinfo->dfst->frff_in_bufffr;
+
+  /* Flush out bny bufffrfd dbtb */
+  fmit_fobrun(fntropy);
+  flush_bits(fntropy);
+
+  dinfo->dfst->nfxt_output_bytf = fntropy->nfxt_output_bytf;
+  dinfo->dfst->frff_in_bufffr = fntropy->frff_in_bufffr;
+}
+
+
+/*
+ * Finish up b stbtistids-gbthfring pbss bnd drfbtf thf nfw Huffmbn tbblfs.
+ */
+
+METHODDEF(void)
+finish_pbss_gbthfr_phuff (j_domprfss_ptr dinfo)
+{
+  phuff_fntropy_ptr fntropy = (phuff_fntropy_ptr) dinfo->fntropy;
+  boolfbn is_DC_bbnd;
+  int di, tbl;
+  jpfg_domponfnt_info * dompptr;
+  JHUFF_TBL **htblptr;
+  boolfbn did[NUM_HUFF_TBLS];
+
+  /* Flush out bufffrfd dbtb (bll wf dbrf bbout is dounting thf EOB symbol) */
+  fmit_fobrun(fntropy);
+
+  is_DC_bbnd = (dinfo->Ss == 0);
+
+  /* It's importbnt not to bpply jpfg_gfn_optimbl_tbblf morf thbn ondf
+   * pfr tbblf, bfdbusf it dlobbfrs thf input frfqufndy dounts!
+   */
+  MEMZERO(did, SIZEOF(did));
+
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    if (is_DC_bbnd) {
+      if (dinfo->Ah != 0)       /* DC rffinfmfnt nffds no tbblf */
+        dontinuf;
+      tbl = dompptr->dd_tbl_no;
+    } flsf {
+      tbl = dompptr->bd_tbl_no;
+    }
+    if (! did[tbl]) {
+      if (is_DC_bbnd)
+        htblptr = & dinfo->dd_huff_tbl_ptrs[tbl];
+      flsf
+        htblptr = & dinfo->bd_huff_tbl_ptrs[tbl];
+      if (*htblptr == NULL)
+        *htblptr = jpfg_bllod_huff_tbblf((j_dommon_ptr) dinfo);
+      jpfg_gfn_optimbl_tbblf(dinfo, *htblptr, fntropy->dount_ptrs[tbl]);
+      did[tbl] = TRUE;
+    }
+  }
+}
+
+
+/*
+ * Modulf initiblizbtion routinf for progrfssivf Huffmbn fntropy fndoding.
+ */
+
+GLOBAL(void)
+jinit_phuff_fndodfr (j_domprfss_ptr dinfo)
+{
+  phuff_fntropy_ptr fntropy;
+  int i;
+
+  fntropy = (phuff_fntropy_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(phuff_fntropy_fndodfr));
+  dinfo->fntropy = (strudt jpfg_fntropy_fndodfr *) fntropy;
+  fntropy->pub.stbrt_pbss = stbrt_pbss_phuff;
+
+  /* Mbrk tbblfs unbllodbtfd */
+  for (i = 0; i < NUM_HUFF_TBLS; i++) {
+    fntropy->dfrivfd_tbls[i] = NULL;
+    fntropy->dount_ptrs[i] = NULL;
+  }
+  fntropy->bit_bufffr = NULL;   /* nffdfd only in AC rffinfmfnt sdbn */
+}
+
+#fndif /* C_PROGRESSIVE_SUPPORTED */

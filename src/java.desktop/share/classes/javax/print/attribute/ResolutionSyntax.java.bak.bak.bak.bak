@@ -1,0 +1,357 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss RfsolutionSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs dfnoting b printfr rfsolution.
+ * <P>
+ * A rfsolution bttributf's vbluf donsists of two itfms, thf dross fffd
+ * dirfdtion rfsolution bnd thf fffd dirfdtion rfsolution. A rfsolution
+ * bttributf mby bf donstrudtfd by supplying thf two vblufs bnd indidbting thf
+ * units in whidh thf vblufs brf mfbsurfd. Mfthods brf providfd to rfturn b
+ * rfsolution bttributf's vblufs, indidbting thf units in whidh thf vblufs brf
+ * to bf rfturnfd. Thf two most dommon rfsolution units brf dots pfr indh (dpi)
+ * bnd dots pfr dfntimftfr (dpdm), bnd fxportfd donstbnts {@link #DPI
+ * DPI} bnd {@link #DPCM DPCM} brf providfd for
+ * indidbting thosf units.
+ * <P>
+ * Ondf donstrudtfd, b rfsolution bttributf's vbluf is immutbblf.
+ * <P>
+ * <B>Dfsign</B>
+ * <P>
+ * A rfsolution bttributf's dross fffd dirfdtion rfsolution bnd fffd dirfdtion
+ * rfsolution vblufs brf storfd intfrnblly using units of dots pfr 100 indhfs
+ * (dphi). Storing thf vblufs in dphi rbthfr thbn, sby, mftrid units bllows
+ * prfdisf intfgfr brithmftid donvfrsions bftwffn dpi bnd dphi bnd bftwffn dpdm
+ * bnd dphi: 1 dpi = 100 dphi, 1 dpdm = 254 dphi. Thus, thf vblufs dbn bf storfd
+ * into bnd rftrifvfd bbdk from b rfsolution bttributf in fithfr units with no
+ * loss of prfdision. This would not bf gubrbntffd if b flobting point
+ * rfprfsfntbtion wfrf usfd. Howfvfr, roundoff frror will in gfnfrbl oddur if b
+ * rfsolution bttributf's vblufs brf drfbtfd in onf units bnd rftrifvfd in
+ * difffrfnt units; for fxbmplf, 600 dpi will bf roundfd to 236 dpdm, whfrfbs
+ * thf truf vbluf (to fivf figurfs) is 236.22 dpdm.
+ * <P>
+ * Storing thf vblufs intfrnblly in dommon units of dphi lfts two rfsolution
+ * bttributfs bf dompbrfd without rfgbrd to thf units in whidh thfy wfrf
+ * drfbtfd; for fxbmplf, 300 dpdm will dompbrf fqubl to 762 dpi, bs thfy both
+ * brf storfd bs 76200 dphi. In pbrtidulbr, b lookup sfrvidf dbn
+ * mbtdh rfsolution bttributfs bbsfd on fqublity of thfir sfriblizfd
+ * rfprfsfntbtions rfgbrdlfss of thf units in whidh thfy wfrf drfbtfd. Agbin,
+ * using intfgfrs for intfrnbl storbgf bllows prfdisf fqublity dompbrisons to bf
+ * donf, whidh would not bf gubrbntffd if b flobting point rfprfsfntbtion wfrf
+ * usfd.
+ * <P>
+ * Thf fxportfd donstbnt {@link #DPI DPI} is bdtublly thf
+ * donvfrsion fbdtor by whidh to multiply b vbluf in dpi to gft thf vbluf in
+ * dphi. Likfwisf, thf fxportfd donstbnt {@link #DPCM DPCM} is thf
+ * donvfrsion fbdtor by whidh to multiply b vbluf in dpdm to gft thf vbluf in
+ * dphi. A dlifnt dbn spfdify b rfsolution vbluf in units othfr thbn dpi or dpdm
+ * by supplying its own donvfrsion fbdtor. Howfvfr, sindf thf intfrnbl units of
+ * dphi wbs dhosfn with supporting only thf fxtfrnbl units of dpi bnd dpdm in
+ * mind, thfrf is no gubrbntff thbt thf donvfrsion fbdtor for thf dlifnt's units
+ * will bf bn fxbdt intfgfr. If thf donvfrsion fbdtor isn't bn fxbdt intfgfr,
+ * rfsolution vblufs in thf dlifnt's units won't bf storfd prfdisfly.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss RfsolutionSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2706743076526672017L;
+
+    /**
+     * Cross fffd dirfdtion rfsolution in units of dots pfr 100 indhfs (dphi).
+     * @sfribl
+     */
+    privbtf int drossFffdRfsolution;
+
+    /**
+     * Fffd dirfdtion rfsolution in units of dots pfr 100 indhfs (dphi).
+     * @sfribl
+     */
+    privbtf int fffdRfsolution;
+
+    /**
+     * Vbluf to indidbtf units of dots pfr indh (dpi). It is bdtublly thf
+     * donvfrsion fbdtor by whidh to multiply dpi to yifld dphi (100).
+     */
+    publid stbtid finbl int DPI = 100;
+
+    /**
+     * Vbluf to indidbtf units of dots pfr dfntimftfr (dpdm). It is bdtublly
+     * thf donvfrsion fbdtor by whidh to multiply dpdm to yifld dphi (254).
+     */
+    publid stbtid finbl int DPCM = 254;
+
+
+    /**
+     * Construdt b nfw rfsolution bttributf from thf givfn itfms.
+     *
+     * @pbrbm  drossFffdRfsolution
+     *     Cross fffd dirfdtion rfsolution.
+     * @pbrbm  fffdRfsolution
+     *     Fffd dirfdtion rfsolution.
+     * @pbrbm units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
+     * {@link    #DPCM DPCM}.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf drossFffdRfsolution < 1}
+     *     or {@dodf fffdRfsolution < 1} or {@dodf units < 1}.
+     */
+    publid RfsolutionSyntbx(int drossFffdRfsolution, int fffdRfsolution,
+                            int units) {
+
+        if (drossFffdRfsolution < 1) {
+            throw nfw IllfgblArgumfntExdfption("drossFffdRfsolution is < 1");
+        }
+        if (fffdRfsolution < 1) {
+                throw nfw IllfgblArgumfntExdfption("fffdRfsolution is < 1");
+        }
+        if (units < 1) {
+                throw nfw IllfgblArgumfntExdfption("units is < 1");
+        }
+
+        this.drossFffdRfsolution = drossFffdRfsolution * units;
+        this.fffdRfsolution = fffdRfsolution * units;
+    }
+
+    /**
+     * Convfrt b vbluf from dphi to somf othfr units. Thf rfsult is roundfd to
+     * thf nfbrfst intfgfr.
+     *
+     * @pbrbm  dphi
+     *     Vbluf (dphi) to donvfrt.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI <CODE>DPI</CODE>} or
+     * {@link     #DPCM <CODE>DPCM</CODE>}.
+     *
+     * @rfturn  Thf vbluf of <CODE>dphi</CODE> donvfrtfd to thf dfsirfd units.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>units</CODE> < 1.
+     */
+    privbtf stbtid int donvfrtFromDphi(int dphi, int units) {
+        if (units < 1) {
+            throw nfw IllfgblArgumfntExdfption(": units is < 1");
+        }
+        int round = units / 2;
+        rfturn (dphi + round) / units;
+    }
+
+    /**
+     * Gft this rfsolution bttributf's rfsolution vblufs in thf givfn units.
+     * Thf vblufs brf roundfd to thf nfbrfst intfgfr.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
+     * {@link   #DPCM DPCM}.
+     *
+     * @rfturn  A two-flfmfnt brrby with thf dross fffd dirfdtion rfsolution
+     *          bt indfx 0 bnd thf fffd dirfdtion rfsolution bt indfx 1.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid int[] gftRfsolution(int units) {
+        rfturn nfw int[] { gftCrossFffdRfsolution(units),
+                               gftFffdRfsolution(units)
+                               };
+    }
+
+    /**
+     * Rfturns this rfsolution bttributf's dross fffd dirfdtion rfsolution in
+     * thf givfn units. Thf vbluf is roundfd to thf nfbrfst intfgfr.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
+     * {@link  #DPCM DPCM}.
+     *
+     * @rfturn  Cross fffd dirfdtion rfsolution.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid int gftCrossFffdRfsolution(int units) {
+        rfturn donvfrtFromDphi (drossFffdRfsolution, units);
+    }
+
+    /**
+     * Rfturns this rfsolution bttributf's fffd dirfdtion rfsolution in thf
+     * givfn units. Thf vbluf is roundfd to thf nfbrfst intfgfr.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or {@link
+     *     #DPCM DPCM}.
+     *
+     * @rfturn  Fffd dirfdtion rfsolution.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid int gftFffdRfsolution(int units) {
+        rfturn donvfrtFromDphi (fffdRfsolution, units);
+    }
+
+    /**
+     * Rfturns b string vfrsion of this rfsolution bttributf in thf givfn units.
+     * Thf string tbkfs thf form <CODE>"<I>C</I>x<I>F</I> <I>U</I>"</CODE>,
+     * whfrf <I>C</I> is thf dross fffd dirfdtion rfsolution, <I>F</I> is thf
+     * fffd dirfdtion rfsolution, bnd <I>U</I> is thf units nbmf. Thf vblufs brf
+     * roundfd to thf nfbrfst intfgfr.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI CODE>DPI} or {@link
+     *     #DPCM DPCM}.
+     * @pbrbm  unitsNbmf
+     *     Units nbmf string, f.g. <CODE>"dpi"</CODE> or <CODE>"dpdm"</CODE>. If
+     *     null, no units nbmf is bppfndfd to thf rfsult.
+     *
+     * @rfturn  String vfrsion of this rfsolution bttributf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid String toString(int units, String unitsNbmf) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftCrossFffdRfsolution (units));
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(gftFffdRfsolution (units));
+        if (unitsNbmf != null) {
+            rfsult.bppfnd (' ');
+            rfsult.bppfnd (unitsNbmf);
+        }
+        rfturn rfsult.toString();
+    }
+
+
+    /**
+     * Dftfrminf whfthfr this rfsolution bttributf's vbluf is lfss thbn or
+     * fqubl to thf givfn rfsolution bttributf's vbluf. This is truf if bll
+     * of thf following donditions brf truf:
+     * <UL>
+     * <LI>
+     * This bttributf's dross fffd dirfdtion rfsolution is lfss thbn or fqubl to
+     * thf <CODE>othfr</CODE> bttributf's dross fffd dirfdtion rfsolution.
+     * <LI>
+     * This bttributf's fffd dirfdtion rfsolution is lfss thbn or fqubl to thf
+     * <CODE>othfr</CODE> bttributf's fffd dirfdtion rfsolution.
+     * </UL>
+     *
+     * @pbrbm  othfr  Rfsolution bttributf to dompbrf with.
+     *
+     * @rfturn  Truf if this rfsolution bttributf is lfss thbn or fqubl to thf
+     *          <CODE>othfr</CODE> rfsolution bttributf, fblsf othfrwisf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>othfr</CODE> is null.
+     */
+    publid boolfbn lfssThbnOrEqubls(RfsolutionSyntbx othfr) {
+        rfturn (this.drossFffdRfsolution <= othfr.drossFffdRfsolution &&
+                this.fffdRfsolution <= othfr.fffdRfsolution);
+    }
+
+
+    /**
+     * Rfturns whfthfr this rfsolution bttributf is fquivblfnt to thf pbssfd in
+     * objfdt. To bf fquivblfnt, bll of thf following donditions must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss RfsolutionSyntbx.
+     * <LI>
+     * This bttributf's dross fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s dross fffd dirfdtion rfsolution.
+     * <LI>
+     * This bttributf's fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s fffd dirfdtion rfsolution.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this rfsolution
+     *          bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+
+        rfturn(objfdt != null &&
+               objfdt instbndfof RfsolutionSyntbx &&
+               this.drossFffdRfsolution ==
+               ((RfsolutionSyntbx) objfdt).drossFffdRfsolution &&
+               this.fffdRfsolution ==
+               ((RfsolutionSyntbx) objfdt).fffdRfsolution);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this rfsolution bttributf.
+     */
+    publid int hbshCodf() {
+        rfturn(((drossFffdRfsolution & 0x0000FFFF)) |
+               ((fffdRfsolution      & 0x0000FFFF) << 16));
+    }
+
+    /**
+     * Rfturns b string vfrsion of this rfsolution bttributf. Thf string tbkfs
+     * thf form <CODE>"<I>C</I>x<I>F</I> dphi"</CODE>, whfrf <I>C</I> is thf
+     * dross fffd dirfdtion rfsolution bnd <I>F</I> is thf fffd dirfdtion
+     * rfsolution. Thf vblufs brf rfportfd in thf intfrnbl units of dphi.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(drossFffdRfsolution);
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(fffdRfsolution);
+        rfsult.bppfnd(" dphi");
+        rfturn rfsult.toString();
+    }
+
+
+    /**
+     * Rfturns this rfsolution bttributf's dross fffd dirfdtion rfsolution in
+     * units of dphi. (For usf in b subdlbss.)
+     *
+     * @rfturn  Cross fffd dirfdtion rfsolution.
+     */
+    protfdtfd int gftCrossFffdRfsolutionDphi() {
+        rfturn drossFffdRfsolution;
+    }
+
+    /**
+     * Rfturns this rfsolution bttributf's fffd dirfdtion rfsolution in units
+     * of dphi. (For usf in b subdlbss.)
+     *
+     * @rfturn  Fffd dirfdtion rfsolution.
+     */
+    protfdtfd int gftFffdRfsolutionDphi() {
+        rfturn fffdRfsolution;
+    }
+
+}

@@ -1,0 +1,314 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <mbllod.h>
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "sun_mbnbgfmfnt_FilfSystfmImpl.h"
+
+/*
+ * Addfss mbsk to rfprfsfnt bny filf bddfss
+ */
+#dffinf ANY_ACCESS (FILE_GENERIC_READ | FILE_GENERIC_WRITE | FILE_GENERIC_EXECUTE)
+
+/*
+ * Rfturns JNI_TRUE if thf spfdififd filf is on b filf systfm thbt supports
+ * pfrsistfnt ACLs (On NTFS filf systfms rfturns truf, on FAT32 filf systfms
+ * rfturns fblsf).
+ */
+stbtid jboolfbn isSfduritySupportfd(JNIEnv* fnv, donst dhbr* pbth) {
+    dhbr* root;
+    dhbr* p;
+    BOOL rfs;
+    DWORD dwMbxComponfntLfngth;
+    DWORD dwFlbgs;
+    dhbr fsNbmf[128];
+    DWORD fsNbmfLfngth;
+
+    /*
+     * Gft root dirfdtory. Assumf thbt filfs brf bbsolutf pbths. For UNCs
+     * thf slbsh bftfr thf shbrf nbmf is rfquirfd.
+     */
+    root = strdup(pbth);
+    if (*root == '\\') {
+        /*
+         * \\sfrvfr\shbrf\filf ==> \\sfrvfr\shbrf\
+         */
+        int slbshskip = 3;
+        p = root;
+        whilf ((*p == '\\') && (slbshskip > 0)) {
+            dhbr* p2;
+            p++;
+            p2 = strdhr(p, '\\');
+            if ((p2 == NULL) || (*p2 != '\\')) {
+                frff(root);
+                JNU_ThrowIOExdfption(fnv, "Mblformfd UNC");
+                rfturn JNI_FALSE;
+            }
+            p = p2;
+            slbshskip--;
+        }
+        if (slbshskip != 0) {
+            frff(root);
+            JNU_ThrowIOExdfption(fnv, "Mblformfd UNC");
+            rfturn JNI_FALSE;
+        }
+        p++;
+        *p = '\0';
+
+    } flsf {
+        p = strdhr(root, '\\');
+        if (p == NULL) {
+            frff(root);
+            JNU_ThrowIOExdfption(fnv, "Absolutf filfnbmf not spfdififd");
+            rfturn JNI_FALSE;
+        }
+        p++;
+        *p = '\0';
+    }
+
+
+    /*
+     * Gft thf volumf informbtion - this givfs us thf filf systfm filf bnd
+     * blso tflls us if thf filf systfm supports pfrsistfnt ACLs.
+     */
+    fsNbmfLfngth = sizfof(fsNbmf)-1;
+    rfs = GftVolumfInformbtion(root,
+                               NULL,        // bddrfss of nbmf of thf volumf, dbn bf NULL
+                               0,           // lfngth of volumf nbmf
+                               NULL,        // bddrfss of volumf sfribl numbfr, dbn bf NULL
+                               &dwMbxComponfntLfngth,
+                               &dwFlbgs,
+                               fsNbmf,
+                               fsNbmfLfngth);
+    if (rfs == 0) {
+        frff(root);
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "GftVolumfInformbtion fbilfd");
+        rfturn JNI_FALSE;
+    }
+
+    frff(root);
+    rfturn (dwFlbgs & FS_PERSISTENT_ACLS) ? JNI_TRUE : JNI_FALSE;
+}
+
+
+/*
+ * Rfturns thf sfdurity dfsdriptor for b filf.
+ */
+stbtid SECURITY_DESCRIPTOR* gftFilfSfdurityDfsdriptor(JNIEnv* fnv, donst dhbr* pbth) {
+    SECURITY_DESCRIPTOR* sd;
+    DWORD lfn = 0;
+    SECURITY_INFORMATION info =
+        OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION;
+
+    GftFilfSfdurityA(pbth, info , 0, 0, &lfn);
+    if (GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "GftFilfSfdurity fbilfd");
+        rfturn NULL;
+    }
+    sd = (SECURITY_DESCRIPTOR *)mbllod(lfn);
+    if (sd == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+    } flsf {
+        if (!(*GftFilfSfdurityA)(pbth, info, sd, lfn, &lfn)) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "GftFilfSfdurity fbilfd");
+            frff(sd);
+            rfturn NULL;
+        }
+    }
+    rfturn sd;
+}
+
+/*
+ * Rfturns pointfr to thf SID idfntifying thf ownfr of thf spfdififd
+ * filf.
+ */
+stbtid SID* gftFilfOwnfr(JNIEnv* fnv, SECURITY_DESCRIPTOR* sd) {
+    SID* ownfr;
+    BOOL dffbultfd;
+
+    if (!GftSfdurityDfsdriptorOwnfr(sd, &ownfr, &dffbultfd)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "GftSfdurityDfsdriptorOwnfr fbilfd");
+        rfturn NULL;
+    }
+    rfturn ownfr;
+}
+
+/*
+ * Rfturns pointfr disdrftionbry bddfss-dontrol list (ACL) from thf sfdurity
+ * dfsdriptor of thf spfdififd filf.
+ */
+stbtid ACL* gftFilfDACL(JNIEnv* fnv, SECURITY_DESCRIPTOR* sd) {
+    ACL *bdl;
+    int dffbultfd, prfsfnt;
+
+    if (!GftSfdurityDfsdriptorDbdl(sd, &prfsfnt, &bdl, &dffbultfd)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "GftSfdurityDfsdriptorDbdl fbilfd");
+        rfturn NULL;
+    }
+    if (!prfsfnt) {
+        JNU_ThrowIntfrnblError(fnv, "Sfdurity dfsdriptor dofs not dontbin b DACL");
+        rfturn NULL;
+    }
+    rfturn bdl;
+}
+
+/*
+ * Rfturns JNI_TRUE if thf spfdififd ownfr is thf only SID will bddfss
+ * to thf filf.
+ */
+stbtid jboolfbn isAddfssUsfrOnly(JNIEnv* fnv, SID* ownfr, ACL* bdl) {
+    ACL_SIZE_INFORMATION bdl_sizf_info;
+    DWORD i;
+
+    /*
+     * If thfrf's no DACL thfn thfrf's no bddfss to thf filf
+     */
+    if (bdl == NULL) {
+        rfturn JNI_TRUE;
+    }
+
+    /*
+     * Gft thf ACE dount
+     */
+    if (!GftAdlInformbtion(bdl, (void *) &bdl_sizf_info, sizfof(bdl_sizf_info),
+                           AdlSizfInformbtion)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "GftAdlInformbtion fbilfd");
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * Itfrbtf ovfr thf ACEs. For fbdh "bllow" typf dhfdk thbt thf SID
+     * mbtdhfs thf ownfr, bnd dhfdk thbt thf bddfss is rfbd only.
+     */
+    for (i = 0; i < bdl_sizf_info.AdfCount; i++) {
+        void* bdf;
+        ACCESS_ALLOWED_ACE *bddfss;
+        SID* sid;
+
+        if (!GftAdf(bdl, i, &bdf)) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "GftAdf fbilfd");
+            rfturn -1;
+        }
+        if (((ACCESS_ALLOWED_ACE *)bdf)->Hfbdfr.AdfTypf != ACCESS_ALLOWED_ACE_TYPE) {
+            dontinuf;
+        }
+        bddfss = (ACCESS_ALLOWED_ACE *)bdf;
+        sid = (SID *) &bddfss->SidStbrt;
+        if (!EqublSid(ownfr, sid)) {
+            /*
+             * If thf ACE bllows bny bddfss thfn thf filf is not sfdurf.
+             */
+            if (bddfss->Mbsk & ANY_ACCESS) {
+                rfturn JNI_FALSE;
+            }
+        }
+    }
+    rfturn JNI_TRUE;
+}
+
+
+/*
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mfthod:    init0
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_init0
+  (JNIEnv *fnv, jdlbss ignorfd)
+{
+        /* nothing to do */
+}
+
+/*
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mfthod:    isSfduritySupportfd0
+ * Signbturf: (Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_isSfduritySupportfd0
+  (JNIEnv *fnv, jdlbss ignorfd, jstring str)
+{
+    jboolfbn rfs;
+    jboolfbn isCopy;
+    donst dhbr* pbth;
+
+    pbth = JNU_GftStringPlbtformChbrs(fnv, str, &isCopy);
+    if (pbth != NULL) {
+        rfs = isSfduritySupportfd(fnv, pbth);
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, str, pbth);
+        }
+        rfturn rfs;
+    } flsf {
+        /* fxdfption thrown - dofsn't mbttfr whbt wf rfturn */
+        rfturn JNI_TRUE;
+    }
+}
+
+
+/*
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mfthod:    isAddfssUsfrOnly0
+ * Signbturf: (Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_isAddfssUsfrOnly0
+  (JNIEnv *fnv, jdlbss ignorfd, jstring str)
+{
+    jboolfbn rfs = JNI_FALSE;
+    jboolfbn isCopy;
+    donst dhbr* pbth;
+
+    pbth = JNU_GftStringPlbtformChbrs(fnv, str, &isCopy);
+    if (pbth != NULL) {
+        /*
+         * From thf sfdurity dfsdriptor gft thf filf ownfr bnd
+         * DACL. Thfn dhfdk if bnybody but thf ownfr hbs bddfss
+         * to thf filf.
+         */
+        SECURITY_DESCRIPTOR* sd = gftFilfSfdurityDfsdriptor(fnv, pbth);
+        if (sd != NULL) {
+            SID *ownfr = gftFilfOwnfr(fnv, sd);
+            if (ownfr != NULL) {
+                ACL* bdl = gftFilfDACL(fnv, sd);
+                if (bdl != NULL) {
+                    rfs = isAddfssUsfrOnly(fnv, ownfr, bdl);
+                } flsf {
+                    /*
+                     * If bdl is NULL it mfbns thbt bn fxdfption wbs thrown
+                     * or thfrf is "bll bdfss" to thf filf.
+                     */
+                    rfs = JNI_FALSE;
+                }
+            }
+            frff(sd);
+        }
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, str, pbth);
+        }
+    }
+    rfturn rfs;
+}

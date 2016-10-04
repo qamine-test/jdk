@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
-import java.io.InvalidObjectException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Typf;
 
-import javax.management.Descriptor;
-import javax.management.MBeanException;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
-import sun.reflect.misc.MethodUtil;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import sun.rfflfdt.misd.MftiodUtil;
 
-final class ConvertingMethod {
-    static ConvertingMethod from(Method m) {
+finbl dlbss ConvfrtingMftiod {
+    stbtid ConvfrtingMftiod from(Mftiod m) {
         try {
-            return new ConvertingMethod(m);
-        } catch (OpenDataException ode) {
-            final String msg = "Method " + m.getDeclaringClass().getName() +
-                "." + m.getName() + " has parameter or return type that " +
-                "cannot be translated into an open type";
-            throw new IllegalArgumentException(msg, ode);
+            rfturn nfw ConvfrtingMftiod(m);
+        } dbtdi (OpfnDbtbExdfption odf) {
+            finbl String msg = "Mftiod " + m.gftDfdlbringClbss().gftNbmf() +
+                "." + m.gftNbmf() + " ibs pbrbmftfr or rfturn typf tibt " +
+                "dbnnot bf trbnslbtfd into bn opfn typf";
+            tirow nfw IllfgblArgumfntExdfption(msg, odf);
         }
     }
 
-    Method getMethod() {
-        return method;
+    Mftiod gftMftiod() {
+        rfturn mftiod;
     }
 
-    Descriptor getDescriptor() {
-        return Introspector.descriptorForElement(method);
+    Dfsdriptor gftDfsdriptor() {
+        rfturn Introspfdtor.dfsdriptorForElfmfnt(mftiod);
     }
 
-    Type getGenericReturnType() {
-        return method.getGenericReturnType();
+    Typf gftGfnfridRfturnTypf() {
+        rfturn mftiod.gftGfnfridRfturnTypf();
     }
 
-    Type[] getGenericParameterTypes() {
-        return method.getGenericParameterTypes();
+    Typf[] gftGfnfridPbrbmftfrTypfs() {
+        rfturn mftiod.gftGfnfridPbrbmftfrTypfs();
     }
 
-    String getName() {
-        return method.getName();
+    String gftNbmf() {
+        rfturn mftiod.gftNbmf();
     }
 
-    OpenType<?> getOpenReturnType() {
-        return returnMapping.getOpenType();
+    OpfnTypf<?> gftOpfnRfturnTypf() {
+        rfturn rfturnMbpping.gftOpfnTypf();
     }
 
-    OpenType<?>[] getOpenParameterTypes() {
-        final OpenType<?>[] types = new OpenType<?>[paramMappings.length];
-        for (int i = 0; i < paramMappings.length; i++)
-            types[i] = paramMappings[i].getOpenType();
-        return types;
+    OpfnTypf<?>[] gftOpfnPbrbmftfrTypfs() {
+        finbl OpfnTypf<?>[] typfs = nfw OpfnTypf<?>[pbrbmMbppings.lfngti];
+        for (int i = 0; i < pbrbmMbppings.lfngti; i++)
+            typfs[i] = pbrbmMbppings[i].gftOpfnTypf();
+        rfturn typfs;
     }
 
-    /* Check that this method will be callable when we are going from
-     * open types to Java types, for example when we are going from
-     * an MXBean wrapper to the underlying resource.
-     * The parameters will be converted to
-     * Java types, so they must be "reconstructible".  The return
-     * value will be converted to an Open Type, so if it is convertible
-     * at all there is no further check needed.
+    /* Cifdk tibt tiis mftiod will bf dbllbblf wifn wf brf going from
+     * opfn typfs to Jbvb typfs, for fxbmplf wifn wf brf going from
+     * bn MXBfbn wrbppfr to tif undfrlying rfsourdf.
+     * Tif pbrbmftfrs will bf donvfrtfd to
+     * Jbvb typfs, so tify must bf "rfdonstrudtiblf".  Tif rfturn
+     * vbluf will bf donvfrtfd to bn Opfn Typf, so if it is donvfrtiblf
+     * bt bll tifrf is no furtifr difdk nffdfd.
      */
-    void checkCallFromOpen() {
+    void difdkCbllFromOpfn() {
         try {
-            for (MXBeanMapping paramConverter : paramMappings)
-                paramConverter.checkReconstructible();
-        } catch (InvalidObjectException e) {
-            throw new IllegalArgumentException(e);
+            for (MXBfbnMbpping pbrbmConvfrtfr : pbrbmMbppings)
+                pbrbmConvfrtfr.difdkRfdonstrudtiblf();
+        } dbtdi (InvblidObjfdtExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
-    /* Check that this method will be callable when we are going from
-     * Java types to open types, for example when we are going from
-     * an MXBean proxy to the open types that it will be mapped to.
-     * The return type will be converted back to a Java type, so it
-     * must be "reconstructible".  The parameters will be converted to
-     * open types, so if it is convertible at all there is no further
-     * check needed.
+    /* Cifdk tibt tiis mftiod will bf dbllbblf wifn wf brf going from
+     * Jbvb typfs to opfn typfs, for fxbmplf wifn wf brf going from
+     * bn MXBfbn proxy to tif opfn typfs tibt it will bf mbppfd to.
+     * Tif rfturn typf will bf donvfrtfd bbdk to b Jbvb typf, so it
+     * must bf "rfdonstrudtiblf".  Tif pbrbmftfrs will bf donvfrtfd to
+     * opfn typfs, so if it is donvfrtiblf bt bll tifrf is no furtifr
+     * difdk nffdfd.
      */
-    void checkCallToOpen() {
+    void difdkCbllToOpfn() {
         try {
-            returnMapping.checkReconstructible();
-        } catch (InvalidObjectException e) {
-            throw new IllegalArgumentException(e);
+            rfturnMbpping.difdkRfdonstrudtiblf();
+        } dbtdi (InvblidObjfdtExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
-    String[] getOpenSignature() {
-        if (paramMappings.length == 0)
-            return noStrings;
+    String[] gftOpfnSignbturf() {
+        if (pbrbmMbppings.lfngti == 0)
+            rfturn noStrings;
 
-        String[] sig = new String[paramMappings.length];
-        for (int i = 0; i < paramMappings.length; i++)
-            sig[i] = paramMappings[i].getOpenClass().getName();
-        return sig;
+        String[] sig = nfw String[pbrbmMbppings.lfngti];
+        for (int i = 0; i < pbrbmMbppings.lfngti; i++)
+            sig[i] = pbrbmMbppings[i].gftOpfnClbss().gftNbmf();
+        rfturn sig;
     }
 
-    final Object toOpenReturnValue(MXBeanLookup lookup, Object ret)
-            throws OpenDataException {
-        return returnMapping.toOpenValue(ret);
+    finbl Objfdt toOpfnRfturnVbluf(MXBfbnLookup lookup, Objfdt rft)
+            tirows OpfnDbtbExdfption {
+        rfturn rfturnMbpping.toOpfnVbluf(rft);
     }
 
-    final Object fromOpenReturnValue(MXBeanLookup lookup, Object ret)
-            throws InvalidObjectException {
-        return returnMapping.fromOpenValue(ret);
+    finbl Objfdt fromOpfnRfturnVbluf(MXBfbnLookup lookup, Objfdt rft)
+            tirows InvblidObjfdtExdfption {
+        rfturn rfturnMbpping.fromOpfnVbluf(rft);
     }
 
-    final Object[] toOpenParameters(MXBeanLookup lookup, Object[] params)
-            throws OpenDataException {
-        if (paramConversionIsIdentity || params == null)
-            return params;
-        final Object[] oparams = new Object[params.length];
-        for (int i = 0; i < params.length; i++)
-            oparams[i] = paramMappings[i].toOpenValue(params[i]);
-        return oparams;
+    finbl Objfdt[] toOpfnPbrbmftfrs(MXBfbnLookup lookup, Objfdt[] pbrbms)
+            tirows OpfnDbtbExdfption {
+        if (pbrbmConvfrsionIsIdfntity || pbrbms == null)
+            rfturn pbrbms;
+        finbl Objfdt[] opbrbms = nfw Objfdt[pbrbms.lfngti];
+        for (int i = 0; i < pbrbms.lfngti; i++)
+            opbrbms[i] = pbrbmMbppings[i].toOpfnVbluf(pbrbms[i]);
+        rfturn opbrbms;
     }
 
-    final Object[] fromOpenParameters(Object[] params)
-            throws InvalidObjectException {
-        if (paramConversionIsIdentity || params == null)
-            return params;
-        final Object[] jparams = new Object[params.length];
-        for (int i = 0; i < params.length; i++)
-            jparams[i] = paramMappings[i].fromOpenValue(params[i]);
-        return jparams;
+    finbl Objfdt[] fromOpfnPbrbmftfrs(Objfdt[] pbrbms)
+            tirows InvblidObjfdtExdfption {
+        if (pbrbmConvfrsionIsIdfntity || pbrbms == null)
+            rfturn pbrbms;
+        finbl Objfdt[] jpbrbms = nfw Objfdt[pbrbms.lfngti];
+        for (int i = 0; i < pbrbms.lfngti; i++)
+            jpbrbms[i] = pbrbmMbppings[i].fromOpfnVbluf(pbrbms[i]);
+        rfturn jpbrbms;
     }
 
-    final Object toOpenParameter(MXBeanLookup lookup,
-                                 Object param,
-                                 int paramNo)
-        throws OpenDataException {
-        return paramMappings[paramNo].toOpenValue(param);
+    finbl Objfdt toOpfnPbrbmftfr(MXBfbnLookup lookup,
+                                 Objfdt pbrbm,
+                                 int pbrbmNo)
+        tirows OpfnDbtbExdfption {
+        rfturn pbrbmMbppings[pbrbmNo].toOpfnVbluf(pbrbm);
     }
 
-    final Object fromOpenParameter(MXBeanLookup lookup,
-                                   Object param,
-                                   int paramNo)
-        throws InvalidObjectException {
-        return paramMappings[paramNo].fromOpenValue(param);
+    finbl Objfdt fromOpfnPbrbmftfr(MXBfbnLookup lookup,
+                                   Objfdt pbrbm,
+                                   int pbrbmNo)
+        tirows InvblidObjfdtExdfption {
+        rfturn pbrbmMbppings[pbrbmNo].fromOpfnVbluf(pbrbm);
     }
 
-    Object invokeWithOpenReturn(MXBeanLookup lookup,
-                                Object obj, Object[] params)
-            throws MBeanException, IllegalAccessException,
-                   InvocationTargetException {
-        MXBeanLookup old = MXBeanLookup.getLookup();
+    Objfdt invokfWitiOpfnRfturn(MXBfbnLookup lookup,
+                                Objfdt obj, Objfdt[] pbrbms)
+            tirows MBfbnExdfption, IllfgblAddfssExdfption,
+                   InvodbtionTbrgftExdfption {
+        MXBfbnLookup old = MXBfbnLookup.gftLookup();
         try {
-            MXBeanLookup.setLookup(lookup);
-            return invokeWithOpenReturn(obj, params);
-        } finally {
-            MXBeanLookup.setLookup(old);
+            MXBfbnLookup.sftLookup(lookup);
+            rfturn invokfWitiOpfnRfturn(obj, pbrbms);
+        } finblly {
+            MXBfbnLookup.sftLookup(old);
         }
     }
 
-    private Object invokeWithOpenReturn(Object obj, Object[] params)
-            throws MBeanException, IllegalAccessException,
-                   InvocationTargetException {
-        final Object[] javaParams;
+    privbtf Objfdt invokfWitiOpfnRfturn(Objfdt obj, Objfdt[] pbrbms)
+            tirows MBfbnExdfption, IllfgblAddfssExdfption,
+                   InvodbtionTbrgftExdfption {
+        finbl Objfdt[] jbvbPbrbms;
         try {
-            javaParams = fromOpenParameters(params);
-        } catch (InvalidObjectException e) {
-            // probably can't happen
-            final String msg = methodName() + ": cannot convert parameters " +
-                "from open values: " + e;
-            throw new MBeanException(e, msg);
+            jbvbPbrbms = fromOpfnPbrbmftfrs(pbrbms);
+        } dbtdi (InvblidObjfdtExdfption f) {
+            // probbbly dbn't ibppfn
+            finbl String msg = mftiodNbmf() + ": dbnnot donvfrt pbrbmftfrs " +
+                "from opfn vblufs: " + f;
+            tirow nfw MBfbnExdfption(f, msg);
         }
-        final Object javaReturn = MethodUtil.invoke(method, obj, javaParams);
+        finbl Objfdt jbvbRfturn = MftiodUtil.invokf(mftiod, obj, jbvbPbrbms);
         try {
-            return returnMapping.toOpenValue(javaReturn);
-        } catch (OpenDataException e) {
-            // probably can't happen
-            final String msg = methodName() + ": cannot convert return " +
-                "value to open value: " + e;
-            throw new MBeanException(e, msg);
+            rfturn rfturnMbpping.toOpfnVbluf(jbvbRfturn);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // probbbly dbn't ibppfn
+            finbl String msg = mftiodNbmf() + ": dbnnot donvfrt rfturn " +
+                "vbluf to opfn vbluf: " + f;
+            tirow nfw MBfbnExdfption(f, msg);
         }
     }
 
-    private String methodName() {
-        return method.getDeclaringClass() + "." + method.getName();
+    privbtf String mftiodNbmf() {
+        rfturn mftiod.gftDfdlbringClbss() + "." + mftiod.gftNbmf();
     }
 
-    private ConvertingMethod(Method m) throws OpenDataException {
-        this.method = m;
-        MXBeanMappingFactory mappingFactory = MXBeanMappingFactory.DEFAULT;
-        returnMapping =
-                mappingFactory.mappingForType(m.getGenericReturnType(), mappingFactory);
-        Type[] params = m.getGenericParameterTypes();
-        paramMappings = new MXBeanMapping[params.length];
-        boolean identity = true;
-        for (int i = 0; i < params.length; i++) {
-            paramMappings[i] = mappingFactory.mappingForType(params[i], mappingFactory);
-            identity &= DefaultMXBeanMappingFactory.isIdentity(paramMappings[i]);
+    privbtf ConvfrtingMftiod(Mftiod m) tirows OpfnDbtbExdfption {
+        tiis.mftiod = m;
+        MXBfbnMbppingFbdtory mbppingFbdtory = MXBfbnMbppingFbdtory.DEFAULT;
+        rfturnMbpping =
+                mbppingFbdtory.mbppingForTypf(m.gftGfnfridRfturnTypf(), mbppingFbdtory);
+        Typf[] pbrbms = m.gftGfnfridPbrbmftfrTypfs();
+        pbrbmMbppings = nfw MXBfbnMbpping[pbrbms.lfngti];
+        boolfbn idfntity = truf;
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+            pbrbmMbppings[i] = mbppingFbdtory.mbppingForTypf(pbrbms[i], mbppingFbdtory);
+            idfntity &= DffbultMXBfbnMbppingFbdtory.isIdfntity(pbrbmMbppings[i]);
         }
-        paramConversionIsIdentity = identity;
+        pbrbmConvfrsionIsIdfntity = idfntity;
     }
 
-    private static final String[] noStrings = new String[0];
+    privbtf stbtid finbl String[] noStrings = nfw String[0];
 
-    private final Method method;
-    private final MXBeanMapping returnMapping;
-    private final MXBeanMapping[] paramMappings;
-    private final boolean paramConversionIsIdentity;
+    privbtf finbl Mftiod mftiod;
+    privbtf finbl MXBfbnMbpping rfturnMbpping;
+    privbtf finbl MXBfbnMbpping[] pbrbmMbppings;
+    privbtf finbl boolfbn pbrbmConvfrsionIsIdfntity;
 }

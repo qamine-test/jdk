@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,56 +30,56 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.nio.channels.*;
-import javax.net.ssl.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import jbvbx.nft.ssl.*;
 
 /**
- * A Runnable class which sits in a loop accepting SocketChannels,
- * then registers the Channels with the read/write Selector.
+ * A Runnbblf dlbss wiidi sits in b loop bddfpting SodkftCibnnfls,
+ * tifn rfgistfrs tif Cibnnfls witi tif rfbd/writf Sflfdtor.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-class Acceptor implements Runnable {
+dlbss Addfptor implfmfnts Runnbblf {
 
-    private ServerSocketChannel ssc;
-    private Dispatcher d;
+    privbtf SfrvfrSodkftCibnnfl ssd;
+    privbtf Dispbtdifr d;
 
-    private SSLContext sslContext;
+    privbtf SSLContfxt sslContfxt;
 
-    Acceptor(ServerSocketChannel ssc, Dispatcher d, SSLContext sslContext) {
-        this.ssc = ssc;
-        this.d = d;
-        this.sslContext = sslContext;
+    Addfptor(SfrvfrSodkftCibnnfl ssd, Dispbtdifr d, SSLContfxt sslContfxt) {
+        tiis.ssd = ssd;
+        tiis.d = d;
+        tiis.sslContfxt = sslContfxt;
     }
 
-    public void run() {
+    publid void run() {
         for (;;) {
             try {
-                SocketChannel sc = ssc.accept();
+                SodkftCibnnfl sd = ssd.bddfpt();
 
-                ChannelIO cio = (sslContext != null ?
-                    ChannelIOSecure.getInstance(
-                        sc, false /* non-blocking */, sslContext) :
-                    ChannelIO.getInstance(
-                        sc, false /* non-blocking */));
+                CibnnflIO dio = (sslContfxt != null ?
+                    CibnnflIOSfdurf.gftInstbndf(
+                        sd, fblsf /* non-blodking */, sslContfxt) :
+                    CibnnflIO.gftInstbndf(
+                        sd, fblsf /* non-blodking */));
 
-                RequestHandler rh = new RequestHandler(cio);
+                RfqufstHbndlfr ri = nfw RfqufstHbndlfr(dio);
 
-                d.register(cio.getSocketChannel(), SelectionKey.OP_READ, rh);
+                d.rfgistfr(dio.gftSodkftCibnnfl(), SflfdtionKfy.OP_READ, ri);
 
-            } catch (IOException x) {
-                x.printStackTrace();
-                break;
+            } dbtdi (IOExdfption x) {
+                x.printStbdkTrbdf();
+                brfbk;
             }
         }
     }

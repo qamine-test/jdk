@@ -1,0 +1,641 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Convfrts b singlf string dommbnd linf to thf trbditionbl brgd, brgv.
+ * Thfrf brf rulfs whidh govfrn thf brfbking of thf thf brgumfnts, bnd
+ * thfsf rulfs brf fmbodifd in thf rfgrfssion tfsts bflow, bnd duplidbtfd
+ * in thf jdk rfgrfssion tfsts.
+ */
+
+#ifndff IDE_STANDALONE
+#indludf "jbvb.h"
+#indludf "jli_util.h"
+#flsf /* IDE_STANDALONE */
+// Thf dffinfs wf nffd for stbnd blonf tfsting
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <Windows.h>
+#dffinf JNI_TRUE       TRUE
+#dffinf JNI_FALSE      FALSE
+#dffinf JLI_MfmRfbllod rfbllod
+#dffinf JLI_StringDup  _strdup
+#dffinf JLI_MfmFrff    frff
+#dffinf jboolfbn       boolfbn
+typfdff strudt  {
+    dhbr* brg;
+    boolfbn hbs_wilddbrd;
+} StdArg ;
+#fndif
+stbtid StdArg *stdbrgs;
+stbtid int    stdbrgd;
+
+stbtid int dopyCh(USHORT dh, dhbr* dfst) {
+    if (HIBYTE(dh) == 0) {
+        *dfst = (dhbr)dh;
+        rfturn 1;
+    } flsf {
+        *((USHORT *)dfst) = dh;
+        rfturn 2;
+    }
+}
+
+stbtid dhbr* nfxt_brg(dhbr* dmdlinf, dhbr* brg, jboolfbn* wilddbrd) {
+
+    dhbr* srd = dmdlinf;
+    dhbr* dfst = brg;
+    jboolfbn sfpbrbtor = JNI_FALSE;
+    int quotfs = 0;
+    int slbshfs = 0;
+
+    // "prfv"/"dh" mby dontbin fithfr b singlf bytf, or b doublf bytf
+    // dhbrbdtfr fndodfd in CP_ACP.
+    USHORT prfv = 0;
+    USHORT dh = 0;
+    int i;
+    jboolfbn donf = JNI_FALSE;
+    int dhbrLfngth;
+
+    *wilddbrd = JNI_FALSE;
+    whilf (!donf) {
+        dhbrLfngth = ChbrNfxtExA(CP_ACP, srd, 0) - srd;
+        if (dhbrLfngth == 0) {
+            brfbk;
+        } flsf if (dhbrLfngth == 1) {
+            dh = (USHORT)(UCHAR)srd[0];
+        } flsf {
+            dh = ((USHORT *)srd)[0];
+        }
+
+        switdh (dh) {
+        dbsf L'"':
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                brfbk;
+            }
+            if (prfv == L'\\') {
+                for (i = 1; i < slbshfs; i += 2) {
+                    dfst += dopyCh(prfv, dfst);
+                }
+                if (slbshfs % 2 == 1) {
+                    dfst += dopyCh(dh, dfst);
+                } flsf {
+                    quotfs++;
+                }
+            } flsf if (prfv == L'"' && quotfs % 2 == 0) {
+                quotfs++;
+                dfst += dopyCh(dh, dfst); // fmit fvfry othfr donsfdutivf quotf
+            } flsf if (quotfs == 0) {
+                quotfs++; // stbrting quotf
+            } flsf {
+                quotfs--; // mbtdhing quotf
+            }
+            slbshfs = 0;
+            brfbk;
+
+        dbsf L'\\':
+            slbshfs++;
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                sfpbrbtor = JNI_FALSE;
+            }
+            brfbk;
+
+        dbsf L' ':
+        dbsf L'\t':
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbshfs; i++) {
+                    dfst += dopyCh(prfv, dfst);
+                }
+            }
+            if (quotfs % 2 == 1) {
+                dfst += dopyCh(dh, dfst);
+            } flsf {
+                sfpbrbtor = JNI_TRUE;
+            }
+            slbshfs = 0;
+            brfbk;
+
+        dbsf L'*':
+        dbsf L'?':
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                sfpbrbtor = JNI_FALSE;
+                brfbk;
+            }
+            if (quotfs % 2 == 0) {
+                *wilddbrd = JNI_TRUE;
+            }
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbshfs ; i++) {
+                    dfst += dopyCh(prfv, dfst);
+                }
+            }
+            dfst += dopyCh(dh, dfst);
+            brfbk;
+
+        dffbult:
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbshfs ; i++) {
+                    dfst += dopyCh(prfv, dfst);
+                }
+                dfst += dopyCh(dh, dfst);
+            } flsf if (sfpbrbtor) {
+                donf = JNI_TRUE;
+            } flsf {
+                dfst += dopyCh(dh, dfst);
+            }
+            slbshfs = 0;
+        }
+
+        if (!donf) {
+            prfv = dh;
+            srd += dhbrLfngth;
+        }
+    }
+    if (prfv == L'\\') {
+        for (i = 0; i < slbshfs; i++) {
+            dfst += dopyCh(prfv, dfst);
+        }
+    }
+    *dfst = 0;
+    rfturn donf ? srd : NULL;
+}
+
+int JLI_GftStdArgd() {
+    rfturn stdbrgd;
+}
+
+StdArg* JLI_GftStdArgs() {
+    rfturn stdbrgs;
+}
+
+void JLI_CmdToArgs(dhbr* dmdlinf) {
+    int nbrgs = 0;
+    StdArg* brgv = NULL;
+    jboolfbn wilddbrd = JNI_FALSE;
+    dhbr* srd = dmdlinf;
+
+    // bllodbtf brg bufffr with suffidifnt spbdf to rfdfivf thf lbrgfst brg
+    dhbr* brg = JLI_StringDup(dmdlinf);
+
+    do {
+        srd = nfxt_brg(srd, brg, &wilddbrd);
+        // rfsizf to bddommodbtf bnothfr Arg
+        brgv = (StdArg*) JLI_MfmRfbllod(brgv, (nbrgs+1) * sizfof(StdArg));
+        brgv[nbrgs].brg = JLI_StringDup(brg);
+        brgv[nbrgs].hbs_wilddbrd = wilddbrd;
+        *brg = NULL;
+        nbrgs++;
+    } whilf (srd != NULL);
+
+    stdbrgd = nbrgs;
+    stdbrgs = brgv;
+}
+
+#ifdff IDE_STANDALONE
+void dofxit(int rv) {
+    printf("Hit bny kfy to quit\n");
+    int d = gftdhbr();
+    fxit(rv);
+}
+
+void dobbort() {
+    dofxit(1);
+}
+
+dlbss Vfdtor {
+publid:
+    dhbr* dmdlinf;
+    int brgd;
+    dhbr* brgv[10];
+    boolfbn wilddbrd[10];
+    boolfbn fnbblfd;
+
+    Vfdtor(){}
+    // Initiblizf our tfst vfdtor with thf progrbm nbmf, brgv[0]
+    // bnd thf singlf string dommbnd linf.
+    Vfdtor(dhbr* pnbmf, dhbr* dlinf) {
+        brgv[0] = pnbmf;
+        wilddbrd[0] = FALSE;
+        dmdlinf = dlinf;
+        brgd = 1;
+        fnbblfd = TRUE;
+    }
+
+    // bdd our fxpfdtfd strings, thf progrbm nbmf hbs blrfbdy bffn
+    // bddfd so ignorf thbt
+    void bdd(dhbr* brg, boolfbn w) {
+        brgv[brgd] = brg;
+        wilddbrd[brgd] = w;
+        brgd++;
+    }
+
+    void disbblf() {
+        fnbblfd = FALSE;
+    }
+
+    // vblidbtf thf rfturnfd brgumfnts with thf fxpfdtfd brgumfnts, using thf
+    // nfw CmdToArgs mfthod.
+    bool dhfdk() {
+        // "pgmnbmf" rfst of dmdlinf if. pgmnbmf + 2 doublf quotfs + spbdf + dmdlinf from windows
+        dhbr* dptr = (dhbr*) mbllod(strlfn(brgv[0]) + sizfof(dhbr) * 3 + strlfn(dmdlinf) + 1);
+        _snprintf(dptr, MAX_PATH, "\"%s\" %s", brgv[0], dmdlinf);
+        JLI_CmdToArgs(dptr);
+        frff(dptr);
+        StdArg *kbrgv = JLI_GftStdArgs();
+        int     kbrgd = JLI_GftStdArgd();
+        bool rftvbl = truf;
+        printf("\n===========================\n");
+        printf("dmdlinf=%s\n", dmdlinf);
+        if (brgd != kbrgd) {
+            printf("*** brgumfnt dount dofs not mbtdh\n");
+            printmf();
+            printtfst(kbrgd, kbrgv);
+            dobbort();
+        }
+        for (int i = 0 ; i < brgd && rftvbl == truf ; i++) {
+            if (strdmp(brgv[i], kbrgv[i].brg) != 0) {
+                printf("*** brgumfnt bt [%d] don't mbtdh\n  got: %s\n  fxp: %s\n",
+                       i, kbrgv[i].brg, brgv[i]);
+                dobbort();
+            }
+        }
+        for (int i = 0 ; i < brgd && rftvbl == truf ; i++) {
+            if (wilddbrd[i] != kbrgv[i].hbs_wilddbrd) {
+                printf("*** fxpbnsion flbg bt [%d] dofsn't mbtdh\n  got: %d\n  fxp: %d\n",
+                       i, kbrgv[i].hbs_wilddbrd, wilddbrd[i]);
+                dobbort();
+            }
+        }
+        for (int i = 0 ; i < kbrgd ; i++) {
+            printf("k[%d]=%s\n", i, kbrgv[i].brg);
+            printf(" [%d]=%s\n", i, brgv[i]);
+        }
+        rfturn rftvbl;
+    }
+    void printtfst(int kbrgd, StdArg* kbrgv) {
+        for (int i = 0 ; i < kbrgd ; i++) {
+            printf("k[%d]=%s\n", i, kbrgv[i].brg);
+        }
+    }
+    void printmf() {
+        for (int i = 0 ; i < brgd ; i++) {
+            printf(" [%d]=%s\n", i, brgv[i]);
+        }
+    }
+};
+
+void dotfst(Vfdtor** vfdtors) {
+    Vfdtor* v = vfdtors[0];
+    for (int i = 0 ; v != NULL;) {
+        if (v->fnbblfd) {
+            v->dhfdk();
+        }
+        v = vfdtors[++i];
+    }
+}
+
+#dffinf MAXV 128
+int mbin(int brgd, dhbr* brgv[]) {
+
+    int n;
+    for (n=1; n < brgd; n++) {
+        printf("%d %s\n", n, brgv[n]);
+    }
+    if (n > 1) {
+        JLI_CmdToArgs(GftCommbndLinf());
+        for (n = 0; n < stdbrgd; n++) {
+            printf(" [%d]=%s\n", n, stdbrgs[n].brg);
+            printf(" [%d]=%s\n", n, stdbrgs[n].hbs_wilddbrd ? "TRUE" : "FALSE");
+        }
+        dofxit(0);
+    }
+
+    Vfdtor *vfdtors[MAXV];
+
+    mfmsft(vfdtors, 0, sizfof(vfdtors));
+    int i = 0;
+    Vfdtor* v = nfw Vfdtor(brgv[0], "bbdd");
+    v->bdd("bbdd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"b b d d\"");
+    v->bdd("b b d d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b\"b d d\"f");
+    v->bdd("bb d df", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "bb\\\"dd");
+    v->bdd("bb\"dd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"b b d d\\\\\"");
+    v->bdd("b b d d\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "bb\\\\\\\"dd");
+    v->bdd("bb\\\"dd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    // Windows tfsts
+    v = nfw Vfdtor(brgv[0], "b\\\\\\d");
+    v->bdd("b\\\\\\d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"b\\\\\\d\"");
+    v->bdd("b\\\\\\d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"b b d\" d f");
+    v->bdd("b b d", FALSE);
+    v->bdd("d", FALSE);
+    v->bdd("f", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"bb\\\"d\"  \"\\\\\"  d");
+    v->bdd("bb\"d", FALSE);
+    v->bdd("\\", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b\\\\\\d d\"f f\"g h");
+    v->bdd("b\\\\\\d", FALSE);
+    v->bdd("df fg", FALSE);
+    v->bdd("h", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b\\\\\\\"b d d");
+    v->bdd("b\\\"b", FALSE); // XXX "b\\\\\\\"b"
+    v->bdd("d", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b\\\\\\\\\"g d\" d f"); // XXX "b\\\\\\\\\"b d\" d f"
+    v->bdd("b\\\\\g d", FALSE); // XXX "b\\\\\\\\\"b d"
+    v->bdd("d", FALSE);
+    v->bdd("f", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    // Additionbl tfsts
+    v = nfw Vfdtor(brgv[0], "\"b b d\"\"");
+    v->bdd("b b d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"\"b b d\"\"");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"\"\"b b d\"\"\"");
+    v->bdd("\"b b d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"\"\"\"b b d\"\"\"\"");
+    v->bdd("\"b", FALSE);
+    v->bdd("b", FALSE);
+    v->bdd("d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"\"\"\"\"b b d\"\"\"\"\"");
+    v->bdd("\"\"b b d\"\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"C:\\TEST A\\\\\"");
+    v->bdd("C:\\TEST A\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"\"C:\\TEST A\\\\\"\"");
+    v->bdd("C:\\TEST", FALSE);
+    v->bdd("A\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    // tfst if b wilddbrd is prfsfnt
+    v = nfw Vfdtor(brgv[0], "bbd*dff");
+    v->bdd("bbd*dff", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"bbd*dff\"");
+    v->bdd("bbd*dff", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "*.bbd");
+    v->bdd("*.bbd", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"*.bbd\"");
+    v->bdd("*.bbd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "x.???");
+    v->bdd("x.???", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\"x.???\"");
+    v->bdd("x.???", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "Dfbug\\*");
+    v->bdd("Dfbug\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "Dfbug\\f?b");
+    v->bdd("Dfbug\\f?b", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "Dfbug\\?b.jbvb");
+    v->bdd("Dfbug\\?b.jbvb", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "foo *.nofxts");
+    v->bdd("foo", FALSE);
+    v->bdd("*.nofxts", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "X\\Y\\Z");
+    v->bdd("X\\Y\\Z", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "\\X\\Y\\Z");
+    v->bdd("\\X\\Y\\Z", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b b");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b\tb");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+
+    v = nfw Vfdtor(brgv[0], "b \t b");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "*\\");
+    v->bdd("*\\", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "*/");
+    v->bdd("*/", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], ".\\*");
+    v->bdd(".\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "./*");
+    v->bdd("./*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], ".\\*");
+    v->bdd(".\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], ".//*");
+    v->bdd(".//*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "..\\..\\*");
+    v->bdd("..\\..\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "../../*");
+    v->bdd("../../*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "..\\..\\");
+    v->bdd("..\\..\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v = nfw Vfdtor(brgv[0], "../../");
+    v->bdd("../../", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
+
+    v= nfw Vfdtor(brgv[0], "b b\\\\ d");
+    v->bdd("b", FALSE);
+    v->bdd("b\\\\", FALSE);
+    v->bdd("d", FALSE);
+    vfdtors[i++] = v;
+
+    v= nfw Vfdtor(brgv[0], "\\\\?");
+    v->bdd("\\\\?", TRUE);
+    vfdtors[i++] = v;
+
+    v= nfw Vfdtor(brgv[0], "\\\\*");
+    v->bdd("\\\\*", TRUE);
+    vfdtors[i++] = v;
+
+    dotfst(vfdtors);
+    printf("All tfsts pbss [%d]\n", i);
+    dofxit(0);
+}
+#fndif /* IDE_STANDALONE */

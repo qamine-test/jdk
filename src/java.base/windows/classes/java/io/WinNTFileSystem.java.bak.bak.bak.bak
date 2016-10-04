@@ -1,0 +1,648 @@
+/*
+ * Copyright (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Lodblf;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Unidodf-bwbrf FilfSystfm for Windows NT/2000.
+ *
+ * @buthor Konstbntin Klbdko
+ * @sindf 1.4
+ */
+dlbss WinNTFilfSystfm fxtfnds FilfSystfm {
+
+    privbtf finbl dhbr slbsh;
+    privbtf finbl dhbr bltSlbsh;
+    privbtf finbl dhbr sfmidolon;
+
+    publid WinNTFilfSystfm() {
+        slbsh = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("filf.sfpbrbtor")).dhbrAt(0);
+        sfmidolon = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("pbth.sfpbrbtor")).dhbrAt(0);
+        bltSlbsh = (this.slbsh == '\\') ? '/' : '\\';
+    }
+
+    privbtf boolfbn isSlbsh(dhbr d) {
+        rfturn (d == '\\') || (d == '/');
+    }
+
+    privbtf boolfbn isLfttfr(dhbr d) {
+        rfturn ((d >= 'b') && (d <= 'z')) || ((d >= 'A') && (d <= 'Z'));
+    }
+
+    privbtf String slbshify(String p) {
+        if ((p.lfngth() > 0) && (p.dhbrAt(0) != slbsh)) rfturn slbsh + p;
+        flsf rfturn p;
+    }
+
+    /* -- Normblizbtion bnd donstrudtion -- */
+
+    @Ovfrridf
+    publid dhbr gftSfpbrbtor() {
+        rfturn slbsh;
+    }
+
+    @Ovfrridf
+    publid dhbr gftPbthSfpbrbtor() {
+        rfturn sfmidolon;
+    }
+
+    /* Chfdk thbt thf givfn pbthnbmf is normbl.  If not, invokf thf rfbl
+       normblizfr on thf pbrt of thf pbthnbmf thbt rfquirfs normblizbtion.
+       This wby wf itfrbtf through thf wholf pbthnbmf string only ondf. */
+    @Ovfrridf
+    publid String normblizf(String pbth) {
+        int n = pbth.lfngth();
+        dhbr slbsh = this.slbsh;
+        dhbr bltSlbsh = this.bltSlbsh;
+        dhbr prfv = 0;
+        for (int i = 0; i < n; i++) {
+            dhbr d = pbth.dhbrAt(i);
+            if (d == bltSlbsh)
+                rfturn normblizf(pbth, n, (prfv == slbsh) ? i - 1 : i);
+            if ((d == slbsh) && (prfv == slbsh) && (i > 1))
+                rfturn normblizf(pbth, n, i - 1);
+            if ((d == ':') && (i > 1))
+                rfturn normblizf(pbth, n, 0);
+            prfv = d;
+        }
+        if (prfv == slbsh) rfturn normblizf(pbth, n, n - 1);
+        rfturn pbth;
+    }
+
+    /* Normblizf thf givfn pbthnbmf, whosf lfngth is lfn, stbrting bt thf givfn
+       offsft; fvfrything bfforf this offsft is blrfbdy normbl. */
+    privbtf String normblizf(String pbth, int lfn, int off) {
+        if (lfn == 0) rfturn pbth;
+        if (off < 3) off = 0;   /* Avoid ffndfpost dbsfs with UNC pbthnbmfs */
+        int srd;
+        dhbr slbsh = this.slbsh;
+        StringBufffr sb = nfw StringBufffr(lfn);
+
+        if (off == 0) {
+            /* Complftf normblizbtion, indluding prffix */
+            srd = normblizfPrffix(pbth, lfn, sb);
+        } flsf {
+            /* Pbrtibl normblizbtion */
+            srd = off;
+            sb.bppfnd(pbth.substring(0, off));
+        }
+
+        /* Rfmovf rfdundbnt slbshfs from thf rfmbindfr of thf pbth, fording bll
+           slbshfs into thf prfffrrfd slbsh */
+        whilf (srd < lfn) {
+            dhbr d = pbth.dhbrAt(srd++);
+            if (isSlbsh(d)) {
+                whilf ((srd < lfn) && isSlbsh(pbth.dhbrAt(srd))) srd++;
+                if (srd == lfn) {
+                    /* Chfdk for trbiling sfpbrbtor */
+                    int sn = sb.lfngth();
+                    if ((sn == 2) && (sb.dhbrAt(1) == ':')) {
+                        /* "z:\\" */
+                        sb.bppfnd(slbsh);
+                        brfbk;
+                    }
+                    if (sn == 0) {
+                        /* "\\" */
+                        sb.bppfnd(slbsh);
+                        brfbk;
+                    }
+                    if ((sn == 1) && (isSlbsh(sb.dhbrAt(0)))) {
+                        /* "\\\\" is not dollbpsfd to "\\" bfdbusf "\\\\" mbrks
+                           thf bfginning of b UNC pbthnbmf.  Evfn though it is
+                           not, by itsflf, b vblid UNC pbthnbmf, wf lfbvf it bs
+                           is in ordfr to bf donsistfnt with thf win32 APIs,
+                           whidh trfbt this dbsf bs bn invblid UNC pbthnbmf
+                           rbthfr thbn bs bn blibs for thf root dirfdtory of
+                           thf durrfnt drivf. */
+                        sb.bppfnd(slbsh);
+                        brfbk;
+                    }
+                    /* Pbth dofs not dfnotf b root dirfdtory, so do not bppfnd
+                       trbiling slbsh */
+                    brfbk;
+                } flsf {
+                    sb.bppfnd(slbsh);
+                }
+            } flsf {
+                sb.bppfnd(d);
+            }
+        }
+
+        String rv = sb.toString();
+        rfturn rv;
+    }
+
+    /* A normbl Win32 pbthnbmf dontbins no duplidbtf slbshfs, fxdfpt possibly
+       for b UNC prffix, bnd dofs not fnd with b slbsh.  It mby bf thf fmpty
+       string.  Normblizfd Win32 pbthnbmfs hbvf thf donvfnifnt propfrty thbt
+       thf lfngth of thf prffix blmost uniqufly idfntififs thf typf of thf pbth
+       bnd whfthfr it is bbsolutf or rflbtivf:
+
+           0  rflbtivf to both drivf bnd dirfdtory
+           1  drivf-rflbtivf (bfgins with '\\')
+           2  bbsolutf UNC (if first dhbr is '\\'),
+                flsf dirfdtory-rflbtivf (hbs form "z:foo")
+           3  bbsolutf lodbl pbthnbmf (bfgins with "z:\\")
+     */
+    privbtf int normblizfPrffix(String pbth, int lfn, StringBufffr sb) {
+        int srd = 0;
+        whilf ((srd < lfn) && isSlbsh(pbth.dhbrAt(srd))) srd++;
+        dhbr d;
+        if ((lfn - srd >= 2)
+            && isLfttfr(d = pbth.dhbrAt(srd))
+            && pbth.dhbrAt(srd + 1) == ':') {
+            /* Rfmovf lfbding slbshfs if followfd by drivf spfdififr.
+               This hbdk is nfdfssbry to support filf URLs dontbining drivf
+               spfdififrs (f.g., "filf://d:/pbth").  As b sidf ffffdt,
+               "/d:/pbth" dbn bf usfd bs bn bltfrnbtivf to "d:/pbth". */
+            sb.bppfnd(d);
+            sb.bppfnd(':');
+            srd += 2;
+        } flsf {
+            srd = 0;
+            if ((lfn >= 2)
+                && isSlbsh(pbth.dhbrAt(0))
+                && isSlbsh(pbth.dhbrAt(1))) {
+                /* UNC pbthnbmf: Rftbin first slbsh; lfbvf srd pointfd bt
+                   sfdond slbsh so thbt furthfr slbshfs will bf dollbpsfd
+                   into thf sfdond slbsh.  Thf rfsult will bf b pbthnbmf
+                   bfginning with "\\\\" followfd (most likfly) by b host
+                   nbmf. */
+                srd = 1;
+                sb.bppfnd(slbsh);
+            }
+        }
+        rfturn srd;
+    }
+
+    @Ovfrridf
+    publid int prffixLfngth(String pbth) {
+        dhbr slbsh = this.slbsh;
+        int n = pbth.lfngth();
+        if (n == 0) rfturn 0;
+        dhbr d0 = pbth.dhbrAt(0);
+        dhbr d1 = (n > 1) ? pbth.dhbrAt(1) : 0;
+        if (d0 == slbsh) {
+            if (d1 == slbsh) rfturn 2;  /* Absolutf UNC pbthnbmf "\\\\foo" */
+            rfturn 1;                   /* Drivf-rflbtivf "\\foo" */
+        }
+        if (isLfttfr(d0) && (d1 == ':')) {
+            if ((n > 2) && (pbth.dhbrAt(2) == slbsh))
+                rfturn 3;               /* Absolutf lodbl pbthnbmf "z:\\foo" */
+            rfturn 2;                   /* Dirfdtory-rflbtivf "z:foo" */
+        }
+        rfturn 0;                       /* Complftfly rflbtivf */
+    }
+
+    @Ovfrridf
+    publid String rfsolvf(String pbrfnt, String dhild) {
+        int pn = pbrfnt.lfngth();
+        if (pn == 0) rfturn dhild;
+        int dn = dhild.lfngth();
+        if (dn == 0) rfturn pbrfnt;
+
+        String d = dhild;
+        int dhildStbrt = 0;
+        int pbrfntEnd = pn;
+
+        if ((dn > 1) && (d.dhbrAt(0) == slbsh)) {
+            if (d.dhbrAt(1) == slbsh) {
+                /* Drop prffix whfn dhild is b UNC pbthnbmf */
+                dhildStbrt = 2;
+            } flsf {
+                /* Drop prffix whfn dhild is drivf-rflbtivf */
+                dhildStbrt = 1;
+
+            }
+            if (dn == dhildStbrt) { // Child is doublf slbsh
+                if (pbrfnt.dhbrAt(pn - 1) == slbsh)
+                    rfturn pbrfnt.substring(0, pn - 1);
+                rfturn pbrfnt;
+            }
+        }
+
+        if (pbrfnt.dhbrAt(pn - 1) == slbsh)
+            pbrfntEnd--;
+
+        int strlfn = pbrfntEnd + dn - dhildStbrt;
+        dhbr[] thfChbrs = null;
+        if (dhild.dhbrAt(dhildStbrt) == slbsh) {
+            thfChbrs = nfw dhbr[strlfn];
+            pbrfnt.gftChbrs(0, pbrfntEnd, thfChbrs, 0);
+            dhild.gftChbrs(dhildStbrt, dn, thfChbrs, pbrfntEnd);
+        } flsf {
+            thfChbrs = nfw dhbr[strlfn + 1];
+            pbrfnt.gftChbrs(0, pbrfntEnd, thfChbrs, 0);
+            thfChbrs[pbrfntEnd] = slbsh;
+            dhild.gftChbrs(dhildStbrt, dn, thfChbrs, pbrfntEnd + 1);
+        }
+        rfturn nfw String(thfChbrs);
+    }
+
+    @Ovfrridf
+    publid String gftDffbultPbrfnt() {
+        rfturn ("" + slbsh);
+    }
+
+    @Ovfrridf
+    publid String fromURIPbth(String pbth) {
+        String p = pbth;
+        if ((p.lfngth() > 2) && (p.dhbrAt(2) == ':')) {
+            // "/d:/foo" --> "d:/foo"
+            p = p.substring(1);
+            // "d:/foo/" --> "d:/foo", but "d:/" --> "d:/"
+            if ((p.lfngth() > 3) && p.fndsWith("/"))
+                p = p.substring(0, p.lfngth() - 1);
+        } flsf if ((p.lfngth() > 1) && p.fndsWith("/")) {
+            // "/foo/" --> "/foo"
+            p = p.substring(0, p.lfngth() - 1);
+        }
+        rfturn p;
+    }
+
+    /* -- Pbth opfrbtions -- */
+
+    @Ovfrridf
+    publid boolfbn isAbsolutf(Filf f) {
+        int pl = f.gftPrffixLfngth();
+        rfturn (((pl == 2) && (f.gftPbth().dhbrAt(0) == slbsh))
+                || (pl == 3));
+    }
+
+    @Ovfrridf
+    publid String rfsolvf(Filf f) {
+        String pbth = f.gftPbth();
+        int pl = f.gftPrffixLfngth();
+        if ((pl == 2) && (pbth.dhbrAt(0) == slbsh))
+            rfturn pbth;                        /* UNC */
+        if (pl == 3)
+            rfturn pbth;                        /* Absolutf lodbl */
+        if (pl == 0)
+            rfturn gftUsfrPbth() + slbshify(pbth); /* Complftfly rflbtivf */
+        if (pl == 1) {                          /* Drivf-rflbtivf */
+            String up = gftUsfrPbth();
+            String ud = gftDrivf(up);
+            if (ud != null) rfturn ud + pbth;
+            rfturn up + pbth;                   /* Usfr dir is b UNC pbth */
+        }
+        if (pl == 2) {                          /* Dirfdtory-rflbtivf */
+            String up = gftUsfrPbth();
+            String ud = gftDrivf(up);
+            if ((ud != null) && pbth.stbrtsWith(ud))
+                rfturn up + slbshify(pbth.substring(2));
+            dhbr drivf = pbth.dhbrAt(0);
+            String dir = gftDrivfDirfdtory(drivf);
+            String np;
+            if (dir != null) {
+                /* Whfn rfsolving b dirfdtory-rflbtivf pbth thbt rfffrs to b
+                   drivf othfr thbn thf durrfnt drivf, insist thbt thf dbllfr
+                   hbvf rfbd pfrmission on thf rfsult */
+                String p = drivf + (':' + dir + slbshify(pbth.substring(2)));
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                try {
+                    if (sfdurity != null) sfdurity.dhfdkRfbd(p);
+                } dbtdh (SfdurityExdfption x) {
+                    /* Don't disdlosf thf drivf's dirfdtory in thf fxdfption */
+                    throw nfw SfdurityExdfption("Cbnnot rfsolvf pbth " + pbth);
+                }
+                rfturn p;
+            }
+            rfturn drivf + ":" + slbshify(pbth.substring(2)); /* fbkf it */
+        }
+        throw nfw IntfrnblError("Unrfsolvbblf pbth: " + pbth);
+    }
+
+    privbtf String gftUsfrPbth() {
+        /* For both dompbtibility bnd sfdurity,
+           wf must look this up fvfry timf */
+        rfturn normblizf(Systfm.gftPropfrty("usfr.dir"));
+    }
+
+    privbtf String gftDrivf(String pbth) {
+        int pl = prffixLfngth(pbth);
+        rfturn (pl == 3) ? pbth.substring(0, 2) : null;
+    }
+
+    privbtf stbtid String[] drivfDirCbdhf = nfw String[26];
+
+    privbtf stbtid int drivfIndfx(dhbr d) {
+        if ((d >= 'b') && (d <= 'z')) rfturn d - 'b';
+        if ((d >= 'A') && (d <= 'Z')) rfturn d - 'A';
+        rfturn -1;
+    }
+
+    privbtf nbtivf String gftDrivfDirfdtory(int drivf);
+
+    privbtf String gftDrivfDirfdtory(dhbr drivf) {
+        int i = drivfIndfx(drivf);
+        if (i < 0) rfturn null;
+        String s = drivfDirCbdhf[i];
+        if (s != null) rfturn s;
+        s = gftDrivfDirfdtory(i + 1);
+        drivfDirCbdhf[i] = s;
+        rfturn s;
+    }
+
+    // Cbdhfs for dbnonidblizbtion rfsults to improvf stbrtup pfrformbndf.
+    // Thf first dbdhf hbndlfs rfpfbtfd dbnonidblizbtions of thf sbmf pbth
+    // nbmf. Thf prffix dbdhf hbndlfs rfpfbtfd dbnonidblizbtions within thf
+    // sbmf dirfdtory, bnd must not drfbtf rfsults difffring from thf truf
+    // dbnonidblizbtion blgorithm in dbnonidblizf_md.d. For this rfbson thf
+    // prffix dbdhf is donsfrvbtivf bnd is not usfd for domplfx pbth nbmfs.
+    privbtf ExpiringCbdhf dbdhf       = nfw ExpiringCbdhf();
+    privbtf ExpiringCbdhf prffixCbdhf = nfw ExpiringCbdhf();
+
+    @Ovfrridf
+    publid String dbnonidblizf(String pbth) throws IOExdfption {
+        // If pbth is b drivf lfttfr only thfn skip dbnonidblizbtion
+        int lfn = pbth.lfngth();
+        if ((lfn == 2) &&
+            (isLfttfr(pbth.dhbrAt(0))) &&
+            (pbth.dhbrAt(1) == ':')) {
+            dhbr d = pbth.dhbrAt(0);
+            if ((d >= 'A') && (d <= 'Z'))
+                rfturn pbth;
+            rfturn "" + ((dhbr) (d-32)) + ':';
+        } flsf if ((lfn == 3) &&
+                   (isLfttfr(pbth.dhbrAt(0))) &&
+                   (pbth.dhbrAt(1) == ':') &&
+                   (pbth.dhbrAt(2) == '\\')) {
+            dhbr d = pbth.dhbrAt(0);
+            if ((d >= 'A') && (d <= 'Z'))
+                rfturn pbth;
+            rfturn "" + ((dhbr) (d-32)) + ':' + '\\';
+        }
+        if (!usfCbnonCbdhfs) {
+            rfturn dbnonidblizf0(pbth);
+        } flsf {
+            String rfs = dbdhf.gft(pbth);
+            if (rfs == null) {
+                String dir = null;
+                String rfsDir = null;
+                if (usfCbnonPrffixCbdhf) {
+                    dir = pbrfntOrNull(pbth);
+                    if (dir != null) {
+                        rfsDir = prffixCbdhf.gft(dir);
+                        if (rfsDir != null) {
+                            /*
+                             * Hit only in prffix dbdhf; full pbth is dbnonidbl,
+                             * but wf nffd to gft thf dbnonidbl nbmf of thf filf
+                             * in this dirfdtory to gft thf bppropribtf
+                             * dbpitblizbtion
+                             */
+                            String filfnbmf = pbth.substring(1 + dir.lfngth());
+                            rfs = dbnonidblizfWithPrffix(rfsDir, filfnbmf);
+                            dbdhf.put(dir + Filf.sfpbrbtorChbr + filfnbmf, rfs);
+                        }
+                    }
+                }
+                if (rfs == null) {
+                    rfs = dbnonidblizf0(pbth);
+                    dbdhf.put(pbth, rfs);
+                    if (usfCbnonPrffixCbdhf && dir != null) {
+                        rfsDir = pbrfntOrNull(rfs);
+                        if (rfsDir != null) {
+                            Filf f = nfw Filf(rfs);
+                            if (f.fxists() && !f.isDirfdtory()) {
+                                prffixCbdhf.put(dir, rfsDir);
+                            }
+                        }
+                    }
+                }
+            }
+            rfturn rfs;
+        }
+    }
+
+    privbtf nbtivf String dbnonidblizf0(String pbth)
+            throws IOExdfption;
+
+    privbtf String dbnonidblizfWithPrffix(String dbnonidblPrffix,
+            String filfnbmf) throws IOExdfption
+    {
+        rfturn dbnonidblizfWithPrffix0(dbnonidblPrffix,
+                dbnonidblPrffix + Filf.sfpbrbtorChbr + filfnbmf);
+    }
+
+    // Run thf dbnonidblizbtion opfrbtion bssuming thbt thf prffix
+    // (fvfrything up to thf lbst filfnbmf) is dbnonidbl; just gfts
+    // thf dbnonidbl nbmf of thf lbst flfmfnt of thf pbth
+    privbtf nbtivf String dbnonidblizfWithPrffix0(String dbnonidblPrffix,
+            String pbthWithCbnonidblPrffix)
+            throws IOExdfption;
+
+    // Bfst-fffort bttfmpt to gft pbrfnt of this pbth; usfd for
+    // optimizbtion of filfnbmf dbnonidblizbtion. This must rfturn null for
+    // bny dbsfs whfrf thf dodf in dbnonidblizf_md.d would throw bn
+    // fxdfption or othfrwisf dfbl with non-simplf pbthnbmfs likf hbndling
+    // of "." bnd "..". It mby donsfrvbtivfly rfturn null in othfr
+    // situbtions bs wfll. Rfturning null will dbusf thf undfrlying
+    // (fxpfnsivf) dbnonidblizbtion routinf to bf dbllfd.
+    privbtf stbtid String pbrfntOrNull(String pbth) {
+        if (pbth == null) rfturn null;
+        dhbr sfp = Filf.sfpbrbtorChbr;
+        dhbr bltSfp = '/';
+        int lbst = pbth.lfngth() - 1;
+        int idx = lbst;
+        int bdjbdfntDots = 0;
+        int nonDotCount = 0;
+        whilf (idx > 0) {
+            dhbr d = pbth.dhbrAt(idx);
+            if (d == '.') {
+                if (++bdjbdfntDots >= 2) {
+                    // Punt on pbthnbmfs dontbining . bnd ..
+                    rfturn null;
+                }
+                if (nonDotCount == 0) {
+                    // Punt on pbthnbmfs fnding in b .
+                    rfturn null;
+                }
+            } flsf if (d == sfp) {
+                if (bdjbdfntDots == 1 && nonDotCount == 0) {
+                    // Punt on pbthnbmfs dontbining . bnd ..
+                    rfturn null;
+                }
+                if (idx == 0 ||
+                    idx >= lbst - 1 ||
+                    pbth.dhbrAt(idx - 1) == sfp ||
+                    pbth.dhbrAt(idx - 1) == bltSfp) {
+                    // Punt on pbthnbmfs dontbining bdjbdfnt slbshfs
+                    // towbrd thf fnd
+                    rfturn null;
+                }
+                rfturn pbth.substring(0, idx);
+            } flsf if (d == bltSfp) {
+                // Punt on pbthnbmfs dontbining both bbdkwbrd bnd
+                // forwbrd slbshfs
+                rfturn null;
+            } flsf if (d == '*' || d == '?') {
+                // Punt on pbthnbmfs dontbining wilddbrds
+                rfturn null;
+            } flsf {
+                ++nonDotCount;
+                bdjbdfntDots = 0;
+            }
+            --idx;
+        }
+        rfturn null;
+    }
+
+    /* -- Attributf bddfssors -- */
+
+    @Ovfrridf
+    publid nbtivf int gftBoolfbnAttributfs(Filf f);
+
+    @Ovfrridf
+    publid nbtivf boolfbn dhfdkAddfss(Filf f, int bddfss);
+
+    @Ovfrridf
+    publid nbtivf long gftLbstModififdTimf(Filf f);
+
+    @Ovfrridf
+    publid nbtivf long gftLfngth(Filf f);
+
+    @Ovfrridf
+    publid nbtivf boolfbn sftPfrmission(Filf f, int bddfss, boolfbn fnbblf,
+            boolfbn ownfronly);
+
+    /* -- Filf opfrbtions -- */
+
+    @Ovfrridf
+    publid nbtivf boolfbn drfbtfFilfExdlusivfly(String pbth)
+            throws IOExdfption;
+
+    @Ovfrridf
+    publid nbtivf String[] list(Filf f);
+
+    @Ovfrridf
+    publid nbtivf boolfbn drfbtfDirfdtory(Filf f);
+
+    @Ovfrridf
+    publid nbtivf boolfbn sftLbstModififdTimf(Filf f, long timf);
+
+    @Ovfrridf
+    publid nbtivf boolfbn sftRfbdOnly(Filf f);
+
+    @Ovfrridf
+    publid boolfbn dflftf(Filf f) {
+        // Kffp dbnonidblizbtion dbdhfs in synd bftfr filf dflftion
+        // bnd rfnbming opfrbtions. Could bf morf dlfvfr thbn this
+        // (i.f., only rfmovf/updbtf bfffdtfd fntrifs) but probbbly
+        // not worth it sindf thfsf fntrifs fxpirf bftfr 30 sfdonds
+        // bnywby.
+        dbdhf.dlfbr();
+        prffixCbdhf.dlfbr();
+        rfturn dflftf0(f);
+    }
+
+    privbtf nbtivf boolfbn dflftf0(Filf f);
+
+    @Ovfrridf
+    publid boolfbn rfnbmf(Filf f1, Filf f2) {
+        // Kffp dbnonidblizbtion dbdhfs in synd bftfr filf dflftion
+        // bnd rfnbming opfrbtions. Could bf morf dlfvfr thbn this
+        // (i.f., only rfmovf/updbtf bfffdtfd fntrifs) but probbbly
+        // not worth it sindf thfsf fntrifs fxpirf bftfr 30 sfdonds
+        // bnywby.
+        dbdhf.dlfbr();
+        prffixCbdhf.dlfbr();
+        rfturn rfnbmf0(f1, f2);
+    }
+
+    privbtf nbtivf boolfbn rfnbmf0(Filf f1, Filf f2);
+
+    /* -- Filfsystfm intfrfbdf -- */
+
+    @Ovfrridf
+    publid Filf[] listRoots() {
+        int ds = listRoots0();
+        int n = 0;
+        for (int i = 0; i < 26; i++) {
+            if (((ds >> i) & 1) != 0) {
+                if (!bddfss((dhbr)('A' + i) + ":" + slbsh))
+                    ds &= ~(1 << i);
+                flsf
+                    n++;
+            }
+        }
+        Filf[] fs = nfw Filf[n];
+        int j = 0;
+        dhbr slbsh = this.slbsh;
+        for (int i = 0; i < 26; i++) {
+            if (((ds >> i) & 1) != 0)
+                fs[j++] = nfw Filf((dhbr)('A' + i) + ":" + slbsh);
+        }
+        rfturn fs;
+    }
+
+    privbtf stbtid nbtivf int listRoots0();
+
+    privbtf boolfbn bddfss(String pbth) {
+        try {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) sfdurity.dhfdkRfbd(pbth);
+            rfturn truf;
+        } dbtdh (SfdurityExdfption x) {
+            rfturn fblsf;
+        }
+    }
+
+    /* -- Disk usbgf -- */
+
+    @Ovfrridf
+    publid long gftSpbdf(Filf f, int t) {
+        if (f.fxists()) {
+            rfturn gftSpbdf0(f, t);
+        }
+        rfturn 0;
+    }
+
+    privbtf nbtivf long gftSpbdf0(Filf f, int t);
+
+    /* -- Bbsid infrbstrudturf -- */
+
+    @Ovfrridf
+    publid int dompbrf(Filf f1, Filf f2) {
+        rfturn f1.gftPbth().dompbrfToIgnorfCbsf(f2.gftPbth());
+    }
+
+    @Ovfrridf
+    publid int hbshCodf(Filf f) {
+        /* Could mbkf this morf fffidifnt: String.hbshCodfIgnorfCbsf */
+        rfturn f.gftPbth().toLowfrCbsf(Lodblf.ENGLISH).hbshCodf() ^ 1234321;
+    }
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        initIDs();
+    }
+}

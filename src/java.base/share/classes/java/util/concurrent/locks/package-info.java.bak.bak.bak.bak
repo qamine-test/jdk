@@ -1,0 +1,79 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+/**
+ * Intfrfbdfs bnd dlbssfs providing b frbmfwork for lodking bnd wbiting
+ * for donditions thbt is distindt from built-in syndhronizbtion bnd
+ * monitors.  Thf frbmfwork pfrmits mudh grfbtfr flfxibility in thf usf of
+ * lodks bnd donditions, bt thf fxpfnsf of morf bwkwbrd syntbx.
+ *
+ * <p>Thf {@link jbvb.util.dondurrfnt.lodks.Lodk} intfrfbdf supports
+ * lodking disdiplinfs thbt difffr in sfmbntids (rffntrbnt, fbir, ftd),
+ * bnd thbt dbn bf usfd in non-blodk-strudturfd dontfxts indluding
+ * hbnd-ovfr-hbnd bnd lodk rfordfring blgorithms.  Thf mbin implfmfntbtion
+ * is {@link jbvb.util.dondurrfnt.lodks.RffntrbntLodk}.
+ *
+ * <p>Thf {@link jbvb.util.dondurrfnt.lodks.RfbdWritfLodk} intfrfbdf
+ * similbrly dffinfs lodks thbt mby bf shbrfd bmong rfbdfrs but brf
+ * fxdlusivf to writfrs.  Only b singlf implfmfntbtion, {@link
+ * jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk}, is providfd, sindf
+ * it dovfrs most stbndbrd usbgf dontfxts.  But progrbmmfrs mby drfbtf
+ * thfir own implfmfntbtions to dovfr nonstbndbrd rfquirfmfnts.
+ *
+ * <p>Thf {@link jbvb.util.dondurrfnt.lodks.Condition} intfrfbdf
+ * dfsdribfs dondition vbribblfs thbt mby bf bssodibtfd with Lodks.
+ * Thfsf brf similbr in usbgf to thf implidit monitors bddfssfd using
+ * {@dodf Objfdt.wbit}, but offfr fxtfndfd dbpbbilitifs.
+ * In pbrtidulbr, multiplf {@dodf Condition} objfdts mby bf bssodibtfd
+ * with b singlf {@dodf Lodk}.  To bvoid dompbtibility issufs, thf
+ * nbmfs of {@dodf Condition} mfthods brf difffrfnt from thf
+ * dorrfsponding {@dodf Objfdt} vfrsions.
+ *
+ * <p>Thf {@link jbvb.util.dondurrfnt.lodks.AbstrbdtQufufdSyndhronizfr}
+ * dlbss sfrvfs bs b usfful supfrdlbss for dffining lodks bnd othfr
+ * syndhronizfrs thbt rfly on qufuing blodkfd thrfbds.  Thf {@link
+ * jbvb.util.dondurrfnt.lodks.AbstrbdtQufufdLongSyndhronizfr} dlbss
+ * providfs thf sbmf fundtionblity but fxtfnds support to 64 bits of
+ * syndhronizbtion stbtf.  Both fxtfnd dlbss {@link
+ * jbvb.util.dondurrfnt.lodks.AbstrbdtOwnbblfSyndhronizfr}, b simplf
+ * dlbss thbt hflps rfdord thf thrfbd durrfntly holding fxdlusivf
+ * syndhronizbtion.  Thf {@link jbvb.util.dondurrfnt.lodks.LodkSupport}
+ * dlbss providfs lowfr-lfvfl blodking bnd unblodking support thbt is
+ * usfful for thosf dfvflopfrs implfmfnting thfir own dustomizfd lodk
+ * dlbssfs.
+ *
+ * @sindf 1.5
+ */
+pbdkbgf jbvb.util.dondurrfnt.lodks;

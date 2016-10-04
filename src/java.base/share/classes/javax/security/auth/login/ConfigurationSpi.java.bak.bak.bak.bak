@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.sfdurity.buth.login;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf Configurbtion} dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * sfrvidf providfr who wishfs to supply b Configurbtion implfmfntbtion.
+ *
+ * <p> Subdlbss implfmfntbtions of this bbstrbdt dlbss must providf
+ * b publid donstrudtor thbt tbkfs b {@dodf Configurbtion.Pbrbmftfrs}
+ * objfdt bs bn input pbrbmftfr.  This donstrudtor blso must throw
+ * bn IllfgblArgumfntExdfption if it dofs not undfrstbnd thf
+ * {@dodf Configurbtion.Pbrbmftfrs} input.
+ *
+ *
+ * @sindf 1.6
+ */
+
+publid bbstrbdt dlbss ConfigurbtionSpi {
+    /**
+     * Rftrifvf thf AppConfigurbtionEntrifs for thf spfdififd <i>nbmf</i>.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd to indfx thf Configurbtion.
+     *
+     * @rfturn bn brrby of AppConfigurbtionEntrifs for thf spfdififd
+     *          <i>nbmf</i>, or null if thfrf brf no fntrifs.
+     */
+    protfdtfd bbstrbdt AppConfigurbtionEntry[] fnginfGftAppConfigurbtionEntry
+                                                        (String nbmf);
+
+    /**
+     * Rffrfsh bnd rflobd thf Configurbtion.
+     *
+     * <p> This mfthod dbusfs this Configurbtion objfdt to rffrfsh/rflobd its
+     * dontfnts in bn implfmfntbtion-dfpfndfnt mbnnfr.
+     * For fxbmplf, if this Configurbtion objfdt storfs its fntrifs in b filf,
+     * dblling {@dodf rffrfsh} mby dbusf thf filf to bf rf-rfbd.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.
+     * This mfthod should bf ovfrriddfn if b rffrfsh opfrbtion is supportfd
+     * by thf implfmfntbtion.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to rffrfsh its Configurbtion.
+     */
+    protfdtfd void fnginfRffrfsh() { }
+}

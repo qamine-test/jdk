@@ -1,0 +1,2417 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.*;
+
+/**
+ * <dodf>SynthPbintfr</dodf> is usfd for pbinting portions of
+ * <dodf>JComponfnt</dodf>s. At b minimum fbdh <dodf>JComponfnt</dodf>
+ * hbs two pbint mfthods: onf for thf bordfr bnd onf for thf bbdkground. Somf
+ * <dodf>JComponfnt</dodf>s hbvf morf thbn onf <dodf>Rfgion</dodf>, bnd bs
+ * b donsfqufndf morf pbint mfthods.
+ * <p>
+ * Instbndfs of <dodf>SynthPbintfr</dodf> brf obtbinfd from thf
+ * {@link jbvbx.swing.plbf.synth.SynthStylf#gftPbintfr} mfthod.
+ * <p>
+ * You typidblly supply b <dodf>SynthPbintfr</dodf> by wby of Synth's
+ * <b hrff="dod-filfs/synthFilfFormbt.html">filf</b> formbt. Thf following
+ * fxbmplf rfgistfrs b pbintfr for bll <dodf>JButton</dodf>s thbt will
+ * rfndfr thf imbgf <dodf>myImbgf.png</dodf>:
+ * <prf>
+ *  &lt;stylf id="buttonStylf"&gt;
+ *    &lt;imbgfPbintfr pbth="myImbgf.png" sourdfInsfts="2 2 2 2"
+ *                  pbintCfntfr="truf" strftdh="truf"/&gt;
+ *    &lt;insfts top="2" bottom="2" lfft="2" right="2"/&gt;
+ *  &lt;/stylf&gt;
+ *  &lt;bind stylf="buttonStylf" typf="REGION" kfy="button"/&gt;
+ *</prf>
+ * <p>
+ * <dodf>SynthPbintfr</dodf> is bbstrbdt in so fbr bs it dofs no pbinting,
+ * bll thf mfthods
+ * brf fmpty. Whilf nonf of thfsf mfthods brf typfd to throw bn fxdfption,
+ * subdlbssfs dbn bssumf thbt vblid brgumfnts brf pbssfd in, bnd if not
+ * thfy dbn throw b <dodf>NullPointfrExdfption</dodf> or
+ * <dodf>IllfgblArgumfntExdfption</dodf> in rfsponsf to invblid brgumfnts.
+ *
+ * @sindf 1.5
+ * @buthor Sdott Violft
+ */
+publid bbstrbdt dlbss SynthPbintfr {
+    /**
+     * Usfd to bvoid null pbintfr dhfdks fvfrywhfrf.
+     */
+    stbtid SynthPbintfr NULL_PAINTER = nfw SynthPbintfr() {};
+
+
+    /**
+     * Pbints thf bbdkground of bn brrow button. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudh bs <dodf>JSdrollBbr</dodf>.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintArrowButtonBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of bn brrow button. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudh bs <dodf>JSdrollBbr</dodf>.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintArrowButtonBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h) {
+    }
+
+    /**
+     * Pbints thf forfground of bn brrow button. This mfthod is rfsponsiblf
+     * for drbwing b grbphidbl rfprfsfntbtion of b dirfdtion, typidblly
+     * bn brrow. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudh bs <dodf>JSdrollBbr</dodf>
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm dirfdtion Onf of SwingConstbnts.NORTH, SwingConstbnts.SOUTH
+     *                  SwingConstbnts.EAST or SwingConstbnts.WEST
+     */
+    publid void pbintArrowButtonForfground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h,
+                                           int dirfdtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintButtonBbdkground(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintButtonBordfr(SynthContfxt dontfxt,
+                                  Grbphids g, int x, int y,
+                                  int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dhfdk box mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintChfdkBoxMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                                Grbphids g, int x, int y,
+                                                int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b dhfdk box mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintChfdkBoxMfnuItfmBordfr(SynthContfxt dontfxt,
+                                            Grbphids g, int x, int y,
+                                            int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dhfdk box.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintChfdkBoxBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b dhfdk box.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintChfdkBoxBordfr(SynthContfxt dontfxt,
+                                    Grbphids g, int x, int y,
+                                    int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dolor dhoosfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintColorChoosfrBbdkground(SynthContfxt dontfxt,
+                                            Grbphids g, int x, int y,
+                                            int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b dolor dhoosfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintColorChoosfrBordfr(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dombo box.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintComboBoxBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b dombo box.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintComboBoxBordfr(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dfsktop idon.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintDfsktopIdonBbdkground(SynthContfxt dontfxt,
+                                        Grbphids g, int x, int y,
+                                        int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b dfsktop idon.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintDfsktopIdonBordfr(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dfsktop pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintDfsktopPbnfBbdkground(SynthContfxt dontfxt,
+                                           Grbphids g, int x, int y,
+                                           int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b dfsktop pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintDfsktopPbnfBordfr(SynthContfxt dontfxt,
+                                       Grbphids g, int x, int y,
+                                       int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of bn fditor pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintEditorPbnfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of bn fditor pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintEditorPbnfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b filf dhoosfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintFilfChoosfrBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b filf dhoosfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintFilfChoosfrBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b formbttfd tfxt fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintFormbttfdTfxtFifldBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b formbttfd tfxt fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintFormbttfdTfxtFifldBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of bn intfrnbl frbmf titlf pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintIntfrnblFrbmfTitlfPbnfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of bn intfrnbl frbmf titlf pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintIntfrnblFrbmfTitlfPbnfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of bn intfrnbl frbmf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintIntfrnblFrbmfBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of bn intfrnbl frbmf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintIntfrnblFrbmfBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b lbbfl.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintLbbflBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b lbbfl.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintLbbflBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b list.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintListBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b list.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintListBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b mfnu bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b mfnu bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuItfmBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b mfnu.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b mfnu.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintMfnuBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of bn option pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintOptionPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of bn option pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintOptionPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b pbnfl.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPbnflBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b pbnfl.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPbnflBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b pbssword fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPbsswordFifldBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b pbssword fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPbsswordFifldBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b popup mfnu.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPopupMfnuBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b popup mfnu.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintPopupMfnuBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b progrfss bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintProgrfssBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b progrfss bbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintProgrfssBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintProgrfssBbrBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of b progrfss bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintProgrfssBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b progrfss bbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintProgrfssBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintProgrfssBbrBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf forfground of b progrfss bbr. is rfsponsiblf for
+     * providing bn indidbtion of thf progrfss of thf progrfss bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
+     */
+    publid void pbintProgrfssBbrForfground(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b rbdio button mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRbdioButtonMfnuItfmBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b rbdio button mfnu itfm.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRbdioButtonMfnuItfmBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b rbdio button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRbdioButtonBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b rbdio button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRbdioButtonBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b root pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRootPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b root pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintRootPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b sdrollbbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b sdrollbbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSdrollBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSdrollBbrBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of b sdrollbbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b sdrollbbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSdrollBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintSdrollBbrBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of thf thumb of b sdrollbbr. Thf thumb providfs
+     * b grbphidbl indidbtion bs to how mudh of thf Componfnt is visiblf in b
+     * <dodf>JSdrollPbnf</dodf>.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     */
+    publid void pbintSdrollBbrThumbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf thumb of b sdrollbbr. Thf thumb providfs
+     * b grbphidbl indidbtion bs to how mudh of thf Componfnt is visiblf in b
+     * <dodf>JSdrollPbnf</dodf>.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     */
+    publid void pbintSdrollBbrThumbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf trbdk of b sdrollbbr. Thf trbdk dontbins
+     * thf thumb.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollBbrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf trbdk of b sdrollbbr. Thf trbdk dontbins
+     * thf thumb. This implfmfntbtion invokfs thf mfthod of thf sbmf nbmf without
+     * thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSdrollBbrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSdrollBbrTrbdkBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of thf trbdk of b sdrollbbr. Thf trbdk dontbins
+     * thf thumb.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollBbrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf trbdk of b sdrollbbr. Thf trbdk dontbins
+     * thf thumb. This implfmfntbtion invokfs thf mfthod of thf sbmf nbmf without
+     * thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of thf JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSdrollBbrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintSdrollBbrTrbdkBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of b sdroll pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b sdroll pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSdrollPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b sfpbrbtor.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSfpbrbtorBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b sfpbrbtor. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSfpbrbtorBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSfpbrbtorBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of b sfpbrbtor.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSfpbrbtorBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b sfpbrbtor. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSfpbrbtorBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintSfpbrbtorBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf forfground of b sfpbrbtor.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
+     */
+    publid void pbintSfpbrbtorForfground(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSlidfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b slidfr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSlidfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSlidfrBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSlidfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b slidfr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSlidfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintSlidfrBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of thf thumb of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     */
+    publid void pbintSlidfrThumbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf thumb of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     */
+    publid void pbintSlidfrThumbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf trbdk of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSlidfrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf trbdk of b slidfr. This implfmfntbtion invokfs
+     * thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSlidfrTrbdkBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSlidfrTrbdkBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of thf trbdk of b slidfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSlidfrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf trbdk of b slidfr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSlidfrTrbdkBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintSlidfrTrbdkBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of b spinnfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSpinnfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b spinnfr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSpinnfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf dividfr of b split pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSplitPbnfDividfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf dividfr of b split pbnf. This implfmfntbtion
+     * invokfs thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintSplitPbnfDividfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintSplitPbnfDividfrBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf forfground of thf dividfr of b split pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     */
+    publid void pbintSplitPbnfDividfrForfground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf dividfr, whfn thf usfr is drbgging thf dividfr, of b
+     * split pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     */
+    publid void pbintSplitPbnfDrbgDividfr(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b split pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSplitPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b split pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintSplitPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf brfb bfhind thf tbbs of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf brfb bfhind thf tbbs of b tbbbfd pbnf.
+     * This implfmfntbtion invokfs thf mfthod of thf sbmf nbmf without thf
+     * orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintTbbbfdPbnfTbbArfbBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of thf brfb bfhind thf tbbs of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf brfb bfhind thf tbbs of b tbbbfd pbnf. This
+     * implfmfntbtion invokfs thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintTbbbfdPbnfTbbArfbBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of b tbb of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     */
+    publid void pbintTbbbfdPbnfTbbBbdkground(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tbb of b tbbbfd pbnf. This implfmfntbtion
+     * invokfs thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintTbbbfdPbnfTbbBbdkground(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx, int orifntbtion) {
+        pbintTbbbfdPbnfTbbBbdkground(dontfxt, g, x, y, w, h, tbbIndfx);
+    }
+
+    /**
+     * Pbints thf bordfr of b tbb of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     */
+    publid void pbintTbbbfdPbnfTbbBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tbb of b tbbbfd pbnf. This implfmfntbtion invokfs
+     * thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintTbbbfdPbnfTbbBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h,
+                                         int tbbIndfx, int orifntbtion) {
+        pbintTbbbfdPbnfTbbBordfr(dontfxt, g, x, y, w, h, tbbIndfx);
+    }
+
+    /**
+     * Pbints thf bbdkground of thf brfb thbt dontbins thf dontfnt of thf
+     * sflfdtfd tbb of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfContfntBbdkground(SynthContfxt dontfxt,
+                                         Grbphids g, int x, int y, int w,
+                                         int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf brfb thbt dontbins thf dontfnt of thf
+     * sflfdtfd tbb of b tbbbfd pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbbbfdPbnfContfntBordfr(SynthContfxt dontfxt, Grbphids g,
+                                         int x, int y, int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf hfbdfr of b tbblf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbblfHfbdfrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf hfbdfr of b tbblf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbblfHfbdfrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tbblf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbblfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tbblf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTbblfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tfxt brfb.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtArfbBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tfxt brfb.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtArfbBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tfxt pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtPbnfBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tfxt pbnf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtPbnfBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tfxt fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtFifldBbdkground(SynthContfxt dontfxt,
+                                          Grbphids g, int x, int y,
+                                          int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tfxt fifld.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTfxtFifldBordfr(SynthContfxt dontfxt,
+                                      Grbphids g, int x, int y,
+                                      int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b togglf button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTogglfButtonBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b togglf button.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTogglfButtonBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tool bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b tool bbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintToolBbrBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of b tool bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tool bbr. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintToolBbrBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of thf tool bbr's dontfnt brfb.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrContfntBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf tool bbr's dontfnt brfb. This implfmfntbtion
+     * invokfs thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrContfntBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintToolBbrContfntBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of thf dontfnt brfb of b tool bbr.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrContfntBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf dontfnt brfb of b tool bbr. This implfmfntbtion
+     * invokfs thf mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrContfntBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintToolBbrContfntBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of thf window dontbining thf tool bbr whfn it
+     * hbs bffn dftbdhfd from its primbry frbmf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrDrbgWindowBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf window dontbining thf tool bbr whfn it
+     * hbs bffn dftbdhfd from its primbry frbmf. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrDrbgWindowBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h, int orifntbtion) {
+        pbintToolBbrDrbgWindowBbdkground(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bordfr of thf window dontbining thf tool bbr whfn it
+     * hbs bffn dftbdhfd from it's primbry frbmf.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolBbrDrbgWindowBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf window dontbining thf tool bbr whfn it
+     * hbs bffn dftbdhfd from it's primbry frbmf. This implfmfntbtion invokfs thf
+     * mfthod of thf sbmf nbmf without thf orifntbtion.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
+     */
+    publid void pbintToolBbrDrbgWindowBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h, int orifntbtion) {
+        pbintToolBbrDrbgWindowBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints thf bbdkground of b tool tip.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolTipBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b tool tip.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintToolTipBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of b trff.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTrffBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b trff.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTrffBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf row dontbining b dfll in b trff.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTrffCfllBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of thf row dontbining b dfll in b trff.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTrffCfllBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints thf fodus indidbtor for b dfll in b trff whfn it hbs fodus.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintTrffCfllFodus(SynthContfxt dontfxt,
+                                   Grbphids g, int x, int y,
+                                   int w, int h) {
+    }
+
+    /**
+     * Pbints thf bbdkground of thf vifwport.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintVifwportBbdkground(SynthContfxt dontfxt,
+                                     Grbphids g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints thf bordfr of b vifwport.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying thf <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbphids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of thf brfb to pbint to
+     * @pbrbm y Y doordinbtf of thf brfb to pbint to
+     * @pbrbm w Width of thf brfb to pbint to
+     * @pbrbm h Hfight of thf brfb to pbint to
+     */
+    publid void pbintVifwportBordfr(SynthContfxt dontfxt,
+                                 Grbphids g, int x, int y,
+                                 int w, int h) {
+    }
+}

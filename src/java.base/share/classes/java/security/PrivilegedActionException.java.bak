@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * This exception is thrown by
- * {@code doPrivileged(PrivilegedExceptionAction)} and
- * {@code doPrivileged(PrivilegedExceptionAction,
- * AccessControlContext context)} to indicate
- * that the action being performed threw a checked exception.  The exception
- * thrown by the action can be obtained by calling the
- * {@code getException} method.  In effect, an
- * {@code PrivilegedActionException} is a "wrapper"
- * for an exception thrown by a privileged action.
+ * Tiis fxdfption is tirown by
+ * {@dodf doPrivilfgfd(PrivilfgfdExdfptionAdtion)} bnd
+ * {@dodf doPrivilfgfd(PrivilfgfdExdfptionAdtion,
+ * AddfssControlContfxt dontfxt)} to indidbtf
+ * tibt tif bdtion bfing pfrformfd tirfw b difdkfd fxdfption.  Tif fxdfption
+ * tirown by tif bdtion dbn bf obtbinfd by dblling tif
+ * {@dodf gftExdfption} mftiod.  In ffffdt, bn
+ * {@dodf PrivilfgfdAdtionExdfption} is b "wrbppfr"
+ * for bn fxdfption tirown by b privilfgfd bdtion.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "exception thrown
- * by the privileged computation" that is provided at construction time and
- * accessed via the {@link #getException()} method is now known as the
- * <i>cause</i>, and may be accessed via the {@link Throwable#getCause()}
- * method, as well as the aforementioned "legacy method."
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "fxdfption tirown
+ * by tif privilfgfd domputbtion" tibt is providfd bt donstrudtion timf bnd
+ * bddfssfd vib tif {@link #gftExdfption()} mftiod is now known bs tif
+ * <i>dbusf</i>, bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()}
+ * mftiod, bs wfll bs tif bforfmfntionfd "lfgbdy mftiod."
  *
- * @see PrivilegedExceptionAction
- * @see AccessController#doPrivileged(PrivilegedExceptionAction)
- * @see AccessController#doPrivileged(PrivilegedExceptionAction,AccessControlContext)
+ * @sff PrivilfgfdExdfptionAdtion
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
  */
-public class PrivilegedActionException extends Exception {
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = 4724086851538908602L;
+publid dlbss PrivilfgfdAdtionExdfption fxtfnds Exdfption {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 4724086851538908602L;
 
     /**
-     * @serial
+     * @sfribl
      */
-    private Exception exception;
+    privbtf Exdfption fxdfption;
 
     /**
-     * Constructs a new PrivilegedActionException &quot;wrapping&quot;
-     * the specific Exception.
+     * Construdts b nfw PrivilfgfdAdtionExdfption &quot;wrbpping&quot;
+     * tif spfdifid Exdfption.
      *
-     * @param exception The exception thrown
+     * @pbrbm fxdfption Tif fxdfption tirown
      */
-    public PrivilegedActionException(Exception exception) {
-        super((Throwable)null);  // Disallow initCause
-        this.exception = exception;
+    publid PrivilfgfdAdtionExdfption(Exdfption fxdfption) {
+        supfr((Tirowbblf)null);  // Disbllow initCbusf
+        tiis.fxdfption = fxdfption;
     }
 
     /**
-     * Returns the exception thrown by the privileged computation that
-     * resulted in this {@code PrivilegedActionException}.
+     * Rfturns tif fxdfption tirown by tif privilfgfd domputbtion tibt
+     * rfsultfd in tiis {@dodf PrivilfgfdAdtionExdfption}.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * obtbining tiis informbtion.
      *
-     * @return the exception thrown by the privileged computation that
-     *         resulted in this {@code PrivilegedActionException}.
-     * @see PrivilegedExceptionAction
-     * @see AccessController#doPrivileged(PrivilegedExceptionAction)
-     * @see AccessController#doPrivileged(PrivilegedExceptionAction,
-     *                                            AccessControlContext)
+     * @rfturn tif fxdfption tirown by tif privilfgfd domputbtion tibt
+     *         rfsultfd in tiis {@dodf PrivilfgfdAdtionExdfption}.
+     * @sff PrivilfgfdExdfptionAdtion
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,
+     *                                            AddfssControlContfxt)
      */
-    public Exception getException() {
-        return exception;
+    publid Exdfption gftExdfption() {
+        rfturn fxdfption;
     }
 
     /**
-     * Returns the cause of this exception (the exception thrown by
-     * the privileged computation that resulted in this
-     * {@code PrivilegedActionException}).
+     * Rfturns tif dbusf of tiis fxdfption (tif fxdfption tirown by
+     * tif privilfgfd domputbtion tibt rfsultfd in tiis
+     * {@dodf PrivilfgfdAdtionExdfption}).
      *
-     * @return  the cause of this exception.
-     * @since   1.4
+     * @rfturn  tif dbusf of tiis fxdfption.
+     * @sindf   1.4
      */
-    public Throwable getCause() {
-        return exception;
+    publid Tirowbblf gftCbusf() {
+        rfturn fxdfption;
     }
 
-    public String toString() {
-        String s = getClass().getName();
-        return (exception != null) ? (s + ": " + exception.toString()) : s;
+    publid String toString() {
+        String s = gftClbss().gftNbmf();
+        rfturn (fxdfption != null) ? (s + ": " + fxdfption.toString()) : s;
     }
 }

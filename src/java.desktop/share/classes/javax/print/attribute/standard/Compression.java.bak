@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.DocAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
 
 /**
- * Class Compression is a printing attribute class, an enumeration, that
- * specifies how print data is compressed. Compression is an attribute of the
- * print data (the doc), not of the Print Job. If a Compression attribute is not
- * specified for a doc, the printer assumes the doc's print data is uncompressed
- * (i.e., the default Compression value is always {@link #NONE
+ * Clbss Comprfssion is b printing bttributf dlbss, bn fnumfrbtion, tibt
+ * spfdififs iow print dbtb is domprfssfd. Comprfssion is bn bttributf of tif
+ * print dbtb (tif dod), not of tif Print Job. If b Comprfssion bttributf is not
+ * spfdififd for b dod, tif printfr bssumfs tif dod's print dbtb is undomprfssfd
+ * (i.f., tif dffbult Comprfssion vbluf is blwbys {@link #NONE
  * NONE}).
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public class Compression extends EnumSyntax implements DocAttribute {
+publid dlbss Comprfssion fxtfnds EnumSyntbx implfmfnts DodAttributf {
 
-    private static final long serialVersionUID = -5716748913324997674L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5716748913324997674L;
 
     /**
-     * No compression is used.
+     * No domprfssion is usfd.
      */
-    public static final Compression NONE = new Compression(0);
+    publid stbtid finbl Comprfssion NONE = nfw Comprfssion(0);
 
     /**
-     * ZIP public domain inflate/deflate compression technology.
+     * ZIP publid dombin inflbtf/dfflbtf domprfssion tfdinology.
      */
-    public static final Compression DEFLATE = new Compression(1);
+    publid stbtid finbl Comprfssion DEFLATE = nfw Comprfssion(1);
 
     /**
-     * GNU zip compression technology described in
-     * <A HREF="http://www.ietf.org/rfc/rfc1952.txt">RFC 1952</A>.
+     * GNU zip domprfssion tfdinology dfsdribfd in
+     * <A HREF="ittp://www.iftf.org/rfd/rfd1952.txt">RFC 1952</A>.
      */
-    public static final Compression GZIP = new Compression(2);
+    publid stbtid finbl Comprfssion GZIP = nfw Comprfssion(2);
 
     /**
-     * UNIX compression technology.
+     * UNIX domprfssion tfdinology.
      */
-    public static final Compression COMPRESS = new Compression(3);
+    publid stbtid finbl Comprfssion COMPRESS = nfw Comprfssion(3);
 
     /**
-     * Construct a new compression enumeration value with the given integer
-     * value.
+     * Construdt b nfw domprfssion fnumfrbtion vbluf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected Compression(int value) {
-        super(value);
+    protfdtfd Comprfssion(int vbluf) {
+        supfr(vbluf);
     }
 
 
-    private static final String[] myStringTable = {"none",
-                                                   "deflate",
+    privbtf stbtid finbl String[] myStringTbblf = {"nonf",
+                                                   "dfflbtf",
                                                    "gzip",
-                                                   "compress"};
+                                                   "domprfss"};
 
-    private static final Compression[] myEnumValueTable = {NONE,
+    privbtf stbtid finbl Comprfssion[] myEnumVblufTbblf = {NONE,
                                                            DEFLATE,
                                                            GZIP,
                                                            COMPRESS};
 
     /**
-     * Returns the string table for class Compression.
+     * Rfturns tif string tbblf for dlbss Comprfssion.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class Compression.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss Comprfssion.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class Compression and any vendor-defined subclasses, the category is
-     * class Compression itself.
+     * For dlbss Comprfssion bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory is
+     * dlbss Comprfssion itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Compression.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Comprfssion.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class Compression and any vendor-defined subclasses, the category
-     * name is <CODE>"compression"</CODE>.
+     * For dlbss Comprfssion bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory
+     * nbmf is <CODE>"domprfssion"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "compression";
+    publid finbl String gftNbmf() {
+        rfturn "domprfssion";
     }
 
 }

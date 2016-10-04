@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.jules;
+pbdkbgf sun.jbvb2d.julfs;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class TileWorker implements Runnable {
-    final static int RASTERIZED_TILE_SYNC_GRANULARITY = 8;
-    final ArrayList<JulesTile> rasterizedTileConsumerCache =
-         new ArrayList<JulesTile>();
-    final LinkedList<JulesTile> rasterizedBuffers = new LinkedList<JulesTile>();
+publid dlbss TilfWorkfr implfmfnts Runnbblf {
+    finbl stbtid int RASTERIZED_TILE_SYNC_GRANULARITY = 8;
+    finbl ArrbyList<JulfsTilf> rbstfrizfdTilfConsumfrCbdif =
+         nfw ArrbyList<JulfsTilf>();
+    finbl LinkfdList<JulfsTilf> rbstfrizfdBufffrs = nfw LinkfdList<JulfsTilf>();
 
-    IdleTileCache tileCache;
-    JulesAATileGenerator tileGenerator;
-    int workerStartIndex;
-    volatile int consumerPos = 0;
+    IdlfTilfCbdif tilfCbdif;
+    JulfsAATilfGfnfrbtor tilfGfnfrbtor;
+    int workfrStbrtIndfx;
+    volbtilf int donsumfrPos = 0;
 
-    /* Threading statistics */
-    int mainThreadCnt = 0;
-    int workerCnt = 0;
-    int doubled = 0;
+    /* Tirfbding stbtistids */
+    int mbinTirfbdCnt = 0;
+    int workfrCnt = 0;
+    int doublfd = 0;
 
-    public TileWorker(JulesAATileGenerator tileGenerator, int workerStartIndex, IdleTileCache tileCache) {
-        this.tileGenerator = tileGenerator;
-        this.workerStartIndex = workerStartIndex;
-        this.tileCache = tileCache;
+    publid TilfWorkfr(JulfsAATilfGfnfrbtor tilfGfnfrbtor, int workfrStbrtIndfx, IdlfTilfCbdif tilfCbdif) {
+        tiis.tilfGfnfrbtor = tilfGfnfrbtor;
+        tiis.workfrStbrtIndfx = workfrStbrtIndfx;
+        tiis.tilfCbdif = tilfCbdif;
     }
 
-    public void run() {
-        ArrayList<JulesTile> tiles = new ArrayList<JulesTile>(16);
+    publid void run() {
+        ArrbyList<JulfsTilf> tilfs = nfw ArrbyList<JulfsTilf>(16);
 
-        for (int i = workerStartIndex; i < tileGenerator.getTileCount(); i++) {
-            TileTrapContainer tile = tileGenerator.getTrapContainer(i);
+        for (int i = workfrStbrtIndfx; i < tilfGfnfrbtor.gftTilfCount(); i++) {
+            TilfTrbpContbinfr tilf = tilfGfnfrbtor.gftTrbpContbinfr(i);
 
-            if (tile != null && tile.getTileAlpha() == 127) {
-                JulesTile rasterizedTile =
-                      tileGenerator.rasterizeTile(i,
-                           tileCache.getIdleTileWorker(
-                               tileGenerator.getTileCount() - i - 1));
-                tiles.add(rasterizedTile);
+            if (tilf != null && tilf.gftTilfAlpib() == 127) {
+                JulfsTilf rbstfrizfdTilf =
+                      tilfGfnfrbtor.rbstfrizfTilf(i,
+                           tilfCbdif.gftIdlfTilfWorkfr(
+                               tilfGfnfrbtor.gftTilfCount() - i - 1));
+                tilfs.bdd(rbstfrizfdTilf);
 
-                if (tiles.size() > RASTERIZED_TILE_SYNC_GRANULARITY) {
-                    addRasterizedTiles(tiles);
-                    tiles.clear();
+                if (tilfs.sizf() > RASTERIZED_TILE_SYNC_GRANULARITY) {
+                    bddRbstfrizfdTilfs(tilfs);
+                    tilfs.dlfbr();
                 }
             }
 
-            i = Math.max(i, consumerPos + RASTERIZED_TILE_SYNC_GRANULARITY / 2);
+            i = Mbti.mbx(i, donsumfrPos + RASTERIZED_TILE_SYNC_GRANULARITY / 2);
         }
-        addRasterizedTiles(tiles);
+        bddRbstfrizfdTilfs(tilfs);
 
-        tileCache.disposeRasterizerResources();
+        tilfCbdif.disposfRbstfrizfrRfsourdfs();
     }
 
     /**
-     * Returns a rasterized tile for the specified tilePos,
-     * or null if it isn't available.
-     * Allowed caller: MaskBlit/Consumer-Thread
+     * Rfturns b rbstfrizfd tilf for tif spfdififd tilfPos,
+     * or null if it isn't bvbilbblf.
+     * Allowfd dbllfr: MbskBlit/Consumfr-Tirfbd
      */
-    public JulesTile getPreRasterizedTile(int tilePos) {
-        JulesTile tile = null;
+    publid JulfsTilf gftPrfRbstfrizfdTilf(int tilfPos) {
+        JulfsTilf tilf = null;
 
-        if (rasterizedTileConsumerCache.size() == 0 &&
-            tilePos >= workerStartIndex)
+        if (rbstfrizfdTilfConsumfrCbdif.sizf() == 0 &&
+            tilfPos >= workfrStbrtIndfx)
         {
-            synchronized (rasterizedBuffers) {
-                rasterizedTileConsumerCache.addAll(rasterizedBuffers);
-                rasterizedBuffers.clear();
+            syndironizfd (rbstfrizfdBufffrs) {
+                rbstfrizfdTilfConsumfrCbdif.bddAll(rbstfrizfdBufffrs);
+                rbstfrizfdBufffrs.dlfbr();
             }
         }
 
-        while (tile == null && rasterizedTileConsumerCache.size() > 0) {
-            JulesTile t = rasterizedTileConsumerCache.get(0);
+        wiilf (tilf == null && rbstfrizfdTilfConsumfrCbdif.sizf() > 0) {
+            JulfsTilf t = rbstfrizfdTilfConsumfrCbdif.gft(0);
 
-            if (t.getTilePos() > tilePos) {
-                break;
+            if (t.gftTilfPos() > tilfPos) {
+                brfbk;
             }
 
-            if (t.getTilePos() < tilePos) {
-                tileCache.releaseTile(t);
-                doubled++;
+            if (t.gftTilfPos() < tilfPos) {
+                tilfCbdif.rflfbsfTilf(t);
+                doublfd++;
             }
 
-            if (t.getTilePos() <= tilePos) {
-                rasterizedTileConsumerCache.remove(0);
+            if (t.gftTilfPos() <= tilfPos) {
+                rbstfrizfdTilfConsumfrCbdif.rfmovf(0);
             }
 
-            if (t.getTilePos() == tilePos) {
-                tile = t;
+            if (t.gftTilfPos() == tilfPos) {
+                tilf = t;
             }
         }
 
-        if (tile == null) {
-            mainThreadCnt++;
+        if (tilf == null) {
+            mbinTirfbdCnt++;
 
-            // If there are no tiles left, tell the producer the current
-            // position. This avoids producing tiles twice.
-            consumerPos = tilePos;
-        } else {
-            workerCnt++;
+            // If tifrf brf no tilfs lfft, tfll tif produdfr tif durrfnt
+            // position. Tiis bvoids produding tilfs twidf.
+            donsumfrPos = tilfPos;
+        } flsf {
+            workfrCnt++;
         }
 
-        return tile;
+        rfturn tilf;
     }
 
-    private void addRasterizedTiles(ArrayList<JulesTile> tiles) {
-        synchronized (rasterizedBuffers) {
-            rasterizedBuffers.addAll(tiles);
+    privbtf void bddRbstfrizfdTilfs(ArrbyList<JulfsTilf> tilfs) {
+        syndironizfd (rbstfrizfdBufffrs) {
+            rbstfrizfdBufffrs.bddAll(tilfs);
         }
     }
 
     /**
-     * Releases cached tiles.
-     * Allowed caller: MaskBlit/Consumer-Thread
+     * Rflfbsfs dbdifd tilfs.
+     * Allowfd dbllfr: MbskBlit/Consumfr-Tirfbd
      */
-    public void disposeConsumerResources() {
-        synchronized (rasterizedBuffers) {
-            tileCache.releaseTiles(rasterizedBuffers);
+    publid void disposfConsumfrRfsourdfs() {
+        syndironizfd (rbstfrizfdBufffrs) {
+            tilfCbdif.rflfbsfTilfs(rbstfrizfdBufffrs);
         }
 
-        tileCache.releaseTiles(rasterizedTileConsumerCache);
+        tilfCbdif.rflfbsfTilfs(rbstfrizfdTilfConsumfrCbdif);
     }
 }

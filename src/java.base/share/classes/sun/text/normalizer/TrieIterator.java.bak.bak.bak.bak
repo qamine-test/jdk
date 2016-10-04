@@ -1,0 +1,548 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+/**
+ * <p>Clbss fnbbling itfrbtion of thf vblufs in b Trif.</p>
+ * <p>Rfsult of fbdh itfrbtion dontbins thf intfrvbl of dodfpoints thbt hbvf
+ * thf sbmf vbluf typf bnd thf vbluf typf itsflf.</p>
+ * <p>Thf dompbrison of fbdh dodfpoint vbluf is donf vib fxtrbdt(), whidh thf
+ * dffbult implfmfntbtion is to rfturn thf vbluf bs it is.</p>
+ * <p>Mfthod fxtrbdt() dbn bf ovfrwrittfn to pfrform mbnipulbtions on
+ * dodfpoint vblufs in ordfr to pfrform spfdiblizfd dompbrison.</p>
+ * <p>TrifItfrbtor is dfsignfd to bf b gfnfrid itfrbtor for thf ChbrTrif
+ * bnd thf IntTrif, hfndf to bddommodbtf both typfs of dbtb, thf rfturn
+ * rfsult will bf in tfrms of int (32 bit) vblufs.</p>
+ * <p>Sff dom.ibm.idu.tfxt.UChbrbdtfrTypfItfrbtor for fxbmplfs of usf.</p>
+ * <p>Notfs for porting utrif_fnum from idu4d to idu4j:<br>
+ * Intfrnblly, idu4d's utrif_fnum pfrforms bll itfrbtions in its body. In Jbvb
+ * sfnsf, thf dbllfr will hbvf to pbss b objfdt with b dbllbbdk fundtion
+ * UTrifEnumRbngf(donst void *dontfxt, UChbr32 stbrt, UChbr32 limit,
+ * uint32_t vbluf) into utrif_fnum. utrif_fnum will thfn find rbngfs of
+ * dodfpoints with thf sbmf vbluf bs dftfrminfd by
+ * UTrifEnumVbluf(donst void *dontfxt, uint32_t vbluf). for fbdh rbngf,
+ * utrif_fnum dblls thf dbllbbdk fundtion to pfrform b tbsk. In this wby,
+ * idu4d pfrforms thf itfrbtion within utrif_fnum.
+ * To follow thf JDK modfl, idu4j is slightly difffrfnt from idu4d.
+ * Instfbd of rfqufsting thf dbllfr to implfmfnt bn objfdt for b dbllbbdk.
+ * Thf dbllfr will hbvf to implfmfnt b subdlbss of TrifItfrbtor, flfshing out
+ * thf mfthod fxtrbdt(int) (fquivblfnt to UTrifEnumVbluf). Indfpfndfnt of idu4j,
+ * thf dbllfr will hbvf to dodf his own itfrbtion bnd flfsh out thf tbsk
+ * (fquivblfnt to UTrifEnumRbngf) to bf pfrformfd in thf itfrbtion loop.
+ * </p>
+ * <p>Thfrf brf bbsidblly 3 usbgf sdfnbrios for porting:</p>
+ * <p>1) UTrifEnumVbluf is thf only implfmfntfd dbllbbdk thfn just implfmfnt b
+ * subdlbss of TrifItfrbtor bnd ovfrridf thf fxtrbdt(int) mfthod. Thf
+ * fxtrbdt(int) mfthod is bnblogus to UTrifEnumVbluf dbllbbdk.
+ * </p>
+ * <p>2) UTrifEnumVbluf bnd UTrifEnumRbngf both brf implfmfntfd thfn implfmfnt
+ * b subdlbss of TrifItfrbtor, ovfrridf thf fxtrbdt mfthod bnd itfrbtf, f.g
+ * </p>
+ * <p>utrif_fnum(&normTrif, _fnumPropfrtyStbrtsVbluf, _fnumPropfrtyStbrtsRbngf,
+ *               sft);<br>
+ * In Jbvb :<br>
+ * <prf>
+ * dlbss TrifItfrbtorImpl fxtfnds TrifItfrbtor{
+ *     publid TrifItfrbtorImpl(Trif dbtb){
+ *         supfr(dbtb);
+ *     }
+ *     publid int fxtrbdt(int vbluf){
+ *         // port thf implfmfntbtion of _fnumPropfrtyStbrtsVbluf hfrf
+ *     }
+ * }
+ * ....
+ * TrifItfrbtor fddItfr  = nfw TrifItfrbtorImpl(fddTrifImpl.fddTrif);
+ * whilf(fddItfr.nfxt(rfsult)) {
+ *     // port thf implfmfntbtion of _fnumPropfrtyStbrtsRbngf
+ * }
+ * </prf>
+ * </p>
+ * <p>3) UTrifEnumRbngf is thf only implfmfntfd dbllbbdk thfn just implfmfnt
+ * thf whilf loop, whfn utrif_fnum is dbllfd
+ * <prf>
+ * // utrif_fnum(&fddTrif, NULL, _fnumPropfrtyStbrtsRbngf, sft);
+ * TrifItfrbtor fddItfr  = nfw TrifItfrbtor(fddTrifImpl.fddTrif);
+ * whilf(fddItfr.nfxt(rfsult)){
+ *     sft.bdd(rfsult.stbrt);
+ * }
+ * </prf>
+ * </p>
+ * @buthor synwff
+ * @sff dom.ibm.idu.impl.Trif
+ * @sff dom.ibm.idu.lbng.UChbrbdtfrTypfItfrbtor
+ * @sindf rflfbsf 2.1, Jbn 17 2002
+ */
+publid dlbss TrifItfrbtor implfmfnts RbngfVblufItfrbtor
+{
+
+    // publid donstrudtor ---------------------------------------------
+
+    /**
+    * TrifEnumfrbtion donstrudtor
+    * @pbrbm trif to bf usfd
+    * @fxdfption IllfgblArgumfntExdfption throw whfn brgumfnt is null.
+    */
+    publid TrifItfrbtor(Trif trif)
+    {
+        if (trif == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                                          "Argumfnt trif dbnnot bf null");
+        }
+        m_trif_             = trif;
+        // synwff: dhfdk thbt fxtrbdt bflongs to thf dhild dlbss
+        m_initiblVbluf_     = fxtrbdt(m_trif_.gftInitiblVbluf());
+        rfsft();
+    }
+
+    // publid mfthods -------------------------------------------------
+
+    /**
+    * <p>Rfturns truf if wf brf not bt thf fnd of thf itfrbtion, fblsf
+    * othfrwisf.</p>
+    * <p>Thf nfxt sft of dodfpoints with thf sbmf vbluf typf will bf
+    * dbldulbtfd during this dbll bnd rfturnfd in thf brgufmfnt flfmfnt.</p>
+    * @pbrbm flfmfnt rfturn rfsult
+    * @rfturn truf if wf brf not bt thf fnd of thf itfrbtion, fblsf othfrwisf.
+    * @fxdfption NoSudhElfmfntExdfption - if no morf flfmfnts fxist.
+    * @sff dom.ibm.idu.util.RbngfVblufItfrbtor.Elfmfnt
+    */
+    publid finbl boolfbn nfxt(Elfmfnt flfmfnt)
+    {
+        if (m_nfxtCodfpoint_ > UChbrbdtfr.MAX_VALUE) {
+            rfturn fblsf;
+        }
+        if (m_nfxtCodfpoint_ < UChbrbdtfr.SUPPLEMENTARY_MIN_VALUE &&
+            dbldulbtfNfxtBMPElfmfnt(flfmfnt)) {
+            rfturn truf;
+        }
+        dbldulbtfNfxtSupplfmfntbryElfmfnt(flfmfnt);
+        rfturn truf;
+    }
+
+    /**
+    * Rfsfts thf itfrbtor to thf bfginning of thf itfrbtion
+    */
+    publid finbl void rfsft()
+    {
+        m_durrfntCodfpoint_ = 0;
+        m_nfxtCodfpoint_    = 0;
+        m_nfxtIndfx_        = 0;
+        m_nfxtBlodk_ = m_trif_.m_indfx_[0] << Trif.INDEX_STAGE_2_SHIFT_;
+        if (m_nfxtBlodk_ == 0) {
+            m_nfxtVbluf_ = m_initiblVbluf_;
+        }
+        flsf {
+            m_nfxtVbluf_ = fxtrbdt(m_trif_.gftVbluf(m_nfxtBlodk_));
+        }
+        m_nfxtBlodkIndfx_ = 0;
+        m_nfxtTrbilIndfxOffsft_ = TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_;
+    }
+
+    // protfdtfd mfthods ----------------------------------------------
+
+    /**
+    * Cbllfd by nfxt() to fxtrbdts b 32 bit vbluf from b trif vbluf
+    * usfd for dompbrison.
+    * This mfthod is to bf ovfrwrittfn if spfdibl mbnipulbtion is to bf donf
+    * to rftrifvf b rflfvbnt dompbrison.
+    * Thf dffbult fundtion is to rfturn thf vbluf bs it is.
+    * @pbrbm vbluf b vbluf from thf trif
+    * @rfturn fxtrbdtfd vbluf
+    */
+    protfdtfd int fxtrbdt(int vbluf)
+    {
+        rfturn vbluf;
+    }
+
+    // privbtf mfthods ------------------------------------------------
+
+    /**
+    * Sft thf rfsult vblufs
+    * @pbrbm flfmfnt rfturn rfsult objfdt
+    * @pbrbm stbrt dodfpoint of rbngf
+    * @pbrbm limit (fnd + 1) dodfpoint of rbngf
+    * @pbrbm vbluf dommon vbluf of rbngf
+    */
+    privbtf finbl void sftRfsult(Elfmfnt flfmfnt, int stbrt, int limit,
+                                 int vbluf)
+    {
+        flfmfnt.stbrt = stbrt;
+        flfmfnt.limit = limit;
+        flfmfnt.vbluf = vbluf;
+    }
+
+    /**
+    * Finding thf nfxt flfmfnt.
+    * This mfthod is dbllfd just bfforf rfturning thf rfsult of
+    * nfxt().
+    * Wf blwbys storf thf nfxt flfmfnt bfforf it is rfqufstfd.
+    * In thf dbsf thbt wf hbvf to dontinuf dbldulbtions into thf
+    * supplfmfntbry plbnfs, b fblsf will bf rfturnfd.
+    * @pbrbm flfmfnt rfturn rfsult objfdt
+    * @rfturn truf if thf nfxt rbngf is found, fblsf if wf hbvf to prodffd to
+    *         thf supplfmfntbry rbngf.
+    */
+    privbtf finbl boolfbn dbldulbtfNfxtBMPElfmfnt(Elfmfnt flfmfnt)
+    {
+        int durrfntBlodk    = m_nfxtBlodk_;
+        int durrfntVbluf    = m_nfxtVbluf_;
+        m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+        m_nfxtCodfpoint_ ++;
+        m_nfxtBlodkIndfx_ ++;
+        if (!dhfdkBlodkDftbil(durrfntVbluf)) {
+            sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                      durrfntVbluf);
+            rfturn truf;
+        }
+        // synwff dhfdk thbt nfxt blodk indfx == 0 hfrf
+        // fnumfrbtf BMP - thf mbin loop fnumfrbtfs dbtb blodks
+        whilf (m_nfxtCodfpoint_ < UChbrbdtfr.SUPPLEMENTARY_MIN_VALUE) {
+            m_nfxtIndfx_ ++;
+            // bfdbusf of thf wby thf dhbrbdtfr is split to form thf indfx
+            // thf lfbd surrogbtf bnd trbil surrogbtf dbn not bf in thf
+            // mid of b blodk
+            if (m_nfxtCodfpoint_ == LEAD_SURROGATE_MIN_VALUE_) {
+                // skip lfbd surrogbtf dodf units,
+                // go to lfbd surrogbtf dodfpoints
+                m_nfxtIndfx_ = BMP_INDEX_LENGTH_;
+            }
+            flsf if (m_nfxtCodfpoint_ == TRAIL_SURROGATE_MIN_VALUE_) {
+                // go bbdk to rfgulbr BMP dodf points
+                m_nfxtIndfx_ = m_nfxtCodfpoint_ >> Trif.INDEX_STAGE_1_SHIFT_;
+            }
+
+            m_nfxtBlodkIndfx_ = 0;
+            if (!dhfdkBlodk(durrfntBlodk, durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                rfturn truf;
+            }
+        }
+        m_nfxtCodfpoint_ --;   // stfp onf bbdk sindf this vbluf hbs not bffn
+        m_nfxtBlodkIndfx_ --;  // rftrifvfd yft.
+        rfturn fblsf;
+    }
+
+    /**
+    * Finds thf nfxt supplfmfntbry flfmfnt.
+    * For fbdh fntry in thf trif, thf vbluf to bf dflivfrfd is pbssfd through
+    * fxtrbdt().
+    * Wf blwbys storf thf nfxt flfmfnt bfforf it is rfqufstfd.
+    * Cbllfd bftfr dbldulbtfNfxtBMP() domplftfs its round of BMP dhbrbdtfrs.
+    * Thfrf is b slight difffrfndf in thf usbgf of m_durrfntCodfpoint_
+    * hfrf bs dompbrfd to dbldulbtfNfxtBMP(). Though both rfprfsfnts thf
+    * lowfr bound of thf nfxt flfmfnt, in dbldulbtfNfxtBMP() it gfts sft
+    * bt thf stbrt of bny loop, whfrf-flsf, in dbldulbtfNfxtSupplfmfntbry()
+    * sindf m_durrfntCodfpoint_ blrfbdy dontbins thf lowfr bound of thf
+    * nfxt flfmfnt (pbssfd down from dbldulbtfNfxtBMP()), wf kffp it till
+    * thf fnd bfforf rfsftting it to thf nfw vbluf.
+    * Notf, if thfrf brf no morf itfrbtions, it will nfvfr gft to hfrf.
+    * Blodkfd out by nfxt().
+    * @pbrbm flfmfnt rfturn rfsult objfdt
+    */
+    privbtf finbl void dbldulbtfNfxtSupplfmfntbryElfmfnt(Elfmfnt flfmfnt)
+    {
+        int durrfntVbluf = m_nfxtVbluf_;
+        int durrfntBlodk = m_nfxtBlodk_;
+        m_nfxtCodfpoint_ ++;
+        m_nfxtBlodkIndfx_ ++;
+
+        if (UTF16.gftTrbilSurrogbtf(m_nfxtCodfpoint_)
+                                        != UTF16.TRAIL_SURROGATE_MIN_VALUE) {
+            // this pifdf is only dbllfd whfn wf brf in thf middlf of b lfbd
+            // surrogbtf blodk
+            if (!dhfdkNullNfxtTrbilIndfx() && !dhfdkBlodkDftbil(durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                rfturn;
+            }
+            // wf hbvf dlfbrfd onf blodk
+            m_nfxtIndfx_ ++;
+            m_nfxtTrbilIndfxOffsft_ ++;
+            if (!dhfdkTrbilBlodk(durrfntBlodk, durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                rfturn;
+            }
+        }
+        int nfxtLfbd  = UTF16.gftLfbdSurrogbtf(m_nfxtCodfpoint_);
+        // fnumfrbtf supplfmfntbry dodf points
+        whilf (nfxtLfbd < TRAIL_SURROGATE_MIN_VALUE_) {
+            // lfbd surrogbtf bddfss
+            int lfbdBlodk =
+                   m_trif_.m_indfx_[nfxtLfbd >> Trif.INDEX_STAGE_1_SHIFT_] <<
+                                                   Trif.INDEX_STAGE_2_SHIFT_;
+            if (lfbdBlodk == m_trif_.m_dbtbOffsft_) {
+                // no fntrifs for b wholf blodk of lfbd surrogbtfs
+                if (durrfntVbluf != m_initiblVbluf_) {
+                    m_nfxtVbluf_      = m_initiblVbluf_;
+                    m_nfxtBlodk_      = 0;
+                    m_nfxtBlodkIndfx_ = 0;
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
+                }
+
+                nfxtLfbd += DATA_BLOCK_LENGTH_;
+                // numbfr of totbl bfffdtfd supplfmfntbry dodfpoints in onf
+                // blodk
+                // this is not b simplf bddition of
+                // DATA_BLOCK_SUPPLEMENTARY_LENGTH sindf wf nffd to donsidfr
+                // thbt wf might hbvf movfd somf of thf dodfpoints
+                m_nfxtCodfpoint_ = UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                     (dhbr)nfxtLfbd,
+                                     (dhbr)UTF16.TRAIL_SURROGATE_MIN_VALUE);
+                dontinuf;
+            }
+            if (m_trif_.m_dbtbMbnipulbtf_ == null) {
+                throw nfw NullPointfrExdfption(
+                            "Thf fifld DbtbMbnipulbtf in this Trif is null");
+            }
+            // fnumfrbtf trbil surrogbtfs for this lfbd surrogbtf
+            m_nfxtIndfx_ = m_trif_.m_dbtbMbnipulbtf_.gftFoldingOffsft(
+                               m_trif_.gftVbluf(lfbdBlodk +
+                                   (nfxtLfbd & Trif.INDEX_STAGE_3_MASK_)));
+            if (m_nfxtIndfx_ <= 0) {
+                // no dbtb for this lfbd surrogbtf
+                if (durrfntVbluf != m_initiblVbluf_) {
+                    m_nfxtVbluf_      = m_initiblVbluf_;
+                    m_nfxtBlodk_      = 0;
+                    m_nfxtBlodkIndfx_ = 0;
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
+                }
+                m_nfxtCodfpoint_ += TRAIL_SURROGATE_COUNT_;
+            } flsf {
+                m_nfxtTrbilIndfxOffsft_ = 0;
+                if (!dhfdkTrbilBlodk(durrfntBlodk, durrfntVbluf)) {
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
+                }
+            }
+            nfxtLfbd ++;
+         }
+
+         // dflivfr lbst rbngf
+         sftRfsult(flfmfnt, m_durrfntCodfpoint_, UChbrbdtfr.MAX_VALUE + 1,
+                   durrfntVbluf);
+    }
+
+    /**
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on b dbtb blodk to find dodfpoints in m_nfxtBlodk_
+    * bftfr thf indfx m_nfxtBlodkIndfx_ thbt hbs thf sbmf vbluf.
+    * Notf m_*_ vbribblfs bt this point is thf nfxt dodfpoint whosf vbluf
+    * hbs not bffn dbldulbtfd.
+    * But whfn rfturnfd with fblsf, it will bf thf lbst dodfpoint whosf
+    * vbluf hbs bffn dbldulbtfd.
+    * @pbrbm durrfntVbluf thf vbluf whidh othfr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if thf wholf blodk hbs thf sbmf vbluf bs durrfntVbluf or if
+    *              thf wholf blodk hbs bffn dbldulbtfd, fblsf othfrwisf.
+    */
+    privbtf finbl boolfbn dhfdkBlodkDftbil(int durrfntVbluf)
+    {
+        whilf (m_nfxtBlodkIndfx_ < DATA_BLOCK_LENGTH_) {
+            m_nfxtVbluf_ = fxtrbdt(m_trif_.gftVbluf(m_nfxtBlodk_ +
+                                                    m_nfxtBlodkIndfx_));
+            if (m_nfxtVbluf_ != durrfntVbluf) {
+                rfturn fblsf;
+            }
+            ++ m_nfxtBlodkIndfx_;
+            ++ m_nfxtCodfpoint_;
+        }
+        rfturn truf;
+    }
+
+    /**
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on b dbtb blodk to find dodfpoints in m_nfxtBlodk_
+    * thbt hbs thf sbmf vbluf.
+    * Will dbll dhfdkBlodkDftbil() if highlfvfl dhfdk fbils.
+    * Notf m_*_ vbribblfs bt this point is thf nfxt dodfpoint whosf vbluf
+    * hbs not bffn dbldulbtfd.
+    * @pbrbm durrfntBlodk thf initibl blodk dontbining bll durrfntVbluf
+    * @pbrbm durrfntVbluf thf vbluf whidh othfr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if thf wholf blodk hbs thf sbmf vbluf bs durrfntVbluf or if
+    *              thf wholf blodk hbs bffn dbldulbtfd, fblsf othfrwisf.
+    */
+    privbtf finbl boolfbn dhfdkBlodk(int durrfntBlodk, int durrfntVbluf)
+    {
+        m_nfxtBlodk_ = m_trif_.m_indfx_[m_nfxtIndfx_] <<
+                                                  Trif.INDEX_STAGE_2_SHIFT_;
+        if (m_nfxtBlodk_ == durrfntBlodk &&
+            (m_nfxtCodfpoint_ - m_durrfntCodfpoint_) >= DATA_BLOCK_LENGTH_) {
+            // thf blodk is thf sbmf bs thf prfvious onf, fillfd with
+            // durrfntVbluf
+            m_nfxtCodfpoint_ += DATA_BLOCK_LENGTH_;
+        }
+        flsf if (m_nfxtBlodk_ == 0) {
+            // this is thf bll-initibl-vbluf blodk
+            if (durrfntVbluf != m_initiblVbluf_) {
+                m_nfxtVbluf_      = m_initiblVbluf_;
+                m_nfxtBlodkIndfx_ = 0;
+                rfturn fblsf;
+            }
+            m_nfxtCodfpoint_ += DATA_BLOCK_LENGTH_;
+        }
+        flsf {
+            if (!dhfdkBlodkDftbil(durrfntVbluf)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on multiplf dbtb blodks for b sft of trbil
+    * surrogbtfs to find dodfpoints in m_nfxtBlodk_ thbt hbs thf sbmf vbluf.
+    * Will dbll dhfdkBlodk() for intfrnbl blodk dhfdks.
+    * Notf m_*_ vbribblfs bt this point is thf nfxt dodfpoint whosf vbluf
+    * hbs not bffn dbldulbtfd.
+    * @pbrbm durrfntBlodk thf initibl blodk dontbining bll durrfntVbluf
+    * @pbrbm durrfntVbluf thf vbluf whidh othfr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if thf wholf blodk hbs thf sbmf vbluf bs durrfntVbluf or if
+    *              thf wholf blodk hbs bffn dbldulbtfd, fblsf othfrwisf.
+    */
+    privbtf finbl boolfbn dhfdkTrbilBlodk(int durrfntBlodk,
+                                          int durrfntVbluf)
+    {
+        // fnumfrbtf dodf points for this lfbd surrogbtf
+        whilf (m_nfxtTrbilIndfxOffsft_ < TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_)
+        {
+            // if wf fvfr rfbdh hfrf, wf brf bt thf stbrt of b nfw blodk
+            m_nfxtBlodkIndfx_ = 0;
+            // dopy of most of thf body of thf BMP loop
+            if (!dhfdkBlodk(durrfntBlodk, durrfntVbluf)) {
+                rfturn fblsf;
+            }
+            m_nfxtTrbilIndfxOffsft_ ++;
+            m_nfxtIndfx_ ++;
+        }
+        rfturn truf;
+    }
+
+    /**
+    * Chfdks if wf brf bfginning bt thf stbrt of b initibl blodk.
+    * If wf brf thfn thf rfst of thf dodfpoints in this initibl blodk
+    * hbs thf sbmf vblufs.
+    * Wf indrfmfnt m_nfxtCodfpoint_ bnd rflfvbnt dbtb mfmbfrs if so.
+    * This is usfd only in for thf supplfmfntbry dodfpoints bfdbusf
+    * thf offsft to thf trbil indfxfs dould bf 0.
+    * @rfturn truf if wf brf bt thf stbrt of b initibl blodk.
+    */
+    privbtf finbl boolfbn dhfdkNullNfxtTrbilIndfx()
+    {
+        if (m_nfxtIndfx_ <= 0) {
+            m_nfxtCodfpoint_ += TRAIL_SURROGATE_COUNT_ - 1;
+            int nfxtLfbd  = UTF16.gftLfbdSurrogbtf(m_nfxtCodfpoint_);
+            int lfbdBlodk =
+                   m_trif_.m_indfx_[nfxtLfbd >> Trif.INDEX_STAGE_1_SHIFT_] <<
+                                                   Trif.INDEX_STAGE_2_SHIFT_;
+            if (m_trif_.m_dbtbMbnipulbtf_ == null) {
+                throw nfw NullPointfrExdfption(
+                            "Thf fifld DbtbMbnipulbtf in this Trif is null");
+            }
+            m_nfxtIndfx_ = m_trif_.m_dbtbMbnipulbtf_.gftFoldingOffsft(
+                               m_trif_.gftVbluf(lfbdBlodk +
+                                   (nfxtLfbd & Trif.INDEX_STAGE_3_MASK_)));
+            m_nfxtIndfx_ --;
+            m_nfxtBlodkIndfx_ =  DATA_BLOCK_LENGTH_;
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    // privbtf dbtb mfmbfrs --------------------------------------------
+
+    /**
+    * Sizf of thf stbgf 1 BMP indfxfs
+    */
+    privbtf stbtid finbl int BMP_INDEX_LENGTH_ =
+                                        0x10000 >> Trif.INDEX_STAGE_1_SHIFT_;
+    /**
+    * Lfbd surrogbtf minimum vbluf
+    */
+    privbtf stbtid finbl int LEAD_SURROGATE_MIN_VALUE_ = 0xD800;
+    /**
+    * Trbil surrogbtf minimum vbluf
+    */
+    privbtf stbtid finbl int TRAIL_SURROGATE_MIN_VALUE_ = 0xDC00;
+    /**
+    * Numbfr of trbil surrogbtf
+    */
+    privbtf stbtid finbl int TRAIL_SURROGATE_COUNT_ = 0x400;
+    /**
+    * Numbfr of stbgf 1 indfxfs for supplfmfntbry dbldulbtions thbt mbps to
+    * fbdh lfbd surrogbtf dhbrbdtfr.
+    * Sff sfdond pbss into gftRbwOffsft for thf trbil surrogbtf dhbrbdtfr.
+    * 10 for signifidbnt numbfr of bits for trbil surrogbtfs, 5 for whbt wf
+    * disdbrd during shifting.
+    */
+    privbtf stbtid finbl int TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_ =
+                                    1 << (10 - Trif.INDEX_STAGE_1_SHIFT_);
+    /**
+    * Numbfr of dbtb vblufs in b stbgf 2 (dbtb brrby) blodk.
+    */
+    privbtf stbtid finbl int DATA_BLOCK_LENGTH_ =
+                                              1 << Trif.INDEX_STAGE_1_SHIFT_;
+    /**
+    * Trif instbndf
+    */
+    privbtf Trif m_trif_;
+    /**
+    * Initibl vbluf for trif vblufs
+    */
+    privbtf int m_initiblVbluf_;
+    /**
+    * Nfxt flfmfnt rfsults bnd dbtb.
+    */
+    privbtf int m_durrfntCodfpoint_;
+    privbtf int m_nfxtCodfpoint_;
+    privbtf int m_nfxtVbluf_;
+    privbtf int m_nfxtIndfx_;
+    privbtf int m_nfxtBlodk_;
+    privbtf int m_nfxtBlodkIndfx_;
+    privbtf int m_nfxtTrbilIndfxOffsft_;
+}

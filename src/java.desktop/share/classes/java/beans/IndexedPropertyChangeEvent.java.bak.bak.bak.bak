@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+/**
+ * An "IndfxfdPropfrtyChbngf" fvfnt gfts dflivfrfd whfnfvfr b domponfnt thbt
+ * donforms to thf JbvbBfbns&trbdf; spfdifidbtion (b "bfbn") dhbngfs b bound
+ * indfxfd propfrty. This dlbss is bn fxtfnsion of <dodf>PropfrtyChbngfEvfnt</dodf>
+ * but dontbins thf indfx of thf propfrty thbt hbs dhbngfd.
+ * <P>
+ * Null vblufs mby bf providfd for thf old bnd thf nfw vblufs if thfir
+ * truf vblufs brf not known.
+ * <P>
+ * An fvfnt sourdf mby sfnd b null objfdt bs thf nbmf to indidbtf thbt bn
+ * brbitrbry sft of if its propfrtifs hbvf dhbngfd.  In this dbsf thf
+ * old bnd nfw vblufs should blso bf null.
+ *
+ * @sindf 1.5
+ * @buthor Mbrk Dbvidson
+ */
+publid dlbss IndfxfdPropfrtyChbngfEvfnt fxtfnds PropfrtyChbngfEvfnt {
+    privbtf stbtid finbl long sfriblVfrsionUID = -320227448495806870L;
+
+    privbtf int indfx;
+
+    /**
+     * Construdts b nfw <dodf>IndfxfdPropfrtyChbngfEvfnt</dodf> objfdt.
+     *
+     * @pbrbm sourdf  Thf bfbn thbt firfd thf fvfnt.
+     * @pbrbm propfrtyNbmf  Thf progrbmmbtid nbmf of thf propfrty thbt
+     *             wbs dhbngfd.
+     * @pbrbm oldVbluf      Thf old vbluf of thf propfrty.
+     * @pbrbm nfwVbluf      Thf nfw vbluf of thf propfrty.
+     * @pbrbm indfx indfx of thf propfrty flfmfnt thbt wbs dhbngfd.
+     */
+    publid IndfxfdPropfrtyChbngfEvfnt(Objfdt sourdf, String propfrtyNbmf,
+                                      Objfdt oldVbluf, Objfdt nfwVbluf,
+                                      int indfx) {
+        supfr (sourdf, propfrtyNbmf, oldVbluf, nfwVbluf);
+        this.indfx = indfx;
+    }
+
+    /**
+     * Gfts thf indfx of thf propfrty thbt wbs dhbngfd.
+     *
+     * @rfturn Thf indfx spfdifying thf propfrty flfmfnt thbt wbs
+     *         dhbngfd.
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+        sb.bppfnd("; indfx=").bppfnd(gftIndfx());
+    }
+}

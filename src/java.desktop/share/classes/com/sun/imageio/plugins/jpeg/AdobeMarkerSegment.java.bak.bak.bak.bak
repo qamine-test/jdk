@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+
+import jbvb.io.IOExdfption;
+
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * An Adobf APP14 (Applidbtion-Spfdifid) mbrkfr sfgmfnt.
+ */
+dlbss AdobfMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    int vfrsion;
+    int flbgs0;
+    int flbgs1;
+    int trbnsform;
+    privbtf stbtid finbl int ID_SIZE = 5;
+
+    AdobfMbrkfrSfgmfnt(int trbnsform) {
+        supfr(JPEG.APP14);
+        vfrsion = 101;
+        flbgs0 = 0;
+        flbgs1 = 0;
+        this.trbnsform = trbnsform;
+    }
+
+    AdobfMbrkfrSfgmfnt(JPEGBufffr bufffr) throws IOExdfption {
+        supfr(bufffr);
+        bufffr.bufPtr += ID_SIZE; // Skip thf id
+        vfrsion = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        vfrsion |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        flbgs0 = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        flbgs0 |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        flbgs1 = (bufffr.buf[bufffr.bufPtr++] & 0xff) << 8;
+        flbgs1 |= bufffr.buf[bufffr.bufPtr++] & 0xff;
+        trbnsform = bufffr.buf[bufffr.bufPtr++] & 0xff;
+        bufffr.bufAvbil -= lfngth;
+    }
+
+    AdobfMbrkfrSfgmfnt(Nodf nodf) throws IIOInvblidTrffExdfption {
+        this(0); // dffbult trbnsform will bf dhbngfd
+        updbtfFromNbtivfNodf(nodf, truf);
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("bpp14Adobf");
+        nodf.sftAttributf("vfrsion", Intfgfr.toString(vfrsion));
+        nodf.sftAttributf("flbgs0", Intfgfr.toString(flbgs0));
+        nodf.sftAttributf("flbgs1", Intfgfr.toString(flbgs1));
+        nodf.sftAttributf("trbnsform", Intfgfr.toString(trbnsform));
+
+        rfturn nodf;
+    }
+
+    void updbtfFromNbtivfNodf(Nodf nodf, boolfbn fromSdrbtdh)
+        throws IIOInvblidTrffExdfption {
+        // Only thf trbnsform is rfquirfd
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        trbnsform = gftAttributfVbluf(nodf, bttrs, "trbnsform", 0, 2, truf);
+        int dount = bttrs.gftLfngth();
+        if (dount > 4) {
+            throw nfw IIOInvblidTrffExdfption
+                ("Adobf APP14 nodf dbnnot hbvf > 4 bttributfs", nodf);
+        }
+        if (dount > 1) {
+            int vbluf = gftAttributfVbluf(nodf, bttrs, "vfrsion",
+                                          100, 255, fblsf);
+            vfrsion = (vbluf != -1) ? vbluf : vfrsion;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "flbgs0", 0, 65535, fblsf);
+            flbgs0 = (vbluf != -1) ? vbluf : flbgs0;
+            vbluf = gftAttributfVbluf(nodf, bttrs, "flbgs1", 0, 65535, fblsf);
+            flbgs1 = (vbluf != -1) ? vbluf : flbgs1;
+        }
+    }
+
+    /**
+     * Writfs thf dbtb for this sfgmfnt to thf strfbm in
+     * vblid JPEG formbt.
+     */
+    void writf(ImbgfOutputStrfbm ios) throws IOExdfption {
+        lfngth = 14;
+        writfTbg(ios);
+        bytf [] id = {0x41, 0x64, 0x6F, 0x62, 0x65};
+        ios.writf(id);
+        writf2bytfs(ios, vfrsion);
+        writf2bytfs(ios, flbgs0);
+        writf2bytfs(ios, flbgs1);
+        ios.writf(trbnsform);
+    }
+
+    stbtid void writfAdobfSfgmfnt(ImbgfOutputStrfbm ios, int trbnsform)
+        throws IOExdfption {
+        (nfw AdobfMbrkfrSfgmfnt(trbnsform)).writf(ios);
+    }
+
+    void print () {
+        printTbg("Adobf APP14");
+        Systfm.out.print("Vfrsion: ");
+        Systfm.out.println(vfrsion);
+        Systfm.out.print("Flbgs0: 0x");
+        Systfm.out.println(Intfgfr.toHfxString(flbgs0));
+        Systfm.out.print("Flbgs1: 0x");
+        Systfm.out.println(Intfgfr.toHfxString(flbgs1));
+        Systfm.out.print("Trbnsform: ");
+        Systfm.out.println(trbnsform);
+    }
+}

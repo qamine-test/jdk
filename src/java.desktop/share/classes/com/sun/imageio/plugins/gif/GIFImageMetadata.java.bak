@@ -1,446 +1,446 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import org.w3c.dom.Node;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
 
-public class GIFImageMetadata extends GIFMetadata {
+publid dlbss GIFImbgfMftbdbtb fxtfnds GIFMftbdbtb {
 
-    // package scope
-    static final String
-        nativeMetadataFormatName = "javax_imageio_gif_image_1.0";
+    // pbdkbgf sdopf
+    stbtid finbl String
+        nbtivfMftbdbtbFormbtNbmf = "jbvbx_imbgfio_gif_imbgf_1.0";
 
-    static final String[] disposalMethodNames = {
-        "none",
-        "doNotDispose",
-        "restoreToBackgroundColor",
-        "restoreToPrevious",
-        "undefinedDisposalMethod4",
-        "undefinedDisposalMethod5",
-        "undefinedDisposalMethod6",
-        "undefinedDisposalMethod7"
+    stbtid finbl String[] disposblMftiodNbmfs = {
+        "nonf",
+        "doNotDisposf",
+        "rfstorfToBbdkgroundColor",
+        "rfstorfToPrfvious",
+        "undffinfdDisposblMftiod4",
+        "undffinfdDisposblMftiod5",
+        "undffinfdDisposblMftiod6",
+        "undffinfdDisposblMftiod7"
     };
 
-    // Fields from Image Descriptor
-    public int imageLeftPosition;
-    public int imageTopPosition;
-    public int imageWidth;
-    public int imageHeight;
-    public boolean interlaceFlag = false;
-    public boolean sortFlag = false;
-    public byte[] localColorTable = null;
+    // Fiflds from Imbgf Dfsdriptor
+    publid int imbgfLfftPosition;
+    publid int imbgfTopPosition;
+    publid int imbgfWidti;
+    publid int imbgfHfigit;
+    publid boolfbn intfrlbdfFlbg = fblsf;
+    publid boolfbn sortFlbg = fblsf;
+    publid bytf[] lodblColorTbblf = null;
 
-    // Fields from Graphic Control Extension
-    public int disposalMethod = 0;
-    public boolean userInputFlag = false;
-    public boolean transparentColorFlag = false;
-    public int delayTime = 0;
-    public int transparentColorIndex = 0;
+    // Fiflds from Grbpiid Control Extfnsion
+    publid int disposblMftiod = 0;
+    publid boolfbn usfrInputFlbg = fblsf;
+    publid boolfbn trbnspbrfntColorFlbg = fblsf;
+    publid int dflbyTimf = 0;
+    publid int trbnspbrfntColorIndfx = 0;
 
-    // Fields from Plain Text Extension
-    public boolean hasPlainTextExtension = false;
-    public int textGridLeft;
-    public int textGridTop;
-    public int textGridWidth;
-    public int textGridHeight;
-    public int characterCellWidth;
-    public int characterCellHeight;
-    public int textForegroundColor;
-    public int textBackgroundColor;
-    public byte[] text;
+    // Fiflds from Plbin Tfxt Extfnsion
+    publid boolfbn ibsPlbinTfxtExtfnsion = fblsf;
+    publid int tfxtGridLfft;
+    publid int tfxtGridTop;
+    publid int tfxtGridWidti;
+    publid int tfxtGridHfigit;
+    publid int dibrbdtfrCfllWidti;
+    publid int dibrbdtfrCfllHfigit;
+    publid int tfxtForfgroundColor;
+    publid int tfxtBbdkgroundColor;
+    publid bytf[] tfxt;
 
-    // Fields from ApplicationExtension
-    // List of byte[]
-    public List<byte[]> applicationIDs = null;
+    // Fiflds from ApplidbtionExtfnsion
+    // List of bytf[]
+    publid List<bytf[]> bpplidbtionIDs = null;
 
-    // List of byte[]
-    public List<byte[]> authenticationCodes = null;
+    // List of bytf[]
+    publid List<bytf[]> butifntidbtionCodfs = null;
 
-    // List of byte[]
-    public List<byte[]> applicationData = null;
+    // List of bytf[]
+    publid List<bytf[]> bpplidbtionDbtb = null;
 
-    // Fields from CommentExtension
-    // List of byte[]
-    public List<byte[]> comments = null;
+    // Fiflds from CommfntExtfnsion
+    // List of bytf[]
+    publid List<bytf[]> dommfnts = null;
 
-    protected GIFImageMetadata(boolean standardMetadataFormatSupported,
-                               String nativeMetadataFormatName,
-                               String nativeMetadataFormatClassName,
-                               String[] extraMetadataFormatNames,
-                               String[] extraMetadataFormatClassNames)
+    protfdtfd GIFImbgfMftbdbtb(boolfbn stbndbrdMftbdbtbFormbtSupportfd,
+                               String nbtivfMftbdbtbFormbtNbmf,
+                               String nbtivfMftbdbtbFormbtClbssNbmf,
+                               String[] fxtrbMftbdbtbFormbtNbmfs,
+                               String[] fxtrbMftbdbtbFormbtClbssNbmfs)
     {
-        super(standardMetadataFormatSupported,
-              nativeMetadataFormatName,
-              nativeMetadataFormatClassName,
-              extraMetadataFormatNames,
-              extraMetadataFormatClassNames);
+        supfr(stbndbrdMftbdbtbFormbtSupportfd,
+              nbtivfMftbdbtbFormbtNbmf,
+              nbtivfMftbdbtbFormbtClbssNbmf,
+              fxtrbMftbdbtbFormbtNbmfs,
+              fxtrbMftbdbtbFormbtClbssNbmfs);
     }
 
-    public GIFImageMetadata() {
-        this(true,
-              nativeMetadataFormatName,
-              "com.sun.imageio.plugins.gif.GIFImageMetadataFormat",
+    publid GIFImbgfMftbdbtb() {
+        tiis(truf,
+              nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtbFormbt",
               null, null);
     }
 
-    public boolean isReadOnly() {
-        return true;
+    publid boolfbn isRfbdOnly() {
+        rfturn truf;
     }
 
-    public Node getAsTree(String formatName) {
-        if (formatName.equals(nativeMetadataFormatName)) {
-            return getNativeTree();
-        } else if (formatName.equals
-                   (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            return getStandardTree();
-        } else {
-            throw new IllegalArgumentException("Not a recognized format!");
+    publid Nodf gftAsTrff(String formbtNbmf) {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            rfturn gftNbtivfTrff();
+        } flsf if (formbtNbmf.fqubls
+                   (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            rfturn gftStbndbrdTrff();
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Not b rfdognizfd formbt!");
         }
     }
 
-    private String toISO8859(byte[] data) {
+    privbtf String toISO8859(bytf[] dbtb) {
         try {
-            return new String(data, "ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            return "";
+            rfturn nfw String(dbtb, "ISO-8859-1");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            rfturn "";
         }
     }
 
-    private Node getNativeTree() {
-        IIOMetadataNode node; // scratch node
-        IIOMetadataNode root =
-            new IIOMetadataNode(nativeMetadataFormatName);
+    privbtf Nodf gftNbtivfTrff() {
+        IIOMftbdbtbNodf nodf; // sdrbtdi nodf
+        IIOMftbdbtbNodf root =
+            nfw IIOMftbdbtbNodf(nbtivfMftbdbtbFormbtNbmf);
 
-        // Image descriptor
-        node = new IIOMetadataNode("ImageDescriptor");
-        node.setAttribute("imageLeftPosition",
-                          Integer.toString(imageLeftPosition));
-        node.setAttribute("imageTopPosition",
-                          Integer.toString(imageTopPosition));
-        node.setAttribute("imageWidth", Integer.toString(imageWidth));
-        node.setAttribute("imageHeight", Integer.toString(imageHeight));
-        node.setAttribute("interlaceFlag",
-                          interlaceFlag ? "TRUE" : "FALSE");
-        root.appendChild(node);
+        // Imbgf dfsdriptor
+        nodf = nfw IIOMftbdbtbNodf("ImbgfDfsdriptor");
+        nodf.sftAttributf("imbgfLfftPosition",
+                          Intfgfr.toString(imbgfLfftPosition));
+        nodf.sftAttributf("imbgfTopPosition",
+                          Intfgfr.toString(imbgfTopPosition));
+        nodf.sftAttributf("imbgfWidti", Intfgfr.toString(imbgfWidti));
+        nodf.sftAttributf("imbgfHfigit", Intfgfr.toString(imbgfHfigit));
+        nodf.sftAttributf("intfrlbdfFlbg",
+                          intfrlbdfFlbg ? "TRUE" : "FALSE");
+        root.bppfndCiild(nodf);
 
-        // Local color table
-        if (localColorTable != null) {
-            node = new IIOMetadataNode("LocalColorTable");
-            int numEntries = localColorTable.length/3;
-            node.setAttribute("sizeOfLocalColorTable",
-                              Integer.toString(numEntries));
-            node.setAttribute("sortFlag",
-                              sortFlag ? "TRUE" : "FALSE");
+        // Lodbl dolor tbblf
+        if (lodblColorTbblf != null) {
+            nodf = nfw IIOMftbdbtbNodf("LodblColorTbblf");
+            int numEntrifs = lodblColorTbblf.lfngti/3;
+            nodf.sftAttributf("sizfOfLodblColorTbblf",
+                              Intfgfr.toString(numEntrifs));
+            nodf.sftAttributf("sortFlbg",
+                              sortFlbg ? "TRUE" : "FALSE");
 
-            for (int i = 0; i < numEntries; i++) {
-                IIOMetadataNode entry =
-                    new IIOMetadataNode("ColorTableEntry");
-                entry.setAttribute("index", Integer.toString(i));
-                int r = localColorTable[3*i] & 0xff;
-                int g = localColorTable[3*i + 1] & 0xff;
-                int b = localColorTable[3*i + 2] & 0xff;
-                entry.setAttribute("red", Integer.toString(r));
-                entry.setAttribute("green", Integer.toString(g));
-                entry.setAttribute("blue", Integer.toString(b));
-                node.appendChild(entry);
+            for (int i = 0; i < numEntrifs; i++) {
+                IIOMftbdbtbNodf fntry =
+                    nfw IIOMftbdbtbNodf("ColorTbblfEntry");
+                fntry.sftAttributf("indfx", Intfgfr.toString(i));
+                int r = lodblColorTbblf[3*i] & 0xff;
+                int g = lodblColorTbblf[3*i + 1] & 0xff;
+                int b = lodblColorTbblf[3*i + 2] & 0xff;
+                fntry.sftAttributf("rfd", Intfgfr.toString(r));
+                fntry.sftAttributf("grffn", Intfgfr.toString(g));
+                fntry.sftAttributf("bluf", Intfgfr.toString(b));
+                nodf.bppfndCiild(fntry);
             }
-            root.appendChild(node);
+            root.bppfndCiild(nodf);
         }
 
-        // Graphic control extension
-        node = new IIOMetadataNode("GraphicControlExtension");
-        node.setAttribute("disposalMethod",
-                          disposalMethodNames[disposalMethod]);
-        node.setAttribute("userInputFlag",
-                          userInputFlag ? "TRUE" : "FALSE");
-        node.setAttribute("transparentColorFlag",
-                          transparentColorFlag ? "TRUE" : "FALSE");
-        node.setAttribute("delayTime",
-                          Integer.toString(delayTime));
-        node.setAttribute("transparentColorIndex",
-                          Integer.toString(transparentColorIndex));
-        root.appendChild(node);
+        // Grbpiid dontrol fxtfnsion
+        nodf = nfw IIOMftbdbtbNodf("GrbpiidControlExtfnsion");
+        nodf.sftAttributf("disposblMftiod",
+                          disposblMftiodNbmfs[disposblMftiod]);
+        nodf.sftAttributf("usfrInputFlbg",
+                          usfrInputFlbg ? "TRUE" : "FALSE");
+        nodf.sftAttributf("trbnspbrfntColorFlbg",
+                          trbnspbrfntColorFlbg ? "TRUE" : "FALSE");
+        nodf.sftAttributf("dflbyTimf",
+                          Intfgfr.toString(dflbyTimf));
+        nodf.sftAttributf("trbnspbrfntColorIndfx",
+                          Intfgfr.toString(trbnspbrfntColorIndfx));
+        root.bppfndCiild(nodf);
 
-        if (hasPlainTextExtension) {
-            node = new IIOMetadataNode("PlainTextExtension");
-            node.setAttribute("textGridLeft",
-                              Integer.toString(textGridLeft));
-            node.setAttribute("textGridTop",
-                              Integer.toString(textGridTop));
-            node.setAttribute("textGridWidth",
-                              Integer.toString(textGridWidth));
-            node.setAttribute("textGridHeight",
-                              Integer.toString(textGridHeight));
-            node.setAttribute("characterCellWidth",
-                              Integer.toString(characterCellWidth));
-            node.setAttribute("characterCellHeight",
-                              Integer.toString(characterCellHeight));
-            node.setAttribute("textForegroundColor",
-                              Integer.toString(textForegroundColor));
-            node.setAttribute("textBackgroundColor",
-                              Integer.toString(textBackgroundColor));
-            node.setAttribute("text", toISO8859(text));
+        if (ibsPlbinTfxtExtfnsion) {
+            nodf = nfw IIOMftbdbtbNodf("PlbinTfxtExtfnsion");
+            nodf.sftAttributf("tfxtGridLfft",
+                              Intfgfr.toString(tfxtGridLfft));
+            nodf.sftAttributf("tfxtGridTop",
+                              Intfgfr.toString(tfxtGridTop));
+            nodf.sftAttributf("tfxtGridWidti",
+                              Intfgfr.toString(tfxtGridWidti));
+            nodf.sftAttributf("tfxtGridHfigit",
+                              Intfgfr.toString(tfxtGridHfigit));
+            nodf.sftAttributf("dibrbdtfrCfllWidti",
+                              Intfgfr.toString(dibrbdtfrCfllWidti));
+            nodf.sftAttributf("dibrbdtfrCfllHfigit",
+                              Intfgfr.toString(dibrbdtfrCfllHfigit));
+            nodf.sftAttributf("tfxtForfgroundColor",
+                              Intfgfr.toString(tfxtForfgroundColor));
+            nodf.sftAttributf("tfxtBbdkgroundColor",
+                              Intfgfr.toString(tfxtBbdkgroundColor));
+            nodf.sftAttributf("tfxt", toISO8859(tfxt));
 
-            root.appendChild(node);
+            root.bppfndCiild(nodf);
         }
 
-        // Application extensions
-        int numAppExtensions = applicationIDs == null ?
-            0 : applicationIDs.size();
-        if (numAppExtensions > 0) {
-            node = new IIOMetadataNode("ApplicationExtensions");
-            for (int i = 0; i < numAppExtensions; i++) {
-                IIOMetadataNode appExtNode =
-                    new IIOMetadataNode("ApplicationExtension");
-                byte[] applicationID = applicationIDs.get(i);
-                appExtNode.setAttribute("applicationID",
-                                        toISO8859(applicationID));
-                byte[] authenticationCode = authenticationCodes.get(i);
-                appExtNode.setAttribute("authenticationCode",
-                                        toISO8859(authenticationCode));
-                byte[] appData = applicationData.get(i);
-                appExtNode.setUserObject(appData.clone());
-                node.appendChild(appExtNode);
-            }
-
-            root.appendChild(node);
-        }
-
-        // Comment extensions
-        int numComments = comments == null ? 0 : comments.size();
-        if (numComments > 0) {
-            node = new IIOMetadataNode("CommentExtensions");
-            for (int i = 0; i < numComments; i++) {
-                IIOMetadataNode commentNode =
-                    new IIOMetadataNode("CommentExtension");
-                byte[] comment = comments.get(i);
-                commentNode.setAttribute("value", toISO8859(comment));
-                node.appendChild(commentNode);
+        // Applidbtion fxtfnsions
+        int numAppExtfnsions = bpplidbtionIDs == null ?
+            0 : bpplidbtionIDs.sizf();
+        if (numAppExtfnsions > 0) {
+            nodf = nfw IIOMftbdbtbNodf("ApplidbtionExtfnsions");
+            for (int i = 0; i < numAppExtfnsions; i++) {
+                IIOMftbdbtbNodf bppExtNodf =
+                    nfw IIOMftbdbtbNodf("ApplidbtionExtfnsion");
+                bytf[] bpplidbtionID = bpplidbtionIDs.gft(i);
+                bppExtNodf.sftAttributf("bpplidbtionID",
+                                        toISO8859(bpplidbtionID));
+                bytf[] butifntidbtionCodf = butifntidbtionCodfs.gft(i);
+                bppExtNodf.sftAttributf("butifntidbtionCodf",
+                                        toISO8859(butifntidbtionCodf));
+                bytf[] bppDbtb = bpplidbtionDbtb.gft(i);
+                bppExtNodf.sftUsfrObjfdt(bppDbtb.dlonf());
+                nodf.bppfndCiild(bppExtNodf);
             }
 
-            root.appendChild(node);
+            root.bppfndCiild(nodf);
         }
 
-        return root;
-    }
-
-    public IIOMetadataNode getStandardChromaNode() {
-        IIOMetadataNode chroma_node = new IIOMetadataNode("Chroma");
-        IIOMetadataNode node = null; // scratch node
-
-        node = new IIOMetadataNode("ColorSpaceType");
-        node.setAttribute("name", "RGB");
-        chroma_node.appendChild(node);
-
-        node = new IIOMetadataNode("NumChannels");
-        node.setAttribute("value", transparentColorFlag ? "4" : "3");
-        chroma_node.appendChild(node);
-
-        // Gamma not in format
-
-        node = new IIOMetadataNode("BlackIsZero");
-        node.setAttribute("value", "TRUE");
-        chroma_node.appendChild(node);
-
-        if (localColorTable != null) {
-            node = new IIOMetadataNode("Palette");
-            int numEntries = localColorTable.length/3;
-            for (int i = 0; i < numEntries; i++) {
-                IIOMetadataNode entry =
-                    new IIOMetadataNode("PaletteEntry");
-                entry.setAttribute("index", Integer.toString(i));
-                entry.setAttribute("red",
-                           Integer.toString(localColorTable[3*i] & 0xff));
-                entry.setAttribute("green",
-                           Integer.toString(localColorTable[3*i + 1] & 0xff));
-                entry.setAttribute("blue",
-                           Integer.toString(localColorTable[3*i + 2] & 0xff));
-                node.appendChild(entry);
+        // Commfnt fxtfnsions
+        int numCommfnts = dommfnts == null ? 0 : dommfnts.sizf();
+        if (numCommfnts > 0) {
+            nodf = nfw IIOMftbdbtbNodf("CommfntExtfnsions");
+            for (int i = 0; i < numCommfnts; i++) {
+                IIOMftbdbtbNodf dommfntNodf =
+                    nfw IIOMftbdbtbNodf("CommfntExtfnsion");
+                bytf[] dommfnt = dommfnts.gft(i);
+                dommfntNodf.sftAttributf("vbluf", toISO8859(dommfnt));
+                nodf.bppfndCiild(dommfntNodf);
             }
-            chroma_node.appendChild(node);
+
+            root.bppfndCiild(nodf);
         }
 
-        // BackgroundIndex not in image
-        // BackgroundColor not in format
-
-        return chroma_node;
+        rfturn root;
     }
 
-    public IIOMetadataNode getStandardCompressionNode() {
-        IIOMetadataNode compression_node = new IIOMetadataNode("Compression");
-        IIOMetadataNode node = null; // scratch node
+    publid IIOMftbdbtbNodf gftStbndbrdCirombNodf() {
+        IIOMftbdbtbNodf diromb_nodf = nfw IIOMftbdbtbNodf("Ciromb");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
 
-        node = new IIOMetadataNode("CompressionTypeName");
-        node.setAttribute("value", "lzw");
-        compression_node.appendChild(node);
+        nodf = nfw IIOMftbdbtbNodf("ColorSpbdfTypf");
+        nodf.sftAttributf("nbmf", "RGB");
+        diromb_nodf.bppfndCiild(nodf);
 
-        node = new IIOMetadataNode("Lossless");
-        node.setAttribute("value", "TRUE");
-        compression_node.appendChild(node);
+        nodf = nfw IIOMftbdbtbNodf("NumCibnnfls");
+        nodf.sftAttributf("vbluf", trbnspbrfntColorFlbg ? "4" : "3");
+        diromb_nodf.bppfndCiild(nodf);
 
-        node = new IIOMetadataNode("NumProgressiveScans");
-        node.setAttribute("value", interlaceFlag ? "4" : "1");
-        compression_node.appendChild(node);
+        // Gbmmb not in formbt
 
-        // BitRate not in format
+        nodf = nfw IIOMftbdbtbNodf("BlbdkIsZfro");
+        nodf.sftAttributf("vbluf", "TRUE");
+        diromb_nodf.bppfndCiild(nodf);
 
-        return compression_node;
-    }
-
-    public IIOMetadataNode getStandardDataNode() {
-        IIOMetadataNode data_node = new IIOMetadataNode("Data");
-        IIOMetadataNode node = null; // scratch node
-
-        // PlanarConfiguration not in format
-
-        node = new IIOMetadataNode("SampleFormat");
-        node.setAttribute("value", "Index");
-        data_node.appendChild(node);
-
-        // BitsPerSample not in image
-        // SignificantBitsPerSample not in format
-        // SampleMSB not in format
-
-        return data_node;
-    }
-
-    public IIOMetadataNode getStandardDimensionNode() {
-        IIOMetadataNode dimension_node = new IIOMetadataNode("Dimension");
-        IIOMetadataNode node = null; // scratch node
-
-        // PixelAspectRatio not in image
-
-        node = new IIOMetadataNode("ImageOrientation");
-        node.setAttribute("value", "Normal");
-        dimension_node.appendChild(node);
-
-        // HorizontalPixelSize not in format
-        // VerticalPixelSize not in format
-        // HorizontalPhysicalPixelSpacing not in format
-        // VerticalPhysicalPixelSpacing not in format
-        // HorizontalPosition not in format
-        // VerticalPosition not in format
-
-        node = new IIOMetadataNode("HorizontalPixelOffset");
-        node.setAttribute("value", Integer.toString(imageLeftPosition));
-        dimension_node.appendChild(node);
-
-        node = new IIOMetadataNode("VerticalPixelOffset");
-        node.setAttribute("value", Integer.toString(imageTopPosition));
-        dimension_node.appendChild(node);
-
-        // HorizontalScreenSize not in image
-        // VerticalScreenSize not in image
-
-        return dimension_node;
-    }
-
-    // Document not in image
-
-    public IIOMetadataNode getStandardTextNode() {
-        if (comments == null) {
-            return null;
-        }
-        Iterator<byte[]> commentIter = comments.iterator();
-        if (!commentIter.hasNext()) {
-            return null;
+        if (lodblColorTbblf != null) {
+            nodf = nfw IIOMftbdbtbNodf("Pblfttf");
+            int numEntrifs = lodblColorTbblf.lfngti/3;
+            for (int i = 0; i < numEntrifs; i++) {
+                IIOMftbdbtbNodf fntry =
+                    nfw IIOMftbdbtbNodf("PblfttfEntry");
+                fntry.sftAttributf("indfx", Intfgfr.toString(i));
+                fntry.sftAttributf("rfd",
+                           Intfgfr.toString(lodblColorTbblf[3*i] & 0xff));
+                fntry.sftAttributf("grffn",
+                           Intfgfr.toString(lodblColorTbblf[3*i + 1] & 0xff));
+                fntry.sftAttributf("bluf",
+                           Intfgfr.toString(lodblColorTbblf[3*i + 2] & 0xff));
+                nodf.bppfndCiild(fntry);
+            }
+            diromb_nodf.bppfndCiild(nodf);
         }
 
-        IIOMetadataNode text_node = new IIOMetadataNode("Text");
-        IIOMetadataNode node = null; // scratch node
+        // BbdkgroundIndfx not in imbgf
+        // BbdkgroundColor not in formbt
 
-        while (commentIter.hasNext()) {
-            byte[] comment = commentIter.next();
+        rfturn diromb_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdComprfssionNodf() {
+        IIOMftbdbtbNodf domprfssion_nodf = nfw IIOMftbdbtbNodf("Comprfssion");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
+
+        nodf = nfw IIOMftbdbtbNodf("ComprfssionTypfNbmf");
+        nodf.sftAttributf("vbluf", "lzw");
+        domprfssion_nodf.bppfndCiild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("Losslfss");
+        nodf.sftAttributf("vbluf", "TRUE");
+        domprfssion_nodf.bppfndCiild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("NumProgrfssivfSdbns");
+        nodf.sftAttributf("vbluf", intfrlbdfFlbg ? "4" : "1");
+        domprfssion_nodf.bppfndCiild(nodf);
+
+        // BitRbtf not in formbt
+
+        rfturn domprfssion_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdDbtbNodf() {
+        IIOMftbdbtbNodf dbtb_nodf = nfw IIOMftbdbtbNodf("Dbtb");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
+
+        // PlbnbrConfigurbtion not in formbt
+
+        nodf = nfw IIOMftbdbtbNodf("SbmplfFormbt");
+        nodf.sftAttributf("vbluf", "Indfx");
+        dbtb_nodf.bppfndCiild(nodf);
+
+        // BitsPfrSbmplf not in imbgf
+        // SignifidbntBitsPfrSbmplf not in formbt
+        // SbmplfMSB not in formbt
+
+        rfturn dbtb_nodf;
+    }
+
+    publid IIOMftbdbtbNodf gftStbndbrdDimfnsionNodf() {
+        IIOMftbdbtbNodf dimfnsion_nodf = nfw IIOMftbdbtbNodf("Dimfnsion");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
+
+        // PixflAspfdtRbtio not in imbgf
+
+        nodf = nfw IIOMftbdbtbNodf("ImbgfOrifntbtion");
+        nodf.sftAttributf("vbluf", "Normbl");
+        dimfnsion_nodf.bppfndCiild(nodf);
+
+        // HorizontblPixflSizf not in formbt
+        // VfrtidblPixflSizf not in formbt
+        // HorizontblPiysidblPixflSpbding not in formbt
+        // VfrtidblPiysidblPixflSpbding not in formbt
+        // HorizontblPosition not in formbt
+        // VfrtidblPosition not in formbt
+
+        nodf = nfw IIOMftbdbtbNodf("HorizontblPixflOffsft");
+        nodf.sftAttributf("vbluf", Intfgfr.toString(imbgfLfftPosition));
+        dimfnsion_nodf.bppfndCiild(nodf);
+
+        nodf = nfw IIOMftbdbtbNodf("VfrtidblPixflOffsft");
+        nodf.sftAttributf("vbluf", Intfgfr.toString(imbgfTopPosition));
+        dimfnsion_nodf.bppfndCiild(nodf);
+
+        // HorizontblSdrffnSizf not in imbgf
+        // VfrtidblSdrffnSizf not in imbgf
+
+        rfturn dimfnsion_nodf;
+    }
+
+    // Dodumfnt not in imbgf
+
+    publid IIOMftbdbtbNodf gftStbndbrdTfxtNodf() {
+        if (dommfnts == null) {
+            rfturn null;
+        }
+        Itfrbtor<bytf[]> dommfntItfr = dommfnts.itfrbtor();
+        if (!dommfntItfr.ibsNfxt()) {
+            rfturn null;
+        }
+
+        IIOMftbdbtbNodf tfxt_nodf = nfw IIOMftbdbtbNodf("Tfxt");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
+
+        wiilf (dommfntItfr.ibsNfxt()) {
+            bytf[] dommfnt = dommfntItfr.nfxt();
             String s = null;
             try {
-                s = new String(comment, "ISO-8859-1");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("Encoding ISO-8859-1 unknown!");
+                s = nfw String(dommfnt, "ISO-8859-1");
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw RuntimfExdfption("Endoding ISO-8859-1 unknown!");
             }
 
-            node = new IIOMetadataNode("TextEntry");
-            node.setAttribute("value", s);
-            node.setAttribute("encoding", "ISO-8859-1");
-            node.setAttribute("compression", "none");
-            text_node.appendChild(node);
+            nodf = nfw IIOMftbdbtbNodf("TfxtEntry");
+            nodf.sftAttributf("vbluf", s);
+            nodf.sftAttributf("fndoding", "ISO-8859-1");
+            nodf.sftAttributf("domprfssion", "nonf");
+            tfxt_nodf.bppfndCiild(nodf);
         }
 
-        return text_node;
+        rfturn tfxt_nodf;
     }
 
-    public IIOMetadataNode getStandardTransparencyNode() {
-        if (!transparentColorFlag) {
-            return null;
+    publid IIOMftbdbtbNodf gftStbndbrdTrbnspbrfndyNodf() {
+        if (!trbnspbrfntColorFlbg) {
+            rfturn null;
         }
 
-        IIOMetadataNode transparency_node =
-            new IIOMetadataNode("Transparency");
-        IIOMetadataNode node = null; // scratch node
+        IIOMftbdbtbNodf trbnspbrfndy_nodf =
+            nfw IIOMftbdbtbNodf("Trbnspbrfndy");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
 
-        // Alpha not in format
+        // Alpib not in formbt
 
-        node = new IIOMetadataNode("TransparentIndex");
-        node.setAttribute("value",
-                          Integer.toString(transparentColorIndex));
-        transparency_node.appendChild(node);
+        nodf = nfw IIOMftbdbtbNodf("TrbnspbrfntIndfx");
+        nodf.sftAttributf("vbluf",
+                          Intfgfr.toString(trbnspbrfntColorIndfx));
+        trbnspbrfndy_nodf.bppfndCiild(nodf);
 
-        // TransparentColor not in format
-        // TileTransparencies not in format
-        // TileOpacities not in format
+        // TrbnspbrfntColor not in formbt
+        // TilfTrbnspbrfndifs not in formbt
+        // TilfOpbditifs not in formbt
 
-        return transparency_node;
+        rfturn trbnspbrfndy_nodf;
     }
 
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        tirows IIOInvblidTrffExdfption
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        tirow nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
     }
 
-    protected void mergeNativeTree(Node root) throws IIOInvalidTreeException
+    protfdtfd void mfrgfNbtivfTrff(Nodf root) tirows IIOInvblidTrffExdfption
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        tirow nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
     }
 
-    protected void mergeStandardTree(Node root) throws IIOInvalidTreeException
+    protfdtfd void mfrgfStbndbrdTrff(Nodf root) tirows IIOInvblidTrffExdfption
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        tirow nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
     }
 
-    public void reset() {
-        throw new IllegalStateException("Metadata is read-only!");
+    publid void rfsft() {
+        tirow nfw IllfgblStbtfExdfption("Mftbdbtb is rfbd-only!");
     }
 }

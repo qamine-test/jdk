@@ -1,230 +1,230 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Component;
-import java.awt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
 
-import javax.swing.Icon;
+import jbvbx.swing.Idon;
 
 /**
- * A class which provides a matte-like border of either a solid color
- * or a tiled icon.
+ * A dlbss wiidi providfs b mbttf-likf bordfr of fitifr b solid dolor
+ * or b tilfd idon.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Amy Fowler
+ * @butior Amy Fowlfr
  */
-@SuppressWarnings("serial")
-public class MatteBorder extends EmptyBorder
+@SupprfssWbrnings("sfribl")
+publid dlbss MbttfBordfr fxtfnds EmptyBordfr
 {
-    protected Color color;
-    protected Icon tileIcon;
+    protfdtfd Color dolor;
+    protfdtfd Idon tilfIdon;
 
     /**
-     * Creates a matte border with the specified insets and color.
-     * @param top the top inset of the border
-     * @param left the left inset of the border
-     * @param bottom the bottom inset of the border
-     * @param right the right inset of the border
-     * @param matteColor the color rendered for the border
+     * Crfbtfs b mbttf bordfr witi tif spfdififd insfts bnd dolor.
+     * @pbrbm top tif top insft of tif bordfr
+     * @pbrbm lfft tif lfft insft of tif bordfr
+     * @pbrbm bottom tif bottom insft of tif bordfr
+     * @pbrbm rigit tif rigit insft of tif bordfr
+     * @pbrbm mbttfColor tif dolor rfndfrfd for tif bordfr
      */
-    public MatteBorder(int top, int left, int bottom, int right, Color matteColor)   {
-        super(top, left, bottom, right);
-        this.color = matteColor;
+    publid MbttfBordfr(int top, int lfft, int bottom, int rigit, Color mbttfColor)   {
+        supfr(top, lfft, bottom, rigit);
+        tiis.dolor = mbttfColor;
     }
 
     /**
-     * Creates a matte border with the specified insets and color.
-     * @param borderInsets the insets of the border
-     * @param matteColor the color rendered for the border
-     * @since 1.3
+     * Crfbtfs b mbttf bordfr witi tif spfdififd insfts bnd dolor.
+     * @pbrbm bordfrInsfts tif insfts of tif bordfr
+     * @pbrbm mbttfColor tif dolor rfndfrfd for tif bordfr
+     * @sindf 1.3
      */
-    public MatteBorder(Insets borderInsets, Color matteColor)   {
-        super(borderInsets);
-        this.color = matteColor;
+    publid MbttfBordfr(Insfts bordfrInsfts, Color mbttfColor)   {
+        supfr(bordfrInsfts);
+        tiis.dolor = mbttfColor;
     }
 
     /**
-     * Creates a matte border with the specified insets and tile icon.
-     * @param top the top inset of the border
-     * @param left the left inset of the border
-     * @param bottom the bottom inset of the border
-     * @param right the right inset of the border
-     * @param tileIcon the icon to be used for tiling the border
+     * Crfbtfs b mbttf bordfr witi tif spfdififd insfts bnd tilf idon.
+     * @pbrbm top tif top insft of tif bordfr
+     * @pbrbm lfft tif lfft insft of tif bordfr
+     * @pbrbm bottom tif bottom insft of tif bordfr
+     * @pbrbm rigit tif rigit insft of tif bordfr
+     * @pbrbm tilfIdon tif idon to bf usfd for tiling tif bordfr
      */
-    public MatteBorder(int top, int left, int bottom, int right, Icon tileIcon)   {
-        super(top, left, bottom, right);
-        this.tileIcon = tileIcon;
+    publid MbttfBordfr(int top, int lfft, int bottom, int rigit, Idon tilfIdon)   {
+        supfr(top, lfft, bottom, rigit);
+        tiis.tilfIdon = tilfIdon;
     }
 
     /**
-     * Creates a matte border with the specified insets and tile icon.
-     * @param borderInsets the insets of the border
-     * @param tileIcon the icon to be used for tiling the border
-     * @since 1.3
+     * Crfbtfs b mbttf bordfr witi tif spfdififd insfts bnd tilf idon.
+     * @pbrbm bordfrInsfts tif insfts of tif bordfr
+     * @pbrbm tilfIdon tif idon to bf usfd for tiling tif bordfr
+     * @sindf 1.3
      */
-    public MatteBorder(Insets borderInsets, Icon tileIcon)   {
-        super(borderInsets);
-        this.tileIcon = tileIcon;
+    publid MbttfBordfr(Insfts bordfrInsfts, Idon tilfIdon)   {
+        supfr(bordfrInsfts);
+        tiis.tilfIdon = tilfIdon;
     }
 
     /**
-     * Creates a matte border with the specified tile icon.  The
-     * insets will be calculated dynamically based on the size of
-     * the tile icon, where the top and bottom will be equal to the
-     * tile icon's height, and the left and right will be equal to
-     * the tile icon's width.
-     * @param tileIcon the icon to be used for tiling the border
+     * Crfbtfs b mbttf bordfr witi tif spfdififd tilf idon.  Tif
+     * insfts will bf dbldulbtfd dynbmidblly bbsfd on tif sizf of
+     * tif tilf idon, wifrf tif top bnd bottom will bf fqubl to tif
+     * tilf idon's ifigit, bnd tif lfft bnd rigit will bf fqubl to
+     * tif tilf idon's widti.
+     * @pbrbm tilfIdon tif idon to bf usfd for tiling tif bordfr
      */
-    public MatteBorder(Icon tileIcon)   {
-        this(-1,-1,-1,-1, tileIcon);
+    publid MbttfBordfr(Idon tilfIdon)   {
+        tiis(-1,-1,-1,-1, tilfIdon);
     }
 
     /**
-     * Paints the matte border.
+     * Pbints tif mbttf bordfr.
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        Insets insets = getBorderInsets(c);
-        Color oldColor = g.getColor();
-        g.translate(x, y);
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+        Insfts insfts = gftBordfrInsfts(d);
+        Color oldColor = g.gftColor();
+        g.trbnslbtf(x, y);
 
-        // If the tileIcon failed loading, paint as gray.
-        if (tileIcon != null) {
-            color = (tileIcon.getIconWidth() == -1) ? Color.gray : null;
+        // If tif tilfIdon fbilfd lobding, pbint bs grby.
+        if (tilfIdon != null) {
+            dolor = (tilfIdon.gftIdonWidti() == -1) ? Color.grby : null;
         }
 
-        if (color != null) {
-            g.setColor(color);
-            g.fillRect(0, 0, width - insets.right, insets.top);
-            g.fillRect(0, insets.top, insets.left, height - insets.top);
-            g.fillRect(insets.left, height - insets.bottom, width - insets.left, insets.bottom);
-            g.fillRect(width - insets.right, 0, insets.right, height - insets.bottom);
+        if (dolor != null) {
+            g.sftColor(dolor);
+            g.fillRfdt(0, 0, widti - insfts.rigit, insfts.top);
+            g.fillRfdt(0, insfts.top, insfts.lfft, ifigit - insfts.top);
+            g.fillRfdt(insfts.lfft, ifigit - insfts.bottom, widti - insfts.lfft, insfts.bottom);
+            g.fillRfdt(widti - insfts.rigit, 0, insfts.rigit, ifigit - insfts.bottom);
 
-        } else if (tileIcon != null) {
-            int tileW = tileIcon.getIconWidth();
-            int tileH = tileIcon.getIconHeight();
-            paintEdge(c, g, 0, 0, width - insets.right, insets.top, tileW, tileH);
-            paintEdge(c, g, 0, insets.top, insets.left, height - insets.top, tileW, tileH);
-            paintEdge(c, g, insets.left, height - insets.bottom, width - insets.left, insets.bottom, tileW, tileH);
-            paintEdge(c, g, width - insets.right, 0, insets.right, height - insets.bottom, tileW, tileH);
+        } flsf if (tilfIdon != null) {
+            int tilfW = tilfIdon.gftIdonWidti();
+            int tilfH = tilfIdon.gftIdonHfigit();
+            pbintEdgf(d, g, 0, 0, widti - insfts.rigit, insfts.top, tilfW, tilfH);
+            pbintEdgf(d, g, 0, insfts.top, insfts.lfft, ifigit - insfts.top, tilfW, tilfH);
+            pbintEdgf(d, g, insfts.lfft, ifigit - insfts.bottom, widti - insfts.lfft, insfts.bottom, tilfW, tilfH);
+            pbintEdgf(d, g, widti - insfts.rigit, 0, insfts.rigit, ifigit - insfts.bottom, tilfW, tilfH);
         }
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
 
     }
 
-    private void paintEdge(Component c, Graphics g, int x, int y, int width, int height, int tileW, int tileH) {
-        g = g.create(x, y, width, height);
-        int sY = -(y % tileH);
-        for (x = -(x % tileW); x < width; x += tileW) {
-            for (y = sY; y < height; y += tileH) {
-                this.tileIcon.paintIcon(c, g, x, y);
+    privbtf void pbintEdgf(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit, int tilfW, int tilfH) {
+        g = g.drfbtf(x, y, widti, ifigit);
+        int sY = -(y % tilfH);
+        for (x = -(x % tilfW); x < widti; x += tilfW) {
+            for (y = sY; y < ifigit; y += tilfH) {
+                tiis.tilfIdon.pbintIdon(d, g, x, y);
             }
         }
-        g.dispose();
+        g.disposf();
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
-     * @since 1.3
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @sindf 1.3
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        return computeInsets(insets);
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        rfturn domputfInsfts(insfts);
     }
 
     /**
-     * Returns the insets of the border.
-     * @since 1.3
+     * Rfturns tif insfts of tif bordfr.
+     * @sindf 1.3
      */
-    public Insets getBorderInsets() {
-        return computeInsets(new Insets(0,0,0,0));
+    publid Insfts gftBordfrInsfts() {
+        rfturn domputfInsfts(nfw Insfts(0,0,0,0));
     }
 
-    /* should be protected once api changes area allowed */
-    private Insets computeInsets(Insets insets) {
-        if (tileIcon != null && top == -1 && bottom == -1 &&
-            left == -1 && right == -1) {
-            int w = tileIcon.getIconWidth();
-            int h = tileIcon.getIconHeight();
-            insets.top = h;
-            insets.right = w;
-            insets.bottom = h;
-            insets.left = w;
-        } else {
-            insets.left = left;
-            insets.top = top;
-            insets.right = right;
-            insets.bottom = bottom;
+    /* siould bf protfdtfd ondf bpi dibngfs brfb bllowfd */
+    privbtf Insfts domputfInsfts(Insfts insfts) {
+        if (tilfIdon != null && top == -1 && bottom == -1 &&
+            lfft == -1 && rigit == -1) {
+            int w = tilfIdon.gftIdonWidti();
+            int i = tilfIdon.gftIdonHfigit();
+            insfts.top = i;
+            insfts.rigit = w;
+            insfts.bottom = i;
+            insfts.lfft = w;
+        } flsf {
+            insfts.lfft = lfft;
+            insfts.top = top;
+            insfts.rigit = rigit;
+            insfts.bottom = bottom;
         }
-        return insets;
+        rfturn insfts;
     }
 
     /**
-     * Returns the color used for tiling the border or null
-     * if a tile icon is being used.
+     * Rfturns tif dolor usfd for tiling tif bordfr or null
+     * if b tilf idon is bfing usfd.
      *
-     * @return the {@code Color} object used to render the border or {@code null}
-     *         if a tile icon is used
-     * @since 1.3
+     * @rfturn tif {@dodf Color} objfdt usfd to rfndfr tif bordfr or {@dodf null}
+     *         if b tilf idon is usfd
+     * @sindf 1.3
      */
-    public Color getMatteColor() {
-        return color;
+    publid Color gftMbttfColor() {
+        rfturn dolor;
     }
 
    /**
-     * Returns the icon used for tiling the border or null
-     * if a solid color is being used.
+     * Rfturns tif idon usfd for tiling tif bordfr or null
+     * if b solid dolor is bfing usfd.
      *
-     * @return the {@code Icon} used to tile the border or {@code null} if a
-     *         solid color is used to fill the border
-     * @since 1.3
+     * @rfturn tif {@dodf Idon} usfd to tilf tif bordfr or {@dodf null} if b
+     *         solid dolor is usfd to fill tif bordfr
+     * @sindf 1.3
      */
-    public Icon getTileIcon() {
-        return tileIcon;
+    publid Idon gftTilfIdon() {
+        rfturn tilfIdon;
     }
 
     /**
-     * Returns whether or not the border is opaque.
+     * Rfturns wiftifr or not tif bordfr is opbquf.
      *
-     * @return {@code true} if the border is opaque, {@code false} otherwise
+     * @rfturn {@dodf truf} if tif bordfr is opbquf, {@dodf fblsf} otifrwisf
      */
-    public boolean isBorderOpaque() {
-        // If a tileIcon is set, then it may contain transparent bits
-        return color != null;
+    publid boolfbn isBordfrOpbquf() {
+        // If b tilfIdon is sft, tifn it mby dontbin trbnspbrfnt bits
+        rfturn dolor != null;
     }
 
 }

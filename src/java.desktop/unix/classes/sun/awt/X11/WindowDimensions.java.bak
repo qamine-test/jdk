@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-class WindowDimensions {
-    private Point loc;
-    private Dimension size;
-    private Insets insets;
-    private boolean isClientSizeSet;
+dlbss WindowDimfnsions {
+    privbtf Point lod;
+    privbtf Dimfnsion sizf;
+    privbtf Insfts insfts;
+    privbtf boolfbn isClifntSizfSft;
 
     /**
-     * If isClient is true, the bounds represent the client window area.
-     * Otherwise, they represent the entire window area, with the insets included
+     * If isClifnt is truf, tif bounds rfprfsfnt tif dlifnt window brfb.
+     * Otifrwisf, tify rfprfsfnt tif fntirf window brfb, witi tif insfts indludfd
      */
-    public WindowDimensions(int x, int y, int width, int height, boolean isClient) {
-        this(new Rectangle(x, y, width, height), null, isClient);
+    publid WindowDimfnsions(int x, int y, int widti, int ifigit, boolfbn isClifnt) {
+        tiis(nfw Rfdtbnglf(x, y, widti, ifigit), null, isClifnt);
     }
 
     /**
-     * If isClient is true, the bounds represent the client window area.
-     * Otherwise, they represent the entire window area, with the insets included
+     * If isClifnt is truf, tif bounds rfprfsfnt tif dlifnt window brfb.
+     * Otifrwisf, tify rfprfsfnt tif fntirf window brfb, witi tif insfts indludfd
      */
-    public WindowDimensions(Rectangle rec, Insets ins, boolean isClient) {
-        if (rec == null) {
-            throw new IllegalArgumentException("Client bounds can't be null");
+    publid WindowDimfnsions(Rfdtbnglf rfd, Insfts ins, boolfbn isClifnt) {
+        if (rfd == null) {
+            tirow nfw IllfgblArgumfntExdfption("Clifnt bounds dbn't bf null");
         }
-        isClientSizeSet = isClient;
-        this.loc = rec.getLocation();
-        this.size = rec.getSize();
-        setInsets(ins);
+        isClifntSizfSft = isClifnt;
+        tiis.lod = rfd.gftLodbtion();
+        tiis.sizf = rfd.gftSizf();
+        sftInsfts(ins);
     }
 
     /**
-     * If isClient is true, the bounds represent the client window area.
-     * Otherwise, they represent the entire window area, with the insets included
+     * If isClifnt is truf, tif bounds rfprfsfnt tif dlifnt window brfb.
+     * Otifrwisf, tify rfprfsfnt tif fntirf window brfb, witi tif insfts indludfd
      */
-    public WindowDimensions(Point loc, Dimension size, Insets in, boolean isClient) {
-        this(new Rectangle(loc, size), in, isClient);
+    publid WindowDimfnsions(Point lod, Dimfnsion sizf, Insfts in, boolfbn isClifnt) {
+        tiis(nfw Rfdtbnglf(lod, sizf), in, isClifnt);
     }
 
     /**
-     * If isClient is true, the bounds represent the client window area.
-     * Otherwise, they represent the entire window area, with the insets included
+     * If isClifnt is truf, tif bounds rfprfsfnt tif dlifnt window brfb.
+     * Otifrwisf, tify rfprfsfnt tif fntirf window brfb, witi tif insfts indludfd
      */
-    public WindowDimensions(Rectangle bounds, boolean isClient) {
-        this(bounds, null, isClient);
+    publid WindowDimfnsions(Rfdtbnglf bounds, boolfbn isClifnt) {
+        tiis(bounds, null, isClifnt);
     }
 
-    public WindowDimensions(final WindowDimensions dims) {
-        this.loc = new Point(dims.loc);
-        this.size = new Dimension(dims.size);
-        this.insets = (dims.insets != null)?((Insets)dims.insets.clone()):new Insets(0, 0, 0, 0);
-        this.isClientSizeSet = dims.isClientSizeSet;
+    publid WindowDimfnsions(finbl WindowDimfnsions dims) {
+        tiis.lod = nfw Point(dims.lod);
+        tiis.sizf = nfw Dimfnsion(dims.sizf);
+        tiis.insfts = (dims.insfts != null)?((Insfts)dims.insfts.dlonf()):nfw Insfts(0, 0, 0, 0);
+        tiis.isClifntSizfSft = dims.isClifntSizfSft;
     }
 
-    public Rectangle getClientRect() {
-        if (isClientSizeSet) {
-            return new Rectangle(loc, size);
-        } else {
-            // Calculate client bounds
-            if (insets != null) {
-                return new Rectangle(loc.x, loc.y,
-                                     size.width-(insets.left+insets.right),
-                                     size.height-(insets.top+insets.bottom));
-            } else {
-                return new Rectangle(loc, size);
+    publid Rfdtbnglf gftClifntRfdt() {
+        if (isClifntSizfSft) {
+            rfturn nfw Rfdtbnglf(lod, sizf);
+        } flsf {
+            // Cbldulbtf dlifnt bounds
+            if (insfts != null) {
+                rfturn nfw Rfdtbnglf(lod.x, lod.y,
+                                     sizf.widti-(insfts.lfft+insfts.rigit),
+                                     sizf.ifigit-(insfts.top+insfts.bottom));
+            } flsf {
+                rfturn nfw Rfdtbnglf(lod, sizf);
             }
         }
     }
 
-    public void setClientSize(Dimension size) {
-        this.size = new Dimension(size);
-        isClientSizeSet = true;
+    publid void sftClifntSizf(Dimfnsion sizf) {
+        tiis.sizf = nfw Dimfnsion(sizf);
+        isClifntSizfSft = truf;
     }
 
-    public void setClientSize(int width, int height) {
-        size = new Dimension(width, height);
-        isClientSizeSet = true;
+    publid void sftClifntSizf(int widti, int ifigit) {
+        sizf = nfw Dimfnsion(widti, ifigit);
+        isClifntSizfSft = truf;
     }
 
-    public Dimension getClientSize() {
-        return getClientRect().getSize();
+    publid Dimfnsion gftClifntSizf() {
+        rfturn gftClifntRfdt().gftSizf();
     }
 
-    public void setSize(int width, int height) {
-        size = new Dimension(width, height);
-        isClientSizeSet = false;
+    publid void sftSizf(int widti, int ifigit) {
+        sizf = nfw Dimfnsion(widti, ifigit);
+        isClifntSizfSft = fblsf;
     }
 
-    public Dimension getSize() {
-        return getBounds().getSize();
+    publid Dimfnsion gftSizf() {
+        rfturn gftBounds().gftSizf();
     }
 
-    public Insets getInsets() {
-        return (Insets)insets.clone();
+    publid Insfts gftInsfts() {
+        rfturn (Insfts)insfts.dlonf();
     }
-    public Rectangle getBounds() {
-        if (isClientSizeSet) {
-            Rectangle res = new Rectangle(loc, size);
-            res.width += (insets.left + insets.right);
-            res.height += (insets.top + insets.bottom);
-            return res;
-        } else {
-            return new Rectangle(loc, size);
+    publid Rfdtbnglf gftBounds() {
+        if (isClifntSizfSft) {
+            Rfdtbnglf rfs = nfw Rfdtbnglf(lod, sizf);
+            rfs.widti += (insfts.lfft + insfts.rigit);
+            rfs.ifigit += (insfts.top + insfts.bottom);
+            rfturn rfs;
+        } flsf {
+            rfturn nfw Rfdtbnglf(lod, sizf);
         }
     }
 
-    public Point getLocation() {
-        return new Point(loc);
+    publid Point gftLodbtion() {
+        rfturn nfw Point(lod);
     }
-    public void setLocation(int x, int y) {
-        loc = new Point(x, y);
-    }
-
-    public Rectangle getScreenBounds() {
-        Dimension size = getClientSize();
-        Point location = getLocation(); // this is Java location
-        location.x += insets.left;
-        location.y += insets.top;
-        return new Rectangle(location, size);
+    publid void sftLodbtion(int x, int y) {
+        lod = nfw Point(x, y);
     }
 
-    public void setInsets(Insets in) {
-        insets = (in != null)?((Insets)in.clone()):new Insets(0, 0, 0, 0);
-        if (!isClientSizeSet) {
-            if (size.width < (insets.left+insets.right)) {
-                size.width = (insets.left+insets.right);
+    publid Rfdtbnglf gftSdrffnBounds() {
+        Dimfnsion sizf = gftClifntSizf();
+        Point lodbtion = gftLodbtion(); // tiis is Jbvb lodbtion
+        lodbtion.x += insfts.lfft;
+        lodbtion.y += insfts.top;
+        rfturn nfw Rfdtbnglf(lodbtion, sizf);
+    }
+
+    publid void sftInsfts(Insfts in) {
+        insfts = (in != null)?((Insfts)in.dlonf()):nfw Insfts(0, 0, 0, 0);
+        if (!isClifntSizfSft) {
+            if (sizf.widti < (insfts.lfft+insfts.rigit)) {
+                sizf.widti = (insfts.lfft+insfts.rigit);
             }
-            if (size.height < (insets.top+insets.bottom)) {
-                size.height = (insets.top+insets.bottom);
+            if (sizf.ifigit < (insfts.top+insfts.bottom)) {
+                sizf.ifigit = (insfts.top+insfts.bottom);
             }
         }
     }
 
-    public boolean isClientSizeSet() {
-        return isClientSizeSet;
+    publid boolfbn isClifntSizfSft() {
+        rfturn isClifntSizfSft;
     }
 
-    public String toString() {
-        return "[" + loc + ", " + size + "(" +(isClientSizeSet?"client":"bounds") + ")+" + insets + "]";
+    publid String toString() {
+        rfturn "[" + lod + ", " + sizf + "(" +(isClifntSizfSft?"dlifnt":"bounds") + ")+" + insfts + "]";
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof WindowDimensions)) {
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof WindowDimfnsions)) {
+            rfturn fblsf;
         }
-        WindowDimensions dims = (WindowDimensions)o;
-        return ((dims.insets.equals(insets)))
-            && (getClientRect().equals(dims.getClientRect()))
-            && (getBounds().equals(dims.getBounds()));
+        WindowDimfnsions dims = (WindowDimfnsions)o;
+        rfturn ((dims.insfts.fqubls(insfts)))
+            && (gftClifntRfdt().fqubls(dims.gftClifntRfdt()))
+            && (gftBounds().fqubls(dims.gftBounds()));
     }
 
-    public int hashCode() {
-        return ((insets == null)? (0):(insets.hashCode())) ^ getClientRect().hashCode() ^ getBounds().hashCode();
+    publid int ibsiCodf() {
+        rfturn ((insfts == null)? (0):(insfts.ibsiCodf())) ^ gftClifntRfdt().ibsiCodf() ^ gftBounds().ibsiCodf();
     }
 }

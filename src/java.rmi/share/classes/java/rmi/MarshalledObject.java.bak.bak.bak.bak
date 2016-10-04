@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import sun.rmi.sfrvfr.MbrshblInputStrfbm;
+import sun.rmi.sfrvfr.MbrshblOutputStrfbm;
+
+/**
+ * A <dodf>MbrshbllfdObjfdt</dodf> dontbins b bytf strfbm with thf sfriblizfd
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Thf <dodf>gft</dodf>
+ * mfthod rfturns b nfw dopy of thf originbl objfdt, bs dfsfriblizfd from
+ * thf dontbinfd bytf strfbm.  Thf dontbinfd objfdt is sfriblizfd bnd
+ * dfsfriblizfd with thf sbmf sfriblizbtion sfmbntids usfd for mbrshbling
+ * bnd unmbrshbling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Whfn thf
+ * sfriblizfd form is drfbtfd:
+ *
+ * <ul>
+ * <li> dlbssfs brf bnnotbtfd with b dodfbbsf URL from whfrf thf dlbss
+ *      dbn bf lobdfd (if bvbilbblf), bnd
+ * <li> bny rfmotf objfdt in thf <dodf>MbrshbllfdObjfdt</dodf> is
+ *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
+ * </ul>
+ *
+ * <p>Whfn dopy of thf objfdt is rftrifvfd (vib thf <dodf>gft</dodf> mfthod),
+ * if thf dlbss is not bvbilbblf lodblly, it will bf lobdfd from thf
+ * bppropribtf lodbtion (spfdififd thf URL bnnotbtfd with thf dlbss dfsdriptor
+ * whfn thf dlbss wbs sfriblizfd.
+ *
+ * <p><dodf>MbrshbllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * thbt brf not butombtidblly dfsfriblizfd immfdibtfly by thf rfmotf pffr.
+ *
+ * @pbrbm <T> thf typf of thf objfdt dontbinfd in this
+ * <dodf>MbrshbllfdObjfdt</dodf>
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ * @sindf   1.2
+ */
+publid finbl dlbss MbrshbllfdObjfdt<T> implfmfnts Sfriblizbblf {
+    /**
+     * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
+     * <dodf>null</dodf> thfn thf objfdt mbrshbllfd wbs b <dodf>null</dodf>
+     * rfffrfndf.
+     */
+    privbtf bytf[] objBytfs = null;
+
+    /**
+     * @sfribl Bytfs of lodbtion bnnotbtions, whidh brf ignorfd by
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, thfrf wfrf no
+     * non-<dodf>null</dodf> bnnotbtions during mbrshblling.
+     */
+    privbtf bytf[] lodBytfs = null;
+
+    /**
+     * @sfribl Storfd hbsh dodf of dontbinfd objfdt.
+     *
+     * @sff #hbshCodf
+     */
+    privbtf int hbsh;
+
+    /** Indidbtf dompbtibility with 1.2 vfrsion of dlbss. */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
+
+    /**
+     * Crfbtfs b nfw <dodf>MbrshbllfdObjfdt</dodf> thbt dontbins thf
+     * sfriblizfd rfprfsfntbtion of thf durrfnt stbtf of thf supplifd objfdt.
+     * Thf objfdt is sfriblizfd with thf sfmbntids usfd for mbrshbling
+     * pbrbmftfrs for RMI dblls.
+     *
+     * @pbrbm obj thf objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
+     * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * sfriblizbblf.
+     * @sindf 1.2
+     */
+    publid MbrshbllfdObjfdt(T obj) throws IOExdfption {
+        if (obj == null) {
+            hbsh = 13;
+            rfturn;
+        }
+
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
+        MbrshbllfdObjfdtOutputStrfbm out =
+            nfw MbrshbllfdObjfdtOutputStrfbm(bout, lout);
+        out.writfObjfdt(obj);
+        out.flush();
+        objBytfs = bout.toBytfArrby();
+        // lodBytfs is null if no bnnotbtions
+        lodBytfs = (out.hbdAnnotbtions() ? lout.toBytfArrby() : null);
+
+        /*
+         * Cbldulbtf hbsh from thf mbrshbllfd rfprfsfntbtion of objfdt
+         * so thf hbshdodf will bf dompbrbblf whfn sfnt bftwffn VMs.
+         */
+        int h = 0;
+        for (int i = 0; i < objBytfs.lfngth; i++) {
+            h = 31 * h + objBytfs[i];
+        }
+        hbsh = h;
+    }
+
+    /**
+     * Rfturns b nfw dopy of thf dontbinfd mbrshbllfdobjfdt.  Thf intfrnbl
+     * rfprfsfntbtion is dfsfriblizfd with thf sfmbntids usfd for
+     * unmbrshbling pbrbmftfrs for RMI dblls.
+     *
+     * @rfturn b dopy of thf dontbinfd objfdt
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs whilf
+     * dfsfriblizing thf objfdt from its intfrnbl rfprfsfntbtion.
+     * @fxdfption ClbssNotFoundExdfption if b
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs whilf dfsfriblizing thf
+     * objfdt from its intfrnbl rfprfsfntbtion.
+     * dould not bf found
+     * @sindf 1.2
+     */
+    publid T gft() throws IOExdfption, ClbssNotFoundExdfption {
+        if (objBytfs == null)   // must hbvf bffn b null objfdt
+            rfturn null;
+
+        BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
+        // lodBytfs is null if no bnnotbtions
+        BytfArrbyInputStrfbm lin =
+            (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
+        MbrshbllfdObjfdtInputStrfbm in =
+            nfw MbrshbllfdObjfdtInputStrfbm(bin, lin);
+        @SupprfssWbrnings("undhfdkfd")
+        T obj = (T) in.rfbdObjfdt();
+        in.dlosf();
+        rfturn obj;
+    }
+
+    /**
+     * Rfturn b hbsh dodf for this <dodf>MbrshbllfdObjfdt</dodf>.
+     *
+     * @rfturn b hbsh dodf
+     */
+    publid int hbshCodf() {
+        rfturn hbsh;
+    }
+
+    /**
+     * Compbrfs this <dodf>MbrshbllfdObjfdt</dodf> to bnothfr objfdt.
+     * Rfturns truf if bnd only if thf brgumfnt rfffrs to b
+     * <dodf>MbrshbllfdObjfdt</dodf> thbt dontbins fxbdtly thf sbmf
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs this onf dofs. Thf
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning thbt
+     * two objfdts brf fquivblfnt if thfy hbvf thf sbmf sfriblizfd
+     * rfprfsfntbtion <i>fxdfpt</i> for thf dodfbbsf of fbdh dlbss
+     * in thf sfriblizfd rfprfsfntbtion.
+     *
+     * @pbrbm obj thf objfdt to dompbrf with this <dodf>MbrshbllfdObjfdt</dodf>
+     * @rfturn <dodf>truf</dodf> if thf brgumfnt dontbins bn fquivblfnt
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> othfrwisf
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (obj != null && obj instbndfof MbrshbllfdObjfdt) {
+            MbrshbllfdObjfdt<?> othfr = (MbrshbllfdObjfdt<?>) obj;
+
+            // if fithfr is b rff to null, both must bf
+            if (objBytfs == null || othfr.objBytfs == null)
+                rfturn objBytfs == othfr.objBytfs;
+
+            // quidk, fbsy tfst
+            if (objBytfs.lfngth != othfr.objBytfs.lfngth)
+                rfturn fblsf;
+
+            //!! Thfrf is tblk bbout bdding bn brrby dompbrision mfthod
+            //!! bt 1.2 -- if so, this should bf rfwrittfn.  -brnold
+            for (int i = 0; i < objBytfs.lfngth; ++i) {
+                if (objBytfs[i] != othfr.objBytfs[i])
+                    rfturn fblsf;
+            }
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * This dlbss is usfd to mbrshbl objfdts for
+     * <dodf>MbrshbllfdObjfdt</dodf>.  It plbdfs thf lodbtion bnnotbtions
+     * to onf sidf so thbt two <dodf>MbrshbllfdObjfdt</dodf>s dbn bf
+     * dompbrfd for fqublity if thfy difffr only in lodbtion
+     * bnnotbtions.  Objfdts writtfn using this strfbm should bf rfbd bbdk
+     * from b <dodf>MbrshbllfdObjfdtInputStrfbm</dodf>.
+     *
+     * @sff jbvb.rmi.MbrshbllfdObjfdt
+     * @sff MbrshbllfdObjfdtInputStrfbm
+     */
+    privbtf stbtid dlbss MbrshbllfdObjfdtOutputStrfbm
+        fxtfnds MbrshblOutputStrfbm
+    {
+        /** Thf strfbm on whidh lodbtion objfdts brf writtfn. */
+        privbtf ObjfdtOutputStrfbm lodOut;
+
+        /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
+         *  writtfn.
+         */
+        privbtf boolfbn hbdAnnotbtions;
+
+        /**
+         * Crfbtfs b nfw <dodf>MbrshbllfdObjfdtOutputStrfbm</dodf> whosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd whosf
+         * lodbtion bnnotbtions (if bny) will bf writtfn to
+         * <dodf>lodOut</dodf>.
+         */
+        MbrshbllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+            throws IOExdfption
+        {
+            supfr(objOut);
+            this.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            this.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            hbdAnnotbtions = fblsf;
+        }
+
+        /**
+         * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
+         * bnnotbtions hbvf bffn writtfn to this strfbm.
+         */
+        boolfbn hbdAnnotbtions() {
+            rfturn hbdAnnotbtions;
+        }
+
+        /**
+         * Ovfrridfs MbrshblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * bnnotbtions to thf lodbtion strfbm.
+         */
+        protfdtfd void writfLodbtion(String lod) throws IOExdfption {
+            hbdAnnotbtions |= (lod != null);
+            lodOut.writfObjfdt(lod);
+        }
+
+
+        publid void flush() throws IOExdfption {
+            supfr.flush();
+            lodOut.flush();
+        }
+    }
+
+    /**
+     * Thf dountfrpbrt to <dodf>MbrshbllfdObjfdtOutputStrfbm</dodf>.
+     *
+     * @sff MbrshbllfdObjfdtOutputStrfbm
+     */
+    privbtf stbtid dlbss MbrshbllfdObjfdtInputStrfbm
+        fxtfnds MbrshblInputStrfbm
+    {
+        /**
+         * Thf strfbm from whidh bnnotbtions will bf rfbd.  If this is
+         * <dodf>null</dodf>, thfn bll bnnotbtions wfrf <dodf>null</dodf>.
+         */
+        privbtf ObjfdtInputStrfbm lodIn;
+
+        /**
+         * Crfbtfs b nfw <dodf>MbrshbllfdObjfdtInputStrfbm</dodf> thbt
+         * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
+         * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
+         * <dodf>null</dodf>, thfn bll bnnotbtions will bf
+         * <dodf>null</dodf>.
+         */
+        MbrshbllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+            throws IOExdfption
+        {
+            supfr(objIn);
+            this.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+        }
+
+        /**
+         * Ovfrridfs MbrshblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * thf strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * <dodf>null</dodf> lodbtion strfbm.
+         */
+        protfdtfd Objfdt rfbdLodbtion()
+            throws IOExdfption, ClbssNotFoundExdfption
+        {
+            rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+        }
+    }
+
+}

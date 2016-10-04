@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.Graphics;
-import java.awt.Point;
-import javax.swing.Action;
-import javax.swing.event.ChangeListener;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Point;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
 
 /**
- * A place within a document view that represents where
- * things can be inserted into the document model.  A caret
- * has a position in the document referred to as a dot.
- * The dot is where the caret is currently located in the
- * model.  There is
- * a second position maintained by the caret that represents
- * the other end of a selection called mark.  If there is
- * no selection the dot and mark will be equal.  If a selection
- * exists, the two values will be different.
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * modfl.  Tifrf is
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * fxists, tif two vblufs will bf difffrfnt.
  * <p>
- * The dot can be placed by either calling
- * <code>setDot</code> or <code>moveDot</code>.  Setting
- * the dot has the effect of removing any selection that may
- * have previously existed.  The dot and mark will be equal.
- * Moving the dot has the effect of creating a selection as
- * the mark is left at whatever position it previously had.
+ * Tif dot dbn bf plbdfd by fitifr dblling
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public interface Caret {
+publid intfrfbdf Cbrft {
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  This can be used
-     * to gain access to the model that is being navigated
-     * by the implementation of this interface.
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * by tif implfmfntbtion of tiis intfrfbdf.
      *
-     * @param c the JTextComponent
+     * @pbrbm d tif JTfxtComponfnt
      */
-    public void install(JTextComponent c);
+    publid void instbll(JTfxtComponfnt d);
 
     /**
-     * Called when the UI is being removed from the
-     * interface of a JTextComponent.  This is used to
-     * unregister any listeners that were attached.
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
      *
-     * @param c the JTextComponent
+     * @pbrbm d tif JTfxtComponfnt
      */
-    public void deinstall(JTextComponent c);
+    publid void dfinstbll(JTfxtComponfnt d);
 
     /**
-     * Renders the caret. This method is called by UI classes.
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
      *
-     * @param g the graphics context
+     * @pbrbm g tif grbpiids dontfxt
      */
-    public void paint(Graphics g);
+    publid void pbint(Grbpiids g);
 
     /**
-     * Adds a listener to track whenever the caret position
-     * has been changed.
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * ibs bffn dibngfd.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void addChangeListener(ChangeListener l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
 
     /**
-     * Removes a listener that was tracking caret position changes.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void removeChangeListener(ChangeListener l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
 
     /**
-     * Determines if the caret is currently visible.
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
      *
-     * @return true if the caret is visible else false
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
      */
-    public boolean isVisible();
+    publid boolfbn isVisiblf();
 
     /**
-     * Sets the visibility of the caret.
+     * Sfts tif visibility of tif dbrft.
      *
-     * @param v  true if the caret should be shown,
-     *  and false if the caret should be hidden
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     *  bnd fblsf if tif dbrft siould bf iiddfn
      */
-    public void setVisible(boolean v);
+    publid void sftVisiblf(boolfbn v);
 
     /**
-     * Determines if the selection is currently visible.
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
      *
-     * @return true if the caret is visible else false
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
      */
-    public boolean isSelectionVisible();
+    publid boolfbn isSflfdtionVisiblf();
 
     /**
-     * Sets the visibility of the selection
+     * Sfts tif visibility of tif sflfdtion
      *
-     * @param v  true if the caret should be shown,
-     *  and false if the caret should be hidden
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     *  bnd fblsf if tif dbrft siould bf iiddfn
      */
-    public void setSelectionVisible(boolean v);
+    publid void sftSflfdtionVisiblf(boolfbn v);
 
     /**
-     * Set the current caret visual location.  This can be used when
-     * moving between lines that have uneven end positions (such as
-     * when caret up or down actions occur).  If text flows
-     * left-to-right or right-to-left the x-coordinate will indicate
-     * the desired navigation location for vertical movement.  If
-     * the text flow is top-to-bottom, the y-coordinate will indicate
-     * the desired navigation location for horizontal movement.
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
      *
-     * @param p  the Point to use for the saved position.  This
-     *   can be null to indicate there is no visual location.
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
      */
-    public void setMagicCaretPosition(Point p);
+    publid void sftMbgidCbrftPosition(Point p);
 
     /**
-     * Gets the current caret visual location.
+     * Gfts tif durrfnt dbrft visubl lodbtion.
      *
-     * @return the visual position.
-     * @see #setMagicCaretPosition
+     * @rfturn tif visubl position.
+     * @sff #sftMbgidCbrftPosition
      */
-    public Point getMagicCaretPosition();
+    publid Point gftMbgidCbrftPosition();
 
     /**
-     * Sets the blink rate of the caret.  This determines if
-     * and how fast the caret blinks, commonly used as one
-     * way to attract attention to the caret.
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to tif dbrft.
      *
-     * @param rate  the delay in milliseconds &gt;=0.  If this is
-     *  zero the caret will not blink.
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     *  zfro tif dbrft will not blink.
      */
-    public void setBlinkRate(int rate);
+    publid void sftBlinkRbtf(int rbtf);
 
     /**
-     * Gets the blink rate of the caret.  This determines if
-     * and how fast the caret blinks, commonly used as one
-     * way to attract attention to the caret.
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to tif dbrft.
      *
-     * @return the delay in milliseconds &gt;=0.  If this is
-     *  zero the caret will not blink.
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     *  zfro tif dbrft will not blink.
      */
-    public int getBlinkRate();
+    publid int gftBlinkRbtf();
 
     /**
-     * Fetches the current position of the caret.
+     * Fftdifs tif durrfnt position of tif dbrft.
      *
-     * @return the position &gt;=0
+     * @rfturn tif position &gt;=0
      */
-    public int getDot();
+    publid int gftDot();
 
     /**
-     * Fetches the current position of the mark.  If there
-     * is a selection, the mark will not be the same as
-     * the dot.
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * tif dot.
      *
-     * @return the position &gt;=0
+     * @rfturn tif position &gt;=0
      */
-    public int getMark();
+    publid int gftMbrk();
 
     /**
-     * Sets the caret position to some position.  This
-     * causes the mark to become the same as the dot,
-     * effectively setting the selection range to zero.
+     * Sfts tif dbrft position to somf position.  Tiis
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
      * <p>
-     * If the parameter is negative or beyond the length of the document,
-     * the caret is placed at the beginning or at the end, respectively.
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
      *
-     * @param dot  the new position to set the caret to
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
      */
-    public void setDot(int dot);
+    publid void sftDot(int dot);
 
     /**
-     * Moves the caret position (dot) to some other position,
-     * leaving behind the mark.  This is useful for
-     * making selections.
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * mbking sflfdtions.
      *
-     * @param dot  the new position to move the caret to &gt;=0
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
      */
-    public void moveDot(int dot);
+    publid void movfDot(int dot);
 
 };

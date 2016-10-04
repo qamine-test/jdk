@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth;
+
+/**
+ * Objfdts sudh bs drfdfntibls mby optionblly implfmfnt this
+ * intfrfbdf to providf thf dbpbbility to rffrfsh itsflf.
+ * For fxbmplf, b drfdfntibl with b pbrtidulbr timf-rfstridtfd liffspbn
+ * mby implfmfnt this intfrfbdf to bllow dbllfrs to rffrfsh thf timf pfriod
+ * for whidh it is vblid.
+ *
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ */
+publid intfrfbdf Rffrfshbblf {
+
+    /**
+     * Dftfrminf if this {@dodf Objfdt} is durrfnt.
+     *
+     * <p>
+     *
+     * @rfturn truf if this {@dodf Objfdt} is durrfntly durrfnt,
+     *          fblsf othfrwisf.
+     */
+    boolfbn isCurrfnt();
+
+    /**
+     * Updbtf or fxtfnd thf vblidity pfriod for this
+     * {@dodf Objfdt}.
+     *
+     * <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to updbtf or fxtfnd thf vblidity pfriod for this
+     *          {@dodf Objfdt}. <p>
+     *
+     * @fxdfption RffrfshFbilfdExdfption if thf rffrfsh bttfmpt fbilfd.
+     */
+    void rffrfsh() throws RffrfshFbilfdExdfption;
+}

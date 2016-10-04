@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2002, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.util.Compbrbtor;
+
+/** Implfmfnts b lodblf bnd dbsf insfnsitivf dompbrbtor suitbblf for
+    strings thbt brf known to only dontbin ASCII dhbrbdtfrs. Somf
+    tbblfs intfrnbl to thf JDK dontbin only ASCII dbtb bnd brf using
+    thf "gfnfrblizfd" jbvb.lbng.String dbsf-insfnsitivf dompbrbtor
+    whidh donvfrts fbdh dhbrbdtfr to both uppfr bnd lowfr dbsf. */
+
+publid dlbss ASCIICbsfInsfnsitivfCompbrbtor implfmfnts Compbrbtor<String> {
+    publid stbtid finbl Compbrbtor<String> CASE_INSENSITIVE_ORDER =
+        nfw ASCIICbsfInsfnsitivfCompbrbtor();
+
+    publid int dompbrf(String s1, String s2) {
+        int n1=s1.lfngth(), n2=s2.lfngth();
+        int minLfn = n1 < n2 ? n1 : n2;
+        for (int i=0; i < minLfn; i++) {
+            dhbr d1 = s1.dhbrAt(i);
+            dhbr d2 = s2.dhbrAt(i);
+            bssfrt d1 <= '\u007F' && d2 <= '\u007F';
+            if (d1 != d2) {
+                d1 = (dhbr)toLowfr(d1);
+                d2 = (dhbr)toLowfr(d2);
+                if (d1 != d2) {
+                    rfturn d1 - d2;
+                }
+            }
+        }
+        rfturn n1 - n2;
+    }
+
+    /**
+     * A dbsf insfnsitivf hbsh dodf mfthod to go with thf dbsf insfnsitivf
+     * dompbrf() mfthod.
+     *
+     * Rfturns b hbsh dodf for this ASCII string bs if it wfrf lowfr dbsf.
+     *
+     * rfturns sbmf bnswfr bs:<p>
+     * <dodf>s.toLowfrCbsf(Lodblf.US).hbshCodf();</dodf><p>
+     * but dofs not bllodbtf mfmory (it dofs NOT hbvf thf spfdibl
+     * dbsf Turkish rulfs).
+     *
+     * @pbrbm s b String to domputf thf hbshdodf on.
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid stbtid int lowfrCbsfHbshCodf(String s) {
+        int h = 0;
+        int lfn = s.lfngth();
+
+        for (int i = 0; i < lfn; i++) {
+            h = 31*h + toLowfr(s.dhbrAt(i));
+        }
+
+        rfturn h;
+    }
+
+    /* If jbvb.util.rfgfx.ASCII fvfr bfdomfs publid or sun.*, usf its dodf instfbd:*/
+    stbtid boolfbn isLowfr(int dh) {
+        rfturn ((dh-'b')|('z'-dh)) >= 0;
+    }
+
+    stbtid boolfbn isUppfr(int dh) {
+        rfturn ((dh-'A')|('Z'-dh)) >= 0;
+    }
+
+    stbtid int toLowfr(int dh) {
+        rfturn isUppfr(dh) ? (dh + 0x20) : dh;
+    }
+
+    stbtid int toUppfr(int dh) {
+        rfturn isLowfr(dh) ? (dh - 0x20) : dh;
+    }
+}

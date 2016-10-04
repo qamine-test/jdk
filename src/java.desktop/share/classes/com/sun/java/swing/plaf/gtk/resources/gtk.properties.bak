@@ -1,54 +1,54 @@
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 
 
 
-# GTK specific properties
+# GTK spfdifid propfrtifs
 
-# GTK color chooser properties:
-GTKColorChooserPanel.textAndMnemonic=&GTK Color Chooser
-# mnemonic as a VK_ constant
+# GTK dolor dioosfr propfrtifs:
+GTKColorCioosfrPbnfl.tfxtAndMnfmonid=&GTK Color Cioosfr
+# mnfmonid bs b VK_ donstbnt
 
-GTKColorChooserPanel.hue.textAndMnemonic=&Hue:
+GTKColorCioosfrPbnfl.iuf.tfxtAndMnfmonid=&Huf:
 
-GTKColorChooserPanel.red.textAndMnemonic=R&ed:
+GTKColorCioosfrPbnfl.rfd.tfxtAndMnfmonid=R&fd:
 
-GTKColorChooserPanel.saturation.textAndMnemonic=&Saturation:
+GTKColorCioosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturbtion:
 
-GTKColorChooserPanel.green.textAndMnemonic=&Green:
+GTKColorCioosfrPbnfl.grffn.tfxtAndMnfmonid=&Grffn:
 
-GTKColorChooserPanel.value.textAndMnemonic=&Value:
+GTKColorCioosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vbluf:
 
-GTKColorChooserPanel.blue.textAndMnemonic=&Blue:
+GTKColorCioosfrPbnfl.bluf.tfxtAndMnfmonid=&Bluf:
 
-GTKColorChooserPanel.color.textAndMnemonic=Color &Name:
+GTKColorCioosfrPbnfl.dolor.tfxtAndMnfmonid=Color &Nbmf:
 
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.acceptAllFileFilter.textAndMnemonic=All Files
-FileChooser.newFolderButton.textAndMnemonic=&New Folder
-FileChooser.newFolderDialog.textAndMnemonic=Folder name:
-FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic=Error
-FileChooser.newFolderNoDirectoryError.textAndMnemonic=Error creating directory "{0}": No such file or directory
-FileChooser.deleteFileButton.textAndMnemonic=De&lete File
-FileChooser.renameFileButton.textAndMnemonic=&Rename File
-FileChooser.cancelButton.textAndMnemonic=&Cancel
-FileChooser.saveButton.textAndMnemonic=&OK
-FileChooser.openButton.textAndMnemonic=&OK
-FileChooser.saveDialogTitle.textAndMnemonic=Save
-FileChooser.openDialogTitle.textAndMnemonic=Open
-FileChooser.pathLabel.textAndMnemonic=&Selection:
-FileChooser.filterLabel.textAndMnemonic=Filter:
-FileChooser.foldersLabel.textAndMnemonic=Fol&ders
-FileChooser.filesLabel.textAndMnemonic=&Files
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=All Filfs
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Nfw Foldfr
+FilfCioosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Foldfr nbmf:
+FilfCioosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Error
+FilfCioosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Error drfbting dirfdtory "{0}": No sudi filf or dirfdtory
+FilfCioosfr.dflftfFilfButton.tfxtAndMnfmonid=Df&lftf Filf
+FilfCioosfr.rfnbmfFilfButton.tfxtAndMnfmonid=&Rfnbmf Filf
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=&Cbndfl
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sbvf
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Opfn
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=&Sflfdtion:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtfr:
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Fol&dfrs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=&Filfs
 
-FileChooser.cancelButtonToolTip.textAndMnemonic=Abort file chooser dialog.
-FileChooser.saveButtonToolTip.textAndMnemonic=Save selected file.
-FileChooser.openButtonToolTip.textAndMnemonic=Open selected file.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abort filf dioosfr diblog.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sbvf sflfdtfd filf.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Opfn sflfdtfd filf.
 
-FileChooser.renameFileDialog.textAndMnemonic=Rename file "{0}" to
-FileChooser.renameFileError.titleAndMnemonic=Error
-FileChooser.renameFileError.textAndMnemonic=Error renaming file "{0}" to "{1}"
+FilfCioosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Rfnbmf filf "{0}" to
+FilfCioosfr.rfnbmfFilfError.titlfAndMnfmonid=Error
+FilfCioosfr.rfnbmfFilfError.tfxtAndMnfmonid=Error rfnbming filf "{0}" to "{1}"
 

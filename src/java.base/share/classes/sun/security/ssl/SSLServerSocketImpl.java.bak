@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
 
-import java.security.AlgorithmConstraints;
+import jbvb.sfdurity.AlgoritimConstrbints;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SNIMatcher;
+import jbvbx.nft.ssl.SSLExdfption;
+import jbvbx.nft.ssl.SSLSfrvfrSodkft;
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+import jbvbx.nft.ssl.SNIMbtdifr;
 
 
 /**
- * This class provides a simple way for servers to support conventional
- * use of the Secure Sockets Layer (SSL).  Application code uses an
- * SSLServerSocketImpl exactly like it uses a regular TCP ServerSocket; the
- * difference is that the connections established are secured using SSL.
+ * Tiis dlbss providfs b simplf wby for sfrvfrs to support donvfntionbl
+ * usf of tif Sfdurf Sodkfts Lbyfr (SSL).  Applidbtion dodf usfs bn
+ * SSLSfrvfrSodkftImpl fxbdtly likf it usfs b rfgulbr TCP SfrvfrSodkft; tif
+ * difffrfndf is tibt tif donnfdtions fstbblisifd brf sfdurfd using SSL.
  *
- * <P> Also, the constructors take an explicit authentication context
- * parameter, giving flexibility with respect to how the server socket
- * authenticates itself.  That policy flexibility is not exposed through
- * the standard SSLServerSocketFactory API.
+ * <P> Also, tif donstrudtors tbkf bn fxplidit butifntidbtion dontfxt
+ * pbrbmftfr, giving flfxibility witi rfspfdt to iow tif sfrvfr sodkft
+ * butifntidbtfs itsflf.  Tibt polidy flfxibility is not fxposfd tirougi
+ * tif stbndbrd SSLSfrvfrSodkftFbdtory API.
  *
- * <P> System security defaults prevent server sockets from accepting
- * connections if they the authentication context has not been given
- * a certificate chain and its matching private key.  If the clients
- * of your application support "anonymous" cipher suites, you may be
- * able to configure a server socket to accept those suites.
+ * <P> Systfm sfdurity dffbults prfvfnt sfrvfr sodkfts from bddfpting
+ * donnfdtions if tify tif butifntidbtion dontfxt ibs not bffn givfn
+ * b dfrtifidbtf dibin bnd its mbtdiing privbtf kfy.  If tif dlifnts
+ * of your bpplidbtion support "bnonymous" dipifr suitfs, you mby bf
+ * bblf to donfigurf b sfrvfr sodkft to bddfpt tiosf suitfs.
  *
- * @see SSLSocketImpl
- * @see SSLServerSocketFactoryImpl
+ * @sff SSLSodkftImpl
+ * @sff SSLSfrvfrSodkftFbdtoryImpl
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-final
-class SSLServerSocketImpl extends SSLServerSocket
+finbl
+dlbss SSLSfrvfrSodkftImpl fxtfnds SSLSfrvfrSodkft
 {
-    private SSLContextImpl      sslContext;
+    privbtf SSLContfxtImpl      sslContfxt;
 
-    /* Do newly accepted connections require clients to authenticate? */
-    private byte                doClientAuth = SSLEngineImpl.clauth_none;
+    /* Do nfwly bddfptfd donnfdtions rfquirf dlifnts to butifntidbtf? */
+    privbtf bytf                doClifntAuti = SSLEnginfImpl.dlbuti_nonf;
 
-    /* Do new connections created here use the "server" mode of SSL? */
-    private boolean             useServerMode = true;
+    /* Do nfw donnfdtions drfbtfd ifrf usf tif "sfrvfr" modf of SSL? */
+    privbtf boolfbn             usfSfrvfrModf = truf;
 
-    /* Can new connections created establish new sessions? */
-    private boolean             enableSessionCreation = true;
+    /* Cbn nfw donnfdtions drfbtfd fstbblisi nfw sfssions? */
+    privbtf boolfbn             fnbblfSfssionCrfbtion = truf;
 
-    /* what cipher suites to use by default */
-    private CipherSuiteList     enabledCipherSuites = null;
+    /* wibt dipifr suitfs to usf by dffbult */
+    privbtf CipifrSuitfList     fnbblfdCipifrSuitfs = null;
 
-    /* which protocol to use by default */
-    private ProtocolList        enabledProtocols = null;
+    /* wiidi protodol to usf by dffbult */
+    privbtf ProtodolList        fnbblfdProtodols = null;
 
-    // the endpoint identification protocol to use by default
-    private String              identificationProtocol = null;
+    // tif fndpoint idfntifidbtion protodol to usf by dffbult
+    privbtf String              idfntifidbtionProtodol = null;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints    algorithmConstraints = null;
+    // Tif dryptogrbpiid blgoritim donstrbints
+    privbtf AlgoritimConstrbints    blgoritimConstrbints = null;
 
-    // The server name indication
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // Tif sfrvfr nbmf indidbtion
+    Collfdtion<SNIMbtdifr>      sniMbtdifrs =
+                                    Collfdtions.<SNIMbtdifr>fmptyList();
 
     /*
-     * Whether local cipher suites preference in server side should be
-     * honored during handshaking?
+     * Wiftifr lodbl dipifr suitfs prfffrfndf in sfrvfr sidf siould bf
+     * ionorfd during ibndsibking?
      */
-    private boolean             preferLocalCipherSuites = false;
+    privbtf boolfbn             prfffrLodblCipifrSuitfs = fblsf;
 
     /**
-     * Create an SSL server socket on a port, using a non-default
-     * authentication context and a specified connection backlog.
+     * Crfbtf bn SSL sfrvfr sodkft on b port, using b non-dffbult
+     * butifntidbtion dontfxt bnd b spfdififd donnfdtion bbdklog.
      *
-     * @param port the port on which to listen
-     * @param backlog how many connections may be pending before
-     *          the system should start rejecting new requests
-     * @param context authentication context for this server
+     * @pbrbm port tif port on wiidi to listfn
+     * @pbrbm bbdklog iow mbny donnfdtions mby bf pfnding bfforf
+     *          tif systfm siould stbrt rfjfdting nfw rfqufsts
+     * @pbrbm dontfxt butifntidbtion dontfxt for tiis sfrvfr
      */
-    SSLServerSocketImpl(int port, int backlog, SSLContextImpl context)
-    throws IOException, SSLException
+    SSLSfrvfrSodkftImpl(int port, int bbdklog, SSLContfxtImpl dontfxt)
+    tirows IOExdfption, SSLExdfption
     {
-        super(port, backlog);
-        initServer(context);
+        supfr(port, bbdklog);
+        initSfrvfr(dontfxt);
     }
 
 
     /**
-     * Create an SSL server socket on a port, using a specified
-     * authentication context and a specified backlog of connections
-     * as well as a particular specified network interface.  This
-     * constructor is used on multihomed hosts, such as those used
-     * for firewalls or as routers, to control through which interface
-     * a network service is provided.
+     * Crfbtf bn SSL sfrvfr sodkft on b port, using b spfdififd
+     * butifntidbtion dontfxt bnd b spfdififd bbdklog of donnfdtions
+     * bs wfll bs b pbrtidulbr spfdififd nftwork intfrfbdf.  Tiis
+     * donstrudtor is usfd on multiiomfd iosts, sudi bs tiosf usfd
+     * for firfwblls or bs routfrs, to dontrol tirougi wiidi intfrfbdf
+     * b nftwork sfrvidf is providfd.
      *
-     * @param port the port on which to listen
-     * @param backlog how many connections may be pending before
-     *          the system should start rejecting new requests
-     * @param address the address of the network interface through
-     *          which connections will be accepted
-     * @param context authentication context for this server
+     * @pbrbm port tif port on wiidi to listfn
+     * @pbrbm bbdklog iow mbny donnfdtions mby bf pfnding bfforf
+     *          tif systfm siould stbrt rfjfdting nfw rfqufsts
+     * @pbrbm bddrfss tif bddrfss of tif nftwork intfrfbdf tirougi
+     *          wiidi donnfdtions will bf bddfptfd
+     * @pbrbm dontfxt butifntidbtion dontfxt for tiis sfrvfr
      */
-    SSLServerSocketImpl(
+    SSLSfrvfrSodkftImpl(
         int             port,
-        int             backlog,
-        InetAddress     address,
-        SSLContextImpl  context)
-        throws IOException
+        int             bbdklog,
+        InftAddrfss     bddrfss,
+        SSLContfxtImpl  dontfxt)
+        tirows IOExdfption
     {
-        super(port, backlog, address);
-        initServer(context);
+        supfr(port, bbdklog, bddrfss);
+        initSfrvfr(dontfxt);
     }
 
 
     /**
-     * Creates an unbound server socket.
+     * Crfbtfs bn unbound sfrvfr sodkft.
      */
-    SSLServerSocketImpl(SSLContextImpl context) throws IOException {
-        super();
-        initServer(context);
+    SSLSfrvfrSodkftImpl(SSLContfxtImpl dontfxt) tirows IOExdfption {
+        supfr();
+        initSfrvfr(dontfxt);
     }
 
 
     /**
-     * Initializes the server socket.
+     * Initiblizfs tif sfrvfr sodkft.
      */
-    private void initServer(SSLContextImpl context) throws SSLException {
-        if (context == null) {
-            throw new SSLException("No Authentication context given");
+    privbtf void initSfrvfr(SSLContfxtImpl dontfxt) tirows SSLExdfption {
+        if (dontfxt == null) {
+            tirow nfw SSLExdfption("No Autifntidbtion dontfxt givfn");
         }
-        sslContext = context;
-        enabledCipherSuites = sslContext.getDefaultCipherSuiteList(true);
-        enabledProtocols = sslContext.getDefaultProtocolList(true);
+        sslContfxt = dontfxt;
+        fnbblfdCipifrSuitfs = sslContfxt.gftDffbultCipifrSuitfList(truf);
+        fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(truf);
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not support tif mutubl butifntidbtion of sfrvfrs bnd dlifnts, or
+     * wiidi do not protfdt dbtb donfidfntiblity.  Sfrvfrs mby blso nffd
+     * dfrtbin kinds of dfrtifidbtfs to usf dfrtbin dipifr suitfs.
      *
-     * @return an array of cipher suite names
+     * @rfturn bn brrby of dipifr suitf nbmfs
      */
-    @Override
-    public String[] getSupportedCipherSuites() {
-        return sslContext.getSupportedCipherSuiteList().toStringArray();
+    @Ovfrridf
+    publid String[] gftSupportfdCipifrSuitfs() {
+        rfturn sslContfxt.gftSupportfdCipifrSuitfList().toStringArrby();
     }
 
     /**
-     * Returns the list of cipher suites which are currently enabled
-     * for use by newly accepted connections.  A null return indicates
-     * that the system defaults are in effect.
+     * Rfturns tif list of dipifr suitfs wiidi brf durrfntly fnbblfd
+     * for usf by nfwly bddfptfd donnfdtions.  A null rfturn indidbtfs
+     * tibt tif systfm dffbults brf in ffffdt.
      */
-    @Override
-    synchronized public String[] getEnabledCipherSuites() {
-        return enabledCipherSuites.toStringArray();
+    @Ovfrridf
+    syndironizfd publid String[] gftEnbblfdCipifrSuitfs() {
+        rfturn fnbblfdCipifrSuitfs.toStringArrby();
     }
 
     /**
-     * Controls which particular SSL cipher suites are enabled for use
-     * by accepted connections.
+     * Controls wiidi pbrtidulbr SSL dipifr suitfs brf fnbblfd for usf
+     * by bddfptfd donnfdtions.
      *
-     * @param suites Names of all the cipher suites to enable; null
-     *  means to accept system defaults.
+     * @pbrbm suitfs Nbmfs of bll tif dipifr suitfs to fnbblf; null
+     *  mfbns to bddfpt systfm dffbults.
      */
-    @Override
-    synchronized public void setEnabledCipherSuites(String[] suites) {
-        enabledCipherSuites = new CipherSuiteList(suites);
+    @Ovfrridf
+    syndironizfd publid void sftEnbblfdCipifrSuitfs(String[] suitfs) {
+        fnbblfdCipifrSuitfs = nfw CipifrSuitfList(suitfs);
     }
 
-    @Override
-    public String[] getSupportedProtocols() {
-        return sslContext.getSuportedProtocolList().toStringArray();
+    @Ovfrridf
+    publid String[] gftSupportfdProtodols() {
+        rfturn sslContfxt.gftSuportfdProtodolList().toStringArrby();
     }
 
     /**
-     * Controls which protocols are enabled for use.
-     * The protocols must have been listed by
-     * getSupportedProtocols() as being supported.
+     * Controls wiidi protodols brf fnbblfd for usf.
+     * Tif protodols must ibvf bffn listfd by
+     * gftSupportfdProtodols() bs bfing supportfd.
      *
-     * @param protocols protocols to enable.
-     * @exception IllegalArgumentException when one of the protocols
-     *  named by the parameter is not supported.
+     * @pbrbm protodols protodols to fnbblf.
+     * @fxdfption IllfgblArgumfntExdfption wifn onf of tif protodols
+     *  nbmfd by tif pbrbmftfr is not supportfd.
      */
-    @Override
-    synchronized public void setEnabledProtocols(String[] protocols) {
-        enabledProtocols = new ProtocolList(protocols);
+    @Ovfrridf
+    syndironizfd publid void sftEnbblfdProtodols(String[] protodols) {
+        fnbblfdProtodols = nfw ProtodolList(protodols);
     }
 
-    @Override
-    synchronized public String[] getEnabledProtocols() {
-        return enabledProtocols.toStringArray();
+    @Ovfrridf
+    syndironizfd publid String[] gftEnbblfdProtodols() {
+        rfturn fnbblfdProtodols.toStringArrby();
     }
 
     /**
-     * Controls whether the connections which are accepted must include
-     * client authentication.
+     * Controls wiftifr tif donnfdtions wiidi brf bddfptfd must indludf
+     * dlifnt butifntidbtion.
      */
-    @Override
-    public void setNeedClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_required : SSLEngineImpl.clauth_none);
+    @Ovfrridf
+    publid void sftNffdClifntAuti(boolfbn flbg) {
+        doClifntAuti = (flbg ?
+            SSLEnginfImpl.dlbuti_rfquirfd : SSLEnginfImpl.dlbuti_nonf);
     }
 
-    @Override
-    public boolean getNeedClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_required);
+    @Ovfrridf
+    publid boolfbn gftNffdClifntAuti() {
+        rfturn (doClifntAuti == SSLEnginfImpl.dlbuti_rfquirfd);
     }
 
     /**
-     * Controls whether the connections which are accepted should request
-     * client authentication.
+     * Controls wiftifr tif donnfdtions wiidi brf bddfptfd siould rfqufst
+     * dlifnt butifntidbtion.
      */
-    @Override
-    public void setWantClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_requested : SSLEngineImpl.clauth_none);
+    @Ovfrridf
+    publid void sftWbntClifntAuti(boolfbn flbg) {
+        doClifntAuti = (flbg ?
+            SSLEnginfImpl.dlbuti_rfqufstfd : SSLEnginfImpl.dlbuti_nonf);
     }
 
-    @Override
-    public boolean getWantClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_requested);
+    @Ovfrridf
+    publid boolfbn gftWbntClifntAuti() {
+        rfturn (doClifntAuti == SSLEnginfImpl.dlbuti_rfqufstfd);
     }
 
     /**
-     * Makes the returned sockets act in SSL "client" mode, not the usual
-     * server mode.  The canonical example of why this is needed is for
-     * FTP clients, which accept connections from servers and should be
-     * rejoining the already-negotiated SSL connection.
+     * Mbkfs tif rfturnfd sodkfts bdt in SSL "dlifnt" modf, not tif usubl
+     * sfrvfr modf.  Tif dbnonidbl fxbmplf of wiy tiis is nffdfd is for
+     * FTP dlifnts, wiidi bddfpt donnfdtions from sfrvfrs bnd siould bf
+     * rfjoining tif blrfbdy-nfgotibtfd SSL donnfdtion.
      */
-    @Override
-    public void setUseClientMode(boolean flag) {
+    @Ovfrridf
+    publid void sftUsfClifntModf(boolfbn flbg) {
         /*
-         * If we need to change the socket mode and the enabled
-         * protocols haven't specifically been set by the user,
-         * change them to the corresponding default ones.
+         * If wf nffd to dibngf tif sodkft modf bnd tif fnbblfd
+         * protodols ibvfn't spfdifidblly bffn sft by tif usfr,
+         * dibngf tifm to tif dorrfsponding dffbult onfs.
          */
-        if (useServerMode != (!flag) &&
-                sslContext.isDefaultProtocolList(enabledProtocols)) {
-            enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+        if (usfSfrvfrModf != (!flbg) &&
+                sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+            fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
         }
 
-        useServerMode = !flag;
+        usfSfrvfrModf = !flbg;
     }
 
-    @Override
-    public boolean getUseClientMode() {
-        return !useServerMode;
+    @Ovfrridf
+    publid boolfbn gftUsfClifntModf() {
+        rfturn !usfSfrvfrModf;
     }
 
 
     /**
-     * Controls whether new connections may cause creation of new SSL
-     * sessions.
+     * Controls wiftifr nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
      */
-    @Override
-    public void setEnableSessionCreation(boolean flag) {
-        enableSessionCreation = flag;
+    @Ovfrridf
+    publid void sftEnbblfSfssionCrfbtion(boolfbn flbg) {
+        fnbblfSfssionCrfbtion = flbg;
     }
 
     /**
-     * Returns true if new connections may cause creation of new SSL
-     * sessions.
+     * Rfturns truf if nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
      */
-    @Override
-    public boolean getEnableSessionCreation() {
-        return enableSessionCreation;
+    @Ovfrridf
+    publid boolfbn gftEnbblfSfssionCrfbtion() {
+        rfturn fnbblfSfssionCrfbtion;
     }
 
     /**
-     * Returns the SSLParameters in effect for newly accepted connections.
+     * Rfturns tif SSLPbrbmftfrs in ffffdt for nfwly bddfptfd donnfdtions.
      */
-    @Override
-    synchronized public SSLParameters getSSLParameters() {
-        SSLParameters params = super.getSSLParameters();
+    @Ovfrridf
+    syndironizfd publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = supfr.gftSSLPbrbmftfrs();
 
-        // the super implementation does not handle the following parameters
-        params.setEndpointIdentificationAlgorithm(identificationProtocol);
-        params.setAlgorithmConstraints(algorithmConstraints);
-        params.setSNIMatchers(sniMatchers);
-        params.setUseCipherSuitesOrder(preferLocalCipherSuites);
+        // tif supfr implfmfntbtion dofs not ibndlf tif following pbrbmftfrs
+        pbrbms.sftEndpointIdfntifidbtionAlgoritim(idfntifidbtionProtodol);
+        pbrbms.sftAlgoritimConstrbints(blgoritimConstrbints);
+        pbrbms.sftSNIMbtdifrs(sniMbtdifrs);
+        pbrbms.sftUsfCipifrSuitfsOrdfr(prfffrLodblCipifrSuitfs);
 
 
-        return params;
+        rfturn pbrbms;
     }
 
     /**
-     * Applies SSLParameters to newly accepted connections.
+     * Applifs SSLPbrbmftfrs to nfwly bddfptfd donnfdtions.
      */
-    @Override
-    synchronized public void setSSLParameters(SSLParameters params) {
-        super.setSSLParameters(params);
+    @Ovfrridf
+    syndironizfd publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        supfr.sftSSLPbrbmftfrs(pbrbms);
 
-        // the super implementation does not handle the following parameters
-        identificationProtocol = params.getEndpointIdentificationAlgorithm();
-        algorithmConstraints = params.getAlgorithmConstraints();
-        preferLocalCipherSuites = params.getUseCipherSuitesOrder();
-        Collection<SNIMatcher> matchers = params.getSNIMatchers();
-        if (matchers != null) {
-            sniMatchers = params.getSNIMatchers();
+        // tif supfr implfmfntbtion dofs not ibndlf tif following pbrbmftfrs
+        idfntifidbtionProtodol = pbrbms.gftEndpointIdfntifidbtionAlgoritim();
+        blgoritimConstrbints = pbrbms.gftAlgoritimConstrbints();
+        prfffrLodblCipifrSuitfs = pbrbms.gftUsfCipifrSuitfsOrdfr();
+        Collfdtion<SNIMbtdifr> mbtdifrs = pbrbms.gftSNIMbtdifrs();
+        if (mbtdifrs != null) {
+            sniMbtdifrs = pbrbms.gftSNIMbtdifrs();
         }
     }
 
     /**
-     * Accept a new SSL connection.  This server identifies itself with
-     * information provided in the authentication context which was
-     * presented during construction.
+     * Addfpt b nfw SSL donnfdtion.  Tiis sfrvfr idfntififs itsflf witi
+     * informbtion providfd in tif butifntidbtion dontfxt wiidi wbs
+     * prfsfntfd during donstrudtion.
      */
-    @Override
-    public Socket accept() throws IOException {
-        SSLSocketImpl s = new SSLSocketImpl(sslContext, useServerMode,
-            enabledCipherSuites, doClientAuth, enableSessionCreation,
-            enabledProtocols, identificationProtocol, algorithmConstraints,
-            sniMatchers, preferLocalCipherSuites);
+    @Ovfrridf
+    publid Sodkft bddfpt() tirows IOExdfption {
+        SSLSodkftImpl s = nfw SSLSodkftImpl(sslContfxt, usfSfrvfrModf,
+            fnbblfdCipifrSuitfs, doClifntAuti, fnbblfSfssionCrfbtion,
+            fnbblfdProtodols, idfntifidbtionProtodol, blgoritimConstrbints,
+            sniMbtdifrs, prfffrLodblCipifrSuitfs);
 
-        implAccept(s);
-        s.doneConnect();
-        return s;
+        implAddfpt(s);
+        s.donfConnfdt();
+        rfturn s;
     }
 
     /**
-     * Provides a brief description of this SSL socket.
+     * Providfs b briff dfsdription of tiis SSL sodkft.
      */
-    @Override
-    public String toString() {
-        return "[SSL: "+ super.toString() + "]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn "[SSL: "+ supfr.toString() + "]";
     }
 }

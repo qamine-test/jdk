@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
 /**
- * This class generates seeds for the SHA1PRNG cryptographically strong
- * random number generator.
+ * Tiis dlbss gfnfrbtfs sffds for tif SHA1PRNG dryptogrbpiidblly strong
+ * rbndom numbfr gfnfrbtor.
  * <p>
- * The seed is produced using one of two techniques, via a computation
- * of current system activity or from an entropy gathering device.
+ * Tif sffd is produdfd using onf of two tfdiniqufs, vib b domputbtion
+ * of durrfnt systfm bdtivity or from bn fntropy gbtifring dfvidf.
  * <p>
- * In the default technique the seed is produced by counting the
- * number of times the VM manages to loop in a given period. This number
- * roughly reflects the machine load at that point in time.
- * The samples are translated using a permutation (s-box)
- * and then XORed together. This process is non linear and
- * should prevent the samples from "averaging out". The s-box
- * was designed to have even statistical distribution; it's specific
- * values are not crucial for the security of the seed.
- * We also create a number of sleeper threads which add entropy
- * to the system by keeping the scheduler busy.
- * Twenty such samples should give us roughly 160 bits of randomness.
+ * In tif dffbult tfdiniquf tif sffd is produdfd by dounting tif
+ * numbfr of timfs tif VM mbnbgfs to loop in b givfn pfriod. Tiis numbfr
+ * rougily rfflfdts tif mbdiinf lobd bt tibt point in timf.
+ * Tif sbmplfs brf trbnslbtfd using b pfrmutbtion (s-box)
+ * bnd tifn XORfd togftifr. Tiis prodfss is non linfbr bnd
+ * siould prfvfnt tif sbmplfs from "bvfrbging out". Tif s-box
+ * wbs dfsignfd to ibvf fvfn stbtistidbl distribution; it's spfdifid
+ * vblufs brf not drudibl for tif sfdurity of tif sffd.
+ * Wf blso drfbtf b numbfr of slffpfr tirfbds wiidi bdd fntropy
+ * to tif systfm by kffping tif sdifdulfr busy.
+ * Twfnty sudi sbmplfs siould givf us rougily 160 bits of rbndomnfss.
  * <p>
- * These values are gathered in the background by a daemon thread
- * thus allowing the system to continue performing it's different
- * activites, which in turn add entropy to the random seed.
+ * Tifsf vblufs brf gbtifrfd in tif bbdkground by b dbfmon tirfbd
+ * tius bllowing tif systfm to dontinuf pfrforming it's difffrfnt
+ * bdtivitfs, wiidi in turn bdd fntropy to tif rbndom sffd.
  * <p>
- * The class also gathers miscellaneous system information, some
- * machine dependent, some not. This information is then hashed together
- * with the 20 seed bytes.
+ * Tif dlbss blso gbtifrs misdfllbnfous systfm informbtion, somf
+ * mbdiinf dfpfndfnt, somf not. Tiis informbtion is tifn ibsifd togftifr
+ * witi tif 20 sffd bytfs.
  * <p>
- * The alternative to the above approach is to acquire seed material
- * from an entropy gathering device, such as /dev/random. This can be
- * accomplished by setting the value of the {@code securerandom.source}
- * Security property to a URL specifying the location of the entropy
- * gathering device, or by setting the {@code java.security.egd} System
- * property.
+ * Tif bltfrnbtivf to tif bbovf bpprobdi is to bdquirf sffd mbtfribl
+ * from bn fntropy gbtifring dfvidf, sudi bs /dfv/rbndom. Tiis dbn bf
+ * bddomplisifd by sftting tif vbluf of tif {@dodf sfdurfrbndom.sourdf}
+ * Sfdurity propfrty to b URL spfdifying tif lodbtion of tif fntropy
+ * gbtifring dfvidf, or by sftting tif {@dodf jbvb.sfdurity.fgd} Systfm
+ * propfrty.
  * <p>
- * In the event the specified URL cannot be accessed the default
- * threading mechanism is used.
+ * In tif fvfnt tif spfdififd URL dbnnot bf bddfssfd tif dffbult
+ * tirfbding mfdibnism is usfd.
  *
- * @author Joshua Bloch
- * @author Gadi Guy
+ * @butior Josiub Blodi
+ * @butior Gbdi Guy
  */
 
-import java.security.*;
-import java.io.*;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.net.*;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Random;
-import sun.security.util.Debug;
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.*;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.util.Rbndom;
+import sun.sfdurity.util.Dfbug;
 
-abstract class SeedGenerator {
+bbstrbdt dlbss SffdGfnfrbtor {
 
-    // Static instance is created at link time
-    private static SeedGenerator instance;
+    // Stbtid instbndf is drfbtfd bt link timf
+    privbtf stbtid SffdGfnfrbtor instbndf;
 
-    private static final Debug debug = Debug.getInstance("provider");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("providfr");
 
-    // Static initializer to hook in selected or best performing generator
-    static {
-        String egdSource = SunEntries.getSeedSource();
+    // Stbtid initiblizfr to iook in sflfdtfd or bfst pfrforming gfnfrbtor
+    stbtid {
+        String fgdSourdf = SunEntrifs.gftSffdSourdf();
 
         /*
-         * Try the URL specifying the source (e.g. file:/dev/random)
+         * Try tif URL spfdifying tif sourdf (f.g. filf:/dfv/rbndom)
          *
-         * The URLs "file:/dev/random" or "file:/dev/urandom" are used to
-         * indicate the SeedGenerator should use OS support, if available.
+         * Tif URLs "filf:/dfv/rbndom" or "filf:/dfv/urbndom" brf usfd to
+         * indidbtf tif SffdGfnfrbtor siould usf OS support, if bvbilbblf.
          *
-         * On Windows, this causes the MS CryptoAPI seeder to be used.
+         * On Windows, tiis dbusfs tif MS CryptoAPI sffdfr to bf usfd.
          *
-         * On Solaris/Linux/MacOS, this is identical to using
-         * URLSeedGenerator to read from /dev/[u]random
+         * On Solbris/Linux/MbdOS, tiis is idfntidbl to using
+         * URLSffdGfnfrbtor to rfbd from /dfv/[u]rbndom
          */
-        if (egdSource.equals(SunEntries.URL_DEV_RANDOM) ||
-                egdSource.equals(SunEntries.URL_DEV_URANDOM)) {
+        if (fgdSourdf.fqubls(SunEntrifs.URL_DEV_RANDOM) ||
+                fgdSourdf.fqubls(SunEntrifs.URL_DEV_URANDOM)) {
             try {
-                instance = new NativeSeedGenerator(egdSource);
-                if (debug != null) {
-                    debug.println(
-                        "Using operating system seed generator" + egdSource);
+                instbndf = nfw NbtivfSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println(
+                        "Using opfrbting systfm sffd gfnfrbtor" + fgdSourdf);
                 }
-            } catch (IOException e) {
-                if (debug != null) {
-                    debug.println("Failed to use operating system seed "
-                                  + "generator: " + e.toString());
+            } dbtdi (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to usf opfrbting systfm sffd "
+                                  + "gfnfrbtor: " + f.toString());
                 }
             }
-        } else if (egdSource.length() != 0) {
+        } flsf if (fgdSourdf.lfngti() != 0) {
             try {
-                instance = new URLSeedGenerator(egdSource);
-                if (debug != null) {
-                    debug.println("Using URL seed generator reading from "
-                                  + egdSource);
+                instbndf = nfw URLSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println("Using URL sffd gfnfrbtor rfbding from "
+                                  + fgdSourdf);
                 }
-            } catch (IOException e) {
-                if (debug != null) {
-                    debug.println("Failed to create seed generator with "
-                                  + egdSource + ": " + e.toString());
+            } dbtdi (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to drfbtf sffd gfnfrbtor witi "
+                                  + fgdSourdf + ": " + f.toString());
                 }
             }
         }
 
-        // Fall back to ThreadedSeedGenerator
-        if (instance == null) {
-            if (debug != null) {
-                debug.println("Using default threaded seed generator");
+        // Fbll bbdk to TirfbdfdSffdGfnfrbtor
+        if (instbndf == null) {
+            if (dfbug != null) {
+                dfbug.println("Using dffbult tirfbdfd sffd gfnfrbtor");
             }
-            instance = new ThreadedSeedGenerator();
+            instbndf = nfw TirfbdfdSffdGfnfrbtor();
         }
     }
 
     /**
-     * Fill result with bytes from the queue. Wait for it if it isn't ready.
+     * Fill rfsult witi bytfs from tif qufuf. Wbit for it if it isn't rfbdy.
      */
-    static public void generateSeed(byte[] result) {
-        instance.getSeedBytes(result);
+    stbtid publid void gfnfrbtfSffd(bytf[] rfsult) {
+        instbndf.gftSffdBytfs(rfsult);
     }
 
-    abstract void getSeedBytes(byte[] result);
+    bbstrbdt void gftSffdBytfs(bytf[] rfsult);
 
     /**
-     * Retrieve some system information, hashed.
+     * Rftrifvf somf systfm informbtion, ibsifd.
      */
-    static byte[] getSystemEntropy() {
-        final MessageDigest md;
+    stbtid bytf[] gftSystfmEntropy() {
+        finbl MfssbgfDigfst md;
 
         try {
-            md = MessageDigest.getInstance("SHA");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new InternalError("internal error: SHA-1 not available.",
-                    nsae);
+            md = MfssbgfDigfst.gftInstbndf("SHA");
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf.",
+                    nsbf);
         }
 
-        // The current time in millis
-        byte b =(byte)System.currentTimeMillis();
-        md.update(b);
+        // Tif durrfnt timf in millis
+        bytf b =(bytf)Systfm.durrfntTimfMillis();
+        md.updbtf(b);
 
-        java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
                     try {
-                        // System properties can change from machine to machine
-                        Properties p = System.getProperties();
-                        for (String s: p.stringPropertyNames()) {
-                            md.update(s.getBytes());
-                            md.update(p.getProperty(s).getBytes());
+                        // Systfm propfrtifs dbn dibngf from mbdiinf to mbdiinf
+                        Propfrtifs p = Systfm.gftPropfrtifs();
+                        for (String s: p.stringPropfrtyNbmfs()) {
+                            md.updbtf(s.gftBytfs());
+                            md.updbtf(p.gftPropfrty(s).gftBytfs());
                         }
 
-                        // Include network adapter names (and a Mac address)
-                        addNetworkAdapterInfo(md);
+                        // Indludf nftwork bdbptfr nbmfs (bnd b Mbd bddrfss)
+                        bddNftworkAdbptfrInfo(md);
 
-                        // The temporary dir
-                        File f = new File(p.getProperty("java.io.tmpdir"));
-                        int count = 0;
+                        // Tif tfmporbry dir
+                        Filf f = nfw Filf(p.gftPropfrty("jbvb.io.tmpdir"));
+                        int dount = 0;
                         try (
-                            DirectoryStream<Path> stream =
-                                Files.newDirectoryStream(f.toPath())) {
-                            // We use a Random object to choose what file names
-                            // should be used. Otherwise on a machine with too
-                            // many files, the same first 1024 files always get
-                            // used. Any, We make sure the first 512 files are
-                            // always used.
-                            Random r = new Random();
-                            for (Path entry: stream) {
-                                if (count < 512 || r.nextBoolean()) {
-                                    md.update(entry.getFileName()
-                                        .toString().getBytes());
+                            DirfdtoryStrfbm<Pbti> strfbm =
+                                Filfs.nfwDirfdtoryStrfbm(f.toPbti())) {
+                            // Wf usf b Rbndom objfdt to dioosf wibt filf nbmfs
+                            // siould bf usfd. Otifrwisf on b mbdiinf witi too
+                            // mbny filfs, tif sbmf first 1024 filfs blwbys gft
+                            // usfd. Any, Wf mbkf surf tif first 512 filfs brf
+                            // blwbys usfd.
+                            Rbndom r = nfw Rbndom();
+                            for (Pbti fntry: strfbm) {
+                                if (dount < 512 || r.nfxtBoolfbn()) {
+                                    md.updbtf(fntry.gftFilfNbmf()
+                                        .toString().gftBytfs());
                                 }
-                                if (count++ > 1024) {
-                                    break;
+                                if (dount++ > 1024) {
+                                    brfbk;
                                 }
                             }
                         }
-                    } catch (Exception ex) {
-                        md.update((byte)ex.hashCode());
+                    } dbtdi (Exdfption fx) {
+                        md.updbtf((bytf)fx.ibsiCodf());
                     }
 
-                    // get Runtime memory stats
-                    Runtime rt = Runtime.getRuntime();
-                    byte[] memBytes = longToByteArray(rt.totalMemory());
-                    md.update(memBytes, 0, memBytes.length);
-                    memBytes = longToByteArray(rt.freeMemory());
-                    md.update(memBytes, 0, memBytes.length);
+                    // gft Runtimf mfmory stbts
+                    Runtimf rt = Runtimf.gftRuntimf();
+                    bytf[] mfmBytfs = longToBytfArrby(rt.totblMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngti);
+                    mfmBytfs = longToBytfArrby(rt.frffMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngti);
 
-                    return null;
+                    rfturn null;
                 }
             });
-        return md.digest();
+        rfturn md.digfst();
     }
 
     /*
-     * Include network adapter names and, if available, a Mac address
+     * Indludf nftwork bdbptfr nbmfs bnd, if bvbilbblf, b Mbd bddrfss
      *
-     * See also java.util.concurrent.ThreadLocalRandom.initialSeed()
+     * Sff blso jbvb.util.dondurrfnt.TirfbdLodblRbndom.initiblSffd()
      */
-    private static void addNetworkAdapterInfo(MessageDigest md) {
+    privbtf stbtid void bddNftworkAdbptfrInfo(MfssbgfDigfst md) {
 
         try {
-            Enumeration<NetworkInterface> ifcs =
-                NetworkInterface.getNetworkInterfaces();
-            while (ifcs.hasMoreElements()) {
-                NetworkInterface ifc = ifcs.nextElement();
-                md.update(ifc.toString().getBytes());
-                if (!ifc.isVirtual()) { // skip fake addresses
-                    byte[] bs = ifc.getHardwareAddress();
+            Enumfrbtion<NftworkIntfrfbdf> ifds =
+                NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+            wiilf (ifds.ibsMorfElfmfnts()) {
+                NftworkIntfrfbdf ifd = ifds.nfxtElfmfnt();
+                md.updbtf(ifd.toString().gftBytfs());
+                if (!ifd.isVirtubl()) { // skip fbkf bddrfssfs
+                    bytf[] bs = ifd.gftHbrdwbrfAddrfss();
                     if (bs != null) {
-                        md.update(bs);
-                        break;
+                        md.updbtf(bs);
+                        brfbk;
                     }
                 }
             }
-        } catch (Exception ignore) {
+        } dbtdi (Exdfption ignorf) {
         }
     }
 
     /**
-     * Helper function to convert a long into a byte array (least significant
-     * byte first).
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
      */
-    private static byte[] longToByteArray(long l) {
-        byte[] retVal = new byte[8];
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+        bytf[] rftVbl = nfw bytf[8];
 
         for (int i=0; i<8; i++) {
-            retVal[i] = (byte) l;
+            rftVbl[i] = (bytf) l;
             l >>= 8;
         }
 
-        return retVal;
+        rfturn rftVbl;
     }
 
     /*
-    // This method helps the test utility receive unprocessed seed bytes.
-    public static int genTestSeed() {
-        return myself.getByte();
+    // Tiis mftiod iflps tif tfst utility rfdfivf unprodfssfd sffd bytfs.
+    publid stbtid int gfnTfstSffd() {
+        rfturn mysflf.gftBytf();
     }
     */
 
 
-    private static class ThreadedSeedGenerator extends SeedGenerator
-            implements Runnable {
-        // Queue is used to collect seed bytes
-        private byte[] pool;
-        private int start, end, count;
+    privbtf stbtid dlbss TirfbdfdSffdGfnfrbtor fxtfnds SffdGfnfrbtor
+            implfmfnts Runnbblf {
+        // Qufuf is usfd to dollfdt sffd bytfs
+        privbtf bytf[] pool;
+        privbtf int stbrt, fnd, dount;
 
-        // Thread group for our threads
-        ThreadGroup seedGroup;
+        // Tirfbd group for our tirfbds
+        TirfbdGroup sffdGroup;
 
         /**
-         * The constructor is only called once to construct the one
-         * instance we actually use. It instantiates the message digest
-         * and starts the thread going.
+         * Tif donstrudtor is only dbllfd ondf to donstrudt tif onf
+         * instbndf wf bdtublly usf. It instbntibtfs tif mfssbgf digfst
+         * bnd stbrts tif tirfbd going.
          */
-        ThreadedSeedGenerator() {
-            pool = new byte[20];
-            start = end = 0;
+        TirfbdfdSffdGfnfrbtor() {
+            pool = nfw bytf[20];
+            stbrt = fnd = 0;
 
-            MessageDigest digest;
+            MfssbgfDigfst digfst;
 
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException e) {
-                throw new InternalError("internal error: SHA-1 not available."
-                        , e);
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf."
+                        , f);
             }
 
-            final ThreadGroup[] finalsg = new ThreadGroup[1];
-            Thread t = java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction<Thread>() {
-                        @Override
-                        public Thread run() {
-                            ThreadGroup parent, group =
-                                Thread.currentThread().getThreadGroup();
-                            while ((parent = group.getParent()) != null) {
-                                group = parent;
+            finbl TirfbdGroup[] finblsg = nfw TirfbdGroup[1];
+            Tirfbd t = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion<Tirfbd>() {
+                        @Ovfrridf
+                        publid Tirfbd run() {
+                            TirfbdGroup pbrfnt, group =
+                                Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                            wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                                group = pbrfnt;
                             }
-                            finalsg[0] = new ThreadGroup
-                                (group, "SeedGenerator ThreadGroup");
-                            Thread newT = new Thread(finalsg[0],
-                                ThreadedSeedGenerator.this,
-                                "SeedGenerator Thread");
-                            newT.setPriority(Thread.MIN_PRIORITY);
-                            newT.setDaemon(true);
-                            return newT;
+                            finblsg[0] = nfw TirfbdGroup
+                                (group, "SffdGfnfrbtor TirfbdGroup");
+                            Tirfbd nfwT = nfw Tirfbd(finblsg[0],
+                                TirfbdfdSffdGfnfrbtor.tiis,
+                                "SffdGfnfrbtor Tirfbd");
+                            nfwT.sftPriority(Tirfbd.MIN_PRIORITY);
+                            nfwT.sftDbfmon(truf);
+                            rfturn nfwT;
                         }
                     });
-            seedGroup = finalsg[0];
-            t.start();
+            sffdGroup = finblsg[0];
+            t.stbrt();
         }
 
         /**
-         * This method does the actual work. It collects random bytes and
-         * pushes them into the queue.
+         * Tiis mftiod dofs tif bdtubl work. It dollfdts rbndom bytfs bnd
+         * pusifs tifm into tif qufuf.
          */
-        @Override
-        final public void run() {
+        @Ovfrridf
+        finbl publid void run() {
             try {
-                while (true) {
-                    // Queue full? Wait till there's room.
-                    synchronized(this) {
-                        while (count >= pool.length) {
-                            wait();
+                wiilf (truf) {
+                    // Qufuf full? Wbit till tifrf's room.
+                    syndironizfd(tiis) {
+                        wiilf (dount >= pool.lfngti) {
+                            wbit();
                         }
                     }
 
-                    int counter, quanta;
-                    byte v = 0;
+                    int dountfr, qubntb;
+                    bytf v = 0;
 
-                    // Spin count must not be under 64000
-                    for (counter = quanta = 0;
-                            (counter < 64000) && (quanta < 6); quanta++) {
+                    // Spin dount must not bf undfr 64000
+                    for (dountfr = qubntb = 0;
+                            (dountfr < 64000) && (qubntb < 6); qubntb++) {
 
-                        // Start some noisy threads
+                        // Stbrt somf noisy tirfbds
                         try {
-                            BogusThread bt = new BogusThread();
-                            Thread t = new Thread
-                                (seedGroup, bt, "SeedGenerator Thread");
-                            t.start();
-                        } catch (Exception e) {
-                            throw new InternalError("internal error: " +
-                                "SeedGenerator thread creation error.", e);
+                            BogusTirfbd bt = nfw BogusTirfbd();
+                            Tirfbd t = nfw Tirfbd
+                                (sffdGroup, bt, "SffdGfnfrbtor Tirfbd");
+                            t.stbrt();
+                        } dbtdi (Exdfption f) {
+                            tirow nfw IntfrnblError("intfrnbl frror: " +
+                                "SffdGfnfrbtor tirfbd drfbtion frror.", f);
                         }
 
-                        // We wait 250milli quanta, so the minimum wait time
-                        // cannot be under 250milli.
-                        int latch = 0;
-                        long l = System.currentTimeMillis() + 250;
-                        while (System.currentTimeMillis() < l) {
-                            synchronized(this){};
-                            latch++;
+                        // Wf wbit 250milli qubntb, so tif minimum wbit timf
+                        // dbnnot bf undfr 250milli.
+                        int lbtdi = 0;
+                        long l = Systfm.durrfntTimfMillis() + 250;
+                        wiilf (Systfm.durrfntTimfMillis() < l) {
+                            syndironizfd(tiis){};
+                            lbtdi++;
                         }
 
-                        // Translate the value using the permutation, and xor
-                        // it with previous values gathered.
-                        v ^= rndTab[latch % 255];
-                        counter += latch;
+                        // Trbnslbtf tif vbluf using tif pfrmutbtion, bnd xor
+                        // it witi prfvious vblufs gbtifrfd.
+                        v ^= rndTbb[lbtdi % 255];
+                        dountfr += lbtdi;
                     }
 
-                    // Push it into the queue and notify anybody who might
-                    // be waiting for it.
-                    synchronized(this) {
-                        pool[end] = v;
-                        end++;
-                        count++;
-                        if (end >= pool.length) {
-                            end = 0;
+                    // Pusi it into tif qufuf bnd notify bnybody wio migit
+                    // bf wbiting for it.
+                    syndironizfd(tiis) {
+                        pool[fnd] = v;
+                        fnd++;
+                        dount++;
+                        if (fnd >= pool.lfngti) {
+                            fnd = 0;
                         }
 
                         notifyAll();
                     }
                 }
-            } catch (Exception e) {
-                throw new InternalError("internal error: " +
-                    "SeedGenerator thread generated an exception.", e);
+            } dbtdi (Exdfption f) {
+                tirow nfw IntfrnblError("intfrnbl frror: " +
+                    "SffdGfnfrbtor tirfbd gfnfrbtfd bn fxdfption.", f);
             }
         }
 
-        @Override
-        void getSeedBytes(byte[] result) {
-            for (int i = 0; i < result.length; i++) {
-                result[i] = getSeedByte();
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            for (int i = 0; i < rfsult.lfngti; i++) {
+                rfsult[i] = gftSffdBytf();
             }
         }
 
-        byte getSeedByte() {
-            byte b;
+        bytf gftSffdBytf() {
+            bytf b;
 
             try {
-                // Wait for it...
-                synchronized(this) {
-                    while (count <= 0) {
-                        wait();
+                // Wbit for it...
+                syndironizfd(tiis) {
+                    wiilf (dount <= 0) {
+                        wbit();
                     }
                 }
-            } catch (Exception e) {
-                if (count <= 0) {
-                    throw new InternalError("internal error: " +
-                        "SeedGenerator thread generated an exception.", e);
+            } dbtdi (Exdfption f) {
+                if (dount <= 0) {
+                    tirow nfw IntfrnblError("intfrnbl frror: " +
+                        "SffdGfnfrbtor tirfbd gfnfrbtfd bn fxdfption.", f);
                 }
             }
 
-            synchronized(this) {
-                // Get it from the queue
-                b = pool[start];
-                pool[start] = 0;
-                start++;
-                count--;
-                if (start == pool.length) {
-                    start = 0;
+            syndironizfd(tiis) {
+                // Gft it from tif qufuf
+                b = pool[stbrt];
+                pool[stbrt] = 0;
+                stbrt++;
+                dount--;
+                if (stbrt == pool.lfngti) {
+                    stbrt = 0;
                 }
 
-                // Notify the daemon thread, just in case it is
-                // waiting for us to make room in the queue.
+                // Notify tif dbfmon tirfbd, just in dbsf it is
+                // wbiting for us to mbkf room in tif qufuf.
                 notifyAll();
             }
 
-            return b;
+            rfturn b;
         }
 
-        // The permutation was calculated by generating 64k of random
-        // data and using it to mix the trivial permutation.
-        // It should be evenly distributed. The specific values
-        // are not crucial to the security of this class.
-        private static byte[] rndTab = {
+        // Tif pfrmutbtion wbs dbldulbtfd by gfnfrbting 64k of rbndom
+        // dbtb bnd using it to mix tif trivibl pfrmutbtion.
+        // It siould bf fvfnly distributfd. Tif spfdifid vblufs
+        // brf not drudibl to tif sfdurity of tiis dlbss.
+        privbtf stbtid bytf[] rndTbb = {
             56, 30, -107, -6, -86, 25, -83, 75, -12, -64,
             5, -128, 78, 21, 16, 32, 70, -81, 37, -51,
             -43, -46, -108, 87, 29, 17, -55, 22, -11, -111,
@@ -459,91 +459,91 @@ abstract class SeedGenerator {
         };
 
         /**
-         * This inner thread causes the thread scheduler to become 'noisy',
-         * thus adding entropy to the system load.
-         * At least one instance of this class is generated for every seed byte.
+         * Tiis innfr tirfbd dbusfs tif tirfbd sdifdulfr to bfdomf 'noisy',
+         * tius bdding fntropy to tif systfm lobd.
+         * At lfbst onf instbndf of tiis dlbss is gfnfrbtfd for fvfry sffd bytf.
          */
-        private static class BogusThread implements Runnable {
-            @Override
-            final public void run() {
+        privbtf stbtid dlbss BogusTirfbd implfmfnts Runnbblf {
+            @Ovfrridf
+            finbl publid void run() {
                 try {
                     for (int i = 0; i < 5; i++) {
-                        Thread.sleep(50);
+                        Tirfbd.slffp(50);
                     }
-                    // System.gc();
-                } catch (Exception e) {
+                    // Systfm.gd();
+                } dbtdi (Exdfption f) {
                 }
             }
         }
     }
 
-    static class URLSeedGenerator extends SeedGenerator {
+    stbtid dlbss URLSffdGfnfrbtor fxtfnds SffdGfnfrbtor {
 
-        private String deviceName;
-        private InputStream seedStream;
+        privbtf String dfvidfNbmf;
+        privbtf InputStrfbm sffdStrfbm;
 
         /**
-         * The constructor is only called once to construct the one
-         * instance we actually use. It opens the entropy gathering device
-         * which will supply the randomness.
+         * Tif donstrudtor is only dbllfd ondf to donstrudt tif onf
+         * instbndf wf bdtublly usf. It opfns tif fntropy gbtifring dfvidf
+         * wiidi will supply tif rbndomnfss.
          */
 
-        URLSeedGenerator(String egdurl) throws IOException {
-        if (egdurl == null) {
-                throw new IOException("No random source specified");
+        URLSffdGfnfrbtor(String fgdurl) tirows IOExdfption {
+        if (fgdurl == null) {
+                tirow nfw IOExdfption("No rbndom sourdf spfdififd");
             }
-            deviceName = egdurl;
+            dfvidfNbmf = fgdurl;
             init();
         }
 
-        private void init() throws IOException {
-            final URL device = new URL(deviceName);
+        privbtf void init() tirows IOExdfption {
+            finbl URL dfvidf = nfw URL(dfvidfNbmf);
             try {
-                seedStream = java.security.AccessController.doPrivileged
-                    (new java.security.PrivilegedExceptionAction<InputStream>() {
-                        @Override
-                        public InputStream run() throws IOException {
+                sffdStrfbm = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<InputStrfbm>() {
+                        @Ovfrridf
+                        publid InputStrfbm run() tirows IOExdfption {
                             /*
-                             * return a FileInputStream for file URLs and
-                             * avoid buffering. The openStream() call wraps
-                             * InputStream in a BufferedInputStream which
-                             * can buffer up to 8K bytes. This read is a
-                             * performance issue for entropy sources which
-                             * can be slow to replenish.
+                             * rfturn b FilfInputStrfbm for filf URLs bnd
+                             * bvoid bufffring. Tif opfnStrfbm() dbll wrbps
+                             * InputStrfbm in b BufffrfdInputStrfbm wiidi
+                             * dbn bufffr up to 8K bytfs. Tiis rfbd is b
+                             * pfrformbndf issuf for fntropy sourdfs wiidi
+                             * dbn bf slow to rfplfnisi.
                              */
-                            if (device.getProtocol().equalsIgnoreCase("file")) {
-                                File deviceFile =
-                                    SunEntries.getDeviceFile(device);
-                                return new FileInputStream(deviceFile);
-                            } else {
-                                return device.openStream();
+                            if (dfvidf.gftProtodol().fqublsIgnorfCbsf("filf")) {
+                                Filf dfvidfFilf =
+                                    SunEntrifs.gftDfvidfFilf(dfvidf);
+                                rfturn nfw FilfInputStrfbm(dfvidfFilf);
+                            } flsf {
+                                rfturn dfvidf.opfnStrfbm();
                             }
                         }
                     });
-            } catch (Exception e) {
-                throw new IOException(
-                    "Failed to open " + deviceName, e.getCause());
+            } dbtdi (Exdfption f) {
+                tirow nfw IOExdfption(
+                    "Fbilfd to opfn " + dfvidfNbmf, f.gftCbusf());
             }
         }
 
-        @Override
-        void getSeedBytes(byte[] result) {
-            int len = result.length;
-            int read = 0;
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            int lfn = rfsult.lfngti;
+            int rfbd = 0;
             try {
-                while (read < len) {
-                    int count = seedStream.read(result, read, len - read);
-                    // /dev/random blocks - should never have EOF
-                    if (count < 0) {
-                        throw new InternalError(
-                            "URLSeedGenerator " + deviceName +
-                            " reached end of file");
+                wiilf (rfbd < lfn) {
+                    int dount = sffdStrfbm.rfbd(rfsult, rfbd, lfn - rfbd);
+                    // /dfv/rbndom blodks - siould nfvfr ibvf EOF
+                    if (dount < 0) {
+                        tirow nfw IntfrnblError(
+                            "URLSffdGfnfrbtor " + dfvidfNbmf +
+                            " rfbdifd fnd of filf");
                     }
-                    read += count;
+                    rfbd += dount;
                 }
-            } catch (IOException ioe) {
-                throw new InternalError("URLSeedGenerator " + deviceName +
-                    " generated exception: " + ioe.getMessage(), ioe);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw IntfrnblError("URLSffdGfnfrbtor " + dfvidfNbmf +
+                    " gfnfrbtfd fxdfption: " + iof.gftMfssbgf(), iof);
             }
         }
     }

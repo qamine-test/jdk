@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.Color;
-import java.awt.Transparency;
+import jbvb.bwt.Color;
+import jbvb.bwt.Trbnspbrfndy;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.CompositfTypf;
 
 /**
- * The proxy class contains the logic for when to replace a
- * SurfaceData with a cached OGL Texture and the code to create
- * the accelerated surfaces.
+ * Tif proxy dlbss dontbins tif logid for wifn to rfplbdf b
+ * SurfbdfDbtb witi b dbdifd OGL Tfxturf bnd tif dodf to drfbtf
+ * tif bddflfrbtfd surfbdfs.
  */
-public class OGLSurfaceDataProxy extends SurfaceDataProxy {
-    public static SurfaceDataProxy createProxy(SurfaceData srcData,
-                                               OGLGraphicsConfig dstConfig)
+publid dlbss OGLSurfbdfDbtbProxy fxtfnds SurfbdfDbtbProxy {
+    publid stbtid SurfbdfDbtbProxy drfbtfProxy(SurfbdfDbtb srdDbtb,
+                                               OGLGrbpiidsConfig dstConfig)
     {
-        if (srcData instanceof OGLSurfaceData) {
-            // srcData must be a VolatileImage which either matches
-            // our pixel format or not - either way we do not cache it...
-            return UNCACHED;
+        if (srdDbtb instbndfof OGLSurfbdfDbtb) {
+            // srdDbtb must bf b VolbtilfImbgf wiidi fitifr mbtdifs
+            // our pixfl formbt or not - fitifr wby wf do not dbdif it...
+            rfturn UNCACHED;
         }
 
-        return new OGLSurfaceDataProxy(dstConfig, srcData.getTransparency());
+        rfturn nfw OGLSurfbdfDbtbProxy(dstConfig, srdDbtb.gftTrbnspbrfndy());
     }
 
-    OGLGraphicsConfig oglgc;
-    int transparency;
+    OGLGrbpiidsConfig oglgd;
+    int trbnspbrfndy;
 
-    public OGLSurfaceDataProxy(OGLGraphicsConfig oglgc, int transparency) {
-        this.oglgc = oglgc;
-        this.transparency = transparency;
+    publid OGLSurfbdfDbtbProxy(OGLGrbpiidsConfig oglgd, int trbnspbrfndy) {
+        tiis.oglgd = oglgd;
+        tiis.trbnspbrfndy = trbnspbrfndy;
     }
 
-    @Override
-    public SurfaceData validateSurfaceData(SurfaceData srcData,
-                                           SurfaceData cachedData,
-                                           int w, int h)
+    @Ovfrridf
+    publid SurfbdfDbtb vblidbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                           SurfbdfDbtb dbdifdDbtb,
+                                           int w, int i)
     {
-        if (cachedData == null) {
-            cachedData = oglgc.createManagedSurface(w, h, transparency);
+        if (dbdifdDbtb == null) {
+            dbdifdDbtb = oglgd.drfbtfMbnbgfdSurfbdf(w, i, trbnspbrfndy);
         }
-        return cachedData;
+        rfturn dbdifdDbtb;
     }
 
-    @Override
-    public boolean isSupportedOperation(SurfaceData srcData,
-                                        int txtype,
-                                        CompositeType comp,
+    @Ovfrridf
+    publid boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                        int txtypf,
+                                        CompositfTypf domp,
                                         Color bgColor)
     {
-        return comp.isDerivedFrom(CompositeType.AnyAlpha) &&
-               (bgColor == null || transparency == Transparency.OPAQUE);
+        rfturn domp.isDfrivfdFrom(CompositfTypf.AnyAlpib) &&
+               (bgColor == null || trbnspbrfndy == Trbnspbrfndy.OPAQUE);
     }
 }

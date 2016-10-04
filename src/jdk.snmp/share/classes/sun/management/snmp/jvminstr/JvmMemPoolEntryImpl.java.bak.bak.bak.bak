@@ -1,0 +1,506 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.util.Mbp;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+
+// jdmk imports
+//
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmPoolEntryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolStbtf;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolTypf;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolThrfshdSupport;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolCollfdtThrfshdSupport;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmMfmPoolEntry" group.
+ */
+publid dlbss JvmMfmPoolEntryImpl implfmfnts JvmMfmPoolEntryMBfbn {
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmMfmPoolIndfx".
+     *
+     * "An indfx vbluf opbqufly domputfd by thf bgfnt whidh uniqufly
+     * idfntififs b row in thf jvmMfmPoolTbblf.
+     * "
+     *
+     */
+    finbl protfdtfd int jvmMfmPoolIndfx;
+
+
+    finbl stbtid String mfmoryTbg = "jvmMfmPoolEntry.gftUsbgf";
+    finbl stbtid String pfbkMfmoryTbg = "jvmMfmPoolEntry.gftPfbkUsbgf";
+    finbl stbtid String dollfdtMfmoryTbg =
+        "jvmMfmPoolEntry.gftCollfdtionUsbgf";
+    finbl stbtid MfmoryUsbgf ZEROS = nfw MfmoryUsbgf(0,0,0,0);
+
+    finbl String fntryMfmoryTbg;
+    finbl String fntryPfbkMfmoryTbg;
+    finbl String fntryCollfdtMfmoryTbg;
+
+    MfmoryUsbgf gftMfmoryUsbgf() {
+        try {
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+
+            if (m != null) {
+                finbl MfmoryUsbgf dbdhfd = (MfmoryUsbgf)
+                    m.gft(fntryMfmoryTbg);
+                if (dbdhfd != null) {
+                    log.dfbug("gftMfmoryUsbgf",fntryMfmoryTbg+
+                          " found in dbdhf.");
+                    rfturn dbdhfd;
+                }
+
+                MfmoryUsbgf u = pool.gftUsbgf();
+                if (u == null) u = ZEROS;
+
+                m.put(fntryMfmoryTbg,u);
+                rfturn u;
+            }
+            // Should nfvfr domf hfrf.
+            // Log frror!
+            log.trbdf("gftMfmoryUsbgf", "ERROR: should nfvfr domf hfrf!");
+            rfturn pool.gftUsbgf();
+        } dbtdh (RuntimfExdfption x) {
+            log.trbdf("gftMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftMfmoryUsbgf",x);
+            throw x;
+        }
+
+    }
+
+    MfmoryUsbgf gftPfbkMfmoryUsbgf() {
+        try {
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+
+            if (m != null) {
+                finbl MfmoryUsbgf dbdhfd = (MfmoryUsbgf)
+                    m.gft(fntryPfbkMfmoryTbg);
+                if (dbdhfd != null) {
+                    if (log.isDfbugOn())
+                        log.dfbug("gftPfbkMfmoryUsbgf",
+                              fntryPfbkMfmoryTbg + " found in dbdhf.");
+                    rfturn dbdhfd;
+                }
+
+                MfmoryUsbgf u = pool.gftPfbkUsbgf();
+                if (u == null) u = ZEROS;
+
+                m.put(fntryPfbkMfmoryTbg,u);
+                rfturn u;
+            }
+            // Should nfvfr domf hfrf.
+            // Log frror!
+            log.trbdf("gftPfbkMfmoryUsbgf", "ERROR: should nfvfr domf hfrf!");
+            rfturn ZEROS;
+        } dbtdh (RuntimfExdfption x) {
+            log.trbdf("gftPfbkMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftPfbkMfmoryUsbgf",x);
+            throw x;
+        }
+
+    }
+
+    MfmoryUsbgf gftCollfdtMfmoryUsbgf() {
+        try {
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+
+            if (m != null) {
+                finbl MfmoryUsbgf dbdhfd = (MfmoryUsbgf)
+                    m.gft(fntryCollfdtMfmoryTbg);
+                if (dbdhfd != null) {
+                    if (log.isDfbugOn())
+                        log.dfbug("gftCollfdtMfmoryUsbgf",
+                                  fntryCollfdtMfmoryTbg + " found in dbdhf.");
+                    rfturn dbdhfd;
+                }
+
+                MfmoryUsbgf u = pool.gftCollfdtionUsbgf();
+                if (u == null) u = ZEROS;
+
+                m.put(fntryCollfdtMfmoryTbg,u);
+                rfturn u;
+            }
+            // Should nfvfr domf hfrf.
+            // Log frror!
+            log.trbdf("gftCollfdtMfmoryUsbgf",
+                      "ERROR: should nfvfr domf hfrf!");
+            rfturn ZEROS;
+        } dbtdh (RuntimfExdfption x) {
+            log.trbdf("gftPfbkMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftPfbkMfmoryUsbgf",x);
+            throw x;
+        }
+
+    }
+
+    finbl MfmoryPoolMXBfbn pool;
+
+    /**
+     * Construdtor for thf "JvmMfmPoolEntry" group.
+     */
+    publid JvmMfmPoolEntryImpl(MfmoryPoolMXBfbn mp, finbl int indfx) {
+        this.pool=mp;
+        this.jvmMfmPoolIndfx = indfx;
+        this.fntryMfmoryTbg = mfmoryTbg + "." + indfx;
+        this.fntryPfbkMfmoryTbg = pfbkMfmoryTbg + "." + indfx;
+        this.fntryCollfdtMfmoryTbg = dollfdtMfmoryTbg + "." + indfx;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolMbxSizf() throws SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolUsfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolInitSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolInitSizf() throws SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftInit();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCommittfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkMbxSizf() throws SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkUsfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkCommittfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtMbxSizf() throws SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtUsfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtCommittfd() throws SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid Long gftJvmMfmPoolThrfshold() throws SnmpStbtusExdfption {
+        if (!pool.isUsbgfThrfsholdSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftUsbgfThrfshold();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid void sftJvmMfmPoolThrfshold(Long x) throws SnmpStbtusExdfption {
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        // This should nfvfr throw bn fxdfption hbs thf dhfdks hbvf
+        // blrfbdy bffn pfrformfd in dhfdkJvmMfmPoolThrfshold().
+        //
+        pool.sftUsbgfThrfshold(vbl);
+    }
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolThrfshold(Long x) throws SnmpStbtusExdfption {
+        // if thrfshold is -1, it mfbns thbt low mfmory dftfdtion is not
+        // supportfd.
+
+        if (!pool.isUsbgfThrfsholdSupportfd())
+            throw nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshdSupport" vbribblf.
+     */
+    publid EnumJvmMfmPoolThrfshdSupport gftJvmMfmPoolThrfshdSupport()
+        throws SnmpStbtusExdfption {
+        if (pool.isUsbgfThrfsholdSupportfd())
+            rfturn EnumJvmMfmPoolThrfshdSupportfd;
+        flsf
+            rfturn EnumJvmMfmPoolThrfshdUnsupportfd;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshdCount" vbribblf.
+     */
+    publid Long gftJvmMfmPoolThrfshdCount()
+        throws SnmpStbtusExdfption {
+        if (!pool.isUsbgfThrfsholdSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftUsbgfThrfsholdCount();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtThrfshold() throws SnmpStbtusExdfption {
+        if (!pool.isCollfdtionUsbgfThrfsholdSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftCollfdtionUsbgfThrfshold();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid void sftJvmMfmPoolCollfdtThrfshold(Long x)
+        throws SnmpStbtusExdfption {
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        // This should nfvfr throw bn fxdfption hbs thf dhfdks hbvf
+        // blrfbdy bffn pfrformfd in dhfdkJvmMfmPoolCollfdtThrfshold().
+        //
+        pool.sftCollfdtionUsbgfThrfshold(vbl);
+    }
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolCollfdtThrfshold(Long x)
+        throws SnmpStbtusExdfption {
+        // if thrfshold is -1, it mfbns thbt low mfmory dftfdtion is not
+        // supportfd.
+
+        if (!pool.isCollfdtionUsbgfThrfsholdSupportfd())
+            throw nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshdSupport" vbribblf.
+     */
+    publid EnumJvmMfmPoolCollfdtThrfshdSupport
+        gftJvmMfmPoolCollfdtThrfshdSupport()
+        throws SnmpStbtusExdfption {
+        if (pool.isCollfdtionUsbgfThrfsholdSupportfd())
+            rfturn EnumJvmMfmPoolCollfdtThrfshdSupportfd;
+        flsf
+            rfturn EnumJvmMfmPoolCollfdtThrfshdUnsupportfd;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtThrfshdCount" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtThrfshdCount()
+        throws SnmpStbtusExdfption {
+        if (!pool.isCollfdtionUsbgfThrfsholdSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftCollfdtionUsbgfThrfsholdCount();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
+    }
+
+    publid stbtid EnumJvmMfmPoolTypf jvmMfmPoolTypf(MfmoryTypf typf)
+        throws SnmpStbtusExdfption {
+        if (typf.fqubls(MfmoryTypf.HEAP))
+            rfturn  EnumJvmMfmPoolTypfHfbp;
+        flsf if (typf.fqubls(MfmoryTypf.NON_HEAP))
+            rfturn EnumJvmMfmPoolTypfNonHfbp;
+        throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspWrongVbluf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolTypf" vbribblf.
+     */
+    publid EnumJvmMfmPoolTypf gftJvmMfmPoolTypf() throws SnmpStbtusExdfption {
+        rfturn jvmMfmPoolTypf(pool.gftTypf());
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolNbmf" vbribblf.
+     */
+    publid String gftJvmMfmPoolNbmf() throws SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(pool.gftNbmf());
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolIndfx" vbribblf.
+     */
+    publid Intfgfr gftJvmMfmPoolIndfx() throws SnmpStbtusExdfption {
+        rfturn jvmMfmPoolIndfx;
+    }
+
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolStbtf" vbribblf.
+     */
+    publid EnumJvmMfmPoolStbtf gftJvmMfmPoolStbtf()
+        throws SnmpStbtusExdfption {
+        if (pool.isVblid())
+            rfturn JvmMfmPoolStbtfVblid;
+        flsf
+            rfturn JvmMfmPoolStbtfInvblid;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid syndhronizfd Long gftJvmMfmPoolPfbkRfsft()
+        throws SnmpStbtusExdfption {
+        rfturn jvmMfmPoolPfbkRfsft;
+    }
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid syndhronizfd void sftJvmMfmPoolPfbkRfsft(Long x)
+        throws SnmpStbtusExdfption {
+        finbl long l = x.longVbluf();
+        if (l > jvmMfmPoolPfbkRfsft) {
+            finbl long stbmp = Systfm.durrfntTimfMillis();
+            pool.rfsftPfbkUsbgf();
+            jvmMfmPoolPfbkRfsft = stbmp;
+            log.dfbug("sftJvmMfmPoolPfbkRfsft",
+                      "jvmMfmPoolPfbkRfsft="+stbmp);
+        }
+    }
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolPfbkRfsft(Long x) throws SnmpStbtusExdfption {
+    }
+
+    /* Lbst timf pfbk usbgf wbs rfsft */
+    privbtf long jvmMfmPoolPfbkRfsft = 0;
+
+    privbtf finbl stbtid EnumJvmMfmPoolStbtf JvmMfmPoolStbtfVblid =
+        nfw EnumJvmMfmPoolStbtf("vblid");
+    privbtf finbl stbtid EnumJvmMfmPoolStbtf JvmMfmPoolStbtfInvblid =
+        nfw EnumJvmMfmPoolStbtf("invblid");
+
+    privbtf stbtid finbl EnumJvmMfmPoolTypf EnumJvmMfmPoolTypfHfbp =
+        nfw EnumJvmMfmPoolTypf("hfbp");
+    privbtf stbtid finbl EnumJvmMfmPoolTypf EnumJvmMfmPoolTypfNonHfbp =
+        nfw EnumJvmMfmPoolTypf("nonhfbp");
+
+    privbtf stbtid finbl EnumJvmMfmPoolThrfshdSupport
+        EnumJvmMfmPoolThrfshdSupportfd =
+        nfw EnumJvmMfmPoolThrfshdSupport("supportfd");
+    privbtf stbtid finbl EnumJvmMfmPoolThrfshdSupport
+        EnumJvmMfmPoolThrfshdUnsupportfd =
+        nfw EnumJvmMfmPoolThrfshdSupport("unsupportfd");
+
+    privbtf stbtid finbl EnumJvmMfmPoolCollfdtThrfshdSupport
+        EnumJvmMfmPoolCollfdtThrfshdSupportfd =
+        nfw EnumJvmMfmPoolCollfdtThrfshdSupport("supportfd");
+    privbtf stbtid finbl EnumJvmMfmPoolCollfdtThrfshdSupport
+        EnumJvmMfmPoolCollfdtThrfshdUnsupportfd=
+        nfw EnumJvmMfmPoolCollfdtThrfshdSupport("unsupportfd");
+
+
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmMfmPoolEntryImpl.dlbss);
+}

@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+
+/**
+ * A thrfbd group objfdt from thf tbrgft VM.
+ * A ThrfbdGroupRfffrfndf is bn {@link ObjfdtRfffrfndf} with bdditionbl
+ * bddfss to thrfbdgroup-spfdifid informbtion from thf tbrgft VM.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ThrfbdGroupRfffrfndf fxtfnds ObjfdtRfffrfndf {
+
+    /**
+     * Rfturns thf nbmf of this thrfbd group.
+     *
+     * @rfturn thf string dontbining thf thrfbd group nbmf.
+     */
+    String nbmf();
+
+    /**
+     * Rfturns thf pbrfnt of this thrfbd group.
+     *
+     * @rfturn b {@link ThrfbdGroupRfffrfndf} mirroring thf pbrfnt of this
+     * thrfbd group in thf tbrgft VM, or null if this is b top-lfvfl
+     * thrfbd group.
+     */
+    ThrfbdGroupRfffrfndf pbrfnt();
+
+    /**
+     * Suspfnds bll thrfbds in this thrfbd group. Ebdh thrfbd
+     * in this group bnd in bll of its subgroups will bf
+     * suspfndfd bs dfsdribfd in {@link ThrfbdRfffrfndf#suspfnd}.
+     * This is not gubrbntffd to bf bn btomid
+     * opfrbtion; if thf tbrgft VM is not intfrruptfd bt thf timf
+     * this mfthod is
+     * dbllfd, it is possiblf thbt nfw thrfbds will bf drfbtfd
+     * bftwffn thf timf thbt thrfbds brf fnumfrbtfd bnd bll of thfm
+     * hbvf bffn suspfndfd.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void suspfnd();
+
+    /**
+     * Rfsumfs bll thrfbds in this thrfbd group. Ebdh thrfbd
+     * in this group bnd in bll of its subgroups will bf
+     * rfsumfd bs dfsdribfd in {@link ThrfbdRfffrfndf#rfsumf}.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void rfsumf();
+
+    /**
+     * Rfturns b List dontbining b {@link ThrfbdRfffrfndf} for fbdh livf thrfbd
+     * in this thrfbd group. Only thf livf thrfbds in this immfdibtf thrfbd group
+     * (bnd not its subgroups) brf rfturnfd.  A thrfbd is blivf if it
+     * hbs bffn stbrtfd bnd hbs not yft bffn stoppfd.
+     *
+     * @rfturn b List of {@link ThrfbdRfffrfndf} objfdts mirroring thf
+     * livf thrfbds from this thrfbd group in thf tbrgft VM.
+     */
+    List<ThrfbdRfffrfndf> thrfbds();
+
+    /**
+     * Rfturns b List dontbining fbdh bdtivf {@link ThrfbdGroupRfffrfndf} in this
+     * thrfbd group. Only thf bdtivf thrfbd groups in this immfdibtf thrfbd group
+     * (bnd not its subgroups) brf rfturnfd.
+     * Sff <b hrff="{@dodRoot}/../../../../bpi/jbvb/lbng/ThrfbdGroup.html">jbvb.lbng.ThrfbdGroup</b>
+     * for informbtion bbout 'bdtivf' ThrfbdGroups.
+     * @rfturn b List of {@link ThrfbdGroupRfffrfndf} objfdts mirroring thf
+     * bdtivf thrfbd groups from this thrfbd group in thf tbrgft VM.
+     */
+    List<ThrfbdGroupRfffrfndf> thrfbdGroups();
+}

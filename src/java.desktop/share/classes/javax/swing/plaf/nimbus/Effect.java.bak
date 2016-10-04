@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.nimbus;
+pbdkbgf jbvbx.swing.plbf.nimbus;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContfxt;
 
-import java.awt.image.BufferedImage;
-import java.lang.ref.SoftReference;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.lbng.rff.SoftRfffrfndf;
 
 /**
- * Effect
+ * Efffdt
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
+ * @butior Crfbtfd by Jbspfr Potts (Jun 18, 2007)
  */
-abstract class Effect {
-    enum EffectType {
+bbstrbdt dlbss Efffdt {
+    fnum EfffdtTypf {
         UNDER, BLENDED, OVER
     }
 
     // =================================================================================================================
-    // Abstract Methods
+    // Abstrbdt Mftiods
 
     /**
-     * Get the type of this effect, one of UNDER,BLENDED,OVER. UNDER means the result of apply effect should be painted
-     * under the src image. BLENDED means the result of apply sffect contains a modified src image so just it should be
-     * painted. OVER means the result of apply effect should be painted over the src image.
+     * Gft tif typf of tiis ffffdt, onf of UNDER,BLENDED,OVER. UNDER mfbns tif rfsult of bpply ffffdt siould bf pbintfd
+     * undfr tif srd imbgf. BLENDED mfbns tif rfsult of bpply sfffdt dontbins b modififd srd imbgf so just it siould bf
+     * pbintfd. OVER mfbns tif rfsult of bpply ffffdt siould bf pbintfd ovfr tif srd imbgf.
      *
-     * @return The effect type
+     * @rfturn Tif ffffdt typf
      */
-    abstract EffectType getEffectType();
+    bbstrbdt EfffdtTypf gftEfffdtTypf();
 
     /**
-     * Get the opacity to use to paint the result effected image if the EffectType is UNDER or OVER.
+     * Gft tif opbdity to usf to pbint tif rfsult ffffdtfd imbgf if tif EfffdtTypf is UNDER or OVER.
      *
-     * @return The opactity for the effect, 0.0f -> 1.0f
+     * @rfturn Tif opbdtity for tif ffffdt, 0.0f -> 1.0f
      */
-    abstract float getOpacity();
+    bbstrbdt flobt gftOpbdity();
 
     /**
-     * Apply the effect to the src image generating the result . The result image may or may not contain the source
-     * image depending on what the effect type is.
+     * Apply tif ffffdt to tif srd imbgf gfnfrbting tif rfsult . Tif rfsult imbgf mby or mby not dontbin tif sourdf
+     * imbgf dfpfnding on wibt tif ffffdt typf is.
      *
-     * @param src The source image for applying the effect to
-     * @param dst The dstination image to paint effect result into. If this is null then a new image will be created
-     * @param w   The width of the src image to apply effect to, this allow the src and dst buffers to be bigger than
-     *            the area the need effect applied to it
-     * @param h   The height of the src image to apply effect to, this allow the src and dst buffers to be bigger than
-     *            the area the need effect applied to it
-     * @return The result of appl
+     * @pbrbm srd Tif sourdf imbgf for bpplying tif ffffdt to
+     * @pbrbm dst Tif dstinbtion imbgf to pbint ffffdt rfsult into. If tiis is null tifn b nfw imbgf will bf drfbtfd
+     * @pbrbm w   Tif widti of tif srd imbgf to bpply ffffdt to, tiis bllow tif srd bnd dst bufffrs to bf biggfr tibn
+     *            tif brfb tif nffd ffffdt bpplifd to it
+     * @pbrbm i   Tif ifigit of tif srd imbgf to bpply ffffdt to, tiis bllow tif srd bnd dst bufffrs to bf biggfr tibn
+     *            tif brfb tif nffd ffffdt bpplifd to it
+     * @rfturn Tif rfsult of bppl
      */
-    abstract BufferedImage applyEffect(BufferedImage src, BufferedImage dst, int w, int h);
+    bbstrbdt BufffrfdImbgf bpplyEfffdt(BufffrfdImbgf srd, BufffrfdImbgf dst, int w, int i);
 
     // =================================================================================================================
-    // Static data cache
+    // Stbtid dbtb dbdif
 
-    protected static ArrayCache getArrayCache() {
-        ArrayCache cache = (ArrayCache)AppContext.getAppContext().get(ArrayCache.class);
-        if (cache == null){
-            cache = new ArrayCache();
-            AppContext.getAppContext().put(ArrayCache.class,cache);
+    protfdtfd stbtid ArrbyCbdif gftArrbyCbdif() {
+        ArrbyCbdif dbdif = (ArrbyCbdif)AppContfxt.gftAppContfxt().gft(ArrbyCbdif.dlbss);
+        if (dbdif == null){
+            dbdif = nfw ArrbyCbdif();
+            AppContfxt.gftAppContfxt().put(ArrbyCbdif.dlbss,dbdif);
         }
-        return cache;
+        rfturn dbdif;
     }
 
-    protected static class ArrayCache {
-        private SoftReference<int[]> tmpIntArray = null;
-        private SoftReference<byte[]> tmpByteArray1 = null;
-        private SoftReference<byte[]> tmpByteArray2 = null;
-        private SoftReference<byte[]> tmpByteArray3 = null;
+    protfdtfd stbtid dlbss ArrbyCbdif {
+        privbtf SoftRfffrfndf<int[]> tmpIntArrby = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby1 = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby2 = null;
+        privbtf SoftRfffrfndf<bytf[]> tmpBytfArrby3 = null;
 
-        protected int[] getTmpIntArray(int size) {
+        protfdtfd int[] gftTmpIntArrby(int sizf) {
             int[] tmp;
-            if (tmpIntArray == null || (tmp = tmpIntArray.get()) == null || tmp.length < size) {
-                // create new array
-                tmp = new int[size];
-                tmpIntArray = new SoftReference<int[]>(tmp);
+            if (tmpIntArrby == null || (tmp = tmpIntArrby.gft()) == null || tmp.lfngti < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw int[sizf];
+                tmpIntArrby = nfw SoftRfffrfndf<int[]>(tmp);
             }
-            return tmp;
+            rfturn tmp;
         }
 
-        protected byte[] getTmpByteArray1(int size) {
-            byte[] tmp;
-            if (tmpByteArray1 == null || (tmp = tmpByteArray1.get()) == null || tmp.length < size) {
-                // create new array
-                tmp = new byte[size];
-                tmpByteArray1 = new SoftReference<byte[]>(tmp);
+        protfdtfd bytf[] gftTmpBytfArrby1(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby1 == null || (tmp = tmpBytfArrby1.gft()) == null || tmp.lfngti < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby1 = nfw SoftRfffrfndf<bytf[]>(tmp);
             }
-            return tmp;
+            rfturn tmp;
         }
 
-        protected byte[] getTmpByteArray2(int size) {
-            byte[] tmp;
-            if (tmpByteArray2 == null || (tmp = tmpByteArray2.get()) == null || tmp.length < size) {
-                // create new array
-                tmp = new byte[size];
-                tmpByteArray2 = new SoftReference<byte[]>(tmp);
+        protfdtfd bytf[] gftTmpBytfArrby2(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby2 == null || (tmp = tmpBytfArrby2.gft()) == null || tmp.lfngti < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby2 = nfw SoftRfffrfndf<bytf[]>(tmp);
             }
-            return tmp;
+            rfturn tmp;
         }
 
-        protected byte[] getTmpByteArray3(int size) {
-            byte[] tmp;
-            if (tmpByteArray3 == null || (tmp = tmpByteArray3.get()) == null || tmp.length < size) {
-                // create new array
-                tmp = new byte[size];
-                tmpByteArray3 = new SoftReference<byte[]>(tmp);
+        protfdtfd bytf[] gftTmpBytfArrby3(int sizf) {
+            bytf[] tmp;
+            if (tmpBytfArrby3 == null || (tmp = tmpBytfArrby3.gft()) == null || tmp.lfngti < sizf) {
+                // drfbtf nfw brrby
+                tmp = nfw bytf[sizf];
+                tmpBytfArrby3 = nfw SoftRfffrfndf<bytf[]>(tmp);
             }
-            return tmp;
+            rfturn tmp;
         }
     }
 }

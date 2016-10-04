@@ -1,453 +1,453 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import org.ietf.jgss.*;
-import javax.security.auth.kerberos.DelegationPermission;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import sun.security.krb5.*;
-import sun.security.krb5.internal.Krb5;
+import org.iftf.jgss.*;
+import jbvbx.sfdurity.buti.kfrbfros.DflfgbtionPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
 
-abstract class InitialToken extends Krb5Token {
+bbstrbdt dlbss InitiblTokfn fxtfnds Krb5Tokfn {
 
-    private static final int CHECKSUM_TYPE = 0x8003;
+    privbtf stbtid finbl int CHECKSUM_TYPE = 0x8003;
 
-    private static final int CHECKSUM_LENGTH_SIZE     = 4;
-    private static final int CHECKSUM_BINDINGS_SIZE   = 16;
-    private static final int CHECKSUM_FLAGS_SIZE      = 4;
-    private static final int CHECKSUM_DELEG_OPT_SIZE  = 2;
-    private static final int CHECKSUM_DELEG_LGTH_SIZE = 2;
+    privbtf stbtid finbl int CHECKSUM_LENGTH_SIZE     = 4;
+    privbtf stbtid finbl int CHECKSUM_BINDINGS_SIZE   = 16;
+    privbtf stbtid finbl int CHECKSUM_FLAGS_SIZE      = 4;
+    privbtf stbtid finbl int CHECKSUM_DELEG_OPT_SIZE  = 2;
+    privbtf stbtid finbl int CHECKSUM_DELEG_LGTH_SIZE = 2;
 
-    private static final int CHECKSUM_DELEG_FLAG    = 1;
-    private static final int CHECKSUM_MUTUAL_FLAG   = 2;
-    private static final int CHECKSUM_REPLAY_FLAG   = 4;
-    private static final int CHECKSUM_SEQUENCE_FLAG = 8;
-    private static final int CHECKSUM_CONF_FLAG     = 16;
-    private static final int CHECKSUM_INTEG_FLAG    = 32;
+    privbtf stbtid finbl int CHECKSUM_DELEG_FLAG    = 1;
+    privbtf stbtid finbl int CHECKSUM_MUTUAL_FLAG   = 2;
+    privbtf stbtid finbl int CHECKSUM_REPLAY_FLAG   = 4;
+    privbtf stbtid finbl int CHECKSUM_SEQUENCE_FLAG = 8;
+    privbtf stbtid finbl int CHECKSUM_CONF_FLAG     = 16;
+    privbtf stbtid finbl int CHECKSUM_INTEG_FLAG    = 32;
 
-    private final byte[] CHECKSUM_FIRST_BYTES =
-    {(byte)0x10, (byte)0x00, (byte)0x00, (byte)0x00};
+    privbtf finbl bytf[] CHECKSUM_FIRST_BYTES =
+    {(bytf)0x10, (bytf)0x00, (bytf)0x00, (bytf)0x00};
 
-    private static final int CHANNEL_BINDING_AF_INET = 2;
-    private static final int CHANNEL_BINDING_AF_INET6 = 24;
-    private static final int CHANNEL_BINDING_AF_NULL_ADDR = 255;
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_INET = 2;
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_INET6 = 24;
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_NULL_ADDR = 255;
 
-    private static final int Inet4_ADDRSZ = 4;
-    private static final int Inet6_ADDRSZ = 16;
+    privbtf stbtid finbl int Inft4_ADDRSZ = 4;
+    privbtf stbtid finbl int Inft6_ADDRSZ = 16;
 
-    protected class OverloadedChecksum {
+    protfdtfd dlbss OvfrlobdfdCifdksum {
 
-        private byte[] checksumBytes = null;
-        private Credentials delegCreds = null;
-        private int flags = 0;
+        privbtf bytf[] difdksumBytfs = null;
+        privbtf Crfdfntibls dflfgCrfds = null;
+        privbtf int flbgs = 0;
 
         /**
-         * Called on the initiator side when creating the
-         * InitSecContextToken.
+         * Cbllfd on tif initibtor sidf wifn drfbting tif
+         * InitSfdContfxtTokfn.
          */
-        public OverloadedChecksum(Krb5Context context,
-                                  Credentials tgt,
-                                  Credentials serviceTicket)
-            throws KrbException, IOException, GSSException {
+        publid OvfrlobdfdCifdksum(Krb5Contfxt dontfxt,
+                                  Crfdfntibls tgt,
+                                  Crfdfntibls sfrvidfTidkft)
+            tirows KrbExdfption, IOExdfption, GSSExdfption {
 
-            byte[] krbCredMessage = null;
+            bytf[] krbCrfdMfssbgf = null;
             int pos = 0;
-            int size = CHECKSUM_LENGTH_SIZE + CHECKSUM_BINDINGS_SIZE +
+            int sizf = CHECKSUM_LENGTH_SIZE + CHECKSUM_BINDINGS_SIZE +
                 CHECKSUM_FLAGS_SIZE;
 
-            if (!tgt.isForwardable()) {
-                context.setCredDelegState(false);
-                context.setDelegPolicyState(false);
-            } else if (context.getCredDelegState()) {
-                if (context.getDelegPolicyState()) {
-                    if (!serviceTicket.checkDelegate()) {
-                        // delegation not permitted by server policy, mark it
-                        context.setDelegPolicyState(false);
+            if (!tgt.isForwbrdbblf()) {
+                dontfxt.sftCrfdDflfgStbtf(fblsf);
+                dontfxt.sftDflfgPolidyStbtf(fblsf);
+            } flsf if (dontfxt.gftCrfdDflfgStbtf()) {
+                if (dontfxt.gftDflfgPolidyStbtf()) {
+                    if (!sfrvidfTidkft.difdkDflfgbtf()) {
+                        // dflfgbtion not pfrmittfd by sfrvfr polidy, mbrk it
+                        dontfxt.sftDflfgPolidyStbtf(fblsf);
                     }
                 }
-            } else if (context.getDelegPolicyState()) {
-                if (serviceTicket.checkDelegate()) {
-                    context.setCredDelegState(true);
-                } else {
-                    context.setDelegPolicyState(false);
+            } flsf if (dontfxt.gftDflfgPolidyStbtf()) {
+                if (sfrvidfTidkft.difdkDflfgbtf()) {
+                    dontfxt.sftCrfdDflfgStbtf(truf);
+                } flsf {
+                    dontfxt.sftDflfgPolidyStbtf(fblsf);
                 }
             }
 
-            if (context.getCredDelegState()) {
-                KrbCred krbCred = null;
-                CipherHelper cipherHelper =
-                    context.getCipherHelper(serviceTicket.getSessionKey());
-                if (useNullKey(cipherHelper)) {
-                    krbCred = new KrbCred(tgt, serviceTicket,
-                                              EncryptionKey.NULL_KEY);
-                } else {
-                    krbCred = new KrbCred(tgt, serviceTicket,
-                                    serviceTicket.getSessionKey());
+            if (dontfxt.gftCrfdDflfgStbtf()) {
+                KrbCrfd krbCrfd = null;
+                CipifrHflpfr dipifrHflpfr =
+                    dontfxt.gftCipifrHflpfr(sfrvidfTidkft.gftSfssionKfy());
+                if (usfNullKfy(dipifrHflpfr)) {
+                    krbCrfd = nfw KrbCrfd(tgt, sfrvidfTidkft,
+                                              EndryptionKfy.NULL_KEY);
+                } flsf {
+                    krbCrfd = nfw KrbCrfd(tgt, sfrvidfTidkft,
+                                    sfrvidfTidkft.gftSfssionKfy());
                 }
-                krbCredMessage = krbCred.getMessage();
-                size += CHECKSUM_DELEG_OPT_SIZE +
+                krbCrfdMfssbgf = krbCrfd.gftMfssbgf();
+                sizf += CHECKSUM_DELEG_OPT_SIZE +
                         CHECKSUM_DELEG_LGTH_SIZE +
-                        krbCredMessage.length;
+                        krbCrfdMfssbgf.lfngti;
             }
 
-            checksumBytes = new byte[size];
+            difdksumBytfs = nfw bytf[sizf];
 
-            checksumBytes[pos++] = CHECKSUM_FIRST_BYTES[0];
-            checksumBytes[pos++] = CHECKSUM_FIRST_BYTES[1];
-            checksumBytes[pos++] = CHECKSUM_FIRST_BYTES[2];
-            checksumBytes[pos++] = CHECKSUM_FIRST_BYTES[3];
+            difdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[0];
+            difdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[1];
+            difdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[2];
+            difdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[3];
 
-            ChannelBinding localBindings = context.getChannelBinding();
-            if (localBindings != null) {
-                byte[] localBindingsBytes =
-                    computeChannelBinding(context.getChannelBinding());
-                System.arraycopy(localBindingsBytes, 0,
-                             checksumBytes, pos, localBindingsBytes.length);
-                //              System.out.println("ChannelBinding hash: "
-                //         + getHexBytes(localBindingsBytes));
+            CibnnflBinding lodblBindings = dontfxt.gftCibnnflBinding();
+            if (lodblBindings != null) {
+                bytf[] lodblBindingsBytfs =
+                    domputfCibnnflBinding(dontfxt.gftCibnnflBinding());
+                Systfm.brrbydopy(lodblBindingsBytfs, 0,
+                             difdksumBytfs, pos, lodblBindingsBytfs.lfngti);
+                //              Systfm.out.println("CibnnflBinding ibsi: "
+                //         + gftHfxBytfs(lodblBindingsBytfs));
             }
 
             pos += CHECKSUM_BINDINGS_SIZE;
 
-            if (context.getCredDelegState())
-                flags |= CHECKSUM_DELEG_FLAG;
-            if (context.getMutualAuthState())
-                flags |= CHECKSUM_MUTUAL_FLAG;
-            if (context.getReplayDetState())
-                flags |= CHECKSUM_REPLAY_FLAG;
-            if (context.getSequenceDetState())
-                flags |= CHECKSUM_SEQUENCE_FLAG;
-            if (context.getIntegState())
-                flags |= CHECKSUM_INTEG_FLAG;
-            if (context.getConfState())
-                flags |= CHECKSUM_CONF_FLAG;
+            if (dontfxt.gftCrfdDflfgStbtf())
+                flbgs |= CHECKSUM_DELEG_FLAG;
+            if (dontfxt.gftMutublAutiStbtf())
+                flbgs |= CHECKSUM_MUTUAL_FLAG;
+            if (dontfxt.gftRfplbyDftStbtf())
+                flbgs |= CHECKSUM_REPLAY_FLAG;
+            if (dontfxt.gftSfqufndfDftStbtf())
+                flbgs |= CHECKSUM_SEQUENCE_FLAG;
+            if (dontfxt.gftIntfgStbtf())
+                flbgs |= CHECKSUM_INTEG_FLAG;
+            if (dontfxt.gftConfStbtf())
+                flbgs |= CHECKSUM_CONF_FLAG;
 
-            byte[] temp = new byte[4];
-            writeLittleEndian(flags, temp);
-            checksumBytes[pos++] = temp[0];
-            checksumBytes[pos++] = temp[1];
-            checksumBytes[pos++] = temp[2];
-            checksumBytes[pos++] = temp[3];
+            bytf[] tfmp = nfw bytf[4];
+            writfLittlfEndibn(flbgs, tfmp);
+            difdksumBytfs[pos++] = tfmp[0];
+            difdksumBytfs[pos++] = tfmp[1];
+            difdksumBytfs[pos++] = tfmp[2];
+            difdksumBytfs[pos++] = tfmp[3];
 
-            if (context.getCredDelegState()) {
+            if (dontfxt.gftCrfdDflfgStbtf()) {
 
-                PrincipalName delegateTo =
-                    serviceTicket.getServer();
-                // Cannot use '\"' instead of "\"" in constructor because
-                // it is interpreted as suggested length!
-                StringBuilder sb = new StringBuilder("\"");
-                sb.append(delegateTo.getName()).append('\"');
-                String realm = delegateTo.getRealmAsString();
-                sb.append(" \"krbtgt/").append(realm).append('@');
-                sb.append(realm).append('\"');
-                SecurityManager sm = System.getSecurityManager();
+                PrindipblNbmf dflfgbtfTo =
+                    sfrvidfTidkft.gftSfrvfr();
+                // Cbnnot usf '\"' instfbd of "\"" in donstrudtor bfdbusf
+                // it is intfrprftfd bs suggfstfd lfngti!
+                StringBuildfr sb = nfw StringBuildfr("\"");
+                sb.bppfnd(dflfgbtfTo.gftNbmf()).bppfnd('\"');
+                String rfblm = dflfgbtfTo.gftRfblmAsString();
+                sb.bppfnd(" \"krbtgt/").bppfnd(rfblm).bppfnd('@');
+                sb.bppfnd(rfblm).bppfnd('\"');
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
-                    DelegationPermission perm =
-                        new DelegationPermission(sb.toString());
-                    sm.checkPermission(perm);
+                    DflfgbtionPfrmission pfrm =
+                        nfw DflfgbtionPfrmission(sb.toString());
+                    sm.difdkPfrmission(pfrm);
                 }
 
 
                 /*
-                 * Write 1 in little endian but in two bytes
+                 * Writf 1 in littlf fndibn but in two bytfs
                  * for DlgOpt
                  */
 
-                checksumBytes[pos++] = (byte)0x01;
-                checksumBytes[pos++] = (byte)0x00;
+                difdksumBytfs[pos++] = (bytf)0x01;
+                difdksumBytfs[pos++] = (bytf)0x00;
 
                 /*
-                 * Write the length of the delegated credential in little
-                 * endian but in two bytes for Dlgth
+                 * Writf tif lfngti of tif dflfgbtfd drfdfntibl in littlf
+                 * fndibn but in two bytfs for Dlgti
                  */
 
-                if (krbCredMessage.length > 0x0000ffff)
-                    throw new GSSException(GSSException.FAILURE, -1,
-                        "Incorrect message length");
+                if (krbCrfdMfssbgf.lfngti > 0x0000ffff)
+                    tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt mfssbgf lfngti");
 
-                writeLittleEndian(krbCredMessage.length, temp);
-                checksumBytes[pos++] = temp[0];
-                checksumBytes[pos++] = temp[1];
-                System.arraycopy(krbCredMessage, 0,
-                                 checksumBytes, pos, krbCredMessage.length);
+                writfLittlfEndibn(krbCrfdMfssbgf.lfngti, tfmp);
+                difdksumBytfs[pos++] = tfmp[0];
+                difdksumBytfs[pos++] = tfmp[1];
+                Systfm.brrbydopy(krbCrfdMfssbgf, 0,
+                                 difdksumBytfs, pos, krbCrfdMfssbgf.lfngti);
             }
 
         }
 
         /**
-         * Called on the acceptor side when reading an InitSecContextToken.
+         * Cbllfd on tif bddfptor sidf wifn rfbding bn InitSfdContfxtTokfn.
          */
-        // XXX Passing in Checksum is not required. byte[] can
-        // be passed in if this checksum type denotes a
-        // raw_checksum. In that case, make Checksum class krb5
-        // internal.
-        public OverloadedChecksum(Krb5Context context, Checksum checksum,
-                                  EncryptionKey key, EncryptionKey subKey)
-            throws GSSException, KrbException, IOException {
+        // XXX Pbssing in Cifdksum is not rfquirfd. bytf[] dbn
+        // bf pbssfd in if tiis difdksum typf dfnotfs b
+        // rbw_difdksum. In tibt dbsf, mbkf Cifdksum dlbss krb5
+        // intfrnbl.
+        publid OvfrlobdfdCifdksum(Krb5Contfxt dontfxt, Cifdksum difdksum,
+                                  EndryptionKfy kfy, EndryptionKfy subKfy)
+            tirows GSSExdfption, KrbExdfption, IOExdfption {
 
             int pos = 0;
 
-            if (checksum == null) {
-                GSSException ge = new GSSException(GSSException.FAILURE, -1,
-                        "No cksum in AP_REQ's authenticator");
-                ge.initCause(new KrbException(Krb5.KRB_AP_ERR_INAPP_CKSUM));
-                throw ge;
+            if (difdksum == null) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "No dksum in AP_REQ's butifntidbtor");
+                gf.initCbusf(nfw KrbExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM));
+                tirow gf;
             }
-            checksumBytes = checksum.getBytes();
+            difdksumBytfs = difdksum.gftBytfs();
 
-            if ((checksumBytes[0] != CHECKSUM_FIRST_BYTES[0]) ||
-                (checksumBytes[1] != CHECKSUM_FIRST_BYTES[1]) ||
-                (checksumBytes[2] != CHECKSUM_FIRST_BYTES[2]) ||
-                (checksumBytes[3] != CHECKSUM_FIRST_BYTES[3])) {
-                throw new GSSException(GSSException.FAILURE, -1,
-                        "Incorrect checksum");
+            if ((difdksumBytfs[0] != CHECKSUM_FIRST_BYTES[0]) ||
+                (difdksumBytfs[1] != CHECKSUM_FIRST_BYTES[1]) ||
+                (difdksumBytfs[2] != CHECKSUM_FIRST_BYTES[2]) ||
+                (difdksumBytfs[3] != CHECKSUM_FIRST_BYTES[3])) {
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt difdksum");
             }
 
-            ChannelBinding localBindings = context.getChannelBinding();
+            CibnnflBinding lodblBindings = dontfxt.gftCibnnflBinding();
 
-            // Ignore remote channel binding info when not requested at
-            // local side (RFC 4121 4.1.1.2: the acceptor MAY ignore...).
+            // Ignorf rfmotf dibnnfl binding info wifn not rfqufstfd bt
+            // lodbl sidf (RFC 4121 4.1.1.2: tif bddfptor MAY ignorf...).
             //
-            // All major krb5 implementors implement this "MAY",
-            // and some applications depend on it as a workaround
-            // for not having a way to negotiate the use of channel
-            // binding -- the initiator application always uses CB
-            // and hopes the acceptor will ignore the CB if the
-            // acceptor doesn't support CB.
-            if (localBindings != null) {
-                byte[] remoteBindingBytes = new byte[CHECKSUM_BINDINGS_SIZE];
-                System.arraycopy(checksumBytes, 4, remoteBindingBytes, 0,
+            // All mbjor krb5 implfmfntors implfmfnt tiis "MAY",
+            // bnd somf bpplidbtions dfpfnd on it bs b workbround
+            // for not ibving b wby to nfgotibtf tif usf of dibnnfl
+            // binding -- tif initibtor bpplidbtion blwbys usfs CB
+            // bnd iopfs tif bddfptor will ignorf tif CB if tif
+            // bddfptor dofsn't support CB.
+            if (lodblBindings != null) {
+                bytf[] rfmotfBindingBytfs = nfw bytf[CHECKSUM_BINDINGS_SIZE];
+                Systfm.brrbydopy(difdksumBytfs, 4, rfmotfBindingBytfs, 0,
                                  CHECKSUM_BINDINGS_SIZE);
 
-                byte[] noBindings = new byte[CHECKSUM_BINDINGS_SIZE];
-                if (!Arrays.equals(noBindings, remoteBindingBytes)) {
-                    byte[] localBindingsBytes =
-                        computeChannelBinding(localBindings);
-                    if (!Arrays.equals(localBindingsBytes,
-                                                remoteBindingBytes)) {
-                        throw new GSSException(GSSException.BAD_BINDINGS, -1,
-                                               "Bytes mismatch!");
+                bytf[] noBindings = nfw bytf[CHECKSUM_BINDINGS_SIZE];
+                if (!Arrbys.fqubls(noBindings, rfmotfBindingBytfs)) {
+                    bytf[] lodblBindingsBytfs =
+                        domputfCibnnflBinding(lodblBindings);
+                    if (!Arrbys.fqubls(lodblBindingsBytfs,
+                                                rfmotfBindingBytfs)) {
+                        tirow nfw GSSExdfption(GSSExdfption.BAD_BINDINGS, -1,
+                                               "Bytfs mismbtdi!");
                     }
-                } else {
-                    throw new GSSException(GSSException.BAD_BINDINGS, -1,
-                                           "Token missing ChannelBinding!");
+                } flsf {
+                    tirow nfw GSSExdfption(GSSExdfption.BAD_BINDINGS, -1,
+                                           "Tokfn missing CibnnflBinding!");
                 }
             }
 
-            flags = readLittleEndian(checksumBytes, 20, 4);
+            flbgs = rfbdLittlfEndibn(difdksumBytfs, 20, 4);
 
-            if ((flags & CHECKSUM_DELEG_FLAG) > 0) {
+            if ((flbgs & CHECKSUM_DELEG_FLAG) > 0) {
 
                 /*
                  * XXX
-                 * if ((checksumBytes[24] != (byte)0x01) &&
-                 * (checksumBytes[25] != (byte)0x00))
+                 * if ((difdksumBytfs[24] != (bytf)0x01) &&
+                 * (difdksumBytfs[25] != (bytf)0x00))
                  */
 
-                int credLen = readLittleEndian(checksumBytes, 26, 2);
-                byte[] credBytes = new byte[credLen];
-                System.arraycopy(checksumBytes, 28, credBytes, 0, credLen);
+                int drfdLfn = rfbdLittlfEndibn(difdksumBytfs, 26, 2);
+                bytf[] drfdBytfs = nfw bytf[drfdLfn];
+                Systfm.brrbydopy(difdksumBytfs, 28, drfdBytfs, 0, drfdLfn);
 
-                KrbCred cred;
+                KrbCrfd drfd;
                 try {
-                    cred = new KrbCred(credBytes, key);
-                } catch (KrbException ke) {
-                    if (subKey != null) {
-                        cred = new KrbCred(credBytes, subKey);
-                    } else {
-                        throw ke;
+                    drfd = nfw KrbCrfd(drfdBytfs, kfy);
+                } dbtdi (KrbExdfption kf) {
+                    if (subKfy != null) {
+                        drfd = nfw KrbCrfd(drfdBytfs, subKfy);
+                    } flsf {
+                        tirow kf;
                     }
                 }
-                delegCreds = cred.getDelegatedCreds()[0];
+                dflfgCrfds = drfd.gftDflfgbtfdCrfds()[0];
             }
         }
 
-        // check if KRB-CRED message should use NULL_KEY for encryption
-        private boolean useNullKey(CipherHelper ch) {
-            boolean flag = true;
-            // for "newer" etypes and RC4-HMAC do not use NULL KEY
-            if ((ch.getProto() == 1) || ch.isArcFour()) {
-                flag = false;
+        // difdk if KRB-CRED mfssbgf siould usf NULL_KEY for fndryption
+        privbtf boolfbn usfNullKfy(CipifrHflpfr di) {
+            boolfbn flbg = truf;
+            // for "nfwfr" ftypfs bnd RC4-HMAC do not usf NULL KEY
+            if ((di.gftProto() == 1) || di.isArdFour()) {
+                flbg = fblsf;
             }
-            return flag;
+            rfturn flbg;
         }
 
-        public Checksum getChecksum() throws KrbException {
-            return new Checksum(checksumBytes, CHECKSUM_TYPE);
+        publid Cifdksum gftCifdksum() tirows KrbExdfption {
+            rfturn nfw Cifdksum(difdksumBytfs, CHECKSUM_TYPE);
         }
 
-        public Credentials getDelegatedCreds() {
-            return delegCreds;
+        publid Crfdfntibls gftDflfgbtfdCrfds() {
+            rfturn dflfgCrfds;
         }
 
-        // Only called by acceptor
-        public void setContextFlags(Krb5Context context) {
-                // default for cred delegation is false
-            if ((flags & CHECKSUM_DELEG_FLAG) > 0)
-                context.setCredDelegState(true);
-                // default for the following are true
-            if ((flags & CHECKSUM_MUTUAL_FLAG) == 0) {
-                context.setMutualAuthState(false);
+        // Only dbllfd by bddfptor
+        publid void sftContfxtFlbgs(Krb5Contfxt dontfxt) {
+                // dffbult for drfd dflfgbtion is fblsf
+            if ((flbgs & CHECKSUM_DELEG_FLAG) > 0)
+                dontfxt.sftCrfdDflfgStbtf(truf);
+                // dffbult for tif following brf truf
+            if ((flbgs & CHECKSUM_MUTUAL_FLAG) == 0) {
+                dontfxt.sftMutublAutiStbtf(fblsf);
             }
-            if ((flags & CHECKSUM_REPLAY_FLAG) == 0) {
-                context.setReplayDetState(false);
+            if ((flbgs & CHECKSUM_REPLAY_FLAG) == 0) {
+                dontfxt.sftRfplbyDftStbtf(fblsf);
             }
-            if ((flags & CHECKSUM_SEQUENCE_FLAG) == 0) {
-                context.setSequenceDetState(false);
+            if ((flbgs & CHECKSUM_SEQUENCE_FLAG) == 0) {
+                dontfxt.sftSfqufndfDftStbtf(fblsf);
             }
-            if ((flags & CHECKSUM_CONF_FLAG) == 0) {
-                context.setConfState(false);
+            if ((flbgs & CHECKSUM_CONF_FLAG) == 0) {
+                dontfxt.sftConfStbtf(fblsf);
             }
-            if ((flags & CHECKSUM_INTEG_FLAG) == 0) {
-                context.setIntegState(false);
+            if ((flbgs & CHECKSUM_INTEG_FLAG) == 0) {
+                dontfxt.sftIntfgStbtf(fblsf);
             }
         }
     }
 
-    private int getAddrType(InetAddress addr) {
-        int addressType = CHANNEL_BINDING_AF_NULL_ADDR;
+    privbtf int gftAddrTypf(InftAddrfss bddr) {
+        int bddrfssTypf = CHANNEL_BINDING_AF_NULL_ADDR;
 
-        if (addr instanceof Inet4Address)
-            addressType = CHANNEL_BINDING_AF_INET;
-        else if (addr instanceof Inet6Address)
-            addressType = CHANNEL_BINDING_AF_INET6;
-        return (addressType);
+        if (bddr instbndfof Inft4Addrfss)
+            bddrfssTypf = CHANNEL_BINDING_AF_INET;
+        flsf if (bddr instbndfof Inft6Addrfss)
+            bddrfssTypf = CHANNEL_BINDING_AF_INET6;
+        rfturn (bddrfssTypf);
     }
 
-    private byte[] getAddrBytes(InetAddress addr) throws GSSException {
-        int addressType = getAddrType(addr);
-        byte[] addressBytes = addr.getAddress();
-        if (addressBytes != null) {
-            switch (addressType) {
-                case CHANNEL_BINDING_AF_INET:
-                    if (addressBytes.length != Inet4_ADDRSZ) {
-                        throw new GSSException(GSSException.FAILURE, -1,
-                        "Incorrect AF-INET address length in ChannelBinding.");
+    privbtf bytf[] gftAddrBytfs(InftAddrfss bddr) tirows GSSExdfption {
+        int bddrfssTypf = gftAddrTypf(bddr);
+        bytf[] bddrfssBytfs = bddr.gftAddrfss();
+        if (bddrfssBytfs != null) {
+            switdi (bddrfssTypf) {
+                dbsf CHANNEL_BINDING_AF_INET:
+                    if (bddrfssBytfs.lfngti != Inft4_ADDRSZ) {
+                        tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt AF-INET bddrfss lfngti in CibnnflBinding.");
                     }
-                    return (addressBytes);
-                case CHANNEL_BINDING_AF_INET6:
-                    if (addressBytes.length != Inet6_ADDRSZ) {
-                        throw new GSSException(GSSException.FAILURE, -1,
-                        "Incorrect AF-INET6 address length in ChannelBinding.");
+                    rfturn (bddrfssBytfs);
+                dbsf CHANNEL_BINDING_AF_INET6:
+                    if (bddrfssBytfs.lfngti != Inft6_ADDRSZ) {
+                        tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt AF-INET6 bddrfss lfngti in CibnnflBinding.");
                     }
-                    return (addressBytes);
-                default:
-                    throw new GSSException(GSSException.FAILURE, -1,
-                    "Cannot handle non AF-INET addresses in ChannelBinding.");
+                    rfturn (bddrfssBytfs);
+                dffbult:
+                    tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Cbnnot ibndlf non AF-INET bddrfssfs in CibnnflBinding.");
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private byte[] computeChannelBinding(ChannelBinding channelBinding)
-        throws GSSException {
+    privbtf bytf[] domputfCibnnflBinding(CibnnflBinding dibnnflBinding)
+        tirows GSSExdfption {
 
-        InetAddress initiatorAddress = channelBinding.getInitiatorAddress();
-        InetAddress acceptorAddress = channelBinding.getAcceptorAddress();
-        int size = 5*4;
+        InftAddrfss initibtorAddrfss = dibnnflBinding.gftInitibtorAddrfss();
+        InftAddrfss bddfptorAddrfss = dibnnflBinding.gftAddfptorAddrfss();
+        int sizf = 5*4;
 
-        int initiatorAddressType = getAddrType(initiatorAddress);
-        int acceptorAddressType = getAddrType(acceptorAddress);
+        int initibtorAddrfssTypf = gftAddrTypf(initibtorAddrfss);
+        int bddfptorAddrfssTypf = gftAddrTypf(bddfptorAddrfss);
 
-        byte[] initiatorAddressBytes = null;
-        if (initiatorAddress != null) {
-            initiatorAddressBytes = getAddrBytes(initiatorAddress);
-            size += initiatorAddressBytes.length;
+        bytf[] initibtorAddrfssBytfs = null;
+        if (initibtorAddrfss != null) {
+            initibtorAddrfssBytfs = gftAddrBytfs(initibtorAddrfss);
+            sizf += initibtorAddrfssBytfs.lfngti;
         }
 
-        byte[] acceptorAddressBytes = null;
-        if (acceptorAddress != null) {
-            acceptorAddressBytes = getAddrBytes(acceptorAddress);
-            size += acceptorAddressBytes.length;
+        bytf[] bddfptorAddrfssBytfs = null;
+        if (bddfptorAddrfss != null) {
+            bddfptorAddrfssBytfs = gftAddrBytfs(bddfptorAddrfss);
+            sizf += bddfptorAddrfssBytfs.lfngti;
         }
 
-        byte[] appDataBytes = channelBinding.getApplicationData();
-        if (appDataBytes != null) {
-            size += appDataBytes.length;
+        bytf[] bppDbtbBytfs = dibnnflBinding.gftApplidbtionDbtb();
+        if (bppDbtbBytfs != null) {
+            sizf += bppDbtbBytfs.lfngti;
         }
 
-        byte[] data = new byte[size];
+        bytf[] dbtb = nfw bytf[sizf];
 
         int pos = 0;
 
-        writeLittleEndian(initiatorAddressType, data, pos);
+        writfLittlfEndibn(initibtorAddrfssTypf, dbtb, pos);
         pos += 4;
 
-        if (initiatorAddressBytes != null) {
-            writeLittleEndian(initiatorAddressBytes.length, data, pos);
+        if (initibtorAddrfssBytfs != null) {
+            writfLittlfEndibn(initibtorAddrfssBytfs.lfngti, dbtb, pos);
             pos += 4;
-            System.arraycopy(initiatorAddressBytes, 0,
-                             data, pos, initiatorAddressBytes.length);
-            pos += initiatorAddressBytes.length;
-        } else {
-            // Write length 0
+            Systfm.brrbydopy(initibtorAddrfssBytfs, 0,
+                             dbtb, pos, initibtorAddrfssBytfs.lfngti);
+            pos += initibtorAddrfssBytfs.lfngti;
+        } flsf {
+            // Writf lfngti 0
             pos += 4;
         }
 
-        writeLittleEndian(acceptorAddressType, data, pos);
+        writfLittlfEndibn(bddfptorAddrfssTypf, dbtb, pos);
         pos += 4;
 
-        if (acceptorAddressBytes != null) {
-            writeLittleEndian(acceptorAddressBytes.length, data, pos);
+        if (bddfptorAddrfssBytfs != null) {
+            writfLittlfEndibn(bddfptorAddrfssBytfs.lfngti, dbtb, pos);
             pos += 4;
-            System.arraycopy(acceptorAddressBytes, 0,
-                             data, pos, acceptorAddressBytes.length);
-            pos += acceptorAddressBytes.length;
-        } else {
-            // Write length 0
+            Systfm.brrbydopy(bddfptorAddrfssBytfs, 0,
+                             dbtb, pos, bddfptorAddrfssBytfs.lfngti);
+            pos += bddfptorAddrfssBytfs.lfngti;
+        } flsf {
+            // Writf lfngti 0
             pos += 4;
         }
 
-        if (appDataBytes != null) {
-            writeLittleEndian(appDataBytes.length, data, pos);
+        if (bppDbtbBytfs != null) {
+            writfLittlfEndibn(bppDbtbBytfs.lfngti, dbtb, pos);
             pos += 4;
-            System.arraycopy(appDataBytes, 0, data, pos,
-                             appDataBytes.length);
-            pos += appDataBytes.length;
-        } else {
-            // Write 0
+            Systfm.brrbydopy(bppDbtbBytfs, 0, dbtb, pos,
+                             bppDbtbBytfs.lfngti);
+            pos += bppDbtbBytfs.lfngti;
+        } flsf {
+            // Writf 0
             pos += 4;
         }
 
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            return md5.digest(data);
-        } catch (NoSuchAlgorithmException e) {
-                throw new GSSException(GSSException.FAILURE, -1,
-                                       "Could not get MD5 Message Digest - "
-                                       + e.getMessage());
+            MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
+            rfturn md5.digfst(dbtb);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "Could not gft MD5 Mfssbgf Digfst - "
+                                       + f.gftMfssbgf());
         }
     }
 
-    public abstract byte[] encode() throws IOException;
+    publid bbstrbdt bytf[] fndodf() tirows IOExdfption;
 
 }

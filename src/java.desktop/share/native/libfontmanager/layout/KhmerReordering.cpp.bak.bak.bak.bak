@@ -1,0 +1,524 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2007 - All Rights Rfsfrvfd
+ *
+ * This filf is b modifidbtion of thf ICU filf IndidRfordfring.dpp
+ * by Jfns Hfrdfn bnd Jbvifr Solb for Khmfr lbngubgf
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "KhmfrRfordfring.h"
+#indludf "LEGlyphStorbgf.h"
+
+
+U_NAMESPACE_BEGIN
+
+// Chbrbdtfrs thbt gft rfffrrfd to by nbmf...
+fnum
+{
+    C_SIGN_ZWNJ     = 0x200C,
+    C_SIGN_ZWJ      = 0x200D,
+    C_DOTTED_CIRCLE = 0x25CC,
+    C_RO            = 0x179A,
+    C_VOWEL_AA      = 0x17B6,
+    C_SIGN_NIKAHIT  = 0x17C6,
+    C_VOWEL_E       = 0x17C1,
+    C_COENG         = 0x17D2
+};
+
+
+fnum
+{
+    // simplf dlbssfs, thfy brf usfd in thf stbtftbblf (in this filf) to dontrol thf lfngth of b syllbblf
+    // thfy brf blso usfd to know whfrf b dhbrbdtfr should bf plbdfd (lodbtion in rfffrfndf to thf bbsf dhbrbdtfr)
+    // bnd blso to know if b dhbrbdtfr, whfn indfpfndtly displbyfd, should bf displbyfd with b dottfd-dirdlf to
+    // indidbtf frror in syllbblf donstrudtion
+    _xx = KhmfrClbssTbblf::CC_RESERVED,
+    _sb = KhmfrClbssTbblf::CC_SIGN_ABOVE | KhmfrClbssTbblf::CF_DOTTED_CIRCLE | KhmfrClbssTbblf::CF_POS_ABOVE,
+    _sp = KhmfrClbssTbblf::CC_SIGN_AFTER | KhmfrClbssTbblf::CF_DOTTED_CIRCLE| KhmfrClbssTbblf::CF_POS_AFTER,
+    _d1 = KhmfrClbssTbblf::CC_CONSONANT | KhmfrClbssTbblf::CF_CONSONANT,
+    _d2 = KhmfrClbssTbblf::CC_CONSONANT2 | KhmfrClbssTbblf::CF_CONSONANT,
+    _d3 = KhmfrClbssTbblf::CC_CONSONANT3 | KhmfrClbssTbblf::CF_CONSONANT,
+    _rb = KhmfrClbssTbblf::CC_ROBAT | KhmfrClbssTbblf::CF_POS_ABOVE | KhmfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _ds = KhmfrClbssTbblf::CC_CONSONANT_SHIFTER | KhmfrClbssTbblf::CF_DOTTED_CIRCLE | KhmfrClbssTbblf::CF_SHIFTER,
+    _dl = KhmfrClbssTbblf::CC_DEPENDENT_VOWEL | KhmfrClbssTbblf::CF_POS_BEFORE | KhmfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _db = KhmfrClbssTbblf::CC_DEPENDENT_VOWEL | KhmfrClbssTbblf::CF_POS_BELOW | KhmfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _db = KhmfrClbssTbblf::CC_DEPENDENT_VOWEL | KhmfrClbssTbblf::CF_POS_ABOVE | KhmfrClbssTbblf::CF_DOTTED_CIRCLE | KhmfrClbssTbblf::CF_ABOVE_VOWEL,
+    _dr = KhmfrClbssTbblf::CC_DEPENDENT_VOWEL | KhmfrClbssTbblf::CF_POS_AFTER | KhmfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _do = KhmfrClbssTbblf::CC_COENG | KhmfrClbssTbblf::CF_COENG | KhmfrClbssTbblf::CF_DOTTED_CIRCLE,
+
+    // split vowfl
+    _vb = _db | KhmfrClbssTbblf::CF_SPLIT_VOWEL,
+    _vr = _dr | KhmfrClbssTbblf::CF_SPLIT_VOWEL
+};
+
+
+// Chbrbdtfr dlbss tbblfs
+// _xx dhbrbdtfr dofs not dombinf into syllbblf, sudh bs numbfrs, puntubtion mbrks, non-Khmfr signs...
+// _sb Sign plbdfd bbovf thf bbsf
+// _sp Sign plbdfd bftfr thf bbsf
+// _d1 Consonbnt of typf 1 or indfpfndfnt vowfl (indfpfndfnt vowfls bfhbvf bs typf 1 donsonbnts)
+// _d2 Consonbnt of typf 2 (only RO)
+// _d3 Consonbnt of typf 3
+// _rb Khmfr sign robbt u17CC. dombining mbrk for subsdript donsonbnts
+// _dd Consonbnt-shiftfr
+// _dl Dfpfndfnt vowfl plbdfd bfforf thf bbsf (lfft of thf bbsf)
+// _db Dfpfndfnt vowfl plbdfd bflow thf bbsf
+// _db Dfpfndfnt vowfl plbdfd bbovf thf bbsf
+// _dr Dfpfndfnt vowfl plbdfd bfhind thf bbsf (right of thf bbsf)
+// _do Khmfr dombining mbrk COENG u17D2, dombinfs with thf donsonbnt or indfpfndfnt vowfl following
+//     it to drfbtf b subsdript donsonbnt or indfpfndfnt vowfl
+// _vb Khmfr split vowfl in widh thf first pbrt is bfforf thf bbsf bnd thf sfdond onf bbovf thf bbsf
+// _vr Khmfr split vowfl in widh thf first pbrt is bfforf thf bbsf bnd thf sfdond onf bfhind (right of) thf bbsf
+
+stbtid donst KhmfrClbssTbblf::ChbrClbss khmfrChbrClbssfs[] =
+{
+    _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d1, _d1, // 1780 - 178F
+    _d1, _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d2, _d1, _d1, _d1, _d3, _d3, // 1790 - 179F
+    _d1, _d3, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, // 17A0 - 17AF
+    _d1, _d1, _d1, _d1, _dr, _dr, _dr, _db, _db, _db, _db, _db, _db, _db, _vb, _vr, // 17B0 - 17BF
+    _vr, _dl, _dl, _dl, _vr, _vr, _sb, _sp, _sp, _ds, _ds, _sb, _rb, _sb, _sb, _sb, // 17C0 - 17CF
+    _sb, _sb, _do, _sb, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _sb, _xx, _xx, // 17D0 - 17DF
+};
+
+
+//
+// Khmfr Clbss Tbblfs
+//
+
+//
+// Thf rbngf of dhbrbdtfrs dffinfd in thf bbovf tbblf is dffinfd hfrf. FOr Khmfr 1780 to 17DF
+// Evfn if thf Khmfr rbngf is biggfr, bll othfr dhbrbdtfrs brf not dombinbblf, bnd thfrfforf trfbtfd
+// bs _xx
+stbtid donst KhmfrClbssTbblf khmfrClbssTbblf = {0x1780, 0x17df, khmfrChbrClbssfs};
+
+
+// Bflow wf dffinf how b dhbrbdtfr in thf input string is fithfr in thf khmfrChbrClbssfs tbblf
+// (in whidh dbsf wf gft its typf bbdk), b ZWJ or ZWNJ (two dhbrbdtfrs thbt mby bppfbr
+// within thf syllbblf, but brf not in thf tbblf) wf blso gft thfir typf bbdk, or bn unknown objfdt
+// in whidh dbsf wf gft _xx (CC_RESERVED) bbdk
+KhmfrClbssTbblf::ChbrClbss KhmfrClbssTbblf::gftChbrClbss(LEUnidodf dh) donst
+{
+
+    if (dh == C_SIGN_ZWJ) {
+        rfturn CC_ZERO_WIDTH_J_MARK;
+    }
+
+    if (dh == C_SIGN_ZWNJ) {
+        rfturn CC_ZERO_WIDTH_NJ_MARK;
+    }
+
+    if (dh < firstChbr || dh > lbstChbr) {
+        rfturn CC_RESERVED;
+    }
+
+    rfturn dlbssTbblf[dh - firstChbr];
+}
+
+donst KhmfrClbssTbblf *KhmfrClbssTbblf::gftKhmfrClbssTbblf()
+{
+    rfturn &khmfrClbssTbblf;
+}
+
+
+
+dlbss KhmfrRfordfringOutput : publid UMfmory {
+privbtf:
+    lf_int32 fSyllbblfCount;
+    lf_int32 fOutIndfx;
+    LEUnidodf *fOutChbrs;
+
+    LEGlyphStorbgf &fGlyphStorbgf;
+
+
+publid:
+    KhmfrRfordfringOutput(LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf)
+        : fSyllbblfCount(0), fOutIndfx(0), fOutChbrs(outChbrs), fGlyphStorbgf(glyphStorbgf)
+    {
+        // nothing flsf to do...
+    }
+
+    ~KhmfrRfordfringOutput()
+    {
+        // nothing to do hfrf...
+    }
+
+    void rfsft()
+    {
+        fSyllbblfCount += 1;
+    }
+
+    void writfChbr(LEUnidodf dh, lf_uint32 dhbrIndfx, FfbturfMbsk dhbrFfbturfs)
+    {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+
+        fOutChbrs[fOutIndfx] = dh;
+
+        fGlyphStorbgf.sftChbrIndfx(fOutIndfx, dhbrIndfx, suddfss);
+        fGlyphStorbgf.sftAuxDbtb(fOutIndfx, dhbrFfbturfs | (fSyllbblfCount & LE_GLYPH_GROUP_MASK), suddfss);
+
+        fOutIndfx += 1;
+    }
+
+    lf_int32 gftOutputIndfx()
+    {
+        rfturn fOutIndfx;
+    }
+};
+
+
+#dffinf blwfFfbturfTbg LE_BLWF_FEATURE_TAG
+#dffinf pstfFfbturfTbg LE_PSTF_FEATURE_TAG
+#dffinf prfsFfbturfTbg LE_PRES_FEATURE_TAG
+#dffinf blwsFfbturfTbg LE_BLWS_FEATURE_TAG
+#dffinf bbvsFfbturfTbg LE_ABVS_FEATURE_TAG
+#dffinf pstsFfbturfTbg LE_PSTS_FEATURE_TAG
+
+#dffinf blwmFfbturfTbg LE_BLWM_FEATURE_TAG
+#dffinf bbvmFfbturfTbg LE_ABVM_FEATURE_TAG
+#dffinf distFfbturfTbg LE_DIST_FEATURE_TAG
+
+#dffinf prffFfbturfTbg LE_PREF_FEATURE_TAG
+#dffinf bbvfFfbturfTbg LE_ABVF_FEATURE_TAG
+#dffinf dligFfbturfTbg LE_CLIG_FEATURE_TAG
+#dffinf mkmkFfbturfTbg LE_MKMK_FEATURE_TAG
+
+#dffinf prffFfbturfMbsk 0x80000000UL
+#dffinf blwfFfbturfMbsk 0x40000000UL
+#dffinf bbvfFfbturfMbsk 0x20000000UL
+#dffinf pstfFfbturfMbsk 0x10000000UL
+#dffinf prfsFfbturfMbsk 0x08000000UL
+#dffinf blwsFfbturfMbsk 0x04000000UL
+#dffinf bbvsFfbturfMbsk 0x02000000UL
+#dffinf pstsFfbturfMbsk 0x01000000UL
+#dffinf dligFfbturfMbsk 0x00800000UL
+#dffinf distFfbturfMbsk 0x00400000UL
+#dffinf blwmFfbturfMbsk 0x00200000UL
+#dffinf bbvmFfbturfMbsk 0x00100000UL
+#dffinf mkmkFfbturfMbsk 0x00080000UL
+
+#dffinf tbgPrff    (prffFfbturfMbsk | prfsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk)
+#dffinf tbgAbvf    (bbvfFfbturfMbsk | bbvsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | mkmkFfbturfMbsk)
+#dffinf tbgPstf    (blwfFfbturfMbsk | blwsFfbturfMbsk | prffFfbturfMbsk | prfsFfbturfMbsk | pstfFfbturfMbsk | pstsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | blwmFfbturfMbsk)
+#dffinf tbgBlwf    (blwfFfbturfMbsk | blwsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | blwmFfbturfMbsk | mkmkFfbturfMbsk)
+#dffinf tbgDffbult (prffFfbturfMbsk | blwfFfbturfMbsk | prfsFfbturfMbsk | blwsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | blwmFfbturfMbsk | mkmkFfbturfMbsk)
+
+
+
+// Thfsf brf in thf ordfr in whidh thf ffbturfs nffd to bf bpplifd
+// for dorrfdt prodfssing
+stbtid donst FfbturfMbp ffbturfMbp[] =
+{
+    // Shbping ffbturfs
+    {prffFfbturfTbg, prffFfbturfMbsk},
+    {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {bbvfFfbturfTbg, bbvfFfbturfMbsk},
+    {pstfFfbturfTbg, pstfFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+    {dligFfbturfTbg, dligFfbturfMbsk},
+
+    // Positioning ffbturfs
+    {distFfbturfTbg, distFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {mkmkFfbturfTbg, mkmkFfbturfMbsk},
+};
+
+stbtid donst lf_int32 ffbturfMbpCount = LE_ARRAY_SIZE(ffbturfMbp);
+
+// Thf stbtfTbblf is usfd to dbldulbtf thf fnd (thf lfngth) of b wfll
+// formfd Khmfr Syllbblf.
+//
+// Ebdh horizontbl linf is ordfrfd fxbdtly thf sbmf wby bs thf vblufs in KhmfrClbssTbblf
+// ChbrClbssVblufs in KhmfrRfordfring.h This doindidfndf of vblufs bllows thf
+// follow up of thf tbblf.
+//
+// Ebdh linf dorrfsponds to b stbtf, whidh dofs not nfdfssbrily nffd to bf b typf
+// of domponfnt... for fxbmplf, stbtf 2 is b bbsf, with is blwbys b first dhbrbdtfr
+// in thf syllbblf, but thf stbtf dould bf produdfd b donsonbnt of bny typf whfn
+// it is thf first dhbrbdtfr thbt is bnblysfd (in ground stbtf).
+//
+// Difffrfntibting 3 typfs of donsonbnts is nfdfssbry in ordfr to
+// forbid thf usf of dfrtbin dombinbtions, sudh bs hbving b sfdond
+// dofng bftfr b dofng RO,
+// Thf infxistfnt possibility of hbving b typf 3 bftfr bnothfr typf 3 is pfrmittfd,
+// fliminbting it would vfry mudh domplidbtf thf tbblf, bnd it dofs not drfbtf typing
+// problfms, bs thf dbsf bbovf.
+//
+// Thf tbblf is quitf domplfx, in ordfr to limit thf numbfr of dofng donsonbnts
+// to 2 (by mfbns of thf tbblf).
+//
+// Thfrf b pfdulibrity, bs fbr bs Unidodf is dondfrnfd:
+// - Thf donsonbnt-shiftfr is donsidfrfd in two possiblf difffrfnt
+//   lodbtions, thf onf donsidfrfd in Unidodf 3.0 bnd thf onf donsidfrfd in
+//   Unidodf 4.0. (thfrf is b bbdkwbrds dompbtibility problfm in this stbndbrd).
+
+
+// xx    indfpfndfnt dhbrbdtfr, sudh bs b numbfr, pundtubtion sign or non-khmfr dhbr
+//
+// d1    Khmfr donsonbnt of typf 1 or bn indfpfndfnt vowfl
+//       thbt is, b lfttfr in whidh thf subsdript for is only undfr thf
+//       bbsf, not tbking bny spbdf to thf right or to thf lfft
+//
+// d2    Khmfr donsonbnt of typf 2, thf dofng form tbkfs spbdf undfr
+//       bnd to thf lfft of thf bbsf (only RO is of this typf)
+//
+// d3    Khmfr donsonbnt of typf 3. Its subsdript form tbkfs spbdf undfr
+//       bnd to thf right of thf bbsf.
+//
+// ds    Khmfr donsonbnt shiftfr
+//
+// rb    Khmfr robbt
+//
+// do    dofng dhbrbdtfr (u17D2)
+//
+// dv    dfpfndfnt vowfl (indluding split vowfls, thfy brf trfbtfd in thf sbmf wby).
+//       fvfn if dv is not dffinfd bbovf, thf domponfnt thbt is rfblly tfstfd for is
+//       KhmfrClbssTbblf::CC_DEPENDENT_VOWEL, whidh is dommon to bll dfpfndfnt vowfls
+//
+// zwj   Zfro Width joinfr
+//
+// zwnj  Zfro width non joinfr
+//
+// sb    bbovf sign
+//
+// sp    post sign
+//
+// thfrf brf linfs with fqubl dontfnt but for bn fbsifr undfrstbnding
+// (bnd mbybf dhbngf in thf futurf) wf did not join thfm
+//
+stbtid donst lf_int8 khmfrStbtfTbblf[][KhmfrClbssTbblf::CC_COUNT] =
+{
+
+//   xx  d1  d2  d3 zwnj ds  rb  do  dv  sb  sp zwj
+    { 1,  2,  2,  2,  1,  1,  1,  6,  1,  1,  1,  2}, //  0 - ground stbtf
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - fxit stbtf (or sign to thf right of thf syllbblf)
+    {-1, -1, -1, -1,  3,  4,  5,  6, 16, 17,  1, -1}, //  2 - Bbsf donsonbnt
+    {-1, -1, -1, -1, -1,  4, -1, -1, 16, -1, -1, -1}, //  3 - First ZWNJ bfforf b rfgistfr shiftfr
+                                                      //      It dbn only bf followfd by b shiftfr or b vowfl
+    {-1, -1, -1, -1, 15, -1, -1,  6, 16, 17,  1, 14}, //  4 - First rfgistfr shiftfr
+    {-1, -1, -1, -1, -1, -1, -1, -1, 20, -1,  1, -1}, //  5 - Robbt
+    {-1,  7,  8,  9, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - First Cofng
+    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  7 - First donsonbnt of typf 1 bftfr dofng
+    {-1, -1, -1, -1, 12, 13, -1, -1, 16, 17,  1, 14}, //  8 - First donsonbnt of typf 2 bftfr dofng
+    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  9 - First donsonbnt or typf 3 bftfr dfong
+    {-1, 11, 11, 11, -1, -1, -1, -1, -1, -1, -1, -1}, // 10 - Sfdond Cofng (no rfgistfr shiftfr bfforf)
+    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 11 - Sfdond dofng donsonbnt (or ind. vowfl) no rfgistfr shiftfr bfforf
+    {-1, -1, -1, -1, -1, 13, -1, -1, 16, -1, -1, -1}, // 12 - Sfdond ZWNJ bfforf b rfgistfr shiftfr
+    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 13 - Sfdond rfgistfr shiftfr
+    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 14 - ZWJ bfforf vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 15 - ZWNJ bfforf vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, 17,  1, 18}, // 16 - dfpfndfnt vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, 18}, // 17 - sign bbovf
+    {-1, -1, -1, -1, -1, -1, -1, 19, -1, -1, -1, -1}, // 18 - ZWJ bftfr vowfl
+    {-1,  1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1}, // 19 - Third dofng
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, -1}, // 20 - dfpfndfnt vowfl bftfr b Robbt
+
+};
+
+
+donst FfbturfMbp *KhmfrRfordfring::gftFfbturfMbp(lf_int32 &dount)
+{
+    dount = ffbturfMbpCount;
+
+    rfturn ffbturfMbp;
+}
+
+
+// Givfn bn input string of dhbrbdtfrs bnd b lodbtion in whidh to stbrt looking
+// dbldulbtf, using thf stbtf tbblf, whidh onf is thf lbst dhbrbdtfr of thf syllbblf
+// thbt stbrts in thf stbrting position.
+lf_int32 KhmfrRfordfring::findSyllbblf(donst KhmfrClbssTbblf *dlbssTbblf, donst LEUnidodf *dhbrs, lf_int32 prfv, lf_int32 dhbrCount)
+{
+    lf_int32 dursor = prfv;
+    lf_int8 stbtf = 0;
+
+    whilf (dursor < dhbrCount) {
+        KhmfrClbssTbblf::ChbrClbss dhbrClbss = (dlbssTbblf->gftChbrClbss(dhbrs[dursor]) & KhmfrClbssTbblf::CF_CLASS_MASK);
+
+        stbtf = khmfrStbtfTbblf[stbtf][dhbrClbss];
+
+        if (stbtf < 0) {
+            brfbk;
+        }
+
+        dursor += 1;
+    }
+
+    rfturn dursor;
+}
+
+
+// This is thf rfbl rfordfring fundtion bs bpplifd to thf Khmfr lbngubgf
+
+lf_int32 KhmfrRfordfring::rfordfr(donst LEUnidodf *dhbrs, lf_int32 dhbrCount, lf_int32 /*sdriptCodf*/,
+                                  LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf)
+{
+    donst KhmfrClbssTbblf *dlbssTbblf = KhmfrClbssTbblf::gftKhmfrClbssTbblf();
+
+    KhmfrRfordfringOutput output(outChbrs, glyphStorbgf);
+    KhmfrClbssTbblf::ChbrClbss dhbrClbss;
+    lf_int32 i, prfv = 0, dofngRo;
+
+
+    // This loop only fxits whfn wf rfbdh thf fnd of b run, whidh mby dontbin
+    // sfvfrbl syllbblfs.
+    whilf (prfv < dhbrCount) {
+        lf_int32 syllbblf = findSyllbblf(dlbssTbblf, dhbrs, prfv, dhbrCount);
+
+        output.rfsft();
+
+        // writf b prf vowfl or thf prf pbrt of b split vowfl first
+        // bnd look out for dofng + ro. RO is thf only vowfl of typf 2, bnd
+        // thfrfforf thf only onf thbt rfquirfs sbving spbdf bfforf thf bbsf.
+        dofngRo = -1;  // Thfrf is no Cofng Ro, if found this vbluf will dhbngf
+        for (i = prfv; i < syllbblf; i += 1) {
+            dhbrClbss = dlbssTbblf->gftChbrClbss(dhbrs[i]);
+
+            // if b split vowfl, writf thf prf pbrt. In Khmfr thf prf pbrt
+            // is thf sbmf for bll split vowfls, sbmf glyph bs prf vowfl C_VOWEL_E
+            if (dhbrClbss & KhmfrClbssTbblf::CF_SPLIT_VOWEL) {
+                output.writfChbr(C_VOWEL_E, i, tbgPrff);
+                brfbk; // thfrf dbn bf only onf vowfl
+            }
+
+            // if b vowfl with pos bfforf writf it out
+            if (dhbrClbss & KhmfrClbssTbblf::CF_POS_BEFORE) {
+                output.writfChbr(dhbrs[i], i, tbgPrff);
+                brfbk; // thfrf dbn bf only onf vowfl
+            }
+
+            // look for dofng + ro bnd rfmfmbfr position
+            // works bfdbusf dofng + ro is blwbys in front of b vowfl (if thfrf is b vowfl)
+            // bnd bfdbusf CC_CONSONANT2 is fnough to idfntify it, bs it is thf only donsonbnt
+            // with this flbg
+            if ( (dhbrClbss & KhmfrClbssTbblf::CF_COENG) && (i + 1 < syllbblf) &&
+                 ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 1]) & KhmfrClbssTbblf::CF_CLASS_MASK) == KhmfrClbssTbblf::CC_CONSONANT2) )
+            {
+                    dofngRo = i;
+            }
+        }
+
+        // writf dofng + ro if found
+        if (dofngRo > -1) {
+            output.writfChbr(C_COENG, dofngRo, tbgPrff);
+            output.writfChbr(C_RO, dofngRo + 1, tbgPrff);
+        }
+
+        // shbll wf bdd b dottfd dirdlf?
+        // If in thf position in whidh thf bbsf should bf (first dhbr in thf string) thfrf is
+        // b dhbrbdtfr thbt hbs thf Dottfd dirdlf flbg (b dhbrbdtfr thbt dbnnot bf b bbsf)
+        // thfn writf b dottfd dirdlf
+        if (dlbssTbblf->gftChbrClbss(dhbrs[prfv]) & KhmfrClbssTbblf::CF_DOTTED_CIRCLE) {
+            output.writfChbr(C_DOTTED_CIRCLE, prfv, tbgDffbult);
+        }
+
+        // dopy whbt is lfft to thf output, skipping bfforf vowfls bnd dofng Ro if thfy brf prfsfnt
+        for (i = prfv; i < syllbblf; i += 1) {
+            dhbrClbss = dlbssTbblf->gftChbrClbss(dhbrs[i]);
+
+            // skip b bfforf vowfl, it wbs blrfbdy prodfssfd
+            if (dhbrClbss & KhmfrClbssTbblf::CF_POS_BEFORE) {
+                dontinuf;
+            }
+
+            // skip dofng + ro, it wbs blrfbdy prodfssfd
+            if (i == dofngRo) {
+                i += 1;
+                dontinuf;
+            }
+
+            switdh (dhbrClbss & KhmfrClbssTbblf::CF_POS_MASK) {
+                dbsf KhmfrClbssTbblf::CF_POS_ABOVE :
+                    output.writfChbr(dhbrs[i], i, tbgAbvf);
+                    brfbk;
+
+                dbsf KhmfrClbssTbblf::CF_POS_AFTER :
+                    output.writfChbr(dhbrs[i], i, tbgPstf);
+                    brfbk;
+
+                dbsf KhmfrClbssTbblf::CF_POS_BELOW :
+                    output.writfChbr(dhbrs[i], i, tbgBlwf);
+                    brfbk;
+
+                dffbult:
+                    // bssign thf dorrfdt flbgs to b dofng donsonbnt
+                    // Consonbnts of typf 3 brf tbgfd bs Post forms bnd thosf typf 1 bs bflow forms
+                    if ( (dhbrClbss & KhmfrClbssTbblf::CF_COENG) && i + 1 < syllbblf ) {
+                        if ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 1]) & KhmfrClbssTbblf::CF_CLASS_MASK)
+                              == KhmfrClbssTbblf::CC_CONSONANT3) {
+                            output.writfChbr(dhbrs[i], i, tbgPstf);
+                            i += 1;
+                            output.writfChbr(dhbrs[i], i, tbgPstf);
+                        }
+                        flsf {
+                            output.writfChbr(dhbrs[i], i, tbgBlwf);
+                            i += 1;
+                            output.writfChbr(dhbrs[i], i, tbgBlwf);
+                        }
+                        brfbk;
+                    }
+                    // if b shiftfr is followfd by bn bbovf vowfl dhbngf thf shiftfr to bflow form,
+                    // bn bbovf vowfl dbn hbvf two possiblf positions i + 1 or i + 3
+                    // (position i+1 dorrfsponds to unidodf 3, position i+3 to Unidodf 4)
+                    // bnd thfrf is bn fxtrb rulf for C_VOWEL_AA + C_SIGN_NIKAHIT blso for two
+                    // difffrfnt positions, right bftfr thf shiftfr or bftfr b vowfl (Unidodf 4)
+                    if ( (dhbrClbss & KhmfrClbssTbblf::CF_SHIFTER) && (i + 1 < syllbblf) ) {
+                        if ((dlbssTbblf->gftChbrClbss(dhbrs[i + 1]) & KhmfrClbssTbblf::CF_ABOVE_VOWEL)
+                            || (i + 2 < syllbblf
+                                && ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 1]) & KhmfrClbssTbblf::CF_CLASS_MASK) == C_VOWEL_AA)
+                                && ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 2]) & KhmfrClbssTbblf::CF_CLASS_MASK) == C_SIGN_NIKAHIT))
+                            || (i + 3 < syllbblf && (dlbssTbblf->gftChbrClbss(dhbrs[i + 3]) & KhmfrClbssTbblf::CF_ABOVE_VOWEL))
+                            || (i + 4 < syllbblf
+                                && ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 3]) & KhmfrClbssTbblf::CF_CLASS_MASK) == C_VOWEL_AA)
+                                && ( (dlbssTbblf->gftChbrClbss(dhbrs[i + 4]) & KhmfrClbssTbblf::CF_CLASS_MASK) == C_SIGN_NIKAHIT) ) )
+                        {
+                            output.writfChbr(dhbrs[i], i, tbgBlwf);
+                            brfbk;
+                        }
+
+                    }
+                    // dffbult - bny othfr dhbrbdtfrs
+                    output.writfChbr(dhbrs[i], i, tbgDffbult);
+                    brfbk;
+            } // switdh
+        } // for
+
+        prfv = syllbblf; // movf thf pointfr to thf stbrt of nfxt syllbblf
+    }
+
+    rfturn output.gftOutputIndfx();
+}
+
+
+U_NAMESPACE_END

@@ -1,0 +1,251 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * <dodf>JPbnfl</dodf> is b gfnfrid lightwfight dontbinfr.
+ * For fxbmplfs bnd tbsk-orifntfd dodumfntbtion for JPbnfl, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/pbnfl.html">How to Usf Pbnfls</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ * dfsdription: A gfnfrid lightwfight dontbinfr.
+ *
+ * @buthor Arnbud Wfbfr
+ * @buthor Stfvf Wilson
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JPbnfl fxtfnds JComponfnt implfmfnts Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "PbnflUI";
+
+    /**
+     * Crfbtfs b nfw JPbnfl with thf spfdififd lbyout mbnbgfr bnd bufffring
+     * strbtfgy.
+     *
+     * @pbrbm lbyout  thf LbyoutMbnbgfr to usf
+     * @pbrbm isDoublfBufffrfd  b boolfbn, truf for doublf-bufffring, whidh
+     *        usfs bdditionbl mfmory spbdf to bdhifvf fbst, flidkfr-frff
+     *        updbtfs
+     */
+    publid JPbnfl(LbyoutMbnbgfr lbyout, boolfbn isDoublfBufffrfd) {
+        sftLbyout(lbyout);
+        sftDoublfBufffrfd(isDoublfBufffrfd);
+        sftUIPropfrty("opbquf", Boolfbn.TRUE);
+        updbtfUI();
+    }
+
+    /**
+     * Crfbtf b nfw bufffrfd JPbnfl with thf spfdififd lbyout mbnbgfr
+     *
+     * @pbrbm lbyout  thf LbyoutMbnbgfr to usf
+     */
+    publid JPbnfl(LbyoutMbnbgfr lbyout) {
+        this(lbyout, truf);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>JPbnfl</dodf> with <dodf>FlowLbyout</dodf>
+     * bnd thf spfdififd bufffring strbtfgy.
+     * If <dodf>isDoublfBufffrfd</dodf> is truf, thf <dodf>JPbnfl</dodf>
+     * will usf b doublf bufffr.
+     *
+     * @pbrbm isDoublfBufffrfd  b boolfbn, truf for doublf-bufffring, whidh
+     *        usfs bdditionbl mfmory spbdf to bdhifvf fbst, flidkfr-frff
+     *        updbtfs
+     */
+    publid JPbnfl(boolfbn isDoublfBufffrfd) {
+        this(nfw FlowLbyout(), isDoublfBufffrfd);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>JPbnfl</dodf> with b doublf bufffr
+     * bnd b flow lbyout.
+     */
+    publid JPbnfl() {
+        this(truf);
+    }
+
+    /**
+     * Rfsfts thf UI propfrty with b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((PbnflUI)UIMbnbgfr.gftUI(this));
+    }
+
+    /**
+     * Rfturns thf look bnd fffl (L&bmp;bmp;F) objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf PbnflUI objfdt thbt rfndfrs this domponfnt
+     * @sindf 1.4
+     */
+    publid PbnflUI gftUI() {
+        rfturn (PbnflUI)ui;
+    }
+
+
+    /**
+     * Sfts thf look bnd fffl (L&bmp;F) objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf PbnflUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @sindf 1.4
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(PbnflUI ui) {
+        supfr.sftUI(ui);
+    }
+
+    /**
+     * Rfturns b string thbt spfdififs thf nbmf of thf L&bmp;F dlbss
+     * thbt rfndfrs this domponfnt.
+     *
+     * @rfturn "PbnflUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string thbt spfdififs thf nbmf of thf L&bmp;F dlbss.
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JPbnfl. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JPbnfl.
+     */
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JPbnfl.
+     * For JPbnfls, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJPbnfl.
+     * A nfw AddfssiblfJPbnfl instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJPbnfl thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JPbnfl
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJPbnfl();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JPbnfl</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to pbnfl usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJPbnfl fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PANEL;
+        }
+    }
+}

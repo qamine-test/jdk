@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <windows.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <iprtrmib.h>
-#include <time.h>
-#include <assert.h>
-#include <iphlpapi.h>
+#indludf <stdlib.i>
+#indludf <windows.i>
+#indludf <stdio.i>
+#indludf <stddff.i>
+#indludf <iprtrmib.i>
+#indludf <timf.i>
+#indludf <bssfrt.i>
+#indludf <ipilpbpi.i>
 
-#include "jni_util.h"
+#indludf "jni_util.i"
 
-#define MAX_STR_LEN         256
+#dffinf MAX_STR_LEN         256
 
-#define STS_NO_CONFIG       0x0             /* no configuration found */
-#define STS_SL_FOUND        0x1             /* search list found */
-#define STS_NS_FOUND        0x2             /* name servers found */
-#define STS_ERROR           -1              /* error return  lodConfig failed memory allccation failure*/
+#dffinf STS_NO_CONFIG       0x0             /* no donfigurbtion found */
+#dffinf STS_SL_FOUND        0x1             /* sfbrdi list found */
+#dffinf STS_NS_FOUND        0x2             /* nbmf sfrvfrs found */
+#dffinf STS_ERROR           -1              /* frror rfturn  lodConfig fbilfd mfmory bllddbtion fbilurf*/
 
-#define IS_SL_FOUND(sts)    (sts & STS_SL_FOUND)
-#define IS_NS_FOUND(sts)    (sts & STS_NS_FOUND)
+#dffinf IS_SL_FOUND(sts)    (sts & STS_SL_FOUND)
+#dffinf IS_NS_FOUND(sts)    (sts & STS_NS_FOUND)
 
 /* JNI ids */
-static jfieldID searchlistID;
-static jfieldID nameserversID;
+stbtid jfifldID sfbrdilistID;
+stbtid jfifldID nbmfsfrvfrsID;
 
 /*
- * Utility routine to append s2 to s1 with a space delimiter.
- *  strappend(s1="abc", "def")  => "abc def"
- *  strappend(s1="", "def")     => "def
+ * Utility routinf to bppfnd s2 to s1 witi b spbdf dflimitfr.
+ *  strbppfnd(s1="bbd", "dff")  => "bbd dff"
+ *  strbppfnd(s1="", "dff")     => "dff
  */
-void strappend(char *s1, char *s2) {
-    size_t len;
+void strbppfnd(dibr *s1, dibr *s2) {
+    sizf_t lfn;
 
-    if (s2[0] == '\0')                      /* nothing to append */
-        return;
+    if (s2[0] == '\0')                      /* notiing to bppfnd */
+        rfturn;
 
-    len = strlen(s1)+1;
-    if (s1[0] != 0)                         /* needs space character */
-        len++;
-    if (len + strlen(s2) > MAX_STR_LEN)     /* insufficient space */
-        return;
+    lfn = strlfn(s1)+1;
+    if (s1[0] != 0)                         /* nffds spbdf dibrbdtfr */
+        lfn++;
+    if (lfn + strlfn(s2) > MAX_STR_LEN)     /* insuffidifnt spbdf */
+        rfturn;
 
     if (s1[0] != 0) {
-        strcat(s1, " ");
+        strdbt(s1, " ");
     }
-    strcat(s1, s2);
+    strdbt(s1, s2);
 }
 
 /*
  * Windows 2000/XP
  *
- * Use registry approach based on settings described in Appendix C
- * of "Microsoft Windows 2000 TCP/IP Implementation Details".
+ * Usf rfgistry bpprobdi bbsfd on sfttings dfsdribfd in Appfndix C
+ * of "Midrosoft Windows 2000 TCP/IP Implfmfntbtion Dftbils".
  *
- * DNS suffix list is obtained from SearchList registry setting. If
- * this is not specified we compile suffix list based on the
- * per-connection domain suffix.
+ * DNS suffix list is obtbinfd from SfbrdiList rfgistry sftting. If
+ * tiis is not spfdififd wf dompilf suffix list bbsfd on tif
+ * pfr-donnfdtion dombin suffix.
  *
- * DNS name servers and domain settings are on a per-connection
- * basic. We therefore enumerate the network adapters to get the
- * names of each adapter and then query the corresponding registry
- * settings to obtain NameServer/DhcpNameServer and Domain/DhcpDomain.
+ * DNS nbmf sfrvfrs bnd dombin sfttings brf on b pfr-donnfdtion
+ * bbsid. Wf tifrfforf fnumfrbtf tif nftwork bdbptfrs to gft tif
+ * nbmfs of fbdi bdbptfr bnd tifn qufry tif dorrfsponding rfgistry
+ * sfttings to obtbin NbmfSfrvfr/DidpNbmfSfrvfr bnd Dombin/DidpDombin.
  */
-static int loadConfig(char *sl, char *ns) {
-    IP_ADAPTER_INFO *adapterP;
-    ULONG size;
-    DWORD ret;
-    DWORD dwLen;
-    ULONG ulType;
-    char result[MAX_STR_LEN];
-    HANDLE hKey;
-    int gotSearchList = 0;
+stbtid int lobdConfig(dibr *sl, dibr *ns) {
+    IP_ADAPTER_INFO *bdbptfrP;
+    ULONG sizf;
+    DWORD rft;
+    DWORD dwLfn;
+    ULONG ulTypf;
+    dibr rfsult[MAX_STR_LEN];
+    HANDLE iKfy;
+    int gotSfbrdiList = 0;
 
     /*
-     * First see if there is a global suffix list specified.
+     * First sff if tifrf is b globbl suffix list spfdififd.
      */
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                       "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+    rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                       "SYSTEM\\CurrfntControlSft\\Sfrvidfs\\Tdpip\\Pbrbmftfrs",
                        0,
                        KEY_READ,
-                       (PHKEY)&hKey);
-    if (ret == ERROR_SUCCESS) {
-        dwLen = sizeof(result);
-        ret = RegQueryValueEx(hKey, "SearchList", NULL, &ulType,
-                             (LPBYTE)&result, &dwLen);
-        if (ret == ERROR_SUCCESS) {
-            assert(ulType == REG_SZ);
-            if (strlen(result) > 0) {
-                strappend(sl, result);
-                gotSearchList = 1;
+                       (PHKEY)&iKfy);
+    if (rft == ERROR_SUCCESS) {
+        dwLfn = sizfof(rfsult);
+        rft = RfgQufryVblufEx(iKfy, "SfbrdiList", NULL, &ulTypf,
+                             (LPBYTE)&rfsult, &dwLfn);
+        if (rft == ERROR_SUCCESS) {
+            bssfrt(ulTypf == REG_SZ);
+            if (strlfn(rfsult) > 0) {
+                strbppfnd(sl, rfsult);
+                gotSfbrdiList = 1;
             }
         }
-        RegCloseKey(hKey);
+        RfgClosfKfy(iKfy);
     }
 
     /*
-     * Ask the IP Helper library to enumerate the adapters
+     * Ask tif IP Hflpfr librbry to fnumfrbtf tif bdbptfrs
      */
-    size = sizeof(IP_ADAPTER_INFO);
-    adapterP = (IP_ADAPTER_INFO *)malloc(size);
-    if (adapterP == NULL) {
-        return STS_ERROR;
+    sizf = sizfof(IP_ADAPTER_INFO);
+    bdbptfrP = (IP_ADAPTER_INFO *)mbllod(sizf);
+    if (bdbptfrP == NULL) {
+        rfturn STS_ERROR;
     }
-    ret = GetAdaptersInfo(adapterP, &size);
-    if (ret == ERROR_BUFFER_OVERFLOW) {
-        IP_ADAPTER_INFO *newAdapterP = (IP_ADAPTER_INFO *)realloc(adapterP, size);
-        if (newAdapterP == NULL) {
-            free(adapterP);
-            return STS_ERROR;
+    rft = GftAdbptfrsInfo(bdbptfrP, &sizf);
+    if (rft == ERROR_BUFFER_OVERFLOW) {
+        IP_ADAPTER_INFO *nfwAdbptfrP = (IP_ADAPTER_INFO *)rfbllod(bdbptfrP, sizf);
+        if (nfwAdbptfrP == NULL) {
+            frff(bdbptfrP);
+            rfturn STS_ERROR;
         }
-        adapterP = newAdapterP;
+        bdbptfrP = nfwAdbptfrP;
 
-        ret = GetAdaptersInfo(adapterP, &size);
+        rft = GftAdbptfrsInfo(bdbptfrP, &sizf);
     }
 
     /*
-     * Iterate through the list of adapters as registry settings are
-     * keyed on the adapter name (GUID).
+     * Itfrbtf tirougi tif list of bdbptfrs bs rfgistry sfttings brf
+     * kfyfd on tif bdbptfr nbmf (GUID).
      */
-    if (ret == ERROR_SUCCESS) {
-        IP_ADAPTER_INFO *curr = adapterP;
-        while (curr != NULL) {
-            char key[MAX_STR_LEN];
+    if (rft == ERROR_SUCCESS) {
+        IP_ADAPTER_INFO *durr = bdbptfrP;
+        wiilf (durr != NULL) {
+            dibr kfy[MAX_STR_LEN];
 
-            sprintf(key,
-                "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\\%s",
-                curr->AdapterName);
+            sprintf(kfy,
+                "SYSTEM\\CurrfntControlSft\\Sfrvidfs\\Tdpip\\Pbrbmftfrs\\Intfrfbdfs\\%s",
+                durr->AdbptfrNbmf);
 
-            ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                               key,
+            rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                               kfy,
                                0,
                                KEY_READ,
-                               (PHKEY)&hKey);
-            if (ret == ERROR_SUCCESS) {
-                DWORD enableDhcp = 0;
+                               (PHKEY)&iKfy);
+            if (rft == ERROR_SUCCESS) {
+                DWORD fnbblfDidp = 0;
 
                 /*
-                 * Is DHCP enabled on this interface
+                 * Is DHCP fnbblfd on tiis intfrfbdf
                  */
-                dwLen = sizeof(enableDhcp);
-                ret = RegQueryValueEx(hKey, "EnableDhcp", NULL, &ulType,
-                                     (LPBYTE)&enableDhcp, &dwLen);
+                dwLfn = sizfof(fnbblfDidp);
+                rft = RfgQufryVblufEx(iKfy, "EnbblfDidp", NULL, &ulTypf,
+                                     (LPBYTE)&fnbblfDidp, &dwLfn);
 
                 /*
-                 * If we don't have the suffix list when get the Domain
-                 * or DhcpDomain. If DHCP is enabled then Domain overides
-                 * DhcpDomain
+                 * If wf don't ibvf tif suffix list wifn gft tif Dombin
+                 * or DidpDombin. If DHCP is fnbblfd tifn Dombin ovfridfs
+                 * DidpDombin
                  */
-                if (!gotSearchList) {
-                    result[0] = '\0';
-                    dwLen = sizeof(result);
-                    ret = RegQueryValueEx(hKey, "Domain", NULL, &ulType,
-                                         (LPBYTE)&result, &dwLen);
-                    if (((ret != ERROR_SUCCESS) || (strlen(result) == 0)) &&
-                        enableDhcp) {
-                        dwLen = sizeof(result);
-                        ret = RegQueryValueEx(hKey, "DhcpDomain", NULL, &ulType,
-                                              (LPBYTE)&result, &dwLen);
+                if (!gotSfbrdiList) {
+                    rfsult[0] = '\0';
+                    dwLfn = sizfof(rfsult);
+                    rft = RfgQufryVblufEx(iKfy, "Dombin", NULL, &ulTypf,
+                                         (LPBYTE)&rfsult, &dwLfn);
+                    if (((rft != ERROR_SUCCESS) || (strlfn(rfsult) == 0)) &&
+                        fnbblfDidp) {
+                        dwLfn = sizfof(rfsult);
+                        rft = RfgQufryVblufEx(iKfy, "DidpDombin", NULL, &ulTypf,
+                                              (LPBYTE)&rfsult, &dwLfn);
                     }
-                    if (ret == ERROR_SUCCESS) {
-                        assert(ulType == REG_SZ);
-                        strappend(sl, result);
+                    if (rft == ERROR_SUCCESS) {
+                        bssfrt(ulTypf == REG_SZ);
+                        strbppfnd(sl, rfsult);
                     }
                 }
 
                 /*
-                 * Get DNS servers based on NameServer or DhcpNameServer
-                 * registry setting. If NameServer is set then it overrides
-                 * DhcpNameServer (even if DHCP is enabled).
+                 * Gft DNS sfrvfrs bbsfd on NbmfSfrvfr or DidpNbmfSfrvfr
+                 * rfgistry sftting. If NbmfSfrvfr is sft tifn it ovfrridfs
+                 * DidpNbmfSfrvfr (fvfn if DHCP is fnbblfd).
                  */
-                result[0] = '\0';
-                dwLen = sizeof(result);
-                ret = RegQueryValueEx(hKey, "NameServer", NULL, &ulType,
-                                     (LPBYTE)&result, &dwLen);
-                if (((ret != ERROR_SUCCESS) || (strlen(result) == 0)) &&
-                    enableDhcp) {
-                    dwLen = sizeof(result);
-                    ret = RegQueryValueEx(hKey, "DhcpNameServer", NULL, &ulType,
-                                          (LPBYTE)&result, &dwLen);
+                rfsult[0] = '\0';
+                dwLfn = sizfof(rfsult);
+                rft = RfgQufryVblufEx(iKfy, "NbmfSfrvfr", NULL, &ulTypf,
+                                     (LPBYTE)&rfsult, &dwLfn);
+                if (((rft != ERROR_SUCCESS) || (strlfn(rfsult) == 0)) &&
+                    fnbblfDidp) {
+                    dwLfn = sizfof(rfsult);
+                    rft = RfgQufryVblufEx(iKfy, "DidpNbmfSfrvfr", NULL, &ulTypf,
+                                          (LPBYTE)&rfsult, &dwLfn);
                 }
-                if (ret == ERROR_SUCCESS) {
-                    assert(ulType == REG_SZ);
-                    strappend(ns, result);
+                if (rft == ERROR_SUCCESS) {
+                    bssfrt(ulTypf == REG_SZ);
+                    strbppfnd(ns, rfsult);
                 }
 
                 /*
-                 * Finished with this registry key
+                 * Finisifd witi tiis rfgistry kfy
                  */
-                RegCloseKey(hKey);
+                RfgClosfKfy(iKfy);
             }
 
             /*
-             * Onto the next adapeter
+             * Onto tif nfxt bdbpftfr
              */
-            curr = curr->Next;
+            durr = durr->Nfxt;
         }
     }
 
     /*
-     * Free the adpater structure
+     * Frff tif bdpbtfr strudturf
      */
-    if (adapterP) {
-        free(adapterP);
+    if (bdbptfrP) {
+        frff(bdbptfrP);
     }
 
-    return STS_SL_FOUND & STS_NS_FOUND;
+    rfturn STS_SL_FOUND & STS_NS_FOUND;
 }
 
 
 /*
- * Initialize JNI field IDs.
+ * Initiblizf JNI fifld IDs.
  */
 JNIEXPORT void JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_init0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_init0(JNIEnv *fnv, jdlbss dls)
 {
-    searchlistID = (*env)->GetStaticFieldID(env, cls, "os_searchlist",
-                                      "Ljava/lang/String;");
-    CHECK_NULL(searchlistID);
-    nameserversID = (*env)->GetStaticFieldID(env, cls, "os_nameservers",
-                                      "Ljava/lang/String;");
+    sfbrdilistID = (*fnv)->GftStbtidFifldID(fnv, dls, "os_sfbrdilist",
+                                      "Ljbvb/lbng/String;");
+    CHECK_NULL(sfbrdilistID);
+    nbmfsfrvfrsID = (*fnv)->GftStbtidFifldID(fnv, dls, "os_nbmfsfrvfrs",
+                                      "Ljbvb/lbng/String;");
 }
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    loadConfig0
- * Signature: ()V
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mftiod:    lobdConfig0
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_loadDNSconfig0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_lobdDNSdonfig0(JNIEnv *fnv, jdlbss dls)
 {
-    char searchlist[MAX_STR_LEN];
-    char nameservers[MAX_STR_LEN];
+    dibr sfbrdilist[MAX_STR_LEN];
+    dibr nbmfsfrvfrs[MAX_STR_LEN];
     jstring obj;
 
-    searchlist[0] = '\0';
-    nameservers[0] = '\0';
+    sfbrdilist[0] = '\0';
+    nbmfsfrvfrs[0] = '\0';
 
-    if (loadConfig(searchlist, nameservers) != STS_ERROR) {
+    if (lobdConfig(sfbrdilist, nbmfsfrvfrs) != STS_ERROR) {
 
         /*
-         * Populate static fields in sun.net.DefaultResolverConfiguration
+         * Populbtf stbtid fiflds in sun.nft.DffbultRfsolvfrConfigurbtion
          */
-        obj = (*env)->NewStringUTF(env, searchlist);
+        obj = (*fnv)->NfwStringUTF(fnv, sfbrdilist);
         CHECK_NULL(obj);
-        (*env)->SetStaticObjectField(env, cls, searchlistID, obj);
+        (*fnv)->SftStbtidObjfdtFifld(fnv, dls, sfbrdilistID, obj);
 
-        obj = (*env)->NewStringUTF(env, nameservers);
+        obj = (*fnv)->NfwStringUTF(fnv, nbmfsfrvfrs);
         CHECK_NULL(obj);
-        (*env)->SetStaticObjectField(env, cls, nameserversID, obj);
-    } else {
-        JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
+        (*fnv)->SftStbtidObjfdtFifld(fnv, dls, nbmfsfrvfrsID, obj);
+    } flsf {
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
     }
 }
 
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    notifyAddrChange0
- * Signature: ()I
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mftiod:    notifyAddrCibngf0
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_notifyAddrChange0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_notifyAddrCibngf0(JNIEnv *fnv, jdlbss dls)
 {
     OVERLAPPED ol;
-    HANDLE h;
-    DWORD rc, xfer;
+    HANDLE i;
+    DWORD rd, xffr;
 
-    ol.hEvent = (HANDLE)0;
-    rc = NotifyAddrChange(&h, &ol);
-    if (rc == ERROR_IO_PENDING) {
-        rc = GetOverlappedResult(h, &ol, &xfer, TRUE);
-        if (rc != 0) {
-            return 0;   /* address changed */
+    ol.iEvfnt = (HANDLE)0;
+    rd = NotifyAddrCibngf(&i, &ol);
+    if (rd == ERROR_IO_PENDING) {
+        rd = GftOvfrlbppfdRfsult(i, &ol, &xffr, TRUE);
+        if (rd != 0) {
+            rfturn 0;   /* bddrfss dibngfd */
         }
     }
 
-    /* error */
-    return -1;
+    /* frror */
+    rfturn -1;
 }

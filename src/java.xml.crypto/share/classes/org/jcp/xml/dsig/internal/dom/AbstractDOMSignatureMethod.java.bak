@@ -1,218 +1,218 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import java.security.Key;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.SignatureException;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.SignatureMethod;
-import javax.xml.crypto.dsig.SignedInfo;
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.crypto.dsig.XMLSignatureException;
-import javax.xml.crypto.dsig.XMLSignContext;
-import javax.xml.crypto.dsig.XMLValidateContext;
-import javax.xml.crypto.dsig.spec.SignatureMethodParameterSpec;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * An abstract class representing a SignatureMethod. Subclasses implement
- * a specific XML DSig signature algorithm.
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * b spfdifid XML DSig signbturf blgoritim.
  */
-abstract class AbstractDOMSignatureMethod extends DOMStructure
-    implements SignatureMethod {
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+    implfmfnts SignbturfMftiod {
 
-    // denotes the type of signature algorithm
-    enum Type { DSA, RSA, ECDSA, HMAC }
+    // dfnotfs tif typf of signbturf blgoritim
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
 
     /**
-     * Verifies the passed-in signature with the specified key, using the
-     * underlying Signature or Mac algorithm.
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * undfrlying Signbturf or Mbd blgoritim.
      *
-     * @param key the verification key
-     * @param si the SignedInfo
-     * @param sig the signature bytes to be verified
-     * @param context the XMLValidateContext
-     * @return <code>true</code> if the signature verified successfully,
-     *    <code>false</code> if not
-     * @throws NullPointerException if <code>key</code>, <code>si</code> or
-     *    <code>sig</code> are <code>null</code>
-     * @throws InvalidKeyException if the key is improperly encoded, of
-     *    the wrong type, or parameters are missing, etc
-     * @throws SignatureException if an unexpected error occurs, such
-     *    as the passed in signature is improperly encoded
-     * @throws XMLSignatureException if an unexpected error occurs
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
+     *    <dodf>fblsf</dodf> if not
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
      */
-    abstract boolean verify(Key key, SignedInfo si, byte[] sig,
-                            XMLValidateContext context)
-        throws InvalidKeyException, SignatureException, XMLSignatureException;
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+                            XMLVblidbtfContfxt dontfxt)
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
 
     /**
-     * Signs the bytes with the specified key, using the underlying
-     * Signature or Mac algorithm.
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signbturf or Mbd blgoritim.
      *
-     * @param key the signing key
-     * @param si the SignedInfo
-     * @param context the XMLSignContext
-     * @return the signature
-     * @throws NullPointerException if <code>key</code> or
-     *    <code>si</code> are <code>null</code>
-     * @throws InvalidKeyException if the key is improperly encoded, of
-     *    the wrong type, or parameters are missing, etc
-     * @throws XMLSignatureException if an unexpected error occurs
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @rfturn tif signbturf
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
      */
-    abstract byte[] sign(Key key, SignedInfo si, XMLSignContext context)
-        throws InvalidKeyException, XMLSignatureException;
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
 
     /**
-     * Returns the java.security.Signature or javax.crypto.Mac standard
-     * algorithm name.
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * blgoritim nbmf.
      */
-    abstract String getJCAAlgorithm();
+    bbstrbdt String gftJCAAlgoritim();
 
     /**
-     * Returns the type of signature algorithm.
+     * Rfturns tif typf of signbturf blgoritim.
      */
-    abstract Type getAlgorithmType();
+    bbstrbdt Typf gftAlgoritimTypf();
 
     /**
-     * This method invokes the {@link #marshalParams marshalParams}
-     * method to marshal any algorithm-specific parameters.
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
      */
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
 
-        Element smElem = DOMUtils.createElement(ownerDoc, "SignatureMethod",
-                                                XMLSignature.XMLNS, dsPrefix);
-        DOMUtils.setAttribute(smElem, "Algorithm", getAlgorithm());
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
 
-        if (getParameterSpec() != null) {
-            marshalParams(smElem, dsPrefix);
+        if (gftPbrbmftfrSpfd() != null) {
+            mbrsiblPbrbms(smElfm, dsPrffix);
         }
 
-        parent.appendChild(smElem);
+        pbrfnt.bppfndCiild(smElfm);
     }
 
     /**
-     * Marshals the algorithm-specific parameters to an Element and
-     * appends it to the specified parent element. By default, this method
-     * throws an exception since most SignatureMethod algorithms do not have
-     * parameters. Subclasses should override it if they have parameters.
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
      *
-     * @param parent the parent element to append the parameters to
-     * @param paramsPrefix the algorithm parameters prefix to use
-     * @throws MarshalException if the parameters cannot be marshalled
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
      */
-    void marshalParams(Element parent, String paramsPrefix)
-        throws MarshalException
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+        tirows MbrsiblExdfption
     {
-        throw new MarshalException("no parameters should " +
-                                   "be specified for the " + getAlgorithm() +
-                                   " SignatureMethod algorithm");
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   " SignbturfMftiod blgoritim");
     }
 
     /**
-     * Unmarshals <code>SignatureMethodParameterSpec</code> from the specified
-     * <code>Element</code>. By default, this method throws an exception since
-     * most SignatureMethod algorithms do not have parameters. Subclasses should
-     * override it if they have parameters.
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * ovfrridf it if tify ibvf pbrbmftfrs.
      *
-     * @param paramsElem the <code>Element</code> holding the input params
-     * @return the algorithm-specific <code>SignatureMethodParameterSpec</code>
-     * @throws MarshalException if the parameters cannot be unmarshalled
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
      */
-    SignatureMethodParameterSpec unmarshalParams(Element paramsElem)
-        throws MarshalException
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+        tirows MbrsiblExdfption
     {
-        throw new MarshalException("no parameters should " +
-                                   "be specified for the " + getAlgorithm() +
-                                   " SignatureMethod algorithm");
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   " SignbturfMftiod blgoritim");
     }
 
     /**
-     * Checks if the specified parameters are valid for this algorithm. By
-     * default, this method throws an exception if parameters are specified
-     * since most SignatureMethod algorithms do not have parameters. Subclasses
-     * should override it if they have parameters.
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
      *
-     * @param params the algorithm-specific params (may be <code>null</code>)
-     * @throws InvalidAlgorithmParameterException if the parameters are not
-     *    appropriate for this signature method
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     *    bppropribtf for tiis signbturf mftiod
      */
-    void checkParams(SignatureMethodParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException("no parameters " +
-                "should be specified for the " + getAlgorithm() +
-                " SignatureMethod algorithm");
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                " SignbturfMftiod blgoritim");
         }
     }
 
-    @Override
-    public boolean equals(Object o)
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o)
     {
-        if (this == o) {
-            return true;
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        if (!(o instanceof SignatureMethod)) {
-            return false;
+        if (!(o instbndfof SignbturfMftiod)) {
+            rfturn fblsf;
         }
-        SignatureMethod osm = (SignatureMethod)o;
+        SignbturfMftiod osm = (SignbturfMftiod)o;
 
-        return (getAlgorithm().equals(osm.getAlgorithm()) &&
-            paramsEqual(osm.getParameterSpec()));
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + getAlgorithm().hashCode();
-        AlgorithmParameterSpec spec = getParameterSpec();
-        if (spec != null) {
-            result = 31 * result + spec.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns true if parameters are equal; false otherwise.
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
      *
-     * Subclasses should override this method to compare algorithm-specific
-     * parameters.
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * pbrbmftfrs.
      */
-    boolean paramsEqual(AlgorithmParameterSpec spec)
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
     {
-        return (getParameterSpec() == spec);
+        rfturn (gftPbrbmftfrSpfd() == spfd);
     }
 }

@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import dom.sun.sfdurity.jgss.AuthorizbtionDbtbEntry;
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.*;
+import jbvb.nft.InftAddrfss;
+import sun.sfdurity.krb5.intfrnbl.AuthorizbtionDbtb;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+
+dlbss InitSfdContfxtTokfn fxtfnds InitiblTokfn {
+
+    privbtf KrbApRfq bpRfq = null;
+
+    /**
+     * For thf dontfxt initibtor to dbll. It donstrudts b nfw
+     * InitSfdContfxtTokfn to sfnd ovfr to thf pffr dontbining thf dfsirfd
+     * flbgs bnd thf AP-REQ. It blso updbtfs thf dontfxt with thf lodbl
+     * sfqufndf numbfr bnd shbrfd dontfxt kfy.
+     * (Whfn mutubl buth is fnbblfd thf pffr hbs bn opportunity to
+     * rfnfgotibtf thf sfssion kfy in thf followup AddfptSfdContfxtTokfn
+     * thbt it sfnds.)
+     */
+    InitSfdContfxtTokfn(Krb5Contfxt dontfxt,
+                               Crfdfntibls tgt,
+                               Crfdfntibls sfrvidfTidkft)
+        throws KrbExdfption, IOExdfption, GSSExdfption {
+
+        boolfbn mutublRfquirfd = dontfxt.gftMutublAuthStbtf();
+        boolfbn usfSubkfy = truf; // MIT Impl will drbsh if this is not sft!
+        boolfbn usfSfqufndfNumbfr = truf;
+
+        OvfrlobdfdChfdksum gssChfdksum =
+            nfw OvfrlobdfdChfdksum(dontfxt, tgt, sfrvidfTidkft);
+
+        Chfdksum dhfdksum = gssChfdksum.gftChfdksum();
+
+        dontfxt.sftTktFlbgs(sfrvidfTidkft.gftFlbgs());
+        dontfxt.sftAuthTimf(
+                nfw KfrbfrosTimf(sfrvidfTidkft.gftAuthTimf()).toString());
+        bpRfq = nfw KrbApRfq(sfrvidfTidkft,
+                             mutublRfquirfd,
+                             usfSubkfy,
+                             usfSfqufndfNumbfr,
+                             dhfdksum);
+
+        dontfxt.rfsftMySfqufndfNumbfr(bpRfq.gftSfqNumbfr().intVbluf());
+
+        EndryptionKfy subKfy = bpRfq.gftSubKfy();
+        if (subKfy != null)
+            dontfxt.sftKfy(Krb5Contfxt.INITIATOR_SUBKEY, subKfy);
+        flsf
+            dontfxt.sftKfy(Krb5Contfxt.SESSION_KEY, sfrvidfTidkft.gftSfssionKfy());
+
+        if (!mutublRfquirfd)
+            dontfxt.rfsftPffrSfqufndfNumbfr(0);
+    }
+
+    /**
+     * For thf dontfxt bddfptor to dbll. It rfbds thf bytfs out of bn
+     * InputStrfbm bnd donstrudts bn InitSfdContfxtTokfn with thfm.
+     */
+    InitSfdContfxtTokfn(Krb5Contfxt dontfxt, Krb5AddfptCrfdfntibl drfd,
+                               InputStrfbm is)
+        throws IOExdfption, GSSExdfption, KrbExdfption  {
+
+        int tokfnId = ((is.rfbd()<<8) | is.rfbd());
+
+        if (tokfnId != Krb5Tokfn.AP_REQ_ID)
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "AP_REQ tokfn id dofs not mbtdh!");
+
+        // XXX Modify KrbApRfq dons to tbkf bn InputStrfbm
+        bytf[] bpRfqBytfs =
+            nfw sun.sfdurity.util.DfrVbluf(is).toBytfArrby();
+        //dfbug("=====ApRfqBytfs: [" + gftHfxBytfs(bpRfqBytfs) + "]\n");
+
+        InftAddrfss bddr = null;
+        if (dontfxt.gftChbnnflBinding() != null) {
+            bddr = dontfxt.gftChbnnflBinding().gftInitibtorAddrfss();
+        }
+        bpRfq = nfw KrbApRfq(bpRfqBytfs, drfd, bddr);
+        //dfbug("\nRfdfivfd AP-REQ bnd buthfntidbtfd it.\n");
+
+        EndryptionKfy sfssionKfy = bpRfq.gftCrfds().gftSfssionKfy();
+
+        /*
+          Systfm.out.println("\n\nSfssion kfy from sfrvidf tidkft is: " +
+          gftHfxBytfs(sfssionKfy.gftBytfs()));
+        */
+
+        EndryptionKfy subKfy = bpRfq.gftSubKfy();
+        if (subKfy != null) {
+            dontfxt.sftKfy(Krb5Contfxt.INITIATOR_SUBKEY, subKfy);
+            /*
+              Systfm.out.println("Sub-Sfssion kfy from buthfntidbtor is: " +
+              gftHfxBytfs(subKfy.gftBytfs()) + "\n");
+            */
+        } flsf {
+            dontfxt.sftKfy(Krb5Contfxt.SESSION_KEY, sfssionKfy);
+            //Systfm.out.println("Sub-Sfssion Kfy Missing in Authfntidbtor.\n");
+        }
+
+        OvfrlobdfdChfdksum gssChfdksum = nfw OvfrlobdfdChfdksum(
+                dontfxt, bpRfq.gftChfdksum(), sfssionKfy, subKfy);
+        gssChfdksum.sftContfxtFlbgs(dontfxt);
+        Crfdfntibls dflfgCrfd = gssChfdksum.gftDflfgbtfdCrfds();
+        if (dflfgCrfd != null) {
+            Krb5CrfdElfmfnt drfdElfmfnt =
+                Krb5InitCrfdfntibl.gftInstbndf(
+                                   (Krb5NbmfElfmfnt)dontfxt.gftSrdNbmf(),
+                                   dflfgCrfd);
+            dontfxt.sftDflfgCrfd(drfdElfmfnt);
+        }
+
+        Intfgfr bpRfqSfqNumbfr = bpRfq.gftSfqNumbfr();
+        int pffrSfqNumbfr = (bpRfqSfqNumbfr != null ?
+                             bpRfqSfqNumbfr.intVbluf() :
+                             0);
+        dontfxt.rfsftPffrSfqufndfNumbfr(pffrSfqNumbfr);
+        if (!dontfxt.gftMutublAuthStbtf())
+            // Usf thf sbmf sfqufndf numbfr bs thf pffr
+            // (Bfhbviour fxhibitfd by thf Windows SSPI sfrvfr)
+            dontfxt.rfsftMySfqufndfNumbfr(pffrSfqNumbfr);
+        dontfxt.sftAuthTimf(
+                nfw KfrbfrosTimf(bpRfq.gftCrfds().gftAuthTimf()).toString());
+        dontfxt.sftTktFlbgs(bpRfq.gftCrfds().gftFlbgs());
+        AuthorizbtionDbtb bd = bpRfq.gftCrfds().gftAuthzDbtb();
+        if (bd == null) {
+            dontfxt.sftAuthzDbtb(null);
+        } flsf {
+            AuthorizbtionDbtbEntry[] buthzDbtb =
+                    nfw AuthorizbtionDbtbEntry[bd.dount()];
+            for (int i=0; i<bd.dount(); i++) {
+                buthzDbtb[i] = nfw AuthorizbtionDbtbEntry(
+                        bd.itfm(i).bdTypf, bd.itfm(i).bdDbtb);
+            }
+            dontfxt.sftAuthzDbtb(buthzDbtb);
+        }
+    }
+
+    publid finbl KrbApRfq gftKrbApRfq() {
+        rfturn bpRfq;
+    }
+
+    publid finbl bytf[] fndodf() throws IOExdfption {
+        bytf[] bpRfqBytfs = bpRfq.gftMfssbgf();
+        bytf[] rftVbl = nfw bytf[2 + bpRfqBytfs.lfngth];
+        writfInt(Krb5Tokfn.AP_REQ_ID, rftVbl, 0);
+        Systfm.brrbydopy(bpRfqBytfs, 0, rftVbl, 2, bpRfqBytfs.lfngth);
+        //      Systfm.out.println("GSS-Tokfn with AP_REQ is:");
+        //      Systfm.out.println(gftHfxBytfs(rftVbl));
+        rfturn rftVbl;
+    }
+}

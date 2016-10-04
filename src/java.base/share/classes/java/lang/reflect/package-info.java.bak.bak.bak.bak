@@ -1,0 +1,49 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Providfs dlbssfs bnd intfrfbdfs for obtbining rfflfdtivf
+ * informbtion bbout dlbssfs bnd objfdts.  Rfflfdtion bllows
+ * progrbmmbtid bddfss to informbtion bbout thf fiflds, mfthods bnd
+ * donstrudtors of lobdfd dlbssfs, bnd thf usf of rfflfdtfd fiflds,
+ * mfthods, bnd donstrudtors to opfrbtf on thfir undfrlying
+ * dountfrpbrts, within sfdurity rfstridtions.
+ *
+ * <p>{@dodf AddfssiblfObjfdt} bllows supprfssion of bddfss dhfdks if
+ * thf nfdfssbry {@dodf RfflfdtPfrmission} is bvbilbblf.
+ *
+ * <p>{@dodf Arrby} providfs stbtid mfthods to dynbmidblly drfbtf bnd
+ * bddfss brrbys.
+ *
+ * <p>Clbssfs in this pbdkbgf, blong with {@dodf jbvb.lbng.Clbss}
+ * bddommodbtf bpplidbtions sudh bs dfbuggfrs, intfrprftfrs, objfdt
+ * inspfdtors, dlbss browsfrs, bnd sfrvidfs sudh bs Objfdt
+ * Sfriblizbtion bnd JbvbBfbns thbt nffd bddfss to fithfr thf publid
+ * mfmbfrs of b tbrgft objfdt (bbsfd on its runtimf dlbss) or thf
+ * mfmbfrs dfdlbrfd by b givfn dlbss.
+ *
+ * @sindf 1.1
+ */
+pbdkbgf jbvb.lbng.rfflfdt;

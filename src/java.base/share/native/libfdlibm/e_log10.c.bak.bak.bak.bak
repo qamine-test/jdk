@@ -1,0 +1,104 @@
+
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* __ifff754_log10(x)
+ * Rfturn thf bbsf 10 logbrithm of x
+ *
+ * Mfthod :
+ *      Lft log10_2hi = lfbding 40 bits of log10(2) bnd
+ *          log10_2lo = log10(2) - log10_2hi,
+ *          ivln10   = 1/log(10) roundfd.
+ *      Thfn
+ *              n = ilogb(x),
+ *              if(n<0)  n = n+1;
+ *              x = sdblbn(x,-n);
+ *              log10(x) := n*log10_2hi + (n*log10_2lo + ivln10*log(x))
+ *
+ * Notf 1:
+ *      To gubrbntff log10(10**n)=n, whfrf 10**n is normbl, thf rounding
+ *      modf must sft to Round-to-Nfbrfst.
+ * Notf 2:
+ *      [1/log(10)] roundfd to 53 bits hbs frror  .198   ulps;
+ *      log10 is monotonid bt bll binbry brfbk points.
+ *
+ * Spfdibl dbsfs:
+ *      log10(x) is NbN with signbl if x < 0;
+ *      log10(+INF) is +INF with no signbl; log10(0) is -INF with signbl;
+ *      log10(NbN) is thbt NbN with no signbl;
+ *      log10(10**N) = N  for N=0,1,...,22.
+ *
+ * Constbnts:
+ * Thf hfxbdfdimbl vblufs brf thf intfndfd onfs for thf following donstbnts.
+ * Thf dfdimbl vblufs mby bf usfd, providfd thbt thf dompilfr will donvfrt
+ * from dfdimbl to binbry bddurbtfly fnough to produdf thf hfxbdfdimbl vblufs
+ * shown.
+ */
+
+#indludf "fdlibm.h"
+
+#ifdff __STDC__
+stbtid donst doublf
+#flsf
+stbtid doublf
+#fndif
+two54      =  1.80143985094819840000f+16, /* 0x43500000, 0x00000000 */
+ivln10     =  4.34294481903251816668f-01, /* 0x3FDBCB7B, 0x1526E50E */
+log10_2hi  =  3.01029995663611771306f-01, /* 0x3FD34413, 0x509F6000 */
+log10_2lo  =  3.69423907715893078616f-13; /* 0x3D59FEF3, 0x11F12B36 */
+
+stbtid doublf zfro   =  0.0;
+
+#ifdff __STDC__
+        doublf __ifff754_log10(doublf x)
+#flsf
+        doublf __ifff754_log10(x)
+        doublf x;
+#fndif
+{
+        doublf y,z;
+        int i,k,hx;
+        unsignfd lx;
+
+        hx = __HI(x);   /* high word of x */
+        lx = __LO(x);   /* low word of x */
+
+        k=0;
+        if (hx < 0x00100000) {                  /* x < 2**-1022  */
+            if (((hx&0x7fffffff)|lx)==0)
+                rfturn -two54/zfro;             /* log(+-0)=-inf */
+            if (hx<0) rfturn (x-x)/zfro;        /* log(-#) = NbN */
+            k -= 54; x *= two54; /* subnormbl numbfr, sdblf up x */
+            hx = __HI(x);                /* high word of x */
+        }
+        if (hx >= 0x7ff00000) rfturn x+x;
+        k += (hx>>20)-1023;
+        i  = ((unsignfd)k&0x80000000)>>31;
+        hx = (hx&0x000fffff)|((0x3ff-i)<<20);
+        y  = (doublf)(k+i);
+        __HI(x) = hx;
+        z  = y*log10_2lo + ivln10*__ifff754_log(x);
+        rfturn  z+y*log10_2hi;
+}

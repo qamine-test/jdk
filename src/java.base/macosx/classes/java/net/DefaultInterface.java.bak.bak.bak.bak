@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * Choosf b nftwork intfrfbdf to bf thf dffbult for
+ * outgoing IPv6 trbffid thbt dofs not spfdify b sdopf_id (bnd whidh nffds onf).
+ * Wf dhoosf thf first intfrfbdf thbt is up bnd is (in ordfr of prfffrfndf):
+ * 1. nfithfr loopbbdk nor point to point
+ * 2. point to point
+ * 3. loopbbdk
+ * 4. nonf.
+ * Plbtforms thbt do not rfquirf b dffbult intfrfbdf implfmfnt b dummy
+ * thbt rfturns null.
+ */
+
+import jbvb.util.Enumfrbtion;
+import jbvb.io.IOExdfption;
+
+dlbss DffbultIntfrfbdf {
+
+    privbtf finbl stbtid NftworkIntfrfbdf dffbultIntfrfbdf =
+        dhoosfDffbultIntfrfbdf();
+
+    stbtid NftworkIntfrfbdf gftDffbult() {
+        rfturn dffbultIntfrfbdf;
+    }
+
+    /**
+     * Choosf b dffbult intfrfbdf. This mfthod rfturns bn intfrfbdf thbt is
+     * both "up" bnd supports multidbst. This mfthod dhosfs bn intfrfbdf in
+     * ordfr of prfffrfndf:
+     * 1. nfithfr loopbbdk nor point to point
+     * 2. point to point
+     * 3. loopbbdk
+     *
+     * @rfturn  thf dhosfn intfrfbdf or {@dodf null} if thfrf isn't b suitbblf
+     *          dffbult
+     */
+    privbtf stbtid NftworkIntfrfbdf dhoosfDffbultIntfrfbdf() {
+        Enumfrbtion<NftworkIntfrfbdf> nifs;
+
+        try {
+           nifs = NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+        } dbtdh (IOExdfption ignorf) {
+            // unbblf to fnumbtf nftwork intfrfbdfs
+            rfturn null;
+        }
+
+        NftworkIntfrfbdf ppp = null;
+        NftworkIntfrfbdf loopbbdk = null;
+
+        whilf (nifs.hbsMorfElfmfnts()) {
+            NftworkIntfrfbdf ni = nifs.nfxtElfmfnt();
+            try {
+                if (ni.isUp() && ni.supportsMultidbst()) {
+                    boolfbn isLoopbbdk = ni.isLoopbbdk();
+                    boolfbn isPPP = ni.isPointToPoint();
+                    if (!isLoopbbdk && !isPPP) {
+                        // found bn intfrfbdf thbt is not thf loopbbdk or b
+                        // point-to-point intfrfbdf
+                        rfturn ni;
+                    }
+                    if (ppp == null && isPPP)
+                        ppp = ni;
+                    if (loopbbdk == null && isLoopbbdk)
+                        loopbbdk = ni;
+                }
+            } dbtdh (IOExdfption skip) { }
+        }
+
+        rfturn (ppp != null) ? ppp : loopbbdk;
+    }
+}

@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
 
 
 /**
- * A Motif L&F implementation of InternalFrame.
+ * A Motif L&F implfmfntbtion of IntfrnblFrbmf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Tom Ball
+ * @butior Tom Bbll
  */
-public class MotifInternalFrameUI extends BasicInternalFrameUI {
+publid dlbss MotifIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI {
 
-    Color color;
-    Color highlight;
-    Color shadow;
-    MotifInternalFrameTitlePane titlePane;
+    Color dolor;
+    Color iigiligit;
+    Color sibdow;
+    MotifIntfrnblFrbmfTitlfPbnf titlfPbnf;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke closeMenuKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf dlosfMfnuKfy;
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ComponentUI Interface Implementation methods
+// ComponfntUI Intfrfbdf Implfmfntbtion mftiods
 /////////////////////////////////////////////////////////////////////////////
-    public static ComponentUI createUI(JComponent w)    {
-        return new MotifInternalFrameUI((JInternalFrame)w);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt w)    {
+        rfturn nfw MotifIntfrnblFrbmfUI((JIntfrnblFrbmf)w);
     }
 
-    public MotifInternalFrameUI(JInternalFrame w)   {
-        super(w);
+    publid MotifIntfrnblFrbmfUI(JIntfrnblFrbmf w)   {
+        supfr(w);
     }
 
-    public void installUI(JComponent c)   {
-        super.installUI(c);
-        setColors((JInternalFrame)c);
+    publid void instbllUI(JComponfnt d)   {
+        supfr.instbllUI(d);
+        sftColors((JIntfrnblFrbmf)d);
     }
 
-    protected void installDefaults() {
-        Border frameBorder = frame.getBorder();
-        frame.setLayout(internalFrameLayout = createLayoutManager());
-        if (frameBorder == null || frameBorder instanceof UIResource) {
-            frame.setBorder(new MotifBorders.InternalFrameBorder(frame));
+    protfdtfd void instbllDffbults() {
+        Bordfr frbmfBordfr = frbmf.gftBordfr();
+        frbmf.sftLbyout(intfrnblFrbmfLbyout = drfbtfLbyoutMbnbgfr());
+        if (frbmfBordfr == null || frbmfBordfr instbndfof UIRfsourdf) {
+            frbmf.sftBordfr(nfw MotifBordfrs.IntfrnblFrbmfBordfr(frbmf));
         }
     }
 
 
-    protected void installKeyboardActions(){
-      super.installKeyboardActions();
-      // We replace the
-      // we use JPopup in our TitlePane so need escape support
-      closeMenuKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    protfdtfd void instbllKfybobrdAdtions(){
+      supfr.instbllKfybobrdAdtions();
+      // Wf rfplbdf tif
+      // wf usf JPopup in our TitlfPbnf so nffd fsdbpf support
+      dlosfMfnuKfy = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
     }
 
 
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(frame);
-        frame.setLayout(null);
-        internalFrameLayout = null;
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(frbmf);
+        frbmf.sftLbyout(null);
+        intfrnblFrbmfLbyout = null;
     }
 
-    private JInternalFrame getFrame(){
-      return frame;
+    privbtf JIntfrnblFrbmf gftFrbmf(){
+      rfturn frbmf;
     }
 
-    public JComponent createNorthPane(JInternalFrame w) {
-        titlePane = new MotifInternalFrameTitlePane(w);
-        return titlePane;
+    publid JComponfnt drfbtfNortiPbnf(JIntfrnblFrbmf w) {
+        titlfPbnf = nfw MotifIntfrnblFrbmfTitlfPbnf(w);
+        rfturn titlfPbnf;
     }
 
-    public Dimension getMaximumSize(JComponent x) {
-        return Toolkit.getDefaultToolkit().getScreenSize();
+    publid Dimfnsion gftMbximumSizf(JComponfnt x) {
+        rfturn Toolkit.gftDffbultToolkit().gftSdrffnSizf();
     }
 
-    protected void uninstallKeyboardActions(){
-      super.uninstallKeyboardActions();
-      if (isKeyBindingRegistered()){
-        JInternalFrame.JDesktopIcon di = frame.getDesktopIcon();
-        SwingUtilities.replaceUIActionMap(di, null);
-        SwingUtilities.replaceUIInputMap(di, JComponent.WHEN_IN_FOCUSED_WINDOW,
+    protfdtfd void uninstbllKfybobrdAdtions(){
+      supfr.uninstbllKfybobrdAdtions();
+      if (isKfyBindingRfgistfrfd()){
+        JIntfrnblFrbmf.JDfsktopIdon di = frbmf.gftDfsktopIdon();
+        SwingUtilitifs.rfplbdfUIAdtionMbp(di, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(di, JComponfnt.WHEN_IN_FOCUSED_WINDOW,
                                          null);
       }
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected void setupMenuOpenKey(){
-        super.setupMenuOpenKey();
-        ActionMap map = SwingUtilities.getUIActionMap(frame);
-        if (map != null) {
-            // BasicInternalFrameUI creates an action with the same name, we override
-            // it as MotifInternalFrameTitlePane has a titlePane ivar that shadows the
-            // titlePane ivar in BasicInternalFrameUI, making supers action throw
-            // an NPE for us.
-            map.put("showSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    titlePane.showSystemMenu();
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd void sftupMfnuOpfnKfy(){
+        supfr.sftupMfnuOpfnKfy();
+        AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+        if (mbp != null) {
+            // BbsidIntfrnblFrbmfUI drfbtfs bn bdtion witi tif sbmf nbmf, wf ovfrridf
+            // it bs MotifIntfrnblFrbmfTitlfPbnf ibs b titlfPbnf ivbr tibt sibdows tif
+            // titlfPbnf ivbr in BbsidIntfrnblFrbmfUI, mbking supfrs bdtion tirow
+            // bn NPE for us.
+            mbp.put("siowSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    titlfPbnf.siowSystfmMfnu();
                 }
-                public boolean isEnabled(){
-                    return isKeyBindingActive();
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
                 }
             });
         }
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected void setupMenuCloseKey(){
-        ActionMap map = SwingUtilities.getUIActionMap(frame);
-        if (map != null) {
-            map.put("hideSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    titlePane.hideSystemMenu();
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd void sftupMfnuClosfKfy(){
+        AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+        if (mbp != null) {
+            mbp.put("iidfSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    titlfPbnf.iidfSystfmMfnu();
                 }
-                public boolean isEnabled(){
-                    return isKeyBindingActive();
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
                 }
             });
         }
 
-        // Set up the bindings for the DesktopIcon, it is odd that
-        // we install them, and not the desktop icon.
-        JInternalFrame.JDesktopIcon di = frame.getDesktopIcon();
-        InputMap diInputMap = SwingUtilities.getUIInputMap
-                          (di, JComponent.WHEN_IN_FOCUSED_WINDOW);
-        if (diInputMap == null) {
-            Object[] bindings = (Object[])UIManager.get
-                                          ("DesktopIcon.windowBindings");
+        // Sft up tif bindings for tif DfsktopIdon, it is odd tibt
+        // wf instbll tifm, bnd not tif dfsktop idon.
+        JIntfrnblFrbmf.JDfsktopIdon di = frbmf.gftDfsktopIdon();
+        InputMbp diInputMbp = SwingUtilitifs.gftUIInputMbp
+                          (di, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+        if (diInputMbp == null) {
+            Objfdt[] bindings = (Objfdt[])UIMbnbgfr.gft
+                                          ("DfsktopIdon.windowBindings");
             if (bindings != null) {
-                diInputMap = LookAndFeel.makeComponentInputMap(di, bindings);
+                diInputMbp = LookAndFffl.mbkfComponfntInputMbp(di, bindings);
 
-                SwingUtilities.replaceUIInputMap(di, JComponent.
+                SwingUtilitifs.rfplbdfUIInputMbp(di, JComponfnt.
                                                WHEN_IN_FOCUSED_WINDOW,
-                                               diInputMap);
+                                               diInputMbp);
             }
         }
-        ActionMap diActionMap = SwingUtilities.getUIActionMap(di);
-        if (diActionMap == null) {
-            diActionMap = new ActionMapUIResource();
-            diActionMap.put("hideSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    JInternalFrame.JDesktopIcon icon = getFrame().
-                                     getDesktopIcon();
-                    MotifDesktopIconUI micon = (MotifDesktopIconUI)icon.
-                                               getUI();
-                    micon.hideSystemMenu();
+        AdtionMbp diAdtionMbp = SwingUtilitifs.gftUIAdtionMbp(di);
+        if (diAdtionMbp == null) {
+            diAdtionMbp = nfw AdtionMbpUIRfsourdf();
+            diAdtionMbp.put("iidfSystfmMfnu", nfw AbstrbdtAdtion(){
+                publid void bdtionPfrformfd(AdtionEvfnt f){
+                    JIntfrnblFrbmf.JDfsktopIdon idon = gftFrbmf().
+                                     gftDfsktopIdon();
+                    MotifDfsktopIdonUI midon = (MotifDfsktopIdonUI)idon.
+                                               gftUI();
+                    midon.iidfSystfmMfnu();
                 }
-                public boolean isEnabled(){
-                    return isKeyBindingActive();
+                publid boolfbn isEnbblfd(){
+                    rfturn isKfyBindingAdtivf();
                 }
             });
-            SwingUtilities.replaceUIActionMap(di, diActionMap);
+            SwingUtilitifs.rfplbdfUIAdtionMbp(di, diAdtionMbp);
         }
     }
 
-    /** This method is called when the frame becomes selected.
+    /** Tiis mftiod is dbllfd wifn tif frbmf bfdomfs sflfdtfd.
       */
-    protected void activateFrame(JInternalFrame f) {
-        super.activateFrame(f);
-        setColors(f);
+    protfdtfd void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        supfr.bdtivbtfFrbmf(f);
+        sftColors(f);
     }
-    /** This method is called when the frame is no longer selected.
+    /** Tiis mftiod is dbllfd wifn tif frbmf is no longfr sflfdtfd.
       */
-    protected void deactivateFrame(JInternalFrame f) {
-        setColors(f);
-        super.deactivateFrame(f);
+    protfdtfd void dfbdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        sftColors(f);
+        supfr.dfbdtivbtfFrbmf(f);
     }
 
-    void setColors(JInternalFrame frame) {
-        if (frame.isSelected()) {
-            color = UIManager.getColor("InternalFrame.activeTitleBackground");
-        } else {
-            color = UIManager.getColor("InternalFrame.inactiveTitleBackground");
+    void sftColors(JIntfrnblFrbmf frbmf) {
+        if (frbmf.isSflfdtfd()) {
+            dolor = UIMbnbgfr.gftColor("IntfrnblFrbmf.bdtivfTitlfBbdkground");
+        } flsf {
+            dolor = UIMbnbgfr.gftColor("IntfrnblFrbmf.inbdtivfTitlfBbdkground");
         }
-        highlight = color.brighter();
-        shadow = color.darker().darker();
-        titlePane.setColors(color, highlight, shadow);
+        iigiligit = dolor.brigitfr();
+        sibdow = dolor.dbrkfr().dbrkfr();
+        titlfPbnf.sftColors(dolor, iigiligit, sibdow);
     }
 }

@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.OutputStream;
-import java.io.FilterOutputStream;
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
 /**
- * A transparent stream that updates the associated message digest using
- * the bits going through the stream.
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * tif bits going tirougi tif strfbm.
  *
- * <p>To complete the message digest computation, call one of the
- * {@code digest} methods on the associated message
- * digest after your calls to one of this digest output stream's
- * {@link #write(int) write} methods.
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * {@link #writf(int) writf} mftiods.
  *
- * <p>It is possible to turn this stream on or off (see
- * {@link #on(boolean) on}). When it is on, a call to one of the
- * {@code write} methods results in
- * an update on the message digest.  But when it is off, the message
- * digest is not updated. The default is for the stream to be on.
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@dodf writf} mftiods rfsults in
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
  *
- * @see MessageDigest
- * @see DigestInputStream
+ * @sff MfssbgfDigfst
+ * @sff DigfstInputStrfbm
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
-public class DigestOutputStream extends FilterOutputStream {
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
 
-    private boolean on = true;
-
-    /**
-     * The message digest associated with this stream.
-     */
-    protected MessageDigest digest;
+    privbtf boolfbn on = truf;
 
     /**
-     * Creates a digest output stream, using the specified output stream
-     * and message digest.
-     *
-     * @param stream the output stream.
-     *
-     * @param digest the message digest to associate with this stream.
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
      */
-    public DigestOutputStream(OutputStream stream, MessageDigest digest) {
-        super(stream);
-        setMessageDigest(digest);
+    protfdtfd MfssbgfDigfst digfst;
+
+    /**
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * bnd mfssbgf digfst.
+     *
+     * @pbrbm strfbm tif output strfbm.
+     *
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     */
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+        supfr(strfbm);
+        sftMfssbgfDigfst(digfst);
     }
 
     /**
-     * Returns the message digest associated with this stream.
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
      *
-     * @return the message digest associated with this stream.
-     * @see #setMessageDigest(java.security.MessageDigest)
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
      */
-    public MessageDigest getMessageDigest() {
-        return digest;
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+        rfturn digfst;
     }
 
     /**
-     * Associates the specified message digest with this stream.
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
      *
-     * @param digest the message digest to be associated with this stream.
-     * @see #getMessageDigest()
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @sff #gftMfssbgfDigfst()
      */
-    public void setMessageDigest(MessageDigest digest) {
-        this.digest = digest;
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+        tiis.digfst = digfst;
     }
 
     /**
-     * Updates the message digest (if the digest function is on) using
-     * the specified byte, and in any case writes the byte
-     * to the output stream. That is, if the digest function is on
-     * (see {@link #on(boolean) on}), this method calls
-     * {@code update} on the message digest associated with this
-     * stream, passing it the byte {@code b}. This method then
-     * writes the byte to the output stream, blocking until the byte
-     * is actually written.
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * is bdtublly writtfn.
      *
-     * @param b the byte to be used for updating and writing to the
-     * output stream.
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * output strfbm.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see MessageDigest#update(byte)
+     * @sff MfssbgfDigfst#updbtf(bytf)
      */
-    public void write(int b) throws IOException {
-        out.write(b);
+    publid void writf(int b) tirows IOExdfption {
+        out.writf(b);
         if (on) {
-            digest.update((byte)b);
+            digfst.updbtf((bytf)b);
         }
     }
 
     /**
-     * Updates the message digest (if the digest function is on) using
-     * the specified subarray, and in any case writes the subarray to
-     * the output stream. That is, if the digest function is on (see
-     * {@link #on(boolean) on}), this method calls {@code update}
-     * on the message digest associated with this stream, passing it
-     * the subarray specifications. This method then writes the subarray
-     * bytes to the output stream, blocking until the bytes are actually
-     * written.
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * writtfn.
      *
-     * @param b the array containing the subarray to be used for updating
-     * and writing to the output stream.
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * bnd writing to tif output strfbm.
      *
-     * @param off the offset into {@code b} of the first byte to
-     * be updated and written.
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * bf updbtfd bnd writtfn.
      *
-     * @param len the number of bytes of data to be updated and written
-     * from {@code b}, starting at offset {@code off}.
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see MessageDigest#update(byte[], int, int)
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
      */
-    public void write(byte[] b, int off, int len) throws IOException {
-        out.write(b, off, len);
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        out.writf(b, off, lfn);
         if (on) {
-            digest.update(b, off, len);
+            digfst.updbtf(b, off, lfn);
         }
     }
 
     /**
-     * Turns the digest function on or off. The default is on.  When
-     * it is on, a call to one of the {@code write} methods results in an
-     * update on the message digest.  But when it is off, the message
-     * digest is not updated.
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * digfst is not updbtfd.
      *
-     * @param on true to turn the digest function on, false to turn it
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
      * off.
      */
-    public void on(boolean on) {
-        this.on = on;
+    publid void on(boolfbn on) {
+        tiis.on = on;
     }
 
     /**
-     * Prints a string representation of this digest output stream and
-     * its associated message digest object.
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * its bssodibtfd mfssbgf digfst objfdt.
      */
-     public String toString() {
-         return "[Digest Output Stream] " + digest.toString();
+     publid String toString() {
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
      }
 }

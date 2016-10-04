@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2004, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+  Whbt is thf dfbd simplfst thing to do?
+  Extfnd AbstrbdtMbp bnd don't optimizf for bnything.
+
+  Thf only nfw bpi is 'gftVblufs()' whidh rfturns thf vblufs strudt bs
+  long bs no mbp bpi hbs bffn dbllfd.  If bny mbp bpi is dbllfd,
+  drfbtf b rfbl mbp bnd forwbrd to it, bnd nukf vblufs bfdbusf of thf
+  possibility thbt thf mbp hbs bffn dhbngfd.  This is fbsifr thbn
+  trying to drfbtf b mbp thbt only dlfbrs vblufs if thf mbp hbs bffn
+  dhbngfd, or implfmfnting thf mbp API dirfdtly on top of thf vblufs
+  strudt.  Wf dbn blwbys do thbt lbtfr if nffd bf.
+*/
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Pbint;
+import jbvb.bwt.font.GrbphidAttributf;
+import jbvb.bwt.font.NumfridShbpfr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TrbnsformAttributf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Mbp.Entry;
+
+import stbtid sun.font.AttributfVblufs.*;
+
+publid finbl dlbss AttributfMbp fxtfnds AbstrbdtMbp<TfxtAttributf, Objfdt> {
+    privbtf AttributfVblufs vblufs;
+    privbtf Mbp<TfxtAttributf, Objfdt> dflfgbtfMbp;
+
+    publid AttributfMbp(AttributfVblufs vblufs) {
+        this.vblufs = vblufs;
+    }
+
+    publid Sft<Entry<TfxtAttributf, Objfdt>> fntrySft() {
+        rfturn dflfgbtf().fntrySft();
+    }
+
+    publid Objfdt put(TfxtAttributf kfy, Objfdt vbluf) {
+        rfturn dflfgbtf().put(kfy, vbluf);
+    }
+
+    // intfrnbl API
+    publid AttributfVblufs gftVblufs() {
+        rfturn vblufs;
+    }
+
+    privbtf stbtid boolfbn first = fblsf; // dfbug
+    privbtf Mbp<TfxtAttributf, Objfdt> dflfgbtf() {
+        if (dflfgbtfMbp == null) {
+            if (first) {
+                first = fblsf;
+                Thrfbd.dumpStbdk();
+            }
+            dflfgbtfMbp = vblufs.toMbp(nfw HbshMbp<TfxtAttributf, Objfdt>(27));
+
+            // nukf vblufs, ondf mbp is bddfssiblf it might bf mutbtfd bnd vblufs would
+            // no longfr rfflfdt its dontfnts
+            vblufs = null;
+        }
+
+        rfturn dflfgbtfMbp;
+    }
+
+    publid String toString() {
+        if (vblufs != null) {
+            rfturn "mbp of " + vblufs.toString();
+        }
+        rfturn supfr.toString();
+    }
+}

@@ -1,559 +1,559 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositionAdjustments.h"
-#include "GlyphIterator.h"
-#include "LEGlyphStorage.h"
-#include "Lookups.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiPositionAdjustmfnts.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "Lookups.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-GlyphIterator::GlyphIterator(LEGlyphStorage &theGlyphStorage, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlags,
-                             FeatureMask theFeatureMask, const LEReferenceTo<GlyphDefinitionTableHeader> &theGlyphDefinitionTableHeader, LEErrorCode &success)
-  : direction(1), position(-1), nextLimit(-1), prevLimit(-1),
-    glyphStorage(theGlyphStorage), glyphPositionAdjustments(theGlyphPositionAdjustments),
-    srcIndex(-1), destIndex(-1), lookupFlags(theLookupFlags), featureMask(theFeatureMask), glyphGroup(0),
-    glyphClassDefinitionTable(), markAttachClassDefinitionTable()
+GlypiItfrbtor::GlypiItfrbtor(LEGlypiStorbgf &tifGlypiStorbgf, GlypiPositionAdjustmfnts *tifGlypiPositionAdjustmfnts, lf_bool rigitToLfft, lf_uint16 tifLookupFlbgs,
+                             FfbturfMbsk tifFfbturfMbsk, donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &tifGlypiDffinitionTbblfHfbdfr, LEErrorCodf &suddfss)
+  : dirfdtion(1), position(-1), nfxtLimit(-1), prfvLimit(-1),
+    glypiStorbgf(tifGlypiStorbgf), glypiPositionAdjustmfnts(tifGlypiPositionAdjustmfnts),
+    srdIndfx(-1), dfstIndfx(-1), lookupFlbgs(tifLookupFlbgs), ffbturfMbsk(tifFfbturfMbsk), glypiGroup(0),
+    glypiClbssDffinitionTbblf(), mbrkAttbdiClbssDffinitionTbblf()
 
 {
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
 
-    if (theGlyphDefinitionTableHeader.isValid()) {
-      glyphClassDefinitionTable = theGlyphDefinitionTableHeader
-        -> getGlyphClassDefinitionTable(theGlyphDefinitionTableHeader, success);
-      markAttachClassDefinitionTable = theGlyphDefinitionTableHeader
-        ->getMarkAttachClassDefinitionTable(theGlyphDefinitionTableHeader, success);
+    if (tifGlypiDffinitionTbblfHfbdfr.isVblid()) {
+      glypiClbssDffinitionTbblf = tifGlypiDffinitionTbblfHfbdfr
+        -> gftGlypiClbssDffinitionTbblf(tifGlypiDffinitionTbblfHfbdfr, suddfss);
+      mbrkAttbdiClbssDffinitionTbblf = tifGlypiDffinitionTbblfHfbdfr
+        ->gftMbrkAttbdiClbssDffinitionTbblf(tifGlypiDffinitionTbblfHfbdfr, suddfss);
     }
 
-    nextLimit = glyphCount;
+    nfxtLimit = glypiCount;
 
-    if (rightToLeft) {
-        direction = -1;
-        position = glyphCount;
-        nextLimit = -1;
-        prevLimit = glyphCount;
+    if (rigitToLfft) {
+        dirfdtion = -1;
+        position = glypiCount;
+        nfxtLimit = -1;
+        prfvLimit = glypiCount;
     }
-    filterResetCache();
+    filtfrRfsftCbdif();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that)
-  : glyphStorage(that.glyphStorage)
+GlypiItfrbtor::GlypiItfrbtor(GlypiItfrbtor &tibt)
+  : glypiStorbgf(tibt.glypiStorbgf)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    dirfdtion    = tibt.dirfdtion;
+    position     = tibt.position;
+    nfxtLimit    = tibt.nfxtLimit;
+    prfvLimit    = tibt.prfvLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = that.lookupFlags;
-    featureMask = that.featureMask;
-    glyphGroup  = that.glyphGroup;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glypiPositionAdjustmfnts = tibt.glypiPositionAdjustmfnts;
+    srdIndfx = tibt.srdIndfx;
+    dfstIndfx = tibt.dfstIndfx;
+    lookupFlbgs = tibt.lookupFlbgs;
+    ffbturfMbsk = tibt.ffbturfMbsk;
+    glypiGroup  = tibt.glypiGroup;
+    glypiClbssDffinitionTbblf = tibt.glypiClbssDffinitionTbblf;
+    mbrkAttbdiClbssDffinitionTbblf = tibt.mbrkAttbdiClbssDffinitionTbblf;
+    filtfrRfsftCbdif();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that, FeatureMask newFeatureMask)
-  : glyphStorage(that.glyphStorage)
+GlypiItfrbtor::GlypiItfrbtor(GlypiItfrbtor &tibt, FfbturfMbsk nfwFfbturfMbsk)
+  : glypiStorbgf(tibt.glypiStorbgf)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    dirfdtion    = tibt.dirfdtion;
+    position     = tibt.position;
+    nfxtLimit    = tibt.nfxtLimit;
+    prfvLimit    = tibt.prfvLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = that.lookupFlags;
-    featureMask = newFeatureMask;
-    glyphGroup  = 0;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glypiPositionAdjustmfnts = tibt.glypiPositionAdjustmfnts;
+    srdIndfx = tibt.srdIndfx;
+    dfstIndfx = tibt.dfstIndfx;
+    lookupFlbgs = tibt.lookupFlbgs;
+    ffbturfMbsk = nfwFfbturfMbsk;
+    glypiGroup  = 0;
+    glypiClbssDffinitionTbblf = tibt.glypiClbssDffinitionTbblf;
+    mbrkAttbdiClbssDffinitionTbblf = tibt.mbrkAttbdiClbssDffinitionTbblf;
+    filtfrRfsftCbdif();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that, le_uint16 newLookupFlags)
-  : glyphStorage(that.glyphStorage)
+GlypiItfrbtor::GlypiItfrbtor(GlypiItfrbtor &tibt, lf_uint16 nfwLookupFlbgs)
+  : glypiStorbgf(tibt.glypiStorbgf)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    dirfdtion    = tibt.dirfdtion;
+    position     = tibt.position;
+    nfxtLimit    = tibt.nfxtLimit;
+    prfvLimit    = tibt.prfvLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = newLookupFlags;
-    featureMask = that.featureMask;
-    glyphGroup  = that.glyphGroup;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glypiPositionAdjustmfnts = tibt.glypiPositionAdjustmfnts;
+    srdIndfx = tibt.srdIndfx;
+    dfstIndfx = tibt.dfstIndfx;
+    lookupFlbgs = nfwLookupFlbgs;
+    ffbturfMbsk = tibt.ffbturfMbsk;
+    glypiGroup  = tibt.glypiGroup;
+    glypiClbssDffinitionTbblf = tibt.glypiClbssDffinitionTbblf;
+    mbrkAttbdiClbssDffinitionTbblf = tibt.mbrkAttbdiClbssDffinitionTbblf;
+    filtfrRfsftCbdif();
 }
 
-GlyphIterator::~GlyphIterator()
+GlypiItfrbtor::~GlypiItfrbtor()
 {
-    // nothing to do, right?
+    // notiing to do, rigit?
 }
 
-void GlyphIterator::reset(le_uint16 newLookupFlags, FeatureMask newFeatureMask)
+void GlypiItfrbtor::rfsft(lf_uint16 nfwLookupFlbgs, FfbturfMbsk nfwFfbturfMbsk)
 {
-    position     = prevLimit;
-    featureMask  = newFeatureMask;
-    glyphGroup   = 0;
-    lookupFlags  = newLookupFlags;
-    filterResetCache();
+    position     = prfvLimit;
+    ffbturfMbsk  = nfwFfbturfMbsk;
+    glypiGroup   = 0;
+    lookupFlbgs  = nfwLookupFlbgs;
+    filtfrRfsftCbdif();
 }
 
-LEGlyphID *GlyphIterator::insertGlyphs(le_int32 count, LEErrorCode& success)
+LEGlypiID *GlypiItfrbtor::insfrtGlypis(lf_int32 dount, LEErrorCodf& suddfss)
 {
-    return glyphStorage.insertGlyphs(position, count, success);
+    rfturn glypiStorbgf.insfrtGlypis(position, dount, suddfss);
 }
 
-le_int32 GlyphIterator::applyInsertions()
+lf_int32 GlypiItfrbtor::bpplyInsfrtions()
 {
-    le_int32 newGlyphCount = glyphStorage.applyInsertions();
+    lf_int32 nfwGlypiCount = glypiStorbgf.bpplyInsfrtions();
 
-    if (direction < 0) {
-        prevLimit = newGlyphCount;
-    } else {
-        nextLimit = newGlyphCount;
+    if (dirfdtion < 0) {
+        prfvLimit = nfwGlypiCount;
+    } flsf {
+        nfxtLimit = nfwGlypiCount;
     }
 
-    return newGlyphCount;
+    rfturn nfwGlypiCount;
 }
 
-le_int32 GlyphIterator::getCurrStreamPosition() const
+lf_int32 GlypiItfrbtor::gftCurrStrfbmPosition() donst
 {
-    return position;
+    rfturn position;
 }
 
-le_bool GlyphIterator::isRightToLeft() const
+lf_bool GlypiItfrbtor::isRigitToLfft() donst
 {
-    return direction < 0;
+    rfturn dirfdtion < 0;
 }
 
-le_bool GlyphIterator::ignoresMarks() const
+lf_bool GlypiItfrbtor::ignorfsMbrks() donst
 {
-    return (lookupFlags & lfIgnoreMarks) != 0;
+    rfturn (lookupFlbgs & lfIgnorfMbrks) != 0;
 }
 
-le_bool GlyphIterator::baselineIsLogicalEnd() const
+lf_bool GlypiItfrbtor::bbsflinfIsLogidblEnd() donst
 {
-    return (lookupFlags & lfBaselineIsLogicalEnd) != 0;
+    rfturn (lookupFlbgs & lfBbsflinfIsLogidblEnd) != 0;
 }
 
-LEGlyphID GlyphIterator::getCurrGlyphID() const
+LEGlypiID GlypiItfrbtor::gftCurrGlypiID() donst
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return 0xFFFF;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn 0xFFFF;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return 0xFFFF;
-        }
-    }
-
-    return glyphStorage[position];
-}
-
-void GlyphIterator::getCursiveEntryPoint(LEPoint &entryPoint) const
-{
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
-        }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn 0xFFFF;
         }
     }
 
-    glyphPositionAdjustments->getEntryPoint(position, entryPoint);
+    rfturn glypiStorbgf[position];
 }
 
-void GlyphIterator::getCursiveExitPoint(LEPoint &exitPoint) const
+void GlypiItfrbtor::gftCursivfEntryPoint(LEPoint &fntryPoint) donst
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->getExitPoint(position, exitPoint);
+    glypiPositionAdjustmfnts->gftEntryPoint(position, fntryPoint);
 }
 
-void GlyphIterator::setCurrGlyphID(TTGlyphID glyphID)
+void GlypiItfrbtor::gftCursivfExitPoint(LEPoint &fxitPoint) donst
 {
-    LEGlyphID glyph = glyphStorage[position];
-
-    glyphStorage[position] = LE_SET_GLYPH(glyph, glyphID);
-}
-
-void GlyphIterator::setCurrStreamPosition(le_int32 newPosition)
-{
-    if (direction < 0) {
-        if (newPosition >= prevLimit) {
-            position = prevLimit;
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-
-        if (newPosition <= nextLimit) {
-            position = nextLimit;
-            return;
-        }
-    } else {
-        if (newPosition <= prevLimit) {
-            position = prevLimit;
-            return;
-        }
-
-        if (newPosition >= nextLimit) {
-            position = nextLimit;
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    position = newPosition - direction;
-    next();
+    glypiPositionAdjustmfnts->gftExitPoint(position, fxitPoint);
 }
 
-void GlyphIterator::setCurrGlyphBaseOffset(le_int32 baseOffset)
+void GlypiItfrbtor::sftCurrGlypiID(TTGlypiID glypiID)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    LEGlypiID glypi = glypiStorbgf[position];
+
+    glypiStorbgf[position] = LE_SET_GLYPH(glypi, glypiID);
+}
+
+void GlypiItfrbtor::sftCurrStrfbmPosition(lf_int32 nfwPosition)
+{
+    if (dirfdtion < 0) {
+        if (nfwPosition >= prfvLimit) {
+            position = prfvLimit;
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+
+        if (nfwPosition <= nfxtLimit) {
+            position = nfxtLimit;
+            rfturn;
+        }
+    } flsf {
+        if (nfwPosition <= prfvLimit) {
+            position = prfvLimit;
+            rfturn;
+        }
+
+        if (nfwPosition >= nfxtLimit) {
+            position = nfxtLimit;
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->setBaseOffset(position, baseOffset);
+    position = nfwPosition - dirfdtion;
+    nfxt();
 }
 
-void GlyphIterator::adjustCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                                      float xAdvanceAdjust, float yAdvanceAdjust)
+void GlypiItfrbtor::sftCurrGlypiBbsfOffsft(lf_int32 bbsfOffsft)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->adjustXPlacement(position, xPlacementAdjust);
-    glyphPositionAdjustments->adjustYPlacement(position, yPlacementAdjust);
-    glyphPositionAdjustments->adjustXAdvance(position, xAdvanceAdjust);
-    glyphPositionAdjustments->adjustYAdvance(position, yAdvanceAdjust);
+    glypiPositionAdjustmfnts->sftBbsfOffsft(position, bbsfOffsft);
 }
 
-void GlyphIterator::setCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                                      float xAdvanceAdjust, float yAdvanceAdjust)
+void GlypiItfrbtor::bdjustCurrGlypiPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                                      flobt xAdvbndfAdjust, flobt yAdvbndfAdjust)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->setXPlacement(position, xPlacementAdjust);
-    glyphPositionAdjustments->setYPlacement(position, yPlacementAdjust);
-    glyphPositionAdjustments->setXAdvance(position, xAdvanceAdjust);
-    glyphPositionAdjustments->setYAdvance(position, yAdvanceAdjust);
+    glypiPositionAdjustmfnts->bdjustXPlbdfmfnt(position, xPlbdfmfntAdjust);
+    glypiPositionAdjustmfnts->bdjustYPlbdfmfnt(position, yPlbdfmfntAdjust);
+    glypiPositionAdjustmfnts->bdjustXAdvbndf(position, xAdvbndfAdjust);
+    glypiPositionAdjustmfnts->bdjustYAdvbndf(position, yAdvbndfAdjust);
 }
 
-void GlyphIterator::clearCursiveEntryPoint()
+void GlypiItfrbtor::sftCurrGlypiPositionAdjustmfnt(flobt xPlbdfmfntAdjust, flobt yPlbdfmfntAdjust,
+                                                      flobt xAdvbndfAdjust, flobt yAdvbndfAdjust)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->clearEntryPoint(position);
+    glypiPositionAdjustmfnts->sftXPlbdfmfnt(position, xPlbdfmfntAdjust);
+    glypiPositionAdjustmfnts->sftYPlbdfmfnt(position, yPlbdfmfntAdjust);
+    glypiPositionAdjustmfnts->sftXAdvbndf(position, xAdvbndfAdjust);
+    glypiPositionAdjustmfnts->sftYAdvbndf(position, yAdvbndfAdjust);
 }
 
-void GlyphIterator::clearCursiveExitPoint()
+void GlypiItfrbtor::dlfbrCursivfEntryPoint()
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->clearExitPoint(position);
+    glypiPositionAdjustmfnts->dlfbrEntryPoint(position);
 }
 
-void GlyphIterator::setCursiveEntryPoint(LEPoint &entryPoint)
+void GlypiItfrbtor::dlfbrCursivfExitPoint()
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->setEntryPoint(position, entryPoint, baselineIsLogicalEnd());
+    glypiPositionAdjustmfnts->dlfbrExitPoint(position);
 }
 
-void GlyphIterator::setCursiveExitPoint(LEPoint &exitPoint)
+void GlypiItfrbtor::sftCursivfEntryPoint(LEPoint &fntryPoint)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->setExitPoint(position, exitPoint, baselineIsLogicalEnd());
+    glypiPositionAdjustmfnts->sftEntryPoint(position, fntryPoint, bbsflinfIsLogidblEnd());
 }
 
-void GlyphIterator::setCursiveGlyph()
+void GlypiItfrbtor::sftCursivfExitPoint(LEPoint &fxitPoint)
 {
-    if (direction < 0) {
-        if (position <= nextLimit || position >= prevLimit) {
-            return;
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-    } else {
-        if (position <= prevLimit || position >= nextLimit) {
-            return;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
         }
     }
 
-    glyphPositionAdjustments->setCursiveGlyph(position, baselineIsLogicalEnd());
+    glypiPositionAdjustmfnts->sftExitPoint(position, fxitPoint, bbsflinfIsLogidblEnd());
 }
 
-void GlyphIterator::filterResetCache(void) {
-  filterCacheValid = FALSE;
-}
-
-le_bool GlyphIterator::filterGlyph(le_uint32 index)
+void GlypiItfrbtor::sftCursivfGlypi()
 {
-    LEGlyphID glyphID = glyphStorage[index];
-
-    if (!filterCacheValid || filterCache.id != glyphID) {
-      filterCache.id = glyphID;
-
-      le_bool &filterResult = filterCache.result;  // NB: Making this a reference to accept the updated value, in case
-                                               // we want more fancy cacheing in the future.
-      if (LE_GET_GLYPH(glyphID) >= 0xFFFE) {
-        filterResult = TRUE;
-      } else {
-        LEErrorCode success = LE_NO_ERROR;
-        le_int32 glyphClass = gcdNoGlyphClass;
-        if (glyphClassDefinitionTable.isValid()) {
-          glyphClass = glyphClassDefinitionTable->getGlyphClass(glyphClassDefinitionTable, glyphID, success);
+    if (dirfdtion < 0) {
+        if (position <= nfxtLimit || position >= prfvLimit) {
+            rfturn;
         }
-        switch (glyphClass) {
-        case gcdNoGlyphClass:
-          filterResult = FALSE;
-          break;
+    } flsf {
+        if (position <= prfvLimit || position >= nfxtLimit) {
+            rfturn;
+        }
+    }
 
-        case gcdSimpleGlyph:
-          filterResult = (lookupFlags & lfIgnoreBaseGlyphs) != 0;
-          break;
+    glypiPositionAdjustmfnts->sftCursivfGlypi(position, bbsflinfIsLogidblEnd());
+}
 
-        case gcdLigatureGlyph:
-          filterResult = (lookupFlags & lfIgnoreLigatures) != 0;
-          break;
+void GlypiItfrbtor::filtfrRfsftCbdif(void) {
+  filtfrCbdifVblid = FALSE;
+}
 
-        case gcdMarkGlyph:
-          if ((lookupFlags & lfIgnoreMarks) != 0) {
-            filterResult = TRUE;
-          } else {
-            le_uint16 markAttachType = (lookupFlags & lfMarkAttachTypeMask) >> lfMarkAttachTypeShift;
+lf_bool GlypiItfrbtor::filtfrGlypi(lf_uint32 indfx)
+{
+    LEGlypiID glypiID = glypiStorbgf[indfx];
 
-            if ((markAttachType != 0) && (markAttachClassDefinitionTable.isValid())) {
-              filterResult = (markAttachClassDefinitionTable
-                          -> getGlyphClass(markAttachClassDefinitionTable, glyphID, success) != markAttachType);
-            } else {
-              filterResult = FALSE;
+    if (!filtfrCbdifVblid || filtfrCbdif.id != glypiID) {
+      filtfrCbdif.id = glypiID;
+
+      lf_bool &filtfrRfsult = filtfrCbdif.rfsult;  // NB: Mbking tiis b rfffrfndf to bddfpt tif updbtfd vbluf, in dbsf
+                                               // wf wbnt morf fbndy dbdifing in tif futurf.
+      if (LE_GET_GLYPH(glypiID) >= 0xFFFE) {
+        filtfrRfsult = TRUE;
+      } flsf {
+        LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32 glypiClbss = gddNoGlypiClbss;
+        if (glypiClbssDffinitionTbblf.isVblid()) {
+          glypiClbss = glypiClbssDffinitionTbblf->gftGlypiClbss(glypiClbssDffinitionTbblf, glypiID, suddfss);
+        }
+        switdi (glypiClbss) {
+        dbsf gddNoGlypiClbss:
+          filtfrRfsult = FALSE;
+          brfbk;
+
+        dbsf gddSimplfGlypi:
+          filtfrRfsult = (lookupFlbgs & lfIgnorfBbsfGlypis) != 0;
+          brfbk;
+
+        dbsf gddLigbturfGlypi:
+          filtfrRfsult = (lookupFlbgs & lfIgnorfLigbturfs) != 0;
+          brfbk;
+
+        dbsf gddMbrkGlypi:
+          if ((lookupFlbgs & lfIgnorfMbrks) != 0) {
+            filtfrRfsult = TRUE;
+          } flsf {
+            lf_uint16 mbrkAttbdiTypf = (lookupFlbgs & lfMbrkAttbdiTypfMbsk) >> lfMbrkAttbdiTypfSiift;
+
+            if ((mbrkAttbdiTypf != 0) && (mbrkAttbdiClbssDffinitionTbblf.isVblid())) {
+              filtfrRfsult = (mbrkAttbdiClbssDffinitionTbblf
+                          -> gftGlypiClbss(mbrkAttbdiClbssDffinitionTbblf, glypiID, suddfss) != mbrkAttbdiTypf);
+            } flsf {
+              filtfrRfsult = FALSE;
             }
           }
-          break;
+          brfbk;
 
-        case gcdComponentGlyph:
-          filterResult = ((lookupFlags & lfIgnoreBaseGlyphs) != 0);
-          break;
+        dbsf gddComponfntGlypi:
+          filtfrRfsult = ((lookupFlbgs & lfIgnorfBbsfGlypis) != 0);
+          brfbk;
 
-        default:
-          filterResult = FALSE;
-          break;
+        dffbult:
+          filtfrRfsult = FALSE;
+          brfbk;
         }
       }
-      filterCacheValid = TRUE;
+      filtfrCbdifVblid = TRUE;
     }
 
-    return filterCache.result;
+    rfturn filtfrCbdif.rfsult;
 }
 
-le_bool GlyphIterator::hasFeatureTag(le_bool matchGroup) const
+lf_bool GlypiItfrbtor::ibsFfbturfTbg(lf_bool mbtdiGroup) donst
 {
-    if (featureMask == 0) {
-        return TRUE;
+    if (ffbturfMbsk == 0) {
+        rfturn TRUE;
     }
 
-    LEErrorCode success = LE_NO_ERROR;
-    FeatureMask fm = glyphStorage.getAuxData(position, success);
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    FfbturfMbsk fm = glypiStorbgf.gftAuxDbtb(position, suddfss);
 
-    return ((fm & featureMask) == featureMask) && (!matchGroup || (le_int32)(fm & LE_GLYPH_GROUP_MASK) == glyphGroup);
+    rfturn ((fm & ffbturfMbsk) == ffbturfMbsk) && (!mbtdiGroup || (lf_int32)(fm & LE_GLYPH_GROUP_MASK) == glypiGroup);
 }
 
-le_bool GlyphIterator::findFeatureTag()
+lf_bool GlypiItfrbtor::findFfbturfTbg()
 {
-  //glyphGroup = 0;
+  //glypiGroup = 0;
 
-    while (nextInternal()) {
-        if (hasFeatureTag(FALSE)) {
-            LEErrorCode success = LE_NO_ERROR;
+    wiilf (nfxtIntfrnbl()) {
+        if (ibsFfbturfTbg(FALSE)) {
+            LEErrorCodf suddfss = LE_NO_ERROR;
 
-            glyphGroup = (glyphStorage.getAuxData(position, success) & LE_GLYPH_GROUP_MASK);
-            return TRUE;
+            glypiGroup = (glypiStorbgf.gftAuxDbtb(position, suddfss) & LE_GLYPH_GROUP_MASK);
+            rfturn TRUE;
         }
     }
 
-    return FALSE;
+    rfturn FALSE;
 }
 
 
-le_bool GlyphIterator::nextInternal(le_uint32 delta)
+lf_bool GlypiItfrbtor::nfxtIntfrnbl(lf_uint32 dfltb)
 {
-    le_int32 newPosition = position;
+    lf_int32 nfwPosition = position;
 
-    while (newPosition != nextLimit && delta > 0) {
+    wiilf (nfwPosition != nfxtLimit && dfltb > 0) {
         do {
-            newPosition += direction;
-            //fprintf(stderr,"%s:%d:%s: newPosition = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, delta);
-        } while (newPosition != nextLimit && filterGlyph(newPosition));
+            nfwPosition += dirfdtion;
+            //fprintf(stdfrr,"%s:%d:%s: nfwPosition = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, nfwPosition, dfltb);
+        } wiilf (nfwPosition != nfxtLimit && filtfrGlypi(nfwPosition));
 
-        delta -= 1;
+        dfltb -= 1;
     }
 
-    position = newPosition;
+    position = nfwPosition;
 
-    //fprintf(stderr,"%s:%d:%s: exit position = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, position, delta);
-    return position != nextLimit;
+    //fprintf(stdfrr,"%s:%d:%s: fxit position = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, dfltb);
+    rfturn position != nfxtLimit;
 }
 
-le_bool GlyphIterator::next(le_uint32 delta)
+lf_bool GlypiItfrbtor::nfxt(lf_uint32 dfltb)
 {
-    return nextInternal(delta) && hasFeatureTag(TRUE);
+    rfturn nfxtIntfrnbl(dfltb) && ibsFfbturfTbg(TRUE);
 }
 
-le_bool GlyphIterator::prevInternal(le_uint32 delta)
+lf_bool GlypiItfrbtor::prfvIntfrnbl(lf_uint32 dfltb)
 {
-    le_int32 newPosition = position;
+    lf_int32 nfwPosition = position;
 
-    while (newPosition != prevLimit && delta > 0) {
+    wiilf (nfwPosition != prfvLimit && dfltb > 0) {
         do {
-            newPosition -= direction;
-            //fprintf(stderr,"%s:%d:%s: newPosition = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, delta);
-        } while (newPosition != prevLimit && filterGlyph(newPosition));
+            nfwPosition -= dirfdtion;
+            //fprintf(stdfrr,"%s:%d:%s: nfwPosition = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, nfwPosition, dfltb);
+        } wiilf (nfwPosition != prfvLimit && filtfrGlypi(nfwPosition));
 
-        delta -= 1;
+        dfltb -= 1;
     }
 
-    position = newPosition;
+    position = nfwPosition;
 
-    //fprintf(stderr,"%s:%d:%s: exit position = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, position, delta);
-    return position != prevLimit;
+    //fprintf(stdfrr,"%s:%d:%s: fxit position = %d, dfltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, dfltb);
+    rfturn position != prfvLimit;
 }
 
-le_bool GlyphIterator::prev(le_uint32 delta)
+lf_bool GlypiItfrbtor::prfv(lf_uint32 dfltb)
 {
-    return prevInternal(delta) && hasFeatureTag(TRUE);
+    rfturn prfvIntfrnbl(dfltb) && ibsFfbturfTbg(TRUE);
 }
 
-le_int32 GlyphIterator::getMarkComponent(le_int32 markPosition) const
+lf_int32 GlypiItfrbtor::gftMbrkComponfnt(lf_int32 mbrkPosition) donst
 {
-    le_int32 component = 0;
-    le_int32 posn;
+    lf_int32 domponfnt = 0;
+    lf_int32 posn;
 
-    for (posn = position; posn != markPosition; posn += direction) {
-        if (glyphStorage[posn] == 0xFFFE) {
-            component += 1;
+    for (posn = position; posn != mbrkPosition; posn += dirfdtion) {
+        if (glypiStorbgf[posn] == 0xFFFE) {
+            domponfnt += 1;
         }
     }
 
-    return component;
+    rfturn domponfnt;
 }
 
-// This is basically prevInternal except that it
-// doesn't take a delta argument, and it doesn't
-// filter out 0xFFFE glyphs.
-le_bool GlyphIterator::findMark2Glyph()
+// Tiis is bbsidblly prfvIntfrnbl fxdfpt tibt it
+// dofsn't tbkf b dfltb brgumfnt, bnd it dofsn't
+// filtfr out 0xFFFE glypis.
+lf_bool GlypiItfrbtor::findMbrk2Glypi()
 {
-    le_int32 newPosition = position;
+    lf_int32 nfwPosition = position;
 
     do {
-        newPosition -= direction;
-    } while (newPosition != prevLimit && glyphStorage[newPosition] != 0xFFFE && filterGlyph(newPosition));
+        nfwPosition -= dirfdtion;
+    } wiilf (nfwPosition != prfvLimit && glypiStorbgf[nfwPosition] != 0xFFFE && filtfrGlypi(nfwPosition));
 
-    position = newPosition;
+    position = nfwPosition;
 
-    return position != prevLimit;
+    rfturn position != prfvLimit;
 }
 
 U_NAMESPACE_END

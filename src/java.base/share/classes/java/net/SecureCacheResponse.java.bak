@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.security.cert.Certificate;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import java.security.Principal;
-import java.util.List;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.List;
 
 /**
- * Represents a cache response originally retrieved through secure
- * means, such as TLS.
+ * Rfprfsfnts b dbdif rfsponsf originblly rftrifvfd tirougi sfdurf
+ * mfbns, sudi bs TLS.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class SecureCacheResponse extends CacheResponse {
+publid bbstrbdt dlbss SfdurfCbdifRfsponsf fxtfnds CbdifRfsponsf {
     /**
-     * Returns the cipher suite in use on the original connection that
-     * retrieved the network resource.
+     * Rfturns tif dipifr suitf in usf on tif originbl donnfdtion tibt
+     * rftrifvfd tif nftwork rfsourdf.
      *
-     * @return a string representing the cipher suite
+     * @rfturn b string rfprfsfnting tif dipifr suitf
      */
-    public abstract String getCipherSuite();
+    publid bbstrbdt String gftCipifrSuitf();
 
     /**
-     * Returns the certificate chain that were sent to the server during
-     * handshaking of the original connection that retrieved the
-     * network resource.  Note: This method is useful only
-     * when using certificate-based cipher suites.
+     * Rfturns tif dfrtifidbtf dibin tibt wfrf sfnt to tif sfrvfr during
+     * ibndsibking of tif originbl donnfdtion tibt rftrifvfd tif
+     * nftwork rfsourdf.  Notf: Tiis mftiod is usfful only
+     * wifn using dfrtifidbtf-bbsfd dipifr suitfs.
      *
-     * @return an immutable List of Certificate representing the
-     *           certificate chain that was sent to the server. If no
-     *           certificate chain was sent, null will be returned.
-     * @see #getLocalPrincipal()
+     * @rfturn bn immutbblf List of Cfrtifidbtf rfprfsfnting tif
+     *           dfrtifidbtf dibin tibt wbs sfnt to tif sfrvfr. If no
+     *           dfrtifidbtf dibin wbs sfnt, null will bf rfturnfd.
+     * @sff #gftLodblPrindipbl()
      */
-    public abstract List<Certificate> getLocalCertificateChain();
+    publid bbstrbdt List<Cfrtifidbtf> gftLodblCfrtifidbtfCibin();
 
     /**
-     * Returns the server's certificate chain, which was established as
-     * part of defining the session in the original connection that
-     * retrieved the network resource, from cache.  Note: This method
-     * can be used only when using certificate-based cipher suites;
-     * using it with non-certificate-based cipher suites, such as
-     * Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturns tif sfrvfr's dfrtifidbtf dibin, wiidi wbs fstbblisifd bs
+     * pbrt of dffining tif sfssion in tif originbl donnfdtion tibt
+     * rftrifvfd tif nftwork rfsourdf, from dbdif.  Notf: Tiis mftiod
+     * dbn bf usfd only wifn using dfrtifidbtf-bbsfd dipifr suitfs;
+     * using it witi non-dfrtifidbtf-bbsfd dipifr suitfs, sudi bs
+     * Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return an immutable List of Certificate representing the server's
-     *         certificate chain.
-     * @throws SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @rfturn bn immutbblf List of Cfrtifidbtf rfprfsfnting tif sfrvfr's
+     *         dfrtifidbtf dibin.
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
      */
-    public abstract List<Certificate> getServerCertificateChain()
-        throws SSLPeerUnverifiedException;
+    publid bbstrbdt List<Cfrtifidbtf> gftSfrvfrCfrtifidbtfCibin()
+        tirows SSLPffrUnvfrififdExdfption;
 
     /**
-     * Returns the server's principal which was established as part of
-     * defining the session during the original connection that
-     * retrieved the network resource.
+     * Rfturns tif sfrvfr's prindipbl wiidi wbs fstbblisifd bs pbrt of
+     * dffining tif sfssion during tif originbl donnfdtion tibt
+     * rftrifvfd tif nftwork rfsourdf.
      *
-     * @return the server's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @rfturn tif sfrvfr's prindipbl. Rfturns bn X500Prindipbl of tif
+     * fnd-fntity dfrtitidbtf for X509-bbsfd dipifr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs.
      *
-     * @throws SSLPeerUnverifiedException if the peer was not verified.
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr wbs not vfrififd.
      *
-     * @see #getServerCertificateChain()
-     * @see #getLocalPrincipal()
+     * @sff #gftSfrvfrCfrtifidbtfCibin()
+     * @sff #gftLodblPrindipbl()
      */
-     public abstract Principal getPeerPrincipal()
-             throws SSLPeerUnverifiedException;
+     publid bbstrbdt Prindipbl gftPffrPrindipbl()
+             tirows SSLPffrUnvfrififdExdfption;
 
     /**
-      * Returns the principal that was sent to the server during
-      * handshaking in the original connection that retrieved the
-      * network resource.
+      * Rfturns tif prindipbl tibt wbs sfnt to tif sfrvfr during
+      * ibndsibking in tif originbl donnfdtion tibt rftrifvfd tif
+      * nftwork rfsourdf.
       *
-      * @return the principal sent to the server. Returns an X500Principal
-      * of the end-entity certificate for X509-based cipher suites, and
-      * KerberosPrincipal for Kerberos cipher suites. If no principal was
-      * sent, then null is returned.
+      * @rfturn tif prindipbl sfnt to tif sfrvfr. Rfturns bn X500Prindipbl
+      * of tif fnd-fntity dfrtifidbtf for X509-bbsfd dipifr suitfs, bnd
+      * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs. If no prindipbl wbs
+      * sfnt, tifn null is rfturnfd.
       *
-      * @see #getLocalCertificateChain()
-      * @see #getPeerPrincipal()
+      * @sff #gftLodblCfrtifidbtfCibin()
+      * @sff #gftPffrPrindipbl()
       */
-     public abstract Principal getLocalPrincipal();
+     publid bbstrbdt Prindipbl gftLodblPrindipbl();
 }

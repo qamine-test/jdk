@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutput;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import sun.rmi.trbnsport.*;
+import sun.rmi.trbnsport.tdp.*;
+
+/**
+ * Sfrvfr-sidf rff for b rfmotf impl thbt usfs b dustom sodkft fbdtory.
+ *
+ * @buthor Ann Wollrbth
+ * @buthor Rogfr Riggs
+ */
+publid dlbss UnidbstSfrvfrRff2 fxtfnds UnidbstSfrvfrRff
+{
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -2289703812660767614L;
+
+    /**
+     * Crfbtf b nfw (fmpty) Unidbst sfrvfr rfmotf rfffrfndf.
+     */
+    publid UnidbstSfrvfrRff2()
+    {}
+
+    /**
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf for b spfdififd
+     * livfRff.
+     */
+    publid UnidbstSfrvfrRff2(LivfRff rff)
+    {
+        supfr(rff);
+    }
+
+    /**
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf to bf fxportfd
+     * on thf spfdififd port.
+     */
+    publid UnidbstSfrvfrRff2(int port,
+                             RMIClifntSodkftFbdtory dsf,
+                             RMISfrvfrSodkftFbdtory ssf)
+    {
+        supfr(nfw LivfRff(port, dsf, ssf));
+    }
+
+    /**
+     * Rfturns thf dlbss of thf rff typf to bf sfriblizfd
+     */
+    publid String gftRffClbss(ObjfdtOutput out)
+    {
+        rfturn "UnidbstSfrvfrRff2";
+    }
+
+    /**
+     * Rfturn thf dlifnt rfmotf rfffrfndf for this rfmotfRff.
+     * In thf dbsf of b dlifnt RfmotfRff "this" is thf bnswfr.
+     * For  b sfrvfr rfmotf rfffrfndf, b dlifnt sidf onf will hbvf to
+     * found or drfbtfd.
+     */
+    protfdtfd RfmotfRff gftClifntRff() {
+        rfturn nfw UnidbstRff2(rff);
+    }
+}

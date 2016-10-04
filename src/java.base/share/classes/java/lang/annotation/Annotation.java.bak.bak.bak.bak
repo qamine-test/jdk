@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.bnnotbtion;
+
+/**
+ * Thf dommon intfrfbdf fxtfndfd by bll bnnotbtion typfs.  Notf thbt bn
+ * intfrfbdf thbt mbnublly fxtfnds this onf dofs <i>not</i> dffinf
+ * bn bnnotbtion typf.  Also notf thbt this intfrfbdf dofs not itsflf
+ * dffinf bn bnnotbtion typf.
+ *
+ * Morf informbtion bbout bnnotbtion typfs dbn bf found in sfdtion 9.6 of
+ * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ *
+ * Thf {@link jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt} intfrfbdf disdussfs
+ * dompbtibility dondfrns whfn fvolving bn bnnotbtion typf from bfing
+ * non-rfpfbtbblf to bfing rfpfbtbblf.
+ *
+ * @buthor  Josh Blodh
+ * @sindf   1.5
+ */
+publid intfrfbdf Annotbtion {
+    /**
+     * Rfturns truf if thf spfdififd objfdt rfprfsfnts bn bnnotbtion
+     * thbt is logidblly fquivblfnt to this onf.  In othfr words,
+     * rfturns truf if thf spfdififd objfdt is bn instbndf of thf sbmf
+     * bnnotbtion typf bs this instbndf, bll of whosf mfmbfrs brf fqubl
+     * to thf dorrfsponding mfmbfr of this bnnotbtion, bs dffinfd bflow:
+     * <ul>
+     *    <li>Two dorrfsponding primitivf typfd mfmbfrs whosf vblufs brf
+     *    <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if <tt>x == y</tt>,
+     *    unlfss thfir typf is <tt>flobt</tt> or <tt>doublf</tt>.
+     *
+     *    <li>Two dorrfsponding <tt>flobt</tt> mfmbfrs whosf vblufs
+     *    brf <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if
+     *    <tt>Flobt.vblufOf(x).fqubls(Flobt.vblufOf(y))</tt>.
+     *    (Unlikf thf <tt>==</tt> opfrbtor, NbN is donsidfrfd fqubl
+     *    to itsflf, bnd <tt>0.0f</tt> unfqubl to <tt>-0.0f</tt>.)
+     *
+     *    <li>Two dorrfsponding <tt>doublf</tt> mfmbfrs whosf vblufs
+     *    brf <tt>x</tt> bnd <tt>y</tt> brf donsidfrfd fqubl if
+     *    <tt>Doublf.vblufOf(x).fqubls(Doublf.vblufOf(y))</tt>.
+     *    (Unlikf thf <tt>==</tt> opfrbtor, NbN is donsidfrfd fqubl
+     *    to itsflf, bnd <tt>0.0</tt> unfqubl to <tt>-0.0</tt>.)
+     *
+     *    <li>Two dorrfsponding <tt>String</tt>, <tt>Clbss</tt>, fnum, or
+     *    bnnotbtion typfd mfmbfrs whosf vblufs brf <tt>x</tt> bnd <tt>y</tt>
+     *    brf donsidfrfd fqubl if <tt>x.fqubls(y)</tt>.  (Notf thbt this
+     *    dffinition is rfdursivf for bnnotbtion typfd mfmbfrs.)
+     *
+     *    <li>Two dorrfsponding brrby typfd mfmbfrs <tt>x</tt> bnd <tt>y</tt>
+     *    brf donsidfrfd fqubl if <tt>Arrbys.fqubls(x, y)</tt>, for thf
+     *    bppropribtf ovfrlobding of {@link jbvb.util.Arrbys#fqubls}.
+     * </ul>
+     *
+     * @rfturn truf if thf spfdififd objfdt rfprfsfnts bn bnnotbtion
+     *     thbt is logidblly fquivblfnt to this onf, othfrwisf fblsf
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf of this bnnotbtion, bs dffinfd bflow:
+     *
+     * <p>Thf hbsh dodf of bn bnnotbtion is thf sum of thf hbsh dodfs
+     * of its mfmbfrs (indluding thosf with dffbult vblufs), bs dffinfd
+     * bflow:
+     *
+     * Thf hbsh dodf of bn bnnotbtion mfmbfr is (127 timfs thf hbsh dodf
+     * of thf mfmbfr-nbmf bs domputfd by {@link String#hbshCodf()}) XOR
+     * thf hbsh dodf of thf mfmbfr-vbluf, bs dffinfd bflow:
+     *
+     * <p>Thf hbsh dodf of b mfmbfr-vbluf dfpfnds on its typf:
+     * <ul>
+     * <li>Thf hbsh dodf of b primitivf vbluf <tt><i>v</i></tt> is fqubl to
+     *     <tt><i>WrbppfrTypf</i>.vblufOf(<i>v</i>).hbshCodf()</tt>, whfrf
+     *     <tt><i>WrbppfrTypf</i></tt> is thf wrbppfr typf dorrfsponding
+     *     to thf primitivf typf of <tt><i>v</i></tt> ({@link Bytf},
+     *     {@link Chbrbdtfr}, {@link Doublf}, {@link Flobt}, {@link Intfgfr},
+     *     {@link Long}, {@link Short}, or {@link Boolfbn}).
+     *
+     * <li>Thf hbsh dodf of b string, fnum, dlbss, or bnnotbtion mfmbfr-vbluf
+     I     <tt><i>v</i></tt> is domputfd bs by dblling
+     *     <tt><i>v</i>.hbshCodf()</tt>.  (In thf dbsf of bnnotbtion
+     *     mfmbfr vblufs, this is b rfdursivf dffinition.)
+     *
+     * <li>Thf hbsh dodf of bn brrby mfmbfr-vbluf is domputfd by dblling
+     *     thf bppropribtf ovfrlobding of
+     *     {@link jbvb.util.Arrbys#hbshCodf(long[]) Arrbys.hbshCodf}
+     *     on thf vbluf.  (Thfrf is onf ovfrlobding for fbdh primitivf
+     *     typf, bnd onf for objfdt rfffrfndf typfs.)
+     * </ul>
+     *
+     * @rfturn thf hbsh dodf of this bnnotbtion
+     */
+    int hbshCodf();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this bnnotbtion.  Thf dftbils
+     * of thf rfprfsfntbtion brf implfmfntbtion-dfpfndfnt, but thf following
+     * mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *   &#064;dom.bdmf.util.Nbmf(first=Alfrfd, middlf=E., lbst=Nfumbn)
+     * </prf>
+     *
+     * @rfturn b string rfprfsfntbtion of this bnnotbtion
+     */
+    String toString();
+
+    /**
+     * Rfturns thf bnnotbtion typf of this bnnotbtion.
+     * @rfturn thf bnnotbtion typf of this bnnotbtion
+     */
+    Clbss<? fxtfnds Annotbtion> bnnotbtionTypf();
+}

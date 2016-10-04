@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * IOUtils: A dollfdtion of IO-rflbtfd publid stbtid mfthods.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Arrbys;
+
+publid dlbss IOUtils {
+
+    /**
+     * Rfbd up to <dodf>lfngth</dodf> of bytfs from <dodf>in</dodf>
+     * until EOF is dftfdtfd.
+     * @pbrbm in input strfbm, must not bf null
+     * @pbrbm lfngth numbfr of bytfs to rfbd, -1 or Intfgfr.MAX_VALUE mfbns
+     *        rfbd bs mudh bs possiblf
+     * @pbrbm rfbdAll if truf, bn EOFExdfption will bf thrown if not fnough
+     *        bytfs brf rfbd. Ignorfd whfn lfngth is -1 or Intfgfr.MAX_VALUE
+     * @rfturn bytfs rfbd
+     * @throws IOExdfption Any IO frror or b prfmbturf EOF is dftfdtfd
+     */
+    publid stbtid bytf[] rfbdFully(InputStrfbm is, int lfngth, boolfbn rfbdAll)
+            throws IOExdfption {
+        bytf[] output = {};
+        if (lfngth == -1) lfngth = Intfgfr.MAX_VALUE;
+        int pos = 0;
+        whilf (pos < lfngth) {
+            int bytfsToRfbd;
+            if (pos >= output.lfngth) { // Only fxpbnd whfn thfrf's no room
+                bytfsToRfbd = Mbth.min(lfngth - pos, output.lfngth + 1024);
+                if (output.lfngth < pos + bytfsToRfbd) {
+                    output = Arrbys.dopyOf(output, pos + bytfsToRfbd);
+                }
+            } flsf {
+                bytfsToRfbd = output.lfngth - pos;
+            }
+            int dd = is.rfbd(output, pos, bytfsToRfbd);
+            if (dd < 0) {
+                if (rfbdAll && lfngth != Intfgfr.MAX_VALUE) {
+                    throw nfw EOFExdfption("Dftfdt prfmbturf EOF");
+                } flsf {
+                    if (output.lfngth != pos) {
+                        output = Arrbys.dopyOf(output, pos);
+                    }
+                    brfbk;
+                }
+            }
+            pos += dd;
+        }
+        rfturn output;
+    }
+}

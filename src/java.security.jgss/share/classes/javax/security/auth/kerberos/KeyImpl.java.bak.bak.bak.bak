@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.Dfstroybblf;
+import jbvbx.sfdurity.buth.DfstroyFbilfdExdfption;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * This dlbss fndbpsulbtfs b Kfrbfros fndryption kfy. It is not bssodibtfd
+ * with b prindipbl bnd mby rfprfsfnt bn fphfmfrbl sfssion kfy.
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ *
+ * @sfribl indludf
+ */
+dlbss KfyImpl implfmfnts SfdrftKfy, Dfstroybblf, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7889313790214321193L;
+
+    privbtf trbnsifnt bytf[] kfyBytfs;
+    privbtf trbnsifnt int kfyTypf;
+    privbtf trbnsifnt volbtilf boolfbn dfstroyfd = fblsf;
+
+
+    /**
+     * Construdts b KfyImpl from thf givfn bytfs.
+     *
+     * @pbrbm kfyBytfs thf rbw bytfs for thf sfdrft kfy
+     * @pbrbm kfyTypf thf kfy typf for thf sfdrft kfy bs dffinfd by thf
+     * Kfrbfros protodol spfdifidbtion.
+     */
+    publid KfyImpl(bytf[] kfyBytfs,
+                       int kfyTypf) {
+        this.kfyBytfs = kfyBytfs.dlonf();
+        this.kfyTypf = kfyTypf;
+    }
+
+    /**
+     * Construdts b KfyImpl from b pbssword.
+     *
+     * @pbrbm prindipbl thf prindipbl from whidh to dfrivf thf sblt
+     * @pbrbm pbssword thf pbssword thbt should bf usfd to domputf thf
+     * kfy.
+     * @pbrbm blgorithm thf nbmf for thf blgorithm thbt this kfy wil bf
+     * usfd for. This pbrbmftfr mby bf null in whidh dbsf "DES" will bf
+     * bssumfd.
+     */
+    publid KfyImpl(KfrbfrosPrindipbl prindipbl,
+                   dhbr[] pbssword,
+                   String blgorithm) {
+
+        try {
+            PrindipblNbmf prind = nfw PrindipblNbmf(prindipbl.gftNbmf());
+            EndryptionKfy kfy;
+            if ("nonf".fqublsIgnorfCbsf(blgorithm)) {
+                kfy = EndryptionKfy.NULL_KEY;
+            } flsf {
+                kfy = nfw EndryptionKfy(pbssword, prind.gftSblt(), blgorithm);
+            }
+            this.kfyBytfs = kfy.gftBytfs();
+            this.kfyTypf = kfy.gftETypf();
+        } dbtdh (KrbExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rfturns thf kfyTypf for this kfy bs dffinfd in thf Kfrbfros Spfd.
+     */
+    publid finbl int gftKfyTypf() {
+        if (dfstroyfd)
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+        rfturn kfyTypf;
+    }
+
+    /*
+     * Mfthods from jbvb.sfdurity.Kfy
+     */
+
+    publid finbl String gftAlgorithm() {
+        rfturn gftAlgorithmNbmf(kfyTypf);
+    }
+
+    privbtf String gftAlgorithmNbmf(int fTypf) {
+        if (dfstroyfd)
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+
+        switdh (fTypf) {
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_CRC:
+            rfturn "dfs-dbd-drd";
+
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_MD5:
+            rfturn "dfs-dbd-md5";
+
+        dbsf EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            rfturn "dfs3-dbd-shb1-kd";
+
+        dbsf EndryptfdDbtb.ETYPE_ARCFOUR_HMAC:
+            rfturn "rd4-hmbd";
+
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            rfturn "bfs128-dts-hmbd-shb1-96";
+
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            rfturn "bfs256-dts-hmbd-shb1-96";
+
+        dbsf EndryptfdDbtb.ETYPE_NULL:
+            rfturn "nonf";
+
+        dffbult:
+            rfturn fTypf > 0 ? "unknown" : "privbtf";
+        }
+    }
+
+    publid finbl String gftFormbt() {
+        if (dfstroyfd)
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+        rfturn "RAW";
+    }
+
+    publid finbl bytf[] gftEndodfd() {
+        if (dfstroyfd)
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+        rfturn kfyBytfs.dlonf();
+    }
+
+    publid void dfstroy() throws DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            dfstroyfd = truf;
+            Arrbys.fill(kfyBytfs, (bytf) 0);
+        }
+    }
+
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
+    }
+
+    /**
+     * @sfriblDbtb this {@dodf KfyImpl} is sfriblizfd by
+     * writing out thf ASN1 Endodfd bytfs of thf fndryption kfy.
+     * Thf ASN1 fndoding is dffinfd in RFC4120 bnd bs  follows:
+     * EndryptionKfy   ::= SEQUENCE {
+     *          kfytypf    [0] Int32 -- bdtublly fndryption typf --,
+     *          kfyvbluf   [1] OCTET STRING
+     * }
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm ois)
+                throws IOExdfption {
+        if (dfstroyfd) {
+           throw nfw IOExdfption("This kfy is no longfr vblid");
+        }
+
+        try {
+           ois.writfObjfdt((nfw EndryptionKfy(kfyTypf, kfyBytfs)).bsn1Endodf());
+        } dbtdh (Asn1Exdfption bf) {
+           throw nfw IOExdfption(bf.gftMfssbgf());
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+                throws IOExdfption, ClbssNotFoundExdfption {
+        try {
+            EndryptionKfy fndKfy = nfw EndryptionKfy(nfw
+                                     DfrVbluf((bytf[])ois.rfbdObjfdt()));
+            kfyTypf = fndKfy.gftETypf();
+            kfyBytfs = fndKfy.gftBytfs();
+        } dbtdh (Asn1Exdfption bf) {
+            throw nfw IOExdfption(bf.gftMfssbgf());
+        }
+    }
+
+    publid String toString() {
+        HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+        rfturn "EndryptionKfy: kfyTypf=" + kfyTypf
+                          + " kfyBytfs (hfx dump)="
+                          + (kfyBytfs == null || kfyBytfs.lfngth == 0 ?
+                             " Empty Kfy" :
+                             '\n' + hd.fndodfBufffr(kfyBytfs)
+                          + '\n');
+
+
+    }
+
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if(isDfstroyfd()) {
+            rfturn rfsult;
+        }
+        rfsult = 37 * rfsult + Arrbys.hbshCodf(kfyBytfs);
+        rfturn 37 * rfsult + kfyTypf;
+    }
+
+    publid boolfbn fqubls(Objfdt othfr) {
+
+        if (othfr == this)
+            rfturn truf;
+
+        if (! (othfr instbndfof KfyImpl)) {
+            rfturn fblsf;
+        }
+
+        KfyImpl othfrKfy = ((KfyImpl) othfr);
+        if (isDfstroyfd() || othfrKfy.isDfstroyfd()) {
+            rfturn fblsf;
+        }
+
+        if(kfyTypf != othfrKfy.gftKfyTypf() ||
+                !Arrbys.fqubls(kfyBytfs, othfrKfy.gftEndodfd())) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+}

@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
 
-import javax.net.ssl.SSLProtocolException;
+import jbvbx.nft.ssl.SSLProtodolExdfption;
 
 /*
- * [RFC5246] The client uses the "signature_algorithms" extension to
- * indicate to the server which signature/hash algorithm pairs may be
- * used in digital signatures.  The "extension_data" field of this
- * extension contains a "supported_signature_algorithms" value.
+ * [RFC5246] Tif dlifnt usfs tif "signbturf_blgoritims" fxtfnsion to
+ * indidbtf to tif sfrvfr wiidi signbturf/ibsi blgoritim pbirs mby bf
+ * usfd in digitbl signbturfs.  Tif "fxtfnsion_dbtb" fifld of tiis
+ * fxtfnsion dontbins b "supportfd_signbturf_blgoritims" vbluf.
  *
- *     enum {
- *         none(0), md5(1), sha1(2), sha224(3), sha256(4), sha384(5),
- *         sha512(6), (255)
- *     } HashAlgorithm;
+ *     fnum {
+ *         nonf(0), md5(1), sib1(2), sib224(3), sib256(4), sib384(5),
+ *         sib512(6), (255)
+ *     } HbsiAlgoritim;
  *
- *     enum { anonymous(0), rsa(1), dsa(2), ecdsa(3), (255) }
- *       SignatureAlgorithm;
+ *     fnum { bnonymous(0), rsb(1), dsb(2), fddsb(3), (255) }
+ *       SignbturfAlgoritim;
  *
- *     struct {
- *           HashAlgorithm hash;
- *           SignatureAlgorithm signature;
- *     } SignatureAndHashAlgorithm;
+ *     strudt {
+ *           HbsiAlgoritim ibsi;
+ *           SignbturfAlgoritim signbturf;
+ *     } SignbturfAndHbsiAlgoritim;
  *
- *     SignatureAndHashAlgorithm
- *       supported_signature_algorithms<2..2^16-2>;
+ *     SignbturfAndHbsiAlgoritim
+ *       supportfd_signbturf_blgoritims<2..2^16-2>;
  */
-final class SignatureAlgorithmsExtension extends HelloExtension {
+finbl dlbss SignbturfAlgoritimsExtfnsion fxtfnds HflloExtfnsion {
 
-    private Collection<SignatureAndHashAlgorithm> algorithms;
-    private int algorithmsLen;  // length of supported_signature_algorithms
+    privbtf Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims;
+    privbtf int blgoritimsLfn;  // lfngti of supportfd_signbturf_blgoritims
 
-    SignatureAlgorithmsExtension(
-            Collection<SignatureAndHashAlgorithm> signAlgs) {
+    SignbturfAlgoritimsExtfnsion(
+            Collfdtion<SignbturfAndHbsiAlgoritim> signAlgs) {
 
-        super(ExtensionType.EXT_SIGNATURE_ALGORITHMS);
+        supfr(ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS);
 
-        algorithms = new ArrayList<SignatureAndHashAlgorithm>(signAlgs);
-        algorithmsLen =
-            SignatureAndHashAlgorithm.sizeInRecord() * algorithms.size();
+        blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>(signAlgs);
+        blgoritimsLfn =
+            SignbturfAndHbsiAlgoritim.sizfInRfdord() * blgoritims.sizf();
     }
 
-    SignatureAlgorithmsExtension(HandshakeInStream s, int len)
-                throws IOException {
-        super(ExtensionType.EXT_SIGNATURE_ALGORITHMS);
+    SignbturfAlgoritimsExtfnsion(HbndsibkfInStrfbm s, int lfn)
+                tirows IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS);
 
-        algorithmsLen = s.getInt16();
-        if (algorithmsLen == 0 || algorithmsLen + 2 != len) {
-            throw new SSLProtocolException("Invalid " + type + " extension");
+        blgoritimsLfn = s.gftInt16();
+        if (blgoritimsLfn == 0 || blgoritimsLfn + 2 != lfn) {
+            tirow nfw SSLProtodolExdfption("Invblid " + typf + " fxtfnsion");
         }
 
-        algorithms = new ArrayList<SignatureAndHashAlgorithm>();
-        int remains = algorithmsLen;
-        int sequence = 0;
-        while (remains > 1) {   // needs at least two bytes
-            int hash = s.getInt8();         // hash algorithm
-            int signature = s.getInt8();    // signature algorithm
+        blgoritims = nfw ArrbyList<SignbturfAndHbsiAlgoritim>();
+        int rfmbins = blgoritimsLfn;
+        int sfqufndf = 0;
+        wiilf (rfmbins > 1) {   // nffds bt lfbst two bytfs
+            int ibsi = s.gftInt8();         // ibsi blgoritim
+            int signbturf = s.gftInt8();    // signbturf blgoritim
 
-            SignatureAndHashAlgorithm algorithm =
-                SignatureAndHashAlgorithm.valueOf(hash, signature, ++sequence);
-            algorithms.add(algorithm);
-            remains -= 2;  // one byte for hash, one byte for signature
+            SignbturfAndHbsiAlgoritim blgoritim =
+                SignbturfAndHbsiAlgoritim.vblufOf(ibsi, signbturf, ++sfqufndf);
+            blgoritims.bdd(blgoritim);
+            rfmbins -= 2;  // onf bytf for ibsi, onf bytf for signbturf
         }
 
-        if (remains != 0) {
-            throw new SSLProtocolException("Invalid server_name extension");
-        }
-    }
-
-    Collection<SignatureAndHashAlgorithm> getSignAlgorithms() {
-        return algorithms;
-    }
-
-    @Override
-    int length() {
-        return 6 + algorithmsLen;
-    }
-
-    @Override
-    void send(HandshakeOutStream s) throws IOException {
-        s.putInt16(type.id);
-        s.putInt16(algorithmsLen + 2);
-        s.putInt16(algorithmsLen);
-
-        for (SignatureAndHashAlgorithm algorithm : algorithms) {
-            s.putInt8(algorithm.getHashValue());      // HashAlgorithm
-            s.putInt8(algorithm.getSignatureValue()); // SignatureAlgorithm
+        if (rfmbins != 0) {
+            tirow nfw SSLProtodolExdfption("Invblid sfrvfr_nbmf fxtfnsion");
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        boolean opened = false;
-        for (SignatureAndHashAlgorithm signAlg : algorithms) {
-            if (opened) {
-                sb.append(", " + signAlg.getAlgorithmName());
-            } else {
-                sb.append(signAlg.getAlgorithmName());
-                opened = true;
+    Collfdtion<SignbturfAndHbsiAlgoritim> gftSignAlgoritims() {
+        rfturn blgoritims;
+    }
+
+    @Ovfrridf
+    int lfngti() {
+        rfturn 6 + blgoritimsLfn;
+    }
+
+    @Ovfrridf
+    void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        s.putInt16(typf.id);
+        s.putInt16(blgoritimsLfn + 2);
+        s.putInt16(blgoritimsLfn);
+
+        for (SignbturfAndHbsiAlgoritim blgoritim : blgoritims) {
+            s.putInt8(blgoritim.gftHbsiVbluf());      // HbsiAlgoritim
+            s.putInt8(blgoritim.gftSignbturfVbluf()); // SignbturfAlgoritim
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn opfnfd = fblsf;
+        for (SignbturfAndHbsiAlgoritim signAlg : blgoritims) {
+            if (opfnfd) {
+                sb.bppfnd(", " + signAlg.gftAlgoritimNbmf());
+            } flsf {
+                sb.bppfnd(signAlg.gftAlgoritimNbmf());
+                opfnfd = truf;
             }
         }
 
-        return "Extension " + type + ", signature_algorithms: " + sb;
+        rfturn "Extfnsion " + typf + ", signbturf_blgoritims: " + sb;
     }
 }
 

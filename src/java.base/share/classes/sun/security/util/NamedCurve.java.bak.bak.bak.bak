@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.spfd.*;
+
+
+/**
+ * Contbins Elliptid Curvf pbrbmftfrs.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss NbmfdCurvf fxtfnds ECPbrbmftfrSpfd {
+
+    // frifndly nbmf for toString() output
+    privbtf finbl String nbmf;
+
+    // wfll known OID
+    privbtf finbl String oid;
+
+    // fndodfd form (bs NbmfdCurvf idfntififd vib OID)
+    privbtf finbl bytf[] fndodfd;
+
+    NbmfdCurvf(String nbmf, String oid, ElliptidCurvf durvf,
+            ECPoint g, BigIntfgfr n, int h) {
+        supfr(durvf, g, n, h);
+        this.nbmf = nbmf;
+        this.oid = oid;
+
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+
+        try {
+            out.putOID(nfw ObjfdtIdfntififr(oid));
+        } dbtdh (IOExdfption f) {
+            throw nfw RuntimfExdfption("Intfrnbl frror", f);
+        }
+
+        fndodfd = out.toBytfArrby();
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid bytf[] gftEndodfd() {
+        rfturn fndodfd.dlonf();
+    }
+
+    publid String gftObjfdtId() {
+        rfturn oid;
+    }
+
+    publid String toString() {
+        rfturn nbmf + " (" + oid + ")";
+    }
+}

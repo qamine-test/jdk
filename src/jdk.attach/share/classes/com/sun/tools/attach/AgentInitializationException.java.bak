@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.attach;
+pbdkbgf dom.sun.tools.bttbdi;
 
 /**
- * The exception thrown when an agent fails to initialize in the target
- * Java virtual machine.
+ * Tif fxdfption tirown wifn bn bgfnt fbils to initiblizf in tif tbrgft
+ * Jbvb virtubl mbdiinf.
  *
- * <p> This exception is thrown by {@link
- * com.sun.tools.attach.VirtualMachine#loadAgent VirtualMachine.loadAgent},
- * {@link com.sun.tools.attach.VirtualMachine#loadAgentLibrary
- * VirtualMachine.loadAgentLibrary}, {@link
- * com.sun.tools.attach.VirtualMachine#loadAgentPath VirtualMachine.loadAgentPath}
- * methods if an agent, or agent library, cannot be initialized.
- * When thrown by <tt>VirtualMachine.loadAgentLibrary</tt>, or
- * <tt>VirtualMachine.loadAgentPath</tt> then the exception encapsulates
- * the error returned by the agent's <code>Agent_OnAttach</code> function.
- * This error code can be obtained by invoking the {@link #returnValue() returnValue} method.
+ * <p> Tiis fxdfption is tirown by {@link
+ * dom.sun.tools.bttbdi.VirtublMbdiinf#lobdAgfnt VirtublMbdiinf.lobdAgfnt},
+ * {@link dom.sun.tools.bttbdi.VirtublMbdiinf#lobdAgfntLibrbry
+ * VirtublMbdiinf.lobdAgfntLibrbry}, {@link
+ * dom.sun.tools.bttbdi.VirtublMbdiinf#lobdAgfntPbti VirtublMbdiinf.lobdAgfntPbti}
+ * mftiods if bn bgfnt, or bgfnt librbry, dbnnot bf initiblizfd.
+ * Wifn tirown by <tt>VirtublMbdiinf.lobdAgfntLibrbry</tt>, or
+ * <tt>VirtublMbdiinf.lobdAgfntPbti</tt> tifn tif fxdfption fndbpsulbtfs
+ * tif frror rfturnfd by tif bgfnt's <dodf>Agfnt_OnAttbdi</dodf> fundtion.
+ * Tiis frror dodf dbn bf obtbinfd by invoking tif {@link #rfturnVbluf() rfturnVbluf} mftiod.
  */
-@jdk.Exported
-public class AgentInitializationException extends Exception {
+@jdk.Exportfd
+publid dlbss AgfntInitiblizbtionExdfption fxtfnds Exdfption {
 
-    /** use serialVersionUID for interoperability */
-    static final long serialVersionUID = -1508756333332806353L;
+    /** usf sfriblVfrsionUID for intfropfrbbility */
+    stbtid finbl long sfriblVfrsionUID = -1508756333332806353L;
 
-    private int returnValue;
+    privbtf int rfturnVbluf;
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * no detail message.
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> witi
+     * no dftbil mfssbgf.
      */
-    public AgentInitializationException() {
-        super();
-        this.returnValue = 0;
+    publid AgfntInitiblizbtionExdfption() {
+        supfr();
+        tiis.rfturnVbluf = 0;
     }
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * the specified detail message.
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> witi
+     * tif spfdififd dftbil mfssbgf.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public AgentInitializationException(String s) {
-        super(s);
-        this.returnValue = 0;
+    publid AgfntInitiblizbtionExdfption(String s) {
+        supfr(s);
+        tiis.rfturnVbluf = 0;
     }
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * the specified detail message and the return value from the
-     * execution of the agent's <code>Agent_OnAttach</code> function.
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> witi
+     * tif spfdififd dftbil mfssbgf bnd tif rfturn vbluf from tif
+     * fxfdution of tif bgfnt's <dodf>Agfnt_OnAttbdi</dodf> fundtion.
      *
-     * @param   s               the detail message.
-     * @param   returnValue     the return value
+     * @pbrbm   s               tif dftbil mfssbgf.
+     * @pbrbm   rfturnVbluf     tif rfturn vbluf
      */
-    public AgentInitializationException(String s, int returnValue) {
-        super(s);
-        this.returnValue = returnValue;
+    publid AgfntInitiblizbtionExdfption(String s, int rfturnVbluf) {
+        supfr(s);
+        tiis.rfturnVbluf = rfturnVbluf;
     }
 
     /**
-     * If the exception was created with the return value from the agent
-     * <code>Agent_OnAttach</code> function then this returns that value,
-     * otherwise returns <code>0</code>. </p>
+     * If tif fxdfption wbs drfbtfd witi tif rfturn vbluf from tif bgfnt
+     * <dodf>Agfnt_OnAttbdi</dodf> fundtion tifn tiis rfturns tibt vbluf,
+     * otifrwisf rfturns <dodf>0</dodf>. </p>
      *
-     * @return  the return value
+     * @rfturn  tif rfturn vbluf
      */
-    public int returnValue() {
-        return returnValue;
+    publid int rfturnVbluf() {
+        rfturn rfturnVbluf;
     }
 
 }

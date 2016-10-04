@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+import jbvb.nft.InftAddrfss;
+
+import dom.sun.jmx.snmp.SnmpSfdurityExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpMsg;
+
+import dom.sun.jmx.snmp.intfrnbl.SnmpSfdurityCbdhf;
+import dom.sun.jmx.snmp.SnmpUnknownSfdModflExdfption;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
+/**
+ * <P> An <CODE>SnmpOutgoingRfqufst</CODE> hbndlfs thf mbrshblling of thf mfssbgf to sfnd.</P>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+
+publid intfrfbdf SnmpOutgoingRfqufst {
+    /**
+     * Rfturns thf dbdhfd sfdurity dbtb usfd whfn mbrshblling thf dbll bs b sfdurf onf.
+     * @rfturn Thf dbdhfd dbtb.
+     */
+    publid SnmpSfdurityCbdhf gftSfdurityCbdhf();
+    /**
+     * Endodfs thf mfssbgf to sfnd bnd puts thf rfsult in thf spfdififd bytf brrby.
+     *
+     * @pbrbm outputBytfs An brrby to rfdfivf thf rfsulting fndoding.
+     *
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf rfsult dofs not fit
+     *                                           into thf spfdififd brrby.
+     */
+    publid int fndodfMfssbgf(bytf[] outputBytfs)
+        throws SnmpStbtusExdfption,
+               SnmpTooBigExdfption, SnmpSfdurityExdfption,
+               SnmpUnknownSfdModflExdfption, SnmpBbdSfdurityLfvflExdfption;
+  /**
+     * Initiblizfs thf mfssbgf to sfnd with thf pbssfd Pdu.
+     * <P>
+     * If thf fndoding lfngth fxdffds <CODE>mbxDbtbLfngth</CODE>,
+     * thf mfthod throws bn fxdfption.</P>
+     *
+     * @pbrbm p Thf PDU to bf fndodfd.
+     * @pbrbm mbxDbtbLfngth Thf mbximum lfngth pfrmittfd for thf dbtb fifld.
+     *
+     * @fxdfption SnmpStbtusExdfption If thf spfdififd PDU <CODE>p</CODE> is
+     *    not vblid.
+     * @fxdfption SnmpTooBigExdfption If thf rfsulting fndoding dofs not fit
+     *    into <CODE>mbxDbtbLfngth</CODE> bytfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If thf fndoding fxdffds
+     *    <CODE>mbxDbtbLfngth</CODE>.
+     */
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p,
+                                 int mbxDbtbLfngth)
+        throws SnmpStbtusExdfption, SnmpTooBigExdfption;
+    /**
+     * Rfturns b stringififd form of thf mfssbgf to sfnd.
+     * @rfturn Thf mfssbgf stbtf string.
+     */
+    publid String printMfssbgf();
+}

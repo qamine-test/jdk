@@ -1,0 +1,316 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+
+/**
+ * A sfgmfnt of b dhbrbdtfr brrby rfprfsfnting b frbgmfnt
+ * of tfxt.  It should bf trfbtfd bs immutbblf fvfn though
+ * thf brrby is dirfdtly bddfssiblf.  This givfs fbst bddfss
+ * to frbgmfnts of tfxt without thf ovfrhfbd of dopying
+ * bround dhbrbdtfrs.  This is ffffdtivfly bn unprotfdtfd
+ * String.
+ * <p>
+ * Thf Sfgmfnt implfmfnts thf jbvb.tfxt.ChbrbdtfrItfrbtor
+ * intfrfbdf to support usf with thf i18n support without
+ * dopying tfxt into b string.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss Sfgmfnt implfmfnts Clonfbblf, ChbrbdtfrItfrbtor, ChbrSfqufndf {
+
+    /**
+     * This is thf brrby dontbining thf tfxt of
+     * intfrfst.  This brrby should nfvfr bf modififd;
+     * it is bvbilbblf only for fffidifndy.
+     */
+    publid dhbr[] brrby;
+
+    /**
+     * This is thf offsft into thf brrby thbt
+     * thf dfsirfd tfxt bfgins.
+     */
+    publid int offsft;
+
+    /**
+     * This is thf numbfr of brrby flfmfnts thbt
+     * mbkf up thf tfxt of intfrfst.
+     */
+    publid int dount;
+
+    privbtf boolfbn pbrtiblRfturn;
+
+    /**
+     * Crfbtfs b nfw sfgmfnt.
+     */
+    publid Sfgmfnt() {
+        this(null, 0, 0);
+    }
+
+    /**
+     * Crfbtfs b nfw sfgmfnt rfffrring to bn fxisting brrby.
+     *
+     * @pbrbm brrby thf brrby to rfffr to
+     * @pbrbm offsft thf offsft into thf brrby
+     * @pbrbm dount thf numbfr of dhbrbdtfrs
+     */
+    publid Sfgmfnt(dhbr[] brrby, int offsft, int dount) {
+        this.brrby = brrby;
+        this.offsft = offsft;
+        this.dount = dount;
+        pbrtiblRfturn = fblsf;
+    }
+
+    /**
+     * Flbg to indidbtf thbt pbrtibl rfturns brf vblid.  If thf flbg is truf,
+     * bn implfmfntbtion of thf intfrfbdf mfthod Dodumfnt.gftTfxt(position,lfngth,Sfgmfnt)
+     * should rfturn bs mudh tfxt bs possiblf without mbking b dopy.  Thf dffbult
+     * stbtf of thf flbg is fblsf whidh will dbusf Dodumfnt.gftTfxt(position,lfngth,Sfgmfnt)
+     * to providf thf sbmf rfturn bfhbvior it blwbys hbd, whidh mby or mby not
+     * mbkf b dopy of thf tfxt dfpfnding upon thf rfqufst.
+     *
+     * @pbrbm p whfthfr or not pbrtibl rfturns brf vblid.
+     * @sindf 1.4
+     */
+    publid void sftPbrtiblRfturn(boolfbn p) {
+        pbrtiblRfturn = p;
+    }
+
+    /**
+     * Flbg to indidbtf thbt pbrtibl rfturns brf vblid.
+     *
+     * @rfturn whfthfr or not pbrtibl rfturns brf vblid.
+     * @sindf 1.4
+     */
+    publid boolfbn isPbrtiblRfturn() {
+        rfturn pbrtiblRfturn;
+    }
+
+    /**
+     * Convfrts b sfgmfnt into b String.
+     *
+     * @rfturn thf string
+     */
+    publid String toString() {
+        if (brrby != null) {
+            rfturn nfw String(brrby, offsft, dount);
+        }
+        rfturn "";
+    }
+
+    // --- ChbrbdtfrItfrbtor mfthods -------------------------------------
+
+    /**
+     * Sfts thf position to gftBfginIndfx() bnd rfturns thf dhbrbdtfr bt thbt
+     * position.
+     * @rfturn thf first dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff #gftBfginIndfx
+     * @sindf 1.3
+     */
+    publid dhbr first() {
+        pos = offsft;
+        if (dount != 0) {
+            rfturn brrby[pos];
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * Sfts thf position to gftEndIndfx()-1 (gftEndIndfx() if thf tfxt is fmpty)
+     * bnd rfturns thf dhbrbdtfr bt thbt position.
+     * @rfturn thf lbst dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff #gftEndIndfx
+     * @sindf 1.3
+     */
+    publid dhbr lbst() {
+        pos = offsft + dount;
+        if (dount != 0) {
+            pos -= 1;
+            rfturn brrby[pos];
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr bt thf durrfnt position (bs rfturnfd by gftIndfx()).
+     * @rfturn thf dhbrbdtfr bt thf durrfnt position or DONE if thf durrfnt
+     * position is off thf fnd of thf tfxt.
+     * @sff #gftIndfx
+     * @sindf 1.3
+     */
+    publid dhbr durrfnt() {
+        if (dount != 0 && pos < offsft + dount) {
+            rfturn brrby[pos];
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * Indrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx.  If thf rfsulting indfx is grfbtfr or fqubl
+     * to gftEndIndfx(), thf durrfnt indfx is rfsft to gftEndIndfx() bnd
+     * b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf nfw
+     * position is off thf fnd of thf tfxt rbngf.
+     * @sindf 1.3
+     */
+    publid dhbr nfxt() {
+        pos += 1;
+        int fnd = offsft + dount;
+        if (pos >= fnd) {
+            pos = fnd;
+            rfturn DONE;
+        }
+        rfturn durrfnt();
+    }
+
+    /**
+     * Dfdrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx. If thf durrfnt indfx is gftBfginIndfx(), thf indfx
+     * rfmbins bt gftBfginIndfx() bnd b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf durrfnt
+     * position is fqubl to gftBfginIndfx().
+     * @sindf 1.3
+     */
+    publid dhbr prfvious() {
+        if (pos == offsft) {
+            rfturn DONE;
+        }
+        pos -= 1;
+        rfturn durrfnt();
+    }
+
+    /**
+     * Sfts thf position to thf spfdififd position in thf tfxt bnd rfturns thbt
+     * dhbrbdtfr.
+     * @pbrbm position thf position within thf tfxt.  Vblid vblufs rbngf from
+     * gftBfginIndfx() to gftEndIndfx().  An IllfgblArgumfntExdfption is thrown
+     * if bn invblid vbluf is supplifd.
+     * @rfturn thf dhbrbdtfr bt thf spfdififd position or DONE if thf spfdififd position is fqubl to gftEndIndfx()
+     * @sindf 1.3
+     */
+    publid dhbr sftIndfx(int position) {
+        int fnd = offsft + dount;
+        if ((position < offsft) || (position > fnd)) {
+            throw nfw IllfgblArgumfntExdfption("bbd position: " + position);
+        }
+        pos = position;
+        if ((pos != fnd) && (dount != 0)) {
+            rfturn brrby[pos];
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * Rfturns thf stbrt indfx of thf tfxt.
+     * @rfturn thf indfx bt whidh thf tfxt bfgins.
+     * @sindf 1.3
+     */
+    publid int gftBfginIndfx() {
+        rfturn offsft;
+    }
+
+    /**
+     * Rfturns thf fnd indfx of thf tfxt.  This indfx is thf indfx of thf first
+     * dhbrbdtfr following thf fnd of thf tfxt.
+     * @rfturn thf indfx bftfr thf lbst dhbrbdtfr in thf tfxt
+     * @sindf 1.3
+     */
+    publid int gftEndIndfx() {
+        rfturn offsft + dount;
+    }
+
+    /**
+     * Rfturns thf durrfnt indfx.
+     * @rfturn thf durrfnt indfx.
+     * @sindf 1.3
+     */
+    publid int gftIndfx() {
+        rfturn pos;
+    }
+
+    // --- ChbrSfqufndf mfthods -------------------------------------
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid dhbr dhbrAt(int indfx) {
+        if (indfx < 0
+            || indfx >= dount) {
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        }
+        rfturn brrby[offsft + indfx];
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid int lfngth() {
+        rfturn dount;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid ChbrSfqufndf subSfqufndf(int stbrt, int fnd) {
+        if (stbrt < 0) {
+            throw nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        }
+        if (fnd > dount) {
+            throw nfw StringIndfxOutOfBoundsExdfption(fnd);
+        }
+        if (stbrt > fnd) {
+            throw nfw StringIndfxOutOfBoundsExdfption(fnd - stbrt);
+        }
+        Sfgmfnt sfgmfnt = nfw Sfgmfnt();
+        sfgmfnt.brrby = this.brrby;
+        sfgmfnt.offsft = this.offsft + stbrt;
+        sfgmfnt.dount = fnd - stbrt;
+        rfturn sfgmfnt;
+    }
+
+    /**
+     * Crfbtfs b shbllow dopy.
+     *
+     * @rfturn thf dopy
+     */
+    publid Objfdt dlonf() {
+        Objfdt o;
+        try {
+            o = supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption dnsf) {
+            o = null;
+        }
+        rfturn o;
+    }
+
+    privbtf int pos;
+
+
+}

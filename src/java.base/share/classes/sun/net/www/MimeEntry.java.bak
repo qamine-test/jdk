@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 1994, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
-import java.net.URL;
-import java.io.*;
-import java.util.StringTokenizer;
+pbdkbgf sun.nft.www;
+import jbvb.nft.URL;
+import jbvb.io.*;
+import jbvb.util.StringTokfnizfr;
 
-public class MimeEntry implements Cloneable {
-    private String typeName;    // of the form: "type/subtype"
-    private String tempFileNameTemplate;
+publid dlbss MimfEntry implfmfnts Clonfbblf {
+    privbtf String typfNbmf;    // of tif form: "typf/subtypf"
+    privbtf String tfmpFilfNbmfTfmplbtf;
 
-    private int action;
-    private String command;
-    private String description;
-    private String imageFileName;
-    private String fileExtensions[];
+    privbtf int bdtion;
+    privbtf String dommbnd;
+    privbtf String dfsdription;
+    privbtf String imbgfFilfNbmf;
+    privbtf String filfExtfnsions[];
 
-    boolean starred;
+    boolfbn stbrrfd;
 
-    // Actions
-    public static final int             UNKNOWN                 = 0;
-    public static final int             LOAD_INTO_BROWSER       = 1;
-    public static final int             SAVE_TO_FILE            = 2;
-    public static final int             LAUNCH_APPLICATION      = 3;
+    // Adtions
+    publid stbtid finbl int             UNKNOWN                 = 0;
+    publid stbtid finbl int             LOAD_INTO_BROWSER       = 1;
+    publid stbtid finbl int             SAVE_TO_FILE            = 2;
+    publid stbtid finbl int             LAUNCH_APPLICATION      = 3;
 
-    static final String[] actionKeywords = {
+    stbtid finbl String[] bdtionKfywords = {
         "unknown",
-        "browser",
-        "save",
-        "application",
+        "browsfr",
+        "sbvf",
+        "bpplidbtion",
     };
 
     /**
-     * Construct an empty entry of the given type and subtype.
+     * Construdt bn fmpty fntry of tif givfn typf bnd subtypf.
      */
-    public MimeEntry(String type) {
-        // Default action is UNKNOWN so clients can decide what the default
-        // should be, typically save to file or ask user.
-        this(type, UNKNOWN, null, null, null);
+    publid MimfEntry(String typf) {
+        // Dffbult bdtion is UNKNOWN so dlifnts dbn dfdidf wibt tif dffbult
+        // siould bf, typidblly sbvf to filf or bsk usfr.
+        tiis(typf, UNKNOWN, null, null, null);
     }
 
     //
-    // The next two constructors are used only by the deprecated
-    // PlatformMimeTable classes or, in last case, is called by the public
-    // constructor.  They are kept here anticipating putting support for
-    // mailcap formatted config files back in (so BOTH the properties format
-    // and the mailcap formats are supported).
+    // Tif nfxt two donstrudtors brf usfd only by tif dfprfdbtfd
+    // PlbtformMimfTbblf dlbssfs or, in lbst dbsf, is dbllfd by tif publid
+    // donstrudtor.  Tify brf kfpt ifrf bntidipbting putting support for
+    // mbildbp formbttfd donfig filfs bbdk in (so BOTH tif propfrtifs formbt
+    // bnd tif mbildbp formbts brf supportfd).
     //
-    MimeEntry(String type, String imageFileName, String extensionString) {
-        typeName = type.toLowerCase();
-        action = UNKNOWN;
-        command = null;
-        this.imageFileName = imageFileName;
-        setExtensions(extensionString);
-        starred = isStarred(typeName);
+    MimfEntry(String typf, String imbgfFilfNbmf, String fxtfnsionString) {
+        typfNbmf = typf.toLowfrCbsf();
+        bdtion = UNKNOWN;
+        dommbnd = null;
+        tiis.imbgfFilfNbmf = imbgfFilfNbmf;
+        sftExtfnsions(fxtfnsionString);
+        stbrrfd = isStbrrfd(typfNbmf);
     }
 
-    // For use with MimeTable::parseMailCap
-    MimeEntry(String typeName, int action, String command,
-              String tempFileNameTemplate) {
-        this.typeName = typeName.toLowerCase();
-        this.action = action;
-        this.command = command;
-        this.imageFileName = null;
-        this.fileExtensions = null;
+    // For usf witi MimfTbblf::pbrsfMbilCbp
+    MimfEntry(String typfNbmf, int bdtion, String dommbnd,
+              String tfmpFilfNbmfTfmplbtf) {
+        tiis.typfNbmf = typfNbmf.toLowfrCbsf();
+        tiis.bdtion = bdtion;
+        tiis.dommbnd = dommbnd;
+        tiis.imbgfFilfNbmf = null;
+        tiis.filfExtfnsions = null;
 
-        this.tempFileNameTemplate = tempFileNameTemplate;
+        tiis.tfmpFilfNbmfTfmplbtf = tfmpFilfNbmfTfmplbtf;
     }
 
-    // This is the one called by the public constructor.
-    MimeEntry(String typeName, int action, String command,
-              String imageFileName, String fileExtensions[]) {
+    // Tiis is tif onf dbllfd by tif publid donstrudtor.
+    MimfEntry(String typfNbmf, int bdtion, String dommbnd,
+              String imbgfFilfNbmf, String filfExtfnsions[]) {
 
-        this.typeName = typeName.toLowerCase();
-        this.action = action;
-        this.command = command;
-        this.imageFileName = imageFileName;
-        this.fileExtensions = fileExtensions;
+        tiis.typfNbmf = typfNbmf.toLowfrCbsf();
+        tiis.bdtion = bdtion;
+        tiis.dommbnd = dommbnd;
+        tiis.imbgfFilfNbmf = imbgfFilfNbmf;
+        tiis.filfExtfnsions = filfExtfnsions;
 
-        starred = isStarred(typeName);
+        stbrrfd = isStbrrfd(typfNbmf);
 
     }
 
-    public synchronized String getType() {
-        return typeName;
+    publid syndironizfd String gftTypf() {
+        rfturn typfNbmf;
     }
 
-    public synchronized void setType(String type) {
-        typeName = type.toLowerCase();
+    publid syndironizfd void sftTypf(String typf) {
+        typfNbmf = typf.toLowfrCbsf();
     }
 
-    public synchronized int getAction() {
-        return action;
+    publid syndironizfd int gftAdtion() {
+        rfturn bdtion;
     }
 
-    public synchronized void setAction(int action, String command) {
-        this.action = action;
-        this.command = command;
+    publid syndironizfd void sftAdtion(int bdtion, String dommbnd) {
+        tiis.bdtion = bdtion;
+        tiis.dommbnd = dommbnd;
     }
 
-    public synchronized void setAction(int action) {
-        this.action = action;
+    publid syndironizfd void sftAdtion(int bdtion) {
+        tiis.bdtion = bdtion;
     }
 
-    public synchronized String getLaunchString() {
-        return command;
+    publid syndironizfd String gftLbundiString() {
+        rfturn dommbnd;
     }
 
-    public synchronized void setCommand(String command) {
-        this.command = command;
+    publid syndironizfd void sftCommbnd(String dommbnd) {
+        tiis.dommbnd = dommbnd;
     }
 
-    public synchronized String getDescription() {
-        return (description != null ? description : typeName);
+    publid syndironizfd String gftDfsdription() {
+        rfturn (dfsdription != null ? dfsdription : typfNbmf);
     }
 
-    public synchronized void setDescription(String description) {
-        this.description = description;
+    publid syndironizfd void sftDfsdription(String dfsdription) {
+        tiis.dfsdription = dfsdription;
     }
 
-    // ??? what to return for the image -- the file name or should this return
-    // something more advanced like an image source or something?
-    // returning the name has the least policy associated with it.
-    // pro tempore, we'll use the name
-    public String getImageFileName() {
-        return imageFileName;
+    // ??? wibt to rfturn for tif imbgf -- tif filf nbmf or siould tiis rfturn
+    // somftiing morf bdvbndfd likf bn imbgf sourdf or somftiing?
+    // rfturning tif nbmf ibs tif lfbst polidy bssodibtfd witi it.
+    // pro tfmporf, wf'll usf tif nbmf
+    publid String gftImbgfFilfNbmf() {
+        rfturn imbgfFilfNbmf;
     }
 
-    public synchronized void setImageFileName(String filename) {
-        File file = new File(filename);
-        if (file.getParent() == null) {
-            imageFileName = System.getProperty(
-                                     "java.net.ftp.imagepath."+filename);
+    publid syndironizfd void sftImbgfFilfNbmf(String filfnbmf) {
+        Filf filf = nfw Filf(filfnbmf);
+        if (filf.gftPbrfnt() == null) {
+            imbgfFilfNbmf = Systfm.gftPropfrty(
+                                     "jbvb.nft.ftp.imbgfpbti."+filfnbmf);
         }
-        else {
-            imageFileName = filename;
+        flsf {
+            imbgfFilfNbmf = filfnbmf;
         }
 
-        if (filename.lastIndexOf('.') < 0) {
-            imageFileName = imageFileName + ".gif";
+        if (filfnbmf.lbstIndfxOf('.') < 0) {
+            imbgfFilfNbmf = imbgfFilfNbmf + ".gif";
         }
     }
 
-    public String getTempFileTemplate() {
-        return tempFileNameTemplate;
+    publid String gftTfmpFilfTfmplbtf() {
+        rfturn tfmpFilfNbmfTfmplbtf;
     }
 
-    public synchronized String[] getExtensions() {
-        return fileExtensions;
+    publid syndironizfd String[] gftExtfnsions() {
+        rfturn filfExtfnsions;
     }
 
-    public synchronized String getExtensionsAsList() {
-        String extensionsAsString = "";
-        if (fileExtensions != null) {
-            for (int i = 0; i < fileExtensions.length; i++) {
-                extensionsAsString += fileExtensions[i];
-                if (i < (fileExtensions.length - 1)) {
-                    extensionsAsString += ",";
+    publid syndironizfd String gftExtfnsionsAsList() {
+        String fxtfnsionsAsString = "";
+        if (filfExtfnsions != null) {
+            for (int i = 0; i < filfExtfnsions.lfngti; i++) {
+                fxtfnsionsAsString += filfExtfnsions[i];
+                if (i < (filfExtfnsions.lfngti - 1)) {
+                    fxtfnsionsAsString += ",";
                 }
             }
         }
 
-        return extensionsAsString;
+        rfturn fxtfnsionsAsString;
     }
 
-    public synchronized void setExtensions(String extensionString) {
-        StringTokenizer extTokens = new StringTokenizer(extensionString, ",");
-        int numExts = extTokens.countTokens();
-        String extensionStrings[] = new String[numExts];
+    publid syndironizfd void sftExtfnsions(String fxtfnsionString) {
+        StringTokfnizfr fxtTokfns = nfw StringTokfnizfr(fxtfnsionString, ",");
+        int numExts = fxtTokfns.dountTokfns();
+        String fxtfnsionStrings[] = nfw String[numExts];
 
         for (int i = 0; i < numExts; i++) {
-            String ext = (String)extTokens.nextElement();
-            extensionStrings[i] = ext.trim();
+            String fxt = (String)fxtTokfns.nfxtElfmfnt();
+            fxtfnsionStrings[i] = fxt.trim();
         }
 
-        fileExtensions = extensionStrings;
+        filfExtfnsions = fxtfnsionStrings;
     }
 
-    private boolean isStarred(String typeName) {
-        return (typeName != null)
-            && (typeName.length() > 0)
-            && (typeName.endsWith("/*"));
+    privbtf boolfbn isStbrrfd(String typfNbmf) {
+        rfturn (typfNbmf != null)
+            && (typfNbmf.lfngti() > 0)
+            && (typfNbmf.fndsWiti("/*"));
     }
 
     /**
-     * Invoke the MIME type specific behavior for this MIME type.
-     * Returned value can be one of several types:
+     * Invokf tif MIME typf spfdifid bfibvior for tiis MIME typf.
+     * Rfturnfd vbluf dbn bf onf of sfvfrbl typfs:
      * <ol>
-     * <li>A thread -- the caller can choose when to launch this thread.
-     * <li>A string -- the string is loaded into the browser directly.
-     * <li>An input stream -- the caller can read from this byte stream and
-     *     will typically store the results in a file.
-     * <li>A document (?) --
+     * <li>A tirfbd -- tif dbllfr dbn dioosf wifn to lbundi tiis tirfbd.
+     * <li>A string -- tif string is lobdfd into tif browsfr dirfdtly.
+     * <li>An input strfbm -- tif dbllfr dbn rfbd from tiis bytf strfbm bnd
+     *     will typidblly storf tif rfsults in b filf.
+     * <li>A dodumfnt (?) --
      * </ol>
      */
-    public Object launch(java.net.URLConnection urlc, InputStream is, MimeTable mt) throws ApplicationLaunchException {
-        switch (action) {
-        case SAVE_TO_FILE:
-            // REMIND: is this really the right thing to do?
+    publid Objfdt lbundi(jbvb.nft.URLConnfdtion urld, InputStrfbm is, MimfTbblf mt) tirows ApplidbtionLbundiExdfption {
+        switdi (bdtion) {
+        dbsf SAVE_TO_FILE:
+            // REMIND: is tiis rfblly tif rigit tiing to do?
             try {
-                return is;
-            } catch(Exception e) {
+                rfturn is;
+            } dbtdi(Exdfption f) {
                 // I18N
-                return "Load to file failed:\n" + e;
+                rfturn "Lobd to filf fbilfd:\n" + f;
             }
 
-        case LOAD_INTO_BROWSER:
-            // REMIND: invoke the content handler?
-            // may be the right thing to do, may not be -- short term
-            // where docs are not loaded asynch, loading and returning
-            // the content is the right thing to do.
+        dbsf LOAD_INTO_BROWSER:
+            // REMIND: invokf tif dontfnt ibndlfr?
+            // mby bf tif rigit tiing to do, mby not bf -- siort tfrm
+            // wifrf dods brf not lobdfd bsyndi, lobding bnd rfturning
+            // tif dontfnt is tif rigit tiing to do.
             try {
-                return urlc.getContent();
-            } catch (Exception e) {
-                return null;
+                rfturn urld.gftContfnt();
+            } dbtdi (Exdfption f) {
+                rfturn null;
             }
 
-        case LAUNCH_APPLICATION:
+        dbsf LAUNCH_APPLICATION:
             {
-                String threadName = command;
-                int fst = threadName.indexOf(' ');
+                String tirfbdNbmf = dommbnd;
+                int fst = tirfbdNbmf.indfxOf(' ');
                 if (fst > 0) {
-                    threadName = threadName.substring(0, fst);
+                    tirfbdNbmf = tirfbdNbmf.substring(0, fst);
                 }
 
-                return new MimeLauncher(this, urlc, is,
-                                        mt.getTempFileTemplate(), threadName);
+                rfturn nfw MimfLbundifr(tiis, urld, is,
+                                        mt.gftTfmpFilfTfmplbtf(), tirfbdNbmf);
             }
 
-        case UNKNOWN:
-            // REMIND: What do do here?
-            return null;
+        dbsf UNKNOWN:
+            // REMIND: Wibt do do ifrf?
+            rfturn null;
         }
 
-        return null;
+        rfturn null;
     }
 
-    public boolean matches(String type) {
-        if (starred) {
-          // REMIND: is this the right thing or not?
-          return type.startsWith(typeName);
-        } else {
-            return type.equals(typeName);
+    publid boolfbn mbtdifs(String typf) {
+        if (stbrrfd) {
+          // REMIND: is tiis tif rigit tiing or not?
+          rfturn typf.stbrtsWiti(typfNbmf);
+        } flsf {
+            rfturn typf.fqubls(typfNbmf);
         }
     }
 
-    public Object clone() {
-        // return a shallow copy of this.
-        MimeEntry theClone = new MimeEntry(typeName);
-        theClone.action = action;
-        theClone.command = command;
-        theClone.description = description;
-        theClone.imageFileName = imageFileName;
-        theClone.tempFileNameTemplate = tempFileNameTemplate;
-        theClone.fileExtensions = fileExtensions;
+    publid Objfdt dlonf() {
+        // rfturn b sibllow dopy of tiis.
+        MimfEntry tifClonf = nfw MimfEntry(typfNbmf);
+        tifClonf.bdtion = bdtion;
+        tifClonf.dommbnd = dommbnd;
+        tifClonf.dfsdription = dfsdription;
+        tifClonf.imbgfFilfNbmf = imbgfFilfNbmf;
+        tifClonf.tfmpFilfNbmfTfmplbtf = tfmpFilfNbmfTfmplbtf;
+        tifClonf.filfExtfnsions = filfExtfnsions;
 
-        return theClone;
+        rfturn tifClonf;
     }
 
-    public synchronized String toProperty() {
-        StringBuilder sb = new StringBuilder();
+    publid syndironizfd String toPropfrty() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        String separator = "; ";
-        boolean needSeparator = false;
+        String sfpbrbtor = "; ";
+        boolfbn nffdSfpbrbtor = fblsf;
 
-        int action = getAction();
-        if (action != MimeEntry.UNKNOWN) {
-            sb.append("action=" + actionKeywords[action]);
-            needSeparator = true;
+        int bdtion = gftAdtion();
+        if (bdtion != MimfEntry.UNKNOWN) {
+            sb.bppfnd("bdtion=" + bdtionKfywords[bdtion]);
+            nffdSfpbrbtor = truf;
         }
 
-        String command = getLaunchString();
-        if (command != null && command.length() > 0) {
-            if (needSeparator) {
-                sb.append(separator);
+        String dommbnd = gftLbundiString();
+        if (dommbnd != null && dommbnd.lfngti() > 0) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
             }
-            sb.append("application=" + command);
-            needSeparator = true;
+            sb.bppfnd("bpplidbtion=" + dommbnd);
+            nffdSfpbrbtor = truf;
         }
 
-        if (getImageFileName() != null) {
-            if (needSeparator) {
-                sb.append(separator);
+        if (gftImbgfFilfNbmf() != null) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
             }
-            sb.append("icon=" + getImageFileName());
-            needSeparator = true;
+            sb.bppfnd("idon=" + gftImbgfFilfNbmf());
+            nffdSfpbrbtor = truf;
         }
 
-        String extensions = getExtensionsAsList();
-        if (extensions.length() > 0) {
-            if (needSeparator) {
-                sb.append(separator);
+        String fxtfnsions = gftExtfnsionsAsList();
+        if (fxtfnsions.lfngti() > 0) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
             }
-            sb.append("file_extensions=" + extensions);
-            needSeparator = true;
+            sb.bppfnd("filf_fxtfnsions=" + fxtfnsions);
+            nffdSfpbrbtor = truf;
         }
 
-        String description = getDescription();
-        if (description != null && !description.equals(getType())) {
-            if (needSeparator) {
-                sb.append(separator);
+        String dfsdription = gftDfsdription();
+        if (dfsdription != null && !dfsdription.fqubls(gftTypf())) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
             }
-            sb.append("description=" + description);
+            sb.bppfnd("dfsdription=" + dfsdription);
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    public String toString() {
-        return "MimeEntry[contentType=" + typeName
-            + ", image=" + imageFileName
-            + ", action=" + action
-            + ", command=" + command
-            + ", extensions=" + getExtensionsAsList()
+    publid String toString() {
+        rfturn "MimfEntry[dontfntTypf=" + typfNbmf
+            + ", imbgf=" + imbgfFilfNbmf
+            + ", bdtion=" + bdtion
+            + ", dommbnd=" + dommbnd
+            + ", fxtfnsions=" + gftExtfnsionsAsList()
             + "]";
     }
 }

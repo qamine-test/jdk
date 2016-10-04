@@ -1,508 +1,508 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE: This class lives in the package sun.net.www.protocol.https.
- * There is a copy in com.sun.net.ssl.internal.www.protocol.https for JSSE
- * 1.0.2 compatibility. It is 100% identical except the package and extends
- * lines. Any changes should be made to be class in sun.net.* and then copied
- * to com.sun.net.*.
+ * NOTE: Tiis dlbss livfs in tif pbdkbgf sun.nft.www.protodol.ittps.
+ * Tifrf is b dopy in dom.sun.nft.ssl.intfrnbl.www.protodol.ittps for JSSE
+ * 1.0.2 dompbtibility. It is 100% idfntidbl fxdfpt tif pbdkbgf bnd fxtfnds
+ * linfs. Any dibngfs siould bf mbdf to bf dlbss in sun.nft.* bnd tifn dopifd
+ * to dom.sun.nft.*.
  */
 
-// For both copies of the file, uncomment one line and comment the other
-// package sun.net.www.protocol.https;
-package com.sun.net.ssl.internal.www.protocol.https;
+// For boti dopifs of tif filf, undommfnt onf linf bnd dommfnt tif otifr
+// pbdkbgf sun.nft.www.protodol.ittps;
+pbdkbgf dom.sun.nft.ssl.intfrnbl.www.protodol.ittps;
 
-import java.net.URL;
-import java.net.Proxy;
-import java.net.ProtocolException;
-import java.io.*;
-import javax.net.ssl.*;
-import java.security.Permission;
-import java.util.Map;
-import java.util.List;
-import sun.net.www.http.HttpClient;
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.ProtodolExdfption;
+import jbvb.io.*;
+import jbvbx.nft.ssl.*;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.nft.www.ittp.HttpClifnt;
 
 /**
- * A class to represent an HTTP connection to a remote object.
+ * A dlbss to rfprfsfnt bn HTTP donnfdtion to b rfmotf objfdt.
  *
- * Ideally, this class should subclass and inherit the http handler
- * implementation, but it can't do so because that class have the
- * wrong Java Type.  Thus it uses the delegate (aka, the
- * Adapter/Wrapper design pattern) to reuse code from the http
- * handler.
+ * Idfblly, tiis dlbss siould subdlbss bnd inifrit tif ittp ibndlfr
+ * implfmfntbtion, but it dbn't do so bfdbusf tibt dlbss ibvf tif
+ * wrong Jbvb Typf.  Tius it usfs tif dflfgbtf (bkb, tif
+ * Adbptfr/Wrbppfr dfsign pbttfrn) to rfusf dodf from tif ittp
+ * ibndlfr.
  *
- * Since it would use a delegate to access
- * sun.net.www.protocol.http.HttpURLConnection functionalities, it
- * needs to implement all public methods in it's super class and all
- * the way to Object.
+ * Sindf it would usf b dflfgbtf to bddfss
+ * sun.nft.www.protodol.ittp.HttpURLConnfdtion fundtionblitifs, it
+ * nffds to implfmfnt bll publid mftiods in it's supfr dlbss bnd bll
+ * tif wby to Objfdt.
  *
  */
 
-// For both copies of the file, uncomment one line and comment the other
-// public class HttpsURLConnectionImpl
-//      extends javax.net.ssl.HttpsURLConnection {
-public class HttpsURLConnectionOldImpl
-        extends com.sun.net.ssl.HttpsURLConnection {
+// For boti dopifs of tif filf, undommfnt onf linf bnd dommfnt tif otifr
+// publid dlbss HttpsURLConnfdtionImpl
+//      fxtfnds jbvbx.nft.ssl.HttpsURLConnfdtion {
+publid dlbss HttpsURLConnfdtionOldImpl
+        fxtfnds dom.sun.nft.ssl.HttpsURLConnfdtion {
 
-    private DelegateHttpsURLConnection delegate;
+    privbtf DflfgbtfHttpsURLConnfdtion dflfgbtf;
 
-// For both copies of the file, uncomment one line and comment the other
-//    HttpsURLConnectionImpl(URL u, Handler handler) throws IOException {
-    HttpsURLConnectionOldImpl(URL u, Handler handler) throws IOException {
-        this(u, null, handler);
+// For boti dopifs of tif filf, undommfnt onf linf bnd dommfnt tif otifr
+//    HttpsURLConnfdtionImpl(URL u, Hbndlfr ibndlfr) tirows IOExdfption {
+    HttpsURLConnfdtionOldImpl(URL u, Hbndlfr ibndlfr) tirows IOExdfption {
+        tiis(u, null, ibndlfr);
     }
 
-// For both copies of the file, uncomment one line and comment the other
-//    HttpsURLConnectionImpl(URL u, Handler handler) throws IOException {
-    HttpsURLConnectionOldImpl(URL u, Proxy p, Handler handler) throws IOException {
-        super(u);
-        delegate = new DelegateHttpsURLConnection(url, p, handler, this);
+// For boti dopifs of tif filf, undommfnt onf linf bnd dommfnt tif otifr
+//    HttpsURLConnfdtionImpl(URL u, Hbndlfr ibndlfr) tirows IOExdfption {
+    HttpsURLConnfdtionOldImpl(URL u, Proxy p, Hbndlfr ibndlfr) tirows IOExdfption {
+        supfr(u);
+        dflfgbtf = nfw DflfgbtfHttpsURLConnfdtion(url, p, ibndlfr, tiis);
     }
 
     /**
-     * Create a new HttpClient object, bypassing the cache of
-     * HTTP client objects/connections.
+     * Crfbtf b nfw HttpClifnt objfdt, bypbssing tif dbdif of
+     * HTTP dlifnt objfdts/donnfdtions.
      *
-     * @param url       the URL being accessed
+     * @pbrbm url       tif URL bfing bddfssfd
      */
-    protected void setNewClient(URL url) throws IOException {
-        delegate.setNewClient(url, false);
+    protfdtfd void sftNfwClifnt(URL url) tirows IOExdfption {
+        dflfgbtf.sftNfwClifnt(url, fblsf);
     }
 
     /**
-     * Obtain a HttpClient object. Use the cached copy if specified.
+     * Obtbin b HttpClifnt objfdt. Usf tif dbdifd dopy if spfdififd.
      *
-     * @param url       the URL being accessed
-     * @param useCache  whether the cached connection should be used
-     *                  if present
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm usfCbdif  wiftifr tif dbdifd donnfdtion siould bf usfd
+     *                  if prfsfnt
      */
-    protected void setNewClient(URL url, boolean useCache)
-            throws IOException {
-        delegate.setNewClient(url, useCache);
+    protfdtfd void sftNfwClifnt(URL url, boolfbn usfCbdif)
+            tirows IOExdfption {
+        dflfgbtf.sftNfwClifnt(url, usfCbdif);
     }
 
     /**
-     * Create a new HttpClient object, set up so that it uses
-     * per-instance proxying to the given HTTP proxy.  This
-     * bypasses the cache of HTTP client objects/connections.
+     * Crfbtf b nfw HttpClifnt objfdt, sft up so tibt it usfs
+     * pfr-instbndf proxying to tif givfn HTTP proxy.  Tiis
+     * bypbssfs tif dbdif of HTTP dlifnt objfdts/donnfdtions.
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm proxyHost tif proxy iost to usf
+     * @pbrbm proxyPort tif proxy port to usf
      */
-    protected void setProxiedClient(URL url, String proxyHost, int proxyPort)
-            throws IOException {
-        delegate.setProxiedClient(url, proxyHost, proxyPort);
+    protfdtfd void sftProxifdClifnt(URL url, String proxyHost, int proxyPort)
+            tirows IOExdfption {
+        dflfgbtf.sftProxifdClifnt(url, proxyHost, proxyPort);
     }
 
     /**
-     * Obtain a HttpClient object, set up so that it uses per-instance
-     * proxying to the given HTTP proxy. Use the cached copy of HTTP
-     * client objects/connections if specified.
+     * Obtbin b HttpClifnt objfdt, sft up so tibt it usfs pfr-instbndf
+     * proxying to tif givfn HTTP proxy. Usf tif dbdifd dopy of HTTP
+     * dlifnt objfdts/donnfdtions if spfdififd.
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
-     * @param useCache  whether the cached connection should be used
-     *                  if present
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm proxyHost tif proxy iost to usf
+     * @pbrbm proxyPort tif proxy port to usf
+     * @pbrbm usfCbdif  wiftifr tif dbdifd donnfdtion siould bf usfd
+     *                  if prfsfnt
      */
-    protected void setProxiedClient(URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
-        delegate.setProxiedClient(url, proxyHost, proxyPort, useCache);
+    protfdtfd void sftProxifdClifnt(URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdif) tirows IOExdfption {
+        dflfgbtf.sftProxifdClifnt(url, proxyHost, proxyPort, usfCbdif);
     }
 
     /**
-     * Implements the HTTP protocol handler's "connect" method,
-     * establishing an SSL connection to the server as necessary.
+     * Implfmfnts tif HTTP protodol ibndlfr's "donnfdt" mftiod,
+     * fstbblisiing bn SSL donnfdtion to tif sfrvfr bs nfdfssbry.
      */
-    public void connect() throws IOException {
-        delegate.connect();
+    publid void donnfdt() tirows IOExdfption {
+        dflfgbtf.donnfdt();
     }
 
     /**
-     * Used by subclass to access "connected" variable.  Since we are
-     * delegating the actual implementation to "delegate", we need to
-     * delegate the access of "connected" as well.
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.  Sindf wf brf
+     * dflfgbting tif bdtubl implfmfntbtion to "dflfgbtf", wf nffd to
+     * dflfgbtf tif bddfss of "donnfdtfd" bs wfll.
      */
-    protected boolean isConnected() {
-        return delegate.isConnected();
+    protfdtfd boolfbn isConnfdtfd() {
+        rfturn dflfgbtf.isConnfdtfd();
     }
 
     /**
-     * Used by subclass to access "connected" variable.  Since we are
-     * delegating the actual implementation to "delegate", we need to
-     * delegate the access of "connected" as well.
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.  Sindf wf brf
+     * dflfgbting tif bdtubl implfmfntbtion to "dflfgbtf", wf nffd to
+     * dflfgbtf tif bddfss of "donnfdtfd" bs wfll.
      */
-    protected void setConnected(boolean conn) {
-        delegate.setConnected(conn);
+    protfdtfd void sftConnfdtfd(boolfbn donn) {
+        dflfgbtf.sftConnfdtfd(donn);
     }
 
     /**
-     * Returns the cipher suite in use on this connection.
+     * Rfturns tif dipifr suitf in usf on tiis donnfdtion.
      */
-    public String getCipherSuite() {
-        return delegate.getCipherSuite();
+    publid String gftCipifrSuitf() {
+        rfturn dflfgbtf.gftCipifrSuitf();
     }
 
     /**
-     * Returns the certificate chain the client sent to the
-     * server, or null if the client did not authenticate.
+     * Rfturns tif dfrtifidbtf dibin tif dlifnt sfnt to tif
+     * sfrvfr, or null if tif dlifnt did not butifntidbtf.
      */
-    public java.security.cert.Certificate []
-        getLocalCertificates() {
-        return delegate.getLocalCertificates();
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf []
+        gftLodblCfrtifidbtfs() {
+        rfturn dflfgbtf.gftLodblCfrtifidbtfs();
     }
 
     /**
-     * Returns the server's certificate chain, or throws
-     * SSLPeerUnverified Exception if
-     * the server did not authenticate.
+     * Rfturns tif sfrvfr's dfrtifidbtf dibin, or tirows
+     * SSLPffrUnvfrififd Exdfption if
+     * tif sfrvfr did not butifntidbtf.
      */
-    public java.security.cert.Certificate []
-        getServerCertificates() throws SSLPeerUnverifiedException {
-        return delegate.getServerCertificates();
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf []
+        gftSfrvfrCfrtifidbtfs() tirows SSLPffrUnvfrififdExdfption {
+        rfturn dflfgbtf.gftSfrvfrCfrtifidbtfs();
     }
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
+     * Rfturns tif sfrvfr's X.509 dfrtifidbtf dibin, or null if
+     * tif sfrvfr did not butifntidbtf.
      *
-     * NOTE: This method is not necessary for the version of this class
-     * implementing javax.net.ssl.HttpsURLConnection, but provided for
-     * compatibility with the com.sun.net.ssl.HttpsURLConnection version.
+     * NOTE: Tiis mftiod is not nfdfssbry for tif vfrsion of tiis dlbss
+     * implfmfnting jbvbx.nft.ssl.HttpsURLConnfdtion, but providfd for
+     * dompbtibility witi tif dom.sun.nft.ssl.HttpsURLConnfdtion vfrsion.
      */
-    public javax.security.cert.X509Certificate[] getServerCertificateChain() {
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] gftSfrvfrCfrtifidbtfCibin() {
         try {
-            return delegate.getServerCertificateChain();
-        } catch (SSLPeerUnverifiedException e) {
-            // this method does not throw an exception as declared in
-            // com.sun.net.ssl.HttpsURLConnection.
-            // Return null for compatibility.
-            return null;
+            rfturn dflfgbtf.gftSfrvfrCfrtifidbtfCibin();
+        } dbtdi (SSLPffrUnvfrififdExdfption f) {
+            // tiis mftiod dofs not tirow bn fxdfption bs dfdlbrfd in
+            // dom.sun.nft.ssl.HttpsURLConnfdtion.
+            // Rfturn null for dompbtibility.
+            rfturn null;
         }
     }
 
     /*
-     * Allowable input/output sequences:
-     * [interpreted as POST/PUT]
-     * - get output, [write output,] get input, [read input]
-     * - get output, [write output]
-     * [interpreted as GET]
-     * - get input, [read input]
-     * Disallowed:
-     * - get input, [read input,] get output, [write output]
+     * Allowbblf input/output sfqufndfs:
+     * [intfrprftfd bs POST/PUT]
+     * - gft output, [writf output,] gft input, [rfbd input]
+     * - gft output, [writf output]
+     * [intfrprftfd bs GET]
+     * - gft input, [rfbd input]
+     * Disbllowfd:
+     * - gft input, [rfbd input,] gft output, [writf output]
      */
 
-    public synchronized OutputStream getOutputStream() throws IOException {
-        return delegate.getOutputStream();
+    publid syndironizfd OutputStrfbm gftOutputStrfbm() tirows IOExdfption {
+        rfturn dflfgbtf.gftOutputStrfbm();
     }
 
-    public synchronized InputStream getInputStream() throws IOException {
-        return delegate.getInputStream();
+    publid syndironizfd InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        rfturn dflfgbtf.gftInputStrfbm();
     }
 
-    public InputStream getErrorStream() {
-        return delegate.getErrorStream();
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn dflfgbtf.gftErrorStrfbm();
     }
 
     /**
-     * Disconnect from the server.
+     * Disdonnfdt from tif sfrvfr.
      */
-    public void disconnect() {
-        delegate.disconnect();
+    publid void disdonnfdt() {
+        dflfgbtf.disdonnfdt();
     }
 
-    public boolean usingProxy() {
-        return delegate.usingProxy();
+    publid boolfbn usingProxy() {
+        rfturn dflfgbtf.usingProxy();
     }
 
     /**
-     * Returns an unmodifiable Map of the header fields.
-     * The Map keys are Strings that represent the
-     * response-header field names. Each Map value is an
-     * unmodifiable List of Strings that represents
-     * the corresponding field values.
+     * Rfturns bn unmodifibblf Mbp of tif ifbdfr fiflds.
+     * Tif Mbp kfys brf Strings tibt rfprfsfnt tif
+     * rfsponsf-ifbdfr fifld nbmfs. Ebdi Mbp vbluf is bn
+     * unmodifibblf List of Strings tibt rfprfsfnts
+     * tif dorrfsponding fifld vblufs.
      *
-     * @return a Map of header fields
-     * @since 1.4
+     * @rfturn b Mbp of ifbdfr fiflds
+     * @sindf 1.4
      */
-    public Map<String,List<String>> getHeaderFields() {
-        return delegate.getHeaderFields();
+    publid Mbp<String,List<String>> gftHfbdfrFiflds() {
+        rfturn dflfgbtf.gftHfbdfrFiflds();
     }
 
     /**
-     * Gets a header field by name. Returns null if not known.
-     * @param name the name of the header field
+     * Gfts b ifbdfr fifld by nbmf. Rfturns null if not known.
+     * @pbrbm nbmf tif nbmf of tif ifbdfr fifld
      */
-    public String getHeaderField(String name) {
-        return delegate.getHeaderField(name);
+    publid String gftHfbdfrFifld(String nbmf) {
+        rfturn dflfgbtf.gftHfbdfrFifld(nbmf);
     }
 
     /**
-     * Gets a header field by index. Returns null if not known.
-     * @param n the index of the header field
+     * Gfts b ifbdfr fifld by indfx. Rfturns null if not known.
+     * @pbrbm n tif indfx of tif ifbdfr fifld
      */
-    public String getHeaderField(int n) {
-        return delegate.getHeaderField(n);
+    publid String gftHfbdfrFifld(int n) {
+        rfturn dflfgbtf.gftHfbdfrFifld(n);
     }
 
     /**
-     * Gets a header field by index. Returns null if not known.
-     * @param n the index of the header field
+     * Gfts b ifbdfr fifld by indfx. Rfturns null if not known.
+     * @pbrbm n tif indfx of tif ifbdfr fifld
      */
-    public String getHeaderFieldKey(int n) {
-        return delegate.getHeaderFieldKey(n);
+    publid String gftHfbdfrFifldKfy(int n) {
+        rfturn dflfgbtf.gftHfbdfrFifldKfy(n);
     }
 
     /**
-     * Sets request property. If a property with the key already
-     * exists, overwrite its value with the new value.
-     * @param value the value to be set
+     * Sfts rfqufst propfrty. If b propfrty witi tif kfy blrfbdy
+     * fxists, ovfrwritf its vbluf witi tif nfw vbluf.
+     * @pbrbm vbluf tif vbluf to bf sft
      */
-    public void setRequestProperty(String key, String value) {
-        delegate.setRequestProperty(key, value);
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        dflfgbtf.sftRfqufstPropfrty(kfy, vbluf);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Adds b gfnfrbl rfqufst propfrty spfdififd by b
+     * kfy-vbluf pbir.  Tiis mftiod will not ovfrwritf
+     * fxisting vblufs bssodibtfd witi tif sbmf kfy.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value  the value associated with it.
-     * @see #getRequestProperties(java.lang.String)
-     * @since 1.4
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "<dodf>bddfpt</dodf>").
+     * @pbrbm   vbluf  tif vbluf bssodibtfd witi it.
+     * @sff #gftRfqufstPropfrtifs(jbvb.lbng.String)
+     * @sindf 1.4
      */
-    public void addRequestProperty(String key, String value) {
-        delegate.addRequestProperty(key, value);
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        dflfgbtf.bddRfqufstPropfrty(kfy, vbluf);
     }
 
     /**
-     * Overwrite super class method
+     * Ovfrwritf supfr dlbss mftiod
      */
-    public int getResponseCode() throws IOException {
-        return delegate.getResponseCode();
+    publid int gftRfsponsfCodf() tirows IOExdfption {
+        rfturn dflfgbtf.gftRfsponsfCodf();
     }
 
-    public String getRequestProperty(String key) {
-        return delegate.getRequestProperty(key);
+    publid String gftRfqufstPropfrty(String kfy) {
+        rfturn dflfgbtf.gftRfqufstPropfrty(kfy);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Rfturns bn unmodifibblf Mbp of gfnfrbl rfqufst
+     * propfrtifs for tiis donnfdtion. Tif Mbp kfys
+     * brf Strings tibt rfprfsfnt tif rfqufst-ifbdfr
+     * fifld nbmfs. Ebdi Mbp vbluf is b unmodifibblf List
+     * of Strings tibt rfprfsfnts tif dorrfsponding
+     * fifld vblufs.
      *
-     * @return  a Map of the general request properties for this connection.
-     * @throws IllegalStateException if already connected
-     * @since 1.4
+     * @rfturn  b Mbp of tif gfnfrbl rfqufst propfrtifs for tiis donnfdtion.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sindf 1.4
      */
-    public Map<String,List<String>> getRequestProperties() {
-        return delegate.getRequestProperties();
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        rfturn dflfgbtf.gftRfqufstPropfrtifs();
     }
 
     /*
-     * We support JDK 1.2.x so we can't count on these from JDK 1.3.
-     * We override and supply our own version.
+     * Wf support JDK 1.2.x so wf dbn't dount on tifsf from JDK 1.3.
+     * Wf ovfrridf bnd supply our own vfrsion.
      */
-    public void setInstanceFollowRedirects(boolean shouldFollow) {
-        delegate.setInstanceFollowRedirects(shouldFollow);
+    publid void sftInstbndfFollowRfdirfdts(boolfbn siouldFollow) {
+        dflfgbtf.sftInstbndfFollowRfdirfdts(siouldFollow);
     }
 
-    public boolean getInstanceFollowRedirects() {
-        return delegate.getInstanceFollowRedirects();
+    publid boolfbn gftInstbndfFollowRfdirfdts() {
+        rfturn dflfgbtf.gftInstbndfFollowRfdirfdts();
     }
 
-    public void setRequestMethod(String method) throws ProtocolException {
-        delegate.setRequestMethod(method);
+    publid void sftRfqufstMftiod(String mftiod) tirows ProtodolExdfption {
+        dflfgbtf.sftRfqufstMftiod(mftiod);
     }
 
-    public String getRequestMethod() {
-        return delegate.getRequestMethod();
+    publid String gftRfqufstMftiod() {
+        rfturn dflfgbtf.gftRfqufstMftiod();
     }
 
-    public String getResponseMessage() throws IOException {
-        return delegate.getResponseMessage();
+    publid String gftRfsponsfMfssbgf() tirows IOExdfption {
+        rfturn dflfgbtf.gftRfsponsfMfssbgf();
     }
 
-    public long getHeaderFieldDate(String name, long Default) {
-        return delegate.getHeaderFieldDate(name, Default);
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldDbtf(nbmf, Dffbult);
     }
 
-    public Permission getPermission() throws IOException {
-        return delegate.getPermission();
+    publid Pfrmission gftPfrmission() tirows IOExdfption {
+        rfturn dflfgbtf.gftPfrmission();
     }
 
-    public URL getURL() {
-        return delegate.getURL();
+    publid URL gftURL() {
+        rfturn dflfgbtf.gftURL();
     }
 
-    public int getContentLength() {
-        return delegate.getContentLength();
+    publid int gftContfntLfngti() {
+        rfturn dflfgbtf.gftContfntLfngti();
     }
 
-    public long getContentLengthLong() {
-        return delegate.getContentLengthLong();
+    publid long gftContfntLfngtiLong() {
+        rfturn dflfgbtf.gftContfntLfngtiLong();
     }
 
-    public String getContentType() {
-        return delegate.getContentType();
+    publid String gftContfntTypf() {
+        rfturn dflfgbtf.gftContfntTypf();
     }
 
-    public String getContentEncoding() {
-        return delegate.getContentEncoding();
+    publid String gftContfntEndoding() {
+        rfturn dflfgbtf.gftContfntEndoding();
     }
 
-    public long getExpiration() {
-        return delegate.getExpiration();
+    publid long gftExpirbtion() {
+        rfturn dflfgbtf.gftExpirbtion();
     }
 
-    public long getDate() {
-        return delegate.getDate();
+    publid long gftDbtf() {
+        rfturn dflfgbtf.gftDbtf();
     }
 
-    public long getLastModified() {
-        return delegate.getLastModified();
+    publid long gftLbstModififd() {
+        rfturn dflfgbtf.gftLbstModififd();
     }
 
-    public int getHeaderFieldInt(String name, int Default) {
-        return delegate.getHeaderFieldInt(name, Default);
+    publid int gftHfbdfrFifldInt(String nbmf, int Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldInt(nbmf, Dffbult);
     }
 
-    public long getHeaderFieldLong(String name, long Default) {
-        return delegate.getHeaderFieldLong(name, Default);
+    publid long gftHfbdfrFifldLong(String nbmf, long Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldLong(nbmf, Dffbult);
     }
 
-    public Object getContent() throws IOException {
-        return delegate.getContent();
+    publid Objfdt gftContfnt() tirows IOExdfption {
+        rfturn dflfgbtf.gftContfnt();
     }
 
-    @SuppressWarnings("rawtypes")
-    public Object getContent(Class[] classes) throws IOException {
-        return delegate.getContent(classes);
+    @SupprfssWbrnings("rbwtypfs")
+    publid Objfdt gftContfnt(Clbss[] dlbssfs) tirows IOExdfption {
+        rfturn dflfgbtf.gftContfnt(dlbssfs);
     }
 
-    public String toString() {
-        return delegate.toString();
+    publid String toString() {
+        rfturn dflfgbtf.toString();
     }
 
-    public void setDoInput(boolean doinput) {
-        delegate.setDoInput(doinput);
+    publid void sftDoInput(boolfbn doinput) {
+        dflfgbtf.sftDoInput(doinput);
     }
 
-    public boolean getDoInput() {
-        return delegate.getDoInput();
+    publid boolfbn gftDoInput() {
+        rfturn dflfgbtf.gftDoInput();
     }
 
-    public void setDoOutput(boolean dooutput) {
-        delegate.setDoOutput(dooutput);
+    publid void sftDoOutput(boolfbn dooutput) {
+        dflfgbtf.sftDoOutput(dooutput);
     }
 
-    public boolean getDoOutput() {
-        return delegate.getDoOutput();
+    publid boolfbn gftDoOutput() {
+        rfturn dflfgbtf.gftDoOutput();
     }
 
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
-        delegate.setAllowUserInteraction(allowuserinteraction);
+    publid void sftAllowUsfrIntfrbdtion(boolfbn bllowusfrintfrbdtion) {
+        dflfgbtf.sftAllowUsfrIntfrbdtion(bllowusfrintfrbdtion);
     }
 
-    public boolean getAllowUserInteraction() {
-        return delegate.getAllowUserInteraction();
+    publid boolfbn gftAllowUsfrIntfrbdtion() {
+        rfturn dflfgbtf.gftAllowUsfrIntfrbdtion();
     }
 
-    public void setUseCaches(boolean usecaches) {
-        delegate.setUseCaches(usecaches);
+    publid void sftUsfCbdifs(boolfbn usfdbdifs) {
+        dflfgbtf.sftUsfCbdifs(usfdbdifs);
     }
 
-    public boolean getUseCaches() {
-        return delegate.getUseCaches();
+    publid boolfbn gftUsfCbdifs() {
+        rfturn dflfgbtf.gftUsfCbdifs();
     }
 
-    public void setIfModifiedSince(long ifmodifiedsince) {
-        delegate.setIfModifiedSince(ifmodifiedsince);
+    publid void sftIfModififdSindf(long ifmodififdsindf) {
+        dflfgbtf.sftIfModififdSindf(ifmodififdsindf);
     }
 
-    public long getIfModifiedSince() {
-        return delegate.getIfModifiedSince();
+    publid long gftIfModififdSindf() {
+        rfturn dflfgbtf.gftIfModififdSindf();
     }
 
-    public boolean getDefaultUseCaches() {
-        return delegate.getDefaultUseCaches();
+    publid boolfbn gftDffbultUsfCbdifs() {
+        rfturn dflfgbtf.gftDffbultUsfCbdifs();
     }
 
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        delegate.setDefaultUseCaches(defaultusecaches);
+    publid void sftDffbultUsfCbdifs(boolfbn dffbultusfdbdifs) {
+        dflfgbtf.sftDffbultUsfCbdifs(dffbultusfdbdifs);
     }
 
     /*
-     * finalize (dispose) the delegated object.  Otherwise
-     * sun.net.www.protocol.http.HttpURLConnection's finalize()
-     * would have to be made public.
+     * finblizf (disposf) tif dflfgbtfd objfdt.  Otifrwisf
+     * sun.nft.www.protodol.ittp.HttpURLConnfdtion's finblizf()
+     * would ibvf to bf mbdf publid.
      */
-    protected void finalize() throws Throwable {
-        delegate.dispose();
+    protfdtfd void finblizf() tirows Tirowbblf {
+        dflfgbtf.disposf();
     }
 
-    public boolean equals(Object obj) {
-        return delegate.equals(obj);
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn dflfgbtf.fqubls(obj);
     }
 
-    public int hashCode() {
-        return delegate.hashCode();
+    publid int ibsiCodf() {
+        rfturn dflfgbtf.ibsiCodf();
     }
 
-    public void setConnectTimeout(int timeout) {
-        delegate.setConnectTimeout(timeout);
+    publid void sftConnfdtTimfout(int timfout) {
+        dflfgbtf.sftConnfdtTimfout(timfout);
     }
 
-    public int getConnectTimeout() {
-        return delegate.getConnectTimeout();
+    publid int gftConnfdtTimfout() {
+        rfturn dflfgbtf.gftConnfdtTimfout();
     }
 
-    public void setReadTimeout(int timeout) {
-        delegate.setReadTimeout(timeout);
+    publid void sftRfbdTimfout(int timfout) {
+        dflfgbtf.sftRfbdTimfout(timfout);
     }
 
-    public int getReadTimeout() {
-        return delegate.getReadTimeout();
+    publid int gftRfbdTimfout() {
+        rfturn dflfgbtf.gftRfbdTimfout();
     }
 
-    public void setFixedLengthStreamingMode (int contentLength) {
-        delegate.setFixedLengthStreamingMode(contentLength);
+    publid void sftFixfdLfngtiStrfbmingModf (int dontfntLfngti) {
+        dflfgbtf.sftFixfdLfngtiStrfbmingModf(dontfntLfngti);
     }
 
-    public void setFixedLengthStreamingMode(long contentLength) {
-        delegate.setFixedLengthStreamingMode(contentLength);
+    publid void sftFixfdLfngtiStrfbmingModf(long dontfntLfngti) {
+        dflfgbtf.sftFixfdLfngtiStrfbmingModf(dontfntLfngti);
     }
 
-    public void setChunkedStreamingMode (int chunklen) {
-        delegate.setChunkedStreamingMode(chunklen);
+    publid void sftCiunkfdStrfbmingModf (int diunklfn) {
+        dflfgbtf.sftCiunkfdStrfbmingModf(diunklfn);
     }
 }

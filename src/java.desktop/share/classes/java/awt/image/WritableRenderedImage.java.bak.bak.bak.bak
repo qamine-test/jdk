@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ****************************************************************
+ ******************************************************************
+ ******************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd
+ *** Stbtfs Codf.  All rights rfsfrvfd.
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf;
+import jbvb.bwt.Point;
+
+/**
+ * WritfbblfRfndfrfdImbgf is b dommon intfrfbdf for objfdts whidh
+ * dontbin or dbn produdf imbgf dbtb in thf form of Rbstfrs bnd
+ * whidh dbn bf modififd bnd/or writtfn ovfr.  Thf imbgf
+ * dbtb mby bf storfd/produdfd bs b singlf tilf or b rfgulbr brrby
+ * of tilfs.
+ * <p>
+ * WritbblfRfndfrfdImbgf providfs notifidbtion to othfr intfrfstfd
+ * objfdts whfn b tilf is dhfdkfd out for writing (vib thf
+ * gftWritbblfTilf mfthod) bnd whfn thf lbst writfr of b pbrtidulbr
+ * tilf rflinquishfs its bddfss (vib b dbll to rflfbsfWritbblfTilf).
+ * Additionblly, it bllows bny dbllfr to dftfrminf whfthfr bny tilfs
+ * brf durrfntly dhfdkfd out (vib hbsTilfWritfrs), bnd to obtbin b
+ * list of sudh tilfs (vib gftWritbblfTilfIndidfs, in thf form of b Vfdtor
+ * of Point objfdts).
+ * <p>
+ * Objfdts wishing to bf notififd of dhbngfs in tilf writbbility must
+ * implfmfnt thf TilfObsfrvfr intfrfbdf, bnd brf bddfd by b
+ * dbll to bddTilfObsfrvfr.  Multiplf dblls to
+ * bddTilfObsfrvfr for thf sbmf objfdt will rfsult in multiplf
+ * notifidbtions.  An fxisting obsfrvfr mby rfdudf its notifidbtions
+ * by dblling rfmovfTilfObsfrvfr; if thf obsfrvfr hbd no
+ * notifidbtions thf opfrbtion is b no-op.
+ * <p>
+ * It is nfdfssbry for b WritbblfRfndfrfdImbgf to fnsurf thbt
+ * notifidbtions oddur only whfn thf first writfr bdquirfs b tilf bnd
+ * thf lbst writfr rflfbsfs it.
+ *
+ */
+
+publid intfrfbdf WritbblfRfndfrfdImbgf fxtfnds RfndfrfdImbgf
+{
+
+  /**
+   * Adds bn obsfrvfr.  If thf obsfrvfr is blrfbdy prfsfnt,
+   * it will rfdfivf multiplf notifidbtions.
+   * @pbrbm to thf spfdififd <dodf>TilfObsfrvfr</dodf>
+   */
+  publid void bddTilfObsfrvfr(TilfObsfrvfr to);
+
+  /**
+   * Rfmovfs bn obsfrvfr.  If thf obsfrvfr wbs not rfgistfrfd,
+   * nothing hbppfns.  If thf obsfrvfr wbs rfgistfrfd for multiplf
+   * notifidbtions, it will now bf rfgistfrfd for onf ffwfr.
+   * @pbrbm to thf spfdififd <dodf>TilfObsfrvfr</dodf>
+   */
+  publid void rfmovfTilfObsfrvfr(TilfObsfrvfr to);
+
+  /**
+   * Chfdks out b tilf for writing.
+   *
+   * Thf WritbblfRfndfrfdImbgf is rfsponsiblf for notifying bll
+   * of its TilfObsfrvfrs whfn b tilf gofs from hbving
+   * no writfrs to hbving onf writfr.
+   *
+   * @pbrbm tilfX thf X indfx of thf tilf.
+   * @pbrbm tilfY thf Y indfx of thf tilf.
+   * @rfturn b writbblf tilf.
+   */
+  publid WritbblfRbstfr gftWritbblfTilf(int tilfX, int tilfY);
+
+  /**
+   * Rflinquishfs thf right to writf to b tilf.  If thf dbllfr
+   * dontinufs to writf to thf tilf, thf rfsults brf undffinfd.
+   * Cblls to this mfthod should only bppfbr in mbtdhing pbirs
+   * with dblls to gftWritbblfTilf; bny othfr usf will lfbd
+   * to undffinfd rfsults.
+   *
+   * Thf WritbblfRfndfrfdImbgf is rfsponsiblf for notifying bll of
+   * its TilfObsfrvfrs whfn b tilf gofs from hbving onf writfr
+   * to hbving no writfrs.
+   *
+   * @pbrbm tilfX thf X indfx of thf tilf.
+   * @pbrbm tilfY thf Y indfx of thf tilf.
+   */
+  publid void rflfbsfWritbblfTilf(int tilfX, int tilfY);
+
+  /**
+   * Rfturns whfthfr b tilf is durrfntly dhfdkfd out for writing.
+   *
+   * @pbrbm tilfX thf X indfx of thf tilf.
+   * @pbrbm tilfY thf Y indfx of thf tilf.
+   * @rfturn <dodf>truf</dodf> if spfdififd tilf is dhfdkfd out
+   *         for writing; <dodf>fblsf</dodf> othfrwisf.
+   */
+  publid boolfbn isTilfWritbblf(int tilfX, int tilfY);
+
+  /**
+   * Rfturns bn brrby of Point objfdts indidbting whidh tilfs
+   * brf dhfdkfd out for writing.  Rfturns null if nonf brf
+   * dhfdkfd out.
+   * @rfturn bn brrby dontbining thf lodbtions of tilfs thbt brf
+   *         dhfdkfd out for writing.
+   */
+  publid Point[] gftWritbblfTilfIndidfs();
+
+  /**
+   * Rfturns whfthfr bny tilf is dhfdkfd out for writing.
+   * Sfmbntidblly fquivblfnt to (gftWritbblfTilfIndidfs() != null).
+   * @rfturn <dodf>truf</dodf> if bny tilfs brf dhfdkfd out for
+   *         writing; <dodf>fblsf</dodf> othfrwisf.
+   */
+  publid boolfbn hbsTilfWritfrs();
+
+  /**
+   * Sfts b rfdt of thf imbgf to thf dontfnts of thf Rbstfr r, whidh is
+   * bssumfd to bf in thf sbmf doordinbtf spbdf bs thf WritbblfRfndfrfdImbgf.
+   * Thf opfrbtion is dlippfd to thf bounds of thf WritbblfRfndfrfdImbgf.
+   * @pbrbm r thf spfdififd <dodf>Rbstfr</dodf>
+   */
+  publid void sftDbtb(Rbstfr r);
+
+}

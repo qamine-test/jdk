@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing;
+pbdkbgf sun.trbding;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
-import com.sun.tracing.Probe;
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.Probf;
 
 /**
- * Factory class to create tracing Providers.
+ * Fbdtory dlbss to drfbtf trbding Providfrs.
  *
- * This factory creates a "multiplex provider", which is a provider that
- * encapsulates a list of providers and whose probes trigger a corresponding
- * trigger in each of the encapsulated providers' probes.
+ * Tiis fbdtory drfbtfs b "multiplfx providfr", wiidi is b providfr tibt
+ * fndbpsulbtfs b list of providfrs bnd wiosf probfs triggfr b dorrfsponding
+ * triggfr in fbdi of tif fndbpsulbtfd providfrs' probfs.
  *
- * This is used when there are multiple tracing frameworks activated at once.
- * A user-defined provider gets implementation for each of the activated
- * frameworks and this multiplex framework is what is ultimately passed
- * back to the user.  All probe triggers are multiplexed to each
- * active framework.
+ * Tiis is usfd wifn tifrf brf multiplf trbding frbmfworks bdtivbtfd bt ondf.
+ * A usfr-dffinfd providfr gfts implfmfntbtion for fbdi of tif bdtivbtfd
+ * frbmfworks bnd tiis multiplfx frbmfwork is wibt is ultimbtfly pbssfd
+ * bbdk to tif usfr.  All probf triggfrs brf multiplfxfd to fbdi
+ * bdtivf frbmfwork.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class MultiplexProviderFactory extends ProviderFactory {
+publid dlbss MultiplfxProvidfrFbdtory fxtfnds ProvidfrFbdtory {
 
-    private Set<ProviderFactory> factories;
+    privbtf Sft<ProvidfrFbdtory> fbdtorifs;
 
-    public MultiplexProviderFactory(Set<ProviderFactory> factories) {
-        this.factories = factories;
+    publid MultiplfxProvidfrFbdtory(Sft<ProvidfrFbdtory> fbdtorifs) {
+        tiis.fbdtorifs = fbdtorifs;
     }
 
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        HashSet<Provider> providers = new HashSet<Provider>();
-        for (ProviderFactory factory : factories) {
-            providers.add(factory.createProvider(cls));
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        HbsiSft<Providfr> providfrs = nfw HbsiSft<Providfr>();
+        for (ProvidfrFbdtory fbdtory : fbdtorifs) {
+            providfrs.bdd(fbdtory.drfbtfProvidfr(dls));
         }
-        MultiplexProvider provider = new MultiplexProvider(cls, providers);
-        provider.init();
-        return provider.newProxyInstance();
+        MultiplfxProvidfr providfr = nfw MultiplfxProvidfr(dls, providfrs);
+        providfr.init();
+        rfturn providfr.nfwProxyInstbndf();
     }
 }
 
-class MultiplexProvider extends ProviderSkeleton {
+dlbss MultiplfxProvidfr fxtfnds ProvidfrSkflfton {
 
-    private Set<Provider> providers;
+    privbtf Sft<Providfr> providfrs;
 
-    protected ProbeSkeleton createProbe(Method m) {
-        return new MultiplexProbe(m, providers);
+    protfdtfd ProbfSkflfton drfbtfProbf(Mftiod m) {
+        rfturn nfw MultiplfxProbf(m, providfrs);
     }
 
-    MultiplexProvider(Class<? extends Provider> type, Set<Provider> providers) {
-        super(type);
-        this.providers = providers;
+    MultiplfxProvidfr(Clbss<? fxtfnds Providfr> typf, Sft<Providfr> providfrs) {
+        supfr(typf);
+        tiis.providfrs = providfrs;
     }
 
-    public void dispose() {
-        for (Provider p : providers) {
-            p.dispose();
+    publid void disposf() {
+        for (Providfr p : providfrs) {
+            p.disposf();
         }
-        super.dispose();
+        supfr.disposf();
     }
 }
 
-class MultiplexProbe extends ProbeSkeleton {
+dlbss MultiplfxProbf fxtfnds ProbfSkflfton {
 
-    private Set<Probe> probes;
+    privbtf Sft<Probf> probfs;
 
-    MultiplexProbe(Method m, Set<Provider> providers) {
-        super(m.getParameterTypes());
-        probes = new HashSet<Probe>();
-        for (Provider p : providers) {
-            Probe probe = p.getProbe(m);
-            if (probe != null) {
-                probes.add(probe);
+    MultiplfxProbf(Mftiod m, Sft<Providfr> providfrs) {
+        supfr(m.gftPbrbmftfrTypfs());
+        probfs = nfw HbsiSft<Probf>();
+        for (Providfr p : providfrs) {
+            Probf probf = p.gftProbf(m);
+            if (probf != null) {
+                probfs.bdd(probf);
             }
         }
     }
 
-    public boolean isEnabled() {
-        for (Probe p : probes) {
-            if (p.isEnabled()) {
-                return true;
+    publid boolfbn isEnbblfd() {
+        for (Probf p : probfs) {
+            if (p.isEnbblfd()) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public void uncheckedTrigger(Object[] args) {
-        for (Probe p : probes) {
+    publid void undifdkfdTriggfr(Objfdt[] brgs) {
+        for (Probf p : probfs) {
             try {
-                // try the fast path
-                ProbeSkeleton ps = (ProbeSkeleton)p;
-                ps.uncheckedTrigger(args);
-            } catch (ClassCastException e) {
-                // Probe.trigger takes an "Object ..." varargs parameter,
-                // so we can't call it directly.
+                // try tif fbst pbti
+                ProbfSkflfton ps = (ProbfSkflfton)p;
+                ps.undifdkfdTriggfr(brgs);
+            } dbtdi (ClbssCbstExdfption f) {
+                // Probf.triggfr tbkfs bn "Objfdt ..." vbrbrgs pbrbmftfr,
+                // so wf dbn't dbll it dirfdtly.
                 try {
-                    Method m = Probe.class.getMethod(
-                        "trigger", Class.forName("[java.lang.Object"));
-                    m.invoke(p, args);
-                } catch (Exception e1) {
-                    assert false; // This shouldn't happen
+                    Mftiod m = Probf.dlbss.gftMftiod(
+                        "triggfr", Clbss.forNbmf("[jbvb.lbng.Objfdt"));
+                    m.invokf(p, brgs);
+                } dbtdi (Exdfption f1) {
+                    bssfrt fblsf; // Tiis siouldn't ibppfn
                 }
             }
         }

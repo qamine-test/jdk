@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This class represents a name-to-object binding found in a context.
+  * Tiis dlbss rfprfsfnts b nbmf-to-objfdt binding found in b dontfxt.
   *<p>
-  * A context consists of name-to-object bindings.
-  * The Binding class represents such a binding.  It consists
-  * of a name and an object. The <code>Context.listBindings()</code>
-  * method returns an enumeration of Binding.
+  * A dontfxt donsists of nbmf-to-objfdt bindings.
+  * Tif Binding dlbss rfprfsfnts sudi b binding.  It donsists
+  * of b nbmf bnd bn objfdt. Tif <dodf>Contfxt.listBindings()</dodf>
+  * mftiod rfturns bn fnumfrbtion of Binding.
   *<p>
-  * Use subclassing for naming systems that generate contents of
-  * a binding dynamically.
+  * Usf subdlbssing for nbming systfms tibt gfnfrbtf dontfnts of
+  * b binding dynbmidblly.
   *<p>
-  * A Binding instance is not synchronized against concurrent access by multiple
-  * threads. Threads that need to access a Binding concurrently should
-  * synchronize amongst themselves and provide the necessary locking.
+  * A Binding instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * tirfbds. Tirfbds tibt nffd to bddfss b Binding dondurrfntly siould
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
 
-public class Binding extends NameClassPair {
+publid dlbss Binding fxtfnds NbmfClbssPbir {
     /**
-     * Contains this binding's object.
-     * It is initialized by the constructor and can be updated using
-     * <tt>setObject</tt>.
-     * @serial
-     * @see #getObject
-     * @see #setObject
+     * Contbins tiis binding's objfdt.
+     * It is initiblizfd by tif donstrudtor bnd dbn bf updbtfd using
+     * <tt>sftObjfdt</tt>.
+     * @sfribl
+     * @sff #gftObjfdt
+     * @sff #sftObjfdt
      */
-    private Object boundObj;
+    privbtf Objfdt boundObj;
 
     /**
-      * Constructs an instance of a Binding given its name and object.
+      * Construdts bn instbndf of b Binding givfn its nbmf bnd objfdt.
       *<p>
-      * <tt>getClassName()</tt> will return
-      * the class name of <tt>obj</tt> (or null if <tt>obj</tt> is null)
-      * unless the class name has been explicitly set using <tt>setClassName()</tt>
+      * <tt>gftClbssNbmf()</tt> will rfturn
+      * tif dlbss nbmf of <tt>obj</tt> (or null if <tt>obj</tt> is null)
+      * unlfss tif dlbss nbmf ibs bffn fxpliditly sft using <tt>sftClbssNbmf()</tt>
       *
-      * @param  name    The non-null name of the object. It is relative
-      *             to the <em>target context</em> (which is
-      * named by the first parameter of the <code>listBindings()</code> method)
-      * @param  obj     The possibly null object bound to name.
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbmf    Tif non-null nbmf of tif objfdt. It is rflbtivf
+      *             to tif <fm>tbrgft dontfxt</fm> (wiidi is
+      * nbmfd by tif first pbrbmftfr of tif <dodf>listBindings()</dodf> mftiod)
+      * @pbrbm  obj     Tif possibly null objfdt bound to nbmf.
+      * @sff NbmfClbssPbir#sftClbssNbmf
       */
-    public Binding(String name, Object obj) {
-        super(name, null);
-        this.boundObj = obj;
+    publid Binding(String nbmf, Objfdt obj) {
+        supfr(nbmf, null);
+        tiis.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its name, object, and whether
-      * the name is relative.
+      * Construdts bn instbndf of b Binding givfn its nbmf, objfdt, bnd wiftifr
+      * tif nbmf is rflbtivf.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>
+      * <tt>gftClbssNbmf()</tt> will rfturn tif dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss tif dlbss nbmf ibs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>
       *
-      * @param  name    The non-null string name of the object.
-      * @param  obj     The possibly null object bound to name.
-      * @param isRelative true if <code>name</code> is a name relative
-      *         to the target context (which is named by
-      *         the first parameter of the <code>listBindings()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see NameClassPair#isRelative
-      * @see NameClassPair#setRelative
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbmf    Tif non-null string nbmf of tif objfdt.
+      * @pbrbm  obj     Tif possibly null objfdt bound to nbmf.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is b nbmf rflbtivf
+      *         to tif tbrgft dontfxt (wiidi is nbmfd by
+      *         tif first pbrbmftfr of tif <dodf>listBindings()</dodf> mftiod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff NbmfClbssPbir#isRflbtivf
+      * @sff NbmfClbssPbir#sftRflbtivf
+      * @sff NbmfClbssPbir#sftClbssNbmf
       */
-    public Binding(String name, Object obj, boolean isRelative) {
-        super(name, null, isRelative);
-        this.boundObj = obj;
+    publid Binding(String nbmf, Objfdt obj, boolfbn isRflbtivf) {
+        supfr(nbmf, null, isRflbtivf);
+        tiis.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its name, class name, and object.
+      * Construdts bn instbndf of b Binding givfn its nbmf, dlbss nbmf, bnd objfdt.
       *
-      * @param  name    The non-null name of the object. It is relative
-      *             to the <em>target context</em> (which is
-      * named by the first parameter of the <code>listBindings()</code> method)
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also
-      *         null, <tt>getClassName()</tt> will return null.
-      * @param  obj     The possibly null object bound to name.
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbmf    Tif non-null nbmf of tif objfdt. It is rflbtivf
+      *             to tif <fm>tbrgft dontfxt</fm> (wiidi is
+      * nbmfd by tif first pbrbmftfr of tif <dodf>listBindings()</dodf> mftiod)
+      * @pbrbm  dlbssNbmf       Tif possibly null dlbss nbmf of tif objfdt
+      *         bound to <tt>nbmf</tt>. If null, tif dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm  obj     Tif possibly null objfdt bound to nbmf.
+      * @sff NbmfClbssPbir#sftClbssNbmf
       */
-    public Binding(String name, String className, Object obj) {
-        super(name, className);
-        this.boundObj = obj;
+    publid Binding(String nbmf, String dlbssNbmf, Objfdt obj) {
+        supfr(nbmf, dlbssNbmf);
+        tiis.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its
-      * name, class name, object, and whether the name is relative.
+      * Construdts bn instbndf of b Binding givfn its
+      * nbmf, dlbss nbmf, objfdt, bnd wiftifr tif nbmf is rflbtivf.
       *
-      * @param  name    The non-null string name of the object.
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also
-      *         null, <tt>getClassName()</tt> will return null.
-      * @param  obj     The possibly null object bound to name.
-      * @param isRelative true if <code>name</code> is a name relative
-      *         to the target context (which is named by
-      *         the first parameter of the <code>listBindings()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see NameClassPair#isRelative
-      * @see NameClassPair#setRelative
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbmf    Tif non-null string nbmf of tif objfdt.
+      * @pbrbm  dlbssNbmf       Tif possibly null dlbss nbmf of tif objfdt
+      *         bound to <tt>nbmf</tt>. If null, tif dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm  obj     Tif possibly null objfdt bound to nbmf.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is b nbmf rflbtivf
+      *         to tif tbrgft dontfxt (wiidi is nbmfd by
+      *         tif first pbrbmftfr of tif <dodf>listBindings()</dodf> mftiod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff NbmfClbssPbir#isRflbtivf
+      * @sff NbmfClbssPbir#sftRflbtivf
+      * @sff NbmfClbssPbir#sftClbssNbmf
       */
-    public Binding(String name, String className, Object obj, boolean isRelative) {
-        super(name, className, isRelative);
-        this.boundObj = obj;
+    publid Binding(String nbmf, String dlbssNbmf, Objfdt obj, boolfbn isRflbtivf) {
+        supfr(nbmf, dlbssNbmf, isRflbtivf);
+        tiis.boundObj = obj;
     }
 
     /**
-      * Retrieves the class name of the object bound to the name of this binding.
-      * If the class name has been set explicitly, return it.
-      * Otherwise, if this binding contains a non-null object,
-      * that object's class name is used. Otherwise, null is returned.
+      * Rftrifvfs tif dlbss nbmf of tif objfdt bound to tif nbmf of tiis binding.
+      * If tif dlbss nbmf ibs bffn sft fxpliditly, rfturn it.
+      * Otifrwisf, if tiis binding dontbins b non-null objfdt,
+      * tibt objfdt's dlbss nbmf is usfd. Otifrwisf, null is rfturnfd.
       *
-      * @return A possibly null string containing class name of object bound.
+      * @rfturn A possibly null string dontbining dlbss nbmf of objfdt bound.
       */
-    public String getClassName() {
-        String cname = super.getClassName();
-        if (cname != null) {
-            return cname;
+    publid String gftClbssNbmf() {
+        String dnbmf = supfr.gftClbssNbmf();
+        if (dnbmf != null) {
+            rfturn dnbmf;
         }
         if (boundObj != null)
-            return boundObj.getClass().getName();
-        else
-            return null;
+            rfturn boundObj.gftClbss().gftNbmf();
+        flsf
+            rfturn null;
     }
 
     /**
-      * Retrieves the object bound to the name of this binding.
+      * Rftrifvfs tif objfdt bound to tif nbmf of tiis binding.
       *
-      * @return The object bound; null if this binding does not contain an object.
-      * @see #setObject
+      * @rfturn Tif objfdt bound; null if tiis binding dofs not dontbin bn objfdt.
+      * @sff #sftObjfdt
       */
 
-    public Object getObject() {
-        return boundObj;
+    publid Objfdt gftObjfdt() {
+        rfturn boundObj;
     }
 
     /**
-     * Sets the object associated with this binding.
-     * @param obj The possibly null object to use.
-     * @see #getObject
+     * Sfts tif objfdt bssodibtfd witi tiis binding.
+     * @pbrbm obj Tif possibly null objfdt to usf.
+     * @sff #gftObjfdt
      */
-    public void setObject(Object obj) {
+    publid void sftObjfdt(Objfdt obj) {
         boundObj = obj;
     }
 
     /**
-      * Generates the string representation of this binding.
-      * The string representation consists of the string representation
-      * of the name/class pair and the string representation of
-      * this binding's object, separated by ':'.
-      * The contents of this string is useful
-      * for debugging and is not meant to be interpreted programmatically.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis binding.
+      * Tif string rfprfsfntbtion donsists of tif string rfprfsfntbtion
+      * of tif nbmf/dlbss pbir bnd tif string rfprfsfntbtion of
+      * tiis binding's objfdt, sfpbrbtfd by ':'.
+      * Tif dontfnts of tiis string is usfful
+      * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
       *
-      * @return The non-null string representation of this binding.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis binding.
       */
 
-    public String toString() {
-        return super.toString() + ":" + getObject();
+    publid String toString() {
+        rfturn supfr.toString() + ":" + gftObjfdt();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 8839217842691845890L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8839217842691845890L;
 };

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.server;
-import java.rmi.*;
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
-import java.io.StreamCorruptedException;
-import java.io.IOException;
+pbdkbgf jbvb.rmi.sfrvfr;
+import jbvb.rmi.*;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.io.IOExdfption;
 
 /**
- * <code>RemoteCall</code> is an abstraction used solely by the RMI runtime
- * (in conjunction with stubs and skeletons of remote objects) to carry out a
- * call to a remote object.  The <code>RemoteCall</code> interface is
- * deprecated because it is only used by deprecated methods of
- * <code>java.rmi.server.RemoteRef</code>.
+ * <dodf>RfmotfCbll</dodf> is bn bbstrbdtion usfd solfly by tif RMI runtimf
+ * (in donjundtion witi stubs bnd skflftons of rfmotf objfdts) to dbrry out b
+ * dbll to b rfmotf objfdt.  Tif <dodf>RfmotfCbll</dodf> intfrfbdf is
+ * dfprfdbtfd bfdbusf it is only usfd by dfprfdbtfd mftiods of
+ * <dodf>jbvb.rmi.sfrvfr.RfmotfRff</dodf>.
  *
- * @since   1.1
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @see     java.rmi.server.RemoteRef
- * @deprecated no replacement.
+ * @sindf   1.1
+ * @butior  Ann Wollrbti
+ * @butior  Rogfr Riggs
+ * @sff     jbvb.rmi.sfrvfr.RfmotfRff
+ * @dfprfdbtfd no rfplbdfmfnt.
  */
-@Deprecated
-public interface RemoteCall {
+@Dfprfdbtfd
+publid intfrfbdf RfmotfCbll {
 
     /**
-     * Return the output stream the stub/skeleton should put arguments/results
+     * Rfturn tif output strfbm tif stub/skflfton siould put brgumfnts/rfsults
      * into.
      *
-     * @return output stream for arguments/results
-     * @exception java.io.IOException if an I/O error occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @rfturn output strfbm for brgumfnts/rfsults
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    ObjectOutput getOutputStream()  throws IOException;
+    @Dfprfdbtfd
+    ObjfdtOutput gftOutputStrfbm()  tirows IOExdfption;
 
     /**
-     * Release the output stream; in some transports this would release
-     * the stream.
+     * Rflfbsf tif output strfbm; in somf trbnsports tiis would rflfbsf
+     * tif strfbm.
      *
-     * @exception java.io.IOException if an I/O error occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    void releaseOutputStream()  throws IOException;
+    @Dfprfdbtfd
+    void rflfbsfOutputStrfbm()  tirows IOExdfption;
 
     /**
-     * Get the InputStream that the stub/skeleton should get
-     * results/arguments from.
+     * Gft tif InputStrfbm tibt tif stub/skflfton siould gft
+     * rfsults/brgumfnts from.
      *
-     * @return input stream for reading arguments/results
-     * @exception java.io.IOException if an I/O error occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @rfturn input strfbm for rfbding brgumfnts/rfsults
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    ObjectInput getInputStream()  throws IOException;
+    @Dfprfdbtfd
+    ObjfdtInput gftInputStrfbm()  tirows IOExdfption;
 
 
     /**
-     * Release the input stream. This would allow some transports to release
-     * the channel early.
+     * Rflfbsf tif input strfbm. Tiis would bllow somf trbnsports to rflfbsf
+     * tif dibnnfl fbrly.
      *
-     * @exception java.io.IOException if an I/O error occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    void releaseInputStream() throws IOException;
+    @Dfprfdbtfd
+    void rflfbsfInputStrfbm() tirows IOExdfption;
 
     /**
-     * Returns an output stream (may put out header information
-     * relating to the success of the call). Should only succeed
-     * once per remote call.
+     * Rfturns bn output strfbm (mby put out ifbdfr informbtion
+     * rflbting to tif suddfss of tif dbll). Siould only suddffd
+     * ondf pfr rfmotf dbll.
      *
-     * @param success If true, indicates normal return, else indicates
-     * exceptional return.
-     * @return output stream for writing call result
-     * @exception java.io.IOException              if an I/O error occurs.
-     * @exception java.io.StreamCorruptedException If already been called.
-     * @since 1.1
-     * @deprecated no replacement
+     * @pbrbm suddfss If truf, indidbtfs normbl rfturn, flsf indidbtfs
+     * fxdfptionbl rfturn.
+     * @rfturn output strfbm for writing dbll rfsult
+     * @fxdfption jbvb.io.IOExdfption              if bn I/O frror oddurs.
+     * @fxdfption jbvb.io.StrfbmCorruptfdExdfption If blrfbdy bffn dbllfd.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    ObjectOutput getResultStream(boolean success) throws IOException,
-        StreamCorruptedException;
+    @Dfprfdbtfd
+    ObjfdtOutput gftRfsultStrfbm(boolfbn suddfss) tirows IOExdfption,
+        StrfbmCorruptfdExdfption;
 
     /**
-     * Do whatever it takes to execute the call.
+     * Do wibtfvfr it tbkfs to fxfdutf tif dbll.
      *
-     * @exception java.lang.Exception if a general exception occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @fxdfption jbvb.lbng.Exdfption if b gfnfrbl fxdfption oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    void executeCall() throws Exception;
+    @Dfprfdbtfd
+    void fxfdutfCbll() tirows Exdfption;
 
     /**
-     * Allow cleanup after the remote call has completed.
+     * Allow dlfbnup bftfr tif rfmotf dbll ibs domplftfd.
      *
-     * @exception java.io.IOException if an I/O error occurs.
-     * @since 1.1
-     * @deprecated no replacement
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
      */
-    @Deprecated
-    void done() throws IOException;
+    @Dfprfdbtfd
+    void donf() tirows IOExdfption;
 }

@@ -1,0 +1,989 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.OSInfo;
+import sun.swing.SwingAddfssor;
+
+import jbvb.bpplft.Applft;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import stbtid jbvbx.swing.ClifntPropfrtyKfy.PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP;
+
+/**
+ * <dodf>PopupFbdtory</dodf>, bs thf nbmf implifs, is usfd to obtbin
+ * instbndfs of <dodf>Popup</dodf>s. <dodf>Popup</dodf>s brf usfd to
+ * displby b <dodf>Componfnt</dodf> bbovf bll othfr <dodf>Componfnt</dodf>s
+ * in b pbrtidulbr dontbinmfnt hifrbrdhy. Thf gfnfrbl dontrbdt is thbt
+ * ondf you hbvf obtbinfd b <dodf>Popup</dodf> from b
+ * <dodf>PopupFbdtory</dodf>, you must invokf <dodf>hidf</dodf> on thf
+ * <dodf>Popup</dodf>. Thf typidbl usbgf is:
+ * <prf>
+ *   PopupFbdtory fbdtory = PopupFbdtory.gftShbrfdInstbndf();
+ *   Popup popup = fbdtory.gftPopup(ownfr, dontfnts, x, y);
+ *   popup.show();
+ *   ...
+ *   popup.hidf();
+ * </prf>
+ *
+ * @sff Popup
+ *
+ * @sindf 1.4
+ */
+publid dlbss PopupFbdtory {
+
+    stbtid {
+        SwingAddfssor.sftPopupFbdtoryAddfssor(nfw SwingAddfssor.PopupFbdtoryAddfssor() {
+            @Ovfrridf
+            publid Popup gftHfbvyWfightPopup(PopupFbdtory fbdtory, Componfnt ownfr,
+                                             Componfnt dontfnts, int ownfrX, int ownfrY) {
+                rfturn fbdtory.gftPopup(ownfr, dontfnts, ownfrX, ownfrY, HEAVY_WEIGHT_POPUP);
+            }
+        });
+    }
+    /**
+     * Thf shbrfd instbndfof <dodf>PopupFbdtory</dodf> is pfr
+     * <dodf>AppContfxt</dodf>. This is thf kfy usfd in thf
+     * <dodf>AppContfxt</dodf> to lodbtf thf <dodf>PopupFbdtory</dodf>.
+     */
+    privbtf stbtid finbl Objfdt ShbrfdInstbndfKfy =
+        nfw StringBufffr("PopupFbdtory.ShbrfdInstbndfKfy");
+
+    /**
+     * Mbx numbfr of itfms to storf in bny onf pbrtidulbr dbdhf.
+     */
+    privbtf stbtid finbl int MAX_CACHE_SIZE = 5;
+
+    /**
+     * Kfy usfd to indidbtf b light wfight popup should bf usfd.
+     */
+    stbtid finbl int LIGHT_WEIGHT_POPUP   = 0;
+
+    /**
+     * Kfy usfd to indidbtf b mfdium wfight Popup should bf usfd.
+     */
+    stbtid finbl int MEDIUM_WEIGHT_POPUP  = 1;
+
+    /*
+     * Kfy usfd to indidbtf b hfbvy wfight Popup should bf usfd.
+     */
+    stbtid finbl int HEAVY_WEIGHT_POPUP   = 2;
+
+    /**
+     * Dffbult typf of Popup to drfbtf.
+     */
+    privbtf int popupTypf = LIGHT_WEIGHT_POPUP;
+
+
+    /**
+     * Sfts thf <dodf>PopupFbdtory</dodf> thbt will bf usfd to obtbin
+     * <dodf>Popup</dodf>s.
+     * This will throw bn <dodf>IllfgblArgumfntExdfption</dodf> if
+     * <dodf>fbdtory</dodf> is null.
+     *
+     * @pbrbm fbdtory Shbrfd PopupFbdtory
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fbdtory</dodf> is null
+     * @sff #gftPopup
+     */
+    publid stbtid void sftShbrfdInstbndf(PopupFbdtory fbdtory) {
+        if (fbdtory == null) {
+            throw nfw IllfgblArgumfntExdfption("PopupFbdtory dbn not bf null");
+        }
+        SwingUtilitifs.bppContfxtPut(ShbrfdInstbndfKfy, fbdtory);
+    }
+
+    /**
+     * Rfturns thf shbrfd <dodf>PopupFbdtory</dodf> whidh dbn bf usfd
+     * to obtbin <dodf>Popup</dodf>s.
+     *
+     * @rfturn Shbrfd PopupFbdtory
+     */
+    publid stbtid PopupFbdtory gftShbrfdInstbndf() {
+        PopupFbdtory fbdtory = (PopupFbdtory)SwingUtilitifs.bppContfxtGft(
+                         ShbrfdInstbndfKfy);
+
+        if (fbdtory == null) {
+            fbdtory = nfw PopupFbdtory();
+            sftShbrfdInstbndf(fbdtory);
+        }
+        rfturn fbdtory;
+    }
+
+
+    /**
+     * Providfs b hint bs to thf typf of <dodf>Popup</dodf> thbt should
+     * bf drfbtfd.
+     */
+    void sftPopupTypf(int typf) {
+        popupTypf = typf;
+    }
+
+    /**
+     * Rfturns thf prfffrrfd typf of Popup to drfbtf.
+     */
+    int gftPopupTypf() {
+        rfturn popupTypf;
+    }
+
+    /**
+     * Crfbtfs b <dodf>Popup</dodf> for thf Componfnt <dodf>ownfr</dodf>
+     * dontbining thf Componfnt <dodf>dontfnts</dodf>. <dodf>ownfr</dodf>
+     * is usfd to dftfrminf whidh <dodf>Window</dodf> thf nfw
+     * <dodf>Popup</dodf> will pbrfnt thf <dodf>Componfnt</dodf> thf
+     * <dodf>Popup</dodf> drfbtfs to. A null <dodf>ownfr</dodf> implifs thfrf
+     * is no vblid pbrfnt. <dodf>x</dodf> bnd
+     * <dodf>y</dodf> spfdify thf prfffrrfd initibl lodbtion to plbdf
+     * thf <dodf>Popup</dodf> bt. Bbsfd on sdrffn sizf, or othfr pbrbmbtfrs,
+     * thf <dodf>Popup</dodf> mby not displby bt <dodf>x</dodf> bnd
+     * <dodf>y</dodf>.
+     *
+     * @pbrbm ownfr    Componfnt mousf doordinbtfs brf rflbtivf to, mby bf null
+     * @pbrbm dontfnts Contfnts of thf Popup
+     * @pbrbm x        Initibl x sdrffn doordinbtf
+     * @pbrbm y        Initibl y sdrffn doordinbtf
+     * @fxdfption IllfgblArgumfntExdfption if dontfnts is null
+     * @rfturn Popup dontbining Contfnts
+     */
+    publid Popup gftPopup(Componfnt ownfr, Componfnt dontfnts,
+                          int x, int y) throws IllfgblArgumfntExdfption {
+        if (dontfnts == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                          "Popup.gftPopup must bf pbssfd non-null dontfnts");
+        }
+
+        int popupTypf = gftPopupTypf(ownfr, dontfnts, x, y);
+        Popup popup = gftPopup(ownfr, dontfnts, x, y, popupTypf);
+
+        if (popup == null) {
+            // Didn't fit, fordf to hfbvy.
+            popup = gftPopup(ownfr, dontfnts, x, y, HEAVY_WEIGHT_POPUP);
+        }
+        rfturn popup;
+    }
+
+    /**
+     * Rfturns thf popup typf to usf for thf spfdififd pbrbmftfrs.
+     */
+    privbtf int gftPopupTypf(Componfnt ownfr, Componfnt dontfnts,
+                             int ownfrX, int ownfrY) {
+        int popupTypf = gftPopupTypf();
+
+        if (ownfr == null || invokfrInHfbvyWfightPopup(ownfr)) {
+            popupTypf = HEAVY_WEIGHT_POPUP;
+        }
+        flsf if (popupTypf == LIGHT_WEIGHT_POPUP &&
+                 !(dontfnts instbndfof JToolTip) &&
+                 !(dontfnts instbndfof JPopupMfnu)) {
+            popupTypf = MEDIUM_WEIGHT_POPUP;
+        }
+
+        // Chfdk if thf pbrfnt domponfnt is bn option pbnf.  If so wf nffd to
+        // fordf b hfbvy wfight popup in ordfr to hbvf fvfnt dispbtdhing work
+        // dorrfdtly.
+        Componfnt d = ownfr;
+        whilf (d != null) {
+            if (d instbndfof JComponfnt) {
+                if (((JComponfnt)d).gftClifntPropfrty(
+                            PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP) == Boolfbn.TRUE) {
+                    popupTypf = HEAVY_WEIGHT_POPUP;
+                    brfbk;
+                }
+            }
+            d = d.gftPbrfnt();
+        }
+
+        rfturn popupTypf;
+    }
+
+    /**
+     * Obtbins thf bppropribtf <dodf>Popup</dodf> bbsfd on
+     * <dodf>popupTypf</dodf>.
+     */
+    privbtf Popup gftPopup(Componfnt ownfr, Componfnt dontfnts,
+                           int ownfrX, int ownfrY, int popupTypf) {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            rfturn gftHfbdlfssPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        }
+
+        switdh(popupTypf) {
+        dbsf LIGHT_WEIGHT_POPUP:
+            rfturn gftLightWfightPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        dbsf MEDIUM_WEIGHT_POPUP:
+            rfturn gftMfdiumWfightPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        dbsf HEAVY_WEIGHT_POPUP:
+            Popup popup = gftHfbvyWfightPopup(ownfr, dontfnts, ownfrX, ownfrY);
+            if ((AddfssControllfr.doPrivilfgfd(OSInfo.gftOSTypfAdtion()) ==
+                OSInfo.OSTypf.MACOSX) && (ownfr != null) &&
+                (EmbfddfdFrbmf.gftApplftIfAndfstorOf(ownfr) != null)) {
+                ((HfbvyWfightPopup)popup).sftCbdhfEnbblfd(fblsf);
+            }
+            rfturn popup;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b hfbdlfss popup
+     */
+    privbtf Popup gftHfbdlfssPopup(Componfnt ownfr, Componfnt dontfnts,
+                                   int ownfrX, int ownfrY) {
+        rfturn HfbdlfssPopup.gftHfbdlfssPopup(ownfr, dontfnts, ownfrX, ownfrY);
+    }
+
+    /**
+     * Crfbtfs b light wfight popup.
+     */
+    privbtf Popup gftLightWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+        rfturn LightWfightPopup.gftLightWfightPopup(ownfr, dontfnts, ownfrX,
+                                                    ownfrY);
+    }
+
+    /**
+     * Crfbtfs b mfdium wfight popup.
+     */
+    privbtf Popup gftMfdiumWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                          int ownfrX, int ownfrY) {
+        rfturn MfdiumWfightPopup.gftMfdiumWfightPopup(ownfr, dontfnts,
+                                                      ownfrX, ownfrY);
+    }
+
+    /**
+     * Crfbtfs b hfbvy wfight popup.
+     */
+    privbtf Popup gftHfbvyWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            rfturn gftMfdiumWfightPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        }
+        rfturn HfbvyWfightPopup.gftHfbvyWfightPopup(ownfr, dontfnts, ownfrX,
+                                                    ownfrY);
+    }
+
+    /**
+     * Rfturns truf if thf Componfnt <dodf>i</dodf> insidf b hfbvy wfight
+     * <dodf>Popup</dodf>.
+     */
+    privbtf boolfbn invokfrInHfbvyWfightPopup(Componfnt i) {
+        if (i != null) {
+            Contbinfr pbrfnt;
+            for(pbrfnt = i.gftPbrfnt() ; pbrfnt != null ; pbrfnt =
+                    pbrfnt.gftPbrfnt()) {
+                if (pbrfnt instbndfof Popup.HfbvyWfightWindow) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Popup implfmfntbtion thbt usfs b Window bs thf popup.
+     */
+    privbtf stbtid dlbss HfbvyWfightPopup fxtfnds Popup {
+        privbtf stbtid finbl Objfdt hfbvyWfightPopupCbdhfKfy =
+                 nfw StringBufffr("PopupFbdtory.hfbvyWfightPopupCbdhf");
+
+        privbtf volbtilf boolfbn isCbdhfEnbblfd = truf;
+
+        /**
+         * Rfturns fithfr b nfw or rfdydlfd <dodf>Popup</dodf> dontbining
+         * thf spfdififd dhildrfn.
+         */
+        stbtid Popup gftHfbvyWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+            Window window = (ownfr != null) ? SwingUtilitifs.
+                              gftWindowAndfstor(ownfr) : null;
+            HfbvyWfightPopup popup = null;
+
+            if (window != null) {
+                popup = gftRfdydlfdHfbvyWfightPopup(window);
+            }
+
+            boolfbn fodusPopup = fblsf;
+            if(dontfnts != null && dontfnts.isFodusbblf()) {
+                if(dontfnts instbndfof JPopupMfnu) {
+                    JPopupMfnu jpm = (JPopupMfnu) dontfnts;
+                    Componfnt popComps[] = jpm.gftComponfnts();
+                    for (Componfnt popComp : popComps) {
+                        if (!(popComp instbndfof MfnuElfmfnt) &&
+                                !(popComp instbndfof JSfpbrbtor)) {
+                            fodusPopup = truf;
+                            brfbk;
+                        }
+                    }
+                }
+            }
+
+            if (popup == null ||
+                ((JWindow) popup.gftComponfnt())
+                 .gftFodusbblfWindowStbtf() != fodusPopup) {
+
+                if(popup != null) {
+                    // Thf rfdydlfd popup dbn't sfrvf us wfll
+                    // disposf it bnd drfbtf nfw onf
+                    popup._disposf();
+                }
+
+                popup = nfw HfbvyWfightPopup();
+            }
+
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+
+            if(fodusPopup) {
+                JWindow wnd = (JWindow) popup.gftComponfnt();
+                wnd.sftFodusbblfWindowStbtf(truf);
+                // Sft window nbmf. Wf nffd this in BbsidPopupMfnuUI
+                // to idfntify fodusbblf popup window.
+                wnd.sftNbmf("###fodusbblfSwingPopup###");
+            }
+
+            rfturn popup;
+        }
+
+        /**
+         * Rfturns b prfviously disposfd hfbvy wfight <dodf>Popup</dodf>
+         * bssodibtfd with <dodf>window</dodf>. This will rfturn null if
+         * thfrf is no <dodf>HfbvyWfightPopup</dodf> bssodibtfd with
+         * <dodf>window</dodf>.
+         */
+        privbtf stbtid HfbvyWfightPopup gftRfdydlfdHfbvyWfightPopup(Window w) {
+            syndhronizfd (HfbvyWfightPopup.dlbss) {
+                List<HfbvyWfightPopup> dbdhf;
+                Mbp<Window, List<HfbvyWfightPopup>> hfbvyPopupCbdhf = gftHfbvyWfightPopupCbdhf();
+
+                if (hfbvyPopupCbdhf.dontbinsKfy(w)) {
+                    dbdhf = hfbvyPopupCbdhf.gft(w);
+                } flsf {
+                    rfturn null;
+                }
+                if (dbdhf.sizf() > 0) {
+                    HfbvyWfightPopup r = dbdhf.gft(0);
+                    dbdhf.rfmovf(0);
+                    rfturn r;
+                }
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns thf dbdhf to usf for hfbvy wfight popups. Mbps from
+         * <dodf>Window</dodf> to b <dodf>List</dodf> of
+         * <dodf>HfbvyWfightPopup</dodf>s.
+         */
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf stbtid Mbp<Window, List<HfbvyWfightPopup>> gftHfbvyWfightPopupCbdhf() {
+            syndhronizfd (HfbvyWfightPopup.dlbss) {
+                Mbp<Window, List<HfbvyWfightPopup>> dbdhf = (Mbp<Window, List<HfbvyWfightPopup>>)SwingUtilitifs.bppContfxtGft(
+                                  hfbvyWfightPopupCbdhfKfy);
+
+                if (dbdhf == null) {
+                    dbdhf = nfw HbshMbp<>(2);
+                    SwingUtilitifs.bppContfxtPut(hfbvyWfightPopupCbdhfKfy,
+                                                 dbdhf);
+                }
+                rfturn dbdhf;
+            }
+        }
+
+        /**
+         * Rfdydlfs thf pbssfd in <dodf>HfbvyWfightPopup</dodf>.
+         */
+        privbtf stbtid void rfdydlfHfbvyWfightPopup(HfbvyWfightPopup popup) {
+            syndhronizfd (HfbvyWfightPopup.dlbss) {
+                List<HfbvyWfightPopup> dbdhf;
+                Window window = SwingUtilitifs.gftWindowAndfstor(
+                                     popup.gftComponfnt());
+                Mbp<Window, List<HfbvyWfightPopup>> hfbvyPopupCbdhf = gftHfbvyWfightPopupCbdhf();
+
+                if (window instbndfof Popup.DffbultFrbmf ||
+                                      !window.isVisiblf()) {
+                    // If thf Window isn't visiblf, wf don't dbdhf it bs wf
+                    // likfly won't fvfr gft b windowClosfd fvfnt to dlfbn up.
+                    // Wf blso don't dbdhf DffbultFrbmfs bs this indidbtfs
+                    // thfrf wbsn't b vblid Window pbrfnt, bnd thus wf don't
+                    // know whfn to dlfbn up.
+                    popup._disposf();
+                    rfturn;
+                } flsf if (hfbvyPopupCbdhf.dontbinsKfy(window)) {
+                    dbdhf = hfbvyPopupCbdhf.gft(window);
+                } flsf {
+                    dbdhf = nfw ArrbyList<HfbvyWfightPopup>();
+                    hfbvyPopupCbdhf.put(window, dbdhf);
+                    // Clfbn up if thf Window is dlosfd
+                    finbl Window w = window;
+
+                    w.bddWindowListfnfr(nfw WindowAdbptfr() {
+                        publid void windowClosfd(WindowEvfnt f) {
+                            List<HfbvyWfightPopup> popups;
+
+                            syndhronizfd(HfbvyWfightPopup.dlbss) {
+                                Mbp<Window, List<HfbvyWfightPopup>> hfbvyPopupCbdhf2 =
+                                              gftHfbvyWfightPopupCbdhf();
+
+                                popups = hfbvyPopupCbdhf2.rfmovf(w);
+                            }
+                            if (popups != null) {
+                                for (int dountfr = popups.sizf() - 1;
+                                                   dountfr >= 0; dountfr--) {
+                                    popups.gft(dountfr)._disposf();
+                                }
+                            }
+                        }
+                    });
+                }
+
+                if(dbdhf.sizf() < MAX_CACHE_SIZE) {
+                    dbdhf.bdd(popup);
+                } flsf {
+                    popup._disposf();
+                }
+            }
+        }
+
+        /**
+         * Enbblfs or disbblfs dbdhf for durrfnt objfdt.
+         */
+        void sftCbdhfEnbblfd(boolfbn fnbblf) {
+            isCbdhfEnbblfd = fnbblf;
+        }
+
+        //
+        // Popup mfthods
+        //
+        publid void hidf() {
+            supfr.hidf();
+            if (isCbdhfEnbblfd) {
+                rfdydlfHfbvyWfightPopup(this);
+            } flsf {
+                this._disposf();
+            }
+        }
+
+        /**
+         * As wf rfdydlf thf <dodf>Window</dodf>, wf don't wbnt to disposf it,
+         * thus this mfthod dofs nothing, instfbd usf <dodf>_diposf</dodf>
+         * whidh will hbndlf thf disposing.
+         */
+        void disposf() {
+        }
+
+        void _disposf() {
+            supfr.disposf();
+        }
+    }
+
+
+
+    /**
+     * ContbinfrPopup donsolidbtfs thf dommon dodf usfd in thf light/mfdium
+     * wfight implfmfntbtions of <dodf>Popup</dodf>.
+     */
+    privbtf stbtid dlbss ContbinfrPopup fxtfnds Popup {
+        /** Componfnt wf brf to bf bddfd to. */
+        Componfnt ownfr;
+        /** Dfsirfd x lodbtion. */
+        int x;
+        /** Dfsirfd y lodbtion. */
+        int y;
+
+        publid void hidf() {
+            Componfnt domponfnt = gftComponfnt();
+
+            if (domponfnt != null) {
+                Contbinfr pbrfnt = domponfnt.gftPbrfnt();
+
+                if (pbrfnt != null) {
+                    Rfdtbnglf bounds = domponfnt.gftBounds();
+
+                    pbrfnt.rfmovf(domponfnt);
+                    pbrfnt.rfpbint(bounds.x, bounds.y, bounds.width,
+                                   bounds.hfight);
+                }
+            }
+            ownfr = null;
+        }
+        publid void pbdk() {
+            Componfnt domponfnt = gftComponfnt();
+
+            if (domponfnt != null) {
+                domponfnt.sftSizf(domponfnt.gftPrfffrrfdSizf());
+            }
+        }
+
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            if ((ownfr instbndfof JFrbmf) || (ownfr instbndfof JDiblog) ||
+                                                 (ownfr instbndfof JWindow)) {
+                // Fordf thf dontfnt to bf bddfd to thf lbyfrfd pbnf, othfrwisf
+                // wf'll gft bn fxdfption whfn bdding to thf RootPbnfContbinfr.
+                ownfr = ((RootPbnfContbinfr)ownfr).gftLbyfrfdPbnf();
+            }
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+
+            x = ownfrX;
+            y = ownfrY;
+            this.ownfr = ownfr;
+        }
+
+        boolfbn ovfrlbppfdByOwnfdWindow() {
+            Componfnt domponfnt = gftComponfnt();
+            if(ownfr != null && domponfnt != null) {
+                Window w = SwingUtilitifs.gftWindowAndfstor(ownfr);
+                if (w == null) {
+                    rfturn fblsf;
+                }
+                Window[] ownfdWindows = w.gftOwnfdWindows();
+                if(ownfdWindows != null) {
+                    Rfdtbnglf bnd = domponfnt.gftBounds();
+                    for (Window window : ownfdWindows) {
+                        if (window.isVisiblf() &&
+                                bnd.intfrsfdts(window.gftBounds())) {
+
+                            rfturn truf;
+                        }
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfturns truf if popup dbn fit thf sdrffn bnd thf ownfr's top pbrfnt.
+         * It dftfrminfs dbn popup bf lightwfight or mfdiumwfight.
+         */
+        boolfbn fitsOnSdrffn() {
+            boolfbn rfsult = fblsf;
+            Componfnt domponfnt = gftComponfnt();
+            if (ownfr != null && domponfnt != null) {
+                int popupWidth = domponfnt.gftWidth();
+                int popupHfight = domponfnt.gftHfight();
+
+                Contbinfr pbrfnt = (Contbinfr) SwingUtilitifs.gftRoot(ownfr);
+                if (pbrfnt instbndfof JFrbmf ||
+                    pbrfnt instbndfof JDiblog ||
+                    pbrfnt instbndfof JWindow) {
+
+                    Rfdtbnglf pbrfntBounds = pbrfnt.gftBounds();
+                    Insfts i = pbrfnt.gftInsfts();
+                    pbrfntBounds.x += i.lfft;
+                    pbrfntBounds.y += i.top;
+                    pbrfntBounds.width -= i.lfft + i.right;
+                    pbrfntBounds.hfight -= i.top + i.bottom;
+
+                    if (JPopupMfnu.dbnPopupOvfrlbpTbskBbr()) {
+                        GrbphidsConfigurbtion gd =
+                                pbrfnt.gftGrbphidsConfigurbtion();
+                        Rfdtbnglf popupArfb = gftContbinfrPopupArfb(gd);
+                        rfsult = pbrfntBounds.intfrsfdtion(popupArfb)
+                                .dontbins(x, y, popupWidth, popupHfight);
+                    } flsf {
+                        rfsult = pbrfntBounds
+                                .dontbins(x, y, popupWidth, popupHfight);
+                    }
+                } flsf if (pbrfnt instbndfof JApplft) {
+                    Rfdtbnglf pbrfntBounds = pbrfnt.gftBounds();
+                    Point p = pbrfnt.gftLodbtionOnSdrffn();
+                    pbrfntBounds.x = p.x;
+                    pbrfntBounds.y = p.y;
+                    rfsult = pbrfntBounds.dontbins(x, y, popupWidth, popupHfight);
+                }
+            }
+            rfturn rfsult;
+        }
+
+        Rfdtbnglf gftContbinfrPopupArfb(GrbphidsConfigurbtion gd) {
+            Rfdtbnglf sdrffnBounds;
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            Insfts insfts;
+            if(gd != null) {
+                // If wf hbvf GrbphidsConfigurbtion usf it
+                // to gft sdrffn bounds
+                sdrffnBounds = gd.gftBounds();
+                insfts = toolkit.gftSdrffnInsfts(gd);
+            } flsf {
+                // If wf don't hbvf GrbphidsConfigurbtion usf primbry sdrffn
+                sdrffnBounds = nfw Rfdtbnglf(toolkit.gftSdrffnSizf());
+                insfts = nfw Insfts(0, 0, 0, 0);
+            }
+            // Tbkf insfts into bddount
+            sdrffnBounds.x += insfts.lfft;
+            sdrffnBounds.y += insfts.top;
+            sdrffnBounds.width -= (insfts.lfft + insfts.right);
+            sdrffnBounds.hfight -= (insfts.top + insfts.bottom);
+            rfturn sdrffnBounds;
+        }
+    }
+
+
+    /**
+     * Popup implfmfntbtion thbt is usfd in hfbdlfss fnvironmfnt.
+     */
+    privbtf stbtid dlbss HfbdlfssPopup fxtfnds ContbinfrPopup {
+        stbtid Popup gftHfbdlfssPopup(Componfnt ownfr, Componfnt dontfnts,
+                                      int ownfrX, int ownfrY) {
+            HfbdlfssPopup popup = nfw HfbdlfssPopup();
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            rfturn popup;
+        }
+
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            rfturn nfw Pbnfl(nfw BordfrLbyout());
+        }
+
+        publid void show() {
+        }
+        publid void hidf() {
+        }
+    }
+
+
+    /**
+     * Popup implfmfntbtion thbt usfs b JPbnfl bs thf popup.
+     */
+    privbtf stbtid dlbss LightWfightPopup fxtfnds ContbinfrPopup {
+        privbtf stbtid finbl Objfdt lightWfightPopupCbdhfKfy =
+                         nfw StringBufffr("PopupFbdtory.lightPopupCbdhf");
+
+        /**
+         * Rfturns b light wfight <dodf>Popup</dodf> implfmfntbtion. If
+         * thf <dodf>Popup</dodf> nffds morf spbdf thbt in bvbilbblf in
+         * <dodf>ownfr</dodf>, this will rfturn null.
+         */
+        stbtid Popup gftLightWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+            LightWfightPopup popup = gftRfdydlfdLightWfightPopup();
+
+            if (popup == null) {
+                popup = nfw LightWfightPopup();
+            }
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            if (!popup.fitsOnSdrffn() ||
+                 popup.ovfrlbppfdByOwnfdWindow()) {
+                popup.hidf();
+                rfturn null;
+            }
+            rfturn popup;
+        }
+
+        /**
+         * Rfturns thf dbdhf to usf for hfbvy wfight popups.
+         */
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf stbtid List<LightWfightPopup> gftLightWfightPopupCbdhf() {
+            List<LightWfightPopup> dbdhf = (List<LightWfightPopup>)SwingUtilitifs.bppContfxtGft(
+                                   lightWfightPopupCbdhfKfy);
+            if (dbdhf == null) {
+                dbdhf = nfw ArrbyList<>();
+                SwingUtilitifs.bppContfxtPut(lightWfightPopupCbdhfKfy, dbdhf);
+            }
+            rfturn dbdhf;
+        }
+
+        /**
+         * Rfdydlfs thf LightWfightPopup <dodf>popup</dodf>.
+         */
+        privbtf stbtid void rfdydlfLightWfightPopup(LightWfightPopup popup) {
+            syndhronizfd (LightWfightPopup.dlbss) {
+                List<LightWfightPopup> lightPopupCbdhf = gftLightWfightPopupCbdhf();
+                if (lightPopupCbdhf.sizf() < MAX_CACHE_SIZE) {
+                    lightPopupCbdhf.bdd(popup);
+                }
+            }
+        }
+
+        /**
+         * Rfturns b prfviously usfd <dodf>LightWfightPopup</dodf>, or null
+         * if nonf of thf popups hbvf bffn rfdydlfd.
+         */
+        privbtf stbtid LightWfightPopup gftRfdydlfdLightWfightPopup() {
+            syndhronizfd (LightWfightPopup.dlbss) {
+                List<LightWfightPopup> lightPopupCbdhf = gftLightWfightPopupCbdhf();
+                if (lightPopupCbdhf.sizf() > 0) {
+                    LightWfightPopup r = lightPopupCbdhf.gft(0);
+                    lightPopupCbdhf.rfmovf(0);
+                    rfturn r;
+                }
+                rfturn null;
+            }
+        }
+
+
+
+        //
+        // Popup mfthods
+        //
+        publid void hidf() {
+            supfr.hidf();
+
+            Contbinfr domponfnt = (Contbinfr)gftComponfnt();
+
+            domponfnt.rfmovfAll();
+            rfdydlfLightWfightPopup(this);
+        }
+        publid void show() {
+            Contbinfr pbrfnt = null;
+
+            if (ownfr != null) {
+                pbrfnt = (ownfr instbndfof Contbinfr? (Contbinfr)ownfr : ownfr.gftPbrfnt());
+            }
+
+            // Try to find b JLbyfrfdPbnf bnd Window to bdd
+            for (Contbinfr p = pbrfnt; p != null; p = p.gftPbrfnt()) {
+                if (p instbndfof JRootPbnf) {
+                    if (p.gftPbrfnt() instbndfof JIntfrnblFrbmf) {
+                        dontinuf;
+                    }
+                    pbrfnt = ((JRootPbnf)p).gftLbyfrfdPbnf();
+                    // Continuf, so thbt if thfrf is b highfr JRootPbnf, wf'll
+                    // pidk it up.
+                } flsf if(p instbndfof Window) {
+                    if (pbrfnt == null) {
+                        pbrfnt = p;
+                    }
+                    brfbk;
+                } flsf if (p instbndfof JApplft) {
+                    // Pbinting dodf stops bt Applfts, wf don't wbnt
+                    // to bdd to b Componfnt bbovf bn Applft othfrwisf
+                    // you'll nfvfr sff it pbintfd.
+                    brfbk;
+                }
+            }
+
+            Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt, x,
+                                                                   y);
+            Componfnt domponfnt = gftComponfnt();
+
+            domponfnt.sftLodbtion(p.x, p.y);
+            if (pbrfnt instbndfof JLbyfrfdPbnf) {
+                pbrfnt.bdd(domponfnt, JLbyfrfdPbnf.POPUP_LAYER, 0);
+            } flsf {
+                pbrfnt.bdd(domponfnt);
+            }
+        }
+
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            JComponfnt domponfnt = nfw JPbnfl(nfw BordfrLbyout(), truf);
+
+            domponfnt.sftOpbquf(truf);
+            rfturn domponfnt;
+        }
+
+        //
+        // Lodbl mfthods
+        //
+
+        /**
+         * Rfsfts thf <dodf>Popup</dodf> to bn initibl stbtf.
+         */
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+
+            JComponfnt domponfnt = (JComponfnt)gftComponfnt();
+
+            domponfnt.sftOpbquf(dontfnts.isOpbquf());
+            domponfnt.sftLodbtion(ownfrX, ownfrY);
+            domponfnt.bdd(dontfnts, BordfrLbyout.CENTER);
+            dontfnts.invblidbtf();
+            pbdk();
+        }
+    }
+
+
+    /**
+     * Popup implfmfntbtion thbt usfs b Pbnfl bs thf popup.
+     */
+    privbtf stbtid dlbss MfdiumWfightPopup fxtfnds ContbinfrPopup {
+        privbtf stbtid finbl Objfdt mfdiumWfightPopupCbdhfKfy =
+                             nfw StringBufffr("PopupFbdtory.mfdiumPopupCbdhf");
+
+        /** Child of thf pbnfl. Thf dontfnts brf bddfd to this. */
+        privbtf JRootPbnf rootPbnf;
+
+
+        /**
+         * Rfturns b mfdium wfight <dodf>Popup</dodf> implfmfntbtion. If
+         * thf <dodf>Popup</dodf> nffds morf spbdf thbt in bvbilbblf in
+         * <dodf>ownfr</dodf>, this will rfturn null.
+         */
+        stbtid Popup gftMfdiumWfightPopup(Componfnt ownfr, Componfnt dontfnts,
+                                          int ownfrX, int ownfrY) {
+            MfdiumWfightPopup popup = gftRfdydlfdMfdiumWfightPopup();
+
+            if (popup == null) {
+                popup = nfw MfdiumWfightPopup();
+            }
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            if (!popup.fitsOnSdrffn() ||
+                 popup.ovfrlbppfdByOwnfdWindow()) {
+                popup.hidf();
+                rfturn null;
+            }
+            rfturn popup;
+        }
+
+        /**
+         * Rfturns thf dbdhf to usf for mfdium wfight popups.
+         */
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf stbtid List<MfdiumWfightPopup> gftMfdiumWfightPopupCbdhf() {
+            List<MfdiumWfightPopup> dbdhf = (List<MfdiumWfightPopup>)SwingUtilitifs.bppContfxtGft(
+                                    mfdiumWfightPopupCbdhfKfy);
+
+            if (dbdhf == null) {
+                dbdhf = nfw ArrbyList<>();
+                SwingUtilitifs.bppContfxtPut(mfdiumWfightPopupCbdhfKfy, dbdhf);
+            }
+            rfturn dbdhf;
+        }
+
+        /**
+         * Rfdydlfs thf MfdiumWfightPopup <dodf>popup</dodf>.
+         */
+        privbtf stbtid void rfdydlfMfdiumWfightPopup(MfdiumWfightPopup popup) {
+            syndhronizfd (MfdiumWfightPopup.dlbss) {
+                List<MfdiumWfightPopup> mfdiumPopupCbdhf = gftMfdiumWfightPopupCbdhf();
+                if (mfdiumPopupCbdhf.sizf() < MAX_CACHE_SIZE) {
+                    mfdiumPopupCbdhf.bdd(popup);
+                }
+            }
+        }
+
+        /**
+         * Rfturns b prfviously usfd <dodf>MfdiumWfightPopup</dodf>, or null
+         * if nonf of thf popups hbvf bffn rfdydlfd.
+         */
+        privbtf stbtid MfdiumWfightPopup gftRfdydlfdMfdiumWfightPopup() {
+            syndhronizfd (MfdiumWfightPopup.dlbss) {
+                List<MfdiumWfightPopup> mfdiumPopupCbdhf = gftMfdiumWfightPopupCbdhf();
+                if (mfdiumPopupCbdhf.sizf() > 0) {
+                    MfdiumWfightPopup r = mfdiumPopupCbdhf.gft(0);
+                    mfdiumPopupCbdhf.rfmovf(0);
+                    rfturn r;
+                }
+                rfturn null;
+            }
+        }
+
+
+        //
+        // Popup
+        //
+
+        publid void hidf() {
+            supfr.hidf();
+            rootPbnf.gftContfntPbnf().rfmovfAll();
+            rfdydlfMfdiumWfightPopup(this);
+        }
+        publid void show() {
+            Componfnt domponfnt = gftComponfnt();
+            Contbinfr pbrfnt = null;
+
+            if (ownfr != null) {
+                pbrfnt = ownfr.gftPbrfnt();
+            }
+            /*
+              Find thf top lfvfl window,
+              if it hbs b lbyfrfd pbnf,
+              bdd to thbt, othfrwisf
+              bdd to thf window. */
+            whilf (!(pbrfnt instbndfof Window || pbrfnt instbndfof Applft) &&
+                   (pbrfnt!=null)) {
+                pbrfnt = pbrfnt.gftPbrfnt();
+            }
+            // Sft thf visibility to fblsf bfforf bdding to workbround b
+            // bug in Solbris in whidh thf Popup gfts bddfd bt thf wrong
+            // lodbtion, whidh will rfsult in b mousfExit, whidh will thfn
+            // rfsult in thf ToolTip bfing rfmovfd.
+            if (pbrfnt instbndfof RootPbnfContbinfr) {
+                pbrfnt = ((RootPbnfContbinfr)pbrfnt).gftLbyfrfdPbnf();
+                Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt,
+                                                                       x, y);
+                domponfnt.sftVisiblf(fblsf);
+                domponfnt.sftLodbtion(p.x, p.y);
+                pbrfnt.bdd(domponfnt, JLbyfrfdPbnf.POPUP_LAYER,
+                                           0);
+            } flsf {
+                Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt,
+                                                                       x, y);
+
+                domponfnt.sftLodbtion(p.x, p.y);
+                domponfnt.sftVisiblf(fblsf);
+                pbrfnt.bdd(domponfnt);
+            }
+            domponfnt.sftVisiblf(truf);
+        }
+
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            Pbnfl domponfnt = nfw MfdiumWfightComponfnt();
+
+            rootPbnf = nfw JRootPbnf();
+            // NOTE: this usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs
+            // thfrf is NO rfbson for thf RootPbnf not to bf opbquf. For
+            // pbinting to work thf dontfntPbnf must bf opbquf, thfrffor thf
+            // RootPbnf dbn blso bf opbquf.
+            rootPbnf.sftOpbquf(truf);
+            domponfnt.bdd(rootPbnf, BordfrLbyout.CENTER);
+            rfturn domponfnt;
+        }
+
+        /**
+         * Rfsfts thf <dodf>Popup</dodf> to bn initibl stbtf.
+         */
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+
+            Componfnt domponfnt = gftComponfnt();
+
+            domponfnt.sftLodbtion(ownfrX, ownfrY);
+            rootPbnf.gftContfntPbnf().bdd(dontfnts, BordfrLbyout.CENTER);
+            dontfnts.invblidbtf();
+            domponfnt.vblidbtf();
+            pbdk();
+        }
+
+
+        // This implfmfnts SwingHfbvyWfight so thbt rfpbints on it
+        // brf prodfssfd by thf RfpbintMbnbgfr bnd SwingPbintEvfntDispbtdhfr.
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        privbtf stbtid dlbss MfdiumWfightComponfnt fxtfnds Pbnfl implfmfnts
+                                                           SwingHfbvyWfight {
+            MfdiumWfightComponfnt() {
+                supfr(nfw BordfrLbyout());
+            }
+        }
+    }
+}

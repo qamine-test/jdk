@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.image.ComponentColorModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.WritableRaster;
-import java.awt.image.Raster;
-import java.awt.image.DataBuffer;
-import java.awt.image.SampleModel;
-import java.awt.color.ColorSpace;
-import java.awt.Transparency;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Trbnspbrfndy;
 
 /**
- * This class creates a standard ComponentColorModel with the slight
- * difference that it creates its Raster objects with the components
- * in the reverse order from the base ComponentColorModel to match
- * the ordering on a Windows 24-bit display.
+ * Tiis dlbss drfbtfs b stbndbrd ComponfntColorModfl witi tif sligit
+ * difffrfndf tibt it drfbtfs its Rbstfr objfdts witi tif domponfnts
+ * in tif rfvfrsf ordfr from tif bbsf ComponfntColorModfl to mbtdi
+ * tif ordfring on b Windows 24-bit displby.
  */
-public class Win32ColorModel24 extends ComponentColorModel {
-    public Win32ColorModel24() {
-        super(ColorSpace.getInstance(ColorSpace.CS_sRGB),
-              new int[] {8, 8, 8}, false, false,
-              Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+publid dlbss Win32ColorModfl24 fxtfnds ComponfntColorModfl {
+    publid Win32ColorModfl24() {
+        supfr(ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              nfw int[] {8, 8, 8}, fblsf, fblsf,
+              Trbnspbrfndy.OPAQUE, DbtbBufffr.TYPE_BYTE);
     }
 
     /**
-     * Creates a WritableRaster with the specified width and height, that
-     * has a data layout (SampleModel) compatible with this ColorModel.
-     * @see WritableRaster
-     * @see SampleModel
+     * Crfbtfs b WritbblfRbstfr witi tif spfdififd widti bnd ifigit, tibt
+     * ibs b dbtb lbyout (SbmplfModfl) dompbtiblf witi tiis ColorModfl.
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
      */
-    public WritableRaster createCompatibleWritableRaster (int w, int h) {
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr (int w, int i) {
         int[] bOffs = {2, 1, 0};
-        return Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                              w, h, w*3, 3,
+        rfturn Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                              w, i, w*3, 3,
                                               bOffs, null);
     }
 
     /**
-     * Creates a SampleModel with the specified width and height, that
-     * has a data layout compatible with this ColorModel.
-     * @see SampleModel
+     * Crfbtfs b SbmplfModfl witi tif spfdififd widti bnd ifigit, tibt
+     * ibs b dbtb lbyout dompbtiblf witi tiis ColorModfl.
+     * @sff SbmplfModfl
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
         int[] bOffs = {2, 1, 0};
-        return new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
-                                               w, h, 3, w*3, bOffs);
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                               w, i, 3, w*3, bOffs);
     }
 }

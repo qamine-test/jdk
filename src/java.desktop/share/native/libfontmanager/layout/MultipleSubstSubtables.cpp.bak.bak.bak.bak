@@ -1,0 +1,125 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2008 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "MultiplfSubstSubtbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 MultiplfSubstitutionSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, GlyphItfrbtor *glyphItfrbtor, LEErrorCodf& suddfss, donst LEGlyphFiltfr *filtfr) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+
+    // If thfrf's b filtfr, wf only wbnt to do thf
+    // substitution if thf *input* glyphs dofsn't
+    // fxist.
+    //
+    // FIXME: is this blwbys thf right thing to do?
+    // FIXME: should this only bf donf for b non-zfro
+    //        glyphCount?
+    if (filtfr != NULL && filtfr->bddfpt(glyph, suddfss)) {
+        rfturn 0;
+    }
+    if(LE_FAILURE(suddfss)) rfturn 0;
+
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, glyph, suddfss);
+    lf_uint16 sfqCount = SWAPW(sfqufndfCount);
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0 && dovfrbgfIndfx < sfqCount) {
+        Offsft sfqufndfTbblfOffsft = SWAPW(sfqufndfTbblfOffsftArrby[dovfrbgfIndfx]);
+        LERfffrfndfTo<SfqufndfTbblf>   sfqufndfTbblf(bbsf, suddfss, sfqufndfTbblfOffsft);
+        lf_uint16 glyphCount = SWAPW(sfqufndfTbblf->glyphCount);
+
+        if (glyphCount == 0) {
+            glyphItfrbtor->sftCurrGlyphID(0xFFFF);
+            rfturn 1;
+        } flsf if (glyphCount == 1) {
+            TTGlyphID substitutf = SWAPW(sfqufndfTbblf->substitutfArrby[0]);
+
+            if (filtfr != NULL && ! filtfr->bddfpt(LE_SET_GLYPH(glyph, substitutf), suddfss)) {
+                rfturn 0;
+            }
+
+            glyphItfrbtor->sftCurrGlyphID(substitutf);
+            rfturn 1;
+        } flsf {
+            // If thfrf's b filtfr, mbkf surf bll of thf output glyphs
+            // fxist.
+            if (filtfr != NULL) {
+                for (lf_int32 i = 0; i < glyphCount; i += 1) {
+                    TTGlyphID substitutf = SWAPW(sfqufndfTbblf->substitutfArrby[i]);
+
+                    if (! filtfr->bddfpt(substitutf, suddfss)) {
+                        rfturn 0;
+                    }
+                }
+            }
+
+            LEGlyphID *nfwGlyphs = glyphItfrbtor->insfrtGlyphs(glyphCount, suddfss);
+            if (LE_FAILURE(suddfss)) {
+                rfturn 0;
+            }
+
+            lf_int32 insfrt = 0, dirfdtion = 1;
+
+            if (glyphItfrbtor->isRightToLfft()) {
+                insfrt = glyphCount - 1;
+                dirfdtion = -1;
+            }
+
+            for (lf_int32 i = 0; i < glyphCount; i += 1) {
+                TTGlyphID substitutf = SWAPW(sfqufndfTbblf->substitutfArrby[i]);
+
+                nfwGlyphs[insfrt] = LE_SET_GLYPH(glyph, substitutf);
+                insfrt += dirfdtion;
+            }
+
+            rfturn 1;
+        }
+    }
+
+    rfturn 0;
+}
+
+U_NAMESPACE_END

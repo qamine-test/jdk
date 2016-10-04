@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * A simplf implfmfntbtion of <dodf>SpinnfrModfl</dodf> whosf
+ * vblufs brf dffinfd by bn brrby or b <dodf>List</dodf>.
+ * For fxbmplf to drfbtf b modfl dffinfd by
+ * bn brrby of thf nbmfs of thf dbys of thf wffk:
+ * <prf>
+ * String[] dbys = nfw DbtfFormbtSymbols().gftWffkdbys();
+ * SpinnfrModfl modfl = nfw SpinnfrListModfl(Arrbys.bsList(dbys).subList(1, 8));
+ * </prf>
+ * This dlbss only storfs b rfffrfndf to thf brrby or <dodf>List</dodf>
+ * so if bn flfmfnt of thf undfrlying sfqufndf dhbngfs, it's up
+ * to thf bpplidbtion to notify thf <dodf>ChbngfListfnfrs</dodf> by dblling
+ * <dodf>firfStbtfChbngfd</dodf>.
+ * <p>
+ * This modfl inhfrits b <dodf>ChbngfListfnfr</dodf>.
+ * Thf <dodf>ChbngfListfnfr</dodf>s brf notififd whfnfvfr thf
+ * modfl's <dodf>vbluf</dodf> or <dodf>list</dodf> propfrtifs dhbngfs.
+ *
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss SpinnfrListModfl fxtfnds AbstrbdtSpinnfrModfl implfmfnts Sfriblizbblf
+{
+    privbtf List<?> list;
+    privbtf int indfx;
+
+
+    /**
+     * Construdts b <dodf>SpinnfrModfl</dodf> whosf sfqufndf of
+     * vblufs is dffinfd by thf spfdififd <dodf>List</dodf>.
+     * Thf initibl vbluf (<i>durrfnt flfmfnt</i>)
+     * of thf modfl will bf <dodf>vblufs.gft(0)</dodf>.
+     * If <dodf>vblufs</dodf> is <dodf>null</dodf> or hbs zfro
+     * sizf, bn <dodf>IllfgblArugmfntExdfption</dodf> is thrown.
+     *
+     * @pbrbm vblufs thf sfqufndf this modfl rfprfsfnts
+     * @throws IllfgblArgumfntExdfption if <dodf>vblufs</dodf> is
+     *    <dodf>null</dodf> or zfro sizf
+     */
+    publid SpinnfrListModfl(List<?> vblufs) {
+        if (vblufs == null || vblufs.sizf() == 0) {
+            throw nfw IllfgblArgumfntExdfption("SpinnfrListModfl(List) fxpfdts non-null non-fmpty List");
+        }
+        this.list = vblufs;
+        this.indfx = 0;
+    }
+
+
+    /**
+     * Construdts b <dodf>SpinnfrModfl</dodf> whosf sfqufndf of vblufs
+     * is dffinfd by thf spfdififd brrby.  Thf initibl vbluf of thf modfl
+     * will bf <dodf>vblufs[0]</dodf>.  If <dodf>vblufs</dodf> is
+     * <dodf>null</dodf> or hbs zfro lfngth, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * @pbrbm vblufs thf sfqufndf this modfl rfprfsfnts
+     * @throws IllfgblArgumfntExdfption if <dodf>vblufs</dodf> is
+     *    <dodf>null</dodf> or zfro lfngth
+     */
+    publid SpinnfrListModfl(Objfdt[] vblufs) {
+        if (vblufs == null || vblufs.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("SpinnfrListModfl(Objfdt[]) fxpfdts non-null non-fmpty Objfdt[]");
+        }
+        this.list = Arrbys.bsList(vblufs);
+        this.indfx = 0;
+    }
+
+
+    /**
+     * Construdts bn ffffdtivfly fmpty <dodf>SpinnfrListModfl</dodf>.
+     * Thf modfl's list will dontbin b singlf
+     * <dodf>"fmpty"</dodf> string flfmfnt.
+     */
+    publid SpinnfrListModfl() {
+        this(nfw Objfdt[]{"fmpty"});
+    }
+
+
+    /**
+     * Rfturns thf <dodf>List</dodf> thbt dffinfs thf sfqufndf for this modfl.
+     *
+     * @rfturn thf vbluf of thf <dodf>list</dodf> propfrty
+     * @sff #sftList
+     */
+    publid List<?> gftList() {
+        rfturn list;
+    }
+
+
+    /**
+     * Chbngfs thf list thbt dffinfs this sfqufndf bnd rfsfts thf indfx
+     * of thf modfls <dodf>vbluf</dodf> to zfro.  Notf thbt <dodf>list</dodf>
+     * is not dopifd, thf modfl just storfs b rfffrfndf to it.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if <dodf>list</dodf> is
+     * not fqubl to thf durrfnt list.
+     *
+     * @pbrbm list thf sfqufndf thbt this modfl rfprfsfnts
+     * @throws IllfgblArgumfntExdfption if <dodf>list</dodf> is
+     *    <dodf>null</dodf> or zfro lfngth
+     * @sff #gftList
+     */
+    publid void sftList(List<?> list) {
+        if ((list == null) || (list.sizf() == 0)) {
+            throw nfw IllfgblArgumfntExdfption("invblid list");
+        }
+        if (!list.fqubls(this.list)) {
+            this.list = list;
+            indfx = 0;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf durrfnt flfmfnt of thf sfqufndf.
+     *
+     * @rfturn thf <dodf>vbluf</dodf> propfrty
+     * @sff SpinnfrModfl#gftVbluf
+     * @sff #sftVbluf
+     */
+    publid Objfdt gftVbluf() {
+        rfturn list.gft(indfx);
+    }
+
+
+    /**
+     * Chbngfs thf durrfnt flfmfnt of thf sfqufndf bnd notififs
+     * <dodf>ChbngfListfnfrs</dodf>.  If thf spfdififd
+     * vbluf is not fqubl to bn flfmfnt of thf undfrlying sfqufndf
+     * thfn bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * In thf following fxbmplf thf <dodf>sftVbluf</dodf> dbll
+     * would dbusf bn fxdfption to bf thrown:
+     * <prf>
+     * String[] vblufs = {"onf", "two", "frff", "four"};
+     * SpinnfrModfl modfl = nfw SpinnfrListModfl(vblufs);
+     * modfl.sftVbluf("TWO");
+     * </prf>
+     *
+     * @pbrbm flt thf sfqufndf flfmfnt thbt will bf modfl's durrfnt vbluf
+     * @throws IllfgblArgumfntExdfption if thf spfdififd vbluf isn't bllowfd
+     * @sff SpinnfrModfl#sftVbluf
+     * @sff #gftVbluf
+     */
+    publid void sftVbluf(Objfdt flt) {
+        int indfx = list.indfxOf(flt);
+        if (indfx == -1) {
+            throw nfw IllfgblArgumfntExdfption("invblid sfqufndf flfmfnt");
+        }
+        flsf if (indfx != this.indfx) {
+            this.indfx = indfx;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf nfxt lfgbl vbluf of thf undfrlying sfqufndf or
+     * <dodf>null</dodf> if vbluf is blrfbdy thf lbst flfmfnt.
+     *
+     * @rfturn thf nfxt lfgbl vbluf of thf undfrlying sfqufndf or
+     *     <dodf>null</dodf> if vbluf is blrfbdy thf lbst flfmfnt
+     * @sff SpinnfrModfl#gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     */
+    publid Objfdt gftNfxtVbluf() {
+        rfturn (indfx >= (list.sizf() - 1)) ? null : list.gft(indfx + 1);
+    }
+
+
+    /**
+     * Rfturns thf prfvious flfmfnt of thf undfrlying sfqufndf or
+     * <dodf>null</dodf> if vbluf is blrfbdy thf first flfmfnt.
+     *
+     * @rfturn thf prfvious flfmfnt of thf undfrlying sfqufndf or
+     *     <dodf>null</dodf> if vbluf is blrfbdy thf first flfmfnt
+     * @sff SpinnfrModfl#gftPrfviousVbluf
+     * @sff #gftNfxtVbluf
+     */
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn (indfx <= 0) ? null : list.gft(indfx - 1);
+    }
+
+
+    /**
+     * Rfturns thf nfxt objfdt thbt stbrts with <dodf>substring</dodf>.
+     *
+     * @pbrbm substring thf string to bf mbtdhfd
+     * @rfturn thf mbtdh
+     */
+    Objfdt findNfxtMbtdh(String substring) {
+        int mbx = list.sizf();
+
+        if (mbx == 0) {
+            rfturn null;
+        }
+        int dountfr = indfx;
+
+        do {
+            Objfdt vbluf = list.gft(dountfr);
+            String string = vbluf.toString();
+
+            if (string != null && string.stbrtsWith(substring)) {
+                rfturn vbluf;
+            }
+            dountfr = (dountfr + 1) % mbx;
+        } whilf (dountfr != indfx);
+        rfturn null;
+    }
+}

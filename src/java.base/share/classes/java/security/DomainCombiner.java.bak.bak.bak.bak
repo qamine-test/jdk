@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * A {@dodf DombinCombinfr} providfs b mfbns to dynbmidblly
+ * updbtf thf ProtfdtionDombins bssodibtfd with thf durrfnt
+ * {@dodf AddfssControlContfxt}.
+ *
+ * <p> A {@dodf DombinCombinfr} is pbssfd bs b pbrbmftfr to thf
+ * bppropribtf donstrudtor for {@dodf AddfssControlContfxt}.
+ * Thf nfwly donstrudtfd dontfxt is thfn pbssfd to thf
+ * {@dodf AddfssControllfr.doPrivilfgfd(..., dontfxt)} mfthod
+ * to bind thf providfd dontfxt (bnd bssodibtfd {@dodf DombinCombinfr})
+ * with thf durrfnt fxfdution Thrfbd.  Subsfqufnt dblls to
+ * {@dodf AddfssControllfr.gftContfxt} or
+ * {@dodf AddfssControllfr.dhfdkPfrmission}
+ * dbusf thf {@dodf DombinCombinfr.dombinf} to gft invokfd.
+ *
+ * <p> Thf dombinf mfthod tbkfs two brgumfnts.  Thf first brgumfnt rfprfsfnts
+ * bn brrby of ProtfdtionDombins from thf durrfnt fxfdution Thrfbd,
+ * sindf thf most rfdfnt dbll to {@dodf AddfssControllfr.doPrivilfgfd}.
+ * If no dbll to doPrivilfgfd wbs mbdf, thfn thf first brgumfnt will dontbin
+ * bll thf ProtfdtionDombins from thf durrfnt fxfdution Thrfbd.
+ * Thf sfdond brgumfnt rfprfsfnts bn brrby of inhfritfd ProtfdtionDombins,
+ * whidh mby bf {@dodf null}.  ProtfdtionDombins mby bf inhfritfd
+ * from b pbrfnt Thrfbd, or from b privilfgfd dontfxt.  If no dbll to
+ * doPrivilfgfd wbs mbdf, thfn thf sfdond brgumfnt will dontbin thf
+ * ProtfdtionDombins inhfritfd from thf pbrfnt Thrfbd.  If onf or morf dblls
+ * to doPrivilfgfd wfrf mbdf, bnd thf most rfdfnt dbll wbs to
+ * doPrivilfgfd(bdtion, dontfxt), thfn thf sfdond brgumfnt will dontbin thf
+ * ProtfdtionDombins from thf privilfgfd dontfxt.  If thf most rfdfnt dbll
+ * wbs to doPrivilfgfd(bdtion), thfn thfrf is no privilfgfd dontfxt,
+ * bnd thf sfdond brgumfnt will bf {@dodf null}.
+ *
+ * <p> Thf {@dodf dombinf} mfthod invfstigbtfs thf two input brrbys
+ * of ProtfdtionDombins bnd rfturns b singlf brrby dontbining thf updbtfd
+ * ProtfdtionDombins.  In thf simplfst dbsf, thf {@dodf dombinf}
+ * mfthod mfrgfs thf two stbdks into onf.  In morf domplfx dbsfs,
+ * thf {@dodf dombinf} mfthod rfturns b modififd
+ * stbdk of ProtfdtionDombins.  Thf modifidbtion mby hbvf bddfd nfw
+ * ProtfdtionDombins, rfmovfd dfrtbin ProtfdtionDombins, or simply
+ * updbtfd fxisting ProtfdtionDombins.  Rf-ordfring bnd othfr optimizbtions
+ * to thf ProtfdtionDombins brf blso pfrmittfd.  Typidblly thf
+ * {@dodf dombinf} mfthod bbsfs its updbtfs on thf informbtion
+ * fndbpsulbtfd in thf {@dodf DombinCombinfr}.
+ *
+ * <p> Aftfr thf {@dodf AddfssControllfr.gftContfxt} mfthod
+ * rfdfivfs thf dombinfd stbdk of ProtfdtionDombins bbdk from
+ * thf {@dodf DombinCombinfr}, it rfturns b nfw
+ * AddfssControlContfxt thbt hbs both thf dombinfd ProtfdtionDombins
+ * bs wfll bs thf {@dodf DombinCombinfr}.
+ *
+ * @sff AddfssControllfr
+ * @sff AddfssControlContfxt
+ * @sindf 1.3
+ */
+publid intfrfbdf DombinCombinfr {
+
+    /**
+     * Modify or updbtf thf providfd ProtfdtionDombins.
+     * ProtfdtionDombins mby bf bddfd to or rfmovfd from thf givfn
+     * ProtfdtionDombins.  Thf ProtfdtionDombins mby bf rf-ordfrfd.
+     * Individubl ProtfdtionDombins mby bf modififd (with b nfw
+     * sft of Pfrmissions, for fxbmplf).
+     *
+     * <p>
+     *
+     * @pbrbm durrfntDombins thf ProtfdtionDombins bssodibtfd with thf
+     *          durrfnt fxfdution Thrfbd, up to thf most rfdfnt
+     *          privilfgfd {@dodf ProtfdtionDombin}.
+     *          Thf ProtfdtionDombins brf brf listfd in ordfr of fxfdution,
+     *          with thf most rfdfntly fxfduting {@dodf ProtfdtionDombin}
+     *          rfsiding bt thf bfginning of thf brrby. This pbrbmftfr mby
+     *          bf {@dodf null} if thf durrfnt fxfdution Thrfbd
+     *          hbs no bssodibtfd ProtfdtionDombins.<p>
+     *
+     * @pbrbm bssignfdDombins bn brrby of inhfritfd ProtfdtionDombins.
+     *          ProtfdtionDombins mby bf inhfritfd from b pbrfnt Thrfbd,
+     *          or from b privilfgfd {@dodf AddfssControlContfxt}.
+     *          This pbrbmftfr mby bf {@dodf null}
+     *          if thfrf brf no inhfritfd ProtfdtionDombins.
+     *
+     * @rfturn b nfw brrby donsisting of thf updbtfd ProtfdtionDombins,
+     *          or {@dodf null}.
+     */
+    ProtfdtionDombin[] dombinf(ProtfdtionDombin[] durrfntDombins,
+                                ProtfdtionDombin[] bssignfdDombins);
+}

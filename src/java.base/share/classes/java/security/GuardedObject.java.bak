@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * A GuardedObject is an object that is used to protect access to
- * another object.
+ * A GubrdfdObjfdt is bn objfdt tibt is usfd to protfdt bddfss to
+ * bnotifr objfdt.
  *
- * <p>A GuardedObject encapsulates a target object and a Guard object,
- * such that access to the target object is possible
- * only if the Guard object allows it.
- * Once an object is encapsulated by a GuardedObject,
- * access to that object is controlled by the {@code getObject}
- * method, which invokes the
- * {@code checkGuard} method on the Guard object that is
- * guarding access. If access is not allowed,
- * an exception is thrown.
+ * <p>A GubrdfdObjfdt fndbpsulbtfs b tbrgft objfdt bnd b Gubrd objfdt,
+ * sudi tibt bddfss to tif tbrgft objfdt is possiblf
+ * only if tif Gubrd objfdt bllows it.
+ * Ondf bn objfdt is fndbpsulbtfd by b GubrdfdObjfdt,
+ * bddfss to tibt objfdt is dontrollfd by tif {@dodf gftObjfdt}
+ * mftiod, wiidi invokfs tif
+ * {@dodf difdkGubrd} mftiod on tif Gubrd objfdt tibt is
+ * gubrding bddfss. If bddfss is not bllowfd,
+ * bn fxdfption is tirown.
  *
- * @see Guard
- * @see Permission
+ * @sff Gubrd
+ * @sff Pfrmission
  *
- * @author Roland Schemers
- * @author Li Gong
+ * @butior Rolbnd Sdifmfrs
+ * @butior Li Gong
  */
 
-public class GuardedObject implements java.io.Serializable {
+publid dlbss GubrdfdObjfdt implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -5240450096227834308L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5240450096227834308L;
 
-    private Object object; // the object we are guarding
-    private Guard guard;   // the guard
+    privbtf Objfdt objfdt; // tif objfdt wf brf gubrding
+    privbtf Gubrd gubrd;   // tif gubrd
 
     /**
-     * Constructs a GuardedObject using the specified object and guard.
-     * If the Guard object is null, then no restrictions will
-     * be placed on who can access the object.
+     * Construdts b GubrdfdObjfdt using tif spfdififd objfdt bnd gubrd.
+     * If tif Gubrd objfdt is null, tifn no rfstridtions will
+     * bf plbdfd on wio dbn bddfss tif objfdt.
      *
-     * @param object the object to be guarded.
+     * @pbrbm objfdt tif objfdt to bf gubrdfd.
      *
-     * @param guard the Guard object that guards access to the object.
+     * @pbrbm gubrd tif Gubrd objfdt tibt gubrds bddfss to tif objfdt.
      */
 
-    public GuardedObject(Object object, Guard guard)
+    publid GubrdfdObjfdt(Objfdt objfdt, Gubrd gubrd)
     {
-        this.guard = guard;
-        this.object = object;
+        tiis.gubrd = gubrd;
+        tiis.objfdt = objfdt;
     }
 
     /**
-     * Retrieves the guarded object, or throws an exception if access
-     * to the guarded object is denied by the guard.
+     * Rftrifvfs tif gubrdfd objfdt, or tirows bn fxdfption if bddfss
+     * to tif gubrdfd objfdt is dfnifd by tif gubrd.
      *
-     * @return the guarded object.
+     * @rfturn tif gubrdfd objfdt.
      *
-     * @exception SecurityException if access to the guarded object is
-     * denied.
+     * @fxdfption SfdurityExdfption if bddfss to tif gubrdfd objfdt is
+     * dfnifd.
      */
-    public Object getObject()
-        throws SecurityException
+    publid Objfdt gftObjfdt()
+        tirows SfdurityExdfption
     {
-        if (guard != null)
-            guard.checkGuard(object);
+        if (gubrd != null)
+            gubrd.difdkGubrd(objfdt);
 
-        return object;
+        rfturn objfdt;
     }
 
     /**
-     * Writes this object out to a stream (i.e., serializes it).
-     * We check the guard if there is one.
+     * Writfs tiis objfdt out to b strfbm (i.f., sfriblizfs it).
+     * Wf difdk tif gubrd if tifrf is onf.
      */
-    private void writeObject(java.io.ObjectOutputStream oos)
-        throws java.io.IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+        tirows jbvb.io.IOExdfption
     {
-        if (guard != null)
-            guard.checkGuard(object);
+        if (gubrd != null)
+            gubrd.difdkGubrd(objfdt);
 
-        oos.defaultWriteObject();
+        oos.dffbultWritfObjfdt();
     }
 }

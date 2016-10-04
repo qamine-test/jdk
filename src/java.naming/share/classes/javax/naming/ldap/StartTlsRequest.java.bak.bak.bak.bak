@@ -1,0 +1,249 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvb.util.Itfrbtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.nbming.ConfigurbtionExdfption;
+import jbvbx.nbming.NbmingExdfption;
+import dom.sun.nbming.intfrnbl.VfrsionHflpfr;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+
+/**
+ * This dlbss implfmfnts thf LDAPv3 Extfndfd Rfqufst for StbrtTLS bs
+ * dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2830.txt">Lightwfight Dirfdtory
+ * Addfss Protodol (v3): Extfnsion for Trbnsport Lbyfr Sfdurity</b>
+ *
+ * Thf objfdt idfntififr for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no fxtfndfd rfqufst vbluf is dffinfd.
+ *<p>
+ * <tt>StbrtTlsRfqufst</tt>/<tt>StbrtTlsRfsponsf</tt> brf usfd to fstbblish
+ * b TLS donnfdtion ovfr thf fxisting LDAP donnfdtion bssodibtfd with
+ * thf JNDI dontfxt on whidh <tt>fxtfndfdOpfrbtion()</tt> is invokfd.
+ * Typidblly, b JNDI progrbm usfs thfsf dlbssfs bs follows.
+ * <blodkquotf><prf>
+ * import jbvbx.nbming.ldbp.*;
+ *
+ * // Opfn bn LDAP bssodibtion
+ * LdbpContfxt dtx = nfw InitiblLdbpContfxt();
+ *
+ * // Pfrform b StbrtTLS fxtfndfd opfrbtion
+ * StbrtTlsRfsponsf tls =
+ *     (StbrtTlsRfsponsf) dtx.fxtfndfdOpfrbtion(nfw StbrtTlsRfqufst());
+ *
+ * // Opfn b TLS donnfdtion (ovfr thf fxisting LDAP bssodibtion) bnd gft dftbils
+ * // of thf nfgotibtfd TLS sfssion: diphfr suitf, pffr dfrtifidbtf, ftd.
+ * SSLSfssion sfssion = tls.nfgotibtf();
+ *
+ * // ... usf dtx to pfrform protfdtfd LDAP opfrbtions
+ *
+ * // Closf thf TLS donnfdtion (rfvfrt bbdk to thf undfrlying LDAP bssodibtion)
+ * tls.dlosf();
+ *
+ * // ... usf dtx to pfrform unprotfdtfd LDAP opfrbtions
+ *
+ * // Closf thf LDAP bssodibtion
+ * dtx.dlosf;
+ * </prf></blodkquotf>
+ *
+ * @sindf 1.4
+ * @sff StbrtTlsRfsponsf
+ * @buthor Vindfnt Rybn
+ */
+publid dlbss StbrtTlsRfqufst implfmfnts ExtfndfdRfqufst {
+
+    // Constbnt
+
+    /**
+     * Thf StbrtTLS fxtfndfd rfqufst's bssignfd objfdt idfntififr
+     * is 1.3.6.1.4.1.1466.20037.
+     */
+    publid stbtid finbl String OID = "1.3.6.1.4.1.1466.20037";
+
+
+    // Construdtors
+
+    /**
+     * Construdts b StbrtTLS fxtfndfd rfqufst.
+     */
+    publid StbrtTlsRfqufst() {
+    }
+
+
+    // ExtfndfdRfqufst mfthods
+
+    /**
+     * Rftrifvfs thf StbrtTLS rfqufst's objfdt idfntififr string.
+     *
+     * @rfturn Thf objfdt idfntififr string, "1.3.6.1.4.1.1466.20037".
+     */
+    publid String gftID() {
+        rfturn OID;
+    }
+
+    /**
+     * Rftrifvfs thf StbrtTLS rfqufst's ASN.1 BER fndodfd vbluf.
+     * Sindf thf rfqufst hbs no dffinfd vbluf, null is blwbys
+     * rfturnfd.
+     *
+     * @rfturn Thf null vbluf.
+     */
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs bn fxtfndfd rfsponsf objfdt thbt dorrfsponds to thf
+     * LDAP StbrtTLS fxtfndfd rfqufst.
+     * <p>
+     * Thf rfsult must bf b dondrftf subdlbss of StbrtTlsRfsponsf
+     * bnd must hbvf b publid zfro-brgumfnt donstrudtor.
+     * <p>
+     * This mfthod lodbtfs thf implfmfntbtion dlbss by lodbting
+     * donfigurbtion filfs thbt hbvf thf nbmf:
+     * <blodkquotf><tt>
+     *     META-INF/sfrvidfs/jbvbx.nbming.ldbp.StbrtTlsRfsponsf
+     * </tt></blodkquotf>
+     * Thf donfigurbtion filfs bnd thfir dorrfsponding implfmfntbtion dlbssfs must
+     * bf bddfssiblf to thf dblling thrfbd's dontfxt dlbss lobdfr.
+     * <p>
+     * Ebdh donfigurbtion filf should dontbin b list of fully-qublififd dlbss
+     * nbmfs, onf pfr linf.  Spbdf bnd tbb dhbrbdtfrs surrounding fbdh nbmf, bs
+     * wfll bs blbnk linfs, brf ignorfd.  Thf dommfnt dhbrbdtfr is <tt>'#'</tt>
+     * (<tt>0x23</tt>); on fbdh linf bll dhbrbdtfrs following thf first dommfnt
+     * dhbrbdtfr brf ignorfd.  Thf filf must bf fndodfd in UTF-8.
+     * <p>
+     * This mfthod will rfturn bn instbndf of thf first implfmfntbtion
+     * dlbss thbt it is bblf to lobd bnd instbntibtf suddfssfully from
+     * thf list of dlbss nbmfs dollfdtfd from thf donfigurbtion filfs.
+     * This mfthod usfs thf dblling thrfbd's dontfxt dlbsslobdfr to find thf
+     * donfigurbtion filfs bnd to lobd thf implfmfntbtion dlbss.
+     * <p>
+     * If no dlbss dbn bf found in this wby, this mfthod will usf
+     * bn implfmfntbtion-spfdifid wby to lodbtf bn implfmfntbtion.
+     * If nonf is found, b NbmingExdfption is thrown.
+     *
+     * @pbrbm id         Thf objfdt idfntififr of thf fxtfndfd rfsponsf.
+     *                   Its vbluf must bf "1.3.6.1.4.1.1466.20037" or null.
+     *                   Both vblufs brf fquivblfnt.
+     * @pbrbm bfrVbluf   Thf possibly null ASN.1 BER fndodfd vbluf of thf
+     *                   fxtfndfd rfsponsf. This is thf rbw BER bytfs
+     *                   indluding thf tbg bnd lfngth of thf rfsponsf vbluf.
+     *                   It dofs not indludf thf rfsponsf OID.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @pbrbm offsft     Thf stbrting position in bfrVbluf of thf bytfs to usf.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @pbrbm lfngth     Thf numbfr of bytfs in bfrVbluf to usf.
+     *                   Its vbluf is ignorfd bfdbusf b Stbrt TLS rfsponsf
+     *                   is not fxpfdtfd to dontbin bny rfsponsf vbluf.
+     * @rfturn           Thf StbrtTLS fxtfndfd rfsponsf objfdt.
+     * @fxdfption        NbmingExdfption If b nbming fxdfption wbs fndountfrfd
+     *                   whilf drfbting thf StbrtTLS fxtfndfd rfsponsf objfdt.
+     */
+    publid ExtfndfdRfsponsf drfbtfExtfndfdRfsponsf(String id, bytf[] bfrVbluf,
+        int offsft, int lfngth) throws NbmingExdfption {
+
+        // Confirm thbt thf objfdt idfntififr is dorrfdt
+        if ((id != null) && (!id.fqubls(OID))) {
+            throw nfw ConfigurbtionExdfption(
+                "Stbrt TLS rfdfivfd thf following rfsponsf instfbd of " +
+                OID + ": " + id);
+        }
+
+        StbrtTlsRfsponsf rfsp = null;
+
+        SfrvidfLobdfr<StbrtTlsRfsponsf> sl = SfrvidfLobdfr.lobd(
+                StbrtTlsRfsponsf.dlbss, gftContfxtClbssLobdfr());
+        Itfrbtor<StbrtTlsRfsponsf> itfr = sl.itfrbtor();
+
+        whilf (rfsp == null && privilfgfdHbsNfxt(itfr)) {
+            rfsp = itfr.nfxt();
+        }
+        if (rfsp != null) {
+            rfturn rfsp;
+        }
+        try {
+            VfrsionHflpfr hflpfr = VfrsionHflpfr.gftVfrsionHflpfr();
+            Clbss<?> dlbs = hflpfr.lobdClbss(
+                "dom.sun.jndi.ldbp.fxt.StbrtTlsRfsponsfImpl");
+
+            rfsp = (StbrtTlsRfsponsf) dlbs.nfwInstbndf();
+
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw wrbpExdfption(f);
+
+        } dbtdh (InstbntibtionExdfption f) {
+            throw wrbpExdfption(f);
+
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw wrbpExdfption(f);
+        }
+
+        rfturn rfsp;
+    }
+
+    /*
+     * Wrbp bn fxdfption, thrown whilf bttfmpting to lobd thf StbrtTlsRfsponsf
+     * dlbss, in b donfigurbtion fxdfption.
+     */
+    privbtf ConfigurbtionExdfption wrbpExdfption(Exdfption f) {
+        ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+            "Cbnnot lobd implfmfntbtion of jbvbx.nbming.ldbp.StbrtTlsRfsponsf");
+
+        df.sftRootCbusf(f);
+        rfturn df;
+    }
+
+    /*
+     * Adquirf thf dlbss lobdfr bssodibtfd with this thrfbd.
+     */
+    privbtf finbl ClbssLobdfr gftContfxtClbssLobdfr() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                }
+            }
+        );
+    }
+
+    privbtf finbl stbtid boolfbn privilfgfdHbsNfxt(finbl Itfrbtor<StbrtTlsRfsponsf> itfr) {
+        Boolfbn bnswfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn Boolfbn.vblufOf(itfr.hbsNfxt());
+            }
+        });
+        rfturn bnswfr.boolfbnVbluf();
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4441679576360753397L;
+}

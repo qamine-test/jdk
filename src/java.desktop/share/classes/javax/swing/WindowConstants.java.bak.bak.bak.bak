@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+
+/**
+ * Constbnts usfd to dontrol thf window-dlosing opfrbtion.
+ * Thf <dodf>sftDffbultClosfOpfrbtion</dodf> bnd
+ * <dodf>gftDffbultClosfOpfrbtion</dodf> mfthods
+ * providfd by <dodf>JFrbmf</dodf>,
+ * <dodf>JIntfrnblFrbmf</dodf>, bnd
+ * <dodf>JDiblog</dodf>
+ * usf thfsf donstbnts.
+ * For fxbmplfs of sftting thf dffbult window-dlosing opfrbtion, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/frbmf.html#windowfvfnts">Rfsponding to Window-Closing Evfnts</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * @sff JFrbmf#sftDffbultClosfOpfrbtion(int)
+ * @sff JDiblog#sftDffbultClosfOpfrbtion(int)
+ * @sff JIntfrnblFrbmf#sftDffbultClosfOpfrbtion(int)
+ *
+ *
+ * @buthor Amy Fowlfr
+ * @sindf 1.2
+ */
+publid intfrfbdf WindowConstbnts
+{
+    /**
+     * Thf do-nothing dffbult window dlosf opfrbtion.
+     */
+    publid stbtid finbl int DO_NOTHING_ON_CLOSE = 0;
+
+    /**
+     * Thf hidf-window dffbult window dlosf opfrbtion
+     */
+    publid stbtid finbl int HIDE_ON_CLOSE = 1;
+
+    /**
+     * Thf disposf-window dffbult window dlosf opfrbtion.
+     * <p>
+     * <b>Notf</b>: Whfn thf lbst displbybblf window
+     * within thf Jbvb virtubl mbdhinf (VM) is disposfd of, thf VM mby
+     * tfrminbtf.  Sff <b hrff="../../jbvb/bwt/dod-filfs/AWTThrfbdIssufs.html">
+     * AWT Thrfbding Issufs</b> for morf informbtion.
+     * @sff jbvb.bwt.Window#disposf()
+     * @sff JIntfrnblFrbmf#disposf()
+     */
+    publid stbtid finbl int DISPOSE_ON_CLOSE = 2;
+
+    /**
+     * Thf fxit bpplidbtion dffbult window dlosf opfrbtion. Attfmpting
+     * to sft this on Windows thbt support this, sudh bs
+     * <dodf>JFrbmf</dodf>, mby throw b <dodf>SfdurityExdfption</dodf> bbsfd
+     * on thf <dodf>SfdurityMbnbgfr</dodf>.
+     * It is rfdommfndfd you only usf this in bn bpplidbtion.
+     *
+     * @sindf 1.4
+     * @sff JFrbmf#sftDffbultClosfOpfrbtion
+     */
+    publid stbtid finbl int EXIT_ON_CLOSE = 3;
+
+}

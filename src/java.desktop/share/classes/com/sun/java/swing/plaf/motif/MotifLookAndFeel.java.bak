@@ -1,1281 +1,1281 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import java.util.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.DefaultEditorKit;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+import jbvbx.swing.tfxt.DffbultEditorKit;
 
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
+import jbvbx.swing.plbf.bbsid.BbsidLookAndFffl;
+import jbvbx.swing.plbf.bbsid.BbsidBordfrs;
+import jbvbx.swing.plbf.bbsid.BbsidComboBoxRfndfrfr;
+import jbvbx.swing.plbf.bbsid.BbsidComboBoxEditor;
 
-import sun.swing.SwingUtilities2;
-import sun.awt.OSInfo;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.OSInfo;
 
 /**
- * Implements the Motif Look and Feel.
- * UI classes not implemented specifically for Motif will
- * default to those implemented in Basic.
+ * Implfmfnts tif Motif Look bnd Fffl.
+ * UI dlbssfs not implfmfntfd spfdifidblly for Motif will
+ * dffbult to tiosf implfmfntfd in Bbsid.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author unattributed
+ * @butior unbttributfd
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class MotifLookAndFeel extends BasicLookAndFeel
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss MotifLookAndFffl fxtfnds BbsidLookAndFffl
 {
-    public String getName() {
-        return "CDE/Motif";
+    publid String gftNbmf() {
+        rfturn "CDE/Motif";
     }
 
-    public String getID() {
-        return "Motif";
+    publid String gftID() {
+        rfturn "Motif";
     }
 
-    public String getDescription() {
-        return "The CDE/Motif Look and Feel";
-    }
-
-
-    public boolean isNativeLookAndFeel() {
-        return OSInfo.getOSType() == OSInfo.OSType.SOLARIS;
+    publid String gftDfsdription() {
+        rfturn "Tif CDE/Motif Look bnd Fffl";
     }
 
 
-    public boolean isSupportedLookAndFeel() {
-        return true;
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn OSInfo.gftOSTypf() == OSInfo.OSTypf.SOLARIS;
+    }
+
+
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
     }
 
 
     /**
-     * Load the SystemColors into the defaults table.  The keys
-     * for SystemColor defaults are the same as the names of
-     * the public fields in SystemColor.  If the table is being
-     * created on a native Motif platform we use the SystemColor
-     * values, otherwise we create color objects whose values match
-     * the default CDE/Motif colors.
+     * Lobd tif SystfmColors into tif dffbults tbblf.  Tif kfys
+     * for SystfmColor dffbults brf tif sbmf bs tif nbmfs of
+     * tif publid fiflds in SystfmColor.  If tif tbblf is bfing
+     * drfbtfd on b nbtivf Motif plbtform wf usf tif SystfmColor
+     * vblufs, otifrwisf wf drfbtf dolor objfdts wiosf vblufs mbtdi
+     * tif dffbult CDE/Motif dolors.
      */
-    protected void initSystemColorDefaults(UIDefaults table)
+    protfdtfd void initSystfmColorDffbults(UIDffbults tbblf)
     {
-        String[] defaultSystemColors = {
-                  "desktop", "#005C5C", /* Color of the desktop background */
-            "activeCaption", "#000080", /* Color for captions (title bars) when they are active. */
-        "activeCaptionText", "#FFFFFF", /* Text color for text in captions (title bars). */
-      "activeCaptionBorder", "#B24D7A", /* Border color for caption (title bar) window borders. */
-          "inactiveCaption", "#AEB2C3", /* Color for captions (title bars) when not active. */
-      "inactiveCaptionText", "#000000", /* Text color for text in inactive captions (title bars). */
-    "inactiveCaptionBorder", "#AEB2C3", /* Border color for inactive caption (title bar) window borders. */
-                   "window", "#AEB2C3", /* Default color for the interior of windows */
-             "windowBorder", "#AEB2C3", /* ??? */
-               "windowText", "#000000", /* ??? */
-                     "menu", "#AEB2C3", /* ??? */
-                 "menuText", "#000000", /* ??? */
-                     "text", "#FFF7E9", /* Text background color */
-                 "textText", "#000000", /* Text foreground color */
-            "textHighlight", "#000000", /* Text background color when selected */
-        "textHighlightText", "#FFF7E9", /* Text color when selected */
-         "textInactiveText", "#808080", /* Text color when disabled */
-                  "control", "#AEB2C3", /* Default color for controls (buttons, sliders, etc) */
-              "controlText", "#000000", /* Default color for text in controls */
-         "controlHighlight", "#DCDEE5", /* Highlight color for controls */
-       "controlLtHighlight", "#DCDEE5", /* Light highlight color for controls */
-            "controlShadow", "#63656F", /* Shadow color for controls */
-       "controlLightShadow", "#9397A5", /* Shadow color for controls */
-          "controlDkShadow", "#000000", /* Dark shadow color for controls */
-                "scrollbar", "#AEB2C3", /* Scrollbar ??? color. PENDING(jeff) foreground? background? ?*/
+        String[] dffbultSystfmColors = {
+                  "dfsktop", "#005C5C", /* Color of tif dfsktop bbdkground */
+            "bdtivfCbption", "#000080", /* Color for dbptions (titlf bbrs) wifn tify brf bdtivf. */
+        "bdtivfCbptionTfxt", "#FFFFFF", /* Tfxt dolor for tfxt in dbptions (titlf bbrs). */
+      "bdtivfCbptionBordfr", "#B24D7A", /* Bordfr dolor for dbption (titlf bbr) window bordfrs. */
+          "inbdtivfCbption", "#AEB2C3", /* Color for dbptions (titlf bbrs) wifn not bdtivf. */
+      "inbdtivfCbptionTfxt", "#000000", /* Tfxt dolor for tfxt in inbdtivf dbptions (titlf bbrs). */
+    "inbdtivfCbptionBordfr", "#AEB2C3", /* Bordfr dolor for inbdtivf dbption (titlf bbr) window bordfrs. */
+                   "window", "#AEB2C3", /* Dffbult dolor for tif intfrior of windows */
+             "windowBordfr", "#AEB2C3", /* ??? */
+               "windowTfxt", "#000000", /* ??? */
+                     "mfnu", "#AEB2C3", /* ??? */
+                 "mfnuTfxt", "#000000", /* ??? */
+                     "tfxt", "#FFF7E9", /* Tfxt bbdkground dolor */
+                 "tfxtTfxt", "#000000", /* Tfxt forfground dolor */
+            "tfxtHigiligit", "#000000", /* Tfxt bbdkground dolor wifn sflfdtfd */
+        "tfxtHigiligitTfxt", "#FFF7E9", /* Tfxt dolor wifn sflfdtfd */
+         "tfxtInbdtivfTfxt", "#808080", /* Tfxt dolor wifn disbblfd */
+                  "dontrol", "#AEB2C3", /* Dffbult dolor for dontrols (buttons, slidfrs, ftd) */
+              "dontrolTfxt", "#000000", /* Dffbult dolor for tfxt in dontrols */
+         "dontrolHigiligit", "#DCDEE5", /* Higiligit dolor for dontrols */
+       "dontrolLtHigiligit", "#DCDEE5", /* Ligit iigiligit dolor for dontrols */
+            "dontrolSibdow", "#63656F", /* Sibdow dolor for dontrols */
+       "dontrolLigitSibdow", "#9397A5", /* Sibdow dolor for dontrols */
+          "dontrolDkSibdow", "#000000", /* Dbrk sibdow dolor for dontrols */
+                "sdrollbbr", "#AEB2C3", /* Sdrollbbr ??? dolor. PENDING(jfff) forfground? bbdkground? ?*/
                      "info", "#FFF7E9", /* ??? */
-                 "infoText", "#000000"  /* ??? */
+                 "infoTfxt", "#000000"  /* ??? */
         };
 
-        loadSystemColors(table, defaultSystemColors, false);
+        lobdSystfmColors(tbblf, dffbultSystfmColors, fblsf);
     }
 
 
-    protected void initClassDefaults(UIDefaults table)
+    protfdtfd void initClbssDffbults(UIDffbults tbblf)
     {
-        super.initClassDefaults(table);
-        String motifPackageName = "com.sun.java.swing.plaf.motif.";
+        supfr.initClbssDffbults(tbblf);
+        String motifPbdkbgfNbmf = "dom.sun.jbvb.swing.plbf.motif.";
 
-        Object[] uiDefaults = {
-                   "ButtonUI", motifPackageName + "MotifButtonUI",
-                 "CheckBoxUI", motifPackageName + "MotifCheckBoxUI",
-            "DirectoryPaneUI", motifPackageName + "MotifDirectoryPaneUI",
-              "FileChooserUI", motifPackageName + "MotifFileChooserUI",
-                    "LabelUI", motifPackageName + "MotifLabelUI",
-                  "MenuBarUI", motifPackageName + "MotifMenuBarUI",
-                     "MenuUI", motifPackageName + "MotifMenuUI",
-                 "MenuItemUI", motifPackageName + "MotifMenuItemUI",
-         "CheckBoxMenuItemUI", motifPackageName + "MotifCheckBoxMenuItemUI",
-      "RadioButtonMenuItemUI", motifPackageName + "MotifRadioButtonMenuItemUI",
-              "RadioButtonUI", motifPackageName + "MotifRadioButtonUI",
-             "ToggleButtonUI", motifPackageName + "MotifToggleButtonUI",
-                "PopupMenuUI", motifPackageName + "MotifPopupMenuUI",
-              "ProgressBarUI", motifPackageName + "MotifProgressBarUI",
-                "ScrollBarUI", motifPackageName + "MotifScrollBarUI",
-               "ScrollPaneUI", motifPackageName + "MotifScrollPaneUI",
-                   "SliderUI", motifPackageName + "MotifSliderUI",
-                "SplitPaneUI", motifPackageName + "MotifSplitPaneUI",
-               "TabbedPaneUI", motifPackageName + "MotifTabbedPaneUI",
-                 "TextAreaUI", motifPackageName + "MotifTextAreaUI",
-                "TextFieldUI", motifPackageName + "MotifTextFieldUI",
-            "PasswordFieldUI", motifPackageName + "MotifPasswordFieldUI",
-                 "TextPaneUI", motifPackageName + "MotifTextPaneUI",
-               "EditorPaneUI", motifPackageName + "MotifEditorPaneUI",
-                     "TreeUI", motifPackageName + "MotifTreeUI",
-            "InternalFrameUI", motifPackageName + "MotifInternalFrameUI",
-              "DesktopPaneUI", motifPackageName + "MotifDesktopPaneUI",
-                "SeparatorUI", motifPackageName + "MotifSeparatorUI",
-       "PopupMenuSeparatorUI", motifPackageName + "MotifPopupMenuSeparatorUI",
-               "OptionPaneUI", motifPackageName + "MotifOptionPaneUI",
-                 "ComboBoxUI", motifPackageName + "MotifComboBoxUI",
-              "DesktopIconUI", motifPackageName + "MotifDesktopIconUI"
+        Objfdt[] uiDffbults = {
+                   "ButtonUI", motifPbdkbgfNbmf + "MotifButtonUI",
+                 "CifdkBoxUI", motifPbdkbgfNbmf + "MotifCifdkBoxUI",
+            "DirfdtoryPbnfUI", motifPbdkbgfNbmf + "MotifDirfdtoryPbnfUI",
+              "FilfCioosfrUI", motifPbdkbgfNbmf + "MotifFilfCioosfrUI",
+                    "LbbflUI", motifPbdkbgfNbmf + "MotifLbbflUI",
+                  "MfnuBbrUI", motifPbdkbgfNbmf + "MotifMfnuBbrUI",
+                     "MfnuUI", motifPbdkbgfNbmf + "MotifMfnuUI",
+                 "MfnuItfmUI", motifPbdkbgfNbmf + "MotifMfnuItfmUI",
+         "CifdkBoxMfnuItfmUI", motifPbdkbgfNbmf + "MotifCifdkBoxMfnuItfmUI",
+      "RbdioButtonMfnuItfmUI", motifPbdkbgfNbmf + "MotifRbdioButtonMfnuItfmUI",
+              "RbdioButtonUI", motifPbdkbgfNbmf + "MotifRbdioButtonUI",
+             "TogglfButtonUI", motifPbdkbgfNbmf + "MotifTogglfButtonUI",
+                "PopupMfnuUI", motifPbdkbgfNbmf + "MotifPopupMfnuUI",
+              "ProgrfssBbrUI", motifPbdkbgfNbmf + "MotifProgrfssBbrUI",
+                "SdrollBbrUI", motifPbdkbgfNbmf + "MotifSdrollBbrUI",
+               "SdrollPbnfUI", motifPbdkbgfNbmf + "MotifSdrollPbnfUI",
+                   "SlidfrUI", motifPbdkbgfNbmf + "MotifSlidfrUI",
+                "SplitPbnfUI", motifPbdkbgfNbmf + "MotifSplitPbnfUI",
+               "TbbbfdPbnfUI", motifPbdkbgfNbmf + "MotifTbbbfdPbnfUI",
+                 "TfxtArfbUI", motifPbdkbgfNbmf + "MotifTfxtArfbUI",
+                "TfxtFifldUI", motifPbdkbgfNbmf + "MotifTfxtFifldUI",
+            "PbsswordFifldUI", motifPbdkbgfNbmf + "MotifPbsswordFifldUI",
+                 "TfxtPbnfUI", motifPbdkbgfNbmf + "MotifTfxtPbnfUI",
+               "EditorPbnfUI", motifPbdkbgfNbmf + "MotifEditorPbnfUI",
+                     "TrffUI", motifPbdkbgfNbmf + "MotifTrffUI",
+            "IntfrnblFrbmfUI", motifPbdkbgfNbmf + "MotifIntfrnblFrbmfUI",
+              "DfsktopPbnfUI", motifPbdkbgfNbmf + "MotifDfsktopPbnfUI",
+                "SfpbrbtorUI", motifPbdkbgfNbmf + "MotifSfpbrbtorUI",
+       "PopupMfnuSfpbrbtorUI", motifPbdkbgfNbmf + "MotifPopupMfnuSfpbrbtorUI",
+               "OptionPbnfUI", motifPbdkbgfNbmf + "MotifOptionPbnfUI",
+                 "ComboBoxUI", motifPbdkbgfNbmf + "MotifComboBoxUI",
+              "DfsktopIdonUI", motifPbdkbgfNbmf + "MotifDfsktopIdonUI"
         };
 
-        table.putDefaults(uiDefaults);
+        tbblf.putDffbults(uiDffbults);
     }
 
 
     /**
-     * Initialize the defaults table with the name of the ResourceBundle
-     * used for getting localized defaults.
+     * Initiblizf tif dffbults tbblf witi tif nbmf of tif RfsourdfBundlf
+     * usfd for gftting lodblizfd dffbults.
      */
-    private void initResourceBundle(UIDefaults table) {
-        table.addResourceBundle( "com.sun.java.swing.plaf.motif.resources.motif" );
+    privbtf void initRfsourdfBundlf(UIDffbults tbblf) {
+        tbblf.bddRfsourdfBundlf( "dom.sun.jbvb.swing.plbf.motif.rfsourdfs.motif" );
     }
 
 
-    protected void initComponentDefaults(UIDefaults table)
+    protfdtfd void initComponfntDffbults(UIDffbults tbblf)
     {
-        super.initComponentDefaults(table);
+        supfr.initComponfntDffbults(tbblf);
 
-        initResourceBundle(table);
+        initRfsourdfBundlf(tbblf);
 
-        FontUIResource dialogPlain12 = new FontUIResource(Font.DIALOG,
+        FontUIRfsourdf diblogPlbin12 = nfw FontUIRfsourdf(Font.DIALOG,
                                                           Font.PLAIN, 12);
-        FontUIResource serifPlain12 = new FontUIResource(Font.SERIF,
+        FontUIRfsourdf sfrifPlbin12 = nfw FontUIRfsourdf(Font.SERIF,
                                                           Font.PLAIN, 12);
-        FontUIResource sansSerifPlain12 = new FontUIResource(Font.SANS_SERIF,
+        FontUIRfsourdf sbnsSfrifPlbin12 = nfw FontUIRfsourdf(Font.SANS_SERIF,
                                                           Font.PLAIN, 12);
-        FontUIResource monospacedPlain12 = new FontUIResource(Font.MONOSPACED,
+        FontUIRfsourdf monospbdfdPlbin12 = nfw FontUIRfsourdf(Font.MONOSPACED,
                                                           Font.PLAIN, 12);
-        ColorUIResource red = new ColorUIResource(Color.red);
-        ColorUIResource black = new ColorUIResource(Color.black);
-        ColorUIResource white = new ColorUIResource(Color.white);
-        ColorUIResource lightGray = new ColorUIResource(Color.lightGray);
-        ColorUIResource controlDarker = new ColorUIResource(147, 151, 165);  // slate blue
-        ColorUIResource scrollBarTrack = controlDarker;
-        ColorUIResource menuItemPressedBackground = new ColorUIResource(165,165,165);
-        ColorUIResource menuItemPressedForeground = new ColorUIResource(0,0,0);
+        ColorUIRfsourdf rfd = nfw ColorUIRfsourdf(Color.rfd);
+        ColorUIRfsourdf blbdk = nfw ColorUIRfsourdf(Color.blbdk);
+        ColorUIRfsourdf wiitf = nfw ColorUIRfsourdf(Color.wiitf);
+        ColorUIRfsourdf ligitGrby = nfw ColorUIRfsourdf(Color.ligitGrby);
+        ColorUIRfsourdf dontrolDbrkfr = nfw ColorUIRfsourdf(147, 151, 165);  // slbtf bluf
+        ColorUIRfsourdf sdrollBbrTrbdk = dontrolDbrkfr;
+        ColorUIRfsourdf mfnuItfmPrfssfdBbdkground = nfw ColorUIRfsourdf(165,165,165);
+        ColorUIRfsourdf mfnuItfmPrfssfdForfground = nfw ColorUIRfsourdf(0,0,0);
 
 
-        Border loweredBevelBorder = new MotifBorders.BevelBorder(false,
-                                           table.getColor("controlShadow"),
-                                           table.getColor("controlLtHighlight"));
+        Bordfr lowfrfdBfvflBordfr = nfw MotifBordfrs.BfvflBordfr(fblsf,
+                                           tbblf.gftColor("dontrolSibdow"),
+                                           tbblf.gftColor("dontrolLtHigiligit"));
 
-        Border raisedBevelBorder = new MotifBorders.BevelBorder(true,                                                                  table.getColor("controlShadow"),
-                                           table.getColor("controlLtHighlight"));
+        Bordfr rbisfdBfvflBordfr = nfw MotifBordfrs.BfvflBordfr(truf,                                                                  tbblf.gftColor("dontrolSibdow"),
+                                           tbblf.gftColor("dontrolLtHigiligit"));
 
-        Border marginBorder = new BasicBorders.MarginBorder();
+        Bordfr mbrginBordfr = nfw BbsidBordfrs.MbrginBordfr();
 
-        Border focusBorder = new MotifBorders.FocusBorder(
-                                           table.getColor("control"),
-                                           table.getColor("activeCaptionBorder"));
-
-
-        Border focusBevelBorder = new BorderUIResource.CompoundBorderUIResource(
-                                          focusBorder,
-                                          loweredBevelBorder);
-
-        Border comboBoxBorder = new BorderUIResource.CompoundBorderUIResource(
-                                          focusBorder,
-                                          raisedBevelBorder);
+        Bordfr fodusBordfr = nfw MotifBordfrs.FodusBordfr(
+                                           tbblf.gftColor("dontrol"),
+                                           tbblf.gftColor("bdtivfCbptionBordfr"));
 
 
-        Border buttonBorder = new BorderUIResource.CompoundBorderUIResource(
-                                      new MotifBorders.ButtonBorder(
-                                          table.getColor("Button.shadow"),
-                                          table.getColor("Button.highlight"),
-                                          table.getColor("Button.darkShadow"),
-                                          table.getColor("activeCaptionBorder")),
-                                      marginBorder);
+        Bordfr fodusBfvflBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                          fodusBordfr,
+                                          lowfrfdBfvflBordfr);
 
-        Border toggleButtonBorder = new BorderUIResource.CompoundBorderUIResource(
-                                      new MotifBorders.ToggleButtonBorder(
-                                          table.getColor("ToggleButton.shadow"),
-                                          table.getColor("ToggleButton.highlight"),
-                                          table.getColor("ToggleButton.darkShadow"),
-                                          table.getColor("activeCaptionBorder")),                                                        marginBorder);
+        Bordfr domboBoxBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                          fodusBordfr,
+                                          rbisfdBfvflBordfr);
 
-        Border textFieldBorder = new BorderUIResource.CompoundBorderUIResource(
-                                      focusBevelBorder,
-                                      marginBorder);
 
-        Border popupMenuBorder = new BorderUIResource.CompoundBorderUIResource(
-                                      raisedBevelBorder,
-                                      new MotifBorders.MotifPopupMenuBorder(
-                                        table.getFont("PopupMenu.font"),
-                                        table.getColor("PopupMenu.background"),
-                                        table.getColor("PopupMenu.foreground"),
-                                        table.getColor("controlShadow"),
-                                        table.getColor("controlLtHighlight")
+        Bordfr buttonBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                      nfw MotifBordfrs.ButtonBordfr(
+                                          tbblf.gftColor("Button.sibdow"),
+                                          tbblf.gftColor("Button.iigiligit"),
+                                          tbblf.gftColor("Button.dbrkSibdow"),
+                                          tbblf.gftColor("bdtivfCbptionBordfr")),
+                                      mbrginBordfr);
+
+        Bordfr togglfButtonBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                      nfw MotifBordfrs.TogglfButtonBordfr(
+                                          tbblf.gftColor("TogglfButton.sibdow"),
+                                          tbblf.gftColor("TogglfButton.iigiligit"),
+                                          tbblf.gftColor("TogglfButton.dbrkSibdow"),
+                                          tbblf.gftColor("bdtivfCbptionBordfr")),                                                        mbrginBordfr);
+
+        Bordfr tfxtFifldBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                      fodusBfvflBordfr,
+                                      mbrginBordfr);
+
+        Bordfr popupMfnuBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                      rbisfdBfvflBordfr,
+                                      nfw MotifBordfrs.MotifPopupMfnuBordfr(
+                                        tbblf.gftFont("PopupMfnu.font"),
+                                        tbblf.gftColor("PopupMfnu.bbdkground"),
+                                        tbblf.gftColor("PopupMfnu.forfground"),
+                                        tbblf.gftColor("dontrolSibdow"),
+                                        tbblf.gftColor("dontrolLtHigiligit")
                                         ));
 
-        Object menuItemCheckIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifIconFactory.getMenuItemCheckIcon();
+        Objfdt mfnuItfmCifdkIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifIdonFbdtory.gftMfnuItfmCifdkIdon();
             }
         };
 
-        Object menuItemArrowIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifIconFactory.getMenuItemArrowIcon();
+        Objfdt mfnuItfmArrowIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifIdonFbdtory.gftMfnuItfmArrowIdon();
             }
         };
 
-        Object menuArrowIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifIconFactory.getMenuArrowIcon();
+        Objfdt mfnuArrowIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifIdonFbdtory.gftMfnuArrowIdon();
             }
         };
 
-        Object checkBoxIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifIconFactory.getCheckBoxIcon();
+        Objfdt difdkBoxIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifIdonFbdtory.gftCifdkBoxIdon();
             }
         };
 
-        Object radioButtonIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifIconFactory.getRadioButtonIcon();
+        Objfdt rbdioButtonIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifIdonFbdtory.gftRbdioButtonIdon();
             }
         };
 
-        Object unselectedTabBackground = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                Color c = table.getColor("control");
-                return new ColorUIResource(Math.max((int)(c.getRed()*.85),0),
-                                           Math.max((int)(c.getGreen()*.85),0),
-                                           Math.max((int)(c.getBlue()*.85),0));
+        Objfdt unsflfdtfdTbbBbdkground = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                Color d = tbblf.gftColor("dontrol");
+                rfturn nfw ColorUIRfsourdf(Mbti.mbx((int)(d.gftRfd()*.85),0),
+                                           Mbti.mbx((int)(d.gftGrffn()*.85),0),
+                                           Mbti.mbx((int)(d.gftBluf()*.85),0));
             }
         };
 
-        Object unselectedTabForeground = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                Color c = table.getColor("controlText");
-                return new ColorUIResource(Math.max((int)(c.getRed()*.85),0),
-                                           Math.max((int)(c.getGreen()*.85),0),
-                                           Math.max((int)(c.getBlue()*.85),0));
+        Objfdt unsflfdtfdTbbForfground = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                Color d = tbblf.gftColor("dontrolTfxt");
+                rfturn nfw ColorUIRfsourdf(Mbti.mbx((int)(d.gftRfd()*.85),0),
+                                           Mbti.mbx((int)(d.gftGrffn()*.85),0),
+                                           Mbti.mbx((int)(d.gftBluf()*.85),0));
             }
         };
 
-        Object unselectedTabShadow = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                Color c = table.getColor("control");
-                Color base = new Color(Math.max((int)(c.getRed()*.85),0),
-                                       Math.max((int)(c.getGreen()*.85),0),
-                                       Math.max((int)(c.getBlue()*.85),0));
-                return new ColorUIResource(base.darker());
+        Objfdt unsflfdtfdTbbSibdow = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                Color d = tbblf.gftColor("dontrol");
+                Color bbsf = nfw Color(Mbti.mbx((int)(d.gftRfd()*.85),0),
+                                       Mbti.mbx((int)(d.gftGrffn()*.85),0),
+                                       Mbti.mbx((int)(d.gftBluf()*.85),0));
+                rfturn nfw ColorUIRfsourdf(bbsf.dbrkfr());
             }
         };
 
-        Object unselectedTabHighlight = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                Color c = table.getColor("control");
-                Color base = new Color(Math.max((int)(c.getRed()*.85),0),
-                                       Math.max((int)(c.getGreen()*.85),0),
-                                       Math.max((int)(c.getBlue()*.85),0));
-                return new ColorUIResource(base.brighter());
+        Objfdt unsflfdtfdTbbHigiligit = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                Color d = tbblf.gftColor("dontrol");
+                Color bbsf = nfw Color(Mbti.mbx((int)(d.gftRfd()*.85),0),
+                                       Mbti.mbx((int)(d.gftGrffn()*.85),0),
+                                       Mbti.mbx((int)(d.gftBluf()*.85),0));
+                rfturn nfw ColorUIRfsourdf(bbsf.brigitfr());
             }
         };
 
-        // *** Text
+        // *** Tfxt
 
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "COPY", DefaultEditorKit.copyAction,
-                          "PASTE", DefaultEditorKit.pasteAction,
-                            "CUT", DefaultEditorKit.cutAction,
-                 "control INSERT", DefaultEditorKit.copyAction,
-                   "shift INSERT", DefaultEditorKit.pasteAction,
-                   "shift DELETE", DefaultEditorKit.cutAction,
-                      "control F", DefaultEditorKit.forwardAction,
-                      "control B", DefaultEditorKit.backwardAction,
-                      "control D", DefaultEditorKit.deleteNextCharAction,
-                     "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-               "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                         "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                         "DELETE", DefaultEditorKit.deleteNextCharAction,
-                    "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                          "RIGHT", DefaultEditorKit.forwardAction,
-                           "LEFT", DefaultEditorKit.backwardAction,
-                       "KP_RIGHT", DefaultEditorKit.forwardAction,
-                        "KP_LEFT", DefaultEditorKit.backwardAction,
-                     "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "control LEFT", DefaultEditorKit.previousWordAction,
-                  "control RIGHT", DefaultEditorKit.nextWordAction,
-             "control shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "control shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-                  "control SLASH", DefaultEditorKit.selectAllAction,
-                           "HOME", DefaultEditorKit.beginLineAction,
-                            "END", DefaultEditorKit.endLineAction,
-                     "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                      "shift END", DefaultEditorKit.selectionEndLineAction,
-             "control BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                          "ENTER", JTextField.notifyAction,
-                "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+        Objfdt fifldInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "siift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "siift DELETE", DffbultEditorKit.dutAdtion,
+                      "dontrol F", DffbultEditorKit.forwbrdAdtion,
+                      "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+                      "dontrol D", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+               "siift BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                    "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                     "siift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "siift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+             "dontrol siift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol siift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                  "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "siift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "siift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                          "ENTER", JTfxtFifld.notifyAdtion,
+                "dontrol siift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
         });
 
-        Object passwordInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "COPY", DefaultEditorKit.copyAction,
-                          "PASTE", DefaultEditorKit.pasteAction,
-                            "CUT", DefaultEditorKit.cutAction,
-                 "control INSERT", DefaultEditorKit.copyAction,
-                   "shift INSERT", DefaultEditorKit.pasteAction,
-                   "shift DELETE", DefaultEditorKit.cutAction,
-                      "control F", DefaultEditorKit.forwardAction,
-                      "control B", DefaultEditorKit.backwardAction,
-                      "control D", DefaultEditorKit.deleteNextCharAction,
-                     "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-               "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                         "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                         "DELETE", DefaultEditorKit.deleteNextCharAction,
-                          "RIGHT", DefaultEditorKit.forwardAction,
-                           "LEFT", DefaultEditorKit.backwardAction,
-                       "KP_RIGHT", DefaultEditorKit.forwardAction,
-                        "KP_LEFT", DefaultEditorKit.backwardAction,
-                     "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "control LEFT", DefaultEditorKit.beginLineAction,
-                  "control RIGHT", DefaultEditorKit.endLineAction,
-             "control shift LEFT", DefaultEditorKit.selectionBeginLineAction,
-            "control shift RIGHT", DefaultEditorKit.selectionEndLineAction,
-                  "control SLASH", DefaultEditorKit.selectAllAction,
-                           "HOME", DefaultEditorKit.beginLineAction,
-                            "END", DefaultEditorKit.endLineAction,
-                     "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                      "shift END", DefaultEditorKit.selectionEndLineAction,
-             "control BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                          "ENTER", JTextField.notifyAction,
-                "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+        Objfdt pbsswordInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "siift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "siift DELETE", DffbultEditorKit.dutAdtion,
+                      "dontrol F", DffbultEditorKit.forwbrdAdtion,
+                      "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+                      "dontrol D", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+               "siift BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                     "siift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "siift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.bfginLinfAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.fndLinfAdtion,
+             "dontrol siift LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "dontrol siift RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                  "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "siift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "siift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                          "ENTER", JTfxtFifld.notifyAdtion,
+                "dontrol siift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
         });
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "COPY", DefaultEditorKit.copyAction,
-                          "PASTE", DefaultEditorKit.pasteAction,
-                            "CUT", DefaultEditorKit.cutAction,
-                 "control INSERT", DefaultEditorKit.copyAction,
-                   "shift INSERT", DefaultEditorKit.pasteAction,
-                   "shift DELETE", DefaultEditorKit.cutAction,
-                      "control F", DefaultEditorKit.forwardAction,
-                      "control B", DefaultEditorKit.backwardAction,
-                      "control D", DefaultEditorKit.deleteNextCharAction,
-                     "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-               "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                         "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                         "DELETE", DefaultEditorKit.deleteNextCharAction,
-                    "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                          "RIGHT", DefaultEditorKit.forwardAction,
-                           "LEFT", DefaultEditorKit.backwardAction,
-                       "KP_RIGHT", DefaultEditorKit.forwardAction,
-                        "KP_LEFT", DefaultEditorKit.backwardAction,
-                     "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "control LEFT", DefaultEditorKit.previousWordAction,
-                  "control RIGHT", DefaultEditorKit.nextWordAction,
-             "control shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "control shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-                  "control SLASH", DefaultEditorKit.selectAllAction,
-                           "HOME", DefaultEditorKit.beginLineAction,
-                            "END", DefaultEditorKit.endLineAction,
-                     "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                      "shift END", DefaultEditorKit.selectionEndLineAction,
+        Objfdt multilinfInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "COPY", DffbultEditorKit.dopyAdtion,
+                          "PASTE", DffbultEditorKit.pbstfAdtion,
+                            "CUT", DffbultEditorKit.dutAdtion,
+                 "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+                   "siift INSERT", DffbultEditorKit.pbstfAdtion,
+                   "siift DELETE", DffbultEditorKit.dutAdtion,
+                      "dontrol F", DffbultEditorKit.forwbrdAdtion,
+                      "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+                      "dontrol D", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                     "BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+               "siift BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "dtrl H", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                         "DELETE", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                    "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                          "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                           "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                       "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                     "siift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "siift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+                  "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+             "dontrol siift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol siift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                  "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+                           "HOME", DffbultEditorKit.bfginLinfAdtion,
+                            "END", DffbultEditorKit.fndLinfAdtion,
+                     "siift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                      "siift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
 
-                      "control N", DefaultEditorKit.downAction,
-                      "control P", DefaultEditorKit.upAction,
-                             "UP", DefaultEditorKit.upAction,
-                           "DOWN", DefaultEditorKit.downAction,
-                        "PAGE_UP", DefaultEditorKit.pageUpAction,
-                      "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-                  "shift PAGE_UP", "selection-page-up",
-                "shift PAGE_DOWN", "selection-page-down",
-             "ctrl shift PAGE_UP", "selection-page-left",
-           "ctrl shift PAGE_DOWN", "selection-page-right",
-                       "shift UP", DefaultEditorKit.selectionUpAction,
-                     "shift DOWN", DefaultEditorKit.selectionDownAction,
-                          "ENTER", DefaultEditorKit.insertBreakAction,
-                            "TAB", DefaultEditorKit.insertTabAction,
-             "control BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                   "control HOME", DefaultEditorKit.beginAction,
-                    "control END", DefaultEditorKit.endAction,
-             "control shift HOME", DefaultEditorKit.selectionBeginAction,
-              "control shift END", DefaultEditorKit.selectionEndAction,
-                      "control T", "next-link-action",
-                "control shift T", "previous-link-action",
-                  "control SPACE", "activate-link-action",
-                "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+                      "dontrol N", DffbultEditorKit.downAdtion,
+                      "dontrol P", DffbultEditorKit.upAdtion,
+                             "UP", DffbultEditorKit.upAdtion,
+                           "DOWN", DffbultEditorKit.downAdtion,
+                        "PAGE_UP", DffbultEditorKit.pbgfUpAdtion,
+                      "PAGE_DOWN", DffbultEditorKit.pbgfDownAdtion,
+                  "siift PAGE_UP", "sflfdtion-pbgf-up",
+                "siift PAGE_DOWN", "sflfdtion-pbgf-down",
+             "dtrl siift PAGE_UP", "sflfdtion-pbgf-lfft",
+           "dtrl siift PAGE_DOWN", "sflfdtion-pbgf-rigit",
+                       "siift UP", DffbultEditorKit.sflfdtionUpAdtion,
+                     "siift DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+                          "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+                            "TAB", DffbultEditorKit.insfrtTbbAdtion,
+             "dontrol BACK_SLASH", "unsflfdt"/*DffbultEditorKit.unsflfdtAdtion*/,
+                   "dontrol HOME", DffbultEditorKit.bfginAdtion,
+                    "dontrol END", DffbultEditorKit.fndAdtion,
+             "dontrol siift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
+              "dontrol siift END", DffbultEditorKit.sflfdtionEndAdtion,
+                      "dontrol T", "nfxt-link-bdtion",
+                "dontrol siift T", "prfvious-link-bdtion",
+                  "dontrol SPACE", "bdtivbtf-link-bdtion",
+                "dontrol siift O", "togglf-domponfntOrifntbtion"/*DffbultEditorKit.togglfComponfntOrifntbtion*/
         });
 
-        // *** Tree
+        // *** Trff
 
-        Object treeOpenIcon = SwingUtilities2.makeIcon(getClass(),
-                                                       MotifLookAndFeel.class,
-                                                       "icons/TreeOpen.gif");
+        Objfdt trffOpfnIdon = SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                       MotifLookAndFffl.dlbss,
+                                                       "idons/TrffOpfn.gif");
 
-        Object treeClosedIcon = SwingUtilities2.makeIcon(getClass(),
-                                                         MotifLookAndFeel.class,
-                                                         "icons/TreeClosed.gif");
+        Objfdt trffClosfdIdon = SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                         MotifLookAndFffl.dlbss,
+                                                         "idons/TrffClosfd.gif");
 
-        Object treeLeafIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifTreeCellRenderer.loadLeafIcon();
+        Objfdt trffLfbfIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifTrffCfllRfndfrfr.lobdLfbfIdon();
             }
         };
 
-        Object treeExpandedIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifTreeUI.MotifExpandedIcon.createExpandedIcon();
+        Objfdt trffExpbndfdIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifTrffUI.MotifExpbndfdIdon.drfbtfExpbndfdIdon();
             }
         };
 
-        Object treeCollapsedIcon = new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                return MotifTreeUI.MotifCollapsedIcon.createCollapsedIcon();
+        Objfdt trffCollbpsfdIdon = nfw UIDffbults.LbzyVbluf() {
+            publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                rfturn MotifTrffUI.MotifCollbpsfdIdon.drfbtfCollbpsfdIdon();
             }
         };
 
-        Border menuBarBorder = new MotifBorders.MenuBarBorder(
-                                          table.getColor("MenuBar.shadow"),
-                                          table.getColor("MenuBar.highlight"),
-                                          table.getColor("MenuBar.darkShadow"),
-                                          table.getColor("activeCaptionBorder"));
+        Bordfr mfnuBbrBordfr = nfw MotifBordfrs.MfnuBbrBordfr(
+                                          tbblf.gftColor("MfnuBbr.sibdow"),
+                                          tbblf.gftColor("MfnuBbr.iigiligit"),
+                                          tbblf.gftColor("MfnuBbr.dbrkSibdow"),
+                                          tbblf.gftColor("bdtivfCbptionBordfr"));
 
 
-        Border menuMarginBorder = new BorderUIResource.CompoundBorderUIResource(
-                                          loweredBevelBorder,
-                                          marginBorder);
+        Bordfr mfnuMbrginBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                                          lowfrfdBfvflBordfr,
+                                          mbrginBordfr);
 
 
-        Border focusCellHighlightBorder = new BorderUIResource.LineBorderUIResource(
-                                                table.getColor("activeCaptionBorder"));
+        Bordfr fodusCfllHigiligitBordfr = nfw BordfrUIRfsourdf.LinfBordfrUIRfsourdf(
+                                                tbblf.gftColor("bdtivfCbptionBordfr"));
 
-        Object sliderFocusInsets = new InsetsUIResource( 0, 0, 0, 0 );
+        Objfdt slidfrFodusInsfts = nfw InsftsUIRfsourdf( 0, 0, 0, 0 );
 
-        // ** for tabbedpane
+        // ** for tbbbfdpbnf
 
-        Object tabbedPaneTabInsets = new InsetsUIResource(3, 4, 3, 4);
+        Objfdt tbbbfdPbnfTbbInsfts = nfw InsftsUIRfsourdf(3, 4, 3, 4);
 
-        Object tabbedPaneTabPadInsets = new InsetsUIResource(3, 0, 1, 0);
+        Objfdt tbbbfdPbnfTbbPbdInsfts = nfw InsftsUIRfsourdf(3, 0, 1, 0);
 
-        Object tabbedPaneTabAreaInsets = new InsetsUIResource(4, 2, 0, 8);
+        Objfdt tbbbfdPbnfTbbArfbInsfts = nfw InsftsUIRfsourdf(4, 2, 0, 8);
 
-        Object tabbedPaneContentBorderInsets = new InsetsUIResource(2, 2, 2, 2);
-
-
-        // ** for optionpane
-
-        Object optionPaneBorder = new BorderUIResource.EmptyBorderUIResource(10,0,0,0);
-
-        Object optionPaneButtonAreaBorder = new BorderUIResource.EmptyBorderUIResource(10,10,10,10);
-
-        Object optionPaneMessageAreaBorder = new BorderUIResource.EmptyBorderUIResource(10,10,12,10);
+        Objfdt tbbbfdPbnfContfntBordfrInsfts = nfw InsftsUIRfsourdf(2, 2, 2, 2);
 
 
-        Object[] defaults = {
+        // ** for optionpbnf
 
-            "Desktop.background", table.get("desktop"),
-            "Desktop.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                 "ctrl F5", "restore",
-                 "ctrl F4", "close",
-                 "ctrl F7", "move",
-                 "ctrl F8", "resize",
-                   "RIGHT", "right",
-                "KP_RIGHT", "right",
-             "shift RIGHT", "shrinkRight",
-          "shift KP_RIGHT", "shrinkRight",
-                    "LEFT", "left",
-                 "KP_LEFT", "left",
-              "shift LEFT", "shrinkLeft",
-           "shift KP_LEFT", "shrinkLeft",
+        Objfdt optionPbnfBordfr = nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(10,0,0,0);
+
+        Objfdt optionPbnfButtonArfbBordfr = nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(10,10,10,10);
+
+        Objfdt optionPbnfMfssbgfArfbBordfr = nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(10,10,12,10);
+
+
+        Objfdt[] dffbults = {
+
+            "Dfsktop.bbdkground", tbblf.gft("dfsktop"),
+            "Dfsktop.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                 "dtrl F5", "rfstorf",
+                 "dtrl F4", "dlosf",
+                 "dtrl F7", "movf",
+                 "dtrl F8", "rfsizf",
+                   "RIGHT", "rigit",
+                "KP_RIGHT", "rigit",
+             "siift RIGHT", "sirinkRigit",
+          "siift KP_RIGHT", "sirinkRigit",
+                    "LEFT", "lfft",
+                 "KP_LEFT", "lfft",
+              "siift LEFT", "sirinkLfft",
+           "siift KP_LEFT", "sirinkLfft",
                       "UP", "up",
                    "KP_UP", "up",
-                "shift UP", "shrinkUp",
-             "shift KP_UP", "shrinkUp",
+                "siift UP", "sirinkUp",
+             "siift KP_UP", "sirinkUp",
                     "DOWN", "down",
                  "KP_DOWN", "down",
-              "shift DOWN", "shrinkDown",
-           "shift KP_DOWN", "shrinkDown",
-                  "ESCAPE", "escape",
-                 "ctrl F9", "minimize",
-                "ctrl F10", "maximize",
-                 "ctrl F6", "selectNextFrame",
-                "ctrl TAB", "selectNextFrame",
-             "ctrl alt F6", "selectNextFrame",
-       "shift ctrl alt F6", "selectPreviousFrame",
-                "ctrl F12", "navigateNext",
-          "shift ctrl F12", "navigatePrevious"
+              "siift DOWN", "sirinkDown",
+           "siift KP_DOWN", "sirinkDown",
+                  "ESCAPE", "fsdbpf",
+                 "dtrl F9", "minimizf",
+                "dtrl F10", "mbximizf",
+                 "dtrl F6", "sflfdtNfxtFrbmf",
+                "dtrl TAB", "sflfdtNfxtFrbmf",
+             "dtrl blt F6", "sflfdtNfxtFrbmf",
+       "siift dtrl blt F6", "sflfdtPrfviousFrbmf",
+                "dtrl F12", "nbvigbtfNfxt",
+          "siift dtrl F12", "nbvigbtfPrfvious"
               }),
 
-            "Panel.background", table.get("control"),
-            "Panel.foreground", table.get("textText"),
-            "Panel.font", dialogPlain12,
+            "Pbnfl.bbdkground", tbblf.gft("dontrol"),
+            "Pbnfl.forfground", tbblf.gft("tfxtTfxt"),
+            "Pbnfl.font", diblogPlbin12,
 
-            "ProgressBar.font", dialogPlain12,
-            "ProgressBar.foreground", controlDarker,
-            "ProgressBar.background", table.get("control"),
-            "ProgressBar.selectionForeground", table.get("control"),
-            "ProgressBar.selectionBackground", table.get("controlText"),
-            "ProgressBar.border", loweredBevelBorder,
-            "ProgressBar.cellLength", 6,
-            "ProgressBar.cellSpacing", Integer.valueOf(0),
+            "ProgrfssBbr.font", diblogPlbin12,
+            "ProgrfssBbr.forfground", dontrolDbrkfr,
+            "ProgrfssBbr.bbdkground", tbblf.gft("dontrol"),
+            "ProgrfssBbr.sflfdtionForfground", tbblf.gft("dontrol"),
+            "ProgrfssBbr.sflfdtionBbdkground", tbblf.gft("dontrolTfxt"),
+            "ProgrfssBbr.bordfr", lowfrfdBfvflBordfr,
+            "ProgrfssBbr.dfllLfngti", 6,
+            "ProgrfssBbr.dfllSpbding", Intfgfr.vblufOf(0),
 
             // Buttons
-            "Button.margin", new InsetsUIResource(2, 4, 2, 4),
-            "Button.border", buttonBorder,
-            "Button.background", table.get("control"),
-            "Button.foreground", table.get("controlText"),
-            "Button.select", table.get("controlLightShadow"),
-            "Button.font", dialogPlain12,
-            "Button.focusInputMap", new UIDefaults.LazyInputMap(new Object[] {
-                          "SPACE", "pressed",
-                 "released SPACE", "released"
+            "Button.mbrgin", nfw InsftsUIRfsourdf(2, 4, 2, 4),
+            "Button.bordfr", buttonBordfr,
+            "Button.bbdkground", tbblf.gft("dontrol"),
+            "Button.forfground", tbblf.gft("dontrolTfxt"),
+            "Button.sflfdt", tbblf.gft("dontrolLigitSibdow"),
+            "Button.font", diblogPlbin12,
+            "Button.fodusInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                          "SPACE", "prfssfd",
+                 "rflfbsfd SPACE", "rflfbsfd"
               }),
 
-            "CheckBox.textIconGap", 8,
-            "CheckBox.margin", new InsetsUIResource(4, 2, 4, 2),
-            "CheckBox.icon", checkBoxIcon,
-            "CheckBox.focus", table.get("activeCaptionBorder"),
-            "CheckBox.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                            "SPACE", "pressed",
-                   "released SPACE", "released"
+            "CifdkBox.tfxtIdonGbp", 8,
+            "CifdkBox.mbrgin", nfw InsftsUIRfsourdf(4, 2, 4, 2),
+            "CifdkBox.idon", difdkBoxIdon,
+            "CifdkBox.fodus", tbblf.gft("bdtivfCbptionBordfr"),
+            "CifdkBox.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                            "SPACE", "prfssfd",
+                   "rflfbsfd SPACE", "rflfbsfd"
                  }),
 
-            "RadioButton.margin", new InsetsUIResource(4, 2, 4, 2),
-            "RadioButton.textIconGap", 8,
-            "RadioButton.background", table.get("control"),
-            "RadioButton.foreground", table.get("controlText"),
-            "RadioButton.icon", radioButtonIcon,
-            "RadioButton.focus", table.get("activeCaptionBorder"),
-            "RadioButton.icon", radioButtonIcon,
-            "RadioButton.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                          "SPACE", "pressed",
-                 "released SPACE", "released"
+            "RbdioButton.mbrgin", nfw InsftsUIRfsourdf(4, 2, 4, 2),
+            "RbdioButton.tfxtIdonGbp", 8,
+            "RbdioButton.bbdkground", tbblf.gft("dontrol"),
+            "RbdioButton.forfground", tbblf.gft("dontrolTfxt"),
+            "RbdioButton.idon", rbdioButtonIdon,
+            "RbdioButton.fodus", tbblf.gft("bdtivfCbptionBordfr"),
+            "RbdioButton.idon", rbdioButtonIdon,
+            "RbdioButton.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                          "SPACE", "prfssfd",
+                 "rflfbsfd SPACE", "rflfbsfd"
               }),
 
-            "ToggleButton.border", toggleButtonBorder,
-            "ToggleButton.background", table.get("control"),
-            "ToggleButton.foreground", table.get("controlText"),
-            "ToggleButton.focus", table.get("controlText"),
-            "ToggleButton.select", table.get("controlLightShadow"),
-            "ToggleButton.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                            "SPACE", "pressed",
-                   "released SPACE", "released"
+            "TogglfButton.bordfr", togglfButtonBordfr,
+            "TogglfButton.bbdkground", tbblf.gft("dontrol"),
+            "TogglfButton.forfground", tbblf.gft("dontrolTfxt"),
+            "TogglfButton.fodus", tbblf.gft("dontrolTfxt"),
+            "TogglfButton.sflfdt", tbblf.gft("dontrolLigitSibdow"),
+            "TogglfButton.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                            "SPACE", "prfssfd",
+                   "rflfbsfd SPACE", "rflfbsfd"
                 }),
 
-            // Menus
-            "Menu.border", menuMarginBorder,
-            "Menu.font", dialogPlain12,
-            "Menu.acceleratorFont", dialogPlain12,
-            "Menu.acceleratorSelectionForeground", menuItemPressedForeground,
-            "Menu.foreground", table.get("menuText"),
-            "Menu.background", table.get("menu"),
-            "Menu.selectionForeground", menuItemPressedForeground,
-            "Menu.selectionBackground", menuItemPressedBackground,
-            "Menu.checkIcon", menuItemCheckIcon,
-            "Menu.arrowIcon", menuArrowIcon,
-            "Menu.menuPopupOffsetX", 0,
-            "Menu.menuPopupOffsetY", 0,
-            "Menu.submenuPopupOffsetX", -2,
-            "Menu.submenuPopupOffsetY", 3,
-            "Menu.shortcutKeys", new int[]{
-                SwingUtilities2.getSystemMnemonicKeyMask(),
-                KeyEvent.META_MASK
+            // Mfnus
+            "Mfnu.bordfr", mfnuMbrginBordfr,
+            "Mfnu.font", diblogPlbin12,
+            "Mfnu.bddflfrbtorFont", diblogPlbin12,
+            "Mfnu.bddflfrbtorSflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "Mfnu.forfground", tbblf.gft("mfnuTfxt"),
+            "Mfnu.bbdkground", tbblf.gft("mfnu"),
+            "Mfnu.sflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "Mfnu.sflfdtionBbdkground", mfnuItfmPrfssfdBbdkground,
+            "Mfnu.difdkIdon", mfnuItfmCifdkIdon,
+            "Mfnu.brrowIdon", mfnuArrowIdon,
+            "Mfnu.mfnuPopupOffsftX", 0,
+            "Mfnu.mfnuPopupOffsftY", 0,
+            "Mfnu.submfnuPopupOffsftX", -2,
+            "Mfnu.submfnuPopupOffsftY", 3,
+            "Mfnu.siortdutKfys", nfw int[]{
+                SwingUtilitifs2.gftSystfmMnfmonidKfyMbsk(),
+                KfyEvfnt.META_MASK
             },
-            "Menu.cancelMode", "hideMenuTree",
+            "Mfnu.dbndflModf", "iidfMfnuTrff",
 
-            "MenuBar.border", menuBarBorder,
-            "MenuBar.background", table.get("menu"),
-            "MenuBar.foreground", table.get("menuText"),
-            "MenuBar.font", dialogPlain12,
-            "MenuBar.windowBindings", new Object[] {
-                "F10", "takeFocus" },
+            "MfnuBbr.bordfr", mfnuBbrBordfr,
+            "MfnuBbr.bbdkground", tbblf.gft("mfnu"),
+            "MfnuBbr.forfground", tbblf.gft("mfnuTfxt"),
+            "MfnuBbr.font", diblogPlbin12,
+            "MfnuBbr.windowBindings", nfw Objfdt[] {
+                "F10", "tbkfFodus" },
 
-            "MenuItem.border", menuMarginBorder,
-            "MenuItem.font", dialogPlain12,
-            "MenuItem.acceleratorFont", dialogPlain12,
-            "MenuItem.acceleratorSelectionForeground", menuItemPressedForeground,
-            "MenuItem.foreground", table.get("menuText"),
-            "MenuItem.background", table.get("menu"),
-            "MenuItem.selectionForeground", menuItemPressedForeground,
-            "MenuItem.selectionBackground", menuItemPressedBackground,
-            "MenuItem.checkIcon", menuItemCheckIcon,
-            "MenuItem.arrowIcon", menuItemArrowIcon,
+            "MfnuItfm.bordfr", mfnuMbrginBordfr,
+            "MfnuItfm.font", diblogPlbin12,
+            "MfnuItfm.bddflfrbtorFont", diblogPlbin12,
+            "MfnuItfm.bddflfrbtorSflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "MfnuItfm.forfground", tbblf.gft("mfnuTfxt"),
+            "MfnuItfm.bbdkground", tbblf.gft("mfnu"),
+            "MfnuItfm.sflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "MfnuItfm.sflfdtionBbdkground", mfnuItfmPrfssfdBbdkground,
+            "MfnuItfm.difdkIdon", mfnuItfmCifdkIdon,
+            "MfnuItfm.brrowIdon", mfnuItfmArrowIdon,
 
-            "RadioButtonMenuItem.border", menuMarginBorder,
-            "RadioButtonMenuItem.font", dialogPlain12,
-            "RadioButtonMenuItem.acceleratorFont", dialogPlain12,
-            "RadioButtonMenuItem.acceleratorSelectionForeground", menuItemPressedForeground,
-            "RadioButtonMenuItem.foreground", table.get("menuText"),
-            "RadioButtonMenuItem.background", table.get("menu"),
-            "RadioButtonMenuItem.selectionForeground", menuItemPressedForeground,
-            "RadioButtonMenuItem.selectionBackground", menuItemPressedBackground,
-            "RadioButtonMenuItem.checkIcon", radioButtonIcon,
-            "RadioButtonMenuItem.arrowIcon", menuItemArrowIcon,
+            "RbdioButtonMfnuItfm.bordfr", mfnuMbrginBordfr,
+            "RbdioButtonMfnuItfm.font", diblogPlbin12,
+            "RbdioButtonMfnuItfm.bddflfrbtorFont", diblogPlbin12,
+            "RbdioButtonMfnuItfm.bddflfrbtorSflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "RbdioButtonMfnuItfm.forfground", tbblf.gft("mfnuTfxt"),
+            "RbdioButtonMfnuItfm.bbdkground", tbblf.gft("mfnu"),
+            "RbdioButtonMfnuItfm.sflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "RbdioButtonMfnuItfm.sflfdtionBbdkground", mfnuItfmPrfssfdBbdkground,
+            "RbdioButtonMfnuItfm.difdkIdon", rbdioButtonIdon,
+            "RbdioButtonMfnuItfm.brrowIdon", mfnuItfmArrowIdon,
 
-            "CheckBoxMenuItem.border", menuMarginBorder,
-            "CheckBoxMenuItem.font", dialogPlain12,
-            "CheckBoxMenuItem.acceleratorFont", dialogPlain12,
-            "CheckBoxMenuItem.acceleratorSelectionForeground", menuItemPressedForeground,
-            "CheckBoxMenuItem.foreground", table.get("menuText"),
-            "CheckBoxMenuItem.background", table.get("menu"),
-            "CheckBoxMenuItem.selectionForeground", menuItemPressedForeground,
-            "CheckBoxMenuItem.selectionBackground", menuItemPressedBackground,
-            "CheckBoxMenuItem.checkIcon", checkBoxIcon,
-            "CheckBoxMenuItem.arrowIcon", menuItemArrowIcon,
+            "CifdkBoxMfnuItfm.bordfr", mfnuMbrginBordfr,
+            "CifdkBoxMfnuItfm.font", diblogPlbin12,
+            "CifdkBoxMfnuItfm.bddflfrbtorFont", diblogPlbin12,
+            "CifdkBoxMfnuItfm.bddflfrbtorSflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "CifdkBoxMfnuItfm.forfground", tbblf.gft("mfnuTfxt"),
+            "CifdkBoxMfnuItfm.bbdkground", tbblf.gft("mfnu"),
+            "CifdkBoxMfnuItfm.sflfdtionForfground", mfnuItfmPrfssfdForfground,
+            "CifdkBoxMfnuItfm.sflfdtionBbdkground", mfnuItfmPrfssfdBbdkground,
+            "CifdkBoxMfnuItfm.difdkIdon", difdkBoxIdon,
+            "CifdkBoxMfnuItfm.brrowIdon", mfnuItfmArrowIdon,
 
-            "PopupMenu.background", table.get("menu"),
-            "PopupMenu.border", popupMenuBorder,
-            "PopupMenu.foreground", table.get("menuText"),
-            "PopupMenu.font", dialogPlain12,
-            "PopupMenu.consumeEventOnClose", Boolean.TRUE,
+            "PopupMfnu.bbdkground", tbblf.gft("mfnu"),
+            "PopupMfnu.bordfr", popupMfnuBordfr,
+            "PopupMfnu.forfground", tbblf.gft("mfnuTfxt"),
+            "PopupMfnu.font", diblogPlbin12,
+            "PopupMfnu.donsumfEvfntOnClosf", Boolfbn.TRUE,
 
-            "Label.font", dialogPlain12,
-            "Label.background", table.get("control"),
-            "Label.foreground", table.get("controlText"),
+            "Lbbfl.font", diblogPlbin12,
+            "Lbbfl.bbdkground", tbblf.gft("dontrol"),
+            "Lbbfl.forfground", tbblf.gft("dontrolTfxt"),
 
-            "Separator.shadow", table.get("controlShadow"),          // DEPRECATED - DO NOT USE!
-            "Separator.highlight", table.get("controlLtHighlight"),  // DEPRECATED - DO NOT USE!
+            "Sfpbrbtor.sibdow", tbblf.gft("dontrolSibdow"),          // DEPRECATED - DO NOT USE!
+            "Sfpbrbtor.iigiligit", tbblf.gft("dontrolLtHigiligit"),  // DEPRECATED - DO NOT USE!
 
-            "Separator.background", table.get("controlLtHighlight"),
-            "Separator.foreground", table.get("controlShadow"),
+            "Sfpbrbtor.bbdkground", tbblf.gft("dontrolLtHigiligit"),
+            "Sfpbrbtor.forfground", tbblf.gft("dontrolSibdow"),
 
-            "List.focusCellHighlightBorder", focusCellHighlightBorder,
-            "List.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                             "COPY", "copy",
-                            "PASTE", "paste",
-                              "CUT", "cut",
-                   "control INSERT", "copy",
-                     "shift INSERT", "paste",
-                     "shift DELETE", "cut",
-                               "UP", "selectPreviousRow",
-                            "KP_UP", "selectPreviousRow",
-                         "shift UP", "selectPreviousRowExtendSelection",
-                      "shift KP_UP", "selectPreviousRowExtendSelection",
-                    "ctrl shift UP", "selectPreviousRowExtendSelection",
-                 "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                          "ctrl UP", "selectPreviousRowChangeLead",
-                       "ctrl KP_UP", "selectPreviousRowChangeLead",
-                             "DOWN", "selectNextRow",
-                          "KP_DOWN", "selectNextRow",
-                       "shift DOWN", "selectNextRowExtendSelection",
-                    "shift KP_DOWN", "selectNextRowExtendSelection",
-                  "ctrl shift DOWN", "selectNextRowExtendSelection",
-               "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                        "ctrl DOWN", "selectNextRowChangeLead",
-                     "ctrl KP_DOWN", "selectNextRowChangeLead",
-                             "LEFT", "selectPreviousColumn",
-                          "KP_LEFT", "selectPreviousColumn",
-                       "shift LEFT", "selectPreviousColumnExtendSelection",
-                    "shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                  "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
-               "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                        "ctrl LEFT", "selectPreviousColumnChangeLead",
-                     "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
-                            "RIGHT", "selectNextColumn",
-                         "KP_RIGHT", "selectNextColumn",
-                      "shift RIGHT", "selectNextColumnExtendSelection",
-                   "shift KP_RIGHT", "selectNextColumnExtendSelection",
-                 "ctrl shift RIGHT", "selectNextColumnExtendSelection",
-              "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                       "ctrl RIGHT", "selectNextColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectNextColumnChangeLead",
-                             "HOME", "selectFirstRow",
-                       "shift HOME", "selectFirstRowExtendSelection",
-                  "ctrl shift HOME", "selectFirstRowExtendSelection",
-                        "ctrl HOME", "selectFirstRowChangeLead",
-                              "END", "selectLastRow",
-                        "shift END", "selectLastRowExtendSelection",
-                   "ctrl shift END", "selectLastRowExtendSelection",
-                         "ctrl END", "selectLastRowChangeLead",
-                          "PAGE_UP", "scrollUp",
-                    "shift PAGE_UP", "scrollUpExtendSelection",
-               "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                     "ctrl PAGE_UP", "scrollUpChangeLead",
-                        "PAGE_DOWN", "scrollDown",
-                  "shift PAGE_DOWN", "scrollDownExtendSelection",
-             "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                   "ctrl PAGE_DOWN", "scrollDownChangeLead",
-                           "ctrl A", "selectAll",
-                       "ctrl SLASH", "selectAll",
-                  "ctrl BACK_SLASH", "clearSelection",
-                            "SPACE", "addToSelection",
-                       "ctrl SPACE", "toggleAndAnchor",
-                      "shift SPACE", "extendTo",
-                 "ctrl shift SPACE", "moveSelectionTo"
+            "List.fodusCfllHigiligitBordfr", fodusCfllHigiligitBordfr,
+            "List.fodusInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                             "COPY", "dopy",
+                            "PASTE", "pbstf",
+                              "CUT", "dut",
+                   "dontrol INSERT", "dopy",
+                     "siift INSERT", "pbstf",
+                     "siift DELETE", "dut",
+                               "UP", "sflfdtPrfviousRow",
+                            "KP_UP", "sflfdtPrfviousRow",
+                         "siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                      "siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                    "dtrl siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                 "dtrl siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                          "dtrl UP", "sflfdtPrfviousRowCibngfLfbd",
+                       "dtrl KP_UP", "sflfdtPrfviousRowCibngfLfbd",
+                             "DOWN", "sflfdtNfxtRow",
+                          "KP_DOWN", "sflfdtNfxtRow",
+                       "siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                    "siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                  "dtrl siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+               "dtrl siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                        "dtrl DOWN", "sflfdtNfxtRowCibngfLfbd",
+                     "dtrl KP_DOWN", "sflfdtNfxtRowCibngfLfbd",
+                             "LEFT", "sflfdtPrfviousColumn",
+                          "KP_LEFT", "sflfdtPrfviousColumn",
+                       "siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                    "siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                  "dtrl siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+               "dtrl siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                        "dtrl LEFT", "sflfdtPrfviousColumnCibngfLfbd",
+                     "dtrl KP_LEFT", "sflfdtPrfviousColumnCibngfLfbd",
+                            "RIGHT", "sflfdtNfxtColumn",
+                         "KP_RIGHT", "sflfdtNfxtColumn",
+                      "siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                   "siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                 "dtrl siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+              "dtrl siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                       "dtrl RIGHT", "sflfdtNfxtColumnCibngfLfbd",
+                    "dtrl KP_RIGHT", "sflfdtNfxtColumnCibngfLfbd",
+                             "HOME", "sflfdtFirstRow",
+                       "siift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                  "dtrl siift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                        "dtrl HOME", "sflfdtFirstRowCibngfLfbd",
+                              "END", "sflfdtLbstRow",
+                        "siift END", "sflfdtLbstRowExtfndSflfdtion",
+                   "dtrl siift END", "sflfdtLbstRowExtfndSflfdtion",
+                         "dtrl END", "sflfdtLbstRowCibngfLfbd",
+                          "PAGE_UP", "sdrollUp",
+                    "siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+               "dtrl siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                     "dtrl PAGE_UP", "sdrollUpCibngfLfbd",
+                        "PAGE_DOWN", "sdrollDown",
+                  "siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+             "dtrl siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                   "dtrl PAGE_DOWN", "sdrollDownCibngfLfbd",
+                           "dtrl A", "sflfdtAll",
+                       "dtrl SLASH", "sflfdtAll",
+                  "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                            "SPACE", "bddToSflfdtion",
+                       "dtrl SPACE", "togglfAndAndior",
+                      "siift SPACE", "fxtfndTo",
+                 "dtrl siift SPACE", "movfSflfdtionTo"
                  }),
 
-            "DesktopIcon.icon", SwingUtilities2.makeIcon(getClass(),
-                                                         MotifLookAndFeel.class,
-                                                         "icons/DesktopIcon.gif"),
-            "DesktopIcon.border", null,
-            // These are a little odd, MotifInternalFrameUI isntalls em!
-            "DesktopIcon.windowBindings", new Object[]
-              { "ESCAPE", "hideSystemMenu" },
+            "DfsktopIdon.idon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                         MotifLookAndFffl.dlbss,
+                                                         "idons/DfsktopIdon.gif"),
+            "DfsktopIdon.bordfr", null,
+            // Tifsf brf b littlf odd, MotifIntfrnblFrbmfUI isntblls fm!
+            "DfsktopIdon.windowBindings", nfw Objfdt[]
+              { "ESCAPE", "iidfSystfmMfnu" },
 
-            "InternalFrame.activeTitleBackground", table.get("activeCaptionBorder"),
-            "InternalFrame.inactiveTitleBackground", table.get("inactiveCaptionBorder"),
-            "InternalFrame.windowBindings", new Object[] {
-                "shift ESCAPE", "showSystemMenu",
-                  "ctrl SPACE", "showSystemMenu",
-                      "ESCAPE", "hideSystemMenu"
+            "IntfrnblFrbmf.bdtivfTitlfBbdkground", tbblf.gft("bdtivfCbptionBordfr"),
+            "IntfrnblFrbmf.inbdtivfTitlfBbdkground", tbblf.gft("inbdtivfCbptionBordfr"),
+            "IntfrnblFrbmf.windowBindings", nfw Objfdt[] {
+                "siift ESCAPE", "siowSystfmMfnu",
+                  "dtrl SPACE", "siowSystfmMfnu",
+                      "ESCAPE", "iidfSystfmMfnu"
             },
 
-            "ScrollBar.background", scrollBarTrack,
-            "ScrollBar.foreground", table.get("control"),
-            "ScrollBar.track", scrollBarTrack,
-            "ScrollBar.trackHighlight", table.get("controlDkShadow"),
-            "ScrollBar.thumb", table.get("control"),
-            "ScrollBar.thumbHighlight", table.get("controlHighlight"),
-            "ScrollBar.thumbDarkShadow", table.get("controlDkShadow"),
-            "ScrollBar.thumbShadow", table.get("controlShadow"),
-            "ScrollBar.border", loweredBevelBorder,
-            "ScrollBar.allowsAbsolutePositioning", Boolean.TRUE,
-            "ScrollBar.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "positiveUnitIncrement",
-                    "KP_RIGHT", "positiveUnitIncrement",
-                        "DOWN", "positiveUnitIncrement",
-                     "KP_DOWN", "positiveUnitIncrement",
-                   "PAGE_DOWN", "positiveBlockIncrement",
-              "ctrl PAGE_DOWN", "positiveBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
-                          "UP", "negativeUnitIncrement",
-                       "KP_UP", "negativeUnitIncrement",
-                     "PAGE_UP", "negativeBlockIncrement",
-                "ctrl PAGE_UP", "negativeBlockIncrement",
-                        "HOME", "minScroll",
-                         "END", "maxScroll"
+            "SdrollBbr.bbdkground", sdrollBbrTrbdk,
+            "SdrollBbr.forfground", tbblf.gft("dontrol"),
+            "SdrollBbr.trbdk", sdrollBbrTrbdk,
+            "SdrollBbr.trbdkHigiligit", tbblf.gft("dontrolDkSibdow"),
+            "SdrollBbr.tiumb", tbblf.gft("dontrol"),
+            "SdrollBbr.tiumbHigiligit", tbblf.gft("dontrolHigiligit"),
+            "SdrollBbr.tiumbDbrkSibdow", tbblf.gft("dontrolDkSibdow"),
+            "SdrollBbr.tiumbSibdow", tbblf.gft("dontrolSibdow"),
+            "SdrollBbr.bordfr", lowfrfdBfvflBordfr,
+            "SdrollBbr.bllowsAbsolutfPositioning", Boolfbn.TRUE,
+            "SdrollBbr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                       "RIGHT", "positivfUnitIndrfmfnt",
+                    "KP_RIGHT", "positivfUnitIndrfmfnt",
+                        "DOWN", "positivfUnitIndrfmfnt",
+                     "KP_DOWN", "positivfUnitIndrfmfnt",
+                   "PAGE_DOWN", "positivfBlodkIndrfmfnt",
+              "dtrl PAGE_DOWN", "positivfBlodkIndrfmfnt",
+                        "LEFT", "nfgbtivfUnitIndrfmfnt",
+                     "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+                          "UP", "nfgbtivfUnitIndrfmfnt",
+                       "KP_UP", "nfgbtivfUnitIndrfmfnt",
+                     "PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                "dtrl PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                        "HOME", "minSdroll",
+                         "END", "mbxSdroll"
                  }),
 
-            "ScrollPane.font", dialogPlain12,
-            "ScrollPane.background", table.get("control"),
-            "ScrollPane.foreground", table.get("controlText"),
-            "ScrollPane.border", null,
-            "ScrollPane.viewportBorder", loweredBevelBorder,
-            "ScrollPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                           "RIGHT", "unitScrollRight",
-                        "KP_RIGHT", "unitScrollRight",
-                            "DOWN", "unitScrollDown",
-                         "KP_DOWN", "unitScrollDown",
-                            "LEFT", "unitScrollLeft",
-                         "KP_LEFT", "unitScrollLeft",
-                              "UP", "unitScrollUp",
-                           "KP_UP", "unitScrollUp",
-                         "PAGE_UP", "scrollUp",
-                       "PAGE_DOWN", "scrollDown",
-                    "ctrl PAGE_UP", "scrollLeft",
-                  "ctrl PAGE_DOWN", "scrollRight",
-                       "ctrl HOME", "scrollHome",
-                        "ctrl END", "scrollEnd"
+            "SdrollPbnf.font", diblogPlbin12,
+            "SdrollPbnf.bbdkground", tbblf.gft("dontrol"),
+            "SdrollPbnf.forfground", tbblf.gft("dontrolTfxt"),
+            "SdrollPbnf.bordfr", null,
+            "SdrollPbnf.vifwportBordfr", lowfrfdBfvflBordfr,
+            "SdrollPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "RIGHT", "unitSdrollRigit",
+                        "KP_RIGHT", "unitSdrollRigit",
+                            "DOWN", "unitSdrollDown",
+                         "KP_DOWN", "unitSdrollDown",
+                            "LEFT", "unitSdrollLfft",
+                         "KP_LEFT", "unitSdrollLfft",
+                              "UP", "unitSdrollUp",
+                           "KP_UP", "unitSdrollUp",
+                         "PAGE_UP", "sdrollUp",
+                       "PAGE_DOWN", "sdrollDown",
+                    "dtrl PAGE_UP", "sdrollLfft",
+                  "dtrl PAGE_DOWN", "sdrollRigit",
+                       "dtrl HOME", "sdrollHomf",
+                        "dtrl END", "sdrollEnd"
                  }),
 
-            "Slider.font", dialogPlain12,
-            "Slider.border", focusBevelBorder,
-            "Slider.foreground", table.get("control"),
-            "Slider.background", controlDarker,
-            "Slider.highlight", table.get("controlHighlight"),
-            "Slider.shadow", table.get("controlShadow"),
-            "Slider.focus", table.get("controlDkShadow"),
-            "Slider.focusInsets", sliderFocusInsets,
-            "Slider.focusInputMap", new UIDefaults.LazyInputMap(new Object[] {
-                         "RIGHT", "positiveUnitIncrement",
-                      "KP_RIGHT", "positiveUnitIncrement",
-                          "DOWN", "negativeUnitIncrement",
-                       "KP_DOWN", "negativeUnitIncrement",
-                "ctrl PAGE_DOWN", "negativeBlockIncrement",
-                          "LEFT", "negativeUnitIncrement",
-                       "KP_LEFT", "negativeUnitIncrement",
-                            "UP", "positiveUnitIncrement",
-                         "KP_UP", "positiveUnitIncrement",
-                  "ctrl PAGE_UP", "positiveBlockIncrement",
-                          "HOME", "minScroll",
-                           "END", "maxScroll"
+            "Slidfr.font", diblogPlbin12,
+            "Slidfr.bordfr", fodusBfvflBordfr,
+            "Slidfr.forfground", tbblf.gft("dontrol"),
+            "Slidfr.bbdkground", dontrolDbrkfr,
+            "Slidfr.iigiligit", tbblf.gft("dontrolHigiligit"),
+            "Slidfr.sibdow", tbblf.gft("dontrolSibdow"),
+            "Slidfr.fodus", tbblf.gft("dontrolDkSibdow"),
+            "Slidfr.fodusInsfts", slidfrFodusInsfts,
+            "Slidfr.fodusInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                         "RIGHT", "positivfUnitIndrfmfnt",
+                      "KP_RIGHT", "positivfUnitIndrfmfnt",
+                          "DOWN", "nfgbtivfUnitIndrfmfnt",
+                       "KP_DOWN", "nfgbtivfUnitIndrfmfnt",
+                "dtrl PAGE_DOWN", "nfgbtivfBlodkIndrfmfnt",
+                          "LEFT", "nfgbtivfUnitIndrfmfnt",
+                       "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+                            "UP", "positivfUnitIndrfmfnt",
+                         "KP_UP", "positivfUnitIndrfmfnt",
+                  "dtrl PAGE_UP", "positivfBlodkIndrfmfnt",
+                          "HOME", "minSdroll",
+                           "END", "mbxSdroll"
             }),
 
-            // Spinner
-            "Spinner.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                               "UP", "increment",
-                            "KP_UP", "increment",
-                             "DOWN", "decrement",
-                          "KP_DOWN", "decrement",
+            // Spinnfr
+            "Spinnfr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                               "UP", "indrfmfnt",
+                            "KP_UP", "indrfmfnt",
+                             "DOWN", "dfdrfmfnt",
+                          "KP_DOWN", "dfdrfmfnt",
                }),
-            "Spinner.border", textFieldBorder,
+            "Spinnfr.bordfr", tfxtFifldBordfr,
 
-            "SplitPane.background", table.get("control"),
-            "SplitPane.highlight", table.get("controlHighlight"),
-            "SplitPane.shadow", table.get("controlShadow"),
-            "SplitPane.dividerSize", Integer.valueOf(20),
-            "SplitPane.activeThumb", table.get("activeCaptionBorder"),
-            "SplitPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "negativeIncrement",
-                      "DOWN", "positiveIncrement",
-                      "LEFT", "negativeIncrement",
-                     "RIGHT", "positiveIncrement",
-                     "KP_UP", "negativeIncrement",
-                   "KP_DOWN", "positiveIncrement",
-                   "KP_LEFT", "negativeIncrement",
-                  "KP_RIGHT", "positiveIncrement",
-                      "HOME", "selectMin",
-                       "END", "selectMax",
-                        "F8", "startResize",
-                        "F6", "toggleFocus",
-                  "ctrl TAB", "focusOutForward",
-            "ctrl shift TAB", "focusOutBackward"
+            "SplitPbnf.bbdkground", tbblf.gft("dontrol"),
+            "SplitPbnf.iigiligit", tbblf.gft("dontrolHigiligit"),
+            "SplitPbnf.sibdow", tbblf.gft("dontrolSibdow"),
+            "SplitPbnf.dividfrSizf", Intfgfr.vblufOf(20),
+            "SplitPbnf.bdtivfTiumb", tbblf.gft("bdtivfCbptionBordfr"),
+            "SplitPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                        "UP", "nfgbtivfIndrfmfnt",
+                      "DOWN", "positivfIndrfmfnt",
+                      "LEFT", "nfgbtivfIndrfmfnt",
+                     "RIGHT", "positivfIndrfmfnt",
+                     "KP_UP", "nfgbtivfIndrfmfnt",
+                   "KP_DOWN", "positivfIndrfmfnt",
+                   "KP_LEFT", "nfgbtivfIndrfmfnt",
+                  "KP_RIGHT", "positivfIndrfmfnt",
+                      "HOME", "sflfdtMin",
+                       "END", "sflfdtMbx",
+                        "F8", "stbrtRfsizf",
+                        "F6", "togglfFodus",
+                  "dtrl TAB", "fodusOutForwbrd",
+            "dtrl siift TAB", "fodusOutBbdkwbrd"
                }),
 
-            "TabbedPane.font", dialogPlain12,
-            "TabbedPane.background", table.get("control"),
-            "TabbedPane.foreground", table.get("controlText"),
-            "TabbedPane.light", table.get("controlHighlight"),
-            "TabbedPane.highlight", table.get("controlLtHighlight"),
-            "TabbedPane.shadow", table.get("controlShadow"),
-            "TabbedPane.darkShadow", table.get("controlShadow"),
-            "TabbedPane.unselectedTabBackground", unselectedTabBackground,
-            "TabbedPane.unselectedTabForeground", unselectedTabForeground,
-            "TabbedPane.unselectedTabHighlight", unselectedTabHighlight,
-            "TabbedPane.unselectedTabShadow", unselectedTabShadow,
-            "TabbedPane.focus", table.get("activeCaptionBorder"),
-            "TabbedPane.tabInsets", tabbedPaneTabInsets,
-            "TabbedPane.selectedTabPadInsets", tabbedPaneTabPadInsets,
-            "TabbedPane.tabAreaInsets", tabbedPaneTabAreaInsets,
-            "TabbedPane.contentBorderInsets", tabbedPaneContentBorderInsets,
-            "TabbedPane.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                         "RIGHT", "navigateRight",
-                      "KP_RIGHT", "navigateRight",
-                          "LEFT", "navigateLeft",
-                       "KP_LEFT", "navigateLeft",
-                            "UP", "navigateUp",
-                         "KP_UP", "navigateUp",
-                          "DOWN", "navigateDown",
-                       "KP_DOWN", "navigateDown",
-                     "ctrl DOWN", "requestFocusForVisibleComponent",
-                  "ctrl KP_DOWN", "requestFocusForVisibleComponent",
+            "TbbbfdPbnf.font", diblogPlbin12,
+            "TbbbfdPbnf.bbdkground", tbblf.gft("dontrol"),
+            "TbbbfdPbnf.forfground", tbblf.gft("dontrolTfxt"),
+            "TbbbfdPbnf.ligit", tbblf.gft("dontrolHigiligit"),
+            "TbbbfdPbnf.iigiligit", tbblf.gft("dontrolLtHigiligit"),
+            "TbbbfdPbnf.sibdow", tbblf.gft("dontrolSibdow"),
+            "TbbbfdPbnf.dbrkSibdow", tbblf.gft("dontrolSibdow"),
+            "TbbbfdPbnf.unsflfdtfdTbbBbdkground", unsflfdtfdTbbBbdkground,
+            "TbbbfdPbnf.unsflfdtfdTbbForfground", unsflfdtfdTbbForfground,
+            "TbbbfdPbnf.unsflfdtfdTbbHigiligit", unsflfdtfdTbbHigiligit,
+            "TbbbfdPbnf.unsflfdtfdTbbSibdow", unsflfdtfdTbbSibdow,
+            "TbbbfdPbnf.fodus", tbblf.gft("bdtivfCbptionBordfr"),
+            "TbbbfdPbnf.tbbInsfts", tbbbfdPbnfTbbInsfts,
+            "TbbbfdPbnf.sflfdtfdTbbPbdInsfts", tbbbfdPbnfTbbPbdInsfts,
+            "TbbbfdPbnf.tbbArfbInsfts", tbbbfdPbnfTbbArfbInsfts,
+            "TbbbfdPbnf.dontfntBordfrInsfts", tbbbfdPbnfContfntBordfrInsfts,
+            "TbbbfdPbnf.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                         "RIGHT", "nbvigbtfRigit",
+                      "KP_RIGHT", "nbvigbtfRigit",
+                          "LEFT", "nbvigbtfLfft",
+                       "KP_LEFT", "nbvigbtfLfft",
+                            "UP", "nbvigbtfUp",
+                         "KP_UP", "nbvigbtfUp",
+                          "DOWN", "nbvigbtfDown",
+                       "KP_DOWN", "nbvigbtfDown",
+                     "dtrl DOWN", "rfqufstFodusForVisiblfComponfnt",
+                  "dtrl KP_DOWN", "rfqufstFodusForVisiblfComponfnt",
                 }),
-            "TabbedPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                   "ctrl PAGE_DOWN", "navigatePageDown",
-                     "ctrl PAGE_UP", "navigatePageUp",
-                          "ctrl UP", "requestFocus",
-                       "ctrl KP_UP", "requestFocus",
+            "TbbbfdPbnf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                   "dtrl PAGE_DOWN", "nbvigbtfPbgfDown",
+                     "dtrl PAGE_UP", "nbvigbtfPbgfUp",
+                          "dtrl UP", "rfqufstFodus",
+                       "dtrl KP_UP", "rfqufstFodus",
                  }),
 
 
-            "Tree.background", controlDarker,                              // default: dark slate blue
-            "Tree.hash", table.get("controlDkShadow"),                     // default: black
-            "Tree.iconShadow", table.get("controlShadow"),
-            "Tree.iconHighlight", table.get("controlHighlight"),
-            "Tree.iconBackground", table.get("control"),
-            "Tree.iconForeground", table.get("controlShadow"),             // default: black
-            "Tree.textBackground", controlDarker,             // default: dark slate blue
-            "Tree.textForeground", table.get("textText"),           // default: black
-            "Tree.selectionBackground", table.get("text"),            // default: white
-            "Tree.selectionForeground", table.get("textText"),              // default: black
-            "Tree.selectionBorderColor", table.get("activeCaptionBorder"), // default: maroon
-            "Tree.openIcon", treeOpenIcon,
-            "Tree.closedIcon", treeClosedIcon,
-            "Tree.leafIcon", treeLeafIcon,
-            "Tree.expandedIcon", treeExpandedIcon,
-            "Tree.collapsedIcon", treeCollapsedIcon,
-            "Tree.editorBorder", focusBorder,
-            "Tree.editorBorderSelectionColor", table.get("activeCaptionBorder"),
-            "Tree.rowHeight", 18,
-            "Tree.drawsFocusBorderAroundIcon", Boolean.TRUE,
-            "Tree.focusInputMap", new UIDefaults.LazyInputMap(new Object[] {
-                                "COPY", "copy",
-                               "PASTE", "paste",
-                                 "CUT", "cut",
-                      "control INSERT", "copy",
-                        "shift INSERT", "paste",
-                        "shift DELETE", "cut",
-                                  "UP", "selectPrevious",
-                               "KP_UP", "selectPrevious",
-                            "shift UP", "selectPreviousExtendSelection",
-                         "shift KP_UP", "selectPreviousExtendSelection",
-                       "ctrl shift UP", "selectPreviousExtendSelection",
-                    "ctrl shift KP_UP", "selectPreviousExtendSelection",
-                             "ctrl UP", "selectPreviousChangeLead",
-                          "ctrl KP_UP", "selectPreviousChangeLead",
-                                "DOWN", "selectNext",
-                             "KP_DOWN", "selectNext",
-                          "shift DOWN", "selectNextExtendSelection",
-                       "shift KP_DOWN", "selectNextExtendSelection",
-                     "ctrl shift DOWN", "selectNextExtendSelection",
-                  "ctrl shift KP_DOWN", "selectNextExtendSelection",
-                           "ctrl DOWN", "selectNextChangeLead",
-                        "ctrl KP_DOWN", "selectNextChangeLead",
-                               "RIGHT", "selectChild",
-                            "KP_RIGHT", "selectChild",
-                                "LEFT", "selectParent",
-                             "KP_LEFT", "selectParent",
-                             "PAGE_UP", "scrollUpChangeSelection",
-                       "shift PAGE_UP", "scrollUpExtendSelection",
-                  "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                        "ctrl PAGE_UP", "scrollUpChangeLead",
-                           "PAGE_DOWN", "scrollDownChangeSelection",
-                     "shift PAGE_DOWN", "scrollDownExtendSelection",
-                "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                      "ctrl PAGE_DOWN", "scrollDownChangeLead",
-                                "HOME", "selectFirst",
-                          "shift HOME", "selectFirstExtendSelection",
-                     "ctrl shift HOME", "selectFirstExtendSelection",
-                           "ctrl HOME", "selectFirstChangeLead",
-                                 "END", "selectLast",
-                           "shift END", "selectLastExtendSelection",
-                      "ctrl shift END", "selectLastExtendSelection",
-                            "ctrl END", "selectLastChangeLead",
-                                  "F2", "startEditing",
-                              "ctrl A", "selectAll",
-                          "ctrl SLASH", "selectAll",
-                     "ctrl BACK_SLASH", "clearSelection",
-                           "ctrl LEFT", "scrollLeft",
-                        "ctrl KP_LEFT", "scrollLeft",
-                          "ctrl RIGHT", "scrollRight",
-                       "ctrl KP_RIGHT", "scrollRight",
-                               "SPACE", "addToSelection",
-                          "ctrl SPACE", "toggleAndAnchor",
-                         "shift SPACE", "extendTo",
-                    "ctrl shift SPACE", "moveSelectionTo"
+            "Trff.bbdkground", dontrolDbrkfr,                              // dffbult: dbrk slbtf bluf
+            "Trff.ibsi", tbblf.gft("dontrolDkSibdow"),                     // dffbult: blbdk
+            "Trff.idonSibdow", tbblf.gft("dontrolSibdow"),
+            "Trff.idonHigiligit", tbblf.gft("dontrolHigiligit"),
+            "Trff.idonBbdkground", tbblf.gft("dontrol"),
+            "Trff.idonForfground", tbblf.gft("dontrolSibdow"),             // dffbult: blbdk
+            "Trff.tfxtBbdkground", dontrolDbrkfr,             // dffbult: dbrk slbtf bluf
+            "Trff.tfxtForfground", tbblf.gft("tfxtTfxt"),           // dffbult: blbdk
+            "Trff.sflfdtionBbdkground", tbblf.gft("tfxt"),            // dffbult: wiitf
+            "Trff.sflfdtionForfground", tbblf.gft("tfxtTfxt"),              // dffbult: blbdk
+            "Trff.sflfdtionBordfrColor", tbblf.gft("bdtivfCbptionBordfr"), // dffbult: mbroon
+            "Trff.opfnIdon", trffOpfnIdon,
+            "Trff.dlosfdIdon", trffClosfdIdon,
+            "Trff.lfbfIdon", trffLfbfIdon,
+            "Trff.fxpbndfdIdon", trffExpbndfdIdon,
+            "Trff.dollbpsfdIdon", trffCollbpsfdIdon,
+            "Trff.fditorBordfr", fodusBordfr,
+            "Trff.fditorBordfrSflfdtionColor", tbblf.gft("bdtivfCbptionBordfr"),
+            "Trff.rowHfigit", 18,
+            "Trff.drbwsFodusBordfrAroundIdon", Boolfbn.TRUE,
+            "Trff.fodusInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                                "COPY", "dopy",
+                               "PASTE", "pbstf",
+                                 "CUT", "dut",
+                      "dontrol INSERT", "dopy",
+                        "siift INSERT", "pbstf",
+                        "siift DELETE", "dut",
+                                  "UP", "sflfdtPrfvious",
+                               "KP_UP", "sflfdtPrfvious",
+                            "siift UP", "sflfdtPrfviousExtfndSflfdtion",
+                         "siift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+                       "dtrl siift UP", "sflfdtPrfviousExtfndSflfdtion",
+                    "dtrl siift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+                             "dtrl UP", "sflfdtPrfviousCibngfLfbd",
+                          "dtrl KP_UP", "sflfdtPrfviousCibngfLfbd",
+                                "DOWN", "sflfdtNfxt",
+                             "KP_DOWN", "sflfdtNfxt",
+                          "siift DOWN", "sflfdtNfxtExtfndSflfdtion",
+                       "siift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+                     "dtrl siift DOWN", "sflfdtNfxtExtfndSflfdtion",
+                  "dtrl siift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+                           "dtrl DOWN", "sflfdtNfxtCibngfLfbd",
+                        "dtrl KP_DOWN", "sflfdtNfxtCibngfLfbd",
+                               "RIGHT", "sflfdtCiild",
+                            "KP_RIGHT", "sflfdtCiild",
+                                "LEFT", "sflfdtPbrfnt",
+                             "KP_LEFT", "sflfdtPbrfnt",
+                             "PAGE_UP", "sdrollUpCibngfSflfdtion",
+                       "siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                  "dtrl siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                        "dtrl PAGE_UP", "sdrollUpCibngfLfbd",
+                           "PAGE_DOWN", "sdrollDownCibngfSflfdtion",
+                     "siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                "dtrl siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                      "dtrl PAGE_DOWN", "sdrollDownCibngfLfbd",
+                                "HOME", "sflfdtFirst",
+                          "siift HOME", "sflfdtFirstExtfndSflfdtion",
+                     "dtrl siift HOME", "sflfdtFirstExtfndSflfdtion",
+                           "dtrl HOME", "sflfdtFirstCibngfLfbd",
+                                 "END", "sflfdtLbst",
+                           "siift END", "sflfdtLbstExtfndSflfdtion",
+                      "dtrl siift END", "sflfdtLbstExtfndSflfdtion",
+                            "dtrl END", "sflfdtLbstCibngfLfbd",
+                                  "F2", "stbrtEditing",
+                              "dtrl A", "sflfdtAll",
+                          "dtrl SLASH", "sflfdtAll",
+                     "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                           "dtrl LEFT", "sdrollLfft",
+                        "dtrl KP_LEFT", "sdrollLfft",
+                          "dtrl RIGHT", "sdrollRigit",
+                       "dtrl KP_RIGHT", "sdrollRigit",
+                               "SPACE", "bddToSflfdtion",
+                          "dtrl SPACE", "togglfAndAndior",
+                         "siift SPACE", "fxtfndTo",
+                    "dtrl siift SPACE", "movfSflfdtionTo"
               }),
-            "Tree.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[] {
-                "ESCAPE", "cancel" }),
+            "Trff.bndfstorInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                "ESCAPE", "dbndfl" }),
 
-            "Table.focusCellHighlightBorder", focusCellHighlightBorder,
-            "Table.scrollPaneBorder", null,
-            "Table.dropLineShortColor", table.get("activeCaptionBorder"),
+            "Tbblf.fodusCfllHigiligitBordfr", fodusCfllHigiligitBordfr,
+            "Tbblf.sdrollPbnfBordfr", null,
+            "Tbblf.dropLinfSiortColor", tbblf.gft("bdtivfCbptionBordfr"),
 
-            //      "Table.background", white,  // cell background color
-            "Table.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                                 "COPY", "copy",
-                                "PASTE", "paste",
-                                  "CUT", "cut",
-                       "control INSERT", "copy",
-                         "shift INSERT", "paste",
-                         "shift DELETE", "cut",
-                                "RIGHT", "selectNextColumn",
-                             "KP_RIGHT", "selectNextColumn",
-                          "shift RIGHT", "selectNextColumnExtendSelection",
-                       "shift KP_RIGHT", "selectNextColumnExtendSelection",
-                     "ctrl shift RIGHT", "selectNextColumnExtendSelection",
-                  "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                           "ctrl RIGHT", "selectNextColumnChangeLead",
-                        "ctrl KP_RIGHT", "selectNextColumnChangeLead",
-                                 "LEFT", "selectPreviousColumn",
-                              "KP_LEFT", "selectPreviousColumn",
-                           "shift LEFT", "selectPreviousColumnExtendSelection",
-                        "shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                      "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
-                   "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                            "ctrl LEFT", "selectPreviousColumnChangeLead",
-                         "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
-                                 "DOWN", "selectNextRow",
-                              "KP_DOWN", "selectNextRow",
-                           "shift DOWN", "selectNextRowExtendSelection",
-                        "shift KP_DOWN", "selectNextRowExtendSelection",
-                      "ctrl shift DOWN", "selectNextRowExtendSelection",
-                   "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                            "ctrl DOWN", "selectNextRowChangeLead",
-                         "ctrl KP_DOWN", "selectNextRowChangeLead",
-                                   "UP", "selectPreviousRow",
-                                "KP_UP", "selectPreviousRow",
-                             "shift UP", "selectPreviousRowExtendSelection",
-                          "shift KP_UP", "selectPreviousRowExtendSelection",
-                        "ctrl shift UP", "selectPreviousRowExtendSelection",
-                     "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                              "ctrl UP", "selectPreviousRowChangeLead",
-                           "ctrl KP_UP", "selectPreviousRowChangeLead",
-                                 "HOME", "selectFirstColumn",
-                           "shift HOME", "selectFirstColumnExtendSelection",
-                      "ctrl shift HOME", "selectFirstRowExtendSelection",
-                            "ctrl HOME", "selectFirstRow",
-                                  "END", "selectLastColumn",
-                            "shift END", "selectLastColumnExtendSelection",
-                       "ctrl shift END", "selectLastRowExtendSelection",
-                             "ctrl END", "selectLastRow",
-                              "PAGE_UP", "scrollUpChangeSelection",
-                        "shift PAGE_UP", "scrollUpExtendSelection",
-                   "ctrl shift PAGE_UP", "scrollLeftExtendSelection",
-                         "ctrl PAGE_UP", "scrollLeftChangeSelection",
-                            "PAGE_DOWN", "scrollDownChangeSelection",
-                      "shift PAGE_DOWN", "scrollDownExtendSelection",
-                 "ctrl shift PAGE_DOWN", "scrollRightExtendSelection",
-                       "ctrl PAGE_DOWN", "scrollRightChangeSelection",
-                                  "TAB", "selectNextColumnCell",
-                            "shift TAB", "selectPreviousColumnCell",
-                                "ENTER", "selectNextRowCell",
-                          "shift ENTER", "selectPreviousRowCell",
-                               "ctrl A", "selectAll",
-                           "ctrl SLASH", "selectAll",
-                      "ctrl BACK_SLASH", "clearSelection",
-                               "ESCAPE", "cancel",
-                                   "F2", "startEditing",
-                                "SPACE", "addToSelection",
-                           "ctrl SPACE", "toggleAndAnchor",
-                          "shift SPACE", "extendTo",
-                     "ctrl shift SPACE", "moveSelectionTo",
-                                   "F8", "focusHeader"
+            //      "Tbblf.bbdkground", wiitf,  // dfll bbdkground dolor
+            "Tbblf.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                                 "COPY", "dopy",
+                                "PASTE", "pbstf",
+                                  "CUT", "dut",
+                       "dontrol INSERT", "dopy",
+                         "siift INSERT", "pbstf",
+                         "siift DELETE", "dut",
+                                "RIGHT", "sflfdtNfxtColumn",
+                             "KP_RIGHT", "sflfdtNfxtColumn",
+                          "siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                       "siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                     "dtrl siift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                  "dtrl siift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+                           "dtrl RIGHT", "sflfdtNfxtColumnCibngfLfbd",
+                        "dtrl KP_RIGHT", "sflfdtNfxtColumnCibngfLfbd",
+                                 "LEFT", "sflfdtPrfviousColumn",
+                              "KP_LEFT", "sflfdtPrfviousColumn",
+                           "siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                        "siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                      "dtrl siift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                   "dtrl siift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+                            "dtrl LEFT", "sflfdtPrfviousColumnCibngfLfbd",
+                         "dtrl KP_LEFT", "sflfdtPrfviousColumnCibngfLfbd",
+                                 "DOWN", "sflfdtNfxtRow",
+                              "KP_DOWN", "sflfdtNfxtRow",
+                           "siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                        "siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                      "dtrl siift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                   "dtrl siift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+                            "dtrl DOWN", "sflfdtNfxtRowCibngfLfbd",
+                         "dtrl KP_DOWN", "sflfdtNfxtRowCibngfLfbd",
+                                   "UP", "sflfdtPrfviousRow",
+                                "KP_UP", "sflfdtPrfviousRow",
+                             "siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                          "siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                        "dtrl siift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                     "dtrl siift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+                              "dtrl UP", "sflfdtPrfviousRowCibngfLfbd",
+                           "dtrl KP_UP", "sflfdtPrfviousRowCibngfLfbd",
+                                 "HOME", "sflfdtFirstColumn",
+                           "siift HOME", "sflfdtFirstColumnExtfndSflfdtion",
+                      "dtrl siift HOME", "sflfdtFirstRowExtfndSflfdtion",
+                            "dtrl HOME", "sflfdtFirstRow",
+                                  "END", "sflfdtLbstColumn",
+                            "siift END", "sflfdtLbstColumnExtfndSflfdtion",
+                       "dtrl siift END", "sflfdtLbstRowExtfndSflfdtion",
+                             "dtrl END", "sflfdtLbstRow",
+                              "PAGE_UP", "sdrollUpCibngfSflfdtion",
+                        "siift PAGE_UP", "sdrollUpExtfndSflfdtion",
+                   "dtrl siift PAGE_UP", "sdrollLfftExtfndSflfdtion",
+                         "dtrl PAGE_UP", "sdrollLfftCibngfSflfdtion",
+                            "PAGE_DOWN", "sdrollDownCibngfSflfdtion",
+                      "siift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+                 "dtrl siift PAGE_DOWN", "sdrollRigitExtfndSflfdtion",
+                       "dtrl PAGE_DOWN", "sdrollRigitCibngfSflfdtion",
+                                  "TAB", "sflfdtNfxtColumnCfll",
+                            "siift TAB", "sflfdtPrfviousColumnCfll",
+                                "ENTER", "sflfdtNfxtRowCfll",
+                          "siift ENTER", "sflfdtPrfviousRowCfll",
+                               "dtrl A", "sflfdtAll",
+                           "dtrl SLASH", "sflfdtAll",
+                      "dtrl BACK_SLASH", "dlfbrSflfdtion",
+                               "ESCAPE", "dbndfl",
+                                   "F2", "stbrtEditing",
+                                "SPACE", "bddToSflfdtion",
+                           "dtrl SPACE", "togglfAndAndior",
+                          "siift SPACE", "fxtfndTo",
+                     "dtrl siift SPACE", "movfSflfdtionTo",
+                                   "F8", "fodusHfbdfr"
                  }),
 
 
-            "FormattedTextField.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
-                            "ENTER", JTextField.notifyAction,
-                  "ctrl BACK_SLASH", "unselect",
-                   "control shift O", "toggle-componentOrientation",
-                           "ESCAPE", "reset-field-edit",
-                               "UP", "increment",
-                            "KP_UP", "increment",
-                             "DOWN", "decrement",
-                          "KP_DOWN", "decrement",
-              }),
-
-            // ToolBar.
-            "ToolBar.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "navigateUp",
-                     "KP_UP", "navigateUp",
-                      "DOWN", "navigateDown",
-                   "KP_DOWN", "navigateDown",
-                      "LEFT", "navigateLeft",
-                   "KP_LEFT", "navigateLeft",
-                     "RIGHT", "navigateRight",
-                  "KP_RIGHT", "navigateRight"
-                 }),
-
-
-
-            "ComboBox.control", table.get("control"),
-            "ComboBox.controlForeground", black,
-            "ComboBox.background", table.get("window"),
-            "ComboBox.foreground", black,
-            "ComboBox.border", comboBoxBorder,
-            "ComboBox.selectionBackground", black,
-            "ComboBox.selectionForeground", table.get("text"),
-            "ComboBox.disabledBackground", table.get("control"),
-            "ComboBox.disabledForeground", table.get("textInactiveText"),
-            "ComboBox.font", dialogPlain12,
-            "ComboBox.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[] {
-                   "ESCAPE", "hidePopup",
-                  "PAGE_UP", "pageUpPassThrough",
-                "PAGE_DOWN", "pageDownPassThrough",
-                     "HOME", "homePassThrough",
-                      "END", "endPassThrough",
-                     "DOWN", "selectNext",
-                  "KP_DOWN", "selectNext",
-                       "UP", "selectPrevious",
-                    "KP_UP", "selectPrevious",
-                    "SPACE", "spacePopup",
-                    "ENTER", "enterPressed"
-
+            "FormbttfdTfxtFifld.fodusInputMbp",
+              nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                           "dtrl C", DffbultEditorKit.dopyAdtion,
+                           "dtrl V", DffbultEditorKit.pbstfAdtion,
+                           "dtrl X", DffbultEditorKit.dutAdtion,
+                             "COPY", DffbultEditorKit.dopyAdtion,
+                            "PASTE", DffbultEditorKit.pbstfAdtion,
+                              "CUT", DffbultEditorKit.dutAdtion,
+                       "siift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                    "siift KP_LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                      "siift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                   "siift KP_RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                        "dtrl LEFT", DffbultEditorKit.prfviousWordAdtion,
+                     "dtrl KP_LEFT", DffbultEditorKit.prfviousWordAdtion,
+                       "dtrl RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                    "dtrl KP_RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                  "dtrl siift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+               "dtrl siift KP_LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+                 "dtrl siift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+              "dtrl siift KP_RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                           "dtrl A", DffbultEditorKit.sflfdtAllAdtion,
+                             "HOME", DffbultEditorKit.bfginLinfAdtion,
+                              "END", DffbultEditorKit.fndLinfAdtion,
+                       "siift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                        "siift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                       "BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                 "siift BACK_SPACE", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                           "dtrl H", DffbultEditorKit.dflftfPrfvCibrAdtion,
+                           "DELETE", DffbultEditorKit.dflftfNfxtCibrAdtion,
+                      "dtrl DELETE", DffbultEditorKit.dflftfNfxtWordAdtion,
+                  "dtrl BACK_SPACE", DffbultEditorKit.dflftfPrfvWordAdtion,
+                            "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                             "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                         "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                          "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                            "ENTER", JTfxtFifld.notifyAdtion,
+                  "dtrl BACK_SLASH", "unsflfdt",
+                   "dontrol siift O", "togglf-domponfntOrifntbtion",
+                           "ESCAPE", "rfsft-fifld-fdit",
+                               "UP", "indrfmfnt",
+                            "KP_UP", "indrfmfnt",
+                             "DOWN", "dfdrfmfnt",
+                          "KP_DOWN", "dfdrfmfnt",
               }),
 
-            "TextField.caretForeground", black,
-            "TextField.caretBlinkRate", Integer.valueOf(500),
-            "TextField.inactiveForeground", table.get("textInactiveText"),
-            "TextField.selectionBackground", table.get("textHighlight"),
-            "TextField.selectionForeground", table.get("textHighlightText"),
-            "TextField.background", table.get("window"),
-            "TextField.foreground", table.get("textText"),
-            "TextField.font", sansSerifPlain12,
-            "TextField.border", textFieldBorder,
-            "TextField.focusInputMap", fieldInputMap,
-
-            "PasswordField.caretForeground", black,
-            "PasswordField.caretBlinkRate", Integer.valueOf(500),
-            "PasswordField.inactiveForeground", table.get("textInactiveText"),
-            "PasswordField.selectionBackground", table.get("textHighlight"),
-            "PasswordField.selectionForeground", table.get("textHighlightText"),
-            "PasswordField.background", table.get("window"),
-            "PasswordField.foreground", table.get("textText"),
-            "PasswordField.font", monospacedPlain12,
-            "PasswordField.border", textFieldBorder,
-            "PasswordField.focusInputMap", passwordInputMap,
-
-            "TextArea.caretForeground", black,
-            "TextArea.caretBlinkRate", Integer.valueOf(500),
-            "TextArea.inactiveForeground", table.get("textInactiveText"),
-            "TextArea.selectionBackground", table.get("textHighlight"),
-            "TextArea.selectionForeground", table.get("textHighlightText"),
-            "TextArea.background", table.get("window"),
-            "TextArea.foreground", table.get("textText"),
-            "TextArea.font", monospacedPlain12,
-            "TextArea.border", marginBorder,
-            "TextArea.focusInputMap", multilineInputMap,
-
-            "TextPane.caretForeground", black,
-            "TextPane.caretBlinkRate", Integer.valueOf(500),
-            "TextPane.inactiveForeground", table.get("textInactiveText"),
-            "TextPane.selectionBackground", lightGray,
-            "TextPane.selectionForeground", table.get("textHighlightText"),
-            "TextPane.background", white,
-            "TextPane.foreground", table.get("textText"),
-            "TextPane.font", serifPlain12,
-            "TextPane.border", marginBorder,
-            "TextPane.focusInputMap", multilineInputMap,
-
-            "EditorPane.caretForeground", red,
-            "EditorPane.caretBlinkRate", Integer.valueOf(500),
-            "EditorPane.inactiveForeground", table.get("textInactiveText"),
-            "EditorPane.selectionBackground", lightGray,
-            "EditorPane.selectionForeground", table.get("textHighlightText"),
-            "EditorPane.background", white,
-            "EditorPane.foreground", table.get("textText"),
-            "EditorPane.font", serifPlain12,
-            "EditorPane.border", marginBorder,
-            "EditorPane.focusInputMap", multilineInputMap,
-
-
-            "FileChooser.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancelSelection"
+            // ToolBbr.
+            "ToolBbr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                        "UP", "nbvigbtfUp",
+                     "KP_UP", "nbvigbtfUp",
+                      "DOWN", "nbvigbtfDown",
+                   "KP_DOWN", "nbvigbtfDown",
+                      "LEFT", "nbvigbtfLfft",
+                   "KP_LEFT", "nbvigbtfLfft",
+                     "RIGHT", "nbvigbtfRigit",
+                  "KP_RIGHT", "nbvigbtfRigit"
                  }),
 
 
-            "ToolTip.border", raisedBevelBorder,
-            "ToolTip.background", table.get("info"),
-            "ToolTip.foreground", table.get("infoText"),
 
-            // These window InputMap bindings are used when the Menu is
-            // selected.
-            "PopupMenu.selectedWindowInputMapBindings", new Object[] {
-                  "ESCAPE", "cancel",
-                     "TAB", "cancel",
-               "shift TAB", "cancel",
-                    "DOWN", "selectNext",
-                 "KP_DOWN", "selectNext",
-                      "UP", "selectPrevious",
-                   "KP_UP", "selectPrevious",
-                    "LEFT", "selectParent",
-                 "KP_LEFT", "selectParent",
-                   "RIGHT", "selectChild",
-                "KP_RIGHT", "selectChild",
-                   "ENTER", "return",
-                   "SPACE", "return"
+            "ComboBox.dontrol", tbblf.gft("dontrol"),
+            "ComboBox.dontrolForfground", blbdk,
+            "ComboBox.bbdkground", tbblf.gft("window"),
+            "ComboBox.forfground", blbdk,
+            "ComboBox.bordfr", domboBoxBordfr,
+            "ComboBox.sflfdtionBbdkground", blbdk,
+            "ComboBox.sflfdtionForfground", tbblf.gft("tfxt"),
+            "ComboBox.disbblfdBbdkground", tbblf.gft("dontrol"),
+            "ComboBox.disbblfdForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "ComboBox.font", diblogPlbin12,
+            "ComboBox.bndfstorInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                   "ESCAPE", "iidfPopup",
+                  "PAGE_UP", "pbgfUpPbssTirougi",
+                "PAGE_DOWN", "pbgfDownPbssTirougi",
+                     "HOME", "iomfPbssTirougi",
+                      "END", "fndPbssTirougi",
+                     "DOWN", "sflfdtNfxt",
+                  "KP_DOWN", "sflfdtNfxt",
+                       "UP", "sflfdtPrfvious",
+                    "KP_UP", "sflfdtPrfvious",
+                    "SPACE", "spbdfPopup",
+                    "ENTER", "fntfrPrfssfd"
+
+              }),
+
+            "TfxtFifld.dbrftForfground", blbdk,
+            "TfxtFifld.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "TfxtFifld.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "TfxtFifld.sflfdtionBbdkground", tbblf.gft("tfxtHigiligit"),
+            "TfxtFifld.sflfdtionForfground", tbblf.gft("tfxtHigiligitTfxt"),
+            "TfxtFifld.bbdkground", tbblf.gft("window"),
+            "TfxtFifld.forfground", tbblf.gft("tfxtTfxt"),
+            "TfxtFifld.font", sbnsSfrifPlbin12,
+            "TfxtFifld.bordfr", tfxtFifldBordfr,
+            "TfxtFifld.fodusInputMbp", fifldInputMbp,
+
+            "PbsswordFifld.dbrftForfground", blbdk,
+            "PbsswordFifld.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "PbsswordFifld.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "PbsswordFifld.sflfdtionBbdkground", tbblf.gft("tfxtHigiligit"),
+            "PbsswordFifld.sflfdtionForfground", tbblf.gft("tfxtHigiligitTfxt"),
+            "PbsswordFifld.bbdkground", tbblf.gft("window"),
+            "PbsswordFifld.forfground", tbblf.gft("tfxtTfxt"),
+            "PbsswordFifld.font", monospbdfdPlbin12,
+            "PbsswordFifld.bordfr", tfxtFifldBordfr,
+            "PbsswordFifld.fodusInputMbp", pbsswordInputMbp,
+
+            "TfxtArfb.dbrftForfground", blbdk,
+            "TfxtArfb.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "TfxtArfb.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "TfxtArfb.sflfdtionBbdkground", tbblf.gft("tfxtHigiligit"),
+            "TfxtArfb.sflfdtionForfground", tbblf.gft("tfxtHigiligitTfxt"),
+            "TfxtArfb.bbdkground", tbblf.gft("window"),
+            "TfxtArfb.forfground", tbblf.gft("tfxtTfxt"),
+            "TfxtArfb.font", monospbdfdPlbin12,
+            "TfxtArfb.bordfr", mbrginBordfr,
+            "TfxtArfb.fodusInputMbp", multilinfInputMbp,
+
+            "TfxtPbnf.dbrftForfground", blbdk,
+            "TfxtPbnf.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "TfxtPbnf.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "TfxtPbnf.sflfdtionBbdkground", ligitGrby,
+            "TfxtPbnf.sflfdtionForfground", tbblf.gft("tfxtHigiligitTfxt"),
+            "TfxtPbnf.bbdkground", wiitf,
+            "TfxtPbnf.forfground", tbblf.gft("tfxtTfxt"),
+            "TfxtPbnf.font", sfrifPlbin12,
+            "TfxtPbnf.bordfr", mbrginBordfr,
+            "TfxtPbnf.fodusInputMbp", multilinfInputMbp,
+
+            "EditorPbnf.dbrftForfground", rfd,
+            "EditorPbnf.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "EditorPbnf.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "EditorPbnf.sflfdtionBbdkground", ligitGrby,
+            "EditorPbnf.sflfdtionForfground", tbblf.gft("tfxtHigiligitTfxt"),
+            "EditorPbnf.bbdkground", wiitf,
+            "EditorPbnf.forfground", tbblf.gft("tfxtTfxt"),
+            "EditorPbnf.font", sfrifPlbin12,
+            "EditorPbnf.bordfr", mbrginBordfr,
+            "EditorPbnf.fodusInputMbp", multilinfInputMbp,
+
+
+            "FilfCioosfr.bndfstorInputMbp",
+               nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                     "ESCAPE", "dbndflSflfdtion"
+                 }),
+
+
+            "ToolTip.bordfr", rbisfdBfvflBordfr,
+            "ToolTip.bbdkground", tbblf.gft("info"),
+            "ToolTip.forfground", tbblf.gft("infoTfxt"),
+
+            // Tifsf window InputMbp bindings brf usfd wifn tif Mfnu is
+            // sflfdtfd.
+            "PopupMfnu.sflfdtfdWindowInputMbpBindings", nfw Objfdt[] {
+                  "ESCAPE", "dbndfl",
+                     "TAB", "dbndfl",
+               "siift TAB", "dbndfl",
+                    "DOWN", "sflfdtNfxt",
+                 "KP_DOWN", "sflfdtNfxt",
+                      "UP", "sflfdtPrfvious",
+                   "KP_UP", "sflfdtPrfvious",
+                    "LEFT", "sflfdtPbrfnt",
+                 "KP_LEFT", "sflfdtPbrfnt",
+                   "RIGHT", "sflfdtCiild",
+                "KP_RIGHT", "sflfdtCiild",
+                   "ENTER", "rfturn",
+                   "SPACE", "rfturn"
             },
 
 
-            "OptionPane.border", optionPaneBorder,
-            "OptionPane.messageAreaBorder", optionPaneMessageAreaBorder,
-            "OptionPane.buttonAreaBorder", optionPaneButtonAreaBorder,
-            "OptionPane.errorIcon", SwingUtilities2.makeIcon(getClass(),
-                                                             MotifLookAndFeel.class,
-                                                             "icons/Error.gif"),
-            "OptionPane.informationIcon", SwingUtilities2.makeIcon(getClass(),
-                                                                   MotifLookAndFeel.class,
-                                                                   "icons/Inform.gif"),
-            "OptionPane.warningIcon", SwingUtilities2.makeIcon(getClass(),
-                                                               MotifLookAndFeel.class,
-                                                               "icons/Warn.gif"),
-            "OptionPane.questionIcon", SwingUtilities2.makeIcon(getClass(),
-                                                                MotifLookAndFeel.class,
-                                                                "icons/Question.gif"),
-            "OptionPane.windowBindings", new Object[] {
-                "ESCAPE", "close" },
+            "OptionPbnf.bordfr", optionPbnfBordfr,
+            "OptionPbnf.mfssbgfArfbBordfr", optionPbnfMfssbgfArfbBordfr,
+            "OptionPbnf.buttonArfbBordfr", optionPbnfButtonArfbBordfr,
+            "OptionPbnf.frrorIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                             MotifLookAndFffl.dlbss,
+                                                             "idons/Error.gif"),
+            "OptionPbnf.informbtionIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                                   MotifLookAndFffl.dlbss,
+                                                                   "idons/Inform.gif"),
+            "OptionPbnf.wbrningIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                               MotifLookAndFffl.dlbss,
+                                                               "idons/Wbrn.gif"),
+            "OptionPbnf.qufstionIdon", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                                                MotifLookAndFffl.dlbss,
+                                                                "idons/Qufstion.gif"),
+            "OptionPbnf.windowBindings", nfw Objfdt[] {
+                "ESCAPE", "dlosf" },
 
-            // These bindings are only enabled when there is a default
-            // button set on the rootpane.
-            "RootPane.defaultButtonWindowKeyBindings", new Object[] {
-                             "ENTER", "press",
-                    "released ENTER", "release",
-                        "ctrl ENTER", "press",
-               "ctrl released ENTER", "release"
+            // Tifsf bindings brf only fnbblfd wifn tifrf is b dffbult
+            // button sft on tif rootpbnf.
+            "RootPbnf.dffbultButtonWindowKfyBindings", nfw Objfdt[] {
+                             "ENTER", "prfss",
+                    "rflfbsfd ENTER", "rflfbsf",
+                        "dtrl ENTER", "prfss",
+               "dtrl rflfbsfd ENTER", "rflfbsf"
               },
         };
 
-        table.putDefaults(defaults);
+        tbblf.putDffbults(dffbults);
     }
 
 }

@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import sun.jbvb2d.SdrffnUpdbtfMbnbgfr;
+import sun.jbvb2d.pipf.RfndfrBufffr;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+
+/**
+ * D3D-spfdifid implfmfntbtion of RfndfrQufuf.
+ */
+publid dlbss D3DRfndfrQufuf fxtfnds RfndfrQufuf {
+
+    privbtf stbtid D3DRfndfrQufuf thfInstbndf;
+    privbtf stbtid Thrfbd rqThrfbd;
+
+    privbtf D3DRfndfrQufuf() {
+    }
+
+    /**
+     * Rfturns thf singlf D3DRfndfrQufuf instbndf.  If it hbs not yft bffn
+     * initiblizfd, this mfthod will first donstrudt thf singlf instbndf
+     * bfforf rfturning it.
+     */
+    publid stbtid syndhronizfd D3DRfndfrQufuf gftInstbndf() {
+        if (thfInstbndf == null) {
+            thfInstbndf = nfw D3DRfndfrQufuf();
+            // no nffd to lodk, noonf hbs rfffrfndf to this instbndf yft
+            thfInstbndf.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    rqThrfbd = Thrfbd.durrfntThrfbd();
+                }
+            });
+        }
+        rfturn thfInstbndf;
+    }
+
+    /**
+     * Flushfs thf singlf D3DRfndfrQufuf instbndf syndhronously.  If bn
+     * D3DRfndfrQufuf hbs not yft bffn instbntibtfd, this mfthod is b no-op.
+     * This mfthod is usfful in thf dbsf of Toolkit.synd(), in whidh wf wbnt
+     * to flush thf D3D pipflinf, but only if thf D3D pipflinf is durrfntly
+     * fnbblfd.  Sindf this dlbss hbs ffw fxtfrnbl dfpfndfndifs, dbllfrs nffd
+     * not bf dondfrnfd thbt dblling this mfthod will triggfr initiblizbtion
+     * of thf D3D pipflinf bnd rflbtfd dlbssfs.
+     */
+    publid stbtid void synd() {
+        if (thfInstbndf != null) {
+            // nffd to mbkf surf bny/bll sdrffn surfbdfs brf prfsfntfd prior
+            // to domplfting thf synd opfrbtion
+            D3DSdrffnUpdbtfMbnbgfr mgr =
+                (D3DSdrffnUpdbtfMbnbgfr)SdrffnUpdbtfMbnbgfr.gftInstbndf();
+            mgr.runUpdbtfNow();
+
+            thfInstbndf.lodk();
+            try {
+                thfInstbndf.fnsurfCbpbdity(4);
+                thfInstbndf.gftBufffr().putInt(SYNC);
+                thfInstbndf.flushNow();
+            } finblly {
+                thfInstbndf.unlodk();
+            }
+        }
+    }
+
+    /**
+     * Attfmpt to rfstorf thf dfvidfs if thfy'rf in thf lost stbtf.
+     * (usfd whfn b full-sdrffn window is bdtivbtfd/dfbdtivbtfd)
+     */
+    publid stbtid void rfstorfDfvidfs() {
+        D3DRfndfrQufuf rq = gftInstbndf();
+        rq.lodk();
+        try {
+            rq.fnsurfCbpbdity(4);
+            rq.gftBufffr().putInt(RESTORE_DEVICES);
+            rq.flushNow();
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    /**
+     * @rfturn truf if durrfnt thrfbd is thf rfndfr qufuf thrfbd,
+     * fblsf othfrwisf
+     */
+    publid stbtid boolfbn isRfndfrQufufThrfbd() {
+        rfturn (Thrfbd.durrfntThrfbd() == rqThrfbd);
+    }
+
+    /**
+     * Disposfs thf nbtivf mfmory bssodibtfd with thf givfn nbtivf
+     * grbphids donfig info pointfr on thf singlf qufuf flushing thrfbd.
+     */
+    publid stbtid void disposfGrbphidsConfig(long pConfigInfo) {
+        D3DRfndfrQufuf rq = gftInstbndf();
+        rq.lodk();
+        try {
+
+            RfndfrBufffr buf = rq.gftBufffr();
+            rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
+            buf.putInt(DISPOSE_CONFIG);
+            buf.putLong(pConfigInfo);
+
+            // this dbll is fxpfdtfd to domplftf syndhronously, so flush now
+            rq.flushNow();
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    publid void flushNow() {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        flushBufffr(null);
+    }
+
+    publid void flushAndInvokfNow(Runnbblf r) {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        flushBufffr(r);
+    }
+
+    privbtf nbtivf void flushBufffr(long buf, int limit, Runnbblf tbsk);
+
+    privbtf void flushBufffr(Runnbblf tbsk) {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        int limit = buf.position();
+        if (limit > 0 || tbsk != null) {
+            // prodfss thf qufuf
+            flushBufffr(buf.gftAddrfss(), limit, tbsk);
+        }
+        // rfsft thf bufffr position
+        buf.dlfbr();
+        // dlfbr thf sft of rfffrfndfs, sindf wf no longfr nffd thfm
+        rffSft.dlfbr();
+    }
+}

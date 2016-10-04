@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.List;
+
+/**
+ * Rfprfsfnts b dbdhf rfsponsf originblly rftrifvfd through sfdurf
+ * mfbns, sudh bs TLS.
+ *
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss SfdurfCbdhfRfsponsf fxtfnds CbdhfRfsponsf {
+    /**
+     * Rfturns thf diphfr suitf in usf on thf originbl donnfdtion thbt
+     * rftrifvfd thf nftwork rfsourdf.
+     *
+     * @rfturn b string rfprfsfnting thf diphfr suitf
+     */
+    publid bbstrbdt String gftCiphfrSuitf();
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin thbt wfrf sfnt to thf sfrvfr during
+     * hbndshbking of thf originbl donnfdtion thbt rftrifvfd thf
+     * nftwork rfsourdf.  Notf: This mfthod is usfful only
+     * whfn using dfrtifidbtf-bbsfd diphfr suitfs.
+     *
+     * @rfturn bn immutbblf List of Cfrtifidbtf rfprfsfnting thf
+     *           dfrtifidbtf dhbin thbt wbs sfnt to thf sfrvfr. If no
+     *           dfrtifidbtf dhbin wbs sfnt, null will bf rfturnfd.
+     * @sff #gftLodblPrindipbl()
+     */
+    publid bbstrbdt List<Cfrtifidbtf> gftLodblCfrtifidbtfChbin();
+
+    /**
+     * Rfturns thf sfrvfr's dfrtifidbtf dhbin, whidh wbs fstbblishfd bs
+     * pbrt of dffining thf sfssion in thf originbl donnfdtion thbt
+     * rftrifvfd thf nftwork rfsourdf, from dbdhf.  Notf: This mfthod
+     * dbn bf usfd only whfn using dfrtifidbtf-bbsfd diphfr suitfs;
+     * using it with non-dfrtifidbtf-bbsfd diphfr suitfs, sudh bs
+     * Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * @rfturn bn immutbblf List of Cfrtifidbtf rfprfsfnting thf sfrvfr's
+     *         dfrtifidbtf dhbin.
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
+     */
+    publid bbstrbdt List<Cfrtifidbtf> gftSfrvfrCfrtifidbtfChbin()
+        throws SSLPffrUnvfrififdExdfption;
+
+    /**
+     * Rfturns thf sfrvfr's prindipbl whidh wbs fstbblishfd bs pbrt of
+     * dffining thf sfssion during thf originbl donnfdtion thbt
+     * rftrifvfd thf nftwork rfsourdf.
+     *
+     * @rfturn thf sfrvfr's prindipbl. Rfturns bn X500Prindipbl of thf
+     * fnd-fntity dfrtitidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs.
+     *
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr wbs not vfrififd.
+     *
+     * @sff #gftSfrvfrCfrtifidbtfChbin()
+     * @sff #gftLodblPrindipbl()
+     */
+     publid bbstrbdt Prindipbl gftPffrPrindipbl()
+             throws SSLPffrUnvfrififdExdfption;
+
+    /**
+      * Rfturns thf prindipbl thbt wbs sfnt to thf sfrvfr during
+      * hbndshbking in thf originbl donnfdtion thbt rftrifvfd thf
+      * nftwork rfsourdf.
+      *
+      * @rfturn thf prindipbl sfnt to thf sfrvfr. Rfturns bn X500Prindipbl
+      * of thf fnd-fntity dfrtifidbtf for X509-bbsfd diphfr suitfs, bnd
+      * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs. If no prindipbl wbs
+      * sfnt, thfn null is rfturnfd.
+      *
+      * @sff #gftLodblCfrtifidbtfChbin()
+      * @sff #gftPffrPrindipbl()
+      */
+     publid bbstrbdt Prindipbl gftLodblPrindipbl();
+}

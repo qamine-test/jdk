@@ -1,72 +1,72 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
- * HangulLayoutEngine.cpp: OpenType processing for Han fonts.
+ * HbngulLbyoutEnginf.dpp: OpfnTypf prodfssing for Hbn fonts.
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd.
  */
 
-#include "LETypes.h"
-#include "LEScripts.h"
-#include "LELanguages.h"
+#indludf "LETypfs.i"
+#indludf "LESdripts.i"
+#indludf "LELbngubgfs.i"
 
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
-#include "HangulLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "LEGlyphStorage.h"
-#include "OpenTypeTables.h"
+#indludf "LbyoutEnginf.i"
+#indludf "OpfnTypfLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HangulOpenTypeLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HbngulOpfnTypfLbyoutEnginf)
 
 
-#define FEATURE_MAP(name) {name ## FeatureTag, name ## FeatureMask}
+#dffinf FEATURE_MAP(nbmf) {nbmf ## FfbturfTbg, nbmf ## FfbturfMbsk}
 
-#define LJMO_FIRST 0x1100
-#define LJMO_LAST  0x1159
-#define LJMO_FILL  0x115F
-#define LJMO_COUNT 19
+#dffinf LJMO_FIRST 0x1100
+#dffinf LJMO_LAST  0x1159
+#dffinf LJMO_FILL  0x115F
+#dffinf LJMO_COUNT 19
 
-#define VJMO_FIRST 0x1161
-#define VJMO_LAST  0x11A2
-#define VJMO_FILL  0x1160
-#define VJMO_COUNT 21
+#dffinf VJMO_FIRST 0x1161
+#dffinf VJMO_LAST  0x11A2
+#dffinf VJMO_FILL  0x1160
+#dffinf VJMO_COUNT 21
 
-#define TJMO_FIRST 0x11A7
-#define TJMO_LAST  0x11F9
-#define TJMO_COUNT 28
+#dffinf TJMO_FIRST 0x11A7
+#dffinf TJMO_LAST  0x11F9
+#dffinf TJMO_COUNT 28
 
-#define HSYL_FIRST 0xAC00
-#define HSYL_COUNT 11172
-#define HSYL_LVCNT (VJMO_COUNT * TJMO_COUNT)
+#dffinf HSYL_FIRST 0xAC00
+#dffinf HSYL_COUNT 11172
+#dffinf HSYL_LVCNT (VJMO_COUNT * TJMO_COUNT)
 
-// Character classes
-enum
+// Cibrbdtfr dlbssfs
+fnum
 {
     CC_L = 0,
     CC_V,
@@ -77,287 +77,287 @@ enum
     CC_COUNT
 };
 
-// Action flags
-#define AF_L 1
-#define AF_V 2
-#define AF_T 4
+// Adtion flbgs
+#dffinf AF_L 1
+#dffinf AF_V 2
+#dffinf AF_T 4
 
-// Actions
-#define a_N   0
-#define a_L   (AF_L)
-#define a_V   (AF_V)
-#define a_T   (AF_T)
-#define a_VT  (AF_V | AF_T)
-#define a_LV  (AF_L | AF_V)
-#define a_LVT (AF_L | AF_V | AF_T)
+// Adtions
+#dffinf b_N   0
+#dffinf b_L   (AF_L)
+#dffinf b_V   (AF_V)
+#dffinf b_T   (AF_T)
+#dffinf b_VT  (AF_V | AF_T)
+#dffinf b_LV  (AF_L | AF_V)
+#dffinf b_LVT (AF_L | AF_V | AF_T)
 
-typedef struct
+typfdff strudt
 {
-    le_int32 newState;
-    le_int32 actionFlags;
-} StateTransition;
+    lf_int32 nfwStbtf;
+    lf_int32 bdtionFlbgs;
+} StbtfTrbnsition;
 
-static const StateTransition stateTable[][CC_COUNT] =
+stbtid donst StbtfTrbnsition stbtfTbblf[][CC_COUNT] =
 {
 //       L          V          T          LV         LVT           X
-    { {1, a_L},  {2, a_LV}, {3, a_LVT}, {2, a_LV}, {3, a_LVT},  {4, a_T}}, // 0 - start
-    { {1, a_L},  {2, a_V},  {3, a_VT},  {2, a_LV}, {3, a_LVT}, {-1, a_V}}, // 1 - L+
-    {{-1, a_N},  {2, a_V},  {3, a_T},  {-1, a_N}, {-1, a_N},   {-1, a_N}}, // 2 - L+V+
-    {{-1, a_N}, {-1, a_N},  {3, a_T},  {-1, a_N}, {-1, a_N},   {-1, a_N}}, // 3 - L+V+T*
-    {{-1, a_N}, {-1, a_N}, {-1, a_N},  {-1, a_N}, {-1, a_N},    {4, a_T}}  // 4 - X+
+    { {1, b_L},  {2, b_LV}, {3, b_LVT}, {2, b_LV}, {3, b_LVT},  {4, b_T}}, // 0 - stbrt
+    { {1, b_L},  {2, b_V},  {3, b_VT},  {2, b_LV}, {3, b_LVT}, {-1, b_V}}, // 1 - L+
+    {{-1, b_N},  {2, b_V},  {3, b_T},  {-1, b_N}, {-1, b_N},   {-1, b_N}}, // 2 - L+V+
+    {{-1, b_N}, {-1, b_N},  {3, b_T},  {-1, b_N}, {-1, b_N},   {-1, b_N}}, // 3 - L+V+T*
+    {{-1, b_N}, {-1, b_N}, {-1, b_N},  {-1, b_N}, {-1, b_N},    {4, b_T}}  // 4 - X+
 };
 
 
-#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
-#define ljmoFeatureTag LE_LJMO_FEATURE_TAG
-#define vjmoFeatureTag LE_VJMO_FEATURE_TAG
-#define tjmoFeatureTag LE_TJMO_FEATURE_TAG
+#dffinf ddmpFfbturfTbg LE_CCMP_FEATURE_TAG
+#dffinf ljmoFfbturfTbg LE_LJMO_FEATURE_TAG
+#dffinf vjmoFfbturfTbg LE_VJMO_FEATURE_TAG
+#dffinf tjmoFfbturfTbg LE_TJMO_FEATURE_TAG
 
-#define ccmpFeatureMask 0x80000000UL
-#define ljmoFeatureMask 0x40000000UL
-#define vjmoFeatureMask 0x20000000UL
-#define tjmoFeatureMask 0x10000000UL
+#dffinf ddmpFfbturfMbsk 0x80000000UL
+#dffinf ljmoFfbturfMbsk 0x40000000UL
+#dffinf vjmoFfbturfMbsk 0x20000000UL
+#dffinf tjmoFfbturfMbsk 0x10000000UL
 
-static const FeatureMap featureMap[] =
+stbtid donst FfbturfMbp ffbturfMbp[] =
 {
-    {ccmpFeatureTag, ccmpFeatureMask},
-    {ljmoFeatureTag, ljmoFeatureMask},
-    {vjmoFeatureTag, vjmoFeatureMask},
-    {tjmoFeatureTag, tjmoFeatureMask}
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk},
+    {ljmoFfbturfTbg, ljmoFfbturfMbsk},
+    {vjmoFfbturfTbg, vjmoFfbturfMbsk},
+    {tjmoFfbturfTbg, tjmoFfbturfMbsk}
 };
 
-static const le_int32 featureMapCount = LE_ARRAY_SIZE(featureMap);
+stbtid donst lf_int32 ffbturfMbpCount = LE_ARRAY_SIZE(ffbturfMbp);
 
-#define nullFeatures 0
-#define ljmoFeatures (ccmpFeatureMask | ljmoFeatureMask)
-#define vjmoFeatures (ccmpFeatureMask | vjmoFeatureMask | ljmoFeatureMask | tjmoFeatureMask)
-#define tjmoFeatures (ccmpFeatureMask | tjmoFeatureMask | ljmoFeatureMask | vjmoFeatureMask)
+#dffinf nullFfbturfs 0
+#dffinf ljmoFfbturfs (ddmpFfbturfMbsk | ljmoFfbturfMbsk)
+#dffinf vjmoFfbturfs (ddmpFfbturfMbsk | vjmoFfbturfMbsk | ljmoFfbturfMbsk | tjmoFfbturfMbsk)
+#dffinf tjmoFfbturfs (ddmpFfbturfMbsk | tjmoFfbturfMbsk | ljmoFfbturfMbsk | vjmoFfbturfMbsk)
 
-static le_int32 compose(LEUnicode lead, LEUnicode vowel, LEUnicode trail, LEUnicode &syllable)
+stbtid lf_int32 domposf(LEUnidodf lfbd, LEUnidodf vowfl, LEUnidodf trbil, LEUnidodf &syllbblf)
 {
-    le_int32 lIndex = lead  - LJMO_FIRST;
-    le_int32 vIndex = vowel - VJMO_FIRST;
-    le_int32 tIndex = trail - TJMO_FIRST;
-    le_int32 result = 3;
+    lf_int32 lIndfx = lfbd  - LJMO_FIRST;
+    lf_int32 vIndfx = vowfl - VJMO_FIRST;
+    lf_int32 tIndfx = trbil - TJMO_FIRST;
+    lf_int32 rfsult = 3;
 
-    if ((lIndex < 0 || lIndex >= LJMO_COUNT ) || (vIndex < 0 || vIndex >= VJMO_COUNT)) {
-        return 0;
+    if ((lIndfx < 0 || lIndfx >= LJMO_COUNT ) || (vIndfx < 0 || vIndfx >= VJMO_COUNT)) {
+        rfturn 0;
     }
 
-    if (tIndex <= 0 || tIndex >= TJMO_COUNT) {
-        tIndex = 0;
-        result = 2;
+    if (tIndfx <= 0 || tIndfx >= TJMO_COUNT) {
+        tIndfx = 0;
+        rfsult = 2;
     }
 
-    syllable = (LEUnicode) ((lIndex * VJMO_COUNT + vIndex) * TJMO_COUNT + tIndex + HSYL_FIRST);
+    syllbblf = (LEUnidodf) ((lIndfx * VJMO_COUNT + vIndfx) * TJMO_COUNT + tIndfx + HSYL_FIRST);
 
-    return result;
+    rfturn rfsult;
 }
 
-static le_int32 decompose(LEUnicode syllable, LEUnicode &lead, LEUnicode &vowel, LEUnicode &trail)
+stbtid lf_int32 dfdomposf(LEUnidodf syllbblf, LEUnidodf &lfbd, LEUnidodf &vowfl, LEUnidodf &trbil)
 {
-    le_int32 sIndex = syllable - HSYL_FIRST;
+    lf_int32 sIndfx = syllbblf - HSYL_FIRST;
 
-    if (sIndex < 0 || sIndex >= HSYL_COUNT) {
-        return 0;
+    if (sIndfx < 0 || sIndfx >= HSYL_COUNT) {
+        rfturn 0;
     }
 
-    lead  = (LEUnicode)(LJMO_FIRST + (sIndex / HSYL_LVCNT));
-    vowel = VJMO_FIRST + (sIndex % HSYL_LVCNT) / TJMO_COUNT;
-    trail = TJMO_FIRST + (sIndex % TJMO_COUNT);
+    lfbd  = (LEUnidodf)(LJMO_FIRST + (sIndfx / HSYL_LVCNT));
+    vowfl = VJMO_FIRST + (sIndfx % HSYL_LVCNT) / TJMO_COUNT;
+    trbil = TJMO_FIRST + (sIndfx % TJMO_COUNT);
 
-    if (trail == TJMO_FIRST) {
-        return 2;
+    if (trbil == TJMO_FIRST) {
+        rfturn 2;
     }
 
-    return 3;
+    rfturn 3;
 }
 
-static le_int32 getCharClass(LEUnicode ch, LEUnicode &lead, LEUnicode &vowel, LEUnicode &trail)
+stbtid lf_int32 gftCibrClbss(LEUnidodf di, LEUnidodf &lfbd, LEUnidodf &vowfl, LEUnidodf &trbil)
 {
-    lead  = LJMO_FILL;
-    vowel = VJMO_FILL;
-    trail = TJMO_FIRST;
+    lfbd  = LJMO_FILL;
+    vowfl = VJMO_FILL;
+    trbil = TJMO_FIRST;
 
-    if (ch >= LJMO_FIRST && ch <= LJMO_LAST) {
-        lead  = ch;
-        return CC_L;
+    if (di >= LJMO_FIRST && di <= LJMO_LAST) {
+        lfbd  = di;
+        rfturn CC_L;
     }
 
-    if (ch >= VJMO_FIRST && ch <= VJMO_LAST) {
-        vowel = ch;
-        return CC_V;
+    if (di >= VJMO_FIRST && di <= VJMO_LAST) {
+        vowfl = di;
+        rfturn CC_V;
     }
 
-    if (ch > TJMO_FIRST && ch <= TJMO_LAST) {
-        trail = ch;
-        return CC_T;
+    if (di > TJMO_FIRST && di <= TJMO_LAST) {
+        trbil = di;
+        rfturn CC_T;
     }
 
-    le_int32 c = decompose(ch, lead, vowel, trail);
+    lf_int32 d = dfdomposf(di, lfbd, vowfl, trbil);
 
-    if (c == 2) {
-        return CC_LV;
+    if (d == 2) {
+        rfturn CC_LV;
     }
 
-    if (c == 3) {
-        return CC_LVT;
+    if (d == 3) {
+        rfturn CC_LVT;
     }
 
-    trail = ch;
-    return CC_X;
+    trbil = di;
+    rfturn CC_X;
 }
 
-HangulOpenTypeLayoutEngine::HangulOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 /*languageCode*/,
-                                                       le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, korLanguageCode, typoFlags, gsubTable, success)
+HbngulOpfnTypfLbyoutEnginf::HbngulOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 /*lbngubgfCodf*/,
+                                                       lf_int32 typoFlbgs, donst LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> &gsubTbblf, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, korLbngubgfCodf, typoFlbgs, gsubTbblf, suddfss)
 {
-    fFeatureMap = featureMap;
-    fFeatureMapCount = featureMapCount;
-    fFeatureOrder = TRUE;
+    fFfbturfMbp = ffbturfMbp;
+    fFfbturfMbpCount = ffbturfMbpCount;
+    fFfbturfOrdfr = TRUE;
 }
 
-HangulOpenTypeLayoutEngine::HangulOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 /*languageCode*/,
-                                                           le_int32 typoFlags, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, korLanguageCode, typoFlags, success)
+HbngulOpfnTypfLbyoutEnginf::HbngulOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 /*lbngubgfCodf*/,
+                                                           lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, korLbngubgfCodf, typoFlbgs, suddfss)
 {
-    fFeatureMap = featureMap;
-    fFeatureMapCount = featureMapCount;
-    fFeatureOrder = TRUE;
+    fFfbturfMbp = ffbturfMbp;
+    fFfbturfMbpCount = ffbturfMbpCount;
+    fFfbturfOrdfr = TRUE;
 }
 
-HangulOpenTypeLayoutEngine::~HangulOpenTypeLayoutEngine()
+HbngulOpfnTypfLbyoutEnginf::~HbngulOpfnTypfLbyoutEnginf()
 {
-    // nothing to do
+    // notiing to do
 }
 
-le_int32 HangulOpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-        LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+lf_int32 HbngulOpfnTypfLbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+        LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return 0;
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
     }
 
-    le_int32 worstCase = count * 3;
+    lf_int32 worstCbsf = dount * 3;
 
-    outChars = LE_NEW_ARRAY(LEUnicode, worstCase);
+    outCibrs = LE_NEW_ARRAY(LEUnidodf, worstCbsf);
 
-    if (outChars == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    if (outCibrs == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    glyphStorage.allocateGlyphArray(worstCase, rightToLeft, success);
-    glyphStorage.allocateAuxData(success);
+    glypiStorbgf.bllodbtfGlypiArrby(worstCbsf, rigitToLfft, suddfss);
+    glypiStorbgf.bllodbtfAuxDbtb(suddfss);
 
-    if (LE_FAILURE(success)) {
-        LE_DELETE_ARRAY(outChars);
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        LE_DELETE_ARRAY(outCibrs);
+        rfturn 0;
     }
 
-    le_int32 outCharCount = 0;
-    le_int32 limit = offset + count;
-    le_int32 i = offset;
+    lf_int32 outCibrCount = 0;
+    lf_int32 limit = offsft + dount;
+    lf_int32 i = offsft;
 
-    while (i < limit) {
-        le_int32 state    = 0;
-        le_int32 inStart  = i;
-        le_int32 outStart = outCharCount;
+    wiilf (i < limit) {
+        lf_int32 stbtf    = 0;
+        lf_int32 inStbrt  = i;
+        lf_int32 outStbrt = outCibrCount;
 
-        while( i < limit) {
-            LEUnicode lead  = 0;
-            LEUnicode vowel = 0;
-            LEUnicode trail = 0;
-            le_int32 chClass = getCharClass(chars[i], lead, vowel, trail);
-            const StateTransition transition = stateTable[state][chClass];
+        wiilf( i < limit) {
+            LEUnidodf lfbd  = 0;
+            LEUnidodf vowfl = 0;
+            LEUnidodf trbil = 0;
+            lf_int32 diClbss = gftCibrClbss(dibrs[i], lfbd, vowfl, trbil);
+            donst StbtfTrbnsition trbnsition = stbtfTbblf[stbtf][diClbss];
 
-            if (chClass == CC_X) {
-                /* Any character of type X will be stored as a trail jamo */
-                if ((transition.actionFlags & AF_T) != 0) {
-                    outChars[outCharCount] = trail;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+            if (diClbss == CC_X) {
+                /* Any dibrbdtfr of typf X will bf storfd bs b trbil jbmo */
+                if ((trbnsition.bdtionFlbgs & AF_T) != 0) {
+                    outCibrs[outCibrCount] = trbil;
+                    glypiStorbgf.sftCibrIndfx(outCibrCount, i-offsft, suddfss);
+                    glypiStorbgf.sftAuxDbtb(outCibrCount++, nullFfbturfs, suddfss);
                 }
-            } else {
-                /* Any Hangul will be fully decomposed. Output the decomposed characters. */
-                if ((transition.actionFlags & AF_L) != 0) {
-                    outChars[outCharCount] = lead;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, ljmoFeatures, success);
-                }
-
-                if ((transition.actionFlags & AF_V) != 0) {
-                    outChars[outCharCount] = vowel;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, vjmoFeatures, success);
+            } flsf {
+                /* Any Hbngul will bf fully dfdomposfd. Output tif dfdomposfd dibrbdtfrs. */
+                if ((trbnsition.bdtionFlbgs & AF_L) != 0) {
+                    outCibrs[outCibrCount] = lfbd;
+                    glypiStorbgf.sftCibrIndfx(outCibrCount, i-offsft, suddfss);
+                    glypiStorbgf.sftAuxDbtb(outCibrCount++, ljmoFfbturfs, suddfss);
                 }
 
-                if ((transition.actionFlags & AF_T) != 0) {
-                    outChars[outCharCount] = trail;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, tjmoFeatures, success);
+                if ((trbnsition.bdtionFlbgs & AF_V) != 0) {
+                    outCibrs[outCibrCount] = vowfl;
+                    glypiStorbgf.sftCibrIndfx(outCibrCount, i-offsft, suddfss);
+                    glypiStorbgf.sftAuxDbtb(outCibrCount++, vjmoFfbturfs, suddfss);
+                }
+
+                if ((trbnsition.bdtionFlbgs & AF_T) != 0) {
+                    outCibrs[outCibrCount] = trbil;
+                    glypiStorbgf.sftCibrIndfx(outCibrCount, i-offsft, suddfss);
+                    glypiStorbgf.sftAuxDbtb(outCibrCount++, tjmoFfbturfs, suddfss);
                 }
             }
 
-            state = transition.newState;
+            stbtf = trbnsition.nfwStbtf;
 
-            /* Negative next state means stop. */
-            if (state < 0) {
-                break;
+            /* Nfgbtivf nfxt stbtf mfbns stop. */
+            if (stbtf < 0) {
+                brfbk;
             }
 
             i += 1;
         }
 
-        le_int32 inLength  = i - inStart;
-        le_int32 outLength = outCharCount - outStart;
+        lf_int32 inLfngti  = i - inStbrt;
+        lf_int32 outLfngti = outCibrCount - outStbrt;
 
         /*
-         * See if the syllable can be composed into a single character. There are 5
-         * possible cases:
+         * Sff if tif syllbblf dbn bf domposfd into b singlf dibrbdtfr. Tifrf brf 5
+         * possiblf dbsfs:
          *
-         *   Input     Decomposed to    Compose to
+         *   Input     Dfdomposfd to    Composf to
          *   LV        L, V             LV
          *   LVT       L, V, T          LVT
          *   L, V      L, V             LV, DEL
          *   LV, T     L, V, T          LVT, DEL
          *   L, V, T   L, V, T          LVT, DEL, DEL
          */
-        if ((inLength >= 1 && inLength <= 3) && (outLength == 2 || outLength == 3)) {
-            LEUnicode syllable = 0x0000;
-            LEUnicode lead  = outChars[outStart];
-            LEUnicode vowel = outChars[outStart + 1];
-            LEUnicode trail = outLength == 3? outChars[outStart + 2] : TJMO_FIRST;
+        if ((inLfngti >= 1 && inLfngti <= 3) && (outLfngti == 2 || outLfngti == 3)) {
+            LEUnidodf syllbblf = 0x0000;
+            LEUnidodf lfbd  = outCibrs[outStbrt];
+            LEUnidodf vowfl = outCibrs[outStbrt + 1];
+            LEUnidodf trbil = outLfngti == 3? outCibrs[outStbrt + 2] : TJMO_FIRST;
 
             /*
-             * If the composition consumes the whole decomposed syllable,
-             * we can use it.
+             * If tif domposition donsumfs tif wiolf dfdomposfd syllbblf,
+             * wf dbn usf it.
              */
-            if (compose(lead, vowel, trail, syllable) == outLength) {
-                outCharCount = outStart;
-                outChars[outCharCount] = syllable;
-                glyphStorage.setCharIndex(outCharCount, inStart-offset, success);
-                glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+            if (domposf(lfbd, vowfl, trbil, syllbblf) == outLfngti) {
+                outCibrCount = outStbrt;
+                outCibrs[outCibrCount] = syllbblf;
+                glypiStorbgf.sftCibrIndfx(outCibrCount, inStbrt-offsft, suddfss);
+                glypiStorbgf.sftAuxDbtb(outCibrCount++, nullFfbturfs, suddfss);
 
                 /*
-                 * Replace the rest of the input characters with DEL.
+                 * Rfplbdf tif rfst of tif input dibrbdtfrs witi DEL.
                  */
-                for(le_int32 d = inStart + 1; d < i; d += 1) {
-                    outChars[outCharCount] = 0xFFFF;
-                    glyphStorage.setCharIndex(outCharCount, d - offset, success);
-                    glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+                for(lf_int32 d = inStbrt + 1; d < i; d += 1) {
+                    outCibrs[outCibrCount] = 0xFFFF;
+                    glypiStorbgf.sftCibrIndfx(outCibrCount, d - offsft, suddfss);
+                    glypiStorbgf.sftAuxDbtb(outCibrCount++, nullFfbturfs, suddfss);
                 }
             }
         }
     }
 
-    glyphStorage.adoptGlyphCount(outCharCount);
-    return outCharCount;
+    glypiStorbgf.bdoptGlypiCount(outCibrCount);
+    rfturn outCibrCount;
 }
 
 U_NAMESPACE_END

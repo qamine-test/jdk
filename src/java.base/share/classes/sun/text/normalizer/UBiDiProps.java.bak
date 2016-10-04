@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
-*   file name:  UBiDiProps.java
-*   encoding:   US-ASCII
-*   tab size:   8 (not used)
-*   indentation:4
+*   filf nbmf:  UBiDiProps.jbvb
+*   fndoding:   US-ASCII
+*   tbb sizf:   8 (not usfd)
+*   indfntbtion:4
 *
-*   created on: 2005jan16
-*   created by: Markus W. Scherer
+*   drfbtfd on: 2005jbn16
+*   drfbtfd by: Mbrkus W. Sdifrfr
 *
-*   Low-level Unicode bidi/shaping properties access.
-*   Java port of ubidi_props.h/.c.
+*   Low-lfvfl Unidodf bidi/sibping propfrtifs bddfss.
+*   Jbvb port of ubidi_props.i/.d.
 */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
-public final class UBiDiProps {
-    // constructors etc. --------------------------------------------------- ***
+publid finbl dlbss UBiDiProps {
+    // donstrudtors ftd. --------------------------------------------------- ***
 
-    // port of ubidi_openProps()
-    public UBiDiProps() throws IOException{
-        InputStream is=ICUData.getStream(DATA_FILE_NAME);
-        BufferedInputStream b=new BufferedInputStream(is, 4096 /* data buffer size */);
-        readData(b);
-        b.close();
-        is.close();
+    // port of ubidi_opfnProps()
+    publid UBiDiProps() tirows IOExdfption{
+        InputStrfbm is=ICUDbtb.gftStrfbm(DATA_FILE_NAME);
+        BufffrfdInputStrfbm b=nfw BufffrfdInputStrfbm(is, 4096 /* dbtb bufffr sizf */);
+        rfbdDbtb(b);
+        b.dlosf();
+        is.dlosf();
 
     }
 
-    private void readData(InputStream is) throws IOException {
-        DataInputStream inputStream=new DataInputStream(is);
+    privbtf void rfbdDbtb(InputStrfbm is) tirows IOExdfption {
+        DbtbInputStrfbm inputStrfbm=nfw DbtbInputStrfbm(is);
 
-        // read the header
-        ICUBinary.readHeader(inputStream, FMT, new IsAcceptable());
+        // rfbd tif ifbdfr
+        ICUBinbry.rfbdHfbdfr(inputStrfbm, FMT, nfw IsAddfptbblf());
 
-        // read indexes[]
-        int i, count;
-        count=inputStream.readInt();
-        if(count<IX_INDEX_TOP) {
-            throw new IOException("indexes[0] too small in "+DATA_FILE_NAME);
+        // rfbd indfxfs[]
+        int i, dount;
+        dount=inputStrfbm.rfbdInt();
+        if(dount<IX_INDEX_TOP) {
+            tirow nfw IOExdfption("indfxfs[0] too smbll in "+DATA_FILE_NAME);
         }
-        indexes=new int[count];
+        indfxfs=nfw int[dount];
 
-        indexes[0]=count;
-        for(i=1; i<count; ++i) {
-            indexes[i]=inputStream.readInt();
+        indfxfs[0]=dount;
+        for(i=1; i<dount; ++i) {
+            indfxfs[i]=inputStrfbm.rfbdInt();
         }
 
-        // read the trie
-        trie=new CharTrie(inputStream, null);
+        // rfbd tif trif
+        trif=nfw CibrTrif(inputStrfbm, null);
 
-        // read mirrors[]
-        count=indexes[IX_MIRROR_LENGTH];
-        if(count>0) {
-            mirrors=new int[count];
-            for(i=0; i<count; ++i) {
-                mirrors[i]=inputStream.readInt();
+        // rfbd mirrors[]
+        dount=indfxfs[IX_MIRROR_LENGTH];
+        if(dount>0) {
+            mirrors=nfw int[dount];
+            for(i=0; i<dount; ++i) {
+                mirrors[i]=inputStrfbm.rfbdInt();
             }
         }
 
-        // read jgArray[]
-        count=indexes[IX_JG_LIMIT]-indexes[IX_JG_START];
-        jgArray=new byte[count];
-        for(i=0; i<count; ++i) {
-            jgArray[i]=inputStream.readByte();
+        // rfbd jgArrby[]
+        dount=indfxfs[IX_JG_LIMIT]-indfxfs[IX_JG_START];
+        jgArrby=nfw bytf[dount];
+        for(i=0; i<dount; ++i) {
+            jgArrby[i]=inputStrfbm.rfbdBytf();
         }
     }
 
-    // implement ICUBinary.Authenticate
-    private final class IsAcceptable implements ICUBinary.Authenticate {
-        public boolean isDataVersionAcceptable(byte version[]) {
-            return version[0]==1 &&
-                   version[2]==Trie.INDEX_STAGE_1_SHIFT_ && version[3]==Trie.INDEX_STAGE_2_SHIFT_;
+    // implfmfnt ICUBinbry.Autifntidbtf
+    privbtf finbl dlbss IsAddfptbblf implfmfnts ICUBinbry.Autifntidbtf {
+        publid boolfbn isDbtbVfrsionAddfptbblf(bytf vfrsion[]) {
+            rfturn vfrsion[0]==1 &&
+                   vfrsion[2]==Trif.INDEX_STAGE_1_SHIFT_ && vfrsion[3]==Trif.INDEX_STAGE_2_SHIFT_;
         }
     }
 
-    // UBiDiProps singleton
-    private static UBiDiProps gBdp=null;
+    // UBiDiProps singlfton
+    privbtf stbtid UBiDiProps gBdp=null;
 
-    // port of ubidi_getSingleton()
-    public static final synchronized UBiDiProps getSingleton() throws IOException {
+    // port of ubidi_gftSinglfton()
+    publid stbtid finbl syndironizfd UBiDiProps gftSinglfton() tirows IOExdfption {
         if(gBdp==null) {
-            gBdp=new UBiDiProps();
+            gBdp=nfw UBiDiProps();
         }
-        return gBdp;
+        rfturn gBdp;
     }
 
-    // UBiDiProps dummy singleton
-    private static UBiDiProps gBdpDummy=null;
+    // UBiDiProps dummy singlfton
+    privbtf stbtid UBiDiProps gBdpDummy=null;
 
-    private UBiDiProps(boolean makeDummy) { // ignore makeDummy, only creates a unique signature
-        indexes=new int[IX_TOP];
-        indexes[0]=IX_TOP;
-        trie=new CharTrie(0, 0, null); // dummy trie, always returns 0
+    privbtf UBiDiProps(boolfbn mbkfDummy) { // ignorf mbkfDummy, only drfbtfs b uniquf signbturf
+        indfxfs=nfw int[IX_TOP];
+        indfxfs[0]=IX_TOP;
+        trif=nfw CibrTrif(0, 0, null); // dummy trif, blwbys rfturns 0
     }
 
     /**
-     * Get a singleton dummy object, one that works with no real data.
-     * This can be used when the real data is not available.
-     * Using the dummy can reduce checks for available data after an initial failure.
-     * Port of ucase_getDummy().
+     * Gft b singlfton dummy objfdt, onf tibt works witi no rfbl dbtb.
+     * Tiis dbn bf usfd wifn tif rfbl dbtb is not bvbilbblf.
+     * Using tif dummy dbn rfdudf difdks for bvbilbblf dbtb bftfr bn initibl fbilurf.
+     * Port of udbsf_gftDummy().
      */
-    public static final synchronized UBiDiProps getDummy() {
+    publid stbtid finbl syndironizfd UBiDiProps gftDummy() {
         if(gBdpDummy==null) {
-            gBdpDummy=new UBiDiProps(true);
+            gBdpDummy=nfw UBiDiProps(truf);
         }
-        return gBdpDummy;
+        rfturn gBdpDummy;
     }
 
-    public final int getClass(int c) {
-        return getClassFromProps(trie.getCodePointValue(c));
+    publid finbl int gftClbss(int d) {
+        rfturn gftClbssFromProps(trif.gftCodfPointVbluf(d));
     }
 
-    // data members -------------------------------------------------------- ***
-    private int indexes[];
-    private int mirrors[];
-    private byte jgArray[];
+    // dbtb mfmbfrs -------------------------------------------------------- ***
+    privbtf int indfxfs[];
+    privbtf int mirrors[];
+    privbtf bytf jgArrby[];
 
-    private CharTrie trie;
+    privbtf CibrTrif trif;
 
-    // data format constants ----------------------------------------------- ***
-    private static final String DATA_FILE_NAME = "/sun/text/resources/ubidi.icu";
+    // dbtb formbt donstbnts ----------------------------------------------- ***
+    privbtf stbtid finbl String DATA_FILE_NAME = "/sun/tfxt/rfsourdfs/ubidi.idu";
 
-    /* format "BiDi" */
-    private static final byte FMT[]={ 0x42, 0x69, 0x44, 0x69 };
+    /* formbt "BiDi" */
+    privbtf stbtid finbl bytf FMT[]={ 0x42, 0x69, 0x44, 0x69 };
 
-    /* indexes into indexes[] */
-    private static final int IX_INDEX_TOP=0;
-    private static final int IX_MIRROR_LENGTH=3;
+    /* indfxfs into indfxfs[] */
+    privbtf stbtid finbl int IX_INDEX_TOP=0;
+    privbtf stbtid finbl int IX_MIRROR_LENGTH=3;
 
-    private static final int IX_JG_START=4;
-    private static final int IX_JG_LIMIT=5;
+    privbtf stbtid finbl int IX_JG_START=4;
+    privbtf stbtid finbl int IX_JG_LIMIT=5;
 
-    private static final int IX_TOP=16;
+    privbtf stbtid finbl int IX_TOP=16;
 
-    private static final int CLASS_MASK=    0x0000001f;
+    privbtf stbtid finbl int CLASS_MASK=    0x0000001f;
 
-    private static final int getClassFromProps(int props) {
-        return props&CLASS_MASK;
+    privbtf stbtid finbl int gftClbssFromProps(int props) {
+        rfturn props&CLASS_MASK;
     }
 
 }

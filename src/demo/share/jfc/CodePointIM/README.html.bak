@@ -1,61 +1,61 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <title>README - CodePointIM</title>
-  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-</head>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+  <titlf>README - CodfPointIM</titlf>
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+</ifbd>
 <body>
-<h1>Code Point Input Method</h1>
+<i1>Codf Point Input Mftiod</i1>
 <p>
-The Code Point Input Method is a simple input method that allows Unicode
-characters to be entered using their code point or code unit values.
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
 <p>
-The input method accepts three different notations, all using hexadecimal
-digits from the set [0-9a-fA-F]:
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+digits from tif sft [0-9b-fA-F]:
 <br>
 <ul>
-  <li>"\uxxxx": The standard Unicode escape notation of the Java programming
-language. This notation allows input of code points up to U+FFFE; the illegal
-code point U+FFFF is not allowed.</li>
-  <li>"\Uxxxxxx": An extended Unicode escape notation specific to this input
-method. This notation allows direct input of any Unicode code Point except the
-illegal code point U+FFFF. The uppercase "U" indicates that six hexadecimal
-digits follow. "xxxxxx" must be between 000000 and 10FFFF.</li>
-  <li>"\uxxxx\uyyyy": Two consecutive standard Unicode escapes, together
-representing a code point between U+10000 and U+10FFFF (a supplementary
-character). "xxxx" must be between D800 and DBFF (that is, a high surrogate
-value), "yyyy" between DC00 and DFFF (a low surrogate value).</li>
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
+dodf point U+FFFF is not bllowfd.</li>
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
 </ul>
-In general, the input method passes characters through unchanged. However,
-when the user types a "\", the input method enters composition mode. In
-composition mode, the user types the desired code point using one of the
-notations above, then types a space character to convert to the corresponding
-Unicode character and commit. The input method then returns to pass-through
-mode until another "\" character is entered.
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
 <p>
-While in composition mode, the user can use the left arrow, right arrow,
-backspace, and delete keys to edit the sequence. The "\u" or "\U" characters
-can only be deleted if they are not followed by hexadecimal digits in the
-composition sequence. Deleting the initial "\u" or "\U" returns the input
-method to pass-through mode.
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+mftiod to pbss-tirougi modf.
 <p>
-Since the initial "\" character starts composition mode, a user must type two
-"\" characters in order to add a single "\" to the text. When an initial "\"
-has been entered, but the next character is not "u", "U", or "\", both the "\"
-and the subsequent character are committed, and the input method returns to
-pass-through mode. Also, typing a new line, or tab character at any time
-during composition immediately commits the current composed text.
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
 <p>
-Input methods are extensions to the Java Runtime Environment; they cannot be
-run as applications. Before you can use an input method, you have to install
-it in the JRE, run an application that supports input methods (such as the
-JFC demos Notepad and Stylepad), and select the input method. You can learn
-more about these steps from the article
-"<a href="http://javadesktop.org/articles/InputMethod/index.html">Using Input Methods on the Java Platform</a>"
-and more about supplementary character support from the article
-"<a href="http://java.sun.com/developer/technicalArticles/Intl/Supplementary/index.html">Supplementary Characters in the Java Platform</a>".
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+morf bbout tifsf stfps from tif brtidlf
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
 <p>
-This input method requires JRE 5.0 or higher.
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
 <br>
 </body>
-</html>
+</itml>

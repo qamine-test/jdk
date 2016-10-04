@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * This class is used by the query-building mechanism to represent negations
- * of relational expressions.
- * @serial include
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt nfgbtions
+ * of rflbtionbl fxprfssions.
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class NotQueryExp extends QueryEval implements QueryExp {
+dlbss NotQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = 5269643775896723397L;
-
-    /**
-     * @serial The negated {@link QueryExp}
-     */
-    private QueryExp exp;
-
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 5269643775896723397L;
 
     /**
-     * Basic Constructor.
+     * @sfribl Tif nfgbtfd {@link QufryExp}
      */
-    public NotQueryExp() {
+    privbtf QufryExp fxp;
+
+
+    /**
+     * Bbsid Construdtor.
+     */
+    publid NotQufryExp() {
     }
 
     /**
-     * Creates a new NotQueryExp for negating the specified QueryExp.
+     * Crfbtfs b nfw NotQufryExp for nfgbting tif spfdififd QufryExp.
      */
-    public NotQueryExp(QueryExp q) {
-        exp = q;
+    publid NotQufryExp(QufryExp q) {
+        fxp = q;
     }
 
 
     /**
-     * Returns the negated query expression of the query.
+     * Rfturns tif nfgbtfd qufry fxprfssion of tif qufry.
      */
-    public QueryExp getNegatedExp()  {
-        return exp;
+    publid QufryExp gftNfgbtfdExp()  {
+        rfturn fxp;
     }
 
     /**
-     * Applies the NotQueryExp on a MBean.
+     * Applifs tif NotQufryExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the NotQueryExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif NotQufryExp will bf bpplifd.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        return exp.apply(name) == false;
+    publid boolfbn bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        rfturn fxp.bpply(nbmf) == fblsf;
     }
 
     /**
-     * Returns the string representing the object.
+     * Rfturns tif string rfprfsfnting tif objfdt.
      */
-    @Override
-    public String toString()  {
-        return "not (" + exp + ")";
+    @Ovfrridf
+    publid String toString()  {
+        rfturn "not (" + fxp + ")";
     }
  }

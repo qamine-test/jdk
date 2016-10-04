@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
-import java.util.Date;
+import jbvb.io.*;
+import jbvb.util.Dbtf;
 
 /**
- * <p>This is an interface of abstract methods for managing a
- * variety of identity certificates.
- * An identity certificate is a guarantee by a principal that
- * a public key is that of another principal.  (A principal represents
- * an entity such as an individual user, a group, or a corporation.)
+ * <p>Tiis is bn intfrfbdf of bbstrbdt mftiods for mbnbging b
+ * vbrifty of idfntity dfrtifidbtfs.
+ * An idfntity dfrtifidbtf is b gubrbntff by b prindipbl tibt
+ * b publid kfy is tibt of bnotifr prindipbl.  (A prindipbl rfprfsfnts
+ * bn fntity sudi bs bn individubl usfr, b group, or b dorporbtion.)
  *
- * <p>In particular, this interface is intended to be a common
- * abstraction for constructs that have different formats but
- * important common uses.  For example, different types of
- * certificates, such as X.509 certificates and PGP certificates,
- * share general certificate functionality (the need to encode and
- * decode certificates) and some types of information, such as a
- * public key, the principal whose key it is, and the guarantor
- * guaranteeing that the public key is that of the specified
- * principal. So an implementation of X.509 certificates and an
- * implementation of PGP certificates can both utilize the Certificate
- * interface, even though their formats and additional types and
- * amounts of information stored are different.
+ * <p>In pbrtidulbr, tiis intfrfbdf is intfndfd to bf b dommon
+ * bbstrbdtion for donstrudts tibt ibvf difffrfnt formbts but
+ * importbnt dommon usfs.  For fxbmplf, difffrfnt typfs of
+ * dfrtifidbtfs, sudi bs X.509 dfrtifidbtfs bnd PGP dfrtifidbtfs,
+ * sibrf gfnfrbl dfrtifidbtf fundtionblity (tif nffd to fndodf bnd
+ * dfdodf dfrtifidbtfs) bnd somf typfs of informbtion, sudi bs b
+ * publid kfy, tif prindipbl wiosf kfy it is, bnd tif gubrbntor
+ * gubrbntffing tibt tif publid kfy is tibt of tif spfdififd
+ * prindipbl. So bn implfmfntbtion of X.509 dfrtifidbtfs bnd bn
+ * implfmfntbtion of PGP dfrtifidbtfs dbn boti utilizf tif Cfrtifidbtf
+ * intfrfbdf, fvfn tiougi tifir formbts bnd bdditionbl typfs bnd
+ * bmounts of informbtion storfd brf difffrfnt.
  *
- * <p><b>Important</b>: This interface is useful for cataloging and
- * grouping objects sharing certain common uses. It does not have any
- * semantics of its own. In particular, a Certificate object does not
- * make any statement as to the <i>validity</i> of the binding. It is
- * the duty of the application implementing this interface to verify
- * the certificate and satisfy itself of its validity.
+ * <p><b>Importbnt</b>: Tiis intfrfbdf is usfful for dbtbloging bnd
+ * grouping objfdts sibring dfrtbin dommon usfs. It dofs not ibvf bny
+ * sfmbntids of its own. In pbrtidulbr, b Cfrtifidbtf objfdt dofs not
+ * mbkf bny stbtfmfnt bs to tif <i>vblidity</i> of tif binding. It is
+ * tif duty of tif bpplidbtion implfmfnting tiis intfrfbdf to vfrify
+ * tif dfrtifidbtf bnd sbtisfy itsflf of its vblidity.
  *
- * @author Benjamin Renaud
- * @deprecated A new certificate handling package is created in the Java platform.
- *             This Certificate interface is entirely deprecated and
- *             is here to allow for a smooth transition to the new
- *             package.
- * @see java.security.cert.Certificate
+ * @butior Bfnjbmin Rfnbud
+ * @dfprfdbtfd A nfw dfrtifidbtf ibndling pbdkbgf is drfbtfd in tif Jbvb plbtform.
+ *             Tiis Cfrtifidbtf intfrfbdf is fntirfly dfprfdbtfd bnd
+ *             is ifrf to bllow for b smooti trbnsition to tif nfw
+ *             pbdkbgf.
+ * @sff jbvb.sfdurity.dfrt.Cfrtifidbtf
  */
-@Deprecated
-public interface Certificate {
+@Dfprfdbtfd
+publid intfrfbdf Cfrtifidbtf {
 
     /**
-     * Returns the guarantor of the certificate, that is, the principal
-     * guaranteeing that the public key associated with this certificate
-     * is that of the principal associated with this certificate. For X.509
-     * certificates, the guarantor will typically be a Certificate Authority
-     * (such as the United States Postal Service or Verisign, Inc.).
+     * Rfturns tif gubrbntor of tif dfrtifidbtf, tibt is, tif prindipbl
+     * gubrbntffing tibt tif publid kfy bssodibtfd witi tiis dfrtifidbtf
+     * is tibt of tif prindipbl bssodibtfd witi tiis dfrtifidbtf. For X.509
+     * dfrtifidbtfs, tif gubrbntor will typidblly bf b Cfrtifidbtf Autiority
+     * (sudi bs tif Unitfd Stbtfs Postbl Sfrvidf or Vfrisign, Ind.).
      *
-     * @return the guarantor which guaranteed the principal-key
+     * @rfturn tif gubrbntor wiidi gubrbntffd tif prindipbl-kfy
      * binding.
      */
-    public abstract Principal getGuarantor();
+    publid bbstrbdt Prindipbl gftGubrbntor();
 
     /**
-     * Returns the principal of the principal-key pair being guaranteed by
-     * the guarantor.
+     * Rfturns tif prindipbl of tif prindipbl-kfy pbir bfing gubrbntffd by
+     * tif gubrbntor.
      *
-     * @return the principal to which this certificate is bound.
+     * @rfturn tif prindipbl to wiidi tiis dfrtifidbtf is bound.
      */
-    public abstract Principal getPrincipal();
+    publid bbstrbdt Prindipbl gftPrindipbl();
 
     /**
-     * Returns the key of the principal-key pair being guaranteed by
-     * the guarantor.
+     * Rfturns tif kfy of tif prindipbl-kfy pbir bfing gubrbntffd by
+     * tif gubrbntor.
      *
-     * @return the public key that this certificate certifies belongs
-     * to a particular principal.
+     * @rfturn tif publid kfy tibt tiis dfrtifidbtf dfrtififs bflongs
+     * to b pbrtidulbr prindipbl.
      */
-    public abstract PublicKey getPublicKey();
+    publid bbstrbdt PublidKfy gftPublidKfy();
 
     /**
-     * Encodes the certificate to an output stream in a format that can
-     * be decoded by the {@code decode} method.
+     * Endodfs tif dfrtifidbtf to bn output strfbm in b formbt tibt dbn
+     * bf dfdodfd by tif {@dodf dfdodf} mftiod.
      *
-     * @param stream the output stream to which to encode the
-     * certificate.
+     * @pbrbm strfbm tif output strfbm to wiidi to fndodf tif
+     * dfrtifidbtf.
      *
-     * @exception KeyException if the certificate is not
-     * properly initialized, or data is missing, etc.
+     * @fxdfption KfyExdfption if tif dfrtifidbtf is not
+     * propfrly initiblizfd, or dbtb is missing, ftd.
      *
-     * @exception IOException if a stream exception occurs while
-     * trying to output the encoded certificate to the output stream.
+     * @fxdfption IOExdfption if b strfbm fxdfption oddurs wiilf
+     * trying to output tif fndodfd dfrtifidbtf to tif output strfbm.
      *
-     * @see #decode
-     * @see #getFormat
+     * @sff #dfdodf
+     * @sff #gftFormbt
      */
-    public abstract void encode(OutputStream stream)
-        throws KeyException, IOException;
+    publid bbstrbdt void fndodf(OutputStrfbm strfbm)
+        tirows KfyExdfption, IOExdfption;
 
     /**
-     * Decodes a certificate from an input stream. The format should be
-     * that returned by {@code getFormat} and produced by
-     * {@code encode}.
+     * Dfdodfs b dfrtifidbtf from bn input strfbm. Tif formbt siould bf
+     * tibt rfturnfd by {@dodf gftFormbt} bnd produdfd by
+     * {@dodf fndodf}.
      *
-     * @param stream the input stream from which to fetch the data
-     * being decoded.
+     * @pbrbm strfbm tif input strfbm from wiidi to fftdi tif dbtb
+     * bfing dfdodfd.
      *
-     * @exception KeyException if the certificate is not properly initialized,
-     * or data is missing, etc.
+     * @fxdfption KfyExdfption if tif dfrtifidbtf is not propfrly initiblizfd,
+     * or dbtb is missing, ftd.
      *
-     * @exception IOException if an exception occurs while trying to input
-     * the encoded certificate from the input stream.
+     * @fxdfption IOExdfption if bn fxdfption oddurs wiilf trying to input
+     * tif fndodfd dfrtifidbtf from tif input strfbm.
      *
-     * @see #encode
-     * @see #getFormat
+     * @sff #fndodf
+     * @sff #gftFormbt
      */
-    public abstract void decode(InputStream stream)
-        throws KeyException, IOException;
+    publid bbstrbdt void dfdodf(InputStrfbm strfbm)
+        tirows KfyExdfption, IOExdfption;
 
 
     /**
-     * Returns the name of the coding format. This is used as a hint to find
-     * an appropriate parser. It could be "X.509", "PGP", etc. This is
-     * the format produced and understood by the {@code encode}
-     * and {@code decode} methods.
+     * Rfturns tif nbmf of tif doding formbt. Tiis is usfd bs b iint to find
+     * bn bppropribtf pbrsfr. It dould bf "X.509", "PGP", ftd. Tiis is
+     * tif formbt produdfd bnd undfrstood by tif {@dodf fndodf}
+     * bnd {@dodf dfdodf} mftiods.
      *
-     * @return the name of the coding format.
+     * @rfturn tif nbmf of tif doding formbt.
      */
-    public abstract String getFormat();
+    publid bbstrbdt String gftFormbt();
 
     /**
-     * Returns a string that represents the contents of the certificate.
+     * Rfturns b string tibt rfprfsfnts tif dontfnts of tif dfrtifidbtf.
      *
-     * @param detailed whether or not to give detailed information
-     * about the certificate
+     * @pbrbm dftbilfd wiftifr or not to givf dftbilfd informbtion
+     * bbout tif dfrtifidbtf
      *
-     * @return a string representing the contents of the certificate
+     * @rfturn b string rfprfsfnting tif dontfnts of tif dfrtifidbtf
      */
-    public String toString(boolean detailed);
+    publid String toString(boolfbn dftbilfd);
 }

@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.SSLPermission
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.SSLPfrmission
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import java.security.Permissions;
-import java.lang.SecurityManager;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.lbng.SfdurityMbnbgfr;
 
 /**
- * This class is for various network permissions.
- * An SSLPermission contains a name (also referred to as a "target name") but
- * no actions list; you either have the named permission
+ * Tiis dlbss is for vbrious nftwork pfrmissions.
+ * An SSLPfrmission dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fitifr ibvf tif nbmfd pfrmission
  * or you don't.
  * <P>
- * The target name is the name of the network permission (see below). The naming
- * convention follows the  hierarchical property naming convention.
- * Also, an asterisk
- * may appear at the end of the name, following a ".", or by itself, to
- * signify a wildcard match. For example: "foo.*" and "*" signify a wildcard
- * match, while "*foo" and "a*b" do not.
+ * Tif tbrgft nbmf is tif nbmf of tif nftwork pfrmission (sff bflow). Tif nbming
+ * donvfntion follows tif  iifrbrdiidbl propfrty nbming donvfntion.
+ * Also, bn bstfrisk
+ * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdi. For fxbmplf: "foo.*" bnd "*" signify b wilddbrd
+ * mbtdi, wiilf "*foo" bnd "b*b" do not.
  * <P>
- * The following table lists all the possible SSLPermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * Tif following tbblf lists bll tif possiblf SSLPfrmission tbrgft nbmfs,
+ * bnd for fbdi providfs b dfsdription of wibt tif pfrmission bllows
+ * bnd b disdussion of tif risks of grbnting dodf tif pfrmission.
  * <P>
  *
- * <table border=1 cellpadding=5>
+ * <tbblf bordfr=1 dfllpbdding=5>
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>setHostnameVerifier</td>
- *   <td>The ability to set a callback which can decide whether to
- * allow a mismatch between the host being connected to by
- * an HttpsURLConnection and the common name field in
- * server certificate.
+ *   <td>sftHostnbmfVfrififr</td>
+ *   <td>Tif bbility to sft b dbllbbdk wiidi dbn dfdidf wiftifr to
+ * bllow b mismbtdi bftwffn tif iost bfing donnfdtfd to by
+ * bn HttpsURLConnfdtion bnd tif dommon nbmf fifld in
+ * sfrvfr dfrtifidbtf.
  *  </td>
- *   <td>Malicious
- * code can set a verifier that monitors host names visited by
- * HttpsURLConnection requests or that allows server certificates
- * with invalid common names.
+ *   <td>Mblidious
+ * dodf dbn sft b vfrififr tibt monitors iost nbmfs visitfd by
+ * HttpsURLConnfdtion rfqufsts or tibt bllows sfrvfr dfrtifidbtfs
+ * witi invblid dommon nbmfs.
  * </td>
  * </tr>
  *
  * <tr>
- *   <td>getSSLSessionContext</td>
- *   <td>The ability to get the SSLSessionContext of an SSLSession.
+ *   <td>gftSSLSfssionContfxt</td>
+ *   <td>Tif bbility to gft tif SSLSfssionContfxt of bn SSLSfssion.
  * </td>
- *   <td>Malicious code may monitor sessions which have been established
- * with SSL peers or might invalidate sessions to slow down performance.
+ *   <td>Mblidious dodf mby monitor sfssions wiidi ibvf bffn fstbblisifd
+ * witi SSL pffrs or migit invblidbtf sfssions to slow down pfrformbndf.
  * </td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.SSLPermission}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.SSLPfrmission}.
  */
-@Deprecated
-public final class SSLPermission extends BasicPermission {
+@Dfprfdbtfd
+publid finbl dlbss SSLPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = -2583684302506167542L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2583684302506167542L;
 
     /**
-     * Creates a new SSLPermission with the specified name.
-     * The name is the symbolic name of the SSLPermission, such as
-     * "setDefaultAuthenticator", etc. An asterisk
-     * may appear at the end of the name, following a ".", or by itself, to
-     * signify a wildcard match.
+     * Crfbtfs b nfw SSLPfrmission witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SSLPfrmission, sudi bs
+     * "sftDffbultAutifntidbtor", ftd. An bstfrisk
+     * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdi.
      *
-     * @param name the name of the SSLPermission.
+     * @pbrbm nbmf tif nbmf of tif SSLPfrmission.
      */
 
-    public SSLPermission(String name)
+    publid SSLPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new SSLPermission object with the specified name.
-     * The name is the symbolic name of the SSLPermission, and the
-     * actions String is currently unused and should be null. This
-     * constructor exists for use by the <code>Policy</code> object
-     * to instantiate new Permission objects.
+     * Crfbtfs b nfw SSLPfrmission objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SSLPfrmission, bnd tif
+     * bdtions String is durrfntly unusfd bnd siould bf null. Tiis
+     * donstrudtor fxists for usf by tif <dodf>Polidy</dodf> objfdt
+     * to instbntibtf nfw Pfrmission objfdts.
      *
-     * @param name the name of the SSLPermission.
-     * @param actions should be null.
+     * @pbrbm nbmf tif nbmf of tif SSLPfrmission.
+     * @pbrbm bdtions siould bf null.
      */
 
-    public SSLPermission(String name, String actions)
+    publid SSLPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

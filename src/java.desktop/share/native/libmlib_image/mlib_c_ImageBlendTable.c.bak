@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <mlib_image.h>
-#include "mlib_c_ImageBlendTable.h"
+#indludf <mlib_imbgf.i>
+#indludf "mlib_d_ImbgfBlfndTbblf.i"
 
-const mlib_f32 mlib_c_blend_u8[] = {
+donst mlib_f32 mlib_d_blfnd_u8[] = {
     0.0f,   1.0f,   2.0f,   3.0f,   4.0f,   5.0f,   6.0f,   7.0f,
     8.0f,   9.0f,  10.0f,  11.0f,  12.0f,  13.0f,  14.0f,  15.0f,
    16.0f,  17.0f,  18.0f,  19.0f,  20.0f,  21.0f,  22.0f,  23.0f,
@@ -62,7 +62,7 @@ const mlib_f32 mlib_c_blend_u8[] = {
   256.0f
 };
 
-const mlib_f32 mlib_c_blend_Q8[] = {
+donst mlib_f32 mlib_d_blfnd_Q8[] = {
   0.00000000f, 0.00390625f, 0.00781250f, 0.01171875f,
   0.01562500f, 0.01953125f, 0.02343750f, 0.02734375f,
   0.03125000f, 0.03515625f, 0.03906250f, 0.04296875f,
@@ -194,7 +194,7 @@ const mlib_f32 mlib_c_blend_Q8[] = {
   2.00000000f
 };
 
-const mlib_f32 mlib_c_blend_u8_sat[] = {
+donst mlib_f32 mlib_d_blfnd_u8_sbt[] = {
            0.0f,    8388608.0f,   16777216.0f,   25165824.0f,
     33554432.0f,   41943040.0f,   50331648.0f,   58720256.0f,
     67108864.0f,   75497472.0f,   83886080.0f,   92274688.0f,

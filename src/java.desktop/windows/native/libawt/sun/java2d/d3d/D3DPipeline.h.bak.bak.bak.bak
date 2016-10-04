@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#prbgmb ondf
+
+#ifdff DEBUG
+#dffinf D3D_DEBUG_INFO
+#fndif // DEBUG
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE THIS_FILE
+#fndif
+
+#ifdff D3D_PPL_DLL
+
+
+    #ifndff WIN32_LEAN_AND_MEAN
+    #dffinf WIN32_LEAN_AND_MEAN
+    #fndif
+
+    #ifdff D3DPIPELINE_EXPORTS
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllfxport)
+    #flsf
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllimport)
+    #fndif
+
+    #indludf <windows.h>
+    #indludf <d3d9.h>
+    #indludf <DDErr.h>
+    #indludf "..\Import\Trbdf.h"
+
+    #dffinf DfbugPrintD3DError(rfs, msg) \
+        DXTRACE_ERR(msg, rfs)
+
+#flsf
+
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllfxport)
+
+    // this indludf fnsurfs thbt with dfbug build wf gft
+    // bwt's ovfrriddfn dfbug "nfw" bnd "dflftf" opfrbtors
+    #indludf "bwt.h"
+
+    #indludf <windows.h>
+    #indludf <d3d9.h>
+    #indludf "Trbdf.h"
+
+    #dffinf DfbugPrintD3DError(rfs, msg) \
+        J2dTrbdfLn1(J2D_TRACE_ERROR, "D3D Error: " ## msg ## " rfs=%d", rfs)
+
+#fndif /*D3D_PPL_DLL*/
+
+// somf hflpfr mbdros
+#dffinf SAFE_RELEASE(RES) \
+do {                      \
+    if ((RES)!= NULL) {   \
+        (RES)->Rflfbsf(); \
+        (RES) = NULL;     \
+    }                     \
+} whilf (0);
+
+#dffinf SAFE_DELETE(RES)  \
+do {                      \
+    if ((RES)!= NULL) {   \
+        dflftf (RES);     \
+        (RES) = NULL;     \
+    }                     \
+} whilf (0);
+
+#ifdff DEBUG
+#dffinf SAFE_PRINTLN(RES) \
+do {                      \
+    if ((RES)!= NULL) {   \
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  " ## #RES ## "=0x%x", (RES)); \
+    } flsf {              \
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  " ## #RES ## "=NULL"); \
+    }                     \
+} whilf (0);
+#flsf // DEBUG
+#dffinf SAFE_PRINTLN(RES)
+#fndif // DEBUG
+
+/*
+ * Thf following mbdros bllow thf dbllfr to rfturn (or dontinuf) if thf
+ * providfd vbluf is NULL.  (Thf strbngf flsf dlbusf is indludfd bflow to
+ * bllow for b trbiling ';' bftfr RETURN/CONTINUE_IF_NULL() invodbtions.)
+ */
+#dffinf ACT_IF_NULL(ACTION, vbluf)         \
+    if ((vbluf) == NULL) {                 \
+        J2dTrbdfLn3(J2D_TRACE_ERROR,       \
+                    "%s is null in %s:%d", #vbluf, THIS_FILE, __LINE__); \
+        ACTION;                            \
+    } flsf do { } whilf (0)
+#dffinf RETURN_IF_NULL(vbluf)   ACT_IF_NULL(rfturn, vbluf)
+#dffinf CONTINUE_IF_NULL(vbluf) ACT_IF_NULL(dontinuf, vbluf)
+#dffinf RETURN_STATUS_IF_NULL(vbluf, stbtus) \
+        ACT_IF_NULL(rfturn (stbtus), vbluf)
+
+#dffinf RETURN_STATUS_IF_EXP_FAILED(EXPR) \
+    if (FAILED(rfs = (EXPR))) {                    \
+        DfbugPrintD3DError(rfs, " " ## #EXPR ## " fbilfd in " ## THIS_FILE); \
+        rfturn rfs;                   \
+    } flsf do { } whilf (0)
+
+#dffinf RETURN_STATUS_IF_FAILED(stbtus) \
+    if (FAILED((stbtus))) {                    \
+        DfbugPrintD3DError((stbtus), " fbilfd in " ## THIS_FILE ## ", rfturn;");\
+        rfturn (stbtus);                   \
+    } flsf do { } whilf (0)

@@ -1,580 +1,580 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2007 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __LEFONTINSTANCE_H
-#define __LEFONTINSTANCE_H
+#ifndff __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
 
-#include "LETypes.h"
+#indludf "LETypfs.i"
 /**
- * \file
- * \brief C++ API: Layout Engine Font Instance object
+ * \filf
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * Instances of this class are used by <code>LEFontInstance::mapCharsToGlyphs</code> and
- * <code>LEFontInstance::mapCharToGlyph</code> to adjust character codes before the character
- * to glyph mapping process. Examples of this are filtering out control characters
- * and character mirroring - replacing a character which has both a left and a right
- * hand form with the opposite form.
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * ibnd form witi tif oppositf form.
  *
- * @stable ICU 3.2
+ * @stbblf ICU 3.2
  */
-class LECharMapper /* not : public UObject because this is an interface/mixin class */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
 {
-public:
+publid:
     /**
-     * Destructor.
-     * @stable ICU 3.2
+     * Dfstrudtor.
+     * @stbblf ICU 3.2
      */
-    virtual ~LECharMapper();
+    virtubl ~LECibrMbppfr();
 
     /**
-     * This method does the adjustments.
+     * Tiis mftiod dofs tif bdjustmfnts.
      *
-     * @param ch - the input character
+     * @pbrbm di - tif input dibrbdtfr
      *
-     * @return the adjusted character
+     * @rfturn tif bdjustfd dibrbdtfr
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    virtual LEUnicode32 mapChar(LEUnicode32 ch) const = 0;
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
 };
 
 /**
- * This is a forward reference to the class which holds the per-glyph
- * storage.
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * storbgf.
  *
- * @stable ICU 3.0
+ * @stbblf ICU 3.0
  */
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
 /**
- * This is a virtual base class that serves as the interface between a LayoutEngine
- * and the platform font environment. It allows a LayoutEngine to access font tables, do
- * character to glyph mapping, and obtain metrics information without knowing any platform
- * specific details. There are also a few utility methods for converting between points,
- * pixels and funits. (font design units)
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * pixfls bnd funits. (font dfsign units)
  *
- * An instance of an <code>LEFontInstance</code> represents a font at a particular point
- * size. Each instance can represent either a single physical font, or a composite font.
- * A composite font is a collection of physical fonts, each of which contains a subset of
- * the characters contained in the composite font.
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
  *
- * Note: with the exception of <code>getSubFont</code>, the methods in this class only
- * make sense for a physical font. If you have an <code>LEFontInstance</code> which
- * represents a composite font you should only call the methods below which have
- * an <code>LEGlyphID</code>, an <code>LEUnicode</code> or an <code>LEUnicode32</code>
- * as one of the arguments because these can be used to select a particular subfont.
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
  *
- * Subclasses which implement composite fonts should supply an implementation of these
- * methods with some default behavior such as returning constant values, or using the
- * values from the first subfont.
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * vblufs from tif first subfont.
  *
- * @stable ICU 3.0
+ * @stbblf ICU 3.0
  */
-class U_LAYOUT_API LEFontInstance : public UObject
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
 {
-public:
+publid:
 
     /**
-     * This virtual destructor is here so that the subclass
-     * destructors can be invoked through the base class.
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    virtual ~LEFontInstance();
+    virtubl ~LEFontInstbndf();
 
     /**
-     * Get a physical font which can render the given text. For composite fonts,
-     * if there is no single physical font which can render all of the text,
-     * return a physical font which can render an initial substring of the text,
-     * and set the <code>offset</code> parameter to the end of that substring.
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
      *
-     * Internally, the LayoutEngine works with runs of text all in the same
-     * font and script, so it is best to call this method with text which is
-     * in a single script, passing the script code in as a hint. If you don't
-     * know the script of the text, you can use zero, which is the script code
-     * for characters used in more than one script.
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
      *
-     * The default implementation of this method is intended for instances of
-     * <code>LEFontInstance</code> which represent a physical font. It returns
-     * <code>this</code> and indicates that the entire string can be rendered.
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
      *
-     * This method will return a valid <code>LEFontInstance</code> unless you
-     * have passed illegal parameters, or an internal error has been encountered.
-     * For composite fonts, it may return the warning <code>LE_NO_SUBFONT_WARNING</code>
-     * to indicate that the returned font may not be able to render all of
-     * the text. Whenever a valid font is returned, the <code>offset</code> parameter
-     * will be advanced by at least one.
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * will bf bdvbndfd by bt lfbst onf.
      *
-     * Subclasses which implement composite fonts must override this method.
-     * Where it makes sense, they should use the script code as a hint to render
-     * characters from the COMMON script in the font which is used for the given
-     * script. For example, if the input text is a series of Arabic words separated
-     * by spaces, and the script code passed in is <code>arabScriptCode</code> you
-     * should return the font used for Arabic characters for all of the input text,
-     * including the spaces. If, on the other hand, the input text contains characters
-     * which cannot be rendered by the font used for Arabic characters, but which can
-     * be rendered by another font, you should return that font for those characters.
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
      *
-     * @param chars   - the array of Unicode characters.
-     * @param offset  - a pointer to the starting offset in the text. On exit this
-     *                  will be set the the limit offset of the text which can be
-     *                  rendered using the returned font.
-     * @param limit   - the limit offset for the input text.
-     * @param script  - the script hint.
-     * @param success - set to an error code if the arguments are illegal, or no font
-     *                  can be returned for some reason. May also be set to
-     *                  <code>LE_NO_SUBFONT_WARNING</code> if the subfont which
-     *                  was returned cannot render all of the text.
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  rfndfrfd using tif rfturnfd font.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
      *
-     * @return an <code>LEFontInstance</code> for the sub font which can render the characters, or
-     *         <code>NULL</code> if there is an error.
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
      *
-     * @see LEScripts.h
+     * @sff LESdripts.i
      *
-     * @stable ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtual const LEFontInstance *getSubFont(const LEUnicode chars[], le_int32 *offset, le_int32 limit, le_int32 script, LEErrorCode &success) const;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
 
     //
-    // Font file access
-    //
-
-    /**
-     * This method reads a table from the font. Note that in general,
-     * it only makes sense to call this method on an <code>LEFontInstance</code>
-     * which represents a physical font - i.e. one which has been returned by
-     * <code>getSubFont()</code>. This is because each subfont in a composite font
-     * will have different tables, and there's no way to know which subfont to access.
-     *
-     * Subclasses which represent composite fonts should always return <code>NULL</code>.
-     *
-     * Note that implementing this function does not allow for range checking.
-     * Subclasses that desire the safety of range checking must implement the
-     * variation which has a length parameter.
-     *
-     * @param tableTag - the four byte table tag. (e.g. 'cmap')
-     *
-     * @return the address of the table in memory, or <code>NULL</code>
-     *         if the table doesn't exist.
-     *
-     * @stable ICU 2.8
-     */
-    virtual const void *getFontTable(LETag tableTag) const = 0;
-
-    /**
-     * This method reads a table from the font. Note that in general,
-     * it only makes sense to call this method on an <code>LEFontInstance</code>
-     * which represents a physical font - i.e. one which has been returned by
-     * <code>getSubFont()</code>. This is because each subfont in a composite font
-     * will have different tables, and there's no way to know which subfont to access.
-     *
-     * Subclasses which represent composite fonts should always return <code>NULL</code>.
-     *
-     * This version sets a length, for range checking.
-     * Note that range checking can only be accomplished if this function is
-     * implemented in subclasses.
-     *
-     * @param tableTag - the four byte table tag. (e.g. 'cmap')
-     * @param length - ignored on entry, on exit will be the length of the table if known, or -1 if unknown.
-     * @return the address of the table in memory, or <code>NULL</code>
-     *         if the table doesn't exist.
-     * @internal
-     */
-    virtual const void* getFontTable(LETag tableTag, size_t &length) const { length=-1; return getFontTable(tableTag); }  /* -1 = unknown length */
-
-    virtual void *getKernPairs() const = 0;
-    virtual void  setKernPairs(void *pairs) const = 0;
-
-    /**
-     * This method is used to determine if the font can
-     * render the given character. This can usually be done
-     * by looking the character up in the font's character
-     * to glyph mapping.
-     *
-     * The default implementation of this method will return
-     * <code>TRUE</code> if <code>mapCharToGlyph(ch)</code>
-     * returns a non-zero value.
-     *
-     * @param ch - the character to be tested
-     *
-     * @return <code>TRUE</code> if the font can render ch.
-     *
-     * @stable ICU 3.2
-     */
-    virtual le_bool canDisplay(LEUnicode32 ch) const;
-
-    /**
-     * This method returns the number of design units in
-     * the font's EM square.
-     *
-     * @return the number of design units pre EM.
-     *
-     * @stable ICU 2.8
-     */
-    virtual le_int32 getUnitsPerEM() const = 0;
-
-    /**
-     * This method maps an array of character codes to an array of glyph
-     * indices, using the font's character to glyph map.
-     *
-     * The default implementation iterates over all of the characters and calls
-     * <code>mapCharToGlyph(ch, mapper)</code> on each one. It also handles surrogate
-     * characters, storing the glyph ID for the high surrogate, and a deleted glyph (0xFFFF)
-     * for the low surrogate.
-     *
-     * Most sublcasses will not need to implement this method.
-     *
-     * @param chars - the character array
-     * @param offset - the index of the first character
-     * @param count - the number of characters
-     * @param reverse - if <code>TRUE</code>, store the glyph indices in reverse order.
-     * @param mapper - the character mapper.
-     * @param filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ characters should map to a glyph w/ no contours.
-     * @param glyphStorage - the object which contains the output glyph array
-     *
-     * @see LECharMapper
-     *
-     * @stable ICU 3.6
-     */
-    virtual void mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, const LECharMapper *mapper, le_bool filterZeroWidth, LEGlyphStorage &glyphStorage) const;
-
-    /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. The default implementation of this
-     * method calls the mapper, and then calls <code>mapCharToGlyph(mappedCh)</code>.
-     *
-     * @param ch - the character
-     * @param mapper - the character mapper
-     * @param filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ characters should map to a glyph w/ no contours.
-     *
-     * @return the glyph index
-     *
-     * @see LECharMapper
-     *
-     * @stable ICU 3.6
-     */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper, le_bool filterZeroWidth) const;
-
-    /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. The default implementation of this
-     * method calls the mapper, and then calls <code>mapCharToGlyph(mappedCh)</code>.
-     *
-     * @param ch - the character
-     * @param mapper - the character mapper
-     *
-     * @return the glyph index
-     *
-     * @see LECharMapper
-     *
-     * @stable ICU 3.2
-     */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const;
-
-    /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. There is no default implementation
-     * of this method because it requires information about the platform
-     * font implementation.
-     *
-     * @param ch - the character
-     *
-     * @return the glyph index
-     *
-     * @stable ICU 3.2
-     */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch) const = 0;
-
-    //
-    // Metrics
+    // Font filf bddfss
     //
 
     /**
-     * This method gets the X and Y advance of a particular glyph, in pixels.
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
      *
-     * @param glyph - the glyph index
-     * @param advance - the X and Y pixel values will be stored here
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
      *
-     * @stable ICU 3.2
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     *
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     *
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if tif tbblf dofsn't fxist.
+     *
+     * @stbblf ICU 2.8
      */
-    virtual void getGlyphAdvance(LEGlyphID glyph, LEPoint &advance) const = 0;
-
-    virtual void getKerningAdjustment(LEPoint &adjustment) const = 0;
-
-    /**
-     * This method gets the hinted X and Y pixel coordinates of a particular
-     * point in the outline of the given glyph.
-     *
-     * @param glyph - the glyph index
-     * @param pointNumber - the number of the point
-     * @param point - the point's X and Y pixel values will be stored here
-     *
-     * @return <code>TRUE</code> if the point coordinates could be stored.
-     *
-     * @stable ICU 2.8
-     */
-    virtual le_bool getGlyphPoint(LEGlyphID glyph, le_int32 pointNumber, LEPoint &point) const = 0;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
 
     /**
-     * This method returns the width of the font's EM square
-     * in pixels.
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
      *
-     * @return the pixel width of the EM square
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
      *
-     * @stable ICU 2.8
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * implfmfntfd in subdlbssfs.
+     *
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if tif tbblf dofsn't fxist.
+     * @intfrnbl
      */
-    virtual float getXPixelsPerEm() const = 0;
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
 
     /**
-     * This method returns the height of the font's EM square
-     * in pixels.
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * to glypi mbpping.
      *
-     * @return the pixel height of the EM square
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * rfturns b non-zfro vbluf.
      *
-     * @stable ICU 2.8
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     *
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     *
+     * @stbblf ICU 3.2
      */
-    virtual float getYPixelsPerEm() const = 0;
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
 
     /**
-     * This method converts font design units in the
-     * X direction to points.
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * tif font's EM squbrf.
      *
-     * @param xUnits - design units in the X direction
+     * @rfturn tif numbfr of dfsign units prf EM.
      *
-     * @return points in the X direction
-     *
-     * @stable ICU 3.2
+     * @stbblf ICU 2.8
      */
-    virtual float xUnitsToPoints(float xUnits) const;
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
 
     /**
-     * This method converts font design units in the
-     * Y direction to points.
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
      *
-     * @param yUnits - design units in the Y direction
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * for tif low surrogbtf.
      *
-     * @return points in the Y direction
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
      *
-     * @stable ICU 3.2
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     *
+     * @sff LECibrMbppfr
+     *
+     * @stbblf ICU 3.6
      */
-    virtual float yUnitsToPoints(float yUnits) const;
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
 
     /**
-     * This method converts font design units to points.
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
      *
-     * @param units - X and Y design units
-     * @param points - set to X and Y points
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
      *
-     * @stable ICU 3.2
+     * @rfturn tif glypi indfx
+     *
+     * @sff LECibrMbppfr
+     *
+     * @stbblf ICU 3.6
      */
-    virtual void unitsToPoints(LEPoint &units, LEPoint &points) const;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
 
     /**
-     * This method converts pixels in the
-     * X direction to font design units.
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
      *
-     * @param xPixels - pixels in the X direction
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
      *
-     * @return font design units in the X direction
+     * @rfturn tif glypi indfx
      *
-     * @stable ICU 3.2
+     * @sff LECibrMbppfr
+     *
+     * @stbblf ICU 3.2
      */
-    virtual float xPixelsToUnits(float xPixels) const;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
 
     /**
-     * This method converts pixels in the
-     * Y direction to font design units.
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * font implfmfntbtion.
      *
-     * @param yPixels - pixels in the Y direction
+     * @pbrbm di - tif dibrbdtfr
      *
-     * @return font design units in the Y direction
+     * @rfturn tif glypi indfx
      *
-     * @stable ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtual float yPixelsToUnits(float yPixels) const;
-
-    /**
-     * This method converts pixels to font design units.
-     *
-     * @param pixels - X and Y pixel
-     * @param units - set to X and Y font design units
-     *
-     * @stable ICU 3.2
-     */
-    virtual void pixelsToUnits(LEPoint &pixels, LEPoint &units) const;
-
-    /**
-     * Get the X scale factor from the font's transform. The default
-     * implementation of <code>transformFunits()</code> will call this method.
-     *
-     * @return the X scale factor.
-     *
-     *
-     * @see transformFunits
-     *
-     * @stable ICU 3.2
-     */
-    virtual float getScaleFactorX() const = 0;
-
-    /**
-     * Get the Y scale factor from the font's transform. The default
-     * implementation of <code>transformFunits()</code> will call this method.
-     *
-     * @return the Yscale factor.
-     *
-     * @see transformFunits
-     *
-     * @stable ICU 3.2
-     */
-    virtual float getScaleFactorY() const = 0;
-
-    /**
-     * This method transforms an X, Y point in font design units to a
-     * pixel coordinate, applying the font's transform. The default
-     * implementation of this method calls <code>getScaleFactorX()</code>
-     * and <code>getScaleFactorY()</code>.
-     *
-     * @param xFunits - the X coordinate in font design units
-     * @param yFunits - the Y coordinate in font design units
-     * @param pixels - the tranformed co-ordinate in pixels
-     *
-     * @see getScaleFactorX
-     * @see getScaleFactorY
-     *
-     * @stable ICU 3.2
-     */
-    virtual void transformFunits(float xFunits, float yFunits, LEPoint &pixels) const;
-
-    /**
-     * This is a convenience method used to convert
-     * values in a 16.16 fixed point format to floating point.
-     *
-     * @param fixed - the fixed point value
-     *
-     * @return the floating point value
-     *
-     * @stable ICU 2.8
-     */
-    static inline float fixedToFloat(le_int32 fixed);
-
-    /**
-     * This is a convenience method used to convert
-     * floating point values to 16.16 fixed point format.
-     *
-     * @param theFloat - the floating point value
-     *
-     * @return the fixed point value
-     *
-     * @stable ICU 2.8
-     */
-    static inline le_int32 floatToFixed(float theFloat);
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
 
     //
-    // These methods won't ever be called by the LayoutEngine,
-    // but are useful for clients of <code>LEFontInstance</code> who
-    // need to render text.
+    // Mftrids
     //
 
     /**
-     * Get the font's ascent.
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
      *
-     * @return the font's ascent, in points. This value
-     * will always be positive.
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
      *
-     * @stable ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtual le_int32 getAscent() const = 0;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
 
     /**
-     * Get the font's descent.
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * point in tif outlinf of tif givfn glypi.
      *
-     * @return the font's descent, in points. This value
-     * will always be positive.
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
      *
-     * @stable ICU 3.2
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     *
+     * @stbblf ICU 2.8
      */
-    virtual le_int32 getDescent() const = 0;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
 
     /**
-     * Get the font's leading.
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * in pixfls.
      *
-     * @return the font's leading, in points. This value
-     * will always be positive.
+     * @rfturn tif pixfl widti of tif EM squbrf
      *
-     * @stable ICU 3.2
+     * @stbblf ICU 2.8
      */
-    virtual le_int32 getLeading() const = 0;
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
 
     /**
-     * Get the line height required to display text in
-     * this font. The default implementation of this method
-     * returns the sum of the ascent, descent, and leading.
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * in pixfls.
      *
-     * @return the line height, in points. This vaule will
-     * always be positive.
+     * @rfturn tif pixfl ifigit of tif EM squbrf
      *
-     * @stable ICU 3.2
+     * @stbblf ICU 2.8
      */
-    virtual le_int32 getLineHeight() const;
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * X dirfdtion to points.
      *
-     * @stable ICU 3.2
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     *
+     * @rfturn points in tif X dirfdtion
+     *
+     * @stbblf ICU 3.2
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Y dirfdtion to points.
      *
-     * @stable ICU 3.2
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     *
+     * @rfturn points in tif Y dirfdtion
+     *
+     * @stbblf ICU 3.2
      */
-    static UClassID getStaticClassID();
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+
+    /**
+     * Tiis mftiod donvfrts font dfsign units to points.
+     *
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm points - sft to X bnd Y points
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+
+    /**
+     * Tiis mftiod donvfrts pixfls in tif
+     * X dirfdtion to font dfsign units.
+     *
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     *
+     * @rfturn font dfsign units in tif X dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+
+    /**
+     * Tiis mftiod donvfrts pixfls in tif
+     * Y dirfdtion to font dfsign units.
+     *
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     *
+     * @rfturn font dfsign units in tif Y dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+
+    /**
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     *
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm units - sft to X bnd Y font dfsign units
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+
+    /**
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     *
+     * @rfturn tif X sdblf fbdtor.
+     *
+     *
+     * @sff trbnsformFunits
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+
+    /**
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     *
+     * @rfturn tif Ysdblf fbdtor.
+     *
+     * @sff trbnsformFunits
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+
+    /**
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
+     *
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     *
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorY
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+
+    /**
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
+     *
+     * @pbrbm fixfd - tif fixfd point vbluf
+     *
+     * @rfturn tif flobting point vbluf
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+
+    /**
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * flobting point vblufs to 16.16 fixfd point formbt.
+     *
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     *
+     * @rfturn tif fixfd point vbluf
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+
+    //
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // nffd to rfndfr tfxt.
+    //
+
+    /**
+     * Gft tif font's bsdfnt.
+     *
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+
+    /**
+     * Gft tif font's dfsdfnt.
+     *
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+
+    /**
+     * Gft tif font's lfbding.
+     *
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftLfbding() donst = 0;
+
+    /**
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
+     *
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftLinfHfigit() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     *
+     * @stbblf ICU 3.2
+     */
+    stbtid UClbssID gftStbtidClbssID();
 
 };
 
-inline float LEFontInstance::fixedToFloat(le_int32 fixed)
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
 {
-    return (float) (fixed / 65536.0);
+    rfturn (flobt) (fixfd / 65536.0);
 }
 
-inline le_int32 LEFontInstance::floatToFixed(float theFloat)
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
 {
-    return (le_int32) (theFloat * 65536.0);
+    rfturn (lf_int32) (tifFlobt * 65536.0);
 }
 
 U_NAMESPACE_END
-#endif
+#fndif

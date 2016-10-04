@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AlphaMath_h_Included
-#define AlphaMath_h_Included
+#ifndff AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
 
-extern unsigned char mul8table[256][256];
-extern unsigned char div8table[256][256];
-extern void initAlphaTables();
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn void initAlpibTbblfs();
 
 
 /*
- * Multiply and Divide macros for single byte (8-bit) quantities representing
- * the values 0.0 to 1.0 as 0x00 to 0xff.
- * MUL8 multiplies its operands together
- * DIV8 divides the first operand by the second, clipping to 0xff
- *    (Note that since the divisor for DIV8 is likely to be
- *     the alpha quantity which is likely to be the same for
- *     multiple adjacent invocations, the table is designed
- *     with the first index being the divisor to hopefully
- *     improve memory cache hits...)
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * MUL8 multiplifs its opfrbnds togftifr
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     improvf mfmory dbdif iits...)
  */
-#define MUL8(a,b) mul8table[a][b]
-#define DIV8(a,b) div8table[b][a]
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
 
 /*
- * Multiply and Divide macros for operations involving a single short (16-bit)
- * quantity and a single byte (8-bit) quantity.  Typically, promoting the
- * 8-bit value to 16 bits would lead to overflow when the operation occurs.
- * These macros have been modified somewhat so that overflow will not occur.
- * MUL8_16 multiplies an 8-bit value by a 16-bit value (the order of operands
- *         is unimportant since multiplication is a commutative operation)
- * DIV16_8 divides the first (16-bit) operand by the second (8-bit) value
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
  */
 
-#define MUL8_16(a,b) (((a) * (b)) / 255)
-#define DIV16_8(a,b) (((a) * 255) / (b))
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
 
 /*
- * Multiply and Divide macros for single short (16-bit) quantities
- * representing the values 0.0 to 1.0 as 0x0000 to 0xffff.
- * MUL16 multiplies its operands using the standard multiplication operator
- *       and normalizes the result to the appropriate range
- * DIV16 divides the first operand by the second and normalizes the result
- *       to a 16-bit value
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ *       to b 16-bit vbluf
  */
-#define MUL16(a,b) (((a) * (b)) / 65535)
-#define DIV16(a,b) (((a) * 65535) / (b))
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
 
 /*
- * Macro for the sum of two normalized (16-bit) products.  Refer to the
- * following equation and note that the right side reduces the number of
- * divide operations in the left side and increases the precision of the
- * result:
- *   a*f1 + b*f2     a*f1 + b*f2
- *   ----   ----  =  -----------     (where n in this case will be 65535)
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * rfsult:
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
  *     n      n           n
  */
-#define AddNormalizedProducts16(a, f1, b, f2) \
-    ((((a) * (f1)) + ((b) * (f2))) / 65535)
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
 
 
 /*
- * The following macros help to generalize the MaskBlit and MaskFill loops
- * found in AlphaMacros.h.  The appropriate macros will be used based on the
- * strategy of the given loop.  The strategy types take the form:
- *   <number of components per pixel><component data type><colorspace>
- * For example, these are the current strategy types:
- *   3ByteRgb    (currently only used as a glyph list blending strategy where
- *                the alpha value itself is neither blended nor stored)
- *   4ByteArgb   (eg. IntArgb, ThreeByteBgr, Ushort555Rgb, ByteIndexed, etc.)
- *   4ShortArgb  (not used currently; could be used when surface types using
- *                16 bits per component are implemented)
- *   1ByteGray   (eg. ByteGray)
- *   1ShortGray  (eg. UshortGray)
- * Note that the macros which operate on alpha values have the word "Alpha"
- * somewhere in their name.  Those macros that only operate on the color/gray
- * components of a given strategy will have the word "Components" or "Comps"
- * in their name.
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *                16 bits pfr domponfnt brf implfmfntfd)
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * in tifir nbmf.
  */
 
 
 /*
- * MaxValFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
  */
-#define MaxValFor4ByteArgb     0xff
-#define MaxValFor1ByteGray     0xff
-#define MaxValFor1ShortGray    0xffff
+#dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1SiortGrby    0xffff
 
 
 /*
- * AlphaType ## STRATEGY
+ * AlpibTypf ## STRATEGY
  */
-#define AlphaType3ByteRgb      jint
-#define AlphaType4ByteArgb     jint
-#define AlphaType1ByteGray     jint
-#define AlphaType1ShortGray    juint
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1SiortGrby    juint
 
 
 /*
- * ComponentType ## STRATEGY
+ * ComponfntTypf ## STRATEGY
  */
-#define ComponentType3ByteRgb      jint
-#define ComponentType4ByteArgb     jint
-#define ComponentType1ByteGray     jint
-#define ComponentType1ShortGray    juint
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf4BytfArgb     jint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1SiortGrby    juint
 
 
 /*
- * DeclareAlphaVarFor ## STRATEGY(VAR)
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
  *
- * jint a;
+ * jint b;
  */
-#define DeclareAlphaVarFor3ByteRgb(VAR) \
-    AlphaType3ByteRgb VAR;
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+    AlpibTypf3BytfRgb VAR;
 
-#define DeclareAlphaVarFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR;
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR;
 
-#define DeclareAlphaVarFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR;
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR;
 
-#define DeclareAlphaVarFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR;
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR;
 
 
 /*
- * DeclareAndInitAlphaVarFor ## STRATEGY(VAR, initval)
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
  *
- * jint a = initval;
+ * jint b = initvbl;
  */
-#define DeclareAndInitAlphaVarFor4ByteArgb(VAR, initval) \
-    AlphaType4ByteArgb VAR = initval;
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+    AlpibTypf4BytfArgb VAR = initvbl;
 
-#define DeclareAndInitAlphaVarFor1ByteGray(VAR, initval) \
-    AlphaType1ByteGray VAR = initval;
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+    AlpibTypf1BytfGrby VAR = initvbl;
 
-#define DeclareAndInitAlphaVarFor1ShortGray(VAR, initval) \
-    AlphaType1ShortGray VAR = initval;
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+    AlpibTypf1SiortGrby VAR = initvbl;
 
 
 /*
- * DeclareAndClearAlphaVarFor ## STRATEGY(VAR)
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
  *
- * jint a = 0;
+ * jint b = 0;
  */
-#define DeclareAndClearAlphaVarFor4ByteArgb(VAR) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, 0)
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
 
-#define DeclareAndClearAlphaVarFor1ByteGray(VAR) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, 0)
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
 
-#define DeclareAndClearAlphaVarFor1ShortGray(VAR) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, 0)
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
 
 
 /*
- * DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(VAR)
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
  *
- * jint a = 0xff;
+ * jint b = 0xff;
  */
-#define DeclareAndSetOpaqueAlphaVarFor4ByteArgb(VAR) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, MaxValFor4ByteArgb)
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
 
-#define DeclareAndSetOpaqueAlphaVarFor1ByteGray(VAR) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, MaxValFor1ByteGray)
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
 
-#define DeclareAndSetOpaqueAlphaVarFor1ShortGray(VAR) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, MaxValFor1ShortGray)
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
 
 
 /*
- * DeclareAndInvertAlphaVarFor ## STRATEGY(VAR, invalpha)
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
  *
- * jint a = 0xff - resA;
+ * jint b = 0xff - rfsA;
  */
-#define DeclareAndInvertAlphaVarFor4ByteArgb(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, MaxValFor4ByteArgb - invalpha)
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
 
-#define DeclareAndInvertAlphaVarFor1ByteGray(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, MaxValFor1ByteGray - invalpha)
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
 
-#define DeclareAndInvertAlphaVarFor1ShortGray(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, MaxValFor1ShortGray - invalpha)
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
 
 
 /*
- * DeclareCompVarsFor ## STRATEGY(PREFIX)
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
  *
- * jint c;
+ * jint d;
  */
-#define DeclareCompVarsFor3ByteRgb(PREFIX) \
-    ComponentType3ByteRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
 
-#define DeclareCompVarsFor4ByteArgb(PREFIX) \
-    ComponentType4ByteArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
 
-#define DeclareCompVarsFor1ByteGray(PREFIX) \
-    ComponentType1ByteGray PREFIX ## G;
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+    ComponfntTypf1BytfGrby PREFIX ## G;
 
-#define DeclareCompVarsFor1ShortGray(PREFIX) \
-    ComponentType1ShortGray PREFIX ## G;
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+    ComponfntTypf1SiortGrby PREFIX ## G;
 
 
 /*
- * DeclareAndInitExtraAlphaFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
  *
- * jint extraA = (int)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
  */
-#define DeclareAndInitExtraAlphaFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR = \
-        (AlphaType4ByteArgb)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR = \
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
 
-#define DeclareAndInitExtraAlphaFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR = \
-        (AlphaType1ByteGray)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR = \
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
 
-#define DeclareAndInitExtraAlphaFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR = \
-        (AlphaType1ShortGray)(pCompInfo->details.extraAlpha * 65535.0 + 0.5);
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR = \
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
 
 
 /*
- * PromoteByteAlphaFor ## STRATEGY(a)
+ * PromotfBytfAlpibFor ## STRATEGY(b)
  */
-#define PromoteByteAlphaFor4ByteArgb(a)
-#define PromoteByteAlphaFor1ByteGray(a)
-#define PromoteByteAlphaFor1ShortGray(a) \
-    (a) = (((a) << 8) + (a))
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+    (b) = (((b) << 8) + (b))
 
 
 /*
- * DeclareAndInitPathAlphaFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
  *
- * jint pathA = *pMask++;
+ * jint pbtiA = *pMbsk++;
  */
-#define DeclareAndInitPathAlphaFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR = *pMask++;
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
 
-#define DeclareAndInitPathAlphaFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR = *pMask++;
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
 
-#define DeclareAndInitPathAlphaFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR = *pMask++;
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
 
 
 /*
- * MultiplyAlphaFor ## STRATEGY(a, b)
+ * MultiplyAlpibFor ## STRATEGY(b, b)
  *
- * a * b
+ * b * b
  */
-#define MultiplyAlphaFor4ByteArgb(a, b) \
-    MUL8(a, b)
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+    MUL8(b, b)
 
-#define MultiplyAlphaFor1ByteGray(a, b) \
-    MUL8(a, b)
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+    MUL8(b, b)
 
-#define MultiplyAlphaFor1ShortGray(a, b) \
-    MUL16(a, b)
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+    MUL16(b, b)
 
 
 /*
- * MultiplyAndStore ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
  *
- * c = m1 * m2;
+ * d = m1 * m2;
  */
-#define MultiplyAndStore3Components(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
     do { \
         PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
         PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
         PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
-    } while (0)
+    } wiilf (0)
 
-#define MultiplyAndStore1Component(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
     PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
 
-#define MultiplyAndStore4ByteArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
-    MultiplyAndStore3Components(PROD_PREFIX, M1, M2_PREFIX, 8)
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
 
-#define MultiplyAndStore1ByteGrayComps(PROD_PREFIX, M1, M2_PREFIX) \
-    MultiplyAndStore1Component(PROD_PREFIX, M1, M2_PREFIX, 8)
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
 
-#define MultiplyAndStore1ShortGrayComps(PROD_PREFIX, M1, M2_PREFIX) \
-    MultiplyAndStore1Component(PROD_PREFIX, M1, M2_PREFIX, 16)
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
 
 
 /*
- * DivideAndStore ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
  *
- * c = d1 / d2;
+ * d = d1 / d2;
  */
-#define DivideAndStore3Components(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
     do { \
         QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
         QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
         QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
-    } while (0)
+    } wiilf (0)
 
-#define DivideAndStore1Component(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
     QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
 
-#define DivideAndStore4ByteArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
-    DivideAndStore3Components(QUOT_PREFIX, D1_PREFIX, D2, 8)
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
 
-#define DivideAndStore1ByteGrayComps(QUOT_PREFIX, D1_PREFIX, D2) \
-    DivideAndStore1Component(QUOT_PREFIX, D1_PREFIX, D2, 8)
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
 
-#define DivideAndStore1ShortGrayComps(QUOT_PREFIX, D1_PREFIX, D2) \
-    DivideAndStore1Component(QUOT_PREFIX, D1_PREFIX, D2, 16)
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
 
 
 /*
- * MultiplyAddAndStore ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
  *                                          M2_PREFIX, A_PREFIX)
  *
- * c = (m1 * m2) + a;
+ * d = (m1 * m2) + b;
  */
-#define MultiplyAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
                                        PRECISION) \
     do { \
         RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
@@ -346,32 +346,32 @@ extern void initAlphaTables();
                                                           A_PREFIX ## G; \
         RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
                                                           A_PREFIX ## B; \
-    } while (0)
+    } wiilf (0)
 
-#define MultiplyAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
                                       PRECISION) \
     RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
 
-#define MultiplyAddAndStore4ByteArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                           A_PREFIX) \
-    MultiplyAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
 
-#define MultiplyAddAndStore1ByteGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                           A_PREFIX) \
-    MultiplyAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
 
-#define MultiplyAddAndStore1ShortGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                            A_PREFIX) \
-    MultiplyAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
 
 
 /*
- * MultMultAddAndStore ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
  *                                          M3, M4_PREFIX)
  *
- * c = (m1 * m2) + (m3 * m4);
+ * d = (m1 * m2) + (m3 * m4);
  */
-#define MultMultAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                        M3, M4_PREFIX, PRECISION) \
     do { \
         RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
@@ -380,10 +380,10 @@ extern void initAlphaTables();
                           MUL ## PRECISION(M3, M4_PREFIX ## G); \
         RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
                           MUL ## PRECISION(M3, M4_PREFIX ## B); \
-    } while (0)
+    } wiilf (0)
 
 
-#define MultMultAddAndStoreLCD3Components(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                        M3, M4_PREFIX, PRECISION) \
     do { \
         RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
@@ -392,81 +392,81 @@ extern void initAlphaTables();
                           MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
         RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
                           MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
-    } while (0)
+    } wiilf (0)
 
-#define MultMultAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
                                       M3, M4_PREFIX, PRECISION) \
     RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
                       MUL ## PRECISION(M3, M4_PREFIX ## G)
 
-#define MultMultAddAndStore3ByteRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                          M3, M4_PREFIX) \
-    MultMultAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                    M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStoreLCD3ByteRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                          M3, M4_PREFIX) \
-    MultMultAddAndStoreLCD3Components(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                    M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStore4ByteArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                           M3, M4_PREFIX) \
-    MultMultAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                    M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStoreLCD4ByteArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                           M3, M4_PREFIX) \
-    MultMultAddAndStoreLCD3Components(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                       M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStore1ByteGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                           M3, M4_PREFIX) \
-    MultMultAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
                                   M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStore1ShortGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                            M3, M4_PREFIX) \
-    RES_PREFIX ## G = AddNormalizedProducts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
                                               M3, M4_PREFIX ## G)
 
 
 /*
- * Store ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
  *
- * l op r;  // where op can be something like = or +=
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
  */
-#define Store3ComponentsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
     do { \
         L_PREFIX ## R OP R_PREFIX ## R; \
         L_PREFIX ## G OP R_PREFIX ## G; \
         L_PREFIX ## B OP R_PREFIX ## B; \
-    } while (0)
+    } wiilf (0)
 
-#define Store1ComponentUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
     L_PREFIX ## G OP R_PREFIX ## G
 
-#define Store4ByteArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
-    Store3ComponentsUsingOp(L_PREFIX, OP, R_PREFIX)
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
 
-#define Store1ByteGrayCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
-    Store1ComponentUsingOp(L_PREFIX, OP, R_PREFIX)
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
 
-#define Store1ShortGrayCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
-    Store1ComponentUsingOp(L_PREFIX, OP, R_PREFIX)
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
 
 
 /*
- * Set ## STRATEGY ## CompsToZero(PREFIX)
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
  *
- * c = 0;
+ * d = 0;
  */
-#define Set4ByteArgbCompsToZero(PREFIX) \
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
     PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
 
-#define Set1ByteGrayCompsToZero(PREFIX) \
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
     PREFIX ## G = 0
 
-#define Set1ShortGrayCompsToZero(PREFIX) \
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
     PREFIX ## G = 0
 
-#endif /* AlphaMath_h_Included */
+#fndif /* AlpibMbti_i_Indludfd */

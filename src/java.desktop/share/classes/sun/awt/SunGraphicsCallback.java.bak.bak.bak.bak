@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+
+import sun.util.logging.PlbtformLoggfr;
+
+publid bbstrbdt dlbss SunGrbphidsCbllbbdk {
+    publid stbtid finbl int HEAVYWEIGHTS = 0x1;
+    publid stbtid finbl int LIGHTWEIGHTS = 0x2;
+    publid stbtid finbl int TWO_PASSES = 0x4;
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.SunGrbphidsCbllbbdk");
+
+    publid bbstrbdt void run(Componfnt domp, Grbphids dg);
+
+    protfdtfd void donstrbinGrbphids(Grbphids g, Rfdtbnglf bounds) {
+        if (g instbndfof ConstrbinbblfGrbphids) {
+            ((ConstrbinbblfGrbphids)g).donstrbin(bounds.x, bounds.y, bounds.width, bounds.hfight);
+        } flsf {
+            g.trbnslbtf(bounds.x, bounds.y);
+        }
+        g.dlipRfdt(0, 0, bounds.width, bounds.hfight);
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid finbl void runOnfComponfnt(Componfnt domp, Rfdtbnglf bounds,
+                                      Grbphids g, Shbpf dlip,
+                                      int wfightFlbgs) {
+        if (domp == null || domp.gftPffr() == null || !domp.isVisiblf()) {
+            rfturn;
+        }
+        boolfbn lightwfight = domp.isLightwfight();
+        if ((lightwfight && (wfightFlbgs & LIGHTWEIGHTS) == 0) ||
+            (!lightwfight && (wfightFlbgs & HEAVYWEIGHTS) == 0)) {
+            rfturn;
+        }
+
+        if (bounds == null) {
+            bounds = domp.gftBounds();
+        }
+
+        if (dlip == null || dlip.intfrsfdts(bounds)) {
+            Grbphids dg = g.drfbtf();
+            try {
+                donstrbinGrbphids(dg, bounds);
+                dg.sftFont(domp.gftFont());
+                dg.sftColor(domp.gftForfground());
+                if (dg instbndfof Grbphids2D) {
+                    ((Grbphids2D)dg).sftBbdkground(domp.gftBbdkground());
+                } flsf if (dg instbndfof Grbphids2Dflfgbtf) {
+                    ((Grbphids2Dflfgbtf)dg).sftBbdkground(
+                        domp.gftBbdkground());
+                }
+                run(domp, dg);
+            } finblly {
+                dg.disposf();
+            }
+        }
+    }
+
+    publid finbl void runComponfnts(Componfnt[] domps, Grbphids g,
+                                    int wfightFlbgs) {
+        int ndomponfnts = domps.lfngth;
+        Shbpf dlip = g.gftClip();
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER) && (dlip != null)) {
+            Rfdtbnglf nfwrfdt = dlip.gftBounds();
+            log.finfr("x = " + nfwrfdt.x + ", y = " + nfwrfdt.y +
+                      ", width = " + nfwrfdt.width +
+                      ", hfight = " + nfwrfdt.hfight);
+        }
+
+        // A sfriously sbd hbdk--
+        // Lightwfight domponfnts blwbys pbint bfhind pffrfd domponfnts,
+        // fvfn if thfy brf bt thf top of thf Z ordfr. Wf fmulbtf this
+        // bfhbvior by mbking two printing pbssfs: thf first for lightwfights;
+        // thf sfdond for hfbvywfights.
+        //
+        // ToDo(dpm): Eithfr build b list of hfbvywfights during thf
+        // lightwfight pbss, or rfdfsign thf domponfnts brrby to kffp
+        // lightwfights bnd hfbvywfights sfpbrbtf.
+        if ((wfightFlbgs & TWO_PASSES) != 0) {
+            for (int i = ndomponfnts - 1; i >= 0; i--) {
+                runOnfComponfnt(domps[i], null, g, dlip, LIGHTWEIGHTS);
+            }
+            for (int i = ndomponfnts - 1; i >= 0; i--) {
+                runOnfComponfnt(domps[i], null, g, dlip, HEAVYWEIGHTS);
+            }
+        } flsf {
+            for (int i = ndomponfnts - 1; i >= 0; i--) {
+                runOnfComponfnt(domps[i], null, g, dlip, wfightFlbgs);
+            }
+        }
+    }
+
+    publid stbtid finbl dlbss PbintHfbvywfightComponfntsCbllbbdk
+        fxtfnds SunGrbphidsCbllbbdk
+    {
+        privbtf stbtid PbintHfbvywfightComponfntsCbllbbdk instbndf =
+            nfw PbintHfbvywfightComponfntsCbllbbdk();
+
+        privbtf PbintHfbvywfightComponfntsCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            if (!domp.isLightwfight()) {
+                domp.pbintAll(dg);
+            } flsf if (domp instbndfof Contbinfr) {
+                runComponfnts(((Contbinfr)domp).gftComponfnts(), dg,
+                              LIGHTWEIGHTS | HEAVYWEIGHTS);
+            }
+        }
+        publid stbtid PbintHfbvywfightComponfntsCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    publid stbtid finbl dlbss PrintHfbvywfightComponfntsCbllbbdk
+        fxtfnds SunGrbphidsCbllbbdk
+    {
+        privbtf stbtid PrintHfbvywfightComponfntsCbllbbdk instbndf =
+            nfw PrintHfbvywfightComponfntsCbllbbdk();
+
+        privbtf PrintHfbvywfightComponfntsCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            if (!domp.isLightwfight()) {
+                domp.printAll(dg);
+            } flsf if (domp instbndfof Contbinfr) {
+                runComponfnts(((Contbinfr)domp).gftComponfnts(), dg,
+                              LIGHTWEIGHTS | HEAVYWEIGHTS);
+            }
+        }
+        publid stbtid PrintHfbvywfightComponfntsCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+}

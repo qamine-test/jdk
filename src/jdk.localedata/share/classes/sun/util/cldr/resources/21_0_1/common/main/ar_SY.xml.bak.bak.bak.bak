@@ -1,0 +1,51 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="br"/>
+		<tfrritory typf="SY"/>
+	</idfntity>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="1">كانون الثاني</month>
+							<month typf="2">شباط</month>
+							<month typf="3">آذار</month>
+							<month typf="4">نيسان</month>
+							<month typf="5">أيار</month>
+							<month typf="6">حزيران</month>
+							<month typf="7">تموز</month>
+							<month typf="8">آب</month>
+							<month typf="9">أيلول</month>
+							<month typf="10">تشرين الأول</month>
+							<month typf="11">تشرين الثاني</month>
+							<month typf="12">كانون الأول</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#0.###;#0.###-</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+	</numbfrs>
+</ldml>
+

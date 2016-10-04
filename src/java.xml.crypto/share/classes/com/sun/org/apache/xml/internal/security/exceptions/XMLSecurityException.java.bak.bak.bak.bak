@@ -1,0 +1,216 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.tfxt.MfssbgfFormbt;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.I18n;
+
+/**
+ * Thf mothfr of bll Exdfptions in this bundlf. It bllows fxdfptions to hbvf
+ * thfir mfssbgfs trbnslbtfd to thf difffrfnt lodblfs.
+ *
+ * Thf <dodf>xmlsfdurity_fn.propfrtifs</dodf> filf dontbins this linf:
+ * <prf>
+ * xml.WrongElfmfnt = Cbn't drfbtf b {0} from b {1} flfmfnt
+ * </prf>
+ *
+ * Usbgf in thf Jbvb sourdf is:
+ * <prf>
+ * {
+ *    Objfdt fxArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElfmfnt" };
+ *
+ *    throw nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
+ * }
+ * </prf>
+ *
+ * Additionblly, if bnothfr Exdfption hbs bffn dbught, wf dbn supply it, too>
+ * <prf>
+ * try {
+ *    ...
+ * } dbtdh (Exdfption oldEx) {
+ *    Objfdt fxArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElfmfnt" };
+ *
+ *    throw nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs, oldEx);
+ * }
+ * </prf>
+ *
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss XMLSfdurityExdfption fxtfnds Exdfption {
+
+    /**
+     *
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+
+    /** Fifld msgID */
+    protfdtfd String msgID;
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     */
+    publid XMLSfdurityExdfption() {
+        supfr("Missing mfssbgf string");
+
+        this.msgID = null;
+    }
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     * @pbrbm msgID
+     */
+    publid XMLSfdurityExdfption(String msgID) {
+        supfr(I18n.gftExdfptionMfssbgf(msgID));
+
+        this.msgID = msgID;
+    }
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     */
+    publid XMLSfdurityExdfption(String msgID, Objfdt fxArgs[]) {
+
+        supfr(MfssbgfFormbt.formbt(I18n.gftExdfptionMfssbgf(msgID), fxArgs));
+
+        this.msgID = msgID;
+    }
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     * @pbrbm originblExdfption
+     */
+    publid XMLSfdurityExdfption(Exdfption originblExdfption) {
+
+        supfr("Missing mfssbgf ID to lodbtf mfssbgf string in rfsourdf bundlf \""
+              + Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf
+              + "\". Originbl Exdfption wbs b "
+              + originblExdfption.gftClbss().gftNbmf() + " bnd mfssbgf "
+              + originblExdfption.gftMfssbgf(), originblExdfption);
+    }
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
+     */
+    publid XMLSfdurityExdfption(String msgID, Exdfption originblExdfption) {
+        supfr(I18n.gftExdfptionMfssbgf(msgID, originblExdfption), originblExdfption);
+
+        this.msgID = msgID;
+    }
+
+    /**
+     * Construdtor XMLSfdurityExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
+     */
+    publid XMLSfdurityExdfption(String msgID, Objfdt fxArgs[], Exdfption originblExdfption) {
+        supfr(MfssbgfFormbt.formbt(I18n.gftExdfptionMfssbgf(msgID), fxArgs), originblExdfption);
+
+        this.msgID = msgID;
+    }
+
+    /**
+     * Mfthod gftMsgID
+     *
+     * @rfturn thf mfssbgfId
+     */
+    publid String gftMsgID() {
+        if (msgID == null) {
+            rfturn "Missing mfssbgf ID";
+        }
+        rfturn msgID;
+    }
+
+    /** @inhfritDod */
+    publid String toString() {
+        String s = this.gftClbss().gftNbmf();
+        String mfssbgf = supfr.gftLodblizfdMfssbgf();
+
+        if (mfssbgf != null) {
+            mfssbgf = s + ": " + mfssbgf;
+        } flsf {
+            mfssbgf = s;
+        }
+
+        if (supfr.gftCbusf() != null) {
+            mfssbgf = mfssbgf + "\nOriginbl Exdfption wbs " + supfr.gftCbusf().toString();
+        }
+
+        rfturn mfssbgf;
+    }
+
+    /**
+     * Mfthod printStbdkTrbdf
+     *
+     */
+    publid void printStbdkTrbdf() {
+        syndhronizfd (Systfm.frr) {
+            supfr.printStbdkTrbdf(Systfm.frr);
+        }
+    }
+
+    /**
+     * Mfthod printStbdkTrbdf
+     *
+     * @pbrbm printwritfr
+     */
+    publid void printStbdkTrbdf(PrintWritfr printwritfr) {
+        supfr.printStbdkTrbdf(printwritfr);
+    }
+
+    /**
+     * Mfthod printStbdkTrbdf
+     *
+     * @pbrbm printstrfbm
+     */
+    publid void printStbdkTrbdf(PrintStrfbm printstrfbm) {
+        supfr.printStbdkTrbdf(printstrfbm);
+    }
+
+    /**
+     * Mfthod gftOriginblExdfption
+     *
+     * @rfturn thf originbl fxdfption
+     */
+    publid Exdfption gftOriginblExdfption() {
+        if (this.gftCbusf() instbndfof Exdfption) {
+            rfturn (Exdfption)this.gftCbusf();
+        }
+        rfturn null;
+    }
+}

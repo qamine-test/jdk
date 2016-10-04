@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2009,2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009,2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.protocol.iiop;
+pbdkbgf dom.sun.jmx.rfmotf.protodol.iiop;
 
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.portable.Delegate;
-import javax.rmi.PortableRemoteObject;
-import javax.rmi.CORBA.Stub;
+import org.omg.CORBA.portbblf.Dflfgbtf;
+import jbvbx.rmi.PortbblfRfmotfObjfdt;
+import jbvbx.rmi.CORBA.Stub;
 
-import java.util.Properties;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
+import jbvb.util.Propfrtifs;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.NoSudiObjfdtExdfption;
 
-import com.sun.jmx.remote.internal.IIOPProxy;
-import java.io.SerializablePermission;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permissions;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
+import dom.sun.jmx.rfmotf.intfrnbl.IIOPProxy;
+import jbvb.io.SfriblizbblfPfrmission;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
 
 /**
- * An implementation of IIOPProxy that simply delegates to the appropriate
- * RMI-IIOP and CORBA APIs.
+ * An implfmfntbtion of IIOPProxy tibt simply dflfgbtfs to tif bppropribtf
+ * RMI-IIOP bnd CORBA APIs.
  */
 
-public class IIOPProxyImpl implements IIOPProxy {
-    // special ACC used to initialize the IIOP stub
-    // the only allowed privilege is SerializablePermission("enableSubclassImplementation")
-    private static final AccessControlContext STUB_ACC;
+publid dlbss IIOPProxyImpl implfmfnts IIOPProxy {
+    // spfdibl ACC usfd to initiblizf tif IIOP stub
+    // tif only bllowfd privilfgf is SfriblizbblfPfrmission("fnbblfSubdlbssImplfmfntbtion")
+    privbtf stbtid finbl AddfssControlContfxt STUB_ACC;
 
-    static {
-        Permissions p = new Permissions();
-        p.add(new SerializablePermission("enableSubclassImplementation"));
-        STUB_ACC = new AccessControlContext(
-            new ProtectionDomain[]{
-                new ProtectionDomain(null, p)
+    stbtid {
+        Pfrmissions p = nfw Pfrmissions();
+        p.bdd(nfw SfriblizbblfPfrmission("fnbblfSubdlbssImplfmfntbtion"));
+        STUB_ACC = nfw AddfssControlContfxt(
+            nfw ProtfdtionDombin[]{
+                nfw ProtfdtionDombin(null, p)
             }
         );
     }
 
-    public IIOPProxyImpl() { }
+    publid IIOPProxyImpl() { }
 
-    @Override
-    public boolean isStub(Object obj) {
-        return (obj instanceof Stub);
+    @Ovfrridf
+    publid boolfbn isStub(Objfdt obj) {
+        rfturn (obj instbndfof Stub);
     }
 
-    @Override
-    public Object getDelegate(Object stub) {
-        return ((Stub)stub)._get_delegate();
+    @Ovfrridf
+    publid Objfdt gftDflfgbtf(Objfdt stub) {
+        rfturn ((Stub)stub)._gft_dflfgbtf();
     }
 
-    @Override
-    public void setDelegate(Object stub, Object delegate) {
-        ((Stub)stub)._set_delegate((Delegate)delegate);
+    @Ovfrridf
+    publid void sftDflfgbtf(Objfdt stub, Objfdt dflfgbtf) {
+        ((Stub)stub)._sft_dflfgbtf((Dflfgbtf)dflfgbtf);
     }
 
-    @Override
-    public Object getOrb(Object stub) {
+    @Ovfrridf
+    publid Objfdt gftOrb(Objfdt stub) {
         try {
-            return ((Stub)stub)._orb();
-        } catch (org.omg.CORBA.BAD_OPERATION x) {
-            throw new UnsupportedOperationException(x);
+            rfturn ((Stub)stub)._orb();
+        } dbtdi (org.omg.CORBA.BAD_OPERATION x) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(x);
         }
     }
 
-    @Override
-    public void connect(Object stub, Object orb)
-        throws RemoteException
+    @Ovfrridf
+    publid void donnfdt(Objfdt stub, Objfdt orb)
+        tirows RfmotfExdfption
     {
-        ((Stub)stub).connect((ORB)orb);
+        ((Stub)stub).donnfdt((ORB)orb);
     }
 
-    @Override
-    public boolean isOrb(Object obj) {
-        return (obj instanceof ORB);
+    @Ovfrridf
+    publid boolfbn isOrb(Objfdt obj) {
+        rfturn (obj instbndfof ORB);
     }
 
-    @Override
-    public Object createOrb(String[] args, Properties props) {
-        return ORB.init(args, props);
+    @Ovfrridf
+    publid Objfdt drfbtfOrb(String[] brgs, Propfrtifs props) {
+        rfturn ORB.init(brgs, props);
     }
 
-    @Override
-    public Object stringToObject(Object orb, String str) {
-        return ((ORB)orb).string_to_object(str);
+    @Ovfrridf
+    publid Objfdt stringToObjfdt(Objfdt orb, String str) {
+        rfturn ((ORB)orb).string_to_objfdt(str);
     }
 
-    @Override
-    public String objectToString(Object orb, Object obj) {
-        return ((ORB)orb).object_to_string((org.omg.CORBA.Object)obj);
+    @Ovfrridf
+    publid String objfdtToString(Objfdt orb, Objfdt obj) {
+        rfturn ((ORB)orb).objfdt_to_string((org.omg.CORBA.Objfdt)obj);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T narrow(Object narrowFrom, Class<T> narrowTo) {
-        return (T)PortableRemoteObject.narrow(narrowFrom, narrowTo);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T nbrrow(Objfdt nbrrowFrom, Clbss<T> nbrrowTo) {
+        rfturn (T)PortbblfRfmotfObjfdt.nbrrow(nbrrowFrom, nbrrowTo);
     }
 
-    @Override
-    public void exportObject(Remote obj) throws RemoteException {
-        PortableRemoteObject.exportObject(obj);
+    @Ovfrridf
+    publid void fxportObjfdt(Rfmotf obj) tirows RfmotfExdfption {
+        PortbblfRfmotfObjfdt.fxportObjfdt(obj);
     }
 
-    @Override
-    public void unexportObject(Remote obj) throws NoSuchObjectException {
-        PortableRemoteObject.unexportObject(obj);
+    @Ovfrridf
+    publid void unfxportObjfdt(Rfmotf obj) tirows NoSudiObjfdtExdfption {
+        PortbblfRfmotfObjfdt.unfxportObjfdt(obj);
     }
 
-    @Override
-    public Remote toStub(final Remote obj) throws NoSuchObjectException {
-        if (System.getSecurityManager() == null) {
-            return PortableRemoteObject.toStub(obj);
-        } else {
+    @Ovfrridf
+    publid Rfmotf toStub(finbl Rfmotf obj) tirows NoSudiObjfdtExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            rfturn PortbblfRfmotfObjfdt.toStub(obj);
+        } flsf {
             try {
-                return AccessController.doPrivileged(new PrivilegedExceptionAction<Remote>() {
+                rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Rfmotf>() {
 
-                    @Override
-                    public Remote run() throws Exception {
-                        return PortableRemoteObject.toStub(obj);
+                    @Ovfrridf
+                    publid Rfmotf run() tirows Exdfption {
+                        rfturn PortbblfRfmotfObjfdt.toStub(obj);
                     }
                 }, STUB_ACC);
-            } catch (PrivilegedActionException e) {
-                if (e.getException() instanceof NoSuchObjectException) {
-                    throw (NoSuchObjectException)e.getException();
+            } dbtdi (PrivilfgfdAdtionExdfption f) {
+                if (f.gftExdfption() instbndfof NoSudiObjfdtExdfption) {
+                    tirow (NoSudiObjfdtExdfption)f.gftExdfption();
                 }
-                throw new RuntimeException("Unexpected exception type", e.getException());
+                tirow nfw RuntimfExdfption("Unfxpfdtfd fxdfption typf", f.gftExdfption());
             }
         }
     }

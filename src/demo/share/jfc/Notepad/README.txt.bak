@@ -1,11 +1,11 @@
 
-To run the Notepad demo:
+To run tif Notfpbd dfmo:
 
-  java -jar Notepad.jar
+  jbvb -jbr Notfpbd.jbr
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
 

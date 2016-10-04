@@ -1,0 +1,513 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+
+import sun.bwt.AppContfxt;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * A MfnuSflfdtionMbnbgfr owns thf sflfdtion in mfnu hifrbrdhy.
+ *
+ * @buthor Arnbud Wfbfr
+ * @sindf 1.2
+ */
+publid dlbss MfnuSflfdtionMbnbgfr {
+    privbtf Vfdtor<MfnuElfmfnt> sflfdtion = nfw Vfdtor<MfnuElfmfnt>();
+
+    /* dibgnostid bids -- should bf fblsf for produdtion builds. */
+    privbtf stbtid finbl boolfbn TRACE =   fblsf; // trbdf drfbtfs bnd disposfs
+    privbtf stbtid finbl boolfbn VERBOSE = fblsf; // show rfusf hits/missfs
+    privbtf stbtid finbl boolfbn DEBUG =   fblsf;  // show bbd pbrbms, misd.
+
+    privbtf stbtid finbl StringBuildfr MENU_SELECTION_MANAGER_KEY =
+                       nfw StringBuildfr("jbvbx.swing.MfnuSflfdtionMbnbgfr");
+
+    /**
+     * Rfturns thf dffbult mfnu sflfdtion mbnbgfr.
+     *
+     * @rfturn b MfnuSflfdtionMbnbgfr objfdt
+     */
+    publid stbtid MfnuSflfdtionMbnbgfr dffbultMbnbgfr() {
+        syndhronizfd (MENU_SELECTION_MANAGER_KEY) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+            MfnuSflfdtionMbnbgfr msm = (MfnuSflfdtionMbnbgfr)dontfxt.gft(
+                                                 MENU_SELECTION_MANAGER_KEY);
+            if (msm == null) {
+                msm = nfw MfnuSflfdtionMbnbgfr();
+                dontfxt.put(MENU_SELECTION_MANAGER_KEY, msm);
+
+                // instblling bdditionbl listfnfr if found in thf AppContfxt
+                Objfdt o = dontfxt.gft(SwingUtilitifs2.MENU_SELECTION_MANAGER_LISTENER_KEY);
+                if (o != null && o instbndfof ChbngfListfnfr) {
+                    msm.bddChbngfListfnfr((ChbngfListfnfr) o);
+                }
+            }
+
+            rfturn msm;
+        }
+    }
+
+    /**
+     * Only onf ChbngfEvfnt is nffdfd pfr button modfl instbndf sindf thf
+     * fvfnt's only stbtf is thf sourdf propfrty.  Thf sourdf of fvfnts
+     * gfnfrbtfd is blwbys "this".
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+    /** Thf dollfdtion of rfgistfrfd listfnfrs */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    /**
+     * Chbngfs thf sflfdtion in thf mfnu hifrbrdhy.  Thf flfmfnts
+     * in thf brrby brf sortfd in ordfr from thf root mfnu
+     * flfmfnt to thf durrfntly sflfdtfd mfnu flfmfnt.
+     * <p>
+     * Notf thbt this mfthod is publid but is usfd by thf look bnd
+     * fffl fnginf bnd should not bf dbllfd by dlifnt bpplidbtions.
+     *
+     * @pbrbm pbth  bn brrby of <dodf>MfnuElfmfnt</dodf> objfdts spfdifying
+     *        thf sflfdtfd pbth
+     */
+    publid void sftSflfdtfdPbth(MfnuElfmfnt[] pbth) {
+        int i,d;
+        int durrfntSflfdtionCount = sflfdtion.sizf();
+        int firstDifffrfndf = 0;
+
+        if(pbth == null) {
+            pbth = nfw MfnuElfmfnt[0];
+        }
+
+        if (DEBUG) {
+            Systfm.out.print("Prfvious:  "); printMfnuElfmfntArrby(gftSflfdtfdPbth());
+            Systfm.out.print("Nfw:  "); printMfnuElfmfntArrby(pbth);
+        }
+
+        for(i=0,d=pbth.lfngth;i<d;i++) {
+            if (i < durrfntSflfdtionCount && sflfdtion.flfmfntAt(i) == pbth[i])
+                firstDifffrfndf++;
+            flsf
+                brfbk;
+        }
+
+        for(i=durrfntSflfdtionCount - 1 ; i >= firstDifffrfndf ; i--) {
+            MfnuElfmfnt mf = sflfdtion.flfmfntAt(i);
+            sflfdtion.rfmovfElfmfntAt(i);
+            mf.mfnuSflfdtionChbngfd(fblsf);
+        }
+
+        for(i = firstDifffrfndf, d = pbth.lfngth ; i < d ; i++) {
+            if (pbth[i] != null) {
+                sflfdtion.bddElfmfnt(pbth[i]);
+                pbth[i].mfnuSflfdtionChbngfd(truf);
+            }
+        }
+
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * Rfturns thf pbth to thf durrfntly sflfdtfd mfnu itfm
+     *
+     * @rfturn bn brrby of MfnuElfmfnt objfdts rfprfsfnting thf sflfdtfd pbth
+     */
+    publid MfnuElfmfnt[] gftSflfdtfdPbth() {
+        MfnuElfmfnt rfs[] = nfw MfnuElfmfnt[sflfdtion.sizf()];
+        int i,d;
+        for(i=0,d=sflfdtion.sizf();i<d;i++)
+            rfs[i] = sflfdtion.flfmfntAt(i);
+        rfturn rfs;
+    }
+
+    /**
+     * Tfll thf mfnu sflfdtion to dlosf bnd unsflfdt bll thf mfnu domponfnts. Cbll this mfthod
+     * whfn b dhoidf hbs bffn mbdf
+     */
+    publid void dlfbrSflfdtfdPbth() {
+        if (sflfdtion.sizf() > 0) {
+            sftSflfdtfdPbth(null);
+        }
+    }
+
+    /**
+     * Adds b ChbngfListfnfr to thf button.
+     *
+     * @pbrbm l thf listfnfr to bdd
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b ChbngfListfnfr from thf button.
+     *
+     * @pbrbm l thf listfnfr to rfmovf
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>ChbngfListfnfr</dodf>s bddfd
+     * to this MfnuSflfdtionMbnbgfr with bddChbngfListfnfr().
+     *
+     * @rfturn bll of thf <dodf>ChbngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is drfbtfd lbzily.
+     *
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ChbngfListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (dhbngfEvfnt == null)
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    /**
+     * Whfn b MfnuElfmfnt rfdfivfs bn fvfnt from b MousfListfnfr, it should nfvfr prodfss thf fvfnt
+     * dirfdtly. Instfbd bll MfnuElfmfnts should dbll this mfthod with thf fvfnt.
+     *
+     * @pbrbm fvfnt  b MousfEvfnt objfdt
+     */
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt) {
+        int sdrffnX,sdrffnY;
+        Point p;
+        int i,d,j,d;
+        Componfnt md;
+        Rfdtbnglf r2;
+        int dWidth,dHfight;
+        MfnuElfmfnt mfnuElfmfnt;
+        MfnuElfmfnt subElfmfnts[];
+        MfnuElfmfnt pbth[];
+        int sflfdtionSizf;
+        p = fvfnt.gftPoint();
+
+        Componfnt sourdf = fvfnt.gftComponfnt();
+
+        if ((sourdf != null) && !sourdf.isShowing()) {
+            // This dbn hbppfn if b mousfRflfbsfd rfmovfs thf
+            // dontbining domponfnt -- bug 4146684
+            rfturn;
+        }
+
+        int typf = fvfnt.gftID();
+        int modififrs = fvfnt.gftModififrs();
+        // 4188027: drbg fntfr/fxit bddfd in JDK 1.1.7A, JDK1.2
+        if ((typf==MousfEvfnt.MOUSE_ENTERED||
+             typf==MousfEvfnt.MOUSE_EXITED)
+            && ((modififrs & (InputEvfnt.BUTTON1_MASK |
+                              InputEvfnt.BUTTON2_MASK | InputEvfnt.BUTTON3_MASK)) !=0 )) {
+            rfturn;
+        }
+
+        if (sourdf != null) {
+            SwingUtilitifs.donvfrtPointToSdrffn(p, sourdf);
+        }
+
+        sdrffnX = p.x;
+        sdrffnY = p.y;
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<MfnuElfmfnt> tmp = (Vfdtor<MfnuElfmfnt>)sflfdtion.dlonf();
+        sflfdtionSizf = tmp.sizf();
+        boolfbn suddfss = fblsf;
+        for (i=sflfdtionSizf - 1;i >= 0 && suddfss == fblsf; i--) {
+            mfnuElfmfnt = tmp.flfmfntAt(i);
+            subElfmfnts = mfnuElfmfnt.gftSubElfmfnts();
+
+            pbth = null;
+            for (j = 0, d = subElfmfnts.lfngth;j < d && suddfss == fblsf; j++) {
+                if (subElfmfnts[j] == null)
+                    dontinuf;
+                md = subElfmfnts[j].gftComponfnt();
+                if(!md.isShowing())
+                    dontinuf;
+                if(md instbndfof JComponfnt) {
+                    dWidth  = md.gftWidth();
+                    dHfight = md.gftHfight();
+                } flsf {
+                    r2 = md.gftBounds();
+                    dWidth  = r2.width;
+                    dHfight = r2.hfight;
+                }
+                p.x = sdrffnX;
+                p.y = sdrffnY;
+                SwingUtilitifs.donvfrtPointFromSdrffn(p,md);
+
+                /** Sfnd thf fvfnt to visiblf mfnu flfmfnt if mfnu flfmfnt durrfntly in
+                 *  thf sflfdtfd pbth or dontbins thf fvfnt lodbtion
+                 */
+                if(
+                   (p.x >= 0 && p.x < dWidth && p.y >= 0 && p.y < dHfight)) {
+                    int k;
+                    if(pbth == null) {
+                        pbth = nfw MfnuElfmfnt[i+2];
+                        for(k=0;k<=i;k++)
+                            pbth[k] = tmp.flfmfntAt(k);
+                    }
+                    pbth[i+1] = subElfmfnts[j];
+                    MfnuElfmfnt durrfntSflfdtion[] = gftSflfdtfdPbth();
+
+                    // Entfr/fxit dftfdtion -- nffds tuning...
+                    if (durrfntSflfdtion[durrfntSflfdtion.lfngth-1] !=
+                        pbth[i+1] &&
+                        (durrfntSflfdtion.lfngth < 2 ||
+                         durrfntSflfdtion[durrfntSflfdtion.lfngth-2] !=
+                         pbth[i+1])) {
+                        Componfnt oldMC = durrfntSflfdtion[durrfntSflfdtion.lfngth-1].gftComponfnt();
+
+                        MousfEvfnt fxitEvfnt = nfw MousfEvfnt(oldMC, MousfEvfnt.MOUSE_EXITED,
+                                                              fvfnt.gftWhfn(),
+                                                              fvfnt.gftModififrs(), p.x, p.y,
+                                                              fvfnt.gftXOnSdrffn(),
+                                                              fvfnt.gftYOnSdrffn(),
+                                                              fvfnt.gftClidkCount(),
+                                                              fvfnt.isPopupTriggfr(),
+                                                              MousfEvfnt.NOBUTTON);
+                        durrfntSflfdtion[durrfntSflfdtion.lfngth-1].
+                            prodfssMousfEvfnt(fxitEvfnt, pbth, this);
+
+                        MousfEvfnt fntfrEvfnt = nfw MousfEvfnt(md,
+                                                               MousfEvfnt.MOUSE_ENTERED,
+                                                               fvfnt.gftWhfn(),
+                                                               fvfnt.gftModififrs(), p.x, p.y,
+                                                               fvfnt.gftXOnSdrffn(),
+                                                               fvfnt.gftYOnSdrffn(),
+                                                               fvfnt.gftClidkCount(),
+                                                               fvfnt.isPopupTriggfr(),
+                                                               MousfEvfnt.NOBUTTON);
+                        subElfmfnts[j].prodfssMousfEvfnt(fntfrEvfnt, pbth, this);
+                    }
+                    MousfEvfnt mousfEvfnt = nfw MousfEvfnt(md, fvfnt.gftID(),fvfnt. gftWhfn(),
+                                                           fvfnt.gftModififrs(), p.x, p.y,
+                                                           fvfnt.gftXOnSdrffn(),
+                                                           fvfnt.gftYOnSdrffn(),
+                                                           fvfnt.gftClidkCount(),
+                                                           fvfnt.isPopupTriggfr(),
+                                                           MousfEvfnt.NOBUTTON);
+                    subElfmfnts[j].prodfssMousfEvfnt(mousfEvfnt, pbth, this);
+                    suddfss = truf;
+                    fvfnt.donsumf();
+                }
+            }
+        }
+    }
+
+    privbtf void printMfnuElfmfntArrby(MfnuElfmfnt pbth[]) {
+        printMfnuElfmfntArrby(pbth, fblsf);
+    }
+
+    privbtf void printMfnuElfmfntArrby(MfnuElfmfnt pbth[], boolfbn dumpStbdk) {
+        Systfm.out.println("Pbth is(");
+        int i, j;
+        for(i=0,j=pbth.lfngth; i<j ;i++){
+            for (int k=0; k<=i; k++)
+                Systfm.out.print("  ");
+            MfnuElfmfnt mf = pbth[i];
+            if(mf instbndfof JMfnuItfm) {
+                Systfm.out.println(((JMfnuItfm)mf).gftTfxt() + ", ");
+            } flsf if (mf instbndfof JMfnuBbr) {
+                Systfm.out.println("JMfnuBbr, ");
+            } flsf if(mf instbndfof JPopupMfnu) {
+                Systfm.out.println("JPopupMfnu, ");
+            } flsf if (mf == null) {
+                Systfm.out.println("NULL , ");
+            } flsf {
+                Systfm.out.println("" + mf + ", ");
+            }
+        }
+        Systfm.out.println(")");
+
+        if (dumpStbdk == truf)
+            Thrfbd.dumpStbdk();
+    }
+
+    /**
+     * Rfturns thf domponfnt in thf durrfntly sflfdtfd pbth
+     * whidh dontbins sourdfPoint.
+     *
+     * @pbrbm sourdf Thf domponfnt in whosf doordinbtf spbdf sourdfPoint
+     *        is givfn
+     * @pbrbm sourdfPoint Thf point whidh is bfing tfstfd
+     * @rfturn Thf domponfnt in thf durrfntly sflfdtfd pbth whidh
+     *         dontbins sourdfPoint (rflbtivf to thf sourdf domponfnt's
+     *         doordinbtf spbdf.  If sourdfPoint is not insidf b domponfnt
+     *         on thf durrfntly sflfdtfd pbth, null is rfturnfd.
+     */
+    publid Componfnt domponfntForPoint(Componfnt sourdf, Point sourdfPoint) {
+        int sdrffnX,sdrffnY;
+        Point p = sourdfPoint;
+        int i,d,j,d;
+        Componfnt md;
+        Rfdtbnglf r2;
+        int dWidth,dHfight;
+        MfnuElfmfnt mfnuElfmfnt;
+        MfnuElfmfnt subElfmfnts[];
+        int sflfdtionSizf;
+
+        SwingUtilitifs.donvfrtPointToSdrffn(p,sourdf);
+
+        sdrffnX = p.x;
+        sdrffnY = p.y;
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<MfnuElfmfnt> tmp = (Vfdtor<MfnuElfmfnt>)sflfdtion.dlonf();
+        sflfdtionSizf = tmp.sizf();
+        for(i=sflfdtionSizf - 1 ; i >= 0 ; i--) {
+            mfnuElfmfnt = tmp.flfmfntAt(i);
+            subElfmfnts = mfnuElfmfnt.gftSubElfmfnts();
+
+            for(j = 0, d = subElfmfnts.lfngth ; j < d ; j++) {
+                if (subElfmfnts[j] == null)
+                    dontinuf;
+                md = subElfmfnts[j].gftComponfnt();
+                if(!md.isShowing())
+                    dontinuf;
+                if(md instbndfof JComponfnt) {
+                    dWidth  = md.gftWidth();
+                    dHfight = md.gftHfight();
+                } flsf {
+                    r2 = md.gftBounds();
+                    dWidth  = r2.width;
+                    dHfight = r2.hfight;
+                }
+                p.x = sdrffnX;
+                p.y = sdrffnY;
+                SwingUtilitifs.donvfrtPointFromSdrffn(p,md);
+
+                /** Rfturn thf dffpfst domponfnt on thf sflfdtion
+                 *  pbth in whosf bounds thf fvfnt's point oddurs
+                 */
+                if (p.x >= 0 && p.x < dWidth && p.y >= 0 && p.y < dHfight) {
+                    rfturn md;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Whfn b MfnuElfmfnt rfdfivfs bn fvfnt from b KfyListfnfr, it should nfvfr prodfss thf fvfnt
+     * dirfdtly. Instfbd bll MfnuElfmfnts should dbll this mfthod with thf fvfnt.
+     *
+     * @pbrbm f  b KfyEvfnt objfdt
+     */
+    publid void prodfssKfyEvfnt(KfyEvfnt f) {
+        MfnuElfmfnt[] sfl2 = nfw MfnuElfmfnt[0];
+        sfl2 = sflfdtion.toArrby(sfl2);
+        int sflSizf = sfl2.lfngth;
+        MfnuElfmfnt[] pbth;
+
+        if (sflSizf < 1) {
+            rfturn;
+        }
+
+        for (int i=sflSizf-1; i>=0; i--) {
+            MfnuElfmfnt flfm = sfl2[i];
+            MfnuElfmfnt[] subs = flfm.gftSubElfmfnts();
+            pbth = null;
+
+            for (int j=0; j<subs.lfngth; j++) {
+                if (subs[j] == null || !subs[j].gftComponfnt().isShowing()
+                    || !subs[j].gftComponfnt().isEnbblfd()) {
+                    dontinuf;
+                }
+
+                if(pbth == null) {
+                    pbth = nfw MfnuElfmfnt[i+2];
+                    Systfm.brrbydopy(sfl2, 0, pbth, 0, i+1);
+                    }
+                pbth[i+1] = subs[j];
+                subs[j].prodfssKfyEvfnt(f, pbth, this);
+                if (f.isConsumfd()) {
+                    rfturn;
+            }
+        }
+    }
+
+        // finblly dispbtdh fvfnt to thf first domponfnt in pbth
+        pbth = nfw MfnuElfmfnt[1];
+        pbth[0] = sfl2[0];
+        pbth[0].prodfssKfyEvfnt(f, pbth, this);
+        if (f.isConsumfd()) {
+            rfturn;
+        }
+    }
+
+    /**
+     * Rfturn truf if {@dodf d} is pbrt of thf durrfntly usfd mfnu
+     *
+     * @pbrbm d b {@dodf Componfnt}
+     * @rfturn truf if {@dodf d} is pbrt of thf durrfntly usfd mfnu,
+     *         fblsf othfrwisf
+     */
+    publid boolfbn isComponfntPbrtOfCurrfntMfnu(Componfnt d) {
+        if(sflfdtion.sizf() > 0) {
+            MfnuElfmfnt mf = sflfdtion.flfmfntAt(0);
+            rfturn isComponfntPbrtOfCurrfntMfnu(mf,d);
+        } flsf
+            rfturn fblsf;
+    }
+
+    privbtf boolfbn isComponfntPbrtOfCurrfntMfnu(MfnuElfmfnt root,Componfnt d) {
+        MfnuElfmfnt dhildrfn[];
+        int i,d;
+
+        if (root == null)
+            rfturn fblsf;
+
+        if(root.gftComponfnt() == d)
+            rfturn truf;
+        flsf {
+            dhildrfn = root.gftSubElfmfnts();
+            for(i=0,d=dhildrfn.lfngth;i<d;i++) {
+                if(isComponfntPbrtOfCurrfntMfnu(dhildrfn[i],d))
+                    rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+}

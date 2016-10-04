@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.regex;
+pbdkbgf jbvb.util.rfgfx;
 
-import sun.security.action.GetPropertyAction;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * Unchecked exception thrown to indicate a syntax error in a
- * regular-expression pattern.
+ * Undifdkfd fxdfption tirown to indidbtf b syntbx frror in b
+ * rfgulbr-fxprfssion pbttfrn.
  *
- * @author  unascribed
- * @since 1.4
- * @spec JSR-51
+ * @butior  unbsdribfd
+ * @sindf 1.4
+ * @spfd JSR-51
  */
 
-public class PatternSyntaxException
-    extends IllegalArgumentException
+publid dlbss PbttfrnSyntbxExdfption
+    fxtfnds IllfgblArgumfntExdfption
 {
-    private static final long serialVersionUID = -3864639126226059218L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3864639126226059218L;
 
-    private final String desc;
-    private final String pattern;
-    private final int index;
+    privbtf finbl String dfsd;
+    privbtf finbl String pbttfrn;
+    privbtf finbl int indfx;
 
     /**
-     * Constructs a new instance of this class.
+     * Construdts b nfw instbndf of tiis dlbss.
      *
-     * @param  desc
-     *         A description of the error
+     * @pbrbm  dfsd
+     *         A dfsdription of tif frror
      *
-     * @param  regex
-     *         The erroneous pattern
+     * @pbrbm  rfgfx
+     *         Tif frronfous pbttfrn
      *
-     * @param  index
-     *         The approximate index in the pattern of the error,
-     *         or <tt>-1</tt> if the index is not known
+     * @pbrbm  indfx
+     *         Tif bpproximbtf indfx in tif pbttfrn of tif frror,
+     *         or <tt>-1</tt> if tif indfx is not known
      */
-    public PatternSyntaxException(String desc, String regex, int index) {
-        this.desc = desc;
-        this.pattern = regex;
-        this.index = index;
+    publid PbttfrnSyntbxExdfption(String dfsd, String rfgfx, int indfx) {
+        tiis.dfsd = dfsd;
+        tiis.pbttfrn = rfgfx;
+        tiis.indfx = indfx;
     }
 
     /**
-     * Retrieves the error index.
+     * Rftrifvfs tif frror indfx.
      *
-     * @return  The approximate index in the pattern of the error,
-     *         or <tt>-1</tt> if the index is not known
+     * @rfturn  Tif bpproximbtf indfx in tif pbttfrn of tif frror,
+     *         or <tt>-1</tt> if tif indfx is not known
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
     /**
-     * Retrieves the description of the error.
+     * Rftrifvfs tif dfsdription of tif frror.
      *
-     * @return  The description of the error
+     * @rfturn  Tif dfsdription of tif frror
      */
-    public String getDescription() {
-        return desc;
+    publid String gftDfsdription() {
+        rfturn dfsd;
     }
 
     /**
-     * Retrieves the erroneous regular-expression pattern.
+     * Rftrifvfs tif frronfous rfgulbr-fxprfssion pbttfrn.
      *
-     * @return  The erroneous pattern
+     * @rfturn  Tif frronfous pbttfrn
      */
-    public String getPattern() {
-        return pattern;
+    publid String gftPbttfrn() {
+        rfturn pbttfrn;
     }
 
-    private static final String nl =
-        java.security.AccessController
-            .doPrivileged(new GetPropertyAction("line.separator"));
+    privbtf stbtid finbl String nl =
+        jbvb.sfdurity.AddfssControllfr
+            .doPrivilfgfd(nfw GftPropfrtyAdtion("linf.sfpbrbtor"));
 
     /**
-     * Returns a multi-line string containing the description of the syntax
-     * error and its index, the erroneous regular-expression pattern, and a
-     * visual indication of the error index within the pattern.
+     * Rfturns b multi-linf string dontbining tif dfsdription of tif syntbx
+     * frror bnd its indfx, tif frronfous rfgulbr-fxprfssion pbttfrn, bnd b
+     * visubl indidbtion of tif frror indfx witiin tif pbttfrn.
      *
-     * @return  The full detail message
+     * @rfturn  Tif full dftbil mfssbgf
      */
-    public String getMessage() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(desc);
-        if (index >= 0) {
-            sb.append(" near index ");
-            sb.append(index);
+    publid String gftMfssbgf() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(dfsd);
+        if (indfx >= 0) {
+            sb.bppfnd(" nfbr indfx ");
+            sb.bppfnd(indfx);
         }
-        sb.append(nl);
-        sb.append(pattern);
-        if (index >= 0) {
-            sb.append(nl);
-            for (int i = 0; i < index; i++) sb.append(' ');
-            sb.append('^');
+        sb.bppfnd(nl);
+        sb.bppfnd(pbttfrn);
+        if (indfx >= 0) {
+            sb.bppfnd(nl);
+            for (int i = 0; i < indfx; i++) sb.bppfnd(' ');
+            sb.bppfnd('^');
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

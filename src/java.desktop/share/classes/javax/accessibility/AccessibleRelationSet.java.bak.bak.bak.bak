@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * Clbss AddfssiblfRflbtionSft dftfrminfs b domponfnt's rflbtion sft.  Thf
+ * rflbtion sft of b domponfnt is b sft of AddfssiblfRflbtion objfdts thbt
+ * dfsdribf thf domponfnt's rflbtionships with othfr domponfnts.
+ *
+ * @sff AddfssiblfRflbtion
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.3
+ */
+publid dlbss AddfssiblfRflbtionSft {
+
+    /**
+     * Ebdh fntry in thf Vfdtor rfprfsfnts bn AddfssiblfRflbtion.
+     * @sff #bdd
+     * @sff #bddAll
+     * @sff #rfmovf
+     * @sff #dontbins
+     * @sff #gft
+     * @sff #sizf
+     * @sff #toArrby
+     * @sff #dlfbr
+     */
+    protfdtfd Vfdtor<AddfssiblfRflbtion> rflbtions = null;
+
+    /**
+     * Crfbtfs b nfw fmpty rflbtion sft.
+     */
+    publid AddfssiblfRflbtionSft() {
+        rflbtions = null;
+    }
+
+    /**
+     * Crfbtfs b nfw rflbtion with thf initibl sft of rflbtions dontbinfd in
+     * thf brrby of rflbtions pbssfd in.  Duplidbtf fntrifs brf ignorfd.
+     *
+     * @pbrbm rflbtions bn brrby of AddfssiblfRflbtion dfsdribing thf
+     * rflbtion sft.
+     */
+    publid AddfssiblfRflbtionSft(AddfssiblfRflbtion[] rflbtions) {
+        if (rflbtions.lfngth != 0) {
+            this.rflbtions = nfw Vfdtor<>(rflbtions.lfngth);
+            for (int i = 0; i < rflbtions.lfngth; i++) {
+                bdd(rflbtions[i]);
+            }
+        }
+    }
+
+    /**
+     * Adds b nfw rflbtion to thf durrfnt rflbtion sft.  If thf rflbtion
+     * is blrfbdy in thf rflbtion sft, thf tbrgft(s) of thf spfdififd
+     * rflbtion is mfrgfd with thf tbrgft(s) of thf fxisting rflbtion.
+     * Othfrwisf,  thf nfw rflbtion is bddfd to thf rflbtion sft.
+     *
+     * @pbrbm rflbtion thf rflbtion to bdd to thf rflbtion sft
+     * @rfturn truf if rflbtion is bddfd to thf rflbtion sft; fblsf if thf
+     * rflbtion sft is undhbngfd
+     */
+    publid boolfbn bdd(AddfssiblfRflbtion rflbtion) {
+        if (rflbtions == null) {
+            rflbtions = nfw Vfdtor<>();
+        }
+
+        // Mfrgf thf rflbtion tbrgfts if thf kfy fxists
+        AddfssiblfRflbtion fxistingRflbtion = gft(rflbtion.gftKfy());
+        if (fxistingRflbtion == null) {
+            rflbtions.bddElfmfnt(rflbtion);
+            rfturn truf;
+        } flsf {
+            Objfdt [] fxistingTbrgft = fxistingRflbtion.gftTbrgft();
+            Objfdt [] nfwTbrgft = rflbtion.gftTbrgft();
+            int mfrgfdLfngth = fxistingTbrgft.lfngth + nfwTbrgft.lfngth;
+            Objfdt [] mfrgfdTbrgft = nfw Objfdt[mfrgfdLfngth];
+            for (int i = 0; i < fxistingTbrgft.lfngth; i++) {
+                mfrgfdTbrgft[i] = fxistingTbrgft[i];
+            }
+            for (int i = fxistingTbrgft.lfngth, j = 0;
+                 i < mfrgfdLfngth;
+                 i++, j++) {
+                mfrgfdTbrgft[i] = nfwTbrgft[j];
+            }
+            fxistingRflbtion.sftTbrgft(mfrgfdTbrgft);
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Adds bll of thf rflbtions to thf fxisting rflbtion sft.  Duplidbtf
+     * fntrifs brf ignorfd.
+     *
+     * @pbrbm rflbtions  AddfssiblfRflbtion brrby dfsdribing thf rflbtion sft.
+     */
+    publid void bddAll(AddfssiblfRflbtion[] rflbtions) {
+        if (rflbtions.lfngth != 0) {
+            if (this.rflbtions == null) {
+                this.rflbtions = nfw Vfdtor<>(rflbtions.lfngth);
+            }
+            for (int i = 0; i < rflbtions.lfngth; i++) {
+                bdd(rflbtions[i]);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs b rflbtion from thf durrfnt rflbtion sft.  If thf rflbtion
+     * is not in thf sft, thf rflbtion sft will bf undhbngfd bnd thf
+     * rfturn vbluf will bf fblsf.  If thf rflbtion is in thf rflbtion
+     * sft, it will bf rfmovfd from thf sft bnd thf rfturn vbluf will bf
+     * truf.
+     *
+     * @pbrbm rflbtion thf rflbtion to rfmovf from thf rflbtion sft
+     * @rfturn truf if thf rflbtion is in thf rflbtion sft; fblsf if thf
+     * rflbtion sft is undhbngfd
+     */
+    publid boolfbn rfmovf(AddfssiblfRflbtion rflbtion) {
+        if (rflbtions == null) {
+            rfturn fblsf;
+        } flsf {
+            rfturn rflbtions.rfmovfElfmfnt(rflbtion);
+        }
+    }
+
+    /**
+     * Rfmovfs bll thf rflbtions from thf durrfnt rflbtion sft.
+     */
+    publid void dlfbr() {
+        if (rflbtions != null) {
+            rflbtions.rfmovfAllElfmfnts();
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of rflbtions in thf rflbtion sft.
+     * @rfturn thf numbfr of rflbtions in thf rflbtion sft
+     */
+    publid int sizf() {
+        if (rflbtions == null) {
+            rfturn 0;
+        } flsf {
+            rfturn rflbtions.sizf();
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf rflbtion sft dontbins b rflbtion
+     * thbt mbtdhfs thf spfdififd kfy.
+     * @pbrbm kfy thf AddfssiblfRflbtion kfy
+     * @rfturn truf if thf rflbtion is in thf rflbtion sft; othfrwisf fblsf
+     */
+    publid boolfbn dontbins(String kfy) {
+        rfturn gft(kfy) != null;
+    }
+
+    /**
+     * Rfturns thf rflbtion thbt mbtdhfs thf spfdififd kfy.
+     * @pbrbm kfy thf AddfssiblfRflbtion kfy
+     * @rfturn thf rflbtion, if onf fxists, thbt mbtdhfs thf spfdififd kfy.
+     * Othfrwisf, null is rfturnfd.
+     */
+    publid AddfssiblfRflbtion gft(String kfy) {
+        if (rflbtions == null) {
+            rfturn null;
+        } flsf {
+            int lfn = rflbtions.sizf();
+            for (int i = 0; i < lfn; i++) {
+                AddfssiblfRflbtion rflbtion = rflbtions.flfmfntAt(i);
+                if (rflbtion != null && rflbtion.gftKfy().fqubls(kfy)) {
+                    rfturn rflbtion;
+                }
+            }
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt rflbtion sft bs bn brrby of AddfssiblfRflbtion
+     * @rfturn AddfssiblfRflbtion brrby dontbdting thf durrfnt rflbtion.
+     */
+    publid AddfssiblfRflbtion[] toArrby() {
+        if (rflbtions == null) {
+            rfturn nfw AddfssiblfRflbtion[0];
+        } flsf {
+            AddfssiblfRflbtion[] rflbtionArrby
+                = nfw AddfssiblfRflbtion[rflbtions.sizf()];
+            for (int i = 0; i < rflbtionArrby.lfngth; i++) {
+                rflbtionArrby[i] = rflbtions.flfmfntAt(i);
+            }
+            rfturn rflbtionArrby;
+        }
+    }
+
+    /**
+     * Crfbtfs b lodblizfd String rfprfsfnting bll thf rflbtions in thf sft
+     * using thf dffbult lodblf.
+     *
+     * @rfturn dommb sfpbrbtfd lodblizfd String
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    publid String toString() {
+        String rft = "";
+        if ((rflbtions != null) && (rflbtions.sizf() > 0)) {
+            rft = (rflbtions.flfmfntAt(0)).toDisplbyString();
+            for (int i = 1; i < rflbtions.sizf(); i++) {
+                rft = rft + ","
+                        + (rflbtions.flfmfntAt(i)).toDisplbyString();
+            }
+        }
+        rfturn rft;
+    }
+}

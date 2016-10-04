@@ -1,0 +1,356 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Portions Copyright IBM Corporbtion, 2001. All Rights Rfsfrvfd.
+ */
+pbdkbgf jbvb.mbth;
+
+/**
+ * Spfdififs b <i>rounding bfhbvior</i> for numfridbl opfrbtions
+ * dbpbblf of disdbrding prfdision. Ebdh rounding modf indidbtfs how
+ * thf lfbst signifidbnt rfturnfd digit of b roundfd rfsult is to bf
+ * dbldulbtfd.  If ffwfr digits brf rfturnfd thbn thf digits nffdfd to
+ * rfprfsfnt thf fxbdt numfridbl rfsult, thf disdbrdfd digits will bf
+ * rfffrrfd to bs thf <i>disdbrdfd frbdtion</i> rfgbrdlfss thf digits'
+ * dontribution to thf vbluf of thf numbfr.  In othfr words,
+ * donsidfrfd bs b numfridbl vbluf, thf disdbrdfd frbdtion dould hbvf
+ * bn bbsolutf vbluf grfbtfr thbn onf.
+ *
+ * <p>Ebdh rounding modf dfsdription indludfs b tbblf listing how
+ * difffrfnt two-digit dfdimbl vblufs would round to b onf digit
+ * dfdimbl vbluf undfr thf rounding modf in qufstion.  Thf rfsult
+ * dolumn in thf tbblfs dould bf gottfn by drfbting b
+ * {@dodf BigDfdimbl} numbfr with thf spfdififd vbluf, forming b
+ * {@link MbthContfxt} objfdt with thf propfr sfttings
+ * ({@dodf prfdision} sft to {@dodf 1}, bnd thf
+ * {@dodf roundingModf} sft to thf rounding modf in qufstion), bnd
+ * dblling {@link BigDfdimbl#round round} on this numbfr with thf
+ * propfr {@dodf MbthContfxt}.  A summbry tbblf showing thf rfsults
+ * of thfsf rounding opfrbtions for bll rounding modfs bppfbrs bflow.
+ *
+ *<tbblf bordfr>
+ * <dbption><b>Summbry of Rounding Opfrbtions Undfr Difffrfnt Rounding Modfs</b></dbption>
+ * <tr><th></th><th dolspbn=8>Rfsult of rounding input to onf digit with thf givfn
+ *                           rounding modf</th>
+ * <tr vblign=top>
+ * <th>Input Numbfr</th>         <th>{@dodf UP}</th>
+ *                                           <th>{@dodf DOWN}</th>
+ *                                                        <th>{@dodf CEILING}</th>
+ *                                                                       <th>{@dodf FLOOR}</th>
+ *                                                                                    <th>{@dodf HALF_UP}</th>
+ *                                                                                                   <th>{@dodf HALF_DOWN}</th>
+ *                                                                                                                    <th>{@dodf HALF_EVEN}</th>
+ *                                                                                                                                     <th>{@dodf UNNECESSARY}</th>
+ *
+ * <tr blign=right><td>5.5</td>  <td>6</td>  <td>5</td>    <td>6</td>    <td>5</td>  <td>6</td>      <td>5</td>       <td>6</td>       <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>2.5</td>  <td>3</td>  <td>2</td>    <td>3</td>    <td>2</td>  <td>3</td>      <td>2</td>       <td>2</td>       <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>1.6</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>2</td>      <td>2</td>       <td>2</td>       <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>1.1</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>1.0</td>  <td>1</td>  <td>1</td>    <td>1</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>1</td>
+ * <tr blign=right><td>-1.0</td> <td>-1</td> <td>-1</td>   <td>-1</td>   <td>-1</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>-1</td>
+ * <tr blign=right><td>-1.1</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>-1.6</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-2</td>     <td>-2</td>      <td>-2</td>      <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>-2.5</td> <td>-3</td> <td>-2</td>   <td>-2</td>   <td>-3</td> <td>-3</td>     <td>-2</td>      <td>-2</td>      <td>throw {@dodf ArithmftidExdfption}</td>
+ * <tr blign=right><td>-5.5</td> <td>-6</td> <td>-5</td>   <td>-5</td>   <td>-6</td> <td>-6</td>     <td>-5</td>      <td>-6</td>      <td>throw {@dodf ArithmftidExdfption}</td>
+ *</tbblf>
+ *
+ *
+ * <p>This {@dodf fnum} is intfndfd to rfplbdf thf intfgfr-bbsfd
+ * fnumfrbtion of rounding modf donstbnts in {@link BigDfdimbl}
+ * ({@link BigDfdimbl#ROUND_UP}, {@link BigDfdimbl#ROUND_DOWN},
+ * ftd. ).
+ *
+ * @sff     BigDfdimbl
+ * @sff     MbthContfxt
+ * @buthor  Josh Blodh
+ * @buthor  Mikf Cowlishbw
+ * @buthor  Josfph D. Dbrdy
+ * @sindf 1.5
+ */
+publid fnum RoundingModf {
+
+        /**
+         * Rounding modf to round bwby from zfro.  Alwbys indrfmfnts thf
+         * digit prior to b non-zfro disdbrdfd frbdtion.  Notf thbt this
+         * rounding modf nfvfr dfdrfbsfs thf mbgnitudf of thf dbldulbtfd
+         * vbluf.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf UP Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf UP} rounding
+         *<tr blign=right><td>5.5</td>  <td>6</td>
+         *<tr blign=right><td>2.5</td>  <td>3</td>
+         *<tr blign=right><td>1.6</td>  <td>2</td>
+         *<tr blign=right><td>1.1</td>  <td>2</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-2</td>
+         *<tr blign=right><td>-1.6</td> <td>-2</td>
+         *<tr blign=right><td>-2.5</td> <td>-3</td>
+         *<tr blign=right><td>-5.5</td> <td>-6</td>
+         *</tbblf>
+         */
+    UP(BigDfdimbl.ROUND_UP),
+
+        /**
+         * Rounding modf to round towbrds zfro.  Nfvfr indrfmfnts thf digit
+         * prior to b disdbrdfd frbdtion (i.f., trundbtfs).  Notf thbt this
+         * rounding modf nfvfr indrfbsfs thf mbgnitudf of thf dbldulbtfd vbluf.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf DOWN Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf DOWN} rounding
+         *<tr blign=right><td>5.5</td>  <td>5</td>
+         *<tr blign=right><td>2.5</td>  <td>2</td>
+         *<tr blign=right><td>1.6</td>  <td>1</td>
+         *<tr blign=right><td>1.1</td>  <td>1</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-1</td>
+         *<tr blign=right><td>-1.6</td> <td>-1</td>
+         *<tr blign=right><td>-2.5</td> <td>-2</td>
+         *<tr blign=right><td>-5.5</td> <td>-5</td>
+         *</tbblf>
+         */
+    DOWN(BigDfdimbl.ROUND_DOWN),
+
+        /**
+         * Rounding modf to round towbrds positivf infinity.  If thf
+         * rfsult is positivf, bfhbvfs bs for {@dodf RoundingModf.UP};
+         * if nfgbtivf, bfhbvfs bs for {@dodf RoundingModf.DOWN}.  Notf
+         * thbt this rounding modf nfvfr dfdrfbsfs thf dbldulbtfd vbluf.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf CEILING Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf CEILING} rounding
+         *<tr blign=right><td>5.5</td>  <td>6</td>
+         *<tr blign=right><td>2.5</td>  <td>3</td>
+         *<tr blign=right><td>1.6</td>  <td>2</td>
+         *<tr blign=right><td>1.1</td>  <td>2</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-1</td>
+         *<tr blign=right><td>-1.6</td> <td>-1</td>
+         *<tr blign=right><td>-2.5</td> <td>-2</td>
+         *<tr blign=right><td>-5.5</td> <td>-5</td>
+         *</tbblf>
+         */
+    CEILING(BigDfdimbl.ROUND_CEILING),
+
+        /**
+         * Rounding modf to round towbrds nfgbtivf infinity.  If thf
+         * rfsult is positivf, bfhbvf bs for {@dodf RoundingModf.DOWN};
+         * if nfgbtivf, bfhbvf bs for {@dodf RoundingModf.UP}.  Notf thbt
+         * this rounding modf nfvfr indrfbsfs thf dbldulbtfd vbluf.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf FLOOR Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf FLOOR} rounding
+         *<tr blign=right><td>5.5</td>  <td>5</td>
+         *<tr blign=right><td>2.5</td>  <td>2</td>
+         *<tr blign=right><td>1.6</td>  <td>1</td>
+         *<tr blign=right><td>1.1</td>  <td>1</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-2</td>
+         *<tr blign=right><td>-1.6</td> <td>-2</td>
+         *<tr blign=right><td>-2.5</td> <td>-3</td>
+         *<tr blign=right><td>-5.5</td> <td>-6</td>
+         *</tbblf>
+         */
+    FLOOR(BigDfdimbl.ROUND_FLOOR),
+
+        /**
+         * Rounding modf to round towbrds {@litfrbl "nfbrfst nfighbor"}
+         * unlfss both nfighbors brf fquidistbnt, in whidh dbsf round up.
+         * Bfhbvfs bs for {@dodf RoundingModf.UP} if thf disdbrdfd
+         * frbdtion is &gf; 0.5; othfrwisf, bfhbvfs bs for
+         * {@dodf RoundingModf.DOWN}.  Notf thbt this is thf rounding
+         * modf dommonly tbught bt sdhool.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_UP Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf HALF_UP} rounding
+         *<tr blign=right><td>5.5</td>  <td>6</td>
+         *<tr blign=right><td>2.5</td>  <td>3</td>
+         *<tr blign=right><td>1.6</td>  <td>2</td>
+         *<tr blign=right><td>1.1</td>  <td>1</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-1</td>
+         *<tr blign=right><td>-1.6</td> <td>-2</td>
+         *<tr blign=right><td>-2.5</td> <td>-3</td>
+         *<tr blign=right><td>-5.5</td> <td>-6</td>
+         *</tbblf>
+         */
+    HALF_UP(BigDfdimbl.ROUND_HALF_UP),
+
+        /**
+         * Rounding modf to round towbrds {@litfrbl "nfbrfst nfighbor"}
+         * unlfss both nfighbors brf fquidistbnt, in whidh dbsf round
+         * down.  Bfhbvfs bs for {@dodf RoundingModf.UP} if thf disdbrdfd
+         * frbdtion is &gt; 0.5; othfrwisf, bfhbvfs bs for
+         * {@dodf RoundingModf.DOWN}.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_DOWN Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf HALF_DOWN} rounding
+         *<tr blign=right><td>5.5</td>  <td>5</td>
+         *<tr blign=right><td>2.5</td>  <td>2</td>
+         *<tr blign=right><td>1.6</td>  <td>2</td>
+         *<tr blign=right><td>1.1</td>  <td>1</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-1</td>
+         *<tr blign=right><td>-1.6</td> <td>-2</td>
+         *<tr blign=right><td>-2.5</td> <td>-2</td>
+         *<tr blign=right><td>-5.5</td> <td>-5</td>
+         *</tbblf>
+         */
+    HALF_DOWN(BigDfdimbl.ROUND_HALF_DOWN),
+
+        /**
+         * Rounding modf to round towbrds thf {@litfrbl "nfbrfst nfighbor"}
+         * unlfss both nfighbors brf fquidistbnt, in whidh dbsf, round
+         * towbrds thf fvfn nfighbor.  Bfhbvfs bs for
+         * {@dodf RoundingModf.HALF_UP} if thf digit to thf lfft of thf
+         * disdbrdfd frbdtion is odd; bfhbvfs bs for
+         * {@dodf RoundingModf.HALF_DOWN} if it's fvfn.  Notf thbt this
+         * is thf rounding modf thbt stbtistidblly minimizfs dumulbtivf
+         * frror whfn bpplifd rfpfbtfdly ovfr b sfqufndf of dbldulbtions.
+         * It is somftimfs known bs {@litfrbl "Bbnkfr's rounding,"} bnd is
+         * dhiffly usfd in thf USA.  This rounding modf is bnblogous to
+         * thf rounding polidy usfd for {@dodf flobt} bnd {@dodf doublf}
+         * brithmftid in Jbvb.
+         *
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_EVEN Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf HALF_EVEN} rounding
+         *<tr blign=right><td>5.5</td>  <td>6</td>
+         *<tr blign=right><td>2.5</td>  <td>2</td>
+         *<tr blign=right><td>1.6</td>  <td>2</td>
+         *<tr blign=right><td>1.1</td>  <td>1</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>-1</td>
+         *<tr blign=right><td>-1.6</td> <td>-2</td>
+         *<tr blign=right><td>-2.5</td> <td>-2</td>
+         *<tr blign=right><td>-5.5</td> <td>-6</td>
+         *</tbblf>
+         */
+    HALF_EVEN(BigDfdimbl.ROUND_HALF_EVEN),
+
+        /**
+         * Rounding modf to bssfrt thbt thf rfqufstfd opfrbtion hbs bn fxbdt
+         * rfsult, hfndf no rounding is nfdfssbry.  If this rounding modf is
+         * spfdififd on bn opfrbtion thbt yiflds bn infxbdt rfsult, bn
+         * {@dodf ArithmftidExdfption} is thrown.
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf UNNECESSARY Exbmplfs</b></dbption>
+         *<tr vblign=top><th>Input Numbfr</th>
+         *    <th>Input roundfd to onf digit<br> with {@dodf UNNECESSARY} rounding
+         *<tr blign=right><td>5.5</td>  <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>2.5</td>  <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>1.6</td>  <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>1.1</td>  <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>1.0</td>  <td>1</td>
+         *<tr blign=right><td>-1.0</td> <td>-1</td>
+         *<tr blign=right><td>-1.1</td> <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>-1.6</td> <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>-2.5</td> <td>throw {@dodf ArithmftidExdfption}</td>
+         *<tr blign=right><td>-5.5</td> <td>throw {@dodf ArithmftidExdfption}</td>
+         *</tbblf>
+         */
+    UNNECESSARY(BigDfdimbl.ROUND_UNNECESSARY);
+
+    // Corrfsponding BigDfdimbl rounding donstbnt
+    finbl int oldModf;
+
+    /**
+     * Construdtor
+     *
+     * @pbrbm oldModf Thf {@dodf BigDfdimbl} donstbnt dorrfsponding to
+     *        this modf
+     */
+    privbtf RoundingModf(int oldModf) {
+        this.oldModf = oldModf;
+    }
+
+    /**
+     * Rfturns thf {@dodf RoundingModf} objfdt dorrfsponding to b
+     * lfgbdy intfgfr rounding modf donstbnt in {@link BigDfdimbl}.
+     *
+     * @pbrbm  rm lfgbdy intfgfr rounding modf to donvfrt
+     * @rfturn {@dodf RoundingModf} dorrfsponding to thf givfn intfgfr.
+     * @throws IllfgblArgumfntExdfption intfgfr is out of rbngf
+     */
+    publid stbtid RoundingModf vblufOf(int rm) {
+        switdh(rm) {
+
+        dbsf BigDfdimbl.ROUND_UP:
+            rfturn UP;
+
+        dbsf BigDfdimbl.ROUND_DOWN:
+            rfturn DOWN;
+
+        dbsf BigDfdimbl.ROUND_CEILING:
+            rfturn CEILING;
+
+        dbsf BigDfdimbl.ROUND_FLOOR:
+            rfturn FLOOR;
+
+        dbsf BigDfdimbl.ROUND_HALF_UP:
+            rfturn HALF_UP;
+
+        dbsf BigDfdimbl.ROUND_HALF_DOWN:
+            rfturn HALF_DOWN;
+
+        dbsf BigDfdimbl.ROUND_HALF_EVEN:
+            rfturn HALF_EVEN;
+
+        dbsf BigDfdimbl.ROUND_UNNECESSARY:
+            rfturn UNNECESSARY;
+
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("brgumfnt out of rbngf");
+        }
+    }
+}

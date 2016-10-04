@@ -1,2237 +1,2237 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.math;
+pbdkbgf jbvb.mbti;
 
 /**
- * A class used to represent multiprecision integers that makes efficient
- * use of allocated space by allowing a number to occupy only part of
- * an array so that the arrays do not have to be reallocated as often.
- * When performing an operation with many iterations the array used to
- * hold a number is only reallocated when necessary and does not have to
- * be the same size as the number it represents. A mutable number allows
- * calculations to occur on the same number without having to create
- * a new number for every step of the calculation as occurs with
- * BigIntegers.
+ * A dlbss usfd to rfprfsfnt multiprfdision intfgfrs tibt mbkfs fffidifnt
+ * usf of bllodbtfd spbdf by bllowing b numbfr to oddupy only pbrt of
+ * bn brrby so tibt tif brrbys do not ibvf to bf rfbllodbtfd bs oftfn.
+ * Wifn pfrforming bn opfrbtion witi mbny itfrbtions tif brrby usfd to
+ * iold b numbfr is only rfbllodbtfd wifn nfdfssbry bnd dofs not ibvf to
+ * bf tif sbmf sizf bs tif numbfr it rfprfsfnts. A mutbblf numbfr bllows
+ * dbldulbtions to oddur on tif sbmf numbfr witiout ibving to drfbtf
+ * b nfw numbfr for fvfry stfp of tif dbldulbtion bs oddurs witi
+ * BigIntfgfrs.
  *
- * @see     BigInteger
- * @author  Michael McCloskey
- * @author  Timothy Buktu
- * @since   1.3
+ * @sff     BigIntfgfr
+ * @butior  Midibfl MdCloskfy
+ * @butior  Timotiy Buktu
+ * @sindf   1.3
  */
 
-import static java.math.BigDecimal.INFLATED;
-import static java.math.BigInteger.LONG_MASK;
-import java.util.Arrays;
+import stbtid jbvb.mbti.BigDfdimbl.INFLATED;
+import stbtid jbvb.mbti.BigIntfgfr.LONG_MASK;
+import jbvb.util.Arrbys;
 
-class MutableBigInteger {
+dlbss MutbblfBigIntfgfr {
     /**
-     * Holds the magnitude of this MutableBigInteger in big endian order.
-     * The magnitude may start at an offset into the value array, and it may
-     * end before the length of the value array.
+     * Holds tif mbgnitudf of tiis MutbblfBigIntfgfr in big fndibn ordfr.
+     * Tif mbgnitudf mby stbrt bt bn offsft into tif vbluf brrby, bnd it mby
+     * fnd bfforf tif lfngti of tif vbluf brrby.
      */
-    int[] value;
+    int[] vbluf;
 
     /**
-     * The number of ints of the value array that are currently used
-     * to hold the magnitude of this MutableBigInteger. The magnitude starts
-     * at an offset and offset + intLen may be less than value.length.
+     * Tif numbfr of ints of tif vbluf brrby tibt brf durrfntly usfd
+     * to iold tif mbgnitudf of tiis MutbblfBigIntfgfr. Tif mbgnitudf stbrts
+     * bt bn offsft bnd offsft + intLfn mby bf lfss tibn vbluf.lfngti.
      */
-    int intLen;
+    int intLfn;
 
     /**
-     * The offset into the value array where the magnitude of this
-     * MutableBigInteger begins.
+     * Tif offsft into tif vbluf brrby wifrf tif mbgnitudf of tiis
+     * MutbblfBigIntfgfr bfgins.
      */
-    int offset = 0;
+    int offsft = 0;
 
-    // Constants
+    // Constbnts
     /**
-     * MutableBigInteger with one element value array with the value 1. Used by
-     * BigDecimal divideAndRound to increment the quotient. Use this constant
-     * only when the method is not going to modify this object.
+     * MutbblfBigIntfgfr witi onf flfmfnt vbluf brrby witi tif vbluf 1. Usfd by
+     * BigDfdimbl dividfAndRound to indrfmfnt tif quotifnt. Usf tiis donstbnt
+     * only wifn tif mftiod is not going to modify tiis objfdt.
      */
-    static final MutableBigInteger ONE = new MutableBigInteger(1);
+    stbtid finbl MutbblfBigIntfgfr ONE = nfw MutbblfBigIntfgfr(1);
 
     /**
-     * The minimum {@code intLen} for cancelling powers of two before
+     * Tif minimum {@dodf intLfn} for dbndflling powfrs of two bfforf
      * dividing.
-     * If the number of ints is less than this threshold,
-     * {@code divideKnuth} does not eliminate common powers of two from
-     * the dividend and divisor.
+     * If tif numbfr of ints is lfss tibn tiis tirfsiold,
+     * {@dodf dividfKnuti} dofs not fliminbtf dommon powfrs of two from
+     * tif dividfnd bnd divisor.
      */
-    static final int KNUTH_POW2_THRESH_LEN = 6;
+    stbtid finbl int KNUTH_POW2_THRESH_LEN = 6;
 
     /**
-     * The minimum number of trailing zero ints for cancelling powers of two
-     * before dividing.
-     * If the dividend and divisor don't share at least this many zero ints
-     * at the end, {@code divideKnuth} does not eliminate common powers
-     * of two from the dividend and divisor.
+     * Tif minimum numbfr of trbiling zfro ints for dbndflling powfrs of two
+     * bfforf dividing.
+     * If tif dividfnd bnd divisor don't sibrf bt lfbst tiis mbny zfro ints
+     * bt tif fnd, {@dodf dividfKnuti} dofs not fliminbtf dommon powfrs
+     * of two from tif dividfnd bnd divisor.
      */
-    static final int KNUTH_POW2_THRESH_ZEROS = 3;
+    stbtid finbl int KNUTH_POW2_THRESH_ZEROS = 3;
 
-    // Constructors
+    // Construdtors
 
     /**
-     * The default constructor. An empty MutableBigInteger is created with
-     * a one word capacity.
+     * Tif dffbult donstrudtor. An fmpty MutbblfBigIntfgfr is drfbtfd witi
+     * b onf word dbpbdity.
      */
-    MutableBigInteger() {
-        value = new int[1];
-        intLen = 0;
+    MutbblfBigIntfgfr() {
+        vbluf = nfw int[1];
+        intLfn = 0;
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude specified by
-     * the int val.
+     * Construdt b nfw MutbblfBigIntfgfr witi b mbgnitudf spfdififd by
+     * tif int vbl.
      */
-    MutableBigInteger(int val) {
-        value = new int[1];
-        intLen = 1;
-        value[0] = val;
+    MutbblfBigIntfgfr(int vbl) {
+        vbluf = nfw int[1];
+        intLfn = 1;
+        vbluf[0] = vbl;
     }
 
     /**
-     * Construct a new MutableBigInteger with the specified value array
-     * up to the length of the array supplied.
+     * Construdt b nfw MutbblfBigIntfgfr witi tif spfdififd vbluf brrby
+     * up to tif lfngti of tif brrby supplifd.
      */
-    MutableBigInteger(int[] val) {
-        value = val;
-        intLen = val.length;
+    MutbblfBigIntfgfr(int[] vbl) {
+        vbluf = vbl;
+        intLfn = vbl.lfngti;
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude equal to the
-     * specified BigInteger.
+     * Construdt b nfw MutbblfBigIntfgfr witi b mbgnitudf fqubl to tif
+     * spfdififd BigIntfgfr.
      */
-    MutableBigInteger(BigInteger b) {
-        intLen = b.mag.length;
-        value = Arrays.copyOf(b.mag, intLen);
+    MutbblfBigIntfgfr(BigIntfgfr b) {
+        intLfn = b.mbg.lfngti;
+        vbluf = Arrbys.dopyOf(b.mbg, intLfn);
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude equal to the
-     * specified MutableBigInteger.
+     * Construdt b nfw MutbblfBigIntfgfr witi b mbgnitudf fqubl to tif
+     * spfdififd MutbblfBigIntfgfr.
      */
-    MutableBigInteger(MutableBigInteger val) {
-        intLen = val.intLen;
-        value = Arrays.copyOfRange(val.value, val.offset, val.offset + intLen);
+    MutbblfBigIntfgfr(MutbblfBigIntfgfr vbl) {
+        intLfn = vbl.intLfn;
+        vbluf = Arrbys.dopyOfRbngf(vbl.vbluf, vbl.offsft, vbl.offsft + intLfn);
     }
 
     /**
-     * Makes this number an {@code n}-int number all of whose bits are ones.
-     * Used by Burnikel-Ziegler division.
-     * @param n number of ints in the {@code value} array
-     * @return a number equal to {@code ((1<<(32*n)))-1}
+     * Mbkfs tiis numbfr bn {@dodf n}-int numbfr bll of wiosf bits brf onfs.
+     * Usfd by Burnikfl-Zifglfr division.
+     * @pbrbm n numbfr of ints in tif {@dodf vbluf} brrby
+     * @rfturn b numbfr fqubl to {@dodf ((1<<(32*n)))-1}
      */
-    private void ones(int n) {
-        if (n > value.length)
-            value = new int[n];
-        Arrays.fill(value, -1);
-        offset = 0;
-        intLen = n;
+    privbtf void onfs(int n) {
+        if (n > vbluf.lfngti)
+            vbluf = nfw int[n];
+        Arrbys.fill(vbluf, -1);
+        offsft = 0;
+        intLfn = n;
     }
 
     /**
-     * Internal helper method to return the magnitude array. The caller is not
-     * supposed to modify the returned array.
+     * Intfrnbl iflpfr mftiod to rfturn tif mbgnitudf brrby. Tif dbllfr is not
+     * supposfd to modify tif rfturnfd brrby.
      */
-    private int[] getMagnitudeArray() {
-        if (offset > 0 || value.length != intLen)
-            return Arrays.copyOfRange(value, offset, offset + intLen);
-        return value;
+    privbtf int[] gftMbgnitudfArrby() {
+        if (offsft > 0 || vbluf.lfngti != intLfn)
+            rfturn Arrbys.dopyOfRbngf(vbluf, offsft, offsft + intLfn);
+        rfturn vbluf;
     }
 
     /**
-     * Convert this MutableBigInteger to a long value. The caller has to make
-     * sure this MutableBigInteger can be fit into long.
+     * Convfrt tiis MutbblfBigIntfgfr to b long vbluf. Tif dbllfr ibs to mbkf
+     * surf tiis MutbblfBigIntfgfr dbn bf fit into long.
      */
-    private long toLong() {
-        assert (intLen <= 2) : "this MutableBigInteger exceeds the range of long";
-        if (intLen == 0)
-            return 0;
-        long d = value[offset] & LONG_MASK;
-        return (intLen == 2) ? d << 32 | (value[offset + 1] & LONG_MASK) : d;
+    privbtf long toLong() {
+        bssfrt (intLfn <= 2) : "tiis MutbblfBigIntfgfr fxdffds tif rbngf of long";
+        if (intLfn == 0)
+            rfturn 0;
+        long d = vbluf[offsft] & LONG_MASK;
+        rfturn (intLfn == 2) ? d << 32 | (vbluf[offsft + 1] & LONG_MASK) : d;
     }
 
     /**
-     * Convert this MutableBigInteger to a BigInteger object.
+     * Convfrt tiis MutbblfBigIntfgfr to b BigIntfgfr objfdt.
      */
-    BigInteger toBigInteger(int sign) {
-        if (intLen == 0 || sign == 0)
-            return BigInteger.ZERO;
-        return new BigInteger(getMagnitudeArray(), sign);
+    BigIntfgfr toBigIntfgfr(int sign) {
+        if (intLfn == 0 || sign == 0)
+            rfturn BigIntfgfr.ZERO;
+        rfturn nfw BigIntfgfr(gftMbgnitudfArrby(), sign);
     }
 
     /**
-     * Converts this number to a nonnegative {@code BigInteger}.
+     * Convfrts tiis numbfr to b nonnfgbtivf {@dodf BigIntfgfr}.
      */
-    BigInteger toBigInteger() {
-        normalize();
-        return toBigInteger(isZero() ? 0 : 1);
+    BigIntfgfr toBigIntfgfr() {
+        normblizf();
+        rfturn toBigIntfgfr(isZfro() ? 0 : 1);
     }
 
     /**
-     * Convert this MutableBigInteger to BigDecimal object with the specified sign
-     * and scale.
+     * Convfrt tiis MutbblfBigIntfgfr to BigDfdimbl objfdt witi tif spfdififd sign
+     * bnd sdblf.
      */
-    BigDecimal toBigDecimal(int sign, int scale) {
-        if (intLen == 0 || sign == 0)
-            return BigDecimal.zeroValueOf(scale);
-        int[] mag = getMagnitudeArray();
-        int len = mag.length;
-        int d = mag[0];
-        // If this MutableBigInteger can't be fit into long, we need to
-        // make a BigInteger object for the resultant BigDecimal object.
-        if (len > 2 || (d < 0 && len == 2))
-            return new BigDecimal(new BigInteger(mag, sign), INFLATED, scale, 0);
-        long v = (len == 2) ?
-            ((mag[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
+    BigDfdimbl toBigDfdimbl(int sign, int sdblf) {
+        if (intLfn == 0 || sign == 0)
+            rfturn BigDfdimbl.zfroVblufOf(sdblf);
+        int[] mbg = gftMbgnitudfArrby();
+        int lfn = mbg.lfngti;
+        int d = mbg[0];
+        // If tiis MutbblfBigIntfgfr dbn't bf fit into long, wf nffd to
+        // mbkf b BigIntfgfr objfdt for tif rfsultbnt BigDfdimbl objfdt.
+        if (lfn > 2 || (d < 0 && lfn == 2))
+            rfturn nfw BigDfdimbl(nfw BigIntfgfr(mbg, sign), INFLATED, sdblf, 0);
+        long v = (lfn == 2) ?
+            ((mbg[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
             d & LONG_MASK;
-        return BigDecimal.valueOf(sign == -1 ? -v : v, scale);
+        rfturn BigDfdimbl.vblufOf(sign == -1 ? -v : v, sdblf);
     }
 
     /**
-     * This is for internal use in converting from a MutableBigInteger
-     * object into a long value given a specified sign.
-     * returns INFLATED if value is not fit into long
+     * Tiis is for intfrnbl usf in donvfrting from b MutbblfBigIntfgfr
+     * objfdt into b long vbluf givfn b spfdififd sign.
+     * rfturns INFLATED if vbluf is not fit into long
      */
-    long toCompactValue(int sign) {
-        if (intLen == 0 || sign == 0)
-            return 0L;
-        int[] mag = getMagnitudeArray();
-        int len = mag.length;
-        int d = mag[0];
-        // If this MutableBigInteger can not be fitted into long, we need to
-        // make a BigInteger object for the resultant BigDecimal object.
-        if (len > 2 || (d < 0 && len == 2))
-            return INFLATED;
-        long v = (len == 2) ?
-            ((mag[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
+    long toCompbdtVbluf(int sign) {
+        if (intLfn == 0 || sign == 0)
+            rfturn 0L;
+        int[] mbg = gftMbgnitudfArrby();
+        int lfn = mbg.lfngti;
+        int d = mbg[0];
+        // If tiis MutbblfBigIntfgfr dbn not bf fittfd into long, wf nffd to
+        // mbkf b BigIntfgfr objfdt for tif rfsultbnt BigDfdimbl objfdt.
+        if (lfn > 2 || (d < 0 && lfn == 2))
+            rfturn INFLATED;
+        long v = (lfn == 2) ?
+            ((mbg[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
             d & LONG_MASK;
-        return sign == -1 ? -v : v;
+        rfturn sign == -1 ? -v : v;
     }
 
     /**
-     * Clear out a MutableBigInteger for reuse.
+     * Clfbr out b MutbblfBigIntfgfr for rfusf.
      */
-    void clear() {
-        offset = intLen = 0;
-        for (int index=0, n=value.length; index < n; index++)
-            value[index] = 0;
+    void dlfbr() {
+        offsft = intLfn = 0;
+        for (int indfx=0, n=vbluf.lfngti; indfx < n; indfx++)
+            vbluf[indfx] = 0;
     }
 
     /**
-     * Set a MutableBigInteger to zero, removing its offset.
+     * Sft b MutbblfBigIntfgfr to zfro, rfmoving its offsft.
      */
-    void reset() {
-        offset = intLen = 0;
+    void rfsft() {
+        offsft = intLfn = 0;
     }
 
     /**
-     * Compare the magnitude of two MutableBigIntegers. Returns -1, 0 or 1
-     * as this MutableBigInteger is numerically less than, equal to, or
-     * greater than <tt>b</tt>.
+     * Compbrf tif mbgnitudf of two MutbblfBigIntfgfrs. Rfturns -1, 0 or 1
+     * bs tiis MutbblfBigIntfgfr is numfridblly lfss tibn, fqubl to, or
+     * grfbtfr tibn <tt>b</tt>.
      */
-    final int compare(MutableBigInteger b) {
-        int blen = b.intLen;
-        if (intLen < blen)
-            return -1;
-        if (intLen > blen)
-           return 1;
+    finbl int dompbrf(MutbblfBigIntfgfr b) {
+        int blfn = b.intLfn;
+        if (intLfn < blfn)
+            rfturn -1;
+        if (intLfn > blfn)
+           rfturn 1;
 
-        // Add Integer.MIN_VALUE to make the comparison act as unsigned integer
-        // comparison.
-        int[] bval = b.value;
-        for (int i = offset, j = b.offset; i < intLen + offset; i++, j++) {
-            int b1 = value[i] + 0x80000000;
-            int b2 = bval[j]  + 0x80000000;
+        // Add Intfgfr.MIN_VALUE to mbkf tif dompbrison bdt bs unsignfd intfgfr
+        // dompbrison.
+        int[] bvbl = b.vbluf;
+        for (int i = offsft, j = b.offsft; i < intLfn + offsft; i++, j++) {
+            int b1 = vbluf[i] + 0x80000000;
+            int b2 = bvbl[j]  + 0x80000000;
             if (b1 < b2)
-                return -1;
+                rfturn -1;
             if (b1 > b2)
-                return 1;
+                rfturn 1;
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Returns a value equal to what {@code b.leftShift(32*ints); return compare(b);}
-     * would return, but doesn't change the value of {@code b}.
+     * Rfturns b vbluf fqubl to wibt {@dodf b.lfftSiift(32*ints); rfturn dompbrf(b);}
+     * would rfturn, but dofsn't dibngf tif vbluf of {@dodf b}.
      */
-    private int compareShifted(MutableBigInteger b, int ints) {
-        int blen = b.intLen;
-        int alen = intLen - ints;
-        if (alen < blen)
-            return -1;
-        if (alen > blen)
-           return 1;
+    privbtf int dompbrfSiiftfd(MutbblfBigIntfgfr b, int ints) {
+        int blfn = b.intLfn;
+        int blfn = intLfn - ints;
+        if (blfn < blfn)
+            rfturn -1;
+        if (blfn > blfn)
+           rfturn 1;
 
-        // Add Integer.MIN_VALUE to make the comparison act as unsigned integer
-        // comparison.
-        int[] bval = b.value;
-        for (int i = offset, j = b.offset; i < alen + offset; i++, j++) {
-            int b1 = value[i] + 0x80000000;
-            int b2 = bval[j]  + 0x80000000;
+        // Add Intfgfr.MIN_VALUE to mbkf tif dompbrison bdt bs unsignfd intfgfr
+        // dompbrison.
+        int[] bvbl = b.vbluf;
+        for (int i = offsft, j = b.offsft; i < blfn + offsft; i++, j++) {
+            int b1 = vbluf[i] + 0x80000000;
+            int b2 = bvbl[j]  + 0x80000000;
             if (b1 < b2)
-                return -1;
+                rfturn -1;
             if (b1 > b2)
-                return 1;
+                rfturn 1;
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Compare this against half of a MutableBigInteger object (Needed for
-     * remainder tests).
-     * Assumes no leading unnecessary zeros, which holds for results
-     * from divide().
+     * Compbrf tiis bgbinst iblf of b MutbblfBigIntfgfr objfdt (Nffdfd for
+     * rfmbindfr tfsts).
+     * Assumfs no lfbding unnfdfssbry zfros, wiidi iolds for rfsults
+     * from dividf().
      */
-    final int compareHalf(MutableBigInteger b) {
-        int blen = b.intLen;
-        int len = intLen;
-        if (len <= 0)
-            return blen <= 0 ? 0 : -1;
-        if (len > blen)
-            return 1;
-        if (len < blen - 1)
-            return -1;
-        int[] bval = b.value;
-        int bstart = 0;
-        int carry = 0;
-        // Only 2 cases left:len == blen or len == blen - 1
-        if (len != blen) { // len == blen - 1
-            if (bval[bstart] == 1) {
-                ++bstart;
-                carry = 0x80000000;
-            } else
-                return -1;
+    finbl int dompbrfHblf(MutbblfBigIntfgfr b) {
+        int blfn = b.intLfn;
+        int lfn = intLfn;
+        if (lfn <= 0)
+            rfturn blfn <= 0 ? 0 : -1;
+        if (lfn > blfn)
+            rfturn 1;
+        if (lfn < blfn - 1)
+            rfturn -1;
+        int[] bvbl = b.vbluf;
+        int bstbrt = 0;
+        int dbrry = 0;
+        // Only 2 dbsfs lfft:lfn == blfn or lfn == blfn - 1
+        if (lfn != blfn) { // lfn == blfn - 1
+            if (bvbl[bstbrt] == 1) {
+                ++bstbrt;
+                dbrry = 0x80000000;
+            } flsf
+                rfturn -1;
         }
-        // compare values with right-shifted values of b,
-        // carrying shifted-out bits across words
-        int[] val = value;
-        for (int i = offset, j = bstart; i < len + offset;) {
-            int bv = bval[j++];
-            long hb = ((bv >>> 1) + carry) & LONG_MASK;
-            long v = val[i++] & LONG_MASK;
-            if (v != hb)
-                return v < hb ? -1 : 1;
-            carry = (bv & 1) << 31; // carray will be either 0x80000000 or 0
+        // dompbrf vblufs witi rigit-siiftfd vblufs of b,
+        // dbrrying siiftfd-out bits bdross words
+        int[] vbl = vbluf;
+        for (int i = offsft, j = bstbrt; i < lfn + offsft;) {
+            int bv = bvbl[j++];
+            long ib = ((bv >>> 1) + dbrry) & LONG_MASK;
+            long v = vbl[i++] & LONG_MASK;
+            if (v != ib)
+                rfturn v < ib ? -1 : 1;
+            dbrry = (bv & 1) << 31; // dbrrby will bf fitifr 0x80000000 or 0
         }
-        return carry == 0 ? 0 : -1;
+        rfturn dbrry == 0 ? 0 : -1;
     }
 
     /**
-     * Return the index of the lowest set bit in this MutableBigInteger. If the
-     * magnitude of this MutableBigInteger is zero, -1 is returned.
+     * Rfturn tif indfx of tif lowfst sft bit in tiis MutbblfBigIntfgfr. If tif
+     * mbgnitudf of tiis MutbblfBigIntfgfr is zfro, -1 is rfturnfd.
      */
-    private final int getLowestSetBit() {
-        if (intLen == 0)
-            return -1;
+    privbtf finbl int gftLowfstSftBit() {
+        if (intLfn == 0)
+            rfturn -1;
         int j, b;
-        for (j=intLen-1; (j > 0) && (value[j+offset] == 0); j--)
+        for (j=intLfn-1; (j > 0) && (vbluf[j+offsft] == 0); j--)
             ;
-        b = value[j+offset];
+        b = vbluf[j+offsft];
         if (b == 0)
-            return -1;
-        return ((intLen-1-j)<<5) + Integer.numberOfTrailingZeros(b);
+            rfturn -1;
+        rfturn ((intLfn-1-j)<<5) + Intfgfr.numbfrOfTrbilingZfros(b);
     }
 
     /**
-     * Return the int in use in this MutableBigInteger at the specified
-     * index. This method is not used because it is not inlined on all
-     * platforms.
+     * Rfturn tif int in usf in tiis MutbblfBigIntfgfr bt tif spfdififd
+     * indfx. Tiis mftiod is not usfd bfdbusf it is not inlinfd on bll
+     * plbtforms.
      */
-    private final int getInt(int index) {
-        return value[offset+index];
+    privbtf finbl int gftInt(int indfx) {
+        rfturn vbluf[offsft+indfx];
     }
 
     /**
-     * Return a long which is equal to the unsigned value of the int in
-     * use in this MutableBigInteger at the specified index. This method is
-     * not used because it is not inlined on all platforms.
+     * Rfturn b long wiidi is fqubl to tif unsignfd vbluf of tif int in
+     * usf in tiis MutbblfBigIntfgfr bt tif spfdififd indfx. Tiis mftiod is
+     * not usfd bfdbusf it is not inlinfd on bll plbtforms.
      */
-    private final long getLong(int index) {
-        return value[offset+index] & LONG_MASK;
+    privbtf finbl long gftLong(int indfx) {
+        rfturn vbluf[offsft+indfx] & LONG_MASK;
     }
 
     /**
-     * Ensure that the MutableBigInteger is in normal form, specifically
-     * making sure that there are no leading zeros, and that if the
-     * magnitude is zero, then intLen is zero.
+     * Ensurf tibt tif MutbblfBigIntfgfr is in normbl form, spfdifidblly
+     * mbking surf tibt tifrf brf no lfbding zfros, bnd tibt if tif
+     * mbgnitudf is zfro, tifn intLfn is zfro.
      */
-    final void normalize() {
-        if (intLen == 0) {
-            offset = 0;
-            return;
+    finbl void normblizf() {
+        if (intLfn == 0) {
+            offsft = 0;
+            rfturn;
         }
 
-        int index = offset;
-        if (value[index] != 0)
-            return;
+        int indfx = offsft;
+        if (vbluf[indfx] != 0)
+            rfturn;
 
-        int indexBound = index+intLen;
+        int indfxBound = indfx+intLfn;
         do {
-            index++;
-        } while(index < indexBound && value[index] == 0);
+            indfx++;
+        } wiilf(indfx < indfxBound && vbluf[indfx] == 0);
 
-        int numZeros = index - offset;
-        intLen -= numZeros;
-        offset = (intLen == 0 ?  0 : offset+numZeros);
+        int numZfros = indfx - offsft;
+        intLfn -= numZfros;
+        offsft = (intLfn == 0 ?  0 : offsft+numZfros);
     }
 
     /**
-     * If this MutableBigInteger cannot hold len words, increase the size
-     * of the value array to len words.
+     * If tiis MutbblfBigIntfgfr dbnnot iold lfn words, indrfbsf tif sizf
+     * of tif vbluf brrby to lfn words.
      */
-    private final void ensureCapacity(int len) {
-        if (value.length < len) {
-            value = new int[len];
-            offset = 0;
-            intLen = len;
+    privbtf finbl void fnsurfCbpbdity(int lfn) {
+        if (vbluf.lfngti < lfn) {
+            vbluf = nfw int[lfn];
+            offsft = 0;
+            intLfn = lfn;
         }
     }
 
     /**
-     * Convert this MutableBigInteger into an int array with no leading
-     * zeros, of a length that is equal to this MutableBigInteger's intLen.
+     * Convfrt tiis MutbblfBigIntfgfr into bn int brrby witi no lfbding
+     * zfros, of b lfngti tibt is fqubl to tiis MutbblfBigIntfgfr's intLfn.
      */
-    int[] toIntArray() {
-        int[] result = new int[intLen];
-        for(int i=0; i < intLen; i++)
-            result[i] = value[offset+i];
-        return result;
+    int[] toIntArrby() {
+        int[] rfsult = nfw int[intLfn];
+        for(int i=0; i < intLfn; i++)
+            rfsult[i] = vbluf[offsft+i];
+        rfturn rfsult;
     }
 
     /**
-     * Sets the int at index+offset in this MutableBigInteger to val.
-     * This does not get inlined on all platforms so it is not used
-     * as often as originally intended.
+     * Sfts tif int bt indfx+offsft in tiis MutbblfBigIntfgfr to vbl.
+     * Tiis dofs not gft inlinfd on bll plbtforms so it is not usfd
+     * bs oftfn bs originblly intfndfd.
      */
-    void setInt(int index, int val) {
-        value[offset + index] = val;
+    void sftInt(int indfx, int vbl) {
+        vbluf[offsft + indfx] = vbl;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to the specified array.
-     * The intLen is set to the specified length.
+     * Sfts tiis MutbblfBigIntfgfr's vbluf brrby to tif spfdififd brrby.
+     * Tif intLfn is sft to tif spfdififd lfngti.
      */
-    void setValue(int[] val, int length) {
-        value = val;
-        intLen = length;
-        offset = 0;
+    void sftVbluf(int[] vbl, int lfngti) {
+        vbluf = vbl;
+        intLfn = lfngti;
+        offsft = 0;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to a copy of the specified
-     * array. The intLen is set to the length of the new array.
+     * Sfts tiis MutbblfBigIntfgfr's vbluf brrby to b dopy of tif spfdififd
+     * brrby. Tif intLfn is sft to tif lfngti of tif nfw brrby.
      */
-    void copyValue(MutableBigInteger src) {
-        int len = src.intLen;
-        if (value.length < len)
-            value = new int[len];
-        System.arraycopy(src.value, src.offset, value, 0, len);
-        intLen = len;
-        offset = 0;
+    void dopyVbluf(MutbblfBigIntfgfr srd) {
+        int lfn = srd.intLfn;
+        if (vbluf.lfngti < lfn)
+            vbluf = nfw int[lfn];
+        Systfm.brrbydopy(srd.vbluf, srd.offsft, vbluf, 0, lfn);
+        intLfn = lfn;
+        offsft = 0;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to a copy of the specified
-     * array. The intLen is set to the length of the specified array.
+     * Sfts tiis MutbblfBigIntfgfr's vbluf brrby to b dopy of tif spfdififd
+     * brrby. Tif intLfn is sft to tif lfngti of tif spfdififd brrby.
      */
-    void copyValue(int[] val) {
-        int len = val.length;
-        if (value.length < len)
-            value = new int[len];
-        System.arraycopy(val, 0, value, 0, len);
-        intLen = len;
-        offset = 0;
+    void dopyVbluf(int[] vbl) {
+        int lfn = vbl.lfngti;
+        if (vbluf.lfngti < lfn)
+            vbluf = nfw int[lfn];
+        Systfm.brrbydopy(vbl, 0, vbluf, 0, lfn);
+        intLfn = lfn;
+        offsft = 0;
     }
 
     /**
-     * Returns true iff this MutableBigInteger has a value of one.
+     * Rfturns truf iff tiis MutbblfBigIntfgfr ibs b vbluf of onf.
      */
-    boolean isOne() {
-        return (intLen == 1) && (value[offset] == 1);
+    boolfbn isOnf() {
+        rfturn (intLfn == 1) && (vbluf[offsft] == 1);
     }
 
     /**
-     * Returns true iff this MutableBigInteger has a value of zero.
+     * Rfturns truf iff tiis MutbblfBigIntfgfr ibs b vbluf of zfro.
      */
-    boolean isZero() {
-        return (intLen == 0);
+    boolfbn isZfro() {
+        rfturn (intLfn == 0);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is even.
+     * Rfturns truf iff tiis MutbblfBigIntfgfr is fvfn.
      */
-    boolean isEven() {
-        return (intLen == 0) || ((value[offset + intLen - 1] & 1) == 0);
+    boolfbn isEvfn() {
+        rfturn (intLfn == 0) || ((vbluf[offsft + intLfn - 1] & 1) == 0);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is odd.
+     * Rfturns truf iff tiis MutbblfBigIntfgfr is odd.
      */
-    boolean isOdd() {
-        return isZero() ? false : ((value[offset + intLen - 1] & 1) == 1);
+    boolfbn isOdd() {
+        rfturn isZfro() ? fblsf : ((vbluf[offsft + intLfn - 1] & 1) == 1);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is in normal form. A
-     * MutableBigInteger is in normal form if it has no leading zeros
-     * after the offset, and intLen + offset <= value.length.
+     * Rfturns truf iff tiis MutbblfBigIntfgfr is in normbl form. A
+     * MutbblfBigIntfgfr is in normbl form if it ibs no lfbding zfros
+     * bftfr tif offsft, bnd intLfn + offsft <= vbluf.lfngti.
      */
-    boolean isNormal() {
-        if (intLen + offset > value.length)
-            return false;
-        if (intLen == 0)
-            return true;
-        return (value[offset] != 0);
+    boolfbn isNormbl() {
+        if (intLfn + offsft > vbluf.lfngti)
+            rfturn fblsf;
+        if (intLfn == 0)
+            rfturn truf;
+        rfturn (vbluf[offsft] != 0);
     }
 
     /**
-     * Returns a String representation of this MutableBigInteger in radix 10.
+     * Rfturns b String rfprfsfntbtion of tiis MutbblfBigIntfgfr in rbdix 10.
      */
-    public String toString() {
-        BigInteger b = toBigInteger(1);
-        return b.toString();
+    publid String toString() {
+        BigIntfgfr b = toBigIntfgfr(1);
+        rfturn b.toString();
     }
 
     /**
-     * Like {@link #rightShift(int)} but {@code n} can be greater than the length of the number.
+     * Likf {@link #rigitSiift(int)} but {@dodf n} dbn bf grfbtfr tibn tif lfngti of tif numbfr.
      */
-    void safeRightShift(int n) {
-        if (n/32 >= intLen) {
-            reset();
-        } else {
-            rightShift(n);
+    void sbffRigitSiift(int n) {
+        if (n/32 >= intLfn) {
+            rfsft();
+        } flsf {
+            rigitSiift(n);
         }
     }
 
     /**
-     * Right shift this MutableBigInteger n bits. The MutableBigInteger is left
-     * in normal form.
+     * Rigit siift tiis MutbblfBigIntfgfr n bits. Tif MutbblfBigIntfgfr is lfft
+     * in normbl form.
      */
-    void rightShift(int n) {
-        if (intLen == 0)
-            return;
+    void rigitSiift(int n) {
+        if (intLfn == 0)
+            rfturn;
         int nInts = n >>> 5;
         int nBits = n & 0x1F;
-        this.intLen -= nInts;
+        tiis.intLfn -= nInts;
         if (nBits == 0)
-            return;
-        int bitsInHighWord = BigInteger.bitLengthForInt(value[offset]);
-        if (nBits >= bitsInHighWord) {
-            this.primitiveLeftShift(32 - nBits);
-            this.intLen--;
-        } else {
-            primitiveRightShift(nBits);
+            rfturn;
+        int bitsInHigiWord = BigIntfgfr.bitLfngtiForInt(vbluf[offsft]);
+        if (nBits >= bitsInHigiWord) {
+            tiis.primitivfLfftSiift(32 - nBits);
+            tiis.intLfn--;
+        } flsf {
+            primitivfRigitSiift(nBits);
         }
     }
 
     /**
-     * Like {@link #leftShift(int)} but {@code n} can be zero.
+     * Likf {@link #lfftSiift(int)} but {@dodf n} dbn bf zfro.
      */
-    void safeLeftShift(int n) {
+    void sbffLfftSiift(int n) {
         if (n > 0) {
-            leftShift(n);
+            lfftSiift(n);
         }
     }
 
     /**
-     * Left shift this MutableBigInteger n bits.
+     * Lfft siift tiis MutbblfBigIntfgfr n bits.
      */
-    void leftShift(int n) {
+    void lfftSiift(int n) {
         /*
-         * If there is enough storage space in this MutableBigInteger already
-         * the available space will be used. Space to the right of the used
-         * ints in the value array is faster to utilize, so the extra space
-         * will be taken from the right if possible.
+         * If tifrf is fnougi storbgf spbdf in tiis MutbblfBigIntfgfr blrfbdy
+         * tif bvbilbblf spbdf will bf usfd. Spbdf to tif rigit of tif usfd
+         * ints in tif vbluf brrby is fbstfr to utilizf, so tif fxtrb spbdf
+         * will bf tbkfn from tif rigit if possiblf.
          */
-        if (intLen == 0)
-           return;
+        if (intLfn == 0)
+           rfturn;
         int nInts = n >>> 5;
         int nBits = n&0x1F;
-        int bitsInHighWord = BigInteger.bitLengthForInt(value[offset]);
+        int bitsInHigiWord = BigIntfgfr.bitLfngtiForInt(vbluf[offsft]);
 
-        // If shift can be done without moving words, do so
-        if (n <= (32-bitsInHighWord)) {
-            primitiveLeftShift(nBits);
-            return;
+        // If siift dbn bf donf witiout moving words, do so
+        if (n <= (32-bitsInHigiWord)) {
+            primitivfLfftSiift(nBits);
+            rfturn;
         }
 
-        int newLen = intLen + nInts +1;
-        if (nBits <= (32-bitsInHighWord))
-            newLen--;
-        if (value.length < newLen) {
-            // The array must grow
-            int[] result = new int[newLen];
-            for (int i=0; i < intLen; i++)
-                result[i] = value[offset+i];
-            setValue(result, newLen);
-        } else if (value.length - offset >= newLen) {
-            // Use space on right
-            for(int i=0; i < newLen - intLen; i++)
-                value[offset+intLen+i] = 0;
-        } else {
-            // Must use space on left
-            for (int i=0; i < intLen; i++)
-                value[i] = value[offset+i];
-            for (int i=intLen; i < newLen; i++)
-                value[i] = 0;
-            offset = 0;
+        int nfwLfn = intLfn + nInts +1;
+        if (nBits <= (32-bitsInHigiWord))
+            nfwLfn--;
+        if (vbluf.lfngti < nfwLfn) {
+            // Tif brrby must grow
+            int[] rfsult = nfw int[nfwLfn];
+            for (int i=0; i < intLfn; i++)
+                rfsult[i] = vbluf[offsft+i];
+            sftVbluf(rfsult, nfwLfn);
+        } flsf if (vbluf.lfngti - offsft >= nfwLfn) {
+            // Usf spbdf on rigit
+            for(int i=0; i < nfwLfn - intLfn; i++)
+                vbluf[offsft+intLfn+i] = 0;
+        } flsf {
+            // Must usf spbdf on lfft
+            for (int i=0; i < intLfn; i++)
+                vbluf[i] = vbluf[offsft+i];
+            for (int i=intLfn; i < nfwLfn; i++)
+                vbluf[i] = 0;
+            offsft = 0;
         }
-        intLen = newLen;
+        intLfn = nfwLfn;
         if (nBits == 0)
-            return;
-        if (nBits <= (32-bitsInHighWord))
-            primitiveLeftShift(nBits);
-        else
-            primitiveRightShift(32 -nBits);
+            rfturn;
+        if (nBits <= (32-bitsInHigiWord))
+            primitivfLfftSiift(nBits);
+        flsf
+            primitivfRigitSiift(32 -nBits);
     }
 
     /**
-     * A primitive used for division. This method adds in one multiple of the
-     * divisor a back to the dividend result at a specified offset. It is used
-     * when qhat was estimated too large, and must be adjusted.
+     * A primitivf usfd for division. Tiis mftiod bdds in onf multiplf of tif
+     * divisor b bbdk to tif dividfnd rfsult bt b spfdififd offsft. It is usfd
+     * wifn qibt wbs fstimbtfd too lbrgf, bnd must bf bdjustfd.
      */
-    private int divadd(int[] a, int[] result, int offset) {
-        long carry = 0;
+    privbtf int divbdd(int[] b, int[] rfsult, int offsft) {
+        long dbrry = 0;
 
-        for (int j=a.length-1; j >= 0; j--) {
-            long sum = (a[j] & LONG_MASK) +
-                       (result[j+offset] & LONG_MASK) + carry;
-            result[j+offset] = (int)sum;
-            carry = sum >>> 32;
+        for (int j=b.lfngti-1; j >= 0; j--) {
+            long sum = (b[j] & LONG_MASK) +
+                       (rfsult[j+offsft] & LONG_MASK) + dbrry;
+            rfsult[j+offsft] = (int)sum;
+            dbrry = sum >>> 32;
         }
-        return (int)carry;
+        rfturn (int)dbrry;
     }
 
     /**
-     * This method is used for division. It multiplies an n word input a by one
-     * word input x, and subtracts the n word product from q. This is needed
-     * when subtracting qhat*divisor from dividend.
+     * Tiis mftiod is usfd for division. It multiplifs bn n word input b by onf
+     * word input x, bnd subtrbdts tif n word produdt from q. Tiis is nffdfd
+     * wifn subtrbdting qibt*divisor from dividfnd.
      */
-    private int mulsub(int[] q, int[] a, int x, int len, int offset) {
+    privbtf int mulsub(int[] q, int[] b, int x, int lfn, int offsft) {
         long xLong = x & LONG_MASK;
-        long carry = 0;
-        offset += len;
+        long dbrry = 0;
+        offsft += lfn;
 
-        for (int j=len-1; j >= 0; j--) {
-            long product = (a[j] & LONG_MASK) * xLong + carry;
-            long difference = q[offset] - product;
-            q[offset--] = (int)difference;
-            carry = (product >>> 32)
-                     + (((difference & LONG_MASK) >
-                         (((~(int)product) & LONG_MASK))) ? 1:0);
+        for (int j=lfn-1; j >= 0; j--) {
+            long produdt = (b[j] & LONG_MASK) * xLong + dbrry;
+            long difffrfndf = q[offsft] - produdt;
+            q[offsft--] = (int)difffrfndf;
+            dbrry = (produdt >>> 32)
+                     + (((difffrfndf & LONG_MASK) >
+                         (((~(int)produdt) & LONG_MASK))) ? 1:0);
         }
-        return (int)carry;
+        rfturn (int)dbrry;
     }
 
     /**
-     * The method is the same as mulsun, except the fact that q array is not
-     * updated, the only result of the method is borrow flag.
+     * Tif mftiod is tif sbmf bs mulsun, fxdfpt tif fbdt tibt q brrby is not
+     * updbtfd, tif only rfsult of tif mftiod is borrow flbg.
      */
-    private int mulsubBorrow(int[] q, int[] a, int x, int len, int offset) {
+    privbtf int mulsubBorrow(int[] q, int[] b, int x, int lfn, int offsft) {
         long xLong = x & LONG_MASK;
-        long carry = 0;
-        offset += len;
-        for (int j=len-1; j >= 0; j--) {
-            long product = (a[j] & LONG_MASK) * xLong + carry;
-            long difference = q[offset--] - product;
-            carry = (product >>> 32)
-                     + (((difference & LONG_MASK) >
-                         (((~(int)product) & LONG_MASK))) ? 1:0);
+        long dbrry = 0;
+        offsft += lfn;
+        for (int j=lfn-1; j >= 0; j--) {
+            long produdt = (b[j] & LONG_MASK) * xLong + dbrry;
+            long difffrfndf = q[offsft--] - produdt;
+            dbrry = (produdt >>> 32)
+                     + (((difffrfndf & LONG_MASK) >
+                         (((~(int)produdt) & LONG_MASK))) ? 1:0);
         }
-        return (int)carry;
+        rfturn (int)dbrry;
     }
 
     /**
-     * Right shift this MutableBigInteger n bits, where n is
-     * less than 32.
-     * Assumes that intLen > 0, n > 0 for speed
+     * Rigit siift tiis MutbblfBigIntfgfr n bits, wifrf n is
+     * lfss tibn 32.
+     * Assumfs tibt intLfn > 0, n > 0 for spffd
      */
-    private final void primitiveRightShift(int n) {
-        int[] val = value;
+    privbtf finbl void primitivfRigitSiift(int n) {
+        int[] vbl = vbluf;
         int n2 = 32 - n;
-        for (int i=offset+intLen-1, c=val[i]; i > offset; i--) {
-            int b = c;
-            c = val[i-1];
-            val[i] = (c << n2) | (b >>> n);
+        for (int i=offsft+intLfn-1, d=vbl[i]; i > offsft; i--) {
+            int b = d;
+            d = vbl[i-1];
+            vbl[i] = (d << n2) | (b >>> n);
         }
-        val[offset] >>>= n;
+        vbl[offsft] >>>= n;
     }
 
     /**
-     * Left shift this MutableBigInteger n bits, where n is
-     * less than 32.
-     * Assumes that intLen > 0, n > 0 for speed
+     * Lfft siift tiis MutbblfBigIntfgfr n bits, wifrf n is
+     * lfss tibn 32.
+     * Assumfs tibt intLfn > 0, n > 0 for spffd
      */
-    private final void primitiveLeftShift(int n) {
-        int[] val = value;
+    privbtf finbl void primitivfLfftSiift(int n) {
+        int[] vbl = vbluf;
         int n2 = 32 - n;
-        for (int i=offset, c=val[i], m=i+intLen-1; i < m; i++) {
-            int b = c;
-            c = val[i+1];
-            val[i] = (b << n) | (c >>> n2);
+        for (int i=offsft, d=vbl[i], m=i+intLfn-1; i < m; i++) {
+            int b = d;
+            d = vbl[i+1];
+            vbl[i] = (b << n) | (d >>> n2);
         }
-        val[offset+intLen-1] <<= n;
+        vbl[offsft+intLfn-1] <<= n;
     }
 
     /**
-     * Returns a {@code BigInteger} equal to the {@code n}
-     * low ints of this number.
+     * Rfturns b {@dodf BigIntfgfr} fqubl to tif {@dodf n}
+     * low ints of tiis numbfr.
      */
-    private BigInteger getLower(int n) {
-        if (isZero()) {
-            return BigInteger.ZERO;
-        } else if (intLen < n) {
-            return toBigInteger(1);
-        } else {
-            // strip zeros
-            int len = n;
-            while (len > 0 && value[offset+intLen-len] == 0)
-                len--;
-            int sign = len > 0 ? 1 : 0;
-            return new BigInteger(Arrays.copyOfRange(value, offset+intLen-len, offset+intLen), sign);
-        }
-    }
-
-    /**
-     * Discards all ints whose index is greater than {@code n}.
-     */
-    private void keepLower(int n) {
-        if (intLen >= n) {
-            offset += intLen - n;
-            intLen = n;
+    privbtf BigIntfgfr gftLowfr(int n) {
+        if (isZfro()) {
+            rfturn BigIntfgfr.ZERO;
+        } flsf if (intLfn < n) {
+            rfturn toBigIntfgfr(1);
+        } flsf {
+            // strip zfros
+            int lfn = n;
+            wiilf (lfn > 0 && vbluf[offsft+intLfn-lfn] == 0)
+                lfn--;
+            int sign = lfn > 0 ? 1 : 0;
+            rfturn nfw BigIntfgfr(Arrbys.dopyOfRbngf(vbluf, offsft+intLfn-lfn, offsft+intLfn), sign);
         }
     }
 
     /**
-     * Adds the contents of two MutableBigInteger objects.The result
-     * is placed within this MutableBigInteger.
-     * The contents of the addend are not changed.
+     * Disdbrds bll ints wiosf indfx is grfbtfr tibn {@dodf n}.
      */
-    void add(MutableBigInteger addend) {
-        int x = intLen;
-        int y = addend.intLen;
-        int resultLen = (intLen > addend.intLen ? intLen : addend.intLen);
-        int[] result = (value.length < resultLen ? new int[resultLen] : value);
+    privbtf void kffpLowfr(int n) {
+        if (intLfn >= n) {
+            offsft += intLfn - n;
+            intLfn = n;
+        }
+    }
 
-        int rstart = result.length-1;
+    /**
+     * Adds tif dontfnts of two MutbblfBigIntfgfr objfdts.Tif rfsult
+     * is plbdfd witiin tiis MutbblfBigIntfgfr.
+     * Tif dontfnts of tif bddfnd brf not dibngfd.
+     */
+    void bdd(MutbblfBigIntfgfr bddfnd) {
+        int x = intLfn;
+        int y = bddfnd.intLfn;
+        int rfsultLfn = (intLfn > bddfnd.intLfn ? intLfn : bddfnd.intLfn);
+        int[] rfsult = (vbluf.lfngti < rfsultLfn ? nfw int[rfsultLfn] : vbluf);
+
+        int rstbrt = rfsult.lfngti-1;
         long sum;
-        long carry = 0;
+        long dbrry = 0;
 
-        // Add common parts of both numbers
-        while(x > 0 && y > 0) {
+        // Add dommon pbrts of boti numbfrs
+        wiilf(x > 0 && y > 0) {
             x--; y--;
-            sum = (value[x+offset] & LONG_MASK) +
-                (addend.value[y+addend.offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (vbluf[x+offsft] & LONG_MASK) +
+                (bddfnd.vbluf[y+bddfnd.offsft] & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
 
-        // Add remainder of the longer number
-        while(x > 0) {
+        // Add rfmbindfr of tif longfr numbfr
+        wiilf(x > 0) {
             x--;
-            if (carry == 0 && result == value && rstart == (x + offset))
-                return;
-            sum = (value[x+offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            if (dbrry == 0 && rfsult == vbluf && rstbrt == (x + offsft))
+                rfturn;
+            sum = (vbluf[x+offsft] & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
-        while(y > 0) {
+        wiilf(y > 0) {
             y--;
-            sum = (addend.value[y+addend.offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (bddfnd.vbluf[y+bddfnd.offsft] & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
 
-        if (carry > 0) { // Result must grow in length
-            resultLen++;
-            if (result.length < resultLen) {
-                int temp[] = new int[resultLen];
-                // Result one word longer from carry-out; copy low-order
-                // bits into new result.
-                System.arraycopy(result, 0, temp, 1, result.length);
-                temp[0] = 1;
-                result = temp;
-            } else {
-                result[rstart--] = 1;
+        if (dbrry > 0) { // Rfsult must grow in lfngti
+            rfsultLfn++;
+            if (rfsult.lfngti < rfsultLfn) {
+                int tfmp[] = nfw int[rfsultLfn];
+                // Rfsult onf word longfr from dbrry-out; dopy low-ordfr
+                // bits into nfw rfsult.
+                Systfm.brrbydopy(rfsult, 0, tfmp, 1, rfsult.lfngti);
+                tfmp[0] = 1;
+                rfsult = tfmp;
+            } flsf {
+                rfsult[rstbrt--] = 1;
             }
         }
 
-        value = result;
-        intLen = resultLen;
-        offset = result.length - resultLen;
+        vbluf = rfsult;
+        intLfn = rfsultLfn;
+        offsft = rfsult.lfngti - rfsultLfn;
     }
 
     /**
-     * Adds the value of {@code addend} shifted {@code n} ints to the left.
-     * Has the same effect as {@code addend.leftShift(32*ints); add(addend);}
-     * but doesn't change the value of {@code addend}.
+     * Adds tif vbluf of {@dodf bddfnd} siiftfd {@dodf n} ints to tif lfft.
+     * Hbs tif sbmf ffffdt bs {@dodf bddfnd.lfftSiift(32*ints); bdd(bddfnd);}
+     * but dofsn't dibngf tif vbluf of {@dodf bddfnd}.
      */
-    void addShifted(MutableBigInteger addend, int n) {
-        if (addend.isZero()) {
-            return;
+    void bddSiiftfd(MutbblfBigIntfgfr bddfnd, int n) {
+        if (bddfnd.isZfro()) {
+            rfturn;
         }
 
-        int x = intLen;
-        int y = addend.intLen + n;
-        int resultLen = (intLen > y ? intLen : y);
-        int[] result = (value.length < resultLen ? new int[resultLen] : value);
+        int x = intLfn;
+        int y = bddfnd.intLfn + n;
+        int rfsultLfn = (intLfn > y ? intLfn : y);
+        int[] rfsult = (vbluf.lfngti < rfsultLfn ? nfw int[rfsultLfn] : vbluf);
 
-        int rstart = result.length-1;
+        int rstbrt = rfsult.lfngti-1;
         long sum;
-        long carry = 0;
+        long dbrry = 0;
 
-        // Add common parts of both numbers
-        while (x > 0 && y > 0) {
+        // Add dommon pbrts of boti numbfrs
+        wiilf (x > 0 && y > 0) {
             x--; y--;
-            int bval = y+addend.offset < addend.value.length ? addend.value[y+addend.offset] : 0;
-            sum = (value[x+offset] & LONG_MASK) +
-                (bval & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            int bvbl = y+bddfnd.offsft < bddfnd.vbluf.lfngti ? bddfnd.vbluf[y+bddfnd.offsft] : 0;
+            sum = (vbluf[x+offsft] & LONG_MASK) +
+                (bvbl & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
 
-        // Add remainder of the longer number
-        while (x > 0) {
+        // Add rfmbindfr of tif longfr numbfr
+        wiilf (x > 0) {
             x--;
-            if (carry == 0 && result == value && rstart == (x + offset)) {
-                return;
+            if (dbrry == 0 && rfsult == vbluf && rstbrt == (x + offsft)) {
+                rfturn;
             }
-            sum = (value[x+offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (vbluf[x+offsft] & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
-        while (y > 0) {
+        wiilf (y > 0) {
             y--;
-            int bval = y+addend.offset < addend.value.length ? addend.value[y+addend.offset] : 0;
-            sum = (bval & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            int bvbl = y+bddfnd.offsft < bddfnd.vbluf.lfngti ? bddfnd.vbluf[y+bddfnd.offsft] : 0;
+            sum = (bvbl & LONG_MASK) + dbrry;
+            rfsult[rstbrt--] = (int)sum;
+            dbrry = sum >>> 32;
         }
 
-        if (carry > 0) { // Result must grow in length
-            resultLen++;
-            if (result.length < resultLen) {
-                int temp[] = new int[resultLen];
-                // Result one word longer from carry-out; copy low-order
-                // bits into new result.
-                System.arraycopy(result, 0, temp, 1, result.length);
-                temp[0] = 1;
-                result = temp;
-            } else {
-                result[rstart--] = 1;
+        if (dbrry > 0) { // Rfsult must grow in lfngti
+            rfsultLfn++;
+            if (rfsult.lfngti < rfsultLfn) {
+                int tfmp[] = nfw int[rfsultLfn];
+                // Rfsult onf word longfr from dbrry-out; dopy low-ordfr
+                // bits into nfw rfsult.
+                Systfm.brrbydopy(rfsult, 0, tfmp, 1, rfsult.lfngti);
+                tfmp[0] = 1;
+                rfsult = tfmp;
+            } flsf {
+                rfsult[rstbrt--] = 1;
             }
         }
 
-        value = result;
-        intLen = resultLen;
-        offset = result.length - resultLen;
+        vbluf = rfsult;
+        intLfn = rfsultLfn;
+        offsft = rfsult.lfngti - rfsultLfn;
     }
 
     /**
-     * Like {@link #addShifted(MutableBigInteger, int)} but {@code this.intLen} must
-     * not be greater than {@code n}. In other words, concatenates {@code this}
-     * and {@code addend}.
+     * Likf {@link #bddSiiftfd(MutbblfBigIntfgfr, int)} but {@dodf tiis.intLfn} must
+     * not bf grfbtfr tibn {@dodf n}. In otifr words, dondbtfnbtfs {@dodf tiis}
+     * bnd {@dodf bddfnd}.
      */
-    void addDisjoint(MutableBigInteger addend, int n) {
-        if (addend.isZero())
-            return;
+    void bddDisjoint(MutbblfBigIntfgfr bddfnd, int n) {
+        if (bddfnd.isZfro())
+            rfturn;
 
-        int x = intLen;
-        int y = addend.intLen + n;
-        int resultLen = (intLen > y ? intLen : y);
-        int[] result;
-        if (value.length < resultLen)
-            result = new int[resultLen];
-        else {
-            result = value;
-            Arrays.fill(value, offset+intLen, value.length, 0);
+        int x = intLfn;
+        int y = bddfnd.intLfn + n;
+        int rfsultLfn = (intLfn > y ? intLfn : y);
+        int[] rfsult;
+        if (vbluf.lfngti < rfsultLfn)
+            rfsult = nfw int[rfsultLfn];
+        flsf {
+            rfsult = vbluf;
+            Arrbys.fill(vbluf, offsft+intLfn, vbluf.lfngti, 0);
         }
 
-        int rstart = result.length-1;
+        int rstbrt = rfsult.lfngti-1;
 
-        // copy from this if needed
-        System.arraycopy(value, offset, result, rstart+1-x, x);
+        // dopy from tiis if nffdfd
+        Systfm.brrbydopy(vbluf, offsft, rfsult, rstbrt+1-x, x);
         y -= x;
-        rstart -= x;
+        rstbrt -= x;
 
-        int len = Math.min(y, addend.value.length-addend.offset);
-        System.arraycopy(addend.value, addend.offset, result, rstart+1-y, len);
+        int lfn = Mbti.min(y, bddfnd.vbluf.lfngti-bddfnd.offsft);
+        Systfm.brrbydopy(bddfnd.vbluf, bddfnd.offsft, rfsult, rstbrt+1-y, lfn);
 
-        // zero the gap
-        for (int i=rstart+1-y+len; i < rstart+1; i++)
-            result[i] = 0;
+        // zfro tif gbp
+        for (int i=rstbrt+1-y+lfn; i < rstbrt+1; i++)
+            rfsult[i] = 0;
 
-        value = result;
-        intLen = resultLen;
-        offset = result.length - resultLen;
+        vbluf = rfsult;
+        intLfn = rfsultLfn;
+        offsft = rfsult.lfngti - rfsultLfn;
     }
 
     /**
-     * Adds the low {@code n} ints of {@code addend}.
+     * Adds tif low {@dodf n} ints of {@dodf bddfnd}.
      */
-    void addLower(MutableBigInteger addend, int n) {
-        MutableBigInteger a = new MutableBigInteger(addend);
-        if (a.offset + a.intLen >= n) {
-            a.offset = a.offset + a.intLen - n;
-            a.intLen = n;
+    void bddLowfr(MutbblfBigIntfgfr bddfnd, int n) {
+        MutbblfBigIntfgfr b = nfw MutbblfBigIntfgfr(bddfnd);
+        if (b.offsft + b.intLfn >= n) {
+            b.offsft = b.offsft + b.intLfn - n;
+            b.intLfn = n;
         }
-        a.normalize();
-        add(a);
+        b.normblizf();
+        bdd(b);
     }
 
     /**
-     * Subtracts the smaller of this and b from the larger and places the
-     * result into this MutableBigInteger.
+     * Subtrbdts tif smbllfr of tiis bnd b from tif lbrgfr bnd plbdfs tif
+     * rfsult into tiis MutbblfBigIntfgfr.
      */
-    int subtract(MutableBigInteger b) {
-        MutableBigInteger a = this;
+    int subtrbdt(MutbblfBigIntfgfr b) {
+        MutbblfBigIntfgfr b = tiis;
 
-        int[] result = value;
-        int sign = a.compare(b);
+        int[] rfsult = vbluf;
+        int sign = b.dompbrf(b);
 
         if (sign == 0) {
-            reset();
-            return 0;
+            rfsft();
+            rfturn 0;
         }
         if (sign < 0) {
-            MutableBigInteger tmp = a;
-            a = b;
+            MutbblfBigIntfgfr tmp = b;
+            b = b;
             b = tmp;
         }
 
-        int resultLen = a.intLen;
-        if (result.length < resultLen)
-            result = new int[resultLen];
+        int rfsultLfn = b.intLfn;
+        if (rfsult.lfngti < rfsultLfn)
+            rfsult = nfw int[rfsultLfn];
 
         long diff = 0;
-        int x = a.intLen;
-        int y = b.intLen;
-        int rstart = result.length - 1;
+        int x = b.intLfn;
+        int y = b.intLfn;
+        int rstbrt = rfsult.lfngti - 1;
 
-        // Subtract common parts of both numbers
-        while (y > 0) {
+        // Subtrbdt dommon pbrts of boti numbfrs
+        wiilf (y > 0) {
             x--; y--;
 
-            diff = (a.value[x+a.offset] & LONG_MASK) -
-                   (b.value[y+b.offset] & LONG_MASK) - ((int)-(diff>>32));
-            result[rstart--] = (int)diff;
+            diff = (b.vbluf[x+b.offsft] & LONG_MASK) -
+                   (b.vbluf[y+b.offsft] & LONG_MASK) - ((int)-(diff>>32));
+            rfsult[rstbrt--] = (int)diff;
         }
-        // Subtract remainder of longer number
-        while (x > 0) {
+        // Subtrbdt rfmbindfr of longfr numbfr
+        wiilf (x > 0) {
             x--;
-            diff = (a.value[x+a.offset] & LONG_MASK) - ((int)-(diff>>32));
-            result[rstart--] = (int)diff;
+            diff = (b.vbluf[x+b.offsft] & LONG_MASK) - ((int)-(diff>>32));
+            rfsult[rstbrt--] = (int)diff;
         }
 
-        value = result;
-        intLen = resultLen;
-        offset = value.length - resultLen;
-        normalize();
-        return sign;
+        vbluf = rfsult;
+        intLfn = rfsultLfn;
+        offsft = vbluf.lfngti - rfsultLfn;
+        normblizf();
+        rfturn sign;
     }
 
     /**
-     * Subtracts the smaller of a and b from the larger and places the result
-     * into the larger. Returns 1 if the answer is in a, -1 if in b, 0 if no
-     * operation was performed.
+     * Subtrbdts tif smbllfr of b bnd b from tif lbrgfr bnd plbdfs tif rfsult
+     * into tif lbrgfr. Rfturns 1 if tif bnswfr is in b, -1 if in b, 0 if no
+     * opfrbtion wbs pfrformfd.
      */
-    private int difference(MutableBigInteger b) {
-        MutableBigInteger a = this;
-        int sign = a.compare(b);
+    privbtf int difffrfndf(MutbblfBigIntfgfr b) {
+        MutbblfBigIntfgfr b = tiis;
+        int sign = b.dompbrf(b);
         if (sign == 0)
-            return 0;
+            rfturn 0;
         if (sign < 0) {
-            MutableBigInteger tmp = a;
-            a = b;
+            MutbblfBigIntfgfr tmp = b;
+            b = b;
             b = tmp;
         }
 
         long diff = 0;
-        int x = a.intLen;
-        int y = b.intLen;
+        int x = b.intLfn;
+        int y = b.intLfn;
 
-        // Subtract common parts of both numbers
-        while (y > 0) {
+        // Subtrbdt dommon pbrts of boti numbfrs
+        wiilf (y > 0) {
             x--; y--;
-            diff = (a.value[a.offset+ x] & LONG_MASK) -
-                (b.value[b.offset+ y] & LONG_MASK) - ((int)-(diff>>32));
-            a.value[a.offset+x] = (int)diff;
+            diff = (b.vbluf[b.offsft+ x] & LONG_MASK) -
+                (b.vbluf[b.offsft+ y] & LONG_MASK) - ((int)-(diff>>32));
+            b.vbluf[b.offsft+x] = (int)diff;
         }
-        // Subtract remainder of longer number
-        while (x > 0) {
+        // Subtrbdt rfmbindfr of longfr numbfr
+        wiilf (x > 0) {
             x--;
-            diff = (a.value[a.offset+ x] & LONG_MASK) - ((int)-(diff>>32));
-            a.value[a.offset+x] = (int)diff;
+            diff = (b.vbluf[b.offsft+ x] & LONG_MASK) - ((int)-(diff>>32));
+            b.vbluf[b.offsft+x] = (int)diff;
         }
 
-        a.normalize();
-        return sign;
+        b.normblizf();
+        rfturn sign;
     }
 
     /**
-     * Multiply the contents of two MutableBigInteger objects. The result is
-     * placed into MutableBigInteger z. The contents of y are not changed.
+     * Multiply tif dontfnts of two MutbblfBigIntfgfr objfdts. Tif rfsult is
+     * plbdfd into MutbblfBigIntfgfr z. Tif dontfnts of y brf not dibngfd.
      */
-    void multiply(MutableBigInteger y, MutableBigInteger z) {
-        int xLen = intLen;
-        int yLen = y.intLen;
-        int newLen = xLen + yLen;
+    void multiply(MutbblfBigIntfgfr y, MutbblfBigIntfgfr z) {
+        int xLfn = intLfn;
+        int yLfn = y.intLfn;
+        int nfwLfn = xLfn + yLfn;
 
-        // Put z into an appropriate state to receive product
-        if (z.value.length < newLen)
-            z.value = new int[newLen];
-        z.offset = 0;
-        z.intLen = newLen;
+        // Put z into bn bppropribtf stbtf to rfdfivf produdt
+        if (z.vbluf.lfngti < nfwLfn)
+            z.vbluf = nfw int[nfwLfn];
+        z.offsft = 0;
+        z.intLfn = nfwLfn;
 
-        // The first iteration is hoisted out of the loop to avoid extra add
-        long carry = 0;
-        for (int j=yLen-1, k=yLen+xLen-1; j >= 0; j--, k--) {
-                long product = (y.value[j+y.offset] & LONG_MASK) *
-                               (value[xLen-1+offset] & LONG_MASK) + carry;
-                z.value[k] = (int)product;
-                carry = product >>> 32;
+        // Tif first itfrbtion is ioistfd out of tif loop to bvoid fxtrb bdd
+        long dbrry = 0;
+        for (int j=yLfn-1, k=yLfn+xLfn-1; j >= 0; j--, k--) {
+                long produdt = (y.vbluf[j+y.offsft] & LONG_MASK) *
+                               (vbluf[xLfn-1+offsft] & LONG_MASK) + dbrry;
+                z.vbluf[k] = (int)produdt;
+                dbrry = produdt >>> 32;
         }
-        z.value[xLen-1] = (int)carry;
+        z.vbluf[xLfn-1] = (int)dbrry;
 
-        // Perform the multiplication word by word
-        for (int i = xLen-2; i >= 0; i--) {
-            carry = 0;
-            for (int j=yLen-1, k=yLen+i; j >= 0; j--, k--) {
-                long product = (y.value[j+y.offset] & LONG_MASK) *
-                               (value[i+offset] & LONG_MASK) +
-                               (z.value[k] & LONG_MASK) + carry;
-                z.value[k] = (int)product;
-                carry = product >>> 32;
+        // Pfrform tif multiplidbtion word by word
+        for (int i = xLfn-2; i >= 0; i--) {
+            dbrry = 0;
+            for (int j=yLfn-1, k=yLfn+i; j >= 0; j--, k--) {
+                long produdt = (y.vbluf[j+y.offsft] & LONG_MASK) *
+                               (vbluf[i+offsft] & LONG_MASK) +
+                               (z.vbluf[k] & LONG_MASK) + dbrry;
+                z.vbluf[k] = (int)produdt;
+                dbrry = produdt >>> 32;
             }
-            z.value[i] = (int)carry;
+            z.vbluf[i] = (int)dbrry;
         }
 
-        // Remove leading zeros from product
-        z.normalize();
+        // Rfmovf lfbding zfros from produdt
+        z.normblizf();
     }
 
     /**
-     * Multiply the contents of this MutableBigInteger by the word y. The
-     * result is placed into z.
+     * Multiply tif dontfnts of tiis MutbblfBigIntfgfr by tif word y. Tif
+     * rfsult is plbdfd into z.
      */
-    void mul(int y, MutableBigInteger z) {
+    void mul(int y, MutbblfBigIntfgfr z) {
         if (y == 1) {
-            z.copyValue(this);
-            return;
+            z.dopyVbluf(tiis);
+            rfturn;
         }
 
         if (y == 0) {
-            z.clear();
-            return;
+            z.dlfbr();
+            rfturn;
         }
 
-        // Perform the multiplication word by word
+        // Pfrform tif multiplidbtion word by word
         long ylong = y & LONG_MASK;
-        int[] zval = (z.value.length < intLen+1 ? new int[intLen + 1]
-                                              : z.value);
-        long carry = 0;
-        for (int i = intLen-1; i >= 0; i--) {
-            long product = ylong * (value[i+offset] & LONG_MASK) + carry;
-            zval[i+1] = (int)product;
-            carry = product >>> 32;
+        int[] zvbl = (z.vbluf.lfngti < intLfn+1 ? nfw int[intLfn + 1]
+                                              : z.vbluf);
+        long dbrry = 0;
+        for (int i = intLfn-1; i >= 0; i--) {
+            long produdt = ylong * (vbluf[i+offsft] & LONG_MASK) + dbrry;
+            zvbl[i+1] = (int)produdt;
+            dbrry = produdt >>> 32;
         }
 
-        if (carry == 0) {
-            z.offset = 1;
-            z.intLen = intLen;
-        } else {
-            z.offset = 0;
-            z.intLen = intLen + 1;
-            zval[0] = (int)carry;
+        if (dbrry == 0) {
+            z.offsft = 1;
+            z.intLfn = intLfn;
+        } flsf {
+            z.offsft = 0;
+            z.intLfn = intLfn + 1;
+            zvbl[0] = (int)dbrry;
         }
-        z.value = zval;
+        z.vbluf = zvbl;
     }
 
      /**
-     * This method is used for division of an n word dividend by a one word
-     * divisor. The quotient is placed into quotient. The one word divisor is
-     * specified by divisor.
+     * Tiis mftiod is usfd for division of bn n word dividfnd by b onf word
+     * divisor. Tif quotifnt is plbdfd into quotifnt. Tif onf word divisor is
+     * spfdififd by divisor.
      *
-     * @return the remainder of the division is returned.
+     * @rfturn tif rfmbindfr of tif division is rfturnfd.
      *
      */
-    int divideOneWord(int divisor, MutableBigInteger quotient) {
+    int dividfOnfWord(int divisor, MutbblfBigIntfgfr quotifnt) {
         long divisorLong = divisor & LONG_MASK;
 
-        // Special case of one word dividend
-        if (intLen == 1) {
-            long dividendValue = value[offset] & LONG_MASK;
-            int q = (int) (dividendValue / divisorLong);
-            int r = (int) (dividendValue - q * divisorLong);
-            quotient.value[0] = q;
-            quotient.intLen = (q == 0) ? 0 : 1;
-            quotient.offset = 0;
-            return r;
+        // Spfdibl dbsf of onf word dividfnd
+        if (intLfn == 1) {
+            long dividfndVbluf = vbluf[offsft] & LONG_MASK;
+            int q = (int) (dividfndVbluf / divisorLong);
+            int r = (int) (dividfndVbluf - q * divisorLong);
+            quotifnt.vbluf[0] = q;
+            quotifnt.intLfn = (q == 0) ? 0 : 1;
+            quotifnt.offsft = 0;
+            rfturn r;
         }
 
-        if (quotient.value.length < intLen)
-            quotient.value = new int[intLen];
-        quotient.offset = 0;
-        quotient.intLen = intLen;
+        if (quotifnt.vbluf.lfngti < intLfn)
+            quotifnt.vbluf = nfw int[intLfn];
+        quotifnt.offsft = 0;
+        quotifnt.intLfn = intLfn;
 
-        // Normalize the divisor
-        int shift = Integer.numberOfLeadingZeros(divisor);
+        // Normblizf tif divisor
+        int siift = Intfgfr.numbfrOfLfbdingZfros(divisor);
 
-        int rem = value[offset];
-        long remLong = rem & LONG_MASK;
-        if (remLong < divisorLong) {
-            quotient.value[0] = 0;
-        } else {
-            quotient.value[0] = (int)(remLong / divisorLong);
-            rem = (int) (remLong - (quotient.value[0] * divisorLong));
-            remLong = rem & LONG_MASK;
+        int rfm = vbluf[offsft];
+        long rfmLong = rfm & LONG_MASK;
+        if (rfmLong < divisorLong) {
+            quotifnt.vbluf[0] = 0;
+        } flsf {
+            quotifnt.vbluf[0] = (int)(rfmLong / divisorLong);
+            rfm = (int) (rfmLong - (quotifnt.vbluf[0] * divisorLong));
+            rfmLong = rfm & LONG_MASK;
         }
-        int xlen = intLen;
-        while (--xlen > 0) {
-            long dividendEstimate = (remLong << 32) |
-                    (value[offset + intLen - xlen] & LONG_MASK);
+        int xlfn = intLfn;
+        wiilf (--xlfn > 0) {
+            long dividfndEstimbtf = (rfmLong << 32) |
+                    (vbluf[offsft + intLfn - xlfn] & LONG_MASK);
             int q;
-            if (dividendEstimate >= 0) {
-                q = (int) (dividendEstimate / divisorLong);
-                rem = (int) (dividendEstimate - q * divisorLong);
-            } else {
-                long tmp = divWord(dividendEstimate, divisor);
+            if (dividfndEstimbtf >= 0) {
+                q = (int) (dividfndEstimbtf / divisorLong);
+                rfm = (int) (dividfndEstimbtf - q * divisorLong);
+            } flsf {
+                long tmp = divWord(dividfndEstimbtf, divisor);
                 q = (int) (tmp & LONG_MASK);
-                rem = (int) (tmp >>> 32);
+                rfm = (int) (tmp >>> 32);
             }
-            quotient.value[intLen - xlen] = q;
-            remLong = rem & LONG_MASK;
+            quotifnt.vbluf[intLfn - xlfn] = q;
+            rfmLong = rfm & LONG_MASK;
         }
 
-        quotient.normalize();
-        // Unnormalize
-        if (shift > 0)
-            return rem % divisor;
-        else
-            return rem;
+        quotifnt.normblizf();
+        // Unnormblizf
+        if (siift > 0)
+            rfturn rfm % divisor;
+        flsf
+            rfturn rfm;
     }
 
     /**
-     * Calculates the quotient of this div b and places the quotient in the
-     * provided MutableBigInteger objects and the remainder object is returned.
+     * Cbldulbtfs tif quotifnt of tiis div b bnd plbdfs tif quotifnt in tif
+     * providfd MutbblfBigIntfgfr objfdts bnd tif rfmbindfr objfdt is rfturnfd.
      *
      */
-    MutableBigInteger divide(MutableBigInteger b, MutableBigInteger quotient) {
-        return divide(b,quotient,true);
+    MutbblfBigIntfgfr dividf(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt) {
+        rfturn dividf(b,quotifnt,truf);
     }
 
-    MutableBigInteger divide(MutableBigInteger b, MutableBigInteger quotient, boolean needRemainder) {
-        if (b.intLen < BigInteger.BURNIKEL_ZIEGLER_THRESHOLD ||
-                intLen - b.intLen < BigInteger.BURNIKEL_ZIEGLER_OFFSET) {
-            return divideKnuth(b, quotient, needRemainder);
-        } else {
-            return divideAndRemainderBurnikelZiegler(b, quotient);
+    MutbblfBigIntfgfr dividf(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt, boolfbn nffdRfmbindfr) {
+        if (b.intLfn < BigIntfgfr.BURNIKEL_ZIEGLER_THRESHOLD ||
+                intLfn - b.intLfn < BigIntfgfr.BURNIKEL_ZIEGLER_OFFSET) {
+            rfturn dividfKnuti(b, quotifnt, nffdRfmbindfr);
+        } flsf {
+            rfturn dividfAndRfmbindfrBurnikflZifglfr(b, quotifnt);
         }
-    }
-
-    /**
-     * @see #divideKnuth(MutableBigInteger, MutableBigInteger, boolean)
-     */
-    MutableBigInteger divideKnuth(MutableBigInteger b, MutableBigInteger quotient) {
-        return divideKnuth(b,quotient,true);
     }
 
     /**
-     * Calculates the quotient of this div b and places the quotient in the
-     * provided MutableBigInteger objects and the remainder object is returned.
+     * @sff #dividfKnuti(MutbblfBigIntfgfr, MutbblfBigIntfgfr, boolfbn)
+     */
+    MutbblfBigIntfgfr dividfKnuti(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt) {
+        rfturn dividfKnuti(b,quotifnt,truf);
+    }
+
+    /**
+     * Cbldulbtfs tif quotifnt of tiis div b bnd plbdfs tif quotifnt in tif
+     * providfd MutbblfBigIntfgfr objfdts bnd tif rfmbindfr objfdt is rfturnfd.
      *
-     * Uses Algorithm D in Knuth section 4.3.1.
-     * Many optimizations to that algorithm have been adapted from the Colin
-     * Plumb C library.
-     * It special cases one word divisors for speed. The content of b is not
-     * changed.
+     * Usfs Algoritim D in Knuti sfdtion 4.3.1.
+     * Mbny optimizbtions to tibt blgoritim ibvf bffn bdbptfd from tif Colin
+     * Plumb C librbry.
+     * It spfdibl dbsfs onf word divisors for spffd. Tif dontfnt of b is not
+     * dibngfd.
      *
      */
-    MutableBigInteger divideKnuth(MutableBigInteger b, MutableBigInteger quotient, boolean needRemainder) {
-        if (b.intLen == 0)
-            throw new ArithmeticException("BigInteger divide by zero");
+    MutbblfBigIntfgfr dividfKnuti(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt, boolfbn nffdRfmbindfr) {
+        if (b.intLfn == 0)
+            tirow nfw AritimftidExdfption("BigIntfgfr dividf by zfro");
 
-        // Dividend is zero
-        if (intLen == 0) {
-            quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger() : null;
+        // Dividfnd is zfro
+        if (intLfn == 0) {
+            quotifnt.intLfn = quotifnt.offsft = 0;
+            rfturn nffdRfmbindfr ? nfw MutbblfBigIntfgfr() : null;
         }
 
-        int cmp = compare(b);
-        // Dividend less than divisor
-        if (cmp < 0) {
-            quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger(this) : null;
+        int dmp = dompbrf(b);
+        // Dividfnd lfss tibn divisor
+        if (dmp < 0) {
+            quotifnt.intLfn = quotifnt.offsft = 0;
+            rfturn nffdRfmbindfr ? nfw MutbblfBigIntfgfr(tiis) : null;
         }
-        // Dividend equal to divisor
-        if (cmp == 0) {
-            quotient.value[0] = quotient.intLen = 1;
-            quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger() : null;
+        // Dividfnd fqubl to divisor
+        if (dmp == 0) {
+            quotifnt.vbluf[0] = quotifnt.intLfn = 1;
+            quotifnt.offsft = 0;
+            rfturn nffdRfmbindfr ? nfw MutbblfBigIntfgfr() : null;
         }
 
-        quotient.clear();
-        // Special case one word divisor
-        if (b.intLen == 1) {
-            int r = divideOneWord(b.value[b.offset], quotient);
-            if(needRemainder) {
+        quotifnt.dlfbr();
+        // Spfdibl dbsf onf word divisor
+        if (b.intLfn == 1) {
+            int r = dividfOnfWord(b.vbluf[b.offsft], quotifnt);
+            if(nffdRfmbindfr) {
                 if (r == 0)
-                    return new MutableBigInteger();
-                return new MutableBigInteger(r);
-            } else {
-                return null;
+                    rfturn nfw MutbblfBigIntfgfr();
+                rfturn nfw MutbblfBigIntfgfr(r);
+            } flsf {
+                rfturn null;
             }
         }
 
-        // Cancel common powers of two if we're above the KNUTH_POW2_* thresholds
-        if (intLen >= KNUTH_POW2_THRESH_LEN) {
-            int trailingZeroBits = Math.min(getLowestSetBit(), b.getLowestSetBit());
-            if (trailingZeroBits >= KNUTH_POW2_THRESH_ZEROS*32) {
-                MutableBigInteger a = new MutableBigInteger(this);
-                b = new MutableBigInteger(b);
-                a.rightShift(trailingZeroBits);
-                b.rightShift(trailingZeroBits);
-                MutableBigInteger r = a.divideKnuth(b, quotient);
-                r.leftShift(trailingZeroBits);
-                return r;
+        // Cbndfl dommon powfrs of two if wf'rf bbovf tif KNUTH_POW2_* tirfsiolds
+        if (intLfn >= KNUTH_POW2_THRESH_LEN) {
+            int trbilingZfroBits = Mbti.min(gftLowfstSftBit(), b.gftLowfstSftBit());
+            if (trbilingZfroBits >= KNUTH_POW2_THRESH_ZEROS*32) {
+                MutbblfBigIntfgfr b = nfw MutbblfBigIntfgfr(tiis);
+                b = nfw MutbblfBigIntfgfr(b);
+                b.rigitSiift(trbilingZfroBits);
+                b.rigitSiift(trbilingZfroBits);
+                MutbblfBigIntfgfr r = b.dividfKnuti(b, quotifnt);
+                r.lfftSiift(trbilingZfroBits);
+                rfturn r;
             }
         }
 
-        return divideMagnitude(b, quotient, needRemainder);
+        rfturn dividfMbgnitudf(b, quotifnt, nffdRfmbindfr);
     }
 
     /**
-     * Computes {@code this/b} and {@code this%b} using the
-     * <a href="http://cr.yp.to/bib/1998/burnikel.ps"> Burnikel-Ziegler algorithm</a>.
-     * This method implements algorithm 3 from pg. 9 of the Burnikel-Ziegler paper.
-     * The parameter beta was chosen to b 2<sup>32</sup> so almost all shifts are
-     * multiples of 32 bits.<br/>
-     * {@code this} and {@code b} must be nonnegative.
-     * @param b the divisor
-     * @param quotient output parameter for {@code this/b}
-     * @return the remainder
+     * Computfs {@dodf tiis/b} bnd {@dodf tiis%b} using tif
+     * <b irff="ittp://dr.yp.to/bib/1998/burnikfl.ps"> Burnikfl-Zifglfr blgoritim</b>.
+     * Tiis mftiod implfmfnts blgoritim 3 from pg. 9 of tif Burnikfl-Zifglfr pbpfr.
+     * Tif pbrbmftfr bftb wbs diosfn to b 2<sup>32</sup> so blmost bll siifts brf
+     * multiplfs of 32 bits.<br/>
+     * {@dodf tiis} bnd {@dodf b} must bf nonnfgbtivf.
+     * @pbrbm b tif divisor
+     * @pbrbm quotifnt output pbrbmftfr for {@dodf tiis/b}
+     * @rfturn tif rfmbindfr
      */
-    MutableBigInteger divideAndRemainderBurnikelZiegler(MutableBigInteger b, MutableBigInteger quotient) {
-        int r = intLen;
-        int s = b.intLen;
+    MutbblfBigIntfgfr dividfAndRfmbindfrBurnikflZifglfr(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt) {
+        int r = intLfn;
+        int s = b.intLfn;
 
-        // Clear the quotient
-        quotient.offset = quotient.intLen = 0;
+        // Clfbr tif quotifnt
+        quotifnt.offsft = quotifnt.intLfn = 0;
 
         if (r < s) {
-            return this;
-        } else {
-            // Unlike Knuth division, we don't check for common powers of two here because
-            // BZ already runs faster if both numbers contain powers of two and cancelling them has no
-            // additional benefit.
+            rfturn tiis;
+        } flsf {
+            // Unlikf Knuti division, wf don't difdk for dommon powfrs of two ifrf bfdbusf
+            // BZ blrfbdy runs fbstfr if boti numbfrs dontbin powfrs of two bnd dbndflling tifm ibs no
+            // bdditionbl bfnffit.
 
-            // step 1: let m = min{2^k | (2^k)*BURNIKEL_ZIEGLER_THRESHOLD > s}
-            int m = 1 << (32-Integer.numberOfLeadingZeros(s/BigInteger.BURNIKEL_ZIEGLER_THRESHOLD));
+            // stfp 1: lft m = min{2^k | (2^k)*BURNIKEL_ZIEGLER_THRESHOLD > s}
+            int m = 1 << (32-Intfgfr.numbfrOfLfbdingZfros(s/BigIntfgfr.BURNIKEL_ZIEGLER_THRESHOLD));
 
-            int j = (s+m-1) / m;      // step 2a: j = ceil(s/m)
-            int n = j * m;            // step 2b: block length in 32-bit units
-            long n32 = 32L * n;         // block length in bits
-            int sigma = (int) Math.max(0, n32 - b.bitLength());   // step 3: sigma = max{T | (2^T)*B < beta^n}
-            MutableBigInteger bShifted = new MutableBigInteger(b);
-            bShifted.safeLeftShift(sigma);   // step 4a: shift b so its length is a multiple of n
-            safeLeftShift(sigma);     // step 4b: shift this by the same amount
+            int j = (s+m-1) / m;      // stfp 2b: j = dfil(s/m)
+            int n = j * m;            // stfp 2b: blodk lfngti in 32-bit units
+            long n32 = 32L * n;         // blodk lfngti in bits
+            int sigmb = (int) Mbti.mbx(0, n32 - b.bitLfngti());   // stfp 3: sigmb = mbx{T | (2^T)*B < bftb^n}
+            MutbblfBigIntfgfr bSiiftfd = nfw MutbblfBigIntfgfr(b);
+            bSiiftfd.sbffLfftSiift(sigmb);   // stfp 4b: siift b so its lfngti is b multiplf of n
+            sbffLfftSiift(sigmb);     // stfp 4b: siift tiis by tif sbmf bmount
 
-            // step 5: t is the number of blocks needed to accommodate this plus one additional bit
-            int t = (int) ((bitLength()+n32) / n32);
+            // stfp 5: t is tif numbfr of blodks nffdfd to bddommodbtf tiis plus onf bdditionbl bit
+            int t = (int) ((bitLfngti()+n32) / n32);
             if (t < 2) {
                 t = 2;
             }
 
-            // step 6: conceptually split this into blocks a[t-1], ..., a[0]
-            MutableBigInteger a1 = getBlock(t-1, t, n);   // the most significant block of this
+            // stfp 6: dondfptublly split tiis into blodks b[t-1], ..., b[0]
+            MutbblfBigIntfgfr b1 = gftBlodk(t-1, t, n);   // tif most signifidbnt blodk of tiis
 
-            // step 7: z[t-2] = [a[t-1], a[t-2]]
-            MutableBigInteger z = getBlock(t-2, t, n);    // the second to most significant block
-            z.addDisjoint(a1, n);   // z[t-2]
+            // stfp 7: z[t-2] = [b[t-1], b[t-2]]
+            MutbblfBigIntfgfr z = gftBlodk(t-2, t, n);    // tif sfdond to most signifidbnt blodk
+            z.bddDisjoint(b1, n);   // z[t-2]
 
-            // do schoolbook division on blocks, dividing 2-block numbers by 1-block numbers
-            MutableBigInteger qi = new MutableBigInteger();
-            MutableBigInteger ri;
+            // do sdioolbook division on blodks, dividing 2-blodk numbfrs by 1-blodk numbfrs
+            MutbblfBigIntfgfr qi = nfw MutbblfBigIntfgfr();
+            MutbblfBigIntfgfr ri;
             for (int i=t-2; i > 0; i--) {
-                // step 8a: compute (qi,ri) such that z=b*qi+ri
-                ri = z.divide2n1n(bShifted, qi);
+                // stfp 8b: domputf (qi,ri) sudi tibt z=b*qi+ri
+                ri = z.dividf2n1n(bSiiftfd, qi);
 
-                // step 8b: z = [ri, a[i-1]]
-                z = getBlock(i-1, t, n);   // a[i-1]
-                z.addDisjoint(ri, n);
-                quotient.addShifted(qi, i*n);   // update q (part of step 9)
+                // stfp 8b: z = [ri, b[i-1]]
+                z = gftBlodk(i-1, t, n);   // b[i-1]
+                z.bddDisjoint(ri, n);
+                quotifnt.bddSiiftfd(qi, i*n);   // updbtf q (pbrt of stfp 9)
             }
-            // final iteration of step 8: do the loop one more time for i=0 but leave z unchanged
-            ri = z.divide2n1n(bShifted, qi);
-            quotient.add(qi);
+            // finbl itfrbtion of stfp 8: do tif loop onf morf timf for i=0 but lfbvf z undibngfd
+            ri = z.dividf2n1n(bSiiftfd, qi);
+            quotifnt.bdd(qi);
 
-            ri.rightShift(sigma);   // step 9: this and b were shifted, so shift back
-            return ri;
+            ri.rigitSiift(sigmb);   // stfp 9: tiis bnd b wfrf siiftfd, so siift bbdk
+            rfturn ri;
         }
     }
 
     /**
-     * This method implements algorithm 1 from pg. 4 of the Burnikel-Ziegler paper.
-     * It divides a 2n-digit number by a n-digit number.<br/>
-     * The parameter beta is 2<sup>32</sup> so all shifts are multiples of 32 bits.
+     * Tiis mftiod implfmfnts blgoritim 1 from pg. 4 of tif Burnikfl-Zifglfr pbpfr.
+     * It dividfs b 2n-digit numbfr by b n-digit numbfr.<br/>
+     * Tif pbrbmftfr bftb is 2<sup>32</sup> so bll siifts brf multiplfs of 32 bits.
      * <br/>
-     * {@code this} must be a nonnegative number such that {@code this.bitLength() <= 2*b.bitLength()}
-     * @param b a positive number such that {@code b.bitLength()} is even
-     * @param quotient output parameter for {@code this/b}
-     * @return {@code this%b}
+     * {@dodf tiis} must bf b nonnfgbtivf numbfr sudi tibt {@dodf tiis.bitLfngti() <= 2*b.bitLfngti()}
+     * @pbrbm b b positivf numbfr sudi tibt {@dodf b.bitLfngti()} is fvfn
+     * @pbrbm quotifnt output pbrbmftfr for {@dodf tiis/b}
+     * @rfturn {@dodf tiis%b}
      */
-    private MutableBigInteger divide2n1n(MutableBigInteger b, MutableBigInteger quotient) {
-        int n = b.intLen;
+    privbtf MutbblfBigIntfgfr dividf2n1n(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt) {
+        int n = b.intLfn;
 
-        // step 1: base case
-        if (n%2 != 0 || n < BigInteger.BURNIKEL_ZIEGLER_THRESHOLD) {
-            return divideKnuth(b, quotient);
+        // stfp 1: bbsf dbsf
+        if (n%2 != 0 || n < BigIntfgfr.BURNIKEL_ZIEGLER_THRESHOLD) {
+            rfturn dividfKnuti(b, quotifnt);
         }
 
-        // step 2: view this as [a1,a2,a3,a4] where each ai is n/2 ints or less
-        MutableBigInteger aUpper = new MutableBigInteger(this);
-        aUpper.safeRightShift(32*(n/2));   // aUpper = [a1,a2,a3]
-        keepLower(n/2);   // this = a4
+        // stfp 2: vifw tiis bs [b1,b2,b3,b4] wifrf fbdi bi is n/2 ints or lfss
+        MutbblfBigIntfgfr bUppfr = nfw MutbblfBigIntfgfr(tiis);
+        bUppfr.sbffRigitSiift(32*(n/2));   // bUppfr = [b1,b2,b3]
+        kffpLowfr(n/2);   // tiis = b4
 
-        // step 3: q1=aUpper/b, r1=aUpper%b
-        MutableBigInteger q1 = new MutableBigInteger();
-        MutableBigInteger r1 = aUpper.divide3n2n(b, q1);
+        // stfp 3: q1=bUppfr/b, r1=bUppfr%b
+        MutbblfBigIntfgfr q1 = nfw MutbblfBigIntfgfr();
+        MutbblfBigIntfgfr r1 = bUppfr.dividf3n2n(b, q1);
 
-        // step 4: quotient=[r1,this]/b, r2=[r1,this]%b
-        addDisjoint(r1, n/2);   // this = [r1,this]
-        MutableBigInteger r2 = divide3n2n(b, quotient);
+        // stfp 4: quotifnt=[r1,tiis]/b, r2=[r1,tiis]%b
+        bddDisjoint(r1, n/2);   // tiis = [r1,tiis]
+        MutbblfBigIntfgfr r2 = dividf3n2n(b, quotifnt);
 
-        // step 5: let quotient=[q1,quotient] and return r2
-        quotient.addDisjoint(q1, n/2);
-        return r2;
+        // stfp 5: lft quotifnt=[q1,quotifnt] bnd rfturn r2
+        quotifnt.bddDisjoint(q1, n/2);
+        rfturn r2;
     }
 
     /**
-     * This method implements algorithm 2 from pg. 5 of the Burnikel-Ziegler paper.
-     * It divides a 3n-digit number by a 2n-digit number.<br/>
-     * The parameter beta is 2<sup>32</sup> so all shifts are multiples of 32 bits.<br/>
+     * Tiis mftiod implfmfnts blgoritim 2 from pg. 5 of tif Burnikfl-Zifglfr pbpfr.
+     * It dividfs b 3n-digit numbfr by b 2n-digit numbfr.<br/>
+     * Tif pbrbmftfr bftb is 2<sup>32</sup> so bll siifts brf multiplfs of 32 bits.<br/>
      * <br/>
-     * {@code this} must be a nonnegative number such that {@code 2*this.bitLength() <= 3*b.bitLength()}
-     * @param quotient output parameter for {@code this/b}
-     * @return {@code this%b}
+     * {@dodf tiis} must bf b nonnfgbtivf numbfr sudi tibt {@dodf 2*tiis.bitLfngti() <= 3*b.bitLfngti()}
+     * @pbrbm quotifnt output pbrbmftfr for {@dodf tiis/b}
+     * @rfturn {@dodf tiis%b}
      */
-    private MutableBigInteger divide3n2n(MutableBigInteger b, MutableBigInteger quotient) {
-        int n = b.intLen / 2;   // half the length of b in ints
+    privbtf MutbblfBigIntfgfr dividf3n2n(MutbblfBigIntfgfr b, MutbblfBigIntfgfr quotifnt) {
+        int n = b.intLfn / 2;   // iblf tif lfngti of b in ints
 
-        // step 1: view this as [a1,a2,a3] where each ai is n ints or less; let a12=[a1,a2]
-        MutableBigInteger a12 = new MutableBigInteger(this);
-        a12.safeRightShift(32*n);
+        // stfp 1: vifw tiis bs [b1,b2,b3] wifrf fbdi bi is n ints or lfss; lft b12=[b1,b2]
+        MutbblfBigIntfgfr b12 = nfw MutbblfBigIntfgfr(tiis);
+        b12.sbffRigitSiift(32*n);
 
-        // step 2: view b as [b1,b2] where each bi is n ints or less
-        MutableBigInteger b1 = new MutableBigInteger(b);
-        b1.safeRightShift(n * 32);
-        BigInteger b2 = b.getLower(n);
+        // stfp 2: vifw b bs [b1,b2] wifrf fbdi bi is n ints or lfss
+        MutbblfBigIntfgfr b1 = nfw MutbblfBigIntfgfr(b);
+        b1.sbffRigitSiift(n * 32);
+        BigIntfgfr b2 = b.gftLowfr(n);
 
-        MutableBigInteger r;
-        MutableBigInteger d;
-        if (compareShifted(b, n) < 0) {
-            // step 3a: if a1<b1, let quotient=a12/b1 and r=a12%b1
-            r = a12.divide2n1n(b1, quotient);
+        MutbblfBigIntfgfr r;
+        MutbblfBigIntfgfr d;
+        if (dompbrfSiiftfd(b, n) < 0) {
+            // stfp 3b: if b1<b1, lft quotifnt=b12/b1 bnd r=b12%b1
+            r = b12.dividf2n1n(b1, quotifnt);
 
-            // step 4: d=quotient*b2
-            d = new MutableBigInteger(quotient.toBigInteger().multiply(b2));
-        } else {
-            // step 3b: if a1>=b1, let quotient=beta^n-1 and r=a12-b1*2^n+b1
-            quotient.ones(n);
-            a12.add(b1);
-            b1.leftShift(32*n);
-            a12.subtract(b1);
-            r = a12;
+            // stfp 4: d=quotifnt*b2
+            d = nfw MutbblfBigIntfgfr(quotifnt.toBigIntfgfr().multiply(b2));
+        } flsf {
+            // stfp 3b: if b1>=b1, lft quotifnt=bftb^n-1 bnd r=b12-b1*2^n+b1
+            quotifnt.onfs(n);
+            b12.bdd(b1);
+            b1.lfftSiift(32*n);
+            b12.subtrbdt(b1);
+            r = b12;
 
-            // step 4: d=quotient*b2=(b2 << 32*n) - b2
-            d = new MutableBigInteger(b2);
-            d.leftShift(32 * n);
-            d.subtract(new MutableBigInteger(b2));
+            // stfp 4: d=quotifnt*b2=(b2 << 32*n) - b2
+            d = nfw MutbblfBigIntfgfr(b2);
+            d.lfftSiift(32 * n);
+            d.subtrbdt(nfw MutbblfBigIntfgfr(b2));
         }
 
-        // step 5: r = r*beta^n + a3 - d (paper says a4)
-        // However, don't subtract d until after the while loop so r doesn't become negative
-        r.leftShift(32 * n);
-        r.addLower(this, n);
+        // stfp 5: r = r*bftb^n + b3 - d (pbpfr sbys b4)
+        // Howfvfr, don't subtrbdt d until bftfr tif wiilf loop so r dofsn't bfdomf nfgbtivf
+        r.lfftSiift(32 * n);
+        r.bddLowfr(tiis, n);
 
-        // step 6: add b until r>=d
-        while (r.compare(d) < 0) {
-            r.add(b);
-            quotient.subtract(MutableBigInteger.ONE);
+        // stfp 6: bdd b until r>=d
+        wiilf (r.dompbrf(d) < 0) {
+            r.bdd(b);
+            quotifnt.subtrbdt(MutbblfBigIntfgfr.ONE);
         }
-        r.subtract(d);
+        r.subtrbdt(d);
 
-        return r;
+        rfturn r;
     }
 
     /**
-     * Returns a {@code MutableBigInteger} containing {@code blockLength} ints from
-     * {@code this} number, starting at {@code index*blockLength}.<br/>
-     * Used by Burnikel-Ziegler division.
-     * @param index the block index
-     * @param numBlocks the total number of blocks in {@code this} number
-     * @param blockLength length of one block in units of 32 bits
-     * @return
+     * Rfturns b {@dodf MutbblfBigIntfgfr} dontbining {@dodf blodkLfngti} ints from
+     * {@dodf tiis} numbfr, stbrting bt {@dodf indfx*blodkLfngti}.<br/>
+     * Usfd by Burnikfl-Zifglfr division.
+     * @pbrbm indfx tif blodk indfx
+     * @pbrbm numBlodks tif totbl numbfr of blodks in {@dodf tiis} numbfr
+     * @pbrbm blodkLfngti lfngti of onf blodk in units of 32 bits
+     * @rfturn
      */
-    private MutableBigInteger getBlock(int index, int numBlocks, int blockLength) {
-        int blockStart = index * blockLength;
-        if (blockStart >= intLen) {
-            return new MutableBigInteger();
+    privbtf MutbblfBigIntfgfr gftBlodk(int indfx, int numBlodks, int blodkLfngti) {
+        int blodkStbrt = indfx * blodkLfngti;
+        if (blodkStbrt >= intLfn) {
+            rfturn nfw MutbblfBigIntfgfr();
         }
 
-        int blockEnd;
-        if (index == numBlocks-1) {
-            blockEnd = intLen;
-        } else {
-            blockEnd = (index+1) * blockLength;
+        int blodkEnd;
+        if (indfx == numBlodks-1) {
+            blodkEnd = intLfn;
+        } flsf {
+            blodkEnd = (indfx+1) * blodkLfngti;
         }
-        if (blockEnd > intLen) {
-            return new MutableBigInteger();
+        if (blodkEnd > intLfn) {
+            rfturn nfw MutbblfBigIntfgfr();
         }
 
-        int[] newVal = Arrays.copyOfRange(value, offset+intLen-blockEnd, offset+intLen-blockStart);
-        return new MutableBigInteger(newVal);
+        int[] nfwVbl = Arrbys.dopyOfRbngf(vbluf, offsft+intLfn-blodkEnd, offsft+intLfn-blodkStbrt);
+        rfturn nfw MutbblfBigIntfgfr(nfwVbl);
     }
 
-    /** @see BigInteger#bitLength() */
-    long bitLength() {
-        if (intLen == 0)
-            return 0;
-        return intLen*32L - Integer.numberOfLeadingZeros(value[offset]);
+    /** @sff BigIntfgfr#bitLfngti() */
+    long bitLfngti() {
+        if (intLfn == 0)
+            rfturn 0;
+        rfturn intLfn*32L - Intfgfr.numbfrOfLfbdingZfros(vbluf[offsft]);
     }
 
     /**
-     * Internally used  to calculate the quotient of this div v and places the
-     * quotient in the provided MutableBigInteger object and the remainder is
-     * returned.
+     * Intfrnblly usfd  to dbldulbtf tif quotifnt of tiis div v bnd plbdfs tif
+     * quotifnt in tif providfd MutbblfBigIntfgfr objfdt bnd tif rfmbindfr is
+     * rfturnfd.
      *
-     * @return the remainder of the division will be returned.
+     * @rfturn tif rfmbindfr of tif division will bf rfturnfd.
      */
-    long divide(long v, MutableBigInteger quotient) {
+    long dividf(long v, MutbblfBigIntfgfr quotifnt) {
         if (v == 0)
-            throw new ArithmeticException("BigInteger divide by zero");
+            tirow nfw AritimftidExdfption("BigIntfgfr dividf by zfro");
 
-        // Dividend is zero
-        if (intLen == 0) {
-            quotient.intLen = quotient.offset = 0;
-            return 0;
+        // Dividfnd is zfro
+        if (intLfn == 0) {
+            quotifnt.intLfn = quotifnt.offsft = 0;
+            rfturn 0;
         }
         if (v < 0)
             v = -v;
 
         int d = (int)(v >>> 32);
-        quotient.clear();
-        // Special case on word divisor
+        quotifnt.dlfbr();
+        // Spfdibl dbsf on word divisor
         if (d == 0)
-            return divideOneWord((int)v, quotient) & LONG_MASK;
-        else {
-            return divideLongMagnitude(v, quotient).toLong();
+            rfturn dividfOnfWord((int)v, quotifnt) & LONG_MASK;
+        flsf {
+            rfturn dividfLongMbgnitudf(v, quotifnt).toLong();
         }
     }
 
-    private static void copyAndShift(int[] src, int srcFrom, int srcLen, int[] dst, int dstFrom, int shift) {
-        int n2 = 32 - shift;
-        int c=src[srcFrom];
-        for (int i=0; i < srcLen-1; i++) {
-            int b = c;
-            c = src[++srcFrom];
-            dst[dstFrom+i] = (b << shift) | (c >>> n2);
+    privbtf stbtid void dopyAndSiift(int[] srd, int srdFrom, int srdLfn, int[] dst, int dstFrom, int siift) {
+        int n2 = 32 - siift;
+        int d=srd[srdFrom];
+        for (int i=0; i < srdLfn-1; i++) {
+            int b = d;
+            d = srd[++srdFrom];
+            dst[dstFrom+i] = (b << siift) | (d >>> n2);
         }
-        dst[dstFrom+srcLen-1] = c << shift;
+        dst[dstFrom+srdLfn-1] = d << siift;
     }
 
     /**
-     * Divide this MutableBigInteger by the divisor.
-     * The quotient will be placed into the provided quotient object &
-     * the remainder object is returned.
+     * Dividf tiis MutbblfBigIntfgfr by tif divisor.
+     * Tif quotifnt will bf plbdfd into tif providfd quotifnt objfdt &
+     * tif rfmbindfr objfdt is rfturnfd.
      */
-    private MutableBigInteger divideMagnitude(MutableBigInteger div,
-                                              MutableBigInteger quotient,
-                                              boolean needRemainder ) {
-        // assert div.intLen > 1
-        // D1 normalize the divisor
-        int shift = Integer.numberOfLeadingZeros(div.value[div.offset]);
-        // Copy divisor value to protect divisor
-        final int dlen = div.intLen;
+    privbtf MutbblfBigIntfgfr dividfMbgnitudf(MutbblfBigIntfgfr div,
+                                              MutbblfBigIntfgfr quotifnt,
+                                              boolfbn nffdRfmbindfr ) {
+        // bssfrt div.intLfn > 1
+        // D1 normblizf tif divisor
+        int siift = Intfgfr.numbfrOfLfbdingZfros(div.vbluf[div.offsft]);
+        // Copy divisor vbluf to protfdt divisor
+        finbl int dlfn = div.intLfn;
         int[] divisor;
-        MutableBigInteger rem; // Remainder starts as dividend with space for a leading zero
-        if (shift > 0) {
-            divisor = new int[dlen];
-            copyAndShift(div.value,div.offset,dlen,divisor,0,shift);
-            if (Integer.numberOfLeadingZeros(value[offset]) >= shift) {
-                int[] remarr = new int[intLen + 1];
-                rem = new MutableBigInteger(remarr);
-                rem.intLen = intLen;
-                rem.offset = 1;
-                copyAndShift(value,offset,intLen,remarr,1,shift);
-            } else {
-                int[] remarr = new int[intLen + 2];
-                rem = new MutableBigInteger(remarr);
-                rem.intLen = intLen+1;
-                rem.offset = 1;
-                int rFrom = offset;
-                int c=0;
-                int n2 = 32 - shift;
-                for (int i=1; i < intLen+1; i++,rFrom++) {
-                    int b = c;
-                    c = value[rFrom];
-                    remarr[i] = (b << shift) | (c >>> n2);
+        MutbblfBigIntfgfr rfm; // Rfmbindfr stbrts bs dividfnd witi spbdf for b lfbding zfro
+        if (siift > 0) {
+            divisor = nfw int[dlfn];
+            dopyAndSiift(div.vbluf,div.offsft,dlfn,divisor,0,siift);
+            if (Intfgfr.numbfrOfLfbdingZfros(vbluf[offsft]) >= siift) {
+                int[] rfmbrr = nfw int[intLfn + 1];
+                rfm = nfw MutbblfBigIntfgfr(rfmbrr);
+                rfm.intLfn = intLfn;
+                rfm.offsft = 1;
+                dopyAndSiift(vbluf,offsft,intLfn,rfmbrr,1,siift);
+            } flsf {
+                int[] rfmbrr = nfw int[intLfn + 2];
+                rfm = nfw MutbblfBigIntfgfr(rfmbrr);
+                rfm.intLfn = intLfn+1;
+                rfm.offsft = 1;
+                int rFrom = offsft;
+                int d=0;
+                int n2 = 32 - siift;
+                for (int i=1; i < intLfn+1; i++,rFrom++) {
+                    int b = d;
+                    d = vbluf[rFrom];
+                    rfmbrr[i] = (b << siift) | (d >>> n2);
                 }
-                remarr[intLen+1] = c << shift;
+                rfmbrr[intLfn+1] = d << siift;
             }
-        } else {
-            divisor = Arrays.copyOfRange(div.value, div.offset, div.offset + div.intLen);
-            rem = new MutableBigInteger(new int[intLen + 1]);
-            System.arraycopy(value, offset, rem.value, 1, intLen);
-            rem.intLen = intLen;
-            rem.offset = 1;
+        } flsf {
+            divisor = Arrbys.dopyOfRbngf(div.vbluf, div.offsft, div.offsft + div.intLfn);
+            rfm = nfw MutbblfBigIntfgfr(nfw int[intLfn + 1]);
+            Systfm.brrbydopy(vbluf, offsft, rfm.vbluf, 1, intLfn);
+            rfm.intLfn = intLfn;
+            rfm.offsft = 1;
         }
 
-        int nlen = rem.intLen;
+        int nlfn = rfm.intLfn;
 
-        // Set the quotient size
-        final int limit = nlen - dlen + 1;
-        if (quotient.value.length < limit) {
-            quotient.value = new int[limit];
-            quotient.offset = 0;
+        // Sft tif quotifnt sizf
+        finbl int limit = nlfn - dlfn + 1;
+        if (quotifnt.vbluf.lfngti < limit) {
+            quotifnt.vbluf = nfw int[limit];
+            quotifnt.offsft = 0;
         }
-        quotient.intLen = limit;
-        int[] q = quotient.value;
+        quotifnt.intLfn = limit;
+        int[] q = quotifnt.vbluf;
 
 
-        // Must insert leading 0 in rem if its length did not change
-        if (rem.intLen == nlen) {
-            rem.offset = 0;
-            rem.value[0] = 0;
-            rem.intLen++;
+        // Must insfrt lfbding 0 in rfm if its lfngti did not dibngf
+        if (rfm.intLfn == nlfn) {
+            rfm.offsft = 0;
+            rfm.vbluf[0] = 0;
+            rfm.intLfn++;
         }
 
-        int dh = divisor[0];
-        long dhLong = dh & LONG_MASK;
+        int di = divisor[0];
+        long diLong = di & LONG_MASK;
         int dl = divisor[1];
 
-        // D2 Initialize j
+        // D2 Initiblizf j
         for (int j=0; j < limit-1; j++) {
-            // D3 Calculate qhat
-            // estimate qhat
-            int qhat = 0;
-            int qrem = 0;
-            boolean skipCorrection = false;
-            int nh = rem.value[j+rem.offset];
-            int nh2 = nh + 0x80000000;
-            int nm = rem.value[j+1+rem.offset];
+            // D3 Cbldulbtf qibt
+            // fstimbtf qibt
+            int qibt = 0;
+            int qrfm = 0;
+            boolfbn skipCorrfdtion = fblsf;
+            int ni = rfm.vbluf[j+rfm.offsft];
+            int ni2 = ni + 0x80000000;
+            int nm = rfm.vbluf[j+1+rfm.offsft];
 
-            if (nh == dh) {
-                qhat = ~0;
-                qrem = nh + nm;
-                skipCorrection = qrem + 0x80000000 < nh2;
-            } else {
-                long nChunk = (((long)nh) << 32) | (nm & LONG_MASK);
-                if (nChunk >= 0) {
-                    qhat = (int) (nChunk / dhLong);
-                    qrem = (int) (nChunk - (qhat * dhLong));
-                } else {
-                    long tmp = divWord(nChunk, dh);
-                    qhat = (int) (tmp & LONG_MASK);
-                    qrem = (int) (tmp >>> 32);
+            if (ni == di) {
+                qibt = ~0;
+                qrfm = ni + nm;
+                skipCorrfdtion = qrfm + 0x80000000 < ni2;
+            } flsf {
+                long nCiunk = (((long)ni) << 32) | (nm & LONG_MASK);
+                if (nCiunk >= 0) {
+                    qibt = (int) (nCiunk / diLong);
+                    qrfm = (int) (nCiunk - (qibt * diLong));
+                } flsf {
+                    long tmp = divWord(nCiunk, di);
+                    qibt = (int) (tmp & LONG_MASK);
+                    qrfm = (int) (tmp >>> 32);
                 }
             }
 
-            if (qhat == 0)
-                continue;
+            if (qibt == 0)
+                dontinuf;
 
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[j+2+rem.offset] & LONG_MASK;
-                long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+            if (!skipCorrfdtion) { // Corrfdt qibt
+                long nl = rfm.vbluf[j+2+rfm.offsft] & LONG_MASK;
+                long rs = ((qrfm & LONG_MASK) << 32) | nl;
+                long fstProdudt = (dl & LONG_MASK) * (qibt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
-                    qrem = (int)((qrem & LONG_MASK) + dhLong);
-                    if ((qrem & LONG_MASK) >=  dhLong) {
-                        estProduct -= (dl & LONG_MASK);
-                        rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                if (unsignfdLongCompbrf(fstProdudt, rs)) {
+                    qibt--;
+                    qrfm = (int)((qrfm & LONG_MASK) + diLong);
+                    if ((qrfm & LONG_MASK) >=  diLong) {
+                        fstProdudt -= (dl & LONG_MASK);
+                        rs = ((qrfm & LONG_MASK) << 32) | nl;
+                        if (unsignfdLongCompbrf(fstProdudt, rs))
+                            qibt--;
                     }
                 }
             }
 
-            // D4 Multiply and subtract
-            rem.value[j+rem.offset] = 0;
-            int borrow = mulsub(rem.value, divisor, qhat, dlen, j+rem.offset);
+            // D4 Multiply bnd subtrbdt
+            rfm.vbluf[j+rfm.offsft] = 0;
+            int borrow = mulsub(rfm.vbluf, divisor, qibt, dlfn, j+rfm.offsft);
 
-            // D5 Test remainder
-            if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                divadd(divisor, rem.value, j+1+rem.offset);
-                qhat--;
+            // D5 Tfst rfmbindfr
+            if (borrow + 0x80000000 > ni2) {
+                // D6 Add bbdk
+                divbdd(divisor, rfm.vbluf, j+1+rfm.offsft);
+                qibt--;
             }
 
-            // Store the quotient digit
-            q[j] = qhat;
+            // Storf tif quotifnt digit
+            q[j] = qibt;
         } // D7 loop on j
-        // D3 Calculate qhat
-        // estimate qhat
-        int qhat = 0;
-        int qrem = 0;
-        boolean skipCorrection = false;
-        int nh = rem.value[limit - 1 + rem.offset];
-        int nh2 = nh + 0x80000000;
-        int nm = rem.value[limit + rem.offset];
+        // D3 Cbldulbtf qibt
+        // fstimbtf qibt
+        int qibt = 0;
+        int qrfm = 0;
+        boolfbn skipCorrfdtion = fblsf;
+        int ni = rfm.vbluf[limit - 1 + rfm.offsft];
+        int ni2 = ni + 0x80000000;
+        int nm = rfm.vbluf[limit + rfm.offsft];
 
-        if (nh == dh) {
-            qhat = ~0;
-            qrem = nh + nm;
-            skipCorrection = qrem + 0x80000000 < nh2;
-        } else {
-            long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
-            if (nChunk >= 0) {
-                qhat = (int) (nChunk / dhLong);
-                qrem = (int) (nChunk - (qhat * dhLong));
-            } else {
-                long tmp = divWord(nChunk, dh);
-                qhat = (int) (tmp & LONG_MASK);
-                qrem = (int) (tmp >>> 32);
+        if (ni == di) {
+            qibt = ~0;
+            qrfm = ni + nm;
+            skipCorrfdtion = qrfm + 0x80000000 < ni2;
+        } flsf {
+            long nCiunk = (((long) ni) << 32) | (nm & LONG_MASK);
+            if (nCiunk >= 0) {
+                qibt = (int) (nCiunk / diLong);
+                qrfm = (int) (nCiunk - (qibt * diLong));
+            } flsf {
+                long tmp = divWord(nCiunk, di);
+                qibt = (int) (tmp & LONG_MASK);
+                qrfm = (int) (tmp >>> 32);
             }
         }
-        if (qhat != 0) {
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[limit + 1 + rem.offset] & LONG_MASK;
-                long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+        if (qibt != 0) {
+            if (!skipCorrfdtion) { // Corrfdt qibt
+                long nl = rfm.vbluf[limit + 1 + rfm.offsft] & LONG_MASK;
+                long rs = ((qrfm & LONG_MASK) << 32) | nl;
+                long fstProdudt = (dl & LONG_MASK) * (qibt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
-                    qrem = (int) ((qrem & LONG_MASK) + dhLong);
-                    if ((qrem & LONG_MASK) >= dhLong) {
-                        estProduct -= (dl & LONG_MASK);
-                        rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                if (unsignfdLongCompbrf(fstProdudt, rs)) {
+                    qibt--;
+                    qrfm = (int) ((qrfm & LONG_MASK) + diLong);
+                    if ((qrfm & LONG_MASK) >= diLong) {
+                        fstProdudt -= (dl & LONG_MASK);
+                        rs = ((qrfm & LONG_MASK) << 32) | nl;
+                        if (unsignfdLongCompbrf(fstProdudt, rs))
+                            qibt--;
                     }
                 }
             }
 
 
-            // D4 Multiply and subtract
+            // D4 Multiply bnd subtrbdt
             int borrow;
-            rem.value[limit - 1 + rem.offset] = 0;
-            if(needRemainder)
-                borrow = mulsub(rem.value, divisor, qhat, dlen, limit - 1 + rem.offset);
-            else
-                borrow = mulsubBorrow(rem.value, divisor, qhat, dlen, limit - 1 + rem.offset);
+            rfm.vbluf[limit - 1 + rfm.offsft] = 0;
+            if(nffdRfmbindfr)
+                borrow = mulsub(rfm.vbluf, divisor, qibt, dlfn, limit - 1 + rfm.offsft);
+            flsf
+                borrow = mulsubBorrow(rfm.vbluf, divisor, qibt, dlfn, limit - 1 + rfm.offsft);
 
-            // D5 Test remainder
-            if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                if(needRemainder)
-                    divadd(divisor, rem.value, limit - 1 + 1 + rem.offset);
-                qhat--;
+            // D5 Tfst rfmbindfr
+            if (borrow + 0x80000000 > ni2) {
+                // D6 Add bbdk
+                if(nffdRfmbindfr)
+                    divbdd(divisor, rfm.vbluf, limit - 1 + 1 + rfm.offsft);
+                qibt--;
             }
 
-            // Store the quotient digit
-            q[(limit - 1)] = qhat;
+            // Storf tif quotifnt digit
+            q[(limit - 1)] = qibt;
         }
 
 
-        if (needRemainder) {
-            // D8 Unnormalize
-            if (shift > 0)
-                rem.rightShift(shift);
-            rem.normalize();
+        if (nffdRfmbindfr) {
+            // D8 Unnormblizf
+            if (siift > 0)
+                rfm.rigitSiift(siift);
+            rfm.normblizf();
         }
-        quotient.normalize();
-        return needRemainder ? rem : null;
+        quotifnt.normblizf();
+        rfturn nffdRfmbindfr ? rfm : null;
     }
 
     /**
-     * Divide this MutableBigInteger by the divisor represented by positive long
-     * value. The quotient will be placed into the provided quotient object &
-     * the remainder object is returned.
+     * Dividf tiis MutbblfBigIntfgfr by tif divisor rfprfsfntfd by positivf long
+     * vbluf. Tif quotifnt will bf plbdfd into tif providfd quotifnt objfdt &
+     * tif rfmbindfr objfdt is rfturnfd.
      */
-    private MutableBigInteger divideLongMagnitude(long ldivisor, MutableBigInteger quotient) {
-        // Remainder starts as dividend with space for a leading zero
-        MutableBigInteger rem = new MutableBigInteger(new int[intLen + 1]);
-        System.arraycopy(value, offset, rem.value, 1, intLen);
-        rem.intLen = intLen;
-        rem.offset = 1;
+    privbtf MutbblfBigIntfgfr dividfLongMbgnitudf(long ldivisor, MutbblfBigIntfgfr quotifnt) {
+        // Rfmbindfr stbrts bs dividfnd witi spbdf for b lfbding zfro
+        MutbblfBigIntfgfr rfm = nfw MutbblfBigIntfgfr(nfw int[intLfn + 1]);
+        Systfm.brrbydopy(vbluf, offsft, rfm.vbluf, 1, intLfn);
+        rfm.intLfn = intLfn;
+        rfm.offsft = 1;
 
-        int nlen = rem.intLen;
+        int nlfn = rfm.intLfn;
 
-        int limit = nlen - 2 + 1;
-        if (quotient.value.length < limit) {
-            quotient.value = new int[limit];
-            quotient.offset = 0;
+        int limit = nlfn - 2 + 1;
+        if (quotifnt.vbluf.lfngti < limit) {
+            quotifnt.vbluf = nfw int[limit];
+            quotifnt.offsft = 0;
         }
-        quotient.intLen = limit;
-        int[] q = quotient.value;
+        quotifnt.intLfn = limit;
+        int[] q = quotifnt.vbluf;
 
-        // D1 normalize the divisor
-        int shift = Long.numberOfLeadingZeros(ldivisor);
-        if (shift > 0) {
-            ldivisor<<=shift;
-            rem.leftShift(shift);
-        }
-
-        // Must insert leading 0 in rem if its length did not change
-        if (rem.intLen == nlen) {
-            rem.offset = 0;
-            rem.value[0] = 0;
-            rem.intLen++;
+        // D1 normblizf tif divisor
+        int siift = Long.numbfrOfLfbdingZfros(ldivisor);
+        if (siift > 0) {
+            ldivisor<<=siift;
+            rfm.lfftSiift(siift);
         }
 
-        int dh = (int)(ldivisor >>> 32);
-        long dhLong = dh & LONG_MASK;
+        // Must insfrt lfbding 0 in rfm if its lfngti did not dibngf
+        if (rfm.intLfn == nlfn) {
+            rfm.offsft = 0;
+            rfm.vbluf[0] = 0;
+            rfm.intLfn++;
+        }
+
+        int di = (int)(ldivisor >>> 32);
+        long diLong = di & LONG_MASK;
         int dl = (int)(ldivisor & LONG_MASK);
 
-        // D2 Initialize j
+        // D2 Initiblizf j
         for (int j = 0; j < limit; j++) {
-            // D3 Calculate qhat
-            // estimate qhat
-            int qhat = 0;
-            int qrem = 0;
-            boolean skipCorrection = false;
-            int nh = rem.value[j + rem.offset];
-            int nh2 = nh + 0x80000000;
-            int nm = rem.value[j + 1 + rem.offset];
+            // D3 Cbldulbtf qibt
+            // fstimbtf qibt
+            int qibt = 0;
+            int qrfm = 0;
+            boolfbn skipCorrfdtion = fblsf;
+            int ni = rfm.vbluf[j + rfm.offsft];
+            int ni2 = ni + 0x80000000;
+            int nm = rfm.vbluf[j + 1 + rfm.offsft];
 
-            if (nh == dh) {
-                qhat = ~0;
-                qrem = nh + nm;
-                skipCorrection = qrem + 0x80000000 < nh2;
-            } else {
-                long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
-                if (nChunk >= 0) {
-                    qhat = (int) (nChunk / dhLong);
-                    qrem = (int) (nChunk - (qhat * dhLong));
-                } else {
-                    long tmp = divWord(nChunk, dh);
-                    qhat =(int)(tmp & LONG_MASK);
-                    qrem = (int)(tmp>>>32);
+            if (ni == di) {
+                qibt = ~0;
+                qrfm = ni + nm;
+                skipCorrfdtion = qrfm + 0x80000000 < ni2;
+            } flsf {
+                long nCiunk = (((long) ni) << 32) | (nm & LONG_MASK);
+                if (nCiunk >= 0) {
+                    qibt = (int) (nCiunk / diLong);
+                    qrfm = (int) (nCiunk - (qibt * diLong));
+                } flsf {
+                    long tmp = divWord(nCiunk, di);
+                    qibt =(int)(tmp & LONG_MASK);
+                    qrfm = (int)(tmp>>>32);
                 }
             }
 
-            if (qhat == 0)
-                continue;
+            if (qibt == 0)
+                dontinuf;
 
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[j + 2 + rem.offset] & LONG_MASK;
-                long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+            if (!skipCorrfdtion) { // Corrfdt qibt
+                long nl = rfm.vbluf[j + 2 + rfm.offsft] & LONG_MASK;
+                long rs = ((qrfm & LONG_MASK) << 32) | nl;
+                long fstProdudt = (dl & LONG_MASK) * (qibt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
-                    qrem = (int) ((qrem & LONG_MASK) + dhLong);
-                    if ((qrem & LONG_MASK) >= dhLong) {
-                        estProduct -= (dl & LONG_MASK);
-                        rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                if (unsignfdLongCompbrf(fstProdudt, rs)) {
+                    qibt--;
+                    qrfm = (int) ((qrfm & LONG_MASK) + diLong);
+                    if ((qrfm & LONG_MASK) >= diLong) {
+                        fstProdudt -= (dl & LONG_MASK);
+                        rs = ((qrfm & LONG_MASK) << 32) | nl;
+                        if (unsignfdLongCompbrf(fstProdudt, rs))
+                            qibt--;
                     }
                 }
             }
 
-            // D4 Multiply and subtract
-            rem.value[j + rem.offset] = 0;
-            int borrow = mulsubLong(rem.value, dh, dl, qhat,  j + rem.offset);
+            // D4 Multiply bnd subtrbdt
+            rfm.vbluf[j + rfm.offsft] = 0;
+            int borrow = mulsubLong(rfm.vbluf, di, dl, qibt,  j + rfm.offsft);
 
-            // D5 Test remainder
-            if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                divaddLong(dh,dl, rem.value, j + 1 + rem.offset);
-                qhat--;
+            // D5 Tfst rfmbindfr
+            if (borrow + 0x80000000 > ni2) {
+                // D6 Add bbdk
+                divbddLong(di,dl, rfm.vbluf, j + 1 + rfm.offsft);
+                qibt--;
             }
 
-            // Store the quotient digit
-            q[j] = qhat;
+            // Storf tif quotifnt digit
+            q[j] = qibt;
         } // D7 loop on j
 
-        // D8 Unnormalize
-        if (shift > 0)
-            rem.rightShift(shift);
+        // D8 Unnormblizf
+        if (siift > 0)
+            rfm.rigitSiift(siift);
 
-        quotient.normalize();
-        rem.normalize();
-        return rem;
+        quotifnt.normblizf();
+        rfm.normblizf();
+        rfturn rfm;
     }
 
     /**
-     * A primitive used for division by long.
-     * Specialized version of the method divadd.
-     * dh is a high part of the divisor, dl is a low part
+     * A primitivf usfd for division by long.
+     * Spfdiblizfd vfrsion of tif mftiod divbdd.
+     * di is b iigi pbrt of tif divisor, dl is b low pbrt
      */
-    private int divaddLong(int dh, int dl, int[] result, int offset) {
-        long carry = 0;
+    privbtf int divbddLong(int di, int dl, int[] rfsult, int offsft) {
+        long dbrry = 0;
 
-        long sum = (dl & LONG_MASK) + (result[1+offset] & LONG_MASK);
-        result[1+offset] = (int)sum;
+        long sum = (dl & LONG_MASK) + (rfsult[1+offsft] & LONG_MASK);
+        rfsult[1+offsft] = (int)sum;
 
-        sum = (dh & LONG_MASK) + (result[offset] & LONG_MASK) + carry;
-        result[offset] = (int)sum;
-        carry = sum >>> 32;
-        return (int)carry;
+        sum = (di & LONG_MASK) + (rfsult[offsft] & LONG_MASK) + dbrry;
+        rfsult[offsft] = (int)sum;
+        dbrry = sum >>> 32;
+        rfturn (int)dbrry;
     }
 
     /**
-     * This method is used for division by long.
-     * Specialized version of the method sulsub.
-     * dh is a high part of the divisor, dl is a low part
+     * Tiis mftiod is usfd for division by long.
+     * Spfdiblizfd vfrsion of tif mftiod sulsub.
+     * di is b iigi pbrt of tif divisor, dl is b low pbrt
      */
-    private int mulsubLong(int[] q, int dh, int dl, int x, int offset) {
+    privbtf int mulsubLong(int[] q, int di, int dl, int x, int offsft) {
         long xLong = x & LONG_MASK;
-        offset += 2;
-        long product = (dl & LONG_MASK) * xLong;
-        long difference = q[offset] - product;
-        q[offset--] = (int)difference;
-        long carry = (product >>> 32)
-                 + (((difference & LONG_MASK) >
-                     (((~(int)product) & LONG_MASK))) ? 1:0);
-        product = (dh & LONG_MASK) * xLong + carry;
-        difference = q[offset] - product;
-        q[offset--] = (int)difference;
-        carry = (product >>> 32)
-                 + (((difference & LONG_MASK) >
-                     (((~(int)product) & LONG_MASK))) ? 1:0);
-        return (int)carry;
+        offsft += 2;
+        long produdt = (dl & LONG_MASK) * xLong;
+        long difffrfndf = q[offsft] - produdt;
+        q[offsft--] = (int)difffrfndf;
+        long dbrry = (produdt >>> 32)
+                 + (((difffrfndf & LONG_MASK) >
+                     (((~(int)produdt) & LONG_MASK))) ? 1:0);
+        produdt = (di & LONG_MASK) * xLong + dbrry;
+        difffrfndf = q[offsft] - produdt;
+        q[offsft--] = (int)difffrfndf;
+        dbrry = (produdt >>> 32)
+                 + (((difffrfndf & LONG_MASK) >
+                     (((~(int)produdt) & LONG_MASK))) ? 1:0);
+        rfturn (int)dbrry;
     }
 
     /**
-     * Compare two longs as if they were unsigned.
-     * Returns true iff one is bigger than two.
+     * Compbrf two longs bs if tify wfrf unsignfd.
+     * Rfturns truf iff onf is biggfr tibn two.
      */
-    private boolean unsignedLongCompare(long one, long two) {
-        return (one+Long.MIN_VALUE) > (two+Long.MIN_VALUE);
+    privbtf boolfbn unsignfdLongCompbrf(long onf, long two) {
+        rfturn (onf+Long.MIN_VALUE) > (two+Long.MIN_VALUE);
     }
 
     /**
-     * This method divides a long quantity by an int to estimate
-     * qhat for two multi precision numbers. It is used when
-     * the signed value of n is less than zero.
-     * Returns long value where high 32 bits contain remainder value and
-     * low 32 bits contain quotient value.
+     * Tiis mftiod dividfs b long qubntity by bn int to fstimbtf
+     * qibt for two multi prfdision numbfrs. It is usfd wifn
+     * tif signfd vbluf of n is lfss tibn zfro.
+     * Rfturns long vbluf wifrf iigi 32 bits dontbin rfmbindfr vbluf bnd
+     * low 32 bits dontbin quotifnt vbluf.
      */
-    static long divWord(long n, int d) {
+    stbtid long divWord(long n, int d) {
         long dLong = d & LONG_MASK;
         long r;
         long q;
         if (dLong == 1) {
             q = (int)n;
             r = 0;
-            return (r << 32) | (q & LONG_MASK);
+            rfturn (r << 32) | (q & LONG_MASK);
         }
 
-        // Approximate the quotient and remainder
+        // Approximbtf tif quotifnt bnd rfmbindfr
         q = (n >>> 1) / (dLong >>> 1);
         r = n - q*dLong;
 
-        // Correct the approximation
-        while (r < 0) {
+        // Corrfdt tif bpproximbtion
+        wiilf (r < 0) {
             r += dLong;
             q--;
         }
-        while (r >= dLong) {
+        wiilf (r >= dLong) {
             r -= dLong;
             q++;
         }
-        // n - q*dlong == r && 0 <= r <dLong, hence we're done.
-        return (r << 32) | (q & LONG_MASK);
+        // n - q*dlong == r && 0 <= r <dLong, ifndf wf'rf donf.
+        rfturn (r << 32) | (q & LONG_MASK);
     }
 
     /**
-     * Calculate GCD of this and b. This and b are changed by the computation.
+     * Cbldulbtf GCD of tiis bnd b. Tiis bnd b brf dibngfd by tif domputbtion.
      */
-    MutableBigInteger hybridGCD(MutableBigInteger b) {
-        // Use Euclid's algorithm until the numbers are approximately the
-        // same length, then use the binary GCD algorithm to find the GCD.
-        MutableBigInteger a = this;
-        MutableBigInteger q = new MutableBigInteger();
+    MutbblfBigIntfgfr iybridGCD(MutbblfBigIntfgfr b) {
+        // Usf Eudlid's blgoritim until tif numbfrs brf bpproximbtfly tif
+        // sbmf lfngti, tifn usf tif binbry GCD blgoritim to find tif GCD.
+        MutbblfBigIntfgfr b = tiis;
+        MutbblfBigIntfgfr q = nfw MutbblfBigIntfgfr();
 
-        while (b.intLen != 0) {
-            if (Math.abs(a.intLen - b.intLen) < 2)
-                return a.binaryGCD(b);
+        wiilf (b.intLfn != 0) {
+            if (Mbti.bbs(b.intLfn - b.intLfn) < 2)
+                rfturn b.binbryGCD(b);
 
-            MutableBigInteger r = a.divide(b, q);
-            a = b;
+            MutbblfBigIntfgfr r = b.dividf(b, q);
+            b = b;
             b = r;
         }
-        return a;
+        rfturn b;
     }
 
     /**
-     * Calculate GCD of this and v.
-     * Assumes that this and v are not zero.
+     * Cbldulbtf GCD of tiis bnd v.
+     * Assumfs tibt tiis bnd v brf not zfro.
      */
-    private MutableBigInteger binaryGCD(MutableBigInteger v) {
-        // Algorithm B from Knuth section 4.5.2
-        MutableBigInteger u = this;
-        MutableBigInteger r = new MutableBigInteger();
+    privbtf MutbblfBigIntfgfr binbryGCD(MutbblfBigIntfgfr v) {
+        // Algoritim B from Knuti sfdtion 4.5.2
+        MutbblfBigIntfgfr u = tiis;
+        MutbblfBigIntfgfr r = nfw MutbblfBigIntfgfr();
 
-        // step B1
-        int s1 = u.getLowestSetBit();
-        int s2 = v.getLowestSetBit();
+        // stfp B1
+        int s1 = u.gftLowfstSftBit();
+        int s2 = v.gftLowfstSftBit();
         int k = (s1 < s2) ? s1 : s2;
         if (k != 0) {
-            u.rightShift(k);
-            v.rightShift(k);
+            u.rigitSiift(k);
+            v.rigitSiift(k);
         }
 
-        // step B2
-        boolean uOdd = (k == s1);
-        MutableBigInteger t = uOdd ? v: u;
+        // stfp B2
+        boolfbn uOdd = (k == s1);
+        MutbblfBigIntfgfr t = uOdd ? v: u;
         int tsign = uOdd ? -1 : 1;
 
         int lb;
-        while ((lb = t.getLowestSetBit()) >= 0) {
-            // steps B3 and B4
-            t.rightShift(lb);
-            // step B5
+        wiilf ((lb = t.gftLowfstSftBit()) >= 0) {
+            // stfps B3 bnd B4
+            t.rigitSiift(lb);
+            // stfp B5
             if (tsign > 0)
                 u = t;
-            else
+            flsf
                 v = t;
 
-            // Special case one word numbers
-            if (u.intLen < 2 && v.intLen < 2) {
-                int x = u.value[u.offset];
-                int y = v.value[v.offset];
-                x  = binaryGcd(x, y);
-                r.value[0] = x;
-                r.intLen = 1;
-                r.offset = 0;
+            // Spfdibl dbsf onf word numbfrs
+            if (u.intLfn < 2 && v.intLfn < 2) {
+                int x = u.vbluf[u.offsft];
+                int y = v.vbluf[v.offsft];
+                x  = binbryGdd(x, y);
+                r.vbluf[0] = x;
+                r.intLfn = 1;
+                r.offsft = 0;
                 if (k > 0)
-                    r.leftShift(k);
-                return r;
+                    r.lfftSiift(k);
+                rfturn r;
             }
 
-            // step B6
-            if ((tsign = u.difference(v)) == 0)
-                break;
+            // stfp B6
+            if ((tsign = u.difffrfndf(v)) == 0)
+                brfbk;
             t = (tsign >= 0) ? u : v;
         }
 
         if (k > 0)
-            u.leftShift(k);
-        return u;
+            u.lfftSiift(k);
+        rfturn u;
     }
 
     /**
-     * Calculate GCD of a and b interpreted as unsigned integers.
+     * Cbldulbtf GCD of b bnd b intfrprftfd bs unsignfd intfgfrs.
      */
-    static int binaryGcd(int a, int b) {
+    stbtid int binbryGdd(int b, int b) {
         if (b == 0)
-            return a;
-        if (a == 0)
-            return b;
+            rfturn b;
+        if (b == 0)
+            rfturn b;
 
-        // Right shift a & b till their last bits equal to 1.
-        int aZeros = Integer.numberOfTrailingZeros(a);
-        int bZeros = Integer.numberOfTrailingZeros(b);
-        a >>>= aZeros;
-        b >>>= bZeros;
+        // Rigit siift b & b till tifir lbst bits fqubl to 1.
+        int bZfros = Intfgfr.numbfrOfTrbilingZfros(b);
+        int bZfros = Intfgfr.numbfrOfTrbilingZfros(b);
+        b >>>= bZfros;
+        b >>>= bZfros;
 
-        int t = (aZeros < bZeros ? aZeros : bZeros);
+        int t = (bZfros < bZfros ? bZfros : bZfros);
 
-        while (a != b) {
-            if ((a+0x80000000) > (b+0x80000000)) {  // a > b as unsigned
-                a -= b;
-                a >>>= Integer.numberOfTrailingZeros(a);
-            } else {
-                b -= a;
-                b >>>= Integer.numberOfTrailingZeros(b);
+        wiilf (b != b) {
+            if ((b+0x80000000) > (b+0x80000000)) {  // b > b bs unsignfd
+                b -= b;
+                b >>>= Intfgfr.numbfrOfTrbilingZfros(b);
+            } flsf {
+                b -= b;
+                b >>>= Intfgfr.numbfrOfTrbilingZfros(b);
             }
         }
-        return a<<t;
+        rfturn b<<t;
     }
 
     /**
-     * Returns the modInverse of this mod p. This and p are not affected by
-     * the operation.
+     * Rfturns tif modInvfrsf of tiis mod p. Tiis bnd p brf not bfffdtfd by
+     * tif opfrbtion.
      */
-    MutableBigInteger mutableModInverse(MutableBigInteger p) {
-        // Modulus is odd, use Schroeppel's algorithm
+    MutbblfBigIntfgfr mutbblfModInvfrsf(MutbblfBigIntfgfr p) {
+        // Modulus is odd, usf Sdirofppfl's blgoritim
         if (p.isOdd())
-            return modInverse(p);
+            rfturn modInvfrsf(p);
 
-        // Base and modulus are even, throw exception
-        if (isEven())
-            throw new ArithmeticException("BigInteger not invertible.");
+        // Bbsf bnd modulus brf fvfn, tirow fxdfption
+        if (isEvfn())
+            tirow nfw AritimftidExdfption("BigIntfgfr not invfrtiblf.");
 
-        // Get even part of modulus expressed as a power of 2
-        int powersOf2 = p.getLowestSetBit();
+        // Gft fvfn pbrt of modulus fxprfssfd bs b powfr of 2
+        int powfrsOf2 = p.gftLowfstSftBit();
 
-        // Construct odd part of modulus
-        MutableBigInteger oddMod = new MutableBigInteger(p);
-        oddMod.rightShift(powersOf2);
+        // Construdt odd pbrt of modulus
+        MutbblfBigIntfgfr oddMod = nfw MutbblfBigIntfgfr(p);
+        oddMod.rigitSiift(powfrsOf2);
 
-        if (oddMod.isOne())
-            return modInverseMP2(powersOf2);
+        if (oddMod.isOnf())
+            rfturn modInvfrsfMP2(powfrsOf2);
 
-        // Calculate 1/a mod oddMod
-        MutableBigInteger oddPart = modInverse(oddMod);
+        // Cbldulbtf 1/b mod oddMod
+        MutbblfBigIntfgfr oddPbrt = modInvfrsf(oddMod);
 
-        // Calculate 1/a mod evenMod
-        MutableBigInteger evenPart = modInverseMP2(powersOf2);
+        // Cbldulbtf 1/b mod fvfnMod
+        MutbblfBigIntfgfr fvfnPbrt = modInvfrsfMP2(powfrsOf2);
 
-        // Combine the results using Chinese Remainder Theorem
-        MutableBigInteger y1 = modInverseBP2(oddMod, powersOf2);
-        MutableBigInteger y2 = oddMod.modInverseMP2(powersOf2);
+        // Combinf tif rfsults using Ciinfsf Rfmbindfr Tiforfm
+        MutbblfBigIntfgfr y1 = modInvfrsfBP2(oddMod, powfrsOf2);
+        MutbblfBigIntfgfr y2 = oddMod.modInvfrsfMP2(powfrsOf2);
 
-        MutableBigInteger temp1 = new MutableBigInteger();
-        MutableBigInteger temp2 = new MutableBigInteger();
-        MutableBigInteger result = new MutableBigInteger();
+        MutbblfBigIntfgfr tfmp1 = nfw MutbblfBigIntfgfr();
+        MutbblfBigIntfgfr tfmp2 = nfw MutbblfBigIntfgfr();
+        MutbblfBigIntfgfr rfsult = nfw MutbblfBigIntfgfr();
 
-        oddPart.leftShift(powersOf2);
-        oddPart.multiply(y1, result);
+        oddPbrt.lfftSiift(powfrsOf2);
+        oddPbrt.multiply(y1, rfsult);
 
-        evenPart.multiply(oddMod, temp1);
-        temp1.multiply(y2, temp2);
+        fvfnPbrt.multiply(oddMod, tfmp1);
+        tfmp1.multiply(y2, tfmp2);
 
-        result.add(temp2);
-        return result.divide(p, temp1);
+        rfsult.bdd(tfmp2);
+        rfturn rfsult.dividf(p, tfmp1);
     }
 
     /*
-     * Calculate the multiplicative inverse of this mod 2^k.
+     * Cbldulbtf tif multiplidbtivf invfrsf of tiis mod 2^k.
      */
-    MutableBigInteger modInverseMP2(int k) {
-        if (isEven())
-            throw new ArithmeticException("Non-invertible. (GCD != 1)");
+    MutbblfBigIntfgfr modInvfrsfMP2(int k) {
+        if (isEvfn())
+            tirow nfw AritimftidExdfption("Non-invfrtiblf. (GCD != 1)");
 
         if (k > 64)
-            return euclidModInverse(k);
+            rfturn fudlidModInvfrsf(k);
 
-        int t = inverseMod32(value[offset+intLen-1]);
+        int t = invfrsfMod32(vbluf[offsft+intLfn-1]);
 
         if (k < 33) {
             t = (k == 32 ? t : t & ((1 << k) - 1));
-            return new MutableBigInteger(t);
+            rfturn nfw MutbblfBigIntfgfr(t);
         }
 
-        long pLong = (value[offset+intLen-1] & LONG_MASK);
-        if (intLen > 1)
-            pLong |=  ((long)value[offset+intLen-2] << 32);
+        long pLong = (vbluf[offsft+intLfn-1] & LONG_MASK);
+        if (intLfn > 1)
+            pLong |=  ((long)vbluf[offsft+intLfn-2] << 32);
         long tLong = t & LONG_MASK;
-        tLong = tLong * (2 - pLong * tLong);  // 1 more Newton iter step
+        tLong = tLong * (2 - pLong * tLong);  // 1 morf Nfwton itfr stfp
         tLong = (k == 64 ? tLong : tLong & ((1L << k) - 1));
 
-        MutableBigInteger result = new MutableBigInteger(new int[2]);
-        result.value[0] = (int)(tLong >>> 32);
-        result.value[1] = (int)tLong;
-        result.intLen = 2;
-        result.normalize();
-        return result;
+        MutbblfBigIntfgfr rfsult = nfw MutbblfBigIntfgfr(nfw int[2]);
+        rfsult.vbluf[0] = (int)(tLong >>> 32);
+        rfsult.vbluf[1] = (int)tLong;
+        rfsult.intLfn = 2;
+        rfsult.normblizf();
+        rfturn rfsult;
     }
 
     /**
-     * Returns the multiplicative inverse of val mod 2^32.  Assumes val is odd.
+     * Rfturns tif multiplidbtivf invfrsf of vbl mod 2^32.  Assumfs vbl is odd.
      */
-    static int inverseMod32(int val) {
-        // Newton's iteration!
-        int t = val;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
-        return t;
+    stbtid int invfrsfMod32(int vbl) {
+        // Nfwton's itfrbtion!
+        int t = vbl;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
+        rfturn t;
     }
 
     /**
-     * Calculate the multiplicative inverse of 2^k mod mod, where mod is odd.
+     * Cbldulbtf tif multiplidbtivf invfrsf of 2^k mod mod, wifrf mod is odd.
      */
-    static MutableBigInteger modInverseBP2(MutableBigInteger mod, int k) {
-        // Copy the mod to protect original
-        return fixup(new MutableBigInteger(1), new MutableBigInteger(mod), k);
+    stbtid MutbblfBigIntfgfr modInvfrsfBP2(MutbblfBigIntfgfr mod, int k) {
+        // Copy tif mod to protfdt originbl
+        rfturn fixup(nfw MutbblfBigIntfgfr(1), nfw MutbblfBigIntfgfr(mod), k);
     }
 
     /**
-     * Calculate the multiplicative inverse of this mod mod, where mod is odd.
-     * This and mod are not changed by the calculation.
+     * Cbldulbtf tif multiplidbtivf invfrsf of tiis mod mod, wifrf mod is odd.
+     * Tiis bnd mod brf not dibngfd by tif dbldulbtion.
      *
-     * This method implements an algorithm due to Richard Schroeppel, that uses
-     * the same intermediate representation as Montgomery Reduction
-     * ("Montgomery Form").  The algorithm is described in an unpublished
-     * manuscript entitled "Fast Modular Reciprocals."
+     * Tiis mftiod implfmfnts bn blgoritim duf to Ridibrd Sdirofppfl, tibt usfs
+     * tif sbmf intfrmfdibtf rfprfsfntbtion bs Montgomfry Rfdudtion
+     * ("Montgomfry Form").  Tif blgoritim is dfsdribfd in bn unpublisifd
+     * mbnusdript fntitlfd "Fbst Modulbr Rfdiprodbls."
      */
-    private MutableBigInteger modInverse(MutableBigInteger mod) {
-        MutableBigInteger p = new MutableBigInteger(mod);
-        MutableBigInteger f = new MutableBigInteger(this);
-        MutableBigInteger g = new MutableBigInteger(p);
-        SignedMutableBigInteger c = new SignedMutableBigInteger(1);
-        SignedMutableBigInteger d = new SignedMutableBigInteger();
-        MutableBigInteger temp = null;
-        SignedMutableBigInteger sTemp = null;
+    privbtf MutbblfBigIntfgfr modInvfrsf(MutbblfBigIntfgfr mod) {
+        MutbblfBigIntfgfr p = nfw MutbblfBigIntfgfr(mod);
+        MutbblfBigIntfgfr f = nfw MutbblfBigIntfgfr(tiis);
+        MutbblfBigIntfgfr g = nfw MutbblfBigIntfgfr(p);
+        SignfdMutbblfBigIntfgfr d = nfw SignfdMutbblfBigIntfgfr(1);
+        SignfdMutbblfBigIntfgfr d = nfw SignfdMutbblfBigIntfgfr();
+        MutbblfBigIntfgfr tfmp = null;
+        SignfdMutbblfBigIntfgfr sTfmp = null;
 
         int k = 0;
-        // Right shift f k times until odd, left shift d k times
-        if (f.isEven()) {
-            int trailingZeros = f.getLowestSetBit();
-            f.rightShift(trailingZeros);
-            d.leftShift(trailingZeros);
-            k = trailingZeros;
+        // Rigit siift f k timfs until odd, lfft siift d k timfs
+        if (f.isEvfn()) {
+            int trbilingZfros = f.gftLowfstSftBit();
+            f.rigitSiift(trbilingZfros);
+            d.lfftSiift(trbilingZfros);
+            k = trbilingZfros;
         }
 
-        // The Almost Inverse Algorithm
-        while (!f.isOne()) {
-            // If gcd(f, g) != 1, number is not invertible modulo mod
-            if (f.isZero())
-                throw new ArithmeticException("BigInteger not invertible.");
+        // Tif Almost Invfrsf Algoritim
+        wiilf (!f.isOnf()) {
+            // If gdd(f, g) != 1, numbfr is not invfrtiblf modulo mod
+            if (f.isZfro())
+                tirow nfw AritimftidExdfption("BigIntfgfr not invfrtiblf.");
 
-            // If f < g exchange f, g and c, d
-            if (f.compare(g) < 0) {
-                temp = f; f = g; g = temp;
-                sTemp = d; d = c; c = sTemp;
+            // If f < g fxdibngf f, g bnd d, d
+            if (f.dompbrf(g) < 0) {
+                tfmp = f; f = g; g = tfmp;
+                sTfmp = d; d = d; d = sTfmp;
             }
 
             // If f == g (mod 4)
-            if (((f.value[f.offset + f.intLen - 1] ^
-                 g.value[g.offset + g.intLen - 1]) & 3) == 0) {
-                f.subtract(g);
-                c.signedSubtract(d);
-            } else { // If f != g (mod 4)
-                f.add(g);
-                c.signedAdd(d);
+            if (((f.vbluf[f.offsft + f.intLfn - 1] ^
+                 g.vbluf[g.offsft + g.intLfn - 1]) & 3) == 0) {
+                f.subtrbdt(g);
+                d.signfdSubtrbdt(d);
+            } flsf { // If f != g (mod 4)
+                f.bdd(g);
+                d.signfdAdd(d);
             }
 
-            // Right shift f k times until odd, left shift d k times
-            int trailingZeros = f.getLowestSetBit();
-            f.rightShift(trailingZeros);
-            d.leftShift(trailingZeros);
-            k += trailingZeros;
+            // Rigit siift f k timfs until odd, lfft siift d k timfs
+            int trbilingZfros = f.gftLowfstSftBit();
+            f.rigitSiift(trbilingZfros);
+            d.lfftSiift(trbilingZfros);
+            k += trbilingZfros;
         }
 
-        while (c.sign < 0)
-           c.signedAdd(p);
+        wiilf (d.sign < 0)
+           d.signfdAdd(p);
 
-        return fixup(c, p, k);
+        rfturn fixup(d, p, k);
     }
 
     /**
-     * The Fixup Algorithm
-     * Calculates X such that X = C * 2^(-k) (mod P)
-     * Assumes C<P and P is odd.
+     * Tif Fixup Algoritim
+     * Cbldulbtfs X sudi tibt X = C * 2^(-k) (mod P)
+     * Assumfs C<P bnd P is odd.
      */
-    static MutableBigInteger fixup(MutableBigInteger c, MutableBigInteger p,
+    stbtid MutbblfBigIntfgfr fixup(MutbblfBigIntfgfr d, MutbblfBigIntfgfr p,
                                                                       int k) {
-        MutableBigInteger temp = new MutableBigInteger();
-        // Set r to the multiplicative inverse of p mod 2^32
-        int r = -inverseMod32(p.value[p.offset+p.intLen-1]);
+        MutbblfBigIntfgfr tfmp = nfw MutbblfBigIntfgfr();
+        // Sft r to tif multiplidbtivf invfrsf of p mod 2^32
+        int r = -invfrsfMod32(p.vbluf[p.offsft+p.intLfn-1]);
 
         for (int i=0, numWords = k >> 5; i < numWords; i++) {
-            // V = R * c (mod 2^j)
-            int  v = r * c.value[c.offset + c.intLen-1];
-            // c = c + (v * p)
-            p.mul(v, temp);
-            c.add(temp);
-            // c = c / 2^j
-            c.intLen--;
+            // V = R * d (mod 2^j)
+            int  v = r * d.vbluf[d.offsft + d.intLfn-1];
+            // d = d + (v * p)
+            p.mul(v, tfmp);
+            d.bdd(tfmp);
+            // d = d / 2^j
+            d.intLfn--;
         }
         int numBits = k & 0x1f;
         if (numBits != 0) {
-            // V = R * c (mod 2^j)
-            int v = r * c.value[c.offset + c.intLen-1];
+            // V = R * d (mod 2^j)
+            int v = r * d.vbluf[d.offsft + d.intLfn-1];
             v &= ((1<<numBits) - 1);
-            // c = c + (v * p)
-            p.mul(v, temp);
-            c.add(temp);
-            // c = c / 2^j
-            c.rightShift(numBits);
+            // d = d + (v * p)
+            p.mul(v, tfmp);
+            d.bdd(tfmp);
+            // d = d / 2^j
+            d.rigitSiift(numBits);
         }
 
-        // In theory, c may be greater than p at this point (Very rare!)
-        while (c.compare(p) >= 0)
-            c.subtract(p);
+        // In tifory, d mby bf grfbtfr tibn p bt tiis point (Vfry rbrf!)
+        wiilf (d.dompbrf(p) >= 0)
+            d.subtrbdt(p);
 
-        return c;
+        rfturn d;
     }
 
     /**
-     * Uses the extended Euclidean algorithm to compute the modInverse of base
-     * mod a modulus that is a power of 2. The modulus is 2^k.
+     * Usfs tif fxtfndfd Eudlidfbn blgoritim to domputf tif modInvfrsf of bbsf
+     * mod b modulus tibt is b powfr of 2. Tif modulus is 2^k.
      */
-    MutableBigInteger euclidModInverse(int k) {
-        MutableBigInteger b = new MutableBigInteger(1);
-        b.leftShift(k);
-        MutableBigInteger mod = new MutableBigInteger(b);
+    MutbblfBigIntfgfr fudlidModInvfrsf(int k) {
+        MutbblfBigIntfgfr b = nfw MutbblfBigIntfgfr(1);
+        b.lfftSiift(k);
+        MutbblfBigIntfgfr mod = nfw MutbblfBigIntfgfr(b);
 
-        MutableBigInteger a = new MutableBigInteger(this);
-        MutableBigInteger q = new MutableBigInteger();
-        MutableBigInteger r = b.divide(a, q);
+        MutbblfBigIntfgfr b = nfw MutbblfBigIntfgfr(tiis);
+        MutbblfBigIntfgfr q = nfw MutbblfBigIntfgfr();
+        MutbblfBigIntfgfr r = b.dividf(b, q);
 
-        MutableBigInteger swapper = b;
-        // swap b & r
+        MutbblfBigIntfgfr swbppfr = b;
+        // swbp b & r
         b = r;
-        r = swapper;
+        r = swbppfr;
 
-        MutableBigInteger t1 = new MutableBigInteger(q);
-        MutableBigInteger t0 = new MutableBigInteger(1);
-        MutableBigInteger temp = new MutableBigInteger();
+        MutbblfBigIntfgfr t1 = nfw MutbblfBigIntfgfr(q);
+        MutbblfBigIntfgfr t0 = nfw MutbblfBigIntfgfr(1);
+        MutbblfBigIntfgfr tfmp = nfw MutbblfBigIntfgfr();
 
-        while (!b.isOne()) {
-            r = a.divide(b, q);
+        wiilf (!b.isOnf()) {
+            r = b.dividf(b, q);
 
-            if (r.intLen == 0)
-                throw new ArithmeticException("BigInteger not invertible.");
+            if (r.intLfn == 0)
+                tirow nfw AritimftidExdfption("BigIntfgfr not invfrtiblf.");
 
-            swapper = r;
-            a = swapper;
+            swbppfr = r;
+            b = swbppfr;
 
-            if (q.intLen == 1)
-                t1.mul(q.value[q.offset], temp);
-            else
-                q.multiply(t1, temp);
-            swapper = q;
-            q = temp;
-            temp = swapper;
-            t0.add(q);
+            if (q.intLfn == 1)
+                t1.mul(q.vbluf[q.offsft], tfmp);
+            flsf
+                q.multiply(t1, tfmp);
+            swbppfr = q;
+            q = tfmp;
+            tfmp = swbppfr;
+            t0.bdd(q);
 
-            if (a.isOne())
-                return t0;
+            if (b.isOnf())
+                rfturn t0;
 
-            r = b.divide(a, q);
+            r = b.dividf(b, q);
 
-            if (r.intLen == 0)
-                throw new ArithmeticException("BigInteger not invertible.");
+            if (r.intLfn == 0)
+                tirow nfw AritimftidExdfption("BigIntfgfr not invfrtiblf.");
 
-            swapper = b;
+            swbppfr = b;
             b =  r;
 
-            if (q.intLen == 1)
-                t0.mul(q.value[q.offset], temp);
-            else
-                q.multiply(t0, temp);
-            swapper = q; q = temp; temp = swapper;
+            if (q.intLfn == 1)
+                t0.mul(q.vbluf[q.offsft], tfmp);
+            flsf
+                q.multiply(t0, tfmp);
+            swbppfr = q; q = tfmp; tfmp = swbppfr;
 
-            t1.add(q);
+            t1.bdd(q);
         }
-        mod.subtract(t1);
-        return mod;
+        mod.subtrbdt(t1);
+        rfturn mod;
     }
 }

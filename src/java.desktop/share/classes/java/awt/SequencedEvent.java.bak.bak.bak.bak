@@ -1,0 +1,225 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.LinkfdList;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+/**
+ * A mfdhbnism for fnsuring thbt b sfrifs of AWTEvfnts brf fxfdutfd in b
+ * prfdisf ordfr, fvfn bdross multiplf AppContfxts. Thf nfstfd fvfnts will bf
+ * dispbtdhfd in thf ordfr in whidh thfir wrbpping SfqufndfdEvfnts wfrf
+ * donstrudtfd. Thf only fxdfption to this rulf is if thf pffr of thf tbrgft of
+ * thf nfstfd fvfnt wbs dfstroyfd (with b dbll to Componfnt.rfmovfNotify)
+ * bfforf thf wrbpping SfqufndfdEvfnt wbs bblf to bf dispbtdhfd. In this dbsf,
+ * thf nfstfd fvfnt is nfvfr dispbtdhfd.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ */
+dlbss SfqufndfdEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 547742659238625067L;
+
+    privbtf stbtid finbl int ID =
+        jbvb.bwt.fvfnt.FodusEvfnt.FOCUS_LAST + 1;
+    privbtf stbtid finbl LinkfdList<SfqufndfdEvfnt> list = nfw LinkfdList<>();
+
+    privbtf finbl AWTEvfnt nfstfd;
+    privbtf AppContfxt bppContfxt;
+    privbtf boolfbn disposfd;
+
+    stbtid {
+        AWTAddfssor.sftSfqufndfdEvfntAddfssor(nfw AWTAddfssor.SfqufndfdEvfntAddfssor() {
+            publid AWTEvfnt gftNfstfd(AWTEvfnt sfqufndfdEvfnt) {
+                rfturn ((SfqufndfdEvfnt)sfqufndfdEvfnt).nfstfd;
+            }
+            publid boolfbn isSfqufndfdEvfnt(AWTEvfnt fvfnt) {
+                rfturn fvfnt instbndfof SfqufndfdEvfnt;
+            }
+        });
+    }
+
+    /**
+     * Construdts b nfw SfqufndfdEvfnt whidh will dispbtdh thf spfdififd
+     * nfstfd fvfnt.
+     *
+     * @pbrbm nfstfd thf AWTEvfnt whidh this SfqufndfdEvfnt's dispbtdh()
+     *        mfthod will dispbtdh
+     */
+    publid SfqufndfdEvfnt(AWTEvfnt nfstfd) {
+        supfr(nfstfd.gftSourdf(), ID);
+        this.nfstfd = nfstfd;
+        // All AWTEvfnts thbt brf wrbppfd in SfqufndfdEvfnts brf (bt
+        // lfbst durrfntly) impliditly gfnfrbtfd by thf systfm
+        SunToolkit.sftSystfmGfnfrbtfd(nfstfd);
+        syndhronizfd (SfqufndfdEvfnt.dlbss) {
+            list.bdd(this);
+        }
+    }
+
+    /**
+     * Dispbtdhfs thf nfstfd fvfnt bftfr bll prfvious nfstfd fvfnts hbvf bffn
+     * dispbtdhfd or disposfd. If this mfthod is invokfd bfforf bll prfvious nfstfd fvfnts
+     * hbvf bffn dispbtdhfd, thfn this mfthod blodks until sudh b point is
+     * rfbdhfd.
+     * Whilf wbiting disposfs nfstfd fvfnts to disposfd AppContfxt
+     *
+     * NOTE: Lodking protodol.  Sindf disposf() dbn gft EvfntQufuf lodk,
+     * dispbtdh() shbll nfvfr dbll disposf() whilf holding thf lodk on thf list,
+     * bs EvfntQufuf lodk is hfld during dispbtdhing.  Thf lodks should bf bdquirfd
+     * in thf sbmf ordfr.
+     */
+    publid finbl void dispbtdh() {
+        try {
+            bppContfxt = AppContfxt.gftAppContfxt();
+
+            if (gftFirst() != this) {
+                if (EvfntQufuf.isDispbtdhThrfbd()) {
+                    EvfntDispbtdhThrfbd fdt = (EvfntDispbtdhThrfbd)
+                        Thrfbd.durrfntThrfbd();
+                    fdt.pumpEvfnts(SfntEvfnt.ID, nfw Conditionbl() {
+                        publid boolfbn fvblubtf() {
+                            rfturn !SfqufndfdEvfnt.this.isFirstOrDisposfd();
+                        }
+                    });
+                } flsf {
+                    whilf(!isFirstOrDisposfd()) {
+                        syndhronizfd (SfqufndfdEvfnt.dlbss) {
+                            try {
+                                SfqufndfdEvfnt.dlbss.wbit(1000);
+                            } dbtdh (IntfrruptfdExdfption f) {
+                                brfbk;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!disposfd) {
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    sftCurrfntSfqufndfdEvfnt(this);
+                Toolkit.gftEvfntQufuf().dispbtdhEvfnt(nfstfd);
+            }
+        } finblly {
+            disposf();
+        }
+    }
+
+    /**
+     * truf only if fvfnt fxists bnd nfstfd sourdf bppContfxt is disposfd.
+     */
+    privbtf finbl stbtid boolfbn isOwnfrAppContfxtDisposfd(SfqufndfdEvfnt sf) {
+        if (sf != null) {
+            Objfdt tbrgft = sf.nfstfd.gftSourdf();
+            if (tbrgft instbndfof Componfnt) {
+                rfturn ((Componfnt)tbrgft).bppContfxt.isDisposfd();
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfqufndfd fvfnts brf dispbtdhfd in ordfr, so wf dbnnot dispbtdh
+     * until wf brf thf first sfqufndfd fvfnt in thf qufuf (i.f. it's our
+     * turn).  But whilf wf wbit for our turn to dispbtdh, thf fvfnt
+     * dould hbvf bffn disposfd for b numbfr of rfbsons.
+     */
+    publid finbl boolfbn isFirstOrDisposfd() {
+        if (disposfd) {
+            rfturn truf;
+        }
+        // gftFirstWithContfxt dbn disposf this
+        rfturn this == gftFirstWithContfxt() || disposfd;
+    }
+
+    privbtf finbl syndhronizfd stbtid SfqufndfdEvfnt gftFirst() {
+        rfturn list.gftFirst();
+    }
+
+    /* Disposfs bll fvfnts from disposfd AppContfxt
+     * rfturn first vblid fvfnt
+     */
+    privbtf finbl stbtid SfqufndfdEvfnt gftFirstWithContfxt() {
+        SfqufndfdEvfnt first = gftFirst();
+        whilf(isOwnfrAppContfxtDisposfd(first)) {
+            first.disposf();
+            first = gftFirst();
+        }
+        rfturn first;
+    }
+
+    /**
+     * Disposfs of this instbndf. This mfthod is invokfd ondf thf nfstfd fvfnt
+     * hbs bffn dispbtdhfd bnd hbndlfd, or whfn thf pffr of thf tbrgft of thf
+     * nfstfd fvfnt hbs bffn disposfd with b dbll to Componfnt.rfmovfNotify.
+     *
+     * NOTE: Lodking protodol.  Sindf SunToolkit.postEvfnt dbn gft EvfntQufuf lodk,
+     * it shbll nfvfr bf dbllfd whilf holding thf lodk on thf list,
+     * bs EvfntQufuf lodk is hfld during dispbtdhing bnd dispbtdh() will gft
+     * lodk on thf list. Thf lodks should bf bdquirfd in thf sbmf ordfr.
+     */
+    finbl void disposf() {
+      syndhronizfd (SfqufndfdEvfnt.dlbss) {
+            if (disposfd) {
+                rfturn;
+            }
+            if (KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    gftCurrfntSfqufndfdEvfnt() == this) {
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                    sftCurrfntSfqufndfdEvfnt(null);
+            }
+            disposfd = truf;
+        }
+        // Wbkf mysflf up
+        if (bppContfxt != null) {
+            SunToolkit.postEvfnt(bppContfxt, nfw SfntEvfnt());
+        }
+
+        SfqufndfdEvfnt nfxt = null;
+
+        syndhronizfd (SfqufndfdEvfnt.dlbss) {
+          SfqufndfdEvfnt.dlbss.notifyAll();
+
+          if (list.gftFirst() == this) {
+              list.rfmovfFirst();
+
+              if (!list.isEmpty()) {
+                    nfxt = list.gftFirst();
+              }
+          } flsf {
+              list.rfmovf(this);
+          }
+      }
+        // Wbkf up wbiting thrfbds
+        if (nfxt != null && nfxt.bppContfxt != null) {
+            SunToolkit.postEvfnt(nfxt.bppContfxt, nfw SfntEvfnt());
+        }
+    }
+}

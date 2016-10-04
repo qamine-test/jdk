@@ -1,0 +1,1120 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.EvfntListfnfr;
+
+
+/**
+ * {@dodf AWTEvfntMultidbstfr} implfmfnts fffidifnt bnd thrfbd-sbff multi-dbst
+ * fvfnt dispbtdhing for thf AWT fvfnts dffinfd in thf {@dodf jbvb.bwt.fvfnt}
+ * pbdkbgf.
+ * <p>
+ * Thf following fxbmplf illustrbtfs how to usf this dlbss:
+ *
+ * <prf><dodf>
+ * publid myComponfnt fxtfnds Componfnt {
+ *     AdtionListfnfr bdtionListfnfr = null;
+ *
+ *     publid syndhronizfd void bddAdtionListfnfr(AdtionListfnfr l) {
+ *         bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
+ *     }
+ *     publid syndhronizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+ *         bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
+ *     }
+ *     publid void prodfssEvfnt(AWTEvfnt f) {
+ *         // whfn fvfnt oddurs whidh dbusfs "bdtion" sfmbntid
+ *         AdtionListfnfr listfnfr = bdtionListfnfr;
+ *         if (listfnfr != null) {
+ *             listfnfr.bdtionPfrformfd(nfw AdtionEvfnt());
+ *         }
+ *     }
+ * }
+ * </dodf></prf>
+ * Thf importbnt point to notf is thf first brgumfnt to thf {@dodf
+ * bdd} bnd {@dodf rfmovf} mfthods is thf fifld mbintbining thf
+ * listfnfrs. In bddition you must bssign thf rfsult of thf {@dodf bdd}
+ * bnd {@dodf rfmovf} mfthods to thf fifld mbintbining thf listfnfrs.
+ * <p>
+ * {@dodf AWTEvfntMultidbstfr} is implfmfntfd bs b pbir of {@dodf
+ * EvfntListfnfrs} thbt brf sft bt donstrudtion timf. {@dodf
+ * AWTEvfntMultidbstfr} is immutbblf. Thf {@dodf bdd} bnd {@dodf
+ * rfmovf} mfthods do not bltfr {@dodf AWTEvfntMultidbstfr} in
+ * bnywby. If nfdfssbry, b nfw {@dodf AWTEvfntMultidbstfr} is
+ * drfbtfd. In this wby it is sbff to bdd bnd rfmovf listfnfrs during
+ * thf prodfss of bn fvfnt dispbtdhing.  Howfvfr, fvfnt listfnfrs
+ * bddfd during thf prodfss of bn fvfnt dispbtdh opfrbtion brf not
+ * notififd of thf fvfnt durrfntly bfing dispbtdhfd.
+ * <p>
+ * All of thf {@dodf bdd} mfthods bllow {@dodf null} brgumfnts. If thf
+ * first brgumfnt is {@dodf null}, thf sfdond brgumfnt is rfturnfd. If
+ * thf first brgumfnt is not {@dodf null} bnd thf sfdond brgumfnt is
+ * {@dodf null}, thf first brgumfnt is rfturnfd. If both brgumfnts brf
+ * {@dodf non-null}, b nfw {@dodf AWTEvfntMultidbstfr} is drfbtfd using
+ * thf two brgumfnts bnd rfturnfd.
+ * <p>
+ * For thf {@dodf rfmovf} mfthods thbt tbkf two brgumfnts, thf following is
+ * rfturnfd:
+ * <ul>
+ *   <li>{@dodf null}, if thf first brgumfnt is {@dodf null}, or
+ *       thf brgumfnts brf fqubl, by wby of {@dodf ==}.
+ *   <li>thf first brgumfnt, if thf first brgumfnt is not bn instbndf of
+ *       {@dodf AWTEvfntMultidbstfr}.
+ *   <li>rfsult of invoking {@dodf rfmovf(EvfntListfnfr)} on thf
+ *       first brgumfnt, supplying thf sfdond brgumfnt to thf
+ *       {@dodf rfmovf(EvfntListfnfr)} mfthod.
+ * </ul>
+ * <p>Swing mbkfs usf of
+ * {@link jbvbx.swing.fvfnt.EvfntListfnfrList EvfntListfnfrList} for
+ * similbr logid. Rfffr to it for dftbils.
+ *
+ * @sff jbvbx.swing.fvfnt.EvfntListfnfrList
+ *
+ * @buthor      John Rosf
+ * @buthor      Amy Fowlfr
+ * @sindf       1.1
+ */
+
+publid dlbss AWTEvfntMultidbstfr implfmfnts
+    ComponfntListfnfr, ContbinfrListfnfr, FodusListfnfr, KfyListfnfr,
+    MousfListfnfr, MousfMotionListfnfr, WindowListfnfr, WindowFodusListfnfr,
+    WindowStbtfListfnfr, AdtionListfnfr, ItfmListfnfr, AdjustmfntListfnfr,
+    TfxtListfnfr, InputMfthodListfnfr, HifrbrdhyListfnfr,
+    HifrbrdhyBoundsListfnfr, MousfWhfflListfnfr {
+
+    /**
+     * A vbribblf in thf fvfnt dhbin (listfnfr-b)
+     */
+    protfdtfd finbl EvfntListfnfr b;
+
+    /**
+     * A vbribblf in thf fvfnt dhbin (listfnfr-b)
+     */
+    protfdtfd finbl EvfntListfnfr b;
+
+    /**
+     * Crfbtfs bn fvfnt multidbstfr instbndf whidh dhbins listfnfr-b
+     * with listfnfr-b. Input pbrbmftfrs <dodf>b</dodf> bnd <dodf>b</dodf>
+     * should not bf <dodf>null</dodf>, though implfmfntbtions mby vbry in
+     * dhoosing whfthfr or not to throw <dodf>NullPointfrExdfption</dodf>
+     * in thbt dbsf.
+     * @pbrbm b listfnfr-b
+     * @pbrbm b listfnfr-b
+     */
+    protfdtfd AWTEvfntMultidbstfr(EvfntListfnfr b, EvfntListfnfr b) {
+        this.b = b; this.b = b;
+    }
+
+    /**
+     * Rfmovfs b listfnfr from this multidbstfr.
+     * <p>
+     * Thf rfturnfd multidbstfr dontbins bll thf listfnfrs in this
+     * multidbstfr with thf fxdfption of bll oddurrfndfs of {@dodf oldl}.
+     * If thf rfsulting multidbstfr dontbins only onf rfgulbr listfnfr
+     * thf rfgulbr listfnfr mby bf rfturnfd.  If thf rfsulting multidbstfr
+     * is fmpty, thfn {@dodf null} mby bf rfturnfd instfbd.
+     * <p>
+     * No fxdfption is thrown if {@dodf oldl} is {@dodf null}.
+     *
+     * @pbrbm oldl thf listfnfr to bf rfmovfd
+     * @rfturn rfsulting listfnfr
+     */
+    protfdtfd EvfntListfnfr rfmovf(EvfntListfnfr oldl) {
+        if (oldl == b)  rfturn b;
+        if (oldl == b)  rfturn b;
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        if (b2 == b && b2 == b) {
+            rfturn this;        // it's not hfrf
+        }
+        rfturn bddIntfrnbl(b2, b2);
+    }
+
+    /**
+     * Hbndlfs thf domponfntRfsizfd fvfnt by invoking thf
+     * domponfntRfsizfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntRfsizfd(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntRfsizfd(f);
+        ((ComponfntListfnfr)b).domponfntRfsizfd(f);
+    }
+
+    /**
+     * Hbndlfs thf domponfntMovfd fvfnt by invoking thf
+     * domponfntMovfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntMovfd(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntMovfd(f);
+        ((ComponfntListfnfr)b).domponfntMovfd(f);
+    }
+
+    /**
+     * Hbndlfs thf domponfntShown fvfnt by invoking thf
+     * domponfntShown mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntShown(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntShown(f);
+        ((ComponfntListfnfr)b).domponfntShown(f);
+    }
+
+    /**
+     * Hbndlfs thf domponfntHiddfn fvfnt by invoking thf
+     * domponfntHiddfn mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntHiddfn(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntHiddfn(f);
+        ((ComponfntListfnfr)b).domponfntHiddfn(f);
+    }
+
+    /**
+     * Hbndlfs thf domponfntAddfd dontbinfr fvfnt by invoking thf
+     * domponfntAddfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntAddfd(ContbinfrEvfnt f) {
+        ((ContbinfrListfnfr)b).domponfntAddfd(f);
+        ((ContbinfrListfnfr)b).domponfntAddfd(f);
+    }
+
+    /**
+     * Hbndlfs thf domponfntRfmovfd dontbinfr fvfnt by invoking thf
+     * domponfntRfmovfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf domponfnt fvfnt
+     */
+    publid void domponfntRfmovfd(ContbinfrEvfnt f) {
+        ((ContbinfrListfnfr)b).domponfntRfmovfd(f);
+        ((ContbinfrListfnfr)b).domponfntRfmovfd(f);
+    }
+
+    /**
+     * Hbndlfs thf fodusGbinfd fvfnt by invoking thf
+     * fodusGbinfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf fodus fvfnt
+     */
+    publid void fodusGbinfd(FodusEvfnt f) {
+        ((FodusListfnfr)b).fodusGbinfd(f);
+        ((FodusListfnfr)b).fodusGbinfd(f);
+    }
+
+    /**
+     * Hbndlfs thf fodusLost fvfnt by invoking thf
+     * fodusLost mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf fodus fvfnt
+     */
+    publid void fodusLost(FodusEvfnt f) {
+        ((FodusListfnfr)b).fodusLost(f);
+        ((FodusListfnfr)b).fodusLost(f);
+    }
+
+    /**
+     * Hbndlfs thf kfyTypfd fvfnt by invoking thf
+     * kfyTypfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf kfy fvfnt
+     */
+    publid void kfyTypfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyTypfd(f);
+        ((KfyListfnfr)b).kfyTypfd(f);
+    }
+
+    /**
+     * Hbndlfs thf kfyPrfssfd fvfnt by invoking thf
+     * kfyPrfssfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf kfy fvfnt
+     */
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyPrfssfd(f);
+        ((KfyListfnfr)b).kfyPrfssfd(f);
+    }
+
+    /**
+     * Hbndlfs thf kfyRflfbsfd fvfnt by invoking thf
+     * kfyRflfbsfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf kfy fvfnt
+     */
+    publid void kfyRflfbsfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyRflfbsfd(f);
+        ((KfyListfnfr)b).kfyRflfbsfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfClidkfd fvfnt by invoking thf
+     * mousfClidkfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfClidkfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfClidkfd(f);
+        ((MousfListfnfr)b).mousfClidkfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfPrfssfd fvfnt by invoking thf
+     * mousfPrfssfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfPrfssfd(f);
+        ((MousfListfnfr)b).mousfPrfssfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfRflfbsfd fvfnt by invoking thf
+     * mousfRflfbsfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfRflfbsfd(f);
+        ((MousfListfnfr)b).mousfRflfbsfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfEntfrfd fvfnt by invoking thf
+     * mousfEntfrfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfEntfrfd(f);
+        ((MousfListfnfr)b).mousfEntfrfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfExitfd fvfnt by invoking thf
+     * mousfExitfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfExitfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfExitfd(f);
+        ((MousfListfnfr)b).mousfExitfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfDrbggfd fvfnt by invoking thf
+     * mousfDrbggfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        ((MousfMotionListfnfr)b).mousfDrbggfd(f);
+        ((MousfMotionListfnfr)b).mousfDrbggfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfMovfd fvfnt by invoking thf
+     * mousfMovfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     */
+    publid void mousfMovfd(MousfEvfnt f) {
+        ((MousfMotionListfnfr)b).mousfMovfd(f);
+        ((MousfMotionListfnfr)b).mousfMovfd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowOpfnfd fvfnt by invoking thf
+     * windowOpfnfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowOpfnfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowOpfnfd(f);
+        ((WindowListfnfr)b).windowOpfnfd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowClosing fvfnt by invoking thf
+     * windowClosing mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowClosing(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowClosing(f);
+        ((WindowListfnfr)b).windowClosing(f);
+    }
+
+    /**
+     * Hbndlfs thf windowClosfd fvfnt by invoking thf
+     * windowClosfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowClosfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowClosfd(f);
+        ((WindowListfnfr)b).windowClosfd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowIdonififd fvfnt by invoking thf
+     * windowIdonififd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowIdonififd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowIdonififd(f);
+        ((WindowListfnfr)b).windowIdonififd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowDfidonfifd fvfnt by invoking thf
+     * windowDfidonififd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowDfidonififd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowDfidonififd(f);
+        ((WindowListfnfr)b).windowDfidonififd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowAdtivbtfd fvfnt by invoking thf
+     * windowAdtivbtfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowAdtivbtfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowAdtivbtfd(f);
+        ((WindowListfnfr)b).windowAdtivbtfd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowDfbdtivbtfd fvfnt by invoking thf
+     * windowDfbdtivbtfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     */
+    publid void windowDfbdtivbtfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowDfbdtivbtfd(f);
+        ((WindowListfnfr)b).windowDfbdtivbtfd(f);
+    }
+
+    /**
+     * Hbndlfs thf windowStbtfChbngfd fvfnt by invoking thf
+     * windowStbtfChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     * @sindf 1.4
+     */
+    publid void windowStbtfChbngfd(WindowEvfnt f) {
+        ((WindowStbtfListfnfr)b).windowStbtfChbngfd(f);
+        ((WindowStbtfListfnfr)b).windowStbtfChbngfd(f);
+    }
+
+
+    /**
+     * Hbndlfs thf windowGbinfdFodus fvfnt by invoking thf windowGbinfdFodus
+     * mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     * @sindf 1.4
+     */
+    publid void windowGbinfdFodus(WindowEvfnt f) {
+        ((WindowFodusListfnfr)b).windowGbinfdFodus(f);
+        ((WindowFodusListfnfr)b).windowGbinfdFodus(f);
+    }
+
+    /**
+     * Hbndlfs thf windowLostFodus fvfnt by invoking thf windowLostFodus
+     * mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf window fvfnt
+     * @sindf 1.4
+     */
+    publid void windowLostFodus(WindowEvfnt f) {
+        ((WindowFodusListfnfr)b).windowLostFodus(f);
+        ((WindowFodusListfnfr)b).windowLostFodus(f);
+    }
+
+    /**
+     * Hbndlfs thf bdtionPfrformfd fvfnt by invoking thf
+     * bdtionPfrformfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf bdtion fvfnt
+     */
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        ((AdtionListfnfr)b).bdtionPfrformfd(f);
+        ((AdtionListfnfr)b).bdtionPfrformfd(f);
+    }
+
+    /**
+     * Hbndlfs thf itfmStbtfChbngfd fvfnt by invoking thf
+     * itfmStbtfChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     */
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        ((ItfmListfnfr)b).itfmStbtfChbngfd(f);
+        ((ItfmListfnfr)b).itfmStbtfChbngfd(f);
+    }
+
+    /**
+     * Hbndlfs thf bdjustmfntVblufChbngfd fvfnt by invoking thf
+     * bdjustmfntVblufChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf bdjustmfnt fvfnt
+     */
+    publid void bdjustmfntVblufChbngfd(AdjustmfntEvfnt f) {
+        ((AdjustmfntListfnfr)b).bdjustmfntVblufChbngfd(f);
+        ((AdjustmfntListfnfr)b).bdjustmfntVblufChbngfd(f);
+    }
+    publid void tfxtVblufChbngfd(TfxtEvfnt f) {
+        ((TfxtListfnfr)b).tfxtVblufChbngfd(f);
+        ((TfxtListfnfr)b).tfxtVblufChbngfd(f);
+    }
+
+    /**
+     * Hbndlfs thf inputMfthodTfxtChbngfd fvfnt by invoking thf
+     * inputMfthodTfxtChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     */
+    publid void inputMfthodTfxtChbngfd(InputMfthodEvfnt f) {
+       ((InputMfthodListfnfr)b).inputMfthodTfxtChbngfd(f);
+       ((InputMfthodListfnfr)b).inputMfthodTfxtChbngfd(f);
+    }
+
+    /**
+     * Hbndlfs thf dbrftPositionChbngfd fvfnt by invoking thf
+     * dbrftPositionChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     */
+    publid void dbrftPositionChbngfd(InputMfthodEvfnt f) {
+       ((InputMfthodListfnfr)b).dbrftPositionChbngfd(f);
+       ((InputMfthodListfnfr)b).dbrftPositionChbngfd(f);
+    }
+
+    /**
+     * Hbndlfs thf hifrbrdhyChbngfd fvfnt by invoking thf
+     * hifrbrdhyChbngfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     * @sindf 1.3
+     */
+    publid void hifrbrdhyChbngfd(HifrbrdhyEvfnt f) {
+        ((HifrbrdhyListfnfr)b).hifrbrdhyChbngfd(f);
+        ((HifrbrdhyListfnfr)b).hifrbrdhyChbngfd(f);
+    }
+
+    /**
+     * Hbndlfs thf bndfstorMovfd fvfnt by invoking thf
+     * bndfstorMovfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     * @sindf 1.3
+     */
+    publid void bndfstorMovfd(HifrbrdhyEvfnt f) {
+        ((HifrbrdhyBoundsListfnfr)b).bndfstorMovfd(f);
+        ((HifrbrdhyBoundsListfnfr)b).bndfstorMovfd(f);
+    }
+
+    /**
+     * Hbndlfs thf bndfstorRfsizfd fvfnt by invoking thf
+     * bndfstorRfsizfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf itfm fvfnt
+     * @sindf 1.3
+     */
+    publid void bndfstorRfsizfd(HifrbrdhyEvfnt f) {
+        ((HifrbrdhyBoundsListfnfr)b).bndfstorRfsizfd(f);
+        ((HifrbrdhyBoundsListfnfr)b).bndfstorRfsizfd(f);
+    }
+
+    /**
+     * Hbndlfs thf mousfWhfflMovfd fvfnt by invoking thf
+     * mousfWhfflMovfd mfthods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f thf mousf fvfnt
+     * @sindf 1.4
+     */
+    publid void mousfWhfflMovfd(MousfWhfflEvfnt f) {
+        ((MousfWhfflListfnfr)b).mousfWhfflMovfd(f);
+        ((MousfWhfflListfnfr)b).mousfWhfflMovfd(f);
+    }
+
+    /**
+     * Adds domponfnt-listfnfr-b with domponfnt-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b domponfnt-listfnfr-b
+     * @pbrbm b domponfnt-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid ComponfntListfnfr bdd(ComponfntListfnfr b, ComponfntListfnfr b) {
+        rfturn (ComponfntListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds dontbinfr-listfnfr-b with dontbinfr-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b dontbinfr-listfnfr-b
+     * @pbrbm b dontbinfr-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid ContbinfrListfnfr bdd(ContbinfrListfnfr b, ContbinfrListfnfr b) {
+        rfturn (ContbinfrListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds fodus-listfnfr-b with fodus-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b fodus-listfnfr-b
+     * @pbrbm b fodus-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid FodusListfnfr bdd(FodusListfnfr b, FodusListfnfr b) {
+        rfturn (FodusListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds kfy-listfnfr-b with kfy-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b kfy-listfnfr-b
+     * @pbrbm b kfy-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid KfyListfnfr bdd(KfyListfnfr b, KfyListfnfr b) {
+        rfturn (KfyListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds mousf-listfnfr-b with mousf-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-listfnfr-b
+     * @pbrbm b mousf-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid MousfListfnfr bdd(MousfListfnfr b, MousfListfnfr b) {
+        rfturn (MousfListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds mousf-motion-listfnfr-b with mousf-motion-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-motion-listfnfr-b
+     * @pbrbm b mousf-motion-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid MousfMotionListfnfr bdd(MousfMotionListfnfr b, MousfMotionListfnfr b) {
+        rfturn (MousfMotionListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds window-listfnfr-b with window-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b window-listfnfr-b
+     * @pbrbm b window-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid WindowListfnfr bdd(WindowListfnfr b, WindowListfnfr b) {
+        rfturn (WindowListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds window-stbtf-listfnfr-b with window-stbtf-listfnfr-b
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b window-stbtf-listfnfr-b
+     * @pbrbm b window-stbtf-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid WindowStbtfListfnfr bdd(WindowStbtfListfnfr b,
+                                          WindowStbtfListfnfr b) {
+        rfturn (WindowStbtfListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds window-fodus-listfnfr-b with window-fodus-listfnfr-b
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b window-fodus-listfnfr-b
+     * @pbrbm b window-fodus-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    publid stbtid WindowFodusListfnfr bdd(WindowFodusListfnfr b,
+                                          WindowFodusListfnfr b) {
+        rfturn (WindowFodusListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds bdtion-listfnfr-b with bdtion-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b bdtion-listfnfr-b
+     * @pbrbm b bdtion-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdtionListfnfr bdd(AdtionListfnfr b, AdtionListfnfr b) {
+        rfturn (AdtionListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds itfm-listfnfr-b with itfm-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b itfm-listfnfr-b
+     * @pbrbm b itfm-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid ItfmListfnfr bdd(ItfmListfnfr b, ItfmListfnfr b) {
+        rfturn (ItfmListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds bdjustmfnt-listfnfr-b with bdjustmfnt-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b bdjustmfnt-listfnfr-b
+     * @pbrbm b bdjustmfnt-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdjustmfntListfnfr bdd(AdjustmfntListfnfr b, AdjustmfntListfnfr b) {
+        rfturn (AdjustmfntListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds tfxt-listfnfr-b with tfxt-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     *
+     * @pbrbm  b tfxt-listfnfr-b
+     * @pbrbm  b tfxt-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid TfxtListfnfr bdd(TfxtListfnfr b, TfxtListfnfr b) {
+        rfturn (TfxtListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Adds input-mfthod-listfnfr-b with input-mfthod-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b input-mfthod-listfnfr-b
+     * @pbrbm b input-mfthod-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+     publid stbtid InputMfthodListfnfr bdd(InputMfthodListfnfr b, InputMfthodListfnfr b) {
+        rfturn (InputMfthodListfnfr)bddIntfrnbl(b, b);
+     }
+
+    /**
+     * Adds hifrbrdhy-listfnfr-b with hifrbrdhy-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b hifrbrdhy-listfnfr-b
+     * @pbrbm b hifrbrdhy-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.3
+     */
+    @SupprfssWbrnings("ovfrlobds")
+     publid stbtid HifrbrdhyListfnfr bdd(HifrbrdhyListfnfr b, HifrbrdhyListfnfr b) {
+        rfturn (HifrbrdhyListfnfr)bddIntfrnbl(b, b);
+     }
+
+    /**
+     * Adds hifrbrdhy-bounds-listfnfr-b with hifrbrdhy-bounds-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b hifrbrdhy-bounds-listfnfr-b
+     * @pbrbm b hifrbrdhy-bounds-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.3
+     */
+     publid stbtid HifrbrdhyBoundsListfnfr bdd(HifrbrdhyBoundsListfnfr b, HifrbrdhyBoundsListfnfr b) {
+        rfturn (HifrbrdhyBoundsListfnfr)bddIntfrnbl(b, b);
+     }
+
+    /**
+     * Adds mousf-whffl-listfnfr-b with mousf-whffl-listfnfr-b bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-whffl-listfnfr-b
+     * @pbrbm b mousf-whffl-listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid MousfWhfflListfnfr bdd(MousfWhfflListfnfr b,
+                                         MousfWhfflListfnfr b) {
+        rfturn (MousfWhfflListfnfr)bddIntfrnbl(b, b);
+    }
+
+    /**
+     * Rfmovfs thf old domponfnt-listfnfr from domponfnt-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l domponfnt-listfnfr-l
+     * @pbrbm oldl thf domponfnt-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid ComponfntListfnfr rfmovf(ComponfntListfnfr l, ComponfntListfnfr oldl) {
+        rfturn (ComponfntListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old dontbinfr-listfnfr from dontbinfr-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l dontbinfr-listfnfr-l
+     * @pbrbm oldl thf dontbinfr-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid ContbinfrListfnfr rfmovf(ContbinfrListfnfr l, ContbinfrListfnfr oldl) {
+        rfturn (ContbinfrListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old fodus-listfnfr from fodus-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l fodus-listfnfr-l
+     * @pbrbm oldl thf fodus-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid FodusListfnfr rfmovf(FodusListfnfr l, FodusListfnfr oldl) {
+        rfturn (FodusListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old kfy-listfnfr from kfy-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l kfy-listfnfr-l
+     * @pbrbm oldl thf kfy-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid KfyListfnfr rfmovf(KfyListfnfr l, KfyListfnfr oldl) {
+        rfturn (KfyListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old mousf-listfnfr from mousf-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-listfnfr-l
+     * @pbrbm oldl thf mousf-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid MousfListfnfr rfmovf(MousfListfnfr l, MousfListfnfr oldl) {
+        rfturn (MousfListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old mousf-motion-listfnfr from mousf-motion-listfnfr-l
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-motion-listfnfr-l
+     * @pbrbm oldl thf mousf-motion-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid MousfMotionListfnfr rfmovf(MousfMotionListfnfr l, MousfMotionListfnfr oldl) {
+        rfturn (MousfMotionListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old window-listfnfr from window-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l window-listfnfr-l
+     * @pbrbm oldl thf window-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid WindowListfnfr rfmovf(WindowListfnfr l, WindowListfnfr oldl) {
+        rfturn (WindowListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old window-stbtf-listfnfr from window-stbtf-listfnfr-l
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l window-stbtf-listfnfr-l
+     * @pbrbm oldl thf window-stbtf-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid WindowStbtfListfnfr rfmovf(WindowStbtfListfnfr l,
+                                             WindowStbtfListfnfr oldl) {
+        rfturn (WindowStbtfListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old window-fodus-listfnfr from window-fodus-listfnfr-l
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l window-fodus-listfnfr-l
+     * @pbrbm oldl thf window-fodus-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    publid stbtid WindowFodusListfnfr rfmovf(WindowFodusListfnfr l,
+                                             WindowFodusListfnfr oldl) {
+        rfturn (WindowFodusListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old bdtion-listfnfr from bdtion-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l bdtion-listfnfr-l
+     * @pbrbm oldl thf bdtion-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdtionListfnfr rfmovf(AdtionListfnfr l, AdtionListfnfr oldl) {
+        rfturn (AdtionListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old itfm-listfnfr from itfm-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l itfm-listfnfr-l
+     * @pbrbm oldl thf itfm-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid ItfmListfnfr rfmovf(ItfmListfnfr l, ItfmListfnfr oldl) {
+        rfturn (ItfmListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old bdjustmfnt-listfnfr from bdjustmfnt-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l bdjustmfnt-listfnfr-l
+     * @pbrbm oldl thf bdjustmfnt-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdjustmfntListfnfr rfmovf(AdjustmfntListfnfr l, AdjustmfntListfnfr oldl) {
+        rfturn (AdjustmfntListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old tfxt-listfnfr from tfxt-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     *
+     * @pbrbm  l tfxt-listfnfr-l
+     * @pbrbm  oldl thf tfxt-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid TfxtListfnfr rfmovf(TfxtListfnfr l, TfxtListfnfr oldl) {
+        rfturn (TfxtListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old input-mfthod-listfnfr from input-mfthod-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l input-mfthod-listfnfr-l
+     * @pbrbm oldl thf input-mfthod-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    publid stbtid InputMfthodListfnfr rfmovf(InputMfthodListfnfr l, InputMfthodListfnfr oldl) {
+        rfturn (InputMfthodListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old hifrbrdhy-listfnfr from hifrbrdhy-listfnfr-l bnd
+     * rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l hifrbrdhy-listfnfr-l
+     * @pbrbm oldl thf hifrbrdhy-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.3
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid HifrbrdhyListfnfr rfmovf(HifrbrdhyListfnfr l, HifrbrdhyListfnfr oldl) {
+        rfturn (HifrbrdhyListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old hifrbrdhy-bounds-listfnfr from
+     * hifrbrdhy-bounds-listfnfr-l bnd rfturns thf rfsulting multidbst
+     * listfnfr.
+     * @pbrbm l hifrbrdhy-bounds-listfnfr-l
+     * @pbrbm oldl thf hifrbrdhy-bounds-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.3
+     */
+    publid stbtid HifrbrdhyBoundsListfnfr rfmovf(HifrbrdhyBoundsListfnfr l, HifrbrdhyBoundsListfnfr oldl) {
+        rfturn (HifrbrdhyBoundsListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfmovfs thf old mousf-whffl-listfnfr from mousf-whffl-listfnfr-l
+     * bnd rfturns thf rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-whffl-listfnfr-l
+     * @pbrbm oldl thf mousf-whffl-listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid MousfWhfflListfnfr rfmovf(MousfWhfflListfnfr l,
+                                            MousfWhfflListfnfr oldl) {
+      rfturn (MousfWhfflListfnfr) rfmovfIntfrnbl(l, oldl);
+    }
+
+    /**
+     * Rfturns thf rfsulting multidbst listfnfr from bdding listfnfr-b
+     * bnd listfnfr-b togfthfr.
+     * If listfnfr-b is null, it rfturns listfnfr-b;
+     * If listfnfr-b is null, it rfturns listfnfr-b
+     * If nfithfr brf null, thfn it drfbtfs bnd rfturns
+     * b nfw AWTEvfntMultidbstfr instbndf whidh dhbins b with b.
+     * @pbrbm b fvfnt listfnfr-b
+     * @pbrbm b fvfnt listfnfr-b
+     * @rfturn thf rfsulting listfnfr
+     */
+    protfdtfd stbtid EvfntListfnfr bddIntfrnbl(EvfntListfnfr b, EvfntListfnfr b) {
+        if (b == null)  rfturn b;
+        if (b == null)  rfturn b;
+        rfturn nfw AWTEvfntMultidbstfr(b, b);
+    }
+
+    /**
+     * Rfturns thf rfsulting multidbst listfnfr bftfr rfmoving thf
+     * old listfnfr from listfnfr-l.
+     * If listfnfr-l fqubls thf old listfnfr OR listfnfr-l is null,
+     * rfturns null.
+     * Elsf if listfnfr-l is bn instbndf of AWTEvfntMultidbstfr,
+     * thfn it rfmovfs thf old listfnfr from it.
+     * Elsf, rfturns listfnfr l.
+     * @pbrbm l thf listfnfr bfing rfmovfd from
+     * @pbrbm oldl thf listfnfr bfing rfmovfd
+     * @rfturn thf rfsulting listfnfr
+     */
+    protfdtfd stbtid EvfntListfnfr rfmovfIntfrnbl(EvfntListfnfr l, EvfntListfnfr oldl) {
+        if (l == oldl || l == null) {
+            rfturn null;
+        } flsf if (l instbndfof AWTEvfntMultidbstfr) {
+            rfturn ((AWTEvfntMultidbstfr)l).rfmovf(oldl);
+        } flsf {
+            rfturn l;           // it's not hfrf
+        }
+    }
+
+
+   /**
+    * Sfriblizbtion support. Sbvfs bll Sfriblizbblf listfnfrs
+    * to b sfriblizbtion strfbm.
+    *
+    * @pbrbm  s thf strfbm to sbvf to
+    * @pbrbm  k b prffix strfbm to put bfforf fbdh sfriblizbblf listfnfr
+    * @throws IOExdfption if sfriblizbtion fbils
+    */
+    protfdtfd void sbvfIntfrnbl(ObjfdtOutputStrfbm s, String k) throws IOExdfption {
+        if (b instbndfof AWTEvfntMultidbstfr) {
+            ((AWTEvfntMultidbstfr)b).sbvfIntfrnbl(s, k);
+        }
+        flsf if (b instbndfof Sfriblizbblf) {
+            s.writfObjfdt(k);
+            s.writfObjfdt(b);
+        }
+
+        if (b instbndfof AWTEvfntMultidbstfr) {
+            ((AWTEvfntMultidbstfr)b).sbvfIntfrnbl(s, k);
+        }
+        flsf if (b instbndfof Sfriblizbblf) {
+            s.writfObjfdt(k);
+            s.writfObjfdt(b);
+        }
+    }
+
+   /**
+    * Sbvfs b Sfriblizbblf listfnfr dhbin to b sfriblizbtion strfbm.
+    *
+    * @pbrbm  s thf strfbm to sbvf to
+    * @pbrbm  k b prffix strfbm to put bfforf fbdh sfriblizbblf listfnfr
+    * @pbrbm  l thf listfnfr dhbin to sbvf
+    * @throws IOExdfption if sfriblizbtion fbils
+    */
+    protfdtfd stbtid void sbvf(ObjfdtOutputStrfbm s, String k, EvfntListfnfr l) throws IOExdfption {
+      if (l == null) {
+          rfturn;
+      }
+      flsf if (l instbndfof AWTEvfntMultidbstfr) {
+          ((AWTEvfntMultidbstfr)l).sbvfIntfrnbl(s, k);
+      }
+      flsf if (l instbndfof Sfriblizbblf) {
+           s.writfObjfdt(k);
+           s.writfObjfdt(l);
+      }
+    }
+
+    /*
+     * Rfdursivf mfthod whidh rfturns b dount of thf numbfr of listfnfrs in
+     * EvfntListfnfr, hbndling thf (dommon) dbsf of l bdtublly bfing bn
+     * AWTEvfntMultidbstfr.  Additionblly, only listfnfrs of typf listfnfrTypf
+     * brf dountfd.  Mfthod modififd to fix bug 4513402.  -bdhristi
+     */
+    privbtf stbtid int gftListfnfrCount(EvfntListfnfr l, Clbss<?> listfnfrTypf) {
+        if (l instbndfof AWTEvfntMultidbstfr) {
+            AWTEvfntMultidbstfr md = (AWTEvfntMultidbstfr)l;
+            rfturn gftListfnfrCount(md.b, listfnfrTypf) +
+             gftListfnfrCount(md.b, listfnfrTypf);
+        }
+        flsf {
+            // Only dount listfnfrs of dorrfdt typf
+            rfturn listfnfrTypf.isInstbndf(l) ? 1 : 0;
+        }
+    }
+
+    /*
+     * Rfdusivf mfthod whidh populbtfs EvfntListfnfr brrby b with EvfntListfnfrs
+     * from l.  l is usublly bn AWTEvfntMultidbstfr.  Bug 4513402 rfvfblfd thbt
+     * if l difffrfd in typf from thf flfmfnt typf of b, bn ArrbyStorfExdfption
+     * would oddur.  Now l is only insfrtfd into b if it's of thf bppropribtf
+     * typf.  -bdhristi
+     */
+    privbtf stbtid int populbtfListfnfrArrby(EvfntListfnfr[] b, EvfntListfnfr l, int indfx) {
+        if (l instbndfof AWTEvfntMultidbstfr) {
+            AWTEvfntMultidbstfr md = (AWTEvfntMultidbstfr)l;
+            int lhs = populbtfListfnfrArrby(b, md.b, indfx);
+            rfturn populbtfListfnfrArrby(b, md.b, lhs);
+        }
+        flsf if (b.gftClbss().gftComponfntTypf().isInstbndf(l)) {
+            b[indfx] = l;
+            rfturn indfx + 1;
+        }
+        // Skip nulls, instbndfs of wrong dlbss
+        flsf {
+            rfturn indfx;
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts dhbinfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s by thf spfdififd
+     * <dodf>jbvb.util.EvfntListfnfr</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf dhbinfd by thf
+     * <dodf>AWTEvfntMultidbstfr</dodf> using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     * If b <dodf>null</dodf> listfnfr is spfdififd, this mfthod rfturns bn
+     * fmpty brrby. If thf spfdififd listfnfr is not bn instbndf of
+     * <dodf>AWTEvfntMultidbstfr</dodf>, this mfthod rfturns bn brrby whidh
+     * dontbins only thf spfdififd listfnfr. If no sudh listfnfrs brf dhbinfd,
+     * this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm l thf spfdififd <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts dhbinfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s by thf spfdififd multidbst
+     *          listfnfr, or bn fmpty brrby if no sudh listfnfrs hbvf bffn
+     *          dhbinfd by thf spfdififd multidbst listfnfr
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     *             {@dodf listfnfrtypf} pbrbmftfr is {@dodf null}
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid <T fxtfnds EvfntListfnfr> T[]
+        gftListfnfrs(EvfntListfnfr l, Clbss<T> listfnfrTypf)
+    {
+        if (listfnfrTypf == null) {
+            throw nfw NullPointfrExdfption ("Listfnfr typf should not bf null");
+        }
+
+        int n = gftListfnfrCount(l, listfnfrTypf);
+        T[] rfsult = (T[])Arrby.nfwInstbndf(listfnfrTypf, n);
+        populbtfListfnfrArrby(rfsult, l, 0);
+        rfturn rfsult;
+    }
+}

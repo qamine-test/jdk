@@ -1,0 +1,714 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.*;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.x509.CRLNumbfrExtfnsion;
+import sun.sfdurity.x509.X500Nbmf;
+
+/**
+ * A {@dodf CRLSflfdtor} thbt sflfdts {@dodf X509CRLs} thbt
+ * mbtdh bll spfdififd dritfrib. This dlbss is pbrtidulbrly usfful whfn
+ * sflfdting CRLs from b {@dodf CfrtStorf} to dhfdk rfvodbtion stbtus
+ * of b pbrtidulbr dfrtifidbtf.
+ * <p>
+ * Whfn first donstrudtfd, bn {@dodf X509CRLSflfdtor} hbs no dritfrib
+ * fnbblfd bnd fbdh of thf {@dodf gft} mfthods rfturn b dffbult
+ * vbluf ({@dodf null}). Thfrfforf, thf {@link #mbtdh mbtdh} mfthod
+ * would rfturn {@dodf truf} for bny {@dodf X509CRL}. Typidblly,
+ * sfvfrbl dritfrib brf fnbblfd (by dblling {@link #sftIssufrs sftIssufrs}
+ * or {@link #sftDbtfAndTimf sftDbtfAndTimf}, for instbndf) bnd thfn thf
+ * {@dodf X509CRLSflfdtor} is pbssfd to
+ * {@link CfrtStorf#gftCRLs CfrtStorf.gftCRLs} or somf similbr
+ * mfthod.
+ * <p>
+ * Plfbsf rfffr to <b hrff="http://www.iftf.org/rfd/rfd3280.txt">RFC 3280:
+ * Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>
+ * for dffinitions of thf X.509 CRL fiflds bnd fxtfnsions mfntionfd bflow.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff CRLSflfdtor
+ * @sff X509CRL
+ *
+ * @sindf       1.4
+ * @buthor      Stfvf Hbnnb
+ */
+publid dlbss X509CRLSflfdtor implfmfnts CRLSflfdtor {
+
+    stbtid {
+        CfrtPbthHflpfrImpl.initiblizf();
+    }
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+    privbtf HbshSft<Objfdt> issufrNbmfs;
+    privbtf HbshSft<X500Prindipbl> issufrX500Prindipbls;
+    privbtf BigIntfgfr minCRL;
+    privbtf BigIntfgfr mbxCRL;
+    privbtf Dbtf dbtfAndTimf;
+    privbtf X509Cfrtifidbtf dfrtChfdking;
+    privbtf long skfw = 0;
+
+    /**
+     * Crfbtfs bn {@dodf X509CRLSflfdtor}. Initiblly, no dritfrib brf sft
+     * so bny {@dodf X509CRL} will mbtdh.
+     */
+    publid X509CRLSflfdtor() {}
+
+    /**
+     * Sfts thf issufrNbmfs dritfrion. Thf issufr distinguishfd nbmf in thf
+     * {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs. If {@dodf null}, bny issufr distinguishfd nbmf
+     * will do.
+     * <p>
+     * This mfthod bllows thf dbllfr to spfdify, with b singlf mfthod dbll,
+     * thf domplftf sft of issufr nbmfs whidh {@dodf X509CRLs} mby dontbin.
+     * Thf spfdififd vbluf rfplbdfs thf prfvious vbluf for thf issufrNbmfs
+     * dritfrion.
+     * <p>
+     * Thf {@dodf nbmfs} pbrbmftfr (if not {@dodf null}) is b
+     * {@dodf Collfdtion} of {@dodf X500Prindipbl}s.
+     * <p>
+     * Notf thbt thf {@dodf nbmfs} pbrbmftfr dbn dontbin duplidbtf
+     * distinguishfd nbmfs, but thfy mby bf rfmovfd from thf
+     * {@dodf Collfdtion} of nbmfs rfturnfd by thf
+     * {@link #gftIssufrs gftIssufrs} mfthod.
+     * <p>
+     * Notf thbt b dopy is pfrformfd on thf {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm issufrs b {@dodf Collfdtion} of X500Prindipbls
+     *   (or {@dodf null})
+     * @sff #gftIssufrs
+     * @sindf 1.5
+     */
+    publid void sftIssufrs(Collfdtion<X500Prindipbl> issufrs) {
+        if ((issufrs == null) || issufrs.isEmpty()) {
+            issufrNbmfs = null;
+            issufrX500Prindipbls = null;
+        } flsf {
+            // dlonf
+            issufrX500Prindipbls = nfw HbshSft<X500Prindipbl>(issufrs);
+            issufrNbmfs = nfw HbshSft<Objfdt>();
+            for (X500Prindipbl p : issufrX500Prindipbls) {
+                issufrNbmfs.bdd(p.gftEndodfd());
+            }
+        }
+    }
+
+    /**
+     * <strong>Notf:</strong> usf {@linkplbin #sftIssufrs(Collfdtion)} instfbd
+     * or only spfdify thf bytf brrby form of distinguishfd nbmfs whfn using
+     * this mfthod. Sff {@link #bddIssufrNbmf(String)} for morf informbtion.
+     * <p>
+     * Sfts thf issufrNbmfs dritfrion. Thf issufr distinguishfd nbmf in thf
+     * {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs. If {@dodf null}, bny issufr distinguishfd nbmf
+     * will do.
+     * <p>
+     * This mfthod bllows thf dbllfr to spfdify, with b singlf mfthod dbll,
+     * thf domplftf sft of issufr nbmfs whidh {@dodf X509CRLs} mby dontbin.
+     * Thf spfdififd vbluf rfplbdfs thf prfvious vbluf for thf issufrNbmfs
+     * dritfrion.
+     * <p>
+     * Thf {@dodf nbmfs} pbrbmftfr (if not {@dodf null}) is b
+     * {@dodf Collfdtion} of nbmfs. Ebdh nbmf is b {@dodf String}
+     * or b bytf brrby rfprfsfnting b distinguishfd nbmf (in
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b> or
+     * ASN.1 DER fndodfd form, rfspfdtivfly). If {@dodf null} is supplifd
+     * bs thf vbluf for this brgumfnt, no issufrNbmfs dhfdk will bf pfrformfd.
+     * <p>
+     * Notf thbt thf {@dodf nbmfs} pbrbmftfr dbn dontbin duplidbtf
+     * distinguishfd nbmfs, but thfy mby bf rfmovfd from thf
+     * {@dodf Collfdtion} of nbmfs rfturnfd by thf
+     * {@link #gftIssufrNbmfs gftIssufrNbmfs} mfthod.
+     * <p>
+     * If b nbmf is spfdififd bs b bytf brrby, it should dontbin b singlf DER
+     * fndodfd distinguishfd nbmf, bs dffinfd in X.501. Thf ASN.1 notbtion for
+     * this strudturf is bs follows.
+     * <prf>{@dodf
+     * Nbmf ::= CHOICE {
+     *   RDNSfqufndf }
+     *
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguishfdNbmf
+     *
+     * RflbtivfDistinguishfdNbmf ::=
+     *   SET SIZE (1 .. MAX) OF AttributfTypfAndVbluf
+     *
+     * AttributfTypfAndVbluf ::= SEQUENCE {
+     *   typf     AttributfTypf,
+     *   vbluf    AttributfVbluf }
+     *
+     * AttributfTypf ::= OBJECT IDENTIFIER
+     *
+     * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
+     * ....
+     * DirfdtoryString ::= CHOICE {
+     *       tflftfxString           TflftfxString (SIZE (1..MAX)),
+     *       printbblfString         PrintbblfString (SIZE (1..MAX)),
+     *       univfrsblString         UnivfrsblString (SIZE (1..MAX)),
+     *       utf8String              UTF8String (SIZE (1.. MAX)),
+     *       bmpString               BMPString (SIZE (1..MAX)) }
+     * }</prf>
+     * <p>
+     * Notf thbt b dffp dopy is pfrformfd on thf {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs (or {@dodf null})
+     * @throws IOExdfption if b pbrsing frror oddurs
+     * @sff #gftIssufrNbmfs
+     */
+    publid void sftIssufrNbmfs(Collfdtion<?> nbmfs) throws IOExdfption {
+        if (nbmfs == null || nbmfs.sizf() == 0) {
+            issufrNbmfs = null;
+            issufrX500Prindipbls = null;
+        } flsf {
+            HbshSft<Objfdt> tfmpNbmfs = dlonfAndChfdkIssufrNbmfs(nbmfs);
+            // Ensurf thbt wf fithfr sft both of thfsf or nfithfr
+            issufrX500Prindipbls = pbrsfIssufrNbmfs(tfmpNbmfs);
+            issufrNbmfs = tfmpNbmfs;
+        }
+    }
+
+    /**
+     * Adds b nbmf to thf issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs.
+     * <p>
+     * This mfthod bllows thf dbllfr to bdd b nbmf to thf sft of issufr nbmfs
+     * whidh {@dodf X509CRLs} mby dontbin. Thf spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for thf issufrNbmfs dritfrion.
+     * If thf spfdififd nbmf is b duplidbtf, it mby bf ignorfd.
+     *
+     * @pbrbm issufr thf issufr bs X500Prindipbl
+     * @sindf 1.5
+     */
+    publid void bddIssufr(X500Prindipbl issufr) {
+        bddIssufrNbmfIntfrnbl(issufr.gftEndodfd(), issufr);
+    }
+
+    /**
+     * <strong>Dfnigrbtfd</strong>, usf
+     * {@linkplbin #bddIssufr(X500Prindipbl)} or
+     * {@linkplbin #bddIssufrNbmf(bytf[])} instfbd. This mfthod should not bf
+     * rflifd on bs it dbn fbil to mbtdh somf CRLs bfdbusf of b loss of
+     * fndoding informbtion in thf RFC 2253 String form of somf distinguishfd
+     * nbmfs.
+     * <p>
+     * Adds b nbmf to thf issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs.
+     * <p>
+     * This mfthod bllows thf dbllfr to bdd b nbmf to thf sft of issufr nbmfs
+     * whidh {@dodf X509CRLs} mby dontbin. Thf spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for thf issufrNbmfs dritfrion.
+     * If thf spfdififd nbmf is b duplidbtf, it mby bf ignorfd.
+     *
+     * @pbrbm nbmf thf nbmf in RFC 2253 form
+     * @throws IOExdfption if b pbrsing frror oddurs
+     */
+    publid void bddIssufrNbmf(String nbmf) throws IOExdfption {
+        bddIssufrNbmfIntfrnbl(nbmf, nfw X500Nbmf(nbmf).bsX500Prindipbl());
+    }
+
+    /**
+     * Adds b nbmf to thf issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs.
+     * <p>
+     * This mfthod bllows thf dbllfr to bdd b nbmf to thf sft of issufr nbmfs
+     * whidh {@dodf X509CRLs} mby dontbin. Thf spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for thf issufrNbmfs dritfrion. If thf spfdififd nbmf
+     * is b duplidbtf, it mby bf ignorfd.
+     * If b nbmf is spfdififd bs b bytf brrby, it should dontbin b singlf DER
+     * fndodfd distinguishfd nbmf, bs dffinfd in X.501. Thf ASN.1 notbtion for
+     * this strudturf is bs follows.
+     * <p>
+     * Thf nbmf is providfd bs b bytf brrby. This bytf brrby should dontbin
+     * b singlf DER fndodfd distinguishfd nbmf, bs dffinfd in X.501. Thf ASN.1
+     * notbtion for this strudturf bppfbrs in thf dodumfntbtion for
+     * {@link #sftIssufrNbmfs sftIssufrNbmfs(Collfdtion nbmfs)}.
+     * <p>
+     * Notf thbt thf bytf brrby supplifd hfrf is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm nbmf b bytf brrby dontbining thf nbmf in ASN.1 DER fndodfd form
+     * @throws IOExdfption if b pbrsing frror oddurs
+     */
+    publid void bddIssufrNbmf(bytf[] nbmf) throws IOExdfption {
+        // dlonf bfdbusf bytf brrbys brf modifibblf
+        bddIssufrNbmfIntfrnbl(nbmf.dlonf(), nfw X500Nbmf(nbmf).bsX500Prindipbl());
+    }
+
+    /**
+     * A privbtf mfthod thbt bdds b nbmf (String or bytf brrby) to thf
+     * issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs.
+     *
+     * @pbrbm nbmf thf nbmf in string or bytf brrby form
+     * @pbrbm prindipbl thf nbmf in X500Prindipbl form
+     * @throws IOExdfption if b pbrsing frror oddurs
+     */
+    privbtf void bddIssufrNbmfIntfrnbl(Objfdt nbmf, X500Prindipbl prindipbl) {
+        if (issufrNbmfs == null) {
+            issufrNbmfs = nfw HbshSft<Objfdt>();
+        }
+        if (issufrX500Prindipbls == null) {
+            issufrX500Prindipbls = nfw HbshSft<X500Prindipbl>();
+        }
+        issufrNbmfs.bdd(nbmf);
+        issufrX500Prindipbls.bdd(prindipbl);
+    }
+
+    /**
+     * Clonf bnd dhfdk bn brgumfnt of thf form pbssfd to
+     * sftIssufrNbmfs. Throw bn IOExdfption if thf brgumfnt is mblformfd.
+     *
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdh fntry is b
+     *              String or b bytf brrby (thf nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). {@dodf null} is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b dffp dopy of thf spfdififd {@dodf Collfdtion}
+     * @throws IOExdfption if b pbrsing frror oddurs
+     */
+    privbtf stbtid HbshSft<Objfdt> dlonfAndChfdkIssufrNbmfs(Collfdtion<?> nbmfs)
+        throws IOExdfption
+    {
+        HbshSft<Objfdt> nbmfsCopy = nfw HbshSft<Objfdt>();
+        Itfrbtor<?> i = nbmfs.itfrbtor();
+        whilf (i.hbsNfxt()) {
+            Objfdt nbmfObjfdt = i.nfxt();
+            if (!(nbmfObjfdt instbndfof bytf []) &&
+                !(nbmfObjfdt instbndfof String))
+                throw nfw IOExdfption("nbmf not bytf brrby or String");
+            if (nbmfObjfdt instbndfof bytf [])
+                nbmfsCopy.bdd(((bytf []) nbmfObjfdt).dlonf());
+            flsf
+                nbmfsCopy.bdd(nbmfObjfdt);
+        }
+        rfturn(nbmfsCopy);
+    }
+
+    /**
+     * Clonf bn brgumfnt of thf form pbssfd to sftIssufrNbmfs.
+     * Throw b RuntimfExdfption if thf brgumfnt is mblformfd.
+     * <p>
+     * This mfthod wrbps dlonfAndChfdkIssufrNbmfs, dhbnging bny IOExdfption
+     * into b RuntimfExdfption. This mfthod should bf usfd whfn thf objfdt bfing
+     * dlonfd hbs blrfbdy bffn dhfdkfd, so thfrf should nfvfr bf bny fxdfptions.
+     *
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdh fntry is b
+     *              String or b bytf brrby (thf nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). {@dodf null} is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b dffp dopy of thf spfdififd {@dodf Collfdtion}
+     * @throws RuntimfExdfption if b pbrsing frror oddurs
+     */
+    privbtf stbtid HbshSft<Objfdt> dlonfIssufrNbmfs(Collfdtion<Objfdt> nbmfs) {
+        try {
+            rfturn dlonfAndChfdkIssufrNbmfs(nbmfs);
+        } dbtdh (IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Pbrsf bn brgumfnt of thf form pbssfd to sftIssufrNbmfs,
+     * rfturning b Collfdtion of issufrX500Prindipbls.
+     * Throw bn IOExdfption if thf brgumfnt is mblformfd.
+     *
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdh fntry is b
+     *              String or b bytf brrby (thf nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). <Codf>Null</Codf> is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b HbshSft of issufrX500Prindipbls
+     * @throws IOExdfption if b pbrsing frror oddurs
+     */
+    privbtf stbtid HbshSft<X500Prindipbl> pbrsfIssufrNbmfs(Collfdtion<Objfdt> nbmfs)
+    throws IOExdfption {
+        HbshSft<X500Prindipbl> x500Prindipbls = nfw HbshSft<X500Prindipbl>();
+        for (Itfrbtor<Objfdt> t = nbmfs.itfrbtor(); t.hbsNfxt(); ) {
+            Objfdt nbmfObjfdt = t.nfxt();
+            if (nbmfObjfdt instbndfof String) {
+                x500Prindipbls.bdd(nfw X500Nbmf((String)nbmfObjfdt).bsX500Prindipbl());
+            } flsf {
+                try {
+                    x500Prindipbls.bdd(nfw X500Prindipbl((bytf[])nbmfObjfdt));
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                    throw (IOExdfption)nfw IOExdfption("Invblid nbmf").initCbusf(f);
+                }
+            }
+        }
+        rfturn x500Prindipbls;
+    }
+
+    /**
+     * Sfts thf minCRLNumbfr dritfrion. Thf {@dodf X509CRL} must hbvf b
+     * CRL numbfr fxtfnsion whosf vbluf is grfbtfr thbn or fqubl to thf
+     * spfdififd vbluf. If {@dodf null}, no minCRLNumbfr dhfdk will bf
+     * donf.
+     *
+     * @pbrbm minCRL thf minimum CRL numbfr bddfptfd (or {@dodf null})
+     */
+    publid void sftMinCRLNumbfr(BigIntfgfr minCRL) {
+        this.minCRL = minCRL;
+    }
+
+    /**
+     * Sfts thf mbxCRLNumbfr dritfrion. Thf {@dodf X509CRL} must hbvf b
+     * CRL numbfr fxtfnsion whosf vbluf is lfss thbn or fqubl to thf
+     * spfdififd vbluf. If {@dodf null}, no mbxCRLNumbfr dhfdk will bf
+     * donf.
+     *
+     * @pbrbm mbxCRL thf mbximum CRL numbfr bddfptfd (or {@dodf null})
+     */
+    publid void sftMbxCRLNumbfr(BigIntfgfr mbxCRL) {
+        this.mbxCRL = mbxCRL;
+    }
+
+    /**
+     * Sfts thf dbtfAndTimf dritfrion. Thf spfdififd dbtf must bf
+     * fqubl to or lbtfr thbn thf vbluf of thf thisUpdbtf domponfnt
+     * of thf {@dodf X509CRL} bnd fbrlifr thbn thf vbluf of thf
+     * nfxtUpdbtf domponfnt. Thfrf is no mbtdh if thf {@dodf X509CRL}
+     * dofs not dontbin b nfxtUpdbtf domponfnt.
+     * If {@dodf null}, no dbtfAndTimf dhfdk will bf donf.
+     * <p>
+     * Notf thbt thf {@dodf Dbtf} supplifd hfrf is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dbtfAndTimf thf {@dodf Dbtf} to mbtdh bgbinst
+     *                    (or {@dodf null})
+     * @sff #gftDbtfAndTimf
+     */
+    publid void sftDbtfAndTimf(Dbtf dbtfAndTimf) {
+        if (dbtfAndTimf == null)
+            this.dbtfAndTimf = null;
+        flsf
+            this.dbtfAndTimf = nfw Dbtf(dbtfAndTimf.gftTimf());
+        this.skfw = 0;
+    }
+
+    /**
+     * Sfts thf dbtfAndTimf dritfrion bnd bllows for thf spfdififd dlodk skfw
+     * (in millisfdonds) whfn dhfdking bgbinst thf vblidity pfriod of thf CRL.
+     */
+    void sftDbtfAndTimf(Dbtf dbtfAndTimf, long skfw) {
+        this.dbtfAndTimf =
+            (dbtfAndTimf == null ? null : nfw Dbtf(dbtfAndTimf.gftTimf()));
+        this.skfw = skfw;
+    }
+
+    /**
+     * Sfts thf dfrtifidbtf bfing dhfdkfd. This is not b dritfrion. Rbthfr,
+     * it is optionbl informbtion thbt mby hflp b {@dodf CfrtStorf}
+     * find CRLs thbt would bf rflfvbnt whfn dhfdking rfvodbtion for thf
+     * spfdififd dfrtifidbtf. If {@dodf null} is spfdififd, thfn no
+     * sudh optionbl informbtion is providfd.
+     *
+     * @pbrbm dfrt thf {@dodf X509Cfrtifidbtf} bfing dhfdkfd
+     *             (or {@dodf null})
+     * @sff #gftCfrtifidbtfChfdking
+     */
+    publid void sftCfrtifidbtfChfdking(X509Cfrtifidbtf dfrt) {
+        dfrtChfdking = dfrt;
+    }
+
+    /**
+     * Rfturns thf issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs. If thf vbluf rfturnfd is {@dodf null}, bny
+     * issufr distinguishfd nbmf will do.
+     * <p>
+     * If thf vbluf rfturnfd is not {@dodf null}, it is b
+     * unmodifibblf {@dodf Collfdtion} of {@dodf X500Prindipbl}s.
+     *
+     * @rfturn bn unmodifibblf {@dodf Collfdtion} of nbmfs
+     *   (or {@dodf null})
+     * @sff #sftIssufrs
+     * @sindf 1.5
+     */
+    publid Collfdtion<X500Prindipbl> gftIssufrs() {
+        if (issufrX500Prindipbls == null) {
+            rfturn null;
+        }
+        rfturn Collfdtions.unmodifibblfCollfdtion(issufrX500Prindipbls);
+    }
+
+    /**
+     * Rfturns b dopy of thf issufrNbmfs dritfrion. Thf issufr distinguishfd
+     * nbmf in thf {@dodf X509CRL} must mbtdh bt lfbst onf of thf spfdififd
+     * distinguishfd nbmfs. If thf vbluf rfturnfd is {@dodf null}, bny
+     * issufr distinguishfd nbmf will do.
+     * <p>
+     * If thf vbluf rfturnfd is not {@dodf null}, it is b
+     * {@dodf Collfdtion} of nbmfs. Ebdh nbmf is b {@dodf String}
+     * or b bytf brrby rfprfsfnting b distinguishfd nbmf (in RFC 2253 or
+     * ASN.1 DER fndodfd form, rfspfdtivfly).  Notf thbt thf
+     * {@dodf Collfdtion} rfturnfd mby dontbin duplidbtf nbmfs.
+     * <p>
+     * If b nbmf is spfdififd bs b bytf brrby, it should dontbin b singlf DER
+     * fndodfd distinguishfd nbmf, bs dffinfd in X.501. Thf ASN.1 notbtion for
+     * this strudturf is givfn in thf dodumfntbtion for
+     * {@link #sftIssufrNbmfs sftIssufrNbmfs(Collfdtion nbmfs)}.
+     * <p>
+     * Notf thbt b dffp dopy is pfrformfd on thf {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @rfturn b {@dodf Collfdtion} of nbmfs (or {@dodf null})
+     * @sff #sftIssufrNbmfs
+     */
+    publid Collfdtion<Objfdt> gftIssufrNbmfs() {
+        if (issufrNbmfs == null) {
+            rfturn null;
+        }
+        rfturn dlonfIssufrNbmfs(issufrNbmfs);
+    }
+
+    /**
+     * Rfturns thf minCRLNumbfr dritfrion. Thf {@dodf X509CRL} must hbvf b
+     * CRL numbfr fxtfnsion whosf vbluf is grfbtfr thbn or fqubl to thf
+     * spfdififd vbluf. If {@dodf null}, no minCRLNumbfr dhfdk will bf donf.
+     *
+     * @rfturn thf minimum CRL numbfr bddfptfd (or {@dodf null})
+     */
+    publid BigIntfgfr gftMinCRL() {
+        rfturn minCRL;
+    }
+
+    /**
+     * Rfturns thf mbxCRLNumbfr dritfrion. Thf {@dodf X509CRL} must hbvf b
+     * CRL numbfr fxtfnsion whosf vbluf is lfss thbn or fqubl to thf
+     * spfdififd vbluf. If {@dodf null}, no mbxCRLNumbfr dhfdk will bf
+     * donf.
+     *
+     * @rfturn thf mbximum CRL numbfr bddfptfd (or {@dodf null})
+     */
+    publid BigIntfgfr gftMbxCRL() {
+        rfturn mbxCRL;
+    }
+
+    /**
+     * Rfturns thf dbtfAndTimf dritfrion. Thf spfdififd dbtf must bf
+     * fqubl to or lbtfr thbn thf vbluf of thf thisUpdbtf domponfnt
+     * of thf {@dodf X509CRL} bnd fbrlifr thbn thf vbluf of thf
+     * nfxtUpdbtf domponfnt. Thfrf is no mbtdh if thf
+     * {@dodf X509CRL} dofs not dontbin b nfxtUpdbtf domponfnt.
+     * If {@dodf null}, no dbtfAndTimf dhfdk will bf donf.
+     * <p>
+     * Notf thbt thf {@dodf Dbtf} rfturnfd is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @rfturn thf {@dodf Dbtf} to mbtdh bgbinst (or {@dodf null})
+     * @sff #sftDbtfAndTimf
+     */
+    publid Dbtf gftDbtfAndTimf() {
+        if (dbtfAndTimf == null)
+            rfturn null;
+        rfturn (Dbtf) dbtfAndTimf.dlonf();
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf bfing dhfdkfd. This is not b dritfrion. Rbthfr,
+     * it is optionbl informbtion thbt mby hflp b {@dodf CfrtStorf}
+     * find CRLs thbt would bf rflfvbnt whfn dhfdking rfvodbtion for thf
+     * spfdififd dfrtifidbtf. If thf vbluf rfturnfd is {@dodf null}, thfn
+     * no sudh optionbl informbtion is providfd.
+     *
+     * @rfturn thf dfrtifidbtf bfing dhfdkfd (or {@dodf null})
+     * @sff #sftCfrtifidbtfChfdking
+     */
+    publid X509Cfrtifidbtf gftCfrtifidbtfChfdking() {
+        rfturn dfrtChfdking;
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf {@dodf X509CRLSflfdtor}.
+     *
+     * @rfturn b {@dodf String} dfsdribing thf dontfnts of thf
+     *         {@dodf X509CRLSflfdtor}.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("X509CRLSflfdtor: [\n");
+        if (issufrNbmfs != null) {
+            sb.bppfnd("  IssufrNbmfs:\n");
+            Itfrbtor<Objfdt> i = issufrNbmfs.itfrbtor();
+            whilf (i.hbsNfxt())
+                sb.bppfnd("    " + i.nfxt() + "\n");
+        }
+        if (minCRL != null)
+            sb.bppfnd("  minCRLNumbfr: " + minCRL + "\n");
+        if (mbxCRL != null)
+            sb.bppfnd("  mbxCRLNumbfr: " + mbxCRL + "\n");
+        if (dbtfAndTimf != null)
+            sb.bppfnd("  dbtfAndTimf: " + dbtfAndTimf + "\n");
+        if (dfrtChfdking != null)
+            sb.bppfnd("  Cfrtifidbtf bfing dhfdkfd: " + dfrtChfdking + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Dfdidfs whfthfr b {@dodf CRL} should bf sflfdtfd.
+     *
+     * @pbrbm drl thf {@dodf CRL} to bf dhfdkfd
+     * @rfturn {@dodf truf} if thf {@dodf CRL} should bf sflfdtfd,
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn mbtdh(CRL drl) {
+        if (!(drl instbndfof X509CRL)) {
+            rfturn fblsf;
+        }
+        X509CRL xdrl = (X509CRL)drl;
+
+        /* mbtdh on issufr nbmf */
+        if (issufrNbmfs != null) {
+            X500Prindipbl issufr = xdrl.gftIssufrX500Prindipbl();
+            Itfrbtor<X500Prindipbl> i = issufrX500Prindipbls.itfrbtor();
+            boolfbn found = fblsf;
+            whilf (!found && i.hbsNfxt()) {
+                if (i.nfxt().fqubls(issufr)) {
+                    found = truf;
+                }
+            }
+            if (!found) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdh: issufr DNs "
+                        + "don't mbtdh");
+                }
+                rfturn fblsf;
+            }
+        }
+
+        if ((minCRL != null) || (mbxCRL != null)) {
+            /* Gft CRL numbfr fxtfnsion from CRL */
+            bytf[] drlNumExtVbl = xdrl.gftExtfnsionVbluf("2.5.29.20");
+            if (drlNumExtVbl == null) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdh: no CRLNumbfr");
+                }
+            }
+            BigIntfgfr drlNum;
+            try {
+                DfrInputStrfbm in = nfw DfrInputStrfbm(drlNumExtVbl);
+                bytf[] fndodfd = in.gftOdtftString();
+                CRLNumbfrExtfnsion drlNumExt =
+                    nfw CRLNumbfrExtfnsion(Boolfbn.FALSE, fndodfd);
+                drlNum = drlNumExt.gft(CRLNumbfrExtfnsion.NUMBER);
+            } dbtdh (IOExdfption fx) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdh: fxdfption in "
+                        + "dfdoding CRL numbfr");
+                }
+                rfturn fblsf;
+            }
+
+            /* mbtdh on minCRLNumbfr */
+            if (minCRL != null) {
+                if (drlNum.dompbrfTo(minCRL) < 0) {
+                    if (dfbug != null) {
+                        dfbug.println("X509CRLSflfdtor.mbtdh: CRLNumbfr too smbll");
+                    }
+                    rfturn fblsf;
+                }
+            }
+
+            /* mbtdh on mbxCRLNumbfr */
+            if (mbxCRL != null) {
+                if (drlNum.dompbrfTo(mbxCRL) > 0) {
+                    if (dfbug != null) {
+                        dfbug.println("X509CRLSflfdtor.mbtdh: CRLNumbfr too lbrgf");
+                    }
+                    rfturn fblsf;
+                }
+            }
+        }
+
+
+        /* mbtdh on dbtfAndTimf */
+        if (dbtfAndTimf != null) {
+            Dbtf drlThisUpdbtf = xdrl.gftThisUpdbtf();
+            Dbtf nfxtUpdbtf = xdrl.gftNfxtUpdbtf();
+            if (nfxtUpdbtf == null) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdh: nfxtUpdbtf null");
+                }
+                rfturn fblsf;
+            }
+            Dbtf nowPlusSkfw = dbtfAndTimf;
+            Dbtf nowMinusSkfw = dbtfAndTimf;
+            if (skfw > 0) {
+                nowPlusSkfw = nfw Dbtf(dbtfAndTimf.gftTimf() + skfw);
+                nowMinusSkfw = nfw Dbtf(dbtfAndTimf.gftTimf() - skfw);
+            }
+            if (nowMinusSkfw.bftfr(nfxtUpdbtf)
+                || nowPlusSkfw.bfforf(drlThisUpdbtf)) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdh: updbtf out of rbngf");
+                }
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b dopy of this objfdt.
+     *
+     * @rfturn thf dopy
+     */
+    publid Objfdt dlonf() {
+        try {
+            X509CRLSflfdtor dopy = (X509CRLSflfdtor)supfr.dlonf();
+            if (issufrNbmfs != null) {
+                dopy.issufrNbmfs =
+                        nfw HbshSft<Objfdt>(issufrNbmfs);
+                dopy.issufrX500Prindipbls =
+                        nfw HbshSft<X500Prindipbl>(issufrX500Prindipbls);
+            }
+            rfturn dopy;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot hbppfn */
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+}

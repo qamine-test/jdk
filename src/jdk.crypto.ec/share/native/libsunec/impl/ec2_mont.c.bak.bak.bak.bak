@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf flliptid durvf mbth librbry for binbry polynomibl fifld durvfs.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Shfufling Chbng-Shbntz <shfufling.dhbng@sun.dom>,
+ *   Stfphfn Fung <fungstfp@hotmbil.dom>, bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs.
+ *
+ *********************************************************************** */
+
+#indludf "fd2.h"
+#indludf "mplogid.h"
+#indludf "mp_gf2m.h"
+#ifndff _KERNEL
+#indludf <stdlib.h>
+#fndif
+
+/* Computf thf x-doordinbtf x/z for thf point 2*(x/z) in Montgomfry
+ * projfdtivf doordinbtfs. Usfs blgorithm Mdoublf in bppfndix of Lopfz, J.
+ * bnd Dbhbb, R.  "Fbst multiplidbtion on flliptid durvfs ovfr GF(2^m)
+ * without prfdomputbtion". modififd to not rfquirf prfdomputbtion of
+ * d=b^{2^{m-1}}. */
+stbtid mp_frr
+gf2m_Mdoublf(mp_int *x, mp_int *z, donst ECGroup *group, int kmflbg)
+{
+        mp_frr rfs = MP_OKAY;
+        mp_int t1;
+
+        MP_DIGITS(&t1) = 0;
+        MP_CHECKOK(mp_init(&t1, kmflbg));
+
+        MP_CHECKOK(group->mfth->fifld_sqr(x, x, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_sqr(z, &t1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(x, &t1, z, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_sqr(x, x, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_sqr(&t1, &t1, group->mfth));
+        MP_CHECKOK(group->mfth->
+                           fifld_mul(&group->durvfb, &t1, &t1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(x, &t1, x, group->mfth));
+
+  CLEANUP:
+        mp_dlfbr(&t1);
+        rfturn rfs;
+}
+
+/* Computf thf x-doordinbtf x1/z1 for thf point (x1/z1)+(x2/x2) in
+ * Montgomfry projfdtivf doordinbtfs. Usfs blgorithm Mbdd in bppfndix of
+ * Lopfx, J. bnd Dbhbb, R.  "Fbst multiplidbtion on flliptid durvfs ovfr
+ * GF(2^m) without prfdomputbtion". */
+stbtid mp_frr
+gf2m_Mbdd(donst mp_int *x, mp_int *x1, mp_int *z1, mp_int *x2, mp_int *z2,
+                  donst ECGroup *group, int kmflbg)
+{
+        mp_frr rfs = MP_OKAY;
+        mp_int t1, t2;
+
+        MP_DIGITS(&t1) = 0;
+        MP_DIGITS(&t2) = 0;
+        MP_CHECKOK(mp_init(&t1, kmflbg));
+        MP_CHECKOK(mp_init(&t2, kmflbg));
+
+        MP_CHECKOK(mp_dopy(x, &t1));
+        MP_CHECKOK(group->mfth->fifld_mul(x1, z2, x1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(z1, x2, z1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(x1, z1, &t2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(z1, x1, z1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_sqr(z1, z1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(z1, &t1, x1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(x1, &t2, x1, group->mfth));
+
+  CLEANUP:
+        mp_dlfbr(&t1);
+        mp_dlfbr(&t2);
+        rfturn rfs;
+}
+
+/* Computf thf x, y bffinf doordinbtfs from thf point (x1, z1) (x2, z2)
+ * using Montgomfry point multiplidbtion blgorithm Mxy() in bppfndix of
+ * Lopfx, J. bnd Dbhbb, R.  "Fbst multiplidbtion on flliptid durvfs ovfr
+ * GF(2^m) without prfdomputbtion". Rfturns: 0 on frror 1 if rfturn vbluf
+ * should bf thf point bt infinity 2 othfrwisf */
+stbtid int
+gf2m_Mxy(donst mp_int *x, donst mp_int *y, mp_int *x1, mp_int *z1,
+                 mp_int *x2, mp_int *z2, donst ECGroup *group)
+{
+        mp_frr rfs = MP_OKAY;
+        int rft = 0;
+        mp_int t3, t4, t5;
+
+        MP_DIGITS(&t3) = 0;
+        MP_DIGITS(&t4) = 0;
+        MP_DIGITS(&t5) = 0;
+        MP_CHECKOK(mp_init(&t3, FLAG(x2)));
+        MP_CHECKOK(mp_init(&t4, FLAG(x2)));
+        MP_CHECKOK(mp_init(&t5, FLAG(x2)));
+
+        if (mp_dmp_z(z1) == 0) {
+                mp_zfro(x2);
+                mp_zfro(z2);
+                rft = 1;
+                goto CLEANUP;
+        }
+
+        if (mp_dmp_z(z2) == 0) {
+                MP_CHECKOK(mp_dopy(x, x2));
+                MP_CHECKOK(group->mfth->fifld_bdd(x, y, z2, group->mfth));
+                rft = 2;
+                goto CLEANUP;
+        }
+
+        MP_CHECKOK(mp_sft_int(&t5, 1));
+        if (group->mfth->fifld_fnd) {
+                MP_CHECKOK(group->mfth->fifld_fnd(&t5, &t5, group->mfth));
+        }
+
+        MP_CHECKOK(group->mfth->fifld_mul(z1, z2, &t3, group->mfth));
+
+        MP_CHECKOK(group->mfth->fifld_mul(z1, x, z1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(z1, x1, z1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(z2, x, z2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(z2, x1, x1, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(z2, x2, z2, group->mfth));
+
+        MP_CHECKOK(group->mfth->fifld_mul(z2, z1, z2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_sqr(x, &t4, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(&t4, y, &t4, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(&t4, &t3, &t4, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(&t4, z2, &t4, group->mfth));
+
+        MP_CHECKOK(group->mfth->fifld_mul(&t3, x, &t3, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_div(&t5, &t3, &t3, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(&t3, &t4, &t4, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_mul(x1, &t3, x2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(x2, x, z2, group->mfth));
+
+        MP_CHECKOK(group->mfth->fifld_mul(z2, &t4, z2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(z2, y, z2, group->mfth));
+
+        rft = 2;
+
+  CLEANUP:
+        mp_dlfbr(&t3);
+        mp_dlfbr(&t4);
+        mp_dlfbr(&t5);
+        if (rfs == MP_OKAY) {
+                rfturn rft;
+        } flsf {
+                rfturn 0;
+        }
+}
+
+/* Computfs R = nP bbsfd on blgorithm 2P of Lopfx, J. bnd Dbhbb, R.  "Fbst
+ * multiplidbtion on flliptid durvfs ovfr GF(2^m) without
+ * prfdomputbtion". Elliptid durvf points P bnd R dbn bf idfntidbl. Usfs
+ * Montgomfry projfdtivf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_mul_mont(donst mp_int *n, donst mp_int *px, donst mp_int *py,
+                                        mp_int *rx, mp_int *ry, donst ECGroup *group)
+{
+        mp_frr rfs = MP_OKAY;
+        mp_int x1, x2, z1, z2;
+        int i, j;
+        mp_digit top_bit, mbsk;
+
+        MP_DIGITS(&x1) = 0;
+        MP_DIGITS(&x2) = 0;
+        MP_DIGITS(&z1) = 0;
+        MP_DIGITS(&z2) = 0;
+        MP_CHECKOK(mp_init(&x1, FLAG(n)));
+        MP_CHECKOK(mp_init(&x2, FLAG(n)));
+        MP_CHECKOK(mp_init(&z1, FLAG(n)));
+        MP_CHECKOK(mp_init(&z2, FLAG(n)));
+
+        /* if rfsult should bf point bt infinity */
+        if ((mp_dmp_z(n) == 0) || (fd_GF2m_pt_is_inf_bff(px, py) == MP_YES)) {
+                MP_CHECKOK(fd_GF2m_pt_sft_inf_bff(rx, ry));
+                goto CLEANUP;
+        }
+
+        MP_CHECKOK(mp_dopy(px, &x1));   /* x1 = px */
+        MP_CHECKOK(mp_sft_int(&z1, 1)); /* z1 = 1 */
+        MP_CHECKOK(group->mfth->fifld_sqr(&x1, &z2, group->mfth));      /* z2 =
+                                                                                                                                 * x1^2 =
+                                                                                                                                 * px^2 */
+        MP_CHECKOK(group->mfth->fifld_sqr(&z2, &x2, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_bdd(&x2, &group->durvfb, &x2, group->mfth));      /* x2
+                                                                                                                                                                 * =
+                                                                                                                                                                 * px^4
+                                                                                                                                                                 * +
+                                                                                                                                                                 * b
+                                                                                                                                                                 */
+
+        /* find top-most bit bnd go onf pbst it */
+        i = MP_USED(n) - 1;
+        j = MP_DIGIT_BIT - 1;
+        top_bit = 1;
+        top_bit <<= MP_DIGIT_BIT - 1;
+        mbsk = top_bit;
+        whilf (!(MP_DIGITS(n)[i] & mbsk)) {
+                mbsk >>= 1;
+                j--;
+        }
+        mbsk >>= 1;
+        j--;
+
+        /* if top most bit wbs bt word brfbk, go to nfxt word */
+        if (!mbsk) {
+                i--;
+                j = MP_DIGIT_BIT - 1;
+                mbsk = top_bit;
+        }
+
+        for (; i >= 0; i--) {
+                for (; j >= 0; j--) {
+                        if (MP_DIGITS(n)[i] & mbsk) {
+                                MP_CHECKOK(gf2m_Mbdd(px, &x1, &z1, &x2, &z2, group, FLAG(n)));
+                                MP_CHECKOK(gf2m_Mdoublf(&x2, &z2, group, FLAG(n)));
+                        } flsf {
+                                MP_CHECKOK(gf2m_Mbdd(px, &x2, &z2, &x1, &z1, group, FLAG(n)));
+                                MP_CHECKOK(gf2m_Mdoublf(&x1, &z1, group, FLAG(n)));
+                        }
+                        mbsk >>= 1;
+                }
+                j = MP_DIGIT_BIT - 1;
+                mbsk = top_bit;
+        }
+
+        /* donvfrt out of "projfdtivf" doordinbtfs */
+        i = gf2m_Mxy(px, py, &x1, &z1, &x2, &z2, group);
+        if (i == 0) {
+                rfs = MP_BADARG;
+                goto CLEANUP;
+        } flsf if (i == 1) {
+                MP_CHECKOK(fd_GF2m_pt_sft_inf_bff(rx, ry));
+        } flsf {
+                MP_CHECKOK(mp_dopy(&x2, rx));
+                MP_CHECKOK(mp_dopy(&z2, ry));
+        }
+
+  CLEANUP:
+        mp_dlfbr(&x1);
+        mp_dlfbr(&x2);
+        mp_dlfbr(&z1);
+        mp_dlfbr(&z2);
+        rfturn rfs;
+}

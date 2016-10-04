@@ -1,0 +1,968 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+import jbvb.util.logging.*;
+import jbvb.util.*;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+
+import jbvbx.nbming.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * Thf Sfrvidf Providfr Intfrfbdf (SPI) mfdhbnism thbt gfnfrbtfs <dodf>SyndProvidfr</dodf>
+ * instbndfs to bf usfd by disdonnfdtfd <dodf>RowSft</dodf> objfdts.
+ * Thf <dodf>SyndProvidfr</dodf> instbndfs in turn providf thf
+ * <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt thf <dodf>RowSft</dodf> objfdt
+ * nffds to populbtf itsflf with dbtb bnd thf
+ * <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt it nffds to
+ * propbgbtf dhbngfs to its
+ * dbtb bbdk to thf undfrlying dbtb sourdf.
+ * <P>
+ * Bfdbusf thf mfthods in thf <dodf>SyndFbdtory</dodf> dlbss brf bll stbtid,
+ * thfrf is only onf <dodf>SyndFbdtory</dodf> objfdt
+ * pfr Jbvb VM bt bny onf timf. This fnsurfs thbt thfrf is b singlf sourdf from whidh b
+ * <dodf>RowSft</dodf> implfmfntbtion dbn obtbin its <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion.
+ *
+ * <h3>1.0 Ovfrvifw</h3>
+ * Thf <dodf>SyndFbdtory</dodf> dlbss providfs bn intfrnbl rfgistry of bvbilbblf
+ * syndhronizbtion providfr implfmfntbtions (<dodf>SyndProvidfr</dodf> objfdts).
+ * This rfgistry mby bf qufrifd to dftfrminf whidh
+ * syndhronizbtion providfrs brf bvbilbblf.
+ * Thf following linf of dodf gfts bn fnumfrbtion of thf providfrs durrfntly rfgistfrfd.
+ * <PRE>
+ *     jbvb.util.Enumfrbtion f = SyndFbdtory.gftRfgistfrfdProvidfrs();
+ * </PRE>
+ * All stbndbrd <dodf>RowSft</dodf> implfmfntbtions must providf bt lfbst two providfrs:
+ * <UL>
+ *  <LI>bn optimistid providfr for usf with b <dodf>CbdhfdRowSft</dodf> implfmfntbtion
+ *     or bn implfmfntbtion dfrivfd from it
+ *  <LI>bn XML providfr, whidh is usfd for rfbding bnd writing XML, sudh bs with
+ *       <dodf>WfbRowSft</dodf> objfdts
+ * </UL>
+ * Notf thbt thf JDBC RowSft Implfmfntbtions indludf thf <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions <dodf>RIOptimistidProvidfr</dodf> bnd <dodf>RIXmlProvidfr</dodf>,
+ * whidh sbtisfy this rfquirfmfnt.
+ * <P>
+ * Thf <dodf>SyndFbdtory</dodf> dlbss providfs bddfssor mfthods to bssist
+ * bpplidbtions in dftfrmining whidh syndhronizbtion providfrs brf durrfntly
+ * rfgistfrfd with thf <dodf>SyndFbdtory</dodf>.
+ * <p>
+ * Othfr mfthods lft <dodf>RowSft</dodf> pfrsistfndf providfrs bf
+ * rfgistfrfd or df-rfgistfrfd with thf fbdtory mfdhbnism. This
+ * bllows bdditionbl syndhronizbtion providfr implfmfntbtions to bf mbdf
+ * bvbilbblf to <dodf>RowSft</dodf> objfdts bt run timf.
+ * <p>
+ * Applidbtions dbn bpply b dfgrff of filtfring to dftfrminf thf lfvfl of
+ * syndhronizbtion thbt b <dodf>SyndProvidfr</dodf> implfmfntbtion offfrs.
+ * Thf following dritfrib dftfrminf whfthfr b providfr is
+ * mbdf bvbilbblf to b <dodf>RowSft</dodf> objfdt:
+ * <ol>
+ * <li>If b pbrtidulbr providfr is spfdififd by b <dodf>RowSft</dodf> objfdt, bnd
+ * thf <dodf>SyndFbdtory</dodf> dofs not dontbin b rfffrfndf to this providfr,
+ * b <dodf>SyndFbdtoryExdfption</dodf> is thrown stbting thbt thf syndhronizbtion
+ * providfr dould not bf found.
+ *
+ * <li>If b <dodf>RowSft</dodf> implfmfntbtion is instbntibtfd with b spfdififd
+ * providfr bnd thf spfdififd providfr hbs bffn propfrly rfgistfrfd, thf
+ * rfqufstfd providfr is supplifd. Othfrwisf b <dodf>SyndFbdtoryExdfption</dodf>
+ * is thrown.
+ *
+ * <li>If b <dodf>RowSft</dodf> objfdt dofs not spfdify b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion bnd no bdditionbl
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions brf bvbilbblf, thf rfffrfndf
+ * implfmfntbtion providfrs brf supplifd.
+ * </ol>
+ * <h3>2.0 Rfgistfring <dodf>SyndProvidfr</dodf> Implfmfntbtions</h3>
+ * <p>
+ * Both vfndors bnd dfvflopfrs dbn rfgistfr <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions using onf of thf following mfdhbnisms.
+ * <ul>
+ * <LI><B>Using thf dommbnd linf</B><BR>
+ * Thf nbmf of thf providfr is supplifd on thf dommbnd linf, whidh will bdd
+ * thf providfr to thf systfm propfrtifs.
+ * For fxbmplf:
+ * <PRE>
+ *    -Drowsft.providfr.dlbssnbmf=dom.frfd.providfrs.HighAvbilbbilityProvidfr
+ * </PRE>
+ * <li><b>Using thf Stbndbrd Propfrtifs Filf</b><BR>
+ * Thf rfffrfndf implfmfntbtion is tbrgftfd
+ * to ship with J2SE 1.5, whidh will indludf bn bdditionbl rfsourdf filf
+ * thbt mby bf fditfd by hbnd. Hfrf is bn fxbmplf of thf propfrtifs filf
+ * indludfd in thf rfffrfndf implfmfntbtion:
+ * <PRE>
+ *   #Dffbult JDBC RowSft synd providfrs listing
+ *   #
+ *
+ *   # Optimistid syndhronizbtion providfr
+ *   rowsft.providfr.dlbssnbmf.0=dom.sun.rowsft.providfrs.RIOptimistidProvidfr
+ *   rowsft.providfr.vfndor.0=Orbdlf Corporbtion
+ *   rowsft.providfr.vfrsion.0=1.0
+ *
+ *   # XML Providfr using stbndbrd XML sdhfmb
+ *   rowsft.providfr.dlbssnbmf.1=dom.sun.rowsft.providfrs.RIXMLProvidfr
+ *   rowsft.providfr.vfndor.1=Orbdlf Corporbtion
+ *   rowsft.providfr.vfrsion.1=1.0
+ * </PRE>
+ * Thf <dodf>SyndFbdtory</dodf> dhfdks this filf bnd rfgistfrs thf
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions thbt it dontbins. A
+ * dfvflopfr or vfndor dbn bdd othfr implfmfntbtions to this filf.
+ * For fxbmplf, hfrf is b possiblf bddition:
+ * <PRE>
+ *     rowsft.providfr.dlbssnbmf.2=dom.frfd.providfrs.HighAvbilbbilityProvidfr
+ *     rowsft.providfr.vfndor.2=Frfd, Ind.
+ *     rowsft.providfr.vfrsion.2=1.0
+ * </PRE>
+ *
+ * <li><b>Using b JNDI Contfxt</b><BR>
+ * Avbilbblf providfrs dbn bf rfgistfrfd on b JNDI
+ * dontfxt, bnd thf <dodf>SyndFbdtory</dodf> will bttfmpt to lobd
+ * <dodf>SyndProvidfr</dodf> implfmfntbtions from thbt JNDI dontfxt.
+ * For fxbmplf, thf following dodf frbgmfnt rfgistfrs b providfr implfmfntbtion
+ * on b JNDI dontfxt.  This is somfthing b dfployfr would normblly do. In this
+ * fxbmplf, <dodf>MyProvidfr</dodf> is bfing rfgistfrfd on b CosNbming
+ * nbmfspbdf, whidh is thf nbmfspbdf usfd by J2EE rfsourdfs.
+ * <PRE>
+ *    import jbvbx.nbming.*;
+ *
+ *    Hbshtbblf svrEnv = nfw  Hbshtbblf();
+ *    srvEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY, "CosNbming");
+ *
+ *    Contfxt dtx = nfw InitiblContfxt(svrEnv);
+ *    dom.frfd.providfrs.MyProvidfr = nfw MyProvidfr();
+ *    dtx.rfbind("providfrs/MyProvidfr", syndProvidfr);
+ * </PRE>
+ * </ul>
+ * Nfxt, bn bpplidbtion will rfgistfr thf JNDI dontfxt with thf
+ * <dodf>SyndFbdtory</dodf> instbndf.  This bllows thf <dodf>SyndFbdtory</dodf>
+ * to browsf within thf JNDI dontfxt looking for <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions.
+ * <PRE>
+ *    Hbshtbblf bppEnv = nfw Hbshtbblf();
+ *    bppEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY, "CosNbming");
+ *    bppEnv.put(Contfxt.PROVIDER_URL, "iiop://hostnbmf/providfrs");
+ *    Contfxt dtx = nfw InitiblContfxt(bppEnv);
+ *
+ *    SyndFbdtory.rfgistfrJNDIContfxt(dtx);
+ * </PRE>
+ * If b <dodf>RowSft</dodf> objfdt bttfmpts to obtbin b <dodf>MyProvidfr</dodf>
+ * objfdt, thf <dodf>SyndFbdtory</dodf> will try to lodbtf it. First it sfbrdhfs
+ * for it in thf systfm propfrtifs, thfn it looks in thf rfsourdf filfs, bnd
+ * finblly it dhfdks thf JNDI dontfxt thbt hbs bffn sft. Thf <dodf>SyndFbdtory</dodf>
+ * instbndf vfrififs thbt thf rfqufstfd providfr is b vblid fxtfnsion of thf
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss bnd thfn givfs it to thf
+ * <dodf>RowSft</dodf> objfdt. In thf following dodf frbgmfnt, b nfw
+ * <dodf>CbdhfdRowSft</dodf> objfdt is drfbtfd bnd initiblizfd with
+ * <i>fnv</i>, whidh dontbins thf binding to <dodf>MyProvidfr</dodf>.
+ * <PRE>
+ *    Hbshtbblf fnv = nfw Hbshtbblf();
+ *    fnv.put(SyndFbdtory.ROWSET_SYNC_PROVIDER, "dom.frfd.providfrs.MyProvidfr");
+ *    CbdhfdRowSft drs = nfw dom.sun.rowsft.CbdhfdRowSftImpl(fnv);
+ * </PRE>
+ * Furthfr dftbils on thfsf mfdhbnisms brf bvbilbblf in thf
+ * <dodf>jbvbx.sql.rowsft.spi</dodf> pbdkbgf spfdifidbtion.
+ *
+ * @buthor  Jonbthbn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ * @sindf 1.5
+ */
+publid dlbss SyndFbdtory {
+
+    /**
+     * Crfbtfs b nfw <dodf>SyndFbdtory</dodf> objfdt, whidh is thf singlfton
+     * instbndf.
+     * Hbving b privbtf donstrudtor gubrbntffs thbt no morf thbn
+     * onf <dodf>SyndProvidfr</dodf> objfdt dbn fxist bt b timf.
+     */
+    privbtf SyndFbdtory() {
+    }
+
+    /**
+     * Thf stbndbrd propfrty-id for b syndhronizbtion providfr implfmfntbtion
+     * nbmf.
+     */
+    publid stbtid finbl String ROWSET_SYNC_PROVIDER =
+            "rowsft.providfr.dlbssnbmf";
+    /**
+     * Thf stbndbrd propfrty-id for b syndhronizbtion providfr implfmfntbtion
+     * vfndor nbmf.
+     */
+    publid stbtid finbl String ROWSET_SYNC_VENDOR =
+            "rowsft.providfr.vfndor";
+    /**
+     * Thf stbndbrd propfrty-id for b syndhronizbtion providfr implfmfntbtion
+     * vfrsion tbg.
+     */
+    publid stbtid finbl String ROWSET_SYNC_PROVIDER_VERSION =
+            "rowsft.providfr.vfrsion";
+    /**
+     * Thf stbndbrd rfsourdf filf nbmf.
+     */
+    privbtf stbtid String ROWSET_PROPERTIES = "rowsft.propfrtifs";
+
+    /**
+     *  Pfrmission rfquirfd to invokf sftJNDIContfxt bnd sftLoggfr
+     */
+    privbtf stbtid finbl SQLPfrmission SET_SYNCFACTORY_PERMISSION =
+            nfw SQLPfrmission("sftSyndFbdtory");
+    /**
+     * Thf initibl JNDI dontfxt whfrf <dodf>SyndProvidfr</dodf> implfmfntbtions dbn
+     * bf storfd bnd from whidh thfy dbn bf invokfd.
+     */
+    privbtf stbtid Contfxt id;
+    /**
+     * Thf <dodf>Loggfr</dodf> objfdt to bf usfd by thf <dodf>SyndFbdtory</dodf>.
+     */
+    privbtf stbtid volbtilf Loggfr rsLoggfr;
+
+    /**
+     * Thf rfgistry of bvbilbblf <dodf>SyndProvidfr</dodf> implfmfntbtions.
+     * Sff sfdtion 2.0 of thf dlbss dommfnt for <dodf>SyndFbdtory</dodf> for bn
+     * fxplbnbtion of how b providfr dbn bf bddfd to this rfgistry.
+     */
+    privbtf stbtid Hbshtbblf<String, SyndProvidfr> implfmfntbtions;
+
+    /**
+     * Adds thf thf givfn syndhronizbtion providfr to thf fbdtory rfgistfr. Guidflinfs
+     * brf providfd in thf <dodf>SyndProvidfr</dodf> spfdifidbtion for thf
+     * rfquirfd nbming donvfntions for <dodf>SyndProvidfr</dodf>
+     * implfmfntbtions.
+     * <p>
+     * Syndhronizbtion providfrs bound to b JNDI dontfxt dbn bf
+     * rfgistfrfd by binding b SyndProvidfr instbndf to b JNDI nbmfspbdf.
+     *
+     * <prf>
+     * {@dodf
+     * SyndProvidfr p = nfw MySyndProvidfr();
+     * InitiblContfxt id = nfw InitiblContfxt();
+     * id.bind ("jdbd/rowsft/MySyndProvidfr", p);
+     * } </prf>
+     *
+     * Furthfrmorf, bn initibl JNDI dontfxt should bf sft with thf
+     * <dodf>SyndFbdtory</dodf> using thf <dodf>sftJNDIContfxt</dodf> mfthod.
+     * Thf <dodf>SyndFbdtory</dodf> lfvfrbgfs this dontfxt to sfbrdh for
+     * bvbilbblf <dodf>SyndProvidfr</dodf> objfdts bound to thf JNDI
+     * dontfxt bnd its dhild nodfs.
+     *
+     * @pbrbm providfrID A <dodf>String</dodf> objfdt with thf uniquf ID of thf
+     *             syndhronizbtion providfr bfing rfgistfrfd
+     * @throws SyndFbdtoryExdfption if bn bttfmpt is mbdf to supply bn fmpty
+     *         or null providfr nbmf
+     * @sff #sftJNDIContfxt
+     */
+    publid stbtid syndhronizfd void rfgistfrProvidfr(String providfrID)
+            throws SyndFbdtoryExdfption {
+
+        ProvidfrImpl impl = nfw ProvidfrImpl();
+        impl.sftClbssnbmf(providfrID);
+        initMbpIfNfdfssbry();
+        implfmfntbtions.put(providfrID, impl);
+
+    }
+
+    /**
+     * Rfturns thf <dodf>SyndFbdtory</dodf> singlfton.
+     *
+     * @rfturn thf <dodf>SyndFbdtory</dodf> instbndf
+     */
+    publid stbtid SyndFbdtory gftSyndFbdtory() {
+        /*
+         * Using Initiblizbtion on Dfmbnd Holdfr idiom bs
+         * Efffdtivf Jbvb 2nd Edition,ITEM 71, indidbtfs it is morf pfrformbnt
+         * thbn thf Doublf-Chfdk Lodking idiom.
+         */
+        rfturn SyndFbdtoryHoldfr.fbdtory;
+    }
+
+    /**
+     * Rfmovfs thf dfsignbtfd durrfntly rfgistfrfd syndhronizbtion providfr from thf
+     * Fbdtory SPI rfgistfr.
+     *
+     * @pbrbm providfrID Thf uniquf-id of thf syndhronizbtion providfr
+     * @throws SyndFbdtoryExdfption If bn bttfmpt is mbdf to
+     * unrfgistfr b SyndProvidfr implfmfntbtion thbt wbs not rfgistfrfd.
+     */
+    publid stbtid syndhronizfd void unrfgistfrProvidfr(String providfrID)
+            throws SyndFbdtoryExdfption {
+        initMbpIfNfdfssbry();
+        if (implfmfntbtions.dontbinsKfy(providfrID)) {
+            implfmfntbtions.rfmovf(providfrID);
+        }
+    }
+    privbtf stbtid String dolon = ":";
+    privbtf stbtid String strFilfSfp = "/";
+
+    privbtf stbtid syndhronizfd void initMbpIfNfdfssbry() throws SyndFbdtoryExdfption {
+
+        // Lodbl implfmfntbtion dlbss nbmfs bnd kfys from Propfrtifs
+        // filf, trbnslbtf nbmfs into Clbss objfdts using Clbss.forNbmf
+        // bnd storf mbppings
+        finbl Propfrtifs propfrtifs = nfw Propfrtifs();
+
+        if (implfmfntbtions == null) {
+            implfmfntbtions = nfw Hbshtbblf<>();
+
+            try {
+
+                // dhfdk if usfr is supplying his Syndhronisbtion Providfr
+                // Implfmfntbtion if not using Orbdlf's implfmfntbtion.
+                // propfrtifs.lobd(nfw FilfInputStrfbm(ROWSET_PROPERTIES));
+
+                // Thf rowsft.propfrtifs nffds to bf in jdk/jrf/lib whfn
+                // intfgrbtfd with jdk.
+                // flsf it should bf pidkfd from -D option from dommbnd linf.
+
+                // -Drowsft.propfrtifs will bdd to stbndbrd propfrtifs. Similbr
+                // kfys will ovfr-writf
+
+                /*
+                 * Dfpfndfnt on bpplidbtion
+                 */
+                String strRowsftPropfrtifs;
+                try {
+                    strRowsftPropfrtifs = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty("rowsft.propfrtifs");
+                        }
+                    }, null, nfw PropfrtyPfrmission("rowsft.propfrtifs", "rfbd"));
+                } dbtdh (Exdfption fx) {
+                    Systfm.out.println("frrorgft rowsft.propfrtifs: " + fx);
+                    strRowsftPropfrtifs = null;
+                };
+
+                if (strRowsftPropfrtifs != null) {
+                    // Lobd usfr's implfmfntbtion of SyndProvidfr
+                    // hfrf. -Drowsft.propfrtifs=/bbd/dff/pqr.txt
+                    ROWSET_PROPERTIES = strRowsftPropfrtifs;
+                    try (FilfInputStrfbm fis = nfw FilfInputStrfbm(ROWSET_PROPERTIES)) {
+                        propfrtifs.lobd(fis);
+                    }
+                    pbrsfPropfrtifs(propfrtifs);
+                }
+
+                /*
+                 * Alwbys bvbilbblf
+                 */
+                ROWSET_PROPERTIES = "jbvbx" + strFilfSfp + "sql" +
+                        strFilfSfp + "rowsft" + strFilfSfp +
+                        "rowsft.propfrtifs";
+
+                ClbssLobdfr dl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+                try {
+                    AddfssControllfr.doPrivilfgfd((PrivilfgfdExdfptionAdtion<Void>) () -> {
+                        try (InputStrfbm strfbm = (dl == null) ?
+                                ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(ROWSET_PROPERTIES)
+                                : dl.gftRfsourdfAsStrfbm(ROWSET_PROPERTIES)) {
+                            if (strfbm == null) {
+                                throw nfw SyndFbdtoryExdfption("Rfsourdf " + ROWSET_PROPERTIES + " not found");
+                            }
+                            propfrtifs.lobd(strfbm);
+                        }
+                        rfturn null;
+                    });
+                } dbtdh (PrivilfgfdAdtionExdfption fx) {
+                    Throwbblf f = fx.gftExdfption();
+                    if (f instbndfof SyndFbdtoryExdfption) {
+                      throw (SyndFbdtoryExdfption) f;
+                    } flsf {
+                        SyndFbdtoryExdfption sff = nfw SyndFbdtoryExdfption();
+                        sff.initCbusf(fx.gftExdfption());
+                        throw sff;
+                    }
+                }
+
+                pbrsfPropfrtifs(propfrtifs);
+
+            // rfmovfd flsf, hbs propfrtifs should sum togfthfr
+
+            } dbtdh (FilfNotFoundExdfption f) {
+                throw nfw SyndFbdtoryExdfption("Cbnnot lodbtf propfrtifs filf: " + f);
+            } dbtdh (IOExdfption f) {
+                throw nfw SyndFbdtoryExdfption("IOExdfption: " + f);
+            }
+
+            /*
+             * Now dfbl with -Drowsft.providfr.dlbssnbmf
+             * lobd bdditionbl propfrtifs from -D dommbnd linf
+             */
+            propfrtifs.dlfbr();
+            String providfrImpls;
+            try {
+                providfrImpls = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn Systfm.gftPropfrty(ROWSET_SYNC_PROVIDER);
+                    }
+                }, null, nfw PropfrtyPfrmission(ROWSET_SYNC_PROVIDER, "rfbd"));
+            } dbtdh (Exdfption fx) {
+                providfrImpls = null;
+            }
+
+            if (providfrImpls != null) {
+                int i = 0;
+                if (providfrImpls.indfxOf(dolon) > 0) {
+                    StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(providfrImpls, dolon);
+                    whilf (tokfnizfr.hbsMorfElfmfnts()) {
+                        propfrtifs.put(ROWSET_SYNC_PROVIDER + "." + i, tokfnizfr.nfxtTokfn());
+                        i++;
+                    }
+                } flsf {
+                    propfrtifs.put(ROWSET_SYNC_PROVIDER, providfrImpls);
+                }
+                pbrsfPropfrtifs(propfrtifs);
+            }
+        }
+    }
+
+    /**
+     * Thf intfrnbl dfbug switdh.
+     */
+    privbtf stbtid boolfbn dfbug = fblsf;
+    /**
+     * Intfrnbl rfgistry dount for thf numbfr of providfrs dontbinfd in thf
+     * rfgistry.
+     */
+    privbtf stbtid int providfrImplIndfx = 0;
+
+    /**
+     * Intfrnbl hbndlfr for bll stbndbrd propfrty pbrsing. Pbrsfs stbndbrd
+     * ROWSET propfrtifs bnd storfs lbzy rfffrfndfs into thf thf intfrnbl rfgistry.
+     */
+    privbtf stbtid void pbrsfPropfrtifs(Propfrtifs p) {
+
+        ProvidfrImpl impl = null;
+        String kfy = null;
+        String[] propfrtyNbmfs = null;
+
+        for (Enumfrbtion<?> f = p.propfrtyNbmfs(); f.hbsMorfElfmfnts();) {
+
+            String str = (String) f.nfxtElfmfnt();
+
+            int w = str.lfngth();
+
+            if (str.stbrtsWith(SyndFbdtory.ROWSET_SYNC_PROVIDER)) {
+
+                impl = nfw ProvidfrImpl();
+                impl.sftIndfx(providfrImplIndfx++);
+
+                if (w == (SyndFbdtory.ROWSET_SYNC_PROVIDER).lfngth()) {
+                    // no propfrty indfx hbs bffn sft.
+                    propfrtyNbmfs = gftPropfrtyNbmfs(fblsf);
+                } flsf {
+                    // propfrty indfx hbs bffn sft.
+                    propfrtyNbmfs = gftPropfrtyNbmfs(truf, str.substring(w - 1));
+                }
+
+                kfy = p.gftPropfrty(propfrtyNbmfs[0]);
+                impl.sftClbssnbmf(kfy);
+                impl.sftVfndor(p.gftPropfrty(propfrtyNbmfs[1]));
+                impl.sftVfrsion(p.gftPropfrty(propfrtyNbmfs[2]));
+                implfmfntbtions.put(kfy, impl);
+            }
+        }
+    }
+
+    /**
+     * Usfd by thf pbrsfPropfrtifs mfthods to disbssfmblf fbdh propfrty tuplf.
+     */
+    privbtf stbtid String[] gftPropfrtyNbmfs(boolfbn bppfnd) {
+        rfturn gftPropfrtyNbmfs(bppfnd, null);
+    }
+
+    /**
+     * Disbssfmblfs fbdh propfrty bnd its bssodibtfd vbluf. Also hbndlfs
+     * ovfrlobdfd propfrty nbmfs thbt dontbin indfxfs.
+     */
+    privbtf stbtid String[] gftPropfrtyNbmfs(boolfbn bppfnd,
+            String propfrtyIndfx) {
+        String dot = ".";
+        String[] propfrtyNbmfs =
+                nfw String[]{SyndFbdtory.ROWSET_SYNC_PROVIDER,
+            SyndFbdtory.ROWSET_SYNC_VENDOR,
+            SyndFbdtory.ROWSET_SYNC_PROVIDER_VERSION};
+        if (bppfnd) {
+            for (int i = 0; i < propfrtyNbmfs.lfngth; i++) {
+                propfrtyNbmfs[i] = propfrtyNbmfs[i] +
+                        dot +
+                        propfrtyIndfx;
+            }
+            rfturn propfrtyNbmfs;
+        } flsf {
+            rfturn propfrtyNbmfs;
+        }
+    }
+
+    /**
+     * Intfrnbl dfbug mfthod thbt outputs thf rfgistry dontfnts.
+     */
+    privbtf stbtid void showImpl(ProvidfrImpl impl) {
+        Systfm.out.println("Providfr implfmfntbtion:");
+        Systfm.out.println("Clbssnbmf: " + impl.gftClbssnbmf());
+        Systfm.out.println("Vfndor: " + impl.gftVfndor());
+        Systfm.out.println("Vfrsion: " + impl.gftVfrsion());
+        Systfm.out.println("Impl indfx: " + impl.gftIndfx());
+    }
+
+    /**
+     * Rfturns thf <dodf>SyndProvidfr</dodf> instbndf idfntififd by <i>providfrID</i>.
+     *
+     * @pbrbm providfrID thf uniquf idfntififr of thf providfr
+     * @rfturn b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * @throws SyndFbdtoryExdfption If thf SyndProvidfr dbnnot bf found,
+     * thf providfrID is {@dodf null}, or
+     * somf frror wbs fndountfrfd whfn trying to invokf this providfr.
+     */
+    publid stbtid SyndProvidfr gftInstbndf(String providfrID)
+            throws SyndFbdtoryExdfption {
+
+        if(providfrID == null) {
+            throw nfw SyndFbdtoryExdfption("Thf providfrID dbnnot bf null");
+        }
+
+        initMbpIfNfdfssbry(); // populbtf HbshTbblf
+        initJNDIContfxt();    // dhfdk JNDI dontfxt for bny bdditionbl bindings
+
+        ProvidfrImpl impl = (ProvidfrImpl) implfmfntbtions.gft(providfrID);
+
+        if (impl == null) {
+            // Rfqufstfd SyndProvidfr is unbvbilbblf. Rfturn dffbult providfr.
+            rfturn nfw dom.sun.rowsft.providfrs.RIOptimistidProvidfr();
+        }
+
+        try {
+            RfflfdtUtil.dhfdkPbdkbgfAddfss(providfrID);
+        } dbtdh (jbvb.sfdurity.AddfssControlExdfption f) {
+            SyndFbdtoryExdfption sff = nfw SyndFbdtoryExdfption();
+            sff.initCbusf(f);
+            throw sff;
+        }
+
+        // Attfmpt to invokf dlbssnbmf from rfgistfrfd SyndProvidfr list
+        Clbss<?> d = null;
+        try {
+            ClbssLobdfr dl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+            /**
+             * Thf SyndProvidfr implfmfntbtion of thf usfr will bf in
+             * thf dlbsspbth. Wf nffd to find thf ClbssLobdfr whidh lobds
+             * this SyndFbdtory bnd try to lobd thf SyndProvidfr dlbss from
+             * thfrf.
+             **/
+            d = Clbss.forNbmf(providfrID, truf, dl);
+
+            if (d != null) {
+                rfturn (SyndProvidfr) d.nfwInstbndf();
+            } flsf {
+                rfturn nfw dom.sun.rowsft.providfrs.RIOptimistidProvidfr();
+            }
+
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw SyndFbdtoryExdfption("IllfgblAddfssExdfption: " + f.gftMfssbgf());
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw SyndFbdtoryExdfption("InstbntibtionExdfption: " + f.gftMfssbgf());
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw SyndFbdtoryExdfption("ClbssNotFoundExdfption: " + f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rfturns bn Enumfrbtion of durrfntly rfgistfrfd syndhronizbtion
+     * providfrs.  A <dodf>RowSft</dodf> implfmfntbtion mby usf bny providfr in
+     * thf fnumfrbtion bs its <dodf>SyndProvidfr</dodf> objfdt.
+     * <p>
+     * At b minimum, thf rfffrfndf syndhronizbtion providfr bllowing
+     * RowSft dontfnt dbtb to bf storfd using b JDBC drivfr should bf
+     * possiblf.
+     *
+     * @rfturn Enumfrbtion  A fnumfrbtion of bvbilbblf syndhronizbtion
+     * providfrs thbt brf rfgistfrfd with this Fbdtory
+     * @throws SyndFbdtoryExdfption If bn frror oddurs obtbining thf rfgistfrfd
+     * providfrs
+     */
+    publid stbtid Enumfrbtion<SyndProvidfr> gftRfgistfrfdProvidfrs()
+            throws SyndFbdtoryExdfption {
+        initMbpIfNfdfssbry();
+        // rfturn b dollfdtion of dlbssnbmfs
+        // of typf SyndProvidfr
+        rfturn implfmfntbtions.flfmfnts();
+    }
+
+    /**
+     * Sfts thf logging objfdt to bf usfd by thf <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion providfd by thf <dodf>SyndFbdtory</dodf>. All
+     * <dodf>SyndProvidfr</dodf> implfmfntbtions dbn log thfir fvfnts to
+     * this objfdt bnd thf bpplidbtion dbn rftrifvf b hbndlf to this
+     * objfdt using thf <dodf>gftLoggfr</dodf> mfthod.
+     * <p>
+     * This mfthod dhfdks to sff thbt thfrf is bn {@dodf SQLPfrmission}
+     * objfdt  whidh grbnts thf pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing thf mfthod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftLoggfr},
+     * this mfthod throws b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
+     *
+     * @pbrbm loggfr A Loggfr objfdt instbndf
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *   {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftLoggfr}
+     * @throws NullPointfrExdfption if thf loggfr is null
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     */
+    publid stbtid void sftLoggfr(Loggfr loggfr) {
+
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(SET_SYNCFACTORY_PERMISSION);
+        }
+
+        if(loggfr == null){
+            throw nfw NullPointfrExdfption("You must providf b Loggfr");
+        }
+        rsLoggfr = loggfr;
+    }
+
+    /**
+     * Sfts thf logging objfdt thbt is usfd by <dodf>SyndProvidfr</dodf>
+     * implfmfntbtions providfd by thf <dodf>SyndFbdtory</dodf> SPI. All
+     * <dodf>SyndProvidfr</dodf> implfmfntbtions dbn log thfir fvfnts
+     * to this objfdt bnd thf bpplidbtion dbn rftrifvf b hbndlf to this
+     * objfdt using thf <dodf>gftLoggfr</dodf> mfthod.
+     * <p>
+     * This mfthod dhfdks to sff thbt thfrf is bn {@dodf SQLPfrmission}
+     * objfdt  whidh grbnts thf pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing thf mfthod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftLoggfr},
+     * this mfthod throws b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
+     *
+     * @pbrbm loggfr b Loggfr objfdt instbndf
+     * @pbrbm lfvfl b Lfvfl objfdt instbndf indidbting thf dfgrff of logging
+     * rfquirfd
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *   {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftLoggfr}
+     * @throws NullPointfrExdfption if thf loggfr is null
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff LoggingPfrmission
+     */
+    publid stbtid void sftLoggfr(Loggfr loggfr, Lfvfl lfvfl) {
+        // singlfton
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(SET_SYNCFACTORY_PERMISSION);
+        }
+
+        if(loggfr == null){
+            throw nfw NullPointfrExdfption("You must providf b Loggfr");
+        }
+        loggfr.sftLfvfl(lfvfl);
+        rsLoggfr = loggfr;
+    }
+
+    /**
+     * Rfturns thf logging objfdt for bpplidbtions to rftrifvf
+     * syndhronizbtion fvfnts postfd by SyndProvidfr implfmfntbtions.
+     * @rfturn Thf {@dodf Loggfr} thbt hbs bffn spfdififd for usf by
+     * {@dodf SyndProvidfr} implfmfntbtions
+     * @throws SyndFbdtoryExdfption if no logging objfdt hbs bffn sft.
+     */
+    publid stbtid Loggfr gftLoggfr() throws SyndFbdtoryExdfption {
+
+        Loggfr rfsult = rsLoggfr;
+        // only onf loggfr pfr sfssion
+        if (rfsult == null) {
+            throw nfw SyndFbdtoryExdfption("(SyndFbdtory) : No loggfr hbs bffn sft");
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Sfts thf initibl JNDI dontfxt from whidh SyndProvidfr implfmfntbtions
+     * dbn bf rftrifvfd from b JNDI nbmfspbdf
+     * <p>
+     *  This mfthod dhfdks to sff thbt thfrf is bn {@dodf SQLPfrmission}
+     * objfdt  whidh grbnts thf pfrmission {@dodf sftSyndFbdtory}
+     * bfforf bllowing thf mfthod to suddffd.  If b
+     * {@dodf SfdurityMbnbgfr} fxists bnd its
+     * {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftJNDIContfxt},
+     * this mfthod throws b
+     * {@dodf jbvb.lbng.SfdurityExdfption}.
+     *
+     * @pbrbm dtx b vblid JNDI dontfxt
+     * @throws SyndFbdtoryExdfption if thf supplifd JNDI dontfxt is null
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *  {@dodf dhfdkPfrmission} mfthod dfnifs dblling {@dodf sftJNDIContfxt}
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     */
+    publid stbtid syndhronizfd void sftJNDIContfxt(jbvbx.nbming.Contfxt dtx)
+            throws SyndFbdtoryExdfption {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(SET_SYNCFACTORY_PERMISSION);
+        }
+        if (dtx == null) {
+            throw nfw SyndFbdtoryExdfption("Invblid JNDI dontfxt supplifd");
+        }
+        id = dtx;
+    }
+
+    /**
+     * Controls JNDI dontfxt initiblizbtion.
+     *
+     * @throws SyndFbdtoryExdfption if bn frror oddurs pbrsing thf JNDI dontfxt
+     */
+    privbtf stbtid syndhronizfd void initJNDIContfxt() throws SyndFbdtoryExdfption {
+
+        if ((id != null) && (lbzyJNDICtxRffrfsh == fblsf)) {
+            try {
+                pbrsfPropfrtifs(pbrsfJNDIContfxt());
+                lbzyJNDICtxRffrfsh = truf; // toudh JNDI nbmfspbdf ondf.
+            } dbtdh (NbmingExdfption f) {
+                f.printStbdkTrbdf();
+                throw nfw SyndFbdtoryExdfption("SPI: NbmingExdfption: " + f.gftExplbnbtion());
+            } dbtdh (Exdfption f) {
+                f.printStbdkTrbdf();
+                throw nfw SyndFbdtoryExdfption("SPI: Exdfption: " + f.gftMfssbgf());
+            }
+        }
+    }
+    /**
+     * Intfrnbl switdh indidbting whfthfr thf JNDI nbmfspbdf should bf rf-rfbd.
+     */
+    privbtf stbtid boolfbn lbzyJNDICtxRffrfsh = fblsf;
+
+    /**
+     * Pbrsfs thf sft JNDI Contfxt bnd pbssfs bindings to thf fnumfrbtfBindings
+     * mfthod whfn domplftf.
+     */
+    privbtf stbtid Propfrtifs pbrsfJNDIContfxt() throws NbmingExdfption {
+
+        NbmingEnumfrbtion<?> bindings = id.listBindings("");
+        Propfrtifs propfrtifs = nfw Propfrtifs();
+
+        // Hunt onf lfvfl bflow dontfxt for bvbilbblf SyndProvidfr objfdts
+        fnumfrbtfBindings(bindings, propfrtifs);
+
+        rfturn propfrtifs;
+    }
+
+    /**
+     * Sdbns fbdh binding on JNDI dontfxt bnd dftfrminfs if bny binding is bn
+     * instbndf of SyndProvidfr, if so, bdd this to thf rfgistry bnd dontinuf to
+     * sdbn thf durrfnt dontfxt using b rf-fntrbnt dbll to this mfthod until bll
+     * bindings hbvf bffn fnumfrbtfd.
+     */
+    privbtf stbtid void fnumfrbtfBindings(NbmingEnumfrbtion<?> bindings,
+            Propfrtifs propfrtifs) throws NbmingExdfption {
+
+        boolfbn syndProvidfrObj = fblsf; // movf to pbrbmftfrs ?
+
+        try {
+            Binding bd = null;
+            Objfdt flfmfntObj = null;
+            String flfmfnt = null;
+            whilf (bindings.hbsMorf()) {
+                bd = (Binding) bindings.nfxt();
+                flfmfnt = bd.gftNbmf();
+                flfmfntObj = bd.gftObjfdt();
+
+                if (!(id.lookup(flfmfnt) instbndfof Contfxt)) {
+                    // skip dirfdtorifs/sub-dontfxts
+                    if (id.lookup(flfmfnt) instbndfof SyndProvidfr) {
+                        syndProvidfrObj = truf;
+                    }
+                }
+
+                if (syndProvidfrObj) {
+                    SyndProvidfr synd = (SyndProvidfr) flfmfntObj;
+                    propfrtifs.put(SyndFbdtory.ROWSET_SYNC_PROVIDER,
+                            synd.gftProvidfrID());
+                    syndProvidfrObj = fblsf; // rfsft
+                }
+
+            }
+        } dbtdh (jbvbx.nbming.NotContfxtExdfption f) {
+            bindings.nfxt();
+            // Rf-fntrbnt dbll into mfthod
+            fnumfrbtfBindings(bindings, propfrtifs);
+        }
+    }
+
+    /**
+     * Lbzy initiblizbtion Holdfr dlbss usfd by {@dodf gftSyndFbdtory}
+     */
+    privbtf stbtid dlbss SyndFbdtoryHoldfr {
+        stbtid finbl SyndFbdtory fbdtory = nfw SyndFbdtory();
+    }
+}
+
+/**
+ * Intfrnbl dlbss thbt dffinfs thf lbzy rfffrfndf donstrudt for fbdh rfgistfrfd
+ * SyndProvidfr implfmfntbtion.
+ */
+dlbss ProvidfrImpl fxtfnds SyndProvidfr {
+
+    privbtf String dlbssNbmf = null;
+    privbtf String vfndorNbmf = null;
+    privbtf String vfr = null;
+    privbtf int indfx;
+
+    publid void sftClbssnbmf(String dlbssnbmf) {
+        dlbssNbmf = dlbssnbmf;
+    }
+
+    publid String gftClbssnbmf() {
+        rfturn dlbssNbmf;
+    }
+
+    publid void sftVfndor(String vfndor) {
+        vfndorNbmf = vfndor;
+    }
+
+    publid String gftVfndor() {
+        rfturn vfndorNbmf;
+    }
+
+    publid void sftVfrsion(String providfrVfr) {
+        vfr = providfrVfr;
+    }
+
+    publid String gftVfrsion() {
+        rfturn vfr;
+    }
+
+    publid void sftIndfx(int i) {
+        indfx = i;
+    }
+
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    publid int gftDbtbSourdfLodk() throws SyndProvidfrExdfption {
+
+        int dsLodk = 0;
+        try {
+            dsLodk = SyndFbdtory.gftInstbndf(dlbssNbmf).gftDbtbSourdfLodk();
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+
+            throw nfw SyndProvidfrExdfption(sfEx.gftMfssbgf());
+        }
+
+        rfturn dsLodk;
+    }
+
+    publid int gftProvidfrGrbdf() {
+
+        int grbdf = 0;
+
+        try {
+            grbdf = SyndFbdtory.gftInstbndf(dlbssNbmf).gftProvidfrGrbdf();
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+            //
+        }
+
+        rfturn grbdf;
+    }
+
+    publid String gftProvidfrID() {
+        rfturn dlbssNbmf;
+    }
+
+    /*
+    publid jbvbx.sql.RowSftIntfrnbl gftRowSftIntfrnbl() {
+    try
+    {
+    rfturn SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftIntfrnbl();
+    } dbtdh(SyndFbdtoryExdfption sfEx) {
+    //
+    }
+    }
+     */
+    publid jbvbx.sql.RowSftRfbdfr gftRowSftRfbdfr() {
+
+        RowSftRfbdfr rsRfbdfr = null;
+
+        try {
+            rsRfbdfr = SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftRfbdfr();
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+            //
+        }
+
+        rfturn rsRfbdfr;
+
+    }
+
+    publid jbvbx.sql.RowSftWritfr gftRowSftWritfr() {
+
+        RowSftWritfr rsWritfr = null;
+        try {
+            rsWritfr = SyndFbdtory.gftInstbndf(dlbssNbmf).gftRowSftWritfr();
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+            //
+        }
+
+        rfturn rsWritfr;
+    }
+
+    publid void sftDbtbSourdfLodk(int pbrbm)
+            throws SyndProvidfrExdfption {
+
+        try {
+            SyndFbdtory.gftInstbndf(dlbssNbmf).sftDbtbSourdfLodk(pbrbm);
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+
+            throw nfw SyndProvidfrExdfption(sfEx.gftMfssbgf());
+        }
+    }
+
+    publid int supportsUpdbtbblfVifw() {
+
+        int vifw = 0;
+
+        try {
+            vifw = SyndFbdtory.gftInstbndf(dlbssNbmf).supportsUpdbtbblfVifw();
+        } dbtdh (SyndFbdtoryExdfption sfEx) {
+            //
+        }
+
+        rfturn vifw;
+    }
+}

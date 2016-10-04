@@ -1,1122 +1,1122 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.StringTokenizer;
-import java.io.ByteArrayOutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * Windows registry based implementation of  <tt>Preferences</tt>.
- * <tt>Preferences</tt>' <tt>systemRoot</tt> and <tt>userRoot</tt> are stored in
- * <tt>HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Prefs</tt> and
- * <tt>HKEY_CURRENT_USER\Software\JavaSoft\Prefs</tt> correspondingly.
+ * Windows rfgistry bbsfd implfmfntbtion of  <tt>Prfffrfndfs</tt>.
+ * <tt>Prfffrfndfs</tt>' <tt>systfmRoot</tt> bnd <tt>usfrRoot</tt> brf storfd in
+ * <tt>HKEY_LOCAL_MACHINE\SOFTWARE\JbvbSoft\Prffs</tt> bnd
+ * <tt>HKEY_CURRENT_USER\Softwbrf\JbvbSoft\Prffs</tt> dorrfspondingly.
  *
- * @author  Konstantin Kladko
- * @see Preferences
- * @see PreferencesFactory
- * @since 1.4
+ * @butior  Konstbntin Klbdko
+ * @sff Prfffrfndfs
+ * @sff PrfffrfndfsFbdtory
+ * @sindf 1.4
  */
 
-class WindowsPreferences extends AbstractPreferences{
+dlbss WindowsPrfffrfndfs fxtfnds AbstrbdtPrfffrfndfs{
 
-    static {
-        PrivilegedAction<Void> load = () -> {
-            System.loadLibrary("prefs");
-            return null;
+    stbtid {
+        PrivilfgfdAdtion<Void> lobd = () -> {
+            Systfm.lobdLibrbry("prffs");
+            rfturn null;
         };
-        AccessController.doPrivileged(load);
+        AddfssControllfr.doPrivilfgfd(lobd);
     }
 
     /**
-     * Logger for error messages
+     * Loggfr for frror mfssbgfs
      */
-    private static PlatformLogger logger;
+    privbtf stbtid PlbtformLoggfr loggfr;
 
     /**
-     * Windows registry path to <tt>Preferences</tt>'s root nodes.
+     * Windows rfgistry pbti to <tt>Prfffrfndfs</tt>'s root nodfs.
      */
-    private static final byte[] WINDOWS_ROOT_PATH
-                               = stringToByteArray("Software\\JavaSoft\\Prefs");
+    privbtf stbtid finbl bytf[] WINDOWS_ROOT_PATH
+                               = stringToBytfArrby("Softwbrf\\JbvbSoft\\Prffs");
 
     /**
-     * Windows handles to <tt>HKEY_CURRENT_USER</tt> and
-     * <tt>HKEY_LOCAL_MACHINE</tt> hives.
+     * Windows ibndlfs to <tt>HKEY_CURRENT_USER</tt> bnd
+     * <tt>HKEY_LOCAL_MACHINE</tt> iivfs.
      */
-    private static final int HKEY_CURRENT_USER = 0x80000001;
-    private static final int HKEY_LOCAL_MACHINE = 0x80000002;
+    privbtf stbtid finbl int HKEY_CURRENT_USER = 0x80000001;
+    privbtf stbtid finbl int HKEY_LOCAL_MACHINE = 0x80000002;
 
     /**
-     * Mount point for <tt>Preferences</tt>'  user root.
+     * Mount point for <tt>Prfffrfndfs</tt>'  usfr root.
      */
-    private static final int USER_ROOT_NATIVE_HANDLE = HKEY_CURRENT_USER;
+    privbtf stbtid finbl int USER_ROOT_NATIVE_HANDLE = HKEY_CURRENT_USER;
 
     /**
-     * Mount point for <tt>Preferences</tt>'  system root.
+     * Mount point for <tt>Prfffrfndfs</tt>'  systfm root.
      */
-    private static final int SYSTEM_ROOT_NATIVE_HANDLE = HKEY_LOCAL_MACHINE;
+    privbtf stbtid finbl int SYSTEM_ROOT_NATIVE_HANDLE = HKEY_LOCAL_MACHINE;
 
     /**
-     * Maximum byte-encoded path length for Windows native functions,
-     * ending <tt>null</tt> character not included.
+     * Mbximum bytf-fndodfd pbti lfngti for Windows nbtivf fundtions,
+     * fnding <tt>null</tt> dibrbdtfr not indludfd.
      */
-    private static final int MAX_WINDOWS_PATH_LENGTH = 256;
+    privbtf stbtid finbl int MAX_WINDOWS_PATH_LENGTH = 256;
 
     /**
-     * User root node.
+     * Usfr root nodf.
      */
-    static final Preferences userRoot =
-         new WindowsPreferences(USER_ROOT_NATIVE_HANDLE, WINDOWS_ROOT_PATH);
+    stbtid finbl Prfffrfndfs usfrRoot =
+         nfw WindowsPrfffrfndfs(USER_ROOT_NATIVE_HANDLE, WINDOWS_ROOT_PATH);
 
     /**
-     * System root node.
+     * Systfm root nodf.
      */
-    static final Preferences systemRoot =
-        new WindowsPreferences(SYSTEM_ROOT_NATIVE_HANDLE, WINDOWS_ROOT_PATH);
+    stbtid finbl Prfffrfndfs systfmRoot =
+        nfw WindowsPrfffrfndfs(SYSTEM_ROOT_NATIVE_HANDLE, WINDOWS_ROOT_PATH);
 
-    /*  Windows error codes. */
-    private static final int ERROR_SUCCESS = 0;
-    private static final int ERROR_FILE_NOT_FOUND = 2;
-    private static final int ERROR_ACCESS_DENIED = 5;
+    /*  Windows frror dodfs. */
+    privbtf stbtid finbl int ERROR_SUCCESS = 0;
+    privbtf stbtid finbl int ERROR_FILE_NOT_FOUND = 2;
+    privbtf stbtid finbl int ERROR_ACCESS_DENIED = 5;
 
-    /* Constants used to interpret returns of native functions    */
-    private static final int NATIVE_HANDLE = 0;
-    private static final int ERROR_CODE = 1;
-    private static final int SUBKEYS_NUMBER = 0;
-    private static final int VALUES_NUMBER = 2;
-    private static final int MAX_KEY_LENGTH = 3;
-    private static final int MAX_VALUE_NAME_LENGTH = 4;
-    private static final int DISPOSITION = 2;
-    private static final int REG_CREATED_NEW_KEY = 1;
-    private static final int REG_OPENED_EXISTING_KEY = 2;
-    private static final int NULL_NATIVE_HANDLE = 0;
+    /* Constbnts usfd to intfrprft rfturns of nbtivf fundtions    */
+    privbtf stbtid finbl int NATIVE_HANDLE = 0;
+    privbtf stbtid finbl int ERROR_CODE = 1;
+    privbtf stbtid finbl int SUBKEYS_NUMBER = 0;
+    privbtf stbtid finbl int VALUES_NUMBER = 2;
+    privbtf stbtid finbl int MAX_KEY_LENGTH = 3;
+    privbtf stbtid finbl int MAX_VALUE_NAME_LENGTH = 4;
+    privbtf stbtid finbl int DISPOSITION = 2;
+    privbtf stbtid finbl int REG_CREATED_NEW_KEY = 1;
+    privbtf stbtid finbl int REG_OPENED_EXISTING_KEY = 2;
+    privbtf stbtid finbl int NULL_NATIVE_HANDLE = 0;
 
-    /* Windows security masks */
-    private static final int DELETE = 0x10000;
-    private static final int KEY_QUERY_VALUE = 1;
-    private static final int KEY_SET_VALUE = 2;
-    private static final int KEY_CREATE_SUB_KEY = 4;
-    private static final int KEY_ENUMERATE_SUB_KEYS = 8;
-    private static final int KEY_READ = 0x20019;
-    private static final int KEY_WRITE = 0x20006;
-    private static final int KEY_ALL_ACCESS = 0xf003f;
+    /* Windows sfdurity mbsks */
+    privbtf stbtid finbl int DELETE = 0x10000;
+    privbtf stbtid finbl int KEY_QUERY_VALUE = 1;
+    privbtf stbtid finbl int KEY_SET_VALUE = 2;
+    privbtf stbtid finbl int KEY_CREATE_SUB_KEY = 4;
+    privbtf stbtid finbl int KEY_ENUMERATE_SUB_KEYS = 8;
+    privbtf stbtid finbl int KEY_READ = 0x20019;
+    privbtf stbtid finbl int KEY_WRITE = 0x20006;
+    privbtf stbtid finbl int KEY_ALL_ACCESS = 0xf003f;
 
     /**
-     * Initial time between registry access attempts, in ms. The time is doubled
-     * after each failing attempt (except the first).
+     * Initibl timf bftwffn rfgistry bddfss bttfmpts, in ms. Tif timf is doublfd
+     * bftfr fbdi fbiling bttfmpt (fxdfpt tif first).
      */
-    private static int INIT_SLEEP_TIME = 50;
+    privbtf stbtid int INIT_SLEEP_TIME = 50;
 
     /**
-     * Maximum number of registry access attempts.
+     * Mbximum numbfr of rfgistry bddfss bttfmpts.
      */
-    private static int MAX_ATTEMPTS = 5;
+    privbtf stbtid int MAX_ATTEMPTS = 5;
 
     /**
-     * BackingStore availability flag.
+     * BbdkingStorf bvbilbbility flbg.
      */
-    private boolean isBackingStoreAvailable = true;
+    privbtf boolfbn isBbdkingStorfAvbilbblf = truf;
 
     /**
-     * Java wrapper for Windows registry API RegOpenKey()
+     * Jbvb wrbppfr for Windows rfgistry API RfgOpfnKfy()
      */
-    private static native int[] WindowsRegOpenKey(int hKey, byte[] subKey,
-                                                         int securityMask);
+    privbtf stbtid nbtivf int[] WindowsRfgOpfnKfy(int iKfy, bytf[] subKfy,
+                                                         int sfdurityMbsk);
     /**
-     * Retries RegOpenKey() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgOpfnKfy() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static int[] WindowsRegOpenKey1(int hKey, byte[] subKey,
-                                                      int securityMask) {
-        int[] result = WindowsRegOpenKey(hKey, subKey, securityMask);
-        if (result[ERROR_CODE] == ERROR_SUCCESS) {
-            return result;
-        } else if (result[ERROR_CODE] == ERROR_FILE_NOT_FOUND) {
-            logger().warning("Trying to recreate Windows registry node " +
-            byteArrayToString(subKey) + " at root 0x" +
-            Integer.toHexString(hKey) + ".");
-            // Try recreation
-            int handle = WindowsRegCreateKeyEx(hKey, subKey)[NATIVE_HANDLE];
-            WindowsRegCloseKey(handle);
-            return WindowsRegOpenKey(hKey, subKey, securityMask);
-        } else if (result[ERROR_CODE] != ERROR_ACCESS_DENIED) {
-            long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid int[] WindowsRfgOpfnKfy1(int iKfy, bytf[] subKfy,
+                                                      int sfdurityMbsk) {
+        int[] rfsult = WindowsRfgOpfnKfy(iKfy, subKfy, sfdurityMbsk);
+        if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+            rfturn rfsult;
+        } flsf if (rfsult[ERROR_CODE] == ERROR_FILE_NOT_FOUND) {
+            loggfr().wbrning("Trying to rfdrfbtf Windows rfgistry nodf " +
+            bytfArrbyToString(subKfy) + " bt root 0x" +
+            Intfgfr.toHfxString(iKfy) + ".");
+            // Try rfdrfbtion
+            int ibndlf = WindowsRfgCrfbtfKfyEx(iKfy, subKfy)[NATIVE_HANDLE];
+            WindowsRfgClosfKfy(ibndlf);
+            rfturn WindowsRfgOpfnKfy(iKfy, subKfy, sfdurityMbsk);
+        } flsf if (rfsult[ERROR_CODE] != ERROR_ACCESS_DENIED) {
+            long slffpTimf = INIT_SLEEP_TIME;
             for (int i = 0; i < MAX_ATTEMPTS; i++) {
             try {
-                Thread.sleep(sleepTime);
-            } catch(InterruptedException e) {
-                return result;
+                Tirfbd.slffp(slffpTimf);
+            } dbtdi(IntfrruptfdExdfption f) {
+                rfturn rfsult;
             }
-            sleepTime *= 2;
-            result = WindowsRegOpenKey(hKey, subKey, securityMask);
-            if (result[ERROR_CODE] == ERROR_SUCCESS) {
-                return result;
+            slffpTimf *= 2;
+            rfsult = WindowsRfgOpfnKfy(iKfy, subKfy, sfdurityMbsk);
+            if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+                rfturn rfsult;
             }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
      /**
-     * Java wrapper for Windows registry API RegCloseKey()
+     * Jbvb wrbppfr for Windows rfgistry API RfgClosfKfy()
      */
-    private static native int WindowsRegCloseKey(int hKey);
+    privbtf stbtid nbtivf int WindowsRfgClosfKfy(int iKfy);
 
     /**
-     * Java wrapper for Windows registry API RegCreateKeyEx()
+     * Jbvb wrbppfr for Windows rfgistry API RfgCrfbtfKfyEx()
      */
-    private static native int[] WindowsRegCreateKeyEx(int hKey, byte[] subKey);
+    privbtf stbtid nbtivf int[] WindowsRfgCrfbtfKfyEx(int iKfy, bytf[] subKfy);
 
     /**
-     * Retries RegCreateKeyEx() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgCrfbtfKfyEx() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static int[] WindowsRegCreateKeyEx1(int hKey, byte[] subKey) {
-        int[] result = WindowsRegCreateKeyEx(hKey, subKey);
-        if (result[ERROR_CODE] == ERROR_SUCCESS) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid int[] WindowsRfgCrfbtfKfyEx1(int iKfy, bytf[] subKfy) {
+        int[] rfsult = WindowsRfgCrfbtfKfyEx(iKfy, subKfy);
+        if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegCreateKeyEx(hKey, subKey);
-                if (result[ERROR_CODE] == ERROR_SUCCESS) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgCrfbtfKfyEx(iKfy, subKfy);
+                if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
     /**
-     * Java wrapper for Windows registry API RegDeleteKey()
+     * Jbvb wrbppfr for Windows rfgistry API RfgDflftfKfy()
      */
-    private static native int WindowsRegDeleteKey(int hKey, byte[] subKey);
+    privbtf stbtid nbtivf int WindowsRfgDflftfKfy(int iKfy, bytf[] subKfy);
 
     /**
-     * Java wrapper for Windows registry API RegFlushKey()
+     * Jbvb wrbppfr for Windows rfgistry API RfgFlusiKfy()
      */
-    private static native int WindowsRegFlushKey(int hKey);
+    privbtf stbtid nbtivf int WindowsRfgFlusiKfy(int iKfy);
 
     /**
-     * Retries RegFlushKey() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgFlusiKfy() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static int WindowsRegFlushKey1(int hKey) {
-        int result = WindowsRegFlushKey(hKey);
-        if (result == ERROR_SUCCESS) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid int WindowsRfgFlusiKfy1(int iKfy) {
+        int rfsult = WindowsRfgFlusiKfy(iKfy);
+        if (rfsult == ERROR_SUCCESS) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegFlushKey(hKey);
-                if (result == ERROR_SUCCESS) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgFlusiKfy(iKfy);
+                if (rfsult == ERROR_SUCCESS) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Java wrapper for Windows registry API RegQueryValueEx()
+     * Jbvb wrbppfr for Windows rfgistry API RfgQufryVblufEx()
      */
-    private static native byte[] WindowsRegQueryValueEx(int hKey,
-                                                              byte[] valueName);
+    privbtf stbtid nbtivf bytf[] WindowsRfgQufryVblufEx(int iKfy,
+                                                              bytf[] vblufNbmf);
     /**
-     * Java wrapper for Windows registry API RegSetValueEx()
+     * Jbvb wrbppfr for Windows rfgistry API RfgSftVblufEx()
      */
-    private static native int WindowsRegSetValueEx(int hKey, byte[] valueName,
-                                                         byte[] value);
+    privbtf stbtid nbtivf int WindowsRfgSftVblufEx(int iKfy, bytf[] vblufNbmf,
+                                                         bytf[] vbluf);
     /**
-     * Retries RegSetValueEx() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgSftVblufEx() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static int WindowsRegSetValueEx1(int hKey, byte[] valueName,
-                                                         byte[] value) {
-        int result = WindowsRegSetValueEx(hKey, valueName, value);
-        if (result == ERROR_SUCCESS) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid int WindowsRfgSftVblufEx1(int iKfy, bytf[] vblufNbmf,
+                                                         bytf[] vbluf) {
+        int rfsult = WindowsRfgSftVblufEx(iKfy, vblufNbmf, vbluf);
+        if (rfsult == ERROR_SUCCESS) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegSetValueEx(hKey, valueName, value);
-                if (result == ERROR_SUCCESS) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgSftVblufEx(iKfy, vblufNbmf, vbluf);
+                if (rfsult == ERROR_SUCCESS) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Java wrapper for Windows registry API RegDeleteValue()
+     * Jbvb wrbppfr for Windows rfgistry API RfgDflftfVbluf()
      */
-    private static native int WindowsRegDeleteValue(int hKey, byte[] valueName);
+    privbtf stbtid nbtivf int WindowsRfgDflftfVbluf(int iKfy, bytf[] vblufNbmf);
 
     /**
-     * Java wrapper for Windows registry API RegQueryInfoKey()
+     * Jbvb wrbppfr for Windows rfgistry API RfgQufryInfoKfy()
      */
-    private static native int[] WindowsRegQueryInfoKey(int hKey);
+    privbtf stbtid nbtivf int[] WindowsRfgQufryInfoKfy(int iKfy);
 
     /**
-     * Retries RegQueryInfoKey() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgQufryInfoKfy() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static int[] WindowsRegQueryInfoKey1(int hKey) {
-        int[] result = WindowsRegQueryInfoKey(hKey);
-        if (result[ERROR_CODE] == ERROR_SUCCESS) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid int[] WindowsRfgQufryInfoKfy1(int iKfy) {
+        int[] rfsult = WindowsRfgQufryInfoKfy(iKfy);
+        if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegQueryInfoKey(hKey);
-                if (result[ERROR_CODE] == ERROR_SUCCESS) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgQufryInfoKfy(iKfy);
+                if (rfsult[ERROR_CODE] == ERROR_SUCCESS) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Java wrapper for Windows registry API RegEnumKeyEx()
+     * Jbvb wrbppfr for Windows rfgistry API RfgEnumKfyEx()
      */
-    private static native byte[] WindowsRegEnumKeyEx(int hKey, int subKeyIndex,
-                                      int maxKeyLength);
+    privbtf stbtid nbtivf bytf[] WindowsRfgEnumKfyEx(int iKfy, int subKfyIndfx,
+                                      int mbxKfyLfngti);
 
     /**
-     * Retries RegEnumKeyEx() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgEnumKfyEx() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static byte[] WindowsRegEnumKeyEx1(int hKey, int subKeyIndex,
-                                      int maxKeyLength) {
-        byte[] result = WindowsRegEnumKeyEx(hKey, subKeyIndex, maxKeyLength);
-        if (result != null) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid bytf[] WindowsRfgEnumKfyEx1(int iKfy, int subKfyIndfx,
+                                      int mbxKfyLfngti) {
+        bytf[] rfsult = WindowsRfgEnumKfyEx(iKfy, subKfyIndfx, mbxKfyLfngti);
+        if (rfsult != null) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegEnumKeyEx(hKey, subKeyIndex, maxKeyLength);
-                if (result != null) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgEnumKfyEx(iKfy, subKfyIndfx, mbxKfyLfngti);
+                if (rfsult != null) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Java wrapper for Windows registry API RegEnumValue()
+     * Jbvb wrbppfr for Windows rfgistry API RfgEnumVbluf()
      */
-    private static native byte[] WindowsRegEnumValue(int hKey, int valueIndex,
-                                      int maxValueNameLength);
+    privbtf stbtid nbtivf bytf[] WindowsRfgEnumVbluf(int iKfy, int vblufIndfx,
+                                      int mbxVblufNbmfLfngti);
     /**
-     * Retries RegEnumValueEx() MAX_ATTEMPTS times before giving up.
+     * Rftrifs RfgEnumVblufEx() MAX_ATTEMPTS timfs bfforf giving up.
      */
-    private static byte[] WindowsRegEnumValue1(int hKey, int valueIndex,
-                                      int maxValueNameLength) {
-        byte[] result = WindowsRegEnumValue(hKey, valueIndex,
-                                                            maxValueNameLength);
-        if (result != null) {
-                return result;
-            } else {
-                long sleepTime = INIT_SLEEP_TIME;
+    privbtf stbtid bytf[] WindowsRfgEnumVbluf1(int iKfy, int vblufIndfx,
+                                      int mbxVblufNbmfLfngti) {
+        bytf[] rfsult = WindowsRfgEnumVbluf(iKfy, vblufIndfx,
+                                                            mbxVblufNbmfLfngti);
+        if (rfsult != null) {
+                rfturn rfsult;
+            } flsf {
+                long slffpTimf = INIT_SLEEP_TIME;
                 for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
-                    Thread.sleep(sleepTime);
-                } catch(InterruptedException e) {
-                    return result;
+                    Tirfbd.slffp(slffpTimf);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    rfturn rfsult;
                 }
-                sleepTime *= 2;
-                result = WindowsRegEnumValue(hKey, valueIndex,
-                                                            maxValueNameLength);
-                if (result != null) {
-                return result;
+                slffpTimf *= 2;
+                rfsult = WindowsRfgEnumVbluf(iKfy, vblufIndfx,
+                                                            mbxVblufNbmfLfngti);
+                if (rfsult != null) {
+                rfturn rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Constructs a <tt>WindowsPreferences</tt> node, creating underlying
-     * Windows registry node and all its Windows parents, if they are not yet
-     * created.
-     * Logs a warning message, if Windows Registry is unavailable.
+     * Construdts b <tt>WindowsPrfffrfndfs</tt> nodf, drfbting undfrlying
+     * Windows rfgistry nodf bnd bll its Windows pbrfnts, if tify brf not yft
+     * drfbtfd.
+     * Logs b wbrning mfssbgf, if Windows Rfgistry is unbvbilbblf.
      */
-    private WindowsPreferences(WindowsPreferences parent, String name) {
-        super(parent, name);
-        int parentNativeHandle = parent.openKey(KEY_CREATE_SUB_KEY, KEY_READ);
-        if (parentNativeHandle == NULL_NATIVE_HANDLE) {
-            // if here, openKey failed and logged
-            isBackingStoreAvailable = false;
-            return;
+    privbtf WindowsPrfffrfndfs(WindowsPrfffrfndfs pbrfnt, String nbmf) {
+        supfr(pbrfnt, nbmf);
+        int pbrfntNbtivfHbndlf = pbrfnt.opfnKfy(KEY_CREATE_SUB_KEY, KEY_READ);
+        if (pbrfntNbtivfHbndlf == NULL_NATIVE_HANDLE) {
+            // if ifrf, opfnKfy fbilfd bnd loggfd
+            isBbdkingStorfAvbilbblf = fblsf;
+            rfturn;
         }
-        int[] result =
-               WindowsRegCreateKeyEx1(parentNativeHandle, toWindowsName(name));
-        if (result[ERROR_CODE] != ERROR_SUCCESS) {
-            logger().warning("Could not create windows registry "
-            + "node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegCreateKeyEx(...) returned error code " +
-            result[ERROR_CODE] + ".");
-            isBackingStoreAvailable = false;
-            return;
+        int[] rfsult =
+               WindowsRfgCrfbtfKfyEx1(pbrfntNbtivfHbndlf, toWindowsNbmf(nbmf));
+        if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+            loggfr().wbrning("Could not drfbtf windows rfgistry "
+            + "nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgCrfbtfKfyEx(...) rfturnfd frror dodf " +
+            rfsult[ERROR_CODE] + ".");
+            isBbdkingStorfAvbilbblf = fblsf;
+            rfturn;
         }
-        newNode = (result[DISPOSITION] == REG_CREATED_NEW_KEY);
-        closeKey(parentNativeHandle);
-        closeKey(result[NATIVE_HANDLE]);
+        nfwNodf = (rfsult[DISPOSITION] == REG_CREATED_NEW_KEY);
+        dlosfKfy(pbrfntNbtivfHbndlf);
+        dlosfKfy(rfsult[NATIVE_HANDLE]);
     }
 
     /**
-     * Constructs a root node creating the underlying
-     * Windows registry node and all of its parents, if they have not yet been
-     * created.
-     * Logs a warning message, if Windows Registry is unavailable.
-     * @param rootNativeHandle Native handle to one of Windows top level keys.
-     * @param rootDirectory Path to root directory, as a byte-encoded string.
+     * Construdts b root nodf drfbting tif undfrlying
+     * Windows rfgistry nodf bnd bll of its pbrfnts, if tify ibvf not yft bffn
+     * drfbtfd.
+     * Logs b wbrning mfssbgf, if Windows Rfgistry is unbvbilbblf.
+     * @pbrbm rootNbtivfHbndlf Nbtivf ibndlf to onf of Windows top lfvfl kfys.
+     * @pbrbm rootDirfdtory Pbti to root dirfdtory, bs b bytf-fndodfd string.
      */
-    private  WindowsPreferences(int rootNativeHandle, byte[] rootDirectory) {
-        super(null,"");
-        int[] result =
-                WindowsRegCreateKeyEx1(rootNativeHandle, rootDirectory);
-        if (result[ERROR_CODE] != ERROR_SUCCESS) {
-            logger().warning("Could not open/create prefs root node " +
-            byteArrayToString(windowsAbsolutePath()) + " at root 0x" +
-            Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegCreateKeyEx(...) returned error code " +
-            result[ERROR_CODE] + ".");
-            isBackingStoreAvailable = false;
-            return;
+    privbtf  WindowsPrfffrfndfs(int rootNbtivfHbndlf, bytf[] rootDirfdtory) {
+        supfr(null,"");
+        int[] rfsult =
+                WindowsRfgCrfbtfKfyEx1(rootNbtivfHbndlf, rootDirfdtory);
+        if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+            loggfr().wbrning("Could not opfn/drfbtf prffs root nodf " +
+            bytfArrbyToString(windowsAbsolutfPbti()) + " bt root 0x" +
+            Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgCrfbtfKfyEx(...) rfturnfd frror dodf " +
+            rfsult[ERROR_CODE] + ".");
+            isBbdkingStorfAvbilbblf = fblsf;
+            rfturn;
         }
-        // Check if a new node
-        newNode = (result[DISPOSITION] == REG_CREATED_NEW_KEY);
-        closeKey(result[NATIVE_HANDLE]);
+        // Cifdk if b nfw nodf
+        nfwNodf = (rfsult[DISPOSITION] == REG_CREATED_NEW_KEY);
+        dlosfKfy(rfsult[NATIVE_HANDLE]);
     }
 
     /**
-     * Returns Windows absolute path of the current node as a byte array.
-     * Java "/" separator is transformed into Windows "\".
-     * @see Preferences#absolutePath()
+     * Rfturns Windows bbsolutf pbti of tif durrfnt nodf bs b bytf brrby.
+     * Jbvb "/" sfpbrbtor is trbnsformfd into Windows "\".
+     * @sff Prfffrfndfs#bbsolutfPbti()
      */
-    private byte[] windowsAbsolutePath() {
-        ByteArrayOutputStream bstream = new ByteArrayOutputStream();
-        bstream.write(WINDOWS_ROOT_PATH, 0, WINDOWS_ROOT_PATH.length-1);
-        StringTokenizer tokenizer = new StringTokenizer(absolutePath(),"/");
-        while (tokenizer.hasMoreTokens()) {
-            bstream.write((byte)'\\');
-            String nextName = tokenizer.nextToken();
-            byte[] windowsNextName = toWindowsName(nextName);
-            bstream.write(windowsNextName, 0, windowsNextName.length-1);
+    privbtf bytf[] windowsAbsolutfPbti() {
+        BytfArrbyOutputStrfbm bstrfbm = nfw BytfArrbyOutputStrfbm();
+        bstrfbm.writf(WINDOWS_ROOT_PATH, 0, WINDOWS_ROOT_PATH.lfngti-1);
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(bbsolutfPbti(),"/");
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            bstrfbm.writf((bytf)'\\');
+            String nfxtNbmf = tokfnizfr.nfxtTokfn();
+            bytf[] windowsNfxtNbmf = toWindowsNbmf(nfxtNbmf);
+            bstrfbm.writf(windowsNfxtNbmf, 0, windowsNfxtNbmf.lfngti-1);
         }
-        bstream.write(0);
-        return bstream.toByteArray();
+        bstrfbm.writf(0);
+        rfturn bstrfbm.toBytfArrby();
     }
 
     /**
-     * Opens current node's underlying Windows registry key using a
-     * given security mask.
-     * @param securityMask Windows security mask.
-     * @return Windows registry key's handle.
-     * @see #openKey(byte[], int)
-     * @see #openKey(int, byte[], int)
-     * @see #closeKey(int)
+     * Opfns durrfnt nodf's undfrlying Windows rfgistry kfy using b
+     * givfn sfdurity mbsk.
+     * @pbrbm sfdurityMbsk Windows sfdurity mbsk.
+     * @rfturn Windows rfgistry kfy's ibndlf.
+     * @sff #opfnKfy(bytf[], int)
+     * @sff #opfnKfy(int, bytf[], int)
+     * @sff #dlosfKfy(int)
      */
-    private int openKey(int securityMask) {
-        return openKey(securityMask, securityMask);
+    privbtf int opfnKfy(int sfdurityMbsk) {
+        rfturn opfnKfy(sfdurityMbsk, sfdurityMbsk);
     }
 
     /**
-     * Opens current node's underlying Windows registry key using a
-     * given security mask.
-     * @param mask1 Preferred Windows security mask.
-     * @param mask2 Alternate Windows security mask.
-     * @return Windows registry key's handle.
-     * @see #openKey(byte[], int)
-     * @see #openKey(int, byte[], int)
-     * @see #closeKey(int)
+     * Opfns durrfnt nodf's undfrlying Windows rfgistry kfy using b
+     * givfn sfdurity mbsk.
+     * @pbrbm mbsk1 Prfffrrfd Windows sfdurity mbsk.
+     * @pbrbm mbsk2 Altfrnbtf Windows sfdurity mbsk.
+     * @rfturn Windows rfgistry kfy's ibndlf.
+     * @sff #opfnKfy(bytf[], int)
+     * @sff #opfnKfy(int, bytf[], int)
+     * @sff #dlosfKfy(int)
      */
-    private int openKey(int mask1, int mask2) {
-        return openKey(windowsAbsolutePath(), mask1,  mask2);
+    privbtf int opfnKfy(int mbsk1, int mbsk2) {
+        rfturn opfnKfy(windowsAbsolutfPbti(), mbsk1,  mbsk2);
     }
 
      /**
-     * Opens Windows registry key at a given absolute path using a given
-     * security mask.
-     * @param windowsAbsolutePath Windows absolute path of the
-     *        key as a byte-encoded string.
-     * @param mask1 Preferred Windows security mask.
-     * @param mask2 Alternate Windows security mask.
-     * @return Windows registry key's handle.
-     * @see #openKey(int)
-     * @see #openKey(int, byte[],int)
-     * @see #closeKey(int)
+     * Opfns Windows rfgistry kfy bt b givfn bbsolutf pbti using b givfn
+     * sfdurity mbsk.
+     * @pbrbm windowsAbsolutfPbti Windows bbsolutf pbti of tif
+     *        kfy bs b bytf-fndodfd string.
+     * @pbrbm mbsk1 Prfffrrfd Windows sfdurity mbsk.
+     * @pbrbm mbsk2 Altfrnbtf Windows sfdurity mbsk.
+     * @rfturn Windows rfgistry kfy's ibndlf.
+     * @sff #opfnKfy(int)
+     * @sff #opfnKfy(int, bytf[],int)
+     * @sff #dlosfKfy(int)
      */
-    private int openKey(byte[] windowsAbsolutePath, int mask1, int mask2) {
-        /*  Check if key's path is short enough be opened at once
-            otherwise use a path-splitting procedure */
-        if (windowsAbsolutePath.length <= MAX_WINDOWS_PATH_LENGTH + 1) {
-             int[] result = WindowsRegOpenKey1(rootNativeHandle(),
-                                               windowsAbsolutePath, mask1);
-             if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1)
-                 result = WindowsRegOpenKey1(rootNativeHandle(),
-                                             windowsAbsolutePath, mask2);
+    privbtf int opfnKfy(bytf[] windowsAbsolutfPbti, int mbsk1, int mbsk2) {
+        /*  Cifdk if kfy's pbti is siort fnougi bf opfnfd bt ondf
+            otifrwisf usf b pbti-splitting prodfdurf */
+        if (windowsAbsolutfPbti.lfngti <= MAX_WINDOWS_PATH_LENGTH + 1) {
+             int[] rfsult = WindowsRfgOpfnKfy1(rootNbtivfHbndlf(),
+                                               windowsAbsolutfPbti, mbsk1);
+             if (rfsult[ERROR_CODE] == ERROR_ACCESS_DENIED && mbsk2 != mbsk1)
+                 rfsult = WindowsRfgOpfnKfy1(rootNbtivfHbndlf(),
+                                             windowsAbsolutfPbti, mbsk2);
 
-             if (result[ERROR_CODE] != ERROR_SUCCESS) {
-                logger().warning("Could not open windows "
-                + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-                " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-                ". Windows RegOpenKey(...) returned error code " +
-                result[ERROR_CODE] + ".");
-                result[NATIVE_HANDLE] = NULL_NATIVE_HANDLE;
-                if (result[ERROR_CODE] == ERROR_ACCESS_DENIED) {
-                    throw new SecurityException("Could not open windows "
-                + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-                " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-                ": Access denied");
+             if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+                loggfr().wbrning("Could not opfn windows "
+                + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+                " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+                ". Windows RfgOpfnKfy(...) rfturnfd frror dodf " +
+                rfsult[ERROR_CODE] + ".");
+                rfsult[NATIVE_HANDLE] = NULL_NATIVE_HANDLE;
+                if (rfsult[ERROR_CODE] == ERROR_ACCESS_DENIED) {
+                    tirow nfw SfdurityExdfption("Could not opfn windows "
+                + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+                " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+                ": Addfss dfnifd");
                 }
              }
-             return result[NATIVE_HANDLE];
-        } else {
-            return openKey(rootNativeHandle(), windowsAbsolutePath, mask1, mask2);
+             rfturn rfsult[NATIVE_HANDLE];
+        } flsf {
+            rfturn opfnKfy(rootNbtivfHbndlf(), windowsAbsolutfPbti, mbsk1, mbsk2);
         }
     }
 
      /**
-     * Opens Windows registry key at a given relative path
-     * with respect to a given Windows registry key.
-     * @param windowsAbsolutePath Windows relative path of the
-     *        key as a byte-encoded string.
-     * @param nativeHandle handle to the base Windows key.
-     * @param mask1 Preferred Windows security mask.
-     * @param mask2 Alternate Windows security mask.
-     * @return Windows registry key's handle.
-     * @see #openKey(int)
-     * @see #openKey(byte[],int)
-     * @see #closeKey(int)
+     * Opfns Windows rfgistry kfy bt b givfn rflbtivf pbti
+     * witi rfspfdt to b givfn Windows rfgistry kfy.
+     * @pbrbm windowsAbsolutfPbti Windows rflbtivf pbti of tif
+     *        kfy bs b bytf-fndodfd string.
+     * @pbrbm nbtivfHbndlf ibndlf to tif bbsf Windows kfy.
+     * @pbrbm mbsk1 Prfffrrfd Windows sfdurity mbsk.
+     * @pbrbm mbsk2 Altfrnbtf Windows sfdurity mbsk.
+     * @rfturn Windows rfgistry kfy's ibndlf.
+     * @sff #opfnKfy(int)
+     * @sff #opfnKfy(bytf[],int)
+     * @sff #dlosfKfy(int)
      */
-    private int openKey(int nativeHandle, byte[] windowsRelativePath,
-                        int mask1, int mask2) {
-    /* If the path is short enough open at once. Otherwise split the path */
-        if (windowsRelativePath.length <= MAX_WINDOWS_PATH_LENGTH + 1 ) {
-             int[] result = WindowsRegOpenKey1(nativeHandle,
-                                               windowsRelativePath, mask1);
-             if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1)
-                 result = WindowsRegOpenKey1(nativeHandle,
-                                             windowsRelativePath, mask2);
+    privbtf int opfnKfy(int nbtivfHbndlf, bytf[] windowsRflbtivfPbti,
+                        int mbsk1, int mbsk2) {
+    /* If tif pbti is siort fnougi opfn bt ondf. Otifrwisf split tif pbti */
+        if (windowsRflbtivfPbti.lfngti <= MAX_WINDOWS_PATH_LENGTH + 1 ) {
+             int[] rfsult = WindowsRfgOpfnKfy1(nbtivfHbndlf,
+                                               windowsRflbtivfPbti, mbsk1);
+             if (rfsult[ERROR_CODE] == ERROR_ACCESS_DENIED && mbsk2 != mbsk1)
+                 rfsult = WindowsRfgOpfnKfy1(nbtivfHbndlf,
+                                             windowsRflbtivfPbti, mbsk2);
 
-             if (result[ERROR_CODE] != ERROR_SUCCESS) {
-                logger().warning("Could not open windows "
-                + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-                " at root 0x" + Integer.toHexString(nativeHandle) +
-                ". Windows RegOpenKey(...) returned error code " +
-                result[ERROR_CODE] + ".");
-                result[NATIVE_HANDLE] = NULL_NATIVE_HANDLE;
+             if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+                loggfr().wbrning("Could not opfn windows "
+                + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+                " bt root 0x" + Intfgfr.toHfxString(nbtivfHbndlf) +
+                ". Windows RfgOpfnKfy(...) rfturnfd frror dodf " +
+                rfsult[ERROR_CODE] + ".");
+                rfsult[NATIVE_HANDLE] = NULL_NATIVE_HANDLE;
              }
-             return result[NATIVE_HANDLE];
-        } else {
-            int separatorPosition = -1;
-            // Be greedy - open the longest possible path
+             rfturn rfsult[NATIVE_HANDLE];
+        } flsf {
+            int sfpbrbtorPosition = -1;
+            // Bf grffdy - opfn tif longfst possiblf pbti
             for (int i = MAX_WINDOWS_PATH_LENGTH; i > 0; i--) {
-                if (windowsRelativePath[i] == ((byte)'\\')) {
-                    separatorPosition = i;
-                    break;
+                if (windowsRflbtivfPbti[i] == ((bytf)'\\')) {
+                    sfpbrbtorPosition = i;
+                    brfbk;
                 }
             }
-            // Split the path and do the recursion
-            byte[] nextRelativeRoot = new byte[separatorPosition+1];
-            System.arraycopy(windowsRelativePath, 0, nextRelativeRoot,0,
-                                                      separatorPosition);
-            nextRelativeRoot[separatorPosition] = 0;
-            byte[] nextRelativePath = new byte[windowsRelativePath.length -
-                                      separatorPosition - 1];
-            System.arraycopy(windowsRelativePath, separatorPosition+1,
-                             nextRelativePath, 0, nextRelativePath.length);
-            int nextNativeHandle = openKey(nativeHandle, nextRelativeRoot,
-                                           mask1, mask2);
-            if (nextNativeHandle == NULL_NATIVE_HANDLE) {
-                return NULL_NATIVE_HANDLE;
+            // Split tif pbti bnd do tif rfdursion
+            bytf[] nfxtRflbtivfRoot = nfw bytf[sfpbrbtorPosition+1];
+            Systfm.brrbydopy(windowsRflbtivfPbti, 0, nfxtRflbtivfRoot,0,
+                                                      sfpbrbtorPosition);
+            nfxtRflbtivfRoot[sfpbrbtorPosition] = 0;
+            bytf[] nfxtRflbtivfPbti = nfw bytf[windowsRflbtivfPbti.lfngti -
+                                      sfpbrbtorPosition - 1];
+            Systfm.brrbydopy(windowsRflbtivfPbti, sfpbrbtorPosition+1,
+                             nfxtRflbtivfPbti, 0, nfxtRflbtivfPbti.lfngti);
+            int nfxtNbtivfHbndlf = opfnKfy(nbtivfHbndlf, nfxtRflbtivfRoot,
+                                           mbsk1, mbsk2);
+            if (nfxtNbtivfHbndlf == NULL_NATIVE_HANDLE) {
+                rfturn NULL_NATIVE_HANDLE;
             }
-            int result = openKey(nextNativeHandle, nextRelativePath,
-                                 mask1,mask2);
-            closeKey(nextNativeHandle);
-            return result;
+            int rfsult = opfnKfy(nfxtNbtivfHbndlf, nfxtRflbtivfPbti,
+                                 mbsk1,mbsk2);
+            dlosfKfy(nfxtNbtivfHbndlf);
+            rfturn rfsult;
         }
     }
 
      /**
-     * Closes Windows registry key.
-     * Logs a warning if Windows registry is unavailable.
-     * @param key's Windows registry handle.
-     * @see #openKey(int)
-     * @see #openKey(byte[],int)
-     * @see #openKey(int, byte[],int)
+     * Closfs Windows rfgistry kfy.
+     * Logs b wbrning if Windows rfgistry is unbvbilbblf.
+     * @pbrbm kfy's Windows rfgistry ibndlf.
+     * @sff #opfnKfy(int)
+     * @sff #opfnKfy(bytf[],int)
+     * @sff #opfnKfy(int, bytf[],int)
     */
-    private void closeKey(int nativeHandle) {
-        int result = WindowsRegCloseKey(nativeHandle);
-        if (result != ERROR_SUCCESS) {
-            logger().warning("Could not close windows "
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegCloseKey(...) returned error code " + result + ".");
+    privbtf void dlosfKfy(int nbtivfHbndlf) {
+        int rfsult = WindowsRfgClosfKfy(nbtivfHbndlf);
+        if (rfsult != ERROR_SUCCESS) {
+            loggfr().wbrning("Could not dlosf windows "
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgClosfKfy(...) rfturnfd frror dodf " + rfsult + ".");
         }
     }
 
      /**
-     * Implements <tt>AbstractPreferences</tt> <tt>putSpi()</tt> method.
-     * Puts name-value pair into the underlying Windows registry node.
-     * Logs a warning, if Windows registry is unavailable.
-     * @see #getSpi(String)
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>putSpi()</tt> mftiod.
+     * Puts nbmf-vbluf pbir into tif undfrlying Windows rfgistry nodf.
+     * Logs b wbrning, if Windows rfgistry is unbvbilbblf.
+     * @sff #gftSpi(String)
      */
-    protected void putSpi(String javaName, String value) {
-    int nativeHandle = openKey(KEY_SET_VALUE);
-    if (nativeHandle == NULL_NATIVE_HANDLE) {
-        isBackingStoreAvailable = false;
-        return;
+    protfdtfd void putSpi(String jbvbNbmf, String vbluf) {
+    int nbtivfHbndlf = opfnKfy(KEY_SET_VALUE);
+    if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+        isBbdkingStorfAvbilbblf = fblsf;
+        rfturn;
     }
-    int result =  WindowsRegSetValueEx1(nativeHandle,
-                          toWindowsName(javaName), toWindowsValueString(value));
-    if (result != ERROR_SUCCESS) {
-        logger().warning("Could not assign value to key " +
-        byteArrayToString(toWindowsName(javaName))+ " at Windows registry node "
-       + byteArrayToString(windowsAbsolutePath()) + " at root 0x"
-       + Integer.toHexString(rootNativeHandle()) +
-       ". Windows RegSetValueEx(...) returned error code " + result + ".");
-        isBackingStoreAvailable = false;
+    int rfsult =  WindowsRfgSftVblufEx1(nbtivfHbndlf,
+                          toWindowsNbmf(jbvbNbmf), toWindowsVblufString(vbluf));
+    if (rfsult != ERROR_SUCCESS) {
+        loggfr().wbrning("Could not bssign vbluf to kfy " +
+        bytfArrbyToString(toWindowsNbmf(jbvbNbmf))+ " bt Windows rfgistry nodf "
+       + bytfArrbyToString(windowsAbsolutfPbti()) + " bt root 0x"
+       + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+       ". Windows RfgSftVblufEx(...) rfturnfd frror dodf " + rfsult + ".");
+        isBbdkingStorfAvbilbblf = fblsf;
         }
-    closeKey(nativeHandle);
+    dlosfKfy(nbtivfHbndlf);
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>getSpi()</tt> method.
-     * Gets a string value from the underlying Windows registry node.
-     * Logs a warning, if Windows registry is unavailable.
-     * @see #putSpi(String, String)
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>gftSpi()</tt> mftiod.
+     * Gfts b string vbluf from tif undfrlying Windows rfgistry nodf.
+     * Logs b wbrning, if Windows rfgistry is unbvbilbblf.
+     * @sff #putSpi(String, String)
      */
-    protected String getSpi(String javaName) {
-    int nativeHandle = openKey(KEY_QUERY_VALUE);
-    if (nativeHandle == NULL_NATIVE_HANDLE) {
-        return null;
+    protfdtfd String gftSpi(String jbvbNbmf) {
+    int nbtivfHbndlf = opfnKfy(KEY_QUERY_VALUE);
+    if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+        rfturn null;
     }
-    Object resultObject =  WindowsRegQueryValueEx(nativeHandle,
-                                                  toWindowsName(javaName));
-    if (resultObject == null) {
-        closeKey(nativeHandle);
-        return null;
+    Objfdt rfsultObjfdt =  WindowsRfgQufryVblufEx(nbtivfHbndlf,
+                                                  toWindowsNbmf(jbvbNbmf));
+    if (rfsultObjfdt == null) {
+        dlosfKfy(nbtivfHbndlf);
+        rfturn null;
     }
-    closeKey(nativeHandle);
-    return toJavaValueString((byte[]) resultObject);
+    dlosfKfy(nbtivfHbndlf);
+    rfturn toJbvbVblufString((bytf[]) rfsultObjfdt);
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>removeSpi()</tt> method.
-     * Deletes a string name-value pair from the underlying Windows registry
-     * node, if this value still exists.
-     * Logs a warning, if Windows registry is unavailable or key has already
-     * been deleted.
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>rfmovfSpi()</tt> mftiod.
+     * Dflftfs b string nbmf-vbluf pbir from tif undfrlying Windows rfgistry
+     * nodf, if tiis vbluf still fxists.
+     * Logs b wbrning, if Windows rfgistry is unbvbilbblf or kfy ibs blrfbdy
+     * bffn dflftfd.
      */
-    protected void removeSpi(String key) {
-        int nativeHandle = openKey(KEY_SET_VALUE);
-        if (nativeHandle == NULL_NATIVE_HANDLE) {
-        return;
+    protfdtfd void rfmovfSpi(String kfy) {
+        int nbtivfHbndlf = opfnKfy(KEY_SET_VALUE);
+        if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+        rfturn;
         }
-        int result =
-            WindowsRegDeleteValue(nativeHandle, toWindowsName(key));
-        if (result != ERROR_SUCCESS && result != ERROR_FILE_NOT_FOUND) {
-            logger().warning("Could not delete windows registry "
-            + "value " + byteArrayToString(windowsAbsolutePath())+ "\\" +
-            toWindowsName(key) + " at root 0x" +
-            Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegDeleteValue(...) returned error code " +
-            result + ".");
-            isBackingStoreAvailable = false;
+        int rfsult =
+            WindowsRfgDflftfVbluf(nbtivfHbndlf, toWindowsNbmf(kfy));
+        if (rfsult != ERROR_SUCCESS && rfsult != ERROR_FILE_NOT_FOUND) {
+            loggfr().wbrning("Could not dflftf windows rfgistry "
+            + "vbluf " + bytfArrbyToString(windowsAbsolutfPbti())+ "\\" +
+            toWindowsNbmf(kfy) + " bt root 0x" +
+            Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgDflftfVbluf(...) rfturnfd frror dodf " +
+            rfsult + ".");
+            isBbdkingStorfAvbilbblf = fblsf;
         }
-        closeKey(nativeHandle);
+        dlosfKfy(nbtivfHbndlf);
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>keysSpi()</tt> method.
-     * Gets value names from the underlying Windows registry node.
-     * Throws a BackingStoreException and logs a warning, if
-     * Windows registry is unavailable.
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>kfysSpi()</tt> mftiod.
+     * Gfts vbluf nbmfs from tif undfrlying Windows rfgistry nodf.
+     * Tirows b BbdkingStorfExdfption bnd logs b wbrning, if
+     * Windows rfgistry is unbvbilbblf.
      */
-    protected String[] keysSpi() throws BackingStoreException{
-        // Find out the number of values
-        int nativeHandle = openKey(KEY_QUERY_VALUE);
-        if (nativeHandle == NULL_NATIVE_HANDLE) {
-            throw new BackingStoreException("Could not open windows"
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) + ".");
+    protfdtfd String[] kfysSpi() tirows BbdkingStorfExdfption{
+        // Find out tif numbfr of vblufs
+        int nbtivfHbndlf = opfnKfy(KEY_QUERY_VALUE);
+        if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+            tirow nfw BbdkingStorfExdfption("Could not opfn windows"
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) + ".");
         }
-        int[] result =  WindowsRegQueryInfoKey1(nativeHandle);
-        if (result[ERROR_CODE] != ERROR_SUCCESS) {
-            String info = "Could not query windows"
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegQueryInfoKeyEx(...) returned error code " +
-            result[ERROR_CODE] + ".";
-            logger().warning(info);
-            throw new BackingStoreException(info);
+        int[] rfsult =  WindowsRfgQufryInfoKfy1(nbtivfHbndlf);
+        if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+            String info = "Could not qufry windows"
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgQufryInfoKfyEx(...) rfturnfd frror dodf " +
+            rfsult[ERROR_CODE] + ".";
+            loggfr().wbrning(info);
+            tirow nfw BbdkingStorfExdfption(info);
         }
-        int maxValueNameLength = result[MAX_VALUE_NAME_LENGTH];
-        int valuesNumber = result[VALUES_NUMBER];
-        if (valuesNumber == 0) {
-            closeKey(nativeHandle);
-            return new String[0];
+        int mbxVblufNbmfLfngti = rfsult[MAX_VALUE_NAME_LENGTH];
+        int vblufsNumbfr = rfsult[VALUES_NUMBER];
+        if (vblufsNumbfr == 0) {
+            dlosfKfy(nbtivfHbndlf);
+            rfturn nfw String[0];
        }
-       // Get the values
-       String[] valueNames = new String[valuesNumber];
-       for (int i = 0; i < valuesNumber; i++) {
-            byte[] windowsName = WindowsRegEnumValue1(nativeHandle, i,
-                                                        maxValueNameLength+1);
-            if (windowsName == null) {
+       // Gft tif vblufs
+       String[] vblufNbmfs = nfw String[vblufsNumbfr];
+       for (int i = 0; i < vblufsNumbfr; i++) {
+            bytf[] windowsNbmf = WindowsRfgEnumVbluf1(nbtivfHbndlf, i,
+                                                        mbxVblufNbmfLfngti+1);
+            if (windowsNbmf == null) {
                 String info =
-                "Could not enumerate value #" + i + "  of windows node " +
-                byteArrayToString(windowsAbsolutePath()) + " at root 0x" +
-                Integer.toHexString(rootNativeHandle()) + ".";
-                logger().warning(info);
-                throw new BackingStoreException(info);
+                "Could not fnumfrbtf vbluf #" + i + "  of windows nodf " +
+                bytfArrbyToString(windowsAbsolutfPbti()) + " bt root 0x" +
+                Intfgfr.toHfxString(rootNbtivfHbndlf()) + ".";
+                loggfr().wbrning(info);
+                tirow nfw BbdkingStorfExdfption(info);
             }
-            valueNames[i] = toJavaName(windowsName);
+            vblufNbmfs[i] = toJbvbNbmf(windowsNbmf);
         }
-        closeKey(nativeHandle);
-        return valueNames;
+        dlosfKfy(nbtivfHbndlf);
+        rfturn vblufNbmfs;
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>childrenNamesSpi()</tt> method.
-     * Calls Windows registry to retrive children of this node.
-     * Throws a BackingStoreException and logs a warning message,
-     * if Windows registry is not available.
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>diildrfnNbmfsSpi()</tt> mftiod.
+     * Cblls Windows rfgistry to rftrivf diildrfn of tiis nodf.
+     * Tirows b BbdkingStorfExdfption bnd logs b wbrning mfssbgf,
+     * if Windows rfgistry is not bvbilbblf.
      */
-    protected String[] childrenNamesSpi() throws BackingStoreException {
-        // Open key
-        int nativeHandle = openKey(KEY_ENUMERATE_SUB_KEYS| KEY_QUERY_VALUE);
-        if (nativeHandle == NULL_NATIVE_HANDLE) {
-            throw new BackingStoreException("Could not open windows"
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) + ".");
+    protfdtfd String[] diildrfnNbmfsSpi() tirows BbdkingStorfExdfption {
+        // Opfn kfy
+        int nbtivfHbndlf = opfnKfy(KEY_ENUMERATE_SUB_KEYS| KEY_QUERY_VALUE);
+        if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+            tirow nfw BbdkingStorfExdfption("Could not opfn windows"
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) + ".");
         }
-        // Get number of children
-        int[] result =  WindowsRegQueryInfoKey1(nativeHandle);
-        if (result[ERROR_CODE] != ERROR_SUCCESS) {
-            String info = "Could not query windows"
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegQueryInfoKeyEx(...) returned error code " +
-            result[ERROR_CODE] + ".";
-            logger().warning(info);
-            throw new BackingStoreException(info);
+        // Gft numbfr of diildrfn
+        int[] rfsult =  WindowsRfgQufryInfoKfy1(nbtivfHbndlf);
+        if (rfsult[ERROR_CODE] != ERROR_SUCCESS) {
+            String info = "Could not qufry windows"
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgQufryInfoKfyEx(...) rfturnfd frror dodf " +
+            rfsult[ERROR_CODE] + ".";
+            loggfr().wbrning(info);
+            tirow nfw BbdkingStorfExdfption(info);
         }
-        int maxKeyLength = result[MAX_KEY_LENGTH];
-        int subKeysNumber = result[SUBKEYS_NUMBER];
-        if (subKeysNumber == 0) {
-            closeKey(nativeHandle);
-            return new String[0];
+        int mbxKfyLfngti = rfsult[MAX_KEY_LENGTH];
+        int subKfysNumbfr = rfsult[SUBKEYS_NUMBER];
+        if (subKfysNumbfr == 0) {
+            dlosfKfy(nbtivfHbndlf);
+            rfturn nfw String[0];
         }
-        String[] subkeys = new String[subKeysNumber];
-        String[] children = new String[subKeysNumber];
-        // Get children
-        for (int i = 0; i < subKeysNumber; i++) {
-            byte[] windowsName = WindowsRegEnumKeyEx1(nativeHandle, i,
-                                                                maxKeyLength+1);
-            if (windowsName == null) {
+        String[] subkfys = nfw String[subKfysNumbfr];
+        String[] diildrfn = nfw String[subKfysNumbfr];
+        // Gft diildrfn
+        for (int i = 0; i < subKfysNumbfr; i++) {
+            bytf[] windowsNbmf = WindowsRfgEnumKfyEx1(nbtivfHbndlf, i,
+                                                                mbxKfyLfngti+1);
+            if (windowsNbmf == null) {
                 String info =
-                "Could not enumerate key #" + i + "  of windows node " +
-                byteArrayToString(windowsAbsolutePath()) + " at root 0x" +
-                Integer.toHexString(rootNativeHandle()) + ". ";
-                logger().warning(info);
-                throw new BackingStoreException(info);
+                "Could not fnumfrbtf kfy #" + i + "  of windows nodf " +
+                bytfArrbyToString(windowsAbsolutfPbti()) + " bt root 0x" +
+                Intfgfr.toHfxString(rootNbtivfHbndlf()) + ". ";
+                loggfr().wbrning(info);
+                tirow nfw BbdkingStorfExdfption(info);
             }
-            String javaName = toJavaName(windowsName);
-            children[i] = javaName;
+            String jbvbNbmf = toJbvbNbmf(windowsNbmf);
+            diildrfn[i] = jbvbNbmf;
         }
-        closeKey(nativeHandle);
-        return children;
+        dlosfKfy(nbtivfHbndlf);
+        rfturn diildrfn;
     }
 
     /**
-     * Implements <tt>Preferences</tt> <tt>flush()</tt> method.
-     * Flushes Windows registry changes to disk.
-     * Throws a BackingStoreException and logs a warning message if Windows
-     * registry is not available.
+     * Implfmfnts <tt>Prfffrfndfs</tt> <tt>flusi()</tt> mftiod.
+     * Flusifs Windows rfgistry dibngfs to disk.
+     * Tirows b BbdkingStorfExdfption bnd logs b wbrning mfssbgf if Windows
+     * rfgistry is not bvbilbblf.
      */
-    public void flush() throws BackingStoreException{
+    publid void flusi() tirows BbdkingStorfExdfption{
 
-        if (isRemoved()) {
-            parent.flush();
-            return;
+        if (isRfmovfd()) {
+            pbrfnt.flusi();
+            rfturn;
         }
-        if (!isBackingStoreAvailable) {
-            throw new BackingStoreException(
-                                       "flush(): Backing store not available.");
+        if (!isBbdkingStorfAvbilbblf) {
+            tirow nfw BbdkingStorfExdfption(
+                                       "flusi(): Bbdking storf not bvbilbblf.");
         }
-        int nativeHandle = openKey(KEY_READ);
-        if (nativeHandle == NULL_NATIVE_HANDLE) {
-            throw new BackingStoreException("Could not open windows"
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) + ".");
+        int nbtivfHbndlf = opfnKfy(KEY_READ);
+        if (nbtivfHbndlf == NULL_NATIVE_HANDLE) {
+            tirow nfw BbdkingStorfExdfption("Could not opfn windows"
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) + ".");
         }
-        int result = WindowsRegFlushKey1(nativeHandle);
-        if (result != ERROR_SUCCESS) {
-            String info = "Could not flush windows "
-            + "registry node " + byteArrayToString(windowsAbsolutePath())
-            + " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegFlushKey(...) returned error code " + result + ".";
-            logger().warning(info);
-            throw new BackingStoreException(info);
+        int rfsult = WindowsRfgFlusiKfy1(nbtivfHbndlf);
+        if (rfsult != ERROR_SUCCESS) {
+            String info = "Could not flusi windows "
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti())
+            + " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgFlusiKfy(...) rfturnfd frror dodf " + rfsult + ".";
+            loggfr().wbrning(info);
+            tirow nfw BbdkingStorfExdfption(info);
         }
-        closeKey(nativeHandle);
+        dlosfKfy(nbtivfHbndlf);
     }
 
 
     /**
-     * Implements <tt>Preferences</tt> <tt>sync()</tt> method.
-     * Flushes Windows registry changes to disk. Equivalent to flush().
-     * @see flush()
+     * Implfmfnts <tt>Prfffrfndfs</tt> <tt>synd()</tt> mftiod.
+     * Flusifs Windows rfgistry dibngfs to disk. Equivblfnt to flusi().
+     * @sff flusi()
      */
-    public void sync() throws BackingStoreException{
-        if (isRemoved())
-            throw new IllegalStateException("Node has been removed");
-        flush();
+    publid void synd() tirows BbdkingStorfExdfption{
+        if (isRfmovfd())
+            tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+        flusi();
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>childSpi()</tt> method.
-     * Constructs a child node with a
-     * given name and creates its underlying Windows registry node,
-     * if it does not exist.
-     * Logs a warning message, if Windows Registry is unavailable.
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>diildSpi()</tt> mftiod.
+     * Construdts b diild nodf witi b
+     * givfn nbmf bnd drfbtfs its undfrlying Windows rfgistry nodf,
+     * if it dofs not fxist.
+     * Logs b wbrning mfssbgf, if Windows Rfgistry is unbvbilbblf.
      */
-    protected AbstractPreferences childSpi(String name) {
-            return new WindowsPreferences(this, name);
+    protfdtfd AbstrbdtPrfffrfndfs diildSpi(String nbmf) {
+            rfturn nfw WindowsPrfffrfndfs(tiis, nbmf);
     }
 
     /**
-     * Implements <tt>AbstractPreferences</tt> <tt>removeNodeSpi()</tt> method.
-     * Deletes underlying Windows registry node.
-     * Throws a BackingStoreException and logs a warning, if Windows registry
-     * is not available.
+     * Implfmfnts <tt>AbstrbdtPrfffrfndfs</tt> <tt>rfmovfNodfSpi()</tt> mftiod.
+     * Dflftfs undfrlying Windows rfgistry nodf.
+     * Tirows b BbdkingStorfExdfption bnd logs b wbrning, if Windows rfgistry
+     * is not bvbilbblf.
      */
-    public void removeNodeSpi() throws BackingStoreException {
-        int parentNativeHandle =
-                         ((WindowsPreferences)parent()).openKey(DELETE);
-        if (parentNativeHandle == NULL_NATIVE_HANDLE) {
-            throw new BackingStoreException("Could not open parent windows"
-            + "registry node of " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) + ".");
+    publid void rfmovfNodfSpi() tirows BbdkingStorfExdfption {
+        int pbrfntNbtivfHbndlf =
+                         ((WindowsPrfffrfndfs)pbrfnt()).opfnKfy(DELETE);
+        if (pbrfntNbtivfHbndlf == NULL_NATIVE_HANDLE) {
+            tirow nfw BbdkingStorfExdfption("Could not opfn pbrfnt windows"
+            + "rfgistry nodf of " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) + ".");
         }
-        int result =
-                WindowsRegDeleteKey(parentNativeHandle, toWindowsName(name()));
-        if (result != ERROR_SUCCESS) {
-            String info = "Could not delete windows "
-            + "registry node " + byteArrayToString(windowsAbsolutePath()) +
-            " at root 0x" + Integer.toHexString(rootNativeHandle()) +
-            ". Windows RegDeleteKeyEx(...) returned error code " +
-            result + ".";
-            logger().warning(info);
-            throw new BackingStoreException(info);
+        int rfsult =
+                WindowsRfgDflftfKfy(pbrfntNbtivfHbndlf, toWindowsNbmf(nbmf()));
+        if (rfsult != ERROR_SUCCESS) {
+            String info = "Could not dflftf windows "
+            + "rfgistry nodf " + bytfArrbyToString(windowsAbsolutfPbti()) +
+            " bt root 0x" + Intfgfr.toHfxString(rootNbtivfHbndlf()) +
+            ". Windows RfgDflftfKfyEx(...) rfturnfd frror dodf " +
+            rfsult + ".";
+            loggfr().wbrning(info);
+            tirow nfw BbdkingStorfExdfption(info);
         }
-        closeKey(parentNativeHandle);
+        dlosfKfy(pbrfntNbtivfHbndlf);
     }
 
     /**
-     * Converts value's or node's name from its byte array representation to
-     * java string. Two encodings, simple and altBase64 are used. See
-     * {@link #toWindowsName(String) toWindowsName()} for a detailed
-     * description of encoding conventions.
-     * @param windowsNameArray Null-terminated byte array.
+     * Convfrts vbluf's or nodf's nbmf from its bytf brrby rfprfsfntbtion to
+     * jbvb string. Two fndodings, simplf bnd bltBbsf64 brf usfd. Sff
+     * {@link #toWindowsNbmf(String) toWindowsNbmf()} for b dftbilfd
+     * dfsdription of fndoding donvfntions.
+     * @pbrbm windowsNbmfArrby Null-tfrminbtfd bytf brrby.
      */
-    private static String toJavaName(byte[] windowsNameArray) {
-        String windowsName = byteArrayToString(windowsNameArray);
-        // check if Alt64
-        if ((windowsName.length()>1) &&
-                                   (windowsName.substring(0,2).equals("/!"))) {
-            return toJavaAlt64Name(windowsName);
+    privbtf stbtid String toJbvbNbmf(bytf[] windowsNbmfArrby) {
+        String windowsNbmf = bytfArrbyToString(windowsNbmfArrby);
+        // difdk if Alt64
+        if ((windowsNbmf.lfngti()>1) &&
+                                   (windowsNbmf.substring(0,2).fqubls("/!"))) {
+            rfturn toJbvbAlt64Nbmf(windowsNbmf);
         }
-        StringBuffer javaName = new StringBuffer();
-        char ch;
-        // Decode from simple encoding
-        for (int i = 0; i < windowsName.length(); i++){
-            if ((ch = windowsName.charAt(i)) == '/') {
-                char next = ' ';
-                if ((windowsName.length() > i + 1) &&
-                   ((next = windowsName.charAt(i+1)) >= 'A') && (next <= 'Z')) {
-                ch = next;
+        StringBufffr jbvbNbmf = nfw StringBufffr();
+        dibr di;
+        // Dfdodf from simplf fndoding
+        for (int i = 0; i < windowsNbmf.lfngti(); i++){
+            if ((di = windowsNbmf.dibrAt(i)) == '/') {
+                dibr nfxt = ' ';
+                if ((windowsNbmf.lfngti() > i + 1) &&
+                   ((nfxt = windowsNbmf.dibrAt(i+1)) >= 'A') && (nfxt <= 'Z')) {
+                di = nfxt;
                 i++;
-                } else  if ((windowsName.length() > i + 1) && (next == '/')) {
-                ch = '\\';
+                } flsf  if ((windowsNbmf.lfngti() > i + 1) && (nfxt == '/')) {
+                di = '\\';
                 i++;
                 }
-            } else if (ch == '\\') {
-                ch = '/';
+            } flsf if (di == '\\') {
+                di = '/';
             }
-            javaName.append(ch);
+            jbvbNbmf.bppfnd(di);
         }
-        return javaName.toString();
+        rfturn jbvbNbmf.toString();
     }
 
     /**
-     * Converts value's or node's name from its Windows representation to java
-     * string, using altBase64 encoding. See
-     * {@link #toWindowsName(String) toWindowsName()} for a detailed
-     * description of encoding conventions.
+     * Convfrts vbluf's or nodf's nbmf from its Windows rfprfsfntbtion to jbvb
+     * string, using bltBbsf64 fndoding. Sff
+     * {@link #toWindowsNbmf(String) toWindowsNbmf()} for b dftbilfd
+     * dfsdription of fndoding donvfntions.
      */
 
-    private static String toJavaAlt64Name(String windowsName) {
-        byte[] byteBuffer =
-                          Base64.altBase64ToByteArray(windowsName.substring(2));
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < byteBuffer.length; i++) {
-            int firstbyte = (byteBuffer[i++] & 0xff);
-            int secondbyte =  (byteBuffer[i] & 0xff);
-            result.append((char)((firstbyte << 8) + secondbyte));
+    privbtf stbtid String toJbvbAlt64Nbmf(String windowsNbmf) {
+        bytf[] bytfBufffr =
+                          Bbsf64.bltBbsf64ToBytfArrby(windowsNbmf.substring(2));
+        StringBufffr rfsult = nfw StringBufffr();
+        for (int i = 0; i < bytfBufffr.lfngti; i++) {
+            int firstbytf = (bytfBufffr[i++] & 0xff);
+            int sfdondbytf =  (bytfBufffr[i] & 0xff);
+            rfsult.bppfnd((dibr)((firstbytf << 8) + sfdondbytf));
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     /**
-     * Converts value's or node's name to its Windows representation
-     * as a byte-encoded string.
-     * Two encodings, simple and altBase64 are used.
+     * Convfrts vbluf's or nodf's nbmf to its Windows rfprfsfntbtion
+     * bs b bytf-fndodfd string.
+     * Two fndodings, simplf bnd bltBbsf64 brf usfd.
      * <p>
-     * <i>Simple</i> encoding is used, if java string does not contain
-     * any characters less, than 0x0020, or greater, than 0x007f.
-     * Simple encoding adds "/" character to capital letters, i.e.
-     * "A" is encoded as "/A". Character '\' is encoded as '//',
-     * '/' is encoded as '\'.
-     * The constructed string is converted to byte array by truncating the
-     * highest byte and adding the terminating <tt>null</tt> character.
+     * <i>Simplf</i> fndoding is usfd, if jbvb string dofs not dontbin
+     * bny dibrbdtfrs lfss, tibn 0x0020, or grfbtfr, tibn 0x007f.
+     * Simplf fndoding bdds "/" dibrbdtfr to dbpitbl lfttfrs, i.f.
+     * "A" is fndodfd bs "/A". Cibrbdtfr '\' is fndodfd bs '//',
+     * '/' is fndodfd bs '\'.
+     * Tif donstrudtfd string is donvfrtfd to bytf brrby by trundbting tif
+     * iigifst bytf bnd bdding tif tfrminbting <tt>null</tt> dibrbdtfr.
      * <p>
-     * <i>altBase64</i>  encoding is used, if java string does contain at least
-     * one character less, than 0x0020, or greater, than 0x007f.
-     * This encoding is marked by setting first two bytes of the
-     * Windows string to '/!'. The java name is then encoded using
-     * byteArrayToAltBase64() method from
-     * Base64 class.
+     * <i>bltBbsf64</i>  fndoding is usfd, if jbvb string dofs dontbin bt lfbst
+     * onf dibrbdtfr lfss, tibn 0x0020, or grfbtfr, tibn 0x007f.
+     * Tiis fndoding is mbrkfd by sftting first two bytfs of tif
+     * Windows string to '/!'. Tif jbvb nbmf is tifn fndodfd using
+     * bytfArrbyToAltBbsf64() mftiod from
+     * Bbsf64 dlbss.
      */
-    private static byte[] toWindowsName(String javaName) {
-        StringBuffer windowsName = new StringBuffer();
-        for (int i = 0; i < javaName.length(); i++) {
-            char ch =javaName.charAt(i);
-            if ((ch < 0x0020)||(ch > 0x007f)) {
-                // If a non-trivial character encountered, use altBase64
-                return toWindowsAlt64Name(javaName);
+    privbtf stbtid bytf[] toWindowsNbmf(String jbvbNbmf) {
+        StringBufffr windowsNbmf = nfw StringBufffr();
+        for (int i = 0; i < jbvbNbmf.lfngti(); i++) {
+            dibr di =jbvbNbmf.dibrAt(i);
+            if ((di < 0x0020)||(di > 0x007f)) {
+                // If b non-trivibl dibrbdtfr fndountfrfd, usf bltBbsf64
+                rfturn toWindowsAlt64Nbmf(jbvbNbmf);
             }
-            if (ch == '\\') {
-                windowsName.append("//");
-            } else if (ch == '/') {
-                windowsName.append('\\');
-            } else if ((ch >= 'A') && (ch <='Z')) {
-                windowsName.append("/" + ch);
-            } else {
-                windowsName.append(ch);
+            if (di == '\\') {
+                windowsNbmf.bppfnd("//");
+            } flsf if (di == '/') {
+                windowsNbmf.bppfnd('\\');
+            } flsf if ((di >= 'A') && (di <='Z')) {
+                windowsNbmf.bppfnd("/" + di);
+            } flsf {
+                windowsNbmf.bppfnd(di);
             }
         }
-        return stringToByteArray(windowsName.toString());
+        rfturn stringToBytfArrby(windowsNbmf.toString());
     }
 
     /**
-     * Converts value's or node's name to its Windows representation
-     * as a byte-encoded string, using altBase64 encoding. See
-     * {@link #toWindowsName(String) toWindowsName()} for a detailed
-     * description of encoding conventions.
+     * Convfrts vbluf's or nodf's nbmf to its Windows rfprfsfntbtion
+     * bs b bytf-fndodfd string, using bltBbsf64 fndoding. Sff
+     * {@link #toWindowsNbmf(String) toWindowsNbmf()} for b dftbilfd
+     * dfsdription of fndoding donvfntions.
      */
-    private static byte[] toWindowsAlt64Name(String javaName) {
-        byte[] javaNameArray = new byte[2*javaName.length()];
-        // Convert to byte pairs
-        int counter = 0;
-        for (int i = 0; i < javaName.length();i++) {
-                int ch = javaName.charAt(i);
-                javaNameArray[counter++] = (byte)(ch >>> 8);
-                javaNameArray[counter++] = (byte)ch;
+    privbtf stbtid bytf[] toWindowsAlt64Nbmf(String jbvbNbmf) {
+        bytf[] jbvbNbmfArrby = nfw bytf[2*jbvbNbmf.lfngti()];
+        // Convfrt to bytf pbirs
+        int dountfr = 0;
+        for (int i = 0; i < jbvbNbmf.lfngti();i++) {
+                int di = jbvbNbmf.dibrAt(i);
+                jbvbNbmfArrby[dountfr++] = (bytf)(di >>> 8);
+                jbvbNbmfArrby[dountfr++] = (bytf)di;
         }
 
-        return stringToByteArray(
-                           "/!" + Base64.byteArrayToAltBase64(javaNameArray));
+        rfturn stringToBytfArrby(
+                           "/!" + Bbsf64.bytfArrbyToAltBbsf64(jbvbNbmfArrby));
     }
 
     /**
-     * Converts value string from its Windows representation
-     * to java string.  See
-     * {@link #toWindowsValueString(String) toWindowsValueString()} for the
-     * description of the encoding algorithm.
+     * Convfrts vbluf string from its Windows rfprfsfntbtion
+     * to jbvb string.  Sff
+     * {@link #toWindowsVblufString(String) toWindowsVblufString()} for tif
+     * dfsdription of tif fndoding blgoritim.
      */
-     private static String toJavaValueString(byte[] windowsNameArray) {
-        // Use modified native2ascii algorithm
-        String windowsName = byteArrayToString(windowsNameArray);
-        StringBuffer javaName = new StringBuffer();
-        char ch;
-        for (int i = 0; i < windowsName.length(); i++){
-            if ((ch = windowsName.charAt(i)) == '/') {
-                char next = ' ';
+     privbtf stbtid String toJbvbVblufString(bytf[] windowsNbmfArrby) {
+        // Usf modififd nbtivf2bsdii blgoritim
+        String windowsNbmf = bytfArrbyToString(windowsNbmfArrby);
+        StringBufffr jbvbNbmf = nfw StringBufffr();
+        dibr di;
+        for (int i = 0; i < windowsNbmf.lfngti(); i++){
+            if ((di = windowsNbmf.dibrAt(i)) == '/') {
+                dibr nfxt = ' ';
 
-                if (windowsName.length() > i + 1 &&
-                                    (next = windowsName.charAt(i + 1)) == 'u') {
-                    if (windowsName.length() < i + 6){
-                        break;
-                    } else {
-                        ch = (char)Integer.parseInt
-                                      (windowsName.substring(i + 2, i + 6), 16);
+                if (windowsNbmf.lfngti() > i + 1 &&
+                                    (nfxt = windowsNbmf.dibrAt(i + 1)) == 'u') {
+                    if (windowsNbmf.lfngti() < i + 6){
+                        brfbk;
+                    } flsf {
+                        di = (dibr)Intfgfr.pbrsfInt
+                                      (windowsNbmf.substring(i + 2, i + 6), 16);
                         i += 5;
                     }
-                } else
-                if ((windowsName.length() > i + 1) &&
-                          ((windowsName.charAt(i+1)) >= 'A') && (next <= 'Z')) {
-                ch = next;
+                } flsf
+                if ((windowsNbmf.lfngti() > i + 1) &&
+                          ((windowsNbmf.dibrAt(i+1)) >= 'A') && (nfxt <= 'Z')) {
+                di = nfxt;
                 i++;
-                } else  if ((windowsName.length() > i + 1) &&
-                                               (next == '/')) {
-                ch = '\\';
+                } flsf  if ((windowsNbmf.lfngti() > i + 1) &&
+                                               (nfxt == '/')) {
+                di = '\\';
                 i++;
                 }
-            } else if (ch == '\\') {
-                ch = '/';
+            } flsf if (di == '\\') {
+                di = '/';
             }
-            javaName.append(ch);
+            jbvbNbmf.bppfnd(di);
         }
-        return javaName.toString();
+        rfturn jbvbNbmf.toString();
     }
 
     /**
-     * Converts value string to it Windows representation.
-     * as a byte-encoded string.
-     * Encoding algorithm adds "/" character to capital letters, i.e.
-     * "A" is encoded as "/A". Character '\' is encoded as '//',
-     * '/' is encoded as  '\'.
-     * Then encoding scheme similar to jdk's native2ascii converter is used
-     * to convert java string to a byte array of ASCII characters.
+     * Convfrts vbluf string to it Windows rfprfsfntbtion.
+     * bs b bytf-fndodfd string.
+     * Endoding blgoritim bdds "/" dibrbdtfr to dbpitbl lfttfrs, i.f.
+     * "A" is fndodfd bs "/A". Cibrbdtfr '\' is fndodfd bs '//',
+     * '/' is fndodfd bs  '\'.
+     * Tifn fndoding sdifmf similbr to jdk's nbtivf2bsdii donvfrtfr is usfd
+     * to donvfrt jbvb string to b bytf brrby of ASCII dibrbdtfrs.
      */
-    private static byte[] toWindowsValueString(String javaName) {
-        StringBuffer windowsName = new StringBuffer();
-        for (int i = 0; i < javaName.length(); i++) {
-            char ch =javaName.charAt(i);
-            if ((ch < 0x0020)||(ch > 0x007f)){
-                // write \udddd
-                windowsName.append("/u");
-                String hex = Integer.toHexString(javaName.charAt(i));
-                StringBuffer hex4 = new StringBuffer(hex);
-                hex4.reverse();
-                int len = 4 - hex4.length();
-                for (int j = 0; j < len; j++){
-                    hex4.append('0');
+    privbtf stbtid bytf[] toWindowsVblufString(String jbvbNbmf) {
+        StringBufffr windowsNbmf = nfw StringBufffr();
+        for (int i = 0; i < jbvbNbmf.lfngti(); i++) {
+            dibr di =jbvbNbmf.dibrAt(i);
+            if ((di < 0x0020)||(di > 0x007f)){
+                // writf \udddd
+                windowsNbmf.bppfnd("/u");
+                String ifx = Intfgfr.toHfxString(jbvbNbmf.dibrAt(i));
+                StringBufffr ifx4 = nfw StringBufffr(ifx);
+                ifx4.rfvfrsf();
+                int lfn = 4 - ifx4.lfngti();
+                for (int j = 0; j < lfn; j++){
+                    ifx4.bppfnd('0');
                 }
                 for (int j = 0; j < 4; j++){
-                    windowsName.append(hex4.charAt(3 - j));
+                    windowsNbmf.bppfnd(ifx4.dibrAt(3 - j));
                 }
-            } else if (ch == '\\') {
-                windowsName.append("//");
-            } else if (ch == '/') {
-                windowsName.append('\\');
-            } else if ((ch >= 'A') && (ch <='Z')) {
-                windowsName.append("/" + ch);
-            } else {
-                windowsName.append(ch);
+            } flsf if (di == '\\') {
+                windowsNbmf.bppfnd("//");
+            } flsf if (di == '/') {
+                windowsNbmf.bppfnd('\\');
+            } flsf if ((di >= 'A') && (di <='Z')) {
+                windowsNbmf.bppfnd("/" + di);
+            } flsf {
+                windowsNbmf.bppfnd(di);
             }
         }
-        return stringToByteArray(windowsName.toString());
+        rfturn stringToBytfArrby(windowsNbmf.toString());
     }
 
     /**
-     * Returns native handle for the top Windows node for this node.
+     * Rfturns nbtivf ibndlf for tif top Windows nodf for tiis nodf.
      */
-    private int rootNativeHandle() {
-        return (isUserNode()? USER_ROOT_NATIVE_HANDLE :
+    privbtf int rootNbtivfHbndlf() {
+        rfturn (isUsfrNodf()? USER_ROOT_NATIVE_HANDLE :
                               SYSTEM_ROOT_NATIVE_HANDLE);
     }
 
     /**
-     * Returns this java string as a null-terminated byte array
+     * Rfturns tiis jbvb string bs b null-tfrminbtfd bytf brrby
      */
-    private static byte[] stringToByteArray(String str) {
-        byte[] result = new byte[str.length()+1];
-        for (int i = 0; i < str.length(); i++) {
-            result[i] = (byte) str.charAt(i);
+    privbtf stbtid bytf[] stringToBytfArrby(String str) {
+        bytf[] rfsult = nfw bytf[str.lfngti()+1];
+        for (int i = 0; i < str.lfngti(); i++) {
+            rfsult[i] = (bytf) str.dibrAt(i);
         }
-        result[str.length()] = 0;
-        return result;
+        rfsult[str.lfngti()] = 0;
+        rfturn rfsult;
     }
 
     /**
-     * Converts a null-terminated byte array to java string
+     * Convfrts b null-tfrminbtfd bytf brrby to jbvb string
      */
-    private static String byteArrayToString(byte[] array) {
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < array.length - 1; i++) {
-            result.append((char)array[i]);
+    privbtf stbtid String bytfArrbyToString(bytf[] brrby) {
+        StringBufffr rfsult = nfw StringBufffr();
+        for (int i = 0; i < brrby.lfngti - 1; i++) {
+            rfsult.bppfnd((dibr)brrby[i]);
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
    /**
-    * Empty, never used implementation  of AbstractPreferences.flushSpi().
+    * Empty, nfvfr usfd implfmfntbtion  of AbstrbdtPrfffrfndfs.flusiSpi().
     */
-    protected void flushSpi() throws BackingStoreException {
-        // assert false;
+    protfdtfd void flusiSpi() tirows BbdkingStorfExdfption {
+        // bssfrt fblsf;
     }
 
    /**
-    * Empty, never used implementation  of AbstractPreferences.flushSpi().
+    * Empty, nfvfr usfd implfmfntbtion  of AbstrbdtPrfffrfndfs.flusiSpi().
     */
-    protected void syncSpi() throws BackingStoreException {
-        // assert false;
+    protfdtfd void syndSpi() tirows BbdkingStorfExdfption {
+        // bssfrt fblsf;
     }
 
-    private static synchronized PlatformLogger logger() {
-        if (logger == null) {
-            logger = PlatformLogger.getLogger("java.util.prefs");
+    privbtf stbtid syndironizfd PlbtformLoggfr loggfr() {
+        if (loggfr == null) {
+            loggfr = PlbtformLoggfr.gftLoggfr("jbvb.util.prffs");
         }
-        return logger;
+        rfturn loggfr;
     }
 }

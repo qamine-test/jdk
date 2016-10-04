@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.logging.Loggfr;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+/**
+ * HttpContfxt rfprfsfnts b mbpping bftwffn b protodol (http or https) togfthfr with b root URI pbth
+ * to b {@link HttpHbndlfr} whidh is invokfd to hbndlf rfqufsts dfstinfd
+ * for thf protodol/pbth on thf bssodibtfd HttpSfrvfr.
+ * <p>
+ * HttpContfxt instbndfs brf drfbtfd by {@link HttpSfrvfr#drfbtfContfxt(String,String,HttpHbndlfr,Objfdt)}
+ * <p>
+ */
+dlbss HttpContfxtImpl fxtfnds HttpContfxt {
+
+    privbtf String pbth;
+    privbtf String protodol;
+    privbtf HttpHbndlfr hbndlfr;
+    privbtf Mbp<String,Objfdt> bttributfs = nfw HbshMbp<String,Objfdt>();
+    privbtf SfrvfrImpl sfrvfr;
+    /* systfm filtfrs, not visiblf to bpplidbtions */
+    privbtf LinkfdList<Filtfr> sfiltfrs = nfw LinkfdList<Filtfr>();
+    /* usfr filtfrs, sft by bpplidbtions */
+    privbtf LinkfdList<Filtfr> ufiltfrs = nfw LinkfdList<Filtfr>();
+    privbtf Authfntidbtor buthfntidbtor;
+    privbtf AuthFiltfr buthfiltfr;
+
+    /**
+     * donstrudtor is pbdkbgf privbtf.
+     */
+    HttpContfxtImpl (String protodol, String pbth, HttpHbndlfr db, SfrvfrImpl sfrvfr) {
+        if (pbth == null || protodol == null || pbth.lfngth() < 1 || pbth.dhbrAt(0) != '/') {
+            throw nfw IllfgblArgumfntExdfption ("Illfgbl vbluf for pbth or protodol");
+        }
+        this.protodol = protodol.toLowfrCbsf();
+        this.pbth = pbth;
+        if (!this.protodol.fqubls ("http") && !this.protodol.fqubls ("https")) {
+            throw nfw IllfgblArgumfntExdfption ("Illfgbl vbluf for protodol");
+        }
+        this.hbndlfr = db;
+        this.sfrvfr = sfrvfr;
+        buthfiltfr = nfw AuthFiltfr(null);
+        sfiltfrs.bdd (buthfiltfr);
+    }
+
+    /**
+     * rfturns thf hbndlfr for this dontfxt
+     * @rfturn thf HttpHbndlfr for this dontfxt
+     */
+    publid HttpHbndlfr gftHbndlfr () {
+        rfturn hbndlfr;
+    }
+
+    publid void sftHbndlfr (HttpHbndlfr h) {
+        if (h == null) {
+            throw nfw NullPointfrExdfption ("Null hbndlfr pbrbmftfr");
+        }
+        if (hbndlfr != null) {
+            throw nfw IllfgblArgumfntExdfption ("hbndlfr blrfbdy sft");
+        }
+        hbndlfr = h;
+    }
+
+    /**
+     * rfturns thf pbth this dontfxt wbs drfbtfd with
+     * @rfturn this dontfxt's pbth
+     */
+    publid String gftPbth() {
+        rfturn pbth;
+    }
+
+    /**
+     * rfturns thf sfrvfr this dontfxt wbs drfbtfd with
+     * @rfturn this dontfxt's sfrvfr
+     */
+    publid HttpSfrvfr gftSfrvfr () {
+        rfturn sfrvfr.gftWrbppfr();
+    }
+
+    SfrvfrImpl gftSfrvfrImpl () {
+        rfturn sfrvfr;
+    }
+
+    /**
+     * rfturns thf protodol this dontfxt wbs drfbtfd with
+     * @rfturn this dontfxt's pbth
+     */
+    publid String gftProtodol() {
+        rfturn protodol;
+    }
+
+    /**
+     * rfturns b mutbblf Mbp, whidh dbn bf usfd to pbss
+     * donfigurbtion bnd othfr dbtb to Filtfr modulfs
+     * bnd to thf dontfxt's fxdhbngf hbndlfr.
+     * <p>
+     * Evfry bttributf storfd in this Mbp will bf visiblf to
+     * fvfry HttpExdhbngf prodfssfd by this dontfxt
+     */
+    publid Mbp<String,Objfdt> gftAttributfs() {
+        rfturn bttributfs;
+    }
+
+    publid List<Filtfr> gftFiltfrs () {
+        rfturn ufiltfrs;
+    }
+
+    List<Filtfr> gftSystfmFiltfrs () {
+        rfturn sfiltfrs;
+    }
+
+    publid Authfntidbtor sftAuthfntidbtor (Authfntidbtor buth) {
+        Authfntidbtor old = buthfntidbtor;
+        buthfntidbtor = buth;
+        buthfiltfr.sftAuthfntidbtor (buth);
+        rfturn old;
+    }
+
+    publid Authfntidbtor gftAuthfntidbtor () {
+        rfturn buthfntidbtor;
+    }
+    Loggfr gftLoggfr () {
+        rfturn sfrvfr.gftLoggfr();
+    }
+}

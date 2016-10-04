@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.*;
+
+/**
+ * A fbdtory for {@dodf XAConnfdtion} objfdts thbt is usfd intfrnblly.
+ * An objfdt thbt implfmfnts thf {@dodf XADbtbSourdf} intfrfbdf is
+ * typidblly rfgistfrfd with b nbming sfrvidf thbt usfs thf
+ * Jbvb Nbming bnd Dirfdtory Intfrfbdf&trbdf;
+ * (JNDI).
+ *  <p>
+ * An implfmfntbtion of {@dodf XADbtbSourdf} must indludf b publid no-brg
+ * donstrudtor.
+ * @sindf 1.4
+ */
+
+publid intfrfbdf XADbtbSourdf fxtfnds CommonDbtbSourdf {
+
+  /**
+   * Attfmpts to fstbblish b physidbl dbtbbbsf donnfdtion thbt dbn bf
+   * usfd in b distributfd trbnsbdtion.
+   *
+   * @rfturn  bn {@dodf XAConnfdtion} objfdt, whidh rfprfsfnts b
+   *          physidbl donnfdtion to b dbtb sourdf, thbt dbn bf usfd in
+   *          b distributfd trbnsbdtion
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+   * timfout vbluf spfdififd by thf {@dodf sftLoginTimfout} mfthod
+   * hbs bffn fxdffdfd bnd hbs bt lfbst trifd to dbndfl thf
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
+   * @sindf 1.4
+   */
+  XAConnfdtion gftXAConnfdtion() throws SQLExdfption;
+
+  /**
+   * Attfmpts to fstbblish b physidbl dbtbbbsf donnfdtion, using thf givfn
+   * usfr nbmf bnd pbssword. Thf donnfdtion thbt is rfturnfd is onf thbt
+   * dbn bf usfd in b distributfd trbnsbdtion.
+   *
+   * @pbrbm usfr thf dbtbbbsf usfr on whosf bfhblf thf donnfdtion is bfing mbdf
+   * @pbrbm pbssword thf usfr's pbssword
+   * @rfturn  bn {@dodf XAConnfdtion} objfdt, whidh rfprfsfnts b
+   *          physidbl donnfdtion to b dbtb sourdf, thbt dbn bf usfd in
+   *          b distributfd trbnsbdtion
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @throws SQLTimfoutExdfption whfn thf drivfr hbs dftfrminfd thbt thf
+   * timfout vbluf spfdififd by thf {@dodf sftLoginTimfout} mfthod
+   * hbs bffn fxdffdfd bnd hbs bt lfbst trifd to dbndfl thf
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
+   * @sindf 1.4
+   */
+  XAConnfdtion gftXAConnfdtion(String usfr, String pbssword)
+    throws SQLExdfption;
+ }

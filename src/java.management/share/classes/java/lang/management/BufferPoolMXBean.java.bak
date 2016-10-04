@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for a buffer pool, for example a pool of
- * {@link java.nio.ByteBuffer#allocateDirect direct} or {@link
- * java.nio.MappedByteBuffer mapped} buffers.
+ * Tif mbnbgfmfnt intfrfbdf for b bufffr pool, for fxbmplf b pool of
+ * {@link jbvb.nio.BytfBufffr#bllodbtfDirfdt dirfdt} or {@link
+ * jbvb.nio.MbppfdBytfBufffr mbppfd} bufffrs.
  *
- * <p> A class implementing this interface is an
- * {@link javax.management.MXBean}. A Java
- * virtual machine has one or more implementations of this interface. The {@link
- * java.lang.management.ManagementFactory#getPlatformMXBeans getPlatformMXBeans}
- * method can be used to obtain the list of {@code BufferPoolMXBean} objects
- * representing the management interfaces for pools of buffers as follows:
- * <pre>
- *     List&lt;BufferPoolMXBean&gt; pools = ManagementFactory.getPlatformMXBeans(BufferPoolMXBean.class);
- * </pre>
+ * <p> A dlbss implfmfnting tiis intfrfbdf is bn
+ * {@link jbvbx.mbnbgfmfnt.MXBfbn}. A Jbvb
+ * virtubl mbdiinf ibs onf or morf implfmfntbtions of tiis intfrfbdf. Tif {@link
+ * jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbns gftPlbtformMXBfbns}
+ * mftiod dbn bf usfd to obtbin tif list of {@dodf BufffrPoolMXBfbn} objfdts
+ * rfprfsfnting tif mbnbgfmfnt intfrfbdfs for pools of bufffrs bs follows:
+ * <prf>
+ *     List&lt;BufffrPoolMXBfbn&gt; pools = MbnbgfmfntFbdtory.gftPlbtformMXBfbns(BufffrPoolMXBfbn.dlbss);
+ * </prf>
  *
- * <p> The management interfaces are also registered with the platform {@link
- * javax.management.MBeanServer MBeanServer}. The {@link
- * javax.management.ObjectName ObjectName} that uniquely identifies the
- * management interface within the {@code MBeanServer} takes the form:
- * <pre>
- *     java.nio:type=BufferPool,name=<i>pool name</i>
- * </pre>
- * where <em>pool name</em> is the {@link #getName name} of the buffer pool.
+ * <p> Tif mbnbgfmfnt intfrfbdfs brf blso rfgistfrfd witi tif plbtform {@link
+ * jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}. Tif {@link
+ * jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} tibt uniqufly idfntififs tif
+ * mbnbgfmfnt intfrfbdf witiin tif {@dodf MBfbnSfrvfr} tbkfs tif form:
+ * <prf>
+ *     jbvb.nio:typf=BufffrPool,nbmf=<i>pool nbmf</i>
+ * </prf>
+ * wifrf <fm>pool nbmf</fm> is tif {@link #gftNbmf nbmf} of tif bufffr pool.
  *
- * @since   1.7
+ * @sindf   1.7
  */
-public interface BufferPoolMXBean extends PlatformManagedObject {
+publid intfrfbdf BufffrPoolMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
 
     /**
-     * Returns the name representing this buffer pool.
+     * Rfturns tif nbmf rfprfsfnting tiis bufffr pool.
      *
-     * @return  The name of this buffer pool.
+     * @rfturn  Tif nbmf of tiis bufffr pool.
      */
-    String getName();
+    String gftNbmf();
 
     /**
-     * Returns an estimate of the number of buffers in the pool.
+     * Rfturns bn fstimbtf of tif numbfr of bufffrs in tif pool.
      *
-     * @return  An estimate of the number of buffers in this pool
+     * @rfturn  An fstimbtf of tif numbfr of bufffrs in tiis pool
      */
-    long getCount();
+    long gftCount();
 
     /**
-     * Returns an estimate of the total capacity of the buffers in this pool.
-     * A buffer's capacity is the number of elements it contains and the value
-     * returned by this method is an estimate of the total capacity of buffers
-     * in the pool in bytes.
+     * Rfturns bn fstimbtf of tif totbl dbpbdity of tif bufffrs in tiis pool.
+     * A bufffr's dbpbdity is tif numbfr of flfmfnts it dontbins bnd tif vbluf
+     * rfturnfd by tiis mftiod is bn fstimbtf of tif totbl dbpbdity of bufffrs
+     * in tif pool in bytfs.
      *
-     * @return  An estimate of the total capacity of the buffers in this pool
-     *          in bytes
+     * @rfturn  An fstimbtf of tif totbl dbpbdity of tif bufffrs in tiis pool
+     *          in bytfs
      */
-    long getTotalCapacity();
+    long gftTotblCbpbdity();
 
     /**
-     * Returns an estimate of the memory that the Java virtual machine is using
-     * for this buffer pool. The value returned by this method may differ
-     * from the estimate of the total {@link #getTotalCapacity capacity} of
-     * the buffers in this pool. This difference is explained by alignment,
-     * memory allocator, and other implementation specific reasons.
+     * Rfturns bn fstimbtf of tif mfmory tibt tif Jbvb virtubl mbdiinf is using
+     * for tiis bufffr pool. Tif vbluf rfturnfd by tiis mftiod mby difffr
+     * from tif fstimbtf of tif totbl {@link #gftTotblCbpbdity dbpbdity} of
+     * tif bufffrs in tiis pool. Tiis difffrfndf is fxplbinfd by blignmfnt,
+     * mfmory bllodbtor, bnd otifr implfmfntbtion spfdifid rfbsons.
      *
-     * @return  An estimate of the memory that the Java virtual machine is using
-     *          for this buffer pool in bytes, or {@code -1L} if an estimate of
-     *          the memory usage is not available
+     * @rfturn  An fstimbtf of tif mfmory tibt tif Jbvb virtubl mbdiinf is using
+     *          for tiis bufffr pool in bytfs, or {@dodf -1L} if bn fstimbtf of
+     *          tif mfmory usbgf is not bvbilbblf
      */
-    long getMemoryUsed();
+    long gftMfmoryUsfd();
 }

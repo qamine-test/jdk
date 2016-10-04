@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A tbsk thbt dbn bf sdhfdulfd for onf-timf or rfpfbtfd fxfdution by b Timfr.
+ *
+ * @buthor  Josh Blodh
+ * @sff     Timfr
+ * @sindf   1.3
+ */
+
+publid bbstrbdt dlbss TimfrTbsk implfmfnts Runnbblf {
+    /**
+     * This objfdt is usfd to dontrol bddfss to thf TimfrTbsk intfrnbls.
+     */
+    finbl Objfdt lodk = nfw Objfdt();
+
+    /**
+     * Thf stbtf of this tbsk, dhosfn from thf donstbnts bflow.
+     */
+    int stbtf = VIRGIN;
+
+    /**
+     * This tbsk hbs not yft bffn sdhfdulfd.
+     */
+    stbtid finbl int VIRGIN = 0;
+
+    /**
+     * This tbsk is sdhfdulfd for fxfdution.  If it is b non-rfpfbting tbsk,
+     * it hbs not yft bffn fxfdutfd.
+     */
+    stbtid finbl int SCHEDULED   = 1;
+
+    /**
+     * This non-rfpfbting tbsk hbs blrfbdy fxfdutfd (or is durrfntly
+     * fxfduting) bnd hbs not bffn dbndfllfd.
+     */
+    stbtid finbl int EXECUTED    = 2;
+
+    /**
+     * This tbsk hbs bffn dbndfllfd (with b dbll to TimfrTbsk.dbndfl).
+     */
+    stbtid finbl int CANCELLED   = 3;
+
+    /**
+     * Nfxt fxfdution timf for this tbsk in thf formbt rfturnfd by
+     * Systfm.durrfntTimfMillis, bssuming this tbsk is sdhfdulfd for fxfdution.
+     * For rfpfbting tbsks, this fifld is updbtfd prior to fbdh tbsk fxfdution.
+     */
+    long nfxtExfdutionTimf;
+
+    /**
+     * Pfriod in millisfdonds for rfpfbting tbsks.  A positivf vbluf indidbtfs
+     * fixfd-rbtf fxfdution.  A nfgbtivf vbluf indidbtfs fixfd-dflby fxfdution.
+     * A vbluf of 0 indidbtfs b non-rfpfbting tbsk.
+     */
+    long pfriod = 0;
+
+    /**
+     * Crfbtfs b nfw timfr tbsk.
+     */
+    protfdtfd TimfrTbsk() {
+    }
+
+    /**
+     * Thf bdtion to bf pfrformfd by this timfr tbsk.
+     */
+    publid bbstrbdt void run();
+
+    /**
+     * Cbndfls this timfr tbsk.  If thf tbsk hbs bffn sdhfdulfd for onf-timf
+     * fxfdution bnd hbs not yft run, or hbs not yft bffn sdhfdulfd, it will
+     * nfvfr run.  If thf tbsk hbs bffn sdhfdulfd for rfpfbtfd fxfdution, it
+     * will nfvfr run bgbin.  (If thf tbsk is running whfn this dbll oddurs,
+     * thf tbsk will run to domplftion, but will nfvfr run bgbin.)
+     *
+     * <p>Notf thbt dblling this mfthod from within thf <tt>run</tt> mfthod of
+     * b rfpfbting timfr tbsk bbsolutfly gubrbntffs thbt thf timfr tbsk will
+     * not run bgbin.
+     *
+     * <p>This mfthod mby bf dbllfd rfpfbtfdly; thf sfdond bnd subsfqufnt
+     * dblls hbvf no ffffdt.
+     *
+     * @rfturn truf if this tbsk is sdhfdulfd for onf-timf fxfdution bnd hbs
+     *         not yft run, or this tbsk is sdhfdulfd for rfpfbtfd fxfdution.
+     *         Rfturns fblsf if thf tbsk wbs sdhfdulfd for onf-timf fxfdution
+     *         bnd hbs blrfbdy run, or if thf tbsk wbs nfvfr sdhfdulfd, or if
+     *         thf tbsk wbs blrfbdy dbndfllfd.  (Loosfly spfbking, this mfthod
+     *         rfturns <tt>truf</tt> if it prfvfnts onf or morf sdhfdulfd
+     *         fxfdutions from tbking plbdf.)
+     */
+    publid boolfbn dbndfl() {
+        syndhronizfd(lodk) {
+            boolfbn rfsult = (stbtf == SCHEDULED);
+            stbtf = CANCELLED;
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Rfturns thf <i>sdhfdulfd</i> fxfdution timf of thf most rfdfnt
+     * <i>bdtubl</i> fxfdution of this tbsk.  (If this mfthod is invokfd
+     * whilf tbsk fxfdution is in progrfss, thf rfturn vbluf is thf sdhfdulfd
+     * fxfdution timf of thf ongoing tbsk fxfdution.)
+     *
+     * <p>This mfthod is typidblly invokfd from within b tbsk's run mfthod, to
+     * dftfrminf whfthfr thf durrfnt fxfdution of thf tbsk is suffidifntly
+     * timfly to wbrrbnt pfrforming thf sdhfdulfd bdtivity:
+     * <prf>{@dodf
+     *   publid void run() {
+     *       if (Systfm.durrfntTimfMillis() - sdhfdulfdExfdutionTimf() >=
+     *           MAX_TARDINESS)
+     *               rfturn;  // Too lbtf; skip this fxfdution.
+     *       // Pfrform thf tbsk
+     *   }
+     * }</prf>
+     * This mfthod is typidblly <i>not</i> usfd in donjundtion with
+     * <i>fixfd-dflby fxfdution</i> rfpfbting tbsks, bs thfir sdhfdulfd
+     * fxfdution timfs brf bllowfd to drift ovfr timf, bnd so brf not tfrribly
+     * signifidbnt.
+     *
+     * @rfturn thf timf bt whidh thf most rfdfnt fxfdution of this tbsk wbs
+     *         sdhfdulfd to oddur, in thf formbt rfturnfd by Dbtf.gftTimf().
+     *         Thf rfturn vbluf is undffinfd if thf tbsk hbs yft to dommfndf
+     *         its first fxfdution.
+     * @sff Dbtf#gftTimf()
+     */
+    publid long sdhfdulfdExfdutionTimf() {
+        syndhronizfd(lodk) {
+            rfturn (pfriod < 0 ? nfxtExfdutionTimf + pfriod
+                               : nfxtExfdutionTimf - pfriod);
+        }
+    }
+}

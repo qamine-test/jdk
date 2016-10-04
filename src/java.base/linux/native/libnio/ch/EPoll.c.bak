@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "nio_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "nio_util.i"
 
-#include "sun_nio_ch_EPoll.h"
+#indludf "sun_nio_di_EPoll.i"
 
-#include <dlfcn.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/epoll.h>
+#indludf <dlfdn.i>
+#indludf <unistd.i>
+#indludf <sys/typfs.i>
+#indludf <sys/fpoll.i>
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_eventSize(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_EPoll_fvfntSizf(JNIEnv* fnv, jdlbss tiis)
 {
-    return sizeof(struct epoll_event);
+    rfturn sizfof(strudt fpoll_fvfnt);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_eventsOffset(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_EPoll_fvfntsOffsft(JNIEnv* fnv, jdlbss tiis)
 {
-    return offsetof(struct epoll_event, events);
+    rfturn offsftof(strudt fpoll_fvfnt, fvfnts);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_dataOffset(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_EPoll_dbtbOffsft(JNIEnv* fnv, jdlbss tiis)
 {
-    return offsetof(struct epoll_event, data);
+    rfturn offsftof(strudt fpoll_fvfnt, dbtb);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_epollCreate(JNIEnv *env, jclass c) {
+Jbvb_sun_nio_di_EPoll_fpollCrfbtf(JNIEnv *fnv, jdlbss d) {
     /*
-     * epoll_create expects a size as a hint to the kernel about how to
-     * dimension internal structures. We can't predict the size in advance.
+     * fpoll_drfbtf fxpfdts b sizf bs b iint to tif kfrnfl bbout iow to
+     * dimfnsion intfrnbl strudturfs. Wf dbn't prfdidt tif sizf in bdvbndf.
      */
-    int epfd = epoll_create(256);
-    if (epfd < 0) {
-       JNU_ThrowIOExceptionWithLastError(env, "epoll_create failed");
+    int fpfd = fpoll_drfbtf(256);
+    if (fpfd < 0) {
+       JNU_TirowIOExdfptionWitiLbstError(fnv, "fpoll_drfbtf fbilfd");
     }
-    return epfd;
+    rfturn fpfd;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_epollCtl(JNIEnv *env, jclass c, jint epfd,
-                                   jint opcode, jint fd, jint events)
+Jbvb_sun_nio_di_EPoll_fpollCtl(JNIEnv *fnv, jdlbss d, jint fpfd,
+                                   jint opdodf, jint fd, jint fvfnts)
 {
-    struct epoll_event event;
-    int res;
+    strudt fpoll_fvfnt fvfnt;
+    int rfs;
 
-    event.events = events;
-    event.data.fd = fd;
+    fvfnt.fvfnts = fvfnts;
+    fvfnt.dbtb.fd = fd;
 
-    RESTARTABLE(epoll_ctl(epfd, (int)opcode, (int)fd, &event), res);
+    RESTARTABLE(fpoll_dtl(fpfd, (int)opdodf, (int)fd, &fvfnt), rfs);
 
-    return (res == 0) ? 0 : errno;
+    rfturn (rfs == 0) ? 0 : frrno;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_EPoll_epollWait(JNIEnv *env, jclass c,
-                                    jint epfd, jlong address, jint numfds)
+Jbvb_sun_nio_di_EPoll_fpollWbit(JNIEnv *fnv, jdlbss d,
+                                    jint fpfd, jlong bddrfss, jint numfds)
 {
-    struct epoll_event *events = jlong_to_ptr(address);
-    int res;
+    strudt fpoll_fvfnt *fvfnts = jlong_to_ptr(bddrfss);
+    int rfs;
 
-    RESTARTABLE(epoll_wait(epfd, events, numfds, -1), res);
-    if (res < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "epoll_wait failed");
+    RESTARTABLE(fpoll_wbit(fpfd, fvfnts, numfds, -1), rfs);
+    if (rfs < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "fpoll_wbit fbilfd");
     }
-    return res;
+    rfturn rfs;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_EPoll_close0(JNIEnv *env, jclass c, jint epfd) {
-    int res;
-    RESTARTABLE(close(epfd), res);
+Jbvb_sun_nio_di_EPoll_dlosf0(JNIEnv *fnv, jdlbss d, jint fpfd) {
+    int rfs;
+    RESTARTABLE(dlosf(fpfd), rfs);
 }

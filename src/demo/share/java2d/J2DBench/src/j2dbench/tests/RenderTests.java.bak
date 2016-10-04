@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,1001 +30,1001 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests;
+pbdkbgf j2dbfndi.tfsts;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.AlphaComposite;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.GradientPaint;
-import java.awt.LinearGradientPaint;
-import java.awt.MultipleGradientPaint;
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.TexturePaint;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.swing.JComponent;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Strokf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.GrbdifntPbint;
+import jbvb.bwt.LinfbrGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMftiod;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.RbdiblGrbdifntPbint;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.TfxturfPbint;
+import jbvb.bwt.gfom.CubidCurvf2D;
+import jbvb.bwt.gfom.Ellipsf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.JComponfnt;
 
-import j2dbench.Group;
-import j2dbench.Node;
-import j2dbench.Option;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Nodf;
+import j2dbfndi.Option;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class RenderTests extends GraphicsTests {
-    static Group renderroot;
-    static Group renderoptroot;
-    static Group rendertestroot;
-    static Group rendershaperoot;
+publid bbstrbdt dlbss RfndfrTfsts fxtfnds GrbpiidsTfsts {
+    stbtid Group rfndfrroot;
+    stbtid Group rfndfroptroot;
+    stbtid Group rfndfrtfstroot;
+    stbtid Group rfndfrsibpfroot;
 
-    static Option paintList;
-    static Option doAntialias;
-    static Option doAlphaColors;
-    static Option sizeList;
-    static Option strokeList;
+    stbtid Option pbintList;
+    stbtid Option doAntiblibs;
+    stbtid Option doAlpibColors;
+    stbtid Option sizfList;
+    stbtid Option strokfList;
 
-    static final int NUM_RANDOMCOLORS = 4096;
-    static final int NUM_RANDOMCOLORMASK = (NUM_RANDOMCOLORS - 1);
-    static Color randAlphaColors[];
-    static Color randOpaqueColors[];
+    stbtid finbl int NUM_RANDOMCOLORS = 4096;
+    stbtid finbl int NUM_RANDOMCOLORMASK = (NUM_RANDOMCOLORS - 1);
+    stbtid Color rbndAlpibColors[];
+    stbtid Color rbndOpbqufColors[];
 
-    static {
-        randOpaqueColors = new Color[NUM_RANDOMCOLORS];
-        randAlphaColors = new Color[NUM_RANDOMCOLORS];
+    stbtid {
+        rbndOpbqufColors = nfw Color[NUM_RANDOMCOLORS];
+        rbndAlpibColors = nfw Color[NUM_RANDOMCOLORS];
         for (int i = 0; i < NUM_RANDOMCOLORS; i++) {
-            int r = (int) (Math.random() * 255);
-            int g = (int) (Math.random() * 255);
-            int b = (int) (Math.random() * 255);
-            randOpaqueColors[i] = new Color(r, g, b);
-            randAlphaColors[i] = makeAlphaColor(randOpaqueColors[i], 32);
+            int r = (int) (Mbti.rbndom() * 255);
+            int g = (int) (Mbti.rbndom() * 255);
+            int b = (int) (Mbti.rbndom() * 255);
+            rbndOpbqufColors[i] = nfw Color(r, g, b);
+            rbndAlpibColors[i] = mbkfAlpibColor(rbndOpbqufColors[i], 32);
         }
     }
 
-    static boolean hasMultiGradient;
+    stbtid boolfbn ibsMultiGrbdifnt;
 
-    static {
+    stbtid {
         try {
-            hasMultiGradient = (MultipleGradientPaint.class != null);
-        } catch (NoClassDefFoundError e) {
+            ibsMultiGrbdifnt = (MultiplfGrbdifntPbint.dlbss != null);
+        } dbtdi (NoClbssDffFoundError f) {
         }
     }
 
-    public static void init() {
-        renderroot = new Group(graphicsroot, "render", "Rendering Benchmarks");
-        renderoptroot = new Group(renderroot, "opts", "Rendering Options");
-        rendertestroot = new Group(renderroot, "tests", "Rendering Tests");
+    publid stbtid void init() {
+        rfndfrroot = nfw Group(grbpiidsroot, "rfndfr", "Rfndfring Bfndimbrks");
+        rfndfroptroot = nfw Group(rfndfrroot, "opts", "Rfndfring Options");
+        rfndfrtfstroot = nfw Group(rfndfrroot, "tfsts", "Rfndfring Tfsts");
 
-        ArrayList paintStrs = new ArrayList();
-        ArrayList paintDescs = new ArrayList();
-        paintStrs.add("single");
-        paintDescs.add("Single Color");
-        paintStrs.add("random");
-        paintDescs.add("Random Color");
-        if (hasGraphics2D) {
-            paintStrs.add("gradient2");
-            paintDescs.add("2-color GradientPaint");
-            if (hasMultiGradient) {
-                paintStrs.add("linear2");
-                paintDescs.add("2-color LinearGradientPaint");
-                paintStrs.add("linear3");
-                paintDescs.add("3-color LinearGradientPaint");
-                paintStrs.add("radial2");
-                paintDescs.add("2-color RadialGradientPaint");
-                paintStrs.add("radial3");
-                paintDescs.add("3-color RadialGradientPaint");
+        ArrbyList pbintStrs = nfw ArrbyList();
+        ArrbyList pbintDfsds = nfw ArrbyList();
+        pbintStrs.bdd("singlf");
+        pbintDfsds.bdd("Singlf Color");
+        pbintStrs.bdd("rbndom");
+        pbintDfsds.bdd("Rbndom Color");
+        if (ibsGrbpiids2D) {
+            pbintStrs.bdd("grbdifnt2");
+            pbintDfsds.bdd("2-dolor GrbdifntPbint");
+            if (ibsMultiGrbdifnt) {
+                pbintStrs.bdd("linfbr2");
+                pbintDfsds.bdd("2-dolor LinfbrGrbdifntPbint");
+                pbintStrs.bdd("linfbr3");
+                pbintDfsds.bdd("3-dolor LinfbrGrbdifntPbint");
+                pbintStrs.bdd("rbdibl2");
+                pbintDfsds.bdd("2-dolor RbdiblGrbdifntPbint");
+                pbintStrs.bdd("rbdibl3");
+                pbintDfsds.bdd("3-dolor RbdiblGrbdifntPbint");
             }
-            paintStrs.add("texture20");
-            paintDescs.add("20x20 TexturePaint");
-            paintStrs.add("texture32");
-            paintDescs.add("32x32 TexturePaint");
+            pbintStrs.bdd("tfxturf20");
+            pbintDfsds.bdd("20x20 TfxturfPbint");
+            pbintStrs.bdd("tfxturf32");
+            pbintDfsds.bdd("32x32 TfxturfPbint");
         }
-        String[] paintStrArr = new String[paintStrs.size()];
-        paintStrArr = (String[])paintStrs.toArray(paintStrArr);
-        String[] paintDescArr = new String[paintDescs.size()];
-        paintDescArr = (String[])paintDescs.toArray(paintDescArr);
-        paintList =
-            new Option.ObjectList(renderoptroot,
-                                  "paint", "Paint Type",
-                                  paintStrArr, paintStrArr,
-                                  paintStrArr, paintDescArr,
+        String[] pbintStrArr = nfw String[pbintStrs.sizf()];
+        pbintStrArr = (String[])pbintStrs.toArrby(pbintStrArr);
+        String[] pbintDfsdArr = nfw String[pbintDfsds.sizf()];
+        pbintDfsdArr = (String[])pbintDfsds.toArrby(pbintDfsdArr);
+        pbintList =
+            nfw Option.ObjfdtList(rfndfroptroot,
+                                  "pbint", "Pbint Typf",
+                                  pbintStrArr, pbintStrArr,
+                                  pbintStrArr, pbintDfsdArr,
                                   0x1);
-        ((Option.ObjectList) paintList).setNumRows(5);
+        ((Option.ObjfdtList) pbintList).sftNumRows(5);
 
-        // add special RandomColorOpt for backwards compatibility with
-        // older options files
-        new RandomColorOpt();
+        // bdd spfdibl RbndomColorOpt for bbdkwbrds dompbtibility witi
+        // oldfr options filfs
+        nfw RbndomColorOpt();
 
-        if (hasGraphics2D) {
-            doAlphaColors =
-                new Option.Toggle(renderoptroot, "alphacolor",
-                                  "Set the alpha of the paint to 0.125",
-                                  Option.Toggle.Off);
-            doAntialias =
-                new Option.Toggle(renderoptroot, "antialias",
-                                  "Render shapes antialiased",
-                                  Option.Toggle.Off);
-            String strokeStrings[] = {
-                "width0",
-                "width1",
-                "width5",
-                "width20",
-                "dash0_5",
-                "dash1_5",
-                "dash5_20",
-                "dash20_50",
+        if (ibsGrbpiids2D) {
+            doAlpibColors =
+                nfw Option.Togglf(rfndfroptroot, "blpibdolor",
+                                  "Sft tif blpib of tif pbint to 0.125",
+                                  Option.Togglf.Off);
+            doAntiblibs =
+                nfw Option.Togglf(rfndfroptroot, "bntiblibs",
+                                  "Rfndfr sibpfs bntiblibsfd",
+                                  Option.Togglf.Off);
+            String strokfStrings[] = {
+                "widti0",
+                "widti1",
+                "widti5",
+                "widti20",
+                "dbsi0_5",
+                "dbsi1_5",
+                "dbsi5_20",
+                "dbsi20_50",
             };
-            String strokeDescriptions[] = {
-                "Solid Thin lines",
-                "Solid Width 1 lines",
-                "Solid Width 5 lines",
-                "Solid Width 20 lines",
-                "Dashed Thin lines",
-                "Dashed Width 1 lines",
-                "Dashed Width 5 lines",
-                "Dashed Width 20 lines",
+            String strokfDfsdriptions[] = {
+                "Solid Tiin linfs",
+                "Solid Widti 1 linfs",
+                "Solid Widti 5 linfs",
+                "Solid Widti 20 linfs",
+                "Dbsifd Tiin linfs",
+                "Dbsifd Widti 1 linfs",
+                "Dbsifd Widti 5 linfs",
+                "Dbsifd Widti 20 linfs",
             };
-            BasicStroke strokeObjects[] = {
-                new BasicStroke(0f),
-                new BasicStroke(1f),
-                new BasicStroke(5f),
-                new BasicStroke(20f),
-                new BasicStroke(0f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 5f, 5f }, 0f),
-                new BasicStroke(1f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 5f, 5f }, 0f),
-                new BasicStroke(5f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 20f, 20f }, 0f),
-                new BasicStroke(20f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 50f, 50f }, 0f),
+            BbsidStrokf strokfObjfdts[] = {
+                nfw BbsidStrokf(0f),
+                nfw BbsidStrokf(1f),
+                nfw BbsidStrokf(5f),
+                nfw BbsidStrokf(20f),
+                nfw BbsidStrokf(0f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 5f, 5f }, 0f),
+                nfw BbsidStrokf(1f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 5f, 5f }, 0f),
+                nfw BbsidStrokf(5f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 20f, 20f }, 0f),
+                nfw BbsidStrokf(20f, BbsidStrokf.CAP_SQUARE,
+                                BbsidStrokf.JOIN_MITER, 10f,
+                                nfw flobt[] { 50f, 50f }, 0f),
             };
-            strokeList =
-                new Option.ObjectList(renderoptroot,
-                                      "stroke", "Stroke Type",
-                                      strokeStrings, strokeObjects,
-                                      strokeStrings, strokeDescriptions,
+            strokfList =
+                nfw Option.ObjfdtList(rfndfroptroot,
+                                      "strokf", "Strokf Typf",
+                                      strokfStrings, strokfObjfdts,
+                                      strokfStrings, strokfDfsdriptions,
                                       0x2);
-            ((Option.ObjectList) strokeList).setNumRows(4);
+            ((Option.ObjfdtList) strokfList).sftNumRows(4);
         }
 
-        new DrawDiagonalLines();
-        new DrawHorizontalLines();
-        new DrawVerticalLines();
-        new FillRects();
-        new DrawRects();
-        new FillOvals();
-        new DrawOvals();
-        new FillPolys();
-        new DrawPolys();
+        nfw DrbwDibgonblLinfs();
+        nfw DrbwHorizontblLinfs();
+        nfw DrbwVfrtidblLinfs();
+        nfw FillRfdts();
+        nfw DrbwRfdts();
+        nfw FillOvbls();
+        nfw DrbwOvbls();
+        nfw FillPolys();
+        nfw DrbwPolys();
 
-        if (hasGraphics2D) {
-            rendershaperoot = new Group(rendertestroot, "shape",
-                                        "Shape Rendering Tests");
+        if (ibsGrbpiids2D) {
+            rfndfrsibpfroot = nfw Group(rfndfrtfstroot, "sibpf",
+                                        "Sibpf Rfndfring Tfsts");
 
-            new FillCubics();
-            new DrawCubics();
-            new FillEllipse2Ds();
-            new DrawEllipse2Ds();
+            nfw FillCubids();
+            nfw DrbwCubids();
+            nfw FillEllipsf2Ds();
+            nfw DrbwEllipsf2Ds();
         }
     }
 
     /**
-     * This "virtual Node" implementation is here to maintain backward
-     * compatibility with older J2DBench releases, specifically those
-     * options files that were created before we added the gradient/texture
-     * paint options in JDK 6.  This class will translate the color settings
-     * from the old "randomcolor" option into the new "paint" option.
+     * Tiis "virtubl Nodf" implfmfntbtion is ifrf to mbintbin bbdkwbrd
+     * dompbtibility witi oldfr J2DBfndi rflfbsfs, spfdifidblly tiosf
+     * options filfs tibt wfrf drfbtfd bfforf wf bddfd tif grbdifnt/tfxturf
+     * pbint options in JDK 6.  Tiis dlbss will trbnslbtf tif dolor sfttings
+     * from tif old "rbndomdolor" option into tif nfw "pbint" option.
      */
-    private static class RandomColorOpt extends Node {
-        public RandomColorOpt() {
-            super(renderoptroot, "randomcolor",
-                  "Use random colors for each shape");
+    privbtf stbtid dlbss RbndomColorOpt fxtfnds Nodf {
+        publid RbndomColorOpt() {
+            supfr(rfndfroptroot, "rbndomdolor",
+                  "Usf rbndom dolors for fbdi sibpf");
         }
 
-        public JComponent getJComponent() {
-            return null;
+        publid JComponfnt gftJComponfnt() {
+            rfturn null;
         }
 
-        public void restoreDefault() {
+        publid void rfstorfDffbult() {
             // no-op
         }
 
-        public void write(PrintWriter pw) {
-            // no-op (the random/single choice will be saved as part of
-            // the new "paint" option added to J2DBench in JDK 6)
+        publid void writf(PrintWritfr pw) {
+            // no-op (tif rbndom/singlf dioidf will bf sbvfd bs pbrt of
+            // tif nfw "pbint" option bddfd to J2DBfndi in JDK 6)
         }
 
-        public String setOption(String key, String value) {
+        publid String sftOption(String kfy, String vbluf) {
             String opts;
-            if (value.equals("On")) {
-                opts = "random";
-            } else if (value.equals("Off")) {
-                opts = "single";
-            } else if (value.equals("Both")) {
-                opts = "random,single";
-            } else {
-                return "Bad value";
+            if (vbluf.fqubls("On")) {
+                opts = "rbndom";
+            } flsf if (vbluf.fqubls("Off")) {
+                opts = "singlf";
+            } flsf if (vbluf.fqubls("Boti")) {
+                opts = "rbndom,singlf";
+            } flsf {
+                rfturn "Bbd vbluf";
             }
-            return ((Option.ObjectList)paintList).setValueFromString(opts);
+            rfturn ((Option.ObjfdtList)pbintList).sftVblufFromString(opts);
         }
     }
 
-    public static class Context extends GraphicsTests.Context {
-        int colorindex;
-        Color colorlist[];
+    publid stbtid dlbss Contfxt fxtfnds GrbpiidsTfsts.Contfxt {
+        int dolorindfx;
+        Color dolorlist[];
     }
 
-    public RenderTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(renderoptroot, true);
+    publid RfndfrTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(rfndfroptroot, truf);
     }
 
-    public GraphicsTests.Context createContext() {
-        return new RenderTests.Context();
+    publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+        rfturn nfw RfndfrTfsts.Contfxt();
     }
 
-    public void initContext(TestEnvironment env, GraphicsTests.Context ctx) {
-        super.initContext(env, ctx);
-        RenderTests.Context rctx = (RenderTests.Context) ctx;
-        boolean alphacolor;
+    publid void initContfxt(TfstEnvironmfnt fnv, GrbpiidsTfsts.Contfxt dtx) {
+        supfr.initContfxt(fnv, dtx);
+        RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+        boolfbn blpibdolor;
 
-        if (hasGraphics2D) {
-            Graphics2D g2d = (Graphics2D) rctx.graphics;
-            if (env.isEnabled(doAntialias)) {
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                     RenderingHints.VALUE_ANTIALIAS_ON);
+        if (ibsGrbpiids2D) {
+            Grbpiids2D g2d = (Grbpiids2D) rdtx.grbpiids;
+            if (fnv.isEnbblfd(doAntiblibs)) {
+                g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING,
+                                     RfndfringHints.VALUE_ANTIALIAS_ON);
             }
-            alphacolor = env.isEnabled(doAlphaColors);
-            g2d.setStroke((Stroke) env.getModifier(strokeList));
-        } else {
-            alphacolor = false;
+            blpibdolor = fnv.isEnbblfd(doAlpibColors);
+            g2d.sftStrokf((Strokf) fnv.gftModififr(strokfList));
+        } flsf {
+            blpibdolor = fblsf;
         }
 
-        String paint = (String)env.getModifier(paintList);
-        if (paint.equals("single")) {
-            Color c = Color.darkGray;
-            if (alphacolor) {
-                c = makeAlphaColor(c, 32);
+        String pbint = (String)fnv.gftModififr(pbintList);
+        if (pbint.fqubls("singlf")) {
+            Color d = Color.dbrkGrby;
+            if (blpibdolor) {
+                d = mbkfAlpibColor(d, 32);
             }
-            rctx.graphics.setColor(c);
-        } else if (paint.equals("random")) {
-            rctx.colorlist = alphacolor ? randAlphaColors : randOpaqueColors;
-        } else if (paint.equals("gradient2")) {
-            Color[] colors = makeGradientColors(2, alphacolor);
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(new GradientPaint(0.0f, 0.0f, colors[0],
-                                           10.0f, 10.0f, colors[1], true));
-        } else if (paint.equals("linear2")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeLinear(2, alphacolor));
-        } else if (paint.equals("linear3")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeLinear(3, alphacolor));
-        } else if (paint.equals("radial2")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeRadial(2, alphacolor));
-        } else if (paint.equals("radial3")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeRadial(3, alphacolor));
-        } else if (paint.equals("texture20")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeTexturePaint(20, alphacolor));
-        } else if (paint.equals("texture32")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeTexturePaint(32, alphacolor));
-        } else {
-            throw new InternalError("Invalid paint mode");
+            rdtx.grbpiids.sftColor(d);
+        } flsf if (pbint.fqubls("rbndom")) {
+            rdtx.dolorlist = blpibdolor ? rbndAlpibColors : rbndOpbqufColors;
+        } flsf if (pbint.fqubls("grbdifnt2")) {
+            Color[] dolors = mbkfGrbdifntColors(2, blpibdolor);
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(nfw GrbdifntPbint(0.0f, 0.0f, dolors[0],
+                                           10.0f, 10.0f, dolors[1], truf));
+        } flsf if (pbint.fqubls("linfbr2")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfLinfbr(2, blpibdolor));
+        } flsf if (pbint.fqubls("linfbr3")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfLinfbr(3, blpibdolor));
+        } flsf if (pbint.fqubls("rbdibl2")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfRbdibl(2, blpibdolor));
+        } flsf if (pbint.fqubls("rbdibl3")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfRbdibl(3, blpibdolor));
+        } flsf if (pbint.fqubls("tfxturf20")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfTfxturfPbint(20, blpibdolor));
+        } flsf if (pbint.fqubls("tfxturf32")) {
+            Grbpiids2D g2d = (Grbpiids2D)rdtx.grbpiids;
+            g2d.sftPbint(mbkfTfxturfPbint(32, blpibdolor));
+        } flsf {
+            tirow nfw IntfrnblError("Invblid pbint modf");
         }
     }
 
-    private Color[] makeGradientColors(int numColors, boolean alpha) {
-        Color[] colors = new Color[] {Color.red, Color.blue,
-                                      Color.green, Color.yellow};
-        Color[] ret = new Color[numColors];
+    privbtf Color[] mbkfGrbdifntColors(int numColors, boolfbn blpib) {
+        Color[] dolors = nfw Color[] {Color.rfd, Color.bluf,
+                                      Color.grffn, Color.yfllow};
+        Color[] rft = nfw Color[numColors];
         for (int i = 0; i < numColors; i++) {
-            ret[i] = alpha ? makeAlphaColor(colors[i], 32) : colors[i];
+            rft[i] = blpib ? mbkfAlpibColor(dolors[i], 32) : dolors[i];
         }
-        return ret;
+        rfturn rft;
     }
 
-    private LinearGradientPaint makeLinear(int numColors, boolean alpha) {
-        float interval = 1.0f / (numColors - 1);
-        float[] fractions = new float[numColors];
-        for (int i = 0; i < fractions.length; i++) {
-            fractions[i] = i * interval;
+    privbtf LinfbrGrbdifntPbint mbkfLinfbr(int numColors, boolfbn blpib) {
+        flobt intfrvbl = 1.0f / (numColors - 1);
+        flobt[] frbdtions = nfw flobt[numColors];
+        for (int i = 0; i < frbdtions.lfngti; i++) {
+            frbdtions[i] = i * intfrvbl;
         }
-        Color[] colors = makeGradientColors(numColors, alpha);
-        return new LinearGradientPaint(0.0f, 0.0f,
+        Color[] dolors = mbkfGrbdifntColors(numColors, blpib);
+        rfturn nfw LinfbrGrbdifntPbint(0.0f, 0.0f,
                                        10.0f, 10.0f,
-                                       fractions, colors,
-                                       CycleMethod.REFLECT);
+                                       frbdtions, dolors,
+                                       CydlfMftiod.REFLECT);
     }
 
-    private RadialGradientPaint makeRadial(int numColors, boolean alpha) {
-        float interval = 1.0f / (numColors - 1);
-        float[] fractions = new float[numColors];
-        for (int i = 0; i < fractions.length; i++) {
-            fractions[i] = i * interval;
+    privbtf RbdiblGrbdifntPbint mbkfRbdibl(int numColors, boolfbn blpib) {
+        flobt intfrvbl = 1.0f / (numColors - 1);
+        flobt[] frbdtions = nfw flobt[numColors];
+        for (int i = 0; i < frbdtions.lfngti; i++) {
+            frbdtions[i] = i * intfrvbl;
         }
-        Color[] colors = makeGradientColors(numColors, alpha);
-        return new RadialGradientPaint(0.0f, 0.0f, 10.0f,
-                                       fractions, colors,
-                                       CycleMethod.REFLECT);
+        Color[] dolors = mbkfGrbdifntColors(numColors, blpib);
+        rfturn nfw RbdiblGrbdifntPbint(0.0f, 0.0f, 10.0f,
+                                       frbdtions, dolors,
+                                       CydlfMftiod.REFLECT);
     }
 
-    private TexturePaint makeTexturePaint(int size, boolean alpha) {
-        int s2 = size / 2;
-        int type =
-            alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
-        BufferedImage img = new BufferedImage(size, size, type);
-        Color[] colors = makeGradientColors(4, alpha);
-        Graphics2D g2d = img.createGraphics();
-        g2d.setComposite(AlphaComposite.Src);
-        g2d.setColor(colors[0]);
-        g2d.fillRect(0, 0, s2, s2);
-        g2d.setColor(colors[1]);
-        g2d.fillRect(s2, 0, s2, s2);
-        g2d.setColor(colors[3]);
-        g2d.fillRect(0, s2, s2, s2);
-        g2d.setColor(colors[2]);
-        g2d.fillRect(s2, s2, s2, s2);
-        g2d.dispose();
-        Rectangle2D bounds = new Rectangle2D.Float(0, 0, size, size);
-        return new TexturePaint(img, bounds);
+    privbtf TfxturfPbint mbkfTfxturfPbint(int sizf, boolfbn blpib) {
+        int s2 = sizf / 2;
+        int typf =
+            blpib ? BufffrfdImbgf.TYPE_INT_ARGB : BufffrfdImbgf.TYPE_INT_RGB;
+        BufffrfdImbgf img = nfw BufffrfdImbgf(sizf, sizf, typf);
+        Color[] dolors = mbkfGrbdifntColors(4, blpib);
+        Grbpiids2D g2d = img.drfbtfGrbpiids();
+        g2d.sftCompositf(AlpibCompositf.Srd);
+        g2d.sftColor(dolors[0]);
+        g2d.fillRfdt(0, 0, s2, s2);
+        g2d.sftColor(dolors[1]);
+        g2d.fillRfdt(s2, 0, s2, s2);
+        g2d.sftColor(dolors[3]);
+        g2d.fillRfdt(0, s2, s2, s2);
+        g2d.sftColor(dolors[2]);
+        g2d.fillRfdt(s2, s2, s2, s2);
+        g2d.disposf();
+        Rfdtbnglf2D bounds = nfw Rfdtbnglf2D.Flobt(0, 0, sizf, sizf);
+        rfturn nfw TfxturfPbint(img, bounds);
     }
 
-    public static class DrawDiagonalLines extends RenderTests {
-        public DrawDiagonalLines() {
-            super(rendertestroot, "drawLine", "Draw Diagonal Lines");
+    publid stbtid dlbss DrbwDibgonblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwDibgonblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinf", "Drbw Dibgonbl Linfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            return Math.max(ctx.outdim.width, ctx.outdim.height);
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            rfturn Mbti.mbx(dtx.outdim.widti, dtx.outdim.ifigit);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y + size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.drbwLinf(x, y, x + sizf, y + sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y + size);
-                } while (--numReps > 0);
+                    g.drbwLinf(x, y, x + sizf, y + sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class DrawHorizontalLines extends RenderTests {
-        public DrawHorizontalLines() {
-            super(rendertestroot, "drawLineHoriz",
-                  "Draw Horizontal Lines");
+    publid stbtid dlbss DrbwHorizontblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwHorizontblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinfHoriz",
+                  "Drbw Horizontbl Linfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            return ctx.outdim.width;
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            rfturn dtx.outdim.widti;
         }
 
-        public Dimension getOutputSize(int w, int h) {
-            return new Dimension(w, 1);
+        publid Dimfnsion gftOutputSizf(int w, int i) {
+            rfturn nfw Dimfnsion(w, 1);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.drbwLinf(x, y, x + sizf, y);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y);
-                } while (--numReps > 0);
+                    g.drbwLinf(x, y, x + sizf, y);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class DrawVerticalLines extends RenderTests {
-        public DrawVerticalLines() {
-            super(rendertestroot, "drawLineVert",
-                  "Draw Vertical Lines");
+    publid stbtid dlbss DrbwVfrtidblLinfs fxtfnds RfndfrTfsts {
+        publid DrbwVfrtidblLinfs() {
+            supfr(rfndfrtfstroot, "drbwLinfVfrt",
+                  "Drbw Vfrtidbl Linfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            return ctx.outdim.height;
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            rfturn dtx.outdim.ifigit;
         }
 
-        public Dimension getOutputSize(int w, int h) {
-            return new Dimension(1, h);
+        publid Dimfnsion gftOutputSizf(int w, int i) {
+            rfturn nfw Dimfnsion(1, i);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x, y + size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.drbwLinf(x, y, x, y + sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x, y + size);
-                } while (--numReps > 0);
+                    g.drbwLinf(x, y, x, y + sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class FillRects extends RenderTests {
-        public FillRects() {
-            super(rendertestroot, "fillRect", "Fill Rectangles");
+    publid stbtid dlbss FillRfdts fxtfnds RfndfrTfsts {
+        publid FillRfdts() {
+            supfr(rfndfrtfstroot, "fillRfdt", "Fill Rfdtbnglfs");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillRect(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.fillRfdt(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillRect(x, y, size, size);
-                } while (--numReps > 0);
+                    g.fillRfdt(x, y, sizf, sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class DrawRects extends RenderTests {
-        public DrawRects() {
-            super(rendertestroot, "drawRect", "Draw Rectangles");
+    publid stbtid dlbss DrbwRfdts fxtfnds RfndfrTfsts {
+        publid DrbwRfdts() {
+            supfr(rfndfrtfstroot, "drbwRfdt", "Drbw Rfdtbnglfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            int w = ctx.outdim.width;
-            int h = ctx.outdim.height;
-            if (w < 2 || h < 2) {
-                // If one dimension is less than 2 then there is no
-                // gap in the middle, so we get a solid filled rectangle.
-                return w * h;
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            int w = dtx.outdim.widti;
+            int i = dtx.outdim.ifigit;
+            if (w < 2 || i < 2) {
+                // If onf dimfnsion is lfss tibn 2 tifn tifrf is no
+                // gbp in tif middlf, so wf gft b solid fillfd rfdtbnglf.
+                rfturn w * i;
             }
-            return (w * 2) + ((h - 2) * 2);
+            rfturn (w * 2) + ((i - 2) * 2);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawRect(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.drbwRfdt(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawRect(x, y, size, size);
-                } while (--numReps > 0);
+                    g.drbwRfdt(x, y, sizf, sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class FillOvals extends RenderTests {
-        public FillOvals() {
-            super(rendertestroot, "fillOval", "Fill Ellipses");
+    publid stbtid dlbss FillOvbls fxtfnds RfndfrTfsts {
+        publid FillOvbls() {
+            supfr(rfndfrtfstroot, "fillOvbl", "Fill Ellipsfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated
-            double xaxis = ctx.outdim.width / 2.0;
-            double yaxis = ctx.outdim.height / 2.0;
-            return (int) (xaxis * yaxis * Math.PI);
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            // Approximbtfd
+            doublf xbxis = dtx.outdim.widti / 2.0;
+            doublf ybxis = dtx.outdim.ifigit / 2.0;
+            rfturn (int) (xbxis * ybxis * Mbti.PI);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillOval(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.fillOvbl(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillOval(x, y, size, size);
-                } while (--numReps > 0);
+                    g.fillOvbl(x, y, sizf, sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class DrawOvals extends RenderTests {
-        public DrawOvals() {
-            super(rendertestroot, "drawOval", "Draw Ellipses");
+    publid stbtid dlbss DrbwOvbls fxtfnds RfndfrTfsts {
+        publid DrbwOvbls() {
+            supfr(rfndfrtfstroot, "drbwOvbl", "Drbw Ellipsfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
             /*
-             * Approximation: We figured that the vertical chord connecting
-             * the +45 deg and -45 deg points on the ellipse is about
-             * height/sqrt(2) pixels long.  Likewise, the horizontal chord
-             * connecting the +45 deg and +135 deg points on the ellipse is
-             * about width/sqrt(2) pixels long.  Each of these chords has
-             * a parallel on the opposite side of the respective axis (there
-             * are two horizontal chords and two vertical chords).  Altogether
-             * this gives a reasonable approximation of the total number of
-             * pixels touched by the ellipse, so we have:
-             *     2*(w/sqrt(2)) + 2*(h/sqrt(2))
-             *  == (2/sqrt(2))*(w+h)
-             *  == (sqrt(2))*(w+h)
+             * Approximbtion: Wf figurfd tibt tif vfrtidbl diord donnfdting
+             * tif +45 dfg bnd -45 dfg points on tif fllipsf is bbout
+             * ifigit/sqrt(2) pixfls long.  Likfwisf, tif iorizontbl diord
+             * donnfdting tif +45 dfg bnd +135 dfg points on tif fllipsf is
+             * bbout widti/sqrt(2) pixfls long.  Ebdi of tifsf diords ibs
+             * b pbrbllfl on tif oppositf sidf of tif rfspfdtivf bxis (tifrf
+             * brf two iorizontbl diords bnd two vfrtidbl diords).  Altogftifr
+             * tiis givfs b rfbsonbblf bpproximbtion of tif totbl numbfr of
+             * pixfls toudifd by tif fllipsf, so wf ibvf:
+             *     2*(w/sqrt(2)) + 2*(i/sqrt(2))
+             *  == (2/sqrt(2))*(w+i)
+             *  == (sqrt(2))*(w+i)
              */
-            return (int)(Math.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
+            rfturn (int)(Mbti.sqrt(2.0)*(dtx.outdim.widti+dtx.outdim.ifigit));
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
-            if (rctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
+            if (rdtx.bnimbtf) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawOval(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.drbwOvbl(x, y, sizf, sizf);
+                    if ((x -= 3) < 0) x += rdtx.mbxX;
+                    if ((y -= 1) < 0) y += rdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawOval(x, y, size, size);
-                } while (--numReps > 0);
+                    g.drbwOvbl(x, y, sizf, sizf);
+                } wiilf (--numRfps > 0);
             }
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class FillPolys extends RenderTests {
-        public FillPolys() {
-            super(rendertestroot, "fillPoly", "Fill Hexagonal Polygons");
+    publid stbtid dlbss FillPolys fxtfnds RfndfrTfsts {
+        publid FillPolys() {
+            supfr(rfndfrtfstroot, "fillPoly", "Fill Hfxbgonbl Polygons");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
             /*
-             * The polygon is a hexagon inscribed inside the square but
-             * missing a triangle at each of the four corners of size
-             * (w/4) by (h/2).
+             * Tif polygon is b ifxbgon insdribfd insidf tif squbrf but
+             * missing b tribnglf bt fbdi of tif four dornfrs of sizf
+             * (w/4) by (i/2).
              *
-             * Putting 2 of these triangles together gives a rectangle
-             * of size (w/4) by (h/2).
+             * Putting 2 of tifsf tribnglfs togftifr givfs b rfdtbnglf
+             * of sizf (w/4) by (i/2).
              *
-             * Putting 2 of these rectangles together gives a total
-             * missing rectangle size of (w/2) by (h/2).
+             * Putting 2 of tifsf rfdtbnglfs togftifr givfs b totbl
+             * missing rfdtbnglf sizf of (w/2) by (i/2).
              *
-             * Thus, exactly one quarter of the whole square is not
-             * touched by the filled polygon.
+             * Tius, fxbdtly onf qubrtfr of tif wiolf squbrf is not
+             * toudifd by tif fillfd polygon.
              */
-            int size = ctx.outdim.width * ctx.outdim.height;
-            return size - (size / 4);
+            int sizf = dtx.outdim.widti * dtx.outdim.ifigit;
+            rfturn sizf - (sizf / 4);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            int size = rctx.size;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            int hexaX[] = new int[6];
-            int hexaY[] = new int[6];
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            int sizf = rdtx.sizf;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            int ifxbX[] = nfw int[6];
+            int ifxbY[] = nfw int[6];
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
             do {
-                hexaX[0] = x;
-                hexaX[1] = hexaX[5] = x+size/4;
-                hexaX[2] = hexaX[4] = x+size-size/4;
-                hexaX[3] = x+size;
-                hexaY[1] = hexaY[2] = y;
-                hexaY[0] = hexaY[3] = y+size/2;
-                hexaY[4] = hexaY[5] = y+size;
+                ifxbX[0] = x;
+                ifxbX[1] = ifxbX[5] = x+sizf/4;
+                ifxbX[2] = ifxbX[4] = x+sizf-sizf/4;
+                ifxbX[3] = x+sizf;
+                ifxbY[1] = ifxbY[2] = y;
+                ifxbY[0] = ifxbY[3] = y+sizf/2;
+                ifxbY[4] = ifxbY[5] = y+sizf;
 
-                if (rCArray != null) {
-                    g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                g.fillPolygon(hexaX, hexaY, 6);
-                if ((x -= 3) < 0) x += rctx.maxX;
-                if ((y -= 1) < 0) y += rctx.maxY;
-            } while (--numReps > 0);
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+                g.fillPolygon(ifxbX, ifxbY, 6);
+                if ((x -= 3) < 0) x += rdtx.mbxX;
+                if ((y -= 1) < 0) y += rdtx.mbxY;
+            } wiilf (--numRfps > 0);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class DrawPolys extends RenderTests {
-        public DrawPolys() {
-            super(rendertestroot, "drawPoly", "Draw Hexagonal Polygons");
+    publid stbtid dlbss DrbwPolys fxtfnds RfndfrTfsts {
+        publid DrbwPolys() {
+            supfr(rfndfrtfstroot, "drbwPoly", "Drbw Hfxbgonbl Polygons");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
             /*
-             * The two horizontal segments have exactly two pixels per column.
-             * Since the diagonals are more vertical than horizontal, using
-             * h*2 would be a good way to count the pixels in those sections.
-             * We then have to figure out the size of the remainder of the
-             * horizontal lines at top and bottom to get the answer:
+             * Tif two iorizontbl sfgmfnts ibvf fxbdtly two pixfls pfr dolumn.
+             * Sindf tif dibgonbls brf morf vfrtidbl tibn iorizontbl, using
+             * i*2 would bf b good wby to dount tif pixfls in tiosf sfdtions.
+             * Wf tifn ibvf to figurf out tif sizf of tif rfmbindfr of tif
+             * iorizontbl linfs bt top bnd bottom to gft tif bnswfr:
              *
-             *     (diagonals less endpoints)*2 + (horizontals)*2
+             *     (dibgonbls lfss fndpoints)*2 + (iorizontbls)*2
              *
              *  or:
              *
-             *     (h-2)*2 + ((x+w-1-w/4)-(x+w/4)+1)*2
+             *     (i-2)*2 + ((x+w-1-w/4)-(x+w/4)+1)*2
              *
-             *  since (w == h == size), we then have:
+             *  sindf (w == i == sizf), wf tifn ibvf:
              *
-             *     (size - size/4 - 1) * 4
+             *     (sizf - sizf/4 - 1) * 4
              */
-            int size = ctx.size;
-            if (size <= 1) {
-                return 1;
-            } else {
-                return (size - (size / 4) - 1) * 4;
+            int sizf = dtx.sizf;
+            if (sizf <= 1) {
+                rfturn 1;
+            } flsf {
+                rfturn (sizf - (sizf / 4) - 1) * 4;
             }
         }
 
-        public void runTest(Object ctx, int numReps) {
-            RenderTests.Context rctx = (RenderTests.Context) ctx;
-            // subtract 1 to account for the fact that lines are drawn to
-            // and including the final coordinate...
-            int size = rctx.size - 1;
-            int x = rctx.initX;
-            int y = rctx.initY;
-            int hexaX[] = new int[6];
-            int hexaY[] = new int[6];
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
-            int ci = rctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            RfndfrTfsts.Contfxt rdtx = (RfndfrTfsts.Contfxt) dtx;
+            // subtrbdt 1 to bddount for tif fbdt tibt linfs brf drbwn to
+            // bnd indluding tif finbl doordinbtf...
+            int sizf = rdtx.sizf - 1;
+            int x = rdtx.initX;
+            int y = rdtx.initY;
+            int ifxbX[] = nfw int[6];
+            int ifxbY[] = nfw int[6];
+            Grbpiids g = rdtx.grbpiids;
+            g.trbnslbtf(rdtx.orgX, rdtx.orgY);
+            Color rCArrby[] = rdtx.dolorlist;
+            int di = rdtx.dolorindfx;
             do {
-                hexaX[0] = x;
-                hexaX[1] = hexaX[5] = x+size/4;
-                hexaX[2] = hexaX[4] = x+size-size/4;
-                hexaX[3] = x+size;
-                hexaY[1] = hexaY[2] = y;
-                hexaY[0] = hexaY[3] = y+size/2;
-                hexaY[4] = hexaY[5] = y+size;
+                ifxbX[0] = x;
+                ifxbX[1] = ifxbX[5] = x+sizf/4;
+                ifxbX[2] = ifxbX[4] = x+sizf-sizf/4;
+                ifxbX[3] = x+sizf;
+                ifxbY[1] = ifxbY[2] = y;
+                ifxbY[0] = ifxbY[3] = y+sizf/2;
+                ifxbY[4] = ifxbY[5] = y+sizf;
 
-                if (rCArray != null) {
-                    g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                g.drawPolygon(hexaX, hexaY, 6);
-                if ((x -= 3) < 0) x += rctx.maxX;
-                if ((y -= 1) < 0) y += rctx.maxY;
-            } while (--numReps > 0);
-            rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+                g.drbwPolygon(ifxbX, ifxbY, 6);
+                if ((x -= 3) < 0) x += rdtx.mbxX;
+                if ((y -= 1) < 0) y += rdtx.mbxY;
+            } wiilf (--numRfps > 0);
+            rdtx.dolorindfx = di;
+            g.trbnslbtf(-rdtx.orgX, -rdtx.orgY);
         }
     }
 
-    public static class FillCubics extends RenderTests {
-        static final double relTmax = .5 - Math.sqrt(3) / 6;
-        static final double relYmax = ((6*relTmax - 9)*relTmax + 3)*relTmax;
+    publid stbtid dlbss FillCubids fxtfnds RfndfrTfsts {
+        stbtid finbl doublf rflTmbx = .5 - Mbti.sqrt(3) / 6;
+        stbtid finbl doublf rflYmbx = ((6*rflTmbx - 9)*rflTmbx + 3)*rflTmbx;
 
-        public FillCubics() {
-            super(rendershaperoot, "fillCubic", "Fill Bezier Curves");
+        publid FillCubids() {
+            supfr(rfndfrsibpfroot, "fillCubid", "Fill Bfzifr Curvfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
             /*
-             * The cubic only touches 2 quadrants in the square, thus
-             * at least half of the square is unfilled.  The integrals
-             * to figure out the exact area are not trivial so for the
-             * other 2 quadrants, I'm going to guess that the cubic only
-             * encloses somewhere between 1/2 and 3/4ths of the pixels
-             * in those quadrants - we will say 5/8ths.  Thus only
-             * 5/16ths of the total square is filled.
+             * Tif dubid only toudifs 2 qubdrbnts in tif squbrf, tius
+             * bt lfbst iblf of tif squbrf is unfillfd.  Tif intfgrbls
+             * to figurf out tif fxbdt brfb brf not trivibl so for tif
+             * otifr 2 qubdrbnts, I'm going to gufss tibt tif dubid only
+             * fndlosfs somfwifrf bftwffn 1/2 bnd 3/4tis of tif pixfls
+             * in tiosf qubdrbnts - wf will sby 5/8tis.  Tius only
+             * 5/16tis of tif totbl squbrf is fillfd.
              */
-            // Note: 2x2 ends up hitting exactly 1 pixel...
-            int size = ctx.size;
-            if (size < 2) size = 2;
-            return size * size * 5 / 16;
+            // Notf: 2x2 fnds up iitting fxbdtly 1 pixfl...
+            int sizf = dtx.sizf;
+            if (sizf < 2) sizf = 2;
+            rfturn sizf * sizf * 5 / 16;
         }
 
-        public static class Context extends RenderTests.Context {
-            CubicCurve2D curve = new CubicCurve2D.Float();
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            CubidCurvf2D durvf = nfw CubidCurvf2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new FillCubics.Context();
+        publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw FillCubids.Contfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            FillCubics.Context cctx = (FillCubics.Context) ctx;
-            int size = cctx.size;
-            // Note: 2x2 ends up hitting exactly 1 pixel...
-            if (size < 2) size = 2;
-            int x = cctx.initX;
-            int y = cctx.initY;
-            int cpoffset = (int) (size/relYmax/2);
-            CubicCurve2D curve = cctx.curve;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
-            int ci = cctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            FillCubids.Contfxt ddtx = (FillCubids.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            // Notf: 2x2 fnds up iitting fxbdtly 1 pixfl...
+            if (sizf < 2) sizf = 2;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            int dpoffsft = (int) (sizf/rflYmbx/2);
+            CubidCurvf2D durvf = ddtx.durvf;
+            Grbpiids2D g2d = (Grbpiids2D) ddtx.grbpiids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
             do {
-                curve.setCurve(x, y+size/2.0,
-                               x+size/2.0, y+size/2.0-cpoffset,
-                               x+size/2.0, y+size/2.0+cpoffset,
-                               x+size, y+size/2.0);
+                durvf.sftCurvf(x, y+sizf/2.0,
+                               x+sizf/2.0, y+sizf/2.0-dpoffsft,
+                               x+sizf/2.0, y+sizf/2.0+dpoffsft,
+                               x+sizf, y+sizf/2.0);
 
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                g2d.fill(curve);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
-            } while (--numReps > 0);
-            cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+                g2d.fill(durvf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } wiilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
         }
     }
 
-    public static class DrawCubics extends RenderTests {
-        static final double relTmax = .5 - Math.sqrt(3) / 6;
-        static final double relYmax = ((6*relTmax - 9)*relTmax + 3)*relTmax;
+    publid stbtid dlbss DrbwCubids fxtfnds RfndfrTfsts {
+        stbtid finbl doublf rflTmbx = .5 - Mbti.sqrt(3) / 6;
+        stbtid finbl doublf rflYmbx = ((6*rflTmbx - 9)*rflTmbx + 3)*rflTmbx;
 
-        public DrawCubics() {
-            super(rendershaperoot, "drawCubic", "Draw Bezier Curves");
+        publid DrbwCubids() {
+            supfr(rfndfrsibpfroot, "drbwCubid", "Drbw Bfzifr Curvfs");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Gross approximation
-            int size = ctx.size;
-            if (size < 2) size = 2;
-            return size;
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            // Gross bpproximbtion
+            int sizf = dtx.sizf;
+            if (sizf < 2) sizf = 2;
+            rfturn sizf;
         }
 
-        public static class Context extends RenderTests.Context {
-            CubicCurve2D curve = new CubicCurve2D.Float();
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            CubidCurvf2D durvf = nfw CubidCurvf2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new DrawCubics.Context();
+        publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw DrbwCubids.Contfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            DrawCubics.Context cctx = (DrawCubics.Context) ctx;
-            int size = cctx.size;
-            // Note: 2x2 ends up hitting exactly 1 pixel...
-            if (size < 2) size = 2;
-            int x = cctx.initX;
-            int y = cctx.initY;
-            int cpoffset = (int) (size/relYmax/2);
-            CubicCurve2D curve = cctx.curve;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
-            int ci = cctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            DrbwCubids.Contfxt ddtx = (DrbwCubids.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            // Notf: 2x2 fnds up iitting fxbdtly 1 pixfl...
+            if (sizf < 2) sizf = 2;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            int dpoffsft = (int) (sizf/rflYmbx/2);
+            CubidCurvf2D durvf = ddtx.durvf;
+            Grbpiids2D g2d = (Grbpiids2D) ddtx.grbpiids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
             do {
-                curve.setCurve(x, y+size/2.0,
-                               x+size/2.0, y+size/2.0-cpoffset,
-                               x+size/2.0, y+size/2.0+cpoffset,
-                               x+size, y+size/2.0);
+                durvf.sftCurvf(x, y+sizf/2.0,
+                               x+sizf/2.0, y+sizf/2.0-dpoffsft,
+                               x+sizf/2.0, y+sizf/2.0+dpoffsft,
+                               x+sizf, y+sizf/2.0);
 
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                g2d.draw(curve);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
-            } while (--numReps > 0);
-            cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+                g2d.drbw(durvf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } wiilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
         }
     }
 
-    public static class FillEllipse2Ds extends RenderTests {
-        public FillEllipse2Ds() {
-            super(rendershaperoot, "fillEllipse2D", "Fill Ellipse2Ds");
+    publid stbtid dlbss FillEllipsf2Ds fxtfnds RfndfrTfsts {
+        publid FillEllipsf2Ds() {
+            supfr(rfndfrsibpfroot, "fillEllipsf2D", "Fill Ellipsf2Ds");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated (copied from FillOvals.pixelsTouched())
-            double xaxis = ctx.outdim.width / 2.0;
-            double yaxis = ctx.outdim.height / 2.0;
-            return (int) (xaxis * yaxis * Math.PI);
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            // Approximbtfd (dopifd from FillOvbls.pixflsToudifd())
+            doublf xbxis = dtx.outdim.widti / 2.0;
+            doublf ybxis = dtx.outdim.ifigit / 2.0;
+            rfturn (int) (xbxis * ybxis * Mbti.PI);
         }
 
-        public static class Context extends RenderTests.Context {
-            Ellipse2D ellipse = new Ellipse2D.Float();
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new FillEllipse2Ds.Context();
+        publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw FillEllipsf2Ds.Contfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            FillEllipse2Ds.Context cctx = (FillEllipse2Ds.Context) ctx;
-            int size = cctx.size;
-            int x = cctx.initX;
-            int y = cctx.initY;
-            Ellipse2D ellipse = cctx.ellipse;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
-            int ci = cctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            FillEllipsf2Ds.Contfxt ddtx = (FillEllipsf2Ds.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            Ellipsf2D fllipsf = ddtx.fllipsf;
+            Grbpiids2D g2d = (Grbpiids2D) ddtx.grbpiids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
             do {
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                ellipse.setFrame(x, y, size, size);
-                g2d.fill(ellipse);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
-            } while (--numReps > 0);
-            cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+                fllipsf.sftFrbmf(x, y, sizf, sizf);
+                g2d.fill(fllipsf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } wiilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
         }
     }
 
-    public static class DrawEllipse2Ds extends RenderTests {
-        public DrawEllipse2Ds() {
-            super(rendershaperoot, "drawEllipse2D", "Draw Ellipse2Ds");
+    publid stbtid dlbss DrbwEllipsf2Ds fxtfnds RfndfrTfsts {
+        publid DrbwEllipsf2Ds() {
+            supfr(rfndfrsibpfroot, "drbwEllipsf2D", "Drbw Ellipsf2Ds");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated (copied from DrawOvals.pixelsTouched())
-            return (int)(Math.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
+        publid int pixflsToudifd(GrbpiidsTfsts.Contfxt dtx) {
+            // Approximbtfd (dopifd from DrbwOvbls.pixflsToudifd())
+            rfturn (int)(Mbti.sqrt(2.0)*(dtx.outdim.widti+dtx.outdim.ifigit));
         }
 
-        public static class Context extends RenderTests.Context {
-            Ellipse2D ellipse = new Ellipse2D.Float();
+        publid stbtid dlbss Contfxt fxtfnds RfndfrTfsts.Contfxt {
+            Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new DrawEllipse2Ds.Context();
+        publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw DrbwEllipsf2Ds.Contfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            DrawEllipse2Ds.Context cctx = (DrawEllipse2Ds.Context) ctx;
-            int size = cctx.size;
-            int x = cctx.initX;
-            int y = cctx.initY;
-            Ellipse2D ellipse = cctx.ellipse;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
-            int ci = cctx.colorindex;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            DrbwEllipsf2Ds.Contfxt ddtx = (DrbwEllipsf2Ds.Contfxt) dtx;
+            int sizf = ddtx.sizf;
+            int x = ddtx.initX;
+            int y = ddtx.initY;
+            Ellipsf2D fllipsf = ddtx.fllipsf;
+            Grbpiids2D g2d = (Grbpiids2D) ddtx.grbpiids;
+            g2d.trbnslbtf(ddtx.orgX, ddtx.orgY);
+            Color rCArrby[] = ddtx.dolorlist;
+            int di = ddtx.dolorindfx;
             do {
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.sftColor(rCArrby[di++ & NUM_RANDOMCOLORMASK]);
                 }
-                ellipse.setFrame(x, y, size, size);
-                g2d.draw(ellipse);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
-            } while (--numReps > 0);
-            cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+                fllipsf.sftFrbmf(x, y, sizf, sizf);
+                g2d.drbw(fllipsf);
+                if ((x -= 3) < 0) x += ddtx.mbxX;
+                if ((y -= 1) < 0) y += ddtx.mbxY;
+            } wiilf (--numRfps > 0);
+            ddtx.dolorindfx = di;
+            g2d.trbnslbtf(-ddtx.orgX, -ddtx.orgY);
         }
     }
 }

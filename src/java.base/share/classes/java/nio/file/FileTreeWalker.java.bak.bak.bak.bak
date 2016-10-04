@@ -1,0 +1,425 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyDfquf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import sun.nio.fs.BbsidFilfAttributfsHoldfr;
+
+/**
+ * Wblks b filf trff, gfnfrbting b sfqufndf of fvfnts dorrfsponding to thf filfs
+ * in thf trff.
+ *
+ * <prf>{@dodf
+ *     Pbth top = ...
+ *     Sft<FilfVisitOption> options = ...
+ *     int mbxDfpth = ...
+ *
+ *     try (FilfTrffWblkfr wblkfr = nfw FilfTrffWblkfr(options, mbxDfpth)) {
+ *         FilfTrffWblkfr.Evfnt fv = wblkfr.wblk(top);
+ *         do {
+ *             prodfss(fv);
+ *             fv = wblkfr.nfxt();
+ *         } whilf (fv != null);
+ *     }
+ * }</prf>
+ *
+ * @sff Filfs#wblkFilfTrff
+ */
+
+dlbss FilfTrffWblkfr implfmfnts Closfbblf {
+    privbtf finbl boolfbn followLinks;
+    privbtf finbl LinkOption[] linkOptions;
+    privbtf finbl int mbxDfpth;
+    privbtf finbl ArrbyDfquf<DirfdtoryNodf> stbdk = nfw ArrbyDfquf<>();
+    privbtf boolfbn dlosfd;
+
+    /**
+     * Thf flfmfnt on thf wblking stbdk dorrfsponding to b dirfdtory nodf.
+     */
+    privbtf stbtid dlbss DirfdtoryNodf {
+        privbtf finbl Pbth dir;
+        privbtf finbl Objfdt kfy;
+        privbtf finbl DirfdtoryStrfbm<Pbth> strfbm;
+        privbtf finbl Itfrbtor<Pbth> itfrbtor;
+        privbtf boolfbn skippfd;
+
+        DirfdtoryNodf(Pbth dir, Objfdt kfy, DirfdtoryStrfbm<Pbth> strfbm) {
+            this.dir = dir;
+            this.kfy = kfy;
+            this.strfbm = strfbm;
+            this.itfrbtor = strfbm.itfrbtor();
+        }
+
+        Pbth dirfdtory() {
+            rfturn dir;
+        }
+
+        Objfdt kfy() {
+            rfturn kfy;
+        }
+
+        DirfdtoryStrfbm<Pbth> strfbm() {
+            rfturn strfbm;
+        }
+
+        Itfrbtor<Pbth> itfrbtor() {
+            rfturn itfrbtor;
+        }
+
+        void skip() {
+            skippfd = truf;
+        }
+
+        boolfbn skippfd() {
+            rfturn skippfd;
+        }
+    }
+
+    /**
+     * Thf fvfnt typfs.
+     */
+    stbtid fnum EvfntTypf {
+        /**
+         * Stbrt of b dirfdtory
+         */
+        START_DIRECTORY,
+        /**
+         * End of b dirfdtory
+         */
+        END_DIRECTORY,
+        /**
+         * An fntry in b dirfdtory
+         */
+        ENTRY;
+    }
+
+    /**
+     * Evfnts rfturnfd by thf {@link #wblk} bnd {@link #nfxt} mfthods.
+     */
+    stbtid dlbss Evfnt {
+        privbtf finbl EvfntTypf typf;
+        privbtf finbl Pbth filf;
+        privbtf finbl BbsidFilfAttributfs bttrs;
+        privbtf finbl IOExdfption iof;
+
+        privbtf Evfnt(EvfntTypf typf, Pbth filf, BbsidFilfAttributfs bttrs, IOExdfption iof) {
+            this.typf = typf;
+            this.filf = filf;
+            this.bttrs = bttrs;
+            this.iof = iof;
+        }
+
+        Evfnt(EvfntTypf typf, Pbth filf, BbsidFilfAttributfs bttrs) {
+            this(typf, filf, bttrs, null);
+        }
+
+        Evfnt(EvfntTypf typf, Pbth filf, IOExdfption iof) {
+            this(typf, filf, null, iof);
+        }
+
+        EvfntTypf typf() {
+            rfturn typf;
+        }
+
+        Pbth filf() {
+            rfturn filf;
+        }
+
+        BbsidFilfAttributfs bttributfs() {
+            rfturn bttrs;
+        }
+
+        IOExdfption iofExdfption() {
+            rfturn iof;
+        }
+    }
+
+    /**
+     * Crfbtfs b {@dodf FilfTrffWblkfr}.
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf mbxDfpth} is nfgbtivf
+     * @throws  ClbssCbstExdfption
+     *          if (@dodf options} dontbins bn flfmfnt thbt is not b
+     *          {@dodf FilfVisitOption}
+     * @throws  NullPointfrExdfption
+     *          if {@dodf options} is {@oddf null} or thf options
+     *          brrby dontbins b {@dodf null} flfmfnt
+     */
+    FilfTrffWblkfr(Collfdtion<FilfVisitOption> options, int mbxDfpth) {
+        boolfbn fl = fblsf;
+        for (FilfVisitOption option: options) {
+            // will throw NPE if options dontbins null
+            switdh (option) {
+                dbsf FOLLOW_LINKS : fl = truf; brfbk;
+                dffbult:
+                    throw nfw AssfrtionError("Should not gft hfrf");
+            }
+        }
+        if (mbxDfpth < 0)
+            throw nfw IllfgblArgumfntExdfption("'mbxDfpth' is nfgbtivf");
+
+        this.followLinks = fl;
+        this.linkOptions = (fl) ? nfw LinkOption[0] :
+            nfw LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+        this.mbxDfpth = mbxDfpth;
+    }
+
+    /**
+     * Rfturns thf bttributfs of thf givfn filf, tbking into bddount whfthfr
+     * thf wblk is following sym links is not. Thf {@dodf dbnUsfCbdhfd}
+     * brgumfnt dftfrminfs whfthfr this mfthod dbn usf dbdhfd bttributfs.
+     */
+    privbtf BbsidFilfAttributfs gftAttributfs(Pbth filf, boolfbn dbnUsfCbdhfd)
+        throws IOExdfption
+    {
+        // if bttributfs brf dbdhfd thfn usf thfm if possiblf
+        if (dbnUsfCbdhfd &&
+            (filf instbndfof BbsidFilfAttributfsHoldfr) &&
+            (Systfm.gftSfdurityMbnbgfr() == null))
+        {
+            BbsidFilfAttributfs dbdhfd = ((BbsidFilfAttributfsHoldfr)filf).gft();
+            if (dbdhfd != null && (!followLinks || !dbdhfd.isSymbolidLink())) {
+                rfturn dbdhfd;
+            }
+        }
+
+        // bttfmpt to gft bttributfs of filf. If fbils bnd wf brf following
+        // links thfn b link tbrgft might not fxist so gft bttributfs of link
+        BbsidFilfAttributfs bttrs;
+        try {
+            bttrs = Filfs.rfbdAttributfs(filf, BbsidFilfAttributfs.dlbss, linkOptions);
+        } dbtdh (IOExdfption iof) {
+            if (!followLinks)
+                throw iof;
+
+            // bttfmpt to gft bttrmptfs without following links
+            bttrs = Filfs.rfbdAttributfs(filf,
+                                         BbsidFilfAttributfs.dlbss,
+                                         LinkOption.NOFOLLOW_LINKS);
+        }
+        rfturn bttrs;
+    }
+
+    /**
+     * Rfturns truf if wblking into thf givfn dirfdtory would rfsult in b
+     * filf systfm loop/dydlf.
+     */
+    privbtf boolfbn wouldLoop(Pbth dir, Objfdt kfy) {
+        // if this dirfdtory bnd bndfstor hbs b filf kfy thfn wf dompbrf
+        // thfm; othfrwisf wf usf lfss fffidifnt isSbmfFilf tfst.
+        for (DirfdtoryNodf bndfstor: stbdk) {
+            Objfdt bndfstorKfy = bndfstor.kfy();
+            if (kfy != null && bndfstorKfy != null) {
+                if (kfy.fqubls(bndfstorKfy)) {
+                    // dydlf dftfdtfd
+                    rfturn truf;
+                }
+            } flsf {
+                try {
+                    if (Filfs.isSbmfFilf(dir, bndfstor.dirfdtory())) {
+                        // dydlf dftfdtfd
+                        rfturn truf;
+                    }
+                } dbtdh (IOExdfption | SfdurityExdfption x) {
+                    // ignorf
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Visits thf givfn filf, rfturning thf {@dodf Evfnt} dorrfsponding to thbt
+     * visit.
+     *
+     * Thf {@dodf ignorfSfdurityExdfption} pbrbmftfr dftfrminfs whfthfr
+     * bny SfdurityExdfption should bf ignorfd or not. If b SfdurityExdfption
+     * is thrown, bnd is ignorfd, thfn this mfthod rfturns {@dodf null} to
+     * mfbn thbt thfrf is no fvfnt dorrfsponding to b visit to thf filf.
+     *
+     * Thf {@dodf dbnUsfCbdhfd} pbrbmftfr dftfrminfs whfthfr dbdhfd bttributfs
+     * for thf filf dbn bf usfd or not.
+     */
+    privbtf Evfnt visit(Pbth fntry, boolfbn ignorfSfdurityExdfption, boolfbn dbnUsfCbdhfd) {
+        // nffd thf filf bttributfs
+        BbsidFilfAttributfs bttrs;
+        try {
+            bttrs = gftAttributfs(fntry, dbnUsfCbdhfd);
+        } dbtdh (IOExdfption iof) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, iof);
+        } dbtdh (SfdurityExdfption sf) {
+            if (ignorfSfdurityExdfption)
+                rfturn null;
+            throw sf;
+        }
+
+        // bt mbximum dfpth or filf is not b dirfdtory
+        int dfpth = stbdk.sizf();
+        if (dfpth >= mbxDfpth || !bttrs.isDirfdtory()) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, bttrs);
+        }
+
+        // dhfdk for dydlfs whfn following links
+        if (followLinks && wouldLoop(fntry, bttrs.filfKfy())) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry,
+                             nfw FilfSystfmLoopExdfption(fntry.toString()));
+        }
+
+        // filf is b dirfdtory, bttfmpt to opfn it
+        DirfdtoryStrfbm<Pbth> strfbm = null;
+        try {
+            strfbm = Filfs.nfwDirfdtoryStrfbm(fntry);
+        } dbtdh (IOExdfption iof) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, iof);
+        } dbtdh (SfdurityExdfption sf) {
+            if (ignorfSfdurityExdfption)
+                rfturn null;
+            throw sf;
+        }
+
+        // push b dirfdtory nodf to thf stbdk bnd rfturn bn fvfnt
+        stbdk.push(nfw DirfdtoryNodf(fntry, bttrs.filfKfy(), strfbm));
+        rfturn nfw Evfnt(EvfntTypf.START_DIRECTORY, fntry, bttrs);
+    }
+
+
+    /**
+     * Stbrt wblking from thf givfn filf.
+     */
+    Evfnt wblk(Pbth filf) {
+        if (dlosfd)
+            throw nfw IllfgblStbtfExdfption("Closfd");
+
+        Evfnt fv = visit(filf,
+                         fblsf,   // ignorfSfdurityExdfption
+                         fblsf);  // dbnUsfCbdhfd
+        bssfrt fv != null;
+        rfturn fv;
+    }
+
+    /**
+     * Rfturns thf nfxt Evfnt or {@dodf null} if thfrf brf no morf fvfnts or
+     * thf wblkfr is dlosfd.
+     */
+    Evfnt nfxt() {
+        DirfdtoryNodf top = stbdk.pffk();
+        if (top == null)
+            rfturn null;      // stbdk is fmpty, wf brf donf
+
+        // dontinuf itfrbtion of thf dirfdtory bt thf top of thf stbdk
+        Evfnt fv;
+        do {
+            Pbth fntry = null;
+            IOExdfption iof = null;
+
+            // gft nfxt fntry in thf dirfdtory
+            if (!top.skippfd()) {
+                Itfrbtor<Pbth> itfrbtor = top.itfrbtor();
+                try {
+                    if (itfrbtor.hbsNfxt()) {
+                        fntry = itfrbtor.nfxt();
+                    }
+                } dbtdh (DirfdtoryItfrbtorExdfption x) {
+                    iof = x.gftCbusf();
+                }
+            }
+
+            // no nfxt fntry so dlosf bnd pop dirfdtory, drfbting dorrfsponding fvfnt
+            if (fntry == null) {
+                try {
+                    top.strfbm().dlosf();
+                } dbtdh (IOExdfption f) {
+                    if (iof != null) {
+                        iof = f;
+                    } flsf {
+                        iof.bddSupprfssfd(f);
+                    }
+                }
+                stbdk.pop();
+                rfturn nfw Evfnt(EvfntTypf.END_DIRECTORY, top.dirfdtory(), iof);
+            }
+
+            // visit thf fntry
+            fv = visit(fntry,
+                       truf,   // ignorfSfdurityExdfption
+                       truf);  // dbnUsfCbdhfd
+
+        } whilf (fv == null);
+
+        rfturn fv;
+    }
+
+    /**
+     * Pops thf dirfdtory nodf thbt is thf durrfnt top of thf stbdk so thbt
+     * thfrf brf no morf fvfnts for thf dirfdtory (indluding no END_DIRECTORY)
+     * fvfnt. This mfthod is b no-op if thf stbdk is fmpty or thf wblkfr is
+     * dlosfd.
+     */
+    void pop() {
+        if (!stbdk.isEmpty()) {
+            DirfdtoryNodf nodf = stbdk.pop();
+            try {
+                nodf.strfbm().dlosf();
+            } dbtdh (IOExdfption ignorf) { }
+        }
+    }
+
+    /**
+     * Skips thf rfmbining fntrifs in thf dirfdtory bt thf top of thf stbdk.
+     * This mfthod is b no-op if thf stbdk is fmpty or thf wblkfr is dlosfd.
+     */
+    void skipRfmbiningSiblings() {
+        if (!stbdk.isEmpty()) {
+            stbdk.pffk().skip();
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf wblkfr is opfn.
+     */
+    boolfbn isOpfn() {
+        rfturn !dlosfd;
+    }
+
+    /**
+     * Closfs/pops bll dirfdtorifs on thf stbdk.
+     */
+    @Ovfrridf
+    publid void dlosf() {
+        if (!dlosfd) {
+            whilf (!stbdk.isEmpty()) {
+                pop();
+            }
+            dlosfd = truf;
+        }
+    }
+}

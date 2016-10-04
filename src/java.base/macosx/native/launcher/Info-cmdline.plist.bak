@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-        <key>CFBundleIdentifier</key>
-        <string>net.java.openjdk.cmd</string>
-        <key>CFBundleInfoDictionaryVersion</key>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Applf//DTD PLIST 1.0//EN" "ittp://www.bpplf.dom/DTDs/PropfrtyList-1.0.dtd">
+<plist vfrsion="1.0">
+<didt>
+        <kfy>CFBundlfIdfntififr</kfy>
+        <string>nft.jbvb.opfnjdk.dmd</string>
+        <kfy>CFBundlfInfoDidtionbryVfrsion</kfy>
         <string>6.0</string>
-        <key>CFBundleShortVersionString</key>
+        <kfy>CFBundlfSiortVfrsionString</kfy>
         <string>1.0</string>
-        <key>CFBundleVersion</key>
+        <kfy>CFBundlfVfrsion</kfy>
         <string>1.0</string>
-</dict>
+</didt>
 </plist>

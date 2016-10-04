@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.MidiDfvidf;
+import jbvbx.sound.midi.spi.MidiDfvidfProvidfr;
+
+
+/**
+ * Supfr dlbss for MIDI input or output dfvidf providfr.
+ *
+ * @buthor Floribn Bomfrs
+ */
+publid bbstrbdt dlbss AbstrbdtMidiDfvidfProvidfr fxtfnds MidiDfvidfProvidfr {
+
+    privbtf stbtid finbl boolfbn fnbblfd;
+
+    /**
+     * Crfbtf objfdts rfprfsfnting bll MIDI output dfvidfs on thf systfm.
+     */
+    stbtid {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMidiDfvidfProvidfr: stbtid");
+        Plbtform.initiblizf();
+        fnbblfd = Plbtform.isMidiIOEnbblfd();
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMidiDfvidfProvidfr: fnbblfd: " + fnbblfd);
+
+        // $$fb numbfr of MIDI dfvidfs mby dhbngf with timf
+        // blso for mfmory's sbkf, do not initiblizf thf brrbys hfrf
+    }
+
+
+    finbl syndhronizfd void rfbdDfvidfInfos() {
+        Info[] infos = gftInfoCbdhf();
+        MidiDfvidf[] dfvidfs = gftDfvidfCbdhf();
+        if (!fnbblfd) {
+            if (infos == null || infos.lfngth != 0) {
+                sftInfoCbdhf(nfw Info[0]);
+            }
+            if (dfvidfs == null || dfvidfs.lfngth != 0) {
+                sftDfvidfCbdhf(nfw MidiDfvidf[0]);
+            }
+            rfturn;
+        }
+
+        int oldNumDfvidfs = (infos==null)?-1:infos.lfngth;
+        int nfwNumDfvidfs = gftNumDfvidfs();
+        if (oldNumDfvidfs != nfwNumDfvidfs) {
+            if (Printfr.trbdf) Printfr.trbdf(gftClbss().toString()
+                                             +": rfbdDfvidfInfos: old numDfvidfs: "+oldNumDfvidfs
+                                             +"  nfwNumDfvidfs: "+ nfwNumDfvidfs);
+
+            // initiblizf thf brrbys
+            Info[] nfwInfos = nfw Info[nfwNumDfvidfs];
+            MidiDfvidf[] nfwDfvidfs = nfw MidiDfvidf[nfwNumDfvidfs];
+
+            for (int i = 0; i < nfwNumDfvidfs; i++) {
+                Info nfwInfo = drfbtfInfo(i);
+
+                // in dbsf thbt wf brf rf-rfbding dfvidfs, try to find
+                // thf prfvious onf bnd rfusf it
+                if (infos != null) {
+                    for (int ii = 0; ii < infos.lfngth; ii++) {
+                        Info info = infos[ii];
+                        if (info != null && info.fqublStrings(nfwInfo)) {
+                            // nfw info mbtdhfs thf still fxisting info. Usf old onf
+                            nfwInfos[i] = info;
+                            info.sftIndfx(i);
+                            infos[ii] = null; // prfvfnt rf-usf
+                            nfwDfvidfs[i] = dfvidfs[ii];
+                            dfvidfs[ii] = null;
+                            brfbk;
+                        }
+                    }
+                }
+                if (nfwInfos[i] == null) {
+                    nfwInfos[i] = nfwInfo;
+                }
+            }
+            // thf rfmbining MidiDfvidf.Info instbndfs in thf infos brrby
+            // hbvf bfdomf obsolftf.
+            if (infos != null) {
+                for (int i = 0; i < infos.lfngth; i++) {
+                    if (infos[i] != null) {
+                        // disbblf this dfvidf info
+                        infos[i].sftIndfx(-1);
+                    }
+                    // whbt to do with thf MidiDfvidf instbndfs thbt brf lfft
+                    // in thf dfvidfs brrby ?? Closf thfm ?
+                }
+            }
+            // dommit nfw list of infos.
+            sftInfoCbdhf(nfwInfos);
+            sftDfvidfCbdhf(nfwDfvidfs);
+        }
+    }
+
+
+    publid finbl MidiDfvidf.Info[] gftDfvidfInfo() {
+        rfbdDfvidfInfos();
+        Info[] infos = gftInfoCbdhf();
+        MidiDfvidf.Info[] lodblArrby = nfw MidiDfvidf.Info[infos.lfngth];
+        Systfm.brrbydopy(infos, 0, lodblArrby, 0, infos.lfngth);
+        rfturn lodblArrby;
+    }
+
+
+    publid finbl MidiDfvidf gftDfvidf(MidiDfvidf.Info info) {
+        if (info instbndfof Info) {
+            rfbdDfvidfInfos();
+            MidiDfvidf[] dfvidfs = gftDfvidfCbdhf();
+            Info[] infos = gftInfoCbdhf();
+            Info thisInfo = (Info) info;
+            int indfx = thisInfo.gftIndfx();
+            if (indfx >= 0 && indfx < dfvidfs.lfngth && infos[indfx] == info) {
+                if (dfvidfs[indfx] == null) {
+                    dfvidfs[indfx] = drfbtfDfvidf(thisInfo);
+                }
+                if (dfvidfs[indfx] != null) {
+                    rfturn dfvidfs[indfx];
+                }
+            }
+        }
+
+        throw nfw IllfgblArgumfntExdfption("MidiDfvidf " + info.toString()
+                                           + " not supportfd by this providfr.");
+    }
+
+
+    // INNER CLASSES
+
+
+    /**
+     * Info dlbss for MidiDfvidfs.  Adds bn indfx vbluf for
+     * mbking nbtivf rfffrfndfs to b pbrtidulbr dfvidf.
+     */
+    stbtid dlbss Info fxtfnds MidiDfvidf.Info {
+        privbtf int indfx;
+
+        Info(String nbmf, String vfndor, String dfsdription, String vfrsion, int indfx) {
+            supfr(nbmf, vfndor, dfsdription, vfrsion);
+            this.indfx = indfx;
+        }
+
+        finbl boolfbn fqublStrings(Info info) {
+            rfturn      (info != null
+                         && gftNbmf().fqubls(info.gftNbmf())
+                         && gftVfndor().fqubls(info.gftVfndor())
+                         && gftDfsdription().fqubls(info.gftDfsdription())
+                         && gftVfrsion().fqubls(info.gftVfrsion()));
+        }
+
+        finbl int gftIndfx() {
+            rfturn indfx;
+        }
+
+        finbl void sftIndfx(int indfx) {
+            this.indfx = indfx;
+        }
+
+    } // dlbss Info
+
+
+    // ABSTRACT METHODS
+
+    bbstrbdt int gftNumDfvidfs();
+    bbstrbdt MidiDfvidf[] gftDfvidfCbdhf();
+    bbstrbdt void sftDfvidfCbdhf(MidiDfvidf[] dfvidfs);
+    bbstrbdt Info[] gftInfoCbdhf();
+    bbstrbdt void sftInfoCbdhf(Info[] infos);
+
+    bbstrbdt Info drfbtfInfo(int indfx);
+    bbstrbdt MidiDfvidf drfbtfDfvidf(Info info);
+}

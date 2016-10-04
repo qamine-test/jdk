@@ -1,0 +1,928 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import sun.misd.IOUtils;
+
+/**
+ * Rfprfsfnts b singlf DER-fndodfd vbluf.  DER fndoding rulfs brf b subsft
+ * of thf "Bbsid" Endoding Rulfs (BER), but thfy only support b singlf wby
+ * ("Dffinitf" fndoding) to fndodf bny givfn vbluf.
+ *
+ * <P>All DER-fndodfd dbtb brf triplfs <fm>{typf, lfngth, dbtb}</fm>.  This
+ * dlbss rfprfsfnts sudh tbggfd vblufs bs thfy hbvf bffn rfbd (or donstrudtfd),
+ * bnd providfs strudturfd bddfss to thf fndodfd dbtb.
+ *
+ * <P>At this timf, this dlbss supports only b subsft of thf typfs of DER
+ * dbtb fndodings whidh brf dffinfd.  Thbt subsft is suffidifnt for pbrsing
+ * most X.509 dfrtifidbtfs, bnd working with sflfdtfd bdditionbl formbts
+ * (sudh bs PKCS #10 dfrtifidbtf rfqufsts, bnd somf kinds of PKCS #7 dbtb).
+ *
+ * A notf with rfspfdt to T61/Tflftfx strings: From RFC 1617, sfdtion 4.1.3
+ * bnd RFC 3280, sfdtion 4.1.2.4., wf bssumf thbt this kind of string will
+ * dontbin ISO-8859-1 dhbrbdtfrs only.
+ *
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss DfrVbluf {
+    /** Thf tbg dlbss typfs */
+    publid stbtid finbl bytf TAG_UNIVERSAL = (bytf)0x000;
+    publid stbtid finbl bytf TAG_APPLICATION = (bytf)0x040;
+    publid stbtid finbl bytf TAG_CONTEXT = (bytf)0x080;
+    publid stbtid finbl bytf TAG_PRIVATE = (bytf)0x0d0;
+
+    /** Thf DER tbg of thf vbluf; onf of thf tbg_ donstbnts. */
+    publid bytf                 tbg;
+
+    protfdtfd DfrInputBufffr    bufffr;
+
+    /**
+     * Thf DER-fndodfd dbtb of thf vbluf, nfvfr null
+     */
+    publid finbl DfrInputStrfbm dbtb;
+
+    privbtf int                 lfngth;
+
+    /*
+     * Thf typf stbrts bt thf first bytf of thf fndoding, bnd
+     * is onf of thfsf tbg_* vblufs.  Thbt mby bf bll thf typf
+     * dbtb thbt is nffdfd.
+     */
+
+    /*
+     * Thfsf tbgs brf thf "univfrsbl" tbgs ... thfy mfbn thf sbmf
+     * in bll dontfxts.  (Mbsk with 0x1f -- fivf bits.)
+     */
+
+    /** Tbg vbluf indidbting bn ASN.1 "BOOLEAN" vbluf. */
+    publid finbl stbtid bytf    tbg_Boolfbn = 0x01;
+
+    /** Tbg vbluf indidbting bn ASN.1 "INTEGER" vbluf. */
+    publid finbl stbtid bytf    tbg_Intfgfr = 0x02;
+
+    /** Tbg vbluf indidbting bn ASN.1 "BIT STRING" vbluf. */
+    publid finbl stbtid bytf    tbg_BitString = 0x03;
+
+    /** Tbg vbluf indidbting bn ASN.1 "OCTET STRING" vbluf. */
+    publid finbl stbtid bytf    tbg_OdtftString = 0x04;
+
+    /** Tbg vbluf indidbting bn ASN.1 "NULL" vbluf. */
+    publid finbl stbtid bytf    tbg_Null = 0x05;
+
+    /** Tbg vbluf indidbting bn ASN.1 "OBJECT IDENTIFIER" vbluf. */
+    publid finbl stbtid bytf    tbg_ObjfdtId = 0x06;
+
+    /** Tbg vbluf indluding bn ASN.1 "ENUMERATED" vbluf */
+    publid finbl stbtid bytf    tbg_Enumfrbtfd = 0x0A;
+
+    /** Tbg vbluf indidbting bn ASN.1 "UTF8String" vbluf. */
+    publid finbl stbtid bytf    tbg_UTF8String = 0x0C;
+
+    /** Tbg vbluf indluding b "printbblf" string */
+    publid finbl stbtid bytf    tbg_PrintbblfString = 0x13;
+
+    /** Tbg vbluf indluding b "tflftypf" string */
+    publid finbl stbtid bytf    tbg_T61String = 0x14;
+
+    /** Tbg vbluf indluding bn ASCII string */
+    publid finbl stbtid bytf    tbg_IA5String = 0x16;
+
+    /** Tbg vbluf indidbting bn ASN.1 "UTCTimf" vbluf. */
+    publid finbl stbtid bytf    tbg_UtdTimf = 0x17;
+
+    /** Tbg vbluf indidbting bn ASN.1 "GfnfrblizfdTimf" vbluf. */
+    publid finbl stbtid bytf    tbg_GfnfrblizfdTimf = 0x18;
+
+    /** Tbg vbluf indidbting bn ASN.1 "GfnfrbllString" vbluf. */
+    publid finbl stbtid bytf    tbg_GfnfrblString = 0x1B;
+
+    /** Tbg vbluf indidbting bn ASN.1 "UnivfrsblString" vbluf. */
+    publid finbl stbtid bytf    tbg_UnivfrsblString = 0x1C;
+
+    /** Tbg vbluf indidbting bn ASN.1 "BMPString" vbluf. */
+    publid finbl stbtid bytf    tbg_BMPString = 0x1E;
+
+    // CONSTRUCTED sfq/sft
+
+    /**
+     * Tbg vbluf indidbting bn ASN.1
+     * "SEQUENCE" (zfro to N flfmfnts, ordfr is signifidbnt).
+     */
+    publid finbl stbtid bytf    tbg_Sfqufndf = 0x30;
+
+    /**
+     * Tbg vbluf indidbting bn ASN.1
+     * "SEQUENCE OF" (onf to N flfmfnts, ordfr is signifidbnt).
+     */
+    publid finbl stbtid bytf    tbg_SfqufndfOf = 0x30;
+
+    /**
+     * Tbg vbluf indidbting bn ASN.1
+     * "SET" (zfro to N mfmbfrs, ordfr dofs not mbttfr).
+     */
+    publid finbl stbtid bytf    tbg_Sft = 0x31;
+
+    /**
+     * Tbg vbluf indidbting bn ASN.1
+     * "SET OF" (onf to N mfmbfrs, ordfr dofs not mbttfr).
+     */
+    publid finbl stbtid bytf    tbg_SftOf = 0x31;
+
+    /*
+     * Thfsf vblufs brf thf high ordfr bits for thf othfr kinds of tbgs.
+     */
+
+    /**
+     * Rfturns truf if thf tbg dlbss is UNIVERSAL.
+     */
+    publid boolfbn isUnivfrsbl()      { rfturn ((tbg & 0x0d0) == 0x000); }
+
+    /**
+     * Rfturns truf if thf tbg dlbss is APPLICATION.
+     */
+    publid boolfbn isApplidbtion()    { rfturn ((tbg & 0x0d0) == 0x040); }
+
+    /**
+     * Rfturns truf iff thf CONTEXT SPECIFIC bit is sft in thf typf tbg.
+     * This is bssodibtfd with thf ASN.1 "DEFINED BY" syntbx.
+     */
+    publid boolfbn isContfxtSpfdifid() { rfturn ((tbg & 0x0d0) == 0x080); }
+
+    /**
+     * Rfturns truf iff thf CONTEXT SPECIFIC TAG mbtdhfs thf pbssfd tbg.
+     */
+    publid boolfbn isContfxtSpfdifid(bytf dntxtTbg) {
+        if (!isContfxtSpfdifid()) {
+            rfturn fblsf;
+        }
+        rfturn ((tbg & 0x01f) == dntxtTbg);
+    }
+
+    boolfbn isPrivbtf()        { rfturn ((tbg & 0x0d0) == 0x0d0); }
+
+    /** Rfturns truf iff thf CONSTRUCTED bit is sft in thf typf tbg. */
+    publid boolfbn isConstrudtfd()    { rfturn ((tbg & 0x020) == 0x020); }
+
+    /**
+     * Rfturns truf iff thf CONSTRUCTED TAG mbtdhfs thf pbssfd tbg.
+     */
+    publid boolfbn isConstrudtfd(bytf donstrudtfdTbg) {
+        if (!isConstrudtfd()) {
+            rfturn fblsf;
+        }
+        rfturn ((tbg & 0x01f) == donstrudtfdTbg);
+    }
+
+    /**
+     * Crfbtfs b PrintbblfString or UTF8string DER vbluf from b string
+     */
+    publid DfrVbluf(String vbluf) throws IOExdfption {
+        boolfbn isPrintbblfString = truf;
+        for (int i = 0; i < vbluf.lfngth(); i++) {
+            if (!isPrintbblfStringChbr(vbluf.dhbrAt(i))) {
+                isPrintbblfString = fblsf;
+                brfbk;
+            }
+        }
+
+        dbtb = init(isPrintbblfString ? tbg_PrintbblfString : tbg_UTF8String, vbluf);
+    }
+
+    /**
+     * Crfbtfs b string typf DER vbluf from b String objfdt
+     * @pbrbm stringTbg thf tbg for thf DER vbluf to drfbtf
+     * @pbrbm vbluf thf String objfdt to usf for thf DER vbluf
+     */
+    publid DfrVbluf(bytf stringTbg, String vbluf) throws IOExdfption {
+        dbtb = init(stringTbg, vbluf);
+    }
+
+    /**
+     * Crfbtfs b DfrVbluf from b tbg bnd somf DER-fndodfd dbtb.
+     *
+     * @pbrbm tbg thf DER typf tbg
+     * @pbrbm dbtb thf DER-fndodfd dbtb
+     */
+    publid DfrVbluf(bytf tbg, bytf[] dbtb) {
+        this.tbg = tbg;
+        bufffr = nfw DfrInputBufffr(dbtb.dlonf());
+        lfngth = dbtb.lfngth;
+        this.dbtb = nfw DfrInputStrfbm(bufffr);
+        this.dbtb.mbrk(Intfgfr.MAX_VALUE);
+    }
+
+    /*
+     * pbdkbgf privbtf
+     */
+    DfrVbluf(DfrInputBufffr in) throws IOExdfption {
+        // XXX must blso pbrsf BER-fndodfd donstrudtfd
+        // vblufs sudh bs sfqufndfs, sfts...
+
+        tbg = (bytf)in.rfbd();
+        bytf lfnBytf = (bytf)in.rfbd();
+        lfngth = DfrInputStrfbm.gftLfngth((lfnBytf & 0xff), in);
+        if (lfngth == -1) {  // indffinitf lfngth fndoding found
+            DfrInputBufffr inbuf = in.dup();
+            int rfbdLfn = inbuf.bvbilbblf();
+            int offsft = 2;     // for tbg bnd lfngth bytfs
+            bytf[] indffDbtb = nfw bytf[rfbdLfn + offsft];
+            indffDbtb[0] = tbg;
+            indffDbtb[1] = lfnBytf;
+            DbtbInputStrfbm dis = nfw DbtbInputStrfbm(inbuf);
+            dis.rfbdFully(indffDbtb, offsft, rfbdLfn);
+            dis.dlosf();
+            DfrIndffLfnConvfrtfr dfrIn = nfw DfrIndffLfnConvfrtfr();
+            inbuf = nfw DfrInputBufffr(dfrIn.donvfrt(indffDbtb));
+            if (tbg != inbuf.rfbd())
+                throw nfw IOExdfption
+                        ("Indffinitf lfngth fndoding not supportfd");
+            lfngth = DfrInputStrfbm.gftDffinitfLfngth(inbuf);
+            bufffr = inbuf.dup();
+            bufffr.trundbtf(lfngth);
+            dbtb = nfw DfrInputStrfbm(bufffr);
+            // indffinitf form is fndodfd by sfnding b lfngth fifld with b
+            // lfngth of 0. - i.f. [1000|0000].
+            // thf objfdt is fndfd by sfnding two zfro bytfs.
+            in.skip(lfngth + offsft);
+        } flsf {
+
+            bufffr = in.dup();
+            bufffr.trundbtf(lfngth);
+            dbtb = nfw DfrInputStrfbm(bufffr);
+
+            in.skip(lfngth);
+        }
+    }
+
+    /**
+     * Gft bn ASN.1/DER fndodfd dbtum from b bufffr.  Thf
+     * fntirf bufffr must hold fxbdtly onf dbtum, indluding
+     * its tbg bnd lfngth.
+     *
+     * @pbrbm buf bufffr holding b singlf DER-fndodfd dbtum.
+     */
+    publid DfrVbluf(bytf[] buf) throws IOExdfption {
+        dbtb = init(truf, nfw BytfArrbyInputStrfbm(buf));
+    }
+
+    /**
+     * Gft bn ASN.1/DER fndodfd dbtum from pbrt of b bufffr.
+     * Thbt pbrt of thf bufffr must hold fxbdtly onf dbtum, indluding
+     * its tbg bnd lfngth.
+     *
+     * @pbrbm buf thf bufffr
+     * @pbrbm offsft stbrt point of thf singlf DER-fndodfd dbtbum
+     * @pbrbm lfngth how mbny bytfs brf in thf fndodfd dbtum
+     */
+    publid DfrVbluf(bytf[] buf, int offsft, int lfn) throws IOExdfption {
+        dbtb = init(truf, nfw BytfArrbyInputStrfbm(buf, offsft, lfn));
+    }
+
+    /**
+     * Gft bn ASN1/DER fndodfd dbtum from bn input strfbm.  Thf
+     * strfbm mby hbvf bdditionbl dbtb following thf fndodfd dbtum.
+     * In dbsf of indffinitf lfngth fndodfd dbtum, thf input strfbm
+     * must hold only onf dbtum.
+     *
+     * @pbrbm in thf input strfbm holding b singlf DER dbtum,
+     *  whidh mby bf followfd by bdditionbl dbtb
+     */
+    publid DfrVbluf(InputStrfbm in) throws IOExdfption {
+        dbtb = init(fblsf, in);
+    }
+
+    privbtf DfrInputStrfbm init(bytf stringTbg, String vbluf) throws IOExdfption {
+        String fnd = null;
+
+        tbg = stringTbg;
+
+        switdh (stringTbg) {
+        dbsf tbg_PrintbblfString:
+        dbsf tbg_IA5String:
+        dbsf tbg_GfnfrblString:
+            fnd = "ASCII";
+            brfbk;
+        dbsf tbg_T61String:
+            fnd = "ISO-8859-1";
+            brfbk;
+        dbsf tbg_BMPString:
+            fnd = "UnidodfBigUnmbrkfd";
+            brfbk;
+        dbsf tbg_UTF8String:
+            fnd = "UTF8";
+            brfbk;
+            // TBD: Nffd fndodfr for UnivfrsblString bfforf it dbn
+            // bf hbndlfd.
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd DER string typf");
+        }
+
+        bytf[] buf = vbluf.gftBytfs(fnd);
+        lfngth = buf.lfngth;
+        bufffr = nfw DfrInputBufffr(buf);
+        DfrInputStrfbm rfsult = nfw DfrInputStrfbm(bufffr);
+        rfsult.mbrk(Intfgfr.MAX_VALUE);
+        rfturn rfsult;
+    }
+
+    /*
+     * hflpfr routinf
+     */
+    privbtf DfrInputStrfbm init(boolfbn fullyBufffrfd, InputStrfbm in)
+            throws IOExdfption {
+
+        tbg = (bytf)in.rfbd();
+        bytf lfnBytf = (bytf)in.rfbd();
+        lfngth = DfrInputStrfbm.gftLfngth((lfnBytf & 0xff), in);
+        if (lfngth == -1) { // indffinitf lfngth fndoding found
+            int rfbdLfn = in.bvbilbblf();
+            int offsft = 2;     // for tbg bnd lfngth bytfs
+            bytf[] indffDbtb = nfw bytf[rfbdLfn + offsft];
+            indffDbtb[0] = tbg;
+            indffDbtb[1] = lfnBytf;
+            DbtbInputStrfbm dis = nfw DbtbInputStrfbm(in);
+            dis.rfbdFully(indffDbtb, offsft, rfbdLfn);
+            dis.dlosf();
+            DfrIndffLfnConvfrtfr dfrIn = nfw DfrIndffLfnConvfrtfr();
+            in = nfw BytfArrbyInputStrfbm(dfrIn.donvfrt(indffDbtb));
+            if (tbg != in.rfbd())
+                throw nfw IOExdfption
+                        ("Indffinitf lfngth fndoding not supportfd");
+            lfngth = DfrInputStrfbm.gftDffinitfLfngth(in);
+        }
+
+        if (fullyBufffrfd && in.bvbilbblf() != lfngth)
+            throw nfw IOExdfption("fxtrb dbtb givfn to DfrVbluf donstrudtor");
+
+        bytf[] bytfs = IOUtils.rfbdFully(in, lfngth, truf);
+
+        bufffr = nfw DfrInputBufffr(bytfs);
+        rfturn nfw DfrInputStrfbm(bufffr);
+    }
+
+    /**
+     * Endodf bn ASN1/DER fndodfd dbtum onto b DER output strfbm.
+     */
+    publid void fndodf(DfrOutputStrfbm out)
+    throws IOExdfption {
+        out.writf(tbg);
+        out.putLfngth(lfngth);
+        // XXX yffdh, fxdfss dopifs ... DfrInputBufffr.writf(OutStrfbm)
+        if (lfngth > 0) {
+            bytf[] vbluf = nfw bytf[lfngth];
+            // blwbys syndhronizfd on dbtb
+            syndhronizfd (dbtb) {
+                bufffr.rfsft();
+                if (bufffr.rfbd(vbluf) != lfngth) {
+                    throw nfw IOExdfption("short DER vbluf rfbd (fndodf)");
+                }
+                out.writf(vbluf);
+            }
+        }
+    }
+
+    publid finbl DfrInputStrfbm gftDbtb() {
+        rfturn dbtb;
+    }
+
+    publid finbl bytf gftTbg() {
+        rfturn tbg;
+    }
+
+    /**
+     * Rfturns bn ASN.1 BOOLEAN
+     *
+     * @rfturn thf boolfbn hfld in this DER vbluf
+     */
+    publid boolfbn gftBoolfbn() throws IOExdfption {
+        if (tbg != tbg_Boolfbn) {
+            throw nfw IOExdfption("DfrVbluf.gftBoolfbn, not b BOOLEAN " + tbg);
+        }
+        if (lfngth != 1) {
+            throw nfw IOExdfption("DfrVbluf.gftBoolfbn, invblid lfngth "
+                                        + lfngth);
+        }
+        if (bufffr.rfbd() != 0) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn ASN.1 OBJECT IDENTIFIER.
+     *
+     * @rfturn thf OID hfld in this DER vbluf
+     */
+    publid ObjfdtIdfntififr gftOID() throws IOExdfption {
+        if (tbg != tbg_ObjfdtId)
+            throw nfw IOExdfption("DfrVbluf.gftOID, not bn OID " + tbg);
+        rfturn nfw ObjfdtIdfntififr(bufffr);
+    }
+
+    privbtf bytf[] bppfnd(bytf[] b, bytf[] b) {
+        if (b == null)
+            rfturn b;
+
+        bytf[] rft = nfw bytf[b.lfngth + b.lfngth];
+        Systfm.brrbydopy(b, 0, rft, 0, b.lfngth);
+        Systfm.brrbydopy(b, 0, rft, b.lfngth, b.lfngth);
+
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns bn ASN.1 OCTET STRING
+     *
+     * @rfturn thf odtft string hfld in this DER vbluf
+     */
+    publid bytf[] gftOdtftString() throws IOExdfption {
+        bytf[] bytfs;
+
+        if (tbg != tbg_OdtftString && !isConstrudtfd(tbg_OdtftString)) {
+            throw nfw IOExdfption(
+                "DfrVbluf.gftOdtftString, not bn Odtft String: " + tbg);
+        }
+        bytfs = nfw bytf[lfngth];
+        // Notf: do not tfmpt to dbll bufffr.rfbd(bytfs) bt bll. Thfrf's b
+        // known bug thbt it rfturns -1 instfbd of 0.
+        if (lfngth == 0) {
+            rfturn bytfs;
+        }
+        if (bufffr.rfbd(bytfs) != lfngth)
+            throw nfw IOExdfption("short rfbd on DfrVbluf bufffr");
+        if (isConstrudtfd()) {
+            DfrInputStrfbm in = nfw DfrInputStrfbm(bytfs);
+            bytfs = null;
+            whilf (in.bvbilbblf() != 0) {
+                bytfs = bppfnd(bytfs, in.gftOdtftString());
+            }
+        }
+        rfturn bytfs;
+    }
+
+    /**
+     * Rfturns bn ASN.1 INTEGER vbluf bs bn intfgfr.
+     *
+     * @rfturn thf intfgfr hfld in this DER vbluf.
+     */
+    publid int gftIntfgfr() throws IOExdfption {
+        if (tbg != tbg_Intfgfr) {
+            throw nfw IOExdfption("DfrVbluf.gftIntfgfr, not bn int " + tbg);
+        }
+        rfturn bufffr.gftIntfgfr(dbtb.bvbilbblf());
+    }
+
+    /**
+     * Rfturns bn ASN.1 INTEGER vbluf bs b BigIntfgfr.
+     *
+     * @rfturn thf intfgfr hfld in this DER vbluf bs b BigIntfgfr.
+     */
+    publid BigIntfgfr gftBigIntfgfr() throws IOExdfption {
+        if (tbg != tbg_Intfgfr)
+            throw nfw IOExdfption("DfrVbluf.gftBigIntfgfr, not bn int " + tbg);
+        rfturn bufffr.gftBigIntfgfr(dbtb.bvbilbblf(), fblsf);
+    }
+
+    /**
+     * Rfturns bn ASN.1 INTEGER vbluf bs b positivf BigIntfgfr.
+     * This is just to dfbl with implfmfntbtions thbt indorrfdtly fndodf
+     * somf vblufs bs nfgbtivf.
+     *
+     * @rfturn thf intfgfr hfld in this DER vbluf bs b BigIntfgfr.
+     */
+    publid BigIntfgfr gftPositivfBigIntfgfr() throws IOExdfption {
+        if (tbg != tbg_Intfgfr)
+            throw nfw IOExdfption("DfrVbluf.gftBigIntfgfr, not bn int " + tbg);
+        rfturn bufffr.gftBigIntfgfr(dbtb.bvbilbblf(), truf);
+    }
+
+    /**
+     * Rfturns bn ASN.1 ENUMERATED vbluf.
+     *
+     * @rfturn thf intfgfr hfld in this DER vbluf.
+     */
+    publid int gftEnumfrbtfd() throws IOExdfption {
+        if (tbg != tbg_Enumfrbtfd) {
+            throw nfw IOExdfption("DfrVbluf.gftEnumfrbtfd, indorrfdt tbg: "
+                                  + tbg);
+        }
+        rfturn bufffr.gftIntfgfr(dbtb.bvbilbblf());
+    }
+
+    /**
+     * Rfturns bn ASN.1 BIT STRING vbluf.  Thf bit string must bf bytf-blignfd.
+     *
+     * @rfturn thf bit string hfld in this vbluf
+     */
+    publid bytf[] gftBitString() throws IOExdfption {
+        if (tbg != tbg_BitString)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftBitString, not b bit string " + tbg);
+
+        rfturn bufffr.gftBitString();
+    }
+
+    /**
+     * Rfturns bn ASN.1 BIT STRING vbluf thbt nffd not bf bytf-blignfd.
+     *
+     * @rfturn b BitArrby rfprfsfnting thf bit string hfld in this vbluf
+     */
+    publid BitArrby gftUnblignfdBitString() throws IOExdfption {
+        if (tbg != tbg_BitString)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftBitString, not b bit string " + tbg);
+
+        rfturn bufffr.gftUnblignfdBitString();
+    }
+
+    /**
+     * Rfturns thf nbmf domponfnt bs b Jbvb string, rfgbrdlfss of its
+     * fndoding rfstridtions (ASCII, T61, Printbblf, IA5, BMP, UTF8).
+     */
+    // TBD: Nffd fndodfr for UnivfrsblString bfforf it dbn bf hbndlfd.
+    publid String gftAsString() throws IOExdfption {
+        if (tbg == tbg_UTF8String)
+            rfturn gftUTF8String();
+        flsf if (tbg == tbg_PrintbblfString)
+            rfturn gftPrintbblfString();
+        flsf if (tbg == tbg_T61String)
+            rfturn gftT61String();
+        flsf if (tbg == tbg_IA5String)
+            rfturn gftIA5String();
+        /*
+          flsf if (tbg == tbg_UnivfrsblString)
+          rfturn gftUnivfrsblString();
+        */
+        flsf if (tbg == tbg_BMPString)
+            rfturn gftBMPString();
+        flsf if (tbg == tbg_GfnfrblString)
+            rfturn gftGfnfrblString();
+        flsf
+            rfturn null;
+    }
+
+    /**
+     * Rfturns bn ASN.1 BIT STRING vbluf, with thf tbg bssumfd implidit
+     * bbsfd on thf pbrbmftfr.  Thf bit string must bf bytf-blignfd.
+     *
+     * @pbrbms tbgImplidit if truf, thf tbg is bssumfd implidit.
+     * @rfturn thf bit string hfld in this vbluf
+     */
+    publid bytf[] gftBitString(boolfbn tbgImplidit) throws IOExdfption {
+        if (!tbgImplidit) {
+            if (tbg != tbg_BitString)
+                throw nfw IOExdfption("DfrVbluf.gftBitString, not b bit string "
+                                       + tbg);
+            }
+        rfturn bufffr.gftBitString();
+    }
+
+    /**
+     * Rfturns bn ASN.1 BIT STRING vbluf, with thf tbg bssumfd implidit
+     * bbsfd on thf pbrbmftfr.  Thf bit string nffd not bf bytf-blignfd.
+     *
+     * @pbrbms tbgImplidit if truf, thf tbg is bssumfd implidit.
+     * @rfturn thf bit string hfld in this vbluf
+     */
+    publid BitArrby gftUnblignfdBitString(boolfbn tbgImplidit)
+    throws IOExdfption {
+        if (!tbgImplidit) {
+            if (tbg != tbg_BitString)
+                throw nfw IOExdfption("DfrVbluf.gftBitString, not b bit string "
+                                       + tbg);
+            }
+        rfturn bufffr.gftUnblignfdBitString();
+    }
+
+    /**
+     * Hflpfr routinf to rfturn bll thf bytfs dontbinfd in thf
+     * DfrInputStrfbm bssodibtfd with this objfdt.
+     */
+    publid bytf[] gftDbtbBytfs() throws IOExdfption {
+        bytf[] rftVbl = nfw bytf[lfngth];
+        syndhronizfd (dbtb) {
+            dbtb.rfsft();
+            dbtb.gftBytfs(rftVbl);
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * Rfturns bn ASN.1 STRING vbluf
+     *
+     * @rfturn thf printbblf string hfld in this vbluf
+     */
+    publid String gftPrintbblfString()
+    throws IOExdfption {
+        if (tbg != tbg_PrintbblfString)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftPrintbblfString, not b string " + tbg);
+
+        rfturn nfw String(gftDbtbBytfs(), "ASCII");
+    }
+
+    /**
+     * Rfturns bn ASN.1 T61 (Tflftypf) STRING vbluf
+     *
+     * @rfturn thf tflftypf string hfld in this vbluf
+     */
+    publid String gftT61String() throws IOExdfption {
+        if (tbg != tbg_T61String)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftT61String, not T61 " + tbg);
+
+        rfturn nfw String(gftDbtbBytfs(), "ISO-8859-1");
+    }
+
+    /**
+     * Rfturns bn ASN.1 IA5 (ASCII) STRING vbluf
+     *
+     * @rfturn thf ASCII string hfld in this vbluf
+     */
+    publid String gftIA5String() throws IOExdfption {
+        if (tbg != tbg_IA5String)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftIA5String, not IA5 " + tbg);
+
+        rfturn nfw String(gftDbtbBytfs(), "ASCII");
+    }
+
+    /**
+     * Rfturns thf ASN.1 BMP (Unidodf) STRING vbluf bs b Jbvb string.
+     *
+     * @rfturn b string dorrfsponding to thf fndodfd BMPString hfld in
+     * this vbluf
+     */
+    publid String gftBMPString() throws IOExdfption {
+        if (tbg != tbg_BMPString)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftBMPString, not BMP " + tbg);
+
+        // BMPString is thf sbmf bs Unidodf in big fndibn, unmbrkfd
+        // formbt.
+        rfturn nfw String(gftDbtbBytfs(), "UnidodfBigUnmbrkfd");
+    }
+
+    /**
+     * Rfturns thf ASN.1 UTF-8 STRING vbluf bs b Jbvb String.
+     *
+     * @rfturn b string dorrfsponding to thf fndodfd UTF8String hfld in
+     * this vbluf
+     */
+    publid String gftUTF8String() throws IOExdfption {
+        if (tbg != tbg_UTF8String)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftUTF8String, not UTF-8 " + tbg);
+
+        rfturn nfw String(gftDbtbBytfs(), "UTF8");
+    }
+
+    /**
+     * Rfturns thf ASN.1 GENERAL STRING vbluf bs b Jbvb String.
+     *
+     * @rfturn b string dorrfsponding to thf fndodfd GfnfrblString hfld in
+     * this vbluf
+     */
+    publid String gftGfnfrblString() throws IOExdfption {
+        if (tbg != tbg_GfnfrblString)
+            throw nfw IOExdfption(
+                "DfrVbluf.gftGfnfrblString, not GfnfrblString " + tbg);
+
+        rfturn nfw String(gftDbtbBytfs(), "ASCII");
+    }
+
+    /**
+     * Rfturns b Dbtf if thf DfrVbluf is UtdTimf.
+     *
+     * @rfturn thf Dbtf hfld in this DER vbluf
+     */
+    publid Dbtf gftUTCTimf() throws IOExdfption {
+        if (tbg != tbg_UtdTimf) {
+            throw nfw IOExdfption("DfrVbluf.gftUTCTimf, not b UtdTimf: " + tbg);
+        }
+        rfturn bufffr.gftUTCTimf(dbtb.bvbilbblf());
+    }
+
+    /**
+     * Rfturns b Dbtf if thf DfrVbluf is GfnfrblizfdTimf.
+     *
+     * @rfturn thf Dbtf hfld in this DER vbluf
+     */
+    publid Dbtf gftGfnfrblizfdTimf() throws IOExdfption {
+        if (tbg != tbg_GfnfrblizfdTimf) {
+            throw nfw IOExdfption(
+                "DfrVbluf.gftGfnfrblizfdTimf, not b GfnfrblizfdTimf: " + tbg);
+        }
+        rfturn bufffr.gftGfnfrblizfdTimf(dbtb.bvbilbblf());
+    }
+
+    /**
+     * Bitwisf fqublity dompbrison.  DER fndodfd vblufs hbvf b singlf
+     * fndoding, so thbt bitwisf fqublity of thf fndodfd vblufs is bn
+     * fffidifnt wby to fstbblish fquivblfndf of thf unfndodfd vblufs.
+     *
+     * @pbrbm othfr thf objfdt bfing dompbrfd with this onf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+        if (!(o instbndfof DfrVbluf)) {
+            rfturn fblsf;
+        }
+        DfrVbluf othfr = (DfrVbluf) o;
+        if (tbg != othfr.tbg) {
+            rfturn fblsf;
+        }
+        if (dbtb == othfr.dbtb) {
+            rfturn truf;
+        }
+
+        // mbkf surf thf ordfr of lodk is blwbys donsistfnt to bvoid b dfbdlodk
+        rfturn (Systfm.idfntityHbshCodf(this.dbtb)
+                > Systfm.idfntityHbshCodf(othfr.dbtb)) ?
+                doEqubls(this, othfr):
+                doEqubls(othfr, this);
+    }
+
+    /**
+     * Hflpfr for publid mfthod fqubls()
+     */
+    privbtf stbtid boolfbn doEqubls(DfrVbluf d1, DfrVbluf d2) {
+        syndhronizfd (d1.dbtb) {
+            syndhronizfd (d2.dbtb) {
+                d1.dbtb.rfsft();
+                d2.dbtb.rfsft();
+                rfturn d1.bufffr.fqubls(d2.bufffr);
+            }
+        }
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf vbluf.
+     *
+     * @rfturn printbblf rfprfsfntbtion of thf vbluf
+     */
+    @Ovfrridf
+    publid String toString() {
+        try {
+
+            String str = gftAsString();
+            if (str != null)
+                rfturn "\"" + str + "\"";
+            if (tbg == tbg_Null)
+                rfturn "[DfrVbluf, null]";
+            if (tbg == tbg_ObjfdtId)
+                rfturn "OID." + gftOID();
+
+            // intfgfrs
+            flsf
+                rfturn "[DfrVbluf, tbg = " + tbg
+                        + ", lfngth = " + lfngth + "]";
+        } dbtdh (IOExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("misformbttfd DER vbluf");
+        }
+    }
+
+    /**
+     * Rfturns b DER-fndodfd vbluf, sudh thbt if it's pbssfd to thf
+     * DfrVbluf donstrudtor, b vbluf fquivblfnt to "this" is rfturnfd.
+     *
+     * @rfturn DER-fndodfd vbluf, indluding tbg bnd lfngth.
+     */
+    publid bytf[] toBytfArrby() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+
+        fndodf(out);
+        dbtb.rfsft();
+        rfturn out.toBytfArrby();
+    }
+
+    /**
+     * For "sft" bnd "sfqufndf" typfs, this fundtion mby bf usfd
+     * to rfturn b DER strfbm of thf mfmbfrs of thf sft or sfqufndf.
+     * This opfrbtion is not supportfd for primitivf typfs sudh bs
+     * intfgfrs or bit strings.
+     */
+    publid DfrInputStrfbm toDfrInputStrfbm() throws IOExdfption {
+        if (tbg == tbg_Sfqufndf || tbg == tbg_Sft)
+            rfturn nfw DfrInputStrfbm(bufffr);
+        throw nfw IOExdfption("toDfrInputStrfbm rfjfdts tbg typf " + tbg);
+    }
+
+    /**
+     * Gft thf lfngth of thf fndodfd vbluf.
+     */
+    publid int lfngth() {
+        rfturn lfngth;
+    }
+
+    /**
+     * Dftfrminf if b dhbrbdtfr is onf of thf pfrmissiblf dhbrbdtfrs for
+     * PrintbblfString:
+     * A-Z, b-z, 0-9, spbdf, bpostrophf (39), lfft bnd right pbrfnthfsfs,
+     * plus sign, dommb, hyphfn, pfriod, slbsh, dolon, fqubls sign,
+     * bnd qufstion mbrk.
+     *
+     * Chbrbdtfrs thbt brf *not* bllowfd in PrintbblfString indludf
+     * fxdlbmbtion point, quotbtion mbrk, numbfr sign, dollbr sign,
+     * pfrdfnt sign, bmpfrsbnd, bstfrisk, sfmidolon, lfss thbn sign,
+     * grfbtfr thbn sign, bt sign, lfft bnd right squbrf brbdkfts,
+     * bbdkslbsh, dirdumflfx (94), undfrsdorf, bbdk quotf (96),
+     * lfft bnd right durly brbdkfts, vfrtidbl linf, tildf,
+     * bnd thf dontrol dodfs (0-31 bnd 127).
+     *
+     * This list is bbsfd on X.680 (thf ASN.1 spfd).
+     */
+    publid stbtid boolfbn isPrintbblfStringChbr(dhbr dh) {
+        if ((dh >= 'b' && dh <= 'z') || (dh >= 'A' && dh <= 'Z') ||
+            (dh >= '0' && dh <= '9')) {
+            rfturn truf;
+        } flsf {
+            switdh (dh) {
+                dbsf ' ':       /* spbdf */
+                dbsf '\'':      /* bpostrophf */
+                dbsf '(':       /* lfft pbrfn */
+                dbsf ')':       /* right pbrfn */
+                dbsf '+':       /* plus */
+                dbsf ',':       /* dommb */
+                dbsf '-':       /* hyphfn */
+                dbsf '.':       /* pfriod */
+                dbsf '/':       /* slbsh */
+                dbsf ':':       /* dolon */
+                dbsf '=':       /* fqubls */
+                dbsf '?':       /* qufstion mbrk */
+                    rfturn truf;
+                dffbult:
+                    rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * Crfbtf thf tbg of thf bttributf.
+     *
+     * @pbrbms dlbss thf tbg dlbss typf, onf of UNIVERSAL, CONTEXT,
+     *               APPLICATION or PRIVATE
+     * @pbrbms form if truf, thf vbluf is donstrudtfd, othfrwisf it
+     * is primitivf.
+     * @pbrbms vbl thf tbg vbluf
+     */
+    publid stbtid bytf drfbtfTbg(bytf tbgClbss, boolfbn form, bytf vbl) {
+        bytf tbg = (bytf)(tbgClbss | vbl);
+        if (form) {
+            tbg |= (bytf)0x20;
+        }
+        rfturn (tbg);
+    }
+
+    /**
+     * Sft thf tbg of thf bttributf. Commonly usfd to rfsft thf
+     * tbg vbluf usfd for IMPLICIT fndodings.
+     *
+     * @pbrbms tbg thf tbg vbluf
+     */
+    publid void rfsftTbg(bytf tbg) {
+        this.tbg = tbg;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this DfrVbluf.
+     *
+     * @rfturn b hbshdodf for this DfrVbluf.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn toString().hbshCodf();
+    }
+}

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-// Java import
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import sun.reflect.misc.ReflectUtil;
+// Jbvb import
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * This class deserializes an object in the context of a specific class loader.
+ * Tiis dlbss dfsfriblizfs bn objfdt in tif dontfxt of b spfdifid dlbss lobdfr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class ObjectInputStreamWithLoader extends ObjectInputStream {
+dlbss ObjfdtInputStrfbmWitiLobdfr fxtfnds ObjfdtInputStrfbm {
 
 
-    private ClassLoader loader;
+    privbtf ClbssLobdfr lobdfr;
 
 
     /**
-     * @exception IOException Signals that an I/O exception of some
-     * sort has occurred.
-     * @exception StreamCorruptedException The object stream is corrupt.
+     * @fxdfption IOExdfption Signbls tibt bn I/O fxdfption of somf
+     * sort ibs oddurrfd.
+     * @fxdfption StrfbmCorruptfdExdfption Tif objfdt strfbm is dorrupt.
      */
-    public ObjectInputStreamWithLoader(InputStream in, ClassLoader theLoader)
-            throws IOException {
-        super(in);
-        this.loader = theLoader;
+    publid ObjfdtInputStrfbmWitiLobdfr(InputStrfbm in, ClbssLobdfr tifLobdfr)
+            tirows IOExdfption {
+        supfr(in);
+        tiis.lobdfr = tifLobdfr;
     }
 
-    @Override
-    protected Class<?> resolveClass(ObjectStreamClass aClass)
-            throws IOException, ClassNotFoundException {
-        if (loader == null) {
-            return super.resolveClass(aClass);
-        } else {
-            String name = aClass.getName();
-            ReflectUtil.checkPackageAccess(name);
-            // Query the class loader ...
-            return Class.forName(name, false, loader);
+    @Ovfrridf
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss bClbss)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        if (lobdfr == null) {
+            rfturn supfr.rfsolvfClbss(bClbss);
+        } flsf {
+            String nbmf = bClbss.gftNbmf();
+            RfflfdtUtil.difdkPbdkbgfAddfss(nbmf);
+            // Qufry tif dlbss lobdfr ...
+            rfturn Clbss.forNbmf(nbmf, fblsf, lobdfr);
         }
     }
 }

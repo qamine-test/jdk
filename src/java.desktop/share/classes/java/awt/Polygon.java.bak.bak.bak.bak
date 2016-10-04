@@ -1,0 +1,677 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import sun.bwt.gfom.Crossings;
+import jbvb.util.Arrbys;
+
+/**
+ * Thf <dodf>Polygon</dodf> dlbss fndbpsulbtfs b dfsdription of b
+ * dlosfd, two-dimfnsionbl rfgion within b doordinbtf spbdf. This
+ * rfgion is boundfd by bn brbitrbry numbfr of linf sfgmfnts, fbdh of
+ * whidh is onf sidf of thf polygon. Intfrnblly, b polygon
+ * domprisfs of b list of {@dodf (x,y)}
+ * doordinbtf pbirs, whfrf fbdh pbir dffinfs b <i>vfrtfx</i> of thf
+ * polygon, bnd two suddfssivf pbirs brf thf fndpoints of b
+ * linf thbt is b sidf of thf polygon. Thf first bnd finbl
+ * pbirs of {@dodf (x,y)} points brf joinfd by b linf sfgmfnt
+ * thbt dlosfs thf polygon.  This <dodf>Polygon</dodf> is dffinfd with
+ * bn fvfn-odd winding rulf.  Sff
+ * {@link jbvb.bwt.gfom.PbthItfrbtor#WIND_EVEN_ODD WIND_EVEN_ODD}
+ * for b dffinition of thf fvfn-odd winding rulf.
+ * This dlbss's hit-tfsting mfthods, whidh indludf thf
+ * <dodf>dontbins</dodf>, <dodf>intfrsfdts</dodf> bnd <dodf>insidf</dodf>
+ * mfthods, usf thf <i>insidfnfss</i> dffinition dfsdribfd in thf
+ * {@link Shbpf} dlbss dommfnts.
+ *
+ * @buthor      Sbmi Shbio
+ * @sff Shbpf
+ * @buthor      Hfrb Jfllinfk
+ * @sindf       1.0
+ */
+publid dlbss Polygon implfmfnts Shbpf, jbvb.io.Sfriblizbblf {
+
+    /**
+     * Thf totbl numbfr of points.  Thf vbluf of <dodf>npoints</dodf>
+     * rfprfsfnts thf numbfr of vblid points in this <dodf>Polygon</dodf>
+     * bnd might bf lfss thbn thf numbfr of flfmfnts in
+     * {@link #xpoints xpoints} or {@link #ypoints ypoints}.
+     * This vbluf dbn bf NULL.
+     *
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
+     */
+    publid int npoints;
+
+    /**
+     * Thf brrby of X doordinbtfs.  Thf numbfr of flfmfnts in
+     * this brrby might bf morf thbn thf numbfr of X doordinbtfs
+     * in this <dodf>Polygon</dodf>.  Thf fxtrb flfmfnts bllow nfw points
+     * to bf bddfd to this <dodf>Polygon</dodf> without rf-drfbting this
+     * brrby.  Thf vbluf of {@link #npoints npoints} is fqubl to thf
+     * numbfr of vblid points in this <dodf>Polygon</dodf>.
+     *
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
+     */
+    publid int xpoints[];
+
+    /**
+     * Thf brrby of Y doordinbtfs.  Thf numbfr of flfmfnts in
+     * this brrby might bf morf thbn thf numbfr of Y doordinbtfs
+     * in this <dodf>Polygon</dodf>.  Thf fxtrb flfmfnts bllow nfw points
+     * to bf bddfd to this <dodf>Polygon</dodf> without rf-drfbting this
+     * brrby.  Thf vbluf of <dodf>npoints</dodf> is fqubl to thf
+     * numbfr of vblid points in this <dodf>Polygon</dodf>.
+     *
+     * @sfribl
+     * @sff #bddPoint(int, int)
+     * @sindf 1.0
+     */
+    publid int ypoints[];
+
+    /**
+     * Thf bounds of this {@dodf Polygon}.
+     * This vbluf dbn bf null.
+     *
+     * @sfribl
+     * @sff #gftBoundingBox()
+     * @sff #gftBounds()
+     * @sindf 1.0
+     */
+    protfdtfd Rfdtbnglf bounds;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6460061437900069969L;
+
+    /*
+     * Dffbult lfngth for xpoints bnd ypoints.
+     */
+    privbtf stbtid finbl int MIN_LENGTH = 4;
+
+    /**
+     * Crfbtfs bn fmpty polygon.
+     * @sindf 1.0
+     */
+    publid Polygon() {
+        xpoints = nfw int[MIN_LENGTH];
+        ypoints = nfw int[MIN_LENGTH];
+    }
+
+    /**
+     * Construdts bnd initiblizfs b <dodf>Polygon</dodf> from thf spfdififd
+     * pbrbmftfrs.
+     * @pbrbm xpoints bn brrby of X doordinbtfs
+     * @pbrbm ypoints bn brrby of Y doordinbtfs
+     * @pbrbm npoints thf totbl numbfr of points in thf
+     *                          <dodf>Polygon</dodf>
+     * @fxdfption  NfgbtivfArrbySizfExdfption if thf vbluf of
+     *                       <dodf>npoints</dodf> is nfgbtivf.
+     * @fxdfption  IndfxOutOfBoundsExdfption if <dodf>npoints</dodf> is
+     *             grfbtfr thbn thf lfngth of <dodf>xpoints</dodf>
+     *             or thf lfngth of <dodf>ypoints</dodf>.
+     * @fxdfption  NullPointfrExdfption if <dodf>xpoints</dodf> or
+     *             <dodf>ypoints</dodf> is <dodf>null</dodf>.
+     * @sindf 1.0
+     */
+    publid Polygon(int xpoints[], int ypoints[], int npoints) {
+        // Fix 4489009: should throw IndfxOutofBoundsExdfption instfbd
+        // of OutofMfmoryExdfption if npoints is hugf bnd > {x,y}points.lfngth
+        if (npoints > xpoints.lfngth || npoints > ypoints.lfngth) {
+            throw nfw IndfxOutOfBoundsExdfption("npoints > xpoints.lfngth || "+
+                                                "npoints > ypoints.lfngth");
+        }
+        // Fix 6191114: should throw NfgbtivfArrbySizfExdfption with
+        // nfgbtivf npoints
+        if (npoints < 0) {
+            throw nfw NfgbtivfArrbySizfExdfption("npoints < 0");
+        }
+        // Fix 6343431: Applft dompbtibility problfms if brrbys brf not
+        // fxbdtly npoints in lfngth
+        this.npoints = npoints;
+        this.xpoints = Arrbys.dopyOf(xpoints, npoints);
+        this.ypoints = Arrbys.dopyOf(ypoints, npoints);
+    }
+
+    /**
+     * Rfsfts this <dodf>Polygon</dodf> objfdt to bn fmpty polygon.
+     * Thf doordinbtf brrbys bnd thf dbtb in thfm brf lfft untoudhfd
+     * but thf numbfr of points is rfsft to zfro to mbrk thf old
+     * vfrtfx dbtb bs invblid bnd to stbrt bddumulbting nfw vfrtfx
+     * dbtb bt thf bfginning.
+     * All intfrnblly-dbdhfd dbtb rflbting to thf old vfrtidfs
+     * brf disdbrdfd.
+     * Notf thbt sindf thf doordinbtf brrbys from bfforf thf rfsft
+     * brf rfusfd, drfbting b nfw fmpty <dodf>Polygon</dodf> might
+     * bf morf mfmory fffidifnt thbn rfsftting thf durrfnt onf if
+     * thf numbfr of vfrtidfs in thf nfw polygon dbtb is signifidbntly
+     * smbllfr thbn thf numbfr of vfrtidfs in thf dbtb from bfforf thf
+     * rfsft.
+     * @sff         jbvb.bwt.Polygon#invblidbtf
+     * @sindf 1.4
+     */
+    publid void rfsft() {
+        npoints = 0;
+        bounds = null;
+    }
+
+    /**
+     * Invblidbtfs or flushfs bny intfrnblly-dbdhfd dbtb thbt dfpfnds
+     * on thf vfrtfx doordinbtfs of this <dodf>Polygon</dodf>.
+     * This mfthod should bf dbllfd bftfr bny dirfdt mbnipulbtion
+     * of thf doordinbtfs in thf <dodf>xpoints</dodf> or
+     * <dodf>ypoints</dodf> brrbys to bvoid indonsistfnt rfsults
+     * from mfthods sudh bs <dodf>gftBounds</dodf> or <dodf>dontbins</dodf>
+     * thbt might dbdhf dbtb from fbrlifr domputbtions rflbting to
+     * thf vfrtfx doordinbtfs.
+     * @sff         jbvb.bwt.Polygon#gftBounds
+     * @sindf 1.4
+     */
+    publid void invblidbtf() {
+        bounds = null;
+    }
+
+    /**
+     * Trbnslbtfs thf vfrtidfs of thf <dodf>Polygon</dodf> by
+     * <dodf>dfltbX</dodf> blong thf x bxis bnd by
+     * <dodf>dfltbY</dodf> blong thf y bxis.
+     * @pbrbm dfltbX thf bmount to trbnslbtf blong thf X bxis
+     * @pbrbm dfltbY thf bmount to trbnslbtf blong thf Y bxis
+     * @sindf 1.1
+     */
+    publid void trbnslbtf(int dfltbX, int dfltbY) {
+        for (int i = 0; i < npoints; i++) {
+            xpoints[i] += dfltbX;
+            ypoints[i] += dfltbY;
+        }
+        if (bounds != null) {
+            bounds.trbnslbtf(dfltbX, dfltbY);
+        }
+    }
+
+    /*
+     * Cbldulbtfs thf bounding box of thf points pbssfd to thf donstrudtor.
+     * Sfts <dodf>bounds</dodf> to thf rfsult.
+     * @pbrbm xpoints[] brrby of <i>x</i> doordinbtfs
+     * @pbrbm ypoints[] brrby of <i>y</i> doordinbtfs
+     * @pbrbm npoints thf totbl numbfr of points
+     */
+    void dbldulbtfBounds(int xpoints[], int ypoints[], int npoints) {
+        int boundsMinX = Intfgfr.MAX_VALUE;
+        int boundsMinY = Intfgfr.MAX_VALUE;
+        int boundsMbxX = Intfgfr.MIN_VALUE;
+        int boundsMbxY = Intfgfr.MIN_VALUE;
+
+        for (int i = 0; i < npoints; i++) {
+            int x = xpoints[i];
+            boundsMinX = Mbth.min(boundsMinX, x);
+            boundsMbxX = Mbth.mbx(boundsMbxX, x);
+            int y = ypoints[i];
+            boundsMinY = Mbth.min(boundsMinY, y);
+            boundsMbxY = Mbth.mbx(boundsMbxY, y);
+        }
+        bounds = nfw Rfdtbnglf(boundsMinX, boundsMinY,
+                               boundsMbxX - boundsMinX,
+                               boundsMbxY - boundsMinY);
+    }
+
+    /*
+     * Rfsizfs thf bounding box to bddommodbtf thf spfdififd doordinbtfs.
+     * @pbrbm x,&nbsp;y thf spfdififd doordinbtfs
+     */
+    void updbtfBounds(int x, int y) {
+        if (x < bounds.x) {
+            bounds.width = bounds.width + (bounds.x - x);
+            bounds.x = x;
+        }
+        flsf {
+            bounds.width = Mbth.mbx(bounds.width, x - bounds.x);
+            // bounds.x = bounds.x;
+        }
+
+        if (y < bounds.y) {
+            bounds.hfight = bounds.hfight + (bounds.y - y);
+            bounds.y = y;
+        }
+        flsf {
+            bounds.hfight = Mbth.mbx(bounds.hfight, y - bounds.y);
+            // bounds.y = bounds.y;
+        }
+    }
+
+    /**
+     * Appfnds thf spfdififd doordinbtfs to this <dodf>Polygon</dodf>.
+     * <p>
+     * If bn opfrbtion thbt dbldulbtfs thf bounding box of this
+     * <dodf>Polygon</dodf> hbs blrfbdy bffn pfrformfd, sudh bs
+     * <dodf>gftBounds</dodf> or <dodf>dontbins</dodf>, thfn this
+     * mfthod updbtfs thf bounding box.
+     * @pbrbm       x thf spfdififd X doordinbtf
+     * @pbrbm       y thf spfdififd Y doordinbtf
+     * @sff         jbvb.bwt.Polygon#gftBounds
+     * @sff         jbvb.bwt.Polygon#dontbins
+     * @sindf 1.0
+     */
+    publid void bddPoint(int x, int y) {
+        if (npoints >= xpoints.lfngth || npoints >= ypoints.lfngth) {
+            int nfwLfngth = npoints * 2;
+            // Mbkf surf thbt nfwLfngth will bf grfbtfr thbn MIN_LENGTH bnd
+            // blignfd to thf powfr of 2
+            if (nfwLfngth < MIN_LENGTH) {
+                nfwLfngth = MIN_LENGTH;
+            } flsf if ((nfwLfngth & (nfwLfngth - 1)) != 0) {
+                nfwLfngth = Intfgfr.highfstOnfBit(nfwLfngth);
+            }
+
+            xpoints = Arrbys.dopyOf(xpoints, nfwLfngth);
+            ypoints = Arrbys.dopyOf(ypoints, nfwLfngth);
+        }
+        xpoints[npoints] = x;
+        ypoints[npoints] = y;
+        npoints++;
+        if (bounds != null) {
+            updbtfBounds(x, y);
+        }
+    }
+
+    /**
+     * Gfts thf bounding box of this <dodf>Polygon</dodf>.
+     * Thf bounding box is thf smbllfst {@link Rfdtbnglf} whosf
+     * sidfs brf pbrbllfl to thf x bnd y bxfs of thf
+     * doordinbtf spbdf, bnd dbn domplftfly dontbin thf <dodf>Polygon</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> thbt dffinfs thf bounds of this
+     * <dodf>Polygon</dodf>.
+     * @sindf 1.1
+     */
+    publid Rfdtbnglf gftBounds() {
+        rfturn gftBoundingBox();
+    }
+
+    /**
+     * Rfturns thf bounds of this <dodf>Polygon</dodf>.
+     * @rfturn thf bounds of this <dodf>Polygon</dodf>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftBounds()</dodf>.
+     * @sindf 1.0
+     */
+    @Dfprfdbtfd
+    publid Rfdtbnglf gftBoundingBox() {
+        if (npoints == 0) {
+            rfturn nfw Rfdtbnglf();
+        }
+        if (bounds == null) {
+            dbldulbtfBounds(xpoints, ypoints, npoints);
+        }
+        rfturn bounds.gftBounds();
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd {@link Point} is insidf this
+     * <dodf>Polygon</dodf>.
+     * @pbrbm p thf spfdififd <dodf>Point</dodf> to bf tfstfd
+     * @rfturn <dodf>truf</dodf> if thf <dodf>Polygon</dodf> dontbins thf
+     *                  <dodf>Point</dodf>; <dodf>fblsf</dodf> othfrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @sindf 1.0
+     */
+    publid boolfbn dontbins(Point p) {
+        rfturn dontbins(p.x, p.y);
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd doordinbtfs brf insidf this
+     * <dodf>Polygon</dodf>.
+     *
+     * @pbrbm x thf spfdififd X doordinbtf to bf tfstfd
+     * @pbrbm y thf spfdififd Y doordinbtf to bf tfstfd
+     * @rfturn {@dodf truf} if this {@dodf Polygon} dontbins
+     *         thf spfdififd doordinbtfs {@dodf (x,y)};
+     *         {@dodf fblsf} othfrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @sindf 1.1
+     */
+    publid boolfbn dontbins(int x, int y) {
+        rfturn dontbins((doublf) x, (doublf) y);
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd doordinbtfs brf dontbinfd in this
+     * <dodf>Polygon</dodf>.
+     * @pbrbm x thf spfdififd X doordinbtf to bf tfstfd
+     * @pbrbm y thf spfdififd Y doordinbtf to bf tfstfd
+     * @rfturn {@dodf truf} if this {@dodf Polygon} dontbins
+     *         thf spfdififd doordinbtfs {@dodf (x,y)};
+     *         {@dodf fblsf} othfrwisf.
+     * @sff #dontbins(doublf, doublf)
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>dontbins(int, int)</dodf>.
+     * @sindf 1.0
+     */
+    @Dfprfdbtfd
+    publid boolfbn insidf(int x, int y) {
+        rfturn dontbins((doublf) x, (doublf) y);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn gftBounds();
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y) {
+        if (npoints <= 2 || !gftBoundingBox().dontbins(x, y)) {
+            rfturn fblsf;
+        }
+        int hits = 0;
+
+        int lbstx = xpoints[npoints - 1];
+        int lbsty = ypoints[npoints - 1];
+        int durx, dury;
+
+        // Wblk thf fdgfs of thf polygon
+        for (int i = 0; i < npoints; lbstx = durx, lbsty = dury, i++) {
+            durx = xpoints[i];
+            dury = ypoints[i];
+
+            if (dury == lbsty) {
+                dontinuf;
+            }
+
+            int lfftx;
+            if (durx < lbstx) {
+                if (x >= lbstx) {
+                    dontinuf;
+                }
+                lfftx = durx;
+            } flsf {
+                if (x >= durx) {
+                    dontinuf;
+                }
+                lfftx = lbstx;
+            }
+
+            doublf tfst1, tfst2;
+            if (dury < lbsty) {
+                if (y < dury || y >= lbsty) {
+                    dontinuf;
+                }
+                if (x < lfftx) {
+                    hits++;
+                    dontinuf;
+                }
+                tfst1 = x - durx;
+                tfst2 = y - dury;
+            } flsf {
+                if (y < lbsty || y >= dury) {
+                    dontinuf;
+                }
+                if (x < lfftx) {
+                    hits++;
+                    dontinuf;
+                }
+                tfst1 = x - lbstx;
+                tfst2 = y - lbsty;
+            }
+
+            if (tfst1 < (tfst2 / (lbsty - dury) * (lbstx - durx))) {
+                hits++;
+            }
+        }
+
+        rfturn ((hits & 1) != 0);
+    }
+
+    privbtf Crossings gftCrossings(doublf xlo, doublf ylo,
+                                   doublf xhi, doublf yhi)
+    {
+        Crossings dross = nfw Crossings.EvfnOdd(xlo, ylo, xhi, yhi);
+        int lbstx = xpoints[npoints - 1];
+        int lbsty = ypoints[npoints - 1];
+        int durx, dury;
+
+        // Wblk thf fdgfs of thf polygon
+        for (int i = 0; i < npoints; i++) {
+            durx = xpoints[i];
+            dury = ypoints[i];
+            if (dross.bddumulbtfLinf(lbstx, lbsty, durx, dury)) {
+                rfturn null;
+            }
+            lbstx = durx;
+            lbsty = dury;
+        }
+
+        rfturn dross;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+        if (npoints <= 0 || !gftBoundingBox().intfrsfdts(x, y, w, h)) {
+            rfturn fblsf;
+        }
+
+        Crossings dross = gftCrossings(x, y, x+w, y+h);
+        rfturn (dross == null || !dross.isEmpty());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        if (npoints <= 0 || !gftBoundingBox().intfrsfdts(x, y, w, h)) {
+            rfturn fblsf;
+        }
+
+        Crossings dross = gftCrossings(x, y, x+w, y+h);
+        rfturn (dross != null && dross.dovfrs(y, y+h));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * Rfturns bn itfrbtor objfdt thbt itfrbtfs blong thf boundbry of this
+     * <dodf>Polygon</dodf> bnd providfs bddfss to thf gfomftry
+     * of thf outlinf of this <dodf>Polygon</dodf>.  An optionbl
+     * {@link AffinfTrbnsform} dbn bf spfdififd so thbt thf doordinbtfs
+     * rfturnfd in thf itfrbtion brf trbnsformfd bddordingly.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn b {@link PbthItfrbtor} objfdt thbt providfs bddfss to thf
+     *          gfomftry of this <dodf>Polygon</dodf>.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw PolygonPbthItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturns bn itfrbtor objfdt thbt itfrbtfs blong thf boundbry of
+     * thf <dodf>Shbpf</dodf> bnd providfs bddfss to thf gfomftry of thf
+     * outlinf of thf <dodf>Shbpf</dodf>.  Only SEG_MOVETO, SEG_LINETO, bnd
+     * SEG_CLOSE point typfs brf rfturnfd by thf itfrbtor.
+     * Sindf polygons brf blrfbdy flbt, thf <dodf>flbtnfss</dodf> pbrbmftfr
+     * is ignorfd.  An optionbl <dodf>AffinfTrbnsform</dodf> dbn bf spfdififd
+     * in whidh dbsf thf doordinbtfs rfturnfd in thf itfrbtion brf trbnsformfd
+     * bddordingly.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @pbrbm flbtnfss thf mbximum bmount thbt thf dontrol points
+     *          for b givfn durvf dbn vbry from dolinfbr bfforf b subdividfd
+     *          durvf is rfplbdfd by b strbight linf donnfdting thf
+     *          fndpoints.  Sindf polygons brf blrfbdy flbt thf
+     *          <dodf>flbtnfss</dodf> pbrbmftfr is ignorfd.
+     * @rfturn b <dodf>PbthItfrbtor</dodf> objfdt thbt providfs bddfss to thf
+     *          <dodf>Shbpf</dodf> objfdt's gfomftry.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn gftPbthItfrbtor(bt);
+    }
+
+    dlbss PolygonPbthItfrbtor implfmfnts PbthItfrbtor {
+        Polygon poly;
+        AffinfTrbnsform trbnsform;
+        int indfx;
+
+        publid PolygonPbthItfrbtor(Polygon pg, AffinfTrbnsform bt) {
+            poly = pg;
+            trbnsform = bt;
+            if (pg.npoints == 0) {
+                // Prfvfnt b spurious SEG_CLOSE sfgmfnt
+                indfx = 1;
+            }
+        }
+
+        /**
+         * Rfturns thf winding rulf for dftfrmining thf intfrior of thf
+         * pbth.
+         * @rfturn bn intfgfr rfprfsfnting thf durrfnt winding rulf.
+         * @sff PbthItfrbtor#WIND_NON_ZERO
+         */
+        publid int gftWindingRulf() {
+            rfturn WIND_EVEN_ODD;
+        }
+
+        /**
+         * Tfsts if thfrf brf morf points to rfbd.
+         * @rfturn <dodf>truf</dodf> if thfrf brf morf points to rfbd;
+         *          <dodf>fblsf</dodf> othfrwisf.
+         */
+        publid boolfbn isDonf() {
+            rfturn indfx > poly.npoints;
+        }
+
+        /**
+         * Movfs thf itfrbtor forwbrds, blong thf primbry dirfdtion of
+         * trbvfrsbl, to thf nfxt sfgmfnt of thf pbth whfn thfrf brf
+         * morf points in thbt dirfdtion.
+         */
+        publid void nfxt() {
+            indfx++;
+        }
+
+        /**
+         * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+         * thf itfrbtion.
+         * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+         * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+         * A <dodf>flobt</dodf> brrby of lfngth 2 must bf pbssfd in bnd
+         * dbn bf usfd to storf thf doordinbtfs of thf point(s).
+         * Ebdh point is storfd bs b pbir of <dodf>flobt</dodf> x,&nbsp;y
+         * doordinbtfs.  SEG_MOVETO bnd SEG_LINETO typfs rfturn onf
+         * point, bnd SEG_CLOSE dofs not rfturn bny points.
+         * @pbrbm doords b <dodf>flobt</dodf> brrby thbt spfdififs thf
+         * doordinbtfs of thf point(s)
+         * @rfturn bn intfgfr rfprfsfnting thf typf bnd doordinbtfs of thf
+         *              durrfnt pbth sfgmfnt.
+         * @sff PbthItfrbtor#SEG_MOVETO
+         * @sff PbthItfrbtor#SEG_LINETO
+         * @sff PbthItfrbtor#SEG_CLOSE
+         */
+        publid int durrfntSfgmfnt(flobt[] doords) {
+            if (indfx >= poly.npoints) {
+                rfturn SEG_CLOSE;
+            }
+            doords[0] = poly.xpoints[indfx];
+            doords[1] = poly.ypoints[indfx];
+            if (trbnsform != null) {
+                trbnsform.trbnsform(doords, 0, doords, 0, 1);
+            }
+            rfturn (indfx == 0 ? SEG_MOVETO : SEG_LINETO);
+        }
+
+        /**
+         * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+         * thf itfrbtion.
+         * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+         * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+         * A <dodf>doublf</dodf> brrby of lfngth 2 must bf pbssfd in bnd
+         * dbn bf usfd to storf thf doordinbtfs of thf point(s).
+         * Ebdh point is storfd bs b pbir of <dodf>doublf</dodf> x,&nbsp;y
+         * doordinbtfs.
+         * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+         * bnd SEG_CLOSE dofs not rfturn bny points.
+         * @pbrbm doords b <dodf>doublf</dodf> brrby thbt spfdififs thf
+         * doordinbtfs of thf point(s)
+         * @rfturn bn intfgfr rfprfsfnting thf typf bnd doordinbtfs of thf
+         *              durrfnt pbth sfgmfnt.
+         * @sff PbthItfrbtor#SEG_MOVETO
+         * @sff PbthItfrbtor#SEG_LINETO
+         * @sff PbthItfrbtor#SEG_CLOSE
+         */
+        publid int durrfntSfgmfnt(doublf[] doords) {
+            if (indfx >= poly.npoints) {
+                rfturn SEG_CLOSE;
+            }
+            doords[0] = poly.xpoints[indfx];
+            doords[1] = poly.ypoints[indfx];
+            if (trbnsform != null) {
+                trbnsform.trbnsform(doords, 0, doords, 0, 1);
+            }
+            rfturn (indfx == 0 ? SEG_MOVETO : SEG_LINETO);
+        }
+    }
+}

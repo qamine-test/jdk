@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class CastExpression extends BinaryExpression {
+publid
+dlbss CbstExprfssion fxtfnds BinbryExprfssion {
     /**
-     * constructor
+     * donstrudtor
      */
-    public CastExpression(long where, Expression left, Expression right) {
-        super(CAST, where, left.type, left, right);
+    publid CbstExprfssion(long wifrf, Exprfssion lfft, Exprfssion rigit) {
+        supfr(CAST, wifrf, lfft.typf, lfft, rigit);
     }
 
     /**
-     * Check the expression
+     * Cifdk tif fxprfssion
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        type = left.toType(env, ctx);
-        vset = right.checkValue(env, ctx, vset, exp);
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        typf = lfft.toTypf(fnv, dtx);
+        vsft = rigit.difdkVbluf(fnv, dtx, vsft, fxp);
 
-        if (type.isType(TC_ERROR) || right.type.isType(TC_ERROR)) {
-            // An error was already reported
-            return vset;
+        if (typf.isTypf(TC_ERROR) || rigit.typf.isTypf(TC_ERROR)) {
+            // An frror wbs blrfbdy rfportfd
+            rfturn vsft;
         }
 
-        if (type.equals(right.type)) {
-            // The types are already the same
-            return vset;
+        if (typf.fqubls(rigit.typf)) {
+            // Tif typfs brf blrfbdy tif sbmf
+            rfturn vsft;
         }
 
         try {
-            if (env.explicitCast(right.type, type)) {
-                right = new ConvertExpression(where, type, right);
-                return vset;
+            if (fnv.fxpliditCbst(rigit.typf, typf)) {
+                rigit = nfw ConvfrtExprfssion(wifrf, typf, rigit);
+                rfturn vsft;
             }
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(wifrf, "dlbss.not.found", f.nbmf, opNbmfs[op]);
         }
 
-        // The cast is not allowed
-        env.error(where, "invalid.cast", right.type, type);
-        return vset;
+        // Tif dbst is not bllowfd
+        fnv.frror(wifrf, "invblid.dbst", rigit.typf, typf);
+        rfturn vsft;
     }
 
     /**
-     * Check if constant
+     * Cifdk if donstbnt
      */
-    public boolean isConstant() {
-        if (type.inMask(TM_REFERENCE) && !type.equals(Type.tString)) {
-            // must be a primitive type, or String
-            return false;
+    publid boolfbn isConstbnt() {
+        if (typf.inMbsk(TM_REFERENCE) && !typf.fqubls(Typf.tString)) {
+            // must bf b primitivf typf, or String
+            rfturn fblsf;
         }
-        return right.isConstant();
+        rfturn rigit.isConstbnt();
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        return right.inline(env, ctx);
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn rigit.inlinf(fnv, dtx);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        return right.inlineValue(env, ctx);
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        rfturn rigit.inlinfVbluf(fnv, dtx);
     }
 
 
-    public int costInline(int thresh, Environment env, Context ctx) {
-        if (ctx == null) {
-            return 1 + right.costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        if (dtx == null) {
+            rfturn 1 + rigit.dostInlinf(tirfsi, fnv, dtx);
         }
-        // sourceClass is the current class trying to inline this method
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
+        // sourdfClbss is tif durrfnt dlbss trying to inlinf tiis mftiod
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
         try {
-            // We only allow the inlining if the current class can access
-            // the casting class
-            if (left.type.isType(TC_ARRAY) ||
-                 sourceClass.permitInlinedAccess(env,
-                                  env.getClassDeclaration(left.type)))
-                return 1 + right.costInline(thresh, env, ctx);
-        } catch (ClassNotFound e) {
+            // Wf only bllow tif inlining if tif durrfnt dlbss dbn bddfss
+            // tif dbsting dlbss
+            if (lfft.typf.isTypf(TC_ARRAY) ||
+                 sourdfClbss.pfrmitInlinfdAddfss(fnv,
+                                  fnv.gftClbssDfdlbrbtion(lfft.typf)))
+                rfturn 1 + rigit.dostInlinf(tirfsi, fnv, dtx);
+        } dbtdi (ClbssNotFound f) {
         }
-        return thresh;
+        rfturn tirfsi;
     }
 
 
@@ -121,15 +121,15 @@ class CastExpression extends BinaryExpression {
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
-        if (type.isType(TC_ERROR)) {
-            left.print(out);
-        } else {
-            out.print(type);
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        if (typf.isTypf(TC_ERROR)) {
+            lfft.print(out);
+        } flsf {
+            out.print(typf);
         }
         out.print(" ");
-        right.print(out);
+        rigit.print(out);
         out.print(")");
     }
 }

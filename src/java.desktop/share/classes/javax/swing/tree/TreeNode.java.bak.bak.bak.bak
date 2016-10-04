@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.util.Enumfrbtion;
+
+/**
+ * Dffinfs thf rfquirfmfnts for bn objfdt thbt dbn bf usfd bs b
+ * trff nodf in b JTrff.
+ * <p>
+ * Implfmfntbtions of <dodf>TrffNodf</dodf> thbt ovfrridf <dodf>fqubls</dodf>
+ * will typidblly nffd to ovfrridf <dodf>hbshCodf</dodf> bs wfll.  Rfffr
+ * to {@link jbvbx.swing.trff.TrffModfl} for morf informbtion.
+ *
+ * For furthfr informbtion bnd fxbmplfs of using trff nodfs,
+ * sff <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trff Nodfs</b>
+ * in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * @buthor Rob Dbvis
+ * @buthor Sdott Violft
+ */
+
+publid intfrfbdf TrffNodf
+{
+    /**
+     * Rfturns thf dhild <dodf>TrffNodf</dodf> bt indfx
+     * <dodf>dhildIndfx</dodf>.
+     *
+     * @pbrbm   dhildIndfx  indfx of dhild
+     * @rfturn              thf dhild nodf bt givfn indfx
+     */
+    TrffNodf gftChildAt(int dhildIndfx);
+
+    /**
+     * Rfturns thf numbfr of dhildrfn <dodf>TrffNodf</dodf>s thf rfdfivfr
+     * dontbins.
+     *
+     * @rfturn              thf numbfr of dhildrfn thf rfdfivfr dontbins
+     */
+    int gftChildCount();
+
+    /**
+     * Rfturns thf pbrfnt <dodf>TrffNodf</dodf> of thf rfdfivfr.
+     *
+     * @rfturn              thf pbrfnt of thf rfdfivfr
+     */
+    TrffNodf gftPbrfnt();
+
+    /**
+     * Rfturns thf indfx of <dodf>nodf</dodf> in thf rfdfivfrs dhildrfn.
+     * If thf rfdfivfr dofs not dontbin <dodf>nodf</dodf>, -1 will bf
+     * rfturnfd.
+     *
+     * @pbrbm   nodf        nodf to bf lokfd for
+     * @rfturn              indfx of spfdififd nodf
+     */
+    int gftIndfx(TrffNodf nodf);
+
+    /**
+     * Rfturns truf if thf rfdfivfr bllows dhildrfn.
+     *
+     * @rfturn              whfthfr thf rfdfivfr bllows dhildrfn
+     */
+    boolfbn gftAllowsChildrfn();
+
+    /**
+     * Rfturns truf if thf rfdfivfr is b lfbf.
+     *
+     * @rfturn              whfthfr thf rfdfivfr is b lfbf
+     */
+    boolfbn isLfbf();
+
+    /**
+     * Rfturns thf dhildrfn of thf rfdfivfr bs bn <dodf>Enumfrbtion</dodf>.
+     *
+     * @rfturn              thf dhildrfn of thf rfdfivfr bs bn {@dodf Enumfrbtion}
+     */
+    Enumfrbtion<TrffNodf> dhildrfn();
+}

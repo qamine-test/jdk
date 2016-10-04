@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <stdlib.h>
+#indludf <jni.h>
+#indludf "ShbrfdMfmory.h"
+#indludf "dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf.h"
+#indludf "jdwpTrbnsport.h"
+#indludf "shmfmBbsf.h"
+#indludf "sys.h"
+
+/*
+ * JNI intfrfbdf to thf shbrfd mfmory trbnsport. Thfsf JNI mfthods
+ * dbll thf bbsf shbrfd mfmory support to do thf rfbl work.
+ *
+ * Thbt is, this is thf front-fnds intfrfbdf to our shbrfd mfmory
+ * trbnsport fstbblishmfnt dodf.
+ */
+
+/*
+ * Whfn initiblizing thf trbnsport from thf front fnd, wf usf
+ * stbndbrd mbllod bnd frff for bllodbtion.
+ */
+stbtid void *bllodbtfWrbppfr(jint sizf) {
+    rfturn mbllod(sizf);
+}
+stbtid jdwpTrbnsportCbllbbdk dbllbbdks = {bllodbtfWrbppfr, frff};
+
+void
+throwExdfption(JNIEnv *fnv, dhbr *fxdfptionClbssNbmf, dhbr *mfssbgf)
+{
+    jdlbss fxdClbss = (*fnv)->FindClbss(fnv, fxdfptionClbssNbmf);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn;
+    }
+    (*fnv)->ThrowNfw(fnv, fxdClbss, mfssbgf);
+}
+
+void
+throwShmfmExdfption(JNIEnv *fnv, dhbr *mfssbgf, jint frrorCodf)
+{
+    dhbr msg[80];
+    dhbr buf[255];
+
+    if (shmfmBbsf_gftlbstfrror(msg, sizfof(msg)) == SYS_OK) {
+        sprintf(buf, "%s: %s\n", mfssbgf, msg);
+    } flsf {
+        sprintf(buf, "%s, frror dodf = %d", mfssbgf, frrorCodf);
+    }
+    throwExdfption(fnv, "jbvb/io/IOExdfption", buf);
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    bddfpt0
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_bddfpt0
+  (JNIEnv *fnv, jobjfdt thisObjfdt, jlong id, jlong timfout)
+{
+    ShbrfdMfmoryConnfdtion *donnfdtion = NULL;
+    ShbrfdMfmoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
+    jint rd;
+
+    rd = shmfmBbsf_bddfpt(trbnsport, (long)timfout, &donnfdtion);
+    if (rd != SYS_OK) {
+        if (rd == SYS_TIMEOUT) {
+            throwExdfption(fnv, "dom/sun/jdi/donnfdt/TrbnsportTimfoutExdfption",
+                "Timfd out wbiting for tbrgft VM to donnfdt");
+        } flsf {
+            throwShmfmExdfption(fnv, "shmfmBbsf_bddfpt fbilfd", rd);
+        }
+        rfturn -1;
+    }
+    rfturn CONNECTION_TO_ID(donnfdtion);
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    bttbdh0
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_bttbdh0
+  (JNIEnv *fnv, jobjfdt thisObjfdt, jstring bddrfss, jlong timfout)
+{
+    ShbrfdMfmoryConnfdtion *donnfdtion = NULL;
+    jint rd;
+    donst dhbr *bddrChbrs;
+
+    bddrChbrs = (*fnv)->GftStringUTFChbrs(fnv, bddrfss, NULL);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn CONNECTION_TO_ID(donnfdtion);
+    } flsf if (bddrChbrs == NULL) {
+        throwExdfption(fnv, "jbvb/lbng/IntfrnblError", "GftStringUTFChbrs fbilfd");
+        rfturn CONNECTION_TO_ID(donnfdtion);
+    }
+
+    rd = shmfmBbsf_bttbdh(bddrChbrs, (long)timfout, &donnfdtion);
+    if (rd != SYS_OK) {
+        throwShmfmExdfption(fnv, "shmfmBbsf_bttbdh fbilfd", rd);
+    }
+
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, bddrfss, bddrChbrs);
+
+    rfturn CONNECTION_TO_ID(donnfdtion);
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    nbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_nbmf
+  (JNIEnv *fnv, jobjfdt thisObjfdt, jlong id)
+{
+    dhbr *nbmfPtr;
+    jstring nbmfString = NULL;
+
+    ShbrfdMfmoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
+    jint rd = shmfmBbsf_nbmf(trbnsport, &nbmfPtr);
+    if (rd != SYS_OK) {
+        throwShmfmExdfption(fnv, "shmfmBbsf_nbmf fbilfd", rd);
+    } flsf {
+        nbmfString = (*fnv)->NfwStringUTF(fnv, nbmfPtr);
+        if ((nbmfString == NULL) && !(*fnv)->ExdfptionOddurrfd(fnv)) {
+            throwExdfption(fnv, "jbvb/lbng/IntfrnblError", "Unbblf to drfbtf string");
+        }
+    }
+    rfturn nbmfString;
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    initiblizf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_initiblizf
+  (JNIEnv *fnv, jobjfdt thisObjfdt)
+{
+    JbvbVM *vm;
+    jint rd;
+
+    rd = (*fnv)->GftJbvbVM(fnv, &vm);
+    if (rd != 0) {
+        throwExdfption(fnv, "jbvb/lbng/IntfrnblError", "Unbblf to bddfss Jbvb VM");
+        rfturn;
+    }
+
+    rd = shmfmBbsf_initiblizf(vm, &dbllbbdks);
+    if (rd != SYS_OK) {
+        throwExdfption(fnv, "jbvb/lbng/IntfrnblError", "Unbblf to initiblizf Shbrfd Mfmory trbnsport");
+        rfturn;
+    }
+}
+
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    stbrtListfning0
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_stbrtListfning0
+  (JNIEnv *fnv, jobjfdt thisObjfdt, jstring bddrfss)
+{
+    donst dhbr *bddrChbrs = NULL;
+    jint rd;
+    jstring rftAddrfss = NULL;
+    ShbrfdMfmoryTrbnsport *trbnsport = NULL;
+
+
+    if (bddrfss != NULL) {
+        bddrChbrs = (*fnv)->GftStringUTFChbrs(fnv, bddrfss, NULL);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            rfturn TRANSPORT_TO_ID(trbnsport);
+        } flsf if (bddrChbrs == NULL) {
+            throwExdfption(fnv, "jbvb/lbng/IntfrnblError", "GftStringUTFChbrs fbilfd");
+            rfturn TRANSPORT_TO_ID(trbnsport);
+        }
+    }
+
+    rd = shmfmBbsf_listfn(bddrChbrs, &trbnsport);
+    if (rd != SYS_OK) {
+        throwShmfmExdfption(fnv, "shmfmBbsf_listfn fbilfd", rd);
+    }
+
+    if (bddrChbrs != NULL) {
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, bddrfss, bddrChbrs);
+    }
+
+    rfturn TRANSPORT_TO_ID(trbnsport);
+}
+
+/*
+ * Clbss:     dom_sun_tools_jdi_ShbrfdMfmoryTrbnsport
+ * Mfthod:    stopListfning0
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_sun_tools_jdi_ShbrfdMfmoryTrbnsportSfrvidf_stopListfning0
+  (JNIEnv *fnv, jobjfdt thisObjfdt, jlong id)
+{
+    ShbrfdMfmoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
+    shmfmBbsf_dlosfTrbnsport(trbnsport);
+}

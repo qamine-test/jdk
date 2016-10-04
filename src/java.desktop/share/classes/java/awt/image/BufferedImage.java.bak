@@ -1,617 +1,617 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.ImageCapabilities;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Hashtable;
-import java.util.Vector;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
 
-import sun.awt.image.BytePackedRaster;
-import sun.awt.image.ShortComponentRaster;
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.IntegerComponentRaster;
-import sun.awt.image.OffScreenImageSource;
+import sun.bwt.imbgf.BytfPbdkfdRbstfr;
+import sun.bwt.imbgf.SiortComponfntRbstfr;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import sun.bwt.imbgf.OffSdrffnImbgfSourdf;
 
 /**
  *
- * The <code>BufferedImage</code> subclass describes an {@link
- * java.awt.Image Image} with an accessible buffer of image data.
- * A <code>BufferedImage</code> is comprised of a {@link ColorModel} and a
- * {@link Raster} of image data.
- * The number and types of bands in the {@link SampleModel} of the
- * <code>Raster</code> must match the number and types required by the
- * <code>ColorModel</code> to represent its color and alpha components.
- * All <code>BufferedImage</code> objects have an upper left corner
- * coordinate of (0,&nbsp;0).  Any <code>Raster</code> used to construct a
- * <code>BufferedImage</code> must therefore have minX=0 and minY=0.
+ * Tif <dodf>BufffrfdImbgf</dodf> subdlbss dfsdribfs bn {@link
+ * jbvb.bwt.Imbgf Imbgf} witi bn bddfssiblf bufffr of imbgf dbtb.
+ * A <dodf>BufffrfdImbgf</dodf> is domprisfd of b {@link ColorModfl} bnd b
+ * {@link Rbstfr} of imbgf dbtb.
+ * Tif numbfr bnd typfs of bbnds in tif {@link SbmplfModfl} of tif
+ * <dodf>Rbstfr</dodf> must mbtdi tif numbfr bnd typfs rfquirfd by tif
+ * <dodf>ColorModfl</dodf> to rfprfsfnt its dolor bnd blpib domponfnts.
+ * All <dodf>BufffrfdImbgf</dodf> objfdts ibvf bn uppfr lfft dornfr
+ * doordinbtf of (0,&nbsp;0).  Any <dodf>Rbstfr</dodf> usfd to donstrudt b
+ * <dodf>BufffrfdImbgf</dodf> must tifrfforf ibvf minX=0 bnd minY=0.
  *
  * <p>
- * This class relies on the data fetching and setting methods
- * of <code>Raster</code>,
- * and on the color characterization methods of <code>ColorModel</code>.
+ * Tiis dlbss rflifs on tif dbtb fftdiing bnd sftting mftiods
+ * of <dodf>Rbstfr</dodf>,
+ * bnd on tif dolor dibrbdtfrizbtion mftiods of <dodf>ColorModfl</dodf>.
  *
- * @see ColorModel
- * @see Raster
- * @see WritableRaster
+ * @sff ColorModfl
+ * @sff Rbstfr
+ * @sff WritbblfRbstfr
  */
 
-public class BufferedImage extends java.awt.Image
-                           implements WritableRenderedImage, Transparency
+publid dlbss BufffrfdImbgf fxtfnds jbvb.bwt.Imbgf
+                           implfmfnts WritbblfRfndfrfdImbgf, Trbnspbrfndy
 {
-    int        imageType = TYPE_CUSTOM;
-    ColorModel colorModel;
-    WritableRaster raster;
-    OffScreenImageSource osis;
-    Hashtable<?, ?> properties;
+    int        imbgfTypf = TYPE_CUSTOM;
+    ColorModfl dolorModfl;
+    WritbblfRbstfr rbstfr;
+    OffSdrffnImbgfSourdf osis;
+    Hbsitbblf<?, ?> propfrtifs;
 
-    boolean    isAlphaPremultiplied;// If true, alpha has been premultiplied in
-    // color channels
+    boolfbn    isAlpibPrfmultiplifd;// If truf, blpib ibs bffn prfmultiplifd in
+    // dolor dibnnfls
 
     /**
-     * Image Type Constants
+     * Imbgf Typf Constbnts
      */
 
     /**
-     * Image type is not recognized so it must be a customized
-     * image.  This type is only used as a return value for the getType()
-     * method.
+     * Imbgf typf is not rfdognizfd so it must bf b dustomizfd
+     * imbgf.  Tiis typf is only usfd bs b rfturn vbluf for tif gftTypf()
+     * mftiod.
      */
-    public static final int TYPE_CUSTOM = 0;
+    publid stbtid finbl int TYPE_CUSTOM = 0;
 
     /**
-     * Represents an image with 8-bit RGB color components packed into
-     * integer pixels.  The image has a {@link DirectColorModel} without
-     * alpha.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn imbgf witi 8-bit RGB dolor domponfnts pbdkfd into
+     * intfgfr pixfls.  Tif imbgf ibs b {@link DirfdtColorModfl} witiout
+     * blpib.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_INT_RGB = 1;
+    publid stbtid finbl int TYPE_INT_RGB = 1;
 
     /**
-     * Represents an image with 8-bit RGBA color components packed into
-     * integer pixels.  The image has a <code>DirectColorModel</code>
-     * with alpha. The color data in this image is considered not to be
-     * premultiplied with alpha.  When this type is used as the
-     * <code>imageType</code> argument to a <code>BufferedImage</code>
-     * constructor, the created image is consistent with images
-     * created in the JDK1.1 and earlier releases.
+     * Rfprfsfnts bn imbgf witi 8-bit RGBA dolor domponfnts pbdkfd into
+     * intfgfr pixfls.  Tif imbgf ibs b <dodf>DirfdtColorModfl</dodf>
+     * witi blpib. Tif dolor dbtb in tiis imbgf is donsidfrfd not to bf
+     * prfmultiplifd witi blpib.  Wifn tiis typf is usfd bs tif
+     * <dodf>imbgfTypf</dodf> brgumfnt to b <dodf>BufffrfdImbgf</dodf>
+     * donstrudtor, tif drfbtfd imbgf is donsistfnt witi imbgfs
+     * drfbtfd in tif JDK1.1 bnd fbrlifr rflfbsfs.
      */
-    public static final int TYPE_INT_ARGB = 2;
+    publid stbtid finbl int TYPE_INT_ARGB = 2;
 
     /**
-     * Represents an image with 8-bit RGBA color components packed into
-     * integer pixels.  The image has a <code>DirectColorModel</code>
-     * with alpha.  The color data in this image is considered to be
-     * premultiplied with alpha.
+     * Rfprfsfnts bn imbgf witi 8-bit RGBA dolor domponfnts pbdkfd into
+     * intfgfr pixfls.  Tif imbgf ibs b <dodf>DirfdtColorModfl</dodf>
+     * witi blpib.  Tif dolor dbtb in tiis imbgf is donsidfrfd to bf
+     * prfmultiplifd witi blpib.
      */
-    public static final int TYPE_INT_ARGB_PRE = 3;
+    publid stbtid finbl int TYPE_INT_ARGB_PRE = 3;
 
     /**
-     * Represents an image with 8-bit RGB color components, corresponding
-     * to a Windows- or Solaris- style BGR color model, with the colors
-     * Blue, Green, and Red packed into integer pixels.  There is no alpha.
-     * The image has a {@link DirectColorModel}.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn imbgf witi 8-bit RGB dolor domponfnts, dorrfsponding
+     * to b Windows- or Solbris- stylf BGR dolor modfl, witi tif dolors
+     * Bluf, Grffn, bnd Rfd pbdkfd into intfgfr pixfls.  Tifrf is no blpib.
+     * Tif imbgf ibs b {@link DirfdtColorModfl}.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_INT_BGR = 4;
+    publid stbtid finbl int TYPE_INT_BGR = 4;
 
     /**
-     * Represents an image with 8-bit RGB color components, corresponding
-     * to a Windows-style BGR color model) with the colors Blue, Green,
-     * and Red stored in 3 bytes.  There is no alpha.  The image has a
-     * <code>ComponentColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn imbgf witi 8-bit RGB dolor domponfnts, dorrfsponding
+     * to b Windows-stylf BGR dolor modfl) witi tif dolors Bluf, Grffn,
+     * bnd Rfd storfd in 3 bytfs.  Tifrf is no blpib.  Tif imbgf ibs b
+     * <dodf>ComponfntColorModfl</dodf>.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_3BYTE_BGR = 5;
+    publid stbtid finbl int TYPE_3BYTE_BGR = 5;
 
     /**
-     * Represents an image with 8-bit RGBA color components with the colors
-     * Blue, Green, and Red stored in 3 bytes and 1 byte of alpha.  The
-     * image has a <code>ComponentColorModel</code> with alpha.  The
-     * color data in this image is considered not to be premultiplied with
-     * alpha.  The byte data is interleaved in a single
-     * byte array in the order A, B, G, R
-     * from lower to higher byte addresses within each pixel.
+     * Rfprfsfnts bn imbgf witi 8-bit RGBA dolor domponfnts witi tif dolors
+     * Bluf, Grffn, bnd Rfd storfd in 3 bytfs bnd 1 bytf of blpib.  Tif
+     * imbgf ibs b <dodf>ComponfntColorModfl</dodf> witi blpib.  Tif
+     * dolor dbtb in tiis imbgf is donsidfrfd not to bf prfmultiplifd witi
+     * blpib.  Tif bytf dbtb is intfrlfbvfd in b singlf
+     * bytf brrby in tif ordfr A, B, G, R
+     * from lowfr to iigifr bytf bddrfssfs witiin fbdi pixfl.
      */
-    public static final int TYPE_4BYTE_ABGR = 6;
+    publid stbtid finbl int TYPE_4BYTE_ABGR = 6;
 
     /**
-     * Represents an image with 8-bit RGBA color components with the colors
-     * Blue, Green, and Red stored in 3 bytes and 1 byte of alpha.  The
-     * image has a <code>ComponentColorModel</code> with alpha. The color
-     * data in this image is considered to be premultiplied with alpha.
-     * The byte data is interleaved in a single byte array in the order
-     * A, B, G, R from lower to higher byte addresses within each pixel.
+     * Rfprfsfnts bn imbgf witi 8-bit RGBA dolor domponfnts witi tif dolors
+     * Bluf, Grffn, bnd Rfd storfd in 3 bytfs bnd 1 bytf of blpib.  Tif
+     * imbgf ibs b <dodf>ComponfntColorModfl</dodf> witi blpib. Tif dolor
+     * dbtb in tiis imbgf is donsidfrfd to bf prfmultiplifd witi blpib.
+     * Tif bytf dbtb is intfrlfbvfd in b singlf bytf brrby in tif ordfr
+     * A, B, G, R from lowfr to iigifr bytf bddrfssfs witiin fbdi pixfl.
      */
-    public static final int TYPE_4BYTE_ABGR_PRE = 7;
+    publid stbtid finbl int TYPE_4BYTE_ABGR_PRE = 7;
 
     /**
-     * Represents an image with 5-6-5 RGB color components (5-bits red,
-     * 6-bits green, 5-bits blue) with no alpha.  This image has
-     * a <code>DirectColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn imbgf witi 5-6-5 RGB dolor domponfnts (5-bits rfd,
+     * 6-bits grffn, 5-bits bluf) witi no blpib.  Tiis imbgf ibs
+     * b <dodf>DirfdtColorModfl</dodf>.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_USHORT_565_RGB = 8;
+    publid stbtid finbl int TYPE_USHORT_565_RGB = 8;
 
     /**
-     * Represents an image with 5-5-5 RGB color components (5-bits red,
-     * 5-bits green, 5-bits blue) with no alpha.  This image has
-     * a <code>DirectColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn imbgf witi 5-5-5 RGB dolor domponfnts (5-bits rfd,
+     * 5-bits grffn, 5-bits bluf) witi no blpib.  Tiis imbgf ibs
+     * b <dodf>DirfdtColorModfl</dodf>.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_USHORT_555_RGB = 9;
+    publid stbtid finbl int TYPE_USHORT_555_RGB = 9;
 
     /**
-     * Represents a unsigned byte grayscale image, non-indexed.  This
-     * image has a <code>ComponentColorModel</code> with a CS_GRAY
-     * {@link ColorSpace}.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts b unsignfd bytf grbysdblf imbgf, non-indfxfd.  Tiis
+     * imbgf ibs b <dodf>ComponfntColorModfl</dodf> witi b CS_GRAY
+     * {@link ColorSpbdf}.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_BYTE_GRAY = 10;
+    publid stbtid finbl int TYPE_BYTE_GRAY = 10;
 
     /**
-     * Represents an unsigned short grayscale image, non-indexed).  This
-     * image has a <code>ComponentColorModel</code> with a CS_GRAY
-     * <code>ColorSpace</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Rfprfsfnts bn unsignfd siort grbysdblf imbgf, non-indfxfd).  Tiis
+     * imbgf ibs b <dodf>ComponfntColorModfl</dodf> witi b CS_GRAY
+     * <dodf>ColorSpbdf</dodf>.
+     * Wifn dbtb witi non-opbquf blpib is storfd
+     * in bn imbgf of tiis typf,
+     * tif dolor dbtb must bf bdjustfd to b non-prfmultiplifd form
+     * bnd tif blpib disdbrdfd,
+     * bs dfsdribfd in tif
+     * {@link jbvb.bwt.AlpibCompositf} dodumfntbtion.
      */
-    public static final int TYPE_USHORT_GRAY = 11;
+    publid stbtid finbl int TYPE_USHORT_GRAY = 11;
 
     /**
-     * Represents an opaque byte-packed 1, 2, or 4 bit image.  The
-     * image has an {@link IndexColorModel} without alpha.  When this
-     * type is used as the <code>imageType</code> argument to the
-     * <code>BufferedImage</code> constructor that takes an
-     * <code>imageType</code> argument but no <code>ColorModel</code>
-     * argument, a 1-bit image is created with an
-     * <code>IndexColorModel</code> with two colors in the default
-     * sRGB <code>ColorSpace</code>: {0,&nbsp;0,&nbsp;0} and
+     * Rfprfsfnts bn opbquf bytf-pbdkfd 1, 2, or 4 bit imbgf.  Tif
+     * imbgf ibs bn {@link IndfxColorModfl} witiout blpib.  Wifn tiis
+     * typf is usfd bs tif <dodf>imbgfTypf</dodf> brgumfnt to tif
+     * <dodf>BufffrfdImbgf</dodf> donstrudtor tibt tbkfs bn
+     * <dodf>imbgfTypf</dodf> brgumfnt but no <dodf>ColorModfl</dodf>
+     * brgumfnt, b 1-bit imbgf is drfbtfd witi bn
+     * <dodf>IndfxColorModfl</dodf> witi two dolors in tif dffbult
+     * sRGB <dodf>ColorSpbdf</dodf>: {0,&nbsp;0,&nbsp;0} bnd
      * {255,&nbsp;255,&nbsp;255}.
      *
-     * <p> Images with 2 or 4 bits per pixel may be constructed via
-     * the <code>BufferedImage</code> constructor that takes a
-     * <code>ColorModel</code> argument by supplying a
-     * <code>ColorModel</code> with an appropriate map size.
+     * <p> Imbgfs witi 2 or 4 bits pfr pixfl mby bf donstrudtfd vib
+     * tif <dodf>BufffrfdImbgf</dodf> donstrudtor tibt tbkfs b
+     * <dodf>ColorModfl</dodf> brgumfnt by supplying b
+     * <dodf>ColorModfl</dodf> witi bn bppropribtf mbp sizf.
      *
-     * <p> Images with 8 bits per pixel should use the image types
-     * <code>TYPE_BYTE_INDEXED</code> or <code>TYPE_BYTE_GRAY</code>
-     * depending on their <code>ColorModel</code>.
+     * <p> Imbgfs witi 8 bits pfr pixfl siould usf tif imbgf typfs
+     * <dodf>TYPE_BYTE_INDEXED</dodf> or <dodf>TYPE_BYTE_GRAY</dodf>
+     * dfpfnding on tifir <dodf>ColorModfl</dodf>.
 
-     * <p> When color data is stored in an image of this type,
-     * the closest color in the colormap is determined
-     * by the <code>IndexColorModel</code> and the resulting index is stored.
-     * Approximation and loss of alpha or color components
-     * can result, depending on the colors in the
-     * <code>IndexColorModel</code> colormap.
+     * <p> Wifn dolor dbtb is storfd in bn imbgf of tiis typf,
+     * tif dlosfst dolor in tif dolormbp is dftfrminfd
+     * by tif <dodf>IndfxColorModfl</dodf> bnd tif rfsulting indfx is storfd.
+     * Approximbtion bnd loss of blpib or dolor domponfnts
+     * dbn rfsult, dfpfnding on tif dolors in tif
+     * <dodf>IndfxColorModfl</dodf> dolormbp.
      */
-    public static final int TYPE_BYTE_BINARY = 12;
+    publid stbtid finbl int TYPE_BYTE_BINARY = 12;
 
     /**
-     * Represents an indexed byte image.  When this type is used as the
-     * <code>imageType</code> argument to the <code>BufferedImage</code>
-     * constructor that takes an <code>imageType</code> argument
-     * but no <code>ColorModel</code> argument, an
-     * <code>IndexColorModel</code> is created with
-     * a 256-color 6/6/6 color cube palette with the rest of the colors
-     * from 216-255 populated by grayscale values in the
-     * default sRGB ColorSpace.
+     * Rfprfsfnts bn indfxfd bytf imbgf.  Wifn tiis typf is usfd bs tif
+     * <dodf>imbgfTypf</dodf> brgumfnt to tif <dodf>BufffrfdImbgf</dodf>
+     * donstrudtor tibt tbkfs bn <dodf>imbgfTypf</dodf> brgumfnt
+     * but no <dodf>ColorModfl</dodf> brgumfnt, bn
+     * <dodf>IndfxColorModfl</dodf> is drfbtfd witi
+     * b 256-dolor 6/6/6 dolor dubf pblfttf witi tif rfst of tif dolors
+     * from 216-255 populbtfd by grbysdblf vblufs in tif
+     * dffbult sRGB ColorSpbdf.
      *
-     * <p> When color data is stored in an image of this type,
-     * the closest color in the colormap is determined
-     * by the <code>IndexColorModel</code> and the resulting index is stored.
-     * Approximation and loss of alpha or color components
-     * can result, depending on the colors in the
-     * <code>IndexColorModel</code> colormap.
+     * <p> Wifn dolor dbtb is storfd in bn imbgf of tiis typf,
+     * tif dlosfst dolor in tif dolormbp is dftfrminfd
+     * by tif <dodf>IndfxColorModfl</dodf> bnd tif rfsulting indfx is storfd.
+     * Approximbtion bnd loss of blpib or dolor domponfnts
+     * dbn rfsult, dfpfnding on tif dolors in tif
+     * <dodf>IndfxColorModfl</dodf> dolormbp.
      */
-    public static final int TYPE_BYTE_INDEXED = 13;
+    publid stbtid finbl int TYPE_BYTE_INDEXED = 13;
 
-    private static final int DCM_RED_MASK   = 0x00ff0000;
-    private static final int DCM_GREEN_MASK = 0x0000ff00;
-    private static final int DCM_BLUE_MASK  = 0x000000ff;
-    private static final int DCM_ALPHA_MASK = 0xff000000;
-    private static final int DCM_565_RED_MASK = 0xf800;
-    private static final int DCM_565_GRN_MASK = 0x07E0;
-    private static final int DCM_565_BLU_MASK = 0x001F;
-    private static final int DCM_555_RED_MASK = 0x7C00;
-    private static final int DCM_555_GRN_MASK = 0x03E0;
-    private static final int DCM_555_BLU_MASK = 0x001F;
-    private static final int DCM_BGR_RED_MASK = 0x0000ff;
-    private static final int DCM_BGR_GRN_MASK = 0x00ff00;
-    private static final int DCM_BGR_BLU_MASK = 0xff0000;
+    privbtf stbtid finbl int DCM_RED_MASK   = 0x00ff0000;
+    privbtf stbtid finbl int DCM_GREEN_MASK = 0x0000ff00;
+    privbtf stbtid finbl int DCM_BLUE_MASK  = 0x000000ff;
+    privbtf stbtid finbl int DCM_ALPHA_MASK = 0xff000000;
+    privbtf stbtid finbl int DCM_565_RED_MASK = 0xf800;
+    privbtf stbtid finbl int DCM_565_GRN_MASK = 0x07E0;
+    privbtf stbtid finbl int DCM_565_BLU_MASK = 0x001F;
+    privbtf stbtid finbl int DCM_555_RED_MASK = 0x7C00;
+    privbtf stbtid finbl int DCM_555_GRN_MASK = 0x03E0;
+    privbtf stbtid finbl int DCM_555_BLU_MASK = 0x001F;
+    privbtf stbtid finbl int DCM_BGR_RED_MASK = 0x0000ff;
+    privbtf stbtid finbl int DCM_BGR_GRN_MASK = 0x00ff00;
+    privbtf stbtid finbl int DCM_BGR_BLU_MASK = 0xff0000;
 
 
-    static private native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    stbtid privbtf nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
         initIDs();
     }
 
     /**
-     * Constructs a <code>BufferedImage</code> of one of the predefined
-     * image types.  The <code>ColorSpace</code> for the image is the
-     * default sRGB space.
-     * @param width     width of the created image
-     * @param height    height of the created image
-     * @param imageType type of the created image
-     * @see ColorSpace
-     * @see #TYPE_INT_RGB
-     * @see #TYPE_INT_ARGB
-     * @see #TYPE_INT_ARGB_PRE
-     * @see #TYPE_INT_BGR
-     * @see #TYPE_3BYTE_BGR
-     * @see #TYPE_4BYTE_ABGR
-     * @see #TYPE_4BYTE_ABGR_PRE
-     * @see #TYPE_BYTE_GRAY
-     * @see #TYPE_USHORT_GRAY
-     * @see #TYPE_BYTE_BINARY
-     * @see #TYPE_BYTE_INDEXED
-     * @see #TYPE_USHORT_565_RGB
-     * @see #TYPE_USHORT_555_RGB
+     * Construdts b <dodf>BufffrfdImbgf</dodf> of onf of tif prfdffinfd
+     * imbgf typfs.  Tif <dodf>ColorSpbdf</dodf> for tif imbgf is tif
+     * dffbult sRGB spbdf.
+     * @pbrbm widti     widti of tif drfbtfd imbgf
+     * @pbrbm ifigit    ifigit of tif drfbtfd imbgf
+     * @pbrbm imbgfTypf typf of tif drfbtfd imbgf
+     * @sff ColorSpbdf
+     * @sff #TYPE_INT_RGB
+     * @sff #TYPE_INT_ARGB
+     * @sff #TYPE_INT_ARGB_PRE
+     * @sff #TYPE_INT_BGR
+     * @sff #TYPE_3BYTE_BGR
+     * @sff #TYPE_4BYTE_ABGR
+     * @sff #TYPE_4BYTE_ABGR_PRE
+     * @sff #TYPE_BYTE_GRAY
+     * @sff #TYPE_USHORT_GRAY
+     * @sff #TYPE_BYTE_BINARY
+     * @sff #TYPE_BYTE_INDEXED
+     * @sff #TYPE_USHORT_565_RGB
+     * @sff #TYPE_USHORT_555_RGB
      */
-    public BufferedImage(int width,
-                         int height,
-                         int imageType) {
-        switch (imageType) {
-        case TYPE_INT_RGB:
+    publid BufffrfdImbgf(int widti,
+                         int ifigit,
+                         int imbgfTypf) {
+        switdi (imbgfTypf) {
+        dbsf TYPE_INT_RGB:
             {
-                colorModel = new DirectColorModel(24,
-                                                  0x00ff0000,   // Red
-                                                  0x0000ff00,   // Green
-                                                  0x000000ff,   // Blue
-                                                  0x0           // Alpha
+                dolorModfl = nfw DirfdtColorModfl(24,
+                                                  0x00ff0000,   // Rfd
+                                                  0x0000ff00,   // Grffn
+                                                  0x000000ff,   // Bluf
+                                                  0x0           // Alpib
                                                   );
-                  raster = colorModel.createCompatibleWritableRaster(width,
-                                                                      height);
+                  rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                      ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_INT_ARGB:
+        dbsf TYPE_INT_ARGB:
             {
-                colorModel = ColorModel.getRGBdefault();
+                dolorModfl = ColorModfl.gftRGBdffbult();
 
-                raster = colorModel.createCompatibleWritableRaster(width,
-                                                                   height);
+                rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                   ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_INT_ARGB_PRE:
+        dbsf TYPE_INT_ARGB_PRE:
             {
-                colorModel = new
-                    DirectColorModel(
-                                     ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                dolorModfl = nfw
+                    DirfdtColorModfl(
+                                     ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
                                      32,
-                                     0x00ff0000,// Red
-                                     0x0000ff00,// Green
-                                     0x000000ff,// Blue
-                                     0xff000000,// Alpha
-                                     true,       // Alpha Premultiplied
-                                     DataBuffer.TYPE_INT
+                                     0x00ff0000,// Rfd
+                                     0x0000ff00,// Grffn
+                                     0x000000ff,// Bluf
+                                     0xff000000,// Alpib
+                                     truf,       // Alpib Prfmultiplifd
+                                     DbtbBufffr.TYPE_INT
                                      );
 
-                  raster = colorModel.createCompatibleWritableRaster(width,
-                                                                      height);
+                  rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                      ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_INT_BGR:
+        dbsf TYPE_INT_BGR:
             {
-                colorModel = new DirectColorModel(24,
-                                                  0x000000ff,   // Red
-                                                  0x0000ff00,   // Green
-                                                  0x00ff0000    // Blue
+                dolorModfl = nfw DirfdtColorModfl(24,
+                                                  0x000000ff,   // Rfd
+                                                  0x0000ff00,   // Grffn
+                                                  0x00ff0000    // Bluf
                                                   );
-                  raster = colorModel.createCompatibleWritableRaster(width,
-                                                                      height);
+                  rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                      ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_3BYTE_BGR:
+        dbsf TYPE_3BYTE_BGR:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
                 int[] nBits = {8, 8, 8};
                 int[] bOffs = {2, 1, 0};
-                colorModel = new ComponentColorModel(cs, nBits, false, false,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                        width, height,
-                                                        width*3, 3,
+                dolorModfl = nfw ComponfntColorModfl(ds, nBits, fblsf, fblsf,
+                                                     Trbnspbrfndy.OPAQUE,
+                                                     DbtbBufffr.TYPE_BYTE);
+                rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                        widti, ifigit,
+                                                        widti*3, 3,
                                                         bOffs, null);
             }
-        break;
+        brfbk;
 
-        case TYPE_4BYTE_ABGR:
+        dbsf TYPE_4BYTE_ABGR:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
                 int[] nBits = {8, 8, 8, 8};
                 int[] bOffs = {3, 2, 1, 0};
-                colorModel = new ComponentColorModel(cs, nBits, true, false,
-                                                     Transparency.TRANSLUCENT,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                        width, height,
-                                                        width*4, 4,
+                dolorModfl = nfw ComponfntColorModfl(ds, nBits, truf, fblsf,
+                                                     Trbnspbrfndy.TRANSLUCENT,
+                                                     DbtbBufffr.TYPE_BYTE);
+                rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                        widti, ifigit,
+                                                        widti*4, 4,
                                                         bOffs, null);
             }
-        break;
+        brfbk;
 
-        case TYPE_4BYTE_ABGR_PRE:
+        dbsf TYPE_4BYTE_ABGR_PRE:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
                 int[] nBits = {8, 8, 8, 8};
                 int[] bOffs = {3, 2, 1, 0};
-                colorModel = new ComponentColorModel(cs, nBits, true, true,
-                                                     Transparency.TRANSLUCENT,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                        width, height,
-                                                        width*4, 4,
+                dolorModfl = nfw ComponfntColorModfl(ds, nBits, truf, truf,
+                                                     Trbnspbrfndy.TRANSLUCENT,
+                                                     DbtbBufffr.TYPE_BYTE);
+                rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                        widti, ifigit,
+                                                        widti*4, 4,
                                                         bOffs, null);
             }
-        break;
+        brfbk;
 
-        case TYPE_BYTE_GRAY:
+        dbsf TYPE_BYTE_GRAY:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_GRAY);
                 int[] nBits = {8};
-                colorModel = new ComponentColorModel(cs, nBits, false, true,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = colorModel.createCompatibleWritableRaster(width,
-                                                                   height);
+                dolorModfl = nfw ComponfntColorModfl(ds, nBits, fblsf, truf,
+                                                     Trbnspbrfndy.OPAQUE,
+                                                     DbtbBufffr.TYPE_BYTE);
+                rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                   ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_USHORT_GRAY:
+        dbsf TYPE_USHORT_GRAY:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_GRAY);
                 int[] nBits = {16};
-                colorModel = new ComponentColorModel(cs, nBits, false, true,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_USHORT);
-                raster = colorModel.createCompatibleWritableRaster(width,
-                                                                   height);
+                dolorModfl = nfw ComponfntColorModfl(ds, nBits, fblsf, truf,
+                                                     Trbnspbrfndy.OPAQUE,
+                                                     DbtbBufffr.TYPE_USHORT);
+                rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                   ifigit);
             }
-        break;
+        brfbk;
 
-        case TYPE_BYTE_BINARY:
+        dbsf TYPE_BYTE_BINARY:
             {
-                byte[] arr = {(byte)0, (byte)0xff};
+                bytf[] brr = {(bytf)0, (bytf)0xff};
 
-                colorModel = new IndexColorModel(1, 2, arr, arr, arr);
-                raster = Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                                                   width, height, 1, 1, null);
+                dolorModfl = nfw IndfxColorModfl(1, 2, brr, brr, brr);
+                rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                   widti, ifigit, 1, 1, null);
             }
-        break;
+        brfbk;
 
-        case TYPE_BYTE_INDEXED:
+        dbsf TYPE_BYTE_INDEXED:
             {
-                // Create a 6x6x6 color cube
-                int[] cmap = new int[256];
+                // Crfbtf b 6x6x6 dolor dubf
+                int[] dmbp = nfw int[256];
                 int i=0;
                 for (int r=0; r < 256; r += 51) {
                     for (int g=0; g < 256; g += 51) {
                         for (int b=0; b < 256; b += 51) {
-                            cmap[i++] = (r<<16)|(g<<8)|b;
+                            dmbp[i++] = (r<<16)|(g<<8)|b;
                         }
                     }
                 }
-                // And populate the rest of the cmap with gray values
-                int grayIncr = 256/(256-i);
+                // And populbtf tif rfst of tif dmbp witi grby vblufs
+                int grbyIndr = 256/(256-i);
 
-                // The gray ramp will be between 18 and 252
-                int gray = grayIncr*3;
+                // Tif grby rbmp will bf bftwffn 18 bnd 252
+                int grby = grbyIndr*3;
                 for (; i < 256; i++) {
-                    cmap[i] = (gray<<16)|(gray<<8)|gray;
-                    gray += grayIncr;
+                    dmbp[i] = (grby<<16)|(grby<<8)|grby;
+                    grby += grbyIndr;
                 }
 
-                colorModel = new IndexColorModel(8, 256, cmap, 0, false, -1,
-                                                 DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                      width, height, 1, null);
+                dolorModfl = nfw IndfxColorModfl(8, 256, dmbp, 0, fblsf, -1,
+                                                 DbtbBufffr.TYPE_BYTE);
+                rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                      widti, ifigit, 1, null);
             }
-        break;
+        brfbk;
 
-        case TYPE_USHORT_565_RGB:
+        dbsf TYPE_USHORT_565_RGB:
             {
-                colorModel = new DirectColorModel(16,
+                dolorModfl = nfw DirfdtColorModfl(16,
                                                   DCM_565_RED_MASK,
                                                   DCM_565_GRN_MASK,
                                                   DCM_565_BLU_MASK
                                                   );
-                raster = colorModel.createCompatibleWritableRaster(width,
-                                                                   height);
+                rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                   ifigit);
             }
-            break;
+            brfbk;
 
-        case TYPE_USHORT_555_RGB:
+        dbsf TYPE_USHORT_555_RGB:
             {
-                colorModel = new DirectColorModel(15,
+                dolorModfl = nfw DirfdtColorModfl(15,
                                                   DCM_555_RED_MASK,
                                                   DCM_555_GRN_MASK,
                                                   DCM_555_BLU_MASK
                                                   );
-                raster = colorModel.createCompatibleWritableRaster(width,
-                                                                   height);
+                rbstfr = dolorModfl.drfbtfCompbtiblfWritbblfRbstfr(widti,
+                                                                   ifigit);
             }
-            break;
+            brfbk;
 
-        default:
-            throw new IllegalArgumentException ("Unknown image type " +
-                                                imageType);
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption ("Unknown imbgf typf " +
+                                                imbgfTypf);
         }
 
-        this.imageType = imageType;
+        tiis.imbgfTypf = imbgfTypf;
     }
 
     /**
-     * Constructs a <code>BufferedImage</code> of one of the predefined
-     * image types:
+     * Construdts b <dodf>BufffrfdImbgf</dodf> of onf of tif prfdffinfd
+     * imbgf typfs:
      * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED.
      *
-     * <p> If the image type is TYPE_BYTE_BINARY, the number of
-     * entries in the color model is used to determine whether the
-     * image should have 1, 2, or 4 bits per pixel.  If the color model
-     * has 1 or 2 entries, the image will have 1 bit per pixel.  If it
-     * has 3 or 4 entries, the image with have 2 bits per pixel.  If
-     * it has between 5 and 16 entries, the image will have 4 bits per
-     * pixel.  Otherwise, an IllegalArgumentException will be thrown.
+     * <p> If tif imbgf typf is TYPE_BYTE_BINARY, tif numbfr of
+     * fntrifs in tif dolor modfl is usfd to dftfrminf wiftifr tif
+     * imbgf siould ibvf 1, 2, or 4 bits pfr pixfl.  If tif dolor modfl
+     * ibs 1 or 2 fntrifs, tif imbgf will ibvf 1 bit pfr pixfl.  If it
+     * ibs 3 or 4 fntrifs, tif imbgf witi ibvf 2 bits pfr pixfl.  If
+     * it ibs bftwffn 5 bnd 16 fntrifs, tif imbgf will ibvf 4 bits pfr
+     * pixfl.  Otifrwisf, bn IllfgblArgumfntExdfption will bf tirown.
      *
-     * @param width     width of the created image
-     * @param height    height of the created image
-     * @param imageType type of the created image
-     * @param cm        <code>IndexColorModel</code> of the created image
-     * @throws IllegalArgumentException   if the imageType is not
-     * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED or if the imageType is
-     * TYPE_BYTE_BINARY and the color map has more than 16 entries.
-     * @see #TYPE_BYTE_BINARY
-     * @see #TYPE_BYTE_INDEXED
+     * @pbrbm widti     widti of tif drfbtfd imbgf
+     * @pbrbm ifigit    ifigit of tif drfbtfd imbgf
+     * @pbrbm imbgfTypf typf of tif drfbtfd imbgf
+     * @pbrbm dm        <dodf>IndfxColorModfl</dodf> of tif drfbtfd imbgf
+     * @tirows IllfgblArgumfntExdfption   if tif imbgfTypf is not
+     * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED or if tif imbgfTypf is
+     * TYPE_BYTE_BINARY bnd tif dolor mbp ibs morf tibn 16 fntrifs.
+     * @sff #TYPE_BYTE_BINARY
+     * @sff #TYPE_BYTE_INDEXED
      */
-    public BufferedImage (int width,
-                          int height,
-                          int imageType,
-                          IndexColorModel cm) {
-        if (cm.hasAlpha() && cm.isAlphaPremultiplied()) {
-            throw new IllegalArgumentException("This image types do not have "+
-                                               "premultiplied alpha.");
+    publid BufffrfdImbgf (int widti,
+                          int ifigit,
+                          int imbgfTypf,
+                          IndfxColorModfl dm) {
+        if (dm.ibsAlpib() && dm.isAlpibPrfmultiplifd()) {
+            tirow nfw IllfgblArgumfntExdfption("Tiis imbgf typfs do not ibvf "+
+                                               "prfmultiplifd blpib.");
         }
 
-        switch(imageType) {
-        case TYPE_BYTE_BINARY:
-            int bits; // Will be set below
-            int mapSize = cm.getMapSize();
-            if (mapSize <= 2) {
+        switdi(imbgfTypf) {
+        dbsf TYPE_BYTE_BINARY:
+            int bits; // Will bf sft bflow
+            int mbpSizf = dm.gftMbpSizf();
+            if (mbpSizf <= 2) {
                 bits = 1;
-            } else if (mapSize <= 4) {
+            } flsf if (mbpSizf <= 4) {
                 bits = 2;
-            } else if (mapSize <= 16) {
+            } flsf if (mbpSizf <= 16) {
                 bits = 4;
-            } else {
-                throw new IllegalArgumentException
-                    ("Color map for TYPE_BYTE_BINARY " +
-                     "must have no more than 16 entries");
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("Color mbp for TYPE_BYTE_BINARY " +
+                     "must ibvf no morf tibn 16 fntrifs");
             }
-            raster = Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                                                width, height, 1, bits, null);
-            break;
+            rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                widti, ifigit, 1, bits, null);
+            brfbk;
 
-        case TYPE_BYTE_INDEXED:
-            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                    width, height, 1, null);
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid image type (" +
-                                               imageType+").  Image type must"+
-                                               " be either TYPE_BYTE_BINARY or "+
+        dbsf TYPE_BYTE_INDEXED:
+            rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                    widti, ifigit, 1, null);
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid imbgf typf (" +
+                                               imbgfTypf+").  Imbgf typf must"+
+                                               " bf fitifr TYPE_BYTE_BINARY or "+
                                                " TYPE_BYTE_INDEXED");
         }
 
-        if (!cm.isCompatibleRaster(raster)) {
-            throw new IllegalArgumentException("Incompatible image type and IndexColorModel");
+        if (!dm.isCompbtiblfRbstfr(rbstfr)) {
+            tirow nfw IllfgblArgumfntExdfption("Indompbtiblf imbgf typf bnd IndfxColorModfl");
         }
 
-        colorModel = cm;
-        this.imageType = imageType;
+        dolorModfl = dm;
+        tiis.imbgfTypf = imbgfTypf;
     }
 
     /**
-     * Constructs a new <code>BufferedImage</code> with a specified
-     * <code>ColorModel</code> and <code>Raster</code>.  If the number and
-     * types of bands in the <code>SampleModel</code> of the
-     * <code>Raster</code> do not match the number and types required by
-     * the <code>ColorModel</code> to represent its color and alpha
-     * components, a {@link RasterFormatException} is thrown.  This
-     * method can multiply or divide the color <code>Raster</code> data by
-     * alpha to match the <code>alphaPremultiplied</code> state
-     * in the <code>ColorModel</code>.  Properties for this
-     * <code>BufferedImage</code> can be established by passing
-     * in a {@link Hashtable} of <code>String</code>/<code>Object</code>
-     * pairs.
-     * @param cm <code>ColorModel</code> for the new image
-     * @param raster     <code>Raster</code> for the image data
-     * @param isRasterPremultiplied   if <code>true</code>, the data in
-     *                  the raster has been premultiplied with alpha.
-     * @param properties <code>Hashtable</code> of
-     *                  <code>String</code>/<code>Object</code> pairs.
-     * @exception RasterFormatException if the number and
-     * types of bands in the <code>SampleModel</code> of the
-     * <code>Raster</code> do not match the number and types required by
-     * the <code>ColorModel</code> to represent its color and alpha
-     * components.
-     * @exception IllegalArgumentException if
-     *          <code>raster</code> is incompatible with <code>cm</code>
-     * @see ColorModel
-     * @see Raster
-     * @see WritableRaster
+     * Construdts b nfw <dodf>BufffrfdImbgf</dodf> witi b spfdififd
+     * <dodf>ColorModfl</dodf> bnd <dodf>Rbstfr</dodf>.  If tif numbfr bnd
+     * typfs of bbnds in tif <dodf>SbmplfModfl</dodf> of tif
+     * <dodf>Rbstfr</dodf> do not mbtdi tif numbfr bnd typfs rfquirfd by
+     * tif <dodf>ColorModfl</dodf> to rfprfsfnt its dolor bnd blpib
+     * domponfnts, b {@link RbstfrFormbtExdfption} is tirown.  Tiis
+     * mftiod dbn multiply or dividf tif dolor <dodf>Rbstfr</dodf> dbtb by
+     * blpib to mbtdi tif <dodf>blpibPrfmultiplifd</dodf> stbtf
+     * in tif <dodf>ColorModfl</dodf>.  Propfrtifs for tiis
+     * <dodf>BufffrfdImbgf</dodf> dbn bf fstbblisifd by pbssing
+     * in b {@link Hbsitbblf} of <dodf>String</dodf>/<dodf>Objfdt</dodf>
+     * pbirs.
+     * @pbrbm dm <dodf>ColorModfl</dodf> for tif nfw imbgf
+     * @pbrbm rbstfr     <dodf>Rbstfr</dodf> for tif imbgf dbtb
+     * @pbrbm isRbstfrPrfmultiplifd   if <dodf>truf</dodf>, tif dbtb in
+     *                  tif rbstfr ibs bffn prfmultiplifd witi blpib.
+     * @pbrbm propfrtifs <dodf>Hbsitbblf</dodf> of
+     *                  <dodf>String</dodf>/<dodf>Objfdt</dodf> pbirs.
+     * @fxdfption RbstfrFormbtExdfption if tif numbfr bnd
+     * typfs of bbnds in tif <dodf>SbmplfModfl</dodf> of tif
+     * <dodf>Rbstfr</dodf> do not mbtdi tif numbfr bnd typfs rfquirfd by
+     * tif <dodf>ColorModfl</dodf> to rfprfsfnt its dolor bnd blpib
+     * domponfnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     *          <dodf>rbstfr</dodf> is indompbtiblf witi <dodf>dm</dodf>
+     * @sff ColorModfl
+     * @sff Rbstfr
+     * @sff WritbblfRbstfr
      */
 
 
@@ -621,1018 +621,1018 @@ public class BufferedImage extends java.awt.Image
  *  SEE THE METHOD DEFINERASTERTYPE @ RASTEROUTPUTMANAGER
  *
  */
-    public BufferedImage (ColorModel cm,
-                          WritableRaster raster,
-                          boolean isRasterPremultiplied,
-                          Hashtable<?,?> properties) {
+    publid BufffrfdImbgf (ColorModfl dm,
+                          WritbblfRbstfr rbstfr,
+                          boolfbn isRbstfrPrfmultiplifd,
+                          Hbsitbblf<?,?> propfrtifs) {
 
-        if (!cm.isCompatibleRaster(raster)) {
-            throw new
-                IllegalArgumentException("Raster "+raster+
-                                         " is incompatible with ColorModel "+
-                                         cm);
+        if (!dm.isCompbtiblfRbstfr(rbstfr)) {
+            tirow nfw
+                IllfgblArgumfntExdfption("Rbstfr "+rbstfr+
+                                         " is indompbtiblf witi ColorModfl "+
+                                         dm);
         }
 
-        if ((raster.minX != 0) || (raster.minY != 0)) {
-            throw new
-                IllegalArgumentException("Raster "+raster+
-                                         " has minX or minY not equal to zero: "
-                                         + raster.minX + " " + raster.minY);
+        if ((rbstfr.minX != 0) || (rbstfr.minY != 0)) {
+            tirow nfw
+                IllfgblArgumfntExdfption("Rbstfr "+rbstfr+
+                                         " ibs minX or minY not fqubl to zfro: "
+                                         + rbstfr.minX + " " + rbstfr.minY);
         }
 
-        colorModel = cm;
-        this.raster  = raster;
-        this.properties = properties;
-        int numBands = raster.getNumBands();
-        boolean isAlphaPre = cm.isAlphaPremultiplied();
-        final boolean isStandard = isStandard(cm, raster);
-        ColorSpace cs;
+        dolorModfl = dm;
+        tiis.rbstfr  = rbstfr;
+        tiis.propfrtifs = propfrtifs;
+        int numBbnds = rbstfr.gftNumBbnds();
+        boolfbn isAlpibPrf = dm.isAlpibPrfmultiplifd();
+        finbl boolfbn isStbndbrd = isStbndbrd(dm, rbstfr);
+        ColorSpbdf ds;
 
-        // Force the raster data alpha state to match the premultiplied
-        // state in the color model
-        coerceData(isRasterPremultiplied);
+        // Fordf tif rbstfr dbtb blpib stbtf to mbtdi tif prfmultiplifd
+        // stbtf in tif dolor modfl
+        dofrdfDbtb(isRbstfrPrfmultiplifd);
 
-        SampleModel sm = raster.getSampleModel();
-        cs = cm.getColorSpace();
-        int csType = cs.getType();
-        if (csType != ColorSpace.TYPE_RGB) {
-            if (csType == ColorSpace.TYPE_GRAY &&
-                isStandard &&
-                cm instanceof ComponentColorModel) {
-                // Check if this might be a child raster (fix for bug 4240596)
-                if (sm instanceof ComponentSampleModel &&
-                    ((ComponentSampleModel)sm).getPixelStride() != numBands) {
-                    imageType = TYPE_CUSTOM;
-                } else if (raster instanceof ByteComponentRaster &&
-                       raster.getNumBands() == 1 &&
-                       cm.getComponentSize(0) == 8 &&
-                       ((ByteComponentRaster)raster).getPixelStride() == 1) {
-                    imageType = TYPE_BYTE_GRAY;
-                } else if (raster instanceof ShortComponentRaster &&
-                       raster.getNumBands() == 1 &&
-                       cm.getComponentSize(0) == 16 &&
-                       ((ShortComponentRaster)raster).getPixelStride() == 1) {
-                    imageType = TYPE_USHORT_GRAY;
+        SbmplfModfl sm = rbstfr.gftSbmplfModfl();
+        ds = dm.gftColorSpbdf();
+        int dsTypf = ds.gftTypf();
+        if (dsTypf != ColorSpbdf.TYPE_RGB) {
+            if (dsTypf == ColorSpbdf.TYPE_GRAY &&
+                isStbndbrd &&
+                dm instbndfof ComponfntColorModfl) {
+                // Cifdk if tiis migit bf b diild rbstfr (fix for bug 4240596)
+                if (sm instbndfof ComponfntSbmplfModfl &&
+                    ((ComponfntSbmplfModfl)sm).gftPixflStridf() != numBbnds) {
+                    imbgfTypf = TYPE_CUSTOM;
+                } flsf if (rbstfr instbndfof BytfComponfntRbstfr &&
+                       rbstfr.gftNumBbnds() == 1 &&
+                       dm.gftComponfntSizf(0) == 8 &&
+                       ((BytfComponfntRbstfr)rbstfr).gftPixflStridf() == 1) {
+                    imbgfTypf = TYPE_BYTE_GRAY;
+                } flsf if (rbstfr instbndfof SiortComponfntRbstfr &&
+                       rbstfr.gftNumBbnds() == 1 &&
+                       dm.gftComponfntSizf(0) == 16 &&
+                       ((SiortComponfntRbstfr)rbstfr).gftPixflStridf() == 1) {
+                    imbgfTypf = TYPE_USHORT_GRAY;
                 }
-            } else {
-                imageType = TYPE_CUSTOM;
+            } flsf {
+                imbgfTypf = TYPE_CUSTOM;
             }
-            return;
+            rfturn;
         }
 
-        if ((raster instanceof IntegerComponentRaster) &&
-            (numBands == 3 || numBands == 4)) {
-            IntegerComponentRaster iraster =
-                (IntegerComponentRaster) raster;
-            // Check if the raster params and the color model
-            // are correct
-            int pixSize = cm.getPixelSize();
-            if (iraster.getPixelStride() == 1 &&
-                isStandard &&
-                cm instanceof DirectColorModel  &&
-                (pixSize == 32 || pixSize == 24))
+        if ((rbstfr instbndfof IntfgfrComponfntRbstfr) &&
+            (numBbnds == 3 || numBbnds == 4)) {
+            IntfgfrComponfntRbstfr irbstfr =
+                (IntfgfrComponfntRbstfr) rbstfr;
+            // Cifdk if tif rbstfr pbrbms bnd tif dolor modfl
+            // brf dorrfdt
+            int pixSizf = dm.gftPixflSizf();
+            if (irbstfr.gftPixflStridf() == 1 &&
+                isStbndbrd &&
+                dm instbndfof DirfdtColorModfl  &&
+                (pixSizf == 32 || pixSizf == 24))
             {
-                // Now check on the DirectColorModel params
-                DirectColorModel dcm = (DirectColorModel) cm;
-                int rmask = dcm.getRedMask();
-                int gmask = dcm.getGreenMask();
-                int bmask = dcm.getBlueMask();
-                if (rmask == DCM_RED_MASK && gmask == DCM_GREEN_MASK &&
-                    bmask == DCM_BLUE_MASK)
+                // Now difdk on tif DirfdtColorModfl pbrbms
+                DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                int rmbsk = ddm.gftRfdMbsk();
+                int gmbsk = ddm.gftGrffnMbsk();
+                int bmbsk = ddm.gftBlufMbsk();
+                if (rmbsk == DCM_RED_MASK && gmbsk == DCM_GREEN_MASK &&
+                    bmbsk == DCM_BLUE_MASK)
                 {
-                    if (dcm.getAlphaMask() == DCM_ALPHA_MASK) {
-                        imageType = (isAlphaPre
+                    if (ddm.gftAlpibMbsk() == DCM_ALPHA_MASK) {
+                        imbgfTypf = (isAlpibPrf
                                      ? TYPE_INT_ARGB_PRE
                                      : TYPE_INT_ARGB);
                     }
-                    else {
-                        // No Alpha
-                        if (!dcm.hasAlpha()) {
-                            imageType = TYPE_INT_RGB;
+                    flsf {
+                        // No Alpib
+                        if (!ddm.ibsAlpib()) {
+                            imbgfTypf = TYPE_INT_RGB;
                         }
                     }
-                }   // if (dcm.getRedMask() == DCM_RED_MASK &&
-                else if (rmask == DCM_BGR_RED_MASK && gmask == DCM_BGR_GRN_MASK
-                         && bmask == DCM_BGR_BLU_MASK) {
-                    if (!dcm.hasAlpha()) {
-                        imageType = TYPE_INT_BGR;
+                }   // if (ddm.gftRfdMbsk() == DCM_RED_MASK &&
+                flsf if (rmbsk == DCM_BGR_RED_MASK && gmbsk == DCM_BGR_GRN_MASK
+                         && bmbsk == DCM_BGR_BLU_MASK) {
+                    if (!ddm.ibsAlpib()) {
+                        imbgfTypf = TYPE_INT_BGR;
                     }
-                }  // if (rmask == DCM_BGR_RED_MASK &&
-            }   // if (iraster.getPixelStride() == 1
-        }   // ((raster instanceof IntegerComponentRaster) &&
-        else if ((cm instanceof IndexColorModel) && (numBands == 1) &&
-                 isStandard &&
-                 (!cm.hasAlpha() || !isAlphaPre))
+                }  // if (rmbsk == DCM_BGR_RED_MASK &&
+            }   // if (irbstfr.gftPixflStridf() == 1
+        }   // ((rbstfr instbndfof IntfgfrComponfntRbstfr) &&
+        flsf if ((dm instbndfof IndfxColorModfl) && (numBbnds == 1) &&
+                 isStbndbrd &&
+                 (!dm.ibsAlpib() || !isAlpibPrf))
         {
-            IndexColorModel icm = (IndexColorModel) cm;
-            int pixSize = icm.getPixelSize();
+            IndfxColorModfl idm = (IndfxColorModfl) dm;
+            int pixSizf = idm.gftPixflSizf();
 
-            if (raster instanceof BytePackedRaster) {
-                imageType = TYPE_BYTE_BINARY;
-            }   // if (raster instanceof BytePackedRaster)
-            else if (raster instanceof ByteComponentRaster) {
-                ByteComponentRaster braster = (ByteComponentRaster) raster;
-                if (braster.getPixelStride() == 1 && pixSize <= 8) {
-                    imageType = TYPE_BYTE_INDEXED;
+            if (rbstfr instbndfof BytfPbdkfdRbstfr) {
+                imbgfTypf = TYPE_BYTE_BINARY;
+            }   // if (rbstfr instbndfof BytfPbdkfdRbstfr)
+            flsf if (rbstfr instbndfof BytfComponfntRbstfr) {
+                BytfComponfntRbstfr brbstfr = (BytfComponfntRbstfr) rbstfr;
+                if (brbstfr.gftPixflStridf() == 1 && pixSizf <= 8) {
+                    imbgfTypf = TYPE_BYTE_INDEXED;
                 }
             }
-        }   // else if (cm instanceof IndexColorModel) && (numBands == 1))
-        else if ((raster instanceof ShortComponentRaster)
-                 && (cm instanceof DirectColorModel)
-                 && isStandard
-                 && (numBands == 3)
-                 && !cm.hasAlpha())
+        }   // flsf if (dm instbndfof IndfxColorModfl) && (numBbnds == 1))
+        flsf if ((rbstfr instbndfof SiortComponfntRbstfr)
+                 && (dm instbndfof DirfdtColorModfl)
+                 && isStbndbrd
+                 && (numBbnds == 3)
+                 && !dm.ibsAlpib())
         {
-            DirectColorModel dcm = (DirectColorModel) cm;
-            if (dcm.getRedMask() == DCM_565_RED_MASK) {
-                if (dcm.getGreenMask() == DCM_565_GRN_MASK &&
-                    dcm.getBlueMask()  == DCM_565_BLU_MASK) {
-                    imageType = TYPE_USHORT_565_RGB;
+            DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+            if (ddm.gftRfdMbsk() == DCM_565_RED_MASK) {
+                if (ddm.gftGrffnMbsk() == DCM_565_GRN_MASK &&
+                    ddm.gftBlufMbsk()  == DCM_565_BLU_MASK) {
+                    imbgfTypf = TYPE_USHORT_565_RGB;
                 }
             }
-            else if (dcm.getRedMask() == DCM_555_RED_MASK) {
-                if (dcm.getGreenMask() == DCM_555_GRN_MASK &&
-                    dcm.getBlueMask() == DCM_555_BLU_MASK) {
-                    imageType = TYPE_USHORT_555_RGB;
+            flsf if (ddm.gftRfdMbsk() == DCM_555_RED_MASK) {
+                if (ddm.gftGrffnMbsk() == DCM_555_GRN_MASK &&
+                    ddm.gftBlufMbsk() == DCM_555_BLU_MASK) {
+                    imbgfTypf = TYPE_USHORT_555_RGB;
                 }
             }
-        }   // else if ((cm instanceof IndexColorModel) && (numBands == 1))
-        else if ((raster instanceof ByteComponentRaster)
-                 && (cm instanceof ComponentColorModel)
-                 && isStandard
-                 && (raster.getSampleModel() instanceof PixelInterleavedSampleModel)
-                 && (numBands == 3 || numBands == 4))
+        }   // flsf if ((dm instbndfof IndfxColorModfl) && (numBbnds == 1))
+        flsf if ((rbstfr instbndfof BytfComponfntRbstfr)
+                 && (dm instbndfof ComponfntColorModfl)
+                 && isStbndbrd
+                 && (rbstfr.gftSbmplfModfl() instbndfof PixflIntfrlfbvfdSbmplfModfl)
+                 && (numBbnds == 3 || numBbnds == 4))
         {
-            ComponentColorModel ccm = (ComponentColorModel) cm;
-            PixelInterleavedSampleModel csm =
-                (PixelInterleavedSampleModel)raster.getSampleModel();
-            ByteComponentRaster braster = (ByteComponentRaster) raster;
-            int[] offs = csm.getBandOffsets();
-            if (ccm.getNumComponents() != numBands) {
-                throw new RasterFormatException("Number of components in "+
-                                                "ColorModel ("+
-                                                ccm.getNumComponents()+
-                                                ") does not match # in "+
-                                                " Raster ("+numBands+")");
+            ComponfntColorModfl ddm = (ComponfntColorModfl) dm;
+            PixflIntfrlfbvfdSbmplfModfl dsm =
+                (PixflIntfrlfbvfdSbmplfModfl)rbstfr.gftSbmplfModfl();
+            BytfComponfntRbstfr brbstfr = (BytfComponfntRbstfr) rbstfr;
+            int[] offs = dsm.gftBbndOffsfts();
+            if (ddm.gftNumComponfnts() != numBbnds) {
+                tirow nfw RbstfrFormbtExdfption("Numbfr of domponfnts in "+
+                                                "ColorModfl ("+
+                                                ddm.gftNumComponfnts()+
+                                                ") dofs not mbtdi # in "+
+                                                " Rbstfr ("+numBbnds+")");
             }
-            int[] nBits = ccm.getComponentSize();
-            boolean is8bit = true;
-            for (int i=0; i < numBands; i++) {
+            int[] nBits = ddm.gftComponfntSizf();
+            boolfbn is8bit = truf;
+            for (int i=0; i < numBbnds; i++) {
                 if (nBits[i] != 8) {
-                    is8bit = false;
-                    break;
+                    is8bit = fblsf;
+                    brfbk;
                 }
             }
             if (is8bit &&
-                braster.getPixelStride() == numBands &&
-                offs[0] == numBands-1 &&
-                offs[1] == numBands-2 &&
-                offs[2] == numBands-3)
+                brbstfr.gftPixflStridf() == numBbnds &&
+                offs[0] == numBbnds-1 &&
+                offs[1] == numBbnds-2 &&
+                offs[2] == numBbnds-3)
             {
-                if (numBands == 3 && !ccm.hasAlpha()) {
-                    imageType = TYPE_3BYTE_BGR;
+                if (numBbnds == 3 && !ddm.ibsAlpib()) {
+                    imbgfTypf = TYPE_3BYTE_BGR;
                 }
-                else if (offs[3] == 0 && ccm.hasAlpha()) {
-                    imageType = (isAlphaPre
+                flsf if (offs[3] == 0 && ddm.ibsAlpib()) {
+                    imbgfTypf = (isAlpibPrf
                                  ? TYPE_4BYTE_ABGR_PRE
                                  : TYPE_4BYTE_ABGR);
                 }
             }
-        }   // else if ((raster instanceof ByteComponentRaster) &&
+        }   // flsf if ((rbstfr instbndfof BytfComponfntRbstfr) &&
     }
 
-    private static boolean isStandard(ColorModel cm, WritableRaster wr) {
-        final Class<? extends ColorModel> cmClass = cm.getClass();
-        final Class<? extends WritableRaster> wrClass = wr.getClass();
-        final Class<? extends SampleModel> smClass = wr.getSampleModel().getClass();
+    privbtf stbtid boolfbn isStbndbrd(ColorModfl dm, WritbblfRbstfr wr) {
+        finbl Clbss<? fxtfnds ColorModfl> dmClbss = dm.gftClbss();
+        finbl Clbss<? fxtfnds WritbblfRbstfr> wrClbss = wr.gftClbss();
+        finbl Clbss<? fxtfnds SbmplfModfl> smClbss = wr.gftSbmplfModfl().gftClbss();
 
-        final PrivilegedAction<Boolean> checkClassLoadersAction =
-                new PrivilegedAction<Boolean>()
+        finbl PrivilfgfdAdtion<Boolfbn> difdkClbssLobdfrsAdtion =
+                nfw PrivilfgfdAdtion<Boolfbn>()
         {
 
-            @Override
-            public Boolean run() {
-                final ClassLoader std = System.class.getClassLoader();
+            @Ovfrridf
+            publid Boolfbn run() {
+                finbl ClbssLobdfr std = Systfm.dlbss.gftClbssLobdfr();
 
-                return (cmClass.getClassLoader() == std) &&
-                        (smClass.getClassLoader() == std) &&
-                        (wrClass.getClassLoader() == std);
+                rfturn (dmClbss.gftClbssLobdfr() == std) &&
+                        (smClbss.gftClbssLobdfr() == std) &&
+                        (wrClbss.gftClbssLobdfr() == std);
             }
         };
-        return AccessController.doPrivileged(checkClassLoadersAction);
+        rfturn AddfssControllfr.doPrivilfgfd(difdkClbssLobdfrsAdtion);
     }
 
     /**
-     * Returns the image type.  If it is not one of the known types,
-     * TYPE_CUSTOM is returned.
-     * @return the image type of this <code>BufferedImage</code>.
-     * @see #TYPE_INT_RGB
-     * @see #TYPE_INT_ARGB
-     * @see #TYPE_INT_ARGB_PRE
-     * @see #TYPE_INT_BGR
-     * @see #TYPE_3BYTE_BGR
-     * @see #TYPE_4BYTE_ABGR
-     * @see #TYPE_4BYTE_ABGR_PRE
-     * @see #TYPE_BYTE_GRAY
-     * @see #TYPE_BYTE_BINARY
-     * @see #TYPE_BYTE_INDEXED
-     * @see #TYPE_USHORT_GRAY
-     * @see #TYPE_USHORT_565_RGB
-     * @see #TYPE_USHORT_555_RGB
-     * @see #TYPE_CUSTOM
+     * Rfturns tif imbgf typf.  If it is not onf of tif known typfs,
+     * TYPE_CUSTOM is rfturnfd.
+     * @rfturn tif imbgf typf of tiis <dodf>BufffrfdImbgf</dodf>.
+     * @sff #TYPE_INT_RGB
+     * @sff #TYPE_INT_ARGB
+     * @sff #TYPE_INT_ARGB_PRE
+     * @sff #TYPE_INT_BGR
+     * @sff #TYPE_3BYTE_BGR
+     * @sff #TYPE_4BYTE_ABGR
+     * @sff #TYPE_4BYTE_ABGR_PRE
+     * @sff #TYPE_BYTE_GRAY
+     * @sff #TYPE_BYTE_BINARY
+     * @sff #TYPE_BYTE_INDEXED
+     * @sff #TYPE_USHORT_GRAY
+     * @sff #TYPE_USHORT_565_RGB
+     * @sff #TYPE_USHORT_555_RGB
+     * @sff #TYPE_CUSTOM
      */
-    public int getType() {
-        return imageType;
+    publid int gftTypf() {
+        rfturn imbgfTypf;
     }
 
     /**
-     * Returns the <code>ColorModel</code>.
-     * @return the <code>ColorModel</code> of this
-     *  <code>BufferedImage</code>.
+     * Rfturns tif <dodf>ColorModfl</dodf>.
+     * @rfturn tif <dodf>ColorModfl</dodf> of tiis
+     *  <dodf>BufffrfdImbgf</dodf>.
      */
-    public ColorModel getColorModel() {
-        return colorModel;
+    publid ColorModfl gftColorModfl() {
+        rfturn dolorModfl;
     }
 
     /**
-     * Returns the {@link WritableRaster}.
-     * @return the <code>WriteableRaster</code> of this
-     *  <code>BufferedImage</code>.
+     * Rfturns tif {@link WritbblfRbstfr}.
+     * @rfturn tif <dodf>WritfbblfRbstfr</dodf> of tiis
+     *  <dodf>BufffrfdImbgf</dodf>.
      */
-    public WritableRaster getRaster() {
-        return raster;
+    publid WritbblfRbstfr gftRbstfr() {
+        rfturn rbstfr;
     }
 
 
     /**
-     * Returns a <code>WritableRaster</code> representing the alpha
-     * channel for <code>BufferedImage</code> objects
-     * with <code>ColorModel</code> objects that support a separate
-     * spatial alpha channel, such as <code>ComponentColorModel</code> and
-     * <code>DirectColorModel</code>.  Returns <code>null</code> if there
-     * is no alpha channel associated with the <code>ColorModel</code> in
-     * this image.  This method assumes that for all
-     * <code>ColorModel</code> objects other than
-     * <code>IndexColorModel</code>, if the <code>ColorModel</code>
-     * supports alpha, there is a separate alpha channel
-     * which is stored as the last band of image data.
-     * If the image uses an <code>IndexColorModel</code> that
-     * has alpha in the lookup table, this method returns
-     * <code>null</code> since there is no spatially discrete alpha
-     * channel.  This method creates a new
-     * <code>WritableRaster</code>, but shares the data array.
-     * @return a <code>WritableRaster</code> or <code>null</code> if this
-     *          <code>BufferedImage</code> has no alpha channel associated
-     *          with its <code>ColorModel</code>.
+     * Rfturns b <dodf>WritbblfRbstfr</dodf> rfprfsfnting tif blpib
+     * dibnnfl for <dodf>BufffrfdImbgf</dodf> objfdts
+     * witi <dodf>ColorModfl</dodf> objfdts tibt support b sfpbrbtf
+     * spbtibl blpib dibnnfl, sudi bs <dodf>ComponfntColorModfl</dodf> bnd
+     * <dodf>DirfdtColorModfl</dodf>.  Rfturns <dodf>null</dodf> if tifrf
+     * is no blpib dibnnfl bssodibtfd witi tif <dodf>ColorModfl</dodf> in
+     * tiis imbgf.  Tiis mftiod bssumfs tibt for bll
+     * <dodf>ColorModfl</dodf> objfdts otifr tibn
+     * <dodf>IndfxColorModfl</dodf>, if tif <dodf>ColorModfl</dodf>
+     * supports blpib, tifrf is b sfpbrbtf blpib dibnnfl
+     * wiidi is storfd bs tif lbst bbnd of imbgf dbtb.
+     * If tif imbgf usfs bn <dodf>IndfxColorModfl</dodf> tibt
+     * ibs blpib in tif lookup tbblf, tiis mftiod rfturns
+     * <dodf>null</dodf> sindf tifrf is no spbtiblly disdrftf blpib
+     * dibnnfl.  Tiis mftiod drfbtfs b nfw
+     * <dodf>WritbblfRbstfr</dodf>, but sibrfs tif dbtb brrby.
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> or <dodf>null</dodf> if tiis
+     *          <dodf>BufffrfdImbgf</dodf> ibs no blpib dibnnfl bssodibtfd
+     *          witi its <dodf>ColorModfl</dodf>.
      */
-    public WritableRaster getAlphaRaster() {
-        return colorModel.getAlphaRaster(raster);
+    publid WritbblfRbstfr gftAlpibRbstfr() {
+        rfturn dolorModfl.gftAlpibRbstfr(rbstfr);
     }
 
     /**
-     * Returns an integer pixel in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB colorspace.  Color
-     * conversion takes place if this default model does not match
-     * the image <code>ColorModel</code>.  There are only 8-bits of
-     * precision for each color component in the returned data when using
-     * this method.
+     * Rfturns bn intfgfr pixfl in tif dffbult RGB dolor modfl
+     * (TYPE_INT_ARGB) bnd dffbult sRGB dolorspbdf.  Color
+     * donvfrsion tbkfs plbdf if tiis dffbult modfl dofs not mbtdi
+     * tif imbgf <dodf>ColorModfl</dodf>.  Tifrf brf only 8-bits of
+     * prfdision for fbdi dolor domponfnt in tif rfturnfd dbtb wifn using
+     * tiis mftiod.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the coordinates are not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <dodf>ArrbyOutOfBoundsExdfption</dodf> mby bf tirown
+     * if tif doordinbtfs brf not in bounds.
+     * Howfvfr, fxplidit bounds difdking is not gubrbntffd.
      *
-     * @param x the X coordinate of the pixel from which to get
-     *          the pixel in the default RGB color model and sRGB
-     *          color space
-     * @param y the Y coordinate of the pixel from which to get
-     *          the pixel in the default RGB color model and sRGB
-     *          color space
-     * @return an integer pixel in the default RGB color model and
-     *          default sRGB colorspace.
-     * @see #setRGB(int, int, int)
-     * @see #setRGB(int, int, int, int, int[], int, int)
+     * @pbrbm x tif X doordinbtf of tif pixfl from wiidi to gft
+     *          tif pixfl in tif dffbult RGB dolor modfl bnd sRGB
+     *          dolor spbdf
+     * @pbrbm y tif Y doordinbtf of tif pixfl from wiidi to gft
+     *          tif pixfl in tif dffbult RGB dolor modfl bnd sRGB
+     *          dolor spbdf
+     * @rfturn bn intfgfr pixfl in tif dffbult RGB dolor modfl bnd
+     *          dffbult sRGB dolorspbdf.
+     * @sff #sftRGB(int, int, int)
+     * @sff #sftRGB(int, int, int, int, int[], int, int)
      */
-    public int getRGB(int x, int y) {
-        return colorModel.getRGB(raster.getDataElements(x, y, null));
+    publid int gftRGB(int x, int y) {
+        rfturn dolorModfl.gftRGB(rbstfr.gftDbtbElfmfnts(x, y, null));
     }
 
     /**
-     * Returns an array of integer pixels in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB color space,
-     * from a portion of the image data.  Color conversion takes
-     * place if the default model does not match the image
-     * <code>ColorModel</code>.  There are only 8-bits of precision for
-     * each color component in the returned data when
-     * using this method.  With a specified coordinate (x,&nbsp;y) in the
-     * image, the ARGB pixel can be accessed in this way:
+     * Rfturns bn brrby of intfgfr pixfls in tif dffbult RGB dolor modfl
+     * (TYPE_INT_ARGB) bnd dffbult sRGB dolor spbdf,
+     * from b portion of tif imbgf dbtb.  Color donvfrsion tbkfs
+     * plbdf if tif dffbult modfl dofs not mbtdi tif imbgf
+     * <dodf>ColorModfl</dodf>.  Tifrf brf only 8-bits of prfdision for
+     * fbdi dolor domponfnt in tif rfturnfd dbtb wifn
+     * using tiis mftiod.  Witi b spfdififd doordinbtf (x,&nbsp;y) in tif
+     * imbgf, tif ARGB pixfl dbn bf bddfssfd in tiis wby:
      *
-     * <pre>
-     *    pixel   = rgbArray[offset + (y-startY)*scansize + (x-startX)]; </pre>
+     * <prf>
+     *    pixfl   = rgbArrby[offsft + (y-stbrtY)*sdbnsizf + (x-stbrtX)]; </prf>
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the region is not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <dodf>ArrbyOutOfBoundsExdfption</dodf> mby bf tirown
+     * if tif rfgion is not in bounds.
+     * Howfvfr, fxplidit bounds difdking is not gubrbntffd.
      *
-     * @param startX      the starting X coordinate
-     * @param startY      the starting Y coordinate
-     * @param w           width of region
-     * @param h           height of region
-     * @param rgbArray    if not <code>null</code>, the rgb pixels are
-     *          written here
-     * @param offset      offset into the <code>rgbArray</code>
-     * @param scansize    scanline stride for the <code>rgbArray</code>
-     * @return            array of RGB pixels.
-     * @see #setRGB(int, int, int)
-     * @see #setRGB(int, int, int, int, int[], int, int)
+     * @pbrbm stbrtX      tif stbrting X doordinbtf
+     * @pbrbm stbrtY      tif stbrting Y doordinbtf
+     * @pbrbm w           widti of rfgion
+     * @pbrbm i           ifigit of rfgion
+     * @pbrbm rgbArrby    if not <dodf>null</dodf>, tif rgb pixfls brf
+     *          writtfn ifrf
+     * @pbrbm offsft      offsft into tif <dodf>rgbArrby</dodf>
+     * @pbrbm sdbnsizf    sdbnlinf stridf for tif <dodf>rgbArrby</dodf>
+     * @rfturn            brrby of RGB pixfls.
+     * @sff #sftRGB(int, int, int)
+     * @sff #sftRGB(int, int, int, int, int[], int, int)
      */
-    public int[] getRGB(int startX, int startY, int w, int h,
-                        int[] rgbArray, int offset, int scansize) {
-        int yoff  = offset;
+    publid int[] gftRGB(int stbrtX, int stbrtY, int w, int i,
+                        int[] rgbArrby, int offsft, int sdbnsizf) {
+        int yoff  = offsft;
         int off;
-        Object data;
-        int nbands = raster.getNumBands();
-        int dataType = raster.getDataBuffer().getDataType();
-        switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            data = new byte[nbands];
-            break;
-        case DataBuffer.TYPE_USHORT:
-            data = new short[nbands];
-            break;
-        case DataBuffer.TYPE_INT:
-            data = new int[nbands];
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            data = new float[nbands];
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            data = new double[nbands];
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown data buffer type: "+
-                                               dataType);
+        Objfdt dbtb;
+        int nbbnds = rbstfr.gftNumBbnds();
+        int dbtbTypf = rbstfr.gftDbtbBufffr().gftDbtbTypf();
+        switdi (dbtbTypf) {
+        dbsf DbtbBufffr.TYPE_BYTE:
+            dbtb = nfw bytf[nbbnds];
+            brfbk;
+        dbsf DbtbBufffr.TYPE_USHORT:
+            dbtb = nfw siort[nbbnds];
+            brfbk;
+        dbsf DbtbBufffr.TYPE_INT:
+            dbtb = nfw int[nbbnds];
+            brfbk;
+        dbsf DbtbBufffr.TYPE_FLOAT:
+            dbtb = nfw flobt[nbbnds];
+            brfbk;
+        dbsf DbtbBufffr.TYPE_DOUBLE:
+            dbtb = nfw doublf[nbbnds];
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Unknown dbtb bufffr typf: "+
+                                               dbtbTypf);
         }
 
-        if (rgbArray == null) {
-            rgbArray = new int[offset+h*scansize];
+        if (rgbArrby == null) {
+            rgbArrby = nfw int[offsft+i*sdbnsizf];
         }
 
-        for (int y = startY; y < startY+h; y++, yoff+=scansize) {
+        for (int y = stbrtY; y < stbrtY+i; y++, yoff+=sdbnsizf) {
             off = yoff;
-            for (int x = startX; x < startX+w; x++) {
-                rgbArray[off++] = colorModel.getRGB(raster.getDataElements(x,
+            for (int x = stbrtX; x < stbrtX+w; x++) {
+                rgbArrby[off++] = dolorModfl.gftRGB(rbstfr.gftDbtbElfmfnts(x,
                                                                         y,
-                                                                        data));
+                                                                        dbtb));
             }
         }
 
-        return rgbArray;
+        rfturn rgbArrby;
     }
 
 
     /**
-     * Sets a pixel in this <code>BufferedImage</code> to the specified
-     * RGB value. The pixel is assumed to be in the default RGB color
-     * model, TYPE_INT_ARGB, and default sRGB color space.  For images
-     * with an <code>IndexColorModel</code>, the index with the nearest
-     * color is chosen.
+     * Sfts b pixfl in tiis <dodf>BufffrfdImbgf</dodf> to tif spfdififd
+     * RGB vbluf. Tif pixfl is bssumfd to bf in tif dffbult RGB dolor
+     * modfl, TYPE_INT_ARGB, bnd dffbult sRGB dolor spbdf.  For imbgfs
+     * witi bn <dodf>IndfxColorModfl</dodf>, tif indfx witi tif nfbrfst
+     * dolor is diosfn.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the coordinates are not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <dodf>ArrbyOutOfBoundsExdfption</dodf> mby bf tirown
+     * if tif doordinbtfs brf not in bounds.
+     * Howfvfr, fxplidit bounds difdking is not gubrbntffd.
      *
-     * @param x the X coordinate of the pixel to set
-     * @param y the Y coordinate of the pixel to set
-     * @param rgb the RGB value
-     * @see #getRGB(int, int)
-     * @see #getRGB(int, int, int, int, int[], int, int)
+     * @pbrbm x tif X doordinbtf of tif pixfl to sft
+     * @pbrbm y tif Y doordinbtf of tif pixfl to sft
+     * @pbrbm rgb tif RGB vbluf
+     * @sff #gftRGB(int, int)
+     * @sff #gftRGB(int, int, int, int, int[], int, int)
      */
-    public synchronized void setRGB(int x, int y, int rgb) {
-        raster.setDataElements(x, y, colorModel.getDataElements(rgb, null));
+    publid syndironizfd void sftRGB(int x, int y, int rgb) {
+        rbstfr.sftDbtbElfmfnts(x, y, dolorModfl.gftDbtbElfmfnts(rgb, null));
     }
 
     /**
-     * Sets an array of integer pixels in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB color space,
-     * into a portion of the image data.  Color conversion takes place
-     * if the default model does not match the image
-     * <code>ColorModel</code>.  There are only 8-bits of precision for
-     * each color component in the returned data when
-     * using this method.  With a specified coordinate (x,&nbsp;y) in the
-     * this image, the ARGB pixel can be accessed in this way:
-     * <pre>
-     *    pixel   = rgbArray[offset + (y-startY)*scansize + (x-startX)];
-     * </pre>
-     * WARNING: No dithering takes place.
+     * Sfts bn brrby of intfgfr pixfls in tif dffbult RGB dolor modfl
+     * (TYPE_INT_ARGB) bnd dffbult sRGB dolor spbdf,
+     * into b portion of tif imbgf dbtb.  Color donvfrsion tbkfs plbdf
+     * if tif dffbult modfl dofs not mbtdi tif imbgf
+     * <dodf>ColorModfl</dodf>.  Tifrf brf only 8-bits of prfdision for
+     * fbdi dolor domponfnt in tif rfturnfd dbtb wifn
+     * using tiis mftiod.  Witi b spfdififd doordinbtf (x,&nbsp;y) in tif
+     * tiis imbgf, tif ARGB pixfl dbn bf bddfssfd in tiis wby:
+     * <prf>
+     *    pixfl   = rgbArrby[offsft + (y-stbrtY)*sdbnsizf + (x-stbrtX)];
+     * </prf>
+     * WARNING: No ditifring tbkfs plbdf.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the region is not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <dodf>ArrbyOutOfBoundsExdfption</dodf> mby bf tirown
+     * if tif rfgion is not in bounds.
+     * Howfvfr, fxplidit bounds difdking is not gubrbntffd.
      *
-     * @param startX      the starting X coordinate
-     * @param startY      the starting Y coordinate
-     * @param w           width of the region
-     * @param h           height of the region
-     * @param rgbArray    the rgb pixels
-     * @param offset      offset into the <code>rgbArray</code>
-     * @param scansize    scanline stride for the <code>rgbArray</code>
-     * @see #getRGB(int, int)
-     * @see #getRGB(int, int, int, int, int[], int, int)
+     * @pbrbm stbrtX      tif stbrting X doordinbtf
+     * @pbrbm stbrtY      tif stbrting Y doordinbtf
+     * @pbrbm w           widti of tif rfgion
+     * @pbrbm i           ifigit of tif rfgion
+     * @pbrbm rgbArrby    tif rgb pixfls
+     * @pbrbm offsft      offsft into tif <dodf>rgbArrby</dodf>
+     * @pbrbm sdbnsizf    sdbnlinf stridf for tif <dodf>rgbArrby</dodf>
+     * @sff #gftRGB(int, int)
+     * @sff #gftRGB(int, int, int, int, int[], int, int)
      */
-    public void setRGB(int startX, int startY, int w, int h,
-                        int[] rgbArray, int offset, int scansize) {
-        int yoff  = offset;
+    publid void sftRGB(int stbrtX, int stbrtY, int w, int i,
+                        int[] rgbArrby, int offsft, int sdbnsizf) {
+        int yoff  = offsft;
         int off;
-        Object pixel = null;
+        Objfdt pixfl = null;
 
-        for (int y = startY; y < startY+h; y++, yoff+=scansize) {
+        for (int y = stbrtY; y < stbrtY+i; y++, yoff+=sdbnsizf) {
             off = yoff;
-            for (int x = startX; x < startX+w; x++) {
-                pixel = colorModel.getDataElements(rgbArray[off++], pixel);
-                raster.setDataElements(x, y, pixel);
+            for (int x = stbrtX; x < stbrtX+w; x++) {
+                pixfl = dolorModfl.gftDbtbElfmfnts(rgbArrby[off++], pixfl);
+                rbstfr.sftDbtbElfmfnts(x, y, pixfl);
             }
         }
     }
 
 
     /**
-     * Returns the width of the <code>BufferedImage</code>.
-     * @return the width of this <code>BufferedImage</code>
+     * Rfturns tif widti of tif <dodf>BufffrfdImbgf</dodf>.
+     * @rfturn tif widti of tiis <dodf>BufffrfdImbgf</dodf>
      */
-    public int getWidth() {
-        return raster.getWidth();
+    publid int gftWidti() {
+        rfturn rbstfr.gftWidti();
     }
 
     /**
-     * Returns the height of the <code>BufferedImage</code>.
-     * @return the height of this <code>BufferedImage</code>
+     * Rfturns tif ifigit of tif <dodf>BufffrfdImbgf</dodf>.
+     * @rfturn tif ifigit of tiis <dodf>BufffrfdImbgf</dodf>
      */
-    public int getHeight() {
-        return raster.getHeight();
+    publid int gftHfigit() {
+        rfturn rbstfr.gftHfigit();
     }
 
     /**
-     * Returns the width of the <code>BufferedImage</code>.
-     * @param observer ignored
-     * @return the width of this <code>BufferedImage</code>
+     * Rfturns tif widti of tif <dodf>BufffrfdImbgf</dodf>.
+     * @pbrbm obsfrvfr ignorfd
+     * @rfturn tif widti of tiis <dodf>BufffrfdImbgf</dodf>
      */
-    public int getWidth(ImageObserver observer) {
-        return raster.getWidth();
+    publid int gftWidti(ImbgfObsfrvfr obsfrvfr) {
+        rfturn rbstfr.gftWidti();
     }
 
     /**
-     * Returns the height of the <code>BufferedImage</code>.
-     * @param observer ignored
-     * @return the height of this <code>BufferedImage</code>
+     * Rfturns tif ifigit of tif <dodf>BufffrfdImbgf</dodf>.
+     * @pbrbm obsfrvfr ignorfd
+     * @rfturn tif ifigit of tiis <dodf>BufffrfdImbgf</dodf>
      */
-    public int getHeight(ImageObserver observer) {
-        return raster.getHeight();
+    publid int gftHfigit(ImbgfObsfrvfr obsfrvfr) {
+        rfturn rbstfr.gftHfigit();
     }
 
     /**
-     * Returns the object that produces the pixels for the image.
-     * @return the {@link ImageProducer} that is used to produce the
-     * pixels for this image.
-     * @see ImageProducer
+     * Rfturns tif objfdt tibt produdfs tif pixfls for tif imbgf.
+     * @rfturn tif {@link ImbgfProdudfr} tibt is usfd to produdf tif
+     * pixfls for tiis imbgf.
+     * @sff ImbgfProdudfr
      */
-    public ImageProducer getSource() {
+    publid ImbgfProdudfr gftSourdf() {
         if (osis == null) {
-            if (properties == null) {
-                properties = new Hashtable<>();
+            if (propfrtifs == null) {
+                propfrtifs = nfw Hbsitbblf<>();
             }
-            osis = new OffScreenImageSource(this, properties);
+            osis = nfw OffSdrffnImbgfSourdf(tiis, propfrtifs);
         }
-        return osis;
+        rfturn osis;
     }
 
 
     /**
-     * Returns a property of the image by name.  Individual property names
-     * are defined by the various image formats.  If a property is not
-     * defined for a particular image, this method returns the
-     * <code>UndefinedProperty</code> field.  If the properties
-     * for this image are not yet known, then this method returns
-     * <code>null</code> and the <code>ImageObserver</code> object is
-     * notified later.  The property name "comment" should be used to
-     * store an optional comment that can be presented to the user as a
-     * description of the image, its source, or its author.
-     * @param name the property name
-     * @param observer the <code>ImageObserver</code> that receives
-     *  notification regarding image information
-     * @return an {@link Object} that is the property referred to by the
-     *          specified <code>name</code> or <code>null</code> if the
-     *          properties of this image are not yet known.
-     * @throws NullPointerException if the property name is null.
-     * @see ImageObserver
-     * @see java.awt.Image#UndefinedProperty
+     * Rfturns b propfrty of tif imbgf by nbmf.  Individubl propfrty nbmfs
+     * brf dffinfd by tif vbrious imbgf formbts.  If b propfrty is not
+     * dffinfd for b pbrtidulbr imbgf, tiis mftiod rfturns tif
+     * <dodf>UndffinfdPropfrty</dodf> fifld.  If tif propfrtifs
+     * for tiis imbgf brf not yft known, tifn tiis mftiod rfturns
+     * <dodf>null</dodf> bnd tif <dodf>ImbgfObsfrvfr</dodf> objfdt is
+     * notififd lbtfr.  Tif propfrty nbmf "dommfnt" siould bf usfd to
+     * storf bn optionbl dommfnt tibt dbn bf prfsfntfd to tif usfr bs b
+     * dfsdription of tif imbgf, its sourdf, or its butior.
+     * @pbrbm nbmf tif propfrty nbmf
+     * @pbrbm obsfrvfr tif <dodf>ImbgfObsfrvfr</dodf> tibt rfdfivfs
+     *  notifidbtion rfgbrding imbgf informbtion
+     * @rfturn bn {@link Objfdt} tibt is tif propfrty rfffrrfd to by tif
+     *          spfdififd <dodf>nbmf</dodf> or <dodf>null</dodf> if tif
+     *          propfrtifs of tiis imbgf brf not yft known.
+     * @tirows NullPointfrExdfption if tif propfrty nbmf is null.
+     * @sff ImbgfObsfrvfr
+     * @sff jbvb.bwt.Imbgf#UndffinfdPropfrty
      */
-    public Object getProperty(String name, ImageObserver observer) {
-        return getProperty(name);
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftPropfrty(nbmf);
     }
 
     /**
-     * Returns a property of the image by name.
-     * @param name the property name
-     * @return an <code>Object</code> that is the property referred to by
-     *          the specified <code>name</code>.
-     * @throws NullPointerException if the property name is null.
+     * Rfturns b propfrty of tif imbgf by nbmf.
+     * @pbrbm nbmf tif propfrty nbmf
+     * @rfturn bn <dodf>Objfdt</dodf> tibt is tif propfrty rfffrrfd to by
+     *          tif spfdififd <dodf>nbmf</dodf>.
+     * @tirows NullPointfrExdfption if tif propfrty nbmf is null.
      */
-    public Object getProperty(String name) {
-        if (name == null) {
-            throw new NullPointerException("null property name is not allowed");
+    publid Objfdt gftPropfrty(String nbmf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("null propfrty nbmf is not bllowfd");
         }
-        if (properties == null) {
-            return java.awt.Image.UndefinedProperty;
+        if (propfrtifs == null) {
+            rfturn jbvb.bwt.Imbgf.UndffinfdPropfrty;
         }
-        Object o = properties.get(name);
+        Objfdt o = propfrtifs.gft(nbmf);
         if (o == null) {
-            o = java.awt.Image.UndefinedProperty;
+            o = jbvb.bwt.Imbgf.UndffinfdPropfrty;
         }
-        return o;
+        rfturn o;
     }
 
     /**
-     * This method returns a {@link Graphics2D}, but is here
-     * for backwards compatibility.  {@link #createGraphics() createGraphics} is more
-     * convenient, since it is declared to return a
-     * <code>Graphics2D</code>.
-     * @return a <code>Graphics2D</code>, which can be used to draw into
-     *          this image.
+     * Tiis mftiod rfturns b {@link Grbpiids2D}, but is ifrf
+     * for bbdkwbrds dompbtibility.  {@link #drfbtfGrbpiids() drfbtfGrbpiids} is morf
+     * donvfnifnt, sindf it is dfdlbrfd to rfturn b
+     * <dodf>Grbpiids2D</dodf>.
+     * @rfturn b <dodf>Grbpiids2D</dodf>, wiidi dbn bf usfd to drbw into
+     *          tiis imbgf.
      */
-    public java.awt.Graphics getGraphics() {
-        return createGraphics();
+    publid jbvb.bwt.Grbpiids gftGrbpiids() {
+        rfturn drfbtfGrbpiids();
     }
 
     /**
-     * Creates a <code>Graphics2D</code>, which can be used to draw into
-     * this <code>BufferedImage</code>.
-     * @return a <code>Graphics2D</code>, used for drawing into this
-     *          image.
+     * Crfbtfs b <dodf>Grbpiids2D</dodf>, wiidi dbn bf usfd to drbw into
+     * tiis <dodf>BufffrfdImbgf</dodf>.
+     * @rfturn b <dodf>Grbpiids2D</dodf>, usfd for drbwing into tiis
+     *          imbgf.
      */
-    public Graphics2D createGraphics() {
-        GraphicsEnvironment env =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return env.createGraphics(this);
+    publid Grbpiids2D drfbtfGrbpiids() {
+        GrbpiidsEnvironmfnt fnv =
+            GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        rfturn fnv.drfbtfGrbpiids(tiis);
     }
 
     /**
-     * Returns a subimage defined by a specified rectangular region.
-     * The returned <code>BufferedImage</code> shares the same
-     * data array as the original image.
-     * @param x the X coordinate of the upper-left corner of the
-     *          specified rectangular region
-     * @param y the Y coordinate of the upper-left corner of the
-     *          specified rectangular region
-     * @param w the width of the specified rectangular region
-     * @param h the height of the specified rectangular region
-     * @return a <code>BufferedImage</code> that is the subimage of this
-     *          <code>BufferedImage</code>.
-     * @exception RasterFormatException if the specified
-     * area is not contained within this <code>BufferedImage</code>.
+     * Rfturns b subimbgf dffinfd by b spfdififd rfdtbngulbr rfgion.
+     * Tif rfturnfd <dodf>BufffrfdImbgf</dodf> sibrfs tif sbmf
+     * dbtb brrby bs tif originbl imbgf.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     *          spfdififd rfdtbngulbr rfgion
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *          spfdififd rfdtbngulbr rfgion
+     * @pbrbm w tif widti of tif spfdififd rfdtbngulbr rfgion
+     * @pbrbm i tif ifigit of tif spfdififd rfdtbngulbr rfgion
+     * @rfturn b <dodf>BufffrfdImbgf</dodf> tibt is tif subimbgf of tiis
+     *          <dodf>BufffrfdImbgf</dodf>.
+     * @fxdfption RbstfrFormbtExdfption if tif spfdififd
+     * brfb is not dontbinfd witiin tiis <dodf>BufffrfdImbgf</dodf>.
      */
-    public BufferedImage getSubimage (int x, int y, int w, int h) {
-        return new BufferedImage (colorModel,
-                                  raster.createWritableChild(x, y, w, h,
+    publid BufffrfdImbgf gftSubimbgf (int x, int y, int w, int i) {
+        rfturn nfw BufffrfdImbgf (dolorModfl,
+                                  rbstfr.drfbtfWritbblfCiild(x, y, w, i,
                                                              0, 0, null),
-                                  colorModel.isAlphaPremultiplied(),
-                                  properties);
+                                  dolorModfl.isAlpibPrfmultiplifd(),
+                                  propfrtifs);
     }
 
     /**
-     * Returns whether or not the alpha has been premultiplied.  It
-     * returns <code>false</code> if there is no alpha.
-     * @return <code>true</code> if the alpha has been premultiplied;
-     *          <code>false</code> otherwise.
+     * Rfturns wiftifr or not tif blpib ibs bffn prfmultiplifd.  It
+     * rfturns <dodf>fblsf</dodf> if tifrf is no blpib.
+     * @rfturn <dodf>truf</dodf> if tif blpib ibs bffn prfmultiplifd;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isAlphaPremultiplied() {
-        return colorModel.isAlphaPremultiplied();
+    publid boolfbn isAlpibPrfmultiplifd() {
+        rfturn dolorModfl.isAlpibPrfmultiplifd();
     }
 
     /**
-     * Forces the data to match the state specified in the
-     * <code>isAlphaPremultiplied</code> variable.  It may multiply or
-     * divide the color raster data by alpha, or do nothing if the data is
-     * in the correct state.
-     * @param isAlphaPremultiplied <code>true</code> if the alpha has been
-     *          premultiplied; <code>false</code> otherwise.
+     * Fordfs tif dbtb to mbtdi tif stbtf spfdififd in tif
+     * <dodf>isAlpibPrfmultiplifd</dodf> vbribblf.  It mby multiply or
+     * dividf tif dolor rbstfr dbtb by blpib, or do notiing if tif dbtb is
+     * in tif dorrfdt stbtf.
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if tif blpib ibs bffn
+     *          prfmultiplifd; <dodf>fblsf</dodf> otifrwisf.
      */
-    public void coerceData (boolean isAlphaPremultiplied) {
-        if (colorModel.hasAlpha() &&
-            colorModel.isAlphaPremultiplied() != isAlphaPremultiplied) {
-            // Make the color model do the conversion
-            colorModel = colorModel.coerceData (raster, isAlphaPremultiplied);
+    publid void dofrdfDbtb (boolfbn isAlpibPrfmultiplifd) {
+        if (dolorModfl.ibsAlpib() &&
+            dolorModfl.isAlpibPrfmultiplifd() != isAlpibPrfmultiplifd) {
+            // Mbkf tif dolor modfl do tif donvfrsion
+            dolorModfl = dolorModfl.dofrdfDbtb (rbstfr, isAlpibPrfmultiplifd);
         }
     }
 
     /**
-     * Returns a <code>String</code> representation of this
-     * <code>BufferedImage</code> object and its values.
-     * @return a <code>String</code> representing this
-     *          <code>BufferedImage</code>.
+     * Rfturns b <dodf>String</dodf> rfprfsfntbtion of tiis
+     * <dodf>BufffrfdImbgf</dodf> objfdt bnd its vblufs.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting tiis
+     *          <dodf>BufffrfdImbgf</dodf>.
      */
-    public String toString() {
-        return "BufferedImage@"+Integer.toHexString(hashCode())
-            +": type = "+imageType
-            +" "+colorModel+" "+raster;
+    publid String toString() {
+        rfturn "BufffrfdImbgf@"+Intfgfr.toHfxString(ibsiCodf())
+            +": typf = "+imbgfTypf
+            +" "+dolorModfl+" "+rbstfr;
     }
 
     /**
-     * Returns a {@link Vector} of {@link RenderedImage} objects that are
-     * the immediate sources, not the sources of these immediate sources,
-     * of image data for this <code>BufferedImage</code>.  This
-     * method returns <code>null</code> if the <code>BufferedImage</code>
-     * has no information about its immediate sources.  It returns an
-     * empty <code>Vector</code> if the <code>BufferedImage</code> has no
-     * immediate sources.
-     * @return a <code>Vector</code> containing immediate sources of
-     *          this <code>BufferedImage</code> object's image date, or
-     *          <code>null</code> if this <code>BufferedImage</code> has
-     *          no information about its immediate sources, or an empty
-     *          <code>Vector</code> if this <code>BufferedImage</code>
-     *          has no immediate sources.
+     * Rfturns b {@link Vfdtor} of {@link RfndfrfdImbgf} objfdts tibt brf
+     * tif immfdibtf sourdfs, not tif sourdfs of tifsf immfdibtf sourdfs,
+     * of imbgf dbtb for tiis <dodf>BufffrfdImbgf</dodf>.  Tiis
+     * mftiod rfturns <dodf>null</dodf> if tif <dodf>BufffrfdImbgf</dodf>
+     * ibs no informbtion bbout its immfdibtf sourdfs.  It rfturns bn
+     * fmpty <dodf>Vfdtor</dodf> if tif <dodf>BufffrfdImbgf</dodf> ibs no
+     * immfdibtf sourdfs.
+     * @rfturn b <dodf>Vfdtor</dodf> dontbining immfdibtf sourdfs of
+     *          tiis <dodf>BufffrfdImbgf</dodf> objfdt's imbgf dbtf, or
+     *          <dodf>null</dodf> if tiis <dodf>BufffrfdImbgf</dodf> ibs
+     *          no informbtion bbout its immfdibtf sourdfs, or bn fmpty
+     *          <dodf>Vfdtor</dodf> if tiis <dodf>BufffrfdImbgf</dodf>
+     *          ibs no immfdibtf sourdfs.
      */
-    public Vector<RenderedImage> getSources() {
-        return null;
+    publid Vfdtor<RfndfrfdImbgf> gftSourdfs() {
+        rfturn null;
     }
 
     /**
-     * Returns an array of names recognized by
-     * {@link #getProperty(String) getProperty(String)}
-     * or <code>null</code>, if no property names are recognized.
-     * @return a <code>String</code> array containing all of the property
-     *          names that <code>getProperty(String)</code> recognizes;
-     *          or <code>null</code> if no property names are recognized.
+     * Rfturns bn brrby of nbmfs rfdognizfd by
+     * {@link #gftPropfrty(String) gftPropfrty(String)}
+     * or <dodf>null</dodf>, if no propfrty nbmfs brf rfdognizfd.
+     * @rfturn b <dodf>String</dodf> brrby dontbining bll of tif propfrty
+     *          nbmfs tibt <dodf>gftPropfrty(String)</dodf> rfdognizfs;
+     *          or <dodf>null</dodf> if no propfrty nbmfs brf rfdognizfd.
      */
-    public String[] getPropertyNames() {
-         return null;
+    publid String[] gftPropfrtyNbmfs() {
+         rfturn null;
     }
 
     /**
-     * Returns the minimum x coordinate of this
-     * <code>BufferedImage</code>.  This is always zero.
-     * @return the minimum x coordinate of this
-     *          <code>BufferedImage</code>.
+     * Rfturns tif minimum x doordinbtf of tiis
+     * <dodf>BufffrfdImbgf</dodf>.  Tiis is blwbys zfro.
+     * @rfturn tif minimum x doordinbtf of tiis
+     *          <dodf>BufffrfdImbgf</dodf>.
      */
-    public int getMinX() {
-        return raster.getMinX();
+    publid int gftMinX() {
+        rfturn rbstfr.gftMinX();
     }
 
     /**
-     * Returns the minimum y coordinate of this
-     * <code>BufferedImage</code>.  This is always zero.
-     * @return the minimum y coordinate of this
-     *          <code>BufferedImage</code>.
+     * Rfturns tif minimum y doordinbtf of tiis
+     * <dodf>BufffrfdImbgf</dodf>.  Tiis is blwbys zfro.
+     * @rfturn tif minimum y doordinbtf of tiis
+     *          <dodf>BufffrfdImbgf</dodf>.
      */
-    public int getMinY() {
-        return raster.getMinY();
+    publid int gftMinY() {
+        rfturn rbstfr.gftMinY();
     }
 
     /**
-     * Returns the <code>SampleModel</code> associated with this
-     * <code>BufferedImage</code>.
-     * @return the <code>SampleModel</code> of this
-     *          <code>BufferedImage</code>.
+     * Rfturns tif <dodf>SbmplfModfl</dodf> bssodibtfd witi tiis
+     * <dodf>BufffrfdImbgf</dodf>.
+     * @rfturn tif <dodf>SbmplfModfl</dodf> of tiis
+     *          <dodf>BufffrfdImbgf</dodf>.
      */
-    public SampleModel getSampleModel() {
-        return raster.getSampleModel();
+    publid SbmplfModfl gftSbmplfModfl() {
+        rfturn rbstfr.gftSbmplfModfl();
     }
 
     /**
-     * Returns the number of tiles in the x direction.
-     * This is always one.
-     * @return the number of tiles in the x direction.
+     * Rfturns tif numbfr of tilfs in tif x dirfdtion.
+     * Tiis is blwbys onf.
+     * @rfturn tif numbfr of tilfs in tif x dirfdtion.
      */
-    public int getNumXTiles() {
-        return 1;
+    publid int gftNumXTilfs() {
+        rfturn 1;
     }
 
     /**
-     * Returns the number of tiles in the y direction.
-     * This is always one.
-     * @return the number of tiles in the y direction.
+     * Rfturns tif numbfr of tilfs in tif y dirfdtion.
+     * Tiis is blwbys onf.
+     * @rfturn tif numbfr of tilfs in tif y dirfdtion.
      */
-    public int getNumYTiles() {
-        return 1;
+    publid int gftNumYTilfs() {
+        rfturn 1;
     }
 
     /**
-     * Returns the minimum tile index in the x direction.
-     * This is always zero.
-     * @return the minimum tile index in the x direction.
+     * Rfturns tif minimum tilf indfx in tif x dirfdtion.
+     * Tiis is blwbys zfro.
+     * @rfturn tif minimum tilf indfx in tif x dirfdtion.
      */
-    public int getMinTileX() {
-        return 0;
+    publid int gftMinTilfX() {
+        rfturn 0;
     }
 
     /**
-     * Returns the minimum tile index in the y direction.
-     * This is always zero.
-     * @return the minimum tile index in the y direction.
+     * Rfturns tif minimum tilf indfx in tif y dirfdtion.
+     * Tiis is blwbys zfro.
+     * @rfturn tif minimum tilf indfx in tif y dirfdtion.
      */
-    public int getMinTileY() {
-        return 0;
+    publid int gftMinTilfY() {
+        rfturn 0;
     }
 
     /**
-     * Returns the tile width in pixels.
-     * @return the tile width in pixels.
+     * Rfturns tif tilf widti in pixfls.
+     * @rfturn tif tilf widti in pixfls.
      */
-    public int getTileWidth() {
-       return raster.getWidth();
+    publid int gftTilfWidti() {
+       rfturn rbstfr.gftWidti();
     }
 
     /**
-     * Returns the tile height in pixels.
-     * @return the tile height in pixels.
+     * Rfturns tif tilf ifigit in pixfls.
+     * @rfturn tif tilf ifigit in pixfls.
      */
-    public int getTileHeight() {
-       return raster.getHeight();
+    publid int gftTilfHfigit() {
+       rfturn rbstfr.gftHfigit();
     }
 
     /**
-     * Returns the x offset of the tile grid relative to the origin,
-     * For example, the x coordinate of the location of tile
-     * (0,&nbsp;0).  This is always zero.
-     * @return the x offset of the tile grid.
+     * Rfturns tif x offsft of tif tilf grid rflbtivf to tif origin,
+     * For fxbmplf, tif x doordinbtf of tif lodbtion of tilf
+     * (0,&nbsp;0).  Tiis is blwbys zfro.
+     * @rfturn tif x offsft of tif tilf grid.
      */
-    public int getTileGridXOffset() {
-        return raster.getSampleModelTranslateX();
+    publid int gftTilfGridXOffsft() {
+        rfturn rbstfr.gftSbmplfModflTrbnslbtfX();
     }
 
     /**
-     * Returns the y offset of the tile grid relative to the origin,
-     * For example, the y coordinate of the location of tile
-     * (0,&nbsp;0).  This is always zero.
-     * @return the y offset of the tile grid.
+     * Rfturns tif y offsft of tif tilf grid rflbtivf to tif origin,
+     * For fxbmplf, tif y doordinbtf of tif lodbtion of tilf
+     * (0,&nbsp;0).  Tiis is blwbys zfro.
+     * @rfturn tif y offsft of tif tilf grid.
      */
-    public int getTileGridYOffset() {
-        return raster.getSampleModelTranslateY();
+    publid int gftTilfGridYOffsft() {
+        rfturn rbstfr.gftSbmplfModflTrbnslbtfY();
     }
 
     /**
-     * Returns tile (<code>tileX</code>,&nbsp;<code>tileY</code>).  Note
-     * that <code>tileX</code> and <code>tileY</code> are indices
-     * into the tile array, not pixel locations.  The <code>Raster</code>
-     * that is returned is live, which means that it is updated if the
-     * image is changed.
-     * @param tileX the x index of the requested tile in the tile array
-     * @param tileY the y index of the requested tile in the tile array
-     * @return a <code>Raster</code> that is the tile defined by the
-     *          arguments <code>tileX</code> and <code>tileY</code>.
-     * @exception ArrayIndexOutOfBoundsException if both
-     *          <code>tileX</code> and <code>tileY</code> are not
-     *          equal to 0
+     * Rfturns tilf (<dodf>tilfX</dodf>,&nbsp;<dodf>tilfY</dodf>).  Notf
+     * tibt <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf> brf indidfs
+     * into tif tilf brrby, not pixfl lodbtions.  Tif <dodf>Rbstfr</dodf>
+     * tibt is rfturnfd is livf, wiidi mfbns tibt it is updbtfd if tif
+     * imbgf is dibngfd.
+     * @pbrbm tilfX tif x indfx of tif rfqufstfd tilf in tif tilf brrby
+     * @pbrbm tilfY tif y indfx of tif rfqufstfd tilf in tif tilf brrby
+     * @rfturn b <dodf>Rbstfr</dodf> tibt is tif tilf dffinfd by tif
+     *          brgumfnts <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf>.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if boti
+     *          <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf> brf not
+     *          fqubl to 0
      */
-    public Raster getTile(int tileX, int tileY) {
-        if (tileX == 0 && tileY == 0) {
-            return raster;
+    publid Rbstfr gftTilf(int tilfX, int tilfY) {
+        if (tilfX == 0 && tilfY == 0) {
+            rfturn rbstfr;
         }
-        throw new ArrayIndexOutOfBoundsException("BufferedImages only have"+
-             " one tile with index 0,0");
+        tirow nfw ArrbyIndfxOutOfBoundsExdfption("BufffrfdImbgfs only ibvf"+
+             " onf tilf witi indfx 0,0");
     }
 
     /**
-     * Returns the image as one large tile.  The <code>Raster</code>
-     * returned is a copy of the image data is not updated if the
-     * image is changed.
-     * @return a <code>Raster</code> that is a copy of the image data.
-     * @see #setData(Raster)
+     * Rfturns tif imbgf bs onf lbrgf tilf.  Tif <dodf>Rbstfr</dodf>
+     * rfturnfd is b dopy of tif imbgf dbtb is not updbtfd if tif
+     * imbgf is dibngfd.
+     * @rfturn b <dodf>Rbstfr</dodf> tibt is b dopy of tif imbgf dbtb.
+     * @sff #sftDbtb(Rbstfr)
      */
-    public Raster getData() {
+    publid Rbstfr gftDbtb() {
 
-        // REMIND : this allocates a whole new tile if raster is a
-        // subtile.  (It only copies in the requested area)
-        // We should do something smarter.
-        int width = raster.getWidth();
-        int height = raster.getHeight();
-        int startX = raster.getMinX();
-        int startY = raster.getMinY();
-        WritableRaster wr =
-           Raster.createWritableRaster(raster.getSampleModel(),
-                         new Point(raster.getSampleModelTranslateX(),
-                                   raster.getSampleModelTranslateY()));
+        // REMIND : tiis bllodbtfs b wiolf nfw tilf if rbstfr is b
+        // subtilf.  (It only dopifs in tif rfqufstfd brfb)
+        // Wf siould do somftiing smbrtfr.
+        int widti = rbstfr.gftWidti();
+        int ifigit = rbstfr.gftHfigit();
+        int stbrtX = rbstfr.gftMinX();
+        int stbrtY = rbstfr.gftMinY();
+        WritbblfRbstfr wr =
+           Rbstfr.drfbtfWritbblfRbstfr(rbstfr.gftSbmplfModfl(),
+                         nfw Point(rbstfr.gftSbmplfModflTrbnslbtfX(),
+                                   rbstfr.gftSbmplfModflTrbnslbtfY()));
 
-        Object tdata = null;
+        Objfdt tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            wr.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+ifigit; i++)  {
+            tdbtb = rbstfr.gftDbtbElfmfnts(stbrtX,i,widti,1,tdbtb);
+            wr.sftDbtbElfmfnts(stbrtX,i,widti,1, tdbtb);
         }
-        return wr;
+        rfturn wr;
     }
 
     /**
-     * Computes and returns an arbitrary region of the
-     * <code>BufferedImage</code>.  The <code>Raster</code> returned is a
-     * copy of the image data and is not updated if the image is
-     * changed.
-     * @param rect the region of the <code>BufferedImage</code> to be
-     * returned.
-     * @return a <code>Raster</code> that is a copy of the image data of
-     *          the specified region of the <code>BufferedImage</code>
-     * @see #setData(Raster)
+     * Computfs bnd rfturns bn brbitrbry rfgion of tif
+     * <dodf>BufffrfdImbgf</dodf>.  Tif <dodf>Rbstfr</dodf> rfturnfd is b
+     * dopy of tif imbgf dbtb bnd is not updbtfd if tif imbgf is
+     * dibngfd.
+     * @pbrbm rfdt tif rfgion of tif <dodf>BufffrfdImbgf</dodf> to bf
+     * rfturnfd.
+     * @rfturn b <dodf>Rbstfr</dodf> tibt is b dopy of tif imbgf dbtb of
+     *          tif spfdififd rfgion of tif <dodf>BufffrfdImbgf</dodf>
+     * @sff #sftDbtb(Rbstfr)
      */
-    public Raster getData(Rectangle rect) {
-        SampleModel sm = raster.getSampleModel();
-        SampleModel nsm = sm.createCompatibleSampleModel(rect.width,
-                                                         rect.height);
-        WritableRaster wr = Raster.createWritableRaster(nsm,
-                                                  rect.getLocation());
-        int width = rect.width;
-        int height = rect.height;
-        int startX = rect.x;
-        int startY = rect.y;
+    publid Rbstfr gftDbtb(Rfdtbnglf rfdt) {
+        SbmplfModfl sm = rbstfr.gftSbmplfModfl();
+        SbmplfModfl nsm = sm.drfbtfCompbtiblfSbmplfModfl(rfdt.widti,
+                                                         rfdt.ifigit);
+        WritbblfRbstfr wr = Rbstfr.drfbtfWritbblfRbstfr(nsm,
+                                                  rfdt.gftLodbtion());
+        int widti = rfdt.widti;
+        int ifigit = rfdt.ifigit;
+        int stbrtX = rfdt.x;
+        int stbrtY = rfdt.y;
 
-        Object tdata = null;
+        Objfdt tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            wr.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+ifigit; i++)  {
+            tdbtb = rbstfr.gftDbtbElfmfnts(stbrtX,i,widti,1,tdbtb);
+            wr.sftDbtbElfmfnts(stbrtX,i,widti,1, tdbtb);
         }
-        return wr;
+        rfturn wr;
     }
 
     /**
-     * Computes an arbitrary rectangular region of the
-     * <code>BufferedImage</code> and copies it into a specified
-     * <code>WritableRaster</code>.  The region to be computed is
-     * determined from the bounds of the specified
-     * <code>WritableRaster</code>.  The specified
-     * <code>WritableRaster</code> must have a
-     * <code>SampleModel</code> that is compatible with this image.  If
-     * <code>outRaster</code> is <code>null</code>,
-     * an appropriate <code>WritableRaster</code> is created.
-     * @param outRaster a <code>WritableRaster</code> to hold the returned
-     *          part of the image, or <code>null</code>
-     * @return a reference to the supplied or created
-     *          <code>WritableRaster</code>.
+     * Computfs bn brbitrbry rfdtbngulbr rfgion of tif
+     * <dodf>BufffrfdImbgf</dodf> bnd dopifs it into b spfdififd
+     * <dodf>WritbblfRbstfr</dodf>.  Tif rfgion to bf domputfd is
+     * dftfrminfd from tif bounds of tif spfdififd
+     * <dodf>WritbblfRbstfr</dodf>.  Tif spfdififd
+     * <dodf>WritbblfRbstfr</dodf> must ibvf b
+     * <dodf>SbmplfModfl</dodf> tibt is dompbtiblf witi tiis imbgf.  If
+     * <dodf>outRbstfr</dodf> is <dodf>null</dodf>,
+     * bn bppropribtf <dodf>WritbblfRbstfr</dodf> is drfbtfd.
+     * @pbrbm outRbstfr b <dodf>WritbblfRbstfr</dodf> to iold tif rfturnfd
+     *          pbrt of tif imbgf, or <dodf>null</dodf>
+     * @rfturn b rfffrfndf to tif supplifd or drfbtfd
+     *          <dodf>WritbblfRbstfr</dodf>.
      */
-    public WritableRaster copyData(WritableRaster outRaster) {
-        if (outRaster == null) {
-            return (WritableRaster) getData();
+    publid WritbblfRbstfr dopyDbtb(WritbblfRbstfr outRbstfr) {
+        if (outRbstfr == null) {
+            rfturn (WritbblfRbstfr) gftDbtb();
         }
-        int width = outRaster.getWidth();
-        int height = outRaster.getHeight();
-        int startX = outRaster.getMinX();
-        int startY = outRaster.getMinY();
+        int widti = outRbstfr.gftWidti();
+        int ifigit = outRbstfr.gftHfigit();
+        int stbrtX = outRbstfr.gftMinX();
+        int stbrtY = outRbstfr.gftMinY();
 
-        Object tdata = null;
+        Objfdt tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            outRaster.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+ifigit; i++)  {
+            tdbtb = rbstfr.gftDbtbElfmfnts(stbrtX,i,widti,1,tdbtb);
+            outRbstfr.sftDbtbElfmfnts(stbrtX,i,widti,1, tdbtb);
         }
 
-        return outRaster;
+        rfturn outRbstfr;
     }
 
   /**
-     * Sets a rectangular region of the image to the contents of the
-     * specified <code>Raster</code> <code>r</code>, which is
-     * assumed to be in the same coordinate space as the
-     * <code>BufferedImage</code>. The operation is clipped to the bounds
-     * of the <code>BufferedImage</code>.
-     * @param r the specified <code>Raster</code>
-     * @see #getData
-     * @see #getData(Rectangle)
+     * Sfts b rfdtbngulbr rfgion of tif imbgf to tif dontfnts of tif
+     * spfdififd <dodf>Rbstfr</dodf> <dodf>r</dodf>, wiidi is
+     * bssumfd to bf in tif sbmf doordinbtf spbdf bs tif
+     * <dodf>BufffrfdImbgf</dodf>. Tif opfrbtion is dlippfd to tif bounds
+     * of tif <dodf>BufffrfdImbgf</dodf>.
+     * @pbrbm r tif spfdififd <dodf>Rbstfr</dodf>
+     * @sff #gftDbtb
+     * @sff #gftDbtb(Rfdtbnglf)
     */
-    public void setData(Raster r) {
-        int width = r.getWidth();
-        int height = r.getHeight();
-        int startX = r.getMinX();
-        int startY = r.getMinY();
+    publid void sftDbtb(Rbstfr r) {
+        int widti = r.gftWidti();
+        int ifigit = r.gftHfigit();
+        int stbrtX = r.gftMinX();
+        int stbrtY = r.gftMinY();
 
-        int[] tdata = null;
+        int[] tdbtb = null;
 
-        // Clip to the current Raster
-        Rectangle rclip = new Rectangle(startX, startY, width, height);
-        Rectangle bclip = new Rectangle(0, 0, raster.width, raster.height);
-        Rectangle intersect = rclip.intersection(bclip);
-        if (intersect.isEmpty()) {
-            return;
+        // Clip to tif durrfnt Rbstfr
+        Rfdtbnglf rdlip = nfw Rfdtbnglf(stbrtX, stbrtY, widti, ifigit);
+        Rfdtbnglf bdlip = nfw Rfdtbnglf(0, 0, rbstfr.widti, rbstfr.ifigit);
+        Rfdtbnglf intfrsfdt = rdlip.intfrsfdtion(bdlip);
+        if (intfrsfdt.isEmpty()) {
+            rfturn;
         }
-        width = intersect.width;
-        height = intersect.height;
-        startX = intersect.x;
-        startY = intersect.y;
+        widti = intfrsfdt.widti;
+        ifigit = intfrsfdt.ifigit;
+        stbrtX = intfrsfdt.x;
+        stbrtY = intfrsfdt.y;
 
-        // remind use get/setDataElements for speed if Rasters are
-        // compatible
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = r.getPixels(startX,i,width,1,tdata);
-            raster.setPixels(startX,i,width,1, tdata);
+        // rfmind usf gft/sftDbtbElfmfnts for spffd if Rbstfrs brf
+        // dompbtiblf
+        for (int i = stbrtY; i < stbrtY+ifigit; i++)  {
+            tdbtb = r.gftPixfls(stbrtX,i,widti,1,tdbtb);
+            rbstfr.sftPixfls(stbrtX,i,widti,1, tdbtb);
         }
     }
 
 
   /**
-   * Adds a tile observer.  If the observer is already present,
-   * it receives multiple notifications.
-   * @param to the specified {@link TileObserver}
+   * Adds b tilf obsfrvfr.  If tif obsfrvfr is blrfbdy prfsfnt,
+   * it rfdfivfs multiplf notifidbtions.
+   * @pbrbm to tif spfdififd {@link TilfObsfrvfr}
    */
-    public void addTileObserver (TileObserver to) {
+    publid void bddTilfObsfrvfr (TilfObsfrvfr to) {
     }
 
   /**
-   * Removes a tile observer.  If the observer was not registered,
-   * nothing happens.  If the observer was registered for multiple
-   * notifications, it is now registered for one fewer notification.
-   * @param to the specified <code>TileObserver</code>.
+   * Rfmovfs b tilf obsfrvfr.  If tif obsfrvfr wbs not rfgistfrfd,
+   * notiing ibppfns.  If tif obsfrvfr wbs rfgistfrfd for multiplf
+   * notifidbtions, it is now rfgistfrfd for onf ffwfr notifidbtion.
+   * @pbrbm to tif spfdififd <dodf>TilfObsfrvfr</dodf>.
    */
-    public void removeTileObserver (TileObserver to) {
+    publid void rfmovfTilfObsfrvfr (TilfObsfrvfr to) {
     }
 
     /**
-     * Returns whether or not a tile is currently checked out for writing.
-     * @param tileX the x index of the tile.
-     * @param tileY the y index of the tile.
-     * @return <code>true</code> if the tile specified by the specified
-     *          indices is checked out for writing; <code>false</code>
-     *          otherwise.
-     * @exception ArrayIndexOutOfBoundsException if both
-     *          <code>tileX</code> and <code>tileY</code> are not equal
+     * Rfturns wiftifr or not b tilf is durrfntly difdkfd out for writing.
+     * @pbrbm tilfX tif x indfx of tif tilf.
+     * @pbrbm tilfY tif y indfx of tif tilf.
+     * @rfturn <dodf>truf</dodf> if tif tilf spfdififd by tif spfdififd
+     *          indidfs is difdkfd out for writing; <dodf>fblsf</dodf>
+     *          otifrwisf.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if boti
+     *          <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf> brf not fqubl
      *          to 0
      */
-    public boolean isTileWritable (int tileX, int tileY) {
-        if (tileX == 0 && tileY == 0) {
-            return true;
+    publid boolfbn isTilfWritbblf (int tilfX, int tilfY) {
+        if (tilfX == 0 && tilfY == 0) {
+            rfturn truf;
         }
-        throw new IllegalArgumentException("Only 1 tile in image");
+        tirow nfw IllfgblArgumfntExdfption("Only 1 tilf in imbgf");
     }
 
     /**
-     * Returns an array of {@link Point} objects indicating which tiles
-     * are checked out for writing.  Returns <code>null</code> if none are
-     * checked out.
-     * @return a <code>Point</code> array that indicates the tiles that
-     *          are checked out for writing, or <code>null</code> if no
-     *          tiles are checked out for writing.
+     * Rfturns bn brrby of {@link Point} objfdts indidbting wiidi tilfs
+     * brf difdkfd out for writing.  Rfturns <dodf>null</dodf> if nonf brf
+     * difdkfd out.
+     * @rfturn b <dodf>Point</dodf> brrby tibt indidbtfs tif tilfs tibt
+     *          brf difdkfd out for writing, or <dodf>null</dodf> if no
+     *          tilfs brf difdkfd out for writing.
      */
-    public Point[] getWritableTileIndices() {
-        Point[] p = new Point[1];
-        p[0] = new Point(0, 0);
+    publid Point[] gftWritbblfTilfIndidfs() {
+        Point[] p = nfw Point[1];
+        p[0] = nfw Point(0, 0);
 
-        return p;
+        rfturn p;
     }
 
     /**
-     * Returns whether or not any tile is checked out for writing.
-     * Semantically equivalent to
-     * <pre>
-     * (getWritableTileIndices() != null).
-     * </pre>
-     * @return <code>true</code> if any tile is checked out for writing;
-     *          <code>false</code> otherwise.
+     * Rfturns wiftifr or not bny tilf is difdkfd out for writing.
+     * Sfmbntidblly fquivblfnt to
+     * <prf>
+     * (gftWritbblfTilfIndidfs() != null).
+     * </prf>
+     * @rfturn <dodf>truf</dodf> if bny tilf is difdkfd out for writing;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean hasTileWriters () {
-        return true;
+    publid boolfbn ibsTilfWritfrs () {
+        rfturn truf;
     }
 
   /**
-   * Checks out a tile for writing.  All registered
-   * <code>TileObservers</code> are notified when a tile goes from having
-   * no writers to having one writer.
-   * @param tileX the x index of the tile
-   * @param tileY the y index of the tile
-   * @return a <code>WritableRaster</code> that is the tile, indicated by
-   *            the specified indices, to be checked out for writing.
+   * Cifdks out b tilf for writing.  All rfgistfrfd
+   * <dodf>TilfObsfrvfrs</dodf> brf notififd wifn b tilf gofs from ibving
+   * no writfrs to ibving onf writfr.
+   * @pbrbm tilfX tif x indfx of tif tilf
+   * @pbrbm tilfY tif y indfx of tif tilf
+   * @rfturn b <dodf>WritbblfRbstfr</dodf> tibt is tif tilf, indidbtfd by
+   *            tif spfdififd indidfs, to bf difdkfd out for writing.
    */
-    public WritableRaster getWritableTile (int tileX, int tileY) {
-        return raster;
+    publid WritbblfRbstfr gftWritbblfTilf (int tilfX, int tilfY) {
+        rfturn rbstfr;
     }
 
   /**
-   * Relinquishes permission to write to a tile.  If the caller
-   * continues to write to the tile, the results are undefined.
-   * Calls to this method should only appear in matching pairs
-   * with calls to {@link #getWritableTile(int, int) getWritableTile(int, int)}.  Any other leads
-   * to undefined results.  All registered <code>TileObservers</code>
-   * are notified when a tile goes from having one writer to having no
-   * writers.
-   * @param tileX the x index of the tile
-   * @param tileY the y index of the tile
+   * Rflinquisifs pfrmission to writf to b tilf.  If tif dbllfr
+   * dontinufs to writf to tif tilf, tif rfsults brf undffinfd.
+   * Cblls to tiis mftiod siould only bppfbr in mbtdiing pbirs
+   * witi dblls to {@link #gftWritbblfTilf(int, int) gftWritbblfTilf(int, int)}.  Any otifr lfbds
+   * to undffinfd rfsults.  All rfgistfrfd <dodf>TilfObsfrvfrs</dodf>
+   * brf notififd wifn b tilf gofs from ibving onf writfr to ibving no
+   * writfrs.
+   * @pbrbm tilfX tif x indfx of tif tilf
+   * @pbrbm tilfY tif y indfx of tif tilf
    */
-    public void releaseWritableTile (int tileX, int tileY) {
+    publid void rflfbsfWritbblfTilf (int tilfX, int tilfY) {
     }
 
     /**
-     * Returns the transparency.  Returns either OPAQUE, BITMASK,
+     * Rfturns tif trbnspbrfndy.  Rfturns fitifr OPAQUE, BITMASK,
      * or TRANSLUCENT.
-     * @return the transparency of this <code>BufferedImage</code>.
-     * @see Transparency#OPAQUE
-     * @see Transparency#BITMASK
-     * @see Transparency#TRANSLUCENT
-     * @since 1.5
+     * @rfturn tif trbnspbrfndy of tiis <dodf>BufffrfdImbgf</dodf>.
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     * @sindf 1.5
      */
-    public int getTransparency() {
-        return colorModel.getTransparency();
+    publid int gftTrbnspbrfndy() {
+        rfturn dolorModfl.gftTrbnspbrfndy();
     }
 }

@@ -1,876 +1,876 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.LayoutManager2;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.ComponfntOrifntbtion;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.LbyoutMbnbgfr2;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbsitbblf;
 
 
 /**
- * <code>JToolBar</code> provides a component that is useful for
- * displaying commonly used <code>Action</code>s or controls.
- * For examples and information on using tool bars see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/toolbar.html">How to Use Tool Bars</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <dodf>JToolBbr</dodf> providfs b domponfnt tibt is usfful for
+ * displbying dommonly usfd <dodf>Adtion</dodf>s or dontrols.
+ * For fxbmplfs bnd informbtion on using tool bbrs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/toolbbr.itml">How to Usf Tool Bbrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
  * <p>
- * With most look and feels,
- * the user can drag out a tool bar into a separate window
- * (unless the <code>floatable</code> property is set to <code>false</code>).
- * For drag-out to work correctly, it is recommended that you add
- * <code>JToolBar</code> instances to one of the four "sides" of a
- * container whose layout manager is a <code>BorderLayout</code>,
- * and do not add children to any of the other four "sides".
+ * Witi most look bnd fffls,
+ * tif usfr dbn drbg out b tool bbr into b sfpbrbtf window
+ * (unlfss tif <dodf>flobtbblf</dodf> propfrty is sft to <dodf>fblsf</dodf>).
+ * For drbg-out to work dorrfdtly, it is rfdommfndfd tibt you bdd
+ * <dodf>JToolBbr</dodf> instbndfs to onf of tif four "sidfs" of b
+ * dontbinfr wiosf lbyout mbnbgfr is b <dodf>BordfrLbyout</dodf>,
+ * bnd do not bdd diildrfn to bny of tif otifr four "sidfs".
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer true
- * description: A component which displays commonly used controls or Actions.
+ * @bfbninfo
+ *   bttributf: isContbinfr truf
+ * dfsdription: A domponfnt wiidi displbys dommonly usfd dontrols or Adtions.
  *
- * @author Georges Saab
- * @author Jeff Shapiro
- * @see Action
- * @since 1.2
+ * @butior Gforgfs Sbbb
+ * @butior Jfff Sibpiro
+ * @sff Adtion
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JToolBar extends JComponent implements SwingConstants, Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JToolBbr fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ToolBarUI";
+    privbtf stbtid finbl String uiClbssID = "ToolBbrUI";
 
-    private    boolean   paintBorder              = true;
-    private    Insets    margin                   = null;
-    private    boolean   floatable                = true;
-    private    int       orientation              = HORIZONTAL;
+    privbtf    boolfbn   pbintBordfr              = truf;
+    privbtf    Insfts    mbrgin                   = null;
+    privbtf    boolfbn   flobtbblf                = truf;
+    privbtf    int       orifntbtion              = HORIZONTAL;
 
     /**
-     * Creates a new tool bar; orientation defaults to <code>HORIZONTAL</code>.
+     * Crfbtfs b nfw tool bbr; orifntbtion dffbults to <dodf>HORIZONTAL</dodf>.
      */
-    public JToolBar()
+    publid JToolBbr()
     {
-        this( HORIZONTAL );
+        tiis( HORIZONTAL );
     }
 
     /**
-     * Creates a new tool bar with the specified <code>orientation</code>.
-     * The <code>orientation</code> must be either <code>HORIZONTAL</code>
-     * or <code>VERTICAL</code>.
+     * Crfbtfs b nfw tool bbr witi tif spfdififd <dodf>orifntbtion</dodf>.
+     * Tif <dodf>orifntbtion</dodf> must bf fitifr <dodf>HORIZONTAL</dodf>
+     * or <dodf>VERTICAL</dodf>.
      *
-     * @param orientation  the orientation desired
+     * @pbrbm orifntbtion  tif orifntbtion dfsirfd
      */
-    public JToolBar( int orientation )
+    publid JToolBbr( int orifntbtion )
     {
-        this(null, orientation);
+        tiis(null, orifntbtion);
     }
 
     /**
-     * Creates a new tool bar with the specified <code>name</code>.  The
-     * name is used as the title of the undocked tool bar.  The default
-     * orientation is <code>HORIZONTAL</code>.
+     * Crfbtfs b nfw tool bbr witi tif spfdififd <dodf>nbmf</dodf>.  Tif
+     * nbmf is usfd bs tif titlf of tif undodkfd tool bbr.  Tif dffbult
+     * orifntbtion is <dodf>HORIZONTAL</dodf>.
      *
-     * @param name the name of the tool bar
-     * @since 1.3
+     * @pbrbm nbmf tif nbmf of tif tool bbr
+     * @sindf 1.3
      */
-    public JToolBar( String name ) {
-        this(name, HORIZONTAL);
+    publid JToolBbr( String nbmf ) {
+        tiis(nbmf, HORIZONTAL);
     }
 
     /**
-     * Creates a new tool bar with a specified <code>name</code> and
-     * <code>orientation</code>.
-     * All other constructors call this constructor.
-     * If <code>orientation</code> is an invalid value, an exception will
-     * be thrown.
+     * Crfbtfs b nfw tool bbr witi b spfdififd <dodf>nbmf</dodf> bnd
+     * <dodf>orifntbtion</dodf>.
+     * All otifr donstrudtors dbll tiis donstrudtor.
+     * If <dodf>orifntbtion</dodf> is bn invblid vbluf, bn fxdfption will
+     * bf tirown.
      *
-     * @param name  the name of the tool bar
-     * @param orientation  the initial orientation -- it must be
-     *          either <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @exception IllegalArgumentException if orientation is neither
-     *          <code>HORIZONTAL</code> nor <code>VERTICAL</code>
-     * @since 1.3
+     * @pbrbm nbmf  tif nbmf of tif tool bbr
+     * @pbrbm orifntbtion  tif initibl orifntbtion -- it must bf
+     *          fitifr <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is nfitifr
+     *          <dodf>HORIZONTAL</dodf> nor <dodf>VERTICAL</dodf>
+     * @sindf 1.3
      */
-    public JToolBar( String name , int orientation) {
-        setName(name);
-        checkOrientation( orientation );
+    publid JToolBbr( String nbmf , int orifntbtion) {
+        sftNbmf(nbmf);
+        difdkOrifntbtion( orifntbtion );
 
-        this.orientation = orientation;
-        DefaultToolBarLayout layout =  new DefaultToolBarLayout( orientation );
-        setLayout( layout );
+        tiis.orifntbtion = orifntbtion;
+        DffbultToolBbrLbyout lbyout =  nfw DffbultToolBbrLbyout( orifntbtion );
+        sftLbyout( lbyout );
 
-        addPropertyChangeListener( layout );
+        bddPropfrtyCibngfListfnfr( lbyout );
 
-        updateUI();
+        updbtfUI();
     }
 
     /**
-     * Returns the tool bar's current UI.
+     * Rfturns tif tool bbr's durrfnt UI.
      *
-     * @return the tool bar's current UI.
-     * @see #setUI
+     * @rfturn tif tool bbr's durrfnt UI.
+     * @sff #sftUI
      */
-    public ToolBarUI getUI() {
-        return (ToolBarUI)ui;
+    publid ToolBbrUI gftUI() {
+        rfturn (ToolBbrUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>ToolBarUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui  tif <dodf>ToolBbrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(ToolBarUI ui) {
-        super.setUI(ui);
+    publid void sftUI(ToolBbrUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Notification from the <code>UIFactory</code> that the L&amp;F has changed.
-     * Called to replace the UI with the latest version from the
-     * <code>UIFactory</code>.
+     * Notifidbtion from tif <dodf>UIFbdtory</dodf> tibt tif L&bmp;F ibs dibngfd.
+     * Cbllfd to rfplbdf tif UI witi tif lbtfst vfrsion from tif
+     * <dodf>UIFbdtory</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ToolBarUI)UIManager.getUI(this));
-        // GTKLookAndFeel installs a different LayoutManager, and sets it
-        // to null after changing the look and feel, so, install the default
-        // if the LayoutManager is null.
-        if (getLayout() == null) {
-            setLayout(new DefaultToolBarLayout(getOrientation()));
+    publid void updbtfUI() {
+        sftUI((ToolBbrUI)UIMbnbgfr.gftUI(tiis));
+        // GTKLookAndFffl instblls b difffrfnt LbyoutMbnbgfr, bnd sfts it
+        // to null bftfr dibnging tif look bnd fffl, so, instbll tif dffbult
+        // if tif LbyoutMbnbgfr is null.
+        if (gftLbyout() == null) {
+            sftLbyout(nfw DffbultToolBbrLbyout(gftOrifntbtion()));
         }
-        invalidate();
+        invblidbtf();
     }
 
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "ToolBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "ToolBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Returns the index of the specified component.
-     * (Note: Separators occupy index positions.)
+     * Rfturns tif indfx of tif spfdififd domponfnt.
+     * (Notf: Sfpbrbtors oddupy indfx positions.)
      *
-     * @param c  the <code>Component</code> to find
-     * @return an integer indicating the component's position,
-     *          where 0 is first
+     * @pbrbm d  tif <dodf>Componfnt</dodf> to find
+     * @rfturn bn intfgfr indidbting tif domponfnt's position,
+     *          wifrf 0 is first
      */
-    public int getComponentIndex(Component c) {
-        int ncomponents = this.getComponentCount();
-        Component[] component = this.getComponents();
-        for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = component[i];
-            if (comp == c)
-                return i;
+    publid int gftComponfntIndfx(Componfnt d) {
+        int ndomponfnts = tiis.gftComponfntCount();
+        Componfnt[] domponfnt = tiis.gftComponfnts();
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = domponfnt[i];
+            if (domp == d)
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the component at the specified index.
+     * Rfturns tif domponfnt bt tif spfdififd indfx.
      *
-     * @param i  the component's position, where 0 is first
-     * @return   the <code>Component</code> at that position,
-     *          or <code>null</code> for an invalid index
+     * @pbrbm i  tif domponfnt's position, wifrf 0 is first
+     * @rfturn   tif <dodf>Componfnt</dodf> bt tibt position,
+     *          or <dodf>null</dodf> for bn invblid indfx
      *
      */
-    public Component getComponentAtIndex(int i) {
-        int ncomponents = this.getComponentCount();
-        if ( i >= 0 && i < ncomponents) {
-            Component[] component = this.getComponents();
-            return component[i];
+    publid Componfnt gftComponfntAtIndfx(int i) {
+        int ndomponfnts = tiis.gftComponfntCount();
+        if ( i >= 0 && i < ndomponfnts) {
+            Componfnt[] domponfnt = tiis.gftComponfnts();
+            rfturn domponfnt[i];
         }
-        return null;
+        rfturn null;
     }
 
      /**
-      * Sets the margin between the tool bar's border and
-      * its buttons. Setting to <code>null</code> causes the tool bar to
-      * use the default margins. The tool bar's default <code>Border</code>
-      * object uses this value to create the proper margin.
-      * However, if a non-default border is set on the tool bar,
-      * it is that <code>Border</code> object's responsibility to create the
-      * appropriate margin space (otherwise this property will
-      * effectively be ignored).
+      * Sfts tif mbrgin bftwffn tif tool bbr's bordfr bnd
+      * its buttons. Sftting to <dodf>null</dodf> dbusfs tif tool bbr to
+      * usf tif dffbult mbrgins. Tif tool bbr's dffbult <dodf>Bordfr</dodf>
+      * objfdt usfs tiis vbluf to drfbtf tif propfr mbrgin.
+      * Howfvfr, if b non-dffbult bordfr is sft on tif tool bbr,
+      * it is tibt <dodf>Bordfr</dodf> objfdt's rfsponsibility to drfbtf tif
+      * bppropribtf mbrgin spbdf (otifrwisf tiis propfrty will
+      * ffffdtivfly bf ignorfd).
       *
-      * @param m an <code>Insets</code> object that defines the space
-      *         between the border and the buttons
-      * @see Insets
-      * @beaninfo
-      * description: The margin between the tool bar's border and contents
-      *       bound: true
-      *      expert: true
+      * @pbrbm m bn <dodf>Insfts</dodf> objfdt tibt dffinfs tif spbdf
+      *         bftwffn tif bordfr bnd tif buttons
+      * @sff Insfts
+      * @bfbninfo
+      * dfsdription: Tif mbrgin bftwffn tif tool bbr's bordfr bnd dontfnts
+      *       bound: truf
+      *      fxpfrt: truf
       */
-     public void setMargin(Insets m)
+     publid void sftMbrgin(Insfts m)
      {
-         Insets old = margin;
-         margin = m;
-         firePropertyChange("margin", old, m);
-         revalidate();
-         repaint();
+         Insfts old = mbrgin;
+         mbrgin = m;
+         firfPropfrtyCibngf("mbrgin", old, m);
+         rfvblidbtf();
+         rfpbint();
      }
 
      /**
-      * Returns the margin between the tool bar's border and
+      * Rfturns tif mbrgin bftwffn tif tool bbr's bordfr bnd
       * its buttons.
       *
-      * @return an <code>Insets</code> object containing the margin values
-      * @see Insets
+      * @rfturn bn <dodf>Insfts</dodf> objfdt dontbining tif mbrgin vblufs
+      * @sff Insfts
       */
-     public Insets getMargin()
+     publid Insfts gftMbrgin()
      {
-         if(margin == null) {
-             return new Insets(0,0,0,0);
-         } else {
-             return margin;
+         if(mbrgin == null) {
+             rfturn nfw Insfts(0,0,0,0);
+         } flsf {
+             rfturn mbrgin;
          }
      }
 
      /**
-      * Gets the <code>borderPainted</code> property.
+      * Gfts tif <dodf>bordfrPbintfd</dodf> propfrty.
       *
-      * @return the value of the <code>borderPainted</code> property
-      * @see #setBorderPainted
+      * @rfturn tif vbluf of tif <dodf>bordfrPbintfd</dodf> propfrty
+      * @sff #sftBordfrPbintfd
       */
-     public boolean isBorderPainted()
+     publid boolfbn isBordfrPbintfd()
      {
-         return paintBorder;
+         rfturn pbintBordfr;
      }
 
 
      /**
-      * Sets the <code>borderPainted</code> property, which is
-      * <code>true</code> if the border should be painted.
-      * The default value for this property is <code>true</code>.
-      * Some look and feels might not implement painted borders;
-      * they will ignore this property.
+      * Sfts tif <dodf>bordfrPbintfd</dodf> propfrty, wiidi is
+      * <dodf>truf</dodf> if tif bordfr siould bf pbintfd.
+      * Tif dffbult vbluf for tiis propfrty is <dodf>truf</dodf>.
+      * Somf look bnd fffls migit not implfmfnt pbintfd bordfrs;
+      * tify will ignorf tiis propfrty.
       *
-      * @param b if true, the border is painted
-      * @see #isBorderPainted
-      * @beaninfo
-      * description: Does the tool bar paint its borders?
-      *       bound: true
-      *      expert: true
+      * @pbrbm b if truf, tif bordfr is pbintfd
+      * @sff #isBordfrPbintfd
+      * @bfbninfo
+      * dfsdription: Dofs tif tool bbr pbint its bordfrs?
+      *       bound: truf
+      *      fxpfrt: truf
       */
-     public void setBorderPainted(boolean b)
+     publid void sftBordfrPbintfd(boolfbn b)
      {
-         if ( paintBorder != b )
+         if ( pbintBordfr != b )
          {
-             boolean old = paintBorder;
-             paintBorder = b;
-             firePropertyChange("borderPainted", old, b);
-             revalidate();
-             repaint();
+             boolfbn old = pbintBordfr;
+             pbintBordfr = b;
+             firfPropfrtyCibngf("bordfrPbintfd", old, b);
+             rfvblidbtf();
+             rfpbint();
          }
      }
 
      /**
-      * Paints the tool bar's border if the <code>borderPainted</code> property
-      * is <code>true</code>.
+      * Pbints tif tool bbr's bordfr if tif <dodf>bordfrPbintfd</dodf> propfrty
+      * is <dodf>truf</dodf>.
       *
-      * @param g  the <code>Graphics</code> context in which the painting
-      *         is done
-      * @see JComponent#paint
-      * @see JComponent#setBorder
+      * @pbrbm g  tif <dodf>Grbpiids</dodf> dontfxt in wiidi tif pbinting
+      *         is donf
+      * @sff JComponfnt#pbint
+      * @sff JComponfnt#sftBordfr
       */
-     protected void paintBorder(Graphics g)
+     protfdtfd void pbintBordfr(Grbpiids g)
      {
-         if (isBorderPainted())
+         if (isBordfrPbintfd())
          {
-             super.paintBorder(g);
+             supfr.pbintBordfr(g);
          }
      }
 
     /**
-     * Gets the <code>floatable</code> property.
+     * Gfts tif <dodf>flobtbblf</dodf> propfrty.
      *
-     * @return the value of the <code>floatable</code> property
+     * @rfturn tif vbluf of tif <dodf>flobtbblf</dodf> propfrty
      *
-     * @see #setFloatable
+     * @sff #sftFlobtbblf
      */
-    public boolean isFloatable()
+    publid boolfbn isFlobtbblf()
     {
-        return floatable;
+        rfturn flobtbblf;
     }
 
      /**
-      * Sets the <code>floatable</code> property,
-      * which must be <code>true</code> for the user to move the tool bar.
-      * Typically, a floatable tool bar can be
-      * dragged into a different position within the same container
+      * Sfts tif <dodf>flobtbblf</dodf> propfrty,
+      * wiidi must bf <dodf>truf</dodf> for tif usfr to movf tif tool bbr.
+      * Typidblly, b flobtbblf tool bbr dbn bf
+      * drbggfd into b difffrfnt position witiin tif sbmf dontbinfr
       * or out into its own window.
-      * The default value of this property is <code>true</code>.
-      * Some look and feels might not implement floatable tool bars;
-      * they will ignore this property.
+      * Tif dffbult vbluf of tiis propfrty is <dodf>truf</dodf>.
+      * Somf look bnd fffls migit not implfmfnt flobtbblf tool bbrs;
+      * tify will ignorf tiis propfrty.
       *
-      * @param b if <code>true</code>, the tool bar can be moved;
-      *          <code>false</code> otherwise
-      * @see #isFloatable
-      * @beaninfo
-      * description: Can the tool bar be made to float by the user?
-      *       bound: true
-      *   preferred: true
+      * @pbrbm b if <dodf>truf</dodf>, tif tool bbr dbn bf movfd;
+      *          <dodf>fblsf</dodf> otifrwisf
+      * @sff #isFlobtbblf
+      * @bfbninfo
+      * dfsdription: Cbn tif tool bbr bf mbdf to flobt by tif usfr?
+      *       bound: truf
+      *   prfffrrfd: truf
       */
-    public void setFloatable( boolean b )
+    publid void sftFlobtbblf( boolfbn b )
     {
-        if ( floatable != b )
+        if ( flobtbblf != b )
         {
-            boolean old = floatable;
-            floatable = b;
+            boolfbn old = flobtbblf;
+            flobtbblf = b;
 
-            firePropertyChange("floatable", old, b);
-            revalidate();
-            repaint();
+            firfPropfrtyCibngf("flobtbblf", old, b);
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Returns the current orientation of the tool bar.  The value is either
-     * <code>HORIZONTAL</code> or <code>VERTICAL</code>.
+     * Rfturns tif durrfnt orifntbtion of tif tool bbr.  Tif vbluf is fitifr
+     * <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>.
      *
-     * @return an integer representing the current orientation -- either
-     *          <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @see #setOrientation
+     * @rfturn bn intfgfr rfprfsfnting tif durrfnt orifntbtion -- fitifr
+     *          <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @sff #sftOrifntbtion
      */
-    public int getOrientation()
+    publid int gftOrifntbtion()
     {
-        return this.orientation;
+        rfturn tiis.orifntbtion;
     }
 
     /**
-     * Sets the orientation of the tool bar.  The orientation must have
-     * either the value <code>HORIZONTAL</code> or <code>VERTICAL</code>.
-     * If <code>orientation</code> is
-     * an invalid value, an exception will be thrown.
+     * Sfts tif orifntbtion of tif tool bbr.  Tif orifntbtion must ibvf
+     * fitifr tif vbluf <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>.
+     * If <dodf>orifntbtion</dodf> is
+     * bn invblid vbluf, bn fxdfption will bf tirown.
      *
-     * @param o  the new orientation -- either <code>HORIZONTAL</code> or
-     *                  <code>VERTICAL</code>
-     * @exception IllegalArgumentException if orientation is neither
-     *          <code>HORIZONTAL</code> nor <code>VERTICAL</code>
-     * @see #getOrientation
-     * @beaninfo
-     * description: The current orientation of the tool bar
-     *       bound: true
-     *   preferred: true
-     *        enum: HORIZONTAL SwingConstants.HORIZONTAL
-     *              VERTICAL   SwingConstants.VERTICAL
+     * @pbrbm o  tif nfw orifntbtion -- fitifr <dodf>HORIZONTAL</dodf> or
+     *                  <dodf>VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is nfitifr
+     *          <dodf>HORIZONTAL</dodf> nor <dodf>VERTICAL</dodf>
+     * @sff #gftOrifntbtion
+     * @bfbninfo
+     * dfsdription: Tif durrfnt orifntbtion of tif tool bbr
+     *       bound: truf
+     *   prfffrrfd: truf
+     *        fnum: HORIZONTAL SwingConstbnts.HORIZONTAL
+     *              VERTICAL   SwingConstbnts.VERTICAL
      */
-    public void setOrientation( int o )
+    publid void sftOrifntbtion( int o )
     {
-        checkOrientation( o );
+        difdkOrifntbtion( o );
 
-        if ( orientation != o )
+        if ( orifntbtion != o )
         {
-            int old = orientation;
-            orientation = o;
+            int old = orifntbtion;
+            orifntbtion = o;
 
-            firePropertyChange("orientation", old, o);
-            revalidate();
-            repaint();
+            firfPropfrtyCibngf("orifntbtion", old, o);
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
     /**
-     * Sets the rollover state of this toolbar. If the rollover state is true
-     * then the border of the toolbar buttons will be drawn only when the
-     * mouse pointer hovers over them. The default value of this property
-     * is false.
+     * Sfts tif rollovfr stbtf of tiis toolbbr. If tif rollovfr stbtf is truf
+     * tifn tif bordfr of tif toolbbr buttons will bf drbwn only wifn tif
+     * mousf pointfr iovfrs ovfr tifm. Tif dffbult vbluf of tiis propfrty
+     * is fblsf.
      * <p>
-     * The implementation of a look and feel may choose to ignore this
-     * property.
+     * Tif implfmfntbtion of b look bnd fffl mby dioosf to ignorf tiis
+     * propfrty.
      *
-     * @param rollover true for rollover toolbar buttons; otherwise false
-     * @since 1.4
-     * @beaninfo
-     *        bound: true
-     *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: Will draw rollover button borders in the toolbar.
+     * @pbrbm rollovfr truf for rollovfr toolbbr buttons; otifrwisf fblsf
+     * @sindf 1.4
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Will drbw rollovfr button bordfrs in tif toolbbr.
      */
-    public void setRollover(boolean rollover) {
-        putClientProperty("JToolBar.isRollover",
-                          rollover ? Boolean.TRUE : Boolean.FALSE);
+    publid void sftRollovfr(boolfbn rollovfr) {
+        putClifntPropfrty("JToolBbr.isRollovfr",
+                          rollovfr ? Boolfbn.TRUE : Boolfbn.FALSE);
     }
 
     /**
-     * Returns the rollover state.
+     * Rfturns tif rollovfr stbtf.
      *
-     * @return true if rollover toolbar buttons are to be drawn; otherwise false
-     * @see #setRollover(boolean)
-     * @since 1.4
+     * @rfturn truf if rollovfr toolbbr buttons brf to bf drbwn; otifrwisf fblsf
+     * @sff #sftRollovfr(boolfbn)
+     * @sindf 1.4
      */
-    public boolean isRollover() {
-        Boolean rollover = (Boolean)getClientProperty("JToolBar.isRollover");
-        if (rollover != null) {
-            return rollover.booleanValue();
+    publid boolfbn isRollovfr() {
+        Boolfbn rollovfr = (Boolfbn)gftClifntPropfrty("JToolBbr.isRollovfr");
+        if (rollovfr != null) {
+            rfturn rollovfr.boolfbnVbluf();
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private void checkOrientation( int orientation )
+    privbtf void difdkOrifntbtion( int orifntbtion )
     {
-        switch ( orientation )
+        switdi ( orifntbtion )
         {
-            case VERTICAL:
-            case HORIZONTAL:
-                break;
-            default:
-                throw new IllegalArgumentException( "orientation must be one of: VERTICAL, HORIZONTAL" );
+            dbsf VERTICAL:
+            dbsf HORIZONTAL:
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption( "orifntbtion must bf onf of: VERTICAL, HORIZONTAL" );
         }
     }
 
     /**
-     * Appends a separator of default size to the end of the tool bar.
-     * The default size is determined by the current look and feel.
+     * Appfnds b sfpbrbtor of dffbult sizf to tif fnd of tif tool bbr.
+     * Tif dffbult sizf is dftfrminfd by tif durrfnt look bnd fffl.
      */
-    public void addSeparator()
+    publid void bddSfpbrbtor()
     {
-        addSeparator(null);
+        bddSfpbrbtor(null);
     }
 
     /**
-     * Appends a separator of a specified size to the end
-     * of the tool bar.
+     * Appfnds b sfpbrbtor of b spfdififd sizf to tif fnd
+     * of tif tool bbr.
      *
-     * @param size the <code>Dimension</code> of the separator
+     * @pbrbm sizf tif <dodf>Dimfnsion</dodf> of tif sfpbrbtor
      */
-    public void addSeparator( Dimension size )
+    publid void bddSfpbrbtor( Dimfnsion sizf )
     {
-        JToolBar.Separator s = new JToolBar.Separator( size );
-        add(s);
+        JToolBbr.Sfpbrbtor s = nfw JToolBbr.Sfpbrbtor( sizf );
+        bdd(s);
     }
 
     /**
-     * Adds a new <code>JButton</code> which dispatches the action.
+     * Adds b nfw <dodf>JButton</dodf> wiidi dispbtdifs tif bdtion.
      *
-     * @param a the <code>Action</code> object to add as a new menu item
-     * @return the new button which dispatches the action
+     * @pbrbm b tif <dodf>Adtion</dodf> objfdt to bdd bs b nfw mfnu itfm
+     * @rfturn tif nfw button wiidi dispbtdifs tif bdtion
      */
-    public JButton add(Action a) {
-        JButton b = createActionComponent(a);
-        b.setAction(a);
-        add(b);
-        return b;
+    publid JButton bdd(Adtion b) {
+        JButton b = drfbtfAdtionComponfnt(b);
+        b.sftAdtion(b);
+        bdd(b);
+        rfturn b;
     }
 
     /**
-     * Factory method which creates the <code>JButton</code> for
-     * <code>Action</code>s added to the <code>JToolBar</code>.
-     * The default name is empty if a <code>null</code> action is passed.
+     * Fbdtory mftiod wiidi drfbtfs tif <dodf>JButton</dodf> for
+     * <dodf>Adtion</dodf>s bddfd to tif <dodf>JToolBbr</dodf>.
+     * Tif dffbult nbmf is fmpty if b <dodf>null</dodf> bdtion is pbssfd.
      *
-     * @param a the <code>Action</code> for the button to be added
-     * @return the newly created button
-     * @see Action
-     * @since 1.3
+     * @pbrbm b tif <dodf>Adtion</dodf> for tif button to bf bddfd
+     * @rfturn tif nfwly drfbtfd button
+     * @sff Adtion
+     * @sindf 1.3
      */
-    protected JButton createActionComponent(Action a) {
-        JButton b = new JButton() {
-            protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
-                PropertyChangeListener pcl = createActionChangeListener(this);
-                if (pcl==null) {
-                    pcl = super.createActionPropertyChangeListener(a);
+    protfdtfd JButton drfbtfAdtionComponfnt(Adtion b) {
+        JButton b = nfw JButton() {
+            protfdtfd PropfrtyCibngfListfnfr drfbtfAdtionPropfrtyCibngfListfnfr(Adtion b) {
+                PropfrtyCibngfListfnfr pdl = drfbtfAdtionCibngfListfnfr(tiis);
+                if (pdl==null) {
+                    pdl = supfr.drfbtfAdtionPropfrtyCibngfListfnfr(b);
                 }
-                return pcl;
+                rfturn pdl;
             }
         };
-        if (a != null && (a.getValue(Action.SMALL_ICON) != null ||
-                          a.getValue(Action.LARGE_ICON_KEY) != null)) {
-            b.setHideActionText(true);
+        if (b != null && (b.gftVbluf(Adtion.SMALL_ICON) != null ||
+                          b.gftVbluf(Adtion.LARGE_ICON_KEY) != null)) {
+            b.sftHidfAdtionTfxt(truf);
         }
-        b.setHorizontalTextPosition(JButton.CENTER);
-        b.setVerticalTextPosition(JButton.BOTTOM);
-        return b;
+        b.sftHorizontblTfxtPosition(JButton.CENTER);
+        b.sftVfrtidblTfxtPosition(JButton.BOTTOM);
+        rfturn b;
     }
 
     /**
-     * Returns a properly configured <code>PropertyChangeListener</code>
-     * which updates the control as changes to the <code>Action</code> occur,
-     * or <code>null</code> if the default
-     * property change listener for the control is desired.
+     * Rfturns b propfrly donfigurfd <dodf>PropfrtyCibngfListfnfr</dodf>
+     * wiidi updbtfs tif dontrol bs dibngfs to tif <dodf>Adtion</dodf> oddur,
+     * or <dodf>null</dodf> if tif dffbult
+     * propfrty dibngf listfnfr for tif dontrol is dfsirfd.
      *
-     * @param b a {@code JButton}
-     * @return {@code null}
+     * @pbrbm b b {@dodf JButton}
+     * @rfturn {@dodf null}
      */
-    protected PropertyChangeListener createActionChangeListener(JButton b) {
-        return null;
+    protfdtfd PropfrtyCibngfListfnfr drfbtfAdtionCibngfListfnfr(JButton b) {
+        rfturn null;
     }
 
     /**
-     * If a <code>JButton</code> is being added, it is initially
-     * set to be disabled.
+     * If b <dodf>JButton</dodf> is bfing bddfd, it is initiblly
+     * sft to bf disbblfd.
      *
-     * @param comp  the component to be enhanced
-     * @param constraints  the constraints to be enforced on the component
-     * @param index the index of the component
+     * @pbrbm domp  tif domponfnt to bf fnibndfd
+     * @pbrbm donstrbints  tif donstrbints to bf fnfordfd on tif domponfnt
+     * @pbrbm indfx tif indfx of tif domponfnt
      *
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        if (comp instanceof Separator) {
-            if (getOrientation() == VERTICAL) {
-                ( (Separator)comp ).setOrientation(JSeparator.HORIZONTAL);
-            } else {
-                ( (Separator)comp ).setOrientation(JSeparator.VERTICAL);
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        if (domp instbndfof Sfpbrbtor) {
+            if (gftOrifntbtion() == VERTICAL) {
+                ( (Sfpbrbtor)domp ).sftOrifntbtion(JSfpbrbtor.HORIZONTAL);
+            } flsf {
+                ( (Sfpbrbtor)domp ).sftOrifntbtion(JSfpbrbtor.VERTICAL);
             }
         }
-        super.addImpl(comp, constraints, index);
-        if (comp instanceof JButton) {
-            ((JButton)comp).setDefaultCapable(false);
+        supfr.bddImpl(domp, donstrbints, indfx);
+        if (domp instbndfof JButton) {
+            ((JButton)domp).sftDffbultCbpbblf(fblsf);
         }
     }
 
 
     /**
-     * A toolbar-specific separator. An object with dimension but
-     * no contents used to divide buttons on a tool bar into groups.
+     * A toolbbr-spfdifid sfpbrbtor. An objfdt witi dimfnsion but
+     * no dontfnts usfd to dividf buttons on b tool bbr into groups.
      */
-    static public class Separator extends JSeparator
+    stbtid publid dlbss Sfpbrbtor fxtfnds JSfpbrbtor
     {
-        private Dimension separatorSize;
+        privbtf Dimfnsion sfpbrbtorSizf;
 
         /**
-         * Creates a new toolbar separator with the default size
-         * as defined by the current look and feel.
+         * Crfbtfs b nfw toolbbr sfpbrbtor witi tif dffbult sizf
+         * bs dffinfd by tif durrfnt look bnd fffl.
          */
-        public Separator()
+        publid Sfpbrbtor()
         {
-            this( null );  // let the UI define the default size
+            tiis( null );  // lft tif UI dffinf tif dffbult sizf
         }
 
         /**
-         * Creates a new toolbar separator with the specified size.
+         * Crfbtfs b nfw toolbbr sfpbrbtor witi tif spfdififd sizf.
          *
-         * @param size the <code>Dimension</code> of the separator
+         * @pbrbm sizf tif <dodf>Dimfnsion</dodf> of tif sfpbrbtor
          */
-        public Separator( Dimension size )
+        publid Sfpbrbtor( Dimfnsion sizf )
         {
-            super( JSeparator.HORIZONTAL );
-            setSeparatorSize(size);
+            supfr( JSfpbrbtor.HORIZONTAL );
+            sftSfpbrbtorSizf(sizf);
         }
 
         /**
-         * Returns the name of the L&amp;F class that renders this component.
+         * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
          *
-         * @return the string "ToolBarSeparatorUI"
-         * @see JComponent#getUIClassID
-         * @see UIDefaults#getUI
+         * @rfturn tif string "ToolBbrSfpbrbtorUI"
+         * @sff JComponfnt#gftUIClbssID
+         * @sff UIDffbults#gftUI
          */
-        public String getUIClassID()
+        publid String gftUIClbssID()
         {
-            return "ToolBarSeparatorUI";
+            rfturn "ToolBbrSfpbrbtorUI";
         }
 
         /**
-         * Sets the size of the separator.
+         * Sfts tif sizf of tif sfpbrbtor.
          *
-         * @param size the new <code>Dimension</code> of the separator
+         * @pbrbm sizf tif nfw <dodf>Dimfnsion</dodf> of tif sfpbrbtor
          */
-        public void setSeparatorSize( Dimension size )
+        publid void sftSfpbrbtorSizf( Dimfnsion sizf )
         {
-            if (size != null) {
-                separatorSize = size;
-            } else {
-                super.updateUI();
+            if (sizf != null) {
+                sfpbrbtorSizf = sizf;
+            } flsf {
+                supfr.updbtfUI();
             }
-            this.invalidate();
+            tiis.invblidbtf();
         }
 
         /**
-         * Returns the size of the separator
+         * Rfturns tif sizf of tif sfpbrbtor
          *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         size (This is a reference, NOT a copy!)
+         * @rfturn tif <dodf>Dimfnsion</dodf> objfdt dontbining tif sfpbrbtor's
+         *         sizf (Tiis is b rfffrfndf, NOT b dopy!)
          */
-        public Dimension getSeparatorSize()
+        publid Dimfnsion gftSfpbrbtorSizf()
         {
-            return separatorSize;
+            rfturn sfpbrbtorSizf;
         }
 
         /**
-         * Returns the minimum size for the separator.
+         * Rfturns tif minimum sizf for tif sfpbrbtor.
          *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         minimum size
+         * @rfturn tif <dodf>Dimfnsion</dodf> objfdt dontbining tif sfpbrbtor's
+         *         minimum sizf
          */
-        public Dimension getMinimumSize()
+        publid Dimfnsion gftMinimumSizf()
         {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
-            } else {
-                return super.getMinimumSize();
-            }
-        }
-
-        /**
-         * Returns the maximum size for the separator.
-         *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         maximum size
-         */
-        public Dimension getMaximumSize()
-        {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
-            } else {
-                return super.getMaximumSize();
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftMinimumSizf();
             }
         }
 
         /**
-         * Returns the preferred size for the separator.
+         * Rfturns tif mbximum sizf for tif sfpbrbtor.
          *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         preferred size
+         * @rfturn tif <dodf>Dimfnsion</dodf> objfdt dontbining tif sfpbrbtor's
+         *         mbximum sizf
          */
-        public Dimension getPreferredSize()
+        publid Dimfnsion gftMbximumSizf()
         {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
-            } else {
-                return super.getPreferredSize();
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftMbximumSizf();
+            }
+        }
+
+        /**
+         * Rfturns tif prfffrrfd sizf for tif sfpbrbtor.
+         *
+         * @rfturn tif <dodf>Dimfnsion</dodf> objfdt dontbining tif sfpbrbtor's
+         *         prfffrrfd sizf
+         */
+        publid Dimfnsion gftPrfffrrfdSizf()
+        {
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftPrfffrrfdSizf();
             }
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JToolBar</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JToolBbr</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JToolBar</code>.
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JToolBbr</dodf>.
      */
-    protected String paramString() {
-        String paintBorderString = (paintBorder ?
-                                    "true" : "false");
-        String marginString = (margin != null ?
-                               margin.toString() : "");
-        String floatableString = (floatable ?
-                                  "true" : "false");
-        String orientationString = (orientation == HORIZONTAL ?
+    protfdtfd String pbrbmString() {
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
+        String flobtbblfString = (flobtbblf ?
+                                  "truf" : "fblsf");
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
-        ",floatable=" + floatableString +
-        ",margin=" + marginString +
-        ",orientation=" + orientationString +
-        ",paintBorder=" + paintBorderString;
+        rfturn supfr.pbrbmString() +
+        ",flobtbblf=" + flobtbblfString +
+        ",mbrgin=" + mbrginString +
+        ",orifntbtion=" + orifntbtionString +
+        ",pbintBordfr=" + pbintBordfrString;
     }
 
 
-    private class DefaultToolBarLayout
-        implements LayoutManager2, Serializable, PropertyChangeListener, UIResource {
+    privbtf dlbss DffbultToolBbrLbyout
+        implfmfnts LbyoutMbnbgfr2, Sfriblizbblf, PropfrtyCibngfListfnfr, UIRfsourdf {
 
-        BoxLayout lm;
+        BoxLbyout lm;
 
-        DefaultToolBarLayout(int orientation) {
-            if (orientation == JToolBar.VERTICAL) {
-                lm = new BoxLayout(JToolBar.this, BoxLayout.PAGE_AXIS);
-            } else {
-                lm = new BoxLayout(JToolBar.this, BoxLayout.LINE_AXIS);
+        DffbultToolBbrLbyout(int orifntbtion) {
+            if (orifntbtion == JToolBbr.VERTICAL) {
+                lm = nfw BoxLbyout(JToolBbr.tiis, BoxLbyout.PAGE_AXIS);
+            } flsf {
+                lm = nfw BoxLbyout(JToolBbr.tiis, BoxLbyout.LINE_AXIS);
             }
         }
 
-        public void addLayoutComponent(String name, Component comp) {
-            lm.addLayoutComponent(name, comp);
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+            lm.bddLbyoutComponfnt(nbmf, domp);
         }
 
-        public void addLayoutComponent(Component comp, Object constraints) {
-            lm.addLayoutComponent(comp, constraints);
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+            lm.bddLbyoutComponfnt(domp, donstrbints);
         }
 
-        public void removeLayoutComponent(Component comp) {
-            lm.removeLayoutComponent(comp);
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+            lm.rfmovfLbyoutComponfnt(domp);
         }
 
-        public Dimension preferredLayoutSize(Container target) {
-            return lm.preferredLayoutSize(target);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.prfffrrfdLbyoutSizf(tbrgft);
         }
 
-        public Dimension minimumLayoutSize(Container target) {
-            return lm.minimumLayoutSize(target);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.minimumLbyoutSizf(tbrgft);
         }
 
-        public Dimension maximumLayoutSize(Container target) {
-            return lm.maximumLayoutSize(target);
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.mbximumLbyoutSizf(tbrgft);
         }
 
-        public void layoutContainer(Container target) {
-            lm.layoutContainer(target);
+        publid void lbyoutContbinfr(Contbinfr tbrgft) {
+            lm.lbyoutContbinfr(tbrgft);
         }
 
-        public float getLayoutAlignmentX(Container target) {
-            return lm.getLayoutAlignmentX(target);
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+            rfturn lm.gftLbyoutAlignmfntX(tbrgft);
         }
 
-        public float getLayoutAlignmentY(Container target) {
-            return lm.getLayoutAlignmentY(target);
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+            rfturn lm.gftLbyoutAlignmfntY(tbrgft);
         }
 
-        public void invalidateLayout(Container target) {
-            lm.invalidateLayout(target);
+        publid void invblidbtfLbyout(Contbinfr tbrgft) {
+            lm.invblidbtfLbyout(tbrgft);
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            if( name.equals("orientation") ) {
-                int o = ((Integer)e.getNewValue()).intValue();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String nbmf = f.gftPropfrtyNbmf();
+            if( nbmf.fqubls("orifntbtion") ) {
+                int o = ((Intfgfr)f.gftNfwVbluf()).intVbluf();
 
-                if (o == JToolBar.VERTICAL)
-                    lm = new BoxLayout(JToolBar.this, BoxLayout.PAGE_AXIS);
-                else {
-                    lm = new BoxLayout(JToolBar.this, BoxLayout.LINE_AXIS);
+                if (o == JToolBbr.VERTICAL)
+                    lm = nfw BoxLbyout(JToolBbr.tiis, BoxLbyout.PAGE_AXIS);
+                flsf {
+                    lm = nfw BoxLbyout(JToolBbr.tiis, BoxLbyout.LINE_AXIS);
                 }
             }
         }
     }
 
 
-    public void setLayout(LayoutManager mgr) {
-        LayoutManager oldMgr = getLayout();
-        if (oldMgr instanceof PropertyChangeListener) {
-            removePropertyChangeListener((PropertyChangeListener)oldMgr);
+    publid void sftLbyout(LbyoutMbnbgfr mgr) {
+        LbyoutMbnbgfr oldMgr = gftLbyout();
+        if (oldMgr instbndfof PropfrtyCibngfListfnfr) {
+            rfmovfPropfrtyCibngfListfnfr((PropfrtyCibngfListfnfr)oldMgr);
         }
-        super.setLayout(mgr);
+        supfr.sftLbyout(mgr);
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JToolBar.
-     * For tool bars, the AccessibleContext takes the form of an
-     * AccessibleJToolBar.
-     * A new AccessibleJToolBar instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JToolBbr.
+     * For tool bbrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJToolBbr.
+     * A nfw AddfssiblfJToolBbr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJToolBar that serves as the
-     *         AccessibleContext of this JToolBar
+     * @rfturn bn AddfssiblfJToolBbr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JToolBbr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJToolBar();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJToolBbr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JToolBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to toolbar user-interface elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JToolBbr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to toolbbr usfr-intfrfbdf flfmfnts.
      */
-    protected class AccessibleJToolBar extends AccessibleJComponent {
+    protfdtfd dlbss AddfssiblfJToolBbr fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Get the state of this object.
+         * Gft tif stbtf of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            // FIXME:  [[[WDW - need to add orientation from BoxLayout]]]
-            // FIXME:  [[[WDW - need to do SELECTABLE if SelectionModel is added]]]
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            // FIXME:  [[[WDW - nffd to bdd orifntbtion from BoxLbyout]]]
+            // FIXME:  [[[WDW - nffd to do SELECTABLE if SflfdtionModfl is bddfd]]]
+            rfturn stbtfs;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.TOOL_BAR;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TOOL_BAR;
         }
-    } // inner class AccessibleJToolBar
+    } // innfr dlbss AddfssiblfJToolBbr
 }

@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.pkds.PKCS8Kfy;
+
+/**
+ * Kfy implfmfntbtion for RSA privbtf kfys, non-CRT form (modulus, privbtf
+ * fxponfnt only). For CRT privbtf kfys, sff RSAPrivbtfCrtKfyImpl. Wf nffd
+ * sfpbrbtf dlbssfs to fnsurf dorrfdt bfhbvior in instbndfof dhfdks, ftd.
+ *
+ * Notf: RSA kfys must bf bt lfbst 512 bits long
+ *
+ * @sff RSAPrivbtfCrtKfyImpl
+ * @sff RSAKfyFbdtory
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RSAPrivbtfKfyImpl fxtfnds PKCS8Kfy implfmfnts RSAPrivbtfKfy {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -33106691987952810L;
+
+    privbtf finbl BigIntfgfr n;         // modulus
+    privbtf finbl BigIntfgfr d;         // privbtf fxponfnt
+
+    /**
+     * Construdt b kfy from its domponfnts. Usfd by thf
+     * RSAKfyFbdtory bnd thf RSAKfyPbirGfnfrbtor.
+     */
+    RSAPrivbtfKfyImpl(BigIntfgfr n, BigIntfgfr d) throws InvblidKfyExdfption {
+        this.n = n;
+        this.d = d;
+        RSAKfyFbdtory.dhfdkRSAProvidfrKfyLfngths(n.bitLfngth(), null);
+        // gfnfrbtf thf fndoding
+        blgid = RSAPrivbtfCrtKfyImpl.rsbId;
+        try {
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putIntfgfr(0); // vfrsion must bf 0
+            out.putIntfgfr(n);
+            out.putIntfgfr(0);
+            out.putIntfgfr(d);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            DfrVbluf vbl =
+                nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
+            kfy = vbl.toBytfArrby();
+        } dbtdh (IOExdfption fxd) {
+            // should nfvfr oddur
+            throw nfw InvblidKfyExdfption(fxd);
+        }
+    }
+
+    // sff JCA dod
+    publid String gftAlgorithm() {
+        rfturn "RSA";
+    }
+
+    // sff JCA dod
+    publid BigIntfgfr gftModulus() {
+        rfturn n;
+    }
+
+    // sff JCA dod
+    publid BigIntfgfr gftPrivbtfExponfnt() {
+        rfturn d;
+    }
+}

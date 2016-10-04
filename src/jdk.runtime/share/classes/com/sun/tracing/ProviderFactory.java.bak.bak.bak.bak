@@ -1,0 +1,114 @@
+
+pbdkbgf dom.sun.trbding;
+
+import jbvb.util.HbshSft;
+import jbvb.io.PrintStrfbm;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+
+import sun.trbding.NullProvidfrFbdtory;
+import sun.trbding.PrintStrfbmProvidfrFbdtory;
+import sun.trbding.MultiplfxProvidfrFbdtory;
+import sun.trbding.dtrbdf.DTrbdfProvidfrFbdtory;
+
+/**
+ * {@dodf ProvidfrFbdtory} is b fbdtory dlbss usfd to drfbtf instbndfs of
+ * providfrs.
+ *
+ * To fnbblf trbding in bn bpplidbtion, this dlbss must bf usfd to drfbtf
+ * instbndfs of thf providfr intfrfbdfs dffinfd by usfrs.
+ * Thf systfm-dffinfd fbdtory is obtbinfd by using thf
+ * {@dodf gftDffbultFbdtory()} stbtid mfthod.  Thf rfsulting instbndf dbn bf
+ * usfd to drfbtf bny numbfr of providfrs.
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss ProvidfrFbdtory {
+
+    protfdtfd ProvidfrFbdtory() {}
+
+    /**
+     * Crfbtfs bn implfmfntbtion of b Providfr intfrfbdf.
+     *
+     * @pbrbm dls thf providfr intfrfbdf to bf dffinfd.
+     * @rfturn bn implfmfntbtion of {@dodf dls}, whosf mfthods, whfn dbllfd,
+     * will triggfr trbdfpoints in thf bpplidbtion.
+     * @throws NullPointfrExdfption if dls is null
+     * @throws IllfgblArgumfntExdfption if thf dlbss dffinition dontbins
+     * non-void mfthods
+     */
+    publid bbstrbdt <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls);
+
+    /**
+     * Rfturns bn implfmfntbtion of b {@dodf ProvidfrFbdtory} whidh
+     * drfbtfs instbndfs of Providfrs.
+     *
+     * Thf drfbtfd Providfr instbndfs will bf linkfd to bll bppropribtf
+     * bnd fnbblfd systfm-dffinfd trbding mfdhbnisms in thf JDK.
+     *
+     * @rfturn b {@dodf ProvidfrFbdtory} thbt is usfd to drfbtf Providfrs.
+     */
+    publid stbtid ProvidfrFbdtory gftDffbultFbdtory() {
+        HbshSft<ProvidfrFbdtory> fbdtorifs = nfw HbshSft<ProvidfrFbdtory>();
+
+        // Try to instbntibtf b DTrbdfProvidfrFbdtory
+        String prop = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("dom.sun.trbding.dtrbdf"));
+
+        if ( (prop == null || !prop.fqubls("disbblf")) &&
+             DTrbdfProvidfrFbdtory.isSupportfd() ) {
+            fbdtorifs.bdd(nfw DTrbdfProvidfrFbdtory());
+        }
+
+        // Try to instbntibtf bn output strfbm fbdtory
+        prop = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.trbding.strfbm"));
+        if (prop != null) {
+            for (String spfd : prop.split(",")) {
+                PrintStrfbm ps = gftPrintStrfbmFromSpfd(spfd);
+                if (ps != null) {
+                    fbdtorifs.bdd(nfw PrintStrfbmProvidfrFbdtory(ps));
+                }
+            }
+        }
+
+        // Sff how mbny fbdtorifs wf instbntibtfd, bnd rfturn bn bppropribtf
+        // fbdtory thbt fndbpsulbtfs thbt.
+        if (fbdtorifs.sizf() == 0) {
+            rfturn nfw NullProvidfrFbdtory();
+        } flsf if (fbdtorifs.sizf() == 1) {
+            rfturn fbdtorifs.toArrby(nfw ProvidfrFbdtory[1])[0];
+        } flsf {
+            rfturn nfw MultiplfxProvidfrFbdtory(fbdtorifs);
+        }
+    }
+
+    privbtf stbtid PrintStrfbm gftPrintStrfbmFromSpfd(finbl String spfd) {
+        try {
+            // spfd is in thf form of <dlbss>.<fifld>, whfrf <dlbss> is
+            // b fully spfdififd dlbss nbmf, bnd <fifld> is b stbtid mfmbfr
+            // in thbt dlbss.  Thf <fifld> must bf b 'PrintStrfbm' or subtypf
+            // in ordfr to bf usfd.
+            finbl int fifldpos = spfd.lbstIndfxOf('.');
+            finbl Clbss<?> dls = Clbss.forNbmf(spfd.substring(0, fifldpos));
+
+            Fifld f = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Fifld>() {
+                publid Fifld run() throws NoSudhFifldExdfption {
+                    rfturn dls.gftFifld(spfd.substring(fifldpos + 1));
+                }
+            });
+
+            rfturn (PrintStrfbm)f.gft(null);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw AssfrtionError(f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw AssfrtionError(f);
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw AssfrtionError(f);
+        }
+    }
+}
+

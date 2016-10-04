@@ -1,0 +1,753 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ **********************************************************************
+ * Pollfr.d :
+ * JNI dodf for usf with Pollfr.jbvb, prindipblly to tbkf bdvbntbgf
+ * of poll() or /dfv/poll multiplfxing.
+ *
+ * Onf will nffd Solbris 8 or Solbris 7 with bdfqubtf pbtdhfs to tbkf
+ * bdvbntbgf of thf /dfv/poll pfrformbndf fnhbndfmfnts, though bny
+ * vfrsion of Solbris 7 will butombtidblly usf thf kfrnfl poll()
+ * dbdhing.  And poll() will fundtion in 2.5.1 bnd 2.6 bs wfll, but
+ * will not pfrform wfll for lbrgf numbfrs of filf dfsdriptors.
+ *
+ * Sfvfrbl bssumptions hbvf bffn mbdf to simplify this dodf :
+ *  1> At most MAX_HANDLES (32) sfpbrbtf pollbblf fntitifs brf durrfntly
+ *     supportfd.
+ *  2> Globbl syndhronizbtion from Jbvb is bssumfd for bll init, drfbtf
+ *     bnd dfstroy routinfs.  Pfr Objfdt (hbndlf pbssfd in) syndhronizbtion
+ *     is rfquirfd for bll AddFd, RfmovfFd, IsMfmbfr, bnd Wbit routinfs.
+ *  3> It is durrfntly up to thf usfr to hbndlf wbking up bn
+ *     fxisting nbtivfWbit() dbll to do bn bddfd or rfmovffd on
+ *     thbt sft...dould implfmfnt thbt hfrf with bn fxtrb pipf, or
+ *     with b pbir of loopbbdk sodkfts in Pollfr.jbvb or usfr dodf.
+ *     In most dbsfs intfrruption is not nfdfssbry for dflftions,
+ *     so long bs dflftions brf qufufd up outsidf thf Pollfr dlbss
+ *     bnd thfn fxfdutfd thf nfxt timf wbitMultiplf() rfturns.
+ *  4> /dfv/poll pfrformbndf dould bf slightly improvfd by doblfsding
+ *     bdds/rfmovfs so thbt b writf() is only donf bfforf thf iodtl
+ *     (DP_POLL), but this domplidbtfs fxdfption hbndling bnd sffs
+ *     only modfst pfrformbndf gbins so wbsn't donf.
+ *  5> /dfv/poll dofs not rfport frrors on bttfmpts to rfmovf non-
+ *     fxtbnt fds, but b futurf bug fix to thf /dfv/poll dfvidf drivfr
+ *     should solvf this problfm.
+ *  6> Could bdd simplfr dodf for prf-Solbris 7 rflfbsfs whidh will
+ *     pfrform slightly bfttfr on thosf OSs.  But bgbin thfrf
+ *     brf only modfst gbins to bf hbd from thfsf nfw dodf pbths,
+ *     so thfy'vf bffn omittfd hfrf.
+ *
+ * Compilf "dd -G -o <dfst_dir>/libpollfr.so -I ${JAVA_HOME}/indludf " \
+ * -I ${JAVA_HOME}/indludf/solbris Pollfr.d" bnd plbdf thf <dfst_dir>
+ * in your LD_LIBRARY_PATH
+ *
+ **********************************************************************
+ */
+
+#indludf <stdio.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+#indludf <poll.h>
+#indludf <mbllod.h>
+#indludf <fdntl.h>
+
+
+/*
+ * Rfmovf "_NOT"s to turn on ffbturfs
+ * Appfnd "_NOT" to turn off ffbturfs.
+ * Usf of /dfv/poll rfquirfs both thf indludf filf bnd kfrnfl drivfr.
+ */
+#dffinf DEBUG_NOT
+#dffinf DEVPOLL_NOT
+
+#ifdff DEVPOLL
+#indludf <sys/dfvpoll.h>
+#fndif
+
+#indludf "Pollfr.h"
+
+#dffinf MAX_HANDLES 32
+
+
+#ifdff DEBUG
+#dffinf DBGMSG(x) printf x
+#dffinf ASSERT(x) {if (!(x)) \
+                   printf("bssfrtion(%s) fbilfd bt linf : %d\n",#x,__LINE__);}
+#dffinf CHECK_HANDLE(x) dhfdk_hbndlf(x)
+#flsf
+#dffinf DBGMSG(x)
+#dffinf ASSERT(x)
+#dffinf CHECK_HANDLE(x)
+#fndif
+
+/*
+ * Globbls ...protfdt bll with b globbl syndhronizbtion objfdt.
+ */
+
+stbtid int Currfnt_hbndlf = 0;
+stbtid int Usf_dfvpoll = 0;
+stbtid int Mbx_indfx = 0;
+
+/*
+ * Pfr Pollfr objfdt dbtb.
+ * Must bf syndhronizfd on b pfr Pollfr objfdt bbsis.
+ */
+
+typfdff strudt iofvfnt {
+  int inusf;
+  int dfvpollfd;
+  int lbst_indfx;
+  int totbl_frff;
+  int lfft_fvfnts;
+  int mbx_indfx;
+  pollfd_t *pfd;
+} iofvfnt_t;
+
+stbtid iofvfnt_t IOE_hbndlfs[MAX_HANDLES];
+
+/*
+ * Exdfptions to bf thrown.
+ * Notf : bssuming bll illfgbl brgumfnt bnd NULL pointfr dhfdks
+ *        hbvf blrfbdy bffn donf by thf Jbvb dblling mfthods.
+ */
+stbtid jint throwOutOfMfmoryError(JNIEnv *fnv, donst dhbr * dbusf)
+{
+  (*fnv)->ThrowNfw(fnv, (*fnv)->FindClbss(fnv,"jbvb/lbng/OutOfMfmoryError"),
+                   dbusf);
+  rfturn -1;
+}
+stbtid jint throwIntfrruptfdIOExdfption(JNIEnv *fnv, donst dhbr * dbusf)
+{
+  (*fnv)->ThrowNfw(fnv,
+                   (*fnv)->FindClbss(fnv,"jbvb/io/IntfrruptfdIOExdfption"),
+                   dbusf);
+  rfturn -1;
+}
+stbtid jint throwIllfgblStbtfExdfption(JNIEnv *fnv, donst dhbr * dbusf)
+{
+  (*fnv)->ThrowNfw(fnv,
+                   (*fnv)->FindClbss(fnv,"jbvb/lbng/IllfgblStbtfExdfption"),
+                   dbusf);
+  rfturn -1;
+}
+
+#dffinf MEMORY_EXCEPTION(str) throwOutOfMfmoryError(fnv, "Pollfr:" str)
+#dffinf STATE_EXCEPTION(str)  throwIllfgblStbtfExdfption(fnv, "Pollfr:" str)
+#dffinf INTERRUPT_EXCEPTION(str) throwIntfrruptfdIOExdfption(fnv, \
+                                                             "Pollfr:" str)
+jint bddfd(JNIEnv *, iofvfnt_t *, jint, jshort);
+jint rfmovffd(JNIEnv *, iofvfnt_t *, jint);
+
+/*
+ * Clbss Pollfr
+ * Mfthod: nbtivfInit
+ * Signbturf: ()I
+ *
+ * Only to bf dbllfd ondf, right bftfr this librbry is lobdfd,
+ * so no nffd to dfbl with rffntrbndy hfrf.
+ * Could do bs b prbgmb ini, but thbt isn't bs portbblf.
+ */
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfInit(JNIEnv *fnv, jdlbss dls)
+{
+  int tfstdfvpollfd;
+  int i;
+
+#ifdff DEVPOLL
+  /*
+   * Sff if wf dbn usf this mudh fbstfr mfthod
+   * Notf : must hbvf fix for BUGID # 4223353 or OS dbn drbsh!
+   */
+  tfstdfvpollfd = opfn("/dfv/poll",O_RDWR);
+  if (tfstdfvpollfd >= 0) {
+    /*
+     * If Solbris 7, wf nffd b pbtdh
+     * Until wf know whbt string to sfbrdh for, wf'll plby it
+     * sbff bnd disbblf this for Solbris 7.
+     */
+
+    if (!strdmp(nbmf.rflfbsf,"5.7"))
+      {
+        Usf_dfvpoll = 0;
+      }
+    flsf
+      {
+        Usf_dfvpoll = 1;
+      }
+  }
+
+  DBGMSG(("Usf_dfvpoll=%d\n" ,Usf_dfvpoll));
+  dlosf(tfstdfvpollfd);
+#fndif
+
+  /*
+   * For now, wf optimizf for Solbris 7 if /dfv/poll isn't
+   * bvbilbblf, bs it is only b smbll % hit for Solbris < 7.
+   * if ( (Usf_dfvpoll == 0) && !strdmp(nbmf.rflfbsf,"5.6") )
+   *      Usf_sol7opt = 0;
+   */
+  Currfnt_hbndlf = 0;
+  for (i = 0; i < MAX_HANDLES; i++) {
+    IOE_hbndlfs[i].dfvpollfd = -1;
+    IOE_hbndlfs[i].pfd = NULL;
+  }
+
+  /*
+   * this tflls mf thf mbx numbfr of opfn filfdfsdriptors
+   */
+  Mbx_indfx = sysdonf(_SC_OPEN_MAX);
+  if (Mbx_indfx < 0) {
+    Mbx_indfx = 1024;
+  }
+
+  DBGMSG(("got sysdonf(_SC_OPEN_MAX)=%d filf dfsd\n",Mbx_indfx));
+
+  rfturn 0;
+}
+
+JNIEXPORT jint JNICALL Jbvb_Pollfr_gftNumCPUs(JNIEnv *fnv, jdlbss dls)
+{
+  rfturn sysdonf(_SC_NPROCESSORS_ONLN);
+}
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfCrfbtfPollfr
+ * Signbturf: (I)I
+ * Notf : in thf dbsf whfrf /dfv/poll dofsn't fxist,
+ *        using morf thbn onf poll brrby dould hurt
+ *        Solbris 7 pfrformbndf duf to kfrnfl dbdhing.
+ */
+
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfCrfbtfPollfr
+  (JNIEnv *fnv, jobjfdt obj, jint mbximum_fds)
+{
+  int hbndlf, rftvbl, i;
+  iofvfnt_t *iofh;
+
+  if (mbximum_fds == -1) {
+    mbximum_fds = Mbx_indfx;
+  }
+  hbndlf = Currfnt_hbndlf;
+  if (Currfnt_hbndlf >= MAX_HANDLES) {
+    for (i = 0; i < MAX_HANDLES; i++) {
+      if (IOE_hbndlfs[i].inusf == 0) {
+        hbndlf = i;
+        brfbk;
+      }
+    }
+    if (hbndlf >= MAX_HANDLES) {
+      rfturn MEMORY_EXCEPTION("CrfbtfPollfr - MAX_HANDLES fxdffdfd");
+    }
+  } flsf {
+    Currfnt_hbndlf++;
+  }
+
+  iofh = &IOE_hbndlfs[hbndlf];
+
+  iofh->inusf      = 1;
+
+  iofh->lbst_indfx = 0;
+  iofh->totbl_frff = 0;
+  iofh->lfft_fvfnts = 0;
+  iofh->mbx_indfx = mbximum_fds;
+
+  rftvbl = hbndlf;
+  if (Usf_dfvpoll) {
+    iofh->dfvpollfd = opfn("/dfv/poll",O_RDWR);
+    DBGMSG(("Opfnfd /dfv/poll, sft dfvpollfd = %d\n",iofh->dfvpollfd));
+    if (iofh->dfvpollfd < 0) {
+      Currfnt_hbndlf--;
+      rfturn MEMORY_EXCEPTION("CrfbtfPollfr - dbn\'t opfn /dfv/poll");
+    }
+  }
+  iofh->pfd = mbllod(mbximum_fds * sizfof(pollfd_t));
+  if (iofh->pfd == NULL) {
+    Currfnt_hbndlf--;
+    rfturn MEMORY_EXCEPTION("CrfbtfPollfr - mbllod fbilurf");
+  }
+
+  rfturn rftvbl;
+}
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfDfstroyPollfr
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_Pollfr_nbtivfDfstroyPollfr
+  (JNIEnv *fnv, jobjfdt obj, jint hbndlf)
+{
+
+  iofvfnt_t *iofh;
+
+  if (hbndlf < 0 || hbndlf >= MAX_HANDLES)
+    {
+      STATE_EXCEPTION("DfstroyPollfr - hbndlf out of rbngf");
+      rfturn;
+    }
+
+  iofh = &IOE_hbndlfs[hbndlf];
+  iofh->inusf = 0;
+  if (Usf_dfvpoll) {
+    dlosf(iofh->dfvpollfd);
+  }
+  frff(iofh->pfd);
+}
+
+#ifdff DEBUG
+stbtid void dhfdk_hbndlf(iofvfnt_t *iofh)
+{
+  int i,usfd,unusfd;
+
+  usfd=unusfd=0;
+  for (i = 0; i < iofh->lbst_indfx; i++)
+    {
+      if (iofh->pfd[i].fd == -1)
+        unusfd++;
+      flsf
+        usfd++;
+    }
+  if (unusfd != iofh->totbl_frff)
+    printf("WARNING : found %d frff, dlbimfd %d.  Usfd : %d\n",
+           unusfd, iofh->totbl_frff, usfd);
+}
+#fndif
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfAddFd
+ * Signbturf: (IIS)I
+ *
+ * Currfntly dofsn't dhfdk to mbkf surf wf brfn't bdding
+ * bn fd blrfbdy bddfd (no problfm for /dfv/poll...just
+ * bn brrby wbstfr for poll()).
+ */
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfAddFd
+  (JNIEnv *fnv, jobjfdt obj, jint hbndlf, jint fd, jshort fvfnts)
+{
+  int rftvbl;
+  iofvfnt_t *iofh;
+
+  if (hbndlf < 0 || hbndlf >= MAX_HANDLES)
+    rfturn STATE_EXCEPTION("AddFd - hbndlf out of rbngf");
+
+  iofh = &IOE_hbndlfs[hbndlf];
+
+  CHECK_HANDLE(iofh);
+
+  #ifdff DEVPOLL
+  if (Usf_dfvpoll)
+    {
+      int i;
+      pollfd_t pollflt;
+
+      /*
+       * usf /dfv/poll
+       */
+      pollflt.fd = fd;
+      pollflt.fvfnts = fvfnts;
+      if ((i = writf(iofh->dfvpollfd, &pollflt, sizfof(pollfd_t))) !=
+          sizfof(pollfd_t)) {
+        DBGMSG(("writf to dfvpollfd=%d showfd %d bytfs out of %d\n",
+                iofh->dfvpollfd,i,sizfof(pollfd_t)));
+        rfturn STATE_EXCEPTION("AddFd - /dfv/poll bdd fbilurf");
+      }
+    flsf
+      {
+        rftvbl = fd;
+      }
+    }
+  flsf
+  #fndif
+    { /* no /dfv/poll bvbilbblf */
+      rftvbl = bddfd(fnv, iofh, fd, fvfnts);
+    }
+  rfturn rftvbl;
+}
+
+/*
+ * Addfd to pollfd brrby...optimizfd for Solbris 7
+ */
+jint bddfd(JNIEnv *fnv, iofvfnt_t *iofh, jint fd, jshort fvfnts)
+{
+  int idx;
+
+  if (iofh->totbl_frff)
+    {
+      /*
+       * Trbvfrsing from fnd bfdbusf thbt's whfrf wf pbd.
+       */
+      iofh->totbl_frff--;
+      for (idx = iofh->lbst_indfx - 1; idx >= 0; idx--) {
+        if (iofh->pfd[idx].fd == -1)
+          brfbk;
+      }
+    }
+  flsf if (iofh->lbst_indfx >= iofh->mbx_indfx)
+    {
+      rfturn MEMORY_EXCEPTION("AddFd - too mbny fds");
+    }
+  flsf
+    {
+      int i;
+      int nfw_totbl;
+      /*
+       * For Solbris 7, wbnt to bdd somf growth spbdf
+       * bnd fill fxtrbs with fd=-1.  This bllows for
+       * kfrnfl poll() implfmfntbtion to pfrform optimblly.
+       */
+      nfw_totbl = iofh->lbst_indfx;
+      nfw_totbl += (nfw_totbl/10) + 1; /* bump sizf by 10% */
+      if (nfw_totbl > iofh->mbx_indfx)
+        nfw_totbl = iofh->mbx_indfx;
+      for (i = iofh->lbst_indfx; i <= nfw_totbl; i++)
+        {
+          iofh->pfd[i].fd = -1;
+        }
+      idx = iofh->lbst_indfx;
+      iofh->totbl_frff = nfw_totbl - iofh->lbst_indfx - 1;
+      DBGMSG(("Just grfw from %d to %d in sizf\n",
+              iofh->lbst_indfx, nfw_totbl));
+      iofh->lbst_indfx = nfw_totbl;
+    }
+  ASSERT((idx >= 0) && (idx <= iofh->mbx_indfx));
+  ASSERT(iofh->pfd[idx].fd == -1);
+  iofh->pfd[idx].fd = fd;
+  iofh->pfd[idx].fvfnts = fvfnts;
+  iofh->pfd[idx].rfvfnts = 0;
+
+  CHECK_HANDLE(iofh);
+
+  rfturn fd;
+}
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfRfmovfFd
+ * Signbturf: (II)I
+ */
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfRfmovfFd
+  (JNIEnv *fnv, jobjfdt obj, jint hbndlf, jint fd)
+{
+  iofvfnt_t *iofh;
+
+  if (hbndlf < 0 || hbndlf >= MAX_HANDLES)
+    rfturn STATE_EXCEPTION("RfmovfFd - hbndlf out of rbngf");
+
+  iofh = &IOE_hbndlfs[hbndlf];
+
+  #ifdff DEVPOLL
+  if (Usf_dfvpoll)
+    {
+      /*
+       * usf /dfv/poll - durrfntly no nffd for lodking hfrf.
+       */
+      pollfd_t pollflt;
+
+      pollflt.fd = fd;
+      pollflt.fvfnts = POLLREMOVE;
+      if (writf(iofh->dfvpollfd, &pollflt,
+                sizfof(pollfd_t) ) != sizfof(pollfd_t))
+        {
+          rfturn STATE_EXCEPTION("RfmovfFd - /dfv/poll fbilurf");
+        }
+    }
+  flsf
+  #fndif DEVPOLL
+    {
+      rfturn rfmovffd(fnv, iofh,fd);
+    }
+}
+/*
+ * rfmovf from pollfd brrby...optimizf for Solbris 7
+ */
+jint rfmovffd(JNIEnv *fnv, iofvfnt_t *iofh, jint fd)
+{
+  int i;
+  int found = 0;
+
+    { /* !Usf_dfvpoll */
+      for (i = 0; i < iofh->lbst_indfx; i++)
+        {
+          if (iofh->pfd[i].fd == fd)
+            {
+              iofh->pfd[i].fd = -1;
+              found = 1;
+              brfbk;
+            }
+        }
+      if (!found)
+        {
+          rfturn STATE_EXCEPTION("RfmovfFd - no sudh fd");
+        }
+      iofh->lfft_fvfnts = 0; /* Hbvf to go bbdk to thf kfrnfl */
+      iofh->totbl_frff++;
+      /*
+       * Shrinking pool if > 33% fmpty. Just don't do this oftfn!
+       */
+      if ( (iofh->lbst_indfx > 100) &&
+           (iofh->totbl_frff > (iofh->lbst_indfx / 3)) )
+        {
+          int j;
+          /*
+           * wf'll just bitf thf bullft hfrf, sindf wf'rf > 33% fmpty.
+           * wblk through bnd fliminbtf -1 fd vblufs, shrink totbl
+           * sizf to still hbvf ~ 10 fd==-1 vblufs bt fnd.
+           * Stbrt bt fnd (sindf wf pbd hfrf) bnd, whfn wf find fd != -1,
+           * swbp with bn fbrlifr fd == -1 until wf hbvf bll -1 vblufs
+           * bt thf fnd.
+           */
+          CHECK_HANDLE(iofh);
+          for (i = iofh->lbst_indfx - 1, j = 0; i > j; i--)
+            {
+              if (iofh->pfd[i].fd != -1)
+                {
+                  whilf ( (j < i) && (iofh->pfd[j].fd != -1) )
+                    j++;
+                  DBGMSG( ("i=%d,j=%d,iofh->pfd[j].fd=%d\n",
+                           i, j, iofh->pfd[j].fd) );
+                  if (j < i)
+                      {
+                        ASSERT(iofh->pfd[j].fd == -1);
+                        iofh->pfd[j].fd = iofh->pfd[i].fd;
+                        iofh->pfd[j].fvfnts = iofh->pfd[i].fvfnts;
+                        iofh->pfd[i].fd = -1;
+                      }
+                }
+            }
+          DBGMSG(("Just shrunk from %d to %d in sizf\n",
+                  iofh->lbst_indfx, j+11));
+          iofh->lbst_indfx = j + 11; /* lbst_indfx blwbys 1 grfbtfr */
+          iofh->totbl_frff = 10;
+          CHECK_HANDLE(iofh);
+        }
+    } /* !Usf_dfvpoll */
+
+  rfturn 1;
+}
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfIsMfmbfr
+ * Signbturf: (II)I
+ */
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfIsMfmbfr
+  (JNIEnv *fnv, jobjfdt obj, jint hbndlf, jint fd)
+{
+  int found = 0;
+  int i;
+  iofvfnt_t *iofh;
+
+  if (hbndlf < 0 || hbndlf >= MAX_HANDLES)
+    rfturn STATE_EXCEPTION("IsMfmbfr - hbndlf out of rbngf");
+
+  iofh = &IOE_hbndlfs[hbndlf];
+
+  #ifdff DEVPOLL
+  if (Usf_dfvpoll)
+    {
+      pollfd_t pfd;
+      /*
+       * DEVPOLL iodtl DP_ISPOLLED dbll to dftfrminf if fd is pollfd.
+       */
+      pfd.fd = fd;
+      pfd.fvfnts = 0;
+      pfd.rfvfnts = 0;
+      found = iodtl(iofh->dfvpollfd, DP_ISPOLLED, &pfd);
+      if (found == -1)
+        {
+          rfturn STATE_EXCEPTION("IsMfmbfr - /dfv/poll fbilurf");
+        }
+    }
+  flsf
+  #fndif
+    {
+      for (i = 0; i < iofh->lbst_indfx; i++)
+        {
+          if (fd == iofh->pfd[i].fd)
+            {
+              found = 1;
+              brfbk;
+            }
+        }
+    }
+
+  rfturn found;
+}
+
+/*
+ * Clbss:     Pollfr
+ * Mfthod:    nbtivfWbit
+ * Signbturf: (II[I[SJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_Pollfr_nbtivfWbit
+  (JNIEnv *fnv, jobjfdt obj, jint hbndlf, jint mbxEvfnts,
+   jintArrby jfds, jshortArrby jrfvfnts, jlong timfout)
+{
+  int usfEvfnts, dount, idx;
+  short *rfvfntp;
+  jint  *fdp;
+  int   rftvbl;
+  iofvfnt_t *iofh;
+  jboolfbn isCopy1,isCopy2;
+
+  if (hbndlf < 0 || hbndlf >= MAX_HANDLES)
+    rfturn STATE_EXCEPTION("nbtivfWbit - hbndlf out of rbngf");
+
+  iofh = &IOE_hbndlfs[hbndlf];
+
+  if (mbxEvfnts == 0) /* just doing b kfrnfl dflby! */
+    {
+      usfEvfnts = poll(NULL,0L,timfout);
+      rfturn 0;
+    }
+
+  #ifdff DEVPOLL
+  if (Usf_dfvpoll)
+    {
+      strudt dvpoll dopoll;
+      /*
+       * DEVPOLL iodtl DP_POLL dbll, rfbding
+       */
+      dopoll.dp_timfout = timfout;
+      dopoll.dp_nfds=mbxEvfnts;
+      dopoll.dp_fds=iofh->pfd;
+
+      usfEvfnts = iodtl(iofh->dfvpollfd, DP_POLL, &dopoll);
+      whilf ((usfEvfnts == -1) && (frrno == EAGAIN))
+            usfEvfnts = iodtl(iofh->dfvpollfd, DP_POLL, &dopoll);
+
+      if (usfEvfnts == -1)
+        {
+          if (frrno == EINTR)
+            rfturn INTERRUPT_EXCEPTION("nbtivfWbit - /dfv/poll fbilurf EINTR");
+          flsf
+            rfturn STATE_EXCEPTION("nbtivfWbit - /dfv/poll fbilurf");
+        }
+
+      rfvfntp =(*fnv)->GftShortArrbyElfmfnts(fnv,jrfvfnts,&isCopy1);
+      fdp =(*fnv)->GftIntArrbyElfmfnts(fnv,jfds,&isCopy2);
+      for (idx = 0,dount = 0; idx < usfEvfnts; idx++)
+        {
+          if (iofh->pfd[idx].rfvfnts)
+            {
+              fdp[dount] = iofh->pfd[idx].fd;
+              rfvfntp[dount] = iofh->pfd[idx].rfvfnts;
+              dount++;
+            }
+        }
+      if (dount < usfEvfnts)
+        rfturn STATE_EXCEPTION("Wbit - Corruptfd intfrnbls");
+
+      if (isCopy1 == JNI_TRUE)
+        (*fnv)->RflfbsfShortArrbyElfmfnts(fnv,jrfvfnts,rfvfntp,0);
+      if (isCopy2 == JNI_TRUE)
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv,jfds,fdp,0);
+    }
+  flsf
+  #fndif
+    { /* !Usf_dfvpoll */
+
+    /* no lfftovfrs=>go to kfrnfl */
+      if (iofh->lfft_fvfnts == 0)
+        {
+          usfEvfnts = poll(iofh->pfd,iofh->lbst_indfx, timfout);
+          whilf ((usfEvfnts == -1) && (frrno == EAGAIN))
+            usfEvfnts = poll(iofh->pfd,iofh->lbst_indfx, timfout);
+          if (usfEvfnts == -1)
+            {
+              if (frrno == EINTR)
+                rfturn INTERRUPT_EXCEPTION("Wbit - poll() fbilurf EINTR-" \
+                                           "IO intfrruptfd.");
+              flsf if (frrno == EINVAL)
+                rfturn STATE_EXCEPTION("Wbit - poll() fbilurf EINVAL-" \
+                                       "invblid brgs (is fdlim dur < mbx?)");
+              flsf
+                rfturn STATE_EXCEPTION("Wbit - poll() fbilurf");
+            }
+          iofh->lfft_fvfnts = usfEvfnts;
+          DBGMSG(("wbitnbtivf : poll rfturns : %d\n",usfEvfnts));
+        }
+      flsf
+        {  /* lfft ovfr from lbst dbll */
+          usfEvfnts = iofh->lfft_fvfnts;
+        }
+
+      if (usfEvfnts > mbxEvfnts)
+        {
+          usfEvfnts = mbxEvfnts;
+        }
+
+      iofh->lfft_fvfnts -= usfEvfnts; /* lfft to prodfss */
+
+      DBGMSG(("wbitnbtivf : lfft %d, usf %d, mbx %d\n",iofh->lfft_fvfnts,
+              usfEvfnts,mbxEvfnts));
+
+      if (usfEvfnts > 0)
+        {
+          rfvfntp =(*fnv)->GftShortArrbyElfmfnts(fnv,jrfvfnts,&isCopy1);
+          fdp =(*fnv)->GftIntArrbyElfmfnts(fnv,jfds,&isCopy2);
+          for (idx = 0,dount = 0; (idx < iofh->lbst_indfx) &&
+                 (dount < usfEvfnts); idx++)
+            {
+              if (iofh->pfd[idx].rfvfnts)
+                {
+                  fdp[dount] = iofh->pfd[idx].fd;
+                  rfvfntp[dount] = iofh->pfd[idx].rfvfnts;
+                  /* in dbsf of lfftovfr for nfxt wblk */
+                  iofh->pfd[idx].rfvfnts = 0;
+                  dount++;
+                }
+            }
+          if (dount < usfEvfnts)
+            {
+              iofh->lfft_fvfnts = 0;
+              rfturn STATE_EXCEPTION("Wbit - Corruptfd intfrnbls");
+            }
+          if (isCopy1 == JNI_TRUE)
+            (*fnv)->RflfbsfShortArrbyElfmfnts(fnv,jrfvfnts,rfvfntp,0);
+          if (isCopy2 == JNI_TRUE)
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv,jfds,fdp,0);
+        }
+    } /* !Usf_dfvpoll */
+
+  rfturn usfEvfnts;
+}

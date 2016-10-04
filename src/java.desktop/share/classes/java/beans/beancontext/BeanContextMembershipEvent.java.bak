@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.util.EventObject;
+import jbvb.util.EvfntObjfdt;
 
-import java.beans.beancontext.BeanContext;
-import java.beans.beancontext.BeanContextEvent;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtEvfnt;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
 
 /**
- * A <code>BeanContextMembershipEvent</code> encapsulates
- * the list of children added to, or removed from,
- * the membership of a particular <code>BeanContext</code>.
- * An instance of this event is fired whenever a successful
- * add(), remove(), retainAll(), removeAll(), or clear() is
- * invoked on a given <code>BeanContext</code> instance.
- * Objects interested in receiving events of this type must
- * implement the <code>BeanContextMembershipListener</code>
- * interface, and must register their intent via the
- * <code>BeanContext</code>'s
- * <code>addBeanContextMembershipListener(BeanContextMembershipListener bcml)
- * </code> method.
+ * A <dodf>BfbnContfxtMfmbfrsiipEvfnt</dodf> fndbpsulbtfs
+ * tif list of diildrfn bddfd to, or rfmovfd from,
+ * tif mfmbfrsiip of b pbrtidulbr <dodf>BfbnContfxt</dodf>.
+ * An instbndf of tiis fvfnt is firfd wifnfvfr b suddfssful
+ * bdd(), rfmovf(), rftbinAll(), rfmovfAll(), or dlfbr() is
+ * invokfd on b givfn <dodf>BfbnContfxt</dodf> instbndf.
+ * Objfdts intfrfstfd in rfdfiving fvfnts of tiis typf must
+ * implfmfnt tif <dodf>BfbnContfxtMfmbfrsiipListfnfr</dodf>
+ * intfrfbdf, bnd must rfgistfr tifir intfnt vib tif
+ * <dodf>BfbnContfxt</dodf>'s
+ * <dodf>bddBfbnContfxtMfmbfrsiipListfnfr(BfbnContfxtMfmbfrsiipListfnfr bdml)
+ * </dodf> mftiod.
  *
- * @author      Laurence P. G. Cable
- * @since       1.2
- * @see         java.beans.beancontext.BeanContext
- * @see         java.beans.beancontext.BeanContextEvent
- * @see         java.beans.beancontext.BeanContextMembershipListener
+ * @butior      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxtEvfnt
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrsiipListfnfr
  */
-public class BeanContextMembershipEvent extends BeanContextEvent {
-    private static final long serialVersionUID = 3499346510334590959L;
+publid dlbss BfbnContfxtMfmbfrsiipEvfnt fxtfnds BfbnContfxtEvfnt {
+    privbtf stbtid finbl long sfriblVfrsionUID = 3499346510334590959L;
 
     /**
-     * Contruct a BeanContextMembershipEvent
+     * Contrudt b BfbnContfxtMfmbfrsiipEvfnt
      *
-     * @param bc        The BeanContext source
-     * @param changes   The Children affected
-     * @throws NullPointerException if <CODE>changes</CODE> is <CODE>null</CODE>
+     * @pbrbm bd        Tif BfbnContfxt sourdf
+     * @pbrbm dibngfs   Tif Ciildrfn bfffdtfd
+     * @tirows NullPointfrExdfption if <CODE>dibngfs</CODE> is <CODE>null</CODE>
      */
 
-    @SuppressWarnings("rawtypes")
-    public BeanContextMembershipEvent(BeanContext bc, Collection changes) {
-        super(bc);
+    @SupprfssWbrnings("rbwtypfs")
+    publid BfbnContfxtMfmbfrsiipEvfnt(BfbnContfxt bd, Collfdtion dibngfs) {
+        supfr(bd);
 
-        if (changes == null) throw new NullPointerException(
-            "BeanContextMembershipEvent constructor:  changes is null.");
+        if (dibngfs == null) tirow nfw NullPointfrExdfption(
+            "BfbnContfxtMfmbfrsiipEvfnt donstrudtor:  dibngfs is null.");
 
-        children = changes;
+        diildrfn = dibngfs;
     }
 
     /**
-     * Contruct a BeanContextMembershipEvent
+     * Contrudt b BfbnContfxtMfmbfrsiipEvfnt
      *
-     * @param bc        The BeanContext source
-     * @param changes   The Children effected
-     * @exception       NullPointerException if changes associated with this
-     *                  event are null.
+     * @pbrbm bd        Tif BfbnContfxt sourdf
+     * @pbrbm dibngfs   Tif Ciildrfn ffffdtfd
+     * @fxdfption       NullPointfrExdfption if dibngfs bssodibtfd witi tiis
+     *                  fvfnt brf null.
      */
 
-    public BeanContextMembershipEvent(BeanContext bc, Object[] changes) {
-        super(bc);
+    publid BfbnContfxtMfmbfrsiipEvfnt(BfbnContfxt bd, Objfdt[] dibngfs) {
+        supfr(bd);
 
-        if (changes == null) throw new NullPointerException(
-            "BeanContextMembershipEvent:  changes is null.");
+        if (dibngfs == null) tirow nfw NullPointfrExdfption(
+            "BfbnContfxtMfmbfrsiipEvfnt:  dibngfs is null.");
 
-        children = Arrays.asList(changes);
+        diildrfn = Arrbys.bsList(dibngfs);
     }
 
     /**
-     * Gets the number of children affected by the notification.
-     * @return the number of children affected by the notification
+     * Gfts tif numbfr of diildrfn bfffdtfd by tif notifidbtion.
+     * @rfturn tif numbfr of diildrfn bfffdtfd by tif notifidbtion
      */
-    public int size() { return children.size(); }
+    publid int sizf() { rfturn diildrfn.sizf(); }
 
     /**
-     * Is the child specified affected by the event?
-     * @return <code>true</code> if affected, <code>false</code>
+     * Is tif diild spfdififd bfffdtfd by tif fvfnt?
+     * @rfturn <dodf>truf</dodf> if bfffdtfd, <dodf>fblsf</dodf>
      * if not
-     * @param child the object to check for being affected
+     * @pbrbm diild tif objfdt to difdk for bfing bfffdtfd
      */
-    public boolean contains(Object child) {
-        return children.contains(child);
+    publid boolfbn dontbins(Objfdt diild) {
+        rfturn diildrfn.dontbins(diild);
     }
 
     /**
-     * Gets the array of children affected by this event.
-     * @return the array of children affected
+     * Gfts tif brrby of diildrfn bfffdtfd by tiis fvfnt.
+     * @rfturn tif brrby of diildrfn bfffdtfd
      */
-    public Object[] toArray() { return children.toArray(); }
+    publid Objfdt[] toArrby() { rfturn diildrfn.toArrby(); }
 
     /**
-     * Gets the array of children affected by this event.
-     * @return the array of children effected
+     * Gfts tif brrby of diildrfn bfffdtfd by tiis fvfnt.
+     * @rfturn tif brrby of diildrfn ffffdtfd
      */
-    @SuppressWarnings("rawtypes")
-    public Iterator iterator() { return children.iterator(); }
+    @SupprfssWbrnings("rbwtypfs")
+    publid Itfrbtor itfrbtor() { rfturn diildrfn.itfrbtor(); }
 
     /*
-     * fields
+     * fiflds
      */
 
    /**
-    * The list of children affected by this
-    * event notification.
+    * Tif list of diildrfn bfffdtfd by tiis
+    * fvfnt notifidbtion.
     */
-    @SuppressWarnings("rawtypes")
-    protected Collection children;
+    @SupprfssWbrnings("rbwtypfs")
+    protfdtfd Collfdtion diildrfn;
 }

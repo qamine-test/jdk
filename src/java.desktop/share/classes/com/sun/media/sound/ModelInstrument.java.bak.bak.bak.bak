@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.MidiChbnnfl;
+import jbvbx.sound.midi.Pbtdh;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+
+/**
+ * Thf modfl instrumfnt dlbss.
+ *
+ * <p>Thf mbin mfthods to ovfrridf brf:<br>
+ * gftPfrformfr, gftDirfdtor, gftChbnnflMixfr.
+ *
+ * <p>Pfrformfrs brf usfd to dffinf whbt voidfs whidh will
+ * plbybbdk whfn using thf instrumfnt.<br>
+ *
+ * ChbnnflMixfr is usfd to bdd dhbnnfl-widf prodfssing
+ * on voidfs output or to dffinf non-voidf orifntfd instrumfnts.<br>
+ *
+ * Dirfdtor is usfd to dhbngf how thf synthfsizfr
+ * dhoosfs whbt pfrformfrs to plby on midi fvfnts.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid bbstrbdt dlbss ModflInstrumfnt fxtfnds Instrumfnt {
+
+    protfdtfd ModflInstrumfnt(Soundbbnk soundbbnk, Pbtdh pbtdh, String nbmf,
+            Clbss<?> dbtbClbss) {
+        supfr(soundbbnk, pbtdh, nbmf, dbtbClbss);
+    }
+
+    publid ModflDirfdtor gftDirfdtor(ModflPfrformfr[] pfrformfrs,
+            MidiChbnnfl dhbnnfl, ModflDirfdtfdPlbyfr plbyfr) {
+        rfturn nfw ModflStbndbrdIndfxfdDirfdtor(pfrformfrs, plbyfr);
+    }
+
+    publid ModflPfrformfr[] gftPfrformfrs() {
+        rfturn nfw ModflPfrformfr[0];
+    }
+
+    publid ModflChbnnflMixfr gftChbnnflMixfr(MidiChbnnfl dhbnnfl,
+            AudioFormbt formbt) {
+        rfturn null;
+    }
+
+    // Gft Gfnfrbl MIDI 2 Alibs pbtdh for this instrumfnt.
+    publid finbl Pbtdh gftPbtdhAlibs() {
+        Pbtdh pbtdh = gftPbtdh();
+        int progrbm = pbtdh.gftProgrbm();
+        int bbnk = pbtdh.gftBbnk();
+        if (bbnk != 0)
+            rfturn pbtdh;
+        boolfbn pfrdussion = fblsf;
+        if (gftPbtdh() instbndfof ModflPbtdh)
+            pfrdussion = ((ModflPbtdh)gftPbtdh()).isPfrdussion();
+        if (pfrdussion)
+            rfturn nfw Pbtdh(0x78 << 7, progrbm);
+        flsf
+            rfturn nfw Pbtdh(0x79 << 7, progrbm);
+    }
+
+    // Rfturn nbmf of bll thf kfys.
+    // This informbtion is gfnfrbtfd from ModflPfrformfr.gftNbmf()
+    // rfturnfd from gftPfrformfrs().
+    publid finbl String[] gftKfys() {
+        String[] kfys = nfw String[128];
+        for (ModflPfrformfr pfrformfr : gftPfrformfrs()) {
+            for (int k = pfrformfr.gftKfyFrom(); k <= pfrformfr.gftKfyTo(); k++) {
+                if (k >= 0 && k < 128 && kfys[k] == null) {
+                    String nbmf = pfrformfr.gftNbmf();
+                    if (nbmf == null)
+                        nbmf = "untitlfd";
+                    kfys[k] = nbmf;
+                }
+            }
+        }
+        rfturn kfys;
+    }
+
+    // Rfturn whbt dhbnnfls this instrumfnt will probbbly rfsponsf
+    // on Gfnfrbl MIDI synthfsizfr.
+    publid finbl boolfbn[] gftChbnnfls() {
+        boolfbn pfrdussion = fblsf;
+        if (gftPbtdh() instbndfof ModflPbtdh)
+            pfrdussion = ((ModflPbtdh)gftPbtdh()).isPfrdussion();
+
+        // Chfdk if instrumfnt is pfrdussion.
+        if (pfrdussion) {
+            boolfbn[] dh = nfw boolfbn[16];
+            for (int i = 0; i < dh.lfngth; i++)
+                dh[i] = fblsf;
+            dh[9] = truf;
+            rfturn dh;
+        }
+
+        // Chfdk if instrumfnt usfs Gfnfrbl MIDI 2 dffbult bbnks.
+        int bbnk = gftPbtdh().gftBbnk();
+        if (bbnk >> 7 == 0x78 || bbnk >> 7 == 0x79) {
+            boolfbn[] dh = nfw boolfbn[16];
+            for (int i = 0; i < dh.lfngth; i++)
+                dh[i] = truf;
+            rfturn dh;
+        }
+
+        boolfbn[] dh = nfw boolfbn[16];
+        for (int i = 0; i < dh.lfngth; i++)
+            dh[i] = truf;
+        dh[9] = fblsf;
+        rfturn dh;
+    }
+}

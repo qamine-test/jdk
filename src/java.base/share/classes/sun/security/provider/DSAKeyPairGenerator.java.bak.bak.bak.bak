@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * This dlbss gfnfrbtfs DSA kfy pbrbmftfrs bnd publid/privbtf kfy
+ * pbirs bddording to thf DSS stbndbrd NIST FIPS 186. It usfs thf
+ * updbtfd vfrsion of SHA, SHA-1 bs dfsdribfd in FIPS 180-1.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ * @buthor Andrfbs Stfrbfnz
+ *
+ */
+publid dlbss DSAKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtor
+implfmfnts jbvb.sfdurity.intfrfbdfs.DSAKfyPbirGfnfrbtor {
+
+    /* Lfngth for primf P bnd subPrimf Q in bits */
+    privbtf int plfn;
+    privbtf int qlfn;
+
+    /* whfthfr to fordf nfw pbrbmftfrs to bf gfnfrbtfd for fbdh KfyPbir */
+    privbtf boolfbn fordfNfwPbrbmftfrs;
+
+    /* prfsft blgorithm pbrbmftfrs. */
+    privbtf DSAPbrbmftfrSpfd pbrbms;
+
+    /* Thf sourdf of rbndom bits to usf */
+    privbtf SfdurfRbndom rbndom;
+
+    publid DSAKfyPbirGfnfrbtor() {
+        supfr("DSA");
+        initiblizf(1024, null);
+    }
+
+    privbtf stbtid void dhfdkStrfngth(int sizfP, int sizfQ) {
+        if ((sizfP >= 512) && (sizfP <= 1024) && (sizfP % 64 == 0)
+            && sizfQ == 160) {
+            // trbditionbl - bllow for bbdkwbrd dompbtibility
+            // L=multiplfs of 64 bnd bftwffn 512 bnd 1024 (indlusivf)
+            // N=160
+        } flsf if (sizfP == 2048 && (sizfQ == 224 || sizfQ == 256)) {
+            // L=2048, N=224 or 256
+        } flsf {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Unsupportfd primf bnd subprimf sizf dombinbtion: " +
+                 sizfP + ", " + sizfQ);
+        }
+    }
+
+    publid void initiblizf(int modlfn, SfdurfRbndom rbndom) {
+        // gfnfrbtf nfw pbrbmftfrs whfn no prfdomputfd onfs bvbilbblf.
+        initiblizf(modlfn, truf, rbndom);
+        this.fordfNfwPbrbmftfrs = fblsf;
+    }
+
+    /**
+     * Initiblizfs thf DSA kfy pbir gfnfrbtor. If <dodf>gfnPbrbms</dodf>
+     * is fblsf, b sft of prf-domputfd pbrbmftfrs is usfd.
+     */
+    publid void initiblizf(int modlfn, boolfbn gfnPbrbms, SfdurfRbndom rbndom) {
+        int subPrimfLfn = -1;
+        if (modlfn <= 1024) {
+            subPrimfLfn = 160;
+        } flsf if (modlfn == 2048) {
+            subPrimfLfn = 224;
+        }
+        dhfdkStrfngth(modlfn, subPrimfLfn);
+        if (gfnPbrbms) {
+            pbrbms = null;
+        } flsf {
+            pbrbms = PbrbmftfrCbdhf.gftCbdhfdDSAPbrbmftfrSpfd(modlfn,
+                subPrimfLfn);
+            if (pbrbms == null) {
+                throw nfw InvblidPbrbmftfrExdfption
+                    ("No prfdomputfd pbrbmftfrs for rfqufstfd modulus sizf "
+                     + "bvbilbblf");
+            }
+
+        }
+        this.plfn = modlfn;
+        this.qlfn = subPrimfLfn;
+        this.rbndom = rbndom;
+        this.fordfNfwPbrbmftfrs = gfnPbrbms;
+    }
+
+    /**
+     * Initiblizfs thf DSA objfdt using b DSA pbrbmftfr objfdt.
+     *
+     * @pbrbm pbrbms b fully initiblizfd DSA pbrbmftfr objfdt.
+     */
+    publid void initiblizf(DSAPbrbms pbrbms, SfdurfRbndom rbndom) {
+        if (pbrbms == null) {
+            throw nfw InvblidPbrbmftfrExdfption("Pbrbms must not bf null");
+        }
+        DSAPbrbmftfrSpfd spfd = nfw DSAPbrbmftfrSpfd
+                                (pbrbms.gftP(), pbrbms.gftQ(), pbrbms.gftG());
+        initiblizf0(spfd, rbndom);
+    }
+
+    /**
+     * Initiblizfs thf DSA objfdt using b pbrbmftfr objfdt.
+     *
+     * @pbrbm pbrbms thf pbrbmftfr sft to bf usfd to gfnfrbtf
+     * thf kfys.
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor.
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfrs
+     * brf inbppropribtf for this kfy pbir gfnfrbtor
+     */
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (!(pbrbms instbndfof DSAPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr");
+        }
+        initiblizf0((DSAPbrbmftfrSpfd)pbrbms, rbndom);
+    }
+
+    privbtf void initiblizf0(DSAPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom) {
+        int sizfP = pbrbms.gftP().bitLfngth();
+        int sizfQ = pbrbms.gftQ().bitLfngth();
+        dhfdkStrfngth(sizfP, sizfQ);
+        this.plfn = sizfP;
+        this.qlfn = sizfQ;
+        this.pbrbms = pbrbms;
+        this.rbndom = rbndom;
+        this.fordfNfwPbrbmftfrs = fblsf;
+    }
+
+    /**
+     * Gfnfrbtfs b pbir of kfys usbblf by bny JbvbSfdurity domplibnt
+     * DSA implfmfntbtion.
+     */
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
+        }
+        DSAPbrbmftfrSpfd spfd;
+        try {
+            if (fordfNfwPbrbmftfrs) {
+                // gfnfrbtf nfw pbrbmftfrs fbdh timf
+                spfd = PbrbmftfrCbdhf.gftNfwDSAPbrbmftfrSpfd(plfn, qlfn, rbndom);
+            } flsf {
+                if (pbrbms == null) {
+                    pbrbms =
+                        PbrbmftfrCbdhf.gftDSAPbrbmftfrSpfd(plfn, qlfn, rbndom);
+                }
+                spfd = pbrbms;
+            }
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+        rfturn gfnfrbtfKfyPbir(spfd.gftP(), spfd.gftQ(), spfd.gftG(), rbndom);
+    }
+
+    publid KfyPbir gfnfrbtfKfyPbir(BigIntfgfr p, BigIntfgfr q, BigIntfgfr g,
+                                   SfdurfRbndom rbndom) {
+
+        BigIntfgfr x = gfnfrbtfX(rbndom, q);
+        BigIntfgfr y = gfnfrbtfY(x, p, g);
+
+        try {
+
+            // Sff thf dommfnts in DSAKfyFbdtory, 4532506, bnd 6232513.
+
+            DSAPublidKfy pub;
+            if (DSAKfyFbdtory.SERIAL_INTEROP) {
+                pub = nfw DSAPublidKfy(y, p, q, g);
+            } flsf {
+                pub = nfw DSAPublidKfyImpl(y, p, q, g);
+            }
+            DSAPrivbtfKfy priv = nfw DSAPrivbtfKfy(x, p, q, g);
+
+            KfyPbir pbir = nfw KfyPbir(pub, priv);
+            rfturn pbir;
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    /**
+     * Gfnfrbtf thf privbtf kfy domponfnt of thf kfy pbir using thf
+     * providfd sourdf of rbndom bits. This mfthod usfs thf rbndom but
+     * sourdf pbssfd to gfnfrbtf b sffd bnd thfn dblls thf sffd-bbsfd
+     * gfnfrbtfX mfthod.
+     */
+    privbtf BigIntfgfr gfnfrbtfX(SfdurfRbndom rbndom, BigIntfgfr q) {
+        BigIntfgfr x = null;
+        bytf[] tfmp = nfw bytf[qlfn];
+        whilf (truf) {
+            rbndom.nfxtBytfs(tfmp);
+            x = nfw BigIntfgfr(1, tfmp).mod(q);
+            if (x.signum() > 0 && (x.dompbrfTo(q) < 0)) {
+                rfturn x;
+            }
+        }
+    }
+
+    /**
+     * Gfnfrbtf thf publid kfy domponfnt y of thf kfy pbir.
+     *
+     * @pbrbm x thf privbtf kfy domponfnt.
+     *
+     * @pbrbm p thf bbsf pbrbmftfr.
+     */
+    BigIntfgfr gfnfrbtfY(BigIntfgfr x, BigIntfgfr p, BigIntfgfr g) {
+        BigIntfgfr y = g.modPow(x, p);
+        rfturn y;
+    }
+
+}

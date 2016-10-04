@@ -1,420 +1,420 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.util.*;
-import java.io.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.xml.sax.*;
-import org.w3c.dom.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvbx.xml.pbrsfrs.*;
+import jbvbx.xml.trbnsform.*;
+import jbvbx.xml.trbnsform.dom.*;
+import jbvbx.xml.trbnsform.strfbm.*;
+import org.xml.sbx.*;
+import org.w3d.dom.*;
 
 /**
- * XML Support for java.util.prefs. Methods to import and export preference
- * nodes and subtrees.
+ * XML Support for jbvb.util.prffs. Mftiods to import bnd fxport prfffrfndf
+ * nodfs bnd subtrffs.
  *
- * @author  Josh Bloch and Mark Reinhold
- * @see     Preferences
- * @since   1.4
+ * @butior  Josi Blodi bnd Mbrk Rfiniold
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
  */
-class XmlSupport {
-    // The required DTD URI for exported preferences
-    private static final String PREFS_DTD_URI =
-        "http://java.sun.com/dtd/preferences.dtd";
+dlbss XmlSupport {
+    // Tif rfquirfd DTD URI for fxportfd prfffrfndfs
+    privbtf stbtid finbl String PREFS_DTD_URI =
+        "ittp://jbvb.sun.dom/dtd/prfffrfndfs.dtd";
 
-    // The actual DTD corresponding to the URI
-    private static final String PREFS_DTD =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+    // Tif bdtubl DTD dorrfsponding to tif URI
+    privbtf stbtid finbl String PREFS_DTD =
+        "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>" +
 
-        "<!-- DTD for preferences -->"               +
+        "<!-- DTD for prfffrfndfs -->"               +
 
-        "<!ELEMENT preferences (root) >"             +
-        "<!ATTLIST preferences"                      +
+        "<!ELEMENT prfffrfndfs (root) >"             +
+        "<!ATTLIST prfffrfndfs"                      +
         " EXTERNAL_XML_VERSION CDATA \"0.0\"  >"     +
 
-        "<!ELEMENT root (map, node*) >"              +
+        "<!ELEMENT root (mbp, nodf*) >"              +
         "<!ATTLIST root"                             +
-        "          type (system|user) #REQUIRED >"   +
+        "          typf (systfm|usfr) #REQUIRED >"   +
 
-        "<!ELEMENT node (map, node*) >"              +
-        "<!ATTLIST node"                             +
-        "          name CDATA #REQUIRED >"           +
+        "<!ELEMENT nodf (mbp, nodf*) >"              +
+        "<!ATTLIST nodf"                             +
+        "          nbmf CDATA #REQUIRED >"           +
 
-        "<!ELEMENT map (entry*) >"                   +
-        "<!ATTLIST map"                              +
+        "<!ELEMENT mbp (fntry*) >"                   +
+        "<!ATTLIST mbp"                              +
         "  MAP_XML_VERSION CDATA \"0.0\"  >"         +
-        "<!ELEMENT entry EMPTY >"                    +
-        "<!ATTLIST entry"                            +
-        "          key CDATA #REQUIRED"              +
-        "          value CDATA #REQUIRED >"          ;
+        "<!ELEMENT fntry EMPTY >"                    +
+        "<!ATTLIST fntry"                            +
+        "          kfy CDATA #REQUIRED"              +
+        "          vbluf CDATA #REQUIRED >"          ;
     /**
-     * Version number for the format exported preferences files.
+     * Vfrsion numbfr for tif formbt fxportfd prfffrfndfs filfs.
      */
-    private static final String EXTERNAL_XML_VERSION = "1.0";
+    privbtf stbtid finbl String EXTERNAL_XML_VERSION = "1.0";
 
     /*
-     * Version number for the internal map files.
+     * Vfrsion numbfr for tif intfrnbl mbp filfs.
      */
-    private static final String MAP_XML_VERSION = "1.0";
+    privbtf stbtid finbl String MAP_XML_VERSION = "1.0";
 
     /**
-     * Export the specified preferences node and, if subTree is true, all
-     * subnodes, to the specified output stream.  Preferences are exported as
-     * an XML document conforming to the definition in the Preferences spec.
+     * Export tif spfdififd prfffrfndfs nodf bnd, if subTrff is truf, bll
+     * subnodfs, to tif spfdififd output strfbm.  Prfffrfndfs brf fxportfd bs
+     * bn XML dodumfnt donforming to tif dffinition in tif Prfffrfndfs spfd.
      *
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link Preferences#removeNode()} method.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link Prfffrfndfs#rfmovfNodf()} mftiod.
      */
-    static void export(OutputStream os, final Preferences p, boolean subTree)
-        throws IOException, BackingStoreException {
-        if (((AbstractPreferences)p).isRemoved())
-            throw new IllegalStateException("Node has been removed");
-        Document doc = createPrefsDoc("preferences");
-        Element preferences =  doc.getDocumentElement() ;
-        preferences.setAttribute("EXTERNAL_XML_VERSION", EXTERNAL_XML_VERSION);
-        Element xmlRoot =  (Element)
-        preferences.appendChild(doc.createElement("root"));
-        xmlRoot.setAttribute("type", (p.isUserNode() ? "user" : "system"));
+    stbtid void fxport(OutputStrfbm os, finbl Prfffrfndfs p, boolfbn subTrff)
+        tirows IOExdfption, BbdkingStorfExdfption {
+        if (((AbstrbdtPrfffrfndfs)p).isRfmovfd())
+            tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+        Dodumfnt dod = drfbtfPrffsDod("prfffrfndfs");
+        Elfmfnt prfffrfndfs =  dod.gftDodumfntElfmfnt() ;
+        prfffrfndfs.sftAttributf("EXTERNAL_XML_VERSION", EXTERNAL_XML_VERSION);
+        Elfmfnt xmlRoot =  (Elfmfnt)
+        prfffrfndfs.bppfndCiild(dod.drfbtfElfmfnt("root"));
+        xmlRoot.sftAttributf("typf", (p.isUsfrNodf() ? "usfr" : "systfm"));
 
-        // Get bottom-up list of nodes from p to root, excluding root
-        List<Preferences> ancestors = new ArrayList<>();
+        // Gft bottom-up list of nodfs from p to root, fxdluding root
+        List<Prfffrfndfs> bndfstors = nfw ArrbyList<>();
 
-        for (Preferences kid = p, dad = kid.parent(); dad != null;
-                                   kid = dad, dad = kid.parent()) {
-            ancestors.add(kid);
+        for (Prfffrfndfs kid = p, dbd = kid.pbrfnt(); dbd != null;
+                                   kid = dbd, dbd = kid.pbrfnt()) {
+            bndfstors.bdd(kid);
         }
-        Element e = xmlRoot;
-        for (int i=ancestors.size()-1; i >= 0; i--) {
-            e.appendChild(doc.createElement("map"));
-            e = (Element) e.appendChild(doc.createElement("node"));
-            e.setAttribute("name", ancestors.get(i).name());
+        Elfmfnt f = xmlRoot;
+        for (int i=bndfstors.sizf()-1; i >= 0; i--) {
+            f.bppfndCiild(dod.drfbtfElfmfnt("mbp"));
+            f = (Elfmfnt) f.bppfndCiild(dod.drfbtfElfmfnt("nodf"));
+            f.sftAttributf("nbmf", bndfstors.gft(i).nbmf());
         }
-        putPreferencesInXml(e, doc, p, subTree);
+        putPrfffrfndfsInXml(f, dod, p, subTrff);
 
-        writeDoc(doc, os);
+        writfDod(dod, os);
     }
 
     /**
-     * Put the preferences in the specified Preferences node into the
-     * specified XML element which is assumed to represent a node
-     * in the specified XML document which is assumed to conform to
-     * PREFS_DTD.  If subTree is true, create children of the specified
-     * XML node conforming to all of the children of the specified
-     * Preferences node and recurse.
+     * Put tif prfffrfndfs in tif spfdififd Prfffrfndfs nodf into tif
+     * spfdififd XML flfmfnt wiidi is bssumfd to rfprfsfnt b nodf
+     * in tif spfdififd XML dodumfnt wiidi is bssumfd to donform to
+     * PREFS_DTD.  If subTrff is truf, drfbtf diildrfn of tif spfdififd
+     * XML nodf donforming to bll of tif diildrfn of tif spfdififd
+     * Prfffrfndfs nodf bnd rfdursf.
      *
-     * @throws BackingStoreException if it is not possible to read
-     *         the preferences or children out of the specified
-     *         preferences node.
+     * @tirows BbdkingStorfExdfption if it is not possiblf to rfbd
+     *         tif prfffrfndfs or diildrfn out of tif spfdififd
+     *         prfffrfndfs nodf.
      */
-    private static void putPreferencesInXml(Element elt, Document doc,
-               Preferences prefs, boolean subTree) throws BackingStoreException
+    privbtf stbtid void putPrfffrfndfsInXml(Elfmfnt flt, Dodumfnt dod,
+               Prfffrfndfs prffs, boolfbn subTrff) tirows BbdkingStorfExdfption
     {
-        Preferences[] kidsCopy = null;
-        String[] kidNames = null;
+        Prfffrfndfs[] kidsCopy = null;
+        String[] kidNbmfs = null;
 
-        // Node is locked to export its contents and get a
-        // copy of children, then lock is released,
-        // and, if subTree = true, recursive calls are made on children
-        synchronized (((AbstractPreferences)prefs).lock) {
-            // Check if this node was concurrently removed. If yes
-            // remove it from XML Document and return.
-            if (((AbstractPreferences)prefs).isRemoved()) {
-                elt.getParentNode().removeChild(elt);
-                return;
+        // Nodf is lodkfd to fxport its dontfnts bnd gft b
+        // dopy of diildrfn, tifn lodk is rflfbsfd,
+        // bnd, if subTrff = truf, rfdursivf dblls brf mbdf on diildrfn
+        syndironizfd (((AbstrbdtPrfffrfndfs)prffs).lodk) {
+            // Cifdk if tiis nodf wbs dondurrfntly rfmovfd. If yfs
+            // rfmovf it from XML Dodumfnt bnd rfturn.
+            if (((AbstrbdtPrfffrfndfs)prffs).isRfmovfd()) {
+                flt.gftPbrfntNodf().rfmovfCiild(flt);
+                rfturn;
             }
-            // Put map in xml element
-            String[] keys = prefs.keys();
-            Element map = (Element) elt.appendChild(doc.createElement("map"));
-            for (String key : keys) {
-                Element entry = (Element)
-                    map.appendChild(doc.createElement("entry"));
-                entry.setAttribute("key", key);
+            // Put mbp in xml flfmfnt
+            String[] kfys = prffs.kfys();
+            Elfmfnt mbp = (Elfmfnt) flt.bppfndCiild(dod.drfbtfElfmfnt("mbp"));
+            for (String kfy : kfys) {
+                Elfmfnt fntry = (Elfmfnt)
+                    mbp.bppfndCiild(dod.drfbtfElfmfnt("fntry"));
+                fntry.sftAttributf("kfy", kfy);
                 // NEXT STATEMENT THROWS NULL PTR EXC INSTEAD OF ASSERT FAIL
-                entry.setAttribute("value", prefs.get(key, null));
+                fntry.sftAttributf("vbluf", prffs.gft(kfy, null));
             }
-            // Recurse if appropriate
-            if (subTree) {
-                /* Get a copy of kids while lock is held */
-                kidNames = prefs.childrenNames();
-                kidsCopy = new Preferences[kidNames.length];
-                for (int i = 0; i <  kidNames.length; i++)
-                    kidsCopy[i] = prefs.node(kidNames[i]);
+            // Rfdursf if bppropribtf
+            if (subTrff) {
+                /* Gft b dopy of kids wiilf lodk is ifld */
+                kidNbmfs = prffs.diildrfnNbmfs();
+                kidsCopy = nfw Prfffrfndfs[kidNbmfs.lfngti];
+                for (int i = 0; i <  kidNbmfs.lfngti; i++)
+                    kidsCopy[i] = prffs.nodf(kidNbmfs[i]);
             }
-            // release lock
+            // rflfbsf lodk
         }
 
-        if (subTree) {
-            for (int i=0; i < kidNames.length; i++) {
-                Element xmlKid = (Element)
-                    elt.appendChild(doc.createElement("node"));
-                xmlKid.setAttribute("name", kidNames[i]);
-                putPreferencesInXml(xmlKid, doc, kidsCopy[i], subTree);
+        if (subTrff) {
+            for (int i=0; i < kidNbmfs.lfngti; i++) {
+                Elfmfnt xmlKid = (Elfmfnt)
+                    flt.bppfndCiild(dod.drfbtfElfmfnt("nodf"));
+                xmlKid.sftAttributf("nbmf", kidNbmfs[i]);
+                putPrfffrfndfsInXml(xmlKid, dod, kidsCopy[i], subTrff);
             }
         }
     }
 
     /**
-     * Import preferences from the specified input stream, which is assumed
-     * to contain an XML document in the format described in the Preferences
-     * spec.
+     * Import prfffrfndfs from tif spfdififd input strfbm, wiidi is bssumfd
+     * to dontbin bn XML dodumfnt in tif formbt dfsdribfd in tif Prfffrfndfs
+     * spfd.
      *
-     * @throws IOException if reading from the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
+     * @tirows IOExdfption if rfbding from tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt witi tif mbndbtfd dodumfnt typf.
      */
-    static void importPreferences(InputStream is)
-        throws IOException, InvalidPreferencesFormatException
+    stbtid void importPrfffrfndfs(InputStrfbm is)
+        tirows IOExdfption, InvblidPrfffrfndfsFormbtExdfption
     {
         try {
-            Document doc = loadPrefsDoc(is);
-            String xmlVersion =
-                doc.getDocumentElement().getAttribute("EXTERNAL_XML_VERSION");
-            if (xmlVersion.compareTo(EXTERNAL_XML_VERSION) > 0)
-                throw new InvalidPreferencesFormatException(
-                "Exported preferences file format version " + xmlVersion +
-                " is not supported. This java installation can read" +
-                " versions " + EXTERNAL_XML_VERSION + " or older. You may need" +
-                " to install a newer version of JDK.");
+            Dodumfnt dod = lobdPrffsDod(is);
+            String xmlVfrsion =
+                dod.gftDodumfntElfmfnt().gftAttributf("EXTERNAL_XML_VERSION");
+            if (xmlVfrsion.dompbrfTo(EXTERNAL_XML_VERSION) > 0)
+                tirow nfw InvblidPrfffrfndfsFormbtExdfption(
+                "Exportfd prfffrfndfs filf formbt vfrsion " + xmlVfrsion +
+                " is not supportfd. Tiis jbvb instbllbtion dbn rfbd" +
+                " vfrsions " + EXTERNAL_XML_VERSION + " or oldfr. You mby nffd" +
+                " to instbll b nfwfr vfrsion of JDK.");
 
-            Element xmlRoot = (Element) doc.getDocumentElement().
-                                               getChildNodes().item(0);
-            Preferences prefsRoot =
-                (xmlRoot.getAttribute("type").equals("user") ?
-                            Preferences.userRoot() : Preferences.systemRoot());
-            ImportSubtree(prefsRoot, xmlRoot);
-        } catch(SAXException e) {
-            throw new InvalidPreferencesFormatException(e);
+            Elfmfnt xmlRoot = (Elfmfnt) dod.gftDodumfntElfmfnt().
+                                               gftCiildNodfs().itfm(0);
+            Prfffrfndfs prffsRoot =
+                (xmlRoot.gftAttributf("typf").fqubls("usfr") ?
+                            Prfffrfndfs.usfrRoot() : Prfffrfndfs.systfmRoot());
+            ImportSubtrff(prffsRoot, xmlRoot);
+        } dbtdi(SAXExdfption f) {
+            tirow nfw InvblidPrfffrfndfsFormbtExdfption(f);
         }
     }
 
     /**
-     * Create a new prefs XML document.
+     * Crfbtf b nfw prffs XML dodumfnt.
      */
-    private static Document createPrefsDoc( String qname ) {
+    privbtf stbtid Dodumfnt drfbtfPrffsDod( String qnbmf ) {
         try {
-            DOMImplementation di = DocumentBuilderFactory.newInstance().
-                newDocumentBuilder().getDOMImplementation();
-            DocumentType dt = di.createDocumentType(qname, null, PREFS_DTD_URI);
-            return di.createDocument(null, qname, dt);
-        } catch(ParserConfigurationException e) {
-            throw new AssertionError(e);
+            DOMImplfmfntbtion di = DodumfntBuildfrFbdtory.nfwInstbndf().
+                nfwDodumfntBuildfr().gftDOMImplfmfntbtion();
+            DodumfntTypf dt = di.drfbtfDodumfntTypf(qnbmf, null, PREFS_DTD_URI);
+            rfturn di.drfbtfDodumfnt(null, qnbmf, dt);
+        } dbtdi(PbrsfrConfigurbtionExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Load an XML document from specified input stream, which must
-     * have the requisite DTD URI.
+     * Lobd bn XML dodumfnt from spfdififd input strfbm, wiidi must
+     * ibvf tif rfquisitf DTD URI.
      */
-    private static Document loadPrefsDoc(InputStream in)
-        throws SAXException, IOException
+    privbtf stbtid Dodumfnt lobdPrffsDod(InputStrfbm in)
+        tirows SAXExdfption, IOExdfption
     {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringElementContentWhitespace(true);
-        dbf.setValidating(true);
-        dbf.setCoalescing(true);
-        dbf.setIgnoringComments(true);
+        DodumfntBuildfrFbdtory dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+        dbf.sftIgnoringElfmfntContfntWiitfspbdf(truf);
+        dbf.sftVblidbting(truf);
+        dbf.sftCoblfsding(truf);
+        dbf.sftIgnoringCommfnts(truf);
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            db.setEntityResolver(new Resolver());
-            db.setErrorHandler(new EH());
-            return db.parse(new InputSource(in));
-        } catch (ParserConfigurationException e) {
-            throw new AssertionError(e);
+            DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+            db.sftEntityRfsolvfr(nfw Rfsolvfr());
+            db.sftErrorHbndlfr(nfw EH());
+            rfturn db.pbrsf(nfw InputSourdf(in));
+        } dbtdi (PbrsfrConfigurbtionExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Write XML document to the specified output stream.
+     * Writf XML dodumfnt to tif spfdififd output strfbm.
      */
-    private static final void writeDoc(Document doc, OutputStream out)
-        throws IOException
+    privbtf stbtid finbl void writfDod(Dodumfnt dod, OutputStrfbm out)
+        tirows IOExdfption
     {
         try {
-            TransformerFactory tf = TransformerFactory.newInstance();
+            TrbnsformfrFbdtory tf = TrbnsformfrFbdtory.nfwInstbndf();
             try {
-                tf.setAttribute("indent-number", 2);
-            } catch (IllegalArgumentException iae) {
-                //Ignore the IAE. Should not fail the writeout even the
-                //transformer provider does not support "indent-number".
+                tf.sftAttributf("indfnt-numbfr", 2);
+            } dbtdi (IllfgblArgumfntExdfption ibf) {
+                //Ignorf tif IAE. Siould not fbil tif writfout fvfn tif
+                //trbnsformfr providfr dofs not support "indfnt-numbfr".
             }
-            Transformer t = tf.newTransformer();
-            t.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doc.getDoctype().getSystemId());
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            //Transformer resets the "indent" info if the "result" is a StreamResult with
-            //an OutputStream object embedded, creating a Writer object on top of that
-            //OutputStream object however works.
-            t.transform(new DOMSource(doc),
-                        new StreamResult(new BufferedWriter(new OutputStreamWriter(out, "UTF-8"))));
-        } catch(TransformerException e) {
-            throw new AssertionError(e);
+            Trbnsformfr t = tf.nfwTrbnsformfr();
+            t.sftOutputPropfrty(OutputKfys.DOCTYPE_SYSTEM, dod.gftDodtypf().gftSystfmId());
+            t.sftOutputPropfrty(OutputKfys.INDENT, "yfs");
+            //Trbnsformfr rfsfts tif "indfnt" info if tif "rfsult" is b StrfbmRfsult witi
+            //bn OutputStrfbm objfdt fmbfddfd, drfbting b Writfr objfdt on top of tibt
+            //OutputStrfbm objfdt iowfvfr works.
+            t.trbnsform(nfw DOMSourdf(dod),
+                        nfw StrfbmRfsult(nfw BufffrfdWritfr(nfw OutputStrfbmWritfr(out, "UTF-8"))));
+        } dbtdi(TrbnsformfrExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Recursively traverse the specified preferences node and store
-     * the described preferences into the system or current user
-     * preferences tree, as appropriate.
+     * Rfdursivfly trbvfrsf tif spfdififd prfffrfndfs nodf bnd storf
+     * tif dfsdribfd prfffrfndfs into tif systfm or durrfnt usfr
+     * prfffrfndfs trff, bs bppropribtf.
      */
-    private static void ImportSubtree(Preferences prefsNode, Element xmlNode) {
-        NodeList xmlKids = xmlNode.getChildNodes();
-        int numXmlKids = xmlKids.getLength();
+    privbtf stbtid void ImportSubtrff(Prfffrfndfs prffsNodf, Elfmfnt xmlNodf) {
+        NodfList xmlKids = xmlNodf.gftCiildNodfs();
+        int numXmlKids = xmlKids.gftLfngti();
         /*
-         * We first lock the node, import its contents and get
-         * child nodes. Then we unlock the node and go to children
-         * Since some of the children might have been concurrently
-         * deleted we check for this.
+         * Wf first lodk tif nodf, import its dontfnts bnd gft
+         * diild nodfs. Tifn wf unlodk tif nodf bnd go to diildrfn
+         * Sindf somf of tif diildrfn migit ibvf bffn dondurrfntly
+         * dflftfd wf difdk for tiis.
          */
-        Preferences[] prefsKids;
-        /* Lock the node */
-        synchronized (((AbstractPreferences)prefsNode).lock) {
-            //If removed, return silently
-            if (((AbstractPreferences)prefsNode).isRemoved())
-                return;
+        Prfffrfndfs[] prffsKids;
+        /* Lodk tif nodf */
+        syndironizfd (((AbstrbdtPrfffrfndfs)prffsNodf).lodk) {
+            //If rfmovfd, rfturn silfntly
+            if (((AbstrbdtPrfffrfndfs)prffsNodf).isRfmovfd())
+                rfturn;
 
-            // Import any preferences at this node
-            Element firstXmlKid = (Element) xmlKids.item(0);
-            ImportPrefs(prefsNode, firstXmlKid);
-            prefsKids = new Preferences[numXmlKids - 1];
+            // Import bny prfffrfndfs bt tiis nodf
+            Elfmfnt firstXmlKid = (Elfmfnt) xmlKids.itfm(0);
+            ImportPrffs(prffsNodf, firstXmlKid);
+            prffsKids = nfw Prfffrfndfs[numXmlKids - 1];
 
-            // Get involved children
+            // Gft involvfd diildrfn
             for (int i=1; i < numXmlKids; i++) {
-                Element xmlKid = (Element) xmlKids.item(i);
-                prefsKids[i-1] = prefsNode.node(xmlKid.getAttribute("name"));
+                Elfmfnt xmlKid = (Elfmfnt) xmlKids.itfm(i);
+                prffsKids[i-1] = prffsNodf.nodf(xmlKid.gftAttributf("nbmf"));
             }
-        } // unlocked the node
-        // import children
+        } // unlodkfd tif nodf
+        // import diildrfn
         for (int i=1; i < numXmlKids; i++)
-            ImportSubtree(prefsKids[i-1], (Element)xmlKids.item(i));
+            ImportSubtrff(prffsKids[i-1], (Elfmfnt)xmlKids.itfm(i));
     }
 
     /**
-     * Import the preferences described by the specified XML element
-     * (a map from a preferences document) into the specified
-     * preferences node.
+     * Import tif prfffrfndfs dfsdribfd by tif spfdififd XML flfmfnt
+     * (b mbp from b prfffrfndfs dodumfnt) into tif spfdififd
+     * prfffrfndfs nodf.
      */
-    private static void ImportPrefs(Preferences prefsNode, Element map) {
-        NodeList entries = map.getChildNodes();
-        for (int i=0, numEntries = entries.getLength(); i < numEntries; i++) {
-            Element entry = (Element) entries.item(i);
-            prefsNode.put(entry.getAttribute("key"),
-                          entry.getAttribute("value"));
+    privbtf stbtid void ImportPrffs(Prfffrfndfs prffsNodf, Elfmfnt mbp) {
+        NodfList fntrifs = mbp.gftCiildNodfs();
+        for (int i=0, numEntrifs = fntrifs.gftLfngti(); i < numEntrifs; i++) {
+            Elfmfnt fntry = (Elfmfnt) fntrifs.itfm(i);
+            prffsNodf.put(fntry.gftAttributf("kfy"),
+                          fntry.gftAttributf("vbluf"));
         }
     }
 
     /**
-     * Export the specified Map<String,String> to a map document on
-     * the specified OutputStream as per the prefs DTD.  This is used
-     * as the internal (undocumented) format for FileSystemPrefs.
+     * Export tif spfdififd Mbp<String,String> to b mbp dodumfnt on
+     * tif spfdififd OutputStrfbm bs pfr tif prffs DTD.  Tiis is usfd
+     * bs tif intfrnbl (undodumfntfd) formbt for FilfSystfmPrffs.
      *
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
      */
-    static void exportMap(OutputStream os, Map<String, String> map) throws IOException {
-        Document doc = createPrefsDoc("map");
-        Element xmlMap = doc.getDocumentElement( ) ;
-        xmlMap.setAttribute("MAP_XML_VERSION", MAP_XML_VERSION);
+    stbtid void fxportMbp(OutputStrfbm os, Mbp<String, String> mbp) tirows IOExdfption {
+        Dodumfnt dod = drfbtfPrffsDod("mbp");
+        Elfmfnt xmlMbp = dod.gftDodumfntElfmfnt( ) ;
+        xmlMbp.sftAttributf("MAP_XML_VERSION", MAP_XML_VERSION);
 
-        for (Map.Entry<String, String> e : map.entrySet()) {
-            Element xe = (Element)
-                xmlMap.appendChild(doc.createElement("entry"));
-            xe.setAttribute("key",   e.getKey());
-            xe.setAttribute("value", e.getValue());
+        for (Mbp.Entry<String, String> f : mbp.fntrySft()) {
+            Elfmfnt xf = (Elfmfnt)
+                xmlMbp.bppfndCiild(dod.drfbtfElfmfnt("fntry"));
+            xf.sftAttributf("kfy",   f.gftKfy());
+            xf.sftAttributf("vbluf", f.gftVbluf());
         }
 
-        writeDoc(doc, os);
+        writfDod(dod, os);
     }
 
     /**
-     * Import Map from the specified input stream, which is assumed
-     * to contain a map document as per the prefs DTD.  This is used
-     * as the internal (undocumented) format for FileSystemPrefs.  The
-     * key-value pairs specified in the XML document will be put into
-     * the specified Map.  (If this Map is empty, it will contain exactly
-     * the key-value pairs int the XML-document when this method returns.)
+     * Import Mbp from tif spfdififd input strfbm, wiidi is bssumfd
+     * to dontbin b mbp dodumfnt bs pfr tif prffs DTD.  Tiis is usfd
+     * bs tif intfrnbl (undodumfntfd) formbt for FilfSystfmPrffs.  Tif
+     * kfy-vbluf pbirs spfdififd in tif XML dodumfnt will bf put into
+     * tif spfdififd Mbp.  (If tiis Mbp is fmpty, it will dontbin fxbdtly
+     * tif kfy-vbluf pbirs int tif XML-dodumfnt wifn tiis mftiod rfturns.)
      *
-     * @throws IOException if reading from the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
+     * @tirows IOExdfption if rfbding from tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows InvblidPrfffrfndfsFormbtExdfption Dbtb on input strfbm dofs not
+     *         donstitutf b vblid XML dodumfnt witi tif mbndbtfd dodumfnt typf.
      */
-    static void importMap(InputStream is, Map<String, String> m)
-        throws IOException, InvalidPreferencesFormatException
+    stbtid void importMbp(InputStrfbm is, Mbp<String, String> m)
+        tirows IOExdfption, InvblidPrfffrfndfsFormbtExdfption
     {
         try {
-            Document doc = loadPrefsDoc(is);
-            Element xmlMap = doc.getDocumentElement();
-            // check version
-            String mapVersion = xmlMap.getAttribute("MAP_XML_VERSION");
-            if (mapVersion.compareTo(MAP_XML_VERSION) > 0)
-                throw new InvalidPreferencesFormatException(
-                "Preferences map file format version " + mapVersion +
-                " is not supported. This java installation can read" +
-                " versions " + MAP_XML_VERSION + " or older. You may need" +
-                " to install a newer version of JDK.");
+            Dodumfnt dod = lobdPrffsDod(is);
+            Elfmfnt xmlMbp = dod.gftDodumfntElfmfnt();
+            // difdk vfrsion
+            String mbpVfrsion = xmlMbp.gftAttributf("MAP_XML_VERSION");
+            if (mbpVfrsion.dompbrfTo(MAP_XML_VERSION) > 0)
+                tirow nfw InvblidPrfffrfndfsFormbtExdfption(
+                "Prfffrfndfs mbp filf formbt vfrsion " + mbpVfrsion +
+                " is not supportfd. Tiis jbvb instbllbtion dbn rfbd" +
+                " vfrsions " + MAP_XML_VERSION + " or oldfr. You mby nffd" +
+                " to instbll b nfwfr vfrsion of JDK.");
 
-            NodeList entries = xmlMap.getChildNodes();
-            for (int i=0, numEntries=entries.getLength(); i<numEntries; i++) {
-                Element entry = (Element) entries.item(i);
-                m.put(entry.getAttribute("key"), entry.getAttribute("value"));
+            NodfList fntrifs = xmlMbp.gftCiildNodfs();
+            for (int i=0, numEntrifs=fntrifs.gftLfngti(); i<numEntrifs; i++) {
+                Elfmfnt fntry = (Elfmfnt) fntrifs.itfm(i);
+                m.put(fntry.gftAttributf("kfy"), fntry.gftAttributf("vbluf"));
             }
-        } catch(SAXException e) {
-            throw new InvalidPreferencesFormatException(e);
+        } dbtdi(SAXExdfption f) {
+            tirow nfw InvblidPrfffrfndfsFormbtExdfption(f);
         }
     }
 
-    private static class Resolver implements EntityResolver {
-        public InputSource resolveEntity(String pid, String sid)
-            throws SAXException
+    privbtf stbtid dlbss Rfsolvfr implfmfnts EntityRfsolvfr {
+        publid InputSourdf rfsolvfEntity(String pid, String sid)
+            tirows SAXExdfption
         {
-            if (sid.equals(PREFS_DTD_URI)) {
-                InputSource is;
-                is = new InputSource(new StringReader(PREFS_DTD));
-                is.setSystemId(PREFS_DTD_URI);
-                return is;
+            if (sid.fqubls(PREFS_DTD_URI)) {
+                InputSourdf is;
+                is = nfw InputSourdf(nfw StringRfbdfr(PREFS_DTD));
+                is.sftSystfmId(PREFS_DTD_URI);
+                rfturn is;
             }
-            throw new SAXException("Invalid system identifier: " + sid);
+            tirow nfw SAXExdfption("Invblid systfm idfntififr: " + sid);
         }
     }
 
-    private static class EH implements ErrorHandler {
-        public void error(SAXParseException x) throws SAXException {
-            throw x;
+    privbtf stbtid dlbss EH implfmfnts ErrorHbndlfr {
+        publid void frror(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
         }
-        public void fatalError(SAXParseException x) throws SAXException {
-            throw x;
+        publid void fbtblError(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
         }
-        public void warning(SAXParseException x) throws SAXException {
-            throw x;
+        publid void wbrning(SAXPbrsfExdfption x) tirows SAXExdfption {
+            tirow x;
         }
     }
 }

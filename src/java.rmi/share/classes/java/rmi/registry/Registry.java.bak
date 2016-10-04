@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.registry;
+pbdkbgf jbvb.rmi.rfgistry;
 
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import jbvb.rmi.AddfssExdfption;
+import jbvb.rmi.AlrfbdyBoundExdfption;
+import jbvb.rmi.NotBoundExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
 
 /**
- * <code>Registry</code> is a remote interface to a simple remote
- * object registry that provides methods for storing and retrieving
- * remote object references bound with arbitrary string names.  The
- * <code>bind</code>, <code>unbind</code>, and <code>rebind</code>
- * methods are used to alter the name bindings in the registry, and
- * the <code>lookup</code> and <code>list</code> methods are used to
- * query the current name bindings.
+ * <dodf>Rfgistry</dodf> is b rfmotf intfrfbdf to b simplf rfmotf
+ * objfdt rfgistry tibt providfs mftiods for storing bnd rftrifving
+ * rfmotf objfdt rfffrfndfs bound witi brbitrbry string nbmfs.  Tif
+ * <dodf>bind</dodf>, <dodf>unbind</dodf>, bnd <dodf>rfbind</dodf>
+ * mftiods brf usfd to bltfr tif nbmf bindings in tif rfgistry, bnd
+ * tif <dodf>lookup</dodf> bnd <dodf>list</dodf> mftiods brf usfd to
+ * qufry tif durrfnt nbmf bindings.
  *
- * <p>In its typical usage, a <code>Registry</code> enables RMI client
- * bootstrapping: it provides a simple means for a client to obtain an
- * initial reference to a remote object.  Therefore, a registry's
- * remote object implementation is typically exported with a
- * well-known address, such as with a well-known {@link
- * java.rmi.server.ObjID#REGISTRY_ID ObjID} and TCP port number
- * (default is {@link #REGISTRY_PORT 1099}).
+ * <p>In its typidbl usbgf, b <dodf>Rfgistry</dodf> fnbblfs RMI dlifnt
+ * bootstrbpping: it providfs b simplf mfbns for b dlifnt to obtbin bn
+ * initibl rfffrfndf to b rfmotf objfdt.  Tifrfforf, b rfgistry's
+ * rfmotf objfdt implfmfntbtion is typidblly fxportfd witi b
+ * wfll-known bddrfss, sudi bs witi b wfll-known {@link
+ * jbvb.rmi.sfrvfr.ObjID#REGISTRY_ID ObjID} bnd TCP port numbfr
+ * (dffbult is {@link #REGISTRY_PORT 1099}).
  *
- * <p>The {@link LocateRegistry} class provides a programmatic API for
- * constructing a bootstrap reference to a <code>Registry</code> at a
- * remote address (see the static <code>getRegistry</code> methods)
- * and for creating and exporting a <code>Registry</code> in the
- * current VM on a particular local address (see the static
- * <code>createRegistry</code> methods).
+ * <p>Tif {@link LodbtfRfgistry} dlbss providfs b progrbmmbtid API for
+ * donstrudting b bootstrbp rfffrfndf to b <dodf>Rfgistry</dodf> bt b
+ * rfmotf bddrfss (sff tif stbtid <dodf>gftRfgistry</dodf> mftiods)
+ * bnd for drfbting bnd fxporting b <dodf>Rfgistry</dodf> in tif
+ * durrfnt VM on b pbrtidulbr lodbl bddrfss (sff tif stbtid
+ * <dodf>drfbtfRfgistry</dodf> mftiods).
  *
- * <p>A <code>Registry</code> implementation may choose to restrict
- * access to some or all of its methods (for example, methods that
- * mutate the registry's bindings may be restricted to calls
- * originating from the local host).  If a <code>Registry</code>
- * method chooses to deny access for a given invocation, its
- * implementation may throw {@link java.rmi.AccessException}, which
- * (because it extends {@link java.rmi.RemoteException}) will be
- * wrapped in a {@link java.rmi.ServerException} when caught by a
- * remote client.
+ * <p>A <dodf>Rfgistry</dodf> implfmfntbtion mby dioosf to rfstridt
+ * bddfss to somf or bll of its mftiods (for fxbmplf, mftiods tibt
+ * mutbtf tif rfgistry's bindings mby bf rfstridtfd to dblls
+ * originbting from tif lodbl iost).  If b <dodf>Rfgistry</dodf>
+ * mftiod dioosfs to dfny bddfss for b givfn invodbtion, its
+ * implfmfntbtion mby tirow {@link jbvb.rmi.AddfssExdfption}, wiidi
+ * (bfdbusf it fxtfnds {@link jbvb.rmi.RfmotfExdfption}) will bf
+ * wrbppfd in b {@link jbvb.rmi.SfrvfrExdfption} wifn dbugit by b
+ * rfmotf dlifnt.
  *
- * <p>The names used for bindings in a <code>Registry</code> are pure
- * strings, not parsed.  A service which stores its remote reference
- * in a <code>Registry</code> may wish to use a package name as a
- * prefix in the name binding to reduce the likelihood of name
- * collisions in the registry.
+ * <p>Tif nbmfs usfd for bindings in b <dodf>Rfgistry</dodf> brf purf
+ * strings, not pbrsfd.  A sfrvidf wiidi storfs its rfmotf rfffrfndf
+ * in b <dodf>Rfgistry</dodf> mby wisi to usf b pbdkbgf nbmf bs b
+ * prffix in tif nbmf binding to rfdudf tif likfliiood of nbmf
+ * dollisions in tif rfgistry.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @since       1.1
- * @see         LocateRegistry
+ * @butior      Ann Wollrbti
+ * @butior      Pftfr Jonfs
+ * @sindf       1.1
+ * @sff         LodbtfRfgistry
  */
-public interface Registry extends Remote {
+publid intfrfbdf Rfgistry fxtfnds Rfmotf {
 
-    /** Well known port for registry. */
-    public static final int REGISTRY_PORT = 1099;
-
-    /**
-     * Returns the remote reference bound to the specified
-     * <code>name</code> in this registry.
-     *
-     * @param   name the name for the remote reference to look up
-     *
-     * @return  a reference to a remote object
-     *
-     * @throws  NotBoundException if <code>name</code> is not currently bound
-     *
-     * @throws  RemoteException if remote communication with the
-     * registry failed; if exception is a <code>ServerException</code>
-     * containing an <code>AccessException</code>, then the registry
-     * denies the caller access to perform this operation
-     *
-     * @throws  AccessException if this registry is local and it denies
-     * the caller access to perform this operation
-     *
-     * @throws  NullPointerException if <code>name</code> is <code>null</code>
-     */
-    public Remote lookup(String name)
-        throws RemoteException, NotBoundException, AccessException;
+    /** Wfll known port for rfgistry. */
+    publid stbtid finbl int REGISTRY_PORT = 1099;
 
     /**
-     * Binds a remote reference to the specified <code>name</code> in
-     * this registry.
+     * Rfturns tif rfmotf rfffrfndf bound to tif spfdififd
+     * <dodf>nbmf</dodf> in tiis rfgistry.
      *
-     * @param   name the name to associate with the remote reference
-     * @param   obj a reference to a remote object (usually a stub)
+     * @pbrbm   nbmf tif nbmf for tif rfmotf rfffrfndf to look up
      *
-     * @throws  AlreadyBoundException if <code>name</code> is already bound
+     * @rfturn  b rfffrfndf to b rfmotf objfdt
      *
-     * @throws  RemoteException if remote communication with the
-     * registry failed; if exception is a <code>ServerException</code>
-     * containing an <code>AccessException</code>, then the registry
-     * denies the caller access to perform this operation (if
-     * originating from a non-local host, for example)
+     * @tirows  NotBoundExdfption if <dodf>nbmf</dodf> is not durrfntly bound
      *
-     * @throws  AccessException if this registry is local and it denies
-     * the caller access to perform this operation
+     * @tirows  RfmotfExdfption if rfmotf dommunidbtion witi tif
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, tifn tif rfgistry
+     * dfnifs tif dbllfr bddfss to pfrform tiis opfrbtion
      *
-     * @throws  NullPointerException if <code>name</code> is
-     * <code>null</code>, or if <code>obj</code> is <code>null</code>
+     * @tirows  AddfssExdfption if tiis rfgistry is lodbl bnd it dfnifs
+     * tif dbllfr bddfss to pfrform tiis opfrbtion
+     *
+     * @tirows  NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
      */
-    public void bind(String name, Remote obj)
-        throws RemoteException, AlreadyBoundException, AccessException;
+    publid Rfmotf lookup(String nbmf)
+        tirows RfmotfExdfption, NotBoundExdfption, AddfssExdfption;
 
     /**
-     * Removes the binding for the specified <code>name</code> in
-     * this registry.
+     * Binds b rfmotf rfffrfndf to tif spfdififd <dodf>nbmf</dodf> in
+     * tiis rfgistry.
      *
-     * @param   name the name of the binding to remove
+     * @pbrbm   nbmf tif nbmf to bssodibtf witi tif rfmotf rfffrfndf
+     * @pbrbm   obj b rfffrfndf to b rfmotf objfdt (usublly b stub)
      *
-     * @throws  NotBoundException if <code>name</code> is not currently bound
+     * @tirows  AlrfbdyBoundExdfption if <dodf>nbmf</dodf> is blrfbdy bound
      *
-     * @throws  RemoteException if remote communication with the
-     * registry failed; if exception is a <code>ServerException</code>
-     * containing an <code>AccessException</code>, then the registry
-     * denies the caller access to perform this operation (if
-     * originating from a non-local host, for example)
+     * @tirows  RfmotfExdfption if rfmotf dommunidbtion witi tif
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, tifn tif rfgistry
+     * dfnifs tif dbllfr bddfss to pfrform tiis opfrbtion (if
+     * originbting from b non-lodbl iost, for fxbmplf)
      *
-     * @throws  AccessException if this registry is local and it denies
-     * the caller access to perform this operation
+     * @tirows  AddfssExdfption if tiis rfgistry is lodbl bnd it dfnifs
+     * tif dbllfr bddfss to pfrform tiis opfrbtion
      *
-     * @throws  NullPointerException if <code>name</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>, or if <dodf>obj</dodf> is <dodf>null</dodf>
      */
-    public void unbind(String name)
-        throws RemoteException, NotBoundException, AccessException;
+    publid void bind(String nbmf, Rfmotf obj)
+        tirows RfmotfExdfption, AlrfbdyBoundExdfption, AddfssExdfption;
 
     /**
-     * Replaces the binding for the specified <code>name</code> in
-     * this registry with the supplied remote reference.  If there is
-     * an existing binding for the specified <code>name</code>, it is
-     * discarded.
+     * Rfmovfs tif binding for tif spfdififd <dodf>nbmf</dodf> in
+     * tiis rfgistry.
      *
-     * @param   name the name to associate with the remote reference
-     * @param   obj a reference to a remote object (usually a stub)
+     * @pbrbm   nbmf tif nbmf of tif binding to rfmovf
      *
-     * @throws  RemoteException if remote communication with the
-     * registry failed; if exception is a <code>ServerException</code>
-     * containing an <code>AccessException</code>, then the registry
-     * denies the caller access to perform this operation (if
-     * originating from a non-local host, for example)
+     * @tirows  NotBoundExdfption if <dodf>nbmf</dodf> is not durrfntly bound
      *
-     * @throws  AccessException if this registry is local and it denies
-     * the caller access to perform this operation
+     * @tirows  RfmotfExdfption if rfmotf dommunidbtion witi tif
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, tifn tif rfgistry
+     * dfnifs tif dbllfr bddfss to pfrform tiis opfrbtion (if
+     * originbting from b non-lodbl iost, for fxbmplf)
      *
-     * @throws  NullPointerException if <code>name</code> is
-     * <code>null</code>, or if <code>obj</code> is <code>null</code>
+     * @tirows  AddfssExdfption if tiis rfgistry is lodbl bnd it dfnifs
+     * tif dbllfr bddfss to pfrform tiis opfrbtion
+     *
+     * @tirows  NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
      */
-    public void rebind(String name, Remote obj)
-        throws RemoteException, AccessException;
+    publid void unbind(String nbmf)
+        tirows RfmotfExdfption, NotBoundExdfption, AddfssExdfption;
 
     /**
-     * Returns an array of the names bound in this registry.  The
-     * array will contain a snapshot of the names bound in this
-     * registry at the time of the given invocation of this method.
+     * Rfplbdfs tif binding for tif spfdififd <dodf>nbmf</dodf> in
+     * tiis rfgistry witi tif supplifd rfmotf rfffrfndf.  If tifrf is
+     * bn fxisting binding for tif spfdififd <dodf>nbmf</dodf>, it is
+     * disdbrdfd.
      *
-     * @return  an array of the names bound in this registry
+     * @pbrbm   nbmf tif nbmf to bssodibtf witi tif rfmotf rfffrfndf
+     * @pbrbm   obj b rfffrfndf to b rfmotf objfdt (usublly b stub)
      *
-     * @throws  RemoteException if remote communication with the
-     * registry failed; if exception is a <code>ServerException</code>
-     * containing an <code>AccessException</code>, then the registry
-     * denies the caller access to perform this operation
+     * @tirows  RfmotfExdfption if rfmotf dommunidbtion witi tif
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, tifn tif rfgistry
+     * dfnifs tif dbllfr bddfss to pfrform tiis opfrbtion (if
+     * originbting from b non-lodbl iost, for fxbmplf)
      *
-     * @throws  AccessException if this registry is local and it denies
-     * the caller access to perform this operation
+     * @tirows  AddfssExdfption if tiis rfgistry is lodbl bnd it dfnifs
+     * tif dbllfr bddfss to pfrform tiis opfrbtion
+     *
+     * @tirows  NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>, or if <dodf>obj</dodf> is <dodf>null</dodf>
      */
-    public String[] list() throws RemoteException, AccessException;
+    publid void rfbind(String nbmf, Rfmotf obj)
+        tirows RfmotfExdfption, AddfssExdfption;
+
+    /**
+     * Rfturns bn brrby of tif nbmfs bound in tiis rfgistry.  Tif
+     * brrby will dontbin b snbpsiot of tif nbmfs bound in tiis
+     * rfgistry bt tif timf of tif givfn invodbtion of tiis mftiod.
+     *
+     * @rfturn  bn brrby of tif nbmfs bound in tiis rfgistry
+     *
+     * @tirows  RfmotfExdfption if rfmotf dommunidbtion witi tif
+     * rfgistry fbilfd; if fxdfption is b <dodf>SfrvfrExdfption</dodf>
+     * dontbining bn <dodf>AddfssExdfption</dodf>, tifn tif rfgistry
+     * dfnifs tif dbllfr bddfss to pfrform tiis opfrbtion
+     *
+     * @tirows  AddfssExdfption if tiis rfgistry is lodbl bnd it dfnifs
+     * tif dbllfr bddfss to pfrform tiis opfrbtion
+     */
+    publid String[] list() tirows RfmotfExdfption, AddfssExdfption;
 }

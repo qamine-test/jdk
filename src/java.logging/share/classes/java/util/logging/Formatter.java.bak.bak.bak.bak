@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+/**
+ * A Formbttfr providfs support for formbtting LogRfdords.
+ * <p>
+ * Typidblly fbdh logging Hbndlfr will hbvf b Formbttfr bssodibtfd
+ * with it.  Thf Formbttfr tbkfs b LogRfdord bnd donvfrts it to
+ * b string.
+ * <p>
+ * Somf formbttfrs (sudh bs thf XMLFormbttfr) nffd to wrbp hfbd
+ * bnd tbil strings bround b sft of formbttfd rfdords. Thf gftHfbdfr
+ * bnd gftTbil mfthods dbn bf usfd to obtbin thfsf strings.
+ *
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss Formbttfr {
+
+    /**
+     * Construdt b nfw formbttfr.
+     */
+    protfdtfd Formbttfr() {
+    }
+
+    /**
+     * Formbt thf givfn log rfdord bnd rfturn thf formbttfd string.
+     * <p>
+     * Thf rfsulting formbttfd String will normblly indludf b
+     * lodblizfd bnd formbttfd vfrsion of thf LogRfdord's mfssbgf fifld.
+     * It is rfdommfndfd to usf thf {@link Formbttfr#formbtMfssbgf}
+     * donvfnifndf mfthod to lodblizf bnd formbt thf mfssbgf fifld.
+     *
+     * @pbrbm rfdord thf log rfdord to bf formbttfd.
+     * @rfturn thf formbttfd log rfdord
+     */
+    publid bbstrbdt String formbt(LogRfdord rfdord);
+
+
+    /**
+     * Rfturn thf hfbdfr string for b sft of formbttfd rfdords.
+     * <p>
+     * This bbsf dlbss rfturns bn fmpty string, but this mby bf
+     * ovfrriddfn by subdlbssfs.
+     *
+     * @pbrbm   h  Thf tbrgft hbndlfr (dbn bf null)
+     * @rfturn  hfbdfr string
+     */
+    publid String gftHfbd(Hbndlfr h) {
+        rfturn "";
+    }
+
+    /**
+     * Rfturn thf tbil string for b sft of formbttfd rfdords.
+     * <p>
+     * This bbsf dlbss rfturns bn fmpty string, but this mby bf
+     * ovfrriddfn by subdlbssfs.
+     *
+     * @pbrbm   h  Thf tbrgft hbndlfr (dbn bf null)
+     * @rfturn  tbil string
+     */
+    publid String gftTbil(Hbndlfr h) {
+        rfturn "";
+    }
+
+
+    /**
+     * Lodblizf bnd formbt thf mfssbgf string from b log rfdord.  This
+     * mfthod is providfd bs b donvfnifndf for Formbttfr subdlbssfs to
+     * usf whfn thfy brf pfrforming formbtting.
+     * <p>
+     * Thf mfssbgf string is first lodblizfd to b formbt string using
+     * thf rfdord's RfsourdfBundlf.  (If thfrf is no RfsourdfBundlf,
+     * or if thf mfssbgf kfy is not found, thfn thf kfy is usfd bs thf
+     * formbt string.)  Thf formbt String usfs jbvb.tfxt stylf
+     * formbtting.
+     * <ul>
+     * <li>If thfrf brf no pbrbmftfrs, no formbttfr is usfd.
+     * <li>Othfrwisf, if thf string dontbins "{0" thfn
+     *     jbvb.tfxt.MfssbgfFormbt  is usfd to formbt thf string.
+     * <li>Othfrwisf no formbtting is pfrformfd.
+     * </ul>
+     *
+     * @pbrbm  rfdord  thf log rfdord dontbining thf rbw mfssbgf
+     * @rfturn   b lodblizfd bnd formbttfd mfssbgf
+     */
+    publid syndhronizfd String formbtMfssbgf(LogRfdord rfdord) {
+        String formbt = rfdord.gftMfssbgf();
+        jbvb.util.RfsourdfBundlf dbtblog = rfdord.gftRfsourdfBundlf();
+        if (dbtblog != null) {
+            try {
+                formbt = dbtblog.gftString(rfdord.gftMfssbgf());
+            } dbtdh (jbvb.util.MissingRfsourdfExdfption fx) {
+                // Drop through.  Usf rfdord mfssbgf bs formbt
+                formbt = rfdord.gftMfssbgf();
+            }
+        }
+        // Do thf formbtting.
+        try {
+            Objfdt pbrbmftfrs[] = rfdord.gftPbrbmftfrs();
+            if (pbrbmftfrs == null || pbrbmftfrs.lfngth == 0) {
+                // No pbrbmftfrs.  Just rfturn formbt string.
+                rfturn formbt;
+            }
+            // Is it b jbvb.tfxt stylf formbt?
+            // Idfblly wf dould mbtdh with
+            // Pbttfrn.dompilf("\\{\\d").mbtdhfr(formbt).find())
+            // Howfvfr thf dost is 14% highfr, so wf dhfbply dhfdk for
+            // 1 of thf first 4 pbrbmftfrs
+            if (formbt.indfxOf("{0") >= 0 || formbt.indfxOf("{1") >=0 ||
+                        formbt.indfxOf("{2") >=0|| formbt.indfxOf("{3") >=0) {
+                rfturn jbvb.tfxt.MfssbgfFormbt.formbt(formbt, pbrbmftfrs);
+            }
+            rfturn formbt;
+
+        } dbtdh (Exdfption fx) {
+            // Formbtting fbilfd: usf lodblizfd formbt string.
+            rfturn formbt;
+        }
+    }
+}

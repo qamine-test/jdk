@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.SQLException;
-import java.io.PrintWriter;
-import java.sql.SQLFeatureNotSupportedException;
-import java.util.logging.Logger;
+import jbvb.sql.SQLExdfption;
+import jbvb.io.PrintWritfr;
+import jbvb.sql.SQLFfbturfNotSupportfdExdfption;
+import jbvb.util.logging.Loggfr;
 
 /**
- * Interface that defines the methods which are common between <code>DataSource</code>,
- * <code>XADataSource</code> and <code>ConnectionPoolDataSource</code>.
+ * Intfrfbdf tibt dffinfs tif mftiods wiidi brf dommon bftwffn <dodf>DbtbSourdf</dodf>,
+ * <dodf>XADbtbSourdf</dodf> bnd <dodf>ConnfdtionPoolDbtbSourdf</dodf>.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public interface CommonDataSource {
+publid intfrfbdf CommonDbtbSourdf {
 
     /**
-     * <p>Retrieves the log writer for this <code>DataSource</code>
-     * object.
+     * <p>Rftrifvfs tif log writfr for tiis <dodf>DbtbSourdf</dodf>
+     * objfdt.
      *
-     * <p>The log writer is a character output stream to which all logging
-     * and tracing messages for this data source will be
-     * printed.  This includes messages printed by the methods of this
-     * object, messages printed by methods of other objects manufactured
-     * by this object, and so on.  Messages printed to a data source
-     * specific log writer are not printed to the log writer associated
-     * with the <code>java.sql.DriverManager</code> class.  When a
-     * <code>DataSource</code> object is
-     * created, the log writer is initially null; in other words, the
-     * default is for logging to be disabled.
+     * <p>Tif log writfr is b dibrbdtfr output strfbm to wiidi bll logging
+     * bnd trbding mfssbgfs for tiis dbtb sourdf will bf
+     * printfd.  Tiis indludfs mfssbgfs printfd by tif mftiods of tiis
+     * objfdt, mfssbgfs printfd by mftiods of otifr objfdts mbnufbdturfd
+     * by tiis objfdt, bnd so on.  Mfssbgfs printfd to b dbtb sourdf
+     * spfdifid log writfr brf not printfd to tif log writfr bssodibtfd
+     * witi tif <dodf>jbvb.sql.DrivfrMbnbgfr</dodf> dlbss.  Wifn b
+     * <dodf>DbtbSourdf</dodf> objfdt is
+     * drfbtfd, tif log writfr is initiblly null; in otifr words, tif
+     * dffbult is for logging to bf disbblfd.
      *
-     * @return the log writer for this data source or null if
-     *        logging is disabled
-     * @exception java.sql.SQLException if a database access error occurs
-     * @see #setLogWriter
-     * @since 1.4
+     * @rfturn tif log writfr for tiis dbtb sourdf or null if
+     *        logging is disbblfd
+     * @fxdfption jbvb.sql.SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #sftLogWritfr
+     * @sindf 1.4
      */
-    java.io.PrintWriter getLogWriter() throws SQLException;
+    jbvb.io.PrintWritfr gftLogWritfr() tirows SQLExdfption;
 
     /**
-     * <p>Sets the log writer for this <code>DataSource</code>
-     * object to the given <code>java.io.PrintWriter</code> object.
+     * <p>Sfts tif log writfr for tiis <dodf>DbtbSourdf</dodf>
+     * objfdt to tif givfn <dodf>jbvb.io.PrintWritfr</dodf> objfdt.
      *
-     * <p>The log writer is a character output stream to which all logging
-     * and tracing messages for this data source will be
-     * printed.  This includes messages printed by the methods of this
-     * object, messages printed by methods of other objects manufactured
-     * by this object, and so on.  Messages printed to a data source-
-     * specific log writer are not printed to the log writer associated
-     * with the <code>java.sql.DriverManager</code> class. When a
-     * <code>DataSource</code> object is created the log writer is
-     * initially null; in other words, the default is for logging to be
-     * disabled.
+     * <p>Tif log writfr is b dibrbdtfr output strfbm to wiidi bll logging
+     * bnd trbding mfssbgfs for tiis dbtb sourdf will bf
+     * printfd.  Tiis indludfs mfssbgfs printfd by tif mftiods of tiis
+     * objfdt, mfssbgfs printfd by mftiods of otifr objfdts mbnufbdturfd
+     * by tiis objfdt, bnd so on.  Mfssbgfs printfd to b dbtb sourdf-
+     * spfdifid log writfr brf not printfd to tif log writfr bssodibtfd
+     * witi tif <dodf>jbvb.sql.DrivfrMbnbgfr</dodf> dlbss. Wifn b
+     * <dodf>DbtbSourdf</dodf> objfdt is drfbtfd tif log writfr is
+     * initiblly null; in otifr words, tif dffbult is for logging to bf
+     * disbblfd.
      *
-     * @param out the new log writer; to disable logging, set to null
-     * @exception SQLException if a database access error occurs
-     * @see #getLogWriter
-     * @since 1.4
+     * @pbrbm out tif nfw log writfr; to disbblf logging, sft to null
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftLogWritfr
+     * @sindf 1.4
      */
-    void setLogWriter(java.io.PrintWriter out) throws SQLException;
+    void sftLogWritfr(jbvb.io.PrintWritfr out) tirows SQLExdfption;
 
     /**
-     * <p>Sets the maximum time in seconds that this data source will wait
-     * while attempting to connect to a database.  A value of zero
-     * specifies that the timeout is the default system timeout
-     * if there is one; otherwise, it specifies that there is no timeout.
-     * When a <code>DataSource</code> object is created, the login timeout is
-     * initially zero.
+     * <p>Sfts tif mbximum timf in sfdonds tibt tiis dbtb sourdf will wbit
+     * wiilf bttfmpting to donnfdt to b dbtbbbsf.  A vbluf of zfro
+     * spfdififs tibt tif timfout is tif dffbult systfm timfout
+     * if tifrf is onf; otifrwisf, it spfdififs tibt tifrf is no timfout.
+     * Wifn b <dodf>DbtbSourdf</dodf> objfdt is drfbtfd, tif login timfout is
+     * initiblly zfro.
      *
-     * @param seconds the data source login time limit
-     * @exception SQLException if a database access error occurs.
-     * @see #getLoginTimeout
-     * @since 1.4
+     * @pbrbm sfdonds tif dbtb sourdf login timf limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs.
+     * @sff #gftLoginTimfout
+     * @sindf 1.4
      */
-    void setLoginTimeout(int seconds) throws SQLException;
+    void sftLoginTimfout(int sfdonds) tirows SQLExdfption;
 
     /**
-     * Gets the maximum time in seconds that this data source can wait
-     * while attempting to connect to a database.  A value of zero
-     * means that the timeout is the default system timeout
-     * if there is one; otherwise, it means that there is no timeout.
-     * When a <code>DataSource</code> object is created, the login timeout is
-     * initially zero.
+     * Gfts tif mbximum timf in sfdonds tibt tiis dbtb sourdf dbn wbit
+     * wiilf bttfmpting to donnfdt to b dbtbbbsf.  A vbluf of zfro
+     * mfbns tibt tif timfout is tif dffbult systfm timfout
+     * if tifrf is onf; otifrwisf, it mfbns tibt tifrf is no timfout.
+     * Wifn b <dodf>DbtbSourdf</dodf> objfdt is drfbtfd, tif login timfout is
+     * initiblly zfro.
      *
-     * @return the data source login time limit
-     * @exception SQLException if a database access error occurs.
-     * @see #setLoginTimeout
-     * @since 1.4
+     * @rfturn tif dbtb sourdf login timf limit
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs.
+     * @sff #sftLoginTimfout
+     * @sindf 1.4
      */
-    int getLoginTimeout() throws SQLException;
+    int gftLoginTimfout() tirows SQLExdfption;
 
     //------------------------- JDBC 4.1 -----------------------------------
 
     /**
-     * Return the parent Logger of all the Loggers used by this data source. This
-     * should be the Logger farthest from the root Logger that is
-     * still an ancestor of all of the Loggers used by this data source. Configuring
-     * this Logger will affect all of the log messages generated by the data source.
-     * In the worst case, this may be the root Logger.
+     * Rfturn tif pbrfnt Loggfr of bll tif Loggfrs usfd by tiis dbtb sourdf. Tiis
+     * siould bf tif Loggfr fbrtifst from tif root Loggfr tibt is
+     * still bn bndfstor of bll of tif Loggfrs usfd by tiis dbtb sourdf. Configuring
+     * tiis Loggfr will bfffdt bll of tif log mfssbgfs gfnfrbtfd by tif dbtb sourdf.
+     * In tif worst dbsf, tiis mby bf tif root Loggfr.
      *
-     * @return the parent Logger for this data source
-     * @throws SQLFeatureNotSupportedException if the data source does not use
-     * {@code java.util.logging}
-     * @since 1.7
+     * @rfturn tif pbrfnt Loggfr for tiis dbtb sourdf
+     * @tirows SQLFfbturfNotSupportfdExdfption if tif dbtb sourdf dofs not usf
+     * {@dodf jbvb.util.logging}
+     * @sindf 1.7
      */
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException;
+    publid Loggfr gftPbrfntLoggfr() tirows SQLFfbturfNotSupportfdExdfption;
 }

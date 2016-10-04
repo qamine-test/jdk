@@ -1,361 +1,361 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Base implementation of FileSystem for Unix-like implementations.
+ * Bbsf implfmfntbtion of FilfSystfm for Unix-likf implfmfntbtions.
  */
 
-abstract class UnixFileSystem
-    extends FileSystem
+bbstrbdt dlbss UnixFilfSystfm
+    fxtfnds FilfSystfm
 {
-    private final UnixFileSystemProvider provider;
-    private final byte[] defaultDirectory;
-    private final boolean needToResolveAgainstDefaultDirectory;
-    private final UnixPath rootDirectory;
+    privbtf finbl UnixFilfSystfmProvidfr providfr;
+    privbtf finbl bytf[] dffbultDirfdtory;
+    privbtf finbl boolfbn nffdToRfsolvfAgbinstDffbultDirfdtory;
+    privbtf finbl UnixPbti rootDirfdtory;
 
-    // package-private
-    UnixFileSystem(UnixFileSystemProvider provider, String dir) {
-        this.provider = provider;
-        this.defaultDirectory = Util.toBytes(UnixPath.normalizeAndCheck(dir));
-        if (this.defaultDirectory[0] != '/') {
-            throw new RuntimeException("default directory must be absolute");
+    // pbdkbgf-privbtf
+    UnixFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        tiis.providfr = providfr;
+        tiis.dffbultDirfdtory = Util.toBytfs(UnixPbti.normblizfAndCifdk(dir));
+        if (tiis.dffbultDirfdtory[0] != '/') {
+            tirow nfw RuntimfExdfption("dffbult dirfdtory must bf bbsolutf");
         }
 
-        // if process-wide chdir is allowed or default directory is not the
-        // process working directory then paths must be resolved against the
-        // default directory.
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.fs.chdirAllowed", "false"));
-        boolean chdirAllowed = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
-        if (chdirAllowed) {
-            this.needToResolveAgainstDefaultDirectory = true;
-        } else {
-            byte[] cwd = UnixNativeDispatcher.getcwd();
-            boolean defaultIsCwd = (cwd.length == defaultDirectory.length);
-            if (defaultIsCwd) {
-                for (int i=0; i<cwd.length; i++) {
-                    if (cwd[i] != defaultDirectory[i]) {
-                        defaultIsCwd = false;
-                        break;
+        // if prodfss-widf didir is bllowfd or dffbult dirfdtory is not tif
+        // prodfss working dirfdtory tifn pbtis must bf rfsolvfd bgbinst tif
+        // dffbult dirfdtory.
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nio.fs.didirAllowfd", "fblsf"));
+        boolfbn didirAllowfd = (propVbluf.lfngti() == 0) ?
+            truf : Boolfbn.vblufOf(propVbluf);
+        if (didirAllowfd) {
+            tiis.nffdToRfsolvfAgbinstDffbultDirfdtory = truf;
+        } flsf {
+            bytf[] dwd = UnixNbtivfDispbtdifr.gftdwd();
+            boolfbn dffbultIsCwd = (dwd.lfngti == dffbultDirfdtory.lfngti);
+            if (dffbultIsCwd) {
+                for (int i=0; i<dwd.lfngti; i++) {
+                    if (dwd[i] != dffbultDirfdtory[i]) {
+                        dffbultIsCwd = fblsf;
+                        brfbk;
                     }
                 }
             }
-            this.needToResolveAgainstDefaultDirectory = !defaultIsCwd;
+            tiis.nffdToRfsolvfAgbinstDffbultDirfdtory = !dffbultIsCwd;
         }
 
-        // the root directory
-        this.rootDirectory = new UnixPath(this, "/");
+        // tif root dirfdtory
+        tiis.rootDirfdtory = nfw UnixPbti(tiis, "/");
     }
 
-    // package-private
-    byte[] defaultDirectory() {
-        return defaultDirectory;
+    // pbdkbgf-privbtf
+    bytf[] dffbultDirfdtory() {
+        rfturn dffbultDirfdtory;
     }
 
-    boolean needToResolveAgainstDefaultDirectory() {
-        return needToResolveAgainstDefaultDirectory;
+    boolfbn nffdToRfsolvfAgbinstDffbultDirfdtory() {
+        rfturn nffdToRfsolvfAgbinstDffbultDirfdtory;
     }
 
-    UnixPath rootDirectory() {
-        return rootDirectory;
+    UnixPbti rootDirfdtory() {
+        rfturn rootDirfdtory;
     }
 
-    boolean isSolaris() {
-        return false;
+    boolfbn isSolbris() {
+        rfturn fblsf;
     }
 
-    static List<String> standardFileAttributeViews() {
-        return Arrays.asList("basic", "posix", "unix", "owner");
+    stbtid List<String> stbndbrdFilfAttributfVifws() {
+        rfturn Arrbys.bsList("bbsid", "posix", "unix", "ownfr");
     }
 
-    @Override
-    public final FileSystemProvider provider() {
-        return provider;
+    @Ovfrridf
+    publid finbl FilfSystfmProvidfr providfr() {
+        rfturn providfr;
     }
 
-    @Override
-    public final String getSeparator() {
-        return "/";
+    @Ovfrridf
+    publid finbl String gftSfpbrbtor() {
+        rfturn "/";
     }
 
-    @Override
-    public final boolean isOpen() {
-        return true;
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn truf;
     }
 
-    @Override
-    public final boolean isReadOnly() {
-        return false;
+    @Ovfrridf
+    publid finbl boolfbn isRfbdOnly() {
+        rfturn fblsf;
     }
 
-    @Override
-    public final void close() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Copies non-POSIX attributes from the source to target file.
-     *
-     * Copying a file preserving attributes, or moving a file, will preserve
-     * the file owner/group/permissions/timestamps but it does not preserve
-     * other non-POSIX attributes. This method is invoked by the
-     * copy or move operation to preserve these attributes. It should copy
-     * extended attributes, ACLs, or other attributes.
-     *
-     * @param   sfd
-     *          Open file descriptor to source file
-     * @param   tfd
-     *          Open file descriptor to target file
-     */
-    void copyNonPosixAttributes(int sfd, int tfd) {
-        // no-op by default
+    @Ovfrridf
+    publid finbl void dlosf() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Unix systems only have a single root directory (/)
+     * Copifs non-POSIX bttributfs from tif sourdf to tbrgft filf.
+     *
+     * Copying b filf prfsfrving bttributfs, or moving b filf, will prfsfrvf
+     * tif filf ownfr/group/pfrmissions/timfstbmps but it dofs not prfsfrvf
+     * otifr non-POSIX bttributfs. Tiis mftiod is invokfd by tif
+     * dopy or movf opfrbtion to prfsfrvf tifsf bttributfs. It siould dopy
+     * fxtfndfd bttributfs, ACLs, or otifr bttributfs.
+     *
+     * @pbrbm   sfd
+     *          Opfn filf dfsdriptor to sourdf filf
+     * @pbrbm   tfd
+     *          Opfn filf dfsdriptor to tbrgft filf
      */
-    @Override
-    public final Iterable<Path> getRootDirectories() {
-        final List<Path> allowedList =
-           Collections.unmodifiableList(Arrays.asList((Path)rootDirectory));
-        return new Iterable<Path>() {
-            public Iterator<Path> iterator() {
+    void dopyNonPosixAttributfs(int sfd, int tfd) {
+        // no-op by dffbult
+    }
+
+    /**
+     * Unix systfms only ibvf b singlf root dirfdtory (/)
+     */
+    @Ovfrridf
+    publid finbl Itfrbblf<Pbti> gftRootDirfdtorifs() {
+        finbl List<Pbti> bllowfdList =
+           Collfdtions.unmodifibblfList(Arrbys.bsList((Pbti)rootDirfdtory));
+        rfturn nfw Itfrbblf<Pbti>() {
+            publid Itfrbtor<Pbti> itfrbtor() {
                 try {
-                    SecurityManager sm = System.getSecurityManager();
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null)
-                        sm.checkRead(rootDirectory.toString());
-                    return allowedList.iterator();
-                } catch (SecurityException x) {
-                    List<Path> disallowed = Collections.emptyList();
-                    return disallowed.iterator();
+                        sm.difdkRfbd(rootDirfdtory.toString());
+                    rfturn bllowfdList.itfrbtor();
+                } dbtdi (SfdurityExdfption x) {
+                    List<Pbti> disbllowfd = Collfdtions.fmptyList();
+                    rfturn disbllowfd.itfrbtor();
                 }
             }
         };
     }
 
     /**
-     * Returns object to iterate over entries in mounttab or equivalent
+     * Rfturns objfdt to itfrbtf ovfr fntrifs in mounttbb or fquivblfnt
      */
-    abstract Iterable<UnixMountEntry> getMountEntries();
+    bbstrbdt Itfrbblf<UnixMountEntry> gftMountEntrifs();
 
     /**
-     * Returns a FileStore to represent the file system for the given mount
+     * Rfturns b FilfStorf to rfprfsfnt tif filf systfm for tif givfn mount
      * mount.
      */
-    abstract FileStore getFileStore(UnixMountEntry entry) throws IOException;
+    bbstrbdt FilfStorf gftFilfStorf(UnixMountEntry fntry) tirows IOExdfption;
 
     /**
-     * Iterator returned by getFileStores method.
+     * Itfrbtor rfturnfd by gftFilfStorfs mftiod.
      */
-    private class FileStoreIterator implements Iterator<FileStore> {
-        private final Iterator<UnixMountEntry> entries;
-        private FileStore next;
+    privbtf dlbss FilfStorfItfrbtor implfmfnts Itfrbtor<FilfStorf> {
+        privbtf finbl Itfrbtor<UnixMountEntry> fntrifs;
+        privbtf FilfStorf nfxt;
 
-        FileStoreIterator() {
-            this.entries = getMountEntries().iterator();
+        FilfStorfItfrbtor() {
+            tiis.fntrifs = gftMountEntrifs().itfrbtor();
         }
 
-        private FileStore readNext() {
-            assert Thread.holdsLock(this);
+        privbtf FilfStorf rfbdNfxt() {
+            bssfrt Tirfbd.ioldsLodk(tiis);
             for (;;) {
-                if (!entries.hasNext())
-                    return null;
-                UnixMountEntry entry = entries.next();
+                if (!fntrifs.ibsNfxt())
+                    rfturn null;
+                UnixMountEntry fntry = fntrifs.nfxt();
 
-                // skip entries with the "ignore" option
-                if (entry.isIgnored())
-                    continue;
+                // skip fntrifs witi tif "ignorf" option
+                if (fntry.isIgnorfd())
+                    dontinuf;
 
-                // check permission to read mount point
-                SecurityManager sm = System.getSecurityManager();
+                // difdk pfrmission to rfbd mount point
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
                     try {
-                        sm.checkRead(Util.toString(entry.dir()));
-                    } catch (SecurityException x) {
-                        continue;
+                        sm.difdkRfbd(Util.toString(fntry.dir()));
+                    } dbtdi (SfdurityExdfption x) {
+                        dontinuf;
                     }
                 }
                 try {
-                    return getFileStore(entry);
-                } catch (IOException ignore) {
-                    // ignore as per spec
+                    rfturn gftFilfStorf(fntry);
+                } dbtdi (IOExdfption ignorf) {
+                    // ignorf bs pfr spfd
                 }
             }
         }
 
-        @Override
-        public synchronized boolean hasNext() {
-            if (next != null)
-                return true;
-            next = readNext();
-            return next != null;
+        @Ovfrridf
+        publid syndironizfd boolfbn ibsNfxt() {
+            if (nfxt != null)
+                rfturn truf;
+            nfxt = rfbdNfxt();
+            rfturn nfxt != null;
         }
 
-        @Override
-        public synchronized FileStore next() {
-            if (next == null)
-                next = readNext();
-            if (next == null) {
-                throw new NoSuchElementException();
-            } else {
-                FileStore result = next;
-                next = null;
-                return result;
+        @Ovfrridf
+        publid syndironizfd FilfStorf nfxt() {
+            if (nfxt == null)
+                nfxt = rfbdNfxt();
+            if (nfxt == null) {
+                tirow nfw NoSudiElfmfntExdfption();
+            } flsf {
+                FilfStorf rfsult = nfxt;
+                nfxt = null;
+                rfturn rfsult;
             }
         }
 
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    @Override
-    public final Iterable<FileStore> getFileStores() {
-        SecurityManager sm = System.getSecurityManager();
+    @Ovfrridf
+    publid finbl Itfrbblf<FilfStorf> gftFilfStorfs() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
             try {
-                sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            } catch (SecurityException se) {
-                return Collections.emptyList();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfStorfAttributfs"));
+            } dbtdi (SfdurityExdfption sf) {
+                rfturn Collfdtions.fmptyList();
             }
         }
-        return new Iterable<FileStore>() {
-            public Iterator<FileStore> iterator() {
-                return new FileStoreIterator();
+        rfturn nfw Itfrbblf<FilfStorf>() {
+            publid Itfrbtor<FilfStorf> itfrbtor() {
+                rfturn nfw FilfStorfItfrbtor();
             }
         };
     }
 
-    @Override
-    public final Path getPath(String first, String... more) {
-        String path;
-        if (more.length == 0) {
-            path = first;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(first);
-            for (String segment: more) {
-                if (segment.length() > 0) {
-                    if (sb.length() > 0)
-                        sb.append('/');
-                    sb.append(segment);
+    @Ovfrridf
+    publid finbl Pbti gftPbti(String first, String... morf) {
+        String pbti;
+        if (morf.lfngti == 0) {
+            pbti = first;
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(first);
+            for (String sfgmfnt: morf) {
+                if (sfgmfnt.lfngti() > 0) {
+                    if (sb.lfngti() > 0)
+                        sb.bppfnd('/');
+                    sb.bppfnd(sfgmfnt);
                 }
             }
-            path = sb.toString();
+            pbti = sb.toString();
         }
-        return new UnixPath(this, path);
+        rfturn nfw UnixPbti(tiis, pbti);
     }
 
-    @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length())
-            throw new IllegalArgumentException();
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos+1);
+    @Ovfrridf
+    publid PbtiMbtdifr gftPbtiMbtdifr(String syntbxAndInput) {
+        int pos = syntbxAndInput.indfxOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.lfngti())
+            tirow nfw IllfgblArgumfntExdfption();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
 
-        String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = Globs.toUnixRegexPattern(input);
-        } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
-                expr = input;
-            } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
-                    "' not recognized");
+        String fxpr;
+        if (syntbx.fqubls(GLOB_SYNTAX)) {
+            fxpr = Globs.toUnixRfgfxPbttfrn(input);
+        } flsf {
+            if (syntbx.fqubls(REGEX_SYNTAX)) {
+                fxpr = input;
+            } flsf {
+                tirow nfw UnsupportfdOpfrbtionExdfption("Syntbx '" + syntbx +
+                    "' not rfdognizfd");
             }
         }
 
-        // return matcher
-        final Pattern pattern = compilePathMatchPattern(expr);
+        // rfturn mbtdifr
+        finbl Pbttfrn pbttfrn = dompilfPbtiMbtdiPbttfrn(fxpr);
 
-        return new PathMatcher() {
-            @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+        rfturn nfw PbtiMbtdifr() {
+            @Ovfrridf
+            publid boolfbn mbtdifs(Pbti pbti) {
+                rfturn pbttfrn.mbtdifr(pbti.toString()).mbtdifs();
             }
         };
     }
 
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbtf stbtid finbl String GLOB_SYNTAX = "glob";
+    privbtf stbtid finbl String REGEX_SYNTAX = "rfgfx";
 
-    @Override
-    public final UserPrincipalLookupService getUserPrincipalLookupService() {
-        return LookupService.instance;
+    @Ovfrridf
+    publid finbl UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf() {
+        rfturn LookupSfrvidf.instbndf;
     }
 
-    private static class LookupService {
-        static final UserPrincipalLookupService instance =
-            new UserPrincipalLookupService() {
-                @Override
-                public UserPrincipal lookupPrincipalByName(String name)
-                    throws IOException
+    privbtf stbtid dlbss LookupSfrvidf {
+        stbtid finbl UsfrPrindipblLookupSfrvidf instbndf =
+            nfw UsfrPrindipblLookupSfrvidf() {
+                @Ovfrridf
+                publid UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+                    tirows IOExdfption
                 {
-                    return UnixUserPrincipals.lookupUser(name);
+                    rfturn UnixUsfrPrindipbls.lookupUsfr(nbmf);
                 }
 
-                @Override
-                public GroupPrincipal lookupPrincipalByGroupName(String group)
-                    throws IOException
+                @Ovfrridf
+                publid GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+                    tirows IOExdfption
                 {
-                    return UnixUserPrincipals.lookupGroup(group);
+                    rfturn UnixUsfrPrindipbls.lookupGroup(group);
                 }
             };
     }
 
-    // Override if the platform has different path match requirement, such as
-    // case insensitive or Unicode canonical equal on MacOSX
-    Pattern compilePathMatchPattern(String expr) {
-        return Pattern.compile(expr);
+    // Ovfrridf if tif plbtform ibs difffrfnt pbti mbtdi rfquirfmfnt, sudi bs
+    // dbsf insfnsitivf or Unidodf dbnonidbl fqubl on MbdOSX
+    Pbttfrn dompilfPbtiMbtdiPbttfrn(String fxpr) {
+        rfturn Pbttfrn.dompilf(fxpr);
     }
 
-    // Override if the platform uses different Unicode normalization form
-    // for native file path. For example on MacOSX, the native path is stored
-    // in Unicode NFD form.
-    char[] normalizeNativePath(char[] path) {
-        return path;
+    // Ovfrridf if tif plbtform usfs difffrfnt Unidodf normblizbtion form
+    // for nbtivf filf pbti. For fxbmplf on MbdOSX, tif nbtivf pbti is storfd
+    // in Unidodf NFD form.
+    dibr[] normblizfNbtivfPbti(dibr[] pbti) {
+        rfturn pbti;
     }
 
-    // Override if the native file path use non-NFC form. For example on MacOSX,
-    // the native path is stored in Unicode NFD form, the path need to be
-    // normalized back to NFC before passed back to Java level.
-    String normalizeJavaPath(String path) {
-        return path;
+    // Ovfrridf if tif nbtivf filf pbti usf non-NFC form. For fxbmplf on MbdOSX,
+    // tif nbtivf pbti is storfd in Unidodf NFD form, tif pbti nffd to bf
+    // normblizfd bbdk to NFC bfforf pbssfd bbdk to Jbvb lfvfl.
+    String normblizfJbvbPbti(String pbti) {
+        rfturn pbti;
     }
 }

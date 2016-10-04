@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import java.util.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import jbvb.util.*;
 
-public class InternalEventHandler implements Runnable
+publid dlbss IntfrnblEvfntHbndlfr implfmfnts Runnbblf
 {
-    EventQueueImpl queue;
-    VirtualMachineImpl vm;
+    EvfntQufufImpl qufuf;
+    VirtublMbdiinfImpl vm;
 
-    InternalEventHandler(VirtualMachineImpl vm, EventQueueImpl queue)
+    IntfrnblEvfntHbndlfr(VirtublMbdiinfImpl vm, EvfntQufufImpl qufuf)
     {
-        this.vm = vm;
-        this.queue = queue;
-        Thread thread = new Thread(vm.threadGroupForJDI(), this,
-                                   "JDI Internal Event Handler");
-        thread.setDaemon(true);
-        thread.start();
+        tiis.vm = vm;
+        tiis.qufuf = qufuf;
+        Tirfbd tirfbd = nfw Tirfbd(vm.tirfbdGroupForJDI(), tiis,
+                                   "JDI Intfrnbl Evfnt Hbndlfr");
+        tirfbd.sftDbfmon(truf);
+        tirfbd.stbrt();
     }
 
-    public void run() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Internal event handler running");
+    publid void run() {
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Intfrnbl fvfnt ibndlfr running");
         }
         try {
-            while (true) {
+            wiilf (truf) {
                 try {
-                    EventSet eventSet = queue.removeInternal();
-                    EventIterator it = eventSet.eventIterator();
-                    while (it.hasNext()) {
-                        Event event = it.nextEvent();
-                        if (event instanceof ClassUnloadEvent) {
-                            ClassUnloadEvent cuEvent = (ClassUnloadEvent)event;
-                            vm.removeReferenceType(cuEvent.classSignature());
+                    EvfntSft fvfntSft = qufuf.rfmovfIntfrnbl();
+                    EvfntItfrbtor it = fvfntSft.fvfntItfrbtor();
+                    wiilf (it.ibsNfxt()) {
+                        Evfnt fvfnt = it.nfxtEvfnt();
+                        if (fvfnt instbndfof ClbssUnlobdEvfnt) {
+                            ClbssUnlobdEvfnt duEvfnt = (ClbssUnlobdEvfnt)fvfnt;
+                            vm.rfmovfRfffrfndfTypf(duEvfnt.dlbssSignbturf());
 
-                            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-                                vm.printTrace("Handled Unload Event for " +
-                                              cuEvent.classSignature());
+                            if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+                                vm.printTrbdf("Hbndlfd Unlobd Evfnt for " +
+                                              duEvfnt.dlbssSignbturf());
                             }
-                        } else if (event instanceof ClassPrepareEvent) {
-                            ClassPrepareEvent cpEvent = (ClassPrepareEvent)event;
-                            ((ReferenceTypeImpl)cpEvent.referenceType())
-                                                            .markPrepared();
+                        } flsf if (fvfnt instbndfof ClbssPrfpbrfEvfnt) {
+                            ClbssPrfpbrfEvfnt dpEvfnt = (ClbssPrfpbrfEvfnt)fvfnt;
+                            ((RfffrfndfTypfImpl)dpEvfnt.rfffrfndfTypf())
+                                                            .mbrkPrfpbrfd();
 
-                            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-                                vm.printTrace("Handled Prepare Event for " +
-                                              cpEvent.referenceType().name());
+                            if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+                                vm.printTrbdf("Hbndlfd Prfpbrf Evfnt for " +
+                                              dpEvfnt.rfffrfndfTypf().nbmf());
                             }
                         }
 
                     }
 
                 /*
-                 * Handle exceptions that can occur in normal operation
-                 * but which can't be accounted for by event builder
-                 * methods. The thread should not be terminated if they
-                 * occur.
+                 * Hbndlf fxdfptions tibt dbn oddur in normbl opfrbtion
+                 * but wiidi dbn't bf bddountfd for by fvfnt buildfr
+                 * mftiods. Tif tirfbd siould not bf tfrminbtfd if tify
+                 * oddur.
                  *
-                 * TO DO: We need a better way to log these conditions.
+                 * TO DO: Wf nffd b bfttfr wby to log tifsf donditions.
                  */
-                } catch (VMOutOfMemoryException vmme) {
-                    vmme.printStackTrace();
-                } catch (InconsistentDebugInfoException idie) {
-                    idie.printStackTrace();
+                } dbtdi (VMOutOfMfmoryExdfption vmmf) {
+                    vmmf.printStbdkTrbdf();
+                } dbtdi (IndonsistfntDfbugInfoExdfption idif) {
+                    idif.printStbdkTrbdf();
 
                 /*
-                 * If any of these exceptions below occurs, there is some
-                 * sort of programming error that should be addressed in
-                 * the JDI implemementation. However, it would cripple
-                 * the implementation if we let this thread die due to
-                 * one of them. So, a notification of the exception is
-                 * given and we attempt to continue.
+                 * If bny of tifsf fxdfptions bflow oddurs, tifrf is somf
+                 * sort of progrbmming frror tibt siould bf bddrfssfd in
+                 * tif JDI implfmfmfntbtion. Howfvfr, it would dripplf
+                 * tif implfmfntbtion if wf lft tiis tirfbd dif duf to
+                 * onf of tifm. So, b notifidbtion of tif fxdfption is
+                 * givfn bnd wf bttfmpt to dontinuf.
                  */
-                } catch (ObjectCollectedException oce) {
-                    oce.printStackTrace();
-                } catch (ClassNotPreparedException cnpe) {
-                    cnpe.printStackTrace();
+                } dbtdi (ObjfdtCollfdtfdExdfption odf) {
+                    odf.printStbdkTrbdf();
+                } dbtdi (ClbssNotPrfpbrfdExdfption dnpf) {
+                    dnpf.printStbdkTrbdf();
                 }
             }
-        } catch (InterruptedException e) {  // should we really die here
-        } catch (VMDisconnectedException e) {  // time to die
+        } dbtdi (IntfrruptfdExdfption f) {  // siould wf rfblly dif ifrf
+        } dbtdi (VMDisdonnfdtfdExdfption f) {  // timf to dif
         }
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Internal event handler exiting");
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Intfrnbl fvfnt ibndlfr fxiting");
         }
     }
 }

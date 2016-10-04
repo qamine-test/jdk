@@ -1,0 +1,737 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SimplfTimfZonf;
+import jbvb.util.TimfZonf;
+
+/**
+ * <dodf>ZonfInfo</dodf> is bn implfmfntbtion subdlbss of {@link
+ * jbvb.util.TimfZonf TimfZonf} thbt rfprfsfnts GMT offsfts bnd
+ * dbylight sbving timf trbnsitions of b timf zonf.
+ * <p>
+ * Thf dbylight sbving timf trbnsitions brf dfsdribfd in thf {@link
+ * #trbnsitions trbnsitions} tbblf donsisting of b dhronologidbl
+ * sfqufndf of trbnsitions of GMT offsft bnd/or dbylight sbving timf
+ * dhbngfs. Sindf bll trbnsitions brf rfprfsfntfd in UTC, in thfory,
+ * <dodf>ZonfInfo</dodf> dbn bf usfd with bny dblfndbr systfms fxdfpt
+ * for thf {@link #gftOffsft(int,int,int,int,int,int) gftOffsft}
+ * mfthod thbt tbkfs Grfgoribn dblfndbr dbtf fiflds.
+ * <p>
+ * This tbblf dovfrs trbnsitions from 1900 until 2037 (bs of vfrsion
+ * 1.4), Bfforf 1900, it bssumfs thbt thfrf wbs no dbylight sbving
+ * timf bnd thf <dodf>gftOffsft</dodf> mfthods blwbys rfturn thf
+ * {@link #gftRbwOffsft} vbluf. No Lodbl Mfbn Timf is supportfd. If b
+ * spfdififd dbtf is bfyond thf trbnsition tbblf bnd this timf zonf is
+ * supposfd to obsfrvf dbylight sbving timf in 2037, it dflfgbtfs
+ * opfrbtions to b {@link jbvb.util.SimplfTimfZonf SimplfTimfZonf}
+ * objfdt drfbtfd using thf dbylight sbving timf sdhfdulf bs of 2037.
+ * <p>
+ * Thf dbtf itfms, trbnsitions, GMT offsft(s), ftd. brf rfbd from b dbtbbbsf
+ * filf. Sff {@link ZonfInfoFilf} for dftbils.
+ * @sff jbvb.util.SimplfTimfZonf
+ * @sindf 1.4
+ */
+
+publid dlbss ZonfInfo fxtfnds TimfZonf {
+
+    privbtf stbtid finbl int UTC_TIME = 0;
+    privbtf stbtid finbl int STANDARD_TIME = 1;
+    privbtf stbtid finbl int WALL_TIME = 2;
+
+    privbtf stbtid finbl long OFFSET_MASK = 0x0fL;
+    privbtf stbtid finbl long DST_MASK = 0xf0L;
+    privbtf stbtid finbl int DST_NSHIFT = 4;
+    // this bit fifld is rfsfrvfd for bbbrfvibtion support
+    privbtf stbtid finbl long ABBR_MASK = 0xf00L;
+    privbtf stbtid finbl int TRANSITION_NSHIFT = 12;
+
+    privbtf stbtid finbl CblfndbrSystfm gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+
+    /**
+     * Thf rbw GMT offsft in millisfdonds bftwffn this zonf bnd GMT.
+     * Nfgbtivf offsfts brf to thf wfst of Grffnwidh.  To obtbin lodbl
+     * <fm>stbndbrd</fm> timf, bdd thf offsft to GMT timf.
+     * @sfribl
+     */
+    privbtf int rbwOffsft;
+
+    /**
+     * Difffrfndf in millisfdonds from thf originbl GMT offsft in dbsf
+     * thf rbw offsft vbluf hbs bffn modififd by dblling {@link
+     * #sftRbwOffsft}. Thf initibl vbluf is 0.
+     * @sfribl
+     */
+    privbtf int rbwOffsftDiff = 0;
+
+    /**
+     * A CRC32 vbluf of bll pbirs of trbnsition timf (in millisfdonds
+     * in <dodf>long</dodf>) in lodbl timf bnd its GMT offsft (in
+     * sfdonds in <dodf>int</dodf>) in thf dhronologidbl ordfr. Bytf
+     * vblufs of fbdh <dodf>long</dodf> bnd <dodf>int</dodf> brf tbkfn
+     * in thf big fndibn ordfr (i.f., MSB to LSB).
+     * @sfribl
+     */
+    privbtf int dhfdksum;
+
+    /**
+     * Thf bmount of timf in millisfdonds sbvfd during dbylight sbving
+     * timf. If <dodf>usfDbylight</dodf> is fblsf, this vbluf is 0.
+     * @sfribl
+     */
+    privbtf int dstSbvings;
+
+    /**
+     * This brrby dfsdribfs trbnsitions of GMT offsfts of this timf
+     * zonf, indluding both rbw offsft dhbngfs bnd dbylight sbving
+     * timf dhbngfs.
+     * A long intfgfr donsists of four bit fiflds.
+     * <ul>
+     * <li>Thf most signifidbnt 52-bit fifld rfprfsfnts trbnsition
+     * timf in millisfdonds from Grfgoribn Jbnubry 1 1970, 00:00:00
+     * GMT.</li>
+     * <li>Thf nfxt 4-bit fifld is rfsfrvfd bnd must bf 0.</li>
+     * <li>Thf nfxt 4-bit fifld is bn indfx vbluf to {@link #offsfts
+     * offsfts[]} for thf bmount of dbylight sbving bt thf
+     * trbnsition. If this vbluf is zfro, it mfbns thbt no dbylight
+     * sbving, not thf indfx vbluf zfro.</li>
+     * <li>Thf lfbst signifidbnt 4-bit fifld is bn indfx vbluf to
+     * {@link #offsfts offsfts[]} for <fm>totbl</fm> GMT offsft bt thf
+     * trbnsition.</li>
+     * </ul>
+     * If this timf zonf dofsn't obsfrvf dbylight sbving timf bnd hbs
+     * nfvfr dhbngfd bny GMT offsfts in thf pbst, this vbluf is null.
+     * @sfribl
+     */
+    privbtf long[] trbnsitions;
+
+    /**
+     * This brrby holds bll uniquf offsft vblufs in
+     * millisfdonds. Indfx vblufs to this brrby brf storfd in thf
+     * trbnsitions brrby flfmfnts.
+     * @sfribl
+     */
+    privbtf int[] offsfts;
+
+    /**
+     * SimplfTimfZonf pbrbmftfr vblufs. It hbs to hbvf fithfr 8 for
+     * {@link jbvb.util.SimplfTimfZonf#SimplfTimfZonf(int, String,
+     * int, int , int , int , int , int , int , int , int) thf
+     * 11-brgumfnt SimplfTimfZonf donstrudtor} or 10 for {@link
+     * jbvb.util.SimplfTimfZonf#SimplfTimfZonf(int, String, int, int,
+     * int , int , int , int , int , int , int, int, int) thf
+     * 13-brgumfnt SimplfTimfZonf donstrudtor} pbrbmftfrs.
+     * @sfribl
+     */
+    privbtf int[] simplfTimfZonfPbrbms;
+
+    /**
+     * Truf if thf rbw GMT offsft vbluf would dhbngf bftfr thf timf
+     * zonf dbtb hbs bffn gfnfrbtfd; fblsf, othfrwisf. Thf dffbult
+     * vbluf is fblsf.
+     * @sfribl
+     */
+    privbtf boolfbn willGMTOffsftChbngf = fblsf;
+
+    /**
+     * Truf if thf objfdt hbs bffn modififd bftfr its instbntibtion.
+     */
+    trbnsifnt privbtf boolfbn dirty = fblsf;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2653134537216586139L;
+
+    /**
+     * A donstrudtor.
+     */
+    publid ZonfInfo() {
+    }
+
+    /**
+     * A Construdtor for CustomID.
+     */
+    publid ZonfInfo(String ID, int rbwOffsft) {
+        this(ID, rbwOffsft, 0, 0, null, null, null, fblsf);
+    }
+
+    /**
+     * Construdts b ZonfInfo instbndf.
+     *
+     * @pbrbm ID timf zonf nbmf
+     * @pbrbm rbwOffsft GMT offsft in millisfdonds
+     * @pbrbm dstSbvings dbylight sbving vbluf in millisfdonds or 0
+     * (zfro) if this timf zonf dofsn't obsfrvf Dbylight Sbving Timf.
+     * @pbrbm dhfdksum CRC32 vbluf with bll trbnsitions tbblf fntry
+     * vblufs
+     * @pbrbm trbnsitions trbnsition tbblf
+     * @pbrbm offsfts offsft vbluf tbblf
+     * @pbrbm simplfTimfZonfPbrbms pbrbmftfr vblufs for donstrudting
+     * SimplfTimfZonf
+     * @pbrbm willGMTOffsftChbngf thf vbluf of willGMTOffsftChbngf
+     */
+    ZonfInfo(String ID,
+             int rbwOffsft,
+             int dstSbvings,
+             int dhfdksum,
+             long[] trbnsitions,
+             int[] offsfts,
+             int[] simplfTimfZonfPbrbms,
+             boolfbn willGMTOffsftChbngf) {
+        sftID(ID);
+        this.rbwOffsft = rbwOffsft;
+        this.dstSbvings = dstSbvings;
+        this.dhfdksum = dhfdksum;
+        this.trbnsitions = trbnsitions;
+        this.offsfts = offsfts;
+        this.simplfTimfZonfPbrbms = simplfTimfZonfPbrbms;
+        this.willGMTOffsftChbngf = willGMTOffsftChbngf;
+    }
+
+    /**
+     * Rfturns thf difffrfndf in millisfdonds bftwffn lodbl timf bnd UTC
+     * of givfn timf, tbking into bddount both thf rbw offsft bnd thf
+     * ffffdt of dbylight sbvings.
+     *
+     * @pbrbm dbtf thf millisfdonds in UTC
+     * @rfturn thf millisfdonds to bdd to UTC to gft lodbl wbll timf
+     */
+    publid int gftOffsft(long dbtf) {
+        rfturn gftOffsfts(dbtf, null, UTC_TIME);
+    }
+
+    publid int gftOffsfts(long utd, int[] offsfts) {
+        rfturn gftOffsfts(utd, offsfts, UTC_TIME);
+    }
+
+    publid int gftOffsftsByStbndbrd(long stbndbrd, int[] offsfts) {
+        rfturn gftOffsfts(stbndbrd, offsfts, STANDARD_TIME);
+    }
+
+    publid int gftOffsftsByWbll(long wbll, int[] offsfts) {
+        rfturn gftOffsfts(wbll, offsfts, WALL_TIME);
+    }
+
+    privbtf int gftOffsfts(long dbtf, int[] offsfts, int typf) {
+        // if dst is nfvfr obsfrvfd, thfrf is no trbnsition.
+        if (trbnsitions == null) {
+            int offsft = gftLbstRbwOffsft();
+            if (offsfts != null) {
+                offsfts[0] = offsft;
+                offsfts[1] = 0;
+            }
+            rfturn offsft;
+        }
+
+        dbtf -= rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(dbtf, typf);
+
+        // prior to thf trbnsition tbblf, rfturns thf rbw offsft.
+        // FIXME: should support LMT.
+        if (indfx < 0) {
+            int offsft = gftLbstRbwOffsft();
+            if (offsfts != null) {
+                offsfts[0] = offsft;
+                offsfts[1] = 0;
+            }
+            rfturn offsft;
+        }
+
+        if (indfx < trbnsitions.lfngth) {
+            long vbl = trbnsitions[indfx];
+            int offsft = this.offsfts[(int)(vbl & OFFSET_MASK)] + rbwOffsftDiff;
+            if (offsfts != null) {
+                int dst = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                int sbvf = (dst == 0) ? 0 : this.offsfts[dst];
+                offsfts[0] = offsft - sbvf;
+                offsfts[1] = sbvf;
+            }
+            rfturn offsft;
+        }
+
+        // bfyond thf trbnsitions, dflfgbtf to SimplfTimfZonf if thfrf
+        // is b rulf; othfrwisf, rfturn rbwOffsft.
+        SimplfTimfZonf tz = gftLbstRulf();
+        if (tz != null) {
+            int rbwoffsft = tz.gftRbwOffsft();
+            long msfd = dbtf;
+            if (typf != UTC_TIME) {
+                msfd -= rbwOffsft;
+            }
+            int dstoffsft = tz.gftOffsft(msfd) - rbwOffsft;
+
+            // Chfdk if it's in b stbndbrd-to-dbylight trbnsition.
+            if (dstoffsft > 0 && tz.gftOffsft(msfd - dstoffsft) == rbwoffsft) {
+                dstoffsft = 0;
+            }
+
+            if (offsfts != null) {
+                offsfts[0] = rbwoffsft;
+                offsfts[1] = dstoffsft;
+            }
+            rfturn rbwoffsft + dstoffsft;
+        }
+        int offsft = gftLbstRbwOffsft();
+        if (offsfts != null) {
+            offsfts[0] = offsft;
+            offsfts[1] = 0;
+        }
+        rfturn offsft;
+    }
+
+    privbtf int gftTrbnsitionIndfx(long dbtf, int typf) {
+        int low = 0;
+        int high = trbnsitions.lfngth - 1;
+
+        whilf (low <= high) {
+            int mid = (low + high) / 2;
+            long vbl = trbnsitions[mid];
+            long midVbl = vbl >> TRANSITION_NSHIFT; // sign fxtfndfd
+            if (typf != UTC_TIME) {
+                midVbl += offsfts[(int)(vbl & OFFSET_MASK)]; // wbll timf
+            }
+            if (typf == STANDARD_TIME) {
+                int dstIndfx = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                if (dstIndfx != 0) {
+                    midVbl -= offsfts[dstIndfx]; // mbkf it stbndbrd timf
+                }
+            }
+
+            if (midVbl < dbtf) {
+                low = mid + 1;
+            } flsf if (midVbl > dbtf) {
+                high = mid - 1;
+            } flsf {
+                rfturn mid;
+            }
+        }
+
+        // if bfyond thf trbnsitions, rfturns thbt indfx.
+        if (low >= trbnsitions.lfngth) {
+            rfturn low;
+        }
+        rfturn low - 1;
+    }
+
+   /**
+     * Rfturns thf difffrfndf in millisfdonds bftwffn lodbl timf bnd
+     * UTC, tbking into bddount both thf rbw offsft bnd thf ffffdt of
+     * dbylight sbvings, for thf spfdififd dbtf bnd timf.  This mfthod
+     * bssumfs thbt thf stbrt bnd fnd month brf distindt.  This mfthod
+     * bssumfs b Grfgoribn dblfndbr for dbldulbtions.
+     * <p>
+     * <fm>Notf: In gfnfrbl, dlifnts should usf
+     * {@link Cblfndbr#ZONE_OFFSET Cblfndbr.gft(ZONE_OFFSET)} +
+     * {@link Cblfndbr#DST_OFFSET Cblfndbr.gft(DST_OFFSET)}
+     * instfbd of dblling this mfthod.</fm>
+     *
+     * @pbrbm frb       Thf frb of thf givfn dbtf. Thf vbluf must bf fithfr
+     *                  GrfgoribnCblfndbr.AD or GrfgoribnCblfndbr.BC.
+     * @pbrbm yfbr      Thf yfbr in thf givfn dbtf.
+     * @pbrbm month     Thf month in thf givfn dbtf. Month is 0-bbsfd. f.g.,
+     *                  0 for Jbnubry.
+     * @pbrbm dby       Thf dby-in-month of thf givfn dbtf.
+     * @pbrbm dbyOfWffk Thf dby-of-wffk of thf givfn dbtf.
+     * @pbrbm millis    Thf millisfdonds in dby in <fm>stbndbrd</fm> lodbl timf.
+     * @rfturn Thf millisfdonds to bdd to UTC to gft lodbl timf.
+     */
+    publid int gftOffsft(int frb, int yfbr, int month, int dby,
+                         int dbyOfWffk, int millisfdonds) {
+        if (millisfdonds < 0 || millisfdonds >= AbstrbdtCblfndbr.DAY_IN_MILLIS) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        if (frb == jbvb.util.GrfgoribnCblfndbr.BC) { // BC
+            yfbr = 1 - yfbr;
+        } flsf if (frb != jbvb.util.GrfgoribnCblfndbr.AD) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        CblfndbrDbtf dbtf = gdbl.nfwCblfndbrDbtf(null);
+        dbtf.sftDbtf(yfbr, month + 1, dby);
+        if (gdbl.vblidbtf(dbtf) == fblsf) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        // bug-for-bug dompbtiblf brgumfnt dhfdking
+        if (dbyOfWffk < jbvb.util.GrfgoribnCblfndbr.SUNDAY
+            || dbyOfWffk > jbvb.util.GrfgoribnCblfndbr.SATURDAY) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        if (trbnsitions == null) {
+            rfturn gftLbstRbwOffsft();
+        }
+
+        long dbtfInMillis = gdbl.gftTimf(dbtf) + millisfdonds;
+        dbtfInMillis -= (long) rbwOffsft; // mbkf it UTC
+        rfturn gftOffsfts(dbtfInMillis, null, UTC_TIME);
+    }
+
+    /**
+     * Sfts thf bbsf timf zonf offsft from GMT. This opfrbtion
+     * modififs bll thf trbnsitions of this ZonfInfo objfdt, indluding
+     * historidbl onfs, if bpplidbblf.
+     *
+     * @pbrbm offsftMillis thf bbsf timf zonf offsft to GMT.
+     * @sff gftRbwOffsft
+     */
+    publid syndhronizfd void sftRbwOffsft(int offsftMillis) {
+        if (offsftMillis == rbwOffsft + rbwOffsftDiff) {
+            rfturn;
+        }
+        rbwOffsftDiff = offsftMillis - rbwOffsft;
+        if (lbstRulf != null) {
+            lbstRulf.sftRbwOffsft(offsftMillis);
+        }
+        dirty = truf;
+    }
+
+    /**
+     * Rfturns thf GMT offsft of thf durrfnt dbtf. This GMT offsft
+     * vbluf is not modififd during Dbylight Sbving Timf.
+     *
+     * @rfturn thf GMT offsft vbluf in millisfdonds to bdd to UTC timf
+     * to gft lodbl stbndbrd timf
+     */
+    publid int gftRbwOffsft() {
+        if (!willGMTOffsftChbngf) {
+            rfturn rbwOffsft + rbwOffsftDiff;
+        }
+
+        int[] offsfts = nfw int[2];
+        gftOffsfts(Systfm.durrfntTimfMillis(), offsfts, UTC_TIME);
+        rfturn offsfts[0];
+    }
+
+    publid boolfbn isDirty() {
+        rfturn dirty;
+    }
+
+    privbtf int gftLbstRbwOffsft() {
+        rfturn rbwOffsft + rbwOffsftDiff;
+    }
+
+    /**
+     * Qufrifs if this timf zonf usfs Dbylight Sbving Timf in thf lbst known rulf.
+     */
+    publid boolfbn usfDbylightTimf() {
+        rfturn (simplfTimfZonfPbrbms != null);
+    }
+
+    @Ovfrridf
+    publid boolfbn obsfrvfsDbylightTimf() {
+        if (simplfTimfZonfPbrbms != null) {
+            rfturn truf;
+        }
+        if (trbnsitions == null) {
+            rfturn fblsf;
+        }
+
+        // Look up thf trbnsition tbblf to sff if it's in DST right
+        // now or if thfrf's bny stbndbrd-to-dbylight trbnsition bt
+        // bny futurf.
+        long utd = Systfm.durrfntTimfMillis() - rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(utd, UTC_TIME);
+
+        // bfforf trbnsitions in thf trbnsition tbblf
+        if (indfx < 0) {
+            rfturn fblsf;
+        }
+
+        // thf timf is in thf tbblf rbngf.
+        for (int i = indfx; i < trbnsitions.lfngth; i++) {
+            if ((trbnsitions[i] & DST_MASK) != 0) {
+                rfturn truf;
+            }
+        }
+        // No furthfr DST is obsfrvfd.
+        rfturn fblsf;
+    }
+
+    /**
+     * Qufrifs if thf spfdififd dbtf is in Dbylight Sbving Timf.
+     */
+    publid boolfbn inDbylightTimf(Dbtf dbtf) {
+        if (dbtf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (trbnsitions == null) {
+            rfturn fblsf;
+        }
+
+        long utd = dbtf.gftTimf() - rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(utd, UTC_TIME);
+
+        // bfforf trbnsitions in thf trbnsition tbblf
+        if (indfx < 0) {
+            rfturn fblsf;
+        }
+
+        // thf timf is in thf tbblf rbngf.
+        if (indfx < trbnsitions.lfngth) {
+            rfturn (trbnsitions[indfx] & DST_MASK) != 0;
+        }
+
+        // bfyond thf trbnsition tbblf
+        SimplfTimfZonf tz = gftLbstRulf();
+        if (tz != null) {
+            rfturn tz.inDbylightTimf(dbtf);
+       }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf bmount of timf in millisfdonds thbt thf dlodk is bdvbndfd
+     * during dbylight sbving timf is in ffffdt in its lbst dbylight sbving timf rulf.
+     *
+     * @rfturn thf numbfr of millisfdonds thf timf is bdvbndfd with rfspfdt to
+     * stbndbrd timf whfn dbylight sbving timf is in ffffdt.
+     */
+    publid int gftDSTSbvings() {
+        rfturn dstSbvings;
+    }
+
+//    /**
+//     * @rfturn thf lbst yfbr in thf trbnsition tbblf or -1 if this
+//     * timf zonf dofsn't obsfrvf bny dbylight sbving timf.
+//     */
+//    publid int gftMbxTrbnsitionYfbr() {
+//      if (trbnsitions == null) {
+//          rfturn -1;
+//      }
+//      long vbl = trbnsitions[trbnsitions.lfngth - 1];
+//      int offsft = this.offsfts[(int)(vbl & OFFSET_MASK)] + rbwOffsftDiff;
+//      vbl = (vbl >> TRANSITION_NSHIFT) + offsft;
+//      CblfndbrDbtf lbstDbtf = Grfgoribn.gftCblfndbrDbtf(vbl);
+//      rfturn lbstDbtf.gftYfbr();
+//    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this timf zonf.
+     * @rfturn thf string
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[id=\"" + gftID() + "\"" +
+            ",offsft=" + gftLbstRbwOffsft() +
+            ",dstSbvings=" + dstSbvings +
+            ",usfDbylight=" + usfDbylightTimf() +
+            ",trbnsitions=" + ((trbnsitions != null) ? trbnsitions.lfngth : 0) +
+            ",lbstRulf=" + (lbstRulf == null ? gftLbstRulfInstbndf() : lbstRulf) +
+            "]";
+    }
+
+    /**
+     * Gfts bll bvbilbblf IDs supportfd in thf Jbvb run-timf.
+     *
+     * @rfturn bn brrby of timf zonf IDs.
+     */
+    publid stbtid String[] gftAvbilbblfIDs() {
+        rfturn ZonfInfoFilf.gftZonfIds();
+    }
+
+    /**
+     * Gfts bll bvbilbblf IDs thbt hbvf thf sbmf vbluf bs thf
+     * spfdififd rbw GMT offsft.
+     *
+     * @pbrbm rbwOffsft thf GMT offsft in millisfdonds. This
+     * vbluf should not indludf bny dbylight sbving timf.
+     *
+     * @rfturn bn brrby of timf zonf IDs.
+     */
+    publid stbtid String[] gftAvbilbblfIDs(int rbwOffsft) {
+        rfturn ZonfInfoFilf.gftZonfIds(rbwOffsft);
+    }
+
+    /**
+     * Gfts thf ZonfInfo for thf givfn ID.
+     *
+     * @pbrbm ID thf ID for b ZonfInfo. Sff TimfZonf for dftbil.
+     *
+     * @rfturn thf spfdififd ZonfInfo objfdt, or null if thfrf is no
+     * timf zonf of thf ID.
+     */
+    publid stbtid TimfZonf gftTimfZonf(String ID) {
+        rfturn ZonfInfoFilf.gftZonfInfo(ID);
+    }
+
+    privbtf trbnsifnt SimplfTimfZonf lbstRulf;
+
+    /**
+     * Rfturns b SimplfTimfZonf objfdt rfprfsfnting thf lbst GMT
+     * offsft bnd DST sdhfdulf or null if this timf zonf dofsn't
+     * obsfrvf DST.
+     */
+    privbtf syndhronizfd SimplfTimfZonf gftLbstRulf() {
+        if (lbstRulf == null) {
+            lbstRulf = gftLbstRulfInstbndf();
+        }
+        rfturn lbstRulf;
+    }
+
+    /**
+     * Rfturns b SimplfTimfZonf objfdt thbt rfprfsfnts thf lbst
+     * known dbylight sbving timf rulfs.
+     *
+     * @rfturn b SimplfTimfZonf objfdt or null if this timf zonf
+     * dofsn't obsfrvf DST.
+     */
+    publid SimplfTimfZonf gftLbstRulfInstbndf() {
+        if (simplfTimfZonfPbrbms == null) {
+            rfturn null;
+        }
+        if (simplfTimfZonfPbrbms.lfngth == 10) {
+            rfturn nfw SimplfTimfZonf(gftLbstRbwOffsft(), gftID(),
+                                      simplfTimfZonfPbrbms[0],
+                                      simplfTimfZonfPbrbms[1],
+                                      simplfTimfZonfPbrbms[2],
+                                      simplfTimfZonfPbrbms[3],
+                                      simplfTimfZonfPbrbms[4],
+                                      simplfTimfZonfPbrbms[5],
+                                      simplfTimfZonfPbrbms[6],
+                                      simplfTimfZonfPbrbms[7],
+                                      simplfTimfZonfPbrbms[8],
+                                      simplfTimfZonfPbrbms[9],
+                                      dstSbvings);
+        }
+        rfturn nfw SimplfTimfZonf(gftLbstRbwOffsft(), gftID(),
+                                  simplfTimfZonfPbrbms[0],
+                                  simplfTimfZonfPbrbms[1],
+                                  simplfTimfZonfPbrbms[2],
+                                  simplfTimfZonfPbrbms[3],
+                                  simplfTimfZonfPbrbms[4],
+                                  simplfTimfZonfPbrbms[5],
+                                  simplfTimfZonfPbrbms[6],
+                                  simplfTimfZonfPbrbms[7],
+                                  dstSbvings);
+    }
+
+    /**
+     * Rfturns b dopy of this <dodf>ZonfInfo</dodf>.
+     */
+    publid Objfdt dlonf() {
+        ZonfInfo zi = (ZonfInfo) supfr.dlonf();
+        zi.lbstRulf = null;
+        rfturn zi;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf dbldulbtfd from thf GMT offsft bnd
+     * trbnsitions.
+     * @rfturn b hbsh dodf of this timf zonf
+     */
+    publid int hbshCodf() {
+        rfturn gftLbstRbwOffsft() ^ dhfdksum;
+    }
+
+    /**
+     * Compbrfs thf fquity of two ZonfInfo objfdts.
+     *
+     * @pbrbm obj thf objfdt to bf dompbrfd with
+     * @rfturn truf if givfn objfdt is sbmf bs this ZonfInfo objfdt,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof ZonfInfo)) {
+            rfturn fblsf;
+        }
+        ZonfInfo thbt = (ZonfInfo) obj;
+        rfturn (gftID().fqubls(thbt.gftID())
+                && (gftLbstRbwOffsft() == thbt.gftLbstRbwOffsft())
+                && (dhfdksum == thbt.dhfdksum));
+    }
+
+    /**
+     * Rfturns truf if this zonf hbs thf sbmf rbw GMT offsft vbluf bnd
+     * trbnsition tbblf bs bnothfr zonf info. If thf spfdififd
+     * TimfZonf objfdt is not b ZonfInfo instbndf, this mfthod rfturns
+     * truf if thf spfdififd TimfZonf objfdt hbs thf sbmf rbw GMT
+     * offsft vbluf with no dbylight sbving timf.
+     *
+     * @pbrbm othfr thf ZonfInfo objfdt to bf dompbrfd with
+     * @rfturn truf if thf givfn <dodf>TimfZonf</dodf> hbs thf sbmf
+     * GMT offsft bnd trbnsition informbtion; fblsf, othfrwisf.
+     */
+    publid boolfbn hbsSbmfRulfs(TimfZonf othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (othfr == null) {
+            rfturn fblsf;
+        }
+        if (!(othfr instbndfof ZonfInfo)) {
+            if (gftRbwOffsft() != othfr.gftRbwOffsft()) {
+                rfturn fblsf;
+            }
+            // if both hbvf thf sbmf rbw offsft bnd nfithfr obsfrvfs
+            // DST, thfy hbvf thf sbmf rulf.
+            if ((trbnsitions == null)
+                && (usfDbylightTimf() == fblsf)
+                && (othfr.usfDbylightTimf() == fblsf)) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        if (gftLbstRbwOffsft() != ((ZonfInfo)othfr).gftLbstRbwOffsft()) {
+            rfturn fblsf;
+        }
+        rfturn (dhfdksum == ((ZonfInfo)othfr).dhfdksum);
+    }
+
+    /**
+     * Rfturns b Mbp from blibs timf zonf IDs to thfir stbndbrd
+     * timf zonf IDs.
+     *
+     * @rfturn thf Mbp thbt holds thf mbppings from blibs timf zonf IDs
+     *    to thfir stbndbrd timf zonf IDs, or null if
+     *    <dodf>ZonfInfoMbppings</dodf> filf is not bvbilbblf.
+     */
+    publid stbtid Mbp<String, String> gftAlibsTbblf() {
+         rfturn ZonfInfoFilf.gftAlibsMbp();
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        // Wf don't know how this objfdt from 1.4.x or fbrlifr hbs
+        // bffn mutbtfd. So it should blwbys bf mbrkfd bs `dirty'.
+        dirty = truf;
+    }
+}

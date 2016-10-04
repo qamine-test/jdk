@@ -1,0 +1,349 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms;
+
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption.XMLCiphfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import org.w3d.dom.Elfmfnt;
+
+
+/**
+ * This dlbss mbps blgorithm idfntififr URIs to JAVA JCE dlbss nbmfs.
+ */
+publid dlbss JCEMbppfr {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(JCEMbppfr.dlbss.gftNbmf());
+
+    privbtf stbtid Mbp<String, Algorithm> blgorithmsMbp =
+        nfw CondurrfntHbshMbp<String, Algorithm>();
+
+    privbtf stbtid String providfrNbmf = null;
+
+    /**
+     * Mfthod rfgistfr
+     *
+     * @pbrbm id
+     * @pbrbm blgorithm
+     */
+    publid stbtid void rfgistfr(String id, Algorithm blgorithm) {
+        blgorithmsMbp.put(id, blgorithm);
+    }
+
+    /**
+     * This mfthod rfgistfrs thf dffbult blgorithms.
+     */
+    publid stbtid void rfgistfrDffbultAlgorithms() {
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5,
+            nfw Algorithm("", "MD5", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_RIPEMD160,
+            nfw Algorithm("", "RIPEMD160", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA1,
+            nfw Algorithm("", "SHA-1", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA256,
+            nfw Algorithm("", "SHA-256", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA384,
+            nfw Algorithm("", "SHA-384", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA512,
+            nfw Algorithm("", "SHA-512", "MfssbgfDigfst")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA,
+            nfw Algorithm("", "SHA1withDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256,
+            nfw Algorithm("", "SHA256withDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            nfw Algorithm("", "MD5withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            nfw Algorithm("", "RIPEMD160withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1,
+            nfw Algorithm("", "SHA1withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256,
+            nfw Algorithm("", "SHA256withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384,
+            nfw Algorithm("", "SHA384withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512,
+            nfw Algorithm("", "SHA512withRSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1,
+            nfw Algorithm("", "SHA1withECDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256,
+            nfw Algorithm("", "SHA256withECDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384,
+            nfw Algorithm("", "SHA384withECDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512,
+            nfw Algorithm("", "SHA512withECDSA", "Signbturf")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
+            nfw Algorithm("", "HmbdMD5", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160,
+            nfw Algorithm("", "HMACRIPEMD160", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1,
+            nfw Algorithm("", "HmbdSHA1", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256,
+            nfw Algorithm("", "HmbdSHA256", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384,
+            nfw Algorithm("", "HmbdSHA384", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512,
+            nfw Algorithm("", "HmbdSHA512", "Mbd")
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.TRIPLEDES,
+            nfw Algorithm("DESfdf", "DESfdf/CBC/ISO10126Pbdding", "BlodkEndryption", 192)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_128,
+            nfw Algorithm("AES", "AES/CBC/ISO10126Pbdding", "BlodkEndryption", 128)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_192,
+            nfw Algorithm("AES", "AES/CBC/ISO10126Pbdding", "BlodkEndryption", 192)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_256,
+            nfw Algorithm("AES", "AES/CBC/ISO10126Pbdding", "BlodkEndryption", 256)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_128_GCM,
+            nfw Algorithm("AES", "AES/GCM/NoPbdding", "BlodkEndryption", 128)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_192_GCM,
+            nfw Algorithm("AES", "AES/GCM/NoPbdding", "BlodkEndryption", 192)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_256_GCM,
+            nfw Algorithm("AES", "AES/GCM/NoPbdding", "BlodkEndryption", 256)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.RSA_v1dot5,
+            nfw Algorithm("RSA", "RSA/ECB/PKCS1Pbdding", "KfyTrbnsport")
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.RSA_OAEP,
+            nfw Algorithm("RSA", "RSA/ECB/OAEPPbdding", "KfyTrbnsport")
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.RSA_OAEP_11,
+            nfw Algorithm("RSA", "RSA/ECB/OAEPPbdding", "KfyTrbnsport")
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.DIFFIE_HELLMAN,
+            nfw Algorithm("", "", "KfyAgrffmfnt")
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.TRIPLEDES_KfyWrbp,
+            nfw Algorithm("DESfdf", "DESfdfWrbp", "SymmftridKfyWrbp", 192)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_128_KfyWrbp,
+            nfw Algorithm("AES", "AESWrbp", "SymmftridKfyWrbp", 128)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_192_KfyWrbp,
+            nfw Algorithm("AES", "AESWrbp", "SymmftridKfyWrbp", 192)
+        );
+        blgorithmsMbp.put(
+            XMLCiphfr.AES_256_KfyWrbp,
+            nfw Algorithm("AES", "AESWrbp", "SymmftridKfyWrbp", 256)
+        );
+    }
+
+    /**
+     * Mfthod trbnslbtfURItoJCEID
+     *
+     * @pbrbm blgorithmURI
+     * @rfturn thf JCE stbndbrd nbmf dorrfsponding to thf givfn URI
+     */
+    publid stbtid String trbnslbtfURItoJCEID(String blgorithmURI) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfqufst for URI " + blgorithmURI);
+        }
+
+        Algorithm blgorithm = blgorithmsMbp.gft(blgorithmURI);
+        if (blgorithm != null) {
+            rfturn blgorithm.jdfNbmf;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Mfthod gftAlgorithmClbssFromURI
+     * @pbrbm blgorithmURI
+     * @rfturn thf dlbss nbmf thbt implfmfnts this blgorithm
+     */
+    publid stbtid String gftAlgorithmClbssFromURI(String blgorithmURI) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfqufst for URI " + blgorithmURI);
+        }
+
+        Algorithm blgorithm = blgorithmsMbp.gft(blgorithmURI);
+        if (blgorithm != null) {
+            rfturn blgorithm.blgorithmClbss;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf kfylfngth in bits for b pbrtidulbr blgorithm.
+     *
+     * @pbrbm blgorithmURI
+     * @rfturn Thf lfngth of thf kfy usfd in thf blgorithm
+     */
+    publid stbtid int gftKfyLfngthFromURI(String blgorithmURI) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfqufst for URI " + blgorithmURI);
+        }
+        Algorithm blgorithm = blgorithmsMbp.gft(blgorithmURI);
+        if (blgorithm != null) {
+            rfturn blgorithm.kfyLfngth;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Mfthod gftJCEKfyAlgorithmFromURI
+     *
+     * @pbrbm blgorithmURI
+     * @rfturn Thf KfyAlgorithm for thf givfn URI.
+     */
+    publid stbtid String gftJCEKfyAlgorithmFromURI(String blgorithmURI) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfqufst for URI " + blgorithmURI);
+        }
+        Algorithm blgorithm = blgorithmsMbp.gft(blgorithmURI);
+        if (blgorithm != null) {
+            rfturn blgorithm.rfquirfdKfy;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf dffbult Providfr for obtbining thf sfdurity blgorithms
+     * @rfturn thf dffbult providfrId.
+     */
+    publid stbtid String gftProvidfrId() {
+        rfturn providfrNbmf;
+    }
+
+    /**
+     * Sfts thf dffbult Providfr for obtbining thf sfdurity blgorithms
+     * @pbrbm providfr thf dffbult providfrId.
+     */
+    publid stbtid void sftProvidfrId(String providfr) {
+        providfrNbmf = providfr;
+    }
+
+    /**
+     * Rfprfsfnts thf Algorithm xml flfmfnt
+     */
+    publid stbtid dlbss Algorithm {
+
+        finbl String rfquirfdKfy;
+        finbl String jdfNbmf;
+        finbl String blgorithmClbss;
+        finbl int kfyLfngth;
+
+        /**
+         * Gfts dbtb from flfmfnt
+         * @pbrbm fl
+         */
+        publid Algorithm(Elfmfnt fl) {
+            rfquirfdKfy = fl.gftAttributf("RfquirfdKfy");
+            jdfNbmf = fl.gftAttributf("JCENbmf");
+            blgorithmClbss = fl.gftAttributf("AlgorithmClbss");
+            if (fl.hbsAttributf("KfyLfngth")) {
+                kfyLfngth = Intfgfr.pbrsfInt(fl.gftAttributf("KfyLfngth"));
+            } flsf {
+                kfyLfngth = 0;
+            }
+        }
+
+        publid Algorithm(String rfquirfdKfy, String jdfNbmf) {
+            this(rfquirfdKfy, jdfNbmf, null, 0);
+        }
+
+        publid Algorithm(String rfquirfdKfy, String jdfNbmf, String blgorithmClbss) {
+            this(rfquirfdKfy, jdfNbmf, blgorithmClbss, 0);
+        }
+
+        publid Algorithm(String rfquirfdKfy, String jdfNbmf, int kfyLfngth) {
+            this(rfquirfdKfy, jdfNbmf, null, kfyLfngth);
+        }
+
+        publid Algorithm(String rfquirfdKfy, String jdfNbmf, String blgorithmClbss, int kfyLfngth) {
+            this.rfquirfdKfy = rfquirfdKfy;
+            this.jdfNbmf = jdfNbmf;
+            this.blgorithmClbss = blgorithmClbss;
+            this.kfyLfngth = kfyLfngth;
+        }
+    }
+
+}

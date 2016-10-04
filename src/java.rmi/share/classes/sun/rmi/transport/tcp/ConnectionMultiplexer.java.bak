@@ -1,448 +1,448 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.io.*;
-import java.util.*;
-import java.rmi.server.LogStream;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.rmi.runtime.Log;
+import sun.rmi.runtimf.Log;
 
 /**
- * ConnectionMultiplexer manages the transparent multiplexing of
- * multiple virtual connections from one endpoint to another through
- * one given real connection to that endpoint.  The input and output
- * streams for the the underlying real connection must be supplied.
- * A callback object is also supplied to be informed of new virtual
- * connections opened by the remote endpoint.  After creation, the
- * run() method must be called in a thread created for demultiplexing
- * the connections.  The openConnection() method is called to
- * initiate a virtual connection from this endpoint.
+ * ConnfdtionMultiplfxfr mbnbgfs tif trbnspbrfnt multiplfxing of
+ * multiplf virtubl donnfdtions from onf fndpoint to bnotifr tirougi
+ * onf givfn rfbl donnfdtion to tibt fndpoint.  Tif input bnd output
+ * strfbms for tif tif undfrlying rfbl donnfdtion must bf supplifd.
+ * A dbllbbdk objfdt is blso supplifd to bf informfd of nfw virtubl
+ * donnfdtions opfnfd by tif rfmotf fndpoint.  Aftfr drfbtion, tif
+ * run() mftiod must bf dbllfd in b tirfbd drfbtfd for dfmultiplfxing
+ * tif donnfdtions.  Tif opfnConnfdtion() mftiod is dbllfd to
+ * initibtf b virtubl donnfdtion from tiis fndpoint.
  *
- * @author Peter Jones
+ * @butior Pftfr Jonfs
  */
-@SuppressWarnings("deprecation")
-final class ConnectionMultiplexer {
+@SupprfssWbrnings("dfprfdbtion")
+finbl dlbss ConnfdtionMultiplfxfr {
 
-    /** "multiplex" log level */
-    static int logLevel = LogStream.parseLevel(getLogLevel());
+    /** "multiplfx" log lfvfl */
+    stbtid int logLfvfl = LogStrfbm.pbrsfLfvfl(gftLogLfvfl());
 
-    private static String getLogLevel() {
-        return java.security.AccessController.doPrivileged(
-           (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.tcp.multiplex.logLevel"));
+    privbtf stbtid String gftLogLfvfl() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+           (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.tdp.multiplfx.logLfvfl"));
     }
 
-    /* multiplex system log */
-    static final Log multiplexLog =
-        Log.getLog("sun.rmi.transport.tcp.multiplex",
-                   "multiplex", ConnectionMultiplexer.logLevel);
+    /* multiplfx systfm log */
+    stbtid finbl Log multiplfxLog =
+        Log.gftLog("sun.rmi.trbnsport.tdp.multiplfx",
+                   "multiplfx", ConnfdtionMultiplfxfr.logLfvfl);
 
-    /** multiplexing protocol operation codes */
-    private final static int OPEN     = 0xE1;
-    private final static int CLOSE    = 0xE2;
-    private final static int CLOSEACK = 0xE3;
-    private final static int REQUEST  = 0xE4;
-    private final static int TRANSMIT = 0xE5;
+    /** multiplfxing protodol opfrbtion dodfs */
+    privbtf finbl stbtid int OPEN     = 0xE1;
+    privbtf finbl stbtid int CLOSE    = 0xE2;
+    privbtf finbl stbtid int CLOSEACK = 0xE3;
+    privbtf finbl stbtid int REQUEST  = 0xE4;
+    privbtf finbl stbtid int TRANSMIT = 0xE5;
 
-    /** object to notify for new connections from remote endpoint */
-    private TCPChannel channel;
+    /** objfdt to notify for nfw donnfdtions from rfmotf fndpoint */
+    privbtf TCPCibnnfl dibnnfl;
 
-    /** input stream for underlying single connection */
-    private InputStream in;
+    /** input strfbm for undfrlying singlf donnfdtion */
+    privbtf InputStrfbm in;
 
-    /** output stream for underlying single connection */
-    private OutputStream out;
+    /** output strfbm for undfrlying singlf donnfdtion */
+    privbtf OutputStrfbm out;
 
-    /** true if underlying connection originated from this endpoint
-        (used for generating unique connection IDs) */
-    private boolean orig;
+    /** truf if undfrlying donnfdtion originbtfd from tiis fndpoint
+        (usfd for gfnfrbting uniquf donnfdtion IDs) */
+    privbtf boolfbn orig;
 
-    /** layered stream for reading formatted data from underlying connection */
-    private DataInputStream dataIn;
+    /** lbyfrfd strfbm for rfbding formbttfd dbtb from undfrlying donnfdtion */
+    privbtf DbtbInputStrfbm dbtbIn;
 
-    /** layered stream for writing formatted data to underlying connection */
-    private DataOutputStream dataOut;
+    /** lbyfrfd strfbm for writing formbttfd dbtb to undfrlying donnfdtion */
+    privbtf DbtbOutputStrfbm dbtbOut;
 
-    /** table holding currently open connection IDs and related info */
-    private Hashtable<Integer, MultiplexConnectionInfo> connectionTable = new Hashtable<>(7);
+    /** tbblf iolding durrfntly opfn donnfdtion IDs bnd rflbtfd info */
+    privbtf Hbsitbblf<Intfgfr, MultiplfxConnfdtionInfo> donnfdtionTbblf = nfw Hbsitbblf<>(7);
 
-    /** number of currently open connections */
-    private int numConnections = 0;
+    /** numbfr of durrfntly opfn donnfdtions */
+    privbtf int numConnfdtions = 0;
 
-    /** maximum allowed open connections */
-    private final static int maxConnections = 256;
+    /** mbximum bllowfd opfn donnfdtions */
+    privbtf finbl stbtid int mbxConnfdtions = 256;
 
-    /** ID of last connection opened */
-    private int lastID = 0x1001;
+    /** ID of lbst donnfdtion opfnfd */
+    privbtf int lbstID = 0x1001;
 
-    /** true if this mechanism is still alive */
-    private boolean alive = true;
+    /** truf if tiis mfdibnism is still blivf */
+    privbtf boolfbn blivf = truf;
 
     /**
-     * Create a new ConnectionMultiplexer using the given underlying
-     * input/output stream pair.  The run method must be called
-     * (possibly on a new thread) to handle the demultiplexing.
-     * @param channel object to notify when new connection is received
-     * @param in input stream of underlying connection
-     * @param out output stream of underlying connection
-     * @param orig true if this endpoint intiated the underlying
-     *        connection (needs to be set differently at both ends)
+     * Crfbtf b nfw ConnfdtionMultiplfxfr using tif givfn undfrlying
+     * input/output strfbm pbir.  Tif run mftiod must bf dbllfd
+     * (possibly on b nfw tirfbd) to ibndlf tif dfmultiplfxing.
+     * @pbrbm dibnnfl objfdt to notify wifn nfw donnfdtion is rfdfivfd
+     * @pbrbm in input strfbm of undfrlying donnfdtion
+     * @pbrbm out output strfbm of undfrlying donnfdtion
+     * @pbrbm orig truf if tiis fndpoint intibtfd tif undfrlying
+     *        donnfdtion (nffds to bf sft difffrfntly bt boti fnds)
      */
-    public ConnectionMultiplexer(
-        TCPChannel    channel,
-        InputStream   in,
-        OutputStream  out,
-        boolean       orig)
+    publid ConnfdtionMultiplfxfr(
+        TCPCibnnfl    dibnnfl,
+        InputStrfbm   in,
+        OutputStrfbm  out,
+        boolfbn       orig)
     {
-        this.channel = channel;
-        this.in      = in;
-        this.out     = out;
-        this.orig    = orig;
+        tiis.dibnnfl = dibnnfl;
+        tiis.in      = in;
+        tiis.out     = out;
+        tiis.orig    = orig;
 
-        dataIn = new DataInputStream(in);
-        dataOut = new DataOutputStream(out);
+        dbtbIn = nfw DbtbInputStrfbm(in);
+        dbtbOut = nfw DbtbOutputStrfbm(out);
     }
 
     /**
-     * Process multiplexing protocol received from underlying connection.
+     * Prodfss multiplfxing protodol rfdfivfd from undfrlying donnfdtion.
      */
-    public void run() throws IOException
+    publid void run() tirows IOExdfption
     {
         try {
-            int op, id, length;
-            MultiplexConnectionInfo info;
+            int op, id, lfngti;
+            MultiplfxConnfdtionInfo info;
 
-            while (true) {
+            wiilf (truf) {
 
-                // read next op code from remote endpoint
-                op = dataIn.readUnsignedByte();
-                switch (op) {
+                // rfbd nfxt op dodf from rfmotf fndpoint
+                op = dbtbIn.rfbdUnsignfdBytf();
+                switdi (op) {
 
-                // remote endpoint initiating new connection
-                case OPEN:
-                    id = dataIn.readUnsignedShort();
+                // rfmotf fndpoint initibting nfw donnfdtion
+                dbsf OPEN:
+                    id = dbtbIn.rfbdUnsignfdSiort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE, "operation  OPEN " + id);
+                    if (multiplfxLog.isLoggbblf(Log.VERBOSE)) {
+                        multiplfxLog.log(Log.VERBOSE, "opfrbtion  OPEN " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = donnfdtionTbblf.gft(id);
                     if (info != null)
-                        throw new IOException(
-                            "OPEN: Connection ID already exists");
-                    info = new MultiplexConnectionInfo(id);
-                    info.in = new MultiplexInputStream(this, info, 2048);
-                    info.out = new MultiplexOutputStream(this, info, 2048);
-                    synchronized (connectionTable) {
-                        connectionTable.put(id, info);
-                        ++ numConnections;
+                        tirow nfw IOExdfption(
+                            "OPEN: Connfdtion ID blrfbdy fxists");
+                    info = nfw MultiplfxConnfdtionInfo(id);
+                    info.in = nfw MultiplfxInputStrfbm(tiis, info, 2048);
+                    info.out = nfw MultiplfxOutputStrfbm(tiis, info, 2048);
+                    syndironizfd (donnfdtionTbblf) {
+                        donnfdtionTbblf.put(id, info);
+                        ++ numConnfdtions;
                     }
-                    sun.rmi.transport.Connection conn;
-                    conn = new TCPConnection(channel, info.in, info.out);
-                    channel.acceptMultiplexConnection(conn);
-                    break;
+                    sun.rmi.trbnsport.Connfdtion donn;
+                    donn = nfw TCPConnfdtion(dibnnfl, info.in, info.out);
+                    dibnnfl.bddfptMultiplfxConnfdtion(donn);
+                    brfbk;
 
-                // remote endpoint closing connection
-                case CLOSE:
-                    id = dataIn.readUnsignedShort();
+                // rfmotf fndpoint dlosing donnfdtion
+                dbsf CLOSE:
+                    id = dbtbIn.rfbdUnsignfdSiort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE, "operation  CLOSE " + id);
+                    if (multiplfxLog.isLoggbblf(Log.VERBOSE)) {
+                        multiplfxLog.log(Log.VERBOSE, "opfrbtion  CLOSE " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = donnfdtionTbblf.gft(id);
                     if (info == null)
-                        throw new IOException(
-                            "CLOSE: Invalid connection ID");
-                    info.in.disconnect();
-                    info.out.disconnect();
-                    if (!info.closed)
-                        sendCloseAck(info);
-                    synchronized (connectionTable) {
-                        connectionTable.remove(id);
-                        -- numConnections;
+                        tirow nfw IOExdfption(
+                            "CLOSE: Invblid donnfdtion ID");
+                    info.in.disdonnfdt();
+                    info.out.disdonnfdt();
+                    if (!info.dlosfd)
+                        sfndClosfAdk(info);
+                    syndironizfd (donnfdtionTbblf) {
+                        donnfdtionTbblf.rfmovf(id);
+                        -- numConnfdtions;
                     }
-                    break;
+                    brfbk;
 
-                // remote endpoint acknowledging close of connection
-                case CLOSEACK:
-                    id = dataIn.readUnsignedShort();
+                // rfmotf fndpoint bdknowlfdging dlosf of donnfdtion
+                dbsf CLOSEACK:
+                    id = dbtbIn.rfbdUnsignfdSiort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE,
-                            "operation  CLOSEACK " + id);
+                    if (multiplfxLog.isLoggbblf(Log.VERBOSE)) {
+                        multiplfxLog.log(Log.VERBOSE,
+                            "opfrbtion  CLOSEACK " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = donnfdtionTbblf.gft(id);
                     if (info == null)
-                        throw new IOException(
-                            "CLOSEACK: Invalid connection ID");
-                    if (!info.closed)
-                        throw new IOException(
-                            "CLOSEACK: Connection not closed");
-                    info.in.disconnect();
-                    info.out.disconnect();
-                    synchronized (connectionTable) {
-                        connectionTable.remove(id);
-                        -- numConnections;
+                        tirow nfw IOExdfption(
+                            "CLOSEACK: Invblid donnfdtion ID");
+                    if (!info.dlosfd)
+                        tirow nfw IOExdfption(
+                            "CLOSEACK: Connfdtion not dlosfd");
+                    info.in.disdonnfdt();
+                    info.out.disdonnfdt();
+                    syndironizfd (donnfdtionTbblf) {
+                        donnfdtionTbblf.rfmovf(id);
+                        -- numConnfdtions;
                     }
-                    break;
+                    brfbk;
 
-                // remote endpoint declaring additional bytes receivable
-                case REQUEST:
-                    id = dataIn.readUnsignedShort();
-                    info = connectionTable.get(id);
+                // rfmotf fndpoint dfdlbring bdditionbl bytfs rfdfivbblf
+                dbsf REQUEST:
+                    id = dbtbIn.rfbdUnsignfdSiort();
+                    info = donnfdtionTbblf.gft(id);
                     if (info == null)
-                        throw new IOException(
-                            "REQUEST: Invalid connection ID");
-                    length = dataIn.readInt();
+                        tirow nfw IOExdfption(
+                            "REQUEST: Invblid donnfdtion ID");
+                    lfngti = dbtbIn.rfbdInt();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE,
-                            "operation  REQUEST " + id + ": " + length);
+                    if (multiplfxLog.isLoggbblf(Log.VERBOSE)) {
+                        multiplfxLog.log(Log.VERBOSE,
+                            "opfrbtion  REQUEST " + id + ": " + lfngti);
                     }
 
-                    info.out.request(length);
-                    break;
+                    info.out.rfqufst(lfngti);
+                    brfbk;
 
-                // remote endpoint transmitting data packet
-                case TRANSMIT:
-                    id = dataIn.readUnsignedShort();
-                    info = connectionTable.get(id);
+                // rfmotf fndpoint trbnsmitting dbtb pbdkft
+                dbsf TRANSMIT:
+                    id = dbtbIn.rfbdUnsignfdSiort();
+                    info = donnfdtionTbblf.gft(id);
                     if (info == null)
-                        throw new IOException("SEND: Invalid connection ID");
-                    length = dataIn.readInt();
+                        tirow nfw IOExdfption("SEND: Invblid donnfdtion ID");
+                    lfngti = dbtbIn.rfbdInt();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE,
-                            "operation  TRANSMIT " + id + ": " + length);
+                    if (multiplfxLog.isLoggbblf(Log.VERBOSE)) {
+                        multiplfxLog.log(Log.VERBOSE,
+                            "opfrbtion  TRANSMIT " + id + ": " + lfngti);
                     }
 
-                    info.in.receive(length, dataIn);
-                    break;
+                    info.in.rfdfivf(lfngti, dbtbIn);
+                    brfbk;
 
-                default:
-                    throw new IOException("Invalid operation: " +
-                                          Integer.toHexString(op));
+                dffbult:
+                    tirow nfw IOExdfption("Invblid opfrbtion: " +
+                                          Intfgfr.toHfxString(op));
                 }
             }
-        } finally {
-            shutDown();
+        } finblly {
+            siutDown();
         }
     }
 
     /**
-     * Initiate a new multiplexed connection through the underlying
-     * connection.
+     * Initibtf b nfw multiplfxfd donnfdtion tirougi tif undfrlying
+     * donnfdtion.
      */
-    public synchronized TCPConnection openConnection() throws IOException
+    publid syndironizfd TCPConnfdtion opfnConnfdtion() tirows IOExdfption
     {
-        // generate ID that should not be already used
-        // If all possible 32768 IDs are used,
-        // this method will block searching for a new ID forever.
+        // gfnfrbtf ID tibt siould not bf blrfbdy usfd
+        // If bll possiblf 32768 IDs brf usfd,
+        // tiis mftiod will blodk sfbrdiing for b nfw ID forfvfr.
         int id;
         do {
-            lastID = (++ lastID) & 0x7FFF;
-            id = lastID;
+            lbstID = (++ lbstID) & 0x7FFF;
+            id = lbstID;
 
-            // The orig flag (copied to the high bit of the ID) is used
-            // to have two distinct ranges to choose IDs from for the
-            // two endpoints.
+            // Tif orig flbg (dopifd to tif iigi bit of tif ID) is usfd
+            // to ibvf two distindt rbngfs to dioosf IDs from for tif
+            // two fndpoints.
             if (orig)
                 id |= 0x8000;
-        } while (connectionTable.get(id) != null);
+        } wiilf (donnfdtionTbblf.gft(id) != null);
 
-        // create multiplexing streams and bookkeeping information
-        MultiplexConnectionInfo info = new MultiplexConnectionInfo(id);
-        info.in = new MultiplexInputStream(this, info, 2048);
-        info.out = new MultiplexOutputStream(this, info, 2048);
+        // drfbtf multiplfxing strfbms bnd bookkffping informbtion
+        MultiplfxConnfdtionInfo info = nfw MultiplfxConnfdtionInfo(id);
+        info.in = nfw MultiplfxInputStrfbm(tiis, info, 2048);
+        info.out = nfw MultiplfxOutputStrfbm(tiis, info, 2048);
 
-        // add to connection table if multiplexer has not died
-        synchronized (connectionTable) {
-            if (!alive)
-                throw new IOException("Multiplexer connection dead");
-            if (numConnections >= maxConnections)
-                throw new IOException("Cannot exceed " + maxConnections +
-                    " simultaneous multiplexed connections");
-            connectionTable.put(id, info);
-            ++ numConnections;
+        // bdd to donnfdtion tbblf if multiplfxfr ibs not difd
+        syndironizfd (donnfdtionTbblf) {
+            if (!blivf)
+                tirow nfw IOExdfption("Multiplfxfr donnfdtion dfbd");
+            if (numConnfdtions >= mbxConnfdtions)
+                tirow nfw IOExdfption("Cbnnot fxdffd " + mbxConnfdtions +
+                    " simultbnfous multiplfxfd donnfdtions");
+            donnfdtionTbblf.put(id, info);
+            ++ numConnfdtions;
         }
 
-        // inform remote endpoint of new connection
-        synchronized (dataOut) {
+        // inform rfmotf fndpoint of nfw donnfdtion
+        syndironizfd (dbtbOut) {
             try {
-                dataOut.writeByte(OPEN);
-                dataOut.writeShort(id);
-                dataOut.flush();
-            } catch (IOException e) {
-                multiplexLog.log(Log.BRIEF, "exception: ", e);
+                dbtbOut.writfBytf(OPEN);
+                dbtbOut.writfSiort(id);
+                dbtbOut.flusi();
+            } dbtdi (IOExdfption f) {
+                multiplfxLog.log(Log.BRIEF, "fxdfption: ", f);
 
-                shutDown();
-                throw e;
+                siutDown();
+                tirow f;
             }
         }
 
-        return new TCPConnection(channel, info.in, info.out);
+        rfturn nfw TCPConnfdtion(dibnnfl, info.in, info.out);
     }
 
     /**
-     * Shut down all connections and clean up.
+     * Siut down bll donnfdtions bnd dlfbn up.
      */
-    public void shutDown()
+    publid void siutDown()
     {
-        // inform all associated streams
-        synchronized (connectionTable) {
-            // return if multiplexer already officially dead
-            if (!alive)
-                return;
-            alive = false;
+        // inform bll bssodibtfd strfbms
+        syndironizfd (donnfdtionTbblf) {
+            // rfturn if multiplfxfr blrfbdy offidiblly dfbd
+            if (!blivf)
+                rfturn;
+            blivf = fblsf;
 
-            Enumeration<MultiplexConnectionInfo> enum_ =
-                    connectionTable.elements();
-            while (enum_.hasMoreElements()) {
-                MultiplexConnectionInfo info = enum_.nextElement();
-                info.in.disconnect();
-                info.out.disconnect();
+            Enumfrbtion<MultiplfxConnfdtionInfo> fnum_ =
+                    donnfdtionTbblf.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                MultiplfxConnfdtionInfo info = fnum_.nfxtElfmfnt();
+                info.in.disdonnfdt();
+                info.out.disdonnfdt();
             }
-            connectionTable.clear();
-            numConnections = 0;
+            donnfdtionTbblf.dlfbr();
+            numConnfdtions = 0;
         }
 
-        // close underlying connection, if possible (and not already done)
+        // dlosf undfrlying donnfdtion, if possiblf (bnd not blrfbdy donf)
         try {
-            in.close();
-        } catch (IOException e) {
+            in.dlosf();
+        } dbtdi (IOExdfption f) {
         }
         try {
-            out.close();
-        } catch (IOException e) {
+            out.dlosf();
+        } dbtdi (IOExdfption f) {
         }
     }
 
     /**
-     * Send request for more data on connection to remote endpoint.
-     * @param info connection information structure
-     * @param len number of more bytes that can be received
+     * Sfnd rfqufst for morf dbtb on donnfdtion to rfmotf fndpoint.
+     * @pbrbm info donnfdtion informbtion strudturf
+     * @pbrbm lfn numbfr of morf bytfs tibt dbn bf rfdfivfd
      */
-    void sendRequest(MultiplexConnectionInfo info, int len) throws IOException
+    void sfndRfqufst(MultiplfxConnfdtionInfo info, int lfn) tirows IOExdfption
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        syndironizfd (dbtbOut) {
+            if (blivf && !info.dlosfd)
                 try {
-                    dataOut.writeByte(REQUEST);
-                    dataOut.writeShort(info.id);
-                    dataOut.writeInt(len);
-                    dataOut.flush();
-                } catch (IOException e) {
-                    multiplexLog.log(Log.BRIEF, "exception: ", e);
+                    dbtbOut.writfBytf(REQUEST);
+                    dbtbOut.writfSiort(info.id);
+                    dbtbOut.writfInt(lfn);
+                    dbtbOut.flusi();
+                } dbtdi (IOExdfption f) {
+                    multiplfxLog.log(Log.BRIEF, "fxdfption: ", f);
 
-                    shutDown();
-                    throw e;
+                    siutDown();
+                    tirow f;
                 }
         }
     }
 
     /**
-     * Send packet of requested data on connection to remote endpoint.
-     * @param info connection information structure
-     * @param buf array containing bytes to send
-     * @param off offset of first array index of packet
-     * @param len number of bytes in packet to send
+     * Sfnd pbdkft of rfqufstfd dbtb on donnfdtion to rfmotf fndpoint.
+     * @pbrbm info donnfdtion informbtion strudturf
+     * @pbrbm buf brrby dontbining bytfs to sfnd
+     * @pbrbm off offsft of first brrby indfx of pbdkft
+     * @pbrbm lfn numbfr of bytfs in pbdkft to sfnd
      */
-    void sendTransmit(MultiplexConnectionInfo info,
-                      byte buf[], int off, int len) throws IOException
+    void sfndTrbnsmit(MultiplfxConnfdtionInfo info,
+                      bytf buf[], int off, int lfn) tirows IOExdfption
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        syndironizfd (dbtbOut) {
+            if (blivf && !info.dlosfd)
                 try {
-                    dataOut.writeByte(TRANSMIT);
-                    dataOut.writeShort(info.id);
-                    dataOut.writeInt(len);
-                    dataOut.write(buf, off, len);
-                    dataOut.flush();
-                } catch (IOException e) {
-                    multiplexLog.log(Log.BRIEF, "exception: ", e);
+                    dbtbOut.writfBytf(TRANSMIT);
+                    dbtbOut.writfSiort(info.id);
+                    dbtbOut.writfInt(lfn);
+                    dbtbOut.writf(buf, off, lfn);
+                    dbtbOut.flusi();
+                } dbtdi (IOExdfption f) {
+                    multiplfxLog.log(Log.BRIEF, "fxdfption: ", f);
 
-                    shutDown();
-                    throw e;
+                    siutDown();
+                    tirow f;
                 }
         }
     }
 
     /**
-     * Inform remote endpoint that connection has been closed.
-     * @param info connection information structure
+     * Inform rfmotf fndpoint tibt donnfdtion ibs bffn dlosfd.
+     * @pbrbm info donnfdtion informbtion strudturf
      */
-    void sendClose(MultiplexConnectionInfo info) throws IOException
+    void sfndClosf(MultiplfxConnfdtionInfo info) tirows IOExdfption
     {
-        info.out.disconnect();
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        info.out.disdonnfdt();
+        syndironizfd (dbtbOut) {
+            if (blivf && !info.dlosfd)
                 try {
-                    dataOut.writeByte(CLOSE);
-                    dataOut.writeShort(info.id);
-                    dataOut.flush();
-                    info.closed = true;
-                } catch (IOException e) {
-                    multiplexLog.log(Log.BRIEF, "exception: ", e);
+                    dbtbOut.writfBytf(CLOSE);
+                    dbtbOut.writfSiort(info.id);
+                    dbtbOut.flusi();
+                    info.dlosfd = truf;
+                } dbtdi (IOExdfption f) {
+                    multiplfxLog.log(Log.BRIEF, "fxdfption: ", f);
 
-                    shutDown();
-                    throw e;
+                    siutDown();
+                    tirow f;
                 }
         }
     }
 
     /**
-     * Acknowledge remote endpoint's closing of connection.
-     * @param info connection information structure
+     * Adknowlfdgf rfmotf fndpoint's dlosing of donnfdtion.
+     * @pbrbm info donnfdtion informbtion strudturf
      */
-    void sendCloseAck(MultiplexConnectionInfo info) throws IOException
+    void sfndClosfAdk(MultiplfxConnfdtionInfo info) tirows IOExdfption
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        syndironizfd (dbtbOut) {
+            if (blivf && !info.dlosfd)
                 try {
-                    dataOut.writeByte(CLOSEACK);
-                    dataOut.writeShort(info.id);
-                    dataOut.flush();
-                    info.closed = true;
-                } catch (IOException e) {
-                    multiplexLog.log(Log.BRIEF, "exception: ", e);
+                    dbtbOut.writfBytf(CLOSEACK);
+                    dbtbOut.writfSiort(info.id);
+                    dbtbOut.flusi();
+                    info.dlosfd = truf;
+                } dbtdi (IOExdfption f) {
+                    multiplfxLog.log(Log.BRIEF, "fxdfption: ", f);
 
-                    shutDown();
-                    throw e;
+                    siutDown();
+                    tirow f;
                 }
         }
     }
 
     /**
-     * Shut down connection upon finalization.
+     * Siut down donnfdtion upon finblizbtion.
      */
-    protected void finalize() throws Throwable
+    protfdtfd void finblizf() tirows Tirowbblf
     {
-        super.finalize();
-        shutDown();
+        supfr.finblizf();
+        siutDown();
     }
 }

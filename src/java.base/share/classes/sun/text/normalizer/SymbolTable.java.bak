@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.text.ParsePosition;
+import jbvb.tfxt.PbrsfPosition;
 
 /**
- * An interface that defines both lookup protocol and parsing of
- * symbolic names.
+ * An intfrfbdf tibt dffinfs boti lookup protodol bnd pbrsing of
+ * symbolid nbmfs.
  *
- * <p>A symbol table maintains two kinds of mappings.  The first is
- * between symbolic names and their values.  For example, if the
- * variable with the name "start" is set to the value "alpha"
- * (perhaps, though not necessarily, through an expression such as
- * "$start=alpha"), then the call lookup("start") will return the
- * char[] array ['a', 'l', 'p', 'h', 'a'].
+ * <p>A symbol tbblf mbintbins two kinds of mbppings.  Tif first is
+ * bftwffn symbolid nbmfs bnd tifir vblufs.  For fxbmplf, if tif
+ * vbribblf witi tif nbmf "stbrt" is sft to tif vbluf "blpib"
+ * (pfribps, tiougi not nfdfssbrily, tirougi bn fxprfssion sudi bs
+ * "$stbrt=blpib"), tifn tif dbll lookup("stbrt") will rfturn tif
+ * dibr[] brrby ['b', 'l', 'p', 'i', 'b'].
  *
- * <p>The second kind of mapping is between character values and
- * UnicodeMatcher objects.  This is used by RuleBasedTransliterator,
- * which uses characters in the private use area to represent objects
- * such as UnicodeSets.  If U+E015 is mapped to the UnicodeSet [a-z],
- * then lookupMatcher(0xE015) will return the UnicodeSet [a-z].
+ * <p>Tif sfdond kind of mbpping is bftwffn dibrbdtfr vblufs bnd
+ * UnidodfMbtdifr objfdts.  Tiis is usfd by RulfBbsfdTrbnslitfrbtor,
+ * wiidi usfs dibrbdtfrs in tif privbtf usf brfb to rfprfsfnt objfdts
+ * sudi bs UnidodfSfts.  If U+E015 is mbppfd to tif UnidodfSft [b-z],
+ * tifn lookupMbtdifr(0xE015) will rfturn tif UnidodfSft [b-z].
  *
- * <p>Finally, a symbol table defines parsing behavior for symbolic
- * names.  All symbolic names start with the SYMBOL_REF character.
- * When a parser encounters this character, it calls parseReference()
- * with the position immediately following the SYMBOL_REF.  The symbol
- * table parses the name, if there is one, and returns it.
+ * <p>Finblly, b symbol tbblf dffinfs pbrsing bfibvior for symbolid
+ * nbmfs.  All symbolid nbmfs stbrt witi tif SYMBOL_REF dibrbdtfr.
+ * Wifn b pbrsfr fndountfrs tiis dibrbdtfr, it dblls pbrsfRfffrfndf()
+ * witi tif position immfdibtfly following tif SYMBOL_REF.  Tif symbol
+ * tbblf pbrsfs tif nbmf, if tifrf is onf, bnd rfturns it.
  *
- * @draft ICU 2.8
- * @deprecated This is a draft API and might change in a future release of ICU.
+ * @drbft ICU 2.8
+ * @dfprfdbtfd Tiis is b drbft API bnd migit dibngf in b futurf rflfbsf of ICU.
  */
-@Deprecated
-public interface SymbolTable {
+@Dfprfdbtfd
+publid intfrfbdf SymbolTbblf {
 
     /**
-     * The character preceding a symbol reference name.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Tif dibrbdtfr prfdfding b symbol rfffrfndf nbmf.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd Tiis is b drbft API bnd migit dibngf in b futurf rflfbsf of ICU.
      */
-    @Deprecated
-    static final char SYMBOL_REF = '$';
+    @Dfprfdbtfd
+    stbtid finbl dibr SYMBOL_REF = '$';
 
     /**
-     * Lookup the characters associated with this string and return it.
-     * Return <tt>null</tt> if no such name exists.  The resultant
-     * array may have length zero.
-     * @param s the symbolic name to lookup
-     * @return a char array containing the name's value, or null if
-     * there is no mapping for s.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Lookup tif dibrbdtfrs bssodibtfd witi tiis string bnd rfturn it.
+     * Rfturn <tt>null</tt> if no sudi nbmf fxists.  Tif rfsultbnt
+     * brrby mby ibvf lfngti zfro.
+     * @pbrbm s tif symbolid nbmf to lookup
+     * @rfturn b dibr brrby dontbining tif nbmf's vbluf, or null if
+     * tifrf is no mbpping for s.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd Tiis is b drbft API bnd migit dibngf in b futurf rflfbsf of ICU.
      */
-    @Deprecated
-    char[] lookup(String s);
+    @Dfprfdbtfd
+    dibr[] lookup(String s);
 
     /**
-     * Lookup the UnicodeMatcher associated with the given character, and
-     * return it.  Return <tt>null</tt> if not found.
-     * @param ch a 32-bit code point from 0 to 0x10FFFF inclusive.
-     * @return the UnicodeMatcher object represented by the given
-     * character, or null if there is no mapping for ch.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Lookup tif UnidodfMbtdifr bssodibtfd witi tif givfn dibrbdtfr, bnd
+     * rfturn it.  Rfturn <tt>null</tt> if not found.
+     * @pbrbm di b 32-bit dodf point from 0 to 0x10FFFF indlusivf.
+     * @rfturn tif UnidodfMbtdifr objfdt rfprfsfntfd by tif givfn
+     * dibrbdtfr, or null if tifrf is no mbpping for di.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd Tiis is b drbft API bnd migit dibngf in b futurf rflfbsf of ICU.
      */
-    @Deprecated
-    UnicodeMatcher lookupMatcher(int ch);
+    @Dfprfdbtfd
+    UnidodfMbtdifr lookupMbtdifr(int di);
 
     /**
-     * Parse a symbol reference name from the given string, starting
-     * at the given position.  If no valid symbol reference name is
-     * found, return null and leave pos unchanged.  That is, if the
-     * character at pos cannot start a name, or if pos is at or after
-     * text.length(), then return null.  This indicates an isolated
-     * SYMBOL_REF character.
-     * @param text the text to parse for the name
-     * @param pos on entry, the index of the first character to parse.
-     * This is the character following the SYMBOL_REF character.  On
-     * exit, the index after the last parsed character.  If the parse
-     * failed, pos is unchanged on exit.
-     * @param limit the index after the last character to be parsed.
-     * @return the parsed name, or null if there is no valid symbolic
-     * name at the given position.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Pbrsf b symbol rfffrfndf nbmf from tif givfn string, stbrting
+     * bt tif givfn position.  If no vblid symbol rfffrfndf nbmf is
+     * found, rfturn null bnd lfbvf pos undibngfd.  Tibt is, if tif
+     * dibrbdtfr bt pos dbnnot stbrt b nbmf, or if pos is bt or bftfr
+     * tfxt.lfngti(), tifn rfturn null.  Tiis indidbtfs bn isolbtfd
+     * SYMBOL_REF dibrbdtfr.
+     * @pbrbm tfxt tif tfxt to pbrsf for tif nbmf
+     * @pbrbm pos on fntry, tif indfx of tif first dibrbdtfr to pbrsf.
+     * Tiis is tif dibrbdtfr following tif SYMBOL_REF dibrbdtfr.  On
+     * fxit, tif indfx bftfr tif lbst pbrsfd dibrbdtfr.  If tif pbrsf
+     * fbilfd, pos is undibngfd on fxit.
+     * @pbrbm limit tif indfx bftfr tif lbst dibrbdtfr to bf pbrsfd.
+     * @rfturn tif pbrsfd nbmf, or null if tifrf is no vblid symbolid
+     * nbmf bt tif givfn position.
+     * @drbft ICU 2.8
+     * @dfprfdbtfd Tiis is b drbft API bnd migit dibngf in b futurf rflfbsf of ICU.
      */
-    @Deprecated
-    String parseReference(String text, ParsePosition pos, int limit);
+    @Dfprfdbtfd
+    String pbrsfRfffrfndf(String tfxt, PbrsfPosition pos, int limit);
 }

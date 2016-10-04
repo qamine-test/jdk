@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.finder.PersistenceDelegateFinder;
+import dom.sun.bfbns.findfr.PfrsistfndfDflfgbtfFindfr;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * An <code>Encoder</code> is a class which can be used to create
- * files or streams that encode the state of a collection of
- * JavaBeans in terms of their public APIs. The <code>Encoder</code>,
- * in conjunction with its persistence delegates, is responsible for
- * breaking the object graph down into a series of <code>Statements</code>s
- * and <code>Expression</code>s which can be used to create it.
- * A subclass typically provides a syntax for these expressions
- * using some human readable form - like Java source code or XML.
+ * An <dodf>Endodfr</dodf> is b dlbss wiidi dbn bf usfd to drfbtf
+ * filfs or strfbms tibt fndodf tif stbtf of b dollfdtion of
+ * JbvbBfbns in tfrms of tifir publid APIs. Tif <dodf>Endodfr</dodf>,
+ * in donjundtion witi its pfrsistfndf dflfgbtfs, is rfsponsiblf for
+ * brfbking tif objfdt grbpi down into b sfrifs of <dodf>Stbtfmfnts</dodf>s
+ * bnd <dodf>Exprfssion</dodf>s wiidi dbn bf usfd to drfbtf it.
+ * A subdlbss typidblly providfs b syntbx for tifsf fxprfssions
+ * using somf iumbn rfbdbblf form - likf Jbvb sourdf dodf or XML.
  *
- * @since 1.4
+ * @sindf 1.4
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
 
-public class Encoder {
-    private final PersistenceDelegateFinder finder = new PersistenceDelegateFinder();
-    private Map<Object, Expression> bindings = new IdentityHashMap<>();
-    private ExceptionListener exceptionListener;
-    boolean executeStatements = true;
-    private Map<Object, Object> attributes;
+publid dlbss Endodfr {
+    privbtf finbl PfrsistfndfDflfgbtfFindfr findfr = nfw PfrsistfndfDflfgbtfFindfr();
+    privbtf Mbp<Objfdt, Exprfssion> bindings = nfw IdfntityHbsiMbp<>();
+    privbtf ExdfptionListfnfr fxdfptionListfnfr;
+    boolfbn fxfdutfStbtfmfnts = truf;
+    privbtf Mbp<Objfdt, Objfdt> bttributfs;
 
     /**
-     * Write the specified object to the output stream.
-     * The serialized form will denote a series of
-     * expressions, the combined effect of which will create
-     * an equivalent object when the input stream is read.
-     * By default, the object is assumed to be a <em>JavaBean</em>
-     * with a nullary constructor, whose state is defined by
-     * the matching pairs of "setter" and "getter" methods
-     * returned by the Introspector.
+     * Writf tif spfdififd objfdt to tif output strfbm.
+     * Tif sfriblizfd form will dfnotf b sfrifs of
+     * fxprfssions, tif dombinfd ffffdt of wiidi will drfbtf
+     * bn fquivblfnt objfdt wifn tif input strfbm is rfbd.
+     * By dffbult, tif objfdt is bssumfd to bf b <fm>JbvbBfbn</fm>
+     * witi b nullbry donstrudtor, wiosf stbtf is dffinfd by
+     * tif mbtdiing pbirs of "sfttfr" bnd "gfttfr" mftiods
+     * rfturnfd by tif Introspfdtor.
      *
-     * @param o The object to be written to the stream.
+     * @pbrbm o Tif objfdt to bf writtfn to tif strfbm.
      *
-     * @see XMLDecoder#readObject
+     * @sff XMLDfdodfr#rfbdObjfdt
      */
-    protected void writeObject(Object o) {
-        if (o == this) {
-            return;
+    protfdtfd void writfObjfdt(Objfdt o) {
+        if (o == tiis) {
+            rfturn;
         }
-        PersistenceDelegate info = getPersistenceDelegate(o == null ? null : o.getClass());
-        info.writeObject(o, this);
+        PfrsistfndfDflfgbtf info = gftPfrsistfndfDflfgbtf(o == null ? null : o.gftClbss());
+        info.writfObjfdt(o, tiis);
     }
 
     /**
-     * Sets the exception handler for this stream to <code>exceptionListener</code>.
-     * The exception handler is notified when this stream catches recoverable
-     * exceptions.
+     * Sfts tif fxdfption ibndlfr for tiis strfbm to <dodf>fxdfptionListfnfr</dodf>.
+     * Tif fxdfption ibndlfr is notififd wifn tiis strfbm dbtdifs rfdovfrbblf
+     * fxdfptions.
      *
-     * @param exceptionListener The exception handler for this stream;
-     *       if <code>null</code> the default exception listener will be used.
+     * @pbrbm fxdfptionListfnfr Tif fxdfption ibndlfr for tiis strfbm;
+     *       if <dodf>null</dodf> tif dffbult fxdfption listfnfr will bf usfd.
      *
-     * @see #getExceptionListener
+     * @sff #gftExdfptionListfnfr
      */
-    public void setExceptionListener(ExceptionListener exceptionListener) {
-        this.exceptionListener = exceptionListener;
+    publid void sftExdfptionListfnfr(ExdfptionListfnfr fxdfptionListfnfr) {
+        tiis.fxdfptionListfnfr = fxdfptionListfnfr;
     }
 
     /**
-     * Gets the exception handler for this stream.
+     * Gfts tif fxdfption ibndlfr for tiis strfbm.
      *
-     * @return The exception handler for this stream;
-     *    Will return the default exception listener if this has not explicitly been set.
+     * @rfturn Tif fxdfption ibndlfr for tiis strfbm;
+     *    Will rfturn tif dffbult fxdfption listfnfr if tiis ibs not fxpliditly bffn sft.
      *
-     * @see #setExceptionListener
+     * @sff #sftExdfptionListfnfr
      */
-    public ExceptionListener getExceptionListener() {
-        return (exceptionListener != null) ? exceptionListener : Statement.defaultExceptionListener;
+    publid ExdfptionListfnfr gftExdfptionListfnfr() {
+        rfturn (fxdfptionListfnfr != null) ? fxdfptionListfnfr : Stbtfmfnt.dffbultExdfptionListfnfr;
     }
 
-    Object getValue(Expression exp) {
+    Objfdt gftVbluf(Exprfssion fxp) {
         try {
-            return (exp == null) ? null : exp.getValue();
+            rfturn (fxp == null) ? null : fxp.gftVbluf();
         }
-        catch (Exception e) {
-            getExceptionListener().exceptionThrown(e);
-            throw new RuntimeException("failed to evaluate: " + exp.toString());
+        dbtdi (Exdfption f) {
+            gftExdfptionListfnfr().fxdfptionTirown(f);
+            tirow nfw RuntimfExdfption("fbilfd to fvblubtf: " + fxp.toString());
         }
     }
 
     /**
-     * Returns the persistence delegate for the given type.
-     * The persistence delegate is calculated by applying
-     * the following rules in order:
+     * Rfturns tif pfrsistfndf dflfgbtf for tif givfn typf.
+     * Tif pfrsistfndf dflfgbtf is dbldulbtfd by bpplying
+     * tif following rulfs in ordfr:
      * <ol>
      * <li>
-     * If a persistence delegate is associated with the given type
-     * by using the {@link #setPersistenceDelegate} method
-     * it is returned.
+     * If b pfrsistfndf dflfgbtf is bssodibtfd witi tif givfn typf
+     * by using tif {@link #sftPfrsistfndfDflfgbtf} mftiod
+     * it is rfturnfd.
      * <li>
-     * A persistence delegate is then looked up by the name
-     * composed of the the fully qualified name of the given type
-     * and the "PersistenceDelegate" postfix.
-     * For example, a persistence delegate for the {@code Bean} class
-     * should be named {@code BeanPersistenceDelegate}
-     * and located in the same package.
-     * <pre>
-     * public class Bean { ... }
-     * public class BeanPersistenceDelegate { ... }</pre>
-     * The instance of the {@code BeanPersistenceDelegate} class
-     * is returned for the {@code Bean} class.
+     * A pfrsistfndf dflfgbtf is tifn lookfd up by tif nbmf
+     * domposfd of tif tif fully qublififd nbmf of tif givfn typf
+     * bnd tif "PfrsistfndfDflfgbtf" postfix.
+     * For fxbmplf, b pfrsistfndf dflfgbtf for tif {@dodf Bfbn} dlbss
+     * siould bf nbmfd {@dodf BfbnPfrsistfndfDflfgbtf}
+     * bnd lodbtfd in tif sbmf pbdkbgf.
+     * <prf>
+     * publid dlbss Bfbn { ... }
+     * publid dlbss BfbnPfrsistfndfDflfgbtf { ... }</prf>
+     * Tif instbndf of tif {@dodf BfbnPfrsistfndfDflfgbtf} dlbss
+     * is rfturnfd for tif {@dodf Bfbn} dlbss.
      * <li>
-     * If the type is {@code null},
-     * a shared internal persistence delegate is returned
-     * that encodes {@code null} value.
+     * If tif typf is {@dodf null},
+     * b sibrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * tibt fndodfs {@dodf null} vbluf.
      * <li>
-     * If the type is a {@code enum} declaration,
-     * a shared internal persistence delegate is returned
-     * that encodes constants of this enumeration
-     * by their names.
+     * If tif typf is b {@dodf fnum} dfdlbrbtion,
+     * b sibrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * tibt fndodfs donstbnts of tiis fnumfrbtion
+     * by tifir nbmfs.
      * <li>
-     * If the type is a primitive type or the corresponding wrapper,
-     * a shared internal persistence delegate is returned
-     * that encodes values of the given type.
+     * If tif typf is b primitivf typf or tif dorrfsponding wrbppfr,
+     * b sibrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * tibt fndodfs vblufs of tif givfn typf.
      * <li>
-     * If the type is an array,
-     * a shared internal persistence delegate is returned
-     * that encodes an array of the appropriate type and length,
-     * and each of its elements as if they are properties.
+     * If tif typf is bn brrby,
+     * b sibrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * tibt fndodfs bn brrby of tif bppropribtf typf bnd lfngti,
+     * bnd fbdi of its flfmfnts bs if tify brf propfrtifs.
      * <li>
-     * If the type is a proxy,
-     * a shared internal persistence delegate is returned
-     * that encodes a proxy instance by using
-     * the {@link java.lang.reflect.Proxy#newProxyInstance} method.
+     * If tif typf is b proxy,
+     * b sibrfd intfrnbl pfrsistfndf dflfgbtf is rfturnfd
+     * tibt fndodfs b proxy instbndf by using
+     * tif {@link jbvb.lbng.rfflfdt.Proxy#nfwProxyInstbndf} mftiod.
      * <li>
-     * If the {@link BeanInfo} for this type has a {@link BeanDescriptor}
-     * which defined a "persistenceDelegate" attribute,
-     * the value of this named attribute is returned.
+     * If tif {@link BfbnInfo} for tiis typf ibs b {@link BfbnDfsdriptor}
+     * wiidi dffinfd b "pfrsistfndfDflfgbtf" bttributf,
+     * tif vbluf of tiis nbmfd bttributf is rfturnfd.
      * <li>
-     * In all other cases the default persistence delegate is returned.
-     * The default persistence delegate assumes the type is a <em>JavaBean</em>,
-     * implying that it has a default constructor and that its state
-     * may be characterized by the matching pairs of "setter" and "getter"
-     * methods returned by the {@link Introspector} class.
-     * The default constructor is the constructor with the greatest number
-     * of parameters that has the {@link ConstructorProperties} annotation.
-     * If none of the constructors has the {@code ConstructorProperties} annotation,
-     * then the nullary constructor (constructor with no parameters) will be used.
-     * For example, in the following code fragment, the nullary constructor
-     * for the {@code Foo} class will be used,
-     * while the two-parameter constructor
-     * for the {@code Bar} class will be used.
-     * <pre>
-     * public class Foo {
-     *     public Foo() { ... }
-     *     public Foo(int x) { ... }
+     * In bll otifr dbsfs tif dffbult pfrsistfndf dflfgbtf is rfturnfd.
+     * Tif dffbult pfrsistfndf dflfgbtf bssumfs tif typf is b <fm>JbvbBfbn</fm>,
+     * implying tibt it ibs b dffbult donstrudtor bnd tibt its stbtf
+     * mby bf dibrbdtfrizfd by tif mbtdiing pbirs of "sfttfr" bnd "gfttfr"
+     * mftiods rfturnfd by tif {@link Introspfdtor} dlbss.
+     * Tif dffbult donstrudtor is tif donstrudtor witi tif grfbtfst numbfr
+     * of pbrbmftfrs tibt ibs tif {@link ConstrudtorPropfrtifs} bnnotbtion.
+     * If nonf of tif donstrudtors ibs tif {@dodf ConstrudtorPropfrtifs} bnnotbtion,
+     * tifn tif nullbry donstrudtor (donstrudtor witi no pbrbmftfrs) will bf usfd.
+     * For fxbmplf, in tif following dodf frbgmfnt, tif nullbry donstrudtor
+     * for tif {@dodf Foo} dlbss will bf usfd,
+     * wiilf tif two-pbrbmftfr donstrudtor
+     * for tif {@dodf Bbr} dlbss will bf usfd.
+     * <prf>
+     * publid dlbss Foo {
+     *     publid Foo() { ... }
+     *     publid Foo(int x) { ... }
      * }
-     * public class Bar {
-     *     public Bar() { ... }
-     *     &#64;ConstructorProperties({"x"})
-     *     public Bar(int x) { ... }
-     *     &#64;ConstructorProperties({"x", "y"})
-     *     public Bar(int x, int y) { ... }
-     * }</pre>
+     * publid dlbss Bbr {
+     *     publid Bbr() { ... }
+     *     &#64;ConstrudtorPropfrtifs({"x"})
+     *     publid Bbr(int x) { ... }
+     *     &#64;ConstrudtorPropfrtifs({"x", "y"})
+     *     publid Bbr(int x, int y) { ... }
+     * }</prf>
      * </ol>
      *
-     * @param type  the class of the objects
-     * @return the persistence delegate for the given type
+     * @pbrbm typf  tif dlbss of tif objfdts
+     * @rfturn tif pfrsistfndf dflfgbtf for tif givfn typf
      *
-     * @see #setPersistenceDelegate
-     * @see java.beans.Introspector#getBeanInfo
-     * @see java.beans.BeanInfo#getBeanDescriptor
+     * @sff #sftPfrsistfndfDflfgbtf
+     * @sff jbvb.bfbns.Introspfdtor#gftBfbnInfo
+     * @sff jbvb.bfbns.BfbnInfo#gftBfbnDfsdriptor
      */
-    public PersistenceDelegate getPersistenceDelegate(Class<?> type) {
-        PersistenceDelegate pd = this.finder.find(type);
+    publid PfrsistfndfDflfgbtf gftPfrsistfndfDflfgbtf(Clbss<?> typf) {
+        PfrsistfndfDflfgbtf pd = tiis.findfr.find(typf);
         if (pd == null) {
-            pd = MetaData.getPersistenceDelegate(type);
+            pd = MftbDbtb.gftPfrsistfndfDflfgbtf(typf);
             if (pd != null) {
-                this.finder.register(type, pd);
+                tiis.findfr.rfgistfr(typf, pd);
             }
         }
-        return pd;
+        rfturn pd;
     }
 
     /**
-     * Associates the specified persistence delegate with the given type.
+     * Assodibtfs tif spfdififd pfrsistfndf dflfgbtf witi tif givfn typf.
      *
-     * @param type  the class of objects that the specified persistence delegate applies to
-     * @param delegate  the persistence delegate for instances of the given type
+     * @pbrbm typf  tif dlbss of objfdts tibt tif spfdififd pfrsistfndf dflfgbtf bpplifs to
+     * @pbrbm dflfgbtf  tif pfrsistfndf dflfgbtf for instbndfs of tif givfn typf
      *
-     * @see #getPersistenceDelegate
-     * @see java.beans.Introspector#getBeanInfo
-     * @see java.beans.BeanInfo#getBeanDescriptor
+     * @sff #gftPfrsistfndfDflfgbtf
+     * @sff jbvb.bfbns.Introspfdtor#gftBfbnInfo
+     * @sff jbvb.bfbns.BfbnInfo#gftBfbnDfsdriptor
      */
-    public void setPersistenceDelegate(Class<?> type, PersistenceDelegate delegate) {
-        this.finder.register(type, delegate);
+    publid void sftPfrsistfndfDflfgbtf(Clbss<?> typf, PfrsistfndfDflfgbtf dflfgbtf) {
+        tiis.findfr.rfgistfr(typf, dflfgbtf);
     }
 
     /**
-     * Removes the entry for this instance, returning the old entry.
+     * Rfmovfs tif fntry for tiis instbndf, rfturning tif old fntry.
      *
-     * @param oldInstance The entry that should be removed.
-     * @return The entry that was removed.
+     * @pbrbm oldInstbndf Tif fntry tibt siould bf rfmovfd.
+     * @rfturn Tif fntry tibt wbs rfmovfd.
      *
-     * @see #get
+     * @sff #gft
      */
-    public Object remove(Object oldInstance) {
-        Expression exp = bindings.remove(oldInstance);
-        return getValue(exp);
+    publid Objfdt rfmovf(Objfdt oldInstbndf) {
+        Exprfssion fxp = bindings.rfmovf(oldInstbndf);
+        rfturn gftVbluf(fxp);
     }
 
     /**
-     * Returns a tentative value for <code>oldInstance</code> in
-     * the environment created by this stream. A persistence
-     * delegate can use its <code>mutatesTo</code> method to
-     * determine whether this value may be initialized to
-     * form the equivalent object at the output or whether
-     * a new object must be instantiated afresh. If the
-     * stream has not yet seen this value, null is returned.
+     * Rfturns b tfntbtivf vbluf for <dodf>oldInstbndf</dodf> in
+     * tif fnvironmfnt drfbtfd by tiis strfbm. A pfrsistfndf
+     * dflfgbtf dbn usf its <dodf>mutbtfsTo</dodf> mftiod to
+     * dftfrminf wiftifr tiis vbluf mby bf initiblizfd to
+     * form tif fquivblfnt objfdt bt tif output or wiftifr
+     * b nfw objfdt must bf instbntibtfd bfrfsi. If tif
+     * strfbm ibs not yft sffn tiis vbluf, null is rfturnfd.
      *
-     * @param  oldInstance The instance to be looked up.
-     * @return The object, null if the object has not been seen before.
+     * @pbrbm  oldInstbndf Tif instbndf to bf lookfd up.
+     * @rfturn Tif objfdt, null if tif objfdt ibs not bffn sffn bfforf.
      */
-    public Object get(Object oldInstance) {
-        if (oldInstance == null || oldInstance == this ||
-            oldInstance.getClass() == String.class) {
-            return oldInstance;
+    publid Objfdt gft(Objfdt oldInstbndf) {
+        if (oldInstbndf == null || oldInstbndf == tiis ||
+            oldInstbndf.gftClbss() == String.dlbss) {
+            rfturn oldInstbndf;
         }
-        Expression exp = bindings.get(oldInstance);
-        return getValue(exp);
+        Exprfssion fxp = bindings.gft(oldInstbndf);
+        rfturn gftVbluf(fxp);
     }
 
-    private Object writeObject1(Object oldInstance) {
-        Object o = get(oldInstance);
+    privbtf Objfdt writfObjfdt1(Objfdt oldInstbndf) {
+        Objfdt o = gft(oldInstbndf);
         if (o == null) {
-            writeObject(oldInstance);
-            o = get(oldInstance);
+            writfObjfdt(oldInstbndf);
+            o = gft(oldInstbndf);
         }
-        return o;
+        rfturn o;
     }
 
-    private Statement cloneStatement(Statement oldExp) {
-        Object oldTarget = oldExp.getTarget();
-        Object newTarget = writeObject1(oldTarget);
+    privbtf Stbtfmfnt dlonfStbtfmfnt(Stbtfmfnt oldExp) {
+        Objfdt oldTbrgft = oldExp.gftTbrgft();
+        Objfdt nfwTbrgft = writfObjfdt1(oldTbrgft);
 
-        Object[] oldArgs = oldExp.getArguments();
-        Object[] newArgs = new Object[oldArgs.length];
-        for (int i = 0; i < oldArgs.length; i++) {
-            newArgs[i] = writeObject1(oldArgs[i]);
+        Objfdt[] oldArgs = oldExp.gftArgumfnts();
+        Objfdt[] nfwArgs = nfw Objfdt[oldArgs.lfngti];
+        for (int i = 0; i < oldArgs.lfngti; i++) {
+            nfwArgs[i] = writfObjfdt1(oldArgs[i]);
         }
-        Statement newExp = Statement.class.equals(oldExp.getClass())
-                ? new Statement(newTarget, oldExp.getMethodName(), newArgs)
-                : new Expression(newTarget, oldExp.getMethodName(), newArgs);
-        newExp.loader = oldExp.loader;
-        return newExp;
+        Stbtfmfnt nfwExp = Stbtfmfnt.dlbss.fqubls(oldExp.gftClbss())
+                ? nfw Stbtfmfnt(nfwTbrgft, oldExp.gftMftiodNbmf(), nfwArgs)
+                : nfw Exprfssion(nfwTbrgft, oldExp.gftMftiodNbmf(), nfwArgs);
+        nfwExp.lobdfr = oldExp.lobdfr;
+        rfturn nfwExp;
     }
 
     /**
-     * Writes statement <code>oldStm</code> to the stream.
-     * The <code>oldStm</code> should be written entirely
-     * in terms of the callers environment, i.e. the
-     * target and all arguments should be part of the
-     * object graph being written. These expressions
-     * represent a series of "what happened" expressions
-     * which tell the output stream how to produce an
-     * object graph like the original.
+     * Writfs stbtfmfnt <dodf>oldStm</dodf> to tif strfbm.
+     * Tif <dodf>oldStm</dodf> siould bf writtfn fntirfly
+     * in tfrms of tif dbllfrs fnvironmfnt, i.f. tif
+     * tbrgft bnd bll brgumfnts siould bf pbrt of tif
+     * objfdt grbpi bfing writtfn. Tifsf fxprfssions
+     * rfprfsfnt b sfrifs of "wibt ibppfnfd" fxprfssions
+     * wiidi tfll tif output strfbm iow to produdf bn
+     * objfdt grbpi likf tif originbl.
      * <p>
-     * The implementation of this method will produce
-     * a second expression to represent the same expression in
-     * an environment that will exist when the stream is read.
-     * This is achieved simply by calling <code>writeObject</code>
-     * on the target and all the arguments and building a new
-     * expression with the results.
+     * Tif implfmfntbtion of tiis mftiod will produdf
+     * b sfdond fxprfssion to rfprfsfnt tif sbmf fxprfssion in
+     * bn fnvironmfnt tibt will fxist wifn tif strfbm is rfbd.
+     * Tiis is bdiifvfd simply by dblling <dodf>writfObjfdt</dodf>
+     * on tif tbrgft bnd bll tif brgumfnts bnd building b nfw
+     * fxprfssion witi tif rfsults.
      *
-     * @param oldStm The expression to be written to the stream.
+     * @pbrbm oldStm Tif fxprfssion to bf writtfn to tif strfbm.
      */
-    public void writeStatement(Statement oldStm) {
-        // System.out.println("writeStatement: " + oldExp);
-        Statement newStm = cloneStatement(oldStm);
-        if (oldStm.getTarget() != this && executeStatements) {
+    publid void writfStbtfmfnt(Stbtfmfnt oldStm) {
+        // Systfm.out.println("writfStbtfmfnt: " + oldExp);
+        Stbtfmfnt nfwStm = dlonfStbtfmfnt(oldStm);
+        if (oldStm.gftTbrgft() != tiis && fxfdutfStbtfmfnts) {
             try {
-                newStm.execute();
-            } catch (Exception e) {
-                getExceptionListener().exceptionThrown(new Exception("Encoder: discarding statement "
-                                                                     + newStm, e));
+                nfwStm.fxfdutf();
+            } dbtdi (Exdfption f) {
+                gftExdfptionListfnfr().fxdfptionTirown(nfw Exdfption("Endodfr: disdbrding stbtfmfnt "
+                                                                     + nfwStm, f));
             }
         }
     }
 
     /**
-     * The implementation first checks to see if an
-     * expression with this value has already been written.
-     * If not, the expression is cloned, using
-     * the same procedure as <code>writeStatement</code>,
-     * and the value of this expression is reconciled
-     * with the value of the cloned expression
-     * by calling <code>writeObject</code>.
+     * Tif implfmfntbtion first difdks to sff if bn
+     * fxprfssion witi tiis vbluf ibs blrfbdy bffn writtfn.
+     * If not, tif fxprfssion is dlonfd, using
+     * tif sbmf prodfdurf bs <dodf>writfStbtfmfnt</dodf>,
+     * bnd tif vbluf of tiis fxprfssion is rfdondilfd
+     * witi tif vbluf of tif dlonfd fxprfssion
+     * by dblling <dodf>writfObjfdt</dodf>.
      *
-     * @param oldExp The expression to be written to the stream.
+     * @pbrbm oldExp Tif fxprfssion to bf writtfn to tif strfbm.
      */
-    public void writeExpression(Expression oldExp) {
-        // System.out.println("Encoder::writeExpression: " + oldExp);
-        Object oldValue = getValue(oldExp);
-        if (get(oldValue) != null) {
-            return;
+    publid void writfExprfssion(Exprfssion oldExp) {
+        // Systfm.out.println("Endodfr::writfExprfssion: " + oldExp);
+        Objfdt oldVbluf = gftVbluf(oldExp);
+        if (gft(oldVbluf) != null) {
+            rfturn;
         }
-        bindings.put(oldValue, (Expression)cloneStatement(oldExp));
-        writeObject(oldValue);
+        bindings.put(oldVbluf, (Exprfssion)dlonfStbtfmfnt(oldExp));
+        writfObjfdt(oldVbluf);
     }
 
-    void clear() {
-        bindings.clear();
+    void dlfbr() {
+        bindings.dlfbr();
     }
 
-    // Package private method for setting an attributes table for the encoder
-    void setAttribute(Object key, Object value) {
-        if (attributes == null) {
-            attributes = new HashMap<>();
+    // Pbdkbgf privbtf mftiod for sftting bn bttributfs tbblf for tif fndodfr
+    void sftAttributf(Objfdt kfy, Objfdt vbluf) {
+        if (bttributfs == null) {
+            bttributfs = nfw HbsiMbp<>();
         }
-        attributes.put(key, value);
+        bttributfs.put(kfy, vbluf);
     }
 
-    Object getAttribute(Object key) {
-        if (attributes == null) {
-            return null;
+    Objfdt gftAttributf(Objfdt kfy) {
+        if (bttributfs == null) {
+            rfturn null;
         }
-        return attributes.get(key);
+        rfturn bttributfs.gft(kfy);
     }
 }

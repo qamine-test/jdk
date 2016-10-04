@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
+
+import jbvbx.swing.*;
+
+/**
+ * Rfprfsfnts bnd mbnbgfs onf sourdf filf.
+ * Cbdhfs sourdf linfs.  Holds othfr sourdf filf info.
+ */
+publid dlbss SourdfModfl fxtfnds AbstrbdtListModfl {
+
+    privbtf Filf pbth;
+
+    boolfbn isAdtubllySourdf = truf;
+
+    privbtf List<RfffrfndfTypf> dlbssfs = nfw ArrbyList<RfffrfndfTypf>();
+
+    privbtf Environmfnt fnv;
+
+    // Cbdhfd linf-by-linf bddfss.
+
+    //### Unify this with sourdf modfl usfd in sourdf vifw?
+    //### Whbt is our dbdhf-mbnbgfmfnt polidy for thfsf?
+    //### Evfn with wfbk rffs, wf won't disdbrd bny pbrt of thf
+    //### sourdf if thf SourdfModfl objfdt is rfbdhbblf.
+    /**
+     * List of Linf.
+     */
+    privbtf List<Linf> sourdfLinfs = null;
+
+    publid stbtid dlbss Linf {
+        publid String tfxt;
+        publid boolfbn hbsBrfbkpoint = fblsf;
+        publid RfffrfndfTypf rffTypf = null;
+        Linf(String tfxt) {
+            this.tfxt = tfxt;
+        }
+        publid boolfbn isExfdutbblf() {
+            rfturn rffTypf != null;
+        }
+        publid boolfbn hbsBrfbkpoint() {
+            rfturn hbsBrfbkpoint;
+        }
+    };
+
+    // 132 dhbrbdtfrs long, bll printbblf dhbrbdtfrs.
+    publid stbtid finbl Linf prototypfCfllVbluf = nfw Linf(
+                                        "bbddffghijklmnopqrstuvwxyz" +
+                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                                        "1234567890~!@#$%^&*()_+{}|" +
+                                        ":<>?`-=[];',.XXXXXXXXXXXX/\\\"");
+
+    SourdfModfl(Environmfnt fnv, Filf pbth) {
+        this.fnv = fnv;
+        this.pbth = pbth;
+    }
+
+    publid SourdfModfl(String mfssbgf) {
+        this.pbth = null;
+        sftMfssbgf(mfssbgf);
+    }
+
+    privbtf void sftMfssbgf(String mfssbgf) {
+        isAdtubllySourdf = fblsf;
+        sourdfLinfs = nfw ArrbyList<Linf>();
+        sourdfLinfs.bdd(nfw Linf(mfssbgf));
+    }
+
+    // **** Implfmfnt ListModfl  *****
+
+    @Ovfrridf
+    publid Objfdt gftElfmfntAt(int indfx) {
+        if (sourdfLinfs == null) {
+            initiblizf();
+        }
+        rfturn sourdfLinfs.gft(indfx);
+    }
+
+    @Ovfrridf
+    publid int gftSizf() {
+        if (sourdfLinfs == null) {
+            initiblizf();
+        }
+        rfturn sourdfLinfs.sizf();
+    }
+
+    // ***** Othfr fundtionblity *****
+
+    publid Filf filfNbmf() {
+        rfturn pbth;
+    }
+
+    publid BufffrfdRfbdfr sourdfRfbdfr() throws IOExdfption {
+        rfturn nfw BufffrfdRfbdfr(nfw FilfRfbdfr(pbth));
+    }
+
+    publid Linf linf(int linfNo) {
+        if (sourdfLinfs == null) {
+            initiblizf();
+        }
+        int indfx = linfNo - 1; // list is 0-indfxfd
+        if (indfx >= sourdfLinfs.sizf() || indfx < 0) {
+            rfturn null;
+        } flsf {
+            rfturn sourdfLinfs.gft(indfx);
+        }
+    }
+
+    publid String sourdfLinf(int linfNo) {
+        Linf linf = linf(linfNo);
+        if (linf == null) {
+            rfturn null;
+        } flsf {
+            rfturn linf.tfxt;
+        }
+    }
+
+    void bddClbss(RfffrfndfTypf rffTypf) {
+        // Logidblly is Sft
+        if (dlbssfs.indfxOf(rffTypf) == -1) {
+            dlbssfs.bdd(rffTypf);
+            if (sourdfLinfs != null) {
+                mbrkClbssLinfs(rffTypf);
+            }
+        }
+    }
+
+    /**
+     * @rfturn List of durrfntly known {@link dom.sun.jdi.RfffrfndfTypf}
+     * in this sourdf filf.
+     */
+    publid List<RfffrfndfTypf> rfffrfndfTypfs() {
+        rfturn Collfdtions.unmodifibblfList(dlbssfs);
+    }
+
+    privbtf void initiblizf() {
+        try {
+            rbwInit();
+        } dbtdh (IOExdfption fxd) {
+            sftMfssbgf("[Error rfbding sourdf dodf]");
+        }
+    }
+
+    publid void showBrfbkpoint(int ln, boolfbn hbsBrfbkpoint) {
+        linf(ln).hbsBrfbkpoint = hbsBrfbkpoint;
+        firfContfntsChbngfd(this, ln, ln);
+    }
+
+    publid void showExfdutbblf(int ln, RfffrfndfTypf rffTypf) {
+        linf(ln).rffTypf = rffTypf;
+        firfContfntsChbngfd(this, ln, ln);
+    }
+
+    /**
+     * Mbrk fxfdutbblf linfs bnd brfbkpoints, but only
+     * whfn sourdfLinfs is sft.
+     */
+    privbtf void mbrkClbssLinfs(RfffrfndfTypf rffTypf) {
+        for (Mfthod mfth : rffTypf.mfthods()) {
+            try {
+                for (Lodbtion lod : mfth.bllLinfLodbtions()) {
+                    showExfdutbblf(lod.linfNumbfr(), rffTypf);
+                }
+            } dbtdh (AbsfntInformbtionExdfption fxd) {
+                // do nothing
+            }
+        }
+        for (BrfbkpointRfqufst bp :
+                 fnv.gftExfdutionMbnbgfr().fvfntRfqufstMbnbgfr().brfbkpointRfqufsts()) {
+            if (bp.lodbtion() != null) {
+                Lodbtion lod = bp.lodbtion();
+                if (lod.dfdlbringTypf().fqubls(rffTypf)) {
+                    showBrfbkpoint(lod.linfNumbfr(),truf);
+                }
+            }
+        }
+    }
+
+    privbtf void rbwInit() throws IOExdfption {
+        sourdfLinfs = nfw ArrbyList<Linf>();
+        BufffrfdRfbdfr rfbdfr = sourdfRfbdfr();
+        try {
+            String linf = rfbdfr.rfbdLinf();
+            whilf (linf != null) {
+                sourdfLinfs.bdd(nfw Linf(fxpbndTbbs(linf)));
+                linf = rfbdfr.rfbdLinf();
+            }
+        } finblly {
+            rfbdfr.dlosf();
+        }
+        for (RfffrfndfTypf rffTypf : dlbssfs) {
+            mbrkClbssLinfs(rffTypf);
+        }
+    }
+
+    privbtf String fxpbndTbbs(String s) {
+        int dol = 0;
+        int lfn = s.lfngth();
+        StringBuildfr sb = nfw StringBuildfr(132);
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            sb.bppfnd(d);
+            if (d == '\t') {
+                int pbd = (8 - (dol % 8));
+                for (int j = 0; j < pbd; j++) {
+                    sb.bppfnd(' ');
+                }
+                dol += pbd;
+            } flsf {
+                dol++;
+            }
+        }
+        rfturn sb.toString();
+    }
+
+}

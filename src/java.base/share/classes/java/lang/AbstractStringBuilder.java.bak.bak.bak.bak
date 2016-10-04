@@ -1,0 +1,1441 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import sun.misd.FlobtingDfdimbl;
+import jbvb.util.Arrbys;
+
+/**
+ * A mutbblf sfqufndf of dhbrbdtfrs.
+ * <p>
+ * Implfmfnts b modifibblf string. At bny point in timf it dontbins somf
+ * pbrtidulbr sfqufndf of dhbrbdtfrs, but thf lfngth bnd dontfnt of thf
+ * sfqufndf dbn bf dhbngfd through dfrtbin mfthod dblls.
+ *
+ * <p>Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mfthod in this dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * thrown.
+ *
+ * @buthor      Midhbfl MdCloskfy
+ * @buthor      Mbrtin Budhholz
+ * @buthor      Ulf Zibis
+ * @sindf       1.5
+ */
+bbstrbdt dlbss AbstrbdtStringBuildfr implfmfnts Appfndbblf, ChbrSfqufndf {
+    /**
+     * Thf vbluf is usfd for dhbrbdtfr storbgf.
+     */
+    dhbr[] vbluf;
+
+    /**
+     * Thf dount is thf numbfr of dhbrbdtfrs usfd.
+     */
+    int dount;
+
+    /**
+     * This no-brg donstrudtor is nfdfssbry for sfriblizbtion of subdlbssfs.
+     */
+    AbstrbdtStringBuildfr() {
+    }
+
+    /**
+     * Crfbtfs bn AbstrbdtStringBuildfr of thf spfdififd dbpbdity.
+     */
+    AbstrbdtStringBuildfr(int dbpbdity) {
+        vbluf = nfw dhbr[dbpbdity];
+    }
+
+    /**
+     * Rfturns thf lfngth (dhbrbdtfr dount).
+     *
+     * @rfturn  thf lfngth of thf sfqufndf of dhbrbdtfrs durrfntly
+     *          rfprfsfntfd by this objfdt
+     */
+    @Ovfrridf
+    publid int lfngth() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns thf durrfnt dbpbdity. Thf dbpbdity is thf bmount of storbgf
+     * bvbilbblf for nfwly insfrtfd dhbrbdtfrs, bfyond whidh bn bllodbtion
+     * will oddur.
+     *
+     * @rfturn  thf durrfnt dbpbdity
+     */
+    publid int dbpbdity() {
+        rfturn vbluf.lfngth;
+    }
+
+    /**
+     * Ensurfs thbt thf dbpbdity is bt lfbst fqubl to thf spfdififd minimum.
+     * If thf durrfnt dbpbdity is lfss thbn thf brgumfnt, thfn b nfw intfrnbl
+     * brrby is bllodbtfd with grfbtfr dbpbdity. Thf nfw dbpbdity is thf
+     * lbrgfr of:
+     * <ul>
+     * <li>Thf {@dodf minimumCbpbdity} brgumfnt.
+     * <li>Twidf thf old dbpbdity, plus {@dodf 2}.
+     * </ul>
+     * If thf {@dodf minimumCbpbdity} brgumfnt is nonpositivf, this
+     * mfthod tbkfs no bdtion bnd simply rfturns.
+     * Notf thbt subsfqufnt opfrbtions on this objfdt dbn rfdudf thf
+     * bdtubl dbpbdity bflow thbt rfqufstfd hfrf.
+     *
+     * @pbrbm   minimumCbpbdity   thf minimum dfsirfd dbpbdity.
+     */
+    publid void fnsurfCbpbdity(int minimumCbpbdity) {
+        if (minimumCbpbdity > 0)
+            fnsurfCbpbdityIntfrnbl(minimumCbpbdity);
+    }
+
+    /**
+     * This mfthod hbs thf sbmf dontrbdt bs fnsurfCbpbdity, but is
+     * nfvfr syndhronizfd.
+     */
+    privbtf void fnsurfCbpbdityIntfrnbl(int minimumCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minimumCbpbdity - vbluf.lfngth > 0)
+            fxpbndCbpbdity(minimumCbpbdity);
+    }
+
+    /**
+     * This implfmfnts thf fxpbnsion sfmbntids of fnsurfCbpbdity with no
+     * sizf dhfdk or syndhronizbtion.
+     */
+    void fxpbndCbpbdity(int minimumCbpbdity) {
+        int nfwCbpbdity = vbluf.lfngth * 2 + 2;
+        if (nfwCbpbdity - minimumCbpbdity < 0)
+            nfwCbpbdity = minimumCbpbdity;
+        if (nfwCbpbdity < 0) {
+            if (minimumCbpbdity < 0) // ovfrflow
+                throw nfw OutOfMfmoryError();
+            nfwCbpbdity = Intfgfr.MAX_VALUE;
+        }
+        vbluf = Arrbys.dopyOf(vbluf, nfwCbpbdity);
+    }
+
+    /**
+     * Attfmpts to rfdudf storbgf usfd for thf dhbrbdtfr sfqufndf.
+     * If thf bufffr is lbrgfr thbn nfdfssbry to hold its durrfnt sfqufndf of
+     * dhbrbdtfrs, thfn it mby bf rfsizfd to bfdomf morf spbdf fffidifnt.
+     * Cblling this mfthod mby, but is not rfquirfd to, bfffdt thf vbluf
+     * rfturnfd by b subsfqufnt dbll to thf {@link #dbpbdity()} mfthod.
+     */
+    publid void trimToSizf() {
+        if (dount < vbluf.lfngth) {
+            vbluf = Arrbys.dopyOf(vbluf, dount);
+        }
+    }
+
+    /**
+     * Sfts thf lfngth of thf dhbrbdtfr sfqufndf.
+     * Thf sfqufndf is dhbngfd to b nfw dhbrbdtfr sfqufndf
+     * whosf lfngth is spfdififd by thf brgumfnt. For fvfry nonnfgbtivf
+     * indfx <i>k</i> lfss thbn {@dodf nfwLfngth}, thf dhbrbdtfr bt
+     * indfx <i>k</i> in thf nfw dhbrbdtfr sfqufndf is thf sbmf bs thf
+     * dhbrbdtfr bt indfx <i>k</i> in thf old sfqufndf if <i>k</i> is lfss
+     * thbn thf lfngth of thf old dhbrbdtfr sfqufndf; othfrwisf, it is thf
+     * null dhbrbdtfr {@dodf '\u005Cu0000'}.
+     *
+     * In othfr words, if thf {@dodf nfwLfngth} brgumfnt is lfss thbn
+     * thf durrfnt lfngth, thf lfngth is dhbngfd to thf spfdififd lfngth.
+     * <p>
+     * If thf {@dodf nfwLfngth} brgumfnt is grfbtfr thbn or fqubl
+     * to thf durrfnt lfngth, suffidifnt null dhbrbdtfrs
+     * ({@dodf '\u005Cu0000'}) brf bppfndfd so thbt
+     * lfngth bfdomfs thf {@dodf nfwLfngth} brgumfnt.
+     * <p>
+     * Thf {@dodf nfwLfngth} brgumfnt must bf grfbtfr thbn or fqubl
+     * to {@dodf 0}.
+     *
+     * @pbrbm      nfwLfngth   thf nfw lfngth
+     * @throws     IndfxOutOfBoundsExdfption  if thf
+     *               {@dodf nfwLfngth} brgumfnt is nfgbtivf.
+     */
+    publid void sftLfngth(int nfwLfngth) {
+        if (nfwLfngth < 0)
+            throw nfw StringIndfxOutOfBoundsExdfption(nfwLfngth);
+        fnsurfCbpbdityIntfrnbl(nfwLfngth);
+
+        if (dount < nfwLfngth) {
+            Arrbys.fill(vbluf, dount, nfwLfngth, '\0');
+        }
+
+        dount = nfwLfngth;
+    }
+
+    /**
+     * Rfturns thf {@dodf dhbr} vbluf in this sfqufndf bt thf spfdififd indfx.
+     * Thf first {@dodf dhbr} vbluf is bt indfx {@dodf 0}, thf nfxt bt indfx
+     * {@dodf 1}, bnd so on, bs in brrby indfxing.
+     * <p>
+     * Thf indfx brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn thf lfngth of this sfqufndf.
+     *
+     * <p>If thf {@dodf dhbr} vbluf spfdififd by thf indfx is b
+     * <b hrff="Chbrbdtfr.html#unidodf">surrogbtf</b>, thf surrogbtf
+     * vbluf is rfturnfd.
+     *
+     * @pbrbm      indfx   thf indfx of thf dfsirfd {@dodf dhbr} vbluf.
+     * @rfturn     thf {@dodf dhbr} vbluf bt thf spfdififd indfx.
+     * @throws     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr thbn or fqubl to {@dodf lfngth()}.
+     */
+    @Ovfrridf
+    publid dhbr dhbrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        rfturn vbluf[indfx];
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr (Unidodf dodf point) bt thf spfdififd
+     * indfx. Thf indfx rfffrs to {@dodf dhbr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 0} to
+     * {@link #lfngth()}{@dodf  - 1}.
+     *
+     * <p> If thf {@dodf dhbr} vbluf spfdififd bt thf givfn indfx
+     * is in thf high-surrogbtf rbngf, thf following indfx is lfss
+     * thbn thf lfngth of this sfqufndf, bnd thf
+     * {@dodf dhbr} vbluf bt thf following indfx is in thf
+     * low-surrogbtf rbngf, thfn thf supplfmfntbry dodf point
+     * dorrfsponding to this surrogbtf pbir is rfturnfd. Othfrwisf,
+     * thf {@dodf dhbr} vbluf bt thf givfn indfx is rfturnfd.
+     *
+     * @pbrbm      indfx thf indfx to thf {@dodf dhbr} vblufs
+     * @rfturn     thf dodf point vbluf of thf dhbrbdtfr bt thf
+     *             {@dodf indfx}
+     * @fxdfption  IndfxOutOfBoundsExdfption  if thf {@dodf indfx}
+     *             brgumfnt is nfgbtivf or not lfss thbn thf lfngth of this
+     *             sfqufndf.
+     */
+    publid int dodfPointAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount)) {
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        }
+        rfturn Chbrbdtfr.dodfPointAtImpl(vbluf, indfx, dount);
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr (Unidodf dodf point) bfforf thf spfdififd
+     * indfx. Thf indfx rfffrs to {@dodf dhbr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 1} to {@link
+     * #lfngth()}.
+     *
+     * <p> If thf {@dodf dhbr} vbluf bt {@dodf (indfx - 1)}
+     * is in thf low-surrogbtf rbngf, {@dodf (indfx - 2)} is not
+     * nfgbtivf, bnd thf {@dodf dhbr} vbluf bt {@dodf (indfx -
+     * 2)} is in thf high-surrogbtf rbngf, thfn thf
+     * supplfmfntbry dodf point vbluf of thf surrogbtf pbir is
+     * rfturnfd. If thf {@dodf dhbr} vbluf bt {@dodf indfx -
+     * 1} is bn unpbirfd low-surrogbtf or b high-surrogbtf, thf
+     * surrogbtf vbluf is rfturnfd.
+     *
+     * @pbrbm     indfx thf indfx following thf dodf point thbt should bf rfturnfd
+     * @rfturn    thf Unidodf dodf point vbluf bfforf thf givfn indfx.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf {@dodf indfx}
+     *            brgumfnt is lfss thbn 1 or grfbtfr thbn thf lfngth
+     *            of this sfqufndf.
+     */
+    publid int dodfPointBfforf(int indfx) {
+        int i = indfx - 1;
+        if ((i < 0) || (i >= dount)) {
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        }
+        rfturn Chbrbdtfr.dodfPointBfforfImpl(vbluf, indfx, 0);
+    }
+
+    /**
+     * Rfturns thf numbfr of Unidodf dodf points in thf spfdififd tfxt
+     * rbngf of this sfqufndf. Thf tfxt rbngf bfgins bt thf spfdififd
+     * {@dodf bfginIndfx} bnd fxtfnds to thf {@dodf dhbr} bt
+     * indfx {@dodf fndIndfx - 1}. Thus thf lfngth (in
+     * {@dodf dhbr}s) of thf tfxt rbngf is
+     * {@dodf fndIndfx-bfginIndfx}. Unpbirfd surrogbtfs within
+     * this sfqufndf dount bs onf dodf point fbdh.
+     *
+     * @pbrbm bfginIndfx thf indfx to thf first {@dodf dhbr} of
+     * thf tfxt rbngf.
+     * @pbrbm fndIndfx thf indfx bftfr thf lbst {@dodf dhbr} of
+     * thf tfxt rbngf.
+     * @rfturn thf numbfr of Unidodf dodf points in thf spfdififd tfxt
+     * rbngf
+     * @fxdfption IndfxOutOfBoundsExdfption if thf
+     * {@dodf bfginIndfx} is nfgbtivf, or {@dodf fndIndfx}
+     * is lbrgfr thbn thf lfngth of this sfqufndf, or
+     * {@dodf bfginIndfx} is lbrgfr thbn {@dodf fndIndfx}.
+     */
+    publid int dodfPointCount(int bfginIndfx, int fndIndfx) {
+        if (bfginIndfx < 0 || fndIndfx > dount || bfginIndfx > fndIndfx) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        rfturn Chbrbdtfr.dodfPointCountImpl(vbluf, bfginIndfx, fndIndfx-bfginIndfx);
+    }
+
+    /**
+     * Rfturns thf indfx within this sfqufndf thbt is offsft from thf
+     * givfn {@dodf indfx} by {@dodf dodfPointOffsft} dodf
+     * points. Unpbirfd surrogbtfs within thf tfxt rbngf givfn by
+     * {@dodf indfx} bnd {@dodf dodfPointOffsft} dount bs
+     * onf dodf point fbdh.
+     *
+     * @pbrbm indfx thf indfx to bf offsft
+     * @pbrbm dodfPointOffsft thf offsft in dodf points
+     * @rfturn thf indfx within this sfqufndf
+     * @fxdfption IndfxOutOfBoundsExdfption if {@dodf indfx}
+     *   is nfgbtivf or lbrgfr thfn thf lfngth of this sfqufndf,
+     *   or if {@dodf dodfPointOffsft} is positivf bnd thf subsfqufndf
+     *   stbrting with {@dodf indfx} hbs ffwfr thbn
+     *   {@dodf dodfPointOffsft} dodf points,
+     *   or if {@dodf dodfPointOffsft} is nfgbtivf bnd thf subsfqufndf
+     *   bfforf {@dodf indfx} hbs ffwfr thbn thf bbsolutf vbluf of
+     *   {@dodf dodfPointOffsft} dodf points.
+     */
+    publid int offsftByCodfPoints(int indfx, int dodfPointOffsft) {
+        if (indfx < 0 || indfx > dount) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        rfturn Chbrbdtfr.offsftByCodfPointsImpl(vbluf, 0, dount,
+                                                indfx, dodfPointOffsft);
+    }
+
+    /**
+     * Chbrbdtfrs brf dopifd from this sfqufndf into thf
+     * dfstinbtion dhbrbdtfr brrby {@dodf dst}. Thf first dhbrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdBfgin}; thf lbst dhbrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdEnd-1}. Thf totbl numbfr of
+     * dhbrbdtfrs to bf dopifd is {@dodf srdEnd-srdBfgin}. Thf
+     * dhbrbdtfrs brf dopifd into thf subbrrby of {@dodf dst} stbrting
+     * bt indfx {@dodf dstBfgin} bnd fnding bt indfx:
+     * <prf>{@dodf
+     * dstbfgin + (srdEnd-srdBfgin) - 1
+     * }</prf>
+     *
+     * @pbrbm      srdBfgin   stbrt dopying bt this offsft.
+     * @pbrbm      srdEnd     stop dopying bt this offsft.
+     * @pbrbm      dst        thf brrby to dopy thf dbtb into.
+     * @pbrbm      dstBfgin   offsft into {@dodf dst}.
+     * @throws     IndfxOutOfBoundsExdfption  if bny of thf following is truf:
+     *             <ul>
+     *             <li>{@dodf srdBfgin} is nfgbtivf
+     *             <li>{@dodf dstBfgin} is nfgbtivf
+     *             <li>thf {@dodf srdBfgin} brgumfnt is grfbtfr thbn
+     *             thf {@dodf srdEnd} brgumfnt.
+     *             <li>{@dodf srdEnd} is grfbtfr thbn
+     *             {@dodf this.lfngth()}.
+     *             <li>{@dodf dstBfgin+srdEnd-srdBfgin} is grfbtfr thbn
+     *             {@dodf dst.lfngth}
+     *             </ul>
+     */
+    publid void gftChbrs(int srdBfgin, int srdEnd, dhbr[] dst, int dstBfgin)
+    {
+        if (srdBfgin < 0)
+            throw nfw StringIndfxOutOfBoundsExdfption(srdBfgin);
+        if ((srdEnd < 0) || (srdEnd > dount))
+            throw nfw StringIndfxOutOfBoundsExdfption(srdEnd);
+        if (srdBfgin > srdEnd)
+            throw nfw StringIndfxOutOfBoundsExdfption("srdBfgin > srdEnd");
+        Systfm.brrbydopy(vbluf, srdBfgin, dst, dstBfgin, srdEnd - srdBfgin);
+    }
+
+    /**
+     * Thf dhbrbdtfr bt thf spfdififd indfx is sft to {@dodf dh}. This
+     * sfqufndf is bltfrfd to rfprfsfnt b nfw dhbrbdtfr sfqufndf thbt is
+     * idfntidbl to thf old dhbrbdtfr sfqufndf, fxdfpt thbt it dontbins thf
+     * dhbrbdtfr {@dodf dh} bt position {@dodf indfx}.
+     * <p>
+     * Thf indfx brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn thf lfngth of this sfqufndf.
+     *
+     * @pbrbm      indfx   thf indfx of thf dhbrbdtfr to modify.
+     * @pbrbm      dh      thf nfw dhbrbdtfr.
+     * @throws     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr thbn or fqubl to {@dodf lfngth()}.
+     */
+    publid void sftChbrAt(int indfx, dhbr dh) {
+        if ((indfx < 0) || (indfx >= dount))
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        vbluf[indfx] = dh;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf Objfdt} brgumfnt.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(Objfdt)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   obj   bn {@dodf Objfdt}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(Objfdt obj) {
+        rfturn bppfnd(String.vblufOf(obj));
+    }
+
+    /**
+     * Appfnds thf spfdififd string to this dhbrbdtfr sfqufndf.
+     * <p>
+     * Thf dhbrbdtfrs of thf {@dodf String} brgumfnt brf bppfndfd, in
+     * ordfr, indrfbsing thf lfngth of this sfqufndf by thf lfngth of thf
+     * brgumfnt. If {@dodf str} is {@dodf null}, thfn thf four
+     * dhbrbdtfrs {@dodf "null"} brf bppfndfd.
+     * <p>
+     * Lft <i>n</i> bf thf lfngth of this dhbrbdtfr sfqufndf just prior to
+     * fxfdution of thf {@dodf bppfnd} mfthod. Thfn thf dhbrbdtfr bt
+     * indfx <i>k</i> in thf nfw dhbrbdtfr sfqufndf is fqubl to thf dhbrbdtfr
+     * bt indfx <i>k</i> in thf old dhbrbdtfr sfqufndf, if <i>k</i> is lfss
+     * thbn <i>n</i>; othfrwisf, it is fqubl to thf dhbrbdtfr bt indfx
+     * <i>k-n</i> in thf brgumfnt {@dodf str}.
+     *
+     * @pbrbm   str   b string.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(String str) {
+        if (str == null)
+            rfturn bppfndNull();
+        int lfn = str.lfngth();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        str.gftChbrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn this;
+    }
+
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndhro difffrfndf
+    publid AbstrbdtStringBuildfr bppfnd(StringBufffr sb) {
+        if (sb == null)
+            rfturn bppfndNull();
+        int lfn = sb.lfngth();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        sb.gftChbrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * @sindf 1.8
+     */
+    AbstrbdtStringBuildfr bppfnd(AbstrbdtStringBuildfr bsb) {
+        if (bsb == null)
+            rfturn bppfndNull();
+        int lfn = bsb.lfngth();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        bsb.gftChbrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn this;
+    }
+
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndhro difffrfndf
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(ChbrSfqufndf s) {
+        if (s == null)
+            rfturn bppfndNull();
+        if (s instbndfof String)
+            rfturn this.bppfnd((String)s);
+        if (s instbndfof AbstrbdtStringBuildfr)
+            rfturn this.bppfnd((AbstrbdtStringBuildfr)s);
+
+        rfturn this.bppfnd(s, 0, s.lfngth());
+    }
+
+    privbtf AbstrbdtStringBuildfr bppfndNull() {
+        int d = dount;
+        fnsurfCbpbdityIntfrnbl(d + 4);
+        finbl dhbr[] vbluf = this.vbluf;
+        vbluf[d++] = 'n';
+        vbluf[d++] = 'u';
+        vbluf[d++] = 'l';
+        vbluf[d++] = 'l';
+        dount = d;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds b subsfqufndf of thf spfdififd {@dodf ChbrSfqufndf} to this
+     * sfqufndf.
+     * <p>
+     * Chbrbdtfrs of thf brgumfnt {@dodf s}, stbrting bt
+     * indfx {@dodf stbrt}, brf bppfndfd, in ordfr, to thf dontfnts of
+     * this sfqufndf up to thf (fxdlusivf) indfx {@dodf fnd}. Thf lfngth
+     * of this sfqufndf is indrfbsfd by thf vbluf of {@dodf fnd - stbrt}.
+     * <p>
+     * Lft <i>n</i> bf thf lfngth of this dhbrbdtfr sfqufndf just prior to
+     * fxfdution of thf {@dodf bppfnd} mfthod. Thfn thf dhbrbdtfr bt
+     * indfx <i>k</i> in this dhbrbdtfr sfqufndf bfdomfs fqubl to thf
+     * dhbrbdtfr bt indfx <i>k</i> in this sfqufndf, if <i>k</i> is lfss thbn
+     * <i>n</i>; othfrwisf, it is fqubl to thf dhbrbdtfr bt indfx
+     * <i>k+stbrt-n</i> in thf brgumfnt {@dodf s}.
+     * <p>
+     * If {@dodf s} is {@dodf null}, thfn this mfthod bppfnds
+     * dhbrbdtfrs bs if thf s pbrbmftfr wbs b sfqufndf dontbining thf four
+     * dhbrbdtfrs {@dodf "null"}.
+     *
+     * @pbrbm   s thf sfqufndf to bppfnd.
+     * @pbrbm   stbrt   thf stbrting indfx of thf subsfqufndf to bf bppfndfd.
+     * @pbrbm   fnd     thf fnd indfx of thf subsfqufndf to bf bppfndfd.
+     * @rfturn  b rfffrfndf to this objfdt.
+     * @throws     IndfxOutOfBoundsExdfption if
+     *             {@dodf stbrt} is nfgbtivf, or
+     *             {@dodf stbrt} is grfbtfr thbn {@dodf fnd} or
+     *             {@dodf fnd} is grfbtfr thbn {@dodf s.lfngth()}
+     */
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(ChbrSfqufndf s, int stbrt, int fnd) {
+        if (s == null)
+            s = "null";
+        if ((stbrt < 0) || (stbrt > fnd) || (fnd > s.lfngth()))
+            throw nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngth() "
+                + s.lfngth());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        for (int i = stbrt, j = dount; i < fnd; i++, j++)
+            vbluf[j] = s.dhbrAt(i);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf dhbr} brrby
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf dhbrbdtfrs of thf brrby brgumfnt brf bppfndfd, in ordfr, to
+     * thf dontfnts of this sfqufndf. Thf lfngth of this sfqufndf
+     * indrfbsfs by thf lfngth of thf brgumfnt.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(dhbr[])},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   str   thf dhbrbdtfrs to bf bppfndfd.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(dhbr[] str) {
+        int lfn = str.lfngth;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, 0, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of b subbrrby of thf
+     * {@dodf dhbr} brrby brgumfnt to this sfqufndf.
+     * <p>
+     * Chbrbdtfrs of thf {@dodf dhbr} brrby {@dodf str}, stbrting bt
+     * indfx {@dodf offsft}, brf bppfndfd, in ordfr, to thf dontfnts
+     * of this sfqufndf. Thf lfngth of this sfqufndf indrfbsfs
+     * by thf vbluf of {@dodf lfn}.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnts wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(dhbr[],int,int)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   str      thf dhbrbdtfrs to bf bppfndfd.
+     * @pbrbm   offsft   thf indfx of thf first {@dodf dhbr} to bppfnd.
+     * @pbrbm   lfn      thf numbfr of {@dodf dhbr}s to bppfnd.
+     * @rfturn  b rfffrfndf to this objfdt.
+     * @throws IndfxOutOfBoundsExdfption
+     *         if {@dodf offsft < 0} or {@dodf lfn < 0}
+     *         or {@dodf offsft+lfn > str.lfngth}
+     */
+    publid AbstrbdtStringBuildfr bppfnd(dhbr str[], int offsft, int lfn) {
+        if (lfn > 0)                // lft brrbydopy rfport AIOOBE for lfn < 0
+            fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, offsft, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf boolfbn}
+     * brgumfnt to thf sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(boolfbn)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   b   b {@dodf boolfbn}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(boolfbn b) {
+        if (b) {
+            fnsurfCbpbdityIntfrnbl(dount + 4);
+            vbluf[dount++] = 't';
+            vbluf[dount++] = 'r';
+            vbluf[dount++] = 'u';
+            vbluf[dount++] = 'f';
+        } flsf {
+            fnsurfCbpbdityIntfrnbl(dount + 5);
+            vbluf[dount++] = 'f';
+            vbluf[dount++] = 'b';
+            vbluf[dount++] = 'l';
+            vbluf[dount++] = 's';
+            vbluf[dount++] = 'f';
+        }
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf dhbr}
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf brgumfnt is bppfndfd to thf dontfnts of this sfqufndf.
+     * Thf lfngth of this sfqufndf indrfbsfs by {@dodf 1}.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(dhbr)},
+     * bnd thf dhbrbdtfr in thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   d   b {@dodf dhbr}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(dhbr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        vbluf[dount++] = d;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf int}
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(int)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   i   bn {@dodf int}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(int i) {
+        if (i == Intfgfr.MIN_VALUE) {
+            bppfnd("-2147483648");
+            rfturn this;
+        }
+        int bppfndfdLfngth = (i < 0) ? Intfgfr.stringSizf(-i) + 1
+                                     : Intfgfr.stringSizf(i);
+        int spbdfNffdfd = dount + bppfndfdLfngth;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Intfgfr.gftChbrs(i, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf long}
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(long)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   l   b {@dodf long}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(long l) {
+        if (l == Long.MIN_VALUE) {
+            bppfnd("-9223372036854775808");
+            rfturn this;
+        }
+        int bppfndfdLfngth = (l < 0) ? Long.stringSizf(-l) + 1
+                                     : Long.stringSizf(l);
+        int spbdfNffdfd = dount + bppfndfdLfngth;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Long.gftChbrs(l, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf flobt}
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(flobt)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   f   b {@dodf flobt}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(flobt f) {
+        FlobtingDfdimbl.bppfndTo(f,this);
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf doublf}
+     * brgumfnt to this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf donvfrtfd
+     * to b string by thf mfthod {@link String#vblufOf(doublf)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #bppfnd(String) bppfndfd} to this dhbrbdtfr sfqufndf.
+     *
+     * @pbrbm   d   b {@dodf doublf}.
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr bppfnd(doublf d) {
+        FlobtingDfdimbl.bppfndTo(d,this);
+        rfturn this;
+    }
+
+    /**
+     * Rfmovfs thf dhbrbdtfrs in b substring of this sfqufndf.
+     * Thf substring bfgins bt thf spfdififd {@dodf stbrt} bnd fxtfnds to
+     * thf dhbrbdtfr bt indfx {@dodf fnd - 1} or to thf fnd of thf
+     * sfqufndf if no sudh dhbrbdtfr fxists. If
+     * {@dodf stbrt} is fqubl to {@dodf fnd}, no dhbngfs brf mbdf.
+     *
+     * @pbrbm      stbrt  Thf bfginning indfx, indlusivf.
+     * @pbrbm      fnd    Thf fnding indfx, fxdlusivf.
+     * @rfturn     This objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr thbn {@dodf lfngth()}, or
+     *             grfbtfr thbn {@dodf fnd}.
+     */
+    publid AbstrbdtStringBuildfr dflftf(int stbrt, int fnd) {
+        if (stbrt < 0)
+            throw nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            fnd = dount;
+        if (stbrt > fnd)
+            throw nfw StringIndfxOutOfBoundsExdfption();
+        int lfn = fnd - stbrt;
+        if (lfn > 0) {
+            Systfm.brrbydopy(vbluf, stbrt+lfn, vbluf, stbrt, dount-fnd);
+            dount -= lfn;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf string rfprfsfntbtion of thf {@dodf dodfPoint}
+     * brgumfnt to this sfqufndf.
+     *
+     * <p> Thf brgumfnt is bppfndfd to thf dontfnts of this sfqufndf.
+     * Thf lfngth of this sfqufndf indrfbsfs by
+     * {@link Chbrbdtfr#dhbrCount(int) Chbrbdtfr.dhbrCount(dodfPoint)}.
+     *
+     * <p> Thf ovfrbll ffffdt is fxbdtly bs if thf brgumfnt wfrf
+     * donvfrtfd to b {@dodf dhbr} brrby by thf mfthod
+     * {@link Chbrbdtfr#toChbrs(int)} bnd thf dhbrbdtfr in thbt brrby
+     * wfrf thfn {@link #bppfnd(dhbr[]) bppfndfd} to this dhbrbdtfr
+     * sfqufndf.
+     *
+     * @pbrbm   dodfPoint   b Unidodf dodf point
+     * @rfturn  b rfffrfndf to this objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd
+     * {@dodf dodfPoint} isn't b vblid Unidodf dodf point
+     */
+    publid AbstrbdtStringBuildfr bppfndCodfPoint(int dodfPoint) {
+        finbl int dount = this.dount;
+
+        if (Chbrbdtfr.isBmpCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 1);
+            vbluf[dount] = (dhbr) dodfPoint;
+            this.dount = dount + 1;
+        } flsf if (Chbrbdtfr.isVblidCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 2);
+            Chbrbdtfr.toSurrogbtfs(dodfPoint, vbluf, dount);
+            this.dount = dount + 2;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfmovfs thf {@dodf dhbr} bt thf spfdififd position in this
+     * sfqufndf. This sfqufndf is shortfnfd by onf {@dodf dhbr}.
+     *
+     * <p>Notf: If thf dhbrbdtfr bt thf givfn indfx is b supplfmfntbry
+     * dhbrbdtfr, this mfthod dofs not rfmovf thf fntirf dhbrbdtfr. If
+     * dorrfdt hbndling of supplfmfntbry dhbrbdtfrs is rfquirfd,
+     * dftfrminf thf numbfr of {@dodf dhbr}s to rfmovf by dblling
+     * {@dodf Chbrbdtfr.dhbrCount(thisSfqufndf.dodfPointAt(indfx))},
+     * whfrf {@dodf thisSfqufndf} is this sfqufndf.
+     *
+     * @pbrbm       indfx  Indfx of {@dodf dhbr} to rfmovf
+     * @rfturn      This objfdt.
+     * @throws      StringIndfxOutOfBoundsExdfption  if thf {@dodf indfx}
+     *              is nfgbtivf or grfbtfr thbn or fqubl to
+     *              {@dodf lfngth()}.
+     */
+    publid AbstrbdtStringBuildfr dflftfChbrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        Systfm.brrbydopy(vbluf, indfx+1, vbluf, indfx, dount-indfx-1);
+        dount--;
+        rfturn this;
+    }
+
+    /**
+     * Rfplbdfs thf dhbrbdtfrs in b substring of this sfqufndf
+     * with dhbrbdtfrs in thf spfdififd {@dodf String}. Thf substring
+     * bfgins bt thf spfdififd {@dodf stbrt} bnd fxtfnds to thf dhbrbdtfr
+     * bt indfx {@dodf fnd - 1} or to thf fnd of thf
+     * sfqufndf if no sudh dhbrbdtfr fxists. First thf
+     * dhbrbdtfrs in thf substring brf rfmovfd bnd thfn thf spfdififd
+     * {@dodf String} is insfrtfd bt {@dodf stbrt}. (This
+     * sfqufndf will bf lfngthfnfd to bddommodbtf thf
+     * spfdififd String if nfdfssbry.)
+     *
+     * @pbrbm      stbrt    Thf bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Thf fnding indfx, fxdlusivf.
+     * @pbrbm      str   String thbt will rfplbdf prfvious dontfnts.
+     * @rfturn     This objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr thbn {@dodf lfngth()}, or
+     *             grfbtfr thbn {@dodf fnd}.
+     */
+    publid AbstrbdtStringBuildfr rfplbdf(int stbrt, int fnd, String str) {
+        if (stbrt < 0)
+            throw nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (stbrt > dount)
+            throw nfw StringIndfxOutOfBoundsExdfption("stbrt > lfngth()");
+        if (stbrt > fnd)
+            throw nfw StringIndfxOutOfBoundsExdfption("stbrt > fnd");
+
+        if (fnd > dount)
+            fnd = dount;
+        int lfn = str.lfngth();
+        int nfwCount = dount + lfn - (fnd - stbrt);
+        fnsurfCbpbdityIntfrnbl(nfwCount);
+
+        Systfm.brrbydopy(vbluf, fnd, vbluf, stbrt + lfn, dount - fnd);
+        str.gftChbrs(vbluf, stbrt);
+        dount = nfwCount;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns b nfw {@dodf String} thbt dontbins b subsfqufndf of
+     * dhbrbdtfrs durrfntly dontbinfd in this dhbrbdtfr sfqufndf. Thf
+     * substring bfgins bt thf spfdififd indfx bnd fxtfnds to thf fnd of
+     * this sfqufndf.
+     *
+     * @pbrbm      stbrt    Thf bfginning indfx, indlusivf.
+     * @rfturn     Thf nfw string.
+     * @throws     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt} is
+     *             lfss thbn zfro, or grfbtfr thbn thf lfngth of this objfdt.
+     */
+    publid String substring(int stbrt) {
+        rfturn substring(stbrt, dount);
+    }
+
+    /**
+     * Rfturns b nfw dhbrbdtfr sfqufndf thbt is b subsfqufndf of this sfqufndf.
+     *
+     * <p> An invodbtion of this mfthod of thf form
+     *
+     * <prf>{@dodf
+     * sb.subSfqufndf(bfgin,&nbsp;fnd)}</prf>
+     *
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>{@dodf
+     * sb.substring(bfgin,&nbsp;fnd)}</prf>
+     *
+     * This mfthod is providfd so thbt this dlbss dbn
+     * implfmfnt thf {@link ChbrSfqufndf} intfrfbdf.
+     *
+     * @pbrbm      stbrt   thf stbrt indfx, indlusivf.
+     * @pbrbm      fnd     thf fnd indfx, fxdlusivf.
+     * @rfturn     thf spfdififd subsfqufndf.
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          if {@dodf stbrt} or {@dodf fnd} brf nfgbtivf,
+     *          if {@dodf fnd} is grfbtfr thbn {@dodf lfngth()},
+     *          or if {@dodf stbrt} is grfbtfr thbn {@dodf fnd}
+     * @spfd JSR-51
+     */
+    @Ovfrridf
+    publid ChbrSfqufndf subSfqufndf(int stbrt, int fnd) {
+        rfturn substring(stbrt, fnd);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf String} thbt dontbins b subsfqufndf of
+     * dhbrbdtfrs durrfntly dontbinfd in this sfqufndf. Thf
+     * substring bfgins bt thf spfdififd {@dodf stbrt} bnd
+     * fxtfnds to thf dhbrbdtfr bt indfx {@dodf fnd - 1}.
+     *
+     * @pbrbm      stbrt    Thf bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Thf fnding indfx, fxdlusivf.
+     * @rfturn     Thf nfw string.
+     * @throws     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             or {@dodf fnd} brf nfgbtivf or grfbtfr thbn
+     *             {@dodf lfngth()}, or {@dodf stbrt} is
+     *             grfbtfr thbn {@dodf fnd}.
+     */
+    publid String substring(int stbrt, int fnd) {
+        if (stbrt < 0)
+            throw nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            throw nfw StringIndfxOutOfBoundsExdfption(fnd);
+        if (stbrt > fnd)
+            throw nfw StringIndfxOutOfBoundsExdfption(fnd - stbrt);
+        rfturn nfw String(vbluf, stbrt, fnd - stbrt);
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of b subbrrby of thf {@dodf str}
+     * brrby brgumfnt into this sfqufndf. Thf subbrrby bfgins bt thf
+     * spfdififd {@dodf offsft} bnd fxtfnds {@dodf lfn} {@dodf dhbr}s.
+     * Thf dhbrbdtfrs of thf subbrrby brf insfrtfd into this sfqufndf bt
+     * thf position indidbtfd by {@dodf indfx}. Thf lfngth of this
+     * sfqufndf indrfbsfs by {@dodf lfn} {@dodf dhbr}s.
+     *
+     * @pbrbm      indfx    position bt whidh to insfrt subbrrby.
+     * @pbrbm      str       A {@dodf dhbr} brrby.
+     * @pbrbm      offsft   thf indfx of thf first {@dodf dhbr} in subbrrby to
+     *             bf insfrtfd.
+     * @pbrbm      lfn      thf numbfr of {@dodf dhbr}s in thf subbrrby to
+     *             bf insfrtfd.
+     * @rfturn     This objfdt
+     * @throws     StringIndfxOutOfBoundsExdfption  if {@dodf indfx}
+     *             is nfgbtivf or grfbtfr thbn {@dodf lfngth()}, or
+     *             {@dodf offsft} or {@dodf lfn} brf nfgbtivf, or
+     *             {@dodf (offsft+lfn)} is grfbtfr thbn
+     *             {@dodf str.lfngth}.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int indfx, dhbr[] str, int offsft,
+                                        int lfn)
+    {
+        if ((indfx < 0) || (indfx > lfngth()))
+            throw nfw StringIndfxOutOfBoundsExdfption(indfx);
+        if ((offsft < 0) || (lfn < 0) || (offsft > str.lfngth - lfn))
+            throw nfw StringIndfxOutOfBoundsExdfption(
+                "offsft " + offsft + ", lfn " + lfn + ", str.lfngth "
+                + str.lfngth);
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, indfx, vbluf, indfx + lfn, dount - indfx);
+        Systfm.brrbydopy(str, offsft, vbluf, indfx, lfn);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf Objfdt}
+     * brgumfnt into this dhbrbdtfr sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(Objfdt)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      obj      bn {@dodf Objfdt}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, Objfdt obj) {
+        rfturn insfrt(offsft, String.vblufOf(obj));
+    }
+
+    /**
+     * Insfrts thf string into this dhbrbdtfr sfqufndf.
+     * <p>
+     * Thf dhbrbdtfrs of thf {@dodf String} brgumfnt brf insfrtfd, in
+     * ordfr, into this sfqufndf bt thf indidbtfd offsft, moving up bny
+     * dhbrbdtfrs originblly bbovf thbt position bnd indrfbsing thf lfngth
+     * of this sfqufndf by thf lfngth of thf brgumfnt. If
+     * {@dodf str} is {@dodf null}, thfn thf four dhbrbdtfrs
+     * {@dodf "null"} brf insfrtfd into this sfqufndf.
+     * <p>
+     * Thf dhbrbdtfr bt indfx <i>k</i> in thf nfw dhbrbdtfr sfqufndf is
+     * fqubl to:
+     * <ul>
+     * <li>thf dhbrbdtfr bt indfx <i>k</i> in thf old dhbrbdtfr sfqufndf, if
+     * <i>k</i> is lfss thbn {@dodf offsft}
+     * <li>thf dhbrbdtfr bt indfx <i>k</i>{@dodf -offsft} in thf
+     * brgumfnt {@dodf str}, if <i>k</i> is not lfss thbn
+     * {@dodf offsft} but is lfss thbn {@dodf offsft+str.lfngth()}
+     * <li>thf dhbrbdtfr bt indfx <i>k</i>{@dodf -str.lfngth()} in thf
+     * old dhbrbdtfr sfqufndf, if <i>k</i> is not lfss thbn
+     * {@dodf offsft+str.lfngth()}
+     * </ul><p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      str      b string.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, String str) {
+        if ((offsft < 0) || (offsft > lfngth()))
+            throw nfw StringIndfxOutOfBoundsExdfption(offsft);
+        if (str == null)
+            str = "null";
+        int lfn = str.lfngth();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        str.gftChbrs(vbluf, offsft);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf dhbr} brrby
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf dhbrbdtfrs of thf brrby brgumfnt brf insfrtfd into thf
+     * dontfnts of this sfqufndf bt thf position indidbtfd by
+     * {@dodf offsft}. Thf lfngth of this sfqufndf indrfbsfs by
+     * thf lfngth of thf brgumfnt.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(dhbr[])},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      str      b dhbrbdtfr brrby.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dhbr[] str) {
+        if ((offsft < 0) || (offsft > lfngth()))
+            throw nfw StringIndfxOutOfBoundsExdfption(offsft);
+        int lfn = str.lfngth;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        Systfm.brrbydopy(str, 0, vbluf, offsft, lfn);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Insfrts thf spfdififd {@dodf ChbrSfqufndf} into this sfqufndf.
+     * <p>
+     * Thf dhbrbdtfrs of thf {@dodf ChbrSfqufndf} brgumfnt brf insfrtfd,
+     * in ordfr, into this sfqufndf bt thf indidbtfd offsft, moving up
+     * bny dhbrbdtfrs originblly bbovf thbt position bnd indrfbsing thf lfngth
+     * of this sfqufndf by thf lfngth of thf brgumfnt s.
+     * <p>
+     * Thf rfsult of this mfthod is fxbdtly thf sbmf bs if it wfrf bn
+     * invodbtion of this objfdt's
+     * {@link #insfrt(int,ChbrSfqufndf,int,int) insfrt}(dstOffsft, s, 0, s.lfngth())
+     * mfthod.
+     *
+     * <p>If {@dodf s} is {@dodf null}, thfn thf four dhbrbdtfrs
+     * {@dodf "null"} brf insfrtfd into this sfqufndf.
+     *
+     * @pbrbm      dstOffsft   thf offsft.
+     * @pbrbm      s thf sfqufndf to bf insfrtfd
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     IndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int dstOffsft, ChbrSfqufndf s) {
+        if (s == null)
+            s = "null";
+        if (s instbndfof String)
+            rfturn this.insfrt(dstOffsft, (String)s);
+        rfturn this.insfrt(dstOffsft, s, 0, s.lfngth());
+    }
+
+    /**
+     * Insfrts b subsfqufndf of thf spfdififd {@dodf ChbrSfqufndf} into
+     * this sfqufndf.
+     * <p>
+     * Thf subsfqufndf of thf brgumfnt {@dodf s} spfdififd by
+     * {@dodf stbrt} bnd {@dodf fnd} brf insfrtfd,
+     * in ordfr, into this sfqufndf bt thf spfdififd dfstinbtion offsft, moving
+     * up bny dhbrbdtfrs originblly bbovf thbt position. Thf lfngth of this
+     * sfqufndf is indrfbsfd by {@dodf fnd - stbrt}.
+     * <p>
+     * Thf dhbrbdtfr bt indfx <i>k</i> in this sfqufndf bfdomfs fqubl to:
+     * <ul>
+     * <li>thf dhbrbdtfr bt indfx <i>k</i> in this sfqufndf, if
+     * <i>k</i> is lfss thbn {@dodf dstOffsft}
+     * <li>thf dhbrbdtfr bt indfx <i>k</i>{@dodf +stbrt-dstOffsft} in
+     * thf brgumfnt {@dodf s}, if <i>k</i> is grfbtfr thbn or fqubl to
+     * {@dodf dstOffsft} but is lfss thbn {@dodf dstOffsft+fnd-stbrt}
+     * <li>thf dhbrbdtfr bt indfx <i>k</i>{@dodf -(fnd-stbrt)} in this
+     * sfqufndf, if <i>k</i> is grfbtfr thbn or fqubl to
+     * {@dodf dstOffsft+fnd-stbrt}
+     * </ul><p>
+     * Thf {@dodf dstOffsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     * <p>Thf stbrt brgumfnt must bf nonnfgbtivf, bnd not grfbtfr thbn
+     * {@dodf fnd}.
+     * <p>Thf fnd brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf stbrt}, bnd lfss thbn or fqubl to thf lfngth of s.
+     *
+     * <p>If {@dodf s} is {@dodf null}, thfn this mfthod insfrts
+     * dhbrbdtfrs bs if thf s pbrbmftfr wbs b sfqufndf dontbining thf four
+     * dhbrbdtfrs {@dodf "null"}.
+     *
+     * @pbrbm      dstOffsft   thf offsft in this sfqufndf.
+     * @pbrbm      s       thf sfqufndf to bf insfrtfd.
+     * @pbrbm      stbrt   thf stbrting indfx of thf subsfqufndf to bf insfrtfd.
+     * @pbrbm      fnd     thf fnd indfx of thf subsfqufndf to bf insfrtfd.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     IndfxOutOfBoundsExdfption  if {@dodf dstOffsft}
+     *             is nfgbtivf or grfbtfr thbn {@dodf this.lfngth()}, or
+     *              {@dodf stbrt} or {@dodf fnd} brf nfgbtivf, or
+     *              {@dodf stbrt} is grfbtfr thbn {@dodf fnd} or
+     *              {@dodf fnd} is grfbtfr thbn {@dodf s.lfngth()}
+     */
+     publid AbstrbdtStringBuildfr insfrt(int dstOffsft, ChbrSfqufndf s,
+                                         int stbrt, int fnd) {
+        if (s == null)
+            s = "null";
+        if ((dstOffsft < 0) || (dstOffsft > this.lfngth()))
+            throw nfw IndfxOutOfBoundsExdfption("dstOffsft "+dstOffsft);
+        if ((stbrt < 0) || (fnd < 0) || (stbrt > fnd) || (fnd > s.lfngth()))
+            throw nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngth() "
+                + s.lfngth());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, dstOffsft, vbluf, dstOffsft + lfn,
+                         dount - dstOffsft);
+        for (int i=stbrt; i<fnd; i++)
+            vbluf[dstOffsft++] = s.dhbrAt(i);
+        dount += lfn;
+        rfturn this;
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf boolfbn}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(boolfbn)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      b        b {@dodf boolfbn}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, boolfbn b) {
+        rfturn insfrt(offsft, String.vblufOf(b));
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf dhbr}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(dhbr)},
+     * bnd thf dhbrbdtfr in thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      d        b {@dodf dhbr}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     IndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dhbr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + 1, dount - offsft);
+        vbluf[offsft] = d;
+        dount += 1;
+        rfturn this;
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf sfdond {@dodf int}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(int)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      i        bn {@dodf int}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, int i) {
+        rfturn insfrt(offsft, String.vblufOf(i));
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf long}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(long)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      l        b {@dodf long}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, long l) {
+        rfturn insfrt(offsft, String.vblufOf(l));
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf flobt}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(flobt)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      f        b {@dodf flobt}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, flobt f) {
+        rfturn insfrt(offsft, String.vblufOf(f));
+    }
+
+    /**
+     * Insfrts thf string rfprfsfntbtion of thf {@dodf doublf}
+     * brgumfnt into this sfqufndf.
+     * <p>
+     * Thf ovfrbll ffffdt is fxbdtly bs if thf sfdond brgumfnt wfrf
+     * donvfrtfd to b string by thf mfthod {@link String#vblufOf(doublf)},
+     * bnd thf dhbrbdtfrs of thbt string wfrf thfn
+     * {@link #insfrt(int,String) insfrtfd} into this dhbrbdtfr
+     * sfqufndf bt thf indidbtfd offsft.
+     * <p>
+     * Thf {@dodf offsft} brgumfnt must bf grfbtfr thbn or fqubl to
+     * {@dodf 0}, bnd lfss thbn or fqubl to thf {@linkplbin #lfngth() lfngth}
+     * of this sfqufndf.
+     *
+     * @pbrbm      offsft   thf offsft.
+     * @pbrbm      d        b {@dodf doublf}.
+     * @rfturn     b rfffrfndf to this objfdt.
+     * @throws     StringIndfxOutOfBoundsExdfption  if thf offsft is invblid.
+     */
+    publid AbstrbdtStringBuildfr insfrt(int offsft, doublf d) {
+        rfturn insfrt(offsft, String.vblufOf(d));
+    }
+
+    /**
+     * Rfturns thf indfx within this string of thf first oddurrfndf of thf
+     * spfdififd substring.
+     *
+     * <p>Thf rfturnfd indfx is thf smbllfst vbluf {@dodf k} for whidh:
+     * <prf>{@dodf
+     * this.toString().stbrtsWith(str, k)
+     * }</prf>
+     * If no sudh vbluf of {@dodf k} fxists, thfn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str   thf substring to sfbrdh for.
+     * @rfturn  thf indfx of thf first oddurrfndf of thf spfdififd substring,
+     *          or {@dodf -1} if thfrf is no sudh oddurrfndf.
+     */
+    publid int indfxOf(String str) {
+        rfturn indfxOf(str, 0);
+    }
+
+    /**
+     * Rfturns thf indfx within this string of thf first oddurrfndf of thf
+     * spfdififd substring, stbrting bt thf spfdififd indfx.
+     *
+     * <p>Thf rfturnfd indfx is thf smbllfst vbluf {@dodf k} for whidh:
+     * <prf>{@dodf
+     *     k >= Mbth.min(fromIndfx, this.lfngth()) &&
+     *                   this.toString().stbrtsWith(str, k)
+     * }</prf>
+     * If no sudh vbluf of {@dodf k} fxists, thfn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str         thf substring to sfbrdh for.
+     * @pbrbm   fromIndfx   thf indfx from whidh to stbrt thf sfbrdh.
+     * @rfturn  thf indfx of thf first oddurrfndf of thf spfdififd substring,
+     *          stbrting bt thf spfdififd indfx,
+     *          or {@dodf -1} if thfrf is no sudh oddurrfndf.
+     */
+    publid int indfxOf(String str, int fromIndfx) {
+        rfturn String.indfxOf(vbluf, 0, dount, str, fromIndfx);
+    }
+
+    /**
+     * Rfturns thf indfx within this string of thf lbst oddurrfndf of thf
+     * spfdififd substring.  Thf lbst oddurrfndf of thf fmpty string "" is
+     * donsidfrfd to oddur bt thf indfx vbluf {@dodf this.lfngth()}.
+     *
+     * <p>Thf rfturnfd indfx is thf lbrgfst vbluf {@dodf k} for whidh:
+     * <prf>{@dodf
+     * this.toString().stbrtsWith(str, k)
+     * }</prf>
+     * If no sudh vbluf of {@dodf k} fxists, thfn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str   thf substring to sfbrdh for.
+     * @rfturn  thf indfx of thf lbst oddurrfndf of thf spfdififd substring,
+     *          or {@dodf -1} if thfrf is no sudh oddurrfndf.
+     */
+    publid int lbstIndfxOf(String str) {
+        rfturn lbstIndfxOf(str, dount);
+    }
+
+    /**
+     * Rfturns thf indfx within this string of thf lbst oddurrfndf of thf
+     * spfdififd substring, sfbrdhing bbdkwbrd stbrting bt thf spfdififd indfx.
+     *
+     * <p>Thf rfturnfd indfx is thf lbrgfst vbluf {@dodf k} for whidh:
+     * <prf>{@dodf
+     *     k <= Mbth.min(fromIndfx, this.lfngth()) &&
+     *                   this.toString().stbrtsWith(str, k)
+     * }</prf>
+     * If no sudh vbluf of {@dodf k} fxists, thfn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm   str         thf substring to sfbrdh for.
+     * @pbrbm   fromIndfx   thf indfx to stbrt thf sfbrdh from.
+     * @rfturn  thf indfx of thf lbst oddurrfndf of thf spfdififd substring,
+     *          sfbrdhing bbdkwbrd from thf spfdififd indfx,
+     *          or {@dodf -1} if thfrf is no sudh oddurrfndf.
+     */
+    publid int lbstIndfxOf(String str, int fromIndfx) {
+        rfturn String.lbstIndfxOf(vbluf, 0, dount, str, fromIndfx);
+    }
+
+    /**
+     * Cbusfs this dhbrbdtfr sfqufndf to bf rfplbdfd by thf rfvfrsf of
+     * thf sfqufndf. If thfrf brf bny surrogbtf pbirs indludfd in thf
+     * sfqufndf, thfsf brf trfbtfd bs singlf dhbrbdtfrs for thf
+     * rfvfrsf opfrbtion. Thus, thf ordfr of thf high-low surrogbtfs
+     * is nfvfr rfvfrsfd.
+     *
+     * Lft <i>n</i> bf thf dhbrbdtfr lfngth of this dhbrbdtfr sfqufndf
+     * (not thf lfngth in {@dodf dhbr} vblufs) just prior to
+     * fxfdution of thf {@dodf rfvfrsf} mfthod. Thfn thf
+     * dhbrbdtfr bt indfx <i>k</i> in thf nfw dhbrbdtfr sfqufndf is
+     * fqubl to thf dhbrbdtfr bt indfx <i>n-k-1</i> in thf old
+     * dhbrbdtfr sfqufndf.
+     *
+     * <p>Notf thbt thf rfvfrsf opfrbtion mby rfsult in produding
+     * surrogbtf pbirs thbt wfrf unpbirfd low-surrogbtfs bnd
+     * high-surrogbtfs bfforf thf opfrbtion. For fxbmplf, rfvfrsing
+     * "\u005CuDC00\u005CuD800" produdfs "\u005CuD800\u005CuDC00" whidh is
+     * b vblid surrogbtf pbir.
+     *
+     * @rfturn  b rfffrfndf to this objfdt.
+     */
+    publid AbstrbdtStringBuildfr rfvfrsf() {
+        boolfbn hbsSurrogbtfs = fblsf;
+        int n = dount - 1;
+        for (int j = (n-1) >> 1; j >= 0; j--) {
+            int k = n - j;
+            dhbr dj = vbluf[j];
+            dhbr dk = vbluf[k];
+            vbluf[j] = dk;
+            vbluf[k] = dj;
+            if (Chbrbdtfr.isSurrogbtf(dj) ||
+                Chbrbdtfr.isSurrogbtf(dk)) {
+                hbsSurrogbtfs = truf;
+            }
+        }
+        if (hbsSurrogbtfs) {
+            rfvfrsfAllVblidSurrogbtfPbirs();
+        }
+        rfturn this;
+    }
+
+    /** Outlinfd hflpfr mfthod for rfvfrsf() */
+    privbtf void rfvfrsfAllVblidSurrogbtfPbirs() {
+        for (int i = 0; i < dount - 1; i++) {
+            dhbr d2 = vbluf[i];
+            if (Chbrbdtfr.isLowSurrogbtf(d2)) {
+                dhbr d1 = vbluf[i + 1];
+                if (Chbrbdtfr.isHighSurrogbtf(d1)) {
+                    vbluf[i++] = d1;
+                    vbluf[i] = d2;
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf dbtb in this sfqufndf.
+     * A nfw {@dodf String} objfdt is bllodbtfd bnd initiblizfd to
+     * dontbin thf dhbrbdtfr sfqufndf durrfntly rfprfsfntfd by this
+     * objfdt. This {@dodf String} is thfn rfturnfd. Subsfqufnt
+     * dhbngfs to this sfqufndf do not bfffdt thf dontfnts of thf
+     * {@dodf String}.
+     *
+     * @rfturn  b string rfprfsfntbtion of this sfqufndf of dhbrbdtfrs.
+     */
+    @Ovfrridf
+    publid bbstrbdt String toString();
+
+    /**
+     * Nffdfd by {@dodf String} for thf dontfntEqubls mfthod.
+     */
+    finbl dhbr[] gftVbluf() {
+        rfturn vbluf;
+    }
+
+}

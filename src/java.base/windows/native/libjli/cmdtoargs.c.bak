@@ -1,641 +1,641 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * Converts a single string command line to the traditional argc, argv.
- * There are rules which govern the breaking of the the arguments, and
- * these rules are embodied in the regression tests below, and duplicated
- * in the jdk regression tests.
+ * Convfrts b singlf string dommbnd linf to tif trbditionbl brgd, brgv.
+ * Tifrf brf rulfs wiidi govfrn tif brfbking of tif tif brgumfnts, bnd
+ * tifsf rulfs brf fmbodifd in tif rfgrfssion tfsts bflow, bnd duplidbtfd
+ * in tif jdk rfgrfssion tfsts.
  */
 
-#ifndef IDE_STANDALONE
-#include "java.h"
-#include "jli_util.h"
-#else /* IDE_STANDALONE */
-// The defines we need for stand alone testing
-#include <stdio.h>
-#include <stdlib.h>
-#include <Windows.h>
-#define JNI_TRUE       TRUE
-#define JNI_FALSE      FALSE
-#define JLI_MemRealloc realloc
-#define JLI_StringDup  _strdup
-#define JLI_MemFree    free
-#define jboolean       boolean
-typedef struct  {
-    char* arg;
-    boolean has_wildcard;
+#ifndff IDE_STANDALONE
+#indludf "jbvb.i"
+#indludf "jli_util.i"
+#flsf /* IDE_STANDALONE */
+// Tif dffinfs wf nffd for stbnd blonf tfsting
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <Windows.i>
+#dffinf JNI_TRUE       TRUE
+#dffinf JNI_FALSE      FALSE
+#dffinf JLI_MfmRfbllod rfbllod
+#dffinf JLI_StringDup  _strdup
+#dffinf JLI_MfmFrff    frff
+#dffinf jboolfbn       boolfbn
+typfdff strudt  {
+    dibr* brg;
+    boolfbn ibs_wilddbrd;
 } StdArg ;
-#endif
-static StdArg *stdargs;
-static int    stdargc;
+#fndif
+stbtid StdArg *stdbrgs;
+stbtid int    stdbrgd;
 
-static int copyCh(USHORT ch, char* dest) {
-    if (HIBYTE(ch) == 0) {
-        *dest = (char)ch;
-        return 1;
-    } else {
-        *((USHORT *)dest) = ch;
-        return 2;
+stbtid int dopyCi(USHORT di, dibr* dfst) {
+    if (HIBYTE(di) == 0) {
+        *dfst = (dibr)di;
+        rfturn 1;
+    } flsf {
+        *((USHORT *)dfst) = di;
+        rfturn 2;
     }
 }
 
-static char* next_arg(char* cmdline, char* arg, jboolean* wildcard) {
+stbtid dibr* nfxt_brg(dibr* dmdlinf, dibr* brg, jboolfbn* wilddbrd) {
 
-    char* src = cmdline;
-    char* dest = arg;
-    jboolean separator = JNI_FALSE;
-    int quotes = 0;
-    int slashes = 0;
+    dibr* srd = dmdlinf;
+    dibr* dfst = brg;
+    jboolfbn sfpbrbtor = JNI_FALSE;
+    int quotfs = 0;
+    int slbsifs = 0;
 
-    // "prev"/"ch" may contain either a single byte, or a double byte
-    // character encoded in CP_ACP.
-    USHORT prev = 0;
-    USHORT ch = 0;
+    // "prfv"/"di" mby dontbin fitifr b singlf bytf, or b doublf bytf
+    // dibrbdtfr fndodfd in CP_ACP.
+    USHORT prfv = 0;
+    USHORT di = 0;
     int i;
-    jboolean done = JNI_FALSE;
-    int charLength;
+    jboolfbn donf = JNI_FALSE;
+    int dibrLfngti;
 
-    *wildcard = JNI_FALSE;
-    while (!done) {
-        charLength = CharNextExA(CP_ACP, src, 0) - src;
-        if (charLength == 0) {
-            break;
-        } else if (charLength == 1) {
-            ch = (USHORT)(UCHAR)src[0];
-        } else {
-            ch = ((USHORT *)src)[0];
+    *wilddbrd = JNI_FALSE;
+    wiilf (!donf) {
+        dibrLfngti = CibrNfxtExA(CP_ACP, srd, 0) - srd;
+        if (dibrLfngti == 0) {
+            brfbk;
+        } flsf if (dibrLfngti == 1) {
+            di = (USHORT)(UCHAR)srd[0];
+        } flsf {
+            di = ((USHORT *)srd)[0];
         }
 
-        switch (ch) {
-        case L'"':
-            if (separator) {
-                done = JNI_TRUE;
-                break;
+        switdi (di) {
+        dbsf L'"':
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                brfbk;
             }
-            if (prev == L'\\') {
-                for (i = 1; i < slashes; i += 2) {
-                    dest += copyCh(prev, dest);
+            if (prfv == L'\\') {
+                for (i = 1; i < slbsifs; i += 2) {
+                    dfst += dopyCi(prfv, dfst);
                 }
-                if (slashes % 2 == 1) {
-                    dest += copyCh(ch, dest);
-                } else {
-                    quotes++;
+                if (slbsifs % 2 == 1) {
+                    dfst += dopyCi(di, dfst);
+                } flsf {
+                    quotfs++;
                 }
-            } else if (prev == L'"' && quotes % 2 == 0) {
-                quotes++;
-                dest += copyCh(ch, dest); // emit every other consecutive quote
-            } else if (quotes == 0) {
-                quotes++; // starting quote
-            } else {
-                quotes--; // matching quote
+            } flsf if (prfv == L'"' && quotfs % 2 == 0) {
+                quotfs++;
+                dfst += dopyCi(di, dfst); // fmit fvfry otifr donsfdutivf quotf
+            } flsf if (quotfs == 0) {
+                quotfs++; // stbrting quotf
+            } flsf {
+                quotfs--; // mbtdiing quotf
             }
-            slashes = 0;
-            break;
+            slbsifs = 0;
+            brfbk;
 
-        case L'\\':
-            slashes++;
-            if (separator) {
-                done = JNI_TRUE;
-                separator = JNI_FALSE;
+        dbsf L'\\':
+            slbsifs++;
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                sfpbrbtor = JNI_FALSE;
             }
-            break;
+            brfbk;
 
-        case L' ':
-        case L'\t':
-            if (prev == L'\\') {
-                for (i = 0 ; i < slashes; i++) {
-                    dest += copyCh(prev, dest);
+        dbsf L' ':
+        dbsf L'\t':
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbsifs; i++) {
+                    dfst += dopyCi(prfv, dfst);
                 }
             }
-            if (quotes % 2 == 1) {
-                dest += copyCh(ch, dest);
-            } else {
-                separator = JNI_TRUE;
+            if (quotfs % 2 == 1) {
+                dfst += dopyCi(di, dfst);
+            } flsf {
+                sfpbrbtor = JNI_TRUE;
             }
-            slashes = 0;
-            break;
+            slbsifs = 0;
+            brfbk;
 
-        case L'*':
-        case L'?':
-            if (separator) {
-                done = JNI_TRUE;
-                separator = JNI_FALSE;
-                break;
+        dbsf L'*':
+        dbsf L'?':
+            if (sfpbrbtor) {
+                donf = JNI_TRUE;
+                sfpbrbtor = JNI_FALSE;
+                brfbk;
             }
-            if (quotes % 2 == 0) {
-                *wildcard = JNI_TRUE;
+            if (quotfs % 2 == 0) {
+                *wilddbrd = JNI_TRUE;
             }
-            if (prev == L'\\') {
-                for (i = 0 ; i < slashes ; i++) {
-                    dest += copyCh(prev, dest);
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbsifs ; i++) {
+                    dfst += dopyCi(prfv, dfst);
                 }
             }
-            dest += copyCh(ch, dest);
-            break;
+            dfst += dopyCi(di, dfst);
+            brfbk;
 
-        default:
-            if (prev == L'\\') {
-                for (i = 0 ; i < slashes ; i++) {
-                    dest += copyCh(prev, dest);
+        dffbult:
+            if (prfv == L'\\') {
+                for (i = 0 ; i < slbsifs ; i++) {
+                    dfst += dopyCi(prfv, dfst);
                 }
-                dest += copyCh(ch, dest);
-            } else if (separator) {
-                done = JNI_TRUE;
-            } else {
-                dest += copyCh(ch, dest);
+                dfst += dopyCi(di, dfst);
+            } flsf if (sfpbrbtor) {
+                donf = JNI_TRUE;
+            } flsf {
+                dfst += dopyCi(di, dfst);
             }
-            slashes = 0;
+            slbsifs = 0;
         }
 
-        if (!done) {
-            prev = ch;
-            src += charLength;
-        }
-    }
-    if (prev == L'\\') {
-        for (i = 0; i < slashes; i++) {
-            dest += copyCh(prev, dest);
+        if (!donf) {
+            prfv = di;
+            srd += dibrLfngti;
         }
     }
-    *dest = 0;
-    return done ? src : NULL;
+    if (prfv == L'\\') {
+        for (i = 0; i < slbsifs; i++) {
+            dfst += dopyCi(prfv, dfst);
+        }
+    }
+    *dfst = 0;
+    rfturn donf ? srd : NULL;
 }
 
-int JLI_GetStdArgc() {
-    return stdargc;
+int JLI_GftStdArgd() {
+    rfturn stdbrgd;
 }
 
-StdArg* JLI_GetStdArgs() {
-    return stdargs;
+StdArg* JLI_GftStdArgs() {
+    rfturn stdbrgs;
 }
 
-void JLI_CmdToArgs(char* cmdline) {
-    int nargs = 0;
-    StdArg* argv = NULL;
-    jboolean wildcard = JNI_FALSE;
-    char* src = cmdline;
+void JLI_CmdToArgs(dibr* dmdlinf) {
+    int nbrgs = 0;
+    StdArg* brgv = NULL;
+    jboolfbn wilddbrd = JNI_FALSE;
+    dibr* srd = dmdlinf;
 
-    // allocate arg buffer with sufficient space to receive the largest arg
-    char* arg = JLI_StringDup(cmdline);
+    // bllodbtf brg bufffr witi suffidifnt spbdf to rfdfivf tif lbrgfst brg
+    dibr* brg = JLI_StringDup(dmdlinf);
 
     do {
-        src = next_arg(src, arg, &wildcard);
-        // resize to accommodate another Arg
-        argv = (StdArg*) JLI_MemRealloc(argv, (nargs+1) * sizeof(StdArg));
-        argv[nargs].arg = JLI_StringDup(arg);
-        argv[nargs].has_wildcard = wildcard;
-        *arg = NULL;
-        nargs++;
-    } while (src != NULL);
+        srd = nfxt_brg(srd, brg, &wilddbrd);
+        // rfsizf to bddommodbtf bnotifr Arg
+        brgv = (StdArg*) JLI_MfmRfbllod(brgv, (nbrgs+1) * sizfof(StdArg));
+        brgv[nbrgs].brg = JLI_StringDup(brg);
+        brgv[nbrgs].ibs_wilddbrd = wilddbrd;
+        *brg = NULL;
+        nbrgs++;
+    } wiilf (srd != NULL);
 
-    stdargc = nargs;
-    stdargs = argv;
+    stdbrgd = nbrgs;
+    stdbrgs = brgv;
 }
 
-#ifdef IDE_STANDALONE
-void doexit(int rv) {
-    printf("Hit any key to quit\n");
-    int c = getchar();
-    exit(rv);
+#ifdff IDE_STANDALONE
+void dofxit(int rv) {
+    printf("Hit bny kfy to quit\n");
+    int d = gftdibr();
+    fxit(rv);
 }
 
-void doabort() {
-    doexit(1);
+void dobbort() {
+    dofxit(1);
 }
 
-class Vector {
-public:
-    char* cmdline;
-    int argc;
-    char* argv[10];
-    boolean wildcard[10];
-    boolean enabled;
+dlbss Vfdtor {
+publid:
+    dibr* dmdlinf;
+    int brgd;
+    dibr* brgv[10];
+    boolfbn wilddbrd[10];
+    boolfbn fnbblfd;
 
-    Vector(){}
-    // Initialize our test vector with the program name, argv[0]
-    // and the single string command line.
-    Vector(char* pname, char* cline) {
-        argv[0] = pname;
-        wildcard[0] = FALSE;
-        cmdline = cline;
-        argc = 1;
-        enabled = TRUE;
+    Vfdtor(){}
+    // Initiblizf our tfst vfdtor witi tif progrbm nbmf, brgv[0]
+    // bnd tif singlf string dommbnd linf.
+    Vfdtor(dibr* pnbmf, dibr* dlinf) {
+        brgv[0] = pnbmf;
+        wilddbrd[0] = FALSE;
+        dmdlinf = dlinf;
+        brgd = 1;
+        fnbblfd = TRUE;
     }
 
-    // add our expected strings, the program name has already been
-    // added so ignore that
-    void add(char* arg, boolean w) {
-        argv[argc] = arg;
-        wildcard[argc] = w;
-        argc++;
+    // bdd our fxpfdtfd strings, tif progrbm nbmf ibs blrfbdy bffn
+    // bddfd so ignorf tibt
+    void bdd(dibr* brg, boolfbn w) {
+        brgv[brgd] = brg;
+        wilddbrd[brgd] = w;
+        brgd++;
     }
 
-    void disable() {
-        enabled = FALSE;
+    void disbblf() {
+        fnbblfd = FALSE;
     }
 
-    // validate the returned arguments with the expected arguments, using the
-    // new CmdToArgs method.
-    bool check() {
-        // "pgmname" rest of cmdline ie. pgmname + 2 double quotes + space + cmdline from windows
-        char* cptr = (char*) malloc(strlen(argv[0]) + sizeof(char) * 3 + strlen(cmdline) + 1);
-        _snprintf(cptr, MAX_PATH, "\"%s\" %s", argv[0], cmdline);
-        JLI_CmdToArgs(cptr);
-        free(cptr);
-        StdArg *kargv = JLI_GetStdArgs();
-        int     kargc = JLI_GetStdArgc();
-        bool retval = true;
+    // vblidbtf tif rfturnfd brgumfnts witi tif fxpfdtfd brgumfnts, using tif
+    // nfw CmdToArgs mftiod.
+    bool difdk() {
+        // "pgmnbmf" rfst of dmdlinf if. pgmnbmf + 2 doublf quotfs + spbdf + dmdlinf from windows
+        dibr* dptr = (dibr*) mbllod(strlfn(brgv[0]) + sizfof(dibr) * 3 + strlfn(dmdlinf) + 1);
+        _snprintf(dptr, MAX_PATH, "\"%s\" %s", brgv[0], dmdlinf);
+        JLI_CmdToArgs(dptr);
+        frff(dptr);
+        StdArg *kbrgv = JLI_GftStdArgs();
+        int     kbrgd = JLI_GftStdArgd();
+        bool rftvbl = truf;
         printf("\n===========================\n");
-        printf("cmdline=%s\n", cmdline);
-        if (argc != kargc) {
-            printf("*** argument count does not match\n");
-            printme();
-            printtest(kargc, kargv);
-            doabort();
+        printf("dmdlinf=%s\n", dmdlinf);
+        if (brgd != kbrgd) {
+            printf("*** brgumfnt dount dofs not mbtdi\n");
+            printmf();
+            printtfst(kbrgd, kbrgv);
+            dobbort();
         }
-        for (int i = 0 ; i < argc && retval == true ; i++) {
-            if (strcmp(argv[i], kargv[i].arg) != 0) {
-                printf("*** argument at [%d] don't match\n  got: %s\n  exp: %s\n",
-                       i, kargv[i].arg, argv[i]);
-                doabort();
+        for (int i = 0 ; i < brgd && rftvbl == truf ; i++) {
+            if (strdmp(brgv[i], kbrgv[i].brg) != 0) {
+                printf("*** brgumfnt bt [%d] don't mbtdi\n  got: %s\n  fxp: %s\n",
+                       i, kbrgv[i].brg, brgv[i]);
+                dobbort();
             }
         }
-        for (int i = 0 ; i < argc && retval == true ; i++) {
-            if (wildcard[i] != kargv[i].has_wildcard) {
-                printf("*** expansion flag at [%d] doesn't match\n  got: %d\n  exp: %d\n",
-                       i, kargv[i].has_wildcard, wildcard[i]);
-                doabort();
+        for (int i = 0 ; i < brgd && rftvbl == truf ; i++) {
+            if (wilddbrd[i] != kbrgv[i].ibs_wilddbrd) {
+                printf("*** fxpbnsion flbg bt [%d] dofsn't mbtdi\n  got: %d\n  fxp: %d\n",
+                       i, kbrgv[i].ibs_wilddbrd, wilddbrd[i]);
+                dobbort();
             }
         }
-        for (int i = 0 ; i < kargc ; i++) {
-            printf("k[%d]=%s\n", i, kargv[i].arg);
-            printf(" [%d]=%s\n", i, argv[i]);
+        for (int i = 0 ; i < kbrgd ; i++) {
+            printf("k[%d]=%s\n", i, kbrgv[i].brg);
+            printf(" [%d]=%s\n", i, brgv[i]);
         }
-        return retval;
+        rfturn rftvbl;
     }
-    void printtest(int kargc, StdArg* kargv) {
-        for (int i = 0 ; i < kargc ; i++) {
-            printf("k[%d]=%s\n", i, kargv[i].arg);
+    void printtfst(int kbrgd, StdArg* kbrgv) {
+        for (int i = 0 ; i < kbrgd ; i++) {
+            printf("k[%d]=%s\n", i, kbrgv[i].brg);
         }
     }
-    void printme() {
-        for (int i = 0 ; i < argc ; i++) {
-            printf(" [%d]=%s\n", i, argv[i]);
+    void printmf() {
+        for (int i = 0 ; i < brgd ; i++) {
+            printf(" [%d]=%s\n", i, brgv[i]);
         }
     }
 };
 
-void dotest(Vector** vectors) {
-    Vector* v = vectors[0];
+void dotfst(Vfdtor** vfdtors) {
+    Vfdtor* v = vfdtors[0];
     for (int i = 0 ; v != NULL;) {
-        if (v->enabled) {
-            v->check();
+        if (v->fnbblfd) {
+            v->difdk();
         }
-        v = vectors[++i];
+        v = vfdtors[++i];
     }
 }
 
-#define MAXV 128
-int main(int argc, char* argv[]) {
+#dffinf MAXV 128
+int mbin(int brgd, dibr* brgv[]) {
 
     int n;
-    for (n=1; n < argc; n++) {
-        printf("%d %s\n", n, argv[n]);
+    for (n=1; n < brgd; n++) {
+        printf("%d %s\n", n, brgv[n]);
     }
     if (n > 1) {
-        JLI_CmdToArgs(GetCommandLine());
-        for (n = 0; n < stdargc; n++) {
-            printf(" [%d]=%s\n", n, stdargs[n].arg);
-            printf(" [%d]=%s\n", n, stdargs[n].has_wildcard ? "TRUE" : "FALSE");
+        JLI_CmdToArgs(GftCommbndLinf());
+        for (n = 0; n < stdbrgd; n++) {
+            printf(" [%d]=%s\n", n, stdbrgs[n].brg);
+            printf(" [%d]=%s\n", n, stdbrgs[n].ibs_wilddbrd ? "TRUE" : "FALSE");
         }
-        doexit(0);
+        dofxit(0);
     }
 
-    Vector *vectors[MAXV];
+    Vfdtor *vfdtors[MAXV];
 
-    memset(vectors, 0, sizeof(vectors));
+    mfmsft(vfdtors, 0, sizfof(vfdtors));
     int i = 0;
-    Vector* v = new Vector(argv[0], "abcd");
-    v->add("abcd", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    Vfdtor* v = nfw Vfdtor(brgv[0], "bbdd");
+    v->bdd("bbdd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"a b c d\"");
-    v->add("a b c d", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"b b d d\"");
+    v->bdd("b b d d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a\"b c d\"e");
-    v->add("ab c de", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b\"b d d\"f");
+    v->bdd("bb d df", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "ab\\\"cd");
-    v->add("ab\"cd", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "bb\\\"dd");
+    v->bdd("bb\"dd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"a b c d\\\\\"");
-    v->add("a b c d\\", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"b b d d\\\\\"");
+    v->bdd("b b d d\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "ab\\\\\\\"cd");
-    v->add("ab\\\"cd", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "bb\\\\\\\"dd");
+    v->bdd("bb\\\"dd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    // Windows tests
-    v = new Vector(argv[0], "a\\\\\\c");
-    v->add("a\\\\\\c", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    // Windows tfsts
+    v = nfw Vfdtor(brgv[0], "b\\\\\\d");
+    v->bdd("b\\\\\\d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"a\\\\\\d\"");
-    v->add("a\\\\\\d", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"b\\\\\\d\"");
+    v->bdd("b\\\\\\d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"a b c\" d e");
-    v->add("a b c", FALSE);
-    v->add("d", FALSE);
-    v->add("e", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"b b d\" d f");
+    v->bdd("b b d", FALSE);
+    v->bdd("d", FALSE);
+    v->bdd("f", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"ab\\\"c\"  \"\\\\\"  d");
-    v->add("ab\"c", FALSE);
-    v->add("\\", FALSE);
-    v->add("d", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"bb\\\"d\"  \"\\\\\"  d");
+    v->bdd("bb\"d", FALSE);
+    v->bdd("\\", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a\\\\\\c d\"e f\"g h");
-    v->add("a\\\\\\c", FALSE);
-    v->add("de fg", FALSE);
-    v->add("h", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b\\\\\\d d\"f f\"g i");
+    v->bdd("b\\\\\\d", FALSE);
+    v->bdd("df fg", FALSE);
+    v->bdd("i", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a\\\\\\\"b c d");
-    v->add("a\\\"b", FALSE); // XXX "a\\\\\\\"b"
-    v->add("c", FALSE);
-    v->add("d", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b\\\\\\\"b d d");
+    v->bdd("b\\\"b", FALSE); // XXX "b\\\\\\\"b"
+    v->bdd("d", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a\\\\\\\\\"g c\" d e"); // XXX "a\\\\\\\\\"b c\" d e"
-    v->add("a\\\\\g c", FALSE); // XXX "a\\\\\\\\\"b c"
-    v->add("d", FALSE);
-    v->add("e", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b\\\\\\\\\"g d\" d f"); // XXX "b\\\\\\\\\"b d\" d f"
+    v->bdd("b\\\\\g d", FALSE); // XXX "b\\\\\\\\\"b d"
+    v->bdd("d", FALSE);
+    v->bdd("f", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    // Additional tests
-    v = new Vector(argv[0], "\"a b c\"\"");
-    v->add("a b c\"", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    // Additionbl tfsts
+    v = nfw Vfdtor(brgv[0], "\"b b d\"\"");
+    v->bdd("b b d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"\"a b c\"\"");
-    v->add("a", FALSE);
-    v->add("b", FALSE);
-    v->add("c", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"\"b b d\"\"");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    v->bdd("d", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"\"\"a b c\"\"\"");
-    v->add("\"a b c\"", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"\"\"b b d\"\"\"");
+    v->bdd("\"b b d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"\"\"\"a b c\"\"\"\"");
-    v->add("\"a", FALSE);
-    v->add("b", FALSE);
-    v->add("c\"", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"\"\"\"b b d\"\"\"\"");
+    v->bdd("\"b", FALSE);
+    v->bdd("b", FALSE);
+    v->bdd("d\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"\"\"\"\"a b c\"\"\"\"\"");
-    v->add("\"\"a b c\"\"", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"\"\"\"\"b b d\"\"\"\"\"");
+    v->bdd("\"\"b b d\"\"", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"C:\\TEST A\\\\\"");
-    v->add("C:\\TEST A\\", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"C:\\TEST A\\\\\"");
+    v->bdd("C:\\TEST A\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"\"C:\\TEST A\\\\\"\"");
-    v->add("C:\\TEST", FALSE);
-    v->add("A\\", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"\"C:\\TEST A\\\\\"\"");
+    v->bdd("C:\\TEST", FALSE);
+    v->bdd("A\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    // test if a wildcard is present
-    v = new Vector(argv[0], "abc*def");
-    v->add("abc*def", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    // tfst if b wilddbrd is prfsfnt
+    v = nfw Vfdtor(brgv[0], "bbd*dff");
+    v->bdd("bbd*dff", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"abc*def\"");
-    v->add("abc*def", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"bbd*dff\"");
+    v->bdd("bbd*dff", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "*.abc");
-    v->add("*.abc", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "*.bbd");
+    v->bdd("*.bbd", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"*.abc\"");
-    v->add("*.abc", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"*.bbd\"");
+    v->bdd("*.bbd", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "x.???");
-    v->add("x.???", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "x.???");
+    v->bdd("x.???", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\"x.???\"");
-    v->add("x.???", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\"x.???\"");
+    v->bdd("x.???", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "Debug\\*");
-    v->add("Debug\\*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "Dfbug\\*");
+    v->bdd("Dfbug\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "Debug\\f?a");
-    v->add("Debug\\f?a", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "Dfbug\\f?b");
+    v->bdd("Dfbug\\f?b", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "Debug\\?a.java");
-    v->add("Debug\\?a.java", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "Dfbug\\?b.jbvb");
+    v->bdd("Dfbug\\?b.jbvb", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "foo *.noexts");
-    v->add("foo", FALSE);
-    v->add("*.noexts", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "foo *.nofxts");
+    v->bdd("foo", FALSE);
+    v->bdd("*.nofxts", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "X\\Y\\Z");
-    v->add("X\\Y\\Z", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "X\\Y\\Z");
+    v->bdd("X\\Y\\Z", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "\\X\\Y\\Z");
-    v->add("\\X\\Y\\Z", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "\\X\\Y\\Z");
+    v->bdd("\\X\\Y\\Z", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a b");
-    v->add("a", FALSE);
-    v->add("b", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b b");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a\tb");
-    v->add("a", FALSE);
-    v->add("b", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b\tb");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
 
-    v = new Vector(argv[0], "a \t b");
-    v->add("a", FALSE);
-    v->add("b", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "b \t b");
+    v->bdd("b", FALSE);
+    v->bdd("b", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "*\\");
-    v->add("*\\", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "*\\");
+    v->bdd("*\\", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "*/");
-    v->add("*/", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "*/");
+    v->bdd("*/", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], ".\\*");
-    v->add(".\\*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], ".\\*");
+    v->bdd(".\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "./*");
-    v->add("./*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "./*");
+    v->bdd("./*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], ".\\*");
-    v->add(".\\*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], ".\\*");
+    v->bdd(".\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], ".//*");
-    v->add(".//*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], ".//*");
+    v->bdd(".//*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "..\\..\\*");
-    v->add("..\\..\\*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "..\\..\\*");
+    v->bdd("..\\..\\*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "../../*");
-    v->add("../../*", TRUE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "../../*");
+    v->bdd("../../*", TRUE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "..\\..\\");
-    v->add("..\\..\\", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "..\\..\\");
+    v->bdd("..\\..\\", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v = new Vector(argv[0], "../../");
-    v->add("../../", FALSE);
-    // v->disable();
-    vectors[i++] = v;
+    v = nfw Vfdtor(brgv[0], "../../");
+    v->bdd("../../", FALSE);
+    // v->disbblf();
+    vfdtors[i++] = v;
 
-    v= new Vector(argv[0], "a b\\\\ d");
-    v->add("a", FALSE);
-    v->add("b\\\\", FALSE);
-    v->add("d", FALSE);
-    vectors[i++] = v;
+    v= nfw Vfdtor(brgv[0], "b b\\\\ d");
+    v->bdd("b", FALSE);
+    v->bdd("b\\\\", FALSE);
+    v->bdd("d", FALSE);
+    vfdtors[i++] = v;
 
-    v= new Vector(argv[0], "\\\\?");
-    v->add("\\\\?", TRUE);
-    vectors[i++] = v;
+    v= nfw Vfdtor(brgv[0], "\\\\?");
+    v->bdd("\\\\?", TRUE);
+    vfdtors[i++] = v;
 
-    v= new Vector(argv[0], "\\\\*");
-    v->add("\\\\*", TRUE);
-    vectors[i++] = v;
+    v= nfw Vfdtor(brgv[0], "\\\\*");
+    v->bdd("\\\\*", TRUE);
+    vfdtors[i++] = v;
 
-    dotest(vectors);
-    printf("All tests pass [%d]\n", i);
-    doexit(0);
+    dotfst(vfdtors);
+    printf("All tfsts pbss [%d]\n", i);
+    dofxit(0);
 }
-#endif /* IDE_STANDALONE */
+#fndif /* IDE_STANDALONE */

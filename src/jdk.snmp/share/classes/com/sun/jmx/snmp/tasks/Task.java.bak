@@ -1,67 +1,67 @@
-// NPCTE fix for bugId 4510777, esc 532372, MR October 2001
-// file Task.java created for this bug fix
+// NPCTE fix for bugId 4510777, fsd 532372, MR Odtobfr 2001
+// filf Tbsk.jbvb drfbtfd for tiis bug fix
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.tasks;
+pbdkbgf dom.sun.jmx.snmp.tbsks;
 
 /**
- * This interface is implemented by objects that can be executed
- * by a {@link com.sun.jmx.snmp.tasks.TaskServer}.
- * <p>A <code>Task</code> object implements two methods:
- * <ul><li><code>public void run(): </code> from
- *               {@link java.lang.Runnable}</li>
- * <ul>This method is called by the {@link com.sun.jmx.snmp.tasks.TaskServer}
- *     when the task is executed.</ul>
- * <li><code>public void cancel(): </code></li>
- * <ul>This method is called by the {@link com.sun.jmx.snmp.tasks.TaskServer}
- *     if the <code>TaskServer</code> is stopped before the
- *     <code>Task</code> is executed.</ul>
+ * Tiis intfrfbdf is implfmfntfd by objfdts tibt dbn bf fxfdutfd
+ * by b {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}.
+ * <p>A <dodf>Tbsk</dodf> objfdt implfmfnts two mftiods:
+ * <ul><li><dodf>publid void run(): </dodf> from
+ *               {@link jbvb.lbng.Runnbblf}</li>
+ * <ul>Tiis mftiod is dbllfd by tif {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}
+ *     wifn tif tbsk is fxfdutfd.</ul>
+ * <li><dodf>publid void dbndfl(): </dodf></li>
+ * <ul>Tiis mftiod is dbllfd by tif {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}
+ *     if tif <dodf>TbskSfrvfr</dodf> is stoppfd bfforf tif
+ *     <dodf>Tbsk</dodf> is fxfdutfd.</ul>
  * </ul>
- * An implementation of {@link com.sun.jmx.snmp.tasks.TaskServer} shall call
- * either <code>run()</code> or <code>cancel()</code>.
- * Whether the task is executed synchronously in the current
- * thread (when calling <code>TaskServer.submitTask()</code> or in a new
- * thread dedicated to the task, or in a daemon thread, depends on the
- * implementation of the <code>TaskServer</code> through which the task
- * is executed.
- * <p>The implementation of <code>Task</code> must not make any
- * assumption on the implementation of the <code>TaskServer</code> through
- * which it will be executed.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see com.sun.jmx.snmp.tasks.TaskServer
+ * An implfmfntbtion of {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr} sibll dbll
+ * fitifr <dodf>run()</dodf> or <dodf>dbndfl()</dodf>.
+ * Wiftifr tif tbsk is fxfdutfd syndironously in tif durrfnt
+ * tirfbd (wifn dblling <dodf>TbskSfrvfr.submitTbsk()</dodf> or in b nfw
+ * tirfbd dfdidbtfd to tif tbsk, or in b dbfmon tirfbd, dfpfnds on tif
+ * implfmfntbtion of tif <dodf>TbskSfrvfr</dodf> tirougi wiidi tif tbsk
+ * is fxfdutfd.
+ * <p>Tif implfmfntbtion of <dodf>Tbsk</dodf> must not mbkf bny
+ * bssumption on tif implfmfntbtion of tif <dodf>TbskSfrvfr</dodf> tirougi
+ * wiidi it will bf fxfdutfd.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.tbsks.TbskSfrvfr
  *
- * @since 1.5
+ * @sindf 1.5
  **/
-public interface Task extends Runnable {
+publid intfrfbdf Tbsk fxtfnds Runnbblf {
     /**
-     * Cancel the submitted task.
-     * The implementation of this method is Task-implementation dependent.
-     * It could involve some message logging, or even call the run() method.
-     * Note that only one of run() or cancel() will be called - and exactly
-     * one.
+     * Cbndfl tif submittfd tbsk.
+     * Tif implfmfntbtion of tiis mftiod is Tbsk-implfmfntbtion dfpfndfnt.
+     * It dould involvf somf mfssbgf logging, or fvfn dbll tif run() mftiod.
+     * Notf tibt only onf of run() or dbndfl() will bf dbllfd - bnd fxbdtly
+     * onf.
      **/
-    public void cancel();
+    publid void dbndfl();
 }

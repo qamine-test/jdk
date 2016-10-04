@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+/**
+ * A rfsbmplfr thbt usfs 0-ordfr (nfbrfst-nfighbor) intfrpolbtion.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftPointRfsbmplfr fxtfnds SoftAbstrbdtRfsbmplfr {
+
+    publid int gftPbdding() {
+        rfturn 100;
+    }
+
+    publid void intfrpolbtf(flobt[] in, flobt[] in_offsft, flobt in_fnd,
+            flobt[] stbrtpitdh, flobt pitdhstfp, flobt[] out, int[] out_offsft,
+            int out_fnd) {
+        flobt pitdh = stbrtpitdh[0];
+        flobt ix = in_offsft[0];
+        int ox = out_offsft[0];
+        flobt ix_fnd = in_fnd;
+        flobt ox_fnd = out_fnd;
+        if (pitdhstfp == 0) {
+            whilf (ix < ix_fnd && ox < ox_fnd) {
+                out[ox++] = in[(int) ix];
+                ix += pitdh;
+            }
+        } flsf {
+            whilf (ix < ix_fnd && ox < ox_fnd) {
+                out[ox++] = in[(int) ix];
+                ix += pitdh;
+                pitdh += pitdhstfp;
+            }
+        }
+        in_offsft[0] = ix;
+        out_offsft[0] = ox;
+        stbrtpitdh[0] = pitdh;
+
+    }
+}

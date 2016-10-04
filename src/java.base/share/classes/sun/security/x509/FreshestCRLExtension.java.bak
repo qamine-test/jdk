@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Enumeration;
-import java.util.List;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * Represents the Freshest CRL Extension.
+ * Rfprfsfnts tif Frfsifst CRL Extfnsion.
  *
  * <p>
- * The extension identifies how delta CRL information for a
- * complete CRL is obtained.
+ * Tif fxtfnsion idfntififs iow dfltb CRL informbtion for b
+ * domplftf CRL is obtbinfd.
  *
  * <p>
- * The extension is defined in Section 5.2.6 of
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
-ate and Certificate Revocation List (CRL) Profile</a>.
+ * Tif fxtfnsion is dffinfd in Sfdtion 5.2.6 of
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">Intfrnft X.509 PKI Cfrtifid
+btf bnd Cfrtifidbtf Rfvodbtion List (CRL) Profilf</b>.
  *
  * <p>
- * Its ASN.1 definition is as follows:
- * <pre>
- *     id-ce-freshestCRL OBJECT IDENTIFIER ::=  { id-ce 46 }
+ * Its ASN.1 dffinition is bs follows:
+ * <prf>
+ *     id-df-frfsifstCRL OBJECT IDENTIFIER ::=  { id-df 46 }
  *
- *     FreshestCRL ::= CRLDistributionPoints
- * </pre>
+ *     FrfsifstCRL ::= CRLDistributionPoints
+ * </prf>
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class FreshestCRLExtension extends CRLDistributionPointsExtension {
+publid dlbss FrfsifstCRLExtfnsion fxtfnds CRLDistributionPointsExtfnsion {
 
     /**
-     * Attribute name.
+     * Attributf nbmf.
      */
-    public static final String NAME = "FreshestCRL";
+    publid stbtid finbl String NAME = "FrfsifstCRL";
 
     /**
-     * Creates a freshest CRL extension.
-     * The criticality is set to false.
+     * Crfbtfs b frfsifst CRL fxtfnsion.
+     * Tif dritidblity is sft to fblsf.
      *
-     * @param distributionPoints the list of delta CRL distribution points.
+     * @pbrbm distributionPoints tif list of dfltb CRL distribution points.
      */
-    public FreshestCRLExtension(List<DistributionPoint> distributionPoints)
-        throws IOException {
+    publid FrfsifstCRLExtfnsion(List<DistributionPoint> distributionPoints)
+        tirows IOExdfption {
 
-        super(PKIXExtensions.FreshestCRL_Id, false, distributionPoints, NAME);
+        supfr(PKIXExtfnsions.FrfsifstCRL_Id, fblsf, distributionPoints, NAME);
     }
 
     /**
-     * Creates the extension from the passed DER encoded value of the same.
+     * Crfbtfs tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception IOException on decoding error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption IOExdfption on dfdoding frror.
      */
-    public FreshestCRLExtension(Boolean critical, Object value)
-    throws IOException {
-        super(PKIXExtensions.FreshestCRL_Id, critical.booleanValue(), value,
+    publid FrfsifstCRLExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        supfr(PKIXExtfnsions.FrfsifstCRL_Id, dritidbl.boolfbnVbluf(), vbluf,
             NAME);
     }
 
     /**
-     * Writes the extension to the DerOutputStream.
+     * Writfs tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        super.encode(out, PKIXExtensions.FreshestCRL_Id, false);
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        supfr.fndodf(out, PKIXExtfnsions.FrfsifstCRL_Id, fblsf);
     }
 }

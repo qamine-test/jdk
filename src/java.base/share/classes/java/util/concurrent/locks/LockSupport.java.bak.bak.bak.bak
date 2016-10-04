@@ -1,0 +1,414 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import sun.misd.Unsbff;
+
+/**
+ * Bbsid thrfbd blodking primitivfs for drfbting lodks bnd othfr
+ * syndhronizbtion dlbssfs.
+ *
+ * <p>This dlbss bssodibtfs, with fbdh thrfbd thbt usfs it, b pfrmit
+ * (in thf sfnsf of thf {@link jbvb.util.dondurrfnt.Sfmbphorf
+ * Sfmbphorf} dlbss). A dbll to {@dodf pbrk} will rfturn immfdibtfly
+ * if thf pfrmit is bvbilbblf, donsuming it in thf prodfss; othfrwisf
+ * it <fm>mby</fm> blodk.  A dbll to {@dodf unpbrk} mbkfs thf pfrmit
+ * bvbilbblf, if it wbs not blrfbdy bvbilbblf. (Unlikf with Sfmbphorfs
+ * though, pfrmits do not bddumulbtf. Thfrf is bt most onf.)
+ *
+ * <p>Mfthods {@dodf pbrk} bnd {@dodf unpbrk} providf fffidifnt
+ * mfbns of blodking bnd unblodking thrfbds thbt do not fndountfr thf
+ * problfms thbt dbusf thf dfprfdbtfd mfthods {@dodf Thrfbd.suspfnd}
+ * bnd {@dodf Thrfbd.rfsumf} to bf unusbblf for sudh purposfs: Rbdfs
+ * bftwffn onf thrfbd invoking {@dodf pbrk} bnd bnothfr thrfbd trying
+ * to {@dodf unpbrk} it will prfsfrvf livfnfss, duf to thf
+ * pfrmit. Additionblly, {@dodf pbrk} will rfturn if thf dbllfr's
+ * thrfbd wbs intfrruptfd, bnd timfout vfrsions brf supportfd. Thf
+ * {@dodf pbrk} mfthod mby blso rfturn bt bny othfr timf, for "no
+ * rfbson", so in gfnfrbl must bf invokfd within b loop thbt rfdhfdks
+ * donditions upon rfturn. In this sfnsf {@dodf pbrk} sfrvfs bs bn
+ * optimizbtion of b "busy wbit" thbt dofs not wbstf bs mudh timf
+ * spinning, but must bf pbirfd with bn {@dodf unpbrk} to bf
+ * ffffdtivf.
+ *
+ * <p>Thf thrff forms of {@dodf pbrk} fbdh blso support b
+ * {@dodf blodkfr} objfdt pbrbmftfr. This objfdt is rfdordfd whilf
+ * thf thrfbd is blodkfd to pfrmit monitoring bnd dibgnostid tools to
+ * idfntify thf rfbsons thbt thrfbds brf blodkfd. (Sudh tools mby
+ * bddfss blodkfrs using mfthod {@link #gftBlodkfr(Thrfbd)}.)
+ * Thf usf of thfsf forms rbthfr thbn thf originbl forms without this
+ * pbrbmftfr is strongly fndourbgfd. Thf normbl brgumfnt to supply bs
+ * b {@dodf blodkfr} within b lodk implfmfntbtion is {@dodf this}.
+ *
+ * <p>Thfsf mfthods brf dfsignfd to bf usfd bs tools for drfbting
+ * highfr-lfvfl syndhronizbtion utilitifs, bnd brf not in thfmsflvfs
+ * usfful for most dondurrfndy dontrol bpplidbtions.  Thf {@dodf pbrk}
+ * mfthod is dfsignfd for usf only in donstrudtions of thf form:
+ *
+ *  <prf> {@dodf
+ * whilf (!dbnProdffd()) { ... LodkSupport.pbrk(this); }}</prf>
+ *
+ * whfrf nfithfr {@dodf dbnProdffd} nor bny othfr bdtions prior to thf
+ * dbll to {@dodf pbrk} fntbil lodking or blodking.  Bfdbusf only onf
+ * pfrmit is bssodibtfd with fbdh thrfbd, bny intfrmfdibry usfs of
+ * {@dodf pbrk} dould intfrffrf with its intfndfd ffffdts.
+ *
+ * <p><b>Sbmplf Usbgf.</b> Hfrf is b skftdh of b first-in-first-out
+ * non-rffntrbnt lodk dlbss:
+ *  <prf> {@dodf
+ * dlbss FIFOMutfx {
+ *   privbtf finbl AtomidBoolfbn lodkfd = nfw AtomidBoolfbn(fblsf);
+ *   privbtf finbl Qufuf<Thrfbd> wbitfrs
+ *     = nfw CondurrfntLinkfdQufuf<Thrfbd>();
+ *
+ *   publid void lodk() {
+ *     boolfbn wbsIntfrruptfd = fblsf;
+ *     Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+ *     wbitfrs.bdd(durrfnt);
+ *
+ *     // Blodk whilf not first in qufuf or dbnnot bdquirf lodk
+ *     whilf (wbitfrs.pffk() != durrfnt ||
+ *            !lodkfd.dompbrfAndSft(fblsf, truf)) {
+ *       LodkSupport.pbrk(this);
+ *       if (Thrfbd.intfrruptfd()) // ignorf intfrrupts whilf wbiting
+ *         wbsIntfrruptfd = truf;
+ *     }
+ *
+ *     wbitfrs.rfmovf();
+ *     if (wbsIntfrruptfd)          // rfbssfrt intfrrupt stbtus on fxit
+ *       durrfnt.intfrrupt();
+ *   }
+ *
+ *   publid void unlodk() {
+ *     lodkfd.sft(fblsf);
+ *     LodkSupport.unpbrk(wbitfrs.pffk());
+ *   }
+ * }}</prf>
+ */
+publid dlbss LodkSupport {
+    privbtf LodkSupport() {} // Cbnnot bf instbntibtfd.
+
+    privbtf stbtid void sftBlodkfr(Thrfbd t, Objfdt brg) {
+        // Evfn though volbtilf, hotspot dofsn't nffd b writf bbrrifr hfrf.
+        UNSAFE.putObjfdt(t, pbrkBlodkfrOffsft, brg);
+    }
+
+    /**
+     * Mbkfs bvbilbblf thf pfrmit for thf givfn thrfbd, if it
+     * wbs not blrfbdy bvbilbblf.  If thf thrfbd wbs blodkfd on
+     * {@dodf pbrk} thfn it will unblodk.  Othfrwisf, its nfxt dbll
+     * to {@dodf pbrk} is gubrbntffd not to blodk. This opfrbtion
+     * is not gubrbntffd to hbvf bny ffffdt bt bll if thf givfn
+     * thrfbd hbs not bffn stbrtfd.
+     *
+     * @pbrbm thrfbd thf thrfbd to unpbrk, or {@dodf null}, in whidh dbsf
+     *        this opfrbtion hbs no ffffdt
+     */
+    publid stbtid void unpbrk(Thrfbd thrfbd) {
+        if (thrfbd != null)
+            UNSAFE.unpbrk(thrfbd);
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs unlfss thf
+     * pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll rfturns
+     * immfdibtfly; othfrwisf
+     * thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+     * purposfs bnd lifs dormbnt until onf of thrff things hbppfns:
+     *
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd upon rfturn.
+     *
+     * @pbrbm blodkfr thf syndhronizbtion objfdt rfsponsiblf for this
+     *        thrfbd pbrking
+     * @sindf 1.6
+     */
+    publid stbtid void pbrk(Objfdt blodkfr) {
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        sftBlodkfr(t, blodkfr);
+        UNSAFE.pbrk(fblsf, 0L);
+        sftBlodkfr(t, null);
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs, for up to
+     * thf spfdififd wbiting timf, unlfss thf pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll
+     * rfturns immfdibtfly; othfrwisf thf durrfnt thrfbd bfdomfs disbblfd
+     * for thrfbd sdhfduling purposfs bnd lifs dormbnt until onf of four
+     * things hbppfns:
+     *
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     *
+     * <li>Thf spfdififd wbiting timf flbpsfs; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd, or thf flbpsfd timf
+     * upon rfturn.
+     *
+     * @pbrbm blodkfr thf syndhronizbtion objfdt rfsponsiblf for this
+     *        thrfbd pbrking
+     * @pbrbm nbnos thf mbximum numbfr of nbnosfdonds to wbit
+     * @sindf 1.6
+     */
+    publid stbtid void pbrkNbnos(Objfdt blodkfr, long nbnos) {
+        if (nbnos > 0) {
+            Thrfbd t = Thrfbd.durrfntThrfbd();
+            sftBlodkfr(t, blodkfr);
+            UNSAFE.pbrk(fblsf, nbnos);
+            sftBlodkfr(t, null);
+        }
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs, until
+     * thf spfdififd dfbdlinf, unlfss thf pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll
+     * rfturns immfdibtfly; othfrwisf thf durrfnt thrfbd bfdomfs disbblfd
+     * for thrfbd sdhfduling purposfs bnd lifs dormbnt until onf of four
+     * things hbppfns:
+     *
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts} thf
+     * durrfnt thrfbd; or
+     *
+     * <li>Thf spfdififd dfbdlinf pbssfs; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd, or thf durrfnt timf
+     * upon rfturn.
+     *
+     * @pbrbm blodkfr thf syndhronizbtion objfdt rfsponsiblf for this
+     *        thrfbd pbrking
+     * @pbrbm dfbdlinf thf bbsolutf timf, in millisfdonds from thf Epodh,
+     *        to wbit until
+     * @sindf 1.6
+     */
+    publid stbtid void pbrkUntil(Objfdt blodkfr, long dfbdlinf) {
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        sftBlodkfr(t, blodkfr);
+        UNSAFE.pbrk(truf, dfbdlinf);
+        sftBlodkfr(t, null);
+    }
+
+    /**
+     * Rfturns thf blodkfr objfdt supplifd to thf most rfdfnt
+     * invodbtion of b pbrk mfthod thbt hbs not yft unblodkfd, or null
+     * if not blodkfd.  Thf vbluf rfturnfd is just b momfntbry
+     * snbpshot -- thf thrfbd mby hbvf sindf unblodkfd or blodkfd on b
+     * difffrfnt blodkfr objfdt.
+     *
+     * @pbrbm t thf thrfbd
+     * @rfturn thf blodkfr
+     * @throws NullPointfrExdfption if brgumfnt is null
+     * @sindf 1.6
+     */
+    publid stbtid Objfdt gftBlodkfr(Thrfbd t) {
+        if (t == null)
+            throw nfw NullPointfrExdfption();
+        rfturn UNSAFE.gftObjfdtVolbtilf(t, pbrkBlodkfrOffsft);
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs unlfss thf
+     * pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll
+     * rfturns immfdibtfly; othfrwisf thf durrfnt thrfbd bfdomfs disbblfd
+     * for thrfbd sdhfduling purposfs bnd lifs dormbnt until onf of thrff
+     * things hbppfns:
+     *
+     * <ul>
+     *
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd upon rfturn.
+     */
+    publid stbtid void pbrk() {
+        UNSAFE.pbrk(fblsf, 0L);
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs, for up to
+     * thf spfdififd wbiting timf, unlfss thf pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll
+     * rfturns immfdibtfly; othfrwisf thf durrfnt thrfbd bfdomfs disbblfd
+     * for thrfbd sdhfduling purposfs bnd lifs dormbnt until onf of four
+     * things hbppfns:
+     *
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     *
+     * <li>Thf spfdififd wbiting timf flbpsfs; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd, or thf flbpsfd timf
+     * upon rfturn.
+     *
+     * @pbrbm nbnos thf mbximum numbfr of nbnosfdonds to wbit
+     */
+    publid stbtid void pbrkNbnos(long nbnos) {
+        if (nbnos > 0)
+            UNSAFE.pbrk(fblsf, nbnos);
+    }
+
+    /**
+     * Disbblfs thf durrfnt thrfbd for thrfbd sdhfduling purposfs, until
+     * thf spfdififd dfbdlinf, unlfss thf pfrmit is bvbilbblf.
+     *
+     * <p>If thf pfrmit is bvbilbblf thfn it is donsumfd bnd thf dbll
+     * rfturns immfdibtfly; othfrwisf thf durrfnt thrfbd bfdomfs disbblfd
+     * for thrfbd sdhfduling purposfs bnd lifs dormbnt until onf of four
+     * things hbppfns:
+     *
+     * <ul>
+     * <li>Somf othfr thrfbd invokfs {@link #unpbrk unpbrk} with thf
+     * durrfnt thrfbd bs thf tbrgft; or
+     *
+     * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+     * thf durrfnt thrfbd; or
+     *
+     * <li>Thf spfdififd dfbdlinf pbssfs; or
+     *
+     * <li>Thf dbll spuriously (thbt is, for no rfbson) rfturns.
+     * </ul>
+     *
+     * <p>This mfthod dofs <fm>not</fm> rfport whidh of thfsf dbusfd thf
+     * mfthod to rfturn. Cbllfrs should rf-dhfdk thf donditions whidh dbusfd
+     * thf thrfbd to pbrk in thf first plbdf. Cbllfrs mby blso dftfrminf,
+     * for fxbmplf, thf intfrrupt stbtus of thf thrfbd, or thf durrfnt timf
+     * upon rfturn.
+     *
+     * @pbrbm dfbdlinf thf bbsolutf timf, in millisfdonds from thf Epodh,
+     *        to wbit until
+     */
+    publid stbtid void pbrkUntil(long dfbdlinf) {
+        UNSAFE.pbrk(truf, dfbdlinf);
+    }
+
+    /**
+     * Rfturns thf psfudo-rbndomly initiblizfd or updbtfd sfdondbry sffd.
+     * Copifd from ThrfbdLodblRbndom duf to pbdkbgf bddfss rfstridtions.
+     */
+    stbtid finbl int nfxtSfdondbrySffd() {
+        int r;
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        if ((r = UNSAFE.gftInt(t, SECONDARY)) != 0) {
+            r ^= r << 13;   // xorshift
+            r ^= r >>> 17;
+            r ^= r << 5;
+        }
+        flsf if ((r = jbvb.util.dondurrfnt.ThrfbdLodblRbndom.durrfnt().nfxtInt()) == 0)
+            r = 1; // bvoid zfro
+        UNSAFE.putInt(t, SECONDARY, r);
+        rfturn r;
+    }
+
+    // Hotspot implfmfntbtion vib intrinsids API
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long pbrkBlodkfrOffsft;
+    privbtf stbtid finbl long SEED;
+    privbtf stbtid finbl long PROBE;
+    privbtf stbtid finbl long SECONDARY;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Thrfbd.dlbss;
+            pbrkBlodkfrOffsft = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("pbrkBlodkfr"));
+            SEED = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomSffd"));
+            PROBE = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomProbf"));
+            SECONDARY = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomSfdondbrySffd"));
+        } dbtdh (Exdfption fx) { throw nfw Error(fx); }
+    }
+
+}

@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf "jvm.h"
+#indludf "mbnbgfmfnt.h"
+#indludf "sun_mbnbgfmfnt_ThrfbdImpl.h"
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_sftThrfbdContfntionMonitoringEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
+{
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_CONTENTION_MONITORING, flbg);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_sftThrfbdCpuTimfEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
+{
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_CPU_TIME, flbg);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_sftThrfbdAllodbtfdMfmoryEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
+{
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_ALLOCATED_MEMORY, flbg);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdInfo1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jint mbxDfpth,
+   jobjfdtArrby infoArrby)
+{
+    jmm_intfrfbdf->GftThrfbdInfo(fnv, ids, mbxDfpth, infoArrby);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbds
+  (JNIEnv *fnv, jdlbss dls)
+{
+    rfturn JVM_GftAllThrfbds(fnv, dls);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdTotblCpuTimf0
+  (JNIEnv *fnv, jdlbss dls, jlong tid)
+{
+    rfturn jmm_intfrfbdf->GftThrfbdCpuTimfWithKind(fnv, tid, JNI_TRUE /* usfr+sys */);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdTotblCpuTimf1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby timfArrby)
+{
+    jmm_intfrfbdf->GftThrfbdCpuTimfsWithKind(fnv, ids, timfArrby,
+                                             JNI_TRUE /* usfr+sys */);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdUsfrCpuTimf0
+  (JNIEnv *fnv, jdlbss dls, jlong tid)
+{
+    rfturn jmm_intfrfbdf->GftThrfbdCpuTimfWithKind(fnv, tid, JNI_FALSE /* usfr */);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdUsfrCpuTimf1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby timfArrby)
+{
+    jmm_intfrfbdf->GftThrfbdCpuTimfsWithKind(fnv, ids, timfArrby,
+                                             JNI_FALSE /* usfr */);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_gftThrfbdAllodbtfdMfmory1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby sizfArrby)
+{
+    jmm_intfrfbdf->GftThrfbdAllodbtfdMfmory(fnv, ids, sizfArrby);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_findMonitorDfbdlodkfdThrfbds0
+  (JNIEnv *fnv, jdlbss dls)
+{
+    rfturn jmm_intfrfbdf->FindCirdulbrBlodkfdThrfbds(fnv);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_findDfbdlodkfdThrfbds0
+  (JNIEnv *fnv, jdlbss dls)
+{
+    rfturn jmm_intfrfbdf->FindDfbdlodks(fnv, JNI_FALSE /* !objfdt_monitors_only */);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_rfsftPfbkThrfbdCount0
+  (JNIEnv *fnv, jdlbss dls)
+{
+    jvbluf unusfd;
+    unusfd.i = 0;
+    jmm_intfrfbdf->RfsftStbtistid(fnv, unusfd, JMM_STAT_PEAK_THREAD_COUNT);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_rfsftContfntionTimfs0
+  (JNIEnv *fnv, jobjfdt dummy, jlong tid)
+{
+    jvbluf vbluf;
+    vbluf.j = tid;
+    jmm_intfrfbdf->RfsftStbtistid(fnv, vbluf, JMM_STAT_THREAD_CONTENTION_TIME);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_ThrfbdImpl_dumpThrfbds0
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jboolfbn lodkfdMonitors, jboolfbn lodkfdSyndhronizfrs)
+{
+    rfturn jmm_intfrfbdf->DumpThrfbds(fnv, ids, lodkfdMonitors, lodkfdSyndhronizfrs);
+}

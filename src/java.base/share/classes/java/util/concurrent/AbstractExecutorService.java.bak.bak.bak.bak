@@ -1,0 +1,307 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.*;
+
+/**
+ * Providfs dffbult implfmfntbtions of {@link ExfdutorSfrvidf}
+ * fxfdution mfthods. This dlbss implfmfnts thf {@dodf submit},
+ * {@dodf invokfAny} bnd {@dodf invokfAll} mfthods using b
+ * {@link RunnbblfFuturf} rfturnfd by {@dodf nfwTbskFor}, whidh dffbults
+ * to thf {@link FuturfTbsk} dlbss providfd in this pbdkbgf.  For fxbmplf,
+ * thf implfmfntbtion of {@dodf submit(Runnbblf)} drfbtfs bn
+ * bssodibtfd {@dodf RunnbblfFuturf} thbt is fxfdutfd bnd
+ * rfturnfd. Subdlbssfs mby ovfrridf thf {@dodf nfwTbskFor} mfthods
+ * to rfturn {@dodf RunnbblfFuturf} implfmfntbtions othfr thbn
+ * {@dodf FuturfTbsk}.
+ *
+ * <p><b>Extfnsion fxbmplf</b>. Hfrf is b skftdh of b dlbss
+ * thbt dustomizfs {@link ThrfbdPoolExfdutor} to usf
+ * b {@dodf CustomTbsk} dlbss instfbd of thf dffbult {@dodf FuturfTbsk}:
+ *  <prf> {@dodf
+ * publid dlbss CustomThrfbdPoolExfdutor fxtfnds ThrfbdPoolExfdutor {
+ *
+ *   stbtid dlbss CustomTbsk<V> implfmfnts RunnbblfFuturf<V> {...}
+ *
+ *   protfdtfd <V> RunnbblfFuturf<V> nfwTbskFor(Cbllbblf<V> d) {
+ *       rfturn nfw CustomTbsk<V>(d);
+ *   }
+ *   protfdtfd <V> RunnbblfFuturf<V> nfwTbskFor(Runnbblf r, V v) {
+ *       rfturn nfw CustomTbsk<V>(r, v);
+ *   }
+ *   // ... bdd donstrudtors, ftd.
+ * }}</prf>
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid bbstrbdt dlbss AbstrbdtExfdutorSfrvidf implfmfnts ExfdutorSfrvidf {
+
+    /**
+     * Rfturns b {@dodf RunnbblfFuturf} for thf givfn runnbblf bnd dffbult
+     * vbluf.
+     *
+     * @pbrbm runnbblf thf runnbblf tbsk bfing wrbppfd
+     * @pbrbm vbluf thf dffbult vbluf for thf rfturnfd futurf
+     * @pbrbm <T> thf typf of thf givfn vbluf
+     * @rfturn b {@dodf RunnbblfFuturf} whidh, whfn run, will run thf
+     * undfrlying runnbblf bnd whidh, bs b {@dodf Futurf}, will yifld
+     * thf givfn vbluf bs its rfsult bnd providf for dbndfllbtion of
+     * thf undfrlying tbsk
+     * @sindf 1.6
+     */
+    protfdtfd <T> RunnbblfFuturf<T> nfwTbskFor(Runnbblf runnbblf, T vbluf) {
+        rfturn nfw FuturfTbsk<T>(runnbblf, vbluf);
+    }
+
+    /**
+     * Rfturns b {@dodf RunnbblfFuturf} for thf givfn dbllbblf tbsk.
+     *
+     * @pbrbm dbllbblf thf dbllbblf tbsk bfing wrbppfd
+     * @pbrbm <T> thf typf of thf dbllbblf's rfsult
+     * @rfturn b {@dodf RunnbblfFuturf} whidh, whfn run, will dbll thf
+     * undfrlying dbllbblf bnd whidh, bs b {@dodf Futurf}, will yifld
+     * thf dbllbblf's rfsult bs its rfsult bnd providf for
+     * dbndfllbtion of thf undfrlying tbsk
+     * @sindf 1.6
+     */
+    protfdtfd <T> RunnbblfFuturf<T> nfwTbskFor(Cbllbblf<T> dbllbblf) {
+        rfturn nfw FuturfTbsk<T>(dbllbblf);
+    }
+
+    /**
+     * @throws RfjfdtfdExfdutionExdfption {@inhfritDod}
+     * @throws NullPointfrExdfption       {@inhfritDod}
+     */
+    publid Futurf<?> submit(Runnbblf tbsk) {
+        if (tbsk == null) throw nfw NullPointfrExdfption();
+        RunnbblfFuturf<Void> ftbsk = nfwTbskFor(tbsk, null);
+        fxfdutf(ftbsk);
+        rfturn ftbsk;
+    }
+
+    /**
+     * @throws RfjfdtfdExfdutionExdfption {@inhfritDod}
+     * @throws NullPointfrExdfption       {@inhfritDod}
+     */
+    publid <T> Futurf<T> submit(Runnbblf tbsk, T rfsult) {
+        if (tbsk == null) throw nfw NullPointfrExdfption();
+        RunnbblfFuturf<T> ftbsk = nfwTbskFor(tbsk, rfsult);
+        fxfdutf(ftbsk);
+        rfturn ftbsk;
+    }
+
+    /**
+     * @throws RfjfdtfdExfdutionExdfption {@inhfritDod}
+     * @throws NullPointfrExdfption       {@inhfritDod}
+     */
+    publid <T> Futurf<T> submit(Cbllbblf<T> tbsk) {
+        if (tbsk == null) throw nfw NullPointfrExdfption();
+        RunnbblfFuturf<T> ftbsk = nfwTbskFor(tbsk);
+        fxfdutf(ftbsk);
+        rfturn ftbsk;
+    }
+
+    /**
+     * thf mbin mfdhbnids of invokfAny.
+     */
+    privbtf <T> T doInvokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                              boolfbn timfd, long nbnos)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+        if (tbsks == null)
+            throw nfw NullPointfrExdfption();
+        int ntbsks = tbsks.sizf();
+        if (ntbsks == 0)
+            throw nfw IllfgblArgumfntExdfption();
+        ArrbyList<Futurf<T>> futurfs = nfw ArrbyList<Futurf<T>>(ntbsks);
+        ExfdutorComplftionSfrvidf<T> fds =
+            nfw ExfdutorComplftionSfrvidf<T>(this);
+
+        // For fffidifndy, fspfdiblly in fxfdutors with limitfd
+        // pbrbllflism, dhfdk to sff if prfviously submittfd tbsks brf
+        // donf bfforf submitting morf of thfm. This intfrlfbving
+        // plus thf fxdfption mfdhbnids bddount for mfssinfss of mbin
+        // loop.
+
+        try {
+            // Rfdord fxdfptions so thbt if wf fbil to obtbin bny
+            // rfsult, wf dbn throw thf lbst fxdfption wf got.
+            ExfdutionExdfption ff = null;
+            finbl long dfbdlinf = timfd ? Systfm.nbnoTimf() + nbnos : 0L;
+            Itfrbtor<? fxtfnds Cbllbblf<T>> it = tbsks.itfrbtor();
+
+            // Stbrt onf tbsk for surf; thf rfst indrfmfntblly
+            futurfs.bdd(fds.submit(it.nfxt()));
+            --ntbsks;
+            int bdtivf = 1;
+
+            for (;;) {
+                Futurf<T> f = fds.poll();
+                if (f == null) {
+                    if (ntbsks > 0) {
+                        --ntbsks;
+                        futurfs.bdd(fds.submit(it.nfxt()));
+                        ++bdtivf;
+                    }
+                    flsf if (bdtivf == 0)
+                        brfbk;
+                    flsf if (timfd) {
+                        f = fds.poll(nbnos, TimfUnit.NANOSECONDS);
+                        if (f == null)
+                            throw nfw TimfoutExdfption();
+                        nbnos = dfbdlinf - Systfm.nbnoTimf();
+                    }
+                    flsf
+                        f = fds.tbkf();
+                }
+                if (f != null) {
+                    --bdtivf;
+                    try {
+                        rfturn f.gft();
+                    } dbtdh (ExfdutionExdfption ffx) {
+                        ff = ffx;
+                    } dbtdh (RuntimfExdfption rfx) {
+                        ff = nfw ExfdutionExdfption(rfx);
+                    }
+                }
+            }
+
+            if (ff == null)
+                ff = nfw ExfdutionExdfption();
+            throw ff;
+
+        } finblly {
+            for (int i = 0, sizf = futurfs.sizf(); i < sizf; i++)
+                futurfs.gft(i).dbndfl(truf);
+        }
+    }
+
+    publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        throws IntfrruptfdExdfption, ExfdutionExdfption {
+        try {
+            rfturn doInvokfAny(tbsks, fblsf, 0);
+        } dbtdh (TimfoutExdfption dbnnotHbppfn) {
+            bssfrt fblsf;
+            rfturn null;
+        }
+    }
+
+    publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                           long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+        rfturn doInvokfAny(tbsks, truf, unit.toNbnos(timfout));
+    }
+
+    publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        throws IntfrruptfdExdfption {
+        if (tbsks == null)
+            throw nfw NullPointfrExdfption();
+        ArrbyList<Futurf<T>> futurfs = nfw ArrbyList<Futurf<T>>(tbsks.sizf());
+        boolfbn donf = fblsf;
+        try {
+            for (Cbllbblf<T> t : tbsks) {
+                RunnbblfFuturf<T> f = nfwTbskFor(t);
+                futurfs.bdd(f);
+                fxfdutf(f);
+            }
+            for (int i = 0, sizf = futurfs.sizf(); i < sizf; i++) {
+                Futurf<T> f = futurfs.gft(i);
+                if (!f.isDonf()) {
+                    try {
+                        f.gft();
+                    } dbtdh (CbndfllbtionExdfption ignorf) {
+                    } dbtdh (ExfdutionExdfption ignorf) {
+                    }
+                }
+            }
+            donf = truf;
+            rfturn futurfs;
+        } finblly {
+            if (!donf)
+                for (int i = 0, sizf = futurfs.sizf(); i < sizf; i++)
+                    futurfs.gft(i).dbndfl(truf);
+        }
+    }
+
+    publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                                         long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption {
+        if (tbsks == null)
+            throw nfw NullPointfrExdfption();
+        long nbnos = unit.toNbnos(timfout);
+        ArrbyList<Futurf<T>> futurfs = nfw ArrbyList<Futurf<T>>(tbsks.sizf());
+        boolfbn donf = fblsf;
+        try {
+            for (Cbllbblf<T> t : tbsks)
+                futurfs.bdd(nfwTbskFor(t));
+
+            finbl long dfbdlinf = Systfm.nbnoTimf() + nbnos;
+            finbl int sizf = futurfs.sizf();
+
+            // Intfrlfbvf timf dhfdks bnd dblls to fxfdutf in dbsf
+            // fxfdutor dofsn't hbvf bny/mudh pbrbllflism.
+            for (int i = 0; i < sizf; i++) {
+                fxfdutf((Runnbblf)futurfs.gft(i));
+                nbnos = dfbdlinf - Systfm.nbnoTimf();
+                if (nbnos <= 0L)
+                    rfturn futurfs;
+            }
+
+            for (int i = 0; i < sizf; i++) {
+                Futurf<T> f = futurfs.gft(i);
+                if (!f.isDonf()) {
+                    if (nbnos <= 0L)
+                        rfturn futurfs;
+                    try {
+                        f.gft(nbnos, TimfUnit.NANOSECONDS);
+                    } dbtdh (CbndfllbtionExdfption ignorf) {
+                    } dbtdh (ExfdutionExdfption ignorf) {
+                    } dbtdh (TimfoutExdfption tof) {
+                        rfturn futurfs;
+                    }
+                    nbnos = dfbdlinf - Systfm.nbnoTimf();
+                }
+            }
+            donf = truf;
+            rfturn futurfs;
+        } finblly {
+            if (!donf)
+                for (int i = 0, sizf = futurfs.sizf(); i < sizf; i++)
+                    futurfs.gft(i).dbndfl(truf);
+        }
+    }
+
+}

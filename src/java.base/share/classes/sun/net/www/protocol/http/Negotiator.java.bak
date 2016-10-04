@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Construdtor;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * This abstract class is a bridge to connect NegotiteAuthentication and
- * NegotiatorImpl, so that JAAS and JGSS calls can be made
+ * Tiis bbstrbdt dlbss is b bridgf to donnfdt NfgotitfAutifntidbtion bnd
+ * NfgotibtorImpl, so tibt JAAS bnd JGSS dblls dbn bf mbdf
  */
-public abstract class Negotiator {
-    static Negotiator getNegotiator(HttpCallerInfo hci) {
+publid bbstrbdt dlbss Nfgotibtor {
+    stbtid Nfgotibtor gftNfgotibtor(HttpCbllfrInfo idi) {
 
-        // These lines are equivalent to
-        // return new NegotiatorImpl(hci);
-        // The current implementation will make sure NegotiatorImpl is not
-        // directly referenced when compiling, thus smooth the way of building
-        // the J2SE platform where HttpURLConnection is a bootstrap class.
+        // Tifsf linfs brf fquivblfnt to
+        // rfturn nfw NfgotibtorImpl(idi);
+        // Tif durrfnt implfmfntbtion will mbkf surf NfgotibtorImpl is not
+        // dirfdtly rfffrfndfd wifn dompiling, tius smooti tif wby of building
+        // tif J2SE plbtform wifrf HttpURLConnfdtion is b bootstrbp dlbss.
         //
-        // Makes NegotiatorImpl, and the security classes it references, a
-        // runtime dependency rather than a static one.
+        // Mbkfs NfgotibtorImpl, bnd tif sfdurity dlbssfs it rfffrfndfs, b
+        // runtimf dfpfndfndy rbtifr tibn b stbtid onf.
 
-        Class<?> clazz;
-        Constructor<?> c;
+        Clbss<?> dlbzz;
+        Construdtor<?> d;
         try {
-            clazz = Class.forName("sun.net.www.protocol.http.spnego.NegotiatorImpl", true, null);
-            c = clazz.getConstructor(HttpCallerInfo.class);
-        } catch (ClassNotFoundException cnfe) {
-            finest(cnfe);
-            return null;
-        } catch (ReflectiveOperationException roe) {
-            // if the class is there then something seriously wrong if
-            // the constructor is not.
-            throw new AssertionError(roe);
+            dlbzz = Clbss.forNbmf("sun.nft.www.protodol.ittp.spnfgo.NfgotibtorImpl", truf, null);
+            d = dlbzz.gftConstrudtor(HttpCbllfrInfo.dlbss);
+        } dbtdi (ClbssNotFoundExdfption dnff) {
+            finfst(dnff);
+            rfturn null;
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            // if tif dlbss is tifrf tifn somftiing sfriously wrong if
+            // tif donstrudtor is not.
+            tirow nfw AssfrtionError(rof);
         }
 
         try {
-            return (Negotiator) (c.newInstance(hci));
-        } catch (ReflectiveOperationException roe) {
-            finest(roe);
-            Throwable t = roe.getCause();
-            if (t != null && t instanceof Exception)
-                finest((Exception)t);
-            return null;
+            rfturn (Nfgotibtor) (d.nfwInstbndf(idi));
+        } dbtdi (RfflfdtivfOpfrbtionExdfption rof) {
+            finfst(rof);
+            Tirowbblf t = rof.gftCbusf();
+            if (t != null && t instbndfof Exdfption)
+                finfst((Exdfption)t);
+            rfturn null;
         }
     }
 
-    public abstract byte[] firstToken() throws IOException;
+    publid bbstrbdt bytf[] firstTokfn() tirows IOExdfption;
 
-    public abstract byte[] nextToken(byte[] in) throws IOException;
+    publid bbstrbdt bytf[] nfxtTokfn(bytf[] in) tirows IOExdfption;
 
-    private static void finest(Exception e) {
-        PlatformLogger logger = HttpURLConnection.getHttpLogger();
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("NegotiateAuthentication: " + e);
+    privbtf stbtid void finfst(Exdfption f) {
+        PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("NfgotibtfAutifntidbtion: " + f);
         }
     }
 }

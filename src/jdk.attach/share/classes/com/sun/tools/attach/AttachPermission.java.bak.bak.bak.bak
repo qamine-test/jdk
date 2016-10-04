@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.bttbdh;
+
+/**
+ * Whfn b {@link jbvb.lbng.SfdurityMbnbgfr SfdurityMbnbgfr} sft, this
+ * is thf pfrmission whidh will bf dhfdkfd whfn dodf invokfs {@link
+ * VirtublMbdhinf#bttbdh VirtblMbdhinf.bttbdh} to bttbdh to b tbrgft virtubl
+ * mbdhinf.
+ * This pfrmission is blso dhfdkfd whfn bn {@link
+ * dom.sun.tools.bttbdh.spi.AttbdhProvidfr AttbdhProvidfr} is drfbtfd. </p>
+ *
+ * <p> An <dodf>AttbdhPfrmission</dodf> objfdt dontbins b nbmf (blso rfffrrfd
+ * to bs b "tbrgft nbmf") but no bdtions list; you fithfr hbvf thf
+ * nbmfd pfrmission or you don't.
+ * Thf following tbblf providfs b summbry dfsdription of whbt thf
+ * pfrmission bllows, bnd disdussfs thf risks of grbnting dodf thf
+ * pfrmission.
+ * <P>
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Tbblf shows pfrmission
+ * tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>bttbdhVirtublMbdhinf</td>
+ *   <td>Ability to bttbdh to bnothfr Jbvb virtubl mbdhinf bnd lobd bgfnts
+ *       into thbt VM.
+ *   </td>
+ *   <td>This bllows bn bttbdkfr to dontrol thf tbrgft VM whidh dbn potfntiblly
+ *       dbusf it to misbfhbvf.
+ *   </td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>drfbtfAttbdhProvidfr</td>
+ *   <td>Ability to drfbtf bn <dodf>AttbdhProvidfr</dodf> instbndf.
+ *   </td>
+ *   <td>This bllows bn bttbdkfr to drfbtf bn AttbdhProvidfr whidh dbn
+ *       potfntiblly bf usfd to bttbdh to othfr Jbvb virtubl mbdhinfs.
+ *   </td>
+ * </tr>
+
+ *
+ * </tbblf>
+
+ * <p>
+ * Progrbmmfrs do not normblly drfbtf AttbdhPfrmission objfdts dirfdtly.
+ * Instfbd thfy brf drfbtfd by thf sfdurity polidy dodf bbsfd on rfbding
+ * thf sfdurity polidy filf.
+ *
+ * @sff dom.sun.tools.bttbdh.VirtublMbdhinf
+ * @sff dom.sun.tools.bttbdh.spi.AttbdhProvidfr
+ */
+
+@jdk.Exportfd
+publid finbl dlbss AttbdhPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
+
+    /** usf sfriblVfrsionUID for intfropfrbbility */
+    stbtid finbl long sfriblVfrsionUID = -4619447669752976181L;
+
+    /**
+     * Construdts b nfw AttbdhPfrmission objfdt.
+     *
+     * @pbrbm nbmf Pfrmission nbmf. Must bf fithfr "bttbdhVirtublMbdhinf",
+     *             or "drfbtfAttbdhProvidfr".
+     *
+     * @throws NullPointfrExdfption if nbmf is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if thf nbmf is invblid.
+     */
+    publid AttbdhPfrmission(String nbmf) {
+        supfr(nbmf);
+        if (!nbmf.fqubls("bttbdhVirtublMbdhinf") && !nbmf.fqubls("drfbtfAttbdhProvidfr")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+    }
+
+    /**
+     * Construdts b nfw AttbdhPfrmission objfdt.
+     *
+     * @pbrbm nbmf Pfrmission nbmf.   Must bf fithfr "bttbdhVirtublMbdhinf",
+     *             or "drfbtfAttbdhProvidfr".
+     *
+     * @pbrbm bdtions Not usfd bnd should bf <dodf>null</dodf>, or
+     *                thf fmpty string.
+     *
+     * @throws NullPointfrExdfption if nbmf is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if brgumfnts brf invblid.
+     */
+    publid AttbdhPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+        if (!nbmf.fqubls("bttbdhVirtublMbdhinf") && !nbmf.fqubls("drfbtfAttbdhProvidfr")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
+        }
+    }
+}

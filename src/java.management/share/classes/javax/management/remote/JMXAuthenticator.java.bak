@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import java.security.Principal;
-import javax.security.auth.Subject;
+import jbvb.sfdurity.Prindipbl;
+import jbvbx.sfdurity.buti.Subjfdt;
 
 /**
- * <p>Interface to define how remote credentials are converted into a
- * JAAS Subject.  This interface is used by the RMI Connector Server,
- * and can be used by other connector servers.</p>
+ * <p>Intfrfbdf to dffinf iow rfmotf drfdfntibls brf donvfrtfd into b
+ * JAAS Subjfdt.  Tiis intfrfbdf is usfd by tif RMI Connfdtor Sfrvfr,
+ * bnd dbn bf usfd by otifr donnfdtor sfrvfrs.</p>
  *
- * <p>The user-defined authenticator instance is passed to the
- * connector server in the environment map as the value of the
- * attribute {@link JMXConnectorServer#AUTHENTICATOR}.  For connector
- * servers that use only this authentication system, if this attribute
- * is not present or its value is <code>null</code> then no user
- * authentication will be performed and full access to the methods
- * exported by the <code>MBeanServerConnection</code> object will be
- * allowed.</p>
+ * <p>Tif usfr-dffinfd butifntidbtor instbndf is pbssfd to tif
+ * donnfdtor sfrvfr in tif fnvironmfnt mbp bs tif vbluf of tif
+ * bttributf {@link JMXConnfdtorSfrvfr#AUTHENTICATOR}.  For donnfdtor
+ * sfrvfrs tibt usf only tiis butifntidbtion systfm, if tiis bttributf
+ * is not prfsfnt or its vbluf is <dodf>null</dodf> tifn no usfr
+ * butifntidbtion will bf pfrformfd bnd full bddfss to tif mftiods
+ * fxportfd by tif <dodf>MBfbnSfrvfrConnfdtion</dodf> objfdt will bf
+ * bllowfd.</p>
  *
- * <p>If authentication is successful then an authenticated
- * {@link Subject subject} filled in with its associated
- * {@link Principal principals} is returned. Authorization checks
- * will be then performed based on the given set of principals.</p>
+ * <p>If butifntidbtion is suddfssful tifn bn butifntidbtfd
+ * {@link Subjfdt subjfdt} fillfd in witi its bssodibtfd
+ * {@link Prindipbl prindipbls} is rfturnfd. Autiorizbtion difdks
+ * will bf tifn pfrformfd bbsfd on tif givfn sft of prindipbls.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface JMXAuthenticator {
+publid intfrfbdf JMXAutifntidbtor {
 
     /**
-     * <p>Authenticates the <code>MBeanServerConnection</code> client
-     * with the given client credentials.</p>
+     * <p>Autifntidbtfs tif <dodf>MBfbnSfrvfrConnfdtion</dodf> dlifnt
+     * witi tif givfn dlifnt drfdfntibls.</p>
      *
-     * @param credentials the user-defined credentials to be passed
-     * into the server in order to authenticate the user before
-     * creating the <code>MBeanServerConnection</code>.  The actual
-     * type of this parameter, and whether it can be null, depends on
-     * the connector.
+     * @pbrbm drfdfntibls tif usfr-dffinfd drfdfntibls to bf pbssfd
+     * into tif sfrvfr in ordfr to butifntidbtf tif usfr bfforf
+     * drfbting tif <dodf>MBfbnSfrvfrConnfdtion</dodf>.  Tif bdtubl
+     * typf of tiis pbrbmftfr, bnd wiftifr it dbn bf null, dfpfnds on
+     * tif donnfdtor.
      *
-     * @return the authenticated subject containing its associated principals.
+     * @rfturn tif butifntidbtfd subjfdt dontbining its bssodibtfd prindipbls.
      *
-     * @exception SecurityException if the server cannot authenticate the user
-     * with the provided credentials.
+     * @fxdfption SfdurityExdfption if tif sfrvfr dbnnot butifntidbtf tif usfr
+     * witi tif providfd drfdfntibls.
      */
-    public Subject authenticate(Object credentials);
+    publid Subjfdt butifntidbtf(Objfdt drfdfntibls);
 }

@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#include "DllUtil.h"
-#include <jdk_util.h>
+#indludf "DllUtil.i"
+#indludf <jdk_util.i>
 
-// Disable warning about using this in the initializer list.
-#pragma warning( disable : 4355)
+// Disbblf wbrning bbout using tiis in tif initiblizfr list.
+#prbgmb wbrning( disbblf : 4355)
 
 DllUtil::~DllUtil()
 {
-    if (module != NULL) {
-        ::FreeLibrary(module);
-        module = NULL;
+    if (modulf != NULL) {
+        ::FrffLibrbry(modulf);
+        modulf = NULL;
     }
 }
 
-HMODULE DllUtil::GetModule()
+HMODULE DllUtil::GftModulf()
 {
-    if (!module) {
-        module = JDK_LoadSystemLibrary(name);
+    if (!modulf) {
+        modulf = JDK_LobdSystfmLibrbry(nbmf);
     }
-    return module;
+    rfturn modulf;
 }
 
-FARPROC DllUtil::GetProcAddress(LPCSTR name)
+FARPROC DllUtil::GftProdAddrfss(LPCSTR nbmf)
 {
-    if (GetModule()) {
-        return ::GetProcAddress(GetModule(), name);
+    if (GftModulf()) {
+        rfturn ::GftProdAddrfss(GftModulf(), nbmf);
     }
-    throw LibraryUnavailableException();
+    tirow LibrbryUnbvbilbblfExdfption();
 }
 
-DwmAPI & DwmAPI::GetInstance()
+DwmAPI & DwmAPI::GftInstbndf()
 {
-    static DwmAPI dll;
-    return dll;
+    stbtid DwmAPI dll;
+    rfturn dll;
 }
 
 DwmAPI::DwmAPI() :
     DllUtil("DWMAPI.DLL"),
-    DwmIsCompositionEnabledFunction((DllUtil*)this, "DwmIsCompositionEnabled"),
-    DwmGetWindowAttributeFunction((DllUtil*)this, "DwmGetWindowAttribute")
+    DwmIsCompositionEnbblfdFundtion((DllUtil*)tiis, "DwmIsCompositionEnbblfd"),
+    DwmGftWindowAttributfFundtion((DllUtil*)tiis, "DwmGftWindowAttributf")
 {
 }
 
-HRESULT DwmAPI::DwmIsCompositionEnabled(BOOL * pfEnabled)
+HRESULT DwmAPI::DwmIsCompositionEnbblfd(BOOL * pfEnbblfd)
 {
-    if (GetInstance().DwmIsCompositionEnabledFunction()) {
-        return GetInstance().DwmIsCompositionEnabledFunction()(pfEnabled);
+    if (GftInstbndf().DwmIsCompositionEnbblfdFundtion()) {
+        rfturn GftInstbndf().DwmIsCompositionEnbblfdFundtion()(pfEnbblfd);
     }
-    throw FunctionUnavailableException();
+    tirow FundtionUnbvbilbblfExdfption();
 }
 
-HRESULT DwmAPI::DwmGetWindowAttribute(HWND hwnd, DWORD dwAttribute,
-        PVOID pvAttribute, DWORD cbAttribute)
+HRESULT DwmAPI::DwmGftWindowAttributf(HWND iwnd, DWORD dwAttributf,
+        PVOID pvAttributf, DWORD dbAttributf)
 {
-    if (GetInstance().DwmGetWindowAttributeFunction()) {
-        return GetInstance().DwmGetWindowAttributeFunction()(hwnd, dwAttribute,
-                pvAttribute, cbAttribute);
+    if (GftInstbndf().DwmGftWindowAttributfFundtion()) {
+        rfturn GftInstbndf().DwmGftWindowAttributfFundtion()(iwnd, dwAttributf,
+                pvAttributf, dbAttributf);
     }
-    throw FunctionUnavailableException();
+    tirow FundtionUnbvbilbblfExdfption();
 }
 
 

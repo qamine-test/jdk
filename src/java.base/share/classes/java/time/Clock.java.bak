@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,590 +59,590 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.LocalTime.NANOS_PER_MINUTE;
-import static java.time.LocalTime.NANOS_PER_SECOND;
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_MINUTE;
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_SECOND;
 
-import java.io.Serializable;
-import java.util.Objects;
-import java.util.TimeZone;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Objfdts;
+import jbvb.util.TimfZonf;
 
 /**
- * A clock providing access to the current instant, date and time using a time-zone.
+ * A dlodk providing bddfss to tif durrfnt instbnt, dbtf bnd timf using b timf-zonf.
  * <p>
- * Instances of this class are used to find the current instant, which can be
- * interpreted using the stored time-zone to find the current date and time.
- * As such, a clock can be used instead of {@link System#currentTimeMillis()}
- * and {@link TimeZone#getDefault()}.
+ * Instbndfs of tiis dlbss brf usfd to find tif durrfnt instbnt, wiidi dbn bf
+ * intfrprftfd using tif storfd timf-zonf to find tif durrfnt dbtf bnd timf.
+ * As sudi, b dlodk dbn bf usfd instfbd of {@link Systfm#durrfntTimfMillis()}
+ * bnd {@link TimfZonf#gftDffbult()}.
  * <p>
- * Use of a {@code Clock} is optional. All key date-time classes also have a
- * {@code now()} factory method that uses the system clock in the default time zone.
- * The primary purpose of this abstraction is to allow alternate clocks to be
- * plugged in as and when required. Applications use an object to obtain the
- * current time rather than a static method. This can simplify testing.
+ * Usf of b {@dodf Clodk} is optionbl. All kfy dbtf-timf dlbssfs blso ibvf b
+ * {@dodf now()} fbdtory mftiod tibt usfs tif systfm dlodk in tif dffbult timf zonf.
+ * Tif primbry purposf of tiis bbstrbdtion is to bllow bltfrnbtf dlodks to bf
+ * pluggfd in bs bnd wifn rfquirfd. Applidbtions usf bn objfdt to obtbin tif
+ * durrfnt timf rbtifr tibn b stbtid mftiod. Tiis dbn simplify tfsting.
  * <p>
- * Best practice for applications is to pass a {@code Clock} into any method
- * that requires the current instant. A dependency injection framework is one
- * way to achieve this:
- * <pre>
- *  public class MyBean {
- *    private Clock clock;  // dependency inject
+ * Bfst prbdtidf for bpplidbtions is to pbss b {@dodf Clodk} into bny mftiod
+ * tibt rfquirfs tif durrfnt instbnt. A dfpfndfndy injfdtion frbmfwork is onf
+ * wby to bdiifvf tiis:
+ * <prf>
+ *  publid dlbss MyBfbn {
+ *    privbtf Clodk dlodk;  // dfpfndfndy injfdt
  *    ...
- *    public void process(LocalDate eventDate) {
- *      if (eventDate.isBefore(LocalDate.now(clock)) {
+ *    publid void prodfss(LodblDbtf fvfntDbtf) {
+ *      if (fvfntDbtf.isBfforf(LodblDbtf.now(dlodk)) {
  *        ...
  *      }
  *    }
  *  }
- * </pre>
- * This approach allows an alternate clock, such as {@link #fixed(Instant, ZoneId) fixed}
- * or {@link #offset(Clock, Duration) offset} to be used during testing.
+ * </prf>
+ * Tiis bpprobdi bllows bn bltfrnbtf dlodk, sudi bs {@link #fixfd(Instbnt, ZonfId) fixfd}
+ * or {@link #offsft(Clodk, Durbtion) offsft} to bf usfd during tfsting.
  * <p>
- * The {@code system} factory methods provide clocks based on the best available
- * system clock This may use {@link System#currentTimeMillis()}, or a higher
- * resolution clock if one is available.
+ * Tif {@dodf systfm} fbdtory mftiods providf dlodks bbsfd on tif bfst bvbilbblf
+ * systfm dlodk Tiis mby usf {@link Systfm#durrfntTimfMillis()}, or b iigifr
+ * rfsolution dlodk if onf is bvbilbblf.
  *
- * @implSpec
- * This abstract class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
+ * @implSpfd
+ * Tiis bbstrbdt dlbss must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
  * <p>
- * The principal methods are defined to allow the throwing of an exception.
- * In normal use, no exceptions will be thrown, however one possible implementation would be to
- * obtain the time from a central time server across the network. Obviously, in this case the
- * lookup could fail, and so the method is permitted to throw an exception.
+ * Tif prindipbl mftiods brf dffinfd to bllow tif tirowing of bn fxdfption.
+ * In normbl usf, no fxdfptions will bf tirown, iowfvfr onf possiblf implfmfntbtion would bf to
+ * obtbin tif timf from b dfntrbl timf sfrvfr bdross tif nftwork. Obviously, in tiis dbsf tif
+ * lookup dould fbil, bnd so tif mftiod is pfrmittfd to tirow bn fxdfption.
  * <p>
- * The returned instants from {@code Clock} work on a time-scale that ignores leap seconds,
- * as described in {@link Instant}. If the implementation wraps a source that provides leap
- * second information, then a mechanism should be used to "smooth" the leap second.
- * The Java Time-Scale mandates the use of UTC-SLS, however clock implementations may choose
- * how accurate they are with the time-scale so long as they document how they work.
- * Implementations are therefore not required to actually perform the UTC-SLS slew or to
- * otherwise be aware of leap seconds.
+ * Tif rfturnfd instbnts from {@dodf Clodk} work on b timf-sdblf tibt ignorfs lfbp sfdonds,
+ * bs dfsdribfd in {@link Instbnt}. If tif implfmfntbtion wrbps b sourdf tibt providfs lfbp
+ * sfdond informbtion, tifn b mfdibnism siould bf usfd to "smooti" tif lfbp sfdond.
+ * Tif Jbvb Timf-Sdblf mbndbtfs tif usf of UTC-SLS, iowfvfr dlodk implfmfntbtions mby dioosf
+ * iow bddurbtf tify brf witi tif timf-sdblf so long bs tify dodumfnt iow tify work.
+ * Implfmfntbtions brf tifrfforf not rfquirfd to bdtublly pfrform tif UTC-SLS slfw or to
+ * otifrwisf bf bwbrf of lfbp sfdonds.
  * <p>
- * Implementations should implement {@code Serializable} wherever possible and must
- * document whether or not they do support serialization.
+ * Implfmfntbtions siould implfmfnt {@dodf Sfriblizbblf} wifrfvfr possiblf bnd must
+ * dodumfnt wiftifr or not tify do support sfriblizbtion.
  *
- * @implNote
- * The clock implementation provided here is based on {@link System#currentTimeMillis()}.
- * That method provides little to no guarantee about the accuracy of the clock.
- * Applications requiring a more accurate clock must implement this abstract class
- * themselves using a different external clock, such as an NTP server.
+ * @implNotf
+ * Tif dlodk implfmfntbtion providfd ifrf is bbsfd on {@link Systfm#durrfntTimfMillis()}.
+ * Tibt mftiod providfs littlf to no gubrbntff bbout tif bddurbdy of tif dlodk.
+ * Applidbtions rfquiring b morf bddurbtf dlodk must implfmfnt tiis bbstrbdt dlbss
+ * tifmsflvfs using b difffrfnt fxtfrnbl dlodk, sudi bs bn NTP sfrvfr.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class Clock {
+publid bbstrbdt dlbss Clodk {
 
     /**
-     * Obtains a clock that returns the current instant using the best available
-     * system clock, converting to date and time using the UTC time-zone.
+     * Obtbins b dlodk tibt rfturns tif durrfnt instbnt using tif bfst bvbilbblf
+     * systfm dlodk, donvfrting to dbtf bnd timf using tif UTC timf-zonf.
      * <p>
-     * This clock, rather than {@link #systemDefaultZone()}, should be used when
-     * you need the current instant without the date or time.
+     * Tiis dlodk, rbtifr tibn {@link #systfmDffbultZonf()}, siould bf usfd wifn
+     * you nffd tif durrfnt instbnt witiout tif dbtf or timf.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * Tiis dlodk is bbsfd on tif bfst bvbilbblf systfm dlodk.
+     * Tiis mby usf {@link Systfm#durrfntTimfMillis()}, or b iigifr rfsolution
+     * dlodk if onf is bvbilbblf.
      * <p>
-     * Conversion from instant to date or time uses the {@linkplain ZoneOffset#UTC UTC time-zone}.
+     * Convfrsion from instbnt to dbtf or timf usfs tif {@linkplbin ZonfOffsft#UTC UTC timf-zonf}.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code system(ZoneOffset.UTC)}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf systfm(ZonfOffsft.UTC)}.
      *
-     * @return a clock that uses the best available system clock in the UTC zone, not null
+     * @rfturn b dlodk tibt usfs tif bfst bvbilbblf systfm dlodk in tif UTC zonf, not null
      */
-    public static Clock systemUTC() {
-        return new SystemClock(ZoneOffset.UTC);
+    publid stbtid Clodk systfmUTC() {
+        rfturn nfw SystfmClodk(ZonfOffsft.UTC);
     }
 
     /**
-     * Obtains a clock that returns the current instant using the best available
-     * system clock, converting to date and time using the default time-zone.
+     * Obtbins b dlodk tibt rfturns tif durrfnt instbnt using tif bfst bvbilbblf
+     * systfm dlodk, donvfrting to dbtf bnd timf using tif dffbult timf-zonf.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * Tiis dlodk is bbsfd on tif bfst bvbilbblf systfm dlodk.
+     * Tiis mby usf {@link Systfm#durrfntTimfMillis()}, or b iigifr rfsolution
+     * dlodk if onf is bvbilbblf.
      * <p>
-     * Using this method hard codes a dependency to the default time-zone into your application.
-     * It is recommended to avoid this and use a specific time-zone whenever possible.
-     * The {@link #systemUTC() UTC clock} should be used when you need the current instant
-     * without the date or time.
+     * Using tiis mftiod ibrd dodfs b dfpfndfndy to tif dffbult timf-zonf into your bpplidbtion.
+     * It is rfdommfndfd to bvoid tiis bnd usf b spfdifid timf-zonf wifnfvfr possiblf.
+     * Tif {@link #systfmUTC() UTC dlodk} siould bf usfd wifn you nffd tif durrfnt instbnt
+     * witiout tif dbtf or timf.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code system(ZoneId.systemDefault())}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf systfm(ZonfId.systfmDffbult())}.
      *
-     * @return a clock that uses the best available system clock in the default zone, not null
-     * @see ZoneId#systemDefault()
+     * @rfturn b dlodk tibt usfs tif bfst bvbilbblf systfm dlodk in tif dffbult zonf, not null
+     * @sff ZonfId#systfmDffbult()
      */
-    public static Clock systemDefaultZone() {
-        return new SystemClock(ZoneId.systemDefault());
+    publid stbtid Clodk systfmDffbultZonf() {
+        rfturn nfw SystfmClodk(ZonfId.systfmDffbult());
     }
 
     /**
-     * Obtains a clock that returns the current instant using best available
-     * system clock.
+     * Obtbins b dlodk tibt rfturns tif durrfnt instbnt using bfst bvbilbblf
+     * systfm dlodk.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * Tiis dlodk is bbsfd on tif bfst bvbilbblf systfm dlodk.
+     * Tiis mby usf {@link Systfm#durrfntTimfMillis()}, or b iigifr rfsolution
+     * dlodk if onf is bvbilbblf.
      * <p>
-     * Conversion from instant to date or time uses the specified time-zone.
+     * Convfrsion from instbnt to dbtf or timf usfs tif spfdififd timf-zonf.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that uses the best available system clock in the specified zone, not null
+     * @pbrbm zonf  tif timf-zonf to usf to donvfrt tif instbnt to dbtf-timf, not null
+     * @rfturn b dlodk tibt usfs tif bfst bvbilbblf systfm dlodk in tif spfdififd zonf, not null
      */
-    public static Clock system(ZoneId zone) {
-        Objects.requireNonNull(zone, "zone");
-        return new SystemClock(zone);
+    publid stbtid Clodk systfm(ZonfId zonf) {
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn nfw SystfmClodk(zonf);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains a clock that returns the current instant ticking in whole seconds
-     * using best available system clock.
+     * Obtbins b dlodk tibt rfturns tif durrfnt instbnt tidking in wiolf sfdonds
+     * using bfst bvbilbblf systfm dlodk.
      * <p>
-     * This clock will always have the nano-of-second field set to zero.
-     * This ensures that the visible time ticks in whole seconds.
-     * The underlying clock is the best available system clock, equivalent to
-     * using {@link #system(ZoneId)}.
+     * Tiis dlodk will blwbys ibvf tif nbno-of-sfdond fifld sft to zfro.
+     * Tiis fnsurfs tibt tif visiblf timf tidks in wiolf sfdonds.
+     * Tif undfrlying dlodk is tif bfst bvbilbblf systfm dlodk, fquivblfnt to
+     * using {@link #systfm(ZonfId)}.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the second observed via this
-     * clock will be later than that observed directly via the underlying clock.
+     * Implfmfntbtions mby usf b dbdiing strbtfgy for pfrformbndf rfbsons.
+     * As sudi, it is possiblf tibt tif stbrt of tif sfdond obsfrvfd vib tiis
+     * dlodk will bf lbtfr tibn tibt obsfrvfd dirfdtly vib tif undfrlying dlodk.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code tick(system(zone), Duration.ofSeconds(1))}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf tidk(systfm(zonf), Durbtion.ofSfdonds(1))}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that ticks in whole seconds using the specified zone, not null
+     * @pbrbm zonf  tif timf-zonf to usf to donvfrt tif instbnt to dbtf-timf, not null
+     * @rfturn b dlodk tibt tidks in wiolf sfdonds using tif spfdififd zonf, not null
      */
-    public static Clock tickSeconds(ZoneId zone) {
-        return new TickClock(system(zone), NANOS_PER_SECOND);
+    publid stbtid Clodk tidkSfdonds(ZonfId zonf) {
+        rfturn nfw TidkClodk(systfm(zonf), NANOS_PER_SECOND);
     }
 
     /**
-     * Obtains a clock that returns the current instant ticking in whole minutes
-     * using best available system clock.
+     * Obtbins b dlodk tibt rfturns tif durrfnt instbnt tidking in wiolf minutfs
+     * using bfst bvbilbblf systfm dlodk.
      * <p>
-     * This clock will always have the nano-of-second and second-of-minute fields set to zero.
-     * This ensures that the visible time ticks in whole minutes.
-     * The underlying clock is the best available system clock, equivalent to
-     * using {@link #system(ZoneId)}.
+     * Tiis dlodk will blwbys ibvf tif nbno-of-sfdond bnd sfdond-of-minutf fiflds sft to zfro.
+     * Tiis fnsurfs tibt tif visiblf timf tidks in wiolf minutfs.
+     * Tif undfrlying dlodk is tif bfst bvbilbblf systfm dlodk, fquivblfnt to
+     * using {@link #systfm(ZonfId)}.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the minute observed via this
-     * clock will be later than that observed directly via the underlying clock.
+     * Implfmfntbtions mby usf b dbdiing strbtfgy for pfrformbndf rfbsons.
+     * As sudi, it is possiblf tibt tif stbrt of tif minutf obsfrvfd vib tiis
+     * dlodk will bf lbtfr tibn tibt obsfrvfd dirfdtly vib tif undfrlying dlodk.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code tick(system(zone), Duration.ofMinutes(1))}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf tidk(systfm(zonf), Durbtion.ofMinutfs(1))}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that ticks in whole minutes using the specified zone, not null
+     * @pbrbm zonf  tif timf-zonf to usf to donvfrt tif instbnt to dbtf-timf, not null
+     * @rfturn b dlodk tibt tidks in wiolf minutfs using tif spfdififd zonf, not null
      */
-    public static Clock tickMinutes(ZoneId zone) {
-        return new TickClock(system(zone), NANOS_PER_MINUTE);
+    publid stbtid Clodk tidkMinutfs(ZonfId zonf) {
+        rfturn nfw TidkClodk(systfm(zonf), NANOS_PER_MINUTE);
     }
 
     /**
-     * Obtains a clock that returns instants from the specified clock truncated
-     * to the nearest occurrence of the specified duration.
+     * Obtbins b dlodk tibt rfturns instbnts from tif spfdififd dlodk trundbtfd
+     * to tif nfbrfst oddurrfndf of tif spfdififd durbtion.
      * <p>
-     * This clock will only tick as per the specified duration. Thus, if the duration
-     * is half a second, the clock will return instants truncated to the half second.
+     * Tiis dlodk will only tidk bs pfr tif spfdififd durbtion. Tius, if tif durbtion
+     * is iblf b sfdond, tif dlodk will rfturn instbnts trundbtfd to tif iblf sfdond.
      * <p>
-     * The tick duration must be positive. If it has a part smaller than a whole
-     * millisecond, then the whole duration must divide into one second without
-     * leaving a remainder. All normal tick durations will match these criteria,
-     * including any multiple of hours, minutes, seconds and milliseconds, and
-     * sensible nanosecond durations, such as 20ns, 250,000ns and 500,000ns.
+     * Tif tidk durbtion must bf positivf. If it ibs b pbrt smbllfr tibn b wiolf
+     * millisfdond, tifn tif wiolf durbtion must dividf into onf sfdond witiout
+     * lfbving b rfmbindfr. All normbl tidk durbtions will mbtdi tifsf dritfrib,
+     * indluding bny multiplf of iours, minutfs, sfdonds bnd millisfdonds, bnd
+     * sfnsiblf nbnosfdond durbtions, sudi bs 20ns, 250,000ns bnd 500,000ns.
      * <p>
-     * A duration of zero or one nanosecond would have no truncation effect.
-     * Passing one of these will return the underlying clock.
+     * A durbtion of zfro or onf nbnosfdond would ibvf no trundbtion ffffdt.
+     * Pbssing onf of tifsf will rfturn tif undfrlying dlodk.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the requested duration observed
-     * via this clock will be later than that observed directly via the underlying clock.
+     * Implfmfntbtions mby usf b dbdiing strbtfgy for pfrformbndf rfbsons.
+     * As sudi, it is possiblf tibt tif stbrt of tif rfqufstfd durbtion obsfrvfd
+     * vib tiis dlodk will bf lbtfr tibn tibt obsfrvfd dirfdtly vib tif undfrlying dlodk.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}
-     * providing that the base clock is.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}
+     * providing tibt tif bbsf dlodk is.
      *
-     * @param baseClock  the base clock to base the ticking clock on, not null
-     * @param tickDuration  the duration of each visible tick, not negative, not null
-     * @return a clock that ticks in whole units of the duration, not null
-     * @throws IllegalArgumentException if the duration is negative, or has a
-     *  part smaller than a whole millisecond such that the whole duration is not
-     *  divisible into one second
-     * @throws ArithmeticException if the duration is too large to be represented as nanos
+     * @pbrbm bbsfClodk  tif bbsf dlodk to bbsf tif tidking dlodk on, not null
+     * @pbrbm tidkDurbtion  tif durbtion of fbdi visiblf tidk, not nfgbtivf, not null
+     * @rfturn b dlodk tibt tidks in wiolf units of tif durbtion, not null
+     * @tirows IllfgblArgumfntExdfption if tif durbtion is nfgbtivf, or ibs b
+     *  pbrt smbllfr tibn b wiolf millisfdond sudi tibt tif wiolf durbtion is not
+     *  divisiblf into onf sfdond
+     * @tirows AritimftidExdfption if tif durbtion is too lbrgf to bf rfprfsfntfd bs nbnos
      */
-    public static Clock tick(Clock baseClock, Duration tickDuration) {
-        Objects.requireNonNull(baseClock, "baseClock");
-        Objects.requireNonNull(tickDuration, "tickDuration");
-        if (tickDuration.isNegative()) {
-            throw new IllegalArgumentException("Tick duration must not be negative");
+    publid stbtid Clodk tidk(Clodk bbsfClodk, Durbtion tidkDurbtion) {
+        Objfdts.rfquirfNonNull(bbsfClodk, "bbsfClodk");
+        Objfdts.rfquirfNonNull(tidkDurbtion, "tidkDurbtion");
+        if (tidkDurbtion.isNfgbtivf()) {
+            tirow nfw IllfgblArgumfntExdfption("Tidk durbtion must not bf nfgbtivf");
         }
-        long tickNanos = tickDuration.toNanos();
-        if (tickNanos % 1000_000 == 0) {
-            // ok, no fraction of millisecond
-        } else if (1000_000_000 % tickNanos == 0) {
-            // ok, divides into one second without remainder
-        } else {
-            throw new IllegalArgumentException("Invalid tick duration");
+        long tidkNbnos = tidkDurbtion.toNbnos();
+        if (tidkNbnos % 1000_000 == 0) {
+            // ok, no frbdtion of millisfdond
+        } flsf if (1000_000_000 % tidkNbnos == 0) {
+            // ok, dividfs into onf sfdond witiout rfmbindfr
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Invblid tidk durbtion");
         }
-        if (tickNanos <= 1) {
-            return baseClock;
+        if (tidkNbnos <= 1) {
+            rfturn bbsfClodk;
         }
-        return new TickClock(baseClock, tickNanos);
+        rfturn nfw TidkClodk(bbsfClodk, tidkNbnos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a clock that always returns the same instant.
+     * Obtbins b dlodk tibt blwbys rfturns tif sbmf instbnt.
      * <p>
-     * This clock simply returns the specified instant.
-     * As such, it is not a clock in the conventional sense.
-     * The main use case for this is in testing, where the fixed clock ensures
-     * tests are not dependent on the current clock.
+     * Tiis dlodk simply rfturns tif spfdififd instbnt.
+     * As sudi, it is not b dlodk in tif donvfntionbl sfnsf.
+     * Tif mbin usf dbsf for tiis is in tfsting, wifrf tif fixfd dlodk fnsurfs
+     * tfsts brf not dfpfndfnt on tif durrfnt dlodk.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}.
      *
-     * @param fixedInstant  the instant to use as the clock, not null
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that always returns the same instant, not null
+     * @pbrbm fixfdInstbnt  tif instbnt to usf bs tif dlodk, not null
+     * @pbrbm zonf  tif timf-zonf to usf to donvfrt tif instbnt to dbtf-timf, not null
+     * @rfturn b dlodk tibt blwbys rfturns tif sbmf instbnt, not null
      */
-    public static Clock fixed(Instant fixedInstant, ZoneId zone) {
-        Objects.requireNonNull(fixedInstant, "fixedInstant");
-        Objects.requireNonNull(zone, "zone");
-        return new FixedClock(fixedInstant, zone);
+    publid stbtid Clodk fixfd(Instbnt fixfdInstbnt, ZonfId zonf) {
+        Objfdts.rfquirfNonNull(fixfdInstbnt, "fixfdInstbnt");
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn nfw FixfdClodk(fixfdInstbnt, zonf);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains a clock that returns instants from the specified clock with the
-     * specified duration added
+     * Obtbins b dlodk tibt rfturns instbnts from tif spfdififd dlodk witi tif
+     * spfdififd durbtion bddfd
      * <p>
-     * This clock wraps another clock, returning instants that are later by the
-     * specified duration. If the duration is negative, the instants will be
-     * earlier than the current date and time.
-     * The main use case for this is to simulate running in the future or in the past.
+     * Tiis dlodk wrbps bnotifr dlodk, rfturning instbnts tibt brf lbtfr by tif
+     * spfdififd durbtion. If tif durbtion is nfgbtivf, tif instbnts will bf
+     * fbrlifr tibn tif durrfnt dbtf bnd timf.
+     * Tif mbin usf dbsf for tiis is to simulbtf running in tif futurf or in tif pbst.
      * <p>
-     * A duration of zero would have no offsetting effect.
-     * Passing zero will return the underlying clock.
+     * A durbtion of zfro would ibvf no offsftting ffffdt.
+     * Pbssing zfro will rfturn tif undfrlying dlodk.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}
-     * providing that the base clock is.
+     * Tif rfturnfd implfmfntbtion is immutbblf, tirfbd-sbff bnd {@dodf Sfriblizbblf}
+     * providing tibt tif bbsf dlodk is.
      *
-     * @param baseClock  the base clock to add the duration to, not null
-     * @param offsetDuration  the duration to add, not null
-     * @return a clock based on the base clock with the duration added, not null
+     * @pbrbm bbsfClodk  tif bbsf dlodk to bdd tif durbtion to, not null
+     * @pbrbm offsftDurbtion  tif durbtion to bdd, not null
+     * @rfturn b dlodk bbsfd on tif bbsf dlodk witi tif durbtion bddfd, not null
      */
-    public static Clock offset(Clock baseClock, Duration offsetDuration) {
-        Objects.requireNonNull(baseClock, "baseClock");
-        Objects.requireNonNull(offsetDuration, "offsetDuration");
-        if (offsetDuration.equals(Duration.ZERO)) {
-            return baseClock;
+    publid stbtid Clodk offsft(Clodk bbsfClodk, Durbtion offsftDurbtion) {
+        Objfdts.rfquirfNonNull(bbsfClodk, "bbsfClodk");
+        Objfdts.rfquirfNonNull(offsftDurbtion, "offsftDurbtion");
+        if (offsftDurbtion.fqubls(Durbtion.ZERO)) {
+            rfturn bbsfClodk;
         }
-        return new OffsetClock(baseClock, offsetDuration);
+        rfturn nfw OffsftClodk(bbsfClodk, offsftDurbtion);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Constructor accessible by subclasses.
+     * Construdtor bddfssiblf by subdlbssfs.
      */
-    protected Clock() {
+    protfdtfd Clodk() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the time-zone being used to create dates and times.
+     * Gfts tif timf-zonf bfing usfd to drfbtf dbtfs bnd timfs.
      * <p>
-     * A clock will typically obtain the current instant and then convert that
-     * to a date or time using a time-zone. This method returns the time-zone used.
+     * A dlodk will typidblly obtbin tif durrfnt instbnt bnd tifn donvfrt tibt
+     * to b dbtf or timf using b timf-zonf. Tiis mftiod rfturns tif timf-zonf usfd.
      *
-     * @return the time-zone being used to interpret instants, not null
+     * @rfturn tif timf-zonf bfing usfd to intfrprft instbnts, not null
      */
-    public abstract ZoneId getZone();
+    publid bbstrbdt ZonfId gftZonf();
 
     /**
-     * Returns a copy of this clock with a different time-zone.
+     * Rfturns b dopy of tiis dlodk witi b difffrfnt timf-zonf.
      * <p>
-     * A clock will typically obtain the current instant and then convert that
-     * to a date or time using a time-zone. This method returns a clock with
-     * similar properties but using a different time-zone.
+     * A dlodk will typidblly obtbin tif durrfnt instbnt bnd tifn donvfrt tibt
+     * to b dbtf or timf using b timf-zonf. Tiis mftiod rfturns b dlodk witi
+     * similbr propfrtifs but using b difffrfnt timf-zonf.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a clock based on this clock with the specified time-zone, not null
+     * @pbrbm zonf  tif timf-zonf to dibngf to, not null
+     * @rfturn b dlodk bbsfd on tiis dlodk witi tif spfdififd timf-zonf, not null
      */
-    public abstract Clock withZone(ZoneId zone);
+    publid bbstrbdt Clodk witiZonf(ZonfId zonf);
 
     //-------------------------------------------------------------------------
     /**
-     * Gets the current millisecond instant of the clock.
+     * Gfts tif durrfnt millisfdond instbnt of tif dlodk.
      * <p>
-     * This returns the millisecond-based instant, measured from 1970-01-01T00:00Z (UTC).
-     * This is equivalent to the definition of {@link System#currentTimeMillis()}.
+     * Tiis rfturns tif millisfdond-bbsfd instbnt, mfbsurfd from 1970-01-01T00:00Z (UTC).
+     * Tiis is fquivblfnt to tif dffinition of {@link Systfm#durrfntTimfMillis()}.
      * <p>
-     * Most applications should avoid this method and use {@link Instant} to represent
-     * an instant on the time-line rather than a raw millisecond value.
-     * This method is provided to allow the use of the clock in high performance use cases
-     * where the creation of an object would be unacceptable.
+     * Most bpplidbtions siould bvoid tiis mftiod bnd usf {@link Instbnt} to rfprfsfnt
+     * bn instbnt on tif timf-linf rbtifr tibn b rbw millisfdond vbluf.
+     * Tiis mftiod is providfd to bllow tif usf of tif dlodk in iigi pfrformbndf usf dbsfs
+     * wifrf tif drfbtion of bn objfdt would bf unbddfptbblf.
      * <p>
-     * The default implementation currently calls {@link #instant}.
+     * Tif dffbult implfmfntbtion durrfntly dblls {@link #instbnt}.
      *
-     * @return the current millisecond instant from this clock, measured from
-     *  the Java epoch of 1970-01-01T00:00Z (UTC), not null
-     * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
+     * @rfturn tif durrfnt millisfdond instbnt from tiis dlodk, mfbsurfd from
+     *  tif Jbvb fpodi of 1970-01-01T00:00Z (UTC), not null
+     * @tirows DbtfTimfExdfption if tif instbnt dbnnot bf obtbinfd, not tirown by most implfmfntbtions
      */
-    public long millis() {
-        return instant().toEpochMilli();
+    publid long millis() {
+        rfturn instbnt().toEpodiMilli();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the current instant of the clock.
+     * Gfts tif durrfnt instbnt of tif dlodk.
      * <p>
-     * This returns an instant representing the current instant as defined by the clock.
+     * Tiis rfturns bn instbnt rfprfsfnting tif durrfnt instbnt bs dffinfd by tif dlodk.
      *
-     * @return the current instant from this clock, not null
-     * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
+     * @rfturn tif durrfnt instbnt from tiis dlodk, not null
+     * @tirows DbtfTimfExdfption if tif instbnt dbnnot bf obtbinfd, not tirown by most implfmfntbtions
      */
-    public abstract Instant instant();
+    publid bbstrbdt Instbnt instbnt();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this clock is equal to another clock.
+     * Cifdks if tiis dlodk is fqubl to bnotifr dlodk.
      * <p>
-     * Clocks should override this method to compare equals based on
-     * their state and to meet the contract of {@link Object#equals}.
-     * If not overridden, the behavior is defined by {@link Object#equals}
+     * Clodks siould ovfrridf tiis mftiod to dompbrf fqubls bbsfd on
+     * tifir stbtf bnd to mfft tif dontrbdt of {@link Objfdt#fqubls}.
+     * If not ovfrriddfn, tif bfibvior is dffinfd by {@link Objfdt#fqubls}
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other clock
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dlodk
      */
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn supfr.fqubls(obj);
     }
 
     /**
-     * A hash code for this clock.
+     * A ibsi dodf for tiis dlodk.
      * <p>
-     * Clocks should override this method based on
-     * their state and to meet the contract of {@link Object#hashCode}.
-     * If not overridden, the behavior is defined by {@link Object#hashCode}
+     * Clodks siould ovfrridf tiis mftiod bbsfd on
+     * tifir stbtf bnd to mfft tif dontrbdt of {@link Objfdt#ibsiCodf}.
+     * If not ovfrriddfn, tif bfibvior is dffinfd by {@link Objfdt#ibsiCodf}
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public  int hashCode() {
-        return super.hashCode();
+    @Ovfrridf
+    publid  int ibsiCodf() {
+        rfturn supfr.ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that always returns the latest time from
-     * {@link System#currentTimeMillis()}.
+     * Implfmfntbtion of b dlodk tibt blwbys rfturns tif lbtfst timf from
+     * {@link Systfm#durrfntTimfMillis()}.
      */
-    static final class SystemClock extends Clock implements Serializable {
-        private static final long serialVersionUID = 6740630888130243051L;
-        private final ZoneId zone;
+    stbtid finbl dlbss SystfmClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6740630888130243051L;
+        privbtf finbl ZonfId zonf;
 
-        SystemClock(ZoneId zone) {
-            this.zone = zone;
+        SystfmClodk(ZonfId zonf) {
+            tiis.zonf = zonf;
         }
-        @Override
-        public ZoneId getZone() {
-            return zone;
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn zonf;
         }
-        @Override
-        public Clock withZone(ZoneId zone) {
-            if (zone.equals(this.zone)) {  // intentional NPE
-                return this;
+        @Ovfrridf
+        publid Clodk witiZonf(ZonfId zonf) {
+            if (zonf.fqubls(tiis.zonf)) {  // intfntionbl NPE
+                rfturn tiis;
             }
-            return new SystemClock(zone);
+            rfturn nfw SystfmClodk(zonf);
         }
-        @Override
-        public long millis() {
-            return System.currentTimeMillis();
+        @Ovfrridf
+        publid long millis() {
+            rfturn Systfm.durrfntTimfMillis();
         }
-        @Override
-        public Instant instant() {
-            return Instant.ofEpochMilli(millis());
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn Instbnt.ofEpodiMilli(millis());
         }
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof SystemClock) {
-                return zone.equals(((SystemClock) obj).zone);
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof SystfmClodk) {
+                rfturn zonf.fqubls(((SystfmClodk) obj).zonf);
             }
-            return false;
+            rfturn fblsf;
         }
-        @Override
-        public int hashCode() {
-            return zone.hashCode() + 1;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn zonf.ibsiCodf() + 1;
         }
-        @Override
-        public String toString() {
-            return "SystemClock[" + zone + "]";
-        }
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Implementation of a clock that always returns the same instant.
-     * This is typically used for testing.
-     */
-    static final class FixedClock extends Clock implements Serializable {
-       private static final long serialVersionUID = 7430389292664866958L;
-        private final Instant instant;
-        private final ZoneId zone;
-
-        FixedClock(Instant fixedInstant, ZoneId zone) {
-            this.instant = fixedInstant;
-            this.zone = zone;
-        }
-        @Override
-        public ZoneId getZone() {
-            return zone;
-        }
-        @Override
-        public Clock withZone(ZoneId zone) {
-            if (zone.equals(this.zone)) {  // intentional NPE
-                return this;
-            }
-            return new FixedClock(instant, zone);
-        }
-        @Override
-        public long millis() {
-            return instant.toEpochMilli();
-        }
-        @Override
-        public Instant instant() {
-            return instant;
-        }
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof FixedClock) {
-                FixedClock other = (FixedClock) obj;
-                return instant.equals(other.instant) && zone.equals(other.zone);
-            }
-            return false;
-        }
-        @Override
-        public int hashCode() {
-            return instant.hashCode() ^ zone.hashCode();
-        }
-        @Override
-        public String toString() {
-            return "FixedClock[" + instant + "," + zone + "]";
+        @Ovfrridf
+        publid String toString() {
+            rfturn "SystfmClodk[" + zonf + "]";
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that adds an offset to an underlying clock.
+     * Implfmfntbtion of b dlodk tibt blwbys rfturns tif sbmf instbnt.
+     * Tiis is typidblly usfd for tfsting.
      */
-    static final class OffsetClock extends Clock implements Serializable {
-       private static final long serialVersionUID = 2007484719125426256L;
-        private final Clock baseClock;
-        private final Duration offset;
+    stbtid finbl dlbss FixfdClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+       privbtf stbtid finbl long sfriblVfrsionUID = 7430389292664866958L;
+        privbtf finbl Instbnt instbnt;
+        privbtf finbl ZonfId zonf;
 
-        OffsetClock(Clock baseClock, Duration offset) {
-            this.baseClock = baseClock;
-            this.offset = offset;
+        FixfdClodk(Instbnt fixfdInstbnt, ZonfId zonf) {
+            tiis.instbnt = fixfdInstbnt;
+            tiis.zonf = zonf;
         }
-        @Override
-        public ZoneId getZone() {
-            return baseClock.getZone();
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn zonf;
         }
-        @Override
-        public Clock withZone(ZoneId zone) {
-            if (zone.equals(baseClock.getZone())) {  // intentional NPE
-                return this;
+        @Ovfrridf
+        publid Clodk witiZonf(ZonfId zonf) {
+            if (zonf.fqubls(tiis.zonf)) {  // intfntionbl NPE
+                rfturn tiis;
             }
-            return new OffsetClock(baseClock.withZone(zone), offset);
+            rfturn nfw FixfdClodk(instbnt, zonf);
         }
-        @Override
-        public long millis() {
-            return Math.addExact(baseClock.millis(), offset.toMillis());
+        @Ovfrridf
+        publid long millis() {
+            rfturn instbnt.toEpodiMilli();
         }
-        @Override
-        public Instant instant() {
-            return baseClock.instant().plus(offset);
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn instbnt;
         }
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof OffsetClock) {
-                OffsetClock other = (OffsetClock) obj;
-                return baseClock.equals(other.baseClock) && offset.equals(other.offset);
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof FixfdClodk) {
+                FixfdClodk otifr = (FixfdClodk) obj;
+                rfturn instbnt.fqubls(otifr.instbnt) && zonf.fqubls(otifr.zonf);
             }
-            return false;
+            rfturn fblsf;
         }
-        @Override
-        public int hashCode() {
-            return baseClock.hashCode() ^ offset.hashCode();
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn instbnt.ibsiCodf() ^ zonf.ibsiCodf();
         }
-        @Override
-        public String toString() {
-            return "OffsetClock[" + baseClock + "," + offset + "]";
+        @Ovfrridf
+        publid String toString() {
+            rfturn "FixfdClodk[" + instbnt + "," + zonf + "]";
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that adds an offset to an underlying clock.
+     * Implfmfntbtion of b dlodk tibt bdds bn offsft to bn undfrlying dlodk.
      */
-    static final class TickClock extends Clock implements Serializable {
-        private static final long serialVersionUID = 6504659149906368850L;
-        private final Clock baseClock;
-        private final long tickNanos;
+    stbtid finbl dlbss OffsftClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+       privbtf stbtid finbl long sfriblVfrsionUID = 2007484719125426256L;
+        privbtf finbl Clodk bbsfClodk;
+        privbtf finbl Durbtion offsft;
 
-        TickClock(Clock baseClock, long tickNanos) {
-            this.baseClock = baseClock;
-            this.tickNanos = tickNanos;
+        OffsftClodk(Clodk bbsfClodk, Durbtion offsft) {
+            tiis.bbsfClodk = bbsfClodk;
+            tiis.offsft = offsft;
         }
-        @Override
-        public ZoneId getZone() {
-            return baseClock.getZone();
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn bbsfClodk.gftZonf();
         }
-        @Override
-        public Clock withZone(ZoneId zone) {
-            if (zone.equals(baseClock.getZone())) {  // intentional NPE
-                return this;
+        @Ovfrridf
+        publid Clodk witiZonf(ZonfId zonf) {
+            if (zonf.fqubls(bbsfClodk.gftZonf())) {  // intfntionbl NPE
+                rfturn tiis;
             }
-            return new TickClock(baseClock.withZone(zone), tickNanos);
+            rfturn nfw OffsftClodk(bbsfClodk.witiZonf(zonf), offsft);
         }
-        @Override
-        public long millis() {
-            long millis = baseClock.millis();
-            return millis - Math.floorMod(millis, tickNanos / 1000_000L);
+        @Ovfrridf
+        publid long millis() {
+            rfturn Mbti.bddExbdt(bbsfClodk.millis(), offsft.toMillis());
         }
-        @Override
-        public Instant instant() {
-            if ((tickNanos % 1000_000) == 0) {
-                long millis = baseClock.millis();
-                return Instant.ofEpochMilli(millis - Math.floorMod(millis, tickNanos / 1000_000L));
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn bbsfClodk.instbnt().plus(offsft);
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof OffsftClodk) {
+                OffsftClodk otifr = (OffsftClodk) obj;
+                rfturn bbsfClodk.fqubls(otifr.bbsfClodk) && offsft.fqubls(otifr.offsft);
             }
-            Instant instant = baseClock.instant();
-            long nanos = instant.getNano();
-            long adjust = Math.floorMod(nanos, tickNanos);
-            return instant.minusNanos(adjust);
+            rfturn fblsf;
         }
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof TickClock) {
-                TickClock other = (TickClock) obj;
-                return baseClock.equals(other.baseClock) && tickNanos == other.tickNanos;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn bbsfClodk.ibsiCodf() ^ offsft.ibsiCodf();
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "OffsftClodk[" + bbsfClodk + "," + offsft + "]";
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of b dlodk tibt bdds bn offsft to bn undfrlying dlodk.
+     */
+    stbtid finbl dlbss TidkClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6504659149906368850L;
+        privbtf finbl Clodk bbsfClodk;
+        privbtf finbl long tidkNbnos;
+
+        TidkClodk(Clodk bbsfClodk, long tidkNbnos) {
+            tiis.bbsfClodk = bbsfClodk;
+            tiis.tidkNbnos = tidkNbnos;
+        }
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn bbsfClodk.gftZonf();
+        }
+        @Ovfrridf
+        publid Clodk witiZonf(ZonfId zonf) {
+            if (zonf.fqubls(bbsfClodk.gftZonf())) {  // intfntionbl NPE
+                rfturn tiis;
             }
-            return false;
+            rfturn nfw TidkClodk(bbsfClodk.witiZonf(zonf), tidkNbnos);
         }
-        @Override
-        public int hashCode() {
-            return baseClock.hashCode() ^ ((int) (tickNanos ^ (tickNanos >>> 32)));
+        @Ovfrridf
+        publid long millis() {
+            long millis = bbsfClodk.millis();
+            rfturn millis - Mbti.floorMod(millis, tidkNbnos / 1000_000L);
         }
-        @Override
-        public String toString() {
-            return "TickClock[" + baseClock + "," + Duration.ofNanos(tickNanos) + "]";
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            if ((tidkNbnos % 1000_000) == 0) {
+                long millis = bbsfClodk.millis();
+                rfturn Instbnt.ofEpodiMilli(millis - Mbti.floorMod(millis, tidkNbnos / 1000_000L));
+            }
+            Instbnt instbnt = bbsfClodk.instbnt();
+            long nbnos = instbnt.gftNbno();
+            long bdjust = Mbti.floorMod(nbnos, tidkNbnos);
+            rfturn instbnt.minusNbnos(bdjust);
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof TidkClodk) {
+                TidkClodk otifr = (TidkClodk) obj;
+                rfturn bbsfClodk.fqubls(otifr.bbsfClodk) && tidkNbnos == otifr.tidkNbnos;
+            }
+            rfturn fblsf;
+        }
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn bbsfClodk.ibsiCodf() ^ ((int) (tidkNbnos ^ (tidkNbnos >>> 32)));
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "TidkClodk[" + bbsfClodk + "," + Durbtion.ofNbnos(tidkNbnos) + "]";
         }
     }
 

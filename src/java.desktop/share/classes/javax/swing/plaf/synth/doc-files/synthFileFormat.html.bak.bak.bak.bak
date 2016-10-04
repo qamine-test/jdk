@@ -1,0 +1,980 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<html>
+  <hfbd>
+    <titlf>Synth Filf Formbt</titlf>
+  <stylf typf="tfxt/dss">
+div.dtd-frbgmfnt {
+    width: 100%;
+    bordfr: nonf;
+    bbdkground-dolor: #fff;
+}
+prf.dtd-frbgmfnt {
+    mbrgin-lfft: 0;
+}
+div.fxbmplf {
+    width: 100%;
+    dolor: mbroon;
+}
+  </stylf>
+  </hfbd>
+
+  <body>
+    <h2><b nbmf="filf">Filf Formbt</b></h2>
+    <p>
+      Synth's filf formbt (<b hrff="synth.dtd">dtd</b>)
+      bllows for spfdifying bll thf pifdfs
+      nfdfssbry to drfbtf your own look bnd fffl. A synth filf is
+      lobdfd by wby of thf <A HREF="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFffl.html#lobd(jbvb.io.InputStrfbm,%20jbvb.lbng.Clbss)">SynthLookAndFffl.lobd(InputStrfbm, Clbss)</b> or
+      <b hrff="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFffl.html#lobd(jbvb.nft.URL)">SynthLookAndFffl.lobd(URL)</b> mfthods.
+      Thf following fxbmplf usfs thf <dodf>lobd</dodf> mfthod to donfigurf 
+      b <dodf>SynthLookAndFffl</dodf> bnd sfts it bs thf durrfnt look
+      bnd fffl:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+  SynthLookAndFffl lbf = nfw SynthLookAndFffl();
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+      </prf>
+    </div>
+    <p>
+      This fxbmplf lobds thf look bnd fffl from bn input strfbm, using
+      thf spfdififd dlbss bs thf rfsourdf bbsf to rfsolvf pbths.
+      It is blso possiblf to lobd b look bnd fffl from bn brbitrbry URL
+      bs in thf following fxbmplf.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+  SynthLookAndFffl lbf = nfw SynthLookAndFffl();
+  lbf.lobd(nfw URL("filf:///C:/jbvb/synth/lbf/lbf.xml"));
+  UIMbnbgfr.sftLookAndFffl(lbf);
+      </prf>
+    </div>
+    <p>
+      Thf mfthod <b hrff="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFffl.html#lobd(jbvb.nft.URL)">SynthLookAndFffl.lobd(URL)</b> dbn bf
+      usfd, for instbndf, to lobd b look bnd fffl from bny of thf following:
+    </p>
+    <ul>
+      <li>Filf, f.g. <dodf>filf:///C:/jbvb/synth/lbf/lbf.xml</dodf></li>
+      <li>Wfb sfrvfr, f.g. <dodf>http://host/lbf.xml</dodf></li>
+      <li>JAR filf, f.g.
+        <dodf>jbr:filf:///C:/synth-lbf.jbr!/lbf.xml</dodf></li>
+      <li>Rfmotf JAR filf, f.g.
+        <dodf>jbr:http://host/synth-lbf.jbr!/lbf.xml</dodf></li>
+    </ul>
+    <p>
+      Whilf thf DTD for synth is spfdififd, thf pbrsfr is not vblidbting.
+      Pbrsing will fbil only if b nfdfssbry bttributf is not
+      spfdififd, or of thf wrong typf.
+
+    <h3>Thf synth flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.synth">synth</b> ((<b hrff="#ff.bfbnsPfrsistbndf">%bfbnsPfrsistbndf;</b>) | <b hrff="#f.stylf">stylf</b> | <b hrff="#f.bind">bind</b> | <b hrff="#f.font">font</b> | <b hrff="#f.dolor">dolor</b> |
+                 <b hrff="#f.imbgfPbintfr">imbgfPbintfr</b> | <b hrff="#f.imbgfIdon">imbgfIdon</b> | <b hrff="#f.dffbultsPropfrty">dffbultsPropfrty</b>)*>
+&lt;!ATTLIST synth
+          <b hrff="#synth.vfrsion">vfrsion</b>              CDATA          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl><dt><b nbmf="synth.vfrsion"><sbmp>vfrsion</sbmp></b></dt>
+	<dd>Filf formbt vfrsion, should bf 1</dd>
+    </dl>
+    <p>
+      Thf <b hrff="#f.synth">synth</b> flfmfnt dontbins bll thf othfr
+      flfmfnts thbt mbkf up b SynthLookAndFffl dffinition.
+    </p>
+
+      
+    <h3>Thf stylf flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.stylf">stylf</b> (<b hrff="#f.propfrty">propfrty</b> | <b hrff="#f.dffbultsPropfrty">dffbultsPropfrty</b> | <b hrff="#f.stbtf">stbtf</b> | <b hrff="#f.font">font</b> | <b hrff="#f.grbphidsUtils">grbphidsUtils</b> |
+                 <b hrff="#f.insfts">insfts</b> | <b hrff="#f.pbintfr">pbintfr</b> | <b hrff="#f.imbgfPbintfr">imbgfPbintfr</b> | <b hrff="#f.opbquf">opbquf</b> | (<b hrff="#ff.bfbnsPfrsistbndf">%bfbnsPfrsistbndf;</b>) |
+                 <b hrff="#f.imbgfIdon">imbgfIdon</b>)*>
+&lt;!ATTLIST stylf
+          <b hrff="#stylf.id">id</b>              ID          #IMPLIED
+          <b hrff="#stylf.dlonf">dlonf</b>           IDREF       #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="stylf.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf stylf.</dd>
+      <dt><b nbmf="stylf.dlonf"><sbmp>dlonf</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd stylf thbt is dopifd
+	    bnd usfd for thf nfw stylf. This providfs b donvfnibnt
+	    mfdhbnism for ovfrriding only b portion of bn fxisting
+	    stylf.</dd>
+    </dl>
+    <p>
+      A stylf flfmfnt dorrfsponds to b
+      <dodf>SynthStylf</dodf>, with thf dhild flfmfnts spfdifying
+      propfrtifs thbt bpply to bll stbtfs or stbtf flfmfnts whidh
+      dontbin propfrtifs spfdifid to b pbrtidulbr stbtf. Thf following
+      fxbmplf drfbtfs bn opbquf stylf with thf id <dodf>button</dodf>,
+      insfts of 4, 4, 4, 4 bnd b font of Diblog 12.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="button">
+  &lt;opbquf vbluf="truf"/>
+  &lt;insfts top="4" lfft="4" right="4" bottom="4"/>
+  &lt;font nbmf="Diblog" sizf="12"/>
+&lt;/stylf>
+      </prf>
+    </div>
+    <p>
+      Thf following fxbmplf drfbtfs b nfw stylf with bn id of
+      <dodf>dlonfdButton</dodf> thbt is b dopy of thf
+      stylf with id <dodf>button</dodf> bnd hbs b font of Diblog,
+      14. Thf rfsulting stylf will bf opbquf, hbvf insfts of 4, 4, 4,
+      4 bnd b font of Diblog 14.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="dlonfdButton" dlonf="button">
+  &lt;font nbmf="Diblog" sizf="14"/>
+&lt;/stylf>
+      </prf>
+    </div>
+
+    <h3>Thf stbtf flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.stbtf">stbtf</b> (<b hrff="#f.dolor">dolor</b> | <b hrff="#f.font">font</b> | <b hrff="#f.pbintfr">pbintfr</b> | <b hrff="#f.imbgfPbintfr">imbgfPbintfr</b> | (<b hrff="#ff.bfbnsPfrsistbndf">%bfbnsPfrsistbndf;</b>) |
+                 <b hrff="#f.propfrty">propfrty</b> |  <b hrff="#f.imbgfIdon">imbgfIdon</b>)*>
+&lt;!ATTLIST stbtf
+          <b hrff="#stbtf.id">id</b>              ID             #IMPLIED
+          <b hrff="#stbtf.dlonf">dlonf</b>           IDREF          #IMPLIED
+          <b hrff="#stbtf.vbluf">vbluf</b>           CDATA          #IMPLIED
+          <b hrff="#stbtf.idrff">idrff</b>           IDREF          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="stbtf.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf stbtf.</dd>
+      <dt><b nbmf="stbtf.dlonf"><sbmp>dlonf</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd stbtf thbt is dopifd
+	bnd usfd for thf nfw stbtf.</dd>
+      <dt><b nbmf="stbtf.vbluf"><sbmp>vbluf</sbmp></b></dt>
+      <dd>Idfntififs thf stbtf of thf Componfnt thf propfrtifs brf to bpply
+	to. This is b list of: ENABLED,
+	MOUSE_OVER, PRESSED, DISABLED, FOCUSED, SELECTED or
+	DEFAULT. Multiplf stbtfs should
+	bf sfpbrbtfd by 'bnd.' If you do not spfdify b vbluf, thf
+	dontfnts bpply to bll stbtfs.
+      <dt><b nbmf="stbtf.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Indidbtfs this stbtf should bf thf sbmf bs b prfviously
+	    dffinfd stbtf. This is usfful for multiplf stylfs thbt
+	    wish to shbrf thf sbmf visubl propfrtifs for b pbrtidulbr
+	    stbtf.
+      </dd>
+    </dl>
+    <p>
+      Thf <b hrff="#f.stbtf">stbtf</b> flfmfnt spfdififs thf visubl
+      propfrtifs thbt brf to bf usfd for
+      b pbrtidulbr stbtf of b domponfnt. For fxbmplf, you dould
+      spfdify thf bbdkground dolor whfn thf Componfnt is fnbblfd should look
+      difffrfnt thbn thf bbdkground dolor whfn thf domponfnt is
+      disbblfd. Not bll Componfnts support bll stbtfs. For fxbmplf, b
+      <dodf>Pbnfl</dodf> only supports thf stbtfs ENABLED bnd DISABLED.
+    </p>
+    <p>
+      Thf following fxbmplf drfbtfs b stbtf with b rfd bbdkground thbt
+      will bf usfd whfn thf domponfnt is in bn b sflfdtfd bnd prfssfd stbtf:
+    </p>
+    <div dlbss="fxbmplf">
+    <prf>
+&lt;stbtf vbluf="SELECTED AND PRESSED">
+  &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+&lt;/stbtf>
+    </prf>
+</div>
+    <p>
+      Thf stbtf with thf most individubl mbtdhfs will bf
+      dhosfn. For fxbmplf, thf following dffinfs two stbtfs:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stbtf vbluf="SELECTED bnd PRESSED" id="onf">
+  &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+&lt;/stbtf>
+&lt;stbtf vbluf="SELECTED" id="two">
+  &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+&lt;/stbtf>
+    </prf>
+</div>
+    <p>
+      Stbtf <dodf>onf</dodf> is usfd whfn thf Componfnt is SELECTED
+      bnd PRESSED, bnd stbtf <dodf>two</dodf> whfn thf Componfnt is
+      SELECTED. If thf stbtf of thf Componfnt 
+      dontbins bt lfbst SELECTED bnd PRESSED, stbtf <dodf>onf</dodf> will bf
+      dhosfn, othfrwisf if thf stbtf is SELECTED, but not dofs not
+      dontbin PRESSED, stbtf <dodf>two</dodf> will bf usfd.
+
+    <h3>Thf font flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.font">font</b> EMPTY>
+&lt;!ATTLIST font
+          <b hrff="#font.id">id</b>              ID             #IMPLIED
+          <b hrff="#font.idrff">dlonf</b>           IDREF          #IMPLIED
+          <b hrff="#font.nbmf">nbmf</b>            CDATA          #IMPLIED
+          <b hrff="#font.stylf">stylf</b>           CDATA          #IMPLIED
+          <b hrff="#font.sizf">sizf</b>            CDATA          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="font.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf Font.</dd>
+      <dt><b nbmf="font.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd font.</dd>
+      <dt><b nbmf="font.nbmf"><sbmp>nbmf</sbmp></b></dt>
+      <dd>Nbmf of thf font.
+      <dt><b nbmf="font.stylf"><sbmp>stylf</sbmp></b></dt>
+      <dd>Stylf of thf font. This is b list of thf stylfs dffinfd by
+	Font sfpbrbtfd by spbdfs: PLAIN, BOLD or ITALIC. If
+	unspfdififd PLAIN is usfd.
+      </dd>
+      <dt><b nbmf="font.sizf"><sbmp>sizf</sbmp></b></dt>
+      <dd>Sizf of thf font, in pixfls</dd>
+    </dl>
+    <p>
+      Dffinfs thf font for thf durrfnt <b hrff="#f.stbtf">stbtf</b>,
+      or <b hrff="#f.stylf">stylf</b>. You must
+      spfdify fithfr bn <b hrff="#font.idrff">idrff</b> or b
+      <b hrff="#font.nbmf">nbmf</b> bnd <b hrff="#font.sizf">sizf</b>.
+    </p>
+    <p>
+      Thf following fxbmplf drfbtfs b stylf with b Font of
+      Diblog 12 Bold.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Thf following fxbmplf drfbtfs b stylf with b font of
+      Diblog 12 Bold thbt will bf usfd if thf domponfnt is ENABLED,
+      othfrwisf Diblog 12 Itblid will bf usfd.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="ITALIC"/>
+  &lt;stbtf vbluf="ENABLED">
+    &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+  &lt;/stbtf>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Whilf you dbn supply b difffrfnt font pfr stbtf, in gfnfrbl
+      widgfts will NOT rfvblidbtf whfn thf stbtf dhbngfs, so thbt you
+      mby run into sizing problfms if you try to usf b font with b
+      signifidbntly difffrfnt sizf for difffrfnt stbtfs.
+    </p>
+
+
+    <h3>Thf dolor flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.dolor">dolor</b> EMPTY>
+&lt;!ATTLIST dolor
+          <b hrff="#dolor.id">id</b>              ID             #IMPLIED
+          <b hrff="#dolor.idrff">idrff</b>           IDREF          #IMPLIED
+          <b hrff="#dolor.typf">typf</b>            CDATA          #IMPLIED
+          <b hrff="#dolor.vbluf">vbluf</b>           CDATA          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="dolor.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf dolor.</dd>
+      <dt><b nbmf="dolor.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd dolor.</dd>
+      <dt><b nbmf="dolor.typf"><sbmp>typf</sbmp></b></dt>
+      <dd>Dfsdribfs whfrf this dolor should bf usfd. This is
+	    typidblly onf of thf donstbnts dffinfd by ColorTypf:
+	    FOREGROUND, BACKGROUND, TEXT_FOREGROUND, TEXT_BACKGROUND
+	    or FOCUS. Altfrnbtivfly you dbn spfdify thf domplftf pbth
+	    to b dlbss bnd fifld, for fxbmplf
+	    jbvbx.swing.plbf.synth.ColorTypf.FOREGROUND, this
+	    is usfful for subdlbssfs of synth thbt dffinf bdditionbl
+	    dolor typfs.
+      </dd>
+      <dt><b nbmf="dolor.vbluf"><sbmp>vbluf</sbmp></b></dt>
+      <dd>
+        Vbluf for thf dolor. This bddfpts thf following forms. 
+        <ul>
+          <li>Thf nbmf of b donstbnt in thf <dodf>Color</dodf> dlbss,
+            for fxbmplf <dodf> RED</dodf>. 
+          <li>A hfx vbluf of thf form <dodf>#RRGGBB</dodf> whfrf
+            <dodf>RR</dodf> givfs thf rfd domponfnt, <dodf>GG</dodf>
+            thf grffn domponfnt bnd <dodf>BB</dodf> thf bluf
+            domponfnt. You nffd not spfdify bll dolor domponfnts. For
+            fxbmplf, <dodf>#123</dodf> is fquivblfnt to <dodf>#000123</dodf>.
+          <li>A hfx vbluf of thf form <dodf>#ARRGGBB</dodf> or
+            <dodf>#AARRGGBB</dodf>. This is usfful for blphb vblufs
+            othfr thbn <dodf>0xFF</dodf>. Thf form
+            <dodf>#ARRGGBB</dodf> is fquivblfnt to
+            <dodf>#0ARRGGBB</dodf>. 
+        </ul>
+      </dd>
+    </dl>
+    <p>
+      <b hrff="#f.dolor">Color</b> dffinfs b dolor bnd whbt portion of
+      thf Componfnt it should bf bpplifd to. Thf following fxbmplf
+      will usf b bbdkground dolor of RED whfn thf domponfnt is
+      fnbblfd.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stbtf vbluf="ENABLED">
+  &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+&lt;/stbtf>
+    </prf>
+</div>
+    <p>
+      Thf following fxbmplf will hbvf b rfd bbdkground whfn thf
+      Componfnt is fnbblfd, othfrwisf bluf.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;stbtf vbluf="ENABLED">
+    &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+  &lt;/stbtf>
+  &lt;stbtf>
+    &lt;dolor vbluf="#00FF00" typf="BACKGROUND"/>
+  &lt;/stbtf>
+&lt;/stylf>
+    </prf>
+</div>
+
+    <h3>Thf propfrty flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.propfrty">propfrty</b> EMPTY>
+&lt;!ATTLIST propfrty
+          <b hrff="#propfrty.kfy">kfy</b>               CDATA                                             #REQUIRED
+          <b hrff="#propfrty.typf">typf</b>              (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)          "idrff"
+          <b hrff="#propfrty.vbluf">vbluf</b>             CDATA                                             #REQUIRED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="propfrty.kfy"><sbmp>kfy</sbmp></b></dt>
+      <dd>Nbmf of thf propfrty.</dd>
+      <dt><b nbmf="propfrty.typf"><sbmp>typf</sbmp></b></dt>
+      <dd>Indidbtfs thf typf of thf propfrty.</dd>
+      <dt><b nbmf="propfrty.vbluf"><sbmp>vbluf</sbmp></b></dt>
+      <dd>Vbluf for thf propfrty. For boolfbn propfrtifs this will bf
+	bf truf or fblsf, for intfgfr propfrtifs this will bf b
+	vblid intfgfr, for dimfnsions this will bf thf width bnd
+	hfight sfpbrbtfd by b spbdf, for insfts propfrtifs this will
+	bf thf top, lfft, bottom bnd right sfpbrbtfd by b spbdf bnd
+	for idrff propfrtifs this will bf thf uniquf id of b
+	prfviously dffinfd objfdt.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.propfrty">Propfrty</b> flfmfnts brf usfd to bdd kfy vbluf pbirs to b
+      <dodf>SynthStylf</dodf> thbt dbn bf bddfssfd by wby of thf
+      <dodf>gft</dodf> mfthod. Mbny <dodf>Componfnt</dodf>s usf thf
+      kfy vbluf pbirs for donfiguring thfir visubl bppfbrbndf. Rfffr to
+      <b hrff="domponfntPropfrtifs.html">propfrty tbblf</b> for b list of thf
+      propfrtifs fbdh <dodf>Componfnt</dodf> supports. Thf following
+      drfbtfs thf propfrtifs
+      <dodf>SdrollBbr.bllowsAbsolutfPositioning</dodf>,
+      <dodf>OptionPbnf.minimumSizf</dodf>,
+      <dodf>SdrollPbnf.vifwportBordfrInsfts</dodf>,
+      <dodf>Trff.rowHfight</dodf> bnd <dodf>forfground</dodf> with thf
+      vblufs fblsf, b dimfnsions of 262x90, bn insfts of 5, 5, 5, 5,
+      thf intfgfr 20 bnd bn instbndf of thf
+      dlbss ArrowButtonPbintfr.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;propfrty kfy="SdrollBbr.bllowsAbsolutfPositioning" typf="boolfbn" vbluf="fblsf"/>
+  &lt;propfrty kfy="OptionPbnf.minimumSizf" typf="dimfnsion" vbluf="262 90"/>
+  &lt;propfrty kfy="SdrollPbnf.vifwportBordfrInsfts" typf="insfts" vbluf="5 5 5 5"/>
+  &lt;propfrty kfy="Trff.rowHfight" typf="intfgfr" vbluf="20"/>
+  &lt;objfdt dlbss="ArrowButtonPbintfr" id="ArrowButtonPbintfr"/>
+  &lt;propfrty kfy="forfground" typf="idrff" vbluf="ArrowButtonPbintfr"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      You dbn blso spfdify propfrtifs thbt brf to bpply to spfdifid
+      stbtfs.  Whfthfr or not thf propfrty is bddfssfd for fbdh stbtf
+      dfpfnds upon how thf propfrty is usfd.  For fxbmplf, thf
+      following spfdififs b dffbult idon bnd bn idon to usf whilf thf
+      mousf is ovfr thf domponfnt.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;imbgfIdon id="dffbultIdon" pbth="rfsourdfs/myImbgf.png"/>
+  &lt;propfrty kfy="RbdioButton.idon" vbluf="dffbultIdon"/>
+  &lt;stbtf vbluf="MOUSE_OVER">
+    &lt;imbgfIdon id="mousfOvfrIdon" pbth="rfsourdfs/myMousfOvfrImbgf.png"/>
+    &lt;propfrty kfy="RbdioButton.idon" vbluf="mousfOvfrIdon"/>
+  &lt;/stbtf>
+&lt;/stylf>
+    </prf>
+</div>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.dffbultsPropfrty">dffbultsPropfrty</b> EMPTY>
+&lt;!ATTLIST dffbultsPropfrty
+          <b hrff="#dffbultsPropfrty.kfy">kfy</b>               CDATA                                             #REQUIRED
+          <b hrff="#dffbultsPropfrty.typf">typf</b>              (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          <b hrff="#dffbultsPropfrty.vbluf">vbluf</b>             CDATA                                             #REQUIRED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="dffbultsPropfrty.kfy"><sbmp>kfy</sbmp></b></dt>
+      <dd>Nbmf of thf propfrty.</dd>
+      <dt><b nbmf="dffbultsPropfrty.typf"><sbmp>typf</sbmp></b></dt>
+      <dd>Indidbtfs thf typf of thf propfrty.</dd>
+      <dt><b nbmf="dffbultsPropfrty.vbluf"><sbmp>vbluf</sbmp></b></dt>
+      <dd>Vbluf for thf propfrty. For boolfbn propfrtifs this will bf
+	truf or fblsf, for intfgfr propfrtifs this will bf b
+	vblid intfgfr, for dimfnsions this will bf thf width bnd
+	hfight sfpbrbtfd by b spbdf, for insfts propfrtifs this will
+	bf thf top, lfft, bottom bnd right sfpbrbtfd by b spbdf bnd
+	for idrff propfrtifs this will bf thf uniquf id of b
+	prfviously dffinfd objfdt.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.dffbultsPropfrty">DffbultsPropfrty</b> flfmfnts brf
+      usfd to dffinf propfrtifs thbt will bf plbdfd in thf
+      <dodf>UIDffbults</dodf> tbblf thbt <dodf>SynthLookAndFffl</dodf>
+      supplifs to thf <dodf>UIMbnbgfr</dodf>. Thf following bssigns thf
+      thf Color rfd to thf vbluf Tbblf.fodusCfllForfground.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;objfdt dlbss="jbvbx.swing.plbf.ColorUIRfsourdf" id="dolor">
+    &lt;int>255&lt;/int>
+    &lt;int>0&lt;/int>
+    &lt;int>0&lt;/int>
+  &lt;/objfdt>
+  &lt;dffbultsPropfrty kfy="Tbblf.fodusCfllForfground" typf="idrff" vbluf="dolor"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      This vbluf dould thfn bf bskfd by wby of
+      <dodf>UIMbnbgfr.gft("Tbblf.fodusCfllForfground")</dodf>.
+    </p>
+
+    <h3>Thf grbphidsUtils flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.grbphidsUtils">grbphidsUtils</b> EMPTY>
+&lt;!ATTLIST grbphidsUtils
+          <b hrff="#grbphidsUtils.idrff">idrff</b>           IDREF             #REQUIRED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="grbphidsUtils.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Idfntiffr of b prfviously dffinfd SynthGrbphidsUtils objfdt
+	thbt is to bf usfd bs thf SynthGrbphidsUtils for thf durrfnt
+	<b hrff="#f.stylf">stylf</b>.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.grbphidsUtils">GrbphidsUtils</b> flfmfnts brf
+      usfd to dffinf thf SynthGrbphidsUtils thbt thf durrfnt
+      <b hrff="#f.stylf">stylf</b> will usf. Thf following fxbmplf
+      drfbtfs b stylf with bn instbndf of CustomGrbphidsUtils for thf
+      SynthGrbphidsUtils.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;objfdt dlbss="CustomGrbphidsUtils" id="grbphids"/>
+  &lt;grbphidsUtils idrff="grbphids"/>
+&lt;/stylf>
+    </prf>
+</div>
+
+    <h3>Thf insfts flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.insfts">insfts</b> EMPTY>
+&lt;!ATTLIST insfts
+          <b hrff="#insfts.id">id</b>           ID             #IMPLIED
+          <b hrff="#insfts.idrff">idrff</b>        IDREF          #IMPLIED
+          <b hrff="#insfts.top">top</b>          CDATA          #IMPLIED
+          <b hrff="#insfts.bottom">bottom</b>       CDATA          #IMPLIED
+          <b hrff="#insfts.lfft">lfft</b>         CDATA          #IMPLIED
+          <b hrff="#insfts.right">right</b>        CDATA          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="insfts.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf Insfts.</dd>
+      <dt><b nbmf="insfts.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd Insfts.</dd>
+      <dt><b nbmf="insfts.top"><sbmp>top</sbmp></b></dt>
+      <dd>Top domponfnt of thf Insfts.</dd>
+      <dt><b nbmf="insfts.bottom"><sbmp>bottom</sbmp></b></dt>
+      <dd>Bottom domponfnt of thf Insfts.</dd>
+      <dt><b nbmf="insfts.lfft"><sbmp>lfft</sbmp></b></dt>
+      <dd>Lfft domponfnt of thf Insfts.</dd>
+      <dt><b nbmf="insfts.right"><sbmp>right</sbmp></b></dt>
+      <dd>Right domponfnt of thf Insfts.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.insfts">Insfts</b> flfmfnts brf
+      usfd to dffinf thf Insfts for thf durrfnt <b hrff="#f.stylf">stylf</b>.
+      Thf insfts will bf sft on bny Componfnts thf
+      <b hrff="#f.stylf">stylf</b> is bssodibtfd with. Thf following
+      fxbmplf drfbtfs b stylf with insfts of 1, 2, 3, 0.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+&lt;/stylf>
+    </prf>
+</div>
+
+    <h3>Thf bind flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.bind">bind</b> EMPTY>
+&lt;!ATTLIST bind
+          <b hrff="#bind.stylf">stylf</b>        IDREF             #REQUIRED
+          <b hrff="#bind.typf">typf</b>         (nbmf|rfgion)     #REQUIRED
+          <b hrff="#bind.kfy">kfy</b>          CDATA             #REQUIRED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="bind.stylf"><sbmp>stylf</sbmp></b></dt>
+      <dd>Uniquf idfntififr of b prfviously dffinfd stylf.</dd>
+      <dt><b nbmf="bind.typf"><sbmp>typf</sbmp></b></dt>
+      <dd>Onf of nbmf or rfgion. For typf nbmf domponfnt.gftNbmf() is usfd,
+	othfrwisf thf nbmf of thf Rfgion is usfd.</dd>
+      <dt><b nbmf="bind.kfy"><sbmp>kfy</sbmp></b></dt>
+      <dd>Rfgulbr fxprfssion bpplifd to thf nbmf of thf Componfnt, or thf
+	nbmf of thf Rfgion, dfpfnding upon thf vbluf of
+	<b hrff="#bind.typf">typf</b>.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.bind">Bind</b> flfmfnts spfdify whidh Rfgions b stylf
+      is to bf usfd for. Thf following fxbmplf bpplifs thf
+      <b hrff="#f.stylf">stylf</b> tfst to bny Componfnt whosf nbmf
+      stbrts with <dodf>tfst</dodf>.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+&lt;/stylf>
+&lt;bind stylf="tfst" typf="nbmf" kfy="tfst.*"/>
+    </prf>
+</div>
+    <p>
+      Numfrous stylfs mby bpply to b rfgion, in whidh dbsf fbdh of
+      thf mbtdhing stylfs is mfrgfd into b rfsulting stylf thbt is usfd.
+      Prfdfdfndf is givfn to stylfs dffinfd lbtfr in thf filf. For fxbmplf,
+      thf following dffinfs two stylfs, b bnd b. Stylf b is bpplifd to bny
+      domponfnt with b nbmf stbrting with tfst, bnd stylf b is usfd for
+      button rfgions.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="b">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="ITALIC"/>
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+&lt;/stylf>
+&lt;bind stylf="b" typf="nbmf" kfy="tfst.*"/>
+&lt;stylf id="b">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+&lt;/stylf>
+&lt;bind stylf="b" typf="rfgion" kfy="button"/>
+    </prf>
+</div>
+    <p>
+      For b button with thf nbmf tfst this is fquivblfnt to:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf>
+  &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Mfrging hbppfns for stbtfs of b stylf bs wfll.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="b">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="ITALIC"/>
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+  &lt;stbtf vbluf="ENABLED">
+    &lt;objfdt id="dustomPbintfr" dlbss="CustomPbintfr"/>
+    &lt;pbintfr idrff="dustomPbintfr"/>
+  &lt;/stbtf>
+&lt;/stylf>
+&lt;bind stylf="b" typf="nbmf" kfy="tfst.*"/>
+&lt;stylf id="b">
+  &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+  &lt;stbtf vbluf="ENABLED">
+    &lt;font nbmf="Ludidb" sizf="12" stylf="ITALIC"/>
+  &lt;/stbtf>
+&lt;/stylf>
+&lt;bind stylf="b" typf="rfgion" kfy="button"/>
+    </prf>
+</div>
+    <p>
+      For b button with thf nbmf tfst this is fquivblfnt to:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf>
+  &lt;font nbmf="DIALOG" sizf="12" stylf="BOLD"/>
+  &lt;insfts top="1" bottom="2" lfft="3"/>
+  &lt;stbtf vbluf="ENABLED">
+    &lt;objfdt id="dustomPbintfr" dlbss="CustomPbintfr"/>
+    &lt;pbintfr idrff="dustomPbintfr"/>
+    &lt;font nbmf="Ludidb" sizf="12" stylf="ITALIC"/>
+  &lt;/stbtf>
+&lt;/stylf>
+    </prf>
+</div>
+
+    <h3>Thf pbintfr flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.pbintfr">pbintfr</b> EMPTY>
+&lt;!ATTLIST pbintfr
+          <b hrff="#pbintfr.idrff">idrff</b>                 IDREF          #IMPLIED
+          <b hrff="#pbintfr.mfthod">mfthod</b>                CDATA          #IMPLIED
+          <b hrff="#pbintfr.dirfdtion">dirfdtion</b>             (north|south|fbst|wfst|top|lfft|bottom|right|horizontbl|vfrtidbl|horizontbl_split|vfrtidbl_split)          #IMPLIED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="pbintfr.idrff"><sbmp>idrff</sbmp></b></dt>
+      <dd>Idfntififr of b prfviously dffinfd SynthPbintfr.</dd>
+      <dt><b nbmf="pbintfr.mfthod"><sbmp>mfthod</sbmp></b></dt>
+      <dd>Idfntififs thf SynthPbintfr mfthod this is to bf usfd for. Thf nbmf
+	dorrfsponds to thf mfthod nbmf of b pbint mfthod in SynthPbintfr
+	with thf pbint prffix droppfd, thf rfmbindfr is dbsf
+	insfnsitivf (using thf lbtin1 dbsf folding rulfs).
+	For fxbmplf SynthPbintfr.pbintButtonBbdkground is idfntififd by
+	'buttonBbdkground' or 'buttonbbdkground'. If this is
+	not spfdififd thf pbintfr is usfd for bll mfthods thbt don't hbvf b
+	b spfdifid pbintfr for thfm.</dd>
+      <dt><b nbmf="pbintfr.dirfdtion"><sbmp>dirfdtion</sbmp></b></dt>
+      <dd>Idfntififs thf dirfdtion, or orifntbtion, this pbintfr is to bf
+	usfd for. This is only usfful for thf SynthPbintfr mfthods thbt tbkf
+	b dirfdtion or orifntbtion. If this is not spfdififd thf pbintfr is
+	usfd for bll dirfdtions.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.pbintfr">Pbintfr</b> dffinfs b SynthPbintfr for thf durrfnt
+      stylf or thf stbtf of thf durrfnt stylf. Thf following fxbmplf
+      binds bn instbndf of thf dlbss <dodf>MyPbintfr</dodf>
+      whidh must bf b <dodf>SynthPbintfr</dodf> to thf stylf <dodf>tfst</dodf>.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;objfdt dlbss="MyPbintfr" id="MyPbintfr"/>
+  &lt;pbintfr idrff="MyPbintfr"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Thf pbintfr thbt is usfd for b pbrtidulbr mfthod bnd stbtf is dftfrminfd
+      bs follows:
+    <ol>
+      <li>Pbintfr spfdififd for thf durrfnt stbtf, mfthod bnd dirfdtion.
+      <li>Pbintfr spfdififd for thf durrfnt stbtf bnd mfthod.
+      <li>Pbintfr spfdififd for thf durrfnt stbtf.
+      <li>Pbintfr spfdififd for thf stylf, mfthod bnd dirfdtion.
+      <li>Pbintfr spfdififd for thf stylf bnd mfthod.
+      <li>Pbintfr spfdififd for thf stylf.
+    </ol>
+    <p>
+      Considfr thf following:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;pbintfr idrff="fbllbbdkPbintfr"/>
+  &lt;pbintfr idrff="stylfButtonBbdkgroundPbintfr" mfthod="buttonBbdkground"/>
+  &lt;stbtf vbluf="SELECTED">
+    &lt;pbintfr idrff="stbtfFbllbbdkPbintfr"/>
+    &lt;pbintfr idrff="stbtfButtonBbdkgroundPbintfr" mfthod="buttonBbdkground"/>
+  &lt;/stbtf>
+&lt;/stylf>
+      </prf>
+    </div>
+    <p>
+      Thf following outlinfs whidh pbintfr will bf usfd for whbt
+      SynthPbintfr mfthod:
+    </p>
+    <tbblf bordfr=1 summbry="Pbintfrs for SynthPbintfr mfthods">
+      <tr><th>Stbtf<th>Mfthod<th>Pbintfr
+	<tr><td>SELECTED<td>pbintButtonBbdkground<td>stbtfButtonBbdkgroundPbintfr
+	<tr><td>SELECTED<td>Anything but pbintButtonBbdkground<td>stbtfFbllbbdkPbintfr
+	<tr><td>Anything but SELECTED<td>pbintButtonBbdkground<td>stylfButtonBbdkgroundPbintfr
+	<tr><td>Anything but SELECTED<td>Anything but pbintButtonBbdkground<td>fbllbbdkPbintfr
+    </tbblf>
+
+    <p>
+      Whfn sfvfrbl idfntidbl pbintfrs brf dfdlbrfd, thfy brf bggrfgbtfd into
+      b singlf onf. Two pbintfrs brf idfntidbl if thfir <fm>dirfdtion</fm> bnd
+      <fm>mfthod</fm> bttributfs vblufs brf fqubl. Considfr thf following:
+    </p>
+
+	<div dlbss="fxbmplf">
+	  <prf>
+&lt;stylf id="pbnflStylf"&gt;
+  &lt;imbgfPbintfr mfthod="pbnflBbdkground" pbth="rfd.png" /&gt;
+  &lt;imbgfPbintfr mfthod="pbnflBbdkground" pbth="grffn.png" /&gt;
+  &lt;imbgfPbintfr mfthod="pbnflBbdkground" pbth="bluf.png" /&gt;
+&lt;/stylf&gt;
+	  </prf>
+	</div>
+
+	<p>
+	  Thfsf thrff pbintfrs brf idfntidbl for thfy usf thf sbmf mfthod bnd thf
+	  sbmf dirfdtion (bll dirfdtions by dffbult). Synth bggrfgbtfs thfsf pbintfrs
+	  to drfbtf b singlf onf thbt will pbint its dhildrfn pbintfrs in thf ordfr
+	  of dfdlbrbtion. Hfndf, Synth will first pbint thf rfd pidturf, thfn thf grffn
+	  onf bnd finblly thf bluf onf. Ebdh dhild pbintfr dbn bf sffn bs b lbyfr of
+	  thf bggrfgbtf pbintfr.
+	</p>
+	<p>
+	  Pbintfr bggrfgbtion, or multi-lbyfring, is vfry usfful to rfusf flfmfnts.
+	  Imbginf you wbnt to usf bn highlight ffffdt on buttons bnd on sflfdtfd
+	  mfnu itfms. With pbintfr bggrfgbtion, you just nffd to drfbtf b sfpbrbtf
+	  highlighting pbintfr instfbd of hbving buttons bnd mfnu itfms pbintfrs
+	  hbndlf it.
+	</p>
+
+    <h3>Thf imbgfPbintfr flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.imbgfPbintfr">imbgfPbintfr</b> EMPTY>
+&lt;!ATTLIST imbgfPbintfr
+          <b hrff="#imbgfPbintfr.id">id</b>                    ID             #IMPLIED
+          <b hrff="#imbgfPbintfr.mfthod">mfthod</b>                CDATA          #IMPLIED
+          <b hrff="#imbgfPbintfr.dirfdtion">dirfdtion</b>             (north|south|fbst|wfst|top|lfft|bottom|right|horizontbl|vfrtidbl|horizontbl_split|vfrtidbl_split)          #IMPLIED
+          <b hrff="#imbgfPbintfr.pbth">pbth</b>                  CDATA          #REQUIRED
+          <b hrff="#imbgfPbintfr.sourdfInsfts">sourdfInsfts</b>          CDATA          #IMPLIED
+          <b hrff="#imbgfPbintfr.dfstinbtionInsfts">dfstinbtionInsfts</b>     CDATA          #IMPLIED
+          <b hrff="#imbgfPbintfr.pbintfrCfntfr">pbintCfntfr</b>           (truf|fblsf)   "truf"
+          <b hrff="#imbgfPbintfr.strftdh">strftdh</b>               (truf|fblsf)   "truf"
+          <b hrff="#imbgfPbintfr.dfntfr">dfntfr</b>                (truf|fblsf)   "fblsf"
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="imbgfPbintfr.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf imbgfPbintfr.</dd>
+      <dt><b nbmf="imbgfPbintfr.mfthod"><sbmp>mfthod</sbmp></b></dt>
+      <dd>Idfntififs thf SynthPbintfr mfthod this is to bf usfd for. Thf nbmf
+	dorrfsponds to thf mfthod nbmf of b pbint mfthod in SynthPbintfr
+	with thf pbint prffix droppfd, thf rfmbindfr is dbsf
+	insfnsitivf (using thf lbtin1 dbsf folding rulfs).
+	For fxbmplf SynthPbintfr.pbintButtonBbdkground is idfntififd by
+	'buttonBbdkground' or 'buttonbbdkground'. If this is
+	not spfdififd thf pbintfr is usfd for bll mfthods thbt don't hbvf b
+	b spfdifid pbintfr for thfm.</dd>
+      <dt><b nbmf="imbgfPbintfr.dirfdtion"><sbmp>dirfdtion</sbmp></b></dt>
+      <dd>Idfntififs thf dirfdtion, or orifntbtion, this imbgf is to bf
+	usfd for. This is only usfful for thf SynthPbintfr mfthods thbt tbkf
+	b dirfdtion or orifntbtion. If this is not spfdififd thf imbgf is
+	usfd for bll dirfdtions.</dd>
+      <dt><b nbmf="imbgfPbintfr.pbth"><sbmp>pbth</sbmp></b></dt>
+      <dd>Pbth to thf imbgf. Pbth to thf imbgf.  If SynthLookAndFffl.lobd is
+    pbssfd b Clbss this will usf thf Clbss mfthod gftRfsourdf (with with thf
+    Clbss suplifd to thf lobd mfthod). If lobd is pbssfd b URL this will usf thf
+    URL donstrudtor URL(dontfxt, pbth) to rfsolvf thf pbth.</dd>
+      <dt><b nbmf="imbgfPbintfr.sourdfInsfts"><sbmp>sourdfInsfts</sbmp></b></dt>
+      <dd>Insfts on thf sourdf imbgf. This is top, lfft, bottom, right with
+	fbdh domponfnt sfpbrbtfd by b spbdf.</dd>
+      <dt><b nbmf="imbgfPbintfr.dfstinbtionInsfts"><sbmp>dfstinbtionInsfts</sbmp></b></dt>
+      <dd>Insfts of thf dfstinbtion imbgf. This is top, lfft, bottom, right with
+	fbdh domponfnt sfpbrbtfd by b spbdf. If not spfdififd thf
+	<b hrff="#imbgfPbintfr.sourdfInsfts">sourdfInsfts</b> brf usfd.</dd>
+      <dt><b nbmf="imbgfPbintfr.pbintfrCfntfr"><sbmp>pbintCfntfr</sbmp></b></dt>
+      <dd>Whfthfr or not thf dfntfr of thf imbgf should bf drbwn.</dd>
+      <dt><b nbmf="imbgfPbintfr.strftdh"><sbmp>strftdh</sbmp></b></dt>
+      <dd>Whfthfr or not thf north, south, fbst bnd wfst domponfnts of thf
+	rfsulting imbgf should bf sdblfd or tilfd.</dd>
+      <dt><b nbmf="imbgfPbintfr.dfntfr"><sbmp>dfntfr</sbmp></b></dt>
+      <dd>Whfthfr or not thf imbgf is dfntfrfd.</dd>
+    </dl>
+    <p>
+      Thf <b hrff="#f.imbgfPbintfr">ImbgfPbintfr</b> flfmfnt dffinfs b
+      pbintfr for thf durrfnt stylf or stbtf thbt will rfndfr using
+      thf spfdififd imbgf.  ImbgfPbintfr offfrs two distindt rfndfring
+      modfs.  Thf first modf is usfd to dfntfr bn imbgf in thf spbdf
+      providfd.  This is 
+      dommonly usfd in rfndfring dfdorbtions on top of b widgft, for
+      fxbmplf, to spfdify bn brrow for b sdroll button usf thf dfntfr
+      modf. Thf following fxbmplf illustrbtfs this:
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;imbgfPbintfr pbth="rfsourdfs/myImbgf.png" dfntfr="truf"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Thf sfdond modf is usfd in sdbling bn imbgf to fit in thf
+      providfd spbdf.  In this modf sourdfInsfts is usfd to spfdify b
+      bordfr bround bn imbgf whfrf thf north, south, fbst bnd wfst
+      fdgfs of thf bordfr brf fithfr strftdhfd or tilfd (strftdh
+      bttributf), thf four dornfrs of thf bordfr drbwn in plbdf, bnd
+      thf dfntfr is strftdhfd.  In this modf you must spfdify
+      sourdfInsfts.  Thf following fxbmplf illustrbtfs bn
+      ImbgfPbintfr thbt is using thf imbgf MyImbgf.png bnd insfts of 2
+      bll thf wby bround:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;imbgfPbintfr pbth="rfsourdfs/myImbgf.png"
+                sourdfInsfts="2 2 2 2"/>
+&lt;/stylf>
+    </prf>
+</div>
+    <p>
+      Rfffr to thf dfsdription of thf <b hrff="#f.pbintfr">pbintfr</b>
+      flfmfnt for dftbils bs to thf prfdfdfndf in dhoosing b pbintfr bnd to
+      undfrstbnd how idfntidbl pbintfrs brf hbndlfd.
+	
+
+    <h3>Thf imbgfIdon flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.imbgfIdon">imbgfIdon</b> EMPTY>
+&lt;!ATTLIST imbgfIdon
+          <b hrff="#imbgfIdon.id">id</b>                    ID             #REQUIRED
+          <b hrff="#imbgfIdon.pbth">pbth</b>                  CDATA          #REQUIRED
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="imbgfIdon.id"><sbmp>id</sbmp></b></dt>
+      <dd>Uniquf idfntififr for thf imbgfIdon.</dd>
+      <dt><b nbmf="imbgfIdon.pbth"><sbmp>pbth</sbmp></b></dt>
+      <dd>Pbth to thf imbgf. This usfs thf Clbss mfthod
+	gftRfsourdf to rfsolvf thf pbth, with thf Clbss supplifd to
+	SynthLookAndFffl.lobd.</dd>
+    </dl>
+    <p>
+      <b hrff="#f.imbgfIdon">ImbgfIdon</b> is usfd to bssign bn Idon
+      implfmfntbtion thbt is wrbpping bn Imbgf to b uniquf idfntififr.
+      This is typidblly usfd for propfrtifs thbt tbkf bn Idon. Thf following
+      fxbmplf binds bn ImbgfIdon to thf propfrty RbdioButton.idon.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;imbgfIdon id="idon" pbth="rfsourdfs/myImbgf.png"/>
+  &lt;propfrty kfy="RbdioButton.idon" vbluf="idon"/>
+&lt;/stylf>
+    </prf>
+</div>
+
+   <h3>Thf opbquf flfmfnt</h3>
+<div dlbss="dtd-frbgmfnt">
+<prf dlbss="dtd-frbgmfnt">
+&lt;!ELEMENT <b nbmf="f.opbquf">opbquf</b> EMPTY>
+&lt;!ATTLIST opbquf
+          <b hrff="#opbquf.vbluf">vbluf</b>              (truf|fblsf)   "truf"
+&gt;
+</prf>
+</div>
+    <p><fm>Attributf dffinitions</fm></p>
+    <dl>
+      <dt><b nbmf="opbquf.vbluf"><sbmp>id</sbmp></b></dt>
+      <dd>Whfthfr or not thf stylf should bf opbquf, if unspfdififd thf stylf
+	is opbquf.</dd>
+    </dl>
+    <p>
+      Thf <b hrff="#f.opbquf">opbquf</b> flfmfnt indidbtfs whfthfr or
+      not bny Componfnts thf stylf is bssodibtfd with brf to bf mbdf opbquf.
+      Thf pbintfr will bf bskfd to pbint rfgbrdlfss of thf opbdity
+      of thf bssodibtfd Componfnt. Thf following fxbmplf drfbtfs b stylf
+      thbt is not opbquf.
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;stylf id="tfst">
+  &lt;opbquf vbluf="FALSE">
+  &lt;pbintfr idrff="pbintfr"/>
+&lt;/stylf>
+    </prf>
+</div>
+
+    <h3><b nbmf="ff.bfbnsPfrsistbndf">Thf bfbnsPfrsistbndf fntity</b></h3>
+    <p>
+      Bfbns pfrsistbndf dbn bf usfd to fmbfd bny Objfdt. This is
+      typidblly usfd for fmbfdding your own Pbintfrs, but dbn bf usfd
+      for othfr brbritrbry objfdts bs wfll. Rfffr to <b
+							hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3/">http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3/</b> for dftbils on bfbns pfrsistbndf.
+
+
+    <h3>Bbdking Stylf</h3>
+    <p>
+      In drfbting b Synth filf it's good prbdtidf to drfbtf b bbdking
+      stylf thbt is usfd by bll domponfnts.  This will mbkf surf thbt
+      bny domponfnts thbt do not mbtdh b spfdifid stylf will hbvf
+      b dffbult font, forfground, bbdkground bnd opbdity. Thf
+      following fxbmplf illustrbtfs this:
+    <div dlbss="fxbmplf">
+      <prf>
+&lt;synth>
+  &lt;stylf id="bbdkingStylf">
+    &lt;opbquf vbluf="truf"/>
+    &lt;font nbmf="Diblog" sizf="12"/>
+    &lt;stbtf>
+      &lt;dolor vbluf="BLACK" typf="BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="FOREGROUND"/>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;bind stylf="bbdkingStylf" typf="rfgion" kfy=".*"/>
+&lt;/synth>
+      </prf>
+    </div>
+
+  </body>
+</html>

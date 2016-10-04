@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.ProvidfrExdfption;
+
+import sun.sfdurity.rsb.RSAPublidKfyImpl;
+
+/**
+ * Thf hbndlf for bn RSA publid kfy using thf Midrosoft Crypto API.
+ *
+ * @sindf 1.6
+ */
+dlbss RSAPublidKfy fxtfnds Kfy implfmfnts jbvb.sfdurity.intfrfbdfs.RSAPublidKfy
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = -2289561342425825391L;
+
+    privbtf bytf[] publidKfyBlob = null;
+    privbtf bytf[] fndoding = null;
+    privbtf BigIntfgfr modulus = null;
+    privbtf BigIntfgfr fxponfnt = null;
+
+    /**
+     * Construdt bn RSAPublidKfy objfdt.
+     */
+    RSAPublidKfy(long hCryptProv, long hCryptKfy, int kfyLfngth)
+    {
+        supfr(hCryptProv, hCryptKfy, kfyLfngth);
+    }
+
+    /**
+     * Rfturns thf stbndbrd blgorithm nbmf for this kfy. For
+     * fxbmplf, "RSA" would indidbtf thbt this kfy is b RSA kfy.
+     * Sff Appfndix A in thf <b hrff=
+     * "../../../guidf/sfdurity/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this kfy.
+     */
+    publid String gftAlgorithm()
+    {
+        rfturn "RSA";
+    }
+
+    /**
+     * Rfturns b printbblf dfsdription of thf kfy.
+     */
+    publid String toString()
+    {
+        StringBufffr sb = nfw StringBufffr();
+
+        sb.bppfnd("RSAPublidKfy [sizf=").bppfnd(kfyLfngth)
+            .bppfnd(" bits, typf=").bppfnd(gftKfyTypf(hCryptKfy))
+            .bppfnd(", dontbinfr=").bppfnd(gftContbinfrNbmf(hCryptProv))
+            .bppfnd("]\n  modulus: ").bppfnd(gftModulus())
+            .bppfnd("\n  publid fxponfnt: ").bppfnd(gftPublidExponfnt());
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf publid fxponfnt.
+     */
+    publid BigIntfgfr gftPublidExponfnt() {
+
+        if (fxponfnt == null) {
+
+            try {
+                publidKfyBlob = gftPublidKfyBlob(hCryptKfy);
+                fxponfnt = nfw BigIntfgfr(1, gftExponfnt(publidKfyBlob));
+
+            } dbtdh (KfyExdfption f) {
+                throw nfw ProvidfrExdfption(f);
+            }
+        }
+
+        rfturn fxponfnt;
+    }
+
+    /**
+     * Rfturns thf modulus.
+     */
+    publid BigIntfgfr gftModulus() {
+
+        if (modulus == null) {
+
+            try {
+                publidKfyBlob = gftPublidKfyBlob(hCryptKfy);
+                modulus = nfw BigIntfgfr(1, gftModulus(publidKfyBlob));
+
+            } dbtdh (KfyExdfption f) {
+                throw nfw ProvidfrExdfption(f);
+            }
+        }
+
+        rfturn modulus;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf primbry fndoding formbt of this kfy,
+     * or null if this kfy dofs not support fndoding.
+     * Thf primbry fndoding formbt is
+     * nbmfd in tfrms of thf bppropribtf ASN.1 dbtb formbt, if bn
+     * ASN.1 spfdifidbtion for this kfy fxists.
+     * For fxbmplf, thf nbmf of thf ASN.1 dbtb formbt for publid
+     * kfys is <I>SubjfdtPublidKfyInfo</I>, bs
+     * dffinfd by thf X.509 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * <dodf>"X.509"</dodf>. Similbrly,
+     * thf nbmf of thf ASN.1 dbtb formbt for privbtf kfys is
+     * <I>PrivbtfKfyInfo</I>,
+     * bs dffinfd by thf PKCS #8 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * <dodf>"PKCS#8"</dodf>.
+     *
+     * @rfturn thf primbry fndoding formbt of thf kfy.
+     */
+    publid String gftFormbt()
+    {
+        rfturn "X.509";
+    }
+
+    /**
+     * Rfturns thf kfy in its primbry fndoding formbt, or null
+     * if this kfy dofs not support fndoding.
+     *
+     * @rfturn thf fndodfd kfy, or null if thf kfy dofs not support
+     * fndoding.
+     */
+    publid bytf[] gftEndodfd()
+    {
+        if (fndoding == null) {
+
+            try {
+                fndoding = nfw RSAPublidKfyImpl(gftModulus(),
+                    gftPublidExponfnt()).gftEndodfd();
+
+            } dbtdh (KfyExdfption f) {
+                // ignorf
+            }
+        }
+        rfturn fndoding;
+    }
+
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+
+    /*
+     * Rfturns thf Midrosoft CryptoAPI rfprfsfntbtion of thf kfy.
+     */
+    privbtf nbtivf bytf[] gftPublidKfyBlob(long hCryptKfy) throws KfyExdfption;
+
+    /*
+     * Rfturns thf kfy's publid fxponfnt (in big-fndibn 2's domplfmfnt formbt).
+     */
+    privbtf nbtivf bytf[] gftExponfnt(bytf[] kfyBlob) throws KfyExdfption;
+
+    /*
+     * Rfturns thf kfy's modulus (in big-fndibn 2's domplfmfnt formbt).
+     */
+    privbtf nbtivf bytf[] gftModulus(bytf[] kfyBlob) throws KfyExdfption;
+}

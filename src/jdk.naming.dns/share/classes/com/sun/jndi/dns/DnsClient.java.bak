@@ -1,732 +1,732 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.security.SecureRandom;
-import javax.naming.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.DbtbgrbmSodkft;
+import jbvb.nft.DbtbgrbmPbdkft;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvbx.nbming.*;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.HashMap;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
-// Some of this code began life as part of sun.javaos.net.DnsClient
-// originally by sritchie@eng 1/96.  It was first hacked up for JNDI
-// use by caveh@eng 6/97.
+// Somf of tiis dodf bfgbn liff bs pbrt of sun.jbvbos.nft.DnsClifnt
+// originblly by sritdiif@fng 1/96.  It wbs first ibdkfd up for JNDI
+// usf by dbvfi@fng 6/97.
 
 
 /**
- * The DnsClient class performs DNS client operations in support of DnsContext.
+ * Tif DnsClifnt dlbss pfrforms DNS dlifnt opfrbtions in support of DnsContfxt.
  *
  */
 
-public class DnsClient {
+publid dlbss DnsClifnt {
 
-    // DNS packet header field offsets
-    private static final int IDENT_OFFSET = 0;
-    private static final int FLAGS_OFFSET = 2;
-    private static final int NUMQ_OFFSET  = 4;
-    private static final int NUMANS_OFFSET = 6;
-    private static final int NUMAUTH_OFFSET = 8;
-    private static final int NUMADD_OFFSET = 10;
-    private static final int DNS_HDR_SIZE = 12;
+    // DNS pbdkft ifbdfr fifld offsfts
+    privbtf stbtid finbl int IDENT_OFFSET = 0;
+    privbtf stbtid finbl int FLAGS_OFFSET = 2;
+    privbtf stbtid finbl int NUMQ_OFFSET  = 4;
+    privbtf stbtid finbl int NUMANS_OFFSET = 6;
+    privbtf stbtid finbl int NUMAUTH_OFFSET = 8;
+    privbtf stbtid finbl int NUMADD_OFFSET = 10;
+    privbtf stbtid finbl int DNS_HDR_SIZE = 12;
 
-    // DNS response codes
-    private static final int NO_ERROR       = 0;
-    private static final int FORMAT_ERROR   = 1;
-    private static final int SERVER_FAILURE = 2;
-    private static final int NAME_ERROR     = 3;
-    private static final int NOT_IMPL       = 4;
-    private static final int REFUSED        = 5;
+    // DNS rfsponsf dodfs
+    privbtf stbtid finbl int NO_ERROR       = 0;
+    privbtf stbtid finbl int FORMAT_ERROR   = 1;
+    privbtf stbtid finbl int SERVER_FAILURE = 2;
+    privbtf stbtid finbl int NAME_ERROR     = 3;
+    privbtf stbtid finbl int NOT_IMPL       = 4;
+    privbtf stbtid finbl int REFUSED        = 5;
 
-    private static final String[] rcodeDescription = {
-        "No error",
-        "DNS format error",
-        "DNS server failure",
-        "DNS name not found",
-        "DNS operation not supported",
-        "DNS service refused"
+    privbtf stbtid finbl String[] rdodfDfsdription = {
+        "No frror",
+        "DNS formbt frror",
+        "DNS sfrvfr fbilurf",
+        "DNS nbmf not found",
+        "DNS opfrbtion not supportfd",
+        "DNS sfrvidf rffusfd"
     };
 
-    private static final int DEFAULT_PORT = 53;
-    private static final int TRANSACTION_ID_BOUND = 0x10000;
-    private static final SecureRandom random = JCAUtil.getSecureRandom();
-    private InetAddress[] servers;
-    private int[] serverPorts;
-    private int timeout;                // initial timeout on UDP queries in ms
-    private int retries;                // number of UDP retries
+    privbtf stbtid finbl int DEFAULT_PORT = 53;
+    privbtf stbtid finbl int TRANSACTION_ID_BOUND = 0x10000;
+    privbtf stbtid finbl SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+    privbtf InftAddrfss[] sfrvfrs;
+    privbtf int[] sfrvfrPorts;
+    privbtf int timfout;                // initibl timfout on UDP qufrifs in ms
+    privbtf int rftrifs;                // numbfr of UDP rftrifs
 
-    private DatagramSocket udpSocket;
+    privbtf DbtbgrbmSodkft udpSodkft;
 
-    // Requests sent
-    private Map<Integer, ResourceRecord> reqs;
+    // Rfqufsts sfnt
+    privbtf Mbp<Intfgfr, RfsourdfRfdord> rfqs;
 
-    // Responses received
-    private Map<Integer, byte[]> resps;
+    // Rfsponsfs rfdfivfd
+    privbtf Mbp<Intfgfr, bytf[]> rfsps;
 
     //-------------------------------------------------------------------------
 
     /*
-     * Each server is of the form "server[:port]".  IPv6 literal host names
-     * include delimiting brackets.
-     * "timeout" is the initial timeout interval (in ms) for UDP queries,
-     * and "retries" gives the number of retries per server.
+     * Ebdi sfrvfr is of tif form "sfrvfr[:port]".  IPv6 litfrbl iost nbmfs
+     * indludf dflimiting brbdkfts.
+     * "timfout" is tif initibl timfout intfrvbl (in ms) for UDP qufrifs,
+     * bnd "rftrifs" givfs tif numbfr of rftrifs pfr sfrvfr.
      */
-    public DnsClient(String[] servers, int timeout, int retries)
-            throws NamingException {
-        this.timeout = timeout;
-        this.retries = retries;
+    publid DnsClifnt(String[] sfrvfrs, int timfout, int rftrifs)
+            tirows NbmingExdfption {
+        tiis.timfout = timfout;
+        tiis.rftrifs = rftrifs;
         try {
-            udpSocket = new DatagramSocket();
-        } catch (java.net.SocketException e) {
-            NamingException ne = new ConfigurationException();
-            ne.setRootCause(e);
-            throw ne;
+            udpSodkft = nfw DbtbgrbmSodkft();
+        } dbtdi (jbvb.nft.SodkftExdfption f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
 
-        this.servers = new InetAddress[servers.length];
-        serverPorts = new int[servers.length];
+        tiis.sfrvfrs = nfw InftAddrfss[sfrvfrs.lfngti];
+        sfrvfrPorts = nfw int[sfrvfrs.lfngti];
 
-        for (int i = 0; i < servers.length; i++) {
+        for (int i = 0; i < sfrvfrs.lfngti; i++) {
 
-            // Is optional port given?
-            int colon = servers[i].indexOf(':',
-                                           servers[i].indexOf(']') + 1);
+            // Is optionbl port givfn?
+            int dolon = sfrvfrs[i].indfxOf(':',
+                                           sfrvfrs[i].indfxOf(']') + 1);
 
-            serverPorts[i] = (colon < 0)
+            sfrvfrPorts[i] = (dolon < 0)
                 ? DEFAULT_PORT
-                : Integer.parseInt(servers[i].substring(colon + 1));
-            String server = (colon < 0)
-                ? servers[i]
-                : servers[i].substring(0, colon);
+                : Intfgfr.pbrsfInt(sfrvfrs[i].substring(dolon + 1));
+            String sfrvfr = (dolon < 0)
+                ? sfrvfrs[i]
+                : sfrvfrs[i].substring(0, dolon);
             try {
-                this.servers[i] = InetAddress.getByName(server);
-            } catch (java.net.UnknownHostException e) {
-                NamingException ne = new ConfigurationException(
-                        "Unknown DNS server: " + server);
-                ne.setRootCause(e);
-                throw ne;
+                tiis.sfrvfrs[i] = InftAddrfss.gftByNbmf(sfrvfr);
+            } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+                NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                        "Unknown DNS sfrvfr: " + sfrvfr);
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
         }
-        reqs = Collections.synchronizedMap(
-            new HashMap<Integer, ResourceRecord>());
-        resps = Collections.synchronizedMap(new HashMap<Integer, byte[]>());
+        rfqs = Collfdtions.syndironizfdMbp(
+            nfw HbsiMbp<Intfgfr, RfsourdfRfdord>());
+        rfsps = Collfdtions.syndironizfdMbp(nfw HbsiMbp<Intfgfr, bytf[]>());
     }
 
-    protected void finalize() {
-        close();
+    protfdtfd void finblizf() {
+        dlosf();
     }
 
-    // A lock to access the request and response queues in tandem.
-    private Object queuesLock = new Object();
+    // A lodk to bddfss tif rfqufst bnd rfsponsf qufufs in tbndfm.
+    privbtf Objfdt qufufsLodk = nfw Objfdt();
 
-    public void close() {
-        udpSocket.close();
-        synchronized (queuesLock) {
-            reqs.clear();
-            resps.clear();
+    publid void dlosf() {
+        udpSodkft.dlosf();
+        syndironizfd (qufufsLodk) {
+            rfqs.dlfbr();
+            rfsps.dlfbr();
         }
     }
 
     /*
-     * If recursion is true, recursion is requested on the query.
-     * If auth is true, only authoritative responses are accepted; other
-     * responses throw NameNotFoundException.
+     * If rfdursion is truf, rfdursion is rfqufstfd on tif qufry.
+     * If buti is truf, only butioritbtivf rfsponsfs brf bddfptfd; otifr
+     * rfsponsfs tirow NbmfNotFoundExdfption.
      */
-    ResourceRecords query(DnsName fqdn, int qclass, int qtype,
-                          boolean recursion, boolean auth)
-            throws NamingException {
+    RfsourdfRfdords qufry(DnsNbmf fqdn, int qdlbss, int qtypf,
+                          boolfbn rfdursion, boolfbn buti)
+            tirows NbmingExdfption {
 
         int xid;
-        Packet pkt;
-        ResourceRecord collision;
+        Pbdkft pkt;
+        RfsourdfRfdord dollision;
 
         do {
-            // Generate a random transaction ID
-            xid = random.nextInt(TRANSACTION_ID_BOUND);
-            pkt = makeQueryPacket(fqdn, xid, qclass, qtype, recursion);
+            // Gfnfrbtf b rbndom trbnsbdtion ID
+            xid = rbndom.nfxtInt(TRANSACTION_ID_BOUND);
+            pkt = mbkfQufryPbdkft(fqdn, xid, qdlbss, qtypf, rfdursion);
 
-            // enqueue the outstanding request
-            collision = reqs.putIfAbsent(xid, new ResourceRecord(pkt.getData(),
-                pkt.length(), Header.HEADER_SIZE, true, false));
+            // fnqufuf tif outstbnding rfqufst
+            dollision = rfqs.putIfAbsfnt(xid, nfw RfsourdfRfdord(pkt.gftDbtb(),
+                pkt.lfngti(), Hfbdfr.HEADER_SIZE, truf, fblsf));
 
-        } while (collision != null);
+        } wiilf (dollision != null);
 
-        Exception caughtException = null;
-        boolean[] doNotRetry = new boolean[servers.length];
+        Exdfption dbugitExdfption = null;
+        boolfbn[] doNotRftry = nfw boolfbn[sfrvfrs.lfngti];
 
         //
-        // The UDP retry strategy is to try the 1st server, and then
-        // each server in order. If no answer, double the timeout
-        // and try each server again.
+        // Tif UDP rftry strbtfgy is to try tif 1st sfrvfr, bnd tifn
+        // fbdi sfrvfr in ordfr. If no bnswfr, doublf tif timfout
+        // bnd try fbdi sfrvfr bgbin.
         //
-        for (int retry = 0; retry < retries; retry++) {
+        for (int rftry = 0; rftry < rftrifs; rftry++) {
 
-            // Try each name server.
-            for (int i = 0; i < servers.length; i++) {
-                if (doNotRetry[i]) {
-                    continue;
+            // Try fbdi nbmf sfrvfr.
+            for (int i = 0; i < sfrvfrs.lfngti; i++) {
+                if (doNotRftry[i]) {
+                    dontinuf;
                 }
 
-                // send the request packet and wait for a response.
+                // sfnd tif rfqufst pbdkft bnd wbit for b rfsponsf.
                 try {
-                    if (debug) {
-                        dprint("SEND ID (" + (retry + 1) + "): " + xid);
+                    if (dfbug) {
+                        dprint("SEND ID (" + (rftry + 1) + "): " + xid);
                     }
 
-                    byte[] msg = null;
-                    msg = doUdpQuery(pkt, servers[i], serverPorts[i],
-                                        retry, xid);
+                    bytf[] msg = null;
+                    msg = doUdpQufry(pkt, sfrvfrs[i], sfrvfrPorts[i],
+                                        rftry, xid);
                     //
-                    // If the matching response is not got within the
-                    // given timeout, check if the response was enqueued
-                    // by some other thread, if not proceed with the next
-                    // server or retry.
+                    // If tif mbtdiing rfsponsf is not got witiin tif
+                    // givfn timfout, difdk if tif rfsponsf wbs fnqufufd
+                    // by somf otifr tirfbd, if not prodffd witi tif nfxt
+                    // sfrvfr or rftry.
                     //
                     if (msg == null) {
-                        if (resps.size() > 0) {
-                            msg = lookupResponse(xid);
+                        if (rfsps.sizf() > 0) {
+                            msg = lookupRfsponsf(xid);
                         }
-                        if (msg == null) { // try next server or retry
-                            continue;
+                        if (msg == null) { // try nfxt sfrvfr or rftry
+                            dontinuf;
                         }
                     }
-                    Header hdr = new Header(msg, msg.length);
+                    Hfbdfr idr = nfw Hfbdfr(msg, msg.lfngti);
 
-                    if (auth && !hdr.authoritative) {
-                        caughtException = new NameNotFoundException(
-                                "DNS response not authoritative");
-                        doNotRetry[i] = true;
-                        continue;
+                    if (buti && !idr.butioritbtivf) {
+                        dbugitExdfption = nfw NbmfNotFoundExdfption(
+                                "DNS rfsponsf not butioritbtivf");
+                        doNotRftry[i] = truf;
+                        dontinuf;
                     }
-                    if (hdr.truncated) {    // message is truncated -- try TCP
+                    if (idr.trundbtfd) {    // mfssbgf is trundbtfd -- try TCP
 
-                        // Try each server, starting with the one that just
-                        // provided the truncated message.
-                        for (int j = 0; j < servers.length; j++) {
-                            int ij = (i + j) % servers.length;
-                            if (doNotRetry[ij]) {
-                                continue;
+                        // Try fbdi sfrvfr, stbrting witi tif onf tibt just
+                        // providfd tif trundbtfd mfssbgf.
+                        for (int j = 0; j < sfrvfrs.lfngti; j++) {
+                            int ij = (i + j) % sfrvfrs.lfngti;
+                            if (doNotRftry[ij]) {
+                                dontinuf;
                             }
                             try {
-                                Tcp tcp =
-                                    new Tcp(servers[ij], serverPorts[ij]);
-                                byte[] msg2;
+                                Tdp tdp =
+                                    nfw Tdp(sfrvfrs[ij], sfrvfrPorts[ij]);
+                                bytf[] msg2;
                                 try {
-                                    msg2 = doTcpQuery(tcp, pkt);
-                                } finally {
-                                    tcp.close();
+                                    msg2 = doTdpQufry(tdp, pkt);
+                                } finblly {
+                                    tdp.dlosf();
                                 }
-                                Header hdr2 = new Header(msg2, msg2.length);
-                                if (hdr2.query) {
-                                    throw new CommunicationException(
-                                        "DNS error: expecting response");
+                                Hfbdfr idr2 = nfw Hfbdfr(msg2, msg2.lfngti);
+                                if (idr2.qufry) {
+                                    tirow nfw CommunidbtionExdfption(
+                                        "DNS frror: fxpfdting rfsponsf");
                                 }
-                                checkResponseCode(hdr2);
+                                difdkRfsponsfCodf(idr2);
 
-                                if (!auth || hdr2.authoritative) {
-                                    // Got a valid response
-                                    hdr = hdr2;
+                                if (!buti || idr2.butioritbtivf) {
+                                    // Got b vblid rfsponsf
+                                    idr = idr2;
                                     msg = msg2;
-                                    break;
-                                } else {
-                                    doNotRetry[ij] = true;
+                                    brfbk;
+                                } flsf {
+                                    doNotRftry[ij] = truf;
                                 }
-                            } catch (Exception e) {
-                                // Try next server, or use UDP response
+                            } dbtdi (Exdfption f) {
+                                // Try nfxt sfrvfr, or usf UDP rfsponsf
                             }
-                        } // servers
+                        } // sfrvfrs
                     }
-                    return new ResourceRecords(msg, msg.length, hdr, false);
+                    rfturn nfw RfsourdfRfdords(msg, msg.lfngti, idr, fblsf);
 
-                } catch (IOException e) {
-                    if (debug) {
-                        dprint("Caught IOException:" + e);
+                } dbtdi (IOExdfption f) {
+                    if (dfbug) {
+                        dprint("Cbugit IOExdfption:" + f);
                     }
-                    if (caughtException == null) {
-                        caughtException = e;
+                    if (dbugitExdfption == null) {
+                        dbugitExdfption = f;
                     }
-                    // Use reflection to allow pre-1.4 compilation.
-                    // This won't be needed much longer.
-                    if (e.getClass().getName().equals(
-                            "java.net.PortUnreachableException")) {
-                        doNotRetry[i] = true;
+                    // Usf rfflfdtion to bllow prf-1.4 dompilbtion.
+                    // Tiis won't bf nffdfd mudi longfr.
+                    if (f.gftClbss().gftNbmf().fqubls(
+                            "jbvb.nft.PortUnrfbdibblfExdfption")) {
+                        doNotRftry[i] = truf;
                     }
-                } catch (NameNotFoundException e) {
-                    throw e;
-                } catch (CommunicationException e) {
-                    if (caughtException == null) {
-                        caughtException = e;
+                } dbtdi (NbmfNotFoundExdfption f) {
+                    tirow f;
+                } dbtdi (CommunidbtionExdfption f) {
+                    if (dbugitExdfption == null) {
+                        dbugitExdfption = f;
                     }
-                } catch (NamingException e) {
-                    if (caughtException == null) {
-                        caughtException = e;
+                } dbtdi (NbmingExdfption f) {
+                    if (dbugitExdfption == null) {
+                        dbugitExdfption = f;
                     }
-                    doNotRetry[i] = true;
+                    doNotRftry[i] = truf;
                 }
-            } // servers
-        } // retries
+            } // sfrvfrs
+        } // rftrifs
 
-        reqs.remove(xid);
-        if (caughtException instanceof NamingException) {
-            throw (NamingException) caughtException;
+        rfqs.rfmovf(xid);
+        if (dbugitExdfption instbndfof NbmingExdfption) {
+            tirow (NbmingExdfption) dbugitExdfption;
         }
-        // A network timeout or other error occurred.
-        NamingException ne = new CommunicationException("DNS error");
-        ne.setRootCause(caughtException);
-        throw ne;
+        // A nftwork timfout or otifr frror oddurrfd.
+        NbmingExdfption nf = nfw CommunidbtionExdfption("DNS frror");
+        nf.sftRootCbusf(dbugitExdfption);
+        tirow nf;
     }
 
-    ResourceRecords queryZone(DnsName zone, int qclass, boolean recursion)
-            throws NamingException {
+    RfsourdfRfdords qufryZonf(DnsNbmf zonf, int qdlbss, boolfbn rfdursion)
+            tirows NbmingExdfption {
 
-        int xid = random.nextInt(TRANSACTION_ID_BOUND);
+        int xid = rbndom.nfxtInt(TRANSACTION_ID_BOUND);
 
-        Packet pkt = makeQueryPacket(zone, xid, qclass,
-                                     ResourceRecord.QTYPE_AXFR, recursion);
-        Exception caughtException = null;
+        Pbdkft pkt = mbkfQufryPbdkft(zonf, xid, qdlbss,
+                                     RfsourdfRfdord.QTYPE_AXFR, rfdursion);
+        Exdfption dbugitExdfption = null;
 
-        // Try each name server.
-        for (int i = 0; i < servers.length; i++) {
+        // Try fbdi nbmf sfrvfr.
+        for (int i = 0; i < sfrvfrs.lfngti; i++) {
             try {
-                Tcp tcp = new Tcp(servers[i], serverPorts[i]);
-                byte[] msg;
+                Tdp tdp = nfw Tdp(sfrvfrs[i], sfrvfrPorts[i]);
+                bytf[] msg;
                 try {
-                    msg = doTcpQuery(tcp, pkt);
-                    Header hdr = new Header(msg, msg.length);
-                    // Check only rcode as per
-                    // draft-ietf-dnsext-axfr-clarify-04
-                    checkResponseCode(hdr);
-                    ResourceRecords rrs =
-                        new ResourceRecords(msg, msg.length, hdr, true);
-                    if (rrs.getFirstAnsType() != ResourceRecord.TYPE_SOA) {
-                        throw new CommunicationException(
-                                "DNS error: zone xfer doesn't begin with SOA");
+                    msg = doTdpQufry(tdp, pkt);
+                    Hfbdfr idr = nfw Hfbdfr(msg, msg.lfngti);
+                    // Cifdk only rdodf bs pfr
+                    // drbft-iftf-dnsfxt-bxfr-dlbrify-04
+                    difdkRfsponsfCodf(idr);
+                    RfsourdfRfdords rrs =
+                        nfw RfsourdfRfdords(msg, msg.lfngti, idr, truf);
+                    if (rrs.gftFirstAnsTypf() != RfsourdfRfdord.TYPE_SOA) {
+                        tirow nfw CommunidbtionExdfption(
+                                "DNS frror: zonf xffr dofsn't bfgin witi SOA");
                     }
 
-                    if (rrs.answer.size() == 1 ||
-                            rrs.getLastAnsType() != ResourceRecord.TYPE_SOA) {
-                        // The response is split into multiple DNS messages.
+                    if (rrs.bnswfr.sizf() == 1 ||
+                            rrs.gftLbstAnsTypf() != RfsourdfRfdord.TYPE_SOA) {
+                        // Tif rfsponsf is split into multiplf DNS mfssbgfs.
                         do {
-                            msg = continueTcpQuery(tcp);
+                            msg = dontinufTdpQufry(tdp);
                             if (msg == null) {
-                                throw new CommunicationException(
-                                        "DNS error: incomplete zone transfer");
+                                tirow nfw CommunidbtionExdfption(
+                                        "DNS frror: indomplftf zonf trbnsffr");
                             }
-                            hdr = new Header(msg, msg.length);
-                            checkResponseCode(hdr);
-                            rrs.add(msg, msg.length, hdr);
-                        } while (rrs.getLastAnsType() !=
-                                 ResourceRecord.TYPE_SOA);
+                            idr = nfw Hfbdfr(msg, msg.lfngti);
+                            difdkRfsponsfCodf(idr);
+                            rrs.bdd(msg, msg.lfngti, idr);
+                        } wiilf (rrs.gftLbstAnsTypf() !=
+                                 RfsourdfRfdord.TYPE_SOA);
                     }
 
-                    // Delete the duplicate SOA record.
-                    rrs.answer.removeElementAt(rrs.answer.size() - 1);
-                    return rrs;
+                    // Dflftf tif duplidbtf SOA rfdord.
+                    rrs.bnswfr.rfmovfElfmfntAt(rrs.bnswfr.sizf() - 1);
+                    rfturn rrs;
 
-                } finally {
-                    tcp.close();
+                } finblly {
+                    tdp.dlosf();
                 }
 
-            } catch (IOException e) {
-                caughtException = e;
-            } catch (NameNotFoundException e) {
-                throw e;
-            } catch (NamingException e) {
-                caughtException = e;
+            } dbtdi (IOExdfption f) {
+                dbugitExdfption = f;
+            } dbtdi (NbmfNotFoundExdfption f) {
+                tirow f;
+            } dbtdi (NbmingExdfption f) {
+                dbugitExdfption = f;
             }
         }
-        if (caughtException instanceof NamingException) {
-            throw (NamingException) caughtException;
+        if (dbugitExdfption instbndfof NbmingExdfption) {
+            tirow (NbmingExdfption) dbugitExdfption;
         }
-        NamingException ne = new CommunicationException(
-                "DNS error during zone transfer");
-        ne.setRootCause(caughtException);
-        throw ne;
+        NbmingExdfption nf = nfw CommunidbtionExdfption(
+                "DNS frror during zonf trbnsffr");
+        nf.sftRootCbusf(dbugitExdfption);
+        tirow nf;
     }
 
 
     /**
-     * Tries to retrieve a UDP packet matching the given xid
-     * received within the timeout.
-     * If a packet with different xid is received, the received packet
-     * is enqueued with the corresponding xid in 'resps'.
+     * Trifs to rftrifvf b UDP pbdkft mbtdiing tif givfn xid
+     * rfdfivfd witiin tif timfout.
+     * If b pbdkft witi difffrfnt xid is rfdfivfd, tif rfdfivfd pbdkft
+     * is fnqufufd witi tif dorrfsponding xid in 'rfsps'.
      */
-    private byte[] doUdpQuery(Packet pkt, InetAddress server,
-                                     int port, int retry, int xid)
-            throws IOException, NamingException {
+    privbtf bytf[] doUdpQufry(Pbdkft pkt, InftAddrfss sfrvfr,
+                                     int port, int rftry, int xid)
+            tirows IOExdfption, NbmingExdfption {
 
-        int minTimeout = 50; // msec after which there are no retries.
+        int minTimfout = 50; // msfd bftfr wiidi tifrf brf no rftrifs.
 
-        synchronized (udpSocket) {
-            DatagramPacket opkt = new DatagramPacket(
-                    pkt.getData(), pkt.length(), server, port);
-            DatagramPacket ipkt = new DatagramPacket(new byte[8000], 8000);
-            // Packets may only be sent to or received from this server address
-            udpSocket.connect(server, port);
-            int pktTimeout = (timeout * (1 << retry));
+        syndironizfd (udpSodkft) {
+            DbtbgrbmPbdkft opkt = nfw DbtbgrbmPbdkft(
+                    pkt.gftDbtb(), pkt.lfngti(), sfrvfr, port);
+            DbtbgrbmPbdkft ipkt = nfw DbtbgrbmPbdkft(nfw bytf[8000], 8000);
+            // Pbdkfts mby only bf sfnt to or rfdfivfd from tiis sfrvfr bddrfss
+            udpSodkft.donnfdt(sfrvfr, port);
+            int pktTimfout = (timfout * (1 << rftry));
             try {
-                udpSocket.send(opkt);
+                udpSodkft.sfnd(opkt);
 
-                // timeout remaining after successive 'receive()'
-                int timeoutLeft = pktTimeout;
-                int cnt = 0;
+                // timfout rfmbining bftfr suddfssivf 'rfdfivf()'
+                int timfoutLfft = pktTimfout;
+                int dnt = 0;
                 do {
-                    if (debug) {
-                       cnt++;
+                    if (dfbug) {
+                       dnt++;
                         dprint("Trying RECEIVE(" +
-                                cnt + ") retry(" + (retry + 1) +
-                                ") for:" + xid  + "    sock-timeout:" +
-                                timeoutLeft + " ms.");
+                                dnt + ") rftry(" + (rftry + 1) +
+                                ") for:" + xid  + "    sodk-timfout:" +
+                                timfoutLfft + " ms.");
                     }
-                    udpSocket.setSoTimeout(timeoutLeft);
-                    long start = System.currentTimeMillis();
-                    udpSocket.receive(ipkt);
-                    long end = System.currentTimeMillis();
+                    udpSodkft.sftSoTimfout(timfoutLfft);
+                    long stbrt = Systfm.durrfntTimfMillis();
+                    udpSodkft.rfdfivf(ipkt);
+                    long fnd = Systfm.durrfntTimfMillis();
 
-                    byte[] data = ipkt.getData();
-                    if (isMatchResponse(data, xid)) {
-                        return data;
+                    bytf[] dbtb = ipkt.gftDbtb();
+                    if (isMbtdiRfsponsf(dbtb, xid)) {
+                        rfturn dbtb;
                     }
-                    timeoutLeft = pktTimeout - ((int) (end - start));
-                } while (timeoutLeft > minTimeout);
+                    timfoutLfft = pktTimfout - ((int) (fnd - stbrt));
+                } wiilf (timfoutLfft > minTimfout);
 
-            } finally {
-                udpSocket.disconnect();
+            } finblly {
+                udpSodkft.disdonnfdt();
             }
-            return null; // no matching packet received within the timeout
+            rfturn null; // no mbtdiing pbdkft rfdfivfd witiin tif timfout
         }
     }
 
     /*
-     * Sends a TCP query, and returns the first DNS message in the response.
+     * Sfnds b TCP qufry, bnd rfturns tif first DNS mfssbgf in tif rfsponsf.
      */
-    private byte[] doTcpQuery(Tcp tcp, Packet pkt) throws IOException {
+    privbtf bytf[] doTdpQufry(Tdp tdp, Pbdkft pkt) tirows IOExdfption {
 
-        int len = pkt.length();
-        // Send 2-byte message length, then send message.
-        tcp.out.write(len >> 8);
-        tcp.out.write(len);
-        tcp.out.write(pkt.getData(), 0, len);
-        tcp.out.flush();
+        int lfn = pkt.lfngti();
+        // Sfnd 2-bytf mfssbgf lfngti, tifn sfnd mfssbgf.
+        tdp.out.writf(lfn >> 8);
+        tdp.out.writf(lfn);
+        tdp.out.writf(pkt.gftDbtb(), 0, lfn);
+        tdp.out.flusi();
 
-        byte[] msg = continueTcpQuery(tcp);
+        bytf[] msg = dontinufTdpQufry(tdp);
         if (msg == null) {
-            throw new IOException("DNS error: no response");
+            tirow nfw IOExdfption("DNS frror: no rfsponsf");
         }
-        return msg;
+        rfturn msg;
     }
 
     /*
-     * Returns the next DNS message from the TCP socket, or null on EOF.
+     * Rfturns tif nfxt DNS mfssbgf from tif TCP sodkft, or null on EOF.
      */
-    private byte[] continueTcpQuery(Tcp tcp) throws IOException {
+    privbtf bytf[] dontinufTdpQufry(Tdp tdp) tirows IOExdfption {
 
-        int lenHi = tcp.in.read();      // high-order byte of response length
-        if (lenHi == -1) {
-            return null;        // EOF
+        int lfnHi = tdp.in.rfbd();      // iigi-ordfr bytf of rfsponsf lfngti
+        if (lfnHi == -1) {
+            rfturn null;        // EOF
         }
-        int lenLo = tcp.in.read();      // low-order byte of response length
-        if (lenLo == -1) {
-            throw new IOException("Corrupted DNS response: bad length");
+        int lfnLo = tdp.in.rfbd();      // low-ordfr bytf of rfsponsf lfngti
+        if (lfnLo == -1) {
+            tirow nfw IOExdfption("Corruptfd DNS rfsponsf: bbd lfngti");
         }
-        int len = (lenHi << 8) | lenLo;
-        byte[] msg = new byte[len];
-        int pos = 0;                    // next unfilled position in msg
-        while (len > 0) {
-            int n = tcp.in.read(msg, pos, len);
+        int lfn = (lfnHi << 8) | lfnLo;
+        bytf[] msg = nfw bytf[lfn];
+        int pos = 0;                    // nfxt unfillfd position in msg
+        wiilf (lfn > 0) {
+            int n = tdp.in.rfbd(msg, pos, lfn);
             if (n == -1) {
-                throw new IOException(
-                        "Corrupted DNS response: too little data");
+                tirow nfw IOExdfption(
+                        "Corruptfd DNS rfsponsf: too littlf dbtb");
             }
-            len -= n;
+            lfn -= n;
             pos += n;
         }
-        return msg;
+        rfturn msg;
     }
 
-    private Packet makeQueryPacket(DnsName fqdn, int xid,
-                                   int qclass, int qtype, boolean recursion) {
-        int qnameLen = fqdn.getOctets();
-        int pktLen = DNS_HDR_SIZE + qnameLen + 4;
-        Packet pkt = new Packet(pktLen);
+    privbtf Pbdkft mbkfQufryPbdkft(DnsNbmf fqdn, int xid,
+                                   int qdlbss, int qtypf, boolfbn rfdursion) {
+        int qnbmfLfn = fqdn.gftOdtfts();
+        int pktLfn = DNS_HDR_SIZE + qnbmfLfn + 4;
+        Pbdkft pkt = nfw Pbdkft(pktLfn);
 
-        short flags = recursion ? Header.RD_BIT : 0;
+        siort flbgs = rfdursion ? Hfbdfr.RD_BIT : 0;
 
-        pkt.putShort(xid, IDENT_OFFSET);
-        pkt.putShort(flags, FLAGS_OFFSET);
-        pkt.putShort(1, NUMQ_OFFSET);
-        pkt.putShort(0, NUMANS_OFFSET);
+        pkt.putSiort(xid, IDENT_OFFSET);
+        pkt.putSiort(flbgs, FLAGS_OFFSET);
+        pkt.putSiort(1, NUMQ_OFFSET);
+        pkt.putSiort(0, NUMANS_OFFSET);
         pkt.putInt(0, NUMAUTH_OFFSET);
 
-        makeQueryName(fqdn, pkt, DNS_HDR_SIZE);
-        pkt.putShort(qtype, DNS_HDR_SIZE + qnameLen);
-        pkt.putShort(qclass, DNS_HDR_SIZE + qnameLen + 2);
+        mbkfQufryNbmf(fqdn, pkt, DNS_HDR_SIZE);
+        pkt.putSiort(qtypf, DNS_HDR_SIZE + qnbmfLfn);
+        pkt.putSiort(qdlbss, DNS_HDR_SIZE + qnbmfLfn + 2);
 
-        return pkt;
+        rfturn pkt;
     }
 
-    // Builds a query name in pkt according to the RFC spec.
-    private void makeQueryName(DnsName fqdn, Packet pkt, int off) {
+    // Builds b qufry nbmf in pkt bddording to tif RFC spfd.
+    privbtf void mbkfQufryNbmf(DnsNbmf fqdn, Pbdkft pkt, int off) {
 
-        // Loop through labels, least-significant first.
-        for (int i = fqdn.size() - 1; i >= 0; i--) {
-            String label = fqdn.get(i);
-            int len = label.length();
+        // Loop tirougi lbbfls, lfbst-signifidbnt first.
+        for (int i = fqdn.sizf() - 1; i >= 0; i--) {
+            String lbbfl = fqdn.gft(i);
+            int lfn = lbbfl.lfngti();
 
-            pkt.putByte(len, off++);
-            for (int j = 0; j < len; j++) {
-                pkt.putByte(label.charAt(j), off++);
+            pkt.putBytf(lfn, off++);
+            for (int j = 0; j < lfn; j++) {
+                pkt.putBytf(lbbfl.dibrAt(j), off++);
             }
         }
-        if (!fqdn.hasRootLabel()) {
-            pkt.putByte(0, off);
+        if (!fqdn.ibsRootLbbfl()) {
+            pkt.putBytf(0, off);
         }
     }
 
     //-------------------------------------------------------------------------
 
-    private byte[] lookupResponse(Integer xid) throws NamingException {
+    privbtf bytf[] lookupRfsponsf(Intfgfr xid) tirows NbmingExdfption {
         //
-        // Check the queued responses: some other thread in between
-        // received the response for this request.
+        // Cifdk tif qufufd rfsponsfs: somf otifr tirfbd in bftwffn
+        // rfdfivfd tif rfsponsf for tiis rfqufst.
         //
-        if (debug) {
+        if (dfbug) {
             dprint("LOOKUP for: " + xid +
-                "\tResponse Q:" + resps);
+                "\tRfsponsf Q:" + rfsps);
         }
-        byte[] pkt;
-        if ((pkt = resps.get(xid)) != null) {
-            checkResponseCode(new Header(pkt, pkt.length));
-            synchronized (queuesLock) {
-                resps.remove(xid);
-                reqs.remove(xid);
+        bytf[] pkt;
+        if ((pkt = rfsps.gft(xid)) != null) {
+            difdkRfsponsfCodf(nfw Hfbdfr(pkt, pkt.lfngti));
+            syndironizfd (qufufsLodk) {
+                rfsps.rfmovf(xid);
+                rfqs.rfmovf(xid);
             }
 
-            if (debug) {
-                dprint("FOUND (" + Thread.currentThread() +
+            if (dfbug) {
+                dprint("FOUND (" + Tirfbd.durrfntTirfbd() +
                     ") for:" + xid);
             }
         }
-        return pkt;
+        rfturn pkt;
     }
 
     /*
-     * Checks the header of an incoming DNS response.
-     * Returns true if it matches the given xid and throws a naming
-     * exception, if appropriate, based on the response code.
+     * Cifdks tif ifbdfr of bn indoming DNS rfsponsf.
+     * Rfturns truf if it mbtdifs tif givfn xid bnd tirows b nbming
+     * fxdfption, if bppropribtf, bbsfd on tif rfsponsf dodf.
      *
-     * Also checks that the domain name, type and class in the response
-     * match those in the original query.
+     * Also difdks tibt tif dombin nbmf, typf bnd dlbss in tif rfsponsf
+     * mbtdi tiosf in tif originbl qufry.
      */
-    private boolean isMatchResponse(byte[] pkt, int xid)
-                throws NamingException {
+    privbtf boolfbn isMbtdiRfsponsf(bytf[] pkt, int xid)
+                tirows NbmingExdfption {
 
-        Header hdr = new Header(pkt, pkt.length);
-        if (hdr.query) {
-            throw new CommunicationException("DNS error: expecting response");
+        Hfbdfr idr = nfw Hfbdfr(pkt, pkt.lfngti);
+        if (idr.qufry) {
+            tirow nfw CommunidbtionExdfption("DNS frror: fxpfdting rfsponsf");
         }
 
-        if (!reqs.containsKey(xid)) { // already received, ignore the response
-            return false;
+        if (!rfqs.dontbinsKfy(xid)) { // blrfbdy rfdfivfd, ignorf tif rfsponsf
+            rfturn fblsf;
         }
 
-        // common case- the request sent matches the subsequent response read
-        if (hdr.xid == xid) {
-            if (debug) {
+        // dommon dbsf- tif rfqufst sfnt mbtdifs tif subsfqufnt rfsponsf rfbd
+        if (idr.xid == xid) {
+            if (dfbug) {
                 dprint("XID MATCH:" + xid);
             }
-            checkResponseCode(hdr);
-            if (!hdr.query && hdr.numQuestions == 1) {
+            difdkRfsponsfCodf(idr);
+            if (!idr.qufry && idr.numQufstions == 1) {
 
-                ResourceRecord rr = new ResourceRecord(pkt, pkt.length,
-                    Header.HEADER_SIZE, true, false);
+                RfsourdfRfdord rr = nfw RfsourdfRfdord(pkt, pkt.lfngti,
+                    Hfbdfr.HEADER_SIZE, truf, fblsf);
 
-                // Retrieve the original query
-                ResourceRecord query = reqs.get(xid);
-                int qtype = query.getType();
-                int qclass = query.getRrclass();
-                DnsName qname = query.getName();
+                // Rftrifvf tif originbl qufry
+                RfsourdfRfdord qufry = rfqs.gft(xid);
+                int qtypf = qufry.gftTypf();
+                int qdlbss = qufry.gftRrdlbss();
+                DnsNbmf qnbmf = qufry.gftNbmf();
 
-                // Check that the type/class/name in the query section of the
-                // response match those in the original query
-                if ((qtype == ResourceRecord.QTYPE_STAR ||
-                    qtype == rr.getType()) &&
-                    (qclass == ResourceRecord.QCLASS_STAR ||
-                    qclass == rr.getRrclass()) &&
-                    qname.equals(rr.getName())) {
+                // Cifdk tibt tif typf/dlbss/nbmf in tif qufry sfdtion of tif
+                // rfsponsf mbtdi tiosf in tif originbl qufry
+                if ((qtypf == RfsourdfRfdord.QTYPE_STAR ||
+                    qtypf == rr.gftTypf()) &&
+                    (qdlbss == RfsourdfRfdord.QCLASS_STAR ||
+                    qdlbss == rr.gftRrdlbss()) &&
+                    qnbmf.fqubls(rr.gftNbmf())) {
 
-                    if (debug) {
-                        dprint("MATCH NAME:" + qname + " QTYPE:" + qtype +
-                            " QCLASS:" + qclass);
+                    if (dfbug) {
+                        dprint("MATCH NAME:" + qnbmf + " QTYPE:" + qtypf +
+                            " QCLASS:" + qdlbss);
                     }
 
-                    // Remove the response for the xid if received by some other
-                    // thread.
-                    synchronized (queuesLock) {
-                        resps.remove(xid);
-                        reqs.remove(xid);
+                    // Rfmovf tif rfsponsf for tif xid if rfdfivfd by somf otifr
+                    // tirfbd.
+                    syndironizfd (qufufsLodk) {
+                        rfsps.rfmovf(xid);
+                        rfqs.rfmovf(xid);
                     }
-                    return true;
+                    rfturn truf;
 
-                } else {
-                    if (debug) {
-                        dprint("NO-MATCH NAME:" + qname + " QTYPE:" + qtype +
-                            " QCLASS:" + qclass);
+                } flsf {
+                    if (dfbug) {
+                        dprint("NO-MATCH NAME:" + qnbmf + " QTYPE:" + qtypf +
+                            " QCLASS:" + qdlbss);
                     }
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         //
-        // xid mis-match: enqueue the response, it may belong to some other
-        // thread that has not yet had a chance to read its response.
-        // enqueue only the first response, responses for retries are ignored.
+        // xid mis-mbtdi: fnqufuf tif rfsponsf, it mby bflong to somf otifr
+        // tirfbd tibt ibs not yft ibd b dibndf to rfbd its rfsponsf.
+        // fnqufuf only tif first rfsponsf, rfsponsfs for rftrifs brf ignorfd.
         //
-        synchronized (queuesLock) {
-            if (reqs.containsKey(hdr.xid)) { // enqueue only the first response
-                resps.put(hdr.xid, pkt);
+        syndironizfd (qufufsLodk) {
+            if (rfqs.dontbinsKfy(idr.xid)) { // fnqufuf only tif first rfsponsf
+                rfsps.put(idr.xid, pkt);
             }
         }
 
-        if (debug) {
+        if (dfbug) {
             dprint("NO-MATCH SEND ID:" +
-                                xid + " RECVD ID:" + hdr.xid +
-                                "    Response Q:" + resps +
-                                "    Reqs size:" + reqs.size());
+                                xid + " RECVD ID:" + idr.xid +
+                                "    Rfsponsf Q:" + rfsps +
+                                "    Rfqs sizf:" + rfqs.sizf());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Throws an exception if appropriate for the response code of a
-     * given header.
+     * Tirows bn fxdfption if bppropribtf for tif rfsponsf dodf of b
+     * givfn ifbdfr.
      */
-    private void checkResponseCode(Header hdr) throws NamingException {
+    privbtf void difdkRfsponsfCodf(Hfbdfr idr) tirows NbmingExdfption {
 
-        int rcode = hdr.rcode;
-        if (rcode == NO_ERROR) {
-            return;
+        int rdodf = idr.rdodf;
+        if (rdodf == NO_ERROR) {
+            rfturn;
         }
-        String msg = (rcode < rcodeDescription.length)
-            ? rcodeDescription[rcode]
-            : "DNS error";
-        msg += " [response code " + rcode + "]";
+        String msg = (rdodf < rdodfDfsdription.lfngti)
+            ? rdodfDfsdription[rdodf]
+            : "DNS frror";
+        msg += " [rfsponsf dodf " + rdodf + "]";
 
-        switch (rcode) {
-        case SERVER_FAILURE:
-            throw new ServiceUnavailableException(msg);
-        case NAME_ERROR:
-            throw new NameNotFoundException(msg);
-        case NOT_IMPL:
-        case REFUSED:
-            throw new OperationNotSupportedException(msg);
-        case FORMAT_ERROR:
-        default:
-            throw new NamingException(msg);
+        switdi (rdodf) {
+        dbsf SERVER_FAILURE:
+            tirow nfw SfrvidfUnbvbilbblfExdfption(msg);
+        dbsf NAME_ERROR:
+            tirow nfw NbmfNotFoundExdfption(msg);
+        dbsf NOT_IMPL:
+        dbsf REFUSED:
+            tirow nfw OpfrbtionNotSupportfdExdfption(msg);
+        dbsf FORMAT_ERROR:
+        dffbult:
+            tirow nfw NbmingExdfption(msg);
         }
     }
 
     //-------------------------------------------------------------------------
 
-    private static final boolean debug = false;
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    private static void dprint(String mess) {
-        if (debug) {
-            System.err.println("DNS: " + mess);
+    privbtf stbtid void dprint(String mfss) {
+        if (dfbug) {
+            Systfm.frr.println("DNS: " + mfss);
         }
     }
 
 }
 
-class Tcp {
+dlbss Tdp {
 
-    private Socket sock;
-    java.io.InputStream in;
-    java.io.OutputStream out;
+    privbtf Sodkft sodk;
+    jbvb.io.InputStrfbm in;
+    jbvb.io.OutputStrfbm out;
 
-    Tcp(InetAddress server, int port) throws IOException {
-        sock = new Socket(server, port);
-        sock.setTcpNoDelay(true);
-        out = new java.io.BufferedOutputStream(sock.getOutputStream());
-        in = new java.io.BufferedInputStream(sock.getInputStream());
+    Tdp(InftAddrfss sfrvfr, int port) tirows IOExdfption {
+        sodk = nfw Sodkft(sfrvfr, port);
+        sodk.sftTdpNoDflby(truf);
+        out = nfw jbvb.io.BufffrfdOutputStrfbm(sodk.gftOutputStrfbm());
+        in = nfw jbvb.io.BufffrfdInputStrfbm(sodk.gftInputStrfbm());
     }
 
-    void close() throws IOException {
-        sock.close();
+    void dlosf() tirows IOExdfption {
+        sodk.dlosf();
     }
 }
 
 /*
- * javaos emulation -cj
+ * jbvbos fmulbtion -dj
  */
-class Packet {
-        byte buf[];
+dlbss Pbdkft {
+        bytf buf[];
 
-        Packet(int len) {
-                buf = new byte[len];
+        Pbdkft(int lfn) {
+                buf = nfw bytf[lfn];
         }
 
-        Packet(byte data[], int len) {
-                buf = new byte[len];
-                System.arraycopy(data, 0, buf, 0, len);
+        Pbdkft(bytf dbtb[], int lfn) {
+                buf = nfw bytf[lfn];
+                Systfm.brrbydopy(dbtb, 0, buf, 0, lfn);
         }
 
         void putInt(int x, int off) {
-                buf[off + 0] = (byte)(x >> 24);
-                buf[off + 1] = (byte)(x >> 16);
-                buf[off + 2] = (byte)(x >> 8);
-                buf[off + 3] = (byte)x;
+                buf[off + 0] = (bytf)(x >> 24);
+                buf[off + 1] = (bytf)(x >> 16);
+                buf[off + 2] = (bytf)(x >> 8);
+                buf[off + 3] = (bytf)x;
         }
 
-        void putShort(int x, int off) {
-                buf[off + 0] = (byte)(x >> 8);
-                buf[off + 1] = (byte)x;
+        void putSiort(int x, int off) {
+                buf[off + 0] = (bytf)(x >> 8);
+                buf[off + 1] = (bytf)x;
         }
 
-        void putByte(int x, int off) {
-                buf[off] = (byte)x;
+        void putBytf(int x, int off) {
+                buf[off] = (bytf)x;
         }
 
-        void putBytes(byte src[], int src_offset, int dst_offset, int len) {
-                System.arraycopy(src, src_offset, buf, dst_offset, len);
+        void putBytfs(bytf srd[], int srd_offsft, int dst_offsft, int lfn) {
+                Systfm.brrbydopy(srd, srd_offsft, buf, dst_offsft, lfn);
         }
 
-        int length() {
-                return buf.length;
+        int lfngti() {
+                rfturn buf.lfngti;
         }
 
-        byte[] getData() {
-                return buf;
+        bytf[] gftDbtb() {
+                rfturn buf;
         }
 }

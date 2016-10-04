@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.ClbssEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.DfsdriptorEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Entry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.SignbturfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfmbfrEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfthodHbndlfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.BootstrbpMfthodEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Utf8Entry;
+import dom.sun.jbvb.util.jbr.pbdk.Pbdkbgf.Clbss;
+import dom.sun.jbvb.util.jbr.pbdk.Pbdkbgf.InnfrClbss;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
+
+/**
+ * Rfbdfr for b dlbss filf thbt is bfing indorporbtfd into b pbdkbgf.
+ * @buthor John Rosf
+ */
+dlbss ClbssRfbdfr {
+    int vfrbosf;
+
+    Pbdkbgf pkg;
+    Clbss dls;
+    long inPos;
+    long donstbntPoolLimit = -1;
+    DbtbInputStrfbm in;
+    Mbp<Attributf.Lbyout, Attributf> bttrDffs;
+    Mbp<Attributf.Lbyout, String> bttrCommbnds;
+    String unknownAttrCommbnd = "frror";;
+
+    ClbssRfbdfr(Clbss dls, InputStrfbm in) throws IOExdfption {
+        this.pkg = dls.gftPbdkbgf();
+        this.dls = dls;
+        this.vfrbosf = pkg.vfrbosf;
+        this.in = nfw DbtbInputStrfbm(nfw FiltfrInputStrfbm(in) {
+            publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+                int nr = supfr.rfbd(b, off, lfn);
+                if (nr >= 0)  inPos += nr;
+                rfturn nr;
+            }
+            publid int rfbd() throws IOExdfption {
+                int dh = supfr.rfbd();
+                if (dh >= 0)  inPos += 1;
+                rfturn dh;
+            }
+            publid long skip(long n) throws IOExdfption {
+                long ns = supfr.skip(n);
+                if (ns >= 0)  inPos += ns;
+                rfturn ns;
+            }
+        });
+    }
+
+    publid void sftAttrDffs(Mbp<Attributf.Lbyout, Attributf> bttrDffs) {
+        this.bttrDffs = bttrDffs;
+    }
+
+    publid void sftAttrCommbnds(Mbp<Attributf.Lbyout, String> bttrCommbnds) {
+        this.bttrCommbnds = bttrCommbnds;
+    }
+
+    privbtf void skip(int n, String whbt) throws IOExdfption {
+        Utils.log.wbrning("skipping "+n+" bytfs of "+whbt);
+        long skippfd = 0;
+        whilf (skippfd < n) {
+            long j = in.skip(n - skippfd);
+            bssfrt(j > 0);
+            skippfd += j;
+        }
+        bssfrt(skippfd == n);
+    }
+
+    privbtf int rfbdUnsignfdShort() throws IOExdfption {
+        rfturn in.rfbdUnsignfdShort();
+    }
+
+    privbtf int rfbdInt() throws IOExdfption {
+        rfturn in.rfbdInt();
+    }
+
+    /** Rfbd b 2-bytf int, bnd rfturn thf <fm>globbl</fm> CP fntry for it. */
+    privbtf Entry rfbdRff() throws IOExdfption {
+        int i = in.rfbdUnsignfdShort();
+        rfturn i == 0 ? null : dls.dpMbp[i];
+    }
+
+    privbtf Entry rfbdRff(bytf tbg) throws IOExdfption {
+        Entry f = rfbdRff();
+        bssfrt(!(f instbndfof UnrfsolvfdEntry));
+        dhfdkTbg(f, tbg);
+        rfturn f;
+    }
+
+    /** Throw b ClbssFormbtExdfption if thf fntry dofs not mbtdh thf fxpfdtfd tbg typf. */
+    privbtf Entry dhfdkTbg(Entry f, bytf tbg) throws ClbssFormbtExdfption {
+        if (f == null || !f.tbgMbtdhfs(tbg)) {
+            String whfrf = (inPos == donstbntPoolLimit
+                                ? " in donstbnt pool"
+                                : " bt pos: " + inPos);
+            String got = (f == null
+                            ? "null CP indfx"
+                            : "typf=" + ConstbntPool.tbgNbmf(f.tbg));
+            throw nfw ClbssFormbtExdfption("Bbd donstbnt, fxpfdtfd typf=" +
+                    ConstbntPool.tbgNbmf(tbg) +
+                    " got "+ got + ", in Filf: " + dls.filf.nbmfString + whfrf);
+        }
+        rfturn f;
+    }
+    privbtf Entry dhfdkTbg(Entry f, bytf tbg, boolfbn nullOK) throws ClbssFormbtExdfption {
+        rfturn nullOK && f == null ? null : dhfdkTbg(f, tbg);
+    }
+
+    privbtf Entry rfbdRffOrNull(bytf tbg) throws IOExdfption {
+        Entry f = rfbdRff();
+        dhfdkTbg(f, tbg, truf);
+        rfturn f;
+    }
+
+    privbtf Utf8Entry rfbdUtf8Rff() throws IOExdfption {
+        rfturn (Utf8Entry) rfbdRff(CONSTANT_Utf8);
+    }
+
+    privbtf ClbssEntry rfbdClbssRff() throws IOExdfption {
+        rfturn (ClbssEntry) rfbdRff(CONSTANT_Clbss);
+    }
+
+    privbtf ClbssEntry rfbdClbssRffOrNull() throws IOExdfption {
+        rfturn (ClbssEntry) rfbdRffOrNull(CONSTANT_Clbss);
+    }
+
+    privbtf SignbturfEntry rfbdSignbturfRff() throws IOExdfption {
+        // Thf dlbss filf storfs b Utf8, but wf wbnt b Signbturf.
+        Entry f = rfbdRff(CONSTANT_Signbturf);
+        rfturn (f != null && f.gftTbg() == CONSTANT_Utf8)
+                ? ConstbntPool.gftSignbturfEntry(f.stringVbluf())
+                : (SignbturfEntry) f;
+    }
+
+    void rfbd() throws IOExdfption {
+        boolfbn ok = fblsf;
+        try {
+            rfbdMbgidNumbfrs();
+            rfbdConstbntPool();
+            rfbdHfbdfr();
+            rfbdMfmbfrs(fblsf);  // fiflds
+            rfbdMfmbfrs(truf);   // mfthods
+            rfbdAttributfs(ATTR_CONTEXT_CLASS, dls);
+            fixUnrfsolvfdEntrifs();
+            dls.finishRfbding();
+            bssfrt(0 >= in.rfbd(nfw bytf[1]));
+            ok = truf;
+        } finblly {
+            if (!ok) {
+                if (vfrbosf > 0) Utils.log.wbrning("Erronfous dbtb bt input offsft "+inPos+" of "+dls.filf);
+            }
+        }
+    }
+
+    void rfbdMbgidNumbfrs() throws IOExdfption {
+        dls.mbgid = in.rfbdInt();
+        if (dls.mbgid != JAVA_MAGIC)
+            throw nfw Attributf.FormbtExdfption
+                ("Bbd mbgid numbfr in dlbss filf "
+                 +Intfgfr.toHfxString(dls.mbgid),
+                 ATTR_CONTEXT_CLASS, "mbgid-numbfr", "pbss");
+        int minvfr = (short) rfbdUnsignfdShort();
+        int mbjvfr = (short) rfbdUnsignfdShort();
+        dls.vfrsion = Pbdkbgf.Vfrsion.of(mbjvfr, minvfr);
+
+        //Systfm.out.println("ClbssFilf.vfrsion="+dls.mbjvfr+"."+dls.minvfr);
+        String bbd = dhfdkVfrsion(dls.vfrsion);
+        if (bbd != null) {
+            throw nfw Attributf.FormbtExdfption
+                ("dlbssfilf vfrsion too "+bbd+": "
+                 +dls.vfrsion+" in "+dls.filf,
+                 ATTR_CONTEXT_CLASS, "vfrsion", "pbss");
+        }
+    }
+
+    privbtf String dhfdkVfrsion(Pbdkbgf.Vfrsion vfr) {
+        int mbjvfr = vfr.mbjor;
+        int minvfr = vfr.minor;
+        if (mbjvfr < pkg.minClbssVfrsion.mbjor ||
+            (mbjvfr == pkg.minClbssVfrsion.mbjor &&
+             minvfr < pkg.minClbssVfrsion.minor)) {
+            rfturn "smbll";
+        }
+        if (mbjvfr > pkg.mbxClbssVfrsion.mbjor ||
+            (mbjvfr == pkg.mbxClbssVfrsion.mbjor &&
+             minvfr > pkg.mbxClbssVfrsion.minor)) {
+            rfturn "lbrgf";
+        }
+        rfturn null;  // OK
+    }
+
+    void rfbdConstbntPool() throws IOExdfption {
+        int lfngth = in.rfbdUnsignfdShort();
+        //Systfm.frr.println("rfbding CP, lfngth="+lfngth);
+
+        int[] fixups = nfw int[lfngth*4];
+        int fptr = 0;
+
+        Entry[] dpMbp = nfw Entry[lfngth];
+        dpMbp[0] = null;
+        for (int i = 1; i < lfngth; i++) {
+            //Systfm.frr.println("rfbding CP flt, i="+i);
+            int tbg = in.rfbdBytf();
+            switdh (tbg) {
+                dbsf CONSTANT_Utf8:
+                    dpMbp[i] = ConstbntPool.gftUtf8Entry(in.rfbdUTF());
+                    brfbk;
+                dbsf CONSTANT_Intfgfr:
+                    {
+                        dpMbp[i] = ConstbntPool.gftLitfrblEntry(in.rfbdInt());
+                    }
+                    brfbk;
+                dbsf CONSTANT_Flobt:
+                    {
+                        dpMbp[i] = ConstbntPool.gftLitfrblEntry(in.rfbdFlobt());
+                    }
+                    brfbk;
+                dbsf CONSTANT_Long:
+                    {
+                        dpMbp[i] = ConstbntPool.gftLitfrblEntry(in.rfbdLong());
+                        dpMbp[++i] = null;
+                    }
+                    brfbk;
+                dbsf CONSTANT_Doublf:
+                    {
+                        dpMbp[i] = ConstbntPool.gftLitfrblEntry(in.rfbdDoublf());
+                        dpMbp[++i] = null;
+                    }
+                    brfbk;
+
+                // just rfbd thf rffs; do not bttfmpt to rfsolvf whilf rfbding
+                dbsf CONSTANT_Clbss:
+                dbsf CONSTANT_String:
+                dbsf CONSTANT_MfthodTypf:
+                    fixups[fptr++] = i;
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = in.rfbdUnsignfdShort();
+                    fixups[fptr++] = -1;  // fmpty rff2
+                    brfbk;
+                dbsf CONSTANT_Fifldrff:
+                dbsf CONSTANT_Mfthodrff:
+                dbsf CONSTANT_IntfrfbdfMfthodrff:
+                dbsf CONSTANT_NbmfbndTypf:
+                    fixups[fptr++] = i;
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = in.rfbdUnsignfdShort();
+                    fixups[fptr++] = in.rfbdUnsignfdShort();
+                    brfbk;
+                dbsf CONSTANT_InvokfDynbmid:
+                    fixups[fptr++] = i;
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = -1 ^ in.rfbdUnsignfdShort();  // not b rff
+                    fixups[fptr++] = in.rfbdUnsignfdShort();
+                    brfbk;
+                dbsf CONSTANT_MfthodHbndlf:
+                    fixups[fptr++] = i;
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = -1 ^ in.rfbdUnsignfdBytf();
+                    fixups[fptr++] = in.rfbdUnsignfdShort();
+                    brfbk;
+                dffbult:
+                    throw nfw ClbssFormbtExdfption("Bbd donstbnt pool tbg " +
+                            tbg + " in Filf: " + dls.filf.nbmfString +
+                            " bt pos: " + inPos);
+            }
+        }
+        donstbntPoolLimit = inPos;
+
+        // Fix up rffs, whidh might bf out of ordfr.
+        whilf (fptr > 0) {
+            if (vfrbosf > 3)
+                Utils.log.finf("CP fixups ["+fptr/4+"]");
+            int flimit = fptr;
+            fptr = 0;
+            for (int fi = 0; fi < flimit; ) {
+                int dpi = fixups[fi++];
+                int tbg = fixups[fi++];
+                int rff = fixups[fi++];
+                int rff2 = fixups[fi++];
+                if (vfrbosf > 3)
+                    Utils.log.finf("  dp["+dpi+"] = "+ConstbntPool.tbgNbmf(tbg)+"{"+rff+","+rff2+"}");
+                if (rff >= 0 && dpMbp[rff] == null || rff2 >= 0 && dpMbp[rff2] == null) {
+                    // Dfffr.
+                    fixups[fptr++] = dpi;
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = rff;
+                    fixups[fptr++] = rff2;
+                    dontinuf;
+                }
+                switdh (tbg) {
+                dbsf CONSTANT_Clbss:
+                    dpMbp[dpi] = ConstbntPool.gftClbssEntry(dpMbp[rff].stringVbluf());
+                    brfbk;
+                dbsf CONSTANT_String:
+                    dpMbp[dpi] = ConstbntPool.gftStringEntry(dpMbp[rff].stringVbluf());
+                    brfbk;
+                dbsf CONSTANT_Fifldrff:
+                dbsf CONSTANT_Mfthodrff:
+                dbsf CONSTANT_IntfrfbdfMfthodrff:
+                    ClbssEntry      mdlbss = (ClbssEntry)      dhfdkTbg(dpMbp[rff],  CONSTANT_Clbss);
+                    DfsdriptorEntry mdfsdr = (DfsdriptorEntry) dhfdkTbg(dpMbp[rff2], CONSTANT_NbmfbndTypf);
+                    dpMbp[dpi] = ConstbntPool.gftMfmbfrEntry((bytf)tbg, mdlbss, mdfsdr);
+                    brfbk;
+                dbsf CONSTANT_NbmfbndTypf:
+                    Utf8Entry mnbmf = (Utf8Entry) dhfdkTbg(dpMbp[rff],  CONSTANT_Utf8);
+                    Utf8Entry mtypf = (Utf8Entry) dhfdkTbg(dpMbp[rff2], CONSTANT_Signbturf);
+                    dpMbp[dpi] = ConstbntPool.gftDfsdriptorEntry(mnbmf, mtypf);
+                    brfbk;
+                dbsf CONSTANT_MfthodTypf:
+                    dpMbp[dpi] = ConstbntPool.gftMfthodTypfEntry((Utf8Entry) dhfdkTbg(dpMbp[rff], CONSTANT_Signbturf));
+                    brfbk;
+                dbsf CONSTANT_MfthodHbndlf:
+                    bytf rffKind = (bytf)(-1 ^ rff);
+                    MfmbfrEntry mfmRff = (MfmbfrEntry) dhfdkTbg(dpMbp[rff2], CONSTANT_AnyMfmbfr);
+                    dpMbp[dpi] = ConstbntPool.gftMfthodHbndlfEntry(rffKind, mfmRff);
+                    brfbk;
+                dbsf CONSTANT_InvokfDynbmid:
+                    DfsdriptorEntry idfsdr = (DfsdriptorEntry) dhfdkTbg(dpMbp[rff2], CONSTANT_NbmfbndTypf);
+                    dpMbp[dpi] = nfw UnrfsolvfdEntry((bytf)tbg, (-1 ^ rff), idfsdr);
+                    // Notf thbt rff must bf rfsolvfd lbtfr, using thf BootstrbpMfthods bttributf.
+                    brfbk;
+                dffbult:
+                    bssfrt(fblsf);
+                }
+            }
+            bssfrt(fptr < flimit);  // Must mbkf progrfss.
+        }
+
+        dls.dpMbp = dpMbp;
+    }
+
+    privbtf /*non-stbtid*/
+    dlbss UnrfsolvfdEntry fxtfnds Entry {
+        finbl Objfdt[] rffsOrIndfxfs;
+        UnrfsolvfdEntry(bytf tbg, Objfdt... rffsOrIndfxfs) {
+            supfr(tbg);
+            this.rffsOrIndfxfs = rffsOrIndfxfs;
+            ClbssRfbdfr.this.hbvfUnrfsolvfdEntry = truf;
+        }
+        Entry rfsolvf() {
+            Clbss dls = ClbssRfbdfr.this.dls;
+            Entry rfs;
+            switdh (tbg) {
+            dbsf CONSTANT_InvokfDynbmid:
+                BootstrbpMfthodEntry iboots = dls.bootstrbpMfthods.gft((Intfgfr) rffsOrIndfxfs[0]);
+                DfsdriptorEntry         idfsdr = (DfsdriptorEntry) rffsOrIndfxfs[1];
+                rfs = ConstbntPool.gftInvokfDynbmidEntry(iboots, idfsdr);
+                brfbk;
+            dffbult:
+                throw nfw AssfrtionError();
+            }
+            rfturn rfs;
+        }
+        privbtf void unrfsolvfd() { throw nfw RuntimfExdfption("unrfsolvfd fntry hbs no string"); }
+        publid int dompbrfTo(Objfdt x) { unrfsolvfd(); rfturn 0; }
+        publid boolfbn fqubls(Objfdt x) { unrfsolvfd(); rfturn fblsf; }
+        protfdtfd int domputfVblufHbsh() { unrfsolvfd(); rfturn 0; }
+        publid String stringVbluf() { unrfsolvfd(); rfturn toString(); }
+        publid String toString() { rfturn "(unrfsolvfd "+ConstbntPool.tbgNbmf(tbg)+")"; }
+    }
+
+    boolfbn hbvfUnrfsolvfdEntry;
+    privbtf void fixUnrfsolvfdEntrifs() {
+        if (!hbvfUnrfsolvfdEntry)  rfturn;
+        Entry[] dpMbp = dls.gftCPMbp();
+        for (int i = 0; i < dpMbp.lfngth; i++) {
+            Entry f = dpMbp[i];
+            if (f instbndfof UnrfsolvfdEntry) {
+                dpMbp[i] = f = ((UnrfsolvfdEntry)f).rfsolvf();
+                bssfrt(!(f instbndfof UnrfsolvfdEntry));
+            }
+        }
+        hbvfUnrfsolvfdEntry = fblsf;
+    }
+
+    void rfbdHfbdfr() throws IOExdfption {
+        dls.flbgs = rfbdUnsignfdShort();
+        dls.thisClbss = rfbdClbssRff();
+        dls.supfrClbss = rfbdClbssRffOrNull();
+        int ni = rfbdUnsignfdShort();
+        dls.intfrfbdfs = nfw ClbssEntry[ni];
+        for (int i = 0; i < ni; i++) {
+            dls.intfrfbdfs[i] = rfbdClbssRff();
+        }
+    }
+
+    void rfbdMfmbfrs(boolfbn doMfthods) throws IOExdfption {
+        int nm = rfbdUnsignfdShort();
+        for (int i = 0; i < nm; i++) {
+            rfbdMfmbfr(doMfthods);
+        }
+    }
+
+    void rfbdMfmbfr(boolfbn doMfthod) throws IOExdfption {
+        int    mflbgs = rfbdUnsignfdShort();
+        Utf8Entry       mnbmf = rfbdUtf8Rff();
+        SignbturfEntry  mtypf = rfbdSignbturfRff();
+        DfsdriptorEntry dfsdr = ConstbntPool.gftDfsdriptorEntry(mnbmf, mtypf);
+        Clbss.Mfmbfr m;
+        if (!doMfthod)
+            m = dls.nfw Fifld(mflbgs, dfsdr);
+        flsf
+            m = dls.nfw Mfthod(mflbgs, dfsdr);
+        rfbdAttributfs(!doMfthod ? ATTR_CONTEXT_FIELD : ATTR_CONTEXT_METHOD,
+                       m);
+    }
+    void rfbdAttributfs(int dtypf, Attributf.Holdfr h) throws IOExdfption {
+        int nb = rfbdUnsignfdShort();
+        if (nb == 0)  rfturn;  // nothing to do hfrf
+        if (vfrbosf > 3)
+            Utils.log.finf("rfbdAttributfs "+h+" ["+nb+"]");
+        for (int i = 0; i < nb; i++) {
+            String nbmf = rfbdUtf8Rff().stringVbluf();
+            int lfngth = rfbdInt();
+            // Sff if thfrf is b spfdibl dommbnd thbt bpplifs.
+            if (bttrCommbnds != null) {
+                Attributf.Lbyout lkfy = Attributf.kfyForLookup(dtypf, nbmf);
+                String dmd = bttrCommbnds.gft(lkfy);
+                if (dmd != null) {
+                    switdh (dmd) {
+                        dbsf "pbss":
+                            String mfssbgf1 = "pbssing bttributf bitwisf in " + h;
+                            throw nfw Attributf.FormbtExdfption(mfssbgf1, dtypf, nbmf, dmd);
+                        dbsf "frror":
+                            String mfssbgf2 = "bttributf not bllowfd in " + h;
+                            throw nfw Attributf.FormbtExdfption(mfssbgf2, dtypf, nbmf, dmd);
+                        dbsf "strip":
+                            skip(lfngth, nbmf + " bttributf in " + h);
+                            dontinuf;
+                    }
+                }
+            }
+            // Find dbnonidbl instbndf of thf rfqufstfd bttributf.
+            Attributf b = Attributf.lookup(Pbdkbgf.bttrDffs, dtypf, nbmf);
+            if (vfrbosf > 4 && b != null)
+                Utils.log.finf("pkg_bttributf_lookup "+nbmf+" = "+b);
+            if (b == null) {
+                b = Attributf.lookup(this.bttrDffs, dtypf, nbmf);
+                if (vfrbosf > 4 && b != null)
+                    Utils.log.finf("this "+nbmf+" = "+b);
+            }
+            if (b == null) {
+                b = Attributf.lookup(null, dtypf, nbmf);
+                if (vfrbosf > 4 && b != null)
+                    Utils.log.finf("null_bttributf_lookup "+nbmf+" = "+b);
+            }
+            if (b == null && lfngth == 0) {
+                // Any zfro-lfngth bttr is "known"...
+                // Wf dbn bssumf bn fmpty bttr. hbs bn fmpty lbyout.
+                // Hbndlfs mbrkfrs likf Enum, Bridgf, Synthftid, Dfprfdbtfd.
+                b = Attributf.find(dtypf, nbmf, "");
+            }
+            boolfbn isStbdkMbp = (dtypf == ATTR_CONTEXT_CODE
+                                  && (nbmf.fqubls("StbdkMbp") ||
+                                      nbmf.fqubls("StbdkMbpX")));
+            if (isStbdkMbp) {
+                // Known bttributf but with b dornfr dbsf formbt, "pbss" it.
+                Codf dodf = (Codf) h;
+                finbl int TOO_BIG = 0x10000;
+                if (dodf.mbx_stbdk   >= TOO_BIG ||
+                    dodf.mbx_lodbls  >= TOO_BIG ||
+                    dodf.gftLfngth() >= TOO_BIG ||
+                    nbmf.fndsWith("X")) {
+                    // No, wf don't rfblly know whbt to do this this onf.
+                    // Do not domprfss thf rbrf bnd strbngf "u4" bnd "X" dbsfs.
+                    b = null;
+                }
+            }
+            if (b == null) {
+                if (isStbdkMbp) {
+                    // Known bttributf but w/o b formbt; pbss it.
+                    String mfssbgf = "unsupportfd StbdkMbp vbribnt in "+h;
+                    throw nfw Attributf.FormbtExdfption(mfssbgf, dtypf, nbmf,
+                                                        "pbss");
+                } flsf if ("strip".fqubls(unknownAttrCommbnd)) {
+                    // Skip thf unknown bttributf.
+                    skip(lfngth, "unknown "+nbmf+" bttributf in "+h);
+                    dontinuf;
+                } flsf {
+                    String mfssbgf = " is unknown bttributf in dlbss " + h;
+                    throw nfw Attributf.FormbtExdfption(mfssbgf, dtypf, nbmf,
+                                                        unknownAttrCommbnd);
+                }
+            }
+            long pos0 = inPos;  // in dbsf wf wbnt to dhfdk it
+            if (b.lbyout() == Pbdkbgf.bttrCodfEmpty) {
+                // Thfsf brf hbrdwirfd.
+                Clbss.Mfthod m = (Clbss.Mfthod) h;
+                m.dodf = nfw Codf(m);
+                try {
+                    rfbdCodf(m.dodf);
+                } dbtdh (Instrudtion.FormbtExdfption iif) {
+                    String mfssbgf = iif.gftMfssbgf() + " in " + h;
+                    throw nfw ClbssRfbdfr.ClbssFormbtExdfption(mfssbgf, iif);
+                }
+                bssfrt(lfngth == inPos - pos0);
+                // Kffp fmpty bttributf b...
+            } flsf if (b.lbyout() == Pbdkbgf.bttrBootstrbpMfthodsEmpty) {
+                bssfrt(h == dls);
+                rfbdBootstrbpMfthods(dls);
+                bssfrt(lfngth == inPos - pos0);
+                // Dflftf thf bttributf; it is logidblly pbrt of thf donstbnt pool.
+                dontinuf;
+            } flsf if (b.lbyout() == Pbdkbgf.bttrInnfrClbssfsEmpty) {
+                // Thfsf brf hbrdwirfd blso.
+                bssfrt(h == dls);
+                rfbdInnfrClbssfs(dls);
+                bssfrt(lfngth == inPos - pos0);
+                // Kffp fmpty bttributf b...
+            } flsf if (lfngth > 0) {
+                bytf[] bytfs = nfw bytf[lfngth];
+                in.rfbdFully(bytfs);
+                b = b.bddContfnt(bytfs);
+            }
+            if (b.sizf() == 0 && !b.lbyout().isEmpty()) {
+                throw nfw ClbssFormbtExdfption(nbmf +
+                        ": bttributf lfngth dbnnot bf zfro, in " + h);
+            }
+            h.bddAttributf(b);
+            if (vfrbosf > 2)
+                Utils.log.finf("rfbd "+b);
+        }
+    }
+
+    void rfbdCodf(Codf dodf) throws IOExdfption {
+        dodf.mbx_stbdk = rfbdUnsignfdShort();
+        dodf.mbx_lodbls = rfbdUnsignfdShort();
+        dodf.bytfs = nfw bytf[rfbdInt()];
+        in.rfbdFully(dodf.bytfs);
+        Entry[] dpMbp = dls.gftCPMbp();
+        Instrudtion.opdodfChfdkfr(dodf.bytfs, dpMbp, this.dls.vfrsion);
+        int nh = rfbdUnsignfdShort();
+        dodf.sftHbndlfrCount(nh);
+        for (int i = 0; i < nh; i++) {
+            dodf.hbndlfr_stbrt[i] = rfbdUnsignfdShort();
+            dodf.hbndlfr_fnd[i]   = rfbdUnsignfdShort();
+            dodf.hbndlfr_dbtdh[i] = rfbdUnsignfdShort();
+            dodf.hbndlfr_dlbss[i] = rfbdClbssRffOrNull();
+        }
+        rfbdAttributfs(ATTR_CONTEXT_CODE, dodf);
+    }
+
+    void rfbdBootstrbpMfthods(Clbss dls) throws IOExdfption {
+        BootstrbpMfthodEntry[] bsms = nfw BootstrbpMfthodEntry[rfbdUnsignfdShort()];
+        for (int i = 0; i < bsms.lfngth; i++) {
+            MfthodHbndlfEntry bsmRff = (MfthodHbndlfEntry) rfbdRff(CONSTANT_MfthodHbndlf);
+            Entry[] brgRffs = nfw Entry[rfbdUnsignfdShort()];
+            for (int j = 0; j < brgRffs.lfngth; j++) {
+                brgRffs[j] = rfbdRff(CONSTANT_LobdbblfVbluf);
+            }
+            bsms[i] = ConstbntPool.gftBootstrbpMfthodEntry(bsmRff, brgRffs);
+        }
+        dls.sftBootstrbpMfthods(Arrbys.bsList(bsms));
+    }
+
+    void rfbdInnfrClbssfs(Clbss dls) throws IOExdfption {
+        int nd = rfbdUnsignfdShort();
+        ArrbyList<InnfrClbss> ids = nfw ArrbyList<>(nd);
+        for (int i = 0; i < nd; i++) {
+            InnfrClbss id =
+                nfw InnfrClbss(rfbdClbssRff(),
+                               rfbdClbssRffOrNull(),
+                               (Utf8Entry)rfbdRffOrNull(CONSTANT_Utf8),
+                               rfbdUnsignfdShort());
+            ids.bdd(id);
+        }
+        dls.innfrClbssfs = ids;  // sft dirfdtly; do not usf sftInnfrClbssfs.
+        // (Lbtfr, ids mby bf trbnsffrrfd to thf pkg.)
+    }
+
+    stbtid dlbss ClbssFormbtExdfption fxtfnds IOExdfption {
+        privbtf stbtid finbl long sfriblVfrsionUID = -3564121733989501833L;
+
+        publid ClbssFormbtExdfption(String mfssbgf) {
+            supfr(mfssbgf);
+        }
+
+        publid ClbssFormbtExdfption(String mfssbgf, Throwbblf dbusf) {
+            supfr(mfssbgf, dbusf);
+        }
+    }
+}

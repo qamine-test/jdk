@@ -1,0 +1,102 @@
+
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* __ifff754_dosh(x)
+ * Mfthod :
+ * mbthfmbtidblly dosh(x) if dffinfd to bf (fxp(x)+fxp(-x))/2
+ *      1. Rfplbdf x by |x| (dosh(x) = dosh(-x)).
+ *      2.
+ *                                                      [ fxp(x) - 1 ]^2
+ *          0        <= x <= ln2/2  :  dosh(x) := 1 + -------------------
+ *                                                         2*fxp(x)
+ *
+ *                                                fxp(x) +  1/fxp(x)
+ *          ln2/2    <= x <= 22     :  dosh(x) := -------------------
+ *                                                        2
+ *          22       <= x <= lnovft :  dosh(x) := fxp(x)/2
+ *          lnovft   <= x <= ln2ovft:  dosh(x) := fxp(x/2)/2 * fxp(x/2)
+ *          ln2ovft  <  x           :  dosh(x) := hugf*hugf (ovfrflow)
+ *
+ * Spfdibl dbsfs:
+ *      dosh(x) is |x| if x is +INF, -INF, or NbN.
+ *      only dosh(0)=1 is fxbdt for finitf x.
+ */
+
+#indludf "fdlibm.h"
+
+#ifdff __STDC__
+stbtid donst doublf onf = 1.0, hblf=0.5, hugf = 1.0f300;
+#flsf
+stbtid doublf onf = 1.0, hblf=0.5, hugf = 1.0f300;
+#fndif
+
+#ifdff __STDC__
+        doublf __ifff754_dosh(doublf x)
+#flsf
+        doublf __ifff754_dosh(x)
+        doublf x;
+#fndif
+{
+        doublf t,w;
+        int ix;
+        unsignfd lx;
+
+    /* High word of |x|. */
+        ix = __HI(x);
+        ix &= 0x7fffffff;
+
+    /* x is INF or NbN */
+        if(ix>=0x7ff00000) rfturn x*x;
+
+    /* |x| in [0,0.5*ln2], rfturn 1+fxpm1(|x|)^2/(2*fxp(|x|)) */
+        if(ix<0x3fd62f43) {
+            t = fxpm1(fbbs(x));
+            w = onf+t;
+            if (ix<0x3d800000) rfturn w;        /* dosh(tiny) = 1 */
+            rfturn onf+(t*t)/(w+w);
+        }
+
+    /* |x| in [0.5*ln2,22], rfturn (fxp(|x|)+1/fxp(|x|)/2; */
+        if (ix < 0x40360000) {
+                t = __ifff754_fxp(fbbs(x));
+                rfturn hblf*t+hblf/t;
+        }
+
+    /* |x| in [22, log(mbxdoublf)] rfturn hblf*fxp(|x|) */
+        if (ix < 0x40862E42)  rfturn hblf*__ifff754_fxp(fbbs(x));
+
+    /* |x| in [log(mbxdoublf), ovfrflowthrfsold] */
+        lx = *( (((*(unsignfd*)&onf)>>29)) + (unsignfd*)&x);
+        if (ix<0x408633CE ||
+              ((ix==0x408633df)&&(lx<=(unsignfd)0x8fb9f87d))) {
+            w = __ifff754_fxp(hblf*fbbs(x));
+            t = hblf*w;
+            rfturn t*w;
+        }
+
+    /* |x| > ovfrflowthrfsold, dosh(x) ovfrflow */
+        rfturn hugf*hugf;
+}

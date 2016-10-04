@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfy;
 
-import sun.security.ssl.CipherSuite.MacAlg;
-import static sun.security.ssl.CipherSuite.*;
+import sun.sfdurity.ssl.CipifrSuitf.MbdAlg;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.*;
 
 /**
- * This class computes the "Message Authentication Code" (MAC) for each
- * SSL stream and block cipher message.  This is essentially a shared-secret
- * signature, used to provide integrity protection for SSL messages.  The
- * MAC is actually one of several keyed hashes, as associated with the cipher
- * suite and protocol version. (SSL v3.0 uses one construct, TLS uses another.)
+ * Tiis dlbss domputfs tif "Mfssbgf Autifntidbtion Codf" (MAC) for fbdi
+ * SSL strfbm bnd blodk dipifr mfssbgf.  Tiis is fssfntiblly b sibrfd-sfdrft
+ * signbturf, usfd to providf intfgrity protfdtion for SSL mfssbgfs.  Tif
+ * MAC is bdtublly onf of sfvfrbl kfyfd ibsifs, bs bssodibtfd witi tif dipifr
+ * suitf bnd protodol vfrsion. (SSL v3.0 usfs onf donstrudt, TLS usfs bnotifr.)
  *
- * @author David Brownell
- * @author Andreas Sterbenz
+ * @butior Dbvid Brownfll
+ * @butior Andrfbs Stfrbfnz
  */
-final class MAC extends Authenticator {
+finbl dlbss MAC fxtfnds Autifntidbtor {
 
-    final static MAC NULL = new MAC();
+    finbl stbtid MAC NULL = nfw MAC();
 
-    // Value of the null MAC is fixed
-    private static final byte nullMAC[] = new byte[0];
+    // Vbluf of tif null MAC is fixfd
+    privbtf stbtid finbl bytf nullMAC[] = nfw bytf[0];
 
-    // internal identifier for the MAC algorithm
-    private final MacAlg        macAlg;
+    // intfrnbl idfntififr for tif MAC blgoritim
+    privbtf finbl MbdAlg        mbdAlg;
 
-    // JCE Mac object
-    private final Mac mac;
+    // JCE Mbd objfdt
+    privbtf finbl Mbd mbd;
 
-    private MAC() {
-        macAlg = M_NULL;
-        mac = null;
+    privbtf MAC() {
+        mbdAlg = M_NULL;
+        mbd = null;
     }
 
     /**
-     * Set up, configured for the given SSL/TLS MAC type and version.
+     * Sft up, donfigurfd for tif givfn SSL/TLS MAC typf bnd vfrsion.
      */
-    MAC(MacAlg macAlg, ProtocolVersion protocolVersion, SecretKey key)
-            throws NoSuchAlgorithmException, InvalidKeyException {
-        super(protocolVersion);
-        this.macAlg = macAlg;
+    MAC(MbdAlg mbdAlg, ProtodolVfrsion protodolVfrsion, SfdrftKfy kfy)
+            tirows NoSudiAlgoritimExdfption, InvblidKfyExdfption {
+        supfr(protodolVfrsion);
+        tiis.mbdAlg = mbdAlg;
 
-        String algorithm;
-        boolean tls = (protocolVersion.v >= ProtocolVersion.TLS10.v);
+        String blgoritim;
+        boolfbn tls = (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v);
 
-        if (macAlg == M_MD5) {
-            algorithm = tls ? "HmacMD5" : "SslMacMD5";
-        } else if (macAlg == M_SHA) {
-            algorithm = tls ? "HmacSHA1" : "SslMacSHA1";
-        } else if (macAlg == M_SHA256) {
-            algorithm = "HmacSHA256";    // TLS 1.2+
-        } else if (macAlg == M_SHA384) {
-            algorithm = "HmacSHA384";    // TLS 1.2+
-        } else {
-            throw new RuntimeException("Unknown Mac " + macAlg);
+        if (mbdAlg == M_MD5) {
+            blgoritim = tls ? "HmbdMD5" : "SslMbdMD5";
+        } flsf if (mbdAlg == M_SHA) {
+            blgoritim = tls ? "HmbdSHA1" : "SslMbdSHA1";
+        } flsf if (mbdAlg == M_SHA256) {
+            blgoritim = "HmbdSHA256";    // TLS 1.2+
+        } flsf if (mbdAlg == M_SHA384) {
+            blgoritim = "HmbdSHA384";    // TLS 1.2+
+        } flsf {
+            tirow nfw RuntimfExdfption("Unknown Mbd " + mbdAlg);
         }
 
-        mac = JsseJce.getMac(algorithm);
-        mac.init(key);
+        mbd = JssfJdf.gftMbd(blgoritim);
+        mbd.init(kfy);
     }
 
     /**
-     * Returns the length of the MAC.
+     * Rfturns tif lfngti of tif MAC.
      */
-    int MAClen() {
-        return macAlg.size;
+    int MAClfn() {
+        rfturn mbdAlg.sizf;
     }
 
     /**
-     * Returns the hash function block length of the MAC alorithm.
+     * Rfturns tif ibsi fundtion blodk lfngti of tif MAC bloritim.
      */
-    int hashBlockLen() {
-        return macAlg.hashBlockSize;
+    int ibsiBlodkLfn() {
+        rfturn mbdAlg.ibsiBlodkSizf;
     }
 
     /**
-     * Returns the hash function minimal padding length of the MAC alorithm.
+     * Rfturns tif ibsi fundtion minimbl pbdding lfngti of tif MAC bloritim.
      */
-    int minimalPaddingLen() {
-        return macAlg.minimalPaddingSize;
+    int minimblPbddingLfn() {
+        rfturn mbdAlg.minimblPbddingSizf;
     }
 
     /**
-     * Computes and returns the MAC for the data in this byte array.
+     * Computfs bnd rfturns tif MAC for tif dbtb in tiis bytf brrby.
      *
-     * @param type record type
-     * @param buf compressed record on which the MAC is computed
-     * @param offset start of compressed record data
-     * @param len the size of the compressed record
-     * @param isSimulated if true, simulate the the MAC computation
+     * @pbrbm typf rfdord typf
+     * @pbrbm buf domprfssfd rfdord on wiidi tif MAC is domputfd
+     * @pbrbm offsft stbrt of domprfssfd rfdord dbtb
+     * @pbrbm lfn tif sizf of tif domprfssfd rfdord
+     * @pbrbm isSimulbtfd if truf, simulbtf tif tif MAC domputbtion
      */
-    final byte[] compute(byte type, byte buf[],
-            int offset, int len, boolean isSimulated) {
-        if (macAlg.size == 0) {
-            return nullMAC;
+    finbl bytf[] domputf(bytf typf, bytf buf[],
+            int offsft, int lfn, boolfbn isSimulbtfd) {
+        if (mbdAlg.sizf == 0) {
+            rfturn nullMAC;
         }
 
-        if (!isSimulated) {
-            byte[] additional = acquireAuthenticationBytes(type, len);
-            mac.update(additional);
+        if (!isSimulbtfd) {
+            bytf[] bdditionbl = bdquirfAutifntidbtionBytfs(typf, lfn);
+            mbd.updbtf(bdditionbl);
         }
-        mac.update(buf, offset, len);
+        mbd.updbtf(buf, offsft, lfn);
 
-        return mac.doFinal();
+        rfturn mbd.doFinbl();
     }
 
     /**
-     * Compute and returns the MAC for the remaining data
-     * in this ByteBuffer.
+     * Computf bnd rfturns tif MAC for tif rfmbining dbtb
+     * in tiis BytfBufffr.
      *
-     * On return, the bb position == limit, and limit will
-     * have not changed.
+     * On rfturn, tif bb position == limit, bnd limit will
+     * ibvf not dibngfd.
      *
-     * @param type record type
-     * @param bb a ByteBuffer in which the position and limit
-     *          demarcate the data to be MAC'd.
-     * @param isSimulated if true, simulate the the MAC computation
+     * @pbrbm typf rfdord typf
+     * @pbrbm bb b BytfBufffr in wiidi tif position bnd limit
+     *          dfmbrdbtf tif dbtb to bf MAC'd.
+     * @pbrbm isSimulbtfd if truf, simulbtf tif tif MAC domputbtion
      */
-    final byte[] compute(byte type, ByteBuffer bb, boolean isSimulated) {
-        if (macAlg.size == 0) {
-            return nullMAC;
+    finbl bytf[] domputf(bytf typf, BytfBufffr bb, boolfbn isSimulbtfd) {
+        if (mbdAlg.sizf == 0) {
+            rfturn nullMAC;
         }
 
-        if (!isSimulated) {
-            byte[] additional =
-                    acquireAuthenticationBytes(type, bb.remaining());
-            mac.update(additional);
+        if (!isSimulbtfd) {
+            bytf[] bdditionbl =
+                    bdquirfAutifntidbtionBytfs(typf, bb.rfmbining());
+            mbd.updbtf(bdditionbl);
         }
-        mac.update(bb);
+        mbd.updbtf(bb);
 
-        return mac.doFinal();
+        rfturn mbd.doFinbl();
     }
 
 }

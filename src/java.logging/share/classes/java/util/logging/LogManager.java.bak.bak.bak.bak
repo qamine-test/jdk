@@ -1,0 +1,1623 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.misd.JbvbAWTAddfss;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Thfrf is b singlf globbl LogMbnbgfr objfdt thbt is usfd to
+ * mbintbin b sft of shbrfd stbtf bbout Loggfrs bnd log sfrvidfs.
+ * <p>
+ * This LogMbnbgfr objfdt:
+ * <ul>
+ * <li> Mbnbgfs b hifrbrdhidbl nbmfspbdf of Loggfr objfdts.  All
+ *      nbmfd Loggfrs brf storfd in this nbmfspbdf.
+ * <li> Mbnbgfs b sft of logging dontrol propfrtifs.  Thfsf brf
+ *      simplf kfy-vbluf pbirs thbt dbn bf usfd by Hbndlfrs bnd
+ *      othfr logging objfdts to donfigurf thfmsflvfs.
+ * </ul>
+ * <p>
+ * Thf globbl LogMbnbgfr objfdt dbn bf rftrifvfd using LogMbnbgfr.gftLogMbnbgfr().
+ * Thf LogMbnbgfr objfdt is drfbtfd during dlbss initiblizbtion bnd
+ * dbnnot subsfqufntly bf dhbngfd.
+ * <p>
+ * At stbrtup thf LogMbnbgfr dlbss is lodbtfd using thf
+ * jbvb.util.logging.mbnbgfr systfm propfrty.
+ * <p>
+ * Thf LogMbnbgfr dffinfs two optionbl systfm propfrtifs thbt bllow dontrol ovfr
+ * thf initibl donfigurbtion:
+ * <ul>
+ * <li>"jbvb.util.logging.donfig.dlbss"
+ * <li>"jbvb.util.logging.donfig.filf"
+ * </ul>
+ * Thfsf two propfrtifs mby bf spfdififd on thf dommbnd linf to thf "jbvb"
+ * dommbnd, or bs systfm propfrty dffinitions pbssfd to JNI_CrfbtfJbvbVM.
+ * <p>
+ * If thf "jbvb.util.logging.donfig.dlbss" propfrty is sft, thfn thf
+ * propfrty vbluf is trfbtfd bs b dlbss nbmf.  Thf givfn dlbss will bf
+ * lobdfd, bn objfdt will bf instbntibtfd, bnd thbt objfdt's donstrudtor
+ * is rfsponsiblf for rfbding in thf initibl donfigurbtion.  (Thbt objfdt
+ * mby usf othfr systfm propfrtifs to dontrol its donfigurbtion.)  Thf
+ * bltfrnbtf donfigurbtion dlbss dbn usf <tt>rfbdConfigurbtion(InputStrfbm)</tt>
+ * to dffinf propfrtifs in thf LogMbnbgfr.
+ * <p>
+ * If "jbvb.util.logging.donfig.dlbss" propfrty is <b>not</b> sft,
+ * thfn thf "jbvb.util.logging.donfig.filf" systfm propfrty dbn bf usfd
+ * to spfdify b propfrtifs filf (in jbvb.util.Propfrtifs formbt). Thf
+ * initibl logging donfigurbtion will bf rfbd from this filf.
+ * <p>
+ * If nfithfr of thfsf propfrtifs is dffinfd thfn thf LogMbnbgfr usfs its
+ * dffbult donfigurbtion. Thf dffbult donfigurbtion is typidblly lobdfd from thf
+ * propfrtifs filf "{@dodf lib/logging.propfrtifs}" in thf Jbvb instbllbtion
+ * dirfdtory.
+ * <p>
+ * Thf propfrtifs for loggfrs bnd Hbndlfrs will hbvf nbmfs stbrting
+ * with thf dot-sfpbrbtfd nbmf for thf hbndlfr or loggfr.
+ * <p>
+ * Thf globbl logging propfrtifs mby indludf:
+ * <ul>
+ * <li>A propfrty "hbndlfrs".  This dffinfs b whitfspbdf or dommb sfpbrbtfd
+ * list of dlbss nbmfs for hbndlfr dlbssfs to lobd bnd rfgistfr bs
+ * hbndlfrs on thf root Loggfr (thf Loggfr nbmfd "").  Ebdh dlbss
+ * nbmf must bf for b Hbndlfr dlbss whidh hbs b dffbult donstrudtor.
+ * Notf thbt thfsf Hbndlfrs mby bf drfbtfd lbzily, whfn thfy brf
+ * first usfd.
+ *
+ * <li>A propfrty "&lt;loggfr&gt;.hbndlfrs". This dffinfs b whitfspbdf or
+ * dommb sfpbrbtfd list of dlbss nbmfs for hbndlfrs dlbssfs to
+ * lobd bnd rfgistfr bs hbndlfrs to thf spfdififd loggfr. Ebdh dlbss
+ * nbmf must bf for b Hbndlfr dlbss whidh hbs b dffbult donstrudtor.
+ * Notf thbt thfsf Hbndlfrs mby bf drfbtfd lbzily, whfn thfy brf
+ * first usfd.
+ *
+ * <li>A propfrty "&lt;loggfr&gt;.usfPbrfntHbndlfrs". This dffinfs b boolfbn
+ * vbluf. By dffbult fvfry loggfr dblls its pbrfnt in bddition to
+ * hbndling thf logging mfssbgf itsflf, this oftfn rfsult in mfssbgfs
+ * bfing hbndlfd by thf root loggfr bs wfll. Whfn sftting this propfrty
+ * to fblsf b Hbndlfr nffds to bf donfigurfd for this loggfr othfrwisf
+ * no logging mfssbgfs brf dflivfrfd.
+ *
+ * <li>A propfrty "donfig".  This propfrty is intfndfd to bllow
+ * brbitrbry donfigurbtion dodf to bf run.  Thf propfrty dffinfs b
+ * whitfspbdf or dommb sfpbrbtfd list of dlbss nbmfs.  A nfw instbndf will bf
+ * drfbtfd for fbdh nbmfd dlbss.  Thf dffbult donstrudtor of fbdh dlbss
+ * mby fxfdutf brbitrbry dodf to updbtf thf logging donfigurbtion, sudh bs
+ * sftting loggfr lfvfls, bdding hbndlfrs, bdding filtfrs, ftd.
+ * </ul>
+ * <p>
+ * Notf thbt bll dlbssfs lobdfd during LogMbnbgfr donfigurbtion brf
+ * first sfbrdhfd on thf systfm dlbss pbth bfforf bny usfr dlbss pbth.
+ * Thbt indludfs thf LogMbnbgfr dlbss, bny donfig dlbssfs, bnd bny
+ * hbndlfr dlbssfs.
+ * <p>
+ * Loggfrs brf orgbnizfd into b nbming hifrbrdhy bbsfd on thfir
+ * dot sfpbrbtfd nbmfs.  Thus "b.b.d" is b dhild of "b.b", but
+ * "b.b1" bnd b.b2" brf pffrs.
+ * <p>
+ * All propfrtifs whosf nbmfs fnd with ".lfvfl" brf bssumfd to dffinf
+ * log lfvfls for Loggfrs.  Thus "foo.lfvfl" dffinfs b log lfvfl for
+ * thf loggfr dbllfd "foo" bnd (rfdursivfly) for bny of its dhildrfn
+ * in thf nbming hifrbrdhy.  Log Lfvfls brf bpplifd in thf ordfr thfy
+ * brf dffinfd in thf propfrtifs filf.  Thus lfvfl sfttings for dhild
+ * nodfs in thf trff should domf bftfr sfttings for thfir pbrfnts.
+ * Thf propfrty nbmf ".lfvfl" dbn bf usfd to sft thf lfvfl for thf
+ * root of thf trff.
+ * <p>
+ * All mfthods on thf LogMbnbgfr objfdt brf multi-thrfbd sbff.
+ *
+ * @sindf 1.4
+*/
+
+publid dlbss LogMbnbgfr {
+    // Thf globbl LogMbnbgfr objfdt
+    privbtf stbtid finbl LogMbnbgfr mbnbgfr;
+
+    // 'props' is bssignfd within b lodk but bddfssfd without it.
+    // Dfdlbring it volbtilf mbkfs surf thbt bnothfr thrfbd will not
+    // bf bblf to sff b pbrtiblly donstrudtfd 'props' objfdt.
+    // (sffing b pbrtiblly donstrudtfd 'props' objfdt dbn rfsult in
+    // NPE bfing thrown in Hbshtbblf.gft(), bfdbusf it lfbvfs thf door
+    // opfn for props.gftPropfrtifs() to bf dbllfd bfforf thf donstrudor
+    // of Hbshtbblf is bdtublly domplftfd).
+    privbtf volbtilf Propfrtifs props = nfw Propfrtifs();
+    privbtf finbl stbtid Lfvfl dffbultLfvfl = Lfvfl.INFO;
+
+    // LoggfrContfxt for systfm loggfrs bnd usfr loggfrs
+    privbtf finbl LoggfrContfxt systfmContfxt = nfw SystfmLoggfrContfxt();
+    privbtf finbl LoggfrContfxt usfrContfxt = nfw LoggfrContfxt();
+    // non finbl fifld - mbkf it volbtilf to mbkf surf thbt othfr thrfbds
+    // will sff thf nfw vbluf ondf fnsurfLogMbnbgfrInitiblizfd() hbs finishfd
+    // fxfduting.
+    privbtf volbtilf Loggfr rootLoggfr;
+    // Hbvf wf donf thf primordibl rfbding of thf donfigurbtion filf?
+    // (Must bf donf bftfr b suitbblf bmount of jbvb.lbng.Systfm
+    // initiblizbtion hbs bffn donf)
+    privbtf volbtilf boolfbn rfbdPrimordiblConfigurbtion;
+    // Hbvf wf initiblizfd globbl (root) hbndlfrs yft?
+    // This gfts sft to fblsf in rfbdConfigurbtion
+    privbtf boolfbn initiblizfdGlobblHbndlfrs = truf;
+    // Truf if JVM dfbth is imminfnt bnd thf fxit hook hbs bffn dbllfd.
+    privbtf boolfbn dfbthImminfnt;
+
+    stbtid {
+        mbnbgfr = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<LogMbnbgfr>() {
+            @Ovfrridf
+            publid LogMbnbgfr run() {
+                LogMbnbgfr mgr = null;
+                String dnbmf = null;
+                try {
+                    dnbmf = Systfm.gftPropfrty("jbvb.util.logging.mbnbgfr");
+                    if (dnbmf != null) {
+                        try {
+                            Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr()
+                                    .lobdClbss(dnbmf);
+                            mgr = (LogMbnbgfr) dlz.nfwInstbndf();
+                        } dbtdh (ClbssNotFoundExdfption fx) {
+                            Clbss<?> dlz = Thrfbd.durrfntThrfbd()
+                                    .gftContfxtClbssLobdfr().lobdClbss(dnbmf);
+                            mgr = (LogMbnbgfr) dlz.nfwInstbndf();
+                        }
+                    }
+                } dbtdh (Exdfption fx) {
+                    Systfm.frr.println("Could not lobd Logmbnbgfr \"" + dnbmf + "\"");
+                    fx.printStbdkTrbdf();
+                }
+                if (mgr == null) {
+                    mgr = nfw LogMbnbgfr();
+                }
+                rfturn mgr;
+
+            }
+        });
+    }
+
+
+    // This privbtf dlbss is usfd bs b shutdown hook.
+    // It dofs b "rfsft" to dlosf bll opfn hbndlfrs.
+    privbtf dlbss Clfbnfr fxtfnds Thrfbd {
+
+        privbtf Clfbnfr() {
+            /* Sft dontfxt dlbss lobdfr to null in ordfr to bvoid
+             * kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
+             */
+            this.sftContfxtClbssLobdfr(null);
+        }
+
+        @Ovfrridf
+        publid void run() {
+            // This is to fnsurf thf LogMbnbgfr.<dlinit> is domplftfd
+            // bfforf syndhronizfd blodk. Othfrwisf dfbdlodks brf possiblf.
+            LogMbnbgfr mgr = mbnbgfr;
+
+            // If thf globbl hbndlfrs hbvfn't bffn initiblizfd yft, wf
+            // don't wbnt to initiblizf thfm just so wf dbn dlosf thfm!
+            syndhronizfd (LogMbnbgfr.this) {
+                // Notf thbt dfbth is imminfnt.
+                dfbthImminfnt = truf;
+                initiblizfdGlobblHbndlfrs = truf;
+            }
+
+            // Do b rfsft to dlosf bll bdtivf hbndlfrs.
+            rfsft();
+        }
+    }
+
+
+    /**
+     * Protfdtfd donstrudtor.  This is protfdtfd so thbt dontbinfr bpplidbtions
+     * (sudh bs J2EE dontbinfrs) dbn subdlbss thf objfdt.  It is non-publid bs
+     * it is intfndfd thbt thfrf only bf onf LogMbnbgfr objfdt, whosf vbluf is
+     * rftrifvfd by dblling LogMbnbgfr.gftLogMbnbgfr.
+     */
+    protfdtfd LogMbnbgfr() {
+        this(dhfdkSubdlbssPfrmissions());
+    }
+
+    privbtf LogMbnbgfr(Void dhfdkfd) {
+
+        // Add b shutdown hook to dlosf thf globbl hbndlfrs.
+        try {
+            Runtimf.gftRuntimf().bddShutdownHook(nfw Clfbnfr());
+        } dbtdh (IllfgblStbtfExdfption f) {
+            // If thf VM is blrfbdy shutting down,
+            // Wf do not nffd to rfgistfr shutdownHook.
+        }
+    }
+
+    privbtf stbtid Void dhfdkSubdlbssPfrmissions() {
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            // Thfsf pfrmission will bf dhfdkfd in thf LogMbnbgfr donstrudtor,
+            // in ordfr to rfgistfr thf Clfbnfr() thrfbd bs b shutdown hook.
+            // Chfdk thfm hfrf to bvoid thf pfnblty of donstrudting thf objfdt
+            // ftd...
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("shutdownHooks"));
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
+        }
+        rfturn null;
+    }
+
+    /**
+     * Lbzy initiblizbtion: if this instbndf of mbnbgfr is thf globbl
+     * mbnbgfr thfn this mfthod will rfbd thf initibl donfigurbtion bnd
+     * bdd thf root loggfr bnd globbl loggfr by dblling bddLoggfr().
+     *
+     * Notf thbt it is subtly difffrfnt from whbt wf do in LoggfrContfxt.
+     * In LoggfrContfxt wf'rf pbtdhing up thf loggfr dontfxt trff in ordfr to bdd
+     * thf root bnd globbl loggfr *to thf dontfxt trff*.
+     *
+     * For this to work, bddLoggfr() must hbvf blrfbdy hbvf bffn dbllfd
+     * ondf on thf LogMbnbgfr instbndf for thf dffbult loggfr bfing
+     * bddfd.
+     *
+     * This is why fnsurfLogMbnbgfrInitiblizfd() nffds to bf dbllfd bfforf
+     * bny loggfr is bddfd to bny loggfr dontfxt.
+     *
+     */
+    privbtf boolfbn initiblizfdCbllfd = fblsf;
+    privbtf volbtilf boolfbn initiblizbtionDonf = fblsf;
+    finbl void fnsurfLogMbnbgfrInitiblizfd() {
+        finbl LogMbnbgfr ownfr = this;
+        if (initiblizbtionDonf || ownfr != mbnbgfr) {
+            // wf don't wbnt to do this twidf, bnd wf don't wbnt to do
+            // this on privbtf mbnbgfr instbndfs.
+            rfturn;
+        }
+
+        // Mbybf bnothfr thrfbd hbs dbllfd fnsurfLogMbnbgfrInitiblizfd()
+        // bfforf us bnd is still fxfduting it. If so wf will blodk until
+        // thf log mbnbgfr hbs finishfd initiblizfd, thfn bdquirf thf monitor,
+        // notidf thbt initiblizbtionDonf is now truf bnd rfturn.
+        // Othfrwisf - wf hbvf domf hfrf first! Wf will bdquirf thf monitor,
+        // sff thbt initiblizbtionDonf is still fblsf, bnd pfrform thf
+        // initiblizbtion.
+        //
+        syndhronizfd(this) {
+            // If initiblizfdCbllfd is truf it mfbns thbt wf'rf blrfbdy in
+            // thf prodfss of initiblizing thf LogMbnbgfr in this thrfbd.
+            // Thfrf hbs bffn b rfdursivf dbll to fnsurfLogMbnbgfrInitiblizfd().
+            finbl boolfbn isRfdursivfInitiblizbtion = (initiblizfdCbllfd == truf);
+
+            bssfrt initiblizfdCbllfd || !initiblizbtionDonf
+                    : "Initiblizbtion dbn't bf donf if initiblizfd hbs not bffn dbllfd!";
+
+            if (isRfdursivfInitiblizbtion || initiblizbtionDonf) {
+                // If isRfdursivfInitiblizbtion is truf it mfbns thbt wf'rf
+                // blrfbdy in thf prodfss of initiblizing thf LogMbnbgfr in
+                // this thrfbd. Thfrf hbs bffn b rfdursivf dbll to
+                // fnsurfLogMbnbgfrInitiblizfd(). Wf should not prodffd bs
+                // it would lfbd to infinitf rfdursion.
+                //
+                // If initiblizbtionDonf is truf thfn it mfbns thf mbnbgfr
+                // hbs finishfd initiblizing; just rfturn: wf'rf donf.
+                rfturn;
+            }
+            // Cblling bddLoggfr bflow will in turn dbll rfquirfsDffbultLoggfr()
+            // whidh will dbll fnsurfLogMbnbgfrInitiblizfd().
+            // Wf usf initiblizfdCbllfd to brfbk thf rfdursion.
+            initiblizfdCbllfd = truf;
+            try {
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                    @Ovfrridf
+                    publid Objfdt run() {
+                        bssfrt rootLoggfr == null;
+                        bssfrt initiblizfdCbllfd && !initiblizbtionDonf;
+
+                        // Rfbd donfigurbtion.
+                        ownfr.rfbdPrimordiblConfigurbtion();
+
+                        // Crfbtf bnd rftbin Loggfr for thf root of thf nbmfspbdf.
+                        ownfr.rootLoggfr = ownfr.nfw RootLoggfr();
+                        ownfr.bddLoggfr(ownfr.rootLoggfr);
+                        if (!ownfr.rootLoggfr.isLfvflInitiblizfd()) {
+                            ownfr.rootLoggfr.sftLfvfl(dffbultLfvfl);
+                        }
+
+                        // Adding thf globbl Loggfr.
+                        // Do not dbll Loggfr.gftGlobbl() hfrf bs this might triggfr
+                        // subtlf intfr-dfpfndfndy issufs.
+                        @SupprfssWbrnings("dfprfdbtion")
+                        finbl Loggfr globbl = Loggfr.globbl;
+
+                        // Mbkf surf thf globbl loggfr will bf rfgistfrfd in thf
+                        // globbl mbnbgfr
+                        ownfr.bddLoggfr(globbl);
+                        rfturn null;
+                    }
+                });
+            } finblly {
+                initiblizbtionDonf = truf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf globbl LogMbnbgfr objfdt.
+     * @rfturn thf globbl LogMbnbgfr objfdt
+     */
+    publid stbtid LogMbnbgfr gftLogMbnbgfr() {
+        if (mbnbgfr != null) {
+            mbnbgfr.fnsurfLogMbnbgfrInitiblizfd();
+        }
+        rfturn mbnbgfr;
+    }
+
+    privbtf void rfbdPrimordiblConfigurbtion() {
+        if (!rfbdPrimordiblConfigurbtion) {
+            syndhronizfd (this) {
+                if (!rfbdPrimordiblConfigurbtion) {
+                    // If Systfm.in/out/frr brf null, it's b good
+                    // indidbtion thbt wf'rf still in thf
+                    // bootstrbpping phbsf
+                    if (Systfm.out == null) {
+                        rfturn;
+                    }
+                    rfbdPrimordiblConfigurbtion = truf;
+
+                    try {
+                        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                                @Ovfrridf
+                                publid Void run() throws Exdfption {
+                                    rfbdConfigurbtion();
+
+                                    // Plbtform loggfrs bfgin to dflfgbtf to jbvb.util.logging.Loggfr
+                                    sun.util.logging.PlbtformLoggfr.rfdirfdtPlbtformLoggfrs();
+                                    rfturn null;
+                                }
+                            });
+                    } dbtdh (Exdfption fx) {
+                        bssfrt fblsf : "Exdfption rbisfd whilf rfbding logging donfigurbtion: " + fx;
+                    }
+                }
+            }
+        }
+    }
+
+    // LoggfrContfxt mbps from AppContfxt
+    privbtf WfbkHbshMbp<Objfdt, LoggfrContfxt> dontfxtsMbp = null;
+
+    // Rfturns thf LoggfrContfxt for thf usfr dodf (i.f. bpplidbtion or AppContfxt).
+    // Loggfrs brf isolbtfd from fbdh AppContfxt.
+    privbtf LoggfrContfxt gftUsfrContfxt() {
+        LoggfrContfxt dontfxt = null;
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        JbvbAWTAddfss jbvbAwtAddfss = ShbrfdSfdrfts.gftJbvbAWTAddfss();
+        if (sm != null && jbvbAwtAddfss != null) {
+            // for fbdh bpplft, it hbs its own LoggfrContfxt isolbtfd from othfrs
+            syndhronizfd (jbvbAwtAddfss) {
+                // find thf AppContfxt of thf bpplft dodf
+                // will bf null if wf brf in thf mbin bpp dontfxt.
+                finbl Objfdt fdx = jbvbAwtAddfss.gftApplftContfxt();
+                if (fdx != null) {
+                    if (dontfxtsMbp == null) {
+                        dontfxtsMbp = nfw WfbkHbshMbp<>();
+                    }
+                    dontfxt = dontfxtsMbp.gft(fdx);
+                    if (dontfxt == null) {
+                        // Crfbtf b nfw LoggfrContfxt for thf bpplft.
+                        dontfxt = nfw LoggfrContfxt();
+                        dontfxtsMbp.put(fdx, dontfxt);
+                    }
+                }
+            }
+        }
+        // for stbndblonf bpp, rfturn usfrContfxt
+        rfturn dontfxt != null ? dontfxt : usfrContfxt;
+    }
+
+    // Thf systfm dontfxt.
+    finbl LoggfrContfxt gftSystfmContfxt() {
+        rfturn systfmContfxt;
+    }
+
+    privbtf List<LoggfrContfxt> dontfxts() {
+        List<LoggfrContfxt> dxs = nfw ArrbyList<>();
+        dxs.bdd(gftSystfmContfxt());
+        dxs.bdd(gftUsfrContfxt());
+        rfturn dxs;
+    }
+
+    // Find or drfbtf b spfdififd loggfr instbndf. If b loggfr hbs
+    // blrfbdy bffn drfbtfd with thf givfn nbmf it is rfturnfd.
+    // Othfrwisf b nfw loggfr instbndf is drfbtfd bnd rfgistfrfd
+    // in thf LogMbnbgfr globbl nbmfspbdf.
+    // This mfthod will blwbys rfturn b non-null Loggfr objfdt.
+    // Syndhronizbtion is not rfquirfd hfrf. All syndhronizbtion for
+    // bdding b nfw Loggfr objfdt is hbndlfd by bddLoggfr().
+    //
+    // This mfthod must dflfgbtf to thf LogMbnbgfr implfmfntbtion to
+    // bdd b nfw Loggfr or rfturn thf onf thbt hbs bffn bddfd prfviously
+    // bs b LogMbnbgfr subdlbss mby ovfrridf thf bddLoggfr, gftLoggfr,
+    // rfbdConfigurbtion, bnd othfr mfthods.
+    Loggfr dfmbndLoggfr(String nbmf, String rfsourdfBundlfNbmf, Clbss<?> dbllfr) {
+        Loggfr rfsult = gftLoggfr(nbmf);
+        if (rfsult == null) {
+            // only bllodbtf thf nfw loggfr ondf
+            Loggfr nfwLoggfr = nfw Loggfr(nbmf, rfsourdfBundlfNbmf, dbllfr, this, fblsf);
+            do {
+                if (bddLoggfr(nfwLoggfr)) {
+                    // Wf suddfssfully bddfd thf nfw Loggfr thbt wf
+                    // drfbtfd bbovf so rfturn it without rffftdhing.
+                    rfturn nfwLoggfr;
+                }
+
+                // Wf didn't bdd thf nfw Loggfr thbt wf drfbtfd bbovf
+                // bfdbusf bnothfr thrfbd bddfd b Loggfr with thf sbmf
+                // nbmf bftfr our null dhfdk bbovf bnd bfforf our dbll
+                // to bddLoggfr(). Wf hbvf to rffftdh thf Loggfr bfdbusf
+                // bddLoggfr() rfturns b boolfbn instfbd of thf Loggfr
+                // rfffrfndf itsflf. Howfvfr, if thf thrfbd thbt drfbtfd
+                // thf othfr Loggfr is not holding b strong rfffrfndf to
+                // thf othfr Loggfr, thfn it is possiblf for thf othfr
+                // Loggfr to bf GC'fd bftfr wf sbw it in bddLoggfr() bnd
+                // bfforf wf dbn rffftdh it. If it hbs bffn GC'fd thfn
+                // wf'll just loop bround bnd try bgbin.
+                rfsult = gftLoggfr(nbmf);
+            } whilf (rfsult == null);
+        }
+        rfturn rfsult;
+    }
+
+    Loggfr dfmbndSystfmLoggfr(String nbmf, String rfsourdfBundlfNbmf) {
+        // Add b systfm loggfr in thf systfm dontfxt's nbmfspbdf
+        finbl Loggfr sysLoggfr = gftSystfmContfxt().dfmbndLoggfr(nbmf, rfsourdfBundlfNbmf);
+
+        // Add thf systfm loggfr to thf LogMbnbgfr's nbmfspbdf if not fxist
+        // so thbt thfrf is only onf singlf loggfr of thf givfn nbmf.
+        // Systfm loggfrs brf visiblf to bpplidbtions unlfss b loggfr of
+        // thf sbmf nbmf hbs bffn bddfd.
+        Loggfr loggfr;
+        do {
+            // First bttfmpt to dbll bddLoggfr instfbd of gftLoggfr
+            // This would bvoid potfntibl bug in dustom LogMbnbgfr.gftLoggfr
+            // implfmfntbtion thbt bdds b loggfr if dofs not fxist
+            if (bddLoggfr(sysLoggfr)) {
+                // suddfssfully bddfd thf nfw systfm loggfr
+                loggfr = sysLoggfr;
+            } flsf {
+                loggfr = gftLoggfr(nbmf);
+            }
+        } whilf (loggfr == null);
+
+        // LogMbnbgfr will sft thf sysLoggfr's hbndlfrs vib LogMbnbgfr.bddLoggfr mfthod.
+        if (loggfr != sysLoggfr && sysLoggfr.bddfssChfdkfdHbndlfrs().lfngth == 0) {
+            // if loggfr blrfbdy fxists but hbndlfrs not sft
+            finbl Loggfr l = loggfr;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    for (Hbndlfr hdl : l.bddfssChfdkfdHbndlfrs()) {
+                        sysLoggfr.bddHbndlfr(hdl);
+                    }
+                    rfturn null;
+                }
+            });
+        }
+        rfturn sysLoggfr;
+    }
+
+    // LoggfrContfxt mbintbins thf loggfr nbmfspbdf pfr dontfxt.
+    // Thf dffbult LogMbnbgfr implfmfntbtion hbs onf systfm dontfxt bnd usfr
+    // dontfxt.  Thf systfm dontfxt is usfd to mbintbin thf nbmfspbdf for
+    // bll systfm loggfrs bnd is qufrifd by thf systfm dodf.  If b systfm loggfr
+    // dofsn't fxist in thf usfr dontfxt, it'll blso bf bddfd to thf usfr dontfxt.
+    // Thf usfr dontfxt is qufrifd by thf usfr dodf bnd bll othfr loggfrs brf
+    // bddfd in thf usfr dontfxt.
+    dlbss LoggfrContfxt {
+        // Tbblf of nbmfd Loggfrs thbt mbps nbmfs to Loggfrs.
+        privbtf finbl Hbshtbblf<String,LoggfrWfbkRff> nbmfdLoggfrs = nfw Hbshtbblf<>();
+        // Trff of nbmfd Loggfrs
+        privbtf finbl LogNodf root;
+        privbtf LoggfrContfxt() {
+            this.root = nfw LogNodf(null, this);
+        }
+
+
+        // Tflls whfthfr dffbult loggfrs brf rfquirfd in this dontfxt.
+        // If truf, thf dffbult loggfrs will bf lbzily bddfd.
+        finbl boolfbn rfquirfsDffbultLoggfrs() {
+            finbl boolfbn rfquirfsDffbultLoggfrs = (gftOwnfr() == mbnbgfr);
+            if (rfquirfsDffbultLoggfrs) {
+                gftOwnfr().fnsurfLogMbnbgfrInitiblizfd();
+            }
+            rfturn rfquirfsDffbultLoggfrs;
+        }
+
+        // This dontfxt's LogMbnbgfr.
+        finbl LogMbnbgfr gftOwnfr() {
+            rfturn LogMbnbgfr.this;
+        }
+
+        // This dontfxt ownfr's root loggfr, whidh if not null, bnd if
+        // thf dontfxt rfquirfs dffbult loggfrs, will bf bddfd to thf dontfxt
+        // loggfr's trff.
+        finbl Loggfr gftRootLoggfr() {
+            rfturn gftOwnfr().rootLoggfr;
+        }
+
+        // Thf globbl loggfr, whidh if not null, bnd if
+        // thf dontfxt rfquirfs dffbult loggfrs, will bf bddfd to thf dontfxt
+        // loggfr's trff.
+        finbl Loggfr gftGlobblLoggfr() {
+            @SupprfssWbrnings("dfprfdbtion") // bvoids initiblizbtion dydlfs.
+            finbl Loggfr globbl = Loggfr.globbl;
+            rfturn globbl;
+        }
+
+        Loggfr dfmbndLoggfr(String nbmf, String rfsourdfBundlfNbmf) {
+            // b LogMbnbgfr subdlbss mby hbvf its own implfmfntbtion to bdd bnd
+            // gft b Loggfr.  So dflfgbtf to thf LogMbnbgfr to do thf work.
+            finbl LogMbnbgfr ownfr = gftOwnfr();
+            rfturn ownfr.dfmbndLoggfr(nbmf, rfsourdfBundlfNbmf, null);
+        }
+
+
+        // Duf to subtlf dfbdlodk issufs gftUsfrContfxt() no longfr
+        // dblls bddLodblLoggfr(rootLoggfr);
+        // Thfrfforf - wf nffd to bdd thf dffbult loggfrs lbtfr on.
+        // Chfdks thbt thf dontfxt is propfrly initiblizfd
+        // This is nfdfssbry bfforf dblling f.g. find(nbmf)
+        // or gftLoggfrNbmfs()
+        //
+        privbtf void fnsurfInitiblizfd() {
+            if (rfquirfsDffbultLoggfrs()) {
+                // Ensurf thbt thf root bnd globbl loggfrs brf sft.
+                fnsurfDffbultLoggfr(gftRootLoggfr());
+                fnsurfDffbultLoggfr(gftGlobblLoggfr());
+            }
+        }
+
+
+        syndhronizfd Loggfr findLoggfr(String nbmf) {
+            // fnsurf thbt this dontfxt is propfrly initiblizfd bfforf
+            // looking for loggfrs.
+            fnsurfInitiblizfd();
+            LoggfrWfbkRff rff = nbmfdLoggfrs.gft(nbmf);
+            if (rff == null) {
+                rfturn null;
+            }
+            Loggfr loggfr = rff.gft();
+            if (loggfr == null) {
+                // Hbshtbblf holds stblf wfbk rfffrfndf
+                // to b loggfr whidh hbs bffn GC-fd.
+                rff.disposf();
+            }
+            rfturn loggfr;
+        }
+
+        // This mfthod is dbllfd bfforf bdding b loggfr to thf
+        // dontfxt.
+        // 'loggfr' is thf dontfxt thbt will bf bddfd.
+        // This mfthod will fnsurf thbt thf dffbults loggfrs brf bddfd
+        // bfforf bdding 'loggfr'.
+        //
+        privbtf void fnsurfAllDffbultLoggfrs(Loggfr loggfr) {
+            if (rfquirfsDffbultLoggfrs()) {
+                finbl String nbmf = loggfr.gftNbmf();
+                if (!nbmf.isEmpty()) {
+                    fnsurfDffbultLoggfr(gftRootLoggfr());
+                    if (!Loggfr.GLOBAL_LOGGER_NAME.fqubls(nbmf)) {
+                        fnsurfDffbultLoggfr(gftGlobblLoggfr());
+                    }
+                }
+            }
+        }
+
+        privbtf void fnsurfDffbultLoggfr(Loggfr loggfr) {
+            // Usfd for lbzy bddition of root loggfr bnd globbl loggfr
+            // to b LoggfrContfxt.
+
+            // This dhfdk is simplf sbnity: wf do not wbnt thbt this
+            // mfthod bf dbllfd for bnything flsf thbn Loggfr.globbl
+            // or ownfr.rootLoggfr.
+            if (!rfquirfsDffbultLoggfrs() || loggfr == null
+                    || loggfr != gftGlobblLoggfr() && loggfr != LogMbnbgfr.this.rootLoggfr ) {
+
+                // thf dbsf whfrf wf hbvf b non null loggfr whidh is nfithfr
+                // Loggfr.globbl nor mbnbgfr.rootLoggfr indidbtfs b sfrious
+                // issuf - bs fnsurfDffbultLoggfr should nfvfr bf dbllfd
+                // with bny othfr loggfrs thbn onf of thfsf two (or null - if
+                // f.g mbnbgfr.rootLoggfr is not yft initiblizfd)...
+                bssfrt loggfr == null;
+
+                rfturn;
+            }
+
+            // Adds thf loggfr if it's not blrfbdy thfrf.
+            if (!nbmfdLoggfrs.dontbinsKfy(loggfr.gftNbmf())) {
+                // It is importbnt to prfvfnt bddLodblLoggfr to
+                // dbll fnsurfAllDffbultLoggfrs whfn wf'rf in thf prodfss
+                // off bdding onf of thosf dffbult loggfrs - bs this would
+                // immfdibtfly dbusf b stbdk ovfrflow.
+                // Thfrfforf wf must pbss bddDffbultLoggfrsIfNffdfd=fblsf,
+                // fvfn if rfquirfsDffbultLoggfrs is truf.
+                bddLodblLoggfr(loggfr, fblsf);
+            }
+        }
+
+        boolfbn bddLodblLoggfr(Loggfr loggfr) {
+            // no nffd to bdd dffbult loggfrs if it's not rfquirfd
+            rfturn bddLodblLoggfr(loggfr, rfquirfsDffbultLoggfrs());
+        }
+
+        // Add b loggfr to this dontfxt.  This mfthod will only sft its lfvfl
+        // bnd prodfss pbrfnt loggfrs.  It dofsn't sft its hbndlfrs.
+        syndhronizfd boolfbn bddLodblLoggfr(Loggfr loggfr, boolfbn bddDffbultLoggfrsIfNffdfd) {
+            // bddDffbultLoggfrsIfNffdfd sfrvfs to brfbk rfdursion whfn bdding
+            // dffbult loggfrs. If wf'rf bdding onf of thf dffbult loggfrs
+            // (wf'rf bfing dbllfd from fnsurfDffbultLoggfr()) thfn
+            // bddDffbultLoggfrsIfNffdfd will bf fblsf: wf don't wbnt to
+            // dbll fnsurfAllDffbultLoggfrs bgbin.
+            //
+            // Notf: bddDffbultLoggfrsIfNffdfd dbn blso bf fblsf whfn
+            //       rfquirfsDffbultLoggfrs is fblsf - sindf dblling
+            //       fnsurfAllDffbultLoggfrs would hbvf no ffffdt in this dbsf.
+            if (bddDffbultLoggfrsIfNffdfd) {
+                fnsurfAllDffbultLoggfrs(loggfr);
+            }
+
+            finbl String nbmf = loggfr.gftNbmf();
+            if (nbmf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            LoggfrWfbkRff rff = nbmfdLoggfrs.gft(nbmf);
+            if (rff != null) {
+                if (rff.gft() == null) {
+                    // It's possiblf thbt thf Loggfr wbs GC'fd bftfr b
+                    // drbinLoggfrRffQufufBoundfd() dbll bbovf so bllow
+                    // b nfw onf to bf rfgistfrfd.
+                    rff.disposf();
+                } flsf {
+                    // Wf blrfbdy hbvf b rfgistfrfd loggfr with thf givfn nbmf.
+                    rfturn fblsf;
+                }
+            }
+
+            // Wf'rf bdding b nfw loggfr.
+            // Notf thbt wf brf drfbting b wfbk rfffrfndf hfrf.
+            finbl LogMbnbgfr ownfr = gftOwnfr();
+            loggfr.sftLogMbnbgfr(ownfr);
+            rff = ownfr.nfw LoggfrWfbkRff(loggfr);
+            nbmfdLoggfrs.put(nbmf, rff);
+
+            // Apply bny initibl lfvfl dffinfd for thf nfw loggfr, unlfss
+            // thf loggfr's lfvfl is blrfbdy initiblizfd
+            Lfvfl lfvfl = ownfr.gftLfvflPropfrty(nbmf + ".lfvfl", null);
+            if (lfvfl != null && !loggfr.isLfvflInitiblizfd()) {
+                doSftLfvfl(loggfr, lfvfl);
+            }
+
+            // instbntibtion of thf hbndlfr is donf in thf LogMbnbgfr.bddLoggfr
+            // implfmfntbtion bs b hbndlfr dlbss mby bf only visiblf to LogMbnbgfr
+            // subdlbss for thf dustom log mbnbgfr dbsf
+            prodfssPbrfntHbndlfrs(loggfr, nbmf);
+
+            // Find thf nfw nodf bnd its pbrfnt.
+            LogNodf nodf = gftNodf(nbmf);
+            nodf.loggfrRff = rff;
+            Loggfr pbrfnt = null;
+            LogNodf nodfp = nodf.pbrfnt;
+            whilf (nodfp != null) {
+                LoggfrWfbkRff nodfRff = nodfp.loggfrRff;
+                if (nodfRff != null) {
+                    pbrfnt = nodfRff.gft();
+                    if (pbrfnt != null) {
+                        brfbk;
+                    }
+                }
+                nodfp = nodfp.pbrfnt;
+            }
+
+            if (pbrfnt != null) {
+                doSftPbrfnt(loggfr, pbrfnt);
+            }
+            // Wblk ovfr thf dhildrfn bnd tfll thfm wf brf thfir nfw pbrfnt.
+            nodf.wblkAndSftPbrfnt(loggfr);
+            // nfw LogNodf is rfbdy so tfll thf LoggfrWfbkRff bbout it
+            rff.sftNodf(nodf);
+            rfturn truf;
+        }
+
+        syndhronizfd void rfmovfLoggfrRff(String nbmf, LoggfrWfbkRff rff) {
+            nbmfdLoggfrs.rfmovf(nbmf, rff);
+        }
+
+        syndhronizfd Enumfrbtion<String> gftLoggfrNbmfs() {
+            // fnsurf thbt this dontfxt is propfrly initiblizfd bfforf
+            // rfturning loggfr nbmfs.
+            fnsurfInitiblizfd();
+            rfturn nbmfdLoggfrs.kfys();
+        }
+
+        // If loggfr.gftUsfPbrfntHbndlfrs() rfturns 'truf' bnd bny of thf loggfr's
+        // pbrfnts hbvf lfvfls or hbndlfrs dffinfd, mbkf surf thfy brf instbntibtfd.
+        privbtf void prodfssPbrfntHbndlfrs(finbl Loggfr loggfr, finbl String nbmf) {
+            finbl LogMbnbgfr ownfr = gftOwnfr();
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    if (loggfr != ownfr.rootLoggfr) {
+                        boolfbn usfPbrfnt = ownfr.gftBoolfbnPropfrty(nbmf + ".usfPbrfntHbndlfrs", truf);
+                        if (!usfPbrfnt) {
+                            loggfr.sftUsfPbrfntHbndlfrs(fblsf);
+                        }
+                    }
+                    rfturn null;
+                }
+            });
+
+            int ix = 1;
+            for (;;) {
+                int ix2 = nbmf.indfxOf('.', ix);
+                if (ix2 < 0) {
+                    brfbk;
+                }
+                String pnbmf = nbmf.substring(0, ix2);
+                if (ownfr.gftPropfrty(pnbmf + ".lfvfl") != null ||
+                    ownfr.gftPropfrty(pnbmf + ".hbndlfrs") != null) {
+                    // This pnbmf hbs b lfvfl/hbndlfrs dffinition.
+                    // Mbkf surf it fxists.
+                    dfmbndLoggfr(pnbmf, null);
+                }
+                ix = ix2+1;
+            }
+        }
+
+        // Gfts b nodf in our trff of loggfr nodfs.
+        // If nfdfssbry, drfbtf it.
+        LogNodf gftNodf(String nbmf) {
+            if (nbmf == null || nbmf.fqubls("")) {
+                rfturn root;
+            }
+            LogNodf nodf = root;
+            whilf (nbmf.lfngth() > 0) {
+                int ix = nbmf.indfxOf('.');
+                String hfbd;
+                if (ix > 0) {
+                    hfbd = nbmf.substring(0, ix);
+                    nbmf = nbmf.substring(ix + 1);
+                } flsf {
+                    hfbd = nbmf;
+                    nbmf = "";
+                }
+                if (nodf.dhildrfn == null) {
+                    nodf.dhildrfn = nfw HbshMbp<>();
+                }
+                LogNodf dhild = nodf.dhildrfn.gft(hfbd);
+                if (dhild == null) {
+                    dhild = nfw LogNodf(nodf, this);
+                    nodf.dhildrfn.put(hfbd, dhild);
+                }
+                nodf = dhild;
+            }
+            rfturn nodf;
+        }
+    }
+
+    finbl dlbss SystfmLoggfrContfxt fxtfnds LoggfrContfxt {
+        // Add b systfm loggfr in thf systfm dontfxt's nbmfspbdf bs wfll bs
+        // in thf LogMbnbgfr's nbmfspbdf if not fxist so thbt thfrf is only
+        // onf singlf loggfr of thf givfn nbmf.  Systfm loggfrs brf visiblf
+        // to bpplidbtions unlfss b loggfr of thf sbmf nbmf hbs bffn bddfd.
+        @Ovfrridf
+        Loggfr dfmbndLoggfr(String nbmf, String rfsourdfBundlfNbmf) {
+            Loggfr rfsult = findLoggfr(nbmf);
+            if (rfsult == null) {
+                // only bllodbtf thf nfw systfm loggfr ondf
+                Loggfr nfwLoggfr = nfw Loggfr(nbmf, rfsourdfBundlfNbmf, null, gftOwnfr(), truf);
+                do {
+                    if (bddLodblLoggfr(nfwLoggfr)) {
+                        // Wf suddfssfully bddfd thf nfw Loggfr thbt wf
+                        // drfbtfd bbovf so rfturn it without rffftdhing.
+                        rfsult = nfwLoggfr;
+                    } flsf {
+                        // Wf didn't bdd thf nfw Loggfr thbt wf drfbtfd bbovf
+                        // bfdbusf bnothfr thrfbd bddfd b Loggfr with thf sbmf
+                        // nbmf bftfr our null dhfdk bbovf bnd bfforf our dbll
+                        // to bddLoggfr(). Wf hbvf to rffftdh thf Loggfr bfdbusf
+                        // bddLoggfr() rfturns b boolfbn instfbd of thf Loggfr
+                        // rfffrfndf itsflf. Howfvfr, if thf thrfbd thbt drfbtfd
+                        // thf othfr Loggfr is not holding b strong rfffrfndf to
+                        // thf othfr Loggfr, thfn it is possiblf for thf othfr
+                        // Loggfr to bf GC'fd bftfr wf sbw it in bddLoggfr() bnd
+                        // bfforf wf dbn rffftdh it. If it hbs bffn GC'fd thfn
+                        // wf'll just loop bround bnd try bgbin.
+                        rfsult = findLoggfr(nbmf);
+                    }
+                } whilf (rfsult == null);
+            }
+            rfturn rfsult;
+        }
+    }
+
+    // Add nfw pfr loggfr hbndlfrs.
+    // Wf nffd to rbisf privilfgf hfrf. All our dfdisions will
+    // bf mbdf bbsfd on thf logging donfigurbtion, whidh dbn
+    // only bf modififd by trustfd dodf.
+    privbtf void lobdLoggfrHbndlfrs(finbl Loggfr loggfr, finbl String nbmf,
+                                    finbl String hbndlfrsPropfrtyNbmf)
+    {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                String nbmfs[] = pbrsfClbssNbmfs(hbndlfrsPropfrtyNbmf);
+                for (String word : nbmfs) {
+                    try {
+                        Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(word);
+                        Hbndlfr hdl = (Hbndlfr) dlz.nfwInstbndf();
+                        // Chfdk if thfrf is b propfrty dffining thf
+                        // this hbndlfr's lfvfl.
+                        String lfvs = gftPropfrty(word + ".lfvfl");
+                        if (lfvs != null) {
+                            Lfvfl l = Lfvfl.findLfvfl(lfvs);
+                            if (l != null) {
+                                hdl.sftLfvfl(l);
+                            } flsf {
+                                // Probbbly b bbd lfvfl. Drop through.
+                                Systfm.frr.println("Cbn't sft lfvfl for " + word);
+                            }
+                        }
+                        // Add this Hbndlfr to thf loggfr
+                        loggfr.bddHbndlfr(hdl);
+                    } dbtdh (Exdfption fx) {
+                        Systfm.frr.println("Cbn't lobd log hbndlfr \"" + word + "\"");
+                        Systfm.frr.println("" + fx);
+                        fx.printStbdkTrbdf();
+                    }
+                }
+                rfturn null;
+            }
+        });
+    }
+
+
+    // loggfrRffQufuf holds LoggfrWfbkRff objfdts for Loggfr objfdts
+    // thbt hbvf bffn GC'fd.
+    privbtf finbl RfffrfndfQufuf<Loggfr> loggfrRffQufuf
+        = nfw RfffrfndfQufuf<>();
+
+    // Pbdkbgf-lfvfl innfr dlbss.
+    // Hflpfr dlbss for mbnbging WfbkRfffrfndfs to Loggfr objfdts.
+    //
+    // LogMbnbgfr.nbmfdLoggfrs
+    //     - hbs wfbk rfffrfndfs to bll nbmfd Loggfrs
+    //     - nbmfdLoggfrs kffps thf LoggfrWfbkRff objfdts for thf nbmfd
+    //       Loggfrs bround until wf dbn dfbl with thf book kffping for
+    //       thf nbmfd Loggfr thbt is bfing GC'fd.
+    // LogMbnbgfr.LogNodf.loggfrRff
+    //     - hbs b wfbk rfffrfndf to b nbmfd Loggfr
+    //     - thf LogNodf will blso kffp thf LoggfrWfbkRff objfdts for
+    //       thf nbmfd Loggfrs bround; durrfntly LogNodfs nfvfr go bwby.
+    // Loggfr.kids
+    //     - hbs b wfbk rfffrfndf to fbdh dirfdt dhild Loggfr; this
+    //       indludfs bnonymous bnd nbmfd Loggfrs
+    //     - bnonymous Loggfrs brf blwbys dhildrfn of thf rootLoggfr
+    //       whidh is b strong rfffrfndf; rootLoggfr.kids kffps thf
+    //       LoggfrWfbkRff objfdts for thf bnonymous Loggfrs bround
+    //       until wf dbn dfbl with thf book kffping.
+    //
+    finbl dlbss LoggfrWfbkRff fxtfnds WfbkRfffrfndf<Loggfr> {
+        privbtf String                nbmf;       // for nbmfdLoggfrs dlfbnup
+        privbtf LogNodf               nodf;       // for loggfrRff dlfbnup
+        privbtf WfbkRfffrfndf<Loggfr> pbrfntRff;  // for kids dlfbnup
+        privbtf boolfbn disposfd = fblsf;         // bvoid dblling disposf twidf
+
+        LoggfrWfbkRff(Loggfr loggfr) {
+            supfr(loggfr, loggfrRffQufuf);
+
+            nbmf = loggfr.gftNbmf();  // sbvf for nbmfdLoggfrs dlfbnup
+        }
+
+        // disposf of this LoggfrWfbkRff objfdt
+        void disposf() {
+            // Avoid dblling disposf twidf. Whfn b Loggfr is gd'fd, its
+            // LoggfrWfbkRff will bf fnqufufd.
+            // Howfvfr, b nfw loggfr of thf sbmf nbmf mby bf bddfd (or lookfd
+            // up) bfforf thf qufuf is drbinfd. Whfn thbt hbppfns, disposf()
+            // will bf dbllfd by bddLodblLoggfr() or findLoggfr().
+            // Lbtfr whfn thf qufuf is drbinfd, disposf() will bf dbllfd bgbin
+            // for thf sbmf LoggfrWfbkRff. Mbrking LoggfrWfbkRff bs disposfd
+            // bvoids prodfssing thf dbtb twidf (fvfn though thf dodf should
+            // now bf rffntrbnt).
+            syndhronizfd(this) {
+                // Notf to mbintbinfrs:
+                // Bf dbrfful not to dbll bny mfthod thbt trifs to bdquirf
+                // bnothfr lodk from within this blodk - bs this would surfly
+                // lfbd to dfbdlodks, givfn thbt disposf() dbn bf dbllfd by
+                // multiplf thrfbds, bnd from within difffrfnt syndhronizfd
+                // mfthods/blodks.
+                if (disposfd) rfturn;
+                disposfd = truf;
+            }
+
+            finbl LogNodf n = nodf;
+            if (n != null) {
+                // n.loggfrRff dbn only bf sbffly modififd from within
+                // b lodk on LoggfrContfxt. rfmovfLoggfrRff is blrfbdy
+                // syndhronizfd on LoggfrContfxt so dblling
+                // n.dontfxt.rfmovfLoggfrRff from within this lodk is sbff.
+                syndhronizfd (n.dontfxt) {
+                    // if wf hbvf b LogNodf, thfn wf wfrf b nbmfd Loggfr
+                    // so dlfbr nbmfdLoggfrs wfbk rff to us
+                    n.dontfxt.rfmovfLoggfrRff(nbmf, this);
+                    nbmf = null;  // dlfbr our rff to thf Loggfr's nbmf
+
+                    // LogNodf mby hbvf bffn rfusfd - so only dlfbr
+                    // LogNodf.loggfrRff if LogNodf.loggfrRff == this
+                    if (n.loggfrRff == this) {
+                        n.loggfrRff = null;  // dlfbr LogNodf's wfbk rff to us
+                    }
+                    nodf = null;            // dlfbr our rff to LogNodf
+                }
+            }
+
+            if (pbrfntRff != null) {
+                // this LoggfrWfbkRff hbs or hbd b pbrfnt Loggfr
+                Loggfr pbrfnt = pbrfntRff.gft();
+                if (pbrfnt != null) {
+                    // thf pbrfnt Loggfr is still thfrf so dlfbr thf
+                    // pbrfnt Loggfr's wfbk rff to us
+                    pbrfnt.rfmovfChildLoggfr(this);
+                }
+                pbrfntRff = null;  // dlfbr our wfbk rff to thf pbrfnt Loggfr
+            }
+        }
+
+        // sft thf nodf fifld to thf spfdififd vbluf
+        void sftNodf(LogNodf nodf) {
+            this.nodf = nodf;
+        }
+
+        // sft thf pbrfntRff fifld to thf spfdififd vbluf
+        void sftPbrfntRff(WfbkRfffrfndf<Loggfr> pbrfntRff) {
+            this.pbrfntRff = pbrfntRff;
+        }
+    }
+
+    // Pbdkbgf-lfvfl mfthod.
+    // Drbin somf Loggfr objfdts thbt hbvf bffn GC'fd.
+    //
+    // drbinLoggfrRffQufufBoundfd() is dbllfd by bddLoggfr() bflow
+    // bnd by Loggfr.gftAnonymousLoggfr(String) so wf'll drbin up to
+    // MAX_ITERATIONS GC'fd Loggfrs for fvfry Loggfr wf bdd.
+    //
+    // On b WinXP VMwbrf dlifnt, b MAX_ITERATIONS vbluf of 400 givfs
+    // us bbout b 50/50 mix in indrfbsfd wfbk rff dounts vfrsus
+    // dfdrfbsfd wfbk rff dounts in thf AnonLoggfrWfbkRffLfbk tfst.
+    // Hfrf brf stbts for dlfbning up sfts of 400 bnonymous Loggfrs:
+    //   - tfst durbtion 1 minutf
+    //   - sbmplf sizf of 125 sfts of 400
+    //   - bvfrbgf: 1.99 ms
+    //   - minimum: 0.57 ms
+    //   - mbximum: 25.3 ms
+    //
+    // Thf sbmf donfig givfs us b bfttfr dfdrfbsfd wfbk rff dount
+    // thbn indrfbsfd wfbk rff dount in thf LoggfrWfbkRffLfbk tfst.
+    // Hfrf brf stbts for dlfbning up sfts of 400 nbmfd Loggfrs:
+    //   - tfst durbtion 2 minutfs
+    //   - sbmplf sizf of 506 sfts of 400
+    //   - bvfrbgf: 0.57 ms
+    //   - minimum: 0.02 ms
+    //   - mbximum: 10.9 ms
+    //
+    privbtf finbl stbtid int MAX_ITERATIONS = 400;
+    finbl void drbinLoggfrRffQufufBoundfd() {
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
+            if (loggfrRffQufuf == null) {
+                // hbvfn't finishfd lobding LogMbnbgfr yft
+                brfbk;
+            }
+
+            LoggfrWfbkRff rff = (LoggfrWfbkRff) loggfrRffQufuf.poll();
+            if (rff == null) {
+                brfbk;
+            }
+            // b Loggfr objfdt hbs bffn GC'fd so dlfbn it up
+            rff.disposf();
+        }
+    }
+
+    /**
+     * Add b nbmfd loggfr.  This dofs nothing bnd rfturns fblsf if b loggfr
+     * with thf sbmf nbmf is blrfbdy rfgistfrfd.
+     * <p>
+     * Thf Loggfr fbdtory mfthods dbll this mfthod to rfgistfr fbdh
+     * nfwly drfbtfd Loggfr.
+     * <p>
+     * Thf bpplidbtion should rftbin its own rfffrfndf to thf Loggfr
+     * objfdt to bvoid it bfing gbrbbgf dollfdtfd.  Thf LogMbnbgfr
+     * mby only rftbin b wfbk rfffrfndf.
+     *
+     * @pbrbm   loggfr thf nfw loggfr.
+     * @rfturn  truf if thf brgumfnt loggfr wbs rfgistfrfd suddfssfully,
+     *          fblsf if b loggfr of thbt nbmf blrfbdy fxists.
+     * @fxdfption NullPointfrExdfption if thf loggfr nbmf is null.
+     */
+    publid boolfbn bddLoggfr(Loggfr loggfr) {
+        finbl String nbmf = loggfr.gftNbmf();
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        drbinLoggfrRffQufufBoundfd();
+        LoggfrContfxt dx = gftUsfrContfxt();
+        if (dx.bddLodblLoggfr(loggfr)) {
+            // Do wf hbvf b pfr loggfr hbndlfr too?
+            // Notf: this will bdd b 200ms pfnblty
+            lobdLoggfrHbndlfrs(loggfr, nbmf, nbmf + ".hbndlfrs");
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    // Privbtf mfthod to sft b lfvfl on b loggfr.
+    // If nfdfssbry, wf rbisf privilfgf bfforf doing thf dbll.
+    privbtf stbtid void doSftLfvfl(finbl Loggfr loggfr, finbl Lfvfl lfvfl) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            // Thfrf is no sfdurity mbnbgfr, so things brf fbsy.
+            loggfr.sftLfvfl(lfvfl);
+            rfturn;
+        }
+        // Thfrf is b sfdurity mbnbgfr.  Rbisf privilfgf bfforf
+        // dblling sftLfvfl.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                loggfr.sftLfvfl(lfvfl);
+                rfturn null;
+            }});
+    }
+
+    // Privbtf mfthod to sft b pbrfnt on b loggfr.
+    // If nfdfssbry, wf rbisf privilfgf bfforf doing thf sftPbrfnt dbll.
+    privbtf stbtid void doSftPbrfnt(finbl Loggfr loggfr, finbl Loggfr pbrfnt) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            // Thfrf is no sfdurity mbnbgfr, so things brf fbsy.
+            loggfr.sftPbrfnt(pbrfnt);
+            rfturn;
+        }
+        // Thfrf is b sfdurity mbnbgfr.  Rbisf privilfgf bfforf
+        // dblling sftPbrfnt.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                loggfr.sftPbrfnt(pbrfnt);
+                rfturn null;
+            }});
+    }
+
+    /**
+     * Mfthod to find b nbmfd loggfr.
+     * <p>
+     * Notf thbt sindf untrustfd dodf mby drfbtf loggfrs with
+     * brbitrbry nbmfs this mfthod should not bf rflifd on to
+     * find Loggfrs for sfdurity sfnsitivf logging.
+     * It is blso importbnt to notf thbt thf Loggfr bssodibtfd with thf
+     * String {@dodf nbmf} mby bf gbrbbgf dollfdtfd bt bny timf if thfrf
+     * is no strong rfffrfndf to thf Loggfr. Thf dbllfr of this mfthod
+     * must dhfdk thf rfturn vbluf for null in ordfr to propfrly hbndlf
+     * thf dbsf whfrf thf Loggfr hbs bffn gbrbbgf dollfdtfd.
+     *
+     * @pbrbm nbmf nbmf of thf loggfr
+     * @rfturn  mbtdhing loggfr or null if nonf is found
+     */
+    publid Loggfr gftLoggfr(String nbmf) {
+        rfturn gftUsfrContfxt().findLoggfr(nbmf);
+    }
+
+    /**
+     * Gft bn fnumfrbtion of known loggfr nbmfs.
+     * <p>
+     * Notf:  Loggfrs mby bf bddfd dynbmidblly bs nfw dlbssfs brf lobdfd.
+     * This mfthod only rfports on thf loggfrs thbt brf durrfntly rfgistfrfd.
+     * It is blso importbnt to notf thbt this mfthod only rfturns thf nbmf
+     * of b Loggfr, not b strong rfffrfndf to thf Loggfr itsflf.
+     * Thf rfturnfd String dofs nothing to prfvfnt thf Loggfr from bfing
+     * gbrbbgf dollfdtfd. In pbrtidulbr, if thf rfturnfd nbmf is pbssfd
+     * to {@dodf LogMbnbgfr.gftLoggfr()}, thfn thf dbllfr must dhfdk thf
+     * rfturn vbluf from {@dodf LogMbnbgfr.gftLoggfr()} for null to propfrly
+     * hbndlf thf dbsf whfrf thf Loggfr hbs bffn gbrbbgf dollfdtfd in thf
+     * timf sindf its nbmf wbs rfturnfd by this mfthod.
+     *
+     * @rfturn  fnumfrbtion of loggfr nbmf strings
+     */
+    publid Enumfrbtion<String> gftLoggfrNbmfs() {
+        rfturn gftUsfrContfxt().gftLoggfrNbmfs();
+    }
+
+    /**
+     * Rfinitiblizf thf logging propfrtifs bnd rfrfbd thf logging donfigurbtion.
+     * <p>
+     * Thf sbmf rulfs brf usfd for lodbting thf donfigurbtion propfrtifs
+     * bs brf usfd bt stbrtup.  So normblly thf logging propfrtifs will
+     * bf rf-rfbd from thf sbmf filf thbt wbs usfd bt stbrtup.
+     * <P>
+     * Any log lfvfl dffinitions in thf nfw donfigurbtion filf will bf
+     * bpplifd using Loggfr.sftLfvfl(), if thf tbrgft Loggfr fxists.
+     * <p>
+     * A PropfrtyChbngfEvfnt will bf firfd bftfr thf propfrtifs brf rfbd.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf LoggingPfrmission("dontrol").
+     * @fxdfption  IOExdfption if thfrf brf IO problfms rfbding thf donfigurbtion.
+     */
+    publid void rfbdConfigurbtion() throws IOExdfption, SfdurityExdfption {
+        dhfdkPfrmission();
+
+        // if b donfigurbtion dlbss is spfdififd, lobd it bnd usf it.
+        String dnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.dlbss");
+        if (dnbmf != null) {
+            try {
+                // Instbntibtf thf nbmfd dlbss.  It is its donstrudtor's
+                // rfsponsibility to initiblizf thf logging donfigurbtion, by
+                // dblling rfbdConfigurbtion(InputStrfbm) with b suitbblf strfbm.
+                try {
+                    Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(dnbmf);
+                    dlz.nfwInstbndf();
+                    rfturn;
+                } dbtdh (ClbssNotFoundExdfption fx) {
+                    Clbss<?> dlz = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr().lobdClbss(dnbmf);
+                    dlz.nfwInstbndf();
+                    rfturn;
+                }
+            } dbtdh (Exdfption fx) {
+                Systfm.frr.println("Logging donfigurbtion dlbss \"" + dnbmf + "\" fbilfd");
+                Systfm.frr.println("" + fx);
+                // kffp going bnd usfful donfig filf.
+            }
+        }
+
+        String fnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.filf");
+        if (fnbmf == null) {
+            fnbmf = Systfm.gftPropfrty("jbvb.homf");
+            if (fnbmf == null) {
+                throw nfw Error("Cbn't find jbvb.homf ??");
+            }
+            Filf f = nfw Filf(fnbmf, "lib");
+            f = nfw Filf(f, "logging.propfrtifs");
+            fnbmf = f.gftCbnonidblPbth();
+        }
+        try (finbl InputStrfbm in = nfw FilfInputStrfbm(fnbmf)) {
+            finbl BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+            rfbdConfigurbtion(bin);
+        }
+    }
+
+    /**
+     * Rfsft thf logging donfigurbtion.
+     * <p>
+     * For bll nbmfd loggfrs, thf rfsft opfrbtion rfmovfs bnd dlosfs
+     * bll Hbndlfrs bnd (fxdfpt for thf root loggfr) sfts thf lfvfl
+     * to null.  Thf root loggfr's lfvfl is sft to Lfvfl.INFO.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf LoggingPfrmission("dontrol").
+     */
+
+    publid void rfsft() throws SfdurityExdfption {
+        dhfdkPfrmission();
+        syndhronizfd (this) {
+            props = nfw Propfrtifs();
+            // Sindf wf brf doing b rfsft wf no longfr wbnt to initiblizf
+            // thf globbl hbndlfrs, if thfy hbvfn't bffn initiblizfd yft.
+            initiblizfdGlobblHbndlfrs = truf;
+        }
+        for (LoggfrContfxt dx : dontfxts()) {
+            Enumfrbtion<String> fnum_ = dx.gftLoggfrNbmfs();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                String nbmf = fnum_.nfxtElfmfnt();
+                Loggfr loggfr = dx.findLoggfr(nbmf);
+                if (loggfr != null) {
+                    rfsftLoggfr(loggfr);
+                }
+            }
+        }
+    }
+
+    // Privbtf mfthod to rfsft bn individubl tbrgft loggfr.
+    privbtf void rfsftLoggfr(Loggfr loggfr) {
+        // Closf bll thf Loggfr's hbndlfrs.
+        Hbndlfr[] tbrgfts = loggfr.gftHbndlfrs();
+        for (Hbndlfr h : tbrgfts) {
+            loggfr.rfmovfHbndlfr(h);
+            try {
+                h.dlosf();
+            } dbtdh (Exdfption fx) {
+                // Problfms dlosing b hbndlfr?  Kffp going...
+            }
+        }
+        String nbmf = loggfr.gftNbmf();
+        if (nbmf != null && nbmf.fqubls("")) {
+            // This is thf root loggfr.
+            loggfr.sftLfvfl(dffbultLfvfl);
+        } flsf {
+            loggfr.sftLfvfl(null);
+        }
+    }
+
+    // gft b list of whitfspbdf sfpbrbtfd dlbssnbmfs from b propfrty.
+    privbtf String[] pbrsfClbssNbmfs(String propfrtyNbmf) {
+        String hbnds = gftPropfrty(propfrtyNbmf);
+        if (hbnds == null) {
+            rfturn nfw String[0];
+        }
+        hbnds = hbnds.trim();
+        int ix = 0;
+        finbl List<String> rfsult = nfw ArrbyList<>();
+        whilf (ix < hbnds.lfngth()) {
+            int fnd = ix;
+            whilf (fnd < hbnds.lfngth()) {
+                if (Chbrbdtfr.isWhitfspbdf(hbnds.dhbrAt(fnd))) {
+                    brfbk;
+                }
+                if (hbnds.dhbrAt(fnd) == ',') {
+                    brfbk;
+                }
+                fnd++;
+            }
+            String word = hbnds.substring(ix, fnd);
+            ix = fnd+1;
+            word = word.trim();
+            if (word.lfngth() == 0) {
+                dontinuf;
+            }
+            rfsult.bdd(word);
+        }
+        rfturn rfsult.toArrby(nfw String[rfsult.sizf()]);
+    }
+
+    /**
+     * Rfinitiblizf thf logging propfrtifs bnd rfrfbd thf logging donfigurbtion
+     * from thf givfn strfbm, whidh should bf in jbvb.util.Propfrtifs formbt.
+     * A PropfrtyChbngfEvfnt will bf firfd bftfr thf propfrtifs brf rfbd.
+     * <p>
+     * Any log lfvfl dffinitions in thf nfw donfigurbtion filf will bf
+     * bpplifd using Loggfr.sftLfvfl(), if thf tbrgft Loggfr fxists.
+     *
+     * @pbrbm ins       strfbm to rfbd propfrtifs from
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf LoggingPfrmission("dontrol").
+     * @fxdfption  IOExdfption if thfrf brf problfms rfbding from thf strfbm.
+     */
+    publid void rfbdConfigurbtion(InputStrfbm ins) throws IOExdfption, SfdurityExdfption {
+        dhfdkPfrmission();
+        rfsft();
+
+        // Lobd thf propfrtifs
+        props.lobd(ins);
+        // Instbntibtf nfw donfigurbtion objfdts.
+        String nbmfs[] = pbrsfClbssNbmfs("donfig");
+
+        for (String word : nbmfs) {
+            try {
+                Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(word);
+                dlz.nfwInstbndf();
+            } dbtdh (Exdfption fx) {
+                Systfm.frr.println("Cbn't lobd donfig dlbss \"" + word + "\"");
+                Systfm.frr.println("" + fx);
+                // fx.printStbdkTrbdf();
+            }
+        }
+
+        // Sft lfvfls on bny prf-fxisting loggfrs, bbsfd on thf nfw propfrtifs.
+        sftLfvflsOnExistingLoggfrs();
+
+        // Notf thbt wf nffd to rfinitiblizf globbl hbndlfs whfn
+        // thfy brf first rfffrfndfd.
+        syndhronizfd (this) {
+            initiblizfdGlobblHbndlfrs = fblsf;
+        }
+    }
+
+    /**
+     * Gft thf vbluf of b logging propfrty.
+     * Thf mfthod rfturns null if thf propfrty is not found.
+     * @pbrbm nbmf      propfrty nbmf
+     * @rfturn          propfrty vbluf
+     */
+    publid String gftPropfrty(String nbmf) {
+        rfturn props.gftPropfrty(nbmf);
+    }
+
+    // Pbdkbgf privbtf mfthod to gft b String propfrty.
+    // If thf propfrty is not dffinfd wf rfturn thf givfn
+    // dffbult vbluf.
+    String gftStringPropfrty(String nbmf, String dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        if (vbl == null) {
+            rfturn dffbultVbluf;
+        }
+        rfturn vbl.trim();
+    }
+
+    // Pbdkbgf privbtf mfthod to gft bn intfgfr propfrty.
+    // If thf propfrty is not dffinfd or dbnnot bf pbrsfd
+    // wf rfturn thf givfn dffbult vbluf.
+    int gftIntPropfrty(String nbmf, int dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        if (vbl == null) {
+            rfturn dffbultVbluf;
+        }
+        try {
+            rfturn Intfgfr.pbrsfInt(vbl.trim());
+        } dbtdh (Exdfption fx) {
+            rfturn dffbultVbluf;
+        }
+    }
+
+    // Pbdkbgf privbtf mfthod to gft b boolfbn propfrty.
+    // If thf propfrty is not dffinfd or dbnnot bf pbrsfd
+    // wf rfturn thf givfn dffbult vbluf.
+    boolfbn gftBoolfbnPropfrty(String nbmf, boolfbn dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        if (vbl == null) {
+            rfturn dffbultVbluf;
+        }
+        vbl = vbl.toLowfrCbsf();
+        if (vbl.fqubls("truf") || vbl.fqubls("1")) {
+            rfturn truf;
+        } flsf if (vbl.fqubls("fblsf") || vbl.fqubls("0")) {
+            rfturn fblsf;
+        }
+        rfturn dffbultVbluf;
+    }
+
+    // Pbdkbgf privbtf mfthod to gft b Lfvfl propfrty.
+    // If thf propfrty is not dffinfd or dbnnot bf pbrsfd
+    // wf rfturn thf givfn dffbult vbluf.
+    Lfvfl gftLfvflPropfrty(String nbmf, Lfvfl dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        if (vbl == null) {
+            rfturn dffbultVbluf;
+        }
+        Lfvfl l = Lfvfl.findLfvfl(vbl.trim());
+        rfturn l != null ? l : dffbultVbluf;
+    }
+
+    // Pbdkbgf privbtf mfthod to gft b filtfr propfrty.
+    // Wf rfturn bn instbndf of thf dlbss nbmfd by thf "nbmf"
+    // propfrty. If thf propfrty is not dffinfd or hbs problfms
+    // wf rfturn thf dffbultVbluf.
+    Filtfr gftFiltfrPropfrty(String nbmf, Filtfr dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        try {
+            if (vbl != null) {
+                Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(vbl);
+                rfturn (Filtfr) dlz.nfwInstbndf();
+            }
+        } dbtdh (Exdfption fx) {
+            // Wf got onf of b vbrifty of fxdfptions in drfbting thf
+            // dlbss or drfbting bn instbndf.
+            // Drop through.
+        }
+        // Wf got bn fxdfption.  Rfturn thf dffbultVbluf.
+        rfturn dffbultVbluf;
+    }
+
+
+    // Pbdkbgf privbtf mfthod to gft b formbttfr propfrty.
+    // Wf rfturn bn instbndf of thf dlbss nbmfd by thf "nbmf"
+    // propfrty. If thf propfrty is not dffinfd or hbs problfms
+    // wf rfturn thf dffbultVbluf.
+    Formbttfr gftFormbttfrPropfrty(String nbmf, Formbttfr dffbultVbluf) {
+        String vbl = gftPropfrty(nbmf);
+        try {
+            if (vbl != null) {
+                Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(vbl);
+                rfturn (Formbttfr) dlz.nfwInstbndf();
+            }
+        } dbtdh (Exdfption fx) {
+            // Wf got onf of b vbrifty of fxdfptions in drfbting thf
+            // dlbss or drfbting bn instbndf.
+            // Drop through.
+        }
+        // Wf got bn fxdfption.  Rfturn thf dffbultVbluf.
+        rfturn dffbultVbluf;
+    }
+
+    // Privbtf mfthod to lobd thf globbl hbndlfrs.
+    // Wf do thf rfbl work lbzily, whfn thf globbl hbndlfrs
+    // brf first usfd.
+    privbtf syndhronizfd void initiblizfGlobblHbndlfrs() {
+        if (initiblizfdGlobblHbndlfrs) {
+            rfturn;
+        }
+
+        initiblizfdGlobblHbndlfrs = truf;
+
+        if (dfbthImminfnt) {
+            // Abbrgh...
+            // Thf VM is shutting down bnd our fxit hook hbs bffn dbllfd.
+            // Avoid bllodbting globbl hbndlfrs.
+            rfturn;
+        }
+        lobdLoggfrHbndlfrs(rootLoggfr, null, "hbndlfrs");
+    }
+
+    stbtid finbl Pfrmission dontrolPfrmission = nfw LoggingPfrmission("dontrol", null);
+
+    void dhfdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(dontrolPfrmission);
+    }
+
+    /**
+     * Chfdk thbt thf durrfnt dontfxt is trustfd to modify thf logging
+     * donfigurbtion.  This rfquirfs LoggingPfrmission("dontrol").
+     * <p>
+     * If thf dhfdk fbils wf throw b SfdurityExdfption, othfrwisf
+     * wf rfturn normblly.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf LoggingPfrmission("dontrol").
+     */
+    publid void dhfdkAddfss() throws SfdurityExdfption {
+        dhfdkPfrmission();
+    }
+
+    // Nfstfd dlbss to rfprfsfnt b nodf in our trff of nbmfd loggfrs.
+    privbtf stbtid dlbss LogNodf {
+        HbshMbp<String,LogNodf> dhildrfn;
+        LoggfrWfbkRff loggfrRff;
+        LogNodf pbrfnt;
+        finbl LoggfrContfxt dontfxt;
+
+        LogNodf(LogNodf pbrfnt, LoggfrContfxt dontfxt) {
+            this.pbrfnt = pbrfnt;
+            this.dontfxt = dontfxt;
+        }
+
+        // Rfdursivf mfthod to wblk thf trff bflow b nodf bnd sft
+        // b nfw pbrfnt loggfr.
+        void wblkAndSftPbrfnt(Loggfr pbrfnt) {
+            if (dhildrfn == null) {
+                rfturn;
+            }
+            for (LogNodf nodf : dhildrfn.vblufs()) {
+                LoggfrWfbkRff rff = nodf.loggfrRff;
+                Loggfr loggfr = (rff == null) ? null : rff.gft();
+                if (loggfr == null) {
+                    nodf.wblkAndSftPbrfnt(pbrfnt);
+                } flsf {
+                    doSftPbrfnt(loggfr, pbrfnt);
+                }
+            }
+        }
+    }
+
+    // Wf usf b subdlbss of Loggfr for thf root loggfr, so
+    // thbt wf only instbntibtf thf globbl hbndlfrs whfn thfy
+    // brf first nffdfd.
+    privbtf finbl dlbss RootLoggfr fxtfnds Loggfr {
+        privbtf RootLoggfr() {
+            // Wf do not dbll thf protfdtfd Loggfr two brgs donstrudtor hfrf,
+            // to bvoid dblling LogMbnbgfr.gftLogMbnbgfr() from within thf
+            // RootLoggfr donstrudtor.
+            supfr("", null, null, LogMbnbgfr.this, truf);
+        }
+
+        @Ovfrridf
+        publid void log(LogRfdord rfdord) {
+            // Mbkf surf thbt thf globbl hbndlfrs hbvf bffn instbntibtfd.
+            initiblizfGlobblHbndlfrs();
+            supfr.log(rfdord);
+        }
+
+        @Ovfrridf
+        publid void bddHbndlfr(Hbndlfr h) {
+            initiblizfGlobblHbndlfrs();
+            supfr.bddHbndlfr(h);
+        }
+
+        @Ovfrridf
+        publid void rfmovfHbndlfr(Hbndlfr h) {
+            initiblizfGlobblHbndlfrs();
+            supfr.rfmovfHbndlfr(h);
+        }
+
+        @Ovfrridf
+        Hbndlfr[] bddfssChfdkfdHbndlfrs() {
+            initiblizfGlobblHbndlfrs();
+            rfturn supfr.bddfssChfdkfdHbndlfrs();
+        }
+    }
+
+
+    // Privbtf mfthod to bf dbllfd whfn thf donfigurbtion hbs
+    // dhbngfd to bpply bny lfvfl sfttings to bny prf-fxisting loggfrs.
+    syndhronizfd privbtf void sftLfvflsOnExistingLoggfrs() {
+        Enumfrbtion<?> fnum_ = props.propfrtyNbmfs();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            String kfy = (String)fnum_.nfxtElfmfnt();
+            if (!kfy.fndsWith(".lfvfl")) {
+                // Not b lfvfl dffinition.
+                dontinuf;
+            }
+            int ix = kfy.lfngth() - 6;
+            String nbmf = kfy.substring(0, ix);
+            Lfvfl lfvfl = gftLfvflPropfrty(kfy, null);
+            if (lfvfl == null) {
+                Systfm.frr.println("Bbd lfvfl vbluf for propfrty: " + kfy);
+                dontinuf;
+            }
+            for (LoggfrContfxt dx : dontfxts()) {
+                Loggfr l = dx.findLoggfr(nbmf);
+                if (l == null) {
+                    dontinuf;
+                }
+                l.sftLfvfl(lfvfl);
+            }
+        }
+    }
+
+    // Mbnbgfmfnt Support
+    privbtf stbtid LoggingMXBfbn loggingMXBfbn = null;
+    /**
+     * String rfprfsfntbtion of thf
+     * {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf} for thf mbnbgfmfnt intfrfbdf
+     * for thf logging fbdility.
+     *
+     * @sff jbvb.lbng.mbnbgfmfnt.PlbtformLoggingMXBfbn
+     * @sff jbvb.util.logging.LoggingMXBfbn
+     *
+     * @sindf 1.5
+     */
+    publid finbl stbtid String LOGGING_MXBEAN_NAME
+        = "jbvb.util.logging:typf=Logging";
+
+    /**
+     * Rfturns <tt>LoggingMXBfbn</tt> for mbnbging loggfrs.
+     * An bltfrnbtivf wby to mbnbgf loggfrs is through thf
+     * {@link jbvb.lbng.mbnbgfmfnt.PlbtformLoggingMXBfbn} intfrfbdf
+     * thbt dbn bf obtbinfd by dblling:
+     * <prf>
+     *     PlbtformLoggingMXBfbn logging = {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbn(Clbss)
+     *         MbnbgfmfntFbdtory.gftPlbtformMXBfbn}(PlbtformLoggingMXBfbn.dlbss);
+     * </prf>
+     *
+     * @rfturn b {@link LoggingMXBfbn} objfdt.
+     *
+     * @sff jbvb.lbng.mbnbgfmfnt.PlbtformLoggingMXBfbn
+     * @sindf 1.5
+     */
+    publid stbtid syndhronizfd LoggingMXBfbn gftLoggingMXBfbn() {
+        if (loggingMXBfbn == null) {
+            loggingMXBfbn =  nfw Logging();
+        }
+        rfturn loggingMXBfbn;
+    }
+}

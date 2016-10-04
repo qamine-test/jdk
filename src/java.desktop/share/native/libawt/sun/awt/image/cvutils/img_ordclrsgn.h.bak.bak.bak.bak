@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Endoding dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion usfs bn ordfrfd dithfring frror mbtrix with
+ * signfd frror bdjustmfnts to produdf b modfrbtfly high qublity
+ * vfrsion of bn imbgf with only bn 8-bit (or lfss) RGB dolormbp bnd
+ * b "dlosfst dolor" lookup tbblf.  Thf ordfrfd dithfring tfdhniquf
+ * dofs not rfly on thf ordfr in whidh thf pixfls brf prodfssfd so
+ * this filf dbn bf usfd in dbsfs whfrf thf ImbgfProdudfr hbs not
+ * spfdififd thf TopDownLfftRight dflivfry hint.  Thf ordfrfd dithfr
+ * tfdhniquf is blso mudh fbstfr thbn thf Floyd-Stfinbfrg frror diffusion
+ * blgorithm so this implfmfntbtion would blso bf bppropribtf for
+ * dbsfs whfrf pfrformbndf is dritidbl sudh bs thf prodfssing of b
+ * vidfo strfbm.
+ *
+ * This filf dbn bf usfd to providf thf dffbult implfmfntbtion of thf
+ * Endoding mbdros for RGB dolormbppfd displbys.
+ */
+
+/*
+ * Thfsf dffinitions vfdtor thf stbndbrd mbdro nbmfs to thf "Color"
+ * vfrsions of thosf mbdros only if thf "DithfrDfdlbrfd" kfyword hbs
+ * not yft bffn dffinfd flsfwhfrf.  Thf "DithfrDfdlbrfd" kfyword is
+ * blso dffinfd hfrf to dlbim ownfrship of thf primbry implfmfntbtion
+ * fvfn though this filf dofs not rfly on thf dffinitions in bny othfr
+ * filfs.
+ */
+#ifndff DithfrDfdlbrfd
+#dffinf DithfrDfdlbrfd
+#dffinf DfdlbrfDithfrVbrs       DfdlbrfAllColorDithfrVbrs
+#dffinf InitDithfr              InitColorDithfr
+#dffinf StbrtDithfrLinf         StbrtColorDithfrLinf
+#dffinf DithfrPixfl             ColorDithfrPixfl
+#dffinf DithfrBufComplftf       ColorDithfrBufComplftf
+#fndif
+
+#dffinf DfdlbrfAllColorDithfrVbrs                       \
+    DfdlbrfColorDithfrVbrs                              \
+    int rflx, rfly;
+
+#dffinf DfdlbrfColorDithfrVbrs                          \
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_rfd;        \
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_grffn;      \
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_bluf;
+
+#dffinf InitColorDithfr(dvdbtb, dlrdbtb, dstTW)                 \
+    do {} whilf (0)
+
+#dffinf StbrtColorDithfrLinf(dvdbtb, dstX1, dstY)               \
+    do {                                                        \
+        rflx = dstX1 & 7;                                       \
+        rfly = dstY & 7;                                        \
+    } whilf (0)
+
+#dffinf ColorDithfrPixfl(dstX, dstY, pixfl, rfd, grffn, bluf)   \
+    do {                                                        \
+        rfd += img_odb_rfd[rflx][rfly];                         \
+        rfd = ComponfntBound(rfd);                              \
+        grffn += img_odb_grffn[rflx][rfly];                     \
+        grffn = ComponfntBound(grffn);                          \
+        bluf += img_odb_bluf[rflx][rfly];                       \
+        bluf = ComponfntBound(bluf);                            \
+        pixfl = ColorCubfOrdMbpSgn(rfd, grffn, bluf);           \
+        rflx = (rflx + 1) & 7;                                  \
+    } whilf (0)
+
+#dffinf ColorDithfrBufComplftf(dvdbtb, dstX1)                   \
+    do {} whilf (0)

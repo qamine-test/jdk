@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.jar.Pack200;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.jbr.Pbdk200;
 
 /**
- * Control block for publishing Pack200 options to the other classes.
+ * Control blodk for publisiing Pbdk200 options to tif otifr dlbssfs.
  */
 
-final class PropMap implements SortedMap<String, String>  {
-    private final TreeMap<String, String> theMap = new TreeMap<>();;
+finbl dlbss PropMbp implfmfnts SortfdMbp<String, String>  {
+    privbtf finbl TrffMbp<String, String> tifMbp = nfw TrffMbp<>();;
 
-    // Override:
-    public String put(String key, String value) {
-        String oldValue = theMap.put(key, value);
-        return oldValue;
+    // Ovfrridf:
+    publid String put(String kfy, String vbluf) {
+        String oldVbluf = tifMbp.put(kfy, vbluf);
+        rfturn oldVbluf;
     }
 
-    // All this other stuff is private to the current package.
-    // Outide clients of Pack200 do not need to use it; they can
-    // get by with generic SortedMap functionality.
-    private static Map<String, String> defaultProps;
-    static {
-        Properties props = new Properties();
+    // All tiis otifr stuff is privbtf to tif durrfnt pbdkbgf.
+    // Outidf dlifnts of Pbdk200 do not nffd to usf it; tify dbn
+    // gft by witi gfnfrid SortfdMbp fundtionblity.
+    privbtf stbtid Mbp<String, String> dffbultProps;
+    stbtid {
+        Propfrtifs props = nfw Propfrtifs();
 
-        // Allow implementation selected via -Dpack.disable.native=true
+        // Allow implfmfntbtion sflfdtfd vib -Dpbdk.disbblf.nbtivf=truf
         props.put(Utils.DEBUG_DISABLE_NATIVE,
-                  String.valueOf(Boolean.getBoolean(Utils.DEBUG_DISABLE_NATIVE)));
+                  String.vblufOf(Boolfbn.gftBoolfbn(Utils.DEBUG_DISABLE_NATIVE)));
 
-        // Set the DEBUG_VERBOSE from system
+        // Sft tif DEBUG_VERBOSE from systfm
         props.put(Utils.DEBUG_VERBOSE,
-                  String.valueOf(Integer.getInteger(Utils.DEBUG_VERBOSE,0)));
+                  String.vblufOf(Intfgfr.gftIntfgfr(Utils.DEBUG_VERBOSE,0)));
 
-        // Set the PACK_TIMEZONE_NO_UTC
+        // Sft tif PACK_TIMEZONE_NO_UTC
         props.put(Utils.PACK_DEFAULT_TIMEZONE,
-                  String.valueOf(Boolean.getBoolean(Utils.PACK_DEFAULT_TIMEZONE)));
+                  String.vblufOf(Boolfbn.gftBoolfbn(Utils.PACK_DEFAULT_TIMEZONE)));
 
-        // The segment size is unlimited
-        props.put(Pack200.Packer.SEGMENT_LIMIT, "-1");
+        // Tif sfgmfnt sizf is unlimitfd
+        props.put(Pbdk200.Pbdkfr.SEGMENT_LIMIT, "-1");
 
-        // Preserve file ordering by default.
-        props.put(Pack200.Packer.KEEP_FILE_ORDER, Pack200.Packer.TRUE);
+        // Prfsfrvf filf ordfring by dffbult.
+        props.put(Pbdk200.Pbdkfr.KEEP_FILE_ORDER, Pbdk200.Pbdkfr.TRUE);
 
-        // Preserve all modification times by default.
-        props.put(Pack200.Packer.MODIFICATION_TIME, Pack200.Packer.KEEP);
+        // Prfsfrvf bll modifidbtion timfs by dffbult.
+        props.put(Pbdk200.Pbdkfr.MODIFICATION_TIME, Pbdk200.Pbdkfr.KEEP);
 
-        // Preserve deflation hints by default.
-        props.put(Pack200.Packer.DEFLATE_HINT, Pack200.Packer.KEEP);
+        // Prfsfrvf dfflbtion iints by dffbult.
+        props.put(Pbdk200.Pbdkfr.DEFLATE_HINT, Pbdk200.Pbdkfr.KEEP);
 
-        // Pass through files with unrecognized attributes by default.
-        props.put(Pack200.Packer.UNKNOWN_ATTRIBUTE, Pack200.Packer.PASS);
+        // Pbss tirougi filfs witi unrfdognizfd bttributfs by dffbult.
+        props.put(Pbdk200.Pbdkfr.UNKNOWN_ATTRIBUTE, Pbdk200.Pbdkfr.PASS);
 
-        // Pass through files with unrecognized format by default, also
-        // allow system property to be set
+        // Pbss tirougi filfs witi unrfdognizfd formbt by dffbult, blso
+        // bllow systfm propfrty to bf sft
         props.put(Utils.CLASS_FORMAT_ERROR,
-                System.getProperty(Utils.CLASS_FORMAT_ERROR, Pack200.Packer.PASS));
+                Systfm.gftPropfrty(Utils.CLASS_FORMAT_ERROR, Pbdk200.Pbdkfr.PASS));
 
-        // Default effort is 5, midway between 1 and 9.
-        props.put(Pack200.Packer.EFFORT, "5");
+        // Dffbult fffort is 5, midwby bftwffn 1 bnd 9.
+        props.put(Pbdk200.Pbdkfr.EFFORT, "5");
 
-        // Define certain attribute layouts by default.
-        // Do this after the previous props are put in place,
-        // to allow override if necessary.
-        String propFile = "intrinsic.properties";
+        // Dffinf dfrtbin bttributf lbyouts by dffbult.
+        // Do tiis bftfr tif prfvious props brf put in plbdf,
+        // to bllow ovfrridf if nfdfssbry.
+        String propFilf = "intrinsid.propfrtifs";
 
-        try (InputStream propStr = PackerImpl.class.getResourceAsStream(propFile)) {
+        try (InputStrfbm propStr = PbdkfrImpl.dlbss.gftRfsourdfAsStrfbm(propFilf)) {
             if (propStr == null) {
-                throw new RuntimeException(propFile + " cannot be loaded");
+                tirow nfw RuntimfExdfption(propFilf + " dbnnot bf lobdfd");
             }
-            props.load(propStr);
-        } catch (IOException ee) {
-            throw new RuntimeException(ee);
+            props.lobd(propStr);
+        } dbtdi (IOExdfption ff) {
+            tirow nfw RuntimfExdfption(ff);
         }
 
-        for (Map.Entry<Object, Object> e : props.entrySet()) {
-            String key = (String) e.getKey();
-            String val = (String) e.getValue();
-            if (key.startsWith("attribute.")) {
-                e.setValue(Attribute.normalizeLayoutString(val));
+        for (Mbp.Entry<Objfdt, Objfdt> f : props.fntrySft()) {
+            String kfy = (String) f.gftKfy();
+            String vbl = (String) f.gftVbluf();
+            if (kfy.stbrtsWiti("bttributf.")) {
+                f.sftVbluf(Attributf.normblizfLbyoutString(vbl));
             }
         }
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        HashMap<String, String> temp = new HashMap(props);  // shrink to fit
-        defaultProps = temp;
+        @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+        HbsiMbp<String, String> tfmp = nfw HbsiMbp(props);  // sirink to fit
+        dffbultProps = tfmp;
     }
 
-    PropMap() {
-        theMap.putAll(defaultProps);
+    PropMbp() {
+        tifMbp.putAll(dffbultProps);
     }
 
-    // Return a view of this map which includes only properties
-    // that begin with the given prefix.  This is easy because
-    // the map is sorted, and has a subMap accessor.
-    SortedMap<String, String> prefixMap(String prefix) {
-        int len = prefix.length();
-        if (len == 0)
-            return this;
-        char nextch = (char)(prefix.charAt(len-1) + 1);
-        String limit = prefix.substring(0, len-1)+nextch;
-        //System.out.println(prefix+" => "+subMap(prefix, limit));
-        return subMap(prefix, limit);
+    // Rfturn b vifw of tiis mbp wiidi indludfs only propfrtifs
+    // tibt bfgin witi tif givfn prffix.  Tiis is fbsy bfdbusf
+    // tif mbp is sortfd, bnd ibs b subMbp bddfssor.
+    SortfdMbp<String, String> prffixMbp(String prffix) {
+        int lfn = prffix.lfngti();
+        if (lfn == 0)
+            rfturn tiis;
+        dibr nfxtdi = (dibr)(prffix.dibrAt(lfn-1) + 1);
+        String limit = prffix.substring(0, lfn-1)+nfxtdi;
+        //Systfm.out.println(prffix+" => "+subMbp(prffix, limit));
+        rfturn subMbp(prffix, limit);
     }
 
-    String getProperty(String s) {
-        return get(s);
+    String gftPropfrty(String s) {
+        rfturn gft(s);
     }
-    String getProperty(String s, String defaultVal) {
-        String val = getProperty(s);
-        if (val == null)
-            return defaultVal;
-        return val;
+    String gftPropfrty(String s, String dffbultVbl) {
+        String vbl = gftPropfrty(s);
+        if (vbl == null)
+            rfturn dffbultVbl;
+        rfturn vbl;
     }
-    String setProperty(String s, String val) {
-        return put(s, val);
-    }
-
-    // Get sequence of props for "prefix", and "prefix.*".
-    List<String> getProperties(String prefix) {
-        Collection<String> values = prefixMap(prefix).values();
-        List<String> res = new ArrayList<>(values.size());
-        res.addAll(values);
-        while (res.remove(null));
-        return res;
+    String sftPropfrty(String s, String vbl) {
+        rfturn put(s, vbl);
     }
 
-    private boolean toBoolean(String val) {
-        return Boolean.valueOf(val).booleanValue();
-    }
-    boolean getBoolean(String s) {
-        return toBoolean(getProperty(s));
-    }
-    boolean setBoolean(String s, boolean val) {
-        return toBoolean(setProperty(s, String.valueOf(val)));
-    }
-    int toInteger(String val) {
-        return toInteger(val, 0);
-    }
-    int toInteger(String val, int def) {
-        if (val == null)  return def;
-        if (Pack200.Packer.TRUE.equals(val))   return 1;
-        if (Pack200.Packer.FALSE.equals(val))  return 0;
-        return Integer.parseInt(val);
-    }
-    int getInteger(String s, int def) {
-        return toInteger(getProperty(s), def);
-    }
-    int getInteger(String s) {
-        return toInteger(getProperty(s));
-    }
-    int setInteger(String s, int val) {
-        return toInteger(setProperty(s, String.valueOf(val)));
+    // Gft sfqufndf of props for "prffix", bnd "prffix.*".
+    List<String> gftPropfrtifs(String prffix) {
+        Collfdtion<String> vblufs = prffixMbp(prffix).vblufs();
+        List<String> rfs = nfw ArrbyList<>(vblufs.sizf());
+        rfs.bddAll(vblufs);
+        wiilf (rfs.rfmovf(null));
+        rfturn rfs;
     }
 
-    long toLong(String val) {
+    privbtf boolfbn toBoolfbn(String vbl) {
+        rfturn Boolfbn.vblufOf(vbl).boolfbnVbluf();
+    }
+    boolfbn gftBoolfbn(String s) {
+        rfturn toBoolfbn(gftPropfrty(s));
+    }
+    boolfbn sftBoolfbn(String s, boolfbn vbl) {
+        rfturn toBoolfbn(sftPropfrty(s, String.vblufOf(vbl)));
+    }
+    int toIntfgfr(String vbl) {
+        rfturn toIntfgfr(vbl, 0);
+    }
+    int toIntfgfr(String vbl, int dff) {
+        if (vbl == null)  rfturn dff;
+        if (Pbdk200.Pbdkfr.TRUE.fqubls(vbl))   rfturn 1;
+        if (Pbdk200.Pbdkfr.FALSE.fqubls(vbl))  rfturn 0;
+        rfturn Intfgfr.pbrsfInt(vbl);
+    }
+    int gftIntfgfr(String s, int dff) {
+        rfturn toIntfgfr(gftPropfrty(s), dff);
+    }
+    int gftIntfgfr(String s) {
+        rfturn toIntfgfr(gftPropfrty(s));
+    }
+    int sftIntfgfr(String s, int vbl) {
+        rfturn toIntfgfr(sftPropfrty(s, String.vblufOf(vbl)));
+    }
+
+    long toLong(String vbl) {
         try {
-            return val == null ? 0 : Long.parseLong(val);
-        } catch (java.lang.NumberFormatException nfe) {
-            throw new IllegalArgumentException("Invalid value");
+            rfturn vbl == null ? 0 : Long.pbrsfLong(vbl);
+        } dbtdi (jbvb.lbng.NumbfrFormbtExdfption nff) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf");
         }
     }
-    long getLong(String s) {
-        return toLong(getProperty(s));
+    long gftLong(String s) {
+        rfturn toLong(gftPropfrty(s));
     }
-    long setLong(String s, long val) {
-        return toLong(setProperty(s, String.valueOf(val)));
+    long sftLong(String s, long vbl) {
+        rfturn toLong(sftPropfrty(s, String.vblufOf(vbl)));
     }
 
-    int getTime(String s) {
-        String sval = getProperty(s, "0");
-        if (Utils.NOW.equals(sval)) {
-            return (int)((System.currentTimeMillis()+500)/1000);
+    int gftTimf(String s) {
+        String svbl = gftPropfrty(s, "0");
+        if (Utils.NOW.fqubls(svbl)) {
+            rfturn (int)((Systfm.durrfntTimfMillis()+500)/1000);
         }
-        long lval = toLong(sval);
-        final long recentSecondCount = 1000000000;
+        long lvbl = toLong(svbl);
+        finbl long rfdfntSfdondCount = 1000000000;
 
-        if (lval < recentSecondCount*10 && !"0".equals(sval))
-            Utils.log.warning("Supplied modtime appears to be seconds rather than milliseconds: "+sval);
+        if (lvbl < rfdfntSfdondCount*10 && !"0".fqubls(svbl))
+            Utils.log.wbrning("Supplifd modtimf bppfbrs to bf sfdonds rbtifr tibn millisfdonds: "+svbl);
 
-        return (int)((lval+500)/1000);
+        rfturn (int)((lvbl+500)/1000);
     }
 
-    void list(PrintStream out) {
-        PrintWriter outw = new PrintWriter(out);
+    void list(PrintStrfbm out) {
+        PrintWritfr outw = nfw PrintWritfr(out);
         list(outw);
-        outw.flush();
+        outw.flusi();
     }
-    void list(PrintWriter out) {
+    void list(PrintWritfr out) {
         out.println("#"+Utils.PACK_ZIP_ARCHIVE_MARKER_COMMENT+"[");
-        Set<Map.Entry<String, String>> defaults = defaultProps.entrySet();
-        for (Map.Entry<String, String> e : theMap.entrySet()) {
-            if (defaults.contains(e))  continue;
-            out.println("  " + e.getKey() + " = " + e.getValue());
+        Sft<Mbp.Entry<String, String>> dffbults = dffbultProps.fntrySft();
+        for (Mbp.Entry<String, String> f : tifMbp.fntrySft()) {
+            if (dffbults.dontbins(f))  dontinuf;
+            out.println("  " + f.gftKfy() + " = " + f.gftVbluf());
         }
         out.println("#]");
     }
 
-    @Override
-    public int size() {
-        return theMap.size();
+    @Ovfrridf
+    publid int sizf() {
+        rfturn tifMbp.sizf();
     }
 
-    @Override
-    public boolean isEmpty() {
-        return theMap.isEmpty();
+    @Ovfrridf
+    publid boolfbn isEmpty() {
+        rfturn tifMbp.isEmpty();
     }
 
-    @Override
-    public boolean containsKey(Object key) {
-        return theMap.containsKey(key);
+    @Ovfrridf
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn tifMbp.dontbinsKfy(kfy);
     }
 
-    @Override
-    public boolean containsValue(Object value) {
-        return theMap.containsValue(value);
+    @Ovfrridf
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn tifMbp.dontbinsVbluf(vbluf);
     }
 
-    @Override
-    public String get(Object key) {
-        return theMap.get(key);
+    @Ovfrridf
+    publid String gft(Objfdt kfy) {
+        rfturn tifMbp.gft(kfy);
     }
 
-    @Override
-    public String remove(Object key) {
-       return theMap.remove(key);
+    @Ovfrridf
+    publid String rfmovf(Objfdt kfy) {
+       rfturn tifMbp.rfmovf(kfy);
     }
 
-    @Override
-    public void putAll(Map<? extends String, ? extends String> m) {
-       theMap.putAll(m);
+    @Ovfrridf
+    publid void putAll(Mbp<? fxtfnds String, ? fxtfnds String> m) {
+       tifMbp.putAll(m);
     }
 
-    @Override
-    public void clear() {
-        theMap.clear();
+    @Ovfrridf
+    publid void dlfbr() {
+        tifMbp.dlfbr();
     }
 
-    @Override
-    public Set<String> keySet() {
-       return theMap.keySet();
+    @Ovfrridf
+    publid Sft<String> kfySft() {
+       rfturn tifMbp.kfySft();
     }
 
-    @Override
-    public Collection<String> values() {
-       return theMap.values();
+    @Ovfrridf
+    publid Collfdtion<String> vblufs() {
+       rfturn tifMbp.vblufs();
     }
 
-    @Override
-    public Set<Map.Entry<String, String>> entrySet() {
-        return theMap.entrySet();
+    @Ovfrridf
+    publid Sft<Mbp.Entry<String, String>> fntrySft() {
+        rfturn tifMbp.fntrySft();
     }
 
-    @Override
-    public Comparator<? super String> comparator() {
-        return theMap.comparator();
+    @Ovfrridf
+    publid Compbrbtor<? supfr String> dompbrbtor() {
+        rfturn tifMbp.dompbrbtor();
     }
 
-    @Override
-    public SortedMap<String, String> subMap(String fromKey, String toKey) {
-        return theMap.subMap(fromKey, toKey);
+    @Ovfrridf
+    publid SortfdMbp<String, String> subMbp(String fromKfy, String toKfy) {
+        rfturn tifMbp.subMbp(fromKfy, toKfy);
     }
 
-    @Override
-    public SortedMap<String, String> headMap(String toKey) {
-        return theMap.headMap(toKey);
+    @Ovfrridf
+    publid SortfdMbp<String, String> ifbdMbp(String toKfy) {
+        rfturn tifMbp.ifbdMbp(toKfy);
     }
 
-    @Override
-    public SortedMap<String, String> tailMap(String fromKey) {
-        return theMap.tailMap(fromKey);
+    @Ovfrridf
+    publid SortfdMbp<String, String> tbilMbp(String fromKfy) {
+        rfturn tifMbp.tbilMbp(fromKfy);
     }
 
-    @Override
-    public String firstKey() {
-        return theMap.firstKey();
+    @Ovfrridf
+    publid String firstKfy() {
+        rfturn tifMbp.firstKfy();
     }
 
-    @Override
-    public String lastKey() {
-       return theMap.lastKey();
+    @Ovfrridf
+    publid String lbstKfy() {
+       rfturn tifMbp.lbstKfy();
     }
 }

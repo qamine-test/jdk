@@ -1,544 +1,544 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.security;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.security.auth.Subject;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.sfdurity.buti.Subjfdt;
 
 /**
- * <p>An object of this class implements the MBeanServerAccessController
- * interface and, for each of its methods, calls an appropriate checking
- * method and then forwards the request to a wrapped MBeanServer object.
- * The checking method may throw a SecurityException if the operation is
- * not allowed; in this case the request is not forwarded to the
- * wrapped object.</p>
+ * <p>An objfdt of tiis dlbss implfmfnts tif MBfbnSfrvfrAddfssControllfr
+ * intfrfbdf bnd, for fbdi of its mftiods, dblls bn bppropribtf difdking
+ * mftiod bnd tifn forwbrds tif rfqufst to b wrbppfd MBfbnSfrvfr objfdt.
+ * Tif difdking mftiod mby tirow b SfdurityExdfption if tif opfrbtion is
+ * not bllowfd; in tiis dbsf tif rfqufst is not forwbrdfd to tif
+ * wrbppfd objfdt.</p>
  *
- * <p>This class implements the {@link #checkRead()}, {@link #checkWrite()},
- * {@link #checkCreate(String)}, and {@link #checkUnregister(ObjectName)}
- * methods based on an access level properties file containing username/access
- * level pairs. The set of username/access level pairs is passed either as a
- * filename which denotes a properties file on disk, or directly as an instance
- * of the {@link Properties} class.  In both cases, the name of each property
- * represents a username, and the value of the property is the associated access
- * level.  Thus, any given username either does not exist in the properties or
- * has exactly one access level. The same access level can be shared by several
- * usernames.</p>
+ * <p>Tiis dlbss implfmfnts tif {@link #difdkRfbd()}, {@link #difdkWritf()},
+ * {@link #difdkCrfbtf(String)}, bnd {@link #difdkUnrfgistfr(ObjfdtNbmf)}
+ * mftiods bbsfd on bn bddfss lfvfl propfrtifs filf dontbining usfrnbmf/bddfss
+ * lfvfl pbirs. Tif sft of usfrnbmf/bddfss lfvfl pbirs is pbssfd fitifr bs b
+ * filfnbmf wiidi dfnotfs b propfrtifs filf on disk, or dirfdtly bs bn instbndf
+ * of tif {@link Propfrtifs} dlbss.  In boti dbsfs, tif nbmf of fbdi propfrty
+ * rfprfsfnts b usfrnbmf, bnd tif vbluf of tif propfrty is tif bssodibtfd bddfss
+ * lfvfl.  Tius, bny givfn usfrnbmf fitifr dofs not fxist in tif propfrtifs or
+ * ibs fxbdtly onf bddfss lfvfl. Tif sbmf bddfss lfvfl dbn bf sibrfd by sfvfrbl
+ * usfrnbmfs.</p>
  *
- * <p>The supported access level values are {@code readonly} and
- * {@code readwrite}.  The {@code readwrite} access level can be
- * qualified by one or more <i>clauses</i>, where each clause looks
- * like <code>create <i>classNamePattern</i></code> or {@code
- * unregister}.  For example:</p>
+ * <p>Tif supportfd bddfss lfvfl vblufs brf {@dodf rfbdonly} bnd
+ * {@dodf rfbdwritf}.  Tif {@dodf rfbdwritf} bddfss lfvfl dbn bf
+ * qublififd by onf or morf <i>dlbusfs</i>, wifrf fbdi dlbusf looks
+ * likf <dodf>drfbtf <i>dlbssNbmfPbttfrn</i></dodf> or {@dodf
+ * unrfgistfr}.  For fxbmplf:</p>
  *
- * <pre>
- * monitorRole  readonly
- * controlRole  readwrite \
- *              create javax.management.timer.*,javax.management.monitor.* \
- *              unregister
- * </pre>
+ * <prf>
+ * monitorRolf  rfbdonly
+ * dontrolRolf  rfbdwritf \
+ *              drfbtf jbvbx.mbnbgfmfnt.timfr.*,jbvbx.mbnbgfmfnt.monitor.* \
+ *              unrfgistfr
+ * </prf>
  *
- * <p>(The continuation lines with {@code \} come from the parser for
- * Properties files.)</p>
+ * <p>(Tif dontinubtion linfs witi {@dodf \} domf from tif pbrsfr for
+ * Propfrtifs filfs.)</p>
  */
-public class MBeanServerFileAccessController
-    extends MBeanServerAccessController {
+publid dlbss MBfbnSfrvfrFilfAddfssControllfr
+    fxtfnds MBfbnSfrvfrAddfssControllfr {
 
-    static final String READONLY = "readonly";
-    static final String READWRITE = "readwrite";
+    stbtid finbl String READONLY = "rfbdonly";
+    stbtid finbl String READWRITE = "rfbdwritf";
 
-    static final String CREATE = "create";
-    static final String UNREGISTER = "unregister";
+    stbtid finbl String CREATE = "drfbtf";
+    stbtid finbl String UNREGISTER = "unrfgistfr";
 
-    private enum AccessType {READ, WRITE, CREATE, UNREGISTER};
+    privbtf fnum AddfssTypf {READ, WRITE, CREATE, UNREGISTER};
 
-    private static class Access {
-        final boolean write;
-        final String[] createPatterns;
-        private boolean unregister;
+    privbtf stbtid dlbss Addfss {
+        finbl boolfbn writf;
+        finbl String[] drfbtfPbttfrns;
+        privbtf boolfbn unrfgistfr;
 
-        Access(boolean write, boolean unregister, List<String> createPatternList) {
-            this.write = write;
-            int npats = (createPatternList == null) ? 0 : createPatternList.size();
-            if (npats == 0)
-                this.createPatterns = NO_STRINGS;
-            else
-                this.createPatterns = createPatternList.toArray(new String[npats]);
-            this.unregister = unregister;
+        Addfss(boolfbn writf, boolfbn unrfgistfr, List<String> drfbtfPbttfrnList) {
+            tiis.writf = writf;
+            int npbts = (drfbtfPbttfrnList == null) ? 0 : drfbtfPbttfrnList.sizf();
+            if (npbts == 0)
+                tiis.drfbtfPbttfrns = NO_STRINGS;
+            flsf
+                tiis.drfbtfPbttfrns = drfbtfPbttfrnList.toArrby(nfw String[npbts]);
+            tiis.unrfgistfr = unrfgistfr;
         }
 
-        private final String[] NO_STRINGS = new String[0];
+        privbtf finbl String[] NO_STRINGS = nfw String[0];
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
-     * write permissions.</p>
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr tibt forwbrds bll tif
+     * MBfbnSfrvfr rfqufsts to tif MBfbnSfrvfr sft by invoking tif {@link
+     * #sftMBfbnSfrvfr} mftiod bftfr doing bddfss difdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
      *
-     * <p>This instance is initialized from the specified properties file.</p>
+     * <p>Tiis instbndf is initiblizfd from tif spfdififd propfrtifs filf.</p>
      *
-     * @param accessFileName name of the file which denotes a properties
-     * file on disk containing the username/access level entries.
+     * @pbrbm bddfssFilfNbmf nbmf of tif filf wiidi dfnotfs b propfrtifs
+     * filf on disk dontbining tif usfrnbmf/bddfss lfvfl fntrifs.
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @fxdfption IOExdfption if tif filf dofs not fxist, is b
+     * dirfdtory rbtifr tibn b rfgulbr filf, or for somf otifr
+     * rfbson dbnnot bf opfnfd for rfbding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @fxdfption IllfgblArgumfntExdfption if bny of tif supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
      */
-    public MBeanServerFileAccessController(String accessFileName)
-        throws IOException {
-        super();
-        this.accessFileName = accessFileName;
-        Properties props = propertiesFromFile(accessFileName);
-        parseProperties(props);
+    publid MBfbnSfrvfrFilfAddfssControllfr(String bddfssFilfNbmf)
+        tirows IOExdfption {
+        supfr();
+        tiis.bddfssFilfNbmf = bddfssFilfNbmf;
+        Propfrtifs props = propfrtifsFromFilf(bddfssFilfNbmf);
+        pbrsfPropfrtifs(props);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to <code>mbs</code> after doing access checks
-     * based on read and write permissions.</p>
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr tibt forwbrds bll tif
+     * MBfbnSfrvfr rfqufsts to <dodf>mbs</dodf> bftfr doing bddfss difdks
+     * bbsfd on rfbd bnd writf pfrmissions.</p>
      *
-     * <p>This instance is initialized from the specified properties file.</p>
+     * <p>Tiis instbndf is initiblizfd from tif spfdififd propfrtifs filf.</p>
      *
-     * @param accessFileName name of the file which denotes a properties
-     * file on disk containing the username/access level entries.
+     * @pbrbm bddfssFilfNbmf nbmf of tif filf wiidi dfnotfs b propfrtifs
+     * filf on disk dontbining tif usfrnbmf/bddfss lfvfl fntrifs.
      *
-     * @param mbs the MBeanServer object to which requests will be forwarded.
+     * @pbrbm mbs tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd.
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @fxdfption IOExdfption if tif filf dofs not fxist, is b
+     * dirfdtory rbtifr tibn b rfgulbr filf, or for somf otifr
+     * rfbson dbnnot bf opfnfd for rfbding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @fxdfption IllfgblArgumfntExdfption if bny of tif supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
      */
-    public MBeanServerFileAccessController(String accessFileName,
-                                           MBeanServer mbs)
-        throws IOException {
-        this(accessFileName);
-        setMBeanServer(mbs);
+    publid MBfbnSfrvfrFilfAddfssControllfr(String bddfssFilfNbmf,
+                                           MBfbnSfrvfr mbs)
+        tirows IOExdfption {
+        tiis(bddfssFilfNbmf);
+        sftMBfbnSfrvfr(mbs);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
-     * write permissions.</p>
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr tibt forwbrds bll tif
+     * MBfbnSfrvfr rfqufsts to tif MBfbnSfrvfr sft by invoking tif {@link
+     * #sftMBfbnSfrvfr} mftiod bftfr doing bddfss difdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
      *
-     * <p>This instance is initialized from the specified properties
-     * instance.  This constructor makes a copy of the properties
-     * instance and it is the copy that is consulted to check the
-     * username and access level of an incoming connection. The
-     * original properties object can be modified without affecting
-     * the copy. If the {@link #refresh} method is then called, the
-     * <code>MBeanServerFileAccessController</code> will make a new
-     * copy of the properties object at that time.</p>
+     * <p>Tiis instbndf is initiblizfd from tif spfdififd propfrtifs
+     * instbndf.  Tiis donstrudtor mbkfs b dopy of tif propfrtifs
+     * instbndf bnd it is tif dopy tibt is donsultfd to difdk tif
+     * usfrnbmf bnd bddfss lfvfl of bn indoming donnfdtion. Tif
+     * originbl propfrtifs objfdt dbn bf modififd witiout bfffdting
+     * tif dopy. If tif {@link #rffrfsi} mftiod is tifn dbllfd, tif
+     * <dodf>MBfbnSfrvfrFilfAddfssControllfr</dodf> will mbkf b nfw
+     * dopy of tif propfrtifs objfdt bt tibt timf.</p>
      *
-     * @param accessFileProps properties list containing the username/access
-     * level entries.
+     * @pbrbm bddfssFilfProps propfrtifs list dontbining tif usfrnbmf/bddfss
+     * lfvfl fntrifs.
      *
-     * @exception IllegalArgumentException if <code>accessFileProps</code> is
-     * <code>null</code> or if any of the supplied access level values differs
-     * from "readonly" or "readwrite".
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bddfssFilfProps</dodf> is
+     * <dodf>null</dodf> or if bny of tif supplifd bddfss lfvfl vblufs difffrs
+     * from "rfbdonly" or "rfbdwritf".
      */
-    public MBeanServerFileAccessController(Properties accessFileProps)
-        throws IOException {
-        super();
-        if (accessFileProps == null)
-            throw new IllegalArgumentException("Null properties");
-        originalProps = accessFileProps;
-        parseProperties(accessFileProps);
+    publid MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs bddfssFilfProps)
+        tirows IOExdfption {
+        supfr();
+        if (bddfssFilfProps == null)
+            tirow nfw IllfgblArgumfntExdfption("Null propfrtifs");
+        originblProps = bddfssFilfProps;
+        pbrsfPropfrtifs(bddfssFilfProps);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
-     * write permissions.</p>
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr tibt forwbrds bll tif
+     * MBfbnSfrvfr rfqufsts to tif MBfbnSfrvfr sft by invoking tif {@link
+     * #sftMBfbnSfrvfr} mftiod bftfr doing bddfss difdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
      *
-     * <p>This instance is initialized from the specified properties
-     * instance.  This constructor makes a copy of the properties
-     * instance and it is the copy that is consulted to check the
-     * username and access level of an incoming connection. The
-     * original properties object can be modified without affecting
-     * the copy. If the {@link #refresh} method is then called, the
-     * <code>MBeanServerFileAccessController</code> will make a new
-     * copy of the properties object at that time.</p>
+     * <p>Tiis instbndf is initiblizfd from tif spfdififd propfrtifs
+     * instbndf.  Tiis donstrudtor mbkfs b dopy of tif propfrtifs
+     * instbndf bnd it is tif dopy tibt is donsultfd to difdk tif
+     * usfrnbmf bnd bddfss lfvfl of bn indoming donnfdtion. Tif
+     * originbl propfrtifs objfdt dbn bf modififd witiout bfffdting
+     * tif dopy. If tif {@link #rffrfsi} mftiod is tifn dbllfd, tif
+     * <dodf>MBfbnSfrvfrFilfAddfssControllfr</dodf> will mbkf b nfw
+     * dopy of tif propfrtifs objfdt bt tibt timf.</p>
      *
-     * @param accessFileProps properties list containing the username/access
-     * level entries.
+     * @pbrbm bddfssFilfProps propfrtifs list dontbining tif usfrnbmf/bddfss
+     * lfvfl fntrifs.
      *
-     * @param mbs the MBeanServer object to which requests will be forwarded.
+     * @pbrbm mbs tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd.
      *
-     * @exception IllegalArgumentException if <code>accessFileProps</code> is
-     * <code>null</code> or if any of the supplied access level values differs
-     * from "readonly" or "readwrite".
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bddfssFilfProps</dodf> is
+     * <dodf>null</dodf> or if bny of tif supplifd bddfss lfvfl vblufs difffrs
+     * from "rfbdonly" or "rfbdwritf".
      */
-    public MBeanServerFileAccessController(Properties accessFileProps,
-                                           MBeanServer mbs)
-        throws IOException {
-        this(accessFileProps);
-        setMBeanServer(mbs);
+    publid MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs bddfssFilfProps,
+                                           MBfbnSfrvfr mbs)
+        tirows IOExdfption {
+        tiis(bddfssFilfProps);
+        sftMBfbnSfrvfr(mbs);
     }
 
     /**
-     * Check if the caller can do read operations. This method does
-     * nothing if so, otherwise throws SecurityException.
+     * Cifdk if tif dbllfr dbn do rfbd opfrbtions. Tiis mftiod dofs
+     * notiing if so, otifrwisf tirows SfdurityExdfption.
      */
-    @Override
-    public void checkRead() {
-        checkAccess(AccessType.READ, null);
+    @Ovfrridf
+    publid void difdkRfbd() {
+        difdkAddfss(AddfssTypf.READ, null);
     }
 
     /**
-     * Check if the caller can do write operations.  This method does
-     * nothing if so, otherwise throws SecurityException.
+     * Cifdk if tif dbllfr dbn do writf opfrbtions.  Tiis mftiod dofs
+     * notiing if so, otifrwisf tirows SfdurityExdfption.
      */
-    @Override
-    public void checkWrite() {
-        checkAccess(AccessType.WRITE, null);
+    @Ovfrridf
+    publid void difdkWritf() {
+        difdkAddfss(AddfssTypf.WRITE, null);
     }
 
     /**
-     * Check if the caller can create MBeans or instances of the given class.
-     * This method does nothing if so, otherwise throws SecurityException.
+     * Cifdk if tif dbllfr dbn drfbtf MBfbns or instbndfs of tif givfn dlbss.
+     * Tiis mftiod dofs notiing if so, otifrwisf tirows SfdurityExdfption.
      */
-    @Override
-    public void checkCreate(String className) {
-        checkAccess(AccessType.CREATE, className);
+    @Ovfrridf
+    publid void difdkCrfbtf(String dlbssNbmf) {
+        difdkAddfss(AddfssTypf.CREATE, dlbssNbmf);
     }
 
     /**
-     * Check if the caller can do unregister operations.  This method does
-     * nothing if so, otherwise throws SecurityException.
+     * Cifdk if tif dbllfr dbn do unrfgistfr opfrbtions.  Tiis mftiod dofs
+     * notiing if so, otifrwisf tirows SfdurityExdfption.
      */
-    @Override
-    public void checkUnregister(ObjectName name) {
-        checkAccess(AccessType.UNREGISTER, null);
+    @Ovfrridf
+    publid void difdkUnrfgistfr(ObjfdtNbmf nbmf) {
+        difdkAddfss(AddfssTypf.UNREGISTER, null);
     }
 
     /**
-     * <p>Refresh the set of username/access level entries.</p>
+     * <p>Rffrfsi tif sft of usfrnbmf/bddfss lfvfl fntrifs.</p>
      *
-     * <p>If this instance was created using the
-     * {@link #MBeanServerFileAccessController(String)} or
-     * {@link #MBeanServerFileAccessController(String,MBeanServer)}
-     * constructors to specify a file from which the entries are read,
-     * the file is re-read.</p>
+     * <p>If tiis instbndf wbs drfbtfd using tif
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(String)} or
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(String,MBfbnSfrvfr)}
+     * donstrudtors to spfdify b filf from wiidi tif fntrifs brf rfbd,
+     * tif filf is rf-rfbd.</p>
      *
-     * <p>If this instance was created using the
-     * {@link #MBeanServerFileAccessController(Properties)} or
-     * {@link #MBeanServerFileAccessController(Properties,MBeanServer)}
-     * constructors then a new copy of the <code>Properties</code> object
-     * is made.</p>
+     * <p>If tiis instbndf wbs drfbtfd using tif
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs)} or
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs,MBfbnSfrvfr)}
+     * donstrudtors tifn b nfw dopy of tif <dodf>Propfrtifs</dodf> objfdt
+     * is mbdf.</p>
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @fxdfption IOExdfption if tif filf dofs not fxist, is b
+     * dirfdtory rbtifr tibn b rfgulbr filf, or for somf otifr
+     * rfbson dbnnot bf opfnfd for rfbding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @fxdfption IllfgblArgumfntExdfption if bny of tif supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
      */
-    public synchronized void refresh() throws IOException {
-        Properties props;
-        if (accessFileName == null)
-            props = originalProps;
-        else
-            props = propertiesFromFile(accessFileName);
-        parseProperties(props);
+    publid syndironizfd void rffrfsi() tirows IOExdfption {
+        Propfrtifs props;
+        if (bddfssFilfNbmf == null)
+            props = originblProps;
+        flsf
+            props = propfrtifsFromFilf(bddfssFilfNbmf);
+        pbrsfPropfrtifs(props);
     }
 
-    private static Properties propertiesFromFile(String fname)
-        throws IOException {
-        FileInputStream fin = new FileInputStream(fname);
+    privbtf stbtid Propfrtifs propfrtifsFromFilf(String fnbmf)
+        tirows IOExdfption {
+        FilfInputStrfbm fin = nfw FilfInputStrfbm(fnbmf);
         try {
-            Properties p = new Properties();
-            p.load(fin);
-            return p;
-        } finally {
-            fin.close();
+            Propfrtifs p = nfw Propfrtifs();
+            p.lobd(fin);
+            rfturn p;
+        } finblly {
+            fin.dlosf();
         }
     }
 
-    private synchronized void checkAccess(AccessType requiredAccess, String arg) {
-        final AccessControlContext acc = AccessController.getContext();
-        final Subject s =
-            AccessController.doPrivileged(new PrivilegedAction<Subject>() {
-                    public Subject run() {
-                        return Subject.getSubject(acc);
+    privbtf syndironizfd void difdkAddfss(AddfssTypf rfquirfdAddfss, String brg) {
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        finbl Subjfdt s =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Subjfdt>() {
+                    publid Subjfdt run() {
+                        rfturn Subjfdt.gftSubjfdt(bdd);
                     }
                 });
-        if (s == null) return; /* security has not been enabled */
-        final Set<Principal> principals = s.getPrincipals();
-        String newPropertyValue = null;
-        for (Iterator<Principal> i = principals.iterator(); i.hasNext(); ) {
-            final Principal p = i.next();
-            Access access = accessMap.get(p.getName());
-            if (access != null) {
-                boolean ok;
-                switch (requiredAccess) {
-                    case READ:
-                        ok = true;  // all access entries imply read
-                        break;
-                    case WRITE:
-                        ok = access.write;
-                        break;
-                    case UNREGISTER:
-                        ok = access.unregister;
-                        if (!ok && access.write)
-                            newPropertyValue = "unregister";
-                        break;
-                    case CREATE:
-                        ok = checkCreateAccess(access, arg);
-                        if (!ok && access.write)
-                            newPropertyValue = "create " + arg;
-                        break;
-                    default:
-                        throw new AssertionError();
+        if (s == null) rfturn; /* sfdurity ibs not bffn fnbblfd */
+        finbl Sft<Prindipbl> prindipbls = s.gftPrindipbls();
+        String nfwPropfrtyVbluf = null;
+        for (Itfrbtor<Prindipbl> i = prindipbls.itfrbtor(); i.ibsNfxt(); ) {
+            finbl Prindipbl p = i.nfxt();
+            Addfss bddfss = bddfssMbp.gft(p.gftNbmf());
+            if (bddfss != null) {
+                boolfbn ok;
+                switdi (rfquirfdAddfss) {
+                    dbsf READ:
+                        ok = truf;  // bll bddfss fntrifs imply rfbd
+                        brfbk;
+                    dbsf WRITE:
+                        ok = bddfss.writf;
+                        brfbk;
+                    dbsf UNREGISTER:
+                        ok = bddfss.unrfgistfr;
+                        if (!ok && bddfss.writf)
+                            nfwPropfrtyVbluf = "unrfgistfr";
+                        brfbk;
+                    dbsf CREATE:
+                        ok = difdkCrfbtfAddfss(bddfss, brg);
+                        if (!ok && bddfss.writf)
+                            nfwPropfrtyVbluf = "drfbtf " + brg;
+                        brfbk;
+                    dffbult:
+                        tirow nfw AssfrtionError();
                 }
                 if (ok)
-                    return;
+                    rfturn;
             }
         }
-        SecurityException se = new SecurityException("Access denied! Invalid " +
-                "access level for requested MBeanServer operation.");
-        // Add some more information to help people with deployments that
-        // worked before we required explicit create clauses. We're not giving
-        // any information to the bad guys, other than that the access control
-        // is based on a file, which they could have worked out from the stack
-        // trace anyway.
-        if (newPropertyValue != null) {
-            SecurityException se2 = new SecurityException("Access property " +
-                    "for this identity should be similar to: " + READWRITE +
-                    " " + newPropertyValue);
-            se.initCause(se2);
+        SfdurityExdfption sf = nfw SfdurityExdfption("Addfss dfnifd! Invblid " +
+                "bddfss lfvfl for rfqufstfd MBfbnSfrvfr opfrbtion.");
+        // Add somf morf informbtion to iflp pfoplf witi dfploymfnts tibt
+        // workfd bfforf wf rfquirfd fxplidit drfbtf dlbusfs. Wf'rf not giving
+        // bny informbtion to tif bbd guys, otifr tibn tibt tif bddfss dontrol
+        // is bbsfd on b filf, wiidi tify dould ibvf workfd out from tif stbdk
+        // trbdf bnywby.
+        if (nfwPropfrtyVbluf != null) {
+            SfdurityExdfption sf2 = nfw SfdurityExdfption("Addfss propfrty " +
+                    "for tiis idfntity siould bf similbr to: " + READWRITE +
+                    " " + nfwPropfrtyVbluf);
+            sf.initCbusf(sf2);
         }
-        throw se;
+        tirow sf;
     }
 
-    private static boolean checkCreateAccess(Access access, String className) {
-        for (String classNamePattern : access.createPatterns) {
-            if (classNameMatch(classNamePattern, className))
-                return true;
+    privbtf stbtid boolfbn difdkCrfbtfAddfss(Addfss bddfss, String dlbssNbmf) {
+        for (String dlbssNbmfPbttfrn : bddfss.drfbtfPbttfrns) {
+            if (dlbssNbmfMbtdi(dlbssNbmfPbttfrn, dlbssNbmf))
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static boolean classNameMatch(String pattern, String className) {
-        // We studiously avoided regexes when parsing the properties file,
-        // because that is done whenever the VM is started with the
-        // appropriate -Dcom.sun.management options, even if nobody ever
-        // creates an MBean.  We don't want to incur the overhead of loading
-        // all the regex code whenever those options are specified, but if we
-        // get as far as here then the VM is already running and somebody is
-        // doing the very unusual operation of remotely creating an MBean.
-        // Because that operation is so unusual, we don't try to optimize
-        // by hand-matching or by caching compiled Pattern objects.
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer stok = new StringTokenizer(pattern, "*", true);
-        while (stok.hasMoreTokens()) {
-            String tok = stok.nextToken();
-            if (tok.equals("*"))
-                sb.append("[^.]*");
-            else
-                sb.append(Pattern.quote(tok));
+    privbtf stbtid boolfbn dlbssNbmfMbtdi(String pbttfrn, String dlbssNbmf) {
+        // Wf studiously bvoidfd rfgfxfs wifn pbrsing tif propfrtifs filf,
+        // bfdbusf tibt is donf wifnfvfr tif VM is stbrtfd witi tif
+        // bppropribtf -Ddom.sun.mbnbgfmfnt options, fvfn if nobody fvfr
+        // drfbtfs bn MBfbn.  Wf don't wbnt to indur tif ovfrifbd of lobding
+        // bll tif rfgfx dodf wifnfvfr tiosf options brf spfdififd, but if wf
+        // gft bs fbr bs ifrf tifn tif VM is blrfbdy running bnd somfbody is
+        // doing tif vfry unusubl opfrbtion of rfmotfly drfbting bn MBfbn.
+        // Bfdbusf tibt opfrbtion is so unusubl, wf don't try to optimizf
+        // by ibnd-mbtdiing or by dbdiing dompilfd Pbttfrn objfdts.
+        StringBuildfr sb = nfw StringBuildfr();
+        StringTokfnizfr stok = nfw StringTokfnizfr(pbttfrn, "*", truf);
+        wiilf (stok.ibsMorfTokfns()) {
+            String tok = stok.nfxtTokfn();
+            if (tok.fqubls("*"))
+                sb.bppfnd("[^.]*");
+            flsf
+                sb.bppfnd(Pbttfrn.quotf(tok));
         }
-        return className.matches(sb.toString());
+        rfturn dlbssNbmf.mbtdifs(sb.toString());
     }
 
-    private void parseProperties(Properties props) {
-        this.accessMap = new HashMap<String, Access>();
-        for (Map.Entry<Object, Object> entry : props.entrySet()) {
-            String identity = (String) entry.getKey();
-            String accessString = (String) entry.getValue();
-            Access access = Parser.parseAccess(identity, accessString);
-            accessMap.put(identity, access);
+    privbtf void pbrsfPropfrtifs(Propfrtifs props) {
+        tiis.bddfssMbp = nfw HbsiMbp<String, Addfss>();
+        for (Mbp.Entry<Objfdt, Objfdt> fntry : props.fntrySft()) {
+            String idfntity = (String) fntry.gftKfy();
+            String bddfssString = (String) fntry.gftVbluf();
+            Addfss bddfss = Pbrsfr.pbrsfAddfss(idfntity, bddfssString);
+            bddfssMbp.put(idfntity, bddfss);
         }
     }
 
-    private static class Parser {
-        private final static int EOS = -1;  // pseudo-codepoint "end of string"
-        static {
-            assert !Character.isWhitespace(EOS);
+    privbtf stbtid dlbss Pbrsfr {
+        privbtf finbl stbtid int EOS = -1;  // psfudo-dodfpoint "fnd of string"
+        stbtid {
+            bssfrt !Cibrbdtfr.isWiitfspbdf(EOS);
         }
 
-        private final String identity;  // just for better error messages
-        private final String s;  // the string we're parsing
-        private final int len;   // s.length()
-        private int i;
-        private int c;
-        // At any point, either c is s.codePointAt(i), or i == len and
-        // c is EOS.  We use int rather than char because it is conceivable
-        // (if unlikely) that a classname in a create clause might contain
-        // "supplementary characters", the ones that don't fit in the original
-        // 16 bits for Unicode.
+        privbtf finbl String idfntity;  // just for bfttfr frror mfssbgfs
+        privbtf finbl String s;  // tif string wf'rf pbrsing
+        privbtf finbl int lfn;   // s.lfngti()
+        privbtf int i;
+        privbtf int d;
+        // At bny point, fitifr d is s.dodfPointAt(i), or i == lfn bnd
+        // d is EOS.  Wf usf int rbtifr tibn dibr bfdbusf it is dondfivbblf
+        // (if unlikfly) tibt b dlbssnbmf in b drfbtf dlbusf migit dontbin
+        // "supplfmfntbry dibrbdtfrs", tif onfs tibt don't fit in tif originbl
+        // 16 bits for Unidodf.
 
-        private Parser(String identity, String s) {
-            this.identity = identity;
-            this.s = s;
-            this.len = s.length();
-            this.i = 0;
-            if (i < len)
-                this.c = s.codePointAt(i);
-            else
-                this.c = EOS;
+        privbtf Pbrsfr(String idfntity, String s) {
+            tiis.idfntity = idfntity;
+            tiis.s = s;
+            tiis.lfn = s.lfngti();
+            tiis.i = 0;
+            if (i < lfn)
+                tiis.d = s.dodfPointAt(i);
+            flsf
+                tiis.d = EOS;
         }
 
-        static Access parseAccess(String identity, String s) {
-            return new Parser(identity, s).parseAccess();
+        stbtid Addfss pbrsfAddfss(String idfntity, String s) {
+            rfturn nfw Pbrsfr(idfntity, s).pbrsfAddfss();
         }
 
-        private Access parseAccess() {
-            skipSpace();
-            String type = parseWord();
-            Access access;
-            if (type.equals(READONLY))
-                access = new Access(false, false, null);
-            else if (type.equals(READWRITE))
-                access = parseReadWrite();
-            else {
-                throw syntax("Expected " + READONLY + " or " + READWRITE +
-                        ": " + type);
+        privbtf Addfss pbrsfAddfss() {
+            skipSpbdf();
+            String typf = pbrsfWord();
+            Addfss bddfss;
+            if (typf.fqubls(READONLY))
+                bddfss = nfw Addfss(fblsf, fblsf, null);
+            flsf if (typf.fqubls(READWRITE))
+                bddfss = pbrsfRfbdWritf();
+            flsf {
+                tirow syntbx("Expfdtfd " + READONLY + " or " + READWRITE +
+                        ": " + typf);
             }
-            if (c != EOS)
-                throw syntax("Extra text at end of line");
-            return access;
+            if (d != EOS)
+                tirow syntbx("Extrb tfxt bt fnd of linf");
+            rfturn bddfss;
         }
 
-        private Access parseReadWrite() {
-            List<String> createClasses = new ArrayList<String>();
-            boolean unregister = false;
-            while (true) {
-                skipSpace();
-                if (c == EOS)
-                    break;
-                String type = parseWord();
-                if (type.equals(UNREGISTER))
-                    unregister = true;
-                else if (type.equals(CREATE))
-                    parseCreate(createClasses);
-                else
-                    throw syntax("Unrecognized keyword " + type);
+        privbtf Addfss pbrsfRfbdWritf() {
+            List<String> drfbtfClbssfs = nfw ArrbyList<String>();
+            boolfbn unrfgistfr = fblsf;
+            wiilf (truf) {
+                skipSpbdf();
+                if (d == EOS)
+                    brfbk;
+                String typf = pbrsfWord();
+                if (typf.fqubls(UNREGISTER))
+                    unrfgistfr = truf;
+                flsf if (typf.fqubls(CREATE))
+                    pbrsfCrfbtf(drfbtfClbssfs);
+                flsf
+                    tirow syntbx("Unrfdognizfd kfyword " + typf);
             }
-            return new Access(true, unregister, createClasses);
+            rfturn nfw Addfss(truf, unrfgistfr, drfbtfClbssfs);
         }
 
-        private void parseCreate(List<String> createClasses) {
-            while (true) {
-                skipSpace();
-                createClasses.add(parseClassName());
-                skipSpace();
-                if (c == ',')
-                    next();
-                else
-                    break;
+        privbtf void pbrsfCrfbtf(List<String> drfbtfClbssfs) {
+            wiilf (truf) {
+                skipSpbdf();
+                drfbtfClbssfs.bdd(pbrsfClbssNbmf());
+                skipSpbdf();
+                if (d == ',')
+                    nfxt();
+                flsf
+                    brfbk;
             }
         }
 
-        private String parseClassName() {
-            // We don't check that classname components begin with suitable
-            // characters (so we accept 1.2.3 for example).  This means that
-            // there are only two states, which we can call dotOK and !dotOK
-            // according as a dot (.) is legal or not.  Initially we're in
-            // !dotOK since a classname can't start with a dot; after a dot
-            // we're in !dotOK again; and after any other characters we're in
-            // dotOK.  The classname is only accepted if we end in dotOK,
-            // so we reject an empty name or a name that ends with a dot.
-            final int start = i;
-            boolean dotOK = false;
-            while (true) {
-                if (c == '.') {
+        privbtf String pbrsfClbssNbmf() {
+            // Wf don't difdk tibt dlbssnbmf domponfnts bfgin witi suitbblf
+            // dibrbdtfrs (so wf bddfpt 1.2.3 for fxbmplf).  Tiis mfbns tibt
+            // tifrf brf only two stbtfs, wiidi wf dbn dbll dotOK bnd !dotOK
+            // bddording bs b dot (.) is lfgbl or not.  Initiblly wf'rf in
+            // !dotOK sindf b dlbssnbmf dbn't stbrt witi b dot; bftfr b dot
+            // wf'rf in !dotOK bgbin; bnd bftfr bny otifr dibrbdtfrs wf'rf in
+            // dotOK.  Tif dlbssnbmf is only bddfptfd if wf fnd in dotOK,
+            // so wf rfjfdt bn fmpty nbmf or b nbmf tibt fnds witi b dot.
+            finbl int stbrt = i;
+            boolfbn dotOK = fblsf;
+            wiilf (truf) {
+                if (d == '.') {
                     if (!dotOK)
-                        throw syntax("Bad . in class name");
-                    dotOK = false;
-                } else if (c == '*' || Character.isJavaIdentifierPart(c))
-                    dotOK = true;
-                else
-                    break;
-                next();
+                        tirow syntbx("Bbd . in dlbss nbmf");
+                    dotOK = fblsf;
+                } flsf if (d == '*' || Cibrbdtfr.isJbvbIdfntififrPbrt(d))
+                    dotOK = truf;
+                flsf
+                    brfbk;
+                nfxt();
             }
-            String className = s.substring(start, i);
+            String dlbssNbmf = s.substring(stbrt, i);
             if (!dotOK)
-                throw syntax("Bad class name " + className);
-            return className;
+                tirow syntbx("Bbd dlbss nbmf " + dlbssNbmf);
+            rfturn dlbssNbmf;
         }
 
-        // Advance c and i to the next character, unless already at EOS.
-        private void next() {
-            if (c != EOS) {
-                i += Character.charCount(c);
-                if (i < len)
-                    c = s.codePointAt(i);
-                else
-                    c = EOS;
+        // Advbndf d bnd i to tif nfxt dibrbdtfr, unlfss blrfbdy bt EOS.
+        privbtf void nfxt() {
+            if (d != EOS) {
+                i += Cibrbdtfr.dibrCount(d);
+                if (i < lfn)
+                    d = s.dodfPointAt(i);
+                flsf
+                    d = EOS;
             }
         }
 
-        private void skipSpace() {
-            while (Character.isWhitespace(c))
-                next();
+        privbtf void skipSpbdf() {
+            wiilf (Cibrbdtfr.isWiitfspbdf(d))
+                nfxt();
         }
 
-        private String parseWord() {
-            skipSpace();
-            if (c == EOS)
-                throw syntax("Expected word at end of line");
-            final int start = i;
-            while (c != EOS && !Character.isWhitespace(c))
-                next();
-            String word = s.substring(start, i);
-            skipSpace();
-            return word;
+        privbtf String pbrsfWord() {
+            skipSpbdf();
+            if (d == EOS)
+                tirow syntbx("Expfdtfd word bt fnd of linf");
+            finbl int stbrt = i;
+            wiilf (d != EOS && !Cibrbdtfr.isWiitfspbdf(d))
+                nfxt();
+            String word = s.substring(stbrt, i);
+            skipSpbdf();
+            rfturn word;
         }
 
-        private IllegalArgumentException syntax(String msg) {
-            return new IllegalArgumentException(
-                    msg + " [" + identity + " " + s + "]");
+        privbtf IllfgblArgumfntExdfption syntbx(String msg) {
+            rfturn nfw IllfgblArgumfntExdfption(
+                    msg + " [" + idfntity + " " + s + "]");
         }
     }
 
-    private Map<String, Access> accessMap;
-    private Properties originalProps;
-    private String accessFileName;
+    privbtf Mbp<String, Addfss> bddfssMbp;
+    privbtf Propfrtifs originblProps;
+    privbtf String bddfssFilfNbmf;
 }

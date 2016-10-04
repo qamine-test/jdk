@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.util.*;
-import java.util.List;  // Must import explicitly due to conflict with javax.awt.List
+import jbvb.util.*;
+import jbvb.util.List;  // Must import fxpliditly duf to donflidt witi jbvbx.bwt.List
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.fvfnt.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-//### Bug: If the name of a thread is changed via Thread.setName(), the
-//### thread tree view does not reflect this.  The name of the thread at
-//### the time it is created is used throughout its lifetime.
+//### Bug: If tif nbmf of b tirfbd is dibngfd vib Tirfbd.sftNbmf(), tif
+//### tirfbd trff vifw dofs not rfflfdt tiis.  Tif nbmf of tif tirfbd bt
+//### tif timf it is drfbtfd is usfd tirougiout its lifftimf.
 
-public class ThreadTreeTool extends JPanel {
+publid dlbss TirfbdTrffTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 4168599992853038878L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4168599992853038878L;
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
 
-    private JTree tree;
-    private DefaultTreeModel treeModel;
-    private ThreadTreeNode root;
-    private SearchPath sourcePath;
+    privbtf JTrff trff;
+    privbtf DffbultTrffModfl trffModfl;
+    privbtf TirfbdTrffNodf root;
+    privbtf SfbrdiPbti sourdfPbti;
 
-    private CommandInterpreter interpreter;
+    privbtf CommbndIntfrprftfr intfrprftfr;
 
-    private static String HEADING = "THREADS";
+    privbtf stbtid String HEADING = "THREADS";
 
-    public ThreadTreeTool(Environment env) {
+    publid TirfbdTrffTool(Environmfnt fnv) {
 
-        super(new BorderLayout());
+        supfr(nfw BordfrLbyout());
 
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
 
-        this.interpreter = new CommandInterpreter(env);
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv);
 
-        root = createThreadTree(HEADING);
-        treeModel = new DefaultTreeModel(root);
+        root = drfbtfTirfbdTrff(HEADING);
+        trffModfl = nfw DffbultTrffModfl(root);
 
-        // Create a tree that allows one selection at a time.
+        // Crfbtf b trff tibt bllows onf sflfdtion bt b timf.
 
-        tree = new JTree(treeModel);
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        trff = nfw JTrff(trffModfl);
+        trff.sftSflfdtionModfl(nfw SinglfLfbfTrffSflfdtionModfl());
 
-        MouseListener ml = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-                if(selRow != -1) {
-                    if(e.getClickCount() == 1) {
-                        ThreadTreeNode node =
-                            (ThreadTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'thread' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("thread " +
-                                                       node.getThreadId() +
+        MousfListfnfr ml = nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+                int sflRow = trff.gftRowForLodbtion(f.gftX(), f.gftY());
+                TrffPbti sflPbti = trff.gftPbtiForLodbtion(f.gftX(), f.gftY());
+                if(sflRow != -1) {
+                    if(f.gftClidkCount() == 1) {
+                        TirfbdTrffNodf nodf =
+                            (TirfbdTrffNodf)sflPbti.gftLbstPbtiComponfnt();
+                        // If usfr dlidks on lfbf, sflfdt it, bnd issuf 'tirfbd' dommbnd.
+                        if (nodf.isLfbf()) {
+                            trff.sftSflfdtionPbti(sflPbti);
+                            intfrprftfr.fxfdutfCommbnd("tirfbd " +
+                                                       nodf.gftTirfbdId() +
                                                        "  (\"" +
-                                                       node.getName() + "\")");
+                                                       nodf.gftNbmf() + "\")");
                         }
                     }
                 }
             }
         };
 
-        tree.addMouseListener(ml);
+        trff.bddMousfListfnfr(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JSdrollPbnf trffVifw = nfw JSdrollPbnf(trff);
+        bdd(trffVifw);
 
-        // Create listener.
-        ThreadTreeToolListener listener = new ThreadTreeToolListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        // Crfbtf listfnfr.
+        TirfbdTrffToolListfnfr listfnfr = nfw TirfbdTrffToolListfnfr();
+        runtimf.bddJDIListfnfr(listfnfr);
+        runtimf.bddSfssionListfnfr(listfnfr);
 
-        //### remove listeners on exit!
+        //### rfmovf listfnfrs on fxit!
     }
 
-    HashMap<ThreadReference, List<String>> threadTable = new HashMap<ThreadReference, List<String>>();
+    HbsiMbp<TirfbdRfffrfndf, List<String>> tirfbdTbblf = nfw HbsiMbp<TirfbdRfffrfndf, List<String>>();
 
-    private List<String> threadPath(ThreadReference thread) {
-        // May exit abnormally if VM disconnects.
-        List<String> l = new ArrayList<String>();
-        l.add(0, thread.name());
-        ThreadGroupReference group = thread.threadGroup();
-        while (group != null) {
-            l.add(0, group.name());
-            group = group.parent();
+    privbtf List<String> tirfbdPbti(TirfbdRfffrfndf tirfbd) {
+        // Mby fxit bbnormblly if VM disdonnfdts.
+        List<String> l = nfw ArrbyList<String>();
+        l.bdd(0, tirfbd.nbmf());
+        TirfbdGroupRfffrfndf group = tirfbd.tirfbdGroup();
+        wiilf (group != null) {
+            l.bdd(0, group.nbmf());
+            group = group.pbrfnt();
         }
-        return l;
+        rfturn l;
     }
 
-    private class ThreadTreeToolListener extends JDIAdapter
-                              implements JDIListener, SessionListener {
+    privbtf dlbss TirfbdTrffToolListfnfr fxtfnds JDIAdbptfr
+                              implfmfnts JDIListfnfr, SfssionListfnfr {
 
-        // SessionListener
+        // SfssionListfnfr
 
-        @Override
-        public void sessionStart(EventObject e) {
+        @Ovfrridf
+        publid void sfssionStbrt(EvfntObjfdt f) {
             try {
-                for (ThreadReference thread : runtime.allThreads()) {
-                    root.addThread(thread);
+                for (TirfbdRfffrfndf tirfbd : runtimf.bllTirfbds()) {
+                    root.bddTirfbd(tirfbd);
                 }
-            } catch (VMDisconnectedException ee) {
-                // VM went away unexpectedly.
-            } catch (NoSessionException ee) {
-                // Ignore.  Should not happen.
+            } dbtdi (VMDisdonnfdtfdExdfption ff) {
+                // VM wfnt bwby unfxpfdtfdly.
+            } dbtdi (NoSfssionExdfption ff) {
+                // Ignorf.  Siould not ibppfn.
             }
         }
 
-        @Override
-        public void sessionInterrupt(EventObject e) {}
-        @Override
-        public void sessionContinue(EventObject e) {}
+        @Ovfrridf
+        publid void sfssionIntfrrupt(EvfntObjfdt f) {}
+        @Ovfrridf
+        publid void sfssionContinuf(EvfntObjfdt f) {}
 
 
-        // JDIListener
+        // JDIListfnfr
 
-        @Override
-        public void threadStart(ThreadStartEventSet e) {
-            root.addThread(e.getThread());
+        @Ovfrridf
+        publid void tirfbdStbrt(TirfbdStbrtEvfntSft f) {
+            root.bddTirfbd(f.gftTirfbd());
         }
 
-        @Override
-        public void threadDeath(ThreadDeathEventSet e) {
-            root.removeThread(e.getThread());
+        @Ovfrridf
+        publid void tirfbdDfbti(TirfbdDfbtiEvfntSft f) {
+            root.rfmovfTirfbd(f.gftTirfbd());
         }
 
-        @Override
-        public void vmDisconnect(VMDisconnectEventSet e) {
-            // Clear the contents of this view.
-            root = createThreadTree(HEADING);
-            treeModel = new DefaultTreeModel(root);
-            tree.setModel(treeModel);
-            threadTable = new HashMap<ThreadReference, List<String>>();
+        @Ovfrridf
+        publid void vmDisdonnfdt(VMDisdonnfdtEvfntSft f) {
+            // Clfbr tif dontfnts of tiis vifw.
+            root = drfbtfTirfbdTrff(HEADING);
+            trffModfl = nfw DffbultTrffModfl(root);
+            trff.sftModfl(trffModfl);
+            tirfbdTbblf = nfw HbsiMbp<TirfbdRfffrfndf, List<String>>();
         }
 
     }
 
-    ThreadTreeNode createThreadTree(String label) {
-        return new ThreadTreeNode(label, null);
+    TirfbdTrffNodf drfbtfTirfbdTrff(String lbbfl) {
+        rfturn nfw TirfbdTrffNodf(lbbfl, null);
     }
 
-    class ThreadTreeNode extends DefaultMutableTreeNode {
+    dlbss TirfbdTrffNodf fxtfnds DffbultMutbblfTrffNodf {
 
-        String name;
-        ThreadReference thread; // null if thread group
+        String nbmf;
+        TirfbdRfffrfndf tirfbd; // null if tirfbd group
         long uid;
-        String description;
+        String dfsdription;
 
-        ThreadTreeNode(String name, ThreadReference thread) {
-            if (name == null) {
-                name = "<unnamed>";
+        TirfbdTrffNodf(String nbmf, TirfbdRfffrfndf tirfbd) {
+            if (nbmf == null) {
+                nbmf = "<unnbmfd>";
             }
-            this.name = name;
-            this.thread = thread;
-            if (thread == null) {
-                this.uid = -1;
-                this.description = name;
-            } else {
-                this.uid = thread.uniqueID();
-                this.description = name + " (t@" + Long.toHexString(uid) + ")";
+            tiis.nbmf = nbmf;
+            tiis.tirfbd = tirfbd;
+            if (tirfbd == null) {
+                tiis.uid = -1;
+                tiis.dfsdription = nbmf;
+            } flsf {
+                tiis.uid = tirfbd.uniqufID();
+                tiis.dfsdription = nbmf + " (t@" + Long.toHfxString(uid) + ")";
             }
         }
 
-        @Override
-        public String toString() {
-            return description;
+        @Ovfrridf
+        publid String toString() {
+            rfturn dfsdription;
         }
 
-        public String getName() {
-            return name;
+        publid String gftNbmf() {
+            rfturn nbmf;
         }
 
-        public ThreadReference getThread() {
-            return thread;
+        publid TirfbdRfffrfndf gftTirfbd() {
+            rfturn tirfbd;
         }
 
-        public String getThreadId() {
-            return "t@" + Long.toHexString(uid);
+        publid String gftTirfbdId() {
+            rfturn "t@" + Long.toHfxString(uid);
         }
 
-        private boolean isThreadGroup() {
-            return (thread == null);
+        privbtf boolfbn isTirfbdGroup() {
+            rfturn (tirfbd == null);
         }
 
-        @Override
-        public boolean isLeaf() {
-            return !isThreadGroup();
+        @Ovfrridf
+        publid boolfbn isLfbf() {
+            rfturn !isTirfbdGroup();
         }
 
-        public void addThread(ThreadReference thread) {
-            // This can fail if the VM disconnects.
-            // It is important to do all necessary JDI calls
-            // before modifying the tree, so we don't abort
-            // midway through!
-            if (threadTable.get(thread) == null) {
-                // Add thread only if not already present.
+        publid void bddTirfbd(TirfbdRfffrfndf tirfbd) {
+            // Tiis dbn fbil if tif VM disdonnfdts.
+            // It is importbnt to do bll nfdfssbry JDI dblls
+            // bfforf modifying tif trff, so wf don't bbort
+            // midwby tirougi!
+            if (tirfbdTbblf.gft(tirfbd) == null) {
+                // Add tirfbd only if not blrfbdy prfsfnt.
                 try {
-                    List<String> path = threadPath(thread);
-                    // May not get here due to exception.
-                    // If we get here, we are committed.
-                    // We must not leave the tree partially updated.
+                    List<String> pbti = tirfbdPbti(tirfbd);
+                    // Mby not gft ifrf duf to fxdfption.
+                    // If wf gft ifrf, wf brf dommittfd.
+                    // Wf must not lfbvf tif trff pbrtiblly updbtfd.
                     try {
-                        threadTable.put(thread, path);
-                        addThread(path, thread);
-                    } catch (Throwable tt) {
-                        //### Assertion failure.
-                        throw new RuntimeException("ThreadTree corrupted");
+                        tirfbdTbblf.put(tirfbd, pbti);
+                        bddTirfbd(pbti, tirfbd);
+                    } dbtdi (Tirowbblf tt) {
+                        //### Assfrtion fbilurf.
+                        tirow nfw RuntimfExdfption("TirfbdTrff dorruptfd");
                     }
-                } catch (VMDisconnectedException ee) {
-                    // Ignore.  Thread will not be added.
+                } dbtdi (VMDisdonnfdtfdExdfption ff) {
+                    // Ignorf.  Tirfbd will not bf bddfd.
                 }
             }
         }
 
-        private void addThread(List<String> threadPath, ThreadReference thread) {
-            int size = threadPath.size();
-            if (size == 0) {
-                return;
-            } else if (size == 1) {
-                String name = threadPath.get(0);
-                insertNode(name, thread);
-            } else {
-                String head = threadPath.get(0);
-                List<String> tail = threadPath.subList(1, size);
-                ThreadTreeNode child = insertNode(head, null);
-                child.addThread(tail, thread);
+        privbtf void bddTirfbd(List<String> tirfbdPbti, TirfbdRfffrfndf tirfbd) {
+            int sizf = tirfbdPbti.sizf();
+            if (sizf == 0) {
+                rfturn;
+            } flsf if (sizf == 1) {
+                String nbmf = tirfbdPbti.gft(0);
+                insfrtNodf(nbmf, tirfbd);
+            } flsf {
+                String ifbd = tirfbdPbti.gft(0);
+                List<String> tbil = tirfbdPbti.subList(1, sizf);
+                TirfbdTrffNodf diild = insfrtNodf(ifbd, null);
+                diild.bddTirfbd(tbil, tirfbd);
             }
         }
 
-        private ThreadTreeNode insertNode(String name, ThreadReference thread) {
-            for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.getName());
-                if (cmp == 0 && thread == null) {
-                    // A like-named interior node already exists.
-                    return child;
-                } else if (cmp < 0) {
-                    // Insert new node before the child.
-                    ThreadTreeNode newChild = new ThreadTreeNode(name, thread);
-                    treeModel.insertNodeInto(newChild, this, i);
-                    return newChild;
+        privbtf TirfbdTrffNodf insfrtNodf(String nbmf, TirfbdRfffrfndf tirfbd) {
+            for (int i = 0; i < gftCiildCount(); i++) {
+                TirfbdTrffNodf diild = (TirfbdTrffNodf)gftCiildAt(i);
+                int dmp = nbmf.dompbrfTo(diild.gftNbmf());
+                if (dmp == 0 && tirfbd == null) {
+                    // A likf-nbmfd intfrior nodf blrfbdy fxists.
+                    rfturn diild;
+                } flsf if (dmp < 0) {
+                    // Insfrt nfw nodf bfforf tif diild.
+                    TirfbdTrffNodf nfwCiild = nfw TirfbdTrffNodf(nbmf, tirfbd);
+                    trffModfl.insfrtNodfInto(nfwCiild, tiis, i);
+                    rfturn nfwCiild;
                 }
             }
-            // Insert new node after last child.
-            ThreadTreeNode newChild = new ThreadTreeNode(name, thread);
-            treeModel.insertNodeInto(newChild, this, getChildCount());
-            return newChild;
+            // Insfrt nfw nodf bftfr lbst diild.
+            TirfbdTrffNodf nfwCiild = nfw TirfbdTrffNodf(nbmf, tirfbd);
+            trffModfl.insfrtNodfInto(nfwCiild, tiis, gftCiildCount());
+            rfturn nfwCiild;
         }
 
-        public void removeThread(ThreadReference thread) {
-            List<String> threadPath = threadTable.get(thread);
-            // Only remove thread if we recorded it in table.
-            // Original add may have failed due to VM disconnect.
-            if (threadPath != null) {
-                removeThread(threadPath, thread);
+        publid void rfmovfTirfbd(TirfbdRfffrfndf tirfbd) {
+            List<String> tirfbdPbti = tirfbdTbblf.gft(tirfbd);
+            // Only rfmovf tirfbd if wf rfdordfd it in tbblf.
+            // Originbl bdd mby ibvf fbilfd duf to VM disdonnfdt.
+            if (tirfbdPbti != null) {
+                rfmovfTirfbd(tirfbdPbti, tirfbd);
             }
         }
 
-        private void removeThread(List<String> threadPath, ThreadReference thread) {
-            int size = threadPath.size();
-            if (size == 0) {
-                return;
-            } else if (size == 1) {
-                String name = threadPath.get(0);
-                ThreadTreeNode child = findLeafNode(thread, name);
-                treeModel.removeNodeFromParent(child);
-            } else {
-                String head = threadPath.get(0);
-                List<String> tail = threadPath.subList(1, size);
-                ThreadTreeNode child = findInternalNode(head);
-                child.removeThread(tail, thread);
-                if (child.isThreadGroup() && child.getChildCount() < 1) {
-                    // Prune non-leaf nodes with no children.
-                    treeModel.removeNodeFromParent(child);
+        privbtf void rfmovfTirfbd(List<String> tirfbdPbti, TirfbdRfffrfndf tirfbd) {
+            int sizf = tirfbdPbti.sizf();
+            if (sizf == 0) {
+                rfturn;
+            } flsf if (sizf == 1) {
+                String nbmf = tirfbdPbti.gft(0);
+                TirfbdTrffNodf diild = findLfbfNodf(tirfbd, nbmf);
+                trffModfl.rfmovfNodfFromPbrfnt(diild);
+            } flsf {
+                String ifbd = tirfbdPbti.gft(0);
+                List<String> tbil = tirfbdPbti.subList(1, sizf);
+                TirfbdTrffNodf diild = findIntfrnblNodf(ifbd);
+                diild.rfmovfTirfbd(tbil, tirfbd);
+                if (diild.isTirfbdGroup() && diild.gftCiildCount() < 1) {
+                    // Prunf non-lfbf nodfs witi no diildrfn.
+                    trffModfl.rfmovfNodfFromPbrfnt(diild);
                 }
             }
         }
 
-        private ThreadTreeNode findLeafNode(ThreadReference thread, String name) {
-            for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                if (child.getThread() == thread) {
-                    if (!name.equals(child.getName())) {
-                        //### Assertion failure.
-                        throw new RuntimeException("name mismatch");
+        privbtf TirfbdTrffNodf findLfbfNodf(TirfbdRfffrfndf tirfbd, String nbmf) {
+            for (int i = 0; i < gftCiildCount(); i++) {
+                TirfbdTrffNodf diild = (TirfbdTrffNodf)gftCiildAt(i);
+                if (diild.gftTirfbd() == tirfbd) {
+                    if (!nbmf.fqubls(diild.gftNbmf())) {
+                        //### Assfrtion fbilurf.
+                        tirow nfw RuntimfExdfption("nbmf mismbtdi");
                     }
-                    return child;
+                    rfturn diild;
                 }
             }
-            //### Assertion failure.
-            throw new RuntimeException("not found");
+            //### Assfrtion fbilurf.
+            tirow nfw RuntimfExdfption("not found");
         }
 
-        private ThreadTreeNode findInternalNode(String name) {
-            for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                if (name.equals(child.getName())) {
-                    return child;
+        privbtf TirfbdTrffNodf findIntfrnblNodf(String nbmf) {
+            for (int i = 0; i < gftCiildCount(); i++) {
+                TirfbdTrffNodf diild = (TirfbdTrffNodf)gftCiildAt(i);
+                if (nbmf.fqubls(diild.gftNbmf())) {
+                    rfturn diild;
                 }
             }
-            //### Assertion failure.
-            throw new RuntimeException("not found");
+            //### Assfrtion fbilurf.
+            tirow nfw RuntimfExdfption("not found");
         }
 
     }

@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.sfdurity.*;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf <dodf>SSLContfxt</dodf> dlbss.
+ *
+ * <p> All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrtidulbr SSL dontfxt.
+ *
+ * @sindf 1.4
+ * @sff SSLContfxt
+ */
+publid bbstrbdt dlbss SSLContfxtSpi {
+    /**
+     * Initiblizfs this dontfxt.
+     *
+     * @pbrbm km thf sourdfs of buthfntidbtion kfys
+     * @pbrbm tm thf sourdfs of pffr buthfntidbtion trust dfdisions
+     * @pbrbm sr thf sourdf of rbndomnfss
+     * @throws KfyMbnbgfmfntExdfption if this opfrbtion fbils
+     * @sff SSLContfxt#init(KfyMbnbgfr [], TrustMbnbgfr [], SfdurfRbndom)
+     */
+    protfdtfd bbstrbdt void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+        SfdurfRbndom sr) throws KfyMbnbgfmfntExdfption;
+
+    /**
+     * Rfturns b <dodf>SodkftFbdtory</dodf> objfdt for this
+     * dontfxt.
+     *
+     * @rfturn thf <dodf>SodkftFbdtory</dodf> objfdt
+     * @throws IllfgblStbtfExdfption if thf SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd thf <dodf>fnginfInit()</dodf>
+     *         hbs not bffn dbllfd
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSodkftFbdtory()
+     */
+    protfdtfd bbstrbdt SSLSodkftFbdtory fnginfGftSodkftFbdtory();
+
+    /**
+     * Rfturns b <dodf>SfrvfrSodkftFbdtory</dodf> objfdt for
+     * this dontfxt.
+     *
+     * @rfturn thf <dodf>SfrvfrSodkftFbdtory</dodf> objfdt
+     * @throws IllfgblStbtfExdfption if thf SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd thf <dodf>fnginfInit()</dodf>
+     *         hbs not bffn dbllfd
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSfrvfrSodkftFbdtory()
+     */
+    protfdtfd bbstrbdt SSLSfrvfrSodkftFbdtory fnginfGftSfrvfrSodkftFbdtory();
+
+    /**
+     * Crfbtfs b nfw <dodf>SSLEnginf</dodf> using this dontfxt.
+     * <P>
+     * Applidbtions using this fbdtory mfthod brf providing no hints
+     * for bn intfrnbl sfssion rfusf strbtfgy. If hints brf dfsirfd,
+     * {@link #fnginfCrfbtfSSLEnginf(String, int)} should bf usfd
+     * instfbd.
+     * <P>
+     * Somf diphfr suitfs (sudh bs Kfrbfros) rfquirf rfmotf hostnbmf
+     * informbtion, in whidh dbsf this fbdtory mfthod should not bf usfd.
+     *
+     * @rfturn  thf <dodf>SSLEnginf</dodf> Objfdt
+     * @throws IllfgblStbtfExdfption if thf SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd thf <dodf>fnginfInit()</dodf>
+     *         hbs not bffn dbllfd
+     *
+     * @sff     SSLContfxt#drfbtfSSLEnginf()
+     *
+     * @sindf   1.5
+     */
+    protfdtfd bbstrbdt SSLEnginf fnginfCrfbtfSSLEnginf();
+
+    /**
+     * Crfbtfs b <dodf>SSLEnginf</dodf> using this dontfxt.
+     * <P>
+     * Applidbtions using this fbdtory mfthod brf providing hints
+     * for bn intfrnbl sfssion rfusf strbtfgy.
+     * <P>
+     * Somf diphfr suitfs (sudh bs Kfrbfros) rfquirf rfmotf hostnbmf
+     * informbtion, in whidh dbsf pffrHost nffds to bf spfdififd.
+     *
+     * @pbrbm host thf non-buthoritbtivf nbmf of thf host
+     * @pbrbm port thf non-buthoritbtivf port
+     * @rfturn  thf <dodf>SSLEnginf</dodf> Objfdt
+     * @throws IllfgblStbtfExdfption if thf SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd thf <dodf>fnginfInit()</dodf>
+     *         hbs not bffn dbllfd
+     *
+     * @sff     SSLContfxt#drfbtfSSLEnginf(String, int)
+     *
+     * @sindf   1.5
+     */
+    protfdtfd bbstrbdt SSLEnginf fnginfCrfbtfSSLEnginf(String host, int port);
+
+    /**
+     * Rfturns b sfrvfr <dodf>SSLSfssionContfxt</dodf> objfdt for
+     * this dontfxt.
+     *
+     * @rfturn thf <dodf>SSLSfssionContfxt</dodf> objfdt
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSfrvfrSfssionContfxt()
+     */
+    protfdtfd bbstrbdt SSLSfssionContfxt fnginfGftSfrvfrSfssionContfxt();
+
+    /**
+     * Rfturns b dlifnt <dodf>SSLSfssionContfxt</dodf> objfdt for
+     * this dontfxt.
+     *
+     * @rfturn thf <dodf>SSLSfssionContfxt</dodf> objfdt
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftClifntSfssionContfxt()
+     */
+    protfdtfd bbstrbdt SSLSfssionContfxt fnginfGftClifntSfssionContfxt();
+
+    privbtf SSLSodkft gftDffbultSodkft() {
+        try {
+            SSLSodkftFbdtory fbdtory = fnginfGftSodkftFbdtory();
+            rfturn (SSLSodkft)fbdtory.drfbtfSodkft();
+        } dbtdh (jbvb.io.IOExdfption f) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Could not obtbin pbrbmftfrs", f);
+        }
+    }
+
+    /**
+     * Rfturns b dopy of thf SSLPbrbmftfrs indidbting thf dffbult
+     * sfttings for this SSL dontfxt.
+     *
+     * <p>Thf pbrbmftfrs will blwbys hbvf thf diphfrsuitf bnd protodols
+     * brrbys sft to non-null vblufs.
+     *
+     * <p>Thf dffbult implfmfntbtion obtbins thf pbrbmftfrs from bn
+     * SSLSodkft drfbtfd by dblling thf
+     * {@linkplbin jbvbx.nft.SodkftFbdtory#drfbtfSodkft
+     * SodkftFbdtory.drfbtfSodkft()} mfthod of this dontfxt's SodkftFbdtory.
+     *
+     * @rfturn b dopy of thf SSLPbrbmftfrs objfdt with thf dffbult sfttings
+     * @throws UnsupportfdOpfrbtionExdfption if thf dffbult SSL pbrbmftfrs
+     *   dould not bf obtbinfd.
+     *
+     * @sindf 1.6
+     */
+    protfdtfd SSLPbrbmftfrs fnginfGftDffbultSSLPbrbmftfrs() {
+        SSLSodkft sodkft = gftDffbultSodkft();
+        rfturn sodkft.gftSSLPbrbmftfrs();
+    }
+
+    /**
+     * Rfturns b dopy of thf SSLPbrbmftfrs indidbting thf mbximum supportfd
+     * sfttings for this SSL dontfxt.
+     *
+     * <p>Thf pbrbmftfrs will blwbys hbvf thf diphfrsuitf bnd protodols
+     * brrbys sft to non-null vblufs.
+     *
+     * <p>Thf dffbult implfmfntbtion obtbins thf pbrbmftfrs from bn
+     * SSLSodkft drfbtfd by dblling thf
+     * {@linkplbin jbvbx.nft.SodkftFbdtory#drfbtfSodkft
+     * SodkftFbdtory.drfbtfSodkft()} mfthod of this dontfxt's SodkftFbdtory.
+     *
+     * @rfturn b dopy of thf SSLPbrbmftfrs objfdt with thf mbximum supportfd
+     *   sfttings
+     * @throws UnsupportfdOpfrbtionExdfption if thf supportfd SSL pbrbmftfrs
+     *   dould not bf obtbinfd.
+     *
+     * @sindf 1.6
+     */
+    protfdtfd SSLPbrbmftfrs fnginfGftSupportfdSSLPbrbmftfrs() {
+        SSLSodkft sodkft = gftDffbultSodkft();
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCiphfrSuitfs(sodkft.gftSupportfdCiphfrSuitfs());
+        pbrbms.sftProtodols(sodkft.gftSupportfdProtodols());
+        rfturn pbrbms;
+    }
+
+}

@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,49 +29,49 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-java_crw_demo Library
+jbvb_drw_dfmo Librbry
 
-The library java_crw_demo is a small C library that is used by HPROF
-and other agent libraries to do some very basic bytecode 
-insertion (BCI) of class files.  This is not an agent 
-library but a general purpose library that can be used to do some 
-very limited bytecode insertion.
+Tif librbry jbvb_drw_dfmo is b smbll C librbry tibt is usfd by HPROF
+bnd otifr bgfnt librbrifs to do somf vfry bbsid bytfdodf 
+insfrtion (BCI) of dlbss filfs.  Tiis is not bn bgfnt 
+librbry but b gfnfrbl purposf librbry tibt dbn bf usfd to do somf 
+vfry limitfd bytfdodf insfrtion.
 
-In the demo sources, look for the use of java_crw_demo.h and
-the C function java_crw_demo().  The java_crw_demo library is provided 
-as part of the JRE.
+In tif dfmo sourdfs, look for tif usf of jbvb_drw_dfmo.i bnd
+tif C fundtion jbvb_drw_dfmo().  Tif jbvb_drw_dfmo librbry is providfd 
+bs pbrt of tif JRE.
 
-The basic BCI that this library does includes:
+Tif bbsid BCI tibt tiis librbry dofs indludfs:
 
-    * On entry to the java.lang.Object init method (signature "()V"), 
-      a invokestatic call to tclass.obj_init_method(object); is inserted. 
+    * On fntry to tif jbvb.lbng.Objfdt init mftiod (signbturf "()V"), 
+      b invokfstbtid dbll to tdlbss.obj_init_mftiod(objfdt); is insfrtfd. 
 
-    * On any newarray type opcode, immediately following it, the array 
-      object is duplicated on the stack and an invokestatic call to
-      tclass.newarray_method(object); is inserted. 
+    * On bny nfwbrrby typf opdodf, immfdibtfly following it, tif brrby 
+      objfdt is duplidbtfd on tif stbdk bnd bn invokfstbtid dbll to
+      tdlbss.nfwbrrby_mftiod(objfdt); is insfrtfd. 
 
-    * On entry to all methods, a invokestatic call to 
-      tclass.call_method(cnum,mnum); is inserted. The agent can map the 
-      two integers (cnum,mnum) to a method in a class, the cnum is the 
-      number provided to the java_crw_demo library when the classfile was 
-      modified.
+    * On fntry to bll mftiods, b invokfstbtid dbll to 
+      tdlbss.dbll_mftiod(dnum,mnum); is insfrtfd. Tif bgfnt dbn mbp tif 
+      two intfgfrs (dnum,mnum) to b mftiod in b dlbss, tif dnum is tif 
+      numbfr providfd to tif jbvb_drw_dfmo librbry wifn tif dlbssfilf wbs 
+      modififd.
 
-    * On return from any method (any return opcode), a invokestatic call to
-      tclass.return_method(cnum,mnum); is inserted.  
+    * On rfturn from bny mftiod (bny rfturn opdodf), b invokfstbtid dbll to
+      tdlbss.rfturn_mftiod(dnum,mnum); is insfrtfd.  
 
-Some methods are not modified at all, init methods and finalize methods 
-whose length is 1 will not be modified.  Classes that are designated 
-"system" will not have their clinit methods modified. In addition, the 
-method java.lang.Thread.currentThread() is not modified.
+Somf mftiods brf not modififd bt bll, init mftiods bnd finblizf mftiods 
+wiosf lfngti is 1 will not bf modififd.  Clbssfs tibt brf dfsignbtfd 
+"systfm" will not ibvf tifir dlinit mftiods modififd. In bddition, tif 
+mftiod jbvb.lbng.Tirfbd.durrfntTirfbd() is not modififd.
 
-No methods or fields will be added to any class, however new constant 
-pool entries will be added at the end of the original constant pool table.
-The exception, line, and local variable tables for each method is adjusted 
-for the modification. The bytecodes are compressed to use smaller offsets 
-and the fewest 'wide' opcodes. 
+No mftiods or fiflds will bf bddfd to bny dlbss, iowfvfr nfw donstbnt 
+pool fntrifs will bf bddfd bt tif fnd of tif originbl donstbnt pool tbblf.
+Tif fxdfption, linf, bnd lodbl vbribblf tbblfs for fbdi mftiod is bdjustfd 
+for tif modifidbtion. Tif bytfdodfs brf domprfssfd to usf smbllfr offsfts 
+bnd tif ffwfst 'widf' opdodfs. 
 
-All attempts are made to minimize the number of bytecodes at each insertion 
-site, however, classes with N return opcodes or N newarray opcodes will get 
-N insertions.  And only the necessary modification dictated by the input 
-arguments to java_crw_demo are actually made.
+All bttfmpts brf mbdf to minimizf tif numbfr of bytfdodfs bt fbdi insfrtion 
+sitf, iowfvfr, dlbssfs witi N rfturn opdodfs or N nfwbrrby opdodfs will gft 
+N insfrtions.  And only tif nfdfssbry modifidbtion didtbtfd by tif input 
+brgumfnts to jbvb_drw_dfmo brf bdtublly mbdf.
 

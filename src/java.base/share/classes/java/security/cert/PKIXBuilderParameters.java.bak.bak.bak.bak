@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.util.Sft;
+
+/**
+ * Pbrbmftfrs usfd bs input for thf PKIX {@dodf CfrtPbthBuildfr}
+ * blgorithm.
+ * <p>
+ * A PKIX {@dodf CfrtPbthBuildfr} usfs thfsf pbrbmftfrs to {@link
+ * CfrtPbthBuildfr#build build} b {@dodf CfrtPbth} whidh hbs bffn
+ * vblidbtfd bddording to thf PKIX dfrtifidbtion pbth vblidbtion blgorithm.
+ *
+ * <p>To instbntibtf b {@dodf PKIXBuildfrPbrbmftfrs} objfdt, bn
+ * bpplidbtion must spfdify onf or morf <i>most-trustfd CAs</i> bs dffinfd by
+ * thf PKIX dfrtifidbtion pbth vblidbtion blgorithm. Thf most-trustfd CA
+ * dbn bf spfdififd using onf of two donstrudtors. An bpplidbtion
+ * dbn dbll {@link #PKIXBuildfrPbrbmftfrs(Sft, CfrtSflfdtor)
+ * PKIXBuildfrPbrbmftfrs(Sft, CfrtSflfdtor)}, spfdifying b
+ * {@dodf Sft} of {@dodf TrustAndhor} objfdts, fbdh of whidh
+ * idfntififs b most-trustfd CA. Altfrnbtivfly, bn bpplidbtion dbn dbll
+ * {@link #PKIXBuildfrPbrbmftfrs(KfyStorf, CfrtSflfdtor)
+ * PKIXBuildfrPbrbmftfrs(KfyStorf, CfrtSflfdtor)}, spfdifying b
+ * {@dodf KfyStorf} instbndf dontbining trustfd dfrtifidbtf fntrifs, fbdh
+ * of whidh will bf donsidfrfd bs b most-trustfd CA.
+ *
+ * <p>In bddition, bn bpplidbtion must spfdify donstrbints on thf tbrgft
+ * dfrtifidbtf thbt thf {@dodf CfrtPbthBuildfr} will bttfmpt
+ * to build b pbth to. Thf donstrbints brf spfdififd bs b
+ * {@dodf CfrtSflfdtor} objfdt. Thfsf donstrbints should providf thf
+ * {@dodf CfrtPbthBuildfr} with fnough sfbrdh dritfrib to find thf tbrgft
+ * dfrtifidbtf. Minimbl dritfrib for bn {@dodf X509Cfrtifidbtf} usublly
+ * indludf thf subjfdt nbmf bnd/or onf or morf subjfdt bltfrnbtivf nbmfs.
+ * If fnough dritfrib is not spfdififd, thf {@dodf CfrtPbthBuildfr}
+ * mby throw b {@dodf CfrtPbthBuildfrExdfption}.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff CfrtPbthBuildfr
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ */
+publid dlbss PKIXBuildfrPbrbmftfrs fxtfnds PKIXPbrbmftfrs {
+
+    privbtf int mbxPbthLfngth = 5;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PKIXBuildfrPbrbmftfrs} with
+     * thf spfdififd {@dodf Sft} of most-trustfd CAs.
+     * Ebdh flfmfnt of thf sft is b {@link TrustAndhor TrustAndhor}.
+     *
+     * <p>Notf thbt thf {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @pbrbm trustAndhors b {@dodf Sft} of {@dodf TrustAndhor}s
+     * @pbrbm tbrgftConstrbints b {@dodf CfrtSflfdtor} spfdifying thf
+     * donstrbints on thf tbrgft dfrtifidbtf
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if {@dodf trustAndhors}
+     * is fmpty {@dodf (trustAndhors.isEmpty() == truf)}
+     * @throws NullPointfrExdfption if {@dodf trustAndhors} is
+     * {@dodf null}
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts of
+     * {@dodf trustAndhors} brf not of typf
+     * {@dodf jbvb.sfdurity.dfrt.TrustAndhor}
+     */
+    publid PKIXBuildfrPbrbmftfrs(Sft<TrustAndhor> trustAndhors, CfrtSflfdtor
+        tbrgftConstrbints) throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(trustAndhors);
+        sftTbrgftCfrtConstrbints(tbrgftConstrbints);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PKIXBuildfrPbrbmftfrs} thbt
+     * populbtfs thf sft of most-trustfd CAs from thf trustfd
+     * dfrtifidbtf fntrifs dontbinfd in thf spfdififd {@dodf KfyStorf}.
+     * Only kfystorf fntrifs thbt dontbin trustfd {@dodf X509Cfrtifidbtf}s
+     * brf donsidfrfd; bll othfr dfrtifidbtf typfs brf ignorfd.
+     *
+     * @pbrbm kfystorf b {@dodf KfyStorf} from whidh thf sft of
+     * most-trustfd CAs will bf populbtfd
+     * @pbrbm tbrgftConstrbints b {@dodf CfrtSflfdtor} spfdifying thf
+     * donstrbints on thf tbrgft dfrtifidbtf
+     * @throws KfyStorfExdfption if {@dodf kfystorf} hbs not bffn
+     * initiblizfd
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if {@dodf kfystorf} dofs
+     * not dontbin bt lfbst onf trustfd dfrtifidbtf fntry
+     * @throws NullPointfrExdfption if {@dodf kfystorf} is
+     * {@dodf null}
+     */
+    publid PKIXBuildfrPbrbmftfrs(KfyStorf kfystorf,
+        CfrtSflfdtor tbrgftConstrbints)
+        throws KfyStorfExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(kfystorf);
+        sftTbrgftCfrtConstrbints(tbrgftConstrbints);
+    }
+
+    /**
+     * Sfts thf vbluf of thf mbximum numbfr of non-sflf-issufd intfrmfdibtf
+     * dfrtifidbtfs thbt mby fxist in b dfrtifidbtion pbth. A dfrtifidbtf
+     * is sflf-issufd if thf DNs thbt bppfbr in thf subjfdt bnd issufr
+     * fiflds brf idfntidbl bnd brf not fmpty. Notf thbt thf lbst dfrtifidbtf
+     * in b dfrtifidbtion pbth is not bn intfrmfdibtf dfrtifidbtf, bnd is not
+     * indludfd in this limit. Usublly thf lbst dfrtifidbtf is bn fnd fntity
+     * dfrtifidbtf, but it dbn bf b CA dfrtifidbtf. A PKIX
+     * {@dodf CfrtPbthBuildfr} instbndf must not build
+     * pbths longfr thbn thf lfngth spfdififd.
+     *
+     * <p> A vbluf of 0 implifs thbt thf pbth dbn only dontbin
+     * b singlf dfrtifidbtf. A vbluf of -1 implifs thbt thf
+     * pbth lfngth is undonstrbinfd (i.f. thfrf is no mbximum).
+     * Thf dffbult mbximum pbth lfngth, if not spfdififd, is 5.
+     * Sftting b vbluf lfss thbn -1 will dbusf bn fxdfption to bf thrown.
+     *
+     * <p> If bny of thf CA dfrtifidbtfs dontbin thf
+     * {@dodf BbsidConstrbintsExtfnsion}, thf vbluf of thf
+     * {@dodf pbthLfnConstrbint} fifld of thf fxtfnsion ovfrridfs
+     * thf mbximum pbth lfngth pbrbmftfr whfnfvfr thf rfsult is b
+     * dfrtifidbtion pbth of smbllfr lfngth.
+     *
+     * @pbrbm mbxPbthLfngth thf mbximum numbfr of non-sflf-issufd intfrmfdibtf
+     *  dfrtifidbtfs thbt mby fxist in b dfrtifidbtion pbth
+     * @throws InvblidPbrbmftfrExdfption if {@dodf mbxPbthLfngth} is sft
+     *  to b vbluf lfss thbn -1
+     *
+     * @sff #gftMbxPbthLfngth
+     */
+    publid void sftMbxPbthLfngth(int mbxPbthLfngth) {
+        if (mbxPbthLfngth < -1) {
+            throw nfw InvblidPbrbmftfrExdfption("thf mbximum pbth "
+                + "lfngth pbrbmftfr dbn not bf lfss thbn -1");
+        }
+        this.mbxPbthLfngth = mbxPbthLfngth;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf mbximum numbfr of intfrmfdibtf non-sflf-issufd
+     * dfrtifidbtfs thbt mby fxist in b dfrtifidbtion pbth. Sff
+     * thf {@link #sftMbxPbthLfngth} mfthod for morf dftbils.
+     *
+     * @rfturn thf mbximum numbfr of non-sflf-issufd intfrmfdibtf dfrtifidbtfs
+     *  thbt mby fxist in b dfrtifidbtion pbth, or -1 if thfrf is no limit
+     *
+     * @sff #sftMbxPbthLfngth
+     */
+    publid int gftMbxPbthLfngth() {
+        rfturn mbxPbthLfngth;
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        sb.bppfnd(supfr.toString());
+        sb.bppfnd("  Mbximum Pbth Lfngth: " + mbxPbthLfngth + "\n");
+        sb.bppfnd("]\n");
+        rfturn sb.toString();
+    }
+}

@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbl routinfs for mbnipulbting b bbg dbtb strudturf */
+
+#indludf "util.h"
+#indludf "bbg.h"
+
+strudt bbg {
+    void *itfms;    /* hold itfms in bbg, must blign on itfmSizf */
+    int usfd;       /* numbfr of itfms in bbg */
+    int bllodbtfd;  /* spbdf rfsfrvfd */
+    int itfmSizf;   /* sizf of fbdh itfm, should init to sizfof itfm */
+};
+
+strudt bbg *
+bbgCrfbtfBbg(int itfmSizf, int initiblAllodbtion) {
+    strudt bbg *thfBbg = (strudt bbg *)jvmtiAllodbtf(sizfof(strudt bbg));
+    if (thfBbg == NULL) {
+        rfturn NULL;
+    }
+    itfmSizf = (itfmSizf + 7) & ~7;    /* fit 8 bytf boundbry */
+    thfBbg->itfms = jvmtiAllodbtf(initiblAllodbtion * itfmSizf);
+    if (thfBbg->itfms == NULL) {
+        jvmtiDfbllodbtf(thfBbg);
+        rfturn NULL;
+    }
+    thfBbg->usfd = 0;
+    thfBbg->bllodbtfd = initiblAllodbtion;
+    thfBbg->itfmSizf = itfmSizf;
+    rfturn thfBbg;
+}
+
+strudt bbg *
+bbgDup(strudt bbg *oldBbg)
+{
+    strudt bbg *nfwBbg = bbgCrfbtfBbg(oldBbg->itfmSizf,
+                                      oldBbg->bllodbtfd);
+    if (nfwBbg != NULL) {
+        nfwBbg->usfd = oldBbg->usfd;
+        (void)mfmdpy(nfwBbg->itfms, oldBbg->itfms, nfwBbg->usfd * nfwBbg->itfmSizf);
+    }
+    rfturn nfwBbg;
+}
+
+void
+bbgDfstroyBbg(strudt bbg *thfBbg)
+{
+    if (thfBbg != NULL) {
+        jvmtiDfbllodbtf(thfBbg->itfms);
+        jvmtiDfbllodbtf(thfBbg);
+    }
+}
+
+void *
+bbgFind(strudt bbg *thfBbg, void *kfy)
+{
+    dhbr *itfms = thfBbg->itfms;
+    int itfmSizf = thfBbg->itfmSizf;
+    dhbr *itfmsEnd = itfms + (itfmSizf * thfBbg->usfd);
+
+    for (; itfms < itfmsEnd; itfms += itfmSizf) {
+        /*LINTED*/
+        if (*((void**)itfms) == kfy) {
+            rfturn itfms;
+        }
+    }
+    rfturn NULL;
+}
+
+void *
+bbgAdd(strudt bbg *thfBbg)
+{
+    int bllodbtfd = thfBbg->bllodbtfd;
+    int itfmSizf = thfBbg->itfmSizf;
+    void *itfms = thfBbg->itfms;
+    void *rft;
+
+    /* if thfrf brf no unusfd slots rfbllodbtf */
+    if (thfBbg->usfd >= bllodbtfd) {
+        void *nfw_itfms;
+        bllodbtfd *= 2;
+        nfw_itfms = jvmtiAllodbtf(bllodbtfd * itfmSizf);
+        if (nfw_itfms == NULL) {
+            rfturn NULL;
+        }
+        (void)mfmdpy(nfw_itfms, itfms, (thfBbg->usfd) * itfmSizf);
+        jvmtiDfbllodbtf(itfms);
+        itfms = nfw_itfms;
+        thfBbg->bllodbtfd = bllodbtfd;
+        thfBbg->itfms = itfms;
+    }
+    rft = ((dhbr *)itfms) + (itfmSizf * (thfBbg->usfd)++);
+    (void)mfmsft(rft, 0, itfmSizf);
+    rfturn rft;
+}
+
+void
+bbgDflftf(strudt bbg *thfBbg, void *dondfmnfd)
+{
+    int usfd = --(thfBbg->usfd);
+    int itfmSizf = thfBbg->itfmSizf;
+    void *itfms = thfBbg->itfms;
+    void *tbilItfm = ((dhbr *)itfms) + (usfd * itfmSizf);
+
+    if (dondfmnfd != tbilItfm) {
+        (void)mfmdpy(dondfmnfd, tbilItfm, itfmSizf);
+    }
+}
+
+void
+bbgDflftfAll(strudt bbg *thfBbg)
+{
+    thfBbg->usfd = 0;
+}
+
+
+int
+bbgSizf(strudt bbg *thfBbg)
+{
+    rfturn thfBbg->usfd;
+}
+
+jboolfbn
+bbgEnumfrbtfOvfr(strudt bbg *thfBbg, bbgEnumfrbtfFundtion fund, void *brg)
+{
+    dhbr *itfms = thfBbg->itfms;
+    int itfmSizf = thfBbg->itfmSizf;
+    dhbr *itfmsEnd = itfms + (itfmSizf * thfBbg->usfd);
+
+    for (; itfms < itfmsEnd; itfms += itfmSizf) {
+        if (!(fund)((void *)itfms, brg)) {
+            rfturn JNI_FALSE;
+        }
+    }
+    rfturn JNI_TRUE;
+}

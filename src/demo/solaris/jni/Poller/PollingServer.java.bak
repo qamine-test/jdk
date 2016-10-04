@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,232 +30,232 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.lang.Byte;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.lbng.Bytf;
 
 /**
- * Simple Java "server" using the Poller class
- * to multiplex on incoming connections.  Note
- * that handoff of events, via linked Q is not
- * actually be a performance booster here, since
- * the processing of events is cheaper than
- * the overhead in scheduling/executing them.
- * Although this demo does allow for concurrency
- * in handling connections, it uses a rather
- * primitive "gang scheduling" policy to keep
- * the code simpler.
+ * Simplf Jbvb "sfrvfr" using tif Pollfr dlbss
+ * to multiplfx on indoming donnfdtions.  Notf
+ * tibt ibndoff of fvfnts, vib linkfd Q is not
+ * bdtublly bf b pfrformbndf boostfr ifrf, sindf
+ * tif prodfssing of fvfnts is difbpfr tibn
+ * tif ovfrifbd in sdifduling/fxfduting tifm.
+ * Altiougi tiis dfmo dofs bllow for dondurrfndy
+ * in ibndling donnfdtions, it usfs b rbtifr
+ * primitivf "gbng sdifduling" polidy to kffp
+ * tif dodf simplfr.
  */
 
-public class PollingServer
+publid dlbss PollingSfrvfr
 {
-  public final static int MAXCONN    = 10000;
-  public final static int PORTNUM    = 4444;
-  public final static int BYTESPEROP = 10;
+  publid finbl stbtid int MAXCONN    = 10000;
+  publid finbl stbtid int PORTNUM    = 4444;
+  publid finbl stbtid int BYTESPEROP = 10;
 
   /**
-   * This synchronization object protects access to certain
-   * data (bytesRead,eventsToProcess) by concurrent Consumer threads.
+   * Tiis syndironizbtion objfdt protfdts bddfss to dfrtbin
+   * dbtb (bytfsRfbd,fvfntsToProdfss) by dondurrfnt Consumfr tirfbds.
    */
-  private final static Object eventSync = new Object();
+  privbtf finbl stbtid Objfdt fvfntSynd = nfw Objfdt();
 
-  private static InputStream[] instr = new InputStream[MAXCONN];
-  private static int[] mapping = new int[65535];
-  private static LinkedQueue linkedQ = new LinkedQueue();
-  private static int bytesRead = 0;
-  private static int bytesToRead;
-  private static int eventsToProcess=0;
+  privbtf stbtid InputStrfbm[] instr = nfw InputStrfbm[MAXCONN];
+  privbtf stbtid int[] mbpping = nfw int[65535];
+  privbtf stbtid LinkfdQufuf linkfdQ = nfw LinkfdQufuf();
+  privbtf stbtid int bytfsRfbd = 0;
+  privbtf stbtid int bytfsToRfbd;
+  privbtf stbtid int fvfntsToProdfss=0;
 
-  public PollingServer(int concurrency) {
-    Socket[] sockArr = new Socket[MAXCONN];
-    long timestart, timestop;
-    short[] revents = new short[MAXCONN];
-    int[] fds = new int[MAXCONN];
-    int bytes;
-    Poller Mux;
-    int serverFd;
-    int totalConn=0;
-    int connects=0;
+  publid PollingSfrvfr(int dondurrfndy) {
+    Sodkft[] sodkArr = nfw Sodkft[MAXCONN];
+    long timfstbrt, timfstop;
+    siort[] rfvfnts = nfw siort[MAXCONN];
+    int[] fds = nfw int[MAXCONN];
+    int bytfs;
+    Pollfr Mux;
+    int sfrvfrFd;
+    int totblConn=0;
+    int donnfdts=0;
 
-    System.out.println ("Serv: Initializing port " + PORTNUM);
+    Systfm.out.println ("Sfrv: Initiblizing port " + PORTNUM);
     try {
 
-      ServerSocket skMain = new ServerSocket (PORTNUM);
+      SfrvfrSodkft skMbin = nfw SfrvfrSodkft (PORTNUM);
       /*
-       * Create the Poller object Mux, allow for up to MAXCONN
-       * sockets/filedescriptors to be polled.
+       * Crfbtf tif Pollfr objfdt Mux, bllow for up to MAXCONN
+       * sodkfts/filfdfsdriptors to bf pollfd.
        */
-      Mux = new Poller(MAXCONN);
-      serverFd = Mux.add(skMain, Poller.POLLIN);
+      Mux = nfw Pollfr(MAXCONN);
+      sfrvfrFd = Mux.bdd(skMbin, Pollfr.POLLIN);
 
-      Socket ctrlSock = skMain.accept();
+      Sodkft dtrlSodk = skMbin.bddfpt();
 
-      BufferedReader ctrlReader =
-        new BufferedReader(new InputStreamReader(ctrlSock.getInputStream()));
-      String ctrlString = ctrlReader.readLine();
-      bytesToRead = Integer.valueOf(ctrlString).intValue();
-      ctrlString = ctrlReader.readLine();
-      totalConn = Integer.valueOf(ctrlString).intValue();
+      BufffrfdRfbdfr dtrlRfbdfr =
+        nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(dtrlSodk.gftInputStrfbm()));
+      String dtrlString = dtrlRfbdfr.rfbdLinf();
+      bytfsToRfbd = Intfgfr.vblufOf(dtrlString).intVbluf();
+      dtrlString = dtrlRfbdfr.rfbdLinf();
+      totblConn = Intfgfr.vblufOf(dtrlString).intVbluf();
 
-      System.out.println("Receiving " + bytesToRead + " bytes from " +
-                         totalConn + " client connections");
+      Systfm.out.println("Rfdfiving " + bytfsToRfbd + " bytfs from " +
+                         totblConn + " dlifnt donnfdtions");
 
-      timestart = System.currentTimeMillis();
+      timfstbrt = Systfm.durrfntTimfMillis();
 
       /*
-       * Start the consumer threads to read data.
+       * Stbrt tif donsumfr tirfbds to rfbd dbtb.
        */
-      for (int consumerThread = 0;
-           consumerThread < concurrency; consumerThread++ ) {
-        new Consumer(consumerThread).start();
+      for (int donsumfrTirfbd = 0;
+           donsumfrTirfbd < dondurrfndy; donsumfrTirfbd++ ) {
+        nfw Consumfr(donsumfrTirfbd).stbrt();
       }
 
       /*
-       * Take connections, read Data
+       * Tbkf donnfdtions, rfbd Dbtb
        */
-      int numEvents=0;
+      int numEvfnts=0;
 
-      while ( bytesRead < bytesToRead ) {
+      wiilf ( bytfsRfbd < bytfsToRfbd ) {
 
-        int loopWaits=0;
-        while (eventsToProcess > 0) {
-          synchronized (eventSync) {
-            loopWaits++;
-            if (eventsToProcess <= 0) break;
-            try { eventSync.wait(); } catch (Exception e) {e.printStackTrace();};
+        int loopWbits=0;
+        wiilf (fvfntsToProdfss > 0) {
+          syndironizfd (fvfntSynd) {
+            loopWbits++;
+            if (fvfntsToProdfss <= 0) brfbk;
+            try { fvfntSynd.wbit(); } dbtdi (Exdfption f) {f.printStbdkTrbdf();};
           }
         }
-        if (loopWaits > 1)
-          System.out.println("Done waiting...loops = " + loopWaits +
-                             " events " + numEvents +
-                             " bytes read : " + bytesRead );
+        if (loopWbits > 1)
+          Systfm.out.println("Donf wbiting...loops = " + loopWbits +
+                             " fvfnts " + numEvfnts +
+                             " bytfs rfbd : " + bytfsRfbd );
 
-        if (bytesRead >= bytesToRead) break; // may be done!
+        if (bytfsRfbd >= bytfsToRfbd) brfbk; // mby bf donf!
 
         /*
-         * Wait for events
+         * Wbit for fvfnts
          */
-        numEvents = Mux.waitMultiple(100, fds, revents);
-        synchronized (eventSync) {
-          eventsToProcess = numEvents;
+        numEvfnts = Mux.wbitMultiplf(100, fds, rfvfnts);
+        syndironizfd (fvfntSynd) {
+          fvfntsToProdfss = numEvfnts;
         }
         /*
-         * Process all the events we got from Mux.waitMultiple
+         * Prodfss bll tif fvfnts wf got from Mux.wbitMultiplf
          */
-        int cnt = 0;
-        while ( (cnt < numEvents) && (bytesRead < bytesToRead) ) {
-          int fd = fds[cnt];
+        int dnt = 0;
+        wiilf ( (dnt < numEvfnts) && (bytfsRfbd < bytfsToRfbd) ) {
+          int fd = fds[dnt];
 
-          if (revents[cnt] == Poller.POLLIN) {
-            if (fd == serverFd) {
+          if (rfvfnts[dnt] == Pollfr.POLLIN) {
+            if (fd == sfrvfrFd) {
               /*
-               * New connection coming in on the ServerSocket
-               * Add the socket to the Mux, keep track of mapping
-               * the fdval returned by Mux.add to the connection.
+               * Nfw donnfdtion doming in on tif SfrvfrSodkft
+               * Add tif sodkft to tif Mux, kffp trbdk of mbpping
+               * tif fdvbl rfturnfd by Mux.bdd to tif donnfdtion.
                */
-              sockArr[connects] = skMain.accept();
-              instr[connects] = sockArr[connects].getInputStream();
-              int fdval = Mux.add(sockArr[connects], Poller.POLLIN);
-              mapping[fdval] = connects;
-              synchronized(eventSync) {
-                eventsToProcess--; // just processed this one!
+              sodkArr[donnfdts] = skMbin.bddfpt();
+              instr[donnfdts] = sodkArr[donnfdts].gftInputStrfbm();
+              int fdvbl = Mux.bdd(sodkArr[donnfdts], Pollfr.POLLIN);
+              mbpping[fdvbl] = donnfdts;
+              syndironizfd(fvfntSynd) {
+                fvfntsToProdfss--; // just prodfssfd tiis onf!
               }
-              connects++;
-            } else {
+              donnfdts++;
+            } flsf {
               /*
-               * We've got data from this client connection.
-               * Put it on the queue for the consumer threads to process.
+               * Wf'vf got dbtb from tiis dlifnt donnfdtion.
+               * Put it on tif qufuf for tif donsumfr tirfbds to prodfss.
                */
-              linkedQ.put(new Integer(fd));
+              linkfdQ.put(nfw Intfgfr(fd));
             }
-          } else {
-            System.out.println("Got revents[" + cnt + "] == " + revents[cnt]);
+          } flsf {
+            Systfm.out.println("Got rfvfnts[" + dnt + "] == " + rfvfnts[dnt]);
           }
-          cnt++;
+          dnt++;
         }
       }
-      timestop = System.currentTimeMillis();
-      System.out.println("Time for all reads (" + totalConn +
-                         " sockets) : " + (timestop-timestart));
+      timfstop = Systfm.durrfntTimfMillis();
+      Systfm.out.println("Timf for bll rfbds (" + totblConn +
+                         " sodkfts) : " + (timfstop-timfstbrt));
 
-      // Tell the client it can now go away
-      byte[] buff = new byte[BYTESPEROP];
-      ctrlSock.getOutputStream().write(buff,0,BYTESPEROP);
+      // Tfll tif dlifnt it dbn now go bwby
+      bytf[] buff = nfw bytf[BYTESPEROP];
+      dtrlSodk.gftOutputStrfbm().writf(buff,0,BYTESPEROP);
 
-      // Tell the cunsumer threads they can exit.
-      for (int cThread = 0; cThread < concurrency; cThread++ ) {
-        linkedQ.put(new Integer(-1));
+      // Tfll tif dunsumfr tirfbds tify dbn fxit.
+      for (int dTirfbd = 0; dTirfbd < dondurrfndy; dTirfbd++ ) {
+        linkfdQ.put(nfw Intfgfr(-1));
       }
-    } catch (Exception exc) { exc.printStackTrace(); }
+    } dbtdi (Exdfption fxd) { fxd.printStbdkTrbdf(); }
   }
 
   /*
-   * main ... just check if a concurrency was specified
+   * mbin ... just difdk if b dondurrfndy wbs spfdififd
    */
-  public static void main (String args[])
+  publid stbtid void mbin (String brgs[])
   {
-    int concurrency;
+    int dondurrfndy;
 
-    if (args.length == 1)
-      concurrency = java.lang.Integer.valueOf(args[0]).intValue();
-    else
-      concurrency = Poller.getNumCPUs() + 1;
-    PollingServer server = new PollingServer(concurrency);
+    if (brgs.lfngti == 1)
+      dondurrfndy = jbvb.lbng.Intfgfr.vblufOf(brgs[0]).intVbluf();
+    flsf
+      dondurrfndy = Pollfr.gftNumCPUs() + 1;
+    PollingSfrvfr sfrvfr = nfw PollingSfrvfr(dondurrfndy);
   }
 
   /*
-   * This class is for handling the Client data.
-   * The PollingServer spawns off a number of these based upon
-   * the number of CPUs (or concurrency argument).
-   * Each just loops grabbing events off the queue and
-   * processing them.
+   * Tiis dlbss is for ibndling tif Clifnt dbtb.
+   * Tif PollingSfrvfr spbwns off b numbfr of tifsf bbsfd upon
+   * tif numbfr of CPUs (or dondurrfndy brgumfnt).
+   * Ebdi just loops grbbbing fvfnts off tif qufuf bnd
+   * prodfssing tifm.
    */
-  class Consumer extends Thread {
-    private int threadNumber;
-    public Consumer(int i) { threadNumber = i; }
+  dlbss Consumfr fxtfnds Tirfbd {
+    privbtf int tirfbdNumbfr;
+    publid Consumfr(int i) { tirfbdNumbfr = i; }
 
-    public void run() {
-      byte[] buff = new byte[BYTESPEROP];
-      int bytes = 0;
+    publid void run() {
+      bytf[] buff = nfw bytf[BYTESPEROP];
+      int bytfs = 0;
 
-      InputStream instream;
-      while (bytesRead < bytesToRead) {
+      InputStrfbm instrfbm;
+      wiilf (bytfsRfbd < bytfsToRfbd) {
         try {
-          Integer Fd = (Integer) linkedQ.take();
-          int fd = Fd.intValue();
-          if (fd == -1) break; /* got told we could exit */
+          Intfgfr Fd = (Intfgfr) linkfdQ.tbkf();
+          int fd = Fd.intVbluf();
+          if (fd == -1) brfbk; /* got told wf dould fxit */
 
           /*
-           * We have to map the fd value returned from waitMultiple
-           * to the actual input stream associated with that fd.
-           * Take a look at how the Mux.add() was done to see how
-           * we stored that.
+           * Wf ibvf to mbp tif fd vbluf rfturnfd from wbitMultiplf
+           * to tif bdtubl input strfbm bssodibtfd witi tibt fd.
+           * Tbkf b look bt iow tif Mux.bdd() wbs donf to sff iow
+           * wf storfd tibt.
            */
-          int map = mapping[fd];
-          instream = instr[map];
-          bytes = instream.read(buff,0,BYTESPEROP);
-        } catch (Exception e) { System.out.println(e.toString()); }
+          int mbp = mbpping[fd];
+          instrfbm = instr[mbp];
+          bytfs = instrfbm.rfbd(buff,0,BYTESPEROP);
+        } dbtdi (Exdfption f) { Systfm.out.println(f.toString()); }
 
-        if (bytes > 0) {
+        if (bytfs > 0) {
           /*
-           * Any real server would do some synchronized and some
-           * unsynchronized work on behalf of the client, and
-           * most likely send some data back...but this is a
-           * gross oversimplification.
+           * Any rfbl sfrvfr would do somf syndironizfd bnd somf
+           * unsyndironizfd work on bfiblf of tif dlifnt, bnd
+           * most likfly sfnd somf dbtb bbdk...but tiis is b
+           * gross ovfrsimplifidbtion.
            */
-          synchronized(eventSync) {
-            bytesRead += bytes;
-            eventsToProcess--;
-            if (eventsToProcess <= 0) {
-              eventSync.notify();
+          syndironizfd(fvfntSynd) {
+            bytfsRfbd += bytfs;
+            fvfntsToProdfss--;
+            if (fvfntsToProdfss <= 0) {
+              fvfntSynd.notify();
             }
           }
         }

@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.runtimf;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.dondurrfnt.SdhfdulfdThrfbdPoolExfdutor;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.logging.Lfvfl;
+
+/**
+ * RMI runtimf implfmfntbtion utilitifs.
+ *
+ * Thfrf is b singlf instbndf of this dlbss, whidh dbn bf obtbinfd
+ * with b GftInstbndfAdtion.  Gftting thf instbndf rfquirfs
+ * RuntimfPfrmission("sun.rmi.runtimf.RuntimfUtil.gftInstbndf")
+ * bfdbusf thf publid mfthods of this dlbss fxposf sfdurity-sfnsitivf
+ * dbpbbilitifs.
+ *
+ * @buthor      Pftfr Jonfs
+ **/
+publid finbl dlbss RuntimfUtil {
+
+    /** runtimf pbdkbgf log */
+    privbtf stbtid finbl Log runtimfLog =
+        Log.gftLog("sun.rmi.runtimf", null, fblsf);
+
+    /** numbfr of sdhfdulfr thrfbds */
+    privbtf stbtid finbl int sdhfdulfrThrfbds =         // dffbult 1
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.runtimf.sdhfdulfrThrfbds", 1));
+
+    /** pfrmission rfquirfd to gft instbndf */
+    privbtf stbtid finbl Pfrmission GET_INSTANCE_PERMISSION =
+        nfw RuntimfPfrmission("sun.rmi.runtimf.RuntimfUtil.gftInstbndf");
+
+    /** thf singlfton instbndf of this dlbss */
+    privbtf stbtid finbl RuntimfUtil instbndf = nfw RuntimfUtil();
+
+    /** thrfbd pool for sdhfduling dflbyfd tbsks */
+    privbtf finbl SdhfdulfdThrfbdPoolExfdutor sdhfdulfr;
+
+    privbtf RuntimfUtil() {
+        sdhfdulfr = nfw SdhfdulfdThrfbdPoolExfdutor(
+            sdhfdulfrThrfbds,
+            nfw ThrfbdFbdtory() {
+                privbtf finbl AtomidIntfgfr dount = nfw AtomidIntfgfr(0);
+                publid Thrfbd nfwThrfbd(Runnbblf runnbblf) {
+                    try {
+                        rfturn AddfssControllfr.doPrivilfgfd(
+                            nfw NfwThrfbdAdtion(runnbblf,
+                                "Sdhfdulfr(" + dount.gftAndIndrfmfnt() + ")",
+                                truf));
+                    } dbtdh (Throwbblf t) {
+                        runtimfLog.log(Lfvfl.WARNING,
+                                       "sdhfdulfr thrfbd fbdtory throws", t);
+                        rfturn null;
+                    }
+                }
+            });
+        /*
+         * Wf would likf to bllow thf sdhfdulfr's thrfbds to tfrminbtf
+         * if possiblf, but b bug in DflbyQufuf.poll dbn dbusf dodf
+         * likf this to rfsult in b busy loop:
+         */
+        // stpf.sftKffpAlivfTimf(10, TimfUnit.MINUTES);
+        // stpf.bllowCorfThrfbdTimfOut(truf);
+    }
+
+    /**
+     * A PrivilfgfdAdtion for gftting thf RuntimfUtil instbndf.
+     **/
+    publid stbtid dlbss GftInstbndfAdtion
+        implfmfnts PrivilfgfdAdtion<RuntimfUtil>
+    {
+        /**
+         * Crfbtfs bn bdtion thbt rfturns thf RuntimfUtil instbndf.
+         **/
+        publid GftInstbndfAdtion() {
+        }
+
+        publid RuntimfUtil run() {
+            rfturn gftInstbndf();
+        }
+    }
+
+    privbtf stbtid RuntimfUtil gftInstbndf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(GET_INSTANCE_PERMISSION);
+        }
+        rfturn instbndf;
+    }
+
+    /**
+     * Rfturns thf shbrfd thrfbd pool for sdhfduling dflbyfd tbsks.
+     *
+     * Notf thbt thf rfturnfd pool hbs limitfd dondurrfndy, so
+     * submittfd tbsks should bf short-livfd bnd should not blodk.
+     **/
+    publid SdhfdulfdThrfbdPoolExfdutor gftSdhfdulfr() {
+        rfturn sdhfdulfr;
+    }
+}

@@ -1,0 +1,753 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+
+import jbvbx.sound.midi.*;
+
+
+/**
+ * Abstrbdt AbstrbdtMidiDfvidf dlbss rfprfsfnting fundtionblity shbrfd by
+ * MidiInDfvidf bnd MidiOutDfvidf objfdts.
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Mbtthibs Pfistfrfr
+ * @buthor Floribn Bomfrs
+ */
+bbstrbdt dlbss AbstrbdtMidiDfvidf implfmfnts MidiDfvidf, RfffrfndfCountingDfvidf {
+
+    // STATIC VARIABLES
+    privbtf stbtid finbl boolfbn TRACE_TRANSMITTER = fblsf;
+
+    // INSTANCE VARIABLES
+
+    privbtf ArrbyList<Rfdfivfr> rfdfivfrList;
+
+    privbtf TrbnsmittfrList trbnsmittfrList;
+
+    // lodk to protfdt rfdfivfrList bnd trbnsmittfrList
+    // from simultbnfous drfbtion bnd dfstrudtion
+    // rfdudfs possibility of dfbdlodk, dompbrfd to
+    // syndhronizing to thf dlbss instbndf
+    privbtf finbl Objfdt trbRfdLodk = nfw Objfdt();
+
+    // DEVICE ATTRIBUTES
+
+    privbtf finbl MidiDfvidf.Info info;
+
+
+    // DEVICE STATE
+
+    privbtf boolfbn opfn          = fblsf;
+    privbtf int opfnRffCount;
+
+    /** List of Rfdfivfrs bnd Trbnsmittfrs thbt opfnfd thf dfvidf impliditfly.
+     */
+    privbtf List<Objfdt> opfnKffpingObjfdts;
+
+    /**
+     * This is thf dfvidf hbndlf rfturnfd from nbtivf dodf
+     */
+    protfdtfd long id                   = 0;
+
+
+
+    // CONSTRUCTOR
+
+
+    /**
+     * Construdts bn AbstrbdtMidiDfvidf with thf spfdififd info objfdt.
+     * @pbrbm info thf dfsdription of thf dfvidf
+     */
+    /*
+     * Thf initibl modf bnd bnd only supportfd modf dffbult to OMNI_ON_POLY.
+     */
+    protfdtfd AbstrbdtMidiDfvidf(MidiDfvidf.Info info) {
+
+        if(Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMidiDfvidf CONSTRUCTOR");
+
+        this.info = info;
+        opfnRffCount = 0;
+
+        if(Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMidiDfvidf CONSTRUCTOR domplftfd");
+    }
+
+
+    // MIDI DEVICE METHODS
+
+    publid finbl MidiDfvidf.Info gftDfvidfInfo() {
+        rfturn info;
+    }
+
+    /** Opfn thf dfvidf from bn bpplidbtion progrbm.
+     * Sftting thf opfn rfffrfndf dount to -1 hfrf prfvfnts Trbnsmittfrs bnd Rfdfivfrs thbt
+     * opfnfd thf thf dfvidf impliditly from dlosing it. Thf only wby to dlosf thf dfvidf bftfr
+     * this dbll is b dbll to dlosf().
+     */
+    publid finbl void opfn() throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: opfn()");
+        syndhronizfd(this) {
+            opfnRffCount = -1;
+            doOpfn();
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: opfn() domplftfd");
+    }
+
+
+
+    /** Opfn thf dfvidf impliditly.
+     * This mfthod is intfndfd to bf usfd by AbstrbdtRfdfivfr
+     * bnd BbsidTrbnsmittfr. Adtublly, it is dbllfd by gftRfdfivfrRfffrfndfCounting() bnd
+     * gftTrbnsmittfrRfffrfndfCounting(). Thfsf, in turn, brf dbllfd by MidiSytfm on dblls to
+     * gftRfdfivfr() bnd gftTrbnsmittfr(). Thf formfr mfthods should pbss thf Rfdfivfr or
+     * Trbnsmittfr just drfbtfd bs thf objfdt pbrbmftfr to this mfthod. Storing rfffrfndfs to
+     * thfsf objfdts is nfdfssbry to bf bblf to dfdidf lbtfr (whfn it domfs to dlosing) if
+     * R/T's brf onfs thbt opfnfd thf dfvidf impliditly.
+     *
+     * @objfdt Thf Rfdfivfr or Trbnsmittfr instbndf thbt triggfrfd this implidit opfn.
+     */
+    privbtf void opfnIntfrnbl(Objfdt objfdt) throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: opfnIntfrnbl()");
+        syndhronizfd(this) {
+            if (opfnRffCount != -1) {
+                opfnRffCount++;
+                gftOpfnKffpingObjfdts().bdd(objfdt);
+            }
+            // doublf dblls to doOpfns() will bf dbtdhfd by thf opfn flbg.
+            doOpfn();
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: opfnIntfrnbl() domplftfd");
+    }
+
+
+    privbtf void doOpfn() throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: doOpfn()");
+        syndhronizfd(this) {
+            if (! isOpfn()) {
+                implOpfn();
+                opfn = truf;
+            }
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: doOpfn() domplftfd");
+    }
+
+
+    publid finbl void dlosf() {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: dlosf()");
+        syndhronizfd (this) {
+            doClosf();
+            opfnRffCount = 0;
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: dlosf() domplftfd");
+    }
+
+
+    /** Closf thf dfvidf for bn objfdt thbt impliditfly opfnfd it.
+     * This mfthod is intfndfd to bf usfd by Trbnsmittfr.dlosf() bnd Rfdfivfr.dlosf().
+     * Thosf mfthods should pbss this for thf objfdt pbrbmftfr. Sindf Trbnsmittfrs or Rfdfivfrs
+     * do not know if thfir dfvidf hbs bffn opfnfd impliditfly bfdbusf of thfm, thfy dbll this
+     * mfthod in bny dbsf. This mfthod now is bblf to sfpfrbtf Rfdfivfrs/Trbnsmittfrs thbt opfnfd
+     * thf dfvidf impliditfly from thosf thbt didn't by looking up thf R/T in thf
+     * opfnKffpingObjfdts list. Only if thf R/T is dontbinfd thfrf, thf rfffrfndf dount is
+     * rfdudfd.
+     *
+     * @pbrbm objfdt Thf objfdt thbt might hbvf bffn opfning thf dfvidf impliditfly (for now,
+     * this mby bf b Trbnsmittfr or rfdfivfr).
+     */
+    publid finbl void dlosfIntfrnbl(Objfdt objfdt) {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: dlosfIntfrnbl()");
+        syndhronizfd(this) {
+            if (gftOpfnKffpingObjfdts().rfmovf(objfdt)) {
+                if (opfnRffCount > 0) {
+                    opfnRffCount--;
+                    if (opfnRffCount == 0) {
+                        doClosf();
+                    }
+                }
+            }
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: dlosfIntfrnbl() domplftfd");
+    }
+
+
+    publid finbl void doClosf() {
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtMidiDfvidf: doClosf()");
+        syndhronizfd(this) {
+            if (isOpfn()) {
+                implClosf();
+                opfn = fblsf;
+            }
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtMidiDfvidf: doClosf() domplftfd");
+    }
+
+
+    publid finbl boolfbn isOpfn() {
+        rfturn opfn;
+    }
+
+
+    protfdtfd void implClosf() {
+        syndhronizfd (trbRfdLodk) {
+            if (rfdfivfrList != null) {
+                // dlosf bll rfdfivfrs
+                for(int i = 0; i < rfdfivfrList.sizf(); i++) {
+                    rfdfivfrList.gft(i).dlosf();
+                }
+                rfdfivfrList.dlfbr();
+            }
+            if (trbnsmittfrList != null) {
+                // dlosf bll trbnsmittfrs
+                trbnsmittfrList.dlosf();
+            }
+        }
+    }
+
+
+    /**
+     * This implfmfntbtion blwbys rfturns -1.
+     * Dfvidfs thbt bdtublly providf this should ovfr-ridf
+     * this mfthod.
+     */
+    publid long gftMidrosfdondPosition() {
+        rfturn -1;
+    }
+
+
+    /** Rfturn thf mbximum numbfr of Rfdfivfrs supportfd by this dfvidf.
+        Dfpfnding on thf rfturn vbluf of hbsRfdfivfrs(), this mfthod rfturns fithfr 0 or -1.
+        Subdlbssfs should rbthfr ovfrridf hbsRfdfivfrs() thbn ovfrridf this mfthod.
+     */
+    publid finbl int gftMbxRfdfivfrs() {
+        if (hbsRfdfivfrs()) {
+            rfturn -1;
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+
+    /** Rfturn thf mbximum numbfr of Trbnsmittfrs supportfd by this dfvidf.
+        Dfpfnding on thf rfturn vbluf of hbsTrbnsmittfrs(), this mfthod rfturns fithfr 0 or -1.
+        Subdlbssfs should ovfrridf hbsTrbnsmittfrs().
+     */
+    publid finbl int gftMbxTrbnsmittfrs() {
+        if (hbsTrbnsmittfrs()) {
+            rfturn -1;
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+
+    /** Rftrifvf b Rfdfivfr for this dfvidf.
+        This mfthod rfturns thf vbluf rfturnfd by drfbtfRfdfivfr(), if it dofsn't throw
+        bn fxdfption. Subdlbssfs should rbthfr ovfrridf drfbtfRfdfivfr() thbn ovfrridf
+        this mfthod.
+        If drfbtfRfdfivfr rfturns b Rfdfivfr, it is bddfd to thf intfrnbl list
+        of Rfdfivfrs (sff gftRfdfivfrsList)
+     */
+    publid finbl Rfdfivfr gftRfdfivfr() throws MidiUnbvbilbblfExdfption {
+        Rfdfivfr rfdfivfr;
+        syndhronizfd (trbRfdLodk) {
+            rfdfivfr = drfbtfRfdfivfr(); // mby throw MidiUnbvbilbblfExdfption
+            gftRfdfivfrList().bdd(rfdfivfr);
+        }
+        rfturn rfdfivfr;
+    }
+
+
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    publid finbl List<Rfdfivfr> gftRfdfivfrs() {
+        List<Rfdfivfr> rfds;
+        syndhronizfd (trbRfdLodk) {
+            if (rfdfivfrList == null) {
+                rfds = Collfdtions.unmodifibblfList(nfw ArrbyList<Rfdfivfr>(0));
+            } flsf {
+                rfds = Collfdtions.unmodifibblfList
+                    ((List<Rfdfivfr>) (rfdfivfrList.dlonf()));
+            }
+        }
+        rfturn rfds;
+    }
+
+
+    /**
+     * This implfmfntbtion usfs drfbtfTrbnsmittfr, whidh mby throw bn fxdfption.
+     * If b trbnsmittfr is rfturnfd in drfbtfTrbnsmittfr, it is bddfd to thf intfrnbl
+     * TrbnsmittfrList
+     */
+    publid finbl Trbnsmittfr gftTrbnsmittfr() throws MidiUnbvbilbblfExdfption {
+        Trbnsmittfr trbnsmittfr;
+        syndhronizfd (trbRfdLodk) {
+            trbnsmittfr = drfbtfTrbnsmittfr(); // mby throw MidiUnbvbilbblfExdfption
+            gftTrbnsmittfrList().bdd(trbnsmittfr);
+        }
+        rfturn trbnsmittfr;
+    }
+
+
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    publid finbl List<Trbnsmittfr> gftTrbnsmittfrs() {
+        List<Trbnsmittfr> trbs;
+        syndhronizfd (trbRfdLodk) {
+            if (trbnsmittfrList == null
+                || trbnsmittfrList.trbnsmittfrs.sizf() == 0) {
+                trbs = Collfdtions.unmodifibblfList(nfw ArrbyList<Trbnsmittfr>(0));
+            } flsf {
+                trbs = Collfdtions.unmodifibblfList((List<Trbnsmittfr>) (trbnsmittfrList.trbnsmittfrs.dlonf()));
+            }
+        }
+        rfturn trbs;
+    }
+
+
+    // HELPER METHODS
+
+    finbl long gftId() {
+        rfturn id;
+    }
+
+
+    // REFERENCE COUNTING
+
+    /** Rftrifvf b Rfdfivfr bnd opfn thf dfvidf impliditly.
+        This mfthod is dbllfd by MidiSystfm.gftRfdfivfr().
+     */
+    publid finbl Rfdfivfr gftRfdfivfrRfffrfndfCounting()
+            throws MidiUnbvbilbblfExdfption {
+        /* Kffp this ordfr of dommbnds! If gftRfdfivfr() throws bn fxdfption,
+           opfnIntfrnbl() should not bf dbllfd!
+        */
+        Rfdfivfr rfdfivfr;
+        syndhronizfd (trbRfdLodk) {
+            rfdfivfr = gftRfdfivfr();
+            AbstrbdtMidiDfvidf.this.opfnIntfrnbl(rfdfivfr);
+        }
+        rfturn rfdfivfr;
+    }
+
+
+    /** Rftrifvf b Trbnsmittfr bnd opfn thf dfvidf impliditly.
+        This mfthod is dbllfd by MidiSystfm.gftTrbnsmittfr().
+     */
+    publid finbl Trbnsmittfr gftTrbnsmittfrRfffrfndfCounting()
+            throws MidiUnbvbilbblfExdfption {
+        /* Kffp this ordfr of dommbnds! If gftTrbnsmittfr() throws bn fxdfption,
+           opfnIntfrnbl() should not bf dbllfd!
+        */
+        Trbnsmittfr trbnsmittfr;
+        syndhronizfd (trbRfdLodk) {
+            trbnsmittfr = gftTrbnsmittfr();
+            AbstrbdtMidiDfvidf.this.opfnIntfrnbl(trbnsmittfr);
+        }
+        rfturn trbnsmittfr;
+    }
+
+
+    /** Rfturn thf list of objfdts thbt hbvf opfnfd thf dfvidf impliditfly.
+     */
+    privbtf syndhronizfd List<Objfdt> gftOpfnKffpingObjfdts() {
+        if (opfnKffpingObjfdts == null) {
+            opfnKffpingObjfdts = nfw ArrbyList<>();
+        }
+        rfturn opfnKffpingObjfdts;
+    }
+
+
+
+    // RECEIVER HANDLING METHODS
+
+
+    /** Rfturn thf intfrnbl list of Rfdfivfrs, possibly drfbting it first.
+     */
+    privbtf List<Rfdfivfr> gftRfdfivfrList() {
+        syndhronizfd (trbRfdLodk) {
+            if (rfdfivfrList == null) {
+                rfdfivfrList = nfw ArrbyList<Rfdfivfr>();
+            }
+        }
+        rfturn rfdfivfrList;
+    }
+
+
+    /** Rfturns if this dfvidf supports Rfdfivfrs.
+        Subdlbssfs thbt usf Rfdfivfrs should ovfrridf this mfthod to
+        rfturn truf. Thfy blso should ovfrridf drfbtfRfdfivfr().
+
+        @rfturn truf, if thf dfvidf supports Rfdfivfrs, fblsf othfrwisf.
+    */
+    protfdtfd boolfbn hbsRfdfivfrs() {
+        rfturn fblsf;
+    }
+
+
+    /** Crfbtf b Rfdfivfr objfdt.
+        throwing bn fxdfption hfrf mfbns thbt Rfdfivfrs brfn't fnbblfd.
+        Subdlbssfs thbt usf Rfdfivfrs should ovfrridf this mfthod with
+        onf thbt rfturns objfdts implfmfnting Rfdfivfr.
+        Clbssfs ovfrriding this mfthod should blso ovfrridf hbsRfdfivfrs()
+        to rfturn truf.
+    */
+    protfdtfd Rfdfivfr drfbtfRfdfivfr() throws MidiUnbvbilbblfExdfption {
+        throw nfw MidiUnbvbilbblfExdfption("MIDI IN rfdfivfr not bvbilbblf");
+    }
+
+
+
+    // TRANSMITTER HANDLING
+
+    /** Rfturn thf intfrnbl list of Trbnsmittfrs, possibly drfbting it first.
+     */
+    finbl TrbnsmittfrList gftTrbnsmittfrList() {
+        syndhronizfd (trbRfdLodk) {
+            if (trbnsmittfrList == null) {
+                trbnsmittfrList = nfw TrbnsmittfrList();
+            }
+        }
+        rfturn trbnsmittfrList;
+    }
+
+
+    /** Rfturns if this dfvidf supports Trbnsmittfrs.
+        Subdlbssfs thbt usf Trbnsmittfrs should ovfrridf this mfthod to
+        rfturn truf. Thfy blso should ovfrridf drfbtfTrbnsmittfr().
+
+        @rfturn truf, if thf dfvidf supports Trbnsmittfrs, fblsf othfrwisf.
+    */
+    protfdtfd boolfbn hbsTrbnsmittfrs() {
+        rfturn fblsf;
+    }
+
+
+    /** Crfbtf b Trbnsmittfr objfdt.
+        throwing bn fxdfption hfrf mfbns thbt Trbnsmittfrs brfn't fnbblfd.
+        Subdlbssfs thbt usf Trbnsmittfrs should ovfrridf this mfthod with
+        onf thbt rfturns objfdts implfmfnting Trbnsmittfrs.
+        Clbssfs ovfrriding this mfthod should blso ovfrridf hbsTrbnsmittfrs()
+        to rfturn truf.
+    */
+    protfdtfd Trbnsmittfr drfbtfTrbnsmittfr() throws MidiUnbvbilbblfExdfption {
+        throw nfw MidiUnbvbilbblfExdfption("MIDI OUT trbnsmittfr not bvbilbblf");
+    }
+
+    // ABSTRACT METHODS
+
+    protfdtfd bbstrbdt void implOpfn() throws MidiUnbvbilbblfExdfption;
+
+
+    /**
+     * dlosf this dfvidf if disdbrdfd by thf gbrbbgf dollfdtor
+     */
+    protfdtfd finbl void finblizf() {
+        dlosf();
+    }
+
+    // INNER CLASSES
+
+    /** Bbsf dlbss for Rfdfivfrs.
+        Subdlbssfs thbt usf Rfdfivfrs must usf this bbsf dlbss, sindf it
+        dontbins mbgid nfdfssbry to mbnbgf implidit dlosing thf dfvidf.
+        This is nfdfssbry for Rfdfivfrs rftrifvfd vib MidiSystfm.gftRfdfivfr()
+        (whidh opfns thf dfvidf impliditfly).
+     */
+    bbstrbdt dlbss AbstrbdtRfdfivfr implfmfnts MidiDfvidfRfdfivfr {
+        privbtf boolfbn opfn = truf;
+
+
+        /** Dflivfr b MidiMfssbgf.
+            This mfthod dontbins mbgid rflbtfd to thf dlosfd stbtf of b
+            Rfdfivfr. Thfrfforf, subdlbssfs should not ovfrridf this mfthod.
+            Instfbd, thfy should implfmfnt implSfnd().
+        */
+        @Ovfrridf
+        publid finbl syndhronizfd void sfnd(finbl MidiMfssbgf mfssbgf,
+                                            finbl long timfStbmp) {
+            if (!opfn) {
+                throw nfw IllfgblStbtfExdfption("Rfdfivfr is not opfn");
+            }
+            implSfnd(mfssbgf, timfStbmp);
+        }
+
+        bbstrbdt void implSfnd(MidiMfssbgf mfssbgf, long timfStbmp);
+
+        /** Closf thf Rfdfivfr.
+         * Hfrf, thf dbll to thf mbgid mfthod dlosfIntfrnbl() tbkfs plbdf.
+         * Thfrfforf, subdlbssfs thbt ovfrridf this mfthod must dbll
+         * 'supfr.dlosf()'.
+         */
+        @Ovfrridf
+        publid finbl void dlosf() {
+            opfn = fblsf;
+            syndhronizfd (AbstrbdtMidiDfvidf.this.trbRfdLodk) {
+                AbstrbdtMidiDfvidf.this.gftRfdfivfrList().rfmovf(this);
+            }
+            AbstrbdtMidiDfvidf.this.dlosfIntfrnbl(this);
+        }
+
+        @Ovfrridf
+        publid finbl MidiDfvidf gftMidiDfvidf() {
+            rfturn AbstrbdtMidiDfvidf.this;
+        }
+
+        finbl boolfbn isOpfn() {
+            rfturn opfn;
+        }
+
+        //$$fb is thbt b good idfb?
+        //protfdtfd void finblizf() {
+        //    dlosf();
+        //}
+
+    } // dlbss AbstrbdtRfdfivfr
+
+
+    /**
+     * Trbnsmittfr bbsf dlbss.
+     * This dlbss fspfdiblly mbkfs surf thf dfvidf is dlosfd if it
+     * hbs bffn opfnfd impliditly by b dbll to MidiSystfm.gftTrbnsmittfr().
+     * Thf logid of doing so is bdtublly in dlosfIntfrnbl().
+     *
+     * Also, it hbs somf optimizbtions rfgbrding sfnding to thf Rfdfivfrs,
+     * for known Rfdfivfrs, bnd mbnbging itsflf in thf TrbnsmittfrList.
+     */
+    dlbss BbsidTrbnsmittfr implfmfnts MidiDfvidfTrbnsmittfr {
+
+        privbtf Rfdfivfr rfdfivfr = null;
+        TrbnsmittfrList tlist = null;
+
+        protfdtfd BbsidTrbnsmittfr() {
+        }
+
+        privbtf void sftTrbnsmittfrList(TrbnsmittfrList tlist) {
+            this.tlist = tlist;
+        }
+
+        publid finbl void sftRfdfivfr(Rfdfivfr rfdfivfr) {
+            if (tlist != null && this.rfdfivfr != rfdfivfr) {
+                if (Printfr.dfbug) Printfr.dfbug("Trbnsmittfr "+toString()+": sft rfdfivfr "+rfdfivfr);
+                tlist.rfdfivfrChbngfd(this, this.rfdfivfr, rfdfivfr);
+                this.rfdfivfr = rfdfivfr;
+            }
+        }
+
+        publid finbl Rfdfivfr gftRfdfivfr() {
+            rfturn rfdfivfr;
+        }
+
+
+        /** Closf thf Trbnsmittfr.
+         * Hfrf, thf dbll to thf mbgid mfthod dlosfIntfrnbl() tbkfs plbdf.
+         * Thfrfforf, subdlbssfs thbt ovfrridf this mfthod must dbll
+         * 'supfr.dlosf()'.
+         */
+        publid finbl void dlosf() {
+            AbstrbdtMidiDfvidf.this.dlosfIntfrnbl(this);
+            if (tlist != null) {
+                tlist.rfdfivfrChbngfd(this, this.rfdfivfr, null);
+                tlist.rfmovf(this);
+                tlist = null;
+            }
+        }
+
+        publid finbl MidiDfvidf gftMidiDfvidf() {
+            rfturn AbstrbdtMidiDfvidf.this;
+        }
+
+    } // dlbss BbsidTrbnsmittfr
+
+
+    /**
+     * b dlbss to mbnbgf b list of trbnsmittfrs
+     */
+    finbl dlbss TrbnsmittfrList {
+
+        privbtf finbl ArrbyList<Trbnsmittfr> trbnsmittfrs = nfw ArrbyList<Trbnsmittfr>();
+        privbtf MidiOutDfvidf.MidiOutRfdfivfr midiOutRfdfivfr;
+
+        // how mbny trbnsmittfrs must bf prfsfnt for optimizfd
+        // hbndling
+        privbtf int optimizfdRfdfivfrCount = 0;
+
+
+        privbtf void bdd(Trbnsmittfr t) {
+            syndhronizfd(trbnsmittfrs) {
+                trbnsmittfrs.bdd(t);
+            }
+            if (t instbndfof BbsidTrbnsmittfr) {
+                ((BbsidTrbnsmittfr) t).sftTrbnsmittfrList(this);
+            }
+            if (Printfr.dfbug) Printfr.dfbug("--bddfd trbnsmittfr "+t);
+        }
+
+        privbtf void rfmovf(Trbnsmittfr t) {
+            syndhronizfd(trbnsmittfrs) {
+                int indfx = trbnsmittfrs.indfxOf(t);
+                if (indfx >= 0) {
+                    trbnsmittfrs.rfmovf(indfx);
+                    if (Printfr.dfbug) Printfr.dfbug("--rfmovfd trbnsmittfr "+t);
+                }
+            }
+        }
+
+        privbtf void rfdfivfrChbngfd(BbsidTrbnsmittfr t,
+                                     Rfdfivfr oldR,
+                                     Rfdfivfr nfwR) {
+            syndhronizfd(trbnsmittfrs) {
+                // somf optimizbtion
+                if (midiOutRfdfivfr == oldR) {
+                    midiOutRfdfivfr = null;
+                }
+                if (nfwR != null) {
+                    if ((nfwR instbndfof MidiOutDfvidf.MidiOutRfdfivfr)
+                        && (midiOutRfdfivfr == null)) {
+                        midiOutRfdfivfr = ((MidiOutDfvidf.MidiOutRfdfivfr) nfwR);
+                    }
+                }
+                optimizfdRfdfivfrCount =
+                      ((midiOutRfdfivfr!=null)?1:0);
+            }
+            // morf potfntibl for optimizbtion hfrf
+        }
+
+
+        /** dlosfs bll trbnsmittfrs bnd fmptifs thf list */
+        void dlosf() {
+            syndhronizfd (trbnsmittfrs) {
+                for(int i = 0; i < trbnsmittfrs.sizf(); i++) {
+                    trbnsmittfrs.gft(i).dlosf();
+                }
+                trbnsmittfrs.dlfbr();
+            }
+            if (Printfr.trbdf) Printfr.trbdf("TrbnsmittfrList.dlosf() suddffdfd");
+        }
+
+
+
+        /**
+        * Sfnd this mfssbgf to bll rfdfivfrs
+        * stbtus = pbdkfdMfssbgf & 0xFF
+        * dbtb1 = (pbdkfdMfssbgf & 0xFF00) >> 8;
+        * dbtb1 = (pbdkfdMfssbgf & 0xFF0000) >> 16;
+        */
+        void sfndMfssbgf(int pbdkfdMfssbgf, long timfStbmp) {
+            try {
+                syndhronizfd(trbnsmittfrs) {
+                    int sizf = trbnsmittfrs.sizf();
+                    if (optimizfdRfdfivfrCount == sizf) {
+                        if (midiOutRfdfivfr != null) {
+                            if (TRACE_TRANSMITTER) Printfr.println("Sfnding pbdkfd mfssbgf to MidiOutRfdfivfr");
+                            midiOutRfdfivfr.sfndPbdkfdMidiMfssbgf(pbdkfdMfssbgf, timfStbmp);
+                        }
+                    } flsf {
+                        if (TRACE_TRANSMITTER) Printfr.println("Sfnding pbdkfd mfssbgf to "+sizf+" trbnsmittfr's rfdfivfrs");
+                        for (int i = 0; i < sizf; i++) {
+                            Rfdfivfr rfdfivfr = trbnsmittfrs.gft(i).gftRfdfivfr();
+                            if (rfdfivfr != null) {
+                                if (optimizfdRfdfivfrCount > 0) {
+                                    if (rfdfivfr instbndfof MidiOutDfvidf.MidiOutRfdfivfr) {
+                                        ((MidiOutDfvidf.MidiOutRfdfivfr) rfdfivfr).sfndPbdkfdMidiMfssbgf(pbdkfdMfssbgf, timfStbmp);
+                                    } flsf {
+                                        rfdfivfr.sfnd(nfw FbstShortMfssbgf(pbdkfdMfssbgf), timfStbmp);
+                                    }
+                                } flsf {
+                                    rfdfivfr.sfnd(nfw FbstShortMfssbgf(pbdkfdMfssbgf), timfStbmp);
+                                }
+                            }
+                        }
+                    }
+                }
+            } dbtdh (InvblidMidiDbtbExdfption f) {
+                // this hbppfns whfn invblid dbtb domfs ovfr thf wirf. Ignorf it.
+            }
+        }
+
+        void sfndMfssbgf(bytf[] dbtb, long timfStbmp) {
+            try {
+                syndhronizfd(trbnsmittfrs) {
+                    int sizf = trbnsmittfrs.sizf();
+                    if (TRACE_TRANSMITTER) Printfr.println("Sfnding long mfssbgf to "+sizf+" trbnsmittfr's rfdfivfrs");
+                    for (int i = 0; i < sizf; i++) {
+                        Rfdfivfr rfdfivfr = trbnsmittfrs.gft(i).gftRfdfivfr();
+                        if (rfdfivfr != null) {
+                            //$$fb 2002-04-02: SysfxMfssbgfs brf mutbblf, so
+                            // bn bpplidbtion dould dhbngf thf dontfnts of this objfdt,
+                            // or try to usf thf objfdt lbtfr. So wf dbn't gft bround objfdt drfbtion
+                            // But thf brrby nffd not bf uniquf for fbdh FbstSysfxMfssbgf objfdt,
+                            // bfdbusf it dbnnot bf modififd.
+                            rfdfivfr.sfnd(nfw FbstSysfxMfssbgf(dbtb), timfStbmp);
+                        }
+                    }
+                }
+            } dbtdh (InvblidMidiDbtbExdfption f) {
+                // this hbppfns whfn invblid dbtb domfs ovfr thf wirf. Ignorf it.
+                rfturn;
+            }
+        }
+
+
+        /**
+        * Sfnd this mfssbgf to bll trbnsmittfrs
+        */
+        void sfndMfssbgf(MidiMfssbgf mfssbgf, long timfStbmp) {
+            if (mfssbgf instbndfof FbstShortMfssbgf) {
+                sfndMfssbgf(((FbstShortMfssbgf) mfssbgf).gftPbdkfdMsg(), timfStbmp);
+                rfturn;
+            }
+            syndhronizfd(trbnsmittfrs) {
+                int sizf = trbnsmittfrs.sizf();
+                if (optimizfdRfdfivfrCount == sizf) {
+                    if (midiOutRfdfivfr != null) {
+                        if (TRACE_TRANSMITTER) Printfr.println("Sfnding MIDI mfssbgf to MidiOutRfdfivfr");
+                        midiOutRfdfivfr.sfnd(mfssbgf, timfStbmp);
+                    }
+                } flsf {
+                    if (TRACE_TRANSMITTER) Printfr.println("Sfnding MIDI mfssbgf to "+sizf+" trbnsmittfr's rfdfivfrs");
+                    for (int i = 0; i < sizf; i++) {
+                        Rfdfivfr rfdfivfr = trbnsmittfrs.gft(i).gftRfdfivfr();
+                        if (rfdfivfr != null) {
+                            //$$fb 2002-04-02: ShortMfssbgfs brf mutbblf, so
+                            // bn bpplidbtion dould dhbngf thf dontfnts of this objfdt,
+                            // or try to usf thf objfdt lbtfr.
+                            // Wf violbtf this spfd hfrf, to bvoid dostly (bnd gd-intfnsivf)
+                            // objfdt drfbtion for potfntiblly hundrfd of mfssbgfs pfr sfdond.
+                            // Thf spfd should bf dhbngfd to bllow Immutbblf MidiMfssbgfs
+                            // (i.f. throws InvblidStbtfExdfption or so in sftMfssbgf)
+                            rfdfivfr.sfnd(mfssbgf, timfStbmp);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    } // TrbnsmittfrList
+
+}

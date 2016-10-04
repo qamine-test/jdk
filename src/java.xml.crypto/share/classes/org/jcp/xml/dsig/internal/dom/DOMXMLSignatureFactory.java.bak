@@ -1,349 +1,349 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMXMLSignatureFactory.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: DOMXMLSignbturfFbdtory.jbvb 1333869 2012-05-04 10:42:44Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.keyinfo.*;
-import javax.xml.crypto.dsig.spec.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.dom.DOMVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.kfyinfo.*;
+import jbvbx.xml.drypto.dsig.spfd.*;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.util.List;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * DOM-based implementation of XMLSignatureFactory.
+ * DOM-bbsfd implfmfntbtion of XMLSignbturfFbdtory.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMXMLSignatureFactory extends XMLSignatureFactory {
+publid finbl dlbss DOMXMLSignbturfFbdtory fxtfnds XMLSignbturfFbdtory {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    public DOMXMLSignatureFactory() {}
+    publid DOMXMLSignbturfFbdtory() {}
 
-    public XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki) {
-        return new DOMXMLSignature(si, ki, null, null, null);
+    publid XMLSignbturf nfwXMLSignbturf(SignfdInfo si, KfyInfo ki) {
+        rfturn nfw DOMXMLSignbturf(si, ki, null, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public XMLSignature newXMLSignature(SignedInfo si, KeyInfo ki,
-        List objects, String id, String signatureValueId) {
-        return new DOMXMLSignature(si, ki, objects, id, signatureValueId);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid XMLSignbturf nfwXMLSignbturf(SignfdInfo si, KfyInfo ki,
+        List objfdts, String id, String signbturfVblufId) {
+        rfturn nfw DOMXMLSignbturf(si, ki, objfdts, id, signbturfVblufId);
     }
 
-    public Reference newReference(String uri, DigestMethod dm) {
-        return newReference(uri, dm, null, null, null);
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMftiod dm) {
+        rfturn nfwRfffrfndf(uri, dm, null, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Reference newReference(String uri, DigestMethod dm, List transforms,
-        String type, String id) {
-        return new DOMReference(uri, type, dm, transforms, id, getProvider());
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMftiod dm, List trbnsforms,
+        String typf, String id) {
+        rfturn nfw DOMRfffrfndf(uri, typf, dm, trbnsforms, id, gftProvidfr());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Reference newReference(String uri, DigestMethod dm,
-        List appliedTransforms, Data result, List transforms, String type,
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMftiod dm,
+        List bpplifdTrbnsforms, Dbtb rfsult, List trbnsforms, String typf,
         String id) {
-        if (appliedTransforms == null) {
-            throw new NullPointerException("appliedTransforms cannot be null");
+        if (bpplifdTrbnsforms == null) {
+            tirow nfw NullPointfrExdfption("bpplifdTrbnsforms dbnnot bf null");
         }
-        if (appliedTransforms.isEmpty()) {
-            throw new NullPointerException("appliedTransforms cannot be empty");
+        if (bpplifdTrbnsforms.isEmpty()) {
+            tirow nfw NullPointfrExdfption("bpplifdTrbnsforms dbnnot bf fmpty");
         }
-        if (result == null) {
-            throw new NullPointerException("result cannot be null");
+        if (rfsult == null) {
+            tirow nfw NullPointfrExdfption("rfsult dbnnot bf null");
         }
-        return new DOMReference
-            (uri, type, dm, appliedTransforms, result, transforms, id, getProvider());
+        rfturn nfw DOMRfffrfndf
+            (uri, typf, dm, bpplifdTrbnsforms, rfsult, trbnsforms, id, gftProvidfr());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Reference newReference(String uri, DigestMethod dm, List transforms,
-        String type, String id, byte[] digestValue) {
-        if (digestValue == null) {
-            throw new NullPointerException("digestValue cannot be null");
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMftiod dm, List trbnsforms,
+        String typf, String id, bytf[] digfstVbluf) {
+        if (digfstVbluf == null) {
+            tirow nfw NullPointfrExdfption("digfstVbluf dbnnot bf null");
         }
-        return new DOMReference
-            (uri, type, dm, null, null, transforms, id, digestValue, getProvider());
+        rfturn nfw DOMRfffrfndf
+            (uri, typf, dm, null, null, trbnsforms, id, digfstVbluf, gftProvidfr());
     }
 
-    @SuppressWarnings("rawtypes")
-    public SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references) {
-        return newSignedInfo(cm, sm, references, null);
+    @SupprfssWbrnings("rbwtypfs")
+    publid SignfdInfo nfwSignfdInfo(CbnonidblizbtionMftiod dm,
+        SignbturfMftiod sm, List rfffrfndfs) {
+        rfturn nfwSignfdInfo(dm, sm, rfffrfndfs, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignedInfo newSignedInfo(CanonicalizationMethod cm,
-        SignatureMethod sm, List references, String id) {
-        return new DOMSignedInfo(cm, sm, references, id);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid SignfdInfo nfwSignfdInfo(CbnonidblizbtionMftiod dm,
+        SignbturfMftiod sm, List rfffrfndfs, String id) {
+        rfturn nfw DOMSignfdInfo(dm, sm, rfffrfndfs, id);
     }
 
-    // Object factory methods
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public XMLObject newXMLObject(List content, String id, String mimeType,
-        String encoding) {
-        return new DOMXMLObject(content, id, mimeType, encoding);
+    // Objfdt fbdtory mftiods
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid XMLObjfdt nfwXMLObjfdt(List dontfnt, String id, String mimfTypf,
+        String fndoding) {
+        rfturn nfw DOMXMLObjfdt(dontfnt, id, mimfTypf, fndoding);
     }
 
-    @SuppressWarnings("rawtypes")
-    public Manifest newManifest(List references) {
-        return newManifest(references, null);
+    @SupprfssWbrnings("rbwtypfs")
+    publid Mbniffst nfwMbniffst(List rfffrfndfs) {
+        rfturn nfwMbniffst(rfffrfndfs, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Manifest newManifest(List references, String id) {
-        return new DOMManifest(references, id);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid Mbniffst nfwMbniffst(List rfffrfndfs, String id) {
+        rfturn nfw DOMMbniffst(rfffrfndfs, id);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignatureProperties newSignatureProperties(List props, String id) {
-        return new DOMSignatureProperties(props, id);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid SignbturfPropfrtifs nfwSignbturfPropfrtifs(List props, String id) {
+        rfturn nfw DOMSignbturfPropfrtifs(props, id);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public SignatureProperty newSignatureProperty
-        (List info, String target, String id) {
-        return new DOMSignatureProperty(info, target, id);
+    @SupprfssWbrnings({ "undifdkfd", "rbwtypfs" })
+    publid SignbturfPropfrty nfwSignbturfPropfrty
+        (List info, String tbrgft, String id) {
+        rfturn nfw DOMSignbturfPropfrty(info, tbrgft, id);
     }
 
-    public XMLSignature unmarshalXMLSignature(XMLValidateContext context)
-        throws MarshalException {
+    publid XMLSignbturf unmbrsiblXMLSignbturf(XMLVblidbtfContfxt dontfxt)
+        tirows MbrsiblExdfption {
 
-        if (context == null) {
-            throw new NullPointerException("context cannot be null");
+        if (dontfxt == null) {
+            tirow nfw NullPointfrExdfption("dontfxt dbnnot bf null");
         }
-        return unmarshal(((DOMValidateContext) context).getNode(), context);
+        rfturn unmbrsibl(((DOMVblidbtfContfxt) dontfxt).gftNodf(), dontfxt);
     }
 
-    public XMLSignature unmarshalXMLSignature(XMLStructure xmlStructure)
-        throws MarshalException {
+    publid XMLSignbturf unmbrsiblXMLSignbturf(XMLStrudturf xmlStrudturf)
+        tirows MbrsiblExdfption {
 
-        if (xmlStructure == null) {
-            throw new NullPointerException("xmlStructure cannot be null");
+        if (xmlStrudturf == null) {
+            tirow nfw NullPointfrExdfption("xmlStrudturf dbnnot bf null");
         }
-        if (!(xmlStructure instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("xmlStructure must be of type DOMStructure");
+        if (!(xmlStrudturf instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            tirow nfw ClbssCbstExdfption("xmlStrudturf must bf of typf DOMStrudturf");
         }
-        return unmarshal
-            (((javax.xml.crypto.dom.DOMStructure) xmlStructure).getNode(),
-             new UnmarshalContext());
+        rfturn unmbrsibl
+            (((jbvbx.xml.drypto.dom.DOMStrudturf) xmlStrudturf).gftNodf(),
+             nfw UnmbrsiblContfxt());
     }
 
-    private static class UnmarshalContext extends DOMCryptoContext {
-        UnmarshalContext() {}
+    privbtf stbtid dlbss UnmbrsiblContfxt fxtfnds DOMCryptoContfxt {
+        UnmbrsiblContfxt() {}
     }
 
-    private XMLSignature unmarshal(Node node, XMLCryptoContext context)
-        throws MarshalException {
+    privbtf XMLSignbturf unmbrsibl(Nodf nodf, XMLCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption {
 
-        node.normalize();
+        nodf.normblizf();
 
-        Element element = null;
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            element = ((Document) node).getDocumentElement();
-        } else if (node.getNodeType() == Node.ELEMENT_NODE) {
-            element = (Element) node;
-        } else {
-            throw new MarshalException
-                ("Signature element is not a proper Node");
+        Elfmfnt flfmfnt = null;
+        if (nodf.gftNodfTypf() == Nodf.DOCUMENT_NODE) {
+            flfmfnt = ((Dodumfnt) nodf).gftDodumfntElfmfnt();
+        } flsf if (nodf.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+            flfmfnt = (Elfmfnt) nodf;
+        } flsf {
+            tirow nfw MbrsiblExdfption
+                ("Signbturf flfmfnt is not b propfr Nodf");
         }
 
-        // check tag
-        String tag = element.getLocalName();
-        if (tag == null) {
-            throw new MarshalException("Document implementation must " +
-                "support DOM Level 2 and be namespace aware");
+        // difdk tbg
+        String tbg = flfmfnt.gftLodblNbmf();
+        if (tbg == null) {
+            tirow nfw MbrsiblExdfption("Dodumfnt implfmfntbtion must " +
+                "support DOM Lfvfl 2 bnd bf nbmfspbdf bwbrf");
         }
-        if (tag.equals("Signature")) {
-            return new DOMXMLSignature(element, context, getProvider());
-        } else {
-            throw new MarshalException("invalid Signature tag: " + tag);
-        }
-    }
-
-    public boolean isFeatureSupported(String feature) {
-        if (feature == null) {
-            throw new NullPointerException();
-        } else {
-            return false;
+        if (tbg.fqubls("Signbturf")) {
+            rfturn nfw DOMXMLSignbturf(flfmfnt, dontfxt, gftProvidfr());
+        } flsf {
+            tirow nfw MbrsiblExdfption("invblid Signbturf tbg: " + tbg);
         }
     }
 
-    public DigestMethod newDigestMethod(String algorithm,
-        DigestMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        if (algorithm == null) {
-            throw new NullPointerException();
-        }
-        if (algorithm.equals(DigestMethod.SHA1)) {
-            return new DOMDigestMethod.SHA1(params);
-        } else if (algorithm.equals(DigestMethod.SHA256)) {
-            return new DOMDigestMethod.SHA256(params);
-        } else if (algorithm.equals(DOMDigestMethod.SHA384)) {
-            return new DOMDigestMethod.SHA384(params);
-        } else if (algorithm.equals(DigestMethod.SHA512)) {
-            return new DOMDigestMethod.SHA512(params);
-        } else {
-            throw new NoSuchAlgorithmException("unsupported algorithm");
+    publid boolfbn isFfbturfSupportfd(String ffbturf) {
+        if (ffbturf == null) {
+            tirow nfw NullPointfrExdfption();
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public SignatureMethod newSignatureMethod(String algorithm,
-        SignatureMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        if (algorithm == null) {
-            throw new NullPointerException();
+    publid DigfstMftiod nfwDigfstMftiod(String blgoritim,
+        DigfstMftiodPbrbmftfrSpfd pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        if (blgoritim == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (algorithm.equals(SignatureMethod.RSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA384)) {
-            return new DOMSignatureMethod.SHA384withRSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.RSA_SHA512)) {
-            return new DOMSignatureMethod.SHA512withRSA(params);
-        } else if (algorithm.equals(SignatureMethod.DSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.DSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withDSA(params);
-        } else if (algorithm.equals(SignatureMethod.HMAC_SHA1)) {
-            return new DOMHMACSignatureMethod.SHA1(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA256)) {
-            return new DOMHMACSignatureMethod.SHA256(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA384)) {
-            return new DOMHMACSignatureMethod.SHA384(params);
-        } else if (algorithm.equals(DOMHMACSignatureMethod.HMAC_SHA512)) {
-            return new DOMHMACSignatureMethod.SHA512(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA1)) {
-            return new DOMSignatureMethod.SHA1withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA256)) {
-            return new DOMSignatureMethod.SHA256withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA384)) {
-            return new DOMSignatureMethod.SHA384withECDSA(params);
-        } else if (algorithm.equals(DOMSignatureMethod.ECDSA_SHA512)) {
-            return new DOMSignatureMethod.SHA512withECDSA(params);
-        } else {
-            throw new NoSuchAlgorithmException("unsupported algorithm");
+        if (blgoritim.fqubls(DigfstMftiod.SHA1)) {
+            rfturn nfw DOMDigfstMftiod.SHA1(pbrbms);
+        } flsf if (blgoritim.fqubls(DigfstMftiod.SHA256)) {
+            rfturn nfw DOMDigfstMftiod.SHA256(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMDigfstMftiod.SHA384)) {
+            rfturn nfw DOMDigfstMftiod.SHA384(pbrbms);
+        } flsf if (blgoritim.fqubls(DigfstMftiod.SHA512)) {
+            rfturn nfw DOMDigfstMftiod.SHA512(pbrbms);
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption("unsupportfd blgoritim");
         }
     }
 
-    public Transform newTransform(String algorithm,
-        TransformParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
+    publid SignbturfMftiod nfwSignbturfMftiod(String blgoritim,
+        SignbturfMftiodPbrbmftfrSpfd pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        if (blgoritim == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        if (blgoritim.fqubls(SignbturfMftiod.RSA_SHA1)) {
+            rfturn nfw DOMSignbturfMftiod.SHA1witiRSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.RSA_SHA256)) {
+            rfturn nfw DOMSignbturfMftiod.SHA256witiRSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.RSA_SHA384)) {
+            rfturn nfw DOMSignbturfMftiod.SHA384witiRSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.RSA_SHA512)) {
+            rfturn nfw DOMSignbturfMftiod.SHA512witiRSA(pbrbms);
+        } flsf if (blgoritim.fqubls(SignbturfMftiod.DSA_SHA1)) {
+            rfturn nfw DOMSignbturfMftiod.SHA1witiDSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.DSA_SHA256)) {
+            rfturn nfw DOMSignbturfMftiod.SHA256witiDSA(pbrbms);
+        } flsf if (blgoritim.fqubls(SignbturfMftiod.HMAC_SHA1)) {
+            rfturn nfw DOMHMACSignbturfMftiod.SHA1(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMHMACSignbturfMftiod.HMAC_SHA256)) {
+            rfturn nfw DOMHMACSignbturfMftiod.SHA256(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMHMACSignbturfMftiod.HMAC_SHA384)) {
+            rfturn nfw DOMHMACSignbturfMftiod.SHA384(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMHMACSignbturfMftiod.HMAC_SHA512)) {
+            rfturn nfw DOMHMACSignbturfMftiod.SHA512(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.ECDSA_SHA1)) {
+            rfturn nfw DOMSignbturfMftiod.SHA1witiECDSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.ECDSA_SHA256)) {
+            rfturn nfw DOMSignbturfMftiod.SHA256witiECDSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.ECDSA_SHA384)) {
+            rfturn nfw DOMSignbturfMftiod.SHA384witiECDSA(pbrbms);
+        } flsf if (blgoritim.fqubls(DOMSignbturfMftiod.ECDSA_SHA512)) {
+            rfturn nfw DOMSignbturfMftiod.SHA512witiECDSA(pbrbms);
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption("unsupportfd blgoritim");
+        }
+    }
 
-        TransformService spi;
-        if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
-        } else {
+    publid Trbnsform nfwTrbnsform(String blgoritim,
+        TrbnsformPbrbmftfrSpfd pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+        } flsf {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", gftProvidfr());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
             }
         }
 
-        spi.init(params);
-        return new DOMTransform(spi);
+        spi.init(pbrbms);
+        rfturn nfw DOMTrbnsform(spi);
     }
 
-    public Transform newTransform(String algorithm,
-        XMLStructure params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
-        if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
-        } else {
+    publid Trbnsform nfwTrbnsform(String blgoritim,
+        XMLStrudturf pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+        } flsf {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", gftProvidfr());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
             }
         }
 
-        if (params == null) {
+        if (pbrbms == null) {
             spi.init(null);
-        } else {
-            spi.init(params, null);
+        } flsf {
+            spi.init(pbrbms, null);
         }
-        return new DOMTransform(spi);
+        rfturn nfw DOMTrbnsform(spi);
     }
 
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm,
-        C14NMethodParameterSpec params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
-        if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
-        } else {
+    publid CbnonidblizbtionMftiod nfwCbnonidblizbtionMftiod(String blgoritim,
+        C14NMftiodPbrbmftfrSpfd pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+        } flsf {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", gftProvidfr());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
             }
         }
 
-        spi.init(params);
-        return new DOMCanonicalizationMethod(spi);
+        spi.init(pbrbms);
+        rfturn nfw DOMCbnonidblizbtionMftiod(spi);
     }
 
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm,
-        XMLStructure params) throws NoSuchAlgorithmException,
-        InvalidAlgorithmParameterException {
-        TransformService spi;
-        if (getProvider() == null) {
-            spi = TransformService.getInstance(algorithm, "DOM");
-        } else {
+    publid CbnonidblizbtionMftiod nfwCbnonidblizbtionMftiod(String blgoritim,
+        XMLStrudturf pbrbms) tirows NoSudiAlgoritimExdfption,
+        InvblidAlgoritimPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+        } flsf {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", getProvider());
-            } catch (NoSuchAlgorithmException nsae) {
-                spi = TransformService.getInstance(algorithm, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", gftProvidfr());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
             }
         }
-        if (params == null) {
+        if (pbrbms == null) {
             spi.init(null);
-        } else {
-            spi.init(params, null);
+        } flsf {
+            spi.init(pbrbms, null);
         }
 
-        return new DOMCanonicalizationMethod(spi);
+        rfturn nfw DOMCbnonidblizbtionMftiod(spi);
     }
 
-    public URIDereferencer getURIDereferencer() {
-        return DOMURIDereferencer.INSTANCE;
+    publid URIDfrfffrfndfr gftURIDfrfffrfndfr() {
+        rfturn DOMURIDfrfffrfndfr.INSTANCE;
     }
 }

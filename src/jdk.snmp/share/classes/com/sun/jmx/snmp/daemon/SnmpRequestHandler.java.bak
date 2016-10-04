@@ -1,1149 +1,1149 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java import
+// jbvb import
 //
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.io.InterruptedIOException;
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-import java.net.SocketException;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.nft.DbtbgrbmSodkft;
+import jbvb.nft.DbtbgrbmPbdkft;
+import jbvb.nft.SodkftExdfption;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import com.sun.jmx.snmp.SnmpMessage;
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpPduBulk;
-import com.sun.jmx.snmp.SnmpPduPacket;
-import com.sun.jmx.snmp.SnmpPduRequest;
-import com.sun.jmx.snmp.SnmpPduTrap;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpVarBindList;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpDataTypeEnums;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import dom.sun.jmx.snmp.SnmpMfssbgf;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduBulk;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduRfqufst;
+import dom.sun.jmx.snmp.SnmpPduTrbp;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpDbtbTypfEnums;
 
 // RI imports
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
 
-// SNMP runtime import
+// SNMP runtimf import
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpUserDataFactory;
-//import com.sun.jmx.snmp.IPAcl.IPAcl;
-import com.sun.jmx.snmp.InetAddressAcl;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+//import dom.sun.jmx.snmp.IPAdl.IPAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
 
 
-class SnmpRequestHandler extends ClientHandler implements SnmpDefinitions {
+dlbss SnmpRfqufstHbndlfr fxtfnds ClifntHbndlfr implfmfnts SnmpDffinitions {
 
-    private transient DatagramSocket       socket = null ;
-    private transient DatagramPacket       packet = null ;
-    private transient Vector<SnmpMibAgent> mibs = null ;
-
-    /**
-     * Contains the list of sub-requests associated to the current request.
-     */
-    private transient Hashtable<SnmpMibAgent, SnmpSubRequestHandler> subs = null;
+    privbtf trbnsifnt DbtbgrbmSodkft       sodkft = null ;
+    privbtf trbnsifnt DbtbgrbmPbdkft       pbdkft = null ;
+    privbtf trbnsifnt Vfdtor<SnmpMibAgfnt> mibs = null ;
 
     /**
-     * Reference on the MIBS
+     * Contbins tif list of sub-rfqufsts bssodibtfd to tif durrfnt rfqufst.
      */
-    private transient SnmpMibTree root;
+    privbtf trbnsifnt Hbsitbblf<SnmpMibAgfnt, SnmpSubRfqufstHbndlfr> subs = null;
 
-    private transient InetAddressAcl      ipacl = null ;
-    private transient SnmpPduFactory      pduFactory = null ;
-    private transient SnmpUserDataFactory userDataFactory = null ;
-    private transient SnmpAdaptorServer adaptor = null;
     /**
-     * Full constructor
+     * Rfffrfndf on tif MIBS
      */
-    public SnmpRequestHandler(SnmpAdaptorServer server, int id,
-                              DatagramSocket s, DatagramPacket p,
-                              SnmpMibTree tree, Vector<SnmpMibAgent> m,
-                              InetAddressAcl a,
-                              SnmpPduFactory factory,
-                              SnmpUserDataFactory dataFactory,
-                              MBeanServer f, ObjectName n)
+    privbtf trbnsifnt SnmpMibTrff root;
+
+    privbtf trbnsifnt InftAddrfssAdl      ipbdl = null ;
+    privbtf trbnsifnt SnmpPduFbdtory      pduFbdtory = null ;
+    privbtf trbnsifnt SnmpUsfrDbtbFbdtory usfrDbtbFbdtory = null ;
+    privbtf trbnsifnt SnmpAdbptorSfrvfr bdbptor = null;
+    /**
+     * Full donstrudtor
+     */
+    publid SnmpRfqufstHbndlfr(SnmpAdbptorSfrvfr sfrvfr, int id,
+                              DbtbgrbmSodkft s, DbtbgrbmPbdkft p,
+                              SnmpMibTrff trff, Vfdtor<SnmpMibAgfnt> m,
+                              InftAddrfssAdl b,
+                              SnmpPduFbdtory fbdtory,
+                              SnmpUsfrDbtbFbdtory dbtbFbdtory,
+                              MBfbnSfrvfr f, ObjfdtNbmf n)
     {
-        super(server, id, f, n);
+        supfr(sfrvfr, id, f, n);
 
-        // Need a reference on SnmpAdaptorServer for getNext & getBulk,
-        // in case of oid equality (mib overlapping).
+        // Nffd b rfffrfndf on SnmpAdbptorSfrvfr for gftNfxt & gftBulk,
+        // in dbsf of oid fqublity (mib ovfrlbpping).
         //
-        adaptor = server;
-        socket = s;
-        packet = p;
-        root= tree;
-        mibs = new Vector<>(m);
-        subs= new Hashtable<>(mibs.size());
-        ipacl = a;
-        pduFactory = factory ;
-        userDataFactory = dataFactory ;
-        //thread.start();
+        bdbptor = sfrvfr;
+        sodkft = s;
+        pbdkft = p;
+        root= trff;
+        mibs = nfw Vfdtor<>(m);
+        subs= nfw Hbsitbblf<>(mibs.sizf());
+        ipbdl = b;
+        pduFbdtory = fbdtory ;
+        usfrDbtbFbdtory = dbtbFbdtory ;
+        //tirfbd.stbrt();
     }
 
     /**
-     * Treat the request available in 'packet' and send the result
-     * back to the client.
-     * Note: we overwrite 'packet' with the response bytes.
+     * Trfbt tif rfqufst bvbilbblf in 'pbdkft' bnd sfnd tif rfsult
+     * bbdk to tif dlifnt.
+     * Notf: wf ovfrwritf 'pbdkft' witi tif rfsponsf bytfs.
      */
-    @Override
-    public void doRun() {
+    @Ovfrridf
+    publid void doRun() {
 
-        // Trace the input packet
+        // Trbdf tif input pbdkft
         //
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "doRun","Packet received:\n" +
-                    SnmpMessage.dumpHexBuffer(packet.getData(), 0, packet.getLength()));
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "doRun","Pbdkft rfdfivfd:\n" +
+                    SnmpMfssbgf.dumpHfxBufffr(pbdkft.gftDbtb(), 0, pbdkft.gftLfngti()));
         }
 
-        // Let's build the response packet
+        // Lft's build tif rfsponsf pbdkft
         //
-        DatagramPacket respPacket = makeResponsePacket(packet) ;
+        DbtbgrbmPbdkft rfspPbdkft = mbkfRfsponsfPbdkft(pbdkft) ;
 
-        // Trace the output packet
+        // Trbdf tif output pbdkft
         //
-        if ((SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) && (respPacket != null)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "doRun","Packet to be sent:\n" +
-                    SnmpMessage.dumpHexBuffer(respPacket.getData(), 0, respPacket.getLength()));
+        if ((SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) && (rfspPbdkft != null)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "doRun","Pbdkft to bf sfnt:\n" +
+                    SnmpMfssbgf.dumpHfxBufffr(rfspPbdkft.gftDbtb(), 0, rfspPbdkft.gftLfngti()));
         }
 
-        // Send the response packet if any
+        // Sfnd tif rfsponsf pbdkft if bny
         //
-        if (respPacket != null) {
+        if (rfspPbdkft != null) {
             try {
-                socket.send(respPacket) ;
-            } catch (SocketException e) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    if (e.getMessage().equals(InterruptSysCallMsg)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                            "doRun", "interrupted");
-                    } else {
-                      SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                            "doRun", "I/O exception", e);
+                sodkft.sfnd(rfspPbdkft) ;
+            } dbtdi (SodkftExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    if (f.gftMfssbgf().fqubls(IntfrruptSysCbllMsg)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "doRun", "intfrruptfd");
+                    } flsf {
+                      SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "doRun", "I/O fxdfption", f);
                     }
                 }
-            } catch(InterruptedIOException e) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "doRun", "interrupted");
+            } dbtdi(IntfrruptfdIOExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "doRun", "intfrruptfd");
                 }
-            } catch(Exception e) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "doRun", "failure when sending response", e);
+            } dbtdi(Exdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "doRun", "fbilurf wifn sfnding rfsponsf", f);
                 }
             }
         }
     }
 
     /**
-     * Here we make a response packet from a request packet.
-     * We return null if there no response packet to sent.
+     * Hfrf wf mbkf b rfsponsf pbdkft from b rfqufst pbdkft.
+     * Wf rfturn null if tifrf no rfsponsf pbdkft to sfnt.
      */
-    private DatagramPacket makeResponsePacket(DatagramPacket reqPacket) {
-        DatagramPacket respPacket = null ;
+    privbtf DbtbgrbmPbdkft mbkfRfsponsfPbdkft(DbtbgrbmPbdkft rfqPbdkft) {
+        DbtbgrbmPbdkft rfspPbdkft = null ;
 
-        // Transform the request packet into a request SnmpMessage
+        // Trbnsform tif rfqufst pbdkft into b rfqufst SnmpMfssbgf
         //
-        SnmpMessage reqMsg = new SnmpMessage() ;
+        SnmpMfssbgf rfqMsg = nfw SnmpMfssbgf() ;
         try {
-            reqMsg.decodeMessage(reqPacket.getData(), reqPacket.getLength()) ;
-            reqMsg.address = reqPacket.getAddress() ;
-            reqMsg.port = reqPacket.getPort() ;
+            rfqMsg.dfdodfMfssbgf(rfqPbdkft.gftDbtb(), rfqPbdkft.gftLfngti()) ;
+            rfqMsg.bddrfss = rfqPbdkft.gftAddrfss() ;
+            rfqMsg.port = rfqPbdkft.gftPort() ;
         }
-        catch(SnmpStatusException x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "makeResponsePacket", "packet decoding failed", x);
+        dbtdi(SnmpStbtusExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "mbkfRfsponsfPbdkft", "pbdkft dfdoding fbilfd", x);
             }
-            reqMsg = null ;
-            ((SnmpAdaptorServer)adaptorServer).incSnmpInASNParseErrs(1) ;
+            rfqMsg = null ;
+            ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).indSnmpInASNPbrsfErrs(1) ;
         }
 
-        // Make the response SnmpMessage if any
+        // Mbkf tif rfsponsf SnmpMfssbgf if bny
         //
-        SnmpMessage respMsg = null ;
-        if (reqMsg != null) {
-            respMsg = makeResponseMessage(reqMsg) ;
+        SnmpMfssbgf rfspMsg = null ;
+        if (rfqMsg != null) {
+            rfspMsg = mbkfRfsponsfMfssbgf(rfqMsg) ;
         }
 
-        // Try to transform the response SnmpMessage into response packet.
-        // NOTE: we overwrite the request packet.
+        // Try to trbnsform tif rfsponsf SnmpMfssbgf into rfsponsf pbdkft.
+        // NOTE: wf ovfrwritf tif rfqufst pbdkft.
         //
-        if (respMsg != null) {
+        if (rfspMsg != null) {
             try {
-                reqPacket.setLength(respMsg.encodeMessage(reqPacket.getData())) ;
-                respPacket = reqPacket ;
+                rfqPbdkft.sftLfngti(rfspMsg.fndodfMfssbgf(rfqPbdkft.gftDbtb())) ;
+                rfspPbdkft = rfqPbdkft ;
             }
-            catch(SnmpTooBigException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "makeResponsePacket", "response message is too big");
+            dbtdi(SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfPbdkft", "rfsponsf mfssbgf is too big");
                 }
                 try {
-                    respMsg = newTooBigMessage(reqMsg) ;
-                    reqPacket.setLength(respMsg.encodeMessage(reqPacket.getData())) ;
-                    respPacket = reqPacket ;
+                    rfspMsg = nfwTooBigMfssbgf(rfqMsg) ;
+                    rfqPbdkft.sftLfngti(rfspMsg.fndodfMfssbgf(rfqPbdkft.gftDbtb())) ;
+                    rfspPbdkft = rfqPbdkft ;
                 }
-                catch(SnmpTooBigException xx) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                            "makeResponsePacket", "'too big' is 'too big' !!!");
+                dbtdi(SnmpTooBigExdfption xx) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "mbkfRfsponsfPbdkft", "'too big' is 'too big' !!!");
                     }
-                    adaptor.incSnmpSilentDrops(1);
+                    bdbptor.indSnmpSilfntDrops(1);
                 }
             }
         }
 
-        return respPacket ;
+        rfturn rfspPbdkft ;
     }
 
     /**
-     * Here we make a response message from a request message.
-     * We return null if there is no message to reply.
+     * Hfrf wf mbkf b rfsponsf mfssbgf from b rfqufst mfssbgf.
+     * Wf rfturn null if tifrf is no mfssbgf to rfply.
      */
-    private SnmpMessage makeResponseMessage(SnmpMessage reqMsg) {
-        SnmpMessage respMsg = null ;
+    privbtf SnmpMfssbgf mbkfRfsponsfMfssbgf(SnmpMfssbgf rfqMsg) {
+        SnmpMfssbgf rfspMsg = null ;
 
-        // Transform the request message into a request pdu
+        // Trbnsform tif rfqufst mfssbgf into b rfqufst pdu
         //
-        SnmpPduPacket reqPdu;
-        Object userData = null;
+        SnmpPduPbdkft rfqPdu;
+        Objfdt usfrDbtb = null;
         try {
-            reqPdu = (SnmpPduPacket)pduFactory.decodeSnmpPdu(reqMsg) ;
-            if (reqPdu != null && userDataFactory != null)
-                userData = userDataFactory.allocateUserData(reqPdu);
+            rfqPdu = (SnmpPduPbdkft)pduFbdtory.dfdodfSnmpPdu(rfqMsg) ;
+            if (rfqPdu != null && usfrDbtbFbdtory != null)
+                usfrDbtb = usfrDbtbFbdtory.bllodbtfUsfrDbtb(rfqPdu);
         }
-        catch(SnmpStatusException x) {
-            reqPdu = null ;
-            SnmpAdaptorServer snmpServer = (SnmpAdaptorServer)adaptorServer ;
-            snmpServer.incSnmpInASNParseErrs(1) ;
-            if (x.getStatus()== SnmpDefinitions.snmpWrongSnmpVersion)
-                snmpServer.incSnmpInBadVersions(1) ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "makeResponseMessage", "message decoding failed", x);
+        dbtdi(SnmpStbtusExdfption x) {
+            rfqPdu = null ;
+            SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+            snmpSfrvfr.indSnmpInASNPbrsfErrs(1) ;
+            if (x.gftStbtus()== SnmpDffinitions.snmpWrongSnmpVfrsion)
+                snmpSfrvfr.indSnmpInBbdVfrsions(1) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "mbkfRfsponsfMfssbgf", "mfssbgf dfdoding fbilfd", x);
             }
         }
 
-        // Make the response pdu if any
+        // Mbkf tif rfsponsf pdu if bny
         //
-        SnmpPduPacket respPdu = null ;
-        if (reqPdu != null) {
-            respPdu = makeResponsePdu(reqPdu,userData) ;
+        SnmpPduPbdkft rfspPdu = null ;
+        if (rfqPdu != null) {
+            rfspPdu = mbkfRfsponsfPdu(rfqPdu,usfrDbtb) ;
             try {
-                if (userDataFactory != null)
-                    userDataFactory.releaseUserData(userData,respPdu);
-            } catch (SnmpStatusException x) {
-                respPdu = null;
+                if (usfrDbtbFbdtory != null)
+                    usfrDbtbFbdtory.rflfbsfUsfrDbtb(usfrDbtb,rfspPdu);
+            } dbtdi (SnmpStbtusExdfption x) {
+                rfspPdu = null;
             }
         }
 
-        // Try to transform the response pdu into a response message if any
+        // Try to trbnsform tif rfsponsf pdu into b rfsponsf mfssbgf if bny
         //
-        if (respPdu != null) {
+        if (rfspPdu != null) {
             try {
-                respMsg = (SnmpMessage)pduFactory.
-                    encodeSnmpPdu(respPdu, packet.getData().length) ;
+                rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                    fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngti) ;
             }
-            catch(SnmpStatusException x) {
-                respMsg = null ;
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "makeResponseMessage", "failure when encoding the response message", x);
+            dbtdi(SnmpStbtusExdfption x) {
+                rfspMsg = null ;
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfMfssbgf", "fbilurf wifn fndoding tif rfsponsf mfssbgf", x);
                 }
             }
-            catch(SnmpTooBigException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "makeResponseMessage", "response message is too big");
+            dbtdi(SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfMfssbgf", "rfsponsf mfssbgf is too big");
                 }
 
                 try {
-                    // if the PDU is too small, why should we try to do
-                    // recovery ?
+                    // if tif PDU is too smbll, wiy siould wf try to do
+                    // rfdovfry ?
                     //
-                    if (packet.getData().length <=32)
-                        throw x;
-                    int pos= x.getVarBindCount();
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                            "makeResponseMessage", "fail on element" + pos);
+                    if (pbdkft.gftDbtb().lfngti <=32)
+                        tirow x;
+                    int pos= x.gftVbrBindCount();
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "mbkfRfsponsfMfssbgf", "fbil on flfmfnt" + pos);
                     }
                     int old;
-                    while (true) {
+                    wiilf (truf) {
                         try {
-                            respPdu = reduceResponsePdu(reqPdu, respPdu, pos) ;
-                            respMsg = (SnmpMessage)pduFactory.
-                                encodeSnmpPdu(respPdu,
-                                              packet.getData().length -32) ;
-                            break;
-                        } catch (SnmpTooBigException xx) {
-                            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                                    "makeResponseMessage", "response message is still too big");
+                            rfspPdu = rfdudfRfsponsfPdu(rfqPdu, rfspPdu, pos) ;
+                            rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                                fndodfSnmpPdu(rfspPdu,
+                                              pbdkft.gftDbtb().lfngti -32) ;
+                            brfbk;
+                        } dbtdi (SnmpTooBigExdfption xx) {
+                            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                                    "mbkfRfsponsfMfssbgf", "rfsponsf mfssbgf is still too big");
                             }
                             old= pos;
-                            pos= xx.getVarBindCount();
-                            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                                    "makeResponseMessage","fail on element" + pos);
+                            pos= xx.gftVbrBindCount();
+                            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                                    "mbkfRfsponsfMfssbgf","fbil on flfmfnt" + pos);
                             }
                             if (pos == old) {
-                                // we can not go any further in trying to
-                                // reduce the message !
+                                // wf dbn not go bny furtifr in trying to
+                                // rfdudf tif mfssbgf !
                                 //
-                                throw xx;
+                                tirow xx;
                             }
                         }
-                    }// end of loop
-                } catch(SnmpStatusException xx) {
-                    respMsg = null ;
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                           "makeResponseMessage", "failure when encoding the response message", xx);
+                    }// fnd of loop
+                } dbtdi(SnmpStbtusExdfption xx) {
+                    rfspMsg = null ;
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "mbkfRfsponsfMfssbgf", "fbilurf wifn fndoding tif rfsponsf mfssbgf", xx);
                     }
                 }
-                catch(SnmpTooBigException xx) {
+                dbtdi(SnmpTooBigExdfption xx) {
                     try {
-                        respPdu = newTooBigPdu(reqPdu) ;
-                        respMsg = (SnmpMessage)pduFactory.
-                            encodeSnmpPdu(respPdu, packet.getData().length) ;
+                        rfspPdu = nfwTooBigPdu(rfqPdu) ;
+                        rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                            fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngti) ;
                     }
-                    catch(SnmpTooBigException xxx) {
-                        respMsg = null ;
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                               "makeResponseMessage", "'too big' is 'too big' !!!");
+                    dbtdi(SnmpTooBigExdfption xxx) {
+                        rfspMsg = null ;
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfMfssbgf", "'too big' is 'too big' !!!");
                         }
-                        adaptor.incSnmpSilentDrops(1);
+                        bdbptor.indSnmpSilfntDrops(1);
                     }
-                    catch(Exception xxx) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                               "makeResponseMessage", "Got unexpected exception", xxx);
+                    dbtdi(Exdfption xxx) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfMfssbgf", "Got unfxpfdtfd fxdfption", xxx);
                         }
-                        respMsg = null ;
+                        rfspMsg = null ;
                     }
                 }
-                catch(Exception xx) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                           "makeResponseMessage", "Got unexpected exception", xx);
+                dbtdi(Exdfption xx) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "mbkfRfsponsfMfssbgf", "Got unfxpfdtfd fxdfption", xx);
                     }
-                    respMsg = null ;
+                    rfspMsg = null ;
                 }
             }
         }
-        return respMsg ;
+        rfturn rfspMsg ;
     }
 
     /**
-     * Here we make a response pdu from a request pdu.
-     * We return null if there is no pdu to reply.
+     * Hfrf wf mbkf b rfsponsf pdu from b rfqufst pdu.
+     * Wf rfturn null if tifrf is no pdu to rfply.
      */
-    private SnmpPduPacket makeResponsePdu(SnmpPduPacket reqPdu,
-                                          Object userData) {
+    privbtf SnmpPduPbdkft mbkfRfsponsfPdu(SnmpPduPbdkft rfqPdu,
+                                          Objfdt usfrDbtb) {
 
-        SnmpAdaptorServer snmpServer = (SnmpAdaptorServer)adaptorServer ;
-        SnmpPduPacket respPdu = null ;
+        SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+        SnmpPduPbdkft rfspPdu = null ;
 
-        snmpServer.updateRequestCounters(reqPdu.type) ;
-        if (reqPdu.varBindList != null)
-            snmpServer.updateVarCounters(reqPdu.type,
-                                         reqPdu.varBindList.length) ;
+        snmpSfrvfr.updbtfRfqufstCountfrs(rfqPdu.typf) ;
+        if (rfqPdu.vbrBindList != null)
+            snmpSfrvfr.updbtfVbrCountfrs(rfqPdu.typf,
+                                         rfqPdu.vbrBindList.lfngti) ;
 
-        if (checkPduType(reqPdu)) {
-            respPdu = checkAcl(reqPdu) ;
-            if (respPdu == null) { // reqPdu is accepted by ACLs
-                if (mibs.size() < 1) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                           "makeResponsePdu", "Request " + reqPdu.requestId +
-                           " received but no MIB registered.");
+        if (difdkPduTypf(rfqPdu)) {
+            rfspPdu = difdkAdl(rfqPdu) ;
+            if (rfspPdu == null) { // rfqPdu is bddfptfd by ACLs
+                if (mibs.sizf() < 1) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "mbkfRfsponsfPdu", "Rfqufst " + rfqPdu.rfqufstId +
+                           " rfdfivfd but no MIB rfgistfrfd.");
                     }
-                    return makeNoMibErrorPdu((SnmpPduRequest)reqPdu, userData);
+                    rfturn mbkfNoMibErrorPdu((SnmpPduRfqufst)rfqPdu, usfrDbtb);
                 }
-                switch(reqPdu.type) {
-                case SnmpPduPacket.pduGetRequestPdu:
-                case SnmpPduPacket.pduGetNextRequestPdu:
-                case SnmpPduPacket.pduSetRequestPdu:
-                    respPdu = makeGetSetResponsePdu((SnmpPduRequest)reqPdu,
-                                                    userData) ;
-                    break ;
+                switdi(rfqPdu.typf) {
+                dbsf SnmpPduPbdkft.pduGftRfqufstPdu:
+                dbsf SnmpPduPbdkft.pduGftNfxtRfqufstPdu:
+                dbsf SnmpPduPbdkft.pduSftRfqufstPdu:
+                    rfspPdu = mbkfGftSftRfsponsfPdu((SnmpPduRfqufst)rfqPdu,
+                                                    usfrDbtb) ;
+                    brfbk ;
 
-                case SnmpPduPacket.pduGetBulkRequestPdu:
-                    respPdu = makeGetBulkResponsePdu((SnmpPduBulk)reqPdu,
-                                                     userData) ;
-                    break ;
+                dbsf SnmpPduPbdkft.pduGftBulkRfqufstPdu:
+                    rfspPdu = mbkfGftBulkRfsponsfPdu((SnmpPduBulk)rfqPdu,
+                                                     usfrDbtb) ;
+                    brfbk ;
                 }
             }
-            else { // reqPdu is rejected by ACLs
-                // respPdu contains the error response to be sent.
-                // We send this response only if authResEnabled is true.
-                if (!snmpServer.getAuthRespEnabled()) { // No response should be sent
-                    respPdu = null ;
+            flsf { // rfqPdu is rfjfdtfd by ACLs
+                // rfspPdu dontbins tif frror rfsponsf to bf sfnt.
+                // Wf sfnd tiis rfsponsf only if butiRfsEnbblfd is truf.
+                if (!snmpSfrvfr.gftAutiRfspEnbblfd()) { // No rfsponsf siould bf sfnt
+                    rfspPdu = null ;
                 }
-                if (snmpServer.getAuthTrapEnabled()) { // A trap must be sent
+                if (snmpSfrvfr.gftAutiTrbpEnbblfd()) { // A trbp must bf sfnt
                     try {
-                        snmpServer.snmpV1Trap(SnmpPduTrap.
-                                              trapAuthenticationFailure, 0,
-                                              new SnmpVarBindList()) ;
+                        snmpSfrvfr.snmpV1Trbp(SnmpPduTrbp.
+                                              trbpAutifntidbtionFbilurf, 0,
+                                              nfw SnmpVbrBindList()) ;
                     }
-                    catch(Exception x) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                               "makeResponsePdu", "Failure when sending authentication trap", x);
+                    dbtdi(Exdfption x) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfPdu", "Fbilurf wifn sfnding butifntidbtion trbp", x);
                         }
                     }
                 }
             }
         }
-        return respPdu ;
+        rfturn rfspPdu ;
     }
 
     //
-    // Generates a response packet, filling the values in the
-    // varbindlist with one of endOfMibView, noSuchObject, noSuchInstance
-    // according to the value of <code>status</code>
+    // Gfnfrbtfs b rfsponsf pbdkft, filling tif vblufs in tif
+    // vbrbindlist witi onf of fndOfMibVifw, noSudiObjfdt, noSudiInstbndf
+    // bddording to tif vbluf of <dodf>stbtus</dodf>
     //
-    // @param statusTag should be one of:
-    //        <li>SnmpDataTypeEnums.errEndOfMibViewTag</li>
-    //        <li>SnmpDataTypeEnums.errNoSuchObjectTag</li>
-    //        <li>SnmpDataTypeEnums.errNoSuchInstanceTag</li>
+    // @pbrbm stbtusTbg siould bf onf of:
+    //        <li>SnmpDbtbTypfEnums.frrEndOfMibVifwTbg</li>
+    //        <li>SnmpDbtbTypfEnums.frrNoSudiObjfdtTbg</li>
+    //        <li>SnmpDbtbTypfEnums.frrNoSudiInstbndfTbg</li>
     //
-    SnmpPduPacket makeErrorVarbindPdu(SnmpPduPacket req, int statusTag) {
+    SnmpPduPbdkft mbkfErrorVbrbindPdu(SnmpPduPbdkft rfq, int stbtusTbg) {
 
-        final SnmpVarBind[] vblist = req.varBindList;
-        final int length = vblist.length;
+        finbl SnmpVbrBind[] vblist = rfq.vbrBindList;
+        finbl int lfngti = vblist.lfngti;
 
-        switch (statusTag) {
-        case SnmpDataTypeEnums.errEndOfMibViewTag:
-            for (int i=0 ; i<length ; i++)
-                vblist[i].value = SnmpVarBind.endOfMibView;
-            break;
-        case SnmpDataTypeEnums.errNoSuchObjectTag:
-            for (int i=0 ; i<length ; i++)
-                vblist[i].value = SnmpVarBind.noSuchObject;
-            break;
-        case SnmpDataTypeEnums.errNoSuchInstanceTag:
-            for (int i=0 ; i<length ; i++)
-                vblist[i].value = SnmpVarBind.noSuchInstance;
-            break;
-        default:
-            return newErrorResponsePdu(req,snmpRspGenErr,1);
+        switdi (stbtusTbg) {
+        dbsf SnmpDbtbTypfEnums.frrEndOfMibVifwTbg:
+            for (int i=0 ; i<lfngti ; i++)
+                vblist[i].vbluf = SnmpVbrBind.fndOfMibVifw;
+            brfbk;
+        dbsf SnmpDbtbTypfEnums.frrNoSudiObjfdtTbg:
+            for (int i=0 ; i<lfngti ; i++)
+                vblist[i].vbluf = SnmpVbrBind.noSudiObjfdt;
+            brfbk;
+        dbsf SnmpDbtbTypfEnums.frrNoSudiInstbndfTbg:
+            for (int i=0 ; i<lfngti ; i++)
+                vblist[i].vbluf = SnmpVbrBind.noSudiInstbndf;
+            brfbk;
+        dffbult:
+            rfturn nfwErrorRfsponsfPdu(rfq,snmpRspGfnErr,1);
         }
-        return newValidResponsePdu(req,vblist);
+        rfturn nfwVblidRfsponsfPdu(rfq,vblist);
     }
 
-    // Generates an appropriate response when no mib is registered in
-    // the adaptor.
+    // Gfnfrbtfs bn bppropribtf rfsponsf wifn no mib is rfgistfrfd in
+    // tif bdbptor.
     //
-    // <li>If the version is V1:</li>
-    // <ul><li>Generates a NoSuchName error V1 response PDU</li></ul>
-    // <li>If the version is V2:</li>
-    // <ul><li>If the request is a GET, fills the varbind list with
-    //         NoSuchObject's</li>
-    //     <li>If the request is a GET-NEXT/GET-BULK, fills the varbind
-    //         list with EndOfMibView's</li>
-    //     <li>If the request is a SET, generates a NoAccess error V2
-    //          response PDU</li>
+    // <li>If tif vfrsion is V1:</li>
+    // <ul><li>Gfnfrbtfs b NoSudiNbmf frror V1 rfsponsf PDU</li></ul>
+    // <li>If tif vfrsion is V2:</li>
+    // <ul><li>If tif rfqufst is b GET, fills tif vbrbind list witi
+    //         NoSudiObjfdt's</li>
+    //     <li>If tif rfqufst is b GET-NEXT/GET-BULK, fills tif vbrbind
+    //         list witi EndOfMibVifw's</li>
+    //     <li>If tif rfqufst is b SET, gfnfrbtfs b NoAddfss frror V2
+    //          rfsponsf PDU</li>
     // </ul>
     //
     //
-    SnmpPduPacket makeNoMibErrorPdu(SnmpPduRequest req, Object userData) {
-        // There is no agent registered
+    SnmpPduPbdkft mbkfNoMibErrorPdu(SnmpPduRfqufst rfq, Objfdt usfrDbtb) {
+        // Tifrf is no bgfnt rfgistfrfd
         //
-        if (req.version == SnmpDefinitions.snmpVersionOne) {
-            // Version 1: => NoSuchName
-            return
-                newErrorResponsePdu(req,snmpRspNoSuchName,1);
-        } else if (req.version == SnmpDefinitions.snmpVersionTwo) {
-            // Version 2: => depends on PDU type
-            switch (req.type) {
-            case pduSetRequestPdu :
-            case pduWalkRequest :
-                // SET request => NoAccess
-                return
-                    newErrorResponsePdu(req,snmpRspNoAccess,1);
-            case pduGetRequestPdu :
-                // GET request => NoSuchObject
-                return
-                    makeErrorVarbindPdu(req,SnmpDataTypeEnums.
-                                        errNoSuchObjectTag);
-            case pduGetNextRequestPdu :
-            case pduGetBulkRequestPdu :
-                // GET-NEXT or GET-BULK => EndOfMibView
-                return
-                    makeErrorVarbindPdu(req,SnmpDataTypeEnums.
-                                        errEndOfMibViewTag);
-            default:
+        if (rfq.vfrsion == SnmpDffinitions.snmpVfrsionOnf) {
+            // Vfrsion 1: => NoSudiNbmf
+            rfturn
+                nfwErrorRfsponsfPdu(rfq,snmpRspNoSudiNbmf,1);
+        } flsf if (rfq.vfrsion == SnmpDffinitions.snmpVfrsionTwo) {
+            // Vfrsion 2: => dfpfnds on PDU typf
+            switdi (rfq.typf) {
+            dbsf pduSftRfqufstPdu :
+            dbsf pduWblkRfqufst :
+                // SET rfqufst => NoAddfss
+                rfturn
+                    nfwErrorRfsponsfPdu(rfq,snmpRspNoAddfss,1);
+            dbsf pduGftRfqufstPdu :
+                // GET rfqufst => NoSudiObjfdt
+                rfturn
+                    mbkfErrorVbrbindPdu(rfq,SnmpDbtbTypfEnums.
+                                        frrNoSudiObjfdtTbg);
+            dbsf pduGftNfxtRfqufstPdu :
+            dbsf pduGftBulkRfqufstPdu :
+                // GET-NEXT or GET-BULK => EndOfMibVifw
+                rfturn
+                    mbkfErrorVbrbindPdu(rfq,SnmpDbtbTypfEnums.
+                                        frrEndOfMibVifwTbg);
+            dffbult:
             }
         }
-        // Something wrong here: => snmpRspGenErr
-        return newErrorResponsePdu(req,snmpRspGenErr,1);
+        // Somftiing wrong ifrf: => snmpRspGfnErr
+        rfturn nfwErrorRfsponsfPdu(rfq,snmpRspGfnErr,1);
     }
 
     /**
-     * Here we make the response pdu from a get/set request pdu.
-     * At this level, the result is never null.
+     * Hfrf wf mbkf tif rfsponsf pdu from b gft/sft rfqufst pdu.
+     * At tiis lfvfl, tif rfsult is nfvfr null.
      */
-    private SnmpPduPacket makeGetSetResponsePdu(SnmpPduRequest req,
-                                                Object userData) {
+    privbtf SnmpPduPbdkft mbkfGftSftRfsponsfPdu(SnmpPduRfqufst rfq,
+                                                Objfdt usfrDbtb) {
 
-        // Create the trhead group specific for handling sub-requests
-        // associated to the current request. Use the invoke id
+        // Crfbtf tif trifbd group spfdifid for ibndling sub-rfqufsts
+        // bssodibtfd to tif durrfnt rfqufst. Usf tif invokf id
         //
-        // Nice idea to use a thread group on a request basis.
-        // However the impact on performance is terrible !
-        // theGroup= new ThreadGroup(thread.getThreadGroup(),
-        //                "request " + String.valueOf(req.requestId));
+        // Nidf idfb to usf b tirfbd group on b rfqufst bbsis.
+        // Howfvfr tif impbdt on pfrformbndf is tfrriblf !
+        // tifGroup= nfw TirfbdGroup(tirfbd.gftTirfbdGroup(),
+        //                "rfqufst " + String.vblufOf(rfq.rfqufstId));
 
-        // Let's build the varBindList for the response pdu
+        // Lft's build tif vbrBindList for tif rfsponsf pdu
         //
 
-        if (req.varBindList == null) {
-            // Good ! Let's make a full response pdu.
+        if (rfq.vbrBindList == null) {
+            // Good ! Lft's mbkf b full rfsponsf pdu.
             //
-            return newValidResponsePdu(req, null) ;
+            rfturn nfwVblidRfsponsfPdu(rfq, null) ;
         }
 
-        // First we need to split the request into subrequests
+        // First wf nffd to split tif rfqufst into subrfqufsts
         //
-        splitRequest(req);
-        int nbSubRequest= subs.size();
-        if (nbSubRequest == 1)
-            return turboProcessingGetSet(req,userData);
+        splitRfqufst(rfq);
+        int nbSubRfqufst= subs.sizf();
+        if (nbSubRfqufst == 1)
+            rfturn turboProdfssingGftSft(rfq,usfrDbtb);
 
 
-        // Execute all the subrequests resulting from the split of the
-        // varbind list.
+        // Exfdutf bll tif subrfqufsts rfsulting from tif split of tif
+        // vbrbind list.
         //
-        SnmpPduPacket result= executeSubRequest(req,userData);
-        if (result != null)
-            // It means that an error occurred. The error is already
-            // formatted by the executeSubRequest
-            // method.
-            return result;
+        SnmpPduPbdkft rfsult= fxfdutfSubRfqufst(rfq,usfrDbtb);
+        if (rfsult != null)
+            // It mfbns tibt bn frror oddurrfd. Tif frror is blrfbdy
+            // formbttfd by tif fxfdutfSubRfqufst
+            // mftiod.
+            rfturn rfsult;
 
-        // So far so good. So we need to concatenate all the answers.
+        // So fbr so good. So wf nffd to dondbtfnbtf bll tif bnswfrs.
         //
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-               "makeGetSetResponsePdu",
-               "Build the unified response for request " + req.requestId);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+               "mbkfGftSftRfsponsfPdu",
+               "Build tif unififd rfsponsf for rfqufst " + rfq.rfqufstId);
         }
-        return mergeResponses(req);
+        rfturn mfrgfRfsponsfs(rfq);
     }
 
     /**
-     * The method runs all the sub-requests associated to the current
-     * instance of SnmpRequestHandler.
+     * Tif mftiod runs bll tif sub-rfqufsts bssodibtfd to tif durrfnt
+     * instbndf of SnmpRfqufstHbndlfr.
      */
-    private SnmpPduPacket executeSubRequest(SnmpPduPacket req,
-                                            Object userData) {
+    privbtf SnmpPduPbdkft fxfdutfSubRfqufst(SnmpPduPbdkft rfq,
+                                            Objfdt usfrDbtb) {
 
-        int errorStatus = SnmpDefinitions.snmpRspNoError ;
+        int frrorStbtus = SnmpDffinitions.snmpRspNoError ;
 
         int i;
-        // If it's a set request, we must first check any varBind
+        // If it's b sft rfqufst, wf must first difdk bny vbrBind
         //
-        if (req.type == pduSetRequestPdu) {
+        if (rfq.typf == pduSftRfqufstPdu) {
 
             i=0;
-            for(Enumeration<SnmpSubRequestHandler> e= subs.elements(); e.hasMoreElements() ; i++) {
-                // Indicate to the sub request that a check must be invoked ...
-                // OK we should have defined out own tag for that !
+            for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.ibsMorfElfmfnts() ; i++) {
+                // Indidbtf to tif sub rfqufst tibt b difdk must bf invokfd ...
+                // OK wf siould ibvf dffinfd out own tbg for tibt !
                 //
-                SnmpSubRequestHandler sub= e.nextElement();
-                sub.setUserData(userData);
-                sub.type= pduWalkRequest;
+                SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+                sub.sftUsfrDbtb(usfrDbtb);
+                sub.typf= pduWblkRfqufst;
 
                 sub.run();
 
-                sub.type= pduSetRequestPdu;
+                sub.typf= pduSftRfqufstPdu;
 
-                if (sub.getErrorStatus() != SnmpDefinitions.snmpRspNoError) {
-                    // No point to go any further.
+                if (sub.gftErrorStbtus() != SnmpDffinitions.snmpRspNoError) {
+                    // No point to go bny furtifr.
                     //
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                           "executeSubRequest", "an error occurs");
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "fxfdutfSubRfqufst", "bn frror oddurs");
                     }
 
-                    return newErrorResponsePdu(req, errorStatus,
-                                               sub.getErrorIndex() + 1) ;
+                    rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                               sub.gftErrorIndfx() + 1) ;
                 }
             }
-        }// end processing check operation for a set PDU.
+        }// fnd prodfssing difdk opfrbtion for b sft PDU.
 
-        // Let's start the sub-requests.
+        // Lft's stbrt tif sub-rfqufsts.
         //
         i=0;
-        for(Enumeration<SnmpSubRequestHandler> e= subs.elements(); e.hasMoreElements() ;i++) {
-            SnmpSubRequestHandler sub= e.nextElement();
-        /* NPCTE fix for bugId 4492741, esc 0, 16-August 2001 */
-            sub.setUserData(userData);
-        /* end of NPCTE fix for bugId 4492741 */
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.ibsMorfElfmfnts() ;i++) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+        /* NPCTE fix for bugId 4492741, fsd 0, 16-August 2001 */
+            sub.sftUsfrDbtb(usfrDbtb);
+        /* fnd of NPCTE fix for bugId 4492741 */
 
             sub.run();
 
-            if (sub.getErrorStatus() != SnmpDefinitions.snmpRspNoError) {
-                // No point to go any further.
+            if (sub.gftErrorStbtus() != SnmpDffinitions.snmpRspNoError) {
+                // No point to go bny furtifr.
                 //
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                       "executeSubRequest", "an error occurs");
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                       "fxfdutfSubRfqufst", "bn frror oddurs");
                 }
 
-                return newErrorResponsePdu(req, errorStatus,
-                                           sub.getErrorIndex() + 1) ;
+                rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                           sub.gftErrorIndfx() + 1) ;
             }
         }
 
-        // everything is ok
+        // fvfrytiing is ok
         //
-        return null;
+        rfturn null;
     }
 
     /**
-     * Optimize when there is only one sub request
+     * Optimizf wifn tifrf is only onf sub rfqufst
      */
-    private SnmpPduPacket turboProcessingGetSet(SnmpPduRequest req,
-                                                Object userData) {
+    privbtf SnmpPduPbdkft turboProdfssingGftSft(SnmpPduRfqufst rfq,
+                                                Objfdt usfrDbtb) {
 
-        int errorStatus;
-        SnmpSubRequestHandler sub = subs.elements().nextElement();
-        sub.setUserData(userData);
+        int frrorStbtus;
+        SnmpSubRfqufstHbndlfr sub = subs.flfmfnts().nfxtElfmfnt();
+        sub.sftUsfrDbtb(usfrDbtb);
 
-        // Indicate to the sub request that a check must be invoked ...
-        // OK we should have defined out own tag for that !
+        // Indidbtf to tif sub rfqufst tibt b difdk must bf invokfd ...
+        // OK wf siould ibvf dffinfd out own tbg for tibt !
         //
-        if (req.type == SnmpDefinitions.pduSetRequestPdu) {
-            sub.type= pduWalkRequest;
+        if (rfq.typf == SnmpDffinitions.pduSftRfqufstPdu) {
+            sub.typf= pduWblkRfqufst;
             sub.run();
-            sub.type= pduSetRequestPdu;
+            sub.typf= pduSftRfqufstPdu;
 
-            // Check the error status.
+            // Cifdk tif frror stbtus.
             //
-            errorStatus= sub.getErrorStatus();
-            if (errorStatus != SnmpDefinitions.snmpRspNoError) {
-                // No point to go any further.
+            frrorStbtus= sub.gftErrorStbtus();
+            if (frrorStbtus != SnmpDffinitions.snmpRspNoError) {
+                // No point to go bny furtifr.
                 //
-                return newErrorResponsePdu(req, errorStatus,
-                                           sub.getErrorIndex() + 1) ;
+                rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                           sub.gftErrorIndfx() + 1) ;
             }
         }
 
-        // process the operation
+        // prodfss tif opfrbtion
         //
 
         sub.run();
-        errorStatus= sub.getErrorStatus();
-        if (errorStatus != SnmpDefinitions.snmpRspNoError) {
-            // No point to go any further.
+        frrorStbtus= sub.gftErrorStbtus();
+        if (frrorStbtus != SnmpDffinitions.snmpRspNoError) {
+            // No point to go bny furtifr.
             //
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "turboProcessingGetSet", "an error occurs");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "turboProdfssingGftSft", "bn frror oddurs");
             }
-            int realIndex= sub.getErrorIndex() + 1;
-            return newErrorResponsePdu(req, errorStatus, realIndex) ;
+            int rfblIndfx= sub.gftErrorIndfx() + 1;
+            rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus, rfblIndfx) ;
         }
 
-        // So far so good. So we need to concatenate all the answers.
+        // So fbr so good. So wf nffd to dondbtfnbtf bll tif bnswfrs.
         //
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-               "turboProcessingGetSet",  "build the unified response for request "
-                + req.requestId);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+               "turboProdfssingGftSft",  "build tif unififd rfsponsf for rfqufst "
+                + rfq.rfqufstId);
         }
-        return mergeResponses(req);
+        rfturn mfrgfRfsponsfs(rfq);
     }
 
     /**
-     * Here we make the response pdu for a bulk request.
-     * At this level, the result is never null.
+     * Hfrf wf mbkf tif rfsponsf pdu for b bulk rfqufst.
+     * At tiis lfvfl, tif rfsult is nfvfr null.
      */
-    private SnmpPduPacket makeGetBulkResponsePdu(SnmpPduBulk req,
-                                                 Object userData) {
+    privbtf SnmpPduPbdkft mbkfGftBulkRfsponsfPdu(SnmpPduBulk rfq,
+                                                 Objfdt usfrDbtb) {
 
-        SnmpVarBind[] respVarBindList;
+        SnmpVbrBind[] rfspVbrBindList;
 
-        // RFC 1905, Section 4.2.3, p14
-        int L = req.varBindList.length ;
-        int N = Math.max(Math.min(req.nonRepeaters, L), 0) ;
-        int M = Math.max(req.maxRepetitions, 0) ;
+        // RFC 1905, Sfdtion 4.2.3, p14
+        int L = rfq.vbrBindList.lfngti ;
+        int N = Mbti.mbx(Mbti.min(rfq.nonRfpfbtfrs, L), 0) ;
+        int M = Mbti.mbx(rfq.mbxRfpftitions, 0) ;
         int R = L - N ;
 
-        if (req.varBindList == null) {
-            // Good ! Let's make a full response pdu.
+        if (rfq.vbrBindList == null) {
+            // Good ! Lft's mbkf b full rfsponsf pdu.
             //
-            return newValidResponsePdu(req, null) ;
+            rfturn nfwVblidRfsponsfPdu(rfq, null) ;
         }
 
-        // Split the request into subrequests.
+        // Split tif rfqufst into subrfqufsts.
         //
-        splitBulkRequest(req, N, M, R);
-        SnmpPduPacket result= executeSubRequest(req,userData);
-        if (result != null)
-            return result;
+        splitBulkRfqufst(rfq, N, M, R);
+        SnmpPduPbdkft rfsult= fxfdutfSubRfqufst(rfq,usfrDbtb);
+        if (rfsult != null)
+            rfturn rfsult;
 
-        respVarBindList= mergeBulkResponses(N + (M * R));
+        rfspVbrBindList= mfrgfBulkRfsponsfs(N + (M * R));
 
-        // Now we remove useless trailing endOfMibView.
+        // Now wf rfmovf usflfss trbiling fndOfMibVifw.
         //
-        int m2 ; // respVarBindList[m2] item and next are going to be removed
-        int t = respVarBindList.length ;
-        while ((t > N) && (respVarBindList[t-1].
-                           value.equals(SnmpVarBind.endOfMibView))) {
+        int m2 ; // rfspVbrBindList[m2] itfm bnd nfxt brf going to bf rfmovfd
+        int t = rfspVbrBindList.lfngti ;
+        wiilf ((t > N) && (rfspVbrBindList[t-1].
+                           vbluf.fqubls(SnmpVbrBind.fndOfMibVifw))) {
             t-- ;
         }
         if (t == N)
             m2 = N + R ;
-        else
-            m2 = N + ((t -1 -N) / R + 2) * R ; // Trivial, of course...
-        if (m2 < respVarBindList.length) {
-            SnmpVarBind[] truncatedList = new SnmpVarBind[m2] ;
+        flsf
+            m2 = N + ((t -1 -N) / R + 2) * R ; // Trivibl, of doursf...
+        if (m2 < rfspVbrBindList.lfngti) {
+            SnmpVbrBind[] trundbtfdList = nfw SnmpVbrBind[m2] ;
             for (int i = 0 ; i < m2 ; i++) {
-                truncatedList[i] = respVarBindList[i] ;
+                trundbtfdList[i] = rfspVbrBindList[i] ;
             }
-            respVarBindList = truncatedList ;
+            rfspVbrBindList = trundbtfdList ;
         }
 
-        // Good ! Let's make a full response pdu.
+        // Good ! Lft's mbkf b full rfsponsf pdu.
         //
-        return newValidResponsePdu(req, respVarBindList) ;
+        rfturn nfwVblidRfsponsfPdu(rfq, rfspVbrBindList) ;
     }
 
     /**
-     * Check the type of the pdu: only the get/set/bulk request
-     * are accepted.
+     * Cifdk tif typf of tif pdu: only tif gft/sft/bulk rfqufst
+     * brf bddfptfd.
      */
-    private boolean checkPduType(SnmpPduPacket pdu) {
+    privbtf boolfbn difdkPduTypf(SnmpPduPbdkft pdu) {
 
-        boolean result;
+        boolfbn rfsult;
 
-        switch(pdu.type) {
+        switdi(pdu.typf) {
 
-        case SnmpDefinitions.pduGetRequestPdu:
-        case SnmpDefinitions.pduGetNextRequestPdu:
-        case SnmpDefinitions.pduSetRequestPdu:
-        case SnmpDefinitions.pduGetBulkRequestPdu:
-            result = true ;
-            break;
+        dbsf SnmpDffinitions.pduGftRfqufstPdu:
+        dbsf SnmpDffinitions.pduGftNfxtRfqufstPdu:
+        dbsf SnmpDffinitions.pduSftRfqufstPdu:
+        dbsf SnmpDffinitions.pduGftBulkRfqufstPdu:
+            rfsult = truf ;
+            brfbk;
 
-        default:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "checkPduType", "cannot respond to this kind of PDU");
+        dffbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "difdkPduTypf", "dbnnot rfspond to tiis kind of PDU");
             }
-            result = false ;
-            break;
+            rfsult = fblsf ;
+            brfbk;
         }
 
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * Check if the specified pdu is conform to the ACL.
-     * This method returns null if the pdu is ok. If not, it returns
-     * the response pdu to be replied.
+     * Cifdk if tif spfdififd pdu is donform to tif ACL.
+     * Tiis mftiod rfturns null if tif pdu is ok. If not, it rfturns
+     * tif rfsponsf pdu to bf rfplifd.
      */
-    private SnmpPduPacket checkAcl(SnmpPduPacket pdu) {
-        SnmpPduPacket response = null ;
-        String community = new String(pdu.community) ;
+    privbtf SnmpPduPbdkft difdkAdl(SnmpPduPbdkft pdu) {
+        SnmpPduPbdkft rfsponsf = null ;
+        String dommunity = nfw String(pdu.dommunity) ;
 
-        // We check the pdu type and create an error response if
-        // the check failed.
+        // Wf difdk tif pdu typf bnd drfbtf bn frror rfsponsf if
+        // tif difdk fbilfd.
         //
-        if (ipacl != null) {
-            if (pdu.type == SnmpDefinitions.pduSetRequestPdu) {
-                if (!ipacl.checkWritePermission(pdu.address, community)) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                           "checkAcl", "sender is " + pdu.address +
-                              " with " + community +". Sender has no write permission");
+        if (ipbdl != null) {
+            if (pdu.typf == SnmpDffinitions.pduSftRfqufstPdu) {
+                if (!ipbdl.difdkWritfPfrmission(pdu.bddrfss, dommunity)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "difdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " witi " + dommunity +". Sfndfr ibs no writf pfrmission");
                     }
-                    int err = SnmpSubRequestHandler.
-                        mapErrorStatus(SnmpDefinitions.
-                                       snmpRspAuthorizationError,
-                                       pdu.version, pdu.type);
-                    response = newErrorResponsePdu(pdu, err, 0) ;
+                    int frr = SnmpSubRfqufstHbndlfr.
+                        mbpErrorStbtus(SnmpDffinitions.
+                                       snmpRspAutiorizbtionError,
+                                       pdu.vfrsion, pdu.typf);
+                    rfsponsf = nfwErrorRfsponsfPdu(pdu, frr, 0) ;
                 }
-                else {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                           "checkAcl", "sender is " + pdu.address +
-                              " with " + community +". Sender has write permission");
+                flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "difdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " witi " + dommunity +". Sfndfr ibs writf pfrmission");
                     }
                 }
             }
-            else {
-                if (!ipacl.checkReadPermission(pdu.address, community)) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                           "checkAcl", "sender is " + pdu.address +
-                              " with " + community +". Sender has no read permission");
+            flsf {
+                if (!ipbdl.difdkRfbdPfrmission(pdu.bddrfss, dommunity)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "difdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " witi " + dommunity +". Sfndfr ibs no rfbd pfrmission");
                     }
-                    int err = SnmpSubRequestHandler.
-                        mapErrorStatus(SnmpDefinitions.
-                                       snmpRspAuthorizationError,
-                                       pdu.version, pdu.type);
-                    response = newErrorResponsePdu(pdu,
-                                                   err,
+                    int frr = SnmpSubRfqufstHbndlfr.
+                        mbpErrorStbtus(SnmpDffinitions.
+                                       snmpRspAutiorizbtionError,
+                                       pdu.vfrsion, pdu.typf);
+                    rfsponsf = nfwErrorRfsponsfPdu(pdu,
+                                                   frr,
                                                    0);
-                    SnmpAdaptorServer snmpServer =
-                        (SnmpAdaptorServer)adaptorServer;
-                    snmpServer.updateErrorCounters(SnmpDefinitions.
-                                                   snmpRspNoSuchName);
+                    SnmpAdbptorSfrvfr snmpSfrvfr =
+                        (SnmpAdbptorSfrvfr)bdbptorSfrvfr;
+                    snmpSfrvfr.updbtfErrorCountfrs(SnmpDffinitions.
+                                                   snmpRspNoSudiNbmf);
                 }
-                else {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                           "checkAcl", "sender is " + pdu.address +
-                              " with " + community +". Sender has read permission");
+                flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "difdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " witi " + dommunity +". Sfndfr ibs rfbd pfrmission");
                     }
                 }
             }
         }
 
-        // If the response is not null, this means the pdu is rejected.
-        // So let's update the statistics.
+        // If tif rfsponsf is not null, tiis mfbns tif pdu is rfjfdtfd.
+        // So lft's updbtf tif stbtistids.
         //
-        if (response != null) {
-            SnmpAdaptorServer snmpServer = (SnmpAdaptorServer)adaptorServer ;
-            snmpServer.incSnmpInBadCommunityUses(1) ;
-            if (ipacl.checkCommunity(community) == false)
-                snmpServer.incSnmpInBadCommunityNames(1) ;
+        if (rfsponsf != null) {
+            SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+            snmpSfrvfr.indSnmpInBbdCommunityUsfs(1) ;
+            if (ipbdl.difdkCommunity(dommunity) == fblsf)
+                snmpSfrvfr.indSnmpInBbdCommunityNbmfs(1) ;
         }
 
-        return response ;
+        rfturn rfsponsf ;
     }
 
     /**
-     * Make a response pdu with the specified error status and index.
-     * NOTE: the response pdu share its varBindList with the request pdu.
+     * Mbkf b rfsponsf pdu witi tif spfdififd frror stbtus bnd indfx.
+     * NOTE: tif rfsponsf pdu sibrf its vbrBindList witi tif rfqufst pdu.
      */
-    private SnmpPduRequest newValidResponsePdu(SnmpPduPacket reqPdu,
-                                               SnmpVarBind[] varBindList) {
-        SnmpPduRequest result = new SnmpPduRequest() ;
+    privbtf SnmpPduRfqufst nfwVblidRfsponsfPdu(SnmpPduPbdkft rfqPdu,
+                                               SnmpVbrBind[] vbrBindList) {
+        SnmpPduRfqufst rfsult = nfw SnmpPduRfqufst() ;
 
-        result.address = reqPdu.address ;
-        result.port = reqPdu.port ;
-        result.version = reqPdu.version ;
-        result.community = reqPdu.community ;
-        result.type = SnmpPduRequest.pduGetResponsePdu ;
-        result.requestId = reqPdu.requestId ;
-        result.errorStatus = SnmpDefinitions.snmpRspNoError ;
-        result.errorIndex = 0 ;
-        result.varBindList = varBindList ;
+        rfsult.bddrfss = rfqPdu.bddrfss ;
+        rfsult.port = rfqPdu.port ;
+        rfsult.vfrsion = rfqPdu.vfrsion ;
+        rfsult.dommunity = rfqPdu.dommunity ;
+        rfsult.typf = SnmpPduRfqufst.pduGftRfsponsfPdu ;
+        rfsult.rfqufstId = rfqPdu.rfqufstId ;
+        rfsult.frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+        rfsult.frrorIndfx = 0 ;
+        rfsult.vbrBindList = vbrBindList ;
 
-        ((SnmpAdaptorServer)adaptorServer).
-            updateErrorCounters(result.errorStatus) ;
+        ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).
+            updbtfErrorCountfrs(rfsult.frrorStbtus) ;
 
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * Make a response pdu with the specified error status and index.
-     * NOTE: the response pdu share its varBindList with the request pdu.
+     * Mbkf b rfsponsf pdu witi tif spfdififd frror stbtus bnd indfx.
+     * NOTE: tif rfsponsf pdu sibrf its vbrBindList witi tif rfqufst pdu.
      */
-    private SnmpPduRequest newErrorResponsePdu(SnmpPduPacket req,int s,int i) {
-        SnmpPduRequest result = newValidResponsePdu(req, null) ;
-        result.errorStatus = s ;
-        result.errorIndex = i ;
-        result.varBindList = req.varBindList ;
+    privbtf SnmpPduRfqufst nfwErrorRfsponsfPdu(SnmpPduPbdkft rfq,int s,int i) {
+        SnmpPduRfqufst rfsult = nfwVblidRfsponsfPdu(rfq, null) ;
+        rfsult.frrorStbtus = s ;
+        rfsult.frrorIndfx = i ;
+        rfsult.vbrBindList = rfq.vbrBindList ;
 
-        ((SnmpAdaptorServer)adaptorServer).
-            updateErrorCounters(result.errorStatus) ;
+        ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).
+            updbtfErrorCountfrs(rfsult.frrorStbtus) ;
 
-        return result ;
+        rfturn rfsult ;
     }
 
-    private SnmpMessage newTooBigMessage(SnmpMessage reqMsg)
-        throws SnmpTooBigException {
-        SnmpMessage result = null ;
-        SnmpPduPacket reqPdu;
+    privbtf SnmpMfssbgf nfwTooBigMfssbgf(SnmpMfssbgf rfqMsg)
+        tirows SnmpTooBigExdfption {
+        SnmpMfssbgf rfsult = null ;
+        SnmpPduPbdkft rfqPdu;
 
         try {
-            reqPdu = (SnmpPduPacket)pduFactory.decodeSnmpPdu(reqMsg) ;
-            if (reqPdu != null) {
-                SnmpPduPacket respPdu = newTooBigPdu(reqPdu) ;
-                result = (SnmpMessage)pduFactory.
-                    encodeSnmpPdu(respPdu, packet.getData().length) ;
+            rfqPdu = (SnmpPduPbdkft)pduFbdtory.dfdodfSnmpPdu(rfqMsg) ;
+            if (rfqPdu != null) {
+                SnmpPduPbdkft rfspPdu = nfwTooBigPdu(rfqPdu) ;
+                rfsult = (SnmpMfssbgf)pduFbdtory.
+                    fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngti) ;
             }
         }
-        catch(SnmpStatusException x) {
-            // This should not occur because decodeIncomingRequest has normally
-            // been successfully called before.
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "newTooBigMessage", "Internal error", x);
+        dbtdi(SnmpStbtusExdfption x) {
+            // Tiis siould not oddur bfdbusf dfdodfIndomingRfqufst ibs normblly
+            // bffn suddfssfully dbllfd bfforf.
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "nfwTooBigMfssbgf", "Intfrnbl frror", x);
             }
-            throw new InternalError(x) ;
+            tirow nfw IntfrnblError(x) ;
         }
 
-        return result ;
+        rfturn rfsult ;
     }
 
-    private SnmpPduPacket newTooBigPdu(SnmpPduPacket req) {
-        SnmpPduRequest result =
-            newErrorResponsePdu(req, SnmpDefinitions.snmpRspTooBig, 0) ;
-        result.varBindList = null ;
-        return result ;
+    privbtf SnmpPduPbdkft nfwTooBigPdu(SnmpPduPbdkft rfq) {
+        SnmpPduRfqufst rfsult =
+            nfwErrorRfsponsfPdu(rfq, SnmpDffinitions.snmpRspTooBig, 0) ;
+        rfsult.vbrBindList = null ;
+        rfturn rfsult ;
     }
 
-    private SnmpPduPacket reduceResponsePdu(SnmpPduPacket req,
-                                            SnmpPduPacket resp,
-                                            int acceptedVbCount)
-        throws SnmpTooBigException {
+    privbtf SnmpPduPbdkft rfdudfRfsponsfPdu(SnmpPduPbdkft rfq,
+                                            SnmpPduPbdkft rfsp,
+                                            int bddfptfdVbCount)
+        tirows SnmpTooBigExdfption {
 
-        // Reduction can be attempted only on bulk response
+        // Rfdudtion dbn bf bttfmptfd only on bulk rfsponsf
         //
-        if (req.type != SnmpPduPacket.pduGetBulkRequestPdu) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "reduceResponsePdu", "cannot remove anything");
+        if (rfq.typf != SnmpPduPbdkft.pduGftBulkRfqufstPdu) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", "dbnnot rfmovf bnytiing");
             }
-            throw new SnmpTooBigException(acceptedVbCount) ;
+            tirow nfw SnmpTooBigExdfption(bddfptfdVbCount) ;
         }
 
-        // We're going to reduce the varbind list.
-        // First determine which items should be removed.
-        // Next duplicate and replace the existing list by the reduced one.
+        // Wf'rf going to rfdudf tif vbrbind list.
+        // First dftfrminf wiidi itfms siould bf rfmovfd.
+        // Nfxt duplidbtf bnd rfplbdf tif fxisting list by tif rfdudfd onf.
         //
-        // acceptedVbCount is the number of varbind which have been
-        // successfully encoded before reaching bufferSize:
-        //   * when it is >= 2, we split the varbindlist at this
-        //     position (-1 to be safe),
-        //   * when it is 1, we only put one (big?) item in the varbindlist
-        //   * when it is 0 (in fact, acceptedVbCount is not available),
-        //     we split the varbindlist by 2.
+        // bddfptfdVbCount is tif numbfr of vbrbind wiidi ibvf bffn
+        // suddfssfully fndodfd bfforf rfbdiing bufffrSizf:
+        //   * wifn it is >= 2, wf split tif vbrbindlist bt tiis
+        //     position (-1 to bf sbff),
+        //   * wifn it is 1, wf only put onf (big?) itfm in tif vbrbindlist
+        //   * wifn it is 0 (in fbdt, bddfptfdVbCount is not bvbilbblf),
+        //     wf split tif vbrbindlist by 2.
         //
         int vbCount;
-        if (acceptedVbCount >= 3)
-            vbCount = Math.min(acceptedVbCount - 1, resp.varBindList.length) ;
-        else if (acceptedVbCount == 1)
+        if (bddfptfdVbCount >= 3)
+            vbCount = Mbti.min(bddfptfdVbCount - 1, rfsp.vbrBindList.lfngti) ;
+        flsf if (bddfptfdVbCount == 1)
             vbCount = 1 ;
-        else // acceptedCount == 0 ie it is unknown
-            vbCount = resp.varBindList.length / 2 ;
+        flsf // bddfptfdCount == 0 if it is unknown
+            vbCount = rfsp.vbrBindList.lfngti / 2 ;
 
         if (vbCount < 1) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "reduceResponsePdu", "cannot remove anything");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", "dbnnot rfmovf bnytiing");
             }
-            throw new SnmpTooBigException(acceptedVbCount) ;
+            tirow nfw SnmpTooBigExdfption(bddfptfdVbCount) ;
         }
-        else {
-            SnmpVarBind[] newVbList = new SnmpVarBind[vbCount] ;
+        flsf {
+            SnmpVbrBind[] nfwVbList = nfw SnmpVbrBind[vbCount] ;
             for (int i = 0 ; i < vbCount ; i++) {
-                newVbList[i] = resp.varBindList[i] ;
+                nfwVbList[i] = rfsp.vbrBindList[i] ;
             }
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                   "reduceResponsePdu", (resp.varBindList.length - newVbList.length) +
-                    " items have been removed");
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", (rfsp.vbrBindList.lfngti - nfwVbList.lfngti) +
+                    " itfms ibvf bffn rfmovfd");
             }
-            resp.varBindList = newVbList ;
+            rfsp.vbrBindList = nfwVbList ;
         }
 
-        return resp ;
+        rfturn rfsp ;
     }
 
     /**
-     * The method takes the incoming requests and split it into subrequests.
+     * Tif mftiod tbkfs tif indoming rfqufsts bnd split it into subrfqufsts.
      */
-    private void splitRequest(SnmpPduRequest req) {
+    privbtf void splitRfqufst(SnmpPduRfqufst rfq) {
 
-        int nbAgents= mibs.size();
-        SnmpMibAgent agent = mibs.firstElement();
-        if (nbAgents == 1) {
-            // Take all the oids contained in the request and
+        int nbAgfnts= mibs.sizf();
+        SnmpMibAgfnt bgfnt = mibs.firstElfmfnt();
+        if (nbAgfnts == 1) {
+            // Tbkf bll tif oids dontbinfd in tif rfqufst bnd
             //
-            subs.put(agent, new SnmpSubRequestHandler(agent, req, true));
-            return;
+            subs.put(bgfnt, nfw SnmpSubRfqufstHbndlfr(bgfnt, rfq, truf));
+            rfturn;
         }
 
-        // For the get next operation we are going to send the varbind list
-        // to all agents
+        // For tif gft nfxt opfrbtion wf brf going to sfnd tif vbrbind list
+        // to bll bgfnts
         //
-        if (req.type == pduGetNextRequestPdu) {
-            for(Enumeration<SnmpMibAgent> e= mibs.elements(); e.hasMoreElements(); ) {
-                final SnmpMibAgent ag= e.nextElement();
-                subs.put(ag, new SnmpSubNextRequestHandler(adaptor, ag, req));
+        if (rfq.typf == pduGftNfxtRfqufstPdu) {
+            for(Enumfrbtion<SnmpMibAgfnt> f= mibs.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                finbl SnmpMibAgfnt bg= f.nfxtElfmfnt();
+                subs.put(bg, nfw SnmpSubNfxtRfqufstHbndlfr(bdbptor, bg, rfq));
             }
-            return;
+            rfturn;
         }
 
-        int nbReqs= req.varBindList.length;
-        SnmpVarBind[] vars= req.varBindList;
-        SnmpSubRequestHandler sub;
-        for(int i=0; i < nbReqs; i++) {
-            agent= root.getAgentMib(vars[i].oid);
-            sub= subs.get(agent);
+        int nbRfqs= rfq.vbrBindList.lfngti;
+        SnmpVbrBind[] vbrs= rfq.vbrBindList;
+        SnmpSubRfqufstHbndlfr sub;
+        for(int i=0; i < nbRfqs; i++) {
+            bgfnt= root.gftAgfntMib(vbrs[i].oid);
+            sub= subs.gft(bgfnt);
             if (sub == null) {
-                // We need to create the sub request handler and update
-                // the hashtable
+                // Wf nffd to drfbtf tif sub rfqufst ibndlfr bnd updbtf
+                // tif ibsitbblf
                 //
-                sub= new SnmpSubRequestHandler(agent, req);
-                subs.put(agent, sub);
+                sub= nfw SnmpSubRfqufstHbndlfr(bgfnt, rfq);
+                subs.put(bgfnt, sub);
             }
 
-            // Update the translation table within the subrequest
+            // Updbtf tif trbnslbtion tbblf witiin tif subrfqufst
             //
-            sub.updateRequest(vars[i], i);
+            sub.updbtfRfqufst(vbrs[i], i);
         }
     }
 
     /**
-     * The method takes the incoming get bulk requests and split it into
-     * subrequests.
+     * Tif mftiod tbkfs tif indoming gft bulk rfqufsts bnd split it into
+     * subrfqufsts.
      */
-    private void splitBulkRequest(SnmpPduBulk req,
-                                  int nonRepeaters,
-                                  int maxRepetitions,
+    privbtf void splitBulkRfqufst(SnmpPduBulk rfq,
+                                  int nonRfpfbtfrs,
+                                  int mbxRfpftitions,
                                   int R) {
-        // Send the getBulk to all agents
+        // Sfnd tif gftBulk to bll bgfnts
         //
-        for(Enumeration<SnmpMibAgent> e= mibs.elements(); e.hasMoreElements(); ) {
-            final SnmpMibAgent agent = e.nextElement();
+        for(Enumfrbtion<SnmpMibAgfnt> f= mibs.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+            finbl SnmpMibAgfnt bgfnt = f.nfxtElfmfnt();
 
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                   "splitBulkRequest", "Create a sub with : " + agent + " " + nonRepeaters
-                   + " " + maxRepetitions + " " + R);
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                   "splitBulkRfqufst", "Crfbtf b sub witi : " + bgfnt + " " + nonRfpfbtfrs
+                   + " " + mbxRfpftitions + " " + R);
             }
 
-            subs.put(agent,
-                     new SnmpSubBulkRequestHandler(adaptor,
-                                                   agent,
-                                                   req,
-                                                   nonRepeaters,
-                                                   maxRepetitions,
+            subs.put(bgfnt,
+                     nfw SnmpSubBulkRfqufstHbndlfr(bdbptor,
+                                                   bgfnt,
+                                                   rfq,
+                                                   nonRfpfbtfrs,
+                                                   mbxRfpftitions,
                                                    R));
         }
     }
 
-    private SnmpPduPacket mergeResponses(SnmpPduRequest req) {
+    privbtf SnmpPduPbdkft mfrgfRfsponsfs(SnmpPduRfqufst rfq) {
 
-        if (req.type == pduGetNextRequestPdu) {
-            return mergeNextResponses(req);
+        if (rfq.typf == pduGftNfxtRfqufstPdu) {
+            rfturn mfrgfNfxtRfsponsfs(rfq);
         }
 
-        SnmpVarBind[] result= req.varBindList;
+        SnmpVbrBind[] rfsult= rfq.vbrBindList;
 
-        // Go through the list of subrequests and concatenate.
-        // Hopefully, by now all the sub-requests should be finished
+        // Go tirougi tif list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll tif sub-rfqufsts siould bf finisifd
         //
-        for(Enumeration<SnmpSubRequestHandler> e= subs.elements(); e.hasMoreElements();) {
-            SnmpSubRequestHandler sub= e.nextElement();
-            sub.updateResult(result);
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.ibsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
         }
-        return newValidResponsePdu(req,result);
+        rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
     }
 
-    private SnmpPduPacket mergeNextResponses(SnmpPduRequest req) {
-        int max= req.varBindList.length;
-        SnmpVarBind[] result= new SnmpVarBind[max];
+    privbtf SnmpPduPbdkft mfrgfNfxtRfsponsfs(SnmpPduRfqufst rfq) {
+        int mbx= rfq.vbrBindList.lfngti;
+        SnmpVbrBind[] rfsult= nfw SnmpVbrBind[mbx];
 
-        // Go through the list of subrequests and concatenate.
-        // Hopefully, by now all the sub-requests should be finished
+        // Go tirougi tif list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll tif sub-rfqufsts siould bf finisifd
         //
-        for(Enumeration<SnmpSubRequestHandler> e= subs.elements(); e.hasMoreElements();) {
-            SnmpSubRequestHandler sub= e.nextElement();
-            sub.updateResult(result);
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.ibsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
         }
 
-        if (req.version == snmpVersionTwo) {
-            return newValidResponsePdu(req,result);
+        if (rfq.vfrsion == snmpVfrsionTwo) {
+            rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
         }
 
-        // In v1 make sure there is no endOfMibView ...
+        // In v1 mbkf surf tifrf is no fndOfMibVifw ...
         //
-        for(int i=0; i < max; i++) {
-            SnmpValue val= result[i].value;
-            if (val == SnmpVarBind.endOfMibView)
-                return newErrorResponsePdu(req,
-                                   SnmpDefinitions.snmpRspNoSuchName, i+1);
+        for(int i=0; i < mbx; i++) {
+            SnmpVbluf vbl= rfsult[i].vbluf;
+            if (vbl == SnmpVbrBind.fndOfMibVifw)
+                rfturn nfwErrorRfsponsfPdu(rfq,
+                                   SnmpDffinitions.snmpRspNoSudiNbmf, i+1);
         }
 
-        // So far so good ...
+        // So fbr so good ...
         //
-        return newValidResponsePdu(req,result);
+        rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
     }
 
-    private SnmpVarBind[] mergeBulkResponses(int size) {
-        // Let's allocate the array for storing the result
+    privbtf SnmpVbrBind[] mfrgfBulkRfsponsfs(int sizf) {
+        // Lft's bllodbtf tif brrby for storing tif rfsult
         //
-        SnmpVarBind[] result= new SnmpVarBind[size];
-        for(int i= size-1; i >=0; --i) {
-            result[i]= new SnmpVarBind();
-            result[i].value= SnmpVarBind.endOfMibView;
+        SnmpVbrBind[] rfsult= nfw SnmpVbrBind[sizf];
+        for(int i= sizf-1; i >=0; --i) {
+            rfsult[i]= nfw SnmpVbrBind();
+            rfsult[i].vbluf= SnmpVbrBind.fndOfMibVifw;
         }
 
-        // Go through the list of subrequests and concatenate.
-        // Hopefully, by now all the sub-requests should be finished
+        // Go tirougi tif list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll tif sub-rfqufsts siould bf finisifd
         //
-        for(Enumeration<SnmpSubRequestHandler> e= subs.elements(); e.hasMoreElements();) {
-            SnmpSubRequestHandler sub= e.nextElement();
-            sub.updateResult(result);
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.ibsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    @Override
-    protected String makeDebugTag() {
-        return "SnmpRequestHandler[" + adaptorServer.getProtocol() + ":" +
-            adaptorServer.getPort() + "]";
+    @Ovfrridf
+    protfdtfd String mbkfDfbugTbg() {
+        rfturn "SnmpRfqufstHbndlfr[" + bdbptorSfrvfr.gftProtodol() + ":" +
+            bdbptorSfrvfr.gftPort() + "]";
     }
 
-    @Override
-    Thread createThread(Runnable r) {
-        return null;
+    @Ovfrridf
+    Tirfbd drfbtfTirfbd(Runnbblf r) {
+        rfturn null;
     }
 
-    static final private String InterruptSysCallMsg =
-        "Interrupted system call";
+    stbtid finbl privbtf String IntfrruptSysCbllMsg =
+        "Intfrruptfd systfm dbll";
 }

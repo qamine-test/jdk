@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+/**
+ * This dlbss providfs b bbsid implfmfntbtion of thf <tt>Control</tt>
+ * intfrfbdf. It rfprfsfnts bn LDAPv3 Control bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2251.txt">RFC 2251</b>.
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ */
+publid dlbss BbsidControl implfmfnts Control {
+
+    /**
+     * Thf dontrol's objfdt idfntififr string.
+     *
+     * @sfribl
+     */
+    protfdtfd String id;
+
+    /**
+     * Thf dontrol's dritidblity.
+     *
+     * @sfribl
+     */
+    protfdtfd boolfbn dritidblity = fblsf; // dffbult
+
+    /**
+     * Thf dontrol's ASN.1 BER fndodfd vbluf.
+     *
+     * @sfribl
+     */
+    protfdtfd bytf[] vbluf = null;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4233907508771791687L;
+
+    /**
+     * Construdts b non-dritidbl dontrol.
+     *
+     * @pbrbm   id      Thf dontrol's objfdt idfntififr string.
+     *
+     */
+    publid BbsidControl(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Construdts b dontrol using thf supplifd brgumfnts.
+     *
+     * @pbrbm   id              Thf dontrol's objfdt idfntififr string.
+     * @pbrbm   dritidblity     Thf dontrol's dritidblity.
+     * @pbrbm   vbluf           Thf dontrol's ASN.1 BER fndodfd vbluf.
+     *                          It is not dlonfd - bny dhbngfs to vbluf
+     *                          will bfffdt thf dontfnts of thf dontrol.
+     *                          It mby bf null.
+     */
+    publid BbsidControl(String id, boolfbn dritidblity, bytf[] vbluf) {
+        this.id = id;
+        this.dritidblity = dritidblity;
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Rftrifvfs thf dontrol's objfdt idfntififr string.
+     *
+     * @rfturn Thf non-null objfdt idfntififr string.
+     */
+    publid String gftID() {
+        rfturn id;
+    }
+
+    /**
+     * Dftfrminfs thf dontrol's dritidblity.
+     *
+     * @rfturn truf if thf dontrol is dritidbl; fblsf othfrwisf.
+     */
+    publid boolfbn isCritidbl() {
+        rfturn dritidblity;
+    }
+
+    /**
+     * Rftrifvfs thf dontrol's ASN.1 BER fndodfd vbluf.
+     * Thf rfsult indludfs thf BER tbg bnd lfngth for thf dontrol's vbluf but
+     * dofs not indludf thf dontrol's objfdt idfntififr bnd dritidblity sftting.
+     *
+     * @rfturn A possibly null bytf brrby rfprfsfnting thf dontrol's
+     *          ASN.1 BER fndodfd vbluf. It is not dlonfd - bny dhbngfs to thf
+     *          rfturnfd vbluf will bfffdt thf dontfnts of thf dontrol.
+     */
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn vbluf;
+    }
+}

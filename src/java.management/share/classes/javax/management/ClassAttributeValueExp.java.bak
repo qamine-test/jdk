@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
 /**
- * This class represents the name of the Java implementation class of
- * the MBean. It is used for performing queries based on the class of
- * the MBean.
- * @serial include
+ * Tiis dlbss rfprfsfnts tif nbmf of tif Jbvb implfmfntbtion dlbss of
+ * tif MBfbn. It is usfd for pfrforming qufrifs bbsfd on tif dlbss of
+ * tif MBfbn.
+ * @sfribl indludf
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-1081892073854801359L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-1081892073854801359L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-class ClassAttributeValueExp extends AttributeValueExp {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+dlbss ClbssAttributfVblufExp fxtfnds AttributfVblufExp {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -2212731951078526753L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -2212731951078526753L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -1081892073854801359L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -1081892073854801359L;
 
-    private static final long serialVersionUID;
-    static {
-        boolean compat = false;
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    stbtid {
+        boolfbn dompbt = fblsf;
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt witi 1.0, too bbd
         }
-        if (compat)
-            serialVersionUID = oldSerialVersionUID;
-        else
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt)
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        flsf
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
     }
 
     /**
-     * @serial The name of the attribute
+     * @sfribl Tif nbmf of tif bttributf
      *
-     * <p>The <b>serialVersionUID</b> of this class is <code>-1081892073854801359L</code>.
+     * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-1081892073854801359L</dodf>.
      */
-    private String attr;
+    privbtf String bttr;
 
     /**
-     * Basic Constructor.
+     * Bbsid Construdtor.
      */
-    public ClassAttributeValueExp() {
-        /* Compatibility: we have an attr field that we must hold on to
-           for serial compatibility, even though our parent has one too.  */
-        super("Class");
-        attr = "Class";
+    publid ClbssAttributfVblufExp() {
+        /* Compbtibility: wf ibvf bn bttr fifld tibt wf must iold on to
+           for sfribl dompbtibility, fvfn tiougi our pbrfnt ibs onf too.  */
+        supfr("Clbss");
+        bttr = "Clbss";
     }
 
 
     /**
-     * Applies the ClassAttributeValueExp on an MBean. Returns the name of
-     * the Java implementation class of the MBean.
+     * Applifs tif ClbssAttributfVblufExp on bn MBfbn. Rfturns tif nbmf of
+     * tif Jbvb implfmfntbtion dlbss of tif MBfbn.
      *
-     * @param name The name of the MBean on which the ClassAttributeValueExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif ClbssAttributfVblufExp will bf bpplifd.
      *
-     * @return  The ValueExp.
+     * @rfturn  Tif VblufExp.
      *
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public ValueExp apply(ObjectName name)
-            throws BadStringOperationException, BadBinaryOpValueExpException,
-                   BadAttributeValueExpException, InvalidApplicationException {
-        // getAttribute(name);
-        Object result = getValue(name);
-        if  (result instanceof String) {
-            return new StringValueExp((String)result);
-        } else {
-            throw new BadAttributeValueExpException(result);
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        // gftAttributf(nbmf);
+        Objfdt rfsult = gftVbluf(nbmf);
+        if  (rfsult instbndfof String) {
+            rfturn nfw StringVblufExp((String)rfsult);
+        } flsf {
+            tirow nfw BbdAttributfVblufExpExdfption(rfsult);
         }
     }
 
     /**
-     * Returns the string "Class" representing its value
+     * Rfturns tif string "Clbss" rfprfsfnting its vbluf
      */
-    public String toString()  {
-        return attr;
+    publid String toString()  {
+        rfturn bttr;
     }
 
 
-    protected Object getValue(ObjectName name) {
+    protfdtfd Objfdt gftVbluf(ObjfdtNbmf nbmf) {
         try {
-            // Get the class of the object
-            MBeanServer server = QueryEval.getMBeanServer();
-            return server.getObjectInstance(name).getClassName();
-        } catch (Exception re) {
-            return null;
-            /* In principle the MBean does exist because otherwise we
-               wouldn't be evaluating the query on it.  But it could
-               potentially have disappeared in between the time we
-               discovered it and the time the query is evaluated.
+            // Gft tif dlbss of tif objfdt
+            MBfbnSfrvfr sfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+            rfturn sfrvfr.gftObjfdtInstbndf(nbmf).gftClbssNbmf();
+        } dbtdi (Exdfption rf) {
+            rfturn null;
+            /* In prindiplf tif MBfbn dofs fxist bfdbusf otifrwisf wf
+               wouldn't bf fvblubting tif qufry on it.  But it dould
+               potfntiblly ibvf disbppfbrfd in bftwffn tif timf wf
+               disdovfrfd it bnd tif timf tif qufry is fvblubtfd.
 
-               Also, the exception could be a SecurityException.
+               Also, tif fxdfption dould bf b SfdurityExdfption.
 
-               Returning null from here will cause
-               BadAttributeValueExpException, which will in turn cause
-               this MBean to be omitted from the query result.  */
+               Rfturning null from ifrf will dbusf
+               BbdAttributfVblufExpExdfption, wiidi will in turn dbusf
+               tiis MBfbn to bf omittfd from tif qufry rfsult.  */
         }
     }
 

@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+/**
+ * Soundfont modulbtor dontbinfr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SF2Modulbtor {
+
+    publid finbl stbtid int SOURCE_NONE = 0;
+    publid finbl stbtid int SOURCE_NOTE_ON_VELOCITY = 2;
+    publid finbl stbtid int SOURCE_NOTE_ON_KEYNUMBER = 3;
+    publid finbl stbtid int SOURCE_POLY_PRESSURE = 10;
+    publid finbl stbtid int SOURCE_CHANNEL_PRESSURE = 13;
+    publid finbl stbtid int SOURCE_PITCH_WHEEL = 14;
+    publid finbl stbtid int SOURCE_PITCH_SENSITIVITY = 16;
+    publid finbl stbtid int SOURCE_MIDI_CONTROL = 128 * 1;
+    publid finbl stbtid int SOURCE_DIRECTION_MIN_MAX = 256 * 0;
+    publid finbl stbtid int SOURCE_DIRECTION_MAX_MIN = 256 * 1;
+    publid finbl stbtid int SOURCE_POLARITY_UNIPOLAR = 512 * 0;
+    publid finbl stbtid int SOURCE_POLARITY_BIPOLAR = 512 * 1;
+    publid finbl stbtid int SOURCE_TYPE_LINEAR = 1024 * 0;
+    publid finbl stbtid int SOURCE_TYPE_CONCAVE = 1024 * 1;
+    publid finbl stbtid int SOURCE_TYPE_CONVEX = 1024 * 2;
+    publid finbl stbtid int SOURCE_TYPE_SWITCH = 1024 * 3;
+    publid finbl stbtid int TRANSFORM_LINEAR = 0;
+    publid finbl stbtid int TRANSFORM_ABSOLUTE = 2;
+    int sourdfOpfrbtor;
+    int dfstinbtionOpfrbtor;
+    short bmount;
+    int bmountSourdfOpfrbtor;
+    int trbnsportOpfrbtor;
+
+    publid short gftAmount() {
+        rfturn bmount;
+    }
+
+    publid void sftAmount(short bmount) {
+        this.bmount = bmount;
+    }
+
+    publid int gftAmountSourdfOpfrbtor() {
+        rfturn bmountSourdfOpfrbtor;
+    }
+
+    publid void sftAmountSourdfOpfrbtor(int bmountSourdfOpfrbtor) {
+        this.bmountSourdfOpfrbtor = bmountSourdfOpfrbtor;
+    }
+
+    publid int gftTrbnsportOpfrbtor() {
+        rfturn trbnsportOpfrbtor;
+    }
+
+    publid void sftTrbnsportOpfrbtor(int trbnsportOpfrbtor) {
+        this.trbnsportOpfrbtor = trbnsportOpfrbtor;
+    }
+
+    publid int gftDfstinbtionOpfrbtor() {
+        rfturn dfstinbtionOpfrbtor;
+    }
+
+    publid void sftDfstinbtionOpfrbtor(int dfstinbtionOpfrbtor) {
+        this.dfstinbtionOpfrbtor = dfstinbtionOpfrbtor;
+    }
+
+    publid int gftSourdfOpfrbtor() {
+        rfturn sourdfOpfrbtor;
+    }
+
+    publid void sftSourdfOpfrbtor(int sourdfOpfrbtor) {
+        this.sourdfOpfrbtor = sourdfOpfrbtor;
+    }
+}

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * Information about property used in  opening <code>AudioSynthesizer</code>.
+ * Informbtion bbout propfrty usfd in  opfning <dodf>AudioSyntifsizfr</dodf>.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class AudioSynthesizerPropertyInfo {
+publid finbl dlbss AudioSyntifsizfrPropfrtyInfo {
 
     /**
-     * Constructs a <code>AudioSynthesizerPropertyInfo</code> object with a given
-     * name and value. The <code>description</code> and <code>choices</code>
-     * are initialized by <code>null</code> values.
+     * Construdts b <dodf>AudioSyntifsizfrPropfrtyInfo</dodf> objfdt witi b givfn
+     * nbmf bnd vbluf. Tif <dodf>dfsdription</dodf> bnd <dodf>dioidfs</dodf>
+     * brf initiblizfd by <dodf>null</dodf> vblufs.
      *
-     * @param name the name of the property
-     * @param value the current value or class used for values.
+     * @pbrbm nbmf tif nbmf of tif propfrty
+     * @pbrbm vbluf tif durrfnt vbluf or dlbss usfd for vblufs.
      *
      */
-    public AudioSynthesizerPropertyInfo(String name, Object value) {
-        this.name = name;
-        if (value instanceof Class)
-            valueClass = (Class)value;
-        else
+    publid AudioSyntifsizfrPropfrtyInfo(String nbmf, Objfdt vbluf) {
+        tiis.nbmf = nbmf;
+        if (vbluf instbndfof Clbss)
+            vblufClbss = (Clbss)vbluf;
+        flsf
         {
-            this.value = value;
-            if (value != null)
-                valueClass = value.getClass();
+            tiis.vbluf = vbluf;
+            if (vbluf != null)
+                vblufClbss = vbluf.gftClbss();
         }
     }
     /**
-     * The name of the property.
+     * Tif nbmf of tif propfrty.
      */
-    public String name;
+    publid String nbmf;
     /**
-     * A brief description of the property, which may be null.
+     * A briff dfsdription of tif propfrty, wiidi mby bf null.
      */
-    public String description = null;
+    publid String dfsdription = null;
     /**
-     * The <code>value</code> field specifies the current value of
-     * the property.
+     * Tif <dodf>vbluf</dodf> fifld spfdififs tif durrfnt vbluf of
+     * tif propfrty.
      */
-    public Object value = null;
+    publid Objfdt vbluf = null;
     /**
-     * The <code>valueClass</code> field specifies class
-     * used in <code>value</code> field.
+     * Tif <dodf>vblufClbss</dodf> fifld spfdififs dlbss
+     * usfd in <dodf>vbluf</dodf> fifld.
      */
-    public Class<?> valueClass = null;
+    publid Clbss<?> vblufClbss = null;
     /**
-     * An array of possible values if the value for the field
-     * <code>AudioSynthesizerPropertyInfo.value</code> may be selected
-     * from a particular set of values; otherwise null.
+     * An brrby of possiblf vblufs if tif vbluf for tif fifld
+     * <dodf>AudioSyntifsizfrPropfrtyInfo.vbluf</dodf> mby bf sflfdtfd
+     * from b pbrtidulbr sft of vblufs; otifrwisf null.
      */
-    public Object[] choices = null;
+    publid Objfdt[] dioidfs = null;
 
 }

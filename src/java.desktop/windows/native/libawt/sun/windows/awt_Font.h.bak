@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_FONT_H
-#define AWT_FONT_H
+#ifndff AWT_FONT_H
+#dffinf AWT_FONT_H
 
-#include "awt.h"
-#include "awt_Object.h"
+#indludf "bwt.i"
+#indludf "bwt_Objfdt.i"
 
-#include "java_awt_Font.h"
-#include "sun_awt_windows_WFontMetrics.h"
-#include "sun_awt_FontDescriptor.h"
-#include "sun_awt_PlatformFont.h"
+#indludf "jbvb_bwt_Font.i"
+#indludf "sun_bwt_windows_WFontMftrids.i"
+#indludf "sun_bwt_FontDfsdriptor.i"
+#indludf "sun_bwt_PlbtformFont.i"
 
 
 /************************************************************************
- * AwtFont utilities
+ * AwtFont utilitifs
  */
 
-extern jboolean IsMultiFont(JNIEnv *env, jobject obj);
+fxtfrn jboolfbn IsMultiFont(JNIEnv *fnv, jobjfdt obj);
 
-#define GET_PLATFORMFONT(font)\
-    (env->CallObjectMethod(env, font, AwtFont::peerMID))
+#dffinf GET_PLATFORMFONT(font)\
+    (fnv->CbllObjfdtMftiod(fnv, font, AwtFont::pffrMID))
 
 
 /************************************************************************
- * AwtFont class
+ * AwtFont dlbss
  */
 
-class AwtFont : public AwtObject {
-public:
+dlbss AwtFont : publid AwtObjfdt {
+publid:
 
-    /* int[] width field for sun.awt.windows.WFontDescriptor */
-    static jfieldID widthsID;
+    /* int[] widti fifld for sun.bwt.windows.WFontDfsdriptor */
+    stbtid jfifldID widtisID;
 
-    /* int fields for sun.awt.windows.WFontDescriptor */
-    static jfieldID ascentID;
-    static jfieldID descentID;
-    static jfieldID leadingID;
-    static jfieldID heightID;
-    static jfieldID maxAscentID;
-    static jfieldID maxDescentID;
-    static jfieldID maxHeightID;
-    static jfieldID maxAdvanceID;
+    /* int fiflds for sun.bwt.windows.WFontDfsdriptor */
+    stbtid jfifldID bsdfntID;
+    stbtid jfifldID dfsdfntID;
+    stbtid jfifldID lfbdingID;
+    stbtid jfifldID ifigitID;
+    stbtid jfifldID mbxAsdfntID;
+    stbtid jfifldID mbxDfsdfntID;
+    stbtid jfifldID mbxHfigitID;
+    stbtid jfifldID mbxAdvbndfID;
 
-    /* sun.awt.FontDescriptor fontDescriptor field of sun.awt.CharsetString */
-    static jfieldID fontDescriptorID;
-    /* java.lang.String charsetString field of sun.awt.CharsetString */
-    static jfieldID charsetStringID;
+    /* sun.bwt.FontDfsdriptor fontDfsdriptor fifld of sun.bwt.CibrsftString */
+    stbtid jfifldID fontDfsdriptorID;
+    /* jbvb.lbng.String dibrsftString fifld of sun.bwt.CibrsftString */
+    stbtid jfifldID dibrsftStringID;
 
-    /* java.lang.String nativeName field of sun.awt.FontDescriptor*/
-    static jfieldID nativeNameID;
-    /* boolean useUnicode field of sun.awt.FontDescriptor*/
-    static jfieldID useUnicodeID;
+    /* jbvb.lbng.String nbtivfNbmf fifld of sun.bwt.FontDfsdriptor*/
+    stbtid jfifldID nbtivfNbmfID;
+    /* boolfbn usfUnidodf fifld of sun.bwt.FontDfsdriptor*/
+    stbtid jfifldID usfUnidodfID;
 
-    /* long field pData of java.awt.Font */
-    static jfieldID pDataID;
-    /* java.awt.peer.FontPeer field peer of java.awt.Font */
-    static jmethodID peerMID;
-    /* java.lang.String name field of java.awt.Font */
-    static jfieldID nameID;
-    /* int size field of java.awt.Font */
-    static jfieldID sizeID;
-    /* int style field of java.awt.Font */
-    static jfieldID styleID;
+    /* long fifld pDbtb of jbvb.bwt.Font */
+    stbtid jfifldID pDbtbID;
+    /* jbvb.bwt.pffr.FontPffr fifld pffr of jbvb.bwt.Font */
+    stbtid jmftiodID pffrMID;
+    /* jbvb.lbng.String nbmf fifld of jbvb.bwt.Font */
+    stbtid jfifldID nbmfID;
+    /* int sizf fifld of jbvb.bwt.Font */
+    stbtid jfifldID sizfID;
+    /* int stylf fifld of jbvb.bwt.Font */
+    stbtid jfifldID stylfID;
 
-    /* java.awt.Font peer field of java.awt.FontMetrics */
-    static jfieldID fontID;
+    /* jbvb.bwt.Font pffr fifld of jbvb.bwt.FontMftrids */
+    stbtid jfifldID fontID;
 
-    /* sun.awt.FontConfiguration fontConfig field of sun.awt.PlatformFont */
-    static jfieldID fontConfigID;
-    /* FontDescriptor[] componentFonts field of sun.awt.PlatformFont */
-    static jfieldID componentFontsID;
+    /* sun.bwt.FontConfigurbtion fontConfig fifld of sun.bwt.PlbtformFont */
+    stbtid jfifldID fontConfigID;
+    /* FontDfsdriptor[] domponfntFonts fifld of sun.bwt.PlbtformFont */
+    stbtid jfifldID domponfntFontsID;
 
-    /* String textComponentFontName field of sun.awt.windows.WFontPeer */
-    static jfieldID textComponentFontNameID;
+    /* String tfxtComponfntFontNbmf fifld of sun.bwt.windows.WFontPffr */
+    stbtid jfifldID tfxtComponfntFontNbmfID;
 
-    /* String fontName field of sun.awt.windows.WDefaultFontCharset fields */
-    static jfieldID fontNameID;
+    /* String fontNbmf fifld of sun.bwt.windows.WDffbultFontCibrsft fiflds */
+    stbtid jfifldID fontNbmfID;
 
-    static jmethodID makeConvertedMultiFontStringMID;
+    stbtid jmftiodID mbkfConvfrtfdMultiFontStringMID;
 
-    /* java.awt.Font methods */
-    static jmethodID getFontMID;
+    /* jbvb.bwt.Font mftiods */
+    stbtid jmftiodID gftFontMID;
 
-    /* java.awt.FontMetrics methods */
-    static jmethodID getHeightMID;
-
-    /*
-     * The argument is used to determine how many handles of
-     * Windows font the instance has.
-     */
-    AwtFont(int num, JNIEnv *env, jobject javaFont);
-    ~AwtFont();    /* Releases all resources */
-
-    virtual void Dispose();
+    /* jbvb.bwt.FontMftrids mftiods */
+    stbtid jmftiodID gftHfigitMID;
 
     /*
-     * Access methods
+     * Tif brgumfnt is usfd to dftfrminf iow mbny ibndlfs of
+     * Windows font tif instbndf ibs.
      */
-    INLINE int GetHFontNum()     { return m_hFontNum; }
-    INLINE HFONT GetHFont(int i) {
-        DASSERT(m_hFont[i] != NULL);
-        return m_hFont[i];
+    AwtFont(int num, JNIEnv *fnv, jobjfdt jbvbFont);
+    ~AwtFont();    /* Rflfbsfs bll rfsourdfs */
+
+    virtubl void Disposf();
+
+    /*
+     * Addfss mftiods
+     */
+    INLINE int GftHFontNum()     { rfturn m_iFontNum; }
+    INLINE HFONT GftHFont(int i) {
+        DASSERT(m_iFont[i] != NULL);
+        rfturn m_iFont[i];
     }
 
-    /* Used to keep English version unchanged as much as possiple. */
-    INLINE HFONT GetHFont() {
-        DASSERT(m_hFont[0] != NULL);
-        return m_hFont[0];
+    /* Usfd to kffp Englisi vfrsion undibngfd bs mudi bs possiplf. */
+    INLINE HFONT GftHFont() {
+        DASSERT(m_iFont[0] != NULL);
+        rfturn m_iFont[0];
     }
-    INLINE int GetInputHFontIndex() { return m_textInput; }
+    INLINE int GftInputHFontIndfx() { rfturn m_tfxtInput; }
 
-    INLINE void SetAscent(int ascent) { m_ascent = ascent; }
-    INLINE int GetAscent()           { return m_ascent; }
-    INLINE int GetOverhang()         { return m_overhang; }
+    INLINE void SftAsdfnt(int bsdfnt) { m_bsdfnt = bsdfnt; }
+    INLINE int GftAsdfnt()           { rfturn m_bsdfnt; }
+    INLINE int GftOvfribng()         { rfturn m_ovfribng; }
 
     /*
-     * Font methods
+     * Font mftiods
      */
 
     /*
-     * Returns the AwtFont object associated with the pFontJavaObject.
-     * If none exists, create one.
+     * Rfturns tif AwtFont objfdt bssodibtfd witi tif pFontJbvbObjfdt.
+     * If nonf fxists, drfbtf onf.
      */
-    static AwtFont* GetFont(JNIEnv *env, jobject font,
-                            jint angle=0, jfloat awScale=1.0f);
+    stbtid AwtFont* GftFont(JNIEnv *fnv, jobjfdt font,
+                            jint bnglf=0, jflobt bwSdblf=1.0f);
 
     /*
-     * Creates the specified font.  name names the font.  style is a bit
-     * vector that describes the style of the font.  height is the point
-     * size of the font.
+     * Crfbtfs tif spfdififd font.  nbmf nbmfs tif font.  stylf is b bit
+     * vfdtor tibt dfsdribfs tif stylf of tif font.  ifigit is tif point
+     * sizf of tif font.
      */
-    static AwtFont* Create(JNIEnv *env, jobject font,
-                           jint angle = 0, jfloat awScale=1.0f);
-    static HFONT CreateHFont(WCHAR* name, int style, int height,
-                             int angle = 0, float awScale=1.0f);
+    stbtid AwtFont* Crfbtf(JNIEnv *fnv, jobjfdt font,
+                           jint bnglf = 0, jflobt bwSdblf=1.0f);
+    stbtid HFONT CrfbtfHFont(WCHAR* nbmf, int stylf, int ifigit,
+                             int bnglf = 0, flobt bwSdblf=1.0f);
 
-    static void Cleanup();
+    stbtid void Clfbnup();
 
     /*
-     * FontMetrics methods
+     * FontMftrids mftiods
      */
 
     /*
-     * Loads the metrics of the associated font.  See Font.GetFont for
-     * purpose of pWS.  (Also, client should provide Font java object
-     * instead of getting it from the FontMetrics instance variable.)
+     * Lobds tif mftrids of tif bssodibtfd font.  Sff Font.GftFont for
+     * purposf of pWS.  (Also, dlifnt siould providf Font jbvb objfdt
+     * instfbd of gftting it from tif FontMftrids instbndf vbribblf.)
      */
-    static void LoadMetrics(JNIEnv *env, jobject fontMetrics);
+    stbtid void LobdMftrids(JNIEnv *fnv, jobjfdt fontMftrids);
 
-    /* Returns the AwtFont associated with this metrics. */
-    static AwtFont* GetFontFromMetrics(JNIEnv *env, jobject fontMetrics);
+    /* Rfturns tif AwtFont bssodibtfd witi tiis mftrids. */
+    stbtid AwtFont* GftFontFromMftrids(JNIEnv *fnv, jobjfdt fontMftrids);
 
     /*
-     * Sets the ascent of the font.  This member should be called if
-     * font->m_nAscent < 0.
+     * Sfts tif bsdfnt of tif font.  Tiis mfmbfr siould bf dbllfd if
+     * font->m_nAsdfnt < 0.
      */
-    static void SetupAscent(AwtFont* font);
+    stbtid void SftupAsdfnt(AwtFont* font);
 
     /*
-     * Determines the average dimension of the character in the
-     * specified font 'font' and multiplies it by the specified number
-     * of rows and columns.  'font' can be a temporary object.
+     * Dftfrminfs tif bvfrbgf dimfnsion of tif dibrbdtfr in tif
+     * spfdififd font 'font' bnd multiplifs it by tif spfdififd numbfr
+     * of rows bnd dolumns.  'font' dbn bf b tfmporbry objfdt.
      */
-    static SIZE TextSize(AwtFont* font, int columns, int rows);
+    stbtid SIZE TfxtSizf(AwtFont* font, int dolumns, int rows);
 
     /*
-     * If 'font' is NULL, the SYSTEM_FONT is used to compute the size.
-     * 'font' can be a temporary object.
+     * If 'font' is NULL, tif SYSTEM_FONT is usfd to domputf tif sizf.
+     * 'font' dbn bf b tfmporbry objfdt.
      */
-    static int getFontDescriptorNumber(JNIEnv *env, jobject font,
-                                       jobject fontDescriptor);
+    stbtid int gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+                                       jobjfdt fontDfsdriptor);
 
     /*
-     * 'font' is of type java.awt.Font.
+     * 'font' is of typf jbvb.bwt.Font.
      */
-    static SIZE DrawStringSize_sub(jstring str, HDC hDC, jobject font,
-                                   long x, long y, BOOL draw,
-                                   UINT codePage = 0);
+    stbtid SIZE DrbwStringSizf_sub(jstring str, HDC iDC, jobjfdt font,
+                                   long x, long y, BOOL drbw,
+                                   UINT dodfPbgf = 0);
 
-    INLINE static SIZE drawMFStringSize(HDC hDC, jobject font,
+    INLINE stbtid SIZE drbwMFStringSizf(HDC iDC, jobjfdt font,
                                         jstring str, long x, long y,
-                                        UINT codePage = 0)
+                                        UINT dodfPbgf = 0)
     {
-        return DrawStringSize_sub(str, hDC, font, x, y, TRUE , codePage);
+        rfturn DrbwStringSizf_sub(str, iDC, font, x, y, TRUE , dodfPbgf);
     }
 
 
-    INLINE static SIZE getMFStringSize(HDC hDC, jobject font, jstring str,
-                                       UINT codePage = 0)
+    INLINE stbtid SIZE gftMFStringSizf(HDC iDC, jobjfdt font, jstring str,
+                                       UINT dodfPbgf = 0)
     {
-        return DrawStringSize_sub(str, hDC, font, 0, 0, FALSE, codePage);
+        rfturn DrbwStringSizf_sub(str, iDC, font, 0, 0, FALSE, dodfPbgf);
     }
 
 
-    INLINE static long getMFStringWidth(HDC hDC, jobject font,
+    INLINE stbtid long gftMFStringWidti(HDC iDC, jobjfdt font,
                                             jstring str) {
-        return getMFStringSize(hDC, font, str).cx;
+        rfturn gftMFStringSizf(iDC, font, str).dx;
     }
 
-    INLINE static void drawMFString(HDC hDC, jobject font, jstring str,
-                                    long x, long y, UINT codePage = 0)
+    INLINE stbtid void drbwMFString(HDC iDC, jobjfdt font, jstring str,
+                                    long x, long y, UINT dodfPbgf = 0)
     {
-        DrawStringSize_sub(str, hDC, font, x, y, TRUE, codePage);
+        DrbwStringSizf_sub(str, iDC, font, x, y, TRUE, dodfPbgf);
     }
 
-    INLINE static jobjectArray GetComponentFonts(JNIEnv *env,
-                                                     jobject font) {
-      jobject platformFont = env->CallObjectMethod(font, AwtFont::peerMID);
-      jobjectArray result =
-          (jobjectArray)(env->GetObjectField(platformFont,
-                                             AwtFont::componentFontsID));
-      env->DeleteLocalRef(platformFont);
-      return result;
+    INLINE stbtid jobjfdtArrby GftComponfntFonts(JNIEnv *fnv,
+                                                     jobjfdt font) {
+      jobjfdt plbtformFont = fnv->CbllObjfdtMftiod(font, AwtFont::pffrMID);
+      jobjfdtArrby rfsult =
+          (jobjfdtArrby)(fnv->GftObjfdtFifld(plbtformFont,
+                                             AwtFont::domponfntFontsID));
+      fnv->DflftfLodblRff(plbtformFont);
+      rfturn rfsult;
     }
 
    /*
-    * Variables
+    * Vbribblfs
     */
 
-private:
-    /* The array of associated font handles */
-    HFONT* m_hFont;
-    /* The number of handles. */
-    int    m_hFontNum;
-    /* The index of the handle used to be set to AwtTextComponent. */
-    int    m_textInput;
-    /* The ascent of this font. */
-    int m_ascent;
-    /* The overhang, or amount added to a string's width, of this font. */
-    int m_overhang;
-    /* angle of text rotation in 10'ths of a degree*/
-    int textAngle;
-    /* average width scale factor to be applied */
-    float awScale;
+privbtf:
+    /* Tif brrby of bssodibtfd font ibndlfs */
+    HFONT* m_iFont;
+    /* Tif numbfr of ibndlfs. */
+    int    m_iFontNum;
+    /* Tif indfx of tif ibndlf usfd to bf sft to AwtTfxtComponfnt. */
+    int    m_tfxtInput;
+    /* Tif bsdfnt of tiis font. */
+    int m_bsdfnt;
+    /* Tif ovfribng, or bmount bddfd to b string's widti, of tiis font. */
+    int m_ovfribng;
+    /* bnglf of tfxt rotbtion in 10'tis of b dfgrff*/
+    int tfxtAnglf;
+    /* bvfrbgf widti sdblf fbdtor to bf bpplifd */
+    flobt bwSdblf;
 };
 
 
 
-class AwtFontCache {
-private:
-    class Item {
-    public:
-        Item(const WCHAR* s, HFONT f, Item* n = NULL);
-        ~Item();
+dlbss AwtFontCbdif {
+privbtf:
+    dlbss Itfm {
+    publid:
+        Itfm(donst WCHAR* s, HFONT f, Itfm* n = NULL);
+        ~Itfm();
 
-        WCHAR*      name;
+        WCHAR*      nbmf;
         HFONT       font;
-        Item*       next;
-        DWORD       refCount;   /*  The same HFONT can be associated with
-                                    multiple Java objects.*/
+        Itfm*       nfxt;
+        DWORD       rffCount;   /*  Tif sbmf HFONT dbn bf bssodibtfd witi
+                                    multiplf Jbvb objfdts.*/
     };
 
-public:
-    AwtFontCache() { m_head = NULL; }
-    void    Add(WCHAR* name, HFONT font);
-    HFONT   Lookup(WCHAR* name);
-    BOOL    Search(HFONT font);
-    void    Remove(HFONT font);
-    void    Clear();
-    void    IncRefCount(HFONT hFont);
-    LONG    IncRefCount(Item* item);
-    LONG    DecRefCount(Item* item);
+publid:
+    AwtFontCbdif() { m_ifbd = NULL; }
+    void    Add(WCHAR* nbmf, HFONT font);
+    HFONT   Lookup(WCHAR* nbmf);
+    BOOL    Sfbrdi(HFONT font);
+    void    Rfmovf(HFONT font);
+    void    Clfbr();
+    void    IndRffCount(HFONT iFont);
+    LONG    IndRffCount(Itfm* itfm);
+    LONG    DfdRffCount(Itfm* itfm);
 
 
-    Item* m_head;
+    Itfm* m_ifbd;
 };
 
-#define GET_FONT(target, OBJ) \
-    ((jobject)env->CallObjectMethod(target, AwtComponent::getFontMID))
+#dffinf GET_FONT(tbrgft, OBJ) \
+    ((jobjfdt)fnv->CbllObjfdtMftiod(tbrgft, AwtComponfnt::gftFontMID))
 
-#endif /* AWT_FONT_H */
+#fndif /* AWT_FONT_H */

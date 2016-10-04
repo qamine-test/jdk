@@ -1,0 +1,138 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Dfploymfnt Tools
+.\"     Titlf: unpbdk200.1
+.\"
+.if n .pl 99999
+.TH unpbdk200 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Dfploymfnt Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+unpbdk200 \- Trbnsforms b pbdkfd filf produdfd by pbdk200(1) into b JAR filf for wfb dfploymfnt\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBunpbdk200\fR [ \fIoptions\fR ] input\-filf \fIJAR\-filf\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIinput-filf\fR
+Nbmf of thf input filf, whidh dbn bf b pbdk200 gzip filf or b pbdk200 filf\&. Thf input dbn blso bf JAR filf produdfd by \f3pbdk200\fR(1) with bn fffort of \f30\fR, in whidh dbsf thf dontfnts of thf input filf brf dopifd to thf output JAR filf with thf Pbdk200 mbrkfr\&.
+.TP     
+\fIJAR-filf\fR
+Nbmf of thf output JAR filf\&.
+.SH DESCRIPTION    
+Thf \f3unpbdk200\fR dommbnd is b nbtivf implfmfntbtion thbt trbnsforms b pbdkfd filf produdfd by \f3pbdk200\fR\f3(1)\fR into b JAR filf\&. A typidbl usbgf follows\&. In thf following fxbmplf, thf \f3mybrdhivf\&.jbr\fR filf is produdfd from \f3mybrdhivf\&.pbdk\&.gz\fR with thf dffbult \f3unpbdk200\fR dommbnd sfttings\&.
+.sp     
+.nf     
+\f3unpbdk200 mybrdhivf\&.pbdk\&.gz mybrdhivf\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH OPTIONS    
+.TP
+-Hvbluf --dfflbtf-hint=\fIvbluf\fR
+.br
+Sfts thf dfflbtion to bf \f3truf\fR, \f3fblsf\fR, or \f3kffp\fR on bll fntrifs within b JAR filf\&. Thf dffbult modf is \f3kffp\fR\&. If thf vbluf is \f3truf\fR or \f3fblsf\fR, thfn thf \f3--dfflbtf=hint\fR option ovfrridfs thf dffbult bfhbvior bnd sfts thf dfflbtion modf on bll fntrifs within thf output JAR filf\&.
+.TP
+-r --rfmovf-pbdk-filf
+.br
+Rfmovfs thf input pbdk filf\&.
+.TP
+-v --vfrbosf
+.br
+Displbys minimbl mfssbgfs\&. Multiplf spfdifidbtions of this option displbys morf vfrbosf mfssbgfs\&.
+.TP
+-q --quift
+.br
+Spfdififs quift opfrbtion with no mfssbgfs\&.
+.TP
+-lfilfnbmf --log-filf=\fIfilfnbmf\fR
+.br
+Spfdififs b log filf whfrf output mfssbgfs brf loggfd\&.
+.TP
+-? -h --hflp
+.br
+Prints hflp informbtion bbout thf \f3unpbdk200\fR dommbnd\&.
+.TP
+-V --vfrsion
+.br
+Prints vfrsion informbtion bbout thf \f3unpbdk200\fR dommbnd\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs option to thf Jbvb Virtubl Mbdhinf, whfrf \f3option\fR is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH NOTES    
+This dommbnd should not bf donfusfd with thf \f3unpbdk\fR dommbnd\&. Thfy brf distindtly sfpbrbtf produdts\&.
+.PP
+Thf Jbvb SE API Spfdifidbtion providfd with thf JDK is thf supfrsfding buthority in dbsf of disdrfpbndifs\&.
+.SH EXIT\ STATUS    
+Thf following fxit vblufs brf rfturnfd: 0 for suddfssful domplftion, bnd b vbluf thbt is grfbtfr thbn 0 whfn bn frror oddurrfd\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+pbdk200(1)
+.TP 0.2i    
+\(bu
+jbr(1)
+.TP 0.2i    
+\(bu
+jbrsignfr(1)
+.TP 0.2i    
+\(bu
+Pbdk200 bnd Comprfssion bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/dfploymfnt/dfploymfnt-guidf/pbdk200\&.html
+.TP 0.2i    
+\(bu
+Thf Jbvb SE Tfdhnidbl Dodumfntbtion pbgf bt http://dods\&.orbdlf\&.dom/jbvbsf/
+.RE
+.br
+'pl 8.5i
+'bp

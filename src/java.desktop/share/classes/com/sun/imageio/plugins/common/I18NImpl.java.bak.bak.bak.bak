@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+import jbvb.io.InputStrfbm;
+import jbvb.util.PropfrtyRfsourdfBundlf;
+import jbvb.nft.URL;
+
+/**
+ * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI with
+ * onf "kfy=vbluf" pbir pfr linf. All sudh filfs howfvfr hbvf thf sbmf
+ * nbmf "propfrtifs". Thf rfsourdf fxtrbdtor rfsolvfs thf fxtrbdtion of
+ * thf filf from thf jbr bs thf pbdkbgf nbmf is indludfd butombtidblly.
+ *
+ * <p>Extfndfrs nffd only providf b stbtid mfthod
+ * <dodf>gftString(String)</dodf> whidh dblls thf stbtid mfthod in this
+ * dlbss with thf nbmf of thf invoking dlbss bnd rfturns b
+ * <dodf>String</dodf>.
+ */
+publid dlbss I18NImpl {
+    /**
+     * Rfturns thf mfssbgf string with thf spfdififd kfy from thf
+     * "propfrtifs" filf in thf pbdkbgf dontbining thf dlbss with
+     * thf spfdififd nbmf.
+     */
+    protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+        PropfrtyRfsourdfBundlf bundlf = null;
+        try {
+            InputStrfbm strfbm =
+                Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
+            bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+        } dbtdh(Throwbblf f) {
+            throw nfw RuntimfExdfption(f); // Chbin thf fxdfption.
+        }
+
+        rfturn (String)bundlf.hbndlfGftObjfdt(kfy);
+    }
+}

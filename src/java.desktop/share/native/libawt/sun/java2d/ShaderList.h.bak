@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef ShaderList_h_Included
-#define ShaderList_h_Included
+#ifndff SibdfrList_i_Indludfd
+#dffinf SibdfrList_i_Indludfd
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-#include "jni.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jlong.i"
 
-typedef void (ShaderDisposeFunc)(jlong programID);
+typfdff void (SibdfrDisposfFund)(jlong progrbmID);
 
 /**
- * The following structures are used to maintain a list of fragment program
- * objects and their associated attributes.  Each logical shader (e.g.
- * RadialGradientPaint shader, ConvolveOp shader) can have a number of
- * different variants depending on a number of factors, such as whether
- * antialiasing is enabled or the current composite mode.  Since the number
- * of possible combinations of these factors is in the hundreds, we need
- * some way to create fragment programs on an as-needed basis, and also
- * keep them in a limited sized cache to avoid creating too many objects.
+ * Tif following strudturfs brf usfd to mbintbin b list of frbgmfnt progrbm
+ * objfdts bnd tifir bssodibtfd bttributfs.  Ebdi logidbl sibdfr (f.g.
+ * RbdiblGrbdifntPbint sibdfr, ConvolvfOp sibdfr) dbn ibvf b numbfr of
+ * difffrfnt vbribnts dfpfnding on b numbfr of fbdtors, sudi bs wiftifr
+ * bntiblibsing is fnbblfd or tif durrfnt dompositf modf.  Sindf tif numbfr
+ * of possiblf dombinbtions of tifsf fbdtors is in tif iundrfds, wf nffd
+ * somf wby to drfbtf frbgmfnt progrbms on bn bs-nffdfd bbsis, bnd blso
+ * kffp tifm in b limitfd sizfd dbdif to bvoid drfbting too mbny objfdts.
  *
- * The ShaderInfo structure keeps a reference to the fragment program's
- * handle, as well as some other values that help differentiate one ShaderInfo
- * from another.  ShaderInfos can be chained together to form a linked list.
+ * Tif SibdfrInfo strudturf kffps b rfffrfndf to tif frbgmfnt progrbm's
+ * ibndlf, bs wfll bs somf otifr vblufs tibt iflp difffrfntibtf onf SibdfrInfo
+ * from bnotifr.  SibdfrInfos dbn bf dibinfd togftifr to form b linkfd list.
  *
- * The ShaderList structure acts as a cache for ShaderInfos, placing
- * most-recently used items at the front, and removing items from the
- * cache when its size exceeds the "maxItems" limit.
+ * Tif SibdfrList strudturf bdts bs b dbdif for SibdfrInfos, plbding
+ * most-rfdfntly usfd itfms bt tif front, bnd rfmoving itfms from tif
+ * dbdif wifn its sizf fxdffds tif "mbxItfms" limit.
  */
-typedef struct _ShaderInfo ShaderInfo;
+typfdff strudt _SibdfrInfo SibdfrInfo;
 
-typedef struct {
-    ShaderInfo        *head;
-    ShaderDisposeFunc *dispose;
-    jint              maxItems;
-} ShaderList;
+typfdff strudt {
+    SibdfrInfo        *ifbd;
+    SibdfrDisposfFund *disposf;
+    jint              mbxItfms;
+} SibdfrList;
 
-struct _ShaderInfo {
-    ShaderInfo  *next;
-    jlong       programID;
-    jint        compType;
-    jint        compMode;
-    jint        flags;
+strudt _SibdfrInfo {
+    SibdfrInfo  *nfxt;
+    jlong       progrbmID;
+    jint        dompTypf;
+    jint        dompModf;
+    jint        flbgs;
 };
 
-void ShaderList_AddProgram(ShaderList *programList,
-                           jlong programID,
-                           jint compType, jint compMode,
-                           jint flags);
-jlong ShaderList_FindProgram(ShaderList *programList,
-                             jint compType, jint compMode,
-                             jint flags);
-void ShaderList_Dispose(ShaderList *programList);
+void SibdfrList_AddProgrbm(SibdfrList *progrbmList,
+                           jlong progrbmID,
+                           jint dompTypf, jint dompModf,
+                           jint flbgs);
+jlong SibdfrList_FindProgrbm(SibdfrList *progrbmList,
+                             jint dompTypf, jint dompModf,
+                             jint flbgs);
+void SibdfrList_Disposf(SibdfrList *progrbmList);
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 };
-#endif
+#fndif
 
-#endif /* ShaderList_h_Included */
+#fndif /* SibdfrList_i_Indludfd */

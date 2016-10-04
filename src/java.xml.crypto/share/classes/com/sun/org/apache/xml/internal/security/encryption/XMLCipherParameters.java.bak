@@ -1,86 +1,86 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
 /**
- * Constants
+ * Constbnts
  */
-public interface XMLCipherParameters {
+publid intfrfbdf XMLCipifrPbrbmftfrs {
 
     String AES_128 =
-        "http://www.w3.org/2001/04/xmlenc#aes128-cbc";
+        "ittp://www.w3.org/2001/04/xmlfnd#bfs128-dbd";
 
     String AES_256 =
-        "http://www.w3.org/2001/04/xmlenc#aes256-cbc";
+        "ittp://www.w3.org/2001/04/xmlfnd#bfs256-dbd";
 
     String AES_192 =
-        "http://www.w3.org/2001/04/xmlenc#aes192-cbc";
+        "ittp://www.w3.org/2001/04/xmlfnd#bfs192-dbd";
 
     String RSA_1_5 =
-        "http://www.w3.org/2001/04/xmlenc#rsa-1_5";
+        "ittp://www.w3.org/2001/04/xmlfnd#rsb-1_5";
 
     String RSA_OAEP =
-        "http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p";
+        "ittp://www.w3.org/2001/04/xmlfnd#rsb-obfp-mgf1p";
 
     String DIFFIE_HELLMAN =
-        "http://www.w3.org/2001/04/xmlenc#dh";
+        "ittp://www.w3.org/2001/04/xmlfnd#di";
 
     String TRIPLEDES_KEYWRAP =
-        "http://www.w3.org/2001/04/xmlenc#kw-tripledes";
+        "ittp://www.w3.org/2001/04/xmlfnd#kw-triplfdfs";
 
     String AES_128_KEYWRAP =
-        "http://www.w3.org/2001/04/xmlenc#kw-aes128";
+        "ittp://www.w3.org/2001/04/xmlfnd#kw-bfs128";
 
     String AES_256_KEYWRAP =
-        "http://www.w3.org/2001/04/xmlenc#kw-aes256";
+        "ittp://www.w3.org/2001/04/xmlfnd#kw-bfs256";
 
     String AES_192_KEYWRAP =
-        "http://www.w3.org/2001/04/xmlenc#kw-aes192";
+        "ittp://www.w3.org/2001/04/xmlfnd#kw-bfs192";
 
     String SHA1 =
-        "http://www.w3.org/2000/09/xmldsig#sha1";
+        "ittp://www.w3.org/2000/09/xmldsig#sib1";
 
     String SHA256 =
-        "http://www.w3.org/2001/04/xmlenc#sha256";
+        "ittp://www.w3.org/2001/04/xmlfnd#sib256";
 
     String SHA512 =
-        "http://www.w3.org/2001/04/xmlenc#sha512";
+        "ittp://www.w3.org/2001/04/xmlfnd#sib512";
 
     String RIPEMD_160 =
-        "http://www.w3.org/2001/04/xmlenc#ripemd160";
+        "ittp://www.w3.org/2001/04/xmlfnd#ripfmd160";
 
     String XML_DSIG =
-        "http://www.w3.org/2000/09/xmldsig#";
+        "ittp://www.w3.org/2000/09/xmldsig#";
 
     String N14C_XML =
-        "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+        "ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315";
 
     String N14C_XML_CMMNTS =
-        "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments";
+        "ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315#WitiCommfnts";
 
     String EXCL_XML_N14C =
-        "http://www.w3.org/2001/10/xml-exc-c14n#";
+        "ittp://www.w3.org/2001/10/xml-fxd-d14n#";
 
     String EXCL_XML_N14C_CMMNTS =
-        "http://www.w3.org/2001/10/xml-exc-c14n#WithComments";
+        "ittp://www.w3.org/2001/10/xml-fxd-d14n#WitiCommfnts";
 }

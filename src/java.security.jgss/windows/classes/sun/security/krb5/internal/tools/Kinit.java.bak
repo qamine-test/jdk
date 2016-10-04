@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.tools;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.tools;
 
-import java.io.File;
-import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.ccache.*;
-import java.io.IOException;
-import java.util.Arrays;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import sun.security.util.Password;
-import javax.security.auth.kerberos.KeyTab;
+import jbvb.io.Filf;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.ddbdif.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import sun.sfdurity.util.Pbssword;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
 
 /**
- * Kinit tool for obtaining Kerberos v5 tickets.
+ * Kinit tool for obtbining Kfrbfros v5 tidkfts.
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @butior Ybnni Zibng
+ * @butior Rbm Mbrti
  */
-public class Kinit {
+publid dlbss Kinit {
 
-    private KinitOptions options;
-    private static final boolean DEBUG = Krb5.DEBUG;
+    privbtf KinitOptions options;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
 
     /**
-     * The main method is used to accept user command line input for ticket
-     * request.
+     * Tif mbin mftiod is usfd to bddfpt usfr dommbnd linf input for tidkft
+     * rfqufst.
      * <p>
-     * Usage: kinit [-A] [-f] [-p] [-c cachename] [[-k [-t keytab_file_name]]
-     * [principal] [password]
+     * Usbgf: kinit [-A] [-f] [-p] [-d dbdifnbmf] [[-k [-t kfytbb_filf_nbmf]]
+     * [prindipbl] [pbssword]
      * <ul>
-     * <li>    -A        do not include addresses
-     * <li>    -f        forwardable
-     * <li>    -p        proxiable
-     * <li>    -c        cache name (i.e., FILE://c:\temp\mykrb5cc)
-     * <li>    -k        use keytab
-     * <li>    -t        keytab file name
-     * <li>    principal the principal name (i.e., duke@java.sun.com)
-     * <li>    password  the principal's Kerberos password
+     * <li>    -A        do not indludf bddrfssfs
+     * <li>    -f        forwbrdbblf
+     * <li>    -p        proxibblf
+     * <li>    -d        dbdif nbmf (i.f., FILE://d:\tfmp\mykrb5dd)
+     * <li>    -k        usf kfytbb
+     * <li>    -t        kfytbb filf nbmf
+     * <li>    prindipbl tif prindipbl nbmf (i.f., dukf@jbvb.sun.dom)
+     * <li>    pbssword  tif prindipbl's Kfrbfros pbssword
      * </ul>
      * <p>
-     * Use java sun.security.krb5.tools.Kinit -help to bring up help menu.
+     * Usf jbvb sun.sfdurity.krb5.tools.Kinit -iflp to bring up iflp mfnu.
      * <p>
-     * We currently support only file-based credentials cache to
-     * store the tickets obtained from the KDC.
-     * By default, for all Unix platforms a cache file named
-     * /tmp/krb5cc_&lt;uid&gt will be generated. The &lt;uid&gt is the
-     * numeric user identifier.
-     * For all other platforms, a cache file named
-     * &lt;USER_HOME&gt/krb5cc_&lt;USER_NAME&gt would be generated.
+     * Wf durrfntly support only filf-bbsfd drfdfntibls dbdif to
+     * storf tif tidkfts obtbinfd from tif KDC.
+     * By dffbult, for bll Unix plbtforms b dbdif filf nbmfd
+     * /tmp/krb5dd_&lt;uid&gt will bf gfnfrbtfd. Tif &lt;uid&gt is tif
+     * numfrid usfr idfntififr.
+     * For bll otifr plbtforms, b dbdif filf nbmfd
+     * &lt;USER_HOME&gt/krb5dd_&lt;USER_NAME&gt would bf gfnfrbtfd.
      * <p>
-     * &lt;USER_HOME&gt is obtained from <code>java.lang.System</code>
-     * property <i>user.home</i>.
-     * &lt;USER_NAME&gt is obtained from <code>java.lang.System</code>
-     * property <i>user.name</i>.
-     * If &lt;USER_HOME&gt is null the cache file would be stored in
-     * the current directory that the program is running from.
-     * &lt;USER_NAME&gt is operating system's login username.
-     * It could be different from user's principal name.
+     * &lt;USER_HOME&gt is obtbinfd from <dodf>jbvb.lbng.Systfm</dodf>
+     * propfrty <i>usfr.iomf</i>.
+     * &lt;USER_NAME&gt is obtbinfd from <dodf>jbvb.lbng.Systfm</dodf>
+     * propfrty <i>usfr.nbmf</i>.
+     * If &lt;USER_HOME&gt is null tif dbdif filf would bf storfd in
+     * tif durrfnt dirfdtory tibt tif progrbm is running from.
+     * &lt;USER_NAME&gt is opfrbting systfm's login usfrnbmf.
+     * It dould bf difffrfnt from usfr's prindipbl nbmf.
      *</p>
      *<p>
-     * For instance, on Windows NT, it could be
-     * c:\winnt\profiles\duke\krb5cc_duke, in
-     * which duke is the &lt;USER_NAME&gt, and c:\winnt\profile\duke is the
+     * For instbndf, on Windows NT, it dould bf
+     * d:\winnt\profilfs\dukf\krb5dd_dukf, in
+     * wiidi dukf is tif &lt;USER_NAME&gt, bnd d:\winnt\profilf\dukf is tif
      * &lt;USER_HOME&gt.
      *<p>
-     * A single user could have multiple principal names,
-     * but the primary principal of the credentials cache could only be one,
-     * which means one cache file could only store tickets for one
-     * specific user principal. If the user switches
-     * the principal name at the next Kinit, the cache file generated for the
-     * new ticket would overwrite the old cache file by default.
-     * To avoid overwriting, you need to specify
-     * a different cache file name when you request a
-     * new ticket.
+     * A singlf usfr dould ibvf multiplf prindipbl nbmfs,
+     * but tif primbry prindipbl of tif drfdfntibls dbdif dould only bf onf,
+     * wiidi mfbns onf dbdif filf dould only storf tidkfts for onf
+     * spfdifid usfr prindipbl. If tif usfr switdifs
+     * tif prindipbl nbmf bt tif nfxt Kinit, tif dbdif filf gfnfrbtfd for tif
+     * nfw tidkft would ovfrwritf tif old dbdif filf by dffbult.
+     * To bvoid ovfrwriting, you nffd to spfdify
+     * b difffrfnt dbdif filf nbmf wifn you rfqufst b
+     * nfw tidkft.
      *</p>
      *<p>
-     * You can specify the location of the cache file by using the -c option
+     * You dbn spfdify tif lodbtion of tif dbdif filf by using tif -d option
      *
      */
 
-    public static void main(String[] args) {
+    publid stbtid void mbin(String[] brgs) {
         try {
-            Kinit self = new Kinit(args);
+            Kinit sflf = nfw Kinit(brgs);
         }
-        catch (Exception e) {
+        dbtdi (Exdfption f) {
             String msg = null;
-            if (e instanceof KrbException) {
-                msg = ((KrbException)e).krbErrorMessage() + " " +
-                    ((KrbException)e).returnCodeMessage();
-            } else  {
-                msg = e.getMessage();
+            if (f instbndfof KrbExdfption) {
+                msg = ((KrbExdfption)f).krbErrorMfssbgf() + " " +
+                    ((KrbExdfption)f).rfturnCodfMfssbgf();
+            } flsf  {
+                msg = f.gftMfssbgf();
             }
             if (msg != null) {
-                System.err.println("Exception: " + msg);
-            } else {
-                System.out.println("Exception: " + e);
+                Systfm.frr.println("Exdfption: " + msg);
+            } flsf {
+                Systfm.out.println("Exdfption: " + f);
             }
-            e.printStackTrace();
-            System.exit(-1);
+            f.printStbdkTrbdf();
+            Systfm.fxit(-1);
         }
-        return;
+        rfturn;
     }
 
     /**
-     * Constructs a new Kinit object.
-     * @param args array of ticket request options.
-     * Avaiable options are: -f, -p, -c, principal, password.
-     * @exception IOException if an I/O error occurs.
-     * @exception RealmException if the Realm could not be instantiated.
-     * @exception KrbException if error occurs during Kerberos operation.
+     * Construdts b nfw Kinit objfdt.
+     * @pbrbm brgs brrby of tidkft rfqufst options.
+     * Avbibblf options brf: -f, -p, -d, prindipbl, pbssword.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption RfblmExdfption if tif Rfblm dould not bf instbntibtfd.
+     * @fxdfption KrbExdfption if frror oddurs during Kfrbfros opfrbtion.
      */
-    private Kinit(String[] args)
-        throws IOException, RealmException, KrbException {
-        if (args == null || args.length == 0) {
-            options = new KinitOptions();
-        } else {
-            options = new KinitOptions(args);
+    privbtf Kinit(String[] brgs)
+        tirows IOExdfption, RfblmExdfption, KrbExdfption {
+        if (brgs == null || brgs.lfngti == 0) {
+            options = nfw KinitOptions();
+        } flsf {
+            options = nfw KinitOptions(brgs);
         }
-        String princName = null;
-        PrincipalName principal = options.getPrincipal();
-        if (principal != null) {
-            princName = principal.toString();
+        String prindNbmf = null;
+        PrindipblNbmf prindipbl = options.gftPrindipbl();
+        if (prindipbl != null) {
+            prindNbmf = prindipbl.toString();
         }
-        KrbAsReqBuilder builder;
+        KrbAsRfqBuildfr buildfr;
         if (DEBUG) {
-            System.out.println("Principal is " + principal);
+            Systfm.out.println("Prindipbl is " + prindipbl);
         }
-        char[] psswd = options.password;
-        boolean useKeytab = options.useKeytabFile();
-        if (!useKeytab) {
-            if (princName == null) {
-                throw new IllegalArgumentException
-                    (" Can not obtain principal name");
+        dibr[] psswd = options.pbssword;
+        boolfbn usfKfytbb = options.usfKfytbbFilf();
+        if (!usfKfytbb) {
+            if (prindNbmf == null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    (" Cbn not obtbin prindipbl nbmf");
             }
             if (psswd == null) {
-                System.out.print("Password for " + princName + ":");
-                System.out.flush();
-                psswd = Password.readPassword(System.in);
+                Systfm.out.print("Pbssword for " + prindNbmf + ":");
+                Systfm.out.flusi();
+                psswd = Pbssword.rfbdPbssword(Systfm.in);
                 if (DEBUG) {
-                    System.out.println(">>> Kinit console input " +
-                        new String(psswd));
+                    Systfm.out.println(">>> Kinit donsolf input " +
+                        nfw String(psswd));
                 }
             }
-            builder = new KrbAsReqBuilder(principal, psswd);
-        } else {
+            buildfr = nfw KrbAsRfqBuildfr(prindipbl, psswd);
+        } flsf {
             if (DEBUG) {
-                System.out.println(">>> Kinit using keytab");
+                Systfm.out.println(">>> Kinit using kfytbb");
             }
-            if (princName == null) {
-                throw new IllegalArgumentException
-                    ("Principal name must be specified.");
+            if (prindNbmf == null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("Prindipbl nbmf must bf spfdififd.");
             }
-            String ktabName = options.keytabFileName();
-            if (ktabName != null) {
+            String ktbbNbmf = options.kfytbbFilfNbmf();
+            if (ktbbNbmf != null) {
                 if (DEBUG) {
-                    System.out.println(
-                                       ">>> Kinit keytab file name: " + ktabName);
+                    Systfm.out.println(
+                                       ">>> Kinit kfytbb filf nbmf: " + ktbbNbmf);
                 }
             }
 
-            builder = new KrbAsReqBuilder(principal, ktabName == null
-                    ? KeyTab.getInstance()
-                    : KeyTab.getInstance(new File(ktabName)));
+            buildfr = nfw KrbAsRfqBuildfr(prindipbl, ktbbNbmf == null
+                    ? KfyTbb.gftInstbndf()
+                    : KfyTbb.gftInstbndf(nfw Filf(ktbbNbmf)));
         }
 
-        KDCOptions opt = new KDCOptions();
-        setOptions(KDCOptions.FORWARDABLE, options.forwardable, opt);
-        setOptions(KDCOptions.PROXIABLE, options.proxiable, opt);
-        builder.setOptions(opt);
-        String realm = options.getKDCRealm();
-        if (realm == null) {
-            realm = Config.getInstance().getDefaultRealm();
+        KDCOptions opt = nfw KDCOptions();
+        sftOptions(KDCOptions.FORWARDABLE, options.forwbrdbblf, opt);
+        sftOptions(KDCOptions.PROXIABLE, options.proxibblf, opt);
+        buildfr.sftOptions(opt);
+        String rfblm = options.gftKDCRfblm();
+        if (rfblm == null) {
+            rfblm = Config.gftInstbndf().gftDffbultRfblm();
         }
 
         if (DEBUG) {
-            System.out.println(">>> Kinit realm name is " + realm);
+            Systfm.out.println(">>> Kinit rfblm nbmf is " + rfblm);
         }
 
-        PrincipalName sname = PrincipalName.tgsService(realm, realm);
-        builder.setTarget(sname);
+        PrindipblNbmf snbmf = PrindipblNbmf.tgsSfrvidf(rfblm, rfblm);
+        buildfr.sftTbrgft(snbmf);
 
         if (DEBUG) {
-            System.out.println(">>> Creating KrbAsReq");
+            Systfm.out.println(">>> Crfbting KrbAsRfq");
         }
 
-        if (options.getAddressOption())
-            builder.setAddresses(HostAddresses.getLocalAddresses());
+        if (options.gftAddrfssOption())
+            buildfr.sftAddrfssfs(HostAddrfssfs.gftLodblAddrfssfs());
 
-        builder.action();
+        buildfr.bdtion();
 
-        sun.security.krb5.internal.ccache.Credentials credentials =
-            builder.getCCreds();
-        builder.destroy();
+        sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls drfdfntibls =
+            buildfr.gftCCrfds();
+        buildfr.dfstroy();
 
-        // we always create a new cache and store the ticket we get
-        CredentialsCache cache =
-            CredentialsCache.create(principal, options.cachename);
-        if (cache == null) {
-           throw new IOException("Unable to create the cache file " +
-                                 options.cachename);
+        // wf blwbys drfbtf b nfw dbdif bnd storf tif tidkft wf gft
+        CrfdfntiblsCbdif dbdif =
+            CrfdfntiblsCbdif.drfbtf(prindipbl, options.dbdifnbmf);
+        if (dbdif == null) {
+           tirow nfw IOExdfption("Unbblf to drfbtf tif dbdif filf " +
+                                 options.dbdifnbmf);
         }
-        cache.update(credentials);
-        cache.save();
+        dbdif.updbtf(drfdfntibls);
+        dbdif.sbvf();
 
-        if (options.password == null) {
-            // Assume we're running interactively
-            System.out.println("New ticket is stored in cache file " +
-                               options.cachename);
-         } else {
-             Arrays.fill(options.password, '0');
+        if (options.pbssword == null) {
+            // Assumf wf'rf running intfrbdtivfly
+            Systfm.out.println("Nfw tidkft is storfd in dbdif filf " +
+                               options.dbdifnbmf);
+         } flsf {
+             Arrbys.fill(options.pbssword, '0');
          }
 
-        // clear the password
+        // dlfbr tif pbssword
         if (psswd != null) {
-            Arrays.fill(psswd, '0');
+            Arrbys.fill(psswd, '0');
         }
-        options = null; // release reference to options
+        options = null; // rflfbsf rfffrfndf to options
     }
 
-    private static void setOptions(int flag, int option, KDCOptions opt) {
-        switch (option) {
-        case 0:
-            break;
-        case -1:
-            opt.set(flag, false);
-            break;
-        case 1:
-            opt.set(flag, true);
+    privbtf stbtid void sftOptions(int flbg, int option, KDCOptions opt) {
+        switdi (option) {
+        dbsf 0:
+            brfbk;
+        dbsf -1:
+            opt.sft(flbg, fblsf);
+            brfbk;
+        dbsf 1:
+            opt.sft(flbg, truf);
         }
     }
 }

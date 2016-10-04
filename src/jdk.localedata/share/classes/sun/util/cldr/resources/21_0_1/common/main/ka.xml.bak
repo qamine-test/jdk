@@ -1,2219 +1,2219 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="ka"/>
-	</identity>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localePattern draft="contributed">{0} ({1})</localePattern>
-			<localeSeparator draft="contributed">, </localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ab">აფხაზური</language>
-			<language type="ady">ადიღეური</language>
-			<language type="ae" draft="contributed">ავესტა</language>
-			<language type="af">აფრიკული</language>
-			<language type="ain" draft="contributed">აინუ</language>
-			<language type="ale" draft="contributed">ალეუტური</language>
-			<language type="ang">ძველი ინგლისური</language>
-			<language type="ar">არაბული</language>
-			<language type="arc">არამეული</language>
-			<language type="art" draft="contributed">ხელოვნური სხვა</language>
-			<language type="as" draft="contributed">ასამური</language>
-			<language type="ast">ავსტრიული</language>
-			<language type="az">აზერბაიჯანული</language>
-			<language type="be" draft="contributed">ბელორუსული</language>
-			<language type="bg">ბულგარული</language>
-			<language type="bh" draft="contributed">ბიჰარი</language>
-			<language type="bo">ტიბეტური</language>
-			<language type="br" draft="contributed">ბრეტონული</language>
-			<language type="bs">ბოსნიური</language>
-			<language type="bua" draft="contributed">ბურიატული</language>
-			<language type="ca" draft="contributed">კატალანური</language>
-			<language type="cau" draft="contributed">კავკასიური სხვა</language>
-			<language type="ce">ჩეჩნური</language>
-			<language type="cel" draft="contributed">კელტური სხვა</language>
-			<language type="cs">ჩეხური</language>
-			<language type="cu">საეკლესიო სლავური</language>
-			<language type="cy" draft="contributed">უელსური</language>
-			<language type="da">დანიური</language>
-			<language type="de">გერმანული</language>
-			<language type="de_AT">ავსტრიული გერმანული</language>
-			<language type="de_CH" draft="contributed">შვეიცარიული მაღალი გერმანული</language>
-			<language type="egy" draft="contributed">ეგვიპტური</language>
-			<language type="el">ბერძნული</language>
-			<language type="en">ინგლისური</language>
-			<language type="en_AU">ავსტრალიური ინგლისური</language>
-			<language type="en_CA">კანადური ინგლისური</language>
-			<language type="en_GB">ბრიტანული ინგლისური</language>
-			<language type="en_US">ამერიკული ინგლისური</language>
-			<language type="eo">ესპერანტო</language>
-			<language type="es">ესპანური</language>
-			<language type="es_419" draft="contributed">ლათინურ ამერიკული ესპანური</language>
-			<language type="es_ES" draft="contributed">იბერიული ესპანური</language>
-			<language type="et">ესტონური</language>
-			<language type="eu">ბასკური</language>
-			<language type="fa">სპარსული</language>
-			<language type="fi">ფინური</language>
-			<language type="fil">ფილიპინური</language>
-			<language type="fr">ფრანგული</language>
-			<language type="fr_CA">კანადური ფრანგული</language>
-			<language type="fr_CH">შვეიცარიული ფრანგული</language>
-			<language type="fro">ძველი ფრანგული</language>
-			<language type="ga">ირლანდიური</language>
-			<language type="gd">შოტლანდიურ-გალური</language>
-			<language type="gl">გალური</language>
-			<language type="gn" draft="contributed">გუარანი</language>
-			<language type="goh">ძველი გერმანული</language>
-			<language type="grc">ძველი ბერძნული</language>
-			<language type="gsw">შვეიცარიული გერმანული</language>
-			<language type="gu" draft="contributed">გუჯარათი</language>
-			<language type="he">ებრაული</language>
-			<language type="hi" draft="contributed">ჰინდი</language>
-			<language type="hr">ხორვატიული</language>
-			<language type="hu">უნგრული</language>
-			<language type="hy">სომხური</language>
-			<language type="ia" draft="contributed">ინტერლინგუალური</language>
-			<language type="id">ინდონეზიური</language>
-			<language type="ie" draft="contributed">ინტერლინგი</language>
-			<language type="ine" draft="contributed">ინდო-ევროპული სხვა</language>
-			<language type="is">ისლანდიური</language>
-			<language type="it">იტალიური</language>
-			<language type="ja">იაპონური</language>
-			<language type="jv" draft="contributed">იავანური</language>
-			<language type="ka">ქართული</language>
-			<language type="kg" draft="contributed">კონგო</language>
-			<language type="kk" draft="contributed">ყაზახური</language>
-			<language type="km">კამბოჯიური</language>
-			<language type="ko">კორეული</language>
-			<language type="ku" draft="contributed">ქურთული</language>
-			<language type="ky">ყირგიზული</language>
-			<language type="la">ლათინური</language>
-			<language type="lb">ლუქსემბურგული</language>
-			<language type="ln" draft="contributed">ლინგალა</language>
-			<language type="lo">ლაოსური</language>
-			<language type="lt">ლიტვური</language>
-			<language type="lv">ლატვიური</language>
-			<language type="mk">მაკედონიური</language>
-			<language type="mn" draft="contributed">მონღოლური</language>
-			<language type="mo" draft="contributed">მოლდოვური</language>
-			<language type="ms">მალაიზიური</language>
-			<language type="myn" draft="contributed">მაიას ენები</language>
-			<language type="nap" draft="contributed">ნეაპოლიტანური</language>
-			<language type="ne">ნეპალური</language>
-			<language type="nl">ჰოლანდიური</language>
-			<language type="nl_BE" draft="contributed">ფლომანდიური</language>
-			<language type="nn">ნორვეგიული ნინორსკი</language>
-			<language type="no">ნორვეგიული</language>
-			<language type="nv">ნავახო</language>
-			<language type="oc" draft="contributed">ოციტანური</language>
-			<language type="or" draft="contributed">ორიული</language>
-			<language type="os">ოსური</language>
-			<language type="peo">ძველი სპარსული</language>
-			<language type="pl">პოლონური</language>
-			<language type="pra" draft="contributed">პრაკრიტის ენები</language>
-			<language type="ps" draft="contributed">პუშტუ</language>
-			<language type="pt">პორტუგალიური</language>
-			<language type="pt_BR" draft="contributed">ბრაზილიური პორტუგალიური</language>
-			<language type="pt_PT">იბერიულ-პორტუგალიური</language>
-			<language type="ro">რუმინული</language>
-			<language type="ru">რუსული</language>
-			<language type="sa" draft="contributed">სანსკრიტი</language>
-			<language type="sc">სარდინიული</language>
-			<language type="scn">სიცილიური</language>
-			<language type="sd" draft="contributed">სინდური</language>
-			<language type="sga">ძველი ირლანდიური</language>
-			<language type="sh" draft="contributed">სერბულ-ხორვატული</language>
-			<language type="si" draft="contributed">სინჰალური</language>
-			<language type="sk">სლოვაკური</language>
-			<language type="sl">სლოვენური</language>
-			<language type="sla" draft="contributed">სლავური სხვა</language>
-			<language type="so">სომალიური</language>
-			<language type="sq">ალბანური</language>
-			<language type="sr" draft="contributed">სერბული</language>
-			<language type="st" draft="contributed">სამხრეთ სოთოს ენა</language>
-			<language type="sux">შუმერული</language>
-			<language type="sv">შვედური</language>
-			<language type="sw" draft="contributed">სუაჰილი</language>
-			<language type="tg">ტაჯიკური</language>
-			<language type="th">ტაილანდური</language>
-			<language type="tk">თურქმენული</language>
-			<language type="tlh" draft="contributed">კლინგონი</language>
-			<language type="tn" draft="contributed">ტსვანა</language>
-			<language type="tr">თურქული</language>
-			<language type="tw" draft="contributed">თუი</language>
-			<language type="udm" draft="contributed">უდმურტიული</language>
-			<language type="ug" draft="contributed">უიგურული</language>
-			<language type="uk">უკრაინული</language>
-			<language type="und">უცნობი ან არასწორი ენა</language>
-			<language type="ur" draft="contributed">ურდუ</language>
-			<language type="uz">უზბეკური</language>
-			<language type="vi">ვიეტნამური</language>
-			<language type="xh" draft="contributed">ქსოზა</language>
-			<language type="yi" draft="contributed">იდიში</language>
-			<language type="zh">ჩინური</language>
-			<language type="zh_Hans" draft="contributed">გამარტივებული ჩინური</language>
-			<language type="zh_Hant" draft="contributed">ტრადიციული ჩინური</language>
-			<language type="zu" draft="contributed">ზულუ</language>
-		</languages>
-		<scripts>
-			<script type="Arab">არაბული</script>
-			<script type="Armn">სომხური</script>
-			<script type="Bali" draft="contributed">ბალი</script>
-			<script type="Batk" draft="contributed">ბატაკი</script>
-			<script type="Beng">ბენგალური</script>
-			<script type="Brai">ბრაილი</script>
-			<script type="Copt" draft="contributed">კოპტური</script>
-			<script type="Cprt" draft="contributed">კვიპროსული</script>
-			<script type="Cyrl">კირილიცა</script>
-			<script type="Cyrs">ძველი საეკლესიო კირილიცა</script>
-			<script type="Deva" draft="contributed">დევანაგარი</script>
-			<script type="Egyd" draft="contributed">ეგვიპტური დემოტიკური</script>
-			<script type="Egyh" draft="contributed">ეგვიპტური ჰიერატიკული</script>
-			<script type="Egyp" draft="contributed">ეგვიპტური იეროგლიფური</script>
-			<script type="Ethi">ეთიოპური</script>
-			<script type="Geok">ხუცური</script>
-			<script type="Geor">ქართული</script>
-			<script type="Glag" draft="contributed">გლაგოლიცა</script>
-			<script type="Goth">გოთური</script>
-			<script type="Grek">ბერძნული</script>
-			<script type="Gujr" draft="contributed">გუჯარათული</script>
-			<script type="Guru" draft="contributed">გურმუხული</script>
-			<script type="Hani" draft="contributed">ჰანი</script>
-			<script type="Hans" draft="contributed">გამარტივებული ჰანი</script>
-			<script type="Hant">ტრადიციული ჰანი</script>
-			<script type="Hebr">ებრაული</script>
-			<script type="Hira">ჰირაგანა</script>
-			<script type="Hrkt">კატაკანა ან ჰირაგანა</script>
-			<script type="Hung">ძველი უნგრული</script>
-			<script type="Jpan">იაპონური</script>
-			<script type="Kana">კატაკანა</script>
-			<script type="Khmr" draft="contributed">ქჰმერული</script>
-			<script type="Laoo" draft="contributed">ლაოსური</script>
-			<script type="Latn">ლათინური</script>
-			<script type="Lina" draft="contributed">წრფივი A</script>
-			<script type="Linb" draft="contributed">წრფივი B</script>
-			<script type="Maya">მაიას იეროგლიფები</script>
-			<script type="Mong">მონღოლური</script>
-			<script type="Phnx" draft="contributed">ფინიკიური</script>
-			<script type="Runr" draft="contributed">რუნული</script>
-			<script type="Syrc">სირიული</script>
-			<script type="Syre" draft="contributed">ესტრანჯელოსეული სირიული</script>
-			<script type="Syrj" draft="contributed">დასავლეთი სირიული</script>
-			<script type="Syrn" draft="contributed">აღმოსავლეთი სირიული</script>
-			<script type="Taml">ტამილური</script>
-			<script type="Thai">ტაილანდური</script>
-			<script type="Tibt">ტიბეტური</script>
-			<script type="Xpeo">ძველი სპარსული</script>
-			<script type="Xsux" draft="contributed">შუმერულ-აქადური ლურსმნული</script>
-			<script type="Zxxx">დაუწერელი</script>
-			<script type="Zzzz">უცნობი ან არასწორი დამწერლობა</script>
-		</scripts>
-		<territories>
-			<territory type="001">მსოფლიო</territory>
-			<territory type="002">აფრიკა</territory>
-			<territory type="003">ჩრდილოეთ ამერიკა</territory>
-			<territory type="005">სამხრეთი ამერიკა</territory>
-			<territory type="009" draft="contributed">ოკეანეთი</territory>
-			<territory type="011">დასავლეთი აფრიკა</territory>
-			<territory type="013">ცენტრალური ამერიკა</territory>
-			<territory type="014">აღმოსავლეთი აფრიკა</territory>
-			<territory type="015">ჩრდილოეთი აფრიკა</territory>
-			<territory type="017">შუა აფრიკა</territory>
-			<territory type="018">სამხრეთი აფრიკა</territory>
-			<territory type="019">ამერიკები</territory>
-			<territory type="021">ჩრდილოეთი ამერიკა</territory>
-			<territory type="029" draft="contributed">კარიბი</territory>
-			<territory type="030">აღმოსავლეთი აზია</territory>
-			<territory type="034">სამხრეთი აზია</territory>
-			<territory type="035">სამხრეთ-აღმოსავლეთი აზია</territory>
-			<territory type="039">სამხრეთი ევროპა</territory>
-			<territory type="053">ავსტრალია და ახალი ზელანდია</territory>
-			<territory type="054" draft="contributed">მელანეზია</territory>
-			<territory type="057" draft="contributed">მირონეზია</territory>
-			<territory type="061">პოლინეზია</territory>
-			<territory type="142">აზია</territory>
-			<territory type="143">ცენტრალური აზია</territory>
-			<territory type="145">დასავლეთი აზია</territory>
-			<territory type="150">ევროპა</territory>
-			<territory type="151">აღმოსავლეთი ევროპა</territory>
-			<territory type="154">ჩრდილოეთი ევროპა</territory>
-			<territory type="155">დასავლეთი ევროპა</territory>
-			<territory type="419" draft="contributed">ლათინური ამერიკა და კარიბი</territory>
-			<territory type="AD">ანდორა</territory>
-			<territory type="AE">არაბეთის გაერთიანებული ემირატები</territory>
-			<territory type="AF">ავღანეთი</territory>
-			<territory type="AG">ანტიგუა და ბარბუდა</territory>
-			<territory type="AI">ანგვილა</territory>
-			<territory type="AL">ალბანეთი</territory>
-			<territory type="AM">სომხეთი</territory>
-			<territory type="AN" draft="contributed">ნიდერლანდების ანტილები</territory>
-			<territory type="AO">ანგოლა</territory>
-			<territory type="AQ">ანტარქტიკა</territory>
-			<territory type="AR">არგენტინა</territory>
-			<territory type="AS">ამერიკული სამოა</territory>
-			<territory type="AT">ავსტრია</territory>
-			<territory type="AU">ავსტრალია</territory>
-			<territory type="AW">არუბა</territory>
-			<territory type="AX">ალანდის კუნძულები</territory>
-			<territory type="AZ">აზერბაიჯანი</territory>
-			<territory type="BA">ბოსნია და ჰერცეგოვინა</territory>
-			<territory type="BB">ბარბადოსი</territory>
-			<territory type="BD">ბანგლადეში</territory>
-			<territory type="BE">ბელგია</territory>
-			<territory type="BF">ბურკინა-ფასო</territory>
-			<territory type="BG">ბულგარეთი</territory>
-			<territory type="BH">ბაჰრეინი</territory>
-			<territory type="BI">ბურუნდი</territory>
-			<territory type="BJ">ბენინი</territory>
-			<territory type="BM">ბერმუდა</territory>
-			<territory type="BN">ბრუნეი</territory>
-			<territory type="BO">ბოლივია</territory>
-			<territory type="BR">ბრაზილია</territory>
-			<territory type="BS">ბაჰამის კუნძულები</territory>
-			<territory type="BT">ბუტანი</territory>
-			<territory type="BV" draft="contributed">ბუვეს კუნძული</territory>
-			<territory type="BW">ბოტსვანა</territory>
-			<territory type="BY">ბელორუსია</territory>
-			<territory type="BZ">ბელიზი</territory>
-			<territory type="CA">კანადა</territory>
-			<territory type="CD" draft="contributed">კონგო - კინშასა</territory>
-			<territory type="CF">ცენტრალური აფრიკის რესპუბლიკა</territory>
-			<territory type="CG">კონგო</territory>
-			<territory type="CH">შვეიცარია</territory>
-			<territory type="CI">სპილოს ძვლის სანაპირო</territory>
-			<territory type="CK">კუკის კუნძულები</territory>
-			<territory type="CL">ჩილე</territory>
-			<territory type="CM">კამერუნი</territory>
-			<territory type="CN">ჩინეთი</territory>
-			<territory type="CO">კოლუმბია</territory>
-			<territory type="CR">კოსტა-რიკა</territory>
-			<territory type="CS">სერბია და მონტენეგრო</territory>
-			<territory type="CU">კუბა</territory>
-			<territory type="CV">კაბო-ვერდე</territory>
-			<territory type="CX">შობის კუნძული</territory>
-			<territory type="CY">კვიპროსი</territory>
-			<territory type="CZ">ჩეხეთის რესპუბლიკა</territory>
-			<territory type="DE">გერმანია</territory>
-			<territory type="DJ">ჯიბუტი</territory>
-			<territory type="DK">დანია</territory>
-			<territory type="DM">დომინიკა</territory>
-			<territory type="DO">დომინიკანის რესპუბლიკა</territory>
-			<territory type="DZ">ალჟირი</territory>
-			<territory type="EC">ეკვადორი</territory>
-			<territory type="EE">ესტონეთი</territory>
-			<territory type="EG">ეგვიპტე</territory>
-			<territory type="EH">დასავლეთი საჰარა</territory>
-			<territory type="ER">ერიტრეა</territory>
-			<territory type="ES">ესპანეთი</territory>
-			<territory type="ET">ეთიოპია</territory>
-			<territory type="EU">ევროკავშირი</territory>
-			<territory type="FI">ფინეთი</territory>
-			<territory type="FJ">ფიჯი</territory>
-			<territory type="FK">ფალკლენდის კუნძულები</territory>
-			<territory type="FM">მიკრონეზია</territory>
-			<territory type="FO">ფაროს კუნძულები</territory>
-			<territory type="FR">საფრანგეთი</territory>
-			<territory type="GA">გაბონი</territory>
-			<territory type="GB">დიდი ბრიტანეთი</territory>
-			<territory type="GD">გრენადა</territory>
-			<territory type="GE">საქართველო</territory>
-			<territory type="GH">განა</territory>
-			<territory type="GI">გიბრალტარი</territory>
-			<territory type="GL">გრენლანდია</territory>
-			<territory type="GM">გამბია</territory>
-			<territory type="GN">გვინეა</territory>
-			<territory type="GP" draft="contributed">გვადელუპე</territory>
-			<territory type="GQ">ეკვატორული გვინეა</territory>
-			<territory type="GR">საბერძნეთი</territory>
-			<territory type="GS" draft="contributed">სამხრეთი ჯორჯია და სამხრეთ სენდვიჩის კუნძულები</territory>
-			<territory type="GT">გვატემალა</territory>
-			<territory type="GU" draft="contributed">გუამი</territory>
-			<territory type="GW">გვინეა-ბისაუ</territory>
-			<territory type="GY">გაიანა</territory>
-			<territory type="HK" draft="contributed">ჰონგ კონგი</territory>
-			<territory type="HK" alt="short">ჰონგ კონგი</territory>
-			<territory type="HM" draft="contributed">ჰერდის კუნძული და მაკდონალდის კუნძულები</territory>
-			<territory type="HN">ჰონდურასი</territory>
-			<territory type="HR">ჰორვატია</territory>
-			<territory type="HT">ჰაიტი</territory>
-			<territory type="HU">უნგრეთი</territory>
-			<territory type="ID">ინდონეზია</territory>
-			<territory type="IE">ირლანდია</territory>
-			<territory type="IL">ისრაელი</territory>
-			<territory type="IM" draft="contributed">მანის კუნძული</territory>
-			<territory type="IN">ინდოეთი</territory>
-			<territory type="IO">ბრიტანული ტერიტორია ინდოეთის ოკეანეში</territory>
-			<territory type="IQ">ერაყი</territory>
-			<territory type="IR">ირანი</territory>
-			<territory type="IS">ისლანდია</territory>
-			<territory type="IT">იტალია</territory>
-			<territory type="JE" draft="contributed">ჯერსი</territory>
-			<territory type="JM">იამაიკა</territory>
-			<territory type="JO">იორდანია</territory>
-			<territory type="JP">იაპონია</territory>
-			<territory type="KE">კენია</territory>
-			<territory type="KG">ყირგიზეთი</territory>
-			<territory type="KH">კამბოჯა</territory>
-			<territory type="KI">კირიბატი</territory>
-			<territory type="KM">კომორის კუნძულები</territory>
-			<territory type="KN">სენტ-კიტსი და ნევისი</territory>
-			<territory type="KP">ჩრდილოეთი კორეა</territory>
-			<territory type="KR">სამხრეთი კორეა</territory>
-			<territory type="KW">კუვეიტი</territory>
-			<territory type="KY">კაიმანის კუნძულები</territory>
-			<territory type="KZ">ყაზახეთი</territory>
-			<territory type="LA">ლაოსი</territory>
-			<territory type="LB">ლიბანი</territory>
-			<territory type="LC">სენტ-ლუსია</territory>
-			<territory type="LI">ლიხტენშტაინი</territory>
-			<territory type="LK">შრი-ლანკა</territory>
-			<territory type="LR">ლიბერია</territory>
-			<territory type="LS" draft="contributed">ლესოთო</territory>
-			<territory type="LT">ლიტვა</territory>
-			<territory type="LU">ლუქსემბურგი</territory>
-			<territory type="LV">ლატვია</territory>
-			<territory type="LY">ლიბია</territory>
-			<territory type="MA">მაროკო</territory>
-			<territory type="MC">მონაკო</territory>
-			<territory type="MD">მოლდოვა</territory>
-			<territory type="ME">მონტენეგრო</territory>
-			<territory type="MG">მადაგასკარი</territory>
-			<territory type="MH">მარშალის კუნძულები</territory>
-			<territory type="MK">მაკედონია</territory>
-			<territory type="ML">მალი</territory>
-			<territory type="MM">მიანმარი</territory>
-			<territory type="MN">მონღოლეთი</territory>
-			<territory type="MO" draft="contributed">მაკაო</territory>
-			<territory type="MO" alt="short">მაკაო</territory>
-			<territory type="MQ" draft="contributed">მარტინიკი</territory>
-			<territory type="MR">მავრიტანია</territory>
-			<territory type="MS">მონსერატი</territory>
-			<territory type="MT">მალტა</territory>
-			<territory type="MU">მავრიკია</territory>
-			<territory type="MV">მალდივის კუნძულები</territory>
-			<territory type="MW">მალავი</territory>
-			<territory type="MX">მექსიკა</territory>
-			<territory type="MY">მალაიზია</territory>
-			<territory type="MZ">მოზამბიკი</territory>
-			<territory type="NA">ნამიბია</territory>
-			<territory type="NC" draft="contributed">ახალი კალედონია</territory>
-			<territory type="NE">ნიგერი</territory>
-			<territory type="NF">ნორფოლკის კუნძული</territory>
-			<territory type="NG">ნიგერია</territory>
-			<territory type="NI">ნიკარაგუა</territory>
-			<territory type="NL">ნიდერლანდები</territory>
-			<territory type="NO">ნორვეგია</territory>
-			<territory type="NP">ნეპალი</territory>
-			<territory type="NR">ნაურუ</territory>
-			<territory type="NZ">ახალი ზელანდია</territory>
-			<territory type="OM">ომანი</territory>
-			<territory type="PA">პანამა</territory>
-			<territory type="PE">პერუ</territory>
-			<territory type="PF" draft="contributed">ფრანგული პოლინეზია</territory>
-			<territory type="PG">პაპუა-ახალი გვინეა</territory>
-			<territory type="PH">ფილიპინები</territory>
-			<territory type="PK">პაკისტანი</territory>
-			<territory type="PL">პოლონეთი</territory>
-			<territory type="PM" draft="contributed">სენტ-პიერი და მიქელონი</territory>
-			<territory type="PR">პუერტო რიკო</territory>
-			<territory type="PS">პალესტინის ტერიტორია</territory>
-			<territory type="PT">პორტუგალია</territory>
-			<territory type="PW">პალაუ</territory>
-			<territory type="PY">პარაგვაი</territory>
-			<territory type="QA">კატარი</territory>
-			<territory type="QO" draft="contributed">დაშორებული ოკეანია</territory>
-			<territory type="RE" draft="contributed">რეიუნიონი</territory>
-			<territory type="RO">რუმინეთი</territory>
-			<territory type="RS">სერბია</territory>
-			<territory type="RU">რუსეთი</territory>
-			<territory type="RW">რუანდა</territory>
-			<territory type="SA">საუდის არაბეთი</territory>
-			<territory type="SB">სოლომონის კუნძულები</territory>
-			<territory type="SC">სეიშელის კუნძულები</territory>
-			<territory type="SD">სუდანი</territory>
-			<territory type="SE">შვეცია</territory>
-			<territory type="SG">სინგაპური</territory>
-			<territory type="SH" draft="contributed">წმინდა ელენეს კუნძული</territory>
-			<territory type="SI">სლოვენია</territory>
-			<territory type="SK">სლოვაკეთი</territory>
-			<territory type="SL">სიერა-ლეონე</territory>
-			<territory type="SM">სან-მარინო</territory>
-			<territory type="SN">სენეგალი</territory>
-			<territory type="SO">სომალი</territory>
-			<territory type="SR">სურინამი</territory>
-			<territory type="ST">საო-ტომე და პრინსიპი</territory>
-			<territory type="SV">სალვადორი</territory>
-			<territory type="SY">სირია</territory>
-			<territory type="SZ">სვაზილენდი</territory>
-			<territory type="TD">ჩადი</territory>
-			<territory type="TF" draft="contributed">ფრანგული სამხრეთის ტერიტორიები</territory>
-			<territory type="TG">ტოგო</territory>
-			<territory type="TH">ტაილანდი</territory>
-			<territory type="TJ">ტაჯიკეთი</territory>
-			<territory type="TL">აღმოსავლეთი ტიმორი</territory>
-			<territory type="TM">თურქმენეთი</territory>
-			<territory type="TN">ტუნისი</territory>
-			<territory type="TO">ტონგა</territory>
-			<territory type="TR">თურქეთი</territory>
-			<territory type="TT">ტრინიდადი და ტობაგო</territory>
-			<territory type="TV">ტუვალუ</territory>
-			<territory type="TW">ტაივანი</territory>
-			<territory type="TZ">ტანზანია</territory>
-			<territory type="UA">უკრაინა</territory>
-			<territory type="UG">უგანდა</territory>
-			<territory type="UM">შეერთებული შტატების მცირე დაშორებული კუნძულები</territory>
-			<territory type="US">ამერიკის შეერთებული შტატები</territory>
-			<territory type="UY">ურუგვაი</territory>
-			<territory type="UZ">უზბეკეთი</territory>
-			<territory type="VA">ვატიკანი</territory>
-			<territory type="VC">სენტ-ვინსენტი და გრენადინები</territory>
-			<territory type="VE">ვენესუელა</territory>
-			<territory type="VN">ვიეტნამი</territory>
-			<territory type="VU">ვანუატუ</territory>
-			<territory type="WF" draft="contributed">ვალისი და ფუტუნა</territory>
-			<territory type="WS">სამოა</territory>
-			<territory type="YE">იემენი</territory>
-			<territory type="ZA">სამხრეთ აფრიკა</territory>
-			<territory type="ZM">ზამბია</territory>
-			<territory type="ZW">ზიმბაბვე</territory>
-			<territory type="ZZ">უცნობი ან არასწორი რეგიონი</territory>
-		</territories>
-		<keys>
-			<key type="calendar">კალენდარი</key>
-			<key type="collation">მიმდევრობა</key>
-			<key type="currency">ვალუტა</key>
-		</keys>
-		<types>
-			<type type="big5han" key="collation">ტრადიციული ჩინური</type>
-			<type type="buddhist" key="calendar">ბუდისტური კალენდარი</type>
-			<type type="chinese" key="calendar">ჩინური კალენდარი</type>
-			<type type="gb2312han" key="collation">გამარტივებული ჩინური</type>
-			<type type="gregorian" key="calendar">გრიგორიანული კალენდარი</type>
-			<type type="hebrew" key="calendar">ებრაული კალენდარი</type>
-			<type type="indian" key="calendar" draft="contributed">ინდური ეროვნული კალენდარი</type>
-			<type type="islamic" key="calendar">ისლამური კალენდარი</type>
-			<type type="islamic-civil" key="calendar">ისლამური სამოქალაქო კალენდარი</type>
-			<type type="japanese" key="calendar">იაპონური კალენდარი</type>
-			<type type="roc" key="calendar" draft="contributed">ჩინეთის რესპუბლიკის კალენდარი</type>
-			<type type="traditional" key="collation">ტრადიციული</type>
-		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">მეტრული</measurementSystemName>
-			<measurementSystemName type="US">ანგლო-ამერიკული</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[ა ბ გ დ ე ვ ზ ჱ თ ი კ ლ მ ნ ჲ ო პ ჟ რ ს ტ ჳ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჴ ჯ ჰ ჵ ჶ ჷ ჸ ჹ ჺ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ⴀ ⴁ ⴂ ⴃ ⴄ ⴅ ⴆ ⴡ ⴇ ⴈ ⴉ ⴊ ⴋ ⴌ ⴢ ⴍ ⴎ ⴏ ⴐ ⴑ ⴒ ⴣ ⴓ ⴔ ⴕ ⴖ ⴗ ⴘ ⴙ ⴚ ⴛ ⴜ ⴝ ⴞ ⴤ ⴟ ⴠ ⴥ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[ა ბ გ დ ე ვ ზ თ ი კ ლ მ ნ ო პ ჟ რ ს ტ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჯ ჰ]</exemplarCharacters>
-		<exemplarCharacters type="index">[ა ბ გ დ ე ვ ზ თ ი კ ლ მ ნ ო პ ჟ რ ს ტ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჯ ჰ]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="contributed">„</quotationStart>
-		<quotationEnd draft="contributed">“</quotationEnd>
-		<alternateQuotationStart draft="contributed">‚</alternateQuotationStart>
-		<alternateQuotationEnd draft="contributed">‘</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">იან</month>
-							<month type="2">თებ</month>
-							<month type="3">მარ</month>
-							<month type="4">აპრ</month>
-							<month type="5">მაი</month>
-							<month type="6">ივნ</month>
-							<month type="7">ივლ</month>
-							<month type="8">აგვ</month>
-							<month type="9">სექ</month>
-							<month type="10">ოქტ</month>
-							<month type="11">ნოე</month>
-							<month type="12">დეკ</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">იანვარი</month>
-							<month type="2">თებერვალი</month>
-							<month type="3">მარტი</month>
-							<month type="4">აპრილი</month>
-							<month type="5">მაისი</month>
-							<month type="6">ივნისი</month>
-							<month type="7">ივლის</month>
-							<month type="8">აგვისტო</month>
-							<month type="9">სექტემბერი</month>
-							<month type="10">ოქტომბერი</month>
-							<month type="11">ნოემბერი</month>
-							<month type="12">დეკემბერი</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1">იან</month>
-							<month type="2">თებ</month>
-							<month type="3">მარ</month>
-							<month type="4">აპრ</month>
-							<month type="6">ივნ</month>
-							<month type="7">ივლ</month>
-							<month type="8">აგვ</month>
-							<month type="9">სექ</month>
-							<month type="11">ნოე</month>
-							<month type="12">დეკ</month>
-						</monthWidth>
-						<monthWidth type="narrow">
-							<month type="1">ი</month>
-							<month type="2">თ</month>
-							<month type="3">მ</month>
-							<month type="4">ა</month>
-							<month type="5">მ</month>
-							<month type="6">ი</month>
-							<month type="7" draft="provisional">ი</month>
-							<month type="8">ა</month>
-							<month type="9">ს</month>
-							<month type="10">ო</month>
-							<month type="11">ნ</month>
-							<month type="12">დ</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="4">აპრილი</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="provisional">კვი</day>
-							<day type="mon">ორშ</day>
-							<day type="tue">სამ</day>
-							<day type="wed">ოთხ</day>
-							<day type="thu">ხუთ</day>
-							<day type="fri">პარ</day>
-							<day type="sat">შაბ</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">კვირა</day>
-							<day type="mon" draft="provisional">ორშაბათი</day>
-							<day type="tue">სამშაბათი</day>
-							<day type="wed">ოთხშაბათი</day>
-							<day type="thu">ხუთშაბათი</day>
-							<day type="fri">პარასკევი</day>
-							<day type="sat">შაბათი</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">კ</day>
-							<day type="mon" draft="provisional">ო</day>
-							<day type="tue">ს</day>
-							<day type="wed" draft="provisional">ო</day>
-							<day type="thu">ხ</day>
-							<day type="fri" draft="provisional">პ</day>
-							<day type="sat">შ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">I კვ.</quarter>
-							<quarter type="2">II კვ.</quarter>
-							<quarter type="3">III კვ.</quarter>
-							<quarter type="4">IV კვ.</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">1-ლი კვარტალი</quarter>
-							<quarter type="2">მე-2 კვარტალი</quarter>
-							<quarter type="3">მე-3 კვარტალი</quarter>
-							<quarter type="4">მე-4 კვარტალი</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="wide">
-							<quarter type="1" draft="provisional">I კვარტალი</quarter>
-							<quarter type="2" draft="provisional">II კვარტალი</quarter>
-							<quarter type="3" draft="provisional">III კვარტალი</quarter>
-							<quarter type="4" draft="provisional">IV კვარტალი</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="provisional">დილის</dayPeriod>
-							<dayPeriod type="pm" draft="provisional">საღამოს</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0">ჩვენს წელთაღრიცხვამდე</era>
-						<era type="1">ჩვენი წელთაღრიცხვით</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="provisional">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="provisional">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="provisional">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="provisional">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">d.M.</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d.M.y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M.-M.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">dd.MM. - dd.MM.</greatestDifference>
-							<greatestDifference id="M">dd.MM. - dd.MM.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, dd.MM. - E, dd.MM.</greatestDifference>
-							<greatestDifference id="M">E, dd.MM. - E, dd.MM.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d-d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d - E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM.yy - MM.yy</greatestDifference>
-							<greatestDifference id="y">MM.yy - MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="M">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="y">dd.MM.yy - dd.MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="M">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="y">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d - E, d MMM y</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="y">E, d MMM y - E, d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM – MM.yyyy</greatestDifference>
-							<greatestDifference id="y">MM.yyyy – MM.yyyy</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>ერა</displayName>
-					</field>
-					<field type="year">
-						<displayName>წელი</displayName>
-					</field>
-					<field type="month">
-						<displayName>თვე</displayName>
-					</field>
-					<field type="week">
-						<displayName>კვირა</displayName>
-					</field>
-					<field type="day">
-						<displayName>დღე</displayName>
-						<relative type="-2" draft="provisional">გუშინწინ</relative>
-						<relative type="-1">გუშინ</relative>
-						<relative type="0">დღეს</relative>
-						<relative type="1">ხვალ</relative>
-						<relative type="2" draft="provisional">ზეგ</relative>
-					</field>
-					<field type="weekday">
-						<displayName>კვირის დღე</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>AM/PM</displayName>
-					</field>
-					<field type="hour">
-						<displayName>საათი</displayName>
-					</field>
-					<field type="minute">
-						<displayName>წუთი</displayName>
-					</field>
-					<field type="second">
-						<displayName>წამი</displayName>
-					</field>
-					<field type="zone">
-						<displayName>სასაათო სარტყელი</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
-			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
-			<zone type="Etc/Unknown">
-				<exemplarCity draft="contributed">უცნობი</exemplarCity>
-			</zone>
-			<zone type="America/Antigua">
-				<exemplarCity draft="provisional">ბარბუდა</exemplarCity>
-			</zone>
-			<zone type="America/Anguilla">
-				<exemplarCity draft="provisional">ანგილა</exemplarCity>
-			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity draft="provisional">ნიდერლანდის</exemplarCity>
-			</zone>
-			<zone type="Africa/Luanda">
-				<exemplarCity draft="provisional">ანგოლა</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Rothera">
-				<exemplarCity draft="contributed">როთერა</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Palmer">
-				<exemplarCity draft="contributed">პალმერი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="contributed">სამხრეთი პოლუსი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Syowa">
-				<exemplarCity draft="contributed">სიოუა</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Mawson">
-				<exemplarCity draft="contributed">მოუსონი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Davis">
-				<exemplarCity draft="contributed">დევისი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Vostok">
-				<exemplarCity draft="contributed">ვოსტოკი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Casey">
-				<exemplarCity draft="contributed">კეისი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/DumontDUrville">
-				<exemplarCity draft="contributed">დიუმონ დ'ურვილი</exemplarCity>
-			</zone>
-			<zone type="Antarctica/McMurdo">
-				<exemplarCity draft="contributed">მაკმურდო</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Rio_Gallegos">
-				<exemplarCity draft="contributed">რიო გალეგოსი</exemplarCity>
-			</zone>
-			<zone type="America/Mendoza">
-				<exemplarCity draft="contributed">მენდოზა</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Juan">
-				<exemplarCity draft="contributed">სან ხუანი</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Ushuaia">
-				<exemplarCity draft="contributed">უშუაია</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/La_Rioja">
-				<exemplarCity draft="contributed">ლა რიოხა</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Luis">
-				<exemplarCity draft="contributed">სან ლუისი</exemplarCity>
-			</zone>
-			<zone type="America/Catamarca">
-				<exemplarCity draft="contributed">კატამარკა</exemplarCity>
-			</zone>
-			<zone type="America/Jujuy">
-				<exemplarCity draft="contributed">ჯუჯუი</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Tucuman">
-				<exemplarCity draft="contributed">ტუკუმანი</exemplarCity>
-			</zone>
-			<zone type="America/Cordoba">
-				<exemplarCity draft="contributed">კორდობა</exemplarCity>
-			</zone>
-			<zone type="America/Buenos_Aires">
-				<exemplarCity draft="contributed">ბუენოს აირესი</exemplarCity>
-			</zone>
-			<zone type="Australia/Perth">
-				<exemplarCity draft="contributed">პერთი</exemplarCity>
-			</zone>
-			<zone type="Australia/Eucla">
-				<exemplarCity draft="contributed">ეუკლა</exemplarCity>
-			</zone>
-			<zone type="Australia/Darwin">
-				<exemplarCity draft="contributed">დარვინი</exemplarCity>
-			</zone>
-			<zone type="Australia/Adelaide">
-				<exemplarCity draft="contributed">ადელაიდა</exemplarCity>
-			</zone>
-			<zone type="Australia/Broken_Hill">
-				<exemplarCity draft="contributed">ბროუკენ ჰილი</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity draft="contributed">ქური</exemplarCity>
-			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity draft="contributed">მელბურნი</exemplarCity>
-			</zone>
-			<zone type="Australia/Hobart">
-				<exemplarCity draft="contributed">ჰობარტი</exemplarCity>
-			</zone>
-			<zone type="Australia/Lindeman">
-				<exemplarCity draft="contributed">ლინდმანი</exemplarCity>
-			</zone>
-			<zone type="Australia/Sydney">
-				<exemplarCity draft="contributed">სიდნეი</exemplarCity>
-			</zone>
-			<zone type="Australia/Brisbane">
-				<exemplarCity draft="contributed">ბრისბეინი</exemplarCity>
-			</zone>
-			<zone type="Australia/Lord_Howe">
-				<exemplarCity draft="contributed">ლორდ ჰოუი</exemplarCity>
-			</zone>
-			<zone type="America/Aruba">
-				<exemplarCity draft="provisional">არუბა</exemplarCity>
-			</zone>
-			<zone type="America/Barbados">
-				<exemplarCity draft="provisional">ბარბადოსი</exemplarCity>
-			</zone>
-			<zone type="Africa/Ouagadougou">
-				<exemplarCity draft="provisional">ბურკინა ფასო</exemplarCity>
-			</zone>
-			<zone type="Africa/Bujumbura">
-				<exemplarCity draft="provisional">ბურუნდი</exemplarCity>
-			</zone>
-			<zone type="Africa/Porto-Novo">
-				<exemplarCity draft="provisional">ბენინი</exemplarCity>
-			</zone>
-			<zone type="America/La_Paz">
-				<exemplarCity draft="provisional">ბოლივია</exemplarCity>
-			</zone>
-			<zone type="America/Eirunepe">
-				<exemplarCity draft="contributed">ეირუნეპე</exemplarCity>
-			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity draft="contributed">რიო ბრანკო</exemplarCity>
-			</zone>
-			<zone type="America/Porto_Velho">
-				<exemplarCity draft="contributed">პორტო ველჰო</exemplarCity>
-			</zone>
-			<zone type="America/Boa_Vista">
-				<exemplarCity draft="contributed">ბოა ვისტა</exemplarCity>
-			</zone>
-			<zone type="America/Manaus">
-				<exemplarCity draft="contributed">მანაუსი</exemplarCity>
-			</zone>
-			<zone type="America/Cuiaba">
-				<exemplarCity draft="contributed">კუიაბა</exemplarCity>
-			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity draft="contributed">კამპო გრანდე</exemplarCity>
-			</zone>
-			<zone type="America/Belem">
-				<exemplarCity draft="contributed">ბელემი</exemplarCity>
-			</zone>
-			<zone type="America/Araguaina">
-				<exemplarCity draft="contributed">არაგუაინა</exemplarCity>
-			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity draft="contributed">საო პაულო</exemplarCity>
-			</zone>
-			<zone type="America/Bahia">
-				<exemplarCity draft="contributed">ბაია</exemplarCity>
-			</zone>
-			<zone type="America/Fortaleza">
-				<exemplarCity draft="contributed">ფორტალეზა</exemplarCity>
-			</zone>
-			<zone type="America/Maceio">
-				<exemplarCity draft="contributed">მასეიო</exemplarCity>
-			</zone>
-			<zone type="America/Recife">
-				<exemplarCity draft="contributed">რეციფე</exemplarCity>
-			</zone>
-			<zone type="America/Noronha">
-				<exemplarCity draft="contributed">ნორონია</exemplarCity>
-			</zone>
-			<zone type="America/Nassau">
-				<exemplarCity draft="provisional">ბაჰამის კუნძულები</exemplarCity>
-			</zone>
-			<zone type="Africa/Gaborone">
-				<exemplarCity draft="provisional">ბოტსვანა</exemplarCity>
-			</zone>
-			<zone type="America/Belize">
-				<exemplarCity draft="provisional">ბელიზი</exemplarCity>
-			</zone>
-			<zone type="America/Dawson">
-				<exemplarCity draft="contributed">დოუსონი</exemplarCity>
-			</zone>
-			<zone type="America/Whitehorse">
-				<exemplarCity draft="contributed">უაითჰორსი</exemplarCity>
-			</zone>
-			<zone type="America/Inuvik">
-				<exemplarCity draft="contributed">ინუვიკი</exemplarCity>
-			</zone>
-			<zone type="America/Vancouver">
-				<exemplarCity draft="contributed">ვანკუვერი</exemplarCity>
-			</zone>
-			<zone type="America/Dawson_Creek">
-				<exemplarCity draft="contributed">დოუსონ ქრიკი</exemplarCity>
-			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity draft="contributed">იელოუნაიფი</exemplarCity>
-			</zone>
-			<zone type="America/Edmonton">
-				<exemplarCity draft="contributed">ედმონტონი</exemplarCity>
-			</zone>
-			<zone type="America/Swift_Current">
-				<exemplarCity draft="contributed">სვიფტ კარენტი</exemplarCity>
-			</zone>
-			<zone type="America/Cambridge_Bay">
-				<exemplarCity draft="contributed">კემბრიჯ ბეი</exemplarCity>
-			</zone>
-			<zone type="America/Regina">
-				<exemplarCity draft="contributed">რეჯინა</exemplarCity>
-			</zone>
-			<zone type="America/Winnipeg">
-				<exemplarCity draft="contributed">უინიპეგი</exemplarCity>
-			</zone>
-			<zone type="America/Resolute">
-				<exemplarCity draft="contributed">რეზოლუტე</exemplarCity>
-			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity draft="contributed">რეინი რივერი</exemplarCity>
-			</zone>
-			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="contributed">რენკინ ინლეტი</exemplarCity>
-			</zone>
-			<zone type="America/Coral_Harbour">
-				<exemplarCity draft="contributed">ქორალ ჰარბორი</exemplarCity>
-			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity draft="contributed">თანდერ ბეი</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity draft="contributed">ნიპიგონი</exemplarCity>
-			</zone>
-			<zone type="America/Toronto">
-				<exemplarCity draft="contributed">ტორონტო</exemplarCity>
-			</zone>
-			<zone type="America/Montreal">
-				<exemplarCity draft="contributed">მონრეალი</exemplarCity>
-			</zone>
-			<zone type="America/Iqaluit">
-				<exemplarCity draft="contributed">იქალუიტი</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
-				<exemplarCity draft="contributed">პანგნირტუნგი</exemplarCity>
-			</zone>
-			<zone type="America/Moncton">
-				<exemplarCity draft="contributed">მონქტონი</exemplarCity>
-			</zone>
-			<zone type="America/Halifax">
-				<exemplarCity draft="contributed">ჰალიფაქსი</exemplarCity>
-			</zone>
-			<zone type="America/Goose_Bay">
-				<exemplarCity draft="contributed">გუზ ბეი</exemplarCity>
-			</zone>
-			<zone type="America/Glace_Bay">
-				<exemplarCity draft="contributed">გლეის ბეი</exemplarCity>
-			</zone>
-			<zone type="America/Blanc-Sablon">
-				<exemplarCity draft="contributed">ბლან-საბლონი</exemplarCity>
-			</zone>
-			<zone type="America/St_Johns">
-				<exemplarCity draft="contributed">სენტ ჯონსი</exemplarCity>
-			</zone>
-			<zone type="Africa/Kinshasa">
-				<exemplarCity draft="contributed">კინშასა</exemplarCity>
-			</zone>
-			<zone type="Africa/Lubumbashi">
-				<exemplarCity draft="contributed">ლუბუმბაში</exemplarCity>
-			</zone>
-			<zone type="Africa/Bangui">
-				<exemplarCity draft="provisional">ცენტრალური აფრიკის რესპუბლიკა</exemplarCity>
-			</zone>
-			<zone type="Africa/Brazzaville">
-				<exemplarCity draft="provisional">კონგო - ბრაზავილი</exemplarCity>
-			</zone>
-			<zone type="Africa/Abidjan">
-				<exemplarCity draft="provisional">სპილოს ძვლის სანაპირო</exemplarCity>
-			</zone>
-			<zone type="Pacific/Easter">
-				<exemplarCity draft="contributed">ისთერი</exemplarCity>
-			</zone>
-			<zone type="Africa/Douala">
-				<exemplarCity draft="provisional">კამერუნი</exemplarCity>
-			</zone>
-			<zone type="Asia/Kashgar">
-				<exemplarCity draft="contributed">კაშგარი</exemplarCity>
-			</zone>
-			<zone type="Asia/Urumqi">
-				<exemplarCity draft="contributed">ურუმქი</exemplarCity>
-			</zone>
-			<zone type="Asia/Chongqing">
-				<exemplarCity draft="contributed">ჩონგქინგი</exemplarCity>
-			</zone>
-			<zone type="Asia/Harbin">
-				<exemplarCity draft="contributed">ჰარბინი</exemplarCity>
-			</zone>
-			<zone type="America/Bogota">
-				<exemplarCity draft="provisional">კოლუმბია</exemplarCity>
-			</zone>
-			<zone type="America/Costa_Rica">
-				<exemplarCity draft="provisional">კოსტა რიკა</exemplarCity>
-			</zone>
-			<zone type="America/Havana">
-				<exemplarCity draft="provisional">კუბა</exemplarCity>
-			</zone>
-			<zone type="Africa/Djibouti">
-				<exemplarCity draft="provisional">ჯიბუტი</exemplarCity>
-			</zone>
-			<zone type="America/Dominica">
-				<exemplarCity draft="provisional">დომინიკა</exemplarCity>
-			</zone>
-			<zone type="Africa/Algiers">
-				<exemplarCity draft="provisional">ალჟირი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Galapagos">
-				<exemplarCity draft="contributed">გალაპაგოსი</exemplarCity>
-			</zone>
-			<zone type="Africa/Cairo">
-				<exemplarCity draft="provisional">ეგვიპტე</exemplarCity>
-			</zone>
-			<zone type="Africa/El_Aaiun">
-				<exemplarCity draft="provisional">დასავლეთი საჰარა</exemplarCity>
-			</zone>
-			<zone type="Africa/Asmera">
-				<exemplarCity draft="provisional">ერითრეა</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Canary">
-				<exemplarCity draft="contributed">კანარი</exemplarCity>
-			</zone>
-			<zone type="Africa/Ceuta">
-				<exemplarCity draft="contributed">სეუტა</exemplarCity>
-			</zone>
-			<zone type="Africa/Addis_Ababa">
-				<exemplarCity draft="provisional">ეთიოპია</exemplarCity>
-			</zone>
-			<zone type="Pacific/Truk">
-				<exemplarCity draft="contributed">ტრუკი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Ponape">
-				<exemplarCity draft="contributed">პონაპე</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kosrae">
-				<exemplarCity draft="contributed">კოსრაე</exemplarCity>
-			</zone>
-			<zone type="Africa/Libreville">
-				<exemplarCity draft="provisional">გაბონი</exemplarCity>
-			</zone>
-			<zone type="America/Grenada">
-				<exemplarCity draft="provisional">გრენადა</exemplarCity>
-			</zone>
-			<zone type="America/Cayenne">
-				<exemplarCity draft="provisional">გუიანა</exemplarCity>
-			</zone>
-			<zone type="Africa/Accra">
-				<exemplarCity draft="provisional">განა</exemplarCity>
-			</zone>
-			<zone type="America/Thule">
-				<exemplarCity draft="contributed">თულე</exemplarCity>
-			</zone>
-			<zone type="America/Scoresbysund">
-				<exemplarCity draft="contributed">სკორსბისუნდი</exemplarCity>
-			</zone>
-			<zone type="America/Danmarkshavn">
-				<exemplarCity draft="contributed">დენმარკშავნი</exemplarCity>
-			</zone>
-			<zone type="Africa/Banjul">
-				<exemplarCity draft="provisional">გამბია</exemplarCity>
-			</zone>
-			<zone type="Africa/Conakry">
-				<exemplarCity draft="provisional">გინეა</exemplarCity>
-			</zone>
-			<zone type="America/Guadeloupe">
-				<exemplarCity draft="provisional">გუადელუპე</exemplarCity>
-			</zone>
-			<zone type="Africa/Malabo">
-				<exemplarCity draft="provisional">ეკვატორული გვინეა</exemplarCity>
-			</zone>
-			<zone type="America/Guatemala">
-				<exemplarCity draft="provisional">გუატემალა</exemplarCity>
-			</zone>
-			<zone type="Africa/Bissau">
-				<exemplarCity draft="provisional">გინეა-ბისაუ</exemplarCity>
-			</zone>
-			<zone type="Asia/Jakarta">
-				<exemplarCity draft="contributed">ჯაკარტა</exemplarCity>
-			</zone>
-			<zone type="Asia/Pontianak">
-				<exemplarCity draft="contributed">პონტიანაკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Makassar">
-				<exemplarCity draft="contributed">მაკასარი</exemplarCity>
-			</zone>
-			<zone type="Asia/Jayapura">
-				<exemplarCity draft="contributed">ჯაიაპურა</exemplarCity>
-			</zone>
-			<zone type="America/Jamaica">
-				<exemplarCity draft="provisional">იამაიკა</exemplarCity>
-			</zone>
-			<zone type="Africa/Nairobi">
-				<exemplarCity draft="provisional">კენია</exemplarCity>
-			</zone>
-			<zone type="Pacific/Enderbury">
-				<exemplarCity draft="contributed">ენდერბური</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kiritimati">
-				<exemplarCity draft="contributed">კირიტიმატი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Tarawa">
-				<exemplarCity draft="contributed">ტარაუა</exemplarCity>
-			</zone>
-			<zone type="America/Cayman">
-				<exemplarCity draft="provisional">კაიმანის</exemplarCity>
-			</zone>
-			<zone type="Asia/Aqtau">
-				<exemplarCity draft="contributed">აქტაუ</exemplarCity>
-			</zone>
-			<zone type="Asia/Oral">
-				<exemplarCity draft="contributed">ორალი</exemplarCity>
-			</zone>
-			<zone type="Asia/Aqtobe">
-				<exemplarCity draft="contributed">აქტობე</exemplarCity>
-			</zone>
-			<zone type="Asia/Qyzylorda">
-				<exemplarCity draft="contributed">ყიზილორდა</exemplarCity>
-			</zone>
-			<zone type="Asia/Almaty">
-				<exemplarCity draft="contributed">ალმატი</exemplarCity>
-			</zone>
-			<zone type="Africa/Monrovia">
-				<exemplarCity draft="provisional">ლიბერია</exemplarCity>
-			</zone>
-			<zone type="Africa/Maseru">
-				<exemplarCity draft="provisional">ლესოთო</exemplarCity>
-			</zone>
-			<zone type="Africa/Tripoli">
-				<exemplarCity draft="provisional">ლიბია</exemplarCity>
-			</zone>
-			<zone type="Africa/Casablanca">
-				<exemplarCity draft="provisional">მაროკო</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kwajalein">
-				<exemplarCity draft="contributed">კვაჯალეინი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Majuro">
-				<exemplarCity draft="contributed">მახურო</exemplarCity>
-			</zone>
-			<zone type="Africa/Bamako">
-				<exemplarCity draft="provisional">მალი</exemplarCity>
-			</zone>
-			<zone type="Asia/Hovd">
-				<exemplarCity draft="contributed">ჰოვდი</exemplarCity>
-			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<exemplarCity draft="contributed">ულანბატარი</exemplarCity>
-			</zone>
-			<zone type="Asia/Choibalsan">
-				<exemplarCity draft="contributed">ჩოიბალსანი</exemplarCity>
-			</zone>
-			<zone type="America/Martinique">
-				<exemplarCity draft="provisional">მარტინიკი</exemplarCity>
-			</zone>
-			<zone type="Africa/Nouakchott">
-				<exemplarCity draft="provisional">მავრიტანია</exemplarCity>
-			</zone>
-			<zone type="America/Montserrat">
-				<exemplarCity draft="provisional">მონსერატი</exemplarCity>
-			</zone>
-			<zone type="Africa/Blantyre">
-				<exemplarCity draft="provisional">მალავი</exemplarCity>
-			</zone>
-			<zone type="America/Tijuana">
-				<exemplarCity draft="contributed">ტიხუანა</exemplarCity>
-			</zone>
-			<zone type="America/Hermosillo">
-				<exemplarCity draft="contributed">ჰერმოსიო</exemplarCity>
-			</zone>
-			<zone type="America/Mazatlan">
-				<exemplarCity draft="contributed">მაზატლანი</exemplarCity>
-			</zone>
-			<zone type="America/Chihuahua">
-				<exemplarCity draft="contributed">ჩიჰუაჰუა</exemplarCity>
-			</zone>
-			<zone type="America/Monterrey">
-				<exemplarCity draft="contributed">მონტერეი</exemplarCity>
-			</zone>
-			<zone type="America/Mexico_City">
-				<exemplarCity draft="contributed">მექსიკო სითი</exemplarCity>
-			</zone>
-			<zone type="America/Merida">
-				<exemplarCity draft="contributed">მერიდა</exemplarCity>
-			</zone>
-			<zone type="America/Cancun">
-				<exemplarCity draft="contributed">კანკუნი</exemplarCity>
-			</zone>
-			<zone type="Asia/Kuching">
-				<exemplarCity draft="contributed">კუჩინგი</exemplarCity>
-			</zone>
-			<zone type="Africa/Maputo">
-				<exemplarCity draft="provisional">მოზამბიკი</exemplarCity>
-			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="provisional">ნამიბია</exemplarCity>
-			</zone>
-			<zone type="Africa/Niamey">
-				<exemplarCity draft="provisional">ნიგერი</exemplarCity>
-			</zone>
-			<zone type="Africa/Lagos">
-				<exemplarCity draft="provisional">ნიგერია</exemplarCity>
-			</zone>
-			<zone type="America/Managua">
-				<exemplarCity draft="provisional">ნიკარაგუა</exemplarCity>
-			</zone>
-			<zone type="Pacific/Chatham">
-				<exemplarCity draft="contributed">ჩათამი</exemplarCity>
-			</zone>
-			<zone type="America/Lima">
-				<exemplarCity draft="provisional">პერუ</exemplarCity>
-			</zone>
-			<zone type="Pacific/Marquesas">
-				<exemplarCity draft="contributed">მარკეზასი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Gambier">
-				<exemplarCity draft="contributed">გამბიერი</exemplarCity>
-			</zone>
-			<zone type="America/Miquelon">
-				<exemplarCity draft="provisional">სენტ პიერი და მიკელონი</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Azores">
-				<exemplarCity draft="contributed">აზორეს</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Madeira">
-				<exemplarCity draft="contributed">მადეირა</exemplarCity>
-			</zone>
-			<zone type="America/Asuncion">
-				<exemplarCity draft="provisional">პარაგვაი</exemplarCity>
-			</zone>
-			<zone type="Europe/Kaliningrad">
-				<exemplarCity draft="contributed">კალინინგრადი</exemplarCity>
-			</zone>
-			<zone type="Europe/Moscow">
-				<exemplarCity draft="contributed">მოსკოვი</exemplarCity>
-			</zone>
-			<zone type="Europe/Volgograd">
-				<exemplarCity draft="contributed">ვოლგოგრადი</exemplarCity>
-			</zone>
-			<zone type="Europe/Samara">
-				<exemplarCity draft="contributed">სამარა</exemplarCity>
-			</zone>
-			<zone type="Asia/Yekaterinburg">
-				<exemplarCity draft="contributed">ეკატერინბურგი</exemplarCity>
-			</zone>
-			<zone type="Asia/Omsk">
-				<exemplarCity draft="contributed">ომსკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Novosibirsk">
-				<exemplarCity draft="contributed">ნოვოსიბირსკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Krasnoyarsk">
-				<exemplarCity draft="contributed">კრასნოიარსკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Irkutsk">
-				<exemplarCity draft="contributed">ირკუტსკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Yakutsk">
-				<exemplarCity draft="contributed">იაკუტსკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Vladivostok">
-				<exemplarCity draft="contributed">ვლადივოსტოკი</exemplarCity>
-			</zone>
-			<zone type="Asia/Sakhalin">
-				<exemplarCity draft="contributed">სახალინი</exemplarCity>
-			</zone>
-			<zone type="Asia/Magadan">
-				<exemplarCity draft="contributed">მაგადანი</exemplarCity>
-			</zone>
-			<zone type="Asia/Kamchatka">
-				<exemplarCity draft="contributed">კამჩატკა</exemplarCity>
-			</zone>
-			<zone type="Asia/Anadyr">
-				<exemplarCity draft="contributed">ანადირი</exemplarCity>
-			</zone>
-			<zone type="Africa/Kigali">
-				<exemplarCity draft="provisional">რუანდა</exemplarCity>
-			</zone>
-			<zone type="Africa/Khartoum">
-				<exemplarCity draft="provisional">სუდანი</exemplarCity>
-			</zone>
-			<zone type="Africa/Freetown">
-				<exemplarCity draft="provisional">სიერა ლეონე</exemplarCity>
-			</zone>
-			<zone type="Africa/Dakar">
-				<exemplarCity draft="provisional">სენეგალი</exemplarCity>
-			</zone>
-			<zone type="Africa/Mogadishu">
-				<exemplarCity draft="provisional">სომალია</exemplarCity>
-			</zone>
-			<zone type="Africa/Sao_Tome">
-				<exemplarCity draft="provisional">საო ტომე და პრინსიპე</exemplarCity>
-			</zone>
-			<zone type="America/El_Salvador">
-				<exemplarCity draft="provisional">ელ სალვადორი</exemplarCity>
-			</zone>
-			<zone type="Africa/Mbabane">
-				<exemplarCity draft="provisional">სვაზილენდი</exemplarCity>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="provisional">ტერკის და კაიკოს</exemplarCity>
-			</zone>
-			<zone type="Africa/Ndjamena">
-				<exemplarCity draft="provisional">ჩადი</exemplarCity>
-			</zone>
-			<zone type="Africa/Lome">
-				<exemplarCity draft="provisional">ტოგო</exemplarCity>
-			</zone>
-			<zone type="Africa/Tunis">
-				<exemplarCity draft="provisional">ტუნისი</exemplarCity>
-			</zone>
-			<zone type="Africa/Dar_es_Salaam">
-				<exemplarCity draft="provisional">ტანზანია</exemplarCity>
-			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="contributed">უჟგოროდი</exemplarCity>
-			</zone>
-			<zone type="Europe/Kiev">
-				<exemplarCity draft="contributed">კიევი</exemplarCity>
-			</zone>
-			<zone type="Europe/Simferopol">
-				<exemplarCity draft="contributed">სიმფეროპოლი</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="contributed">ზაპოროჟიე</exemplarCity>
-			</zone>
-			<zone type="Africa/Kampala">
-				<exemplarCity draft="provisional">უგანდა</exemplarCity>
-			</zone>
-			<zone type="Pacific/Midway">
-				<exemplarCity draft="contributed">მიდუეი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity draft="contributed">ჯონსტონი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Wake">
-				<exemplarCity draft="contributed">უეიკი</exemplarCity>
-			</zone>
-			<zone type="America/Adak">
-				<exemplarCity draft="contributed">ადაკი</exemplarCity>
-			</zone>
-			<zone type="America/Nome">
-				<exemplarCity draft="contributed">ნომი</exemplarCity>
-			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="contributed">ჰონოლულუ</exemplarCity>
-			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity draft="contributed">ენქორაჯი</exemplarCity>
-			</zone>
-			<zone type="America/Yakutat">
-				<exemplarCity draft="contributed">იაკუტატი</exemplarCity>
-			</zone>
-			<zone type="America/Juneau">
-				<exemplarCity draft="contributed">ჯუნო</exemplarCity>
-			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity draft="contributed">ლოს ანჯელესი</exemplarCity>
-			</zone>
-			<zone type="America/Boise">
-				<exemplarCity draft="contributed">ბუასი</exemplarCity>
-			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity draft="contributed">ფენიქსი</exemplarCity>
-			</zone>
-			<zone type="America/Shiprock">
-				<exemplarCity draft="contributed">შიპროკი</exemplarCity>
-			</zone>
-			<zone type="America/Denver">
-				<exemplarCity draft="contributed">დენვერი</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/New_Salem">
-				<exemplarCity draft="contributed">ნიუ სალემი, ჩრდილოეთი დაკოტა</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity draft="contributed">ცენტრი, ჩრდილოეთი დაკოტა</exemplarCity>
-			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity draft="contributed">ჩიკაგო</exemplarCity>
-			</zone>
-			<zone type="America/Menominee">
-				<exemplarCity draft="contributed">მენომინი</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vincennes">
-				<exemplarCity draft="contributed">ვინსენი, ინდიანა</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Petersburg">
-				<exemplarCity draft="contributed">პიტერსბურგი</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Tell_City">
-				<exemplarCity draft="contributed">თელ სითი, ინდიანა</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Knox">
-				<exemplarCity draft="contributed">ნოქსი, ინდიანა</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Winamac">
-				<exemplarCity draft="contributed">უინემაკი, ინდიანა</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Marengo">
-				<exemplarCity draft="contributed">მარენგო</exemplarCity>
-			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity draft="contributed">ინდიანაპოლისი</exemplarCity>
-			</zone>
-			<zone type="America/Louisville">
-				<exemplarCity draft="contributed">ლუისვილი</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Vevay">
-				<exemplarCity draft="contributed">ვივეი, ინდიანა</exemplarCity>
-			</zone>
-			<zone type="America/Kentucky/Monticello">
-				<exemplarCity draft="contributed">მონტიჩელო</exemplarCity>
-			</zone>
-			<zone type="America/Detroit">
-				<exemplarCity draft="contributed">დეტროიტი</exemplarCity>
-			</zone>
-			<zone type="America/New_York">
-				<exemplarCity draft="contributed">ნიუ იორკი</exemplarCity>
-			</zone>
-			<zone type="America/Montevideo">
-				<exemplarCity draft="provisional">ურუგვაი</exemplarCity>
-			</zone>
-			<zone type="Asia/Samarkand">
-				<exemplarCity draft="contributed">სამარყანდი</exemplarCity>
-			</zone>
-			<zone type="America/Caracas">
-				<exemplarCity draft="provisional">ვენესუელა</exemplarCity>
-			</zone>
-			<zone type="Africa/Johannesburg">
-				<exemplarCity draft="provisional">სამხრეთი აფრიკა</exemplarCity>
-			</zone>
-			<zone type="Africa/Lusaka">
-				<exemplarCity draft="provisional">ზამბია</exemplarCity>
-			</zone>
-			<zone type="Africa/Harare">
-				<exemplarCity draft="provisional">ზიმბაბვე</exemplarCity>
-			</zone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
-		<otherNumberingSystems>
-			<native>latn</native>
-			<traditional>geor</traditional>
-		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal draft="contributed">,</decimal>
-			<group draft="contributed">.</group>
-			<list draft="contributed">;</list>
-			<percentSign draft="contributed">%</percentSign>
-			<plusSign draft="contributed">+</plusSign>
-			<minusSign draft="contributed">-</minusSign>
-			<exponential draft="contributed">E</exponential>
-			<perMille draft="contributed">‰</perMille>
-			<infinity draft="contributed">∞</infinity>
-			<nan draft="contributed">NaN</nan>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="kb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfPbttfrn drbft="dontributfd">{0} ({1})</lodblfPbttfrn>
+			<lodblfSfpbrbtor drbft="dontributfd">, </lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">აფხაზური</lbngubgf>
+			<lbngubgf typf="bdy">ადიღეური</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">ავესტა</lbngubgf>
+			<lbngubgf typf="bf">აფრიკული</lbngubgf>
+			<lbngubgf typf="bin" drbft="dontributfd">აინუ</lbngubgf>
+			<lbngubgf typf="blf" drbft="dontributfd">ალეუტური</lbngubgf>
+			<lbngubgf typf="bng">ძველი ინგლისური</lbngubgf>
+			<lbngubgf typf="br">არაბული</lbngubgf>
+			<lbngubgf typf="brd">არამეული</lbngubgf>
+			<lbngubgf typf="brt" drbft="dontributfd">ხელოვნური სხვა</lbngubgf>
+			<lbngubgf typf="bs" drbft="dontributfd">ასამური</lbngubgf>
+			<lbngubgf typf="bst">ავსტრიული</lbngubgf>
+			<lbngubgf typf="bz">აზერბაიჯანული</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">ბელორუსული</lbngubgf>
+			<lbngubgf typf="bg">ბულგარული</lbngubgf>
+			<lbngubgf typf="bi" drbft="dontributfd">ბიჰარი</lbngubgf>
+			<lbngubgf typf="bo">ტიბეტური</lbngubgf>
+			<lbngubgf typf="br" drbft="dontributfd">ბრეტონული</lbngubgf>
+			<lbngubgf typf="bs">ბოსნიური</lbngubgf>
+			<lbngubgf typf="bub" drbft="dontributfd">ბურიატული</lbngubgf>
+			<lbngubgf typf="db" drbft="dontributfd">კატალანური</lbngubgf>
+			<lbngubgf typf="dbu" drbft="dontributfd">კავკასიური სხვა</lbngubgf>
+			<lbngubgf typf="df">ჩეჩნური</lbngubgf>
+			<lbngubgf typf="dfl" drbft="dontributfd">კელტური სხვა</lbngubgf>
+			<lbngubgf typf="ds">ჩეხური</lbngubgf>
+			<lbngubgf typf="du">საეკლესიო სლავური</lbngubgf>
+			<lbngubgf typf="dy" drbft="dontributfd">უელსური</lbngubgf>
+			<lbngubgf typf="db">დანიური</lbngubgf>
+			<lbngubgf typf="df">გერმანული</lbngubgf>
+			<lbngubgf typf="df_AT">ავსტრიული გერმანული</lbngubgf>
+			<lbngubgf typf="df_CH" drbft="dontributfd">შვეიცარიული მაღალი გერმანული</lbngubgf>
+			<lbngubgf typf="fgy" drbft="dontributfd">ეგვიპტური</lbngubgf>
+			<lbngubgf typf="fl">ბერძნული</lbngubgf>
+			<lbngubgf typf="fn">ინგლისური</lbngubgf>
+			<lbngubgf typf="fn_AU">ავსტრალიური ინგლისური</lbngubgf>
+			<lbngubgf typf="fn_CA">კანადური ინგლისური</lbngubgf>
+			<lbngubgf typf="fn_GB">ბრიტანული ინგლისური</lbngubgf>
+			<lbngubgf typf="fn_US">ამერიკული ინგლისური</lbngubgf>
+			<lbngubgf typf="fo">ესპერანტო</lbngubgf>
+			<lbngubgf typf="fs">ესპანური</lbngubgf>
+			<lbngubgf typf="fs_419" drbft="dontributfd">ლათინურ ამერიკული ესპანური</lbngubgf>
+			<lbngubgf typf="fs_ES" drbft="dontributfd">იბერიული ესპანური</lbngubgf>
+			<lbngubgf typf="ft">ესტონური</lbngubgf>
+			<lbngubgf typf="fu">ბასკური</lbngubgf>
+			<lbngubgf typf="fb">სპარსული</lbngubgf>
+			<lbngubgf typf="fi">ფინური</lbngubgf>
+			<lbngubgf typf="fil">ფილიპინური</lbngubgf>
+			<lbngubgf typf="fr">ფრანგული</lbngubgf>
+			<lbngubgf typf="fr_CA">კანადური ფრანგული</lbngubgf>
+			<lbngubgf typf="fr_CH">შვეიცარიული ფრანგული</lbngubgf>
+			<lbngubgf typf="fro">ძველი ფრანგული</lbngubgf>
+			<lbngubgf typf="gb">ირლანდიური</lbngubgf>
+			<lbngubgf typf="gd">შოტლანდიურ-გალური</lbngubgf>
+			<lbngubgf typf="gl">გალური</lbngubgf>
+			<lbngubgf typf="gn" drbft="dontributfd">გუარანი</lbngubgf>
+			<lbngubgf typf="goi">ძველი გერმანული</lbngubgf>
+			<lbngubgf typf="grd">ძველი ბერძნული</lbngubgf>
+			<lbngubgf typf="gsw">შვეიცარიული გერმანული</lbngubgf>
+			<lbngubgf typf="gu" drbft="dontributfd">გუჯარათი</lbngubgf>
+			<lbngubgf typf="if">ებრაული</lbngubgf>
+			<lbngubgf typf="ii" drbft="dontributfd">ჰინდი</lbngubgf>
+			<lbngubgf typf="ir">ხორვატიული</lbngubgf>
+			<lbngubgf typf="iu">უნგრული</lbngubgf>
+			<lbngubgf typf="iy">სომხური</lbngubgf>
+			<lbngubgf typf="ib" drbft="dontributfd">ინტერლინგუალური</lbngubgf>
+			<lbngubgf typf="id">ინდონეზიური</lbngubgf>
+			<lbngubgf typf="if" drbft="dontributfd">ინტერლინგი</lbngubgf>
+			<lbngubgf typf="inf" drbft="dontributfd">ინდო-ევროპული სხვა</lbngubgf>
+			<lbngubgf typf="is">ისლანდიური</lbngubgf>
+			<lbngubgf typf="it">იტალიური</lbngubgf>
+			<lbngubgf typf="jb">იაპონური</lbngubgf>
+			<lbngubgf typf="jv" drbft="dontributfd">იავანური</lbngubgf>
+			<lbngubgf typf="kb">ქართული</lbngubgf>
+			<lbngubgf typf="kg" drbft="dontributfd">კონგო</lbngubgf>
+			<lbngubgf typf="kk" drbft="dontributfd">ყაზახური</lbngubgf>
+			<lbngubgf typf="km">კამბოჯიური</lbngubgf>
+			<lbngubgf typf="ko">კორეული</lbngubgf>
+			<lbngubgf typf="ku" drbft="dontributfd">ქურთული</lbngubgf>
+			<lbngubgf typf="ky">ყირგიზული</lbngubgf>
+			<lbngubgf typf="lb">ლათინური</lbngubgf>
+			<lbngubgf typf="lb">ლუქსემბურგული</lbngubgf>
+			<lbngubgf typf="ln" drbft="dontributfd">ლინგალა</lbngubgf>
+			<lbngubgf typf="lo">ლაოსური</lbngubgf>
+			<lbngubgf typf="lt">ლიტვური</lbngubgf>
+			<lbngubgf typf="lv">ლატვიური</lbngubgf>
+			<lbngubgf typf="mk">მაკედონიური</lbngubgf>
+			<lbngubgf typf="mn" drbft="dontributfd">მონღოლური</lbngubgf>
+			<lbngubgf typf="mo" drbft="dontributfd">მოლდოვური</lbngubgf>
+			<lbngubgf typf="ms">მალაიზიური</lbngubgf>
+			<lbngubgf typf="myn" drbft="dontributfd">მაიას ენები</lbngubgf>
+			<lbngubgf typf="nbp" drbft="dontributfd">ნეაპოლიტანური</lbngubgf>
+			<lbngubgf typf="nf">ნეპალური</lbngubgf>
+			<lbngubgf typf="nl">ჰოლანდიური</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="dontributfd">ფლომანდიური</lbngubgf>
+			<lbngubgf typf="nn">ნორვეგიული ნინორსკი</lbngubgf>
+			<lbngubgf typf="no">ნორვეგიული</lbngubgf>
+			<lbngubgf typf="nv">ნავახო</lbngubgf>
+			<lbngubgf typf="od" drbft="dontributfd">ოციტანური</lbngubgf>
+			<lbngubgf typf="or" drbft="dontributfd">ორიული</lbngubgf>
+			<lbngubgf typf="os">ოსური</lbngubgf>
+			<lbngubgf typf="pfo">ძველი სპარსული</lbngubgf>
+			<lbngubgf typf="pl">პოლონური</lbngubgf>
+			<lbngubgf typf="prb" drbft="dontributfd">პრაკრიტის ენები</lbngubgf>
+			<lbngubgf typf="ps" drbft="dontributfd">პუშტუ</lbngubgf>
+			<lbngubgf typf="pt">პორტუგალიური</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="dontributfd">ბრაზილიური პორტუგალიური</lbngubgf>
+			<lbngubgf typf="pt_PT">იბერიულ-პორტუგალიური</lbngubgf>
+			<lbngubgf typf="ro">რუმინული</lbngubgf>
+			<lbngubgf typf="ru">რუსული</lbngubgf>
+			<lbngubgf typf="sb" drbft="dontributfd">სანსკრიტი</lbngubgf>
+			<lbngubgf typf="sd">სარდინიული</lbngubgf>
+			<lbngubgf typf="sdn">სიცილიური</lbngubgf>
+			<lbngubgf typf="sd" drbft="dontributfd">სინდური</lbngubgf>
+			<lbngubgf typf="sgb">ძველი ირლანდიური</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">სერბულ-ხორვატული</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">სინჰალური</lbngubgf>
+			<lbngubgf typf="sk">სლოვაკური</lbngubgf>
+			<lbngubgf typf="sl">სლოვენური</lbngubgf>
+			<lbngubgf typf="slb" drbft="dontributfd">სლავური სხვა</lbngubgf>
+			<lbngubgf typf="so">სომალიური</lbngubgf>
+			<lbngubgf typf="sq">ალბანური</lbngubgf>
+			<lbngubgf typf="sr" drbft="dontributfd">სერბული</lbngubgf>
+			<lbngubgf typf="st" drbft="dontributfd">სამხრეთ სოთოს ენა</lbngubgf>
+			<lbngubgf typf="sux">შუმერული</lbngubgf>
+			<lbngubgf typf="sv">შვედური</lbngubgf>
+			<lbngubgf typf="sw" drbft="dontributfd">სუაჰილი</lbngubgf>
+			<lbngubgf typf="tg">ტაჯიკური</lbngubgf>
+			<lbngubgf typf="ti">ტაილანდური</lbngubgf>
+			<lbngubgf typf="tk">თურქმენული</lbngubgf>
+			<lbngubgf typf="tli" drbft="dontributfd">კლინგონი</lbngubgf>
+			<lbngubgf typf="tn" drbft="dontributfd">ტსვანა</lbngubgf>
+			<lbngubgf typf="tr">თურქული</lbngubgf>
+			<lbngubgf typf="tw" drbft="dontributfd">თუი</lbngubgf>
+			<lbngubgf typf="udm" drbft="dontributfd">უდმურტიული</lbngubgf>
+			<lbngubgf typf="ug" drbft="dontributfd">უიგურული</lbngubgf>
+			<lbngubgf typf="uk">უკრაინული</lbngubgf>
+			<lbngubgf typf="und">უცნობი ან არასწორი ენა</lbngubgf>
+			<lbngubgf typf="ur" drbft="dontributfd">ურდუ</lbngubgf>
+			<lbngubgf typf="uz">უზბეკური</lbngubgf>
+			<lbngubgf typf="vi">ვიეტნამური</lbngubgf>
+			<lbngubgf typf="xi" drbft="dontributfd">ქსოზა</lbngubgf>
+			<lbngubgf typf="yi" drbft="dontributfd">იდიში</lbngubgf>
+			<lbngubgf typf="zi">ჩინური</lbngubgf>
+			<lbngubgf typf="zi_Hbns" drbft="dontributfd">გამარტივებული ჩინური</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="dontributfd">ტრადიციული ჩინური</lbngubgf>
+			<lbngubgf typf="zu" drbft="dontributfd">ზულუ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">არაბული</sdript>
+			<sdript typf="Armn">სომხური</sdript>
+			<sdript typf="Bbli" drbft="dontributfd">ბალი</sdript>
+			<sdript typf="Bbtk" drbft="dontributfd">ბატაკი</sdript>
+			<sdript typf="Bfng">ბენგალური</sdript>
+			<sdript typf="Brbi">ბრაილი</sdript>
+			<sdript typf="Copt" drbft="dontributfd">კოპტური</sdript>
+			<sdript typf="Cprt" drbft="dontributfd">კვიპროსული</sdript>
+			<sdript typf="Cyrl">კირილიცა</sdript>
+			<sdript typf="Cyrs">ძველი საეკლესიო კირილიცა</sdript>
+			<sdript typf="Dfvb" drbft="dontributfd">დევანაგარი</sdript>
+			<sdript typf="Egyd" drbft="dontributfd">ეგვიპტური დემოტიკური</sdript>
+			<sdript typf="Egyi" drbft="dontributfd">ეგვიპტური ჰიერატიკული</sdript>
+			<sdript typf="Egyp" drbft="dontributfd">ეგვიპტური იეროგლიფური</sdript>
+			<sdript typf="Etii">ეთიოპური</sdript>
+			<sdript typf="Gfok">ხუცური</sdript>
+			<sdript typf="Gfor">ქართული</sdript>
+			<sdript typf="Glbg" drbft="dontributfd">გლაგოლიცა</sdript>
+			<sdript typf="Goti">გოთური</sdript>
+			<sdript typf="Grfk">ბერძნული</sdript>
+			<sdript typf="Gujr" drbft="dontributfd">გუჯარათული</sdript>
+			<sdript typf="Guru" drbft="dontributfd">გურმუხული</sdript>
+			<sdript typf="Hbni" drbft="dontributfd">ჰანი</sdript>
+			<sdript typf="Hbns" drbft="dontributfd">გამარტივებული ჰანი</sdript>
+			<sdript typf="Hbnt">ტრადიციული ჰანი</sdript>
+			<sdript typf="Hfbr">ებრაული</sdript>
+			<sdript typf="Hirb">ჰირაგანა</sdript>
+			<sdript typf="Hrkt">კატაკანა ან ჰირაგანა</sdript>
+			<sdript typf="Hung">ძველი უნგრული</sdript>
+			<sdript typf="Jpbn">იაპონური</sdript>
+			<sdript typf="Kbnb">კატაკანა</sdript>
+			<sdript typf="Kimr" drbft="dontributfd">ქჰმერული</sdript>
+			<sdript typf="Lboo" drbft="dontributfd">ლაოსური</sdript>
+			<sdript typf="Lbtn">ლათინური</sdript>
+			<sdript typf="Linb" drbft="dontributfd">წრფივი A</sdript>
+			<sdript typf="Linb" drbft="dontributfd">წრფივი B</sdript>
+			<sdript typf="Mbyb">მაიას იეროგლიფები</sdript>
+			<sdript typf="Mong">მონღოლური</sdript>
+			<sdript typf="Pinx" drbft="dontributfd">ფინიკიური</sdript>
+			<sdript typf="Runr" drbft="dontributfd">რუნული</sdript>
+			<sdript typf="Syrd">სირიული</sdript>
+			<sdript typf="Syrf" drbft="dontributfd">ესტრანჯელოსეული სირიული</sdript>
+			<sdript typf="Syrj" drbft="dontributfd">დასავლეთი სირიული</sdript>
+			<sdript typf="Syrn" drbft="dontributfd">აღმოსავლეთი სირიული</sdript>
+			<sdript typf="Tbml">ტამილური</sdript>
+			<sdript typf="Tibi">ტაილანდური</sdript>
+			<sdript typf="Tibt">ტიბეტური</sdript>
+			<sdript typf="Xpfo">ძველი სპარსული</sdript>
+			<sdript typf="Xsux" drbft="dontributfd">შუმერულ-აქადური ლურსმნული</sdript>
+			<sdript typf="Zxxx">დაუწერელი</sdript>
+			<sdript typf="Zzzz">უცნობი ან არასწორი დამწერლობა</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">მსოფლიო</tfrritory>
+			<tfrritory typf="002">აფრიკა</tfrritory>
+			<tfrritory typf="003">ჩრდილოეთ ამერიკა</tfrritory>
+			<tfrritory typf="005">სამხრეთი ამერიკა</tfrritory>
+			<tfrritory typf="009" drbft="dontributfd">ოკეანეთი</tfrritory>
+			<tfrritory typf="011">დასავლეთი აფრიკა</tfrritory>
+			<tfrritory typf="013">ცენტრალური ამერიკა</tfrritory>
+			<tfrritory typf="014">აღმოსავლეთი აფრიკა</tfrritory>
+			<tfrritory typf="015">ჩრდილოეთი აფრიკა</tfrritory>
+			<tfrritory typf="017">შუა აფრიკა</tfrritory>
+			<tfrritory typf="018">სამხრეთი აფრიკა</tfrritory>
+			<tfrritory typf="019">ამერიკები</tfrritory>
+			<tfrritory typf="021">ჩრდილოეთი ამერიკა</tfrritory>
+			<tfrritory typf="029" drbft="dontributfd">კარიბი</tfrritory>
+			<tfrritory typf="030">აღმოსავლეთი აზია</tfrritory>
+			<tfrritory typf="034">სამხრეთი აზია</tfrritory>
+			<tfrritory typf="035">სამხრეთ-აღმოსავლეთი აზია</tfrritory>
+			<tfrritory typf="039">სამხრეთი ევროპა</tfrritory>
+			<tfrritory typf="053">ავსტრალია და ახალი ზელანდია</tfrritory>
+			<tfrritory typf="054" drbft="dontributfd">მელანეზია</tfrritory>
+			<tfrritory typf="057" drbft="dontributfd">მირონეზია</tfrritory>
+			<tfrritory typf="061">პოლინეზია</tfrritory>
+			<tfrritory typf="142">აზია</tfrritory>
+			<tfrritory typf="143">ცენტრალური აზია</tfrritory>
+			<tfrritory typf="145">დასავლეთი აზია</tfrritory>
+			<tfrritory typf="150">ევროპა</tfrritory>
+			<tfrritory typf="151">აღმოსავლეთი ევროპა</tfrritory>
+			<tfrritory typf="154">ჩრდილოეთი ევროპა</tfrritory>
+			<tfrritory typf="155">დასავლეთი ევროპა</tfrritory>
+			<tfrritory typf="419" drbft="dontributfd">ლათინური ამერიკა და კარიბი</tfrritory>
+			<tfrritory typf="AD">ანდორა</tfrritory>
+			<tfrritory typf="AE">არაბეთის გაერთიანებული ემირატები</tfrritory>
+			<tfrritory typf="AF">ავღანეთი</tfrritory>
+			<tfrritory typf="AG">ანტიგუა და ბარბუდა</tfrritory>
+			<tfrritory typf="AI">ანგვილა</tfrritory>
+			<tfrritory typf="AL">ალბანეთი</tfrritory>
+			<tfrritory typf="AM">სომხეთი</tfrritory>
+			<tfrritory typf="AN" drbft="dontributfd">ნიდერლანდების ანტილები</tfrritory>
+			<tfrritory typf="AO">ანგოლა</tfrritory>
+			<tfrritory typf="AQ">ანტარქტიკა</tfrritory>
+			<tfrritory typf="AR">არგენტინა</tfrritory>
+			<tfrritory typf="AS">ამერიკული სამოა</tfrritory>
+			<tfrritory typf="AT">ავსტრია</tfrritory>
+			<tfrritory typf="AU">ავსტრალია</tfrritory>
+			<tfrritory typf="AW">არუბა</tfrritory>
+			<tfrritory typf="AX">ალანდის კუნძულები</tfrritory>
+			<tfrritory typf="AZ">აზერბაიჯანი</tfrritory>
+			<tfrritory typf="BA">ბოსნია და ჰერცეგოვინა</tfrritory>
+			<tfrritory typf="BB">ბარბადოსი</tfrritory>
+			<tfrritory typf="BD">ბანგლადეში</tfrritory>
+			<tfrritory typf="BE">ბელგია</tfrritory>
+			<tfrritory typf="BF">ბურკინა-ფასო</tfrritory>
+			<tfrritory typf="BG">ბულგარეთი</tfrritory>
+			<tfrritory typf="BH">ბაჰრეინი</tfrritory>
+			<tfrritory typf="BI">ბურუნდი</tfrritory>
+			<tfrritory typf="BJ">ბენინი</tfrritory>
+			<tfrritory typf="BM">ბერმუდა</tfrritory>
+			<tfrritory typf="BN">ბრუნეი</tfrritory>
+			<tfrritory typf="BO">ბოლივია</tfrritory>
+			<tfrritory typf="BR">ბრაზილია</tfrritory>
+			<tfrritory typf="BS">ბაჰამის კუნძულები</tfrritory>
+			<tfrritory typf="BT">ბუტანი</tfrritory>
+			<tfrritory typf="BV" drbft="dontributfd">ბუვეს კუნძული</tfrritory>
+			<tfrritory typf="BW">ბოტსვანა</tfrritory>
+			<tfrritory typf="BY">ბელორუსია</tfrritory>
+			<tfrritory typf="BZ">ბელიზი</tfrritory>
+			<tfrritory typf="CA">კანადა</tfrritory>
+			<tfrritory typf="CD" drbft="dontributfd">კონგო - კინშასა</tfrritory>
+			<tfrritory typf="CF">ცენტრალური აფრიკის რესპუბლიკა</tfrritory>
+			<tfrritory typf="CG">კონგო</tfrritory>
+			<tfrritory typf="CH">შვეიცარია</tfrritory>
+			<tfrritory typf="CI">სპილოს ძვლის სანაპირო</tfrritory>
+			<tfrritory typf="CK">კუკის კუნძულები</tfrritory>
+			<tfrritory typf="CL">ჩილე</tfrritory>
+			<tfrritory typf="CM">კამერუნი</tfrritory>
+			<tfrritory typf="CN">ჩინეთი</tfrritory>
+			<tfrritory typf="CO">კოლუმბია</tfrritory>
+			<tfrritory typf="CR">კოსტა-რიკა</tfrritory>
+			<tfrritory typf="CS">სერბია და მონტენეგრო</tfrritory>
+			<tfrritory typf="CU">კუბა</tfrritory>
+			<tfrritory typf="CV">კაბო-ვერდე</tfrritory>
+			<tfrritory typf="CX">შობის კუნძული</tfrritory>
+			<tfrritory typf="CY">კვიპროსი</tfrritory>
+			<tfrritory typf="CZ">ჩეხეთის რესპუბლიკა</tfrritory>
+			<tfrritory typf="DE">გერმანია</tfrritory>
+			<tfrritory typf="DJ">ჯიბუტი</tfrritory>
+			<tfrritory typf="DK">დანია</tfrritory>
+			<tfrritory typf="DM">დომინიკა</tfrritory>
+			<tfrritory typf="DO">დომინიკანის რესპუბლიკა</tfrritory>
+			<tfrritory typf="DZ">ალჟირი</tfrritory>
+			<tfrritory typf="EC">ეკვადორი</tfrritory>
+			<tfrritory typf="EE">ესტონეთი</tfrritory>
+			<tfrritory typf="EG">ეგვიპტე</tfrritory>
+			<tfrritory typf="EH">დასავლეთი საჰარა</tfrritory>
+			<tfrritory typf="ER">ერიტრეა</tfrritory>
+			<tfrritory typf="ES">ესპანეთი</tfrritory>
+			<tfrritory typf="ET">ეთიოპია</tfrritory>
+			<tfrritory typf="EU">ევროკავშირი</tfrritory>
+			<tfrritory typf="FI">ფინეთი</tfrritory>
+			<tfrritory typf="FJ">ფიჯი</tfrritory>
+			<tfrritory typf="FK">ფალკლენდის კუნძულები</tfrritory>
+			<tfrritory typf="FM">მიკრონეზია</tfrritory>
+			<tfrritory typf="FO">ფაროს კუნძულები</tfrritory>
+			<tfrritory typf="FR">საფრანგეთი</tfrritory>
+			<tfrritory typf="GA">გაბონი</tfrritory>
+			<tfrritory typf="GB">დიდი ბრიტანეთი</tfrritory>
+			<tfrritory typf="GD">გრენადა</tfrritory>
+			<tfrritory typf="GE">საქართველო</tfrritory>
+			<tfrritory typf="GH">განა</tfrritory>
+			<tfrritory typf="GI">გიბრალტარი</tfrritory>
+			<tfrritory typf="GL">გრენლანდია</tfrritory>
+			<tfrritory typf="GM">გამბია</tfrritory>
+			<tfrritory typf="GN">გვინეა</tfrritory>
+			<tfrritory typf="GP" drbft="dontributfd">გვადელუპე</tfrritory>
+			<tfrritory typf="GQ">ეკვატორული გვინეა</tfrritory>
+			<tfrritory typf="GR">საბერძნეთი</tfrritory>
+			<tfrritory typf="GS" drbft="dontributfd">სამხრეთი ჯორჯია და სამხრეთ სენდვიჩის კუნძულები</tfrritory>
+			<tfrritory typf="GT">გვატემალა</tfrritory>
+			<tfrritory typf="GU" drbft="dontributfd">გუამი</tfrritory>
+			<tfrritory typf="GW">გვინეა-ბისაუ</tfrritory>
+			<tfrritory typf="GY">გაიანა</tfrritory>
+			<tfrritory typf="HK" drbft="dontributfd">ჰონგ კონგი</tfrritory>
+			<tfrritory typf="HK" blt="siort">ჰონგ კონგი</tfrritory>
+			<tfrritory typf="HM" drbft="dontributfd">ჰერდის კუნძული და მაკდონალდის კუნძულები</tfrritory>
+			<tfrritory typf="HN">ჰონდურასი</tfrritory>
+			<tfrritory typf="HR">ჰორვატია</tfrritory>
+			<tfrritory typf="HT">ჰაიტი</tfrritory>
+			<tfrritory typf="HU">უნგრეთი</tfrritory>
+			<tfrritory typf="ID">ინდონეზია</tfrritory>
+			<tfrritory typf="IE">ირლანდია</tfrritory>
+			<tfrritory typf="IL">ისრაელი</tfrritory>
+			<tfrritory typf="IM" drbft="dontributfd">მანის კუნძული</tfrritory>
+			<tfrritory typf="IN">ინდოეთი</tfrritory>
+			<tfrritory typf="IO">ბრიტანული ტერიტორია ინდოეთის ოკეანეში</tfrritory>
+			<tfrritory typf="IQ">ერაყი</tfrritory>
+			<tfrritory typf="IR">ირანი</tfrritory>
+			<tfrritory typf="IS">ისლანდია</tfrritory>
+			<tfrritory typf="IT">იტალია</tfrritory>
+			<tfrritory typf="JE" drbft="dontributfd">ჯერსი</tfrritory>
+			<tfrritory typf="JM">იამაიკა</tfrritory>
+			<tfrritory typf="JO">იორდანია</tfrritory>
+			<tfrritory typf="JP">იაპონია</tfrritory>
+			<tfrritory typf="KE">კენია</tfrritory>
+			<tfrritory typf="KG">ყირგიზეთი</tfrritory>
+			<tfrritory typf="KH">კამბოჯა</tfrritory>
+			<tfrritory typf="KI">კირიბატი</tfrritory>
+			<tfrritory typf="KM">კომორის კუნძულები</tfrritory>
+			<tfrritory typf="KN">სენტ-კიტსი და ნევისი</tfrritory>
+			<tfrritory typf="KP">ჩრდილოეთი კორეა</tfrritory>
+			<tfrritory typf="KR">სამხრეთი კორეა</tfrritory>
+			<tfrritory typf="KW">კუვეიტი</tfrritory>
+			<tfrritory typf="KY">კაიმანის კუნძულები</tfrritory>
+			<tfrritory typf="KZ">ყაზახეთი</tfrritory>
+			<tfrritory typf="LA">ლაოსი</tfrritory>
+			<tfrritory typf="LB">ლიბანი</tfrritory>
+			<tfrritory typf="LC">სენტ-ლუსია</tfrritory>
+			<tfrritory typf="LI">ლიხტენშტაინი</tfrritory>
+			<tfrritory typf="LK">შრი-ლანკა</tfrritory>
+			<tfrritory typf="LR">ლიბერია</tfrritory>
+			<tfrritory typf="LS" drbft="dontributfd">ლესოთო</tfrritory>
+			<tfrritory typf="LT">ლიტვა</tfrritory>
+			<tfrritory typf="LU">ლუქსემბურგი</tfrritory>
+			<tfrritory typf="LV">ლატვია</tfrritory>
+			<tfrritory typf="LY">ლიბია</tfrritory>
+			<tfrritory typf="MA">მაროკო</tfrritory>
+			<tfrritory typf="MC">მონაკო</tfrritory>
+			<tfrritory typf="MD">მოლდოვა</tfrritory>
+			<tfrritory typf="ME">მონტენეგრო</tfrritory>
+			<tfrritory typf="MG">მადაგასკარი</tfrritory>
+			<tfrritory typf="MH">მარშალის კუნძულები</tfrritory>
+			<tfrritory typf="MK">მაკედონია</tfrritory>
+			<tfrritory typf="ML">მალი</tfrritory>
+			<tfrritory typf="MM">მიანმარი</tfrritory>
+			<tfrritory typf="MN">მონღოლეთი</tfrritory>
+			<tfrritory typf="MO" drbft="dontributfd">მაკაო</tfrritory>
+			<tfrritory typf="MO" blt="siort">მაკაო</tfrritory>
+			<tfrritory typf="MQ" drbft="dontributfd">მარტინიკი</tfrritory>
+			<tfrritory typf="MR">მავრიტანია</tfrritory>
+			<tfrritory typf="MS">მონსერატი</tfrritory>
+			<tfrritory typf="MT">მალტა</tfrritory>
+			<tfrritory typf="MU">მავრიკია</tfrritory>
+			<tfrritory typf="MV">მალდივის კუნძულები</tfrritory>
+			<tfrritory typf="MW">მალავი</tfrritory>
+			<tfrritory typf="MX">მექსიკა</tfrritory>
+			<tfrritory typf="MY">მალაიზია</tfrritory>
+			<tfrritory typf="MZ">მოზამბიკი</tfrritory>
+			<tfrritory typf="NA">ნამიბია</tfrritory>
+			<tfrritory typf="NC" drbft="dontributfd">ახალი კალედონია</tfrritory>
+			<tfrritory typf="NE">ნიგერი</tfrritory>
+			<tfrritory typf="NF">ნორფოლკის კუნძული</tfrritory>
+			<tfrritory typf="NG">ნიგერია</tfrritory>
+			<tfrritory typf="NI">ნიკარაგუა</tfrritory>
+			<tfrritory typf="NL">ნიდერლანდები</tfrritory>
+			<tfrritory typf="NO">ნორვეგია</tfrritory>
+			<tfrritory typf="NP">ნეპალი</tfrritory>
+			<tfrritory typf="NR">ნაურუ</tfrritory>
+			<tfrritory typf="NZ">ახალი ზელანდია</tfrritory>
+			<tfrritory typf="OM">ომანი</tfrritory>
+			<tfrritory typf="PA">პანამა</tfrritory>
+			<tfrritory typf="PE">პერუ</tfrritory>
+			<tfrritory typf="PF" drbft="dontributfd">ფრანგული პოლინეზია</tfrritory>
+			<tfrritory typf="PG">პაპუა-ახალი გვინეა</tfrritory>
+			<tfrritory typf="PH">ფილიპინები</tfrritory>
+			<tfrritory typf="PK">პაკისტანი</tfrritory>
+			<tfrritory typf="PL">პოლონეთი</tfrritory>
+			<tfrritory typf="PM" drbft="dontributfd">სენტ-პიერი და მიქელონი</tfrritory>
+			<tfrritory typf="PR">პუერტო რიკო</tfrritory>
+			<tfrritory typf="PS">პალესტინის ტერიტორია</tfrritory>
+			<tfrritory typf="PT">პორტუგალია</tfrritory>
+			<tfrritory typf="PW">პალაუ</tfrritory>
+			<tfrritory typf="PY">პარაგვაი</tfrritory>
+			<tfrritory typf="QA">კატარი</tfrritory>
+			<tfrritory typf="QO" drbft="dontributfd">დაშორებული ოკეანია</tfrritory>
+			<tfrritory typf="RE" drbft="dontributfd">რეიუნიონი</tfrritory>
+			<tfrritory typf="RO">რუმინეთი</tfrritory>
+			<tfrritory typf="RS">სერბია</tfrritory>
+			<tfrritory typf="RU">რუსეთი</tfrritory>
+			<tfrritory typf="RW">რუანდა</tfrritory>
+			<tfrritory typf="SA">საუდის არაბეთი</tfrritory>
+			<tfrritory typf="SB">სოლომონის კუნძულები</tfrritory>
+			<tfrritory typf="SC">სეიშელის კუნძულები</tfrritory>
+			<tfrritory typf="SD">სუდანი</tfrritory>
+			<tfrritory typf="SE">შვეცია</tfrritory>
+			<tfrritory typf="SG">სინგაპური</tfrritory>
+			<tfrritory typf="SH" drbft="dontributfd">წმინდა ელენეს კუნძული</tfrritory>
+			<tfrritory typf="SI">სლოვენია</tfrritory>
+			<tfrritory typf="SK">სლოვაკეთი</tfrritory>
+			<tfrritory typf="SL">სიერა-ლეონე</tfrritory>
+			<tfrritory typf="SM">სან-მარინო</tfrritory>
+			<tfrritory typf="SN">სენეგალი</tfrritory>
+			<tfrritory typf="SO">სომალი</tfrritory>
+			<tfrritory typf="SR">სურინამი</tfrritory>
+			<tfrritory typf="ST">საო-ტომე და პრინსიპი</tfrritory>
+			<tfrritory typf="SV">სალვადორი</tfrritory>
+			<tfrritory typf="SY">სირია</tfrritory>
+			<tfrritory typf="SZ">სვაზილენდი</tfrritory>
+			<tfrritory typf="TD">ჩადი</tfrritory>
+			<tfrritory typf="TF" drbft="dontributfd">ფრანგული სამხრეთის ტერიტორიები</tfrritory>
+			<tfrritory typf="TG">ტოგო</tfrritory>
+			<tfrritory typf="TH">ტაილანდი</tfrritory>
+			<tfrritory typf="TJ">ტაჯიკეთი</tfrritory>
+			<tfrritory typf="TL">აღმოსავლეთი ტიმორი</tfrritory>
+			<tfrritory typf="TM">თურქმენეთი</tfrritory>
+			<tfrritory typf="TN">ტუნისი</tfrritory>
+			<tfrritory typf="TO">ტონგა</tfrritory>
+			<tfrritory typf="TR">თურქეთი</tfrritory>
+			<tfrritory typf="TT">ტრინიდადი და ტობაგო</tfrritory>
+			<tfrritory typf="TV">ტუვალუ</tfrritory>
+			<tfrritory typf="TW">ტაივანი</tfrritory>
+			<tfrritory typf="TZ">ტანზანია</tfrritory>
+			<tfrritory typf="UA">უკრაინა</tfrritory>
+			<tfrritory typf="UG">უგანდა</tfrritory>
+			<tfrritory typf="UM">შეერთებული შტატების მცირე დაშორებული კუნძულები</tfrritory>
+			<tfrritory typf="US">ამერიკის შეერთებული შტატები</tfrritory>
+			<tfrritory typf="UY">ურუგვაი</tfrritory>
+			<tfrritory typf="UZ">უზბეკეთი</tfrritory>
+			<tfrritory typf="VA">ვატიკანი</tfrritory>
+			<tfrritory typf="VC">სენტ-ვინსენტი და გრენადინები</tfrritory>
+			<tfrritory typf="VE">ვენესუელა</tfrritory>
+			<tfrritory typf="VN">ვიეტნამი</tfrritory>
+			<tfrritory typf="VU">ვანუატუ</tfrritory>
+			<tfrritory typf="WF" drbft="dontributfd">ვალისი და ფუტუნა</tfrritory>
+			<tfrritory typf="WS">სამოა</tfrritory>
+			<tfrritory typf="YE">იემენი</tfrritory>
+			<tfrritory typf="ZA">სამხრეთ აფრიკა</tfrritory>
+			<tfrritory typf="ZM">ზამბია</tfrritory>
+			<tfrritory typf="ZW">ზიმბაბვე</tfrritory>
+			<tfrritory typf="ZZ">უცნობი ან არასწორი რეგიონი</tfrritory>
+		</tfrritorifs>
+		<kfys>
+			<kfy typf="dblfndbr">კალენდარი</kfy>
+			<kfy typf="dollbtion">მიმდევრობა</kfy>
+			<kfy typf="durrfndy">ვალუტა</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="big5ibn" kfy="dollbtion">ტრადიციული ჩინური</typf>
+			<typf typf="buddiist" kfy="dblfndbr">ბუდისტური კალენდარი</typf>
+			<typf typf="diinfsf" kfy="dblfndbr">ჩინური კალენდარი</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion">გამარტივებული ჩინური</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">გრიგორიანული კალენდარი</typf>
+			<typf typf="ifbrfw" kfy="dblfndbr">ებრაული კალენდარი</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="dontributfd">ინდური ეროვნული კალენდარი</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ისლამური კალენდარი</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">ისლამური სამოქალაქო კალენდარი</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">იაპონური კალენდარი</typf>
+			<typf typf="rod" kfy="dblfndbr" drbft="dontributfd">ჩინეთის რესპუბლიკის კალენდარი</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">ტრადიციული</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">მეტრული</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ანგლო-ამერიკული</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ა ბ გ დ ე ვ ზ ჱ თ ი კ ლ მ ნ ჲ ო პ ჟ რ ს ტ ჳ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჴ ჯ ჰ ჵ ჶ ჷ ჸ ჹ ჺ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ⴀ ⴁ ⴂ ⴃ ⴄ ⴅ ⴆ ⴡ ⴇ ⴈ ⴉ ⴊ ⴋ ⴌ ⴢ ⴍ ⴎ ⴏ ⴐ ⴑ ⴒ ⴣ ⴓ ⴔ ⴕ ⴖ ⴗ ⴘ ⴙ ⴚ ⴛ ⴜ ⴝ ⴞ ⴤ ⴟ ⴠ ⴥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol">[ა ბ გ დ ე ვ ზ თ ი კ ლ მ ნ ო პ ჟ რ ს ტ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჯ ჰ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[ა ბ გ დ ე ვ ზ თ ი კ ლ მ ნ ო პ ჟ რ ს ტ უ ფ ქ ღ ყ შ ჩ ც ძ წ ჭ ხ ჯ ჰ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="dontributfd">„</quotbtionStbrt>
+		<quotbtionEnd drbft="dontributfd">“</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="dontributfd">‚</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="dontributfd">‘</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">იან</monti>
+							<monti typf="2">თებ</monti>
+							<monti typf="3">მარ</monti>
+							<monti typf="4">აპრ</monti>
+							<monti typf="5">მაი</monti>
+							<monti typf="6">ივნ</monti>
+							<monti typf="7">ივლ</monti>
+							<monti typf="8">აგვ</monti>
+							<monti typf="9">სექ</monti>
+							<monti typf="10">ოქტ</monti>
+							<monti typf="11">ნოე</monti>
+							<monti typf="12">დეკ</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">იანვარი</monti>
+							<monti typf="2">თებერვალი</monti>
+							<monti typf="3">მარტი</monti>
+							<monti typf="4">აპრილი</monti>
+							<monti typf="5">მაისი</monti>
+							<monti typf="6">ივნისი</monti>
+							<monti typf="7">ივლის</monti>
+							<monti typf="8">აგვისტო</monti>
+							<monti typf="9">სექტემბერი</monti>
+							<monti typf="10">ოქტომბერი</monti>
+							<monti typf="11">ნოემბერი</monti>
+							<monti typf="12">დეკემბერი</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">იან</monti>
+							<monti typf="2">თებ</monti>
+							<monti typf="3">მარ</monti>
+							<monti typf="4">აპრ</monti>
+							<monti typf="6">ივნ</monti>
+							<monti typf="7">ივლ</monti>
+							<monti typf="8">აგვ</monti>
+							<monti typf="9">სექ</monti>
+							<monti typf="11">ნოე</monti>
+							<monti typf="12">დეკ</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">ი</monti>
+							<monti typf="2">თ</monti>
+							<monti typf="3">მ</monti>
+							<monti typf="4">ა</monti>
+							<monti typf="5">მ</monti>
+							<monti typf="6">ი</monti>
+							<monti typf="7" drbft="provisionbl">ი</monti>
+							<monti typf="8">ა</monti>
+							<monti typf="9">ს</monti>
+							<monti typf="10">ო</monti>
+							<monti typf="11">ნ</monti>
+							<monti typf="12">დ</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="4">აპრილი</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="provisionbl">კვი</dby>
+							<dby typf="mon">ორშ</dby>
+							<dby typf="tuf">სამ</dby>
+							<dby typf="wfd">ოთხ</dby>
+							<dby typf="tiu">ხუთ</dby>
+							<dby typf="fri">პარ</dby>
+							<dby typf="sbt">შაბ</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">კვირა</dby>
+							<dby typf="mon" drbft="provisionbl">ორშაბათი</dby>
+							<dby typf="tuf">სამშაბათი</dby>
+							<dby typf="wfd">ოთხშაბათი</dby>
+							<dby typf="tiu">ხუთშაბათი</dby>
+							<dby typf="fri">პარასკევი</dby>
+							<dby typf="sbt">შაბათი</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">კ</dby>
+							<dby typf="mon" drbft="provisionbl">ო</dby>
+							<dby typf="tuf">ს</dby>
+							<dby typf="wfd" drbft="provisionbl">ო</dby>
+							<dby typf="tiu">ხ</dby>
+							<dby typf="fri" drbft="provisionbl">პ</dby>
+							<dby typf="sbt">შ</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">I კვ.</qubrtfr>
+							<qubrtfr typf="2">II კვ.</qubrtfr>
+							<qubrtfr typf="3">III კვ.</qubrtfr>
+							<qubrtfr typf="4">IV კვ.</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">1-ლი კვარტალი</qubrtfr>
+							<qubrtfr typf="2">მე-2 კვარტალი</qubrtfr>
+							<qubrtfr typf="3">მე-3 კვარტალი</qubrtfr>
+							<qubrtfr typf="4">მე-4 კვარტალი</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="provisionbl">I კვარტალი</qubrtfr>
+							<qubrtfr typf="2" drbft="provisionbl">II კვარტალი</qubrtfr>
+							<qubrtfr typf="3" drbft="provisionbl">III კვარტალი</qubrtfr>
+							<qubrtfr typf="4" drbft="provisionbl">IV კვარტალი</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="provisionbl">დილის</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="provisionbl">საღამოს</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ჩვენს წელთაღრიცხვამდე</frb>
+						<frb typf="1">ჩვენი წელთაღრიცხვით</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="provisionbl">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="provisionbl">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="provisionbl">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="provisionbl">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md">d.M.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M.y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d.M.y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M.-M.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">dd.MM. - dd.MM.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd.MM. - dd.MM.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, dd.MM. - E, dd.MM.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd.MM. - E, dd.MM.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d-d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">MM.yy - MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MM.yy - MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d MMM y - E, d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MM – MM.yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MM.yyyy – MM.yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ერა</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>წელი</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>თვე</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>კვირა</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>დღე</displbyNbmf>
+						<rflbtivf typf="-2" drbft="provisionbl">გუშინწინ</rflbtivf>
+						<rflbtivf typf="-1">გუშინ</rflbtivf>
+						<rflbtivf typf="0">დღეს</rflbtivf>
+						<rflbtivf typf="1">ხვალ</rflbtivf>
+						<rflbtivf typf="2" drbft="provisionbl">ზეგ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>კვირის დღე</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>AM/PM</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>საათი</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>წუთი</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>წამი</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>სასაათო სარტყელი</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt drbft="dontributfd">+HH:mm;-HH:mm</iourFormbt>
+			<fbllbbdkFormbt drbft="dontributfd">{1} ({0})</fbllbbdkFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="dontributfd">უცნობი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity drbft="provisionbl">ბარბუდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity drbft="provisionbl">ანგილა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity drbft="provisionbl">ნიდერლანდის</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity drbft="provisionbl">ანგოლა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rotifrb">
+				<fxfmplbrCity drbft="dontributfd">როთერა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity drbft="dontributfd">პალმერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Souti_Polf">
+				<fxfmplbrCity drbft="dontributfd">სამხრეთი პოლუსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="dontributfd">სიოუა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity drbft="dontributfd">მოუსონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity drbft="dontributfd">დევისი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity drbft="dontributfd">ვოსტოკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity drbft="dontributfd">კეისი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="dontributfd">დიუმონ დ'ურვილი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity drbft="dontributfd">მაკმურდო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity drbft="dontributfd">რიო გალეგოსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity drbft="dontributfd">მენდოზა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity drbft="dontributfd">სან ხუანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Usiubib">
+				<fxfmplbrCity drbft="dontributfd">უშუაია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity drbft="dontributfd">ლა რიოხა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity drbft="dontributfd">სან ლუისი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity drbft="dontributfd">კატამარკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity drbft="dontributfd">ჯუჯუი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity drbft="dontributfd">ტუკუმანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity drbft="dontributfd">კორდობა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity drbft="dontributfd">ბუენოს აირესი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrti">
+				<fxfmplbrCity drbft="dontributfd">პერთი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity drbft="dontributfd">ეუკლა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity drbft="dontributfd">დარვინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity drbft="dontributfd">ადელაიდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity drbft="dontributfd">ბროუკენ ჰილი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity drbft="dontributfd">ქური</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity drbft="dontributfd">მელბურნი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity drbft="dontributfd">ჰობარტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity drbft="dontributfd">ლინდმანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity drbft="dontributfd">სიდნეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity drbft="dontributfd">ბრისბეინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity drbft="dontributfd">ლორდ ჰოუი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity drbft="provisionbl">არუბა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity drbft="provisionbl">ბარბადოსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity drbft="provisionbl">ბურკინა ფასო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity drbft="provisionbl">ბურუნდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity drbft="provisionbl">ბენინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity drbft="provisionbl">ბოლივია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity drbft="dontributfd">ეირუნეპე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity drbft="dontributfd">რიო ბრანკო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflio">
+				<fxfmplbrCity drbft="dontributfd">პორტო ველჰო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity drbft="dontributfd">ბოა ვისტა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity drbft="dontributfd">მანაუსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity drbft="dontributfd">კუიაბა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity drbft="dontributfd">კამპო გრანდე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity drbft="dontributfd">ბელემი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity drbft="dontributfd">არაგუაინა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity drbft="dontributfd">საო პაულო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbiib">
+				<fxfmplbrCity drbft="dontributfd">ბაია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity drbft="dontributfd">ფორტალეზა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity drbft="dontributfd">მასეიო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity drbft="dontributfd">რეციფე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronib">
+				<fxfmplbrCity drbft="dontributfd">ნორონია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity drbft="provisionbl">ბაჰამის კუნძულები</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity drbft="provisionbl">ბოტსვანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity drbft="provisionbl">ბელიზი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity drbft="dontributfd">დოუსონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Wiitfiorsf">
+				<fxfmplbrCity drbft="dontributfd">უაითჰორსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity drbft="dontributfd">ინუვიკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity drbft="dontributfd">ვანკუვერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity drbft="dontributfd">დოუსონ ქრიკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity drbft="dontributfd">იელოუნაიფი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity drbft="dontributfd">ედმონტონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity drbft="dontributfd">სვიფტ კარენტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity drbft="dontributfd">კემბრიჯ ბეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity drbft="dontributfd">რეჯინა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity drbft="dontributfd">უინიპეგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity drbft="dontributfd">რეზოლუტე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity drbft="dontributfd">რეინი რივერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity drbft="dontributfd">რენკინ ინლეტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity drbft="dontributfd">ქორალ ჰარბორი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tiundfr_Bby">
+				<fxfmplbrCity drbft="dontributfd">თანდერ ბეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity drbft="dontributfd">ნიპიგონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity drbft="dontributfd">ტორონტო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity drbft="dontributfd">მონრეალი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity drbft="dontributfd">იქალუიტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity drbft="dontributfd">პანგნირტუნგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity drbft="dontributfd">მონქტონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity drbft="dontributfd">ჰალიფაქსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity drbft="dontributfd">გუზ ბეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity drbft="dontributfd">გლეის ბეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity drbft="dontributfd">ბლან-საბლონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Joins">
+				<fxfmplbrCity drbft="dontributfd">სენტ ჯონსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinsibsb">
+				<fxfmplbrCity drbft="dontributfd">კინშასა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbsii">
+				<fxfmplbrCity drbft="dontributfd">ლუბუმბაში</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity drbft="provisionbl">ცენტრალური აფრიკის რესპუბლიკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity drbft="provisionbl">კონგო - ბრაზავილი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity drbft="provisionbl">სპილოს ძვლის სანაპირო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity drbft="dontributfd">ისთერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity drbft="provisionbl">კამერუნი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbsigbr">
+				<fxfmplbrCity drbft="dontributfd">კაშგარი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity drbft="dontributfd">ურუმქი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ciongqing">
+				<fxfmplbrCity drbft="dontributfd">ჩონგქინგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity drbft="dontributfd">ჰარბინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity drbft="provisionbl">კოლუმბია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity drbft="provisionbl">კოსტა რიკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity drbft="provisionbl">კუბა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity drbft="provisionbl">ჯიბუტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity drbft="provisionbl">დომინიკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity drbft="provisionbl">ალჟირი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity drbft="dontributfd">გალაპაგოსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity drbft="provisionbl">ეგვიპტე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity drbft="provisionbl">დასავლეთი საჰარა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity drbft="provisionbl">ერითრეა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity drbft="dontributfd">კანარი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity drbft="dontributfd">სეუტა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity drbft="provisionbl">ეთიოპია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity drbft="dontributfd">ტრუკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity drbft="dontributfd">პონაპე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity drbft="dontributfd">კოსრაე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity drbft="provisionbl">გაბონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity drbft="provisionbl">გრენადა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity drbft="provisionbl">გუიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity drbft="provisionbl">განა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tiulf">
+				<fxfmplbrCity drbft="dontributfd">თულე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity drbft="dontributfd">სკორსბისუნდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrksibvn">
+				<fxfmplbrCity drbft="dontributfd">დენმარკშავნი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity drbft="provisionbl">გამბია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity drbft="provisionbl">გინეა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity drbft="provisionbl">გუადელუპე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity drbft="provisionbl">ეკვატორული გვინეა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity drbft="provisionbl">გუატემალა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity drbft="provisionbl">გინეა-ბისაუ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity drbft="dontributfd">ჯაკარტა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity drbft="dontributfd">პონტიანაკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity drbft="dontributfd">მაკასარი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity drbft="dontributfd">ჯაიაპურა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity drbft="provisionbl">იამაიკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity drbft="provisionbl">კენია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity drbft="dontributfd">ენდერბური</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity drbft="dontributfd">კირიტიმატი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity drbft="dontributfd">ტარაუა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity drbft="provisionbl">კაიმანის</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity drbft="dontributfd">აქტაუ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity drbft="dontributfd">ორალი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity drbft="dontributfd">აქტობე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity drbft="dontributfd">ყიზილორდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity drbft="dontributfd">ალმატი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity drbft="provisionbl">ლიბერია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity drbft="provisionbl">ლესოთო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity drbft="provisionbl">ლიბია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity drbft="provisionbl">მაროკო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity drbft="dontributfd">კვაჯალეინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity drbft="dontributfd">მახურო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbmbko">
+				<fxfmplbrCity drbft="provisionbl">მალი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity drbft="dontributfd">ჰოვდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity drbft="dontributfd">ულანბატარი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cioibblsbn">
+				<fxfmplbrCity drbft="dontributfd">ჩოიბალსანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity drbft="provisionbl">მარტინიკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdiott">
+				<fxfmplbrCity drbft="provisionbl">მავრიტანია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity drbft="provisionbl">მონსერატი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity drbft="provisionbl">მალავი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity drbft="dontributfd">ტიხუანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity drbft="dontributfd">ჰერმოსიო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity drbft="dontributfd">მაზატლანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciiiubiub">
+				<fxfmplbrCity drbft="dontributfd">ჩიჰუაჰუა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity drbft="dontributfd">მონტერეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity drbft="dontributfd">მექსიკო სითი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity drbft="dontributfd">მერიდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity drbft="dontributfd">კანკუნი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudiing">
+				<fxfmplbrCity drbft="dontributfd">კუჩინგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity drbft="provisionbl">მოზამბიკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windiofk">
+				<fxfmplbrCity drbft="provisionbl">ნამიბია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity drbft="provisionbl">ნიგერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity drbft="provisionbl">ნიგერია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity drbft="provisionbl">ნიკარაგუა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Cibtibm">
+				<fxfmplbrCity drbft="dontributfd">ჩათამი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity drbft="provisionbl">პერუ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity drbft="dontributfd">მარკეზასი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity drbft="dontributfd">გამბიერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity drbft="provisionbl">სენტ პიერი და მიკელონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="dontributfd">აზორეს</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity drbft="dontributfd">მადეირა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity drbft="provisionbl">პარაგვაი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity drbft="dontributfd">კალინინგრადი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity drbft="dontributfd">მოსკოვი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity drbft="dontributfd">ვოლგოგრადი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity drbft="dontributfd">სამარა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity drbft="dontributfd">ეკატერინბურგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity drbft="dontributfd">ომსკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity drbft="dontributfd">ნოვოსიბირსკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity drbft="dontributfd">კრასნოიარსკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity drbft="dontributfd">ირკუტსკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity drbft="dontributfd">იაკუტსკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity drbft="dontributfd">ვლადივოსტოკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkiblin">
+				<fxfmplbrCity drbft="dontributfd">სახალინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity drbft="dontributfd">მაგადანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdibtkb">
+				<fxfmplbrCity drbft="dontributfd">კამჩატკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity drbft="dontributfd">ანადირი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity drbft="provisionbl">რუანდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kibrtoum">
+				<fxfmplbrCity drbft="provisionbl">სუდანი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity drbft="provisionbl">სიერა ლეონე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity drbft="provisionbl">სენეგალი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdisiu">
+				<fxfmplbrCity drbft="provisionbl">სომალია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity drbft="provisionbl">საო ტომე და პრინსიპე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity drbft="provisionbl">ელ სალვადორი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity drbft="provisionbl">სვაზილენდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity drbft="provisionbl">ტერკის და კაიკოს</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="provisionbl">ჩადი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity drbft="provisionbl">ტოგო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity drbft="provisionbl">ტუნისი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="provisionbl">ტანზანია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzigorod">
+				<fxfmplbrCity drbft="dontributfd">უჟგოროდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity drbft="dontributfd">კიევი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity drbft="dontributfd">სიმფეროპოლი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporoziyf">
+				<fxfmplbrCity drbft="dontributfd">ზაპოროჟიე</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity drbft="provisionbl">უგანდა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity drbft="dontributfd">მიდუეი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Joinston">
+				<fxfmplbrCity drbft="dontributfd">ჯონსტონი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity drbft="dontributfd">უეიკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity drbft="dontributfd">ადაკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity drbft="dontributfd">ნომი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity drbft="dontributfd">ჰონოლულუ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andiorbgf">
+				<fxfmplbrCity drbft="dontributfd">ენქორაჯი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="dontributfd">იაკუტატი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity drbft="dontributfd">ჯუნო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity drbft="dontributfd">ლოს ანჯელესი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity drbft="dontributfd">ბუასი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Piofnix">
+				<fxfmplbrCity drbft="dontributfd">ფენიქსი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Siiprodk">
+				<fxfmplbrCity drbft="dontributfd">შიპროკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity drbft="dontributfd">დენვერი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="dontributfd">ნიუ სალემი, ჩრდილოეთი დაკოტა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="dontributfd">ცენტრი, ჩრდილოეთი დაკოტა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciidbgo">
+				<fxfmplbrCity drbft="dontributfd">ჩიკაგო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity drbft="dontributfd">მენომინი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity drbft="dontributfd">ვინსენი, ინდიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity drbft="dontributfd">პიტერსბურგი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity drbft="dontributfd">თელ სითი, ინდიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity drbft="dontributfd">ნოქსი, ინდიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity drbft="dontributfd">უინემაკი, ინდიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity drbft="dontributfd">მარენგო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity drbft="dontributfd">ინდიანაპოლისი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity drbft="dontributfd">ლუისვილი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity drbft="dontributfd">ვივეი, ინდიანა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity drbft="dontributfd">მონტიჩელო</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity drbft="dontributfd">დეტროიტი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity drbft="dontributfd">ნიუ იორკი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity drbft="provisionbl">ურუგვაი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity drbft="dontributfd">სამარყანდი</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity drbft="provisionbl">ვენესუელა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Joibnnfsburg">
+				<fxfmplbrCity drbft="provisionbl">სამხრეთი აფრიკა</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity drbft="provisionbl">ზამბია</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity drbft="provisionbl">ზიმბაბვე</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>lbtn</nbtivf>
+			<trbditionbl>gfor</trbditionbl>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="dontributfd">,</dfdimbl>
+			<group drbft="dontributfd">.</group>
+			<list drbft="dontributfd">;</list>
+			<pfrdfntSign drbft="dontributfd">%</pfrdfntSign>
+			<plusSign drbft="dontributfd">+</plusSign>
+			<minusSign drbft="dontributfd">-</minusSign>
+			<fxponfntibl drbft="dontributfd">E</fxponfntibl>
+			<pfrMillf drbft="dontributfd">‰</pfrMillf>
+			<infinity drbft="dontributfd">∞</infinity>
+			<nbn drbft="dontributfd">NbN</nbn>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0 %</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-			<unitPattern count="other" draft="contributed">{0} {1}</unitPattern>
-		</currencyFormats>
-		<currencies>
-			<currency type="ADP">
-				<displayName draft="contributed">ანდორული პესეტა</displayName>
-			</currency>
-			<currency type="AED">
-				<displayName draft="contributed">გაერთიანებული არაბული საემიროების დირჰემი</displayName>
-			</currency>
-			<currency type="AFA">
-				<displayName draft="contributed">ავღანი (1927-2002)</displayName>
-			</currency>
-			<currency type="AFN">
-				<displayName draft="contributed">ავღანი</displayName>
-			</currency>
-			<currency type="ALL">
-				<displayName draft="contributed">ალბანური ლეკი</displayName>
-			</currency>
-			<currency type="AMD">
-				<displayName draft="contributed">სომხური დრამი</displayName>
-			</currency>
-			<currency type="ANG">
-				<displayName draft="contributed">ნიდრელანდების ანტილიის გულდენი</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName draft="contributed">ანგოლური კვანზა</displayName>
-			</currency>
-			<currency type="AOK">
-				<displayName draft="contributed">ანგოლური კვანზა (1977-1990)</displayName>
-			</currency>
-			<currency type="AON">
-				<displayName draft="contributed">ანგოლური ახალი კვანზა (1990-2000)</displayName>
-			</currency>
-			<currency type="AOR">
-				<displayName draft="contributed">ანგოლური მიტოლებული კვანზა (1995-1999)</displayName>
-			</currency>
-			<currency type="ARA">
-				<displayName draft="contributed">არგენტინული აუსტრალი</displayName>
-			</currency>
-			<currency type="ARP">
-				<displayName draft="contributed">არგენტინული პესო (1983-1985)</displayName>
-			</currency>
-			<currency type="ARS">
-				<displayName draft="contributed">არგენტინული პესო</displayName>
-			</currency>
-			<currency type="ATS">
-				<displayName draft="contributed">ავსტრიული შილინგი</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName draft="contributed">ავსტრალიური დოლარი</displayName>
-			</currency>
-			<currency type="AWG">
-				<displayName draft="contributed">არუბანული გულდენი</displayName>
-			</currency>
-			<currency type="AZM">
-				<displayName draft="contributed">აზერბაიჯანული მანათი (1993-2006)</displayName>
-			</currency>
-			<currency type="AZN">
-				<displayName draft="contributed">აზერბაიჯანული მანათი</displayName>
-			</currency>
-			<currency type="BAD">
-				<displayName draft="contributed">ბოსნია-ჰერცოგოვინას დინარი</displayName>
-			</currency>
-			<currency type="BAM">
-				<displayName draft="contributed">ბოსნია-ჰერცოგოვინას კონვერტირებადი მარკა</displayName>
-			</currency>
-			<currency type="BBD">
-				<displayName draft="contributed">ბარბადოსული დოლარი</displayName>
-			</currency>
-			<currency type="BDT">
-				<displayName draft="contributed">ბანგლადეშური ტაკა</displayName>
-			</currency>
-			<currency type="BEC">
-				<displayName draft="contributed">ბელგიური ფრანკი (კოვერტირებადი)</displayName>
-			</currency>
-			<currency type="BEF">
-				<displayName draft="contributed">ბელგიური ფრანკი</displayName>
-			</currency>
-			<currency type="BEL">
-				<displayName draft="contributed">ბელგიური ფრანკი (ფინანსური)</displayName>
-			</currency>
-			<currency type="BGL">
-				<displayName draft="contributed">ბულგარული მყარი ლევი</displayName>
-			</currency>
-			<currency type="BGN">
-				<displayName draft="contributed">ბულგარული ახალი ლევი</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName draft="contributed">ბაჰრეინული დინარი</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName draft="contributed">ბურუნდიული ფრანკი</displayName>
-			</currency>
-			<currency type="BMD">
-				<displayName draft="contributed">ბერმუდული დინარი</displayName>
-			</currency>
-			<currency type="BND">
-				<displayName draft="contributed">ბრუნეული დოლარი</displayName>
-			</currency>
-			<currency type="BOB">
-				<displayName draft="contributed">ბოლივიანო</displayName>
-			</currency>
-			<currency type="BOP">
-				<displayName draft="contributed">ბოლივიური პესო</displayName>
-			</currency>
-			<currency type="BRB">
-				<displayName draft="contributed">ბრაზილიური კრუზეირო ნოვო (1967-1986)</displayName>
-			</currency>
-			<currency type="BRC">
-				<displayName draft="contributed">ბრაზილიური კრუზადო</displayName>
-			</currency>
-			<currency type="BRE">
-				<displayName draft="contributed">ბრაზილიური კრუზეირო (1990-1993)</displayName>
-			</currency>
-			<currency type="BRL">
-				<displayName draft="contributed">ბრაზილიური რეალი</displayName>
-			</currency>
-			<currency type="BRN">
-				<displayName draft="contributed">ბრაზილიური კრუზადო ნოვო</displayName>
-			</currency>
-			<currency type="BRR">
-				<displayName draft="contributed">ბრაზილიური კრუზეირო</displayName>
-			</currency>
-			<currency type="BSD">
-				<displayName draft="contributed">ბაჰამური დოლარი</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName draft="contributed">ბოტსვანიური პულა</displayName>
-			</currency>
-			<currency type="BYB">
-				<displayName draft="contributed">ახალი ბელარუსიული რუბლი (1994-1999)</displayName>
-			</currency>
-			<currency type="BYR">
-				<displayName draft="contributed">ბელარუსიული რუბლი</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName draft="contributed">კანადური დოლარი</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName draft="contributed">შვეიცარიული ფრანკი</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName draft="contributed">ჩინური უანი</displayName>
-			</currency>
-			<currency type="CRC">
-				<displayName draft="contributed">კოსტა რიკული კოლონი</displayName>
-			</currency>
-			<currency type="CSD">
-				<displayName draft="contributed">ძველი სერბიული დინარი</displayName>
-			</currency>
-			<currency type="CSK">
-				<displayName draft="contributed">ჩეხოსლოვაკიის მყარი კრონა</displayName>
-			</currency>
-			<currency type="CUP">
-				<displayName draft="contributed">კუბური პესო</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName draft="contributed">კაბო ვერდეს ესკუდო</displayName>
-			</currency>
-			<currency type="CYP">
-				<displayName draft="contributed">კვიპროსის გირვანქა</displayName>
-			</currency>
-			<currency type="CZK">
-				<displayName draft="contributed">ჩეხური კრონა</displayName>
-			</currency>
-			<currency type="DDM">
-				<displayName draft="contributed">აღმოსავლეთ გერმანული მარკა</displayName>
-			</currency>
-			<currency type="DEM">
-				<displayName draft="contributed">გერმანული მარკა</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName draft="contributed">ჯიბუტის ფრანკი</displayName>
-			</currency>
-			<currency type="DKK">
-				<displayName draft="contributed">დანიური კრონა</displayName>
-			</currency>
-			<currency type="DOP">
-				<displayName draft="contributed">დომინიკური პესო</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName draft="contributed">ალჟირიული დინარი</displayName>
-			</currency>
-			<currency type="EEK">
-				<displayName draft="contributed">ესტონური კრუნა</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName draft="contributed">ეგვიპტური გირვანქა</displayName>
-			</currency>
-			<currency type="ESP">
-				<displayName draft="contributed">ესპანური პესეტა</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName draft="contributed">ევრო</displayName>
-			</currency>
-			<currency type="FIM">
-				<displayName draft="contributed">ფინური მარკა</displayName>
-			</currency>
-			<currency type="FJD">
-				<displayName draft="contributed">ფიჯი დოლარი</displayName>
-			</currency>
-			<currency type="FRF">
-				<displayName draft="contributed">ფრანგული ფრანკი</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName draft="contributed">ინგლისური გირვანქა სტერლინგი</displayName>
-			</currency>
-			<currency type="GEK">
-				<displayName draft="contributed">ქართული კუპონი ლარით</displayName>
-			</currency>
-			<currency type="GEL">
-				<displayName draft="contributed">ქართული ლარი</displayName>
-			</currency>
-			<currency type="GRD">
-				<displayName draft="contributed">ბერძნული დრაჰმა</displayName>
-			</currency>
-			<currency type="GWE">
-				<displayName draft="contributed">პორტუგალიური გინეა ესკუდო</displayName>
-			</currency>
-			<currency type="HKD">
-				<displayName draft="contributed">ჰონგ კონგის დოლარი</displayName>
-			</currency>
-			<currency type="HNL">
-				<displayName draft="contributed">ჰონდურასის ლემპირა</displayName>
-			</currency>
-			<currency type="HRD">
-				<displayName draft="contributed">ხორვატიული დინარი</displayName>
-			</currency>
-			<currency type="HRK">
-				<displayName draft="contributed">ხორვატიული კუნა</displayName>
-			</currency>
-			<currency type="HUF">
-				<displayName draft="contributed">უნგრული ფორინტი</displayName>
-			</currency>
-			<currency type="IDR">
-				<displayName draft="contributed">ინდონეზიური რუპია</displayName>
-			</currency>
-			<currency type="IEP">
-				<displayName draft="contributed">ირლანდიური გირვანქა</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName draft="contributed">ინდური რუპია</displayName>
-			</currency>
-			<currency type="ISK">
-				<displayName draft="contributed">ისლანდიური კრონა</displayName>
-			</currency>
-			<currency type="ITL">
-				<displayName draft="contributed">იტალიური ლირა</displayName>
-			</currency>
-			<currency type="JMD">
-				<displayName draft="contributed">იამაიკური დოლარი</displayName>
-			</currency>
-			<currency type="JOD">
-				<displayName draft="contributed">იორდანიული დოლარი</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName draft="contributed">იაპონური იენი</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName draft="contributed">კენიური შილინგი</displayName>
-			</currency>
-			<currency type="KGS">
-				<displayName draft="contributed">ყირღიზული სომი</displayName>
-			</currency>
-			<currency type="KPW">
-				<displayName draft="contributed">ჩრდილოეთ კორეული ვონი</displayName>
-			</currency>
-			<currency type="KRW">
-				<displayName draft="contributed">სამხრეთ კორეული ვონი</displayName>
-			</currency>
-			<currency type="KWD">
-				<displayName draft="contributed">კუვეიტური დინარი</displayName>
-			</currency>
-			<currency type="KYD">
-				<displayName draft="contributed">კაიმანის კუნძულების დოლარი</displayName>
-			</currency>
-			<currency type="KZT">
-				<displayName draft="contributed">ყაზახური ტენგე</displayName>
-			</currency>
-			<currency type="LKR">
-				<displayName draft="contributed">შრი ლანკის რუპია</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName draft="contributed">ლიბერიული დოლარი</displayName>
-			</currency>
-			<currency type="LTL">
-				<displayName draft="contributed">ლიტვური ლიტა</displayName>
-			</currency>
-			<currency type="LTT">
-				<displayName draft="contributed">ლიტვური ტალონი</displayName>
-			</currency>
-			<currency type="LUC">
-				<displayName draft="contributed">ლუქსემბურგის კონვერტირებადი ფრანკი</displayName>
-			</currency>
-			<currency type="LUF">
-				<displayName draft="contributed">ლუქსემბურგის ფრანკი</displayName>
-			</currency>
-			<currency type="LUL">
-				<displayName draft="contributed">ლუქსემბურგის ფინანსური ფრანკი</displayName>
-			</currency>
-			<currency type="LVL">
-				<displayName draft="contributed">ლატვიური ლატი</displayName>
-			</currency>
-			<currency type="LVR">
-				<displayName draft="contributed">ლატვიური რუბლი</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName draft="contributed">ლიბიური დინარი</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName draft="contributed">მაროკოს დირჰამი</displayName>
-			</currency>
-			<currency type="MAF">
-				<displayName draft="contributed">მაროკოს ფრანკი</displayName>
-			</currency>
-			<currency type="MDL">
-				<displayName draft="contributed">მოლდოვური ლეუ</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName draft="contributed">მადაგასკარის არიარი</displayName>
-			</currency>
-			<currency type="MGF">
-				<displayName draft="contributed">მადაგასკარის ფრანკი</displayName>
-			</currency>
-			<currency type="MKD">
-				<displayName draft="contributed">მაკედონიური დენარი</displayName>
-			</currency>
-			<currency type="MLF">
-				<displayName draft="contributed">მალის ფრანკი</displayName>
-			</currency>
-			<currency type="MMK">
-				<displayName draft="contributed">მიანმარის კიატი</displayName>
-			</currency>
-			<currency type="MNT">
-				<displayName draft="contributed">მონღოლური ტუგრიკი</displayName>
-			</currency>
-			<currency type="MTL">
-				<displayName draft="contributed">მალტის ლირა</displayName>
-			</currency>
-			<currency type="MTP">
-				<displayName draft="contributed">მალტის გირვანქა</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName draft="contributed">მავრიტანული რუპია</displayName>
-			</currency>
-			<currency type="MVR">
-				<displayName draft="contributed">მალდივური რუფია</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName draft="contributed">მალავის კვანჩა</displayName>
-			</currency>
-			<currency type="MXN">
-				<displayName draft="contributed">მექსიკური პესო</displayName>
-			</currency>
-			<currency type="MXP">
-				<displayName draft="contributed">მექსიკური ვერცხლის პესო (1861-1992)</displayName>
-			</currency>
-			<currency type="MYR">
-				<displayName draft="contributed">მალაიზიური რინგიტი</displayName>
-			</currency>
-			<currency type="MZE">
-				<displayName draft="contributed">მოზამბიკური ესკუდო</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName draft="contributed">ძველი მოზამბიკური მეტიკალი</displayName>
-			</currency>
-			<currency type="MZN">
-				<displayName draft="contributed">მოზამბიკური მეტიკალი</displayName>
-			</currency>
-			<currency type="NAD">
-				<displayName draft="contributed">ნამიბიური დოლარი</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName draft="contributed">ნიგერიული ნაირა</displayName>
-			</currency>
-			<currency type="NIC">
-				<displayName draft="contributed">ნიკარაგუას კორდობა</displayName>
-			</currency>
-			<currency type="NIO">
-				<displayName draft="contributed">ნიკარაგუას ოქროს კორდობა</displayName>
-			</currency>
-			<currency type="NLG">
-				<displayName draft="contributed">ჰოლანდიური გულდენი</displayName>
-			</currency>
-			<currency type="NOK">
-				<displayName draft="contributed">ნორვეგიული კრონა</displayName>
-			</currency>
-			<currency type="NPR">
-				<displayName draft="contributed">ნეპალური რუპია</displayName>
-			</currency>
-			<currency type="NZD">
-				<displayName draft="contributed">ახალი ზელანდიის დოლარი</displayName>
-			</currency>
-			<currency type="OMR">
-				<displayName draft="contributed">ომანის რეალი</displayName>
-			</currency>
-			<currency type="PEI">
-				<displayName draft="contributed">პერუს ინტი</displayName>
-			</currency>
-			<currency type="PEN">
-				<displayName draft="contributed">პერუს ახალი სოლი</displayName>
-			</currency>
-			<currency type="PES">
-				<displayName draft="contributed">პერუს სოლი</displayName>
-			</currency>
-			<currency type="PHP">
-				<displayName draft="contributed">ფილიპინური პესო</displayName>
-			</currency>
-			<currency type="PKR">
-				<displayName draft="contributed">პაკისტანური რუპია</displayName>
-			</currency>
-			<currency type="PLN">
-				<displayName draft="contributed">პოლონური ზლოტი</displayName>
-			</currency>
-			<currency type="PLZ">
-				<displayName draft="contributed">პოლონური ზლოტი (1950-1995)</displayName>
-			</currency>
-			<currency type="PTE">
-				<displayName draft="contributed">პორტუგალიური ესკუდო</displayName>
-			</currency>
-			<currency type="QAR">
-				<displayName draft="contributed">კატარის რიალი</displayName>
-			</currency>
-			<currency type="RHD">
-				<displayName draft="contributed">როდეზიული დოლარი</displayName>
-			</currency>
-			<currency type="ROL">
-				<displayName draft="contributed">ძველი რუმინული ლეუ</displayName>
-			</currency>
-			<currency type="RON">
-				<displayName draft="contributed">რუმინული ლეუ</displayName>
-			</currency>
-			<currency type="RUB">
-				<displayName draft="contributed">რუსული რუბლი</displayName>
-			</currency>
-			<currency type="RUR">
-				<displayName draft="contributed">რუსული რუბლი (1991-1998)</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName draft="contributed">რუანდული ფრანკი</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName draft="contributed">სეიშელის რუპია</displayName>
-			</currency>
-			<currency type="SDD">
-				<displayName draft="contributed">სუდანის დინარი</displayName>
-			</currency>
-			<currency type="SDP">
-				<displayName draft="contributed">სუდანის გირვანქა</displayName>
-			</currency>
-			<currency type="SEK">
-				<displayName draft="contributed">შვედური კრონა</displayName>
-			</currency>
-			<currency type="SGD">
-				<displayName draft="contributed">სინგაპურის დოლარი</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName draft="contributed">სიერა ლეონეს ლეონე</displayName>
-			</currency>
-			<currency type="SRD">
-				<displayName draft="contributed">სურინამის დოლარი</displayName>
-			</currency>
-			<currency type="SRG">
-				<displayName draft="contributed">სურინამის გულდენი</displayName>
-			</currency>
-			<currency type="SUR">
-				<displayName draft="contributed">საბჭოთა რუბლი</displayName>
-			</currency>
-			<currency type="SYP">
-				<displayName draft="contributed">სირიული გირვანქა</displayName>
-			</currency>
-			<currency type="TJR">
-				<displayName draft="contributed">ტაჯიკური რუბლი</displayName>
-			</currency>
-			<currency type="TJS">
-				<displayName draft="contributed">ტაჯიკური სომონი</displayName>
-			</currency>
-			<currency type="TMM">
-				<displayName draft="contributed">თურქმენული მანათი</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName draft="contributed">ტუნისიური დინარი</displayName>
-			</currency>
-			<currency type="TRL">
-				<displayName draft="contributed">თურქული ლირა</displayName>
-			</currency>
-			<currency type="TRY">
-				<displayName draft="contributed">ახალი თურქული ლირა</displayName>
-			</currency>
-			<currency type="TTD">
-				<displayName draft="contributed">ტრინიდად და ტობაგოს დოლარი</displayName>
-			</currency>
-			<currency type="TWD">
-				<displayName draft="contributed">ტაივანური ახალი დოლარი</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName draft="contributed">ტანზანიური შილინგი</displayName>
-			</currency>
-			<currency type="UAH">
-				<displayName draft="contributed">უკრაინული გრივნა</displayName>
-			</currency>
-			<currency type="UAK">
-				<displayName draft="contributed">უკრაინული კარბოვანეცი</displayName>
-			</currency>
-			<currency type="UGS">
-				<displayName draft="contributed">უგანდური შილინგი (1966-1987)</displayName>
-			</currency>
-			<currency type="UGX">
-				<displayName draft="contributed">უგანდური შილინგი</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName draft="contributed">აშშ დოლარი</displayName>
-			</currency>
-			<currency type="USN">
-				<displayName draft="contributed">აშშ დოლარი (შემდეგი დღე)</displayName>
-			</currency>
-			<currency type="USS">
-				<displayName draft="contributed">აშშ დოლარი (იგივე დღე)</displayName>
-			</currency>
-			<currency type="UYP">
-				<displayName draft="contributed">ურუგვაის პესო (1975-1993)</displayName>
-			</currency>
-			<currency type="UYU">
-				<displayName draft="contributed">ურუგვაის პესო ურუგვაიო</displayName>
-			</currency>
-			<currency type="UZS">
-				<displayName draft="contributed">უზბეკური სუმი</displayName>
-			</currency>
-			<currency type="VEB">
-				<displayName draft="contributed">ვენესუელის ბოლივარი</displayName>
-			</currency>
-			<currency type="VND">
-				<displayName draft="contributed">ვიეტნამური დონგი</displayName>
-			</currency>
-			<currency type="VUV">
-				<displayName draft="contributed">ვანატუს ვატუ</displayName>
-			</currency>
-			<currency type="WST">
-				<displayName draft="contributed">დასავლეთ სამოას ტალა</displayName>
-			</currency>
-			<currency type="XAG">
-				<displayName draft="contributed">ვერცხლი</displayName>
-			</currency>
-			<currency type="XBA">
-				<displayName draft="contributed">ევროპული კომპპოზიტური ერთეული</displayName>
-			</currency>
-			<currency type="XBB">
-				<displayName draft="contributed">ევროპული ფულადი ერთეული</displayName>
-			</currency>
-			<currency type="XCD">
-				<displayName draft="contributed">აღმოსავლეთ კარიბიული დოლარი</displayName>
-			</currency>
-			<currency type="XEU">
-				<displayName draft="contributed">ევროპული სავალუტო ერთეული</displayName>
-			</currency>
-			<currency type="XFO">
-				<displayName draft="contributed">ფრანგული ოქროს ფრანკი</displayName>
-			</currency>
-			<currency type="XXX">
-				<displayName draft="contributed">უცნობი ან არასწორი ვალუტა</displayName>
-			</currency>
-			<currency type="YDD">
-				<displayName draft="contributed">იემენის დინარი</displayName>
-			</currency>
-			<currency type="YER">
-				<displayName draft="contributed">იემენის რეალი</displayName>
-			</currency>
-			<currency type="YUD">
-				<displayName draft="contributed">იუგოსლავიური მყარი დინარი</displayName>
-			</currency>
-			<currency type="YUM">
-				<displayName draft="contributed">იუგოსლავიური ახალი დინარი</displayName>
-			</currency>
-			<currency type="YUN">
-				<displayName draft="contributed">იუგოსლავიური კონვერტირებადი დინარი</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName draft="contributed">ზამბიური კვანჩა</displayName>
-			</currency>
-			<currency type="ZRN">
-				<displayName draft="contributed">ზაირის ახალი ზაირი</displayName>
-			</currency>
-			<currency type="ZRZ">
-				<displayName draft="contributed">ზაირის ზაირი</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName draft="contributed">ზიმბაბვეს დოლარი</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0 %</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf drbft="dontributfd">ანდორული პესეტა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf drbft="dontributfd">გაერთიანებული არაბული საემიროების დირჰემი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFA">
+				<displbyNbmf drbft="dontributfd">ავღანი (1927-2002)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf drbft="dontributfd">ავღანი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf drbft="dontributfd">ალბანური ლეკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf drbft="dontributfd">სომხური დრამი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf drbft="dontributfd">ნიდრელანდების ანტილიის გულდენი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf drbft="dontributfd">ანგოლური კვანზა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOK">
+				<displbyNbmf drbft="dontributfd">ანგოლური კვანზა (1977-1990)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AON">
+				<displbyNbmf drbft="dontributfd">ანგოლური ახალი კვანზა (1990-2000)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOR">
+				<displbyNbmf drbft="dontributfd">ანგოლური მიტოლებული კვანზა (1995-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARA">
+				<displbyNbmf drbft="dontributfd">არგენტინული აუსტრალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf drbft="dontributfd">არგენტინული პესო (1983-1985)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf drbft="dontributfd">არგენტინული პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf drbft="dontributfd">ავსტრიული შილინგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf drbft="dontributfd">ავსტრალიური დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf drbft="dontributfd">არუბანული გულდენი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf drbft="dontributfd">აზერბაიჯანული მანათი (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf drbft="dontributfd">აზერბაიჯანული მანათი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf drbft="dontributfd">ბოსნია-ჰერცოგოვინას დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf drbft="dontributfd">ბოსნია-ჰერცოგოვინას კონვერტირებადი მარკა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf drbft="dontributfd">ბარბადოსული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf drbft="dontributfd">ბანგლადეშური ტაკა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEC">
+				<displbyNbmf drbft="dontributfd">ბელგიური ფრანკი (კოვერტირებადი)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf drbft="dontributfd">ბელგიური ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf drbft="dontributfd">ბელგიური ფრანკი (ფინანსური)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGL">
+				<displbyNbmf drbft="dontributfd">ბულგარული მყარი ლევი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf drbft="dontributfd">ბულგარული ახალი ლევი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf drbft="dontributfd">ბაჰრეინული დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf drbft="dontributfd">ბურუნდიული ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf drbft="dontributfd">ბერმუდული დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf drbft="dontributfd">ბრუნეული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf drbft="dontributfd">ბოლივიანო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf drbft="dontributfd">ბოლივიური პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRB">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური კრუზეირო ნოვო (1967-1986)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRC">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური კრუზადო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRE">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური კრუზეირო (1990-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური რეალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRN">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური კრუზადო ნოვო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRR">
+				<displbyNbmf drbft="dontributfd">ბრაზილიური კრუზეირო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf drbft="dontributfd">ბაჰამური დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf drbft="dontributfd">ბოტსვანიური პულა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf drbft="dontributfd">ახალი ბელარუსიული რუბლი (1994-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf drbft="dontributfd">ბელარუსიული რუბლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf drbft="dontributfd">კანადური დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="dontributfd">შვეიცარიული ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf drbft="dontributfd">ჩინური უანი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf drbft="dontributfd">კოსტა რიკული კოლონი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSD">
+				<displbyNbmf drbft="dontributfd">ძველი სერბიული დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSK">
+				<displbyNbmf drbft="dontributfd">ჩეხოსლოვაკიის მყარი კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf drbft="dontributfd">კუბური პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf drbft="dontributfd">კაბო ვერდეს ესკუდო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf drbft="dontributfd">კვიპროსის გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf drbft="dontributfd">ჩეხური კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf drbft="dontributfd">აღმოსავლეთ გერმანული მარკა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf drbft="dontributfd">გერმანული მარკა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf drbft="dontributfd">ჯიბუტის ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf drbft="dontributfd">დანიური კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf drbft="dontributfd">დომინიკური პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf drbft="dontributfd">ალჟირიული დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf drbft="dontributfd">ესტონური კრუნა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf drbft="dontributfd">ეგვიპტური გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf drbft="dontributfd">ესპანური პესეტა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="dontributfd">ევრო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FIM">
+				<displbyNbmf drbft="dontributfd">ფინური მარკა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf drbft="dontributfd">ფიჯი დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf drbft="dontributfd">ფრანგული ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="dontributfd">ინგლისური გირვანქა სტერლინგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEK">
+				<displbyNbmf drbft="dontributfd">ქართული კუპონი ლარით</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf drbft="dontributfd">ქართული ლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf drbft="dontributfd">ბერძნული დრაჰმა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWE">
+				<displbyNbmf drbft="dontributfd">პორტუგალიური გინეა ესკუდო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="dontributfd">ჰონგ კონგის დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf drbft="dontributfd">ჰონდურასის ლემპირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf drbft="dontributfd">ხორვატიული დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf drbft="dontributfd">ხორვატიული კუნა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf drbft="dontributfd">უნგრული ფორინტი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf drbft="dontributfd">ინდონეზიური რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf drbft="dontributfd">ირლანდიური გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf drbft="dontributfd">ინდური რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf drbft="dontributfd">ისლანდიური კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf drbft="dontributfd">იტალიური ლირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf drbft="dontributfd">იამაიკური დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf drbft="dontributfd">იორდანიული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="dontributfd">იაპონური იენი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf drbft="dontributfd">კენიური შილინგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf drbft="dontributfd">ყირღიზული სომი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf drbft="dontributfd">ჩრდილოეთ კორეული ვონი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="dontributfd">სამხრეთ კორეული ვონი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf drbft="dontributfd">კუვეიტური დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf drbft="dontributfd">კაიმანის კუნძულების დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf drbft="dontributfd">ყაზახური ტენგე</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf drbft="dontributfd">შრი ლანკის რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf drbft="dontributfd">ლიბერიული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf drbft="dontributfd">ლიტვური ლიტა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTT">
+				<displbyNbmf drbft="dontributfd">ლიტვური ტალონი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUC">
+				<displbyNbmf drbft="dontributfd">ლუქსემბურგის კონვერტირებადი ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf drbft="dontributfd">ლუქსემბურგის ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUL">
+				<displbyNbmf drbft="dontributfd">ლუქსემბურგის ფინანსური ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf drbft="dontributfd">ლატვიური ლატი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf drbft="dontributfd">ლატვიური რუბლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf drbft="dontributfd">ლიბიური დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf drbft="dontributfd">მაროკოს დირჰამი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf drbft="dontributfd">მაროკოს ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf drbft="dontributfd">მოლდოვური ლეუ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf drbft="dontributfd">მადაგასკარის არიარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf drbft="dontributfd">მადაგასკარის ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf drbft="dontributfd">მაკედონიური დენარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf drbft="dontributfd">მალის ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf drbft="dontributfd">მიანმარის კიატი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf drbft="dontributfd">მონღოლური ტუგრიკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf drbft="dontributfd">მალტის ლირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf drbft="dontributfd">მალტის გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf drbft="dontributfd">მავრიტანული რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf drbft="dontributfd">მალდივური რუფია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf drbft="dontributfd">მალავის კვანჩა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="dontributfd">მექსიკური პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf drbft="dontributfd">მექსიკური ვერცხლის პესო (1861-1992)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf drbft="dontributfd">მალაიზიური რინგიტი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf drbft="dontributfd">მოზამბიკური ესკუდო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf drbft="dontributfd">ძველი მოზამბიკური მეტიკალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZN">
+				<displbyNbmf drbft="dontributfd">მოზამბიკური მეტიკალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf drbft="dontributfd">ნამიბიური დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf drbft="dontributfd">ნიგერიული ნაირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIC">
+				<displbyNbmf drbft="dontributfd">ნიკარაგუას კორდობა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf drbft="dontributfd">ნიკარაგუას ოქროს კორდობა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf drbft="dontributfd">ჰოლანდიური გულდენი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf drbft="dontributfd">ნორვეგიული კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf drbft="dontributfd">ნეპალური რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="dontributfd">ახალი ზელანდიის დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf drbft="dontributfd">ომანის რეალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEI">
+				<displbyNbmf drbft="dontributfd">პერუს ინტი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf drbft="dontributfd">პერუს ახალი სოლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PES">
+				<displbyNbmf drbft="dontributfd">პერუს სოლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf drbft="dontributfd">ფილიპინური პესო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf drbft="dontributfd">პაკისტანური რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf drbft="dontributfd">პოლონური ზლოტი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLZ">
+				<displbyNbmf drbft="dontributfd">პოლონური ზლოტი (1950-1995)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf drbft="dontributfd">პორტუგალიური ესკუდო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf drbft="dontributfd">კატარის რიალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RHD">
+				<displbyNbmf drbft="dontributfd">როდეზიული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf drbft="dontributfd">ძველი რუმინული ლეუ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf drbft="dontributfd">რუმინული ლეუ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="dontributfd">რუსული რუბლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf drbft="dontributfd">რუსული რუბლი (1991-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf drbft="dontributfd">რუანდული ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf drbft="dontributfd">სეიშელის რუპია</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDD">
+				<displbyNbmf drbft="dontributfd">სუდანის დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf drbft="dontributfd">სუდანის გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf drbft="dontributfd">შვედური კრონა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf drbft="dontributfd">სინგაპურის დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf drbft="dontributfd">სიერა ლეონეს ლეონე</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf drbft="dontributfd">სურინამის დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRG">
+				<displbyNbmf drbft="dontributfd">სურინამის გულდენი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf drbft="dontributfd">საბჭოთა რუბლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf drbft="dontributfd">სირიული გირვანქა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf drbft="dontributfd">ტაჯიკური რუბლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf drbft="dontributfd">ტაჯიკური სომონი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf drbft="dontributfd">თურქმენული მანათი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf drbft="dontributfd">ტუნისიური დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf drbft="dontributfd">თურქული ლირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="dontributfd">ახალი თურქული ლირა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf drbft="dontributfd">ტრინიდად და ტობაგოს დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="dontributfd">ტაივანური ახალი დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf drbft="dontributfd">ტანზანიური შილინგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf drbft="dontributfd">უკრაინული გრივნა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAK">
+				<displbyNbmf drbft="dontributfd">უკრაინული კარბოვანეცი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf drbft="dontributfd">უგანდური შილინგი (1966-1987)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf drbft="dontributfd">უგანდური შილინგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="dontributfd">აშშ დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf drbft="dontributfd">აშშ დოლარი (შემდეგი დღე)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf drbft="dontributfd">აშშ დოლარი (იგივე დღე)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf drbft="dontributfd">ურუგვაის პესო (1975-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf drbft="dontributfd">ურუგვაის პესო ურუგვაიო</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf drbft="dontributfd">უზბეკური სუმი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf drbft="dontributfd">ვენესუელის ბოლივარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf drbft="dontributfd">ვიეტნამური დონგი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf drbft="dontributfd">ვანატუს ვატუ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf drbft="dontributfd">დასავლეთ სამოას ტალა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf drbft="dontributfd">ვერცხლი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBA">
+				<displbyNbmf drbft="dontributfd">ევროპული კომპპოზიტური ერთეული</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBB">
+				<displbyNbmf drbft="dontributfd">ევროპული ფულადი ერთეული</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf drbft="dontributfd">აღმოსავლეთ კარიბიული დოლარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XEU">
+				<displbyNbmf drbft="dontributfd">ევროპული სავალუტო ერთეული</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf drbft="dontributfd">ფრანგული ოქროს ფრანკი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf drbft="dontributfd">უცნობი ან არასწორი ვალუტა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf drbft="dontributfd">იემენის დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf drbft="dontributfd">იემენის რეალი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUD">
+				<displbyNbmf drbft="dontributfd">იუგოსლავიური მყარი დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUM">
+				<displbyNbmf drbft="dontributfd">იუგოსლავიური ახალი დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUN">
+				<displbyNbmf drbft="dontributfd">იუგოსლავიური კონვერტირებადი დინარი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf drbft="dontributfd">ზამბიური კვანჩა</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRN">
+				<displbyNbmf drbft="dontributfd">ზაირის ახალი ზაირი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRZ">
+				<displbyNbmf drbft="dontributfd">ზაირის ზაირი</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf drbft="dontributfd">ზიმბაბვეს დოლარი</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} დღე</unitPattern>
+		<unit typf="dby">
+			<unitPbttfrn dount="otifr">{0} დღე</unitPbttfrn>
 		</unit>
-		<unit type="hour">
-			<unitPattern count="other">{0} საათი</unitPattern>
+		<unit typf="iour">
+			<unitPbttfrn dount="otifr">{0} საათი</unitPbttfrn>
 		</unit>
-		<unit type="minute">
-			<unitPattern count="other">{0} წუთი</unitPattern>
+		<unit typf="minutf">
+			<unitPbttfrn dount="otifr">{0} წუთი</unitPbttfrn>
 		</unit>
-		<unit type="month">
-			<unitPattern count="other">{0} თვე</unitPattern>
+		<unit typf="monti">
+			<unitPbttfrn dount="otifr">{0} თვე</unitPbttfrn>
 		</unit>
-		<unit type="second">
-			<unitPattern count="other">{0} წამი</unitPattern>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="otifr">{0} წამი</unitPbttfrn>
 		</unit>
-		<unit type="week">
-			<unitPattern count="other">{0} კვირა</unitPattern>
+		<unit typf="wffk">
+			<unitPbttfrn dount="otifr">{0} კვირა</unitPbttfrn>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} წელი</unitPattern>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="otifr">{0} წელი</unitPbttfrn>
 		</unit>
 	</units>
-	<listPatterns>
-		<listPattern>
-			<listPatternPart type="2">{0} და {1}</listPatternPart>
-			<listPatternPart type="end">{0} და {1}</listPatternPart>
-		</listPattern>
-	</listPatterns>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0} და {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0} და {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
 	<posix>
-		<messages>
-			<yesstr draft="contributed">დიახ</yesstr>
-			<nostr draft="contributed">არა</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr drbft="dontributfd">დიახ</yfsstr>
+			<nostr drbft="dontributfd">არა</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

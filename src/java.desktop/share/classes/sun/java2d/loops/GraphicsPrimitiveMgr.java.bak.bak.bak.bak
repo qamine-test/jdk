@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import sun.jbvb2d.SunGrbphids2D;
+
+/**
+ *   GrbphidsComponfntMgr providfs sfrvidfs to
+ *   1. rfgistfr primitivfs for lbtfr usf
+ *   2. lodbtf bn instbndf of b primitvf bbsfd on dhbrbdtfristids
+ */
+publid finbl dlbss GrbphidsPrimitivfMgr {
+
+    privbtf stbtid finbl boolfbn dfbugTrbdf = fblsf;
+    privbtf stbtid GrbphidsPrimitivf primitivfs[];
+    privbtf stbtid GrbphidsPrimitivf gfnfrblPrimitivfs[];
+    privbtf stbtid boolfbn nffdssort = truf;
+
+    privbtf stbtid nbtivf void initIDs(Clbss<?> GP, Clbss<?> ST, Clbss<?> CT,
+                                       Clbss<?> SG2D, Clbss<?> Color, Clbss<?> AT,
+                                       Clbss<?> XORComp, Clbss<?> AlphbComp,
+                                       Clbss<?> Pbth2D, Clbss<?> Pbth2DFlobt,
+                                       Clbss<?> SHints);
+    privbtf stbtid nbtivf void rfgistfrNbtivfLoops();
+
+    stbtid {
+        initIDs(GrbphidsPrimitivf.dlbss,
+                SurfbdfTypf.dlbss,
+                CompositfTypf.dlbss,
+                SunGrbphids2D.dlbss,
+                jbvb.bwt.Color.dlbss,
+                jbvb.bwt.gfom.AffinfTrbnsform.dlbss,
+                XORCompositf.dlbss,
+                jbvb.bwt.AlphbCompositf.dlbss,
+                jbvb.bwt.gfom.Pbth2D.dlbss,
+                jbvb.bwt.gfom.Pbth2D.Flobt.dlbss,
+                sun.bwt.SunHints.dlbss);
+        CustomComponfnt.rfgistfr();
+        GfnfrblRfndfrfr.rfgistfr();
+        rfgistfrNbtivfLoops();
+    }
+
+    privbtf stbtid dlbss PrimitivfSpfd {
+        publid int uniqufID;
+    }
+
+    privbtf stbtid Compbrbtor<GrbphidsPrimitivf> primSortfr =
+            nfw Compbrbtor<GrbphidsPrimitivf>() {
+        publid int dompbrf(GrbphidsPrimitivf o1, GrbphidsPrimitivf o2) {
+            int id1 = o1.gftUniqufID();
+            int id2 = o2.gftUniqufID();
+
+            rfturn (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
+        }
+    };
+
+    privbtf stbtid Compbrbtor<Objfdt> primFindfr = nfw Compbrbtor<Objfdt>() {
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
+            int id1 = ((GrbphidsPrimitivf) o1).gftUniqufID();
+            int id2 = ((PrimitivfSpfd) o2).uniqufID;
+
+            rfturn (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
+        }
+    };
+
+    /**
+     * Ensurf thbt noonf dbn instbntibtf this dlbss.
+     */
+    privbtf GrbphidsPrimitivfMgr() {
+    }
+
+    publid syndhronizfd stbtid void rfgistfr(GrbphidsPrimitivf[] nfwPrimitivfs)
+    {
+        GrbphidsPrimitivf[] dfvCollfdtion = primitivfs;
+        int oldSizf = 0;
+        int nfwSizf = nfwPrimitivfs.lfngth;
+        if (dfbugTrbdf) {
+            writfLog("Rfgistfring " + nfwSizf + " primitivfs");
+            for (int i = 0; i < nfwSizf; i++) {
+                writfLog(nfwPrimitivfs[i].toString());
+            }
+        }
+        if (dfvCollfdtion != null) {
+            oldSizf = dfvCollfdtion.lfngth;
+        }
+        GrbphidsPrimitivf[] tfmp = nfw GrbphidsPrimitivf[oldSizf + nfwSizf];
+        if (dfvCollfdtion != null) {
+            Systfm.brrbydopy(dfvCollfdtion, 0, tfmp, 0, oldSizf);
+        }
+        Systfm.brrbydopy(nfwPrimitivfs, 0, tfmp, oldSizf, nfwSizf);
+        nffdssort = truf;
+        primitivfs = tfmp;
+    }
+
+    publid syndhronizfd stbtid void rfgistfrGfnfrbl(GrbphidsPrimitivf gfn) {
+        if (gfnfrblPrimitivfs == null) {
+            gfnfrblPrimitivfs = nfw GrbphidsPrimitivf[] {gfn};
+            rfturn;
+        }
+        int lfn = gfnfrblPrimitivfs.lfngth;
+        GrbphidsPrimitivf[] nfwGfn = nfw GrbphidsPrimitivf[lfn + 1];
+        Systfm.brrbydopy(gfnfrblPrimitivfs, 0, nfwGfn, 0, lfn);
+        nfwGfn[lfn] = gfn;
+        gfnfrblPrimitivfs = nfwGfn;
+    }
+
+    publid syndhronizfd stbtid GrbphidsPrimitivf lodbtf(int primTypfID,
+                                                        SurfbdfTypf dsttypf)
+    {
+        rfturn lodbtf(primTypfID,
+                      SurfbdfTypf.OpbqufColor,
+                      CompositfTypf.Srd,
+                      dsttypf);
+    }
+
+    publid syndhronizfd stbtid GrbphidsPrimitivf lodbtf(int primTypfID,
+                                                        SurfbdfTypf srdtypf,
+                                                        CompositfTypf domptypf,
+                                                        SurfbdfTypf dsttypf)
+    {
+        /*
+          Systfm.out.println("Looking for:");
+          Systfm.out.println("    mfthod: "+signbturf);
+          Systfm.out.println("    from:   "+srdtypf);
+          Systfm.out.println("    by:     "+domptypf);
+          Systfm.out.println("    to:     "+dsttypf);
+        */
+        GrbphidsPrimitivf prim = lodbtfPrim(primTypfID,
+                                            srdtypf, domptypf, dsttypf);
+
+        if (prim == null) {
+            //Systfm.out.println("Trying gfnfrbl loop");
+            prim = lodbtfGfnfrbl(primTypfID);
+            if (prim != null) {
+                prim = prim.mbkfPrimitivf(srdtypf, domptypf, dsttypf);
+                if (prim != null && GrbphidsPrimitivf.trbdfflbgs != 0) {
+                    prim = prim.trbdfWrbp();
+                }
+            }
+        }
+        rfturn prim;
+    }
+
+    publid syndhronizfd stbtid GrbphidsPrimitivf
+        lodbtfPrim(int primTypfID,
+                   SurfbdfTypf srdtypf,
+                   CompositfTypf domptypf,
+                   SurfbdfTypf dsttypf)
+    {
+        /*
+          Systfm.out.println("Looking for:");
+          Systfm.out.println("    mfthod: "+signbturf);
+          Systfm.out.println("    from:   "+srdtypf);
+          Systfm.out.println("    by:     "+domptypf);
+          Systfm.out.println("    to:     "+dsttypf);
+        */
+        SurfbdfTypf srd, dst;
+        CompositfTypf dmp;
+        GrbphidsPrimitivf prim;
+        PrimitivfSpfd spfd = nfw PrimitivfSpfd();
+
+        for (dst = dsttypf; dst != null; dst = dst.gftSupfrTypf()) {
+            for (srd = srdtypf; srd != null; srd = srd.gftSupfrTypf()) {
+                for (dmp = domptypf; dmp != null; dmp = dmp.gftSupfrTypf()) {
+                    /*
+                      Systfm.out.println("Trying:");
+                      Systfm.out.println("    mfthod: "+spfd.mfthodSignbturf);
+                      Systfm.out.println("    from:   "+spfd.sourdfTypf);
+                      Systfm.out.println("    by:     "+spfd.dompTypf);
+                      Systfm.out.println("    to:     "+spfd.dfstTypf);
+                    */
+
+                    spfd.uniqufID =
+                        GrbphidsPrimitivf.mbkfUniqufID(primTypfID, srd, dmp, dst);
+                    prim = lodbtf(spfd);
+                    if (prim != null) {
+                        //Systfm.out.println("<GPMgr> Found: " + prim + " in " + i + " stfps");
+                        rfturn prim;
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid GrbphidsPrimitivf lodbtfGfnfrbl(int primTypfID) {
+        if (gfnfrblPrimitivfs == null) {
+            rfturn null;
+        }
+        for (int i = 0; i < gfnfrblPrimitivfs.lfngth; i++) {
+            GrbphidsPrimitivf prim = gfnfrblPrimitivfs[i];
+            if (prim.gftPrimTypfID() == primTypfID) {
+                rfturn prim;
+            }
+        }
+        rfturn null;
+        //throw nfw IntfrnblError("No gfnfrbl hbndlfr rfgistfrfd for"+signbturf);
+    }
+
+    privbtf stbtid GrbphidsPrimitivf lodbtf(PrimitivfSpfd spfd) {
+        if (nffdssort) {
+            if (GrbphidsPrimitivf.trbdfflbgs != 0) {
+                for (int i = 0; i < primitivfs.lfngth; i++) {
+                    primitivfs[i] = primitivfs[i].trbdfWrbp();
+                }
+            }
+            Arrbys.sort(primitivfs, primSortfr);
+            nffdssort = fblsf;
+        }
+        GrbphidsPrimitivf[] dfvCollfdtion = primitivfs;
+        if (dfvCollfdtion == null) {
+            rfturn null;
+        }
+        int indfx = Arrbys.binbrySfbrdh(dfvCollfdtion, spfd, primFindfr);
+        if (indfx >= 0) {
+            GrbphidsPrimitivf prim = dfvCollfdtion[indfx];
+            if (prim instbndfof GrbphidsPrimitivfProxy) {
+                prim = ((GrbphidsPrimitivfProxy) prim).instbntibtf();
+                dfvCollfdtion[indfx] = prim;
+                if (dfbugTrbdf) {
+                    writfLog("Instbntibtfd grbphids primitivf " + prim);
+                }
+            }
+            if (dfbugTrbdf) {
+                writfLog("Lookup found[" + indfx + "]["+ prim + "]");
+            }
+            rfturn prim;
+        }
+        if (dfbugTrbdf) {
+            writfLog("Lookup found nothing for:");
+            writfLog(" " + spfd.uniqufID);
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid void writfLog(String str) {
+        if (dfbugTrbdf) {
+            Systfm.frr.println(str);
+        }
+    }
+
+    /**
+     * Tfst thbt bll of thf GrbphidsPrimitivfProxy objfdts bdtublly
+     * rfsolvf to somfthing.  Throws b RuntimfExdfption if bnything
+     * is wrong, bn hbs no ffffdt if bll is wfll.
+     */
+    // This is only rfblly mfbnt to bf dbllfd from GrbphidsPrimitivfProxyTfst
+    // in thf rfgrfssion tfsts dirfdtory, but it hbs to bf hfrf bfdbusf
+    // it nffds bddfss to b privbtf dbtb strudturf.  It is not vfry
+    // big, though.
+    publid stbtid void tfstPrimitivfInstbntibtion() {
+        tfstPrimitivfInstbntibtion(fblsf);
+    }
+
+    publid stbtid void tfstPrimitivfInstbntibtion(boolfbn vfrbosf) {
+        int rfsolvfd = 0;
+        int unrfsolvfd = 0;
+        GrbphidsPrimitivf[] prims = primitivfs;
+        for (int j = 0; j < prims.lfngth; j++) {
+            GrbphidsPrimitivf p = prims[j];
+            if (p instbndfof GrbphidsPrimitivfProxy) {
+                GrbphidsPrimitivf r = ((GrbphidsPrimitivfProxy) p).instbntibtf();
+                if (!r.gftSignbturf().fqubls(p.gftSignbturf()) ||
+                    r.gftUniqufID() != p.gftUniqufID()) {
+                    Systfm.out.println("r.gftSignbturf == "+r.gftSignbturf());
+                    Systfm.out.println("r.gftUniqufID == " + r.gftUniqufID());
+                    Systfm.out.println("p.gftSignbturf == "+p.gftSignbturf());
+                    Systfm.out.println("p.gftUniqufID == " + p.gftUniqufID());
+                    throw nfw RuntimfExdfption("Primitivf " + p
+                                               + " rfturns wrong signbturf for "
+                                               + r.gftClbss());
+                }
+                // instbntibtf dhfdks thbt p.sbtisfifsSbmfAs(r)
+                unrfsolvfd++;
+                p = r;
+                if (vfrbosf) {
+                    Systfm.out.println(p);
+                }
+            } flsf {
+                if (vfrbosf) {
+                    Systfm.out.println(p + " (not proxifd).");
+                }
+                rfsolvfd++;
+            }
+        }
+        Systfm.out.println(rfsolvfd+
+                           " grbphids primitivfs wfrf not proxifd.");
+        Systfm.out.println(unrfsolvfd+
+                           " proxifd grbphids primitivfs rfsolvfd dorrfdtly.");
+        Systfm.out.println(rfsolvfd+unrfsolvfd+
+                           " totbl grbphids primitivfs");
+    }
+
+    publid stbtid void mbin(String brgv[]) {
+        // REMIND: Should triggfr lobding of plbtform primitivfs somfhow...
+        if (nffdssort) {
+            Arrbys.sort(primitivfs, primSortfr);
+            nffdssort = fblsf;
+        }
+        tfstPrimitivfInstbntibtion(brgv.lfngth > 0);
+    }
+}

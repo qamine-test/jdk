@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import sun.bwt.AWTPfrmissions;
+
+/**
+ * <dodf>MousfInfo</dodf>  providfs mfthods for gftting informbtion bbout thf mousf,
+ * sudh bs mousf pointfr lodbtion bnd thf numbfr of mousf buttons.
+ *
+ * @buthor     Rombn Pobordhiy
+ * @sindf 1.5
+ */
+
+publid dlbss MousfInfo {
+
+    /**
+     * Privbtf donstrudtor to prfvfnt instbntibtion.
+     */
+    privbtf MousfInfo() {
+    }
+
+    /**
+     * Rfturns b <dodf>PointfrInfo</dodf> instbndf thbt rfprfsfnts thf durrfnt
+     * lodbtion of thf mousf pointfr.
+     * Thf <dodf>GrbphidsDfvidf</dodf> storfd in this <dodf>PointfrInfo</dodf>
+     * dontbins thf mousf pointfr. Thf doordinbtf systfm usfd for thf mousf position
+     * dfpfnds on whfthfr or not thf <dodf>GrbphidsDfvidf</dodf> is pbrt of b virtubl
+     * sdrffn dfvidf.
+     * For virtubl sdrffn dfvidfs, thf doordinbtfs brf givfn in thf virtubl
+     * doordinbtf systfm, othfrwisf thfy brf rfturnfd in thf doordinbtf systfm
+     * of thf <dodf>GrbphidsDfvidf</dodf>. Sff {@link GrbphidsConfigurbtion}
+     * for morf informbtion bbout thf virtubl sdrffn dfvidfs.
+     * On systfms without b mousf, rfturns <dodf>null</dodf>.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf> mfthod
+     * is dbllfd with bn <dodf>AWTPfrmission("wbtdhMousfPointfr")</dodf>
+     * pfrmission bfforf drfbting bnd rfturning b <dodf>PointfrInfo</dodf>
+     * objfdt. This mby rfsult in b <dodf>SfdurityExdfption</dodf>.
+     *
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *            <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow thf opfrbtion
+     * @sff       GrbphidsConfigurbtion
+     * @sff       SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff       jbvb.bwt.AWTPfrmission
+     * @rfturn    lodbtion of thf mousf pointfr
+     * @sindf     1.5
+     */
+    publid stbtid PointfrInfo gftPointfrInfo() throws HfbdlfssExdfption {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.WATCH_MOUSE_PERMISSION);
+        }
+
+        Point point = nfw Point(0, 0);
+        int dfvidfNum = Toolkit.gftDffbultToolkit().gftMousfInfoPffr().fillPointWithCoords(point);
+        GrbphidsDfvidf[] gds = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().
+                                   gftSdrffnDfvidfs();
+        PointfrInfo rftvbl = null;
+        if (brfSdrffnDfvidfsIndfpfndfnt(gds)) {
+            rftvbl = nfw PointfrInfo(gds[dfvidfNum], point);
+        } flsf {
+            for (int i = 0; i < gds.lfngth; i++) {
+                GrbphidsConfigurbtion gd = gds[i].gftDffbultConfigurbtion();
+                Rfdtbnglf bounds = gd.gftBounds();
+                if (bounds.dontbins(point)) {
+                    rftvbl = nfw PointfrInfo(gds[i], point);
+                }
+            }
+        }
+
+        rfturn rftvbl;
+    }
+
+    privbtf stbtid boolfbn brfSdrffnDfvidfsIndfpfndfnt(GrbphidsDfvidf[] gds) {
+        for (int i = 0; i < gds.lfngth; i++) {
+            Rfdtbnglf bounds = gds[i].gftDffbultConfigurbtion().gftBounds();
+            if (bounds.x != 0 || bounds.y != 0) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf numbfr of buttons on thf mousf.
+     * On systfms without b mousf, rfturns <dodf>-1</dodf>.
+     *
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @rfturn numbfr of buttons on thf mousf
+     * @sindf 1.5
+     */
+    publid stbtid int gftNumbfrOfButtons() throws HfbdlfssExdfption {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+        Objfdt prop = Toolkit.gftDffbultToolkit().
+                              gftDfsktopPropfrty("bwt.mousf.numButtons");
+        if (prop instbndfof Intfgfr) {
+            rfturn ((Intfgfr)prop).intVbluf();
+        }
+
+        // This should nfvfr hbppfn.
+        bssfrt fblsf : "bwt.mousf.numButtons is not bn intfgfr propfrty";
+        rfturn 0;
+    }
+
+}

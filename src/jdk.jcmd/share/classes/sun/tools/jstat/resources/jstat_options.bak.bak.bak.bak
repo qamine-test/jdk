@@ -1,0 +1,1045 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+option timfstbmp {
+  dolumn {
+    hfbdfr "^Timfstbmp"
+    dbtb (sun.os.hrt.tidks/sun.os.hrt.frfqufndy)
+    sdblf sfd
+    blign right
+    width 15
+    formbt "0.0"
+  }
+}
+
+option dlbss {
+  dolumn {
+    hfbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.shbrfdLobdfdClbssfs)
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Bytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    dbtb (sun.dls.lobdfdBytfs + sun.dls.shbrfdLobdfdBytfs)
+    blign right
+    sdblf K
+    width 7
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^Unlobdfd^"	/* Numbfr of dlbssfs unlobdfd */
+    dbtb (jbvb.dls.unlobdfdClbssfs + jbvb.dls.shbrfdUnlobdfdClbssfs)
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Bytfs^"	/* Addumulbtfd sizf of dlbssfs unlobdfd */
+    dbtb (sun.dls.unlobdfdBytfs + sun.dls.shbrfdUnlobdfdBytfs)
+    blign right
+    sdblf K
+    width 7
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    dbtb sun.dls.timf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.00"
+  }
+}
+
+option dompilfr {
+  dolumn {
+    hfbdfr "^Compilfd^"		/* Numbfr of dompilbtion tbsks pfrformfd */
+    dbtb sun.di.totblCompilfs
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Fbilfd^"		/* Numbfr of fbilfd dompilbtion tbsks */
+    dbtb sun.di.totblBbilouts
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Invblid^"		/* Numbfr of invblidbtfd dompilbtion tbsks */
+    dbtb sun.di.totblInvblidbtfs
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Timf^"		/* Timf spfnt in dompilbtion */
+    dbtb jbvb.di.totblTimf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^FbilfdTypf^"	/* Typf of lbst fbilfd dompilbtion */
+    dbtb sun.di.lbstFbilfdTypf
+    sdblf rbw
+    blign right
+    width 4
+  }
+  dolumn {
+    hfbdfr "^FbilfdMfthod"	/* Nbmf of dlbss bnd mfthod for lbst fbilfd dompilf */
+    dbtb sun.di.lbstFbilfdMfthod
+    sdblf rbw
+    blign lfft
+    width 1
+  }
+}
+
+option gd {
+  dolumn {
+    hfbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign dfntfr
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign dfntfr
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S0U^"	/* Survivor 0 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.usfd
+    sdblf K
+    blign dfntfr
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1U^"	/* Survivor 1 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.usfd
+    sdblf K
+    blign dfntfr
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    blign dfntfr
+    sdblf K
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EU^"	/* Edfn Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.usfd
+    blign dfntfr
+    sdblf K
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    blign dfntfr
+    sdblf K
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OU^"	/* Old Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.usfd
+    blign dfntfr
+    width 10
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    blign dfntfr
+    width 6
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MU^"	/* Mftbspbf Usfd */
+    dbtb sun.gd.mftbspbdf.usfd
+    blign dfntfr
+    width 6
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    blign dfntfr
+    width 6
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSU^"	/* Comprfssfd Clbss Spbdf Usfd */
+    dbtb sun.gd.domprfssfddlbssspbdf.usfd
+    blign dfntfr
+    width 6
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^YGCT^"	/* Young Gfnfrbtion Gbrbbgf Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign dfntfr
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Gbrbbgf Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gddbpbdity {
+  dolumn {
+    hfbdfr "^NGCMN^"	/* Nfw Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.0.minCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^NGCMX^"	/* Nfw Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.mbxCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^NGC^"	/* Nfw Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1C"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OGCMN^"	/* Old Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.1.minCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OGCMX^"	/* Old Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.1.mbxCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OGC^"	/* Old Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MCMN^"	/* Mftbspbdf Cbpbdity - Minimum */
+    dbtb sun.gd.mftbspbdf.minCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MCMX^"	/* Mftbspbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.mftbspbdf.mbxCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSMN^"    /* Comprfssfd Clbss Spbdf Cbpbdity - Minimum */
+    dbtb sun.gd.domprfssfddlbssspbdf.minCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSMX^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.domprfssfddlbssspbdf.mbxCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+}
+
+option gddbusf {
+  dolumn {
+    hfbdfr "^S0^"	/* Survivor 0 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.1.usfd)/sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity)) * 100
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^S1^"	/* Survivor 1 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.2.usfd)/sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity)) * 100
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^E^"	/* Edfn Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.0.usfd)/sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity)) * 100
+    blign right
+    sdblf rbw
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^O^"	/* Old Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.1.spbdf.0.usfd)/sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity)) * 100
+    blign right
+    sdblf rbw
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^M^"	/* Mftbspbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.mftbspbdf.dbpbdity - sun.gd.mftbspbdf.usfd)/sun.gd.mftbspbdf.dbpbdity)) * 100
+    blign right
+    width 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^CCS^"	/* Comprfssfd Clbss Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.domprfssfddlbssspbdf.dbpbdity - sun.gd.domprfssfddlbssspbdf.usfd)/sun.gd.domprfssfddlbssspbdf.dbpbdity)) * 100
+    blign right
+    width 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^LGCC"	/* Lbst GC Cbusf */
+    dbtb sun.gd.lbstCbusf
+    blign lfft
+    width 20
+    sdblf rbw
+  }
+  dolumn {
+    hfbdfr "^GCC"	/* Currfnt GC Cbusf */
+    dbtb sun.gd.dbusf
+    blign lfft
+    width 20
+    sdblf rbw
+  }
+}
+
+option gdnfw {
+  dolumn {
+    hfbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S0U^"	/* Survivor 0 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.usfd
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1U^"	/* Survivor 1 Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.usfd
+    sdblf K
+    blign right
+    width 6
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^TT^"	/* Tfnuring Thrfshold */
+    dbtb sun.gd.polidy.tfnuringThrfshold
+    width 2
+    blign right
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^MTT^"	/* Mbximum Tfnuring Thrfshold */
+    dbtb sun.gd.polidy.mbxTfnuringThrfshold
+    width 2
+    blign right
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^DSS^"	/* Dfsirfd Survivor Sizf */
+    dbtb sun.gd.polidy.dfsirfdSurvivorSizf
+    sdblf K
+    width 6
+    blign right
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    width 8
+    blign right
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EU^"	/* Edfn Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.usfd
+    sdblf K
+    width 8
+    blign right
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+}
+
+option gdnfwdbpbdity {
+  dolumn {
+    hfbdfr "^NGCMN^"	/* Nfw Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.0.minCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^NGCMX^"	/* Nfw Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.mbxCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^NGC^"	/* Nfw Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S0CMX^"	/* Survivor 0 Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.mbxCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S0C^"	/* Survivor 0 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1CMX^"	/* Survivor 1 Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.mbxCbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^S1C^"	/* Survivor 1 Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity
+    sdblf K
+    blign right
+    width 8
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^ECMX^"	/* Edfn Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.mbxCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^EC^"	/* Edfn Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+}
+
+option gdold {
+  dolumn {
+    hfbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    width 8
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MU^"	/* Mftbspbdf Spbdf Usfd */
+    dbtb sun.gd.mftbspbdf.usfd
+    width 8
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    width 8
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSU^"	/* Comprfssfd Clbss Spbdf Usfd */
+    dbtb sun.gd.domprfssfddlbssspbdf.usfd
+    width 8
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    width 11
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OU^"	/* Old Spbdf Usfd */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.usfd
+    width 11
+    blign right
+    sdblf K
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdolddbpbdity {
+  dolumn {
+    hfbdfr "^OGCMN^"	/* Old Gfnfrbtion Cbpbdity - Minimum */
+    dbtb sun.gd.gfnfrbtion.1.minCbpbdity
+    sdblf K
+    blign right
+    width 11
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OGCMX^"	/* Old Gfnfrbtion Cbpbdity - Mbximum */
+    dbtb sun.gd.gfnfrbtion.1.mbxCbpbdity
+    sdblf K
+    blign right
+    width 11
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OGC^"	/* Old Gfnfrbtion Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.dbpbdity
+    sdblf K
+    blign right
+    width 11
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^OC^"	/* Old Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity
+    sdblf K
+    blign right
+    width 11
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdmftbdbpbdity {
+  dolumn {
+    hfbdfr "^MCMN^"	/* Mftbspbdf Cbpbdity - Minimum */
+    dbtb sun.gd.mftbspbdf.minCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MCMX^"	/* Mftbspbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.mftbspbdf.mbxCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^MC^"	/* Mftbspbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.mftbspbdf.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSMN^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Minimum */
+    dbtb sun.gd.domprfssfddlbssspbdf.minCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSMX^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Mbximum */
+    dbtb sun.gd.domprfssfddlbssspbdf.mbxCbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^CCSC^"	/* Comprfssfd Clbss Spbdf Cbpbdity - Currfnt */
+    dbtb sun.gd.domprfssfddlbssspbdf.dbpbdity
+    sdblf K
+    blign right
+    width 10
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option gdutil {
+  dolumn {
+    hfbdfr "^S0^"	/* Survivor 0 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.1.usfd)/sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity)) * 100
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^S1^"	/* Survivor 1 Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.2.usfd)/sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity)) * 100
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^E^"	/* Edfn Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.0.spbdf.0.usfd)/sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity)) * 100
+    blign right
+    sdblf rbw
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^O^"	/* Old Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity - sun.gd.gfnfrbtion.1.spbdf.0.usfd)/sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity)) * 100
+    blign right
+    sdblf rbw
+    width 6
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^M^"	/* Mftbspbdf Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.mftbspbdf.dbpbdity - sun.gd.mftbspbdf.usfd)/sun.gd.mftbspbdf.dbpbdity)) * 100
+    blign right
+    width 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^CCS^"	/* Comprfssfd Clbss Spbdf Spbdf - Pfrdfnt Usfd */
+    dbtb (1-((sun.gd.domprfssfddlbssspbdf.dbpbdity - sun.gd.domprfssfddlbssspbdf.usfd)/sun.gd.domprfssfddlbssspbdf.dbpbdity)) * 100
+    blign right
+    width 6
+    sdblf rbw
+    formbt "0.00"
+  }
+  dolumn {
+    hfbdfr "^YGC^"	/* Young Gfnfrbtion Collfdtions */
+    dbtb sun.gd.dollfdtor.0.invodbtions
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^YGCT^"	/* Young Gfnfrbtion Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.0.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^FGC^"	/* Full Collfdtions */
+    dbtb sun.gd.dollfdtor.1.invodbtions
+    blign right
+    width 5
+    sdblf rbw
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^FGCT^"	/* Full Collfdtion Timf */
+    dbtb sun.gd.dollfdtor.1.timf/sun.os.hrt.frfqufndy
+    blign right
+    sdblf sfd
+    width 8
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^GCT^"	/* Totbl Gbrbbgf Collfdtion Timf */
+    dbtb (sun.gd.dollfdtor.0.timf + sun.gd.dollfdtor.1.timf)/sun.os.hrt.frfqufndy
+    blign right
+    width 8
+    sdblf sfd
+    formbt "0.000"
+  }
+}
+
+option printdompilbtion {
+  dolumn {
+    hfbdfr "^Compilfd^"		/* Numbfr of dompilbtion tbsks pfrformfd */
+    dbtb sun.di.totblCompilfs
+    sdblf rbw
+    blign right
+    width 6
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "^Sizf^"		/* Codf Sizf in bytfs of lbst dompilbtion */
+    dbtb sun.di.lbstSizf
+    sdblf rbw
+    blign right
+    width 6
+  }
+  dolumn {
+    hfbdfr "^Typf^"		/* Typf of lbst dompilbtion */
+    dbtb sun.di.lbstTypf
+    sdblf rbw
+    blign right
+    width 4
+  }
+  dolumn {
+    hfbdfr "^Mfthod"		/* Nbmf of dlbss bnd mfthod for lbst dompilf */
+    dbtb sun.di.lbstMfthod
+    sdblf rbw
+    blign lfft
+    width 1
+  }
+}

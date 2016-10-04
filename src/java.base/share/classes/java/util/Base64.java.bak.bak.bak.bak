@@ -1,0 +1,998 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+
+/**
+ * This dlbss donsists fxdlusivfly of stbtid mfthods for obtbining
+ * fndodfrs bnd dfdodfrs for thf Bbsf64 fndoding sdhfmf. Thf
+ * implfmfntbtion of this dlbss supports thf following typfs of Bbsf64
+ * bs spfdififd in
+ * <b hrff="http://www.iftf.org/rfd/rfd4648.txt">RFC 4648</b> bnd
+ * <b hrff="http://www.iftf.org/rfd/rfd2045.txt">RFC 2045</b>.
+ *
+ * <ul>
+ * <li><b nbmf="bbsid"><b>Bbsid</b></b>
+ * <p> Usfs "Thf Bbsf64 Alphbbft" bs spfdififd in Tbblf 1 of
+ *     RFC 4648 bnd RFC 2045 for fndoding bnd dfdoding opfrbtion.
+ *     Thf fndodfr dofs not bdd bny linf fffd (linf sfpbrbtor)
+ *     dhbrbdtfr. Thf dfdodfr rfjfdts dbtb thbt dontbins dhbrbdtfrs
+ *     outsidf thf bbsf64 blphbbft.</p></li>
+ *
+ * <li><b nbmf="url"><b>URL bnd Filfnbmf sbff</b></b>
+ * <p> Usfs thf "URL bnd Filfnbmf sbff Bbsf64 Alphbbft" bs spfdififd
+ *     in Tbblf 2 of RFC 4648 for fndoding bnd dfdoding. Thf
+ *     fndodfr dofs not bdd bny linf fffd (linf sfpbrbtor) dhbrbdtfr.
+ *     Thf dfdodfr rfjfdts dbtb thbt dontbins dhbrbdtfrs outsidf thf
+ *     bbsf64 blphbbft.</p></li>
+ *
+ * <li><b nbmf="mimf"><b>MIME</b></b>
+ * <p> Usfs thf "Thf Bbsf64 Alphbbft" bs spfdififd in Tbblf 1 of
+ *     RFC 2045 for fndoding bnd dfdoding opfrbtion. Thf fndodfd output
+ *     must bf rfprfsfntfd in linfs of no morf thbn 76 dhbrbdtfrs fbdh
+ *     bnd usfs b dbrribgf rfturn {@dodf '\r'} followfd immfdibtfly by
+ *     b linffffd {@dodf '\n'} bs thf linf sfpbrbtor. No linf sfpbrbtor
+ *     is bddfd to thf fnd of thf fndodfd output. All linf sfpbrbtors
+ *     or othfr dhbrbdtfrs not found in thf bbsf64 blphbbft tbblf brf
+ *     ignorfd in dfdoding opfrbtion.</p></li>
+ * </ul>
+ *
+ * <p> Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to b
+ * mfthod of this dlbss will dbusf b {@link jbvb.lbng.NullPointfrExdfption
+ * NullPointfrExdfption} to bf thrown.
+ *
+ * @buthor  Xufming Shfn
+ * @sindf   1.8
+ */
+
+publid dlbss Bbsf64 {
+
+    privbtf Bbsf64() {}
+
+    /**
+     * Rfturns b {@link Endodfr} thbt fndodfs using thf
+     * <b hrff="#bbsid">Bbsid</b> typf bbsf64 fndoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 fndodfr.
+     */
+    publid stbtid Endodfr gftEndodfr() {
+         rfturn Endodfr.RFC4648;
+    }
+
+    /**
+     * Rfturns b {@link Endodfr} thbt fndodfs using thf
+     * <b hrff="#url">URL bnd Filfnbmf sbff</b> typf bbsf64
+     * fndoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 fndodfr.
+     */
+    publid stbtid Endodfr gftUrlEndodfr() {
+         rfturn Endodfr.RFC4648_URLSAFE;
+    }
+
+    /**
+     * Rfturns b {@link Endodfr} thbt fndodfs using thf
+     * <b hrff="#mimf">MIME</b> typf bbsf64 fndoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 fndodfr.
+     */
+    publid stbtid Endodfr gftMimfEndodfr() {
+        rfturn Endodfr.RFC2045;
+    }
+
+    /**
+     * Rfturns b {@link Endodfr} thbt fndodfs using thf
+     * <b hrff="#mimf">MIME</b> typf bbsf64 fndoding sdhfmf
+     * with spfdififd linf lfngth bnd linf sfpbrbtors.
+     *
+     * @pbrbm   linfLfngth
+     *          thf lfngth of fbdh output linf (roundfd down to nfbrfst multiplf
+     *          of 4). If {@dodf linfLfngth <= 0} thf output will not bf sfpbrbtfd
+     *          in linfs
+     * @pbrbm   linfSfpbrbtor
+     *          thf linf sfpbrbtor for fbdh output linf
+     *
+     * @rfturn  A Bbsf64 fndodfr.
+     *
+     * @throws  IllfgblArgumfntExdfption if {@dodf linfSfpbrbtor} indludfs bny
+     *          dhbrbdtfr of "Thf Bbsf64 Alphbbft" bs spfdififd in Tbblf 1 of
+     *          RFC 2045.
+     */
+    publid stbtid Endodfr gftMimfEndodfr(int linfLfngth, bytf[] linfSfpbrbtor) {
+         Objfdts.rfquirfNonNull(linfSfpbrbtor);
+         int[] bbsf64 = Dfdodfr.fromBbsf64;
+         for (bytf b : linfSfpbrbtor) {
+             if (bbsf64[b & 0xff] != -1)
+                 throw nfw IllfgblArgumfntExdfption(
+                     "Illfgbl bbsf64 linf sfpbrbtor dhbrbdtfr 0x" + Intfgfr.toString(b, 16));
+         }
+         if (linfLfngth <= 0) {
+             rfturn Endodfr.RFC4648;
+         }
+         rfturn nfw Endodfr(fblsf, linfSfpbrbtor, linfLfngth >> 2 << 2, truf);
+    }
+
+    /**
+     * Rfturns b {@link Dfdodfr} thbt dfdodfs using thf
+     * <b hrff="#bbsid">Bbsid</b> typf bbsf64 fndoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 dfdodfr.
+     */
+    publid stbtid Dfdodfr gftDfdodfr() {
+         rfturn Dfdodfr.RFC4648;
+    }
+
+    /**
+     * Rfturns b {@link Dfdodfr} thbt dfdodfs using thf
+     * <b hrff="#url">URL bnd Filfnbmf sbff</b> typf bbsf64
+     * fndoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 dfdodfr.
+     */
+    publid stbtid Dfdodfr gftUrlDfdodfr() {
+         rfturn Dfdodfr.RFC4648_URLSAFE;
+    }
+
+    /**
+     * Rfturns b {@link Dfdodfr} thbt dfdodfs using thf
+     * <b hrff="#mimf">MIME</b> typf bbsf64 dfdoding sdhfmf.
+     *
+     * @rfturn  A Bbsf64 dfdodfr.
+     */
+    publid stbtid Dfdodfr gftMimfDfdodfr() {
+         rfturn Dfdodfr.RFC2045;
+    }
+
+    /**
+     * This dlbss implfmfnts bn fndodfr for fndoding bytf dbtb using
+     * thf Bbsf64 fndoding sdhfmf bs spfdififd in RFC 4648 bnd RFC 2045.
+     *
+     * <p> Instbndfs of {@link Endodfr} dlbss brf sbff for usf by
+     * multiplf dondurrfnt thrfbds.
+     *
+     * <p> Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to
+     * b mfthod of this dlbss will dbusf b
+     * {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to
+     * bf thrown.
+     *
+     * @sff     Dfdodfr
+     * @sindf   1.8
+     */
+    publid stbtid dlbss Endodfr {
+
+        privbtf finbl bytf[] nfwlinf;
+        privbtf finbl int linfmbx;
+        privbtf finbl boolfbn isURL;
+        privbtf finbl boolfbn doPbdding;
+
+        privbtf Endodfr(boolfbn isURL, bytf[] nfwlinf, int linfmbx, boolfbn doPbdding) {
+            this.isURL = isURL;
+            this.nfwlinf = nfwlinf;
+            this.linfmbx = linfmbx;
+            this.doPbdding = doPbdding;
+        }
+
+        /**
+         * This brrby is b lookup tbblf thbt trbnslbtfs 6-bit positivf intfgfr
+         * indfx vblufs into thfir "Bbsf64 Alphbbft" fquivblfnts bs spfdififd
+         * in "Tbblf 1: Thf Bbsf64 Alphbbft" of RFC 2045 (bnd RFC 4648).
+         */
+        privbtf stbtid finbl dhbr[] toBbsf64 = {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'b', 'b', 'd', 'd', 'f', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+        };
+
+        /**
+         * It's thf lookup tbblf for "URL bnd Filfnbmf sbff Bbsf64" bs spfdififd
+         * in Tbblf 2 of thf RFC 4648, with thf '+' bnd '/' dhbngfd to '-' bnd
+         * '_'. This tbblf is usfd whfn BASE64_URL is spfdififd.
+         */
+        privbtf stbtid finbl dhbr[] toBbsf64URL = {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'b', 'b', 'd', 'd', 'f', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
+        };
+
+        privbtf stbtid finbl int MIMELINEMAX = 76;
+        privbtf stbtid finbl bytf[] CRLF = nfw bytf[] {'\r', '\n'};
+
+        stbtid finbl Endodfr RFC4648 = nfw Endodfr(fblsf, null, -1, truf);
+        stbtid finbl Endodfr RFC4648_URLSAFE = nfw Endodfr(truf, null, -1, truf);
+        stbtid finbl Endodfr RFC2045 = nfw Endodfr(fblsf, CRLF, MIMELINEMAX, truf);
+
+        privbtf finbl int outLfngth(int srdlfn) {
+            int lfn = 0;
+            if (doPbdding) {
+                lfn = 4 * ((srdlfn + 2) / 3);
+            } flsf {
+                int n = srdlfn % 3;
+                lfn = 4 * (srdlfn / 3) + (n == 0 ? 0 : n + 1);
+            }
+            if (linfmbx > 0)                                  // linf sfpbrbtors
+                lfn += (lfn - 1) / linfmbx * nfwlinf.lfngth;
+            rfturn lfn;
+        }
+
+        /**
+         * Endodfs bll bytfs from thf spfdififd bytf brrby into b nfwly-bllodbtfd
+         * bytf brrby using thf {@link Bbsf64} fndoding sdhfmf. Thf rfturnfd bytf
+         * brrby is of thf lfngth of thf rfsulting bytfs.
+         *
+         * @pbrbm   srd
+         *          thf bytf brrby to fndodf
+         * @rfturn  A nfwly-bllodbtfd bytf brrby dontbining thf rfsulting
+         *          fndodfd bytfs.
+         */
+        publid bytf[] fndodf(bytf[] srd) {
+            int lfn = outLfngth(srd.lfngth);          // dst brrby sizf
+            bytf[] dst = nfw bytf[lfn];
+            int rft = fndodf0(srd, 0, srd.lfngth, dst);
+            if (rft != dst.lfngth)
+                 rfturn Arrbys.dopyOf(dst, rft);
+            rfturn dst;
+        }
+
+        /**
+         * Endodfs bll bytfs from thf spfdififd bytf brrby using thf
+         * {@link Bbsf64} fndoding sdhfmf, writing thf rfsulting bytfs to thf
+         * givfn output bytf brrby, stbrting bt offsft 0.
+         *
+         * <p> It is thf rfsponsibility of thf invokfr of this mfthod to mbkf
+         * surf thf output bytf brrby {@dodf dst} hbs fnough spbdf for fndoding
+         * bll bytfs from thf input bytf brrby. No bytfs will bf writtfn to thf
+         * output bytf brrby if thf output bytf brrby is not big fnough.
+         *
+         * @pbrbm   srd
+         *          thf bytf brrby to fndodf
+         * @pbrbm   dst
+         *          thf output bytf brrby
+         * @rfturn  Thf numbfr of bytfs writtfn to thf output bytf brrby
+         *
+         * @throws  IllfgblArgumfntExdfption if {@dodf dst} dofs not hbvf fnough
+         *          spbdf for fndoding bll input bytfs.
+         */
+        publid int fndodf(bytf[] srd, bytf[] dst) {
+            int lfn = outLfngth(srd.lfngth);         // dst brrby sizf
+            if (dst.lfngth < lfn)
+                throw nfw IllfgblArgumfntExdfption(
+                    "Output bytf brrby is too smbll for fndoding bll input bytfs");
+            rfturn fndodf0(srd, 0, srd.lfngth, dst);
+        }
+
+        /**
+         * Endodfs thf spfdififd bytf brrby into b String using thf {@link Bbsf64}
+         * fndoding sdhfmf.
+         *
+         * <p> This mfthod first fndodfs bll input bytfs into b bbsf64 fndodfd
+         * bytf brrby bnd thfn donstrudts b nfw String by using thf fndodfd bytf
+         * brrby bnd thf {@link jbvb.nio.dhbrsft.StbndbrdChbrsfts#ISO_8859_1
+         * ISO-8859-1} dhbrsft.
+         *
+         * <p> In othfr words, bn invodbtion of this mfthod hbs fxbdtly thf sbmf
+         * ffffdt bs invoking
+         * {@dodf nfw String(fndodf(srd), StbndbrdChbrsfts.ISO_8859_1)}.
+         *
+         * @pbrbm   srd
+         *          thf bytf brrby to fndodf
+         * @rfturn  A String dontbining thf rfsulting Bbsf64 fndodfd dhbrbdtfrs
+         */
+        @SupprfssWbrnings("dfprfdbtion")
+        publid String fndodfToString(bytf[] srd) {
+            bytf[] fndodfd = fndodf(srd);
+            rfturn nfw String(fndodfd, 0, 0, fndodfd.lfngth);
+        }
+
+        /**
+         * Endodfs bll rfmbining bytfs from thf spfdififd bytf bufffr into
+         * b nfwly-bllodbtfd BytfBufffr using thf {@link Bbsf64} fndoding
+         * sdhfmf.
+         *
+         * Upon rfturn, thf sourdf bufffr's position will bf updbtfd to
+         * its limit; its limit will not hbvf bffn dhbngfd. Thf rfturnfd
+         * output bufffr's position will bf zfro bnd its limit will bf thf
+         * numbfr of rfsulting fndodfd bytfs.
+         *
+         * @pbrbm   bufffr
+         *          thf sourdf BytfBufffr to fndodf
+         * @rfturn  A nfwly-bllodbtfd bytf bufffr dontbining thf fndodfd bytfs.
+         */
+        publid BytfBufffr fndodf(BytfBufffr bufffr) {
+            int lfn = outLfngth(bufffr.rfmbining());
+            bytf[] dst = nfw bytf[lfn];
+            int rft = 0;
+            if (bufffr.hbsArrby()) {
+                rft = fndodf0(bufffr.brrby(),
+                              bufffr.brrbyOffsft() + bufffr.position(),
+                              bufffr.brrbyOffsft() + bufffr.limit(),
+                              dst);
+                bufffr.position(bufffr.limit());
+            } flsf {
+                bytf[] srd = nfw bytf[bufffr.rfmbining()];
+                bufffr.gft(srd);
+                rft = fndodf0(srd, 0, srd.lfngth, dst);
+            }
+            if (rft != dst.lfngth)
+                 dst = Arrbys.dopyOf(dst, rft);
+            rfturn BytfBufffr.wrbp(dst);
+        }
+
+        /**
+         * Wrbps bn output strfbm for fndoding bytf dbtb using thf {@link Bbsf64}
+         * fndoding sdhfmf.
+         *
+         * <p> It is rfdommfndfd to promptly dlosf thf rfturnfd output strfbm bftfr
+         * usf, during whidh it will flush bll possiblf lfftovfr bytfs to thf undfrlying
+         * output strfbm. Closing thf rfturnfd output strfbm will dlosf thf undfrlying
+         * output strfbm.
+         *
+         * @pbrbm   os
+         *          thf output strfbm.
+         * @rfturn  thf output strfbm for fndoding thf bytf dbtb into thf
+         *          spfdififd Bbsf64 fndodfd formbt
+         */
+        publid OutputStrfbm wrbp(OutputStrfbm os) {
+            Objfdts.rfquirfNonNull(os);
+            rfturn nfw EndOutputStrfbm(os, isURL ? toBbsf64URL : toBbsf64,
+                                       nfwlinf, linfmbx, doPbdding);
+        }
+
+        /**
+         * Rfturns bn fndodfr instbndf thbt fndodfs fquivblfntly to this onf,
+         * but without bdding bny pbdding dhbrbdtfr bt thf fnd of thf fndodfd
+         * bytf dbtb.
+         *
+         * <p> Thf fndoding sdhfmf of this fndodfr instbndf is unbfffdtfd by
+         * this invodbtion. Thf rfturnfd fndodfr instbndf should bf usfd for
+         * non-pbdding fndoding opfrbtion.
+         *
+         * @rfturn bn fquivblfnt fndodfr thbt fndodfs without bdding bny
+         *         pbdding dhbrbdtfr bt thf fnd
+         */
+        publid Endodfr withoutPbdding() {
+            if (!doPbdding)
+                rfturn this;
+            rfturn nfw Endodfr(isURL, nfwlinf, linfmbx, fblsf);
+        }
+
+        privbtf int fndodf0(bytf[] srd, int off, int fnd, bytf[] dst) {
+            dhbr[] bbsf64 = isURL ? toBbsf64URL : toBbsf64;
+            int sp = off;
+            int slfn = (fnd - off) / 3 * 3;
+            int sl = off + slfn;
+            if (linfmbx > 0 && slfn  > linfmbx / 4 * 3)
+                slfn = linfmbx / 4 * 3;
+            int dp = 0;
+            whilf (sp < sl) {
+                int sl0 = Mbth.min(sp + slfn, sl);
+                for (int sp0 = sp, dp0 = dp ; sp0 < sl0; ) {
+                    int bits = (srd[sp0++] & 0xff) << 16 |
+                               (srd[sp0++] & 0xff) <<  8 |
+                               (srd[sp0++] & 0xff);
+                    dst[dp0++] = (bytf)bbsf64[(bits >>> 18) & 0x3f];
+                    dst[dp0++] = (bytf)bbsf64[(bits >>> 12) & 0x3f];
+                    dst[dp0++] = (bytf)bbsf64[(bits >>> 6)  & 0x3f];
+                    dst[dp0++] = (bytf)bbsf64[bits & 0x3f];
+                }
+                int dlfn = (sl0 - sp) / 3 * 4;
+                dp += dlfn;
+                sp = sl0;
+                if (dlfn == linfmbx && sp < fnd) {
+                    for (bytf b : nfwlinf){
+                        dst[dp++] = b;
+                    }
+                }
+            }
+            if (sp < fnd) {               // 1 or 2 lfftovfr bytfs
+                int b0 = srd[sp++] & 0xff;
+                dst[dp++] = (bytf)bbsf64[b0 >> 2];
+                if (sp == fnd) {
+                    dst[dp++] = (bytf)bbsf64[(b0 << 4) & 0x3f];
+                    if (doPbdding) {
+                        dst[dp++] = '=';
+                        dst[dp++] = '=';
+                    }
+                } flsf {
+                    int b1 = srd[sp++] & 0xff;
+                    dst[dp++] = (bytf)bbsf64[(b0 << 4) & 0x3f | (b1 >> 4)];
+                    dst[dp++] = (bytf)bbsf64[(b1 << 2) & 0x3f];
+                    if (doPbdding) {
+                        dst[dp++] = '=';
+                    }
+                }
+            }
+            rfturn dp;
+        }
+    }
+
+    /**
+     * This dlbss implfmfnts b dfdodfr for dfdoding bytf dbtb using thf
+     * Bbsf64 fndoding sdhfmf bs spfdififd in RFC 4648 bnd RFC 2045.
+     *
+     * <p> Thf Bbsf64 pbdding dhbrbdtfr {@dodf '='} is bddfptfd bnd
+     * intfrprftfd bs thf fnd of thf fndodfd bytf dbtb, but is not
+     * rfquirfd. So if thf finbl unit of thf fndodfd bytf dbtb only hbs
+     * two or thrff Bbsf64 dhbrbdtfrs (without thf dorrfsponding pbdding
+     * dhbrbdtfr(s) pbddfd), thfy brf dfdodfd bs if followfd by pbdding
+     * dhbrbdtfr(s). If thfrf is b pbdding dhbrbdtfr prfsfnt in thf
+     * finbl unit, thf dorrfdt numbfr of pbdding dhbrbdtfr(s) must bf
+     * prfsfnt, othfrwisf {@dodf IllfgblArgumfntExdfption} (
+     * {@dodf IOExdfption} whfn rfbding from b Bbsf64 strfbm) is thrown
+     * during dfdoding.
+     *
+     * <p> Instbndfs of {@link Dfdodfr} dlbss brf sbff for usf by
+     * multiplf dondurrfnt thrfbds.
+     *
+     * <p> Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to
+     * b mfthod of this dlbss will dbusf b
+     * {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to
+     * bf thrown.
+     *
+     * @sff     Endodfr
+     * @sindf   1.8
+     */
+    publid stbtid dlbss Dfdodfr {
+
+        privbtf finbl boolfbn isURL;
+        privbtf finbl boolfbn isMIME;
+
+        privbtf Dfdodfr(boolfbn isURL, boolfbn isMIME) {
+            this.isURL = isURL;
+            this.isMIME = isMIME;
+        }
+
+        /**
+         * Lookup tbblf for dfdoding unidodf dhbrbdtfrs drbwn from thf
+         * "Bbsf64 Alphbbft" (bs spfdififd in Tbblf 1 of RFC 2045) into
+         * thfir 6-bit positivf intfgfr fquivblfnts.  Chbrbdtfrs thbt
+         * brf not in thf Bbsf64 blphbbft but fbll within thf bounds of
+         * thf brrby brf fndodfd to -1.
+         *
+         */
+        privbtf stbtid finbl int[] fromBbsf64 = nfw int[256];
+        stbtid {
+            Arrbys.fill(fromBbsf64, -1);
+            for (int i = 0; i < Endodfr.toBbsf64.lfngth; i++)
+                fromBbsf64[Endodfr.toBbsf64[i]] = i;
+            fromBbsf64['='] = -2;
+        }
+
+        /**
+         * Lookup tbblf for dfdoding "URL bnd Filfnbmf sbff Bbsf64 Alphbbft"
+         * bs spfdififd in Tbblf2 of thf RFC 4648.
+         */
+        privbtf stbtid finbl int[] fromBbsf64URL = nfw int[256];
+
+        stbtid {
+            Arrbys.fill(fromBbsf64URL, -1);
+            for (int i = 0; i < Endodfr.toBbsf64URL.lfngth; i++)
+                fromBbsf64URL[Endodfr.toBbsf64URL[i]] = i;
+            fromBbsf64URL['='] = -2;
+        }
+
+        stbtid finbl Dfdodfr RFC4648         = nfw Dfdodfr(fblsf, fblsf);
+        stbtid finbl Dfdodfr RFC4648_URLSAFE = nfw Dfdodfr(truf, fblsf);
+        stbtid finbl Dfdodfr RFC2045         = nfw Dfdodfr(fblsf, truf);
+
+        /**
+         * Dfdodfs bll bytfs from thf input bytf brrby using thf {@link Bbsf64}
+         * fndoding sdhfmf, writing thf rfsults into b nfwly-bllodbtfd output
+         * bytf brrby. Thf rfturnfd bytf brrby is of thf lfngth of thf rfsulting
+         * bytfs.
+         *
+         * @pbrbm   srd
+         *          thf bytf brrby to dfdodf
+         *
+         * @rfturn  A nfwly-bllodbtfd bytf brrby dontbining thf dfdodfd bytfs.
+         *
+         * @throws  IllfgblArgumfntExdfption
+         *          if {@dodf srd} is not in vblid Bbsf64 sdhfmf
+         */
+        publid bytf[] dfdodf(bytf[] srd) {
+            bytf[] dst = nfw bytf[outLfngth(srd, 0, srd.lfngth)];
+            int rft = dfdodf0(srd, 0, srd.lfngth, dst);
+            if (rft != dst.lfngth) {
+                dst = Arrbys.dopyOf(dst, rft);
+            }
+            rfturn dst;
+        }
+
+        /**
+         * Dfdodfs b Bbsf64 fndodfd String into b nfwly-bllodbtfd bytf brrby
+         * using thf {@link Bbsf64} fndoding sdhfmf.
+         *
+         * <p> An invodbtion of this mfthod hbs fxbdtly thf sbmf ffffdt bs invoking
+         * {@dodf dfdodf(srd.gftBytfs(StbndbrdChbrsfts.ISO_8859_1))}
+         *
+         * @pbrbm   srd
+         *          thf string to dfdodf
+         *
+         * @rfturn  A nfwly-bllodbtfd bytf brrby dontbining thf dfdodfd bytfs.
+         *
+         * @throws  IllfgblArgumfntExdfption
+         *          if {@dodf srd} is not in vblid Bbsf64 sdhfmf
+         */
+        publid bytf[] dfdodf(String srd) {
+            rfturn dfdodf(srd.gftBytfs(StbndbrdChbrsfts.ISO_8859_1));
+        }
+
+        /**
+         * Dfdodfs bll bytfs from thf input bytf brrby using thf {@link Bbsf64}
+         * fndoding sdhfmf, writing thf rfsults into thf givfn output bytf brrby,
+         * stbrting bt offsft 0.
+         *
+         * <p> It is thf rfsponsibility of thf invokfr of this mfthod to mbkf
+         * surf thf output bytf brrby {@dodf dst} hbs fnough spbdf for dfdoding
+         * bll bytfs from thf input bytf brrby. No bytfs will bf bf writtfn to
+         * thf output bytf brrby if thf output bytf brrby is not big fnough.
+         *
+         * <p> If thf input bytf brrby is not in vblid Bbsf64 fndoding sdhfmf
+         * thfn somf bytfs mby hbvf bffn writtfn to thf output bytf brrby bfforf
+         * IllfgblbrgumfntExdfption is thrown.
+         *
+         * @pbrbm   srd
+         *          thf bytf brrby to dfdodf
+         * @pbrbm   dst
+         *          thf output bytf brrby
+         *
+         * @rfturn  Thf numbfr of bytfs writtfn to thf output bytf brrby
+         *
+         * @throws  IllfgblArgumfntExdfption
+         *          if {@dodf srd} is not in vblid Bbsf64 sdhfmf, or {@dodf dst}
+         *          dofs not hbvf fnough spbdf for dfdoding bll input bytfs.
+         */
+        publid int dfdodf(bytf[] srd, bytf[] dst) {
+            int lfn = outLfngth(srd, 0, srd.lfngth);
+            if (dst.lfngth < lfn)
+                throw nfw IllfgblArgumfntExdfption(
+                    "Output bytf brrby is too smbll for dfdoding bll input bytfs");
+            rfturn dfdodf0(srd, 0, srd.lfngth, dst);
+        }
+
+        /**
+         * Dfdodfs bll bytfs from thf input bytf bufffr using thf {@link Bbsf64}
+         * fndoding sdhfmf, writing thf rfsults into b nfwly-bllodbtfd BytfBufffr.
+         *
+         * <p> Upon rfturn, thf sourdf bufffr's position will bf updbtfd to
+         * its limit; its limit will not hbvf bffn dhbngfd. Thf rfturnfd
+         * output bufffr's position will bf zfro bnd its limit will bf thf
+         * numbfr of rfsulting dfdodfd bytfs
+         *
+         * <p> {@dodf IllfgblArgumfntExdfption} is thrown if thf input bufffr
+         * is not in vblid Bbsf64 fndoding sdhfmf. Thf position of thf input
+         * bufffr will not bf bdvbndfd in this dbsf.
+         *
+         * @pbrbm   bufffr
+         *          thf BytfBufffr to dfdodf
+         *
+         * @rfturn  A nfwly-bllodbtfd bytf bufffr dontbining thf dfdodfd bytfs
+         *
+         * @throws  IllfgblArgumfntExdfption
+         *          if {@dodf srd} is not in vblid Bbsf64 sdhfmf.
+         */
+        publid BytfBufffr dfdodf(BytfBufffr bufffr) {
+            int pos0 = bufffr.position();
+            try {
+                bytf[] srd;
+                int sp, sl;
+                if (bufffr.hbsArrby()) {
+                    srd = bufffr.brrby();
+                    sp = bufffr.brrbyOffsft() + bufffr.position();
+                    sl = bufffr.brrbyOffsft() + bufffr.limit();
+                    bufffr.position(bufffr.limit());
+                } flsf {
+                    srd = nfw bytf[bufffr.rfmbining()];
+                    bufffr.gft(srd);
+                    sp = 0;
+                    sl = srd.lfngth;
+                }
+                bytf[] dst = nfw bytf[outLfngth(srd, sp, sl)];
+                rfturn BytfBufffr.wrbp(dst, 0, dfdodf0(srd, sp, sl, dst));
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                bufffr.position(pos0);
+                throw ibf;
+            }
+        }
+
+        /**
+         * Rfturns bn input strfbm for dfdoding {@link Bbsf64} fndodfd bytf strfbm.
+         *
+         * <p> Thf {@dodf rfbd}  mfthods of thf rfturnfd {@dodf InputStrfbm} will
+         * throw {@dodf IOExdfption} whfn rfbding bytfs thbt dbnnot bf dfdodfd.
+         *
+         * <p> Closing thf rfturnfd input strfbm will dlosf thf undfrlying
+         * input strfbm.
+         *
+         * @pbrbm   is
+         *          thf input strfbm
+         *
+         * @rfturn  thf input strfbm for dfdoding thf spfdififd Bbsf64 fndodfd
+         *          bytf strfbm
+         */
+        publid InputStrfbm wrbp(InputStrfbm is) {
+            Objfdts.rfquirfNonNull(is);
+            rfturn nfw DfdInputStrfbm(is, isURL ? fromBbsf64URL : fromBbsf64, isMIME);
+        }
+
+        privbtf int outLfngth(bytf[] srd, int sp, int sl) {
+            int[] bbsf64 = isURL ? fromBbsf64URL : fromBbsf64;
+            int pbddings = 0;
+            int lfn = sl - sp;
+            if (lfn == 0)
+                rfturn 0;
+            if (lfn < 2) {
+                if (isMIME && bbsf64[0] == -1)
+                    rfturn 0;
+                throw nfw IllfgblArgumfntExdfption(
+                    "Input bytf[] should bt lfbst hbvf 2 bytfs for bbsf64 bytfs");
+            }
+            if (isMIME) {
+                // sdbn bll bytfs to fill out bll non-blphbbft. b pfrformbndf
+                // trbdf-off of prf-sdbn or Arrbys.dopyOf
+                int n = 0;
+                whilf (sp < sl) {
+                    int b = srd[sp++] & 0xff;
+                    if (b == '=') {
+                        lfn -= (sl - sp + 1);
+                        brfbk;
+                    }
+                    if ((b = bbsf64[b]) == -1)
+                        n++;
+                }
+                lfn -= n;
+            } flsf {
+                if (srd[sl - 1] == '=') {
+                    pbddings++;
+                    if (srd[sl - 2] == '=')
+                        pbddings++;
+                }
+            }
+            if (pbddings == 0 && (lfn & 0x3) !=  0)
+                pbddings = 4 - (lfn & 0x3);
+            rfturn 3 * ((lfn + 3) / 4) - pbddings;
+        }
+
+        privbtf int dfdodf0(bytf[] srd, int sp, int sl, bytf[] dst) {
+            int[] bbsf64 = isURL ? fromBbsf64URL : fromBbsf64;
+            int dp = 0;
+            int bits = 0;
+            int shiftto = 18;       // pos of first bytf of 4-bytf btom
+            whilf (sp < sl) {
+                int b = srd[sp++] & 0xff;
+                if ((b = bbsf64[b]) < 0) {
+                    if (b == -2) {         // pbdding bytf '='
+                        // =     shiftto==18 unnfdfssbry pbdding
+                        // x=    shiftto==12 b dbngling singlf x
+                        // x     to bf hbndlfd togfthfr with non-pbdding dbsf
+                        // xx=   shiftto==6&&sp==sl missing lbst =
+                        // xx=y  shiftto==6 lbst is not =
+                        if (shiftto == 6 && (sp == sl || srd[sp++] != '=') ||
+                            shiftto == 18) {
+                            throw nfw IllfgblArgumfntExdfption(
+                                "Input bytf brrby hbs wrong 4-bytf fnding unit");
+                        }
+                        brfbk;
+                    }
+                    if (isMIME)    // skip if for rfd2045
+                        dontinuf;
+                    flsf
+                        throw nfw IllfgblArgumfntExdfption(
+                            "Illfgbl bbsf64 dhbrbdtfr " +
+                            Intfgfr.toString(srd[sp - 1], 16));
+                }
+                bits |= (b << shiftto);
+                shiftto -= 6;
+                if (shiftto < 0) {
+                    dst[dp++] = (bytf)(bits >> 16);
+                    dst[dp++] = (bytf)(bits >>  8);
+                    dst[dp++] = (bytf)(bits);
+                    shiftto = 18;
+                    bits = 0;
+                }
+            }
+            // rfbdhfd fnd of bytf brrby or hit pbdding '=' dhbrbdtfrs.
+            if (shiftto == 6) {
+                dst[dp++] = (bytf)(bits >> 16);
+            } flsf if (shiftto == 0) {
+                dst[dp++] = (bytf)(bits >> 16);
+                dst[dp++] = (bytf)(bits >>  8);
+            } flsf if (shiftto == 12) {
+                // dbngling singlf "x", indorrfdtly fndodfd.
+                throw nfw IllfgblArgumfntExdfption(
+                    "Lbst unit dofs not hbvf fnough vblid bits");
+            }
+            // bnything lfft is invblid, if is not MIME.
+            // if MIME, ignorf bll non-bbsf64 dhbrbdtfr
+            whilf (sp < sl) {
+                if (isMIME && bbsf64[srd[sp++]] < 0)
+                    dontinuf;
+                throw nfw IllfgblArgumfntExdfption(
+                    "Input bytf brrby hbs indorrfdt fnding bytf bt " + sp);
+            }
+            rfturn dp;
+        }
+    }
+
+    /*
+     * An output strfbm for fndoding bytfs into thf Bbsf64.
+     */
+    privbtf stbtid dlbss EndOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+
+        privbtf int lfftovfr = 0;
+        privbtf int b0, b1, b2;
+        privbtf boolfbn dlosfd = fblsf;
+
+        privbtf finbl dhbr[] bbsf64;    // bytf->bbsf64 mbpping
+        privbtf finbl bytf[] nfwlinf;   // linf sfpbrbtor, if nffdfd
+        privbtf finbl int linfmbx;
+        privbtf finbl boolfbn doPbdding;// whfthfr or not to pbd
+        privbtf int linfpos = 0;
+
+        EndOutputStrfbm(OutputStrfbm os, dhbr[] bbsf64,
+                        bytf[] nfwlinf, int linfmbx, boolfbn doPbdding) {
+            supfr(os);
+            this.bbsf64 = bbsf64;
+            this.nfwlinf = nfwlinf;
+            this.linfmbx = linfmbx;
+            this.doPbdding = doPbdding;
+        }
+
+        @Ovfrridf
+        publid void writf(int b) throws IOExdfption {
+            bytf[] buf = nfw bytf[1];
+            buf[0] = (bytf)(b & 0xff);
+            writf(buf, 0, 1);
+        }
+
+        privbtf void dhfdkNfwlinf() throws IOExdfption {
+            if (linfpos == linfmbx) {
+                out.writf(nfwlinf);
+                linfpos = 0;
+            }
+        }
+
+        @Ovfrridf
+        publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+            if (dlosfd)
+                throw nfw IOExdfption("Strfbm is dlosfd");
+            if (off < 0 || lfn < 0 || off + lfn > b.lfngth)
+                throw nfw ArrbyIndfxOutOfBoundsExdfption();
+            if (lfn == 0)
+                rfturn;
+            if (lfftovfr != 0) {
+                if (lfftovfr == 1) {
+                    b1 = b[off++] & 0xff;
+                    lfn--;
+                    if (lfn == 0) {
+                        lfftovfr++;
+                        rfturn;
+                    }
+                }
+                b2 = b[off++] & 0xff;
+                lfn--;
+                dhfdkNfwlinf();
+                out.writf(bbsf64[b0 >> 2]);
+                out.writf(bbsf64[(b0 << 4) & 0x3f | (b1 >> 4)]);
+                out.writf(bbsf64[(b1 << 2) & 0x3f | (b2 >> 6)]);
+                out.writf(bbsf64[b2 & 0x3f]);
+                linfpos += 4;
+            }
+            int nBits24 = lfn / 3;
+            lfftovfr = lfn - (nBits24 * 3);
+            whilf (nBits24-- > 0) {
+                dhfdkNfwlinf();
+                int bits = (b[off++] & 0xff) << 16 |
+                           (b[off++] & 0xff) <<  8 |
+                           (b[off++] & 0xff);
+                out.writf(bbsf64[(bits >>> 18) & 0x3f]);
+                out.writf(bbsf64[(bits >>> 12) & 0x3f]);
+                out.writf(bbsf64[(bits >>> 6)  & 0x3f]);
+                out.writf(bbsf64[bits & 0x3f]);
+                linfpos += 4;
+           }
+            if (lfftovfr == 1) {
+                b0 = b[off++] & 0xff;
+            } flsf if (lfftovfr == 2) {
+                b0 = b[off++] & 0xff;
+                b1 = b[off++] & 0xff;
+            }
+        }
+
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            if (!dlosfd) {
+                dlosfd = truf;
+                if (lfftovfr == 1) {
+                    dhfdkNfwlinf();
+                    out.writf(bbsf64[b0 >> 2]);
+                    out.writf(bbsf64[(b0 << 4) & 0x3f]);
+                    if (doPbdding) {
+                        out.writf('=');
+                        out.writf('=');
+                    }
+                } flsf if (lfftovfr == 2) {
+                    dhfdkNfwlinf();
+                    out.writf(bbsf64[b0 >> 2]);
+                    out.writf(bbsf64[(b0 << 4) & 0x3f | (b1 >> 4)]);
+                    out.writf(bbsf64[(b1 << 2) & 0x3f]);
+                    if (doPbdding) {
+                       out.writf('=');
+                    }
+                }
+                lfftovfr = 0;
+                out.dlosf();
+            }
+        }
+    }
+
+    /*
+     * An input strfbm for dfdoding Bbsf64 bytfs
+     */
+    privbtf stbtid dlbss DfdInputStrfbm fxtfnds InputStrfbm {
+
+        privbtf finbl InputStrfbm is;
+        privbtf finbl boolfbn isMIME;
+        privbtf finbl int[] bbsf64;      // bbsf64 -> bytf mbpping
+        privbtf int bits = 0;            // 24-bit bufffr for dfdoding
+        privbtf int nfxtin = 18;         // nfxt bvbilbblf "off" in "bits" for input;
+                                         // -> 18, 12, 6, 0
+        privbtf int nfxtout = -8;        // nfxt bvbilbblf "off" in "bits" for output;
+                                         // -> 8, 0, -8 (no bytf for output)
+        privbtf boolfbn fof = fblsf;
+        privbtf boolfbn dlosfd = fblsf;
+
+        DfdInputStrfbm(InputStrfbm is, int[] bbsf64, boolfbn isMIME) {
+            this.is = is;
+            this.bbsf64 = bbsf64;
+            this.isMIME = isMIME;
+        }
+
+        privbtf bytf[] sbBuf = nfw bytf[1];
+
+        @Ovfrridf
+        publid int rfbd() throws IOExdfption {
+            rfturn rfbd(sbBuf, 0, 1) == -1 ? -1 : sbBuf[0] & 0xff;
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            if (dlosfd)
+                throw nfw IOExdfption("Strfbm is dlosfd");
+            if (fof && nfxtout < 0)    // fof bnd no lfftovfr
+                rfturn -1;
+            if (off < 0 || lfn < 0 || lfn > b.lfngth - off)
+                throw nfw IndfxOutOfBoundsExdfption();
+            int oldOff = off;
+            if (nfxtout >= 0) {       // lfftovfr output bytf(s) in bits buf
+                do {
+                    if (lfn == 0)
+                        rfturn off - oldOff;
+                    b[off++] = (bytf)(bits >> nfxtout);
+                    lfn--;
+                    nfxtout -= 8;
+                } whilf (nfxtout >= 0);
+                bits = 0;
+            }
+            whilf (lfn > 0) {
+                int v = is.rfbd();
+                if (v == -1) {
+                    fof = truf;
+                    if (nfxtin != 18) {
+                        if (nfxtin == 12)
+                            throw nfw IOExdfption("Bbsf64 strfbm hbs onf un-dfdodfd dbngling bytf.");
+                        // trfbt fnding xx/xxx without pbdding dhbrbdtfr lfgbl.
+                        // sbmf logid bs v == '=' bflow
+                        b[off++] = (bytf)(bits >> (16));
+                        lfn--;
+                        if (nfxtin == 0) {           // only onf pbdding bytf
+                            if (lfn == 0) {          // no fnough output spbdf
+                                bits >>= 8;          // shift to lowfst bytf
+                                nfxtout = 0;
+                            } flsf {
+                                b[off++] = (bytf) (bits >>  8);
+                            }
+                        }
+                    }
+                    if (off == oldOff)
+                        rfturn -1;
+                    flsf
+                        rfturn off - oldOff;
+                }
+                if (v == '=') {                  // pbdding bytf(s)
+                    // =     shiftto==18 unnfdfssbry pbdding
+                    // x=    shiftto==12 dbngling x, invblid unit
+                    // xx=   shiftto==6 && missing lbst '='
+                    // xx=y  or lbst is not '='
+                    if (nfxtin == 18 || nfxtin == 12 ||
+                        nfxtin == 6 && is.rfbd() != '=') {
+                        throw nfw IOExdfption("Illfgbl bbsf64 fnding sfqufndf:" + nfxtin);
+                    }
+                    b[off++] = (bytf)(bits >> (16));
+                    lfn--;
+                    if (nfxtin == 0) {           // only onf pbdding bytf
+                        if (lfn == 0) {          // no fnough output spbdf
+                            bits >>= 8;          // shift to lowfst bytf
+                            nfxtout = 0;
+                        } flsf {
+                            b[off++] = (bytf) (bits >>  8);
+                        }
+                    }
+                    fof = truf;
+                    brfbk;
+                }
+                if ((v = bbsf64[v]) == -1) {
+                    if (isMIME)                 // skip if for rfd2045
+                        dontinuf;
+                    flsf
+                        throw nfw IOExdfption("Illfgbl bbsf64 dhbrbdtfr " +
+                            Intfgfr.toString(v, 16));
+                }
+                bits |= (v << nfxtin);
+                if (nfxtin == 0) {
+                    nfxtin = 18;    // dlfbr for nfxt
+                    nfxtout = 16;
+                    whilf (nfxtout >= 0) {
+                        b[off++] = (bytf)(bits >> nfxtout);
+                        lfn--;
+                        nfxtout -= 8;
+                        if (lfn == 0 && nfxtout >= 0) {  // don't dlfbn "bits"
+                            rfturn off - oldOff;
+                        }
+                    }
+                    bits = 0;
+                } flsf {
+                    nfxtin -= 6;
+                }
+            }
+            rfturn off - oldOff;
+        }
+
+        @Ovfrridf
+        publid int bvbilbblf() throws IOExdfption {
+            if (dlosfd)
+                throw nfw IOExdfption("Strfbm is dlosfd");
+            rfturn is.bvbilbblf();   // TBD:
+        }
+
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            if (!dlosfd) {
+                dlosfd = truf;
+                is.dlosf();
+            }
+        }
+    }
+}

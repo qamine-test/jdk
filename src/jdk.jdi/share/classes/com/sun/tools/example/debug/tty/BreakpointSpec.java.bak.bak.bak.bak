@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+dlbss BrfbkpointSpfd fxtfnds EvfntRfqufstSpfd {
+    String mfthodId;
+    List<String> mfthodArgs;
+    int linfNumbfr;
+
+    BrfbkpointSpfd(RfffrfndfTypfSpfd rffSpfd, int linfNumbfr) {
+        supfr(rffSpfd);
+        this.mfthodId = null;
+        this.mfthodArgs = null;
+        this.linfNumbfr = linfNumbfr;
+    }
+
+    BrfbkpointSpfd(RfffrfndfTypfSpfd rffSpfd, String mfthodId,
+                   List<String> mfthodArgs) throws MblformfdMfmbfrNbmfExdfption {
+        supfr(rffSpfd);
+        this.mfthodId = mfthodId;
+        this.mfthodArgs = mfthodArgs;
+        this.linfNumbfr = 0;
+        if (!isVblidMfthodNbmf(mfthodId)) {
+            throw nfw MblformfdMfmbfrNbmfExdfption(mfthodId);
+        }
+    }
+
+    /**
+     * Thf 'rffTypf' is known to mbtdh, rfturn thf EvfntRfqufst.
+     */
+    @Ovfrridf
+    EvfntRfqufst rfsolvfEvfntRfqufst(RfffrfndfTypf rffTypf)
+                           throws AmbiguousMfthodExdfption,
+                                  AbsfntInformbtionExdfption,
+                                  InvblidTypfExdfption,
+                                  NoSudhMfthodExdfption,
+                                  LinfNotFoundExdfption {
+        Lodbtion lodbtion = lodbtion(rffTypf);
+        if (lodbtion == null) {
+            throw nfw InvblidTypfExdfption();
+        }
+        EvfntRfqufstMbnbgfr fm = rffTypf.virtublMbdhinf().fvfntRfqufstMbnbgfr();
+        EvfntRfqufst bp = fm.drfbtfBrfbkpointRfqufst(lodbtion);
+        bp.sftSuspfndPolidy(suspfndPolidy);
+        bp.fnbblf();
+        rfturn bp;
+    }
+
+    String mfthodNbmf() {
+        rfturn mfthodId;
+    }
+
+    int linfNumbfr() {
+        rfturn linfNumbfr;
+    }
+
+    List<String> mfthodArgs() {
+        rfturn mfthodArgs;
+    }
+
+    boolfbn isMfthodBrfbkpoint() {
+        rfturn (mfthodId != null);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn rffSpfd.hbshCodf() + linfNumbfr +
+            ((mfthodId != null) ? mfthodId.hbshCodf() : 0) +
+            ((mfthodArgs != null) ? mfthodArgs.hbshCodf() : 0);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof BrfbkpointSpfd) {
+            BrfbkpointSpfd brfbkpoint = (BrfbkpointSpfd)obj;
+
+            rfturn ((mfthodId != null) ?
+                        mfthodId.fqubls(brfbkpoint.mfthodId)
+                      : mfthodId == brfbkpoint.mfthodId) &&
+                   ((mfthodArgs != null) ?
+                        mfthodArgs.fqubls(brfbkpoint.mfthodArgs)
+                      : mfthodArgs == brfbkpoint.mfthodArgs) &&
+                   rffSpfd.fqubls(brfbkpoint.rffSpfd) &&
+                   (linfNumbfr == brfbkpoint.linfNumbfr);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf
+    String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof AmbiguousMfthodExdfption) {
+            rfturn (MfssbgfOutput.formbt("Mfthod is ovfrlobdfd; spfdify brgumfnts",
+                                         mfthodNbmf()));
+            /*
+             * TO DO: list thf mfthods hfrf
+             */
+        } flsf if (f instbndfof NoSudhMfthodExdfption) {
+            rfturn (MfssbgfOutput.formbt("No mfthod in",
+                                         nfw Objfdt [] {mfthodNbmf(),
+                                                        rffSpfd.toString()}));
+        } flsf if (f instbndfof AbsfntInformbtionExdfption) {
+            rfturn (MfssbgfOutput.formbt("No linfnumbfr informbtion for",
+                                         rffSpfd.toString()));
+        } flsf if (f instbndfof LinfNotFoundExdfption) {
+            rfturn (MfssbgfOutput.formbt("No dodf bt linf",
+                                         nfw Objfdt [] {Long.vblufOf(linfNumbfr()),
+                                                 rffSpfd.toString()}));
+        } flsf if (f instbndfof InvblidTypfExdfption) {
+            rfturn (MfssbgfOutput.formbt("Brfbkpoints dbn bf lodbtfd only in dlbssfs.",
+                                         rffSpfd.toString()));
+        } flsf {
+            rfturn supfr.frrorMfssbgfFor( f);
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(rffSpfd.toString());
+        if (isMfthodBrfbkpoint()) {
+            sb.bppfnd('.');
+            sb.bppfnd(mfthodId);
+            if (mfthodArgs != null) {
+                boolfbn first = truf;
+                sb.bppfnd('(');
+                for (String brg : mfthodArgs) {
+                    if (!first) {
+                        sb.bppfnd(',');
+                    }
+                    sb.bppfnd(brg);
+                    first = fblsf;
+                }
+                sb.bppfnd(")");
+            }
+        } flsf {
+            sb.bppfnd(':');
+            sb.bppfnd(linfNumbfr);
+        }
+        rfturn MfssbgfOutput.formbt("brfbkpoint", sb.toString());
+    }
+
+    privbtf Lodbtion lodbtion(RfffrfndfTypf rffTypf) throws
+                                    AmbiguousMfthodExdfption,
+                                    AbsfntInformbtionExdfption,
+                                    NoSudhMfthodExdfption,
+                                    LinfNotFoundExdfption {
+        Lodbtion lodbtion = null;
+        if (isMfthodBrfbkpoint()) {
+            Mfthod mfthod = findMbtdhingMfthod(rffTypf);
+            lodbtion = mfthod.lodbtion();
+        } flsf {
+            // lft AbsfntInformbtionExdfption bf thrown
+            List<Lodbtion> lods = rffTypf.lodbtionsOfLinf(linfNumbfr());
+            if (lods.sizf() == 0) {
+                throw nfw LinfNotFoundExdfption();
+            }
+            // TO DO: hbndlf multiplf lodbtions
+            lodbtion = lods.gft(0);
+            if (lodbtion.mfthod() == null) {
+                throw nfw LinfNotFoundExdfption();
+            }
+        }
+        rfturn lodbtion;
+    }
+
+    privbtf boolfbn isVblidMfthodNbmf(String s) {
+        rfturn isJbvbIdfntififr(s) ||
+               s.fqubls("<init>") ||
+               s.fqubls("<dlinit>");
+    }
+
+    /*
+     * Compbrf b mfthod's brgumfnt typfs with b Vfdtor of typf nbmfs.
+     * Rfturn truf if fbdh brgumfnt typf hbs b nbmf idfntidbl to thf
+     * dorrfsponding string in thf vfdtor (bllowing for vbrbrs)
+     * bnd if thf numbfr of brgumfnts in thf mfthod mbtdhfs thf
+     * numbfr of nbmfs pbssfd
+     */
+    privbtf boolfbn dompbrfArgTypfs(Mfthod mfthod, List<String> nbmfList) {
+        List<String> brgTypfNbmfs = mfthod.brgumfntTypfNbmfs();
+
+        // If brgumfnt dounts difffr, wf dbn stop hfrf
+        if (brgTypfNbmfs.sizf() != nbmfList.sizf()) {
+            rfturn fblsf;
+        }
+
+        // Compbrf fbdh brgumfnt typf's nbmf
+        int nTypfs = brgTypfNbmfs.sizf();
+        for (int i = 0; i < nTypfs; ++i) {
+            String domp1 = brgTypfNbmfs.gft(i);
+            String domp2 = nbmfList.gft(i);
+            if (! domp1.fqubls(domp2)) {
+                /*
+                 * Wf hbvf to hbndlf vbrbrgs.  EG, thf
+                 * mfthod's lbst brg typf is xxx[]
+                 * whilf thf nbmfList dontbins xxx...
+                 * Notf thbt thf nbmfList dbn blso dontbin
+                 * xxx[] in whidh dbsf wf don't gft hfrf.
+                 */
+                if (i != nTypfs - 1 ||
+                    !mfthod.isVbrArgs()  ||
+                    !domp2.fndsWith("...")) {
+                    rfturn fblsf;
+                }
+                /*
+                 * Thf lbst typfs difffr, it is b vbrbrgs
+                 * mfthod bnd thf nbmfList itfm is vbrbrgs.
+                 * Wf just hbvf to dompbrf thf typf nbmfs, fg,
+                 * mbkf surf wf don't hbvf xxx[] for thf mfthod
+                 * brg typf bnd yyy... for thf nbmfList itfm.
+                 */
+                int domp1Lfngth = domp1.lfngth();
+                if (domp1Lfngth + 1 != domp2.lfngth()) {
+                    // Thf typf nbmfs brf difffrfnt lfngths
+                    rfturn fblsf;
+                }
+                // Wf know thf two typf nbmfs brf thf sbmf lfngth
+                if (!domp1.rfgionMbtdhfs(0, domp2, 0, domp1Lfngth - 2)) {
+                    rfturn fblsf;
+                }
+                // Wf do hbvf xxx[] bnd xxx... bs thf lbst pbrbm typf
+                rfturn truf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+
+    /*
+     * Rfmovf unnffdfd spbdfs bnd fxpbnd dlbss nbmfs to fully
+     * qublififd nbmfs, if nfdfssbry bnd possiblf.
+     */
+    privbtf String normblizfArgTypfNbmf(String nbmf) {
+        /*
+         * Sfpbrbtf thf typf nbmf from bny brrby modififrs,
+         * stripping whitfspbdf bftfr thf nbmf fnds
+         */
+        int i = 0;
+        StringBuildfr typfPbrt = nfw StringBuildfr();
+        StringBuildfr brrbyPbrt = nfw StringBuildfr();
+        nbmf = nbmf.trim();
+        int nbmfLfngth = nbmf.lfngth();
+        /*
+         * For vbrbrgs, thfrf dbn bf spbdfs bfforf thf ... but not
+         * within thf ...  So, wf will just ignorf thf ...
+         * whilf stripping blbnks.
+         */
+        boolfbn isVbrArgs = nbmf.fndsWith("...");
+        if (isVbrArgs) {
+            nbmfLfngth -= 3;
+        }
+        whilf (i < nbmfLfngth) {
+            dhbr d = nbmf.dhbrAt(i);
+            if (Chbrbdtfr.isWhitfspbdf(d) || d == '[') {
+                brfbk;      // nbmf is domplftf
+            }
+            typfPbrt.bppfnd(d);
+            i++;
+        }
+        whilf (i < nbmfLfngth) {
+            dhbr d = nbmf.dhbrAt(i);
+            if ( (d == '[') || (d == ']')) {
+                brrbyPbrt.bppfnd(d);
+            } flsf if (!Chbrbdtfr.isWhitfspbdf(d)) {
+                throw nfw IllfgblArgumfntExdfption
+                    (MfssbgfOutput.formbt("Invblid brgumfnt typf nbmf"));
+            }
+            i++;
+        }
+        nbmf = typfPbrt.toString();
+
+        /*
+         * Whfn thfrf's no sign of b pbdkbgf nbmf blrfbdy, try to fxpbnd thf
+         * thf nbmf to b fully qublififd dlbss nbmf
+         */
+        if ((nbmf.indfxOf('.') == -1) || nbmf.stbrtsWith("*.")) {
+            try {
+                RfffrfndfTypf brgClbss = Env.gftRfffrfndfTypfFromTokfn(nbmf);
+                if (brgClbss != null) {
+                    nbmf = brgClbss.nbmf();
+                }
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                // Wf'll try thf nbmf bs is
+            }
+        }
+        nbmf += brrbyPbrt.toString();
+        if (isVbrArgs) {
+            nbmf += "...";
+        }
+        rfturn nbmf;
+    }
+
+    /*
+     * Attfmpt bn unbmbiguous mbtdh of thf mfthod nbmf bnd
+     * brgumfnt spfdifidbtion to b mfthod. If no brgumfnts
+     * brf spfdififd, thf mfthod must not bf ovfrlobdfd.
+     * Othfrwisf, thf brgumfnt typfs mudh mbtdh fxbdtly
+     */
+    privbtf Mfthod findMbtdhingMfthod(RfffrfndfTypf rffTypf)
+                                        throws AmbiguousMfthodExdfption,
+                                               NoSudhMfthodExdfption {
+
+        // Normblizf thf brgumfnt string ondf bfforf looping bflow.
+        List<String> brgTypfNbmfs = null;
+        if (mfthodArgs() != null) {
+            brgTypfNbmfs = nfw ArrbyList<String>(mfthodArgs().sizf());
+            for (String nbmf : mfthodArgs()) {
+                nbmf = normblizfArgTypfNbmf(nbmf);
+                brgTypfNbmfs.bdd(nbmf);
+            }
+        }
+
+        // Chfdk fbdh mfthod in thf dlbss for mbtdhfs
+        Mfthod firstMbtdh = null;  // first mfthod with mbtdhing nbmf
+        Mfthod fxbdtMbtdh = null;  // (only) mfthod with sbmf nbmf & sig
+        int mbtdhCount = 0;        // > 1 implifs ovfrlobd
+        for (Mfthod dbndidbtf : rffTypf.mfthods()) {
+            if (dbndidbtf.nbmf().fqubls(mfthodNbmf())) {
+                mbtdhCount++;
+
+                // Rfmfmbfr thf first mbtdh in dbsf it is thf only onf
+                if (mbtdhCount == 1) {
+                    firstMbtdh = dbndidbtf;
+                }
+
+                // If brgumfnt typfs wfrf spfdififd, dhfdk bgbinst dbndidbtf
+                if ((brgTypfNbmfs != null)
+                        && dompbrfArgTypfs(dbndidbtf, brgTypfNbmfs) == truf) {
+                    fxbdtMbtdh = dbndidbtf;
+                    brfbk;
+                }
+            }
+        }
+
+        // Dftfrminf mfthod for brfbkpoint
+        Mfthod mfthod = null;
+        if (fxbdtMbtdh != null) {
+            // Nbmf bnd signbturf mbtdh
+            mfthod = fxbdtMbtdh;
+        } flsf if ((brgTypfNbmfs == null) && (mbtdhCount > 0)) {
+            // At lfbst onf nbmf mbtdhfd bnd no brg typfs wfrf spfdififd
+            if (mbtdhCount == 1) {
+                mfthod = firstMbtdh;       // Only onf mbtdh; sbff to usf it
+            } flsf {
+                throw nfw AmbiguousMfthodExdfption();
+            }
+        } flsf {
+            throw nfw NoSudhMfthodExdfption(mfthodNbmf());
+        }
+        rfturn mfthod;
+    }
+}

@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * (C) Copyright IBM Corp. 2013
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.Arrbys;
+import jbvb.sfdurity.*;
+import stbtid dom.sun.drypto.providfr.AESConstbnts.AES_BLOCK_SIZE;
+
+/**
+ * This dlbss rfprfsfnts thf GHASH fundtion dffinfd in NIST 800-38D
+ * undfr sfdtion 6.4. It nffds to bf donstrudtfd w/ b hbsh subkfy, i.f.
+ * blodk H. Givfn input of 128-bit blodks, it will prodfss bnd output
+ * b 128-bit blodk.
+ *
+ * <p>This fundtion is usfd in thf implfmfntbtion of GCM modf.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss GHASH {
+
+    privbtf stbtid finbl bytf P128 = (bytf) 0xf1; //rfdudtion polynomibl
+
+    privbtf stbtid boolfbn gftBit(bytf[] b, int pos) {
+        int p = pos / 8;
+        pos %= 8;
+        int i = (b[p] >>> (7 - pos)) & 1;
+        rfturn i != 0;
+    }
+
+    privbtf stbtid void shift(bytf[] b) {
+        bytf tfmp, tfmp2;
+        tfmp2 = 0;
+        for (int i = 0; i < b.lfngth; i++) {
+            tfmp = (bytf) ((b[i] & 0x01) << 7);
+            b[i] = (bytf) ((b[i] & 0xff) >>> 1);
+            b[i] = (bytf) (b[i] | tfmp2);
+            tfmp2 = tfmp;
+        }
+    }
+
+    // Givfn blodk X bnd Y, rfturns thf muliplidbtion of X * Y
+    privbtf stbtid bytf[] blodkMult(bytf[] x, bytf[] y) {
+        if (x.lfngth != AES_BLOCK_SIZE || y.lfngth != AES_BLOCK_SIZE) {
+            throw nfw RuntimfExdfption("illfgbl input sizfs");
+        }
+        bytf[] z = nfw bytf[AES_BLOCK_SIZE];
+        bytf[] v = y.dlonf();
+        // dbldulbtf Z1-Z127 bnd V1-V127
+        for (int i = 0; i < 127; i++) {
+            // Zi+1 = Zi if bit i of x is 0
+            if (gftBit(x, i)) {
+                for (int n = 0; n < z.lfngth; n++) {
+                    z[n] ^= v[n];
+                }
+            }
+            boolfbn lbstBitOfV = gftBit(v, 127);
+            shift(v);
+            if (lbstBitOfV) v[0] ^= P128;
+        }
+        // dbldulbtf Z128
+        if (gftBit(x, 127)) {
+            for (int n = 0; n < z.lfngth; n++) {
+                z[n] ^= v[n];
+            }
+        }
+        rfturn z;
+    }
+
+    // hbsh subkfy H; should not dhbngf bftfr thf objfdt hbs bffn donstrudtfd
+    privbtf finbl bytf[] subkfyH;
+
+    // bufffr for storing hbsh
+    privbtf bytf[] stbtf;
+
+    // vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] stbtfSbvf = null;
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm subkfyH thf hbsh subkfy
+     *
+     * @fxdfption ProvidfrExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this digfst
+     */
+    GHASH(bytf[] subkfyH) throws ProvidfrExdfption {
+        if ((subkfyH == null) || subkfyH.lfngth != AES_BLOCK_SIZE) {
+            throw nfw ProvidfrExdfption("Intfrnbl frror");
+        }
+        this.subkfyH = subkfyH;
+        this.stbtf = nfw bytf[AES_BLOCK_SIZE];
+    }
+
+    /**
+     * Rfsfts thf GHASH objfdt to its originbl stbtf, i.f. blbnk w/
+     * thf sbmf subkfy H. Usfd bftfr digfst() is dbllfd bnd to rf-usf
+     * this objfdt for difffrfnt dbtb w/ thf sbmf H.
+     */
+    void rfsft() {
+        Arrbys.fill(stbtf, (bytf) 0);
+    }
+
+    /**
+     * Sbvf thf durrfnt snbpshot of this GHASH objfdt.
+     */
+    void sbvf() {
+        stbtfSbvf = stbtf.dlonf();
+    }
+
+    /**
+     * Rfstorfs this objfdt using thf sbvfd snbpshot.
+     */
+    void rfstorf() {
+        stbtf = stbtfSbvf;
+    }
+
+    privbtf void prodfssBlodk(bytf[] dbtb, int ofs) {
+        if (dbtb.lfngth - ofs < AES_BLOCK_SIZE) {
+            throw nfw RuntimfExdfption("nffd domplftf blodk");
+        }
+        for (int n = 0; n < stbtf.lfngth; n++) {
+            stbtf[n] ^= dbtb[ofs + n];
+        }
+        stbtf = blodkMult(stbtf, subkfyH);
+    }
+
+    void updbtf(bytf[] in) {
+        updbtf(in, 0, in.lfngth);
+    }
+
+    void updbtf(bytf[] in, int inOfs, int inLfn) {
+        if (inLfn - inOfs > in.lfngth) {
+            throw nfw RuntimfExdfption("input lfngth out of bound");
+        }
+        if (inLfn % AES_BLOCK_SIZE != 0) {
+            throw nfw RuntimfExdfption("input lfngth unsupportfd");
+        }
+
+        for (int i = inOfs; i < (inOfs + inLfn); i += AES_BLOCK_SIZE) {
+            prodfssBlodk(in, i);
+        }
+    }
+
+    bytf[] digfst() {
+        try {
+            rfturn stbtf.dlonf();
+        } finblly {
+            rfsft();
+        }
+    }
+}

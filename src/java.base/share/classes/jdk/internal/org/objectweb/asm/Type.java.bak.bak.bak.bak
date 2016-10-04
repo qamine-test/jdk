@@ -1,0 +1,925 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+/**
+ * A Jbvb fifld or mfthod typf. This dlbss dbn bf usfd to mbkf it fbsifr to
+ * mbnipulbtf typf bnd mfthod dfsdriptors.
+ *
+ * @buthor Erid Brunfton
+ * @buthor Chris Noklfbfrg
+ */
+publid dlbss Typf {
+
+    /**
+     * Thf sort of thf <tt>void</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int VOID = 0;
+
+    /**
+     * Thf sort of thf <tt>boolfbn</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int BOOLEAN = 1;
+
+    /**
+     * Thf sort of thf <tt>dhbr</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int CHAR = 2;
+
+    /**
+     * Thf sort of thf <tt>bytf</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int BYTE = 3;
+
+    /**
+     * Thf sort of thf <tt>short</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int SHORT = 4;
+
+    /**
+     * Thf sort of thf <tt>int</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int INT = 5;
+
+    /**
+     * Thf sort of thf <tt>flobt</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int FLOAT = 6;
+
+    /**
+     * Thf sort of thf <tt>long</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int LONG = 7;
+
+    /**
+     * Thf sort of thf <tt>doublf</tt> typf. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int DOUBLE = 8;
+
+    /**
+     * Thf sort of brrby rfffrfndf typfs. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int ARRAY = 9;
+
+    /**
+     * Thf sort of objfdt rfffrfndf typfs. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int OBJECT = 10;
+
+    /**
+     * Thf sort of mfthod typfs. Sff {@link #gftSort gftSort}.
+     */
+    publid stbtid finbl int METHOD = 11;
+
+    /**
+     * Thf <tt>void</tt> typf.
+     */
+    publid stbtid finbl Typf VOID_TYPE = nfw Typf(VOID, null, ('V' << 24)
+            | (5 << 16) | (0 << 8) | 0, 1);
+
+    /**
+     * Thf <tt>boolfbn</tt> typf.
+     */
+    publid stbtid finbl Typf BOOLEAN_TYPE = nfw Typf(BOOLEAN, null, ('Z' << 24)
+            | (0 << 16) | (5 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>dhbr</tt> typf.
+     */
+    publid stbtid finbl Typf CHAR_TYPE = nfw Typf(CHAR, null, ('C' << 24)
+            | (0 << 16) | (6 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>bytf</tt> typf.
+     */
+    publid stbtid finbl Typf BYTE_TYPE = nfw Typf(BYTE, null, ('B' << 24)
+            | (0 << 16) | (5 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>short</tt> typf.
+     */
+    publid stbtid finbl Typf SHORT_TYPE = nfw Typf(SHORT, null, ('S' << 24)
+            | (0 << 16) | (7 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>int</tt> typf.
+     */
+    publid stbtid finbl Typf INT_TYPE = nfw Typf(INT, null, ('I' << 24)
+            | (0 << 16) | (0 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>flobt</tt> typf.
+     */
+    publid stbtid finbl Typf FLOAT_TYPE = nfw Typf(FLOAT, null, ('F' << 24)
+            | (2 << 16) | (2 << 8) | 1, 1);
+
+    /**
+     * Thf <tt>long</tt> typf.
+     */
+    publid stbtid finbl Typf LONG_TYPE = nfw Typf(LONG, null, ('J' << 24)
+            | (1 << 16) | (1 << 8) | 2, 1);
+
+    /**
+     * Thf <tt>doublf</tt> typf.
+     */
+    publid stbtid finbl Typf DOUBLE_TYPE = nfw Typf(DOUBLE, null, ('D' << 24)
+            | (3 << 16) | (3 << 8) | 2, 1);
+
+    // ------------------------------------------------------------------------
+    // Fiflds
+    // ------------------------------------------------------------------------
+
+    /**
+     * Thf sort of this Jbvb typf.
+     */
+    privbtf finbl int sort;
+
+    /**
+     * A bufffr dontbining thf intfrnbl nbmf of this Jbvb typf. This fifld is
+     * only usfd for rfffrfndf typfs.
+     */
+    privbtf finbl dhbr[] buf;
+
+    /**
+     * Thf offsft of thf intfrnbl nbmf of this Jbvb typf in {@link #buf buf} or,
+     * for primitivf typfs, thf sizf, dfsdriptor bnd gftOpdodf offsfts for this
+     * typf (bytf 0 dontbins thf sizf, bytf 1 thf dfsdriptor, bytf 2 thf offsft
+     * for IALOAD or IASTORE, bytf 3 thf offsft for bll othfr instrudtions).
+     */
+    privbtf finbl int off;
+
+    /**
+     * Thf lfngth of thf intfrnbl nbmf of this Jbvb typf.
+     */
+    privbtf finbl int lfn;
+
+    // ------------------------------------------------------------------------
+    // Construdtors
+    // ------------------------------------------------------------------------
+
+    /**
+     * Construdts b rfffrfndf typf.
+     *
+     * @pbrbm sort
+     *            thf sort of thf rfffrfndf typf to bf donstrudtfd.
+     * @pbrbm buf
+     *            b bufffr dontbining thf dfsdriptor of thf prfvious typf.
+     * @pbrbm off
+     *            thf offsft of this dfsdriptor in thf prfvious bufffr.
+     * @pbrbm lfn
+     *            thf lfngth of this dfsdriptor.
+     */
+    privbtf Typf(finbl int sort, finbl dhbr[] buf, finbl int off, finbl int lfn) {
+        this.sort = sort;
+        this.buf = buf;
+        this.off = off;
+        this.lfn = lfn;
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf givfn typf dfsdriptor.
+     *
+     * @pbrbm typfDfsdriptor
+     *            b fifld or mfthod typf dfsdriptor.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn typf dfsdriptor.
+     */
+    publid stbtid Typf gftTypf(finbl String typfDfsdriptor) {
+        rfturn gftTypf(typfDfsdriptor.toChbrArrby(), 0);
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf givfn intfrnbl nbmf.
+     *
+     * @pbrbm intfrnblNbmf
+     *            bn intfrnbl nbmf.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn intfrnbl nbmf.
+     */
+    publid stbtid Typf gftObjfdtTypf(finbl String intfrnblNbmf) {
+        dhbr[] buf = intfrnblNbmf.toChbrArrby();
+        rfturn nfw Typf(buf[0] == '[' ? ARRAY : OBJECT, buf, 0, buf.lfngth);
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf givfn mfthod dfsdriptor.
+     * Equivblfnt to <dodf>Typf.gftTypf(mfthodDfsdriptor)</dodf>.
+     *
+     * @pbrbm mfthodDfsdriptor
+     *            b mfthod dfsdriptor.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn mfthod dfsdriptor.
+     */
+    publid stbtid Typf gftMfthodTypf(finbl String mfthodDfsdriptor) {
+        rfturn gftTypf(mfthodDfsdriptor.toChbrArrby(), 0);
+    }
+
+    /**
+     * Rfturns thf Jbvb mfthod typf dorrfsponding to thf givfn brgumfnt bnd
+     * rfturn typfs.
+     *
+     * @pbrbm rfturnTypf
+     *            thf rfturn typf of thf mfthod.
+     * @pbrbm brgumfntTypfs
+     *            thf brgumfnt typfs of thf mfthod.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn brgumfnt bnd rfturn
+     *         typfs.
+     */
+    publid stbtid Typf gftMfthodTypf(finbl Typf rfturnTypf,
+            finbl Typf... brgumfntTypfs) {
+        rfturn gftTypf(gftMfthodDfsdriptor(rfturnTypf, brgumfntTypfs));
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf givfn dlbss.
+     *
+     * @pbrbm d
+     *            b dlbss.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn dlbss.
+     */
+    publid stbtid Typf gftTypf(finbl Clbss<?> d) {
+        if (d.isPrimitivf()) {
+            if (d == Intfgfr.TYPE) {
+                rfturn INT_TYPE;
+            } flsf if (d == Void.TYPE) {
+                rfturn VOID_TYPE;
+            } flsf if (d == Boolfbn.TYPE) {
+                rfturn BOOLEAN_TYPE;
+            } flsf if (d == Bytf.TYPE) {
+                rfturn BYTE_TYPE;
+            } flsf if (d == Chbrbdtfr.TYPE) {
+                rfturn CHAR_TYPE;
+            } flsf if (d == Short.TYPE) {
+                rfturn SHORT_TYPE;
+            } flsf if (d == Doublf.TYPE) {
+                rfturn DOUBLE_TYPE;
+            } flsf if (d == Flobt.TYPE) {
+                rfturn FLOAT_TYPE;
+            } flsf /* if (d == Long.TYPE) */{
+                rfturn LONG_TYPE;
+            }
+        } flsf {
+            rfturn gftTypf(gftDfsdriptor(d));
+        }
+    }
+
+    /**
+     * Rfturns thf Jbvb mfthod typf dorrfsponding to thf givfn donstrudtor.
+     *
+     * @pbrbm d
+     *            b {@link Construdtor Construdtor} objfdt.
+     * @rfturn thf Jbvb mfthod typf dorrfsponding to thf givfn donstrudtor.
+     */
+    publid stbtid Typf gftTypf(finbl Construdtor<?> d) {
+        rfturn gftTypf(gftConstrudtorDfsdriptor(d));
+    }
+
+    /**
+     * Rfturns thf Jbvb mfthod typf dorrfsponding to thf givfn mfthod.
+     *
+     * @pbrbm m
+     *            b {@link Mfthod Mfthod} objfdt.
+     * @rfturn thf Jbvb mfthod typf dorrfsponding to thf givfn mfthod.
+     */
+    publid stbtid Typf gftTypf(finbl Mfthod m) {
+        rfturn gftTypf(gftMfthodDfsdriptor(m));
+    }
+
+    /**
+     * Rfturns thf Jbvb typfs dorrfsponding to thf brgumfnt typfs of thf givfn
+     * mfthod dfsdriptor.
+     *
+     * @pbrbm mfthodDfsdriptor
+     *            b mfthod dfsdriptor.
+     * @rfturn thf Jbvb typfs dorrfsponding to thf brgumfnt typfs of thf givfn
+     *         mfthod dfsdriptor.
+     */
+    publid stbtid Typf[] gftArgumfntTypfs(finbl String mfthodDfsdriptor) {
+        dhbr[] buf = mfthodDfsdriptor.toChbrArrby();
+        int off = 1;
+        int sizf = 0;
+        whilf (truf) {
+            dhbr dbr = buf[off++];
+            if (dbr == ')') {
+                brfbk;
+            } flsf if (dbr == 'L') {
+                whilf (buf[off++] != ';') {
+                }
+                ++sizf;
+            } flsf if (dbr != '[') {
+                ++sizf;
+            }
+        }
+        Typf[] brgs = nfw Typf[sizf];
+        off = 1;
+        sizf = 0;
+        whilf (buf[off] != ')') {
+            brgs[sizf] = gftTypf(buf, off);
+            off += brgs[sizf].lfn + (brgs[sizf].sort == OBJECT ? 2 : 0);
+            sizf += 1;
+        }
+        rfturn brgs;
+    }
+
+    /**
+     * Rfturns thf Jbvb typfs dorrfsponding to thf brgumfnt typfs of thf givfn
+     * mfthod.
+     *
+     * @pbrbm mfthod
+     *            b mfthod.
+     * @rfturn thf Jbvb typfs dorrfsponding to thf brgumfnt typfs of thf givfn
+     *         mfthod.
+     */
+    publid stbtid Typf[] gftArgumfntTypfs(finbl Mfthod mfthod) {
+        Clbss<?>[] dlbssfs = mfthod.gftPbrbmftfrTypfs();
+        Typf[] typfs = nfw Typf[dlbssfs.lfngth];
+        for (int i = dlbssfs.lfngth - 1; i >= 0; --i) {
+            typfs[i] = gftTypf(dlbssfs[i]);
+        }
+        rfturn typfs;
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf rfturn typf of thf givfn
+     * mfthod dfsdriptor.
+     *
+     * @pbrbm mfthodDfsdriptor
+     *            b mfthod dfsdriptor.
+     * @rfturn thf Jbvb typf dorrfsponding to thf rfturn typf of thf givfn
+     *         mfthod dfsdriptor.
+     */
+    publid stbtid Typf gftRfturnTypf(finbl String mfthodDfsdriptor) {
+        dhbr[] buf = mfthodDfsdriptor.toChbrArrby();
+        rfturn gftTypf(buf, mfthodDfsdriptor.indfxOf(')') + 1);
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf rfturn typf of thf givfn
+     * mfthod.
+     *
+     * @pbrbm mfthod
+     *            b mfthod.
+     * @rfturn thf Jbvb typf dorrfsponding to thf rfturn typf of thf givfn
+     *         mfthod.
+     */
+    publid stbtid Typf gftRfturnTypf(finbl Mfthod mfthod) {
+        rfturn gftTypf(mfthod.gftRfturnTypf());
+    }
+
+    /**
+     * Computfs thf sizf of thf brgumfnts bnd of thf rfturn vbluf of b mfthod.
+     *
+     * @pbrbm dfsd
+     *            thf dfsdriptor of b mfthod.
+     * @rfturn thf sizf of thf brgumfnts of thf mfthod (plus onf for thf
+     *         implidit this brgumfnt), brgSizf, bnd thf sizf of its rfturn
+     *         vbluf, rftSizf, pbdkfd into b singlf int i =
+     *         <tt>(brgSizf &lt;&lt; 2) | rftSizf</tt> (brgSizf is thfrfforf fqubl to
+     *         <tt>i &gt;&gt; 2</tt>, bnd rftSizf to <tt>i &bmp; 0x03</tt>).
+     */
+    publid stbtid int gftArgumfntsAndRfturnSizfs(finbl String dfsd) {
+        int n = 1;
+        int d = 1;
+        whilf (truf) {
+            dhbr dbr = dfsd.dhbrAt(d++);
+            if (dbr == ')') {
+                dbr = dfsd.dhbrAt(d);
+                rfturn n << 2
+                        | (dbr == 'V' ? 0 : (dbr == 'D' || dbr == 'J' ? 2 : 1));
+            } flsf if (dbr == 'L') {
+                whilf (dfsd.dhbrAt(d++) != ';') {
+                }
+                n += 1;
+            } flsf if (dbr == '[') {
+                whilf ((dbr = dfsd.dhbrAt(d)) == '[') {
+                    ++d;
+                }
+                if (dbr == 'D' || dbr == 'J') {
+                    n -= 1;
+                }
+            } flsf if (dbr == 'D' || dbr == 'J') {
+                n += 2;
+            } flsf {
+                n += 1;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf Jbvb typf dorrfsponding to thf givfn typf dfsdriptor. For
+     * mfthod dfsdriptors, buf is supposfd to dontbin nothing morf thbn thf
+     * dfsdriptor itsflf.
+     *
+     * @pbrbm buf
+     *            b bufffr dontbining b typf dfsdriptor.
+     * @pbrbm off
+     *            thf offsft of this dfsdriptor in thf prfvious bufffr.
+     * @rfturn thf Jbvb typf dorrfsponding to thf givfn typf dfsdriptor.
+     */
+    privbtf stbtid Typf gftTypf(finbl dhbr[] buf, finbl int off) {
+        int lfn;
+        switdh (buf[off]) {
+        dbsf 'V':
+            rfturn VOID_TYPE;
+        dbsf 'Z':
+            rfturn BOOLEAN_TYPE;
+        dbsf 'C':
+            rfturn CHAR_TYPE;
+        dbsf 'B':
+            rfturn BYTE_TYPE;
+        dbsf 'S':
+            rfturn SHORT_TYPE;
+        dbsf 'I':
+            rfturn INT_TYPE;
+        dbsf 'F':
+            rfturn FLOAT_TYPE;
+        dbsf 'J':
+            rfturn LONG_TYPE;
+        dbsf 'D':
+            rfturn DOUBLE_TYPE;
+        dbsf '[':
+            lfn = 1;
+            whilf (buf[off + lfn] == '[') {
+                ++lfn;
+            }
+            if (buf[off + lfn] == 'L') {
+                ++lfn;
+                whilf (buf[off + lfn] != ';') {
+                    ++lfn;
+                }
+            }
+            rfturn nfw Typf(ARRAY, buf, off, lfn + 1);
+        dbsf 'L':
+            lfn = 1;
+            whilf (buf[off + lfn] != ';') {
+                ++lfn;
+            }
+            rfturn nfw Typf(OBJECT, buf, off + 1, lfn - 1);
+            // dbsf '(':
+        dffbult:
+            rfturn nfw Typf(METHOD, buf, off, buf.lfngth - off);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Addfssors
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf sort of this Jbvb typf.
+     *
+     * @rfturn {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR},
+     *         {@link #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT},
+     *         {@link #FLOAT FLOAT}, {@link #LONG LONG}, {@link #DOUBLE DOUBLE},
+     *         {@link #ARRAY ARRAY}, {@link #OBJECT OBJECT} or {@link #METHOD
+     *         METHOD}.
+     */
+    publid int gftSort() {
+        rfturn sort;
+    }
+
+    /**
+     * Rfturns thf numbfr of dimfnsions of this brrby typf. This mfthod should
+     * only bf usfd for bn brrby typf.
+     *
+     * @rfturn thf numbfr of dimfnsions of this brrby typf.
+     */
+    publid int gftDimfnsions() {
+        int i = 1;
+        whilf (buf[off + i] == '[') {
+            ++i;
+        }
+        rfturn i;
+    }
+
+    /**
+     * Rfturns thf typf of thf flfmfnts of this brrby typf. This mfthod should
+     * only bf usfd for bn brrby typf.
+     *
+     * @rfturn Rfturns thf typf of thf flfmfnts of this brrby typf.
+     */
+    publid Typf gftElfmfntTypf() {
+        rfturn gftTypf(buf, off + gftDimfnsions());
+    }
+
+    /**
+     * Rfturns thf binbry nbmf of thf dlbss dorrfsponding to this typf. This
+     * mfthod must not bf usfd on mfthod typfs.
+     *
+     * @rfturn thf binbry nbmf of thf dlbss dorrfsponding to this typf.
+     */
+    publid String gftClbssNbmf() {
+        switdh (sort) {
+        dbsf VOID:
+            rfturn "void";
+        dbsf BOOLEAN:
+            rfturn "boolfbn";
+        dbsf CHAR:
+            rfturn "dhbr";
+        dbsf BYTE:
+            rfturn "bytf";
+        dbsf SHORT:
+            rfturn "short";
+        dbsf INT:
+            rfturn "int";
+        dbsf FLOAT:
+            rfturn "flobt";
+        dbsf LONG:
+            rfturn "long";
+        dbsf DOUBLE:
+            rfturn "doublf";
+        dbsf ARRAY:
+            StringBuildfr sb = nfw StringBuildfr(gftElfmfntTypf().gftClbssNbmf());
+            for (int i = gftDimfnsions(); i > 0; --i) {
+                sb.bppfnd("[]");
+            }
+            rfturn sb.toString();
+        dbsf OBJECT:
+            rfturn nfw String(buf, off, lfn).rfplbdf('/', '.');
+        dffbult:
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf intfrnbl nbmf of thf dlbss dorrfsponding to this objfdt or
+     * brrby typf. Thf intfrnbl nbmf of b dlbss is its fully qublififd nbmf (bs
+     * rfturnfd by Clbss.gftNbmf(), whfrf '.' brf rfplbdfd by '/'. This mfthod
+     * should only bf usfd for bn objfdt or brrby typf.
+     *
+     * @rfturn thf intfrnbl nbmf of thf dlbss dorrfsponding to this objfdt typf.
+     */
+    publid String gftIntfrnblNbmf() {
+        rfturn nfw String(buf, off, lfn);
+    }
+
+    /**
+     * Rfturns thf brgumfnt typfs of mfthods of this typf. This mfthod should
+     * only bf usfd for mfthod typfs.
+     *
+     * @rfturn thf brgumfnt typfs of mfthods of this typf.
+     */
+    publid Typf[] gftArgumfntTypfs() {
+        rfturn gftArgumfntTypfs(gftDfsdriptor());
+    }
+
+    /**
+     * Rfturns thf rfturn typf of mfthods of this typf. This mfthod should only
+     * bf usfd for mfthod typfs.
+     *
+     * @rfturn thf rfturn typf of mfthods of this typf.
+     */
+    publid Typf gftRfturnTypf() {
+        rfturn gftRfturnTypf(gftDfsdriptor());
+    }
+
+    /**
+     * Rfturns thf sizf of thf brgumfnts bnd of thf rfturn vbluf of mfthods of
+     * this typf. This mfthod should only bf usfd for mfthod typfs.
+     *
+     * @rfturn thf sizf of thf brgumfnts (plus onf for thf implidit this
+     *         brgumfnt), brgSizf, bnd thf sizf of thf rfturn vbluf, rftSizf,
+     *         pbdkfd into b singlf
+     *         int i = <tt>(brgSizf &lt;&lt; 2) | rftSizf</tt>
+     *         (brgSizf is thfrfforf fqubl to <tt>i &gt;&gt; 2</tt>,
+     *         bnd rftSizf to <tt>i &bmp; 0x03</tt>).
+     */
+    publid int gftArgumfntsAndRfturnSizfs() {
+        rfturn gftArgumfntsAndRfturnSizfs(gftDfsdriptor());
+    }
+
+    // ------------------------------------------------------------------------
+    // Convfrsion to typf dfsdriptors
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf dfsdriptor dorrfsponding to this Jbvb typf.
+     *
+     * @rfturn thf dfsdriptor dorrfsponding to this Jbvb typf.
+     */
+    publid String gftDfsdriptor() {
+        StringBufffr buf = nfw StringBufffr();
+        gftDfsdriptor(buf);
+        rfturn buf.toString();
+    }
+
+    /**
+     * Rfturns thf dfsdriptor dorrfsponding to thf givfn brgumfnt bnd rfturn
+     * typfs.
+     *
+     * @pbrbm rfturnTypf
+     *            thf rfturn typf of thf mfthod.
+     * @pbrbm brgumfntTypfs
+     *            thf brgumfnt typfs of thf mfthod.
+     * @rfturn thf dfsdriptor dorrfsponding to thf givfn brgumfnt bnd rfturn
+     *         typfs.
+     */
+    publid stbtid String gftMfthodDfsdriptor(finbl Typf rfturnTypf,
+            finbl Typf... brgumfntTypfs) {
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < brgumfntTypfs.lfngth; ++i) {
+            brgumfntTypfs[i].gftDfsdriptor(buf);
+        }
+        buf.bppfnd(')');
+        rfturnTypf.gftDfsdriptor(buf);
+        rfturn buf.toString();
+    }
+
+    /**
+     * Appfnds thf dfsdriptor dorrfsponding to this Jbvb typf to thf givfn
+     * string bufffr.
+     *
+     * @pbrbm buf
+     *            thf string bufffr to whidh thf dfsdriptor must bf bppfndfd.
+     */
+    privbtf void gftDfsdriptor(finbl StringBufffr buf) {
+        if (this.buf == null) {
+            // dfsdriptor is in bytf 3 of 'off' for primitivf typfs (buf ==
+            // null)
+            buf.bppfnd((dhbr) ((off & 0xFF000000) >>> 24));
+        } flsf if (sort == OBJECT) {
+            buf.bppfnd('L');
+            buf.bppfnd(this.buf, off, lfn);
+            buf.bppfnd(';');
+        } flsf { // sort == ARRAY || sort == METHOD
+            buf.bppfnd(this.buf, off, lfn);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Dirfdt donvfrsion from dlbssfs to typf dfsdriptors,
+    // without intfrmfdibtf Typf objfdts
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf intfrnbl nbmf of thf givfn dlbss. Thf intfrnbl nbmf of b
+     * dlbss is its fully qublififd nbmf, bs rfturnfd by Clbss.gftNbmf(), whfrf
+     * '.' brf rfplbdfd by '/'.
+     *
+     * @pbrbm d
+     *            bn objfdt or brrby dlbss.
+     * @rfturn thf intfrnbl nbmf of thf givfn dlbss.
+     */
+    publid stbtid String gftIntfrnblNbmf(finbl Clbss<?> d) {
+        rfturn d.gftNbmf().rfplbdf('.', '/');
+    }
+
+    /**
+     * Rfturns thf dfsdriptor dorrfsponding to thf givfn Jbvb typf.
+     *
+     * @pbrbm d
+     *            bn objfdt dlbss, b primitivf dlbss or bn brrby dlbss.
+     * @rfturn thf dfsdriptor dorrfsponding to thf givfn dlbss.
+     */
+    publid stbtid String gftDfsdriptor(finbl Clbss<?> d) {
+        StringBufffr buf = nfw StringBufffr();
+        gftDfsdriptor(buf, d);
+        rfturn buf.toString();
+    }
+
+    /**
+     * Rfturns thf dfsdriptor dorrfsponding to thf givfn donstrudtor.
+     *
+     * @pbrbm d
+     *            b {@link Construdtor Construdtor} objfdt.
+     * @rfturn thf dfsdriptor of thf givfn donstrudtor.
+     */
+    publid stbtid String gftConstrudtorDfsdriptor(finbl Construdtor<?> d) {
+        Clbss<?>[] pbrbmftfrs = d.gftPbrbmftfrTypfs();
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < pbrbmftfrs.lfngth; ++i) {
+            gftDfsdriptor(buf, pbrbmftfrs[i]);
+        }
+        rfturn buf.bppfnd(")V").toString();
+    }
+
+    /**
+     * Rfturns thf dfsdriptor dorrfsponding to thf givfn mfthod.
+     *
+     * @pbrbm m
+     *            b {@link Mfthod Mfthod} objfdt.
+     * @rfturn thf dfsdriptor of thf givfn mfthod.
+     */
+    publid stbtid String gftMfthodDfsdriptor(finbl Mfthod m) {
+        Clbss<?>[] pbrbmftfrs = m.gftPbrbmftfrTypfs();
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < pbrbmftfrs.lfngth; ++i) {
+            gftDfsdriptor(buf, pbrbmftfrs[i]);
+        }
+        buf.bppfnd(')');
+        gftDfsdriptor(buf, m.gftRfturnTypf());
+        rfturn buf.toString();
+    }
+
+    /**
+     * Appfnds thf dfsdriptor of thf givfn dlbss to thf givfn string bufffr.
+     *
+     * @pbrbm buf
+     *            thf string bufffr to whidh thf dfsdriptor must bf bppfndfd.
+     * @pbrbm d
+     *            thf dlbss whosf dfsdriptor must bf domputfd.
+     */
+    privbtf stbtid void gftDfsdriptor(finbl StringBufffr buf, finbl Clbss<?> d) {
+        Clbss<?> d = d;
+        whilf (truf) {
+            if (d.isPrimitivf()) {
+                dhbr dbr;
+                if (d == Intfgfr.TYPE) {
+                    dbr = 'I';
+                } flsf if (d == Void.TYPE) {
+                    dbr = 'V';
+                } flsf if (d == Boolfbn.TYPE) {
+                    dbr = 'Z';
+                } flsf if (d == Bytf.TYPE) {
+                    dbr = 'B';
+                } flsf if (d == Chbrbdtfr.TYPE) {
+                    dbr = 'C';
+                } flsf if (d == Short.TYPE) {
+                    dbr = 'S';
+                } flsf if (d == Doublf.TYPE) {
+                    dbr = 'D';
+                } flsf if (d == Flobt.TYPE) {
+                    dbr = 'F';
+                } flsf /* if (d == Long.TYPE) */{
+                    dbr = 'J';
+                }
+                buf.bppfnd(dbr);
+                rfturn;
+            } flsf if (d.isArrby()) {
+                buf.bppfnd('[');
+                d = d.gftComponfntTypf();
+            } flsf {
+                buf.bppfnd('L');
+                String nbmf = d.gftNbmf();
+                int lfn = nbmf.lfngth();
+                for (int i = 0; i < lfn; ++i) {
+                    dhbr dbr = nbmf.dhbrAt(i);
+                    buf.bppfnd(dbr == '.' ? '/' : dbr);
+                }
+                buf.bppfnd(';');
+                rfturn;
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Corrfsponding sizf bnd opdodfs
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf sizf of vblufs of this typf. This mfthod must not bf usfd for
+     * mfthod typfs.
+     *
+     * @rfturn thf sizf of vblufs of this typf, i.f., 2 for <tt>long</tt> bnd
+     *         <tt>doublf</tt>, 0 for <tt>void</tt> bnd 1 othfrwisf.
+     */
+    publid int gftSizf() {
+        // thf sizf is in bytf 0 of 'off' for primitivf typfs (buf == null)
+        rfturn buf == null ? (off & 0xFF) : 1;
+    }
+
+    /**
+     * Rfturns b JVM instrudtion opdodf bdbptfd to this Jbvb typf. This mfthod
+     * must not bf usfd for mfthod typfs.
+     *
+     * @pbrbm opdodf
+     *            b JVM instrudtion opdodf. This opdodf must bf onf of ILOAD,
+     *            ISTORE, IALOAD, IASTORE, IADD, ISUB, IMUL, IDIV, IREM, INEG,
+     *            ISHL, ISHR, IUSHR, IAND, IOR, IXOR bnd IRETURN.
+     * @rfturn bn opdodf thbt is similbr to thf givfn opdodf, but bdbptfd to
+     *         this Jbvb typf. For fxbmplf, if this typf is <tt>flobt</tt> bnd
+     *         <tt>opdodf</tt> is IRETURN, this mfthod rfturns FRETURN.
+     */
+    publid int gftOpdodf(finbl int opdodf) {
+        if (opdodf == Opdodfs.IALOAD || opdodf == Opdodfs.IASTORE) {
+            // thf offsft for IALOAD or IASTORE is in bytf 1 of 'off' for
+            // primitivf typfs (buf == null)
+            rfturn opdodf + (buf == null ? (off & 0xFF00) >> 8 : 4);
+        } flsf {
+            // thf offsft for othfr instrudtions is in bytf 2 of 'off' for
+            // primitivf typfs (buf == null)
+            rfturn opdodf + (buf == null ? (off & 0xFF0000) >> 16 : 4);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Equbls, hbshCodf bnd toString
+    // ------------------------------------------------------------------------
+
+    /**
+     * Tfsts if thf givfn objfdt is fqubl to this typf.
+     *
+     * @pbrbm o
+     *            thf objfdt to bf dompbrfd to this typf.
+     * @rfturn <tt>truf</tt> if thf givfn objfdt is fqubl to this typf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+        if (!(o instbndfof Typf)) {
+            rfturn fblsf;
+        }
+        Typf t = (Typf) o;
+        if (sort != t.sort) {
+            rfturn fblsf;
+        }
+        if (sort >= ARRAY) {
+            if (lfn != t.lfn) {
+                rfturn fblsf;
+            }
+            for (int i = off, j = t.off, fnd = i + lfn; i < fnd; i++, j++) {
+                if (buf[i] != t.buf[j]) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this typf.
+     *
+     * @rfturn b hbsh dodf vbluf for this typf.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int hd = 13 * sort;
+        if (sort >= ARRAY) {
+            for (int i = off, fnd = i + lfn; i < fnd; i++) {
+                hd = 17 * (hd + buf[i]);
+            }
+        }
+        rfturn hd;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this typf.
+     *
+     * @rfturn thf dfsdriptor of this typf.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftDfsdriptor();
+    }
+}

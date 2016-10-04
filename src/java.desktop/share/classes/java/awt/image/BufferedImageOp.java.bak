@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.RenderingHints;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
 
 /**
- * This interface describes single-input/single-output
- * operations performed on <CODE>BufferedImage</CODE> objects.
- * It is implemented by <CODE>AffineTransformOp</CODE>,
- * <CODE>ConvolveOp</CODE>, <CODE>ColorConvertOp</CODE>, <CODE>RescaleOp</CODE>,
- * and <CODE>LookupOp</CODE>.  These objects can be passed into
- * a <CODE>BufferedImageFilter</CODE> to operate on a
- * <CODE>BufferedImage</CODE> in the
- * ImageProducer-ImageFilter-ImageConsumer paradigm.
+ * Tiis intfrfbdf dfsdribfs singlf-input/singlf-output
+ * opfrbtions pfrformfd on <CODE>BufffrfdImbgf</CODE> objfdts.
+ * It is implfmfntfd by <CODE>AffinfTrbnsformOp</CODE>,
+ * <CODE>ConvolvfOp</CODE>, <CODE>ColorConvfrtOp</CODE>, <CODE>RfsdblfOp</CODE>,
+ * bnd <CODE>LookupOp</CODE>.  Tifsf objfdts dbn bf pbssfd into
+ * b <CODE>BufffrfdImbgfFiltfr</CODE> to opfrbtf on b
+ * <CODE>BufffrfdImbgf</CODE> in tif
+ * ImbgfProdudfr-ImbgfFiltfr-ImbgfConsumfr pbrbdigm.
  * <p>
- * Classes that implement this
- * interface must specify whether or not they allow in-place filtering--
- * filter operations where the source object is equal to the destination
- * object.
+ * Clbssfs tibt implfmfnt tiis
+ * intfrfbdf must spfdify wiftifr or not tify bllow in-plbdf filtfring--
+ * filtfr opfrbtions wifrf tif sourdf objfdt is fqubl to tif dfstinbtion
+ * objfdt.
  * <p>
- * This interface cannot be used to describe more sophisticated operations
- * such as those that take multiple sources. Note that this restriction also
- * means that the values of the destination pixels prior to the operation are
- * not used as input to the filter operation.
+ * Tiis intfrfbdf dbnnot bf usfd to dfsdribf morf sopiistidbtfd opfrbtions
+ * sudi bs tiosf tibt tbkf multiplf sourdfs. Notf tibt tiis rfstridtion blso
+ * mfbns tibt tif vblufs of tif dfstinbtion pixfls prior to tif opfrbtion brf
+ * not usfd bs input to tif filtfr opfrbtion.
 
- * @see BufferedImage
- * @see BufferedImageFilter
- * @see AffineTransformOp
- * @see BandCombineOp
- * @see ColorConvertOp
- * @see ConvolveOp
- * @see LookupOp
- * @see RescaleOp
+ * @sff BufffrfdImbgf
+ * @sff BufffrfdImbgfFiltfr
+ * @sff AffinfTrbnsformOp
+ * @sff BbndCombinfOp
+ * @sff ColorConvfrtOp
+ * @sff ConvolvfOp
+ * @sff LookupOp
+ * @sff RfsdblfOp
  */
-public interface BufferedImageOp {
+publid intfrfbdf BufffrfdImbgfOp {
     /**
-     * Performs a single-input/single-output operation on a
-     * <CODE>BufferedImage</CODE>.
-     * If the color models for the two images do not match, a color
-     * conversion into the destination color model is performed.
-     * If the destination image is null,
-     * a <CODE>BufferedImage</CODE> with an appropriate <CODE>ColorModel</CODE>
-     * is created.
+     * Pfrforms b singlf-input/singlf-output opfrbtion on b
+     * <CODE>BufffrfdImbgf</CODE>.
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * If tif dfstinbtion imbgf is null,
+     * b <CODE>BufffrfdImbgf</CODE> witi bn bppropribtf <CODE>ColorModfl</CODE>
+     * is drfbtfd.
      * <p>
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the source
-     * and/or destination image is incompatible with the types of images       $
-     * allowed by the class implementing this filter.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf
+     * bnd/or dfstinbtion imbgf is indompbtiblf witi tif typfs of imbgfs       $
+     * bllowfd by tif dlbss implfmfnting tiis filtfr.
      *
-     * @param src The <CODE>BufferedImage</CODE> to be filtered
-     * @param dest The <CODE>BufferedImage</CODE> in which to store the results$
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
+     * @pbrbm dfst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults$
      *
-     * @return The filtered <CODE>BufferedImage</CODE>.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
      *
-     * @throws IllegalArgumentException If the source and/or destination
-     * image is not compatible with the types of images allowed by the class
-     * implementing this filter.
+     * @tirows IllfgblArgumfntExdfption If tif sourdf bnd/or dfstinbtion
+     * imbgf is not dompbtiblf witi tif typfs of imbgfs bllowfd by tif dlbss
+     * implfmfnting tiis filtfr.
      */
-    public BufferedImage filter(BufferedImage src, BufferedImage dest);
+    publid BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dfst);
 
     /**
-     * Returns the bounding box of the filtered destination image.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the source
-     * image is incompatible with the types of images allowed
-     * by the class implementing this filter.
+     * Rfturns tif bounding box of tif filtfrfd dfstinbtion imbgf.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf
+     * imbgf is indompbtiblf witi tif typfs of imbgfs bllowfd
+     * by tif dlbss implfmfnting tiis filtfr.
      *
-     * @param src The <CODE>BufferedImage</CODE> to be filtered
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination
-     * image's bounding box.
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion
+     * imbgf's bounding box.
      */
-    public Rectangle2D getBounds2D (BufferedImage src);
+    publid Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd);
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the source
-     * image is incompatible with the types of images allowed
-     * by the class implementing this filter.
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * bbnds.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf
+     * imbgf is indompbtiblf witi tif typfs of imbgfs bllowfd
+     * by tif dlbss implfmfnting tiis filtfr.
      *
-     * @param src The <CODE>BufferedImage</CODE> to be filtered
-     * @param destCM <CODE>ColorModel</CODE> of the destination.  If null,
-     * the <CODE>ColorModel</CODE> of the source is used.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
+     * @pbrbm dfstCM <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * tif <CODE>ColorModfl</CODE> of tif sourdf is usfd.
      *
-     * @return The zeroed destination image.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
-                                                    ColorModel destCM);
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM);
 
     /**
-     * Returns the location of the corresponding destination point given a
-     * point in the source image.  If <CODE>dstPt</CODE> is specified, it
-     * is used to hold the return value.
-     * @param srcPt the <code>Point2D</code> that represents the point in
-     * the source image
-     * @param dstPt The <CODE>Point2D</CODE> in which to store the result
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * point in tif sourdf imbgf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * is usfd to iold tif rfturn vbluf.
+     * @pbrbm srdPt tif <dodf>Point2D</dodf> tibt rfprfsfnts tif point in
+     * tif sourdf imbgf
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult
      *
-     * @return The <CODE>Point2D</CODE> in the destination image that
-     * corresponds to the specified point in the source image.
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion imbgf tibt
+     * dorrfsponds to tif spfdififd point in tif sourdf imbgf.
      */
-    public Point2D getPoint2D (Point2D srcPt, Point2D dstPt);
+    publid Point2D gftPoint2D (Point2D srdPt, Point2D dstPt);
 
     /**
-     * Returns the rendering hints for this operation.
+     * Rfturns tif rfndfring iints for tiis opfrbtion.
      *
-     * @return The <CODE>RenderingHints</CODE> object for this
-     * <CODE>BufferedImageOp</CODE>.  Returns
-     * null if no hints have been set.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt for tiis
+     * <CODE>BufffrfdImbgfOp</CODE>.  Rfturns
+     * null if no iints ibvf bffn sft.
      */
-    public RenderingHints getRenderingHints();
+    publid RfndfringHints gftRfndfringHints();
 }

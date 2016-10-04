@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.util.EventObject;
+import jbvb.util.EvfntObjfdt;
 
 /**
- * A "PropertyChange" event gets delivered whenever a bean changes a "bound"
- * or "constrained" property.  A PropertyChangeEvent object is sent as an
- * argument to the PropertyChangeListener and VetoableChangeListener methods.
+ * A "PropfrtyCibngf" fvfnt gfts dflivfrfd wifnfvfr b bfbn dibngfs b "bound"
+ * or "donstrbinfd" propfrty.  A PropfrtyCibngfEvfnt objfdt is sfnt bs bn
+ * brgumfnt to tif PropfrtyCibngfListfnfr bnd VftobblfCibngfListfnfr mftiods.
  * <P>
- * Normally PropertyChangeEvents are accompanied by the name and the old
- * and new value of the changed property.  If the new value is a primitive
- * type (such as int or boolean) it must be wrapped as the
- * corresponding java.lang.* Object type (such as Integer or Boolean).
+ * Normblly PropfrtyCibngfEvfnts brf bddompbnifd by tif nbmf bnd tif old
+ * bnd nfw vbluf of tif dibngfd propfrty.  If tif nfw vbluf is b primitivf
+ * typf (sudi bs int or boolfbn) it must bf wrbppfd bs tif
+ * dorrfsponding jbvb.lbng.* Objfdt typf (sudi bs Intfgfr or Boolfbn).
  * <P>
- * Null values may be provided for the old and the new values if their
- * true values are not known.
+ * Null vblufs mby bf providfd for tif old bnd tif nfw vblufs if tifir
+ * truf vblufs brf not known.
  * <P>
- * An event source may send a null object as the name to indicate that an
- * arbitrary set of if its properties have changed.  In this case the
- * old and new values should also be null.
+ * An fvfnt sourdf mby sfnd b null objfdt bs tif nbmf to indidbtf tibt bn
+ * brbitrbry sft of if its propfrtifs ibvf dibngfd.  In tiis dbsf tif
+ * old bnd nfw vblufs siould blso bf null.
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public class PropertyChangeEvent extends EventObject {
-    private static final long serialVersionUID = 7042693688939648123L;
+publid dlbss PropfrtyCibngfEvfnt fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7042693688939648123L;
 
     /**
-     * Constructs a new {@code PropertyChangeEvent}.
+     * Construdts b nfw {@dodf PropfrtyCibngfEvfnt}.
      *
-     * @param source        the bean that fired the event
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm sourdf        tif bfbn tibt firfd tif fvfnt
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt wbs dibngfd
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
      *
-     * @throws IllegalArgumentException if {@code source} is {@code null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf sourdf} is {@dodf null}
      */
-    public PropertyChangeEvent(Object source, String propertyName,
-                               Object oldValue, Object newValue) {
-        super(source);
-        this.propertyName = propertyName;
-        this.newValue = newValue;
-        this.oldValue = oldValue;
+    publid PropfrtyCibngfEvfnt(Objfdt sourdf, String propfrtyNbmf,
+                               Objfdt oldVbluf, Objfdt nfwVbluf) {
+        supfr(sourdf);
+        tiis.propfrtyNbmf = propfrtyNbmf;
+        tiis.nfwVbluf = nfwVbluf;
+        tiis.oldVbluf = oldVbluf;
     }
 
     /**
-     * Gets the programmatic name of the property that was changed.
+     * Gfts tif progrbmmbtid nbmf of tif propfrty tibt wbs dibngfd.
      *
-     * @return  The programmatic name of the property that was changed.
-     *          May be null if multiple properties have changed.
+     * @rfturn  Tif progrbmmbtid nbmf of tif propfrty tibt wbs dibngfd.
+     *          Mby bf null if multiplf propfrtifs ibvf dibngfd.
      */
-    public String getPropertyName() {
-        return propertyName;
+    publid String gftPropfrtyNbmf() {
+        rfturn propfrtyNbmf;
     }
 
     /**
-     * Gets the new value for the property, expressed as an Object.
+     * Gfts tif nfw vbluf for tif propfrty, fxprfssfd bs bn Objfdt.
      *
-     * @return  The new value for the property, expressed as an Object.
-     *          May be null if multiple properties have changed.
+     * @rfturn  Tif nfw vbluf for tif propfrty, fxprfssfd bs bn Objfdt.
+     *          Mby bf null if multiplf propfrtifs ibvf dibngfd.
      */
-    public Object getNewValue() {
-        return newValue;
+    publid Objfdt gftNfwVbluf() {
+        rfturn nfwVbluf;
     }
 
     /**
-     * Gets the old value for the property, expressed as an Object.
+     * Gfts tif old vbluf for tif propfrty, fxprfssfd bs bn Objfdt.
      *
-     * @return  The old value for the property, expressed as an Object.
-     *          May be null if multiple properties have changed.
+     * @rfturn  Tif old vbluf for tif propfrty, fxprfssfd bs bn Objfdt.
+     *          Mby bf null if multiplf propfrtifs ibvf dibngfd.
      */
-    public Object getOldValue() {
-        return oldValue;
+    publid Objfdt gftOldVbluf() {
+        rfturn oldVbluf;
     }
 
     /**
-     * Sets the propagationId object for the event.
+     * Sfts tif propbgbtionId objfdt for tif fvfnt.
      *
-     * @param propagationId  The propagationId object for the event.
+     * @pbrbm propbgbtionId  Tif propbgbtionId objfdt for tif fvfnt.
      */
-    public void setPropagationId(Object propagationId) {
-        this.propagationId = propagationId;
+    publid void sftPropbgbtionId(Objfdt propbgbtionId) {
+        tiis.propbgbtionId = propbgbtionId;
     }
 
     /**
-     * The "propagationId" field is reserved for future use.  In Beans 1.0
-     * the sole requirement is that if a listener catches a PropertyChangeEvent
-     * and then fires a PropertyChangeEvent of its own, then it should
-     * make sure that it propagates the propagationId field from its
-     * incoming event to its outgoing event.
+     * Tif "propbgbtionId" fifld is rfsfrvfd for futurf usf.  In Bfbns 1.0
+     * tif solf rfquirfmfnt is tibt if b listfnfr dbtdifs b PropfrtyCibngfEvfnt
+     * bnd tifn firfs b PropfrtyCibngfEvfnt of its own, tifn it siould
+     * mbkf surf tibt it propbgbtfs tif propbgbtionId fifld from its
+     * indoming fvfnt to its outgoing fvfnt.
      *
-     * @return the propagationId object associated with a bound/constrained
-     *          property update.
+     * @rfturn tif propbgbtionId objfdt bssodibtfd witi b bound/donstrbinfd
+     *          propfrty updbtf.
      */
-    public Object getPropagationId() {
-        return propagationId;
+    publid Objfdt gftPropbgbtionId() {
+        rfturn propbgbtionId;
     }
 
     /**
-     * name of the property that changed.  May be null, if not known.
-     * @serial
+     * nbmf of tif propfrty tibt dibngfd.  Mby bf null, if not known.
+     * @sfribl
      */
-    private String propertyName;
+    privbtf String propfrtyNbmf;
 
     /**
-     * New value for property.  May be null if not known.
-     * @serial
+     * Nfw vbluf for propfrty.  Mby bf null if not known.
+     * @sfribl
      */
-    private Object newValue;
+    privbtf Objfdt nfwVbluf;
 
     /**
-     * Previous value for property.  May be null if not known.
-     * @serial
+     * Prfvious vbluf for propfrty.  Mby bf null if not known.
+     * @sfribl
      */
-    private Object oldValue;
+    privbtf Objfdt oldVbluf;
 
     /**
-     * Propagation ID.  May be null.
-     * @serial
-     * @see #getPropagationId
+     * Propbgbtion ID.  Mby bf null.
+     * @sfribl
+     * @sff #gftPropbgbtionId
      */
-    private Object propagationId;
+    privbtf Objfdt propbgbtionId;
 
     /**
-     * Returns a string representation of the object.
+     * Rfturns b string rfprfsfntbtion of tif objfdt.
      *
-     * @return a string representation of the object
+     * @rfturn b string rfprfsfntbtion of tif objfdt
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getName());
-        sb.append("[propertyName=").append(getPropertyName());
-        appendTo(sb);
-        sb.append("; oldValue=").append(getOldValue());
-        sb.append("; newValue=").append(getNewValue());
-        sb.append("; propagationId=").append(getPropagationId());
-        sb.append("; source=").append(getSource());
-        return sb.append("]").toString();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(gftClbss().gftNbmf());
+        sb.bppfnd("[propfrtyNbmf=").bppfnd(gftPropfrtyNbmf());
+        bppfndTo(sb);
+        sb.bppfnd("; oldVbluf=").bppfnd(gftOldVbluf());
+        sb.bppfnd("; nfwVbluf=").bppfnd(gftNfwVbluf());
+        sb.bppfnd("; propbgbtionId=").bppfnd(gftPropbgbtionId());
+        sb.bppfnd("; sourdf=").bppfnd(gftSourdf());
+        rfturn sb.bppfnd("]").toString();
     }
 
-    void appendTo(StringBuilder sb) {
+    void bppfndTo(StringBuildfr sb) {
     }
 }

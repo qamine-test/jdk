@@ -1,2417 +1,2417 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * <code>SynthPainter</code> is used for painting portions of
- * <code>JComponent</code>s. At a minimum each <code>JComponent</code>
- * has two paint methods: one for the border and one for the background. Some
- * <code>JComponent</code>s have more than one <code>Region</code>, and as
- * a consequence more paint methods.
+ * <dodf>SyntiPbintfr</dodf> is usfd for pbinting portions of
+ * <dodf>JComponfnt</dodf>s. At b minimum fbdi <dodf>JComponfnt</dodf>
+ * ibs two pbint mftiods: onf for tif bordfr bnd onf for tif bbdkground. Somf
+ * <dodf>JComponfnt</dodf>s ibvf morf tibn onf <dodf>Rfgion</dodf>, bnd bs
+ * b donsfqufndf morf pbint mftiods.
  * <p>
- * Instances of <code>SynthPainter</code> are obtained from the
- * {@link javax.swing.plaf.synth.SynthStyle#getPainter} method.
+ * Instbndfs of <dodf>SyntiPbintfr</dodf> brf obtbinfd from tif
+ * {@link jbvbx.swing.plbf.synti.SyntiStylf#gftPbintfr} mftiod.
  * <p>
- * You typically supply a <code>SynthPainter</code> by way of Synth's
- * <a href="doc-files/synthFileFormat.html">file</a> format. The following
- * example registers a painter for all <code>JButton</code>s that will
- * render the image <code>myImage.png</code>:
- * <pre>
- *  &lt;style id="buttonStyle"&gt;
- *    &lt;imagePainter path="myImage.png" sourceInsets="2 2 2 2"
- *                  paintCenter="true" stretch="true"/&gt;
- *    &lt;insets top="2" bottom="2" left="2" right="2"/&gt;
- *  &lt;/style&gt;
- *  &lt;bind style="buttonStyle" type="REGION" key="button"/&gt;
- *</pre>
+ * You typidblly supply b <dodf>SyntiPbintfr</dodf> by wby of Synti's
+ * <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b> formbt. Tif following
+ * fxbmplf rfgistfrs b pbintfr for bll <dodf>JButton</dodf>s tibt will
+ * rfndfr tif imbgf <dodf>myImbgf.png</dodf>:
+ * <prf>
+ *  &lt;stylf id="buttonStylf"&gt;
+ *    &lt;imbgfPbintfr pbti="myImbgf.png" sourdfInsfts="2 2 2 2"
+ *                  pbintCfntfr="truf" strftdi="truf"/&gt;
+ *    &lt;insfts top="2" bottom="2" lfft="2" rigit="2"/&gt;
+ *  &lt;/stylf&gt;
+ *  &lt;bind stylf="buttonStylf" typf="REGION" kfy="button"/&gt;
+ *</prf>
  * <p>
- * <code>SynthPainter</code> is abstract in so far as it does no painting,
- * all the methods
- * are empty. While none of these methods are typed to throw an exception,
- * subclasses can assume that valid arguments are passed in, and if not
- * they can throw a <code>NullPointerException</code> or
- * <code>IllegalArgumentException</code> in response to invalid arguments.
+ * <dodf>SyntiPbintfr</dodf> is bbstrbdt in so fbr bs it dofs no pbinting,
+ * bll tif mftiods
+ * brf fmpty. Wiilf nonf of tifsf mftiods brf typfd to tirow bn fxdfption,
+ * subdlbssfs dbn bssumf tibt vblid brgumfnts brf pbssfd in, bnd if not
+ * tify dbn tirow b <dodf>NullPointfrExdfption</dodf> or
+ * <dodf>IllfgblArgumfntExdfption</dodf> in rfsponsf to invblid brgumfnts.
  *
- * @since 1.5
- * @author Scott Violet
+ * @sindf 1.5
+ * @butior Sdott Violft
  */
-public abstract class SynthPainter {
+publid bbstrbdt dlbss SyntiPbintfr {
     /**
-     * Used to avoid null painter checks everywhere.
+     * Usfd to bvoid null pbintfr difdks fvfrywifrf.
      */
-    static SynthPainter NULL_PAINTER = new SynthPainter() {};
+    stbtid SyntiPbintfr NULL_PAINTER = nfw SyntiPbintfr() {};
 
 
     /**
-     * Paints the background of an arrow button. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>.
+     * Pbints tif bbdkground of bn brrow button. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudi bs <dodf>JSdrollBbr</dodf>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintArrowButtonBackground(SynthContext context,
-                                           Graphics g, int x, int y,
-                                           int w, int h) {
+    publid void pbintArrowButtonBbdkground(SyntiContfxt dontfxt,
+                                           Grbpiids g, int x, int y,
+                                           int w, int i) {
     }
 
     /**
-     * Paints the border of an arrow button. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>.
+     * Pbints tif bordfr of bn brrow button. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudi bs <dodf>JSdrollBbr</dodf>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintArrowButtonBorder(SynthContext context,
-                                       Graphics g, int x, int y,
-                                       int w, int h) {
+    publid void pbintArrowButtonBordfr(SyntiContfxt dontfxt,
+                                       Grbpiids g, int x, int y,
+                                       int w, int i) {
     }
 
     /**
-     * Paints the foreground of an arrow button. This method is responsible
-     * for drawing a graphical representation of a direction, typically
-     * an arrow. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>
+     * Pbints tif forfground of bn brrow button. Tiis mftiod is rfsponsiblf
+     * for drbwing b grbpiidbl rfprfsfntbtion of b dirfdtion, typidblly
+     * bn brrow. Arrow buttons brf drfbtfd by
+     * somf domponfnts, sudi bs <dodf>JSdrollBbr</dodf>
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param direction One of SwingConstants.NORTH, SwingConstants.SOUTH
-     *                  SwingConstants.EAST or SwingConstants.WEST
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm dirfdtion Onf of SwingConstbnts.NORTH, SwingConstbnts.SOUTH
+     *                  SwingConstbnts.EAST or SwingConstbnts.WEST
      */
-    public void paintArrowButtonForeground(SynthContext context,
-                                           Graphics g, int x, int y,
-                                           int w, int h,
-                                           int direction) {
+    publid void pbintArrowButtonForfground(SyntiContfxt dontfxt,
+                                           Grbpiids g, int x, int y,
+                                           int w, int i,
+                                           int dirfdtion) {
     }
 
     /**
-     * Paints the background of a button.
+     * Pbints tif bbdkground of b button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintButtonBackground(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintButtonBbdkground(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the border of a button.
+     * Pbints tif bordfr of b button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintButtonBorder(SynthContext context,
-                                  Graphics g, int x, int y,
-                                  int w, int h) {
+    publid void pbintButtonBordfr(SyntiContfxt dontfxt,
+                                  Grbpiids g, int x, int y,
+                                  int w, int i) {
     }
 
     /**
-     * Paints the background of a check box menu item.
+     * Pbints tif bbdkground of b difdk box mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintCheckBoxMenuItemBackground(SynthContext context,
-                                                Graphics g, int x, int y,
-                                                int w, int h) {
+    publid void pbintCifdkBoxMfnuItfmBbdkground(SyntiContfxt dontfxt,
+                                                Grbpiids g, int x, int y,
+                                                int w, int i) {
     }
 
     /**
-     * Paints the border of a check box menu item.
+     * Pbints tif bordfr of b difdk box mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintCheckBoxMenuItemBorder(SynthContext context,
-                                            Graphics g, int x, int y,
-                                            int w, int h) {
+    publid void pbintCifdkBoxMfnuItfmBordfr(SyntiContfxt dontfxt,
+                                            Grbpiids g, int x, int y,
+                                            int w, int i) {
     }
 
     /**
-     * Paints the background of a check box.
+     * Pbints tif bbdkground of b difdk box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintCheckBoxBackground(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+    publid void pbintCifdkBoxBbdkground(SyntiContfxt dontfxt,
+                                        Grbpiids g, int x, int y,
+                                        int w, int i) {
     }
 
     /**
-     * Paints the border of a check box.
+     * Pbints tif bordfr of b difdk box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintCheckBoxBorder(SynthContext context,
-                                    Graphics g, int x, int y,
-                                    int w, int h) {
+    publid void pbintCifdkBoxBordfr(SyntiContfxt dontfxt,
+                                    Grbpiids g, int x, int y,
+                                    int w, int i) {
     }
 
     /**
-     * Paints the background of a color chooser.
+     * Pbints tif bbdkground of b dolor dioosfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintColorChooserBackground(SynthContext context,
-                                            Graphics g, int x, int y,
-                                            int w, int h) {
+    publid void pbintColorCioosfrBbdkground(SyntiContfxt dontfxt,
+                                            Grbpiids g, int x, int y,
+                                            int w, int i) {
     }
 
     /**
-     * Paints the border of a color chooser.
+     * Pbints tif bordfr of b dolor dioosfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintColorChooserBorder(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+    publid void pbintColorCioosfrBordfr(SyntiContfxt dontfxt,
+                                        Grbpiids g, int x, int y,
+                                        int w, int i) {
     }
 
     /**
-     * Paints the background of a combo box.
+     * Pbints tif bbdkground of b dombo box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintComboBoxBackground(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+    publid void pbintComboBoxBbdkground(SyntiContfxt dontfxt,
+                                        Grbpiids g, int x, int y,
+                                        int w, int i) {
     }
 
     /**
-     * Paints the border of a combo box.
+     * Pbints tif bordfr of b dombo box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintComboBoxBorder(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+    publid void pbintComboBoxBordfr(SyntiContfxt dontfxt,
+                                        Grbpiids g, int x, int y,
+                                        int w, int i) {
     }
 
     /**
-     * Paints the background of a desktop icon.
+     * Pbints tif bbdkground of b dfsktop idon.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintDesktopIconBackground(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+    publid void pbintDfsktopIdonBbdkground(SyntiContfxt dontfxt,
+                                        Grbpiids g, int x, int y,
+                                        int w, int i) {
     }
 
     /**
-     * Paints the border of a desktop icon.
+     * Pbints tif bordfr of b dfsktop idon.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintDesktopIconBorder(SynthContext context,
-                                           Graphics g, int x, int y,
-                                           int w, int h) {
+    publid void pbintDfsktopIdonBordfr(SyntiContfxt dontfxt,
+                                           Grbpiids g, int x, int y,
+                                           int w, int i) {
     }
 
     /**
-     * Paints the background of a desktop pane.
+     * Pbints tif bbdkground of b dfsktop pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintDesktopPaneBackground(SynthContext context,
-                                           Graphics g, int x, int y,
-                                           int w, int h) {
+    publid void pbintDfsktopPbnfBbdkground(SyntiContfxt dontfxt,
+                                           Grbpiids g, int x, int y,
+                                           int w, int i) {
     }
 
     /**
-     * Paints the background of a desktop pane.
+     * Pbints tif bbdkground of b dfsktop pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintDesktopPaneBorder(SynthContext context,
-                                       Graphics g, int x, int y,
-                                       int w, int h) {
+    publid void pbintDfsktopPbnfBordfr(SyntiContfxt dontfxt,
+                                       Grbpiids g, int x, int y,
+                                       int w, int i) {
     }
 
     /**
-     * Paints the background of an editor pane.
+     * Pbints tif bbdkground of bn fditor pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintEditorPaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintEditorPbnfBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of an editor pane.
+     * Pbints tif bordfr of bn fditor pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintEditorPaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintEditorPbnfBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of a file chooser.
+     * Pbints tif bbdkground of b filf dioosfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintFileChooserBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintFilfCioosfrBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of a file chooser.
+     * Pbints tif bordfr of b filf dioosfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintFileChooserBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintFilfCioosfrBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of a formatted text field.
+     * Pbints tif bbdkground of b formbttfd tfxt fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintFormattedTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintFormbttfdTfxtFifldBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of a formatted text field.
+     * Pbints tif bordfr of b formbttfd tfxt fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintFormattedTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintFormbttfdTfxtFifldBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of an internal frame title pane.
+     * Pbints tif bbdkground of bn intfrnbl frbmf titlf pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintIntfrnblFrbmfTitlfPbnfBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of an internal frame title pane.
+     * Pbints tif bordfr of bn intfrnbl frbmf titlf pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintIntfrnblFrbmfTitlfPbnfBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of an internal frame.
+     * Pbints tif bbdkground of bn intfrnbl frbmf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintInternalFrameBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintIntfrnblFrbmfBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of an internal frame.
+     * Pbints tif bordfr of bn intfrnbl frbmf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintInternalFrameBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintIntfrnblFrbmfBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of a label.
+     * Pbints tif bbdkground of b lbbfl.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintLabelBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintLbbflBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a label.
+     * Pbints tif bordfr of b lbbfl.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintLabelBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintLbbflBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a list.
+     * Pbints tif bbdkground of b list.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintListBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintListBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a list.
+     * Pbints tif bordfr of b list.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintListBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintListBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a menu bar.
+     * Pbints tif bbdkground of b mfnu bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintMfnuBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a menu bar.
+     * Pbints tif bordfr of b mfnu bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintMfnuBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a menu item.
+     * Pbints tif bbdkground of b mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintMfnuItfmBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a menu item.
+     * Pbints tif bordfr of b mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintMfnuItfmBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a menu.
+     * Pbints tif bbdkground of b mfnu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintMfnuBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a menu.
+     * Pbints tif bordfr of b mfnu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintMfnuBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of an option pane.
+     * Pbints tif bbdkground of bn option pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintOptionPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintOptionPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of an option pane.
+     * Pbints tif bordfr of bn option pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintOptionPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintOptionPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a panel.
+     * Pbints tif bbdkground of b pbnfl.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPanelBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintPbnflBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a panel.
+     * Pbints tif bordfr of b pbnfl.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPanelBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintPbnflBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a password field.
+     * Pbints tif bbdkground of b pbssword fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPasswordFieldBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintPbsswordFifldBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a password field.
+     * Pbints tif bordfr of b pbssword fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPasswordFieldBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintPbsswordFifldBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a popup menu.
+     * Pbints tif bbdkground of b popup mfnu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPopupMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintPopupMfnuBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a popup menu.
+     * Pbints tif bordfr of b popup mfnu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintPopupMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintPopupMfnuBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a progress bar.
+     * Pbints tif bbdkground of b progrfss bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintProgrfssBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of a progress bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of b progrfss bbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintProgressBarBackground(context, g, x, y, w, h);
+    publid void pbintProgrfssBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintProgrfssBbrBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of a progress bar.
+     * Pbints tif bordfr of b progrfss bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintProgrfssBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of a progress bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of b progrfss bbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintProgressBarBorder(context, g, x, y, w, h);
+    publid void pbintProgrfssBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintProgrfssBbrBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the foreground of a progress bar. is responsible for
-     * providing an indication of the progress of the progress bar.
+     * Pbints tif forfground of b progrfss bbr. is rfsponsiblf for
+     * providing bn indidbtion of tif progrfss of tif progrfss bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion onf of <dodf>JProgrfssBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JProgrfssBbr.VERTICAL</dodf>
      */
-    public void paintProgressBarForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    publid void pbintProgrfssBbrForfground(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the background of a radio button menu item.
+     * Pbints tif bbdkground of b rbdio button mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRadioButtonMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintRbdioButtonMfnuItfmBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a radio button menu item.
+     * Pbints tif bordfr of b rbdio button mfnu itfm.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRadioButtonMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintRbdioButtonMfnuItfmBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a radio button.
+     * Pbints tif bbdkground of b rbdio button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRadioButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintRbdioButtonBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a radio button.
+     * Pbints tif bordfr of b rbdio button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRadioButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintRbdioButtonBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a root pane.
+     * Pbints tif bbdkground of b root pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRootPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintRootPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a root pane.
+     * Pbints tif bordfr of b root pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintRootPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintRootPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a scrollbar.
+     * Pbints tif bbdkground of b sdrollbbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSdrollBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of a scrollbar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of b sdrollbbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintScrollBarBackground(context, g, x, y, w, h);
+    publid void pbintSdrollBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSdrollBbrBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of a scrollbar.
+     * Pbints tif bordfr of b sdrollbbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSdrollBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of a scrollbar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of b sdrollbbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintScrollBarBorder(context, g, x, y, w, h);
+    publid void pbintSdrollBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintSdrollBbrBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of the thumb of a scrollbar. The thumb provides
-     * a graphical indication as to how much of the Component is visible in a
-     * <code>JScrollPane</code>.
+     * Pbints tif bbdkground of tif tiumb of b sdrollbbr. Tif tiumb providfs
+     * b grbpiidbl indidbtion bs to iow mudi of tif Componfnt is visiblf in b
+     * <dodf>JSdrollPbnf</dodf>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
      */
-    public void paintScrollBarThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    publid void pbintSdrollBbrTiumbBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the border of the thumb of a scrollbar. The thumb provides
-     * a graphical indication as to how much of the Component is visible in a
-     * <code>JScrollPane</code>.
+     * Pbints tif bordfr of tif tiumb of b sdrollbbr. Tif tiumb providfs
+     * b grbpiidbl indidbtion bs to iow mudi of tif Componfnt is visiblf in b
+     * <dodf>JSdrollPbnf</dodf>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
      */
-    public void paintScrollBarThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    publid void pbintSdrollBbrTiumbBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the background of the track of a scrollbar. The track contains
-     * the thumb.
+     * Pbints tif bbdkground of tif trbdk of b sdrollbbr. Tif trbdk dontbins
+     * tif tiumb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSdrollBbrTrbdkBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the track of a scrollbar. The track contains
-     * the thumb. This implementation invokes the method of the same name without
-     * the orientation.
+     * Pbints tif bbdkground of tif trbdk of b sdrollbbr. Tif trbdk dontbins
+     * tif tiumb. Tiis implfmfntbtion invokfs tif mftiod of tif sbmf nbmf witiout
+     * tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintScrollBarTrackBackground(context, g, x, y, w, h);
+    publid void pbintSdrollBbrTrbdkBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSdrollBbrTrbdkBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of the track of a scrollbar. The track contains
-     * the thumb.
+     * Pbints tif bordfr of tif trbdk of b sdrollbbr. Tif trbdk dontbins
+     * tif tiumb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSdrollBbrTrbdkBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of the track of a scrollbar. The track contains
-     * the thumb. This implementation invokes the method of the same name without
-     * the orientation.
+     * Pbints tif bordfr of tif trbdk of b sdrollbbr. Tif trbdk dontbins
+     * tif tiumb. Tiis implfmfntbtion invokfs tif mftiod of tif sbmf nbmf witiout
+     * tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Orifntbtion of tif JSdrollBbr, onf of
+     *                    <dodf>JSdrollBbr.HORIZONTAL</dodf> or
+     *                    <dodf>JSdrollBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintScrollBarTrackBorder(context, g, x, y, w, h);
+    publid void pbintSdrollBbrTrbdkBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintSdrollBbrTrbdkBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of a scroll pane.
+     * Pbints tif bbdkground of b sdroll pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSdrollPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a scroll pane.
+     * Pbints tif bordfr of b sdroll pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintScrollPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSdrollPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a separator.
+     * Pbints tif bbdkground of b sfpbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSfpbrbtorBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of a separator. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of b sfpbrbtor. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSeparatorBackground(context, g, x, y, w, h);
+    publid void pbintSfpbrbtorBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSfpbrbtorBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of a separator.
+     * Pbints tif bordfr of b sfpbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSfpbrbtorBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of a separator. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of b sfpbrbtor. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSeparatorBorder(context, g, x, y, w, h);
+    publid void pbintSfpbrbtorBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintSfpbrbtorBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the foreground of a separator.
+     * Pbints tif forfground of b sfpbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSfpbrbtor.HORIZONTAL</dodf> or
+     *                           <dodf>JSfpbrbtor.VERTICAL</dodf>
      */
-    public void paintSeparatorForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    publid void pbintSfpbrbtorForfground(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the background of a slider.
+     * Pbints tif bbdkground of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSlidfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of a slider. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of b slidfr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSliderBackground(context, g, x, y, w, h);
+    publid void pbintSlidfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSlidfrBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of a slider.
+     * Pbints tif bordfr of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSlidfrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of a slider. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of b slidfr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSliderBorder(context, g, x, y, w, h);
+    publid void pbintSlidfrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintSlidfrBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of the thumb of a slider.
+     * Pbints tif bbdkground of tif tiumb of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
      */
-    public void paintSliderThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    publid void pbintSlidfrTiumbBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the border of the thumb of a slider.
+     * Pbints tif bordfr of tif tiumb of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
      */
-    public void paintSliderThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    publid void pbintSlidfrTiumbBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the background of the track of a slider.
+     * Pbints tif bbdkground of tif trbdk of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSlidfrTrbdkBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the track of a slider. This implementation invokes
-     * the method of the same name without the orientation.
+     * Pbints tif bbdkground of tif trbdk of b slidfr. Tiis implfmfntbtion invokfs
+     * tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSliderTrackBackground(context, g, x, y, w, h);
+    publid void pbintSlidfrTrbdkBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSlidfrTrbdkBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of the track of a slider.
+     * Pbints tif bordfr of tif trbdk of b slidfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSlidfrTrbdkBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of the track of a slider. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of tif trbdk of b slidfr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSlidfr.HORIZONTAL</dodf> or
+     *                           <dodf>JSlidfr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSliderTrackBorder(context, g, x, y, w, h);
+    publid void pbintSlidfrTrbdkBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintSlidfrTrbdkBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of a spinner.
+     * Pbints tif bbdkground of b spinnfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSpinnerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSpinnfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a spinner.
+     * Pbints tif bordfr of b spinnfr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSpinnerBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSpinnfrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of the divider of a split pane.
+     * Pbints tif bbdkground of tif dividfr of b split pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSplitPbnfDividfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the divider of a split pane. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints tif bbdkground of tif dividfr of b split pbnf. Tiis implfmfntbtion
+     * invokfs tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @sindf 1.6
      */
-    public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSplitPaneDividerBackground(context, g, x, y, w, h);
+    publid void pbintSplitPbnfDividfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintSplitPbnfDividfrBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the foreground of the divider of a split pane.
+     * Pbints tif forfground of tif dividfr of b split pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
      */
-    public void paintSplitPaneDividerForeground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    publid void pbintSplitPbnfDividfrForfground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the divider, when the user is dragging the divider, of a
-     * split pane.
+     * Pbints tif dividfr, wifn tif usfr is drbgging tif dividfr, of b
+     * split pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                           <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
      */
-    public void paintSplitPaneDragDivider(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    publid void pbintSplitPbnfDrbgDividfr(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
     }
 
     /**
-     * Paints the background of a split pane.
+     * Pbints tif bbdkground of b split pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSplitPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintSplitPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a split pane.
+     * Pbints tif bordfr of b split pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintSplitPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintSplitPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a tabbed pane.
+     * Pbints tif bbdkground of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTbbbfdPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a tabbed pane.
+     * Pbints tif bordfr of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTbbbfdPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of the area behind the tabs of a tabbed pane.
+     * Pbints tif bbdkground of tif brfb bfiind tif tbbs of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the area behind the tabs of a tabbed pane.
-     * This implementation invokes the method of the same name without the
-     * orientation.
+     * Pbints tif bbdkground of tif brfb bfiind tif tbbs of b tbbbfd pbnf.
+     * Tiis implfmfntbtion invokfs tif mftiod of tif sbmf nbmf witiout tif
+     * orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
      */
-    public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintTabbedPaneTabAreaBackground(context, g, x, y, w, h);
+    publid void pbintTbbbfdPbnfTbbArfbBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintTbbbfdPbnfTbbArfbBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of the area behind the tabs of a tabbed pane.
+     * Pbints tif bordfr of tif brfb bfiind tif tbbs of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of the area behind the tabs of a tabbed pane. This
-     * implementation invokes the method of the same name without the orientation.
+     * Pbints tif bordfr of tif brfb bfiind tif tbbs of b tbbbfd pbnf. Tiis
+     * implfmfntbtion invokfs tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
      */
-    public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintTabbedPaneTabAreaBorder(context, g, x, y, w, h);
+    publid void pbintTbbbfdPbnfTbbArfbBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintTbbbfdPbnfTbbArfbBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of a tab of a tabbed pane.
+     * Pbints tif bbdkground of b tbb of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
      */
-    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex) {
+    publid void pbintTbbbfdPbnfTbbBbdkground(SyntiContfxt dontfxt, Grbpiids g,
+                                         int x, int y, int w, int i,
+                                         int tbbIndfx) {
     }
 
     /**
-     * Paints the background of a tab of a tabbed pane. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints tif bbdkground of b tbb of b tbbbfd pbnf. Tiis implfmfntbtion
+     * invokfs tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
      */
-    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex, int orientation) {
-        paintTabbedPaneTabBackground(context, g, x, y, w, h, tabIndex);
+    publid void pbintTbbbfdPbnfTbbBbdkground(SyntiContfxt dontfxt, Grbpiids g,
+                                         int x, int y, int w, int i,
+                                         int tbbIndfx, int orifntbtion) {
+        pbintTbbbfdPbnfTbbBbdkground(dontfxt, g, x, y, w, i, tbbIndfx);
     }
 
     /**
-     * Paints the border of a tab of a tabbed pane.
+     * Pbints tif bordfr of b tbb of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
      */
-    public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex) {
+    publid void pbintTbbbfdPbnfTbbBordfr(SyntiContfxt dontfxt, Grbpiids g,
+                                         int x, int y, int w, int i,
+                                         int tbbIndfx) {
     }
 
     /**
-     * Paints the border of a tab of a tabbed pane. This implementation invokes
-     * the method of the same name without the orientation.
+     * Pbints tif bordfr of b tbb of b tbbbfd pbnf. Tiis implfmfntbtion invokfs
+     * tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm tbbIndfx Indfx of tbb bfing pbintfd.
+     * @pbrbm orifntbtion Onf of <dodf>JTbbbfdPbnf.TOP</dodf>,
+     *                    <dodf>JTbbbfdPbnf.LEFT</dodf>,
+     *                    <dodf>JTbbbfdPbnf.BOTTOM</dodf>, or
+     *                    <dodf>JTbbbfdPbnf.RIGHT</dodf>
+     * @sindf 1.6
      */
-    public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex, int orientation) {
-        paintTabbedPaneTabBorder(context, g, x, y, w, h, tabIndex);
+    publid void pbintTbbbfdPbnfTbbBordfr(SyntiContfxt dontfxt, Grbpiids g,
+                                         int x, int y, int w, int i,
+                                         int tbbIndfx, int orifntbtion) {
+        pbintTbbbfdPbnfTbbBordfr(dontfxt, g, x, y, w, i, tbbIndfx);
     }
 
     /**
-     * Paints the background of the area that contains the content of the
-     * selected tab of a tabbed pane.
+     * Pbints tif bbdkground of tif brfb tibt dontbins tif dontfnt of tif
+     * sflfdtfd tbb of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneContentBackground(SynthContext context,
-                                         Graphics g, int x, int y, int w,
-                                         int h) {
+    publid void pbintTbbbfdPbnfContfntBbdkground(SyntiContfxt dontfxt,
+                                         Grbpiids g, int x, int y, int w,
+                                         int i) {
     }
 
     /**
-     * Paints the border of the area that contains the content of the
-     * selected tab of a tabbed pane.
+     * Pbints tif bordfr of tif brfb tibt dontbins tif dontfnt of tif
+     * sflfdtfd tbb of b tbbbfd pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTabbedPaneContentBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h) {
+    publid void pbintTbbbfdPbnfContfntBordfr(SyntiContfxt dontfxt, Grbpiids g,
+                                         int x, int y, int w, int i) {
     }
 
     /**
-     * Paints the background of the header of a table.
+     * Pbints tif bbdkground of tif ifbdfr of b tbblf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTableHeaderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTbblfHfbdfrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of the header of a table.
+     * Pbints tif bordfr of tif ifbdfr of b tbblf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTableHeaderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTbblfHfbdfrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a table.
+     * Pbints tif bbdkground of b tbblf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTableBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTbblfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a table.
+     * Pbints tif bordfr of b tbblf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTableBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTbblfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a text area.
+     * Pbints tif bbdkground of b tfxt brfb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTfxtArfbBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a text area.
+     * Pbints tif bordfr of b tfxt brfb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTfxtArfbBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a text pane.
+     * Pbints tif bbdkground of b tfxt pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTfxtPbnfBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a text pane.
+     * Pbints tif bordfr of b tfxt pbnf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTfxtPbnfBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a text field.
+     * Pbints tif bbdkground of b tfxt fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+    publid void pbintTfxtFifldBbdkground(SyntiContfxt dontfxt,
+                                          Grbpiids g, int x, int y,
+                                          int w, int i) {
     }
 
     /**
-     * Paints the border of a text field.
+     * Pbints tif bordfr of b tfxt fifld.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+    publid void pbintTfxtFifldBordfr(SyntiContfxt dontfxt,
+                                      Grbpiids g, int x, int y,
+                                      int w, int i) {
     }
 
     /**
-     * Paints the background of a toggle button.
+     * Pbints tif bbdkground of b togglf button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToggleButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTogglfButtonBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a toggle button.
+     * Pbints tif bordfr of b togglf button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToggleButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTogglfButtonBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a tool bar.
+     * Pbints tif bbdkground of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintToolBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of a tool bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of b tool bbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarBackground(context, g, x, y, w, h);
+    publid void pbintToolBbrBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintToolBbrBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of a tool bar.
+     * Pbints tif bordfr of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintToolBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of a tool bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of b tool bbr. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarBorder(context, g, x, y, w, h);
+    publid void pbintToolBbrBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintToolBbrBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of the tool bar's content area.
+     * Pbints tif bbdkground of tif tool bbr's dontfnt brfb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintToolBbrContfntBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the tool bar's content area. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints tif bbdkground of tif tool bbr's dontfnt brfb. Tiis implfmfntbtion
+     * invokfs tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarContentBackground(context, g, x, y, w, h);
+    publid void pbintToolBbrContfntBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintToolBbrContfntBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of the content area of a tool bar.
+     * Pbints tif bordfr of tif dontfnt brfb of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintToolBbrContfntBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of the content area of a tool bar. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints tif bordfr of tif dontfnt brfb of b tool bbr. Tiis implfmfntbtion
+     * invokfs tif mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarContentBorder(context, g, x, y, w, h);
+    publid void pbintToolBbrContfntBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintToolBbrContfntBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of the window containing the tool bar when it
-     * has been detached from its primary frame.
+     * Pbints tif bbdkground of tif window dontbining tif tool bbr wifn it
+     * ibs bffn dftbdifd from its primbry frbmf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintToolBbrDrbgWindowBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the background of the window containing the tool bar when it
-     * has been detached from its primary frame. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bbdkground of tif window dontbining tif tool bbr wifn it
+     * ibs bffn dftbdifd from its primbry frbmf. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarDragWindowBackground(context, g, x, y, w, h);
+    publid void pbintToolBbrDrbgWindowBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i, int orifntbtion) {
+        pbintToolBbrDrbgWindowBbdkground(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the border of the window containing the tool bar when it
-     * has been detached from it's primary frame.
+     * Pbints tif bordfr of tif window dontbining tif tool bbr wifn it
+     * ibs bffn dftbdifd from it's primbry frbmf.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintToolBbrDrbgWindowBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the border of the window containing the tool bar when it
-     * has been detached from it's primary frame. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints tif bordfr of tif window dontbining tif tool bbr wifn it
+     * ibs bffn dftbdifd from it's primbry frbmf. Tiis implfmfntbtion invokfs tif
+     * mftiod of tif sbmf nbmf witiout tif orifntbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
-     * @since 1.6
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
+     * @pbrbm orifntbtion Onf of <dodf>JToolBbr.HORIZONTAL</dodf> or
+     *                           <dodf>JToolBbr.VERTICAL</dodf>
+     * @sindf 1.6
      */
-    public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarDragWindowBorder(context, g, x, y, w, h);
+    publid void pbintToolBbrDrbgWindowBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i, int orifntbtion) {
+        pbintToolBbrDrbgWindowBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Paints the background of a tool tip.
+     * Pbints tif bbdkground of b tool tip.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolTipBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintToolTipBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a tool tip.
+     * Pbints tif bordfr of b tool tip.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintToolTipBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintToolTipBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of a tree.
+     * Pbints tif bbdkground of b trff.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTreeBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTrffBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a tree.
+     * Pbints tif bordfr of b trff.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTreeBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTrffBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the background of the row containing a cell in a tree.
+     * Pbints tif bbdkground of tif row dontbining b dfll in b trff.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTreeCellBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintTrffCfllBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of the row containing a cell in a tree.
+     * Pbints tif bordfr of tif row dontbining b dfll in b trff.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTreeCellBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintTrffCfllBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 
     /**
-     * Paints the focus indicator for a cell in a tree when it has focus.
+     * Pbints tif fodus indidbtor for b dfll in b trff wifn it ibs fodus.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintTreeCellFocus(SynthContext context,
-                                   Graphics g, int x, int y,
-                                   int w, int h) {
+    publid void pbintTrffCfllFodus(SyntiContfxt dontfxt,
+                                   Grbpiids g, int x, int y,
+                                   int w, int i) {
     }
 
     /**
-     * Paints the background of the viewport.
+     * Pbints tif bbdkground of tif vifwport.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintViewportBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+    publid void pbintVifwportBbdkground(SyntiContfxt dontfxt,
+                                     Grbpiids g, int x, int y,
+                                     int w, int i) {
     }
 
     /**
-     * Paints the border of a viewport.
+     * Pbints tif bordfr of b vifwport.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm dontfxt SyntiContfxt idfntifying tif <dodf>JComponfnt</dodf> bnd
+     *        <dodf>Rfgion</dodf> to pbint to
+     * @pbrbm g <dodf>Grbpiids</dodf> to pbint to
+     * @pbrbm x X doordinbtf of tif brfb to pbint to
+     * @pbrbm y Y doordinbtf of tif brfb to pbint to
+     * @pbrbm w Widti of tif brfb to pbint to
+     * @pbrbm i Hfigit of tif brfb to pbint to
      */
-    public void paintViewportBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+    publid void pbintVifwportBordfr(SyntiContfxt dontfxt,
+                                 Grbpiids g, int x, int y,
+                                 int w, int i) {
     }
 }

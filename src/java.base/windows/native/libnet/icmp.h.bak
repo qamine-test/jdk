@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef ICMP_H
-#define ICMP_H
+#ifndff ICMP_H
+#dffinf ICMP_H
 
 /*
- * Structure of an internet header, naked of options.
+ * Strudturf of bn intfrnft ifbdfr, nbkfd of options.
  *
- * We declare ip_len and ip_off to be short, rather than ushort_t
- * pragmatically since otherwise unsigned comparisons can result
- * against negative integers quite easily, and fail in subtle ways.
+ * Wf dfdlbrf ip_lfn bnd ip_off to bf siort, rbtifr tibn usiort_t
+ * prbgmbtidblly sindf otifrwisf unsignfd dompbrisons dbn rfsult
+ * bgbinst nfgbtivf intfgfrs quitf fbsily, bnd fbil in subtlf wbys.
  */
-struct ip {
-        unsigned char   ip_hl:4,        /* header length */
-                        ip_v:4;         /* version */
-        unsigned char   ip_tos;                 /* type of service */
-        short   ip_len;                 /* total length */
-        unsigned short ip_id;                   /* identification */
-        short   ip_off;                 /* fragment offset field */
-#define IP_DF 0x4000                    /* don't fragment flag */
-#define IP_MF 0x2000                    /* more fragments flag */
-        unsigned char   ip_ttl;                 /* time to live */
-        unsigned char   ip_p;                   /* protocol */
-        unsigned short ip_sum;          /* checksum */
-        struct  in_addr ip_src, ip_dst; /* source and dest address */
+strudt ip {
+        unsignfd dibr   ip_il:4,        /* ifbdfr lfngti */
+                        ip_v:4;         /* vfrsion */
+        unsignfd dibr   ip_tos;                 /* typf of sfrvidf */
+        siort   ip_lfn;                 /* totbl lfngti */
+        unsignfd siort ip_id;                   /* idfntifidbtion */
+        siort   ip_off;                 /* frbgmfnt offsft fifld */
+#dffinf IP_DF 0x4000                    /* don't frbgmfnt flbg */
+#dffinf IP_MF 0x2000                    /* morf frbgmfnts flbg */
+        unsignfd dibr   ip_ttl;                 /* timf to livf */
+        unsignfd dibr   ip_p;                   /* protodol */
+        unsignfd siort ip_sum;          /* difdksum */
+        strudt  in_bddr ip_srd, ip_dst; /* sourdf bnd dfst bddrfss */
 };
 
 /*
- * Structure of an icmp header.
+ * Strudturf of bn idmp ifbdfr.
  */
-struct icmp {
-        unsigned char   icmp_type;              /* type of message, see below */
-        unsigned char   icmp_code;              /* type sub code */
-        unsigned short icmp_cksum;              /* ones complement cksum of struct */
+strudt idmp {
+        unsignfd dibr   idmp_typf;              /* typf of mfssbgf, sff bflow */
+        unsignfd dibr   idmp_dodf;              /* typf sub dodf */
+        unsignfd siort idmp_dksum;              /* onfs domplfmfnt dksum of strudt */
         union {
-                unsigned char ih_pptr;          /* ICMP_PARAMPROB */
-                struct in_addr ih_gwaddr;       /* ICMP_REDIRECT */
-                struct ih_idseq {
-                        unsigned short icd_id;
-                        unsigned short icd_seq;
-                } ih_idseq;
-                int ih_void;
+                unsignfd dibr ii_pptr;          /* ICMP_PARAMPROB */
+                strudt in_bddr ii_gwbddr;       /* ICMP_REDIRECT */
+                strudt ii_idsfq {
+                        unsignfd siort idd_id;
+                        unsignfd siort idd_sfq;
+                } ii_idsfq;
+                int ii_void;
 
-                /* ICMP_UNREACH_NEEDFRAG -- Path MTU Discovery (RFC1191) */
-                struct ih_pmtu {
-                        unsigned short ipm_void;
-                        unsigned short ipm_nextmtu;
-                } ih_pmtu;
+                /* ICMP_UNREACH_NEEDFRAG -- Pbti MTU Disdovfry (RFC1191) */
+                strudt ii_pmtu {
+                        unsignfd siort ipm_void;
+                        unsignfd siort ipm_nfxtmtu;
+                } ii_pmtu;
 
-                struct ih_rtradv {
-                        unsigned char irt_num_addrs;
-                        unsigned char irt_wpa;
-                        unsigned short irt_lifetime;
-                } ih_rtradv;
-        } icmp_hun;
-#define icmp_pptr       icmp_hun.ih_pptr
-#define icmp_gwaddr     icmp_hun.ih_gwaddr
-#define icmp_id         icmp_hun.ih_idseq.icd_id
-#define icmp_seq        icmp_hun.ih_idseq.icd_seq
-#define icmp_void       icmp_hun.ih_void
-#define icmp_pmvoid     icmp_hun.ih_pmtu.ipm_void
-#define icmp_nextmtu    icmp_hun.ih_pmtu.ipm_nextmtu
+                strudt ii_rtrbdv {
+                        unsignfd dibr irt_num_bddrs;
+                        unsignfd dibr irt_wpb;
+                        unsignfd siort irt_lifftimf;
+                } ii_rtrbdv;
+        } idmp_iun;
+#dffinf idmp_pptr       idmp_iun.ii_pptr
+#dffinf idmp_gwbddr     idmp_iun.ii_gwbddr
+#dffinf idmp_id         idmp_iun.ii_idsfq.idd_id
+#dffinf idmp_sfq        idmp_iun.ii_idsfq.idd_sfq
+#dffinf idmp_void       idmp_iun.ii_void
+#dffinf idmp_pmvoid     idmp_iun.ii_pmtu.ipm_void
+#dffinf idmp_nfxtmtu    idmp_iun.ii_pmtu.ipm_nfxtmtu
         union {
-                struct id_ts {
-                        unsigned int its_otime;
-                        unsigned int its_rtime;
-                        unsigned int its_ttime;
+                strudt id_ts {
+                        unsignfd int its_otimf;
+                        unsignfd int its_rtimf;
+                        unsignfd int its_ttimf;
                 } id_ts;
-                struct id_ip  {
-                        struct ip idi_ip;
-                        /* options and then 64 bits of data */
+                strudt id_ip  {
+                        strudt ip idi_ip;
+                        /* options bnd tifn 64 bits of dbtb */
                 } id_ip;
-                unsigned int id_mask;
-                char    id_data[1];
-        } icmp_dun;
-#define icmp_otime      icmp_dun.id_ts.its_otime
-#define icmp_rtime      icmp_dun.id_ts.its_rtime
-#define icmp_ttime      icmp_dun.id_ts.its_ttime
-#define icmp_ip         icmp_dun.id_ip.idi_ip
-#define icmp_mask       icmp_dun.id_mask
-#define icmp_data       icmp_dun.id_data
+                unsignfd int id_mbsk;
+                dibr    id_dbtb[1];
+        } idmp_dun;
+#dffinf idmp_otimf      idmp_dun.id_ts.its_otimf
+#dffinf idmp_rtimf      idmp_dun.id_ts.its_rtimf
+#dffinf idmp_ttimf      idmp_dun.id_ts.its_ttimf
+#dffinf idmp_ip         idmp_dun.id_ip.idi_ip
+#dffinf idmp_mbsk       idmp_dun.id_mbsk
+#dffinf idmp_dbtb       idmp_dun.id_dbtb
 };
 
-#define ICMP_ECHOREPLY          0               /* echo reply */
-#define ICMP_ECHO               8               /* echo service */
+#dffinf ICMP_ECHOREPLY          0               /* fdio rfply */
+#dffinf ICMP_ECHO               8               /* fdio sfrvidf */
 
 /*
- * ICMPv6 structures & constants
+ * ICMPv6 strudturfs & donstbnts
  */
 
-typedef struct icmp6_hdr {
-        u_char   icmp6_type;    /* type field */
-        u_char   icmp6_code;    /* code field */
-        u_short  icmp6_cksum;   /* checksum field */
+typfdff strudt idmp6_idr {
+        u_dibr   idmp6_typf;    /* typf fifld */
+        u_dibr   idmp6_dodf;    /* dodf fifld */
+        u_siort  idmp6_dksum;   /* difdksum fifld */
         union {
-                u_int icmp6_un_data32[1];       /* type-specific field */
-                u_short icmp6_un_data16[2];     /* type-specific field */
-                u_char  icmp6_un_data8[4];      /* type-specific field */
-        } icmp6_dataun;
-} icmp6_t;
+                u_int idmp6_un_dbtb32[1];       /* typf-spfdifid fifld */
+                u_siort idmp6_un_dbtb16[2];     /* typf-spfdifid fifld */
+                u_dibr  idmp6_un_dbtb8[4];      /* typf-spfdifid fifld */
+        } idmp6_dbtbun;
+} idmp6_t;
 
-#define icmp6_data32    icmp6_dataun.icmp6_un_data32
-#define icmp6_data16    icmp6_dataun.icmp6_un_data16
-#define icmp6_data8     icmp6_dataun.icmp6_un_data8
-#define icmp6_pptr      icmp6_data32[0] /* parameter prob */
-#define icmp6_mtu       icmp6_data32[0] /* packet too big */
-#define icmp6_id        icmp6_data16[0] /* echo request/reply */
-#define icmp6_seq       icmp6_data16[1] /* echo request/reply */
-#define icmp6_maxdelay  icmp6_data16[0] /* mcast group membership */
+#dffinf idmp6_dbtb32    idmp6_dbtbun.idmp6_un_dbtb32
+#dffinf idmp6_dbtb16    idmp6_dbtbun.idmp6_un_dbtb16
+#dffinf idmp6_dbtb8     idmp6_dbtbun.idmp6_un_dbtb8
+#dffinf idmp6_pptr      idmp6_dbtb32[0] /* pbrbmftfr prob */
+#dffinf idmp6_mtu       idmp6_dbtb32[0] /* pbdkft too big */
+#dffinf idmp6_id        idmp6_dbtb16[0] /* fdio rfqufst/rfply */
+#dffinf idmp6_sfq       idmp6_dbtb16[1] /* fdio rfqufst/rfply */
+#dffinf idmp6_mbxdflby  idmp6_dbtb16[0] /* mdbst group mfmbfrsiip */
 
-struct ip6_pseudo_hdr  /* for calculate the ICMPv6 checksum */
+strudt ip6_psfudo_idr  /* for dbldulbtf tif ICMPv6 difdksum */
 {
-  struct in6_addr ip6_src;
-  struct in6_addr ip6_dst;
-  u_int       ip6_plen;
+  strudt in6_bddr ip6_srd;
+  strudt in6_bddr ip6_dst;
+  u_int       ip6_plfn;
   u_int       ip6_nxt;
 };
 
-#define ICMP6_ECHO_REQUEST      128
-#define ICMP6_ECHO_REPLY        129
-#define IPPROTO_ICMPV6          58
-#define IPV6_UNICAST_HOPS       4  /* Set/get IP unicast hop limit */
+#dffinf ICMP6_ECHO_REQUEST      128
+#dffinf ICMP6_ECHO_REPLY        129
+#dffinf IPPROTO_ICMPV6          58
+#dffinf IPV6_UNICAST_HOPS       4  /* Sft/gft IP unidbst iop limit */
 
 
-#endif
+#fndif

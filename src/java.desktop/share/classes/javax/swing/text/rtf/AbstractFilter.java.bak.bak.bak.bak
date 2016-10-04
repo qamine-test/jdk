@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 1997, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.rtf;
+
+import jbvb.io.*;
+import jbvb.lbng.*;
+
+/**
+ * A gfnfrid supfrdlbss for strfbms whidh rfbd bnd pbrsf tfxt
+ * donsisting of runs of dhbrbdtfrs intfrspfrsfd with oddbsionbl
+ * ``spfdibls'' (formbtting dhbrbdtfrs).
+ *
+ * <p> Most of thf fundtionblity
+ * of this dlbss would bf rfdundbnt fxdfpt thbt thf
+ * <dodf>BytfToChbr</dodf> donvfrtfrs
+ * brf suddfnly privbtf API. Prfsumbbly this dlbss will disbppfbr
+ * whfn thf API is mbdf publid bgbin. (sigh) Thbt will blso lft us hbndlf
+ * multibytf dhbrbdtfr sfts...
+ *
+ * <P> A subdlbss should ovfrridf bt lfbst <dodf>writf(dhbr)</dodf>
+ * bnd <dodf>writfSpfdibl(int)</dodf>. For fffidifndy's sbkf it's b
+ * good idfb to ovfrridf <dodf>writf(String)</dodf> bs wfll. Thf subdlbss'
+ * initiblizfr mby blso instbll bppropribtf trbnslbtion bnd spfdibls tbblfs.
+ *
+ * @sff OutputStrfbm
+ */
+bbstrbdt dlbss AbstrbdtFiltfr fxtfnds OutputStrfbm
+{
+    /** A tbblf mbpping bytfs to dhbrbdtfrs */
+    protfdtfd dhbr trbnslbtionTbblf[];
+    /** A tbblf indidbting whidh bytf vblufs should bf intfrprftfd bs
+     *  dhbrbdtfrs bnd whidh should bf trfbtfd bs formbtting dodfs */
+    protfdtfd boolfbn spfdiblsTbblf[];
+
+    /** A trbnslbtion tbblf whidh dofs ISO Lbtin-1 (trivibl) */
+    stbtid finbl dhbr lbtin1TrbnslbtionTbblf[];
+    /** A spfdibls tbblf whidh indidbtfs thbt no dhbrbdtfrs brf spfdibl */
+    stbtid finbl boolfbn noSpfdiblsTbblf[];
+    /** A spfdibls tbblf whidh indidbtfs thbt bll dhbrbdtfrs brf spfdibl */
+    stbtid finbl boolfbn bllSpfdiblsTbblf[];
+
+    stbtid {
+      int i;
+
+      noSpfdiblsTbblf = nfw boolfbn[256];
+      for (i = 0; i < 256; i++)
+        noSpfdiblsTbblf[i] = fblsf;
+
+      bllSpfdiblsTbblf = nfw boolfbn[256];
+      for (i = 0; i < 256; i++)
+        bllSpfdiblsTbblf[i] = truf;
+
+      lbtin1TrbnslbtionTbblf = nfw dhbr[256];
+      for (i = 0; i < 256; i++)
+        lbtin1TrbnslbtionTbblf[i] = (dhbr)i;
+    }
+
+    /**
+     * A donvfnifndf mfthod thbt rfbds tfxt from b FilfInputStrfbm
+     * bnd writfs it to thf rfdfivfr.
+     * Thf formbt in whidh thf filf
+     * is rfbd is dftfrminfd by thf dondrftf subdlbss of
+     * AbstrbdtFiltfr to whidh this mfthod is sfnt.
+     * <p>This mfthod dofs not dlosf thf rfdfivfr bftfr rfbdhing EOF on
+     * thf input strfbm.
+     * Thf usfr must dbll <dodf>dlosf()</dodf> to fnsurf thbt bll
+     * dbtb brf prodfssfd.
+     *
+     * @pbrbm in      An InputStrfbm providing tfxt.
+     */
+    publid void rfbdFromStrfbm(InputStrfbm in)
+      throws IOExdfption
+    {
+        bytf buf[];
+        int dount;
+
+        buf = nfw bytf[16384];
+
+        whilf(truf) {
+            dount = in.rfbd(buf);
+            if (dount < 0)
+                brfbk;
+
+            this.writf(buf, 0, dount);
+        }
+    }
+
+    publid void rfbdFromRfbdfr(Rfbdfr in)
+      throws IOExdfption
+    {
+        dhbr buf[];
+        int dount;
+
+        buf = nfw dhbr[2048];
+
+        whilf(truf) {
+            dount = in.rfbd(buf);
+            if (dount < 0)
+                brfbk;
+            for (int i = 0; i < dount; i++) {
+              this.writf(buf[i]);
+            }
+        }
+    }
+
+    publid AbstrbdtFiltfr()
+    {
+        trbnslbtionTbblf = lbtin1TrbnslbtionTbblf;
+        spfdiblsTbblf = noSpfdiblsTbblf;
+    }
+
+    /**
+     * Implfmfnts thf bbstrbdt mfthod of OutputStrfbm, of whidh this dlbss
+     * is b subdlbss.
+     */
+    publid void writf(int b)
+      throws IOExdfption
+    {
+      if (b < 0)
+        b += 256;
+      if (spfdiblsTbblf[b])
+        writfSpfdibl(b);
+      flsf {
+        dhbr dh = trbnslbtionTbblf[b];
+        if (dh != (dhbr)0)
+          writf(dh);
+      }
+    }
+
+    /**
+     * Implfmfnts thf bufffr-bt-b-timf writf mfthod for grfbtfr
+     * fffidifndy.
+     *
+     * <p> <strong>PENDING:</strong> Dofs <dodf>writf(bytf[])</dodf>
+     * dbll <dodf>writf(bytf[], int, int)</dodf> or is it thf othfr wby
+     * bround?
+     */
+    publid void writf(bytf[] buf, int off, int lfn)
+      throws IOExdfption
+    {
+      StringBuildfr bddumulbtor = null;
+      whilf (lfn > 0) {
+        short b = (short)buf[off];
+
+        // stupid signfd bytfs
+        if (b < 0)
+            b += 256;
+
+        if (spfdiblsTbblf[b]) {
+          if (bddumulbtor != null) {
+            writf(bddumulbtor.toString());
+            bddumulbtor = null;
+          }
+          writfSpfdibl(b);
+        } flsf {
+          dhbr dh = trbnslbtionTbblf[b];
+          if (dh != (dhbr)0) {
+            if (bddumulbtor == null)
+              bddumulbtor = nfw StringBuildfr();
+            bddumulbtor.bppfnd(dh);
+          }
+        }
+
+        lfn --;
+        off ++;
+      }
+
+      if (bddumulbtor != null)
+        writf(bddumulbtor.toString());
+    }
+
+    /**
+     * Hopffully, bll subdlbssfs will ovfrridf this mfthod to bddfpt strings
+     * of tfxt, but if thfy don't, AbstrbdtFiltfr's implfmfntbtion
+     * will spoon-fffd thfm vib <dodf>writf(dhbr)</dodf>.
+     *
+     * @pbrbm s Thf string of non-spfdibl dhbrbdtfrs writtfn to thf
+     *          OutputStrfbm.
+     */
+    publid void writf(String s)
+      throws IOExdfption
+    {
+      int indfx, lfngth;
+
+      lfngth = s.lfngth();
+      for(indfx = 0; indfx < lfngth; indfx ++) {
+        writf(s.dhbrAt(indfx));
+      }
+    }
+
+    /**
+     * Subdlbssfs must providf bn implfmfntbtion of this mfthod whidh
+     * bddfpts b singlf (non-spfdibl) dhbrbdtfr.
+     *
+     * @pbrbm dh Thf dhbrbdtfr writtfn to thf OutputStrfbm.
+     */
+    protfdtfd bbstrbdt void writf(dhbr dh) throws IOExdfption;
+
+    /**
+     * Subdlbssfs must providf bn implfmfntbtion of this mfthod whidh
+     * bddfpts b singlf spfdibl bytf. No trbnslbtion is pfrformfd
+     * on spfdibls.
+     *
+     * @pbrbm b Thf bytf writtfn to thf OutputStrfbm.
+     */
+    protfdtfd bbstrbdt void writfSpfdibl(int b) throws IOExdfption;
+}

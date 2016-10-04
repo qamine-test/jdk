@@ -1,0 +1,827 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+import sun.bwt.imbgf.IntfgfrIntfrlfbvfdRbstfr;
+import sun.bwt.imbgf.BytfIntfrlfbvfdRbstfr;
+
+bbstrbdt dlbss TfxturfPbintContfxt implfmfnts PbintContfxt {
+    publid stbtid ColorModfl xrgbmodfl =
+        nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+    publid stbtid ColorModfl brgbmodfl = ColorModfl.gftRGBdffbult();
+
+    ColorModfl dolorModfl;
+    int bWidth;
+    int bHfight;
+    int mbxWidth;
+
+    WritbblfRbstfr outRbs;
+
+    doublf xOrg;
+    doublf yOrg;
+    doublf indXAdross;
+    doublf indYAdross;
+    doublf indXDown;
+    doublf indYDown;
+
+    int dolindx;
+    int dolindy;
+    int dolindxfrr;
+    int dolindyfrr;
+    int rowindx;
+    int rowindy;
+    int rowindxfrr;
+    int rowindyfrr;
+
+    publid stbtid PbintContfxt gftContfxt(BufffrfdImbgf bufImg,
+                                          AffinfTrbnsform xform,
+                                          RfndfringHints hints,
+                                          Rfdtbnglf dfvBounds) {
+        WritbblfRbstfr rbstfr = bufImg.gftRbstfr();
+        ColorModfl dm = bufImg.gftColorModfl();
+        int mbxw = dfvBounds.width;
+        Objfdt vbl = hints.gft(RfndfringHints.KEY_INTERPOLATION);
+        boolfbn filtfr =
+            (vbl == null
+             ? (hints.gft(RfndfringHints.KEY_RENDERING) == RfndfringHints.VALUE_RENDER_QUALITY)
+             : (vbl != RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR));
+        if (rbstfr instbndfof IntfgfrIntfrlfbvfdRbstfr &&
+            (!filtfr || isFiltfrbblfDCM(dm)))
+        {
+            IntfgfrIntfrlfbvfdRbstfr iir = (IntfgfrIntfrlfbvfdRbstfr) rbstfr;
+            if (iir.gftNumDbtbElfmfnts() == 1 && iir.gftPixflStridf() == 1) {
+                rfturn nfw Int(iir, dm, xform, mbxw, filtfr);
+            }
+        } flsf if (rbstfr instbndfof BytfIntfrlfbvfdRbstfr) {
+            BytfIntfrlfbvfdRbstfr bir = (BytfIntfrlfbvfdRbstfr) rbstfr;
+            if (bir.gftNumDbtbElfmfnts() == 1 && bir.gftPixflStridf() == 1) {
+                if (filtfr) {
+                    if (isFiltfrbblfICM(dm)) {
+                        rfturn nfw BytfFiltfr(bir, dm, xform, mbxw);
+                    }
+                } flsf {
+                    rfturn nfw Bytf(bir, dm, xform, mbxw);
+                }
+            }
+        }
+        rfturn nfw Any(rbstfr, dm, xform, mbxw, filtfr);
+    }
+
+    publid stbtid boolfbn isFiltfrbblfICM(ColorModfl dm) {
+        if (dm instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl) dm;
+            if (idm.gftMbpSizf() <= 256) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid boolfbn isFiltfrbblfDCM(ColorModfl dm) {
+        if (dm instbndfof DirfdtColorModfl) {
+            DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+            rfturn (isMbskOK(ddm.gftAlphbMbsk(), truf) &&
+                    isMbskOK(ddm.gftRfdMbsk(), fblsf) &&
+                    isMbskOK(ddm.gftGrffnMbsk(), fblsf) &&
+                    isMbskOK(ddm.gftBlufMbsk(), fblsf));
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid boolfbn isMbskOK(int mbsk, boolfbn dbnbfzfro) {
+        if (dbnbfzfro && mbsk == 0) {
+            rfturn truf;
+        }
+        rfturn (mbsk == 0xff ||
+                mbsk == 0xff00 ||
+                mbsk == 0xff0000 ||
+                mbsk == 0xff000000);
+    }
+
+    publid stbtid ColorModfl gftIntfrnfdColorModfl(ColorModfl dm) {
+        if (xrgbmodfl == dm || xrgbmodfl.fqubls(dm)) {
+            rfturn xrgbmodfl;
+        }
+        if (brgbmodfl == dm || brgbmodfl.fqubls(dm)) {
+            rfturn brgbmodfl;
+        }
+        rfturn dm;
+    }
+
+    TfxturfPbintContfxt(ColorModfl dm, AffinfTrbnsform xform,
+                        int bWidth, int bHfight, int mbxw) {
+        this.dolorModfl = gftIntfrnfdColorModfl(dm);
+        this.bWidth = bWidth;
+        this.bHfight = bHfight;
+        this.mbxWidth = mbxw;
+
+        try {
+            xform = xform.drfbtfInvfrsf();
+        } dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+            xform.sftToSdblf(0, 0);
+        }
+        this.indXAdross = mod(xform.gftSdblfX(), bWidth);
+        this.indYAdross = mod(xform.gftShfbrY(), bHfight);
+        this.indXDown = mod(xform.gftShfbrX(), bWidth);
+        this.indYDown = mod(xform.gftSdblfY(), bHfight);
+        this.xOrg = xform.gftTrbnslbtfX();
+        this.yOrg = xform.gftTrbnslbtfY();
+        this.dolindx = (int) indXAdross;
+        this.dolindy = (int) indYAdross;
+        this.dolindxfrr = frbdtAsInt(indXAdross);
+        this.dolindyfrr = frbdtAsInt(indYAdross);
+        this.rowindx = (int) indXDown;
+        this.rowindy = (int) indYDown;
+        this.rowindxfrr = frbdtAsInt(indXDown);
+        this.rowindyfrr = frbdtAsInt(indYDown);
+
+    }
+
+    stbtid int frbdtAsInt(doublf d) {
+        rfturn (int) ((d % 1.0) * Intfgfr.MAX_VALUE);
+    }
+
+    stbtid doublf mod(doublf num, doublf dfn) {
+        num = num % dfn;
+        if (num < 0) {
+            num += dfn;
+            if (num >= dfn) {
+                // For vfry smbll nfgbtivf numfrbtors, thf bnswfr might
+                // bf sudh b tiny bit lfss thbn dfn thbt thf difffrfndf
+                // is smbllfr thbn thf mbntissb of b doublf bllows bnd
+                // thf rfsult would thfn bf roundfd to dfn.  If thbt is
+                // thf dbsf thfn wf mbp thbt numbfr to 0 bs thf nfbrfst
+                // modulus rfprfsfntbtion.
+                num = 0;
+            }
+        }
+        rfturn num;
+    }
+
+    /**
+     * Rflfbsf thf rfsourdfs bllodbtfd for thf opfrbtion.
+     */
+    publid void disposf() {
+        dropRbstfr(dolorModfl, outRbs);
+    }
+
+    /**
+     * Rfturn thf ColorModfl of thf output.
+     */
+    publid ColorModfl gftColorModfl() {
+        rfturn dolorModfl;
+    }
+
+    /**
+     * Rfturn b Rbstfr dontbining thf dolors gfnfrbtfd for thf grbphids
+     * opfrbtion.
+     * @pbrbm x,y,w,h Thf brfb in dfvidf spbdf for whidh dolors brf
+     * gfnfrbtfd.
+     */
+    publid Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        if (outRbs == null ||
+            outRbs.gftWidth() < w ||
+            outRbs.gftHfight() < h)
+        {
+            // If h==1, wf will probbbly gft lots of "sdbnlinf" rfdts
+            outRbs = mbkfRbstfr((h == 1 ? Mbth.mbx(w, mbxWidth) : w), h);
+        }
+        doublf X = mod(xOrg + x * indXAdross + y * indXDown, bWidth);
+        doublf Y = mod(yOrg + x * indYAdross + y * indYDown, bHfight);
+
+        sftRbstfr((int) X, (int) Y, frbdtAsInt(X), frbdtAsInt(Y),
+                  w, h, bWidth, bHfight,
+                  dolindx, dolindxfrr,
+                  dolindy, dolindyfrr,
+                  rowindx, rowindxfrr,
+                  rowindy, rowindyfrr);
+
+        SunWritbblfRbstfr.mbrkDirty(outRbs);
+
+        rfturn outRbs;
+    }
+
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> xrgbRbsRff;
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> brgbRbsRff;
+
+    syndhronizfd stbtid WritbblfRbstfr mbkfRbstfr(ColorModfl dm,
+                                                  Rbstfr srdRbs,
+                                                  int w, int h)
+    {
+        if (xrgbmodfl == dm) {
+            if (xrgbRbsRff != null) {
+                WritbblfRbstfr wr = (WritbblfRbstfr) xrgbRbsRff.gft();
+                if (wr != null && wr.gftWidth() >= w && wr.gftHfight() >= h) {
+                    xrgbRbsRff = null;
+                    rfturn wr;
+                }
+            }
+            // If wf brf going to dbdhf this Rbstfr, mbkf it non-tiny
+            if (w <= 32 && h <= 32) {
+                w = h = 32;
+            }
+        } flsf if (brgbmodfl == dm) {
+            if (brgbRbsRff != null) {
+                WritbblfRbstfr wr = (WritbblfRbstfr) brgbRbsRff.gft();
+                if (wr != null && wr.gftWidth() >= w && wr.gftHfight() >= h) {
+                    brgbRbsRff = null;
+                    rfturn wr;
+                }
+            }
+            // If wf brf going to dbdhf this Rbstfr, mbkf it non-tiny
+            if (w <= 32 && h <= 32) {
+                w = h = 32;
+            }
+        }
+        if (srdRbs != null) {
+            rfturn srdRbs.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+        } flsf {
+            rfturn dm.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+        }
+    }
+
+    syndhronizfd stbtid void dropRbstfr(ColorModfl dm, Rbstfr outRbs) {
+        if (outRbs == null) {
+            rfturn;
+        }
+        if (xrgbmodfl == dm) {
+            xrgbRbsRff = nfw WfbkRfffrfndf<>(outRbs);
+        } flsf if (brgbmodfl == dm) {
+            brgbRbsRff = nfw WfbkRfffrfndf<>(outRbs);
+        }
+    }
+
+    privbtf stbtid WfbkRfffrfndf<Rbstfr> bytfRbsRff;
+
+    syndhronizfd stbtid WritbblfRbstfr mbkfBytfRbstfr(Rbstfr srdRbs,
+                                                      int w, int h)
+    {
+        if (bytfRbsRff != null) {
+            WritbblfRbstfr wr = (WritbblfRbstfr) bytfRbsRff.gft();
+            if (wr != null && wr.gftWidth() >= w && wr.gftHfight() >= h) {
+                bytfRbsRff = null;
+                rfturn wr;
+            }
+        }
+        // If wf brf going to dbdhf this Rbstfr, mbkf it non-tiny
+        if (w <= 32 && h <= 32) {
+            w = h = 32;
+        }
+        rfturn srdRbs.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+    }
+
+    syndhronizfd stbtid void dropBytfRbstfr(Rbstfr outRbs) {
+        if (outRbs == null) {
+            rfturn;
+        }
+        bytfRbsRff = nfw WfbkRfffrfndf<>(outRbs);
+    }
+
+    publid bbstrbdt WritbblfRbstfr mbkfRbstfr(int w, int h);
+    publid bbstrbdt void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                                   int w, int h, int bWidth, int bHfight,
+                                   int dolindx, int dolindxfrr,
+                                   int dolindy, int dolindyfrr,
+                                   int rowindx, int rowindxfrr,
+                                   int rowindy, int rowindyfrr);
+
+    /*
+     * Blfnds thf four ARGB vblufs in thf rgbs brrby using thf fbdtors
+     * dfsdribfd by xmul bnd ymul in thf following rbtio:
+     *
+     *     rgbs[0] * (1-xmul) * (1-ymul) +
+     *     rgbs[1] * (  xmul) * (1-ymul) +
+     *     rgbs[2] * (1-xmul) * (  ymul) +
+     *     rgbs[3] * (  xmul) * (  ymul)
+     *
+     * xmul bnd ymul brf intfgfr vblufs in thf hblf-opfn rbngf [0, 2^31)
+     * whfrf 0 == 0.0 bnd 2^31 == 1.0.
+     *
+     * Notf thbt sindf thf rbngf is hblf-opfn, thf vblufs brf blwbys
+     * logidblly lfss thbn 1.0.  This mbkfs sfnsf bfdbusf whilf dhoosing
+     * pixfls to blfnd, whfn thf frror vblufs rfbdh 1.0 wf movf to thf
+     * nfxt pixfl bnd rfsft thfm to 0.0.
+     */
+    publid stbtid int blfnd(int rgbs[], int xmul, int ymul) {
+        // xmul/ymul brf 31 bits widf, (0 => 2^31-1)
+        // shift thfm to 12 bits widf, (0 => 2^12-1)
+        xmul = (xmul >>> 19);
+        ymul = (ymul >>> 19);
+        int bddumA, bddumR, bddumG, bddumB;
+        bddumA = bddumR = bddumG = bddumB = 0;
+        for (int i = 0; i < 4; i++) {
+            int rgb = rgbs[i];
+            // Thf domplfmfnt of thf [xy]mul vblufs (1-[xy]mul) dbn rfsult
+            // in nfw vblufs in thf rbngf (1 => 2^12).  Thus for bny givfn
+            // loop itfrbtion, thf vblufs dould bf bnywhfrf in (0 => 2^12).
+            xmul = (1<<12) - xmul;
+            if ((i & 1) == 0) {
+                ymul = (1<<12) - ymul;
+            }
+            // xmul bnd ymul brf fbdh 12 bits (0 => 2^12)
+            // fbdtor is thus 24 bits (0 => 2^24)
+            int fbdtor = xmul * ymul;
+            if (fbdtor != 0) {
+                // bddum vbribblfs will bddumulbtf 32 bits
+                // bytfs fxtrbdtfd from rgb fit in 8 bits (0 => 255)
+                // bytf * fbdtor thus fits in 32 bits (0 => 255 * 2^24)
+                bddumA += (((rgb >>> 24)       ) * fbdtor);
+                bddumR += (((rgb >>> 16) & 0xff) * fbdtor);
+                bddumG += (((rgb >>>  8) & 0xff) * fbdtor);
+                bddumB += (((rgb       ) & 0xff) * fbdtor);
+            }
+        }
+        rfturn ((((bddumA + (1<<23)) >>> 24) << 24) |
+                (((bddumR + (1<<23)) >>> 24) << 16) |
+                (((bddumG + (1<<23)) >>> 24) <<  8) |
+                (((bddumB + (1<<23)) >>> 24)      ));
+    }
+
+    stbtid dlbss Int fxtfnds TfxturfPbintContfxt {
+        IntfgfrIntfrlfbvfdRbstfr srdRbs;
+        int inDbtb[];
+        int inOff;
+        int inSpbn;
+        int outDbtb[];
+        int outOff;
+        int outSpbn;
+        boolfbn filtfr;
+
+        publid Int(IntfgfrIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                   AffinfTrbnsform xform, int mbxw, boolfbn filtfr)
+        {
+            supfr(dm, xform, srdRbs.gftWidth(), srdRbs.gftHfight(), mbxw);
+            this.srdRbs = srdRbs;
+            this.inDbtb = srdRbs.gftDbtbStorbgf();
+            this.inSpbn = srdRbs.gftSdbnlinfStridf();
+            this.inOff = srdRbs.gftDbtbOffsft(0);
+            this.filtfr = filtfr;
+        }
+
+        publid WritbblfRbstfr mbkfRbstfr(int w, int h) {
+            WritbblfRbstfr rbs = mbkfRbstfr(dolorModfl, srdRbs, w, h);
+            IntfgfrIntfrlfbvfdRbstfr iiRbs = (IntfgfrIntfrlfbvfdRbstfr) rbs;
+            outDbtb = iiRbs.gftDbtbStorbgf();
+            outSpbn = iiRbs.gftSdbnlinfStridf();
+            outOff = iiRbs.gftDbtbOffsft(0);
+            rfturn rbs;
+        }
+
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int h, int bWidth, int bHfight,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            int[] inDbtb = this.inDbtb;
+            int[] outDbtb = this.outDbtb;
+            int out = outOff;
+            int inSpbn = this.inSpbn;
+            int inOff = this.inOff;
+            int outSpbn = this.outSpbn;
+            boolfbn filtfr = this.filtfr;
+            boolfbn normblx = (dolindx == 1 && dolindxfrr == 0 &&
+                               dolindy == 0 && dolindyfrr == 0) && !filtfr;
+            int rowx = x;
+            int rowy = y;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            if (normblx) {
+                outSpbn -= w;
+            }
+            int rgbs[] = filtfr ? nfw int[4] : null;
+            for (int j = 0; j < h; j++) {
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidth;
+                    x = bWidth - rowx;
+                    out += w;
+                    if (bWidth >= 32) {
+                        int i = w;
+                        whilf (i > 0) {
+                            int dopyw = (i < x) ? i : x;
+                            Systfm.brrbydopy(inDbtb, in - x,
+                                             outDbtb, out - i,
+                                             dopyw);
+                            i -= dopyw;
+                            if ((x -= dopyw) == 0) {
+                                x = bWidth;
+                            }
+                        }
+                    } flsf {
+                        for (int i = w; i > 0; i--) {
+                            outDbtb[out - i] = inDbtb[in - x];
+                            if (--x == 0) {
+                                x = bWidth;
+                            }
+                        }
+                    }
+                } flsf {
+                    x = rowx;
+                    y = rowy;
+                    xfrr = rowxfrr;
+                    yfrr = rowyfrr;
+                    for (int i = 0; i < w; i++) {
+                        if (filtfr) {
+                            int nfxtx, nfxty;
+                            if ((nfxtx = x + 1) >= bWidth) {
+                                nfxtx = 0;
+                            }
+                            if ((nfxty = y + 1) >= bHfight) {
+                                nfxty = 0;
+                            }
+                            rgbs[0] = inDbtb[inOff + y * inSpbn + x];
+                            rgbs[1] = inDbtb[inOff + y * inSpbn + nfxtx];
+                            rgbs[2] = inDbtb[inOff + nfxty * inSpbn + x];
+                            rgbs[3] = inDbtb[inOff + nfxty * inSpbn + nfxtx];
+                            outDbtb[out + i] =
+                                TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                        } flsf {
+                            outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
+                        }
+                        if ((xfrr += dolindxfrr) < 0) {
+                            xfrr &= Intfgfr.MAX_VALUE;
+                            x++;
+                        }
+                        if ((x += dolindx) >= bWidth) {
+                            x -= bWidth;
+                        }
+                        if ((yfrr += dolindyfrr) < 0) {
+                            yfrr &= Intfgfr.MAX_VALUE;
+                            y++;
+                        }
+                        if ((y += dolindy) >= bHfight) {
+                            y -= bHfight;
+                        }
+                    }
+                }
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
+                    rowx++;
+                }
+                if ((rowx += rowindx) >= bWidth) {
+                    rowx -= bWidth;
+                }
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
+                    rowy++;
+                }
+                if ((rowy += rowindy) >= bHfight) {
+                    rowy -= bHfight;
+                }
+                out += outSpbn;
+            }
+        }
+    }
+
+    stbtid dlbss Bytf fxtfnds TfxturfPbintContfxt {
+        BytfIntfrlfbvfdRbstfr srdRbs;
+        bytf inDbtb[];
+        int inOff;
+        int inSpbn;
+        bytf outDbtb[];
+        int outOff;
+        int outSpbn;
+
+        publid Bytf(BytfIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                    AffinfTrbnsform xform, int mbxw)
+        {
+            supfr(dm, xform, srdRbs.gftWidth(), srdRbs.gftHfight(), mbxw);
+            this.srdRbs = srdRbs;
+            this.inDbtb = srdRbs.gftDbtbStorbgf();
+            this.inSpbn = srdRbs.gftSdbnlinfStridf();
+            this.inOff = srdRbs.gftDbtbOffsft(0);
+        }
+
+        publid WritbblfRbstfr mbkfRbstfr(int w, int h) {
+            WritbblfRbstfr rbs = mbkfBytfRbstfr(srdRbs, w, h);
+            BytfIntfrlfbvfdRbstfr biRbs = (BytfIntfrlfbvfdRbstfr) rbs;
+            outDbtb = biRbs.gftDbtbStorbgf();
+            outSpbn = biRbs.gftSdbnlinfStridf();
+            outOff = biRbs.gftDbtbOffsft(0);
+            rfturn rbs;
+        }
+
+        publid void disposf() {
+            dropBytfRbstfr(outRbs);
+        }
+
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int h, int bWidth, int bHfight,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            bytf[] inDbtb = this.inDbtb;
+            bytf[] outDbtb = this.outDbtb;
+            int out = outOff;
+            int inSpbn = this.inSpbn;
+            int inOff = this.inOff;
+            int outSpbn = this.outSpbn;
+            boolfbn normblx = (dolindx == 1 && dolindxfrr == 0 &&
+                               dolindy == 0 && dolindyfrr == 0);
+            int rowx = x;
+            int rowy = y;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            if (normblx) {
+                outSpbn -= w;
+            }
+            for (int j = 0; j < h; j++) {
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidth;
+                    x = bWidth - rowx;
+                    out += w;
+                    if (bWidth >= 32) {
+                        int i = w;
+                        whilf (i > 0) {
+                            int dopyw = (i < x) ? i : x;
+                            Systfm.brrbydopy(inDbtb, in - x,
+                                             outDbtb, out - i,
+                                             dopyw);
+                            i -= dopyw;
+                            if ((x -= dopyw) == 0) {
+                                x = bWidth;
+                            }
+                        }
+                    } flsf {
+                        for (int i = w; i > 0; i--) {
+                            outDbtb[out - i] = inDbtb[in - x];
+                            if (--x == 0) {
+                                x = bWidth;
+                            }
+                        }
+                    }
+                } flsf {
+                    x = rowx;
+                    y = rowy;
+                    xfrr = rowxfrr;
+                    yfrr = rowyfrr;
+                    for (int i = 0; i < w; i++) {
+                        outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
+                        if ((xfrr += dolindxfrr) < 0) {
+                            xfrr &= Intfgfr.MAX_VALUE;
+                            x++;
+                        }
+                        if ((x += dolindx) >= bWidth) {
+                            x -= bWidth;
+                        }
+                        if ((yfrr += dolindyfrr) < 0) {
+                            yfrr &= Intfgfr.MAX_VALUE;
+                            y++;
+                        }
+                        if ((y += dolindy) >= bHfight) {
+                            y -= bHfight;
+                        }
+                    }
+                }
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
+                    rowx++;
+                }
+                if ((rowx += rowindx) >= bWidth) {
+                    rowx -= bWidth;
+                }
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
+                    rowy++;
+                }
+                if ((rowy += rowindy) >= bHfight) {
+                    rowy -= bHfight;
+                }
+                out += outSpbn;
+            }
+        }
+    }
+
+    stbtid dlbss BytfFiltfr fxtfnds TfxturfPbintContfxt {
+        BytfIntfrlfbvfdRbstfr srdRbs;
+        int inPblfttf[];
+        bytf inDbtb[];
+        int inOff;
+        int inSpbn;
+        int outDbtb[];
+        int outOff;
+        int outSpbn;
+
+        publid BytfFiltfr(BytfIntfrlfbvfdRbstfr srdRbs, ColorModfl dm,
+                          AffinfTrbnsform xform, int mbxw)
+        {
+            supfr((dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE
+                   ? xrgbmodfl : brgbmodfl),
+                  xform, srdRbs.gftWidth(), srdRbs.gftHfight(), mbxw);
+            this.inPblfttf = nfw int[256];
+            ((IndfxColorModfl) dm).gftRGBs(this.inPblfttf);
+            this.srdRbs = srdRbs;
+            this.inDbtb = srdRbs.gftDbtbStorbgf();
+            this.inSpbn = srdRbs.gftSdbnlinfStridf();
+            this.inOff = srdRbs.gftDbtbOffsft(0);
+        }
+
+        publid WritbblfRbstfr mbkfRbstfr(int w, int h) {
+            // Notf thbt wf do not pbss srdRbs to mbkfRbstfr sindf it
+            // is b Bytf Rbstfr bnd this dolorModfl nffds bn Int Rbstfr
+            WritbblfRbstfr rbs = mbkfRbstfr(dolorModfl, null, w, h);
+            IntfgfrIntfrlfbvfdRbstfr iiRbs = (IntfgfrIntfrlfbvfdRbstfr) rbs;
+            outDbtb = iiRbs.gftDbtbStorbgf();
+            outSpbn = iiRbs.gftSdbnlinfStridf();
+            outOff = iiRbs.gftDbtbOffsft(0);
+            rfturn rbs;
+        }
+
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int h, int bWidth, int bHfight,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            bytf[] inDbtb = this.inDbtb;
+            int[] outDbtb = this.outDbtb;
+            int out = outOff;
+            int inSpbn = this.inSpbn;
+            int inOff = this.inOff;
+            int outSpbn = this.outSpbn;
+            int rowx = x;
+            int rowy = y;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            int rgbs[] = nfw int[4];
+            for (int j = 0; j < h; j++) {
+                x = rowx;
+                y = rowy;
+                xfrr = rowxfrr;
+                yfrr = rowyfrr;
+                for (int i = 0; i < w; i++) {
+                    int nfxtx, nfxty;
+                    if ((nfxtx = x + 1) >= bWidth) {
+                        nfxtx = 0;
+                    }
+                    if ((nfxty = y + 1) >= bHfight) {
+                        nfxty = 0;
+                    }
+                    rgbs[0] = inPblfttf[0xff & inDbtb[inOff + x +
+                                                      inSpbn * y]];
+                    rgbs[1] = inPblfttf[0xff & inDbtb[inOff + nfxtx +
+                                                      inSpbn * y]];
+                    rgbs[2] = inPblfttf[0xff & inDbtb[inOff + x +
+                                                      inSpbn * nfxty]];
+                    rgbs[3] = inPblfttf[0xff & inDbtb[inOff + nfxtx +
+                                                      inSpbn * nfxty]];
+                    outDbtb[out + i] =
+                        TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                    if ((xfrr += dolindxfrr) < 0) {
+                        xfrr &= Intfgfr.MAX_VALUE;
+                        x++;
+                    }
+                    if ((x += dolindx) >= bWidth) {
+                        x -= bWidth;
+                    }
+                    if ((yfrr += dolindyfrr) < 0) {
+                        yfrr &= Intfgfr.MAX_VALUE;
+                        y++;
+                    }
+                    if ((y += dolindy) >= bHfight) {
+                        y -= bHfight;
+                    }
+                }
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
+                    rowx++;
+                }
+                if ((rowx += rowindx) >= bWidth) {
+                    rowx -= bWidth;
+                }
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
+                    rowy++;
+                }
+                if ((rowy += rowindy) >= bHfight) {
+                    rowy -= bHfight;
+                }
+                out += outSpbn;
+            }
+        }
+    }
+
+    stbtid dlbss Any fxtfnds TfxturfPbintContfxt {
+        WritbblfRbstfr srdRbs;
+        boolfbn filtfr;
+
+        publid Any(WritbblfRbstfr srdRbs, ColorModfl dm,
+                   AffinfTrbnsform xform, int mbxw, boolfbn filtfr)
+        {
+            supfr(dm, xform, srdRbs.gftWidth(), srdRbs.gftHfight(), mbxw);
+            this.srdRbs = srdRbs;
+            this.filtfr = filtfr;
+        }
+
+        publid WritbblfRbstfr mbkfRbstfr(int w, int h) {
+            rfturn mbkfRbstfr(dolorModfl, srdRbs, w, h);
+        }
+
+        publid void sftRbstfr(int x, int y, int xfrr, int yfrr,
+                              int w, int h, int bWidth, int bHfight,
+                              int dolindx, int dolindxfrr,
+                              int dolindy, int dolindyfrr,
+                              int rowindx, int rowindxfrr,
+                              int rowindy, int rowindyfrr) {
+            Objfdt dbtb = null;
+            int rowx = x;
+            int rowy = y;
+            int rowxfrr = xfrr;
+            int rowyfrr = yfrr;
+            WritbblfRbstfr srdRbs = this.srdRbs;
+            WritbblfRbstfr outRbs = this.outRbs;
+            int rgbs[] = filtfr ? nfw int[4] : null;
+            for (int j = 0; j < h; j++) {
+                x = rowx;
+                y = rowy;
+                xfrr = rowxfrr;
+                yfrr = rowyfrr;
+                for (int i = 0; i < w; i++) {
+                    dbtb = srdRbs.gftDbtbElfmfnts(x, y, dbtb);
+                    if (filtfr) {
+                        int nfxtx, nfxty;
+                        if ((nfxtx = x + 1) >= bWidth) {
+                            nfxtx = 0;
+                        }
+                        if ((nfxty = y + 1) >= bHfight) {
+                            nfxty = 0;
+                        }
+                        rgbs[0] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(nfxtx, y, dbtb);
+                        rgbs[1] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(x, nfxty, dbtb);
+                        rgbs[2] = dolorModfl.gftRGB(dbtb);
+                        dbtb = srdRbs.gftDbtbElfmfnts(nfxtx, nfxty, dbtb);
+                        rgbs[3] = dolorModfl.gftRGB(dbtb);
+                        int rgb =
+                            TfxturfPbintContfxt.blfnd(rgbs, xfrr, yfrr);
+                        dbtb = dolorModfl.gftDbtbElfmfnts(rgb, dbtb);
+                    }
+                    outRbs.sftDbtbElfmfnts(i, j, dbtb);
+                    if ((xfrr += dolindxfrr) < 0) {
+                        xfrr &= Intfgfr.MAX_VALUE;
+                        x++;
+                    }
+                    if ((x += dolindx) >= bWidth) {
+                        x -= bWidth;
+                    }
+                    if ((yfrr += dolindyfrr) < 0) {
+                        yfrr &= Intfgfr.MAX_VALUE;
+                        y++;
+                    }
+                    if ((y += dolindy) >= bHfight) {
+                        y -= bHfight;
+                    }
+                }
+                if ((rowxfrr += rowindxfrr) < 0) {
+                    rowxfrr &= Intfgfr.MAX_VALUE;
+                    rowx++;
+                }
+                if ((rowx += rowindx) >= bWidth) {
+                    rowx -= bWidth;
+                }
+                if ((rowyfrr += rowindyfrr) < 0) {
+                    rowyfrr &= Intfgfr.MAX_VALUE;
+                    rowy++;
+                }
+                if ((rowy += rowindy) >= bHfight) {
+                    rowy -= bHfight;
+                }
+            }
+        }
+    }
+}

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,167 +30,167 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef JAVA_CRW_DEMO_H
-#define JAVA_CRW_DEMO_H
+#ifndff JAVA_CRW_DEMO_H
+#dffinf JAVA_CRW_DEMO_H
 
-#include <jni.h>
+#indludf <jni.i>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-/* This callback is used to notify the caller of a fatal error. */
+/* Tiis dbllbbdk is usfd to notify tif dbllfr of b fbtbl frror. */
 
-typedef void (*FatalErrorHandler)(const char*message, const char*file, int line);
+typfdff void (*FbtblErrorHbndlfr)(donst dibr*mfssbgf, donst dibr*filf, int linf);
 
-/* This callback is used to return the method information for a class.
- *   Since the information was already read here, it was useful to
- *   return it here, with no JVMTI phase restrictions.
- *   If the class file does represent a "class" and it has methods, then
- *   this callback will be called with the class number and pointers to
- *   the array of names, array of signatures, and the count of methods.
+/* Tiis dbllbbdk is usfd to rfturn tif mftiod informbtion for b dlbss.
+ *   Sindf tif informbtion wbs blrfbdy rfbd ifrf, it wbs usfful to
+ *   rfturn it ifrf, witi no JVMTI pibsf rfstridtions.
+ *   If tif dlbss filf dofs rfprfsfnt b "dlbss" bnd it ibs mftiods, tifn
+ *   tiis dbllbbdk will bf dbllfd witi tif dlbss numbfr bnd pointfrs to
+ *   tif brrby of nbmfs, brrby of signbturfs, bnd tif dount of mftiods.
  */
 
-typedef void (*MethodNumberRegister)(unsigned, const char**, const char**, int);
+typfdff void (*MftiodNumbfrRfgistfr)(unsignfd, donst dibr**, donst dibr**, int);
 
-/* Class file reader/writer interface. Basic input is a classfile image
- *     and details about what to inject. The output is a new classfile image
- *     that was allocated with malloc(), and should be freed by the caller.
+/* Clbss filf rfbdfr/writfr intfrfbdf. Bbsid input is b dlbssfilf imbgf
+ *     bnd dftbils bbout wibt to injfdt. Tif output is b nfw dlbssfilf imbgf
+ *     tibt wbs bllodbtfd witi mbllod(), bnd siould bf frffd by tif dbllfr.
  */
 
-/* Names of external symbols to look for. These are the names that we
- *   try and lookup in the shared library. On Windows 2000, the naming
- *   convention is to prefix a "_" and suffix a "@N" where N is 4 times
- *   the number or arguments supplied.It has 19 args, so 76 = 19*4.
- *   On Windows 2003, Linux, and Solaris, the first name will be
- *   found, on Windows 2000 a second try should find the second name.
+/* Nbmfs of fxtfrnbl symbols to look for. Tifsf brf tif nbmfs tibt wf
+ *   try bnd lookup in tif sibrfd librbry. On Windows 2000, tif nbming
+ *   donvfntion is to prffix b "_" bnd suffix b "@N" wifrf N is 4 timfs
+ *   tif numbfr or brgumfnts supplifd.It ibs 19 brgs, so 76 = 19*4.
+ *   On Windows 2003, Linux, bnd Solbris, tif first nbmf will bf
+ *   found, on Windows 2000 b sfdond try siould find tif sfdond nbmf.
  *
- *   WARNING: If You change the JavaCrwDemo typedef, you MUST change
- *            multiple things in this file, including this name.
+ *   WARNING: If You dibngf tif JbvbCrwDfmo typfdff, you MUST dibngf
+ *            multiplf tiings in tiis filf, indluding tiis nbmf.
  */
 
-#define JAVA_CRW_DEMO_SYMBOLS { "java_crw_demo", "_java_crw_demo@76" }
+#dffinf JAVA_CRW_DEMO_SYMBOLS { "jbvb_drw_dfmo", "_jbvb_drw_dfmo@76" }
 
-/* Typedef needed for type casting in dynamic access situations. */
+/* Typfdff nffdfd for typf dbsting in dynbmid bddfss situbtions. */
 
-typedef void (JNICALL *JavaCrwDemo)(
-         unsigned class_number,
-         const char *name,
-         const unsigned char *file_image,
-         long file_len,
-         int system_class,
-         char* tclass_name,
-         char* tclass_sig,
-         char* call_name,
-         char* call_sig,
-         char* return_name,
-         char* return_sig,
-         char* obj_init_name,
-         char* obj_init_sig,
-         char* newarray_name,
-         char* newarray_sig,
-         unsigned char **pnew_file_image,
-         long *pnew_file_len,
-         FatalErrorHandler fatal_error_handler,
-         MethodNumberRegister mnum_callback
+typfdff void (JNICALL *JbvbCrwDfmo)(
+         unsignfd dlbss_numbfr,
+         donst dibr *nbmf,
+         donst unsignfd dibr *filf_imbgf,
+         long filf_lfn,
+         int systfm_dlbss,
+         dibr* tdlbss_nbmf,
+         dibr* tdlbss_sig,
+         dibr* dbll_nbmf,
+         dibr* dbll_sig,
+         dibr* rfturn_nbmf,
+         dibr* rfturn_sig,
+         dibr* obj_init_nbmf,
+         dibr* obj_init_sig,
+         dibr* nfwbrrby_nbmf,
+         dibr* nfwbrrby_sig,
+         unsignfd dibr **pnfw_filf_imbgf,
+         long *pnfw_filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_ibndlfr,
+         MftiodNumbfrRfgistfr mnum_dbllbbdk
 );
 
-/* Function export (should match typedef above) */
+/* Fundtion fxport (siould mbtdi typfdff bbovf) */
 
-JNIEXPORT void JNICALL java_crw_demo(
+JNIEXPORT void JNICALL jbvb_drw_dfmo(
 
-         unsigned class_number, /* Caller assigned class number for class */
+         unsignfd dlbss_numbfr, /* Cbllfr bssignfd dlbss numbfr for dlbss */
 
-         const char *name,      /* Internal class name, e.g. java/lang/Object */
-                                /*   (Do not use "java.lang.Object" format) */
+         donst dibr *nbmf,      /* Intfrnbl dlbss nbmf, f.g. jbvb/lbng/Objfdt */
+                                /*   (Do not usf "jbvb.lbng.Objfdt" formbt) */
 
-         const unsigned char
-           *file_image,         /* Pointer to classfile image for this class */
+         donst unsignfd dibr
+           *filf_imbgf,         /* Pointfr to dlbssfilf imbgf for tiis dlbss */
 
-         long file_len,         /* Length of the classfile in bytes */
+         long filf_lfn,         /* Lfngti of tif dlbssfilf in bytfs */
 
-         int system_class,      /* Set to 1 if this is a system class */
-                                /*   (prevents injections into empty */
-                                /*   <clinit>, finalize, and <init> methods) */
+         int systfm_dlbss,      /* Sft to 1 if tiis is b systfm dlbss */
+                                /*   (prfvfnts injfdtions into fmpty */
+                                /*   <dlinit>, finblizf, bnd <init> mftiods) */
 
-         char* tclass_name,     /* Class that has methods we will call at */
-                                /*   the injection sites (tclass) */
+         dibr* tdlbss_nbmf,     /* Clbss tibt ibs mftiods wf will dbll bt */
+                                /*   tif injfdtion sitfs (tdlbss) */
 
-         char* tclass_sig,      /* Signature of tclass */
-                                /*  (Must be "L" + tclass_name + ";") */
+         dibr* tdlbss_sig,      /* Signbturf of tdlbss */
+                                /*  (Must bf "L" + tdlbss_nbmf + ";") */
 
-         char* call_name,       /* Method name in tclass to call at offset 0 */
-                                /*   for every method */
+         dibr* dbll_nbmf,       /* Mftiod nbmf in tdlbss to dbll bt offsft 0 */
+                                /*   for fvfry mftiod */
 
-         char* call_sig,        /* Signature of this call_name method */
-                                /*  (Must be "(II)V") */
+         dibr* dbll_sig,        /* Signbturf of tiis dbll_nbmf mftiod */
+                                /*  (Must bf "(II)V") */
 
-         char* return_name,     /* Method name in tclass to call at all */
-                                /*  return opcodes in every method */
+         dibr* rfturn_nbmf,     /* Mftiod nbmf in tdlbss to dbll bt bll */
+                                /*  rfturn opdodfs in fvfry mftiod */
 
-         char* return_sig,      /* Signature of this return_name method */
-                                /*  (Must be "(II)V") */
+         dibr* rfturn_sig,      /* Signbturf of tiis rfturn_nbmf mftiod */
+                                /*  (Must bf "(II)V") */
 
-         char* obj_init_name,   /* Method name in tclass to call first thing */
-                                /*   when injecting java.lang.Object.<init> */
+         dibr* obj_init_nbmf,   /* Mftiod nbmf in tdlbss to dbll first tiing */
+                                /*   wifn injfdting jbvb.lbng.Objfdt.<init> */
 
-         char* obj_init_sig,    /* Signature of this obj_init_name method */
-                                /*  (Must be "(Ljava/lang/Object;)V") */
+         dibr* obj_init_sig,    /* Signbturf of tiis obj_init_nbmf mftiod */
+                                /*  (Must bf "(Ljbvb/lbng/Objfdt;)V") */
 
-         char* newarray_name,   /* Method name in tclass to call after every */
-                                /*   newarray opcode in every method */
+         dibr* nfwbrrby_nbmf,   /* Mftiod nbmf in tdlbss to dbll bftfr fvfry */
+                                /*   nfwbrrby opdodf in fvfry mftiod */
 
-         char* newarray_sig,    /* Signature of this method */
-                                /*  (Must be "(Ljava/lang/Object;II)V") */
+         dibr* nfwbrrby_sig,    /* Signbturf of tiis mftiod */
+                                /*  (Must bf "(Ljbvb/lbng/Objfdt;II)V") */
 
-         unsigned char
-           **pnew_file_image,   /* Returns a pointer to new classfile image */
+         unsignfd dibr
+           **pnfw_filf_imbgf,   /* Rfturns b pointfr to nfw dlbssfilf imbgf */
 
-         long *pnew_file_len,   /* Returns the length of the new image */
+         long *pnfw_filf_lfn,   /* Rfturns tif lfngti of tif nfw imbgf */
 
-         FatalErrorHandler
-           fatal_error_handler, /* Pointer to function to call on any */
-                                /*  fatal error. NULL sends error to stderr */
+         FbtblErrorHbndlfr
+           fbtbl_frror_ibndlfr, /* Pointfr to fundtion to dbll on bny */
+                                /*  fbtbl frror. NULL sfnds frror to stdfrr */
 
-         MethodNumberRegister
-           mnum_callback        /* Pointer to function that gets called */
-                                /*   with all details on methods in this */
-                                /*   class. NULL means skip this call. */
+         MftiodNumbfrRfgistfr
+           mnum_dbllbbdk        /* Pointfr to fundtion tibt gfts dbllfd */
+                                /*   witi bll dftbils on mftiods in tiis */
+                                /*   dlbss. NULL mfbns skip tiis dbll. */
 
            );
 
 
-/* External to read the class name out of a class file .
+/* Extfrnbl to rfbd tif dlbss nbmf out of b dlbss filf .
  *
- *   WARNING: If You change the typedef, you MUST change
- *            multiple things in this file, including this name.
+ *   WARNING: If You dibngf tif typfdff, you MUST dibngf
+ *            multiplf tiings in tiis filf, indluding tiis nbmf.
  */
 
-#define JAVA_CRW_DEMO_CLASSNAME_SYMBOLS \
-         { "java_crw_demo_classname", "_java_crw_demo_classname@12" }
+#dffinf JAVA_CRW_DEMO_CLASSNAME_SYMBOLS \
+         { "jbvb_drw_dfmo_dlbssnbmf", "_jbvb_drw_dfmo_dlbssnbmf@12" }
 
-/* Typedef needed for type casting in dynamic access situations. */
+/* Typfdff nffdfd for typf dbsting in dynbmid bddfss situbtions. */
 
-typedef char * (JNICALL *JavaCrwDemoClassname)(
-         const unsigned char *file_image,
-         long file_len,
-         FatalErrorHandler fatal_error_handler);
+typfdff dibr * (JNICALL *JbvbCrwDfmoClbssnbmf)(
+         donst unsignfd dibr *filf_imbgf,
+         long filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_ibndlfr);
 
-JNIEXPORT char * JNICALL java_crw_demo_classname(
-         const unsigned char *file_image,
-         long file_len,
-         FatalErrorHandler fatal_error_handler);
+JNIEXPORT dibr * JNICALL jbvb_drw_dfmo_dlbssnbmf(
+         donst unsignfd dibr *filf_imbgf,
+         long filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_ibndlfr);
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
 
-#endif
+#fndif

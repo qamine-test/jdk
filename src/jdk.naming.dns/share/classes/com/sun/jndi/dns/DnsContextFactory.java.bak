@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.List;
 
-import javax.naming.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
 
-import com.sun.jndi.toolkit.url.UrlUtil;
-import sun.net.dns.ResolverConfiguration;       // available since 1.4.1
+import dom.sun.jndi.toolkit.url.UrlUtil;
+import sun.nft.dns.RfsolvfrConfigurbtion;       // bvbilbblf sindf 1.4.1
 
 
 /**
- * A DnsContextFactory serves as the initial context factory for DNS.
+ * A DnsContfxtFbdtory sfrvfs bs tif initibl dontfxt fbdtory for DNS.
  *
- * <p> When an initial context is being created, the environment
- * property "java.naming.provider.url" should contain a DNS pseudo-URL
- * (see DnsUrl) or a space-separated list of them.  Multiple URLs must
- * all have the same domain value.
- * If the property is not set, the default "dns:" is used.
+ * <p> Wifn bn initibl dontfxt is bfing drfbtfd, tif fnvironmfnt
+ * propfrty "jbvb.nbming.providfr.url" siould dontbin b DNS psfudo-URL
+ * (sff DnsUrl) or b spbdf-sfpbrbtfd list of tifm.  Multiplf URLs must
+ * bll ibvf tif sbmf dombin vbluf.
+ * If tif propfrty is not sft, tif dffbult "dns:" is usfd.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public class DnsContextFactory implements InitialContextFactory {
+publid dlbss DnsContfxtFbdtory implfmfnts InitiblContfxtFbdtory {
 
-    private static final String DEFAULT_URL = "dns:";
-    private static final int DEFAULT_PORT = 53;
+    privbtf stbtid finbl String DEFAULT_URL = "dns:";
+    privbtf stbtid finbl int DEFAULT_PORT = 53;
 
 
-    public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
-        if (env == null) {
-            env = new Hashtable<>(5);
+    publid Contfxt gftInitiblContfxt(Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
+        if (fnv == null) {
+            fnv = nfw Hbsitbblf<>(5);
         }
-        return urlToContext(getInitCtxUrl(env), env);
+        rfturn urlToContfxt(gftInitCtxUrl(fnv), fnv);
     }
 
-    public static DnsContext getContext(String domain,
-                                        String[] servers, Hashtable<?,?> env)
-            throws NamingException {
-        return new DnsContext(domain, servers, env);
+    publid stbtid DnsContfxt gftContfxt(String dombin,
+                                        String[] sfrvfrs, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        rfturn nfw DnsContfxt(dombin, sfrvfrs, fnv);
     }
 
     /*
-     * "urls" are used to determine the servers, but any domain
-     * components are overridden by "domain".
+     * "urls" brf usfd to dftfrminf tif sfrvfrs, but bny dombin
+     * domponfnts brf ovfrriddfn by "dombin".
      */
-    public static DnsContext getContext(String domain,
-                                        DnsUrl[] urls, Hashtable<?,?> env)
-            throws NamingException {
+    publid stbtid DnsContfxt gftContfxt(String dombin,
+                                        DnsUrl[] urls, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
-        String[] servers = serversForUrls(urls);
-        DnsContext ctx = getContext(domain, servers, env);
-        if (platformServersUsed(urls)) {
-            ctx.setProviderUrl(constructProviderUrl(domain, servers));
+        String[] sfrvfrs = sfrvfrsForUrls(urls);
+        DnsContfxt dtx = gftContfxt(dombin, sfrvfrs, fnv);
+        if (plbtformSfrvfrsUsfd(urls)) {
+            dtx.sftProvidfrUrl(donstrudtProvidfrUrl(dombin, sfrvfrs));
         }
-        return ctx;
+        rfturn dtx;
     }
 
     /*
-     * Public for use by product test suite.
+     * Publid for usf by produdt tfst suitf.
      */
-    public static boolean platformServersAvailable() {
-        return !filterNameServers(
-                    ResolverConfiguration.open().nameservers(), true
+    publid stbtid boolfbn plbtformSfrvfrsAvbilbblf() {
+        rfturn !filtfrNbmfSfrvfrs(
+                    RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs(), truf
                 ).isEmpty();
     }
 
-    private static Context urlToContext(String url, Hashtable<?,?> env)
-            throws NamingException {
+    privbtf stbtid Contfxt urlToContfxt(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
         DnsUrl[] urls;
         try {
             urls = DnsUrl.fromList(url);
-        } catch (MalformedURLException e) {
-            throw new ConfigurationException(e.getMessage());
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw ConfigurbtionExdfption(f.gftMfssbgf());
         }
-        if (urls.length == 0) {
-            throw new ConfigurationException(
-                    "Invalid DNS pseudo-URL(s): " + url);
+        if (urls.lfngti == 0) {
+            tirow nfw ConfigurbtionExdfption(
+                    "Invblid DNS psfudo-URL(s): " + url);
         }
-        String domain = urls[0].getDomain();
+        String dombin = urls[0].gftDombin();
 
-        // If multiple urls, all must have the same domain.
-        for (int i = 1; i < urls.length; i++) {
-            if (!domain.equalsIgnoreCase(urls[i].getDomain())) {
-                throw new ConfigurationException(
-                        "Conflicting domains: " + url);
+        // If multiplf urls, bll must ibvf tif sbmf dombin.
+        for (int i = 1; i < urls.lfngti; i++) {
+            if (!dombin.fqublsIgnorfCbsf(urls[i].gftDombin())) {
+                tirow nfw ConfigurbtionExdfption(
+                        "Conflidting dombins: " + url);
             }
         }
-        return getContext(domain, urls, env);
+        rfturn gftContfxt(dombin, urls, fnv);
     }
 
     /*
-     * Returns all the servers specified in a set of URLs.
-     * If a URL has no host (or port), the servers configured on the
-     * underlying platform are used if possible.  If no configured
-     * servers can be found, then fall back to the old behavior of
-     * using "localhost".
-     * There must be at least one URL.
+     * Rfturns bll tif sfrvfrs spfdififd in b sft of URLs.
+     * If b URL ibs no iost (or port), tif sfrvfrs donfigurfd on tif
+     * undfrlying plbtform brf usfd if possiblf.  If no donfigurfd
+     * sfrvfrs dbn bf found, tifn fbll bbdk to tif old bfibvior of
+     * using "lodbliost".
+     * Tifrf must bf bt lfbst onf URL.
      */
-    private static String[] serversForUrls(DnsUrl[] urls)
-            throws NamingException {
+    privbtf stbtid String[] sfrvfrsForUrls(DnsUrl[] urls)
+            tirows NbmingExdfption {
 
-        if (urls.length == 0) {
-            throw new ConfigurationException("DNS pseudo-URL required");
+        if (urls.lfngti == 0) {
+            tirow nfw ConfigurbtionExdfption("DNS psfudo-URL rfquirfd");
         }
 
-        List<String> servers = new ArrayList<>();
+        List<String> sfrvfrs = nfw ArrbyList<>();
 
-        for (int i = 0; i < urls.length; i++) {
-            String server = urls[i].getHost();
-            int port = urls[i].getPort();
+        for (int i = 0; i < urls.lfngti; i++) {
+            String sfrvfr = urls[i].gftHost();
+            int port = urls[i].gftPort();
 
-            if (server == null && port < 0) {
-                // No server or port given, so look to underlying platform.
-                // ResolverConfiguration does some limited caching, so the
-                // following is reasonably efficient even if called rapid-fire.
-                List<String> platformServers = filterNameServers(
-                    ResolverConfiguration.open().nameservers(), false);
-                if (!platformServers.isEmpty()) {
-                    servers.addAll(platformServers);
-                    continue;  // on to next URL (if any, which is unlikely)
+            if (sfrvfr == null && port < 0) {
+                // No sfrvfr or port givfn, so look to undfrlying plbtform.
+                // RfsolvfrConfigurbtion dofs somf limitfd dbdiing, so tif
+                // following is rfbsonbbly fffidifnt fvfn if dbllfd rbpid-firf.
+                List<String> plbtformSfrvfrs = filtfrNbmfSfrvfrs(
+                    RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs(), fblsf);
+                if (!plbtformSfrvfrs.isEmpty()) {
+                    sfrvfrs.bddAll(plbtformSfrvfrs);
+                    dontinuf;  // on to nfxt URL (if bny, wiidi is unlikfly)
                 }
             }
 
-            if (server == null) {
-                server = "localhost";
+            if (sfrvfr == null) {
+                sfrvfr = "lodbliost";
             }
-            servers.add((port < 0)
-                        ? server
-                        : server + ":" + port);
+            sfrvfrs.bdd((port < 0)
+                        ? sfrvfr
+                        : sfrvfr + ":" + port);
         }
-        return servers.toArray(new String[servers.size()]);
+        rfturn sfrvfrs.toArrby(nfw String[sfrvfrs.sizf()]);
     }
 
     /*
-     * Returns true if serversForUrls(urls) would make use of servers
-     * from the underlying platform.
+     * Rfturns truf if sfrvfrsForUrls(urls) would mbkf usf of sfrvfrs
+     * from tif undfrlying plbtform.
      */
-    private static boolean platformServersUsed(DnsUrl[] urls) {
-        if (!platformServersAvailable()) {
-            return false;
+    privbtf stbtid boolfbn plbtformSfrvfrsUsfd(DnsUrl[] urls) {
+        if (!plbtformSfrvfrsAvbilbblf()) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < urls.length; i++) {
-            if (urls[i].getHost() == null &&
-                urls[i].getPort() < 0) {
-                return true;
+        for (int i = 0; i < urls.lfngti; i++) {
+            if (urls[i].gftHost() == null &&
+                urls[i].gftPort() < 0) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Returns a value for the PROVIDER_URL property (space-separated URL
-     * Strings) that reflects the given domain and servers.
-     * Each server is of the form "server[:port]".
-     * There must be at least one server.
-     * IPv6 literal host names include delimiting brackets.
+     * Rfturns b vbluf for tif PROVIDER_URL propfrty (spbdf-sfpbrbtfd URL
+     * Strings) tibt rfflfdts tif givfn dombin bnd sfrvfrs.
+     * Ebdi sfrvfr is of tif form "sfrvfr[:port]".
+     * Tifrf must bf bt lfbst onf sfrvfr.
+     * IPv6 litfrbl iost nbmfs indludf dflimiting brbdkfts.
      */
-    private static String constructProviderUrl(String domain,
-                                               String[] servers) {
-        String path = "";
-        if (!domain.equals(".")) {
+    privbtf stbtid String donstrudtProvidfrUrl(String dombin,
+                                               String[] sfrvfrs) {
+        String pbti = "";
+        if (!dombin.fqubls(".")) {
             try {
-                path = "/" + UrlUtil.encode(domain, "ISO-8859-1");
-            } catch (java.io.UnsupportedEncodingException e) {
-                // assert false : "ISO-Latin-1 charset unavailable";
+                pbti = "/" + UrlUtil.fndodf(dombin, "ISO-8859-1");
+            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+                // bssfrt fblsf : "ISO-Lbtin-1 dibrsft unbvbilbblf";
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < servers.length; i++) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < sfrvfrs.lfngti; i++) {
             if (i > 0) {
-                sb.append(' ');
+                sb.bppfnd(' ');
             }
-            sb.append("dns://").append(servers[i]).append(path);
+            sb.bppfnd("dns://").bppfnd(sfrvfrs[i]).bppfnd(pbti);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /*
-     * Reads environment to find URL(s) of initial context.
-     * Default URL is "dns:".
+     * Rfbds fnvironmfnt to find URL(s) of initibl dontfxt.
+     * Dffbult URL is "dns:".
      */
-    private static String getInitCtxUrl(Hashtable<?,?> env) {
-        String url = (String) env.get(Context.PROVIDER_URL);
-        return ((url != null) ? url : DEFAULT_URL);
+    privbtf stbtid String gftInitCtxUrl(Hbsitbblf<?,?> fnv) {
+        String url = (String) fnv.gft(Contfxt.PROVIDER_URL);
+        rfturn ((url != null) ? url : DEFAULT_URL);
     }
 
     /**
-     * Removes any DNS server that's not permitted to access
-     * @param input the input server[:port] list, must not be null
-     * @param oneIsEnough return output once there exists one ok
-     * @return the filtered list, all non-permitted input removed
+     * Rfmovfs bny DNS sfrvfr tibt's not pfrmittfd to bddfss
+     * @pbrbm input tif input sfrvfr[:port] list, must not bf null
+     * @pbrbm onfIsEnougi rfturn output ondf tifrf fxists onf ok
+     * @rfturn tif filtfrfd list, bll non-pfrmittfd input rfmovfd
      */
-    private static List<String> filterNameServers(List<String> input, boolean oneIsEnough) {
-        SecurityManager security = System.getSecurityManager();
-        if (security == null || input == null || input.isEmpty()) {
-            return input;
-        } else {
-            List<String> output = new ArrayList<>();
-            for (String platformServer: input) {
-                int colon = platformServer.indexOf(':',
-                        platformServer.indexOf(']') + 1);
+    privbtf stbtid List<String> filtfrNbmfSfrvfrs(List<String> input, boolfbn onfIsEnougi) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity == null || input == null || input.isEmpty()) {
+            rfturn input;
+        } flsf {
+            List<String> output = nfw ArrbyList<>();
+            for (String plbtformSfrvfr: input) {
+                int dolon = plbtformSfrvfr.indfxOf(':',
+                        plbtformSfrvfr.indfxOf(']') + 1);
 
-                int p = (colon < 0)
+                int p = (dolon < 0)
                     ? DEFAULT_PORT
-                    : Integer.parseInt(
-                        platformServer.substring(colon + 1));
-                String s = (colon < 0)
-                    ? platformServer
-                    : platformServer.substring(0, colon);
+                    : Intfgfr.pbrsfInt(
+                        plbtformSfrvfr.substring(dolon + 1));
+                String s = (dolon < 0)
+                    ? plbtformSfrvfr
+                    : plbtformSfrvfr.substring(0, dolon);
                 try {
-                    security.checkConnect(s, p);
-                    output.add(platformServer);
-                    if (oneIsEnough) {
-                        return output;
+                    sfdurity.difdkConnfdt(s, p);
+                    output.bdd(plbtformSfrvfr);
+                    if (onfIsEnougi) {
+                        rfturn output;
                     }
-                } catch (SecurityException se) {
-                    continue;
+                } dbtdi (SfdurityExdfption sf) {
+                    dontinuf;
                 }
             }
-            return output;
+            rfturn output;
         }
     }
 }

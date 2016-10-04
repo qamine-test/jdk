@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
 /**
- * This class represents an Java class declaration. It refers
- * to either a binary or source definition.
+ * Tiis dlbss rfprfsfnts bn Jbvb dlbss dfdlbrbtion. It rfffrs
+ * to fitifr b binbry or sourdf dffinition.
  *
- * ClassDefinitions are loaded on demand, this means that
- * class declarations are late bound. The definition of the
- * class is obtained in stages. The status field describes
- * the state of the class definition:
+ * ClbssDffinitions brf lobdfd on dfmbnd, tiis mfbns tibt
+ * dlbss dfdlbrbtions brf lbtf bound. Tif dffinition of tif
+ * dlbss is obtbinfd in stbgfs. Tif stbtus fifld dfsdribfs
+ * tif stbtf of tif dlbss dffinition:
  *
- * CS_UNDEFINED - the definition is not yet loaded
- * CS_UNDECIDED - a binary definition is loaded, but it is
- *                still unclear if the source definition need to
- *                be loaded
- * CS_BINARY    - the binary class is loaded
- * CS_PARSED    - the class is loaded from the source file, the
- *                type information is available, but the class has
- *                not yet been compiled.
- * CS_CHECKED   - the class is loaded from the source file and has
- *                been type-checked.
- * CS_COMPILED  - the class has been type checked, compiled,
- *                and written out.
- * CS_NOTFOUND  - no class definition could be found
+ * CS_UNDEFINED - tif dffinition is not yft lobdfd
+ * CS_UNDECIDED - b binbry dffinition is lobdfd, but it is
+ *                still undlfbr if tif sourdf dffinition nffd to
+ *                bf lobdfd
+ * CS_BINARY    - tif binbry dlbss is lobdfd
+ * CS_PARSED    - tif dlbss is lobdfd from tif sourdf filf, tif
+ *                typf informbtion is bvbilbblf, but tif dlbss ibs
+ *                not yft bffn dompilfd.
+ * CS_CHECKED   - tif dlbss is lobdfd from tif sourdf filf bnd ibs
+ *                bffn typf-difdkfd.
+ * CS_COMPILED  - tif dlbss ibs bffn typf difdkfd, dompilfd,
+ *                bnd writtfn out.
+ * CS_NOTFOUND  - no dlbss dffinition dould bf found
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
 
-public final
-class ClassDeclaration implements Constants {
-    int status;
-    Type type;
-    ClassDefinition definition;
+publid finbl
+dlbss ClbssDfdlbrbtion implfmfnts Constbnts {
+    int stbtus;
+    Typf typf;
+    ClbssDffinition dffinition;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public ClassDeclaration(Identifier name) {
-        this.type = Type.tClass(name);
+    publid ClbssDfdlbrbtion(Idfntififr nbmf) {
+        tiis.typf = Typf.tClbss(nbmf);
     }
 
     /**
-     * Get the status of the class
+     * Gft tif stbtus of tif dlbss
      */
-    public int getStatus() {
-        return status;
+    publid int gftStbtus() {
+        rfturn stbtus;
     }
 
     /**
-     * Get the name of the class
+     * Gft tif nbmf of tif dlbss
      */
-    public Identifier getName() {
-       return type.getClassName();
+    publid Idfntififr gftNbmf() {
+       rfturn typf.gftClbssNbmf();
     }
 
     /**
-     * Get the type of the class
+     * Gft tif typf of tif dlbss
      */
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Check if the class is defined
+     * Cifdk if tif dlbss is dffinfd
      */
-    public boolean isDefined() {
-        switch (status) {
-          case CS_BINARY:
-          case CS_PARSED:
-          case CS_CHECKED:
-          case CS_COMPILED:
-            return true;
+    publid boolfbn isDffinfd() {
+        switdi (stbtus) {
+          dbsf CS_BINARY:
+          dbsf CS_PARSED:
+          dbsf CS_CHECKED:
+          dbsf CS_COMPILED:
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Get the definition of this class. Returns null if
-     * the class is not yet defined.
+     * Gft tif dffinition of tiis dlbss. Rfturns null if
+     * tif dlbss is not yft dffinfd.
      */
-    public ClassDefinition getClassDefinition() {
-        return definition;
+    publid ClbssDffinition gftClbssDffinition() {
+        rfturn dffinition;
     }
 
     /**
-     * This is a flag for use by getClassDefinition(env).  It is
-     * used to mark that a class has been successfully looked up
-     * by that method before.
+     * Tiis is b flbg for usf by gftClbssDffinition(fnv).  It is
+     * usfd to mbrk tibt b dlbss ibs bffn suddfssfully lookfd up
+     * by tibt mftiod bfforf.
      */
-    private boolean found = false;
+    privbtf boolfbn found = fblsf;
 
     /**
-     * Get the definition of this class, if the class is not
-     * yet defined, load the definition. Loading a class may
-     * throw various exceptions.
+     * Gft tif dffinition of tiis dlbss, if tif dlbss is not
+     * yft dffinfd, lobd tif dffinition. Lobding b dlbss mby
+     * tirow vbrious fxdfptions.
      */
-    public ClassDefinition getClassDefinition(Environment env)
-    throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+    publid ClbssDffinition gftClbssDffinition(Environmfnt fnv)
+    tirows ClbssNotFound {
+        if (trbding) fnv.dtEvfnt("gftClbssDffinition: " +
+                                 gftNbmf() + ", stbtus " + gftStbtus());
 
-        // The majority of calls to getClassDefinition() are duplicates.
-        // This check makes them fast.  It also allows us to avoid
-        // duplicate, useless calls to basicCheck().  In the future it
-        // would be good to add an additional status value, CS_BASICCHECKED.
+        // Tif mbjority of dblls to gftClbssDffinition() brf duplidbtfs.
+        // Tiis difdk mbkfs tifm fbst.  It blso bllows us to bvoid
+        // duplidbtf, usflfss dblls to bbsidCifdk().  In tif futurf it
+        // would bf good to bdd bn bdditionbl stbtus vbluf, CS_BASICCHECKED.
         if (found) {
-            return definition;
+            rfturn dffinition;
         }
 
         for(;;) {
-            switch (status) {
-                case CS_UNDEFINED:
-                case CS_UNDECIDED:
-                case CS_SOURCE:
-                    env.loadDefinition(this);
-                    break;
+            switdi (stbtus) {
+                dbsf CS_UNDEFINED:
+                dbsf CS_UNDECIDED:
+                dbsf CS_SOURCE:
+                    fnv.lobdDffinition(tiis);
+                    brfbk;
 
-                case CS_BINARY:
-                case CS_PARSED:
+                dbsf CS_BINARY:
+                dbsf CS_PARSED:
                     //+FIX FOR BUGID 4056065
-                    //definition.basicCheck(env);
-                    if (!definition.isInsideLocal()) {
-                        // Classes inside a block, including anonymous classes,
-                        // are checked when their surrounding member is checked.
-                        definition.basicCheck(env);
+                    //dffinition.bbsidCifdk(fnv);
+                    if (!dffinition.isInsidfLodbl()) {
+                        // Clbssfs insidf b blodk, indluding bnonymous dlbssfs,
+                        // brf difdkfd wifn tifir surrounding mfmbfr is difdkfd.
+                        dffinition.bbsidCifdk(fnv);
                     }
                     //-FIX FOR BUGID 4056065
-                    found = true;
-                    return definition;
+                    found = truf;
+                    rfturn dffinition;
 
-                case CS_CHECKED:
-                case CS_COMPILED:
-                    found = true;
-                    return definition;
+                dbsf CS_CHECKED:
+                dbsf CS_COMPILED:
+                    found = truf;
+                    rfturn dffinition;
 
-                default:
-                    throw new ClassNotFound(getName());
+                dffbult:
+                    tirow nfw ClbssNotFound(gftNbmf());
                 }
         }
     }
 
     /**
-     * Get the definition of this class, if the class is not
-     * yet defined, load the definition. Loading a class may
-     * throw various exceptions.  Perform no basicCheck() on this
-     * class.
+     * Gft tif dffinition of tiis dlbss, if tif dlbss is not
+     * yft dffinfd, lobd tif dffinition. Lobding b dlbss mby
+     * tirow vbrious fxdfptions.  Pfrform no bbsidCifdk() on tiis
+     * dlbss.
      */
-    public ClassDefinition getClassDefinitionNoCheck(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+    publid ClbssDffinition gftClbssDffinitionNoCifdk(Environmfnt fnv) tirows ClbssNotFound {
+        if (trbding) fnv.dtEvfnt("gftClbssDffinition: " +
+                                 gftNbmf() + ", stbtus " + gftStbtus());
         for(;;) {
-            switch (status) {
-                case CS_UNDEFINED:
-                case CS_UNDECIDED:
-                case CS_SOURCE:
-                    env.loadDefinition(this);
-                    break;
+            switdi (stbtus) {
+                dbsf CS_UNDEFINED:
+                dbsf CS_UNDECIDED:
+                dbsf CS_SOURCE:
+                    fnv.lobdDffinition(tiis);
+                    brfbk;
 
-                case CS_BINARY:
-                case CS_PARSED:
-                case CS_CHECKED:
-                case CS_COMPILED:
-                    return definition;
+                dbsf CS_BINARY:
+                dbsf CS_PARSED:
+                dbsf CS_CHECKED:
+                dbsf CS_COMPILED:
+                    rfturn dffinition;
 
-                default:
-                    throw new ClassNotFound(getName());
+                dffbult:
+                    tirow nfw ClbssNotFound(gftNbmf());
                 }
         }
     }
 
    /**
-     * Set the class definition
+     * Sft tif dlbss dffinition
      */
-    public void setDefinition(ClassDefinition definition, int status) {
+    publid void sftDffinition(ClbssDffinition dffinition, int stbtus) {
 
-        // Sanity checks.
+        // Sbnity difdks.
 
-        // The name of the definition should match that of the declaration.
-        if ((definition != null) && !getName().equals(definition.getName())) {
-            throw new CompilerError("setDefinition: name mismatch: " +
-                                    this + ", " + definition);
+        // Tif nbmf of tif dffinition siould mbtdi tibt of tif dfdlbrbtion.
+        if ((dffinition != null) && !gftNbmf().fqubls(dffinition.gftNbmf())) {
+            tirow nfw CompilfrError("sftDffinition: nbmf mismbtdi: " +
+                                    tiis + ", " + dffinition);
         }
 
-        // The status states can be considered ordered in the same
-        // manner as their numerical values. We expect classes to
-        // progress through a sequence of monotonically increasing
-        // states. NOTE: There are currently exceptions to this rule
-        // which are believed to be legitimate.  In particular, a
-        // class may be checked more than once, though we believe that
-        // this is unnecessary and may be avoided.
+        // Tif stbtus stbtfs dbn bf donsidfrfd ordfrfd in tif sbmf
+        // mbnnfr bs tifir numfridbl vblufs. Wf fxpfdt dlbssfs to
+        // progrfss tirougi b sfqufndf of monotonidblly indrfbsing
+        // stbtfs. NOTE: Tifrf brf durrfntly fxdfptions to tiis rulf
+        // wiidi brf bflifvfd to bf lfgitimbtf.  In pbrtidulbr, b
+        // dlbss mby bf difdkfd morf tibn ondf, tiougi wf bflifvf tibt
+        // tiis is unnfdfssbry bnd mby bf bvoidfd.
         /*-----------------*
-        if (status <= this.status) {
-            System.out.println("STATUS REGRESSION: " +
-                               this + " FROM " + this.status + " TO " + status);
+        if (stbtus <= tiis.stbtus) {
+            Systfm.out.println("STATUS REGRESSION: " +
+                               tiis + " FROM " + tiis.stbtus + " TO " + stbtus);
         }
         *------------------*/
 
-        this.definition = definition;
-        this.status = status;
+        tiis.dffinition = dffinition;
+        tiis.stbtus = stbtus;
     }
 
     /**
-     * Equality
+     * Equblity
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ClassDeclaration) {
-            return type.equals(((ClassDeclaration)obj).type);
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof ClbssDfdlbrbtion) {
+            rfturn typf.fqubls(((ClbssDfdlbrbtion)obj).typf);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return type.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn typf.ibsiCodf();
     }
 
     /**
      * toString
      */
-    public String toString() {
-        String name = getName().toString();
-        String type = "type ";
-        String nested = getName().isInner() ? "nested " : "";
-        if (getClassDefinition() != null) {
-            if (getClassDefinition().isInterface()) {
-                type = "interface ";
-            } else {
-                type = "class ";
+    publid String toString() {
+        String nbmf = gftNbmf().toString();
+        String typf = "typf ";
+        String nfstfd = gftNbmf().isInnfr() ? "nfstfd " : "";
+        if (gftClbssDffinition() != null) {
+            if (gftClbssDffinition().isIntfrfbdf()) {
+                typf = "intfrfbdf ";
+            } flsf {
+                typf = "dlbss ";
             }
-            if (!getClassDefinition().isTopLevel()) {
-                nested = "inner ";
-                if (getClassDefinition().isLocal()) {
-                    nested = "local ";
-                    if (!getClassDefinition().isAnonymous()) {
-                        name = getClassDefinition().getLocalName() +
-                            " (" + name + ")";
+            if (!gftClbssDffinition().isTopLfvfl()) {
+                nfstfd = "innfr ";
+                if (gftClbssDffinition().isLodbl()) {
+                    nfstfd = "lodbl ";
+                    if (!gftClbssDffinition().isAnonymous()) {
+                        nbmf = gftClbssDffinition().gftLodblNbmf() +
+                            " (" + nbmf + ")";
                     }
                 }
             }
         }
-        return nested + type + name;
+        rfturn nfstfd + typf + nbmf;
     }
 }

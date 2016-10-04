@@ -1,0 +1,47 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Windows Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf 
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=Rfdhfrdhfr &dbns :
+FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=Enrfgistrfr dbns :
+FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Nom du fidhifr :
+FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Nom du dossifr :
+FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=&Typf df fidhifr :
+FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=Rfmontf d'un nivfbu.
+FilfChoosfr.upFoldfrAddfssiblfNbmf=Montfr
+FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=R\u00E9pfrtoirf d'originf
+FilfChoosfr.homfFoldfrAddfssiblfNbmf=R\u00E9pfrtoirf d'originf
+FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Cr\u00E9f un dossifr.
+FilfChoosfr.nfwFoldfrAddfssiblfNbmf=Nouvfbu dossifr
+FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Nouvfbu dossifr
+FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listf
+FilfChoosfr.listVifwButtonAddfssiblfNbmf=Listf
+FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listf
+FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=D\u00E9tbils
+FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=D\u00E9tbils
+FilfChoosfr.vifwMfnuButtonToolTipTfxt = Mfnu Affidhbgf
+FilfChoosfr.vifwMfnuButtonAddfssiblfNbmf = Mfnu Affidhbgf
+FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=D\u00E9tbils
+FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=Adtublisfr
+FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Affidhbgf
+FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nom
+FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Tbillf
+FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typf
+FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modifi\u00E9
+FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attributs

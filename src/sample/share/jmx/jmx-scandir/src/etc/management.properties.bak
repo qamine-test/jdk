@@ -1,273 +1,273 @@
 #####################################################################
-#	Default Configuration File for Java Platform Management
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
 #####################################################################
 #
-# The Management Configuration file (in java.util.Properties format)
-# will be read if one of the following system properties is set:
-#    -Dcom.sun.management.jmxremote.port=<port-number>
-# or -Dcom.sun.management.snmp.port=<port-number> 
-# or -Dcom.sun.management.config.file=<this-file>
+# Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# will bf rfbd if onf of tif following systfm propfrtifs is sft:
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr> 
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
 #
-# The default Management Configuration file is:
+# Tif dffbult Mbnbgfmfnt Configurbtion filf is:
 #
-#       $JRE/lib/management/management.properties
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
 #
-# Another location for the Management Configuration File can be specified
-# by the following property on the Java command line:
+# Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# by tif following propfrty on tif Jbvb dommbnd linf:
 #
-#    -Dcom.sun.management.config.file=<this-file>
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
 # 
-# If -Dcom.sun.management.config.file=<this-file> is set, the port
-# number for the management agent can be specified in the config file 
-# using the following lines:
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
+# numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf 
+# using tif following linfs:
 # 
-# ################ Management Agent Port #########################
+# ################ Mbnbgfmfnt Agfnt Port #########################
 # 
-# For setting the JMX RMI agent port use the following line
-com.sun.management.jmxremote.port=4545
+# For sftting tif JMX RMI bgfnt port usf tif following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.port=4545
 #
-# For setting the SNMP agent port use the following line
-# com.sun.management.snmp.port=<port-number>
+# For sftting tif SNMP bgfnt port usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
 
 #####################################################################
-#                   Optional Instrumentation
+#                   Optionbl Instrumfntbtion
 #####################################################################
 #
-# By default only the basic instrumentation with low overhead is on.
-# The following properties allow to selectively turn on optional
-# instrumentation which are off by default and may have some
-# additional overhead.
+# By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
+# instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# bdditionbl ovfrifbd.
 #
-# com.sun.management.enableThreadContentionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
 #
-#      This option enables thread contention monitoring if the
-#      Java virtual machine supports such instrumentation.
-#      Refer to the specification for the java.lang.management.ThreadMBean
-#      interface - see isThreadContentionMonitoringSupported() method.
+#      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
+#      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
 #
  
-# To enable thread contention monitoring, uncomment the following line
-# com.sun.management.enableThreadContentionMonitoring
+# To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
 
 #####################################################################
-#			SNMP Management Properties
+#			SNMP Mbnbgfmfnt Propfrtifs
 #####################################################################
 #
-# If the system property -Dcom.sun.management.snmp.port=<port-number> 
-# is set then
-#	- The SNMP agent (with the Java virtual machine MIB) is started 
-#	  that listens on the specified port for incoming SNMP requests.
-#	- the following properties for read for SNMP management.
+# If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr> 
+# is sft tifn
+#	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd 
+#	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
+#	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
 #
-# The configuration can be specified only at startup time.
-# Later changes to the above system property (e.g. via setProperty method), this
-# config file, or the ACL file has no effect to the running SNMP agent.
-#
-
-#
-# ##################### SNMP Trap Port #########################
-#
-# com.sun.management.snmp.trap=<trap-destination-port-number>
-#      Specifies the remote port number at which managers are expected
-#      to listen for trap. For each host defined in the ACL file,
-#      the SNMP agent will send traps at <host>:<trap-destination-port-number>
-#      Default for this property is 162.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
 #
 
-# To set port for sending traps to a different port use the following line
-# com.sun.management.snmp.trap=<trap-destination-port-number>
+#
+# ##################### SNMP Trbp Port #########################
+#
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+#      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
+#      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      Dffbult for tiis propfrty is 162.
+#
+
+# To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
 
 #
-# ################ SNMP listen interface #########################
+# ################ SNMP listfn intfrfbdf #########################
 #
-# com.sun.management.snmp.interface=<InetAddress>
-#      Specifies the local interface on which the SNMP agent will bind.
-#      This is usefull when running on machines which have several
-#      interfaces defined. It makes it possible to listen to a specific
-#      subnet accessible through that interface.
-#      Default for this property is "localhost".
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+#      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Tiis is usffull wifn running on mbdiinfs wiidi ibvf sfvfrbl
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      subnft bddfssiblf tirougi tibt intfrfbdf.
+#      Dffbult for tiis propfrty is "lodbliost".
 #
-#      The format of the value for that property is any string accepted
-#      by java.net.InetAddress.getByName(String).
+#      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
 # 
 
-# For restricting the port on which SNMP agent listens use the following line
-# com.sun.management.snmp.interface=<InetAddress>
+# For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
 
 #
-# #################### SNMP ACL file #########################
+# #################### SNMP ACL filf #########################
 #
-# com.sun.management.snmp.acl=true|false
-#      Default for this property is true. (Case for true/false ignored)
-#      If this property is specified as false then the ACL file
-#      is not checked:  all manager hosts are allowed all access.
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
 #
 
-# For SNMP without checking ACL file uncomment the following line
-# com.sun.management.snmp.acl=false
+# For SNMP witiout difdking ACL filf undommfnt tif following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
 
 #
-# com.sun.management.snmp.acl.file=filepath
-#      Specifies location for ACL file
-#      This is optional - default location is
-#      $JRE/lib/management/snmp.acl
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+#      Spfdififs lodbtion for ACL filf
+#      Tiis is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
 # 
-#      If the property "com.sun.management.snmp.acl" is set to false,
-#      then this property and the ACL file are ignored.
-#      Otherwise the ACL file must exist and be in the valid format.
-#      If the ACL file is empty or non existent then no access is allowed.
+#      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
+#      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
 # 
-#      The SNMP agent will read the ACL file at startup time. 
-#      Modification to the ACL file has no effect to any running SNMP 
-#      agents which read that ACL file at startup.
+#      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf. 
+#      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP 
+#      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
 #
 
-# For a non-default acl file location use the following line
-# com.sun.management.snmp.acl.file=filepath
+# For b non-dffbult bdl filf lodbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
 
 #####################################################################
-#			RMI Management Properties
+#			RMI Mbnbgfmfnt Propfrtifs
 #####################################################################
 #
-# If system property -Dcom.sun.management.jmxremote.port=<port-number>
-# is set then
-#     - A MBean server is started 
-#     - JRE Platform MBeans are registered in the MBean server
-#     - RMI connector is published  in a private readonly registry at
-#       specified port using a well known name, "jmxrmi"
-#     - the following properties are read for JMX remote management.
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# is sft tifn
+#     - A MBfbn sfrvfr is stbrtfd 
+#     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
 #
-# The configuration can be specified only at startup time.
-# Later changes to above system property (e.g. via setProperty method),
-# this config file, the password file, or the access file have no effect to the
-# running MBean server, the connector, or the registry. 
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
+# running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry. 
 #
 
 #
 # ###################### RMI SSL #############################
 #
-# com.sun.management.jmxremote.ssl=true|false
-#      Default for this property is true. (Case for true/false ignored)
-#      If this property is specified as false then SSL is not used.
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
 # 
 
-# For RMI monitoring without SSL use the following line
-# com.sun.management.jmxremote.ssl=false
+# For RMI monitoring witiout SSL usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
 
-# com.sun.management.jmxremote.ssl.enabled.cipher.suites=<cipher-suites>
-#      The value of this property is a string that is a comma-separated list
-#      of SSL/TLS cipher suites to enable. This property can be specified in
-#      conjunction with the previous property "com.sun.management.jmxremote.ssl"
-#      in order to control which particular SSL/TLS cipher suites are enabled
-#      for use by accepted connections. If this property is not specified then
-#      the SSL/TLS RMI Server Socket Factory uses the SSL/TLS cipher suites that
-#      are enabled by default.
-#
-
-# com.sun.management.jmxremote.ssl.enabled.protocols=<protocol-versions>
-#      The value of this property is a string that is a comma-separated list
-#      of SSL/TLS protocol versions to enable. This property can be specified in
-#      conjunction with the previous property "com.sun.management.jmxremote.ssl"
-#      in order to control which particular SSL/TLS protocol versions are
-#      enabled for use by accepted connections. If this property is not
-#      specified then the SSL/TLS RMI Server Socket Factory uses the SSL/TLS
-#      protocol versions that are enabled by default.
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
+#      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
+#      brf fnbblfd by dffbult.
 #
 
-# com.sun.management.jmxremote.ssl.need.client.auth=true|false
-#      Default for this property is false. (Case for true/false ignored)
-#      If this property is specified as true in conjunction with the previous
-#      property "com.sun.management.jmxremote.ssl" then the SSL/TLS RMI Server
-#      Socket Factory will require client authentication.
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
+#      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      protodol vfrsions tibt brf fnbblfd by dffbult.
 #
 
-# For RMI monitoring with SSL client authentication use the following line
-com.sun.management.jmxremote.ssl.need.client.auth=true
-
-# com.sun.management.jmxremote.registry.ssl=true|false
-#      Default for this property is false. (Case for true/false ignored)
-#      If this property is specified as true then the RMI registry used
-#      to bind the RMIServer remote object is protected with SSL/TLS
-#      RMI Socket Factories that can be configured with the properties:
-#          com.sun.management.jmxremote.ssl.enabled.cipher.suites
-#          com.sun.management.jmxremote.ssl.enabled.protocols
-#          com.sun.management.jmxremote.ssl.need.client.auth
-#      If the two properties below are true at the same time, i.e.
-#          com.sun.management.jmxremote.ssl=true
-#          com.sun.management.jmxremote.registry.ssl=true
-#      then the RMIServer remote object and the RMI registry are
-#      both exported with the same SSL/TLS RMI Socket Factories.
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
+#      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
 #
 
-# For using an SSL/TLS protected RMI registry use the following line
-com.sun.management.jmxremote.registry.ssl=true
+# For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
 
-#
-# ################ RMI User authentication ################
-#
-# com.sun.management.jmxremote.authenticate=true|false
-#      Default for this property is true. (Case for true/false ignored)
-#      If this property is specified as false then no authentication is
-#      performed and all users are allowed all access.
-#
-
-# For RMI monitoring without any checking use the following line
-# com.sun.management.jmxremote.authenticate=false
-
-#
-# ################ RMI Login configuration ###################
-#
-# com.sun.management.jmxremote.login.config=<config-name>
-#      Specifies the name of a JAAS login configuration entry to use when 
-#      authenticating users of RMI monitoring. 
-#
-#      Setting this property is optional - the default login configuration
-#      specifies a file-based authentication that uses the password file.
-#
-#      When using this property to override the default login configuration 
-#      then the named configuration entry must be in a file that gets loaded 
-#      by JAAS. In addition, the login module(s) specified in the configuration
-#      should use the name and/or password callbacks to acquire the user's 
-#      credentials. See the NameCallback and PasswordCallback classes in the 
-#      javax.security.auth.callback package for more details.
-#
-#      If the property "com.sun.management.jmxremote.authenticate" is set to 
-#      false, then this property and the password & access files are ignored.
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
+#      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
+#      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
+#      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
 #
 
-# For a non-default login configuration use the following line
-# com.sun.management.jmxremote.login.config=<config-name>
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
 
 #
-# ################ RMI Password file location ##################
+# ################ RMI Usfr butifntidbtion ################
 #
-# com.sun.management.jmxremote.password.file=filepath
-#      Specifies location for password file
-#      This is optional - default location is
-#      $JRE/lib/management/jmxremote.password
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
+#
+
+# For RMI monitoring witiout bny difdking usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+
+#
+# ################ RMI Login donfigurbtion ###################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+#      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn 
+#      butifntidbting usfrs of RMI monitoring. 
+#
+#      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
+#      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#
+#      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion 
+#      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd 
+#      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's 
+#      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif 
+#      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
+#
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to 
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#
+
+# For b non-dffbult login donfigurbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+
+#
+# ################ RMI Pbssword filf lodbtion ##################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+#      Spfdififs lodbtion for pbssword filf
+#      Tiis is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
 # 
-#      If the property "com.sun.management.jmxremote.authenticate" is set to 
-#      false, then this property and the password & access files are ignored.
-#      Otherwise the password file must exist and be in the valid format.
-#      If the password file is empty or non-existent then no access is allowed.
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to 
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
 #
 
-# For a non-default password file location use the following line
-com.sun.management.jmxremote.password.file=src/etc/password.properties
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=srd/ftd/pbssword.propfrtifs
 
 #
-# ################ RMI Access file location #####################
+# ################ RMI Addfss filf lodbtion #####################
 #
-# com.sun.management.jmxremote.access.file=filepath
-#      Specifies location for access  file
-#      This is optional - default location is
-#      $JRE/lib/management/jmxremote.access
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+#      Spfdififs lodbtion for bddfss  filf
+#      Tiis is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
 # 
-#      If the property "com.sun.management.jmxremote.authenticate" is set to 
-#      false, then this property and the password & access files are ignored.
-#      Otherwise, the access file must exist and be in the valid format.
-#      If the access file is empty or non-existent then no access is allowed.
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to 
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
+#      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
 #
 
-# For a non-default password file location use the following line
-com.sun.management.jmxremote.access.file=src/etc/access.properties
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=srd/ftd/bddfss.propfrtifs

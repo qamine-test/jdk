@@ -1,0 +1,544 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+/**
+ * <p>An objfdt of this dlbss implfmfnts thf MBfbnSfrvfrAddfssControllfr
+ * intfrfbdf bnd, for fbdh of its mfthods, dblls bn bppropribtf dhfdking
+ * mfthod bnd thfn forwbrds thf rfqufst to b wrbppfd MBfbnSfrvfr objfdt.
+ * Thf dhfdking mfthod mby throw b SfdurityExdfption if thf opfrbtion is
+ * not bllowfd; in this dbsf thf rfqufst is not forwbrdfd to thf
+ * wrbppfd objfdt.</p>
+ *
+ * <p>This dlbss implfmfnts thf {@link #dhfdkRfbd()}, {@link #dhfdkWritf()},
+ * {@link #dhfdkCrfbtf(String)}, bnd {@link #dhfdkUnrfgistfr(ObjfdtNbmf)}
+ * mfthods bbsfd on bn bddfss lfvfl propfrtifs filf dontbining usfrnbmf/bddfss
+ * lfvfl pbirs. Thf sft of usfrnbmf/bddfss lfvfl pbirs is pbssfd fithfr bs b
+ * filfnbmf whidh dfnotfs b propfrtifs filf on disk, or dirfdtly bs bn instbndf
+ * of thf {@link Propfrtifs} dlbss.  In both dbsfs, thf nbmf of fbdh propfrty
+ * rfprfsfnts b usfrnbmf, bnd thf vbluf of thf propfrty is thf bssodibtfd bddfss
+ * lfvfl.  Thus, bny givfn usfrnbmf fithfr dofs not fxist in thf propfrtifs or
+ * hbs fxbdtly onf bddfss lfvfl. Thf sbmf bddfss lfvfl dbn bf shbrfd by sfvfrbl
+ * usfrnbmfs.</p>
+ *
+ * <p>Thf supportfd bddfss lfvfl vblufs brf {@dodf rfbdonly} bnd
+ * {@dodf rfbdwritf}.  Thf {@dodf rfbdwritf} bddfss lfvfl dbn bf
+ * qublififd by onf or morf <i>dlbusfs</i>, whfrf fbdh dlbusf looks
+ * likf <dodf>drfbtf <i>dlbssNbmfPbttfrn</i></dodf> or {@dodf
+ * unrfgistfr}.  For fxbmplf:</p>
+ *
+ * <prf>
+ * monitorRolf  rfbdonly
+ * dontrolRolf  rfbdwritf \
+ *              drfbtf jbvbx.mbnbgfmfnt.timfr.*,jbvbx.mbnbgfmfnt.monitor.* \
+ *              unrfgistfr
+ * </prf>
+ *
+ * <p>(Thf dontinubtion linfs with {@dodf \} domf from thf pbrsfr for
+ * Propfrtifs filfs.)</p>
+ */
+publid dlbss MBfbnSfrvfrFilfAddfssControllfr
+    fxtfnds MBfbnSfrvfrAddfssControllfr {
+
+    stbtid finbl String READONLY = "rfbdonly";
+    stbtid finbl String READWRITE = "rfbdwritf";
+
+    stbtid finbl String CREATE = "drfbtf";
+    stbtid finbl String UNREGISTER = "unrfgistfr";
+
+    privbtf fnum AddfssTypf {READ, WRITE, CREATE, UNREGISTER};
+
+    privbtf stbtid dlbss Addfss {
+        finbl boolfbn writf;
+        finbl String[] drfbtfPbttfrns;
+        privbtf boolfbn unrfgistfr;
+
+        Addfss(boolfbn writf, boolfbn unrfgistfr, List<String> drfbtfPbttfrnList) {
+            this.writf = writf;
+            int npbts = (drfbtfPbttfrnList == null) ? 0 : drfbtfPbttfrnList.sizf();
+            if (npbts == 0)
+                this.drfbtfPbttfrns = NO_STRINGS;
+            flsf
+                this.drfbtfPbttfrns = drfbtfPbttfrnList.toArrby(nfw String[npbts]);
+            this.unrfgistfr = unrfgistfr;
+        }
+
+        privbtf finbl String[] NO_STRINGS = nfw String[0];
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr thbt forwbrds bll thf
+     * MBfbnSfrvfr rfqufsts to thf MBfbnSfrvfr sft by invoking thf {@link
+     * #sftMBfbnSfrvfr} mfthod bftfr doing bddfss dhfdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
+     *
+     * <p>This instbndf is initiblizfd from thf spfdififd propfrtifs filf.</p>
+     *
+     * @pbrbm bddfssFilfNbmf nbmf of thf filf whidh dfnotfs b propfrtifs
+     * filf on disk dontbining thf usfrnbmf/bddfss lfvfl fntrifs.
+     *
+     * @fxdfption IOExdfption if thf filf dofs not fxist, is b
+     * dirfdtory rbthfr thbn b rfgulbr filf, or for somf othfr
+     * rfbson dbnnot bf opfnfd for rfbding.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if bny of thf supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
+     */
+    publid MBfbnSfrvfrFilfAddfssControllfr(String bddfssFilfNbmf)
+        throws IOExdfption {
+        supfr();
+        this.bddfssFilfNbmf = bddfssFilfNbmf;
+        Propfrtifs props = propfrtifsFromFilf(bddfssFilfNbmf);
+        pbrsfPropfrtifs(props);
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr thbt forwbrds bll thf
+     * MBfbnSfrvfr rfqufsts to <dodf>mbs</dodf> bftfr doing bddfss dhfdks
+     * bbsfd on rfbd bnd writf pfrmissions.</p>
+     *
+     * <p>This instbndf is initiblizfd from thf spfdififd propfrtifs filf.</p>
+     *
+     * @pbrbm bddfssFilfNbmf nbmf of thf filf whidh dfnotfs b propfrtifs
+     * filf on disk dontbining thf usfrnbmf/bddfss lfvfl fntrifs.
+     *
+     * @pbrbm mbs thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd.
+     *
+     * @fxdfption IOExdfption if thf filf dofs not fxist, is b
+     * dirfdtory rbthfr thbn b rfgulbr filf, or for somf othfr
+     * rfbson dbnnot bf opfnfd for rfbding.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if bny of thf supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
+     */
+    publid MBfbnSfrvfrFilfAddfssControllfr(String bddfssFilfNbmf,
+                                           MBfbnSfrvfr mbs)
+        throws IOExdfption {
+        this(bddfssFilfNbmf);
+        sftMBfbnSfrvfr(mbs);
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr thbt forwbrds bll thf
+     * MBfbnSfrvfr rfqufsts to thf MBfbnSfrvfr sft by invoking thf {@link
+     * #sftMBfbnSfrvfr} mfthod bftfr doing bddfss dhfdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
+     *
+     * <p>This instbndf is initiblizfd from thf spfdififd propfrtifs
+     * instbndf.  This donstrudtor mbkfs b dopy of thf propfrtifs
+     * instbndf bnd it is thf dopy thbt is donsultfd to dhfdk thf
+     * usfrnbmf bnd bddfss lfvfl of bn indoming donnfdtion. Thf
+     * originbl propfrtifs objfdt dbn bf modififd without bfffdting
+     * thf dopy. If thf {@link #rffrfsh} mfthod is thfn dbllfd, thf
+     * <dodf>MBfbnSfrvfrFilfAddfssControllfr</dodf> will mbkf b nfw
+     * dopy of thf propfrtifs objfdt bt thbt timf.</p>
+     *
+     * @pbrbm bddfssFilfProps propfrtifs list dontbining thf usfrnbmf/bddfss
+     * lfvfl fntrifs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bddfssFilfProps</dodf> is
+     * <dodf>null</dodf> or if bny of thf supplifd bddfss lfvfl vblufs difffrs
+     * from "rfbdonly" or "rfbdwritf".
+     */
+    publid MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs bddfssFilfProps)
+        throws IOExdfption {
+        supfr();
+        if (bddfssFilfProps == null)
+            throw nfw IllfgblArgumfntExdfption("Null propfrtifs");
+        originblProps = bddfssFilfProps;
+        pbrsfPropfrtifs(bddfssFilfProps);
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnSfrvfrAddfssControllfr thbt forwbrds bll thf
+     * MBfbnSfrvfr rfqufsts to thf MBfbnSfrvfr sft by invoking thf {@link
+     * #sftMBfbnSfrvfr} mfthod bftfr doing bddfss dhfdks bbsfd on rfbd bnd
+     * writf pfrmissions.</p>
+     *
+     * <p>This instbndf is initiblizfd from thf spfdififd propfrtifs
+     * instbndf.  This donstrudtor mbkfs b dopy of thf propfrtifs
+     * instbndf bnd it is thf dopy thbt is donsultfd to dhfdk thf
+     * usfrnbmf bnd bddfss lfvfl of bn indoming donnfdtion. Thf
+     * originbl propfrtifs objfdt dbn bf modififd without bfffdting
+     * thf dopy. If thf {@link #rffrfsh} mfthod is thfn dbllfd, thf
+     * <dodf>MBfbnSfrvfrFilfAddfssControllfr</dodf> will mbkf b nfw
+     * dopy of thf propfrtifs objfdt bt thbt timf.</p>
+     *
+     * @pbrbm bddfssFilfProps propfrtifs list dontbining thf usfrnbmf/bddfss
+     * lfvfl fntrifs.
+     *
+     * @pbrbm mbs thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bddfssFilfProps</dodf> is
+     * <dodf>null</dodf> or if bny of thf supplifd bddfss lfvfl vblufs difffrs
+     * from "rfbdonly" or "rfbdwritf".
+     */
+    publid MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs bddfssFilfProps,
+                                           MBfbnSfrvfr mbs)
+        throws IOExdfption {
+        this(bddfssFilfProps);
+        sftMBfbnSfrvfr(mbs);
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn do rfbd opfrbtions. This mfthod dofs
+     * nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkRfbd() {
+        dhfdkAddfss(AddfssTypf.READ, null);
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn do writf opfrbtions.  This mfthod dofs
+     * nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkWritf() {
+        dhfdkAddfss(AddfssTypf.WRITE, null);
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn drfbtf MBfbns or instbndfs of thf givfn dlbss.
+     * This mfthod dofs nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkCrfbtf(String dlbssNbmf) {
+        dhfdkAddfss(AddfssTypf.CREATE, dlbssNbmf);
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn do unrfgistfr opfrbtions.  This mfthod dofs
+     * nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkUnrfgistfr(ObjfdtNbmf nbmf) {
+        dhfdkAddfss(AddfssTypf.UNREGISTER, null);
+    }
+
+    /**
+     * <p>Rffrfsh thf sft of usfrnbmf/bddfss lfvfl fntrifs.</p>
+     *
+     * <p>If this instbndf wbs drfbtfd using thf
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(String)} or
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(String,MBfbnSfrvfr)}
+     * donstrudtors to spfdify b filf from whidh thf fntrifs brf rfbd,
+     * thf filf is rf-rfbd.</p>
+     *
+     * <p>If this instbndf wbs drfbtfd using thf
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs)} or
+     * {@link #MBfbnSfrvfrFilfAddfssControllfr(Propfrtifs,MBfbnSfrvfr)}
+     * donstrudtors thfn b nfw dopy of thf <dodf>Propfrtifs</dodf> objfdt
+     * is mbdf.</p>
+     *
+     * @fxdfption IOExdfption if thf filf dofs not fxist, is b
+     * dirfdtory rbthfr thbn b rfgulbr filf, or for somf othfr
+     * rfbson dbnnot bf opfnfd for rfbding.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if bny of thf supplifd bddfss
+     * lfvfl vblufs difffrs from "rfbdonly" or "rfbdwritf".
+     */
+    publid syndhronizfd void rffrfsh() throws IOExdfption {
+        Propfrtifs props;
+        if (bddfssFilfNbmf == null)
+            props = originblProps;
+        flsf
+            props = propfrtifsFromFilf(bddfssFilfNbmf);
+        pbrsfPropfrtifs(props);
+    }
+
+    privbtf stbtid Propfrtifs propfrtifsFromFilf(String fnbmf)
+        throws IOExdfption {
+        FilfInputStrfbm fin = nfw FilfInputStrfbm(fnbmf);
+        try {
+            Propfrtifs p = nfw Propfrtifs();
+            p.lobd(fin);
+            rfturn p;
+        } finblly {
+            fin.dlosf();
+        }
+    }
+
+    privbtf syndhronizfd void dhfdkAddfss(AddfssTypf rfquirfdAddfss, String brg) {
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        finbl Subjfdt s =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Subjfdt>() {
+                    publid Subjfdt run() {
+                        rfturn Subjfdt.gftSubjfdt(bdd);
+                    }
+                });
+        if (s == null) rfturn; /* sfdurity hbs not bffn fnbblfd */
+        finbl Sft<Prindipbl> prindipbls = s.gftPrindipbls();
+        String nfwPropfrtyVbluf = null;
+        for (Itfrbtor<Prindipbl> i = prindipbls.itfrbtor(); i.hbsNfxt(); ) {
+            finbl Prindipbl p = i.nfxt();
+            Addfss bddfss = bddfssMbp.gft(p.gftNbmf());
+            if (bddfss != null) {
+                boolfbn ok;
+                switdh (rfquirfdAddfss) {
+                    dbsf READ:
+                        ok = truf;  // bll bddfss fntrifs imply rfbd
+                        brfbk;
+                    dbsf WRITE:
+                        ok = bddfss.writf;
+                        brfbk;
+                    dbsf UNREGISTER:
+                        ok = bddfss.unrfgistfr;
+                        if (!ok && bddfss.writf)
+                            nfwPropfrtyVbluf = "unrfgistfr";
+                        brfbk;
+                    dbsf CREATE:
+                        ok = dhfdkCrfbtfAddfss(bddfss, brg);
+                        if (!ok && bddfss.writf)
+                            nfwPropfrtyVbluf = "drfbtf " + brg;
+                        brfbk;
+                    dffbult:
+                        throw nfw AssfrtionError();
+                }
+                if (ok)
+                    rfturn;
+            }
+        }
+        SfdurityExdfption sf = nfw SfdurityExdfption("Addfss dfnifd! Invblid " +
+                "bddfss lfvfl for rfqufstfd MBfbnSfrvfr opfrbtion.");
+        // Add somf morf informbtion to hflp pfoplf with dfploymfnts thbt
+        // workfd bfforf wf rfquirfd fxplidit drfbtf dlbusfs. Wf'rf not giving
+        // bny informbtion to thf bbd guys, othfr thbn thbt thf bddfss dontrol
+        // is bbsfd on b filf, whidh thfy dould hbvf workfd out from thf stbdk
+        // trbdf bnywby.
+        if (nfwPropfrtyVbluf != null) {
+            SfdurityExdfption sf2 = nfw SfdurityExdfption("Addfss propfrty " +
+                    "for this idfntity should bf similbr to: " + READWRITE +
+                    " " + nfwPropfrtyVbluf);
+            sf.initCbusf(sf2);
+        }
+        throw sf;
+    }
+
+    privbtf stbtid boolfbn dhfdkCrfbtfAddfss(Addfss bddfss, String dlbssNbmf) {
+        for (String dlbssNbmfPbttfrn : bddfss.drfbtfPbttfrns) {
+            if (dlbssNbmfMbtdh(dlbssNbmfPbttfrn, dlbssNbmf))
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid boolfbn dlbssNbmfMbtdh(String pbttfrn, String dlbssNbmf) {
+        // Wf studiously bvoidfd rfgfxfs whfn pbrsing thf propfrtifs filf,
+        // bfdbusf thbt is donf whfnfvfr thf VM is stbrtfd with thf
+        // bppropribtf -Ddom.sun.mbnbgfmfnt options, fvfn if nobody fvfr
+        // drfbtfs bn MBfbn.  Wf don't wbnt to indur thf ovfrhfbd of lobding
+        // bll thf rfgfx dodf whfnfvfr thosf options brf spfdififd, but if wf
+        // gft bs fbr bs hfrf thfn thf VM is blrfbdy running bnd somfbody is
+        // doing thf vfry unusubl opfrbtion of rfmotfly drfbting bn MBfbn.
+        // Bfdbusf thbt opfrbtion is so unusubl, wf don't try to optimizf
+        // by hbnd-mbtdhing or by dbdhing dompilfd Pbttfrn objfdts.
+        StringBuildfr sb = nfw StringBuildfr();
+        StringTokfnizfr stok = nfw StringTokfnizfr(pbttfrn, "*", truf);
+        whilf (stok.hbsMorfTokfns()) {
+            String tok = stok.nfxtTokfn();
+            if (tok.fqubls("*"))
+                sb.bppfnd("[^.]*");
+            flsf
+                sb.bppfnd(Pbttfrn.quotf(tok));
+        }
+        rfturn dlbssNbmf.mbtdhfs(sb.toString());
+    }
+
+    privbtf void pbrsfPropfrtifs(Propfrtifs props) {
+        this.bddfssMbp = nfw HbshMbp<String, Addfss>();
+        for (Mbp.Entry<Objfdt, Objfdt> fntry : props.fntrySft()) {
+            String idfntity = (String) fntry.gftKfy();
+            String bddfssString = (String) fntry.gftVbluf();
+            Addfss bddfss = Pbrsfr.pbrsfAddfss(idfntity, bddfssString);
+            bddfssMbp.put(idfntity, bddfss);
+        }
+    }
+
+    privbtf stbtid dlbss Pbrsfr {
+        privbtf finbl stbtid int EOS = -1;  // psfudo-dodfpoint "fnd of string"
+        stbtid {
+            bssfrt !Chbrbdtfr.isWhitfspbdf(EOS);
+        }
+
+        privbtf finbl String idfntity;  // just for bfttfr frror mfssbgfs
+        privbtf finbl String s;  // thf string wf'rf pbrsing
+        privbtf finbl int lfn;   // s.lfngth()
+        privbtf int i;
+        privbtf int d;
+        // At bny point, fithfr d is s.dodfPointAt(i), or i == lfn bnd
+        // d is EOS.  Wf usf int rbthfr thbn dhbr bfdbusf it is dondfivbblf
+        // (if unlikfly) thbt b dlbssnbmf in b drfbtf dlbusf might dontbin
+        // "supplfmfntbry dhbrbdtfrs", thf onfs thbt don't fit in thf originbl
+        // 16 bits for Unidodf.
+
+        privbtf Pbrsfr(String idfntity, String s) {
+            this.idfntity = idfntity;
+            this.s = s;
+            this.lfn = s.lfngth();
+            this.i = 0;
+            if (i < lfn)
+                this.d = s.dodfPointAt(i);
+            flsf
+                this.d = EOS;
+        }
+
+        stbtid Addfss pbrsfAddfss(String idfntity, String s) {
+            rfturn nfw Pbrsfr(idfntity, s).pbrsfAddfss();
+        }
+
+        privbtf Addfss pbrsfAddfss() {
+            skipSpbdf();
+            String typf = pbrsfWord();
+            Addfss bddfss;
+            if (typf.fqubls(READONLY))
+                bddfss = nfw Addfss(fblsf, fblsf, null);
+            flsf if (typf.fqubls(READWRITE))
+                bddfss = pbrsfRfbdWritf();
+            flsf {
+                throw syntbx("Expfdtfd " + READONLY + " or " + READWRITE +
+                        ": " + typf);
+            }
+            if (d != EOS)
+                throw syntbx("Extrb tfxt bt fnd of linf");
+            rfturn bddfss;
+        }
+
+        privbtf Addfss pbrsfRfbdWritf() {
+            List<String> drfbtfClbssfs = nfw ArrbyList<String>();
+            boolfbn unrfgistfr = fblsf;
+            whilf (truf) {
+                skipSpbdf();
+                if (d == EOS)
+                    brfbk;
+                String typf = pbrsfWord();
+                if (typf.fqubls(UNREGISTER))
+                    unrfgistfr = truf;
+                flsf if (typf.fqubls(CREATE))
+                    pbrsfCrfbtf(drfbtfClbssfs);
+                flsf
+                    throw syntbx("Unrfdognizfd kfyword " + typf);
+            }
+            rfturn nfw Addfss(truf, unrfgistfr, drfbtfClbssfs);
+        }
+
+        privbtf void pbrsfCrfbtf(List<String> drfbtfClbssfs) {
+            whilf (truf) {
+                skipSpbdf();
+                drfbtfClbssfs.bdd(pbrsfClbssNbmf());
+                skipSpbdf();
+                if (d == ',')
+                    nfxt();
+                flsf
+                    brfbk;
+            }
+        }
+
+        privbtf String pbrsfClbssNbmf() {
+            // Wf don't dhfdk thbt dlbssnbmf domponfnts bfgin with suitbblf
+            // dhbrbdtfrs (so wf bddfpt 1.2.3 for fxbmplf).  This mfbns thbt
+            // thfrf brf only two stbtfs, whidh wf dbn dbll dotOK bnd !dotOK
+            // bddording bs b dot (.) is lfgbl or not.  Initiblly wf'rf in
+            // !dotOK sindf b dlbssnbmf dbn't stbrt with b dot; bftfr b dot
+            // wf'rf in !dotOK bgbin; bnd bftfr bny othfr dhbrbdtfrs wf'rf in
+            // dotOK.  Thf dlbssnbmf is only bddfptfd if wf fnd in dotOK,
+            // so wf rfjfdt bn fmpty nbmf or b nbmf thbt fnds with b dot.
+            finbl int stbrt = i;
+            boolfbn dotOK = fblsf;
+            whilf (truf) {
+                if (d == '.') {
+                    if (!dotOK)
+                        throw syntbx("Bbd . in dlbss nbmf");
+                    dotOK = fblsf;
+                } flsf if (d == '*' || Chbrbdtfr.isJbvbIdfntififrPbrt(d))
+                    dotOK = truf;
+                flsf
+                    brfbk;
+                nfxt();
+            }
+            String dlbssNbmf = s.substring(stbrt, i);
+            if (!dotOK)
+                throw syntbx("Bbd dlbss nbmf " + dlbssNbmf);
+            rfturn dlbssNbmf;
+        }
+
+        // Advbndf d bnd i to thf nfxt dhbrbdtfr, unlfss blrfbdy bt EOS.
+        privbtf void nfxt() {
+            if (d != EOS) {
+                i += Chbrbdtfr.dhbrCount(d);
+                if (i < lfn)
+                    d = s.dodfPointAt(i);
+                flsf
+                    d = EOS;
+            }
+        }
+
+        privbtf void skipSpbdf() {
+            whilf (Chbrbdtfr.isWhitfspbdf(d))
+                nfxt();
+        }
+
+        privbtf String pbrsfWord() {
+            skipSpbdf();
+            if (d == EOS)
+                throw syntbx("Expfdtfd word bt fnd of linf");
+            finbl int stbrt = i;
+            whilf (d != EOS && !Chbrbdtfr.isWhitfspbdf(d))
+                nfxt();
+            String word = s.substring(stbrt, i);
+            skipSpbdf();
+            rfturn word;
+        }
+
+        privbtf IllfgblArgumfntExdfption syntbx(String msg) {
+            rfturn nfw IllfgblArgumfntExdfption(
+                    msg + " [" + idfntity + " " + s + "]");
+        }
+    }
+
+    privbtf Mbp<String, Addfss> bddfssMbp;
+    privbtf Propfrtifs originblProps;
+    privbtf String bddfssFilfNbmf;
+}

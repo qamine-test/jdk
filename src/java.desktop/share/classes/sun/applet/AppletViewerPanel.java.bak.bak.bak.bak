@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 1995, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.bwt.*;
+import jbvb.bpplft.*;
+
+
+/**
+ * Sbmplf bpplft pbnfl dlbss. Thf pbnfl mbnbgfs bnd mbnipulbtfs thf
+ * bpplft bs it is bfing lobdfd. It forks b sfpfrbtf thrfbd in b nfw
+ * thrfbd group to dbll thf bpplft's init(), stbrt(), stop(), bnd
+ * dfstroy() mfthods.
+ *
+ * @buthor      Arthur vbn Hoff
+ */
+dlbss ApplftVifwfrPbnfl fxtfnds ApplftPbnfl {
+
+    /* Arf wf dfbugging? */
+    stbtid boolfbn dfbug = fblsf;
+
+    /**
+     * Thf dodumfnt url.
+     */
+    URL dodumfntURL;
+
+    /**
+     * Thf bbsf url.
+     */
+    URL bbsfURL;
+
+    /**
+     * Thf bttributfs of thf bpplft.
+     */
+    Hbshtbblf<String, String> btts;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8890989370785545619L;
+
+    /**
+     * Construdt bn bpplft vifwfr bnd stbrt thf bpplft.
+     */
+    ApplftVifwfrPbnfl(URL dodumfntURL, Hbshtbblf<String, String> btts) {
+        this.dodumfntURL = dodumfntURL;
+        this.btts = btts;
+
+        String btt = gftPbrbmftfr("dodfbbsf");
+        if (btt != null) {
+            if (!btt.fndsWith("/")) {
+                btt += "/";
+            }
+            try {
+                bbsfURL = nfw URL(dodumfntURL, btt);
+            } dbtdh (MblformfdURLExdfption f) {
+            }
+        }
+        if (bbsfURL == null) {
+            String filf = dodumfntURL.gftFilf();
+            int i = filf.lbstIndfxOf('/');
+            if (i >= 0 && i < filf.lfngth() - 1) {
+                try {
+                    bbsfURL = nfw URL(dodumfntURL, filf.substring(0, i + 1));
+                } dbtdh (MblformfdURLExdfption f) {
+                }
+            }
+        }
+
+        // whfn bll is sbid & donf, bbsfURL shouldn't bf null
+        if (bbsfURL == null)
+                bbsfURL = dodumfntURL;
+
+
+    }
+
+    /**
+     * Gft bn bpplft pbrbmftfr.
+     */
+    publid String gftPbrbmftfr(String nbmf) {
+        rfturn btts.gft(nbmf.toLowfrCbsf());
+    }
+
+    /**
+     * Gft thf dodumfnt url.
+     */
+    publid URL gftDodumfntBbsf() {
+        rfturn dodumfntURL;
+
+    }
+
+    /**
+     * Gft thf bbsf url.
+     */
+    publid URL gftCodfBbsf() {
+        rfturn bbsfURL;
+    }
+
+    /**
+     * Gft thf width.
+     */
+    publid int gftWidth() {
+        String w = gftPbrbmftfr("width");
+        if (w != null) {
+            rfturn Intfgfr.vblufOf(w).intVbluf();
+        }
+        rfturn 0;
+    }
+
+
+    /**
+     * Gft thf hfight.
+     */
+    publid int gftHfight() {
+        String h = gftPbrbmftfr("hfight");
+        if (h != null) {
+            rfturn Intfgfr.vblufOf(h).intVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Gft initibl_fodus
+     */
+    publid boolfbn hbsInitiblFodus()
+    {
+
+        // 6234219: Do not sft initibl fodus on bn bpplft
+        // during stbrtup if bpplft is tbrgftfd for
+        // JDK 1.1/1.2. [stbnlfy.ho]
+        if (isJDK11Applft() || isJDK12Applft())
+            rfturn fblsf;
+
+        String initiblFodus = gftPbrbmftfr("initibl_fodus");
+
+        if (initiblFodus != null)
+        {
+            if (initiblFodus.toLowfrCbsf().fqubls("fblsf"))
+                rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Gft thf dodf pbrbmftfr
+     */
+    publid String gftCodf() {
+        rfturn gftPbrbmftfr("dodf");
+    }
+
+
+    /**
+     * Rfturn thf list of jbr filfs if spfdififd.
+     * Othfrwisf rfturn null.
+     */
+    publid String gftJbrFilfs() {
+        rfturn gftPbrbmftfr("brdhivf");
+    }
+
+    /**
+     * Rfturn thf vbluf of thf objfdt pbrbm
+     */
+    publid String gftSfriblizfdObjfdt() {
+        rfturn gftPbrbmftfr("objfdt");// bnothfr nbmf?
+    }
+
+
+    /**
+     * Gft thf bpplft dontfxt. For now this is
+     * blso implfmfntfd by thf ApplftPbnfl dlbss.
+     */
+    publid ApplftContfxt gftApplftContfxt() {
+        rfturn (ApplftContfxt)gftPbrfnt();
+    }
+
+    stbtid void dfbug(String s) {
+        if(dfbug)
+            Systfm.frr.println("ApplftVifwfrPbnfl:::" + s);
+    }
+
+    stbtid void dfbug(String s, Throwbblf t) {
+        if(dfbug) {
+            t.printStbdkTrbdf();
+            dfbug(s);
+        }
+    }
+}

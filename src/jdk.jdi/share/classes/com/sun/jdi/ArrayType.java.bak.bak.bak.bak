@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+
+/**
+ * Providfs bddfss to thf dlbss of bn brrby bnd thf typf of
+ * its domponfnts in thf tbrgft VM.
+ *
+ * @sff ArrbyRfffrfndf
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ArrbyTypf fxtfnds RfffrfndfTypf {
+
+    /**
+     * Crfbtfs b nfw instbndf of this brrby dlbss in thf tbrgft VM.
+     * Thf brrby is drfbtfd with thf givfn lfngth bnd fbdh domponfnt
+     * is initiblizfd to is stbndbrd dffbult vbluf.
+     *
+     * @pbrbm lfngth thf numbfr of domponfnts in thf nfw brrby
+     * @rfturn thf nfwly drfbtfd {@link ArrbyRfffrfndf} mirroring
+     * thf nfw objfdt in thf tbrgft VM.
+     *
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    ArrbyRfffrfndf nfwInstbndf(int lfngth);
+
+    /**
+     * Gfts thf JNI signbturf of thf domponfnts of this
+     * brrby dlbss. Thf signbturf
+     * dfsdribfs thf dfdlbrfd typf of thf domponfnts. If thf domponfnts
+     * brf objfdts, thfir bdtubl typf in b pbrtidulbr run-timf dontfxt
+     * mby bf b subdlbss of thf dfdlbrfd dlbss.
+     *
+     * @rfturn b string dontbining thf JNI signbturf of brrby domponfnts.
+     */
+    String domponfntSignbturf();
+
+    /**
+     * Rfturns b tfxt rfprfsfntbtion of thf domponfnt
+     * typf of this brrby.
+     *
+     * @rfturn b tfxt rfprfsfntbtion of thf domponfnt typf.
+     */
+    String domponfntTypfNbmf();
+
+    /**
+     * Rfturns thf domponfnt typf of this brrby,
+     * bs spfdififd in thf brrby dfdlbrbtion.
+     * <P>
+     * Notf: Thf domponfnt typf of b brrby will blwbys bf
+     * drfbtfd or lobdfd bfforf thf brrby - sff
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>,
+     * sfdtion 5.3.3 - Crfbting Arrby Clbssfs.
+     * Howfvfr, blthough thf domponfnt typf will bf lobdfd it mby
+     * not yft bf prfpbrfd, in whidh dbsf thf typf will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on thf rfturnfd typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will throw
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
+     *
+     * @sff Typf
+     * @sff Fifld#typf() Fifld.typf() - for usbgf fxbmplfs
+     * @rfturn thf {@link Typf} of this brrby's domponfnts.
+     */
+    Typf domponfntTypf() throws ClbssNotLobdfdExdfption;
+}

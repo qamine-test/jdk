@@ -1,0 +1,56 @@
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * Implfmfnts thf nbtivf dodf for thf jbvb.bwt.AWTEvfnt dlbss
+ * bnd bll of thf dlbssfs in thf jbvb.bwt.fvfnt pbdkbgf.
+ *
+ * THIS FILE DOES NOT IMPLEMENT ANY OF THE OBSOLETE jbvb.bwt.Evfnt
+ * CLASS. SEE bwt_Evfnt.[dh] FOR THAT CLASS' IMPLEMENTATION.
+ */
+#ifndff _AWT_AWTEVENT_H_
+#dffinf _AWT_AWTEVENT_H_
+
+#indludf "jni_util.h"
+
+strudt AWTEvfntIDs {
+  jfifldID bdbtb;
+  jfifldID donsumfd;
+  jfifldID id;
+};
+
+strudt InputEvfntIDs {
+  jfifldID modififrs;
+};
+
+strudt KfyEvfntIDs {
+  jfifldID kfyCodf;
+  jfifldID kfyChbr;
+};
+
+fxtfrn strudt AWTEvfntIDs bwtEvfntIDs;
+fxtfrn strudt InputEvfntIDs inputEvfntIDs;
+fxtfrn strudt KfyEvfntIDs kfyEvfntIDs;
+
+#fndif /* _AWT_AWTEVENT_H_ */

@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The default model for combo boxes.
+ * Tif dffbult modfl for dombo boxfs.
  *
- * @param <E> the type of the elements of this model
+ * @pbrbm <E> tif typf of tif flfmfnts of tiis modfl
  *
- * @author Arnaud Weber
- * @author Tom Santos
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @butior Tom Sbntos
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements MutableComboBoxModel<E>, Serializable {
-    Vector<E> objects;
-    Object selectedObject;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss DffbultComboBoxModfl<E> fxtfnds AbstrbdtListModfl<E> implfmfnts MutbblfComboBoxModfl<E>, Sfriblizbblf {
+    Vfdtor<E> objfdts;
+    Objfdt sflfdtfdObjfdt;
 
     /**
-     * Constructs an empty DefaultComboBoxModel object.
+     * Construdts bn fmpty DffbultComboBoxModfl objfdt.
      */
-    public DefaultComboBoxModel() {
-        objects = new Vector<E>();
+    publid DffbultComboBoxModfl() {
+        objfdts = nfw Vfdtor<E>();
     }
 
     /**
-     * Constructs a DefaultComboBoxModel object initialized with
-     * an array of objects.
+     * Construdts b DffbultComboBoxModfl objfdt initiblizfd witi
+     * bn brrby of objfdts.
      *
-     * @param items  an array of Object objects
+     * @pbrbm itfms  bn brrby of Objfdt objfdts
      */
-    public DefaultComboBoxModel(final E items[]) {
-        objects = new Vector<E>(items.length);
+    publid DffbultComboBoxModfl(finbl E itfms[]) {
+        objfdts = nfw Vfdtor<E>(itfms.lfngti);
 
-        int i,c;
-        for ( i=0,c=items.length;i<c;i++ )
-            objects.addElement(items[i]);
+        int i,d;
+        for ( i=0,d=itfms.lfngti;i<d;i++ )
+            objfdts.bddElfmfnt(itfms[i]);
 
-        if ( getSize() > 0 ) {
-            selectedObject = getElementAt( 0 );
+        if ( gftSizf() > 0 ) {
+            sflfdtfdObjfdt = gftElfmfntAt( 0 );
         }
     }
 
     /**
-     * Constructs a DefaultComboBoxModel object initialized with
-     * a vector.
+     * Construdts b DffbultComboBoxModfl objfdt initiblizfd witi
+     * b vfdtor.
      *
-     * @param v  a Vector object ...
+     * @pbrbm v  b Vfdtor objfdt ...
      */
-    public DefaultComboBoxModel(Vector<E> v) {
-        objects = v;
+    publid DffbultComboBoxModfl(Vfdtor<E> v) {
+        objfdts = v;
 
-        if ( getSize() > 0 ) {
-            selectedObject = getElementAt( 0 );
+        if ( gftSizf() > 0 ) {
+            sflfdtfdObjfdt = gftElfmfntAt( 0 );
         }
     }
 
-    // implements javax.swing.ComboBoxModel
+    // implfmfnts jbvbx.swing.ComboBoxModfl
     /**
-     * Set the value of the selected item. The selected item may be null.
+     * Sft tif vbluf of tif sflfdtfd itfm. Tif sflfdtfd itfm mby bf null.
      *
-     * @param anObject The combo box value or null for no selection.
+     * @pbrbm bnObjfdt Tif dombo box vbluf or null for no sflfdtion.
      */
-    public void setSelectedItem(Object anObject) {
-        if ((selectedObject != null && !selectedObject.equals( anObject )) ||
-            selectedObject == null && anObject != null) {
-            selectedObject = anObject;
-            fireContentsChanged(this, -1, -1);
+    publid void sftSflfdtfdItfm(Objfdt bnObjfdt) {
+        if ((sflfdtfdObjfdt != null && !sflfdtfdObjfdt.fqubls( bnObjfdt )) ||
+            sflfdtfdObjfdt == null && bnObjfdt != null) {
+            sflfdtfdObjfdt = bnObjfdt;
+            firfContfntsCibngfd(tiis, -1, -1);
         }
     }
 
-    // implements javax.swing.ComboBoxModel
-    public Object getSelectedItem() {
-        return selectedObject;
+    // implfmfnts jbvbx.swing.ComboBoxModfl
+    publid Objfdt gftSflfdtfdItfm() {
+        rfturn sflfdtfdObjfdt;
     }
 
-    // implements javax.swing.ListModel
-    public int getSize() {
-        return objects.size();
+    // implfmfnts jbvbx.swing.ListModfl
+    publid int gftSizf() {
+        rfturn objfdts.sizf();
     }
 
-    // implements javax.swing.ListModel
-    public E getElementAt(int index) {
-        if ( index >= 0 && index < objects.size() )
-            return objects.elementAt(index);
-        else
-            return null;
+    // implfmfnts jbvbx.swing.ListModfl
+    publid E gftElfmfntAt(int indfx) {
+        if ( indfx >= 0 && indfx < objfdts.sizf() )
+            rfturn objfdts.flfmfntAt(indfx);
+        flsf
+            rfturn null;
     }
 
     /**
-     * Returns the index-position of the specified object in the list.
+     * Rfturns tif indfx-position of tif spfdififd objfdt in tif list.
      *
-     * @param anObject the object to return the index of
-     * @return an int representing the index position, where 0 is
-     *         the first position
+     * @pbrbm bnObjfdt tif objfdt to rfturn tif indfx of
+     * @rfturn bn int rfprfsfnting tif indfx position, wifrf 0 is
+     *         tif first position
      */
-    public int getIndexOf(Object anObject) {
-        return objects.indexOf(anObject);
+    publid int gftIndfxOf(Objfdt bnObjfdt) {
+        rfturn objfdts.indfxOf(bnObjfdt);
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void addElement(E anObject) {
-        objects.addElement(anObject);
-        fireIntervalAdded(this,objects.size()-1, objects.size()-1);
-        if ( objects.size() == 1 && selectedObject == null && anObject != null ) {
-            setSelectedItem( anObject );
+    // implfmfnts jbvbx.swing.MutbblfComboBoxModfl
+    publid void bddElfmfnt(E bnObjfdt) {
+        objfdts.bddElfmfnt(bnObjfdt);
+        firfIntfrvblAddfd(tiis,objfdts.sizf()-1, objfdts.sizf()-1);
+        if ( objfdts.sizf() == 1 && sflfdtfdObjfdt == null && bnObjfdt != null ) {
+            sftSflfdtfdItfm( bnObjfdt );
         }
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void insertElementAt(E anObject,int index) {
-        objects.insertElementAt(anObject,index);
-        fireIntervalAdded(this, index, index);
+    // implfmfnts jbvbx.swing.MutbblfComboBoxModfl
+    publid void insfrtElfmfntAt(E bnObjfdt,int indfx) {
+        objfdts.insfrtElfmfntAt(bnObjfdt,indfx);
+        firfIntfrvblAddfd(tiis, indfx, indfx);
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void removeElementAt(int index) {
-        if ( getElementAt( index ) == selectedObject ) {
-            if ( index == 0 ) {
-                setSelectedItem( getSize() == 1 ? null : getElementAt( index + 1 ) );
+    // implfmfnts jbvbx.swing.MutbblfComboBoxModfl
+    publid void rfmovfElfmfntAt(int indfx) {
+        if ( gftElfmfntAt( indfx ) == sflfdtfdObjfdt ) {
+            if ( indfx == 0 ) {
+                sftSflfdtfdItfm( gftSizf() == 1 ? null : gftElfmfntAt( indfx + 1 ) );
             }
-            else {
-                setSelectedItem( getElementAt( index - 1 ) );
+            flsf {
+                sftSflfdtfdItfm( gftElfmfntAt( indfx - 1 ) );
             }
         }
 
-        objects.removeElementAt(index);
+        objfdts.rfmovfElfmfntAt(indfx);
 
-        fireIntervalRemoved(this, index, index);
+        firfIntfrvblRfmovfd(tiis, indfx, indfx);
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void removeElement(Object anObject) {
-        int index = objects.indexOf(anObject);
-        if ( index != -1 ) {
-            removeElementAt(index);
+    // implfmfnts jbvbx.swing.MutbblfComboBoxModfl
+    publid void rfmovfElfmfnt(Objfdt bnObjfdt) {
+        int indfx = objfdts.indfxOf(bnObjfdt);
+        if ( indfx != -1 ) {
+            rfmovfElfmfntAt(indfx);
         }
     }
 
     /**
-     * Empties the list.
+     * Emptifs tif list.
      */
-    public void removeAllElements() {
-        if ( objects.size() > 0 ) {
-            int firstIndex = 0;
-            int lastIndex = objects.size() - 1;
-            objects.removeAllElements();
-            selectedObject = null;
-            fireIntervalRemoved(this, firstIndex, lastIndex);
-        } else {
-            selectedObject = null;
+    publid void rfmovfAllElfmfnts() {
+        if ( objfdts.sizf() > 0 ) {
+            int firstIndfx = 0;
+            int lbstIndfx = objfdts.sizf() - 1;
+            objfdts.rfmovfAllElfmfnts();
+            sflfdtfdObjfdt = null;
+            firfIntfrvblRfmovfd(tiis, firstIndfx, lbstIndfx);
+        } flsf {
+            sflfdtfdObjfdt = null;
         }
     }
 }

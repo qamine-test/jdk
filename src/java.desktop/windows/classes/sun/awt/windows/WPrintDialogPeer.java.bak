@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.DialogPeer;
-import java.awt.peer.ComponentPeer;
-import java.awt.dnd.DropTarget;
-import java.util.Vector;
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.DiblogPffr;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.util.Vfdtor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
 
-class WPrintDialogPeer extends WWindowPeer implements DialogPeer {
+dlbss WPrintDiblogPffr fxtfnds WWindowPffr implfmfnts DiblogPffr {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    private WComponentPeer parent;
+    privbtf WComponfntPffr pbrfnt;
 
-    private Vector<WWindowPeer> blockedWindows = new Vector<>();
+    privbtf Vfdtor<WWindowPffr> blodkfdWindows = nfw Vfdtor<>();
 
-    WPrintDialogPeer(WPrintDialog target) {
-        super(target);
+    WPrintDiblogPffr(WPrintDiblog tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    void create(WComponentPeer parent) {
-        this.parent = parent;
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        tiis.pbrfnt = pbrfnt;
     }
 
     // fix for CR 6178323:
-    // don't use checkCreation() from WComponentPeer to avoid hwnd check
-    @Override
-    protected void checkCreation() {
+    // don't usf difdkCrfbtion() from WComponfntPffr to bvoid iwnd difdk
+    @Ovfrridf
+    protfdtfd void difdkCrfbtion() {
     }
 
-    @Override
-    protected void disposeImpl() {
-        WToolkit.targetDisposedPeer(target, this);
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        WToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
     }
 
-    private native boolean _show();
+    privbtf nbtivf boolfbn _siow();
 
-    @Override
-    public void show() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+    @Ovfrridf
+    publid void siow() {
+        nfw Tirfbd(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
                 try {
-                    ((WPrintDialog)target).setRetVal(_show());
-                } catch (Exception e) {
-                    // No exception should be thrown by native dialog code,
-                    // but if it is we need to trap it so the thread does
-                    // not hide is called and the thread doesn't hang.
+                    ((WPrintDiblog)tbrgft).sftRftVbl(_siow());
+                } dbtdi (Exdfption f) {
+                    // No fxdfption siould bf tirown by nbtivf diblog dodf,
+                    // but if it is wf nffd to trbp it so tif tirfbd dofs
+                    // not iidf is dbllfd bnd tif tirfbd dofsn't ibng.
                 }
-                ((WPrintDialog)target).setVisible(false);
+                ((WPrintDiblog)tbrgft).sftVisiblf(fblsf);
             }
-        }).start();
+        }).stbrt();
     }
 
-    synchronized void setHWnd(long hwnd) {
-        this.hwnd = hwnd;
-        for (WWindowPeer window : blockedWindows) {
-            if (hwnd != 0) {
-                window.modalDisable((Dialog)target, hwnd);
-            } else {
-                window.modalEnable((Dialog)target);
+    syndironizfd void sftHWnd(long iwnd) {
+        tiis.iwnd = iwnd;
+        for (WWindowPffr window : blodkfdWindows) {
+            if (iwnd != 0) {
+                window.modblDisbblf((Diblog)tbrgft, iwnd);
+            } flsf {
+                window.modblEnbblf((Diblog)tbrgft);
             }
         }
     }
 
-    synchronized void blockWindow(WWindowPeer window) {
-        blockedWindows.add(window);
-        if (hwnd != 0) {
-            window.modalDisable((Dialog)target, hwnd);
+    syndironizfd void blodkWindow(WWindowPffr window) {
+        blodkfdWindows.bdd(window);
+        if (iwnd != 0) {
+            window.modblDisbblf((Diblog)tbrgft, iwnd);
         }
     }
-    synchronized void unblockWindow(WWindowPeer window) {
-        blockedWindows.remove(window);
-        if (hwnd != 0) {
-            window.modalEnable((Dialog)target);
+    syndironizfd void unblodkWindow(WWindowPffr window) {
+        blodkfdWindows.rfmovf(window);
+        if (iwnd != 0) {
+            window.modblEnbblf((Diblog)tbrgft);
         }
     }
 
-    @Override
-    public void blockWindows(java.util.List<Window> toBlock) {
-        for (Window w : toBlock) {
-            WWindowPeer wp = (WWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
+    @Ovfrridf
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        for (Window w : toBlodk) {
+            WWindowPffr wp = (WWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
             if (wp != null) {
-                blockWindow(wp);
+                blodkWindow(wp);
             }
         }
     }
 
-    @Override
-    public native void toFront();
-    @Override
-    public native void toBack();
+    @Ovfrridf
+    publid nbtivf void toFront();
+    @Ovfrridf
+    publid nbtivf void toBbdk();
 
-    // unused methods.  Overridden to disable this functionality as
-    // it requires HWND which is not available for FileDialog
-    @Override
-    void initialize() {}
-    @Override
-    public void updateAlwaysOnTopState() {}
-    @Override
-    public void setResizable(boolean resizable) {}
-    @Override
-    void hide() {}
-    @Override
-    void enable() {}
-    @Override
-    void disable() {}
-    @Override
-    public void reshape(int x, int y, int width, int height) {}
-    public boolean handleEvent(Event e) { return false; }
-    @Override
-    public void setForeground(Color c) {}
-    @Override
-    public void setBackground(Color c) {}
-    @Override
-    public void setFont(Font f) {}
-    @Override
-    public void updateMinimumSize() {}
-    @Override
-    public void updateIconImages() {}
-    public boolean requestFocus(boolean temporary, boolean focusedWindowChangeAllowed) {
-        return false;
+    // unusfd mftiods.  Ovfrriddfn to disbblf tiis fundtionblity bs
+    // it rfquirfs HWND wiidi is not bvbilbblf for FilfDiblog
+    @Ovfrridf
+    void initiblizf() {}
+    @Ovfrridf
+    publid void updbtfAlwbysOnTopStbtf() {}
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    @Ovfrridf
+    void iidf() {}
+    @Ovfrridf
+    void fnbblf() {}
+    @Ovfrridf
+    void disbblf() {}
+    @Ovfrridf
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {}
+    publid boolfbn ibndlfEvfnt(Evfnt f) { rfturn fblsf; }
+    @Ovfrridf
+    publid void sftForfground(Color d) {}
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {}
+    @Ovfrridf
+    publid void sftFont(Font f) {}
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {}
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {}
+    publid boolfbn rfqufstFodus(boolfbn tfmporbry, boolfbn fodusfdWindowCibngfAllowfd) {
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean requestFocus
-         (Component lightweightChild, boolean temporary,
-          boolean focusedWindowChangeAllowed, long time, CausedFocusEvent.Cause cause)
+    @Ovfrridf
+    publid boolfbn rfqufstFodus
+         (Componfnt ligitwfigitCiild, boolfbn tfmporbry,
+          boolfbn fodusfdWindowCibngfAllowfd, long timf, CbusfdFodusEvfnt.Cbusf dbusf)
     {
 
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public void updateFocusableWindowState() {}
-    @Override
-    void start() {}
-    @Override
-    public void beginValidate() {}
-    @Override
-    public void endValidate() {}
-    void invalidate(int x, int y, int width, int height) {}
-    @Override
-    public void addDropTarget(DropTarget dt) {}
-    @Override
-    public void removeDropTarget(DropTarget dt) {}
-    @Override
-    public void setZOrder(ComponentPeer above) {}
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {}
+    @Ovfrridf
+    void stbrt() {}
+    @Ovfrridf
+    publid void bfginVblidbtf() {}
+    @Ovfrridf
+    publid void fndVblidbtf() {}
+    void invblidbtf(int x, int y, int widti, int ifigit) {}
+    @Ovfrridf
+    publid void bddDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void sftZOrdfr(ComponfntPffr bbovf) {}
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    // The effects are not supported for system dialogs.
-    @Override
-    public void applyShape(sun.java2d.pipe.Region shape) {}
-    @Override
-    public void setOpacity(float opacity) {}
-    @Override
-    public void setOpaque(boolean isOpaque) {}
-    public void updateWindow(java.awt.image.BufferedImage backBuffer) {}
+    // Tif ffffdts brf not supportfd for systfm diblogs.
+    @Ovfrridf
+    publid void bpplySibpf(sun.jbvb2d.pipf.Rfgion sibpf) {}
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {}
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {}
+    publid void updbtfWindow(jbvb.bwt.imbgf.BufffrfdImbgf bbdkBufffr) {}
 
-    // the file/print dialogs are native dialogs and
-    // the native system does their own rendering
-    @Override
-    public void createScreenSurface(boolean isResize) {}
-    @Override
-    public void replaceSurfaceData() {}
+    // tif filf/print diblogs brf nbtivf diblogs bnd
+    // tif nbtivf systfm dofs tifir own rfndfring
+    @Ovfrridf
+    publid void drfbtfSdrffnSurfbdf(boolfbn isRfsizf) {}
+    @Ovfrridf
+    publid void rfplbdfSurfbdfDbtb() {}
 }

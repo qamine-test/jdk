@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.SaslException;
-import javax.security.sasl.Sasl;
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+import jbvbx.sfdurity.sbsl.Sbsl;
 
 // For HMAC_MD5
-import java.security.NoSuchAlgorithmException;
-import java.security.MessageDigest;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
 
-import java.util.Arrays;
-import java.util.logging.Logger;
+import jbvb.util.Arrbys;
+import jbvb.util.logging.Loggfr;
 
 /**
-  * Base class for implementing CRAM-MD5 client and server mechanisms.
+  * Bbsf dlbss for implfmfnting CRAM-MD5 dlifnt bnd sfrvfr mfdibnisms.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
   */
-abstract class CramMD5Base {
-    protected boolean completed = false;
-    protected boolean aborted = false;
-    protected byte[] pw;
+bbstrbdt dlbss CrbmMD5Bbsf {
+    protfdtfd boolfbn domplftfd = fblsf;
+    protfdtfd boolfbn bbortfd = fblsf;
+    protfdtfd bytf[] pw;
 
-    protected CramMD5Base() {
-        initLogger();
+    protfdtfd CrbmMD5Bbsf() {
+        initLoggfr();
     }
 
     /**
-     * Retrieves this mechanism's name.
+     * Rftrifvfs tiis mfdibnism's nbmf.
      *
-     * @return  The string "CRAM-MD5".
+     * @rfturn  Tif string "CRAM-MD5".
      */
-    public String getMechanismName() {
-        return "CRAM-MD5";
+    publid String gftMfdibnismNbmf() {
+        rfturn "CRAM-MD5";
     }
 
     /**
-     * Determines whether this mechanism has completed.
-     * CRAM-MD5 completes after processing one challenge from the server.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * CRAM-MD5 domplftfs bftfr prodfssing onf dibllfngf from tif sfrvfr.
      *
-     * @return true if has completed; false otherwise;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
      */
-    public boolean isComplete() {
-        return completed;
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
     }
 
     /**
-      * Unwraps the incoming buffer. CRAM-MD5 supports no security layer.
+      * Unwrbps tif indoming bufffr. CRAM-MD5 supports no sfdurity lbyfr.
       *
-      * @throws SaslException If attempt to use this method.
+      * @tirows SbslExdfption If bttfmpt to usf tiis mftiod.
       */
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException {
-        if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 supports neither integrity nor privacy");
-        } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 supports nfitifr intfgrity nor privbdy");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion not domplftfd");
         }
     }
 
     /**
-      * Wraps the outgoing buffer. CRAM-MD5 supports no security layer.
+      * Wrbps tif outgoing bufffr. CRAM-MD5 supports no sfdurity lbyfr.
       *
-      * @throws SaslException If attempt to use this method.
+      * @tirows SbslExdfption If bttfmpt to usf tiis mftiod.
       */
-    public byte[] wrap(byte[] outgoing, int offset, int len) throws SaslException {
-        if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 supports neither integrity nor privacy");
-        } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 supports nfitifr intfgrity nor privbdy");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion not domplftfd");
         }
     }
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when <tt>isComplete()</tt> returns true); otherwise, a
-     * <tt>SaslException</tt> is thrown.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * <tt>SbslExdfption</tt> is tirown.
      *
-     * @return value of property; only QOP is applicable to CRAM-MD5.
-     * @exception IllegalStateException if this authentication exchange has not completed
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to CRAM-MD5.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf ibs not domplftfd
      */
-    public Object getNegotiatedProperty(String propName) {
-        if (completed) {
-            if (propName.equals(Sasl.QOP)) {
-                return "auth";
-            } else {
-                return null;
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+                rfturn "buti";
+            } flsf {
+                rfturn null;
             }
-        } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion not domplftfd");
         }
     }
 
-    public void dispose() throws SaslException {
-        clearPassword();
+    publid void disposf() tirows SbslExdfption {
+        dlfbrPbssword();
     }
 
-    protected void clearPassword() {
+    protfdtfd void dlfbrPbssword() {
         if (pw != null) {
-            // zero out password
-            for (int i = 0; i < pw.length; i++) {
-                pw[i] = (byte)0;
+            // zfro out pbssword
+            for (int i = 0; i < pw.lfngti; i++) {
+                pw[i] = (bytf)0;
             }
             pw = null;
         }
     }
 
-    protected void finalize() {
-        clearPassword();
+    protfdtfd void finblizf() {
+        dlfbrPbssword();
     }
 
-    static private final int MD5_BLOCKSIZE = 64;
+    stbtid privbtf finbl int MD5_BLOCKSIZE = 64;
     /**
-     * Hashes its input arguments according to HMAC-MD5 (RFC 2104)
-     * and returns the resulting digest in its ASCII representation.
+     * Hbsifs its input brgumfnts bddording to HMAC-MD5 (RFC 2104)
+     * bnd rfturns tif rfsulting digfst in its ASCII rfprfsfntbtion.
      *
-     * HMAC-MD5 function is described as follows:
+     * HMAC-MD5 fundtion is dfsdribfd bs follows:
      *
-     *       MD5(key XOR opad, MD5(key XOR ipad, text))
+     *       MD5(kfy XOR opbd, MD5(kfy XOR ipbd, tfxt))
      *
-     * where key  is an n byte key
-     *       ipad is the byte 0x36 repeated 64 times
-     *       opad is the byte 0x5c repeated 64 times
-     *       text is the data to be protected
+     * wifrf kfy  is bn n bytf kfy
+     *       ipbd is tif bytf 0x36 rfpfbtfd 64 timfs
+     *       opbd is tif bytf 0x5d rfpfbtfd 64 timfs
+     *       tfxt is tif dbtb to bf protfdtfd
      */
-    final static String HMAC_MD5(byte[] key, byte[] text)
-        throws NoSuchAlgorithmException {
+    finbl stbtid String HMAC_MD5(bytf[] kfy, bytf[] tfxt)
+        tirows NoSudiAlgoritimExdfption {
 
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
 
-        /* digest the key if longer than 64 bytes */
-        if (key.length > MD5_BLOCKSIZE) {
-            key = md5.digest(key);
+        /* digfst tif kfy if longfr tibn 64 bytfs */
+        if (kfy.lfngti > MD5_BLOCKSIZE) {
+            kfy = md5.digfst(kfy);
         }
 
-        byte[] ipad = new byte[MD5_BLOCKSIZE];  /* inner padding */
-        byte[] opad = new byte[MD5_BLOCKSIZE];  /* outer padding */
-        byte[] digest;
+        bytf[] ipbd = nfw bytf[MD5_BLOCKSIZE];  /* innfr pbdding */
+        bytf[] opbd = nfw bytf[MD5_BLOCKSIZE];  /* outfr pbdding */
+        bytf[] digfst;
         int i;
 
-        /* store key in pads */
-        for (i = 0; i < key.length; i++) {
-            ipad[i] = key[i];
-            opad[i] = key[i];
+        /* storf kfy in pbds */
+        for (i = 0; i < kfy.lfngti; i++) {
+            ipbd[i] = kfy[i];
+            opbd[i] = kfy[i];
         }
 
-        /* XOR key with pads */
+        /* XOR kfy witi pbds */
         for (i = 0; i < MD5_BLOCKSIZE; i++) {
-            ipad[i] ^= 0x36;
-            opad[i] ^= 0x5c;
+            ipbd[i] ^= 0x36;
+            opbd[i] ^= 0x5d;
         }
 
-        /* inner MD5 */
-        md5.update(ipad);
-        md5.update(text);
-        digest = md5.digest();
+        /* innfr MD5 */
+        md5.updbtf(ipbd);
+        md5.updbtf(tfxt);
+        digfst = md5.digfst();
 
-        /* outer MD5 */
-        md5.update(opad);
-        md5.update(digest);
-        digest = md5.digest();
+        /* outfr MD5 */
+        md5.updbtf(opbd);
+        md5.updbtf(digfst);
+        digfst = md5.digfst();
 
-        // Get character representation of digest
-        StringBuilder digestString = new StringBuilder();
+        // Gft dibrbdtfr rfprfsfntbtion of digfst
+        StringBuildfr digfstString = nfw StringBuildfr();
 
-        for (i = 0; i < digest.length; i++) {
-            if ((digest[i] & 0x000000ff) < 0x10) {
-                digestString.append("0" +
-                    Integer.toHexString(digest[i] & 0x000000ff));
-            } else {
-                digestString.append(
-                    Integer.toHexString(digest[i] & 0x000000ff));
+        for (i = 0; i < digfst.lfngti; i++) {
+            if ((digfst[i] & 0x000000ff) < 0x10) {
+                digfstString.bppfnd("0" +
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
+            } flsf {
+                digfstString.bppfnd(
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
             }
         }
 
-        Arrays.fill(ipad, (byte)0);
-        Arrays.fill(opad, (byte)0);
-        ipad = null;
-        opad = null;
+        Arrbys.fill(ipbd, (bytf)0);
+        Arrbys.fill(opbd, (bytf)0);
+        ipbd = null;
+        opbd = null;
 
-        return (digestString.toString());
+        rfturn (digfstString.toString());
     }
 
     /**
-     * Sets logger field.
+     * Sfts loggfr fifld.
      */
-    private static synchronized void initLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger(SASL_LOGGER_NAME);
+    privbtf stbtid syndironizfd void initLoggfr() {
+        if (loggfr == null) {
+            loggfr = Loggfr.gftLoggfr(SASL_LOGGER_NAME);
         }
     }
     /**
-     * Logger for debug messages
+     * Loggfr for dfbug mfssbgfs
      */
-    private static final String SASL_LOGGER_NAME = "javax.security.sasl";
-    protected static Logger logger;  // set in initLogger(); lazily loads logger
+    privbtf stbtid finbl String SASL_LOGGER_NAME = "jbvbx.sfdurity.sbsl";
+    protfdtfd stbtid Loggfr loggfr;  // sft in initLoggfr(); lbzily lobds loggfr
 }

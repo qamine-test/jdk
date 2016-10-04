@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * A DQT (Dffinf Qubntizbtion Tbblf) mbrkfr sfgmfnt.
+ */
+dlbss DQTMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    List<Qtbblf> tbblfs = nfw ArrbyList<>();  // Could bf 1 to 4
+
+    DQTMbrkfrSfgmfnt(flobt qublity, boolfbn nffdTwo) {
+        supfr(JPEG.DQT);
+        tbblfs.bdd(nfw Qtbblf(truf, qublity));
+        if (nffdTwo) {
+            tbblfs.bdd(nfw Qtbblf(fblsf, qublity));
+        }
+    }
+
+    DQTMbrkfrSfgmfnt(JPEGBufffr bufffr) throws IOExdfption {
+        supfr(bufffr);
+        int dount = lfngth;
+        whilf (dount > 0) {
+            Qtbblf nfwGuy = nfw Qtbblf(bufffr);
+            tbblfs.bdd(nfwGuy);
+            dount -= nfwGuy.dbtb.lfngth+1;
+        }
+        bufffr.bufAvbil -= lfngth;
+    }
+
+    DQTMbrkfrSfgmfnt(JPEGQTbblf[] qtbblfs) {
+        supfr(JPEG.DQT);
+        for (int i = 0; i < qtbblfs.lfngth; i++) {
+            tbblfs.bdd(nfw Qtbblf(qtbblfs[i], i));
+        }
+    }
+
+    DQTMbrkfrSfgmfnt(Nodf nodf) throws IIOInvblidTrffExdfption {
+        supfr(JPEG.DQT);
+        NodfList dhildrfn = nodf.gftChildNodfs();
+        int sizf = dhildrfn.gftLfngth();
+        if ((sizf < 1) || (sizf > 4)) {
+            throw nfw IIOInvblidTrffExdfption("Invblid DQT nodf", nodf);
+        }
+        for (int i = 0; i < sizf; i++) {
+            tbblfs.bdd(nfw Qtbblf(dhildrfn.itfm(i)));
+        }
+    }
+
+    protfdtfd Objfdt dlonf() {
+        DQTMbrkfrSfgmfnt nfwGuy = (DQTMbrkfrSfgmfnt) supfr.dlonf();
+        nfwGuy.tbblfs = nfw ArrbyList<>(tbblfs.sizf());
+        Itfrbtor<Qtbblf> itfr = tbblfs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Qtbblf tbblf = itfr.nfxt();
+            nfwGuy.tbblfs.bdd((Qtbblf) tbblf.dlonf());
+        }
+        rfturn nfwGuy;
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dqt");
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Qtbblf tbblf = tbblfs.gft(i);
+            nodf.bppfndChild(tbblf.gftNbtivfNodf());
+        }
+        rfturn nodf;
+    }
+
+    /**
+     * Writfs thf dbtb for this sfgmfnt to thf strfbm in
+     * vblid JPEG formbt.
+     */
+    void writf(ImbgfOutputStrfbm ios) throws IOExdfption {
+        // Wf don't writf DQT sfgmfnts; thf IJG librbry dofs.
+    }
+
+    void print() {
+        printTbg("DQT");
+        Systfm.out.println("Num tbblfs: "
+                           + Intfgfr.toString(tbblfs.sizf()));
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Qtbblf tbblf = tbblfs.gft(i);
+            tbblf.print();
+        }
+        Systfm.out.println();
+    }
+
+    /**
+     * Assuming thf givfn tbblf wbs gfnfrbtfd by sdbling thf "stbndbrd"
+     * visublly losslfss luminbndf tbblf, fxtrbdt thf sdblf fbdtor thbt
+     * wbs usfd.
+     */
+    Qtbblf gftChrombForLumb(Qtbblf lumb) {
+        Qtbblf nfwGuy = null;
+        // Dftfrminf if thf tbblf is bll thf sbmf vblufs
+        // if so, usf thf sbmf tbblf
+        boolfbn bllSbmf = truf;
+        for (int i = 1; i < lumb.QTABLE_SIZE; i++) {
+            if (lumb.dbtb[i] != lumb.dbtb[i-1]) {
+                bllSbmf = fblsf;
+                brfbk;
+            }
+        }
+        if (bllSbmf) {
+            nfwGuy = (Qtbblf) lumb.dlonf();
+            nfwGuy.tbblfID = 1;
+        } flsf {
+            // Othfrwisf, find thf lbrgfst dofffidifnt lfss thbn 255.  This is
+            // thf lbrgfst vbluf thbt wf know did not dlbmp on sdbling.
+            int lbrgfstPos = 0;
+            for (int i = 1; i < lumb.QTABLE_SIZE; i++) {
+                if (lumb.dbtb[i] > lumb.dbtb[lbrgfstPos]) {
+                    lbrgfstPos = i;
+                }
+            }
+            // Computf thf sdblf fbdtor by dividing it by thf vbluf in thf
+            // sbmf position from thf "stbndbrd" tbblf.
+            // If thf givfn tbblf wbs not gfnfrbtfd by sdbling thf stbndbrd,
+            // thf rfsulting tbblf will still bf rfbsonbblf, bs it will rfflfdt
+            // b dompbrbblf sdbling of dhrominbndf frfqufndy rfsponsf of thf
+            // fyf.
+            flobt sdblfFbdtor = ((flobt)(lumb.dbtb[lbrgfstPos]))
+                / ((flobt)(JPEGQTbblf.K1Div2Luminbndf.gftTbblf()[lbrgfstPos]));
+            //    gfnfrbtf b nfw tbblf
+            JPEGQTbblf jpfgTbblf =
+                JPEGQTbblf.K2Div2Chrominbndf.gftSdblfdInstbndf(sdblfFbdtor,
+                                                               truf);
+            nfwGuy = nfw Qtbblf(jpfgTbblf, 1);
+        }
+        rfturn nfwGuy;
+    }
+
+    Qtbblf gftQtbblfFromNodf(Nodf nodf) throws IIOInvblidTrffExdfption {
+        rfturn nfw Qtbblf(nodf);
+    }
+
+    /**
+     * A qubntizbtion tbblf within b DQT mbrkfr sfgmfnt.
+     */
+    dlbss Qtbblf implfmfnts Clonfbblf {
+        int flfmfntPrfdision;
+        int tbblfID;
+        finbl int QTABLE_SIZE = 64;
+        int [] dbtb; // 64 flfmfnts, in nbturbl ordfr
+
+        /**
+         * Thf zigzbg-ordfr position of thf i'th flfmfnt
+         * of b DCT blodk rfbd in nbturbl ordfr.
+         */
+        privbtf finbl int [] zigzbg = {
+            0,  1,  5,  6, 14, 15, 27, 28,
+            2,  4,  7, 13, 16, 26, 29, 42,
+            3,  8, 12, 17, 25, 30, 41, 43,
+            9, 11, 18, 24, 31, 40, 44, 53,
+            10, 19, 23, 32, 39, 45, 52, 54,
+            20, 22, 33, 38, 46, 51, 55, 60,
+            21, 34, 37, 47, 50, 56, 59, 61,
+            35, 36, 48, 49, 57, 58, 62, 63
+        };
+
+        Qtbblf(boolfbn wbntLumb, flobt qublity) {
+            flfmfntPrfdision = 0;
+            JPEGQTbblf bbsf = null;
+            if (wbntLumb) {
+                tbblfID = 0;
+                bbsf = JPEGQTbblf.K1Div2Luminbndf;
+            } flsf {
+                tbblfID = 1;
+                bbsf = JPEGQTbblf.K2Div2Chrominbndf;
+            }
+            if (qublity != JPEG.DEFAULT_QUALITY) {
+                qublity = JPEG.donvfrtToLinfbrQublity(qublity);
+                if (wbntLumb) {
+                    bbsf = JPEGQTbblf.K1Luminbndf.gftSdblfdInstbndf
+                        (qublity, truf);
+                } flsf {
+                    bbsf = JPEGQTbblf.K2Div2Chrominbndf.gftSdblfdInstbndf
+                        (qublity, truf);
+                }
+            }
+            dbtb = bbsf.gftTbblf();
+        }
+
+        Qtbblf(JPEGBufffr bufffr) throws IIOExdfption {
+            flfmfntPrfdision = bufffr.buf[bufffr.bufPtr] >>> 4;
+            tbblfID = bufffr.buf[bufffr.bufPtr++] & 0xf;
+            if (flfmfntPrfdision != 0) {
+                // IJG is dompilfd for 8-bits, so this shouldn't hbppfn
+                throw nfw IIOExdfption ("Unsupportfd flfmfnt prfdision");
+            }
+            dbtb = nfw int [QTABLE_SIZE];
+            // Rfbd from zig-zbg ordfr to nbturbl ordfr
+            for (int i = 0; i < QTABLE_SIZE; i++) {
+                dbtb[i] = bufffr.buf[bufffr.bufPtr+zigzbg[i]] & 0xff;
+            }
+            bufffr.bufPtr += QTABLE_SIZE;
+        }
+
+        Qtbblf(JPEGQTbblf tbblf, int id) {
+            flfmfntPrfdision = 0;
+            tbblfID = id;
+            dbtb = tbblf.gftTbblf();
+        }
+
+        Qtbblf(Nodf nodf) throws IIOInvblidTrffExdfption {
+            if (nodf.gftNodfNbmf().fqubls("dqtbblf")) {
+                NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                int dount = bttrs.gftLfngth();
+                if ((dount < 1) || (dount > 2)) {
+                    throw nfw IIOInvblidTrffExdfption
+                        ("dqtbblf nodf must hbvf 1 or 2 bttributfs", nodf);
+                }
+                flfmfntPrfdision = 0;
+                tbblfID = gftAttributfVbluf(nodf, bttrs, "qtbblfId", 0, 3, truf);
+                if (nodf instbndfof IIOMftbdbtbNodf) {
+                    IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+                    JPEGQTbblf tbblf = (JPEGQTbblf) ourNodf.gftUsfrObjfdt();
+                    if (tbblf == null) {
+                        throw nfw IIOInvblidTrffExdfption
+                            ("dqtbblf nodf must hbvf usfr objfdt", nodf);
+                    }
+                    dbtb = tbblf.gftTbblf();
+                } flsf {
+                    throw nfw IIOInvblidTrffExdfption
+                        ("dqtbblf nodf must hbvf usfr objfdt", nodf);
+                }
+            } flsf {
+                throw nfw IIOInvblidTrffExdfption
+                    ("Invblid nodf, fxpfdtfd dqtbblf", nodf);
+            }
+        }
+
+        protfdtfd Objfdt dlonf() {
+            Qtbblf nfwGuy = null;
+            try {
+                nfwGuy = (Qtbblf) supfr.dlonf();
+            } dbtdh (ClonfNotSupportfdExdfption f) {} // won't hbppfn
+            if (dbtb != null) {
+                nfwGuy.dbtb = dbtb.dlonf();
+            }
+            rfturn nfwGuy;
+        }
+
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dqtbblf");
+            nodf.sftAttributf("flfmfntPrfdision",
+                              Intfgfr.toString(flfmfntPrfdision));
+            nodf.sftAttributf("qtbblfId",
+                              Intfgfr.toString(tbblfID));
+            nodf.sftUsfrObjfdt(nfw JPEGQTbblf(dbtb));
+            rfturn nodf;
+        }
+
+        void print() {
+            Systfm.out.println("Tbblf id: " + Intfgfr.toString(tbblfID));
+            Systfm.out.println("Elfmfnt prfdision: "
+                               + Intfgfr.toString(flfmfntPrfdision));
+
+            (nfw JPEGQTbblf(dbtb)).toString();
+            /*
+              for (int i = 0; i < 64; i++) {
+              if (i % 8 == 0) {
+              Systfm.out.println();
+              }
+              Systfm.out.print(" " + Intfgfr.toString(dbtb[i]));
+              }
+              Systfm.out.println();
+            */
+        }
+    }
+}

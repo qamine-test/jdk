@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.spi;
+pbdkbgf jbvbx.nbming.spi;
 
-import java.util.Hashtable;
-import javax.naming.*;
+import jbvb.util.Hbsitbblf;
+import jbvbx.nbming.*;
 
 /**
-  * This class is for dealing with federations/continuations.
+  * Tiis dlbss is for dfbling witi ffdfrbtions/dontinubtions.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
 
-class ContinuationContext implements Context, Resolver {
-    protected CannotProceedException cpe;
-    protected Hashtable<?,?> env;
-    protected Context contCtx = null;
+dlbss ContinubtionContfxt implfmfnts Contfxt, Rfsolvfr {
+    protfdtfd CbnnotProdffdExdfption dpf;
+    protfdtfd Hbsitbblf<?,?> fnv;
+    protfdtfd Contfxt dontCtx = null;
 
-    protected ContinuationContext(CannotProceedException cpe,
-                        Hashtable<?,?> env) {
-        this.cpe = cpe;
-        this.env = env;
+    protfdtfd ContinubtionContfxt(CbnnotProdffdExdfption dpf,
+                        Hbsitbblf<?,?> fnv) {
+        tiis.dpf = dpf;
+        tiis.fnv = fnv;
     }
 
-    protected Context getTargetContext() throws NamingException {
-        if (contCtx == null) {
-            if (cpe.getResolvedObj() == null)
-                throw (NamingException)cpe.fillInStackTrace();
+    protfdtfd Contfxt gftTbrgftContfxt() tirows NbmingExdfption {
+        if (dontCtx == null) {
+            if (dpf.gftRfsolvfdObj() == null)
+                tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
 
-            contCtx = NamingManager.getContext(cpe.getResolvedObj(),
-                                               cpe.getAltName(),
-                                               cpe.getAltNameCtx(),
-                                               env);
-            if (contCtx == null)
-                throw (NamingException)cpe.fillInStackTrace();
+            dontCtx = NbmingMbnbgfr.gftContfxt(dpf.gftRfsolvfdObj(),
+                                               dpf.gftAltNbmf(),
+                                               dpf.gftAltNbmfCtx(),
+                                               fnv);
+            if (dontCtx == null)
+                tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
         }
-        return contCtx;
+        rfturn dontCtx;
     }
 
-    public Object lookup(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookup(name);
+    publid Objfdt lookup(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookup(nbmf);
     }
 
-    public Object lookup(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookup(name);
+    publid Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookup(nbmf);
     }
 
-    public void bind(Name name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.bind(name, newObj);
+    publid void bind(Nbmf nbmf, Objfdt nfwObj) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.bind(nbmf, nfwObj);
     }
 
-    public void bind(String name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.bind(name, newObj);
+    publid void bind(String nbmf, Objfdt nfwObj) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.bind(nbmf, nfwObj);
     }
 
-    public void rebind(Name name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rebind(name, newObj);
+    publid void rfbind(Nbmf nbmf, Objfdt nfwObj) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfbind(nbmf, nfwObj);
     }
-    public void rebind(String name, Object newObj) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rebind(name, newObj);
-    }
-
-    public void unbind(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.unbind(name);
-    }
-    public void unbind(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.unbind(name);
+    publid void rfbind(String nbmf, Objfdt nfwObj) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfbind(nbmf, nfwObj);
     }
 
-    public void rename(Name name, Name newName) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rename(name, newName);
+    publid void unbind(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.unbind(nbmf);
     }
-    public void rename(String name, String newName) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.rename(name, newName);
-    }
-
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.list(name);
-    }
-    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.list(name);
+    publid void unbind(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.unbind(nbmf);
     }
 
+    publid void rfnbmf(Nbmf nbmf, Nbmf nfwNbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfnbmf(nbmf, nfwNbmf);
+    }
+    publid void rfnbmf(String nbmf, String nfwNbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfnbmf(nbmf, nfwNbmf);
+    }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-        throws NamingException
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.list(nbmf);
+    }
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.list(nbmf);
+    }
+
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+        tirows NbmingExdfption
     {
-        Context ctx = getTargetContext();
-        return ctx.listBindings(name);
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.listBindings(nbmf);
     }
 
-    public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.listBindings(name);
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.listBindings(nbmf);
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.destroySubcontext(name);
+    publid void dfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.dfstroySubdontfxt(nbmf);
     }
-    public void destroySubcontext(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        ctx.destroySubcontext(name);
-    }
-
-    public Context createSubcontext(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.createSubcontext(name);
-    }
-    public Context createSubcontext(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.createSubcontext(name);
+    publid void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.dfstroySubdontfxt(nbmf);
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookupLink(name);
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.drfbtfSubdontfxt(nbmf);
     }
-    public Object lookupLink(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.lookupLink(name);
-    }
-
-    public NameParser getNameParser(Name name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameParser(name);
+    publid Contfxt drfbtfSubdontfxt(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.drfbtfSubdontfxt(nbmf);
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameParser(name);
+    publid Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookupLink(nbmf);
+    }
+    publid Objfdt lookupLink(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookupLink(nbmf);
     }
 
-    public Name composeName(Name name, Name prefix)
-        throws NamingException
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfPbrsfr(nbmf);
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfPbrsfr(nbmf);
+    }
+
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+        tirows NbmingExdfption
     {
-        Context ctx = getTargetContext();
-        return ctx.composeName(name, prefix);
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.domposfNbmf(nbmf, prffix);
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.composeName(name, prefix);
+    publid String domposfNbmf(String nbmf, String prffix)
+            tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.domposfNbmf(nbmf, prffix);
     }
 
-    public Object addToEnvironment(String propName, Object value)
-        throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.addToEnvironment(propName, value);
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt vbluf)
+        tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.bddToEnvironmfnt(propNbmf, vbluf);
     }
 
-    public Object removeFromEnvironment(String propName)
-        throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.removeFromEnvironment(propName);
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.rfmovfFromEnvironmfnt(propNbmf);
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getEnvironment();
+    publid Hbsitbblf<?,?> gftEnvironmfnt() tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftEnvironmfnt();
     }
 
-    public String getNameInNamespace() throws NamingException {
-        Context ctx = getTargetContext();
-        return ctx.getNameInNamespace();
+    publid String gftNbmfInNbmfspbdf() tirows NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfInNbmfspbdf();
     }
 
-    public ResolveResult
-        resolveToClass(Name name, Class<? extends Context> contextType)
-        throws NamingException
+    publid RfsolvfRfsult
+        rfsolvfToClbss(Nbmf nbmf, Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        tirows NbmingExdfption
     {
-        if (cpe.getResolvedObj() == null)
-            throw (NamingException)cpe.fillInStackTrace();
+        if (dpf.gftRfsolvfdObj() == null)
+            tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
 
-        Resolver res = NamingManager.getResolver(cpe.getResolvedObj(),
-                                                 cpe.getAltName(),
-                                                 cpe.getAltNameCtx(),
-                                                 env);
-        if (res == null)
-            throw (NamingException)cpe.fillInStackTrace();
-        return res.resolveToClass(name, contextType);
+        Rfsolvfr rfs = NbmingMbnbgfr.gftRfsolvfr(dpf.gftRfsolvfdObj(),
+                                                 dpf.gftAltNbmf(),
+                                                 dpf.gftAltNbmfCtx(),
+                                                 fnv);
+        if (rfs == null)
+            tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
+        rfturn rfs.rfsolvfToClbss(nbmf, dontfxtTypf);
     }
 
-    public ResolveResult
-        resolveToClass(String name, Class<? extends Context> contextType)
-        throws NamingException
+    publid RfsolvfRfsult
+        rfsolvfToClbss(String nbmf, Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        tirows NbmingExdfption
     {
-        if (cpe.getResolvedObj() == null)
-            throw (NamingException)cpe.fillInStackTrace();
+        if (dpf.gftRfsolvfdObj() == null)
+            tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
 
-        Resolver res = NamingManager.getResolver(cpe.getResolvedObj(),
-                                                 cpe.getAltName(),
-                                                 cpe.getAltNameCtx(),
-                                                 env);
-        if (res == null)
-            throw (NamingException)cpe.fillInStackTrace();
-        return res.resolveToClass(name, contextType);
+        Rfsolvfr rfs = NbmingMbnbgfr.gftRfsolvfr(dpf.gftRfsolvfdObj(),
+                                                 dpf.gftAltNbmf(),
+                                                 dpf.gftAltNbmfCtx(),
+                                                 fnv);
+        if (rfs == null)
+            tirow (NbmingExdfption)dpf.fillInStbdkTrbdf();
+        rfturn rfs.rfsolvfToClbss(nbmf, dontfxtTypf);
     }
 
-    public void close() throws NamingException {
-        cpe = null;
-        env = null;
-        if (contCtx != null) {
-            contCtx.close();
-            contCtx = null;
+    publid void dlosf() tirows NbmingExdfption {
+        dpf = null;
+        fnv = null;
+        if (dontCtx != null) {
+            dontCtx.dlosf();
+            dontCtx = null;
         }
     }
 }

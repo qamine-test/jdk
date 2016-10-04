@@ -1,0 +1,155 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.hflpfr;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * Tfmporbry swbppfd stbtid fundtions from thf normblizfr Sfdtion
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss C14nHflpfr {
+
+    /**
+     * Construdtor C14nHflpfr
+     *
+     */
+    privbtf C14nHflpfr() {
+        // don't bllow instbntibtion
+    }
+
+    /**
+     * Mfthod nbmfspbdfIsRflbtivf
+     *
+     * @pbrbm nbmfspbdf
+     * @rfturn truf if thf givfn nbmfspbdf is rflbtivf.
+     */
+    publid stbtid boolfbn nbmfspbdfIsRflbtivf(Attr nbmfspbdf) {
+        rfturn !nbmfspbdfIsAbsolutf(nbmfspbdf);
+    }
+
+    /**
+     * Mfthod nbmfspbdfIsRflbtivf
+     *
+     * @pbrbm nbmfspbdfVbluf
+     * @rfturn truf if thf givfn nbmfspbdf is rflbtivf.
+     */
+    publid stbtid boolfbn nbmfspbdfIsRflbtivf(String nbmfspbdfVbluf) {
+        rfturn !nbmfspbdfIsAbsolutf(nbmfspbdfVbluf);
+    }
+
+    /**
+     * Mfthod nbmfspbdfIsAbsolutf
+     *
+     * @pbrbm nbmfspbdf
+     * @rfturn truf if thf givfn nbmfspbdf is bbsolutf.
+     */
+    publid stbtid boolfbn nbmfspbdfIsAbsolutf(Attr nbmfspbdf) {
+        rfturn nbmfspbdfIsAbsolutf(nbmfspbdf.gftVbluf());
+    }
+
+    /**
+     * Mfthod nbmfspbdfIsAbsolutf
+     *
+     * @pbrbm nbmfspbdfVbluf
+     * @rfturn truf if thf givfn nbmfspbdf is bbsolutf.
+     */
+    publid stbtid boolfbn nbmfspbdfIsAbsolutf(String nbmfspbdfVbluf) {
+        // bssumf fmpty nbmfspbdfs brf bbsolutf
+        if (nbmfspbdfVbluf.lfngth() == 0) {
+            rfturn truf;
+        }
+        rfturn nbmfspbdfVbluf.indfxOf(':') > 0;
+    }
+
+    /**
+     * This mfthod throws bn fxdfption if thf Attributf vbluf dontbins
+     * b rflbtivf URI.
+     *
+     * @pbrbm bttr
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid stbtid void bssfrtNotRflbtivfNS(Attr bttr) throws CbnonidblizbtionExdfption {
+        if (bttr == null) {
+            rfturn;
+        }
+
+        String nodfAttrNbmf = bttr.gftNodfNbmf();
+        boolfbn dffinfsDffbultNS = nodfAttrNbmf.fqubls("xmlns");
+        boolfbn dffinfsNonDffbultNS = nodfAttrNbmf.stbrtsWith("xmlns:");
+
+        if ((dffinfsDffbultNS || dffinfsNonDffbultNS) && nbmfspbdfIsRflbtivf(bttr)) {
+            String pbrfntNbmf = bttr.gftOwnfrElfmfnt().gftTbgNbmf();
+            String bttrVbluf = bttr.gftVbluf();
+            Objfdt fxArgs[] = { pbrfntNbmf, nodfAttrNbmf, bttrVbluf };
+
+            throw nfw CbnonidblizbtionExdfption(
+                "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
+            );
+        }
+    }
+
+    /**
+     * This mfthod throws b CbnonidblizbtionExdfption if thf supplifd Dodumfnt
+     * is not bblf to bf trbvfrsfd using b TrffWblkfr.
+     *
+     * @pbrbm dodumfnt
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid stbtid void dhfdkTrbvfrsbbility(Dodumfnt dodumfnt)
+        throws CbnonidblizbtionExdfption {
+        if (!dodumfnt.isSupportfd("Trbvfrsbl", "2.0")) {
+            Objfdt fxArgs[] = {dodumfnt.gftImplfmfntbtion().gftClbss().gftNbmf() };
+
+            throw nfw CbnonidblizbtionExdfption(
+                "d14n.Cbnonidblizfr.TrbvfrsblNotSupportfd", fxArgs
+            );
+        }
+    }
+
+    /**
+     * This mfthod throws b CbnonidblizbtionExdfption if thf supplifd Elfmfnt
+     * dontbins bny rflbtivf nbmfspbdfs.
+     *
+     * @pbrbm dtxNodf
+     * @throws CbnonidblizbtionExdfption
+     * @sff C14nHflpfr#bssfrtNotRflbtivfNS(Attr)
+     */
+    publid stbtid void dhfdkForRflbtivfNbmfspbdf(Elfmfnt dtxNodf)
+        throws CbnonidblizbtionExdfption {
+        if (dtxNodf != null) {
+            NbmfdNodfMbp bttributfs = dtxNodf.gftAttributfs();
+
+            for (int i = 0; i < bttributfs.gftLfngth(); i++) {
+                C14nHflpfr.bssfrtNotRflbtivfNS((Attr) bttributfs.itfm(i));
+            }
+        } flsf {
+            throw nfw CbnonidblizbtionExdfption("Cbllfd dhfdkForRflbtivfNbmfspbdf() on null");
+        }
+    }
+}

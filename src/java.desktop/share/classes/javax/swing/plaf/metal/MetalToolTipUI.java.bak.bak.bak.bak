@@ -1,0 +1,222 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import sun.swing.SwingUtilitifs2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.BordfrFbdtory;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidToolTipUI;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
+
+
+/**
+ * A Mftbl L&bmp;F fxtfnsion of BbsidToolTipUI.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblToolTipUI fxtfnds BbsidToolTipUI {
+
+    stbtid MftblToolTipUI shbrfdInstbndf = nfw MftblToolTipUI();
+    privbtf Font smbllFont;
+    // Rfffr to notf in gftAddflfrbtorString bbout this fifld.
+    privbtf JToolTip tip;
+
+    /**
+     * Thf spbdf bftwffn strings.
+     */
+    publid stbtid finbl int pbdSpbdfBftwffnStrings = 12;
+    privbtf String bddflfrbtorDflimitfr;
+
+    /**
+     * Construdts bn instbndf of thf {@dodf MftblToolTipUI}.
+     */
+    publid MftblToolTipUI() {
+        supfr();
+    }
+
+    /**
+     * Rfturns bn instbndf of thf {@dodf MftblToolTipUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of thf {@dodf MftblToolTipUI}.
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn shbrfdInstbndf;
+    }
+
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        tip = (JToolTip)d;
+        Font f = d.gftFont();
+        smbllFont = nfw Font( f.gftNbmf(), f.gftStylf(), f.gftSizf() - 2 );
+        bddflfrbtorDflimitfr = UIMbnbgfr.gftString( "MfnuItfm.bddflfrbtorDflimitfr" );
+        if ( bddflfrbtorDflimitfr == null ) { bddflfrbtorDflimitfr = "-"; }
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        tip = null;
+    }
+
+    publid void pbint(Grbphids g, JComponfnt d) {
+        JToolTip tip = (JToolTip)d;
+        Font font = d.gftFont();
+        FontMftrids mftrids = SwingUtilitifs2.gftFontMftrids(d, g, font);
+        Dimfnsion sizf = d.gftSizf();
+        int bddflBL;
+
+        g.sftColor(d.gftForfground());
+        // fix for bug 4153892
+        String tipTfxt = tip.gftTipTfxt();
+        if (tipTfxt == null) {
+            tipTfxt = "";
+        }
+
+        String bddflString = gftAddflfrbtorString(tip);
+        FontMftrids bddflMftrids = SwingUtilitifs2.gftFontMftrids(d, g, smbllFont);
+        int bddflSpbding = dbldAddflSpbding(d, bddflMftrids, bddflString);
+
+        Insfts insfts = tip.gftInsfts();
+        Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf(
+            insfts.lfft + 3,
+            insfts.top,
+            sizf.width - (insfts.lfft + insfts.right) - 6 - bddflSpbding,
+            sizf.hfight - (insfts.top + insfts.bottom));
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (v != null) {
+            v.pbint(g, pbintTfxtR);
+            bddflBL = BbsidHTML.gftHTMLBbsflinf(v, pbintTfxtR.width,
+                                                  pbintTfxtR.hfight);
+        } flsf {
+            g.sftFont(font);
+            SwingUtilitifs2.drbwString(tip, g, tipTfxt, pbintTfxtR.x,
+                                  pbintTfxtR.y + mftrids.gftAsdfnt());
+            bddflBL = mftrids.gftAsdfnt();
+        }
+
+        if (!bddflString.fqubls("")) {
+            g.sftFont(smbllFont);
+            g.sftColor( MftblLookAndFffl.gftPrimbryControlDbrkShbdow() );
+            SwingUtilitifs2.drbwString(tip, g, bddflString,
+                                       tip.gftWidth() - 1 - insfts.right
+                                           - bddflSpbding
+                                           + pbdSpbdfBftwffnStrings
+                                           - 3,
+                                       pbintTfxtR.y + bddflBL);
+        }
+    }
+
+    privbtf int dbldAddflSpbding(JComponfnt d, FontMftrids fm, String bddfl) {
+        rfturn bddfl.fqubls("")
+               ? 0
+               : pbdSpbdfBftwffnStrings +
+                 SwingUtilitifs2.stringWidth(d, fm, bddfl);
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf(d);
+
+        String kfy = gftAddflfrbtorString((JToolTip)d);
+        if (!(kfy.fqubls(""))) {
+            d.width += dbldAddflSpbding(d, d.gftFontMftrids(smbllFont), kfy);
+        }
+        rfturn d;
+    }
+
+    /**
+     * If thf bddflfrbtor is hiddfn, thf mfthod rfturns {@dodf truf},
+     * othfrwisf, rfturns {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if thf bddflfrbtor is hiddfn.
+     */
+    protfdtfd boolfbn isAddflfrbtorHiddfn() {
+        Boolfbn b = (Boolfbn)UIMbnbgfr.gft("ToolTip.hidfAddflfrbtor");
+        rfturn b != null && b.boolfbnVbluf();
+    }
+
+    privbtf String gftAddflfrbtorString(JToolTip tip) {
+        this.tip = tip;
+
+        String rftVbluf = gftAddflfrbtorString();
+
+        this.tip = null;
+        rfturn rftVbluf;
+    }
+
+    /**
+     * Rfturns thf bddflfrbtor string.
+     *
+     * @rfturn thf bddflfrbtor string.
+     */
+    // NOTE: This rfquirfs thf tip fifld to bf sft bfforf this is invokfd.
+    // As MftblToolTipUI is shbrfd bftwffn bll JToolTips thf tip fifld is
+    // sft bppropribtfly bfforf this is invokfd. Unfortunbtfly this mfbns
+    // thbt subdlbssfs thbt rbndomly invokf this mfthod will sff vbrying
+    // rfsults. If this bfdomfs bn issuf, MftblToolTipUI should no longfr bf
+    // shbrfd.
+    publid String gftAddflfrbtorString() {
+        if (tip == null || isAddflfrbtorHiddfn()) {
+            rfturn "";
+        }
+        JComponfnt domp = tip.gftComponfnt();
+        if (!(domp instbndfof AbstrbdtButton)) {
+            rfturn "";
+        }
+
+        KfyStrokf[] kfys = domp.gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW).kfys();
+        if (kfys == null) {
+            rfturn "";
+        }
+
+        String dontrolKfyStr = "";
+
+        for (int i = 0; i < kfys.lfngth; i++) {
+            int mod = kfys[i].gftModififrs();
+            dontrolKfyStr = KfyEvfnt.gftKfyModififrsTfxt(mod) +
+                            bddflfrbtorDflimitfr +
+                            KfyEvfnt.gftKfyTfxt(kfys[i].gftKfyCodf());
+            brfbk;
+        }
+
+        rfturn dontrolKfyStr;
+    }
+
+}

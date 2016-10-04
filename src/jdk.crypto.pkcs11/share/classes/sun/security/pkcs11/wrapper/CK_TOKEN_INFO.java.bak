@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,345 +45,345 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 
 /**
- * class CK_TOKEN_INFO provides information about a token.<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss CK_TOKEN_INFO providfs informbtion bbout b tokfn.<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- * typedef struct CK_TOKEN_INFO {&nbsp;&nbsp;
- *   CK_UTF8CHAR label[32];&nbsp;&nbsp;
- *   CK_UTF8CHAR manufacturerID[32];&nbsp;&nbsp;
- *   CK_UTF8CHAR model[16];&nbsp;&nbsp;
- *   CK_CHAR serialNumber[16];&nbsp;&nbsp;
- *   CK_FLAGS flags;&nbsp;&nbsp;
- *   CK_ULONG ulMaxSessionCount;&nbsp;&nbsp;
- *   CK_ULONG ulSessionCount;&nbsp;&nbsp;
- *   CK_ULONG ulMaxRwSessionCount;&nbsp;&nbsp;
- *   CK_ULONG ulRwSessionCount;&nbsp;&nbsp;
- *   CK_ULONG ulMaxPinLen;&nbsp;&nbsp;
- *   CK_ULONG ulMinPinLen;&nbsp;&nbsp;
- *   CK_ULONG ulTotalPublicMemory;&nbsp;&nbsp;
- *   CK_ULONG ulFreePublicMemory;&nbsp;&nbsp;
- *   CK_ULONG ulTotalPrivateMemory;&nbsp;&nbsp;
- *   CK_ULONG ulFreePrivateMemory;&nbsp;&nbsp;
- *   CK_VERSION hardwareVersion;&nbsp;&nbsp;
- *   CK_VERSION firmwareVersion;&nbsp;&nbsp;
- *   CK_CHAR utcTime[16];&nbsp;&nbsp;
+ * typfdff strudt CK_TOKEN_INFO {&nbsp;&nbsp;
+ *   CK_UTF8CHAR lbbfl[32];&nbsp;&nbsp;
+ *   CK_UTF8CHAR mbnufbdturfrID[32];&nbsp;&nbsp;
+ *   CK_UTF8CHAR modfl[16];&nbsp;&nbsp;
+ *   CK_CHAR sfriblNumbfr[16];&nbsp;&nbsp;
+ *   CK_FLAGS flbgs;&nbsp;&nbsp;
+ *   CK_ULONG ulMbxSfssionCount;&nbsp;&nbsp;
+ *   CK_ULONG ulSfssionCount;&nbsp;&nbsp;
+ *   CK_ULONG ulMbxRwSfssionCount;&nbsp;&nbsp;
+ *   CK_ULONG ulRwSfssionCount;&nbsp;&nbsp;
+ *   CK_ULONG ulMbxPinLfn;&nbsp;&nbsp;
+ *   CK_ULONG ulMinPinLfn;&nbsp;&nbsp;
+ *   CK_ULONG ulTotblPublidMfmory;&nbsp;&nbsp;
+ *   CK_ULONG ulFrffPublidMfmory;&nbsp;&nbsp;
+ *   CK_ULONG ulTotblPrivbtfMfmory;&nbsp;&nbsp;
+ *   CK_ULONG ulFrffPrivbtfMfmory;&nbsp;&nbsp;
+ *   CK_VERSION ibrdwbrfVfrsion;&nbsp;&nbsp;
+ *   CK_VERSION firmwbrfVfrsion;&nbsp;&nbsp;
+ *   CK_CHAR utdTimf[16];&nbsp;&nbsp;
  * } CK_TOKEN_INFO;
  * &nbsp;&nbsp;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
-public class CK_TOKEN_INFO {
+publid dlbss CK_TOKEN_INFO {
 
-    /* label, manufacturerID, and model have been changed from
+    /* lbbfl, mbnufbdturfrID, bnd modfl ibvf bffn dibngfd from
      * CK_CHAR to CK_UTF8CHAR for v2.11. */
     /**
-     * must be blank padded and only the first 32 chars will be used<p>
+     * must bf blbnk pbddfd bnd only tif first 32 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR label[32];
+     *   CK_UTF8CHAR lbbfl[32];
      * </PRE>
      */
-    public char[] label;           /* blank padded */
+    publid dibr[] lbbfl;           /* blbnk pbddfd */
 
     /**
-     * must be blank padded and only the first 32 chars will be used<p>
+     * must bf blbnk pbddfd bnd only tif first 32 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR manufacturerID[32];
+     *   CK_UTF8CHAR mbnufbdturfrID[32];
      * </PRE>
      */
-    public char[] manufacturerID;  /* blank padded */
+    publid dibr[] mbnufbdturfrID;  /* blbnk pbddfd */
 
     /**
-     * must be blank padded and only the first 16 chars will be used<p>
+     * must bf blbnk pbddfd bnd only tif first 16 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR model[16];
+     *   CK_UTF8CHAR modfl[16];
      * </PRE>
      */
-    public char[] model;           /* blank padded */
+    publid dibr[] modfl;           /* blbnk pbddfd */
 
     /**
-     * must be blank padded and only the first 16 chars will be used<p>
+     * must bf blbnk pbddfd bnd only tif first 16 dibrs will bf usfd<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR serialNumber[16];
+     *   CK_CHAR sfriblNumbfr[16];
      * </PRE>
      */
-    public char[] serialNumber;    /* blank padded */
-
-    /**
-     * <B>PKCS#11:</B>
-     * <PRE>
-     *   CK_FLAGS flags;
-     * </PRE>
-     */
-    public long flags;               /* see below */
-
-    /* ulMaxSessionCount, ulSessionCount, ulMaxRwSessionCount,
-     * ulRwSessionCount, ulMaxPinLen, and ulMinPinLen have all been
-     * changed from CK_USHORT to CK_ULONG for v2.0 */
-    /**
-     * <B>PKCS#11:</B>
-     * <PRE>
-     *   CK_ULONG ulMaxSessionCount;
-     * </PRE>
-     */
-    public long ulMaxSessionCount;     /* max open sessions */
+    publid dibr[] sfriblNumbfr;    /* blbnk pbddfd */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulSessionCount;
+     *   CK_FLAGS flbgs;
      * </PRE>
      */
-    public long ulSessionCount;        /* sess. now open */
+    publid long flbgs;               /* sff bflow */
+
+    /* ulMbxSfssionCount, ulSfssionCount, ulMbxRwSfssionCount,
+     * ulRwSfssionCount, ulMbxPinLfn, bnd ulMinPinLfn ibvf bll bffn
+     * dibngfd from CK_USHORT to CK_ULONG for v2.0 */
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ULONG ulMbxSfssionCount;
+     * </PRE>
+     */
+    publid long ulMbxSfssionCount;     /* mbx opfn sfssions */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulMaxRwSessionCount;
+     *   CK_ULONG ulSfssionCount;
      * </PRE>
      */
-    public long ulMaxRwSessionCount;   /* max R/W sessions */
+    publid long ulSfssionCount;        /* sfss. now opfn */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulRwSessionCount;
+     *   CK_ULONG ulMbxRwSfssionCount;
      * </PRE>
      */
-    public long ulRwSessionCount;      /* R/W sess. now open */
+    publid long ulMbxRwSfssionCount;   /* mbx R/W sfssions */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulMaxPinLen;
+     *   CK_ULONG ulRwSfssionCount;
      * </PRE>
      */
-    public long ulMaxPinLen;           /* in bytes */
+    publid long ulRwSfssionCount;      /* R/W sfss. now opfn */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulMinPinLen;
+     *   CK_ULONG ulMbxPinLfn;
      * </PRE>
      */
-    public long ulMinPinLen;           /* in bytes */
+    publid long ulMbxPinLfn;           /* in bytfs */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulTotalPublicMemory;
+     *   CK_ULONG ulMinPinLfn;
      * </PRE>
      */
-    public long ulTotalPublicMemory;   /* in bytes */
+    publid long ulMinPinLfn;           /* in bytfs */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulFreePublicMemory;
+     *   CK_ULONG ulTotblPublidMfmory;
      * </PRE>
      */
-    public long ulFreePublicMemory;    /* in bytes */
+    publid long ulTotblPublidMfmory;   /* in bytfs */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulTotalPrivateMemory;
+     *   CK_ULONG ulFrffPublidMfmory;
      * </PRE>
      */
-    public long ulTotalPrivateMemory;  /* in bytes */
+    publid long ulFrffPublidMfmory;    /* in bytfs */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulFreePrivateMemory;
+     *   CK_ULONG ulTotblPrivbtfMfmory;
      * </PRE>
      */
-    public long ulFreePrivateMemory;   /* in bytes */
+    publid long ulTotblPrivbtfMfmory;  /* in bytfs */
 
-    /* hardwareVersion, firmwareVersion, and time are new for
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ULONG ulFrffPrivbtfMfmory;
+     * </PRE>
+     */
+    publid long ulFrffPrivbtfMfmory;   /* in bytfs */
+
+    /* ibrdwbrfVfrsion, firmwbrfVfrsion, bnd timf brf nfw for
      * v2.0 */
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION hardwareVersion;
+     *   CK_VERSION ibrdwbrfVfrsion;
      * </PRE>
      */
-    public CK_VERSION    hardwareVersion;       /* version of hardware */
+    publid CK_VERSION    ibrdwbrfVfrsion;       /* vfrsion of ibrdwbrf */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION firmwareVersion;
+     *   CK_VERSION firmwbrfVfrsion;
      * </PRE>
      */
-    public CK_VERSION    firmwareVersion;       /* version of firmware */
+    publid CK_VERSION    firmwbrfVfrsion;       /* vfrsion of firmwbrf */
 
     /**
-     * only the first 16 chars will be used
+     * only tif first 16 dibrs will bf usfd
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR utcTime[16];
+     *   CK_CHAR utdTimf[16];
      * </PRE>
      */
-    public char[] utcTime;           /* time */
+    publid dibr[] utdTimf;           /* timf */
 
-    public CK_TOKEN_INFO(char[] label, char[] vendor, char[] model,
-                         char[] serialNo, long flags,
-                         long sessionMax, long session,
-                         long rwSessionMax, long rwSession,
-                         long pinLenMax, long pinLenMin,
-                         long totalPubMem, long freePubMem,
-                         long totalPrivMem, long freePrivMem,
-                         CK_VERSION hwVer, CK_VERSION fwVer, char[] utcTime) {
-        this.label = label;
-        this.manufacturerID = vendor;
-        this.model = model;
-        this.serialNumber = serialNo;
-        this.flags = flags;
-        this.ulMaxSessionCount = sessionMax;
-        this.ulSessionCount = session;
-        this.ulMaxRwSessionCount = rwSessionMax;
-        this.ulRwSessionCount = rwSession;
-        this.ulMaxPinLen = pinLenMax;
-        this.ulMinPinLen = pinLenMin;
-        this.ulTotalPublicMemory = totalPubMem;
-        this.ulFreePublicMemory = freePubMem;
-        this.ulTotalPrivateMemory = totalPrivMem;
-        this.ulFreePrivateMemory = freePrivMem;
-        this.hardwareVersion = hwVer;
-        this.firmwareVersion = fwVer;
-        this.utcTime = utcTime;
+    publid CK_TOKEN_INFO(dibr[] lbbfl, dibr[] vfndor, dibr[] modfl,
+                         dibr[] sfriblNo, long flbgs,
+                         long sfssionMbx, long sfssion,
+                         long rwSfssionMbx, long rwSfssion,
+                         long pinLfnMbx, long pinLfnMin,
+                         long totblPubMfm, long frffPubMfm,
+                         long totblPrivMfm, long frffPrivMfm,
+                         CK_VERSION iwVfr, CK_VERSION fwVfr, dibr[] utdTimf) {
+        tiis.lbbfl = lbbfl;
+        tiis.mbnufbdturfrID = vfndor;
+        tiis.modfl = modfl;
+        tiis.sfriblNumbfr = sfriblNo;
+        tiis.flbgs = flbgs;
+        tiis.ulMbxSfssionCount = sfssionMbx;
+        tiis.ulSfssionCount = sfssion;
+        tiis.ulMbxRwSfssionCount = rwSfssionMbx;
+        tiis.ulRwSfssionCount = rwSfssion;
+        tiis.ulMbxPinLfn = pinLfnMbx;
+        tiis.ulMinPinLfn = pinLfnMin;
+        tiis.ulTotblPublidMfmory = totblPubMfm;
+        tiis.ulFrffPublidMfmory = frffPubMfm;
+        tiis.ulTotblPrivbtfMfmory = totblPrivMfm;
+        tiis.ulFrffPrivbtfMfmory = frffPrivMfm;
+        tiis.ibrdwbrfVfrsion = iwVfr;
+        tiis.firmwbrfVfrsion = fwVfr;
+        tiis.utdTimf = utdTimf;
     }
 
     /**
-     * Returns the string representation of CK_TOKEN_INFO.
+     * Rfturns tif string rfprfsfntbtion of CK_TOKEN_INFO.
      *
-     * @return the string representation of CK_TOKEN_INFO
+     * @rfturn tif string rfprfsfntbtion of CK_TOKEN_INFO
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(Constants.INDENT);
-        sb.append("label: ");
-        sb.append(new String(label));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("lbbfl: ");
+        sb.bppfnd(nfw String(lbbfl));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("manufacturerID: ");
-        sb.append(new String(manufacturerID));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("mbnufbdturfrID: ");
+        sb.bppfnd(nfw String(mbnufbdturfrID));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("model: ");
-        sb.append(new String(model));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("modfl: ");
+        sb.bppfnd(nfw String(modfl));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("serialNumber: ");
-        sb.append(new String(serialNumber));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("sfriblNumbfr: ");
+        sb.bppfnd(nfw String(sfriblNumbfr));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("flags: ");
-        sb.append(Functions.tokenInfoFlagsToString(flags));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("flbgs: ");
+        sb.bppfnd(Fundtions.tokfnInfoFlbgsToString(flbgs));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMaxSessionCount: ");
-        sb.append((ulMaxSessionCount == PKCS11Constants.CK_EFFECTIVELY_INFINITE)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulMbxSfssionCount: ");
+        sb.bppfnd((ulMbxSfssionCount == PKCS11Constbnts.CK_EFFECTIVELY_INFINITE)
                   ? "CK_EFFECTIVELY_INFINITE"
-                  : (ulMaxSessionCount == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+                  : (ulMbxSfssionCount == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                     ? "CK_UNAVAILABLE_INFORMATION"
-                    : String.valueOf(ulMaxSessionCount));
-        sb.append(Constants.NEWLINE);
+                    : String.vblufOf(ulMbxSfssionCount));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulSessionCount: ");
-        sb.append((ulSessionCount == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulSfssionCount: ");
+        sb.bppfnd((ulSfssionCount == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulSessionCount));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulSfssionCount));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMaxRwSessionCount: ");
-        sb.append((ulMaxRwSessionCount == PKCS11Constants.CK_EFFECTIVELY_INFINITE)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulMbxRwSfssionCount: ");
+        sb.bppfnd((ulMbxRwSfssionCount == PKCS11Constbnts.CK_EFFECTIVELY_INFINITE)
                   ? "CK_EFFECTIVELY_INFINITE"
-                  : (ulMaxRwSessionCount == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+                  : (ulMbxRwSfssionCount == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                     ? "CK_UNAVAILABLE_INFORMATION"
-                    : String.valueOf(ulMaxRwSessionCount));
-        sb.append(Constants.NEWLINE);
+                    : String.vblufOf(ulMbxRwSfssionCount));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulRwSessionCount: ");
-        sb.append((ulRwSessionCount == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulRwSfssionCount: ");
+        sb.bppfnd((ulRwSfssionCount == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulRwSessionCount));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulRwSfssionCount));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMaxPinLen: ");
-        sb.append(String.valueOf(ulMaxPinLen));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulMbxPinLfn: ");
+        sb.bppfnd(String.vblufOf(ulMbxPinLfn));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMinPinLen: ");
-        sb.append(String.valueOf(ulMinPinLen));
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulMinPinLfn: ");
+        sb.bppfnd(String.vblufOf(ulMinPinLfn));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulTotalPublicMemory: ");
-        sb.append((ulTotalPublicMemory == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulTotblPublidMfmory: ");
+        sb.bppfnd((ulTotblPublidMfmory == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulTotalPublicMemory));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulTotblPublidMfmory));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulFreePublicMemory: ");
-        sb.append((ulFreePublicMemory == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulFrffPublidMfmory: ");
+        sb.bppfnd((ulFrffPublidMfmory == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulFreePublicMemory));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulFrffPublidMfmory));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulTotalPrivateMemory: ");
-        sb.append((ulTotalPrivateMemory == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulTotblPrivbtfMfmory: ");
+        sb.bppfnd((ulTotblPrivbtfMfmory == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulTotalPrivateMemory));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulTotblPrivbtfMfmory));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulFreePrivateMemory: ");
-        sb.append((ulFreePrivateMemory == PKCS11Constants.CK_UNAVAILABLE_INFORMATION)
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulFrffPrivbtfMfmory: ");
+        sb.bppfnd((ulFrffPrivbtfMfmory == PKCS11Constbnts.CK_UNAVAILABLE_INFORMATION)
                   ? "CK_UNAVAILABLE_INFORMATION"
-                  : String.valueOf(ulFreePrivateMemory));
-        sb.append(Constants.NEWLINE);
+                  : String.vblufOf(ulFrffPrivbtfMfmory));
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("hardwareVersion: ");
-        sb.append(hardwareVersion.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ibrdwbrfVfrsion: ");
+        sb.bppfnd(ibrdwbrfVfrsion.toString());
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("firmwareVersion: ");
-        sb.append(firmwareVersion.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("firmwbrfVfrsion: ");
+        sb.bppfnd(firmwbrfVfrsion.toString());
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("utcTime: ");
-        sb.append(new String(utcTime));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("utdTimf: ");
+        sb.bppfnd(nfw String(utdTimf));
+        //bufffr.bppfnd(Constbnts.NEWLINE);
 
-        return sb.toString() ;
+        rfturn sb.toString() ;
     }
 
 }

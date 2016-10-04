@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * The subclass of {@link SQLException} is thrown in situations where a
- * previously failed operation might be able to succeed when the operation is
- * retried without any intervention by application-level functionality.
+ * Tif subdlbss of {@link SQLExdfption} is tirown in situbtions wifrf b
+ * prfviously fbilfd opfrbtion migit bf bblf to suddffd wifn tif opfrbtion is
+ * rftrifd witiout bny intfrvfntion by bpplidbtion-lfvfl fundtionblity.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class SQLTransientException extends java.sql.SQLException {
+publid dlbss SQLTrbnsifntExdfption fxtfnds jbvb.sql.SQLExdfption {
 
         /**
-         * Constructs a <code>SQLTransientException</code> object.
-         * The <code>reason</code>, <code>SQLState</code> are initialized
-         * to <code>null</code> and the vendor code is initialized to 0.
+         * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt.
+         * Tif <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+         * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
          *
-         * The <code>cause</code> is not initialized, and may subsequently be
-         * initialized by a call to the
-         * {@link Throwable#initCause(java.lang.Throwable)} method.
+         * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to tif
+         * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
          *
-         * @since 1.6
+         * @sindf 1.6
         */
-        public SQLTransientException() {
-                super();
+        publid SQLTrbnsifntExdfption() {
+                supfr();
         }
 
         /**
-         * Constructs a <code>SQLTransientException</code> object
-         *  with a given <code>reason</code>. The <code>SQLState</code>
-         * is initialized to <code>null</code> and the vendor code is initialized
+         * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+         *  witi b givfn <dodf>rfbson</dodf>. Tif <dodf>SQLStbtf</dodf>
+         * is initiblizfd to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd
          * to 0.
          *
-         * The <code>cause</code> is not initialized, and may subsequently be
-         * initialized by a call to the
-         * {@link Throwable#initCause(java.lang.Throwable)} method.
+         * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to tif
+         * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
          *
-         * @param reason a description of the exception
-         * @since 1.6
+         * @pbrbm rfbson b dfsdription of tif fxdfption
+         * @sindf 1.6
          */
-        public SQLTransientException(String reason) {
-                super(reason);
+        publid SQLTrbnsifntExdfption(String rfbson) {
+                supfr(rfbson);
         }
 
         /**
-         * Constructs a <code>SQLTransientException</code> object
-         * with a given <code>reason</code> and <code>SQLState</code>.
+         * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+         * witi b givfn <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
          *
-         * The <code>cause</code> is not initialized, and may subsequently be
-         * initialized by a call to the
-         * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-         * is initialized to 0.
+         * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to tif
+         * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod. Tif vfndor dodf
+         * is initiblizfd to 0.
          *
-         * @param reason a description of the exception
-         * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-         * @since 1.6
+         * @pbrbm rfbson b dfsdription of tif fxdfption
+         * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+         * @sindf 1.6
          */
-        public SQLTransientException(String reason, String SQLState) {
-                super(reason,SQLState);
+        publid SQLTrbnsifntExdfption(String rfbson, String SQLStbtf) {
+                supfr(rfbson,SQLStbtf);
         }
 
         /**
-         * Constructs a <code>SQLTransientException</code> object
-         *  with a given <code>reason</code>, <code>SQLState</code>  and
-         * <code>vendorCode</code>.
+         * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+         *  witi b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+         * <dodf>vfndorCodf</dodf>.
          *
-         * The <code>cause</code> is not initialized, and may subsequently be
-         * initialized by a call to the
-         * {@link Throwable#initCause(java.lang.Throwable)} method.
+         * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to tif
+         * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
          *
-         * @param reason a description of the exception
-         * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-         * @param vendorCode a database vendor specific exception code
-         * @since 1.6
+         * @pbrbm rfbson b dfsdription of tif fxdfption
+         * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+         * @pbrbm vfndorCodf b dbtbbbsf vfndor spfdifid fxdfption dodf
+         * @sindf 1.6
          */
-        public SQLTransientException(String reason, String SQLState, int vendorCode) {
-                super(reason,SQLState,vendorCode);
+        publid SQLTrbnsifntExdfption(String rfbson, String SQLStbtf, int vfndorCodf) {
+                supfr(rfbson,SQLStbtf,vfndorCodf);
         }
 
     /**
-     * Constructs a <code>SQLTransientException</code> object
-     * with a given  <code>cause</code>.
-     * The <code>SQLState</code> is initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
-     * The <code>reason</code>  is initialized to <code>null</code> if
-     * <code>cause==null</code> or to <code>cause.toString()</code> if
-     * <code>cause!=null</code>.
+     * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+     * witi b givfn  <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+     * Tif <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
      *
-     * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLTransientException(Throwable cause) {
-        super(cause);
+    publid SQLTrbnsifntExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 
     /**
-     * Constructs a <code>SQLTransientException</code> object
-     * with a given
-     * <code>reason</code> and  <code>cause</code>.
-     * The <code>SQLState</code> is  initialized to <code>null</code>
-     * and the vendor code is initialized to 0.
+     * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the exception.
-     * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption.
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLTransientException(String reason, Throwable cause) {
-        super(reason,cause);
+    publid SQLTrbnsifntExdfption(String rfbson, Tirowbblf dbusf) {
+        supfr(rfbson,dbusf);
     }
 
     /**
-     * Constructs a <code>SQLTransientException</code> object
-     * with a given
-     * <code>reason</code>, <code>SQLState</code> and  <code>cause</code>.
-     * The vendor code is initialized to 0.
+     * Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the exception.
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-     * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption.
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLTransientException(String reason, String SQLState, Throwable cause) {
-        super(reason,SQLState,cause);
+    publid SQLTrbnsifntExdfption(String rfbson, String SQLStbtf, Tirowbblf dbusf) {
+        supfr(rfbson,SQLStbtf,dbusf);
     }
 
     /**
-     *  Constructs a <code>SQLTransientException</code> object
-     * with a given
-     * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-     * and  <code>cause</code>.
+     *  Construdts b <dodf>SQLTrbnsifntExdfption</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
      *
-     * @param reason a description of the exception
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-     * @param vendorCode a database vendor-specific exception code
-     * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLTransientException(String reason, String SQLState, int vendorCode, Throwable cause) {
-        super(reason,SQLState,vendorCode,cause);
+    publid SQLTrbnsifntExdfption(String rfbson, String SQLStbtf, int vfndorCodf, Tirowbblf dbusf) {
+        supfr(rfbson,SQLStbtf,vfndorCodf,dbusf);
     }
 
-    private static final long serialVersionUID = -9042733978262274539L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -9042733978262274539L;
 }

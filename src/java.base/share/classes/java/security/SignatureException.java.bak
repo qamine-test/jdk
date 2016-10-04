@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * This is the generic Signature exception.
+ * Tiis is tif gfnfrid Signbturf fxdfption.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
 
-public class SignatureException extends GeneralSecurityException {
+publid dlbss SignbturfExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-    private static final long serialVersionUID = 7509989324975124438L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7509989324975124438L;
 
     /**
-     * Constructs a SignatureException with no detail message. A
-     * detail message is a String that describes this particular
-     * exception.
+     * Construdts b SignbturfExdfption witi no dftbil mfssbgf. A
+     * dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr
+     * fxdfption.
      */
-    public SignatureException() {
-        super();
+    publid SignbturfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs a SignatureException with the specified detail
-     * message.  A detail message is a String that describes this
-     * particular exception.
+     * Construdts b SignbturfExdfption witi tif spfdififd dftbil
+     * mfssbgf.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * pbrtidulbr fxdfption.
      *
-     * @param msg the detail message.
+     * @pbrbm msg tif dftbil mfssbgf.
      */
-    public SignatureException(String msg) {
-        super(msg);
+    publid SignbturfExdfption(String msg) {
+        supfr(msg);
     }
 
     /**
-     * Creates a {@code SignatureException} with the specified
-     * detail message and cause.
+     * Crfbtfs b {@dodf SignbturfExdfption} witi tif spfdififd
+     * dftbil mfssbgf bnd dbusf.
      *
-     * @param message the detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A {@code null} value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     * @since 1.5
+     * @pbrbm mfssbgf tif dftbil mfssbgf (wiidi is sbvfd for lbtfr rftrifvbl
+     *        by tif {@link #gftMfssbgf()} mftiod).
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *        {@link #gftCbusf()} mftiod).  (A {@dodf null} vbluf is pfrmittfd,
+     *        bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
+     * @sindf 1.5
      */
-    public SignatureException(String message, Throwable cause) {
-        super(message, cause);
+    publid SignbturfExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
     }
 
     /**
-     * Creates a {@code SignatureException} with the specified cause
-     * and a detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of
-     * {@code cause}).
+     * Crfbtfs b {@dodf SignbturfExdfption} witi tif spfdififd dbusf
+     * bnd b dftbil mfssbgf of {@dodf (dbusf==null ? null : dbusf.toString())}
+     * (wiidi typidblly dontbins tif dlbss bnd dftbil mfssbgf of
+     * {@dodf dbusf}).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A {@code null} value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     * @since 1.5
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *        {@link #gftCbusf()} mftiod).  (A {@dodf null} vbluf is pfrmittfd,
+     *        bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
+     * @sindf 1.5
      */
-    public SignatureException(Throwable cause) {
-        super(cause);
+    publid SignbturfExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 }

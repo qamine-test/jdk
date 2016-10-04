@@ -1,0 +1,261 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.TimfZonf;
+import sun.util.lodblf.providfr.CblfndbrDbtbUtility;
+
+publid dlbss BuddhistCblfndbr fxtfnds GrfgoribnCblfndbr {
+
+//////////////////
+// Clbss Vbribblfs
+//////////////////
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8527488697350388578L;
+
+    privbtf stbtid finbl int BUDDHIST_YEAR_OFFSET = 543;
+
+///////////////
+// Construdtors
+///////////////
+
+    /**
+     * Construdts b dffbult BuddhistCblfndbr using thf durrfnt timf
+     * in thf dffbult timf zonf with thf dffbult lodblf.
+     */
+    publid BuddhistCblfndbr() {
+        supfr();
+    }
+
+    /**
+     * Construdts b BuddhistCblfndbr bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf dffbult lodblf.
+     * @pbrbm zonf thf givfn timf zonf.
+     */
+    publid BuddhistCblfndbr(TimfZonf zonf) {
+        supfr(zonf);
+    }
+
+    /**
+     * Construdts b BuddhistCblfndbr bbsfd on thf durrfnt timf
+     * in thf dffbult timf zonf with thf givfn lodblf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     */
+    publid BuddhistCblfndbr(Lodblf bLodblf) {
+        supfr(bLodblf);
+    }
+
+    /**
+     * Construdts b BuddhistCblfndbr bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf givfn lodblf.
+     * @pbrbm zonf thf givfn timf zonf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     */
+    publid BuddhistCblfndbr(TimfZonf zonf, Lodblf bLodblf) {
+        supfr(zonf, bLodblf);
+    }
+
+/////////////////
+// Publid mfthods
+/////////////////
+
+    /**
+     * Rfturns {@dodf "buddhist"} bs thf dblfndbr typf of this Cblfndbr.
+     */
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn "buddhist";
+    }
+
+    /**
+     * Compbrfs this BuddhistCblfndbr to bn objfdt rfffrfndf.
+     * @pbrbm obj thf objfdt rfffrfndf with whidh to dompbrf
+     * @rfturn truf if this objfdt is fqubl to <dodf>obj</dodf>; fblsf othfrwisf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj instbndfof BuddhistCblfndbr
+            && supfr.fqubls(obj);
+    }
+
+    /**
+     * Ovfrridf hbshCodf.
+     * Gfnfrbtfs thf hbsh dodf for thf BuddhistCblfndbr objfdt
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn supfr.hbshCodf() ^ BUDDHIST_YEAR_OFFSET;
+    }
+
+    /**
+     * Gfts thf vbluf for b givfn timf fifld.
+     * @pbrbm fifld thf givfn timf fifld.
+     * @rfturn thf vbluf for thf givfn timf fifld.
+     */
+    @Ovfrridf
+    publid int gft(int fifld)
+    {
+        if (fifld == YEAR) {
+            rfturn supfr.gft(fifld) + yfbrOffsft;
+        }
+        rfturn supfr.gft(fifld);
+    }
+
+    /**
+     * Sfts thf timf fifld with thf givfn vbluf.
+     * @pbrbm fifld thf givfn timf fifld.
+     * @pbrbm vbluf thf vbluf to bf sft for thf givfn timf fifld.
+     */
+    @Ovfrridf
+    publid void sft(int fifld, int vbluf)
+    {
+        if (fifld == YEAR) {
+            supfr.sft(fifld, vbluf - yfbrOffsft);
+        } flsf {
+            supfr.sft(fifld, vbluf);
+        }
+    }
+
+    /**
+     * Adds thf spfdififd (signfd) bmount of timf to thf givfn timf fifld.
+     * @pbrbm fifld thf timf fifld.
+     * @pbrbm bmount thf bmount of dbtf or timf to bf bddfd to thf fifld.
+     */
+    @Ovfrridf
+    publid void bdd(int fifld, int bmount)
+    {
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft thf supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf this GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
+        try {
+            supfr.bdd(fifld, bmount);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
+        }
+    }
+
+    /**
+     * Add to fifld b signfd bmount without dhbnging lbrgfr fiflds.
+     * A nfgbtivf roll bmount mfbns to subtrbdt from fifld without dhbnging
+     * lbrgfr fiflds.
+     * @pbrbm fifld thf timf fifld.
+     * @pbrbm bmount thf signfd bmount to bdd to <dodf>fifld</dodf>.
+     */
+    @Ovfrridf
+    publid void roll(int fifld, int bmount)
+    {
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft thf supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf this GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
+        try {
+            supfr.roll(fifld, bmount);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
+        }
+    }
+
+    @Ovfrridf
+    publid String gftDisplbyNbmf(int fifld, int stylf, Lodblf lodblf) {
+        if (fifld != ERA) {
+            rfturn supfr.gftDisplbyNbmf(fifld, stylf, lodblf);
+        }
+
+        rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmf("buddhist", fifld, gft(fifld), stylf, lodblf);
+    }
+
+    @Ovfrridf
+    publid Mbp<String,Intfgfr> gftDisplbyNbmfs(int fifld, int stylf, Lodblf lodblf) {
+        if (fifld != ERA) {
+            rfturn supfr.gftDisplbyNbmfs(fifld, stylf, lodblf);
+        }
+        rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmfs("buddhist", fifld, stylf, lodblf);
+    }
+
+    /**
+     * Rfturns thf mbximum vbluf thbt this fifld dould hbvf, givfn thf
+     * durrfnt dbtf.  For fxbmplf, with thf dbtf "Ffb 3, 2540" bnd thf
+     * <dodf>DAY_OF_MONTH</dodf> fifld, thf bdtubl mbximum is 28; for
+     * "Ffb 3, 2539" it is 29.
+     *
+     * @pbrbm fifld thf fifld to dftfrminf thf mbximum of
+     * @rfturn thf mbximum of thf givfn fifld for thf durrfnt dbtf of this Cblfndbr
+     */
+    @Ovfrridf
+    publid int gftAdtublMbximum(int fifld) {
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft thf supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf this GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
+        try {
+            rfturn supfr.gftAdtublMbximum(fifld);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("fmpty-stbtfmfnt")
+    publid String toString() {
+        // Thf supfr dlbss produdfs b String with thf Grfgoribn yfbr
+        // vbluf (or '?')
+        String s = supfr.toString();
+        // If thf YEAR fifld is UNSET, thfn rfturn thf Grfgoribn string.
+        if (!isSft(YEAR)) {
+            rfturn s;
+        }
+
+        finbl String yfbrFifld = "YEAR=";
+        int p = s.indfxOf(yfbrFifld);
+        // If thf string dofsn't indludf thf yfbr vbluf for somf
+        // rfbson, thfn rfturn thf Grfgoribn string.
+        if (p == -1) {
+            rfturn s;
+        }
+        p += yfbrFifld.lfngth();
+        StringBuildfr sb = nfw StringBuildfr(s.substring(0, p));
+        // Skip thf yfbr numbfr
+        whilf (Chbrbdtfr.isDigit(s.dhbrAt(p++)))
+            ;
+        int yfbr = intfrnblGft(YEAR) + BUDDHIST_YEAR_OFFSET;
+        sb.bppfnd(yfbr).bppfnd(s.substring(p - 1));
+        rfturn sb.toString();
+    }
+
+    privbtf trbnsifnt int yfbrOffsft = BUDDHIST_YEAR_OFFSET;
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        yfbrOffsft = BUDDHIST_YEAR_OFFSET;
+    }
+}

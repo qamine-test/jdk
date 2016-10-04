@@ -1,0 +1,349 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMXMLSignbturfFbdtory.jbvb 1333869 2012-05-04 10:42:44Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.dom.DOMVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.kfyinfo.*;
+import jbvbx.xml.drypto.dsig.spfd.*;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.util.List;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * DOM-bbsfd implfmfntbtion of XMLSignbturfFbdtory.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMXMLSignbturfFbdtory fxtfnds XMLSignbturfFbdtory {
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    publid DOMXMLSignbturfFbdtory() {}
+
+    publid XMLSignbturf nfwXMLSignbturf(SignfdInfo si, KfyInfo ki) {
+        rfturn nfw DOMXMLSignbturf(si, ki, null, null, null);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid XMLSignbturf nfwXMLSignbturf(SignfdInfo si, KfyInfo ki,
+        List objfdts, String id, String signbturfVblufId) {
+        rfturn nfw DOMXMLSignbturf(si, ki, objfdts, id, signbturfVblufId);
+    }
+
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMfthod dm) {
+        rfturn nfwRfffrfndf(uri, dm, null, null, null);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMfthod dm, List trbnsforms,
+        String typf, String id) {
+        rfturn nfw DOMRfffrfndf(uri, typf, dm, trbnsforms, id, gftProvidfr());
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMfthod dm,
+        List bpplifdTrbnsforms, Dbtb rfsult, List trbnsforms, String typf,
+        String id) {
+        if (bpplifdTrbnsforms == null) {
+            throw nfw NullPointfrExdfption("bpplifdTrbnsforms dbnnot bf null");
+        }
+        if (bpplifdTrbnsforms.isEmpty()) {
+            throw nfw NullPointfrExdfption("bpplifdTrbnsforms dbnnot bf fmpty");
+        }
+        if (rfsult == null) {
+            throw nfw NullPointfrExdfption("rfsult dbnnot bf null");
+        }
+        rfturn nfw DOMRfffrfndf
+            (uri, typf, dm, bpplifdTrbnsforms, rfsult, trbnsforms, id, gftProvidfr());
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid Rfffrfndf nfwRfffrfndf(String uri, DigfstMfthod dm, List trbnsforms,
+        String typf, String id, bytf[] digfstVbluf) {
+        if (digfstVbluf == null) {
+            throw nfw NullPointfrExdfption("digfstVbluf dbnnot bf null");
+        }
+        rfturn nfw DOMRfffrfndf
+            (uri, typf, dm, null, null, trbnsforms, id, digfstVbluf, gftProvidfr());
+    }
+
+    @SupprfssWbrnings("rbwtypfs")
+    publid SignfdInfo nfwSignfdInfo(CbnonidblizbtionMfthod dm,
+        SignbturfMfthod sm, List rfffrfndfs) {
+        rfturn nfwSignfdInfo(dm, sm, rfffrfndfs, null);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid SignfdInfo nfwSignfdInfo(CbnonidblizbtionMfthod dm,
+        SignbturfMfthod sm, List rfffrfndfs, String id) {
+        rfturn nfw DOMSignfdInfo(dm, sm, rfffrfndfs, id);
+    }
+
+    // Objfdt fbdtory mfthods
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid XMLObjfdt nfwXMLObjfdt(List dontfnt, String id, String mimfTypf,
+        String fndoding) {
+        rfturn nfw DOMXMLObjfdt(dontfnt, id, mimfTypf, fndoding);
+    }
+
+    @SupprfssWbrnings("rbwtypfs")
+    publid Mbniffst nfwMbniffst(List rfffrfndfs) {
+        rfturn nfwMbniffst(rfffrfndfs, null);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid Mbniffst nfwMbniffst(List rfffrfndfs, String id) {
+        rfturn nfw DOMMbniffst(rfffrfndfs, id);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid SignbturfPropfrtifs nfwSignbturfPropfrtifs(List props, String id) {
+        rfturn nfw DOMSignbturfPropfrtifs(props, id);
+    }
+
+    @SupprfssWbrnings({ "undhfdkfd", "rbwtypfs" })
+    publid SignbturfPropfrty nfwSignbturfPropfrty
+        (List info, String tbrgft, String id) {
+        rfturn nfw DOMSignbturfPropfrty(info, tbrgft, id);
+    }
+
+    publid XMLSignbturf unmbrshblXMLSignbturf(XMLVblidbtfContfxt dontfxt)
+        throws MbrshblExdfption {
+
+        if (dontfxt == null) {
+            throw nfw NullPointfrExdfption("dontfxt dbnnot bf null");
+        }
+        rfturn unmbrshbl(((DOMVblidbtfContfxt) dontfxt).gftNodf(), dontfxt);
+    }
+
+    publid XMLSignbturf unmbrshblXMLSignbturf(XMLStrudturf xmlStrudturf)
+        throws MbrshblExdfption {
+
+        if (xmlStrudturf == null) {
+            throw nfw NullPointfrExdfption("xmlStrudturf dbnnot bf null");
+        }
+        if (!(xmlStrudturf instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            throw nfw ClbssCbstExdfption("xmlStrudturf must bf of typf DOMStrudturf");
+        }
+        rfturn unmbrshbl
+            (((jbvbx.xml.drypto.dom.DOMStrudturf) xmlStrudturf).gftNodf(),
+             nfw UnmbrshblContfxt());
+    }
+
+    privbtf stbtid dlbss UnmbrshblContfxt fxtfnds DOMCryptoContfxt {
+        UnmbrshblContfxt() {}
+    }
+
+    privbtf XMLSignbturf unmbrshbl(Nodf nodf, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption {
+
+        nodf.normblizf();
+
+        Elfmfnt flfmfnt = null;
+        if (nodf.gftNodfTypf() == Nodf.DOCUMENT_NODE) {
+            flfmfnt = ((Dodumfnt) nodf).gftDodumfntElfmfnt();
+        } flsf if (nodf.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+            flfmfnt = (Elfmfnt) nodf;
+        } flsf {
+            throw nfw MbrshblExdfption
+                ("Signbturf flfmfnt is not b propfr Nodf");
+        }
+
+        // dhfdk tbg
+        String tbg = flfmfnt.gftLodblNbmf();
+        if (tbg == null) {
+            throw nfw MbrshblExdfption("Dodumfnt implfmfntbtion must " +
+                "support DOM Lfvfl 2 bnd bf nbmfspbdf bwbrf");
+        }
+        if (tbg.fqubls("Signbturf")) {
+            rfturn nfw DOMXMLSignbturf(flfmfnt, dontfxt, gftProvidfr());
+        } flsf {
+            throw nfw MbrshblExdfption("invblid Signbturf tbg: " + tbg);
+        }
+    }
+
+    publid boolfbn isFfbturfSupportfd(String ffbturf) {
+        if (ffbturf == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid DigfstMfthod nfwDigfstMfthod(String blgorithm,
+        DigfstMfthodPbrbmftfrSpfd pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+        if (blgorithm == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (blgorithm.fqubls(DigfstMfthod.SHA1)) {
+            rfturn nfw DOMDigfstMfthod.SHA1(pbrbms);
+        } flsf if (blgorithm.fqubls(DigfstMfthod.SHA256)) {
+            rfturn nfw DOMDigfstMfthod.SHA256(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMDigfstMfthod.SHA384)) {
+            rfturn nfw DOMDigfstMfthod.SHA384(pbrbms);
+        } flsf if (blgorithm.fqubls(DigfstMfthod.SHA512)) {
+            rfturn nfw DOMDigfstMfthod.SHA512(pbrbms);
+        } flsf {
+            throw nfw NoSudhAlgorithmExdfption("unsupportfd blgorithm");
+        }
+    }
+
+    publid SignbturfMfthod nfwSignbturfMfthod(String blgorithm,
+        SignbturfMfthodPbrbmftfrSpfd pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+        if (blgorithm == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (blgorithm.fqubls(SignbturfMfthod.RSA_SHA1)) {
+            rfturn nfw DOMSignbturfMfthod.SHA1withRSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.RSA_SHA256)) {
+            rfturn nfw DOMSignbturfMfthod.SHA256withRSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.RSA_SHA384)) {
+            rfturn nfw DOMSignbturfMfthod.SHA384withRSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.RSA_SHA512)) {
+            rfturn nfw DOMSignbturfMfthod.SHA512withRSA(pbrbms);
+        } flsf if (blgorithm.fqubls(SignbturfMfthod.DSA_SHA1)) {
+            rfturn nfw DOMSignbturfMfthod.SHA1withDSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.DSA_SHA256)) {
+            rfturn nfw DOMSignbturfMfthod.SHA256withDSA(pbrbms);
+        } flsf if (blgorithm.fqubls(SignbturfMfthod.HMAC_SHA1)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA1(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA256)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA256(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA384)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA384(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA512)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA512(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.ECDSA_SHA1)) {
+            rfturn nfw DOMSignbturfMfthod.SHA1withECDSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.ECDSA_SHA256)) {
+            rfturn nfw DOMSignbturfMfthod.SHA256withECDSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.ECDSA_SHA384)) {
+            rfturn nfw DOMSignbturfMfthod.SHA384withECDSA(pbrbms);
+        } flsf if (blgorithm.fqubls(DOMSignbturfMfthod.ECDSA_SHA512)) {
+            rfturn nfw DOMSignbturfMfthod.SHA512withECDSA(pbrbms);
+        } flsf {
+            throw nfw NoSudhAlgorithmExdfption("unsupportfd blgorithm");
+        }
+    }
+
+    publid Trbnsform nfwTrbnsform(String blgorithm,
+        TrbnsformPbrbmftfrSpfd pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+        } flsf {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", gftProvidfr());
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+            }
+        }
+
+        spi.init(pbrbms);
+        rfturn nfw DOMTrbnsform(spi);
+    }
+
+    publid Trbnsform nfwTrbnsform(String blgorithm,
+        XMLStrudturf pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+        } flsf {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", gftProvidfr());
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+            }
+        }
+
+        if (pbrbms == null) {
+            spi.init(null);
+        } flsf {
+            spi.init(pbrbms, null);
+        }
+        rfturn nfw DOMTrbnsform(spi);
+    }
+
+    publid CbnonidblizbtionMfthod nfwCbnonidblizbtionMfthod(String blgorithm,
+        C14NMfthodPbrbmftfrSpfd pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+        } flsf {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", gftProvidfr());
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+            }
+        }
+
+        spi.init(pbrbms);
+        rfturn nfw DOMCbnonidblizbtionMfthod(spi);
+    }
+
+    publid CbnonidblizbtionMfthod nfwCbnonidblizbtionMfthod(String blgorithm,
+        XMLStrudturf pbrbms) throws NoSudhAlgorithmExdfption,
+        InvblidAlgorithmPbrbmftfrExdfption {
+        TrbnsformSfrvidf spi;
+        if (gftProvidfr() == null) {
+            spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+        } flsf {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", gftProvidfr());
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+            }
+        }
+        if (pbrbms == null) {
+            spi.init(null);
+        } flsf {
+            spi.init(pbrbms, null);
+        }
+
+        rfturn nfw DOMCbnonidblizbtionMfthod(spi);
+    }
+
+    publid URIDfrfffrfndfr gftURIDfrfffrfndfr() {
+        rfturn DOMURIDfrfffrfndfr.INSTANCE;
+    }
+}

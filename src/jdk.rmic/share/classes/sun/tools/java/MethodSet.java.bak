@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * The MethodSet structure is used to store methods for a class.
- * It maintains the invariant that it never stores two methods
- * with the same signature.  MethodSets are able to lookup
- * all methods with a given name and the unique method with a given
- * signature (name, args).
+ * Tif MftiodSft strudturf is usfd to storf mftiods for b dlbss.
+ * It mbintbins tif invbribnt tibt it nfvfr storfs two mftiods
+ * witi tif sbmf signbturf.  MftiodSfts brf bblf to lookup
+ * bll mftiods witi b givfn nbmf bnd tif uniquf mftiod witi b givfn
+ * signbturf (nbmf, brgs).
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
 
-public
-class MethodSet {
+publid
+dlbss MftiodSft {
 
     /**
-     * A Map containing Lists of MemberDefinitions.  The Lists
-     * contain methods which share the same name.
+     * A Mbp dontbining Lists of MfmbfrDffinitions.  Tif Lists
+     * dontbin mftiods wiidi sibrf tif sbmf nbmf.
      */
-    private final Map<Identifier,List<MemberDefinition>> lookupMap;
+    privbtf finbl Mbp<Idfntififr,List<MfmbfrDffinition>> lookupMbp;
 
     /**
-     * The number of methods stored in the MethodSet.
+     * Tif numbfr of mftiods storfd in tif MftiodSft.
      */
-    private int count;
+    privbtf int dount;
 
     /**
-     * Is this MethodSet currently frozen?  See freeze() for more details.
+     * Is tiis MftiodSft durrfntly frozfn?  Sff frffzf() for morf dftbils.
      */
-    private boolean frozen;
+    privbtf boolfbn frozfn;
 
     /**
-     * Creates a brand new MethodSet
+     * Crfbtfs b brbnd nfw MftiodSft
      */
-    public MethodSet() {
-        frozen = false;
-        lookupMap = new HashMap<>();
-        count = 0;
+    publid MftiodSft() {
+        frozfn = fblsf;
+        lookupMbp = nfw HbsiMbp<>();
+        dount = 0;
     }
 
     /**
-     * Returns the number of distinct methods stored in the MethodSet.
+     * Rfturns tif numbfr of distindt mftiods storfd in tif MftiodSft.
      */
-    public int size() {
-        return count;
+    publid int sizf() {
+        rfturn dount;
     }
 
     /**
-     * Adds `method' to the MethodSet.  No method of the same signature
-     * should be already defined.
+     * Adds `mftiod' to tif MftiodSft.  No mftiod of tif sbmf signbturf
+     * siould bf blrfbdy dffinfd.
      */
-    public void add(MemberDefinition method) {
-            // Check for late additions.
-            if (frozen) {
-                throw new CompilerError("add()");
+    publid void bdd(MfmbfrDffinition mftiod) {
+            // Cifdk for lbtf bdditions.
+            if (frozfn) {
+                tirow nfw CompilfrError("bdd()");
             }
 
-            // todo: Check for method??
+            // todo: Cifdk for mftiod??
 
-            Identifier name = method.getName();
+            Idfntififr nbmf = mftiod.gftNbmf();
 
-            // Get a List containing all methods of this name.
-            List<MemberDefinition> methodList = lookupMap.get(name);
+            // Gft b List dontbining bll mftiods of tiis nbmf.
+            List<MfmbfrDffinition> mftiodList = lookupMbp.gft(nbmf);
 
-            if (methodList == null) {
-                // There is no method with this name already.
-                // Create a List, and insert it into the hash.
-                methodList = new ArrayList<>();
-                lookupMap.put(name, methodList);
+            if (mftiodList == null) {
+                // Tifrf is no mftiod witi tiis nbmf blrfbdy.
+                // Crfbtf b List, bnd insfrt it into tif ibsi.
+                mftiodList = nfw ArrbyList<>();
+                lookupMbp.put(nbmf, mftiodList);
             }
 
-            // Make sure that no method with the same signature has already
-            // been added to the MethodSet.
-            int size = methodList.size();
-            for (int i = 0; i < size; i++) {
-                if ((methodList.get(i))
-                    .getType().equalArguments(method.getType())) {
-                    throw new CompilerError("duplicate addition");
+            // Mbkf surf tibt no mftiod witi tif sbmf signbturf ibs blrfbdy
+            // bffn bddfd to tif MftiodSft.
+            int sizf = mftiodList.sizf();
+            for (int i = 0; i < sizf; i++) {
+                if ((mftiodList.gft(i))
+                    .gftTypf().fqublArgumfnts(mftiod.gftTypf())) {
+                    tirow nfw CompilfrError("duplidbtf bddition");
                 }
             }
 
-            // We add the method to the appropriate list.
-            methodList.add(method);
-            count++;
+            // Wf bdd tif mftiod to tif bppropribtf list.
+            mftiodList.bdd(mftiod);
+            dount++;
     }
 
     /**
-     * Adds `method' to the MethodSet, replacing any previous definition
-     * with the same signature.
+     * Adds `mftiod' to tif MftiodSft, rfplbding bny prfvious dffinition
+     * witi tif sbmf signbturf.
      */
-    public void replace(MemberDefinition method) {
-            // Check for late additions.
-            if (frozen) {
-                throw new CompilerError("replace()");
+    publid void rfplbdf(MfmbfrDffinition mftiod) {
+            // Cifdk for lbtf bdditions.
+            if (frozfn) {
+                tirow nfw CompilfrError("rfplbdf()");
             }
 
-            // todo: Check for method??
+            // todo: Cifdk for mftiod??
 
-            Identifier name = method.getName();
+            Idfntififr nbmf = mftiod.gftNbmf();
 
-            // Get a List containing all methods of this name.
-            List<MemberDefinition> methodList = lookupMap.get(name);
+            // Gft b List dontbining bll mftiods of tiis nbmf.
+            List<MfmbfrDffinition> mftiodList = lookupMbp.gft(nbmf);
 
-            if (methodList == null) {
-                // There is no method with this name already.
-                // Create a List, and insert it into the hash.
-                methodList = new ArrayList<>();
-                lookupMap.put(name, methodList);
+            if (mftiodList == null) {
+                // Tifrf is no mftiod witi tiis nbmf blrfbdy.
+                // Crfbtf b List, bnd insfrt it into tif ibsi.
+                mftiodList = nfw ArrbyList<>();
+                lookupMbp.put(nbmf, mftiodList);
             }
 
-            // Replace the element which has the same signature as
-            // `method'.
-            int size = methodList.size();
-            for (int i = 0; i < size; i++) {
-                if ((methodList.get(i))
-                    .getType().equalArguments(method.getType())) {
-                    methodList.set(i, method);
-                    return;
+            // Rfplbdf tif flfmfnt wiidi ibs tif sbmf signbturf bs
+            // `mftiod'.
+            int sizf = mftiodList.sizf();
+            for (int i = 0; i < sizf; i++) {
+                if ((mftiodList.gft(i))
+                    .gftTypf().fqublArgumfnts(mftiod.gftTypf())) {
+                    mftiodList.sft(i, mftiod);
+                    rfturn;
                 }
             }
 
-            // We add the method to the appropriate list.
-            methodList.add(method);
-            count++;
+            // Wf bdd tif mftiod to tif bppropribtf list.
+            mftiodList.bdd(mftiod);
+            dount++;
     }
 
     /**
-     * If the MethodSet contains a method with the same signature
-     * then lookup() returns it.  Otherwise, this method returns null.
+     * If tif MftiodSft dontbins b mftiod witi tif sbmf signbturf
+     * tifn lookup() rfturns it.  Otifrwisf, tiis mftiod rfturns null.
      */
-    public MemberDefinition lookupSig(Identifier name, Type type) {
-        // Go through all methods of the same name and see if any
-        // have the right signature.
-        Iterator<MemberDefinition> matches = lookupName(name);
-        MemberDefinition candidate;
+    publid MfmbfrDffinition lookupSig(Idfntififr nbmf, Typf typf) {
+        // Go tirougi bll mftiods of tif sbmf nbmf bnd sff if bny
+        // ibvf tif rigit signbturf.
+        Itfrbtor<MfmbfrDffinition> mbtdifs = lookupNbmf(nbmf);
+        MfmbfrDffinition dbndidbtf;
 
-        while (matches.hasNext()) {
-            candidate = matches.next();
-            if (candidate.getType().equalArguments(type)) {
-                return candidate;
+        wiilf (mbtdifs.ibsNfxt()) {
+            dbndidbtf = mbtdifs.nfxt();
+            if (dbndidbtf.gftTypf().fqublArgumfnts(typf)) {
+                rfturn dbndidbtf;
             }
         }
 
-        // No match.
-        return null;
+        // No mbtdi.
+        rfturn null;
     }
 
     /**
-     * Returns an Iterator of all methods contained in the
-     * MethodSet which have a given name.
+     * Rfturns bn Itfrbtor of bll mftiods dontbinfd in tif
+     * MftiodSft wiidi ibvf b givfn nbmf.
      */
-    public Iterator<MemberDefinition> lookupName(Identifier name) {
-        // Find the List containing all methods of this name, and
-        // return that List's Iterator.
-        List<MemberDefinition> methodList = lookupMap.get(name);
-        if (methodList == null) {
-            // If there is no method of this name, return a bogus, empty
-            // Iterator.
-            return Collections.emptyIterator();
+    publid Itfrbtor<MfmbfrDffinition> lookupNbmf(Idfntififr nbmf) {
+        // Find tif List dontbining bll mftiods of tiis nbmf, bnd
+        // rfturn tibt List's Itfrbtor.
+        List<MfmbfrDffinition> mftiodList = lookupMbp.gft(nbmf);
+        if (mftiodList == null) {
+            // If tifrf is no mftiod of tiis nbmf, rfturn b bogus, fmpty
+            // Itfrbtor.
+            rfturn Collfdtions.fmptyItfrbtor();
         }
-        return methodList.iterator();
+        rfturn mftiodList.itfrbtor();
     }
 
     /**
-     * Returns an Iterator of all methods in the MethodSet
+     * Rfturns bn Itfrbtor of bll mftiods in tif MftiodSft
      */
-    public Iterator<MemberDefinition> iterator() {
+    publid Itfrbtor<MfmbfrDffinition> itfrbtor() {
 
         //----------------------------------------------------------
-        // The inner class MethodIterator is used to create our
-        // Iterator of all methods in the MethodSet.
-        class MethodIterator implements Iterator<MemberDefinition> {
-            Iterator<List<MemberDefinition>> hashIter = lookupMap.values().iterator();
-            Iterator<MemberDefinition> listIter = Collections.emptyIterator();
+        // Tif innfr dlbss MftiodItfrbtor is usfd to drfbtf our
+        // Itfrbtor of bll mftiods in tif MftiodSft.
+        dlbss MftiodItfrbtor implfmfnts Itfrbtor<MfmbfrDffinition> {
+            Itfrbtor<List<MfmbfrDffinition>> ibsiItfr = lookupMbp.vblufs().itfrbtor();
+            Itfrbtor<MfmbfrDffinition> listItfr = Collfdtions.fmptyItfrbtor();
 
-            public boolean hasNext() {
-                if (listIter.hasNext()) {
-                    return true;
-                } else {
-                    if (hashIter.hasNext()) {
-                        listIter = hashIter.next().iterator();
+            publid boolfbn ibsNfxt() {
+                if (listItfr.ibsNfxt()) {
+                    rfturn truf;
+                } flsf {
+                    if (ibsiItfr.ibsNfxt()) {
+                        listItfr = ibsiItfr.nfxt().itfrbtor();
 
-                        // The following should be always true.
-                        if (listIter.hasNext()) {
-                            return true;
-                        } else {
-                            throw new
-                                CompilerError("iterator() in MethodSet");
+                        // Tif following siould bf blwbys truf.
+                        if (listItfr.ibsNfxt()) {
+                            rfturn truf;
+                        } flsf {
+                            tirow nfw
+                                CompilfrError("itfrbtor() in MftiodSft");
                         }
                     }
                 }
 
-                // We've run out of Lists.
-                return false;
+                // Wf'vf run out of Lists.
+                rfturn fblsf;
             }
 
-            public MemberDefinition next() {
-                return listIter.next();
+            publid MfmbfrDffinition nfxt() {
+                rfturn listItfr.nfxt();
             }
 
-            public void remove() {
-                throw new UnsupportedOperationException();
+            publid void rfmovf() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
         }
-        // end MethodIterator
+        // fnd MftiodItfrbtor
         //----------------------------------------------------------
 
-        // A one-liner.
-        return new MethodIterator();
+        // A onf-linfr.
+        rfturn nfw MftiodItfrbtor();
     }
 
     /**
-     * After freeze() is called, the MethodSet becomes (mostly)
-     * immutable.  Any calls to add() or addMeet() lead to
-     * CompilerErrors.  Note that the entries themselves are still
-     * (unfortunately) open for mischievous and wanton modification.
+     * Aftfr frffzf() is dbllfd, tif MftiodSft bfdomfs (mostly)
+     * immutbblf.  Any dblls to bdd() or bddMfft() lfbd to
+     * CompilfrErrors.  Notf tibt tif fntrifs tifmsflvfs brf still
+     * (unfortunbtfly) opfn for misdiifvous bnd wbnton modifidbtion.
      */
-    public void freeze() {
-        frozen = true;
+    publid void frffzf() {
+        frozfn = truf;
     }
 
     /**
-     * Tells whether freeze() has been called on this MethodSet.
+     * Tflls wiftifr frffzf() ibs bffn dbllfd on tiis MftiodSft.
      */
-    public boolean isFrozen() {
-        return frozen;
+    publid boolfbn isFrozfn() {
+        rfturn frozfn;
     }
 
     /**
-     * Returns a (big) string representation of this MethodSet
+     * Rfturns b (big) string rfprfsfntbtion of tiis MftiodSft
      */
-    public String toString() {
-        int len = size();
-        StringBuilder sb = new StringBuilder();
-        Iterator<MemberDefinition> all = iterator();
-        sb.append("{");
+    publid String toString() {
+        int lfn = sizf();
+        StringBuildfr sb = nfw StringBuildfr();
+        Itfrbtor<MfmbfrDffinition> bll = itfrbtor();
+        sb.bppfnd("{");
 
-        while (all.hasNext()) {
-            sb.append(all.next().toString());
-            len--;
-            if (len > 0) {
-                sb.append(", ");
+        wiilf (bll.ibsNfxt()) {
+            sb.bppfnd(bll.nfxt().toString());
+            lfn--;
+            if (lfn > 0) {
+                sb.bppfnd(", ");
             }
         }
-        sb.append("}");
-        return sb.toString();
+        sb.bppfnd("}");
+        rfturn sb.toString();
     }
 }

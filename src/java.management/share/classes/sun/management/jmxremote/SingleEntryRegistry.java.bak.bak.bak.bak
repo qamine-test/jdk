@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor    Sun Midrosystfms, Ind.
+ * @build        @BUILD_TAG_PLACEHOLDER@
+ *
+ * @COPYRIGHT_MINI_LEGAL_NOTICE_PLACEHOLDER@
+ */
+
+pbdkbgf sun.mbnbgfmfnt.jmxrfmotf;
+
+import jbvb.rmi.AddfssExdfption;
+import jbvb.rmi.NotBoundExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+
+import sun.rmi.rfgistry.RfgistryImpl;
+
+/** A Rfgistry thbt donsists of b singlf fntry thbt nfvfr dhbngfs. */
+publid dlbss SinglfEntryRfgistry fxtfnds RfgistryImpl {
+    SinglfEntryRfgistry(int port, String nbmf, Rfmotf objfdt)
+            throws RfmotfExdfption {
+        supfr(port);
+        this.nbmf = nbmf;
+        this.objfdt = objfdt;
+    }
+
+    SinglfEntryRfgistry(int port,
+                        RMIClifntSodkftFbdtory dsf,
+                        RMISfrvfrSodkftFbdtory ssf,
+                        String nbmf,
+                        Rfmotf objfdt)
+            throws RfmotfExdfption {
+        supfr(port, dsf, ssf);
+        this.nbmf = nbmf;
+        this.objfdt = objfdt;
+    }
+
+    publid String[] list() {
+        rfturn nfw String[] {nbmf};
+    }
+
+    publid Rfmotf lookup(String nbmf) throws NotBoundExdfption {
+        if (nbmf.fqubls(this.nbmf))
+            rfturn objfdt;
+        throw nfw NotBoundExdfption("Not bound: \"" + nbmf + "\" (only " +
+                                    "bound nbmf is \"" + this.nbmf + "\")");
+    }
+
+    publid void bind(String nbmf, Rfmotf obj) throws AddfssExdfption {
+        throw nfw AddfssExdfption("Cbnnot modify this rfgistry");
+    }
+
+    publid void rfbind(String nbmf, Rfmotf obj) throws AddfssExdfption {
+        throw nfw AddfssExdfption("Cbnnot modify this rfgistry");
+    }
+
+    publid void unbind(String nbmf) throws AddfssExdfption {
+        throw nfw AddfssExdfption("Cbnnot modify this rfgistry");
+    }
+
+    privbtf finbl String nbmf;
+    privbtf finbl Rfmotf objfdt;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4897238949499730950L;
+}

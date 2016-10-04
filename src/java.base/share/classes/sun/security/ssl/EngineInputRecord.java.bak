@@ -1,428 +1,428 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.nio.*;
-import javax.net.ssl.*;
-import javax.crypto.BadPaddingException;
-import sun.misc.HexDumpEncoder;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvbx.nft.ssl.*;
+import jbvbx.drypto.BbdPbddingExdfption;
+import sun.misd.HfxDumpEndodfr;
 
 
 /**
- * Wrapper class around InputRecord.
+ * Wrbppfr dlbss bround InputRfdord.
  *
- * Application data is kept external to the InputRecord,
- * but handshake data (alert/change_cipher_spec/handshake) will
- * be kept internally in the ByteArrayInputStream.
+ * Applidbtion dbtb is kfpt fxtfrnbl to tif InputRfdord,
+ * but ibndsibkf dbtb (blfrt/dibngf_dipifr_spfd/ibndsibkf) will
+ * bf kfpt intfrnblly in tif BytfArrbyInputStrfbm.
  *
- * @author Brad Wetmore
+ * @butior Brbd Wftmorf
  */
-final class EngineInputRecord extends InputRecord {
+finbl dlbss EnginfInputRfdord fxtfnds InputRfdord {
 
-    private SSLEngineImpl engine;
-
-    /*
-     * A dummy ByteBuffer we'll pass back even when the data
-     * is stored internally.  It'll never actually be used.
-     */
-    static private ByteBuffer tmpBB = ByteBuffer.allocate(0);
+    privbtf SSLEnginfImpl fnginf;
 
     /*
-     * Flag to tell whether the last read/parsed data resides
-     * internal in the ByteArrayInputStream, or in the external
-     * buffers.
+     * A dummy BytfBufffr wf'll pbss bbdk fvfn wifn tif dbtb
+     * is storfd intfrnblly.  It'll nfvfr bdtublly bf usfd.
      */
-    private boolean internalData;
+    stbtid privbtf BytfBufffr tmpBB = BytfBufffr.bllodbtf(0);
 
-    EngineInputRecord(SSLEngineImpl engine) {
-        super();
-        this.engine = engine;
+    /*
+     * Flbg to tfll wiftifr tif lbst rfbd/pbrsfd dbtb rfsidfs
+     * intfrnbl in tif BytfArrbyInputStrfbm, or in tif fxtfrnbl
+     * bufffrs.
+     */
+    privbtf boolfbn intfrnblDbtb;
+
+    EnginfInputRfdord(SSLEnginfImpl fnginf) {
+        supfr();
+        tiis.fnginf = fnginf;
     }
 
-    @Override
-    byte contentType() {
-        if (internalData) {
-            return super.contentType();
-        } else {
-            return ct_application_data;
+    @Ovfrridf
+    bytf dontfntTypf() {
+        if (intfrnblDbtb) {
+            rfturn supfr.dontfntTypf();
+        } flsf {
+            rfturn dt_bpplidbtion_dbtb;
         }
     }
 
     /*
-     * Check if there is enough inbound data in the ByteBuffer
-     * to make a inbound packet.  Look for both SSLv2 and SSLv3.
+     * Cifdk if tifrf is fnougi inbound dbtb in tif BytfBufffr
+     * to mbkf b inbound pbdkft.  Look for boti SSLv2 bnd SSLv3.
      *
-     * @return -1 if there are not enough bytes to tell (small header),
+     * @rfturn -1 if tifrf brf not fnougi bytfs to tfll (smbll ifbdfr),
      */
-    int bytesInCompletePacket(ByteBuffer buf) throws SSLException {
+    int bytfsInComplftfPbdkft(BytfBufffr buf) tirows SSLExdfption {
 
         /*
-         * SSLv2 length field is in bytes 0/1
-         * SSLv3/TLS length field is in bytes 3/4
+         * SSLv2 lfngti fifld is in bytfs 0/1
+         * SSLv3/TLS lfngti fifld is in bytfs 3/4
          */
-        if (buf.remaining() < 5) {
-            return -1;
+        if (buf.rfmbining() < 5) {
+            rfturn -1;
         }
 
         int pos = buf.position();
-        byte byteZero = buf.get(pos);
+        bytf bytfZfro = buf.gft(pos);
 
-        int len = 0;
+        int lfn = 0;
 
         /*
-         * If we have already verified previous packets, we can
-         * ignore the verifications steps, and jump right to the
-         * determination.  Otherwise, try one last hueristic to
-         * see if it's SSL/TLS.
+         * If wf ibvf blrfbdy vfrififd prfvious pbdkfts, wf dbn
+         * ignorf tif vfrifidbtions stfps, bnd jump rigit to tif
+         * dftfrminbtion.  Otifrwisf, try onf lbst iufristid to
+         * sff if it's SSL/TLS.
          */
-        if (formatVerified ||
-                (byteZero == ct_handshake) ||
-                (byteZero == ct_alert)) {
+        if (formbtVfrififd ||
+                (bytfZfro == dt_ibndsibkf) ||
+                (bytfZfro == dt_blfrt)) {
             /*
-             * Last sanity check that it's not a wild record
+             * Lbst sbnity difdk tibt it's not b wild rfdord
              */
-            ProtocolVersion recordVersion =
-                ProtocolVersion.valueOf(buf.get(pos + 1), buf.get(pos + 2));
+            ProtodolVfrsion rfdordVfrsion =
+                ProtodolVfrsion.vblufOf(buf.gft(pos + 1), buf.gft(pos + 2));
 
-            // check the record version
-            checkRecordVersion(recordVersion, false);
+            // difdk tif rfdord vfrsion
+            difdkRfdordVfrsion(rfdordVfrsion, fblsf);
 
             /*
-             * Reasonably sure this is a V3, disable further checks.
-             * We can't do the same in the v2 check below, because
-             * read still needs to parse/handle the v2 clientHello.
+             * Rfbsonbbly surf tiis is b V3, disbblf furtifr difdks.
+             * Wf dbn't do tif sbmf in tif v2 difdk bflow, bfdbusf
+             * rfbd still nffds to pbrsf/ibndlf tif v2 dlifntHfllo.
              */
-            formatVerified = true;
+            formbtVfrififd = truf;
 
             /*
-             * One of the SSLv3/TLS message types.
+             * Onf of tif SSLv3/TLS mfssbgf typfs.
              */
-            len = ((buf.get(pos + 3) & 0xff) << 8) +
-                (buf.get(pos + 4) & 0xff) + headerSize;
+            lfn = ((buf.gft(pos + 3) & 0xff) << 8) +
+                (buf.gft(pos + 4) & 0xff) + ifbdfrSizf;
 
-        } else {
+        } flsf {
             /*
-             * Must be SSLv2 or something unknown.
-             * Check if it's short (2 bytes) or
-             * long (3) header.
+             * Must bf SSLv2 or somftiing unknown.
+             * Cifdk if it's siort (2 bytfs) or
+             * long (3) ifbdfr.
              *
-             * Internals can warn about unsupported SSLv2
+             * Intfrnbls dbn wbrn bbout unsupportfd SSLv2
              */
-            boolean isShort = ((byteZero & 0x80) != 0);
+            boolfbn isSiort = ((bytfZfro & 0x80) != 0);
 
-            if (isShort &&
-                    ((buf.get(pos + 2) == 1) || buf.get(pos + 2) == 4)) {
+            if (isSiort &&
+                    ((buf.gft(pos + 2) == 1) || buf.gft(pos + 2) == 4)) {
 
-                ProtocolVersion recordVersion =
-                    ProtocolVersion.valueOf(buf.get(pos + 3), buf.get(pos + 4));
+                ProtodolVfrsion rfdordVfrsion =
+                    ProtodolVfrsion.vblufOf(buf.gft(pos + 3), buf.gft(pos + 4));
 
-                // check the record version
-                checkRecordVersion(recordVersion, true);
+                // difdk tif rfdord vfrsion
+                difdkRfdordVfrsion(rfdordVfrsion, truf);
 
                 /*
-                 * Client or Server Hello
+                 * Clifnt or Sfrvfr Hfllo
                  */
-                int mask = (isShort ? 0x7f : 0x3f);
-                len = ((byteZero & mask) << 8) + (buf.get(pos + 1) & 0xff) +
-                    (isShort ? 2 : 3);
+                int mbsk = (isSiort ? 0x7f : 0x3f);
+                lfn = ((bytfZfro & mbsk) << 8) + (buf.gft(pos + 1) & 0xff) +
+                    (isSiort ? 2 : 3);
 
-            } else {
+            } flsf {
                 // Gobblygook!
-                throw new SSLException(
-                    "Unrecognized SSL message, plaintext connection?");
+                tirow nfw SSLExdfption(
+                    "Unrfdognizfd SSL mfssbgf, plbintfxt donnfdtion?");
             }
         }
 
-        return len;
+        rfturn lfn;
     }
 
     /*
-     * Pass the data down if it's internally cached, otherwise
-     * do it here.
+     * Pbss tif dbtb down if it's intfrnblly dbdifd, otifrwisf
+     * do it ifrf.
      *
-     * If internal data, data is decrypted internally.
+     * If intfrnbl dbtb, dbtb is dfdryptfd intfrnblly.
      *
-     * If external data(app), return a new ByteBuffer with data to
-     * process.
+     * If fxtfrnbl dbtb(bpp), rfturn b nfw BytfBufffr witi dbtb to
+     * prodfss.
      */
-    ByteBuffer decrypt(Authenticator authenticator,
-            CipherBox box, ByteBuffer bb) throws BadPaddingException {
+    BytfBufffr dfdrypt(Autifntidbtor butifntidbtor,
+            CipifrBox box, BytfBufffr bb) tirows BbdPbddingExdfption {
 
-        if (internalData) {
-            decrypt(authenticator, box);   // MAC is checked during decryption
-            return tmpBB;
+        if (intfrnblDbtb) {
+            dfdrypt(butifntidbtor, box);   // MAC is difdkfd during dfdryption
+            rfturn tmpBB;
         }
 
-        BadPaddingException reservedBPE = null;
-        int tagLen =
-            (authenticator instanceof MAC) ? ((MAC)authenticator).MAClen() : 0;
-        int cipheredLength = bb.remaining();
+        BbdPbddingExdfption rfsfrvfdBPE = null;
+        int tbgLfn =
+            (butifntidbtor instbndfof MAC) ? ((MAC)butifntidbtor).MAClfn() : 0;
+        int dipifrfdLfngti = bb.rfmbining();
 
-        if (!box.isNullCipher()) {
+        if (!box.isNullCipifr()) {
             try {
-                // apply explicit nonce for AEAD/CBC cipher suites if needed
-                int nonceSize =
-                    box.applyExplicitNonce(authenticator, contentType(), bb);
+                // bpply fxplidit nondf for AEAD/CBC dipifr suitfs if nffdfd
+                int nondfSizf =
+                    box.bpplyExpliditNondf(butifntidbtor, dontfntTypf(), bb);
 
-                // decrypt the content
-                if (box.isAEADMode()) {
-                    // DON'T encrypt the nonce_explicit for AEAD mode
-                    bb.position(bb.position() + nonceSize);
-                }   // The explicit IV for CBC mode can be decrypted.
+                // dfdrypt tif dontfnt
+                if (box.isAEADModf()) {
+                    // DON'T fndrypt tif nondf_fxplidit for AEAD modf
+                    bb.position(bb.position() + nondfSizf);
+                }   // Tif fxplidit IV for CBC modf dbn bf dfdryptfd.
 
-                // Note that the CipherBox.decrypt() does not change
-                // the capacity of the buffer.
-                box.decrypt(bb, tagLen);
-                bb.position(nonceSize); // We don't actually remove the nonce.
-            } catch (BadPaddingException bpe) {
-                // RFC 2246 states that decryption_failed should be used
-                // for this purpose. However, that allows certain attacks,
-                // so we just send bad record MAC. We also need to make
-                // sure to always check the MAC to avoid a timing attack
-                // for the same issue. See paper by Vaudenay et al and the
-                // update in RFC 4346/5246.
+                // Notf tibt tif CipifrBox.dfdrypt() dofs not dibngf
+                // tif dbpbdity of tif bufffr.
+                box.dfdrypt(bb, tbgLfn);
+                bb.position(nondfSizf); // Wf don't bdtublly rfmovf tif nondf.
+            } dbtdi (BbdPbddingExdfption bpf) {
+                // RFC 2246 stbtfs tibt dfdryption_fbilfd siould bf usfd
+                // for tiis purposf. Howfvfr, tibt bllows dfrtbin bttbdks,
+                // so wf just sfnd bbd rfdord MAC. Wf blso nffd to mbkf
+                // surf to blwbys difdk tif MAC to bvoid b timing bttbdk
+                // for tif sbmf issuf. Sff pbpfr by Vbudfnby ft bl bnd tif
+                // updbtf in RFC 4346/5246.
                 //
-                // Failover to message authentication code checking.
-                reservedBPE = bpe;
+                // Fbilovfr to mfssbgf butifntidbtion dodf difdking.
+                rfsfrvfdBPE = bpf;
             }
         }
 
-        // Requires message authentication code for null, stream and block
-        // cipher suites.
-        if ((authenticator instanceof MAC) && (tagLen != 0)) {
-            MAC signer = (MAC)authenticator;
-            int macOffset = bb.limit() - tagLen;
+        // Rfquirfs mfssbgf butifntidbtion dodf for null, strfbm bnd blodk
+        // dipifr suitfs.
+        if ((butifntidbtor instbndfof MAC) && (tbgLfn != 0)) {
+            MAC signfr = (MAC)butifntidbtor;
+            int mbdOffsft = bb.limit() - tbgLfn;
 
-            // Note that although it is not necessary, we run the same MAC
-            // computation and comparison on the payload for both stream
-            // cipher and CBC block cipher.
-            if (bb.remaining() < tagLen) {
-                // negative data length, something is wrong
-                if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record");
+            // Notf tibt bltiougi it is not nfdfssbry, wf run tif sbmf MAC
+            // domputbtion bnd dompbrison on tif pbylobd for boti strfbm
+            // dipifr bnd CBC blodk dipifr.
+            if (bb.rfmbining() < tbgLfn) {
+                // nfgbtivf dbtb lfngti, somftiing is wrong
+                if (rfsfrvfdBPE == null) {
+                    rfsfrvfdBPE = nfw BbdPbddingExdfption("bbd rfdord");
                 }
 
-                // set offset of the dummy MAC
-                macOffset = cipheredLength - tagLen;
-                bb.limit(cipheredLength);
+                // sft offsft of tif dummy MAC
+                mbdOffsft = dipifrfdLfngti - tbgLfn;
+                bb.limit(dipifrfdLfngti);
             }
 
-            // Run MAC computation and comparison on the payload.
-            if (checkMacTags(contentType(), bb, signer, false)) {
-                if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record MAC");
+            // Run MAC domputbtion bnd dompbrison on tif pbylobd.
+            if (difdkMbdTbgs(dontfntTypf(), bb, signfr, fblsf)) {
+                if (rfsfrvfdBPE == null) {
+                    rfsfrvfdBPE = nfw BbdPbddingExdfption("bbd rfdord MAC");
                 }
             }
 
-            // Run MAC computation and comparison on the remainder.
+            // Run MAC domputbtion bnd dompbrison on tif rfmbindfr.
             //
-            // It is only necessary for CBC block cipher.  It is used to get a
-            // constant time of MAC computation and comparison on each record.
-            if (box.isCBCMode()) {
-                int remainingLen = calculateRemainingLen(
-                                        signer, cipheredLength, macOffset);
+            // It is only nfdfssbry for CBC blodk dipifr.  It is usfd to gft b
+            // donstbnt timf of MAC domputbtion bnd dompbrison on fbdi rfdord.
+            if (box.isCBCModf()) {
+                int rfmbiningLfn = dbldulbtfRfmbiningLfn(
+                                        signfr, dipifrfdLfngti, mbdOffsft);
 
-                // NOTE: here we use the InputRecord.buf because I did not find
-                // an effective way to work on ByteBuffer when its capacity is
-                // less than remainingLen.
+                // NOTE: ifrf wf usf tif InputRfdord.buf bfdbusf I did not find
+                // bn ffffdtivf wby to work on BytfBufffr wifn its dbpbdity is
+                // lfss tibn rfmbiningLfn.
 
-                // NOTE: remainingLen may be bigger (less than 1 block of the
-                // hash algorithm of the MAC) than the cipheredLength. However,
-                // We won't need to worry about it because we always use a
-                // maximum buffer for every record.  We need a change here if
-                // we use small buffer size in the future.
-                if (remainingLen > buf.length) {
-                    // unlikely to happen, just a placehold
-                    throw new RuntimeException(
-                        "Internal buffer capacity error");
+                // NOTE: rfmbiningLfn mby bf biggfr (lfss tibn 1 blodk of tif
+                // ibsi blgoritim of tif MAC) tibn tif dipifrfdLfngti. Howfvfr,
+                // Wf won't nffd to worry bbout it bfdbusf wf blwbys usf b
+                // mbximum bufffr for fvfry rfdord.  Wf nffd b dibngf ifrf if
+                // wf usf smbll bufffr sizf in tif futurf.
+                if (rfmbiningLfn > buf.lfngti) {
+                    // unlikfly to ibppfn, just b plbdfiold
+                    tirow nfw RuntimfExdfption(
+                        "Intfrnbl bufffr dbpbdity frror");
                 }
 
-                // Won't need to worry about the result on the remainder. And
-                // then we won't need to worry about what's actual data to
-                // check MAC tag on.  We start the check from the header of the
-                // buffer so that we don't need to construct a new byte buffer.
-                checkMacTags(contentType(), buf, 0, remainingLen, signer, true);
+                // Won't nffd to worry bbout tif rfsult on tif rfmbindfr. And
+                // tifn wf won't nffd to worry bbout wibt's bdtubl dbtb to
+                // difdk MAC tbg on.  Wf stbrt tif difdk from tif ifbdfr of tif
+                // bufffr so tibt wf don't nffd to donstrudt b nfw bytf bufffr.
+                difdkMbdTbgs(dontfntTypf(), buf, 0, rfmbiningLfn, signfr, truf);
             }
 
-            bb.limit(macOffset);
+            bb.limit(mbdOffsft);
         }
 
-        // Is it a failover?
-        if (reservedBPE != null) {
-            throw reservedBPE;
+        // Is it b fbilovfr?
+        if (rfsfrvfdBPE != null) {
+            tirow rfsfrvfdBPE;
         }
 
-        return bb.slice();
+        rfturn bb.slidf();
     }
 
     /*
-     * Run MAC computation and comparison
+     * Run MAC domputbtion bnd dompbrison
      *
-     * Please DON'T change the content of the ByteBuffer parameter!
+     * Plfbsf DON'T dibngf tif dontfnt of tif BytfBufffr pbrbmftfr!
      */
-    private static boolean checkMacTags(byte contentType, ByteBuffer bb,
-            MAC signer, boolean isSimulated) {
+    privbtf stbtid boolfbn difdkMbdTbgs(bytf dontfntTypf, BytfBufffr bb,
+            MAC signfr, boolfbn isSimulbtfd) {
 
         int position = bb.position();
-        int tagLen = signer.MAClen();
+        int tbgLfn = signfr.MAClfn();
         int lim = bb.limit();
-        int macData = lim - tagLen;
+        int mbdDbtb = lim - tbgLfn;
 
-        bb.limit(macData);
-        byte[] hash = signer.compute(contentType, bb, isSimulated);
-        if (hash == null || tagLen != hash.length) {
-            // Something is wrong with MAC implementation.
-            throw new RuntimeException("Internal MAC error");
+        bb.limit(mbdDbtb);
+        bytf[] ibsi = signfr.domputf(dontfntTypf, bb, isSimulbtfd);
+        if (ibsi == null || tbgLfn != ibsi.lfngti) {
+            // Somftiing is wrong witi MAC implfmfntbtion.
+            tirow nfw RuntimfExdfption("Intfrnbl MAC frror");
         }
 
-        bb.position(macData);
+        bb.position(mbdDbtb);
         bb.limit(lim);
         try {
-            int[] results = compareMacTags(bb, hash);
-            return (results[0] != 0);
-        } finally {
-            // reset to the data
+            int[] rfsults = dompbrfMbdTbgs(bb, ibsi);
+            rfturn (rfsults[0] != 0);
+        } finblly {
+            // rfsft to tif dbtb
             bb.position(position);
-            bb.limit(macData);
+            bb.limit(mbdDbtb);
         }
     }
 
     /*
-     * A constant-time comparison of the MAC tags.
+     * A donstbnt-timf dompbrison of tif MAC tbgs.
      *
-     * Please DON'T change the content of the ByteBuffer parameter!
+     * Plfbsf DON'T dibngf tif dontfnt of tif BytfBufffr pbrbmftfr!
      */
-    private static int[] compareMacTags(ByteBuffer bb, byte[] tag) {
+    privbtf stbtid int[] dompbrfMbdTbgs(BytfBufffr bb, bytf[] tbg) {
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};     // {missed #, matched #}
+        // An brrby of iits is usfd to prfvfnt Hotspot optimizbtion for
+        // tif purposf of b donstbnt-timf difdk.
+        int[] rfsults = {0, 0};     // {missfd #, mbtdifd #}
 
-        // The caller ensures there are enough bytes available in the buffer.
-        // So we won't need to check the remaining of the buffer.
-        for (int i = 0; i < tag.length; i++) {
-            if (bb.get() != tag[i]) {
-                results[0]++;       // mismatched bytes
-            } else {
-                results[1]++;       // matched bytes
+        // Tif dbllfr fnsurfs tifrf brf fnougi bytfs bvbilbblf in tif bufffr.
+        // So wf won't nffd to difdk tif rfmbining of tif bufffr.
+        for (int i = 0; i < tbg.lfngti; i++) {
+            if (bb.gft() != tbg[i]) {
+                rfsults[0]++;       // mismbtdifd bytfs
+            } flsf {
+                rfsults[1]++;       // mbtdifd bytfs
             }
         }
 
-        return results;
+        rfturn rfsults;
     }
 
     /*
-     * Override the actual write below.  We do things this way to be
-     * consistent with InputRecord.  InputRecord may try to write out
-     * data to the peer, and *then* throw an Exception.  This forces
-     * data to be generated/output before the exception is ever
-     * generated.
+     * Ovfrridf tif bdtubl writf bflow.  Wf do tiings tiis wby to bf
+     * donsistfnt witi InputRfdord.  InputRfdord mby try to writf out
+     * dbtb to tif pffr, bnd *tifn* tirow bn Exdfption.  Tiis fordfs
+     * dbtb to bf gfnfrbtfd/output bfforf tif fxdfption is fvfr
+     * gfnfrbtfd.
      */
-    @Override
-    void writeBuffer(OutputStream s, byte [] buf, int off, int len)
-            throws IOException {
+    @Ovfrridf
+    void writfBufffr(OutputStrfbm s, bytf [] buf, int off, int lfn)
+            tirows IOExdfption {
         /*
-         * Copy data out of buffer, it's ready to go.
+         * Copy dbtb out of bufffr, it's rfbdy to go.
          */
-        ByteBuffer netBB = (ByteBuffer)
-            (ByteBuffer.allocate(len).put(buf, 0, len).flip());
-        engine.writer.putOutboundDataSync(netBB);
+        BytfBufffr nftBB = (BytfBufffr)
+            (BytfBufffr.bllodbtf(lfn).put(buf, 0, lfn).flip());
+        fnginf.writfr.putOutboundDbtbSynd(nftBB);
     }
 
     /*
-     * Delineate or read a complete packet from src.
+     * Dflinfbtf or rfbd b domplftf pbdkft from srd.
      *
-     * If internal data (hs, alert, ccs), the data is read and
-     * stored internally.
+     * If intfrnbl dbtb (is, blfrt, dds), tif dbtb is rfbd bnd
+     * storfd intfrnblly.
      *
-     * If external data (app), return a new ByteBuffer which points
-     * to the data to process.
+     * If fxtfrnbl dbtb (bpp), rfturn b nfw BytfBufffr wiidi points
+     * to tif dbtb to prodfss.
      */
-    ByteBuffer read(ByteBuffer srcBB) throws IOException {
+    BytfBufffr rfbd(BytfBufffr srdBB) tirows IOExdfption {
         /*
-         * Could have a src == null/dst == null check here,
-         * but that was already checked by SSLEngine.unwrap before
-         * ever attempting to read.
+         * Could ibvf b srd == null/dst == null difdk ifrf,
+         * but tibt wbs blrfbdy difdkfd by SSLEnginf.unwrbp bfforf
+         * fvfr bttfmpting to rfbd.
          */
 
         /*
-         * If we have anything besides application data,
-         * or if we haven't even done the initial v2 verification,
-         * we send this down to be processed by the underlying
-         * internal cache.
+         * If wf ibvf bnytiing bfsidfs bpplidbtion dbtb,
+         * or if wf ibvfn't fvfn donf tif initibl v2 vfrifidbtion,
+         * wf sfnd tiis down to bf prodfssfd by tif undfrlying
+         * intfrnbl dbdif.
          */
-        if (!formatVerified ||
-                (srcBB.get(srcBB.position()) != ct_application_data)) {
-            internalData = true;
-            read(new ByteBufferInputStream(srcBB), (OutputStream) null);
-            return tmpBB;
+        if (!formbtVfrififd ||
+                (srdBB.gft(srdBB.position()) != dt_bpplidbtion_dbtb)) {
+            intfrnblDbtb = truf;
+            rfbd(nfw BytfBufffrInputStrfbm(srdBB), (OutputStrfbm) null);
+            rfturn tmpBB;
         }
 
-        internalData = false;
+        intfrnblDbtb = fblsf;
 
-        int srcPos = srcBB.position();
-        int srcLim = srcBB.limit();
+        int srdPos = srdBB.position();
+        int srdLim = srdBB.limit();
 
-        ProtocolVersion recordVersion = ProtocolVersion.valueOf(
-                srcBB.get(srcPos + 1), srcBB.get(srcPos + 2));
+        ProtodolVfrsion rfdordVfrsion = ProtodolVfrsion.vblufOf(
+                srdBB.gft(srdPos + 1), srdBB.gft(srdPos + 2));
 
-        // check the record version
-        checkRecordVersion(recordVersion, false);
+        // difdk tif rfdord vfrsion
+        difdkRfdordVfrsion(rfdordVfrsion, fblsf);
 
         /*
-         * It's really application data.  How much to consume?
-         * Jump over the header.
+         * It's rfblly bpplidbtion dbtb.  How mudi to donsumf?
+         * Jump ovfr tif ifbdfr.
          */
-        int len = bytesInCompletePacket(srcBB);
-        assert(len > 0);
+        int lfn = bytfsInComplftfPbdkft(srdBB);
+        bssfrt(lfn > 0);
 
-        if (debug != null && Debug.isOn("packet")) {
+        if (dfbug != null && Dfbug.isOn("pbdkft")) {
             try {
-                HexDumpEncoder hd = new HexDumpEncoder();
-                ByteBuffer bb = srcBB.duplicate();  // Use copy of BB
-                bb.limit(srcPos + len);
+                HfxDumpEndodfr id = nfw HfxDumpEndodfr();
+                BytfBufffr bb = srdBB.duplidbtf();  // Usf dopy of BB
+                bb.limit(srdPos + lfn);
 
-                System.out.println("[Raw read (bb)]: length = " + len);
-                hd.encodeBuffer(bb, System.out);
-            } catch (IOException e) { }
+                Systfm.out.println("[Rbw rfbd (bb)]: lfngti = " + lfn);
+                id.fndodfBufffr(bb, Systfm.out);
+            } dbtdi (IOExdfption f) { }
         }
 
-        // Demarcate past header to end of packet.
-        srcBB.position(srcPos + headerSize);
-        srcBB.limit(srcPos + len);
+        // Dfmbrdbtf pbst ifbdfr to fnd of pbdkft.
+        srdBB.position(srdPos + ifbdfrSizf);
+        srdBB.limit(srdPos + lfn);
 
-        // Protect remainder of buffer, create slice to actually
-        // operate on.
-        ByteBuffer bb = srcBB.slice();
+        // Protfdt rfmbindfr of bufffr, drfbtf slidf to bdtublly
+        // opfrbtf on.
+        BytfBufffr bb = srdBB.slidf();
 
-        srcBB.position(srcBB.limit());
-        srcBB.limit(srcLim);
+        srdBB.position(srdBB.limit());
+        srdBB.limit(srdLim);
 
-        return bb;
+        rfturn bb;
     }
 }

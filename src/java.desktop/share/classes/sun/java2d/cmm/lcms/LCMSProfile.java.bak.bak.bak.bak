@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.dmm.ldms;
+
+import jbvb.bwt.dolor.CMMExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import sun.jbvb2d.dmm.Profilf;
+
+finbl dlbss LCMSProfilf fxtfnds Profilf {
+    privbtf finbl TbgCbdhf tbgCbdhf;
+
+    privbtf finbl Objfdt disposfrRfffrfnt;
+
+    LCMSProfilf(long ptr, Objfdt rff) {
+        supfr(ptr);
+
+        disposfrRfffrfnt = rff;
+
+        tbgCbdhf = nfw TbgCbdhf(this);
+    }
+
+    finbl long gftLdmsPtr() {
+        rfturn this.gftNbtivfPtr();
+    }
+
+    TbgDbtb gftTbg(int sig) {
+        rfturn tbgCbdhf.gftTbg(sig);
+    }
+
+    void dlfbrTbgCbdhf() {
+        tbgCbdhf.dlfbr();
+    }
+
+    stbtid dlbss TbgCbdhf  {
+        finbl LCMSProfilf profilf;
+        privbtf HbshMbp<Intfgfr, TbgDbtb> tbgs;
+
+        TbgCbdhf(LCMSProfilf p) {
+            profilf = p;
+            tbgs = nfw HbshMbp<>();
+        }
+
+        TbgDbtb gftTbg(int sig) {
+            TbgDbtb t = tbgs.gft(sig);
+            if (t == null) {
+                bytf[] tbgDbtb = LCMS.gftTbgNbtivf(profilf.gftNbtivfPtr(), sig);
+                if (tbgDbtb != null) {
+                    t = nfw TbgDbtb(sig, tbgDbtb);
+                    tbgs.put(sig, t);
+                }
+            }
+            rfturn t;
+        }
+
+        void dlfbr() {
+            tbgs.dlfbr();
+        }
+    }
+
+    stbtid dlbss TbgDbtb {
+        privbtf int signbturf;
+        privbtf bytf[] dbtb;
+
+        TbgDbtb(int sig, bytf[] dbtb) {
+            this.signbturf = sig;
+            this.dbtb = dbtb;
+        }
+
+        int gftSizf() {
+            rfturn dbtb.lfngth;
+        }
+
+        bytf[] gftDbtb() {
+            rfturn Arrbys.dopyOf(dbtb, dbtb.lfngth);
+        }
+
+        void dopyDbtbTo(bytf[] dst) {
+            Systfm.brrbydopy(dbtb, 0, dst, 0, dbtb.lfngth);
+        }
+
+        int gftSignbturf() {
+            rfturn signbturf;
+        }
+    }
+}

@@ -1,0 +1,770 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+//import stbtid sun.bwt.X11.XEmbfd.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import sun.util.logging.PlbtformLoggfr;
+import stbtid sun.bwt.X11.XConstbnts.*;
+import jbvb.util.LinkfdList;
+
+/**
+ * Tfst XEmbfd sfrvfr implfmfntbtion. Sff filf:///homf/dom/bugs/4931668/tfst_plbn.html for
+ * spfdifidbtion bnd rfffrfndfs.
+ */
+publid dlbss XEmbfdSfrvfrTfstfr implfmfnts XEvfntDispbtdhfr {
+    privbtf stbtid finbl PlbtformLoggfr xfmbfdLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.XEmbfdSfrvfrTfstfr");
+    privbtf finbl Objfdt EVENT_LOCK = nfw Objfdt();
+    stbtid finbl int SYSTEM_EVENT_MASK = 0x8000;
+    int my_vfrsion, sfrvfr_vfrsion;
+    XEmbfdHflpfr xfmbfd = nfw XEmbfdHflpfr();
+    boolfbn fodusfd;
+    int fodusfdKind;
+    int fodusfdSfrvfrComponfnt;
+    boolfbn rfpbrfnt;
+    long pbrfnt;
+    boolfbn windowAdtivf;
+    boolfbn xfmbfdAdtivf;
+    XBbsfWindow window;
+    volbtilf int fvfntWbitfd = -1, fvfntRfdfivfd = -1;
+    int mbppfd;
+    int bddfl_kfy, bddfl_kfysym, bddfl_mods;
+    stbtid Rfdtbnglf initiblBounds = nfw Rfdtbnglf(0, 0, 100, 100);
+    Robot robot;
+    Rfdtbnglf sfrvfrBounds[]; // first rfdtbnglf is for thf sfrvfr frbmf, sfdond is for dummy frbmf, othfrs brf for its dhildrfn
+    privbtf stbtid finbl int SERVER_BOUNDS = 0, OTHER_FRAME = 1, SERVER_FOCUS = 2, SERVER_MODAL = 3, MODAL_CLOSE = 4;
+
+    LinkfdList<Intfgfr> fvfnts = nfw LinkfdList<Intfgfr>();
+
+    privbtf XEmbfdSfrvfrTfstfr(Rfdtbnglf sfrvfrBounds[], long pbrfnt) {
+        this.pbrfnt = pbrfnt;
+        fodusfdKind = -1;
+        fodusfdSfrvfrComponfnt = -1;
+        rfpbrfnt = fblsf;
+        windowAdtivf = fblsf;
+        xfmbfdAdtivf = fblsf;
+        my_vfrsion = XEmbfdHflpfr.XEMBED_VERSION;
+        mbppfd = XEmbfdHflpfr.XEMBED_MAPPED;
+        this.sfrvfrBounds = sfrvfrBounds;
+        if (sfrvfrBounds.lfngth < 5) {
+            throw nfw IllfgblArgumfntExdfption("Thfrf must bf bt lfbst fivf brfbs: sfrvfr-bdtivbtion, sfrvfr-dfbdtivbtion, sfrvfr-fodus, " +
+                                               "sfrvfr-modbl show, modbl-dlosf");
+        }
+        try {
+            robot = nfw Robot();
+            robot.sftAutoDflby(100);
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption("Cbn't drfbtf robot");
+        }
+        initAddfl();
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            xfmbfdLog.finfr("XEmbfd dlifnt(tfstfr), fmbfddfr window: " + Long.toHfxString(pbrfnt));
+        }
+    }
+
+    publid stbtid XEmbfdSfrvfrTfstfr gftTfstfr(Rfdtbnglf sfrvfrBounds[], long pbrfnt) {
+        rfturn nfw XEmbfdSfrvfrTfstfr(sfrvfrBounds, pbrfnt);
+    }
+
+    privbtf void dumpRfdfivfdEvfnts() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            xfmbfdLog.finfr("Evfnts rfdfivfd so fbr:");
+            int pos = 0;
+            for (Intfgfr fvfnt : fvfnts) {
+                xfmbfdLog.finfr((pos++) + ":" + XEmbfdHflpfr.msgidToString(fvfnt));
+            }
+            xfmbfdLog.finfr("End of fvfnt dump");
+        }
+    }
+
+    publid void tfst1_1() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        dfbdtivbtfSfrvfr();
+        rfs = bdtivbtfSfrvfr(gftEvfntPos());
+        wbitFodusGbinfd(rfs);
+        dhfdkFodusGbinfd(XEmbfdHflpfr.XEMBED_FOCUS_CURRENT);
+    }
+
+    publid void tfst1_2() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        dhfdkFodusGbinfd(XEmbfdHflpfr.XEMBED_FOCUS_CURRENT);
+    }
+
+    publid void tfst1_3() {
+        fmbfdComplftfly();
+        dfbdtivbtfSfrvfr();
+        rfqufstFodusNoWbit();
+        dhfdkNotFodusfd();
+    }
+
+    publid void tfst1_4() {
+        fmbfdComplftfly();
+        dfbdtivbtfSfrvfr();
+        rfqufstFodusNoWbit();
+        dhfdkNotFodusfd();
+        int rfs = gftEvfntPos();
+        bdtivbtfSfrvfr(rfs);
+        wbitFodusGbinfd(rfs);
+        dhfdkFodusGbinfd(XEmbfdHflpfr.XEMBED_FOCUS_CURRENT);
+    }
+
+    publid void tfst1_5() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        dhfdkWindowAdtivbtfd();
+    }
+
+    publid void tfst1_6() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        rfs = dfbdtivbtfSfrvfr();
+        dhfdkFodusfd();
+    }
+
+    publid void tfst1_7() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        fodusSfrvfr();
+        dhfdkFodusLost();
+    }
+
+    publid void tfst2_5() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        fodusSfrvfrNfxt();
+        dhfdkFodusfdSfrvfrNfxt();
+        dhfdkFodusLost();
+    }
+
+    publid void tfst2_6() {
+        int rfs = fmbfdComplftfly();
+        wbitWindowAdtivbtfd(rfs);
+        rfqufstFodus();
+        fodusSfrvfrPrfv();
+        dhfdkFodusfdSfrvfrPrfv();
+        dhfdkFodusLost();
+    }
+
+    publid void tfst3_1() {
+        rfpbrfnt = fblsf;
+        fmbfdComplftfly();
+    }
+
+    publid void tfst3_3() {
+        rfpbrfnt = truf;
+        fmbfdComplftfly();
+    }
+
+    publid void tfst3_4() {
+        my_vfrsion = 10;
+        fmbfdComplftfly();
+        if (sfrvfr_vfrsion != XEmbfdHflpfr.XEMBED_VERSION) {
+            throw nfw RuntimfExdfption("Vfrsion " + sfrvfr_vfrsion + " is not minimbl");
+        }
+    }
+
+    publid void tfst3_5() {
+        fmbfdComplftfly();
+
+        window.dfstroy();
+        // TODO: how dbn wf dftfdt thbt XEmbfd fndfd?  So fbr wf brf
+        // just dhfdking thbt XEmbfd sfrvfr won't fnd up with bn
+        // fxdfption, whidh should fnd up tfsting, hopffully.
+
+        // Slffp bfforf fxiting thf tfstfr bpplidbtion
+        slffp(1000);
+    }
+
+    publid void tfst3_6() {
+        fmbfdComplftfly();
+
+        slffp(1000);
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XUnmbpWindow(XToolkit.gftDisplby(), window.gftWindow());
+            XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(), window.gftWindow(), XToolkit.gftDffbultRootWindow(), 0, 0);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+
+        int rfs = gftEvfntPos();
+
+        bdtivbtfSfrvfrNoWbit(rfs);
+
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, XEmbfdHflpfr.XEMBED_WINDOW_ACTIVATE) != -1) {
+            throw nfw RuntimfExdfption("Fodus wbs bffn givfn to thf dlifnt bftfr XEmbfd hbs fndfd");
+        }
+    }
+
+    publid void tfst4_1() {
+        mbppfd = XEmbfdHflpfr.XEMBED_MAPPED;
+        int rfs = gftEvfntPos();
+        fmbfdComplftfly();
+        slffp(1000);
+        dhfdkMbppfd();
+    }
+
+    publid void tfst4_2() {
+        mbppfd = 0;
+        fmbfdComplftfly();
+        slffp(1000);
+
+        int rfs = gftEvfntPos();
+        mbppfd = XEmbfdHflpfr.XEMBED_MAPPED;
+        updbtfEmbfdInfo();
+        slffp(1000);
+        dhfdkMbppfd();
+    }
+
+    publid void tfst4_3() {
+        int rfs = gftEvfntPos();
+        mbppfd = XEmbfdHflpfr.XEMBED_MAPPED;
+        fmbfdComplftfly();
+
+        rfs = gftEvfntPos();
+        mbppfd = 0;
+        updbtfEmbfdInfo();
+        slffp(1000);
+        dhfdkNotMbppfd();
+    }
+
+    publid void tfst4_4() {
+        mbppfd = 0;
+        fmbfdComplftfly();
+        slffp(1000);
+        if (XlibUtil.gftWindowMbpStbtf(window.gftWindow()) != IsUnmbppfd) {
+            throw nfw RuntimfExdfption("Clifnt hbs bffn mbppfd");
+        }
+    }
+
+    publid void tfst6_1_1() {
+        fmbfdComplftfly();
+        rfgistfrAddflfrbtor();
+        fodusSfrvfr();
+        int rfs = prfssAddflKfy();
+        wbitForEvfnt(rfs, XEmbfdHflpfr.XEMBED_ACTIVATE_ACCELERATOR);
+    }
+
+    publid void tfst6_1_2() {
+        fmbfdComplftfly();
+        rfgistfrAddflfrbtor();
+        fodusSfrvfr();
+        dfbdtivbtfSfrvfr();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, XEmbfdHflpfr.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
+            throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd in inbdtivf fmbfddfr");
+        }
+    }
+
+    publid void tfst6_1_3() {
+        fmbfdComplftfly();
+        rfgistfrAddflfrbtor();
+        fodusSfrvfr();
+        dfbdtivbtfSfrvfr();
+        unrfgistfrAddflfrbtor();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, XEmbfdHflpfr.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
+            throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd bftfr unrfgistfring");
+        }
+    }
+
+    publid void tfst6_1_4() {
+        fmbfdComplftfly();
+        rfgistfrAddflfrbtor();
+        rfqufstFodus();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, XEmbfdHflpfr.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
+            throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd in fodusfd dlifnt");
+        }
+    }
+    publid void tfst6_2_1() {
+        fmbfdComplftfly();
+        grbbKfy();
+        fodusSfrvfr();
+        int rfs = prfssAddflKfy();
+        wbitSystfmEvfnt(rfs, KfyPrfss);
+    }
+
+    publid void tfst6_2_2() {
+        fmbfdComplftfly();
+        grbbKfy();
+        fodusSfrvfr();
+        dfbdtivbtfSfrvfr();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, SYSTEM_EVENT_MASK | KfyPrfss) != -1) {
+            throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd in inbdtivf fmbfddfr");
+        }
+    }
+
+    publid void tfst6_2_3() {
+        fmbfdComplftfly();
+        grbbKfy();
+        fodusSfrvfr();
+        dfbdtivbtfSfrvfr();
+        ungrbbKfy();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        if (dhfdkEvfntList(rfs, SYSTEM_EVENT_MASK | KfyPrfss) != -1) {
+            throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd bftfr unrfgistfring");
+        }
+    }
+
+    publid void tfst6_2_4() {
+        fmbfdComplftfly();
+        grbbKfy();
+        rfqufstFodus();
+        int rfs = prfssAddflKfy();
+        slffp(1000);
+        int pos = dhfdkEvfntList(rfs, SYSTEM_EVENT_MASK | KfyPrfss);
+        if (pos != -1) {
+            pos = dhfdkEvfntList(pos+1, SYSTEM_EVENT_MASK | KfyPrfss);
+            if (pos != -1) { // Sfdond fvfnt
+                throw nfw RuntimfExdfption("Addflfrbtor hbs bffn bdtivbtfd in fodusfd dlifnt");
+            }
+        }
+    }
+
+    publid void tfst7_1() {
+        fmbfdComplftfly();
+        int rfs = showModblDiblog();
+        wbitForEvfnt(rfs, XEmbfdHflpfr.XEMBED_MODALITY_ON);
+    }
+
+    publid void tfst7_2() {
+        fmbfdComplftfly();
+        int rfs = showModblDiblog();
+        wbitForEvfnt(rfs, XEmbfdHflpfr.XEMBED_MODALITY_ON);
+        rfs = hidfModblDiblog();
+        wbitForEvfnt(rfs, XEmbfdHflpfr.XEMBED_MODALITY_OFF);
+    }
+
+    publid void tfst9_1() {
+        fmbfdComplftfly();
+        rfqufstFodus();
+        int rfs = prfssAddflKfy();
+        wbitForEvfnt(rfs, SYSTEM_EVENT_MASK | KfyPrfss);
+    }
+
+    privbtf int fmbfd() {
+        int rfs = gftEvfntPos();
+        XToolkit.bwtLodk();
+        try {
+            XCrfbtfWindowPbrbms pbrbms =
+                nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+                    XBbsfWindow.PARENT_WINDOW, Long.vblufOf(rfpbrfnt?XToolkit.gftDffbultRootWindow():pbrfnt),
+                    XBbsfWindow.BOUNDS, initiblBounds,
+                    XBbsfWindow.EMBEDDED, Boolfbn.TRUE,
+                    XBbsfWindow.VISIBLE, Boolfbn.vblufOf(mbppfd == XEmbfdHflpfr.XEMBED_MAPPED),
+                    XBbsfWindow.EVENT_MASK, Long.vblufOf(VisibilityChbngfMbsk | StrudturfNotifyMbsk |
+                                                     SubstrudturfNotifyMbsk | KfyPrfssMbsk)});
+            window = nfw XBbsfWindow(pbrbms);
+
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                xfmbfdLog.finfr("Crfbtfd tfstfr window: " + window);
+            }
+
+            XToolkit.bddEvfntDispbtdhfr(window.gftWindow(), this);
+            updbtfEmbfdInfo();
+            if (rfpbrfnt) {
+                xfmbfdLog.finfr("Rfpbrfnting to fmbfddfr");
+                XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(), window.gftWindow(), pbrfnt, 0, 0);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        rfturn rfs;
+    }
+
+    privbtf void updbtfEmbfdInfo() {
+        long[] info = nfw long[] { my_vfrsion, mbppfd };
+        long dbtb = Nbtivf.dbrd32ToDbtb(info);
+        try {
+            XEmbfdHflpfr.XEmbfdInfo.sftAtomDbtb(window.gftWindow(), dbtb, info.lfngth);
+        } finblly {
+            XEmbfdHflpfr.unsbff.frffMfmory(dbtb);
+        }
+    }
+
+    privbtf int gftEvfntPos() {
+        syndhronizfd(EVENT_LOCK) {
+            rfturn fvfnts.sizf();
+        }
+    }
+
+    privbtf int fmbfdComplftfly() {
+        xfmbfdLog.finf("Embfdding domplftfly");
+        int rfs = gftEvfntPos();
+        fmbfd();
+        wbitEmbfddfdNotify(rfs);
+        rfturn rfs;
+    }
+    privbtf int rfqufstFodus() {
+        xfmbfdLog.finf("Rfqufsting fodus");
+        int rfs = gftEvfntPos();
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_REQUEST_FOCUS);
+        wbitFodusGbinfd(rfs);
+        rfturn rfs;
+    }
+    privbtf int rfqufstFodusNoWbit() {
+        xfmbfdLog.finf("Rfqufsting fodus without wbit");
+        int rfs = gftEvfntPos();
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_REQUEST_FOCUS);
+        rfturn rfs;
+    }
+    privbtf int bdtivbtfSfrvfr(int prfv) {
+        int rfs = bdtivbtfSfrvfrNoWbit(prfv);
+        wbitWindowAdtivbtfd(rfs);
+        rfturn rfs;
+    }
+    privbtf int bdtivbtfSfrvfrNoWbit(int prfv) {
+        xfmbfdLog.finf("Adtivbting sfrvfr");
+        int rfs = gftEvfntPos();
+        if (dhfdkEvfntList(prfv, XEmbfdHflpfr.XEMBED_WINDOW_ACTIVATE) != -1) {
+            xfmbfdLog.finf("Adtivbtion blrfbdy rfdfivfd");
+            rfturn rfs;
+        }
+        Point lod = sfrvfrBounds[SERVER_BOUNDS].gftLodbtion();
+        lod.x += sfrvfrBounds[SERVER_BOUNDS].gftWidth()/2;
+        lod.y += 5;
+        robot.mousfMovf(lod.x, lod.y);
+        robot.mousfPrfss(InputEvfnt.BUTTON1_MASK);
+        robot.mousfRflfbsf(InputEvfnt.BUTTON1_MASK);
+        rfturn rfs;
+    }
+    privbtf int dfbdtivbtfSfrvfr() {
+        xfmbfdLog.finf("Dfbdtivbting sfrvfr");
+        int rfs = gftEvfntPos();
+        Point lod = sfrvfrBounds[OTHER_FRAME].gftLodbtion();
+        lod.x += sfrvfrBounds[OTHER_FRAME].gftWidth()/2;
+        lod.y += sfrvfrBounds[OTHER_FRAME].gftHfight()/2;
+        robot.mousfMovf(lod.x, lod.y);
+        robot.mousfPrfss(InputEvfnt.BUTTON1_MASK);
+        robot.dflby(50);
+        robot.mousfRflfbsf(InputEvfnt.BUTTON1_MASK);
+        wbitWindowDfbdtivbtfd(rfs);
+        rfturn rfs;
+    }
+    privbtf int fodusSfrvfr() {
+        xfmbfdLog.finf("Fodusing sfrvfr");
+        boolfbn wfFodusfd = fodusfd;
+        int rfs = gftEvfntPos();
+        Point lod = sfrvfrBounds[SERVER_FOCUS].gftLodbtion();
+        lod.x += 5;
+        lod.y += 5;
+        robot.mousfMovf(lod.x, lod.y);
+        robot.mousfPrfss(InputEvfnt.BUTTON1_MASK);
+        robot.dflby(50);
+        robot.mousfRflfbsf(InputEvfnt.BUTTON1_MASK);
+        if (wfFodusfd) {
+            wbitFodusLost(rfs);
+        }
+        rfturn rfs;
+    }
+    privbtf int fodusSfrvfrNfxt() {
+        xfmbfdLog.finf("Fodusing nfxt sfrvfr domponfnt");
+        int rfs = gftEvfntPos();
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_FOCUS_NEXT);
+        wbitFodusLost(rfs);
+        rfturn rfs;
+    }
+    privbtf int fodusSfrvfrPrfv() {
+        xfmbfdLog.finf("Fodusing prfvious sfrvfr domponfnt");
+        int rfs = gftEvfntPos();
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_FOCUS_PREV);
+        wbitFodusLost(rfs);
+        rfturn rfs;
+    }
+
+    privbtf void wbitEmbfddfdNotify(int pos) {
+        wbitForEvfnt(pos, XEmbfdHflpfr.XEMBED_EMBEDDED_NOTIFY);
+    }
+    privbtf void wbitFodusGbinfd(int pos) {
+        wbitForEvfnt(pos, XEmbfdHflpfr.XEMBED_FOCUS_IN);
+    }
+    privbtf void wbitFodusLost(int pos) {
+        wbitForEvfnt(pos, XEmbfdHflpfr.XEMBED_FOCUS_OUT);
+    }
+    privbtf void wbitWindowAdtivbtfd(int pos) {
+        wbitForEvfnt(pos, XEmbfdHflpfr.XEMBED_WINDOW_ACTIVATE);
+    }
+    privbtf void wbitWindowDfbdtivbtfd(int pos) {
+        wbitForEvfnt(pos, XEmbfdHflpfr.XEMBED_WINDOW_DEACTIVATE);
+    }
+
+    privbtf void wbitSystfmEvfnt(int position, int fvfnt) {
+        wbitForEvfnt(position, fvfnt | SYSTEM_EVENT_MASK);
+    }
+
+    privbtf void wbitForEvfnt(int position, int fvfnt) {
+        syndhronizfd(EVENT_LOCK) {
+            // Chfdk for blrfbdy rfdfivfd fvfnts bftfr thf rfqufst
+            if (dhfdkEvfntList(position, fvfnt) != -1) {
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Thf fvfnt " + XEmbfdHflpfr.msgidToString(fvfnt) + " hbs blrfbdy bffn rfdfivfd");
+                }
+                rfturn;
+            }
+
+            if (fvfntRfdfivfd == fvfnt) {
+                // Alrfbdy rfdfivfd
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Alrfbdy rfdfivfd " + XEmbfdHflpfr.msgidToString(fvfnt));
+                }
+                rfturn;
+            }
+            fvfntRfdfivfd = -1;
+            fvfntWbitfd = fvfnt;
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                xfmbfdLog.finfr("Wbiting for " + XEmbfdHflpfr.msgidToString(fvfnt) + " stbrting from " + position);
+            }
+            try {
+                EVENT_LOCK.wbit(3000);
+            } dbtdh (IntfrruptfdExdfption if) {
+                xfmbfdLog.wbrning("Evfnt wbit intfrruptfd", if);
+            }
+            fvfntWbitfd = -1;
+            if (dhfdkEvfntList(position, fvfnt) == -1) {
+                dumpRfdfivfdEvfnts();
+                throw nfw RuntimfExdfption("Didn't rfdfivf fvfnt " + XEmbfdHflpfr.msgidToString(fvfnt) + " but rfdfvifd " + XEmbfdHflpfr.msgidToString(fvfntRfdfivfd));
+            } flsf {
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Suddfssfully rfdfvifd " + XEmbfdHflpfr.msgidToString(fvfnt));
+                }
+            }
+        }
+    }
+    /**
+     * Chfdks if thf <dodf>fvfnt</dodf> is blrfbdy in b list bt position >= <dodf>position</dodf>
+     */
+    privbtf int dhfdkEvfntList(int position, int fvfnt) {
+        if (position == -1) {
+            rfturn -1;
+        }
+        syndhronizfd(EVENT_LOCK) {
+            for (int i = position; i < fvfnts.sizf(); i++) {
+                if (fvfnts.gft(i) == fvfnt) {
+                    rfturn i;
+                }
+            }
+            rfturn -1;
+        }
+    }
+
+    privbtf void dhfdkFodusfdSfrvfrNfxt() {
+        if (fodusfdSfrvfrComponfnt != 0) {
+            throw nfw RuntimfExdfption("Wrong fodusfd sfrvfr domponfnt, should bf 0, but it is " + fodusfdSfrvfrComponfnt);
+        }
+    }
+    privbtf void dhfdkFodusfdSfrvfrPrfv() {
+        if (fodusfdSfrvfrComponfnt != 2) {
+            throw nfw RuntimfExdfption("Wrong fodusfd sfrvfr domponfnt, should bf 2, but it is " + fodusfdSfrvfrComponfnt);
+        }
+    }
+    privbtf void dhfdkFodusGbinfd(int kind) {
+        if (!fodusfd) {
+            throw nfw RuntimfExdfption("Didn't rfdfivf FOCUS_GAINED");
+        }
+        if (fodusfdKind != kind) {
+            throw nfw RuntimfExdfption("Kinds don't mbtdh, rfquirfd: " + kind + ", durrfnt: " + fodusfdKind);
+        }
+    }
+    privbtf void dhfdkNotFodusfd() {
+        if (fodusfd) {
+            throw nfw RuntimfExdfption("Fodusfd");
+        }
+    }
+    privbtf void dhfdkFodusfd() {
+        if (!fodusfd) {
+            throw nfw RuntimfExdfption("Not Fodusfd");
+        }
+    }
+
+    privbtf void dhfdkFodusLost() {
+        dhfdkNotFodusfd();
+        if (fodusfdKind != XEmbfdHflpfr.XEMBED_FOCUS_OUT) {
+            throw nfw RuntimfExdfption("Didn't rfdfivf FOCUS_LOST");
+        }
+    }
+    privbtf void dhfdkWindowAdtivbtfd() {
+        if (!windowAdtivf) {
+            throw nfw RuntimfExdfption("Window is not bdtivf");
+        }
+    }
+    privbtf void dhfdkMbppfd() {
+        if (XlibUtil.gftWindowMbpStbtf(window.gftWindow()) == IsUnmbppfd) {
+            throw nfw RuntimfExdfption("Clifnt is not mbppfd");
+        }
+    }
+    privbtf void dhfdkNotMbppfd() {
+        if (XlibUtil.gftWindowMbpStbtf(window.gftWindow()) != IsUnmbppfd) {
+            throw nfw RuntimfExdfption("Clifnt is mbppfd");
+        }
+    }
+
+    privbtf void sfndMfssbgf(int mfssbgf) {
+        xfmbfd.sfndMfssbgf(pbrfnt, mfssbgf);
+    }
+    privbtf void sfndMfssbgf(int mfssbgf, int dftbil, long dbtb1, long dbtb2) {
+        xfmbfd.sfndMfssbgf(pbrfnt, mfssbgf, dftbil, dbtb1, dbtb2);
+    }
+
+    publid void dispbtdhEvfnt(XEvfnt fv) {
+        if (fv.gft_typf() == ClifntMfssbgf) {
+            XClifntMfssbgfEvfnt msg = fv.gft_xdlifnt();
+            if (msg.gft_mfssbgf_typf() == XEmbfdHflpfr.XEmbfd.gftAtom()) {
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    xfmbfdLog.finf("Embfddfd mfssbgf: " + XEmbfdHflpfr.msgidToString((int)msg.gft_dbtb(1)));
+                }
+                switdh ((int)msg.gft_dbtb(1)) {
+                  dbsf XEmbfdHflpfr.XEMBED_EMBEDDED_NOTIFY: // Notifidbtion bbout fmbfdding protodol stbrt
+                      xfmbfdAdtivf = truf;
+                      sfrvfr_vfrsion = (int)msg.gft_dbtb(3);
+                      brfbk;
+                  dbsf XEmbfdHflpfr.XEMBED_WINDOW_ACTIVATE:
+                      windowAdtivf = truf;
+                      brfbk;
+                  dbsf XEmbfdHflpfr.XEMBED_WINDOW_DEACTIVATE:
+                      windowAdtivf = fblsf;
+                      brfbk;
+                  dbsf XEmbfdHflpfr.XEMBED_FOCUS_IN: // Wf got fodus!
+                      fodusfd = truf;
+                      fodusfdKind = (int)msg.gft_dbtb(2);
+                      brfbk;
+                  dbsf XEmbfdHflpfr.XEMBED_FOCUS_OUT:
+                      fodusfd = fblsf;
+                      fodusfdKind = XEmbfdHflpfr.XEMBED_FOCUS_OUT;
+                      fodusfdSfrvfrComponfnt = (int)msg.gft_dbtb(2);
+                      brfbk;
+                }
+                syndhronizfd(EVENT_LOCK) {
+                    fvfnts.bdd((int)msg.gft_dbtb(1));
+
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        xfmbfdLog.finfr("Tfstfr is wbiting for " +  XEmbfdHflpfr.msgidToString(fvfntWbitfd));
+                    }
+                    if ((int)msg.gft_dbtb(1) == fvfntWbitfd) {
+                        fvfntRfdfivfd = (int)msg.gft_dbtb(1);
+                        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                            xfmbfdLog.finfr("Notifying wbiting objfdt for fvfnt " + Systfm.idfntityHbshCodf(EVENT_LOCK));
+                        }
+                        EVENT_LOCK.notifyAll();
+                    }
+                }
+            }
+        } flsf {
+            syndhronizfd(EVENT_LOCK) {
+                int fvfntID = fv.gft_typf() | SYSTEM_EVENT_MASK;
+                fvfnts.bdd(fvfntID);
+
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Tfstfr is wbiting for " + XEmbfdHflpfr.msgidToString(fvfntWbitfd) + ", but wf rfdfivfd " + fv + "(" + XEmbfdHflpfr.msgidToString(fvfntID) + ")");
+                }
+                if (fvfntID == fvfntWbitfd) {
+                    fvfntRfdfivfd = fvfntID;
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        xfmbfdLog.finfr("Notifying wbiting objfdt" + Systfm.idfntityHbshCodf(EVENT_LOCK));
+                    }
+                    EVENT_LOCK.notifyAll();
+                }
+            }
+        }
+    }
+
+    privbtf void slffp(int bmount) {
+        try {
+            Thrfbd.slffp(bmount);
+        } dbtdh (Exdfption f) {
+        }
+    }
+
+    privbtf void rfgistfrAddflfrbtor() {
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_REGISTER_ACCELERATOR, 1, bddfl_kfysym, bddfl_mods);
+    }
+
+    privbtf void unrfgistfrAddflfrbtor() {
+        sfndMfssbgf(XEmbfdHflpfr.XEMBED_UNREGISTER_ACCELERATOR, 1, 0, 0);
+    }
+
+    privbtf int prfssAddflKfy() {
+        int rfs = gftEvfntPos();
+        robot.kfyPrfss(bddfl_kfy);
+        robot.kfyRflfbsf(bddfl_kfy);
+        rfturn rfs;
+    }
+
+    privbtf void initAddfl() {
+        bddfl_kfy = KfyEvfnt.VK_A;
+        bddfl_kfysym = XWindow.gftKfySymForAWTKfyCodf(bddfl_kfy);
+        bddfl_mods = 0;
+    }
+
+    privbtf void grbbKfy() {
+        sfndMfssbgf(XEmbfdHflpfr.NON_STANDARD_XEMBED_GTK_GRAB_KEY, 0, bddfl_kfysym, bddfl_mods);
+    }
+    privbtf void ungrbbKfy() {
+        sfndMfssbgf(XEmbfdHflpfr.NON_STANDARD_XEMBED_GTK_UNGRAB_KEY, 0, bddfl_kfysym, bddfl_mods);
+    }
+    privbtf int showModblDiblog() {
+        xfmbfdLog.finf("Showing modbl diblog");
+        int rfs = gftEvfntPos();
+        Point lod = sfrvfrBounds[SERVER_MODAL].gftLodbtion();
+        lod.x += 5;
+        lod.y += 5;
+        robot.mousfMovf(lod.x, lod.y);
+        robot.mousfPrfss(InputEvfnt.BUTTON1_MASK);
+        robot.dflby(50);
+        robot.mousfRflfbsf(InputEvfnt.BUTTON1_MASK);
+        rfturn rfs;
+    }
+    privbtf int hidfModblDiblog() {
+        xfmbfdLog.finf("Hidf modbl diblog");
+        int rfs = gftEvfntPos();
+//         Point lod = sfrvfrBounds[MODAL_CLOSE].gftLodbtion();
+//         lod.x += 5;
+//         lod.y += 5;
+//         robot.mousfMovf(lod.x, lod.y);
+//         robot.mousfPrfss(InputEvfnt.BUTTON1_MASK);
+//         robot.dflby(50);
+//         robot.mousfRflfbsf(InputEvfnt.BUTTON1_MASK);
+        robot.kfyPrfss(KfyEvfnt.VK_SPACE);
+        robot.kfyRflfbsf(KfyEvfnt.VK_SPACE);
+        rfturn rfs;
+    }
+
+}

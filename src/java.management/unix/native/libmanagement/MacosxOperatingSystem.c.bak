@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_management_OperatingSystemImpl.h"
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.i"
 
-#include <sys/time.h>
-#include <mach/mach.h>
-#include <mach/task_info.h>
+#indludf <sys/timf.i>
+#indludf <mbdi/mbdi.i>
+#indludf <mbdi/tbsk_info.i>
 
-#include "jvm.h"
+#indludf "jvm.i"
 
-JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getSystemCpuLoad0
-(JNIEnv *env, jobject dummy)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftSystfmCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
 {
-    // This code is influenced by the darwin top source
+    // Tiis dodf is influfndfd by tif dbrwin top sourdf
 
-    kern_return_t kr;
-    mach_msg_type_number_t count;
-    host_cpu_load_info_data_t load;
+    kfrn_rfturn_t kr;
+    mbdi_msg_typf_numbfr_t dount;
+    iost_dpu_lobd_info_dbtb_t lobd;
 
-    static jlong last_used  = 0;
-    static jlong last_total = 0;
+    stbtid jlong lbst_usfd  = 0;
+    stbtid jlong lbst_totbl = 0;
 
-    count = HOST_CPU_LOAD_INFO_COUNT;
-    kr = host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, (host_info_t)&load, &count);
+    dount = HOST_CPU_LOAD_INFO_COUNT;
+    kr = iost_stbtistids(mbdi_iost_sflf(), HOST_CPU_LOAD_INFO, (iost_info_t)&lobd, &dount);
     if (kr != KERN_SUCCESS) {
-        return -1;
+        rfturn -1;
     }
 
-    jlong used  = load.cpu_ticks[CPU_STATE_USER] + load.cpu_ticks[CPU_STATE_NICE] + load.cpu_ticks[CPU_STATE_SYSTEM];
-    jlong total = used + load.cpu_ticks[CPU_STATE_IDLE];
+    jlong usfd  = lobd.dpu_tidks[CPU_STATE_USER] + lobd.dpu_tidks[CPU_STATE_NICE] + lobd.dpu_tidks[CPU_STATE_SYSTEM];
+    jlong totbl = usfd + lobd.dpu_tidks[CPU_STATE_IDLE];
 
-    if (last_used == 0 || last_total == 0) {
-        // First call, just set the last values
-        last_used  = used;
-        last_total = total;
-        // return 0 since we have no data, not -1 which indicates error
-        return 0;
+    if (lbst_usfd == 0 || lbst_totbl == 0) {
+        // First dbll, just sft tif lbst vblufs
+        lbst_usfd  = usfd;
+        lbst_totbl = totbl;
+        // rfturn 0 sindf wf ibvf no dbtb, not -1 wiidi indidbtfs frror
+        rfturn 0;
     }
 
-    jlong used_delta  = used - last_used;
-    jlong total_delta = total - last_total;
+    jlong usfd_dfltb  = usfd - lbst_usfd;
+    jlong totbl_dfltb = totbl - lbst_totbl;
 
-    jdouble cpu = (jdouble) used_delta / total_delta;
+    jdoublf dpu = (jdoublf) usfd_dfltb / totbl_dfltb;
 
-    last_used  = used;
-    last_total = total;
+    lbst_usfd  = usfd;
+    lbst_totbl = totbl;
 
-    return cpu;
+    rfturn dpu;
 }
 
 
-#define TIME_VALUE_TO_TIMEVAL(a, r) do {  \
-     (r)->tv_sec = (a)->seconds;          \
-     (r)->tv_usec = (a)->microseconds;    \
-} while (0)
+#dffinf TIME_VALUE_TO_TIMEVAL(b, r) do {  \
+     (r)->tv_sfd = (b)->sfdonds;          \
+     (r)->tv_usfd = (b)->midrosfdonds;    \
+} wiilf (0)
 
 
-#define TIME_VALUE_TO_MICROSECONDS(TV) \
-     ((TV).tv_sec * 1000 * 1000 + (TV).tv_usec)
+#dffinf TIME_VALUE_TO_MICROSECONDS(TV) \
+     ((TV).tv_sfd * 1000 * 1000 + (TV).tv_usfd)
 
 
-JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuLoad0
-(JNIEnv *env, jobject dummy)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
 {
-    // This code is influenced by the darwin top source
+    // Tiis dodf is influfndfd by tif dbrwin top sourdf
 
-    struct task_basic_info_64 task_info_data;
-    struct task_thread_times_info thread_info_data;
-    struct timeval user_timeval, system_timeval, task_timeval;
-    struct timeval now;
-    mach_port_t task = mach_task_self();
-    kern_return_t kr;
+    strudt tbsk_bbsid_info_64 tbsk_info_dbtb;
+    strudt tbsk_tirfbd_timfs_info tirfbd_info_dbtb;
+    strudt timfvbl usfr_timfvbl, systfm_timfvbl, tbsk_timfvbl;
+    strudt timfvbl now;
+    mbdi_port_t tbsk = mbdi_tbsk_sflf();
+    kfrn_rfturn_t kr;
 
-    static jlong last_task_time = 0;
-    static jlong last_time      = 0;
+    stbtid jlong lbst_tbsk_timf = 0;
+    stbtid jlong lbst_timf      = 0;
 
-    mach_msg_type_number_t thread_info_count = TASK_THREAD_TIMES_INFO_COUNT;
-    kr = task_info(task,
+    mbdi_msg_typf_numbfr_t tirfbd_info_dount = TASK_THREAD_TIMES_INFO_COUNT;
+    kr = tbsk_info(tbsk,
             TASK_THREAD_TIMES_INFO,
-            (task_info_t)&thread_info_data,
-            &thread_info_count);
+            (tbsk_info_t)&tirfbd_info_dbtb,
+            &tirfbd_info_dount);
     if (kr != KERN_SUCCESS) {
-        // Most likely cause: |task| is a zombie.
-        return -1;
+        // Most likfly dbusf: |tbsk| is b zombif.
+        rfturn -1;
     }
 
-    mach_msg_type_number_t count = TASK_BASIC_INFO_64_COUNT;
-    kr = task_info(task,
+    mbdi_msg_typf_numbfr_t dount = TASK_BASIC_INFO_64_COUNT;
+    kr = tbsk_info(tbsk,
             TASK_BASIC_INFO_64,
-            (task_info_t)&task_info_data,
-            &count);
+            (tbsk_info_t)&tbsk_info_dbtb,
+            &dount);
     if (kr != KERN_SUCCESS) {
-        // Most likely cause: |task| is a zombie.
-        return -1;
+        // Most likfly dbusf: |tbsk| is b zombif.
+        rfturn -1;
     }
 
-    /* Set total_time. */
-    // thread info contains live time...
-    TIME_VALUE_TO_TIMEVAL(&thread_info_data.user_time, &user_timeval);
-    TIME_VALUE_TO_TIMEVAL(&thread_info_data.system_time, &system_timeval);
-    timeradd(&user_timeval, &system_timeval, &task_timeval);
+    /* Sft totbl_timf. */
+    // tirfbd info dontbins livf timf...
+    TIME_VALUE_TO_TIMEVAL(&tirfbd_info_dbtb.usfr_timf, &usfr_timfvbl);
+    TIME_VALUE_TO_TIMEVAL(&tirfbd_info_dbtb.systfm_timf, &systfm_timfvbl);
+    timfrbdd(&usfr_timfvbl, &systfm_timfvbl, &tbsk_timfvbl);
 
-    // ... task info contains terminated time.
-    TIME_VALUE_TO_TIMEVAL(&task_info_data.user_time, &user_timeval);
-    TIME_VALUE_TO_TIMEVAL(&task_info_data.system_time, &system_timeval);
-    timeradd(&user_timeval, &task_timeval, &task_timeval);
-    timeradd(&system_timeval, &task_timeval, &task_timeval);
+    // ... tbsk info dontbins tfrminbtfd timf.
+    TIME_VALUE_TO_TIMEVAL(&tbsk_info_dbtb.usfr_timf, &usfr_timfvbl);
+    TIME_VALUE_TO_TIMEVAL(&tbsk_info_dbtb.systfm_timf, &systfm_timfvbl);
+    timfrbdd(&usfr_timfvbl, &tbsk_timfvbl, &tbsk_timfvbl);
+    timfrbdd(&systfm_timfvbl, &tbsk_timfvbl, &tbsk_timfvbl);
 
-    if (gettimeofday(&now, NULL) < 0) {
-       return -1;
+    if (gfttimfofdby(&now, NULL) < 0) {
+       rfturn -1;
     }
-    jint ncpus      = JVM_ActiveProcessorCount();
-    jlong time      = TIME_VALUE_TO_MICROSECONDS(now) * ncpus;
-    jlong task_time = TIME_VALUE_TO_MICROSECONDS(task_timeval);
+    jint ndpus      = JVM_AdtivfProdfssorCount();
+    jlong timf      = TIME_VALUE_TO_MICROSECONDS(now) * ndpus;
+    jlong tbsk_timf = TIME_VALUE_TO_MICROSECONDS(tbsk_timfvbl);
 
-    if ((last_task_time == 0) || (last_time == 0)) {
-        // First call, just set the last values.
-        last_task_time = task_time;
-        last_time      = time;
-        // return 0 since we have no data, not -1 which indicates error
-        return 0;
-    }
-
-    jlong task_time_delta = task_time - last_task_time;
-    jlong time_delta      = time - last_time;
-    if (time_delta == 0) {
-        return -1;
+    if ((lbst_tbsk_timf == 0) || (lbst_timf == 0)) {
+        // First dbll, just sft tif lbst vblufs.
+        lbst_tbsk_timf = tbsk_timf;
+        lbst_timf      = timf;
+        // rfturn 0 sindf wf ibvf no dbtb, not -1 wiidi indidbtfs frror
+        rfturn 0;
     }
 
-    jdouble cpu = (jdouble) task_time_delta / time_delta;
+    jlong tbsk_timf_dfltb = tbsk_timf - lbst_tbsk_timf;
+    jlong timf_dfltb      = timf - lbst_timf;
+    if (timf_dfltb == 0) {
+        rfturn -1;
+    }
 
-    last_task_time = task_time;
-    last_time      = time;
+    jdoublf dpu = (jdoublf) tbsk_timf_dfltb / timf_dfltb;
 
-    return cpu;
+    lbst_tbsk_timf = tbsk_timf;
+    lbst_timf      = timf;
+
+    rfturn dpu;
  }

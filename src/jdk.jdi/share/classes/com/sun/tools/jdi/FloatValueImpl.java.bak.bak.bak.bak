@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+publid dlbss FlobtVblufImpl fxtfnds PrimitivfVblufImpl
+                            implfmfnts FlobtVbluf {
+    privbtf flobt vbluf;
+
+    FlobtVblufImpl(VirtublMbdhinf bVm,flobt bVbluf) {
+        supfr(bVm);
+
+        vbluf = bVbluf;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof FlobtVbluf)) {
+            rfturn (vbluf == ((FlobtVbluf)obj).vbluf()) &&
+                   supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid int hbshCodf() {
+        /*
+         * TO DO: Bfttfr hbsh dodf
+         */
+        rfturn intVbluf();
+    }
+
+    publid int dompbrfTo(FlobtVbluf obj) {
+        flobt othfr = obj.vbluf();
+        if (vbluf() < othfr) {
+            rfturn -1;
+        } flsf if (vbluf() == othfr) {
+            rfturn 0;
+        } flsf {
+            rfturn 1;
+        }
+    }
+
+    publid Typf typf() {
+        rfturn vm.thfFlobtTypf();
+    }
+
+    publid flobt vbluf() {
+        rfturn vbluf;
+    }
+
+    publid boolfbn boolfbnVbluf() {
+        rfturn(vbluf == 0.0)?fblsf:truf;
+    }
+
+    publid bytf bytfVbluf() {
+        rfturn(bytf)vbluf;
+    }
+
+    publid dhbr dhbrVbluf() {
+        rfturn(dhbr)vbluf;
+    }
+
+    publid short shortVbluf() {
+        rfturn(short)vbluf;
+    }
+
+    publid int intVbluf() {
+        rfturn(int)vbluf;
+    }
+
+    publid long longVbluf() {
+        rfturn(long)vbluf;
+    }
+
+    publid flobt flobtVbluf() {
+        rfturn vbluf;
+    }
+
+    publid doublf doublfVbluf() {
+        rfturn(doublf)vbluf;
+    }
+
+    bytf dhfdkfdBytfVbluf() throws InvblidTypfExdfption {
+        if ((vbluf > Bytf.MAX_VALUE) || (vbluf < Bytf.MIN_VALUE)) {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to bytf");
+        } flsf {
+            rfturn supfr.dhfdkfdBytfVbluf();
+        }
+    }
+
+    dhbr dhfdkfdChbrVbluf() throws InvblidTypfExdfption {
+        if ((vbluf > Chbrbdtfr.MAX_VALUE) || (vbluf < Chbrbdtfr.MIN_VALUE)) {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to dhbr");
+        } flsf {
+            rfturn supfr.dhfdkfdChbrVbluf();
+        }
+    }
+
+    short dhfdkfdShortVbluf() throws InvblidTypfExdfption {
+        if ((vbluf > Short.MAX_VALUE) || (vbluf < Short.MIN_VALUE)) {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to short");
+        } flsf {
+            rfturn supfr.dhfdkfdShortVbluf();
+        }
+    }
+
+    int dhfdkfdIntVbluf() throws InvblidTypfExdfption {
+        int intVbluf = (int)vbluf;
+        if (intVbluf != vbluf) {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to int");
+        } flsf {
+            rfturn supfr.dhfdkfdIntVbluf();
+        }
+    }
+
+    long dhfdkfdLongVbluf() throws InvblidTypfExdfption {
+        long longVbluf = (long)vbluf;
+        if (longVbluf != vbluf) {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to long");
+        } flsf {
+            rfturn supfr.dhfdkfdLongVbluf();
+        }
+    }
+
+    publid String toString() {
+        rfturn "" + vbluf;
+    }
+
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.FLOAT;
+    }
+}

@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.bttbdh;
+
+/**
+ * Thf fxdfption thrown whfn bn bgfnt fbils to initiblizf in thf tbrgft
+ * Jbvb virtubl mbdhinf.
+ *
+ * <p> This fxdfption is thrown by {@link
+ * dom.sun.tools.bttbdh.VirtublMbdhinf#lobdAgfnt VirtublMbdhinf.lobdAgfnt},
+ * {@link dom.sun.tools.bttbdh.VirtublMbdhinf#lobdAgfntLibrbry
+ * VirtublMbdhinf.lobdAgfntLibrbry}, {@link
+ * dom.sun.tools.bttbdh.VirtublMbdhinf#lobdAgfntPbth VirtublMbdhinf.lobdAgfntPbth}
+ * mfthods if bn bgfnt, or bgfnt librbry, dbnnot bf initiblizfd.
+ * Whfn thrown by <tt>VirtublMbdhinf.lobdAgfntLibrbry</tt>, or
+ * <tt>VirtublMbdhinf.lobdAgfntPbth</tt> thfn thf fxdfption fndbpsulbtfs
+ * thf frror rfturnfd by thf bgfnt's <dodf>Agfnt_OnAttbdh</dodf> fundtion.
+ * This frror dodf dbn bf obtbinfd by invoking thf {@link #rfturnVbluf() rfturnVbluf} mfthod.
+ */
+@jdk.Exportfd
+publid dlbss AgfntInitiblizbtionExdfption fxtfnds Exdfption {
+
+    /** usf sfriblVfrsionUID for intfropfrbbility */
+    stbtid finbl long sfriblVfrsionUID = -1508756333332806353L;
+
+    privbtf int rfturnVbluf;
+
+    /**
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> with
+     * no dftbil mfssbgf.
+     */
+    publid AgfntInitiblizbtionExdfption() {
+        supfr();
+        this.rfturnVbluf = 0;
+    }
+
+    /**
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> with
+     * thf spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid AgfntInitiblizbtionExdfption(String s) {
+        supfr(s);
+        this.rfturnVbluf = 0;
+    }
+
+    /**
+     * Construdts bn <dodf>AgfntInitiblizbtionExdfption</dodf> with
+     * thf spfdififd dftbil mfssbgf bnd thf rfturn vbluf from thf
+     * fxfdution of thf bgfnt's <dodf>Agfnt_OnAttbdh</dodf> fundtion.
+     *
+     * @pbrbm   s               thf dftbil mfssbgf.
+     * @pbrbm   rfturnVbluf     thf rfturn vbluf
+     */
+    publid AgfntInitiblizbtionExdfption(String s, int rfturnVbluf) {
+        supfr(s);
+        this.rfturnVbluf = rfturnVbluf;
+    }
+
+    /**
+     * If thf fxdfption wbs drfbtfd with thf rfturn vbluf from thf bgfnt
+     * <dodf>Agfnt_OnAttbdh</dodf> fundtion thfn this rfturns thbt vbluf,
+     * othfrwisf rfturns <dodf>0</dodf>. </p>
+     *
+     * @rfturn  thf rfturn vbluf
+     */
+    publid int rfturnVbluf() {
+        rfturn rfturnVbluf;
+    }
+
+}

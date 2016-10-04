@@ -1,344 +1,344 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.algorithms.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithmSpi;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignature;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
 
-public abstract class SignatureBaseRSA extends SignatureAlgorithmSpi {
+publid bbstrbdt dlbss SignbturfBbsfRSA fxtfnds SignbturfAlgoritimSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SignatureBaseRSA.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfBbsfRSA.dlbss.gftNbmf());
 
-    /** @inheritDoc */
-    public abstract String engineGetURI();
+    /** @inifritDod */
+    publid bbstrbdt String fnginfGftURI();
 
-    /** Field algorithm */
-    private java.security.Signature signatureAlgorithm = null;
+    /** Fifld blgoritim */
+    privbtf jbvb.sfdurity.Signbturf signbturfAlgoritim = null;
 
     /**
-     * Constructor SignatureRSA
+     * Construdtor SignbturfRSA
      *
-     * @throws XMLSignatureException
+     * @tirows XMLSignbturfExdfption
      */
-    public SignatureBaseRSA() throws XMLSignatureException {
-        String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
+    publid SignbturfBbsfRSA() tirows XMLSignbturfExdfption {
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Created SignatureRSA using " + algorithmID);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd SignbturfRSA using " + blgoritimID);
         }
-        String provider = JCEMapper.getProviderId();
+        String providfr = JCEMbppfr.gftProvidfrId();
         try {
-            if (provider == null) {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID);
-            } else {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID,provider);
+            if (providfr == null) {
+                tiis.signbturfAlgoritim = Signbturf.gftInstbndf(blgoritimID);
+            } flsf {
+                tiis.signbturfAlgoritim = Signbturf.gftInstbndf(blgoritimID,providfr);
             }
-        } catch (java.security.NoSuchAlgorithmException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
-        } catch (NoSuchProviderException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+        } dbtdi (NoSudiProvidfrExdfption fx) {
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineSetParameter(AlgorithmParameterSpec params)
-        throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows XMLSignbturfExdfption {
         try {
-            this.signatureAlgorithm.setParameter(params);
-        } catch (InvalidAlgorithmParameterException ex) {
-            throw new XMLSignatureException("empty", ex);
+            tiis.signbturfAlgoritim.sftPbrbmftfr(pbrbms);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected boolean engineVerify(byte[] signature) throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
         try {
-            return this.signatureAlgorithm.verify(signature);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            rfturn tiis.signbturfAlgoritim.vfrify(signbturf);
+        } dbtdi (SignbturfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineInitVerify(Key publicKey) throws XMLSignatureException {
-        if (!(publicKey instanceof PublicKey)) {
-            String supplied = publicKey.getClass().getName();
-            String needed = PublicKey.class.getName();
-            Object exArgs[] = { supplied, needed };
+    /** @inifritDod */
+    protfdtfd void fnginfInitVfrify(Kfy publidKfy) tirows XMLSignbturfExdfption {
+        if (!(publidKfy instbndfof PublidKfy)) {
+            String supplifd = publidKfy.gftClbss().gftNbmf();
+            String nffdfd = PublidKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
         }
 
         try {
-            this.signatureAlgorithm.initVerify((PublicKey) publicKey);
-        } catch (InvalidKeyException ex) {
-            // reinstantiate Signature object to work around bug in JDK
-            // see: http://bugs.sun.com/view_bug.do?bug_id=4953555
-            Signature sig = this.signatureAlgorithm;
+            tiis.signbturfAlgoritim.initVfrify((PublidKfy) publidKfy);
+        } dbtdi (InvblidKfyExdfption fx) {
+            // rfinstbntibtf Signbturf objfdt to work bround bug in JDK
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            Signbturf sig = tiis.signbturfAlgoritim;
             try {
-                this.signatureAlgorithm = Signature.getInstance(signatureAlgorithm.getAlgorithm());
-            } catch (Exception e) {
-                // this shouldn't occur, but if it does, restore previous
-                // Signature
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Exception when reinstantiating Signature:" + e);
+                tiis.signbturfAlgoritim = Signbturf.gftInstbndf(signbturfAlgoritim.gftAlgoritim());
+            } dbtdi (Exdfption f) {
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious
+                // Signbturf
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Signbturf:" + f);
                 }
-                this.signatureAlgorithm = sig;
+                tiis.signbturfAlgoritim = sig;
             }
-            throw new XMLSignatureException("empty", ex);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected byte[] engineSign() throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
         try {
-            return this.signatureAlgorithm.sign();
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            rfturn tiis.signbturfAlgoritim.sign();
+        } dbtdi (SignbturfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineInitSign(Key privateKey, SecureRandom secureRandom)
-        throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
-            Object exArgs[] = { supplied, needed };
+    /** @inifritDod */
+    protfdtfd void fnginfInitSign(Kfy privbtfKfy, SfdurfRbndom sfdurfRbndom)
+        tirows XMLSignbturfExdfption {
+        if (!(privbtfKfy instbndfof PrivbtfKfy)) {
+            String supplifd = privbtfKfy.gftClbss().gftNbmf();
+            String nffdfd = PrivbtfKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
-        }
-
-        try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey, secureRandom);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
-        }
-    }
-
-    /** @inheritDoc */
-    protected void engineInitSign(Key privateKey) throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
-            Object exArgs[] = { supplied, needed };
-
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
         }
 
         try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
+            tiis.signbturfAlgoritim.initSign((PrivbtfKfy) privbtfKfy, sfdurfRbndom);
+        } dbtdi (InvblidKfyExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineUpdate(byte[] input) throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd void fnginfInitSign(Kfy privbtfKfy) tirows XMLSignbturfExdfption {
+        if (!(privbtfKfy instbndfof PrivbtfKfy)) {
+            String supplifd = privbtfKfy.gftClbss().gftNbmf();
+            String nffdfd = PrivbtfKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+        }
+
         try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            tiis.signbturfAlgoritim.initSign((PrivbtfKfy) privbtfKfy);
+        } dbtdi (InvblidKfyExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineUpdate(byte input) throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
         try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            tiis.signbturfAlgoritim.updbtf(input);
+        } dbtdi (SignbturfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected void engineUpdate(byte buf[], int offset, int len) throws XMLSignatureException {
+    /** @inifritDod */
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
         try {
-            this.signatureAlgorithm.update(buf, offset, len);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            tiis.signbturfAlgoritim.updbtf(input);
+        } dbtdi (SignbturfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    protected String engineGetJCEAlgorithmString() {
-        return this.signatureAlgorithm.getAlgorithm();
+    /** @inifritDod */
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+        try {
+            tiis.signbturfAlgoritim.updbtf(buf, offsft, lfn);
+        } dbtdi (SignbturfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
     }
 
-    /** @inheritDoc */
-    protected String engineGetJCEProviderName() {
-        return this.signatureAlgorithm.getProvider().getName();
+    /** @inifritDod */
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+        rfturn tiis.signbturfAlgoritim.gftAlgoritim();
     }
 
-    /** @inheritDoc */
-    protected void engineSetHMACOutputLength(int HMACOutputLength)
-        throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.HMACOutputLengthOnlyForHMAC");
+    /** @inifritDod */
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+        rfturn tiis.signbturfAlgoritim.gftProvidfr().gftNbmf();
     }
 
-    /** @inheritDoc */
-    protected void engineInitSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnRSA");
+    /** @inifritDod */
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti)
+        tirows XMLSignbturfExdfption {
+        tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiOnlyForHMAC");
+    }
+
+    /** @inifritDod */
+    protfdtfd void fnginfInitSign(
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+    ) tirows XMLSignbturfExdfption {
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfAlgoritimPbrbmftfrSpfdOnRSA");
     }
 
     /**
-     * Class SignatureRSASHA1
+     * Clbss SignbturfRSASHA1
      */
-    public static class SignatureRSASHA1 extends SignatureBaseRSA {
+    publid stbtid dlbss SignbturfRSASHA1 fxtfnds SignbturfBbsfRSA {
 
         /**
-         * Constructor SignatureRSASHA1
+         * Construdtor SignbturfRSASHA1
          *
-         * @throws XMLSignatureException
+         * @tirows XMLSignbturfExdfption
          */
-        public SignatureRSASHA1() throws XMLSignatureException {
-            super();
+        publid SignbturfRSASHA1() tirows XMLSignbturfExdfption {
+            supfr();
         }
 
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA1;
-        }
-    }
-
-    /**
-     * Class SignatureRSASHA256
-     */
-    public static class SignatureRSASHA256 extends SignatureBaseRSA {
-
-        /**
-         * Constructor SignatureRSASHA256
-         *
-         * @throws XMLSignatureException
-         */
-        public SignatureRSASHA256() throws XMLSignatureException {
-            super();
-        }
-
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA256;
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1;
         }
     }
 
     /**
-     * Class SignatureRSASHA384
+     * Clbss SignbturfRSASHA256
      */
-    public static class SignatureRSASHA384 extends SignatureBaseRSA {
+    publid stbtid dlbss SignbturfRSASHA256 fxtfnds SignbturfBbsfRSA {
 
         /**
-         * Constructor SignatureRSASHA384
+         * Construdtor SignbturfRSASHA256
          *
-         * @throws XMLSignatureException
+         * @tirows XMLSignbturfExdfption
          */
-        public SignatureRSASHA384() throws XMLSignatureException {
-            super();
+        publid SignbturfRSASHA256() tirows XMLSignbturfExdfption {
+            supfr();
         }
 
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA384;
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256;
         }
     }
 
     /**
-     * Class SignatureRSASHA512
+     * Clbss SignbturfRSASHA384
      */
-    public static class SignatureRSASHA512 extends SignatureBaseRSA {
+    publid stbtid dlbss SignbturfRSASHA384 fxtfnds SignbturfBbsfRSA {
 
         /**
-         * Constructor SignatureRSASHA512
+         * Construdtor SignbturfRSASHA384
          *
-         * @throws XMLSignatureException
+         * @tirows XMLSignbturfExdfption
          */
-        public SignatureRSASHA512() throws XMLSignatureException {
-            super();
+        publid SignbturfRSASHA384() tirows XMLSignbturfExdfption {
+            supfr();
         }
 
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA512;
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384;
         }
     }
 
     /**
-     * Class SignatureRSARIPEMD160
+     * Clbss SignbturfRSASHA512
      */
-    public static class SignatureRSARIPEMD160 extends SignatureBaseRSA {
+    publid stbtid dlbss SignbturfRSASHA512 fxtfnds SignbturfBbsfRSA {
 
         /**
-         * Constructor SignatureRSARIPEMD160
+         * Construdtor SignbturfRSASHA512
          *
-         * @throws XMLSignatureException
+         * @tirows XMLSignbturfExdfption
          */
-        public SignatureRSARIPEMD160() throws XMLSignatureException {
-            super();
+        publid SignbturfRSASHA512() tirows XMLSignbturfExdfption {
+            supfr();
         }
 
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_RSA_RIPEMD160;
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512;
         }
     }
 
     /**
-     * Class SignatureRSAMD5
+     * Clbss SignbturfRSARIPEMD160
      */
-    public static class SignatureRSAMD5 extends SignatureBaseRSA {
+    publid stbtid dlbss SignbturfRSARIPEMD160 fxtfnds SignbturfBbsfRSA {
 
         /**
-         * Constructor SignatureRSAMD5
+         * Construdtor SignbturfRSARIPEMD160
          *
-         * @throws XMLSignatureException
+         * @tirows XMLSignbturfExdfption
          */
-        public SignatureRSAMD5() throws XMLSignatureException {
-            super();
+        publid SignbturfRSARIPEMD160() tirows XMLSignbturfExdfption {
+            supfr();
         }
 
-        /** @inheritDoc */
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5;
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160;
+        }
+    }
+
+    /**
+     * Clbss SignbturfRSAMD5
+     */
+    publid stbtid dlbss SignbturfRSAMD5 fxtfnds SignbturfBbsfRSA {
+
+        /**
+         * Construdtor SignbturfRSAMD5
+         *
+         * @tirows XMLSignbturfExdfption
+         */
+        publid SignbturfRSAMD5() tirows XMLSignbturfExdfption {
+            supfr();
+        }
+
+        /** @inifritDod */
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5;
         }
     }
 }

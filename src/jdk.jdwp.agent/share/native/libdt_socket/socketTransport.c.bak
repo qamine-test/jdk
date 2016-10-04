@@ -1,820 +1,820 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <ctype.h>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <stdlib.i>
+#indludf <dtypf.i>
 
-#include "jdwpTransport.h"
-#include "sysSocket.h"
+#indludf "jdwpTrbnsport.i"
+#indludf "sysSodkft.i"
 
-#ifdef _WIN32
- #include <winsock2.h>
- #include <ws2tcpip.h>
-#endif
+#ifdff _WIN32
+ #indludf <winsodk2.i>
+ #indludf <ws2tdpip.i>
+#fndif
 
 /*
- * The Socket Transport Library.
+ * Tif Sodkft Trbnsport Librbry.
  *
- * This module is an implementation of the Java Debug Wire Protocol Transport
- * Service Provider Interface - see src/share/javavm/export/jdwpTransport.h.
+ * Tiis modulf is bn implfmfntbtion of tif Jbvb Dfbug Wirf Protodol Trbnsport
+ * Sfrvidf Providfr Intfrfbdf - sff srd/sibrf/jbvbvm/fxport/jdwpTrbnsport.i.
  */
 
-static int serverSocketFD;
-static int socketFD = -1;
-static jdwpTransportCallback *callback;
-static JavaVM *jvm;
-static int tlsIndex;
-static jboolean initialized;
-static struct jdwpTransportNativeInterface_ interface;
-static jdwpTransportEnv single_env = (jdwpTransportEnv)&interface;
+stbtid int sfrvfrSodkftFD;
+stbtid int sodkftFD = -1;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid JbvbVM *jvm;
+stbtid int tlsIndfx;
+stbtid jboolfbn initiblizfd;
+stbtid strudt jdwpTrbnsportNbtivfIntfrfbdf_ intfrfbdf;
+stbtid jdwpTrbnsportEnv singlf_fnv = (jdwpTrbnsportEnv)&intfrfbdf;
 
-#define RETURN_ERROR(err, msg) \
+#dffinf RETURN_ERROR(frr, msg) \
         if (1==1) { \
-            setLastError(err, msg); \
-            return err; \
+            sftLbstError(frr, msg); \
+            rfturn frr; \
         }
 
-#define RETURN_IO_ERROR(msg)    RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, msg);
+#dffinf RETURN_IO_ERROR(msg)    RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, msg);
 
-#define RETURN_RECV_ERROR(n) \
+#dffinf RETURN_RECV_ERROR(n) \
         if (n == 0) { \
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, "premature EOF"); \
-        } else { \
-            RETURN_IO_ERROR("recv error"); \
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, "prfmbturf EOF"); \
+        } flsf { \
+            RETURN_IO_ERROR("rfdv frror"); \
         }
 
-#define HEADER_SIZE     11
-#define MAX_DATA_SIZE 1000
+#dffinf HEADER_SIZE     11
+#dffinf MAX_DATA_SIZE 1000
 
-static jint recv_fully(int, char *, int);
-static jint send_fully(int, char *, int);
+stbtid jint rfdv_fully(int, dibr *, int);
+stbtid jint sfnd_fully(int, dibr *, int);
 
 /*
- * Record the last error for this thread.
+ * Rfdord tif lbst frror for tiis tirfbd.
  */
-static void
-setLastError(jdwpTransportError err, char *newmsg) {
-    char buf[255];
-    char *msg;
+stbtid void
+sftLbstError(jdwpTrbnsportError frr, dibr *nfwmsg) {
+    dibr buf[255];
+    dibr *msg;
 
-    /* get any I/O first in case any system calls override errno */
-    if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        dbgsysGetLastIOError(buf, sizeof(buf));
+    /* gft bny I/O first in dbsf bny systfm dblls ovfrridf frrno */
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        dbgsysGftLbstIOError(buf, sizfof(buf));
     }
 
-    msg = (char *)dbgsysTlsGet(tlsIndex);
+    msg = (dibr *)dbgsysTlsGft(tlsIndfx);
     if (msg != NULL) {
-        (*callback->free)(msg);
+        (*dbllbbdk->frff)(msg);
     }
 
-    if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        char *join_str = ": ";
-        int msg_len = (int)strlen(newmsg) + (int)strlen(join_str) +
-                      (int)strlen(buf) + 3;
-        msg = (*callback->alloc)(msg_len);
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        dibr *join_str = ": ";
+        int msg_lfn = (int)strlfn(nfwmsg) + (int)strlfn(join_str) +
+                      (int)strlfn(buf) + 3;
+        msg = (*dbllbbdk->bllod)(msg_lfn);
         if (msg != NULL) {
-            strcpy(msg, newmsg);
-            strcat(msg, join_str);
-            strcat(msg, buf);
+            strdpy(msg, nfwmsg);
+            strdbt(msg, join_str);
+            strdbt(msg, buf);
         }
-    } else {
-        msg = (*callback->alloc)((int)strlen(newmsg)+1);
+    } flsf {
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
         if (msg != NULL) {
-            strcpy(msg, newmsg);
+            strdpy(msg, nfwmsg);
         }
     }
 
-    dbgsysTlsPut(tlsIndex, msg);
+    dbgsysTlsPut(tlsIndfx, msg);
 }
 
 /*
- * Return the last error for this thread (may be NULL)
+ * Rfturn tif lbst frror for tiis tirfbd (mby bf NULL)
  */
-static char*
-getLastError() {
-    return (char *)dbgsysTlsGet(tlsIndex);
+stbtid dibr*
+gftLbstError() {
+    rfturn (dibr *)dbgsysTlsGft(tlsIndfx);
 }
 
-static jdwpTransportError
-setOptions(int fd)
+stbtid jdwpTrbnsportError
+sftOptions(int fd)
 {
-    jvalue dontcare;
-    int err;
+    jvbluf dontdbrf;
+    int frr;
 
-    dontcare.i = 0;  /* keep compiler happy */
+    dontdbrf.i = 0;  /* kffp dompilfr ibppy */
 
-    err = dbgsysSetSocketOption(fd, SO_REUSEADDR, JNI_TRUE, dontcare);
-    if (err < 0) {
-        RETURN_IO_ERROR("setsockopt SO_REUSEADDR failed");
+    frr = dbgsysSftSodkftOption(fd, SO_REUSEADDR, JNI_TRUE, dontdbrf);
+    if (frr < 0) {
+        RETURN_IO_ERROR("sftsodkopt SO_REUSEADDR fbilfd");
     }
 
-    err = dbgsysSetSocketOption(fd, TCP_NODELAY, JNI_TRUE, dontcare);
-    if (err < 0) {
-        RETURN_IO_ERROR("setsockopt TCPNODELAY failed");
+    frr = dbgsysSftSodkftOption(fd, TCP_NODELAY, JNI_TRUE, dontdbrf);
+    if (frr < 0) {
+        RETURN_IO_ERROR("sftsodkopt TCPNODELAY fbilfd");
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError
-handshake(int fd, jlong timeout) {
-    const char *hello = "JDWP-Handshake";
-    char b[16];
-    int rv, helloLen, received;
+stbtid jdwpTrbnsportError
+ibndsibkf(int fd, jlong timfout) {
+    donst dibr *ifllo = "JDWP-Hbndsibkf";
+    dibr b[16];
+    int rv, iflloLfn, rfdfivfd;
 
-    if (timeout > 0) {
-        dbgsysConfigureBlocking(fd, JNI_FALSE);
+    if (timfout > 0) {
+        dbgsysConfigurfBlodking(fd, JNI_FALSE);
     }
-    helloLen = (int)strlen(hello);
-    received = 0;
-    while (received < helloLen) {
+    iflloLfn = (int)strlfn(ifllo);
+    rfdfivfd = 0;
+    wiilf (rfdfivfd < iflloLfn) {
         int n;
-        char *buf;
-        if (timeout > 0) {
-            rv = dbgsysPoll(fd, JNI_TRUE, JNI_FALSE, (long)timeout);
+        dibr *buf;
+        if (timfout > 0) {
+            rv = dbgsysPoll(fd, JNI_TRUE, JNI_FALSE, (long)timfout);
             if (rv <= 0) {
-                setLastError(0, "timeout during handshake");
-                return JDWPTRANSPORT_ERROR_IO_ERROR;
+                sftLbstError(0, "timfout during ibndsibkf");
+                rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
             }
         }
         buf = b;
-        buf += received;
-        n = recv_fully(fd, buf, helloLen-received);
+        buf += rfdfivfd;
+        n = rfdv_fully(fd, buf, iflloLfn-rfdfivfd);
         if (n == 0) {
-            setLastError(0, "handshake failed - connection prematurally closed");
-            return JDWPTRANSPORT_ERROR_IO_ERROR;
+            sftLbstError(0, "ibndsibkf fbilfd - donnfdtion prfmbturblly dlosfd");
+            rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
         }
         if (n < 0) {
-            RETURN_IO_ERROR("recv failed during handshake");
+            RETURN_IO_ERROR("rfdv fbilfd during ibndsibkf");
         }
-        received += n;
+        rfdfivfd += n;
     }
-    if (timeout > 0) {
-        dbgsysConfigureBlocking(fd, JNI_TRUE);
+    if (timfout > 0) {
+        dbgsysConfigurfBlodking(fd, JNI_TRUE);
     }
-    if (strncmp(b, hello, received) != 0) {
-        char msg[80+2*16];
-        b[received] = '\0';
+    if (strndmp(b, ifllo, rfdfivfd) != 0) {
+        dibr msg[80+2*16];
+        b[rfdfivfd] = '\0';
         /*
-         * We should really use snprintf here but it's not available on Windows.
-         * We can't use jio_snprintf without linking the transport against the VM.
+         * Wf siould rfblly usf snprintf ifrf but it's not bvbilbblf on Windows.
+         * Wf dbn't usf jio_snprintf witiout linking tif trbnsport bgbinst tif VM.
          */
-        sprintf(msg, "handshake failed - received >%s< - expected >%s<", b, hello);
-        setLastError(0, msg);
-        return JDWPTRANSPORT_ERROR_IO_ERROR;
+        sprintf(msg, "ibndsibkf fbilfd - rfdfivfd >%s< - fxpfdtfd >%s<", b, ifllo);
+        sftLbstError(0, msg);
+        rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
     }
 
-    if (send_fully(fd, (char*)hello, helloLen) != helloLen) {
-        RETURN_IO_ERROR("send failed during handshake");
+    if (sfnd_fully(fd, (dibr*)ifllo, iflloLfn) != iflloLfn) {
+        RETURN_IO_ERROR("sfnd fbilfd during ibndsibkf");
     }
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static uint32_t
-getLocalHostAddress() {
-    // Simple routine to guess localhost address.
-    // it looks up "localhost" and returns 127.0.0.1 if lookup
-    // fails.
-    struct addrinfo hints, *res = NULL;
-    int err;
+stbtid uint32_t
+gftLodblHostAddrfss() {
+    // Simplf routinf to gufss lodbliost bddrfss.
+    // it looks up "lodbliost" bnd rfturns 127.0.0.1 if lookup
+    // fbils.
+    strudt bddrinfo iints, *rfs = NULL;
+    int frr;
 
-    // Use portable way to initialize the structure
-    memset((void *)&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET;
+    // Usf portbblf wby to initiblizf tif strudturf
+    mfmsft((void *)&iints, 0, sizfof(iints));
+    iints.bi_fbmily = AF_INET;
 
-    err = getaddrinfo("localhost", NULL, &hints, &res);
-    if (err < 0 || res == NULL) {
-        return dbgsysHostToNetworkLong(INADDR_LOOPBACK);
+    frr = gftbddrinfo("lodbliost", NULL, &iints, &rfs);
+    if (frr < 0 || rfs == NULL) {
+        rfturn dbgsysHostToNftworkLong(INADDR_LOOPBACK);
     }
 
-    // getaddrinfo might return more than one address
-    // but we are using first one only
-    return ((struct sockaddr_in *)(res->ai_addr))->sin_addr.s_addr;
+    // gftbddrinfo migit rfturn morf tibn onf bddrfss
+    // but wf brf using first onf only
+    rfturn ((strudt sodkbddr_in *)(rfs->bi_bddr))->sin_bddr.s_bddr;
 }
 
-static int
-getPortNumber(const char *s_port) {
+stbtid int
+gftPortNumbfr(donst dibr *s_port) {
     u_long n;
-    char *eptr;
+    dibr *fptr;
 
     if (*s_port == 0) {
-        // bad address - colon with no port number in parameters
-        return -1;
+        // bbd bddrfss - dolon witi no port numbfr in pbrbmftfrs
+        rfturn -1;
     }
 
-    n = strtoul(s_port, &eptr, 10);
-    if (eptr != s_port + strlen(s_port)) {
-        // incomplete conversion - port number contains non-digit
-        return -1;
+    n = strtoul(s_port, &fptr, 10);
+    if (fptr != s_port + strlfn(s_port)) {
+        // indomplftf donvfrsion - port numbfr dontbins non-digit
+        rfturn -1;
     }
 
-    if (n > (u_short) -1) {
-        // check that value supplied by user is less than
-        // maximum possible u_short value (65535) and
-        // will not be truncated later.
-        return -1;
+    if (n > (u_siort) -1) {
+        // difdk tibt vbluf supplifd by usfr is lfss tibn
+        // mbximum possiblf u_siort vbluf (65535) bnd
+        // will not bf trundbtfd lbtfr.
+        rfturn -1;
     }
 
-    return n;
+    rfturn n;
 }
 
-static jdwpTransportError
-parseAddress(const char *address, struct sockaddr_in *sa) {
-    char *colon;
+stbtid jdwpTrbnsportError
+pbrsfAddrfss(donst dibr *bddrfss, strudt sodkbddr_in *sb) {
+    dibr *dolon;
     int port;
 
-    memset((void *)sa,0,sizeof(struct sockaddr_in));
-    sa->sin_family = AF_INET;
+    mfmsft((void *)sb,0,sizfof(strudt sodkbddr_in));
+    sb->sin_fbmily = AF_INET;
 
-    /* check for host:port or port */
-    colon = strchr(address, ':');
-    port = getPortNumber((colon == NULL) ? address : colon +1);
+    /* difdk for iost:port or port */
+    dolon = strdir(bddrfss, ':');
+    port = gftPortNumbfr((dolon == NULL) ? bddrfss : dolon +1);
     if (port < 0) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invalid port number specified");
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid port numbfr spfdififd");
     }
-    sa->sin_port = dbgsysHostToNetworkShort((u_short)port);
+    sb->sin_port = dbgsysHostToNftworkSiort((u_siort)port);
 
-    if (colon == NULL) {
-        // bind to localhost only if no address specified
-        sa->sin_addr.s_addr = getLocalHostAddress();
-    } else if (strncmp(address,"localhost:",10) == 0) {
-        // optimize for common case
-        sa->sin_addr.s_addr = getLocalHostAddress();
-    } else if (*address == '*' && *(address+1) == ':') {
-        // we are explicitly asked to bind server to all available IP addresses
-        // has no meaning for client.
-        sa->sin_addr.s_addr = dbgsysHostToNetworkLong(INADDR_ANY);
-     } else {
-        char *buf;
-        char *hostname;
-        uint32_t addr;
+    if (dolon == NULL) {
+        // bind to lodbliost only if no bddrfss spfdififd
+        sb->sin_bddr.s_bddr = gftLodblHostAddrfss();
+    } flsf if (strndmp(bddrfss,"lodbliost:",10) == 0) {
+        // optimizf for dommon dbsf
+        sb->sin_bddr.s_bddr = gftLodblHostAddrfss();
+    } flsf if (*bddrfss == '*' && *(bddrfss+1) == ':') {
+        // wf brf fxpliditly bskfd to bind sfrvfr to bll bvbilbblf IP bddrfssfs
+        // ibs no mfbning for dlifnt.
+        sb->sin_bddr.s_bddr = dbgsysHostToNftworkLong(INADDR_ANY);
+     } flsf {
+        dibr *buf;
+        dibr *iostnbmf;
+        uint32_t bddr;
 
-        buf = (*callback->alloc)((int)strlen(address)+1);
+        buf = (*dbllbbdk->bllod)((int)strlfn(bddrfss)+1);
         if (buf == NULL) {
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
         }
-        strcpy(buf, address);
-        buf[colon - address] = '\0';
-        hostname = buf;
+        strdpy(buf, bddrfss);
+        buf[dolon - bddrfss] = '\0';
+        iostnbmf = buf;
 
         /*
-         * First see if the host is a literal IP address.
-         * If not then try to resolve it.
+         * First sff if tif iost is b litfrbl IP bddrfss.
+         * If not tifn try to rfsolvf it.
          */
-        addr = dbgsysInetAddr(hostname);
-        if (addr == 0xffffffff) {
-            struct hostent *hp = dbgsysGetHostByName(hostname);
-            if (hp == NULL) {
-                /* don't use RETURN_IO_ERROR as unknown host is normal */
-                setLastError(0, "gethostbyname: unknown host");
-                (*callback->free)(buf);
-                return JDWPTRANSPORT_ERROR_IO_ERROR;
+        bddr = dbgsysInftAddr(iostnbmf);
+        if (bddr == 0xffffffff) {
+            strudt iostfnt *ip = dbgsysGftHostByNbmf(iostnbmf);
+            if (ip == NULL) {
+                /* don't usf RETURN_IO_ERROR bs unknown iost is normbl */
+                sftLbstError(0, "gftiostbynbmf: unknown iost");
+                (*dbllbbdk->frff)(buf);
+                rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
             }
 
-            /* lookup was successful */
-            memcpy(&(sa->sin_addr), hp->h_addr_list[0], hp->h_length);
-        } else {
-            sa->sin_addr.s_addr = addr;
+            /* lookup wbs suddfssful */
+            mfmdpy(&(sb->sin_bddr), ip->i_bddr_list[0], ip->i_lfngti);
+        } flsf {
+            sb->sin_bddr.s_bddr = bddr;
         }
 
-        (*callback->free)(buf);
+        (*dbllbbdk->frff)(buf);
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
 
-static jdwpTransportError JNICALL
-socketTransport_getCapabilities(jdwpTransportEnv* env,
-        JDWPTransportCapabilities* capabilitiesPtr)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_gftCbpbbilitifs(jdwpTrbnsportEnv* fnv,
+        JDWPTrbnsportCbpbbilitifs* dbpbbilitifsPtr)
 {
-    JDWPTransportCapabilities result;
+    JDWPTrbnsportCbpbbilitifs rfsult;
 
-    memset(&result, 0, sizeof(result));
-    result.can_timeout_attach = JNI_TRUE;
-    result.can_timeout_accept = JNI_TRUE;
-    result.can_timeout_handshake = JNI_TRUE;
+    mfmsft(&rfsult, 0, sizfof(rfsult));
+    rfsult.dbn_timfout_bttbdi = JNI_TRUE;
+    rfsult.dbn_timfout_bddfpt = JNI_TRUE;
+    rfsult.dbn_timfout_ibndsibkf = JNI_TRUE;
 
-    *capabilitiesPtr = result;
+    *dbpbbilitifsPtr = rfsult;
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
 
-static jdwpTransportError JNICALL
-socketTransport_startListening(jdwpTransportEnv* env, const char* address,
-                               char** actualAddress)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_stbrtListfning(jdwpTrbnsportEnv* fnv, donst dibr* bddrfss,
+                               dibr** bdtublAddrfss)
 {
-    struct sockaddr_in sa;
-    int err;
+    strudt sodkbddr_in sb;
+    int frr;
 
-    memset((void *)&sa,0,sizeof(struct sockaddr_in));
-    sa.sin_family = AF_INET;
+    mfmsft((void *)&sb,0,sizfof(strudt sodkbddr_in));
+    sb.sin_fbmily = AF_INET;
 
-    /* no address provided */
-    if ((address == NULL) || (address[0] == '\0')) {
-        address = "0";
+    /* no bddrfss providfd */
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+        bddrfss = "0";
     }
 
-    err = parseAddress(address, &sa);
-    if (err != JDWPTRANSPORT_ERROR_NONE) {
-        return err;
+    frr = pbrsfAddrfss(bddrfss, &sb);
+    if (frr != JDWPTRANSPORT_ERROR_NONE) {
+        rfturn frr;
     }
 
-    serverSocketFD = dbgsysSocket(AF_INET, SOCK_STREAM, 0);
-    if (serverSocketFD < 0) {
-        RETURN_IO_ERROR("socket creation failed");
+    sfrvfrSodkftFD = dbgsysSodkft(AF_INET, SOCK_STREAM, 0);
+    if (sfrvfrSodkftFD < 0) {
+        RETURN_IO_ERROR("sodkft drfbtion fbilfd");
     }
 
-    err = setOptions(serverSocketFD);
-    if (err) {
-        return err;
+    frr = sftOptions(sfrvfrSodkftFD);
+    if (frr) {
+        rfturn frr;
     }
 
-    err = dbgsysBind(serverSocketFD, (struct sockaddr *)&sa, sizeof(sa));
-    if (err < 0) {
-        RETURN_IO_ERROR("bind failed");
+    frr = dbgsysBind(sfrvfrSodkftFD, (strudt sodkbddr *)&sb, sizfof(sb));
+    if (frr < 0) {
+        RETURN_IO_ERROR("bind fbilfd");
     }
 
-    err = dbgsysListen(serverSocketFD, 1);
-    if (err < 0) {
-        RETURN_IO_ERROR("listen failed");
+    frr = dbgsysListfn(sfrvfrSodkftFD, 1);
+    if (frr < 0) {
+        RETURN_IO_ERROR("listfn fbilfd");
     }
 
     {
-        char buf[20];
-        socklen_t len = sizeof(sa);
+        dibr buf[20];
+        sodklfn_t lfn = sizfof(sb);
         jint portNum;
-        err = dbgsysGetSocketName(serverSocketFD,
-                               (struct sockaddr *)&sa, &len);
-        portNum = dbgsysNetworkToHostShort(sa.sin_port);
+        frr = dbgsysGftSodkftNbmf(sfrvfrSodkftFD,
+                               (strudt sodkbddr *)&sb, &lfn);
+        portNum = dbgsysNftworkToHostSiort(sb.sin_port);
         sprintf(buf, "%d", portNum);
-        *actualAddress = (*callback->alloc)((int)strlen(buf) + 1);
-        if (*actualAddress == NULL) {
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
-        } else {
-            strcpy(*actualAddress, buf);
+        *bdtublAddrfss = (*dbllbbdk->bllod)((int)strlfn(buf) + 1);
+        if (*bdtublAddrfss == NULL) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        } flsf {
+            strdpy(*bdtublAddrfss, buf);
         }
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_accept(jdwpTransportEnv* env, jlong acceptTimeout, jlong handshakeTimeout)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_bddfpt(jdwpTrbnsportEnv* fnv, jlong bddfptTimfout, jlong ibndsibkfTimfout)
 {
-    socklen_t socketLen;
-    int err;
-    struct sockaddr_in socket;
-    jlong startTime = (jlong)0;
+    sodklfn_t sodkftLfn;
+    int frr;
+    strudt sodkbddr_in sodkft;
+    jlong stbrtTimf = (jlong)0;
 
     /*
-     * Use a default handshake timeout if not specified - this avoids an indefinite
-     * hang in cases where something other than a debugger connects to our port.
+     * Usf b dffbult ibndsibkf timfout if not spfdififd - tiis bvoids bn indffinitf
+     * ibng in dbsfs wifrf somftiing otifr tibn b dfbuggfr donnfdts to our port.
      */
-    if (handshakeTimeout == 0) {
-        handshakeTimeout = 2000;
+    if (ibndsibkfTimfout == 0) {
+        ibndsibkfTimfout = 2000;
     }
 
     do {
         /*
-         * If there is an accept timeout then we put the socket in non-blocking
-         * mode and poll for a connection.
+         * If tifrf is bn bddfpt timfout tifn wf put tif sodkft in non-blodking
+         * modf bnd poll for b donnfdtion.
          */
-        if (acceptTimeout > 0) {
+        if (bddfptTimfout > 0) {
             int rv;
-            dbgsysConfigureBlocking(serverSocketFD, JNI_FALSE);
-            startTime = dbgsysCurrentTimeMillis();
-            rv = dbgsysPoll(serverSocketFD, JNI_TRUE, JNI_FALSE, (long)acceptTimeout);
+            dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_FALSE);
+            stbrtTimf = dbgsysCurrfntTimfMillis();
+            rv = dbgsysPoll(sfrvfrSodkftFD, JNI_TRUE, JNI_FALSE, (long)bddfptTimfout);
             if (rv <= 0) {
-                /* set the last error here as could be overridden by configureBlocking */
+                /* sft tif lbst frror ifrf bs dould bf ovfrriddfn by donfigurfBlodking */
                 if (rv == 0) {
-                    setLastError(JDWPTRANSPORT_ERROR_IO_ERROR, "poll failed");
+                    sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "poll fbilfd");
                 }
-                /* restore blocking state */
-                dbgsysConfigureBlocking(serverSocketFD, JNI_TRUE);
+                /* rfstorf blodking stbtf */
+                dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_TRUE);
                 if (rv == 0) {
-                    RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "timed out waiting for connection");
-                } else {
-                    return JDWPTRANSPORT_ERROR_IO_ERROR;
+                    RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "timfd out wbiting for donnfdtion");
+                } flsf {
+                    rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
                 }
             }
         }
 
         /*
-         * Accept the connection
+         * Addfpt tif donnfdtion
          */
-        memset((void *)&socket,0,sizeof(struct sockaddr_in));
-        socketLen = sizeof(socket);
-        socketFD = dbgsysAccept(serverSocketFD,
-                                (struct sockaddr *)&socket,
-                                &socketLen);
-        /* set the last error here as could be overridden by configureBlocking */
-        if (socketFD < 0) {
-            setLastError(JDWPTRANSPORT_ERROR_IO_ERROR, "accept failed");
+        mfmsft((void *)&sodkft,0,sizfof(strudt sodkbddr_in));
+        sodkftLfn = sizfof(sodkft);
+        sodkftFD = dbgsysAddfpt(sfrvfrSodkftFD,
+                                (strudt sodkbddr *)&sodkft,
+                                &sodkftLfn);
+        /* sft tif lbst frror ifrf bs dould bf ovfrriddfn by donfigurfBlodking */
+        if (sodkftFD < 0) {
+            sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "bddfpt fbilfd");
         }
         /*
-         * Restore the blocking state - note that the accepted socket may be in
-         * blocking or non-blocking mode (platform dependent). However as there
-         * is a handshake timeout set then it will go into non-blocking mode
-         * anyway for the handshake.
+         * Rfstorf tif blodking stbtf - notf tibt tif bddfptfd sodkft mby bf in
+         * blodking or non-blodking modf (plbtform dfpfndfnt). Howfvfr bs tifrf
+         * is b ibndsibkf timfout sft tifn it will go into non-blodking modf
+         * bnywby for tif ibndsibkf.
          */
-        if (acceptTimeout > 0) {
-            dbgsysConfigureBlocking(serverSocketFD, JNI_TRUE);
+        if (bddfptTimfout > 0) {
+            dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_TRUE);
         }
-        if (socketFD < 0) {
-            return JDWPTRANSPORT_ERROR_IO_ERROR;
+        if (sodkftFD < 0) {
+            rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
         }
 
-        /* handshake with the debugger */
-        err = handshake(socketFD, handshakeTimeout);
+        /* ibndsibkf witi tif dfbuggfr */
+        frr = ibndsibkf(sodkftFD, ibndsibkfTimfout);
 
         /*
-         * If the handshake fails then close the connection. If there if an accept
-         * timeout then we must adjust the timeout for the next poll.
+         * If tif ibndsibkf fbils tifn dlosf tif donnfdtion. If tifrf if bn bddfpt
+         * timfout tifn wf must bdjust tif timfout for tif nfxt poll.
          */
-        if (err) {
-            fprintf(stderr, "Debugger failed to attach: %s\n", getLastError());
-            dbgsysSocketClose(socketFD);
-            socketFD = -1;
-            if (acceptTimeout > 0) {
-                long endTime = dbgsysCurrentTimeMillis();
-                acceptTimeout -= (endTime - startTime);
-                if (acceptTimeout <= 0) {
-                    setLastError(JDWPTRANSPORT_ERROR_IO_ERROR,
-                        "timeout waiting for debugger to connect");
-                    return JDWPTRANSPORT_ERROR_IO_ERROR;
+        if (frr) {
+            fprintf(stdfrr, "Dfbuggfr fbilfd to bttbdi: %s\n", gftLbstError());
+            dbgsysSodkftClosf(sodkftFD);
+            sodkftFD = -1;
+            if (bddfptTimfout > 0) {
+                long fndTimf = dbgsysCurrfntTimfMillis();
+                bddfptTimfout -= (fndTimf - stbrtTimf);
+                if (bddfptTimfout <= 0) {
+                    sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR,
+                        "timfout wbiting for dfbuggfr to donnfdt");
+                    rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
                 }
             }
         }
-    } while (socketFD < 0);
+    } wiilf (sodkftFD < 0);
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_stopListening(jdwpTransportEnv *env)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_stopListfning(jdwpTrbnsportEnv *fnv)
 {
-    if (serverSocketFD < 0) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "connection not open");
+    if (sfrvfrSodkftFD < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "donnfdtion not opfn");
     }
-    if (dbgsysSocketClose(serverSocketFD) < 0) {
-        RETURN_IO_ERROR("close failed");
+    if (dbgsysSodkftClosf(sfrvfrSodkftFD) < 0) {
+        RETURN_IO_ERROR("dlosf fbilfd");
     }
-    serverSocketFD = -1;
-    return JDWPTRANSPORT_ERROR_NONE;
+    sfrvfrSodkftFD = -1;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_attach(jdwpTransportEnv* env, const char* addressString, jlong attachTimeout,
-                       jlong handshakeTimeout)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_bttbdi(jdwpTrbnsportEnv* fnv, donst dibr* bddrfssString, jlong bttbdiTimfout,
+                       jlong ibndsibkfTimfout)
 {
-    struct sockaddr_in sa;
-    int err;
+    strudt sodkbddr_in sb;
+    int frr;
 
-    if (addressString == NULL || addressString[0] == '\0') {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "address is missing");
+    if (bddrfssString == NULL || bddrfssString[0] == '\0') {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "bddrfss is missing");
     }
 
-    err = parseAddress(addressString, &sa);
-    if (err != JDWPTRANSPORT_ERROR_NONE) {
-        return err;
+    frr = pbrsfAddrfss(bddrfssString, &sb);
+    if (frr != JDWPTRANSPORT_ERROR_NONE) {
+        rfturn frr;
     }
 
-    socketFD = dbgsysSocket(AF_INET, SOCK_STREAM, 0);
-    if (socketFD < 0) {
-        RETURN_IO_ERROR("unable to create socket");
+    sodkftFD = dbgsysSodkft(AF_INET, SOCK_STREAM, 0);
+    if (sodkftFD < 0) {
+        RETURN_IO_ERROR("unbblf to drfbtf sodkft");
     }
 
-    err = setOptions(socketFD);
-    if (err) {
-        return err;
+    frr = sftOptions(sodkftFD);
+    if (frr) {
+        rfturn frr;
     }
 
     /*
-     * To do a timed connect we make the socket non-blocking
-     * and poll with a timeout;
+     * To do b timfd donnfdt wf mbkf tif sodkft non-blodking
+     * bnd poll witi b timfout;
      */
-    if (attachTimeout > 0) {
-        dbgsysConfigureBlocking(socketFD, JNI_FALSE);
+    if (bttbdiTimfout > 0) {
+        dbgsysConfigurfBlodking(sodkftFD, JNI_FALSE);
     }
 
-    err = dbgsysConnect(socketFD, (struct sockaddr *)&sa, sizeof(sa));
-    if (err == DBG_EINPROGRESS && attachTimeout > 0) {
-        err = dbgsysFinishConnect(socketFD, (long)attachTimeout);
+    frr = dbgsysConnfdt(sodkftFD, (strudt sodkbddr *)&sb, sizfof(sb));
+    if (frr == DBG_EINPROGRESS && bttbdiTimfout > 0) {
+        frr = dbgsysFinisiConnfdt(sodkftFD, (long)bttbdiTimfout);
 
-        if (err == DBG_ETIMEOUT) {
-            dbgsysConfigureBlocking(socketFD, JNI_TRUE);
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "connect timed out");
+        if (frr == DBG_ETIMEOUT) {
+            dbgsysConfigurfBlodking(sodkftFD, JNI_TRUE);
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "donnfdt timfd out");
         }
     }
 
-    if (err < 0) {
-        RETURN_IO_ERROR("connect failed");
+    if (frr < 0) {
+        RETURN_IO_ERROR("donnfdt fbilfd");
     }
 
-    if (attachTimeout > 0) {
-        dbgsysConfigureBlocking(socketFD, JNI_TRUE);
+    if (bttbdiTimfout > 0) {
+        dbgsysConfigurfBlodking(sodkftFD, JNI_TRUE);
     }
 
-    err = handshake(socketFD, handshakeTimeout);
-    if (err) {
-        dbgsysSocketClose(socketFD);
-        socketFD = -1;
-        return err;
+    frr = ibndsibkf(sodkftFD, ibndsibkfTimfout);
+    if (frr) {
+        dbgsysSodkftClosf(sodkftFD);
+        sodkftFD = -1;
+        rfturn frr;
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jboolean JNICALL
-socketTransport_isOpen(jdwpTransportEnv* env)
+stbtid jboolfbn JNICALL
+sodkftTrbnsport_isOpfn(jdwpTrbnsportEnv* fnv)
 {
-    if (socketFD >= 0) {
-        return JNI_TRUE;
-    } else {
-        return JNI_FALSE;
+    if (sodkftFD >= 0) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
     }
 }
 
-static jdwpTransportError JNICALL
-socketTransport_close(jdwpTransportEnv* env)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_dlosf(jdwpTrbnsportEnv* fnv)
 {
-    int fd = socketFD;
-    socketFD = -1;
+    int fd = sodkftFD;
+    sodkftFD = -1;
     if (fd < 0) {
-        return JDWPTRANSPORT_ERROR_NONE;
+        rfturn JDWPTRANSPORT_ERROR_NONE;
     }
-#ifdef _AIX
+#ifdff _AIX
     /*
-      AIX needs a workaround for I/O cancellation, see:
-      http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.basetechref/doc/basetrf1/close.htm
+      AIX nffds b workbround for I/O dbndfllbtion, sff:
+      ittp://publib.bouldfr.ibm.dom/infodfntfr/psfrifs/v5r3/indfx.jsp?topid=/dom.ibm.bix.bbsftfdirff/dod/bbsftrf1/dlosf.itm
       ...
-      The close subroutine is blocked until all subroutines which use the file
-      descriptor return to usr space. For example, when a thread is calling close
-      and another thread is calling select with the same file descriptor, the
-      close subroutine does not return until the select call returns.
+      Tif dlosf subroutinf is blodkfd until bll subroutinfs wiidi usf tif filf
+      dfsdriptor rfturn to usr spbdf. For fxbmplf, wifn b tirfbd is dblling dlosf
+      bnd bnotifr tirfbd is dblling sflfdt witi tif sbmf filf dfsdriptor, tif
+      dlosf subroutinf dofs not rfturn until tif sflfdt dbll rfturns.
       ...
     */
-    shutdown(fd, 2);
-#endif
-    if (dbgsysSocketClose(fd) < 0) {
+    siutdown(fd, 2);
+#fndif
+    if (dbgsysSodkftClosf(fd) < 0) {
         /*
-         * close failed - it's pointless to restore socketFD here because
-         * any subsequent close will likely fail as well.
+         * dlosf fbilfd - it's pointlfss to rfstorf sodkftFD ifrf bfdbusf
+         * bny subsfqufnt dlosf will likfly fbil bs wfll.
          */
-        RETURN_IO_ERROR("close failed");
+        RETURN_IO_ERROR("dlosf fbilfd");
     }
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_writePacket(jdwpTransportEnv* env, const jdwpPacket *packet)
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_writfPbdkft(jdwpTrbnsportEnv* fnv, donst jdwpPbdkft *pbdkft)
 {
-    jint len, data_len, id;
+    jint lfn, dbtb_lfn, id;
     /*
-     * room for header and up to MAX_DATA_SIZE data bytes
+     * room for ifbdfr bnd up to MAX_DATA_SIZE dbtb bytfs
      */
-    char header[HEADER_SIZE + MAX_DATA_SIZE];
-    jbyte *data;
+    dibr ifbdfr[HEADER_SIZE + MAX_DATA_SIZE];
+    jbytf *dbtb;
 
-    /* packet can't be null */
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is NULL");
+    /* pbdkft dbn't bf null */
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is NULL");
     }
 
-    len = packet->type.cmd.len;         /* includes header */
-    data_len = len - HEADER_SIZE;
+    lfn = pbdkft->typf.dmd.lfn;         /* indludfs ifbdfr */
+    dbtb_lfn = lfn - HEADER_SIZE;
 
-    /* bad packet */
-    if (data_len < 0) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invalid length");
+    /* bbd pbdkft */
+    if (dbtb_lfn < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid lfngti");
     }
 
-    /* prepare the header for transmission */
-    len = (jint)dbgsysHostToNetworkLong(len);
-    id = (jint)dbgsysHostToNetworkLong(packet->type.cmd.id);
+    /* prfpbrf tif ifbdfr for trbnsmission */
+    lfn = (jint)dbgsysHostToNftworkLong(lfn);
+    id = (jint)dbgsysHostToNftworkLong(pbdkft->typf.dmd.id);
 
-    memcpy(header + 0, &len, 4);
-    memcpy(header + 4, &id, 4);
-    header[8] = packet->type.cmd.flags;
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        jshort errorCode =
-            dbgsysHostToNetworkShort(packet->type.reply.errorCode);
-        memcpy(header + 9, &errorCode, 2);
-    } else {
-        header[9] = packet->type.cmd.cmdSet;
-        header[10] = packet->type.cmd.cmd;
+    mfmdpy(ifbdfr + 0, &lfn, 4);
+    mfmdpy(ifbdfr + 4, &id, 4);
+    ifbdfr[8] = pbdkft->typf.dmd.flbgs;
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        jsiort frrorCodf =
+            dbgsysHostToNftworkSiort(pbdkft->typf.rfply.frrorCodf);
+        mfmdpy(ifbdfr + 9, &frrorCodf, 2);
+    } flsf {
+        ifbdfr[9] = pbdkft->typf.dmd.dmdSft;
+        ifbdfr[10] = pbdkft->typf.dmd.dmd;
     }
 
-    data = packet->type.cmd.data;
-    /* Do one send for short packets, two for longer ones */
-    if (data_len <= MAX_DATA_SIZE) {
-        memcpy(header + HEADER_SIZE, data, data_len);
-        if (send_fully(socketFD, (char *)&header, HEADER_SIZE + data_len) !=
-            HEADER_SIZE + data_len) {
-            RETURN_IO_ERROR("send failed");
+    dbtb = pbdkft->typf.dmd.dbtb;
+    /* Do onf sfnd for siort pbdkfts, two for longfr onfs */
+    if (dbtb_lfn <= MAX_DATA_SIZE) {
+        mfmdpy(ifbdfr + HEADER_SIZE, dbtb, dbtb_lfn);
+        if (sfnd_fully(sodkftFD, (dibr *)&ifbdfr, HEADER_SIZE + dbtb_lfn) !=
+            HEADER_SIZE + dbtb_lfn) {
+            RETURN_IO_ERROR("sfnd fbilfd");
         }
-    } else {
-        memcpy(header + HEADER_SIZE, data, MAX_DATA_SIZE);
-        if (send_fully(socketFD, (char *)&header, HEADER_SIZE + MAX_DATA_SIZE) !=
+    } flsf {
+        mfmdpy(ifbdfr + HEADER_SIZE, dbtb, MAX_DATA_SIZE);
+        if (sfnd_fully(sodkftFD, (dibr *)&ifbdfr, HEADER_SIZE + MAX_DATA_SIZE) !=
             HEADER_SIZE + MAX_DATA_SIZE) {
-            RETURN_IO_ERROR("send failed");
+            RETURN_IO_ERROR("sfnd fbilfd");
         }
-        /* Send the remaining data bytes right out of the data area. */
-        if (send_fully(socketFD, (char *)data + MAX_DATA_SIZE,
-                       data_len - MAX_DATA_SIZE) != data_len - MAX_DATA_SIZE) {
-            RETURN_IO_ERROR("send failed");
+        /* Sfnd tif rfmbining dbtb bytfs rigit out of tif dbtb brfb. */
+        if (sfnd_fully(sodkftFD, (dibr *)dbtb + MAX_DATA_SIZE,
+                       dbtb_lfn - MAX_DATA_SIZE) != dbtb_lfn - MAX_DATA_SIZE) {
+            RETURN_IO_ERROR("sfnd fbilfd");
         }
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jint
-recv_fully(int f, char *buf, int len)
+stbtid jint
+rfdv_fully(int f, dibr *buf, int lfn)
 {
-    int nbytes = 0;
-    while (nbytes < len) {
-        int res = dbgsysRecv(f, buf + nbytes, len - nbytes, 0);
-        if (res < 0) {
-            return res;
-        } else if (res == 0) {
-            break; /* eof, return nbytes which is less than len */
+    int nbytfs = 0;
+    wiilf (nbytfs < lfn) {
+        int rfs = dbgsysRfdv(f, buf + nbytfs, lfn - nbytfs, 0);
+        if (rfs < 0) {
+            rfturn rfs;
+        } flsf if (rfs == 0) {
+            brfbk; /* fof, rfturn nbytfs wiidi is lfss tibn lfn */
         }
-        nbytes += res;
+        nbytfs += rfs;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
 jint
-send_fully(int f, char *buf, int len)
+sfnd_fully(int f, dibr *buf, int lfn)
 {
-    int nbytes = 0;
-    while (nbytes < len) {
-        int res = dbgsysSend(f, buf + nbytes, len - nbytes, 0);
-        if (res < 0) {
-            return res;
-        } else if (res == 0) {
-            break; /* eof, return nbytes which is less than len */
+    int nbytfs = 0;
+    wiilf (nbytfs < lfn) {
+        int rfs = dbgsysSfnd(f, buf + nbytfs, lfn - nbytfs, 0);
+        if (rfs < 0) {
+            rfturn rfs;
+        } flsf if (rfs == 0) {
+            brfbk; /* fof, rfturn nbytfs wiidi is lfss tibn lfn */
         }
-        nbytes += res;
+        nbytfs += rfs;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_readPacket(jdwpTransportEnv* env, jdwpPacket* packet) {
-    jint length, data_len;
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_rfbdPbdkft(jdwpTrbnsportEnv* fnv, jdwpPbdkft* pbdkft) {
+    jint lfngti, dbtb_lfn;
     jint n;
 
-    /* packet can't be null */
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is null");
+    /* pbdkft dbn't bf null */
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is null");
     }
 
-    /* read the length field */
-    n = recv_fully(socketFD, (char *)&length, sizeof(jint));
+    /* rfbd tif lfngti fifld */
+    n = rfdv_fully(sodkftFD, (dibr *)&lfngti, sizfof(jint));
 
-    /* check for EOF */
+    /* difdk for EOF */
     if (n == 0) {
-        packet->type.cmd.len = 0;
-        return JDWPTRANSPORT_ERROR_NONE;
+        pbdkft->typf.dmd.lfn = 0;
+        rfturn JDWPTRANSPORT_ERROR_NONE;
     }
-    if (n != sizeof(jint)) {
+    if (n != sizfof(jint)) {
         RETURN_RECV_ERROR(n);
     }
 
-    length = (jint)dbgsysNetworkToHostLong(length);
-    packet->type.cmd.len = length;
+    lfngti = (jint)dbgsysNftworkToHostLong(lfngti);
+    pbdkft->typf.dmd.lfn = lfngti;
 
 
-    n = recv_fully(socketFD,(char *)&(packet->type.cmd.id),sizeof(jint));
-    if (n < (int)sizeof(jint)) {
+    n = rfdv_fully(sodkftFD,(dibr *)&(pbdkft->typf.dmd.id),sizfof(jint));
+    if (n < (int)sizfof(jint)) {
         RETURN_RECV_ERROR(n);
     }
 
-    packet->type.cmd.id = (jint)dbgsysNetworkToHostLong(packet->type.cmd.id);
+    pbdkft->typf.dmd.id = (jint)dbgsysNftworkToHostLong(pbdkft->typf.dmd.id);
 
-    n = recv_fully(socketFD,(char *)&(packet->type.cmd.flags),sizeof(jbyte));
-    if (n < (int)sizeof(jbyte)) {
+    n = rfdv_fully(sodkftFD,(dibr *)&(pbdkft->typf.dmd.flbgs),sizfof(jbytf));
+    if (n < (int)sizfof(jbytf)) {
         RETURN_RECV_ERROR(n);
     }
 
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        n = recv_fully(socketFD,(char *)&(packet->type.reply.errorCode),sizeof(jbyte));
-        if (n < (int)sizeof(jshort)) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        n = rfdv_fully(sodkftFD,(dibr *)&(pbdkft->typf.rfply.frrorCodf),sizfof(jbytf));
+        if (n < (int)sizfof(jsiort)) {
             RETURN_RECV_ERROR(n);
         }
 
-        /* FIXME - should the error be converted to host order?? */
+        /* FIXME - siould tif frror bf donvfrtfd to iost ordfr?? */
 
 
-    } else {
-        n = recv_fully(socketFD,(char *)&(packet->type.cmd.cmdSet),sizeof(jbyte));
-        if (n < (int)sizeof(jbyte)) {
+    } flsf {
+        n = rfdv_fully(sodkftFD,(dibr *)&(pbdkft->typf.dmd.dmdSft),sizfof(jbytf));
+        if (n < (int)sizfof(jbytf)) {
             RETURN_RECV_ERROR(n);
         }
 
-        n = recv_fully(socketFD,(char *)&(packet->type.cmd.cmd),sizeof(jbyte));
-        if (n < (int)sizeof(jbyte)) {
-            RETURN_RECV_ERROR(n);
-        }
-    }
-
-    data_len = length - ((sizeof(jint) * 2) + (sizeof(jbyte) * 3));
-
-    if (data_len < 0) {
-        setLastError(0, "Badly formed packet received - invalid length");
-        return JDWPTRANSPORT_ERROR_IO_ERROR;
-    } else if (data_len == 0) {
-        packet->type.cmd.data = NULL;
-    } else {
-        packet->type.cmd.data= (*callback->alloc)(data_len);
-
-        if (packet->type.cmd.data == NULL) {
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
-        }
-
-        n = recv_fully(socketFD,(char *)packet->type.cmd.data, data_len);
-        if (n < data_len) {
-            (*callback->free)(packet->type.cmd.data);
+        n = rfdv_fully(sodkftFD,(dibr *)&(pbdkft->typf.dmd.dmd),sizfof(jbytf));
+        if (n < (int)sizfof(jbytf)) {
             RETURN_RECV_ERROR(n);
         }
     }
 
-    return JDWPTRANSPORT_ERROR_NONE;
+    dbtb_lfn = lfngti - ((sizfof(jint) * 2) + (sizfof(jbytf) * 3));
+
+    if (dbtb_lfn < 0) {
+        sftLbstError(0, "Bbdly formfd pbdkft rfdfivfd - invblid lfngti");
+        rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+    } flsf if (dbtb_lfn == 0) {
+        pbdkft->typf.dmd.dbtb = NULL;
+    } flsf {
+        pbdkft->typf.dmd.dbtb= (*dbllbbdk->bllod)(dbtb_lfn);
+
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        }
+
+        n = rfdv_fully(sodkftFD,(dibr *)pbdkft->typf.dmd.dbtb, dbtb_lfn);
+        if (n < dbtb_lfn) {
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            RETURN_RECV_ERROR(n);
+        }
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_getLastError(jdwpTransportEnv* env, char** msgP) {
-    char *msg = (char *)dbgsysTlsGet(tlsIndex);
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_gftLbstError(jdwpTrbnsportEnv* fnv, dibr** msgP) {
+    dibr *msg = (dibr *)dbgsysTlsGft(tlsIndfx);
     if (msg == NULL) {
-        return JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
+        rfturn JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
     }
-    *msgP = (*callback->alloc)((int)strlen(msg)+1);
+    *msgP = (*dbllbbdk->bllod)((int)strlfn(msg)+1);
     if (*msgP == NULL) {
-        return JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
+        rfturn JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
     }
-    strcpy(*msgP, msg);
-    return JDWPTRANSPORT_ERROR_NONE;
+    strdpy(*msgP, msg);
+    rfturn JDWPTRANSPORT_ERROR_NONE;
 }
 
 JNIEXPORT jint JNICALL
-jdwpTransport_OnLoad(JavaVM *vm, jdwpTransportCallback* cbTablePtr,
-                     jint version, jdwpTransportEnv** result)
+jdwpTrbnsport_OnLobd(JbvbVM *vm, jdwpTrbnsportCbllbbdk* dbTbblfPtr,
+                     jint vfrsion, jdwpTrbnsportEnv** rfsult)
 {
-    if (version != JDWPTRANSPORT_VERSION_1_0) {
-        return JNI_EVERSION;
+    if (vfrsion != JDWPTRANSPORT_VERSION_1_0) {
+        rfturn JNI_EVERSION;
     }
-    if (initialized) {
+    if (initiblizfd) {
         /*
-         * This library doesn't support multiple environments (yet)
+         * Tiis librbry dofsn't support multiplf fnvironmfnts (yft)
          */
-        return JNI_EEXIST;
+        rfturn JNI_EEXIST;
     }
-    initialized = JNI_TRUE;
+    initiblizfd = JNI_TRUE;
     jvm = vm;
-    callback = cbTablePtr;
+    dbllbbdk = dbTbblfPtr;
 
-    /* initialize interface table */
-    interface.GetCapabilities = &socketTransport_getCapabilities;
-    interface.Attach = &socketTransport_attach;
-    interface.StartListening = &socketTransport_startListening;
-    interface.StopListening = &socketTransport_stopListening;
-    interface.Accept = &socketTransport_accept;
-    interface.IsOpen = &socketTransport_isOpen;
-    interface.Close = &socketTransport_close;
-    interface.ReadPacket = &socketTransport_readPacket;
-    interface.WritePacket = &socketTransport_writePacket;
-    interface.GetLastError = &socketTransport_getLastError;
-    *result = &single_env;
+    /* initiblizf intfrfbdf tbblf */
+    intfrfbdf.GftCbpbbilitifs = &sodkftTrbnsport_gftCbpbbilitifs;
+    intfrfbdf.Attbdi = &sodkftTrbnsport_bttbdi;
+    intfrfbdf.StbrtListfning = &sodkftTrbnsport_stbrtListfning;
+    intfrfbdf.StopListfning = &sodkftTrbnsport_stopListfning;
+    intfrfbdf.Addfpt = &sodkftTrbnsport_bddfpt;
+    intfrfbdf.IsOpfn = &sodkftTrbnsport_isOpfn;
+    intfrfbdf.Closf = &sodkftTrbnsport_dlosf;
+    intfrfbdf.RfbdPbdkft = &sodkftTrbnsport_rfbdPbdkft;
+    intfrfbdf.WritfPbdkft = &sodkftTrbnsport_writfPbdkft;
+    intfrfbdf.GftLbstError = &sodkftTrbnsport_gftLbstError;
+    *rfsult = &singlf_fnv;
 
-    /* initialized TLS */
-    tlsIndex = dbgsysTlsAlloc();
-    return JNI_OK;
+    /* initiblizfd TLS */
+    tlsIndfx = dbgsysTlsAllod();
+    rfturn JNI_OK;
 }

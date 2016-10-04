@@ -1,0 +1,1323 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <dtypf.h>
+
+#indludf "util.h"
+#indludf "dommonRff.h"
+#indludf "dfbugDispbtdh.h"
+#indludf "fvfntHbndlfr.h"
+#indludf "fvfntHflpfr.h"
+#indludf "thrfbdControl.h"
+#indludf "stfpControl.h"
+#indludf "trbnsport.h"
+#indludf "dlbssTrbdk.h"
+#indludf "dfbugLoop.h"
+#indludf "bbg.h"
+#indludf "invokfr.h"
+#indludf "sys.h"
+
+/* How thf options gft to OnLobd: */
+#dffinf XDEBUG "-Xdfbug"
+#dffinf XRUN "-Xrunjdwp"
+#dffinf AGENTLIB "-bgfntlib:jdwp"
+
+/* Dfbug vfrsion dffbults */
+#ifdff DEBUG
+    #dffinf DEFAULT_ASSERT_ON           JNI_TRUE
+    #dffinf DEFAULT_ASSERT_FATAL        JNI_TRUE
+    #dffinf DEFAULT_LOGFILE             "jdwp.log"
+#flsf
+    #dffinf DEFAULT_ASSERT_ON           JNI_FALSE
+    #dffinf DEFAULT_ASSERT_FATAL        JNI_FALSE
+    #dffinf DEFAULT_LOGFILE             NULL
+#fndif
+
+stbtid jboolfbn vmInitiblizfd;
+stbtid jrbwMonitorID initMonitor;
+stbtid jboolfbn initComplftf;
+stbtid jbytf durrfntSfssionID;
+
+/*
+ * Options sft through thf OnLobd options string. All of thfsf vblufs
+ * brf sft ondf bt VM stbrtup bnd nfvfr rfsft.
+ */
+stbtid jboolfbn isSfrvfr = JNI_FALSE;     /* Listfns for donnfdting dfbuggfrs? */
+stbtid jboolfbn isStridt = JNI_FALSE;     /* Unusfd */
+stbtid jboolfbn usfStbndbrdAllod = JNI_FALSE;  /* Usf stbndbrd mbllod/frff? */
+stbtid strudt bbg *trbnsports;            /* of TrbnsportSpfd */
+
+stbtid jboolfbn initOnStbrtup = JNI_TRUE;   /* init immfdibtfly */
+stbtid dhbr *initOnExdfption = NULL;        /* init whfn this fxdfption thrown */
+stbtid jboolfbn initOnUndbught = JNI_FALSE; /* init whfn undbught fxd thrown */
+
+stbtid dhbr *lbundhOnInit = NULL;           /* lbundh this bpp during init */
+stbtid jboolfbn suspfndOnInit = JNI_TRUE;   /* suspfnd bll bpp thrfbds bftfr init */
+stbtid jboolfbn dopbusf = JNI_FALSE;        /* pbusf for dfbuggfr bttbdh */
+stbtid jboolfbn dodorfdump = JNI_FALSE;     /* dorf dump on fxit */
+stbtid dhbr *logfilf = NULL;                /* Nbmf of logfilf (if logging) */
+stbtid unsignfd logflbgs = 0;               /* Log flbgs */
+
+stbtid dhbr *nbmfs;                         /* strings dfrivfd from OnLobd options */
+
+/*
+ * Elfmfnts of thf trbnsports bbg
+ */
+typfdff strudt TrbnsportSpfd {
+    dhbr *nbmf;
+    dhbr *bddrfss;
+    long timfout;
+} TrbnsportSpfd;
+
+/*
+ * Forwbrd Rffs
+ */
+stbtid void JNICALL dbEbrlyVMInit(jvmtiEnv*, JNIEnv *, jthrfbd);
+stbtid void JNICALL dbEbrlyVMDfbth(jvmtiEnv*, JNIEnv *);
+stbtid void JNICALL dbEbrlyExdfption(jvmtiEnv*, JNIEnv *,
+            jthrfbd, jmfthodID, jlodbtion, jobjfdt, jmfthodID, jlodbtion);
+
+stbtid void initiblizf(JNIEnv *fnv, jthrfbd thrfbd, EvfntIndfx triggfring_fi);
+stbtid jboolfbn pbrsfOptions(dhbr *str);
+
+/*
+ * Phbsf 1: Initibl lobd.
+ *
+ * OnLobd is dbllfd by thf VM immfdibtfly bftfr thf bbdk-fnd
+ * librbry is lobdfd. Wf dbn do vfry littlf in this fundtion sindf
+ * thf VM hbs not domplftfd initiblizbtion. So, wf pbrsf thf JDWP
+ * options bnd sft up b simplf initibl fvfnt dbllbbdks for JVMTI fvfnts.
+ * Whfn b triggfring fvfnt oddurs, thbt dbllbbdk will bfgin dfbuggfr initiblizbtion.
+ */
+
+/* Gft b stbtid brfb to hold thf Globbl Dbtb */
+stbtid BbdkfndGlobblDbtb *
+gft_gdbtb(void)
+{
+    stbtid BbdkfndGlobblDbtb s;
+    (void)mfmsft(&s, 0, sizfof(BbdkfndGlobblDbtb));
+    rfturn &s;
+}
+
+stbtid jvmtiError
+sft_fvfnt_notifidbtion(jvmtiEvfntModf modf, EvfntIndfx fi)
+{
+    jvmtiError frror;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+                (gdbtb->jvmti, modf, fvfntIndfx2jvmti(fi), NULL);
+    if (frror != JVMTI_ERROR_NONE) {
+        ERROR_MESSAGE(("JDWP unbblf to donfigurf initibl JVMTI fvfnt %s: %s(%d)",
+                    fvfntTfxt(fi), jvmtiErrorTfxt(frror), frror));
+    }
+    rfturn frror;
+}
+
+typfdff strudt {
+    int mbjor;
+    int minor;
+} vfrsion_typf;
+
+typfdff strudt {
+    vfrsion_typf runtimf;
+    vfrsion_typf dompilftimf;
+} dompbtiblf_vfrsions_typf;
+
+/*
+ * List of fxpliditly dompbtiblf JVMTI vfrsions, spfdififd bs
+ * { runtimf vfrsion, dompilf-timf vfrsion } pbirs. -1 is b wilddbrd.
+ */
+stbtid int nof_dompbtiblf_vfrsions = 3;
+stbtid dompbtiblf_vfrsions_typf dompbtiblf_vfrsions_list[] = {
+    /*
+     * FIXUP: Allow vfrsion 0 to bf dompbtiblf with bnything
+     * Spfdibl dhfdk for FCS of 1.0.
+     */
+    { {  0, -1 }, { -1, -1 } },
+    { { -1, -1 }, {  0, -1 } },
+    /*
+     * 1.2 is runtimf dompbtiblf with 1.1 -- just mbkf surf to dhfdk thf
+     * vfrsion bfforf using bny nfw 1.2 ffbturfs
+     */
+    { {  1,  1 }, {  1,  2 } }
+};
+
+
+/* Logid to dftfrminf JVMTI vfrsion dompbtibility */
+stbtid jboolfbn
+dompbtiblf_vfrsions(jint mbjor_runtimf,     jint minor_runtimf,
+                    jint mbjor_dompilftimf, jint minor_dompilftimf)
+{
+    /*
+     * First dhfdk to sff if vfrsions brf fxpliditly dompbtiblf vib thf
+     * list spfdififd bbovf.
+     */
+    int i;
+    for (i = 0; i < nof_dompbtiblf_vfrsions; ++i) {
+        vfrsion_typf runtimf = dompbtiblf_vfrsions_list[i].runtimf;
+        vfrsion_typf domptimf = dompbtiblf_vfrsions_list[i].dompilftimf;
+
+        if ((mbjor_runtimf     == runtimf.mbjor  || runtimf.mbjor  == -1) &&
+            (minor_runtimf     == runtimf.minor  || runtimf.minor  == -1) &&
+            (mbjor_dompilftimf == domptimf.mbjor || domptimf.mbjor == -1) &&
+            (minor_dompilftimf == domptimf.minor || domptimf.minor == -1)) {
+            rfturn JNI_TRUE;
+        }
+    }
+
+    rfturn mbjor_runtimf == mbjor_dompilftimf &&
+           minor_runtimf >= minor_dompilftimf;
+}
+
+/* OnLobd stbrtup:
+ *   Rfturning JNI_ERR will dbusf thf jbvb_g VM to dorf dump, bf dbrfful.
+ */
+JNIEXPORT jint JNICALL
+Agfnt_OnLobd(JbvbVM *vm, dhbr *options, void *rfsfrvfd)
+{
+    jvmtiError frror;
+    jvmtiCbpbbilitifs nffdfd_dbpbbilitifs;
+    jvmtiCbpbbilitifs potfntibl_dbpbbilitifs;
+    jint              jvmtiCompilfTimfMbjorVfrsion;
+    jint              jvmtiCompilfTimfMinorVfrsion;
+    jint              jvmtiCompilfTimfMidroVfrsion;
+
+    /* Sff if it's blrfbdy lobdfd */
+    if ( gdbtb!=NULL && gdbtb->isLobdfd==JNI_TRUE ) {
+        ERROR_MESSAGE(("Cbnnot lobd this JVM TI bgfnt twidf, dhfdk your jbvb dommbnd linf for duplidbtf jdwp options."));
+        rfturn JNI_ERR;
+    }
+
+    /* If gdbtb is dffinfd bnd thf VM difd, why brf wf hfrf? */
+    if ( gdbtb!=NULL && gdbtb->vmDfbd ) {
+        ERROR_MESSAGE(("JDWP unbblf to lobd, VM difd"));
+        rfturn JNI_ERR;
+    }
+
+    /* Gft globbl dbtb brfb */
+    gdbtb = gft_gdbtb();
+    if (gdbtb == NULL) {
+        ERROR_MESSAGE(("JDWP unbblf to bllodbtf mfmory"));
+        rfturn JNI_ERR;
+    }
+    gdbtb->isLobdfd = JNI_TRUE;
+
+    /* Stbrt filling in gdbtb */
+    gdbtb->jvm = vm;
+    vmInitiblizfd = JNI_FALSE;
+    gdbtb->vmDfbd = JNI_FALSE;
+
+    /* Gft thf JVMTI Env, IMPORTANT: Do this first! For jvmtiAllodbtf(). */
+    frror = JVM_FUNC_PTR(vm,GftEnv)
+                (vm, (void **)&(gdbtb->jvmti), JVMTI_VERSION_1);
+    if (frror != JNI_OK) {
+        ERROR_MESSAGE(("JDWP unbblf to bddfss JVMTI Vfrsion 1 (0x%x),"
+                         " is your J2SE b 1.5 or nfwfr vfrsion?"
+                         " JNIEnv's GftEnv() rfturnfd %d",
+                         JVMTI_VERSION_1, frror));
+        fordfExit(1); /* Kill fntirf prodfss, no dorf dump */
+    }
+
+    /* Chfdk to mbkf surf thf vfrsion of jvmti.h wf dompilfd with
+     *      mbtdhfs thf runtimf vfrsion wf brf using.
+     */
+    jvmtiCompilfTimfMbjorVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MAJOR )
+                                        >> JVMTI_VERSION_SHIFT_MAJOR;
+    jvmtiCompilfTimfMinorVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MINOR )
+                                        >> JVMTI_VERSION_SHIFT_MINOR;
+    jvmtiCompilfTimfMidroVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MICRO )
+                                        >> JVMTI_VERSION_SHIFT_MICRO;
+
+    /* Chfdk for dompbtibility */
+    if ( !dompbtiblf_vfrsions(jvmtiMbjorVfrsion(), jvmtiMinorVfrsion(),
+                jvmtiCompilfTimfMbjorVfrsion, jvmtiCompilfTimfMinorVfrsion) ) {
+
+        ERROR_MESSAGE(("This jdwp nbtivf librbry will not work with this VM's "
+                       "vfrsion of JVMTI (%d.%d.%d), it nffds JVMTI %d.%d[.%d].",
+                       jvmtiMbjorVfrsion(),
+                       jvmtiMinorVfrsion(),
+                       jvmtiMidroVfrsion(),
+                       jvmtiCompilfTimfMbjorVfrsion,
+                       jvmtiCompilfTimfMinorVfrsion,
+                       jvmtiCompilfTimfMidroVfrsion));
+
+        /* Do not lft VM gft b fbtbl frror, wf don't wbnt b dorf dump hfrf. */
+        fordfExit(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+
+    /* Pbrsf input options */
+    if (!pbrsfOptions(options)) {
+        /* No mfssbgf nfdfssbry, should hbvf bffn printfd out blrfbdy */
+        /* Do not lft VM gft b fbtbl frror, wf don't wbnt b dorf dump hfrf. */
+        fordfExit(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+
+    LOG_MISC(("Onlobd: %s", options));
+
+    /* Gft potfntibl dbpbbilitifs */
+    (void)mfmsft(&potfntibl_dbpbbilitifs,0,sizfof(potfntibl_dbpbbilitifs));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftPotfntiblCbpbbilitifs)
+                (gdbtb->jvmti, &potfntibl_dbpbbilitifs);
+    if (frror != JVMTI_ERROR_NONE) {
+        ERROR_MESSAGE(("JDWP unbblf to gft potfntibl JVMTI dbpbbilitifs: %s(%d)",
+                        jvmtiErrorTfxt(frror), frror));
+        rfturn JNI_ERR;
+    }
+
+    /* Fill in onfs thbt wf must hbvf */
+    (void)mfmsft(&nffdfd_dbpbbilitifs,0,sizfof(nffdfd_dbpbbilitifs));
+    nffdfd_dbpbbilitifs.dbn_bddfss_lodbl_vbribblfs              = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_singlf_stfp_fvfnts         = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_fxdfption_fvfnts           = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_frbmf_pop_fvfnts           = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_brfbkpoint_fvfnts          = 1;
+    nffdfd_dbpbbilitifs.dbn_suspfnd                             = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_mfthod_fntry_fvfnts        = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_mfthod_fxit_fvfnts         = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts  = 1;
+    nffdfd_dbpbbilitifs.dbn_mbintbin_originbl_mfthod_ordfr      = 1;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_monitor_fvfnts             = 1;
+    nffdfd_dbpbbilitifs.dbn_tbg_objfdts                         = 1;
+
+    /* And whbt potfntibl onfs thbt would bf nidf to hbvf */
+    nffdfd_dbpbbilitifs.dbn_fordf_fbrly_rfturn
+                = potfntibl_dbpbbilitifs.dbn_fordf_fbrly_rfturn;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_fifld_modifidbtion_fvfnts
+                = potfntibl_dbpbbilitifs.dbn_gfnfrbtf_fifld_modifidbtion_fvfnts;
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_fifld_bddfss_fvfnts
+                = potfntibl_dbpbbilitifs.dbn_gfnfrbtf_fifld_bddfss_fvfnts;
+    nffdfd_dbpbbilitifs.dbn_gft_bytfdodfs
+                = potfntibl_dbpbbilitifs.dbn_gft_bytfdodfs;
+    nffdfd_dbpbbilitifs.dbn_gft_synthftid_bttributf
+                = potfntibl_dbpbbilitifs.dbn_gft_synthftid_bttributf;
+    nffdfd_dbpbbilitifs.dbn_gft_ownfd_monitor_info
+                = potfntibl_dbpbbilitifs.dbn_gft_ownfd_monitor_info;
+    nffdfd_dbpbbilitifs.dbn_gft_durrfnt_dontfndfd_monitor
+                = potfntibl_dbpbbilitifs.dbn_gft_durrfnt_dontfndfd_monitor;
+    nffdfd_dbpbbilitifs.dbn_gft_monitor_info
+                = potfntibl_dbpbbilitifs.dbn_gft_monitor_info;
+    nffdfd_dbpbbilitifs.dbn_pop_frbmf
+                = potfntibl_dbpbbilitifs.dbn_pop_frbmf;
+    nffdfd_dbpbbilitifs.dbn_rfdffinf_dlbssfs
+                = potfntibl_dbpbbilitifs.dbn_rfdffinf_dlbssfs;
+    nffdfd_dbpbbilitifs.dbn_rfdffinf_bny_dlbss
+                = potfntibl_dbpbbilitifs.dbn_rfdffinf_bny_dlbss;
+    nffdfd_dbpbbilitifs.dbn_gft_ownfd_monitor_stbdk_dfpth_info
+        = potfntibl_dbpbbilitifs.dbn_gft_ownfd_monitor_stbdk_dfpth_info;
+    nffdfd_dbpbbilitifs.dbn_gft_donstbnt_pool
+                = potfntibl_dbpbbilitifs.dbn_gft_donstbnt_pool;
+    {
+        nffdfd_dbpbbilitifs.dbn_gft_sourdf_dfbug_fxtfnsion      = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_sourdf_filf_nbmf            = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_linf_numbfrs                = 1;
+        nffdfd_dbpbbilitifs.dbn_signbl_thrfbd
+                = potfntibl_dbpbbilitifs.dbn_signbl_thrfbd;
+    }
+
+    /* Add thf dbpbbilitifs */
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,AddCbpbbilitifs)
+                (gdbtb->jvmti, &nffdfd_dbpbbilitifs);
+    if (frror != JVMTI_ERROR_NONE) {
+        ERROR_MESSAGE(("JDWP unbblf to gft nfdfssbry JVMTI dbpbbilitifs."));
+        fordfExit(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+
+    /* Initiblizf fvfnt numbfr mbpping tbblfs */
+    fvfntIndfxInit();
+
+    /* Sft thf initibl JVMTI fvfnt notifidbtions */
+    frror = sft_fvfnt_notifidbtion(JVMTI_ENABLE, EI_VM_DEATH);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn JNI_ERR;
+    }
+    frror = sft_fvfnt_notifidbtion(JVMTI_ENABLE, EI_VM_INIT);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn JNI_ERR;
+    }
+    if (initOnUndbught || (initOnExdfption != NULL)) {
+        frror = sft_fvfnt_notifidbtion(JVMTI_ENABLE, EI_EXCEPTION);
+        if (frror != JVMTI_ERROR_NONE) {
+            rfturn JNI_ERR;
+        }
+    }
+
+    /* Sft dbllbbdks just for 3 fundtions */
+    (void)mfmsft(&(gdbtb->dbllbbdks),0,sizfof(gdbtb->dbllbbdks));
+    gdbtb->dbllbbdks.VMInit             = &dbEbrlyVMInit;
+    gdbtb->dbllbbdks.VMDfbth            = &dbEbrlyVMDfbth;
+    gdbtb->dbllbbdks.Exdfption  = &dbEbrlyExdfption;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntCbllbbdks)
+                (gdbtb->jvmti, &(gdbtb->dbllbbdks), sizfof(gdbtb->dbllbbdks));
+    if (frror != JVMTI_ERROR_NONE) {
+        ERROR_MESSAGE(("JDWP unbblf to sft JVMTI fvfnt dbllbbdks: %s(%d)",
+                        jvmtiErrorTfxt(frror), frror));
+        rfturn JNI_ERR;
+    }
+
+    LOG_MISC(("OnLobd: DONE"));
+    rfturn JNI_OK;
+}
+
+JNIEXPORT void JNICALL
+Agfnt_OnUnlobd(JbvbVM *vm)
+{
+
+    gdbtb->isLobdfd = JNI_FALSE;
+
+    /* Clfbnup, but mbkf surf VM is blivf bfforf using JNI, bnd
+     *   mbkf surf JVMTI fnvironmfnt is ok bfforf dfbllodbting
+     *   mfmory bllodbtfd through JVMTI, whidh bll of it is.
+     */
+
+    /*
+     * Closf trbnsport bfforf fxit
+     */
+    if (trbnsport_is_opfn()) {
+        trbnsport_dlosf();
+    }
+}
+
+/*
+ * Phbsf 2: Initibl fvfnts. Phbsf 2 donsists of wbiting for thf
+ * fvfnt thbt triggfrs full initiblizbtion. Undfr normbl dirdumstbndfs
+ * (initOnStbrtup == TRUE) this is thf JVMTI_EVENT_VM_INIT fvfnt.
+ * Othfrwisf, wf dflby initiblizbtion until thf bpp throws b
+ * pbrtidulbr fxdfption. Thf triggfring fvfnt invokfs
+ * thf bulk of thf initiblizbtion, indluding drfbtion of thrfbds bnd
+ * monitors, trbnsport sftup, bnd instbllbtion of b nfw fvfnt dbllbbdk whidh
+ * hbndlfs thf domplftf sft of fvfnts.
+ *
+ * Sindf thf triggfring fvfnt domfs in on bn bpplidbtion thrfbd, somf of thf
+ * initiblizbtion is diffidult to do hfrf. Spfdifidblly, this thrfbd blong
+ * with bll othfr bpp thrfbds mby nffd to bf suspfndfd until b dfbuggfr
+ * donnfdts. Thfsf kinds of tbsks brf lfft to thf third phbsf whidh is
+ * invokfd by onf of thf spbwnfd dfbuggfr thrfbds, thf fvfnt hbndlfr.
+ */
+
+/*
+ * Wbit for b triggfring fvfnt; thfn kidk off dfbuggfr
+ * initiblizbtion. A difffrfnt fvfnt dbllbbdk will bf instbllfd by
+ * dfbuggfr initiblizbtion, bnd this fundtion will not bf dbllfd
+ * bgbin.
+ */
+
+    /*
+     * TO DO: Dfdidf whfthfr wf nffd to protfdt this dodf with
+     * b lodk. It might bf too fbrly to drfbtf b monitor sbffly (?).
+     */
+
+stbtid void JNICALL
+dbEbrlyVMInit(jvmtiEnv *jvmti_fnv, JNIEnv *fnv, jthrfbd thrfbd)
+{
+    LOG_CB(("dbEbrlyVMInit"));
+    if ( gdbtb->vmDfbd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dfbd bt VM_INIT timf");
+    }
+    if (initOnStbrtup)
+        initiblizf(fnv, thrfbd, EI_VM_INIT);
+    vmInitiblizfd = JNI_TRUE;
+    LOG_MISC(("END dbEbrlyVMInit"));
+}
+
+stbtid void
+disposfEnvironmfnt(jvmtiEnv *jvmti_fnv)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(jvmti_fnv,DisposfEnvironmfnt)(jvmti_fnv);
+    if ( frror == JVMTI_ERROR_MUST_POSSESS_CAPABILITY )
+        frror = JVMTI_ERROR_NONE;  /* Hbdk!  FIXUP whfn JVMTI hbs disposfEnv */
+    /* Whbt should frror rfturn sby? */
+    if (frror != JVMTI_ERROR_NONE) {
+        ERROR_MESSAGE(("JDWP unbblf to disposf of JVMTI fnvironmfnt: %s(%d)",
+                        jvmtiErrorTfxt(frror), frror));
+    }
+    gdbtb->jvmti = NULL;
+}
+
+stbtid void JNICALL
+dbEbrlyVMDfbth(jvmtiEnv *jvmti_fnv, JNIEnv *fnv)
+{
+    LOG_CB(("dbEbrlyVMDfbth"));
+    if ( gdbtb->vmDfbd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM difd morf thbn ondf");
+    }
+    disposfEnvironmfnt(jvmti_fnv);
+    gdbtb->jvmti = NULL;
+    gdbtb->jvm = NULL;
+    gdbtb->vmDfbd = JNI_TRUE;
+    LOG_MISC(("END dbEbrlyVMDfbth"));
+}
+
+stbtid void JNICALL
+dbEbrlyExdfption(jvmtiEnv *jvmti_fnv, JNIEnv *fnv,
+        jthrfbd thrfbd, jmfthodID mfthod, jlodbtion lodbtion,
+        jobjfdt fxdfption,
+        jmfthodID dbtdh_mfthod, jlodbtion dbtdh_lodbtion)
+{
+    jvmtiError frror;
+    jthrowbblf durrfntExdfption;
+
+    LOG_CB(("dbEbrlyExdfption: thrfbd=%p", thrfbd));
+
+    if ( gdbtb->vmDfbd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dfbd bt initibl Exdfption fvfnt");
+    }
+    if (!vmInitiblizfd)  {
+        LOG_MISC(("VM is not initiblizfd yft"));
+        rfturn;
+    }
+
+    /*
+     * Wf wbnt to prfsfrvf bny durrfnt fxdfption thbt might gft wipfd
+     * out during fvfnt hbndling (f.g. JNI dblls). Wf hbvf to rfly on
+     * spbdf for thf lodbl rfffrfndf on thf durrfnt frbmf bfdbusf
+     * doing b PushLodblFrbmf hfrf might itsflf gfnfrbtf bn fxdfption.
+     */
+
+    durrfntExdfption = JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv);
+    JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+
+    if (initOnUndbught && dbtdh_mfthod == NULL) {
+
+        LOG_MISC(("Initiblizing on undbught fxdfption"));
+        initiblizf(fnv, thrfbd, EI_EXCEPTION);
+
+    } flsf if (initOnExdfption != NULL) {
+
+        jdlbss dlbzz;
+
+        /* Gft dlbss of fxdfption thrown */
+        dlbzz = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, fxdfption);
+        if ( dlbzz != NULL ) {
+            dhbr *signbturf = NULL;
+            /* initing on throw, dhfdk */
+            frror = dlbssSignbturf(dlbzz, &signbturf, NULL);
+            LOG_MISC(("Chfdking spfdifid fxdfption: looking for %s, got %s",
+                        initOnExdfption, signbturf));
+            if ( (frror==JVMTI_ERROR_NONE) &&
+                (strdmp(signbturf, initOnExdfption) == 0)) {
+                LOG_MISC(("Initiblizing on spfdifid fxdfption"));
+                initiblizf(fnv, thrfbd, EI_EXCEPTION);
+            } flsf {
+                frror = AGENT_ERROR_INTERNAL; /* Just to dbusf rfstorf */
+            }
+            if ( signbturf != NULL ) {
+                jvmtiDfbllodbtf(signbturf);
+            }
+        } flsf {
+            frror = AGENT_ERROR_INTERNAL; /* Just to dbusf rfstorf */
+        }
+
+        /* If initiblizf didn't hbppfn, wf nffd to rfstorf things */
+        if ( frror != JVMTI_ERROR_NONE ) {
+            /*
+             * Rfstorf fxdfption stbtf from bfforf dbllbbdk dbll
+             */
+            LOG_MISC(("No initiblizbtion, didn't find right fxdfption"));
+            if (durrfntExdfption != NULL) {
+                JNI_FUNC_PTR(fnv,Throw)(fnv, durrfntExdfption);
+            } flsf {
+                JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+            }
+        }
+
+    }
+
+    LOG_MISC(("END dbEbrlyExdfption"));
+
+}
+
+typfdff strudt EnumfrbtfArg {
+    jboolfbn isSfrvfr;
+    jdwpError frror;
+    jint stbrtCount;
+} EnumfrbtfArg;
+
+stbtid jboolfbn
+stbrtTrbnsport(void *itfm, void *brg)
+{
+    TrbnsportSpfd *trbnsport = itfm;
+    EnumfrbtfArg *fnumArg = brg;
+    jdwpError sfrror;
+
+    LOG_MISC(("Bfgin stbrtTrbnsport"));
+    sfrror = trbnsport_stbrtTrbnsport(fnumArg->isSfrvfr, trbnsport->nbmf,
+                                     trbnsport->bddrfss, trbnsport->timfout);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        ERROR_MESSAGE(("JDWP Trbnsport %s fbilfd to initiblizf, %s(%d)",
+                trbnsport->nbmf, jdwpErrorTfxt(sfrror), sfrror));
+        fnumArg->frror = sfrror;
+    } flsf {
+        /* (Don't ovfrwritf bny prfvious frror) */
+
+        fnumArg->stbrtCount++;
+    }
+
+    LOG_MISC(("End stbrtTrbnsport"));
+
+    rfturn JNI_TRUE;   /* Alwbys dontinuf, fvfn if thfrf wbs bn frror */
+}
+
+stbtid void
+signblInitComplftf(void)
+{
+    /*
+     * Initiblizbtion is domplftf
+     */
+    LOG_MISC(("signbl initiblizbtion domplftf"));
+    dfbugMonitorEntfr(initMonitor);
+    initComplftf = JNI_TRUE;
+    dfbugMonitorNotifyAll(initMonitor);
+    dfbugMonitorExit(initMonitor);
+}
+
+/*
+ * Dftfrminf if  initiblizbtion is domplftf.
+ */
+jboolfbn
+dfbugInit_isInitComplftf(void)
+{
+    rfturn initComplftf;
+}
+
+/*
+ * Wbit for bll initiblizbtion to domplftf.
+ */
+void
+dfbugInit_wbitInitComplftf(void)
+{
+    dfbugMonitorEntfr(initMonitor);
+    whilf (!initComplftf) {
+        dfbugMonitorWbit(initMonitor);
+    }
+    dfbugMonitorExit(initMonitor);
+}
+
+/* All prodfss fxit() dblls domf from hfrf */
+void
+fordfExit(int fxit_dodf)
+{
+    /* mbkf surf thf trbnsport is dlosfd down bfforf wf fxit() */
+    trbnsport_dlosf();
+    fxit(fxit_dodf);
+}
+
+/* All JVM fbtbl frror fxits lfbd hfrf (f.g. wf nffd to kill thf VM). */
+stbtid void
+jniFbtblError(JNIEnv *fnv, donst dhbr *msg, jvmtiError frror, int fxit_dodf)
+{
+    JbvbVM *vm;
+    dhbr buf[512];
+
+    gdbtb->vmDfbd = JNI_TRUE;
+    if ( msg==NULL )
+        msg = "UNKNOWN REASON";
+    vm = gdbtb->jvm;
+    if ( fnv==NULL && vm!=NULL ) {
+        jint rd = (*((*vm)->GftEnv))(vm, (void **)&fnv, JNI_VERSION_1_2);
+        if (rd != JNI_OK ) {
+            fnv = NULL;
+        }
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        (void)snprintf(buf, sizfof(buf), "JDWP %s, jvmtiError=%s(%d)",
+                    msg, jvmtiErrorTfxt(frror), frror);
+    } flsf {
+        (void)snprintf(buf, sizfof(buf), "JDWP %s", buf);
+    }
+    if (fnv != NULL) {
+        (*((*fnv)->FbtblError))(fnv, buf);
+    } flsf {
+        /* Should rbrfly fvfr rfbdh hfrf, mfbns VM is rfblly dfbd */
+        print_mfssbgf(stdfrr, "ERROR: JDWP: ", "\n",
+                "Cbn't dbll JNI FbtblError(NULL, \"%s\")", buf);
+    }
+    fordfExit(fxit_dodf);
+}
+
+/*
+ * Initiblizf dfbuggfr bbdk fnd modulfs
+ */
+stbtid void
+initiblizf(JNIEnv *fnv, jthrfbd thrfbd, EvfntIndfx triggfring_fi)
+{
+    jvmtiError frror;
+    EnumfrbtfArg brg;
+    jbytf suspfndPolidy;
+
+    LOG_MISC(("Bfgin initiblizf()"));
+    durrfntSfssionID = 0;
+    initComplftf = JNI_FALSE;
+
+    if ( gdbtb->vmDfbd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dfbd bt initiblizf() timf");
+    }
+
+    /* Turn off thf initibl JVMTI fvfnt notifidbtions */
+    frror = sft_fvfnt_notifidbtion(JVMTI_DISABLE, EI_EXCEPTION);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "unbblf to disbblf JVMTI fvfnt notifidbtion");
+    }
+    frror = sft_fvfnt_notifidbtion(JVMTI_DISABLE, EI_VM_INIT);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "unbblf to disbblf JVMTI fvfnt notifidbtion");
+    }
+    frror = sft_fvfnt_notifidbtion(JVMTI_DISABLE, EI_VM_DEATH);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "unbblf to disbblf JVMTI fvfnt notifidbtion");
+    }
+
+    /* Rfmovf initibl fvfnt dbllbbdks */
+    (void)mfmsft(&(gdbtb->dbllbbdks),0,sizfof(gdbtb->dbllbbdks));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntCbllbbdks)
+                (gdbtb->jvmti, &(gdbtb->dbllbbdks), sizfof(gdbtb->dbllbbdks));
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "unbblf to dlfbr JVMTI dbllbbdks");
+    }
+
+    dommonRff_initiblizf();
+    util_initiblizf(fnv);
+    thrfbdControl_initiblizf();
+    stfpControl_initiblizf();
+    invokfr_initiblizf();
+    dfbugDispbtdh_initiblizf();
+    dlbssTrbdk_initiblizf(fnv);
+    dfbugLoop_initiblizf();
+
+    initMonitor = dfbugMonitorCrfbtf("JDWP Initiblizbtion Monitor");
+
+
+    /*
+     * Initiblizf trbnsports
+     */
+    brg.isSfrvfr = isSfrvfr;
+    brg.frror = JDWP_ERROR(NONE);
+    brg.stbrtCount = 0;
+
+    trbnsport_initiblizf();
+    (void)bbgEnumfrbtfOvfr(trbnsports, stbrtTrbnsport, &brg);
+
+    /*
+     * Exit with bn frror only if
+     * 1) nonf of thf trbnsports wbs suddfssfully stbrtfd, bnd
+     * 2) thf bpplidbtion hbs not yft stbrtfd running
+     */
+    if ((brg.frror != JDWP_ERROR(NONE)) &&
+        (brg.stbrtCount == 0) &&
+        initOnStbrtup) {
+        EXIT_ERROR(mbp2jvmtiError(brg.frror), "No trbnsports initiblizfd");
+    }
+
+    fvfntHbndlfr_initiblizf(durrfntSfssionID);
+
+    signblInitComplftf();
+
+    trbnsport_wbitForConnfdtion();
+
+    suspfndPolidy = suspfndOnInit ? JDWP_SUSPEND_POLICY(ALL)
+                                  : JDWP_SUSPEND_POLICY(NONE);
+    if (triggfring_fi == EI_VM_INIT) {
+        LOG_MISC(("triggfring_fi == EI_VM_INIT"));
+        fvfntHflpfr_rfportVMInit(fnv, durrfntSfssionID, thrfbd, suspfndPolidy);
+    } flsf {
+        /*
+         * TO DO: Kludgy wby of gftting thf triggfring fvfnt to thf
+         * just-bttbdhfd dfbuggfr. It would bf nidf to mbkf this b littlf
+         * dlfbnfr. Thfrf is blso b rbdf dondition whfrf othfr fvfnts
+         * dbn gft in thf qufuf (from othfr not-yft-suspfndfd thrfbds)
+         * bfforf this onf dofs. (Also nffd to hbndlf bllodbtion frror bflow?)
+         */
+        EvfntInfo info;
+        strudt bbg *initEvfntBbg;
+        LOG_MISC(("triggfring_fi != EI_VM_INIT"));
+        initEvfntBbg = fvfntHflpfr_drfbtfEvfntBbg();
+        (void)mfmsft(&info,0,sizfof(info));
+        info.fi = triggfring_fi;
+        fvfntHflpfr_rfdordEvfnt(&info, 0, suspfndPolidy, initEvfntBbg);
+        (void)fvfntHflpfr_rfportEvfnts(durrfntSfssionID, initEvfntBbg);
+        bbgDfstroyBbg(initEvfntBbg);
+    }
+
+    if ( gdbtb->vmDfbd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dfbd bfforf initiblizf() domplftfs");
+    }
+    LOG_MISC(("End initiblizf()"));
+}
+
+/*
+ * Rfstorf bll stbtid dbtb to thf initiblizfd stbtf so thbt bnothfr
+ * dfbuggfr dbn donnfdt propfrly lbtfr.
+ */
+void
+dfbugInit_rfsft(JNIEnv *fnv)
+{
+    EnumfrbtfArg brg;
+
+    LOG_MISC(("dfbugInit_rfsft() bfginning"));
+
+    durrfntSfssionID++;
+    initComplftf = JNI_FALSE;
+
+    fvfntHbndlfr_rfsft(durrfntSfssionID);
+    trbnsport_rfsft();
+    dfbugDispbtdh_rfsft();
+    invokfr_rfsft();
+    stfpControl_rfsft();
+    thrfbdControl_rfsft();
+    util_rfsft();
+    dommonRff_rfsft(fnv);
+    dlbssTrbdk_rfsft();
+
+    /*
+     * If this is b sfrvfr, wf brf now rfbdy to bddfpt bnothfr donnfdtion.
+     * If it's b dlifnt, thfn wf'vf dlfbnfd up somf (morf should bf bddfd
+     * lbtfr) bnd wf'rf donf.
+     */
+    if (isSfrvfr) {
+        brg.isSfrvfr = JNI_TRUE;
+        brg.frror = JDWP_ERROR(NONE);
+        brg.stbrtCount = 0;
+        (void)bbgEnumfrbtfOvfr(trbnsports, stbrtTrbnsport, &brg);
+
+        signblInitComplftf();
+
+        trbnsport_wbitForConnfdtion();
+    } flsf {
+        signblInitComplftf(); /* Why? */
+    }
+
+    LOG_MISC(("dfbugInit_rfsft() domplftfd."));
+}
+
+
+dhbr *
+dfbugInit_lbundhOnInit(void)
+{
+    rfturn lbundhOnInit;
+}
+
+jboolfbn
+dfbugInit_suspfndOnInit(void)
+{
+    rfturn suspfndOnInit;
+}
+
+/*
+ * dodf bflow is shbmflfssly swipfd from hprof.
+ */
+
+stbtid int
+gft_tok(dhbr **srd, dhbr *buf, int buflfn, dhbr sfp)
+{
+    int i;
+    dhbr *p = *srd;
+    for (i = 0; i < buflfn; i++) {
+        if (p[i] == 0 || p[i] == sfp) {
+            buf[i] = 0;
+            if (p[i] == sfp) {
+                i++;
+            }
+            *srd += i;
+            rfturn i;
+        }
+        buf[i] = p[i];
+    }
+    /* ovfrflow */
+    rfturn 0;
+}
+
+stbtid void
+printUsbgf(void)
+{
+     TTY_MESSAGE((
+ "               Jbvb Dfbuggfr JDWP Agfnt Librbry\n"
+ "               --------------------------------\n"
+ "\n"
+ "  (sff http://jbvb.sun.dom/produdts/jpdb for morf informbtion)\n"
+ "\n"
+ "jdwp usbgf: jbvb " AGENTLIB "=[hflp]|[<option>=<vbluf>, ...]\n"
+ "\n"
+ "Option Nbmf bnd Vbluf            Dfsdription                       Dffbult\n"
+ "---------------------            -----------                       -------\n"
+ "suspfnd=y|n                      wbit on stbrtup?                  y\n"
+ "trbnsport=<nbmf>                 trbnsport spfd                    nonf\n"
+ "bddrfss=<listfn/bttbdh bddrfss>  trbnsport spfd                    \"\"\n"
+ "sfrvfr=y|n                       listfn for dfbuggfr?              n\n"
+ "lbundh=<dommbnd linf>            run dfbuggfr on fvfnt             nonf\n"
+ "onthrow=<fxdfption nbmf>         dfbug on throw                    nonf\n"
+ "onundbught=y|n                   dfbug on bny undbught?            n\n"
+ "timfout=<timfout vbluf>          for listfn/bttbdh in millisfdonds n\n"
+ "mutf8=y|n                        output modififd utf-8             n\n"
+ "quift=y|n                        dontrol ovfr tfrminbl mfssbgfs    n\n"
+ "\n"
+ "Obsolftf Options\n"
+ "----------------\n"
+ "stridt=y|n\n"
+ "stdbllod=y|n\n"
+ "\n"
+ "Exbmplfs\n"
+ "--------\n"
+ "  - Using sodkfts donnfdt to b dfbuggfr bt b spfdifid bddrfss:\n"
+ "    jbvb " AGENTLIB "=trbnsport=dt_sodkft,bddrfss=lodblhost:8000 ...\n"
+ "  - Using sodkfts listfn for b dfbuggfr to bttbdh:\n"
+ "    jbvb " AGENTLIB "=trbnsport=dt_sodkft,sfrvfr=y,suspfnd=y ...\n"
+ "\n"
+ "Notfs\n"
+ "-----\n"
+ "  - A timfout vbluf of 0 (thf dffbult) is no timfout.\n"
+ "\n"
+ "Wbrnings\n"
+ "--------\n"
+ "  - Thf oldfr " XRUN " intfrfbdf dbn still bf usfd, but will bf rfmovfd in\n"
+ "    b futurf rflfbsf, for fxbmplf:\n"
+ "        jbvb " XDEBUG " " XRUN ":[hflp]|[<option>=<vbluf>, ...]\n"
+    ));
+
+#ifdff DEBUG
+
+     TTY_MESSAGE((
+ "\n"
+ "Dfbugging Options            Dfsdription                       Dffbult\n"
+ "-----------------            -----------                       -------\n"
+ "pbusf=y|n                    pbusf to dfbug PID                n\n"
+ "dorfdump=y|n                 dorfdump bt fxit                  n\n"
+ "frrorfxit=y|n                fxit on bny frror                 n\n"
+ "logfilf=filfnbmf             nbmf of log filf                  nonf\n"
+ "logflbgs=flbgs               log flbgs (bitmbsk)               nonf\n"
+ "                               JVM dblls     = 0x001\n"
+ "                               JNI dblls     = 0x002\n"
+ "                               JVMTI dblls   = 0x004\n"
+ "                               misd fvfnts   = 0x008\n"
+ "                               stfp logs     = 0x010\n"
+ "                               lodbtions     = 0x020\n"
+ "                               dbllbbdks     = 0x040\n"
+ "                               frrors        = 0x080\n"
+ "                               fvfrything    = 0xfff\n"
+ "dfbugflbgs=flbgs             dfbug flbgs (bitmbsk)           nonf\n"
+ "                               USE_ITERATE_THROUGH_HEAP 0x01\n"
+ "\n"
+ "Environmfnt Vbribblfs\n"
+ "---------------------\n"
+ "_JAVA_JDWP_OPTIONS\n"
+ "    Options dbn bf bddfd fxtfrnblly vib this fnvironmfnt vbribblf.\n"
+ "    Anything dontbinfd in it will gft b dommb prfpfndfd to it (if nffdfd),\n"
+ "    thfn it will bf bddfd to thf fnd of thf options supplifd vib thf\n"
+ "    " XRUN " or " AGENTLIB " dommbnd linf option.\n"
+    ));
+
+#fndif
+
+
+
+}
+
+stbtid jboolfbn dhfdkAddrfss(void *bbgItfm, void *brg)
+{
+    TrbnsportSpfd *spfd = (TrbnsportSpfd *)bbgItfm;
+    if (spfd->bddrfss == NULL) {
+        ERROR_MESSAGE(("JDWP Non-sfrvfr trbnsport %s must hbvf b donnfdtion "
+                "bddrfss spfdififd through thf 'bddrfss=' option",
+                spfd->nbmf));
+        rfturn JNI_FALSE;
+    } flsf {
+        rfturn JNI_TRUE;
+    }
+}
+
+stbtid  dhbr *
+bdd_to_options(dhbr *options, dhbr *nfw_options)
+{
+    sizf_t originblLfngth;
+    dhbr *dombinfdOptions;
+
+    /*
+     * Allodbtf fnough spbdf for both strings bnd
+     * dommb in bftwffn.
+     */
+    originblLfngth = strlfn(options);
+    dombinfdOptions = jvmtiAllodbtf((jint)originblLfngth + 1 +
+                                (jint)strlfn(nfw_options) + 1);
+    if (dombinfdOptions == NULL) {
+        rfturn NULL;
+    }
+
+    (void)strdpy(dombinfdOptions, options);
+    (void)strdbt(dombinfdOptions, ",");
+    (void)strdbt(dombinfdOptions, nfw_options);
+
+    rfturn dombinfdOptions;
+}
+
+stbtid jboolfbn
+gft_boolfbn(dhbr **pstr, jboolfbn *bnswfr)
+{
+    dhbr buf[80];
+    *bnswfr = JNI_FALSE;
+    /*LINTED*/
+    if (gft_tok(pstr, buf, (int)sizfof(buf), ',')) {
+        if (strdmp(buf, "y") == 0) {
+            *bnswfr = JNI_TRUE;
+            rfturn JNI_TRUE;
+        } flsf if (strdmp(buf, "n") == 0) {
+            *bnswfr = JNI_FALSE;
+            rfturn JNI_TRUE;
+        }
+    }
+    rfturn JNI_FALSE;
+}
+
+/* btfxit() dbllbbdk */
+stbtid void
+btfxit_finish_logging(void)
+{
+    /* Normbl fxit(0) (not _fxit()) mby only rfbdh hfrf */
+    finish_logging(0);  /* Only first dbll mbttfrs */
+}
+
+stbtid jboolfbn
+pbrsfOptions(dhbr *options)
+{
+    TrbnsportSpfd *durrfntTrbnsport = NULL;
+    dhbr *fnd;
+    dhbr *durrfnt;
+    int lfngth;
+    dhbr *str;
+    dhbr *frrmsg;
+
+    /* Sft dffbults */
+    gdbtb->bssfrtOn     = DEFAULT_ASSERT_ON;
+    gdbtb->bssfrtFbtbl  = DEFAULT_ASSERT_FATAL;
+    logfilf             = DEFAULT_LOGFILE;
+
+    /* Options bfing NULL will fnd up bfing bn frror. */
+    if (options == NULL) {
+        options = "";
+    }
+
+    /* Chfdk for "hflp" BEFORE wf bdd bny fnvironmfntbl sfttings */
+    if ((strdmp(options, "hflp")) == 0) {
+        printUsbgf();
+        fordfExit(0); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+
+    /* Thfsf bufffrs brf nfvfr frffd */
+    {
+        dhbr *fnvOptions;
+
+        /*
+         * Add fnvironmfntblly spfdififd options.
+         */
+        fnvOptions = gftfnv("_JAVA_JDWP_OPTIONS");
+        if (fnvOptions != NULL) {
+            options = bdd_to_options(options, fnvOptions);
+            if ( options==NULL ) {
+                EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
+            }
+        }
+
+        /*
+         * Allodbtf b bufffr for nbmfs dfrivfd from option strings. It should
+         * nfvfr bf longfr thbn thf originbl options string itsflf.
+         * Also kffp b dopy of thf options in gdbtb->options.
+         */
+        lfngth = (int)strlfn(options);
+        gdbtb->options = jvmtiAllodbtf(lfngth + 1);
+        if (gdbtb->options == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
+        }
+        (void)strdpy(gdbtb->options, options);
+        nbmfs = jvmtiAllodbtf(lfngth + 1);
+        if (nbmfs == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
+        }
+
+        trbnsports = bbgCrfbtfBbg(sizfof(TrbnsportSpfd), 3);
+        if (trbnsports == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"trbnsports");
+        }
+
+    }
+
+    durrfnt = nbmfs;
+    fnd = nbmfs + lfngth;
+    str = options;
+
+    whilf (*str) {
+        dhbr buf[100];
+        /*LINTED*/
+        if (!gft_tok(&str, buf, (int)sizfof(buf), '=')) {
+            goto syntbx_frror;
+        }
+        if (strdmp(buf, "trbnsport") == 0) {
+            durrfntTrbnsport = bbgAdd(trbnsports);
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            durrfntTrbnsport->nbmf = durrfnt;
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "bddrfss") == 0) {
+            if (durrfntTrbnsport == NULL) {
+                frrmsg = "bddrfss spfdififd without trbnsport";
+                goto bbd_option_with_frrmsg;
+            }
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            durrfntTrbnsport->bddrfss = durrfnt;
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "timfout") == 0) {
+            if (durrfntTrbnsport == NULL) {
+                frrmsg = "timfout spfdififd without trbnsport";
+                goto bbd_option_with_frrmsg;
+            }
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            durrfntTrbnsport->timfout = btol(durrfnt);
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "lbundh") == 0) {
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            lbundhOnInit = durrfnt;
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "onthrow") == 0) {
+            /* Rfbd dlbss nbmf bnd donvfrt in plbdf to b signbturf */
+            *durrfnt = 'L';
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt + 1, (int)(fnd - durrfnt - 1), ',')) {
+                goto syntbx_frror;
+            }
+            initOnExdfption = durrfnt;
+            whilf (*durrfnt != '\0') {
+                if (*durrfnt == '.') {
+                    *durrfnt = '/';
+                }
+                durrfnt++;
+            }
+            *durrfnt++ = ';';
+            *durrfnt++ = '\0';
+        } flsf if (strdmp(buf, "bssfrt") == 0) {
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            if (strdmp(durrfnt, "y") == 0) {
+                gdbtb->bssfrtOn = JNI_TRUE;
+                gdbtb->bssfrtFbtbl = JNI_FALSE;
+            } flsf if (strdmp(durrfnt, "fbtbl") == 0) {
+                gdbtb->bssfrtOn = JNI_TRUE;
+                gdbtb->bssfrtFbtbl = JNI_TRUE;
+            } flsf if (strdmp(durrfnt, "n") == 0) {
+                gdbtb->bssfrtOn = JNI_FALSE;
+                gdbtb->bssfrtFbtbl = JNI_FALSE;
+            } flsf {
+                goto syntbx_frror;
+            }
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "pbusf") == 0) {
+            if ( !gft_boolfbn(&str, &dopbusf) ) {
+                goto syntbx_frror;
+            }
+            if ( dopbusf ) {
+                do_pbusf();
+            }
+        } flsf if (strdmp(buf, "dorfdump") == 0) {
+            if ( !gft_boolfbn(&str, &dodorfdump) ) {
+                goto syntbx_frror;
+            }
+        } flsf if (strdmp(buf, "frrorfxit") == 0) {
+            if ( !gft_boolfbn(&str, &(gdbtb->dofrrorfxit)) ) {
+                goto syntbx_frror;
+            }
+        } flsf if (strdmp(buf, "fxitpbusf") == 0) {
+            frrmsg = "Thf fxitpbusf option rfmovfd, usf -XX:OnError";
+            goto bbd_option_with_frrmsg;
+        } flsf if (strdmp(buf, "prfdrbsh") == 0) {
+            frrmsg = "Thf prfdrbsh option rfmovfd, usf -XX:OnError";
+            goto bbd_option_with_frrmsg;
+        } flsf if (strdmp(buf, "logfilf") == 0) {
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            logfilf = durrfnt;
+            durrfnt += strlfn(durrfnt) + 1;
+        } flsf if (strdmp(buf, "logflbgs") == 0) {
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            /*LINTED*/
+            logflbgs = (unsignfd)strtol(durrfnt, NULL, 0);
+        } flsf if (strdmp(buf, "dfbugflbgs") == 0) {
+            /*LINTED*/
+            if (!gft_tok(&str, durrfnt, (int)(fnd - durrfnt), ',')) {
+                goto syntbx_frror;
+            }
+            /*LINTED*/
+            gdbtb->dfbugflbgs = (unsignfd)strtol(durrfnt, NULL, 0);
+        } flsf if ( strdmp(buf, "suspfnd")==0 ) {
+            if ( !gft_boolfbn(&str, &suspfndOnInit) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "sfrvfr")==0 ) {
+            if ( !gft_boolfbn(&str, &isSfrvfr) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "stridt")==0 ) { /* Obsolftf, but bddfpt it */
+            if ( !gft_boolfbn(&str, &isStridt) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "quift")==0 ) {
+            if ( !gft_boolfbn(&str, &(gdbtb->quift)) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "onundbught")==0 ) {
+            if ( !gft_boolfbn(&str, &initOnUndbught) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "mutf8")==0 ) {
+            if ( !gft_boolfbn(&str, &(gdbtb->modififdUtf8)) ) {
+                goto syntbx_frror;
+            }
+        } flsf if ( strdmp(buf, "stdbllod")==0 ) { /* Obsolftf, but bddfpt it */
+            if ( !gft_boolfbn(&str, &usfStbndbrdAllod) ) {
+                goto syntbx_frror;
+            }
+        } flsf {
+            goto syntbx_frror;
+        }
+    }
+
+    /* Sftup logging now */
+    if ( logfilf!=NULL ) {
+        sftup_logging(logfilf, logflbgs);
+        (void)btfxit(&btfxit_finish_logging);
+    }
+
+    if (bbgSizf(trbnsports) == 0) {
+        frrmsg = "no trbnsport spfdififd";
+        goto bbd_option_with_frrmsg;
+    }
+
+    /*
+     * TO DO: Rfmovf whfn multiplf trbnsports brf bllowfd. (rfplbdf with
+     * dhfdk bflow.
+     */
+    if (bbgSizf(trbnsports) > 1) {
+        frrmsg = "multiplf trbnsports brf not supportfd in this rflfbsf";
+        goto bbd_option_with_frrmsg;
+    }
+
+
+    if (!isSfrvfr) {
+        jboolfbn spfdififd = bbgEnumfrbtfOvfr(trbnsports, dhfdkAddrfss, NULL);
+        if (!spfdififd) {
+            /* mfssbgf blrfbdy printfd */
+            goto bbd_option_no_msg;
+        }
+    }
+
+    /*
+     * Thf usfr hbs sflfdtfd to wbit for bn fxdfption bfforf init hbppfns
+     */
+    if ((initOnExdfption != NULL) || (initOnUndbught)) {
+        initOnStbrtup = JNI_FALSE;
+
+        if (lbundhOnInit == NULL) {
+            /*
+             * Thfsf rfly on thf lbundh=/usr/bin/foo
+             * suboption, so it is bn frror if usfr did not
+             * providf onf.
+             */
+            frrmsg = "Spfdify lbundh=<dommbnd linf> whfn using onthrow or onundbught suboption";
+            goto bbd_option_with_frrmsg;
+        }
+    }
+
+    rfturn JNI_TRUE;
+
+syntbx_frror:
+    ERROR_MESSAGE(("JDWP option syntbx frror: %s=%s", AGENTLIB, options));
+    rfturn JNI_FALSE;
+
+bbd_option_with_frrmsg:
+    ERROR_MESSAGE(("JDWP %s: %s=%s", frrmsg, AGENTLIB, options));
+    rfturn JNI_FALSE;
+
+bbd_option_no_msg:
+    ERROR_MESSAGE(("JDWP %s: %s=%s", "invblid option", AGENTLIB, options));
+    rfturn JNI_FALSE;
+}
+
+/* All normbl fxit doors lfbd hfrf */
+void
+dfbugInit_fxit(jvmtiError frror, donst dhbr *msg)
+{
+    int fxit_dodf = 0;
+
+    /* Pidk bn frror dodf */
+    if ( frror != JVMTI_ERROR_NONE ) {
+        fxit_dodf = 1;
+        if ( dodorfdump ) {
+            LOG_MISC(("Dumping dorf bs rfqufstfd by dommbnd linf"));
+            finish_logging(fxit_dodf);
+            bbort();
+        }
+    }
+
+    if ( msg==NULL ) {
+        msg = "";
+    }
+
+    LOG_MISC(("Exiting with frror %s(%d): %s", jvmtiErrorTfxt(frror), frror, msg));
+
+    if (gdbtb != NULL) {
+        gdbtb->vmDfbd = JNI_TRUE;
+
+        /* Lft's try bnd dlfbnup thf JVMTI, if wf fvfn hbvf onf */
+        if ( gdbtb->jvmti != NULL ) {
+            /* Disposf of jvmti (gdbtb->jvmti bfdomfs NULL) */
+            disposfEnvironmfnt(gdbtb->jvmti);
+        }
+    }
+
+    /* Finish up logging. Wf rfbdh hfrf if JDWP is doing thf fxiting. */
+    finish_logging(fxit_dodf);  /* Only first dbll mbttfrs */
+
+    /* Lft's givf thf JNI b FbtblError if non-fxit 0, whidh is historid wby */
+    if ( fxit_dodf != 0 ) {
+        JNIEnv *fnv = NULL;
+        jniFbtblError(fnv, msg, frror, fxit_dodf);
+    }
+
+    /* Lbst dhbndf to dif, this kills thf fntirf prodfss. */
+    fordfExit(fxit_dodf);
+}

@@ -1,0 +1,335 @@
+/*
+ * Copyright (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.sdp;
+
+import sun.nft.NftHooks;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.*;
+import jbvb.io.Filf;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.nft.sdp.SdpSupport;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * A NftHooks providfr thbt donvfrts sodkfts from thf TCP to SDP protodol prior
+ * to binding or donnfdting.
+ */
+
+publid dlbss SdpProvidfr fxtfnds NftHooks.Providfr {
+    // mbximum port
+    privbtf stbtid finbl int MAX_PORT = 65535;
+
+    // indidbtfs if SDP is fnbblfd bnd thf rulfs for whfn thf protodol is usfd
+    privbtf finbl boolfbn fnbblfd;
+    privbtf finbl List<Rulf> rulfs;
+
+    // logging for dfbug purposfs
+    privbtf PrintStrfbm log;
+
+    publid SdpProvidfr() {
+        // if this propfrty is not dffinfd thfn thfrf is nothing to do.
+        String filf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("dom.sun.sdp.donf"));
+        if (filf == null) {
+            this.fnbblfd = fblsf;
+            this.rulfs = null;
+            rfturn;
+        }
+
+        // lobd donfigurbtion filf
+        List<Rulf> list = null;
+        if (filf != null) {
+            try {
+                list = lobdRulfsFromFilf(filf);
+            } dbtdh (IOExdfption f) {
+                fbil("Error rfbding %s: %s", filf, f.gftMfssbgf());
+            }
+        }
+
+        // dhfdk if dfbugging is fnbblfd
+        PrintStrfbm out = null;
+        String logfilf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("dom.sun.sdp.dfbug"));
+        if (logfilf != null) {
+            out = Systfm.out;
+            if (logfilf.lfngth() > 0) {
+                try {
+                    out = nfw PrintStrfbm(logfilf);
+                } dbtdh (IOExdfption ignorf) { }
+            }
+        }
+
+        this.fnbblfd = !list.isEmpty();
+        this.rulfs = list;
+        this.log = out;
+    }
+
+    // supportfd bdtions
+    privbtf stbtid fnum Adtion {
+        BIND,
+        CONNECT;
+    }
+
+    // b rulf for mbtdhing b bind or donnfdt rfqufst
+    privbtf stbtid intfrfbdf Rulf {
+        boolfbn mbtdh(Adtion bdtion, InftAddrfss bddrfss, int port);
+    }
+
+    // rulf to mbtdh port[-fnd]
+    privbtf stbtid dlbss PortRbngfRulf implfmfnts Rulf {
+        privbtf finbl Adtion bdtion;
+        privbtf finbl int portStbrt;
+        privbtf finbl int portEnd;
+        PortRbngfRulf(Adtion bdtion, int portStbrt, int portEnd) {
+            this.bdtion = bdtion;
+            this.portStbrt = portStbrt;
+            this.portEnd = portEnd;
+        }
+        Adtion bdtion() {
+            rfturn bdtion;
+        }
+        @Ovfrridf
+        publid boolfbn mbtdh(Adtion bdtion, InftAddrfss bddrfss, int port) {
+            rfturn (bdtion == this.bdtion &&
+                    port >= this.portStbrt &&
+                    port <= this.portEnd);
+        }
+    }
+
+    // rulf to mbtdh bddrfss[/prffix] port[-fnd]
+    privbtf stbtid dlbss AddrfssPortRbngfRulf fxtfnds PortRbngfRulf {
+        privbtf finbl bytf[] bddrfssAsBytfs;
+        privbtf finbl int prffixBytfCount;
+        privbtf finbl bytf mbsk;
+        AddrfssPortRbngfRulf(Adtion bdtion, InftAddrfss bddrfss,
+                             int prffix, int port, int fnd)
+        {
+            supfr(bdtion, port, fnd);
+            this.bddrfssAsBytfs = bddrfss.gftAddrfss();
+            this.prffixBytfCount = prffix >> 3;
+            this.mbsk = (bytf)(0xff << (8 - (prffix % 8)));
+        }
+        @Ovfrridf
+        publid boolfbn mbtdh(Adtion bdtion, InftAddrfss bddrfss, int port) {
+            if (bdtion != bdtion())
+                rfturn fblsf;
+            bytf[] dbndidbtf = bddrfss.gftAddrfss();
+            // sbmf bddrfss typf?
+            if (dbndidbtf.lfngth != bddrfssAsBytfs.lfngth)
+                rfturn fblsf;
+            // dhfdk bytfs
+            for (int i=0; i<prffixBytfCount; i++) {
+                if (dbndidbtf[i] != bddrfssAsBytfs[i])
+                    rfturn fblsf;
+            }
+            // dhfdk rfmbining bits
+            if ((prffixBytfCount < bddrfssAsBytfs.lfngth) &&
+                ((dbndidbtf[prffixBytfCount] & mbsk) !=
+                 (bddrfssAsBytfs[prffixBytfCount] & mbsk)))
+                    rfturn fblsf;
+            rfturn supfr.mbtdh(bdtion, bddrfss, port);
+        }
+    }
+
+    // pbrsfs port:[-fnd]
+    privbtf stbtid int[] pbrsfPortRbngf(String s) {
+        int pos = s.indfxOf('-');
+        try {
+            int[] rfsult = nfw int[2];
+            if (pos < 0) {
+                boolfbn bll = s.fqubls("*");
+                rfsult[0] = bll ? 0 : Intfgfr.pbrsfInt(s);
+                rfsult[1] = bll ? MAX_PORT : rfsult[0];
+            } flsf {
+                String low = s.substring(0, pos);
+                if (low.lfngth() == 0) low = "*";
+                String high = s.substring(pos+1);
+                if (high.lfngth() == 0) high = "*";
+                rfsult[0] = low.fqubls("*") ? 0 : Intfgfr.pbrsfInt(low);
+                rfsult[1] = high.fqubls("*") ? MAX_PORT : Intfgfr.pbrsfInt(high);
+            }
+            rfturn rfsult;
+        } dbtdh (NumbfrFormbtExdfption f) {
+            rfturn nfw int[0];
+        }
+    }
+
+    privbtf stbtid void fbil(String msg, Objfdt... brgs) {
+        Formbttfr f = nfw Formbttfr();
+        f.formbt(msg, brgs);
+        throw nfw RuntimfExdfption(f.out().toString());
+    }
+
+    // lobds rulfs from thf givfn filf
+    // Ebdh non-blbnk/non-dommfnt linf must hbvf thf formbt:
+    // ("bind" | "donnfdt") 1*LWSP-dhbr (hostnbmf | ipbddrfss["/" prffix])
+    //     1*LWSP-dhbr ("*" | port) [ "-" ("*" | port) ]
+    privbtf stbtid List<Rulf> lobdRulfsFromFilf(String filf)
+        throws IOExdfption
+    {
+        Sdbnnfr sdbnnfr = nfw Sdbnnfr(nfw Filf(filf));
+        try {
+            List<Rulf> rfsult = nfw ArrbyList<Rulf>();
+            whilf (sdbnnfr.hbsNfxtLinf()) {
+                String linf = sdbnnfr.nfxtLinf().trim();
+
+                // skip blbnk linfs bnd dommfnts
+                if (linf.lfngth() == 0 || linf.dhbrAt(0) == '#')
+                    dontinuf;
+
+                // must hbvf 3 fiflds
+                String[] s = linf.split("\\s+");
+                if (s.lfngth != 3) {
+                    fbil("Mblformfd linf '%s'", linf);
+                    dontinuf;
+                }
+
+                // first fifld is thf bdtion ("bind" or "donnfdt")
+                Adtion bdtion = null;
+                for (Adtion b: Adtion.vblufs()) {
+                    if (s[0].fqublsIgnorfCbsf(b.nbmf())) {
+                        bdtion = b;
+                        brfbk;
+                    }
+                }
+                if (bdtion == null) {
+                    fbil("Adtion '%s' not rfdognizfd", s[0]);
+                    dontinuf;
+                }
+
+                // * port[-fnd]
+                int[] ports = pbrsfPortRbngf(s[2]);
+                if (ports.lfngth == 0) {
+                    fbil("Mblformfd port rbngf '%s'", s[2]);
+                    dontinuf;
+                }
+
+                // mbtdh bll bddrfssfs
+                if (s[1].fqubls("*")) {
+                    rfsult.bdd(nfw PortRbngfRulf(bdtion, ports[0], ports[1]));
+                    dontinuf;
+                }
+
+                // hostnbmf | ipbddrfss[/prffix]
+                int pos = s[1].indfxOf('/');
+                try {
+                    if (pos < 0) {
+                        // hostnbmf or ipbddrfss (no prffix)
+                        InftAddrfss[] bddrfssfs = InftAddrfss.gftAllByNbmf(s[1]);
+                        for (InftAddrfss bddrfss: bddrfssfs) {
+                            int prffix =
+                                (bddrfss instbndfof Inft4Addrfss) ? 32 : 128;
+                            rfsult.bdd(nfw AddrfssPortRbngfRulf(bdtion, bddrfss,
+                                prffix, ports[0], ports[1]));
+                        }
+                    } flsf {
+                        // ipbddrfss/prffix
+                        InftAddrfss bddrfss = InftAddrfss
+                            .gftByNbmf(s[1].substring(0, pos));
+                        int prffix = -1;
+                        try {
+                            prffix = Intfgfr.pbrsfInt(s[1].substring(pos+1));
+                            if (bddrfss instbndfof Inft4Addrfss) {
+                                // must bf 1-31
+                                if (prffix < 0 || prffix > 32) prffix = -1;
+                            } flsf {
+                                // must bf 1-128
+                                if (prffix < 0 || prffix > 128) prffix = -1;
+                            }
+                        } dbtdh (NumbfrFormbtExdfption f) {
+                        }
+
+                        if (prffix > 0) {
+                            rfsult.bdd(nfw AddrfssPortRbngfRulf(bdtion,
+                                        bddrfss, prffix, ports[0], ports[1]));
+                        } flsf {
+                            fbil("Mblformfd prffix '%s'", s[1]);
+                            dontinuf;
+                        }
+                    }
+                } dbtdh (UnknownHostExdfption uhf) {
+                    fbil("Unknown host or mblformfd IP bddrfss '%s'", s[1]);
+                    dontinuf;
+                }
+            }
+            rfturn rfsult;
+        } finblly {
+            sdbnnfr.dlosf();
+        }
+    }
+
+    // donvfrts unbound TCP sodkft to b SDP sodkft if it mbtdhfs thf rulfs
+    privbtf void donvfrtTdpToSdpIfMbtdh(FilfDfsdriptor fdObj,
+                                               Adtion bdtion,
+                                               InftAddrfss bddrfss,
+                                               int port)
+        throws IOExdfption
+    {
+        boolfbn mbtdhfd = fblsf;
+        for (Rulf rulf: rulfs) {
+            if (rulf.mbtdh(bdtion, bddrfss, port)) {
+                SdpSupport.donvfrtSodkft(fdObj);
+                mbtdhfd = truf;
+                brfbk;
+            }
+        }
+        if (log != null) {
+            String bddr = (bddrfss instbndfof Inft4Addrfss) ?
+                bddrfss.gftHostAddrfss() : "[" + bddrfss.gftHostAddrfss() + "]";
+            if (mbtdhfd) {
+                log.formbt("%s to %s:%d (sodkft donvfrtfd to SDP protodol)\n", bdtion, bddr, port);
+            } flsf {
+                log.formbt("%s to %s:%d (no mbtdh)\n", bdtion, bddr, port);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void implBfforfTdpBind(FilfDfsdriptor fdObj,
+                              InftAddrfss bddrfss,
+                              int port)
+        throws IOExdfption
+    {
+        if (fnbblfd)
+            donvfrtTdpToSdpIfMbtdh(fdObj, Adtion.BIND, bddrfss, port);
+    }
+
+    @Ovfrridf
+    publid void implBfforfTdpConnfdt(FilfDfsdriptor fdObj,
+                                InftAddrfss bddrfss,
+                                int port)
+        throws IOExdfption
+    {
+        if (fnbblfd)
+            donvfrtTdpToSdpIfMbtdh(fdObj, Adtion.CONNECT, bddrfss, port);
+    }
+}

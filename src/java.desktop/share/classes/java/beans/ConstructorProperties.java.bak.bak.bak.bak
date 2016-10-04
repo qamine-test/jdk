@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.bnnotbtion.*;
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.*;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.*;
+
+/**
+   <p>An bnnotbtion on b donstrudtor thbt shows how thf pbrbmftfrs of
+   thbt donstrudtor dorrfspond to thf donstrudtfd objfdt's gfttfr
+   mfthods.  For fxbmplf:
+
+   <blodkquotf>
+<prf>
+   publid dlbss Point {
+       &#64;ConstrudtorPropfrtifs({"x", "y"})
+       publid Point(int x, int y) {
+           this.x = x;
+           this.y = y;
+       }
+
+       publid int gftX() {
+           rfturn x;
+       }
+
+       publid int gftY() {
+           rfturn y;
+       }
+
+       privbtf finbl int x, y;
+   }
+</prf>
+</blodkquotf>
+
+   Thf bnnotbtion shows thbt thf first pbrbmftfr of thf donstrudtor
+   dbn bf rftrifvfd with thf {@dodf gftX()} mfthod bnd thf sfdond with
+   thf {@dodf gftY()} mfthod.  Sindf pbrbmftfr nbmfs brf not in
+   gfnfrbl bvbilbblf bt runtimf, without thf bnnotbtion thfrf would bf
+   no wby to know whfthfr thf pbrbmftfrs dorrfspond to {@dodf gftX()}
+   bnd {@dodf gftY()} or thf othfr wby bround.
+
+   @sindf 1.6
+*/
+@Dodumfntfd @Tbrgft(CONSTRUCTOR) @Rftfntion(RUNTIME)
+publid @intfrfbdf ConstrudtorPropfrtifs {
+    /**
+       <p>Thf gfttfr nbmfs.</p>
+       @rfturn thf gfttfr nbmfs dorrfsponding to thf pbrbmftfrs in thf
+       bnnotbtfd donstrudtor.
+    */
+    String[] vbluf();
+}

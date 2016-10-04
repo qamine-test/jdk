@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import sun.mbnbgfmfnt.dountfr.Countfr;
+
+/**
+ * Hotspot intfrnbl mbnbgfmfnt intfrfbdf for thf dompilbtion systfm.
+ */
+publid intfrfbdf HotspotCompilbtionMBfbn {
+
+    /**
+     * Rfturns thf numbfr of dompilfr thrfbds.
+     *
+     * @rfturn thf numbfr of dompilfr thrfbds.
+     */
+    publid int gftCompilfrThrfbdCount();
+
+    /**
+     * Rfturns thf stbtistid of bll dompilfr thrfbds.
+     *
+     * @rfturn b list of {@link CompilfrThrfbdStbt} objfdt dontbining
+     * thf stbtistid of b dompilfr thrfbd.
+     *
+     */
+    publid jbvb.util.List<CompilfrThrfbdStbt> gftCompilfrThrfbdStbts();
+
+    /**
+     * Rfturns thf totbl numbfr of dompilfs.
+     *
+     * @rfturn thf totbl numbfr of dompilfs.
+     */
+    publid long gftTotblCompilfCount();
+
+    /**
+     * Rfturns thf numbfr of bbilout dompilfs.
+     *
+     * @rfturn thf numbfr of bbilout dompilfs.
+     */
+    publid long gftBbiloutCompilfCount();
+
+    /**
+     * Rfturns thf numbfr of invblidbtfd dompilfs.
+     *
+     * @rfturn thf numbfr of invblidbtfd dompilfs.
+     */
+    publid long gftInvblidbtfdCompilfCount();
+
+    /**
+     * Rfturns thf mfthod informbtion of thf lbst dompilfd mfthod.
+     *
+     * @rfturn b {@link MfthodInfo} of thf lbst dompilfd mfthod.
+     */
+    publid MfthodInfo gftLbstCompilf();
+
+    /**
+     * Rfturns thf mfthod informbtion of thf lbst fbilfd dompilf.
+     *
+     * @rfturn b {@link MfthodInfo} of thf lbst fbilfd dompilf.
+     */
+    publid MfthodInfo gftFbilfdCompilf();
+
+    /**
+     * Rfturns thf mfthod informbtion of thf lbst invblidbtfd dompilf.
+     *
+     * @rfturn b {@link MfthodInfo} of thf lbst invblidbtfd dompilf.
+     */
+    publid MfthodInfo gftInvblidbtfdCompilf();
+
+    /**
+     * Rfturns thf numbfr of bytfs for thf dodf of thf
+     * dompilfd mfthods.
+     *
+     * @rfturn thf numbfr of bytfs for thf dodf of thf dompilfd mfthods.
+     */
+    publid long gftCompilfdMfthodCodfSizf();
+
+    /**
+     * Rfturns thf numbfr of bytfs oddupifd by thf dompilfd mfthods.
+     *
+     * @rfturn thf numbfr of bytfs oddupifd by thf dompilfd mfthods.
+     */
+    publid long gftCompilfdMfthodSizf();
+
+    /**
+     * Rfturns b list of intfrnbl dountfrs mbintbinfd in thf Jbvb
+     * virtubl mbdhinf for thf dompilbtion systfm.
+     *
+     * @rfturn b list of intfrnbl dountfrs mbintbinfd in thf VM
+     * for thf dompilbtion systfm.
+     */
+    publid jbvb.util.List<Countfr> gftIntfrnblCompilfrCountfrs();
+}

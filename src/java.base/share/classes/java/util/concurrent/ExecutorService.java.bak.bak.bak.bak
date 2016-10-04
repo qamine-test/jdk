@@ -1,0 +1,370 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.List;
+import jbvb.util.Collfdtion;
+
+/**
+ * An {@link Exfdutor} thbt providfs mfthods to mbnbgf tfrminbtion bnd
+ * mfthods thbt dbn produdf b {@link Futurf} for trbdking progrfss of
+ * onf or morf bsyndhronous tbsks.
+ *
+ * <p>An {@dodf ExfdutorSfrvidf} dbn bf shut down, whidh will dbusf
+ * it to rfjfdt nfw tbsks.  Two difffrfnt mfthods brf providfd for
+ * shutting down bn {@dodf ExfdutorSfrvidf}. Thf {@link #shutdown}
+ * mfthod will bllow prfviously submittfd tbsks to fxfdutf bfforf
+ * tfrminbting, whilf thf {@link #shutdownNow} mfthod prfvfnts wbiting
+ * tbsks from stbrting bnd bttfmpts to stop durrfntly fxfduting tbsks.
+ * Upon tfrminbtion, bn fxfdutor hbs no tbsks bdtivfly fxfduting, no
+ * tbsks bwbiting fxfdution, bnd no nfw tbsks dbn bf submittfd.  An
+ * unusfd {@dodf ExfdutorSfrvidf} should bf shut down to bllow
+ * rfdlbmbtion of its rfsourdfs.
+ *
+ * <p>Mfthod {@dodf submit} fxtfnds bbsf mfthod {@link
+ * Exfdutor#fxfdutf(Runnbblf)} by drfbting bnd rfturning b {@link Futurf}
+ * thbt dbn bf usfd to dbndfl fxfdution bnd/or wbit for domplftion.
+ * Mfthods {@dodf invokfAny} bnd {@dodf invokfAll} pfrform thf most
+ * dommonly usfful forms of bulk fxfdution, fxfduting b dollfdtion of
+ * tbsks bnd thfn wbiting for bt lfbst onf, or bll, to
+ * domplftf. (Clbss {@link ExfdutorComplftionSfrvidf} dbn bf usfd to
+ * writf dustomizfd vbribnts of thfsf mfthods.)
+ *
+ * <p>Thf {@link Exfdutors} dlbss providfs fbdtory mfthods for thf
+ * fxfdutor sfrvidfs providfd in this pbdkbgf.
+ *
+ * <h3>Usbgf Exbmplfs</h3>
+ *
+ * Hfrf is b skftdh of b nftwork sfrvidf in whidh thrfbds in b thrfbd
+ * pool sfrvidf indoming rfqufsts. It usfs thf prfdonfigurfd {@link
+ * Exfdutors#nfwFixfdThrfbdPool} fbdtory mfthod:
+ *
+ *  <prf> {@dodf
+ * dlbss NftworkSfrvidf implfmfnts Runnbblf {
+ *   privbtf finbl SfrvfrSodkft sfrvfrSodkft;
+ *   privbtf finbl ExfdutorSfrvidf pool;
+ *
+ *   publid NftworkSfrvidf(int port, int poolSizf)
+ *       throws IOExdfption {
+ *     sfrvfrSodkft = nfw SfrvfrSodkft(port);
+ *     pool = Exfdutors.nfwFixfdThrfbdPool(poolSizf);
+ *   }
+ *
+ *   publid void run() { // run thf sfrvidf
+ *     try {
+ *       for (;;) {
+ *         pool.fxfdutf(nfw Hbndlfr(sfrvfrSodkft.bddfpt()));
+ *       }
+ *     } dbtdh (IOExdfption fx) {
+ *       pool.shutdown();
+ *     }
+ *   }
+ * }
+ *
+ * dlbss Hbndlfr implfmfnts Runnbblf {
+ *   privbtf finbl Sodkft sodkft;
+ *   Hbndlfr(Sodkft sodkft) { this.sodkft = sodkft; }
+ *   publid void run() {
+ *     // rfbd bnd sfrvidf rfqufst on sodkft
+ *   }
+ * }}</prf>
+ *
+ * Thf following mfthod shuts down bn {@dodf ExfdutorSfrvidf} in two phbsfs,
+ * first by dblling {@dodf shutdown} to rfjfdt indoming tbsks, bnd thfn
+ * dblling {@dodf shutdownNow}, if nfdfssbry, to dbndfl bny lingfring tbsks:
+ *
+ *  <prf> {@dodf
+ * void shutdownAndAwbitTfrminbtion(ExfdutorSfrvidf pool) {
+ *   pool.shutdown(); // Disbblf nfw tbsks from bfing submittfd
+ *   try {
+ *     // Wbit b whilf for fxisting tbsks to tfrminbtf
+ *     if (!pool.bwbitTfrminbtion(60, TimfUnit.SECONDS)) {
+ *       pool.shutdownNow(); // Cbndfl durrfntly fxfduting tbsks
+ *       // Wbit b whilf for tbsks to rfspond to bfing dbndfllfd
+ *       if (!pool.bwbitTfrminbtion(60, TimfUnit.SECONDS))
+ *           Systfm.frr.println("Pool did not tfrminbtf");
+ *     }
+ *   } dbtdh (IntfrruptfdExdfption if) {
+ *     // (Rf-)Cbndfl if durrfnt thrfbd blso intfrruptfd
+ *     pool.shutdownNow();
+ *     // Prfsfrvf intfrrupt stbtus
+ *     Thrfbd.durrfntThrfbd().intfrrupt();
+ *   }
+ * }}</prf>
+ *
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b thrfbd prior to thf
+ * submission of b {@dodf Runnbblf} or {@dodf Cbllbblf} tbsk to bn
+ * {@dodf ExfdutorSfrvidf}
+ * <b hrff="pbdkbgf-summbry.html#MfmoryVisibility"><i>hbppfn-bfforf</i></b>
+ * bny bdtions tbkfn by thbt tbsk, whidh in turn <i>hbppfn-bfforf</i> thf
+ * rfsult is rftrifvfd vib {@dodf Futurf.gft()}.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid intfrfbdf ExfdutorSfrvidf fxtfnds Exfdutor {
+
+    /**
+     * Initibtfs bn ordfrly shutdown in whidh prfviously submittfd
+     * tbsks brf fxfdutfd, but no nfw tbsks will bf bddfptfd.
+     * Invodbtion hbs no bdditionbl ffffdt if blrfbdy shut down.
+     *
+     * <p>This mfthod dofs not wbit for prfviously submittfd tbsks to
+     * domplftf fxfdution.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion}
+     * to do thbt.
+     *
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *         shutting down this ExfdutorSfrvidf mby mbnipulbtf
+     *         thrfbds thbt thf dbllfr is not pfrmittfd to modify
+     *         bfdbusf it dofs not hold {@link
+     *         jbvb.lbng.RuntimfPfrmission}{@dodf ("modifyThrfbd")},
+     *         or thf sfdurity mbnbgfr's {@dodf dhfdkAddfss} mfthod
+     *         dfnifs bddfss.
+     */
+    void shutdown();
+
+    /**
+     * Attfmpts to stop bll bdtivfly fxfduting tbsks, hblts thf
+     * prodfssing of wbiting tbsks, bnd rfturns b list of thf tbsks
+     * thbt wfrf bwbiting fxfdution.
+     *
+     * <p>This mfthod dofs not wbit for bdtivfly fxfduting tbsks to
+     * tfrminbtf.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion} to
+     * do thbt.
+     *
+     * <p>Thfrf brf no gubrbntffs bfyond bfst-fffort bttfmpts to stop
+     * prodfssing bdtivfly fxfduting tbsks.  For fxbmplf, typidbl
+     * implfmfntbtions will dbndfl vib {@link Thrfbd#intfrrupt}, so bny
+     * tbsk thbt fbils to rfspond to intfrrupts mby nfvfr tfrminbtf.
+     *
+     * @rfturn list of tbsks thbt nfvfr dommfndfd fxfdution
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *         shutting down this ExfdutorSfrvidf mby mbnipulbtf
+     *         thrfbds thbt thf dbllfr is not pfrmittfd to modify
+     *         bfdbusf it dofs not hold {@link
+     *         jbvb.lbng.RuntimfPfrmission}{@dodf ("modifyThrfbd")},
+     *         or thf sfdurity mbnbgfr's {@dodf dhfdkAddfss} mfthod
+     *         dfnifs bddfss.
+     */
+    List<Runnbblf> shutdownNow();
+
+    /**
+     * Rfturns {@dodf truf} if this fxfdutor hbs bffn shut down.
+     *
+     * @rfturn {@dodf truf} if this fxfdutor hbs bffn shut down
+     */
+    boolfbn isShutdown();
+
+    /**
+     * Rfturns {@dodf truf} if bll tbsks hbvf domplftfd following shut down.
+     * Notf thbt {@dodf isTfrminbtfd} is nfvfr {@dodf truf} unlfss
+     * fithfr {@dodf shutdown} or {@dodf shutdownNow} wbs dbllfd first.
+     *
+     * @rfturn {@dodf truf} if bll tbsks hbvf domplftfd following shut down
+     */
+    boolfbn isTfrminbtfd();
+
+    /**
+     * Blodks until bll tbsks hbvf domplftfd fxfdution bftfr b shutdown
+     * rfqufst, or thf timfout oddurs, or thf durrfnt thrfbd is
+     * intfrruptfd, whidhfvfr hbppfns first.
+     *
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf timfout brgumfnt
+     * @rfturn {@dodf truf} if this fxfdutor tfrminbtfd bnd
+     *         {@dodf fblsf} if thf timfout flbpsfd bfforf tfrminbtion
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     */
+    boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption;
+
+    /**
+     * Submits b vbluf-rfturning tbsk for fxfdution bnd rfturns b
+     * Futurf rfprfsfnting thf pfnding rfsults of thf tbsk. Thf
+     * Futurf's {@dodf gft} mfthod will rfturn thf tbsk's rfsult upon
+     * suddfssful domplftion.
+     *
+     * <p>
+     * If you would likf to immfdibtfly blodk wbiting
+     * for b tbsk, you dbn usf donstrudtions of thf form
+     * {@dodf rfsult = fxfd.submit(bCbllbblf).gft();}
+     *
+     * <p>Notf: Thf {@link Exfdutors} dlbss indludfs b sft of mfthods
+     * thbt dbn donvfrt somf othfr dommon dlosurf-likf objfdts,
+     * for fxbmplf, {@link jbvb.sfdurity.PrivilfgfdAdtion} to
+     * {@link Cbllbblf} form so thfy dbn bf submittfd.
+     *
+     * @pbrbm tbsk thf tbsk to submit
+     * @pbrbm <T> thf typf of thf tbsk's rfsult
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of thf tbsk
+     * @throws RfjfdtfdExfdutionExdfption if thf tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     * @throws NullPointfrExdfption if thf tbsk is null
+     */
+    <T> Futurf<T> submit(Cbllbblf<T> tbsk);
+
+    /**
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting thbt tbsk. Thf Futurf's {@dodf gft} mfthod will
+     * rfturn thf givfn rfsult upon suddfssful domplftion.
+     *
+     * @pbrbm tbsk thf tbsk to submit
+     * @pbrbm rfsult thf rfsult to rfturn
+     * @pbrbm <T> thf typf of thf rfsult
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of thf tbsk
+     * @throws RfjfdtfdExfdutionExdfption if thf tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     * @throws NullPointfrExdfption if thf tbsk is null
+     */
+    <T> Futurf<T> submit(Runnbblf tbsk, T rfsult);
+
+    /**
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting thbt tbsk. Thf Futurf's {@dodf gft} mfthod will
+     * rfturn {@dodf null} upon <fm>suddfssful</fm> domplftion.
+     *
+     * @pbrbm tbsk thf tbsk to submit
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of thf tbsk
+     * @throws RfjfdtfdExfdutionExdfption if thf tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     * @throws NullPointfrExdfption if thf tbsk is null
+     */
+    Futurf<?> submit(Runnbblf tbsk);
+
+    /**
+     * Exfdutfs thf givfn tbsks, rfturning b list of Futurfs holding
+     * thfir stbtus bnd rfsults whfn bll domplftf.
+     * {@link Futurf#isDonf} is {@dodf truf} for fbdh
+     * flfmfnt of thf rfturnfd list.
+     * Notf thbt b <fm>domplftfd</fm> tbsk dould hbvf
+     * tfrminbtfd fithfr normblly or by throwing bn fxdfption.
+     * Thf rfsults of this mfthod brf undffinfd if thf givfn
+     * dollfdtion is modififd whilf this opfrbtion is in progrfss.
+     *
+     * @pbrbm tbsks thf dollfdtion of tbsks
+     * @pbrbm <T> thf typf of thf vblufs rfturnfd from thf tbsks
+     * @rfturn b list of Futurfs rfprfsfnting thf tbsks, in thf sbmf
+     *         sfqufntibl ordfr bs produdfd by thf itfrbtor for thf
+     *         givfn tbsk list, fbdh of whidh hbs domplftfd
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting, in
+     *         whidh dbsf unfinishfd tbsks brf dbndfllfd
+     * @throws NullPointfrExdfption if tbsks or bny of its flfmfnts brf {@dodf null}
+     * @throws RfjfdtfdExfdutionExdfption if bny tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     */
+    <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        throws IntfrruptfdExdfption;
+
+    /**
+     * Exfdutfs thf givfn tbsks, rfturning b list of Futurfs holding
+     * thfir stbtus bnd rfsults
+     * whfn bll domplftf or thf timfout fxpirfs, whidhfvfr hbppfns first.
+     * {@link Futurf#isDonf} is {@dodf truf} for fbdh
+     * flfmfnt of thf rfturnfd list.
+     * Upon rfturn, tbsks thbt hbvf not domplftfd brf dbndfllfd.
+     * Notf thbt b <fm>domplftfd</fm> tbsk dould hbvf
+     * tfrminbtfd fithfr normblly or by throwing bn fxdfption.
+     * Thf rfsults of this mfthod brf undffinfd if thf givfn
+     * dollfdtion is modififd whilf this opfrbtion is in progrfss.
+     *
+     * @pbrbm tbsks thf dollfdtion of tbsks
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf timfout brgumfnt
+     * @pbrbm <T> thf typf of thf vblufs rfturnfd from thf tbsks
+     * @rfturn b list of Futurfs rfprfsfnting thf tbsks, in thf sbmf
+     *         sfqufntibl ordfr bs produdfd by thf itfrbtor for thf
+     *         givfn tbsk list. If thf opfrbtion did not timf out,
+     *         fbdh tbsk will hbvf domplftfd. If it did timf out, somf
+     *         of thfsf tbsks will not hbvf domplftfd.
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting, in
+     *         whidh dbsf unfinishfd tbsks brf dbndfllfd
+     * @throws NullPointfrExdfption if tbsks, bny of its flfmfnts, or
+     *         unit brf {@dodf null}
+     * @throws RfjfdtfdExfdutionExdfption if bny tbsk dbnnot bf sdhfdulfd
+     *         for fxfdution
+     */
+    <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                                  long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption;
+
+    /**
+     * Exfdutfs thf givfn tbsks, rfturning thf rfsult
+     * of onf thbt hbs domplftfd suddfssfully (i.f., without throwing
+     * bn fxdfption), if bny do. Upon normbl or fxdfptionbl rfturn,
+     * tbsks thbt hbvf not domplftfd brf dbndfllfd.
+     * Thf rfsults of this mfthod brf undffinfd if thf givfn
+     * dollfdtion is modififd whilf this opfrbtion is in progrfss.
+     *
+     * @pbrbm tbsks thf dollfdtion of tbsks
+     * @pbrbm <T> thf typf of thf vblufs rfturnfd from thf tbsks
+     * @rfturn thf rfsult rfturnfd by onf of thf tbsks
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     * @throws NullPointfrExdfption if tbsks or bny flfmfnt tbsk
+     *         subjfdt to fxfdution is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if tbsks is fmpty
+     * @throws ExfdutionExdfption if no tbsk suddfssfully domplftfs
+     * @throws RfjfdtfdExfdutionExdfption if tbsks dbnnot bf sdhfdulfd
+     *         for fxfdution
+     */
+    <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        throws IntfrruptfdExdfption, ExfdutionExdfption;
+
+    /**
+     * Exfdutfs thf givfn tbsks, rfturning thf rfsult
+     * of onf thbt hbs domplftfd suddfssfully (i.f., without throwing
+     * bn fxdfption), if bny do bfforf thf givfn timfout flbpsfs.
+     * Upon normbl or fxdfptionbl rfturn, tbsks thbt hbvf not
+     * domplftfd brf dbndfllfd.
+     * Thf rfsults of this mfthod brf undffinfd if thf givfn
+     * dollfdtion is modififd whilf this opfrbtion is in progrfss.
+     *
+     * @pbrbm tbsks thf dollfdtion of tbsks
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf timfout brgumfnt
+     * @pbrbm <T> thf typf of thf vblufs rfturnfd from thf tbsks
+     * @rfturn thf rfsult rfturnfd by onf of thf tbsks
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     * @throws NullPointfrExdfption if tbsks, or unit, or bny flfmfnt
+     *         tbsk subjfdt to fxfdution is {@dodf null}
+     * @throws TimfoutExdfption if thf givfn timfout flbpsfs bfforf
+     *         bny tbsk suddfssfully domplftfs
+     * @throws ExfdutionExdfption if no tbsk suddfssfully domplftfs
+     * @throws RfjfdtfdExfdutionExdfption if tbsks dbnnot bf sdhfdulfd
+     *         for fxfdution
+     */
+    <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                    long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption;
+}

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.util.Vector;
+import jbvb.io.IOExdfption;
+import jbvb.util.Vfdtor;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
 
 
 /**
- * A-law encodes linear data, and decodes a-law data to linear data.
+ * A-lbw fndodfs linfbr dbtb, bnd dfdodfs b-lbw dbtb to linfbr dbtb.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public final class AlawCodec extends SunCodec {
+publid finbl dlbss AlbwCodfd fxtfnds SunCodfd {
 
-    /* Tables used for A-law decoding */
+    /* Tbblfs usfd for A-lbw dfdoding */
 
-    private static final byte[] ALAW_TABH = new byte[256];
-    private static final byte[] ALAW_TABL = new byte[256];
+    privbtf stbtid finbl bytf[] ALAW_TABH = nfw bytf[256];
+    privbtf stbtid finbl bytf[] ALAW_TABL = nfw bytf[256];
 
-    private static final AudioFormat.Encoding[] alawEncodings = { AudioFormat.Encoding.ALAW, AudioFormat.Encoding.PCM_SIGNED };
+    privbtf stbtid finbl AudioFormbt.Endoding[] blbwEndodings = { AudioFormbt.Endoding.ALAW, AudioFormbt.Endoding.PCM_SIGNED };
 
-    private static final short seg_end [] = {0xFF, 0x1FF, 0x3FF,
+    privbtf stbtid finbl siort sfg_fnd [] = {0xFF, 0x1FF, 0x3FF,
                                              0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF};
 
     /**
-     * Initializes the decode tables
+     * Initiblizfs tif dfdodf tbblfs
      */
-    static {
+    stbtid {
         for (int i=0;i<256;i++) {
             int input    = i ^ 0x55;
-            int mantissa = (input & 0xf ) << 4;
-            int segment  = (input & 0x70) >> 4;
-            int value    = mantissa+8;
+            int mbntissb = (input & 0xf ) << 4;
+            int sfgmfnt  = (input & 0x70) >> 4;
+            int vbluf    = mbntissb+8;
 
-            if(segment>=1)
-                value+=0x100;
-            if(segment>1)
-                value <<= (segment -1);
+            if(sfgmfnt>=1)
+                vbluf+=0x100;
+            if(sfgmfnt>1)
+                vbluf <<= (sfgmfnt -1);
 
             if( (input & 0x80)==0 )
-                value = -value;
+                vbluf = -vbluf;
 
-            ALAW_TABL[i] = (byte)value;
-            ALAW_TABH[i] = (byte)(value>>8);
+            ALAW_TABL[i] = (bytf)vbluf;
+            ALAW_TABH[i] = (bytf)(vbluf>>8);
         }
     }
 
 
     /**
-     * Constructs a new ALAW codec object.
+     * Construdts b nfw ALAW dodfd objfdt.
      */
-    public AlawCodec() {
+    publid AlbwCodfd() {
 
-        super(alawEncodings, alawEncodings);
+        supfr(blbwEndodings, blbwEndodings);
     }
 
     // NEW CODE
 
     /**
      */
-    public AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat){
+    publid AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt){
 
-        if( sourceFormat.getEncoding().equals( AudioFormat.Encoding.PCM_SIGNED )) {
+        if( sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.PCM_SIGNED )) {
 
-            if( sourceFormat.getSampleSizeInBits() == 16 ) {
+            if( sourdfFormbt.gftSbmplfSizfInBits() == 16 ) {
 
-                AudioFormat.Encoding enc[] = new AudioFormat.Encoding[1];
-                enc[0] = AudioFormat.Encoding.ALAW;
-                return enc;
+                AudioFormbt.Endoding fnd[] = nfw AudioFormbt.Endoding[1];
+                fnd[0] = AudioFormbt.Endoding.ALAW;
+                rfturn fnd;
 
-            } else {
-                return new AudioFormat.Encoding[0];
+            } flsf {
+                rfturn nfw AudioFormbt.Endoding[0];
             }
-        } else if( sourceFormat.getEncoding().equals( AudioFormat.Encoding.ALAW ) ) {
+        } flsf if( sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.ALAW ) ) {
 
-            if( sourceFormat.getSampleSizeInBits() == 8 ) {
+            if( sourdfFormbt.gftSbmplfSizfInBits() == 8 ) {
 
-                AudioFormat.Encoding enc[] = new AudioFormat.Encoding[1];
-                enc[0] = AudioFormat.Encoding.PCM_SIGNED;
-                return enc;
+                AudioFormbt.Endoding fnd[] = nfw AudioFormbt.Endoding[1];
+                fnd[0] = AudioFormbt.Endoding.PCM_SIGNED;
+                rfturn fnd;
 
-            } else {
-                return new AudioFormat.Encoding[0];
+            } flsf {
+                rfturn nfw AudioFormbt.Endoding[0];
             }
 
-        } else {
-            return new AudioFormat.Encoding[0];
+        } flsf {
+            rfturn nfw AudioFormbt.Endoding[0];
         }
     }
 
     /**
      */
-    public AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat){
-        if( (targetEncoding.equals( AudioFormat.Encoding.PCM_SIGNED ) && sourceFormat.getEncoding().equals( AudioFormat.Encoding.ALAW)) ||
-            (targetEncoding.equals( AudioFormat.Encoding.ALAW) && sourceFormat.getEncoding().equals( AudioFormat.Encoding.PCM_SIGNED)) ) {
-                return getOutputFormats( sourceFormat );
-            } else {
-                return new AudioFormat[0];
+    publid AudioFormbt[] gftTbrgftFormbts(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt){
+        if( (tbrgftEndoding.fqubls( AudioFormbt.Endoding.PCM_SIGNED ) && sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.ALAW)) ||
+            (tbrgftEndoding.fqubls( AudioFormbt.Endoding.ALAW) && sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.PCM_SIGNED)) ) {
+                rfturn gftOutputFormbts( sourdfFormbt );
+            } flsf {
+                rfturn nfw AudioFormbt[0];
             }
     }
 
     /**
      */
-    public AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream){
-        AudioFormat sourceFormat = sourceStream.getFormat();
-        AudioFormat.Encoding sourceEncoding = sourceFormat.getEncoding();
+    publid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt.Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm){
+        AudioFormbt sourdfFormbt = sourdfStrfbm.gftFormbt();
+        AudioFormbt.Endoding sourdfEndoding = sourdfFormbt.gftEndoding();
 
-        if( sourceEncoding.equals( targetEncoding ) ) {
-            return sourceStream;
-        } else {
-            AudioFormat targetFormat = null;
-            if( !isConversionSupported(targetEncoding,sourceStream.getFormat()) ) {
-                throw new IllegalArgumentException("Unsupported conversion: " + sourceStream.getFormat().toString() + " to " + targetEncoding.toString());
+        if( sourdfEndoding.fqubls( tbrgftEndoding ) ) {
+            rfturn sourdfStrfbm;
+        } flsf {
+            AudioFormbt tbrgftFormbt = null;
+            if( !isConvfrsionSupportfd(tbrgftEndoding,sourdfStrfbm.gftFormbt()) ) {
+                tirow nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + sourdfStrfbm.gftFormbt().toString() + " to " + tbrgftEndoding.toString());
             }
-            if( sourceEncoding.equals( AudioFormat.Encoding.ALAW ) &&
-                targetEncoding.equals( AudioFormat.Encoding.PCM_SIGNED ) ) {
+            if( sourdfEndoding.fqubls( AudioFormbt.Endoding.ALAW ) &&
+                tbrgftEndoding.fqubls( AudioFormbt.Endoding.PCM_SIGNED ) ) {
 
-                targetFormat = new AudioFormat( targetEncoding,
-                                                sourceFormat.getSampleRate(),
+                tbrgftFormbt = nfw AudioFormbt( tbrgftEndoding,
+                                                sourdfFormbt.gftSbmplfRbtf(),
                                                 16,
-                                                sourceFormat.getChannels(),
-                                                2*sourceFormat.getChannels(),
-                                                sourceFormat.getSampleRate(),
-                                                sourceFormat.isBigEndian());
+                                                sourdfFormbt.gftCibnnfls(),
+                                                2*sourdfFormbt.gftCibnnfls(),
+                                                sourdfFormbt.gftSbmplfRbtf(),
+                                                sourdfFormbt.isBigEndibn());
 
-            } else if( sourceEncoding.equals( AudioFormat.Encoding.PCM_SIGNED ) &&
-                       targetEncoding.equals( AudioFormat.Encoding.ALAW ) ) {
+            } flsf if( sourdfEndoding.fqubls( AudioFormbt.Endoding.PCM_SIGNED ) &&
+                       tbrgftEndoding.fqubls( AudioFormbt.Endoding.ALAW ) ) {
 
-                targetFormat = new AudioFormat( targetEncoding,
-                                                sourceFormat.getSampleRate(),
+                tbrgftFormbt = nfw AudioFormbt( tbrgftEndoding,
+                                                sourdfFormbt.gftSbmplfRbtf(),
                                                 8,
-                                                sourceFormat.getChannels(),
-                                                sourceFormat.getChannels(),
-                                                sourceFormat.getSampleRate(),
-                                                false);
-            } else {
-                throw new IllegalArgumentException("Unsupported conversion: " + sourceStream.getFormat().toString() + " to " + targetEncoding.toString());
+                                                sourdfFormbt.gftCibnnfls(),
+                                                sourdfFormbt.gftCibnnfls(),
+                                                sourdfFormbt.gftSbmplfRbtf(),
+                                                fblsf);
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + sourdfStrfbm.gftFormbt().toString() + " to " + tbrgftEndoding.toString());
             }
-            return getAudioInputStream( targetFormat, sourceStream );
+            rfturn gftAudioInputStrfbm( tbrgftFormbt, sourdfStrfbm );
         }
     }
 
     /**
-     * use old code...
+     * usf old dodf...
      */
-    public AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream){
-        return getConvertedStream( targetFormat, sourceStream );
+    publid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm){
+        rfturn gftConvfrtfdStrfbm( tbrgftFormbt, sourdfStrfbm );
     }
 
 
@@ -180,269 +180,269 @@ public final class AlawCodec extends SunCodec {
 
 
     /**
-     * Opens the codec with the specified parameters.
-     * @param stream stream from which data to be processed should be read
-     * @param outputFormat desired data format of the stream after processing
-     * @return stream from which processed data may be read
-     * @throws IllegalArgumentException if the format combination supplied is
-     * not supported.
+     * Opfns tif dodfd witi tif spfdififd pbrbmftfrs.
+     * @pbrbm strfbm strfbm from wiidi dbtb to bf prodfssfd siould bf rfbd
+     * @pbrbm outputFormbt dfsirfd dbtb formbt of tif strfbm bftfr prodfssing
+     * @rfturn strfbm from wiidi prodfssfd dbtb mby bf rfbd
+     * @tirows IllfgblArgumfntExdfption if tif formbt dombinbtion supplifd is
+     * not supportfd.
      */
-    /*  public AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) { */
-    private AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) {
+    /*  publid AudioInputStrfbm gftConvfrtfdStrfbm(AudioFormbt outputFormbt, AudioInputStrfbm strfbm) { */
+    privbtf AudioInputStrfbm gftConvfrtfdStrfbm(AudioFormbt outputFormbt, AudioInputStrfbm strfbm) {
 
-        AudioInputStream cs = null;
-        AudioFormat inputFormat = stream.getFormat();
+        AudioInputStrfbm ds = null;
+        AudioFormbt inputFormbt = strfbm.gftFormbt();
 
-        if( inputFormat.matches(outputFormat) ) {
-            cs = stream;
-        } else {
-            cs = (AudioInputStream) (new AlawCodecStream(stream, outputFormat));
+        if( inputFormbt.mbtdifs(outputFormbt) ) {
+            ds = strfbm;
+        } flsf {
+            ds = (AudioInputStrfbm) (nfw AlbwCodfdStrfbm(strfbm, outputFormbt));
         }
 
-        return cs;
+        rfturn ds;
     }
 
     /**
-     * Obtains the set of output formats supported by the codec
-     * given a particular input format.
-     * If no output formats are supported for this input format,
-     * returns an array of length 0.
-     * @return array of supported output formats.
+     * Obtbins tif sft of output formbts supportfd by tif dodfd
+     * givfn b pbrtidulbr input formbt.
+     * If no output formbts brf supportfd for tiis input formbt,
+     * rfturns bn brrby of lfngti 0.
+     * @rfturn brrby of supportfd output formbts.
      */
-    /*  public AudioFormat[] getOutputFormats(AudioFormat inputFormat) { */
-    private AudioFormat[] getOutputFormats(AudioFormat inputFormat) {
+    /*  publid AudioFormbt[] gftOutputFormbts(AudioFormbt inputFormbt) { */
+    privbtf AudioFormbt[] gftOutputFormbts(AudioFormbt inputFormbt) {
 
 
-        Vector<AudioFormat> formats = new Vector<>();
-        AudioFormat format;
+        Vfdtor<AudioFormbt> formbts = nfw Vfdtor<>();
+        AudioFormbt formbt;
 
-        if ( AudioFormat.Encoding.PCM_SIGNED.equals(inputFormat.getEncoding())) {
-            format = new AudioFormat(AudioFormat.Encoding.ALAW,
-                                     inputFormat.getSampleRate(),
+        if ( AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputFormbt.gftEndoding())) {
+            formbt = nfw AudioFormbt(AudioFormbt.Endoding.ALAW,
+                                     inputFormbt.gftSbmplfRbtf(),
                                      8,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels(),
-                                     inputFormat.getSampleRate(),
-                                     false );
-            formats.addElement(format);
+                                     inputFormbt.gftCibnnfls(),
+                                     inputFormbt.gftCibnnfls(),
+                                     inputFormbt.gftSbmplfRbtf(),
+                                     fblsf );
+            formbts.bddElfmfnt(formbt);
         }
 
-        if (AudioFormat.Encoding.ALAW.equals(inputFormat.getEncoding())) {
-            format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                     inputFormat.getSampleRate(),
+        if (AudioFormbt.Endoding.ALAW.fqubls(inputFormbt.gftEndoding())) {
+            formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                     inputFormbt.gftSbmplfRbtf(),
                                      16,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels()*2,
-                                     inputFormat.getSampleRate(),
-                                     false );
-            formats.addElement(format);
-            format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                     inputFormat.getSampleRate(),
+                                     inputFormbt.gftCibnnfls(),
+                                     inputFormbt.gftCibnnfls()*2,
+                                     inputFormbt.gftSbmplfRbtf(),
+                                     fblsf );
+            formbts.bddElfmfnt(formbt);
+            formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                     inputFormbt.gftSbmplfRbtf(),
                                      16,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels()*2,
-                                     inputFormat.getSampleRate(),
-                                     true );
-            formats.addElement(format);
+                                     inputFormbt.gftCibnnfls(),
+                                     inputFormbt.gftCibnnfls()*2,
+                                     inputFormbt.gftSbmplfRbtf(),
+                                     truf );
+            formbts.bddElfmfnt(formbt);
         }
 
-        AudioFormat[] formatArray = new AudioFormat[formats.size()];
-        for (int i = 0; i < formatArray.length; i++) {
-            formatArray[i] = formats.elementAt(i);
+        AudioFormbt[] formbtArrby = nfw AudioFormbt[formbts.sizf()];
+        for (int i = 0; i < formbtArrby.lfngti; i++) {
+            formbtArrby[i] = formbts.flfmfntAt(i);
         }
-        return formatArray;
+        rfturn formbtArrby;
     }
 
 
-    final class AlawCodecStream extends AudioInputStream {
+    finbl dlbss AlbwCodfdStrfbm fxtfnds AudioInputStrfbm {
 
-        // tempBuffer required only for encoding (when encode is true)
-        private static final int tempBufferSize = 64;
-        private byte tempBuffer [] = null;
+        // tfmpBufffr rfquirfd only for fndoding (wifn fndodf is truf)
+        privbtf stbtid finbl int tfmpBufffrSizf = 64;
+        privbtf bytf tfmpBufffr [] = null;
 
         /**
-         * True to encode to a-law, false to decode to linear
+         * Truf to fndodf to b-lbw, fblsf to dfdodf to linfbr
          */
-        boolean encode = false;
+        boolfbn fndodf = fblsf;
 
-        AudioFormat encodeFormat;
-        AudioFormat decodeFormat;
+        AudioFormbt fndodfFormbt;
+        AudioFormbt dfdodfFormbt;
 
-        byte tabByte1[] = null;
-        byte tabByte2[] = null;
-        int highByte = 0;
-        int lowByte  = 1;
+        bytf tbbBytf1[] = null;
+        bytf tbbBytf2[] = null;
+        int iigiBytf = 0;
+        int lowBytf  = 1;
 
-        AlawCodecStream(AudioInputStream stream, AudioFormat outputFormat) {
+        AlbwCodfdStrfbm(AudioInputStrfbm strfbm, AudioFormbt outputFormbt) {
 
-            super(stream, outputFormat, -1);
+            supfr(strfbm, outputFormbt, -1);
 
-            AudioFormat inputFormat = stream.getFormat();
+            AudioFormbt inputFormbt = strfbm.gftFormbt();
 
-            // throw an IllegalArgumentException if not ok
-            if ( ! (isConversionSupported(outputFormat, inputFormat)) ) {
+            // tirow bn IllfgblArgumfntExdfption if not ok
+            if ( ! (isConvfrsionSupportfd(outputFormbt, inputFormbt)) ) {
 
-                throw new IllegalArgumentException("Unsupported conversion: " + inputFormat.toString() + " to " + outputFormat.toString());
+                tirow nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + inputFormbt.toString() + " to " + outputFormbt.toString());
             }
 
-            //$$fb 2002-07-18: fix for 4714846: JavaSound ULAW (8-bit) encoder erroneously depends on endian-ness
-            boolean PCMIsBigEndian;
+            //$$fb 2002-07-18: fix for 4714846: JbvbSound ULAW (8-bit) fndodfr frronfously dfpfnds on fndibn-nfss
+            boolfbn PCMIsBigEndibn;
 
-            // determine whether we are encoding or decoding
-            if (AudioFormat.Encoding.ALAW.equals(inputFormat.getEncoding())) {
-                encode = false;
-                encodeFormat = inputFormat;
-                decodeFormat = outputFormat;
-                PCMIsBigEndian = outputFormat.isBigEndian();
-            } else {
-                encode = true;
-                encodeFormat = outputFormat;
-                decodeFormat = inputFormat;
-                PCMIsBigEndian = inputFormat.isBigEndian();
-                tempBuffer = new byte[tempBufferSize];
+            // dftfrminf wiftifr wf brf fndoding or dfdoding
+            if (AudioFormbt.Endoding.ALAW.fqubls(inputFormbt.gftEndoding())) {
+                fndodf = fblsf;
+                fndodfFormbt = inputFormbt;
+                dfdodfFormbt = outputFormbt;
+                PCMIsBigEndibn = outputFormbt.isBigEndibn();
+            } flsf {
+                fndodf = truf;
+                fndodfFormbt = outputFormbt;
+                dfdodfFormbt = inputFormbt;
+                PCMIsBigEndibn = inputFormbt.isBigEndibn();
+                tfmpBufffr = nfw bytf[tfmpBufffrSizf];
             }
 
-            if (PCMIsBigEndian) {
-                tabByte1 = ALAW_TABH;
-                tabByte2 = ALAW_TABL;
-                highByte = 0;
-                lowByte  = 1;
-            } else {
-                tabByte1 = ALAW_TABL;
-                tabByte2 = ALAW_TABH;
-                highByte = 1;
-                lowByte  = 0;
+            if (PCMIsBigEndibn) {
+                tbbBytf1 = ALAW_TABH;
+                tbbBytf2 = ALAW_TABL;
+                iigiBytf = 0;
+                lowBytf  = 1;
+            } flsf {
+                tbbBytf1 = ALAW_TABL;
+                tbbBytf2 = ALAW_TABH;
+                iigiBytf = 1;
+                lowBytf  = 0;
             }
 
-            // set the AudioInputStream length in frames if we know it
-            if (stream instanceof AudioInputStream) {
-                frameLength = stream.getFrameLength();
+            // sft tif AudioInputStrfbm lfngti in frbmfs if wf know it
+            if (strfbm instbndfof AudioInputStrfbm) {
+                frbmfLfngti = strfbm.gftFrbmfLfngti();
             }
 
-            // set framePos to zero
-            framePos = 0;
-            frameSize = inputFormat.getFrameSize();
-            if( frameSize==AudioSystem.NOT_SPECIFIED ) {
-                frameSize=1;
+            // sft frbmfPos to zfro
+            frbmfPos = 0;
+            frbmfSizf = inputFormbt.gftFrbmfSizf();
+            if( frbmfSizf==AudioSystfm.NOT_SPECIFIED ) {
+                frbmfSizf=1;
             }
         }
 
 
         /*
          * $$jb 2/23/99
-         * Used to determine segment number in aLaw encoding
+         * Usfd to dftfrminf sfgmfnt numbfr in bLbw fndoding
          */
-        private short search(short val, short table[], short size) {
-            for(short i = 0; i < size; i++) {
-                if (val <= table[i]) { return i; }
+        privbtf siort sfbrdi(siort vbl, siort tbblf[], siort sizf) {
+            for(siort i = 0; i < sizf; i++) {
+                if (vbl <= tbblf[i]) { rfturn i; }
             }
-            return size;
+            rfturn sizf;
         }
 
         /**
-         * Note that this won't actually read anything; must read in
-         * two-byte units.
+         * Notf tibt tiis won't bdtublly rfbd bnytiing; must rfbd in
+         * two-bytf units.
          */
-        public int read() throws IOException {
+        publid int rfbd() tirows IOExdfption {
 
-            byte[] b = new byte[1];
-            return read(b, 0, b.length);
+            bytf[] b = nfw bytf[1];
+            rfturn rfbd(b, 0, b.lfngti);
         }
 
 
-        public int read(byte[] b) throws IOException {
+        publid int rfbd(bytf[] b) tirows IOExdfption {
 
-            return read(b, 0, b.length);
+            rfturn rfbd(b, 0, b.lfngti);
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
 
-            // don't read fractional frames
-            if( len%frameSize != 0 ) {
-                len -= (len%frameSize);
+            // don't rfbd frbdtionbl frbmfs
+            if( lfn%frbmfSizf != 0 ) {
+                lfn -= (lfn%frbmfSizf);
             }
 
-            if (encode) {
+            if (fndodf) {
 
-                short QUANT_MASK = 0xF;
-                short SEG_SHIFT = 4;
-                short mask;
-                short seg;
-                int adj;
+                siort QUANT_MASK = 0xF;
+                siort SEG_SHIFT = 4;
+                siort mbsk;
+                siort sfg;
+                int bdj;
                 int i;
 
-                short sample;
-                byte enc;
+                siort sbmplf;
+                bytf fnd;
 
-                int readCount = 0;
-                int currentPos = off;
-                int readLeft = len*2;
-                int readLen = ( (readLeft>tempBufferSize) ? tempBufferSize : readLeft );
+                int rfbdCount = 0;
+                int durrfntPos = off;
+                int rfbdLfft = lfn*2;
+                int rfbdLfn = ( (rfbdLfft>tfmpBufffrSizf) ? tfmpBufffrSizf : rfbdLfft );
 
-                while ((readCount = super.read(tempBuffer,0,readLen))>0) {
+                wiilf ((rfbdCount = supfr.rfbd(tfmpBufffr,0,rfbdLfn))>0) {
 
-                    for (i = 0; i < readCount; i+=2) {
+                    for (i = 0; i < rfbdCount; i+=2) {
 
-                        /* Get the sample from the tempBuffer */
-                        sample = (short)(( (tempBuffer[i + highByte]) << 8) & 0xFF00);
-                        sample |= (short)( (tempBuffer[i + lowByte]) & 0xFF);
+                        /* Gft tif sbmplf from tif tfmpBufffr */
+                        sbmplf = (siort)(( (tfmpBufffr[i + iigiBytf]) << 8) & 0xFF00);
+                        sbmplf |= (siort)( (tfmpBufffr[i + lowBytf]) & 0xFF);
 
-                        if(sample >= 0) {
-                            mask = 0xD5;
-                        } else {
-                            mask = 0x55;
-                            sample = (short)(-sample - 8);
+                        if(sbmplf >= 0) {
+                            mbsk = 0xD5;
+                        } flsf {
+                            mbsk = 0x55;
+                            sbmplf = (siort)(-sbmplf - 8);
                         }
-                        /* Convert the scaled magnitude to segment number. */
-                        seg = search(sample, seg_end, (short) 8);
+                        /* Convfrt tif sdblfd mbgnitudf to sfgmfnt numbfr. */
+                        sfg = sfbrdi(sbmplf, sfg_fnd, (siort) 8);
                         /*
-                         * Combine the sign, segment, quantization bits
+                         * Combinf tif sign, sfgmfnt, qubntizbtion bits
                          */
-                        if (seg >= 8) {  /* out of range, return maximum value. */
-                            enc = (byte) (0x7F ^ mask);
-                        } else {
-                            enc = (byte) (seg << SEG_SHIFT);
-                            if(seg < 2) {
-                                enc |= (byte) ( (sample >> 4) & QUANT_MASK);
-                            } else {
-                                enc |= (byte) ( (sample >> (seg + 3)) & QUANT_MASK );
+                        if (sfg >= 8) {  /* out of rbngf, rfturn mbximum vbluf. */
+                            fnd = (bytf) (0x7F ^ mbsk);
+                        } flsf {
+                            fnd = (bytf) (sfg << SEG_SHIFT);
+                            if(sfg < 2) {
+                                fnd |= (bytf) ( (sbmplf >> 4) & QUANT_MASK);
+                            } flsf {
+                                fnd |= (bytf) ( (sbmplf >> (sfg + 3)) & QUANT_MASK );
                             }
-                            enc ^= mask;
+                            fnd ^= mbsk;
                         }
-                        /* Now put the encoded sample where it belongs */
-                        b[currentPos] = enc;
-                        currentPos++;
+                        /* Now put tif fndodfd sbmplf wifrf it bflongs */
+                        b[durrfntPos] = fnd;
+                        durrfntPos++;
                     }
-                    /* And update pointers and counters for next iteration */
-                    readLeft -= readCount;
-                    readLen = ( (readLeft>tempBufferSize) ? tempBufferSize : readLeft );
+                    /* And updbtf pointfrs bnd dountfrs for nfxt itfrbtion */
+                    rfbdLfft -= rfbdCount;
+                    rfbdLfn = ( (rfbdLfft>tfmpBufffrSizf) ? tfmpBufffrSizf : rfbdLfft );
                 }
 
-                if( currentPos==off && readCount<0 ) {  // EOF or error
-                    return readCount;
+                if( durrfntPos==off && rfbdCount<0 ) {  // EOF or frror
+                    rfturn rfbdCount;
                 }
 
-                return (currentPos - off);  /* Number of bytes written to new buffer */
+                rfturn (durrfntPos - off);  /* Numbfr of bytfs writtfn to nfw bufffr */
 
-            } else {
+            } flsf {
 
                 int i;
-                int readLen = len/2;
-                int readOffset = off + len/2;
-                int readCount = super.read(b, readOffset, readLen);
+                int rfbdLfn = lfn/2;
+                int rfbdOffsft = off + lfn/2;
+                int rfbdCount = supfr.rfbd(b, rfbdOffsft, rfbdLfn);
 
-                for (i = off; i < (off + (readCount*2)); i+=2) {
-                    b[i]        = tabByte1[b[readOffset] & 0xFF];
-                    b[i+1]      = tabByte2[b[readOffset] & 0xFF];
-                    readOffset++;
+                for (i = off; i < (off + (rfbdCount*2)); i+=2) {
+                    b[i]        = tbbBytf1[b[rfbdOffsft] & 0xFF];
+                    b[i+1]      = tbbBytf2[b[rfbdOffsft] & 0xFF];
+                    rfbdOffsft++;
                 }
 
-                if( readCount<0 ) {             // EOF or error
-                    return readCount;
+                if( rfbdCount<0 ) {             // EOF or frror
+                    rfturn rfbdCount;
                 }
 
-                return (i - off);
+                rfturn (i - off);
             }
         }
-    } // end class AlawCodecStream
-} // end class ALAW
+    } // fnd dlbss AlbwCodfdStrfbm
+} // fnd dlbss ALAW

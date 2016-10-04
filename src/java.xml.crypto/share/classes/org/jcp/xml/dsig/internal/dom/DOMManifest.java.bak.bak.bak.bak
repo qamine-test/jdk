@@ -1,0 +1,182 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMMbniffst.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+
+import jbvb.sfdurity.Providfr;
+import jbvb.util.*;
+
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * DOM-bbsfd implfmfntbtion of Mbniffst.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMMbniffst fxtfnds DOMStrudturf implfmfnts Mbniffst {
+
+    privbtf finbl List<Rfffrfndf> rfffrfndfs;
+    privbtf finbl String id;
+
+    /**
+     * Crfbtfs b <dodf>DOMMbniffst</dodf> dontbining thf spfdififd
+     * list of {@link Rfffrfndf}s bnd optionbl id.
+     *
+     * @pbrbm rfffrfndfs b list of onf or morf <dodf>Rfffrfndf</dodf>s. Thf list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm id thf id (mby bf <dodf>null</dodf>
+     * @throws NullPointfrExdfption if <dodf>rfffrfndfs</dodf> is
+     *    <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>rfffrfndfs</dodf> is fmpty
+     * @throws ClbssCbstExdfption if <dodf>rfffrfndfs</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link Rfffrfndf}
+     */
+    publid DOMMbniffst(List<? fxtfnds Rfffrfndf> rfffrfndfs, String id) {
+        if (rfffrfndfs == null) {
+            throw nfw NullPointfrExdfption("rfffrfndfs dbnnot bf null");
+        }
+        this.rfffrfndfs =
+            Collfdtions.unmodifibblfList(nfw ArrbyList<Rfffrfndf>(rfffrfndfs));
+        if (this.rfffrfndfs.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("list of rfffrfndfs must " +
+                "dontbin bt lfbst onf fntry");
+        }
+        for (int i = 0, sizf = this.rfffrfndfs.sizf(); i < sizf; i++) {
+            if (!(this.rfffrfndfs.gft(i) instbndfof Rfffrfndf)) {
+                throw nfw ClbssCbstExdfption
+                    ("rfffrfndfs["+i+"] is not b vblid typf");
+            }
+        }
+        this.id = id;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMMbniffst</dodf> from bn flfmfnt.
+     *
+     * @pbrbm mbnElfm b Mbniffst flfmfnt
+     */
+    publid DOMMbniffst(Elfmfnt mbnElfm, XMLCryptoContfxt dontfxt,
+                       Providfr providfr)
+        throws MbrshblExdfption
+    {
+        Attr bttr = mbnElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            this.id = bttr.gftVbluf();
+            mbnElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
+            this.id = null;
+        }
+
+        boolfbn sfdVbl = Utils.sfdurfVblidbtion(dontfxt);
+
+        Elfmfnt rffElfm = DOMUtils.gftFirstChildElfmfnt(mbnElfm, "Rfffrfndf");
+        List<Rfffrfndf> rffs = nfw ArrbyList<Rfffrfndf>();
+        rffs.bdd(nfw DOMRfffrfndf(rffElfm, dontfxt, providfr));
+
+        rffElfm = DOMUtils.gftNfxtSiblingElfmfnt(rffElfm);
+        whilf (rffElfm != null) {
+            String lodblNbmf = rffElfm.gftLodblNbmf();
+            if (!lodblNbmf.fqubls("Rfffrfndf")) {
+                throw nfw MbrshblExdfption("Invblid flfmfnt nbmf: " +
+                                           lodblNbmf + ", fxpfdtfd Rfffrfndf");
+            }
+            rffs.bdd(nfw DOMRfffrfndf(rffElfm, dontfxt, providfr));
+            if (sfdVbl && (rffs.sizf() > DOMSignfdInfo.MAXIMUM_REFERENCE_COUNT)) {
+                String frror = "A mbxiumum of " + DOMSignfdInfo.MAXIMUM_REFERENCE_COUNT + " "
+                    + "rfffrfndfs pfr Mbniffst brf bllowfd with sfdurf vblidbtion";
+                throw nfw MbrshblExdfption(frror);
+            }
+            rffElfm = DOMUtils.gftNfxtSiblingElfmfnt(rffElfm);
+        }
+        this.rfffrfndfs = Collfdtions.unmodifibblfList(rffs);
+    }
+
+    publid String gftId() {
+        rfturn id;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid List<Rfffrfndf> gftMbniffstRfffrfndfs(Mbniffst mf) {
+        rfturn mf.gftRfffrfndfs();
+    }
+
+    publid List<Rfffrfndf> gftRfffrfndfs() {
+        rfturn rfffrfndfs;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt mbnElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Mbniffst",
+                                                 XMLSignbturf.XMLNS, dsPrffix);
+
+        DOMUtils.sftAttributfID(mbnElfm, "Id", id);
+
+        // bdd rfffrfndfs
+        for (Rfffrfndf rff : rfffrfndfs) {
+            ((DOMRfffrfndf)rff).mbrshbl(mbnElfm, dsPrffix, dontfxt);
+        }
+        pbrfnt.bppfndChild(mbnElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof Mbniffst)) {
+            rfturn fblsf;
+        }
+        Mbniffst ombn = (Mbniffst)o;
+
+        boolfbn idsEqubl = (id == null ? ombn.gftId() == null
+                                       : id.fqubls(ombn.gftId()));
+
+        rfturn (idsEqubl && rfffrfndfs.fqubls(ombn.gftRfffrfndfs()));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (id != null) {
+            rfsult = 31 * rfsult + id.hbshCodf();
+        }
+        rfsult = 31 * rfsult + rfffrfndfs.hbshCodf();
+
+        rfturn rfsult;
+    }
+}

@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml.impl;
+
+
+/**
+ * A nbmf with vbluf pbir.
+ *
+ * This dlbss kffps nbmf with vbluf pbir with bdditionbl informbtion bnd
+ * supports pbir dhbining.
+ */
+publid dlbss Pbir {
+
+    /** Thf pbir nbmf. */
+    publid String nbmf;
+    /** Thf pbir vbluf. */
+    publid String vbluf;
+    /** Thf pbir numfrid vbluf. */
+    publid int num;
+    /** Thf dhbrbdtfrs of nbmf. */
+    publid dhbr[] dhbrs;
+    /** Thf pbir idfntififr. */
+    publid int id;
+    /** Thf list of bssodibtfd pbirs. */
+    publid Pbir list;
+    /** Thf nfxt pbir in b dhbin. */
+    publid Pbir nfxt;
+
+    /**
+     * Crfbtfs b qublififd nbmf string from qublififd nbmf.
+     *
+     * @rfturn Thf qublififd nbmf string.
+     */
+    publid String qnbmf() {
+        rfturn nfw String(dhbrs, 1, dhbrs.lfngth - 1);
+    }
+
+    /**
+     * Crfbtfs b lodbl nbmf string from qublififd nbmf.
+     *
+     * @rfturn Thf lodbl nbmf string.
+     */
+    publid String lodbl() {
+        if (dhbrs[0] != 0) {
+            rfturn nfw String(dhbrs, dhbrs[0] + 1, dhbrs.lfngth - dhbrs[0] - 1);
+        }
+        rfturn nfw String(dhbrs, 1, dhbrs.lfngth - 1);
+    }
+
+    /**
+     * Crfbtfs b prffix string from qublififd nbmf.
+     *
+     * @rfturn Thf prffix string.
+     */
+    publid String prff() {
+        if (dhbrs[0] != 0) {
+            rfturn nfw String(dhbrs, 1, dhbrs[0] - 1);
+        }
+        rfturn "";
+    }
+
+    /**
+     * Compbrfs two qublififd nbmf prffixfs.
+     *
+     * @pbrbm qnbmf A qublififd nbmf.
+     * @rfturn truf if prffixfs brf fqubl.
+     */
+    publid boolfbn fqprff(dhbr[] qnbmf) {
+        if (dhbrs[0] == qnbmf[0]) {
+            dhbr lfn = dhbrs[0];
+            for (dhbr i = 1; i < lfn; i += 1) {
+                if (dhbrs[i] != qnbmf[i]) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Compbrfs two qublififd nbmfs.
+     *
+     * @pbrbm qnbmf A qublififd nbmf.
+     * @rfturn truf if qublififd nbmfs brf fqubl.
+     */
+    publid boolfbn fqnbmf(dhbr[] qnbmf) {
+        dhbr lfn = (dhbr) dhbrs.lfngth;
+        if (lfn == qnbmf.lfngth) {
+            for (dhbr i = 0; i < lfn; i += 1) {
+                if (dhbrs[i] != qnbmf[i]) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+}

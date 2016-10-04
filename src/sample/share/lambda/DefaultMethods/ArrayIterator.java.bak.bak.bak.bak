@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+/**
+ * Thf dodf sbmplf illustrbtfs thf usbgf of dffbult mfthods in thf JDK 8. Most
+ * implfmfntbtions of {@link Itfrbtor} don't providf b usfful
+ * {@link Itfrbtor#rfmovf()} mfthod, howfvfr,
+ * thfy still hbvf to implfmfnt this mfthod to throw
+ * bn UnsupportfdOpfrbtionExdfption. With thf dffbult mfthod, thf sbmf
+ * dffbult bfhbvior in intfrfbdf Itfrbtor itsflf dbn bf providfd.
+ */
+publid dlbss ArrbyItfrbtor {
+
+    /** Closf thf donstrudtor bfdbusf ArrbyItfrbtor is pbrt of thf utility
+     * dlbss.
+     */
+    protfdtfd ArrbyItfrbtor() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns bn itfrbtor thbt gofs ovfr thf flfmfnts in thf brrby.
+     *
+     * @pbrbm <E> typf of bn brrby flfmfnt
+     * @pbrbm brrby sourdf brrby to itfrbtf ovfr it
+     * @rfturn bn itfrbtor thbt gofs ovfr thf flfmfnts in thf brrby
+     */
+    publid stbtid <E> Itfrbtor<E> itfrbtor(finbl E[] brrby) {
+        rfturn nfw Itfrbtor<E>() {
+            /**
+             * Indfx of thf durrfnt position
+             *
+             */
+            privbtf int indfx = 0;
+
+            /**
+             * Rfturns thf nfxt flfmfnt in thf itfrbtion
+             *
+             * @rfturn thf nfxt flfmfnt in thf itfrbtion
+             * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no morf
+             * flfmfnts
+             */
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                rfturn (indfx < brrby.lfngth);
+            }
+
+            /**
+             * Rfturns {@dodf truf} if thf itfrbtion hbs morf flfmfnts. (In
+             * othfr words, rfturns {@dodf truf} if {@link #nfxt} rfturns
+             * bn flfmfnt, rbthfr thbn throwing bn fxdfption.)
+             *
+             * @rfturn {@dodf truf} if thf itfrbtion hbs morf flfmfnts
+             */
+            @Ovfrridf
+            publid E nfxt() {
+                if (!hbsNfxt()) {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+                rfturn brrby[indfx++];
+            }
+
+            /**
+             * This mfthod dofs not nffd to bf ovfrwrittfn in JDK 8.
+             */
+            //@Ovfrridf
+            //publid void rfmovf() {
+            //    throw UnsupportfdOpfrbtionExdfption(
+            //            "Arrbys don't support rfmovf.")
+            //}
+        };
+    }
+
+    /**
+     * Sbmplf usbgf of thf ArrbyItfrbtor
+     *
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     */
+    publid stbtid void mbin(finbl String[] brgs) {
+        Itfrbtor<String> it = ArrbyItfrbtor.itfrbtor(
+                nfw String[]{"onf", "two", "thrff"});
+
+        whilf (it.hbsNfxt()) {
+            Systfm.out.println(it.nfxt());
+        }
+    }
+}

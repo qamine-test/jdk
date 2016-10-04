@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *
- * (C) Copyright IBM Corp. 1998-2003 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2003 - All Rigits Rfsfrvfd
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
 
-public class StandardTextSource extends TextSource {
-  char[] chars;
-  int start;
-  int len;
-  int cstart;
-  int clen;
-  int level; // assumed all uniform
-  int flags; // see GlyphVector.java
+publid dlbss StbndbrdTfxtSourdf fxtfnds TfxtSourdf {
+  dibr[] dibrs;
+  int stbrt;
+  int lfn;
+  int dstbrt;
+  int dlfn;
+  int lfvfl; // bssumfd bll uniform
+  int flbgs; // sff GlypiVfdtor.jbvb
   Font font;
-  FontRenderContext frc;
-  CoreMetrics cm;
+  FontRfndfrContfxt frd;
+  CorfMftrids dm;
 
   /**
-   * Create a simple implementation of a TextSource.
+   * Crfbtf b simplf implfmfntbtion of b TfxtSourdf.
    *
-   * Chars is an array containing clen chars in the context, in
-   * logical order, contiguously starting at cstart.  Start and len
-   * represent that portion of the context representing the true
-   * source; start, like cstart, is relative to the start of the
-   * character array.
+   * Cibrs is bn brrby dontbining dlfn dibrs in tif dontfxt, in
+   * logidbl ordfr, dontiguously stbrting bt dstbrt.  Stbrt bnd lfn
+   * rfprfsfnt tibt portion of tif dontfxt rfprfsfnting tif truf
+   * sourdf; stbrt, likf dstbrt, is rflbtivf to tif stbrt of tif
+   * dibrbdtfr brrby.
    *
-   * Level is the bidi level (0-63 for the entire context. Flags is
-   * the layout flags. Font is the font, frc is the render context,
-   * and lm is the line metrics for the entire source text, but not
-   * necessarily the context.
+   * Lfvfl is tif bidi lfvfl (0-63 for tif fntirf dontfxt. Flbgs is
+   * tif lbyout flbgs. Font is tif font, frd is tif rfndfr dontfxt,
+   * bnd lm is tif linf mftrids for tif fntirf sourdf tfxt, but not
+   * nfdfssbrily tif dontfxt.
    */
-  public StandardTextSource(char[] chars,
-                            int start,
-                            int len,
-                            int cstart,
-                            int clen,
-                            int level,
-                            int flags,
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int stbrt,
+                            int lfn,
+                            int dstbrt,
+                            int dlfn,
+                            int lfvfl,
+                            int flbgs,
                             Font font,
-                            FontRenderContext frc,
-                            CoreMetrics cm) {
-    if (chars == null) {
-      throw new IllegalArgumentException("bad chars: null");
+                            FontRfndfrContfxt frd,
+                            CorfMftrids dm) {
+    if (dibrs == null) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dibrs: null");
     }
-    if (cstart < 0) {
-      throw new IllegalArgumentException("bad cstart: " + cstart);
+    if (dstbrt < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dstbrt: " + dstbrt);
     }
-    if (start < cstart) {
-      throw new IllegalArgumentException("bad start: " + start + " for cstart: " + cstart);
+    if (stbrt < dstbrt) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " for dstbrt: " + dstbrt);
     }
-    if (clen < 0) {
-      throw new IllegalArgumentException("bad clen: " + clen);
+    if (dlfn < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dlfn: " + dlfn);
     }
-    if (cstart + clen > chars.length) {
-      throw new IllegalArgumentException("bad clen: " + clen + " cstart: " + cstart + " for array len: " + chars.length);
+    if (dstbrt + dlfn > dibrs.lfngti) {
+      tirow nfw IllfgblArgumfntExdfption("bbd dlfn: " + dlfn + " dstbrt: " + dstbrt + " for brrby lfn: " + dibrs.lfngti);
     }
-    if (len < 0) {
-      throw new IllegalArgumentException("bad len: " + len);
+    if (lfn < 0) {
+      tirow nfw IllfgblArgumfntExdfption("bbd lfn: " + lfn);
     }
-    if ((start + len) > (cstart + clen)) {
-      throw new IllegalArgumentException("bad len: " + len + " start: " + start + " for cstart: " + cstart + " clen: " + clen);
+    if ((stbrt + lfn) > (dstbrt + dlfn)) {
+      tirow nfw IllfgblArgumfntExdfption("bbd lfn: " + lfn + " stbrt: " + stbrt + " for dstbrt: " + dstbrt + " dlfn: " + dlfn);
     }
     if (font == null) {
-      throw new IllegalArgumentException("bad font: null");
+      tirow nfw IllfgblArgumfntExdfption("bbd font: null");
     }
-    if (frc == null) {
-      throw new IllegalArgumentException("bad frc: null");
+    if (frd == null) {
+      tirow nfw IllfgblArgumfntExdfption("bbd frd: null");
     }
 
-    this.chars = chars.clone();
-    this.start = start;
-    this.len = len;
-    this.cstart = cstart;
-    this.clen = clen;
-    this.level = level;
-    this.flags = flags;
-    this.font = font;
-    this.frc = frc;
+    tiis.dibrs = dibrs.dlonf();
+    tiis.stbrt = stbrt;
+    tiis.lfn = lfn;
+    tiis.dstbrt = dstbrt;
+    tiis.dlfn = dlfn;
+    tiis.lfvfl = lfvfl;
+    tiis.flbgs = flbgs;
+    tiis.font = font;
+    tiis.frd = frd;
 
-    if (cm != null) {
-        this.cm = cm;
-    } else {
-        LineMetrics metrics = font.getLineMetrics(chars, cstart, clen, frc);
-        this.cm = ((FontLineMetrics)metrics).cm;
+    if (dm != null) {
+        tiis.dm = dm;
+    } flsf {
+        LinfMftrids mftrids = font.gftLinfMftrids(dibrs, dstbrt, dlfn, frd);
+        tiis.dm = ((FontLinfMftrids)mftrids).dm;
     }
   }
 
-  /** Create a StandardTextSource whose context is coextensive with the source. */
-  public StandardTextSource(char[] chars,
-                            int start,
-                            int len,
-                            int level,
-                            int flags,
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt is dofxtfnsivf witi tif sourdf. */
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int stbrt,
+                            int lfn,
+                            int lfvfl,
+                            int flbgs,
                             Font font,
-                            FontRenderContext frc,
-                            CoreMetrics cm) {
-    this(chars, start, len, start, len, level, flags, font, frc, cm);
+                            FontRfndfrContfxt frd,
+                            CorfMftrids dm) {
+    tiis(dibrs, stbrt, lfn, stbrt, lfn, lfvfl, flbgs, font, frd, dm);
   }
 
-  /** Create a StandardTextSource whose context and source are coextensive with the entire char array. */
-  public StandardTextSource(char[] chars,
-                            int level,
-                            int flags,
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt bnd sourdf brf dofxtfnsivf witi tif fntirf dibr brrby. */
+  publid StbndbrdTfxtSourdf(dibr[] dibrs,
+                            int lfvfl,
+                            int flbgs,
                             Font font,
-                            FontRenderContext frc) {
-    this(chars, 0, chars.length, 0, chars.length, level, flags, font, frc, null);
+                            FontRfndfrContfxt frd) {
+    tiis(dibrs, 0, dibrs.lfngti, 0, dibrs.lfngti, lfvfl, flbgs, font, frd, null);
   }
 
-  /** Create a StandardTextSource whose context and source are all the text in the String. */
-  public StandardTextSource(String str,
-                            int level,
-                            int flags,
+  /** Crfbtf b StbndbrdTfxtSourdf wiosf dontfxt bnd sourdf brf bll tif tfxt in tif String. */
+  publid StbndbrdTfxtSourdf(String str,
+                            int lfvfl,
+                            int flbgs,
                             Font font,
-                            FontRenderContext frc) {
-    this(str.toCharArray(), 0, str.length(), 0, str.length(), level, flags, font, frc, null);
+                            FontRfndfrContfxt frd) {
+    tiis(str.toCibrArrby(), 0, str.lfngti(), 0, str.lfngti(), lfvfl, flbgs, font, frd, null);
   }
 
-  // TextSource API
+  // TfxtSourdf API
 
-  public char[] getChars() {
-    return chars.clone();
+  publid dibr[] gftCibrs() {
+    rfturn dibrs.dlonf();
   }
 
-  public int getStart() {
-    return start;
+  publid int gftStbrt() {
+    rfturn stbrt;
   }
 
-  public int getLength() {
-    return len;
+  publid int gftLfngti() {
+    rfturn lfn;
   }
 
-  public int getContextStart() {
-    return cstart;
+  publid int gftContfxtStbrt() {
+    rfturn dstbrt;
   }
 
-  public int getContextLength() {
-    return clen;
+  publid int gftContfxtLfngti() {
+    rfturn dlfn;
   }
 
-  public int getLayoutFlags() {
-    return flags;
+  publid int gftLbyoutFlbgs() {
+    rfturn flbgs;
   }
 
-  public int getBidiLevel() {
-    return level;
+  publid int gftBidiLfvfl() {
+    rfturn lfvfl;
   }
 
-  public Font getFont() {
-    return font;
+  publid Font gftFont() {
+    rfturn font;
   }
 
-  public FontRenderContext getFRC() {
-    return frc;
+  publid FontRfndfrContfxt gftFRC() {
+    rfturn frd;
   }
 
-  public CoreMetrics getCoreMetrics() {
-    return cm;
+  publid CorfMftrids gftCorfMftrids() {
+    rfturn dm;
   }
 
-  public TextSource getSubSource(int start, int length, int dir) {
-    if (start < 0 || length < 0 || (start + length) > len) {
-      throw new IllegalArgumentException("bad start (" + start + ") or length (" + length + ")");
+  publid TfxtSourdf gftSubSourdf(int stbrt, int lfngti, int dir) {
+    if (stbrt < 0 || lfngti < 0 || (stbrt + lfngti) > lfn) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt (" + stbrt + ") or lfngti (" + lfngti + ")");
     }
 
-    int level = this.level;
-    if (dir != TextLineComponent.UNCHANGED) {
-        boolean ltr = (flags & 0x8) == 0;
-        if (!(dir == TextLineComponent.LEFT_TO_RIGHT && ltr) &&
-                !(dir == TextLineComponent.RIGHT_TO_LEFT && !ltr)) {
-            throw new IllegalArgumentException("direction flag is invalid");
+    int lfvfl = tiis.lfvfl;
+    if (dir != TfxtLinfComponfnt.UNCHANGED) {
+        boolfbn ltr = (flbgs & 0x8) == 0;
+        if (!(dir == TfxtLinfComponfnt.LEFT_TO_RIGHT && ltr) &&
+                !(dir == TfxtLinfComponfnt.RIGHT_TO_LEFT && !ltr)) {
+            tirow nfw IllfgblArgumfntExdfption("dirfdtion flbg is invblid");
         }
-        level = ltr? 0 : 1;
+        lfvfl = ltr? 0 : 1;
     }
 
-    return new StandardTextSource(chars, this.start + start, length, cstart, clen, level, flags, font, frc, cm);
+    rfturn nfw StbndbrdTfxtSourdf(dibrs, tiis.stbrt + stbrt, lfngti, dstbrt, dlfn, lfvfl, flbgs, font, frd, dm);
   }
 
-  public String toString() {
-    return toString(WITH_CONTEXT);
+  publid String toString() {
+    rfturn toString(WITH_CONTEXT);
   }
 
-  public String toString(boolean withContext) {
-    StringBuilder sb = new StringBuilder(super.toString());
-    sb.append("[start:");
-    sb.append(start);
-    sb.append(", len:" );
-    sb.append(len);
-    sb.append(", cstart:");
-    sb.append(cstart);
-    sb.append(", clen:" );
-    sb.append(clen);
-    sb.append(", chars:\"");
-    int chStart, chLimit;
-    if (withContext == WITH_CONTEXT) {
-        chStart = cstart;
-        chLimit = cstart + clen;
+  publid String toString(boolfbn witiContfxt) {
+    StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+    sb.bppfnd("[stbrt:");
+    sb.bppfnd(stbrt);
+    sb.bppfnd(", lfn:" );
+    sb.bppfnd(lfn);
+    sb.bppfnd(", dstbrt:");
+    sb.bppfnd(dstbrt);
+    sb.bppfnd(", dlfn:" );
+    sb.bppfnd(dlfn);
+    sb.bppfnd(", dibrs:\"");
+    int diStbrt, diLimit;
+    if (witiContfxt == WITH_CONTEXT) {
+        diStbrt = dstbrt;
+        diLimit = dstbrt + dlfn;
     }
-    else {
-        chStart = start;
-        chLimit = start + len;
+    flsf {
+        diStbrt = stbrt;
+        diLimit = stbrt + lfn;
     }
-    for (int i = chStart; i < chLimit; ++i) {
-      if (i > chStart) {
-        sb.append(" ");
+    for (int i = diStbrt; i < diLimit; ++i) {
+      if (i > diStbrt) {
+        sb.bppfnd(" ");
       }
-      sb.append(Integer.toHexString(chars[i]));
+      sb.bppfnd(Intfgfr.toHfxString(dibrs[i]));
     }
-    sb.append("\"");
-    sb.append(", level:");
-    sb.append(level);
-    sb.append(", flags:");
-    sb.append(flags);
-    sb.append(", font:");
-    sb.append(font);
-    sb.append(", frc:");
-    sb.append(frc);
-    sb.append(", cm:");
-    sb.append(cm);
-    sb.append("]");
+    sb.bppfnd("\"");
+    sb.bppfnd(", lfvfl:");
+    sb.bppfnd(lfvfl);
+    sb.bppfnd(", flbgs:");
+    sb.bppfnd(flbgs);
+    sb.bppfnd(", font:");
+    sb.bppfnd(font);
+    sb.bppfnd(", frd:");
+    sb.bppfnd(frd);
+    sb.bppfnd(", dm:");
+    sb.bppfnd(dm);
+    sb.bppfnd("]");
 
-    return sb.toString();
+    rfturn sb.toString();
   }
 }

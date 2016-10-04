@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
+
+/**
+ * This intfrfbdf dfsdribfs singlf-input/singlf-output
+ * opfrbtions pfrformfd on Rbstfr objfdts.  It is implfmfntfd by sudh
+ * dlbssfs bs AffinfTrbnsformOp, ConvolvfOp, bnd LookupOp.  Thf Sourdf
+ * bnd Dfstinbtion objfdts must dontbin thf bppropribtf numbfr
+ * of bbnds for thf pbrtidulbr dlbssfs implfmfnting this intfrfbdf.
+ * Othfrwisf, bn fxdfption is thrown.  This intfrfbdf dbnnot bf usfd to
+ * dfsdribf morf sophistidbtfd Ops sudh bs onfs thbt tbkf multiplf sourdfs.
+ * Ebdh dlbss implfmfnting this intfrfbdf will spfdify whfthfr or not it
+ * will bllow bn in-plbdf filtfring opfrbtion (i.f. sourdf objfdt fqubl
+ * to thf dfstinbtion objfdt).  Notf thbt thf rfstridtion to singlf-input
+ * opfrbtions mfbns thbt thf vblufs of dfstinbtion pixfls prior to thf
+ * opfrbtion brf not usfd bs input to thf filtfr opfrbtion.
+ * @sff AffinfTrbnsformOp
+ * @sff BbndCombinfOp
+ * @sff ColorConvfrtOp
+ * @sff ConvolvfOp
+ * @sff LookupOp
+ * @sff RfsdblfOp
+ */
+publid intfrfbdf RbstfrOp {
+    /**
+     * Pfrforms b singlf-input/singlf-output opfrbtion from b sourdf Rbstfr
+     * to b dfstinbtion Rbstfr.  If thf dfstinbtion Rbstfr is null, b
+     * nfw Rbstfr will bf drfbtfd.  Thf IllfgblArgumfntExdfption mby bf thrown
+     * if thf sourdf bnd/or dfstinbtion Rbstfr is indompbtiblf with thf typfs
+     * of Rbstfrs bllowfd by thf dlbss implfmfnting this filtfr.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf>
+     * @pbrbm dfst thf dfstinbtion <dodf>WritbblfRbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> thbt rfprfsfnts thf rfsult of
+     *         thf filtfring opfrbtion.
+     */
+    publid WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dfst);
+
+    /**
+     * Rfturns thf bounding box of thf filtfrfd dfstinbtion Rbstfr.
+     * Thf IllfgblArgumfntExdfption mby bf thrown if thf sourdf Rbstfr
+     * is indompbtiblf with thf typfs of Rbstfrs bllowfd
+     * by thf dlbss implfmfnting this filtfr.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf>
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt is thf bounding box of
+     *         thf <dodf>Rbstfr</dodf> rfsulting from thf filtfring
+     *         opfrbtion.
+     */
+    publid Rfdtbnglf2D gftBounds2D(Rbstfr srd);
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion Rbstfr with thf dorrfdt sizf bnd numbfr of
+     * bbnds.
+     * Thf IllfgblArgumfntExdfption mby bf thrown if thf sourdf Rbstfr
+     * is indompbtiblf with thf typfs of Rbstfrs bllowfd
+     * by thf dlbss implfmfnting this filtfr.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> thbt is dompbtiblf with
+     *         <dodf>srd</dodf>
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr(Rbstfr srd);
+
+    /**
+     * Rfturns thf lodbtion of thf dfstinbtion point givfn b
+     * point in thf sourdf Rbstfr.  If dstPt is non-null, it
+     * will bf usfd to hold thf rfturn vbluf.
+     * @pbrbm srdPt thf sourdf <dodf>Point2D</dodf>
+     * @pbrbm dstPt thf dfstinbtion <dodf>Point2D</dodf>
+     * @rfturn thf lodbtion of thf dfstinbtion point.
+     */
+    publid Point2D gftPoint2D(Point2D srdPt, Point2D dstPt);
+
+    /**
+     * Rfturns thf rfndfring hints for this RbstfrOp.  Rfturns
+     * null if no hints hbvf bffn sft.
+     * @rfturn thf <dodf>RfndfringHints</dodf> objfdt of this
+     *         <dodf>RbstfrOp</dodf>.
+     */
+    publid RfndfringHints gftRfndfringHints();
+}

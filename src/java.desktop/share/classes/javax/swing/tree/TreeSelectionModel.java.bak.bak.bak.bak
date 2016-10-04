@@ -1,0 +1,346 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvbx.swing.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+
+/**
+  * This intfrfbdf rfprfsfnts thf durrfnt stbtf of thf sflfdtion for
+  * thf trff domponfnt.
+  * For informbtion bnd fxbmplfs of using trff sflfdtion modfls,
+  * sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+  * in <fm>Thf Jbvb Tutoribl.</fm>
+  *
+  * <p>
+  * Thf stbtf of thf trff sflfdtion is dhbrbdtfrizfd by
+  * b sft of TrffPbths, bnd optionblly b sft of intfgfrs. Thf mbpping
+  * from TrffPbth to intfgfr is donf by wby of bn instbndf of RowMbppfr.
+  * It is not nfdfssbry for b TrffSflfdtionModfl to hbvf b RowMbppfr to
+  * dorrfdtly opfrbtf, but without b RowMbppfr <dodf>gftSflfdtionRows</dodf>
+  * will rfturn null.
+  *
+  * <p>
+  *
+  * A TrffSflfdtionModfl dbn bf donfigurfd to bllow only onf
+  * pbth (<dodf>SINGLE_TREE_SELECTION</dodf>) b numbfr of
+  * dontiguous pbths (<dodf>CONTIGUOUS_TREE_SELECTION</dodf>) or b numbfr of
+  * disdontiguous pbths (<dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>).
+  * A <dodf>RowMbppfr</dodf> is usfd to dftfrminf if TrffPbths brf
+  * dontiguous.
+  * In thf bbsfndf of b RowMbppfr <dodf>CONTIGUOUS_TREE_SELECTION</dodf> bnd
+  * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf> bfhbvf thf sbmf, thbt is thfy
+  * bllow bny numbfr of pbths to bf dontbinfd in thf TrffSflfdtionModfl.
+  *
+  * <p>
+  *
+  * For b sflfdtion modfl of <dodf>CONTIGUOUS_TREE_SELECTION</dodf> bny
+  * timf thf pbths brf dhbngfd (<dodf>sftSflfdtionPbth</dodf>,
+  * <dodf>bddSflfdtionPbth</dodf> ...) thf TrffPbths brf bgbin dhfdkfd to
+  * mbkf thfy brf dontiguous. A dhfdk of thf TrffPbths dbn blso bf fordfd
+  * by invoking <dodf>rfsftRowSflfdtion</dodf>. How b sft of disdontiguous
+  * TrffPbths is mbppfd to b dontiguous sft is lfft to implfmfntors of
+  * this intfrfbdf to fnfordf b pbrtidulbr polidy.
+  *
+  * <p>
+  *
+  * Implfmfntbtions should dombinf duplidbtf TrffPbths thbt brf
+  * bddfd to thf sflfdtion. For fxbmplf, thf following dodf
+  * <prf>
+  *   TrffPbth[] pbths = nfw TrffPbth[] { trffPbth, trffPbth };
+  *   trffSflfdtionModfl.sftSflfdtionPbths(pbths);
+  * </prf>
+  * should rfsult in only onf pbth bfing sflfdtfd:
+  * <dodf>trffPbth</dodf>, bnd
+  * not two dopifs of <dodf>trffPbth</dodf>.
+  *
+  * <p>
+  *
+  * Thf lfbd TrffPbth is thf lbst pbth thbt wbs bddfd (or sft). Thf lfbd
+  * row is thfn thf row thbt dorrfsponds to thf TrffPbth bs dftfrminfd
+  * from thf RowMbppfr.
+  *
+  * @buthor Sdott Violft
+  */
+
+publid intfrfbdf TrffSflfdtionModfl
+{
+    /** Sflfdtion dbn only dontbin onf pbth bt b timf. */
+    publid stbtid finbl int               SINGLE_TREE_SELECTION = 1;
+
+    /** Sflfdtion dbn only bf dontiguous. This will only bf fnfordfd if
+     * b RowMbppfr instbndf is providfd. Thbt is, if no RowMbppfr is sft
+     * this bfhbvfs thf sbmf bs DISCONTIGUOUS_TREE_SELECTION. */
+    publid stbtid finbl int               CONTIGUOUS_TREE_SELECTION = 2;
+
+    /** Sflfdtion dbn dontbin bny numbfr of itfms thbt brf not nfdfssbrily
+     * dontiguous. */
+    publid stbtid finbl int               DISCONTIGUOUS_TREE_SELECTION = 4;
+
+    /**
+     * Sfts thf sflfdtion modfl, whidh must bf onf of SINGLE_TREE_SELECTION,
+     * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION.
+     * <p>
+     * This mby dhbngf thf sflfdtion if thf durrfnt sflfdtion is not vblid
+     * for thf nfw modf. For fxbmplf, if thrff TrffPbths brf
+     * sflfdtfd whfn thf modf is dhbngfd to <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * only onf TrffPbth will rfmbin sflfdtfd. It is up to thf pbrtidulbr
+     * implfmfntbtion to dfdidf whbt TrffPbth rfmbins sflfdtfd.
+     *
+     * @pbrbm   modf    sflfdtion modf to bf sft
+     */
+    void sftSflfdtionModf(int modf);
+
+    /**
+     * Rfturns thf durrfnt sflfdtion modf, onf of
+     * <dodf>SINGLE_TREE_SELECTION</dodf>,
+     * <dodf>CONTIGUOUS_TREE_SELECTION</dodf> or
+     * <dodf>DISCONTIGUOUS_TREE_SELECTION</dodf>.
+     *
+     * @rfturn          thf durrfnt sflfdtion modf
+     */
+    int gftSflfdtionModf();
+
+    /**
+      * Sfts thf sflfdtion to pbth. If this rfprfsfnts b dhbngf, thfn
+      * thf TrffSflfdtionListfnfrs brf notififd. If <dodf>pbth</dodf> is
+      * null, this hbs thf sbmf ffffdt bs invoking <dodf>dlfbrSflfdtion</dodf>.
+      *
+      * @pbrbm  pbth    nfw pbth to sflfdt
+      */
+    void sftSflfdtionPbth(TrffPbth pbth);
+
+    /**
+      * Sfts thf sflfdtion to pbth. If this rfprfsfnts b dhbngf, thfn
+      * thf TrffSflfdtionListfnfrs brf notififd. If <dodf>pbths</dodf> is
+      * null, this hbs thf sbmf ffffdt bs invoking <dodf>dlfbrSflfdtion</dodf>.
+      *
+      * @pbrbm  pbths   nfw sflfdtion
+      */
+    void sftSflfdtionPbths(TrffPbth[] pbths);
+
+    /**
+      * Adds pbth to thf durrfnt sflfdtion. If pbth is not durrfntly
+      * in thf sflfdtion thf TrffSflfdtionListfnfrs brf notififd. This hbs
+      * no ffffdt if <dodf>pbth</dodf> is null.
+      *
+      * @pbrbm  pbth    thf nfw pbth to bdd to thf durrfnt sflfdtion
+      */
+    void bddSflfdtionPbth(TrffPbth pbth);
+
+    /**
+      * Adds pbths to thf durrfnt sflfdtion.  If bny of thf pbths in
+      * pbths brf not durrfntly in thf sflfdtion thf TrffSflfdtionListfnfrs
+      * brf notififd. This hbs
+      * no ffffdt if <dodf>pbths</dodf> is null.
+      *
+      * @pbrbm  pbths   thf nfw pbths to bdd to thf durrfnt sflfdtion
+      */
+    void bddSflfdtionPbths(TrffPbth[] pbths);
+
+    /**
+      * Rfmovfs pbth from thf sflfdtion. If pbth is in thf sflfdtion
+      * Thf TrffSflfdtionListfnfrs brf notififd. This hbs no ffffdt if
+      * <dodf>pbth</dodf> is null.
+      *
+      * @pbrbm  pbth    thf pbth to rfmovf from thf sflfdtion
+      */
+    void rfmovfSflfdtionPbth(TrffPbth pbth);
+
+    /**
+      * Rfmovfs pbths from thf sflfdtion.  If bny of thf pbths in
+      * <dodf>pbths</dodf>
+      * brf in thf sflfdtion, thf TrffSflfdtionListfnfrs brf notififd.
+      * This mfthod hbs no ffffdt if <dodf>pbths</dodf> is null.
+      *
+      * @pbrbm  pbths   thf pbth to rfmovf from thf sflfdtion
+      */
+    void rfmovfSflfdtionPbths(TrffPbth[] pbths);
+
+    /**
+      * Rfturns thf first pbth in thf sflfdtion. How first is dffinfd is
+      * up to implfmfntors, bnd mby not nfdfssbrily bf thf TrffPbth with
+      * thf smbllfst intfgfr vbluf bs dftfrminfd from thf
+      * <dodf>RowMbppfr</dodf>.
+      *
+      * @rfturn         thf first pbth in thf sflfdtion
+      */
+    TrffPbth gftSflfdtionPbth();
+
+    /**
+      * Rfturns thf pbths in thf sflfdtion. This will rfturn null (or bn
+      * fmpty brrby) if nothing is durrfntly sflfdtfd.
+      *
+      * @rfturn         thf pbths in thf sflfdtion
+      */
+    TrffPbth[] gftSflfdtionPbths();
+
+    /**
+     * Rfturns thf numbfr of pbths thbt brf sflfdtfd.
+     *
+     * @rfturn          thf numbfr of pbths thbt brf sflfdtfd
+     */
+    int gftSflfdtionCount();
+
+    /**
+      * Rfturns truf if thf pbth, <dodf>pbth</dodf>, is in thf durrfnt
+      * sflfdtion.
+      *
+      * @pbrbm  pbth    thf pbth to bf lokfd for
+      * @rfturn         whfthfr thf {@dodf pbth} is in thf durrfnt sflfdtion
+      */
+    boolfbn isPbthSflfdtfd(TrffPbth pbth);
+
+    /**
+      * Rfturns truf if thf sflfdtion is durrfntly fmpty.
+      *
+      * @rfturn         whfthfr thf sflfdtion is durrfntly fmpty
+      */
+    boolfbn isSflfdtionEmpty();
+
+    /**
+      * Emptifs thf durrfnt sflfdtion.  If this rfprfsfnts b dhbngf in thf
+      * durrfnt sflfdtion, thf sflfdtion listfnfrs brf notififd.
+      */
+    void dlfbrSflfdtion();
+
+    /**
+     * Sfts thf RowMbppfr instbndf. This instbndf is usfd to dftfrminf
+     * thf row for b pbrtidulbr TrffPbth.
+     *
+     * @pbrbm   nfwMbppfr   RowMbppfr to bf sft
+     */
+    void sftRowMbppfr(RowMbppfr nfwMbppfr);
+
+    /**
+     * Rfturns thf RowMbppfr instbndf thbt is bblf to mbp b TrffPbth to b
+     * row.
+     *
+     * @rfturn          thf RowMbppfr instbndf thbt is bblf to mbp b TrffPbth
+     *                  to b row
+     */
+    RowMbppfr gftRowMbppfr();
+
+    /**
+      * Rfturns bll of thf durrfntly sflfdtfd rows. This will rfturn
+      * null (or bn fmpty brrby) if thfrf brf no sflfdtfd TrffPbths or
+      * b RowMbppfr hbs not bffn sft.
+      *
+      * @rfturn         bll of thf durrfntly sflfdtfd rows
+      */
+    int[] gftSflfdtionRows();
+
+    /**
+     * Rfturns thf smbllfst vbluf obtbinfd from thf RowMbppfr for thf
+     * durrfnt sft of sflfdtfd TrffPbths. If nothing is sflfdtfd,
+     * or thfrf is no RowMbppfr, this will rfturn -1.
+     *
+     * @rfturn          thf smbllfst vbluf obtbinfd from thf RowMbppfr
+     *                  for thf durrfnt sft of sflfdtfd TrffPbths
+      */
+    int gftMinSflfdtionRow();
+
+    /**
+     * Rfturns thf lbrgfst vbluf obtbinfd from thf RowMbppfr for thf
+     * durrfnt sft of sflfdtfd TrffPbths. If nothing is sflfdtfd,
+     * or thfrf is no RowMbppfr, this will rfturn -1.
+     *
+     * @rfturn          thf lbrgfst vbluf obtbinfd from thf RowMbppfr
+     *                  for thf durrfnt sft of sflfdtfd TrffPbths
+      */
+    int gftMbxSflfdtionRow();
+
+    /**
+      * Rfturns truf if thf row idfntififd by <dodf>row</dodf> is sflfdtfd.
+      *
+      * @pbrbm  row     row to dhfdk
+      * @rfturn         whfthfr thf row is sflfdtfd
+      */
+    boolfbn isRowSflfdtfd(int row);
+
+    /**
+     * Updbtfs this objfdt's mbpping from TrffPbths to rows. This should
+     * bf invokfd whfn thf mbpping from TrffPbths to intfgfrs hbs dhbngfd
+     * (for fxbmplf, b nodf hbs bffn fxpbndfd).
+     * <p>
+     * You do not normblly hbvf to dbll this; JTrff bnd its bssodibtfd
+     * listfnfrs will invokf this for you. If you brf implfmfnting your own
+     * vifw dlbss, thfn you will hbvf to invokf this.
+     */
+    void rfsftRowSflfdtion();
+
+    /**
+     * Rfturns thf lfbd sflfdtion indfx. Thbt is thf lbst indfx thbt wbs
+     * bddfd.
+     *
+     * @rfturn          thf lfbd sflfdtion indfx
+     */
+    int gftLfbdSflfdtionRow();
+
+    /**
+     * Rfturns thf lbst pbth thbt wbs bddfd. This mby difffr from thf
+     * lfbdSflfdtionPbth propfrty mbintbinfd by thf JTrff.
+     *
+     * @rfturn          thf lbst pbth thbt wbs bddfd
+     */
+    TrffPbth gftLfbdSflfdtionPbth();
+
+    /**
+     * Adds b PropfrtyChbngfListfnfr to thf listfnfr list.
+     * Thf listfnfr is rfgistfrfd for bll propfrtifs.
+     * <p>
+     * A PropfrtyChbngfEvfnt will gft firfd whfn thf sflfdtion modf
+     * dhbngfs.
+     *
+     * @pbrbm   listfnfr    thf PropfrtyChbngfListfnfr to bf bddfd
+     */
+    void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+    /**
+     * Rfmovfs b PropfrtyChbngfListfnfr from thf listfnfr list.
+     * This rfmovfs b PropfrtyChbngfListfnfr thbt wbs rfgistfrfd
+     * for bll propfrtifs.
+     *
+     * @pbrbm   listfnfr    thf PropfrtyChbngfListfnfr to bf rfmovfd
+     */
+    void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+    /**
+      * Adds x to thf list of listfnfrs thbt brf notififd fbdh timf thf
+      * sft of sflfdtfd TrffPbths dhbngfs.
+      *
+      * @pbrbm  x       thf nfw listfnfr to bf bddfd
+      */
+    void bddTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x);
+
+    /**
+      * Rfmovfs x from thf list of listfnfrs thbt brf notififd fbdh timf
+      * thf sft of sflfdtfd TrffPbths dhbngfs.
+      *
+      * @pbrbm  x       thf listfnfr to rfmovf
+      */
+    void rfmovfTrffSflfdtionListfnfr(TrffSflfdtionListfnfr x);
+}

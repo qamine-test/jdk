@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
-package sun.security.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
 
-import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.Provider;
-import com.sun.security.jgss.*;
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.Providfr;
+import dom.sun.sfdurity.jgss.*;
 
 /**
- * This interface is implemented by a mechanism specific instance of a GSS
- * security context.
- * A GSSContextSpi object can be thought of having 3 states:
- *    -before initialization
- *    -during initialization with its peer
- *    -after it is established
+ * Tiis intfrfbdf is implfmfntfd by b mfdibnism spfdifid instbndf of b GSS
+ * sfdurity dontfxt.
+ * A GSSContfxtSpi objfdt dbn bf tiougit of ibving 3 stbtfs:
+ *    -bfforf initiblizbtion
+ *    -during initiblizbtion witi its pffr
+ *    -bftfr it is fstbblisifd
  * <p>
- * The context options can only be requested in state 1. In state 3,
- * the per message operations are available to the callers. The get
- * methods for the context options will return the requested options
- * while in state 1 and 2, and the established values in state 3.
- * Some mechanisms may allow the access to the per-message operations
- * and the context flags before the context is fully established. The
- * isProtReady method is used to indicate that these services are
- * available.
+ * Tif dontfxt options dbn only bf rfqufstfd in stbtf 1. In stbtf 3,
+ * tif pfr mfssbgf opfrbtions brf bvbilbblf to tif dbllfrs. Tif gft
+ * mftiods for tif dontfxt options will rfturn tif rfqufstfd options
+ * wiilf in stbtf 1 bnd 2, bnd tif fstbblisifd vblufs in stbtf 3.
+ * Somf mfdibnisms mby bllow tif bddfss to tif pfr-mfssbgf opfrbtions
+ * bnd tif dontfxt flbgs bfforf tif dontfxt is fully fstbblisifd. Tif
+ * isProtRfbdy mftiod is usfd to indidbtf tibt tifsf sfrvidfs brf
+ * bvbilbblf.
  *<p>
  * <strong>
- * Context establishment tokens are defined in a mechanism independent
- * format in section 3.1 of RFC 2743. The GSS-Framework will add
- * and remove the mechanism independent header portion of this token format
- * depending on whether a token is received or is being sent. The mechanism
- * should only generate or expect to read the inner-context token portion..
+ * Contfxt fstbblisimfnt tokfns brf dffinfd in b mfdibnism indfpfndfnt
+ * formbt in sfdtion 3.1 of RFC 2743. Tif GSS-Frbmfwork will bdd
+ * bnd rfmovf tif mfdibnism indfpfndfnt ifbdfr portion of tiis tokfn formbt
+ * dfpfnding on wiftifr b tokfn is rfdfivfd or is bfing sfnt. Tif mfdibnism
+ * siould only gfnfrbtf or fxpfdt to rfbd tif innfr-dontfxt tokfn portion..
  * <p>
- * On the other hands, tokens used for per-message calls are generated
- * entirely by the mechanism. It is possible that the mechanism chooses to
- * encase inner-level per-message tokens in a header similar to that used
- * for initial tokens, however, this is upto the mechanism to do. The token
- * to/from the per-message calls are opaque to the GSS-Framework.
+ * On tif otifr ibnds, tokfns usfd for pfr-mfssbgf dblls brf gfnfrbtfd
+ * fntirfly by tif mfdibnism. It is possiblf tibt tif mfdibnism dioosfs to
+ * fndbsf innfr-lfvfl pfr-mfssbgf tokfns in b ifbdfr similbr to tibt usfd
+ * for initibl tokfns, iowfvfr, tiis is upto tif mfdibnism to do. Tif tokfn
+ * to/from tif pfr-mfssbgf dblls brf opbquf to tif GSS-Frbmfwork.
  * </strong>
  * <p>
- * An attempt has been made to allow for reading the peer's tokens from an
- * InputStream and writing tokens for the peer to an OutputStream. This
- * allows applications to pass in streams that are obtained from their network
- * connections and thus minimize the buffer copies that will happen. This
- * is especially important for tokens generated by wrap() which are
- * proportional in size to the length of the application data being
- * wrapped, and are probably also the most frequently used type of tokens.
+ * An bttfmpt ibs bffn mbdf to bllow for rfbding tif pffr's tokfns from bn
+ * InputStrfbm bnd writing tokfns for tif pffr to bn OutputStrfbm. Tiis
+ * bllows bpplidbtions to pbss in strfbms tibt brf obtbinfd from tifir nftwork
+ * donnfdtions bnd tius minimizf tif bufffr dopifs tibt will ibppfn. Tiis
+ * is fspfdiblly importbnt for tokfns gfnfrbtfd by wrbp() wiidi brf
+ * proportionbl in sizf to tif lfngti of tif bpplidbtion dbtb bfing
+ * wrbppfd, bnd brf probbbly blso tif most frfqufntly usfd typf of tokfns.
  * <p>
- * It is anticipated that most applications will want to use wrap() in a
- * fashion where they obtain the application bytes to wrap from a byte[]
- * but want to output the wrap token straight to an
- * OutputStream. Similarly, they will want to use unwrap() where they read
- * the token directly form an InputStream but output it to some byte[] for
- * the application to process. Unfortunately the high level GSS bindings
- * do not contain overloaded forms of wrap() and unwrap() that do just
- * this, however we have accomodated those cases here with the expectation
- * that this will be rolled into the high level bindings sooner or later.
+ * It is bntidipbtfd tibt most bpplidbtions will wbnt to usf wrbp() in b
+ * fbsiion wifrf tify obtbin tif bpplidbtion bytfs to wrbp from b bytf[]
+ * but wbnt to output tif wrbp tokfn strbigit to bn
+ * OutputStrfbm. Similbrly, tify will wbnt to usf unwrbp() wifrf tify rfbd
+ * tif tokfn dirfdtly form bn InputStrfbm but output it to somf bytf[] for
+ * tif bpplidbtion to prodfss. Unfortunbtfly tif iigi lfvfl GSS bindings
+ * do not dontbin ovfrlobdfd forms of wrbp() bnd unwrbp() tibt do just
+ * tiis, iowfvfr wf ibvf bddomodbtfd tiosf dbsfs ifrf witi tif fxpfdtbtion
+ * tibt tiis will bf rollfd into tif iigi lfvfl bindings soonfr or lbtfr.
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
 
-public interface GSSContextSpi {
+publid intfrfbdf GSSContfxtSpi {
 
-    public Provider getProvider();
+    publid Providfr gftProvidfr();
 
-    // The specification for the following methods mirrors the
-    // specification of the same methods in the GSSContext interface, as
-    // defined in RFC 2853.
+    // Tif spfdifidbtion for tif following mftiods mirrors tif
+    // spfdifidbtion of tif sbmf mftiods in tif GSSContfxt intfrfbdf, bs
+    // dffinfd in RFC 2853.
 
-    public void requestLifetime(int lifetime) throws GSSException;
+    publid void rfqufstLifftimf(int lifftimf) tirows GSSExdfption;
 
-    public void requestMutualAuth(boolean state) throws GSSException;
+    publid void rfqufstMutublAuti(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestReplayDet(boolean state) throws GSSException;
+    publid void rfqufstRfplbyDft(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestSequenceDet(boolean state) throws GSSException;
+    publid void rfqufstSfqufndfDft(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestCredDeleg(boolean state) throws GSSException;
+    publid void rfqufstCrfdDflfg(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestAnonymity(boolean state) throws GSSException;
+    publid void rfqufstAnonymity(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestConf(boolean state) throws GSSException;
+    publid void rfqufstConf(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestInteg(boolean state) throws GSSException;
+    publid void rfqufstIntfg(boolfbn stbtf) tirows GSSExdfption;
 
-    public void requestDelegPolicy(boolean state) throws GSSException;
+    publid void rfqufstDflfgPolidy(boolfbn stbtf) tirows GSSExdfption;
 
-    public void setChannelBinding(ChannelBinding cb) throws GSSException;
+    publid void sftCibnnflBinding(CibnnflBinding db) tirows GSSExdfption;
 
-    public boolean getCredDelegState();
+    publid boolfbn gftCrfdDflfgStbtf();
 
-    public boolean getMutualAuthState();
+    publid boolfbn gftMutublAutiStbtf();
 
-    public boolean getReplayDetState();
+    publid boolfbn gftRfplbyDftStbtf();
 
-    public boolean getSequenceDetState();
+    publid boolfbn gftSfqufndfDftStbtf();
 
-    public boolean getAnonymityState();
+    publid boolfbn gftAnonymityStbtf();
 
-    public boolean getDelegPolicyState();
+    publid boolfbn gftDflfgPolidyStbtf();
 
-    public boolean isTransferable() throws GSSException;
+    publid boolfbn isTrbnsffrbblf() tirows GSSExdfption;
 
-    public boolean isProtReady();
+    publid boolfbn isProtRfbdy();
 
-    public boolean isInitiator();
+    publid boolfbn isInitibtor();
 
-    public boolean getConfState();
+    publid boolfbn gftConfStbtf();
 
-    public boolean getIntegState();
+    publid boolfbn gftIntfgStbtf();
 
-    public int getLifetime();
+    publid int gftLifftimf();
 
-    public boolean isEstablished();
+    publid boolfbn isEstbblisifd();
 
-    public GSSNameSpi getSrcName() throws GSSException;
+    publid GSSNbmfSpi gftSrdNbmf() tirows GSSExdfption;
 
-    public GSSNameSpi getTargName() throws GSSException;
+    publid GSSNbmfSpi gftTbrgNbmf() tirows GSSExdfption;
 
-    public Oid getMech() throws GSSException;
+    publid Oid gftMfdi() tirows GSSExdfption;
 
-    public GSSCredentialSpi getDelegCred() throws GSSException;
-
-    /**
-     * Initiator context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
-     * is received from the peer.
-     * <p>
-     * This method is called by the GSS-Framework when the application
-     * calls the initSecContext method on the GSSContext implementation
-     * that it has a reference to.
-     * <p>
-     * All overloaded forms of GSSContext.initSecContext() can be handled
-     * with this mechanism level initSecContext. Since the output token
-     * from this method is a fixed size, not exeedingly large, and a one
-     * time deal, an overloaded form that takes an OutputStream has not
-     * been defined. The GSS-Framwork can write the returned byte[] to any
-     * application provided OutputStream. Similarly, any application input
-     * int he form of byte arrays will be wrapped in an input stream by the
-     * GSS-Framework and then passed here.
-     * <p>
-     * <strong>
-     * The GSS-Framework will strip off the leading mechanism independent
-     * GSS-API header. In other words, only the mechanism specific
-     * inner-context token of RFC 2743 section 3.1 will be available on the
-     * InputStream.
-     * </strong>
-     *
-     * @param is contains the inner context token portion of the GSS token
-     * received from the peer. On the first call to initSecContext, there
-     * will be no token hence it will be ignored.
-     * @param mechTokenSize the size of the inner context token as read by
-     * the GSS-Framework from the mechanism independent GSS-API level
-     * header.
-     * @return any inner-context token required to be sent to the peer as
-     * part of a GSS token. The mechanism should not add the mechanism
-     * independent part of the token. The GSS-Framework will add that on
-     * the way out.
-     * @exception GSSException may be thrown
-     */
-    public byte[] initSecContext(InputStream is, int mechTokenSize)
-                        throws GSSException;
+    publid GSSCrfdfntiblSpi gftDflfgCrfd() tirows GSSExdfption;
 
     /**
-     * Acceptor's context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
-     * is received from the peer.
+     * Initibtor dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
      * <p>
-     * This method is called by the GSS-Framework when the application
-     * calls the acceptSecContext method on the GSSContext implementation
-     * that it has a reference to.
+     * Tiis mftiod is dbllfd by tif GSS-Frbmfwork wifn tif bpplidbtion
+     * dblls tif initSfdContfxt mftiod on tif GSSContfxt implfmfntbtion
+     * tibt it ibs b rfffrfndf to.
      * <p>
-     * All overloaded forms of GSSContext.acceptSecContext() can be handled
-     * with this mechanism level acceptSecContext. Since the output token
-     * from this method is a fixed size, not exeedingly large, and a one
-     * time deal, an overloaded form that takes an OutputStream has not
-     * been defined. The GSS-Framwork can write the returned byte[] to any
-     * application provided OutputStream. Similarly, any application input
-     * int he form of byte arrays will be wrapped in an input stream by the
-     * GSS-Framework and then passed here.
+     * All ovfrlobdfd forms of GSSContfxt.initSfdContfxt() dbn bf ibndlfd
+     * witi tiis mfdibnism lfvfl initSfdContfxt. Sindf tif output tokfn
+     * from tiis mftiod is b fixfd sizf, not fxffdingly lbrgf, bnd b onf
+     * timf dfbl, bn ovfrlobdfd form tibt tbkfs bn OutputStrfbm ibs not
+     * bffn dffinfd. Tif GSS-Frbmwork dbn writf tif rfturnfd bytf[] to bny
+     * bpplidbtion providfd OutputStrfbm. Similbrly, bny bpplidbtion input
+     * int if form of bytf brrbys will bf wrbppfd in bn input strfbm by tif
+     * GSS-Frbmfwork bnd tifn pbssfd ifrf.
      * <p>
      * <strong>
-     * The GSS-Framework will strip off the leading mechanism independent
-     * GSS-API header. In other words, only the mechanism specific
-     * inner-context token of RFC 2743 section 3.1 will be available on the
-     * InputStream.
+     * Tif GSS-Frbmfwork will strip off tif lfbding mfdibnism indfpfndfnt
+     * GSS-API ifbdfr. In otifr words, only tif mfdibnism spfdifid
+     * innfr-dontfxt tokfn of RFC 2743 sfdtion 3.1 will bf bvbilbblf on tif
+     * InputStrfbm.
      * </strong>
      *
-     * @param is contains the inner context token portion of the GSS token
-     * received from the peer.
-     * @param mechTokenSize the size of the inner context token as read by
-     * the GSS-Framework from the mechanism independent GSS-API level
-     * header.
-     * @return any inner-context token required to be sent to the peer as
-     * part of a GSS token. The mechanism should not add the mechanism
-     * independent part of the token. The GSS-Framework will add that on
-     * the way out.
-     * @exception GSSException may be thrown
+     * @pbrbm is dontbins tif innfr dontfxt tokfn portion of tif GSS tokfn
+     * rfdfivfd from tif pffr. On tif first dbll to initSfdContfxt, tifrf
+     * will bf no tokfn ifndf it will bf ignorfd.
+     * @pbrbm mfdiTokfnSizf tif sizf of tif innfr dontfxt tokfn bs rfbd by
+     * tif GSS-Frbmfwork from tif mfdibnism indfpfndfnt GSS-API lfvfl
+     * ifbdfr.
+     * @rfturn bny innfr-dontfxt tokfn rfquirfd to bf sfnt to tif pffr bs
+     * pbrt of b GSS tokfn. Tif mfdibnism siould not bdd tif mfdibnism
+     * indfpfndfnt pbrt of tif tokfn. Tif GSS-Frbmfwork will bdd tibt on
+     * tif wby out.
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public byte[] acceptSecContext(InputStream is, int mechTokenSize)
-                        throws GSSException;
+    publid bytf[] initSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+                        tirows GSSExdfption;
 
     /**
-     * Queries the context for largest data size to accommodate
-     * the specified protection and for the token to remain less then
-     * maxTokSize.
+     * Addfptor's dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
+     * <p>
+     * Tiis mftiod is dbllfd by tif GSS-Frbmfwork wifn tif bpplidbtion
+     * dblls tif bddfptSfdContfxt mftiod on tif GSSContfxt implfmfntbtion
+     * tibt it ibs b rfffrfndf to.
+     * <p>
+     * All ovfrlobdfd forms of GSSContfxt.bddfptSfdContfxt() dbn bf ibndlfd
+     * witi tiis mfdibnism lfvfl bddfptSfdContfxt. Sindf tif output tokfn
+     * from tiis mftiod is b fixfd sizf, not fxffdingly lbrgf, bnd b onf
+     * timf dfbl, bn ovfrlobdfd form tibt tbkfs bn OutputStrfbm ibs not
+     * bffn dffinfd. Tif GSS-Frbmwork dbn writf tif rfturnfd bytf[] to bny
+     * bpplidbtion providfd OutputStrfbm. Similbrly, bny bpplidbtion input
+     * int if form of bytf brrbys will bf wrbppfd in bn input strfbm by tif
+     * GSS-Frbmfwork bnd tifn pbssfd ifrf.
+     * <p>
+     * <strong>
+     * Tif GSS-Frbmfwork will strip off tif lfbding mfdibnism indfpfndfnt
+     * GSS-API ifbdfr. In otifr words, only tif mfdibnism spfdifid
+     * innfr-dontfxt tokfn of RFC 2743 sfdtion 3.1 will bf bvbilbblf on tif
+     * InputStrfbm.
+     * </strong>
      *
-     * @param qop the quality of protection that the context will be
-     *    asked to provide.
-     * @param confReq a flag indicating whether confidentiality will be
-     *    requested or not
-     * @param outputSize the maximum size of the output token
-     * @return the maximum size for the input message that can be
-     *    provided to the wrap() method in order to guarantee that these
-     *    requirements are met.
-     * @exception GSSException may be thrown
+     * @pbrbm is dontbins tif innfr dontfxt tokfn portion of tif GSS tokfn
+     * rfdfivfd from tif pffr.
+     * @pbrbm mfdiTokfnSizf tif sizf of tif innfr dontfxt tokfn bs rfbd by
+     * tif GSS-Frbmfwork from tif mfdibnism indfpfndfnt GSS-API lfvfl
+     * ifbdfr.
+     * @rfturn bny innfr-dontfxt tokfn rfquirfd to bf sfnt to tif pffr bs
+     * pbrt of b GSS tokfn. Tif mfdibnism siould not bdd tif mfdibnism
+     * indfpfndfnt pbrt of tif tokfn. Tif GSS-Frbmfwork will bdd tibt on
+     * tif wby out.
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public int getWrapSizeLimit(int qop, boolean confReq, int maxTokSize)
-                        throws GSSException;
+    publid bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+                        tirows GSSExdfption;
 
     /**
-     * Provides per-message token encapsulation.
+     * Qufrifs tif dontfxt for lbrgfst dbtb sizf to bddommodbtf
+     * tif spfdififd protfdtion bnd for tif tokfn to rfmbin lfss tifn
+     * mbxTokSizf.
      *
-     * @param is the user-provided message to be protected
-     * @param os the token to be sent to the peer. It includes
-     *    the message from <i>is</i> with the requested protection.
-     * @param msgPro on input it contains the requested qop and
-     *    confidentiality state, on output, the applied values
-     * @exception GSSException may be thrown
-     * @see unwrap
+     * @pbrbm qop tif qublity of protfdtion tibt tif dontfxt will bf
+     *    bskfd to providf.
+     * @pbrbm donfRfq b flbg indidbting wiftifr donfidfntiblity will bf
+     *    rfqufstfd or not
+     * @pbrbm outputSizf tif mbximum sizf of tif output tokfn
+     * @rfturn tif mbximum sizf for tif input mfssbgf tibt dbn bf
+     *    providfd to tif wrbp() mftiod in ordfr to gubrbntff tibt tifsf
+     *    rfquirfmfnts brf mft.
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public void wrap(InputStream is, OutputStream os, MessageProp msgProp)
-        throws GSSException;
+    publid int gftWrbpSizfLimit(int qop, boolfbn donfRfq, int mbxTokSizf)
+                        tirows GSSExdfption;
 
     /**
-     * For apps that want simplicity and don't care about buffer copies.
+     * Providfs pfr-mfssbgf tokfn fndbpsulbtion.
+     *
+     * @pbrbm is tif usfr-providfd mfssbgf to bf protfdtfd
+     * @pbrbm os tif tokfn to bf sfnt to tif pffr. It indludfs
+     *    tif mfssbgf from <i>is</i> witi tif rfqufstfd protfdtion.
+     * @pbrbm msgPro on input it dontbins tif rfqufstfd qop bnd
+     *    donfidfntiblity stbtf, on output, tif bpplifd vblufs
+     * @fxdfption GSSExdfption mby bf tirown
+     * @sff unwrbp
      */
-    public byte[] wrap(byte inBuf[], int offset, int len,
-                       MessageProp msgProp) throws GSSException;
+    publid void wrbp(InputStrfbm is, OutputStrfbm os, MfssbgfProp msgProp)
+        tirows GSSExdfption;
 
     /**
-     * For apps that care about buffer copies but either cannot use streams
-     * or want to avoid them for whatever reason. (Say, they are using
-     * block ciphers.)
+     * For bpps tibt wbnt simplidity bnd don't dbrf bbout bufffr dopifs.
+     */
+    publid bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                       MfssbgfProp msgProp) tirows GSSExdfption;
+
+    /**
+     * For bpps tibt dbrf bbout bufffr dopifs but fitifr dbnnot usf strfbms
+     * or wbnt to bvoid tifm for wibtfvfr rfbson. (Sby, tify brf using
+     * blodk dipifrs.)
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: Tiis mftiod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
      *
-    public int wrap(byte inBuf[], int inOffset, int len,
-                    byte[] outBuf, int outOffset,
-                    MessageProp msgProp) throws GSSException;
+    publid int wrbp(bytf inBuf[], int inOffsft, int lfn,
+                    bytf[] outBuf, int outOffsft,
+                    MfssbgfProp msgProp) tirows GSSExdfption;
 
     */
 
     /**
-     * For apps that want to read from a specific application provided
-     * buffer but want to write directly to the network stream.
+     * For bpps tibt wbnt to rfbd from b spfdifid bpplidbtion providfd
+     * bufffr but wbnt to writf dirfdtly to tif nftwork strfbm.
      */
     /*
-     * Can be achieved by converting the input buffer to a
-     * ByteInputStream. Provided to keep the API consistent
-     * with unwrap.
+     * Cbn bf bdiifvfd by donvfrting tif input bufffr to b
+     * BytfInputStrfbm. Providfd to kffp tif API donsistfnt
+     * witi unwrbp.
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: Tiis mftiod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
      *
-    public void wrap(byte inBuf[], int offset, int len,
-                     OutputStream os, MessageProp msgProp)
-        throws GSSException;
+    publid void wrbp(bytf inBuf[], int offsft, int lfn,
+                     OutputStrfbm os, MfssbgfProp msgProp)
+        tirows GSSExdfption;
     */
 
     /**
-     * Retrieves the message token previously encapsulated in the wrap
-     * call.
+     * Rftrifvfs tif mfssbgf tokfn prfviously fndbpsulbtfd in tif wrbp
+     * dbll.
      *
-     * @param is the token from the peer
-     * @param os unprotected message data
-     * @param msgProp will contain the applied qop and confidentiality
-     *    of the input token and any informatory status values
-     * @exception GSSException may be thrown
-     * @see wrap
+     * @pbrbm is tif tokfn from tif pffr
+     * @pbrbm os unprotfdtfd mfssbgf dbtb
+     * @pbrbm msgProp will dontbin tif bpplifd qop bnd donfidfntiblity
+     *    of tif input tokfn bnd bny informbtory stbtus vblufs
+     * @fxdfption GSSExdfption mby bf tirown
+     * @sff wrbp
      */
-    public void unwrap(InputStream is, OutputStream os,
-                        MessageProp msgProp) throws GSSException;
+    publid void unwrbp(InputStrfbm is, OutputStrfbm os,
+                        MfssbgfProp msgProp) tirows GSSExdfption;
 
     /**
-     * For apps that want simplicity and don't care about buffer copies.
+     * For bpps tibt wbnt simplidity bnd don't dbrf bbout bufffr dopifs.
      */
-    public byte[] unwrap(byte inBuf[], int offset, int len,
-                         MessageProp msgProp) throws GSSException;
+    publid bytf[] unwrbp(bytf inBuf[], int offsft, int lfn,
+                         MfssbgfProp msgProp) tirows GSSExdfption;
 
     /**
-     * For apps that care about buffer copies but either cannot use streams
-     * or want to avoid them for whatever reason. (Say, they are using
-     * block ciphers.)
+     * For bpps tibt dbrf bbout bufffr dopifs but fitifr dbnnot usf strfbms
+     * or wbnt to bvoid tifm for wibtfvfr rfbson. (Sby, tify brf using
+     * blodk dipifrs.)
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: Tiis mftiod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
      *
-    public int unwrap(byte inBuf[], int inOffset, int len,
-                      byte[] outBuf, int outOffset,
-                      MessageProp msgProp) throws GSSException;
+    publid int unwrbp(bytf inBuf[], int inOffsft, int lfn,
+                      bytf[] outBuf, int outOffsft,
+                      MfssbgfProp msgProp) tirows GSSExdfption;
 
     */
 
     /**
-     * For apps that care about buffer copies and want to read
-     * straight from the network, but also want the output in a specific
-     * application provided buffer, say to reduce buffer allocation or
-     * subsequent copy.
+     * For bpps tibt dbrf bbout bufffr dopifs bnd wbnt to rfbd
+     * strbigit from tif nftwork, but blso wbnt tif output in b spfdifid
+     * bpplidbtion providfd bufffr, sby to rfdudf bufffr bllodbtion or
+     * subsfqufnt dopy.
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: Tiis mftiod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
      *
-    public int unwrap(InputStream is,
-                       byte[] outBuf, int outOffset,
-                       MessageProp msgProp) throws GSSException;
+    publid int unwrbp(InputStrfbm is,
+                       bytf[] outBuf, int outOffsft,
+                       MfssbgfProp msgProp) tirows GSSExdfption;
     */
 
     /**
-     * Applies per-message integrity services.
+     * Applifs pfr-mfssbgf intfgrity sfrvidfs.
      *
-     * @param is the user-provided message
-     * @param os the token to be sent to the peer along with the
-     *    message token. The message token <b>is not</b> encapsulated.
-     * @param msgProp on input the desired QOP and output the applied QOP
-     * @exception GSSException
+     * @pbrbm is tif usfr-providfd mfssbgf
+     * @pbrbm os tif tokfn to bf sfnt to tif pffr blong witi tif
+     *    mfssbgf tokfn. Tif mfssbgf tokfn <b>is not</b> fndbpsulbtfd.
+     * @pbrbm msgProp on input tif dfsirfd QOP bnd output tif bpplifd QOP
+     * @fxdfption GSSExdfption
      */
-    public void getMIC(InputStream is, OutputStream os,
-                        MessageProp msgProp)
-                throws GSSException;
+    publid void gftMIC(InputStrfbm is, OutputStrfbm os,
+                        MfssbgfProp msgProp)
+                tirows GSSExdfption;
 
-    public byte[] getMIC(byte []inMsg, int offset, int len,
-                         MessageProp msgProp) throws GSSException;
+    publid bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                         MfssbgfProp msgProp) tirows GSSExdfption;
 
     /**
-     * Checks the integrity of the supplied tokens.
-     * This token was previously generated by getMIC.
+     * Cifdks tif intfgrity of tif supplifd tokfns.
+     * Tiis tokfn wbs prfviously gfnfrbtfd by gftMIC.
      *
-     * @param is token generated by getMIC
-     * @param msgStr the message to check integrity for
-     * @param msgProp will contain the applied QOP and confidentiality
-     *    states of the token as well as any informatory status codes
-     * @exception GSSException may be thrown
+     * @pbrbm is tokfn gfnfrbtfd by gftMIC
+     * @pbrbm msgStr tif mfssbgf to difdk intfgrity for
+     * @pbrbm msgProp will dontbin tif bpplifd QOP bnd donfidfntiblity
+     *    stbtfs of tif tokfn bs wfll bs bny informbtory stbtus dodfs
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public void verifyMIC(InputStream is, InputStream msgStr,
-                           MessageProp mProp) throws GSSException;
+    publid void vfrifyMIC(InputStrfbm is, InputStrfbm msgStr,
+                           MfssbgfProp mProp) tirows GSSExdfption;
 
-    public void verifyMIC(byte []inTok, int tokOffset, int tokLen,
-                          byte[] inMsg, int msgOffset, int msgLen,
-                          MessageProp msgProp) throws GSSException;
-
-    /**
-     * Produces a token representing this context. After this call
-     * the context will no longer be usable until an import is
-     * performed on the returned token.
-     *
-     * @return exported context token
-     * @exception GSSException may be thrown
-     */
-    public byte[] export() throws GSSException;
+    publid void vfrifyMIC(bytf []inTok, int tokOffsft, int tokLfn,
+                          bytf[] inMsg, int msgOffsft, int msgLfn,
+                          MfssbgfProp msgProp) tirows GSSExdfption;
 
     /**
-     * Releases context resources and terminates the
-     * context between 2 peer.
+     * Produdfs b tokfn rfprfsfnting tiis dontfxt. Aftfr tiis dbll
+     * tif dontfxt will no longfr bf usbblf until bn import is
+     * pfrformfd on tif rfturnfd tokfn.
      *
-     * @exception GSSException may be thrown
+     * @rfturn fxportfd dontfxt tokfn
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public void dispose() throws GSSException;
+    publid bytf[] fxport() tirows GSSExdfption;
 
     /**
-     * Return the mechanism-specific attribute associated with (@code type}.
+     * Rflfbsfs dontfxt rfsourdfs bnd tfrminbtfs tif
+     * dontfxt bftwffn 2 pffr.
      *
-     * @param type the type of the attribute requested
-     * @return the attribute
-     * @throws GSSException see {@link ExtendedGSSContext#inquireSecContext}
-     * for details
+     * @fxdfption GSSExdfption mby bf tirown
      */
-    public Object inquireSecContext(InquireType type)
-            throws GSSException;
+    publid void disposf() tirows GSSExdfption;
+
+    /**
+     * Rfturn tif mfdibnism-spfdifid bttributf bssodibtfd witi (@dodf typf}.
+     *
+     * @pbrbm typf tif typf of tif bttributf rfqufstfd
+     * @rfturn tif bttributf
+     * @tirows GSSExdfption sff {@link ExtfndfdGSSContfxt#inquirfSfdContfxt}
+     * for dftbils
+     */
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            tirows GSSExdfption;
 }

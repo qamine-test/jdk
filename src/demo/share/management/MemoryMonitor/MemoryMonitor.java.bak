@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,462 +30,462 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.util.Date;
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import java.lang.management.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.gfom.Linf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.Dbtf;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.EtdifdBordfr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
+import jbvb.lbng.mbnbgfmfnt.*;
 /**
- * Demo code which plots the memory usage by all memory pools.
- * The memory usage is sampled at some time interval using
- * java.lang.management API. This demo code is modified based
- * java2d MemoryMonitor demo.
+ * Dfmo dodf wiidi plots tif mfmory usbgf by bll mfmory pools.
+ * Tif mfmory usbgf is sbmplfd bt somf timf intfrvbl using
+ * jbvb.lbng.mbnbgfmfnt API. Tiis dfmo dodf is modififd bbsfd
+ * jbvb2d MfmoryMonitor dfmo.
  */
-public class MemoryMonitor extends JPanel {
+publid dlbss MfmoryMonitor fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = -3463003810776195761L;
-    static JCheckBox dateStampCB = new JCheckBox("Output Date Stamp");
-    public Surface surf;
-    JPanel controls;
-    boolean doControls;
-    JTextField tf;
-    // Get memory pools.
-    static java.util.List<MemoryPoolMXBean> mpools =
-        ManagementFactory.getMemoryPoolMXBeans();
-    // Total number of memory pools.
-    static int numPools = mpools.size();
+    privbtf stbtid finbl long sfriblVfrsionUID = -3463003810776195761L;
+    stbtid JCifdkBox dbtfStbmpCB = nfw JCifdkBox("Output Dbtf Stbmp");
+    publid Surfbdf surf;
+    JPbnfl dontrols;
+    boolfbn doControls;
+    JTfxtFifld tf;
+    // Gft mfmory pools.
+    stbtid jbvb.util.List<MfmoryPoolMXBfbn> mpools =
+        MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns();
+    // Totbl numbfr of mfmory pools.
+    stbtid int numPools = mpools.sizf();
 
-    public MemoryMonitor() {
-        setLayout(new BorderLayout());
-        setBorder(new TitledBorder(new EtchedBorder(), "Memory Monitor"));
-        add(surf = new Surface());
-        controls = new JPanel();
-        controls.setPreferredSize(new Dimension(135,80));
-        Font font = new Font("serif", Font.PLAIN, 10);
-        JLabel label = new JLabel("Sample Rate");
-        label.setFont(font);
-        label.setForeground(Color.red);
-        controls.add(label);
-        tf = new JTextField("1000");
-        tf.setPreferredSize(new Dimension(45,20));
-        controls.add(tf);
-        controls.add(label = new JLabel("ms"));
-        label.setFont(font);
-        label.setForeground(Color.red);
-        controls.add(dateStampCB);
-        dateStampCB.setFont(font);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-               removeAll();
+    publid MfmoryMonitor() {
+        sftLbyout(nfw BordfrLbyout());
+        sftBordfr(nfw TitlfdBordfr(nfw EtdifdBordfr(), "Mfmory Monitor"));
+        bdd(surf = nfw Surfbdf());
+        dontrols = nfw JPbnfl();
+        dontrols.sftPrfffrrfdSizf(nfw Dimfnsion(135,80));
+        Font font = nfw Font("sfrif", Font.PLAIN, 10);
+        JLbbfl lbbfl = nfw JLbbfl("Sbmplf Rbtf");
+        lbbfl.sftFont(font);
+        lbbfl.sftForfground(Color.rfd);
+        dontrols.bdd(lbbfl);
+        tf = nfw JTfxtFifld("1000");
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(45,20));
+        dontrols.bdd(tf);
+        dontrols.bdd(lbbfl = nfw JLbbfl("ms"));
+        lbbfl.sftFont(font);
+        lbbfl.sftForfground(Color.rfd);
+        dontrols.bdd(dbtfStbmpCB);
+        dbtfStbmpCB.sftFont(font);
+        bddMousfListfnfr(nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+               rfmovfAll();
                if ((doControls = !doControls)) {
                    surf.stop();
-                   add(controls);
-               } else {
+                   bdd(dontrols);
+               } flsf {
                    try {
-                       surf.sleepAmount = Long.parseLong(tf.getText().trim());
-                   } catch (Exception ex) {}
-                   surf.start();
-                   add(surf);
+                       surf.slffpAmount = Long.pbrsfLong(tf.gftTfxt().trim());
+                   } dbtdi (Exdfption fx) {}
+                   surf.stbrt();
+                   bdd(surf);
                }
-               validate();
-               repaint();
+               vblidbtf();
+               rfpbint();
             }
         });
     }
 
 
-    public class Surface extends JPanel implements Runnable {
+    publid dlbss Surfbdf fxtfnds JPbnfl implfmfnts Runnbblf {
 
-        public Thread thread;
-        public long sleepAmount = 1000;
-        public int  usageHistCount = 20000;
-        private int w, h;
-        private BufferedImage bimg;
-        private Graphics2D big;
-        private Font font = new Font("Times New Roman", Font.PLAIN, 11);
-        private int columnInc;
-        private float usedMem[][];
-        private float usedMemMax[]; // Used when max pool size is undefined
-        private int ptNum[];
-        private int ascent, descent;
-        private Rectangle graphOutlineRect = new Rectangle();
-        private Rectangle2D mfRect = new Rectangle2D.Float();
-        private Rectangle2D muRect = new Rectangle2D.Float();
-        private Line2D graphLine = new Line2D.Float();
-        private Color graphColor = new Color(46, 139, 87);
-        private Color mfColor = new Color(0, 100, 0);
-        private String usedStr;
+        publid Tirfbd tirfbd;
+        publid long slffpAmount = 1000;
+        publid int  usbgfHistCount = 20000;
+        privbtf int w, i;
+        privbtf BufffrfdImbgf bimg;
+        privbtf Grbpiids2D big;
+        privbtf Font font = nfw Font("Timfs Nfw Rombn", Font.PLAIN, 11);
+        privbtf int dolumnInd;
+        privbtf flobt usfdMfm[][];
+        privbtf flobt usfdMfmMbx[]; // Usfd wifn mbx pool sizf is undffinfd
+        privbtf int ptNum[];
+        privbtf int bsdfnt, dfsdfnt;
+        privbtf Rfdtbnglf grbpiOutlinfRfdt = nfw Rfdtbnglf();
+        privbtf Rfdtbnglf2D mfRfdt = nfw Rfdtbnglf2D.Flobt();
+        privbtf Rfdtbnglf2D muRfdt = nfw Rfdtbnglf2D.Flobt();
+        privbtf Linf2D grbpiLinf = nfw Linf2D.Flobt();
+        privbtf Color grbpiColor = nfw Color(46, 139, 87);
+        privbtf Color mfColor = nfw Color(0, 100, 0);
+        privbtf String usfdStr;
 
 
-        public Surface() {
-            setBackground(Color.black);
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (thread == null) start(); else stop();
+        publid Surfbdf() {
+            sftBbdkground(Color.blbdk);
+            bddMousfListfnfr(nfw MousfAdbptfr() {
+                @Ovfrridf
+                publid void mousfClidkfd(MousfEvfnt f) {
+                    if (tirfbd == null) stbrt(); flsf stop();
                 }
             });
-            usedMem = new float[numPools][];
-            usedMemMax = new float[numPools];
+            usfdMfm = nfw flobt[numPools][];
+            usfdMfmMbx = nfw flobt[numPools];
             for (int i = 0; i < numPools; i++) {
-                usedMemMax[i] = 1024f * 1024f ;
+                usfdMfmMbx[i] = 1024f * 1024f ;
             }
-            ptNum = new int[numPools];
+            ptNum = nfw int[numPools];
         }
 
-        @Override
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
+        @Ovfrridf
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftPrfffrrfdSizf();
         }
 
-        @Override
-        public Dimension getMaximumSize() {
-            return getPreferredSize();
+        @Ovfrridf
+        publid Dimfnsion gftMbximumSizf() {
+            rfturn gftPrfffrrfdSizf();
         }
 
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(135,80);
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn nfw Dimfnsion(135,80);
         }
 
 
-        @Override
-        public void paint(Graphics g) {
+        @Ovfrridf
+        publid void pbint(Grbpiids g) {
 
             if (big == null) {
-                return;
+                rfturn;
             }
 
-            big.setBackground(getBackground());
-            big.clearRect(0,0,w,h);
+            big.sftBbdkground(gftBbdkground());
+            big.dlfbrRfdt(0,0,w,i);
 
 
-            h = h / ((numPools + numPools%2) / 2);
+            i = i / ((numPools + numPools%2) / 2);
             w = w / 2;
 
-            int k=0; // index of memory pool.
+            int k=0; // indfx of mfmory pool.
             for (int i=0; i < 2;i++) {
                for (int j=0; j < (numPools + numPools%2)/ 2; j++) {
-                 plotMemoryUsage(w*i,h*j,w,h,k);
+                 plotMfmoryUsbgf(w*i,i*j,w,i,k);
                  if (++k >= numPools) {
                     i = 3;
                     j = (numPools + numPools%2)/ 2;
-                    break;
+                    brfbk;
                  }
                }
             }
-            g.drawImage(bimg, 0, 0, this);
+            g.drbwImbgf(bimg, 0, 0, tiis);
         }
 
-        public void plotMemoryUsage(int x1, int y1, int x2, int y2, int npool) {
+        publid void plotMfmoryUsbgf(int x1, int y1, int x2, int y2, int npool) {
 
-            MemoryPoolMXBean mp = mpools.get(npool);
-            float usedMemory =  mp.getUsage().getUsed();
-            float totalMemory =  mp.getUsage().getMax();
-            if (totalMemory < 0) { // Max is undefined for this pool
-                if (usedMemory > usedMemMax[npool]) {
-                    usedMemMax[npool] = usedMemory;
+            MfmoryPoolMXBfbn mp = mpools.gft(npool);
+            flobt usfdMfmory =  mp.gftUsbgf().gftUsfd();
+            flobt totblMfmory =  mp.gftUsbgf().gftMbx();
+            if (totblMfmory < 0) { // Mbx is undffinfd for tiis pool
+                if (usfdMfmory > usfdMfmMbx[npool]) {
+                    usfdMfmMbx[npool] = usfdMfmory;
                 }
-                totalMemory = usedMemMax[npool];
+                totblMfmory = usfdMfmMbx[npool];
             }
 
-            // .. Draw allocated and used strings ..
-            big.setColor(Color.green);
+            // .. Drbw bllodbtfd bnd usfd strings ..
+            big.sftColor(Color.grffn);
 
-            // Print Max memory allocated for this memory pool.
-            big.drawString(String.valueOf((int)totalMemory/1024) + "K Max ", x1+4.0f, (float) y1 + ascent+0.5f);
-            big.setColor(Color.yellow);
+            // Print Mbx mfmory bllodbtfd for tiis mfmory pool.
+            big.drbwString(String.vblufOf((int)totblMfmory/1024) + "K Mbx ", x1+4.0f, (flobt) y1 + bsdfnt+0.5f);
+            big.sftColor(Color.yfllow);
 
-            // Print the memory pool name.
-            big.drawString(mp.getName(),  x1+x2/2, (float) y1 + ascent+0.5f);
+            // Print tif mfmory pool nbmf.
+            big.drbwString(mp.gftNbmf(),  x1+x2/2, (flobt) y1 + bsdfnt+0.5f);
 
-            // Print the memory used by this memory pool.
-            usedStr = String.valueOf((int)usedMemory/1024)
-                + "K used";
-            big.setColor(Color.green);
-            big.drawString(usedStr, x1+4, y1+y2-descent);
+            // Print tif mfmory usfd by tiis mfmory pool.
+            usfdStr = String.vblufOf((int)usfdMfmory/1024)
+                + "K usfd";
+            big.sftColor(Color.grffn);
+            big.drbwString(usfdStr, x1+4, y1+y2-dfsdfnt);
 
-            // Calculate remaining size
-            float ssH = ascent + descent;
-            float remainingHeight = y2 - (ssH*2) - 0.5f;
-            float blockHeight = remainingHeight/10;
-            float blockWidth = 20.0f;
-            float remainingWidth = x2 - blockWidth - 10;
+            // Cbldulbtf rfmbining sizf
+            flobt ssH = bsdfnt + dfsdfnt;
+            flobt rfmbiningHfigit = y2 - (ssH*2) - 0.5f;
+            flobt blodkHfigit = rfmbiningHfigit/10;
+            flobt blodkWidti = 20.0f;
+            flobt rfmbiningWidti = x2 - blodkWidti - 10;
 
-            // .. Memory Free ..
-            big.setColor(mfColor);
-            int MemUsage = (int) (((totalMemory - usedMemory) / totalMemory) * 10);
+            // .. Mfmory Frff ..
+            big.sftColor(mfColor);
+            int MfmUsbgf = (int) (((totblMfmory - usfdMfmory) / totblMfmory) * 10);
             int i = 0;
-            for ( ; i < MemUsage ; i++) {
-                mfRect.setRect(x1+5,(float) y1+ssH+i*blockHeight,
-                                blockWidth, blockHeight-1);
-                big.fill(mfRect);
+            for ( ; i < MfmUsbgf ; i++) {
+                mfRfdt.sftRfdt(x1+5,(flobt) y1+ssH+i*blodkHfigit,
+                                blodkWidti, blodkHfigit-1);
+                big.fill(mfRfdt);
             }
 
-            // .. Memory Used ..
-            big.setColor(Color.green);
+            // .. Mfmory Usfd ..
+            big.sftColor(Color.grffn);
             for ( ; i < 10; i++)  {
-                muRect.setRect(x1+5,(float) y1 + ssH+i*blockHeight,
-                                blockWidth, blockHeight-1);
-                big.fill(muRect);
+                muRfdt.sftRfdt(x1+5,(flobt) y1 + ssH+i*blodkHfigit,
+                                blodkWidti, blodkHfigit-1);
+                big.fill(muRfdt);
             }
 
-            // .. Draw History Graph ..
-            if (remainingWidth <= 30) remainingWidth = (float)30;
-            if (remainingHeight <= ssH) remainingHeight = ssH;
-            big.setColor(graphColor);
-            int graphX = x1+30;
-            int graphY = y1 + (int) ssH;
-            int graphW = (int) remainingWidth;
-            int graphH = (int) remainingHeight;
+            // .. Drbw History Grbpi ..
+            if (rfmbiningWidti <= 30) rfmbiningWidti = (flobt)30;
+            if (rfmbiningHfigit <= ssH) rfmbiningHfigit = ssH;
+            big.sftColor(grbpiColor);
+            int grbpiX = x1+30;
+            int grbpiY = y1 + (int) ssH;
+            int grbpiW = (int) rfmbiningWidti;
+            int grbpiH = (int) rfmbiningHfigit;
 
-            graphOutlineRect.setRect(graphX, graphY, graphW, graphH);
-            big.draw(graphOutlineRect);
+            grbpiOutlinfRfdt.sftRfdt(grbpiX, grbpiY, grbpiW, grbpiH);
+            big.drbw(grbpiOutlinfRfdt);
 
-            int graphRow = graphH/10;
+            int grbpiRow = grbpiH/10;
 
-            // .. Draw row ..
-            for (int j = graphY; j <= graphH+graphY; j += graphRow) {
-                graphLine.setLine(graphX,j,graphX+graphW,j);
-                big.draw(graphLine);
+            // .. Drbw row ..
+            for (int j = grbpiY; j <= grbpiH+grbpiY; j += grbpiRow) {
+                grbpiLinf.sftLinf(grbpiX,j,grbpiX+grbpiW,j);
+                big.drbw(grbpiLinf);
             }
 
-            // .. Draw animated column movement ..
-            int graphColumn = graphW/15;
+            // .. Drbw bnimbtfd dolumn movfmfnt ..
+            int grbpiColumn = grbpiW/15;
 
-            if (columnInc == 0) {
-                columnInc = graphColumn;
+            if (dolumnInd == 0) {
+                dolumnInd = grbpiColumn;
             }
 
-            for (int j = graphX+columnInc; j < graphW+graphX; j+=graphColumn) {
-                graphLine.setLine(j,graphY,j,graphY+graphH);
-                big.draw(graphLine);
+            for (int j = grbpiX+dolumnInd; j < grbpiW+grbpiX; j+=grbpiColumn) {
+                grbpiLinf.sftLinf(j,grbpiY,j,grbpiY+grbpiH);
+                big.drbw(grbpiLinf);
             }
 
-            --columnInc;
+            --dolumnInd;
 
-            // Plot memory usage by this memory pool.
-            if (usedMem[npool] == null) {
-                usedMem[npool] = new float[usageHistCount];
+            // Plot mfmory usbgf by tiis mfmory pool.
+            if (usfdMfm[npool] == null) {
+                usfdMfm[npool] = nfw flobt[usbgfHistCount];
                 ptNum[npool] = 0;
             }
 
-            // save memory usage history.
-            usedMem[npool][ptNum[npool]] = usedMemory;
+            // sbvf mfmory usbgf iistory.
+            usfdMfm[npool][ptNum[npool]] = usfdMfmory;
 
-            big.setColor(Color.yellow);
+            big.sftColor(Color.yfllow);
 
-            int w1; // width of memory usage history.
-            if (ptNum[npool] > graphW) {
-                w1 = graphW;
-            } else {
+            int w1; // widti of mfmory usbgf iistory.
+            if (ptNum[npool] > grbpiW) {
+                w1 = grbpiW;
+            } flsf {
                 w1 = ptNum[npool];
             }
 
 
-            for (int j=graphX+graphW-w1, k=ptNum[npool]-w1; k < ptNum[npool];
+            for (int j=grbpiX+grbpiW-w1, k=ptNum[npool]-w1; k < ptNum[npool];
                                                                 k++, j++) {
                  if (k != 0) {
-                     if (usedMem[npool][k] != usedMem[npool][k-1]) {
-                         int h1 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k-1])/totalMemory));
-                         int h2 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k])/totalMemory));
-                         big.drawLine(j-1, h1, j, h2);
-                     } else {
-                         int h1 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k])/totalMemory));
-                         big.fillRect(j, h1, 1, 1);
+                     if (usfdMfm[npool][k] != usfdMfm[npool][k-1]) {
+                         int i1 = (int)(grbpiY + grbpiH * ((totblMfmory -usfdMfm[npool][k-1])/totblMfmory));
+                         int i2 = (int)(grbpiY + grbpiH * ((totblMfmory -usfdMfm[npool][k])/totblMfmory));
+                         big.drbwLinf(j-1, i1, j, i2);
+                     } flsf {
+                         int i1 = (int)(grbpiY + grbpiH * ((totblMfmory -usfdMfm[npool][k])/totblMfmory));
+                         big.fillRfdt(j, i1, 1, 1);
                      }
                  }
             }
-            if (ptNum[npool]+2 == usedMem[npool].length) {
-                // throw out oldest point
+            if (ptNum[npool]+2 == usfdMfm[npool].lfngti) {
+                // tirow out oldfst point
                 for (int j = 1;j < ptNum[npool]; j++) {
-                     usedMem[npool][j-1] = usedMem[npool][j];
+                     usfdMfm[npool][j-1] = usfdMfm[npool][j];
                 }
                 --ptNum[npool];
-            } else {
+            } flsf {
                 ptNum[npool]++;
             }
         }
 
 
-        public void start() {
-            thread = new Thread(this);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.setName("MemoryMonitor");
-            thread.start();
+        publid void stbrt() {
+            tirfbd = nfw Tirfbd(tiis);
+            tirfbd.sftPriority(Tirfbd.MIN_PRIORITY);
+            tirfbd.sftNbmf("MfmoryMonitor");
+            tirfbd.stbrt();
         }
 
 
-        public synchronized void stop() {
-            thread = null;
+        publid syndironizfd void stop() {
+            tirfbd = null;
             notify();
         }
 
-        @Override
-        public void run() {
+        @Ovfrridf
+        publid void run() {
 
-            Thread me = Thread.currentThread();
+            Tirfbd mf = Tirfbd.durrfntTirfbd();
 
-            while (thread == me && !isShowing() || getSize().width == 0) {
+            wiilf (tirfbd == mf && !isSiowing() || gftSizf().widti == 0) {
                 try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) { return; }
+                    Tirfbd.slffp(500);
+                } dbtdi (IntfrruptfdExdfption f) { rfturn; }
             }
 
-            while (thread == me && isShowing()) {
-                Dimension d = getSize();
-                if (d.width != w || d.height != h) {
-                    w = d.width;
-                    h = d.height;
-                    bimg = (BufferedImage) createImage(w, h);
-                    big = bimg.createGraphics();
-                    big.setFont(font);
-                    FontMetrics fm = big.getFontMetrics(font);
-                    ascent = fm.getAscent();
-                    descent = fm.getDescent();
+            wiilf (tirfbd == mf && isSiowing()) {
+                Dimfnsion d = gftSizf();
+                if (d.widti != w || d.ifigit != i) {
+                    w = d.widti;
+                    i = d.ifigit;
+                    bimg = (BufffrfdImbgf) drfbtfImbgf(w, i);
+                    big = bimg.drfbtfGrbpiids();
+                    big.sftFont(font);
+                    FontMftrids fm = big.gftFontMftrids(font);
+                    bsdfnt = fm.gftAsdfnt();
+                    dfsdfnt = fm.gftDfsdfnt();
                 }
-                repaint();
+                rfpbint();
                 try {
-                    Thread.sleep(sleepAmount);
-                } catch (InterruptedException e) { break; }
-                if (MemoryMonitor.dateStampCB.isSelected()) {
-                     System.out.println(new Date().toString() + " " + usedStr);
+                    Tirfbd.slffp(slffpAmount);
+                } dbtdi (IntfrruptfdExdfption f) { brfbk; }
+                if (MfmoryMonitor.dbtfStbmpCB.isSflfdtfd()) {
+                     Systfm.out.println(nfw Dbtf().toString() + " " + usfdStr);
                 }
             }
-            thread = null;
+            tirfbd = null;
         }
     }
 
 
-    // Test thread to consume memory
-    static class Memeater extends ClassLoader implements Runnable {
-        Object y[];
-        public Memeater() {}
-        @Override
-        public void run() {
-            y = new Object[10000000];
+    // Tfst tirfbd to donsumf mfmory
+    stbtid dlbss Mfmfbtfr fxtfnds ClbssLobdfr implfmfnts Runnbblf {
+        Objfdt y[];
+        publid Mfmfbtfr() {}
+        @Ovfrridf
+        publid void run() {
+            y = nfw Objfdt[10000000];
             int k =0;
-            while(true) {
+            wiilf(truf) {
                  if (k == 5000000) k=0;
-                 y[k++] = new Object();
+                 y[k++] = nfw Objfdt();
                  try {
-                     Thread.sleep(20);
-                 } catch (Exception x){}
+                     Tirfbd.slffp(20);
+                 } dbtdi (Exdfption x){}
 
-                 // to consume perm gen storage
+                 // to donsumf pfrm gfn storbgf
                  try {
-                     // the classes are small so we load 10 at a time
+                     // tif dlbssfs brf smbll so wf lobd 10 bt b timf
                      for (int i=0; i<10; i++) {
-                        loadNext();
+                        lobdNfxt();
                      }
-                 } catch (ClassNotFoundException x) {
-                   // ignore exception
+                 } dbtdi (ClbssNotFoundExdfption x) {
+                   // ignorf fxdfption
                  }
 
            }
 
         }
 
-        Class<?> loadNext() throws ClassNotFoundException {
+        Clbss<?> lobdNfxt() tirows ClbssNotFoundExdfption {
 
-            // public class TestNNNNNN extends java.lang.Object{
-            // public TestNNNNNN();
-            //   Code:
-            //    0:    aload_0
-            //    1:    invokespecial   #1; //Method java/lang/Object."<init>":()V
-            //    4:    return
+            // publid dlbss TfstNNNNNN fxtfnds jbvb.lbng.Objfdt{
+            // publid TfstNNNNNN();
+            //   Codf:
+            //    0:    blobd_0
+            //    1:    invokfspfdibl   #1; //Mftiod jbvb/lbng/Objfdt."<init>":()V
+            //    4:    rfturn
             // }
 
-            int begin[] = {
-                0xca, 0xfe, 0xba, 0xbe, 0x00, 0x00, 0x00, 0x30,
-                0x00, 0x0a, 0x0a, 0x00, 0x03, 0x00, 0x07, 0x07,
+            int bfgin[] = {
+                0xdb, 0xff, 0xbb, 0xbf, 0x00, 0x00, 0x00, 0x30,
+                0x00, 0x0b, 0x0b, 0x00, 0x03, 0x00, 0x07, 0x07,
                 0x00, 0x08, 0x07, 0x00, 0x09, 0x01, 0x00, 0x06,
-                0x3c, 0x69, 0x6e, 0x69, 0x74, 0x3e, 0x01, 0x00,
+                0x3d, 0x69, 0x6f, 0x69, 0x74, 0x3f, 0x01, 0x00,
                 0x03, 0x28, 0x29, 0x56, 0x01, 0x00, 0x04, 0x43,
-                0x6f, 0x64, 0x65, 0x0c, 0x00, 0x04, 0x00, 0x05,
-                0x01, 0x00, 0x0a, 0x54, 0x65, 0x73, 0x74 };
+                0x6f, 0x64, 0x65, 0x0d, 0x00, 0x04, 0x00, 0x05,
+                0x01, 0x00, 0x0b, 0x54, 0x65, 0x73, 0x74 };
 
-            int end [] = {
+            int fnd [] = {
                 0x01, 0x00, 0x10,
-                0x6a, 0x61, 0x76, 0x61, 0x2f, 0x6c, 0x61, 0x6e,
-                0x67, 0x2f, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74,
+                0x6b, 0x61, 0x76, 0x61, 0x2f, 0x6d, 0x61, 0x6f,
+                0x67, 0x2f, 0x4f, 0x62, 0x6b, 0x65, 0x63, 0x74,
                 0x00, 0x21, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00,
                 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x04,
                 0x00, 0x05, 0x00, 0x01, 0x00, 0x06, 0x00, 0x00,
                 0x00, 0x11, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00,
-                0x00, 0x05, 0x2a, 0xb7, 0x00, 0x01, 0xb1, 0x00,
+                0x00, 0x05, 0x2b, 0xb7, 0x00, 0x01, 0xb1, 0x00,
                 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 
-            // TestNNNNNN
+            // TfstNNNNNN
 
-            String name = "Test" + Integer.toString(count++);
+            String nbmf = "Tfst" + Intfgfr.toString(dount++);
 
-            byte value[];
+            bytf vbluf[];
             try {
-                value = name.substring(4).getBytes("UTF-8");
-            } catch (java.io.UnsupportedEncodingException x) {
-                throw new Error();
+                vbluf = nbmf.substring(4).gftBytfs("UTF-8");
+            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption x) {
+                tirow nfw Error();
             }
 
-            // construct class file
+            // donstrudt dlbss filf
 
-            int len = begin.length + value.length + end.length;
-            byte b[] = new byte[len];
+            int lfn = bfgin.lfngti + vbluf.lfngti + fnd.lfngti;
+            bytf b[] = nfw bytf[lfn];
             int pos=0;
-            for (int i: begin) {
-                b[pos++] = (byte) i;
+            for (int i: bfgin) {
+                b[pos++] = (bytf) i;
             }
-            for (byte v: value) {
+            for (bytf v: vbluf) {
                 b[pos++] = v;
             }
-            for (int e: end) {
-                b[pos++] = (byte) e;
+            for (int f: fnd) {
+                b[pos++] = (bytf) f;
             }
 
-            return defineClass(name, b, 0, b.length);
+            rfturn dffinfClbss(nbmf, b, 0, b.lfngti);
 
         }
-        static int count = 100000;
+        stbtid int dount = 100000;
 
     }
 
-    public static void main(String s[]) {
-        final MemoryMonitor demo = new MemoryMonitor();
-        WindowListener l = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {System.exit(0);}
-            @Override
-            public void windowDeiconified(WindowEvent e) { demo.surf.start(); }
-            @Override
-            public void windowIconified(WindowEvent e) { demo.surf.stop(); }
+    publid stbtid void mbin(String s[]) {
+        finbl MfmoryMonitor dfmo = nfw MfmoryMonitor();
+        WindowListfnfr l = nfw WindowAdbptfr() {
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {Systfm.fxit(0);}
+            @Ovfrridf
+            publid void windowDfidonififd(WindowEvfnt f) { dfmo.surf.stbrt(); }
+            @Ovfrridf
+            publid void windowIdonififd(WindowEvfnt f) { dfmo.surf.stop(); }
         };
-        JFrame f = new JFrame("MemoryMonitor");
-        f.addWindowListener(l);
-        f.getContentPane().add("Center", demo);
-        f.pack();
-        f.setSize(new Dimension(400,500));
-        f.setVisible(true);
-        demo.surf.start();
-        Thread thr = new Thread(new Memeater());
-        thr.start();
+        JFrbmf f = nfw JFrbmf("MfmoryMonitor");
+        f.bddWindowListfnfr(l);
+        f.gftContfntPbnf().bdd("Cfntfr", dfmo);
+        f.pbdk();
+        f.sftSizf(nfw Dimfnsion(400,500));
+        f.sftVisiblf(truf);
+        dfmo.surf.stbrt();
+        Tirfbd tir = nfw Tirfbd(nfw Mfmfbtfr());
+        tir.stbrt();
     }
 
 }

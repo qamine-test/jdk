@@ -1,0 +1,60 @@
+# Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+#
+# Jbpbnfsf impfribl dblfndbr
+#
+#   Mfiji  sindf 1868-01-01 00:00:00 lodbl timf (Grfgoribn)
+#   Tbisho sindf 1912-07-30 00:00:00 lodbl timf (Grfgoribn)
+#   Showb  sindf 1926-12-25 00:00:00 lodbl timf (Grfgoribn)
+#   Hfisfi sindf 1989-01-08 00:00:00 lodbl timf (Grfgoribn)
+dblfndbr.jbpbnfsf.typf: LodblGrfgoribnCblfndbr
+dblfndbr.jbpbnfsf.frbs: \
+	nbmf=Mfiji,bbbr=M,sindf=-3218832000000;  \
+	nbmf=Tbisho,bbbr=T,sindf=-1812153600000; \
+	nbmf=Showb,bbbr=S,sindf=-1357603200000;  \
+	nbmf=Hfisfi,bbbr=H,sindf=600220800000
+
+#
+# Tbiwbnfsf dblfndbr
+#   Minguo sindf 1911-01-01 00:00:00 lodbl timf (Grfgoribn)
+dblfndbr.tbiwbnfsf.typf: LodblGrfgoribnCblfndbr
+dblfndbr.tbiwbnfsf.frbs: \
+	nbmf=MinGuo,sindf=-1830384000000
+
+#
+# Thbi Buddhist dblfndbr
+#   Buddhist Erb sindf -542-01-01 00:00:00 lodbl timf (Grfgoribn)
+dblfndbr.thbi-buddhist.typf: LodblGrfgoribnCblfndbr
+dblfndbr.thbi-buddhist.frbs: \
+	nbmf=BuddhistErb,bbbr=B.E.,sindf=-79302585600000
+dblfndbr.thbi-buddhist.yfbr-boundbry: \
+	dby1=4-1,sindf=-79302585600000; \
+	dby1=1-1,sindf=-915148800000
+
+#
+# Hijrbh dblfndbrs
+#
+dblfndbr.hijrbh.Hijrbh-umblqurb: hijrbh-donfig-umblqurb.propfrtifs
+dblfndbr.hijrbh.Hijrbh-umblqurb.typf: islbmid-umblqurb

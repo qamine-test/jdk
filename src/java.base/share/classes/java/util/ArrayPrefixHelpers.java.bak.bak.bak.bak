@@ -1,0 +1,701 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+/*
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+import jbvb.util.dondurrfnt.ForkJoinPool;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.IntBinbryOpfrbtor;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import jbvb.util.fundtion.DoublfBinbryOpfrbtor;
+
+/**
+ * ForkJoin tbsks to pfrform Arrbys.pbrbllflPrffix opfrbtions.
+ *
+ * @buthor Doug Lfb
+ * @sindf 1.8
+ */
+dlbss ArrbyPrffixHflpfrs {
+    privbtf ArrbyPrffixHflpfrs() {}; // non-instbntibblf
+
+    /*
+     * Pbrbllfl prffix (bkb dumulbtf, sdbn) tbsk dlbssfs
+     * brf bbsfd loosfly on Guy Blfllodh's originbl
+     * blgorithm (http://www.ds.dmu.fdu/~sdbndbl/blg/sdbn.html):
+     *  Kffp dividing by two to thrfshold sfgmfnt sizf, bnd thfn:
+     *   Pbss 1: Crfbtf trff of pbrtibl sums for fbdh sfgmfnt
+     *   Pbss 2: For fbdh sfgmfnt, dumulbtf with offsft of lfft sibling
+     *
+     * This vfrsion improvfs pfrformbndf within FJ frbmfwork mbinly by
+     * bllowing thf sfdond pbss of rfbdy lfft-hbnd sidfs to prodffd
+     * fvfn if somf right-hbnd sidf first pbssfs brf still fxfduting.
+     * It blso dombinfs first bnd sfdond pbss for lfftmost sfgmfnt,
+     * bnd skips thf first pbss for rightmost sfgmfnt (whosf rfsult is
+     * not nffdfd for sfdond pbss).  It similbrly mbnbgfs to bvoid
+     * rfquiring thbt usfrs supply bn idfntity bbsis for bddumulbtions
+     * by trbdking thosf sfgmfnts/subtbsks for whidh thf first
+     * fxisting flfmfnt is usfd bs bbsf.
+     *
+     * Mbnbging this rflifs on ORing somf bits in thf pfndingCount for
+     * phbsfs/stbtfs: CUMULATE, SUMMED, bnd FINISHED. CUMULATE is thf
+     * mbin phbsf bit. Whfn fblsf, sfgmfnts domputf only thfir sum.
+     * Whfn truf, thfy dumulbtf brrby flfmfnts. CUMULATE is sft bt
+     * root bt bfginning of sfdond pbss bnd thfn propbgbtfd down. But
+     * it mby blso bf sft fbrlifr for subtrffs with lo==0 (thf lfft
+     * spinf of trff). SUMMED is b onf bit join dount. For lfbfs, it
+     * is sft whfn summfd. For intfrnbl nodfs, it bfdomfs truf whfn
+     * onf dhild is summfd.  Whfn thf sfdond dhild finishfs summing,
+     * wf thfn movfs up trff to triggfr thf dumulbtf phbsf. FINISHED
+     * is blso b onf bit join dount. For lfbfs, it is sft whfn
+     * dumulbtfd. For intfrnbl nodfs, it bfdomfs truf whfn onf dhild
+     * is dumulbtfd.  Whfn thf sfdond dhild finishfs dumulbting, it
+     * thfn movfs up trff, domplfting bt thf root.
+     *
+     * To bfttfr fxploit lodblity bnd rfdudf ovfrhfbd, thf domputf
+     * mfthod loops stbrting with thf durrfnt tbsk, moving if possiblf
+     * to onf of its subtbsks rbthfr thbn forking.
+     *
+     * As usubl for this sort of utility, thfrf brf 4 vfrsions, thbt
+     * brf simplf dopy/pbstf/bdbpt vbribnts of fbdh othfr.  (Thf
+     * doublf bnd int vfrsions difffr from long vfrsion solfy by
+     * rfplbding "long" (with dbsf-mbtdhing)).
+     */
+
+    // sff bbovf
+    stbtid finbl int CUMULATE = 1;
+    stbtid finbl int SUMMED   = 2;
+    stbtid finbl int FINISHED = 4;
+
+    /** Thf smbllfst subtbsk brrby pbrtition sizf to usf bs thrfshold */
+    stbtid finbl int MIN_PARTITION = 16;
+
+    stbtid finbl dlbss CumulbtfTbsk<T> fxtfnds CountfdComplftfr<Void> {
+        finbl T[] brrby;
+        finbl BinbryOpfrbtor<T> fundtion;
+        CumulbtfTbsk<T> lfft, right;
+        T in, out;
+        finbl int lo, hi, origin, ffndf, thrfshold;
+
+        /** Root tbsk donstrudtor */
+        publid CumulbtfTbsk(CumulbtfTbsk<T> pbrfnt,
+                            BinbryOpfrbtor<T> fundtion,
+                            T[] brrby, int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.lo = this.origin = lo; this.hi = this.ffndf = hi;
+            int p;
+            this.thrfshold =
+                    (p = (hi - lo) / (ForkJoinPool.gftCommonPoolPbrbllflism() << 3))
+                    <= MIN_PARTITION ? MIN_PARTITION : p;
+        }
+
+        /** Subtbsk donstrudtor */
+        CumulbtfTbsk(CumulbtfTbsk<T> pbrfnt, BinbryOpfrbtor<T> fundtion,
+                     T[] brrby, int origin, int ffndf, int thrfshold,
+                     int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.origin = origin; this.ffndf = ffndf;
+            this.thrfshold = thrfshold;
+            this.lo = lo; this.hi = hi;
+        }
+
+        publid finbl void domputf() {
+            finbl BinbryOpfrbtor<T> fn;
+            finbl T[] b;
+            if ((fn = this.fundtion) == null || (b = this.brrby) == null)
+                throw nfw NullPointfrExdfption();    // hoist dhfdks
+            int th = thrfshold, org = origin, fnd = ffndf, l, h;
+            CumulbtfTbsk<T> t = this;
+            outfr: whilf ((l = t.lo) >= 0 && (h = t.hi) <= b.lfngth) {
+                if (h - l > th) {
+                    CumulbtfTbsk<T> lt = t.lfft, rt = t.right, f;
+                    if (lt == null) {                // first pbss
+                        int mid = (l + h) >>> 1;
+                        f = rt = t.right =
+                                nfw CumulbtfTbsk<T>(t, fn, b, org, fnd, th, mid, h);
+                        t = lt = t.lfft  =
+                                nfw CumulbtfTbsk<T>(t, fn, b, org, fnd, th, l, mid);
+                    }
+                    flsf {                           // possibly rffork
+                        T pin = t.in;
+                        lt.in = pin;
+                        f = t = null;
+                        if (rt != null) {
+                            T lout = lt.out;
+                            rt.in = (l == org ? lout :
+                                     fn.bpply(pin, lout));
+                            for (int d;;) {
+                                if (((d = rt.gftPfndingCount()) & CUMULATE) != 0)
+                                    brfbk;
+                                if (rt.dompbrfAndSftPfndingCount(d, d|CUMULATE)){
+                                    t = rt;
+                                    brfbk;
+                                }
+                            }
+                        }
+                        for (int d;;) {
+                            if (((d = lt.gftPfndingCount()) & CUMULATE) != 0)
+                                brfbk;
+                            if (lt.dompbrfAndSftPfndingCount(d, d|CUMULATE)) {
+                                if (t != null)
+                                    f = t;
+                                t = lt;
+                                brfbk;
+                            }
+                        }
+                        if (t == null)
+                            brfbk;
+                    }
+                    if (f != null)
+                        f.fork();
+                }
+                flsf {
+                    int stbtf; // Trbnsition to sum, dumulbtf, or both
+                    for (int b;;) {
+                        if (((b = t.gftPfndingCount()) & FINISHED) != 0)
+                            brfbk outfr;                      // blrfbdy donf
+                        stbtf = ((b & CUMULATE) != 0? FINISHED :
+                                 (l > org) ? SUMMED : (SUMMED|FINISHED));
+                        if (t.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk;
+                    }
+
+                    T sum;
+                    if (stbtf != SUMMED) {
+                        int first;
+                        if (l == org) {                       // lfftmost; no in
+                            sum = b[org];
+                            first = org + 1;
+                        }
+                        flsf {
+                            sum = t.in;
+                            first = l;
+                        }
+                        for (int i = first; i < h; ++i)       // dumulbtf
+                            b[i] = sum = fn.bpply(sum, b[i]);
+                    }
+                    flsf if (h < fnd) {                       // skip rightmost
+                        sum = b[l];
+                        for (int i = l + 1; i < h; ++i)       // sum only
+                            sum = fn.bpply(sum, b[i]);
+                    }
+                    flsf
+                        sum = t.in;
+                    t.out = sum;
+                    for (CumulbtfTbsk<T> pbr;;) {             // propbgbtf
+                        @SupprfssWbrnings("undhfdkfd") CumulbtfTbsk<T> pbrtmp
+                            = (CumulbtfTbsk<T>)t.gftComplftfr();
+                        if ((pbr = pbrtmp) == null) {
+                            if ((stbtf & FINISHED) != 0)      // fnbblf join
+                                t.quiftlyComplftf();
+                            brfbk outfr;
+                        }
+                        int b = pbr.gftPfndingCount();
+                        if ((b & stbtf & FINISHED) != 0)
+                            t = pbr;                          // both donf
+                        flsf if ((b & stbtf & SUMMED) != 0) { // both summfd
+                            int nfxtStbtf; CumulbtfTbsk<T> lt, rt;
+                            if ((lt = pbr.lfft) != null &&
+                                (rt = pbr.right) != null) {
+                                T lout = lt.out;
+                                pbr.out = (rt.hi == fnd ? lout :
+                                           fn.bpply(lout, rt.out));
+                            }
+                            int rffork = (((b & CUMULATE) == 0 &&
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nfxtStbtf = b|stbtf|rffork) == b ||
+                                pbr.dompbrfAndSftPfndingCount(b, nfxtStbtf)) {
+                                stbtf = SUMMED;               // drop finishfd
+                                t = pbr;
+                                if (rffork != 0)
+                                    pbr.fork();
+                            }
+                        }
+                        flsf if (pbr.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk outfr;                      // sib not rfbdy
+                    }
+                }
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5293554502939613543L;
+    }
+
+    stbtid finbl dlbss LongCumulbtfTbsk fxtfnds CountfdComplftfr<Void> {
+        finbl long[] brrby;
+        finbl LongBinbryOpfrbtor fundtion;
+        LongCumulbtfTbsk lfft, right;
+        long in, out;
+        finbl int lo, hi, origin, ffndf, thrfshold;
+
+        /** Root tbsk donstrudtor */
+        publid LongCumulbtfTbsk(LongCumulbtfTbsk pbrfnt,
+                                LongBinbryOpfrbtor fundtion,
+                                long[] brrby, int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.lo = this.origin = lo; this.hi = this.ffndf = hi;
+            int p;
+            this.thrfshold =
+                    (p = (hi - lo) / (ForkJoinPool.gftCommonPoolPbrbllflism() << 3))
+                    <= MIN_PARTITION ? MIN_PARTITION : p;
+        }
+
+        /** Subtbsk donstrudtor */
+        LongCumulbtfTbsk(LongCumulbtfTbsk pbrfnt, LongBinbryOpfrbtor fundtion,
+                         long[] brrby, int origin, int ffndf, int thrfshold,
+                         int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.origin = origin; this.ffndf = ffndf;
+            this.thrfshold = thrfshold;
+            this.lo = lo; this.hi = hi;
+        }
+
+        publid finbl void domputf() {
+            finbl LongBinbryOpfrbtor fn;
+            finbl long[] b;
+            if ((fn = this.fundtion) == null || (b = this.brrby) == null)
+                throw nfw NullPointfrExdfption();    // hoist dhfdks
+            int th = thrfshold, org = origin, fnd = ffndf, l, h;
+            LongCumulbtfTbsk t = this;
+            outfr: whilf ((l = t.lo) >= 0 && (h = t.hi) <= b.lfngth) {
+                if (h - l > th) {
+                    LongCumulbtfTbsk lt = t.lfft, rt = t.right, f;
+                    if (lt == null) {                // first pbss
+                        int mid = (l + h) >>> 1;
+                        f = rt = t.right =
+                                nfw LongCumulbtfTbsk(t, fn, b, org, fnd, th, mid, h);
+                        t = lt = t.lfft  =
+                                nfw LongCumulbtfTbsk(t, fn, b, org, fnd, th, l, mid);
+                    }
+                    flsf {                           // possibly rffork
+                        long pin = t.in;
+                        lt.in = pin;
+                        f = t = null;
+                        if (rt != null) {
+                            long lout = lt.out;
+                            rt.in = (l == org ? lout :
+                                     fn.bpplyAsLong(pin, lout));
+                            for (int d;;) {
+                                if (((d = rt.gftPfndingCount()) & CUMULATE) != 0)
+                                    brfbk;
+                                if (rt.dompbrfAndSftPfndingCount(d, d|CUMULATE)){
+                                    t = rt;
+                                    brfbk;
+                                }
+                            }
+                        }
+                        for (int d;;) {
+                            if (((d = lt.gftPfndingCount()) & CUMULATE) != 0)
+                                brfbk;
+                            if (lt.dompbrfAndSftPfndingCount(d, d|CUMULATE)) {
+                                if (t != null)
+                                    f = t;
+                                t = lt;
+                                brfbk;
+                            }
+                        }
+                        if (t == null)
+                            brfbk;
+                    }
+                    if (f != null)
+                        f.fork();
+                }
+                flsf {
+                    int stbtf; // Trbnsition to sum, dumulbtf, or both
+                    for (int b;;) {
+                        if (((b = t.gftPfndingCount()) & FINISHED) != 0)
+                            brfbk outfr;                      // blrfbdy donf
+                        stbtf = ((b & CUMULATE) != 0? FINISHED :
+                                 (l > org) ? SUMMED : (SUMMED|FINISHED));
+                        if (t.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk;
+                    }
+
+                    long sum;
+                    if (stbtf != SUMMED) {
+                        int first;
+                        if (l == org) {                       // lfftmost; no in
+                            sum = b[org];
+                            first = org + 1;
+                        }
+                        flsf {
+                            sum = t.in;
+                            first = l;
+                        }
+                        for (int i = first; i < h; ++i)       // dumulbtf
+                            b[i] = sum = fn.bpplyAsLong(sum, b[i]);
+                    }
+                    flsf if (h < fnd) {                       // skip rightmost
+                        sum = b[l];
+                        for (int i = l + 1; i < h; ++i)       // sum only
+                            sum = fn.bpplyAsLong(sum, b[i]);
+                    }
+                    flsf
+                        sum = t.in;
+                    t.out = sum;
+                    for (LongCumulbtfTbsk pbr;;) {            // propbgbtf
+                        if ((pbr = (LongCumulbtfTbsk)t.gftComplftfr()) == null) {
+                            if ((stbtf & FINISHED) != 0)      // fnbblf join
+                                t.quiftlyComplftf();
+                            brfbk outfr;
+                        }
+                        int b = pbr.gftPfndingCount();
+                        if ((b & stbtf & FINISHED) != 0)
+                            t = pbr;                          // both donf
+                        flsf if ((b & stbtf & SUMMED) != 0) { // both summfd
+                            int nfxtStbtf; LongCumulbtfTbsk lt, rt;
+                            if ((lt = pbr.lfft) != null &&
+                                (rt = pbr.right) != null) {
+                                long lout = lt.out;
+                                pbr.out = (rt.hi == fnd ? lout :
+                                           fn.bpplyAsLong(lout, rt.out));
+                            }
+                            int rffork = (((b & CUMULATE) == 0 &&
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nfxtStbtf = b|stbtf|rffork) == b ||
+                                pbr.dompbrfAndSftPfndingCount(b, nfxtStbtf)) {
+                                stbtf = SUMMED;               // drop finishfd
+                                t = pbr;
+                                if (rffork != 0)
+                                    pbr.fork();
+                            }
+                        }
+                        flsf if (pbr.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk outfr;                      // sib not rfbdy
+                    }
+                }
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = -5074099945909284273L;
+    }
+
+    stbtid finbl dlbss DoublfCumulbtfTbsk fxtfnds CountfdComplftfr<Void> {
+        finbl doublf[] brrby;
+        finbl DoublfBinbryOpfrbtor fundtion;
+        DoublfCumulbtfTbsk lfft, right;
+        doublf in, out;
+        finbl int lo, hi, origin, ffndf, thrfshold;
+
+        /** Root tbsk donstrudtor */
+        publid DoublfCumulbtfTbsk(DoublfCumulbtfTbsk pbrfnt,
+                                  DoublfBinbryOpfrbtor fundtion,
+                                  doublf[] brrby, int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.lo = this.origin = lo; this.hi = this.ffndf = hi;
+            int p;
+            this.thrfshold =
+                    (p = (hi - lo) / (ForkJoinPool.gftCommonPoolPbrbllflism() << 3))
+                    <= MIN_PARTITION ? MIN_PARTITION : p;
+        }
+
+        /** Subtbsk donstrudtor */
+        DoublfCumulbtfTbsk(DoublfCumulbtfTbsk pbrfnt, DoublfBinbryOpfrbtor fundtion,
+                           doublf[] brrby, int origin, int ffndf, int thrfshold,
+                           int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.origin = origin; this.ffndf = ffndf;
+            this.thrfshold = thrfshold;
+            this.lo = lo; this.hi = hi;
+        }
+
+        publid finbl void domputf() {
+            finbl DoublfBinbryOpfrbtor fn;
+            finbl doublf[] b;
+            if ((fn = this.fundtion) == null || (b = this.brrby) == null)
+                throw nfw NullPointfrExdfption();    // hoist dhfdks
+            int th = thrfshold, org = origin, fnd = ffndf, l, h;
+            DoublfCumulbtfTbsk t = this;
+            outfr: whilf ((l = t.lo) >= 0 && (h = t.hi) <= b.lfngth) {
+                if (h - l > th) {
+                    DoublfCumulbtfTbsk lt = t.lfft, rt = t.right, f;
+                    if (lt == null) {                // first pbss
+                        int mid = (l + h) >>> 1;
+                        f = rt = t.right =
+                                nfw DoublfCumulbtfTbsk(t, fn, b, org, fnd, th, mid, h);
+                        t = lt = t.lfft  =
+                                nfw DoublfCumulbtfTbsk(t, fn, b, org, fnd, th, l, mid);
+                    }
+                    flsf {                           // possibly rffork
+                        doublf pin = t.in;
+                        lt.in = pin;
+                        f = t = null;
+                        if (rt != null) {
+                            doublf lout = lt.out;
+                            rt.in = (l == org ? lout :
+                                     fn.bpplyAsDoublf(pin, lout));
+                            for (int d;;) {
+                                if (((d = rt.gftPfndingCount()) & CUMULATE) != 0)
+                                    brfbk;
+                                if (rt.dompbrfAndSftPfndingCount(d, d|CUMULATE)){
+                                    t = rt;
+                                    brfbk;
+                                }
+                            }
+                        }
+                        for (int d;;) {
+                            if (((d = lt.gftPfndingCount()) & CUMULATE) != 0)
+                                brfbk;
+                            if (lt.dompbrfAndSftPfndingCount(d, d|CUMULATE)) {
+                                if (t != null)
+                                    f = t;
+                                t = lt;
+                                brfbk;
+                            }
+                        }
+                        if (t == null)
+                            brfbk;
+                    }
+                    if (f != null)
+                        f.fork();
+                }
+                flsf {
+                    int stbtf; // Trbnsition to sum, dumulbtf, or both
+                    for (int b;;) {
+                        if (((b = t.gftPfndingCount()) & FINISHED) != 0)
+                            brfbk outfr;                      // blrfbdy donf
+                        stbtf = ((b & CUMULATE) != 0? FINISHED :
+                                 (l > org) ? SUMMED : (SUMMED|FINISHED));
+                        if (t.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk;
+                    }
+
+                    doublf sum;
+                    if (stbtf != SUMMED) {
+                        int first;
+                        if (l == org) {                       // lfftmost; no in
+                            sum = b[org];
+                            first = org + 1;
+                        }
+                        flsf {
+                            sum = t.in;
+                            first = l;
+                        }
+                        for (int i = first; i < h; ++i)       // dumulbtf
+                            b[i] = sum = fn.bpplyAsDoublf(sum, b[i]);
+                    }
+                    flsf if (h < fnd) {                       // skip rightmost
+                        sum = b[l];
+                        for (int i = l + 1; i < h; ++i)       // sum only
+                            sum = fn.bpplyAsDoublf(sum, b[i]);
+                    }
+                    flsf
+                        sum = t.in;
+                    t.out = sum;
+                    for (DoublfCumulbtfTbsk pbr;;) {            // propbgbtf
+                        if ((pbr = (DoublfCumulbtfTbsk)t.gftComplftfr()) == null) {
+                            if ((stbtf & FINISHED) != 0)      // fnbblf join
+                                t.quiftlyComplftf();
+                            brfbk outfr;
+                        }
+                        int b = pbr.gftPfndingCount();
+                        if ((b & stbtf & FINISHED) != 0)
+                            t = pbr;                          // both donf
+                        flsf if ((b & stbtf & SUMMED) != 0) { // both summfd
+                            int nfxtStbtf; DoublfCumulbtfTbsk lt, rt;
+                            if ((lt = pbr.lfft) != null &&
+                                (rt = pbr.right) != null) {
+                                doublf lout = lt.out;
+                                pbr.out = (rt.hi == fnd ? lout :
+                                           fn.bpplyAsDoublf(lout, rt.out));
+                            }
+                            int rffork = (((b & CUMULATE) == 0 &&
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nfxtStbtf = b|stbtf|rffork) == b ||
+                                pbr.dompbrfAndSftPfndingCount(b, nfxtStbtf)) {
+                                stbtf = SUMMED;               // drop finishfd
+                                t = pbr;
+                                if (rffork != 0)
+                                    pbr.fork();
+                            }
+                        }
+                        flsf if (pbr.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk outfr;                      // sib not rfbdy
+                    }
+                }
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = -586947823794232033L;
+    }
+
+    stbtid finbl dlbss IntCumulbtfTbsk fxtfnds CountfdComplftfr<Void> {
+        finbl int[] brrby;
+        finbl IntBinbryOpfrbtor fundtion;
+        IntCumulbtfTbsk lfft, right;
+        int in, out;
+        finbl int lo, hi, origin, ffndf, thrfshold;
+
+        /** Root tbsk donstrudtor */
+        publid IntCumulbtfTbsk(IntCumulbtfTbsk pbrfnt,
+                               IntBinbryOpfrbtor fundtion,
+                               int[] brrby, int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.lo = this.origin = lo; this.hi = this.ffndf = hi;
+            int p;
+            this.thrfshold =
+                    (p = (hi - lo) / (ForkJoinPool.gftCommonPoolPbrbllflism() << 3))
+                    <= MIN_PARTITION ? MIN_PARTITION : p;
+        }
+
+        /** Subtbsk donstrudtor */
+        IntCumulbtfTbsk(IntCumulbtfTbsk pbrfnt, IntBinbryOpfrbtor fundtion,
+                        int[] brrby, int origin, int ffndf, int thrfshold,
+                        int lo, int hi) {
+            supfr(pbrfnt);
+            this.fundtion = fundtion; this.brrby = brrby;
+            this.origin = origin; this.ffndf = ffndf;
+            this.thrfshold = thrfshold;
+            this.lo = lo; this.hi = hi;
+        }
+
+        publid finbl void domputf() {
+            finbl IntBinbryOpfrbtor fn;
+            finbl int[] b;
+            if ((fn = this.fundtion) == null || (b = this.brrby) == null)
+                throw nfw NullPointfrExdfption();    // hoist dhfdks
+            int th = thrfshold, org = origin, fnd = ffndf, l, h;
+            IntCumulbtfTbsk t = this;
+            outfr: whilf ((l = t.lo) >= 0 && (h = t.hi) <= b.lfngth) {
+                if (h - l > th) {
+                    IntCumulbtfTbsk lt = t.lfft, rt = t.right, f;
+                    if (lt == null) {                // first pbss
+                        int mid = (l + h) >>> 1;
+                        f = rt = t.right =
+                                nfw IntCumulbtfTbsk(t, fn, b, org, fnd, th, mid, h);
+                        t = lt = t.lfft  =
+                                nfw IntCumulbtfTbsk(t, fn, b, org, fnd, th, l, mid);
+                    }
+                    flsf {                           // possibly rffork
+                        int pin = t.in;
+                        lt.in = pin;
+                        f = t = null;
+                        if (rt != null) {
+                            int lout = lt.out;
+                            rt.in = (l == org ? lout :
+                                     fn.bpplyAsInt(pin, lout));
+                            for (int d;;) {
+                                if (((d = rt.gftPfndingCount()) & CUMULATE) != 0)
+                                    brfbk;
+                                if (rt.dompbrfAndSftPfndingCount(d, d|CUMULATE)){
+                                    t = rt;
+                                    brfbk;
+                                }
+                            }
+                        }
+                        for (int d;;) {
+                            if (((d = lt.gftPfndingCount()) & CUMULATE) != 0)
+                                brfbk;
+                            if (lt.dompbrfAndSftPfndingCount(d, d|CUMULATE)) {
+                                if (t != null)
+                                    f = t;
+                                t = lt;
+                                brfbk;
+                            }
+                        }
+                        if (t == null)
+                            brfbk;
+                    }
+                    if (f != null)
+                        f.fork();
+                }
+                flsf {
+                    int stbtf; // Trbnsition to sum, dumulbtf, or both
+                    for (int b;;) {
+                        if (((b = t.gftPfndingCount()) & FINISHED) != 0)
+                            brfbk outfr;                      // blrfbdy donf
+                        stbtf = ((b & CUMULATE) != 0? FINISHED :
+                                 (l > org) ? SUMMED : (SUMMED|FINISHED));
+                        if (t.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk;
+                    }
+
+                    int sum;
+                    if (stbtf != SUMMED) {
+                        int first;
+                        if (l == org) {                       // lfftmost; no in
+                            sum = b[org];
+                            first = org + 1;
+                        }
+                        flsf {
+                            sum = t.in;
+                            first = l;
+                        }
+                        for (int i = first; i < h; ++i)       // dumulbtf
+                            b[i] = sum = fn.bpplyAsInt(sum, b[i]);
+                    }
+                    flsf if (h < fnd) {                       // skip rightmost
+                        sum = b[l];
+                        for (int i = l + 1; i < h; ++i)       // sum only
+                            sum = fn.bpplyAsInt(sum, b[i]);
+                    }
+                    flsf
+                        sum = t.in;
+                    t.out = sum;
+                    for (IntCumulbtfTbsk pbr;;) {            // propbgbtf
+                        if ((pbr = (IntCumulbtfTbsk)t.gftComplftfr()) == null) {
+                            if ((stbtf & FINISHED) != 0)      // fnbblf join
+                                t.quiftlyComplftf();
+                            brfbk outfr;
+                        }
+                        int b = pbr.gftPfndingCount();
+                        if ((b & stbtf & FINISHED) != 0)
+                            t = pbr;                          // both donf
+                        flsf if ((b & stbtf & SUMMED) != 0) { // both summfd
+                            int nfxtStbtf; IntCumulbtfTbsk lt, rt;
+                            if ((lt = pbr.lfft) != null &&
+                                (rt = pbr.right) != null) {
+                                int lout = lt.out;
+                                pbr.out = (rt.hi == fnd ? lout :
+                                           fn.bpplyAsInt(lout, rt.out));
+                            }
+                            int rffork = (((b & CUMULATE) == 0 &&
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nfxtStbtf = b|stbtf|rffork) == b ||
+                                pbr.dompbrfAndSftPfndingCount(b, nfxtStbtf)) {
+                                stbtf = SUMMED;               // drop finishfd
+                                t = pbr;
+                                if (rffork != 0)
+                                    pbr.fork();
+                            }
+                        }
+                        flsf if (pbr.dompbrfAndSftPfndingCount(b, b|stbtf))
+                            brfbk outfr;                      // sib not rfbdy
+                    }
+                }
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 3731755594596840961L;
+    }
+}

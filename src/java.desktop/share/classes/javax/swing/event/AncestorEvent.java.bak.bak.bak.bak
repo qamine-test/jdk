@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+
+/**
+ * An fvfnt rfportfd to b dhild domponfnt thbt originbtfd from bn
+ * bndfstor in thf domponfnt hifrbrdhy.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvf Moorf
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss AndfstorEvfnt fxtfnds AWTEvfnt {
+    /**
+     * An bndfstor-domponfnt wbs bddfd to thf hifrbrdhy of
+     * visiblf objfdts (mbdf visiblf), bnd is durrfntly bfing displbyfd.
+     */
+    publid stbtid finbl int ANCESTOR_ADDED = 1;
+    /**
+     * An bndfstor-domponfnt wbs rfmovfd from thf hifrbrdhy
+     * of visiblf objfdts (hiddfn) bnd is no longfr bfing displbyfd.
+     */
+    publid stbtid finbl int ANCESTOR_REMOVED = 2;
+    /** An bndfstor-domponfnt dhbngfd its position on thf sdrffn. */
+    publid stbtid finbl int ANCESTOR_MOVED = 3;
+
+    Contbinfr bndfstor;
+    Contbinfr bndfstorPbrfnt;
+
+    /**
+     * Construdts bn AndfstorEvfnt objfdt to idfntify b dhbngf
+     * in bn bndfstor-domponfnt's displby-stbtus.
+     *
+     * @pbrbm sourdf          thf JComponfnt thbt originbtfd thf fvfnt
+     *                        (typidblly <dodf>this</dodf>)
+     * @pbrbm id              bn int spfdifying {@link #ANCESTOR_ADDED},
+     *                        {@link #ANCESTOR_REMOVED} or {@link #ANCESTOR_MOVED}
+     * @pbrbm bndfstor        b Contbinfr objfdt spfdifying thf bndfstor-domponfnt
+     *                        whosf displby-stbtus dhbngfd
+     * @pbrbm bndfstorPbrfnt  b Contbinfr objfdt spfdifying thf bndfstor's pbrfnt
+     */
+    publid AndfstorEvfnt(JComponfnt sourdf, int id, Contbinfr bndfstor, Contbinfr bndfstorPbrfnt) {
+        supfr(sourdf, id);
+        this.bndfstor = bndfstor;
+        this.bndfstorPbrfnt = bndfstorPbrfnt;
+    }
+
+    /**
+     * Rfturns thf bndfstor thbt thf fvfnt bdtublly oddurrfd on.
+     *
+     * @rfturn thf {@dodf Contbinfr} objfdt spfdifying thf bndfstor domponfnt
+     */
+    publid Contbinfr gftAndfstor() {
+        rfturn bndfstor;
+    }
+
+    /**
+     * Rfturns thf pbrfnt of thf bndfstor thf fvfnt bdtublly oddurrfd on.
+     * This is most intfrfsting in bn ANCESTOR_REMOVED fvfnt, bs
+     * thf bndfstor mby no longfr bf in thf domponfnt hifrbrdhy.
+     *
+     * @rfturn thf {@dodf Contbinfr} objfdt spfdifying thf bndfstor's pbrfnt
+     */
+    publid Contbinfr gftAndfstorPbrfnt() {
+        rfturn bndfstorPbrfnt;
+    }
+
+    /**
+     * Rfturns thf domponfnt thbt thf listfnfr wbs bddfd to.
+     *
+     * @rfturn thf {@dodf JComponfnt} on whidh thf fvfnt oddurrfd
+     */
+    publid JComponfnt gftComponfnt() {
+        rfturn (JComponfnt)gftSourdf();
+    }
+}

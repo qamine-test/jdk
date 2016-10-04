@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+
+import jbvb.sfdurity.dfrt.*;
+
+/**
+ * Implfmfnts thf <dodf>PolidyNodf</dodf> intfrfbdf.
+ * <p>
+ * This dlbss providfs bn implfmfntbtion of thf <dodf>PolidyNodf</dodf>
+ * intfrfbdf, bnd is usfd intfrnblly to build bnd sfbrdh Polidy Trffs.
+ * Whilf thf implfmfntbtion is mutbblf during donstrudtion, it is immutbblf
+ * bfforf rfturning to b dlifnt bnd no mutbblf publid or protfdtfd mfthods
+ * brf fxposfd by this implfmfntbtion, bs pfr thf dontrbdt of PolidyNodf.
+ *
+ * @sindf       1.4
+ * @buthor      Sfth Prodtor
+ * @buthor      Sfbn Mullbn
+ */
+finbl dlbss PolidyNodfImpl implfmfnts PolidyNodf {
+
+    /**
+     * Usf to spfdify thf spfdibl polidy "Any Polidy"
+     */
+    privbtf stbtid finbl String ANY_POLICY = "2.5.29.32.0";
+
+    // fvfry nodf hbs onf pbrfnt, bnd zfro or morf dhildrfn
+    privbtf PolidyNodfImpl mPbrfnt;
+    privbtf HbshSft<PolidyNodfImpl> mChildrfn;
+
+    // thf 4 fiflds spfdififd by RFC 3280
+    privbtf String mVblidPolidy;
+    privbtf HbshSft<PolidyQublififrInfo> mQublififrSft;
+    privbtf boolfbn mCritidblityIndidbtor;
+    privbtf HbshSft<String> mExpfdtfdPolidySft;
+    privbtf boolfbn mOriginblExpfdtfdPolidySft;
+
+    // thf trff dfpth
+    privbtf int mDfpth;
+    // immutbbility flbg
+    privbtf boolfbn isImmutbblf = fblsf;
+
+    /**
+     * Construdtor whidh tbkfs b <dodf>PolidyNodfImpl</dodf> rfprfsfnting thf
+     * pbrfnt in thf Polidy Trff to this nodf. If null, this is thf
+     * root of thf trff. Thf donstrudtor blso tbkfs thf bssodibtfd dbtb
+     * for this nodf, bs found in thf dfrtifidbtf. It blso tbkfs b boolfbn
+     * brgumfnt spfdifying whfthfr this nodf is bfing drfbtfd bs b rfsult
+     * of polidy mbpping.
+     *
+     * @pbrbm pbrfnt thf PolidyNodf bbovf this in thf trff, or null if this
+     *               nodf is thf trff's root nodf
+     * @pbrbm vblidPolidy b String rfprfsfnting this nodf's vblid polidy OID
+     * @pbrbm qublififrSft thf Sft of qublififrs for this polidy
+     * @pbrbm dritidblityIndidbtor b boolfbn rfprfsfnting whfthfr or not thf
+     *                             fxtfnsion is dritidbl
+     * @pbrbm fxpfdtfdPolidySft b Sft of fxpfdtfd polidifs
+     * @pbrbm gfnfrbtfdByPolidyMbpping b boolfbn indidbting whfthfr this
+     * nodf wbs gfnfrbtfd by b polidy mbpping
+     */
+    PolidyNodfImpl(PolidyNodfImpl pbrfnt, String vblidPolidy,
+                Sft<PolidyQublififrInfo> qublififrSft,
+                boolfbn dritidblityIndidbtor, Sft<String> fxpfdtfdPolidySft,
+                boolfbn gfnfrbtfdByPolidyMbpping) {
+        mPbrfnt = pbrfnt;
+        mChildrfn = nfw HbshSft<PolidyNodfImpl>();
+
+        if (vblidPolidy != null)
+            mVblidPolidy = vblidPolidy;
+        flsf
+            mVblidPolidy = "";
+
+        if (qublififrSft != null)
+            mQublififrSft = nfw HbshSft<PolidyQublififrInfo>(qublififrSft);
+        flsf
+            mQublififrSft = nfw HbshSft<PolidyQublififrInfo>();
+
+        mCritidblityIndidbtor = dritidblityIndidbtor;
+
+        if (fxpfdtfdPolidySft != null)
+            mExpfdtfdPolidySft = nfw HbshSft<String>(fxpfdtfdPolidySft);
+        flsf
+            mExpfdtfdPolidySft = nfw HbshSft<String>();
+
+        mOriginblExpfdtfdPolidySft = !gfnfrbtfdByPolidyMbpping;
+
+        // sff if wf'rf thf root, bnd bdt bppropribtfly
+        if (mPbrfnt != null) {
+            mDfpth = mPbrfnt.gftDfpth() + 1;
+            mPbrfnt.bddChild(this);
+        } flsf {
+            mDfpth = 0;
+        }
+    }
+
+    /**
+     * Altfrnbtf donstrudtor whidh mbkfs b nfw nodf with thf polidy dbtb
+     * in bn fxisting <dodf>PolidyNodfImpl</dodf>.
+     *
+     * @pbrbm pbrfnt b PolidyNodf thbt's thf nfw pbrfnt of thf nodf, or
+     *               null if this is thf root nodf
+     * @pbrbm nodf b PolidyNodf dontbining thf polidy dbtb to dopy
+     */
+    PolidyNodfImpl(PolidyNodfImpl pbrfnt, PolidyNodfImpl nodf) {
+        this(pbrfnt, nodf.mVblidPolidy, nodf.mQublififrSft,
+             nodf.mCritidblityIndidbtor, nodf.mExpfdtfdPolidySft, fblsf);
+    }
+
+    @Ovfrridf
+    publid PolidyNodf gftPbrfnt() {
+        rfturn mPbrfnt;
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<PolidyNodfImpl> gftChildrfn() {
+        rfturn Collfdtions.unmodifibblfSft(mChildrfn).itfrbtor();
+    }
+
+    @Ovfrridf
+    publid int gftDfpth() {
+        rfturn mDfpth;
+    }
+
+    @Ovfrridf
+    publid String gftVblidPolidy() {
+        rfturn mVblidPolidy;
+    }
+
+    @Ovfrridf
+    publid Sft<PolidyQublififrInfo> gftPolidyQublififrs() {
+        rfturn Collfdtions.unmodifibblfSft(mQublififrSft);
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftExpfdtfdPolidifs() {
+        rfturn Collfdtions.unmodifibblfSft(mExpfdtfdPolidySft);
+    }
+
+    @Ovfrridf
+    publid boolfbn isCritidbl() {
+        rfturn mCritidblityIndidbtor;
+    }
+
+    /**
+     * Rfturn b printbblf rfprfsfntbtion of thf PolidyNodf.
+     * Stbrting bt thf nodf on whidh this mfthod is dbllfd,
+     * it rfdursfs through thf trff bnd prints out fbdh nodf.
+     *
+     * @rfturn b String dfsdribing thf dontfnts of thf Polidy Nodf
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr bufffr = nfw StringBuildfr(this.bsString());
+
+        for (PolidyNodfImpl nodf : mChildrfn) {
+            bufffr.bppfnd(nodf);
+        }
+        rfturn bufffr.toString();
+    }
+
+    // privbtf mfthods bnd pbdkbgf privbtf opfrbtions
+
+    boolfbn isImmutbblf() {
+        rfturn isImmutbblf;
+    }
+
+    /**
+     * Sfts thf immutbbility flbg of this nodf bnd bll of its dhildrfn
+     * to truf.
+     */
+    void sftImmutbblf() {
+        if (isImmutbblf)
+            rfturn;
+        for (PolidyNodfImpl nodf : mChildrfn) {
+            nodf.sftImmutbblf();
+        }
+        isImmutbblf = truf;
+    }
+
+    /**
+     * Privbtf mfthod sfts b dhild nodf. This is dbllfd from thf dhild's
+     * donstrudtor.
+     *
+     * @pbrbm dhild nfw <dodf>PolidyNodfImpl</dodf> dhild nodf
+     */
+    privbtf void bddChild(PolidyNodfImpl dhild) {
+        if (isImmutbblf) {
+            throw nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
+        }
+        mChildrfn.bdd(dhild);
+    }
+
+    /**
+     * Adds bn fxpfdtfdPolidy to thf fxpfdtfd polidy sft.
+     * If this is thf originbl fxpfdtfd polidy sft initiblizfd
+     * by thf donstrudtor, thfn thf fxpfdtfd polidy sft is dlfbrfd
+     * bfforf thf fxpfdtfd polidy is bddfd.
+     *
+     * @pbrbm fxpfdtfdPolidy b String rfprfsfnting bn fxpfdtfd polidy.
+     */
+    void bddExpfdtfdPolidy(String fxpfdtfdPolidy) {
+        if (isImmutbblf) {
+            throw nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
+        }
+        if (mOriginblExpfdtfdPolidySft) {
+            mExpfdtfdPolidySft.dlfbr();
+            mOriginblExpfdtfdPolidySft = fblsf;
+        }
+        mExpfdtfdPolidySft.bdd(fxpfdtfdPolidy);
+    }
+
+    /**
+     * Rfmovfs bll pbths whidh don't rfbdh thf spfdififd dfpth.
+     *
+     * @pbrbm dfpth bn int rfprfsfnting thf dfsirfd minimum dfpth of bll pbths
+     */
+    void prunf(int dfpth) {
+        if (isImmutbblf)
+            throw nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
+
+        // if wf hbvf no dhildrfn, wf dbn't prunf bflow us...
+        if (mChildrfn.sizf() == 0)
+            rfturn;
+
+        Itfrbtor<PolidyNodfImpl> it = mChildrfn.itfrbtor();
+        whilf (it.hbsNfxt()) {
+            PolidyNodfImpl nodf = it.nfxt();
+            nodf.prunf(dfpth);
+            // now thbt wf'vf dbllfd prunf on thf dhild, sff if wf should
+            // rfmovf it from thf trff
+            if ((nodf.mChildrfn.sizf() == 0) && (dfpth > mDfpth + 1))
+                it.rfmovf();
+        }
+    }
+
+    /**
+     * Dflftfs thf spfdififd dhild nodf of this nodf, if it fxists.
+     *
+     * @pbrbm dhildNodf thf dhild nodf to bf dflftfd
+     */
+    void dflftfChild(PolidyNodf dhildNodf) {
+        if (isImmutbblf) {
+            throw nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
+        }
+        mChildrfn.rfmovf(dhildNodf);
+    }
+
+    /**
+     * Rfturns b dopy of thf trff, without dopying thf polidy-rflbtfd dbtb,
+     * rootfd bt thf nodf on whidh this wbs dbllfd.
+     *
+     * @rfturn b dopy of thf trff
+     */
+    PolidyNodfImpl dopyTrff() {
+        rfturn dopyTrff(null);
+    }
+
+    privbtf PolidyNodfImpl dopyTrff(PolidyNodfImpl pbrfnt) {
+        PolidyNodfImpl nfwNodf = nfw PolidyNodfImpl(pbrfnt, this);
+
+        for (PolidyNodfImpl nodf : mChildrfn) {
+            nodf.dopyTrff(nfwNodf);
+        }
+
+        rfturn nfwNodf;
+    }
+
+    /**
+     * Rfturns bll nodfs bt thf spfdififd dfpth in thf trff.
+     *
+     * @pbrbm dfpth bn int rfprfsfnting thf dfpth of thf dfsirfd nodfs
+     * @rfturn b <dodf>Sft</dodf> of bll nodfs bt thf spfdififd dfpth
+     */
+    Sft<PolidyNodfImpl> gftPolidyNodfs(int dfpth) {
+        Sft<PolidyNodfImpl> sft = nfw HbshSft<>();
+        gftPolidyNodfs(dfpth, sft);
+        rfturn sft;
+    }
+
+    /**
+     * Add bll nodfs bt dfpth dfpth to sft bnd rfturn thf Sft.
+     * Intfrnbl rfdursion hflpfr.
+     */
+    privbtf void gftPolidyNodfs(int dfpth, Sft<PolidyNodfImpl> sft) {
+        // if wf'vf rfbdhfd thf dfsirfd dfpth, thfn rfturn oursflf
+        if (mDfpth == dfpth) {
+            sft.bdd(this);
+        } flsf {
+            for (PolidyNodfImpl nodf : mChildrfn) {
+                nodf.gftPolidyNodfs(dfpth, sft);
+            }
+        }
+    }
+
+    /**
+     * Finds bll nodfs bt thf spfdififd dfpth whosf fxpfdtfd_polidy_sft
+     * dontbins thf spfdififd fxpfdtfd OID (if mbtdhAny is fblsf)
+     * or thf spfdibl OID "bny vbluf" (if mbtdhAny is truf).
+     *
+     * @pbrbm dfpth bn int rfprfsfnting thf dfsirfd dfpth
+     * @pbrbm fxpfdtfdOID b String fndoding thf vblid OID to mbtdh
+     * @pbrbm mbtdhAny b boolfbn indidbting whfthfr bn fxpfdtfd_polidy_sft
+     * dontbining ANY_POLICY should bf donsidfrfd b mbtdh
+     * @rfturn b Sft of mbtdhfd <dodf>PolidyNodf</dodf>s
+     */
+    Sft<PolidyNodfImpl> gftPolidyNodfsExpfdtfd(int dfpth,
+        String fxpfdtfdOID, boolfbn mbtdhAny) {
+
+        if (fxpfdtfdOID.fqubls(ANY_POLICY)) {
+            rfturn gftPolidyNodfs(dfpth);
+        } flsf {
+            rfturn gftPolidyNodfsExpfdtfdHflpfr(dfpth, fxpfdtfdOID, mbtdhAny);
+        }
+    }
+
+    privbtf Sft<PolidyNodfImpl> gftPolidyNodfsExpfdtfdHflpfr(int dfpth,
+        String fxpfdtfdOID, boolfbn mbtdhAny) {
+
+        HbshSft<PolidyNodfImpl> sft = nfw HbshSft<>();
+
+        if (mDfpth < dfpth) {
+            for (PolidyNodfImpl nodf : mChildrfn) {
+                sft.bddAll(nodf.gftPolidyNodfsExpfdtfdHflpfr(dfpth,
+                                                             fxpfdtfdOID,
+                                                             mbtdhAny));
+            }
+        } flsf {
+            if (mbtdhAny) {
+                if (mExpfdtfdPolidySft.dontbins(ANY_POLICY))
+                    sft.bdd(this);
+            } flsf {
+                if (mExpfdtfdPolidySft.dontbins(fxpfdtfdOID))
+                    sft.bdd(this);
+            }
+        }
+
+        rfturn sft;
+    }
+
+    /**
+     * Finds bll nodfs bt thf spfdififd dfpth thbt dontbins thf
+     * spfdififd vblid OID
+     *
+     * @pbrbm dfpth bn int rfprfsfnting thf dfsirfd dfpth
+     * @pbrbm vblidOID b String fndoding thf vblid OID to mbtdh
+     * @rfturn b Sft of mbtdhfd <dodf>PolidyNodf</dodf>s
+     */
+    Sft<PolidyNodfImpl> gftPolidyNodfsVblid(int dfpth, String vblidOID) {
+        HbshSft<PolidyNodfImpl> sft = nfw HbshSft<>();
+
+        if (mDfpth < dfpth) {
+            for (PolidyNodfImpl nodf : mChildrfn) {
+                sft.bddAll(nodf.gftPolidyNodfsVblid(dfpth, vblidOID));
+            }
+        } flsf {
+            if (mVblidPolidy.fqubls(vblidOID))
+                sft.bdd(this);
+        }
+
+        rfturn sft;
+    }
+
+    privbtf stbtid String polidyToString(String oid) {
+        if (oid.fqubls(ANY_POLICY)) {
+            rfturn "bnyPolidy";
+        } flsf {
+            rfturn oid;
+        }
+    }
+
+    /**
+     * Prints out somf dbtb on this nodf.
+     */
+    String bsString() {
+        if (mPbrfnt == null) {
+            rfturn "bnyPolidy  ROOT\n";
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            for (int i = 0, n = gftDfpth(); i < n; i++) {
+                sb.bppfnd("  ");
+            }
+            sb.bppfnd(polidyToString(gftVblidPolidy()));
+            sb.bppfnd("  CRIT: ");
+            sb.bppfnd(isCritidbl());
+            sb.bppfnd("  EP: ");
+            for (String polidy : gftExpfdtfdPolidifs()) {
+                sb.bppfnd(polidyToString(polidy));
+                sb.bppfnd(" ");
+            }
+            sb.bppfnd(" (");
+            sb.bppfnd(gftDfpth());
+            sb.bppfnd(")\n");
+            rfturn sb.toString();
+        }
+    }
+}

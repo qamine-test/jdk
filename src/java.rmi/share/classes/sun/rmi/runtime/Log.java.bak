@@ -1,448 +1,448 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.runtime;
+pbdkbgf sun.rmi.runtimf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.io.OutputStream;
-import java.rmi.server.LogStream;
-import java.security.PrivilegedAction;
-import java.util.logging.Handler;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.LogRecord;
-import java.util.logging.StreamHandler;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.logging.Hbndlfr;
+import jbvb.util.logging.SimplfFormbttfr;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.LogRfdord;
+import jbvb.util.logging.StrfbmHbndlfr;
 
 /**
- * Utility which provides an abstract "logger" like RMI internal API
- * which can be directed to use one of two types of logging
- * infrastructure: the java.util.logging API or the
- * java.rmi.server.LogStream API.  The default behavior is to use the
- * java.util.logging API.  The LogStream API may be used instead by
- * setting the system property sun.rmi.log.useOld to true.
+ * Utility wiidi providfs bn bbstrbdt "loggfr" likf RMI intfrnbl API
+ * wiidi dbn bf dirfdtfd to usf onf of two typfs of logging
+ * infrbstrudturf: tif jbvb.util.logging API or tif
+ * jbvb.rmi.sfrvfr.LogStrfbm API.  Tif dffbult bfibvior is to usf tif
+ * jbvb.util.logging API.  Tif LogStrfbm API mby bf usfd instfbd by
+ * sftting tif systfm propfrty sun.rmi.log.usfOld to truf.
  *
- * For backwards compatibility, supports the RMI system logging
- * properties which pre-1.4 comprised the only way to configure RMI
- * logging.  If the java.util.logging API is used and RMI system log
- * properties are set, the system properties override initial RMI
- * logger values as appropriate. If the java.util.logging API is
- * turned off, pre-1.4 logging behavior is used.
+ * For bbdkwbrds dompbtibility, supports tif RMI systfm logging
+ * propfrtifs wiidi prf-1.4 domprisfd tif only wby to donfigurf RMI
+ * logging.  If tif jbvb.util.logging API is usfd bnd RMI systfm log
+ * propfrtifs brf sft, tif systfm propfrtifs ovfrridf initibl RMI
+ * loggfr vblufs bs bppropribtf. If tif jbvb.util.logging API is
+ * turnfd off, prf-1.4 logging bfibvior is usfd.
  *
- * @author Laird Dornin
- * @since 1.4
+ * @butior Lbird Dornin
+ * @sindf 1.4
  */
-@SuppressWarnings("deprecation")
-public abstract class Log {
+@SupprfssWbrnings("dfprfdbtion")
+publid bbstrbdt dlbss Log {
 
-    /** Logger re-definition of old RMI log values */
-    public static final Level BRIEF = Level.FINE;
-    public static final Level VERBOSE = Level.FINER;
+    /** Loggfr rf-dffinition of old RMI log vblufs */
+    publid stbtid finbl Lfvfl BRIEF = Lfvfl.FINE;
+    publid stbtid finbl Lfvfl VERBOSE = Lfvfl.FINER;
 
-    /* selects log implementation */
-    private static final LogFactory logFactory;
-    static {
-        boolean useOld = java.security.AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("sun.rmi.log.useOld"));
+    /* sflfdts log implfmfntbtion */
+    privbtf stbtid finbl LogFbdtory logFbdtory;
+    stbtid {
+        boolfbn usfOld = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("sun.rmi.log.usfOld"));
 
-        /* set factory to select the logging facility to use */
-        logFactory = (useOld ? (LogFactory) new LogStreamLogFactory() :
-                      (LogFactory) new LoggerLogFactory());
+        /* sft fbdtory to sflfdt tif logging fbdility to usf */
+        logFbdtory = (usfOld ? (LogFbdtory) nfw LogStrfbmLogFbdtory() :
+                      (LogFbdtory) nfw LoggfrLogFbdtory());
     }
 
-    /** "logger like" API to be used by RMI implementation */
-    public abstract boolean isLoggable(Level level);
-    public abstract void log(Level level, String message);
-    public abstract void log(Level level, String message, Throwable thrown);
+    /** "loggfr likf" API to bf usfd by RMI implfmfntbtion */
+    publid bbstrbdt boolfbn isLoggbblf(Lfvfl lfvfl);
+    publid bbstrbdt void log(Lfvfl lfvfl, String mfssbgf);
+    publid bbstrbdt void log(Lfvfl lfvfl, String mfssbgf, Tirowbblf tirown);
 
-    /** get and set the RMI server call output stream */
-    public abstract void setOutputStream(OutputStream stream);
-    public abstract PrintStream getPrintStream();
+    /** gft bnd sft tif RMI sfrvfr dbll output strfbm */
+    publid bbstrbdt void sftOutputStrfbm(OutputStrfbm strfbm);
+    publid bbstrbdt PrintStrfbm gftPrintStrfbm();
 
-    /** factory interface enables Logger and LogStream implementations */
-    private static interface LogFactory {
-        Log createLog(String loggerName, String oldLogName, Level level);
+    /** fbdtory intfrfbdf fnbblfs Loggfr bnd LogStrfbm implfmfntbtions */
+    privbtf stbtid intfrfbdf LogFbdtory {
+        Log drfbtfLog(String loggfrNbmf, String oldLogNbmf, Lfvfl lfvfl);
     }
 
-    /* access log objects */
+    /* bddfss log objfdts */
 
     /**
-     * Access log for a tri-state system property.
+     * Addfss log for b tri-stbtf systfm propfrty.
      *
-     * Need to first convert override value to a log level, taking
-     * care to interpret a range of values between BRIEF, VERBOSE and
+     * Nffd to first donvfrt ovfrridf vbluf to b log lfvfl, tbking
+     * dbrf to intfrprft b rbngf of vblufs bftwffn BRIEF, VERBOSE bnd
      * SILENT.
      *
-     * An override < 0 is interpreted to mean that the logging
-     * configuration should not be overridden. The level passed to the
-     * factories createLog method will be null in this case.
+     * An ovfrridf < 0 is intfrprftfd to mfbn tibt tif logging
+     * donfigurbtion siould not bf ovfrriddfn. Tif lfvfl pbssfd to tif
+     * fbdtorifs drfbtfLog mftiod will bf null in tiis dbsf.
      *
-     * Note that if oldLogName is null and old logging is on, the
-     * returned LogStreamLog will ignore the override parameter - the
-     * log will never log messages.  This permits new logs that only
-     * write to Loggers to do nothing when old logging is active.
+     * Notf tibt if oldLogNbmf is null bnd old logging is on, tif
+     * rfturnfd LogStrfbmLog will ignorf tif ovfrridf pbrbmftfr - tif
+     * log will nfvfr log mfssbgfs.  Tiis pfrmits nfw logs tibt only
+     * writf to Loggfrs to do notiing wifn old logging is bdtivf.
      *
-     * Do not call getLog multiple times on the same logger name.
-     * Since this is an internal API, no checks are made to ensure
-     * that multiple logs do not exist for the same logger.
+     * Do not dbll gftLog multiplf timfs on tif sbmf loggfr nbmf.
+     * Sindf tiis is bn intfrnbl API, no difdks brf mbdf to fnsurf
+     * tibt multiplf logs do not fxist for tif sbmf loggfr.
      */
-    public static Log getLog(String loggerName, String oldLogName,
-                             int override)
+    publid stbtid Log gftLog(String loggfrNbmf, String oldLogNbmf,
+                             int ovfrridf)
     {
-        Level level;
+        Lfvfl lfvfl;
 
-        if (override < 0) {
-            level = null;
-        } else if (override == LogStream.SILENT) {
-            level = Level.OFF;
-        } else if ((override > LogStream.SILENT) &&
-                   (override <= LogStream.BRIEF)) {
-            level = BRIEF;
-        } else if ((override > LogStream.BRIEF) &&
-                   (override <= LogStream.VERBOSE))
+        if (ovfrridf < 0) {
+            lfvfl = null;
+        } flsf if (ovfrridf == LogStrfbm.SILENT) {
+            lfvfl = Lfvfl.OFF;
+        } flsf if ((ovfrridf > LogStrfbm.SILENT) &&
+                   (ovfrridf <= LogStrfbm.BRIEF)) {
+            lfvfl = BRIEF;
+        } flsf if ((ovfrridf > LogStrfbm.BRIEF) &&
+                   (ovfrridf <= LogStrfbm.VERBOSE))
         {
-            level = VERBOSE;
-        } else {
-            level = Level.FINEST;
+            lfvfl = VERBOSE;
+        } flsf {
+            lfvfl = Lfvfl.FINEST;
         }
-        return logFactory.createLog(loggerName, oldLogName, level);
+        rfturn logFbdtory.drfbtfLog(loggfrNbmf, oldLogNbmf, lfvfl);
     }
 
     /**
-     * Access logs associated with boolean properties
+     * Addfss logs bssodibtfd witi boolfbn propfrtifs
      *
-     * Do not call getLog multiple times on the same logger name.
-     * Since this is an internal API, no checks are made to ensure
-     * that multiple logs do not exist for the same logger.
+     * Do not dbll gftLog multiplf timfs on tif sbmf loggfr nbmf.
+     * Sindf tiis is bn intfrnbl API, no difdks brf mbdf to fnsurf
+     * tibt multiplf logs do not fxist for tif sbmf loggfr.
      */
-    public static Log getLog(String loggerName, String oldLogName,
-                             boolean override)
+    publid stbtid Log gftLog(String loggfrNbmf, String oldLogNbmf,
+                             boolfbn ovfrridf)
     {
-        Level level = (override ? VERBOSE : null);
-        return logFactory.createLog(loggerName, oldLogName, level);
+        Lfvfl lfvfl = (ovfrridf ? VERBOSE : null);
+        rfturn logFbdtory.drfbtfLog(loggfrNbmf, oldLogNbmf, lfvfl);
     }
 
     /**
-     * Factory to create Log objects which deliver log messages to the
-     * java.util.logging API.
+     * Fbdtory to drfbtf Log objfdts wiidi dflivfr log mfssbgfs to tif
+     * jbvb.util.logging API.
      */
-    private static class LoggerLogFactory implements LogFactory {
-        LoggerLogFactory() {}
+    privbtf stbtid dlbss LoggfrLogFbdtory implfmfnts LogFbdtory {
+        LoggfrLogFbdtory() {}
 
         /*
-         * Accessor to obtain an arbitrary RMI logger with name
-         * loggerName.  If the level of the logger is greater than the
-         * level for the system property with name, the logger level
-         * will be set to the value of system property.
+         * Addfssor to obtbin bn brbitrbry RMI loggfr witi nbmf
+         * loggfrNbmf.  If tif lfvfl of tif loggfr is grfbtfr tibn tif
+         * lfvfl for tif systfm propfrty witi nbmf, tif loggfr lfvfl
+         * will bf sft to tif vbluf of systfm propfrty.
          */
-        public Log createLog(final String loggerName, String oldLogName,
-                             final Level level)
+        publid Log drfbtfLog(finbl String loggfrNbmf, String oldLogNbmf,
+                             finbl Lfvfl lfvfl)
         {
-            Logger logger = Logger.getLogger(loggerName);
-            return new LoggerLog(logger, level);
+            Loggfr loggfr = Loggfr.gftLoggfr(loggfrNbmf);
+            rfturn nfw LoggfrLog(loggfr, lfvfl);
         }
     }
 
     /**
-     * Class specialized to log messages to the java.util.logging API
+     * Clbss spfdiblizfd to log mfssbgfs to tif jbvb.util.logging API
      */
-    private static class LoggerLog extends Log {
+    privbtf stbtid dlbss LoggfrLog fxtfnds Log {
 
-        /* alternate console handler for RMI loggers */
-        private static final Handler alternateConsole =
-                java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Handler>() {
-                    public Handler run() {
-                            InternalStreamHandler alternate =
-                                new InternalStreamHandler(System.err);
-                            alternate.setLevel(Level.ALL);
-                            return alternate;
+        /* bltfrnbtf donsolf ibndlfr for RMI loggfrs */
+        privbtf stbtid finbl Hbndlfr bltfrnbtfConsolf =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Hbndlfr>() {
+                    publid Hbndlfr run() {
+                            IntfrnblStrfbmHbndlfr bltfrnbtf =
+                                nfw IntfrnblStrfbmHbndlfr(Systfm.frr);
+                            bltfrnbtf.sftLfvfl(Lfvfl.ALL);
+                            rfturn bltfrnbtf;
                         }
                 });
 
-        /** handler to which messages are copied */
-        private InternalStreamHandler copyHandler = null;
+        /** ibndlfr to wiidi mfssbgfs brf dopifd */
+        privbtf IntfrnblStrfbmHbndlfr dopyHbndlfr = null;
 
-        /* logger to which log messages are written */
-        private final Logger logger;
+        /* loggfr to wiidi log mfssbgfs brf writtfn */
+        privbtf finbl Loggfr loggfr;
 
-        /* used as return value of RemoteServer.getLog */
-        private LoggerPrintStream loggerSandwich;
+        /* usfd bs rfturn vbluf of RfmotfSfrvfr.gftLog */
+        privbtf LoggfrPrintStrfbm loggfrSbndwidi;
 
-        /** creates a Log which will delegate to the given logger */
-        private LoggerLog(final Logger logger, final Level level) {
-            this.logger = logger;
+        /** drfbtfs b Log wiidi will dflfgbtf to tif givfn loggfr */
+        privbtf LoggfrLog(finbl Loggfr loggfr, finbl Lfvfl lfvfl) {
+            tiis.loggfr = loggfr;
 
-            if (level != null){
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
-                        public Void run() {
-                            if (!logger.isLoggable(level)) {
-                                logger.setLevel(level);
+            if (lfvfl != null){
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            if (!loggfr.isLoggbblf(lfvfl)) {
+                                loggfr.sftLfvfl(lfvfl);
                             }
-                            logger.addHandler(alternateConsole);
-                            return null;
+                            loggfr.bddHbndlfr(bltfrnbtfConsolf);
+                            rfturn null;
                         }
                     }
                 );
             }
         }
 
-        public boolean isLoggable(Level level) {
-            return logger.isLoggable(level);
+        publid boolfbn isLoggbblf(Lfvfl lfvfl) {
+            rfturn loggfr.isLoggbblf(lfvfl);
         }
 
-        public void log(Level level, String message) {
-            if (isLoggable(level)) {
-                String[] source = getSource();
-                logger.logp(level, source[0], source[1],
-                           Thread.currentThread().getName() + ": " + message);
+        publid void log(Lfvfl lfvfl, String mfssbgf) {
+            if (isLoggbblf(lfvfl)) {
+                String[] sourdf = gftSourdf();
+                loggfr.logp(lfvfl, sourdf[0], sourdf[1],
+                           Tirfbd.durrfntTirfbd().gftNbmf() + ": " + mfssbgf);
             }
         }
 
-        public void log(Level level, String message, Throwable thrown) {
-            if (isLoggable(level)) {
-                String[] source = getSource();
-                logger.logp(level, source[0], source[1],
-                    Thread.currentThread().getName() + ": " +
-                           message, thrown);
+        publid void log(Lfvfl lfvfl, String mfssbgf, Tirowbblf tirown) {
+            if (isLoggbblf(lfvfl)) {
+                String[] sourdf = gftSourdf();
+                loggfr.logp(lfvfl, sourdf[0], sourdf[1],
+                    Tirfbd.durrfntTirfbd().gftNbmf() + ": " +
+                           mfssbgf, tirown);
             }
         }
 
         /**
-         * Set the output stream associated with the RMI server call
-         * logger.
+         * Sft tif output strfbm bssodibtfd witi tif RMI sfrvfr dbll
+         * loggfr.
          *
-         * Calling code needs LoggingPermission "control".
+         * Cblling dodf nffds LoggingPfrmission "dontrol".
          */
-        public synchronized void setOutputStream(OutputStream out) {
+        publid syndironizfd void sftOutputStrfbm(OutputStrfbm out) {
             if (out != null) {
-                if (!logger.isLoggable(VERBOSE)) {
-                    logger.setLevel(VERBOSE);
+                if (!loggfr.isLoggbblf(VERBOSE)) {
+                    loggfr.sftLfvfl(VERBOSE);
                 }
-                copyHandler = new InternalStreamHandler(out);
-                copyHandler.setLevel(Log.VERBOSE);
-                logger.addHandler(copyHandler);
-            } else {
-                /* ensure that messages are not logged */
-                if (copyHandler != null) {
-                    logger.removeHandler(copyHandler);
+                dopyHbndlfr = nfw IntfrnblStrfbmHbndlfr(out);
+                dopyHbndlfr.sftLfvfl(Log.VERBOSE);
+                loggfr.bddHbndlfr(dopyHbndlfr);
+            } flsf {
+                /* fnsurf tibt mfssbgfs brf not loggfd */
+                if (dopyHbndlfr != null) {
+                    loggfr.rfmovfHbndlfr(dopyHbndlfr);
                 }
-                copyHandler = null;
+                dopyHbndlfr = null;
             }
         }
 
-        public synchronized PrintStream getPrintStream() {
-            if (loggerSandwich == null) {
-                loggerSandwich = new LoggerPrintStream(logger);
+        publid syndironizfd PrintStrfbm gftPrintStrfbm() {
+            if (loggfrSbndwidi == null) {
+                loggfrSbndwidi = nfw LoggfrPrintStrfbm(loggfr);
             }
-            return loggerSandwich;
+            rfturn loggfrSbndwidi;
         }
     }
 
     /**
-     * Subclass of StreamHandler for redirecting log output.  flush
-     * must be called in the publish and close methods.
+     * Subdlbss of StrfbmHbndlfr for rfdirfdting log output.  flusi
+     * must bf dbllfd in tif publisi bnd dlosf mftiods.
      */
-    private static class InternalStreamHandler extends StreamHandler {
-        InternalStreamHandler(OutputStream out) {
-            super(out, new SimpleFormatter());
+    privbtf stbtid dlbss IntfrnblStrfbmHbndlfr fxtfnds StrfbmHbndlfr {
+        IntfrnblStrfbmHbndlfr(OutputStrfbm out) {
+            supfr(out, nfw SimplfFormbttfr());
         }
 
-        public void publish(LogRecord record) {
-            super.publish(record);
-            flush();
+        publid void publisi(LogRfdord rfdord) {
+            supfr.publisi(rfdord);
+            flusi();
         }
 
-        public void close() {
-            flush();
+        publid void dlosf() {
+            flusi();
         }
     }
 
     /**
-     * PrintStream which forwards log messages to the logger.  Class
-     * is needed to maintain backwards compatibility with
-     * RemoteServer.{set|get}Log().
+     * PrintStrfbm wiidi forwbrds log mfssbgfs to tif loggfr.  Clbss
+     * is nffdfd to mbintbin bbdkwbrds dompbtibility witi
+     * RfmotfSfrvfr.{sft|gft}Log().
      */
-    private static class LoggerPrintStream extends PrintStream {
+    privbtf stbtid dlbss LoggfrPrintStrfbm fxtfnds PrintStrfbm {
 
-        /** logger where output of this log is sent */
-        private final Logger logger;
+        /** loggfr wifrf output of tiis log is sfnt */
+        privbtf finbl Loggfr loggfr;
 
-        /** record the last character written to this stream */
-        private int last = -1;
+        /** rfdord tif lbst dibrbdtfr writtfn to tiis strfbm */
+        privbtf int lbst = -1;
 
-        /** stream used for buffering lines */
-        private final ByteArrayOutputStream bufOut;
+        /** strfbm usfd for bufffring linfs */
+        privbtf finbl BytfArrbyOutputStrfbm bufOut;
 
-        private LoggerPrintStream(Logger logger)
+        privbtf LoggfrPrintStrfbm(Loggfr loggfr)
         {
-            super(new ByteArrayOutputStream());
-            bufOut = (ByteArrayOutputStream) super.out;
-            this.logger = logger;
+            supfr(nfw BytfArrbyOutputStrfbm());
+            bufOut = (BytfArrbyOutputStrfbm) supfr.out;
+            tiis.loggfr = loggfr;
         }
 
-        public void write(int b) {
-            if ((last == '\r') && (b == '\n')) {
-                last = -1;
-                return;
-            } else if ((b == '\n') || (b == '\r')) {
+        publid void writf(int b) {
+            if ((lbst == '\r') && (b == '\n')) {
+                lbst = -1;
+                rfturn;
+            } flsf if ((b == '\n') || (b == '\r')) {
                 try {
-                    /* write the converted bytes of the log message */
-                    String message =
-                        Thread.currentThread().getName() + ": " +
+                    /* writf tif donvfrtfd bytfs of tif log mfssbgf */
+                    String mfssbgf =
+                        Tirfbd.durrfntTirfbd().gftNbmf() + ": " +
                         bufOut.toString();
-                    logger.logp(Level.INFO, "LogStream", "print", message);
-                } finally {
-                    bufOut.reset();
+                    loggfr.logp(Lfvfl.INFO, "LogStrfbm", "print", mfssbgf);
+                } finblly {
+                    bufOut.rfsft();
                 }
-            } else {
-                super.write(b);
+            } flsf {
+                supfr.writf(b);
             }
-            last = b;
+            lbst = b;
         }
 
-        public void write(byte b[], int off, int len) {
-            if (len < 0) {
-                throw new ArrayIndexOutOfBoundsException(len);
+        publid void writf(bytf b[], int off, int lfn) {
+            if (lfn < 0) {
+                tirow nfw ArrbyIndfxOutOfBoundsExdfption(lfn);
             }
-            for (int i = 0; i < len; i++) {
-                write(b[off + i]);
+            for (int i = 0; i < lfn; i++) {
+                writf(b[off + i]);
             }
         }
 
-        public String toString() {
-            return "RMI";
+        publid String toString() {
+            rfturn "RMI";
         }
     }
 
     /**
-     * Factory to create Log objects which deliver log messages to the
-     * java.rmi.server.LogStream API
+     * Fbdtory to drfbtf Log objfdts wiidi dflivfr log mfssbgfs to tif
+     * jbvb.rmi.sfrvfr.LogStrfbm API
      */
-    private static class LogStreamLogFactory implements LogFactory {
-        LogStreamLogFactory() {}
+    privbtf stbtid dlbss LogStrfbmLogFbdtory implfmfnts LogFbdtory {
+        LogStrfbmLogFbdtory() {}
 
-        /* create a new LogStreamLog for the specified log */
-        public Log createLog(String loggerName, String oldLogName,
-                             Level level)
+        /* drfbtf b nfw LogStrfbmLog for tif spfdififd log */
+        publid Log drfbtfLog(String loggfrNbmf, String oldLogNbmf,
+                             Lfvfl lfvfl)
         {
-            LogStream stream = null;
-            if (oldLogName != null) {
-                stream = LogStream.log(oldLogName);
+            LogStrfbm strfbm = null;
+            if (oldLogNbmf != null) {
+                strfbm = LogStrfbm.log(oldLogNbmf);
             }
-            return new LogStreamLog(stream, level);
+            rfturn nfw LogStrfbmLog(strfbm, lfvfl);
         }
     }
 
     /**
-     * Class specialized to log messages to the
-     * java.rmi.server.LogStream API
+     * Clbss spfdiblizfd to log mfssbgfs to tif
+     * jbvb.rmi.sfrvfr.LogStrfbm API
      */
-    private static class LogStreamLog extends Log {
-        /** Log stream to which log messages are written */
-        private final LogStream stream;
+    privbtf stbtid dlbss LogStrfbmLog fxtfnds Log {
+        /** Log strfbm to wiidi log mfssbgfs brf writtfn */
+        privbtf finbl LogStrfbm strfbm;
 
-        /** the level of the log as set by associated property */
-        private int levelValue = Level.OFF.intValue();
+        /** tif lfvfl of tif log bs sft by bssodibtfd propfrty */
+        privbtf int lfvflVbluf = Lfvfl.OFF.intVbluf();
 
-        private LogStreamLog(LogStream stream, Level level) {
-            if ((stream != null) && (level != null)) {
-                /* if the stream or level is null, don't log any
-                 * messages
+        privbtf LogStrfbmLog(LogStrfbm strfbm, Lfvfl lfvfl) {
+            if ((strfbm != null) && (lfvfl != null)) {
+                /* if tif strfbm or lfvfl is null, don't log bny
+                 * mfssbgfs
                  */
-                levelValue = level.intValue();
+                lfvflVbluf = lfvfl.intVbluf();
             }
-            this.stream = stream;
+            tiis.strfbm = strfbm;
         }
 
-        public synchronized boolean isLoggable(Level level) {
-            return (level.intValue() >= levelValue);
+        publid syndironizfd boolfbn isLoggbblf(Lfvfl lfvfl) {
+            rfturn (lfvfl.intVbluf() >= lfvflVbluf);
         }
 
-        public void log(Level messageLevel, String message) {
-            if (isLoggable(messageLevel)) {
-                String[] source = getSource();
-                stream.println(unqualifiedName(source[0]) +
-                               "." + source[1] + ": " + message);
+        publid void log(Lfvfl mfssbgfLfvfl, String mfssbgf) {
+            if (isLoggbblf(mfssbgfLfvfl)) {
+                String[] sourdf = gftSourdf();
+                strfbm.println(unqublififdNbmf(sourdf[0]) +
+                               "." + sourdf[1] + ": " + mfssbgf);
             }
         }
 
-        public void log(Level level, String message, Throwable thrown) {
-            if (isLoggable(level)) {
+        publid void log(Lfvfl lfvfl, String mfssbgf, Tirowbblf tirown) {
+            if (isLoggbblf(lfvfl)) {
                 /*
-                 * keep output contiguous and maintain the contract of
-                 * RemoteServer.getLog
+                 * kffp output dontiguous bnd mbintbin tif dontrbdt of
+                 * RfmotfSfrvfr.gftLog
                  */
-                synchronized (stream) {
-                    String[] source = getSource();
-                    stream.println(unqualifiedName(source[0]) + "." +
-                                   source[1] + ": " + message);
-                    thrown.printStackTrace(stream);
+                syndironizfd (strfbm) {
+                    String[] sourdf = gftSourdf();
+                    strfbm.println(unqublififdNbmf(sourdf[0]) + "." +
+                                   sourdf[1] + ": " + mfssbgf);
+                    tirown.printStbdkTrbdf(strfbm);
                 }
             }
         }
 
-        public PrintStream getPrintStream() {
-            return stream;
+        publid PrintStrfbm gftPrintStrfbm() {
+            rfturn strfbm;
         }
 
-        public synchronized void setOutputStream(OutputStream out) {
+        publid syndironizfd void sftOutputStrfbm(OutputStrfbm out) {
             if (out != null) {
-                if (VERBOSE.intValue() < levelValue) {
-                    levelValue = VERBOSE.intValue();
+                if (VERBOSE.intVbluf() < lfvflVbluf) {
+                    lfvflVbluf = VERBOSE.intVbluf();
                 }
-                stream.setOutputStream(out);
-            } else {
-                /* ensure that messages are not logged */
-                levelValue = Level.OFF.intValue();
+                strfbm.sftOutputStrfbm(out);
+            } flsf {
+                /* fnsurf tibt mfssbgfs brf not loggfd */
+                lfvflVbluf = Lfvfl.OFF.intVbluf();
             }
         }
 
         /*
-         * Mimic old log messages that only contain unqualified names.
+         * Mimid old log mfssbgfs tibt only dontbin unqublififd nbmfs.
          */
-        private static String unqualifiedName(String name) {
-            int lastDot = name.lastIndexOf('.');
-            if (lastDot >= 0) {
-                name = name.substring(lastDot + 1);
+        privbtf stbtid String unqublififdNbmf(String nbmf) {
+            int lbstDot = nbmf.lbstIndfxOf('.');
+            if (lbstDot >= 0) {
+                nbmf = nbmf.substring(lbstDot + 1);
             }
-            name = name.replace('$', '.');
-            return name;
+            nbmf = nbmf.rfplbdf('$', '.');
+            rfturn nbmf;
         }
     }
 
     /**
-     * Obtain class and method names of code calling a log method.
+     * Obtbin dlbss bnd mftiod nbmfs of dodf dblling b log mftiod.
      */
-    private static String[] getSource() {
-        StackTraceElement[] trace = (new Exception()).getStackTrace();
-        return new String[] {
-            trace[3].getClassName(),
-            trace[3].getMethodName()
+    privbtf stbtid String[] gftSourdf() {
+        StbdkTrbdfElfmfnt[] trbdf = (nfw Exdfption()).gftStbdkTrbdf();
+        rfturn nfw String[] {
+            trbdf[3].gftClbssNbmf(),
+            trbdf[3].gftMftiodNbmf()
         };
     }
 }

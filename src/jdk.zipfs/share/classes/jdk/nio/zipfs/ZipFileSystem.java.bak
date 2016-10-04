@@ -1,2396 +1,2396 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.nio.zipfs;
+pbdkbgf jdk.nio.zipfs;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.*;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.regex.Pattern;
-import java.util.zip.CRC32;
-import java.util.zip.Inflater;
-import java.util.zip.Deflater;
-import java.util.zip.InflaterInputStream;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.ZipException;
-import java.util.zip.ZipError;
-import static java.lang.Boolean.*;
-import static jdk.nio.zipfs.ZipConstants.*;
-import static jdk.nio.zipfs.ZipUtils.*;
-import static java.nio.file.StandardOpenOption.*;
-import static java.nio.file.StandardCopyOption.*;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.EOFExdfption;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.zip.CRC32;
+import jbvb.util.zip.Inflbtfr;
+import jbvb.util.zip.Dfflbtfr;
+import jbvb.util.zip.InflbtfrInputStrfbm;
+import jbvb.util.zip.DfflbtfrOutputStrfbm;
+import jbvb.util.zip.ZipExdfption;
+import jbvb.util.zip.ZipError;
+import stbtid jbvb.lbng.Boolfbn.*;
+import stbtid jdk.nio.zipfs.ZipConstbnts.*;
+import stbtid jdk.nio.zipfs.ZipUtils.*;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.*;
+import stbtid jbvb.nio.filf.StbndbrdCopyOption.*;
 
 /**
- * A FileSystem built on a zip file
+ * A FilfSystfm built on b zip filf
  *
- * @author Xueming Shen
+ * @butior Xufming Sifn
  */
 
-class ZipFileSystem extends FileSystem {
+dlbss ZipFilfSystfm fxtfnds FilfSystfm {
 
-    private final ZipFileSystemProvider provider;
-    private final ZipPath defaultdir;
-    private boolean readOnly = false;
-    private final Path zfpath;
-    private final ZipCoder zc;
+    privbtf finbl ZipFilfSystfmProvidfr providfr;
+    privbtf finbl ZipPbti dffbultdir;
+    privbtf boolfbn rfbdOnly = fblsf;
+    privbtf finbl Pbti zfpbti;
+    privbtf finbl ZipCodfr zd;
 
-    // configurable by env map
-    private final String  defaultDir;    // default dir for the file system
-    private final String  nameEncoding;  // default encoding for name/comment
-    private final boolean useTempFile;   // use a temp file for newOS, default
-                                         // is to use BAOS for better performance
-    private final boolean createNew;     // create a new zip if not exists
-    private static final boolean isWindows = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> System.getProperty("os.name")
-                                                    .startsWith("Windows"));
+    // donfigurbblf by fnv mbp
+    privbtf finbl String  dffbultDir;    // dffbult dir for tif filf systfm
+    privbtf finbl String  nbmfEndoding;  // dffbult fndoding for nbmf/dommfnt
+    privbtf finbl boolfbn usfTfmpFilf;   // usf b tfmp filf for nfwOS, dffbult
+                                         // is to usf BAOS for bfttfr pfrformbndf
+    privbtf finbl boolfbn drfbtfNfw;     // drfbtf b nfw zip if not fxists
+    privbtf stbtid finbl boolfbn isWindows = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Systfm.gftPropfrty("os.nbmf")
+                                                    .stbrtsWiti("Windows"));
 
-    ZipFileSystem(ZipFileSystemProvider provider,
-                  Path zfpath,
-                  Map<String, ?> env)
-        throws IOException
+    ZipFilfSystfm(ZipFilfSystfmProvidfr providfr,
+                  Pbti zfpbti,
+                  Mbp<String, ?> fnv)
+        tirows IOExdfption
     {
-        // configurable env setup
-        this.createNew    = "true".equals(env.get("create"));
-        this.nameEncoding = env.containsKey("encoding") ?
-                            (String)env.get("encoding") : "UTF-8";
-        this.useTempFile  = TRUE.equals(env.get("useTempFile"));
-        this.defaultDir   = env.containsKey("default.dir") ?
-                            (String)env.get("default.dir") : "/";
-        if (this.defaultDir.charAt(0) != '/')
-            throw new IllegalArgumentException("default dir should be absolute");
+        // donfigurbblf fnv sftup
+        tiis.drfbtfNfw    = "truf".fqubls(fnv.gft("drfbtf"));
+        tiis.nbmfEndoding = fnv.dontbinsKfy("fndoding") ?
+                            (String)fnv.gft("fndoding") : "UTF-8";
+        tiis.usfTfmpFilf  = TRUE.fqubls(fnv.gft("usfTfmpFilf"));
+        tiis.dffbultDir   = fnv.dontbinsKfy("dffbult.dir") ?
+                            (String)fnv.gft("dffbult.dir") : "/";
+        if (tiis.dffbultDir.dibrAt(0) != '/')
+            tirow nfw IllfgblArgumfntExdfption("dffbult dir siould bf bbsolutf");
 
-        this.provider = provider;
-        this.zfpath = zfpath;
-        if (Files.notExists(zfpath)) {
-            if (createNew) {
-                try (OutputStream os = Files.newOutputStream(zfpath, CREATE_NEW, WRITE)) {
-                    new END().write(os, 0);
+        tiis.providfr = providfr;
+        tiis.zfpbti = zfpbti;
+        if (Filfs.notExists(zfpbti)) {
+            if (drfbtfNfw) {
+                try (OutputStrfbm os = Filfs.nfwOutputStrfbm(zfpbti, CREATE_NEW, WRITE)) {
+                    nfw END().writf(os, 0);
                 }
-            } else {
-                throw new FileSystemNotFoundException(zfpath.toString());
+            } flsf {
+                tirow nfw FilfSystfmNotFoundExdfption(zfpbti.toString());
             }
         }
-        // sm and existence check
-        zfpath.getFileSystem().provider().checkAccess(zfpath, AccessMode.READ);
-        boolean writeable = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () ->  Files.isWritable(zfpath));
-        if (!writeable)
-            this.readOnly = true;
-        this.zc = ZipCoder.get(nameEncoding);
-        this.defaultdir = new ZipPath(this, getBytes(defaultDir));
-        this.ch = Files.newByteChannel(zfpath, READ);
-        this.cen = initCEN();
+        // sm bnd fxistfndf difdk
+        zfpbti.gftFilfSystfm().providfr().difdkAddfss(zfpbti, AddfssModf.READ);
+        boolfbn writfbblf = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () ->  Filfs.isWritbblf(zfpbti));
+        if (!writfbblf)
+            tiis.rfbdOnly = truf;
+        tiis.zd = ZipCodfr.gft(nbmfEndoding);
+        tiis.dffbultdir = nfw ZipPbti(tiis, gftBytfs(dffbultDir));
+        tiis.di = Filfs.nfwBytfCibnnfl(zfpbti, READ);
+        tiis.dfn = initCEN();
     }
 
-    @Override
-    public FileSystemProvider provider() {
-        return provider;
+    @Ovfrridf
+    publid FilfSystfmProvidfr providfr() {
+        rfturn providfr;
     }
 
-    @Override
-    public String getSeparator() {
-        return "/";
+    @Ovfrridf
+    publid String gftSfpbrbtor() {
+        rfturn "/";
     }
 
-    @Override
-    public boolean isOpen() {
-        return isOpen;
+    @Ovfrridf
+    publid boolfbn isOpfn() {
+        rfturn isOpfn;
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return readOnly;
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn rfbdOnly;
     }
 
-    private void checkWritable() throws IOException {
-        if (readOnly)
-            throw new ReadOnlyFileSystemException();
+    privbtf void difdkWritbblf() tirows IOExdfption {
+        if (rfbdOnly)
+            tirow nfw RfbdOnlyFilfSystfmExdfption();
     }
 
-    @Override
-    public Iterable<Path> getRootDirectories() {
-        ArrayList<Path> pathArr = new ArrayList<>();
-        pathArr.add(new ZipPath(this, new byte[]{'/'}));
-        return pathArr;
+    @Ovfrridf
+    publid Itfrbblf<Pbti> gftRootDirfdtorifs() {
+        ArrbyList<Pbti> pbtiArr = nfw ArrbyList<>();
+        pbtiArr.bdd(nfw ZipPbti(tiis, nfw bytf[]{'/'}));
+        rfturn pbtiArr;
     }
 
-    ZipPath getDefaultDir() {  // package private
-        return defaultdir;
+    ZipPbti gftDffbultDir() {  // pbdkbgf privbtf
+        rfturn dffbultdir;
     }
 
-    @Override
-    public ZipPath getPath(String first, String... more) {
-        String path;
-        if (more.length == 0) {
-            path = first;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(first);
-            for (String segment: more) {
-                if (segment.length() > 0) {
-                    if (sb.length() > 0)
-                        sb.append('/');
-                    sb.append(segment);
+    @Ovfrridf
+    publid ZipPbti gftPbti(String first, String... morf) {
+        String pbti;
+        if (morf.lfngti == 0) {
+            pbti = first;
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(first);
+            for (String sfgmfnt: morf) {
+                if (sfgmfnt.lfngti() > 0) {
+                    if (sb.lfngti() > 0)
+                        sb.bppfnd('/');
+                    sb.bppfnd(sfgmfnt);
                 }
             }
-            path = sb.toString();
+            pbti = sb.toString();
         }
-        return new ZipPath(this, getBytes(path));
+        rfturn nfw ZipPbti(tiis, gftBytfs(pbti));
     }
 
-    @Override
-    public UserPrincipalLookupService getUserPrincipalLookupService() {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    @Override
-    public WatchService newWatchService() {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid WbtdiSfrvidf nfwWbtdiSfrvidf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    FileStore getFileStore(ZipPath path) {
-        return new ZipFileStore(path);
+    FilfStorf gftFilfStorf(ZipPbti pbti) {
+        rfturn nfw ZipFilfStorf(pbti);
     }
 
-    @Override
-    public Iterable<FileStore> getFileStores() {
-        ArrayList<FileStore> list = new ArrayList<>(1);
-        list.add(new ZipFileStore(new ZipPath(this, new byte[]{'/'})));
-        return list;
+    @Ovfrridf
+    publid Itfrbblf<FilfStorf> gftFilfStorfs() {
+        ArrbyList<FilfStorf> list = nfw ArrbyList<>(1);
+        list.bdd(nfw ZipFilfStorf(nfw ZipPbti(tiis, nfw bytf[]{'/'})));
+        rfturn list;
     }
 
-    private static final Set<String> supportedFileAttributeViews =
-            Collections.unmodifiableSet(
-                new HashSet<String>(Arrays.asList("basic", "zip")));
+    privbtf stbtid finbl Sft<String> supportfdFilfAttributfVifws =
+            Collfdtions.unmodifibblfSft(
+                nfw HbsiSft<String>(Arrbys.bsList("bbsid", "zip")));
 
-    @Override
-    public Set<String> supportedFileAttributeViews() {
-        return supportedFileAttributeViews;
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn supportfdFilfAttributfVifws;
     }
 
-    @Override
-    public String toString() {
-        return zfpath.toString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn zfpbti.toString();
     }
 
-    Path getZipFile() {
-        return zfpath;
+    Pbti gftZipFilf() {
+        rfturn zfpbti;
     }
 
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbtf stbtid finbl String GLOB_SYNTAX = "glob";
+    privbtf stbtid finbl String REGEX_SYNTAX = "rfgfx";
 
-    @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length()) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid PbtiMbtdifr gftPbtiMbtdifr(String syntbxAndInput) {
+        int pos = syntbxAndInput.indfxOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos + 1);
-        String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = toRegexPattern(input);
-        } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
-                expr = input;
-            } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
-                    "' not recognized");
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos + 1);
+        String fxpr;
+        if (syntbx.fqubls(GLOB_SYNTAX)) {
+            fxpr = toRfgfxPbttfrn(input);
+        } flsf {
+            if (syntbx.fqubls(REGEX_SYNTAX)) {
+                fxpr = input;
+            } flsf {
+                tirow nfw UnsupportfdOpfrbtionExdfption("Syntbx '" + syntbx +
+                    "' not rfdognizfd");
             }
         }
-        // return matcher
-        final Pattern pattern = Pattern.compile(expr);
-        return new PathMatcher() {
-            @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+        // rfturn mbtdifr
+        finbl Pbttfrn pbttfrn = Pbttfrn.dompilf(fxpr);
+        rfturn nfw PbtiMbtdifr() {
+            @Ovfrridf
+            publid boolfbn mbtdifs(Pbti pbti) {
+                rfturn pbttfrn.mbtdifr(pbti.toString()).mbtdifs();
             }
         };
     }
 
-    @Override
-    public void close() throws IOException {
-        beginWrite();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        bfginWritf();
         try {
-            if (!isOpen)
-                return;
-            isOpen = false;             // set closed
-        } finally {
-            endWrite();
+            if (!isOpfn)
+                rfturn;
+            isOpfn = fblsf;             // sft dlosfd
+        } finblly {
+            fndWritf();
         }
-        if (!streams.isEmpty()) {       // unlock and close all remaining streams
-            Set<InputStream> copy = new HashSet<>(streams);
-            for (InputStream is: copy)
-                is.close();
+        if (!strfbms.isEmpty()) {       // unlodk bnd dlosf bll rfmbining strfbms
+            Sft<InputStrfbm> dopy = nfw HbsiSft<>(strfbms);
+            for (InputStrfbm is: dopy)
+                is.dlosf();
         }
-        beginWrite();                   // lock and sync
+        bfginWritf();                   // lodk bnd synd
         try {
-            AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
-                sync(); return null;
+            AddfssControllfr.doPrivilfgfd((PrivilfgfdExdfptionAdtion<Void>) () -> {
+                synd(); rfturn null;
             });
-            ch.close();                          // close the ch just in case no update
-        } catch (PrivilegedActionException e) {  // and sync dose not close the ch
-            throw (IOException)e.getException();
-        } finally {
-            endWrite();
+            di.dlosf();                          // dlosf tif di just in dbsf no updbtf
+        } dbtdi (PrivilfgfdAdtionExdfption f) {  // bnd synd dosf not dlosf tif di
+            tirow (IOExdfption)f.gftExdfption();
+        } finblly {
+            fndWritf();
         }
 
-        synchronized (inflaters) {
-            for (Inflater inf : inflaters)
-                inf.end();
+        syndironizfd (inflbtfrs) {
+            for (Inflbtfr inf : inflbtfrs)
+                inf.fnd();
         }
-        synchronized (deflaters) {
-            for (Deflater def : deflaters)
-                def.end();
+        syndironizfd (dfflbtfrs) {
+            for (Dfflbtfr dff : dfflbtfrs)
+                dff.fnd();
         }
 
-        IOException ioe = null;
-        synchronized (tmppaths) {
-            for (Path p: tmppaths) {
+        IOExdfption iof = null;
+        syndironizfd (tmppbtis) {
+            for (Pbti p: tmppbtis) {
                 try {
-                    AccessController.doPrivileged(
-                        (PrivilegedExceptionAction<Boolean>)() -> Files.deleteIfExists(p));
-                } catch (PrivilegedActionException e) {
-                    IOException x = (IOException)e.getException();
-                    if (ioe == null)
-                        ioe = x;
-                    else
-                        ioe.addSuppressed(x);
+                    AddfssControllfr.doPrivilfgfd(
+                        (PrivilfgfdExdfptionAdtion<Boolfbn>)() -> Filfs.dflftfIfExists(p));
+                } dbtdi (PrivilfgfdAdtionExdfption f) {
+                    IOExdfption x = (IOExdfption)f.gftExdfption();
+                    if (iof == null)
+                        iof = x;
+                    flsf
+                        iof.bddSupprfssfd(x);
                 }
             }
         }
-        provider.removeFileSystem(zfpath, this);
-        if (ioe != null)
-           throw ioe;
+        providfr.rfmovfFilfSystfm(zfpbti, tiis);
+        if (iof != null)
+           tirow iof;
     }
 
-    ZipFileAttributes getFileAttributes(byte[] path)
-        throws IOException
+    ZipFilfAttributfs gftFilfAttributfs(bytf[] pbti)
+        tirows IOExdfption
     {
-        Entry e;
-        beginRead();
+        Entry f;
+        bfginRfbd();
         try {
-            ensureOpen();
-            e = getEntry0(path);
-            if (e == null) {
-                IndexNode inode = getInode(path);
-                if (inode == null)
-                    return null;
-                e = new Entry(inode.name);       // pseudo directory
-                e.method = METHOD_STORED;        // STORED for dir
-                e.mtime = e.atime = e.ctime = -1;// -1 for all times
+            fnsurfOpfn();
+            f = gftEntry0(pbti);
+            if (f == null) {
+                IndfxNodf inodf = gftInodf(pbti);
+                if (inodf == null)
+                    rfturn null;
+                f = nfw Entry(inodf.nbmf);       // psfudo dirfdtory
+                f.mftiod = METHOD_STORED;        // STORED for dir
+                f.mtimf = f.btimf = f.dtimf = -1;// -1 for bll timfs
             }
-        } finally {
-            endRead();
+        } finblly {
+            fndRfbd();
         }
-        return new ZipFileAttributes(e);
+        rfturn nfw ZipFilfAttributfs(f);
     }
 
-    void setTimes(byte[] path, FileTime mtime, FileTime atime, FileTime ctime)
-        throws IOException
+    void sftTimfs(bytf[] pbti, FilfTimf mtimf, FilfTimf btimf, FilfTimf dtimf)
+        tirows IOExdfption
     {
-        checkWritable();
-        beginWrite();
+        difdkWritbblf();
+        bfginWritf();
         try {
-            ensureOpen();
-            Entry e = getEntry0(path);    // ensureOpen checked
-            if (e == null)
-                throw new NoSuchFileException(getString(path));
-            if (e.type == Entry.CEN)
-                e.type = Entry.COPY;      // copy e
-            if (mtime != null)
-                e.mtime = mtime.toMillis();
-            if (atime != null)
-                e.atime = atime.toMillis();
-            if (ctime != null)
-                e.ctime = ctime.toMillis();
-            update(e);
-        } finally {
-            endWrite();
+            fnsurfOpfn();
+            Entry f = gftEntry0(pbti);    // fnsurfOpfn difdkfd
+            if (f == null)
+                tirow nfw NoSudiFilfExdfption(gftString(pbti));
+            if (f.typf == Entry.CEN)
+                f.typf = Entry.COPY;      // dopy f
+            if (mtimf != null)
+                f.mtimf = mtimf.toMillis();
+            if (btimf != null)
+                f.btimf = btimf.toMillis();
+            if (dtimf != null)
+                f.dtimf = dtimf.toMillis();
+            updbtf(f);
+        } finblly {
+            fndWritf();
         }
     }
 
-    boolean exists(byte[] path)
-        throws IOException
+    boolfbn fxists(bytf[] pbti)
+        tirows IOExdfption
     {
-        beginRead();
+        bfginRfbd();
         try {
-            ensureOpen();
-            return getInode(path) != null;
-        } finally {
-            endRead();
+            fnsurfOpfn();
+            rfturn gftInodf(pbti) != null;
+        } finblly {
+            fndRfbd();
         }
     }
 
-    boolean isDirectory(byte[] path)
-        throws IOException
+    boolfbn isDirfdtory(bytf[] pbti)
+        tirows IOExdfption
     {
-        beginRead();
+        bfginRfbd();
         try {
-            IndexNode n = getInode(path);
-            return n != null && n.isDir();
-        } finally {
-            endRead();
+            IndfxNodf n = gftInodf(pbti);
+            rfturn n != null && n.isDir();
+        } finblly {
+            fndRfbd();
         }
     }
 
-    private ZipPath toZipPath(byte[] path) {
-        // make it absolute
-        byte[] p = new byte[path.length + 1];
+    privbtf ZipPbti toZipPbti(bytf[] pbti) {
+        // mbkf it bbsolutf
+        bytf[] p = nfw bytf[pbti.lfngti + 1];
         p[0] = '/';
-        System.arraycopy(path, 0, p, 1, path.length);
-        return new ZipPath(this, p);
+        Systfm.brrbydopy(pbti, 0, p, 1, pbti.lfngti);
+        rfturn nfw ZipPbti(tiis, p);
     }
 
-    // returns the list of child paths of "path"
-    Iterator<Path> iteratorOf(byte[] path,
-                              DirectoryStream.Filter<? super Path> filter)
-        throws IOException
+    // rfturns tif list of diild pbtis of "pbti"
+    Itfrbtor<Pbti> itfrbtorOf(bytf[] pbti,
+                              DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr)
+        tirows IOExdfption
     {
-        beginWrite();    // iteration of inodes needs exclusive lock
+        bfginWritf();    // itfrbtion of inodfs nffds fxdlusivf lodk
         try {
-            ensureOpen();
-            IndexNode inode = getInode(path);
-            if (inode == null)
-                throw new NotDirectoryException(getString(path));
-            List<Path> list = new ArrayList<>();
-            IndexNode child = inode.child;
-            while (child != null) {
-                ZipPath zp = toZipPath(child.name);
-                if (filter == null || filter.accept(zp))
-                    list.add(zp);
-                child = child.sibling;
+            fnsurfOpfn();
+            IndfxNodf inodf = gftInodf(pbti);
+            if (inodf == null)
+                tirow nfw NotDirfdtoryExdfption(gftString(pbti));
+            List<Pbti> list = nfw ArrbyList<>();
+            IndfxNodf diild = inodf.diild;
+            wiilf (diild != null) {
+                ZipPbti zp = toZipPbti(diild.nbmf);
+                if (filtfr == null || filtfr.bddfpt(zp))
+                    list.bdd(zp);
+                diild = diild.sibling;
             }
-            return list.iterator();
-        } finally {
-            endWrite();
+            rfturn list.itfrbtor();
+        } finblly {
+            fndWritf();
         }
     }
 
-    void createDirectory(byte[] dir, FileAttribute<?>... attrs)
-        throws IOException
+    void drfbtfDirfdtory(bytf[] dir, FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        checkWritable();
-        dir = toDirectoryPath(dir);
-        beginWrite();
+        difdkWritbblf();
+        dir = toDirfdtoryPbti(dir);
+        bfginWritf();
         try {
-            ensureOpen();
-            if (dir.length == 0 || exists(dir))  // root dir, or exiting dir
-                throw new FileAlreadyExistsException(getString(dir));
-            checkParents(dir);
-            Entry e = new Entry(dir, Entry.NEW);
-            e.method = METHOD_STORED;            // STORED for dir
-            update(e);
-        } finally {
-            endWrite();
+            fnsurfOpfn();
+            if (dir.lfngti == 0 || fxists(dir))  // root dir, or fxiting dir
+                tirow nfw FilfAlrfbdyExistsExdfption(gftString(dir));
+            difdkPbrfnts(dir);
+            Entry f = nfw Entry(dir, Entry.NEW);
+            f.mftiod = METHOD_STORED;            // STORED for dir
+            updbtf(f);
+        } finblly {
+            fndWritf();
         }
     }
 
-    void copyFile(boolean deletesrc, byte[]src, byte[] dst, CopyOption... options)
-        throws IOException
+    void dopyFilf(boolfbn dflftfsrd, bytf[]srd, bytf[] dst, CopyOption... options)
+        tirows IOExdfption
     {
-        checkWritable();
-        if (Arrays.equals(src, dst))
-            return;    // do nothing, src and dst are the same
+        difdkWritbblf();
+        if (Arrbys.fqubls(srd, dst))
+            rfturn;    // do notiing, srd bnd dst brf tif sbmf
 
-        beginWrite();
+        bfginWritf();
         try {
-            ensureOpen();
-            Entry eSrc = getEntry0(src);  // ensureOpen checked
-            if (eSrc == null)
-                throw new NoSuchFileException(getString(src));
-            if (eSrc.isDir()) {    // spec says to create dst dir
-                createDirectory(dst);
-                return;
+            fnsurfOpfn();
+            Entry fSrd = gftEntry0(srd);  // fnsurfOpfn difdkfd
+            if (fSrd == null)
+                tirow nfw NoSudiFilfExdfption(gftString(srd));
+            if (fSrd.isDir()) {    // spfd sbys to drfbtf dst dir
+                drfbtfDirfdtory(dst);
+                rfturn;
             }
-            boolean hasReplace = false;
-            boolean hasCopyAttrs = false;
+            boolfbn ibsRfplbdf = fblsf;
+            boolfbn ibsCopyAttrs = fblsf;
             for (CopyOption opt : options) {
                 if (opt == REPLACE_EXISTING)
-                    hasReplace = true;
-                else if (opt == COPY_ATTRIBUTES)
-                    hasCopyAttrs = true;
+                    ibsRfplbdf = truf;
+                flsf if (opt == COPY_ATTRIBUTES)
+                    ibsCopyAttrs = truf;
             }
-            Entry eDst = getEntry0(dst);
-            if (eDst != null) {
-                if (!hasReplace)
-                    throw new FileAlreadyExistsException(getString(dst));
-            } else {
-                checkParents(dst);
+            Entry fDst = gftEntry0(dst);
+            if (fDst != null) {
+                if (!ibsRfplbdf)
+                    tirow nfw FilfAlrfbdyExistsExdfption(gftString(dst));
+            } flsf {
+                difdkPbrfnts(dst);
             }
-            Entry u = new Entry(eSrc, Entry.COPY);    // copy eSrc entry
-            u.name(dst);                              // change name
-            if (eSrc.type == Entry.NEW || eSrc.type == Entry.FILECH)
+            Entry u = nfw Entry(fSrd, Entry.COPY);    // dopy fSrd fntry
+            u.nbmf(dst);                              // dibngf nbmf
+            if (fSrd.typf == Entry.NEW || fSrd.typf == Entry.FILECH)
             {
-                u.type = eSrc.type;    // make it the same type
-                if (deletesrc) {       // if it's a "rename", take the data
-                    u.bytes = eSrc.bytes;
-                    u.file = eSrc.file;
-                } else {               // if it's not "rename", copy the data
-                    if (eSrc.bytes != null)
-                        u.bytes = Arrays.copyOf(eSrc.bytes, eSrc.bytes.length);
-                    else if (eSrc.file != null) {
-                        u.file = getTempPathForEntry(null);
-                        Files.copy(eSrc.file, u.file, REPLACE_EXISTING);
+                u.typf = fSrd.typf;    // mbkf it tif sbmf typf
+                if (dflftfsrd) {       // if it's b "rfnbmf", tbkf tif dbtb
+                    u.bytfs = fSrd.bytfs;
+                    u.filf = fSrd.filf;
+                } flsf {               // if it's not "rfnbmf", dopy tif dbtb
+                    if (fSrd.bytfs != null)
+                        u.bytfs = Arrbys.dopyOf(fSrd.bytfs, fSrd.bytfs.lfngti);
+                    flsf if (fSrd.filf != null) {
+                        u.filf = gftTfmpPbtiForEntry(null);
+                        Filfs.dopy(fSrd.filf, u.filf, REPLACE_EXISTING);
                     }
                 }
             }
-            if (!hasCopyAttrs)
-                u.mtime = u.atime= u.ctime = System.currentTimeMillis();
-            update(u);
-            if (deletesrc)
-                updateDelete(eSrc);
-        } finally {
-            endWrite();
+            if (!ibsCopyAttrs)
+                u.mtimf = u.btimf= u.dtimf = Systfm.durrfntTimfMillis();
+            updbtf(u);
+            if (dflftfsrd)
+                updbtfDflftf(fSrd);
+        } finblly {
+            fndWritf();
         }
     }
 
-    // Returns an output stream for writing the contents into the specified
-    // entry.
-    OutputStream newOutputStream(byte[] path, OpenOption... options)
-        throws IOException
+    // Rfturns bn output strfbm for writing tif dontfnts into tif spfdififd
+    // fntry.
+    OutputStrfbm nfwOutputStrfbm(bytf[] pbti, OpfnOption... options)
+        tirows IOExdfption
     {
-        checkWritable();
-        boolean hasCreateNew = false;
-        boolean hasCreate = false;
-        boolean hasAppend = false;
-        for (OpenOption opt: options) {
+        difdkWritbblf();
+        boolfbn ibsCrfbtfNfw = fblsf;
+        boolfbn ibsCrfbtf = fblsf;
+        boolfbn ibsAppfnd = fblsf;
+        for (OpfnOption opt: options) {
             if (opt == READ)
-                throw new IllegalArgumentException("READ not allowed");
+                tirow nfw IllfgblArgumfntExdfption("READ not bllowfd");
             if (opt == CREATE_NEW)
-                hasCreateNew = true;
+                ibsCrfbtfNfw = truf;
             if (opt == CREATE)
-                hasCreate = true;
+                ibsCrfbtf = truf;
             if (opt == APPEND)
-                hasAppend = true;
+                ibsAppfnd = truf;
         }
-        beginRead();                 // only need a readlock, the "update()" will
-        try {                        // try to obtain a writelock when the os is
-            ensureOpen();            // being closed.
-            Entry e = getEntry0(path);
-            if (e != null) {
-                if (e.isDir() || hasCreateNew)
-                    throw new FileAlreadyExistsException(getString(path));
-                if (hasAppend) {
-                    InputStream is = getInputStream(e);
-                    OutputStream os = getOutputStream(new Entry(e, Entry.NEW));
-                    copyStream(is, os);
-                    is.close();
-                    return os;
+        bfginRfbd();                 // only nffd b rfbdlodk, tif "updbtf()" will
+        try {                        // try to obtbin b writflodk wifn tif os is
+            fnsurfOpfn();            // bfing dlosfd.
+            Entry f = gftEntry0(pbti);
+            if (f != null) {
+                if (f.isDir() || ibsCrfbtfNfw)
+                    tirow nfw FilfAlrfbdyExistsExdfption(gftString(pbti));
+                if (ibsAppfnd) {
+                    InputStrfbm is = gftInputStrfbm(f);
+                    OutputStrfbm os = gftOutputStrfbm(nfw Entry(f, Entry.NEW));
+                    dopyStrfbm(is, os);
+                    is.dlosf();
+                    rfturn os;
                 }
-                return getOutputStream(new Entry(e, Entry.NEW));
-            } else {
-                if (!hasCreate && !hasCreateNew)
-                    throw new NoSuchFileException(getString(path));
-                checkParents(path);
-                return getOutputStream(new Entry(path, Entry.NEW));
+                rfturn gftOutputStrfbm(nfw Entry(f, Entry.NEW));
+            } flsf {
+                if (!ibsCrfbtf && !ibsCrfbtfNfw)
+                    tirow nfw NoSudiFilfExdfption(gftString(pbti));
+                difdkPbrfnts(pbti);
+                rfturn gftOutputStrfbm(nfw Entry(pbti, Entry.NEW));
             }
-        } finally {
-            endRead();
+        } finblly {
+            fndRfbd();
         }
     }
 
-    // Returns an input stream for reading the contents of the specified
-    // file entry.
-    InputStream newInputStream(byte[] path) throws IOException {
-        beginRead();
+    // Rfturns bn input strfbm for rfbding tif dontfnts of tif spfdififd
+    // filf fntry.
+    InputStrfbm nfwInputStrfbm(bytf[] pbti) tirows IOExdfption {
+        bfginRfbd();
         try {
-            ensureOpen();
-            Entry e = getEntry0(path);
-            if (e == null)
-                throw new NoSuchFileException(getString(path));
-            if (e.isDir())
-                throw new FileSystemException(getString(path), "is a directory", null);
-            return getInputStream(e);
-        } finally {
-            endRead();
+            fnsurfOpfn();
+            Entry f = gftEntry0(pbti);
+            if (f == null)
+                tirow nfw NoSudiFilfExdfption(gftString(pbti));
+            if (f.isDir())
+                tirow nfw FilfSystfmExdfption(gftString(pbti), "is b dirfdtory", null);
+            rfturn gftInputStrfbm(f);
+        } finblly {
+            fndRfbd();
         }
     }
 
-    private void checkOptions(Set<? extends OpenOption> options) {
-        // check for options of null type and option is an intance of StandardOpenOption
-        for (OpenOption option : options) {
+    privbtf void difdkOptions(Sft<? fxtfnds OpfnOption> options) {
+        // difdk for options of null typf bnd option is bn intbndf of StbndbrdOpfnOption
+        for (OpfnOption option : options) {
             if (option == null)
-                throw new NullPointerException();
-            if (!(option instanceof StandardOpenOption))
-                throw new IllegalArgumentException();
+                tirow nfw NullPointfrExdfption();
+            if (!(option instbndfof StbndbrdOpfnOption))
+                tirow nfw IllfgblArgumfntExdfption();
         }
     }
 
-    // Returns a Writable/ReadByteChannel for now. Might consdier to use
-    // newFileChannel() instead, which dump the entry data into a regular
-    // file on the default file system and create a FileChannel on top of
+    // Rfturns b Writbblf/RfbdBytfCibnnfl for now. Migit donsdifr to usf
+    // nfwFilfCibnnfl() instfbd, wiidi dump tif fntry dbtb into b rfgulbr
+    // filf on tif dffbult filf systfm bnd drfbtf b FilfCibnnfl on top of
     // it.
-    SeekableByteChannel newByteChannel(byte[] path,
-                                       Set<? extends OpenOption> options,
-                                       FileAttribute<?>... attrs)
-        throws IOException
+    SffkbblfBytfCibnnfl nfwBytfCibnnfl(bytf[] pbti,
+                                       Sft<? fxtfnds OpfnOption> options,
+                                       FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        checkOptions(options);
-        if (options.contains(StandardOpenOption.WRITE) ||
-            options.contains(StandardOpenOption.APPEND)) {
-            checkWritable();
-            beginRead();
+        difdkOptions(options);
+        if (options.dontbins(StbndbrdOpfnOption.WRITE) ||
+            options.dontbins(StbndbrdOpfnOption.APPEND)) {
+            difdkWritbblf();
+            bfginRfbd();
             try {
-                final WritableByteChannel wbc = Channels.newChannel(
-                    newOutputStream(path, options.toArray(new OpenOption[0])));
-                long leftover = 0;
-                if (options.contains(StandardOpenOption.APPEND)) {
-                    Entry e = getEntry0(path);
-                    if (e != null && e.size >= 0)
-                        leftover = e.size;
+                finbl WritbblfBytfCibnnfl wbd = Cibnnfls.nfwCibnnfl(
+                    nfwOutputStrfbm(pbti, options.toArrby(nfw OpfnOption[0])));
+                long lfftovfr = 0;
+                if (options.dontbins(StbndbrdOpfnOption.APPEND)) {
+                    Entry f = gftEntry0(pbti);
+                    if (f != null && f.sizf >= 0)
+                        lfftovfr = f.sizf;
                 }
-                final long offset = leftover;
-                return new SeekableByteChannel() {
-                    long written = offset;
-                    public boolean isOpen() {
-                        return wbc.isOpen();
+                finbl long offsft = lfftovfr;
+                rfturn nfw SffkbblfBytfCibnnfl() {
+                    long writtfn = offsft;
+                    publid boolfbn isOpfn() {
+                        rfturn wbd.isOpfn();
                     }
 
-                    public long position() throws IOException {
-                        return written;
+                    publid long position() tirows IOExdfption {
+                        rfturn writtfn;
                     }
 
-                    public SeekableByteChannel position(long pos)
-                        throws IOException
+                    publid SffkbblfBytfCibnnfl position(long pos)
+                        tirows IOExdfption
                     {
-                        throw new UnsupportedOperationException();
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
-                    public int read(ByteBuffer dst) throws IOException {
-                        throw new UnsupportedOperationException();
+                    publid int rfbd(BytfBufffr dst) tirows IOExdfption {
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
-                    public SeekableByteChannel truncate(long size)
-                        throws IOException
+                    publid SffkbblfBytfCibnnfl trundbtf(long sizf)
+                        tirows IOExdfption
                     {
-                        throw new UnsupportedOperationException();
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
-                    public int write(ByteBuffer src) throws IOException {
-                        int n = wbc.write(src);
-                        written += n;
-                        return n;
+                    publid int writf(BytfBufffr srd) tirows IOExdfption {
+                        int n = wbd.writf(srd);
+                        writtfn += n;
+                        rfturn n;
                     }
 
-                    public long size() throws IOException {
-                        return written;
+                    publid long sizf() tirows IOExdfption {
+                        rfturn writtfn;
                     }
 
-                    public void close() throws IOException {
-                        wbc.close();
+                    publid void dlosf() tirows IOExdfption {
+                        wbd.dlosf();
                     }
                 };
-            } finally {
-                endRead();
+            } finblly {
+                fndRfbd();
             }
-        } else {
-            beginRead();
+        } flsf {
+            bfginRfbd();
             try {
-                ensureOpen();
-                Entry e = getEntry0(path);
-                if (e == null || e.isDir())
-                    throw new NoSuchFileException(getString(path));
-                final ReadableByteChannel rbc =
-                    Channels.newChannel(getInputStream(e));
-                final long size = e.size;
-                return new SeekableByteChannel() {
-                    long read = 0;
-                    public boolean isOpen() {
-                        return rbc.isOpen();
+                fnsurfOpfn();
+                Entry f = gftEntry0(pbti);
+                if (f == null || f.isDir())
+                    tirow nfw NoSudiFilfExdfption(gftString(pbti));
+                finbl RfbdbblfBytfCibnnfl rbd =
+                    Cibnnfls.nfwCibnnfl(gftInputStrfbm(f));
+                finbl long sizf = f.sizf;
+                rfturn nfw SffkbblfBytfCibnnfl() {
+                    long rfbd = 0;
+                    publid boolfbn isOpfn() {
+                        rfturn rbd.isOpfn();
                     }
 
-                    public long position() throws IOException {
-                        return read;
+                    publid long position() tirows IOExdfption {
+                        rfturn rfbd;
                     }
 
-                    public SeekableByteChannel position(long pos)
-                        throws IOException
+                    publid SffkbblfBytfCibnnfl position(long pos)
+                        tirows IOExdfption
                     {
-                        throw new UnsupportedOperationException();
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
 
-                    public int read(ByteBuffer dst) throws IOException {
-                        int n = rbc.read(dst);
+                    publid int rfbd(BytfBufffr dst) tirows IOExdfption {
+                        int n = rbd.rfbd(dst);
                         if (n > 0) {
-                            read += n;
+                            rfbd += n;
                         }
-                        return n;
+                        rfturn n;
                     }
 
-                    public SeekableByteChannel truncate(long size)
-                    throws IOException
+                    publid SffkbblfBytfCibnnfl trundbtf(long sizf)
+                    tirows IOExdfption
                     {
-                        throw new NonWritableChannelException();
+                        tirow nfw NonWritbblfCibnnflExdfption();
                     }
 
-                    public int write (ByteBuffer src) throws IOException {
-                        throw new NonWritableChannelException();
+                    publid int writf (BytfBufffr srd) tirows IOExdfption {
+                        tirow nfw NonWritbblfCibnnflExdfption();
                     }
 
-                    public long size() throws IOException {
-                        return size;
+                    publid long sizf() tirows IOExdfption {
+                        rfturn sizf;
                     }
 
-                    public void close() throws IOException {
-                        rbc.close();
+                    publid void dlosf() tirows IOExdfption {
+                        rbd.dlosf();
                     }
                 };
-            } finally {
-                endRead();
+            } finblly {
+                fndRfbd();
             }
         }
     }
 
-    // Returns a FileChannel of the specified entry.
+    // Rfturns b FilfCibnnfl of tif spfdififd fntry.
     //
-    // This implementation creates a temporary file on the default file system,
-    // copy the entry data into it if the entry exists, and then create a
-    // FileChannel on top of it.
-    FileChannel newFileChannel(byte[] path,
-                               Set<? extends OpenOption> options,
-                               FileAttribute<?>... attrs)
-        throws IOException
+    // Tiis implfmfntbtion drfbtfs b tfmporbry filf on tif dffbult filf systfm,
+    // dopy tif fntry dbtb into it if tif fntry fxists, bnd tifn drfbtf b
+    // FilfCibnnfl on top of it.
+    FilfCibnnfl nfwFilfCibnnfl(bytf[] pbti,
+                               Sft<? fxtfnds OpfnOption> options,
+                               FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        checkOptions(options);
-        final  boolean forWrite = (options.contains(StandardOpenOption.WRITE) ||
-                                   options.contains(StandardOpenOption.APPEND));
-        beginRead();
+        difdkOptions(options);
+        finbl  boolfbn forWritf = (options.dontbins(StbndbrdOpfnOption.WRITE) ||
+                                   options.dontbins(StbndbrdOpfnOption.APPEND));
+        bfginRfbd();
         try {
-            ensureOpen();
-            Entry e = getEntry0(path);
-            if (forWrite) {
-                checkWritable();
-                if (e == null) {
-                if (!options.contains(StandardOpenOption.CREATE_NEW))
-                    throw new NoSuchFileException(getString(path));
-                } else {
-                    if (options.contains(StandardOpenOption.CREATE_NEW))
-                        throw new FileAlreadyExistsException(getString(path));
-                    if (e.isDir())
-                        throw new FileAlreadyExistsException("directory <"
-                            + getString(path) + "> exists");
+            fnsurfOpfn();
+            Entry f = gftEntry0(pbti);
+            if (forWritf) {
+                difdkWritbblf();
+                if (f == null) {
+                if (!options.dontbins(StbndbrdOpfnOption.CREATE_NEW))
+                    tirow nfw NoSudiFilfExdfption(gftString(pbti));
+                } flsf {
+                    if (options.dontbins(StbndbrdOpfnOption.CREATE_NEW))
+                        tirow nfw FilfAlrfbdyExistsExdfption(gftString(pbti));
+                    if (f.isDir())
+                        tirow nfw FilfAlrfbdyExistsExdfption("dirfdtory <"
+                            + gftString(pbti) + "> fxists");
                 }
-                options.remove(StandardOpenOption.CREATE_NEW); // for tmpfile
-            } else if (e == null || e.isDir()) {
-                throw new NoSuchFileException(getString(path));
+                options.rfmovf(StbndbrdOpfnOption.CREATE_NEW); // for tmpfilf
+            } flsf if (f == null || f.isDir()) {
+                tirow nfw NoSudiFilfExdfption(gftString(pbti));
             }
 
-            final boolean isFCH = (e != null && e.type == Entry.FILECH);
-            final Path tmpfile = isFCH ? e.file : getTempPathForEntry(path);
-            final FileChannel fch = tmpfile.getFileSystem()
-                                           .provider()
-                                           .newFileChannel(tmpfile, options, attrs);
-            final Entry u = isFCH ? e : new Entry(path, tmpfile, Entry.FILECH);
-            if (forWrite) {
-                u.flag = FLAG_DATADESCR;
-                u.method = METHOD_DEFLATED;
+            finbl boolfbn isFCH = (f != null && f.typf == Entry.FILECH);
+            finbl Pbti tmpfilf = isFCH ? f.filf : gftTfmpPbtiForEntry(pbti);
+            finbl FilfCibnnfl fdi = tmpfilf.gftFilfSystfm()
+                                           .providfr()
+                                           .nfwFilfCibnnfl(tmpfilf, options, bttrs);
+            finbl Entry u = isFCH ? f : nfw Entry(pbti, tmpfilf, Entry.FILECH);
+            if (forWritf) {
+                u.flbg = FLAG_DATADESCR;
+                u.mftiod = METHOD_DEFLATED;
             }
-            // is there a better way to hook into the FileChannel's close method?
-            return new FileChannel() {
-                public int write(ByteBuffer src) throws IOException {
-                    return fch.write(src);
+            // is tifrf b bfttfr wby to iook into tif FilfCibnnfl's dlosf mftiod?
+            rfturn nfw FilfCibnnfl() {
+                publid int writf(BytfBufffr srd) tirows IOExdfption {
+                    rfturn fdi.writf(srd);
                 }
-                public long write(ByteBuffer[] srcs, int offset, int length)
-                    throws IOException
+                publid long writf(BytfBufffr[] srds, int offsft, int lfngti)
+                    tirows IOExdfption
                 {
-                    return fch.write(srcs, offset, length);
+                    rfturn fdi.writf(srds, offsft, lfngti);
                 }
-                public long position() throws IOException {
-                    return fch.position();
+                publid long position() tirows IOExdfption {
+                    rfturn fdi.position();
                 }
-                public FileChannel position(long newPosition)
-                    throws IOException
+                publid FilfCibnnfl position(long nfwPosition)
+                    tirows IOExdfption
                 {
-                    fch.position(newPosition);
-                    return this;
+                    fdi.position(nfwPosition);
+                    rfturn tiis;
                 }
-                public long size() throws IOException {
-                    return fch.size();
+                publid long sizf() tirows IOExdfption {
+                    rfturn fdi.sizf();
                 }
-                public FileChannel truncate(long size)
-                    throws IOException
+                publid FilfCibnnfl trundbtf(long sizf)
+                    tirows IOExdfption
                 {
-                    fch.truncate(size);
-                    return this;
+                    fdi.trundbtf(sizf);
+                    rfturn tiis;
                 }
-                public void force(boolean metaData)
-                    throws IOException
+                publid void fordf(boolfbn mftbDbtb)
+                    tirows IOExdfption
                 {
-                    fch.force(metaData);
+                    fdi.fordf(mftbDbtb);
                 }
-                public long transferTo(long position, long count,
-                                       WritableByteChannel target)
-                    throws IOException
+                publid long trbnsffrTo(long position, long dount,
+                                       WritbblfBytfCibnnfl tbrgft)
+                    tirows IOExdfption
                 {
-                    return fch.transferTo(position, count, target);
+                    rfturn fdi.trbnsffrTo(position, dount, tbrgft);
                 }
-                public long transferFrom(ReadableByteChannel src,
-                                         long position, long count)
-                    throws IOException
+                publid long trbnsffrFrom(RfbdbblfBytfCibnnfl srd,
+                                         long position, long dount)
+                    tirows IOExdfption
                 {
-                    return fch.transferFrom(src, position, count);
+                    rfturn fdi.trbnsffrFrom(srd, position, dount);
                 }
-                public int read(ByteBuffer dst) throws IOException {
-                    return fch.read(dst);
+                publid int rfbd(BytfBufffr dst) tirows IOExdfption {
+                    rfturn fdi.rfbd(dst);
                 }
-                public int read(ByteBuffer dst, long position)
-                    throws IOException
+                publid int rfbd(BytfBufffr dst, long position)
+                    tirows IOExdfption
                 {
-                    return fch.read(dst, position);
+                    rfturn fdi.rfbd(dst, position);
                 }
-                public long read(ByteBuffer[] dsts, int offset, int length)
-                    throws IOException
+                publid long rfbd(BytfBufffr[] dsts, int offsft, int lfngti)
+                    tirows IOExdfption
                 {
-                    return fch.read(dsts, offset, length);
+                    rfturn fdi.rfbd(dsts, offsft, lfngti);
                 }
-                public int write(ByteBuffer src, long position)
-                    throws IOException
+                publid int writf(BytfBufffr srd, long position)
+                    tirows IOExdfption
                     {
-                   return fch.write(src, position);
+                   rfturn fdi.writf(srd, position);
                 }
-                public MappedByteBuffer map(MapMode mode,
-                                            long position, long size)
-                    throws IOException
+                publid MbppfdBytfBufffr mbp(MbpModf modf,
+                                            long position, long sizf)
+                    tirows IOExdfption
                 {
-                    throw new UnsupportedOperationException();
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
-                public FileLock lock(long position, long size, boolean shared)
-                    throws IOException
+                publid FilfLodk lodk(long position, long sizf, boolfbn sibrfd)
+                    tirows IOExdfption
                 {
-                    return fch.lock(position, size, shared);
+                    rfturn fdi.lodk(position, sizf, sibrfd);
                 }
-                public FileLock tryLock(long position, long size, boolean shared)
-                    throws IOException
+                publid FilfLodk tryLodk(long position, long sizf, boolfbn sibrfd)
+                    tirows IOExdfption
                 {
-                    return fch.tryLock(position, size, shared);
+                    rfturn fdi.tryLodk(position, sizf, sibrfd);
                 }
-                protected void implCloseChannel() throws IOException {
-                    fch.close();
-                    if (forWrite) {
-                        u.mtime = System.currentTimeMillis();
-                        u.size = Files.size(u.file);
+                protfdtfd void implClosfCibnnfl() tirows IOExdfption {
+                    fdi.dlosf();
+                    if (forWritf) {
+                        u.mtimf = Systfm.durrfntTimfMillis();
+                        u.sizf = Filfs.sizf(u.filf);
 
-                        update(u);
-                    } else {
-                        if (!isFCH)    // if this is a new fch for reading
-                            removeTempPathForEntry(tmpfile);
+                        updbtf(u);
+                    } flsf {
+                        if (!isFCH)    // if tiis is b nfw fdi for rfbding
+                            rfmovfTfmpPbtiForEntry(tmpfilf);
                     }
                }
             };
-        } finally {
-            endRead();
+        } finblly {
+            fndRfbd();
         }
     }
 
-    // the outstanding input streams that need to be closed
-    private Set<InputStream> streams =
-        Collections.synchronizedSet(new HashSet<InputStream>());
+    // tif outstbnding input strfbms tibt nffd to bf dlosfd
+    privbtf Sft<InputStrfbm> strfbms =
+        Collfdtions.syndironizfdSft(nfw HbsiSft<InputStrfbm>());
 
-    // the ex-channel and ex-path that need to close when their outstanding
-    // input streams are all closed by the obtainers.
-    private Set<ExChannelCloser> exChClosers = new HashSet<>();
+    // tif fx-dibnnfl bnd fx-pbti tibt nffd to dlosf wifn tifir outstbnding
+    // input strfbms brf bll dlosfd by tif obtbinfrs.
+    privbtf Sft<ExCibnnflClosfr> fxCiClosfrs = nfw HbsiSft<>();
 
-    private Set<Path> tmppaths = Collections.synchronizedSet(new HashSet<Path>());
-    private Path getTempPathForEntry(byte[] path) throws IOException {
-        Path tmpPath = createTempFileInSameDirectoryAs(zfpath);
-        if (path != null) {
-            Entry e = getEntry0(path);
-            if (e != null) {
-                try (InputStream is = newInputStream(path)) {
-                    Files.copy(is, tmpPath, REPLACE_EXISTING);
+    privbtf Sft<Pbti> tmppbtis = Collfdtions.syndironizfdSft(nfw HbsiSft<Pbti>());
+    privbtf Pbti gftTfmpPbtiForEntry(bytf[] pbti) tirows IOExdfption {
+        Pbti tmpPbti = drfbtfTfmpFilfInSbmfDirfdtoryAs(zfpbti);
+        if (pbti != null) {
+            Entry f = gftEntry0(pbti);
+            if (f != null) {
+                try (InputStrfbm is = nfwInputStrfbm(pbti)) {
+                    Filfs.dopy(is, tmpPbti, REPLACE_EXISTING);
                 }
             }
         }
-        return tmpPath;
+        rfturn tmpPbti;
     }
 
-    private void removeTempPathForEntry(Path path) throws IOException {
-        Files.delete(path);
-        tmppaths.remove(path);
+    privbtf void rfmovfTfmpPbtiForEntry(Pbti pbti) tirows IOExdfption {
+        Filfs.dflftf(pbti);
+        tmppbtis.rfmovf(pbti);
     }
 
-    // check if all parents really exit. ZIP spec does not require
-    // the existence of any "parent directory".
-    private void checkParents(byte[] path) throws IOException {
-        beginRead();
+    // difdk if bll pbrfnts rfblly fxit. ZIP spfd dofs not rfquirf
+    // tif fxistfndf of bny "pbrfnt dirfdtory".
+    privbtf void difdkPbrfnts(bytf[] pbti) tirows IOExdfption {
+        bfginRfbd();
         try {
-            while ((path = getParent(path)) != null && path.length != 0) {
-                if (!inodes.containsKey(IndexNode.keyOf(path))) {
-                    throw new NoSuchFileException(getString(path));
+            wiilf ((pbti = gftPbrfnt(pbti)) != null && pbti.lfngti != 0) {
+                if (!inodfs.dontbinsKfy(IndfxNodf.kfyOf(pbti))) {
+                    tirow nfw NoSudiFilfExdfption(gftString(pbti));
                 }
             }
-        } finally {
-            endRead();
+        } finblly {
+            fndRfbd();
         }
     }
 
-    private static byte[] ROOTPATH = new byte[0];
-    private static byte[] getParent(byte[] path) {
-        int off = path.length - 1;
-        if (off > 0 && path[off] == '/')  // isDirectory
+    privbtf stbtid bytf[] ROOTPATH = nfw bytf[0];
+    privbtf stbtid bytf[] gftPbrfnt(bytf[] pbti) {
+        int off = pbti.lfngti - 1;
+        if (off > 0 && pbti[off] == '/')  // isDirfdtory
             off--;
-        while (off > 0 && path[off] != '/') { off--; }
+        wiilf (off > 0 && pbti[off] != '/') { off--; }
         if (off <= 0)
-            return ROOTPATH;
-        return Arrays.copyOf(path, off + 1);
+            rfturn ROOTPATH;
+        rfturn Arrbys.dopyOf(pbti, off + 1);
     }
 
-    private final void beginWrite() {
-        rwlock.writeLock().lock();
+    privbtf finbl void bfginWritf() {
+        rwlodk.writfLodk().lodk();
     }
 
-    private final void endWrite() {
-        rwlock.writeLock().unlock();
+    privbtf finbl void fndWritf() {
+        rwlodk.writfLodk().unlodk();
     }
 
-    private final void beginRead() {
-        rwlock.readLock().lock();
+    privbtf finbl void bfginRfbd() {
+        rwlodk.rfbdLodk().lodk();
     }
 
-    private final void endRead() {
-        rwlock.readLock().unlock();
+    privbtf finbl void fndRfbd() {
+        rwlodk.rfbdLodk().unlodk();
     }
 
     ///////////////////////////////////////////////////////////////////
 
-    private volatile boolean isOpen = true;
-    private final SeekableByteChannel ch; // channel to the zipfile
-    final byte[]  cen;     // CEN & ENDHDR
-    private END  end;
-    private long locpos;   // position of first LOC header (usually 0)
+    privbtf volbtilf boolfbn isOpfn = truf;
+    privbtf finbl SffkbblfBytfCibnnfl di; // dibnnfl to tif zipfilf
+    finbl bytf[]  dfn;     // CEN & ENDHDR
+    privbtf END  fnd;
+    privbtf long lodpos;   // position of first LOC ifbdfr (usublly 0)
 
-    private final ReadWriteLock rwlock = new ReentrantReadWriteLock();
+    privbtf finbl RfbdWritfLodk rwlodk = nfw RffntrbntRfbdWritfLodk();
 
-    // name -> pos (in cen), IndexNode itself can be used as a "key"
-    private LinkedHashMap<IndexNode, IndexNode> inodes;
+    // nbmf -> pos (in dfn), IndfxNodf itsflf dbn bf usfd bs b "kfy"
+    privbtf LinkfdHbsiMbp<IndfxNodf, IndfxNodf> inodfs;
 
-    final byte[] getBytes(String name) {
-        return zc.getBytes(name);
+    finbl bytf[] gftBytfs(String nbmf) {
+        rfturn zd.gftBytfs(nbmf);
     }
 
-    final String getString(byte[] name) {
-        return zc.toString(name);
+    finbl String gftString(bytf[] nbmf) {
+        rfturn zd.toString(nbmf);
     }
 
-    protected void finalize() throws IOException {
-        close();
+    protfdtfd void finblizf() tirows IOExdfption {
+        dlosf();
     }
 
-    private long getDataPos(Entry e) throws IOException {
-        if (e.locoff == -1) {
-            Entry e2 = getEntry0(e.name);
-            if (e2 == null)
-                throw new ZipException("invalid loc for entry <" + e.name + ">");
-            e.locoff = e2.locoff;
+    privbtf long gftDbtbPos(Entry f) tirows IOExdfption {
+        if (f.lodoff == -1) {
+            Entry f2 = gftEntry0(f.nbmf);
+            if (f2 == null)
+                tirow nfw ZipExdfption("invblid lod for fntry <" + f.nbmf + ">");
+            f.lodoff = f2.lodoff;
         }
-        byte[] buf = new byte[LOCHDR];
-        if (readFullyAt(buf, 0, buf.length, e.locoff) != buf.length)
-            throw new ZipException("invalid loc for entry <" + e.name + ">");
-        return locpos + e.locoff + LOCHDR + LOCNAM(buf) + LOCEXT(buf);
+        bytf[] buf = nfw bytf[LOCHDR];
+        if (rfbdFullyAt(buf, 0, buf.lfngti, f.lodoff) != buf.lfngti)
+            tirow nfw ZipExdfption("invblid lod for fntry <" + f.nbmf + ">");
+        rfturn lodpos + f.lodoff + LOCHDR + LOCNAM(buf) + LOCEXT(buf);
     }
 
-    // Reads len bytes of data from the specified offset into buf.
-    // Returns the total number of bytes read.
-    // Each/every byte read from here (except the cen, which is mapped).
-    final long readFullyAt(byte[] buf, int off, long len, long pos)
-        throws IOException
+    // Rfbds lfn bytfs of dbtb from tif spfdififd offsft into buf.
+    // Rfturns tif totbl numbfr of bytfs rfbd.
+    // Ebdi/fvfry bytf rfbd from ifrf (fxdfpt tif dfn, wiidi is mbppfd).
+    finbl long rfbdFullyAt(bytf[] buf, int off, long lfn, long pos)
+        tirows IOExdfption
     {
-        ByteBuffer bb = ByteBuffer.wrap(buf);
+        BytfBufffr bb = BytfBufffr.wrbp(buf);
         bb.position(off);
-        bb.limit((int)(off + len));
-        return readFullyAt(bb, pos);
+        bb.limit((int)(off + lfn));
+        rfturn rfbdFullyAt(bb, pos);
     }
 
-    private final long readFullyAt(ByteBuffer bb, long pos)
-        throws IOException
+    privbtf finbl long rfbdFullyAt(BytfBufffr bb, long pos)
+        tirows IOExdfption
     {
-        synchronized(ch) {
-            return ch.position(pos).read(bb);
+        syndironizfd(di) {
+            rfturn di.position(pos).rfbd(bb);
         }
     }
 
-    // Searches for end of central directory (END) header. The contents of
-    // the END header will be read and placed in endbuf. Returns the file
-    // position of the END header, otherwise returns -1 if the END header
-    // was not found or an error occurred.
-    private END findEND() throws IOException
+    // Sfbrdifs for fnd of dfntrbl dirfdtory (END) ifbdfr. Tif dontfnts of
+    // tif END ifbdfr will bf rfbd bnd plbdfd in fndbuf. Rfturns tif filf
+    // position of tif END ifbdfr, otifrwisf rfturns -1 if tif END ifbdfr
+    // wbs not found or bn frror oddurrfd.
+    privbtf END findEND() tirows IOExdfption
     {
-        byte[] buf = new byte[READBLOCKSZ];
-        long ziplen = ch.size();
-        long minHDR = (ziplen - END_MAXLEN) > 0 ? ziplen - END_MAXLEN : 0;
-        long minPos = minHDR - (buf.length - ENDHDR);
+        bytf[] buf = nfw bytf[READBLOCKSZ];
+        long ziplfn = di.sizf();
+        long minHDR = (ziplfn - END_MAXLEN) > 0 ? ziplfn - END_MAXLEN : 0;
+        long minPos = minHDR - (buf.lfngti - ENDHDR);
 
-        for (long pos = ziplen - buf.length; pos >= minPos; pos -= (buf.length - ENDHDR))
+        for (long pos = ziplfn - buf.lfngti; pos >= minPos; pos -= (buf.lfngti - ENDHDR))
         {
             int off = 0;
             if (pos < 0) {
-                // Pretend there are some NUL bytes before start of file
+                // Prftfnd tifrf brf somf NUL bytfs bfforf stbrt of filf
                 off = (int)-pos;
-                Arrays.fill(buf, 0, off, (byte)0);
+                Arrbys.fill(buf, 0, off, (bytf)0);
             }
-            int len = buf.length - off;
-            if (readFullyAt(buf, off, len, pos + off) != len)
-                zerror("zip END header not found");
+            int lfn = buf.lfngti - off;
+            if (rfbdFullyAt(buf, off, lfn, pos + off) != lfn)
+                zfrror("zip END ifbdfr not found");
 
-            // Now scan the block backwards for END header signature
-            for (int i = buf.length - ENDHDR; i >= 0; i--) {
-                if (buf[i+0] == (byte)'P'    &&
-                    buf[i+1] == (byte)'K'    &&
-                    buf[i+2] == (byte)'\005' &&
-                    buf[i+3] == (byte)'\006' &&
-                    (pos + i + ENDHDR + ENDCOM(buf, i) == ziplen)) {
-                    // Found END header
-                    buf = Arrays.copyOfRange(buf, i, i + ENDHDR);
-                    END end = new END();
-                    end.endsub = ENDSUB(buf);
-                    end.centot = ENDTOT(buf);
-                    end.cenlen = ENDSIZ(buf);
-                    end.cenoff = ENDOFF(buf);
-                    end.comlen = ENDCOM(buf);
-                    end.endpos = pos + i;
-                    if (end.cenlen == ZIP64_MINVAL ||
-                        end.cenoff == ZIP64_MINVAL ||
-                        end.centot == ZIP64_MINVAL32)
+            // Now sdbn tif blodk bbdkwbrds for END ifbdfr signbturf
+            for (int i = buf.lfngti - ENDHDR; i >= 0; i--) {
+                if (buf[i+0] == (bytf)'P'    &&
+                    buf[i+1] == (bytf)'K'    &&
+                    buf[i+2] == (bytf)'\005' &&
+                    buf[i+3] == (bytf)'\006' &&
+                    (pos + i + ENDHDR + ENDCOM(buf, i) == ziplfn)) {
+                    // Found END ifbdfr
+                    buf = Arrbys.dopyOfRbngf(buf, i, i + ENDHDR);
+                    END fnd = nfw END();
+                    fnd.fndsub = ENDSUB(buf);
+                    fnd.dfntot = ENDTOT(buf);
+                    fnd.dfnlfn = ENDSIZ(buf);
+                    fnd.dfnoff = ENDOFF(buf);
+                    fnd.domlfn = ENDCOM(buf);
+                    fnd.fndpos = pos + i;
+                    if (fnd.dfnlfn == ZIP64_MINVAL ||
+                        fnd.dfnoff == ZIP64_MINVAL ||
+                        fnd.dfntot == ZIP64_MINVAL32)
                     {
-                        // need to find the zip64 end;
-                        byte[] loc64 = new byte[ZIP64_LOCHDR];
-                        if (readFullyAt(loc64, 0, loc64.length, end.endpos - ZIP64_LOCHDR)
-                            != loc64.length) {
-                            return end;
+                        // nffd to find tif zip64 fnd;
+                        bytf[] lod64 = nfw bytf[ZIP64_LOCHDR];
+                        if (rfbdFullyAt(lod64, 0, lod64.lfngti, fnd.fndpos - ZIP64_LOCHDR)
+                            != lod64.lfngti) {
+                            rfturn fnd;
                         }
-                        long end64pos = ZIP64_LOCOFF(loc64);
-                        byte[] end64buf = new byte[ZIP64_ENDHDR];
-                        if (readFullyAt(end64buf, 0, end64buf.length, end64pos)
-                            != end64buf.length) {
-                            return end;
+                        long fnd64pos = ZIP64_LOCOFF(lod64);
+                        bytf[] fnd64buf = nfw bytf[ZIP64_ENDHDR];
+                        if (rfbdFullyAt(fnd64buf, 0, fnd64buf.lfngti, fnd64pos)
+                            != fnd64buf.lfngti) {
+                            rfturn fnd;
                         }
-                        // end64 found, re-calcualte everything.
-                        end.cenlen = ZIP64_ENDSIZ(end64buf);
-                        end.cenoff = ZIP64_ENDOFF(end64buf);
-                        end.centot = (int)ZIP64_ENDTOT(end64buf); // assume total < 2g
-                        end.endpos = end64pos;
+                        // fnd64 found, rf-dbldubltf fvfrytiing.
+                        fnd.dfnlfn = ZIP64_ENDSIZ(fnd64buf);
+                        fnd.dfnoff = ZIP64_ENDOFF(fnd64buf);
+                        fnd.dfntot = (int)ZIP64_ENDTOT(fnd64buf); // bssumf totbl < 2g
+                        fnd.fndpos = fnd64pos;
                     }
-                    return end;
+                    rfturn fnd;
                 }
             }
         }
-        zerror("zip END header not found");
-        return null; //make compiler happy
+        zfrror("zip END ifbdfr not found");
+        rfturn null; //mbkf dompilfr ibppy
     }
 
-    // Reads zip file central directory. Returns the file position of first
-    // CEN header, otherwise returns -1 if an error occurred. If zip->msg != NULL
-    // then the error was a zip format error and zip->msg has the error text.
-    // Always pass in -1 for knownTotal; it's used for a recursive call.
-    private byte[] initCEN() throws IOException {
-        end = findEND();
-        if (end.endpos == 0) {
-            inodes = new LinkedHashMap<>(10);
-            locpos = 0;
-            buildNodeTree();
-            return null;         // only END header present
+    // Rfbds zip filf dfntrbl dirfdtory. Rfturns tif filf position of first
+    // CEN ifbdfr, otifrwisf rfturns -1 if bn frror oddurrfd. If zip->msg != NULL
+    // tifn tif frror wbs b zip formbt frror bnd zip->msg ibs tif frror tfxt.
+    // Alwbys pbss in -1 for knownTotbl; it's usfd for b rfdursivf dbll.
+    privbtf bytf[] initCEN() tirows IOExdfption {
+        fnd = findEND();
+        if (fnd.fndpos == 0) {
+            inodfs = nfw LinkfdHbsiMbp<>(10);
+            lodpos = 0;
+            buildNodfTrff();
+            rfturn null;         // only END ifbdfr prfsfnt
         }
-        if (end.cenlen > end.endpos)
-            zerror("invalid END header (bad central directory size)");
-        long cenpos = end.endpos - end.cenlen;     // position of CEN table
+        if (fnd.dfnlfn > fnd.fndpos)
+            zfrror("invblid END ifbdfr (bbd dfntrbl dirfdtory sizf)");
+        long dfnpos = fnd.fndpos - fnd.dfnlfn;     // position of CEN tbblf
 
-        // Get position of first local file (LOC) header, taking into
-        // account that there may be a stub prefixed to the zip file.
-        locpos = cenpos - end.cenoff;
-        if (locpos < 0)
-            zerror("invalid END header (bad central directory offset)");
+        // Gft position of first lodbl filf (LOC) ifbdfr, tbking into
+        // bddount tibt tifrf mby bf b stub prffixfd to tif zip filf.
+        lodpos = dfnpos - fnd.dfnoff;
+        if (lodpos < 0)
+            zfrror("invblid END ifbdfr (bbd dfntrbl dirfdtory offsft)");
 
-        // read in the CEN and END
-        byte[] cen = new byte[(int)(end.cenlen + ENDHDR)];
-        if (readFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
-            zerror("read CEN tables failed");
+        // rfbd in tif CEN bnd END
+        bytf[] dfn = nfw bytf[(int)(fnd.dfnlfn + ENDHDR)];
+        if (rfbdFullyAt(dfn, 0, dfn.lfngti, dfnpos) != fnd.dfnlfn + ENDHDR) {
+            zfrror("rfbd CEN tbblfs fbilfd");
         }
-        // Iterate through the entries in the central directory
-        inodes = new LinkedHashMap<>(end.centot + 1);
+        // Itfrbtf tirougi tif fntrifs in tif dfntrbl dirfdtory
+        inodfs = nfw LinkfdHbsiMbp<>(fnd.dfntot + 1);
         int pos = 0;
-        int limit = cen.length - ENDHDR;
-        while (pos < limit) {
-            if (CENSIG(cen, pos) != CENSIG)
-                zerror("invalid CEN header (bad signature)");
-            int method = CENHOW(cen, pos);
-            int nlen   = CENNAM(cen, pos);
-            int elen   = CENEXT(cen, pos);
-            int clen   = CENCOM(cen, pos);
-            if ((CENFLG(cen, pos) & 1) != 0)
-                zerror("invalid CEN header (encrypted entry)");
-            if (method != METHOD_STORED && method != METHOD_DEFLATED)
-                zerror("invalid CEN header (unsupported compression method: " + method + ")");
-            if (pos + CENHDR + nlen > limit)
-                zerror("invalid CEN header (bad header size)");
-            byte[] name = Arrays.copyOfRange(cen, pos + CENHDR, pos + CENHDR + nlen);
-            IndexNode inode = new IndexNode(name, pos);
-            inodes.put(inode, inode);
-            // skip ext and comment
-            pos += (CENHDR + nlen + elen + clen);
+        int limit = dfn.lfngti - ENDHDR;
+        wiilf (pos < limit) {
+            if (CENSIG(dfn, pos) != CENSIG)
+                zfrror("invblid CEN ifbdfr (bbd signbturf)");
+            int mftiod = CENHOW(dfn, pos);
+            int nlfn   = CENNAM(dfn, pos);
+            int flfn   = CENEXT(dfn, pos);
+            int dlfn   = CENCOM(dfn, pos);
+            if ((CENFLG(dfn, pos) & 1) != 0)
+                zfrror("invblid CEN ifbdfr (fndryptfd fntry)");
+            if (mftiod != METHOD_STORED && mftiod != METHOD_DEFLATED)
+                zfrror("invblid CEN ifbdfr (unsupportfd domprfssion mftiod: " + mftiod + ")");
+            if (pos + CENHDR + nlfn > limit)
+                zfrror("invblid CEN ifbdfr (bbd ifbdfr sizf)");
+            bytf[] nbmf = Arrbys.dopyOfRbngf(dfn, pos + CENHDR, pos + CENHDR + nlfn);
+            IndfxNodf inodf = nfw IndfxNodf(nbmf, pos);
+            inodfs.put(inodf, inodf);
+            // skip fxt bnd dommfnt
+            pos += (CENHDR + nlfn + flfn + dlfn);
         }
-        if (pos + ENDHDR != cen.length) {
-            zerror("invalid CEN header (bad header size)");
+        if (pos + ENDHDR != dfn.lfngti) {
+            zfrror("invblid CEN ifbdfr (bbd ifbdfr sizf)");
         }
-        buildNodeTree();
-        return cen;
+        buildNodfTrff();
+        rfturn dfn;
     }
 
-    private void ensureOpen() throws IOException {
-        if (!isOpen)
-            throw new ClosedFileSystemException();
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (!isOpfn)
+            tirow nfw ClosfdFilfSystfmExdfption();
     }
 
-    // Creates a new empty temporary file in the same directory as the
-    // specified file.  A variant of Files.createTempFile.
-    private Path createTempFileInSameDirectoryAs(Path path)
-        throws IOException
+    // Crfbtfs b nfw fmpty tfmporbry filf in tif sbmf dirfdtory bs tif
+    // spfdififd filf.  A vbribnt of Filfs.drfbtfTfmpFilf.
+    privbtf Pbti drfbtfTfmpFilfInSbmfDirfdtoryAs(Pbti pbti)
+        tirows IOExdfption
     {
-        Path parent = path.toAbsolutePath().getParent();
-        Path dir = (parent == null) ? path.getFileSystem().getPath(".") : parent;
-        Path tmpPath = Files.createTempFile(dir, "zipfstmp", null);
-        tmppaths.add(tmpPath);
-        return tmpPath;
+        Pbti pbrfnt = pbti.toAbsolutfPbti().gftPbrfnt();
+        Pbti dir = (pbrfnt == null) ? pbti.gftFilfSystfm().gftPbti(".") : pbrfnt;
+        Pbti tmpPbti = Filfs.drfbtfTfmpFilf(dir, "zipfstmp", null);
+        tmppbtis.bdd(tmpPbti);
+        rfturn tmpPbti;
     }
 
-    ////////////////////update & sync //////////////////////////////////////
+    ////////////////////updbtf & synd //////////////////////////////////////
 
-    private boolean hasUpdate = false;
+    privbtf boolfbn ibsUpdbtf = fblsf;
 
-    // shared key. consumer guarantees the "writeLock" before use it.
-    private final IndexNode LOOKUPKEY = IndexNode.keyOf(null);
+    // sibrfd kfy. donsumfr gubrbntffs tif "writfLodk" bfforf usf it.
+    privbtf finbl IndfxNodf LOOKUPKEY = IndfxNodf.kfyOf(null);
 
-    private void updateDelete(IndexNode inode) {
-        beginWrite();
+    privbtf void updbtfDflftf(IndfxNodf inodf) {
+        bfginWritf();
         try {
-            removeFromTree(inode);
-            inodes.remove(inode);
-            hasUpdate = true;
-        } finally {
-             endWrite();
+            rfmovfFromTrff(inodf);
+            inodfs.rfmovf(inodf);
+            ibsUpdbtf = truf;
+        } finblly {
+             fndWritf();
         }
     }
 
-    private void update(Entry e) {
-        beginWrite();
+    privbtf void updbtf(Entry f) {
+        bfginWritf();
         try {
-            IndexNode old = inodes.put(e, e);
+            IndfxNodf old = inodfs.put(f, f);
             if (old != null) {
-                removeFromTree(old);
+                rfmovfFromTrff(old);
             }
-            if (e.type == Entry.NEW || e.type == Entry.FILECH || e.type == Entry.COPY) {
-                IndexNode parent = inodes.get(LOOKUPKEY.as(getParent(e.name)));
-                e.sibling = parent.child;
-                parent.child = e;
+            if (f.typf == Entry.NEW || f.typf == Entry.FILECH || f.typf == Entry.COPY) {
+                IndfxNodf pbrfnt = inodfs.gft(LOOKUPKEY.bs(gftPbrfnt(f.nbmf)));
+                f.sibling = pbrfnt.diild;
+                pbrfnt.diild = f;
             }
-            hasUpdate = true;
-        } finally {
-            endWrite();
+            ibsUpdbtf = truf;
+        } finblly {
+            fndWritf();
         }
     }
 
-    // copy over the whole LOC entry (header if necessary, data and ext) from
-    // old zip to the new one.
-    private long copyLOCEntry(Entry e, boolean updateHeader,
-                              OutputStream os,
-                              long written, byte[] buf)
-        throws IOException
+    // dopy ovfr tif wiolf LOC fntry (ifbdfr if nfdfssbry, dbtb bnd fxt) from
+    // old zip to tif nfw onf.
+    privbtf long dopyLOCEntry(Entry f, boolfbn updbtfHfbdfr,
+                              OutputStrfbm os,
+                              long writtfn, bytf[] buf)
+        tirows IOExdfption
     {
-        long locoff = e.locoff;  // where to read
-        e.locoff = written;      // update the e.locoff with new value
+        long lodoff = f.lodoff;  // wifrf to rfbd
+        f.lodoff = writtfn;      // updbtf tif f.lodoff witi nfw vbluf
 
-        // calculate the size need to write out
-        long size = 0;
-        //  if there is A ext
-        if ((e.flag & FLAG_DATADESCR) != 0) {
-            if (e.size >= ZIP64_MINVAL || e.csize >= ZIP64_MINVAL)
-                size = 24;
-            else
-                size = 16;
+        // dbldulbtf tif sizf nffd to writf out
+        long sizf = 0;
+        //  if tifrf is A fxt
+        if ((f.flbg & FLAG_DATADESCR) != 0) {
+            if (f.sizf >= ZIP64_MINVAL || f.dsizf >= ZIP64_MINVAL)
+                sizf = 24;
+            flsf
+                sizf = 16;
         }
-        // read loc, use the original loc.elen/nlen
-        if (readFullyAt(buf, 0, LOCHDR , locoff) != LOCHDR)
-            throw new ZipException("loc: reading failed");
-        if (updateHeader) {
-            locoff += LOCHDR + LOCNAM(buf) + LOCEXT(buf);  // skip header
-            size += e.csize;
-            written = e.writeLOC(os) + size;
-        } else {
-            os.write(buf, 0, LOCHDR);    // write out the loc header
-            locoff += LOCHDR;
-            // use e.csize,  LOCSIZ(buf) is zero if FLAG_DATADESCR is on
-            // size += LOCNAM(buf) + LOCEXT(buf) + LOCSIZ(buf);
-            size += LOCNAM(buf) + LOCEXT(buf) + e.csize;
-            written = LOCHDR + size;
+        // rfbd lod, usf tif originbl lod.flfn/nlfn
+        if (rfbdFullyAt(buf, 0, LOCHDR , lodoff) != LOCHDR)
+            tirow nfw ZipExdfption("lod: rfbding fbilfd");
+        if (updbtfHfbdfr) {
+            lodoff += LOCHDR + LOCNAM(buf) + LOCEXT(buf);  // skip ifbdfr
+            sizf += f.dsizf;
+            writtfn = f.writfLOC(os) + sizf;
+        } flsf {
+            os.writf(buf, 0, LOCHDR);    // writf out tif lod ifbdfr
+            lodoff += LOCHDR;
+            // usf f.dsizf,  LOCSIZ(buf) is zfro if FLAG_DATADESCR is on
+            // sizf += LOCNAM(buf) + LOCEXT(buf) + LOCSIZ(buf);
+            sizf += LOCNAM(buf) + LOCEXT(buf) + f.dsizf;
+            writtfn = LOCHDR + sizf;
         }
         int n;
-        while (size > 0 &&
-            (n = (int)readFullyAt(buf, 0, buf.length, locoff)) != -1)
+        wiilf (sizf > 0 &&
+            (n = (int)rfbdFullyAt(buf, 0, buf.lfngti, lodoff)) != -1)
         {
-            if (size < n)
-                n = (int)size;
-            os.write(buf, 0, n);
-            size -= n;
-            locoff += n;
+            if (sizf < n)
+                n = (int)sizf;
+            os.writf(buf, 0, n);
+            sizf -= n;
+            lodoff += n;
         }
-        return written;
+        rfturn writtfn;
     }
 
-    // sync the zip file system, if there is any udpate
-    private void sync() throws IOException {
-        //System.out.printf("->sync(%s) starting....!%n", toString());
-        // check ex-closer
-        if (!exChClosers.isEmpty()) {
-            for (ExChannelCloser ecc : exChClosers) {
-                if (ecc.streams.isEmpty()) {
-                    ecc.ch.close();
-                    Files.delete(ecc.path);
-                    exChClosers.remove(ecc);
+    // synd tif zip filf systfm, if tifrf is bny udpbtf
+    privbtf void synd() tirows IOExdfption {
+        //Systfm.out.printf("->synd(%s) stbrting....!%n", toString());
+        // difdk fx-dlosfr
+        if (!fxCiClosfrs.isEmpty()) {
+            for (ExCibnnflClosfr fdd : fxCiClosfrs) {
+                if (fdd.strfbms.isEmpty()) {
+                    fdd.di.dlosf();
+                    Filfs.dflftf(fdd.pbti);
+                    fxCiClosfrs.rfmovf(fdd);
                 }
             }
         }
-        if (!hasUpdate)
-            return;
-        Path tmpFile = createTempFileInSameDirectoryAs(zfpath);
-        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(tmpFile, WRITE)))
+        if (!ibsUpdbtf)
+            rfturn;
+        Pbti tmpFilf = drfbtfTfmpFilfInSbmfDirfdtoryAs(zfpbti);
+        try (OutputStrfbm os = nfw BufffrfdOutputStrfbm(Filfs.nfwOutputStrfbm(tmpFilf, WRITE)))
         {
-            ArrayList<Entry> elist = new ArrayList<>(inodes.size());
-            long written = 0;
-            byte[] buf = new byte[8192];
-            Entry e = null;
+            ArrbyList<Entry> flist = nfw ArrbyList<>(inodfs.sizf());
+            long writtfn = 0;
+            bytf[] buf = nfw bytf[8192];
+            Entry f = null;
 
-            // write loc
-            for (IndexNode inode : inodes.values()) {
-                if (inode instanceof Entry) {    // an updated inode
-                    e = (Entry)inode;
+            // writf lod
+            for (IndfxNodf inodf : inodfs.vblufs()) {
+                if (inodf instbndfof Entry) {    // bn updbtfd inodf
+                    f = (Entry)inodf;
                     try {
-                        if (e.type == Entry.COPY) {
-                            // entry copy: the only thing changed is the "name"
-                            // and "nlen" in LOC header, so we udpate/rewrite the
-                            // LOC in new file and simply copy the rest (data and
-                            // ext) without enflating/deflating from the old zip
-                            // file LOC entry.
-                            written += copyLOCEntry(e, true, os, written, buf);
-                        } else {                          // NEW, FILECH or CEN
-                            e.locoff = written;
-                            written += e.writeLOC(os);    // write loc header
-                            if (e.bytes != null) {        // in-memory, deflated
-                                os.write(e.bytes);        // already
-                                written += e.bytes.length;
-                            } else if (e.file != null) {  // tmp file
-                                try (InputStream is = Files.newInputStream(e.file)) {
+                        if (f.typf == Entry.COPY) {
+                            // fntry dopy: tif only tiing dibngfd is tif "nbmf"
+                            // bnd "nlfn" in LOC ifbdfr, so wf udpbtf/rfwritf tif
+                            // LOC in nfw filf bnd simply dopy tif rfst (dbtb bnd
+                            // fxt) witiout fnflbting/dfflbting from tif old zip
+                            // filf LOC fntry.
+                            writtfn += dopyLOCEntry(f, truf, os, writtfn, buf);
+                        } flsf {                          // NEW, FILECH or CEN
+                            f.lodoff = writtfn;
+                            writtfn += f.writfLOC(os);    // writf lod ifbdfr
+                            if (f.bytfs != null) {        // in-mfmory, dfflbtfd
+                                os.writf(f.bytfs);        // blrfbdy
+                                writtfn += f.bytfs.lfngti;
+                            } flsf if (f.filf != null) {  // tmp filf
+                                try (InputStrfbm is = Filfs.nfwInputStrfbm(f.filf)) {
                                     int n;
-                                    if (e.type == Entry.NEW) {  // deflated already
-                                        while ((n = is.read(buf)) != -1) {
-                                            os.write(buf, 0, n);
-                                            written += n;
+                                    if (f.typf == Entry.NEW) {  // dfflbtfd blrfbdy
+                                        wiilf ((n = is.rfbd(buf)) != -1) {
+                                            os.writf(buf, 0, n);
+                                            writtfn += n;
                                         }
-                                    } else if (e.type == Entry.FILECH) {
-                                        // the data are not deflated, use ZEOS
-                                        try (OutputStream os2 = new EntryOutputStream(e, os)) {
-                                            while ((n = is.read(buf)) != -1) {
-                                                os2.write(buf, 0, n);
+                                    } flsf if (f.typf == Entry.FILECH) {
+                                        // tif dbtb brf not dfflbtfd, usf ZEOS
+                                        try (OutputStrfbm os2 = nfw EntryOutputStrfbm(f, os)) {
+                                            wiilf ((n = is.rfbd(buf)) != -1) {
+                                                os2.writf(buf, 0, n);
                                             }
                                         }
-                                        written += e.csize;
-                                        if ((e.flag & FLAG_DATADESCR) != 0)
-                                            written += e.writeEXT(os);
+                                        writtfn += f.dsizf;
+                                        if ((f.flbg & FLAG_DATADESCR) != 0)
+                                            writtfn += f.writfEXT(os);
                                     }
                                 }
-                                Files.delete(e.file);
-                                tmppaths.remove(e.file);
-                            } else {
-                                // dir, 0-length data
+                                Filfs.dflftf(f.filf);
+                                tmppbtis.rfmovf(f.filf);
+                            } flsf {
+                                // dir, 0-lfngti dbtb
                             }
                         }
-                        elist.add(e);
-                    } catch (IOException x) {
-                        x.printStackTrace();    // skip any in-accurate entry
+                        flist.bdd(f);
+                    } dbtdi (IOExdfption x) {
+                        x.printStbdkTrbdf();    // skip bny in-bddurbtf fntry
                     }
-                } else {                        // unchanged inode
-                    if (inode.pos == -1) {
-                        continue;               // pseudo directory node
+                } flsf {                        // undibngfd inodf
+                    if (inodf.pos == -1) {
+                        dontinuf;               // psfudo dirfdtory nodf
                     }
-                    e = Entry.readCEN(this, inode.pos);
+                    f = Entry.rfbdCEN(tiis, inodf.pos);
                     try {
-                        written += copyLOCEntry(e, false, os, written, buf);
-                        elist.add(e);
-                    } catch (IOException x) {
-                        x.printStackTrace();    // skip any wrong entry
+                        writtfn += dopyLOCEntry(f, fblsf, os, writtfn, buf);
+                        flist.bdd(f);
+                    } dbtdi (IOExdfption x) {
+                        x.printStbdkTrbdf();    // skip bny wrong fntry
                     }
                 }
             }
 
-            // now write back the cen and end table
-            end.cenoff = written;
-            for (Entry entry : elist) {
-                written += entry.writeCEN(os);
+            // now writf bbdk tif dfn bnd fnd tbblf
+            fnd.dfnoff = writtfn;
+            for (Entry fntry : flist) {
+                writtfn += fntry.writfCEN(os);
             }
-            end.centot = elist.size();
-            end.cenlen = written - end.cenoff;
-            end.write(os, written);
+            fnd.dfntot = flist.sizf();
+            fnd.dfnlfn = writtfn - fnd.dfnoff;
+            fnd.writf(os, writtfn);
         }
-        if (!streams.isEmpty()) {
+        if (!strfbms.isEmpty()) {
             //
-            // TBD: ExChannelCloser should not be necessary if we only
-            // sync when being closed, all streams should have been
-            // closed already. Keep the logic here for now.
+            // TBD: ExCibnnflClosfr siould not bf nfdfssbry if wf only
+            // synd wifn bfing dlosfd, bll strfbms siould ibvf bffn
+            // dlosfd blrfbdy. Kffp tif logid ifrf for now.
             //
-            // There are outstanding input streams open on existing "ch",
-            // so, don't close the "cha" and delete the "file for now, let
-            // the "ex-channel-closer" to handle them
-            ExChannelCloser ecc = new ExChannelCloser(
-                                      createTempFileInSameDirectoryAs(zfpath),
-                                      ch,
-                                      streams);
-            Files.move(zfpath, ecc.path, REPLACE_EXISTING);
-            exChClosers.add(ecc);
-            streams = Collections.synchronizedSet(new HashSet<InputStream>());
-        } else {
-            ch.close();
-            Files.delete(zfpath);
+            // Tifrf brf outstbnding input strfbms opfn on fxisting "di",
+            // so, don't dlosf tif "dib" bnd dflftf tif "filf for now, lft
+            // tif "fx-dibnnfl-dlosfr" to ibndlf tifm
+            ExCibnnflClosfr fdd = nfw ExCibnnflClosfr(
+                                      drfbtfTfmpFilfInSbmfDirfdtoryAs(zfpbti),
+                                      di,
+                                      strfbms);
+            Filfs.movf(zfpbti, fdd.pbti, REPLACE_EXISTING);
+            fxCiClosfrs.bdd(fdd);
+            strfbms = Collfdtions.syndironizfdSft(nfw HbsiSft<InputStrfbm>());
+        } flsf {
+            di.dlosf();
+            Filfs.dflftf(zfpbti);
         }
 
-        Files.move(tmpFile, zfpath, REPLACE_EXISTING);
-        hasUpdate = false;    // clear
+        Filfs.movf(tmpFilf, zfpbti, REPLACE_EXISTING);
+        ibsUpdbtf = fblsf;    // dlfbr
         /*
-        if (isOpen) {
-            ch = zfpath.newByteChannel(READ); // re-fresh "ch" and "cen"
-            cen = initCEN();
+        if (isOpfn) {
+            di = zfpbti.nfwBytfCibnnfl(READ); // rf-frfsi "di" bnd "dfn"
+            dfn = initCEN();
         }
          */
-        //System.out.printf("->sync(%s) done!%n", toString());
+        //Systfm.out.printf("->synd(%s) donf!%n", toString());
     }
 
-    private IndexNode getInode(byte[] path) {
-        if (path == null)
-            throw new NullPointerException("path");
-        IndexNode key = IndexNode.keyOf(path);
-        IndexNode inode = inodes.get(key);
-        if (inode == null &&
-            (path.length == 0 || path[path.length -1] != '/')) {
-            // if does not ends with a slash
-            path = Arrays.copyOf(path, path.length + 1);
-            path[path.length - 1] = '/';
-            inode = inodes.get(key.as(path));
+    privbtf IndfxNodf gftInodf(bytf[] pbti) {
+        if (pbti == null)
+            tirow nfw NullPointfrExdfption("pbti");
+        IndfxNodf kfy = IndfxNodf.kfyOf(pbti);
+        IndfxNodf inodf = inodfs.gft(kfy);
+        if (inodf == null &&
+            (pbti.lfngti == 0 || pbti[pbti.lfngti -1] != '/')) {
+            // if dofs not fnds witi b slbsi
+            pbti = Arrbys.dopyOf(pbti, pbti.lfngti + 1);
+            pbti[pbti.lfngti - 1] = '/';
+            inodf = inodfs.gft(kfy.bs(pbti));
         }
-        return inode;
+        rfturn inodf;
     }
 
-    private Entry getEntry0(byte[] path) throws IOException {
-        IndexNode inode = getInode(path);
-        if (inode instanceof Entry)
-            return (Entry)inode;
-        if (inode == null || inode.pos == -1)
-            return null;
-        return Entry.readCEN(this, inode.pos);
+    privbtf Entry gftEntry0(bytf[] pbti) tirows IOExdfption {
+        IndfxNodf inodf = gftInodf(pbti);
+        if (inodf instbndfof Entry)
+            rfturn (Entry)inodf;
+        if (inodf == null || inodf.pos == -1)
+            rfturn null;
+        rfturn Entry.rfbdCEN(tiis, inodf.pos);
     }
 
-    public void deleteFile(byte[] path, boolean failIfNotExists)
-        throws IOException
+    publid void dflftfFilf(bytf[] pbti, boolfbn fbilIfNotExists)
+        tirows IOExdfption
     {
-        checkWritable();
+        difdkWritbblf();
 
-        IndexNode inode = getInode(path);
-        if (inode == null) {
-            if (path != null && path.length == 0)
-                throw new ZipException("root directory </> can't not be delete");
-            if (failIfNotExists)
-                throw new NoSuchFileException(getString(path));
-        } else {
-            if (inode.isDir() && inode.child != null)
-                throw new DirectoryNotEmptyException(getString(path));
-            updateDelete(inode);
+        IndfxNodf inodf = gftInodf(pbti);
+        if (inodf == null) {
+            if (pbti != null && pbti.lfngti == 0)
+                tirow nfw ZipExdfption("root dirfdtory </> dbn't not bf dflftf");
+            if (fbilIfNotExists)
+                tirow nfw NoSudiFilfExdfption(gftString(pbti));
+        } flsf {
+            if (inodf.isDir() && inodf.diild != null)
+                tirow nfw DirfdtoryNotEmptyExdfption(gftString(pbti));
+            updbtfDflftf(inodf);
         }
     }
 
-    private static void copyStream(InputStream is, OutputStream os)
-        throws IOException
+    privbtf stbtid void dopyStrfbm(InputStrfbm is, OutputStrfbm os)
+        tirows IOExdfption
     {
-        byte[] copyBuf = new byte[8192];
+        bytf[] dopyBuf = nfw bytf[8192];
         int n;
-        while ((n = is.read(copyBuf)) != -1) {
-            os.write(copyBuf, 0, n);
+        wiilf ((n = is.rfbd(dopyBuf)) != -1) {
+            os.writf(dopyBuf, 0, n);
         }
     }
 
-    // Returns an out stream for either
-    // (1) writing the contents of a new entry, if the entry exits, or
-    // (2) updating/replacing the contents of the specified existing entry.
-    private OutputStream getOutputStream(Entry e) throws IOException {
+    // Rfturns bn out strfbm for fitifr
+    // (1) writing tif dontfnts of b nfw fntry, if tif fntry fxits, or
+    // (2) updbting/rfplbding tif dontfnts of tif spfdififd fxisting fntry.
+    privbtf OutputStrfbm gftOutputStrfbm(Entry f) tirows IOExdfption {
 
-        if (e.mtime == -1)
-            e.mtime = System.currentTimeMillis();
-        if (e.method == -1)
-            e.method = METHOD_DEFLATED;  // TBD:  use default method
-        // store size, compressed size, and crc-32 in LOC header
-        e.flag = 0;
-        if (zc.isUTF8())
-            e.flag |= FLAG_EFS;
-        OutputStream os;
-        if (useTempFile) {
-            e.file = getTempPathForEntry(null);
-            os = Files.newOutputStream(e.file, WRITE);
-        } else {
-            os = new ByteArrayOutputStream((e.size > 0)? (int)e.size : 8192);
+        if (f.mtimf == -1)
+            f.mtimf = Systfm.durrfntTimfMillis();
+        if (f.mftiod == -1)
+            f.mftiod = METHOD_DEFLATED;  // TBD:  usf dffbult mftiod
+        // storf sizf, domprfssfd sizf, bnd drd-32 in LOC ifbdfr
+        f.flbg = 0;
+        if (zd.isUTF8())
+            f.flbg |= FLAG_EFS;
+        OutputStrfbm os;
+        if (usfTfmpFilf) {
+            f.filf = gftTfmpPbtiForEntry(null);
+            os = Filfs.nfwOutputStrfbm(f.filf, WRITE);
+        } flsf {
+            os = nfw BytfArrbyOutputStrfbm((f.sizf > 0)? (int)f.sizf : 8192);
         }
-        return new EntryOutputStream(e, os);
+        rfturn nfw EntryOutputStrfbm(f, os);
     }
 
-    private InputStream getInputStream(Entry e)
-        throws IOException
+    privbtf InputStrfbm gftInputStrfbm(Entry f)
+        tirows IOExdfption
     {
-        InputStream eis = null;
+        InputStrfbm fis = null;
 
-        if (e.type == Entry.NEW) {
-            if (e.bytes != null)
-                eis = new ByteArrayInputStream(e.bytes);
-            else if (e.file != null)
-                eis = Files.newInputStream(e.file);
-            else
-                throw new ZipException("update entry data is missing");
-        } else if (e.type == Entry.FILECH) {
-            // FILECH result is un-compressed.
-            eis = Files.newInputStream(e.file);
-            // TBD: wrap to hook close()
-            // streams.add(eis);
-            return eis;
-        } else {  // untouced  CEN or COPY
-            eis = new EntryInputStream(e, ch);
+        if (f.typf == Entry.NEW) {
+            if (f.bytfs != null)
+                fis = nfw BytfArrbyInputStrfbm(f.bytfs);
+            flsf if (f.filf != null)
+                fis = Filfs.nfwInputStrfbm(f.filf);
+            flsf
+                tirow nfw ZipExdfption("updbtf fntry dbtb is missing");
+        } flsf if (f.typf == Entry.FILECH) {
+            // FILECH rfsult is un-domprfssfd.
+            fis = Filfs.nfwInputStrfbm(f.filf);
+            // TBD: wrbp to iook dlosf()
+            // strfbms.bdd(fis);
+            rfturn fis;
+        } flsf {  // untoudfd  CEN or COPY
+            fis = nfw EntryInputStrfbm(f, di);
         }
-        if (e.method == METHOD_DEFLATED) {
-            // MORE: Compute good size for inflater stream:
-            long bufSize = e.size + 2; // Inflater likes a bit of slack
-            if (bufSize > 65536)
-                bufSize = 8192;
-            final long size = e.size;
-            eis = new InflaterInputStream(eis, getInflater(), (int)bufSize) {
+        if (f.mftiod == METHOD_DEFLATED) {
+            // MORE: Computf good sizf for inflbtfr strfbm:
+            long bufSizf = f.sizf + 2; // Inflbtfr likfs b bit of slbdk
+            if (bufSizf > 65536)
+                bufSizf = 8192;
+            finbl long sizf = f.sizf;
+            fis = nfw InflbtfrInputStrfbm(fis, gftInflbtfr(), (int)bufSizf) {
 
-                private boolean isClosed = false;
-                public void close() throws IOException {
-                    if (!isClosed) {
-                        releaseInflater(inf);
-                        this.in.close();
-                        isClosed = true;
-                        streams.remove(this);
+                privbtf boolfbn isClosfd = fblsf;
+                publid void dlosf() tirows IOExdfption {
+                    if (!isClosfd) {
+                        rflfbsfInflbtfr(inf);
+                        tiis.in.dlosf();
+                        isClosfd = truf;
+                        strfbms.rfmovf(tiis);
                     }
                 }
-                // Override fill() method to provide an extra "dummy" byte
-                // at the end of the input stream. This is required when
-                // using the "nowrap" Inflater option. (it appears the new
-                // zlib in 7 does not need it, but keep it for now)
-                protected void fill() throws IOException {
-                    if (eof) {
-                        throw new EOFException(
-                            "Unexpected end of ZLIB input stream");
+                // Ovfrridf fill() mftiod to providf bn fxtrb "dummy" bytf
+                // bt tif fnd of tif input strfbm. Tiis is rfquirfd wifn
+                // using tif "nowrbp" Inflbtfr option. (it bppfbrs tif nfw
+                // zlib in 7 dofs not nffd it, but kffp it for now)
+                protfdtfd void fill() tirows IOExdfption {
+                    if (fof) {
+                        tirow nfw EOFExdfption(
+                            "Unfxpfdtfd fnd of ZLIB input strfbm");
                     }
-                    len = this.in.read(buf, 0, buf.length);
-                    if (len == -1) {
+                    lfn = tiis.in.rfbd(buf, 0, buf.lfngti);
+                    if (lfn == -1) {
                         buf[0] = 0;
-                        len = 1;
-                        eof = true;
+                        lfn = 1;
+                        fof = truf;
                     }
-                    inf.setInput(buf, 0, len);
+                    inf.sftInput(buf, 0, lfn);
                 }
-                private boolean eof;
+                privbtf boolfbn fof;
 
-                public int available() throws IOException {
-                    if (isClosed)
-                        return 0;
-                    long avail = size - inf.getBytesWritten();
-                    return avail > (long) Integer.MAX_VALUE ?
-                        Integer.MAX_VALUE : (int) avail;
+                publid int bvbilbblf() tirows IOExdfption {
+                    if (isClosfd)
+                        rfturn 0;
+                    long bvbil = sizf - inf.gftBytfsWrittfn();
+                    rfturn bvbil > (long) Intfgfr.MAX_VALUE ?
+                        Intfgfr.MAX_VALUE : (int) bvbil;
                 }
             };
-        } else if (e.method == METHOD_STORED) {
-            // TBD: wrap/ it does not seem necessary
-        } else {
-            throw new ZipException("invalid compression method");
+        } flsf if (f.mftiod == METHOD_STORED) {
+            // TBD: wrbp/ it dofs not sffm nfdfssbry
+        } flsf {
+            tirow nfw ZipExdfption("invblid domprfssion mftiod");
         }
-        streams.add(eis);
-        return eis;
+        strfbms.bdd(fis);
+        rfturn fis;
     }
 
-    // Inner class implementing the input stream used to read
-    // a (possibly compressed) zip file entry.
-    private class EntryInputStream extends InputStream {
-        private final SeekableByteChannel zfch; // local ref to zipfs's "ch". zipfs.ch might
-                                          // point to a new channel after sync()
-        private   long pos;               // current position within entry data
-        protected long rem;               // number of remaining bytes within entry
-        protected final long size;        // uncompressed size of this entry
+    // Innfr dlbss implfmfnting tif input strfbm usfd to rfbd
+    // b (possibly domprfssfd) zip filf fntry.
+    privbtf dlbss EntryInputStrfbm fxtfnds InputStrfbm {
+        privbtf finbl SffkbblfBytfCibnnfl zfdi; // lodbl rff to zipfs's "di". zipfs.di migit
+                                          // point to b nfw dibnnfl bftfr synd()
+        privbtf   long pos;               // durrfnt position witiin fntry dbtb
+        protfdtfd long rfm;               // numbfr of rfmbining bytfs witiin fntry
+        protfdtfd finbl long sizf;        // undomprfssfd sizf of tiis fntry
 
-        EntryInputStream(Entry e, SeekableByteChannel zfch)
-            throws IOException
+        EntryInputStrfbm(Entry f, SffkbblfBytfCibnnfl zfdi)
+            tirows IOExdfption
         {
-            this.zfch = zfch;
-            rem = e.csize;
-            size = e.size;
-            pos = getDataPos(e);
+            tiis.zfdi = zfdi;
+            rfm = f.dsizf;
+            sizf = f.sizf;
+            pos = gftDbtbPos(f);
         }
-        public int read(byte b[], int off, int len) throws IOException {
-            ensureOpen();
-            if (rem == 0) {
-                return -1;
+        publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
+            fnsurfOpfn();
+            if (rfm == 0) {
+                rfturn -1;
             }
-            if (len <= 0) {
-                return 0;
+            if (lfn <= 0) {
+                rfturn 0;
             }
-            if (len > rem) {
-                len = (int) rem;
+            if (lfn > rfm) {
+                lfn = (int) rfm;
             }
-            // readFullyAt()
+            // rfbdFullyAt()
             long n = 0;
-            ByteBuffer bb = ByteBuffer.wrap(b);
+            BytfBufffr bb = BytfBufffr.wrbp(b);
             bb.position(off);
-            bb.limit(off + len);
-            synchronized(zfch) {
-                n = zfch.position(pos).read(bb);
+            bb.limit(off + lfn);
+            syndironizfd(zfdi) {
+                n = zfdi.position(pos).rfbd(bb);
             }
             if (n > 0) {
                 pos += n;
-                rem -= n;
+                rfm -= n;
             }
-            if (rem == 0) {
-                close();
+            if (rfm == 0) {
+                dlosf();
             }
-            return (int)n;
+            rfturn (int)n;
         }
-        public int read() throws IOException {
-            byte[] b = new byte[1];
-            if (read(b, 0, 1) == 1) {
-                return b[0] & 0xff;
-            } else {
-                return -1;
+        publid int rfbd() tirows IOExdfption {
+            bytf[] b = nfw bytf[1];
+            if (rfbd(b, 0, 1) == 1) {
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
             }
         }
-        public long skip(long n) throws IOException {
-            ensureOpen();
-            if (n > rem)
-                n = rem;
+        publid long skip(long n) tirows IOExdfption {
+            fnsurfOpfn();
+            if (n > rfm)
+                n = rfm;
             pos += n;
-            rem -= n;
-            if (rem == 0) {
-                close();
+            rfm -= n;
+            if (rfm == 0) {
+                dlosf();
             }
-            return n;
+            rfturn n;
         }
-        public int available() {
-            return rem > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rem;
+        publid int bvbilbblf() {
+            rfturn rfm > Intfgfr.MAX_VALUE ? Intfgfr.MAX_VALUE : (int) rfm;
         }
-        public long size() {
-            return size;
+        publid long sizf() {
+            rfturn sizf;
         }
-        public void close() {
-            rem = 0;
-            streams.remove(this);
+        publid void dlosf() {
+            rfm = 0;
+            strfbms.rfmovf(tiis);
         }
     }
 
-    class EntryOutputStream extends DeflaterOutputStream
+    dlbss EntryOutputStrfbm fxtfnds DfflbtfrOutputStrfbm
     {
-        private CRC32 crc;
-        private Entry e;
-        private long written;
+        privbtf CRC32 drd;
+        privbtf Entry f;
+        privbtf long writtfn;
 
-        EntryOutputStream(Entry e, OutputStream os)
-            throws IOException
+        EntryOutputStrfbm(Entry f, OutputStrfbm os)
+            tirows IOExdfption
         {
-            super(os, getDeflater());
-            if (e == null)
-                throw new NullPointerException("Zip entry is null");
-            this.e = e;
-            crc = new CRC32();
+            supfr(os, gftDfflbtfr());
+            if (f == null)
+                tirow nfw NullPointfrExdfption("Zip fntry is null");
+            tiis.f = f;
+            drd = nfw CRC32();
         }
 
-        @Override
-        public void write(byte b[], int off, int len) throws IOException {
-            if (e.type != Entry.FILECH)    // only from sync
-                ensureOpen();
-            if (off < 0 || len < 0 || off > b.length - len) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return;
+        @Ovfrridf
+        publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+            if (f.typf != Entry.FILECH)    // only from synd
+                fnsurfOpfn();
+            if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn;
             }
-            switch (e.method) {
-            case METHOD_DEFLATED:
-                super.write(b, off, len);
-                break;
-            case METHOD_STORED:
-                written += len;
-                out.write(b, off, len);
-                break;
-            default:
-                throw new ZipException("invalid compression method");
+            switdi (f.mftiod) {
+            dbsf METHOD_DEFLATED:
+                supfr.writf(b, off, lfn);
+                brfbk;
+            dbsf METHOD_STORED:
+                writtfn += lfn;
+                out.writf(b, off, lfn);
+                brfbk;
+            dffbult:
+                tirow nfw ZipExdfption("invblid domprfssion mftiod");
             }
-            crc.update(b, off, len);
+            drd.updbtf(b, off, lfn);
         }
 
-        @Override
-        public void close() throws IOException {
-            // TBD ensureOpen();
-            switch (e.method) {
-            case METHOD_DEFLATED:
-                finish();
-                e.size  = def.getBytesRead();
-                e.csize = def.getBytesWritten();
-                e.crc = crc.getValue();
-                break;
-            case METHOD_STORED:
-                // we already know that both e.size and e.csize are the same
-                e.size = e.csize = written;
-                e.crc = crc.getValue();
-                break;
-            default:
-                throw new ZipException("invalid compression method");
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            // TBD fnsurfOpfn();
+            switdi (f.mftiod) {
+            dbsf METHOD_DEFLATED:
+                finisi();
+                f.sizf  = dff.gftBytfsRfbd();
+                f.dsizf = dff.gftBytfsWrittfn();
+                f.drd = drd.gftVbluf();
+                brfbk;
+            dbsf METHOD_STORED:
+                // wf blrfbdy know tibt boti f.sizf bnd f.dsizf brf tif sbmf
+                f.sizf = f.dsizf = writtfn;
+                f.drd = drd.gftVbluf();
+                brfbk;
+            dffbult:
+                tirow nfw ZipExdfption("invblid domprfssion mftiod");
             }
-            //crc.reset();
-            if (out instanceof ByteArrayOutputStream)
-                e.bytes = ((ByteArrayOutputStream)out).toByteArray();
+            //drd.rfsft();
+            if (out instbndfof BytfArrbyOutputStrfbm)
+                f.bytfs = ((BytfArrbyOutputStrfbm)out).toBytfArrby();
 
-            if (e.type == Entry.FILECH) {
-                releaseDeflater(def);
-                return;
+            if (f.typf == Entry.FILECH) {
+                rflfbsfDfflbtfr(dff);
+                rfturn;
             }
-            super.close();
-            releaseDeflater(def);
-            update(e);
-        }
-    }
-
-    static void zerror(String msg) {
-        throw new ZipError(msg);
-    }
-
-    // Maxmum number of de/inflater we cache
-    private final int MAX_FLATER = 20;
-    // List of available Inflater objects for decompression
-    private final List<Inflater> inflaters = new ArrayList<>();
-
-    // Gets an inflater from the list of available inflaters or allocates
-    // a new one.
-    private Inflater getInflater() {
-        synchronized (inflaters) {
-            int size = inflaters.size();
-            if (size > 0) {
-                Inflater inf = inflaters.remove(size - 1);
-                return inf;
-            } else {
-                return new Inflater(true);
-            }
+            supfr.dlosf();
+            rflfbsfDfflbtfr(dff);
+            updbtf(f);
         }
     }
 
-    // Releases the specified inflater to the list of available inflaters.
-    private void releaseInflater(Inflater inf) {
-        synchronized (inflaters) {
-            if (inflaters.size() < MAX_FLATER) {
-                inf.reset();
-                inflaters.add(inf);
-            } else {
-                inf.end();
+    stbtid void zfrror(String msg) {
+        tirow nfw ZipError(msg);
+    }
+
+    // Mbxmum numbfr of df/inflbtfr wf dbdif
+    privbtf finbl int MAX_FLATER = 20;
+    // List of bvbilbblf Inflbtfr objfdts for dfdomprfssion
+    privbtf finbl List<Inflbtfr> inflbtfrs = nfw ArrbyList<>();
+
+    // Gfts bn inflbtfr from tif list of bvbilbblf inflbtfrs or bllodbtfs
+    // b nfw onf.
+    privbtf Inflbtfr gftInflbtfr() {
+        syndironizfd (inflbtfrs) {
+            int sizf = inflbtfrs.sizf();
+            if (sizf > 0) {
+                Inflbtfr inf = inflbtfrs.rfmovf(sizf - 1);
+                rfturn inf;
+            } flsf {
+                rfturn nfw Inflbtfr(truf);
             }
         }
     }
 
-    // List of available Deflater objects for compression
-    private final List<Deflater> deflaters = new ArrayList<>();
-
-    // Gets an deflater from the list of available deflaters or allocates
-    // a new one.
-    private Deflater getDeflater() {
-        synchronized (deflaters) {
-            int size = deflaters.size();
-            if (size > 0) {
-                Deflater def = deflaters.remove(size - 1);
-                return def;
-            } else {
-                return new Deflater(Deflater.DEFAULT_COMPRESSION, true);
+    // Rflfbsfs tif spfdififd inflbtfr to tif list of bvbilbblf inflbtfrs.
+    privbtf void rflfbsfInflbtfr(Inflbtfr inf) {
+        syndironizfd (inflbtfrs) {
+            if (inflbtfrs.sizf() < MAX_FLATER) {
+                inf.rfsft();
+                inflbtfrs.bdd(inf);
+            } flsf {
+                inf.fnd();
             }
         }
     }
 
-    // Releases the specified inflater to the list of available inflaters.
-    private void releaseDeflater(Deflater def) {
-        synchronized (deflaters) {
-            if (inflaters.size() < MAX_FLATER) {
-               def.reset();
-               deflaters.add(def);
-            } else {
-               def.end();
+    // List of bvbilbblf Dfflbtfr objfdts for domprfssion
+    privbtf finbl List<Dfflbtfr> dfflbtfrs = nfw ArrbyList<>();
+
+    // Gfts bn dfflbtfr from tif list of bvbilbblf dfflbtfrs or bllodbtfs
+    // b nfw onf.
+    privbtf Dfflbtfr gftDfflbtfr() {
+        syndironizfd (dfflbtfrs) {
+            int sizf = dfflbtfrs.sizf();
+            if (sizf > 0) {
+                Dfflbtfr dff = dfflbtfrs.rfmovf(sizf - 1);
+                rfturn dff;
+            } flsf {
+                rfturn nfw Dfflbtfr(Dfflbtfr.DEFAULT_COMPRESSION, truf);
             }
         }
     }
 
-    // End of central directory record
-    static class END {
+    // Rflfbsfs tif spfdififd inflbtfr to tif list of bvbilbblf inflbtfrs.
+    privbtf void rflfbsfDfflbtfr(Dfflbtfr dff) {
+        syndironizfd (dfflbtfrs) {
+            if (inflbtfrs.sizf() < MAX_FLATER) {
+               dff.rfsft();
+               dfflbtfrs.bdd(dff);
+            } flsf {
+               dff.fnd();
+            }
+        }
+    }
+
+    // End of dfntrbl dirfdtory rfdord
+    stbtid dlbss END {
         int  disknum;
         int  sdisknum;
-        int  endsub;     // endsub
-        int  centot;     // 4 bytes
-        long cenlen;     // 4 bytes
-        long cenoff;     // 4 bytes
-        int  comlen;     // comment length
-        byte[] comment;
+        int  fndsub;     // fndsub
+        int  dfntot;     // 4 bytfs
+        long dfnlfn;     // 4 bytfs
+        long dfnoff;     // 4 bytfs
+        int  domlfn;     // dommfnt lfngti
+        bytf[] dommfnt;
 
-        /* members of Zip64 end of central directory locator */
+        /* mfmbfrs of Zip64 fnd of dfntrbl dirfdtory lodbtor */
         int diskNum;
-        long endpos;
+        long fndpos;
         int disktot;
 
-        void write(OutputStream os, long offset) throws IOException {
-            boolean hasZip64 = false;
-            long xlen = cenlen;
-            long xoff = cenoff;
-            if (xlen >= ZIP64_MINVAL) {
-                xlen = ZIP64_MINVAL;
-                hasZip64 = true;
+        void writf(OutputStrfbm os, long offsft) tirows IOExdfption {
+            boolfbn ibsZip64 = fblsf;
+            long xlfn = dfnlfn;
+            long xoff = dfnoff;
+            if (xlfn >= ZIP64_MINVAL) {
+                xlfn = ZIP64_MINVAL;
+                ibsZip64 = truf;
             }
             if (xoff >= ZIP64_MINVAL) {
                 xoff = ZIP64_MINVAL;
-                hasZip64 = true;
+                ibsZip64 = truf;
             }
-            int count = centot;
-            if (count >= ZIP64_MINVAL32) {
-                count = ZIP64_MINVAL32;
-                hasZip64 = true;
+            int dount = dfntot;
+            if (dount >= ZIP64_MINVAL32) {
+                dount = ZIP64_MINVAL32;
+                ibsZip64 = truf;
             }
-            if (hasZip64) {
-                long off64 = offset;
-                //zip64 end of central directory record
-                writeInt(os, ZIP64_ENDSIG);       // zip64 END record signature
-                writeLong(os, ZIP64_ENDHDR - 12); // size of zip64 end
-                writeShort(os, 45);               // version made by
-                writeShort(os, 45);               // version needed to extract
-                writeInt(os, 0);                  // number of this disk
-                writeInt(os, 0);                  // central directory start disk
-                writeLong(os, centot);            // number of directory entires on disk
-                writeLong(os, centot);            // number of directory entires
-                writeLong(os, cenlen);            // length of central directory
-                writeLong(os, cenoff);            // offset of central directory
+            if (ibsZip64) {
+                long off64 = offsft;
+                //zip64 fnd of dfntrbl dirfdtory rfdord
+                writfInt(os, ZIP64_ENDSIG);       // zip64 END rfdord signbturf
+                writfLong(os, ZIP64_ENDHDR - 12); // sizf of zip64 fnd
+                writfSiort(os, 45);               // vfrsion mbdf by
+                writfSiort(os, 45);               // vfrsion nffdfd to fxtrbdt
+                writfInt(os, 0);                  // numbfr of tiis disk
+                writfInt(os, 0);                  // dfntrbl dirfdtory stbrt disk
+                writfLong(os, dfntot);            // numbfr of dirfdtory fntirfs on disk
+                writfLong(os, dfntot);            // numbfr of dirfdtory fntirfs
+                writfLong(os, dfnlfn);            // lfngti of dfntrbl dirfdtory
+                writfLong(os, dfnoff);            // offsft of dfntrbl dirfdtory
 
-                //zip64 end of central directory locator
-                writeInt(os, ZIP64_LOCSIG);       // zip64 END locator signature
-                writeInt(os, 0);                  // zip64 END start disk
-                writeLong(os, off64);             // offset of zip64 END
-                writeInt(os, 1);                  // total number of disks (?)
+                //zip64 fnd of dfntrbl dirfdtory lodbtor
+                writfInt(os, ZIP64_LOCSIG);       // zip64 END lodbtor signbturf
+                writfInt(os, 0);                  // zip64 END stbrt disk
+                writfLong(os, off64);             // offsft of zip64 END
+                writfInt(os, 1);                  // totbl numbfr of disks (?)
             }
-            writeInt(os, ENDSIG);                 // END record signature
-            writeShort(os, 0);                    // number of this disk
-            writeShort(os, 0);                    // central directory start disk
-            writeShort(os, count);                // number of directory entries on disk
-            writeShort(os, count);                // total number of directory entries
-            writeInt(os, xlen);                   // length of central directory
-            writeInt(os, xoff);                   // offset of central directory
-            if (comment != null) {            // zip file comment
-                writeShort(os, comment.length);
-                writeBytes(os, comment);
-            } else {
-                writeShort(os, 0);
+            writfInt(os, ENDSIG);                 // END rfdord signbturf
+            writfSiort(os, 0);                    // numbfr of tiis disk
+            writfSiort(os, 0);                    // dfntrbl dirfdtory stbrt disk
+            writfSiort(os, dount);                // numbfr of dirfdtory fntrifs on disk
+            writfSiort(os, dount);                // totbl numbfr of dirfdtory fntrifs
+            writfInt(os, xlfn);                   // lfngti of dfntrbl dirfdtory
+            writfInt(os, xoff);                   // offsft of dfntrbl dirfdtory
+            if (dommfnt != null) {            // zip filf dommfnt
+                writfSiort(os, dommfnt.lfngti);
+                writfBytfs(os, dommfnt);
+            } flsf {
+                writfSiort(os, 0);
             }
         }
     }
 
-    // Internal node that links a "name" to its pos in cen table.
-    // The node itself can be used as a "key" to lookup itself in
-    // the HashMap inodes.
-    static class IndexNode {
-        byte[] name;
-        int    hashcode;  // node is hashable/hashed by its name
-        int    pos = -1;  // position in cen table, -1 menas the
-                          // entry does not exists in zip file
-        IndexNode(byte[] name, int pos) {
-            name(name);
-            this.pos = pos;
+    // Intfrnbl nodf tibt links b "nbmf" to its pos in dfn tbblf.
+    // Tif nodf itsflf dbn bf usfd bs b "kfy" to lookup itsflf in
+    // tif HbsiMbp inodfs.
+    stbtid dlbss IndfxNodf {
+        bytf[] nbmf;
+        int    ibsidodf;  // nodf is ibsibblf/ibsifd by its nbmf
+        int    pos = -1;  // position in dfn tbblf, -1 mfnbs tif
+                          // fntry dofs not fxists in zip filf
+        IndfxNodf(bytf[] nbmf, int pos) {
+            nbmf(nbmf);
+            tiis.pos = pos;
         }
 
-        final static IndexNode keyOf(byte[] name) { // get a lookup key;
-            return new IndexNode(name, -1);
+        finbl stbtid IndfxNodf kfyOf(bytf[] nbmf) { // gft b lookup kfy;
+            rfturn nfw IndfxNodf(nbmf, -1);
         }
 
-        final void name(byte[] name) {
-            this.name = name;
-            this.hashcode = Arrays.hashCode(name);
+        finbl void nbmf(bytf[] nbmf) {
+            tiis.nbmf = nbmf;
+            tiis.ibsidodf = Arrbys.ibsiCodf(nbmf);
         }
 
-        final IndexNode as(byte[] name) {           // reuse the node, mostly
-            name(name);                             // as a lookup "key"
-            return this;
+        finbl IndfxNodf bs(bytf[] nbmf) {           // rfusf tif nodf, mostly
+            nbmf(nbmf);                             // bs b lookup "kfy"
+            rfturn tiis;
         }
 
-        boolean isDir() {
-            return name != null &&
-                   (name.length == 0 || name[name.length - 1] == '/');
+        boolfbn isDir() {
+            rfturn nbmf != null &&
+                   (nbmf.lfngti == 0 || nbmf[nbmf.lfngti - 1] == '/');
         }
 
-        public boolean equals(Object other) {
-            if (!(other instanceof IndexNode)) {
-                return false;
+        publid boolfbn fqubls(Objfdt otifr) {
+            if (!(otifr instbndfof IndfxNodf)) {
+                rfturn fblsf;
             }
-            return Arrays.equals(name, ((IndexNode)other).name);
+            rfturn Arrbys.fqubls(nbmf, ((IndfxNodf)otifr).nbmf);
         }
 
-        public int hashCode() {
-            return hashcode;
+        publid int ibsiCodf() {
+            rfturn ibsidodf;
         }
 
-        IndexNode() {}
-        IndexNode sibling;
-        IndexNode child;  // 1st child
+        IndfxNodf() {}
+        IndfxNodf sibling;
+        IndfxNodf diild;  // 1st diild
     }
 
-    static class Entry extends IndexNode {
+    stbtid dlbss Entry fxtfnds IndfxNodf {
 
-        static final int CEN    = 1;    // entry read from cen
-        static final int NEW    = 2;    // updated contents in bytes or file
-        static final int FILECH = 3;    // fch update in "file"
-        static final int COPY   = 4;    // copy of a CEN entry
+        stbtid finbl int CEN    = 1;    // fntry rfbd from dfn
+        stbtid finbl int NEW    = 2;    // updbtfd dontfnts in bytfs or filf
+        stbtid finbl int FILECH = 3;    // fdi updbtf in "filf"
+        stbtid finbl int COPY   = 4;    // dopy of b CEN fntry
 
 
-        byte[] bytes;      // updated content bytes
-        Path   file;       // use tmp file to store bytes;
-        int    type = CEN; // default is the entry read from cen
+        bytf[] bytfs;      // updbtfd dontfnt bytfs
+        Pbti   filf;       // usf tmp filf to storf bytfs;
+        int    typf = CEN; // dffbult is tif fntry rfbd from dfn
 
-        // entry attributes
-        int    version;
-        int    flag;
-        int    method = -1;    // compression method
-        long   mtime  = -1;    // last modification time (in DOS time)
-        long   atime  = -1;    // last access time
-        long   ctime  = -1;    // create time
-        long   crc    = -1;    // crc-32 of entry data
-        long   csize  = -1;    // compressed size of entry data
-        long   size   = -1;    // uncompressed size of entry data
-        byte[] extra;
+        // fntry bttributfs
+        int    vfrsion;
+        int    flbg;
+        int    mftiod = -1;    // domprfssion mftiod
+        long   mtimf  = -1;    // lbst modifidbtion timf (in DOS timf)
+        long   btimf  = -1;    // lbst bddfss timf
+        long   dtimf  = -1;    // drfbtf timf
+        long   drd    = -1;    // drd-32 of fntry dbtb
+        long   dsizf  = -1;    // domprfssfd sizf of fntry dbtb
+        long   sizf   = -1;    // undomprfssfd sizf of fntry dbtb
+        bytf[] fxtrb;
 
-        // cen
-        int    versionMade;
+        // dfn
+        int    vfrsionMbdf;
         int    disk;
-        int    attrs;
-        long   attrsEx;
-        long   locoff;
-        byte[] comment;
+        int    bttrs;
+        long   bttrsEx;
+        long   lodoff;
+        bytf[] dommfnt;
 
         Entry() {}
 
-        Entry(byte[] name) {
-            name(name);
-            this.mtime  = this.ctime = this.atime = System.currentTimeMillis();
-            this.crc    = 0;
-            this.size   = 0;
-            this.csize  = 0;
-            this.method = METHOD_DEFLATED;
+        Entry(bytf[] nbmf) {
+            nbmf(nbmf);
+            tiis.mtimf  = tiis.dtimf = tiis.btimf = Systfm.durrfntTimfMillis();
+            tiis.drd    = 0;
+            tiis.sizf   = 0;
+            tiis.dsizf  = 0;
+            tiis.mftiod = METHOD_DEFLATED;
         }
 
-        Entry(byte[] name, int type) {
-            this(name);
-            this.type = type;
+        Entry(bytf[] nbmf, int typf) {
+            tiis(nbmf);
+            tiis.typf = typf;
         }
 
-        Entry (Entry e, int type) {
-            name(e.name);
-            this.version   = e.version;
-            this.ctime     = e.ctime;
-            this.atime     = e.atime;
-            this.mtime     = e.mtime;
-            this.crc       = e.crc;
-            this.size      = e.size;
-            this.csize     = e.csize;
-            this.method    = e.method;
-            this.extra     = e.extra;
-            this.versionMade = e.versionMade;
-            this.disk      = e.disk;
-            this.attrs     = e.attrs;
-            this.attrsEx   = e.attrsEx;
-            this.locoff    = e.locoff;
-            this.comment   = e.comment;
-            this.type      = type;
+        Entry (Entry f, int typf) {
+            nbmf(f.nbmf);
+            tiis.vfrsion   = f.vfrsion;
+            tiis.dtimf     = f.dtimf;
+            tiis.btimf     = f.btimf;
+            tiis.mtimf     = f.mtimf;
+            tiis.drd       = f.drd;
+            tiis.sizf      = f.sizf;
+            tiis.dsizf     = f.dsizf;
+            tiis.mftiod    = f.mftiod;
+            tiis.fxtrb     = f.fxtrb;
+            tiis.vfrsionMbdf = f.vfrsionMbdf;
+            tiis.disk      = f.disk;
+            tiis.bttrs     = f.bttrs;
+            tiis.bttrsEx   = f.bttrsEx;
+            tiis.lodoff    = f.lodoff;
+            tiis.dommfnt   = f.dommfnt;
+            tiis.typf      = typf;
         }
 
-        Entry (byte[] name, Path file, int type) {
-            this(name, type);
-            this.file = file;
-            this.method = METHOD_STORED;
+        Entry (bytf[] nbmf, Pbti filf, int typf) {
+            tiis(nbmf, typf);
+            tiis.filf = filf;
+            tiis.mftiod = METHOD_STORED;
         }
 
-        int version() throws ZipException {
-            if (method == METHOD_DEFLATED)
-                return 20;
-            else if (method == METHOD_STORED)
-                return 10;
-            throw new ZipException("unsupported compression method");
+        int vfrsion() tirows ZipExdfption {
+            if (mftiod == METHOD_DEFLATED)
+                rfturn 20;
+            flsf if (mftiod == METHOD_STORED)
+                rfturn 10;
+            tirow nfw ZipExdfption("unsupportfd domprfssion mftiod");
         }
 
         ///////////////////// CEN //////////////////////
-        static Entry readCEN(ZipFileSystem zipfs, int pos)
-            throws IOException
+        stbtid Entry rfbdCEN(ZipFilfSystfm zipfs, int pos)
+            tirows IOExdfption
         {
-            return new Entry().cen(zipfs, pos);
+            rfturn nfw Entry().dfn(zipfs, pos);
         }
 
-        private Entry cen(ZipFileSystem zipfs, int pos)
-            throws IOException
+        privbtf Entry dfn(ZipFilfSystfm zipfs, int pos)
+            tirows IOExdfption
         {
-            byte[] cen = zipfs.cen;
-            if (CENSIG(cen, pos) != CENSIG)
-                zerror("invalid CEN header (bad signature)");
-            versionMade = CENVEM(cen, pos);
-            version     = CENVER(cen, pos);
-            flag        = CENFLG(cen, pos);
-            method      = CENHOW(cen, pos);
-            mtime       = dosToJavaTime(CENTIM(cen, pos));
-            crc         = CENCRC(cen, pos);
-            csize       = CENSIZ(cen, pos);
-            size        = CENLEN(cen, pos);
-            int nlen    = CENNAM(cen, pos);
-            int elen    = CENEXT(cen, pos);
-            int clen    = CENCOM(cen, pos);
-            disk        = CENDSK(cen, pos);
-            attrs       = CENATT(cen, pos);
-            attrsEx     = CENATX(cen, pos);
-            locoff      = CENOFF(cen, pos);
+            bytf[] dfn = zipfs.dfn;
+            if (CENSIG(dfn, pos) != CENSIG)
+                zfrror("invblid CEN ifbdfr (bbd signbturf)");
+            vfrsionMbdf = CENVEM(dfn, pos);
+            vfrsion     = CENVER(dfn, pos);
+            flbg        = CENFLG(dfn, pos);
+            mftiod      = CENHOW(dfn, pos);
+            mtimf       = dosToJbvbTimf(CENTIM(dfn, pos));
+            drd         = CENCRC(dfn, pos);
+            dsizf       = CENSIZ(dfn, pos);
+            sizf        = CENLEN(dfn, pos);
+            int nlfn    = CENNAM(dfn, pos);
+            int flfn    = CENEXT(dfn, pos);
+            int dlfn    = CENCOM(dfn, pos);
+            disk        = CENDSK(dfn, pos);
+            bttrs       = CENATT(dfn, pos);
+            bttrsEx     = CENATX(dfn, pos);
+            lodoff      = CENOFF(dfn, pos);
 
             pos += CENHDR;
-            name(Arrays.copyOfRange(cen, pos, pos + nlen));
+            nbmf(Arrbys.dopyOfRbngf(dfn, pos, pos + nlfn));
 
-            pos += nlen;
-            if (elen > 0) {
-                extra = Arrays.copyOfRange(cen, pos, pos + elen);
-                pos += elen;
-                readExtra(zipfs);
+            pos += nlfn;
+            if (flfn > 0) {
+                fxtrb = Arrbys.dopyOfRbngf(dfn, pos, pos + flfn);
+                pos += flfn;
+                rfbdExtrb(zipfs);
             }
-            if (clen > 0) {
-                comment = Arrays.copyOfRange(cen, pos, pos + clen);
+            if (dlfn > 0) {
+                dommfnt = Arrbys.dopyOfRbngf(dfn, pos, pos + dlfn);
             }
-            return this;
+            rfturn tiis;
         }
 
-        int writeCEN(OutputStream os) throws IOException
+        int writfCEN(OutputStrfbm os) tirows IOExdfption
         {
-            int written  = CENHDR;
-            int version0 = version();
-            long csize0  = csize;
-            long size0   = size;
-            long locoff0 = locoff;
-            int elen64   = 0;                // extra for ZIP64
-            int elenNTFS = 0;                // extra for NTFS (a/c/mtime)
-            int elenEXTT = 0;                // extra for Extended Timestamp
-            boolean foundExtraTime = false;  // if time stamp NTFS, EXTT present
+            int writtfn  = CENHDR;
+            int vfrsion0 = vfrsion();
+            long dsizf0  = dsizf;
+            long sizf0   = sizf;
+            long lodoff0 = lodoff;
+            int flfn64   = 0;                // fxtrb for ZIP64
+            int flfnNTFS = 0;                // fxtrb for NTFS (b/d/mtimf)
+            int flfnEXTT = 0;                // fxtrb for Extfndfd Timfstbmp
+            boolfbn foundExtrbTimf = fblsf;  // if timf stbmp NTFS, EXTT prfsfnt
 
-            // confirm size/length
-            int nlen = (name != null) ? name.length : 0;
-            int elen = (extra != null) ? extra.length : 0;
-            int eoff = 0;
-            int clen = (comment != null) ? comment.length : 0;
-            if (csize >= ZIP64_MINVAL) {
-                csize0 = ZIP64_MINVAL;
-                elen64 += 8;                 // csize(8)
+            // donfirm sizf/lfngti
+            int nlfn = (nbmf != null) ? nbmf.lfngti : 0;
+            int flfn = (fxtrb != null) ? fxtrb.lfngti : 0;
+            int foff = 0;
+            int dlfn = (dommfnt != null) ? dommfnt.lfngti : 0;
+            if (dsizf >= ZIP64_MINVAL) {
+                dsizf0 = ZIP64_MINVAL;
+                flfn64 += 8;                 // dsizf(8)
             }
-            if (size >= ZIP64_MINVAL) {
-                size0 = ZIP64_MINVAL;        // size(8)
-                elen64 += 8;
+            if (sizf >= ZIP64_MINVAL) {
+                sizf0 = ZIP64_MINVAL;        // sizf(8)
+                flfn64 += 8;
             }
-            if (locoff >= ZIP64_MINVAL) {
-                locoff0 = ZIP64_MINVAL;
-                elen64 += 8;                 // offset(8)
+            if (lodoff >= ZIP64_MINVAL) {
+                lodoff0 = ZIP64_MINVAL;
+                flfn64 += 8;                 // offsft(8)
             }
-            if (elen64 != 0) {
-                elen64 += 4;                 // header and data sz 4 bytes
+            if (flfn64 != 0) {
+                flfn64 += 4;                 // ifbdfr bnd dbtb sz 4 bytfs
             }
-            while (eoff + 4 < elen) {
-                int tag = SH(extra, eoff);
-                int sz = SH(extra, eoff + 2);
-                if (tag == EXTID_EXTT || tag == EXTID_NTFS) {
-                    foundExtraTime = true;
+            wiilf (foff + 4 < flfn) {
+                int tbg = SH(fxtrb, foff);
+                int sz = SH(fxtrb, foff + 2);
+                if (tbg == EXTID_EXTT || tbg == EXTID_NTFS) {
+                    foundExtrbTimf = truf;
                 }
-                eoff += (4 + sz);
+                foff += (4 + sz);
             }
-            if (!foundExtraTime) {
-                if (isWindows) {             // use NTFS
-                    elenNTFS = 36;           // total 36 bytes
-                } else {                     // Extended Timestamp otherwise
-                    elenEXTT = 9;            // only mtime in cen
+            if (!foundExtrbTimf) {
+                if (isWindows) {             // usf NTFS
+                    flfnNTFS = 36;           // totbl 36 bytfs
+                } flsf {                     // Extfndfd Timfstbmp otifrwisf
+                    flfnEXTT = 9;            // only mtimf in dfn
                 }
             }
-            writeInt(os, CENSIG);            // CEN header signature
-            if (elen64 != 0) {
-                writeShort(os, 45);          // ver 4.5 for zip64
-                writeShort(os, 45);
-            } else {
-                writeShort(os, version0);    // version made by
-                writeShort(os, version0);    // version needed to extract
+            writfInt(os, CENSIG);            // CEN ifbdfr signbturf
+            if (flfn64 != 0) {
+                writfSiort(os, 45);          // vfr 4.5 for zip64
+                writfSiort(os, 45);
+            } flsf {
+                writfSiort(os, vfrsion0);    // vfrsion mbdf by
+                writfSiort(os, vfrsion0);    // vfrsion nffdfd to fxtrbdt
             }
-            writeShort(os, flag);            // general purpose bit flag
-            writeShort(os, method);          // compression method
-                                             // last modification time
-            writeInt(os, (int)javaToDosTime(mtime));
-            writeInt(os, crc);               // crc-32
-            writeInt(os, csize0);            // compressed size
-            writeInt(os, size0);             // uncompressed size
-            writeShort(os, name.length);
-            writeShort(os, elen + elen64 + elenNTFS + elenEXTT);
+            writfSiort(os, flbg);            // gfnfrbl purposf bit flbg
+            writfSiort(os, mftiod);          // domprfssion mftiod
+                                             // lbst modifidbtion timf
+            writfInt(os, (int)jbvbToDosTimf(mtimf));
+            writfInt(os, drd);               // drd-32
+            writfInt(os, dsizf0);            // domprfssfd sizf
+            writfInt(os, sizf0);             // undomprfssfd sizf
+            writfSiort(os, nbmf.lfngti);
+            writfSiort(os, flfn + flfn64 + flfnNTFS + flfnEXTT);
 
-            if (comment != null) {
-                writeShort(os, Math.min(clen, 0xffff));
-            } else {
-                writeShort(os, 0);
+            if (dommfnt != null) {
+                writfSiort(os, Mbti.min(dlfn, 0xffff));
+            } flsf {
+                writfSiort(os, 0);
             }
-            writeShort(os, 0);              // starting disk number
-            writeShort(os, 0);              // internal file attributes (unused)
-            writeInt(os, 0);                // external file attributes (unused)
-            writeInt(os, locoff0);          // relative offset of local header
-            writeBytes(os, name);
-            if (elen64 != 0) {
-                writeShort(os, EXTID_ZIP64);// Zip64 extra
-                writeShort(os, elen64 - 4); // size of "this" extra block
-                if (size0 == ZIP64_MINVAL)
-                    writeLong(os, size);
-                if (csize0 == ZIP64_MINVAL)
-                    writeLong(os, csize);
-                if (locoff0 == ZIP64_MINVAL)
-                    writeLong(os, locoff);
+            writfSiort(os, 0);              // stbrting disk numbfr
+            writfSiort(os, 0);              // intfrnbl filf bttributfs (unusfd)
+            writfInt(os, 0);                // fxtfrnbl filf bttributfs (unusfd)
+            writfInt(os, lodoff0);          // rflbtivf offsft of lodbl ifbdfr
+            writfBytfs(os, nbmf);
+            if (flfn64 != 0) {
+                writfSiort(os, EXTID_ZIP64);// Zip64 fxtrb
+                writfSiort(os, flfn64 - 4); // sizf of "tiis" fxtrb blodk
+                if (sizf0 == ZIP64_MINVAL)
+                    writfLong(os, sizf);
+                if (dsizf0 == ZIP64_MINVAL)
+                    writfLong(os, dsizf);
+                if (lodoff0 == ZIP64_MINVAL)
+                    writfLong(os, lodoff);
             }
-            if (elenNTFS != 0) {
-                writeShort(os, EXTID_NTFS);
-                writeShort(os, elenNTFS - 4);
-                writeInt(os, 0);            // reserved
-                writeShort(os, 0x0001);     // NTFS attr tag
-                writeShort(os, 24);
-                writeLong(os, javaToWinTime(mtime));
-                writeLong(os, javaToWinTime(atime));
-                writeLong(os, javaToWinTime(ctime));
+            if (flfnNTFS != 0) {
+                writfSiort(os, EXTID_NTFS);
+                writfSiort(os, flfnNTFS - 4);
+                writfInt(os, 0);            // rfsfrvfd
+                writfSiort(os, 0x0001);     // NTFS bttr tbg
+                writfSiort(os, 24);
+                writfLong(os, jbvbToWinTimf(mtimf));
+                writfLong(os, jbvbToWinTimf(btimf));
+                writfLong(os, jbvbToWinTimf(dtimf));
             }
-            if (elenEXTT != 0) {
-                writeShort(os, EXTID_EXTT);
-                writeShort(os, elenEXTT - 4);
-                if (ctime == -1)
-                    os.write(0x3);          // mtime and atime
-                else
-                    os.write(0x7);          // mtime, atime and ctime
-                writeInt(os, javaToUnixTime(mtime));
+            if (flfnEXTT != 0) {
+                writfSiort(os, EXTID_EXTT);
+                writfSiort(os, flfnEXTT - 4);
+                if (dtimf == -1)
+                    os.writf(0x3);          // mtimf bnd btimf
+                flsf
+                    os.writf(0x7);          // mtimf, btimf bnd dtimf
+                writfInt(os, jbvbToUnixTimf(mtimf));
             }
-            if (extra != null)              // whatever not recognized
-                writeBytes(os, extra);
-            if (comment != null)            //TBD: 0, Math.min(commentBytes.length, 0xffff));
-                writeBytes(os, comment);
-            return CENHDR + nlen + elen + clen + elen64 + elenNTFS + elenEXTT;
+            if (fxtrb != null)              // wibtfvfr not rfdognizfd
+                writfBytfs(os, fxtrb);
+            if (dommfnt != null)            //TBD: 0, Mbti.min(dommfntBytfs.lfngti, 0xffff));
+                writfBytfs(os, dommfnt);
+            rfturn CENHDR + nlfn + flfn + dlfn + flfn64 + flfnNTFS + flfnEXTT;
         }
 
         ///////////////////// LOC //////////////////////
-        static Entry readLOC(ZipFileSystem zipfs, long pos)
-            throws IOException
+        stbtid Entry rfbdLOC(ZipFilfSystfm zipfs, long pos)
+            tirows IOExdfption
         {
-            return readLOC(zipfs, pos, new byte[1024]);
+            rfturn rfbdLOC(zipfs, pos, nfw bytf[1024]);
         }
 
-        static Entry readLOC(ZipFileSystem zipfs, long pos, byte[] buf)
-            throws IOException
+        stbtid Entry rfbdLOC(ZipFilfSystfm zipfs, long pos, bytf[] buf)
+            tirows IOExdfption
         {
-            return new Entry().loc(zipfs, pos, buf);
+            rfturn nfw Entry().lod(zipfs, pos, buf);
         }
 
-        Entry loc(ZipFileSystem zipfs, long pos, byte[] buf)
-            throws IOException
+        Entry lod(ZipFilfSystfm zipfs, long pos, bytf[] buf)
+            tirows IOExdfption
         {
-            assert (buf.length >= LOCHDR);
-            if (zipfs.readFullyAt(buf, 0, LOCHDR , pos) != LOCHDR)
-                throw new ZipException("loc: reading failed");
+            bssfrt (buf.lfngti >= LOCHDR);
+            if (zipfs.rfbdFullyAt(buf, 0, LOCHDR , pos) != LOCHDR)
+                tirow nfw ZipExdfption("lod: rfbding fbilfd");
             if (LOCSIG(buf) != LOCSIG)
-                throw new ZipException("loc: wrong sig ->"
+                tirow nfw ZipExdfption("lod: wrong sig ->"
                                        + Long.toString(LOCSIG(buf), 16));
-            //startPos = pos;
-            version  = LOCVER(buf);
-            flag     = LOCFLG(buf);
-            method   = LOCHOW(buf);
-            mtime    = dosToJavaTime(LOCTIM(buf));
-            crc      = LOCCRC(buf);
-            csize    = LOCSIZ(buf);
-            size     = LOCLEN(buf);
-            int nlen = LOCNAM(buf);
-            int elen = LOCEXT(buf);
+            //stbrtPos = pos;
+            vfrsion  = LOCVER(buf);
+            flbg     = LOCFLG(buf);
+            mftiod   = LOCHOW(buf);
+            mtimf    = dosToJbvbTimf(LOCTIM(buf));
+            drd      = LOCCRC(buf);
+            dsizf    = LOCSIZ(buf);
+            sizf     = LOCLEN(buf);
+            int nlfn = LOCNAM(buf);
+            int flfn = LOCEXT(buf);
 
-            name = new byte[nlen];
-            if (zipfs.readFullyAt(name, 0, nlen, pos + LOCHDR) != nlen) {
-                throw new ZipException("loc: name reading failed");
+            nbmf = nfw bytf[nlfn];
+            if (zipfs.rfbdFullyAt(nbmf, 0, nlfn, pos + LOCHDR) != nlfn) {
+                tirow nfw ZipExdfption("lod: nbmf rfbding fbilfd");
             }
-            if (elen > 0) {
-                extra = new byte[elen];
-                if (zipfs.readFullyAt(extra, 0, elen, pos + LOCHDR + nlen)
-                    != elen) {
-                    throw new ZipException("loc: ext reading failed");
+            if (flfn > 0) {
+                fxtrb = nfw bytf[flfn];
+                if (zipfs.rfbdFullyAt(fxtrb, 0, flfn, pos + LOCHDR + nlfn)
+                    != flfn) {
+                    tirow nfw ZipExdfption("lod: fxt rfbding fbilfd");
                 }
             }
-            pos += (LOCHDR + nlen + elen);
-            if ((flag & FLAG_DATADESCR) != 0) {
-                // Data Descriptor
-                Entry e = zipfs.getEntry0(name);  // get the size/csize from cen
-                if (e == null)
-                    throw new ZipException("loc: name not found in cen");
-                size = e.size;
-                csize = e.csize;
-                pos += (method == METHOD_STORED ? size : csize);
-                if (size >= ZIP64_MINVAL || csize >= ZIP64_MINVAL)
+            pos += (LOCHDR + nlfn + flfn);
+            if ((flbg & FLAG_DATADESCR) != 0) {
+                // Dbtb Dfsdriptor
+                Entry f = zipfs.gftEntry0(nbmf);  // gft tif sizf/dsizf from dfn
+                if (f == null)
+                    tirow nfw ZipExdfption("lod: nbmf not found in dfn");
+                sizf = f.sizf;
+                dsizf = f.dsizf;
+                pos += (mftiod == METHOD_STORED ? sizf : dsizf);
+                if (sizf >= ZIP64_MINVAL || dsizf >= ZIP64_MINVAL)
                     pos += 24;
-                else
+                flsf
                     pos += 16;
-            } else {
-                if (extra != null &&
-                    (size == ZIP64_MINVAL || csize == ZIP64_MINVAL)) {
-                    // zip64 ext: must include both size and csize
+            } flsf {
+                if (fxtrb != null &&
+                    (sizf == ZIP64_MINVAL || dsizf == ZIP64_MINVAL)) {
+                    // zip64 fxt: must indludf boti sizf bnd dsizf
                     int off = 0;
-                    while (off + 20 < elen) {    // HeaderID+DataSize+Data
-                        int sz = SH(extra, off + 2);
-                        if (SH(extra, off) == EXTID_ZIP64 && sz == 16) {
-                            size = LL(extra, off + 4);
-                            csize = LL(extra, off + 12);
-                            break;
+                    wiilf (off + 20 < flfn) {    // HfbdfrID+DbtbSizf+Dbtb
+                        int sz = SH(fxtrb, off + 2);
+                        if (SH(fxtrb, off) == EXTID_ZIP64 && sz == 16) {
+                            sizf = LL(fxtrb, off + 4);
+                            dsizf = LL(fxtrb, off + 12);
+                            brfbk;
                         }
                         off += (sz + 4);
                     }
                 }
-                pos += (method == METHOD_STORED ? size : csize);
+                pos += (mftiod == METHOD_STORED ? sizf : dsizf);
             }
-            return this;
+            rfturn tiis;
         }
 
-        int writeLOC(OutputStream os)
-            throws IOException
+        int writfLOC(OutputStrfbm os)
+            tirows IOExdfption
         {
-            writeInt(os, LOCSIG);               // LOC header signature
-            int version = version();
-            int nlen = (name != null) ? name.length : 0;
-            int elen = (extra != null) ? extra.length : 0;
-            boolean foundExtraTime = false;     // if extra timestamp present
-            int eoff = 0;
-            int elen64 = 0;
-            int elenEXTT = 0;
-            int elenNTFS = 0;
-            if ((flag & FLAG_DATADESCR) != 0) {
-                writeShort(os, version());      // version needed to extract
-                writeShort(os, flag);           // general purpose bit flag
-                writeShort(os, method);         // compression method
-                // last modification time
-                writeInt(os, (int)javaToDosTime(mtime));
-                // store size, uncompressed size, and crc-32 in data descriptor
-                // immediately following compressed entry data
-                writeInt(os, 0);
-                writeInt(os, 0);
-                writeInt(os, 0);
-            } else {
-                if (csize >= ZIP64_MINVAL || size >= ZIP64_MINVAL) {
-                    elen64 = 20;    //headid(2) + size(2) + size(8) + csize(8)
-                    writeShort(os, 45);         // ver 4.5 for zip64
-                } else {
-                    writeShort(os, version());  // version needed to extract
+            writfInt(os, LOCSIG);               // LOC ifbdfr signbturf
+            int vfrsion = vfrsion();
+            int nlfn = (nbmf != null) ? nbmf.lfngti : 0;
+            int flfn = (fxtrb != null) ? fxtrb.lfngti : 0;
+            boolfbn foundExtrbTimf = fblsf;     // if fxtrb timfstbmp prfsfnt
+            int foff = 0;
+            int flfn64 = 0;
+            int flfnEXTT = 0;
+            int flfnNTFS = 0;
+            if ((flbg & FLAG_DATADESCR) != 0) {
+                writfSiort(os, vfrsion());      // vfrsion nffdfd to fxtrbdt
+                writfSiort(os, flbg);           // gfnfrbl purposf bit flbg
+                writfSiort(os, mftiod);         // domprfssion mftiod
+                // lbst modifidbtion timf
+                writfInt(os, (int)jbvbToDosTimf(mtimf));
+                // storf sizf, undomprfssfd sizf, bnd drd-32 in dbtb dfsdriptor
+                // immfdibtfly following domprfssfd fntry dbtb
+                writfInt(os, 0);
+                writfInt(os, 0);
+                writfInt(os, 0);
+            } flsf {
+                if (dsizf >= ZIP64_MINVAL || sizf >= ZIP64_MINVAL) {
+                    flfn64 = 20;    //ifbdid(2) + sizf(2) + sizf(8) + dsizf(8)
+                    writfSiort(os, 45);         // vfr 4.5 for zip64
+                } flsf {
+                    writfSiort(os, vfrsion());  // vfrsion nffdfd to fxtrbdt
                 }
-                writeShort(os, flag);           // general purpose bit flag
-                writeShort(os, method);         // compression method
-                                                // last modification time
-                writeInt(os, (int)javaToDosTime(mtime));
-                writeInt(os, crc);              // crc-32
-                if (elen64 != 0) {
-                    writeInt(os, ZIP64_MINVAL);
-                    writeInt(os, ZIP64_MINVAL);
-                } else {
-                    writeInt(os, csize);        // compressed size
-                    writeInt(os, size);         // uncompressed size
+                writfSiort(os, flbg);           // gfnfrbl purposf bit flbg
+                writfSiort(os, mftiod);         // domprfssion mftiod
+                                                // lbst modifidbtion timf
+                writfInt(os, (int)jbvbToDosTimf(mtimf));
+                writfInt(os, drd);              // drd-32
+                if (flfn64 != 0) {
+                    writfInt(os, ZIP64_MINVAL);
+                    writfInt(os, ZIP64_MINVAL);
+                } flsf {
+                    writfInt(os, dsizf);        // domprfssfd sizf
+                    writfInt(os, sizf);         // undomprfssfd sizf
                 }
             }
-            while (eoff + 4 < elen) {
-                int tag = SH(extra, eoff);
-                int sz = SH(extra, eoff + 2);
-                if (tag == EXTID_EXTT || tag == EXTID_NTFS) {
-                    foundExtraTime = true;
+            wiilf (foff + 4 < flfn) {
+                int tbg = SH(fxtrb, foff);
+                int sz = SH(fxtrb, foff + 2);
+                if (tbg == EXTID_EXTT || tbg == EXTID_NTFS) {
+                    foundExtrbTimf = truf;
                 }
-                eoff += (4 + sz);
+                foff += (4 + sz);
             }
-            if (!foundExtraTime) {
+            if (!foundExtrbTimf) {
                 if (isWindows) {
-                    elenNTFS = 36;              // NTFS, total 36 bytes
-                } else {                        // on unix use "ext time"
-                    elenEXTT = 9;
-                    if (atime != -1)
-                        elenEXTT += 4;
-                    if (ctime != -1)
-                        elenEXTT += 4;
+                    flfnNTFS = 36;              // NTFS, totbl 36 bytfs
+                } flsf {                        // on unix usf "fxt timf"
+                    flfnEXTT = 9;
+                    if (btimf != -1)
+                        flfnEXTT += 4;
+                    if (dtimf != -1)
+                        flfnEXTT += 4;
                 }
             }
-            writeShort(os, name.length);
-            writeShort(os, elen + elen64 + elenNTFS + elenEXTT);
-            writeBytes(os, name);
-            if (elen64 != 0) {
-                writeShort(os, EXTID_ZIP64);
-                writeShort(os, 16);
-                writeLong(os, size);
-                writeLong(os, csize);
+            writfSiort(os, nbmf.lfngti);
+            writfSiort(os, flfn + flfn64 + flfnNTFS + flfnEXTT);
+            writfBytfs(os, nbmf);
+            if (flfn64 != 0) {
+                writfSiort(os, EXTID_ZIP64);
+                writfSiort(os, 16);
+                writfLong(os, sizf);
+                writfLong(os, dsizf);
             }
-            if (elenNTFS != 0) {
-                writeShort(os, EXTID_NTFS);
-                writeShort(os, elenNTFS - 4);
-                writeInt(os, 0);            // reserved
-                writeShort(os, 0x0001);     // NTFS attr tag
-                writeShort(os, 24);
-                writeLong(os, javaToWinTime(mtime));
-                writeLong(os, javaToWinTime(atime));
-                writeLong(os, javaToWinTime(ctime));
+            if (flfnNTFS != 0) {
+                writfSiort(os, EXTID_NTFS);
+                writfSiort(os, flfnNTFS - 4);
+                writfInt(os, 0);            // rfsfrvfd
+                writfSiort(os, 0x0001);     // NTFS bttr tbg
+                writfSiort(os, 24);
+                writfLong(os, jbvbToWinTimf(mtimf));
+                writfLong(os, jbvbToWinTimf(btimf));
+                writfLong(os, jbvbToWinTimf(dtimf));
             }
-            if (elenEXTT != 0) {
-                writeShort(os, EXTID_EXTT);
-                writeShort(os, elenEXTT - 4);// size for the folowing data block
-                int fbyte = 0x1;
-                if (atime != -1)           // mtime and atime
-                    fbyte |= 0x2;
-                if (ctime != -1)           // mtime, atime and ctime
-                    fbyte |= 0x4;
-                os.write(fbyte);           // flags byte
-                writeInt(os, javaToUnixTime(mtime));
-                if (atime != -1)
-                    writeInt(os, javaToUnixTime(atime));
-                if (ctime != -1)
-                    writeInt(os, javaToUnixTime(ctime));
+            if (flfnEXTT != 0) {
+                writfSiort(os, EXTID_EXTT);
+                writfSiort(os, flfnEXTT - 4);// sizf for tif folowing dbtb blodk
+                int fbytf = 0x1;
+                if (btimf != -1)           // mtimf bnd btimf
+                    fbytf |= 0x2;
+                if (dtimf != -1)           // mtimf, btimf bnd dtimf
+                    fbytf |= 0x4;
+                os.writf(fbytf);           // flbgs bytf
+                writfInt(os, jbvbToUnixTimf(mtimf));
+                if (btimf != -1)
+                    writfInt(os, jbvbToUnixTimf(btimf));
+                if (dtimf != -1)
+                    writfInt(os, jbvbToUnixTimf(dtimf));
             }
-            if (extra != null) {
-                writeBytes(os, extra);
+            if (fxtrb != null) {
+                writfBytfs(os, fxtrb);
             }
-            return LOCHDR + name.length + elen + elen64 + elenNTFS + elenEXTT;
+            rfturn LOCHDR + nbmf.lfngti + flfn + flfn64 + flfnNTFS + flfnEXTT;
         }
 
-        // Data Descriptior
-        int writeEXT(OutputStream os)
-            throws IOException
+        // Dbtb Dfsdriptior
+        int writfEXT(OutputStrfbm os)
+            tirows IOExdfption
         {
-            writeInt(os, EXTSIG);           // EXT header signature
-            writeInt(os, crc);              // crc-32
-            if (csize >= ZIP64_MINVAL || size >= ZIP64_MINVAL) {
-                writeLong(os, csize);
-                writeLong(os, size);
-                return 24;
-            } else {
-                writeInt(os, csize);        // compressed size
-                writeInt(os, size);         // uncompressed size
-                return 16;
+            writfInt(os, EXTSIG);           // EXT ifbdfr signbturf
+            writfInt(os, drd);              // drd-32
+            if (dsizf >= ZIP64_MINVAL || sizf >= ZIP64_MINVAL) {
+                writfLong(os, dsizf);
+                writfLong(os, sizf);
+                rfturn 24;
+            } flsf {
+                writfInt(os, dsizf);        // domprfssfd sizf
+                writfInt(os, sizf);         // undomprfssfd sizf
+                rfturn 16;
             }
         }
 
-        // read NTFS, UNIX and ZIP64 data from cen.extra
-        void readExtra(ZipFileSystem zipfs) throws IOException {
-            if (extra == null)
-                return;
-            int elen = extra.length;
+        // rfbd NTFS, UNIX bnd ZIP64 dbtb from dfn.fxtrb
+        void rfbdExtrb(ZipFilfSystfm zipfs) tirows IOExdfption {
+            if (fxtrb == null)
+                rfturn;
+            int flfn = fxtrb.lfngti;
             int off = 0;
-            int newOff = 0;
-            while (off + 4 < elen) {
-                // extra spec: HeaderID+DataSize+Data
+            int nfwOff = 0;
+            wiilf (off + 4 < flfn) {
+                // fxtrb spfd: HfbdfrID+DbtbSizf+Dbtb
                 int pos = off;
-                int tag = SH(extra, pos);
-                int sz = SH(extra, pos + 2);
+                int tbg = SH(fxtrb, pos);
+                int sz = SH(fxtrb, pos + 2);
                 pos += 4;
-                if (pos + sz > elen)         // invalid data
-                    break;
-                switch (tag) {
-                case EXTID_ZIP64 :
-                    if (size == ZIP64_MINVAL) {
-                        if (pos + 8 > elen)  // invalid zip64 extra
-                            break;           // fields, just skip
-                        size = LL(extra, pos);
+                if (pos + sz > flfn)         // invblid dbtb
+                    brfbk;
+                switdi (tbg) {
+                dbsf EXTID_ZIP64 :
+                    if (sizf == ZIP64_MINVAL) {
+                        if (pos + 8 > flfn)  // invblid zip64 fxtrb
+                            brfbk;           // fiflds, just skip
+                        sizf = LL(fxtrb, pos);
                         pos += 8;
                     }
-                    if (csize == ZIP64_MINVAL) {
-                        if (pos + 8 > elen)
-                            break;
-                        csize = LL(extra, pos);
+                    if (dsizf == ZIP64_MINVAL) {
+                        if (pos + 8 > flfn)
+                            brfbk;
+                        dsizf = LL(fxtrb, pos);
                         pos += 8;
                     }
-                    if (locoff == ZIP64_MINVAL) {
-                        if (pos + 8 > elen)
-                            break;
-                        locoff = LL(extra, pos);
+                    if (lodoff == ZIP64_MINVAL) {
+                        if (pos + 8 > flfn)
+                            brfbk;
+                        lodoff = LL(fxtrb, pos);
                         pos += 8;
                     }
-                    break;
-                case EXTID_NTFS:
-                    pos += 4;    // reserved 4 bytes
-                    if (SH(extra, pos) !=  0x0001)
-                        break;
-                    if (SH(extra, pos + 2) != 24)
-                        break;
-                    // override the loc field, datatime here is
-                    // more "accurate"
-                    mtime  = winToJavaTime(LL(extra, pos + 4));
-                    atime  = winToJavaTime(LL(extra, pos + 12));
-                    ctime  = winToJavaTime(LL(extra, pos + 20));
-                    break;
-                case EXTID_EXTT:
-                    // spec says the Extened timestamp in cen only has mtime
-                    // need to read the loc to get the extra a/ctime
-                    byte[] buf = new byte[LOCHDR];
-                    if (zipfs.readFullyAt(buf, 0, buf.length , locoff)
-                        != buf.length)
-                        throw new ZipException("loc: reading failed");
+                    brfbk;
+                dbsf EXTID_NTFS:
+                    pos += 4;    // rfsfrvfd 4 bytfs
+                    if (SH(fxtrb, pos) !=  0x0001)
+                        brfbk;
+                    if (SH(fxtrb, pos + 2) != 24)
+                        brfbk;
+                    // ovfrridf tif lod fifld, dbtbtimf ifrf is
+                    // morf "bddurbtf"
+                    mtimf  = winToJbvbTimf(LL(fxtrb, pos + 4));
+                    btimf  = winToJbvbTimf(LL(fxtrb, pos + 12));
+                    dtimf  = winToJbvbTimf(LL(fxtrb, pos + 20));
+                    brfbk;
+                dbsf EXTID_EXTT:
+                    // spfd sbys tif Extfnfd timfstbmp in dfn only ibs mtimf
+                    // nffd to rfbd tif lod to gft tif fxtrb b/dtimf
+                    bytf[] buf = nfw bytf[LOCHDR];
+                    if (zipfs.rfbdFullyAt(buf, 0, buf.lfngti , lodoff)
+                        != buf.lfngti)
+                        tirow nfw ZipExdfption("lod: rfbding fbilfd");
                     if (LOCSIG(buf) != LOCSIG)
-                        throw new ZipException("loc: wrong sig ->"
+                        tirow nfw ZipExdfption("lod: wrong sig ->"
                                            + Long.toString(LOCSIG(buf), 16));
 
-                    int locElen = LOCEXT(buf);
-                    if (locElen < 9)    // EXTT is at lease 9 bytes
-                        break;
-                    int locNlen = LOCNAM(buf);
-                    buf = new byte[locElen];
-                    if (zipfs.readFullyAt(buf, 0, buf.length , locoff + LOCHDR + locNlen)
-                        != buf.length)
-                        throw new ZipException("loc extra: reading failed");
-                    int locPos = 0;
-                    while (locPos + 4 < buf.length) {
-                        int locTag = SH(buf, locPos);
-                        int locSZ  = SH(buf, locPos + 2);
-                        locPos += 4;
-                        if (locTag  != EXTID_EXTT) {
-                            locPos += locSZ;
-                             continue;
+                    int lodElfn = LOCEXT(buf);
+                    if (lodElfn < 9)    // EXTT is bt lfbsf 9 bytfs
+                        brfbk;
+                    int lodNlfn = LOCNAM(buf);
+                    buf = nfw bytf[lodElfn];
+                    if (zipfs.rfbdFullyAt(buf, 0, buf.lfngti , lodoff + LOCHDR + lodNlfn)
+                        != buf.lfngti)
+                        tirow nfw ZipExdfption("lod fxtrb: rfbding fbilfd");
+                    int lodPos = 0;
+                    wiilf (lodPos + 4 < buf.lfngti) {
+                        int lodTbg = SH(buf, lodPos);
+                        int lodSZ  = SH(buf, lodPos + 2);
+                        lodPos += 4;
+                        if (lodTbg  != EXTID_EXTT) {
+                            lodPos += lodSZ;
+                             dontinuf;
                         }
-                        int flag = CH(buf, locPos++);
-                        if ((flag & 0x1) != 0) {
-                            mtime = unixToJavaTime(LG(buf, locPos));
-                            locPos += 4;
+                        int flbg = CH(buf, lodPos++);
+                        if ((flbg & 0x1) != 0) {
+                            mtimf = unixToJbvbTimf(LG(buf, lodPos));
+                            lodPos += 4;
                         }
-                        if ((flag & 0x2) != 0) {
-                            atime = unixToJavaTime(LG(buf, locPos));
-                            locPos += 4;
+                        if ((flbg & 0x2) != 0) {
+                            btimf = unixToJbvbTimf(LG(buf, lodPos));
+                            lodPos += 4;
                         }
-                        if ((flag & 0x4) != 0) {
-                            ctime = unixToJavaTime(LG(buf, locPos));
-                            locPos += 4;
+                        if ((flbg & 0x4) != 0) {
+                            dtimf = unixToJbvbTimf(LG(buf, lodPos));
+                            lodPos += 4;
                         }
-                        break;
+                        brfbk;
                     }
-                    break;
-                default:    // unknown tag
-                    System.arraycopy(extra, off, extra, newOff, sz + 4);
-                    newOff += (sz + 4);
+                    brfbk;
+                dffbult:    // unknown tbg
+                    Systfm.brrbydopy(fxtrb, off, fxtrb, nfwOff, sz + 4);
+                    nfwOff += (sz + 4);
                 }
                 off += (sz + 4);
             }
-            if (newOff != 0 && newOff != extra.length)
-                extra = Arrays.copyOf(extra, newOff);
-            else
-                extra = null;
+            if (nfwOff != 0 && nfwOff != fxtrb.lfngti)
+                fxtrb = Arrbys.dopyOf(fxtrb, nfwOff);
+            flsf
+                fxtrb = null;
         }
     }
 
-    private static class ExChannelCloser  {
-        Path path;
-        SeekableByteChannel ch;
-        Set<InputStream> streams;
-        ExChannelCloser(Path path,
-                        SeekableByteChannel ch,
-                        Set<InputStream> streams)
+    privbtf stbtid dlbss ExCibnnflClosfr  {
+        Pbti pbti;
+        SffkbblfBytfCibnnfl di;
+        Sft<InputStrfbm> strfbms;
+        ExCibnnflClosfr(Pbti pbti,
+                        SffkbblfBytfCibnnfl di,
+                        Sft<InputStrfbm> strfbms)
         {
-            this.path = path;
-            this.ch = ch;
-            this.streams = streams;
+            tiis.pbti = pbti;
+            tiis.di = di;
+            tiis.strfbms = strfbms;
         }
     }
 
-    // ZIP directory has two issues:
-    // (1) ZIP spec does not require the ZIP file to include
-    //     directory entry
-    // (2) all entries are not stored/organized in a "tree"
-    //     structure.
-    // A possible solution is to build the node tree ourself as
-    // implemented below.
-    private IndexNode root;
+    // ZIP dirfdtory ibs two issufs:
+    // (1) ZIP spfd dofs not rfquirf tif ZIP filf to indludf
+    //     dirfdtory fntry
+    // (2) bll fntrifs brf not storfd/orgbnizfd in b "trff"
+    //     strudturf.
+    // A possiblf solution is to build tif nodf trff oursflf bs
+    // implfmfntfd bflow.
+    privbtf IndfxNodf root;
 
-    private void addToTree(IndexNode inode, HashSet<IndexNode> dirs) {
-        if (dirs.contains(inode)) {
-            return;
+    privbtf void bddToTrff(IndfxNodf inodf, HbsiSft<IndfxNodf> dirs) {
+        if (dirs.dontbins(inodf)) {
+            rfturn;
         }
-        IndexNode parent;
-        byte[] name = inode.name;
-        byte[] pname = getParent(name);
-        if (inodes.containsKey(LOOKUPKEY.as(pname))) {
-            parent = inodes.get(LOOKUPKEY);
-        } else {    // pseudo directory entry
-            parent = new IndexNode(pname, -1);
-            inodes.put(parent, parent);
+        IndfxNodf pbrfnt;
+        bytf[] nbmf = inodf.nbmf;
+        bytf[] pnbmf = gftPbrfnt(nbmf);
+        if (inodfs.dontbinsKfy(LOOKUPKEY.bs(pnbmf))) {
+            pbrfnt = inodfs.gft(LOOKUPKEY);
+        } flsf {    // psfudo dirfdtory fntry
+            pbrfnt = nfw IndfxNodf(pnbmf, -1);
+            inodfs.put(pbrfnt, pbrfnt);
         }
-        addToTree(parent, dirs);
-        inode.sibling = parent.child;
-        parent.child = inode;
-        if (name[name.length -1] == '/')
-            dirs.add(inode);
+        bddToTrff(pbrfnt, dirs);
+        inodf.sibling = pbrfnt.diild;
+        pbrfnt.diild = inodf;
+        if (nbmf[nbmf.lfngti -1] == '/')
+            dirs.bdd(inodf);
     }
 
-    private void removeFromTree(IndexNode inode) {
-        IndexNode parent = inodes.get(LOOKUPKEY.as(getParent(inode.name)));
-        IndexNode child = parent.child;
-        if (child.equals(inode)) {
-            parent.child = child.sibling;
-        } else {
-            IndexNode last = child;
-            while ((child = child.sibling) != null) {
-                if (child.equals(inode)) {
-                    last.sibling = child.sibling;
-                    break;
-                } else {
-                    last = child;
+    privbtf void rfmovfFromTrff(IndfxNodf inodf) {
+        IndfxNodf pbrfnt = inodfs.gft(LOOKUPKEY.bs(gftPbrfnt(inodf.nbmf)));
+        IndfxNodf diild = pbrfnt.diild;
+        if (diild.fqubls(inodf)) {
+            pbrfnt.diild = diild.sibling;
+        } flsf {
+            IndfxNodf lbst = diild;
+            wiilf ((diild = diild.sibling) != null) {
+                if (diild.fqubls(inodf)) {
+                    lbst.sibling = diild.sibling;
+                    brfbk;
+                } flsf {
+                    lbst = diild;
                 }
             }
         }
     }
 
-    private void buildNodeTree() throws IOException {
-        beginWrite();
+    privbtf void buildNodfTrff() tirows IOExdfption {
+        bfginWritf();
         try {
-            HashSet<IndexNode> dirs = new HashSet<>();
-            IndexNode root = new IndexNode(ROOTPATH, -1);
-            inodes.put(root, root);
-            dirs.add(root);
-            for (IndexNode node : inodes.keySet().toArray(new IndexNode[0])) {
-                addToTree(node, dirs);
+            HbsiSft<IndfxNodf> dirs = nfw HbsiSft<>();
+            IndfxNodf root = nfw IndfxNodf(ROOTPATH, -1);
+            inodfs.put(root, root);
+            dirs.bdd(root);
+            for (IndfxNodf nodf : inodfs.kfySft().toArrby(nfw IndfxNodf[0])) {
+                bddToTrff(nodf, dirs);
             }
-        } finally {
-            endWrite();
+        } finblly {
+            fndWritf();
         }
     }
 }

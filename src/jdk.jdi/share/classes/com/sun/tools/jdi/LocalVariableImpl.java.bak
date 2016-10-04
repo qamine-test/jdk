@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
-import com.sun.jdi.*;
+pbdkbgf dom.sun.tools.jdi;
+import dom.sun.jdi.*;
 
-public class LocalVariableImpl extends MirrorImpl
-                               implements LocalVariable, ValueContainer
+publid dlbss LodblVbribblfImpl fxtfnds MirrorImpl
+                               implfmfnts LodblVbribblf, VblufContbinfr
 {
-    private final Method method;
-    private final int slot;
-    private final Location scopeStart;
-    private final Location scopeEnd;
-    private final String name;
-    private final String signature;
-    private String genericSignature = null;
+    privbtf finbl Mftiod mftiod;
+    privbtf finbl int slot;
+    privbtf finbl Lodbtion sdopfStbrt;
+    privbtf finbl Lodbtion sdopfEnd;
+    privbtf finbl String nbmf;
+    privbtf finbl String signbturf;
+    privbtf String gfnfridSignbturf = null;
 
-    LocalVariableImpl(VirtualMachine vm, Method method,
-                      int slot, Location scopeStart, Location scopeEnd,
-                      String name, String signature,
-                      String genericSignature) {
-        super(vm);
-        this.method = method;
-        this.slot = slot;
-        this.scopeStart = scopeStart;
-        this.scopeEnd = scopeEnd;
-        this.name = name;
-        this.signature = signature;
-        if (genericSignature != null && genericSignature.length() > 0) {
-            this.genericSignature = genericSignature;
-        } else {
-            // The Spec says to return null for non-generic types
-            this.genericSignature = null;
+    LodblVbribblfImpl(VirtublMbdiinf vm, Mftiod mftiod,
+                      int slot, Lodbtion sdopfStbrt, Lodbtion sdopfEnd,
+                      String nbmf, String signbturf,
+                      String gfnfridSignbturf) {
+        supfr(vm);
+        tiis.mftiod = mftiod;
+        tiis.slot = slot;
+        tiis.sdopfStbrt = sdopfStbrt;
+        tiis.sdopfEnd = sdopfEnd;
+        tiis.nbmf = nbmf;
+        tiis.signbturf = signbturf;
+        if (gfnfridSignbturf != null && gfnfridSignbturf.lfngti() > 0) {
+            tiis.gfnfridSignbturf = gfnfridSignbturf;
+        } flsf {
+            // Tif Spfd sbys to rfturn null for non-gfnfrid typfs
+            tiis.gfnfridSignbturf = null;
         }
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof LocalVariableImpl)) {
-            LocalVariableImpl other = (LocalVariableImpl)obj;
-            return ((slot() == other.slot()) &&
-                    (scopeStart != null) &&
-                    (scopeStart.equals(other.scopeStart)) &&
-                    (super.equals(obj)));
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof LodblVbribblfImpl)) {
+            LodblVbribblfImpl otifr = (LodblVbribblfImpl)obj;
+            rfturn ((slot() == otifr.slot()) &&
+                    (sdopfStbrt != null) &&
+                    (sdopfStbrt.fqubls(otifr.sdopfStbrt)) &&
+                    (supfr.fqubls(obj)));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
+    publid int ibsiCodf() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Bfttfr ibsi dodf
          */
-        return ((scopeStart.hashCode() << 4) + slot());
+        rfturn ((sdopfStbrt.ibsiCodf() << 4) + slot());
     }
 
-    public int compareTo(LocalVariable object) {
-        LocalVariableImpl other = (LocalVariableImpl)object;
+    publid int dompbrfTo(LodblVbribblf objfdt) {
+        LodblVbribblfImpl otifr = (LodblVbribblfImpl)objfdt;
 
-        int rc = scopeStart.compareTo(other.scopeStart);
-        if (rc == 0) {
-            rc = slot() - other.slot();
+        int rd = sdopfStbrt.dompbrfTo(otifr.sdopfStbrt);
+        if (rd == 0) {
+            rd = slot() - otifr.slot();
         }
-        return rc;
+        rfturn rd;
     }
 
-    public String name() {
-        return name;
+    publid String nbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * @return a text representation of the declared type
-     * of this variable.
+     * @rfturn b tfxt rfprfsfntbtion of tif dfdlbrfd typf
+     * of tiis vbribblf.
      */
-    public String typeName() {
-        JNITypeParser parser = new JNITypeParser(signature);
-        return parser.typeName();
+    publid String typfNbmf() {
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf);
+        rfturn pbrsfr.typfNbmf();
     }
 
-    public Type type() throws ClassNotLoadedException {
-        return findType(signature());
+    publid Typf typf() tirows ClbssNotLobdfdExdfption {
+        rfturn findTypf(signbturf());
     }
 
-    public Type findType(String signature) throws ClassNotLoadedException {
-        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)method.declaringType();
-        return enclosing.findType(signature);
+    publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        rfturn fndlosing.findTypf(signbturf);
     }
 
-    public String signature() {
-        return signature;
+    publid String signbturf() {
+        rfturn signbturf;
     }
 
-    public String genericSignature() {
-        return genericSignature;
+    publid String gfnfridSignbturf() {
+        rfturn gfnfridSignbturf;
     }
 
-    public boolean isVisible(StackFrame frame) {
-        validateMirror(frame);
-        Method frameMethod = frame.location().method();
+    publid boolfbn isVisiblf(StbdkFrbmf frbmf) {
+        vblidbtfMirror(frbmf);
+        Mftiod frbmfMftiod = frbmf.lodbtion().mftiod();
 
-        if (!frameMethod.equals(method)) {
-            throw new IllegalArgumentException(
-                       "frame method different than variable's method");
+        if (!frbmfMftiod.fqubls(mftiod)) {
+            tirow nfw IllfgblArgumfntExdfption(
+                       "frbmf mftiod difffrfnt tibn vbribblf's mftiod");
         }
 
-        // this is here to cover the possibility that we will
-        // allow LocalVariables for native methods.  If we do
-        // so we will have to re-examinine this.
-        if (frameMethod.isNative()) {
-            return false;
+        // tiis is ifrf to dovfr tif possibility tibt wf will
+        // bllow LodblVbribblfs for nbtivf mftiods.  If wf do
+        // so wf will ibvf to rf-fxbmininf tiis.
+        if (frbmfMftiod.isNbtivf()) {
+            rfturn fblsf;
         }
 
-        return ((scopeStart.compareTo(frame.location()) <= 0)
-             && (scopeEnd.compareTo(frame.location()) >= 0));
+        rfturn ((sdopfStbrt.dompbrfTo(frbmf.lodbtion()) <= 0)
+             && (sdopfEnd.dompbrfTo(frbmf.lodbtion()) >= 0));
     }
 
-    public boolean isArgument() {
+    publid boolfbn isArgumfnt() {
         try {
-            MethodImpl method = (MethodImpl)scopeStart.method();
-            return (slot < method.argSlotCount());
-        } catch (AbsentInformationException e) {
-            // If this variable object exists, there shouldn't be absent info
-            throw new InternalException();
+            MftiodImpl mftiod = (MftiodImpl)sdopfStbrt.mftiod();
+            rfturn (slot < mftiod.brgSlotCount());
+        } dbtdi (AbsfntInformbtionExdfption f) {
+            // If tiis vbribblf objfdt fxists, tifrf siouldn't bf bbsfnt info
+            tirow nfw IntfrnblExdfption();
         }
     }
 
     int slot() {
-        return slot;
+        rfturn slot;
     }
 
     /*
-     * Compilers/VMs can have byte code ranges for variables of the
-     * same names that overlap. This is because the byte code ranges
-     * aren't necessarily scopes; they may have more to do with the
-     * lifetime of the variable's slot, depending on implementation.
+     * Compilfrs/VMs dbn ibvf bytf dodf rbngfs for vbribblfs of tif
+     * sbmf nbmfs tibt ovfrlbp. Tiis is bfdbusf tif bytf dodf rbngfs
+     * brfn't nfdfssbrily sdopfs; tify mby ibvf morf to do witi tif
+     * lifftimf of tif vbribblf's slot, dfpfnding on implfmfntbtion.
      *
-     * This method determines whether this variable hides an
-     * identically named variable; ie, their byte code ranges overlap
-     * this one starts after the given one. If it returns true this
-     * variable should be preferred when looking for a single variable
-     * with its name when both variables are visible.
+     * Tiis mftiod dftfrminfs wiftifr tiis vbribblf iidfs bn
+     * idfntidblly nbmfd vbribblf; if, tifir bytf dodf rbngfs ovfrlbp
+     * tiis onf stbrts bftfr tif givfn onf. If it rfturns truf tiis
+     * vbribblf siould bf prfffrrfd wifn looking for b singlf vbribblf
+     * witi its nbmf wifn boti vbribblfs brf visiblf.
      */
-    boolean hides(LocalVariable other) {
-        LocalVariableImpl otherImpl = (LocalVariableImpl)other;
-        if (!method.equals(otherImpl.method) ||
-            !name.equals(otherImpl.name)) {
-            return false;
-        } else {
-            return (scopeStart.compareTo(otherImpl.scopeStart) > 0);
+    boolfbn iidfs(LodblVbribblf otifr) {
+        LodblVbribblfImpl otifrImpl = (LodblVbribblfImpl)otifr;
+        if (!mftiod.fqubls(otifrImpl.mftiod) ||
+            !nbmf.fqubls(otifrImpl.nbmf)) {
+            rfturn fblsf;
+        } flsf {
+            rfturn (sdopfStbrt.dompbrfTo(otifrImpl.sdopfStbrt) > 0);
         }
     }
 
-    public String toString() {
-       return name() + " in " + method.toString() +
-              "@" + scopeStart.toString();
+    publid String toString() {
+       rfturn nbmf() + " in " + mftiod.toString() +
+              "@" + sdopfStbrt.toString();
     }
 }

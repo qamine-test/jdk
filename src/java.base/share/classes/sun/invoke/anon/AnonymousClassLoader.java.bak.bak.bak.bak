@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.invokf.bnon;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import sun.misd.IOUtils;
+
+/**
+ * Anonymous dlbss lobdfr.  Will lobd bny vblid dlbssfilf, produding
+ * b {@link Clbss} mftbobjfdt, without instblling thbt dlbss in thf
+ * systfm didtionbry.  Thfrfforf, {@link Clbss#forNbmf(String)} will nfvfr
+ * produdf b rfffrfndf to bn bnonymous dlbss.
+ * <p>
+ * Thf bddfss pfrmissions of thf bnonymous dlbss brf borrowfd from
+ * b <fm>host dlbss</fm>.  Thf nfw dlbss bfhbvfs bs if it wfrf bn
+ * innfr dlbss of thf host dlbss.  It dbn bddfss thf host's privbtf
+ * mfmbfrs, if thf drfbtor of thf dlbss lobdfr hbs pfrmission to
+ * do so (or to drfbtf bddfssiblf rfflfdtivf objfdts).
+ * <p>
+ * Whfn thf bnonymous dlbss is lobdfd, flfmfnts of its donstbnt pool
+ * dbn bf pbtdhfd to nfw vblufs.  This providfs b hook to prf-rfsolvf
+ * nbmfd dlbssfs in thf donstbnt pool to othfr dlbssfs, indluding
+ * bnonymous onfs.  Also, string donstbnts dbn bf prf-rfsolvfd to
+ * bny rfffrfndf.  (Thf vfrififr trfbts non-string, non-dlbss rfffrfndf
+ * donstbnts bs plbin objfdts.)
+ *  <p>
+ * Why indludf thf pbtdhing fundtion?  It mbkfs somf usf dbsfs mudh fbsifr.
+ * Sfdond, thf donstbnt pool nffdfd somf intfrnbl pbtdhing bnywby,
+ * to bnonymizf thf lobdfd dlbss itsflf.  Finblly, if you brf going
+ * to usf this sfriously, you'll wbnt to build bnonymous dlbssfs
+ * on top of prf-fxisting bnonymous dlbssfs, bnd thbt rfquirfs pbtdhing.
+ *
+ * <p>%%% TO-DO:
+ * <ul>
+ * <li>nffds bfttfr dodumfntbtion</li>
+ * <li>nffds morf sfdurity work (for sbff dflfgbtion)</li>
+ * <li>nffds b dlfbrfr story bbout frror prodfssing</li>
+ * <li>pbtdh mfmbfr rfffrfndfs blso (usf ';' bs dflimitfr dhbr)</li>
+ * <li>pbtdh mfthod rfffrfndfs to (donforming) mfthod hbndlfs</li>
+ * </ul>
+ *
+ * @buthor jrosf
+ * @buthor Rfmi Forbx
+ * @sff <b hrff="http://blogs.sun.dom/jrosf/fntry/bnonymous_dlbssfs_in_thf_vm">
+ *      http://blogs.sun.dom/jrosf/fntry/bnonymous_dlbssfs_in_thf_vm</b>
+ */
+
+publid dlbss AnonymousClbssLobdfr {
+    finbl Clbss<?> hostClbss;
+
+    // Privilfgfd donstrudtor.
+    privbtf AnonymousClbssLobdfr(Clbss<?> hostClbss) {
+        this.hostClbss = hostClbss;
+    }
+
+    publid stbtid AnonymousClbssLobdfr mbkf(sun.misd.Unsbff unsbff, Clbss<?> hostClbss) {
+        if (unsbff == null)  throw nfw NullPointfrExdfption();
+        rfturn nfw AnonymousClbssLobdfr(hostClbss);
+    }
+
+    publid Clbss<?> lobdClbss(bytf[] dlbssFilf) {
+        if (dffinfAnonymousClbss == null) {
+            // no JVM support; try to fbkf bn bpproximbtion
+            try {
+                rfturn fbkfLobdClbss(nfw ConstbntPoolPbrsfr(dlbssFilf).drfbtfPbtdh());
+            } dbtdh (InvblidConstbntPoolFormbtExdfption ff) {
+                throw nfw IllfgblArgumfntExdfption(ff);
+            }
+        }
+        rfturn lobdClbss(dlbssFilf, null);
+    }
+
+    publid Clbss<?> lobdClbss(ConstbntPoolPbtdh dlbssPbtdh) {
+        if (dffinfAnonymousClbss == null) {
+            // no JVM support; try to fbkf bn bpproximbtion
+            rfturn fbkfLobdClbss(dlbssPbtdh);
+        }
+        Objfdt[] pbtdhfs = dlbssPbtdh.pbtdhArrby;
+        // Convfrt dlbss nbmfs (this lbtf in thf gbmf)
+        // to usf slbsh '/' instfbd of dot '.'.
+        // Jbvb likfs dots, but thf JVM likfs slbshfs.
+        for (int i = 0; i < pbtdhfs.lfngth; i++) {
+            Objfdt vbluf = pbtdhfs[i];
+            if (vbluf != null) {
+                bytf tbg = dlbssPbtdh.gftTbg(i);
+                switdh (tbg) {
+                dbsf ConstbntPoolVisitor.CONSTANT_Clbss:
+                    if (vbluf instbndfof String) {
+                        if (pbtdhfs == dlbssPbtdh.pbtdhArrby)
+                            pbtdhfs = pbtdhfs.dlonf();
+                        pbtdhfs[i] = ((String)vbluf).rfplbdf('.', '/');
+                    }
+                    brfbk;
+                dbsf ConstbntPoolVisitor.CONSTANT_Fifldrff:
+                dbsf ConstbntPoolVisitor.CONSTANT_Mfthodrff:
+                dbsf ConstbntPoolVisitor.CONSTANT_IntfrfbdfMfthodrff:
+                dbsf ConstbntPoolVisitor.CONSTANT_NbmfAndTypf:
+                    // Whfn/if thf JVM supports thfsf pbtdhfs,
+                    // wf'll probbbly nffd to rfformbt thfm blso.
+                    // Mfbnwhilf, lft thf dlbss lobdfr drfbtf thf frror.
+                    brfbk;
+                }
+            }
+        }
+        rfturn lobdClbss(dlbssPbtdh.outfr.dlbssFilf, dlbssPbtdh.pbtdhArrby);
+    }
+
+    privbtf Clbss<?> lobdClbss(bytf[] dlbssFilf, Objfdt[] pbtdhArrby) {
+        try {
+            rfturn (Clbss<?>)
+                dffinfAnonymousClbss.invokf(unsbff,
+                                            hostClbss, dlbssFilf, pbtdhArrby);
+        } dbtdh (Exdfption fx) {
+            throwRfflfdtfdExdfption(fx);
+            throw nfw RuntimfExdfption("frror lobding into "+hostClbss, fx);
+        }
+    }
+
+    privbtf stbtid void throwRfflfdtfdExdfption(Exdfption fx) {
+        if (fx instbndfof InvodbtionTbrgftExdfption) {
+            Throwbblf tfx = ((InvodbtionTbrgftExdfption)fx).gftTbrgftExdfption();
+            if (tfx instbndfof Error)
+                throw (Error) tfx;
+            fx = (Exdfption) tfx;
+        }
+        if (fx instbndfof RuntimfExdfption) {
+            throw (RuntimfExdfption) fx;
+        }
+    }
+
+    privbtf Clbss<?> fbkfLobdClbss(ConstbntPoolPbtdh dlbssPbtdh) {
+        // Implfmfntbtion:
+        // 1. Mbkf up b nfw nbmf nobody hbs usfd yft.
+        // 2. Inspfdt thf tbil-hfbdfr of thf dlbss to find thf this_dlbss indfx.
+        // 3. Pbtdh thf CONSTANT_Clbss for this_dlbss to thf nfw nbmf.
+        // 4. Add othfr CP fntrifs rfquirfd by (f.g.) string pbtdhfs.
+        // 5. Flbttfn Clbss donstbnts down to thfir nbmfs, mbking surf thbt
+        //    thf host dlbss lobdfr dbn pidk thfm up bgbin bddurbtfly.
+        // 6. Gfnfrbtf thf fditfd dlbss filf bytfs.
+        //
+        // Potfntibl limitbtions:
+        // * Thf dlbss won't bf truly bnonymous, bnd mby intfrffrf with othfrs.
+        // * Flbttfnfd dlbss donstbnts might not work, bfdbusf of lobdfr issufs.
+        // * Psfudo-string donstbnts will not flbttfn down to rfbl strings.
+        // * Mfthod hbndlfs will (of doursf) fbil to flbttfn to linkbgf strings.
+        if (truf)  throw nfw UnsupportfdOpfrbtionExdfption("NYI");
+        Objfdt[] dpArrby;
+        try {
+            dpArrby = dlbssPbtdh.gftOriginblCP();
+        } dbtdh (InvblidConstbntPoolFormbtExdfption fx) {
+            throw nfw RuntimfExdfption(fx);
+        }
+        int thisClbssIndfx = dlbssPbtdh.gftPbrsfr().gftThisClbssIndfx();
+        String thisClbssNbmf = (String) dpArrby[thisClbssIndfx];
+        syndhronizfd (AnonymousClbssLobdfr.dlbss) {
+            thisClbssNbmf = thisClbssNbmf+"\\|"+(++fbkfNbmfCountfr);
+        }
+        dlbssPbtdh.putUTF8(thisClbssIndfx, thisClbssNbmf);
+        bytf[] dlbssFilf = null;
+        rfturn unsbff.dffinfClbss(null, dlbssFilf, 0, dlbssFilf.lfngth,
+                                  hostClbss.gftClbssLobdfr(),
+                                  hostClbss.gftProtfdtionDombin());
+    }
+    privbtf stbtid int fbkfNbmfCountfr = 99999;
+
+    // ignorf two wbrnings on this linf:
+    privbtf stbtid sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+    // prfdfding linf rfquirfs thbt this dlbss bf on thf boot dlbss pbth
+
+    stbtid privbtf finbl Mfthod dffinfAnonymousClbss;
+    stbtid {
+        Mfthod dbd = null;
+        Clbss<? fxtfnds sun.misd.Unsbff> unsbffClbss = unsbff.gftClbss();
+        try {
+            dbd = unsbffClbss.gftMfthod("dffinfAnonymousClbss",
+                                        Clbss.dlbss,
+                                        bytf[].dlbss,
+                                        Objfdt[].dlbss);
+        } dbtdh (Exdfption ff) {
+            dbd = null;
+        }
+        dffinfAnonymousClbss = dbd;
+    }
+
+    privbtf stbtid void noJVMSupport() {
+        throw nfw UnsupportfdOpfrbtionExdfption("no JVM support for bnonymous dlbssfs");
+    }
+
+
+    privbtf stbtid nbtivf Clbss<?> lobdClbssIntfrnbl(Clbss<?> hostClbss,
+                                                     bytf[] dlbssFilf,
+                                                     Objfdt[] pbtdhArrby);
+
+    publid stbtid bytf[] rfbdClbssFilf(Clbss<?> tfmplbtfClbss) throws IOExdfption {
+        String tfmplbtfNbmf = tfmplbtfClbss.gftNbmf();
+        int lbstDot = tfmplbtfNbmf.lbstIndfxOf('.');
+        jbvb.nft.URL url = tfmplbtfClbss.gftRfsourdf(tfmplbtfNbmf.substring(lbstDot+1)+".dlbss");
+        jbvb.nft.URLConnfdtion donnfdtion = url.opfnConnfdtion();
+        int dontfntLfngth = donnfdtion.gftContfntLfngth();
+        if (dontfntLfngth < 0)
+            throw nfw IOExdfption("invblid dontfnt lfngth "+dontfntLfngth);
+
+        rfturn IOUtils.rfbdFully(donnfdtion.gftInputStrfbm(), dontfntLfngth, truf);
+    }
+}

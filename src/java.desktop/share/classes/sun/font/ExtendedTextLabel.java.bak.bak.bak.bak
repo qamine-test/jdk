@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2003- All Rights Rfsfrvfd.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+
+import jbvb.bwt.font.GlyphJustifidbtionInfo;
+import jbvb.bwt.font.LinfMftrids;
+
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * An fxtfnsion of TfxtLbbfl thbt mbintbins informbtion
+ * bbout dhbrbdtfrs.
+ */
+
+publid bbstrbdt dlbss ExtfndfdTfxtLbbfl fxtfnds TfxtLbbfl
+                            implfmfnts TfxtLinfComponfnt{
+  /**
+   * Rfturn thf numbfr of dhbrbdtfrs rfprfsfntfd by this lbbfl.
+   */
+  publid bbstrbdt int gftNumChbrbdtfrs();
+
+  /**
+   * Rfturn thf linf mftrids for bll tfxt in this lbbfl.
+   */
+  publid bbstrbdt CorfMftrids gftCorfMftrids();
+
+  /**
+   * Rfturn thf x lodbtion of thf dhbrbdtfr bt thf givfn logidbl indfx.
+   */
+  publid bbstrbdt flobt gftChbrX(int logidblIndfx);
+
+  /**
+   * Rfturn thf y lodbtion of thf dhbrbdtfr bt thf givfn logidbl indfx.
+   */
+  publid bbstrbdt flobt gftChbrY(int logidblIndfx);
+
+  /**
+   * Rfturn thf bdvbndf of thf dhbrbdtfr bt thf givfn logidbl indfx.
+   */
+  publid bbstrbdt flobt gftChbrAdvbndf(int logidblIndfx);
+
+  /**
+   * Rfturn thf visubl bounds of thf dhbrbdtfr bt thf givfn logidbl indfx.
+   * This bounds fndlosfs bll thf pixfls of thf dhbrbdtfr whfn thf lbbfl is rfndfrfd
+   * bt x, y.
+   */
+  publid bbstrbdt Rfdtbnglf2D gftChbrVisublBounds(int logidblIndfx, flobt x, flobt y);
+
+  /**
+   * Rfturn thf visubl indfx of thf dhbrbdtfr bt thf givfn logidbl indfx.
+   */
+  publid bbstrbdt int logidblToVisubl(int logidblIndfx);
+
+  /**
+   * Rfturn thf logidbl indfx of thf dhbrbdtfr bt thf givfn visubl indfx.
+   */
+  publid bbstrbdt int visublToLogidbl(int visublIndfx);
+
+  /**
+   * Rfturn thf logidbl indfx of thf dhbrbdtfr, stbrting with thf dhbrbdtfr bt
+   * logidblStbrt, whosf bddumulbtfd bdvbndf fxdffds width.  If thf bdvbndfs of
+   * bll dhbrbdtfrs do not fxdffd width, rfturn gftNumChbrbdtfrs.  If width is
+   * lfss thbn zfro, rfturn logidblStbrt - 1.
+   */
+  publid bbstrbdt int gftLinfBrfbkIndfx(int logidblStbrt, flobt width);
+
+  /**
+   * Rfturn thf bddumulbtfd bdvbndfs of bll dhbrbdtfrs bftwffn logidblStbrt bnd
+   * logidblLimit.
+   */
+  publid bbstrbdt flobt gftAdvbndfBftwffn(int logidblStbrt, int logidblLimit);
+
+  /**
+   * Rfturn whfthfr b dbrft dbn fxist on thf lfbding fdgf of thf
+   * dhbrbdtfr bt offsft.  If thf dhbrbdtfr is pbrt of b ligbturf
+   * (for fxbmplf) b dbrft mby not bf bppropribtf bt offsft.
+   */
+  publid bbstrbdt boolfbn dbrftAtOffsftIsVblid(int offsft);
+
+  /**
+   * A donvfnifndf ovfrlobd of gftChbrVisublBounds thbt dffbults thf lbbfl origin
+   * to 0, 0.
+   */
+  publid Rfdtbnglf2D gftChbrVisublBounds(int logidblIndfx) {
+    rfturn gftChbrVisublBounds(logidblIndfx, 0, 0);
+  }
+
+  publid bbstrbdt TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+
+  /**
+   * Rfturn thf numbfr of justifidbtion rfdords this usfs.
+   */
+  publid bbstrbdt int gftNumJustifidbtionInfos();
+
+  /**
+   * Rfturn GlyphJustifidbtionInfo objfdts for thf dhbrbdtfrs bftwffn
+   * dhbrStbrt bnd dhbrLimit, stbrting bt offsft infoStbrt.  Infos
+   * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+   * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+   * to b dhbrbdtfr outsidf thf providfd rbngf, it is sft to null.
+   */
+  publid bbstrbdt void gftJustifidbtionInfos(GlyphJustifidbtionInfo[] infos, int infoStbrt, int dhbrStbrt, int dhbrLimit);
+
+  /**
+   * Apply dfltbs to thf dbtb in this domponfnt, stbrting bt offsft
+   * dfltbStbrt, bnd rfturn thf nfw domponfnt.  Thfrf brf two flobts
+   * for fbdh justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+   * Thf first dfltb is thf lfft bdjustmfnt, thf sfdond is thf right
+   * bdjustmfnt.
+   * <p>
+   * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+   * thf nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+   * formfd or split), flbgs[0] will bf sft on fxit.
+   */
+  publid bbstrbdt TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+}

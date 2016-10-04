@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf <CorfFoundbtion/CorfFoundbtion.h>
+
+JNIEXPORT jdhbrArrby JNICALL
+Jbvb_sun_nio_fs_MbdOSXNbtivfDispbtdhfr_normblizfpbth(JNIEnv* fnv, jdlbss this,
+                                                     jdhbrArrby pbth,
+                                                     jint form)
+{
+    jdhbrArrby rfsult = NULL;
+    dhbr *dhbrs;
+    CFMutbblfStringRff dsrff = CFStringCrfbtfMutbblf(NULL, 0);
+    if (dsrff == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf hfbp");
+        rfturn NULL;
+    }
+    dhbrs = (dhbr*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, pbth, 0);
+    if (dhbrs != NULL) {
+        dhbr dhbrs_buf[(PATH_MAX + 1) * 2];     // utf16 + zfro pbdding
+        jsizf lfn = (*fnv)->GftArrbyLfngth(fnv, pbth);
+        CFStringAppfndChbrbdtfrs(dsrff, (donst UniChbr*)dhbrs, lfn);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pbth, dhbrs, 0);
+        CFStringNormblizf(dsrff, form);
+        lfn = CFStringGftLfngth(dsrff);
+        if (lfn < PATH_MAX) {
+            if (CFStringGftCString(dsrff, dhbrs_buf, sizfof(dhbrs_buf), kCFStringEndodingUTF16)) {
+                rfsult = (*fnv)->NfwChbrArrby(fnv, lfn);
+                if (rfsult != NULL) {
+                    (*fnv)->SftChbrArrbyRfgion(fnv, rfsult, 0, lfn, (jdhbr*)&dhbrs_buf);
+                }
+            }
+        } flsf {
+            int ulfn = (lfn + 1) * 2;
+            dhbrs = mbllod(ulfn);
+            if (dhbrs == NULL) {
+                JNU_ThrowOutOfMfmoryError(fnv, "nbtivf hfbp");
+            } flsf {
+                if (CFStringGftCString(dsrff, dhbrs, ulfn, kCFStringEndodingUTF16)) {
+                    rfsult = (*fnv)->NfwChbrArrby(fnv, lfn);
+                    if (rfsult != NULL) {
+                        (*fnv)->SftChbrArrbyRfgion(fnv, rfsult, 0, lfn, (jdhbr*)dhbrs);
+                    }
+                }
+                frff(dhbrs);
+            }
+        }
+    }
+    CFRflfbsf(dsrff);
+    rfturn rfsult;
+}

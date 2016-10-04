@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.*;
 
 
 /**
- * A representation of a content model. A content model is
- * basically a restricted BNF expression. It is restricted in
- * the sense that it must be deterministic. This means that you
- * don't have to represent it as a finite state automaton.<p>
- * See Annex H on page 556 of the SGML handbook for more information.
+ * A rfprfsfntbtion of b dontfnt modfl. A dontfnt modfl is
+ * bbsidblly b rfstridtfd BNF fxprfssion. It is rfstridtfd in
+ * tif sfnsf tibt it must bf dftfrministid. Tiis mfbns tibt you
+ * don't ibvf to rfprfsfnt it bs b finitf stbtf butombton.<p>
+ * Sff Annfx H on pbgf 556 of tif SGML ibndbook for morf informbtion.
  *
- * @author   Arthur van Hoff
+ * @butior   Artiur vbn Hoff
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final class ContentModel implements Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl dlbss ContfntModfl implfmfnts Sfriblizbblf {
     /**
-     * Type. Either '*', '?', '+', ',', '|', '&amp;'.
+     * Typf. Eitifr '*', '?', '+', ',', '|', '&bmp;'.
      */
-    public int type;
+    publid int typf;
 
     /**
-     * The content. Either an Element or a ContentModel.
+     * Tif dontfnt. Eitifr bn Elfmfnt or b ContfntModfl.
      */
-    public Object content;
+    publid Objfdt dontfnt;
 
     /**
-     * The next content model (in a ',', '|' or '&amp;' expression).
+     * Tif nfxt dontfnt modfl (in b ',', '|' or '&bmp;' fxprfssion).
      */
-    public ContentModel next;
+    publid ContfntModfl nfxt;
 
     /**
-     * Creates {@code ContentModel}
+     * Crfbtfs {@dodf ContfntModfl}
      */
-    public ContentModel() {
+    publid ContfntModfl() {
     }
 
     /**
-     * Create a content model for an element.
+     * Crfbtf b dontfnt modfl for bn flfmfnt.
      *
-     * @param content  the element
+     * @pbrbm dontfnt  tif flfmfnt
      */
-    public ContentModel(Element content) {
-        this(0, content, null);
+    publid ContfntModfl(Elfmfnt dontfnt) {
+        tiis(0, dontfnt, null);
     }
 
     /**
-     * Create a content model of a particular type.
+     * Crfbtf b dontfnt modfl of b pbrtidulbr typf.
      *
-     * @param type     the type
-     * @param content  the content
+     * @pbrbm typf     tif typf
+     * @pbrbm dontfnt  tif dontfnt
      */
-    public ContentModel(int type, ContentModel content) {
-        this(type, content, null);
+    publid ContfntModfl(int typf, ContfntModfl dontfnt) {
+        tiis(typf, dontfnt, null);
     }
 
     /**
-     * Create a content model of a particular type.
+     * Crfbtf b dontfnt modfl of b pbrtidulbr typf.
      *
-     * @param type     the type
-     * @param content  the content
-     * @param next     the next content model
+     * @pbrbm typf     tif typf
+     * @pbrbm dontfnt  tif dontfnt
+     * @pbrbm nfxt     tif nfxt dontfnt modfl
      */
-    public ContentModel(int type, Object content, ContentModel next) {
-        this.type = type;
-        this.content = content;
-        this.next = next;
+    publid ContfntModfl(int typf, Objfdt dontfnt, ContfntModfl nfxt) {
+        tiis.typf = typf;
+        tiis.dontfnt = dontfnt;
+        tiis.nfxt = nfxt;
     }
 
     /**
-     * Return true if the content model could
-     * match an empty input stream.
+     * Rfturn truf if tif dontfnt modfl dould
+     * mbtdi bn fmpty input strfbm.
      *
-     * @return {@code true} if the content model could
-     *         match an empty input stream
+     * @rfturn {@dodf truf} if tif dontfnt modfl dould
+     *         mbtdi bn fmpty input strfbm
      */
-    public boolean empty() {
-        switch (type) {
-          case '*':
-          case '?':
-            return true;
+    publid boolfbn fmpty() {
+        switdi (typf) {
+          dbsf '*':
+          dbsf '?':
+            rfturn truf;
 
-          case '+':
-          case '|':
-            for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
-                if (m.empty()) {
-                    return true;
+          dbsf '+':
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.fmpty()) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
 
-          case ',':
-          case '&':
-            for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
-                if (!m.empty()) {
-                    return false;
+          dbsf ',':
+          dbsf '&':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (!m.fmpty()) {
+                    rfturn fblsf;
                 }
             }
-            return true;
+            rfturn truf;
 
-          default:
-            return false;
+          dffbult:
+            rfturn fblsf;
         }
     }
 
     /**
-     * Update elemVec with the list of elements that are
-     * part of the this contentModel.
+     * Updbtf flfmVfd witi tif list of flfmfnts tibt brf
+     * pbrt of tif tiis dontfntModfl.
      *
-     * @param elemVec  the list of elements
+     * @pbrbm flfmVfd  tif list of flfmfnts
      */
-     public void getElements(Vector<Element> elemVec) {
-         switch (type) {
-         case '*':
-         case '?':
-         case '+':
-             ((ContentModel)content).getElements(elemVec);
-             break;
-         case ',':
-         case '|':
-         case '&':
-             for (ContentModel m=(ContentModel)content; m != null; m=m.next){
-                 m.getElements(elemVec);
+     publid void gftElfmfnts(Vfdtor<Elfmfnt> flfmVfd) {
+         switdi (typf) {
+         dbsf '*':
+         dbsf '?':
+         dbsf '+':
+             ((ContfntModfl)dontfnt).gftElfmfnts(flfmVfd);
+             brfbk;
+         dbsf ',':
+         dbsf '|':
+         dbsf '&':
+             for (ContfntModfl m=(ContfntModfl)dontfnt; m != null; m=m.nfxt){
+                 m.gftElfmfnts(flfmVfd);
              }
-             break;
-         default:
-             elemVec.addElement((Element)content);
+             brfbk;
+         dffbult:
+             flfmVfd.bddElfmfnt((Elfmfnt)dontfnt);
          }
      }
 
-     private boolean valSet[];
-     private boolean val[];
-     // A cache used by first().  This cache was found to speed parsing
-     // by about 10% (based on measurements of the 4-12 code base after
-     // buffering was fixed).
+     privbtf boolfbn vblSft[];
+     privbtf boolfbn vbl[];
+     // A dbdif usfd by first().  Tiis dbdif wbs found to spffd pbrsing
+     // by bbout 10% (bbsfd on mfbsurfmfnts of tif 4-12 dodf bbsf bftfr
+     // bufffring wbs fixfd).
 
     /**
-     * Return true if the token could potentially be the
-     * first token in the input stream.
+     * Rfturn truf if tif tokfn dould potfntiblly bf tif
+     * first tokfn in tif input strfbm.
      *
-     * @param token  the token
+     * @pbrbm tokfn  tif tokfn
      *
-     * @return {@code true} if the token could potentially be the first token
-     *         in the input stream
+     * @rfturn {@dodf truf} if tif tokfn dould potfntiblly bf tif first tokfn
+     *         in tif input strfbm
      */
-    public boolean first(Object token) {
-        switch (type) {
-          case '*':
-          case '?':
-          case '+':
-            return ((ContentModel)content).first(token);
+    publid boolfbn first(Objfdt tokfn) {
+        switdi (typf) {
+          dbsf '*':
+          dbsf '?':
+          dbsf '+':
+            rfturn ((ContfntModfl)dontfnt).first(tokfn);
 
-          case ',':
-            for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
-                if (m.first(token)) {
-                    return true;
+          dbsf ',':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    rfturn truf;
                 }
-                if (!m.empty()) {
-                    return false;
+                if (!m.fmpty()) {
+                    rfturn fblsf;
                 }
             }
-            return false;
+            rfturn fblsf;
 
-          case '|':
-          case '&': {
-            Element e = (Element) token;
-            if (valSet == null) {
-                valSet = new boolean[Element.getMaxIndex() + 1];
-                val = new boolean[valSet.length];
-                // All Element instances are created before this ever executes
+          dbsf '|':
+          dbsf '&': {
+            Elfmfnt f = (Elfmfnt) tokfn;
+            if (vblSft == null) {
+                vblSft = nfw boolfbn[Elfmfnt.gftMbxIndfx() + 1];
+                vbl = nfw boolfbn[vblSft.lfngti];
+                // All Elfmfnt instbndfs brf drfbtfd bfforf tiis fvfr fxfdutfs
             }
-            if (valSet[e.index]) {
-                return val[e.index];
+            if (vblSft[f.indfx]) {
+                rfturn vbl[f.indfx];
             }
-            for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
-                if (m.first(token)) {
-                    val[e.index] = true;
-                    break;
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    vbl[f.indfx] = truf;
+                    brfbk;
                 }
             }
-            valSet[e.index] = true;
-            return val[e.index];
+            vblSft[f.indfx] = truf;
+            rfturn vbl[f.indfx];
           }
 
-          default:
-            return (content == token);
-            // PENDING: refer to comment in ContentModelState
+          dffbult:
+            rfturn (dontfnt == tokfn);
+            // PENDING: rfffr to dommfnt in ContfntModflStbtf
 /*
-              if (content == token) {
-                  return true;
+              if (dontfnt == tokfn) {
+                  rfturn truf;
               }
-              Element e = (Element)content;
-              if (e.omitStart() && e.content != null) {
-                  return e.content.first(token);
+              Elfmfnt f = (Elfmfnt)dontfnt;
+              if (f.omitStbrt() && f.dontfnt != null) {
+                  rfturn f.dontfnt.first(tokfn);
               }
-              return false;
+              rfturn fblsf;
 */
         }
     }
 
     /**
-     * Return the element that must be next.
+     * Rfturn tif flfmfnt tibt must bf nfxt.
      *
-     * @return the element that must be next
+     * @rfturn tif flfmfnt tibt must bf nfxt
      */
-    public Element first() {
-        switch (type) {
-          case '&':
-          case '|':
-          case '*':
-          case '?':
-            return null;
+    publid Elfmfnt first() {
+        switdi (typf) {
+          dbsf '&':
+          dbsf '|':
+          dbsf '*':
+          dbsf '?':
+            rfturn null;
 
-          case '+':
-          case ',':
-            return ((ContentModel)content).first();
+          dbsf '+':
+          dbsf ',':
+            rfturn ((ContfntModfl)dontfnt).first();
 
-          default:
-            return (Element)content;
+          dffbult:
+            rfturn (Elfmfnt)dontfnt;
         }
     }
 
     /**
-     * Convert to a string.
+     * Convfrt to b string.
      *
-     * @return the string representation of this {@code ContentModel}
+     * @rfturn tif string rfprfsfntbtion of tiis {@dodf ContfntModfl}
      */
-    public String toString() {
-        switch (type) {
-          case '*':
-            return content + "*";
-          case '?':
-            return content + "?";
-          case '+':
-            return content + "+";
+    publid String toString() {
+        switdi (typf) {
+          dbsf '*':
+            rfturn dontfnt + "*";
+          dbsf '?':
+            rfturn dontfnt + "?";
+          dbsf '+':
+            rfturn dontfnt + "+";
 
-          case ',':
-          case '|':
-          case '&':
-            char data[] = {' ', (char)type, ' '};
+          dbsf ',':
+          dbsf '|':
+          dbsf '&':
+            dibr dbtb[] = {' ', (dibr)typf, ' '};
             String str = "";
-            for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
                 str = str + m;
-                if (m.next != null) {
-                    str += new String(data);
+                if (m.nfxt != null) {
+                    str += nfw String(dbtb);
                 }
             }
-            return "(" + str + ")";
+            rfturn "(" + str + ")";
 
-          default:
-            return content.toString();
+          dffbult:
+            rfturn dontfnt.toString();
         }
     }
 }

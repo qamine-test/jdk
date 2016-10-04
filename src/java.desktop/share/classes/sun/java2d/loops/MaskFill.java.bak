@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Composite;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.PbintContfxt;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
 
 /**
- * MaskFill
- * 1) fills rectangles of pixels on a surface
- * 2) performs compositing of colors based upon a Composite
- *    parameter
- * 3) blends result of composite with destination using an
- *    alpha coverage mask
- * 4) the mask may be null in which case it should be treated
- *    as if it were an array of all opaque values (0xff)
+ * MbskFill
+ * 1) fills rfdtbnglfs of pixfls on b surfbdf
+ * 2) pfrforms dompositing of dolors bbsfd upon b Compositf
+ *    pbrbmftfr
+ * 3) blfnds rfsult of dompositf witi dfstinbtion using bn
+ *    blpib dovfrbgf mbsk
+ * 4) tif mbsk mby bf null in wiidi dbsf it siould bf trfbtfd
+ *    bs if it wfrf bn brrby of bll opbquf vblufs (0xff)
  */
-public class MaskFill extends GraphicsPrimitive
+publid dlbss MbskFill fxtfnds GrbpiidsPrimitivf
 {
-    public static final String methodSignature = "MaskFill(...)".toString();
-    public static final String fillPgramSignature =
-        "FillAAPgram(...)".toString();
-    public static final String drawPgramSignature =
-        "DrawAAPgram(...)".toString();
+    publid stbtid finbl String mftiodSignbturf = "MbskFill(...)".toString();
+    publid stbtid finbl String fillPgrbmSignbturf =
+        "FillAAPgrbm(...)".toString();
+    publid stbtid finbl String drbwPgrbmSignbturf =
+        "DrbwAAPgrbm(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    publid stbtid finbl int primTypfID = mbkfPrimTypfID();
 
-    private static RenderCache fillcache = new RenderCache(10);
+    privbtf stbtid RfndfrCbdif filldbdif = nfw RfndfrCbdif(10);
 
-    public static MaskFill locate(SurfaceType srctype,
-                                  CompositeType comptype,
-                                  SurfaceType dsttype)
+    publid stbtid MbskFill lodbtf(SurfbdfTypf srdtypf,
+                                  CompositfTypf domptypf,
+                                  SurfbdfTypf dsttypf)
     {
-        return (MaskFill)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (MbskFill)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    public static MaskFill locatePrim(SurfaceType srctype,
-                                      CompositeType comptype,
-                                      SurfaceType dsttype)
+    publid stbtid MbskFill lodbtfPrim(SurfbdfTypf srdtypf,
+                                      CompositfTypf domptypf,
+                                      SurfbdfTypf dsttypf)
     {
-        return (MaskFill)
-            GraphicsPrimitiveMgr.locatePrim(primTypeID,
-                                            srctype, comptype, dsttype);
+        rfturn (MbskFill)
+            GrbpiidsPrimitivfMgr.lodbtfPrim(primTypfID,
+                                            srdtypf, domptypf, dsttypf);
     }
 
     /*
-     * Note that this uses locatePrim, not locate, so it can return
-     * null if there is no specific loop to handle this op...
+     * Notf tibt tiis usfs lodbtfPrim, not lodbtf, so it dbn rfturn
+     * null if tifrf is no spfdifid loop to ibndlf tiis op...
      */
-    public static MaskFill getFromCache(SurfaceType src,
-                                        CompositeType comp,
-                                        SurfaceType dst)
+    publid stbtid MbskFill gftFromCbdif(SurfbdfTypf srd,
+                                        CompositfTypf domp,
+                                        SurfbdfTypf dst)
     {
-        Object o = fillcache.get(src, comp, dst);
+        Objfdt o = filldbdif.gft(srd, domp, dst);
         if (o != null) {
-            return (MaskFill) o;
+            rfturn (MbskFill) o;
         }
-        MaskFill fill = locatePrim(src, comp, dst);
+        MbskFill fill = lodbtfPrim(srd, domp, dst);
         if (fill != null) {
-            fillcache.put(src, comp, dst, fill);
+            filldbdif.put(srd, domp, dst, fill);
         }
-        return fill;
+        rfturn fill;
     }
 
-    protected MaskFill(String alternateSignature,
-                       SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+    protfdtfd MbskFill(String bltfrnbtfSignbturf,
+                       SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
     {
-        super(alternateSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(bltfrnbtfSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    protected MaskFill(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+    protfdtfd MbskFill(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    public MaskFill(long pNativePrim,
-                    SurfaceType srctype,
-                    CompositeType comptype,
-                    SurfaceType dsttype)
+    publid MbskFill(long pNbtivfPrim,
+                    SurfbdfTypf srdtypf,
+                    CompositfTypf domptypf,
+                    SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
     /**
-     * All MaskFill implementors must have this invoker method
+     * All MbskFill implfmfntors must ibvf tiis invokfr mftiod
      */
-    public native void MaskFill(SunGraphics2D sg2d, SurfaceData sData,
-                                Composite comp,
-                                int x, int y, int w, int h,
-                                byte[] mask, int maskoff, int maskscan);
+    publid nbtivf void MbskFill(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                                Compositf domp,
+                                int x, int y, int w, int i,
+                                bytf[] mbsk, int mbskoff, int mbsksdbn);
 
-    public native void FillAAPgram(SunGraphics2D sg2d, SurfaceData sData,
-                                   Composite comp,
-                                   double x, double y,
-                                   double dx1, double dy1,
-                                   double dx2, double dy2);
+    publid nbtivf void FillAAPgrbm(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                                   Compositf domp,
+                                   doublf x, doublf y,
+                                   doublf dx1, doublf dy1,
+                                   doublf dx2, doublf dy2);
 
-    public native void DrawAAPgram(SunGraphics2D sg2d, SurfaceData sData,
-                                   Composite comp,
-                                   double x, double y,
-                                   double dx1, double dy1,
-                                   double dx2, double dy2,
-                                   double lw1, double lw2);
+    publid nbtivf void DrbwAAPgrbm(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                                   Compositf domp,
+                                   doublf x, doublf y,
+                                   doublf dx1, doublf dy1,
+                                   doublf dx2, doublf dy2,
+                                   doublf lw1, doublf lw2);
 
-    public boolean canDoParallelograms() {
-        return (getNativePrim() != 0);
+    publid boolfbn dbnDoPbrbllflogrbms() {
+        rfturn (gftNbtivfPrim() != 0);
     }
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new MaskFill(null, null, null));
+    stbtid {
+        GrbpiidsPrimitivfMgr.rfgistfrGfnfrbl(nfw MbskFill(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
-        if (SurfaceType.OpaqueColor.equals(srctype) ||
-            SurfaceType.AnyColor.equals(srctype))
+        if (SurfbdfTypf.OpbqufColor.fqubls(srdtypf) ||
+            SurfbdfTypf.AnyColor.fqubls(srdtypf))
         {
-            if (CompositeType.Xor.equals(comptype)) {
-                throw new InternalError("Cannot construct MaskFill for " +
-                                        "XOR mode");
-            } else {
-                return new General(srctype, comptype, dsttype);
+            if (CompositfTypf.Xor.fqubls(domptypf)) {
+                tirow nfw IntfrnblError("Cbnnot donstrudt MbskFill for " +
+                                        "XOR modf");
+            } flsf {
+                rfturn nfw Gfnfrbl(srdtypf, domptypf, dsttypf);
             }
-        } else {
-            throw new InternalError("MaskFill can only fill with colors");
+        } flsf {
+            tirow nfw IntfrnblError("MbskFill dbn only fill witi dolors");
         }
     }
 
-    private static class General extends MaskFill {
-        FillRect fillop;
-        MaskBlit maskop;
+    privbtf stbtid dlbss Gfnfrbl fxtfnds MbskFill {
+        FillRfdt fillop;
+        MbskBlit mbskop;
 
-        public General(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+        publid Gfnfrbl(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
         {
-            super(srctype, comptype, dsttype);
-            fillop = FillRect.locate(srctype,
-                                     CompositeType.SrcNoEa,
-                                     SurfaceType.IntArgb);
-            maskop = MaskBlit.locate(SurfaceType.IntArgb, comptype, dsttype);
+            supfr(srdtypf, domptypf, dsttypf);
+            fillop = FillRfdt.lodbtf(srdtypf,
+                                     CompositfTypf.SrdNoEb,
+                                     SurfbdfTypf.IntArgb);
+            mbskop = MbskBlit.lodbtf(SurfbdfTypf.IntArgb, domptypf, dsttypf);
         }
 
-        public void MaskFill(SunGraphics2D sg2d,
-                             SurfaceData sData,
-                             Composite comp,
-                             int x, int y, int w, int h,
-                             byte mask[], int offset, int scan)
+        publid void MbskFill(SunGrbpiids2D sg2d,
+                             SurfbdfDbtb sDbtb,
+                             Compositf domp,
+                             int x, int y, int w, int i,
+                             bytf mbsk[], int offsft, int sdbn)
         {
-            BufferedImage dstBI =
-                new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            SurfaceData tmpData = BufImgSurfaceData.createData(dstBI);
+            BufffrfdImbgf dstBI =
+                nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB);
+            SurfbdfDbtb tmpDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(dstBI);
 
-            // REMIND: This is not pretty.  It would be nicer if we
-            // passed a "FillData" object to the Pixel loops, instead
-            // of a SunGraphics2D parameter...
-            Region clip = sg2d.clipRegion;
-            sg2d.clipRegion = null;
-            int pixel = sg2d.pixel;
-            sg2d.pixel = tmpData.pixelFor(sg2d.getColor());
-            fillop.FillRect(sg2d, tmpData, 0, 0, w, h);
-            sg2d.pixel = pixel;
-            sg2d.clipRegion = clip;
+            // REMIND: Tiis is not prftty.  It would bf nidfr if wf
+            // pbssfd b "FillDbtb" objfdt to tif Pixfl loops, instfbd
+            // of b SunGrbpiids2D pbrbmftfr...
+            Rfgion dlip = sg2d.dlipRfgion;
+            sg2d.dlipRfgion = null;
+            int pixfl = sg2d.pixfl;
+            sg2d.pixfl = tmpDbtb.pixflFor(sg2d.gftColor());
+            fillop.FillRfdt(sg2d, tmpDbtb, 0, 0, w, i);
+            sg2d.pixfl = pixfl;
+            sg2d.dlipRfgion = dlip;
 
-            maskop.MaskBlit(tmpData, sData, comp, null,
-                            0, 0, x, y, w, h,
-                            mask, offset, scan);
+            mbskop.MbskBlit(tmpDbtb, sDbtb, domp, null,
+                            0, 0, x, y, w, i,
+                            mbsk, offsft, sdbn);
         }
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceMaskFill(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfMbskFill(tiis);
     }
 
-    private static class TraceMaskFill extends MaskFill {
-        MaskFill target;
-        MaskFill fillPgramTarget;
-        MaskFill drawPgramTarget;
+    privbtf stbtid dlbss TrbdfMbskFill fxtfnds MbskFill {
+        MbskFill tbrgft;
+        MbskFill fillPgrbmTbrgft;
+        MbskFill drbwPgrbmTbrgft;
 
-        public TraceMaskFill(MaskFill target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
-            this.fillPgramTarget = new MaskFill(fillPgramSignature,
-                                                target.getSourceType(),
-                                                target.getCompositeType(),
-                                                target.getDestType());
-            this.drawPgramTarget = new MaskFill(drawPgramSignature,
-                                                target.getSourceType(),
-                                                target.getCompositeType(),
-                                                target.getDestType());
+        publid TrbdfMbskFill(MbskFill tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
+            tiis.fillPgrbmTbrgft = nfw MbskFill(fillPgrbmSignbturf,
+                                                tbrgft.gftSourdfTypf(),
+                                                tbrgft.gftCompositfTypf(),
+                                                tbrgft.gftDfstTypf());
+            tiis.drbwPgrbmTbrgft = nfw MbskFill(drbwPgrbmSignbturf,
+                                                tbrgft.gftSourdfTypf(),
+                                                tbrgft.gftCompositfTypf(),
+                                                tbrgft.gftDfstTypf());
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void MaskFill(SunGraphics2D sg2d, SurfaceData sData,
-                             Composite comp,
-                             int x, int y, int w, int h,
-                             byte[] mask, int maskoff, int maskscan)
+        publid void MbskFill(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                             Compositf domp,
+                             int x, int y, int w, int i,
+                             bytf[] mbsk, int mbskoff, int mbsksdbn)
         {
-            tracePrimitive(target);
-            target.MaskFill(sg2d, sData, comp, x, y, w, h,
-                            mask, maskoff, maskscan);
+            trbdfPrimitivf(tbrgft);
+            tbrgft.MbskFill(sg2d, sDbtb, domp, x, y, w, i,
+                            mbsk, mbskoff, mbsksdbn);
         }
 
-        public void FillAAPgram(SunGraphics2D sg2d, SurfaceData sData,
-                                Composite comp,
-                                double x, double y,
-                                double dx1, double dy1,
-                                double dx2, double dy2)
+        publid void FillAAPgrbm(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                                Compositf domp,
+                                doublf x, doublf y,
+                                doublf dx1, doublf dy1,
+                                doublf dx2, doublf dy2)
         {
-            tracePrimitive(fillPgramTarget);
-            target.FillAAPgram(sg2d, sData, comp,
+            trbdfPrimitivf(fillPgrbmTbrgft);
+            tbrgft.FillAAPgrbm(sg2d, sDbtb, domp,
                                x, y, dx1, dy1, dx2, dy2);
         }
 
-        public void DrawAAPgram(SunGraphics2D sg2d, SurfaceData sData,
-                                Composite comp,
-                                double x, double y,
-                                double dx1, double dy1,
-                                double dx2, double dy2,
-                                double lw1, double lw2)
+        publid void DrbwAAPgrbm(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                                Compositf domp,
+                                doublf x, doublf y,
+                                doublf dx1, doublf dy1,
+                                doublf dx2, doublf dy2,
+                                doublf lw1, doublf lw2)
         {
-            tracePrimitive(drawPgramTarget);
-            target.DrawAAPgram(sg2d, sData, comp,
+            trbdfPrimitivf(drbwPgrbmTbrgft);
+            tbrgft.DrbwAAPgrbm(sg2d, sDbtb, domp,
                                x, y, dx1, dy1, dx2, dy2, lw1, lw2);
         }
 
-        public boolean canDoParallelograms() {
-            return target.canDoParallelograms();
+        publid boolfbn dbnDoPbrbllflogrbms() {
+            rfturn tbrgft.dbnDoPbrbllflogrbms();
         }
     }
 }

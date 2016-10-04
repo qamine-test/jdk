@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * <p> This class implements the <code>Principal</code> interface
- * and represents information about a Windows NT user, group or realm.
+ * <p> Tiis dlbss implfmfnts tif <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts informbtion bbout b Windows NT usfr, group or rfblm.
  *
- * <p> Windows NT chooses to represent users, groups and realms (or domains)
- * with not only common names, but also relatively unique numbers.  These
- * numbers are called Security IDentifiers, or SIDs.  Windows NT
- * also provides services that render these SIDs into string forms.
- * This class represents these string forms.
+ * <p> Windows NT dioosfs to rfprfsfnt usfrs, groups bnd rfblms (or dombins)
+ * witi not only dommon nbmfs, but blso rflbtivfly uniquf numbfrs.  Tifsf
+ * numbfrs brf dbllfd Sfdurity IDfntififrs, or SIDs.  Windows NT
+ * blso providfs sfrvidfs tibt rfndfr tifsf SIDs into string forms.
+ * Tiis dlbss rfprfsfnts tifsf string forms.
  *
- * <p> Principals such as this <code>NTSid</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Prindipbls sudi bs tiis <dodf>NTSid</dodf>
+ * mby bf bssodibtfd witi b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl
+ * idfntity.  Rfffr to tif <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on iow to bdiifvf tiis.  Autiorizbtion dfdisions dbn tifn bf bbsfd upon
+ * tif Prindipbls bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-@jdk.Exported
-public class NTSid implements Principal, java.io.Serializable {
+@jdk.Exportfd
+publid dlbss NTSid implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 4412290580770249885L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4412290580770249885L;
 
     /**
-     * @serial
+     * @sfribl
      */
-    private String sid;
+    privbtf String sid;
 
     /**
-     * Create an <code>NTSid</code> with a Windows NT SID.
+     * Crfbtf bn <dodf>NTSid</dodf> witi b Windows NT SID.
      *
      * <p>
      *
-     * @param stringSid the Windows NT SID. <p>
+     * @pbrbm stringSid tif Windows NT SID. <p>
      *
-     * @exception NullPointerException if the <code>String</code>
-     *                  is <code>null</code>.
+     * @fxdfption NullPointfrExdfption if tif <dodf>String</dodf>
+     *                  is <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if the <code>String</code>
-     *                  has zero length.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>String</dodf>
+     *                  ibs zfro lfngti.
      */
-    public NTSid (String stringSid) {
+    publid NTSid (String stringSid) {
         if (stringSid == null) {
-            java.text.MessageFormat form = new java.text.MessageFormat
-                (sun.security.util.ResourcesMgr.getString
-                        ("invalid.null.input.value",
-                        "sun.security.util.AuthResources"));
-            Object[] source = {"stringSid"};
-            throw new NullPointerException(form.format(source));
+            jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("invblid.null.input.vbluf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
+            Objfdt[] sourdf = {"stringSid"};
+            tirow nfw NullPointfrExdfption(form.formbt(sourdf));
         }
-        if (stringSid.length() == 0) {
-            throw new IllegalArgumentException
-                (sun.security.util.ResourcesMgr.getString
-                        ("Invalid.NTSid.value",
-                        "sun.security.util.AuthResources"));
+        if (stringSid.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("Invblid.NTSid.vbluf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
         }
-        sid = new String(stringSid);
+        sid = nfw String(stringSid);
     }
 
     /**
-     * Return a string version of this <code>NTSid</code>.
+     * Rfturn b string vfrsion of tiis <dodf>NTSid</dodf>.
      *
      * <p>
      *
-     * @return a string version of this <code>NTSid</code>
+     * @rfturn b string vfrsion of tiis <dodf>NTSid</dodf>
      */
-    public String getName() {
-        return sid;
+    publid String gftNbmf() {
+        rfturn sid;
     }
 
     /**
-     * Return a string representation of this <code>NTSid</code>.
+     * Rfturn b string rfprfsfntbtion of tiis <dodf>NTSid</dodf>.
      *
      * <p>
      *
-     * @return a string representation of this <code>NTSid</code>.
+     * @rfturn b string rfprfsfntbtion of tiis <dodf>NTSid</dodf>.
      */
-    public String toString() {
-        java.text.MessageFormat form = new java.text.MessageFormat
-                (sun.security.util.ResourcesMgr.getString
-                        ("NTSid.name",
-                        "sun.security.util.AuthResources"));
-        Object[] source = {sid};
-        return form.format(source);
+    publid String toString() {
+        jbvb.tfxt.MfssbgfFormbt form = nfw jbvb.tfxt.MfssbgfFormbt
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                        ("NTSid.nbmf",
+                        "sun.sfdurity.util.AutiRfsourdfs"));
+        Objfdt[] sourdf = {sid};
+        rfturn form.formbt(sourdf);
     }
 
     /**
-     * Compares the specified Object with this <code>NTSid</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>NTSid</code> and the two NTSids have the same String
-     * representation.
+     * Compbrfs tif spfdififd Objfdt witi tiis <dodf>NTSid</dodf>
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b
+     * <dodf>NTSid</dodf> bnd tif two NTSids ibvf tif sbmf String
+     * rfprfsfntbtion.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>NTSid</code>.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          <dodf>NTSid</dodf>.
      *
-     * @return true if the specified Object is equal to this
-     *          <code>NTSid</code>.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl to tiis
+     *          <dodf>NTSid</dodf>.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        if (this == o)
-            return true;
+        if (tiis == o)
+            rfturn truf;
 
-        if (!(o instanceof NTSid))
-            return false;
-        NTSid that = (NTSid)o;
+        if (!(o instbndfof NTSid))
+            rfturn fblsf;
+        NTSid tibt = (NTSid)o;
 
-        if (sid.equals(that.sid)) {
-            return true;
+        if (sid.fqubls(tibt.sid)) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Return a hash code for this <code>NTSid</code>.
+     * Rfturn b ibsi dodf for tiis <dodf>NTSid</dodf>.
      *
      * <p>
      *
-     * @return a hash code for this <code>NTSid</code>.
+     * @rfturn b ibsi dodf for tiis <dodf>NTSid</dodf>.
      */
-    public int hashCode() {
-        return sid.hashCode();
+    publid int ibsiCodf() {
+        rfturn sid.ibsiCodf();
     }
 }

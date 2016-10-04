@@ -1,0 +1,806 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvb.util.Mbp;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for thf thrfbd systfm of
+ * thf Jbvb virtubl mbdhinf.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
+ * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftThrfbdMXBfbn} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * thf thrfbd systfm within bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#THREAD_MXBEAN_NAME
+ *           <tt>jbvb.lbng:typf=Thrfbding</tt>}
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * <h3>Thrfbd ID</h3>
+ * Thrfbd ID is b positivf long vbluf rfturnfd by dblling thf
+ * {@link jbvb.lbng.Thrfbd#gftId} mfthod for b thrfbd.
+ * Thf thrfbd ID is uniquf during its lifftimf.  Whfn b thrfbd
+ * is tfrminbtfd, this thrfbd ID mby bf rfusfd.
+ *
+ * <p> Somf mfthods in this intfrfbdf tbkf b thrfbd ID or bn brrby
+ * of thrfbd IDs bs thf input pbrbmftfr bnd rfturn pfr-thrfbd informbtion.
+ *
+ * <h3>Thrfbd CPU timf</h3>
+ * A Jbvb virtubl mbdhinf implfmfntbtion mby support mfbsuring
+ * thf CPU timf for thf durrfnt thrfbd, for bny thrfbd, or for no thrfbds.
+ *
+ * <p>
+ * Thf {@link #isThrfbdCpuTimfSupportfd} mfthod dbn bf usfd to dftfrminf
+ * if b Jbvb virtubl mbdhinf supports mfbsuring of thf CPU timf for bny
+ * thrfbd.  Thf {@link #isCurrfntThrfbdCpuTimfSupportfd} mfthod dbn
+ * bf usfd to dftfrminf if b Jbvb virtubl mbdhinf supports mfbsuring of
+ * thf CPU timf for thf durrfnt  thrfbd.
+ * A Jbvb virtubl mbdhinf implfmfntbtion thbt supports CPU timf mfbsurfmfnt
+ * for bny thrfbd will blso support thbt for thf durrfnt thrfbd.
+ *
+ * <p> Thf CPU timf providfd by this intfrfbdf hbs nbnosfdond prfdision
+ * but not nfdfssbrily nbnosfdond bddurbdy.
+ *
+ * <p>
+ * A Jbvb virtubl mbdhinf mby disbblf CPU timf mfbsurfmfnt
+ * by dffbult.
+ * Thf {@link #isThrfbdCpuTimfEnbblfd} bnd {@link #sftThrfbdCpuTimfEnbblfd}
+ * mfthods dbn bf usfd to tfst if CPU timf mfbsurfmfnt is fnbblfd
+ * bnd to fnbblf/disbblf this support rfspfdtivfly.
+ * Enbbling thrfbd CPU mfbsurfmfnt dould bf fxpfnsivf in somf
+ * Jbvb virtubl mbdhinf implfmfntbtions.
+ *
+ * <h3>Thrfbd Contfntion Monitoring</h3>
+ * Somf Jbvb virtubl mbdhinfs mby support thrfbd dontfntion monitoring.
+ * Whfn thrfbd dontfntion monitoring is fnbblfd, thf bddumulbtfd flbpsfd
+ * timf thbt thf thrfbd hbs blodkfd for syndhronizbtion or wbitfd for
+ * notifidbtion will bf dollfdtfd bnd rfturnfd in thf
+ * <b hrff="ThrfbdInfo.html#SyndStbts"><tt>ThrfbdInfo</tt></b> objfdt.
+ * <p>
+ * Thf {@link #isThrfbdContfntionMonitoringSupportfd} mfthod dbn bf usfd to
+ * dftfrminf if b Jbvb virtubl mbdhinf supports thrfbd dontfntion monitoring.
+ * Thf thrfbd dontfntion monitoring is disbblfd by dffbult.  Thf
+ * {@link #sftThrfbdContfntionMonitoringEnbblfd} mfthod dbn bf usfd to fnbblf
+ * thrfbd dontfntion monitoring.
+ *
+ * <h3>Syndhronizbtion Informbtion bnd Dfbdlodk Dftfdtion</h3>
+ * Somf Jbvb virtubl mbdhinfs mby support monitoring of
+ * {@linkplbin #isObjfdtMonitorUsbgfSupportfd objfdt monitor usbgf} bnd
+ * {@linkplbin #isSyndhronizfrUsbgfSupportfd ownbblf syndhronizfr usbgf}.
+ * Thf {@link #gftThrfbdInfo(long[], boolfbn, boolfbn)} bnd
+ * {@link #dumpAllThrfbds} mfthods dbn bf usfd to obtbin thf thrfbd stbdk trbdf
+ * bnd syndhronizbtion informbtion indluding whidh
+ * {@linkplbin LodkInfo <i>lodk</i>} b thrfbd is blodkfd to
+ * bdquirf or wbiting on bnd whidh lodks thf thrfbd durrfntly owns.
+ * <p>
+ * Thf <tt>ThrfbdMXBfbn</tt> intfrfbdf providfs thf
+ * {@link #findMonitorDfbdlodkfdThrfbds} bnd
+ * {@link #findDfbdlodkfdThrfbds} mfthods to find dfbdlodks in
+ * thf running bpplidbtion.
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+
+publid intfrfbdf ThrfbdMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns thf durrfnt numbfr of livf thrfbds indluding both
+     * dbfmon bnd non-dbfmon thrfbds.
+     *
+     * @rfturn thf durrfnt numbfr of livf thrfbds.
+     */
+    publid int gftThrfbdCount();
+
+    /**
+     * Rfturns thf pfbk livf thrfbd dount sindf thf Jbvb virtubl mbdhinf
+     * stbrtfd or pfbk wbs rfsft.
+     *
+     * @rfturn thf pfbk livf thrfbd dount.
+     */
+    publid int gftPfbkThrfbdCount();
+
+    /**
+     * Rfturns thf totbl numbfr of thrfbds drfbtfd bnd blso stbrtfd
+     * sindf thf Jbvb virtubl mbdhinf stbrtfd.
+     *
+     * @rfturn thf totbl numbfr of thrfbds stbrtfd.
+     */
+    publid long gftTotblStbrtfdThrfbdCount();
+
+    /**
+     * Rfturns thf durrfnt numbfr of livf dbfmon thrfbds.
+     *
+     * @rfturn thf durrfnt numbfr of livf dbfmon thrfbds.
+     */
+    publid int gftDbfmonThrfbdCount();
+
+    /**
+     * Rfturns bll livf thrfbd IDs.
+     * Somf thrfbds indludfd in thf rfturnfd brrby
+     * mby hbvf bffn tfrminbtfd whfn this mfthod rfturns.
+     *
+     * @rfturn bn brrby of <tt>long</tt>, fbdh is b thrfbd ID.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     */
+    publid long[] gftAllThrfbdIds();
+
+    /**
+     * Rfturns thf thrfbd info for b thrfbd of thf spfdififd
+     * <tt>id</tt> with no stbdk trbdf.
+     * This mfthod is fquivblfnt to dblling:
+     * <blodkquotf>
+     *   {@link #gftThrfbdInfo(long, int) gftThrfbdInfo(id, 0);}
+     * </blodkquotf>
+     *
+     * <p>
+     * This mfthod rfturns b <tt>ThrfbdInfo</tt> objfdt rfprfsfnting
+     * thf thrfbd informbtion for thf thrfbd of thf spfdififd ID.
+     * Thf stbdk trbdf, lodkfd monitors, bnd lodkfd syndhronizfrs
+     * in thf rfturnfd <tt>ThrfbdInfo</tt> objfdt will
+     * bf fmpty.
+     *
+     * If b thrfbd of thf givfn ID is not blivf or dofs not fxist,
+     * this mfthod will rfturn <tt>null</tt>.  A thrfbd is blivf if
+     * it hbs bffn stbrtfd bnd hbs not yft difd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>ThrfbdInfo</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in thf
+     * {@link ThrfbdInfo#from ThrfbdInfo.from} mfthod.
+     *
+     * @pbrbm id thf thrfbd ID of thf thrfbd. Must bf positivf.
+     *
+     * @rfturn b {@link ThrfbdInfo} objfdt for thf thrfbd of thf givfn ID
+     * with no stbdk trbdf, no lodkfd monitor bnd no syndhronizfr info;
+     * <tt>null</tt> if thf thrfbd of thf givfn ID is not blivf or
+     * it dofs not fxist.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf id <= 0}.
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     */
+    publid ThrfbdInfo gftThrfbdInfo(long id);
+
+    /**
+     * Rfturns thf thrfbd info for fbdh thrfbd
+     * whosf ID is in thf input brrby <tt>ids</tt> with no stbdk trbdf.
+     * This mfthod is fquivblfnt to dblling:
+     * <blodkquotf><prf>
+     *   {@link #gftThrfbdInfo(long[], int) gftThrfbdInfo}(ids, 0);
+     * </prf></blodkquotf>
+     *
+     * <p>
+     * This mfthod rfturns bn brrby of thf <tt>ThrfbdInfo</tt> objfdts.
+     * Thf stbdk trbdf, lodkfd monitors, bnd lodkfd syndhronizfrs
+     * in fbdh <tt>ThrfbdInfo</tt> objfdt will bf fmpty.
+     *
+     * If b thrfbd of b givfn ID is not blivf or dofs not fxist,
+     * thf dorrfsponding flfmfnt in thf rfturnfd brrby will
+     * dontbin <tt>null</tt>.  A thrfbd is blivf if
+     * it hbs bffn stbrtfd bnd hbs not yft difd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>ThrfbdInfo</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in thf
+     * {@link ThrfbdInfo#from ThrfbdInfo.from} mfthod.
+     *
+     * @pbrbm ids bn brrby of thrfbd IDs.
+     * @rfturn bn brrby of thf {@link ThrfbdInfo} objfdts, fbdh dontbining
+     * informbtion bbout b thrfbd whosf ID is in thf dorrfsponding
+     * flfmfnt of thf input brrby of IDs
+     * with no stbdk trbdf, no lodkfd monitor bnd no syndhronizfr info.
+     *
+     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *         <tt>ids</tt> is {@dodf <= 0}.
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     */
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids);
+
+    /**
+     * Rfturns b thrfbd info for b thrfbd of thf spfdififd <tt>id</tt>,
+     * with stbdk trbdf of b spfdififd numbfr of stbdk trbdf flfmfnts.
+     * Thf <tt>mbxDfpth</tt> pbrbmftfr indidbtfs thf mbximum numbfr of
+     * {@link StbdkTrbdfElfmfnt} to bf rftrifvfd from thf stbdk trbdf.
+     * If <tt>mbxDfpth == Intfgfr.MAX_VALUE</tt>, thf fntirf stbdk trbdf of
+     * thf thrfbd will bf dumpfd.
+     * If <tt>mbxDfpth == 0</tt>, no stbdk trbdf of thf thrfbd
+     * will bf dumpfd.
+     * This mfthod dofs not obtbin thf lodkfd monitors bnd lodkfd
+     * syndhronizfrs of thf thrfbd.
+     * <p>
+     * Whfn thf Jbvb virtubl mbdhinf hbs no stbdk trbdf informbtion
+     * bbout b thrfbd or <tt>mbxDfpth == 0</tt>,
+     * thf stbdk trbdf in thf
+     * <tt>ThrfbdInfo</tt> objfdt will bf bn fmpty brrby of
+     * <tt>StbdkTrbdfElfmfnt</tt>.
+     *
+     * <p>
+     * If b thrfbd of thf givfn ID is not blivf or dofs not fxist,
+     * this mfthod will rfturn <tt>null</tt>.  A thrfbd is blivf if
+     * it hbs bffn stbrtfd bnd hbs not yft difd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>ThrfbdInfo</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in thf
+     * {@link ThrfbdInfo#from ThrfbdInfo.from} mfthod.
+     *
+     * @pbrbm id thf thrfbd ID of thf thrfbd. Must bf positivf.
+     * @pbrbm mbxDfpth thf mbximum numbfr of fntrifs in thf stbdk trbdf
+     * to bf dumpfd. <tt>Intfgfr.MAX_VALUE</tt> dould bf usfd to rfqufst
+     * thf fntirf stbdk to bf dumpfd.
+     *
+     * @rfturn b {@link ThrfbdInfo} of thf thrfbd of thf givfn ID
+     * with no lodkfd monitor bnd syndhronizfr info.
+     * <tt>null</tt> if thf thrfbd of thf givfn ID is not blivf or
+     * it dofs not fxist.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf id <= 0}.
+     * @throws IllfgblArgumfntExdfption if <tt>mbxDfpth is nfgbtivf</tt>.
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     *
+     */
+    publid ThrfbdInfo gftThrfbdInfo(long id, int mbxDfpth);
+
+    /**
+     * Rfturns thf thrfbd info for fbdh thrfbd
+     * whosf ID is in thf input brrby <tt>ids</tt>,
+     * with stbdk trbdf of b spfdififd numbfr of stbdk trbdf flfmfnts.
+     * Thf <tt>mbxDfpth</tt> pbrbmftfr indidbtfs thf mbximum numbfr of
+     * {@link StbdkTrbdfElfmfnt} to bf rftrifvfd from thf stbdk trbdf.
+     * If <tt>mbxDfpth == Intfgfr.MAX_VALUE</tt>, thf fntirf stbdk trbdf of
+     * thf thrfbd will bf dumpfd.
+     * If <tt>mbxDfpth == 0</tt>, no stbdk trbdf of thf thrfbd
+     * will bf dumpfd.
+     * This mfthod dofs not obtbin thf lodkfd monitors bnd lodkfd
+     * syndhronizfrs of thf thrfbds.
+     * <p>
+     * Whfn thf Jbvb virtubl mbdhinf hbs no stbdk trbdf informbtion
+     * bbout b thrfbd or <tt>mbxDfpth == 0</tt>,
+     * thf stbdk trbdf in thf
+     * <tt>ThrfbdInfo</tt> objfdt will bf bn fmpty brrby of
+     * <tt>StbdkTrbdfElfmfnt</tt>.
+     * <p>
+     * This mfthod rfturns bn brrby of thf <tt>ThrfbdInfo</tt> objfdts,
+     * fbdh is thf thrfbd informbtion bbout thf thrfbd with thf sbmf indfx
+     * bs in thf <tt>ids</tt> brrby.
+     * If b thrfbd of thf givfn ID is not blivf or dofs not fxist,
+     * <tt>null</tt> will bf sft in thf dorrfsponding flfmfnt
+     * in thf rfturnfd brrby.  A thrfbd is blivf if
+     * it hbs bffn stbrtfd bnd hbs not yft difd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>ThrfbdInfo</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in thf
+     * {@link ThrfbdInfo#from ThrfbdInfo.from} mfthod.
+     *
+     * @pbrbm ids bn brrby of thrfbd IDs
+     * @pbrbm mbxDfpth thf mbximum numbfr of fntrifs in thf stbdk trbdf
+     * to bf dumpfd. <tt>Intfgfr.MAX_VALUE</tt> dould bf usfd to rfqufst
+     * thf fntirf stbdk to bf dumpfd.
+     *
+     * @rfturn bn brrby of thf {@link ThrfbdInfo} objfdts, fbdh dontbining
+     * informbtion bbout b thrfbd whosf ID is in thf dorrfsponding
+     * flfmfnt of thf input brrby of IDs with no lodkfd monitor bnd
+     * syndhronizfr info.
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>mbxDfpth is nfgbtivf</tt>.
+     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *      <tt>ids</tt> is {@dodf <= 0}.
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     *
+     */
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids, int mbxDfpth);
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports thrfbd dontfntion monitoring.
+     *
+     * @rfturn
+     *   <tt>truf</tt>
+     *     if thf Jbvb virtubl mbdhinf supports thrfbd dontfntion monitoring;
+     *   <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isThrfbdContfntionMonitoringSupportfd();
+
+    /**
+     * Tfsts if thrfbd dontfntion monitoring is fnbblfd.
+     *
+     * @rfturn <tt>truf</tt> if thrfbd dontfntion monitoring is fnbblfd;
+     *         <tt>fblsf</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     * mbdhinf dofs not support thrfbd dontfntion monitoring.
+     *
+     * @sff #isThrfbdContfntionMonitoringSupportfd
+     */
+    publid boolfbn isThrfbdContfntionMonitoringEnbblfd();
+
+    /**
+     * Enbblfs or disbblfs thrfbd dontfntion monitoring.
+     * Thrfbd dontfntion monitoring is disbblfd by dffbult.
+     *
+     * @pbrbm fnbblf <tt>truf</tt> to fnbblf;
+     *               <tt>fblsf</tt> to disbblf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support thrfbd dontfntion monitoring.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isThrfbdContfntionMonitoringSupportfd
+     */
+    publid void sftThrfbdContfntionMonitoringEnbblfd(boolfbn fnbblf);
+
+    /**
+     * Rfturns thf totbl CPU timf for thf durrfnt thrfbd in nbnosfdonds.
+     * Thf rfturnfd vbluf is of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * If thf implfmfntbtion distinguishfs bftwffn usfr modf timf bnd systfm
+     * modf timf, thf rfturnfd CPU timf is thf bmount of timf thbt
+     * thf durrfnt thrfbd hbs fxfdutfd in usfr modf or systfm modf.
+     *
+     * <p>
+     * This is b donvfnifnt mfthod for lodbl mbnbgfmfnt usf bnd is
+     * fquivblfnt to dblling:
+     * <blodkquotf><prf>
+     *   {@link #gftThrfbdCpuTimf gftThrfbdCpuTimf}(Thrfbd.durrfntThrfbd().gftId());
+     * </prf></blodkquotf>
+     *
+     * @rfturn thf totbl CPU timf for thf durrfnt thrfbd if CPU timf
+     * mfbsurfmfnt is fnbblfd; <tt>-1</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support CPU timf mfbsurfmfnt for
+     * thf durrfnt thrfbd.
+     *
+     * @sff #gftCurrfntThrfbdUsfrTimf
+     * @sff #isCurrfntThrfbdCpuTimfSupportfd
+     * @sff #isThrfbdCpuTimfEnbblfd
+     * @sff #sftThrfbdCpuTimfEnbblfd
+     */
+    publid long gftCurrfntThrfbdCpuTimf();
+
+    /**
+     * Rfturns thf CPU timf thbt thf durrfnt thrfbd hbs fxfdutfd
+     * in usfr modf in nbnosfdonds.
+     * Thf rfturnfd vbluf is of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     *
+     * <p>
+     * This is b donvfnifnt mfthod for lodbl mbnbgfmfnt usf bnd is
+     * fquivblfnt to dblling:
+     * <blodkquotf><prf>
+     *   {@link #gftThrfbdUsfrTimf gftThrfbdUsfrTimf}(Thrfbd.durrfntThrfbd().gftId());
+     * </prf></blodkquotf>
+     *
+     * @rfturn thf usfr-lfvfl CPU timf for thf durrfnt thrfbd if CPU timf
+     * mfbsurfmfnt is fnbblfd; <tt>-1</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support CPU timf mfbsurfmfnt for
+     * thf durrfnt thrfbd.
+     *
+     * @sff #gftCurrfntThrfbdCpuTimf
+     * @sff #isCurrfntThrfbdCpuTimfSupportfd
+     * @sff #isThrfbdCpuTimfEnbblfd
+     * @sff #sftThrfbdCpuTimfEnbblfd
+     */
+    publid long gftCurrfntThrfbdUsfrTimf();
+
+    /**
+     * Rfturns thf totbl CPU timf for b thrfbd of thf spfdififd ID in nbnosfdonds.
+     * Thf rfturnfd vbluf is of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * If thf implfmfntbtion distinguishfs bftwffn usfr modf timf bnd systfm
+     * modf timf, thf rfturnfd CPU timf is thf bmount of timf thbt
+     * thf thrfbd hbs fxfdutfd in usfr modf or systfm modf.
+     *
+     * <p>
+     * If thf thrfbd of thf spfdififd ID is not blivf or dofs not fxist,
+     * this mfthod rfturns <tt>-1</tt>. If CPU timf mfbsurfmfnt
+     * is disbblfd, this mfthod rfturns <tt>-1</tt>.
+     * A thrfbd is blivf if it hbs bffn stbrtfd bnd hbs not yft difd.
+     * <p>
+     * If CPU timf mfbsurfmfnt is fnbblfd bftfr thf thrfbd hbs stbrtfd,
+     * thf Jbvb virtubl mbdhinf implfmfntbtion mby dhoosf bny timf up to
+     * bnd indluding thf timf thbt thf dbpbbility is fnbblfd bs thf point
+     * whfrf CPU timf mfbsurfmfnt stbrts.
+     *
+     * @pbrbm id thf thrfbd ID of b thrfbd
+     * @rfturn thf totbl CPU timf for b thrfbd of thf spfdififd ID
+     * if thf thrfbd of thf spfdififd ID fxists, thf thrfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * <tt>-1</tt> othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf id <= 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support CPU timf mfbsurfmfnt for
+     * othfr thrfbds.
+     *
+     * @sff #gftThrfbdUsfrTimf
+     * @sff #isThrfbdCpuTimfSupportfd
+     * @sff #isThrfbdCpuTimfEnbblfd
+     * @sff #sftThrfbdCpuTimfEnbblfd
+     */
+    publid long gftThrfbdCpuTimf(long id);
+
+    /**
+     * Rfturns thf CPU timf thbt b thrfbd of thf spfdififd ID
+     * hbs fxfdutfd in usfr modf in nbnosfdonds.
+     * Thf rfturnfd vbluf is of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     *
+     * <p>
+     * If thf thrfbd of thf spfdififd ID is not blivf or dofs not fxist,
+     * this mfthod rfturns <tt>-1</tt>. If CPU timf mfbsurfmfnt
+     * is disbblfd, this mfthod rfturns <tt>-1</tt>.
+     * A thrfbd is blivf if it hbs bffn stbrtfd bnd hbs not yft difd.
+     * <p>
+     * If CPU timf mfbsurfmfnt is fnbblfd bftfr thf thrfbd hbs stbrtfd,
+     * thf Jbvb virtubl mbdhinf implfmfntbtion mby dhoosf bny timf up to
+     * bnd indluding thf timf thbt thf dbpbbility is fnbblfd bs thf point
+     * whfrf CPU timf mfbsurfmfnt stbrts.
+     *
+     * @pbrbm id thf thrfbd ID of b thrfbd
+     * @rfturn thf usfr-lfvfl CPU timf for b thrfbd of thf spfdififd ID
+     * if thf thrfbd of thf spfdififd ID fxists, thf thrfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * <tt>-1</tt> othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf id <= 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support CPU timf mfbsurfmfnt for
+     * othfr thrfbds.
+     *
+     * @sff #gftThrfbdCpuTimf
+     * @sff #isThrfbdCpuTimfSupportfd
+     * @sff #isThrfbdCpuTimfEnbblfd
+     * @sff #sftThrfbdCpuTimfEnbblfd
+     */
+    publid long gftThrfbdUsfrTimf(long id);
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf implfmfntbtion supports CPU timf
+     * mfbsurfmfnt for bny thrfbd.
+     * A Jbvb virtubl mbdhinf implfmfntbtion thbt supports CPU timf
+     * mfbsurfmfnt for bny thrfbd will blso support CPU timf
+     * mfbsurfmfnt for thf durrfnt thrfbd.
+     *
+     * @rfturn
+     *   <tt>truf</tt>
+     *     if thf Jbvb virtubl mbdhinf supports CPU timf
+     *     mfbsurfmfnt for bny thrfbd;
+     *   <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isThrfbdCpuTimfSupportfd();
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports CPU timf
+     * mfbsurfmfnt for thf durrfnt thrfbd.
+     * This mfthod rfturns <tt>truf</tt> if {@link #isThrfbdCpuTimfSupportfd}
+     * rfturns <tt>truf</tt>.
+     *
+     * @rfturn
+     *   <tt>truf</tt>
+     *     if thf Jbvb virtubl mbdhinf supports CPU timf
+     *     mfbsurfmfnt for durrfnt thrfbd;
+     *   <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isCurrfntThrfbdCpuTimfSupportfd();
+
+    /**
+     * Tfsts if thrfbd CPU timf mfbsurfmfnt is fnbblfd.
+     *
+     * @rfturn <tt>truf</tt> if thrfbd CPU timf mfbsurfmfnt is fnbblfd;
+     *         <tt>fblsf</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     * mbdhinf dofs not support CPU timf mfbsurfmfnt for othfr thrfbds
+     * nor for thf durrfnt thrfbd.
+     *
+     * @sff #isThrfbdCpuTimfSupportfd
+     * @sff #isCurrfntThrfbdCpuTimfSupportfd
+     */
+    publid boolfbn isThrfbdCpuTimfEnbblfd();
+
+    /**
+     * Enbblfs or disbblfs thrfbd CPU timf mfbsurfmfnt.  Thf dffbult
+     * is plbtform dfpfndfnt.
+     *
+     * @pbrbm fnbblf <tt>truf</tt> to fnbblf;
+     *               <tt>fblsf</tt> to disbblf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support CPU timf mfbsurfmfnt for
+     * bny thrfbds nor for thf durrfnt thrfbd.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isThrfbdCpuTimfSupportfd
+     * @sff #isCurrfntThrfbdCpuTimfSupportfd
+     */
+    publid void sftThrfbdCpuTimfEnbblfd(boolfbn fnbblf);
+
+    /**
+     * Finds dydlfs of thrfbds thbt brf in dfbdlodk wbiting to bdquirf
+     * objfdt monitors. Thbt is, thrfbds thbt brf blodkfd wbiting to fntfr b
+     * syndhronizbtion blodk or wbiting to rffntfr b syndhronizbtion blodk
+     * bftfr bn {@link Objfdt#wbit Objfdt.wbit} dbll,
+     * whfrf fbdh thrfbd owns onf monitor whilf
+     * trying to obtbin bnothfr monitor blrfbdy hfld by bnothfr thrfbd
+     * in b dydlf.
+     * <p>
+     * Morf formblly, b thrfbd is <fm>monitor dfbdlodkfd</fm> if it is
+     * pbrt of b dydlf in thf rflbtion "is wbiting for bn objfdt monitor
+     * ownfd by".  In thf simplfst dbsf, thrfbd A is blodkfd wbiting
+     * for b monitor ownfd by thrfbd B, bnd thrfbd B is blodkfd wbiting
+     * for b monitor ownfd by thrfbd A.
+     * <p>
+     * This mfthod is dfsignfd for troublfshooting usf, but not for
+     * syndhronizbtion dontrol.  It might bf bn fxpfnsivf opfrbtion.
+     * <p>
+     * This mfthod finds dfbdlodks involving only objfdt monitors.
+     * To find dfbdlodks involving both objfdt monitors bnd
+     * <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">ownbblf syndhronizfrs</b>,
+     * thf {@link #findDfbdlodkfdThrfbds findDfbdlodkfdThrfbds} mfthod
+     * should bf usfd.
+     *
+     * @rfturn bn brrby of IDs of thf thrfbds thbt brf monitor
+     * dfbdlodkfd, if bny; <tt>null</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     *
+     * @sff #findDfbdlodkfdThrfbds
+     */
+    publid long[] findMonitorDfbdlodkfdThrfbds();
+
+    /**
+     * Rfsfts thf pfbk thrfbd dount to thf durrfnt numbfr of
+     * livf thrfbds.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #gftPfbkThrfbdCount
+     * @sff #gftThrfbdCount
+     */
+    publid void rfsftPfbkThrfbdCount();
+
+    /**
+     * Finds dydlfs of thrfbds thbt brf in dfbdlodk wbiting to bdquirf
+     * objfdt monitors or
+     * <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">ownbblf syndhronizfrs</b>.
+     *
+     * Thrfbds brf <fm>dfbdlodkfd</fm> in b dydlf wbiting for b lodk of
+     * thfsf two typfs if fbdh thrfbd owns onf lodk whilf
+     * trying to bdquirf bnothfr lodk blrfbdy hfld
+     * by bnothfr thrfbd in thf dydlf.
+     * <p>
+     * This mfthod is dfsignfd for troublfshooting usf, but not for
+     * syndhronizbtion dontrol.  It might bf bn fxpfnsivf opfrbtion.
+     *
+     * @rfturn bn brrby of IDs of thf thrfbds thbt brf
+     * dfbdlodkfd wbiting for objfdt monitors or ownbblf syndhronizfrs, if bny;
+     * <tt>null</tt> othfrwisf.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     * mbdhinf dofs not support monitoring of ownbblf syndhronizfr usbgf.
+     *
+     * @sff #isSyndhronizfrUsbgfSupportfd
+     * @sff #findMonitorDfbdlodkfdThrfbds
+     * @sindf 1.6
+     */
+    publid long[] findDfbdlodkfdThrfbds();
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports monitoring of
+     * objfdt monitor usbgf.
+     *
+     * @rfturn
+     *   <tt>truf</tt>
+     *     if thf Jbvb virtubl mbdhinf supports monitoring of
+     *     objfdt monitor usbgf;
+     *   <tt>fblsf</tt> othfrwisf.
+     *
+     * @sff #dumpAllThrfbds
+     * @sindf 1.6
+     */
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd();
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports monitoring of
+     * <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">
+     * ownbblf syndhronizfr</b> usbgf.
+     *
+     * @rfturn
+     *   <tt>truf</tt>
+     *     if thf Jbvb virtubl mbdhinf supports monitoring of ownbblf
+     *     syndhronizfr usbgf;
+     *   <tt>fblsf</tt> othfrwisf.
+     *
+     * @sff #dumpAllThrfbds
+     * @sindf 1.6
+     */
+    publid boolfbn isSyndhronizfrUsbgfSupportfd();
+
+    /**
+     * Rfturns thf thrfbd info for fbdh thrfbd
+     * whosf ID is in thf input brrby <tt>ids</tt>, with stbdk trbdf
+     * bnd syndhronizbtion informbtion.
+     *
+     * <p>
+     * This mfthod obtbins b snbpshot of thf thrfbd informbtion
+     * for fbdh thrfbd indluding:
+     * <ul>
+     *    <li>thf fntirf stbdk trbdf,</li>
+     *    <li>thf objfdt monitors durrfntly lodkfd by thf thrfbd
+     *        if <tt>lodkfdMonitors</tt> is <tt>truf</tt>, bnd</li>
+     *    <li>thf <b hrff="LodkInfo.html#OwnbblfSyndhronizfr">
+     *        ownbblf syndhronizfrs</b> durrfntly lodkfd by thf thrfbd
+     *        if <tt>lodkfdSyndhronizfrs</tt> is <tt>truf</tt>.</li>
+     * </ul>
+     * <p>
+     * This mfthod rfturns bn brrby of thf <tt>ThrfbdInfo</tt> objfdts,
+     * fbdh is thf thrfbd informbtion bbout thf thrfbd with thf sbmf indfx
+     * bs in thf <tt>ids</tt> brrby.
+     * If b thrfbd of thf givfn ID is not blivf or dofs not fxist,
+     * <tt>null</tt> will bf sft in thf dorrfsponding flfmfnt
+     * in thf rfturnfd brrby.  A thrfbd is blivf if
+     * it hbs bffn stbrtfd bnd hbs not yft difd.
+     * <p>
+     * If b thrfbd dofs not lodk bny objfdt monitor or <tt>lodkfdMonitors</tt>
+     * is <tt>fblsf</tt>, thf rfturnfd <tt>ThrfbdInfo</tt> objfdt will hbvf bn
+     * fmpty <tt>MonitorInfo</tt> brrby.  Similbrly, if b thrfbd dofs not
+     * lodk bny syndhronizfr or <tt>lodkfdSyndhronizfrs</tt> is <tt>fblsf</tt>,
+     * thf rfturnfd <tt>ThrfbdInfo</tt> objfdt
+     * will hbvf bn fmpty <tt>LodkInfo</tt> brrby.
+     *
+     * <p>
+     * Whfn both <tt>lodkfdMonitors</tt> bnd <tt>lodkfdSyndhronizfrs</tt>
+     * pbrbmftfrs brf <tt>fblsf</tt>, it is fquivblfnt to dblling:
+     * <blodkquotf><prf>
+     *     {@link #gftThrfbdInfo(long[], int)  gftThrfbdInfo(ids, Intfgfr.MAX_VALUE)}
+     * </prf></blodkquotf>
+     *
+     * <p>
+     * This mfthod is dfsignfd for troublfshooting usf, but not for
+     * syndhronizbtion dontrol.  It might bf bn fxpfnsivf opfrbtion.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>ThrfbdInfo</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in thf
+     * {@link ThrfbdInfo#from ThrfbdInfo.from} mfthod.
+     *
+     * @pbrbm  ids bn brrby of thrfbd IDs.
+     * @pbrbm  lodkfdMonitors if <tt>truf</tt>, rftrifvfs bll lodkfd monitors.
+     * @pbrbm  lodkfdSyndhronizfrs if <tt>truf</tt>, rftrifvfs bll lodkfd
+     *             ownbblf syndhronizfrs.
+     *
+     * @rfturn bn brrby of thf {@link ThrfbdInfo} objfdts, fbdh dontbining
+     * informbtion bbout b thrfbd whosf ID is in thf dorrfsponding
+     * flfmfnt of thf input brrby of IDs.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     *         <ul>
+     *           <li>if <tt>lodkfdMonitors</tt> is <tt>truf</tt> but
+     *               thf Jbvb virtubl mbdhinf dofs not support monitoring
+     *               of {@linkplbin #isObjfdtMonitorUsbgfSupportfd
+     *               objfdt monitor usbgf}; or</li>
+     *           <li>if <tt>lodkfdSyndhronizfrs</tt> is <tt>truf</tt> but
+     *               thf Jbvb virtubl mbdhinf dofs not support monitoring
+     *               of {@linkplbin #isSyndhronizfrUsbgfSupportfd
+     *               ownbblf syndhronizfr usbgf}.</li>
+     *         </ul>
+     *
+     * @sff #isObjfdtMonitorUsbgfSupportfd
+     * @sff #isSyndhronizfrUsbgfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids, boolfbn lodkfdMonitors, boolfbn lodkfdSyndhronizfrs);
+
+    /**
+     * Rfturns thf thrfbd info for bll livf thrfbds with stbdk trbdf
+     * bnd syndhronizbtion informbtion.
+     * Somf thrfbds indludfd in thf rfturnfd brrby
+     * mby hbvf bffn tfrminbtfd whfn this mfthod rfturns.
+     *
+     * <p>
+     * This mfthod rfturns bn brrby of {@link ThrfbdInfo} objfdts
+     * bs spfdififd in thf {@link #gftThrfbdInfo(long[], boolfbn, boolfbn)}
+     * mfthod.
+     *
+     * @pbrbm  lodkfdMonitors if <tt>truf</tt>, dump bll lodkfd monitors.
+     * @pbrbm  lodkfdSyndhronizfrs if <tt>truf</tt>, dump bll lodkfd
+     *             ownbblf syndhronizfrs.
+     *
+     * @rfturn bn brrby of {@link ThrfbdInfo} for bll livf thrfbds.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("monitor").
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     *         <ul>
+     *           <li>if <tt>lodkfdMonitors</tt> is <tt>truf</tt> but
+     *               thf Jbvb virtubl mbdhinf dofs not support monitoring
+     *               of {@linkplbin #isObjfdtMonitorUsbgfSupportfd
+     *               objfdt monitor usbgf}; or</li>
+     *           <li>if <tt>lodkfdSyndhronizfrs</tt> is <tt>truf</tt> but
+     *               thf Jbvb virtubl mbdhinf dofs not support monitoring
+     *               of {@linkplbin #isSyndhronizfrUsbgfSupportfd
+     *               ownbblf syndhronizfr usbgf}.</li>
+     *         </ul>
+     *
+     * @sff #isObjfdtMonitorUsbgfSupportfd
+     * @sff #isSyndhronizfrUsbgfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid ThrfbdInfo[] dumpAllThrfbds(boolfbn lodkfdMonitors, boolfbn lodkfdSyndhronizfrs);
+}

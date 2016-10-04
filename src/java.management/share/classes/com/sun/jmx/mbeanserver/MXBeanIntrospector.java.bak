@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import com.sun.jmx.mbeanserver.MBeanIntrospector.MBeanInfoMap;
-import com.sun.jmx.mbeanserver.MBeanIntrospector.PerInterfaceMap;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import javax.management.openmbean.OpenMBeanOperationInfoSupport;
-import javax.management.openmbean.OpenMBeanParameterInfo;
-import javax.management.openmbean.OpenMBeanParameterInfoSupport;
-import javax.management.openmbean.OpenType;
+import dom.sun.jmx.mbfbnsfrvfr.MBfbnIntrospfdtor.MBfbnInfoMbp;
+import dom.sun.jmx.mbfbnsfrvfr.MBfbnIntrospfdtor.PfrIntfrfbdfMbp;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rfflfdt.GfnfridArrbyTypf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
 
 /**
- * Introspector for MXBeans.  There is exactly one instance of this class.
+ * Introspfdtor for MXBfbns.  Tifrf is fxbdtly onf instbndf of tiis dlbss.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-class MXBeanIntrospector extends MBeanIntrospector<ConvertingMethod> {
-    private static final MXBeanIntrospector instance = new MXBeanIntrospector();
+dlbss MXBfbnIntrospfdtor fxtfnds MBfbnIntrospfdtor<ConvfrtingMftiod> {
+    privbtf stbtid finbl MXBfbnIntrospfdtor instbndf = nfw MXBfbnIntrospfdtor();
 
-    static MXBeanIntrospector getInstance() {
-        return instance;
+    stbtid MXBfbnIntrospfdtor gftInstbndf() {
+        rfturn instbndf;
     }
 
-    @Override
-    PerInterfaceMap<ConvertingMethod> getPerInterfaceMap() {
-        return perInterfaceMap;
+    @Ovfrridf
+    PfrIntfrfbdfMbp<ConvfrtingMftiod> gftPfrIntfrfbdfMbp() {
+        rfturn pfrIntfrfbdfMbp;
     }
 
-    @Override
-    MBeanInfoMap getMBeanInfoMap() {
-        return mbeanInfoMap;
+    @Ovfrridf
+    MBfbnInfoMbp gftMBfbnInfoMbp() {
+        rfturn mbfbnInfoMbp;
     }
 
-    @Override
-    MBeanAnalyzer<ConvertingMethod> getAnalyzer(Class<?> mbeanInterface)
-            throws NotCompliantMBeanException {
-        return MBeanAnalyzer.analyzer(mbeanInterface, this);
+    @Ovfrridf
+    MBfbnAnblyzfr<ConvfrtingMftiod> gftAnblyzfr(Clbss<?> mbfbnIntfrfbdf)
+            tirows NotComplibntMBfbnExdfption {
+        rfturn MBfbnAnblyzfr.bnblyzfr(mbfbnIntfrfbdf, tiis);
     }
 
-    @Override
-    boolean isMXBean() {
-        return true;
+    @Ovfrridf
+    boolfbn isMXBfbn() {
+        rfturn truf;
     }
 
-    @Override
-    ConvertingMethod mFrom(Method m) {
-        return ConvertingMethod.from(m);
+    @Ovfrridf
+    ConvfrtingMftiod mFrom(Mftiod m) {
+        rfturn ConvfrtingMftiod.from(m);
     }
 
-    @Override
-    String getName(ConvertingMethod m) {
-        return m.getName();
+    @Ovfrridf
+    String gftNbmf(ConvfrtingMftiod m) {
+        rfturn m.gftNbmf();
     }
 
-    @Override
-    Type getGenericReturnType(ConvertingMethod m) {
-        return m.getGenericReturnType();
+    @Ovfrridf
+    Typf gftGfnfridRfturnTypf(ConvfrtingMftiod m) {
+        rfturn m.gftGfnfridRfturnTypf();
     }
 
-    @Override
-    Type[] getGenericParameterTypes(ConvertingMethod m) {
-        return m.getGenericParameterTypes();
+    @Ovfrridf
+    Typf[] gftGfnfridPbrbmftfrTypfs(ConvfrtingMftiod m) {
+        rfturn m.gftGfnfridPbrbmftfrTypfs();
     }
 
-    @Override
-    String[] getSignature(ConvertingMethod m) {
-        return m.getOpenSignature();
+    @Ovfrridf
+    String[] gftSignbturf(ConvfrtingMftiod m) {
+        rfturn m.gftOpfnSignbturf();
     }
 
-    @Override
-    void checkMethod(ConvertingMethod m) {
-        m.checkCallFromOpen();
+    @Ovfrridf
+    void difdkMftiod(ConvfrtingMftiod m) {
+        m.difdkCbllFromOpfn();
     }
 
-    @Override
-    Object invokeM2(ConvertingMethod m, Object target, Object[] args,
-                    Object cookie)
-            throws InvocationTargetException, IllegalAccessException,
-                   MBeanException {
-        return m.invokeWithOpenReturn((MXBeanLookup) cookie, target, args);
+    @Ovfrridf
+    Objfdt invokfM2(ConvfrtingMftiod m, Objfdt tbrgft, Objfdt[] brgs,
+                    Objfdt dookif)
+            tirows InvodbtionTbrgftExdfption, IllfgblAddfssExdfption,
+                   MBfbnExdfption {
+        rfturn m.invokfWitiOpfnRfturn((MXBfbnLookup) dookif, tbrgft, brgs);
     }
 
-    @Override
-    boolean validParameter(ConvertingMethod m, Object value, int paramNo,
-                           Object cookie) {
-        if (value == null) {
-            // Null is a valid value for all OpenTypes, even though
-            // OpenType.isValue(null) will return false.  It can always be
-            // matched to the corresponding Java type, except when that
-            // type is primitive.
-            Type t = m.getGenericParameterTypes()[paramNo];
-            return (!(t instanceof Class<?>) || !((Class<?>) t).isPrimitive());
-        } else {
-            Object v;
+    @Ovfrridf
+    boolfbn vblidPbrbmftfr(ConvfrtingMftiod m, Objfdt vbluf, int pbrbmNo,
+                           Objfdt dookif) {
+        if (vbluf == null) {
+            // Null is b vblid vbluf for bll OpfnTypfs, fvfn tiougi
+            // OpfnTypf.isVbluf(null) will rfturn fblsf.  It dbn blwbys bf
+            // mbtdifd to tif dorrfsponding Jbvb typf, fxdfpt wifn tibt
+            // typf is primitivf.
+            Typf t = m.gftGfnfridPbrbmftfrTypfs()[pbrbmNo];
+            rfturn (!(t instbndfof Clbss<?>) || !((Clbss<?>) t).isPrimitivf());
+        } flsf {
+            Objfdt v;
             try {
-                v = m.fromOpenParameter((MXBeanLookup) cookie, value, paramNo);
-            } catch (Exception e) {
-                // Ignore the exception and let MBeanIntrospector.invokeSetter()
-                // throw the initial exception.
-                return true;
+                v = m.fromOpfnPbrbmftfr((MXBfbnLookup) dookif, vbluf, pbrbmNo);
+            } dbtdi (Exdfption f) {
+                // Ignorf tif fxdfption bnd lft MBfbnIntrospfdtor.invokfSfttfr()
+                // tirow tif initibl fxdfption.
+                rfturn truf;
             }
-            return isValidParameter(m.getMethod(), v, paramNo);
+            rfturn isVblidPbrbmftfr(m.gftMftiod(), v, pbrbmNo);
         }
     }
 
-    @Override
-    MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
-            ConvertingMethod getter, ConvertingMethod setter) {
+    @Ovfrridf
+    MBfbnAttributfInfo gftMBfbnAttributfInfo(String bttributfNbmf,
+            ConvfrtingMftiod gfttfr, ConvfrtingMftiod sfttfr) {
 
-        final boolean isReadable = (getter != null);
-        final boolean isWritable = (setter != null);
-        final boolean isIs = isReadable && getName(getter).startsWith("is");
+        finbl boolfbn isRfbdbblf = (gfttfr != null);
+        finbl boolfbn isWritbblf = (sfttfr != null);
+        finbl boolfbn isIs = isRfbdbblf && gftNbmf(gfttfr).stbrtsWiti("is");
 
-        final String description = attributeName;
+        finbl String dfsdription = bttributfNbmf;
 
-        final OpenType<?> openType;
-        final Type originalType;
-        if (isReadable) {
-            openType = getter.getOpenReturnType();
-            originalType = getter.getGenericReturnType();
-        } else {
-            openType = setter.getOpenParameterTypes()[0];
-            originalType = setter.getGenericParameterTypes()[0];
+        finbl OpfnTypf<?> opfnTypf;
+        finbl Typf originblTypf;
+        if (isRfbdbblf) {
+            opfnTypf = gfttfr.gftOpfnRfturnTypf();
+            originblTypf = gfttfr.gftGfnfridRfturnTypf();
+        } flsf {
+            opfnTypf = sfttfr.gftOpfnPbrbmftfrTypfs()[0];
+            originblTypf = sfttfr.gftGfnfridPbrbmftfrTypfs()[0];
         }
-        Descriptor descriptor = typeDescriptor(openType, originalType);
-        if (isReadable) {
-            descriptor = ImmutableDescriptor.union(descriptor,
-                    getter.getDescriptor());
+        Dfsdriptor dfsdriptor = typfDfsdriptor(opfnTypf, originblTypf);
+        if (isRfbdbblf) {
+            dfsdriptor = ImmutbblfDfsdriptor.union(dfsdriptor,
+                    gfttfr.gftDfsdriptor());
         }
-        if (isWritable) {
-            descriptor = ImmutableDescriptor.union(descriptor,
-                    setter.getDescriptor());
+        if (isWritbblf) {
+            dfsdriptor = ImmutbblfDfsdriptor.union(dfsdriptor,
+                    sfttfr.gftDfsdriptor());
         }
 
-        final MBeanAttributeInfo ai;
-        if (canUseOpenInfo(originalType)) {
-            ai = new OpenMBeanAttributeInfoSupport(attributeName,
-                                                   description,
-                                                   openType,
-                                                   isReadable,
-                                                   isWritable,
+        finbl MBfbnAttributfInfo bi;
+        if (dbnUsfOpfnInfo(originblTypf)) {
+            bi = nfw OpfnMBfbnAttributfInfoSupport(bttributfNbmf,
+                                                   dfsdription,
+                                                   opfnTypf,
+                                                   isRfbdbblf,
+                                                   isWritbblf,
                                                    isIs,
-                                                   descriptor);
-        } else {
-            ai = new MBeanAttributeInfo(attributeName,
-                                        originalTypeString(originalType),
-                                        description,
-                                        isReadable,
-                                        isWritable,
+                                                   dfsdriptor);
+        } flsf {
+            bi = nfw MBfbnAttributfInfo(bttributfNbmf,
+                                        originblTypfString(originblTypf),
+                                        dfsdription,
+                                        isRfbdbblf,
+                                        isWritbblf,
                                         isIs,
-                                        descriptor);
+                                        dfsdriptor);
         }
-        // could also consult annotations for defaultValue,
-        // minValue, maxValue, legalValues
+        // dould blso donsult bnnotbtions for dffbultVbluf,
+        // minVbluf, mbxVbluf, lfgblVblufs
 
-        return ai;
+        rfturn bi;
     }
 
-    @Override
-    MBeanOperationInfo getMBeanOperationInfo(String operationName,
-            ConvertingMethod operation) {
-        final Method method = operation.getMethod();
-        final String description = operationName;
-        /* Ideally this would be an empty string, but
-           OMBOperationInfo constructor forbids that.  Also, we
-           could consult an annotation to get a useful
-           description.  */
+    @Ovfrridf
+    MBfbnOpfrbtionInfo gftMBfbnOpfrbtionInfo(String opfrbtionNbmf,
+            ConvfrtingMftiod opfrbtion) {
+        finbl Mftiod mftiod = opfrbtion.gftMftiod();
+        finbl String dfsdription = opfrbtionNbmf;
+        /* Idfblly tiis would bf bn fmpty string, but
+           OMBOpfrbtionInfo donstrudtor forbids tibt.  Also, wf
+           dould donsult bn bnnotbtion to gft b usfful
+           dfsdription.  */
 
-        final int impact = MBeanOperationInfo.UNKNOWN;
+        finbl int impbdt = MBfbnOpfrbtionInfo.UNKNOWN;
 
-        final OpenType<?> returnType = operation.getOpenReturnType();
-        final Type originalReturnType = operation.getGenericReturnType();
-        final OpenType<?>[] paramTypes = operation.getOpenParameterTypes();
-        final Type[] originalParamTypes = operation.getGenericParameterTypes();
-        final MBeanParameterInfo[] params =
-            new MBeanParameterInfo[paramTypes.length];
-        boolean openReturnType = canUseOpenInfo(originalReturnType);
-        boolean openParameterTypes = true;
-        Annotation[][] annots = method.getParameterAnnotations();
-        for (int i = 0; i < paramTypes.length; i++) {
-            final String paramName = "p" + i;
-            final String paramDescription = paramName;
-            final OpenType<?> openType = paramTypes[i];
-            final Type originalType = originalParamTypes[i];
-            Descriptor descriptor =
-                typeDescriptor(openType, originalType);
-            descriptor = ImmutableDescriptor.union(descriptor,
-                    Introspector.descriptorForAnnotations(annots[i]));
-            final MBeanParameterInfo pi;
-            if (canUseOpenInfo(originalType)) {
-                pi = new OpenMBeanParameterInfoSupport(paramName,
-                                                       paramDescription,
-                                                       openType,
-                                                       descriptor);
-            } else {
-                openParameterTypes = false;
-                pi = new MBeanParameterInfo(
-                    paramName,
-                    originalTypeString(originalType),
-                    paramDescription,
-                    descriptor);
+        finbl OpfnTypf<?> rfturnTypf = opfrbtion.gftOpfnRfturnTypf();
+        finbl Typf originblRfturnTypf = opfrbtion.gftGfnfridRfturnTypf();
+        finbl OpfnTypf<?>[] pbrbmTypfs = opfrbtion.gftOpfnPbrbmftfrTypfs();
+        finbl Typf[] originblPbrbmTypfs = opfrbtion.gftGfnfridPbrbmftfrTypfs();
+        finbl MBfbnPbrbmftfrInfo[] pbrbms =
+            nfw MBfbnPbrbmftfrInfo[pbrbmTypfs.lfngti];
+        boolfbn opfnRfturnTypf = dbnUsfOpfnInfo(originblRfturnTypf);
+        boolfbn opfnPbrbmftfrTypfs = truf;
+        Annotbtion[][] bnnots = mftiod.gftPbrbmftfrAnnotbtions();
+        for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
+            finbl String pbrbmNbmf = "p" + i;
+            finbl String pbrbmDfsdription = pbrbmNbmf;
+            finbl OpfnTypf<?> opfnTypf = pbrbmTypfs[i];
+            finbl Typf originblTypf = originblPbrbmTypfs[i];
+            Dfsdriptor dfsdriptor =
+                typfDfsdriptor(opfnTypf, originblTypf);
+            dfsdriptor = ImmutbblfDfsdriptor.union(dfsdriptor,
+                    Introspfdtor.dfsdriptorForAnnotbtions(bnnots[i]));
+            finbl MBfbnPbrbmftfrInfo pi;
+            if (dbnUsfOpfnInfo(originblTypf)) {
+                pi = nfw OpfnMBfbnPbrbmftfrInfoSupport(pbrbmNbmf,
+                                                       pbrbmDfsdription,
+                                                       opfnTypf,
+                                                       dfsdriptor);
+            } flsf {
+                opfnPbrbmftfrTypfs = fblsf;
+                pi = nfw MBfbnPbrbmftfrInfo(
+                    pbrbmNbmf,
+                    originblTypfString(originblTypf),
+                    pbrbmDfsdription,
+                    dfsdriptor);
             }
-            params[i] = pi;
+            pbrbms[i] = pi;
         }
 
-        Descriptor descriptor =
-            typeDescriptor(returnType, originalReturnType);
-        descriptor = ImmutableDescriptor.union(descriptor,
-                Introspector.descriptorForElement(method));
-        final MBeanOperationInfo oi;
-        if (openReturnType && openParameterTypes) {
-            /* If the return value and all the parameters can be faithfully
-             * represented as OpenType then we return an OpenMBeanOperationInfo.
-             * If any of them is a primitive type, we can't.  Compatibility
-             * with JSR 174 means that we must return an MBean*Info where
-             * the getType() is the primitive type, not its wrapped type as
-             * we would get with an OpenMBean*Info.  The OpenType is available
-             * in the Descriptor in either case.
+        Dfsdriptor dfsdriptor =
+            typfDfsdriptor(rfturnTypf, originblRfturnTypf);
+        dfsdriptor = ImmutbblfDfsdriptor.union(dfsdriptor,
+                Introspfdtor.dfsdriptorForElfmfnt(mftiod));
+        finbl MBfbnOpfrbtionInfo oi;
+        if (opfnRfturnTypf && opfnPbrbmftfrTypfs) {
+            /* If tif rfturn vbluf bnd bll tif pbrbmftfrs dbn bf fbitifully
+             * rfprfsfntfd bs OpfnTypf tifn wf rfturn bn OpfnMBfbnOpfrbtionInfo.
+             * If bny of tifm is b primitivf typf, wf dbn't.  Compbtibility
+             * witi JSR 174 mfbns tibt wf must rfturn bn MBfbn*Info wifrf
+             * tif gftTypf() is tif primitivf typf, not its wrbppfd typf bs
+             * wf would gft witi bn OpfnMBfbn*Info.  Tif OpfnTypf is bvbilbblf
+             * in tif Dfsdriptor in fitifr dbsf.
              */
-            final OpenMBeanParameterInfo[] oparams =
-                new OpenMBeanParameterInfo[params.length];
-            System.arraycopy(params, 0, oparams, 0, params.length);
-            oi = new OpenMBeanOperationInfoSupport(operationName,
-                                                   description,
-                                                   oparams,
-                                                   returnType,
-                                                   impact,
-                                                   descriptor);
-        } else {
-            oi = new MBeanOperationInfo(operationName,
-                                        description,
-                                        params,
-                                        openReturnType ?
-                                        returnType.getClassName() :
-                                        originalTypeString(originalReturnType),
-                                        impact,
-                                        descriptor);
+            finbl OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+                nfw OpfnMBfbnPbrbmftfrInfo[pbrbms.lfngti];
+            Systfm.brrbydopy(pbrbms, 0, opbrbms, 0, pbrbms.lfngti);
+            oi = nfw OpfnMBfbnOpfrbtionInfoSupport(opfrbtionNbmf,
+                                                   dfsdription,
+                                                   opbrbms,
+                                                   rfturnTypf,
+                                                   impbdt,
+                                                   dfsdriptor);
+        } flsf {
+            oi = nfw MBfbnOpfrbtionInfo(opfrbtionNbmf,
+                                        dfsdription,
+                                        pbrbms,
+                                        opfnRfturnTypf ?
+                                        rfturnTypf.gftClbssNbmf() :
+                                        originblTypfString(originblRfturnTypf),
+                                        impbdt,
+                                        dfsdriptor);
         }
 
-        return oi;
+        rfturn oi;
     }
 
-    @Override
-    Descriptor getBasicMBeanDescriptor() {
-        return new ImmutableDescriptor("mxbean=true",
-                                       "immutableInfo=true");
+    @Ovfrridf
+    Dfsdriptor gftBbsidMBfbnDfsdriptor() {
+        rfturn nfw ImmutbblfDfsdriptor("mxbfbn=truf",
+                                       "immutbblfInfo=truf");
     }
 
-    @Override
-    Descriptor getMBeanDescriptor(Class<?> resourceClass) {
-        /* We already have immutableInfo=true in the Descriptor
-         * included in the MBeanInfo for the MXBean interface.  This
-         * method is being called for the MXBean *class* to add any
-         * new items beyond those in the interface Descriptor, which
-         * currently it does not.
+    @Ovfrridf
+    Dfsdriptor gftMBfbnDfsdriptor(Clbss<?> rfsourdfClbss) {
+        /* Wf blrfbdy ibvf immutbblfInfo=truf in tif Dfsdriptor
+         * indludfd in tif MBfbnInfo for tif MXBfbn intfrfbdf.  Tiis
+         * mftiod is bfing dbllfd for tif MXBfbn *dlbss* to bdd bny
+         * nfw itfms bfyond tiosf in tif intfrfbdf Dfsdriptor, wiidi
+         * durrfntly it dofs not.
          */
-        return ImmutableDescriptor.EMPTY_DESCRIPTOR;
+        rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
     }
 
-    private static Descriptor typeDescriptor(OpenType<?> openType,
-                                             Type originalType) {
-        return new ImmutableDescriptor(
-            new String[] {"openType",
-                          "originalType"},
-            new Object[] {openType,
-                          originalTypeString(originalType)});
+    privbtf stbtid Dfsdriptor typfDfsdriptor(OpfnTypf<?> opfnTypf,
+                                             Typf originblTypf) {
+        rfturn nfw ImmutbblfDfsdriptor(
+            nfw String[] {"opfnTypf",
+                          "originblTypf"},
+            nfw Objfdt[] {opfnTypf,
+                          originblTypfString(originblTypf)});
     }
 
     /**
-     * <p>True if this type can be faithfully represented in an
-     * OpenMBean*Info.</p>
+     * <p>Truf if tiis typf dbn bf fbitifully rfprfsfntfd in bn
+     * OpfnMBfbn*Info.</p>
      *
-     * <p>Compatibility with JSR 174 means that primitive types must be
-     * represented by an MBean*Info whose getType() is the primitive type
-     * string, e.g. "int".  If we used an OpenMBean*Info then this string
-     * would be the wrapped type, e.g. "java.lang.Integer".</p>
+     * <p>Compbtibility witi JSR 174 mfbns tibt primitivf typfs must bf
+     * rfprfsfntfd by bn MBfbn*Info wiosf gftTypf() is tif primitivf typf
+     * string, f.g. "int".  If wf usfd bn OpfnMBfbn*Info tifn tiis string
+     * would bf tif wrbppfd typf, f.g. "jbvb.lbng.Intfgfr".</p>
      *
-     * <p>Compatibility with JMX 1.2 (including J2SE 5.0) means that arrays
-     * of primitive types cannot use an ArrayType representing an array of
-     * primitives, because that didn't exist in JMX 1.2.</p>
+     * <p>Compbtibility witi JMX 1.2 (indluding J2SE 5.0) mfbns tibt brrbys
+     * of primitivf typfs dbnnot usf bn ArrbyTypf rfprfsfnting bn brrby of
+     * primitivfs, bfdbusf tibt didn't fxist in JMX 1.2.</p>
      */
-    private static boolean canUseOpenInfo(Type type) {
-        if (type instanceof GenericArrayType) {
-            return canUseOpenInfo(
-                ((GenericArrayType) type).getGenericComponentType());
-        } else if (type instanceof Class<?> && ((Class<?>) type).isArray()) {
-            return canUseOpenInfo(
-                ((Class<?>) type).getComponentType());
+    privbtf stbtid boolfbn dbnUsfOpfnInfo(Typf typf) {
+        if (typf instbndfof GfnfridArrbyTypf) {
+            rfturn dbnUsfOpfnInfo(
+                ((GfnfridArrbyTypf) typf).gftGfnfridComponfntTypf());
+        } flsf if (typf instbndfof Clbss<?> && ((Clbss<?>) typf).isArrby()) {
+            rfturn dbnUsfOpfnInfo(
+                ((Clbss<?>) typf).gftComponfntTypf());
         }
-        return (!(type instanceof Class<?> && ((Class<?>) type).isPrimitive()));
+        rfturn (!(typf instbndfof Clbss<?> && ((Clbss<?>) typf).isPrimitivf()));
     }
 
-    private static String originalTypeString(Type type) {
-        if (type instanceof Class<?>)
-            return ((Class<?>) type).getName();
-        else
-            return typeName(type);
+    privbtf stbtid String originblTypfString(Typf typf) {
+        if (typf instbndfof Clbss<?>)
+            rfturn ((Clbss<?>) typf).gftNbmf();
+        flsf
+            rfturn typfNbmf(typf);
     }
 
-    static String typeName(Type type) {
-        if (type instanceof Class<?>) {
-            Class<?> c = (Class<?>) type;
-            if (c.isArray())
-                return typeName(c.getComponentType()) + "[]";
-            else
-                return c.getName();
-        } else if (type instanceof GenericArrayType) {
-            GenericArrayType gat = (GenericArrayType) type;
-            return typeName(gat.getGenericComponentType()) + "[]";
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
-            StringBuilder sb = new StringBuilder();
-            sb.append(typeName(pt.getRawType())).append("<");
-            String sep = "";
-            for (Type t : pt.getActualTypeArguments()) {
-                sb.append(sep).append(typeName(t));
-                sep = ", ";
+    stbtid String typfNbmf(Typf typf) {
+        if (typf instbndfof Clbss<?>) {
+            Clbss<?> d = (Clbss<?>) typf;
+            if (d.isArrby())
+                rfturn typfNbmf(d.gftComponfntTypf()) + "[]";
+            flsf
+                rfturn d.gftNbmf();
+        } flsf if (typf instbndfof GfnfridArrbyTypf) {
+            GfnfridArrbyTypf gbt = (GfnfridArrbyTypf) typf;
+            rfturn typfNbmf(gbt.gftGfnfridComponfntTypf()) + "[]";
+        } flsf if (typf instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf pt = (PbrbmftfrizfdTypf) typf;
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(typfNbmf(pt.gftRbwTypf())).bppfnd("<");
+            String sfp = "";
+            for (Typf t : pt.gftAdtublTypfArgumfnts()) {
+                sb.bppfnd(sfp).bppfnd(typfNbmf(t));
+                sfp = ", ";
             }
-            return sb.append(">").toString();
-        } else
-            return "???";
+            rfturn sb.bppfnd(">").toString();
+        } flsf
+            rfturn "???";
     }
 
-    private final PerInterfaceMap<ConvertingMethod>
-        perInterfaceMap = new PerInterfaceMap<ConvertingMethod>();
+    privbtf finbl PfrIntfrfbdfMbp<ConvfrtingMftiod>
+        pfrIntfrfbdfMbp = nfw PfrIntfrfbdfMbp<ConvfrtingMftiod>();
 
-    private static final MBeanInfoMap mbeanInfoMap = new MBeanInfoMap();
+    privbtf stbtid finbl MBfbnInfoMbp mbfbnInfoMbp = nfw MBfbnInfoMbp();
 }

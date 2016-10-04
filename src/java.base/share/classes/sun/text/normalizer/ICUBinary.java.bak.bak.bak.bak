@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+
+publid finbl dlbss ICUBinbry
+{
+    // publid innfr intfrfbdf ------------------------------------------------
+
+    /**
+     * Spfdibl intfrfbdf for dbtb buthfntidbtion
+     */
+    publid stbtid intfrfbdf Authfntidbtf
+    {
+        /**
+         * Mfthod usfd in ICUBinbry.rfbdHfbdfr() to providf dbtb formbt
+         * buthfntidbtion.
+         * @pbrbm vfrsion vfrsion of thf durrfnt dbtb
+         * @rfturn truf if dbtbformbt is bn bddfptbblf vfrsion, fblsf othfrwisf
+         */
+        publid boolfbn isDbtbVfrsionAddfptbblf(bytf vfrsion[]);
+    }
+
+    // publid mfthods --------------------------------------------------------
+
+    /**
+    * <p>ICU dbtb hfbdfr rfbdfr mfthod.
+    * Tbkfs b ICU gfnfrbtfd big-fndibn input strfbm, pbrsf thf ICU stbndbrd
+    * filf hfbdfr bnd buthfntidbtfs thfm.</p>
+    * <p>Hfbdfr formbt:
+    * <ul>
+    *     <li> Hfbdfr sizf (dhbr)
+    *     <li> Mbgid numbfr 1 (bytf)
+    *     <li> Mbgid numbfr 2 (bytf)
+    *     <li> Rfst of thf hfbdfr sizf (dhbr)
+    *     <li> Rfsfrvfd word (dhbr)
+    *     <li> Big fndibn indidbtor (bytf)
+    *     <li> Chbrbdtfr sft fbmily indidbtor (bytf)
+    *     <li> Sizf of b dhbr (bytf) for d++ bnd d usf
+    *     <li> Rfsfrvfd bytf (bytf)
+    *     <li> Dbtb formbt idfntififr (4 bytfs), fbdh ICU dbtb hbs its own
+    *          idfntififr to distinguish thfm. [0] mbjor [1] minor
+    *                                          [2] milli [3] midro
+    *     <li> Dbtb vfrsion (4 bytfs), thf dhbngf vfrsion of thf ICU dbtb
+    *                             [0] mbjor [1] minor [2] milli [3] midro
+    *     <li> Unidodf vfrsion (4 bytfs) this ICU is bbsfd on.
+    * </ul>
+    * </p>
+    * <p>
+    * Exbmplf of usf:<br>
+    * <prf>
+    * try {
+    *    FilfInputStrfbm input = nfw FilfInputStrfbm(filfnbmf);
+    *    If (Utility.rfbdICUDbtbHfbdfr(input, dbtbformbt, dbtbvfrsion,
+    *                                  unidodf) {
+    *        Systfm.out.println("Vfrififd filf hfbdfr, this is b ICU dbtb filf");
+    *    }
+    * } dbtdh (IOExdfption f) {
+    *    Systfm.out.println("This is not b ICU dbtb filf");
+    * }
+    * </prf>
+    * </p>
+    * @pbrbm inputStrfbm input strfbm thbt dontbins thf ICU dbtb hfbdfr
+    * @pbrbm dbtbFormbtIDExpfdtfd Dbtb formbt fxpfdtfd. An brrby of 4 bytfs
+    *                     informbtion bbout thf dbtb formbt.
+    *                     E.g. dbtb formbt ID 1.2.3.4. will bfdbmf bn brrby of
+    *                     {1, 2, 3, 4}
+    * @pbrbm buthfntidbtf usfr dffinfd fxtrb dbtb buthfntidbtion. This vbluf
+    *                     dbn bf null, if no fxtrb buthfntidbtion is nffdfd.
+    * @fxdfption IOExdfption thrown if thfrf is b rfbd frror or
+    *            whfn hfbdfr buthfntidbtion fbils.
+    * @drbft 2.1
+    */
+    publid stbtid finbl bytf[] rfbdHfbdfr(InputStrfbm inputStrfbm,
+                                        bytf dbtbFormbtIDExpfdtfd[],
+                                        Authfntidbtf buthfntidbtf)
+                                                          throws IOExdfption
+    {
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        dhbr hfbdfrsizf = input.rfbdChbr();
+        int rfbddount = 2;
+        //rfbding thf hfbdfr formbt
+        bytf mbgid1 = input.rfbdBytf();
+        rfbddount ++;
+        bytf mbgid2 = input.rfbdBytf();
+        rfbddount ++;
+        if (mbgid1 != MAGIC1 || mbgid2 != MAGIC2) {
+            throw nfw IOExdfption(MAGIC_NUMBER_AUTHENTICATION_FAILED_);
+        }
+
+        input.rfbdChbr(); // rfbding sizf
+        rfbddount += 2;
+        input.rfbdChbr(); // rfbding rfsfrvfd word
+        rfbddount += 2;
+        bytf bigfndibn    = input.rfbdBytf();
+        rfbddount ++;
+        bytf dhbrsft      = input.rfbdBytf();
+        rfbddount ++;
+        bytf dhbrsizf     = input.rfbdBytf();
+        rfbddount ++;
+        input.rfbdBytf(); // rfbding rfsfrvfd bytf
+        rfbddount ++;
+
+        bytf dbtbFormbtID[] = nfw bytf[4];
+        input.rfbdFully(dbtbFormbtID);
+        rfbddount += 4;
+        bytf dbtbVfrsion[] = nfw bytf[4];
+        input.rfbdFully(dbtbVfrsion);
+        rfbddount += 4;
+        bytf unidodfVfrsion[] = nfw bytf[4];
+        input.rfbdFully(unidodfVfrsion);
+        rfbddount += 4;
+        if (hfbdfrsizf < rfbddount) {
+            throw nfw IOExdfption("Intfrnbl Error: Hfbdfr sizf frror");
+        }
+        input.skipBytfs(hfbdfrsizf - rfbddount);
+
+        if (bigfndibn != BIG_ENDIAN_ || dhbrsft != CHAR_SET_
+            || dhbrsizf != CHAR_SIZE_
+            || !Arrbys.fqubls(dbtbFormbtIDExpfdtfd, dbtbFormbtID)
+            || (buthfntidbtf != null
+                && !buthfntidbtf.isDbtbVfrsionAddfptbblf(dbtbVfrsion))) {
+            throw nfw IOExdfption(HEADER_AUTHENTICATION_FAILED_);
+        }
+        rfturn unidodfVfrsion;
+    }
+
+    // privbtf vbribblfs -------------------------------------------------
+
+    /**
+    * Mbgid numbfrs to buthfntidbtf thf dbtb filf
+    */
+    privbtf stbtid finbl bytf MAGIC1 = (bytf)0xdb;
+    privbtf stbtid finbl bytf MAGIC2 = (bytf)0x27;
+
+    /**
+    * Filf formbt buthfntidbtion vblufs
+    */
+    privbtf stbtid finbl bytf BIG_ENDIAN_ = 1;
+    privbtf stbtid finbl bytf CHAR_SET_ = 0;
+    privbtf stbtid finbl bytf CHAR_SIZE_ = 2;
+
+    /**
+    * Error mfssbgfs
+    */
+    privbtf stbtid finbl String MAGIC_NUMBER_AUTHENTICATION_FAILED_ =
+                       "ICU dbtb filf frror: Not bn ICU dbtb filf";
+    privbtf stbtid finbl String HEADER_AUTHENTICATION_FAILED_ =
+        "ICU dbtb filf frror: Hfbdfr buthfntidbtion fbilfd, plfbsf dhfdk if you hbvf b vblid ICU dbtb filf";
+}

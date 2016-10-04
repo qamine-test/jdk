@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+/**
+ * This dlbss is bn bbstrbdtion of dfrtifidbtf rfvodbtion lists (CRLs) thbt
+ * hbvf difffrfnt formbts but importbnt dommon usfs. For fxbmplf, bll CRLs
+ * shbrf thf fundtionblity of listing rfvokfd dfrtifidbtfs, bnd dbn bf qufrifd
+ * on whfthfr or not thfy list b givfn dfrtifidbtf.
+ * <p>
+ * Spfdiblizfd CRL typfs dbn bf dffinfd by subdlbssing off of this bbstrbdt
+ * dlbss.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ *
+ *
+ * @sff X509CRL
+ * @sff CfrtifidbtfFbdtory
+ *
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss CRL {
+
+    // thf CRL typf
+    privbtf String typf;
+
+    /**
+     * Crfbtfs b CRL of thf spfdififd typf.
+     *
+     * @pbrbm typf thf stbndbrd nbmf of thf CRL typf.
+     * Sff Appfndix A in thf <b hrff=
+     * "../../../../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd CRL typfs.
+     */
+    protfdtfd CRL(String typf) {
+        this.typf = typf;
+    }
+
+    /**
+     * Rfturns thf typf of this CRL.
+     *
+     * @rfturn thf typf of this CRL.
+     */
+    publid finbl String gftTypf() {
+        rfturn this.typf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this CRL.
+     *
+     * @rfturn b string rfprfsfntbtion of this CRL.
+     */
+    publid bbstrbdt String toString();
+
+    /**
+     * Chfdks whfthfr thf givfn dfrtifidbtf is on this CRL.
+     *
+     * @pbrbm dfrt thf dfrtifidbtf to dhfdk for.
+     * @rfturn truf if thf givfn dfrtifidbtf is on this CRL,
+     * fblsf othfrwisf.
+     */
+    publid bbstrbdt boolfbn isRfvokfd(Cfrtifidbtf dfrt);
+}

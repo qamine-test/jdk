@@ -1,0 +1,580 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.*;
+import jbvb.nio.dhbrsft.Chbrsft;
+import sun.nio.ds.StrfbmDfdodfr;
+import sun.nio.ds.StrfbmEndodfr;
+
+/**
+ * Mfthods to bddfss thf dhbrbdtfr-bbsfd donsolf dfvidf, if bny, bssodibtfd
+ * with thf durrfnt Jbvb virtubl mbdhinf.
+ *
+ * <p> Whfthfr b virtubl mbdhinf hbs b donsolf is dfpfndfnt upon thf
+ * undfrlying plbtform bnd blso upon thf mbnnfr in whidh thf virtubl
+ * mbdhinf is invokfd.  If thf virtubl mbdhinf is stbrtfd from bn
+ * intfrbdtivf dommbnd linf without rfdirfdting thf stbndbrd input bnd
+ * output strfbms thfn its donsolf will fxist bnd will typidblly bf
+ * donnfdtfd to thf kfybobrd bnd displby from whidh thf virtubl mbdhinf
+ * wbs lbundhfd.  If thf virtubl mbdhinf is stbrtfd butombtidblly, for
+ * fxbmplf by b bbdkground job sdhfdulfr, thfn it will typidblly not
+ * hbvf b donsolf.
+ * <p>
+ * If this virtubl mbdhinf hbs b donsolf thfn it is rfprfsfntfd by b
+ * uniquf instbndf of this dlbss whidh dbn bf obtbinfd by invoking thf
+ * {@link jbvb.lbng.Systfm#donsolf()} mfthod.  If no donsolf dfvidf is
+ * bvbilbblf thfn bn invodbtion of thbt mfthod will rfturn <tt>null</tt>.
+ * <p>
+ * Rfbd bnd writf opfrbtions brf syndhronizfd to gubrbntff thf btomid
+ * domplftion of dritidbl opfrbtions; thfrfforf invoking mfthods
+ * {@link #rfbdLinf()}, {@link #rfbdPbssword()}, {@link #formbt formbt()},
+ * {@link #printf printf()} bs wfll bs thf rfbd, formbt bnd writf opfrbtions
+ * on thf objfdts rfturnfd by {@link #rfbdfr()} bnd {@link #writfr()} mby
+ * blodk in multithrfbdfd sdfnbrios.
+ * <p>
+ * Invoking <tt>dlosf()</tt> on thf objfdts rfturnfd by thf {@link #rfbdfr()}
+ * bnd thf {@link #writfr()} will not dlosf thf undfrlying strfbm of thosf
+ * objfdts.
+ * <p>
+ * Thf donsolf-rfbd mfthods rfturn <tt>null</tt> whfn thf fnd of thf
+ * donsolf input strfbm is rfbdhfd, for fxbmplf by typing dontrol-D on
+ * Unix or dontrol-Z on Windows.  Subsfqufnt rfbd opfrbtions will suddffd
+ * if bdditionbl dhbrbdtfrs brf lbtfr fntfrfd on thf donsolf's input
+ * dfvidf.
+ * <p>
+ * Unlfss othfrwisf spfdififd, pbssing b <tt>null</tt> brgumfnt to bny mfthod
+ * in this dlbss will dbusf b {@link NullPointfrExdfption} to bf thrown.
+ * <p>
+ * <b>Sfdurity notf:</b>
+ * If bn bpplidbtion nffds to rfbd b pbssword or othfr sfdurf dbtb, it should
+ * usf {@link #rfbdPbssword()} or {@link #rfbdPbssword(String, Objfdt...)} bnd
+ * mbnublly zfro thf rfturnfd dhbrbdtfr brrby bftfr prodfssing to minimizf thf
+ * lifftimf of sfnsitivf dbtb in mfmory.
+ *
+ * <blodkquotf><prf>{@dodf
+ * Consolf dons;
+ * dhbr[] pbsswd;
+ * if ((dons = Systfm.donsolf()) != null &&
+ *     (pbsswd = dons.rfbdPbssword("[%s]", "Pbssword:")) != null) {
+ *     ...
+ *     jbvb.util.Arrbys.fill(pbsswd, ' ');
+ * }
+ * }</prf></blodkquotf>
+ *
+ * @buthor  Xufming Shfn
+ * @sindf   1.6
+ */
+
+publid finbl dlbss Consolf implfmfnts Flushbblf
+{
+   /**
+    * Rftrifvfs thf uniquf {@link jbvb.io.PrintWritfr PrintWritfr} objfdt
+    * bssodibtfd with this donsolf.
+    *
+    * @rfturn  Thf printwritfr bssodibtfd with this donsolf
+    */
+    publid PrintWritfr writfr() {
+        rfturn pw;
+    }
+
+   /**
+    * Rftrifvfs thf uniquf {@link jbvb.io.Rfbdfr Rfbdfr} objfdt bssodibtfd
+    * with this donsolf.
+    * <p>
+    * This mfthod is intfndfd to bf usfd by sophistidbtfd bpplidbtions, for
+    * fxbmplf, b {@link jbvb.util.Sdbnnfr} objfdt whidh utilizfs thf ridh
+    * pbrsing/sdbnning fundtionblity providfd by thf <tt>Sdbnnfr</tt>:
+    * <blodkquotf><prf>
+    * Consolf don = Systfm.donsolf();
+    * if (don != null) {
+    *     Sdbnnfr sd = nfw Sdbnnfr(don.rfbdfr());
+    *     ...
+    * }
+    * </prf></blodkquotf>
+    * <p>
+    * For simplf bpplidbtions rfquiring only linf-orifntfd rfbding, usf
+    * <tt>{@link #rfbdLinf}</tt>.
+    * <p>
+    * Thf bulk rfbd opfrbtions {@link jbvb.io.Rfbdfr#rfbd(dhbr[]) rfbd(dhbr[]) },
+    * {@link jbvb.io.Rfbdfr#rfbd(dhbr[], int, int) rfbd(dhbr[], int, int) } bnd
+    * {@link jbvb.io.Rfbdfr#rfbd(jbvb.nio.ChbrBufffr) rfbd(jbvb.nio.ChbrBufffr)}
+    * on thf rfturnfd objfdt will not rfbd in dhbrbdtfrs bfyond thf linf
+    * bound for fbdh invodbtion, fvfn if thf dfstinbtion bufffr hbs spbdf for
+    * morf dhbrbdtfrs. Thf {@dodf Rfbdfr}'s {@dodf rfbd} mfthods mby blodk if b
+    * linf bound hbs not bffn fntfrfd or rfbdhfd on thf donsolf's input dfvidf.
+    * A linf bound is donsidfrfd to bf bny onf of b linf fffd (<tt>'\n'</tt>),
+    * b dbrribgf rfturn (<tt>'\r'</tt>), b dbrribgf rfturn followfd immfdibtfly
+    * by b linffffd, or bn fnd of strfbm.
+    *
+    * @rfturn  Thf rfbdfr bssodibtfd with this donsolf
+    */
+    publid Rfbdfr rfbdfr() {
+        rfturn rfbdfr;
+    }
+
+   /**
+    * Writfs b formbttfd string to this donsolf's output strfbm using
+    * thf spfdififd formbt string bnd brgumfnts.
+    *
+    * @pbrbm  fmt
+    *         A formbt string bs dfsdribfd in <b
+    *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+    *
+    * @pbrbm  brgs
+    *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+    *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+    *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+    *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+    *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+    *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+    *         Thf bfhbviour on b
+    *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+    *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+    *
+    * @throws  IllfgblFormbtExdfption
+    *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+    *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+    *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+    *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+    *          formbtting frrors, sff thf <b
+    *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion
+    *          of thf formbttfr dlbss spfdifidbtion.
+    *
+    * @rfturn  This donsolf
+    */
+    publid Consolf formbt(String fmt, Objfdt ...brgs) {
+        formbttfr.formbt(fmt, brgs).flush();
+        rfturn this;
+    }
+
+   /**
+    * A donvfnifndf mfthod to writf b formbttfd string to this donsolf's
+    * output strfbm using thf spfdififd formbt string bnd brgumfnts.
+    *
+    * <p> An invodbtion of this mfthod of thf form <tt>don.printf(formbt,
+    * brgs)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion of
+    * <prf>don.formbt(formbt, brgs)</prf>.
+    *
+    * @pbrbm  formbt
+    *         A formbt string bs dfsdribfd in <b
+    *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>.
+    *
+    * @pbrbm  brgs
+    *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+    *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+    *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+    *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+    *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+    *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+    *         Thf bfhbviour on b
+    *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+    *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+    *
+    * @throws  IllfgblFormbtExdfption
+    *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+    *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+    *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+    *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+    *          formbtting frrors, sff thf <b
+    *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion of thf
+    *          formbttfr dlbss spfdifidbtion.
+    *
+    * @rfturn  This donsolf
+    */
+    publid Consolf printf(String formbt, Objfdt ... brgs) {
+        rfturn formbt(formbt, brgs);
+    }
+
+   /**
+    * Providfs b formbttfd prompt, thfn rfbds b singlf linf of tfxt from thf
+    * donsolf.
+    *
+    * @pbrbm  fmt
+    *         A formbt string bs dfsdribfd in <b
+    *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>.
+    *
+    * @pbrbm  brgs
+    *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+    *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+    *         fxtrb brgumfnts brf ignorfd.  Thf mbximum numbfr of brgumfnts is
+    *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+    *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+    *
+    * @throws  IllfgblFormbtExdfption
+    *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+    *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+    *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+    *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+    *          formbtting frrors, sff thf <b
+    *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion
+    *          of thf formbttfr dlbss spfdifidbtion.
+    *
+    * @throws IOError
+    *         If bn I/O frror oddurs.
+    *
+    * @rfturn  A string dontbining thf linf rfbd from thf donsolf, not
+    *          indluding bny linf-tfrminbtion dhbrbdtfrs, or <tt>null</tt>
+    *          if bn fnd of strfbm hbs bffn rfbdhfd.
+    */
+    publid String rfbdLinf(String fmt, Objfdt ... brgs) {
+        String linf = null;
+        syndhronizfd (writfLodk) {
+            syndhronizfd(rfbdLodk) {
+                if (fmt.lfngth() != 0)
+                    pw.formbt(fmt, brgs);
+                try {
+                    dhbr[] db = rfbdlinf(fblsf);
+                    if (db != null)
+                        linf = nfw String(db);
+                } dbtdh (IOExdfption x) {
+                    throw nfw IOError(x);
+                }
+            }
+        }
+        rfturn linf;
+    }
+
+   /**
+    * Rfbds b singlf linf of tfxt from thf donsolf.
+    *
+    * @throws IOError
+    *         If bn I/O frror oddurs.
+    *
+    * @rfturn  A string dontbining thf linf rfbd from thf donsolf, not
+    *          indluding bny linf-tfrminbtion dhbrbdtfrs, or <tt>null</tt>
+    *          if bn fnd of strfbm hbs bffn rfbdhfd.
+    */
+    publid String rfbdLinf() {
+        rfturn rfbdLinf("");
+    }
+
+   /**
+    * Providfs b formbttfd prompt, thfn rfbds b pbssword or pbssphrbsf from
+    * thf donsolf with fdhoing disbblfd.
+    *
+    * @pbrbm  fmt
+    *         A formbt string bs dfsdribfd in <b
+    *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+    *         for thf prompt tfxt.
+    *
+    * @pbrbm  brgs
+    *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+    *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+    *         fxtrb brgumfnts brf ignorfd.  Thf mbximum numbfr of brgumfnts is
+    *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+    *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+    *
+    * @throws  IllfgblFormbtExdfption
+    *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+    *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+    *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+    *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+    *          formbtting frrors, sff thf <b
+    *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b>
+    *          sfdtion of thf formbttfr dlbss spfdifidbtion.
+    *
+    * @throws IOError
+    *         If bn I/O frror oddurs.
+    *
+    * @rfturn  A dhbrbdtfr brrby dontbining thf pbssword or pbssphrbsf rfbd
+    *          from thf donsolf, not indluding bny linf-tfrminbtion dhbrbdtfrs,
+    *          or <tt>null</tt> if bn fnd of strfbm hbs bffn rfbdhfd.
+    */
+    publid dhbr[] rfbdPbssword(String fmt, Objfdt ... brgs) {
+        dhbr[] pbsswd = null;
+        syndhronizfd (writfLodk) {
+            syndhronizfd(rfbdLodk) {
+                try {
+                    fdhoOff = fdho(fblsf);
+                } dbtdh (IOExdfption x) {
+                    throw nfw IOError(x);
+                }
+                IOError iof = null;
+                try {
+                    if (fmt.lfngth() != 0)
+                        pw.formbt(fmt, brgs);
+                    pbsswd = rfbdlinf(truf);
+                } dbtdh (IOExdfption x) {
+                    iof = nfw IOError(x);
+                } finblly {
+                    try {
+                        fdhoOff = fdho(truf);
+                    } dbtdh (IOExdfption x) {
+                        if (iof == null)
+                            iof = nfw IOError(x);
+                        flsf
+                            iof.bddSupprfssfd(x);
+                    }
+                    if (iof != null)
+                        throw iof;
+                }
+                pw.println();
+            }
+        }
+        rfturn pbsswd;
+    }
+
+   /**
+    * Rfbds b pbssword or pbssphrbsf from thf donsolf with fdhoing disbblfd
+    *
+    * @throws IOError
+    *         If bn I/O frror oddurs.
+    *
+    * @rfturn  A dhbrbdtfr brrby dontbining thf pbssword or pbssphrbsf rfbd
+    *          from thf donsolf, not indluding bny linf-tfrminbtion dhbrbdtfrs,
+    *          or <tt>null</tt> if bn fnd of strfbm hbs bffn rfbdhfd.
+    */
+    publid dhbr[] rfbdPbssword() {
+        rfturn rfbdPbssword("");
+    }
+
+    /**
+     * Flushfs thf donsolf bnd fordfs bny bufffrfd output to bf writtfn
+     * immfdibtfly .
+     */
+    publid void flush() {
+        pw.flush();
+    }
+
+    privbtf Objfdt rfbdLodk;
+    privbtf Objfdt writfLodk;
+    privbtf Rfbdfr rfbdfr;
+    privbtf Writfr out;
+    privbtf PrintWritfr pw;
+    privbtf Formbttfr formbttfr;
+    privbtf Chbrsft ds;
+    privbtf dhbr[] rdb;
+    privbtf stbtid nbtivf String fndoding();
+    privbtf stbtid nbtivf boolfbn fdho(boolfbn on) throws IOExdfption;
+    privbtf stbtid boolfbn fdhoOff;
+
+    privbtf dhbr[] rfbdlinf(boolfbn zfroOut) throws IOExdfption {
+        int lfn = rfbdfr.rfbd(rdb, 0, rdb.lfngth);
+        if (lfn < 0)
+            rfturn null;  //EOL
+        if (rdb[lfn-1] == '\r')
+            lfn--;        //rfmovf CR bt fnd;
+        flsf if (rdb[lfn-1] == '\n') {
+            lfn--;        //rfmovf LF bt fnd;
+            if (lfn > 0 && rdb[lfn-1] == '\r')
+                lfn--;    //rfmovf thf CR, if thfrf is onf
+        }
+        dhbr[] b = nfw dhbr[lfn];
+        if (lfn > 0) {
+            Systfm.brrbydopy(rdb, 0, b, 0, lfn);
+            if (zfroOut) {
+                Arrbys.fill(rdb, 0, lfn, ' ');
+            }
+        }
+        rfturn b;
+    }
+
+    privbtf dhbr[] grow() {
+        bssfrt Thrfbd.holdsLodk(rfbdLodk);
+        dhbr[] t = nfw dhbr[rdb.lfngth * 2];
+        Systfm.brrbydopy(rdb, 0, t, 0, rdb.lfngth);
+        rdb = t;
+        rfturn rdb;
+    }
+
+    dlbss LinfRfbdfr fxtfnds Rfbdfr {
+        privbtf Rfbdfr in;
+        privbtf dhbr[] db;
+        privbtf int nChbrs, nfxtChbr;
+        boolfbn lfftovfrLF;
+        LinfRfbdfr(Rfbdfr in) {
+            this.in = in;
+            db = nfw dhbr[1024];
+            nfxtChbr = nChbrs = 0;
+            lfftovfrLF = fblsf;
+        }
+        publid void dlosf () {}
+        publid boolfbn rfbdy() throws IOExdfption {
+            //in.rfbdy syndhronizfs on rfbdLodk blrfbdy
+            rfturn in.rfbdy();
+        }
+
+        publid int rfbd(dhbr dbuf[], int offsft, int lfngth)
+            throws IOExdfption
+        {
+            int off = offsft;
+            int fnd = offsft + lfngth;
+            if (offsft < 0 || offsft > dbuf.lfngth || lfngth < 0 ||
+                fnd < 0 || fnd > dbuf.lfngth) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            }
+            syndhronizfd(rfbdLodk) {
+                boolfbn fof = fblsf;
+                dhbr d = 0;
+                for (;;) {
+                    if (nfxtChbr >= nChbrs) {   //fill
+                        int n = 0;
+                        do {
+                            n = in.rfbd(db, 0, db.lfngth);
+                        } whilf (n == 0);
+                        if (n > 0) {
+                            nChbrs = n;
+                            nfxtChbr = 0;
+                            if (n < db.lfngth &&
+                                db[n-1] != '\n' && db[n-1] != '\r') {
+                                /*
+                                 * wf'rf in dbnonidbl modf so fbdh "fill" should
+                                 * domf bbdk with bn fol. if thfrf no lf or nl bt
+                                 * thf fnd of rfturnfd bytfs wf rfbdhfd bn fof.
+                                 */
+                                fof = truf;
+                            }
+                        } flsf { /*EOF*/
+                            if (off - offsft == 0)
+                                rfturn -1;
+                            rfturn off - offsft;
+                        }
+                    }
+                    if (lfftovfrLF && dbuf == rdb && db[nfxtChbr] == '\n') {
+                        /*
+                         * if invokfd by our rfbdlinf, skip thf lfftovfr, othfrwisf
+                         * rfturn thf LF.
+                         */
+                        nfxtChbr++;
+                    }
+                    lfftovfrLF = fblsf;
+                    whilf (nfxtChbr < nChbrs) {
+                        d = dbuf[off++] = db[nfxtChbr];
+                        db[nfxtChbr++] = 0;
+                        if (d == '\n') {
+                            rfturn off - offsft;
+                        } flsf if (d == '\r') {
+                            if (off == fnd) {
+                                /* no spbdf lfft fvfn thf nfxt is LF, so rfturn
+                                 * whbtfvfr wf hbvf if thf invokfr is not our
+                                 * rfbdLinf()
+                                 */
+                                if (dbuf == rdb) {
+                                    dbuf = grow();
+                                    fnd = dbuf.lfngth;
+                                } flsf {
+                                    lfftovfrLF = truf;
+                                    rfturn off - offsft;
+                                }
+                            }
+                            if (nfxtChbr == nChbrs && in.rfbdy()) {
+                                /*
+                                 * wf hbvf b CR bnd wf rfbdhfd thf fnd of
+                                 * thf rfbd in bufffr, fill to mbkf surf wf
+                                 * don't miss b LF, if thfrf is onf, it's possiblf
+                                 * thbt it got dut off during lbst round rfbding
+                                 * simply bfdbusf thf rfbd in bufffr wbs full.
+                                 */
+                                nChbrs = in.rfbd(db, 0, db.lfngth);
+                                nfxtChbr = 0;
+                            }
+                            if (nfxtChbr < nChbrs && db[nfxtChbr] == '\n') {
+                                dbuf[off++] = '\n';
+                                nfxtChbr++;
+                            }
+                            rfturn off - offsft;
+                        } flsf if (off == fnd) {
+                           if (dbuf == rdb) {
+                                dbuf = grow();
+                                fnd = dbuf.lfngth;
+                           } flsf {
+                               rfturn off - offsft;
+                           }
+                        }
+                    }
+                    if (fof)
+                        rfturn off - offsft;
+                }
+            }
+        }
+    }
+
+    // Sft up JbvbIOAddfss in ShbrfdSfdrfts
+    stbtid {
+        try {
+            // Add b shutdown hook to rfstorf donsolf's fdho stbtf should
+            // it bf nfdfssbry.
+            sun.misd.ShbrfdSfdrfts.gftJbvbLbngAddfss()
+                .rfgistfrShutdownHook(0 /* shutdown hook invodbtion ordfr */,
+                    fblsf /* only rfgistfr if shutdown is not in progrfss */,
+                    nfw Runnbblf() {
+                        publid void run() {
+                            try {
+                                if (fdhoOff) {
+                                    fdho(truf);
+                                }
+                            } dbtdh (IOExdfption x) { }
+                        }
+                    });
+        } dbtdh (IllfgblStbtfExdfption f) {
+            // shutdown is blrfbdy in progrfss bnd donsolf is first usfd
+            // by b shutdown hook
+        }
+
+        sun.misd.ShbrfdSfdrfts.sftJbvbIOAddfss(nfw sun.misd.JbvbIOAddfss() {
+            publid Consolf donsolf() {
+                if (istty()) {
+                    if (dons == null)
+                        dons = nfw Consolf();
+                    rfturn dons;
+                }
+                rfturn null;
+            }
+
+            publid Chbrsft dhbrsft() {
+                // This mfthod is dbllfd in sun.sfdurity.util.Pbssword,
+                // dons blrfbdy fxists whfn this mfthod is dbllfd
+                rfturn dons.ds;
+            }
+        });
+    }
+    privbtf stbtid Consolf dons;
+    privbtf nbtivf stbtid boolfbn istty();
+    privbtf Consolf() {
+        rfbdLodk = nfw Objfdt();
+        writfLodk = nfw Objfdt();
+        String dsnbmf = fndoding();
+        if (dsnbmf != null) {
+            try {
+                ds = Chbrsft.forNbmf(dsnbmf);
+            } dbtdh (Exdfption x) {}
+        }
+        if (ds == null)
+            ds = Chbrsft.dffbultChbrsft();
+        out = StrfbmEndodfr.forOutputStrfbmWritfr(
+                  nfw FilfOutputStrfbm(FilfDfsdriptor.out),
+                  writfLodk,
+                  ds);
+        pw = nfw PrintWritfr(out, truf) { publid void dlosf() {} };
+        formbttfr = nfw Formbttfr(out);
+        rfbdfr = nfw LinfRfbdfr(StrfbmDfdodfr.forInputStrfbmRfbdfr(
+                     nfw FilfInputStrfbm(FilfDfsdriptor.in),
+                     rfbdLodk,
+                     ds));
+        rdb = nfw dhbr[1024];
+    }
+}

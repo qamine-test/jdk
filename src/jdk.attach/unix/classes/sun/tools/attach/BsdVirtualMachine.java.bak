@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.AttbdiOpfrbtionFbilfdExdfption;
+import dom.sun.tools.bttbdi.AgfntLobdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.File;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
 
 /*
- * Bsd implementation of HotSpotVirtualMachine
+ * Bsd implfmfntbtion of HotSpotVirtublMbdiinf
  */
-public class BsdVirtualMachine extends HotSpotVirtualMachine {
-    // "tmpdir" is used as a global well-known location for the files
-    // .java_pid<pid>. and .attach_pid<pid>. It is important that this
-    // location is the same for all processes, otherwise the tools
-    // will not be able to find all Hotspot processes.
-    // This is intentionally not the same as java.io.tmpdir, since
-    // the latter can be changed by the user.
-    // Any changes to this needs to be synchronized with HotSpot.
-    private static final String tmpdir;
+publid dlbss BsdVirtublMbdiinf fxtfnds HotSpotVirtublMbdiinf {
+    // "tmpdir" is usfd bs b globbl wfll-known lodbtion for tif filfs
+    // .jbvb_pid<pid>. bnd .bttbdi_pid<pid>. It is importbnt tibt tiis
+    // lodbtion is tif sbmf for bll prodfssfs, otifrwisf tif tools
+    // will not bf bblf to find bll Hotspot prodfssfs.
+    // Tiis is intfntionblly not tif sbmf bs jbvb.io.tmpdir, sindf
+    // tif lbttfr dbn bf dibngfd by tif usfr.
+    // Any dibngfs to tiis nffds to bf syndironizfd witi HotSpot.
+    privbtf stbtid finbl String tmpdir;
 
-    // The patch to the socket file created by the target VM
-    String path;
+    // Tif pbtdi to tif sodkft filf drfbtfd by tif tbrgft VM
+    String pbti;
 
     /**
-     * Attaches to the target VM
+     * Attbdifs to tif tbrgft VM
      */
-    BsdVirtualMachine(AttachProvider provider, String vmid)
-        throws AttachNotSupportedException, IOException
+    BsdVirtublMbdiinf(AttbdiProvidfr providfr, String vmid)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        super(provider, vmid);
+        supfr(providfr, vmid);
 
-        // This provider only understands pids
+        // Tiis providfr only undfrstbnds pids
         int pid;
         try {
-            pid = Integer.parseInt(vmid);
-        } catch (NumberFormatException x) {
-            throw new AttachNotSupportedException("Invalid process identifier");
+            pid = Intfgfr.pbrsfInt(vmid);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw AttbdiNotSupportfdExdfption("Invblid prodfss idfntififr");
         }
 
-        // Find the socket file. If not found then we attempt to start the
-        // attach mechanism in the target VM by sending it a QUIT signal.
-        // Then we attempt to find the socket file again.
-        path = findSocketFile(pid);
-        if (path == null) {
-            File f = new File(tmpdir, ".attach_pid" + pid);
-            createAttachFile(f.getPath());
+        // Find tif sodkft filf. If not found tifn wf bttfmpt to stbrt tif
+        // bttbdi mfdibnism in tif tbrgft VM by sfnding it b QUIT signbl.
+        // Tifn wf bttfmpt to find tif sodkft filf bgbin.
+        pbti = findSodkftFilf(pid);
+        if (pbti == null) {
+            Filf f = nfw Filf(tmpdir, ".bttbdi_pid" + pid);
+            drfbtfAttbdiFilf(f.gftPbti());
             try {
-                sendQuitTo(pid);
+                sfndQuitTo(pid);
 
-                // give the target VM time to start the attach mechanism
+                // givf tif tbrgft VM timf to stbrt tif bttbdi mfdibnism
                 int i = 0;
-                long delay = 200;
-                int retries = (int)(attachTimeout() / delay);
+                long dflby = 200;
+                int rftrifs = (int)(bttbdiTimfout() / dflby);
                 do {
                     try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException x) { }
-                    path = findSocketFile(pid);
+                        Tirfbd.slffp(dflby);
+                    } dbtdi (IntfrruptfdExdfption x) { }
+                    pbti = findSodkftFilf(pid);
                     i++;
-                } while (i <= retries && path == null);
-                if (path == null) {
-                    throw new AttachNotSupportedException(
-                        "Unable to open socket file: target process not responding " +
-                        "or HotSpot VM not loaded");
+                } wiilf (i <= rftrifs && pbti == null);
+                if (pbti == null) {
+                    tirow nfw AttbdiNotSupportfdExdfption(
+                        "Unbblf to opfn sodkft filf: tbrgft prodfss not rfsponding " +
+                        "or HotSpot VM not lobdfd");
                 }
-            } finally {
-                f.delete();
+            } finblly {
+                f.dflftf();
             }
         }
 
-        // Check that the file owner/permission to avoid attaching to
-        // bogus process
-        checkPermissions(path);
+        // Cifdk tibt tif filf ownfr/pfrmission to bvoid bttbdiing to
+        // bogus prodfss
+        difdkPfrmissions(pbti);
 
-        // Check that we can connect to the process
-        // - this ensures we throw the permission denied error now rather than
-        // later when we attempt to enqueue a command.
-        int s = socket();
+        // Cifdk tibt wf dbn donnfdt to tif prodfss
+        // - tiis fnsurfs wf tirow tif pfrmission dfnifd frror now rbtifr tibn
+        // lbtfr wifn wf bttfmpt to fnqufuf b dommbnd.
+        int s = sodkft();
         try {
-            connect(s, path);
-        } finally {
-            close(s);
+            donnfdt(s, pbti);
+        } finblly {
+            dlosf(s);
         }
     }
 
     /**
-     * Detach from the target VM
+     * Dftbdi from tif tbrgft VM
      */
-    public void detach() throws IOException {
-        synchronized (this) {
-            if (this.path != null) {
-                this.path = null;
+    publid void dftbdi() tirows IOExdfption {
+        syndironizfd (tiis) {
+            if (tiis.pbti != null) {
+                tiis.pbti = null;
             }
         }
     }
 
-    // protocol version
-    private final static String PROTOCOL_VERSION = "1";
+    // protodol vfrsion
+    privbtf finbl stbtid String PROTOCOL_VERSION = "1";
 
-    // known errors
-    private final static int ATTACH_ERROR_BADVERSION = 101;
+    // known frrors
+    privbtf finbl stbtid int ATTACH_ERROR_BADVERSION = 101;
 
     /**
-     * Execute the given command in the target VM.
+     * Exfdutf tif givfn dommbnd in tif tbrgft VM.
      */
-    InputStream execute(String cmd, Object ... args) throws AgentLoadException, IOException {
-        assert args.length <= 3;                // includes null
+    InputStrfbm fxfdutf(String dmd, Objfdt ... brgs) tirows AgfntLobdExdfption, IOExdfption {
+        bssfrt brgs.lfngti <= 3;                // indludfs null
 
-        // did we detach?
+        // did wf dftbdi?
         String p;
-        synchronized (this) {
-            if (this.path == null) {
-                throw new IOException("Detached from target VM");
+        syndironizfd (tiis) {
+            if (tiis.pbti == null) {
+                tirow nfw IOExdfption("Dftbdifd from tbrgft VM");
             }
-            p = this.path;
+            p = tiis.pbti;
         }
 
-        // create UNIX socket
-        int s = socket();
+        // drfbtf UNIX sodkft
+        int s = sodkft();
 
-        // connect to target VM
+        // donnfdt to tbrgft VM
         try {
-            connect(s, p);
-        } catch (IOException x) {
-            close(s);
-            throw x;
+            donnfdt(s, p);
+        } dbtdi (IOExdfption x) {
+            dlosf(s);
+            tirow x;
         }
 
-        IOException ioe = null;
+        IOExdfption iof = null;
 
-        // connected - write request
-        // <ver> <cmd> <args...>
+        // donnfdtfd - writf rfqufst
+        // <vfr> <dmd> <brgs...>
         try {
-            writeString(s, PROTOCOL_VERSION);
-            writeString(s, cmd);
+            writfString(s, PROTOCOL_VERSION);
+            writfString(s, dmd);
 
             for (int i=0; i<3; i++) {
-                if (i < args.length && args[i] != null) {
-                    writeString(s, (String)args[i]);
-                } else {
-                    writeString(s, "");
+                if (i < brgs.lfngti && brgs[i] != null) {
+                    writfString(s, (String)brgs[i]);
+                } flsf {
+                    writfString(s, "");
                 }
             }
-        } catch (IOException x) {
-            ioe = x;
+        } dbtdi (IOExdfption x) {
+            iof = x;
         }
 
 
-        // Create an input stream to read reply
-        SocketInputStream sis = new SocketInputStream(s);
+        // Crfbtf bn input strfbm to rfbd rfply
+        SodkftInputStrfbm sis = nfw SodkftInputStrfbm(s);
 
-        // Read the command completion status
-        int completionStatus;
+        // Rfbd tif dommbnd domplftion stbtus
+        int domplftionStbtus;
         try {
-            completionStatus = readInt(sis);
-        } catch (IOException x) {
-            sis.close();
-            if (ioe != null) {
-                throw ioe;
-            } else {
-                throw x;
+            domplftionStbtus = rfbdInt(sis);
+        } dbtdi (IOExdfption x) {
+            sis.dlosf();
+            if (iof != null) {
+                tirow iof;
+            } flsf {
+                tirow x;
             }
         }
 
-        if (completionStatus != 0) {
-            // read from the stream and use that as the error message
-            String message = readErrorMessage(sis);
-            sis.close();
+        if (domplftionStbtus != 0) {
+            // rfbd from tif strfbm bnd usf tibt bs tif frror mfssbgf
+            String mfssbgf = rfbdErrorMfssbgf(sis);
+            sis.dlosf();
 
-            // In the event of a protocol mismatch then the target VM
-            // returns a known error so that we can throw a reasonable
-            // error.
-            if (completionStatus == ATTACH_ERROR_BADVERSION) {
-                throw new IOException("Protocol mismatch with target VM");
+            // In tif fvfnt of b protodol mismbtdi tifn tif tbrgft VM
+            // rfturns b known frror so tibt wf dbn tirow b rfbsonbblf
+            // frror.
+            if (domplftionStbtus == ATTACH_ERROR_BADVERSION) {
+                tirow nfw IOExdfption("Protodol mismbtdi witi tbrgft VM");
             }
 
-            // Special-case the "load" command so that the right exception is
-            // thrown.
-            if (cmd.equals("load")) {
-                throw new AgentLoadException("Failed to load agent library");
-            } else {
-                if (message == null) {
-                    throw new AttachOperationFailedException("Command failed in target VM");
-                } else {
-                    throw new AttachOperationFailedException(message);
+            // Spfdibl-dbsf tif "lobd" dommbnd so tibt tif rigit fxdfption is
+            // tirown.
+            if (dmd.fqubls("lobd")) {
+                tirow nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt librbry");
+            } flsf {
+                if (mfssbgf == null) {
+                    tirow nfw AttbdiOpfrbtionFbilfdExdfption("Commbnd fbilfd in tbrgft VM");
+                } flsf {
+                    tirow nfw AttbdiOpfrbtionFbilfdExdfption(mfssbgf);
                 }
             }
         }
 
-        // Return the input stream so that the command output can be read
-        return sis;
+        // Rfturn tif input strfbm so tibt tif dommbnd output dbn bf rfbd
+        rfturn sis;
     }
 
     /*
-     * InputStream for the socket connection to get target VM
+     * InputStrfbm for tif sodkft donnfdtion to gft tbrgft VM
      */
-    private class SocketInputStream extends InputStream {
+    privbtf dlbss SodkftInputStrfbm fxtfnds InputStrfbm {
         int s;
 
-        public SocketInputStream(int s) {
-            this.s = s;
+        publid SodkftInputStrfbm(int s) {
+            tiis.s = s;
         }
 
-        public synchronized int read() throws IOException {
-            byte b[] = new byte[1];
-            int n = this.read(b, 0, 1);
+        publid syndironizfd int rfbd() tirows IOExdfption {
+            bytf b[] = nfw bytf[1];
+            int n = tiis.rfbd(b, 0, 1);
             if (n == 1) {
-                return b[0] & 0xff;
-            } else {
-                return -1;
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public synchronized int read(byte[] bs, int off, int len) throws IOException {
-            if ((off < 0) || (off > bs.length) || (len < 0) ||
-                ((off + len) > bs.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return 0;
+        publid syndironizfd int rfbd(bytf[] bs, int off, int lfn) tirows IOExdfption {
+            if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn 0;
             }
 
-            return BsdVirtualMachine.read(s, bs, off, len);
+            rfturn BsdVirtublMbdiinf.rfbd(s, bs, off, lfn);
         }
 
-        public void close() throws IOException {
-            BsdVirtualMachine.close(s);
+        publid void dlosf() tirows IOExdfption {
+            BsdVirtublMbdiinf.dlosf(s);
         }
     }
 
-    // Return the socket file for the given process.
-    // Checks temp directory for .java_pid<pid>.
-    private String findSocketFile(int pid) {
-        String fn = ".java_pid" + pid;
-        File f = new File(tmpdir, fn);
-        return f.exists() ? f.getPath() : null;
+    // Rfturn tif sodkft filf for tif givfn prodfss.
+    // Cifdks tfmp dirfdtory for .jbvb_pid<pid>.
+    privbtf String findSodkftFilf(int pid) {
+        String fn = ".jbvb_pid" + pid;
+        Filf f = nfw Filf(tmpdir, fn);
+        rfturn f.fxists() ? f.gftPbti() : null;
     }
 
     /*
-     * Write/sends the given to the target VM. String is transmitted in
-     * UTF-8 encoding.
+     * Writf/sfnds tif givfn to tif tbrgft VM. String is trbnsmittfd in
+     * UTF-8 fndoding.
      */
-    private void writeString(int fd, String s) throws IOException {
-        if (s.length() > 0) {
-            byte b[];
+    privbtf void writfString(int fd, String s) tirows IOExdfption {
+        if (s.lfngti() > 0) {
+            bytf b[];
             try {
-                b = s.getBytes("UTF-8");
-            } catch (java.io.UnsupportedEncodingException x) {
-                throw new InternalError();
+                b = s.gftBytfs("UTF-8");
+            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption x) {
+                tirow nfw IntfrnblError();
             }
-            BsdVirtualMachine.write(fd, b, 0, b.length);
+            BsdVirtublMbdiinf.writf(fd, b, 0, b.lfngti);
         }
-        byte b[] = new byte[1];
+        bytf b[] = nfw bytf[1];
         b[0] = 0;
-        write(fd, b, 0, 1);
+        writf(fd, b, 0, 1);
     }
 
 
-    //-- native methods
+    //-- nbtivf mftiods
 
-    static native void sendQuitTo(int pid) throws IOException;
+    stbtid nbtivf void sfndQuitTo(int pid) tirows IOExdfption;
 
-    static native void checkPermissions(String path) throws IOException;
+    stbtid nbtivf void difdkPfrmissions(String pbti) tirows IOExdfption;
 
-    static native int socket() throws IOException;
+    stbtid nbtivf int sodkft() tirows IOExdfption;
 
-    static native void connect(int fd, String path) throws IOException;
+    stbtid nbtivf void donnfdt(int fd, String pbti) tirows IOExdfption;
 
-    static native void close(int fd) throws IOException;
+    stbtid nbtivf void dlosf(int fd) tirows IOExdfption;
 
-    static native int read(int fd, byte buf[], int off, int bufLen) throws IOException;
+    stbtid nbtivf int rfbd(int fd, bytf buf[], int off, int bufLfn) tirows IOExdfption;
 
-    static native void write(int fd, byte buf[], int off, int bufLen) throws IOException;
+    stbtid nbtivf void writf(int fd, bytf buf[], int off, int bufLfn) tirows IOExdfption;
 
-    static native void createAttachFile(String path);
+    stbtid nbtivf void drfbtfAttbdiFilf(String pbti);
 
-    static native String getTempDir();
+    stbtid nbtivf String gftTfmpDir();
 
-    static {
-        System.loadLibrary("attach");
-        tmpdir = getTempDir();
+    stbtid {
+        Systfm.lobdLibrbry("bttbdi");
+        tmpdir = gftTfmpDir();
     }
 }

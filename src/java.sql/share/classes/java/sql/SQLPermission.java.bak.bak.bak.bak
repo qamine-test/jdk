@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.sql;
+
+import jbvb.sfdurity.*;
+
+/**
+ * Thf pfrmission for whidh thf <dodf>SfdurityMbnbgfr</dodf> will dhfdk
+ * whfn dodf thbt is running bn bpplidbtion with b
+ * <dodf>SfdurityMbnbgfr</dodf> fnbblfd, dblls thf
+ * {@dodf DrivfrMbnbgfr.dfrfgistfrDrivfr} mfthod,
+ * <dodf>DrivfrMbnbgfr.sftLogWritfr</dodf> mfthod,
+ * <dodf>DrivfrMbnbgfr.sftLogStrfbm</dodf> (dfprfdbtfd) mfthod,
+ * {@dodf SyndFbdtory.sftJNDIContfxt} mfthod,
+ * {@dodf SyndFbdtory.sftLoggfr} mfthod,
+ * {@dodf Connfdtion.sftNftworktimfout} mfthod,
+ * or thf <dodf>Connfdtion.bbort</dodf> mfthod.
+ * If thfrf is no <dodf>SQLPfrmission</dodf> objfdt, thfsf mfthods
+ * throw b <dodf>jbvb.lbng.SfdurityExdfption</dodf> bs b runtimf fxdfption.
+ * <P>
+ * A <dodf>SQLPfrmission</dodf> objfdt dontbins
+ * b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but no bdtions
+ * list; thfrf is fithfr b nbmfd pfrmission or thfrf is not.
+ * Thf tbrgft nbmf is thf nbmf of thf pfrmission (sff bflow). Thf
+ * nbming donvfntion follows thf  hifrbrdhidbl propfrty nbming donvfntion.
+ * In bddition, bn bstfrisk
+ * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdh. For fxbmplf: <dodf>lobdLibrbry.*</dodf>
+ * bnd <dodf>*</dodf> signify b wilddbrd mbtdh,
+ * whilf <dodf>*lobdLibrbry</dodf> bnd <dodf>b*b</dodf> do not.
+ * <P>
+ * Thf following tbblf lists bll thf possiblf <dodf>SQLPfrmission</dodf> tbrgft nbmfs.
+ * Thf tbblf givfs b dfsdription of whbt thf pfrmission bllows
+ * bnd b disdussion of thf risks of grbnting dodf thf pfrmission.
+ *
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftLog</td>
+ *   <td>Sftting of thf logging strfbm</td>
+ *   <td>This is b dbngfrous pfrmission to grbnt.
+ * Thf dontfnts of thf log mby dontbin usfrnbmfs bnd pbsswords,
+ * SQL stbtfmfnts, bnd SQL dbtb.</td>
+ * </tr>
+ * <tr>
+ * <td>dbllAbort</td>
+ *   <td>Allows thf invodbtion of thf {@dodf Connfdtion} mfthod
+ *   {@dodf bbort}</td>
+ *   <td>Pfrmits bn bpplidbtion to tfrminbtf b physidbl donnfdtion to b
+ *  dbtbbbsf.</td>
+ * </tr>
+ * <tr>
+ * <td>sftSyndFbdtory</td>
+ *   <td>Allows thf invodbtion of thf {@dodf SyndFbdtory} mfthods
+ *   {@dodf sftJNDIContfxt} bnd {@dodf sftLoggfr}</td>
+ *   <td>Pfrmits bn bpplidbtion to spfdify thf JNDI dontfxt from whidh thf
+ *   {@dodf SyndProvidfr} implfmfntbtions dbn bf rftrifvfd from bnd thf logging
+ *   objfdt to bf usfd by thf {@dodf SyndProvidfr} implfmfntbtion.</td>
+ * </tr>
+ *
+ * <tr>
+ * <td>sftNftworkTimfout</td>
+ *   <td>Allows thf invodbtion of thf {@dodf Connfdtion} mfthod
+ *   {@dodf sftNftworkTimfout}</td>
+ *   <td>Pfrmits bn bpplidbtion to spfdify thf mbximum pfriod b
+ * <dodf>Connfdtion</dodf> or
+ * objfdts drfbtfd from thf <dodf>Connfdtion</dodf>
+ * will wbit for thf dbtbbbsf to rfply to bny onf rfqufst.</td>
+ * <tr>
+ * <td>dfrfgistfrDrivfr</td>
+ *   <td>Allows thf invodbtion of thf {@dodf DrivfrMbnbgfr}
+ * mfthod {@dodf dfrfgistfrDrivfr}</td>
+ *   <td>Pfrmits bn bpplidbtion to rfmovf b JDBC drivfr from thf list of
+ * rfgistfrfd Drivfrs bnd rflfbsf its rfsourdfs.</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sindf 1.3
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ */
+
+publid finbl dlbss SQLPfrmission fxtfnds BbsidPfrmission {
+
+    /**
+     * Crfbtfs b nfw <dodf>SQLPfrmission</dodf> objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf <dodf>SQLPfrmission</dodf>.
+     *
+     * @pbrbm nbmf thf nbmf of this <dodf>SQLPfrmission</dodf> objfdt, whidh must
+     * bf fithfr {@dodf  sftLog}, {@dodf dbllAbort}, {@dodf sftSyndFbdtory},
+     *  {@dodf dfrfgistfrDrivfr}, or {@dodf sftNftworkTimfout}
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+
+     */
+
+    publid SQLPfrmission(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>SQLPfrmission</dodf> objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf <dodf>SQLPfrmission</dodf>; thf
+     * bdtions <dodf>String</dodf> is durrfntly unusfd bnd should bf
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm nbmf thf nbmf of this <dodf>SQLPfrmission</dodf> objfdt, whidh must
+     * bf fithfr {@dodf  sftLog}, {@dodf dbllAbort}, {@dodf sftSyndFbdtory},
+     *  {@dodf dfrfgistfrDrivfr}, or {@dodf sftNftworkTimfout}
+     * @pbrbm bdtions should bf <dodf>null</dodf>
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+
+     */
+
+    publid SQLPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
+    }
+
+    /**
+     * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+     * dompbtibility.
+     */
+    stbtid finbl long sfriblVfrsionUID = -1439323187199563495L;
+
+}

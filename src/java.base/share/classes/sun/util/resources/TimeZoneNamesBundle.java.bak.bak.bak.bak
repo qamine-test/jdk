@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf sun.util.rfsourdfs;
+
+import jbvb.util.Mbp;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Sft;
+
+/**
+ * Subdlbss of <dodf>RfsourdfBundlf</dodf> with spfdibl
+ * fundtionblity for timf zonf nbmfs. Thf bdditionbl fundtionblity:
+ * <ul>
+ * <li>Prfsfrvfs thf ordfr of fntrifs in thf <dodf>gftContfnts</dodf>
+ *     brrby for thf fnumfrbtion rfturnfd by <dodf>gftKfys</dodf>.
+ * <li>Insfrts thf timf zonf ID (thf kfy of thf bundlf fntrifs) into
+ *     thf string brrbys rfturnfd by <dodf>hbndlfGftObjfdt</dodf>.
+ * <ul>
+ * All <dodf>TimfZonfNbmfs</dodf> rfsourdf bundlfs must fxtfnd this
+ * dlbss bnd implfmfnt thf <dodf>gftContfnts</dodf> mfthod.
+ */
+publid bbstrbdt dlbss TimfZonfNbmfsBundlf fxtfnds OpfnListRfsourdfBundlf {
+
+    /**
+     * Rfturns b String brrby dontbining timf zonf nbmfs. Thf String brrby hbs
+     * bt most sizf flfmfnts.
+     *
+     * @pbrbm kfy  thf timf zonf ID for whidh nbmfs brf obtbinfd
+     * @pbrbm sizf thf rfqufstfd sizf of brrby for nbmfs
+     * @rfturn b String brrby dontbining nbmfs
+     */
+    publid String[] gftStringArrby(String kfy, int sizf) {
+        String[] nbmfs = hbndlfGftObjfdt(kfy, sizf);
+        if ((nbmfs == null || nbmfs.lfngth != sizf) && pbrfnt != null) {
+            nbmfs = ((TimfZonfNbmfsBundlf)pbrfnt).gftStringArrby(kfy, sizf);
+        }
+        if (nbmfs == null) {
+            throw nfw MissingRfsourdfExdfption("no timf zonf nbmfs", gftClbss().gftNbmf(), kfy);
+        }
+        rfturn nbmfs;
+
+    }
+
+    /**
+     * Mbps timf zonf IDs to lodblf-spfdifid nbmfs.
+     * Thf vbluf rfturnfd is bn brrby of fivf strings:
+     * <ul>
+     * <li>Thf timf zonf ID (sbmf bs thf kfy, not lodblizfd).
+     * <li>Thf long nbmf of thf timf zonf in stbndbrd timf (lodblizfd).
+     * <li>Thf short nbmf of thf timf zonf in stbndbrd timf (lodblizfd).
+     * <li>Thf long nbmf of thf timf zonf in dbylight sbvings timf (lodblizfd).
+     * <li>Thf short nbmf of thf timf zonf in dbylight sbvings timf (lodblizfd).
+     * </ul>
+     * Thf lodblizfd nbmfs domf from thf subdlbssfs's
+     * <dodf>gftContfnts</dodf> implfmfntbtions, whilf thf timf zonf
+     * ID is insfrtfd into thf rfturnfd brrby by this mfthod.
+     */
+    @Ovfrridf
+    publid Objfdt hbndlfGftObjfdt(String kfy) {
+        rfturn hbndlfGftObjfdt(kfy, 5);
+    }
+
+    privbtf String[] hbndlfGftObjfdt(String kfy, int n) {
+        String[] dontfnts = (String[]) supfr.hbndlfGftObjfdt(kfy);
+        if (dontfnts == null) {
+            rfturn null;
+        }
+        int dlfn = Mbth.min(n - 1, dontfnts.lfngth);
+        String[] tmpobj = nfw String[dlfn+1];
+        tmpobj[0] = kfy;
+        Systfm.brrbydopy(dontfnts, 0, tmpobj, 1, dlfn);
+        rfturn tmpobj;
+    }
+
+    /**
+     * Usf LinkfdHbshMbp to prfsfrvf thf ordfr of bundlf fntrifs.
+     */
+    @Ovfrridf
+    protfdtfd <K, V> Mbp<K, V> drfbtfMbp(int sizf) {
+        rfturn nfw LinkfdHbshMbp<>(sizf);
+    }
+
+    /**
+     * Usf LinkfdHbshSft to prfsfrvf thf kfy ordfr.
+     * @pbrbm <E> thf typf of flfmfnts
+     * @rfturn b Sft
+     */
+    @Ovfrridf
+    protfdtfd <E> Sft<E> drfbtfSft() {
+        rfturn nfw LinkfdHbshSft<>();
+    }
+
+    /**
+     * Providfs kfy/vbluf mbppings for b spfdifid
+     * rfsourdf bundlf. Ebdh fntry of thf brrby
+     * rfturnfd must bf bn brrby with two flfmfnts:
+     * <ul>
+     * <li>Thf kfy, whidh must bf b string.
+     * <li>Thf vbluf, whidh must bf bn brrby of
+     *     four strings:
+     *     <ul>
+     *     <li>Thf long nbmf of thf timf zonf in stbndbrd timf.
+     *     <li>Thf short nbmf of thf timf zonf in stbndbrd timf.
+     *     <li>Thf long nbmf of thf timf zonf in dbylight sbvings timf.
+     *     <li>Thf short nbmf of thf timf zonf in dbylight sbvings timf.
+     *     </ul>
+     * </ul>
+     */
+    protfdtfd bbstrbdt Objfdt[][] gftContfnts();
+}

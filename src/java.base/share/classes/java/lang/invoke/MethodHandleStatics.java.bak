@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
 
 /**
- * This class consists exclusively of static names internal to the
- * method handle implementation.
- * Usage:  {@code import static java.lang.invoke.MethodHandleStatics.*}
- * @author John Rose, JSR 292 EG
+ * Tiis dlbss donsists fxdlusivfly of stbtid nbmfs intfrnbl to tif
+ * mftiod ibndlf implfmfntbtion.
+ * Usbgf:  {@dodf import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*}
+ * @butior Join Rosf, JSR 292 EG
  */
-/*non-public*/ class MethodHandleStatics {
+/*non-publid*/ dlbss MftiodHbndlfStbtids {
 
-    private MethodHandleStatics() { }  // do not instantiate
+    privbtf MftiodHbndlfStbtids() { }  // do not instbntibtf
 
-    static final Unsafe UNSAFE = Unsafe.getUnsafe();
+    stbtid finbl Unsbff UNSAFE = Unsbff.gftUnsbff();
 
-    static final boolean DEBUG_METHOD_HANDLE_NAMES;
-    static final boolean DUMP_CLASS_FILES;
-    static final boolean TRACE_INTERPRETER;
-    static final boolean TRACE_METHOD_LINKAGE;
-    static final Integer COMPILE_THRESHOLD;
-    static {
-        final Object[] values = { false, false, false, false, null };
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    values[0] = Boolean.getBoolean("java.lang.invoke.MethodHandle.DEBUG_NAMES");
-                    values[1] = Boolean.getBoolean("java.lang.invoke.MethodHandle.DUMP_CLASS_FILES");
-                    values[2] = Boolean.getBoolean("java.lang.invoke.MethodHandle.TRACE_INTERPRETER");
-                    values[3] = Boolean.getBoolean("java.lang.invoke.MethodHandle.TRACE_METHOD_LINKAGE");
-                    values[4] = Integer.getInteger("java.lang.invoke.MethodHandle.COMPILE_THRESHOLD");
-                    return null;
+    stbtid finbl boolfbn DEBUG_METHOD_HANDLE_NAMES;
+    stbtid finbl boolfbn DUMP_CLASS_FILES;
+    stbtid finbl boolfbn TRACE_INTERPRETER;
+    stbtid finbl boolfbn TRACE_METHOD_LINKAGE;
+    stbtid finbl Intfgfr COMPILE_THRESHOLD;
+    stbtid {
+        finbl Objfdt[] vblufs = { fblsf, fblsf, fblsf, fblsf, null };
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    vblufs[0] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MftiodHbndlf.DEBUG_NAMES");
+                    vblufs[1] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MftiodHbndlf.DUMP_CLASS_FILES");
+                    vblufs[2] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MftiodHbndlf.TRACE_INTERPRETER");
+                    vblufs[3] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MftiodHbndlf.TRACE_METHOD_LINKAGE");
+                    vblufs[4] = Intfgfr.gftIntfgfr("jbvb.lbng.invokf.MftiodHbndlf.COMPILE_THRESHOLD");
+                    rfturn null;
                 }
             });
-        DEBUG_METHOD_HANDLE_NAMES = (Boolean) values[0];
-        DUMP_CLASS_FILES          = (Boolean) values[1];
-        TRACE_INTERPRETER         = (Boolean) values[2];
-        TRACE_METHOD_LINKAGE      = (Boolean) values[3];
-        COMPILE_THRESHOLD         = (Integer) values[4];
+        DEBUG_METHOD_HANDLE_NAMES = (Boolfbn) vblufs[0];
+        DUMP_CLASS_FILES          = (Boolfbn) vblufs[1];
+        TRACE_INTERPRETER         = (Boolfbn) vblufs[2];
+        TRACE_METHOD_LINKAGE      = (Boolfbn) vblufs[3];
+        COMPILE_THRESHOLD         = (Intfgfr) vblufs[4];
     }
 
-    /** Tell if any of the debugging switches are turned on.
-     *  If this is the case, it is reasonable to perform extra checks or save extra information.
+    /** Tfll if bny of tif dfbugging switdifs brf turnfd on.
+     *  If tiis is tif dbsf, it is rfbsonbblf to pfrform fxtrb difdks or sbvf fxtrb informbtion.
      */
-    /*non-public*/ static boolean debugEnabled() {
-        return (DEBUG_METHOD_HANDLE_NAMES |
+    /*non-publid*/ stbtid boolfbn dfbugEnbblfd() {
+        rfturn (DEBUG_METHOD_HANDLE_NAMES |
                 DUMP_CLASS_FILES |
                 TRACE_INTERPRETER |
                 TRACE_METHOD_LINKAGE);
     }
 
-    /*non-public*/ static String getNameString(MethodHandle target, MethodType type) {
-        if (type == null)
-            type = target.type();
-        MemberName name = null;
-        if (target != null)
-            name = target.internalMemberName();
-        if (name == null)
-            return "invoke" + type;
-        return name.getName() + type;
+    /*non-publid*/ stbtid String gftNbmfString(MftiodHbndlf tbrgft, MftiodTypf typf) {
+        if (typf == null)
+            typf = tbrgft.typf();
+        MfmbfrNbmf nbmf = null;
+        if (tbrgft != null)
+            nbmf = tbrgft.intfrnblMfmbfrNbmf();
+        if (nbmf == null)
+            rfturn "invokf" + typf;
+        rfturn nbmf.gftNbmf() + typf;
     }
 
-    /*non-public*/ static String getNameString(MethodHandle target, MethodHandle typeHolder) {
-        return getNameString(target, typeHolder == null ? (MethodType) null : typeHolder.type());
+    /*non-publid*/ stbtid String gftNbmfString(MftiodHbndlf tbrgft, MftiodHbndlf typfHoldfr) {
+        rfturn gftNbmfString(tbrgft, typfHoldfr == null ? (MftiodTypf) null : typfHoldfr.typf());
     }
 
-    /*non-public*/ static String getNameString(MethodHandle target) {
-        return getNameString(target, (MethodType) null);
+    /*non-publid*/ stbtid String gftNbmfString(MftiodHbndlf tbrgft) {
+        rfturn gftNbmfString(tbrgft, (MftiodTypf) null);
     }
 
-    /*non-public*/ static String addTypeString(Object obj, MethodHandle target) {
-        String str = String.valueOf(obj);
-        if (target == null)  return str;
-        int paren = str.indexOf('(');
-        if (paren >= 0) str = str.substring(0, paren);
-        return str + target.type();
+    /*non-publid*/ stbtid String bddTypfString(Objfdt obj, MftiodHbndlf tbrgft) {
+        String str = String.vblufOf(obj);
+        if (tbrgft == null)  rfturn str;
+        int pbrfn = str.indfxOf('(');
+        if (pbrfn >= 0) str = str.substring(0, pbrfn);
+        rfturn str + tbrgft.typf();
     }
 
-    // handy shared exception makers (they simplify the common case code)
-    /*non-public*/ static InternalError newInternalError(String message) {
-        return new InternalError(message);
+    // ibndy sibrfd fxdfption mbkfrs (tify simplify tif dommon dbsf dodf)
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(String mfssbgf) {
+        rfturn nfw IntfrnblError(mfssbgf);
     }
-    /*non-public*/ static InternalError newInternalError(String message, Throwable cause) {
-        return new InternalError(message, cause);
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(String mfssbgf, Tirowbblf dbusf) {
+        rfturn nfw IntfrnblError(mfssbgf, dbusf);
     }
-    /*non-public*/ static InternalError newInternalError(Throwable cause) {
-        return new InternalError(cause);
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(Tirowbblf dbusf) {
+        rfturn nfw IntfrnblError(dbusf);
     }
-    /*non-public*/ static RuntimeException newIllegalStateException(String message) {
-        return new IllegalStateException(message);
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblStbtfExdfption(String mfssbgf) {
+        rfturn nfw IllfgblStbtfExdfption(mfssbgf);
     }
-    /*non-public*/ static RuntimeException newIllegalStateException(String message, Object obj) {
-        return new IllegalStateException(message(message, obj));
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblStbtfExdfption(String mfssbgf, Objfdt obj) {
+        rfturn nfw IllfgblStbtfExdfption(mfssbgf(mfssbgf, obj));
     }
-    /*non-public*/ static RuntimeException newIllegalArgumentException(String message) {
-        return new IllegalArgumentException(message);
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf);
     }
-    /*non-public*/ static RuntimeException newIllegalArgumentException(String message, Object obj) {
-        return new IllegalArgumentException(message(message, obj));
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf, Objfdt obj) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf(mfssbgf, obj));
     }
-    /*non-public*/ static RuntimeException newIllegalArgumentException(String message, Object obj, Object obj2) {
-        return new IllegalArgumentException(message(message, obj, obj2));
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf, Objfdt obj, Objfdt obj2) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf(mfssbgf, obj, obj2));
     }
-    /*non-public*/ static Error uncaughtException(Throwable ex) {
-        throw newInternalError("uncaught exception", ex);
+    /*non-publid*/ stbtid Error undbugitExdfption(Tirowbblf fx) {
+        tirow nfwIntfrnblError("undbugit fxdfption", fx);
     }
-    static Error NYI() {
-        throw new AssertionError("NYI");
+    stbtid Error NYI() {
+        tirow nfw AssfrtionError("NYI");
     }
-    private static String message(String message, Object obj) {
-        if (obj != null)  message = message + ": " + obj;
-        return message;
+    privbtf stbtid String mfssbgf(String mfssbgf, Objfdt obj) {
+        if (obj != null)  mfssbgf = mfssbgf + ": " + obj;
+        rfturn mfssbgf;
     }
-    private static String message(String message, Object obj, Object obj2) {
-        if (obj != null || obj2 != null)  message = message + ": " + obj + ", " + obj2;
-        return message;
+    privbtf stbtid String mfssbgf(String mfssbgf, Objfdt obj, Objfdt obj2) {
+        if (obj != null || obj2 != null)  mfssbgf = mfssbgf + ": " + obj + ", " + obj2;
+        rfturn mfssbgf;
     }
 }

@@ -1,0 +1,1091 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *   Intfrnbl fundtions for mlib_ImbgfConv* on D64/F32 typf bnd
+ *   MLIB_EDGE_DST_NO_WRITE mbsk
+ *
+ */
+
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfConv.h"
+
+/***************************************************************/
+/*
+  This dffinf switdhfs bftwffn fundtions of MLIB_DOUBLE bnd MLIB_FLOAT typfs:
+  Filfs mlib_ImbgfConv_D64nw.d bnd mlib_ImbgfConv_F32nw.d
+*/
+
+/* #dffinf TYPE_DOUBLE */
+
+/***************************************************************/
+#ifdff TYPE_DOUBLE
+
+#dffinf CONV_FUNC(KERN) mlib_donv##KERN##nw_d64
+
+#dffinf DTYPE mlib_d64
+
+#flsf
+
+#dffinf CONV_FUNC(KERN) mlib_donv##KERN##nw_f32
+
+#dffinf DTYPE mlib_f32
+
+#fndif /* TYPE_DOUBLE */
+
+/***************************************************************/
+#dffinf GET_SRC_DST_PARAMETERS(typf)                            \
+  mlib_s32 hgt = mlib_ImbgfGftHfight(srd);                      \
+  mlib_s32 wid = mlib_ImbgfGftWidth(srd);                       \
+  mlib_s32 sll = mlib_ImbgfGftStridf(srd) / sizfof(typf);       \
+  mlib_s32 dll = mlib_ImbgfGftStridf(dst) / sizfof(typf);       \
+  typf*    bdr_srd = mlib_ImbgfGftDbtb(srd);                    \
+  typf*    bdr_dst = mlib_ImbgfGftDbtb(dst);                    \
+  mlib_s32 dhbn1 = mlib_ImbgfGftChbnnfls(srd)
+
+/***************************************************************/
+#dffinf DEF_VARS(typf)                                          \
+  GET_SRC_DST_PARAMETERS(typf);                                 \
+  typf     *sl;                                                 \
+  typf     *dl, *dp = NULL;                                     \
+  mlib_s32 i, j, d
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 2
+
+mlib_stbtus CONV_FUNC(2x2)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_d64   *kfrn,
+                           mlib_s32         dmbsk)
+{
+  DEF_VARS(DTYPE);
+  DTYPE    *sp0, *sp1;
+  mlib_s32 dhbn2 = dhbn1 + dhbn1;
+  mlib_s32 dhbn3 = dhbn1 + dhbn2;
+  mlib_s32 dhbn4 = dhbn3 + dhbn1;
+  DTYPE k0, k1, k2, k3;
+  DTYPE p00, p01, p02, p03, p04,
+        p10, p11, p12, p13, p14;
+
+  /* kffp kfrnfl in rfgs */
+  k0 = (DTYPE)kfrn[0];  k1 = (DTYPE)kfrn[1];
+  k2 = (DTYPE)kfrn[2];  k3 = (DTYPE)kfrn[3];
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    dl = bdr_dst + d;
+    sl = bdr_srd + d;
+
+    for (j = 0; j < hgt; j++) {
+      dp  = dl;
+      sp0 = sl;
+      sp1 = sp0 + sll;
+
+      p04 = sp0[0];
+      p14 = sp1[0];
+
+      sp0 += dhbn1;
+      sp1 += dhbn1;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 4); i += 4) {
+        p00 = p04; p10 = p14;
+
+        p01 = sp0[0];     p11 = sp1[0];
+        p02 = sp0[dhbn1]; p12 = sp1[dhbn1];
+        p03 = sp0[dhbn2]; p13 = sp1[dhbn2];
+        p04 = sp0[dhbn3]; p14 = sp1[dhbn3];
+
+        dp[0    ] = p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3;
+        dp[dhbn1] = p01 * k0 + p02 * k1 + p11 * k2 + p12 * k3;
+        dp[dhbn2] = p02 * k0 + p03 * k1 + p12 * k2 + p13 * k3;
+        dp[dhbn3] = p03 * k0 + p04 * k1 + p13 * k2 + p14 * k3;
+
+        dp  += dhbn4;
+        sp0 += dhbn4;
+        sp1 += dhbn4;
+      }
+
+      if (i < wid) {
+        p00 = p04;    p10 = p14;
+        p01 = sp0[0]; p11 = sp1[0];
+        dp[0] = p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3;
+
+        if ((i + 1) < wid) {
+          p02 = sp0[dhbn1]; p12 = sp1[dhbn1];
+          dp[dhbn1] = p01 * k0 + p02 * k1 + p11 * k2 + p12 * k3;
+
+          if ((i + 2) < wid) {
+            p03 = sp0[dhbn2]; p13 = sp1[dhbn2];
+            dp[dhbn2] = p02 * k0 + p03 * k1 + p12 * k2 + p13 * k3;
+          }
+        }
+      }
+
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 3
+
+mlib_stbtus CONV_FUNC(3x3)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_d64   *kfrn,
+                           mlib_s32         dmbsk)
+{
+  DEF_VARS(DTYPE);
+  mlib_s32 dhbn2 = dhbn1 + dhbn1;
+  DTYPE    *sp0, *sp1;
+  DTYPE *sp2;
+  DTYPE k0, k1, k2, k3, k4, k5, k6, k7, k8;
+  DTYPE p02, p03, p12, p13, p22, p23;
+
+  /* kffp kfrnfl in rfgs */
+  k0 = (DTYPE)kfrn[0];  k1 = (DTYPE)kfrn[1];  k2 = (DTYPE)kfrn[2];
+  k3 = (DTYPE)kfrn[3];  k4 = (DTYPE)kfrn[4];  k5 = (DTYPE)kfrn[5];
+  k6 = (DTYPE)kfrn[6];  k7 = (DTYPE)kfrn[7];  k8 = (DTYPE)kfrn[8];
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      DTYPE s0, s1;
+
+      dp  = dl;
+      sp0 = sl;
+      sp1 = sp0 + sll;
+      sp2 = sp1 + sll;
+
+      p02 = sp0[0];
+      p12 = sp1[0];
+      p22 = sp2[0];
+
+      p03 = sp0[dhbn1];
+      p13 = sp1[dhbn1];
+      p23 = sp2[dhbn1];
+
+      s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+      s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+      sp0 += dhbn2;
+      sp1 += dhbn2;
+      sp2 += dhbn2;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p02 = sp0[0];     p12 = sp1[0];     p22 = sp2[0];
+        p03 = sp0[dhbn1]; p13 = sp1[dhbn1]; p23 = sp2[dhbn1];
+
+        dp[0    ] = s0 + p02 * k2 + p12 * k5 + p22 * k8;
+        dp[dhbn1] = s1 + p02 * k1 + p03 * k2 + p12 * k4 + p13 * k5 + p22 * k7 + p23 * k8;
+
+        s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+        s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        sp2 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p02 = sp0[0]; p12 = sp1[0]; p22 = sp2[0];
+        dp[0] = s0 + p02 * k2 + p12 * k5 + p22 * k8;
+      }
+
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 4
+
+mlib_stbtus CONV_FUNC(4x4)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_d64   *k,
+                           mlib_s32         dmbsk)
+{
+  DTYPE k0, k1, k2, k3, k4, k5, k6, k7;
+  DTYPE p00, p01, p02, p03, p04,
+        p10, p11, p12, p13, p14;
+  DEF_VARS(DTYPE);
+  DTYPE    *sp0, *sp1;
+  mlib_s32 dhbn2 = dhbn1 + dhbn1;
+  mlib_s32 dhbn3 = dhbn1 + dhbn2;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      /*
+       *  First loop on two first linfs of kfrnfl
+       */
+      sp0 = sl;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = (DTYPE)k[0]; k1 = (DTYPE)k[1]; k2 = (DTYPE)k[2]; k3 = (DTYPE)k[3];
+      k4 = (DTYPE)k[4]; k5 = (DTYPE)k[5]; k6 = (DTYPE)k[6]; k7 = (DTYPE)k[7];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+
+      sp0 += dhbn3;
+      sp1 += dhbn3;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+
+        p03 = sp0[0];     p13 = sp1[0];
+        p04 = sp0[dhbn1]; p14 = sp1[dhbn1];
+
+        dp[0    ] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                     p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
+        dp[dhbn1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 +
+                     p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = sp0[0]; p13 = sp1[0];
+
+        dp[0] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                 p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
+      }
+
+      /*
+       *  Sfdond loop on two lbst linfs of kfrnfl
+       */
+      sp0 = sl + 2*sll;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = (DTYPE)k[ 8]; k1 = (DTYPE)k[ 9]; k2 = (DTYPE)k[10]; k3 = (DTYPE)k[11];
+      k4 = (DTYPE)k[12]; k5 = (DTYPE)k[13]; k6 = (DTYPE)k[14]; k7 = (DTYPE)k[15];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+
+      sp0 += dhbn3;
+      sp1 += dhbn3;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+
+        p03 = sp0[0];     p13 = sp1[0];
+        p04 = sp0[dhbn1]; p14 = sp1[dhbn1];
+
+        dp[0    ] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                      p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
+        dp[dhbn1] += (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 +
+                      p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = sp0[0]; p13 = sp1[0];
+
+        dp[0] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                  p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
+      }
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 5
+
+mlib_stbtus CONV_FUNC(5x5)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_d64   *k,
+                           mlib_s32         dmbsk)
+{
+  DTYPE k0, k1, k2, k3, k4, k5, k6, k7, k8, k9;
+  DTYPE p00, p01, p02, p03, p04, p05,
+        p10, p11, p12, p13, p14, p15;
+  DEF_VARS(DTYPE);
+  DTYPE    *sp0, *sp1;
+  mlib_s32 dhbn2 = dhbn1 + dhbn1;
+  mlib_s32 dhbn3 = dhbn1 + dhbn2;
+  mlib_s32 dhbn4 = dhbn3 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      /*
+       *  First loop
+       */
+      sp0 = sl;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = (DTYPE)k[0]; k1 = (DTYPE)k[1]; k2 = (DTYPE)k[2]; k3 = (DTYPE)k[3]; k4 = (DTYPE)k[4];
+      k5 = (DTYPE)k[5]; k6 = (DTYPE)k[6]; k7 = (DTYPE)k[7]; k8 = (DTYPE)k[8]; k9 = (DTYPE)k[9];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+      p05 = sp0[dhbn3]; p15 = sp1[dhbn3];
+
+      sp0 += dhbn4;
+      sp1 += dhbn4;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+        p05 = sp0[dhbn1]; p15 = sp1[dhbn1];
+
+        dp[    0] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                     p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        dp[dhbn1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                     p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+
+        dp[0] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                 p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+      }
+
+      /*
+       *  Sfdond loop
+       */
+      sp0 = sl + 2*sll;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = (DTYPE)k[10]; k1 = (DTYPE)k[11]; k2 = (DTYPE)k[12]; k3 = (DTYPE)k[13]; k4 = (DTYPE)k[14];
+      k5 = (DTYPE)k[15]; k6 = (DTYPE)k[16]; k7 = (DTYPE)k[17]; k8 = (DTYPE)k[18]; k9 = (DTYPE)k[19];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+      p05 = sp0[dhbn3]; p15 = sp1[dhbn3];
+
+      sp0 += dhbn4;
+      sp1 += dhbn4;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+        p05 = sp0[dhbn1]; p15 = sp1[dhbn1];
+
+        dp[    0] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                      p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        dp[dhbn1] += (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                      p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+
+        dp[0] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                  p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+      }
+
+      /*
+       *  3 loop
+       */
+      dp = dl;
+      sp0 = sl + 4*sll;
+
+      k0 = (DTYPE)k[20]; k1 = (DTYPE)k[21]; k2 = (DTYPE)k[22]; k3 = (DTYPE)k[23]; k4 = (DTYPE)k[24];
+
+      p02 = sp0[0];
+      p03 = sp0[dhbn1];
+      p04 = sp0[dhbn2];
+      p05 = sp0[dhbn3];
+
+      sp0 += dhbn2 + dhbn2;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p01 = p03; p02 = p04; p03 = p05;
+
+        p04 = sp0[0]; p05 = sp0[dhbn1];
+
+        dp[0    ] += p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4;
+        dp[dhbn1] += p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4;
+
+        dp  += dhbn2;
+        sp0 += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p01 = p03; p02 = p04; p03 = p05;
+
+        p04 = sp0[0];
+
+        dp[0] += p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4;
+      }
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#dffinf BUFF_SIZE  1600
+
+#dffinf CACHE_SIZE (64*1024)
+
+stbtid mlib_stbtus mlib_ImbgfConv1xN(mlib_imbgf       *dst,
+                                     donst mlib_imbgf *srd,
+                                     donst DTYPE      *k,
+                                     mlib_s32         n,
+                                     mlib_s32         dn,
+                                     mlib_s32         dmbsk)
+{
+  DTYPE    buff[BUFF_SIZE], *pbuff = buff;
+  donst DTYPE    *pk;
+  DTYPE    k0, k1, k2, k3;
+  DTYPE    p0, p1, p2, p3, p4;
+  DTYPE    *sp, *sl_d, *dl_d, *sl0;
+  DEF_VARS(DTYPE);
+  mlib_s32 off, kh;
+  mlib_s32 l, hsizf, mbx_hsizf;
+
+  hgt -= (n - 1);
+  bdr_dst += dn*dll;
+
+  mbx_hsizf = (CACHE_SIZE/sizfof(DTYPE))/sll;
+
+  if (!mbx_hsizf) mbx_hsizf = 1;
+
+  if (mbx_hsizf > BUFF_SIZE) {
+    pbuff = mlib_mbllod(sizfof(DTYPE)*mbx_hsizf);
+  }
+
+  sl_d = bdr_srd;
+  dl_d = bdr_dst;
+
+  for (l = 0; l < hgt; l += hsizf) {
+    hsizf = hgt - l;
+
+    if (hsizf > mbx_hsizf) hsizf = mbx_hsizf;
+
+    for (d = 0; d < dhbn1; d++) {
+      if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+      sl = sl_d + d;
+      dl = dl_d + d;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (j = 0; j < hsizf; j++) pbuff[j] = 0.0;
+
+      for (i = 0; i < wid; i++) {
+        sl0 = sl;
+
+        for (off = 0; off < (n - 4); off += 4) {
+          pk = k + off;
+          sp = sl0;
+
+          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+          p2 = sp[0]; p3 = sp[sll]; p4 = sp[2*sll];
+          sp += 3*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j < hsizf; j += 2) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+            p4 = sp[sll];
+
+            pbuff[j    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3;
+            pbuff[j + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3;
+
+            sp += 2*sll;
+          }
+
+          sl0 += 4*sll;
+        }
+
+        pk = k + off;
+        sp = sl0;
+
+        k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+        p2 = sp[0]; p3 = sp[sll]; p4 = sp[2*sll];
+
+        dp = dl;
+        kh = n - off;
+
+        if (kh == 4) {
+          sp += 3*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+            p4 = sp[sll];
+
+            dp[0  ] = p0*k0 + p1*k1 + p2*k2 + p3*k3 + pbuff[j];
+            dp[dll] = p1*k0 + p2*k1 + p3*k2 + p4*k3 + pbuff[j + 1];
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+
+            dp[0] = p0*k0 + p1*k1 + p2*k2 + p3*k3 + pbuff[j];
+
+            pbuff[j] = 0;
+          }
+
+        } flsf if (kh == 3) {
+          sp += 2*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2; p1 = p3;
+            p2 = sp[0];
+            p3 = sp[sll];
+
+            dp[0  ] = p0*k0 + p1*k1 + p2*k2 + pbuff[j];
+            dp[dll] = p1*k0 + p2*k1 + p3*k2 + pbuff[j + 1];
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2; p1 = p3;
+            p2 = sp[0];
+
+            dp[0] = p0*k0 + p1*k1 + p2*k2 + pbuff[j];
+
+            pbuff[j] = 0;
+          }
+
+        } flsf if (kh == 2) {
+          sp += sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2;
+            p1 = sp[0];
+            p2 = sp[sll];
+
+            dp[0  ] = p0*k0 + p1*k1 + pbuff[j];
+            dp[dll] = p1*k0 + p2*k1 + pbuff[j + 1];
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2;
+            p1 = sp[0];
+
+            dp[0] = p0*k0 + p1*k1 + pbuff[j];
+
+            pbuff[j] = 0;
+          }
+
+        } flsf /* if (kh == 1) */ {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j < hsizf; j++) {
+            p0 = sp[0];
+
+            dp[0] = p0*k0 + pbuff[j];
+
+            pbuff[j] = 0;
+
+            sp += sll;
+            dp += dll;
+          }
+        }
+
+        sl += dhbn1;
+        dl += dhbn1;
+      }
+    }
+
+    sl_d += mbx_hsizf*sll;
+    dl_d += mbx_hsizf*dll;
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#dffinf MAX_KER 7
+#dffinf MAX_NM  81
+
+mlib_stbtus CONV_FUNC(MxN)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_d64   *kfr,
+                           mlib_s32         m,
+                           mlib_s32         n,
+                           mlib_s32         dm,
+                           mlib_s32         dn,
+                           mlib_s32         dmbsk)
+{
+  DTYPE k0, k1, k2, k3, k4, k5, k6, *sp;
+  DTYPE p0, p1, p2, p3, p4, p5, p6, p7;
+  mlib_s32 l, off, kw;
+  DEF_VARS(DTYPE);
+  mlib_s32 dhbn2 = dhbn1 + dhbn1;
+  mlib_s32 dhbn3 = dhbn1 + dhbn2;
+
+#ifdff TYPE_DOUBLE
+  donst mlib_d64 *k = kfr;
+#flsf
+  mlib_f32 k_brr[MAX_NM], *k = k_brr;
+
+  if (n*m > MAX_NM) {
+    k = mlib_mbllod(n*m*sizfof(mlib_f32));
+
+    if (k == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (i = 0; i < n*m; i++) k[i] = (mlib_f32)kfr[i];
+#fndif /* TYPE_DOUBLE */
+
+  if (m == 1) rfturn mlib_ImbgfConv1xN(dst, srd, k, n, dn, dmbsk);
+
+  wid -= (m - 1);
+  hgt -= (n - 1);
+  bdr_dst += dn*dll + dm*dhbn1;
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      donst DTYPE *pk = k;
+
+      for (l = 0; l < n; l++) {
+        DTYPE *sp0 = sl + l*sll;
+
+        for (off = 0; off < m; off += kw, pk += kw, sp0 += dhbn1) {
+          kw = m - off;
+
+          if (kw > 2*MAX_KER) kw = MAX_KER; flsf
+            if (kw > MAX_KER) kw = kw/2;
+
+          p2 = sp0[0]; p3 = sp0[dhbn1]; p4 = sp0[dhbn2];
+          sp0 += dhbn3;
+          p5 = sp0[0]; p6 = sp0[dhbn1]; p7 = sp0[dhbn2];
+
+          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+          k4 = pk[4]; k5 = pk[5]; k6 = pk[6];
+
+          dp = dl;
+
+          if (kw == 7) {
+            sp = sp0 += dhbn3;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = sp[- dhbn1]; p6 = sp[0]; p7 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6;
+                dp[dhbn1] = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = sp[- dhbn1]; p6 = sp[0]; p7 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6;
+                dp[dhbn1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 6) {
+            sp = sp0 += dhbn2;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = sp[0]; p6 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5;
+                dp[dhbn1] = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = sp[0]; p6 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5;
+                dp[dhbn1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 5) {
+            sp = sp0 += dhbn1;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+
+                p4 = sp[0]; p5 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4;
+                dp[dhbn1] = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+
+                p4 = sp[0]; p5 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4;
+                dp[dhbn1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 4) {
+
+            sp = sp0;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+
+                p3 = sp[0]; p4 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1 + p2*k2 + p3*k3;
+                dp[dhbn1] = p1*k0 + p2*k1 + p3*k2 + p4*k3;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+
+                p3 = sp[0]; p4 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3;
+                dp[dhbn1] += p1*k0 + p2*k1 + p3*k2 + p4*k3;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 3) {
+            sp = sp0 -= dhbn1;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+
+                p2 = sp[0]; p3 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1 + p2*k2;
+                dp[dhbn1] = p1*k0 + p2*k1 + p3*k2;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+
+                p2 = sp[0]; p3 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1 + p2*k2;
+                dp[dhbn1] += p1*k0 + p2*k1 + p3*k2;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf { /* kw == 2 */
+            sp = sp0 -= dhbn2;
+
+            if (pk == k) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+
+                p1 = sp[0]; p2 = sp[dhbn1];
+
+                dp[0    ] = p0*k0 + p1*k1;
+                dp[dhbn1] = p1*k0 + p2*k1;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+
+                p1 = sp[0]; p2 = sp[dhbn1];
+
+                dp[0    ] += p0*k0 + p1*k1;
+                dp[dhbn1] += p1*k0 + p2*k1;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+          }
+        }
+      }
+
+      /* lbst pixfls */
+
+      if (wid & 1) {
+        DTYPE *sp0 = sl + i*dhbn1, s = 0;
+        donst DTYPE *pk = k;
+        mlib_s32 x;
+
+        for (l = 0; l < n; l++) {
+          DTYPE *sp = sp0 + l*sll;
+
+          for (x = 0; x < m; x++) s += sp[x*dhbn1] * (*pk++);
+        }
+
+        dp[0] = s;
+      }
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+#ifndff TYPE_DOUBLE
+
+  if (k != k_brr) mlib_frff(k);
+#fndif /* TYPE_DOUBLE */
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/

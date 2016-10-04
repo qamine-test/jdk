@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2001, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListenerProxy;
-import java.awt.AWTEvent;
+import jbvb.util.EvfntListfnfrProxy;
+import jbvb.bwt.AWTEvfnt;
 
 /**
- * A class which extends the {@code EventListenerProxy}
- * specifically for adding an {@code AWTEventListener}
- * for a specific event mask.
- * Instances of this class can be added as {@code AWTEventListener}s
- * to a {@code Toolkit} object.
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * spfdifidblly for bdding bn {@dodf AWTEvfntListfnfr}
+ * for b spfdifid fvfnt mbsk.
+ * Instbndfs of tiis dlbss dbn bf bddfd bs {@dodf AWTEvfntListfnfr}s
+ * to b {@dodf Toolkit} objfdt.
  * <p>
- * The {@code getAWTEventListeners} method of {@code Toolkit}
- * can return a mixture of {@code AWTEventListener}
- * and {@code AWTEventListenerProxy} objects.
+ * Tif {@dodf gftAWTEvfntListfnfrs} mftiod of {@dodf Toolkit}
+ * dbn rfturn b mixturf of {@dodf AWTEvfntListfnfr}
+ * bnd {@dodf AWTEvfntListfnfrProxy} objfdts.
  *
- * @see java.awt.Toolkit
- * @see java.util.EventListenerProxy
- * @since 1.4
+ * @sff jbvb.bwt.Toolkit
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sindf 1.4
  */
-public class AWTEventListenerProxy
-        extends EventListenerProxy<AWTEventListener>
-        implements AWTEventListener {
+publid dlbss AWTEvfntListfnfrProxy
+        fxtfnds EvfntListfnfrProxy<AWTEvfntListfnfr>
+        implfmfnts AWTEvfntListfnfr {
 
-    private final long eventMask;
+    privbtf finbl long fvfntMbsk;
 
     /**
-     * Constructor which binds the {@code AWTEventListener}
-     * to a specific event mask.
+     * Construdtor wiidi binds tif {@dodf AWTEvfntListfnfr}
+     * to b spfdifid fvfnt mbsk.
      *
-     * @param eventMask  the bitmap of event types to receive
-     * @param listener   the listener object
+     * @pbrbm fvfntMbsk  tif bitmbp of fvfnt typfs to rfdfivf
+     * @pbrbm listfnfr   tif listfnfr objfdt
      */
-    public AWTEventListenerProxy (long eventMask, AWTEventListener listener) {
-        super(listener);
-        this.eventMask = eventMask;
+    publid AWTEvfntListfnfrProxy (long fvfntMbsk, AWTEvfntListfnfr listfnfr) {
+        supfr(listfnfr);
+        tiis.fvfntMbsk = fvfntMbsk;
     }
 
     /**
-     * Forwards the AWT event to the listener delegate.
+     * Forwbrds tif AWT fvfnt to tif listfnfr dflfgbtf.
      *
-     * @param event  the AWT event
+     * @pbrbm fvfnt  tif AWT fvfnt
      */
-    public void eventDispatched(AWTEvent event) {
-        getListener().eventDispatched(event);
+    publid void fvfntDispbtdifd(AWTEvfnt fvfnt) {
+        gftListfnfr().fvfntDispbtdifd(fvfnt);
     }
 
     /**
-     * Returns the event mask associated with the listener.
+     * Rfturns tif fvfnt mbsk bssodibtfd witi tif listfnfr.
      *
-     * @return the event mask associated with the listener
+     * @rfturn tif fvfnt mbsk bssodibtfd witi tif listfnfr
      */
-    public long getEventMask() {
-        return this.eventMask;
+    publid long gftEvfntMbsk() {
+        rfturn tiis.fvfntMbsk;
     }
 }

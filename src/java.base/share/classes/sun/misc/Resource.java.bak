@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.EOFException;
-import java.net.URL;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.InputStream;
-import java.security.CodeSigner;
-import java.util.jar.Manifest;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import sun.nio.ByteBuffered;
+import jbvb.io.EOFExdfption;
+import jbvb.nft.URL;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Arrbys;
+import sun.nio.BytfBufffrfd;
 
 /**
- * This class is used to represent a Resource that has been loaded
- * from the class path.
+ * Tiis dlbss is usfd to rfprfsfnt b Rfsourdf tibt ibs bffn lobdfd
+ * from tif dlbss pbti.
  *
- * @author  David Connelly
- * @since   1.2
+ * @butior  Dbvid Connflly
+ * @sindf   1.2
  */
-public abstract class Resource {
+publid bbstrbdt dlbss Rfsourdf {
     /**
-     * Returns the name of the Resource.
+     * Rfturns tif nbmf of tif Rfsourdf.
      */
-    public abstract String getName();
-
-    /**
-     * Returns the URL of the Resource.
-     */
-    public abstract URL getURL();
+    publid bbstrbdt String gftNbmf();
 
     /**
-     * Returns the CodeSource URL for the Resource.
+     * Rfturns tif URL of tif Rfsourdf.
      */
-    public abstract URL getCodeSourceURL();
+    publid bbstrbdt URL gftURL();
 
     /**
-     * Returns an InputStream for reading the Resource data.
+     * Rfturns tif CodfSourdf URL for tif Rfsourdf.
      */
-    public abstract InputStream getInputStream() throws IOException;
+    publid bbstrbdt URL gftCodfSourdfURL();
 
     /**
-     * Returns the length of the Resource data, or -1 if unknown.
+     * Rfturns bn InputStrfbm for rfbding tif Rfsourdf dbtb.
      */
-    public abstract int getContentLength() throws IOException;
+    publid bbstrbdt InputStrfbm gftInputStrfbm() tirows IOExdfption;
 
-    private InputStream cis;
+    /**
+     * Rfturns tif lfngti of tif Rfsourdf dbtb, or -1 if unknown.
+     */
+    publid bbstrbdt int gftContfntLfngti() tirows IOExdfption;
 
-    /* Cache result in case getBytes is called after getByteBuffer. */
-    private synchronized InputStream cachedInputStream() throws IOException {
-        if (cis == null) {
-            cis = getInputStream();
+    privbtf InputStrfbm dis;
+
+    /* Cbdif rfsult in dbsf gftBytfs is dbllfd bftfr gftBytfBufffr. */
+    privbtf syndironizfd InputStrfbm dbdifdInputStrfbm() tirows IOExdfption {
+        if (dis == null) {
+            dis = gftInputStrfbm();
         }
-        return cis;
+        rfturn dis;
     }
 
     /**
-     * Returns the Resource data as an array of bytes.
+     * Rfturns tif Rfsourdf dbtb bs bn brrby of bytfs.
      */
-    public byte[] getBytes() throws IOException {
-        byte[] b;
-        // Get stream before content length so that a FileNotFoundException
-        // can propagate upwards without being caught too early
-        InputStream in = cachedInputStream();
+    publid bytf[] gftBytfs() tirows IOExdfption {
+        bytf[] b;
+        // Gft strfbm bfforf dontfnt lfngti so tibt b FilfNotFoundExdfption
+        // dbn propbgbtf upwbrds witiout bfing dbugit too fbrly
+        InputStrfbm in = dbdifdInputStrfbm();
 
-        // This code has been uglified to protect against interrupts.
-        // Even if a thread has been interrupted when loading resources,
-        // the IO should not abort, so must carefully retry, failing only
-        // if the retry leads to some other IO exception.
+        // Tiis dodf ibs bffn uglififd to protfdt bgbinst intfrrupts.
+        // Evfn if b tirfbd ibs bffn intfrruptfd wifn lobding rfsourdfs,
+        // tif IO siould not bbort, so must dbrffully rftry, fbiling only
+        // if tif rftry lfbds to somf otifr IO fxdfption.
 
-        boolean isInterrupted = Thread.interrupted();
-        int len;
+        boolfbn isIntfrruptfd = Tirfbd.intfrruptfd();
+        int lfn;
         for (;;) {
             try {
-                len = getContentLength();
-                break;
-            } catch (InterruptedIOException iioe) {
-                Thread.interrupted();
-                isInterrupted = true;
+                lfn = gftContfntLfngti();
+                brfbk;
+            } dbtdi (IntfrruptfdIOExdfption iiof) {
+                Tirfbd.intfrruptfd();
+                isIntfrruptfd = truf;
             }
         }
 
         try {
-            b = new byte[0];
-            if (len == -1) len = Integer.MAX_VALUE;
+            b = nfw bytf[0];
+            if (lfn == -1) lfn = Intfgfr.MAX_VALUE;
             int pos = 0;
-            while (pos < len) {
-                int bytesToRead;
-                if (pos >= b.length) { // Only expand when there's no room
-                    bytesToRead = Math.min(len - pos, b.length + 1024);
-                    if (b.length < pos + bytesToRead) {
-                        b = Arrays.copyOf(b, pos + bytesToRead);
+            wiilf (pos < lfn) {
+                int bytfsToRfbd;
+                if (pos >= b.lfngti) { // Only fxpbnd wifn tifrf's no room
+                    bytfsToRfbd = Mbti.min(lfn - pos, b.lfngti + 1024);
+                    if (b.lfngti < pos + bytfsToRfbd) {
+                        b = Arrbys.dopyOf(b, pos + bytfsToRfbd);
                     }
-                } else {
-                    bytesToRead = b.length - pos;
+                } flsf {
+                    bytfsToRfbd = b.lfngti - pos;
                 }
-                int cc = 0;
+                int dd = 0;
                 try {
-                    cc = in.read(b, pos, bytesToRead);
-                } catch (InterruptedIOException iioe) {
-                    Thread.interrupted();
-                    isInterrupted = true;
+                    dd = in.rfbd(b, pos, bytfsToRfbd);
+                } dbtdi (IntfrruptfdIOExdfption iiof) {
+                    Tirfbd.intfrruptfd();
+                    isIntfrruptfd = truf;
                 }
-                if (cc < 0) {
-                    if (len != Integer.MAX_VALUE) {
-                        throw new EOFException("Detect premature EOF");
-                    } else {
-                        if (b.length != pos) {
-                            b = Arrays.copyOf(b, pos);
+                if (dd < 0) {
+                    if (lfn != Intfgfr.MAX_VALUE) {
+                        tirow nfw EOFExdfption("Dftfdt prfmbturf EOF");
+                    } flsf {
+                        if (b.lfngti != pos) {
+                            b = Arrbys.dopyOf(b, pos);
                         }
-                        break;
+                        brfbk;
                     }
                 }
-                pos += cc;
+                pos += dd;
             }
-        } finally {
+        } finblly {
             try {
-                in.close();
-            } catch (InterruptedIOException iioe) {
-                isInterrupted = true;
-            } catch (IOException ignore) {}
+                in.dlosf();
+            } dbtdi (IntfrruptfdIOExdfption iiof) {
+                isIntfrruptfd = truf;
+            } dbtdi (IOExdfption ignorf) {}
 
-            if (isInterrupted) {
-                Thread.currentThread().interrupt();
+            if (isIntfrruptfd) {
+                Tirfbd.durrfntTirfbd().intfrrupt();
             }
         }
-        return b;
+        rfturn b;
     }
 
     /**
-     * Returns the Resource data as a ByteBuffer, but only if the input stream
-     * was implemented on top of a ByteBuffer. Return <tt>null</tt> otherwise.
+     * Rfturns tif Rfsourdf dbtb bs b BytfBufffr, but only if tif input strfbm
+     * wbs implfmfntfd on top of b BytfBufffr. Rfturn <tt>null</tt> otifrwisf.
      */
-    public ByteBuffer getByteBuffer() throws IOException {
-        InputStream in = cachedInputStream();
-        if (in instanceof ByteBuffered) {
-            return ((ByteBuffered)in).getByteBuffer();
+    publid BytfBufffr gftBytfBufffr() tirows IOExdfption {
+        InputStrfbm in = dbdifdInputStrfbm();
+        if (in instbndfof BytfBufffrfd) {
+            rfturn ((BytfBufffrfd)in).gftBytfBufffr();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the Manifest for the Resource, or null if none.
+     * Rfturns tif Mbniffst for tif Rfsourdf, or null if nonf.
      */
-    public Manifest getManifest() throws IOException {
-        return null;
+    publid Mbniffst gftMbniffst() tirows IOExdfption {
+        rfturn null;
     }
 
     /**
-     * Returns theCertificates for the Resource, or null if none.
+     * Rfturns tifCfrtifidbtfs for tif Rfsourdf, or null if nonf.
      */
-    public java.security.cert.Certificate[] getCertificates() {
-        return null;
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs() {
+        rfturn null;
     }
 
     /**
-     * Returns the code signers for the Resource, or null if none.
+     * Rfturns tif dodf signfrs for tif Rfsourdf, or null if nonf.
      */
-    public CodeSigner[] getCodeSigners() {
-        return null;
+    publid CodfSignfr[] gftCodfSignfrs() {
+        rfturn null;
     }
 }

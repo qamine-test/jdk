@@ -1,1059 +1,1059 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.event.ActionEvent;
-import java.io.*;
-import java.text.*;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.*;
-import javax.swing.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.io.*;
+import jbvb.tfxt.*;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.util.*;
+import jbvbx.swing.*;
 
 /**
- * <code>InternationalFormatter</code> extends <code>DefaultFormatter</code>,
- * using an instance of <code>java.text.Format</code> to handle the
- * conversion to a String, and the conversion from a String.
+ * <dodf>IntfrnbtionblFormbttfr</dodf> fxtfnds <dodf>DffbultFormbttfr</dodf>,
+ * using bn instbndf of <dodf>jbvb.tfxt.Formbt</dodf> to ibndlf tif
+ * donvfrsion to b String, bnd tif donvfrsion from b String.
  * <p>
- * If <code>getAllowsInvalid()</code> is false, this will ask the
- * <code>Format</code> to format the current text on every edit.
+ * If <dodf>gftAllowsInvblid()</dodf> is fblsf, tiis will bsk tif
+ * <dodf>Formbt</dodf> to formbt tif durrfnt tfxt on fvfry fdit.
  * <p>
- * You can specify a minimum and maximum value by way of the
- * <code>setMinimum</code> and <code>setMaximum</code> methods. In order
- * for this to work the values returned from <code>stringToValue</code> must be
- * comparable to the min/max values by way of the <code>Comparable</code>
- * interface.
+ * You dbn spfdify b minimum bnd mbximum vbluf by wby of tif
+ * <dodf>sftMinimum</dodf> bnd <dodf>sftMbximum</dodf> mftiods. In ordfr
+ * for tiis to work tif vblufs rfturnfd from <dodf>stringToVbluf</dodf> must bf
+ * dompbrbblf to tif min/mbx vblufs by wby of tif <dodf>Compbrbblf</dodf>
+ * intfrfbdf.
  * <p>
- * Be careful how you configure the <code>Format</code> and the
- * <code>InternationalFormatter</code>, as it is possible to create a
- * situation where certain values can not be input. Consider the date
- * format 'M/d/yy', an <code>InternationalFormatter</code> that is always
- * valid (<code>setAllowsInvalid(false)</code>), is in overwrite mode
- * (<code>setOverwriteMode(true)</code>) and the date 7/1/99. In this
- * case the user will not be able to enter a two digit month or day of
- * month. To avoid this, the format should be 'MM/dd/yy'.
+ * Bf dbrfful iow you donfigurf tif <dodf>Formbt</dodf> bnd tif
+ * <dodf>IntfrnbtionblFormbttfr</dodf>, bs it is possiblf to drfbtf b
+ * situbtion wifrf dfrtbin vblufs dbn not bf input. Considfr tif dbtf
+ * formbt 'M/d/yy', bn <dodf>IntfrnbtionblFormbttfr</dodf> tibt is blwbys
+ * vblid (<dodf>sftAllowsInvblid(fblsf)</dodf>), is in ovfrwritf modf
+ * (<dodf>sftOvfrwritfModf(truf)</dodf>) bnd tif dbtf 7/1/99. In tiis
+ * dbsf tif usfr will not bf bblf to fntfr b two digit monti or dby of
+ * monti. To bvoid tiis, tif formbt siould bf 'MM/dd/yy'.
  * <p>
- * If <code>InternationalFormatter</code> is configured to only allow valid
- * values (<code>setAllowsInvalid(false)</code>), every valid edit will result
- * in the text of the <code>JFormattedTextField</code> being completely reset
- * from the <code>Format</code>.
- * The cursor position will also be adjusted as literal characters are
- * added/removed from the resulting String.
+ * If <dodf>IntfrnbtionblFormbttfr</dodf> is donfigurfd to only bllow vblid
+ * vblufs (<dodf>sftAllowsInvblid(fblsf)</dodf>), fvfry vblid fdit will rfsult
+ * in tif tfxt of tif <dodf>JFormbttfdTfxtFifld</dodf> bfing domplftfly rfsft
+ * from tif <dodf>Formbt</dodf>.
+ * Tif dursor position will blso bf bdjustfd bs litfrbl dibrbdtfrs brf
+ * bddfd/rfmovfd from tif rfsulting String.
  * <p>
- * <code>InternationalFormatter</code>'s behavior of
- * <code>stringToValue</code> is  slightly different than that of
- * <code>DefaultTextFormatter</code>, it does the following:
+ * <dodf>IntfrnbtionblFormbttfr</dodf>'s bfibvior of
+ * <dodf>stringToVbluf</dodf> is  sligitly difffrfnt tibn tibt of
+ * <dodf>DffbultTfxtFormbttfr</dodf>, it dofs tif following:
  * <ol>
- *   <li><code>parseObject</code> is invoked on the <code>Format</code>
- *       specified by <code>setFormat</code>
- *   <li>If a Class has been set for the values (<code>setValueClass</code>),
- *       supers implementation is invoked to convert the value returned
- *       from <code>parseObject</code> to the appropriate class.
- *   <li>If a <code>ParseException</code> has not been thrown, and the value
- *       is outside the min/max a <code>ParseException</code> is thrown.
- *   <li>The value is returned.
+ *   <li><dodf>pbrsfObjfdt</dodf> is invokfd on tif <dodf>Formbt</dodf>
+ *       spfdififd by <dodf>sftFormbt</dodf>
+ *   <li>If b Clbss ibs bffn sft for tif vblufs (<dodf>sftVblufClbss</dodf>),
+ *       supfrs implfmfntbtion is invokfd to donvfrt tif vbluf rfturnfd
+ *       from <dodf>pbrsfObjfdt</dodf> to tif bppropribtf dlbss.
+ *   <li>If b <dodf>PbrsfExdfption</dodf> ibs not bffn tirown, bnd tif vbluf
+ *       is outsidf tif min/mbx b <dodf>PbrsfExdfption</dodf> is tirown.
+ *   <li>Tif vbluf is rfturnfd.
  * </ol>
- * <code>InternationalFormatter</code> implements <code>stringToValue</code>
- * in this manner so that you can specify an alternate Class than
- * <code>Format</code> may return.
+ * <dodf>IntfrnbtionblFormbttfr</dodf> implfmfnts <dodf>stringToVbluf</dodf>
+ * in tiis mbnnfr so tibt you dbn spfdify bn bltfrnbtf Clbss tibn
+ * <dodf>Formbt</dodf> mby rfturn.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see java.text.Format
- * @see java.lang.Comparable
+ * @sff jbvb.tfxt.Formbt
+ * @sff jbvb.lbng.Compbrbblf
  *
- * @since 1.4
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class InternationalFormatter extends DefaultFormatter {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss IntfrnbtionblFormbttfr fxtfnds DffbultFormbttfr {
     /**
-     * Used by <code>getFields</code>.
+     * Usfd by <dodf>gftFiflds</dodf>.
      */
-    private static final Format.Field[] EMPTY_FIELD_ARRAY =new Format.Field[0];
+    privbtf stbtid finbl Formbt.Fifld[] EMPTY_FIELD_ARRAY =nfw Formbt.Fifld[0];
 
     /**
-     * Object used to handle the conversion.
+     * Objfdt usfd to ibndlf tif donvfrsion.
      */
-    private Format format;
+    privbtf Formbt formbt;
     /**
-     * Can be used to impose a maximum value.
+     * Cbn bf usfd to imposf b mbximum vbluf.
      */
-    private Comparable<?> max;
+    privbtf Compbrbblf<?> mbx;
     /**
-     * Can be used to impose a minimum value.
+     * Cbn bf usfd to imposf b minimum vbluf.
      */
-    private Comparable<?> min;
+    privbtf Compbrbblf<?> min;
 
     /**
-     * <code>InternationalFormatter</code>'s behavior is dicatated by a
-     * <code>AttributedCharacterIterator</code> that is obtained from
-     * the <code>Format</code>. On every edit, assuming
-     * allows invalid is false, the <code>Format</code> instance is invoked
-     * with <code>formatToCharacterIterator</code>. A <code>BitSet</code> is
-     * also kept upto date with the non-literal characters, that is
-     * for every index in the <code>AttributedCharacterIterator</code> an
-     * entry in the bit set is updated based on the return value from
-     * <code>isLiteral(Map)</code>. <code>isLiteral(int)</code> then uses
-     * this cached information.
+     * <dodf>IntfrnbtionblFormbttfr</dodf>'s bfibvior is didbtbtfd by b
+     * <dodf>AttributfdCibrbdtfrItfrbtor</dodf> tibt is obtbinfd from
+     * tif <dodf>Formbt</dodf>. On fvfry fdit, bssuming
+     * bllows invblid is fblsf, tif <dodf>Formbt</dodf> instbndf is invokfd
+     * witi <dodf>formbtToCibrbdtfrItfrbtor</dodf>. A <dodf>BitSft</dodf> is
+     * blso kfpt upto dbtf witi tif non-litfrbl dibrbdtfrs, tibt is
+     * for fvfry indfx in tif <dodf>AttributfdCibrbdtfrItfrbtor</dodf> bn
+     * fntry in tif bit sft is updbtfd bbsfd on tif rfturn vbluf from
+     * <dodf>isLitfrbl(Mbp)</dodf>. <dodf>isLitfrbl(int)</dodf> tifn usfs
+     * tiis dbdifd informbtion.
      * <p>
-     * If allowsInvalid is false, every edit results in resetting the complete
-     * text of the JTextComponent.
+     * If bllowsInvblid is fblsf, fvfry fdit rfsults in rfsftting tif domplftf
+     * tfxt of tif JTfxtComponfnt.
      * <p>
-     * InternationalFormatterFilter can also provide two actions suitable for
-     * incrementing and decrementing. To enable this a subclass must
-     * override <code>getSupportsIncrement</code> to return true, and
-     * override <code>adjustValue</code> to handle the changing of the
-     * value. If you want to support changing the value outside of
-     * the valid FieldPositions, you will need to override
-     * <code>canIncrement</code>.
+     * IntfrnbtionblFormbttfrFiltfr dbn blso providf two bdtions suitbblf for
+     * indrfmfnting bnd dfdrfmfnting. To fnbblf tiis b subdlbss must
+     * ovfrridf <dodf>gftSupportsIndrfmfnt</dodf> to rfturn truf, bnd
+     * ovfrridf <dodf>bdjustVbluf</dodf> to ibndlf tif dibnging of tif
+     * vbluf. If you wbnt to support dibnging tif vbluf outsidf of
+     * tif vblid FifldPositions, you will nffd to ovfrridf
+     * <dodf>dbnIndrfmfnt</dodf>.
      */
     /**
-     * A bit is set for every index identified in the
-     * AttributedCharacterIterator that is not considered decoration.
-     * This should only be used if validMask is true.
+     * A bit is sft for fvfry indfx idfntififd in tif
+     * AttributfdCibrbdtfrItfrbtor tibt is not donsidfrfd dfdorbtion.
+     * Tiis siould only bf usfd if vblidMbsk is truf.
      */
-    private transient BitSet literalMask;
+    privbtf trbnsifnt BitSft litfrblMbsk;
     /**
-     * Used to iterate over characters.
+     * Usfd to itfrbtf ovfr dibrbdtfrs.
      */
-    private transient AttributedCharacterIterator iterator;
+    privbtf trbnsifnt AttributfdCibrbdtfrItfrbtor itfrbtor;
     /**
-     * True if the Format was able to convert the value to a String and
-     * back.
+     * Truf if tif Formbt wbs bblf to donvfrt tif vbluf to b String bnd
+     * bbdk.
      */
-    private transient boolean validMask;
+    privbtf trbnsifnt boolfbn vblidMbsk;
     /**
-     * Current value being displayed.
+     * Currfnt vbluf bfing displbyfd.
      */
-    private transient String string;
+    privbtf trbnsifnt String string;
     /**
-     * If true, DocumentFilter methods are unconditionally allowed,
-     * and no checking is done on their values. This is used when
-     * incrementing/decrementing via the actions.
+     * If truf, DodumfntFiltfr mftiods brf undonditionblly bllowfd,
+     * bnd no difdking is donf on tifir vblufs. Tiis is usfd wifn
+     * indrfmfnting/dfdrfmfnting vib tif bdtions.
      */
-    private transient boolean ignoreDocumentMutate;
+    privbtf trbnsifnt boolfbn ignorfDodumfntMutbtf;
 
 
     /**
-     * Creates an <code>InternationalFormatter</code> with no
-     * <code>Format</code> specified.
+     * Crfbtfs bn <dodf>IntfrnbtionblFormbttfr</dodf> witi no
+     * <dodf>Formbt</dodf> spfdififd.
      */
-    public InternationalFormatter() {
-        setOverwriteMode(false);
+    publid IntfrnbtionblFormbttfr() {
+        sftOvfrwritfModf(fblsf);
     }
 
     /**
-     * Creates an <code>InternationalFormatter</code> with the specified
-     * <code>Format</code> instance.
+     * Crfbtfs bn <dodf>IntfrnbtionblFormbttfr</dodf> witi tif spfdififd
+     * <dodf>Formbt</dodf> instbndf.
      *
-     * @param format Format instance used for converting from/to Strings
+     * @pbrbm formbt Formbt instbndf usfd for donvfrting from/to Strings
      */
-    public InternationalFormatter(Format format) {
-        this();
-        setFormat(format);
+    publid IntfrnbtionblFormbttfr(Formbt formbt) {
+        tiis();
+        sftFormbt(formbt);
     }
 
     /**
-     * Sets the format that dictates the legal values that can be edited
-     * and displayed.
+     * Sfts tif formbt tibt didtbtfs tif lfgbl vblufs tibt dbn bf fditfd
+     * bnd displbyfd.
      *
-     * @param format <code>Format</code> instance used for converting
+     * @pbrbm formbt <dodf>Formbt</dodf> instbndf usfd for donvfrting
      * from/to Strings
      */
-    public void setFormat(Format format) {
-        this.format = format;
+    publid void sftFormbt(Formbt formbt) {
+        tiis.formbt = formbt;
     }
 
     /**
-     * Returns the format that dictates the legal values that can be edited
-     * and displayed.
+     * Rfturns tif formbt tibt didtbtfs tif lfgbl vblufs tibt dbn bf fditfd
+     * bnd displbyfd.
      *
-     * @return Format instance used for converting from/to Strings
+     * @rfturn Formbt instbndf usfd for donvfrting from/to Strings
      */
-    public Format getFormat() {
-        return format;
+    publid Formbt gftFormbt() {
+        rfturn formbt;
     }
 
     /**
-     * Sets the minimum permissible value. If the <code>valueClass</code> has
-     * not been specified, and <code>minimum</code> is non null, the
-     * <code>valueClass</code> will be set to that of the class of
-     * <code>minimum</code>.
+     * Sfts tif minimum pfrmissiblf vbluf. If tif <dodf>vblufClbss</dodf> ibs
+     * not bffn spfdififd, bnd <dodf>minimum</dodf> is non null, tif
+     * <dodf>vblufClbss</dodf> will bf sft to tibt of tif dlbss of
+     * <dodf>minimum</dodf>.
      *
-     * @param minimum Minimum legal value that can be input
-     * @see #setValueClass
+     * @pbrbm minimum Minimum lfgbl vbluf tibt dbn bf input
+     * @sff #sftVblufClbss
      */
-    public void setMinimum(Comparable<?> minimum) {
-        if (getValueClass() == null && minimum != null) {
-            setValueClass(minimum.getClass());
+    publid void sftMinimum(Compbrbblf<?> minimum) {
+        if (gftVblufClbss() == null && minimum != null) {
+            sftVblufClbss(minimum.gftClbss());
         }
         min = minimum;
     }
 
     /**
-     * Returns the minimum permissible value.
+     * Rfturns tif minimum pfrmissiblf vbluf.
      *
-     * @return Minimum legal value that can be input
+     * @rfturn Minimum lfgbl vbluf tibt dbn bf input
      */
-    public Comparable<?> getMinimum() {
-        return min;
+    publid Compbrbblf<?> gftMinimum() {
+        rfturn min;
     }
 
     /**
-     * Sets the maximum permissible value. If the <code>valueClass</code> has
-     * not been specified, and <code>max</code> is non null, the
-     * <code>valueClass</code> will be set to that of the class of
-     * <code>max</code>.
+     * Sfts tif mbximum pfrmissiblf vbluf. If tif <dodf>vblufClbss</dodf> ibs
+     * not bffn spfdififd, bnd <dodf>mbx</dodf> is non null, tif
+     * <dodf>vblufClbss</dodf> will bf sft to tibt of tif dlbss of
+     * <dodf>mbx</dodf>.
      *
-     * @param max Maximum legal value that can be input
-     * @see #setValueClass
+     * @pbrbm mbx Mbximum lfgbl vbluf tibt dbn bf input
+     * @sff #sftVblufClbss
      */
-    public void setMaximum(Comparable<?> max) {
-        if (getValueClass() == null && max != null) {
-            setValueClass(max.getClass());
+    publid void sftMbximum(Compbrbblf<?> mbx) {
+        if (gftVblufClbss() == null && mbx != null) {
+            sftVblufClbss(mbx.gftClbss());
         }
-        this.max = max;
+        tiis.mbx = mbx;
     }
 
     /**
-     * Returns the maximum permissible value.
+     * Rfturns tif mbximum pfrmissiblf vbluf.
      *
-     * @return Maximum legal value that can be input
+     * @rfturn Mbximum lfgbl vbluf tibt dbn bf input
      */
-    public Comparable<?> getMaximum() {
-        return max;
+    publid Compbrbblf<?> gftMbximum() {
+        rfturn mbx;
     }
 
     /**
-     * Installs the <code>DefaultFormatter</code> onto a particular
-     * <code>JFormattedTextField</code>.
-     * This will invoke <code>valueToString</code> to convert the
-     * current value from the <code>JFormattedTextField</code> to
-     * a String. This will then install the <code>Action</code>s from
-     * <code>getActions</code>, the <code>DocumentFilter</code>
-     * returned from <code>getDocumentFilter</code> and the
-     * <code>NavigationFilter</code> returned from
-     * <code>getNavigationFilter</code> onto the
-     * <code>JFormattedTextField</code>.
+     * Instblls tif <dodf>DffbultFormbttfr</dodf> onto b pbrtidulbr
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * Tiis will invokf <dodf>vblufToString</dodf> to donvfrt tif
+     * durrfnt vbluf from tif <dodf>JFormbttfdTfxtFifld</dodf> to
+     * b String. Tiis will tifn instbll tif <dodf>Adtion</dodf>s from
+     * <dodf>gftAdtions</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+     * rfturnfd from <dodf>gftDodumfntFiltfr</dodf> bnd tif
+     * <dodf>NbvigbtionFiltfr</dodf> rfturnfd from
+     * <dodf>gftNbvigbtionFiltfr</dodf> onto tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      * <p>
-     * Subclasses will typically only need to override this if they
-     * wish to install additional listeners on the
-     * <code>JFormattedTextField</code>.
+     * Subdlbssfs will typidblly only nffd to ovfrridf tiis if tify
+     * wisi to instbll bdditionbl listfnfrs on tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      * <p>
-     * If there is a <code>ParseException</code> in converting the
-     * current value to a String, this will set the text to an empty
-     * String, and mark the <code>JFormattedTextField</code> as being
-     * in an invalid state.
+     * If tifrf is b <dodf>PbrsfExdfption</dodf> in donvfrting tif
+     * durrfnt vbluf to b String, tiis will sft tif tfxt to bn fmpty
+     * String, bnd mbrk tif <dodf>JFormbttfdTfxtFifld</dodf> bs bfing
+     * in bn invblid stbtf.
      * <p>
-     * While this is a public method, this is typically only useful
-     * for subclassers of <code>JFormattedTextField</code>.
-     * <code>JFormattedTextField</code> will invoke this method at
-     * the appropriate times when the value changes, or its internal
-     * state changes.
+     * Wiilf tiis is b publid mftiod, tiis is typidblly only usfful
+     * for subdlbssfrs of <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <dodf>JFormbttfdTfxtFifld</dodf> will invokf tiis mftiod bt
+     * tif bppropribtf timfs wifn tif vbluf dibngfs, or its intfrnbl
+     * stbtf dibngfs.
      *
-     * @param ftf JFormattedTextField to format for, may be null indicating
-     *            uninstall from current JFormattedTextField.
+     * @pbrbm ftf JFormbttfdTfxtFifld to formbt for, mby bf null indidbting
+     *            uninstbll from durrfnt JFormbttfdTfxtFifld.
      */
-    public void install(JFormattedTextField ftf) {
-        super.install(ftf);
-        updateMaskIfNecessary();
-        // invoked again as the mask should now be valid.
-        positionCursorAtInitialLocation();
+    publid void instbll(JFormbttfdTfxtFifld ftf) {
+        supfr.instbll(ftf);
+        updbtfMbskIfNfdfssbry();
+        // invokfd bgbin bs tif mbsk siould now bf vblid.
+        positionCursorAtInitiblLodbtion();
     }
 
     /**
-     * Returns a String representation of the Object <code>value</code>.
-     * This invokes <code>format</code> on the current <code>Format</code>.
+     * Rfturns b String rfprfsfntbtion of tif Objfdt <dodf>vbluf</dodf>.
+     * Tiis invokfs <dodf>formbt</dodf> on tif durrfnt <dodf>Formbt</dodf>.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param value Value to convert
-     * @return String representation of value
+     * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
+     * @pbrbm vbluf Vbluf to donvfrt
+     * @rfturn String rfprfsfntbtion of vbluf
      */
-    public String valueToString(Object value) throws ParseException {
-        if (value == null) {
-            return "";
+    publid String vblufToString(Objfdt vbluf) tirows PbrsfExdfption {
+        if (vbluf == null) {
+            rfturn "";
         }
-        Format f = getFormat();
+        Formbt f = gftFormbt();
 
         if (f == null) {
-            return value.toString();
+            rfturn vbluf.toString();
         }
-        return f.format(value);
+        rfturn f.formbt(vbluf);
     }
 
     /**
-     * Returns the <code>Object</code> representation of the
-     * <code>String</code> <code>text</code>.
+     * Rfturns tif <dodf>Objfdt</dodf> rfprfsfntbtion of tif
+     * <dodf>String</dodf> <dodf>tfxt</dodf>.
      *
-     * @param text <code>String</code> to convert
-     * @return <code>Object</code> representation of text
-     * @throws ParseException if there is an error in the conversion
+     * @pbrbm tfxt <dodf>String</dodf> to donvfrt
+     * @rfturn <dodf>Objfdt</dodf> rfprfsfntbtion of tfxt
+     * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
      */
-    public Object stringToValue(String text) throws ParseException {
-        Object value = stringToValue(text, getFormat());
+    publid Objfdt stringToVbluf(String tfxt) tirows PbrsfExdfption {
+        Objfdt vbluf = stringToVbluf(tfxt, gftFormbt());
 
-        // Convert to the value class if the Value returned from the
-        // Format does not match.
-        if (value != null && getValueClass() != null &&
-                             !getValueClass().isInstance(value)) {
-            value = super.stringToValue(value.toString());
+        // Convfrt to tif vbluf dlbss if tif Vbluf rfturnfd from tif
+        // Formbt dofs not mbtdi.
+        if (vbluf != null && gftVblufClbss() != null &&
+                             !gftVblufClbss().isInstbndf(vbluf)) {
+            vbluf = supfr.stringToVbluf(vbluf.toString());
         }
         try {
-            if (!isValidValue(value, true)) {
-                throw new ParseException("Value not within min/max range", 0);
+            if (!isVblidVbluf(vbluf, truf)) {
+                tirow nfw PbrsfExdfption("Vbluf not witiin min/mbx rbngf", 0);
             }
-        } catch (ClassCastException cce) {
-            throw new ParseException("Class cast exception comparing values: "
-                                     + cce, 0);
+        } dbtdi (ClbssCbstExdfption ddf) {
+            tirow nfw PbrsfExdfption("Clbss dbst fxdfption dompbring vblufs: "
+                                     + ddf, 0);
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the <code>Format.Field</code> constants associated with
-     * the text at <code>offset</code>. If <code>offset</code> is not
-     * a valid location into the current text, this will return an
-     * empty array.
+     * Rfturns tif <dodf>Formbt.Fifld</dodf> donstbnts bssodibtfd witi
+     * tif tfxt bt <dodf>offsft</dodf>. If <dodf>offsft</dodf> is not
+     * b vblid lodbtion into tif durrfnt tfxt, tiis will rfturn bn
+     * fmpty brrby.
      *
-     * @param offset offset into text to be examined
-     * @return Format.Field constants associated with the text at the
-     *         given position.
+     * @pbrbm offsft offsft into tfxt to bf fxbminfd
+     * @rfturn Formbt.Fifld donstbnts bssodibtfd witi tif tfxt bt tif
+     *         givfn position.
      */
-    public Format.Field[] getFields(int offset) {
-        if (getAllowsInvalid()) {
-            // This will work if the currently edited value is valid.
-            updateMask();
+    publid Formbt.Fifld[] gftFiflds(int offsft) {
+        if (gftAllowsInvblid()) {
+            // Tiis will work if tif durrfntly fditfd vbluf is vblid.
+            updbtfMbsk();
         }
 
-        Map<Attribute, Object> attrs = getAttributes(offset);
+        Mbp<Attributf, Objfdt> bttrs = gftAttributfs(offsft);
 
-        if (attrs != null && attrs.size() > 0) {
-            ArrayList<Attribute> al = new ArrayList<Attribute>();
+        if (bttrs != null && bttrs.sizf() > 0) {
+            ArrbyList<Attributf> bl = nfw ArrbyList<Attributf>();
 
-            al.addAll(attrs.keySet());
-            return al.toArray(EMPTY_FIELD_ARRAY);
+            bl.bddAll(bttrs.kfySft());
+            rfturn bl.toArrby(EMPTY_FIELD_ARRAY);
         }
-        return EMPTY_FIELD_ARRAY;
+        rfturn EMPTY_FIELD_ARRAY;
     }
 
     /**
-     * Creates a copy of the DefaultFormatter.
+     * Crfbtfs b dopy of tif DffbultFormbttfr.
      *
-     * @return copy of the DefaultFormatter
+     * @rfturn dopy of tif DffbultFormbttfr
      */
-    public Object clone() throws CloneNotSupportedException {
-        InternationalFormatter formatter = (InternationalFormatter)super.
-                                           clone();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        IntfrnbtionblFormbttfr formbttfr = (IntfrnbtionblFormbttfr)supfr.
+                                           dlonf();
 
-        formatter.literalMask = null;
-        formatter.iterator = null;
-        formatter.validMask = false;
-        formatter.string = null;
-        return formatter;
+        formbttfr.litfrblMbsk = null;
+        formbttfr.itfrbtor = null;
+        formbttfr.vblidMbsk = fblsf;
+        formbttfr.string = null;
+        rfturn formbttfr;
     }
 
     /**
-     * If <code>getSupportsIncrement</code> returns true, this returns
-     * two Actions suitable for incrementing/decrementing the value.
+     * If <dodf>gftSupportsIndrfmfnt</dodf> rfturns truf, tiis rfturns
+     * two Adtions suitbblf for indrfmfnting/dfdrfmfnting tif vbluf.
      */
-    protected Action[] getActions() {
-        if (getSupportsIncrement()) {
-            return new Action[] { new IncrementAction("increment", 1),
-                                  new IncrementAction("decrement", -1) };
+    protfdtfd Adtion[] gftAdtions() {
+        if (gftSupportsIndrfmfnt()) {
+            rfturn nfw Adtion[] { nfw IndrfmfntAdtion("indrfmfnt", 1),
+                                  nfw IndrfmfntAdtion("dfdrfmfnt", -1) };
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Invokes <code>parseObject</code> on <code>f</code>, returning
-     * its value.
+     * Invokfs <dodf>pbrsfObjfdt</dodf> on <dodf>f</dodf>, rfturning
+     * its vbluf.
      */
-    Object stringToValue(String text, Format f) throws ParseException {
+    Objfdt stringToVbluf(String tfxt, Formbt f) tirows PbrsfExdfption {
         if (f == null) {
-            return text;
+            rfturn tfxt;
         }
-        return f.parseObject(text);
+        rfturn f.pbrsfObjfdt(tfxt);
     }
 
     /**
-     * Returns true if <code>value</code> is between the min/max.
+     * Rfturns truf if <dodf>vbluf</dodf> is bftwffn tif min/mbx.
      *
-     * @param wantsCCE If false, and a ClassCastException is thrown in
-     *                 comparing the values, the exception is consumed and
-     *                 false is returned.
+     * @pbrbm wbntsCCE If fblsf, bnd b ClbssCbstExdfption is tirown in
+     *                 dompbring tif vblufs, tif fxdfption is donsumfd bnd
+     *                 fblsf is rfturnfd.
      */
-    boolean isValidValue(Object value, boolean wantsCCE) {
-        @SuppressWarnings("unchecked")
-        Comparable<Object> min = (Comparable<Object>)getMinimum();
+    boolfbn isVblidVbluf(Objfdt vbluf, boolfbn wbntsCCE) {
+        @SupprfssWbrnings("undifdkfd")
+        Compbrbblf<Objfdt> min = (Compbrbblf<Objfdt>)gftMinimum();
 
         try {
-            if (min != null && min.compareTo(value) > 0) {
-                return false;
+            if (min != null && min.dompbrfTo(vbluf) > 0) {
+                rfturn fblsf;
             }
-        } catch (ClassCastException cce) {
-            if (wantsCCE) {
-                throw cce;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            if (wbntsCCE) {
+                tirow ddf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @SuppressWarnings("unchecked")
-        Comparable<Object> max = (Comparable<Object>)getMaximum();
+        @SupprfssWbrnings("undifdkfd")
+        Compbrbblf<Objfdt> mbx = (Compbrbblf<Objfdt>)gftMbximum();
         try {
-            if (max != null && max.compareTo(value) < 0) {
-                return false;
+            if (mbx != null && mbx.dompbrfTo(vbluf) < 0) {
+                rfturn fblsf;
             }
-        } catch (ClassCastException cce) {
-            if (wantsCCE) {
-                throw cce;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            if (wbntsCCE) {
+                tirow ddf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a Set of the attribute identifiers at <code>index</code>.
+     * Rfturns b Sft of tif bttributf idfntififrs bt <dodf>indfx</dodf>.
      */
-    Map<Attribute, Object> getAttributes(int index) {
-        if (isValidMask()) {
-            AttributedCharacterIterator iterator = getIterator();
+    Mbp<Attributf, Objfdt> gftAttributfs(int indfx) {
+        if (isVblidMbsk()) {
+            AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
 
-            if (index >= 0 && index <= iterator.getEndIndex()) {
-                iterator.setIndex(index);
-                return iterator.getAttributes();
+            if (indfx >= 0 && indfx <= itfrbtor.gftEndIndfx()) {
+                itfrbtor.sftIndfx(indfx);
+                rfturn itfrbtor.gftAttributfs();
             }
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Returns the start of the first run that contains the attribute
-     * <code>id</code>. This will return <code>-1</code> if the attribute
-     * can not be found.
+     * Rfturns tif stbrt of tif first run tibt dontbins tif bttributf
+     * <dodf>id</dodf>. Tiis will rfturn <dodf>-1</dodf> if tif bttributf
+     * dbn not bf found.
      */
-    int getAttributeStart(AttributedCharacterIterator.Attribute id) {
-        if (isValidMask()) {
-            AttributedCharacterIterator iterator = getIterator();
+    int gftAttributfStbrt(AttributfdCibrbdtfrItfrbtor.Attributf id) {
+        if (isVblidMbsk()) {
+            AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                if (iterator.getAttribute(id) != null) {
-                    return iterator.getIndex();
+            itfrbtor.first();
+            wiilf (itfrbtor.durrfnt() != CibrbdtfrItfrbtor.DONE) {
+                if (itfrbtor.gftAttributf(id) != null) {
+                    rfturn itfrbtor.gftIndfx();
                 }
-                iterator.next();
+                itfrbtor.nfxt();
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the <code>AttributedCharacterIterator</code> used to
-     * format the last value.
+     * Rfturns tif <dodf>AttributfdCibrbdtfrItfrbtor</dodf> usfd to
+     * formbt tif lbst vbluf.
      */
-    AttributedCharacterIterator getIterator() {
-        return iterator;
+    AttributfdCibrbdtfrItfrbtor gftItfrbtor() {
+        rfturn itfrbtor;
     }
 
     /**
-     * Updates the AttributedCharacterIterator and bitset, if necessary.
+     * Updbtfs tif AttributfdCibrbdtfrItfrbtor bnd bitsft, if nfdfssbry.
      */
-    void updateMaskIfNecessary() {
-        if (!getAllowsInvalid() && (getFormat() != null)) {
-            if (!isValidMask()) {
-                updateMask();
+    void updbtfMbskIfNfdfssbry() {
+        if (!gftAllowsInvblid() && (gftFormbt() != null)) {
+            if (!isVblidMbsk()) {
+                updbtfMbsk();
             }
-            else {
-                String newString = getFormattedTextField().getText();
+            flsf {
+                String nfwString = gftFormbttfdTfxtFifld().gftTfxt();
 
-                if (!newString.equals(string)) {
-                    updateMask();
+                if (!nfwString.fqubls(string)) {
+                    updbtfMbsk();
                 }
             }
         }
     }
 
     /**
-     * Updates the AttributedCharacterIterator by invoking
-     * <code>formatToCharacterIterator</code> on the <code>Format</code>.
-     * If this is successful,
-     * <code>updateMask(AttributedCharacterIterator)</code>
-     * is then invoked to update the internal bitmask.
+     * Updbtfs tif AttributfdCibrbdtfrItfrbtor by invoking
+     * <dodf>formbtToCibrbdtfrItfrbtor</dodf> on tif <dodf>Formbt</dodf>.
+     * If tiis is suddfssful,
+     * <dodf>updbtfMbsk(AttributfdCibrbdtfrItfrbtor)</dodf>
+     * is tifn invokfd to updbtf tif intfrnbl bitmbsk.
      */
-    void updateMask() {
-        if (getFormat() != null) {
-            Document doc = getFormattedTextField().getDocument();
+    void updbtfMbsk() {
+        if (gftFormbt() != null) {
+            Dodumfnt dod = gftFormbttfdTfxtFifld().gftDodumfnt();
 
-            validMask = false;
-            if (doc != null) {
+            vblidMbsk = fblsf;
+            if (dod != null) {
                 try {
-                    string = doc.getText(0, doc.getLength());
-                } catch (BadLocationException ble) {
+                    string = dod.gftTfxt(0, dod.gftLfngti());
+                } dbtdi (BbdLodbtionExdfption blf) {
                     string = null;
                 }
                 if (string != null) {
                     try {
-                        Object value = stringToValue(string);
-                        AttributedCharacterIterator iterator = getFormat().
-                                  formatToCharacterIterator(value);
+                        Objfdt vbluf = stringToVbluf(string);
+                        AttributfdCibrbdtfrItfrbtor itfrbtor = gftFormbt().
+                                  formbtToCibrbdtfrItfrbtor(vbluf);
 
-                        updateMask(iterator);
+                        updbtfMbsk(itfrbtor);
                     }
-                    catch (ParseException pe) {}
-                    catch (IllegalArgumentException iae) {}
-                    catch (NullPointerException npe) {}
+                    dbtdi (PbrsfExdfption pf) {}
+                    dbtdi (IllfgblArgumfntExdfption ibf) {}
+                    dbtdi (NullPointfrExdfption npf) {}
                 }
             }
         }
     }
 
     /**
-     * Returns the number of literal characters before <code>index</code>.
+     * Rfturns tif numbfr of litfrbl dibrbdtfrs bfforf <dodf>indfx</dodf>.
      */
-    int getLiteralCountTo(int index) {
+    int gftLitfrblCountTo(int indfx) {
         int lCount = 0;
 
-        for (int counter = 0; counter < index; counter++) {
-            if (isLiteral(counter)) {
+        for (int dountfr = 0; dountfr < indfx; dountfr++) {
+            if (isLitfrbl(dountfr)) {
                 lCount++;
             }
         }
-        return lCount;
+        rfturn lCount;
     }
 
     /**
-     * Returns true if the character at index is a literal, that is
-     * not editable.
+     * Rfturns truf if tif dibrbdtfr bt indfx is b litfrbl, tibt is
+     * not fditbblf.
      */
-    boolean isLiteral(int index) {
-        if (isValidMask() && index < string.length()) {
-            return literalMask.get(index);
+    boolfbn isLitfrbl(int indfx) {
+        if (isVblidMbsk() && indfx < string.lfngti()) {
+            rfturn litfrblMbsk.gft(indfx);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the literal character at index.
+     * Rfturns tif litfrbl dibrbdtfr bt indfx.
      */
-    char getLiteral(int index) {
-        if (isValidMask() && string != null && index < string.length()) {
-            return string.charAt(index);
+    dibr gftLitfrbl(int indfx) {
+        if (isVblidMbsk() && string != null && indfx < string.lfngti()) {
+            rfturn string.dibrAt(indfx);
         }
-        return (char)0;
+        rfturn (dibr)0;
     }
 
     /**
-     * Returns true if the character at offset is navigable too. This
-     * is implemented in terms of <code>isLiteral</code>, subclasses
-     * may wish to provide different behavior.
+     * Rfturns truf if tif dibrbdtfr bt offsft is nbvigbblf too. Tiis
+     * is implfmfntfd in tfrms of <dodf>isLitfrbl</dodf>, subdlbssfs
+     * mby wisi to providf difffrfnt bfibvior.
      */
-    boolean isNavigatable(int offset) {
-        return !isLiteral(offset);
+    boolfbn isNbvigbtbblf(int offsft) {
+        rfturn !isLitfrbl(offsft);
     }
 
     /**
-     * Overriden to update the mask after invoking supers implementation.
+     * Ovfrridfn to updbtf tif mbsk bftfr invoking supfrs implfmfntbtion.
      */
-    void updateValue(Object value) {
-        super.updateValue(value);
-        updateMaskIfNecessary();
+    void updbtfVbluf(Objfdt vbluf) {
+        supfr.updbtfVbluf(vbluf);
+        updbtfMbskIfNfdfssbry();
     }
 
     /**
-     * Overriden to unconditionally allow the replace if
-     * ignoreDocumentMutate is true.
+     * Ovfrridfn to undonditionblly bllow tif rfplbdf if
+     * ignorfDodumfntMutbtf is truf.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset,
-                     int length, String text,
-                     AttributeSet attrs) throws BadLocationException {
-        if (ignoreDocumentMutate) {
-            fb.replace(offset, length, text, attrs);
-            return;
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                     int lfngti, String tfxt,
+                     AttributfSft bttrs) tirows BbdLodbtionExdfption {
+        if (ignorfDodumfntMutbtf) {
+            fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
+            rfturn;
         }
-        super.replace(fb, offset, length, text, attrs);
+        supfr.rfplbdf(fb, offsft, lfngti, tfxt, bttrs);
     }
 
     /**
-     * Returns the index of the next non-literal character starting at
-     * index. If index is not a literal, it will be returned.
+     * Rfturns tif indfx of tif nfxt non-litfrbl dibrbdtfr stbrting bt
+     * indfx. If indfx is not b litfrbl, it will bf rfturnfd.
      *
-     * @param direction Amount to increment looking for non-literal
+     * @pbrbm dirfdtion Amount to indrfmfnt looking for non-litfrbl
      */
-    private int getNextNonliteralIndex(int index, int direction) {
-        int max = getFormattedTextField().getDocument().getLength();
+    privbtf int gftNfxtNonlitfrblIndfx(int indfx, int dirfdtion) {
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngti();
 
-        while (index >= 0 && index < max) {
-            if (isLiteral(index)) {
-                index += direction;
+        wiilf (indfx >= 0 && indfx < mbx) {
+            if (isLitfrbl(indfx)) {
+                indfx += dirfdtion;
             }
-            else {
-                return index;
+            flsf {
+                rfturn indfx;
             }
         }
-        return (direction == -1) ? 0 : max;
+        rfturn (dirfdtion == -1) ? 0 : mbx;
     }
 
     /**
-     * Overriden in an attempt to honor the literals.
-     * <p>If we do not allow invalid values and are in overwrite mode, this
-     * {@code rh.length} is corrected as to preserve trailing literals.
-     * If not in overwrite mode, and there is text to insert it is
-     * inserted at the next non literal index going forward.  If there
-     * is only text to remove, it is removed from the next non literal
-     * index going backward.
+     * Ovfrridfn in bn bttfmpt to ionor tif litfrbls.
+     * <p>If wf do not bllow invblid vblufs bnd brf in ovfrwritf modf, tiis
+     * {@dodf ri.lfngti} is dorrfdtfd bs to prfsfrvf trbiling litfrbls.
+     * If not in ovfrwritf modf, bnd tifrf is tfxt to insfrt it is
+     * insfrtfd bt tif nfxt non litfrbl indfx going forwbrd.  If tifrf
+     * is only tfxt to rfmovf, it is rfmovfd from tif nfxt non litfrbl
+     * indfx going bbdkwbrd.
      */
-    boolean canReplace(ReplaceHolder rh) {
-        if (!getAllowsInvalid()) {
-            String text = rh.text;
-            int tl = (text != null) ? text.length() : 0;
-            JTextComponent c = getFormattedTextField();
+    boolfbn dbnRfplbdf(RfplbdfHoldfr ri) {
+        if (!gftAllowsInvblid()) {
+            String tfxt = ri.tfxt;
+            int tl = (tfxt != null) ? tfxt.lfngti() : 0;
+            JTfxtComponfnt d = gftFormbttfdTfxtFifld();
 
-            if (tl == 0 && rh.length == 1 && c.getSelectionStart() != rh.offset) {
-                // Backspace, adjust to actually delete next non-literal.
-                rh.offset = getNextNonliteralIndex(rh.offset, -1);
-            } else if (getOverwriteMode()) {
-                int pos = rh.offset;
-                int textPos = pos;
-                boolean overflown = false;
+            if (tl == 0 && ri.lfngti == 1 && d.gftSflfdtionStbrt() != ri.offsft) {
+                // Bbdkspbdf, bdjust to bdtublly dflftf nfxt non-litfrbl.
+                ri.offsft = gftNfxtNonlitfrblIndfx(ri.offsft, -1);
+            } flsf if (gftOvfrwritfModf()) {
+                int pos = ri.offsft;
+                int tfxtPos = pos;
+                boolfbn ovfrflown = fblsf;
 
-                for (int i = 0; i < rh.length; i++) {
-                    while (isLiteral(pos)) pos++;
-                    if (pos >= string.length()) {
-                        pos = textPos;
-                        overflown = true;
-                        break;
+                for (int i = 0; i < ri.lfngti; i++) {
+                    wiilf (isLitfrbl(pos)) pos++;
+                    if (pos >= string.lfngti()) {
+                        pos = tfxtPos;
+                        ovfrflown = truf;
+                        brfbk;
                     }
-                    textPos = ++pos;
+                    tfxtPos = ++pos;
                 }
-                if (overflown || c.getSelectedText() == null) {
-                    rh.length = pos - rh.offset;
-                }
-            }
-            else if (tl > 0) {
-                // insert (or insert and remove)
-                rh.offset = getNextNonliteralIndex(rh.offset, 1);
-            }
-            else {
-                // remove only
-                rh.offset = getNextNonliteralIndex(rh.offset, -1);
-            }
-            ((ExtendedReplaceHolder)rh).endOffset = rh.offset;
-            ((ExtendedReplaceHolder)rh).endTextLength = (rh.text != null) ?
-                                                    rh.text.length() : 0;
-        }
-        else {
-            ((ExtendedReplaceHolder)rh).endOffset = rh.offset;
-            ((ExtendedReplaceHolder)rh).endTextLength = (rh.text != null) ?
-                                                    rh.text.length() : 0;
-        }
-        boolean can = super.canReplace(rh);
-        if (can && !getAllowsInvalid()) {
-            ((ExtendedReplaceHolder)rh).resetFromValue(this);
-        }
-        return can;
-    }
-
-    /**
-     * When in !allowsInvalid mode the text is reset on every edit, thus
-     * supers implementation will position the cursor at the wrong position.
-     * As such, this invokes supers implementation and then invokes
-     * <code>repositionCursor</code> to correctly reset the cursor.
-     */
-    boolean replace(ReplaceHolder rh) throws BadLocationException {
-        int start = -1;
-        int direction = 1;
-        int literalCount = -1;
-
-        if (rh.length > 0 && (rh.text == null || rh.text.length() == 0) &&
-               (getFormattedTextField().getSelectionStart() != rh.offset ||
-                   rh.length > 1)) {
-            direction = -1;
-        }
-        if (!getAllowsInvalid()) {
-            if ((rh.text == null || rh.text.length() == 0) && rh.length > 0) {
-                // remove
-                start = getFormattedTextField().getSelectionStart();
-            }
-            else {
-                start = rh.offset;
-            }
-            literalCount = getLiteralCountTo(start);
-        }
-        if (super.replace(rh)) {
-            if (start != -1) {
-                int end = ((ExtendedReplaceHolder)rh).endOffset;
-
-                end += ((ExtendedReplaceHolder)rh).endTextLength;
-                repositionCursor(literalCount, end, direction);
-            }
-            else {
-                start = ((ExtendedReplaceHolder)rh).endOffset;
-                if (direction == 1) {
-                    start += ((ExtendedReplaceHolder)rh).endTextLength;
-                }
-                repositionCursor(start, direction);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Repositions the cursor. <code>startLiteralCount</code> gives
-     * the number of literals to the start of the deleted range, end
-     * gives the ending location to adjust from, direction gives
-     * the direction relative to <code>end</code> to position the
-     * cursor from.
-     */
-    private void repositionCursor(int startLiteralCount, int end,
-                                  int direction)  {
-        int endLiteralCount = getLiteralCountTo(end);
-
-        if (endLiteralCount != end) {
-            end -= startLiteralCount;
-            for (int counter = 0; counter < end; counter++) {
-                if (isLiteral(counter)) {
-                    end++;
+                if (ovfrflown || d.gftSflfdtfdTfxt() == null) {
+                    ri.lfngti = pos - ri.offsft;
                 }
             }
+            flsf if (tl > 0) {
+                // insfrt (or insfrt bnd rfmovf)
+                ri.offsft = gftNfxtNonlitfrblIndfx(ri.offsft, 1);
+            }
+            flsf {
+                // rfmovf only
+                ri.offsft = gftNfxtNonlitfrblIndfx(ri.offsft, -1);
+            }
+            ((ExtfndfdRfplbdfHoldfr)ri).fndOffsft = ri.offsft;
+            ((ExtfndfdRfplbdfHoldfr)ri).fndTfxtLfngti = (ri.tfxt != null) ?
+                                                    ri.tfxt.lfngti() : 0;
         }
-        repositionCursor(end, 1 /*direction*/);
+        flsf {
+            ((ExtfndfdRfplbdfHoldfr)ri).fndOffsft = ri.offsft;
+            ((ExtfndfdRfplbdfHoldfr)ri).fndTfxtLfngti = (ri.tfxt != null) ?
+                                                    ri.tfxt.lfngti() : 0;
+        }
+        boolfbn dbn = supfr.dbnRfplbdf(ri);
+        if (dbn && !gftAllowsInvblid()) {
+            ((ExtfndfdRfplbdfHoldfr)ri).rfsftFromVbluf(tiis);
+        }
+        rfturn dbn;
     }
 
     /**
-     * Returns the character from the mask that has been buffered
-     * at <code>index</code>.
+     * Wifn in !bllowsInvblid modf tif tfxt is rfsft on fvfry fdit, tius
+     * supfrs implfmfntbtion will position tif dursor bt tif wrong position.
+     * As sudi, tiis invokfs supfrs implfmfntbtion bnd tifn invokfs
+     * <dodf>rfpositionCursor</dodf> to dorrfdtly rfsft tif dursor.
      */
-    char getBufferedChar(int index) {
-        if (isValidMask()) {
-            if (string != null && index < string.length()) {
-                return string.charAt(index);
+    boolfbn rfplbdf(RfplbdfHoldfr ri) tirows BbdLodbtionExdfption {
+        int stbrt = -1;
+        int dirfdtion = 1;
+        int litfrblCount = -1;
+
+        if (ri.lfngti > 0 && (ri.tfxt == null || ri.tfxt.lfngti() == 0) &&
+               (gftFormbttfdTfxtFifld().gftSflfdtionStbrt() != ri.offsft ||
+                   ri.lfngti > 1)) {
+            dirfdtion = -1;
+        }
+        if (!gftAllowsInvblid()) {
+            if ((ri.tfxt == null || ri.tfxt.lfngti() == 0) && ri.lfngti > 0) {
+                // rfmovf
+                stbrt = gftFormbttfdTfxtFifld().gftSflfdtionStbrt();
+            }
+            flsf {
+                stbrt = ri.offsft;
+            }
+            litfrblCount = gftLitfrblCountTo(stbrt);
+        }
+        if (supfr.rfplbdf(ri)) {
+            if (stbrt != -1) {
+                int fnd = ((ExtfndfdRfplbdfHoldfr)ri).fndOffsft;
+
+                fnd += ((ExtfndfdRfplbdfHoldfr)ri).fndTfxtLfngti;
+                rfpositionCursor(litfrblCount, fnd, dirfdtion);
+            }
+            flsf {
+                stbrt = ((ExtfndfdRfplbdfHoldfr)ri).fndOffsft;
+                if (dirfdtion == 1) {
+                    stbrt += ((ExtfndfdRfplbdfHoldfr)ri).fndTfxtLfngti;
+                }
+                rfpositionCursor(stbrt, dirfdtion);
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfpositions tif dursor. <dodf>stbrtLitfrblCount</dodf> givfs
+     * tif numbfr of litfrbls to tif stbrt of tif dflftfd rbngf, fnd
+     * givfs tif fnding lodbtion to bdjust from, dirfdtion givfs
+     * tif dirfdtion rflbtivf to <dodf>fnd</dodf> to position tif
+     * dursor from.
+     */
+    privbtf void rfpositionCursor(int stbrtLitfrblCount, int fnd,
+                                  int dirfdtion)  {
+        int fndLitfrblCount = gftLitfrblCountTo(fnd);
+
+        if (fndLitfrblCount != fnd) {
+            fnd -= stbrtLitfrblCount;
+            for (int dountfr = 0; dountfr < fnd; dountfr++) {
+                if (isLitfrbl(dountfr)) {
+                    fnd++;
+                }
             }
         }
-        return (char)0;
+        rfpositionCursor(fnd, 1 /*dirfdtion*/);
     }
 
     /**
-     * Returns true if the current mask is valid.
+     * Rfturns tif dibrbdtfr from tif mbsk tibt ibs bffn bufffrfd
+     * bt <dodf>indfx</dodf>.
      */
-    boolean isValidMask() {
-        return validMask;
+    dibr gftBufffrfdCibr(int indfx) {
+        if (isVblidMbsk()) {
+            if (string != null && indfx < string.lfngti()) {
+                rfturn string.dibrAt(indfx);
+            }
+        }
+        rfturn (dibr)0;
     }
 
     /**
-     * Returns true if <code>attributes</code> is null or empty.
+     * Rfturns truf if tif durrfnt mbsk is vblid.
      */
-    boolean isLiteral(Map<?, ?> attributes) {
-        return ((attributes == null) || attributes.size() == 0);
+    boolfbn isVblidMbsk() {
+        rfturn vblidMbsk;
     }
 
     /**
-     * Updates the interal bitset from <code>iterator</code>. This will
-     * set <code>validMask</code> to true if <code>iterator</code> is
+     * Rfturns truf if <dodf>bttributfs</dodf> is null or fmpty.
+     */
+    boolfbn isLitfrbl(Mbp<?, ?> bttributfs) {
+        rfturn ((bttributfs == null) || bttributfs.sizf() == 0);
+    }
+
+    /**
+     * Updbtfs tif intfrbl bitsft from <dodf>itfrbtor</dodf>. Tiis will
+     * sft <dodf>vblidMbsk</dodf> to truf if <dodf>itfrbtor</dodf> is
      * non-null.
      */
-    private void updateMask(AttributedCharacterIterator iterator) {
-        if (iterator != null) {
-            validMask = true;
-            this.iterator = iterator;
+    privbtf void updbtfMbsk(AttributfdCibrbdtfrItfrbtor itfrbtor) {
+        if (itfrbtor != null) {
+            vblidMbsk = truf;
+            tiis.itfrbtor = itfrbtor;
 
-            // Update the literal mask
-            if (literalMask == null) {
-                literalMask = new BitSet();
+            // Updbtf tif litfrbl mbsk
+            if (litfrblMbsk == null) {
+                litfrblMbsk = nfw BitSft();
             }
-            else {
-                for (int counter = literalMask.length() - 1; counter >= 0;
-                     counter--) {
-                    literalMask.clear(counter);
+            flsf {
+                for (int dountfr = litfrblMbsk.lfngti() - 1; dountfr >= 0;
+                     dountfr--) {
+                    litfrblMbsk.dlfbr(dountfr);
                 }
             }
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                Map<Attribute,Object> attributes = iterator.getAttributes();
-                boolean set = isLiteral(attributes);
-                int start = iterator.getIndex();
-                int end = iterator.getRunLimit();
+            itfrbtor.first();
+            wiilf (itfrbtor.durrfnt() != CibrbdtfrItfrbtor.DONE) {
+                Mbp<Attributf,Objfdt> bttributfs = itfrbtor.gftAttributfs();
+                boolfbn sft = isLitfrbl(bttributfs);
+                int stbrt = itfrbtor.gftIndfx();
+                int fnd = itfrbtor.gftRunLimit();
 
-                while (start < end) {
-                    if (set) {
-                        literalMask.set(start);
+                wiilf (stbrt < fnd) {
+                    if (sft) {
+                        litfrblMbsk.sft(stbrt);
                     }
-                    else {
-                        literalMask.clear(start);
+                    flsf {
+                        litfrblMbsk.dlfbr(stbrt);
                     }
-                    start++;
+                    stbrt++;
                 }
-                iterator.setIndex(start);
+                itfrbtor.sftIndfx(stbrt);
             }
         }
     }
 
     /**
-     * Returns true if <code>field</code> is non-null.
-     * Subclasses that wish to allow incrementing to happen outside of
-     * the known fields will need to override this.
+     * Rfturns truf if <dodf>fifld</dodf> is non-null.
+     * Subdlbssfs tibt wisi to bllow indrfmfnting to ibppfn outsidf of
+     * tif known fiflds will nffd to ovfrridf tiis.
      */
-    boolean canIncrement(Object field, int cursorPosition) {
-        return (field != null);
+    boolfbn dbnIndrfmfnt(Objfdt fifld, int dursorPosition) {
+        rfturn (fifld != null);
     }
 
     /**
-     * Selects the fields identified by <code>attributes</code>.
+     * Sflfdts tif fiflds idfntififd by <dodf>bttributfs</dodf>.
      */
-    void selectField(Object f, int count) {
-        AttributedCharacterIterator iterator = getIterator();
+    void sflfdtFifld(Objfdt f, int dount) {
+        AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
 
-        if (iterator != null &&
-                        (f instanceof AttributedCharacterIterator.Attribute)) {
-            AttributedCharacterIterator.Attribute field =
-                                   (AttributedCharacterIterator.Attribute)f;
+        if (itfrbtor != null &&
+                        (f instbndfof AttributfdCibrbdtfrItfrbtor.Attributf)) {
+            AttributfdCibrbdtfrItfrbtor.Attributf fifld =
+                                   (AttributfdCibrbdtfrItfrbtor.Attributf)f;
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
-                if (iterator.current() != CharacterIterator.DONE) {
-                    int limit = iterator.getRunLimit(field);
+            itfrbtor.first();
+            wiilf (itfrbtor.durrfnt() != CibrbdtfrItfrbtor.DONE) {
+                wiilf (itfrbtor.gftAttributf(fifld) == null &&
+                       itfrbtor.nfxt() != CibrbdtfrItfrbtor.DONE);
+                if (itfrbtor.durrfnt() != CibrbdtfrItfrbtor.DONE) {
+                    int limit = itfrbtor.gftRunLimit(fifld);
 
-                    if (--count <= 0) {
-                        getFormattedTextField().select(iterator.getIndex(),
+                    if (--dount <= 0) {
+                        gftFormbttfdTfxtFifld().sflfdt(itfrbtor.gftIndfx(),
                                                        limit);
-                        break;
+                        brfbk;
                     }
-                    iterator.setIndex(limit);
-                    iterator.next();
+                    itfrbtor.sftIndfx(limit);
+                    itfrbtor.nfxt();
                 }
             }
         }
     }
 
     /**
-     * Returns the field that will be adjusted by adjustValue.
+     * Rfturns tif fifld tibt will bf bdjustfd by bdjustVbluf.
      */
-    Object getAdjustField(int start, Map<?, ?> attributes) {
-        return null;
+    Objfdt gftAdjustFifld(int stbrt, Mbp<?, ?> bttributfs) {
+        rfturn null;
     }
 
     /**
-     * Returns the number of occurrences of <code>f</code> before
-     * the location <code>start</code> in the current
-     * <code>AttributedCharacterIterator</code>.
+     * Rfturns tif numbfr of oddurrfndfs of <dodf>f</dodf> bfforf
+     * tif lodbtion <dodf>stbrt</dodf> in tif durrfnt
+     * <dodf>AttributfdCibrbdtfrItfrbtor</dodf>.
      */
-    private int getFieldTypeCountTo(Object f, int start) {
-        AttributedCharacterIterator iterator = getIterator();
-        int count = 0;
+    privbtf int gftFifldTypfCountTo(Objfdt f, int stbrt) {
+        AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+        int dount = 0;
 
-        if (iterator != null &&
-                    (f instanceof AttributedCharacterIterator.Attribute)) {
-            AttributedCharacterIterator.Attribute field =
-                                   (AttributedCharacterIterator.Attribute)f;
+        if (itfrbtor != null &&
+                    (f instbndfof AttributfdCibrbdtfrItfrbtor.Attributf)) {
+            AttributfdCibrbdtfrItfrbtor.Attributf fifld =
+                                   (AttributfdCibrbdtfrItfrbtor.Attributf)f;
 
-            iterator.first();
-            while (iterator.getIndex() < start) {
-                while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
-                if (iterator.current() != CharacterIterator.DONE) {
-                    iterator.setIndex(iterator.getRunLimit(field));
-                    iterator.next();
-                    count++;
+            itfrbtor.first();
+            wiilf (itfrbtor.gftIndfx() < stbrt) {
+                wiilf (itfrbtor.gftAttributf(fifld) == null &&
+                       itfrbtor.nfxt() != CibrbdtfrItfrbtor.DONE);
+                if (itfrbtor.durrfnt() != CibrbdtfrItfrbtor.DONE) {
+                    itfrbtor.sftIndfx(itfrbtor.gftRunLimit(fifld));
+                    itfrbtor.nfxt();
+                    dount++;
                 }
-                else {
-                    break;
+                flsf {
+                    brfbk;
                 }
             }
         }
-        return count;
+        rfturn dount;
     }
 
     /**
-     * Subclasses supporting incrementing must override this to handle
-     * the actual incrementing. <code>value</code> is the current value,
-     * <code>attributes</code> gives the field the cursor is in (may be
-     * null depending upon <code>canIncrement</code>) and
-     * <code>direction</code> is the amount to increment by.
+     * Subdlbssfs supporting indrfmfnting must ovfrridf tiis to ibndlf
+     * tif bdtubl indrfmfnting. <dodf>vbluf</dodf> is tif durrfnt vbluf,
+     * <dodf>bttributfs</dodf> givfs tif fifld tif dursor is in (mby bf
+     * null dfpfnding upon <dodf>dbnIndrfmfnt</dodf>) bnd
+     * <dodf>dirfdtion</dodf> is tif bmount to indrfmfnt by.
      */
-    Object adjustValue(Object value, Map<?, ?> attributes, Object field,
-                           int direction) throws
-                      BadLocationException, ParseException {
-        return null;
+    Objfdt bdjustVbluf(Objfdt vbluf, Mbp<?, ?> bttributfs, Objfdt fifld,
+                           int dirfdtion) tirows
+                      BbdLodbtionExdfption, PbrsfExdfption {
+        rfturn null;
     }
 
     /**
-     * Returns false, indicating InternationalFormatter does not allow
-     * incrementing of the value. Subclasses that wish to support
-     * incrementing/decrementing the value should override this and
-     * return true. Subclasses should also override
-     * <code>adjustValue</code>.
+     * Rfturns fblsf, indidbting IntfrnbtionblFormbttfr dofs not bllow
+     * indrfmfnting of tif vbluf. Subdlbssfs tibt wisi to support
+     * indrfmfnting/dfdrfmfnting tif vbluf siould ovfrridf tiis bnd
+     * rfturn truf. Subdlbssfs siould blso ovfrridf
+     * <dodf>bdjustVbluf</dodf>.
      */
-    boolean getSupportsIncrement() {
-        return false;
+    boolfbn gftSupportsIndrfmfnt() {
+        rfturn fblsf;
     }
 
     /**
-     * Resets the value of the JFormattedTextField to be
-     * <code>value</code>.
+     * Rfsfts tif vbluf of tif JFormbttfdTfxtFifld to bf
+     * <dodf>vbluf</dodf>.
      */
-    void resetValue(Object value) throws BadLocationException, ParseException {
-        Document doc = getFormattedTextField().getDocument();
-        String string = valueToString(value);
+    void rfsftVbluf(Objfdt vbluf) tirows BbdLodbtionExdfption, PbrsfExdfption {
+        Dodumfnt dod = gftFormbttfdTfxtFifld().gftDodumfnt();
+        String string = vblufToString(vbluf);
 
         try {
-            ignoreDocumentMutate = true;
-            doc.remove(0, doc.getLength());
-            doc.insertString(0, string, null);
-        } finally {
-            ignoreDocumentMutate = false;
+            ignorfDodumfntMutbtf = truf;
+            dod.rfmovf(0, dod.gftLfngti());
+            dod.insfrtString(0, string, null);
+        } finblly {
+            ignorfDodumfntMutbtf = fblsf;
         }
-        updateValue(value);
+        updbtfVbluf(vbluf);
     }
 
     /**
-     * Subclassed to update the internal representation of the mask after
-     * the default read operation has completed.
+     * Subdlbssfd to updbtf tif intfrnbl rfprfsfntbtion of tif mbsk bftfr
+     * tif dffbult rfbd opfrbtion ibs domplftfd.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        updateMaskIfNecessary();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        updbtfMbskIfNfdfssbry();
     }
 
 
     /**
-     * Overriden to return an instance of <code>ExtendedReplaceHolder</code>.
+     * Ovfrridfn to rfturn bn instbndf of <dodf>ExtfndfdRfplbdfHoldfr</dodf>.
      */
-    ReplaceHolder getReplaceHolder(DocumentFilter.FilterBypass fb, int offset,
-                                   int length, String text,
-                                   AttributeSet attrs) {
-        if (replaceHolder == null) {
-            replaceHolder = new ExtendedReplaceHolder();
+    RfplbdfHoldfr gftRfplbdfHoldfr(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                                   int lfngti, String tfxt,
+                                   AttributfSft bttrs) {
+        if (rfplbdfHoldfr == null) {
+            rfplbdfHoldfr = nfw ExtfndfdRfplbdfHoldfr();
         }
-        return super.getReplaceHolder(fb, offset, length, text, attrs);
+        rfturn supfr.gftRfplbdfHoldfr(fb, offsft, lfngti, tfxt, bttrs);
     }
 
 
     /**
-     * As InternationalFormatter replaces the complete text on every edit,
-     * ExtendedReplaceHolder keeps track of the offset and length passed
-     * into canReplace.
+     * As IntfrnbtionblFormbttfr rfplbdfs tif domplftf tfxt on fvfry fdit,
+     * ExtfndfdRfplbdfHoldfr kffps trbdk of tif offsft bnd lfngti pbssfd
+     * into dbnRfplbdf.
      */
-    static class ExtendedReplaceHolder extends ReplaceHolder {
-        /** Offset of the insert/remove. This may differ from offset in
-         * that if !allowsInvalid the text is replaced on every edit. */
-        int endOffset;
-        /** Length of the text. This may differ from text.length in
-         * that if !allowsInvalid the text is replaced on every edit. */
-        int endTextLength;
+    stbtid dlbss ExtfndfdRfplbdfHoldfr fxtfnds RfplbdfHoldfr {
+        /** Offsft of tif insfrt/rfmovf. Tiis mby difffr from offsft in
+         * tibt if !bllowsInvblid tif tfxt is rfplbdfd on fvfry fdit. */
+        int fndOffsft;
+        /** Lfngti of tif tfxt. Tiis mby difffr from tfxt.lfngti in
+         * tibt if !bllowsInvblid tif tfxt is rfplbdfd on fvfry fdit. */
+        int fndTfxtLfngti;
 
         /**
-         * Resets the region to delete to be the complete document and
-         * the text from invoking valueToString on the current value.
+         * Rfsfts tif rfgion to dflftf to bf tif domplftf dodumfnt bnd
+         * tif tfxt from invoking vblufToString on tif durrfnt vbluf.
          */
-        void resetFromValue(InternationalFormatter formatter) {
-            // Need to reset the complete string as Format's result can
-            // be completely different.
-            offset = 0;
+        void rfsftFromVbluf(IntfrnbtionblFormbttfr formbttfr) {
+            // Nffd to rfsft tif domplftf string bs Formbt's rfsult dbn
+            // bf domplftfly difffrfnt.
+            offsft = 0;
             try {
-                text = formatter.valueToString(value);
-            } catch (ParseException pe) {
-                // Should never happen, otherwise canReplace would have
-                // returned value.
-                text = "";
+                tfxt = formbttfr.vblufToString(vbluf);
+            } dbtdi (PbrsfExdfption pf) {
+                // Siould nfvfr ibppfn, otifrwisf dbnRfplbdf would ibvf
+                // rfturnfd vbluf.
+                tfxt = "";
             }
-            length = fb.getDocument().getLength();
+            lfngti = fb.gftDodumfnt().gftLfngti();
         }
     }
 
 
     /**
-     * IncrementAction is used to increment the value by a certain amount.
-     * It calls into <code>adjustValue</code> to handle the actual
-     * incrementing of the value.
+     * IndrfmfntAdtion is usfd to indrfmfnt tif vbluf by b dfrtbin bmount.
+     * It dblls into <dodf>bdjustVbluf</dodf> to ibndlf tif bdtubl
+     * indrfmfnting of tif vbluf.
      */
-    private class IncrementAction extends AbstractAction {
-        private int direction;
+    privbtf dlbss IndrfmfntAdtion fxtfnds AbstrbdtAdtion {
+        privbtf int dirfdtion;
 
-        IncrementAction(String name, int direction) {
-            super(name);
-            this.direction = direction;
+        IndrfmfntAdtion(String nbmf, int dirfdtion) {
+            supfr(nbmf);
+            tiis.dirfdtion = dirfdtion;
         }
 
-        public void actionPerformed(ActionEvent ae) {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
 
-            if (getFormattedTextField().isEditable()) {
-                if (getAllowsInvalid()) {
-                    // This will work if the currently edited value is valid.
-                    updateMask();
+            if (gftFormbttfdTfxtFifld().isEditbblf()) {
+                if (gftAllowsInvblid()) {
+                    // Tiis will work if tif durrfntly fditfd vbluf is vblid.
+                    updbtfMbsk();
                 }
 
-                boolean validEdit = false;
+                boolfbn vblidEdit = fblsf;
 
-                if (isValidMask()) {
-                    int start = getFormattedTextField().getSelectionStart();
+                if (isVblidMbsk()) {
+                    int stbrt = gftFormbttfdTfxtFifld().gftSflfdtionStbrt();
 
-                    if (start != -1) {
-                        AttributedCharacterIterator iterator = getIterator();
+                    if (stbrt != -1) {
+                        AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
 
-                        iterator.setIndex(start);
+                        itfrbtor.sftIndfx(stbrt);
 
-                        Map<Attribute,Object> attributes = iterator.getAttributes();
-                        Object field = getAdjustField(start, attributes);
+                        Mbp<Attributf,Objfdt> bttributfs = itfrbtor.gftAttributfs();
+                        Objfdt fifld = gftAdjustFifld(stbrt, bttributfs);
 
-                        if (canIncrement(field, start)) {
+                        if (dbnIndrfmfnt(fifld, stbrt)) {
                             try {
-                                Object value = stringToValue(
-                                        getFormattedTextField().getText());
-                                int fieldTypeCount = getFieldTypeCountTo(
-                                        field, start);
+                                Objfdt vbluf = stringToVbluf(
+                                        gftFormbttfdTfxtFifld().gftTfxt());
+                                int fifldTypfCount = gftFifldTypfCountTo(
+                                        fifld, stbrt);
 
-                                value = adjustValue(value, attributes,
-                                        field, direction);
-                                if (value != null && isValidValue(value, false)) {
-                                    resetValue(value);
-                                    updateMask();
+                                vbluf = bdjustVbluf(vbluf, bttributfs,
+                                        fifld, dirfdtion);
+                                if (vbluf != null && isVblidVbluf(vbluf, fblsf)) {
+                                    rfsftVbluf(vbluf);
+                                    updbtfMbsk();
 
-                                    if (isValidMask()) {
-                                        selectField(field, fieldTypeCount);
+                                    if (isVblidMbsk()) {
+                                        sflfdtFifld(fifld, fifldTypfCount);
                                     }
-                                    validEdit = true;
+                                    vblidEdit = truf;
                                 }
                             }
-                            catch (ParseException pe) { }
-                            catch (BadLocationException ble) { }
+                            dbtdi (PbrsfExdfption pf) { }
+                            dbtdi (BbdLodbtionExdfption blf) { }
                         }
                     }
                 }
-                if (!validEdit) {
-                    invalidEdit();
+                if (!vblidEdit) {
+                    invblidEdit();
                 }
             }
         }

@@ -1,0 +1,388 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * This dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * <p>
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * dflivfry sfrvidf. Ebdh mfssbgf is routfd from onf mbdhinf to
+ * bnothfr bbsfd solfly on informbtion dontbinfd within thbt pbdkft.
+ * Multiplf pbdkfts sfnt from onf mbdhinf to bnothfr might bf routfd
+ * difffrfntly, bnd might brrivf in bny ordfr. Pbdkft dflivfry is
+ * not gubrbntffd.
+ *
+ * @buthor  Pbvbni Diwbnji
+ * @buthor  Bfnjbmin Rfnbud
+ * @sindf   1.0
+ */
+publid finbl
+dlbss DbtbgrbmPbdkft {
+
+    /**
+     * Pfrform dlbss initiblizbtion
+     */
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                }
+            });
+        init();
+    }
+
+    /*
+     * Thf fiflds of this dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * dlbssfs nffds to bddfss thfm.
+     */
+    bytf[] buf;
+    int offsft;
+    int lfngth;
+    int bufLfngth;
+    InftAddrfss bddrfss;
+    int port;
+
+    /**
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngth {@dodf lfngth}, spfdifying bn offsft into thf bufffr.
+     * <p>
+     * Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
+     * {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      bufffr for holding thf indoming dbtbgrbm.
+     * @pbrbm   offsft   thf offsft for thf bufffr
+     * @pbrbm   lfngth   thf numbfr of bytfs to rfbd.
+     *
+     * @sindf 1.2
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth) {
+        sftDbtb(buf, offsft, lfngth);
+        this.bddrfss = null;
+        this.port = -1;
+    }
+
+    /**
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngth {@dodf lfngth}.
+     * <p>
+     * Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
+     * {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      bufffr for holding thf indoming dbtbgrbm.
+     * @pbrbm   lfngth   thf numbfr of bytfs to rfbd.
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngth) {
+        this (buf, 0, lfngth);
+    }
+
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
+     * {@dodf lfngth} with offsft {@dodf ioffsft}to thf
+     * spfdififd port numbfr on thf spfdififd host. Thf
+     * {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
+     * {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      thf pbdkft dbtb.
+     * @pbrbm   offsft   thf pbdkft dbtb offsft.
+     * @pbrbm   lfngth   thf pbdkft dbtb lfngth.
+     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
+     * @pbrbm   port     thf dfstinbtion port numbfr.
+     * @sff jbvb.nft.InftAddrfss
+     *
+     * @sindf 1.2
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth,
+                          InftAddrfss bddrfss, int port) {
+        sftDbtb(buf, offsft, lfngth);
+        sftAddrfss(bddrfss);
+        sftPort(port);
+    }
+
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
+     * {@dodf lfngth} with offsft {@dodf ioffsft}to thf
+     * spfdififd port numbfr on thf spfdififd host. Thf
+     * {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
+     * {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      thf pbdkft dbtb.
+     * @pbrbm   offsft   thf pbdkft dbtb offsft.
+     * @pbrbm   lfngth   thf pbdkft dbtb lfngth.
+     * @pbrbm   bddrfss  thf dfstinbtion sodkft bddrfss.
+     * @throws  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sff jbvb.nft.InftAddrfss
+     *
+     * @sindf 1.4
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth, SodkftAddrfss bddrfss) {
+        sftDbtb(buf, offsft, lfngth);
+        sftSodkftAddrfss(bddrfss);
+    }
+
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
+     * {@dodf lfngth} to thf spfdififd port numbfr on thf spfdififd
+     * host. Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl
+     * to {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      thf pbdkft dbtb.
+     * @pbrbm   lfngth   thf pbdkft lfngth.
+     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
+     * @pbrbm   port     thf dfstinbtion port numbfr.
+     * @sff     jbvb.nft.InftAddrfss
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngth,
+                          InftAddrfss bddrfss, int port) {
+        this(buf, 0, lfngth, bddrfss, port);
+    }
+
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
+     * {@dodf lfngth} to thf spfdififd port numbfr on thf spfdififd
+     * host. Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl
+     * to {@dodf buf.lfngth}.
+     *
+     * @pbrbm   buf      thf pbdkft dbtb.
+     * @pbrbm   lfngth   thf pbdkft lfngth.
+     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
+     * @throws  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sindf 1.4
+     * @sff     jbvb.nft.InftAddrfss
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngth, SodkftAddrfss bddrfss) {
+        this(buf, 0, lfngth, bddrfss);
+    }
+
+    /**
+     * Rfturns thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm is bfing
+     * sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     *
+     * @rfturn  thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm is bfing
+     *          sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
+     */
+    publid syndhronizfd InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
+    }
+
+    /**
+     * Rfturns thf port numbfr on thf rfmotf host to whidh this dbtbgrbm is
+     * bfing sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     *
+     * @rfturn  thf port numbfr on thf rfmotf host to whidh this dbtbgrbm is
+     *          bfing sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     * @sff #sftPort(int)
+     */
+    publid syndhronizfd int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns thf dbtb bufffr. Thf dbtb rfdfivfd or thf dbtb to bf sfnt
+     * stbrts from thf {@dodf offsft} in thf bufffr,
+     * bnd runs for {@dodf lfngth} long.
+     *
+     * @rfturn  thf bufffr usfd to rfdfivf or  sfnd dbtb
+     * @sff #sftDbtb(bytf[], int, int)
+     */
+    publid syndhronizfd bytf[] gftDbtb() {
+        rfturn buf;
+    }
+
+    /**
+     * Rfturns thf offsft of thf dbtb to bf sfnt or thf offsft of thf
+     * dbtb rfdfivfd.
+     *
+     * @rfturn  thf offsft of thf dbtb to bf sfnt or thf offsft of thf
+     *          dbtb rfdfivfd.
+     *
+     * @sindf 1.2
+     */
+    publid syndhronizfd int gftOffsft() {
+        rfturn offsft;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf dbtb to bf sfnt or thf lfngth of thf
+     * dbtb rfdfivfd.
+     *
+     * @rfturn  thf lfngth of thf dbtb to bf sfnt or thf lfngth of thf
+     *          dbtb rfdfivfd.
+     * @sff #sftLfngth(int)
+     */
+    publid syndhronizfd int gftLfngth() {
+        rfturn lfngth;
+    }
+
+    /**
+     * Sft thf dbtb bufffr for this pbdkft. This sfts thf
+     * dbtb, lfngth bnd offsft of thf pbdkft.
+     *
+     * @pbrbm buf thf bufffr to sft for this pbdkft
+     *
+     * @pbrbm offsft thf offsft into thf dbtb
+     *
+     * @pbrbm lfngth thf lfngth of thf dbtb
+     *       bnd/or thf lfngth of thf bufffr usfd to rfdfivf dbtb
+     *
+     * @fxdfption NullPointfrExdfption if thf brgumfnt is null
+     *
+     * @sff #gftDbtb
+     * @sff #gftOffsft
+     * @sff #gftLfngth
+     *
+     * @sindf 1.2
+     */
+    publid syndhronizfd void sftDbtb(bytf[] buf, int offsft, int lfngth) {
+        /* this will dhfdk to sff if buf is null */
+        if (lfngth < 0 || offsft < 0 ||
+            (lfngth + offsft) < 0 ||
+            ((lfngth + offsft) > buf.lfngth)) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl lfngth or offsft");
+        }
+        this.buf = buf;
+        this.lfngth = lfngth;
+        this.bufLfngth = lfngth;
+        this.offsft = offsft;
+    }
+
+    /**
+     * Sfts thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm
+     * is bfing sfnt.
+     * @pbrbm ibddr thf {@dodf InftAddrfss}
+     * @sindf   1.1
+     * @sff #gftAddrfss()
+     */
+    publid syndhronizfd void sftAddrfss(InftAddrfss ibddr) {
+        bddrfss = ibddr;
+    }
+
+    /**
+     * Sfts thf port numbfr on thf rfmotf host to whidh this dbtbgrbm
+     * is bfing sfnt.
+     * @pbrbm iport thf port numbfr
+     * @sindf   1.1
+     * @sff #gftPort()
+     */
+    publid syndhronizfd void sftPort(int iport) {
+        if (iport < 0 || iport > 0xFFFF) {
+            throw nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+        }
+        port = iport;
+    }
+
+    /**
+     * Sfts thf SodkftAddrfss (usublly IP bddrfss + port numbfr) of thf rfmotf
+     * host to whidh this dbtbgrbm is bfing sfnt.
+     *
+     * @pbrbm bddrfss thf {@dodf SodkftAddrfss}
+     * @throws  IllfgblArgumfntExdfption if bddrfss is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by this sodkft
+     *
+     * @sindf 1.4
+     * @sff #gftSodkftAddrfss
+     */
+    publid syndhronizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+            throw nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+        if (bddr.isUnrfsolvfd())
+            throw nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+        sftAddrfss(bddr.gftAddrfss());
+        sftPort(bddr.gftPort());
+    }
+
+    /**
+     * Gfts thf SodkftAddrfss (usublly IP bddrfss + port numbfr) of thf rfmotf
+     * host thbt this pbdkft is bfing sfnt to or is doming from.
+     *
+     * @rfturn thf {@dodf SodkftAddrfss}
+     * @sindf 1.4
+     * @sff #sftSodkftAddrfss
+     */
+    publid syndhronizfd SodkftAddrfss gftSodkftAddrfss() {
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
+    }
+
+    /**
+     * Sft thf dbtb bufffr for this pbdkft. With thf offsft of
+     * this DbtbgrbmPbdkft sft to 0, bnd thf lfngth sft to
+     * thf lfngth of {@dodf buf}.
+     *
+     * @pbrbm buf thf bufffr to sft for this pbdkft.
+     *
+     * @fxdfption NullPointfrExdfption if thf brgumfnt is null.
+     *
+     * @sff #gftLfngth
+     * @sff #gftDbtb
+     *
+     * @sindf 1.1
+     */
+    publid syndhronizfd void sftDbtb(bytf[] buf) {
+        if (buf == null) {
+            throw nfw NullPointfrExdfption("null pbdkft bufffr");
+        }
+        this.buf = buf;
+        this.offsft = 0;
+        this.lfngth = buf.lfngth;
+        this.bufLfngth = buf.lfngth;
+    }
+
+    /**
+     * Sft thf lfngth for this pbdkft. Thf lfngth of thf pbdkft is
+     * thf numbfr of bytfs from thf pbdkft's dbtb bufffr thbt will bf
+     * sfnt, or thf numbfr of bytfs of thf pbdkft's dbtb bufffr thbt
+     * will bf usfd for rfdfiving dbtb. Thf lfngth must bf lfssfr or
+     * fqubl to thf offsft plus thf lfngth of thf pbdkft's bufffr.
+     *
+     * @pbrbm lfngth thf lfngth to sft for this pbdkft.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf lfngth is nfgbtivf
+     * of if thf lfngth is grfbtfr thbn thf pbdkft's dbtb bufffr
+     * lfngth.
+     *
+     * @sff #gftLfngth
+     * @sff #sftDbtb
+     *
+     * @sindf 1.1
+     */
+    publid syndhronizfd void sftLfngth(int lfngth) {
+        if ((lfngth + offsft) > buf.lfngth || lfngth < 0 ||
+            (lfngth + offsft) < 0) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl lfngth");
+        }
+        this.lfngth = lfngth;
+        this.bufLfngth = this.lfngth;
+    }
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf nbtivf stbtid void init();
+}

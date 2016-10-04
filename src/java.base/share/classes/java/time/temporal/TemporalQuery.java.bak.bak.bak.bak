@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.DbtfTimfExdfption;
+
+/**
+ * Strbtfgy for qufrying b tfmporbl objfdt.
+ * <p>
+ * Qufrifs brf b kfy tool for fxtrbdting informbtion from tfmporbl objfdts.
+ * Thfy fxist to fxtfrnblizf thf prodfss of qufrying, pfrmitting difffrfnt
+ * bpprobdhfs, bs pfr thf strbtfgy dfsign pbttfrn.
+ * Exbmplfs might bf b qufry thbt dhfdks if thf dbtf is thf dby bfforf Ffbrubry 29th
+ * in b lfbp yfbr, or dbldulbtfs thf numbfr of dbys to your nfxt birthdby.
+ * <p>
+ * Thf {@link TfmporblFifld} intfrfbdf providfs bnothfr mfdhbnism for qufrying
+ * tfmporbl objfdts. Thbt intfrfbdf is limitfd to rfturning b {@dodf long}.
+ * By dontrbst, qufrifs dbn rfturn bny typf.
+ * <p>
+ * Thfrf brf two fquivblfnt wbys of using b {@dodf TfmporblQufry}.
+ * Thf first is to invokf thf mfthod on this intfrfbdf dirfdtly.
+ * Thf sfdond is to usf {@link TfmporblAddfssor#qufry(TfmporblQufry)}:
+ * <prf>
+ *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+ *   tfmporbl = thisQufry.qufryFrom(tfmporbl);
+ *   tfmporbl = tfmporbl.qufry(thisQufry);
+ * </prf>
+ * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf qufry(TfmporblQufry)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
+ * <p>
+ * Thf most dommon implfmfntbtions brf mfthod rfffrfndfs, sudh bs
+ * {@dodf LodblDbtf::from} bnd {@dodf ZonfId::from}.
+ * Additionbl dommon qufrifs brf providfd bs stbtid mfthods in {@link TfmporblQufrifs}.
+ *
+ * @implSpfd
+ * This intfrfbdf plbdfs no rfstridtions on thf mutbbility of implfmfntbtions,
+ * howfvfr immutbbility is strongly rfdommfndfd.
+ *
+ * @pbrbm <R> thf typf rfturnfd from thf qufry
+ *
+ * @sindf 1.8
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf TfmporblQufry<R> {
+
+    /**
+     * Qufrifs thf spfdififd tfmporbl objfdt.
+     * <p>
+     * This qufrifs thf spfdififd tfmporbl objfdt to rfturn bn objfdt using thf logid
+     * fndbpsulbtfd in thf implfmfnting dlbss.
+     * Exbmplfs might bf b qufry thbt dhfdks if thf dbtf is thf dby bfforf Ffbrubry 29th
+     * in b lfbp yfbr, or dbldulbtfs thf numbfr of dbys to your nfxt birthdby.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod dirfdtly.
+     * Thf sfdond is to usf {@link TfmporblAddfssor#qufry(TfmporblQufry)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+     *   tfmporbl = thisQufry.qufryFrom(tfmporbl);
+     *   tfmporbl = tfmporbl.qufry(thisQufry);
+     * </prf>
+     * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf qufry(TfmporblQufry)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     *
+     * @implSpfd
+     * Thf implfmfntbtion must tbkf thf input objfdt bnd qufry it.
+     * Thf implfmfntbtion dffinfs thf logid of thf qufry bnd is rfsponsiblf for
+     * dodumfnting thbt logid.
+     * It mby usf bny mfthod on {@dodf TfmporblAddfssor} to dftfrminf thf rfsult.
+     * Thf input objfdt must not bf bltfrfd.
+     * <p>
+     * Thf input tfmporbl objfdt mby bf in b dblfndbr systfm othfr thbn ISO.
+     * Implfmfntbtions mby dhoosf to dodumfnt dompbtibility with othfr dblfndbr systfms,
+     * or rfjfdt non-ISO tfmporbl objfdts by {@link TfmporblQufrifs#dhronology() qufrying thf dhronology}.
+     * <p>
+     * This mfthod mby bf dbllfd from multiplf thrfbds in pbrbllfl.
+     * It must bf thrfbd-sbff whfn invokfd.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to qufry, not null
+     * @rfturn thf qufrifd vbluf, mby rfturn null to indidbtf not found
+     * @throws DbtfTimfExdfption if unbblf to qufry
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    R qufryFrom(TfmporblAddfssor tfmporbl);
+
+}

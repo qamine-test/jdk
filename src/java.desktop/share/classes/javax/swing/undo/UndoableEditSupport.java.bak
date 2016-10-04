@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.undo;
+pbdkbgf jbvbx.swing.undo;
 
-import javax.swing.event.*;
-import java.util.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.util.*;
 
 /**
- * A support class used for managing <code>UndoableEdit</code> listeners.
+ * A support dlbss usfd for mbnbging <dodf>UndobblfEdit</dodf> listfnfrs.
  *
- * @author Ray Ryan
+ * @butior Rby Rybn
  */
-public class UndoableEditSupport {
-    protected int updateLevel;
-    protected CompoundEdit compoundEdit;
-    protected Vector<UndoableEditListener> listeners;
-    protected Object realSource;
+publid dlbss UndobblfEditSupport {
+    protfdtfd int updbtfLfvfl;
+    protfdtfd CompoundEdit dompoundEdit;
+    protfdtfd Vfdtor<UndobblfEditListfnfr> listfnfrs;
+    protfdtfd Objfdt rfblSourdf;
 
     /**
-     * Constructs an <code>UndoableEditSupport</code> object.
+     * Construdts bn <dodf>UndobblfEditSupport</dodf> objfdt.
      */
-    public UndoableEditSupport() {
-        this(null);
+    publid UndobblfEditSupport() {
+        tiis(null);
     }
 
     /**
-     * Constructs an <code>UndoableEditSupport</code> object.
+     * Construdts bn <dodf>UndobblfEditSupport</dodf> objfdt.
      *
-     * @param r  an <code>Object</code>
+     * @pbrbm r  bn <dodf>Objfdt</dodf>
      */
-    public UndoableEditSupport(Object r) {
-        realSource = r == null ? this : r;
-        updateLevel = 0;
-        compoundEdit = null;
-        listeners = new Vector<UndoableEditListener>();
+    publid UndobblfEditSupport(Objfdt r) {
+        rfblSourdf = r == null ? tiis : r;
+        updbtfLfvfl = 0;
+        dompoundEdit = null;
+        listfnfrs = nfw Vfdtor<UndobblfEditListfnfr>();
     }
 
     /**
-     * Registers an <code>UndoableEditListener</code>.
-     * The listener is notified whenever an edit occurs which can be undone.
+     * Rfgistfrs bn <dodf>UndobblfEditListfnfr</dodf>.
+     * Tif listfnfr is notififd wifnfvfr bn fdit oddurs wiidi dbn bf undonf.
      *
-     * @param l  an <code>UndoableEditListener</code> object
-     * @see #removeUndoableEditListener
+     * @pbrbm l  bn <dodf>UndobblfEditListfnfr</dodf> objfdt
+     * @sff #rfmovfUndobblfEditListfnfr
      */
-    public synchronized void addUndoableEditListener(UndoableEditListener l) {
-        listeners.addElement(l);
+    publid syndironizfd void bddUndobblfEditListfnfr(UndobblfEditListfnfr l) {
+        listfnfrs.bddElfmfnt(l);
     }
 
     /**
-     * Removes an <code>UndoableEditListener</code>.
+     * Rfmovfs bn <dodf>UndobblfEditListfnfr</dodf>.
      *
-     * @param l  the <code>UndoableEditListener</code> object to be removed
-     * @see #addUndoableEditListener
+     * @pbrbm l  tif <dodf>UndobblfEditListfnfr</dodf> objfdt to bf rfmovfd
+     * @sff #bddUndobblfEditListfnfr
      */
-    public synchronized void removeUndoableEditListener(UndoableEditListener l)
+    publid syndironizfd void rfmovfUndobblfEditListfnfr(UndobblfEditListfnfr l)
     {
-        listeners.removeElement(l);
+        listfnfrs.rfmovfElfmfnt(l);
     }
 
     /**
-     * Returns an array of all the <code>UndoableEditListener</code>s added
-     * to this UndoableEditSupport with addUndoableEditListener().
+     * Rfturns bn brrby of bll tif <dodf>UndobblfEditListfnfr</dodf>s bddfd
+     * to tiis UndobblfEditSupport witi bddUndobblfEditListfnfr().
      *
-     * @return all of the <code>UndoableEditListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>UndobblfEditListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public synchronized UndoableEditListener[] getUndoableEditListeners() {
-        return listeners.toArray(new UndoableEditListener[0]);
+    publid syndironizfd UndobblfEditListfnfr[] gftUndobblfEditListfnfrs() {
+        rfturn listfnfrs.toArrby(nfw UndobblfEditListfnfr[0]);
     }
 
     /**
-     * Called only from <code>postEdit</code> and <code>endUpdate</code>. Calls
-     * <code>undoableEditHappened</code> in all listeners. No synchronization
-     * is performed here, since the two calling methods are synchronized.
+     * Cbllfd only from <dodf>postEdit</dodf> bnd <dodf>fndUpdbtf</dodf>. Cblls
+     * <dodf>undobblfEditHbppfnfd</dodf> in bll listfnfrs. No syndironizbtion
+     * is pfrformfd ifrf, sindf tif two dblling mftiods brf syndironizfd.
      *
-     * @param e edit to be verified
+     * @pbrbm f fdit to bf vfrififd
      */
-    protected void _postEdit(UndoableEdit e) {
-        UndoableEditEvent ev = new UndoableEditEvent(realSource, e);
-        @SuppressWarnings("unchecked")
-        Enumeration<UndoableEditListener> cursor =
-            ((Vector<UndoableEditListener>)listeners.clone()).elements();
-        while (cursor.hasMoreElements()) {
-            cursor.nextElement().undoableEditHappened(ev);
+    protfdtfd void _postEdit(UndobblfEdit f) {
+        UndobblfEditEvfnt fv = nfw UndobblfEditEvfnt(rfblSourdf, f);
+        @SupprfssWbrnings("undifdkfd")
+        Enumfrbtion<UndobblfEditListfnfr> dursor =
+            ((Vfdtor<UndobblfEditListfnfr>)listfnfrs.dlonf()).flfmfnts();
+        wiilf (dursor.ibsMorfElfmfnts()) {
+            dursor.nfxtElfmfnt().undobblfEditHbppfnfd(fv);
         }
     }
 
     /**
-     * DEADLOCK WARNING: Calling this method may call
-     * <code>undoableEditHappened</code> in all listeners.
-     * It is unwise to call this method from one of its listeners.
+     * DEADLOCK WARNING: Cblling tiis mftiod mby dbll
+     * <dodf>undobblfEditHbppfnfd</dodf> in bll listfnfrs.
+     * It is unwisf to dbll tiis mftiod from onf of its listfnfrs.
      *
-     * @param e edit to be posted
+     * @pbrbm f fdit to bf postfd
      */
-    public synchronized void postEdit(UndoableEdit e) {
-        if (updateLevel == 0) {
-            _postEdit(e);
-        } else {
-            // PENDING(rjrjr) Throw an exception if this fails?
-            compoundEdit.addEdit(e);
+    publid syndironizfd void postEdit(UndobblfEdit f) {
+        if (updbtfLfvfl == 0) {
+            _postEdit(f);
+        } flsf {
+            // PENDING(rjrjr) Tirow bn fxdfption if tiis fbils?
+            dompoundEdit.bddEdit(f);
         }
     }
 
     /**
-     * Returns the update level value.
+     * Rfturns tif updbtf lfvfl vbluf.
      *
-     * @return an integer representing the update level
+     * @rfturn bn intfgfr rfprfsfnting tif updbtf lfvfl
      */
-    public int getUpdateLevel() {
-        return updateLevel;
+    publid int gftUpdbtfLfvfl() {
+        rfturn updbtfLfvfl;
     }
 
     /**
      *
      */
-    public synchronized void beginUpdate() {
-        if (updateLevel == 0) {
-            compoundEdit = createCompoundEdit();
+    publid syndironizfd void bfginUpdbtf() {
+        if (updbtfLfvfl == 0) {
+            dompoundEdit = drfbtfCompoundEdit();
         }
-        updateLevel++;
+        updbtfLfvfl++;
     }
 
     /**
-     * Called only from <code>beginUpdate</code>.
-     * Exposed here for subclasses' use.
+     * Cbllfd only from <dodf>bfginUpdbtf</dodf>.
+     * Exposfd ifrf for subdlbssfs' usf.
      *
-     * @return new created {@code CompoundEdit} object
+     * @rfturn nfw drfbtfd {@dodf CompoundEdit} objfdt
      */
-    protected CompoundEdit createCompoundEdit() {
-        return new CompoundEdit();
+    protfdtfd CompoundEdit drfbtfCompoundEdit() {
+        rfturn nfw CompoundEdit();
     }
 
     /**
-     * DEADLOCK WARNING: Calling this method may call
-     * <code>undoableEditHappened</code> in all listeners.
-     * It is unwise to call this method from one of its listeners.
+     * DEADLOCK WARNING: Cblling tiis mftiod mby dbll
+     * <dodf>undobblfEditHbppfnfd</dodf> in bll listfnfrs.
+     * It is unwisf to dbll tiis mftiod from onf of its listfnfrs.
      */
-    public synchronized void endUpdate() {
-        updateLevel--;
-        if (updateLevel == 0) {
-            compoundEdit.end();
-            _postEdit(compoundEdit);
-            compoundEdit = null;
+    publid syndironizfd void fndUpdbtf() {
+        updbtfLfvfl--;
+        if (updbtfLfvfl == 0) {
+            dompoundEdit.fnd();
+            _postEdit(dompoundEdit);
+            dompoundEdit = null;
         }
     }
 
     /**
-     * Returns a string that displays and identifies this
-     * object's properties.
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
      *
-     * @return a <code>String</code> representation of this object
+     * @rfturn b <dodf>String</dodf> rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        return super.toString() +
-            " updateLevel: " + updateLevel +
-            " listeners: " + listeners +
-            " compoundEdit: " + compoundEdit;
+    publid String toString() {
+        rfturn supfr.toString() +
+            " updbtfLfvfl: " + updbtfLfvfl +
+            " listfnfrs: " + listfnfrs +
+            " dompoundEdit: " + dompoundEdit;
     }
 }

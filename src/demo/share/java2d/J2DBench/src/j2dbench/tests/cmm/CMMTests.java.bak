@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,124 +30,124 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-package j2dbench.tests.cmm;
+pbdkbgf j2dbfndi.tfsts.dmm;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.Test;
-import j2dbench.TestEnvironment;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.io.IOException;
-import java.io.InputStream;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
-public class CMMTests extends Test {
+publid dlbss CMMTfsts fxtfnds Tfst {
 
-    protected static Group cmmRoot;
-    protected static Group cmmOptRoot;
-    protected static Option csList;
-    protected static Option usePlatfromProfiles;
+    protfdtfd stbtid Group dmmRoot;
+    protfdtfd stbtid Group dmmOptRoot;
+    protfdtfd stbtid Option dsList;
+    protfdtfd stbtid Option usfPlbtfromProfilfs;
 
-    public static void init() {
-        cmmRoot = new Group("cmm", "Color Management Benchmarks");
-        cmmRoot.setTabbed();
+    publid stbtid void init() {
+        dmmRoot = nfw Group("dmm", "Color Mbnbgfmfnt Bfndimbrks");
+        dmmRoot.sftTbbbfd();
 
-        cmmOptRoot = new Group(cmmRoot, "opts", "General Options");
+        dmmOptRoot = nfw Group(dmmRoot, "opts", "Gfnfrbl Options");
 
         /*
-        usePlatfromProfiles =
-                new Option.Enable(cmmOptRoot, "csPlatfrom",
-                        "Use Platfrom Profiles", false);
+        usfPlbtfromProfilfs =
+                nfw Option.Enbblf(dmmOptRoot, "dsPlbtfrom",
+                        "Usf Plbtfrom Profilfs", fblsf);
         */
-        int[] colorspaces = new int[] {
-            ColorSpace.CS_sRGB,
-            ColorSpace.CS_GRAY,
-            ColorSpace.CS_LINEAR_RGB,
-            ColorSpace.CS_CIEXYZ
+        int[] dolorspbdfs = nfw int[] {
+            ColorSpbdf.CS_sRGB,
+            ColorSpbdf.CS_GRAY,
+            ColorSpbdf.CS_LINEAR_RGB,
+            ColorSpbdf.CS_CIEXYZ
         };
 
-        String[] csNames = new String[]{
+        String[] dsNbmfs = nfw String[]{
             "CS_sRGB",
             "CS_GRAY",
             "CS_LINEAR_RGB",
             "CS_CIEXYZ"
         };
 
-        csList = new Option.IntList(cmmOptRoot,
-                "profiles", "Color Profiles",
-                colorspaces, csNames, csNames, 0x8);
+        dsList = nfw Option.IntList(dmmOptRoot,
+                "profilfs", "Color Profilfs",
+                dolorspbdfs, dsNbmfs, dsNbmfs, 0x8);
 
-        ColorConversionTests.init();
-        ProfileTests.init();
+        ColorConvfrsionTfsts.init();
+        ProfilfTfsts.init();
     }
 
-    protected static ColorSpace getColorSpace(TestEnvironment env) {
-        ColorSpace cs;
-        Boolean usePlatfrom = true; //(Boolean)env.getModifier(usePlatfromProfiles);
+    protfdtfd stbtid ColorSpbdf gftColorSpbdf(TfstEnvironmfnt fnv) {
+        ColorSpbdf ds;
+        Boolfbn usfPlbtfrom = truf; //(Boolfbn)fnv.gftModififr(usfPlbtfromProfilfs);
 
-        int cs_code = env.getIntValue(csList);
-        if (usePlatfrom) {
-            cs = ColorSpace.getInstance(cs_code);
-        } else {
-            String resource = "profiles/";
-            switch (cs_code) {
-                case ColorSpace.CS_CIEXYZ:
-                    resource += "CIEXYZ.pf";
-                    break;
-                case ColorSpace.CS_GRAY:
-                    resource += "GRAY.pf";
-                    break;
-                case ColorSpace.CS_LINEAR_RGB:
-                    resource += "LINEAR_RGB.pf";
-                    break;
-                case ColorSpace.CS_PYCC:
-                    resource += "PYCC.pf";
-                    break;
-                case ColorSpace.CS_sRGB:
-                    resource += "sRGB.pf";
-                    break;
-                default:
-                    throw new RuntimeException("Unknown color space: " + cs_code);
+        int ds_dodf = fnv.gftIntVbluf(dsList);
+        if (usfPlbtfrom) {
+            ds = ColorSpbdf.gftInstbndf(ds_dodf);
+        } flsf {
+            String rfsourdf = "profilfs/";
+            switdi (ds_dodf) {
+                dbsf ColorSpbdf.CS_CIEXYZ:
+                    rfsourdf += "CIEXYZ.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_GRAY:
+                    rfsourdf += "GRAY.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_LINEAR_RGB:
+                    rfsourdf += "LINEAR_RGB.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_PYCC:
+                    rfsourdf += "PYCC.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_sRGB:
+                    rfsourdf += "sRGB.pf";
+                    brfbk;
+                dffbult:
+                    tirow nfw RuntimfExdfption("Unknown dolor spbdf: " + ds_dodf);
             }
 
             try {
-                InputStream is = CMMTests.class.getResourceAsStream(resource);
-                ICC_Profile p = ICC_Profile.getInstance(is);
+                InputStrfbm is = CMMTfsts.dlbss.gftRfsourdfAsStrfbm(rfsourdf);
+                ICC_Profilf p = ICC_Profilf.gftInstbndf(is);
 
-                cs = new ICC_ColorSpace(p);
-            } catch (IOException e) {
-                throw new RuntimeException("Unable load profile from resource " + resource, e);
+                ds = nfw ICC_ColorSpbdf(p);
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption("Unbblf lobd profilf from rfsourdf " + rfsourdf, f);
             }
         }
-        return cs;
+        rfturn ds;
     }
 
-    protected CMMTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(cmmOptRoot, true);
+    protfdtfd CMMTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(dmmOptRoot, truf);
     }
 
-    @Override
-    public Object initTest(TestEnvironment te, Result result) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Ovfrridf
+    publid Objfdt initTfst(TfstEnvironmfnt tf, Rfsult rfsult) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    @Override
-    public void runTest(Object o, int i) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Ovfrridf
+    publid void runTfst(Objfdt o, int i) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    @Override
-    public void cleanupTest(TestEnvironment te, Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Ovfrridf
+    publid void dlfbnupTfst(TfstEnvironmfnt tf, Objfdt o) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 }

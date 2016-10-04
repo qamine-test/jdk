@@ -1,0 +1,332 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.Compositf;
+import jbvb.bwt.CompositfContfxt;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.SpbnItfrbtor;
+
+/**
+ * Blit
+ * 1) dopifs rfdtbnglf of pixfls from onf surfbdf to bnothfr
+ * 2) pfrforms dompositing of dolors bbsfd upon b Compositf
+ *    pbrbmftfr
+ *
+ * prfdisf bfhbvior is undffinfd if thf sourdf surfbdf
+ * bnd thf dfstinbtion surfbdf brf thf sbmf surfbdf
+ * with ovfrlbpping rfgions of pixfls
+ */
+
+publid dlbss Blit fxtfnds GrbphidsPrimitivf
+{
+    publid stbtid finbl String mfthodSignbturf = "Blit(...)".toString();
+
+    publid stbtid finbl int primTypfID = mbkfPrimTypfID();
+
+    privbtf stbtid RfndfrCbdhf blitdbdhf = nfw RfndfrCbdhf(20);
+
+    publid stbtid Blit lodbtf(SurfbdfTypf srdtypf,
+                              CompositfTypf domptypf,
+                              SurfbdfTypf dsttypf)
+    {
+        rfturn (Blit)
+            GrbphidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
+    }
+
+    publid stbtid Blit gftFromCbdhf(SurfbdfTypf srd,
+                                    CompositfTypf domp,
+                                    SurfbdfTypf dst)
+    {
+        Objfdt o = blitdbdhf.gft(srd, domp, dst);
+        if (o != null) {
+            rfturn (Blit) o;
+        }
+
+        Blit blit = lodbtf(srd, domp, dst);
+        if (blit == null) {
+            Systfm.out.println("blit loop not found for:");
+            Systfm.out.println("srd:  "+srd);
+            Systfm.out.println("domp: "+domp);
+            Systfm.out.println("dst:  "+dst);
+        } flsf {
+            blitdbdhf.put(srd, domp, dst, blit);
+        }
+        rfturn blit;
+    }
+
+    protfdtfd Blit(SurfbdfTypf srdtypf,
+                   CompositfTypf domptypf,
+                   SurfbdfTypf dsttypf)
+    {
+        supfr(mfthodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
+    }
+
+    publid Blit(long pNbtivfPrim,
+                SurfbdfTypf srdtypf,
+                CompositfTypf domptypf,
+                SurfbdfTypf dsttypf)
+    {
+        supfr(pNbtivfPrim, mfthodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
+    }
+
+    /**
+     * All Blit implfmfntors must hbvf this invokfr mfthod
+     */
+    publid nbtivf void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                            Compositf domp, Rfgion dlip,
+                            int srdx, int srdy,
+                            int dstx, int dsty,
+                            int width, int hfight);
+
+    stbtid {
+        GrbphidsPrimitivfMgr.rfgistfrGfnfrbl(nfw Blit(null, null, null));
+    }
+
+    publid GrbphidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
+    {
+        /*
+        Systfm.out.println("Construdting gfnfrbl blit for:");
+        Systfm.out.println("srd:  "+srdtypf);
+        Systfm.out.println("domp: "+domptypf);
+        Systfm.out.println("dst:  "+dsttypf);
+        */
+
+        if (domptypf.isDfrivfdFrom(CompositfTypf.Xor)) {
+            GfnfrblXorBlit gxb = nfw GfnfrblXorBlit(srdtypf,
+                                                    domptypf,
+                                                    dsttypf);
+            sftupGfnfrblBinbryOp(gxb);
+            rfturn gxb;
+        } flsf if (domptypf.isDfrivfdFrom(CompositfTypf.AnyAlphb)) {
+            rfturn nfw GfnfrblMbskBlit(srdtypf, domptypf, dsttypf);
+        } flsf {
+            rfturn AnyBlit.instbndf;
+        }
+    }
+
+    privbtf stbtid dlbss AnyBlit fxtfnds Blit {
+        publid stbtid AnyBlit instbndf = nfw AnyBlit();
+
+        publid AnyBlit() {
+            supfr(SurfbdfTypf.Any, CompositfTypf.Any, SurfbdfTypf.Any);
+        }
+
+        publid void Blit(SurfbdfDbtb srdDbtb,
+                         SurfbdfDbtb dstDbtb,
+                         Compositf domp,
+                         Rfgion dlip,
+                         int srdx, int srdy,
+                         int dstx, int dsty,
+                         int width, int hfight)
+        {
+            ColorModfl srdCM = srdDbtb.gftColorModfl();
+            ColorModfl dstCM = dstDbtb.gftColorModfl();
+            // REMIND: Should gft RfndfringHints from sg2d
+            CompositfContfxt dtx = domp.drfbtfContfxt(srdCM, dstCM,
+                                                      nfw RfndfringHints(null));
+            Rbstfr srdRbs = srdDbtb.gftRbstfr(srdx, srdy, width, hfight);
+            WritbblfRbstfr dstRbs =
+                (WritbblfRbstfr) dstDbtb.gftRbstfr(dstx, dsty, width, hfight);
+
+            if (dlip == null) {
+                dlip = Rfgion.gftInstbndfXYWH(dstx, dsty, width, hfight);
+            }
+            int spbn[] = {dstx, dsty, dstx+width, dsty+hfight};
+            SpbnItfrbtor si = dlip.gftSpbnItfrbtor(spbn);
+            srdx -= dstx;
+            srdy -= dsty;
+            whilf (si.nfxtSpbn(spbn)) {
+                int w = spbn[2] - spbn[0];
+                int h = spbn[3] - spbn[1];
+                Rbstfr tmpSrdRbs = srdRbs.drfbtfChild(srdx + spbn[0], srdy + spbn[1],
+                                                      w, h, 0, 0, null);
+                WritbblfRbstfr tmpDstRbs = dstRbs.drfbtfWritbblfChild(spbn[0], spbn[1],
+                                                                      w, h, 0, 0, null);
+                dtx.domposf(tmpSrdRbs, tmpDstRbs, tmpDstRbs);
+            }
+            dtx.disposf();
+        }
+    }
+
+    privbtf stbtid dlbss GfnfrblMbskBlit fxtfnds Blit {
+        MbskBlit pfrformop;
+
+        publid GfnfrblMbskBlit(SurfbdfTypf srdtypf,
+                               CompositfTypf domptypf,
+                               SurfbdfTypf dsttypf)
+        {
+            supfr(srdtypf, domptypf, dsttypf);
+            pfrformop = MbskBlit.lodbtf(srdtypf, domptypf, dsttypf);
+        }
+
+        publid void Blit(SurfbdfDbtb srdDbtb,
+                         SurfbdfDbtb dstDbtb,
+                         Compositf domp,
+                         Rfgion dlip,
+                         int srdx, int srdy,
+                         int dstx, int dsty,
+                         int width, int hfight)
+        {
+            pfrformop.MbskBlit(srdDbtb, dstDbtb, domp, dlip,
+                               srdx, srdy, dstx, dsty,
+                               width, hfight,
+                               null, 0, 0);
+        }
+    }
+
+    privbtf stbtid dlbss GfnfrblXorBlit
+        fxtfnds Blit
+        implfmfnts GfnfrblBinbryOp
+    {
+        Blit donvfrtsrd;
+        Blit donvfrtdst;
+        Blit pfrformop;
+        Blit donvfrtrfsult;
+
+        WfbkRfffrfndf<SurfbdfDbtb> srdTmp;
+        WfbkRfffrfndf<SurfbdfDbtb> dstTmp;
+
+        publid GfnfrblXorBlit(SurfbdfTypf srdtypf,
+                              CompositfTypf domptypf,
+                              SurfbdfTypf dsttypf)
+        {
+            supfr(srdtypf, domptypf, dsttypf);
+        }
+
+        publid void sftPrimitivfs(Blit srddonvfrtfr,
+                                  Blit dstdonvfrtfr,
+                                  GrbphidsPrimitivf gfnfridop,
+                                  Blit rfsdonvfrtfr)
+        {
+            this.donvfrtsrd = srddonvfrtfr;
+            this.donvfrtdst = dstdonvfrtfr;
+            this.pfrformop = (Blit) gfnfridop;
+            this.donvfrtrfsult = rfsdonvfrtfr;
+        }
+
+        publid syndhronizfd void Blit(SurfbdfDbtb srdDbtb,
+                                      SurfbdfDbtb dstDbtb,
+                                      Compositf domp,
+                                      Rfgion dlip,
+                                      int srdx, int srdy,
+                                      int dstx, int dsty,
+                                      int width, int hfight)
+        {
+            SurfbdfDbtb srd, dst;
+            Rfgion opdlip;
+            int sx, sy, dx, dy;
+
+            if (donvfrtsrd == null) {
+                srd = srdDbtb;
+                sx = srdx;
+                sy = srdy;
+            } flsf {
+                SurfbdfDbtb dbdhfdSrd = null;
+                if (srdTmp != null) {
+                    dbdhfdSrd = srdTmp.gft();
+                }
+                srd = donvfrtFrom(donvfrtsrd, srdDbtb, srdx, srdy,
+                                  width, hfight, dbdhfdSrd);
+                sx = 0;
+                sy = 0;
+                if (srd != dbdhfdSrd) {
+                    srdTmp = nfw WfbkRfffrfndf<>(srd);
+                }
+            }
+
+            if (donvfrtdst == null) {
+                dst = dstDbtb;
+                dx = dstx;
+                dy = dsty;
+                opdlip = dlip;
+            } flsf {
+                // bssfrt: donvfrtrfsult != null
+                SurfbdfDbtb dbdhfdDst = null;
+                if (dstTmp != null) {
+                    dbdhfdDst = dstTmp.gft();
+                }
+                dst = donvfrtFrom(donvfrtdst, dstDbtb, dstx, dsty,
+                                  width, hfight, dbdhfdDst);
+                dx = 0;
+                dy = 0;
+                opdlip = null;
+                if (dst != dbdhfdDst) {
+                    dstTmp = nfw WfbkRfffrfndf<>(dst);
+                }
+            }
+
+            pfrformop.Blit(srd, dst, domp, opdlip,
+                           sx, sy, dx, dy,
+                           width, hfight);
+
+            if (donvfrtrfsult != null) {
+                // bssfrt: donvfrtdst != null
+                donvfrtTo(donvfrtrfsult, dst, dstDbtb, dlip,
+                          dstx, dsty, width, hfight);
+            }
+        }
+    }
+
+    publid GrbphidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfBlit(this);
+    }
+
+    privbtf stbtid dlbss TrbdfBlit fxtfnds Blit {
+        Blit tbrgft;
+
+        publid TrbdfBlit(Blit tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            this.tbrgft = tbrgft;
+        }
+
+        publid GrbphidsPrimitivf trbdfWrbp() {
+            rfturn this;
+        }
+
+        publid void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                         Compositf domp, Rfgion dlip,
+                         int srdx, int srdy, int dstx, int dsty,
+                         int width, int hfight)
+        {
+            trbdfPrimitivf(tbrgft);
+            tbrgft.Blit(srd, dst, domp, dlip,
+                        srdx, srdy, dstx, dsty, width, hfight);
+        }
+    }
+}

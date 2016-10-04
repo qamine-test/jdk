@@ -1,0 +1,348 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.Vfdtor;
+
+import jbvbx.sql.rowsft.*;
+
+/**
+ * A sfriblizfd mbpping in thf Jbvb progrbmming lbngubgf of bn SQL
+ * strudturfd typf. Ebdh bttributf thbt is not blrfbdy sfriblizfd
+ * is mbppfd to b sfriblizfd form, bnd if bn bttributf is itsflf
+ * b strudturfd typf, fbdh of its bttributfs thbt is not blrfbdy
+ * sfriblizfd is mbppfd to b sfriblizfd form.
+ * <P>
+ * In bddition, thf strudturfd typf is dustom mbppfd to b dlbss in thf
+ * Jbvb progrbmming lbngubgf if thfrf is sudh b mbpping, bs brf
+ * its bttributfs, if bppropribtf.
+ * <P>
+ * Thf <dodf>SfriblStrudt</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Strudt</dodf> objfdt, b mfthod for rftrifving
+ * thf SQL typf nbmf of thf SQL strudturfd typf in thf dbtbbbsf, bnd mfthods
+ * for rftrifving its bttributf vblufs.
+ *
+ * <h3> Thrfbd sbffty </h3>
+ *
+ * A SfriblStrudt is not sbff for usf by multiplf dondurrfnt thrfbds.  If b
+ * SfriblStrudt is to bf usfd by morf thbn onf thrfbd thfn bddfss to thf
+ * SfriblStrudt should bf dontrollfd by bppropribtf syndhronizbtion.
+ *
+ * @sindf 1.5
+ */
+publid dlbss SfriblStrudt implfmfnts Strudt, Sfriblizbblf, Clonfbblf {
+
+
+    /**
+     * Thf SQL typf nbmf for thf strudturfd typf thbt this
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.  This is thf nbmf
+     * usfd in thf SQL dffinition of thf SQL strudturfd typf.
+     *
+     * @sfribl
+     */
+    privbtf String SQLTypfNbmf;
+
+    /**
+     * An brrby of <dodf>Objfdt</dodf> instbndfs in  whidh fbdh
+     * flfmfnt is bn bttributf of thf SQL strudturfd typf thbt this
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.  Thf bttributfs brf
+     * ordfrfd bddording to thfir ordfr in thf dffinition of thf
+     * SQL strudturfd typf.
+     *
+     * @sfribl
+     */
+    privbtf Objfdt bttribs[];
+
+    /**
+     * Construdts b <dodf>SfriblStrudt</dodf> objfdt from thf givfn
+     * <dodf>Strudt</dodf> objfdt, using thf givfn <dodf>jbvb.util.Mbp</dodf>
+     * objfdt for dustom mbpping thf SQL strudturfd typf or bny of its
+     * bttributfs thbt brf SQL strudturfd typfs.
+     *
+     * @pbrbm in bn instbndf of {@dodf Strudt}
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in whidh
+     *        fbdh fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+     *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        thbt dffinfs how thf UDT is to bf mbppfd
+     * @throws SfriblExdfption if bn frror oddurs
+     * @sff jbvb.sql.Strudt
+     */
+     publid SfriblStrudt(Strudt in, Mbp<String,Clbss<?>> mbp)
+         throws SfriblExdfption
+     {
+
+        try {
+
+        // gft thf typf nbmf
+        SQLTypfNbmf = in.gftSQLTypfNbmf();
+        Systfm.out.println("SQLTypfNbmf: " + SQLTypfNbmf);
+
+        // gft thf bttributfs of thf strudt
+        bttribs = in.gftAttributfs(mbp);
+
+        /*
+         * thf brrby mby dontbin furthfr Strudts
+         * bnd/or dlbssfs thbt hbvf bffn mbppfd,
+         * othfr typfs thbt wf hbvf to sfriblizf
+         */
+        mbpToSfribl(mbp);
+
+        } dbtdh (SQLExdfption f) {
+            throw nfw SfriblExdfption(f.gftMfssbgf());
+        }
+    }
+
+     /**
+      * Construdts b <dodf>SfriblStrudt</dodf> objfdt from thf
+      * givfn <dodf>SQLDbtb</dodf> objfdt, using thf givfn typf
+      * mbp to dustom mbp it to b dlbss in thf Jbvb progrbmming
+      * lbngubgf.  Thf typf mbp givfs thf SQL typf bnd thf dlbss
+      * to whidh it is mbppfd.  Thf <dodf>SQLDbtb</dodf> objfdt
+      * dffinfs thf dlbss to whidh thf SQL typf will bf mbppfd.
+      *
+      * @pbrbm in bn instbndf of thf <dodf>SQLDbtb</dodf> dlbss
+      *           thbt dffinfs thf mbpping of thf SQL strudturfd
+      *           typf to onf or morf objfdts in thf Jbvb progrbmming lbngubgf
+      * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in whidh
+      *        fbdh fntry donsists of 1) b <dodf>String</dodf> objfdt
+      *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+      *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+      *        thbt dffinfs how thf UDT is to bf mbppfd
+      * @throws SfriblExdfption if bn frror oddurs
+      */
+    publid SfriblStrudt(SQLDbtb in, Mbp<String,Clbss<?>> mbp)
+        throws SfriblExdfption
+    {
+
+        try {
+
+        //sft thf typf nbmf
+        SQLTypfNbmf = in.gftSQLTypfNbmf();
+
+        Vfdtor<Objfdt> tmp = nfw Vfdtor<>();
+        in.writfSQL(nfw SQLOutputImpl(tmp, mbp));
+        bttribs = tmp.toArrby();
+
+        } dbtdh (SQLExdfption f) {
+            throw nfw SfriblExdfption(f.gftMfssbgf());
+        }
+    }
+
+
+    /**
+     * Rftrifvfs thf SQL typf nbmf for this <dodf>SfriblStrudt</dodf>
+     * objfdt. This is thf nbmf usfd in thf SQL dffinition of thf
+     * strudturfd typf
+     *
+     * @rfturn b <dodf>String</dodf> objfdt rfprfsfnting thf SQL
+     *         typf nbmf for thf SQL strudturfd typf thbt this
+     *         <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts
+     * @throws SfriblExdfption if bn frror oddurs
+     */
+    publid String gftSQLTypfNbmf() throws SfriblExdfption {
+        rfturn SQLTypfNbmf;
+    }
+
+    /**
+     * Rftrifvfs bn brrby of <dodf>Objfdt</dodf> vblufs dontbining thf
+     * bttributfs of thf SQL strudturfd typf thbt this
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.
+     *
+     * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs, with fbdh
+     *         flfmfnt bfing bn bttributf of thf SQL strudturfd typf
+     *         thbt this <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts
+     * @throws SfriblExdfption if bn frror oddurs
+     */
+    publid Objfdt[]  gftAttributfs() throws SfriblExdfption {
+        Objfdt[] vbl = this.bttribs;
+        rfturn (vbl == null) ? null : Arrbys.dopyOf(vbl, vbl.lfngth);
+    }
+
+    /**
+     * Rftrifvfs thf bttributfs for thf SQL strudturfd typf thbt
+     * this <dodf>SfriblStrudt</dodf> rfprfsfnts bs bn brrby of
+     * <dodf>Objfdt</dodf> vblufs, using thf givfn typf mbp for
+     * dustom mbpping if bppropribtf.
+     *
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in whidh
+     *        fbdh fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+     *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        thbt dffinfs how thf UDT is to bf mbppfd
+     * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs, with fbdh
+     *         flfmfnt bfing bn bttributf of thf SQL strudturfd
+     *         typf thbt this <dodf>SfriblStrudt</dodf> objfdt
+     *         rfprfsfnts
+     * @throws SfriblExdfption if bn frror oddurs
+     */
+    publid Objfdt[] gftAttributfs(Mbp<String,Clbss<?>> mbp)
+        throws SfriblExdfption
+    {
+        Objfdt[] vbl = this.bttribs;
+        rfturn (vbl == null) ? null : Arrbys.dopyOf(vbl, vbl.lfngth);
+    }
+
+
+    /**
+     * Mbps bttributfs of bn SQL strudturfd typf thbt brf not
+     * sfriblizfd to b sfriblizfd form, using thf givfn typf mbp
+     * for dustom mbpping whfn bppropribtf.  Thf following typfs
+     * in thf Jbvb progrbmming lbngubgf brf mbppfd to thfir
+     * sfriblizfd forms:  <dodf>Strudt</dodf>, <dodf>SQLDbtb</dodf>,
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>, bnd
+     * <dodf>Arrby</dodf>.
+     * <P>
+     * This mfthod is dbllfd intfrnblly bnd is not usfd by bn
+     * bpplidbtion progrbmmfr.
+     *
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in whidh
+     *        fbdh fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving thf fully qublififd nbmf of b UDT bnd 2) thf
+     *        <dodf>Clbss</dodf> objfdt for thf <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        thbt dffinfs how thf UDT is to bf mbppfd
+     * @throws SfriblExdfption if bn frror oddurs
+     */
+    privbtf void mbpToSfribl(Mbp<String,Clbss<?>> mbp) throws SfriblExdfption {
+
+        try {
+
+        for (int i = 0; i < bttribs.lfngth; i++) {
+            if (bttribs[i] instbndfof Strudt) {
+                bttribs[i] = nfw SfriblStrudt((Strudt)bttribs[i], mbp);
+            } flsf if (bttribs[i] instbndfof SQLDbtb) {
+                bttribs[i] = nfw SfriblStrudt((SQLDbtb)bttribs[i], mbp);
+            } flsf if (bttribs[i] instbndfof Blob) {
+                bttribs[i] = nfw SfriblBlob((Blob)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof Clob) {
+                bttribs[i] = nfw SfriblClob((Clob)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof Rff) {
+                bttribs[i] = nfw SfriblRff((Rff)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof jbvb.sql.Arrby) {
+                bttribs[i] = nfw SfriblArrby((jbvb.sql.Arrby)bttribs[i], mbp);
+            }
+        }
+
+        } dbtdh (SQLExdfption f) {
+            throw nfw SfriblExdfption(f.gftMfssbgf());
+        }
+        rfturn;
+    }
+
+    /**
+     * Compbrfs this SfriblStrudt to thf spfdififd objfdt.  Thf rfsult is
+     * {@dodf truf} if bnd only if thf brgumfnt is not {@dodf null} bnd is b
+     * {@dodf SfriblStrudt} objfdt whosf bttributfs brf idfntidbl to this
+     * objfdt's bttributfs
+     *
+     * @pbrbm  obj Thf objfdt to dompbrf this {@dodf SfriblStrudt} bgbinst
+     *
+     * @rfturn {@dodf truf} if thf givfn objfdt rfprfsfnts b {@dodf SfriblStrudt}
+     *          fquivblfnt to this SfriblStrudt, {@dodf fblsf} othfrwisf
+     *
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof SfriblStrudt) {
+            SfriblStrudt ss = (SfriblStrudt)obj;
+            rfturn SQLTypfNbmf.fqubls(ss.SQLTypfNbmf) &&
+                    Arrbys.fqubls(bttribs, ss.bttribs);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf SfriblStrudt}. Thf hbsh dodf for b
+     * {@dodf SfriblStrudt} objfdt is domputfd using thf hbsh dodfs
+     * of thf bttributfs of thf {@dodf SfriblStrudt} objfdt bnd its
+     * {@dodf SQLTypfNbmf}
+     *
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn ((31 + Arrbys.hbshCodf(bttribs)) * 31) * 31
+                + SQLTypfNbmf.hbshCodf();
+    }
+
+    /**
+     * Rfturns b dlonf of this {@dodf SfriblStrudt}. Thf dopy will dontbin b
+     * rfffrfndf to b dlonf of thf undfrlying bttribs brrby, not b rfffrfndf
+     * to thf originbl undfrlying bttribs brrby of this {@dodf SfriblStrudt} objfdt.
+     *
+     * @rfturn  b dlonf of this SfriblStrudt
+     */
+    publid Objfdt dlonf() {
+        try {
+            SfriblStrudt ss = (SfriblStrudt) supfr.dlonf();
+            ss.bttribs = Arrbys.dopyOf(bttribs, bttribs.lfngth);
+            rfturn ss;
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError();
+        }
+
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf {@dodf SfriblStrudt} from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+       ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       Objfdt[] tmp = (Objfdt[])fiflds.gft("bttribs", null);
+       bttribs = tmp == null ? null : tmp.dlonf();
+       SQLTypfNbmf = (String)fiflds.gft("SQLTypfNbmf", null);
+    }
+
+    /**
+     * writfObjfdt is dbllfd to sbvf thf stbtf of thf {@dodf SfriblStrudt}
+     * to b strfbm.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("bttribs", bttribs);
+        fiflds.put("SQLTypfNbmf", SQLTypfNbmf);
+        s.writfFiflds();
+    }
+
+    /**
+     * Thf idfntififr thbt bssists in thf sfriblizbtion of this
+     * <dodf>SfriblStrudt</dodf> objfdt.
+     */
+    stbtid finbl long sfriblVfrsionUID = -8322445504027483372L;
+}

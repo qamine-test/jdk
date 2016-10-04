@@ -1,391 +1,391 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import sun.invoke.util.Wrapper;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
- import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
+import sun.invokf.util.Wrbppfr;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts.*;
+ import stbtid jbvb.lbng.invokf.MftiodHbndlfs.Lookup.IMPL_LOOKUP;
 
 /**
- * Shared information for a group of method types, which differ
- * only by reference types, and therefore share a common erasure
- * and wrapping.
+ * Sibrfd informbtion for b group of mftiod typfs, wiidi difffr
+ * only by rfffrfndf typfs, bnd tifrfforf sibrf b dommon frbsurf
+ * bnd wrbpping.
  * <p>
- * For an empirical discussion of the structure of method types,
- * see <a href="http://groups.google.com/group/jvm-languages/browse_thread/thread/ac9308ae74da9b7e/">
- * the thread "Avoiding Boxing" on jvm-languages</a>.
- * There are approximately 2000 distinct erased method types in the JDK.
- * There are a little over 10 times that number of unerased types.
- * No more than half of these are likely to be loaded at once.
- * @author John Rose
+ * For bn fmpiridbl disdussion of tif strudturf of mftiod typfs,
+ * sff <b irff="ittp://groups.googlf.dom/group/jvm-lbngubgfs/browsf_tirfbd/tirfbd/bd9308bf74db9b7f/">
+ * tif tirfbd "Avoiding Boxing" on jvm-lbngubgfs</b>.
+ * Tifrf brf bpproximbtfly 2000 distindt frbsfd mftiod typfs in tif JDK.
+ * Tifrf brf b littlf ovfr 10 timfs tibt numbfr of unfrbsfd typfs.
+ * No morf tibn iblf of tifsf brf likfly to bf lobdfd bt ondf.
+ * @butior Join Rosf
  */
-final class MethodTypeForm {
-    final int[] argToSlotTable, slotToArgTable;
-    final long argCounts;               // packed slot & value counts
-    final long primCounts;              // packed prim & double counts
-    final int vmslots;                  // total number of parameter slots
-    final MethodType erasedType;        // the canonical erasure
-    final MethodType basicType;         // the canonical erasure, with primitives simplified
+finbl dlbss MftiodTypfForm {
+    finbl int[] brgToSlotTbblf, slotToArgTbblf;
+    finbl long brgCounts;               // pbdkfd slot & vbluf dounts
+    finbl long primCounts;              // pbdkfd prim & doublf dounts
+    finbl int vmslots;                  // totbl numbfr of pbrbmftfr slots
+    finbl MftiodTypf frbsfdTypf;        // tif dbnonidbl frbsurf
+    finbl MftiodTypf bbsidTypf;         // tif dbnonidbl frbsurf, witi primitivfs simplififd
 
-    // Cached adapter information:
-    @Stable String typeString;           // argument type signature characters
-    @Stable MethodHandle genericInvoker; // JVM hook for inexact invoke
-    @Stable MethodHandle basicInvoker;   // cached instance of MH.invokeBasic
-    @Stable MethodHandle namedFunctionInvoker; // cached helper for LF.NamedFunction
+    // Cbdifd bdbptfr informbtion:
+    @Stbblf String typfString;           // brgumfnt typf signbturf dibrbdtfrs
+    @Stbblf MftiodHbndlf gfnfridInvokfr; // JVM iook for infxbdt invokf
+    @Stbblf MftiodHbndlf bbsidInvokfr;   // dbdifd instbndf of MH.invokfBbsid
+    @Stbblf MftiodHbndlf nbmfdFundtionInvokfr; // dbdifd iflpfr for LF.NbmfdFundtion
 
-    // Cached lambda form information, for basic types only:
-    final @Stable LambdaForm[] lambdaForms;
-    // Indexes into lambdaForms:
-    static final int
-            LF_INVVIRTUAL     =  0,  // DMH invokeVirtual
+    // Cbdifd lbmbdb form informbtion, for bbsid typfs only:
+    finbl @Stbblf LbmbdbForm[] lbmbdbForms;
+    // Indfxfs into lbmbdbForms:
+    stbtid finbl int
+            LF_INVVIRTUAL     =  0,  // DMH invokfVirtubl
             LF_INVSTATIC      =  1,
             LF_INVSPECIAL     =  2,
             LF_NEWINVSPECIAL  =  3,
             LF_INVINTERFACE   =  4,
-            LF_INVSTATIC_INIT =  5,  // DMH invokeStatic with <clinit> barrier
-            LF_INTERPRET      =  6,  // LF interpreter
-            LF_COUNTER        =  7,  // CMH wrapper
-            LF_REINVOKE       =  8,  // other wrapper
-            LF_EX_LINKER      =  9,  // invokeExact_MT
-            LF_EX_INVOKER     = 10,  // invokeExact MH
+            LF_INVSTATIC_INIT =  5,  // DMH invokfStbtid witi <dlinit> bbrrifr
+            LF_INTERPRET      =  6,  // LF intfrprftfr
+            LF_COUNTER        =  7,  // CMH wrbppfr
+            LF_REINVOKE       =  8,  // otifr wrbppfr
+            LF_EX_LINKER      =  9,  // invokfExbdt_MT
+            LF_EX_INVOKER     = 10,  // invokfExbdt MH
             LF_GEN_LINKER     = 11,
             LF_GEN_INVOKER    = 12,
-            LF_CS_LINKER      = 13,  // linkToCallSite_CS
-            LF_MH_LINKER      = 14,  // linkToCallSite_MH
+            LF_CS_LINKER      = 13,  // linkToCbllSitf_CS
+            LF_MH_LINKER      = 14,  // linkToCbllSitf_MH
             LF_GWC            = 15,
             LF_LIMIT          = 16;
 
-    public MethodType erasedType() {
-        return erasedType;
+    publid MftiodTypf frbsfdTypf() {
+        rfturn frbsfdTypf;
     }
 
-    public MethodType basicType() {
-        return basicType;
+    publid MftiodTypf bbsidTypf() {
+        rfturn bbsidTypf;
     }
 
-    public LambdaForm cachedLambdaForm(int which) {
-        return lambdaForms[which];
+    publid LbmbdbForm dbdifdLbmbdbForm(int wiidi) {
+        rfturn lbmbdbForms[wiidi];
     }
 
-    synchronized public LambdaForm setCachedLambdaForm(int which, LambdaForm form) {
-        // Simulate a CAS, to avoid racy duplication of results.
-        LambdaForm prev = lambdaForms[which];
-        if (prev != null) return prev;
-        return lambdaForms[which] = form;
+    syndironizfd publid LbmbdbForm sftCbdifdLbmbdbForm(int wiidi, LbmbdbForm form) {
+        // Simulbtf b CAS, to bvoid rbdy duplidbtion of rfsults.
+        LbmbdbForm prfv = lbmbdbForms[wiidi];
+        if (prfv != null) rfturn prfv;
+        rfturn lbmbdbForms[wiidi] = form;
     }
 
-    public MethodHandle basicInvoker() {
-        assert(erasedType == basicType) : "erasedType: " + erasedType + " != basicType: " + basicType;  // primitives must be flattened also
-        MethodHandle invoker = basicInvoker;
-        if (invoker != null)  return invoker;
-        invoker = DirectMethodHandle.make(invokeBasicMethod(basicType));
-        basicInvoker = invoker;
-        return invoker;
+    publid MftiodHbndlf bbsidInvokfr() {
+        bssfrt(frbsfdTypf == bbsidTypf) : "frbsfdTypf: " + frbsfdTypf + " != bbsidTypf: " + bbsidTypf;  // primitivfs must bf flbttfnfd blso
+        MftiodHbndlf invokfr = bbsidInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        invokfr = DirfdtMftiodHbndlf.mbkf(invokfBbsidMftiod(bbsidTypf));
+        bbsidInvokfr = invokfr;
+        rfturn invokfr;
     }
 
-    // This next one is called from LambdaForm.NamedFunction.<init>.
-    /*non-public*/ static MemberName invokeBasicMethod(MethodType basicType) {
-        assert(basicType == basicType.basicType());
+    // Tiis nfxt onf is dbllfd from LbmbdbForm.NbmfdFundtion.<init>.
+    /*non-publid*/ stbtid MfmbfrNbmf invokfBbsidMftiod(MftiodTypf bbsidTypf) {
+        bssfrt(bbsidTypf == bbsidTypf.bbsidTypf());
         try {
-            // Do approximately the same as this public API call:
-            //   Lookup.findVirtual(MethodHandle.class, name, type);
-            // But bypass access and corner case checks, since we know exactly what we need.
-            return IMPL_LOOKUP.resolveOrFail(REF_invokeVirtual, MethodHandle.class, "invokeBasic", basicType);
-         } catch (ReflectiveOperationException ex) {
-            throw newInternalError("JVM cannot find invoker for "+basicType, ex);
+            // Do bpproximbtfly tif sbmf bs tiis publid API dbll:
+            //   Lookup.findVirtubl(MftiodHbndlf.dlbss, nbmf, typf);
+            // But bypbss bddfss bnd dornfr dbsf difdks, sindf wf know fxbdtly wibt wf nffd.
+            rfturn IMPL_LOOKUP.rfsolvfOrFbil(REF_invokfVirtubl, MftiodHbndlf.dlbss, "invokfBbsid", bbsidTypf);
+         } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError("JVM dbnnot find invokfr for "+bbsidTypf, fx);
         }
     }
 
     /**
-     * Build an MTF for a given type, which must have all references erased to Object.
-     * This MTF will stand for that type and all un-erased variations.
-     * Eagerly compute some basic properties of the type, common to all variations.
+     * Build bn MTF for b givfn typf, wiidi must ibvf bll rfffrfndfs frbsfd to Objfdt.
+     * Tiis MTF will stbnd for tibt typf bnd bll un-frbsfd vbribtions.
+     * Ebgfrly domputf somf bbsid propfrtifs of tif typf, dommon to bll vbribtions.
      */
-    protected MethodTypeForm(MethodType erasedType) {
-        this.erasedType = erasedType;
+    protfdtfd MftiodTypfForm(MftiodTypf frbsfdTypf) {
+        tiis.frbsfdTypf = frbsfdTypf;
 
-        Class<?>[] ptypes = erasedType.ptypes();
-        int ptypeCount = ptypes.length;
-        int pslotCount = ptypeCount;            // temp. estimate
-        int rtypeCount = 1;                     // temp. estimate
-        int rslotCount = 1;                     // temp. estimate
+        Clbss<?>[] ptypfs = frbsfdTypf.ptypfs();
+        int ptypfCount = ptypfs.lfngti;
+        int pslotCount = ptypfCount;            // tfmp. fstimbtf
+        int rtypfCount = 1;                     // tfmp. fstimbtf
+        int rslotCount = 1;                     // tfmp. fstimbtf
 
-        int[] argToSlotTab = null, slotToArgTab = null;
+        int[] brgToSlotTbb = null, slotToArgTbb = null;
 
-        // Walk the argument types, looking for primitives.
-        int pac = 0, lac = 0, prc = 0, lrc = 0;
-        Class<?>[] epts = ptypes;
-        Class<?>[] bpts = epts;
-        for (int i = 0; i < epts.length; i++) {
-            Class<?> pt = epts[i];
-            if (pt != Object.class) {
-                ++pac;
-                Wrapper w = Wrapper.forPrimitiveType(pt);
-                if (w.isDoubleWord())  ++lac;
-                if (w.isSubwordOrInt() && pt != int.class) {
-                    if (bpts == epts)
-                        bpts = bpts.clone();
-                    bpts[i] = int.class;
+        // Wblk tif brgumfnt typfs, looking for primitivfs.
+        int pbd = 0, lbd = 0, prd = 0, lrd = 0;
+        Clbss<?>[] fpts = ptypfs;
+        Clbss<?>[] bpts = fpts;
+        for (int i = 0; i < fpts.lfngti; i++) {
+            Clbss<?> pt = fpts[i];
+            if (pt != Objfdt.dlbss) {
+                ++pbd;
+                Wrbppfr w = Wrbppfr.forPrimitivfTypf(pt);
+                if (w.isDoublfWord())  ++lbd;
+                if (w.isSubwordOrInt() && pt != int.dlbss) {
+                    if (bpts == fpts)
+                        bpts = bpts.dlonf();
+                    bpts[i] = int.dlbss;
                 }
             }
         }
-        pslotCount += lac;                  // #slots = #args + #longs
-        Class<?> rt = erasedType.returnType();
-        Class<?> bt = rt;
-        if (rt != Object.class) {
-            ++prc;          // even void.class counts as a prim here
-            Wrapper w = Wrapper.forPrimitiveType(rt);
-            if (w.isDoubleWord())  ++lrc;
-            if (w.isSubwordOrInt() && rt != int.class)
-                bt = int.class;
-            // adjust #slots, #args
-            if (rt == void.class)
-                rtypeCount = rslotCount = 0;
-            else
-                rslotCount += lrc;
+        pslotCount += lbd;                  // #slots = #brgs + #longs
+        Clbss<?> rt = frbsfdTypf.rfturnTypf();
+        Clbss<?> bt = rt;
+        if (rt != Objfdt.dlbss) {
+            ++prd;          // fvfn void.dlbss dounts bs b prim ifrf
+            Wrbppfr w = Wrbppfr.forPrimitivfTypf(rt);
+            if (w.isDoublfWord())  ++lrd;
+            if (w.isSubwordOrInt() && rt != int.dlbss)
+                bt = int.dlbss;
+            // bdjust #slots, #brgs
+            if (rt == void.dlbss)
+                rtypfCount = rslotCount = 0;
+            flsf
+                rslotCount += lrd;
         }
-        if (epts == bpts && bt == rt) {
-            this.basicType = erasedType;
-        } else {
-            this.basicType = MethodType.makeImpl(bt, bpts, true);
+        if (fpts == bpts && bt == rt) {
+            tiis.bbsidTypf = frbsfdTypf;
+        } flsf {
+            tiis.bbsidTypf = MftiodTypf.mbkfImpl(bt, bpts, truf);
         }
-        if (lac != 0) {
-            int slot = ptypeCount + lac;
-            slotToArgTab = new int[slot+1];
-            argToSlotTab = new int[1+ptypeCount];
-            argToSlotTab[0] = slot;  // argument "-1" is past end of slots
-            for (int i = 0; i < epts.length; i++) {
-                Class<?> pt = epts[i];
-                Wrapper w = Wrapper.forBasicType(pt);
-                if (w.isDoubleWord())  --slot;
+        if (lbd != 0) {
+            int slot = ptypfCount + lbd;
+            slotToArgTbb = nfw int[slot+1];
+            brgToSlotTbb = nfw int[1+ptypfCount];
+            brgToSlotTbb[0] = slot;  // brgumfnt "-1" is pbst fnd of slots
+            for (int i = 0; i < fpts.lfngti; i++) {
+                Clbss<?> pt = fpts[i];
+                Wrbppfr w = Wrbppfr.forBbsidTypf(pt);
+                if (w.isDoublfWord())  --slot;
                 --slot;
-                slotToArgTab[slot] = i+1; // "+1" see argSlotToParameter note
-                argToSlotTab[1+i]  = slot;
+                slotToArgTbb[slot] = i+1; // "+1" sff brgSlotToPbrbmftfr notf
+                brgToSlotTbb[1+i]  = slot;
             }
-            assert(slot == 0);  // filled the table
+            bssfrt(slot == 0);  // fillfd tif tbblf
         }
-        this.primCounts = pack(lrc, prc, lac, pac);
-        this.argCounts = pack(rslotCount, rtypeCount, pslotCount, ptypeCount);
-        if (slotToArgTab == null) {
-            int slot = ptypeCount; // first arg is deepest in stack
-            slotToArgTab = new int[slot+1];
-            argToSlotTab = new int[1+ptypeCount];
-            argToSlotTab[0] = slot;  // argument "-1" is past end of slots
-            for (int i = 0; i < ptypeCount; i++) {
+        tiis.primCounts = pbdk(lrd, prd, lbd, pbd);
+        tiis.brgCounts = pbdk(rslotCount, rtypfCount, pslotCount, ptypfCount);
+        if (slotToArgTbb == null) {
+            int slot = ptypfCount; // first brg is dffpfst in stbdk
+            slotToArgTbb = nfw int[slot+1];
+            brgToSlotTbb = nfw int[1+ptypfCount];
+            brgToSlotTbb[0] = slot;  // brgumfnt "-1" is pbst fnd of slots
+            for (int i = 0; i < ptypfCount; i++) {
                 --slot;
-                slotToArgTab[slot] = i+1; // "+1" see argSlotToParameter note
-                argToSlotTab[1+i]  = slot;
+                slotToArgTbb[slot] = i+1; // "+1" sff brgSlotToPbrbmftfr notf
+                brgToSlotTbb[1+i]  = slot;
             }
         }
-        this.argToSlotTable = argToSlotTab;
-        this.slotToArgTable = slotToArgTab;
+        tiis.brgToSlotTbblf = brgToSlotTbb;
+        tiis.slotToArgTbblf = slotToArgTbb;
 
-        if (pslotCount >= 256)  throw newIllegalArgumentException("too many arguments");
+        if (pslotCount >= 256)  tirow nfwIllfgblArgumfntExdfption("too mbny brgumfnts");
 
-        // send a few bits down to the JVM:
-        this.vmslots = parameterSlotCount();
+        // sfnd b ffw bits down to tif JVM:
+        tiis.vmslots = pbrbmftfrSlotCount();
 
-        if (basicType == erasedType) {
-            lambdaForms = new LambdaForm[LF_LIMIT];
-        } else {
-            lambdaForms = null;  // could be basicType.form().lambdaForms;
+        if (bbsidTypf == frbsfdTypf) {
+            lbmbdbForms = nfw LbmbdbForm[LF_LIMIT];
+        } flsf {
+            lbmbdbForms = null;  // dould bf bbsidTypf.form().lbmbdbForms;
         }
     }
 
-    private static long pack(int a, int b, int c, int d) {
-        assert(((a|b|c|d) & ~0xFFFF) == 0);
-        long hw = ((a << 16) | b), lw = ((c << 16) | d);
-        return (hw << 32) | lw;
+    privbtf stbtid long pbdk(int b, int b, int d, int d) {
+        bssfrt(((b|b|d|d) & ~0xFFFF) == 0);
+        long iw = ((b << 16) | b), lw = ((d << 16) | d);
+        rfturn (iw << 32) | lw;
     }
-    private static char unpack(long packed, int word) { // word==0 => return a, ==3 => return d
-        assert(word <= 3);
-        return (char)(packed >> ((3-word) * 16));
-    }
-
-    public int parameterCount() {                      // # outgoing values
-        return unpack(argCounts, 3);
-    }
-    public int parameterSlotCount() {                  // # outgoing interpreter slots
-        return unpack(argCounts, 2);
-    }
-    public int returnCount() {                         // = 0 (V), or 1
-        return unpack(argCounts, 1);
-    }
-    public int returnSlotCount() {                     // = 0 (V), 2 (J/D), or 1
-        return unpack(argCounts, 0);
-    }
-    public int primitiveParameterCount() {
-        return unpack(primCounts, 3);
-    }
-    public int longPrimitiveParameterCount() {
-        return unpack(primCounts, 2);
-    }
-    public int primitiveReturnCount() {                // = 0 (obj), or 1
-        return unpack(primCounts, 1);
-    }
-    public int longPrimitiveReturnCount() {            // = 1 (J/D), or 0
-        return unpack(primCounts, 0);
-    }
-    public boolean hasPrimitives() {
-        return primCounts != 0;
-    }
-    public boolean hasNonVoidPrimitives() {
-        if (primCounts == 0)  return false;
-        if (primitiveParameterCount() != 0)  return true;
-        return (primitiveReturnCount() != 0 && returnCount() != 0);
-    }
-    public boolean hasLongPrimitives() {
-        return (longPrimitiveParameterCount() | longPrimitiveReturnCount()) != 0;
-    }
-    public int parameterToArgSlot(int i) {
-        return argToSlotTable[1+i];
-    }
-    public int argSlotToParameter(int argSlot) {
-        // Note:  Empty slots are represented by zero in this table.
-        // Valid arguments slots contain incremented entries, so as to be non-zero.
-        // We return -1 the caller to mean an empty slot.
-        return slotToArgTable[argSlot] - 1;
+    privbtf stbtid dibr unpbdk(long pbdkfd, int word) { // word==0 => rfturn b, ==3 => rfturn d
+        bssfrt(word <= 3);
+        rfturn (dibr)(pbdkfd >> ((3-word) * 16));
     }
 
-    static MethodTypeForm findForm(MethodType mt) {
-        MethodType erased = canonicalize(mt, ERASE, ERASE);
-        if (erased == null) {
-            // It is already erased.  Make a new MethodTypeForm.
-            return new MethodTypeForm(mt);
-        } else {
-            // Share the MethodTypeForm with the erased version.
-            return erased.form();
+    publid int pbrbmftfrCount() {                      // # outgoing vblufs
+        rfturn unpbdk(brgCounts, 3);
+    }
+    publid int pbrbmftfrSlotCount() {                  // # outgoing intfrprftfr slots
+        rfturn unpbdk(brgCounts, 2);
+    }
+    publid int rfturnCount() {                         // = 0 (V), or 1
+        rfturn unpbdk(brgCounts, 1);
+    }
+    publid int rfturnSlotCount() {                     // = 0 (V), 2 (J/D), or 1
+        rfturn unpbdk(brgCounts, 0);
+    }
+    publid int primitivfPbrbmftfrCount() {
+        rfturn unpbdk(primCounts, 3);
+    }
+    publid int longPrimitivfPbrbmftfrCount() {
+        rfturn unpbdk(primCounts, 2);
+    }
+    publid int primitivfRfturnCount() {                // = 0 (obj), or 1
+        rfturn unpbdk(primCounts, 1);
+    }
+    publid int longPrimitivfRfturnCount() {            // = 1 (J/D), or 0
+        rfturn unpbdk(primCounts, 0);
+    }
+    publid boolfbn ibsPrimitivfs() {
+        rfturn primCounts != 0;
+    }
+    publid boolfbn ibsNonVoidPrimitivfs() {
+        if (primCounts == 0)  rfturn fblsf;
+        if (primitivfPbrbmftfrCount() != 0)  rfturn truf;
+        rfturn (primitivfRfturnCount() != 0 && rfturnCount() != 0);
+    }
+    publid boolfbn ibsLongPrimitivfs() {
+        rfturn (longPrimitivfPbrbmftfrCount() | longPrimitivfRfturnCount()) != 0;
+    }
+    publid int pbrbmftfrToArgSlot(int i) {
+        rfturn brgToSlotTbblf[1+i];
+    }
+    publid int brgSlotToPbrbmftfr(int brgSlot) {
+        // Notf:  Empty slots brf rfprfsfntfd by zfro in tiis tbblf.
+        // Vblid brgumfnts slots dontbin indrfmfntfd fntrifs, so bs to bf non-zfro.
+        // Wf rfturn -1 tif dbllfr to mfbn bn fmpty slot.
+        rfturn slotToArgTbblf[brgSlot] - 1;
+    }
+
+    stbtid MftiodTypfForm findForm(MftiodTypf mt) {
+        MftiodTypf frbsfd = dbnonidblizf(mt, ERASE, ERASE);
+        if (frbsfd == null) {
+            // It is blrfbdy frbsfd.  Mbkf b nfw MftiodTypfForm.
+            rfturn nfw MftiodTypfForm(mt);
+        } flsf {
+            // Sibrf tif MftiodTypfForm witi tif frbsfd vfrsion.
+            rfturn frbsfd.form();
         }
     }
 
-    /** Codes for {@link #canonicalize(java.lang.Class, int)}.
-     * ERASE means change every reference to {@code Object}.
-     * WRAP means convert primitives (including {@code void} to their
-     * corresponding wrapper types.  UNWRAP means the reverse of WRAP.
-     * INTS means convert all non-void primitive types to int or long,
-     * according to size.  LONGS means convert all non-void primitives
-     * to long, regardless of size.  RAW_RETURN means convert a type
-     * (assumed to be a return type) to int if it is smaller than an int,
+    /** Codfs for {@link #dbnonidblizf(jbvb.lbng.Clbss, int)}.
+     * ERASE mfbns dibngf fvfry rfffrfndf to {@dodf Objfdt}.
+     * WRAP mfbns donvfrt primitivfs (indluding {@dodf void} to tifir
+     * dorrfsponding wrbppfr typfs.  UNWRAP mfbns tif rfvfrsf of WRAP.
+     * INTS mfbns donvfrt bll non-void primitivf typfs to int or long,
+     * bddording to sizf.  LONGS mfbns donvfrt bll non-void primitivfs
+     * to long, rfgbrdlfss of sizf.  RAW_RETURN mfbns donvfrt b typf
+     * (bssumfd to bf b rfturn typf) to int if it is smbllfr tibn bn int,
      * or if it is void.
      */
-    public static final int NO_CHANGE = 0, ERASE = 1, WRAP = 2, UNWRAP = 3, INTS = 4, LONGS = 5, RAW_RETURN = 6;
+    publid stbtid finbl int NO_CHANGE = 0, ERASE = 1, WRAP = 2, UNWRAP = 3, INTS = 4, LONGS = 5, RAW_RETURN = 6;
 
-    /** Canonicalize the types in the given method type.
-     * If any types change, intern the new type, and return it.
-     * Otherwise return null.
+    /** Cbnonidblizf tif typfs in tif givfn mftiod typf.
+     * If bny typfs dibngf, intfrn tif nfw typf, bnd rfturn it.
+     * Otifrwisf rfturn null.
      */
-    public static MethodType canonicalize(MethodType mt, int howRet, int howArgs) {
-        Class<?>[] ptypes = mt.ptypes();
-        Class<?>[] ptc = MethodTypeForm.canonicalizes(ptypes, howArgs);
-        Class<?> rtype = mt.returnType();
-        Class<?> rtc = MethodTypeForm.canonicalize(rtype, howRet);
-        if (ptc == null && rtc == null) {
-            // It is already canonical.
-            return null;
+    publid stbtid MftiodTypf dbnonidblizf(MftiodTypf mt, int iowRft, int iowArgs) {
+        Clbss<?>[] ptypfs = mt.ptypfs();
+        Clbss<?>[] ptd = MftiodTypfForm.dbnonidblizfs(ptypfs, iowArgs);
+        Clbss<?> rtypf = mt.rfturnTypf();
+        Clbss<?> rtd = MftiodTypfForm.dbnonidblizf(rtypf, iowRft);
+        if (ptd == null && rtd == null) {
+            // It is blrfbdy dbnonidbl.
+            rfturn null;
         }
-        // Find the erased version of the method type:
-        if (rtc == null)  rtc = rtype;
-        if (ptc == null)  ptc = ptypes;
-        return MethodType.makeImpl(rtc, ptc, true);
+        // Find tif frbsfd vfrsion of tif mftiod typf:
+        if (rtd == null)  rtd = rtypf;
+        if (ptd == null)  ptd = ptypfs;
+        rfturn MftiodTypf.mbkfImpl(rtd, ptd, truf);
     }
 
-    /** Canonicalize the given return or param type.
-     *  Return null if the type is already canonicalized.
+    /** Cbnonidblizf tif givfn rfturn or pbrbm typf.
+     *  Rfturn null if tif typf is blrfbdy dbnonidblizfd.
      */
-    static Class<?> canonicalize(Class<?> t, int how) {
-        Class<?> ct;
-        if (t == Object.class) {
-            // no change, ever
-        } else if (!t.isPrimitive()) {
-            switch (how) {
-                case UNWRAP:
-                    ct = Wrapper.asPrimitiveType(t);
-                    if (ct != t)  return ct;
-                    break;
-                case RAW_RETURN:
-                case ERASE:
-                    return Object.class;
+    stbtid Clbss<?> dbnonidblizf(Clbss<?> t, int iow) {
+        Clbss<?> dt;
+        if (t == Objfdt.dlbss) {
+            // no dibngf, fvfr
+        } flsf if (!t.isPrimitivf()) {
+            switdi (iow) {
+                dbsf UNWRAP:
+                    dt = Wrbppfr.bsPrimitivfTypf(t);
+                    if (dt != t)  rfturn dt;
+                    brfbk;
+                dbsf RAW_RETURN:
+                dbsf ERASE:
+                    rfturn Objfdt.dlbss;
             }
-        } else if (t == void.class) {
-            // no change, usually
-            switch (how) {
-                case RAW_RETURN:
-                    return int.class;
-                case WRAP:
-                    return Void.class;
+        } flsf if (t == void.dlbss) {
+            // no dibngf, usublly
+            switdi (iow) {
+                dbsf RAW_RETURN:
+                    rfturn int.dlbss;
+                dbsf WRAP:
+                    rfturn Void.dlbss;
             }
-        } else {
-            // non-void primitive
-            switch (how) {
-                case WRAP:
-                    return Wrapper.asWrapperType(t);
-                case INTS:
-                    if (t == int.class || t == long.class)
-                        return null;  // no change
-                    if (t == double.class)
-                        return long.class;
-                    return int.class;
-                case LONGS:
-                    if (t == long.class)
-                        return null;  // no change
-                    return long.class;
-                case RAW_RETURN:
-                    if (t == int.class || t == long.class ||
-                        t == float.class || t == double.class)
-                        return null;  // no change
-                    // everything else returns as an int
-                    return int.class;
+        } flsf {
+            // non-void primitivf
+            switdi (iow) {
+                dbsf WRAP:
+                    rfturn Wrbppfr.bsWrbppfrTypf(t);
+                dbsf INTS:
+                    if (t == int.dlbss || t == long.dlbss)
+                        rfturn null;  // no dibngf
+                    if (t == doublf.dlbss)
+                        rfturn long.dlbss;
+                    rfturn int.dlbss;
+                dbsf LONGS:
+                    if (t == long.dlbss)
+                        rfturn null;  // no dibngf
+                    rfturn long.dlbss;
+                dbsf RAW_RETURN:
+                    if (t == int.dlbss || t == long.dlbss ||
+                        t == flobt.dlbss || t == doublf.dlbss)
+                        rfturn null;  // no dibngf
+                    // fvfrytiing flsf rfturns bs bn int
+                    rfturn int.dlbss;
             }
         }
-        // no change; return null to signify
-        return null;
+        // no dibngf; rfturn null to signify
+        rfturn null;
     }
 
-    /** Canonicalize each param type in the given array.
-     *  Return null if all types are already canonicalized.
+    /** Cbnonidblizf fbdi pbrbm typf in tif givfn brrby.
+     *  Rfturn null if bll typfs brf blrfbdy dbnonidblizfd.
      */
-    static Class<?>[] canonicalizes(Class<?>[] ts, int how) {
-        Class<?>[] cs = null;
-        for (int imax = ts.length, i = 0; i < imax; i++) {
-            Class<?> c = canonicalize(ts[i], how);
-            if (c == void.class)
-                c = null;  // a Void parameter was unwrapped to void; ignore
-            if (c != null) {
-                if (cs == null)
-                    cs = ts.clone();
-                cs[i] = c;
+    stbtid Clbss<?>[] dbnonidblizfs(Clbss<?>[] ts, int iow) {
+        Clbss<?>[] ds = null;
+        for (int imbx = ts.lfngti, i = 0; i < imbx; i++) {
+            Clbss<?> d = dbnonidblizf(ts[i], iow);
+            if (d == void.dlbss)
+                d = null;  // b Void pbrbmftfr wbs unwrbppfd to void; ignorf
+            if (d != null) {
+                if (ds == null)
+                    ds = ts.dlonf();
+                ds[i] = d;
             }
         }
-        return cs;
+        rfturn ds;
     }
 
-    @Override
-    public String toString() {
-        return "Form"+erasedType;
+    @Ovfrridf
+    publid String toString() {
+        rfturn "Form"+frbsfdTypf;
     }
 
 }

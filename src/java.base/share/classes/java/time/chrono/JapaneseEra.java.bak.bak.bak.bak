@@ -1,0 +1,392 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import stbtid jbvb.timf.dhrono.JbpbnfsfDbtf.MEIJI_6_ISODATE;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.ERA;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
+
+import sun.util.dblfndbr.CblfndbrDbtf;
+
+/**
+ * An frb in thf Jbpbnfsf Impfribl dblfndbr systfm.
+ * <p>
+ * This dlbss dffinfs thf vblid frbs for thf Jbpbnfsf dhronology.
+ * Jbpbn introdudfd thf Grfgoribn dblfndbr stbrting with Mfiji 6.
+ * Only Mfiji bnd lbtfr frbs brf supportfd;
+ * dbtfs bfforf Mfiji 6, Jbnubry 1 brf not supportfd.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss JbpbnfsfErb
+        implfmfnts Erb, Sfriblizbblf {
+
+    // Thf offsft vbluf to 0-bbsfd indfx from thf frb vbluf.
+    // i.f., gftVbluf() + ERA_OFFSET == 0-bbsfd indfx
+    stbtid finbl int ERA_OFFSET = 2;
+
+    stbtid finbl sun.util.dblfndbr.Erb[] ERA_CONFIG;
+
+    /**
+     * Thf singlfton instbndf for thf 'Mfiji' frb (1868-01-01 - 1912-07-29)
+     * whidh hbs thf vbluf -1.
+     */
+    publid stbtid finbl JbpbnfsfErb MEIJI = nfw JbpbnfsfErb(-1, LodblDbtf.of(1868, 1, 1));
+    /**
+     * Thf singlfton instbndf for thf 'Tbisho' frb (1912-07-30 - 1926-12-24)
+     * whidh hbs thf vbluf 0.
+     */
+    publid stbtid finbl JbpbnfsfErb TAISHO = nfw JbpbnfsfErb(0, LodblDbtf.of(1912, 7, 30));
+    /**
+     * Thf singlfton instbndf for thf 'Showb' frb (1926-12-25 - 1989-01-07)
+     * whidh hbs thf vbluf 1.
+     */
+    publid stbtid finbl JbpbnfsfErb SHOWA = nfw JbpbnfsfErb(1, LodblDbtf.of(1926, 12, 25));
+    /**
+     * Thf singlfton instbndf for thf 'Hfisfi' frb (1989-01-08 - durrfnt)
+     * whidh hbs thf vbluf 2.
+     */
+    publid stbtid finbl JbpbnfsfErb HEISEI = nfw JbpbnfsfErb(2, LodblDbtf.of(1989, 1, 8));
+
+    // thf numbfr of dffinfd JbpbnfsfErb donstbnts.
+    // Thfrf dould bf bn fxtrb frb dffinfd in its donfigurbtion.
+    privbtf stbtid finbl int N_ERA_CONSTANTS = HEISEI.gftVbluf() + ERA_OFFSET;
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1466499369062886794L;
+
+    // brrby for thf singlfton JbpbnfsfErb instbndfs
+    privbtf stbtid finbl JbpbnfsfErb[] KNOWN_ERAS;
+
+    stbtid {
+        ERA_CONFIG = JbpbnfsfChronology.JCAL.gftErbs();
+
+        KNOWN_ERAS = nfw JbpbnfsfErb[ERA_CONFIG.lfngth];
+        KNOWN_ERAS[0] = MEIJI;
+        KNOWN_ERAS[1] = TAISHO;
+        KNOWN_ERAS[2] = SHOWA;
+        KNOWN_ERAS[3] = HEISEI;
+        for (int i = N_ERA_CONSTANTS; i < ERA_CONFIG.lfngth; i++) {
+            CblfndbrDbtf dbtf = ERA_CONFIG[i].gftSindfDbtf();
+            LodblDbtf isoDbtf = LodblDbtf.of(dbtf.gftYfbr(), dbtf.gftMonth(), dbtf.gftDbyOfMonth());
+            KNOWN_ERAS[i] = nfw JbpbnfsfErb(i - ERA_OFFSET + 1, isoDbtf);
+        }
+    };
+
+    /**
+     * Thf frb vbluf.
+     * @sfribl
+     */
+    privbtf finbl trbnsifnt int frbVbluf;
+
+    // thf first dby of thf frb
+    privbtf finbl trbnsifnt LodblDbtf sindf;
+
+    /**
+     * Crfbtfs bn instbndf.
+     *
+     * @pbrbm frbVbluf  thf frb vbluf, vblidbtfd
+     * @pbrbm sindf  thf dbtf rfprfsfnting thf first dbtf of thf frb, vblidbtfd not null
+     */
+    privbtf JbpbnfsfErb(int frbVbluf, LodblDbtf sindf) {
+        this.frbVbluf = frbVbluf;
+        this.sindf = sindf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf Sun privbtf Erb instbndf dorrfsponding to this {@dodf JbpbnfsfErb}.
+     *
+     * @rfturn thf Sun privbtf Erb instbndf for this {@dodf JbpbnfsfErb}.
+     */
+    sun.util.dblfndbr.Erb gftPrivbtfErb() {
+        rfturn ERA_CONFIG[ordinbl(frbVbluf)];
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf JbpbnfsfErb} from bn {@dodf int} vbluf.
+     * <p>
+     * Thf {@link #SHOWA} frb thbt dontbins 1970-01-01 (ISO dblfndbr systfm) hbs thf vbluf 1
+     * Lbtfr frb is numbfrfd 2 ({@link #HEISEI}). Ebrlifr frbs brf numbfrfd 0 ({@link #TAISHO}),
+     * -1 ({@link #MEIJI}), only Mfiji bnd lbtfr frbs brf supportfd.
+     *
+     * @pbrbm jbpbnfsfErb  thf frb to rfprfsfnt
+     * @rfturn thf {@dodf JbpbnfsfErb} singlfton, not null
+     * @throws DbtfTimfExdfption if thf vbluf is invblid
+     */
+    publid stbtid JbpbnfsfErb of(int jbpbnfsfErb) {
+        if (jbpbnfsfErb < MEIJI.frbVbluf || jbpbnfsfErb + ERA_OFFSET > KNOWN_ERAS.lfngth) {
+            throw nfw DbtfTimfExdfption("Invblid frb: " + jbpbnfsfErb);
+        }
+        rfturn KNOWN_ERAS[ordinbl(jbpbnfsfErb)];
+    }
+
+    /**
+     * Rfturns thf {@dodf JbpbnfsfErb} with thf nbmf.
+     * <p>
+     * Thf string must mbtdh fxbdtly thf nbmf of thf frb.
+     * (Extrbnfous whitfspbdf dhbrbdtfrs brf not pfrmittfd.)
+     *
+     * @pbrbm jbpbnfsfErb  thf jbpbnfsfErb nbmf; non-null
+     * @rfturn thf {@dodf JbpbnfsfErb} singlfton, nfvfr null
+     * @throws IllfgblArgumfntExdfption if thfrf is not JbpbnfsfErb with thf spfdififd nbmf
+     */
+    publid stbtid JbpbnfsfErb vblufOf(String jbpbnfsfErb) {
+        Objfdts.rfquirfNonNull(jbpbnfsfErb, "jbpbnfsfErb");
+        for (JbpbnfsfErb frb : KNOWN_ERAS) {
+            if (frb.gftNbmf().fqubls(jbpbnfsfErb)) {
+                rfturn frb;
+            }
+        }
+        throw nfw IllfgblArgumfntExdfption("jbpbnfsfErb is invblid");
+    }
+
+    /**
+     * Rfturns bn brrby of JbpbnfsfErbs.
+     * <p>
+     * This mfthod mby bf usfd to itfrbtf ovfr thf JbpbnfsfErbs bs follows:
+     * <prf>
+     * for (JbpbnfsfErb d : JbpbnfsfErb.vblufs())
+     *     Systfm.out.println(d);
+     * </prf>
+     *
+     * @rfturn bn brrby of JbpbnfsfErbs
+     */
+    publid stbtid JbpbnfsfErb[] vblufs() {
+        rfturn Arrbys.dopyOf(KNOWN_ERAS, KNOWN_ERAS.lfngth);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf JbpbnfsfErb} from b dbtf.
+     *
+     * @pbrbm dbtf  thf dbtf, not null
+     * @rfturn thf Erb singlfton, nfvfr null
+     */
+    stbtid JbpbnfsfErb from(LodblDbtf dbtf) {
+        if (dbtf.isBfforf(MEIJI_6_ISODATE)) {
+            throw nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 brf not supportfd");
+        }
+        for (int i = KNOWN_ERAS.lfngth - 1; i > 0; i--) {
+            JbpbnfsfErb frb = KNOWN_ERAS[i];
+            if (dbtf.dompbrfTo(frb.sindf) >= 0) {
+                rfturn frb;
+            }
+        }
+        rfturn null;
+    }
+
+    stbtid JbpbnfsfErb toJbpbnfsfErb(sun.util.dblfndbr.Erb privbtfErb) {
+        for (int i = ERA_CONFIG.lfngth - 1; i >= 0; i--) {
+            if (ERA_CONFIG[i].fqubls(privbtfErb)) {
+                rfturn KNOWN_ERAS[i];
+            }
+        }
+        rfturn null;
+    }
+
+    stbtid sun.util.dblfndbr.Erb privbtfErbFrom(LodblDbtf isoDbtf) {
+        for (int i = KNOWN_ERAS.lfngth - 1; i > 0; i--) {
+            JbpbnfsfErb frb = KNOWN_ERAS[i];
+            if (isoDbtf.dompbrfTo(frb.sindf) >= 0) {
+                rfturn ERA_CONFIG[i];
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf indfx into thf brrbys from thf Erb vbluf.
+     * thf frbVbluf is b vblid Erb numbfr, -1..2.
+     *
+     * @pbrbm frbVbluf  thf frb vbluf to donvfrt to thf indfx
+     * @rfturn thf indfx of thf durrfnt Erb
+     */
+    privbtf stbtid int ordinbl(int frbVbluf) {
+        rfturn frbVbluf + ERA_OFFSET - 1;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf numfrid frb {@dodf int} vbluf.
+     * <p>
+     * Thf {@link #SHOWA} frb thbt dontbins 1970-01-01 (ISO dblfndbr systfm) hbs thf vbluf 1.
+     * Lbtfr frbs brf numbfrfd from 2 ({@link #HEISEI}).
+     * Ebrlifr frbs brf numbfrfd 0 ({@link #TAISHO}), -1 ({@link #MEIJI})).
+     *
+     * @rfturn thf frb vbluf
+     */
+    @Ovfrridf
+    publid int gftVbluf() {
+        rfturn frbVbluf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf rbngf of vblid vblufs for thf spfdififd fifld.
+     * <p>
+     * Thf rbngf objfdt fxprfssfs thf minimum bnd mbximum vblid vblufs for b fifld.
+     * This frb is usfd to fnhbndf thf bddurbdy of thf rfturnfd rbngf.
+     * If it is not possiblf to rfturn thf rbngf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf {@dodf ERA} fifld rfturns thf rbngf.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf rbngf dbn bf obtbinfd is dftfrminfd by thf fifld.
+     * <p>
+     * Thf rbngf of vblid Jbpbnfsf frbs dbn dhbngf ovfr timf duf to thf nbturf
+     * of thf Jbpbnfsf dblfndbr systfm.
+     *
+     * @pbrbm fifld  thf fifld to qufry thf rbngf for, not null
+     * @rfturn thf rbngf of vblid vblufs for thf fifld, not null
+     * @throws DbtfTimfExdfption if thf rbngf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     */
+    @Ovfrridf  // ovfrridf bs supfr would rfturn rbngf from 0 to 1
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == ERA) {
+            rfturn JbpbnfsfChronology.INSTANCE.rbngf(ERA);
+        }
+        rfturn Erb.supfr.rbngf(fifld);
+    }
+
+    //-----------------------------------------------------------------------
+    String gftAbbrfvibtion() {
+        int indfx = ordinbl(gftVbluf());
+        if (indfx == 0) {
+            rfturn "";
+        }
+        rfturn ERA_CONFIG[indfx].gftAbbrfvibtion();
+    }
+
+    String gftNbmf() {
+        rfturn ERA_CONFIG[ordinbl(gftVbluf())].gftNbmf();
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftNbmf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(5);        // idfntififs b JbpbnfsfErb
+     *  out.writfInt(gftVbluf());
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.JAPANESE_ERA_TYPE, this);
+    }
+
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        out.writfBytf(this.gftVbluf());
+    }
+
+    stbtid JbpbnfsfErb rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        bytf frbVbluf = in.rfbdBytf();
+        rfturn JbpbnfsfErb.of(frbVbluf);
+    }
+
+}

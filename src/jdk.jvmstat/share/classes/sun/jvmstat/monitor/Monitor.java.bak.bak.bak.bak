@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor;
+
+/**
+ * Intfrfbdf providfd by Instrumfntbtion Monitoring Objfdts.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid intfrfbdf Monitor  {
+
+    /**
+     * Rfturns thf nbmf of this instrumfntbtion objfdt.
+     *
+     * @rfturn String - thf nbmf bssignfd to this instrumfntbtion monitoring
+     *                  objfdt
+     */
+    String gftNbmf();
+
+    /**
+     * Rfturns thf bbsf nbmf of this instrumfntbtion objfdt.
+     * Thf bbsf nbmf is thf domponfnt of thf nbmf following thf lbst
+     * "." dhbrbdtfr in thf nbmf.
+     *
+     * @rfturn String - thf bbsf nbmf of thf nbmf bssignfd to this
+     *                  instrumfntbtion monitoring objfdt.
+     */
+    String gftBbsfNbmf();
+
+    /**
+     * Rfturns thf Units for this instrumfntbtion monitoring objfdt.
+     *
+     * @rfturn Units - thf units of mfbsurf bttributf
+     */
+    Units gftUnits();
+
+    /**
+     * Rfturns thf Vbribbility for this instrumfntbtion objfdt.
+     *
+     *@rfturn Vbribbility - thf vbribbility bttributf
+     */
+    Vbribbility gftVbribbility();
+
+    /**
+     * Tfst if thf instrumfntbtion objfdt is b vfdtor typf.
+     *
+     * @rfturn boolfbn - truf if this instrumfntbtion objfdt is b vfdtor typf,
+     *                   fblsf othfrwisf.
+     */
+    boolfbn isVfdtor();
+
+    /**
+     * Rfturn thf lfngth of thf vfdtor.
+     * @rfturn int - thf lfngth of thf vfdtor or zfro if this instrumfntbtion
+     *               objfdt is b sdblbr typf.
+     */
+    int gftVfdtorLfngth();
+
+    /**
+     * Tfst if thf instrumfntbtion objfdt is supportfd.
+     */
+    boolfbn isSupportfd();
+
+    /**
+     * Rfturn bn Objfdt thbt fndbpsulbtfs this instrumfntbtion objfdt's
+     * durrfnt dbtb vbluf.
+     */
+    Objfdt gftVbluf();
+}

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,88 +56,88 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
 
 /**
- * A semantic bytecode interpreter. More precisely, this interpreter only
- * manages the computation of values from other values: it does not manage the
- * transfer of values to or from the stack, and to or from the local variables.
- * This separation allows a generic bytecode {@link Analyzer} to work with
- * various semantic interpreters, without needing to duplicate the code to
- * simulate the transfer of values.
+ * A sfmbntid bytfdodf intfrprftfr. Morf prfdisfly, tiis intfrprftfr only
+ * mbnbgfs tif domputbtion of vblufs from otifr vblufs: it dofs not mbnbgf tif
+ * trbnsffr of vblufs to or from tif stbdk, bnd to or from tif lodbl vbribblfs.
+ * Tiis sfpbrbtion bllows b gfnfrid bytfdodf {@link Anblyzfr} to work witi
+ * vbrious sfmbntid intfrprftfrs, witiout nffding to duplidbtf tif dodf to
+ * simulbtf tif trbnsffr of vblufs.
  *
- * @param <V>
- *            type of the Value used for the analysis.
+ * @pbrbm <V>
+ *            typf of tif Vbluf usfd for tif bnblysis.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public abstract class Interpreter<V extends Value> {
+publid bbstrbdt dlbss Intfrprftfr<V fxtfnds Vbluf> {
 
-    protected final int api;
+    protfdtfd finbl int bpi;
 
-    protected Interpreter(final int api) {
-        this.api = api;
+    protfdtfd Intfrprftfr(finbl int bpi) {
+        tiis.bpi = bpi;
     }
 
     /**
-     * Creates a new value that represents the given type.
+     * Crfbtfs b nfw vbluf tibt rfprfsfnts tif givfn typf.
      *
-     * Called for method parameters (including <code>this</code>), exception
-     * handler variable and with <code>null</code> type for variables reserved
-     * by long and double types.
+     * Cbllfd for mftiod pbrbmftfrs (indluding <dodf>tiis</dodf>), fxdfption
+     * ibndlfr vbribblf bnd witi <dodf>null</dodf> typf for vbribblfs rfsfrvfd
+     * by long bnd doublf typfs.
      *
-     * @param type
-     *            a primitive or reference type, or <tt>null</tt> to represent
-     *            an uninitialized value.
-     * @return a value that represents the given type. The size of the returned
-     *         value must be equal to the size of the given type.
+     * @pbrbm typf
+     *            b primitivf or rfffrfndf typf, or <tt>null</tt> to rfprfsfnt
+     *            bn uninitiblizfd vbluf.
+     * @rfturn b vbluf tibt rfprfsfnts tif givfn typf. Tif sizf of tif rfturnfd
+     *         vbluf must bf fqubl to tif sizf of tif givfn typf.
      */
-    public abstract V newValue(Type type);
+    publid bbstrbdt V nfwVbluf(Typf typf);
 
     /**
-     * Interprets a bytecode instruction without arguments. This method is
-     * called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion witiout brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
      *
      * ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1, ICONST_2, ICONST_3, ICONST_4,
      * ICONST_5, LCONST_0, LCONST_1, FCONST_0, FCONST_1, FCONST_2, DCONST_0,
      * DCONST_1, BIPUSH, SIPUSH, LDC, JSR, GETSTATIC, NEW
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @return the result of the interpretation of the given instruction.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V newOperation(AbstractInsnNode insn)
-            throws AnalyzerException;
+    publid bbstrbdt V nfwOpfrbtion(AbstrbdtInsnNodf insn)
+            tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode instruction that moves a value on the stack or to
-     * or from local variables. This method is called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion tibt movfs b vbluf on tif stbdk or to
+     * or from lodbl vbribblfs. Tiis mftiod is dbllfd for tif following opdodfs:
      *
      * ILOAD, LLOAD, FLOAD, DLOAD, ALOAD, ISTORE, LSTORE, FSTORE, DSTORE,
      * ASTORE, DUP, DUP_X1, DUP_X2, DUP2, DUP2_X1, DUP2_X2, SWAP
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param value
-     *            the value that must be moved by the instruction.
-     * @return the result of the interpretation of the given instruction. The
-     *         returned value must be <tt>equal</tt> to the given value.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif vbluf tibt must bf movfd by tif instrudtion.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion. Tif
+     *         rfturnfd vbluf must bf <tt>fqubl</tt> to tif givfn vbluf.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V copyOperation(AbstractInsnNode insn, V value)
-            throws AnalyzerException;
+    publid bbstrbdt V dopyOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode instruction with a single argument. This method is
-     * called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion witi b singlf brgumfnt. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
      *
      * INEG, LNEG, FNEG, DNEG, IINC, I2L, I2F, I2D, L2I, L2F, L2D, F2I, F2L,
      * F2D, D2I, D2L, D2F, I2B, I2C, I2S, IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE,
@@ -145,20 +145,20 @@ public abstract class Interpreter<V extends Value> {
      * PUTSTATIC, GETFIELD, NEWARRAY, ANEWARRAY, ARRAYLENGTH, ATHROW, CHECKCAST,
      * INSTANCEOF, MONITORENTER, MONITOREXIT, IFNULL, IFNONNULL
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param value
-     *            the argument of the instruction to be interpreted.
-     * @return the result of the interpretation of the given instruction.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V unaryOperation(AbstractInsnNode insn, V value)
-            throws AnalyzerException;
+    publid bbstrbdt V unbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode instruction with two arguments. This method is
-     * called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion witi two brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
      *
      * IALOAD, LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD, IADD,
      * LADD, FADD, DADD, ISUB, LSUB, FSUB, DSUB, IMUL, LMUL, FMUL, DMUL, IDIV,
@@ -167,89 +167,89 @@ public abstract class Interpreter<V extends Value> {
      * DCMPG, IF_ICMPEQ, IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE,
      * IF_ACMPEQ, IF_ACMPNE, PUTFIELD
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param value1
-     *            the first argument of the instruction to be interpreted.
-     * @param value2
-     *            the second argument of the instruction to be interpreted.
-     * @return the result of the interpretation of the given instruction.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            tif first brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            tif sfdond brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V binaryOperation(AbstractInsnNode insn, V value1, V value2)
-            throws AnalyzerException;
+    publid bbstrbdt V binbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1, V vbluf2)
+            tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode instruction with three arguments. This method is
-     * called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion witi tirff brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
      *
      * IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE, SASTORE
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param value1
-     *            the first argument of the instruction to be interpreted.
-     * @param value2
-     *            the second argument of the instruction to be interpreted.
-     * @param value3
-     *            the third argument of the instruction to be interpreted.
-     * @return the result of the interpretation of the given instruction.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            tif first brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            tif sfdond brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf3
+     *            tif tiird brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V ternaryOperation(AbstractInsnNode insn, V value1,
-            V value2, V value3) throws AnalyzerException;
+    publid bbstrbdt V tfrnbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1,
+            V vbluf2, V vbluf3) tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode instruction with a variable number of arguments.
-     * This method is called for the following opcodes:
+     * Intfrprfts b bytfdodf instrudtion witi b vbribblf numbfr of brgumfnts.
+     * Tiis mftiod is dbllfd for tif following opdodfs:
      *
      * INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE,
-     * MULTIANEWARRAY and INVOKEDYNAMIC
+     * MULTIANEWARRAY bnd INVOKEDYNAMIC
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param values
-     *            the arguments of the instruction to be interpreted.
-     * @return the result of the interpretation of the given instruction.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vblufs
+     *            tif brgumfnts of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract V naryOperation(AbstractInsnNode insn,
-            List<? extends V> values) throws AnalyzerException;
+    publid bbstrbdt V nbryOpfrbtion(AbstrbdtInsnNodf insn,
+            List<? fxtfnds V> vblufs) tirows AnblyzfrExdfption;
 
     /**
-     * Interprets a bytecode return instruction. This method is called for the
-     * following opcodes:
+     * Intfrprfts b bytfdodf rfturn instrudtion. Tiis mftiod is dbllfd for tif
+     * following opdodfs:
      *
      * IRETURN, LRETURN, FRETURN, DRETURN, ARETURN
      *
-     * @param insn
-     *            the bytecode instruction to be interpreted.
-     * @param value
-     *            the argument of the instruction to be interpreted.
-     * @param expected
-     *            the expected return type of the analyzed method.
-     * @throws AnalyzerException
-     *             if an error occured during the interpretation.
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm fxpfdtfd
+     *            tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
      */
-    public abstract void returnOperation(AbstractInsnNode insn, V value,
-            V expected) throws AnalyzerException;
+    publid bbstrbdt void rfturnOpfrbtion(AbstrbdtInsnNodf insn, V vbluf,
+            V fxpfdtfd) tirows AnblyzfrExdfption;
 
     /**
-     * Merges two values. The merge operation must return a value that
-     * represents both values (for instance, if the two values are two types,
-     * the merged value must be a common super type of the two types. If the two
-     * values are integer intervals, the merged value must be an interval that
-     * contains the previous ones. Likewise for other types of values).
+     * Mfrgfs two vblufs. Tif mfrgf opfrbtion must rfturn b vbluf tibt
+     * rfprfsfnts boti vblufs (for instbndf, if tif two vblufs brf two typfs,
+     * tif mfrgfd vbluf must bf b dommon supfr typf of tif two typfs. If tif two
+     * vblufs brf intfgfr intfrvbls, tif mfrgfd vbluf must bf bn intfrvbl tibt
+     * dontbins tif prfvious onfs. Likfwisf for otifr typfs of vblufs).
      *
-     * @param v
-     *            a value.
-     * @param w
-     *            another value.
-     * @return the merged value. If the merged value is equal to <tt>v</tt>,
-     *         this method <i>must</i> return <tt>v</tt>.
+     * @pbrbm v
+     *            b vbluf.
+     * @pbrbm w
+     *            bnotifr vbluf.
+     * @rfturn tif mfrgfd vbluf. If tif mfrgfd vbluf is fqubl to <tt>v</tt>,
+     *         tiis mftiod <i>must</i> rfturn <tt>v</tt>.
      */
-    public abstract V merge(V v, V w);
+    publid bbstrbdt V mfrgf(V v, V w);
 }

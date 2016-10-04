@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.digfst;
+
+import jbvb.util.Mbp;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+import dom.sun.sfdurity.sbsl.util.PolidyUtils;
+
+
+/**
+  * Clifnt bnd sfrvfr fbdtory for DIGEST-MD5 SASL dlifnt/sfrvfr mfdhbnisms.
+  * Sff DigfstMD5Clifnt bnd DigfstMD5Sfrvfr for input rfquirfmfnts.
+  *
+  * @buthor Jonbthbn Brudf
+  * @buthor Rosbnnb Lff
+  */
+
+publid finbl dlbss FbdtoryImpl implfmfnts SbslClifntFbdtory,
+SbslSfrvfrFbdtory{
+
+    privbtf stbtid finbl String myMfdhs[] = { "DIGEST-MD5" };
+    privbtf stbtid finbl int DIGEST_MD5 = 0;
+    privbtf stbtid finbl int mfdhPolidifs[] = {
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOANONYMOUS};
+
+    /**
+      * Empty donstrudtor.
+      */
+    publid FbdtoryImpl() {
+    }
+
+    /**
+     * Rfturns b nfw instbndf of thf DIGEST-MD5 SASL dlifnt mfdhbnism.
+     *
+     * @throws SbslExdfption If thfrf is bn frror drfbting thf DigfstMD5
+     * SASL dlifnt.
+     * @rfturns b nfw SbslClifnt ; othfrwisf null if unsuddfssful.
+     */
+    publid SbslClifnt drfbtfSbslClifnt(String[] mfdhs,
+         String buthorizbtionId, String protodol, String sfrvfrNbmf,
+         Mbp<String,?> props, CbllbbdkHbndlfr dbh)
+         throws SbslExdfption {
+
+         for (int i=0; i<mfdhs.lfngth; i++) {
+            if (mfdhs[i].fqubls(myMfdhs[DIGEST_MD5]) &&
+                PolidyUtils.dhfdkPolidy(mfdhPolidifs[DIGEST_MD5], props)) {
+
+                if (dbh == null) {
+                    throw nfw SbslExdfption(
+                        "Cbllbbdk hbndlfr with support for RfblmChoidfCbllbbdk, " +
+                        "RfblmCbllbbdk, NbmfCbllbbdk, bnd PbsswordCbllbbdk " +
+                        "rfquirfd");
+                }
+
+                rfturn nfw DigfstMD5Clifnt(buthorizbtionId,
+                    protodol, sfrvfrNbmf, props, dbh);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b nfw instbndf of thf DIGEST-MD5 SASL sfrvfr mfdhbnism.
+     *
+     * @throws SbslExdfption If thfrf is bn frror drfbting thf DigfstMD5
+     * SASL sfrvfr.
+     * @rfturns b nfw SbslSfrvfr ; othfrwisf null if unsuddfssful.
+     */
+    publid SbslSfrvfr drfbtfSbslSfrvfr(String mfdh,
+         String protodol, String sfrvfrNbmf, Mbp<String,?> props, CbllbbdkHbndlfr dbh)
+         throws SbslExdfption {
+
+         if (mfdh.fqubls(myMfdhs[DIGEST_MD5]) &&
+             PolidyUtils.dhfdkPolidy(mfdhPolidifs[DIGEST_MD5], props)) {
+
+                if (dbh == null) {
+                    throw nfw SbslExdfption(
+                        "Cbllbbdk hbndlfr with support for AuthorizfCbllbbdk, "+
+                        "RfblmCbllbbdk, NbmfCbllbbdk, bnd PbsswordCbllbbdk " +
+                        "rfquirfd");
+                }
+
+                rfturn nfw DigfstMD5Sfrvfr(protodol, sfrvfrNbmf, props, dbh);
+         }
+         rfturn null;
+    }
+
+    /**
+      * Rfturns thf buthfntidbtion mfdhbnisms thbt this fbdtory dbn produdf.
+      *
+      * @rfturns String[] {"DigfstMD5"} if polidifs in fnv mbtdh thosf of this
+      * fbdtory.
+      */
+    publid String[] gftMfdhbnismNbmfs(Mbp<String,?> fnv) {
+        rfturn PolidyUtils.filtfrMfdhs(myMfdhs, mfdhPolidifs, fnv);
+    }
+}

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.math.BigInteger;
-import java.security.KeyRep;
-import java.security.InvalidKeyException;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.InvblidKfyExdfption;
 
 /**
- * An X.509 public key for the Digital Signature Algorithm.
+ * An X.509 publid kfy for tif Digitbl Signbturf Algoritim.
  *
- * The difference between DSAPublicKeyImpl and DSAPublicKey is that
- * DSAPublicKeyImpl calls writeReplace with KeyRep, and DSAPublicKey
- * calls writeObject.
+ * Tif difffrfndf bftwffn DSAPublidKfyImpl bnd DSAPublidKfy is tibt
+ * DSAPublidKfyImpl dblls writfRfplbdf witi KfyRfp, bnd DSAPublidKfy
+ * dblls writfObjfdt.
  *
- * See the comments in DSAKeyFactory, 4532506, and 6232513.
+ * Sff tif dommfnts in DSAKfyFbdtory, 4532506, bnd 6232513.
  *
  */
 
-public final class DSAPublicKeyImpl extends DSAPublicKey {
+publid finbl dlbss DSAPublidKfyImpl fxtfnds DSAPublidKfy {
 
-    private static final long serialVersionUID = 7819830118247182730L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7819830118247182730L;
 
     /**
-     * Make a DSA public key out of a public key and three parameters.
-     * The p, q, and g parameters may be null, but if so, parameters will need
-     * to be supplied from some other source before this key can be used in
-     * cryptographic operations.  PKIX RFC2459bis explicitly allows DSA public
-     * keys without parameters, where the parameters are provided in the
-     * issuer's DSA public key.
+     * Mbkf b DSA publid kfy out of b publid kfy bnd tirff pbrbmftfrs.
+     * Tif p, q, bnd g pbrbmftfrs mby bf null, but if so, pbrbmftfrs will nffd
+     * to bf supplifd from somf otifr sourdf bfforf tiis kfy dbn bf usfd in
+     * dryptogrbpiid opfrbtions.  PKIX RFC2459bis fxpliditly bllows DSA publid
+     * kfys witiout pbrbmftfrs, wifrf tif pbrbmftfrs brf providfd in tif
+     * issufr's DSA publid kfy.
      *
-     * @param y the actual key bits
-     * @param p DSA parameter p, may be null if all of p, q, and g are null.
-     * @param q DSA parameter q, may be null if all of p, q, and g are null.
-     * @param g DSA parameter g, may be null if all of p, q, and g are null.
+     * @pbrbm y tif bdtubl kfy bits
+     * @pbrbm p DSA pbrbmftfr p, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm q DSA pbrbmftfr q, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm g DSA pbrbmftfr g, mby bf null if bll of p, q, bnd g brf null.
      */
-    public DSAPublicKeyImpl(BigInteger y, BigInteger p, BigInteger q,
-                        BigInteger g)
-                throws InvalidKeyException {
-        super(y, p, q, g);
+    publid DSAPublidKfyImpl(BigIntfgfr y, BigIntfgfr p, BigIntfgfr q,
+                        BigIntfgfr g)
+                tirows InvblidKfyExdfption {
+        supfr(y, p, q, g);
     }
 
     /**
-     * Make a DSA public key from its DER encoding (X.509).
+     * Mbkf b DSA publid kfy from its DER fndoding (X.509).
      */
-    public DSAPublicKeyImpl(byte[] encoded) throws InvalidKeyException {
-        super(encoded);
+    publid DSAPublidKfyImpl(bytf[] fndodfd) tirows InvblidKfyExdfption {
+        supfr(fndodfd);
     }
 
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return new KeyRep(KeyRep.Type.PUBLIC,
-                        getAlgorithm(),
-                        getFormat(),
-                        getEncoded());
+    protfdtfd Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgoritim(),
+                        gftFormbt(),
+                        gftEndodfd());
     }
 }

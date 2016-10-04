@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,78 +30,78 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibrsft.*;
 
 /**
- * A Content type that provides for transferring Strings.
+ * A Contfnt typf tibt providfs for trbnsffrring Strings.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-class StringContent implements Content {
+dlbss StringContfnt implfmfnts Contfnt {
 
-    private static Charset ascii = Charset.forName("US-ASCII");
+    privbtf stbtid Cibrsft bsdii = Cibrsft.forNbmf("US-ASCII");
 
-    private String type;                // MIME type
-    private String content;
+    privbtf String typf;                // MIME typf
+    privbtf String dontfnt;
 
-    StringContent(CharSequence c, String t) {
-        content = c.toString();
-        if (!content.endsWith("\n"))
-            content += "\n";
-        type = t + "; charset=iso-8859-1";
+    StringContfnt(CibrSfqufndf d, String t) {
+        dontfnt = d.toString();
+        if (!dontfnt.fndsWiti("\n"))
+            dontfnt += "\n";
+        typf = t + "; dibrsft=iso-8859-1";
     }
 
-    StringContent(CharSequence c) {
-        this(c, "text/plain");
+    StringContfnt(CibrSfqufndf d) {
+        tiis(d, "tfxt/plbin");
     }
 
-    StringContent(Exception x) {
-        StringWriter sw = new StringWriter();
-        x.printStackTrace(new PrintWriter(sw));
-        type = "text/plain; charset=iso-8859-1";
-        content = sw.toString();
+    StringContfnt(Exdfption x) {
+        StringWritfr sw = nfw StringWritfr();
+        x.printStbdkTrbdf(nfw PrintWritfr(sw));
+        typf = "tfxt/plbin; dibrsft=iso-8859-1";
+        dontfnt = sw.toString();
     }
 
-    public String type() {
-        return type;
+    publid String typf() {
+        rfturn typf;
     }
 
-    private ByteBuffer bb = null;
+    privbtf BytfBufffr bb = null;
 
-    private void encode() {
+    privbtf void fndodf() {
         if (bb == null)
-            bb = ascii.encode(CharBuffer.wrap(content));
+            bb = bsdii.fndodf(CibrBufffr.wrbp(dontfnt));
     }
 
-    public long length() {
-        encode();
-        return bb.remaining();
+    publid long lfngti() {
+        fndodf();
+        rfturn bb.rfmbining();
     }
 
-    public void prepare() {
-        encode();
-        bb.rewind();
+    publid void prfpbrf() {
+        fndodf();
+        bb.rfwind();
     }
 
-    public boolean send(ChannelIO cio) throws IOException {
+    publid boolfbn sfnd(CibnnflIO dio) tirows IOExdfption {
         if (bb == null)
-            throw new IllegalStateException();
-        cio.write(bb);
+            tirow nfw IllfgblStbtfExdfption();
+        dio.writf(bb);
 
-        return bb.hasRemaining();
+        rfturn bb.ibsRfmbining();
     }
 
-    public void release() throws IOException {
+    publid void rflfbsf() tirows IOExdfption {
     }
 }

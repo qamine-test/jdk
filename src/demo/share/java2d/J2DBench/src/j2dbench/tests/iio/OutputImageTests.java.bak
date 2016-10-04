@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,327 +30,327 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests.iio;
+pbdkbgf j2dbfndi.tfsts.iio;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.event.IIOWriteProgressListener;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.fvfnt.IIOWritfProgrfssListfnfr;
+import jbvbx.imbgfio.spi.IIORfgistry;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
 
-import j2dbench.Group;
-import j2dbench.Modifier;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.Test;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Modififr;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
 
-abstract class OutputImageTests extends OutputTests {
+bbstrbdt dlbss OutputImbgfTfsts fxtfnds OutputTfsts {
 
-    private static final int TEST_IMAGEIO     = 1;
-    private static final int TEST_IMAGEWRITER = 2;
+    privbtf stbtid finbl int TEST_IMAGEIO     = 1;
+    privbtf stbtid finbl int TEST_IMAGEWRITER = 2;
 
-    private static Group imageRoot;
+    privbtf stbtid Group imbgfRoot;
 
-    private static Group imageioRoot;
-    private static Group imageioOptRoot;
-    private static ImageWriterSpi[] imageioWriterSpis;
-    private static String[] imageioWriteFormatShortNames;
-    private static Option imageioWriteFormatList;
-    private static Group imageioTestRoot;
+    privbtf stbtid Group imbgfioRoot;
+    privbtf stbtid Group imbgfioOptRoot;
+    privbtf stbtid ImbgfWritfrSpi[] imbgfioWritfrSpis;
+    privbtf stbtid String[] imbgfioWritfFormbtSiortNbmfs;
+    privbtf stbtid Option imbgfioWritfFormbtList;
+    privbtf stbtid Group imbgfioTfstRoot;
 
-    private static Group imageWriterRoot;
-    private static Group imageWriterOptRoot;
-    private static Option installListenerTog;
-    private static Group imageWriterTestRoot;
+    privbtf stbtid Group imbgfWritfrRoot;
+    privbtf stbtid Group imbgfWritfrOptRoot;
+    privbtf stbtid Option instbllListfnfrTog;
+    privbtf stbtid Group imbgfWritfrTfstRoot;
 
-    public static void init() {
-        imageRoot = new Group(outputRoot, "image", "Image Writing Benchmarks");
-        imageRoot.setTabbed();
+    publid stbtid void init() {
+        imbgfRoot = nfw Group(outputRoot, "imbgf", "Imbgf Writing Bfndimbrks");
+        imbgfRoot.sftTbbbfd();
 
-        // Image I/O Benchmarks
-        if (hasImageIO) {
-            imageioRoot = new Group(imageRoot, "imageio", "Image I/O");
+        // Imbgf I/O Bfndimbrks
+        if (ibsImbgfIO) {
+            imbgfioRoot = nfw Group(imbgfRoot, "imbgfio", "Imbgf I/O");
 
-            // Image I/O Options
-            imageioOptRoot = new Group(imageioRoot, "opts",
-                                       "Image I/O Options");
-            initIIOWriteFormats();
-            imageioWriteFormatList =
-                new Option.ObjectList(imageioOptRoot,
-                                      "format", "Image Format",
-                                      imageioWriteFormatShortNames,
-                                      imageioWriterSpis,
-                                      imageioWriteFormatShortNames,
-                                      imageioWriteFormatShortNames,
+            // Imbgf I/O Options
+            imbgfioOptRoot = nfw Group(imbgfioRoot, "opts",
+                                       "Imbgf I/O Options");
+            initIIOWritfFormbts();
+            imbgfioWritfFormbtList =
+                nfw Option.ObjfdtList(imbgfioOptRoot,
+                                      "formbt", "Imbgf Formbt",
+                                      imbgfioWritfFormbtSiortNbmfs,
+                                      imbgfioWritfrSpis,
+                                      imbgfioWritfFormbtSiortNbmfs,
+                                      imbgfioWritfFormbtSiortNbmfs,
                                       0x0);
 
-            // Image I/O Tests
-            imageioTestRoot = new Group(imageioRoot, "tests",
-                                        "Image I/O Tests");
-            new ImageIOWrite();
+            // Imbgf I/O Tfsts
+            imbgfioTfstRoot = nfw Group(imbgfioRoot, "tfsts",
+                                        "Imbgf I/O Tfsts");
+            nfw ImbgfIOWritf();
 
-            // ImageWriter Options
-            imageWriterRoot = new Group(imageioRoot, "writer",
-                                        "ImageWriter Benchmarks");
-            imageWriterOptRoot = new Group(imageWriterRoot, "opts",
-                                           "ImageWriter Options");
-            installListenerTog =
-                new Option.Toggle(imageWriterOptRoot,
-                                  "installListener",
-                                  "Install Progress Listener",
-                                  Option.Toggle.Off);
+            // ImbgfWritfr Options
+            imbgfWritfrRoot = nfw Group(imbgfioRoot, "writfr",
+                                        "ImbgfWritfr Bfndimbrks");
+            imbgfWritfrOptRoot = nfw Group(imbgfWritfrRoot, "opts",
+                                           "ImbgfWritfr Options");
+            instbllListfnfrTog =
+                nfw Option.Togglf(imbgfWritfrOptRoot,
+                                  "instbllListfnfr",
+                                  "Instbll Progrfss Listfnfr",
+                                  Option.Togglf.Off);
 
-            // ImageWriter Tests
-            imageWriterTestRoot = new Group(imageWriterRoot, "tests",
-                                            "ImageWriter Tests");
-            new ImageWriterWrite();
+            // ImbgfWritfr Tfsts
+            imbgfWritfrTfstRoot = nfw Group(imbgfWritfrRoot, "tfsts",
+                                            "ImbgfWritfr Tfsts");
+            nfw ImbgfWritfrWritf();
         }
     }
 
-    private static void initIIOWriteFormats() {
-        List spis = new ArrayList();
-        List shortNames = new ArrayList();
+    privbtf stbtid void initIIOWritfFormbts() {
+        List spis = nfw ArrbyList();
+        List siortNbmfs = nfw ArrbyList();
 
-        ImageIO.scanForPlugins();
-        IIORegistry registry = IIORegistry.getDefaultInstance();
-        java.util.Iterator writerspis =
-            registry.getServiceProviders(ImageWriterSpi.class, false);
-        while (writerspis.hasNext()) {
-            // REMIND: there could be more than one non-core plugin for
-            // a particular format, as is the case for JPEG2000 in the JAI
-            // IIO Tools package, so we should support that somehow
-            ImageWriterSpi spi = (ImageWriterSpi)writerspis.next();
-            String klass = spi.getClass().getName();
-            String format = spi.getFormatNames()[0].toLowerCase();
-            String suffix = spi.getFileSuffixes()[0].toLowerCase();
-            if (suffix == null || suffix.equals("")) {
-                suffix = format;
+        ImbgfIO.sdbnForPlugins();
+        IIORfgistry rfgistry = IIORfgistry.gftDffbultInstbndf();
+        jbvb.util.Itfrbtor writfrspis =
+            rfgistry.gftSfrvidfProvidfrs(ImbgfWritfrSpi.dlbss, fblsf);
+        wiilf (writfrspis.ibsNfxt()) {
+            // REMIND: tifrf dould bf morf tibn onf non-dorf plugin for
+            // b pbrtidulbr formbt, bs is tif dbsf for JPEG2000 in tif JAI
+            // IIO Tools pbdkbgf, so wf siould support tibt somfiow
+            ImbgfWritfrSpi spi = (ImbgfWritfrSpi)writfrspis.nfxt();
+            String klbss = spi.gftClbss().gftNbmf();
+            String formbt = spi.gftFormbtNbmfs()[0].toLowfrCbsf();
+            String suffix = spi.gftFilfSuffixfs()[0].toLowfrCbsf();
+            if (suffix == null || suffix.fqubls("")) {
+                suffix = formbt;
             }
-            String shortName;
-            if (klass.startsWith("com.sun.imageio.plugins")) {
-                shortName = "core-" + suffix;
-            } else {
-                shortName = "ext-" + suffix;
+            String siortNbmf;
+            if (klbss.stbrtsWiti("dom.sun.imbgfio.plugins")) {
+                siortNbmf = "dorf-" + suffix;
+            } flsf {
+                siortNbmf = "fxt-" + suffix;
             }
-            spis.add(spi);
-            shortNames.add(shortName);
+            spis.bdd(spi);
+            siortNbmfs.bdd(siortNbmf);
         }
 
-        imageioWriterSpis = new ImageWriterSpi[spis.size()];
-        imageioWriterSpis = (ImageWriterSpi[])spis.toArray(imageioWriterSpis);
-        imageioWriteFormatShortNames = new String[shortNames.size()];
-        imageioWriteFormatShortNames =
-            (String[])shortNames.toArray(imageioWriteFormatShortNames);
+        imbgfioWritfrSpis = nfw ImbgfWritfrSpi[spis.sizf()];
+        imbgfioWritfrSpis = (ImbgfWritfrSpi[])spis.toArrby(imbgfioWritfrSpis);
+        imbgfioWritfFormbtSiortNbmfs = nfw String[siortNbmfs.sizf()];
+        imbgfioWritfFormbtSiortNbmfs =
+            (String[])siortNbmfs.toArrby(imbgfioWritfFormbtSiortNbmfs);
     }
 
-    protected OutputImageTests(Group parent,
-                               String nodeName, String description)
+    protfdtfd OutputImbgfTfsts(Group pbrfnt,
+                               String nodfNbmf, String dfsdription)
     {
-        super(parent, nodeName, description);
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public void cleanupTest(TestEnvironment env, Object ctx) {
-        Context iioctx = (Context)ctx;
-        iioctx.cleanup(env);
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dtx) {
+        Contfxt iiodtx = (Contfxt)dtx;
+        iiodtx.dlfbnup(fnv);
     }
 
-    private static class Context extends OutputTests.Context {
-        String format;
-        BufferedImage image;
-        ImageWriter writer;
+    privbtf stbtid dlbss Contfxt fxtfnds OutputTfsts.Contfxt {
+        String formbt;
+        BufffrfdImbgf imbgf;
+        ImbgfWritfr writfr;
 
-        Context(TestEnvironment env, Result result, int testType) {
-            super(env, result);
+        Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult, int tfstTypf) {
+            supfr(fnv, rfsult);
 
-            String content = (String)env.getModifier(contentList);
-            if (content == null) {
-                content = CONTENT_BLANK;
+            String dontfnt = (String)fnv.gftModififr(dontfntList);
+            if (dontfnt == null) {
+                dontfnt = CONTENT_BLANK;
             }
-            // REMIND: add option for non-opaque images
-            image = createBufferedImage(size, size, content, false);
+            // REMIND: bdd option for non-opbquf imbgfs
+            imbgf = drfbtfBufffrfdImbgf(sizf, sizf, dontfnt, fblsf);
 
-            result.setUnits(size*size);
-            result.setUnitName("pixel");
+            rfsult.sftUnits(sizf*sizf);
+            rfsult.sftUnitNbmf("pixfl");
 
-            if (testType == TEST_IMAGEIO || testType == TEST_IMAGEWRITER) {
-                ImageWriterSpi writerspi =
-                    (ImageWriterSpi)env.getModifier(imageioWriteFormatList);
-                format = writerspi.getFileSuffixes()[0].toLowerCase();
-                if (testType == TEST_IMAGEWRITER) {
+            if (tfstTypf == TEST_IMAGEIO || tfstTypf == TEST_IMAGEWRITER) {
+                ImbgfWritfrSpi writfrspi =
+                    (ImbgfWritfrSpi)fnv.gftModififr(imbgfioWritfFormbtList);
+                formbt = writfrspi.gftFilfSuffixfs()[0].toLowfrCbsf();
+                if (tfstTypf == TEST_IMAGEWRITER) {
                     try {
-                        writer = writerspi.createWriterInstance();
-                    } catch (IOException e) {
-                        System.err.println("error creating writer");
-                        e.printStackTrace();
+                        writfr = writfrspi.drfbtfWritfrInstbndf();
+                    } dbtdi (IOExdfption f) {
+                        Systfm.frr.println("frror drfbting writfr");
+                        f.printStbdkTrbdf();
                     }
-                    if (env.isEnabled(installListenerTog)) {
-                        writer.addIIOWriteProgressListener(
-                            new WriteProgressListener());
+                    if (fnv.isEnbblfd(instbllListfnfrTog)) {
+                        writfr.bddIIOWritfProgrfssListfnfr(
+                            nfw WritfProgrfssListfnfr());
                     }
                 }
-                if (format.equals("wbmp")) {
-                    // REMIND: this is a hack to create an image that the
-                    //         WBMPImageWriter can handle (a better approach
-                    //         would involve checking the ImageTypeSpecifier
-                    //         of the writer's default image param)
-                    BufferedImage newimg =
-                        new BufferedImage(size, size,
-                                          BufferedImage.TYPE_BYTE_BINARY);
-                    Graphics g = newimg.createGraphics();
-                    g.drawImage(image, 0, 0, null);
-                    g.dispose();
-                    image = newimg;
+                if (formbt.fqubls("wbmp")) {
+                    // REMIND: tiis is b ibdk to drfbtf bn imbgf tibt tif
+                    //         WBMPImbgfWritfr dbn ibndlf (b bfttfr bpprobdi
+                    //         would involvf difdking tif ImbgfTypfSpfdififr
+                    //         of tif writfr's dffbult imbgf pbrbm)
+                    BufffrfdImbgf nfwimg =
+                        nfw BufffrfdImbgf(sizf, sizf,
+                                          BufffrfdImbgf.TYPE_BYTE_BINARY);
+                    Grbpiids g = nfwimg.drfbtfGrbpiids();
+                    g.drbwImbgf(imbgf, 0, 0, null);
+                    g.disposf();
+                    imbgf = nfwimg;
                 }
-            } else { // testType == TEST_JPEGCODEC
-                format = "jpeg";
+            } flsf { // tfstTypf == TEST_JPEGCODEC
+                formbt = "jpfg";
             }
 
             initOutput();
         }
 
-        void initContents(File f) throws IOException {
-            ImageIO.write(image, format, f);
+        void initContfnts(Filf f) tirows IOExdfption {
+            ImbgfIO.writf(imbgf, formbt, f);
         }
 
-        void initContents(OutputStream out) throws IOException {
-            ImageIO.write(image, format, out);
+        void initContfnts(OutputStrfbm out) tirows IOExdfption {
+            ImbgfIO.writf(imbgf, formbt, out);
         }
 
-        void cleanup(TestEnvironment env) {
-            super.cleanup(env);
-            if (writer != null) {
-                writer.dispose();
-                writer = null;
+        void dlfbnup(TfstEnvironmfnt fnv) {
+            supfr.dlfbnup(fnv);
+            if (writfr != null) {
+                writfr.disposf();
+                writfr = null;
             }
         }
     }
 
-    private static class ImageIOWrite extends OutputImageTests {
-        public ImageIOWrite() {
-            super(imageioTestRoot,
-                  "imageioWrite",
-                  "ImageIO.write()");
-            addDependency(generalDestRoot,
-                new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // ImageIO.write() handles FILE and ARRAY, but
-                        // not FILECHANNEL (well, I suppose we could create
-                        // an ImageOutputStream from a FileChannel source,
-                        // but that's not a common use case; FileChannel is
-                        // better handled by the ImageWriter tests below)
-                        OutputType t = (OutputType)val;
-                        return (t.getType() != OUTPUT_FILECHANNEL);
+    privbtf stbtid dlbss ImbgfIOWritf fxtfnds OutputImbgfTfsts {
+        publid ImbgfIOWritf() {
+            supfr(imbgfioTfstRoot,
+                  "imbgfioWritf",
+                  "ImbgfIO.writf()");
+            bddDfpfndfndy(gfnfrblDfstRoot,
+                nfw Modififr.Filtfr() {
+                    publid boolfbn isCompbtiblf(Objfdt vbl) {
+                        // ImbgfIO.writf() ibndlfs FILE bnd ARRAY, but
+                        // not FILECHANNEL (wfll, I supposf wf dould drfbtf
+                        // bn ImbgfOutputStrfbm from b FilfCibnnfl sourdf,
+                        // but tibt's not b dommon usf dbsf; FilfCibnnfl is
+                        // bfttfr ibndlfd by tif ImbgfWritfr tfsts bflow)
+                        OutputTypf t = (OutputTypf)vbl;
+                        rfturn (t.gftTypf() != OUTPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(imageioOptRoot, true);
+            bddDfpfndfndifs(imbgfioOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            return new Context(env, result, TEST_IMAGEIO);
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            rfturn nfw Contfxt(fnv, rfsult, TEST_IMAGEIO);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object output = ictx.output;
-            final BufferedImage image = ictx.image;
-            final String format = ictx.format;
-            final int outputType = ictx.outputType;
-            switch (outputType) {
-            case OUTPUT_FILE:
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl Objfdt output = idtx.output;
+            finbl BufffrfdImbgf imbgf = idtx.imbgf;
+            finbl String formbt = idtx.formbt;
+            finbl int outputTypf = idtx.outputTypf;
+            switdi (outputTypf) {
+            dbsf OUTPUT_FILE:
                 do {
                     try {
-                        ImageIO.write(image, format, (File)output);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgfIO.writf(imbgf, formbt, (Filf)output);
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            case OUTPUT_ARRAY:
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dbsf OUTPUT_ARRAY:
                 do {
                     try {
-                        ByteArrayOutputStream baos =
-                            new ByteArrayOutputStream();
-                        BufferedOutputStream bos =
-                            new BufferedOutputStream(baos);
-                        ImageIO.write(image, format, bos);
-                        baos.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        BytfArrbyOutputStrfbm bbos =
+                            nfw BytfArrbyOutputStrfbm();
+                        BufffrfdOutputStrfbm bos =
+                            nfw BufffrfdOutputStrfbm(bbos);
+                        ImbgfIO.writf(imbgf, formbt, bos);
+                        bbos.dlosf();
+                    } dbtdi (Exdfption f) {
+                        f.printStbdkTrbdf();
                     }
-                } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid output type");
+                } wiilf (--numRfps >= 0);
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid output typf");
             }
         }
     }
 
-    private static class ImageWriterWrite extends OutputImageTests {
-        public ImageWriterWrite() {
-            super(imageWriterTestRoot,
-                  "write",
-                  "ImageWriter.write()");
-            addDependency(generalDestRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageWriterOptRoot, true);
+    privbtf stbtid dlbss ImbgfWritfrWritf fxtfnds OutputImbgfTfsts {
+        publid ImbgfWritfrWritf() {
+            supfr(imbgfWritfrTfstRoot,
+                  "writf",
+                  "ImbgfWritfr.writf()");
+            bddDfpfndfndy(gfnfrblDfstRoot);
+            bddDfpfndfndifs(imbgfioGfnfrblOptRoot, truf);
+            bddDfpfndfndifs(imbgfioOptRoot, truf);
+            bddDfpfndfndifs(imbgfWritfrOptRoot, truf);
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            return new Context(env, result, TEST_IMAGEWRITER);
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            rfturn nfw Contfxt(fnv, rfsult, TEST_IMAGEWRITER);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageWriter writer = ictx.writer;
-            final BufferedImage image = ictx.image;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfWritfr writfr = idtx.writfr;
+            finbl BufffrfdImbgf imbgf = idtx.imbgf;
             do {
                 try {
-                    ImageOutputStream ios = ictx.createImageOutputStream();
-                    writer.setOutput(ios);
-                    writer.write(image);
-                    writer.reset();
-                    ios.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ImbgfOutputStrfbm ios = idtx.drfbtfImbgfOutputStrfbm();
+                    writfr.sftOutput(ios);
+                    writfr.writf(imbgf);
+                    writfr.rfsft();
+                    ios.dlosf();
+                    idtx.dlosfOriginblStrfbm();
+                } dbtdi (IOExdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class WriteProgressListener
-        implements IIOWriteProgressListener
+    privbtf stbtid dlbss WritfProgrfssListfnfr
+        implfmfnts IIOWritfProgrfssListfnfr
     {
-        public void imageStarted(ImageWriter source, int imageIndex) {}
-        public void imageProgress(ImageWriter source,
-                                  float percentageDone) {}
-        public void imageComplete(ImageWriter source) {}
-        public void thumbnailStarted(ImageWriter source,
-                                     int imageIndex, int thumbnailIndex) {}
-        public void thumbnailProgress(ImageWriter source,
-                                      float percentageDone) {}
-        public void thumbnailComplete(ImageWriter source) {}
-        public void writeAborted(ImageWriter source) {}
+        publid void imbgfStbrtfd(ImbgfWritfr sourdf, int imbgfIndfx) {}
+        publid void imbgfProgrfss(ImbgfWritfr sourdf,
+                                  flobt pfrdfntbgfDonf) {}
+        publid void imbgfComplftf(ImbgfWritfr sourdf) {}
+        publid void tiumbnbilStbrtfd(ImbgfWritfr sourdf,
+                                     int imbgfIndfx, int tiumbnbilIndfx) {}
+        publid void tiumbnbilProgrfss(ImbgfWritfr sourdf,
+                                      flobt pfrdfntbgfDonf) {}
+        publid void tiumbnbilComplftf(ImbgfWritfr sourdf) {}
+        publid void writfAbortfd(ImbgfWritfr sourdf) {}
     }
 }

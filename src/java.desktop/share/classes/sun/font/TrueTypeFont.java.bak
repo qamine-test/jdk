@@ -1,620 +1,620 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.geom.Point2D;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.IntBufffr;
+import jbvb.nio.SiortBufffr;
+import jbvb.nio.dibnnfls.ClosfdCibnnflExdfption;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
 
 /**
- * TrueTypeFont is not called SFntFont because it is not expected
- * to handle all types that may be housed in a such a font file.
- * If additional types are supported later, it may make sense to
- * create an SFnt superclass. Eg to handle sfnt-housed postscript fonts.
- * OpenType fonts are handled by this class, and possibly should be
- * represented by a subclass.
- * An instance stores some information from the font file to faciliate
- * faster access. File size, the table directory and the names of the font
- * are the most important of these. It amounts to approx 400 bytes
- * for a typical font. Systems with mutiple locales sometimes have up to 400
- * font files, and an app which loads all font files would need around
- * 160Kbytes. So storing any more info than this would be expensive.
+ * TrufTypfFont is not dbllfd SFntFont bfdbusf it is not fxpfdtfd
+ * to ibndlf bll typfs tibt mby bf iousfd in b sudi b font filf.
+ * If bdditionbl typfs brf supportfd lbtfr, it mby mbkf sfnsf to
+ * drfbtf bn SFnt supfrdlbss. Eg to ibndlf sfnt-iousfd postsdript fonts.
+ * OpfnTypf fonts brf ibndlfd by tiis dlbss, bnd possibly siould bf
+ * rfprfsfntfd by b subdlbss.
+ * An instbndf storfs somf informbtion from tif font filf to fbdilibtf
+ * fbstfr bddfss. Filf sizf, tif tbblf dirfdtory bnd tif nbmfs of tif font
+ * brf tif most importbnt of tifsf. It bmounts to bpprox 400 bytfs
+ * for b typidbl font. Systfms witi mutiplf lodblfs somftimfs ibvf up to 400
+ * font filfs, bnd bn bpp wiidi lobds bll font filfs would nffd bround
+ * 160Kbytfs. So storing bny morf info tibn tiis would bf fxpfnsivf.
  */
-public class TrueTypeFont extends FileFont {
+publid dlbss TrufTypfFont fxtfnds FilfFont {
 
-   /* -- Tags for required TrueType tables */
-    public static final int cmapTag = 0x636D6170; // 'cmap'
-    public static final int glyfTag = 0x676C7966; // 'glyf'
-    public static final int headTag = 0x68656164; // 'head'
-    public static final int hheaTag = 0x68686561; // 'hhea'
-    public static final int hmtxTag = 0x686D7478; // 'hmtx'
-    public static final int locaTag = 0x6C6F6361; // 'loca'
-    public static final int maxpTag = 0x6D617870; // 'maxp'
-    public static final int nameTag = 0x6E616D65; // 'name'
-    public static final int postTag = 0x706F7374; // 'post'
-    public static final int os_2Tag = 0x4F532F32; // 'OS/2'
+   /* -- Tbgs for rfquirfd TrufTypf tbblfs */
+    publid stbtid finbl int dmbpTbg = 0x636D6170; // 'dmbp'
+    publid stbtid finbl int glyfTbg = 0x676C7966; // 'glyf'
+    publid stbtid finbl int ifbdTbg = 0x68656164; // 'ifbd'
+    publid stbtid finbl int iifbTbg = 0x68686561; // 'iifb'
+    publid stbtid finbl int imtxTbg = 0x686D7478; // 'imtx'
+    publid stbtid finbl int lodbTbg = 0x6C6F6361; // 'lodb'
+    publid stbtid finbl int mbxpTbg = 0x6D617870; // 'mbxp'
+    publid stbtid finbl int nbmfTbg = 0x6E616D65; // 'nbmf'
+    publid stbtid finbl int postTbg = 0x706F7374; // 'post'
+    publid stbtid finbl int os_2Tbg = 0x4F532F32; // 'OS/2'
 
-    /* -- Tags for opentype related tables */
-    public static final int GDEFTag = 0x47444546; // 'GDEF'
-    public static final int GPOSTag = 0x47504F53; // 'GPOS'
-    public static final int GSUBTag = 0x47535542; // 'GSUB'
-    public static final int mortTag = 0x6D6F7274; // 'mort'
+    /* -- Tbgs for opfntypf rflbtfd tbblfs */
+    publid stbtid finbl int GDEFTbg = 0x47444546; // 'GDEF'
+    publid stbtid finbl int GPOSTbg = 0x47504F53; // 'GPOS'
+    publid stbtid finbl int GSUBTbg = 0x47535542; // 'GSUB'
+    publid stbtid finbl int mortTbg = 0x6D6F7274; // 'mort'
 
-    /* -- Tags for non-standard tables */
-    public static final int fdscTag = 0x66647363; // 'fdsc' - gxFont descriptor
-    public static final int fvarTag = 0x66766172; // 'fvar' - gxFont variations
-    public static final int featTag = 0x66656174; // 'feat' - layout features
-    public static final int EBLCTag = 0x45424C43; // 'EBLC' - embedded bitmaps
-    public static final int gaspTag = 0x67617370; // 'gasp' - hint/smooth sizes
+    /* -- Tbgs for non-stbndbrd tbblfs */
+    publid stbtid finbl int fdsdTbg = 0x66647363; // 'fdsd' - gxFont dfsdriptor
+    publid stbtid finbl int fvbrTbg = 0x66766172; // 'fvbr' - gxFont vbribtions
+    publid stbtid finbl int ffbtTbg = 0x66656174; // 'ffbt' - lbyout ffbturfs
+    publid stbtid finbl int EBLCTbg = 0x45424C43; // 'EBLC' - fmbfddfd bitmbps
+    publid stbtid finbl int gbspTbg = 0x67617370; // 'gbsp' - iint/smooti sizfs
 
-    /* --  Other tags */
-    public static final int ttcfTag = 0x74746366; // 'ttcf' - TTC file
-    public static final int v1ttTag = 0x00010000; // 'v1tt' - Version 1 TT font
-    public static final int trueTag = 0x74727565; // 'true' - Version 2 TT font
-    public static final int ottoTag = 0x4f54544f; // 'otto' - OpenType font
+    /* --  Otifr tbgs */
+    publid stbtid finbl int ttdfTbg = 0x74746366; // 'ttdf' - TTC filf
+    publid stbtid finbl int v1ttTbg = 0x00010000; // 'v1tt' - Vfrsion 1 TT font
+    publid stbtid finbl int trufTbg = 0x74727565; // 'truf' - Vfrsion 2 TT font
+    publid stbtid finbl int ottoTbg = 0x4f54544f; // 'otto' - OpfnTypf font
 
-    /* -- ID's used in the 'name' table */
-    public static final int MS_PLATFORM_ID = 3;
-    /* MS locale id for US English is the "default" */
-    public static final short ENGLISH_LOCALE_ID = 0x0409; // 1033 decimal
-    public static final int FAMILY_NAME_ID = 1;
-    // public static final int STYLE_WEIGHT_ID = 2; // currently unused.
-    public static final int FULL_NAME_ID = 4;
-    public static final int POSTSCRIPT_NAME_ID = 6;
+    /* -- ID's usfd in tif 'nbmf' tbblf */
+    publid stbtid finbl int MS_PLATFORM_ID = 3;
+    /* MS lodblf id for US Englisi is tif "dffbult" */
+    publid stbtid finbl siort ENGLISH_LOCALE_ID = 0x0409; // 1033 dfdimbl
+    publid stbtid finbl int FAMILY_NAME_ID = 1;
+    // publid stbtid finbl int STYLE_WEIGHT_ID = 2; // durrfntly unusfd.
+    publid stbtid finbl int FULL_NAME_ID = 4;
+    publid stbtid finbl int POSTSCRIPT_NAME_ID = 6;
 
-    private static final short US_LCID = 0x0409;  // US English - default
+    privbtf stbtid finbl siort US_LCID = 0x0409;  // US Englisi - dffbult
 
-    private static Map<String, Short> lcidMap;
+    privbtf stbtid Mbp<String, Siort> ldidMbp;
 
-    static class DirectoryEntry {
-        int tag;
-        int offset;
-        int length;
+    stbtid dlbss DirfdtoryEntry {
+        int tbg;
+        int offsft;
+        int lfngti;
     }
 
-    /* There is a pool which limits the number of fd's that are in
-     * use. Normally fd's are closed as they are replaced in the pool.
-     * But if an instance of this class becomes unreferenced, then there
-     * needs to be a way to close the fd. A finalize() method could do this,
-     * but using the Disposer class will ensure its called in a more timely
-     * manner. This is not something which should be relied upon to free
-     * fd's - its a safeguard.
+    /* Tifrf is b pool wiidi limits tif numbfr of fd's tibt brf in
+     * usf. Normblly fd's brf dlosfd bs tify brf rfplbdfd in tif pool.
+     * But if bn instbndf of tiis dlbss bfdomfs unrfffrfndfd, tifn tifrf
+     * nffds to bf b wby to dlosf tif fd. A finblizf() mftiod dould do tiis,
+     * but using tif Disposfr dlbss will fnsurf its dbllfd in b morf timfly
+     * mbnnfr. Tiis is not somftiing wiidi siould bf rflifd upon to frff
+     * fd's - its b sbffgubrd.
      */
-    private static class TTDisposerRecord implements DisposerRecord {
+    privbtf stbtid dlbss TTDisposfrRfdord implfmfnts DisposfrRfdord {
 
-        FileChannel channel = null;
+        FilfCibnnfl dibnnfl = null;
 
-        public synchronized void dispose() {
+        publid syndironizfd void disposf() {
             try {
-                if (channel != null) {
-                    channel.close();
+                if (dibnnfl != null) {
+                    dibnnfl.dlosf();
                 }
-            } catch (IOException e) {
-            } finally {
-                channel = null;
+            } dbtdi (IOExdfption f) {
+            } finblly {
+                dibnnfl = null;
             }
         }
     }
 
-    TTDisposerRecord disposerRecord = new TTDisposerRecord();
+    TTDisposfrRfdord disposfrRfdord = nfw TTDisposfrRfdord();
 
-    /* > 0 only if this font is a part of a collection */
-    int fontIndex = 0;
+    /* > 0 only if tiis font is b pbrt of b dollfdtion */
+    int fontIndfx = 0;
 
-    /* Number of fonts in this collection. ==1 if not a collection */
-    int directoryCount = 1;
+    /* Numbfr of fonts in tiis dollfdtion. ==1 if not b dollfdtion */
+    int dirfdtoryCount = 1;
 
-    /* offset in file of table directory for this font */
-    int directoryOffset; // 12 if its not a collection.
+    /* offsft in filf of tbblf dirfdtory for tiis font */
+    int dirfdtoryOffsft; // 12 if its not b dollfdtion.
 
-    /* number of table entries in the directory/offsets table */
-    int numTables;
+    /* numbfr of tbblf fntrifs in tif dirfdtory/offsfts tbblf */
+    int numTbblfs;
 
-    /* The contents of the the directory/offsets table */
-    DirectoryEntry []tableDirectory;
+    /* Tif dontfnts of tif tif dirfdtory/offsfts tbblf */
+    DirfdtoryEntry []tbblfDirfdtory;
 
-//     protected byte []gposTable = null;
-//     protected byte []gdefTable = null;
-//     protected byte []gsubTable = null;
-//     protected byte []mortTable = null;
-//     protected boolean hintsTabledChecked = false;
-//     protected boolean containsHintsTable = false;
+//     protfdtfd bytf []gposTbblf = null;
+//     protfdtfd bytf []gdffTbblf = null;
+//     protfdtfd bytf []gsubTbblf = null;
+//     protfdtfd bytf []mortTbblf = null;
+//     protfdtfd boolfbn iintsTbblfdCifdkfd = fblsf;
+//     protfdtfd boolfbn dontbinsHintsTbblf = fblsf;
 
-    /* These fields are set from os/2 table info. */
-    private boolean supportsJA;
-    private boolean supportsCJK;
+    /* Tifsf fiflds brf sft from os/2 tbblf info. */
+    privbtf boolfbn supportsJA;
+    privbtf boolfbn supportsCJK;
 
-    /* These are for faster access to the name of the font as
-     * typically exposed via API to applications.
+    /* Tifsf brf for fbstfr bddfss to tif nbmf of tif font bs
+     * typidblly fxposfd vib API to bpplidbtions.
      */
-    private Locale nameLocale;
-    private String localeFamilyName;
-    private String localeFullName;
+    privbtf Lodblf nbmfLodblf;
+    privbtf String lodblfFbmilyNbmf;
+    privbtf String lodblfFullNbmf;
 
     /**
-     * - does basic verification of the file
-     * - reads the header table for this font (within a collection)
-     * - reads the names (full, family).
-     * - determines the style of the font.
-     * - initializes the CMAP
-     * @throws FontFormatException - if the font can't be opened
-     * or fails verification,  or there's no usable cmap
+     * - dofs bbsid vfrifidbtion of tif filf
+     * - rfbds tif ifbdfr tbblf for tiis font (witiin b dollfdtion)
+     * - rfbds tif nbmfs (full, fbmily).
+     * - dftfrminfs tif stylf of tif font.
+     * - initiblizfs tif CMAP
+     * @tirows FontFormbtExdfption - if tif font dbn't bf opfnfd
+     * or fbils vfrifidbtion,  or tifrf's no usbblf dmbp
      */
-    public TrueTypeFont(String platname, Object nativeNames, int fIndex,
-                 boolean javaRasterizer)
-        throws FontFormatException {
-        super(platname, nativeNames);
-        useJavaRasterizer = javaRasterizer;
-        fontRank = Font2D.TTF_RANK;
+    publid TrufTypfFont(String plbtnbmf, Objfdt nbtivfNbmfs, int fIndfx,
+                 boolfbn jbvbRbstfrizfr)
+        tirows FontFormbtExdfption {
+        supfr(plbtnbmf, nbtivfNbmfs);
+        usfJbvbRbstfrizfr = jbvbRbstfrizfr;
+        fontRbnk = Font2D.TTF_RANK;
         try {
-            verify();
-            init(fIndex);
-        } catch (Throwable t) {
-            close();
-            if (t instanceof FontFormatException) {
-                throw (FontFormatException)t;
-            } else {
-                throw new FontFormatException("Unexpected runtime exception.");
+            vfrify();
+            init(fIndfx);
+        } dbtdi (Tirowbblf t) {
+            dlosf();
+            if (t instbndfof FontFormbtExdfption) {
+                tirow (FontFormbtExdfption)t;
+            } flsf {
+                tirow nfw FontFormbtExdfption("Unfxpfdtfd runtimf fxdfption.");
             }
         }
-        Disposer.addObjectRecord(this, disposerRecord);
+        Disposfr.bddObjfdtRfdord(tiis, disposfrRfdord);
     }
 
-    /* Enable natives just for fonts picked up from the platform that
-     * may have external bitmaps on Solaris. Could do this just for
-     * the fonts that are specified in font configuration files which
-     * would lighten the burden (think about that).
-     * The EBLCTag is used to skip natives for fonts that contain embedded
-     * bitmaps as there's no need to use X11 for those fonts.
-     * Skip all the latin fonts as they don't need this treatment.
-     * Further refine this to fonts that are natively accessible (ie
-     * as PCF bitmap fonts on the X11 font path).
-     * This method is called when creating the first strike for this font.
+    /* Enbblf nbtivfs just for fonts pidkfd up from tif plbtform tibt
+     * mby ibvf fxtfrnbl bitmbps on Solbris. Could do tiis just for
+     * tif fonts tibt brf spfdififd in font donfigurbtion filfs wiidi
+     * would ligitfn tif burdfn (tiink bbout tibt).
+     * Tif EBLCTbg is usfd to skip nbtivfs for fonts tibt dontbin fmbfddfd
+     * bitmbps bs tifrf's no nffd to usf X11 for tiosf fonts.
+     * Skip bll tif lbtin fonts bs tify don't nffd tiis trfbtmfnt.
+     * Furtifr rffinf tiis to fonts tibt brf nbtivfly bddfssiblf (if
+     * bs PCF bitmbp fonts on tif X11 font pbti).
+     * Tiis mftiod is dbllfd wifn drfbting tif first strikf for tiis font.
      */
-    @Override
-    protected boolean checkUseNatives() {
-        if (checkedNatives) {
-            return useNatives;
+    @Ovfrridf
+    protfdtfd boolfbn difdkUsfNbtivfs() {
+        if (difdkfdNbtivfs) {
+            rfturn usfNbtivfs;
         }
-        if (!FontUtilities.isSolaris || useJavaRasterizer ||
-            FontUtilities.useT2K || nativeNames == null ||
-            getDirectoryEntry(EBLCTag) != null ||
-            GraphicsEnvironment.isHeadless()) {
-            checkedNatives = true;
-            return false; /* useNatives is false */
-        } else if (nativeNames instanceof String) {
-            String name = (String)nativeNames;
-            /* Don't do do this for Latin fonts */
-            if (name.indexOf("8859") > 0) {
-                checkedNatives = true;
-                return false;
-            } else if (NativeFont.hasExternalBitmaps(name)) {
-                nativeFonts = new NativeFont[1];
+        if (!FontUtilitifs.isSolbris || usfJbvbRbstfrizfr ||
+            FontUtilitifs.usfT2K || nbtivfNbmfs == null ||
+            gftDirfdtoryEntry(EBLCTbg) != null ||
+            GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            difdkfdNbtivfs = truf;
+            rfturn fblsf; /* usfNbtivfs is fblsf */
+        } flsf if (nbtivfNbmfs instbndfof String) {
+            String nbmf = (String)nbtivfNbmfs;
+            /* Don't do do tiis for Lbtin fonts */
+            if (nbmf.indfxOf("8859") > 0) {
+                difdkfdNbtivfs = truf;
+                rfturn fblsf;
+            } flsf if (NbtivfFont.ibsExtfrnblBitmbps(nbmf)) {
+                nbtivfFonts = nfw NbtivfFont[1];
                 try {
-                    nativeFonts[0] = new NativeFont(name, true);
-                    /* If reach here we have an non-latin font that has
-                     * external bitmaps and we successfully created it.
+                    nbtivfFonts[0] = nfw NbtivfFont(nbmf, truf);
+                    /* If rfbdi ifrf wf ibvf bn non-lbtin font tibt ibs
+                     * fxtfrnbl bitmbps bnd wf suddfssfully drfbtfd it.
                      */
-                    useNatives = true;
-                } catch (FontFormatException e) {
-                    nativeFonts = null;
+                    usfNbtivfs = truf;
+                } dbtdi (FontFormbtExdfption f) {
+                    nbtivfFonts = null;
                 }
             }
-        } else if (nativeNames instanceof String[]) {
-            String[] natNames = (String[])nativeNames;
-            int numNames = natNames.length;
-            boolean externalBitmaps = false;
-            for (int nn = 0; nn < numNames; nn++) {
-                if (natNames[nn].indexOf("8859") > 0) {
-                    checkedNatives = true;
-                    return false;
-                } else if (NativeFont.hasExternalBitmaps(natNames[nn])) {
-                    externalBitmaps = true;
+        } flsf if (nbtivfNbmfs instbndfof String[]) {
+            String[] nbtNbmfs = (String[])nbtivfNbmfs;
+            int numNbmfs = nbtNbmfs.lfngti;
+            boolfbn fxtfrnblBitmbps = fblsf;
+            for (int nn = 0; nn < numNbmfs; nn++) {
+                if (nbtNbmfs[nn].indfxOf("8859") > 0) {
+                    difdkfdNbtivfs = truf;
+                    rfturn fblsf;
+                } flsf if (NbtivfFont.ibsExtfrnblBitmbps(nbtNbmfs[nn])) {
+                    fxtfrnblBitmbps = truf;
                 }
             }
-            if (!externalBitmaps) {
-                checkedNatives = true;
-                return false;
+            if (!fxtfrnblBitmbps) {
+                difdkfdNbtivfs = truf;
+                rfturn fblsf;
             }
-            useNatives = true;
-            nativeFonts = new NativeFont[numNames];
-            for (int nn = 0; nn < numNames; nn++) {
+            usfNbtivfs = truf;
+            nbtivfFonts = nfw NbtivfFont[numNbmfs];
+            for (int nn = 0; nn < numNbmfs; nn++) {
                 try {
-                    nativeFonts[nn] = new NativeFont(natNames[nn], true);
-                } catch (FontFormatException e) {
-                    useNatives = false;
-                    nativeFonts = null;
+                    nbtivfFonts[nn] = nfw NbtivfFont(nbtNbmfs[nn], truf);
+                } dbtdi (FontFormbtExdfption f) {
+                    usfNbtivfs = fblsf;
+                    nbtivfFonts = null;
                 }
             }
         }
-        if (useNatives) {
-            glyphToCharMap = new char[getMapper().getNumGlyphs()];
+        if (usfNbtivfs) {
+            glypiToCibrMbp = nfw dibr[gftMbppfr().gftNumGlypis()];
         }
-        checkedNatives = true;
-        return useNatives;
+        difdkfdNbtivfs = truf;
+        rfturn usfNbtivfs;
     }
 
 
-    /* This is intended to be called, and the returned value used,
-     * from within a block synchronized on this font object.
-     * ie the channel returned may be nulled out at any time by "close()"
-     * unless the caller holds a lock.
-     * Deadlock warning: FontManager.addToPool(..) acquires a global lock,
-     * which means nested locks may be in effect.
+    /* Tiis is intfndfd to bf dbllfd, bnd tif rfturnfd vbluf usfd,
+     * from witiin b blodk syndironizfd on tiis font objfdt.
+     * if tif dibnnfl rfturnfd mby bf nullfd out bt bny timf by "dlosf()"
+     * unlfss tif dbllfr iolds b lodk.
+     * Dfbdlodk wbrning: FontMbnbgfr.bddToPool(..) bdquirfs b globbl lodk,
+     * wiidi mfbns nfstfd lodks mby bf in ffffdt.
      */
-    private synchronized FileChannel open() throws FontFormatException {
-        if (disposerRecord.channel == null) {
-            if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().info("open TTF: " + platName);
+    privbtf syndironizfd FilfCibnnfl opfn() tirows FontFormbtExdfption {
+        if (disposfrRfdord.dibnnfl == null) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().info("opfn TTF: " + plbtNbmf);
             }
             try {
-                RandomAccessFile raf = (RandomAccessFile)
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
-                        public Object run() {
+                RbndomAddfssFilf rbf = (RbndomAddfssFilf)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
                             try {
-                                return new RandomAccessFile(platName, "r");
-                            } catch (FileNotFoundException ffne) {
+                                rfturn nfw RbndomAddfssFilf(plbtNbmf, "r");
+                            } dbtdi (FilfNotFoundExdfption ffnf) {
                             }
-                            return null;
+                            rfturn null;
                     }
                 });
-                disposerRecord.channel = raf.getChannel();
-                fileSize = (int)disposerRecord.channel.size();
-                FontManager fm = FontManagerFactory.getInstance();
-                if (fm instanceof SunFontManager) {
-                    ((SunFontManager) fm).addToPool(this);
+                disposfrRfdord.dibnnfl = rbf.gftCibnnfl();
+                filfSizf = (int)disposfrRfdord.dibnnfl.sizf();
+                FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+                if (fm instbndfof SunFontMbnbgfr) {
+                    ((SunFontMbnbgfr) fm).bddToPool(tiis);
                 }
-            } catch (NullPointerException e) {
-                close();
-                throw new FontFormatException(e.toString());
-            } catch (ClosedChannelException e) {
-                /* NIO I/O is interruptible, recurse to retry operation.
-                 * The call to channel.size() above can throw this exception.
-                 * Clear interrupts before recursing in case NIO didn't.
-                 * Note that close() sets disposerRecord.channel to null.
+            } dbtdi (NullPointfrExdfption f) {
+                dlosf();
+                tirow nfw FontFormbtExdfption(f.toString());
+            } dbtdi (ClosfdCibnnflExdfption f) {
+                /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+                 * Tif dbll to dibnnfl.sizf() bbovf dbn tirow tiis fxdfption.
+                 * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
+                 * Notf tibt dlosf() sfts disposfrRfdord.dibnnfl to null.
                  */
-                Thread.interrupted();
-                close();
-                open();
-            } catch (IOException e) {
-                close();
-                throw new FontFormatException(e.toString());
+                Tirfbd.intfrruptfd();
+                dlosf();
+                opfn();
+            } dbtdi (IOExdfption f) {
+                dlosf();
+                tirow nfw FontFormbtExdfption(f.toString());
             }
         }
-        return disposerRecord.channel;
+        rfturn disposfrRfdord.dibnnfl;
     }
 
-    protected synchronized void close() {
-        disposerRecord.dispose();
+    protfdtfd syndironizfd void dlosf() {
+        disposfrRfdord.disposf();
     }
 
 
-    int readBlock(ByteBuffer buffer, int offset, int length) {
-        int bread = 0;
+    int rfbdBlodk(BytfBufffr bufffr, int offsft, int lfngti) {
+        int brfbd = 0;
         try {
-            synchronized (this) {
-                if (disposerRecord.channel == null) {
-                    open();
+            syndironizfd (tiis) {
+                if (disposfrRfdord.dibnnfl == null) {
+                    opfn();
                 }
-                if (offset + length > fileSize) {
-                    if (offset >= fileSize) {
-                        /* Since the caller ensures that offset is < fileSize
-                         * this condition suggests that fileSize is now
-                         * different than the value we originally provided
-                         * to native when the scaler was created.
-                         * Also fileSize is updated every time we
-                         * open() the file here, but in native the value
-                         * isn't updated. If the file has changed whilst we
-                         * are executing we want to bail, not spin.
+                if (offsft + lfngti > filfSizf) {
+                    if (offsft >= filfSizf) {
+                        /* Sindf tif dbllfr fnsurfs tibt offsft is < filfSizf
+                         * tiis dondition suggfsts tibt filfSizf is now
+                         * difffrfnt tibn tif vbluf wf originblly providfd
+                         * to nbtivf wifn tif sdblfr wbs drfbtfd.
+                         * Also filfSizf is updbtfd fvfry timf wf
+                         * opfn() tif filf ifrf, but in nbtivf tif vbluf
+                         * isn't updbtfd. If tif filf ibs dibngfd wiilst wf
+                         * brf fxfduting wf wbnt to bbil, not spin.
                          */
-                        if (FontUtilities.isLogging()) {
-                            String msg = "Read offset is " + offset +
-                                " file size is " + fileSize+
-                                " file is " + platName;
-                            FontUtilities.getLogger().severe(msg);
+                        if (FontUtilitifs.isLogging()) {
+                            String msg = "Rfbd offsft is " + offsft +
+                                " filf sizf is " + filfSizf+
+                                " filf is " + plbtNbmf;
+                            FontUtilitifs.gftLoggfr().sfvfrf(msg);
                         }
-                        return -1;
-                    } else {
-                        length = fileSize - offset;
+                        rfturn -1;
+                    } flsf {
+                        lfngti = filfSizf - offsft;
                     }
                 }
-                buffer.clear();
-                disposerRecord.channel.position(offset);
-                while (bread < length) {
-                    int cnt = disposerRecord.channel.read(buffer);
-                    if (cnt == -1) {
-                        String msg = "Unexpected EOF " + this;
-                        int currSize = (int)disposerRecord.channel.size();
-                        if (currSize != fileSize) {
-                            msg += " File size was " + fileSize +
-                                " and now is " + currSize;
+                bufffr.dlfbr();
+                disposfrRfdord.dibnnfl.position(offsft);
+                wiilf (brfbd < lfngti) {
+                    int dnt = disposfrRfdord.dibnnfl.rfbd(bufffr);
+                    if (dnt == -1) {
+                        String msg = "Unfxpfdtfd EOF " + tiis;
+                        int durrSizf = (int)disposfrRfdord.dibnnfl.sizf();
+                        if (durrSizf != filfSizf) {
+                            msg += " Filf sizf wbs " + filfSizf +
+                                " bnd now is " + durrSizf;
                         }
-                        if (FontUtilities.isLogging()) {
-                            FontUtilities.getLogger().severe(msg);
+                        if (FontUtilitifs.isLogging()) {
+                            FontUtilitifs.gftLoggfr().sfvfrf(msg);
                         }
-                        // We could still flip() the buffer here because
-                        // it's possible that we did read some data in
-                        // an earlier loop, and we probably should
-                        // return that to the caller. Although if
-                        // the caller expected 8K of data and we return
-                        // only a few bytes then maybe it's better instead to
-                        // set bread = -1 to indicate failure.
-                        // The following is therefore using arbitrary values
-                        // but is meant to allow cases where enough
-                        // data was read to probably continue.
-                        if (bread > length/2 || bread > 16384) {
-                            buffer.flip();
-                            if (FontUtilities.isLogging()) {
-                                msg = "Returning " + bread +
-                                    " bytes instead of " + length;
-                                FontUtilities.getLogger().severe(msg);
+                        // Wf dould still flip() tif bufffr ifrf bfdbusf
+                        // it's possiblf tibt wf did rfbd somf dbtb in
+                        // bn fbrlifr loop, bnd wf probbbly siould
+                        // rfturn tibt to tif dbllfr. Altiougi if
+                        // tif dbllfr fxpfdtfd 8K of dbtb bnd wf rfturn
+                        // only b ffw bytfs tifn mbybf it's bfttfr instfbd to
+                        // sft brfbd = -1 to indidbtf fbilurf.
+                        // Tif following is tifrfforf using brbitrbry vblufs
+                        // but is mfbnt to bllow dbsfs wifrf fnougi
+                        // dbtb wbs rfbd to probbbly dontinuf.
+                        if (brfbd > lfngti/2 || brfbd > 16384) {
+                            bufffr.flip();
+                            if (FontUtilitifs.isLogging()) {
+                                msg = "Rfturning " + brfbd +
+                                    " bytfs instfbd of " + lfngti;
+                                FontUtilitifs.gftLoggfr().sfvfrf(msg);
                             }
-                        } else {
-                            bread = -1;
+                        } flsf {
+                            brfbd = -1;
                         }
-                        throw new IOException(msg);
+                        tirow nfw IOExdfption(msg);
                     }
-                    bread += cnt;
+                    brfbd += dnt;
                 }
-                buffer.flip();
-                if (bread > length) { // possible if buffer.size() > length
-                    bread = length;
+                bufffr.flip();
+                if (brfbd > lfngti) { // possiblf if bufffr.sizf() > lfngti
+                    brfbd = lfngti;
                 }
             }
-        } catch (FontFormatException e) {
-            if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().severe(
-                                       "While reading " + platName, e);
+        } dbtdi (FontFormbtExdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(
+                                       "Wiilf rfbding " + plbtNbmf, f);
             }
-            bread = -1; // signal EOF
-            deregisterFontAndClearStrikeCache();
-        } catch (ClosedChannelException e) {
-            /* NIO I/O is interruptible, recurse to retry operation.
-             * Clear interrupts before recursing in case NIO didn't.
+            brfbd = -1; // signbl EOF
+            dfrfgistfrFontAndClfbrStrikfCbdif();
+        } dbtdi (ClosfdCibnnflExdfption f) {
+            /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+             * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
              */
-            Thread.interrupted();
-            close();
-            return readBlock(buffer, offset, length);
-        } catch (IOException e) {
-            /* If we did not read any bytes at all and the exception is
-             * not a recoverable one (ie is not ClosedChannelException) then
-             * we should indicate that there is no point in re-trying.
-             * Other than an attempt to read past the end of the file it
-             * seems unlikely this would occur as problems opening the
-             * file are handled as a FontFormatException.
+            Tirfbd.intfrruptfd();
+            dlosf();
+            rfturn rfbdBlodk(bufffr, offsft, lfngti);
+        } dbtdi (IOExdfption f) {
+            /* If wf did not rfbd bny bytfs bt bll bnd tif fxdfption is
+             * not b rfdovfrbblf onf (if is not ClosfdCibnnflExdfption) tifn
+             * wf siould indidbtf tibt tifrf is no point in rf-trying.
+             * Otifr tibn bn bttfmpt to rfbd pbst tif fnd of tif filf it
+             * sffms unlikfly tiis would oddur bs problfms opfning tif
+             * filf brf ibndlfd bs b FontFormbtExdfption.
              */
-            if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().severe(
-                                       "While reading " + platName, e);
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(
+                                       "Wiilf rfbding " + plbtNbmf, f);
             }
-            if (bread == 0) {
-                bread = -1; // signal EOF
-                deregisterFontAndClearStrikeCache();
+            if (brfbd == 0) {
+                brfbd = -1; // signbl EOF
+                dfrfgistfrFontAndClfbrStrikfCbdif();
             }
         }
-        return bread;
+        rfturn brfbd;
     }
 
-    ByteBuffer readBlock(int offset, int length) {
+    BytfBufffr rfbdBlodk(int offsft, int lfngti) {
 
-        ByteBuffer buffer = ByteBuffer.allocate(length);
+        BytfBufffr bufffr = BytfBufffr.bllodbtf(lfngti);
         try {
-            synchronized (this) {
-                if (disposerRecord.channel == null) {
-                    open();
+            syndironizfd (tiis) {
+                if (disposfrRfdord.dibnnfl == null) {
+                    opfn();
                 }
-                if (offset + length > fileSize) {
-                    if (offset > fileSize) {
-                        return null; // assert?
-                    } else {
-                        buffer = ByteBuffer.allocate(fileSize-offset);
+                if (offsft + lfngti > filfSizf) {
+                    if (offsft > filfSizf) {
+                        rfturn null; // bssfrt?
+                    } flsf {
+                        bufffr = BytfBufffr.bllodbtf(filfSizf-offsft);
                     }
                 }
-                disposerRecord.channel.position(offset);
-                disposerRecord.channel.read(buffer);
-                buffer.flip();
+                disposfrRfdord.dibnnfl.position(offsft);
+                disposfrRfdord.dibnnfl.rfbd(bufffr);
+                bufffr.flip();
             }
-        } catch (FontFormatException e) {
-            return null;
-        } catch (ClosedChannelException e) {
-            /* NIO I/O is interruptible, recurse to retry operation.
-             * Clear interrupts before recursing in case NIO didn't.
+        } dbtdi (FontFormbtExdfption f) {
+            rfturn null;
+        } dbtdi (ClosfdCibnnflExdfption f) {
+            /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+             * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
              */
-            Thread.interrupted();
-            close();
-            readBlock(buffer, offset, length);
-        } catch (IOException e) {
-            return null;
+            Tirfbd.intfrruptfd();
+            dlosf();
+            rfbdBlodk(bufffr, offsft, lfngti);
+        } dbtdi (IOExdfption f) {
+            rfturn null;
         }
-        return buffer;
+        rfturn bufffr;
     }
 
-    /* This is used by native code which can't allocate a direct byte
-     * buffer because of bug 4845371. It, and references to it in native
-     * code in scalerMethods.c can be removed once that bug is fixed.
-     * 4845371 is now fixed but we'll keep this around as it doesn't cost
-     * us anything if its never used/called.
+    /* Tiis is usfd by nbtivf dodf wiidi dbn't bllodbtf b dirfdt bytf
+     * bufffr bfdbusf of bug 4845371. It, bnd rfffrfndfs to it in nbtivf
+     * dodf in sdblfrMftiods.d dbn bf rfmovfd ondf tibt bug is fixfd.
+     * 4845371 is now fixfd but wf'll kffp tiis bround bs it dofsn't dost
+     * us bnytiing if its nfvfr usfd/dbllfd.
      */
-    byte[] readBytes(int offset, int length) {
-        ByteBuffer buffer = readBlock(offset, length);
-        if (buffer.hasArray()) {
-            return buffer.array();
-        } else {
-            byte[] bufferBytes = new byte[buffer.limit()];
-            buffer.get(bufferBytes);
-            return bufferBytes;
+    bytf[] rfbdBytfs(int offsft, int lfngti) {
+        BytfBufffr bufffr = rfbdBlodk(offsft, lfngti);
+        if (bufffr.ibsArrby()) {
+            rfturn bufffr.brrby();
+        } flsf {
+            bytf[] bufffrBytfs = nfw bytf[bufffr.limit()];
+            bufffr.gft(bufffrBytfs);
+            rfturn bufffrBytfs;
         }
     }
 
-    private void verify() throws FontFormatException {
-        open();
+    privbtf void vfrify() tirows FontFormbtExdfption {
+        opfn();
     }
 
-    /* sizes, in bytes, of TT/TTC header records */
-    private static final int TTCHEADERSIZE = 12;
-    private static final int DIRECTORYHEADERSIZE = 12;
-    private static final int DIRECTORYENTRYSIZE = 16;
+    /* sizfs, in bytfs, of TT/TTC ifbdfr rfdords */
+    privbtf stbtid finbl int TTCHEADERSIZE = 12;
+    privbtf stbtid finbl int DIRECTORYHEADERSIZE = 12;
+    privbtf stbtid finbl int DIRECTORYENTRYSIZE = 16;
 
-    protected void init(int fIndex) throws FontFormatException  {
-        int headerOffset = 0;
-        ByteBuffer buffer = readBlock(0, TTCHEADERSIZE);
+    protfdtfd void init(int fIndfx) tirows FontFormbtExdfption  {
+        int ifbdfrOffsft = 0;
+        BytfBufffr bufffr = rfbdBlodk(0, TTCHEADERSIZE);
         try {
-            switch (buffer.getInt()) {
+            switdi (bufffr.gftInt()) {
 
-            case ttcfTag:
-                buffer.getInt(); // skip TTC version ID
-                directoryCount = buffer.getInt();
-                if (fIndex >= directoryCount) {
-                    throw new FontFormatException("Bad collection index");
+            dbsf ttdfTbg:
+                bufffr.gftInt(); // skip TTC vfrsion ID
+                dirfdtoryCount = bufffr.gftInt();
+                if (fIndfx >= dirfdtoryCount) {
+                    tirow nfw FontFormbtExdfption("Bbd dollfdtion indfx");
                 }
-                fontIndex = fIndex;
-                buffer = readBlock(TTCHEADERSIZE+4*fIndex, 4);
-                headerOffset = buffer.getInt();
-                break;
+                fontIndfx = fIndfx;
+                bufffr = rfbdBlodk(TTCHEADERSIZE+4*fIndfx, 4);
+                ifbdfrOffsft = bufffr.gftInt();
+                brfbk;
 
-            case v1ttTag:
-            case trueTag:
-            case ottoTag:
-                break;
+            dbsf v1ttTbg:
+            dbsf trufTbg:
+            dbsf ottoTbg:
+                brfbk;
 
-            default:
-                throw new FontFormatException("Unsupported sfnt " +
-                                              getPublicFileName());
+            dffbult:
+                tirow nfw FontFormbtExdfption("Unsupportfd sfnt " +
+                                              gftPublidFilfNbmf());
             }
 
-            /* Now have the offset of this TT font (possibly within a TTC)
-             * After the TT version/scaler type field, is the short
-             * representing the number of tables in the table directory.
-             * The table directory begins at 12 bytes after the header.
-             * Each table entry is 16 bytes long (4 32-bit ints)
+            /* Now ibvf tif offsft of tiis TT font (possibly witiin b TTC)
+             * Aftfr tif TT vfrsion/sdblfr typf fifld, is tif siort
+             * rfprfsfnting tif numbfr of tbblfs in tif tbblf dirfdtory.
+             * Tif tbblf dirfdtory bfgins bt 12 bytfs bftfr tif ifbdfr.
+             * Ebdi tbblf fntry is 16 bytfs long (4 32-bit ints)
              */
-            buffer = readBlock(headerOffset+4, 2);
-            numTables = buffer.getShort();
-            directoryOffset = headerOffset+DIRECTORYHEADERSIZE;
-            ByteBuffer bbuffer = readBlock(directoryOffset,
-                                           numTables*DIRECTORYENTRYSIZE);
-            IntBuffer ibuffer = bbuffer.asIntBuffer();
-            DirectoryEntry table;
-            tableDirectory = new DirectoryEntry[numTables];
-            for (int i=0; i<numTables;i++) {
-                tableDirectory[i] = table = new DirectoryEntry();
-                table.tag   =  ibuffer.get();
-                /* checksum */ ibuffer.get();
-                table.offset = ibuffer.get();
-                table.length = ibuffer.get();
-                if (table.offset + table.length > fileSize) {
-                    throw new FontFormatException("bad table, tag="+table.tag);
+            bufffr = rfbdBlodk(ifbdfrOffsft+4, 2);
+            numTbblfs = bufffr.gftSiort();
+            dirfdtoryOffsft = ifbdfrOffsft+DIRECTORYHEADERSIZE;
+            BytfBufffr bbufffr = rfbdBlodk(dirfdtoryOffsft,
+                                           numTbblfs*DIRECTORYENTRYSIZE);
+            IntBufffr ibufffr = bbufffr.bsIntBufffr();
+            DirfdtoryEntry tbblf;
+            tbblfDirfdtory = nfw DirfdtoryEntry[numTbblfs];
+            for (int i=0; i<numTbblfs;i++) {
+                tbblfDirfdtory[i] = tbblf = nfw DirfdtoryEntry();
+                tbblf.tbg   =  ibufffr.gft();
+                /* difdksum */ ibufffr.gft();
+                tbblf.offsft = ibufffr.gft();
+                tbblf.lfngti = ibufffr.gft();
+                if (tbblf.offsft + tbblf.lfngti > filfSizf) {
+                    tirow nfw FontFormbtExdfption("bbd tbblf, tbg="+tbblf.tbg);
                 }
             }
 
-            if (getDirectoryEntry(headTag) == null) {
-                throw new FontFormatException("missing head table");
+            if (gftDirfdtoryEntry(ifbdTbg) == null) {
+                tirow nfw FontFormbtExdfption("missing ifbd tbblf");
             }
-            if (getDirectoryEntry(maxpTag) == null) {
-                throw new FontFormatException("missing maxp table");
+            if (gftDirfdtoryEntry(mbxpTbg) == null) {
+                tirow nfw FontFormbtExdfption("missing mbxp tbblf");
             }
-            if (getDirectoryEntry(hmtxTag) != null
-                    && getDirectoryEntry(hheaTag) == null) {
-                throw new FontFormatException("missing hhea table");
+            if (gftDirfdtoryEntry(imtxTbg) != null
+                    && gftDirfdtoryEntry(iifbTbg) == null) {
+                tirow nfw FontFormbtExdfption("missing iifb tbblf");
             }
-            initNames();
-        } catch (Exception e) {
-            if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().severe(e.toString());
+            initNbmfs();
+        } dbtdi (Exdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(f.toString());
             }
-            if (e instanceof FontFormatException) {
-                throw (FontFormatException)e;
-            } else {
-                throw new FontFormatException(e.toString());
+            if (f instbndfof FontFormbtExdfption) {
+                tirow (FontFormbtExdfption)f;
+            } flsf {
+                tirow nfw FontFormbtExdfption(f.toString());
             }
         }
-        if (familyName == null || fullName == null) {
-            throw new FontFormatException("Font name not found");
+        if (fbmilyNbmf == null || fullNbmf == null) {
+            tirow nfw FontFormbtExdfption("Font nbmf not found");
         }
-        /* The os2_Table is needed to gather some info, but we don't
-         * want to keep it around (as a field) so obtain it once and
-         * pass it to the code that needs it.
+        /* Tif os2_Tbblf is nffdfd to gbtifr somf info, but wf don't
+         * wbnt to kffp it bround (bs b fifld) so obtbin it ondf bnd
+         * pbss it to tif dodf tibt nffds it.
          */
-        ByteBuffer os2_Table = getTableBuffer(os_2Tag);
-        setStyle(os2_Table);
-        setCJKSupport(os2_Table);
+        BytfBufffr os2_Tbblf = gftTbblfBufffr(os_2Tbg);
+        sftStylf(os2_Tbblf);
+        sftCJKSupport(os2_Tbblf);
     }
 
-    /* The array index corresponds to a bit offset in the TrueType
-     * font's OS/2 compatibility table's code page ranges fields.
-     * These are two 32 bit unsigned int fields at offsets 78 and 82.
-     * We are only interested in determining if the font supports
-     * the windows encodings we expect as the default encoding in
-     * supported locales, so we only map the first of these fields.
+    /* Tif brrby indfx dorrfsponds to b bit offsft in tif TrufTypf
+     * font's OS/2 dompbtibility tbblf's dodf pbgf rbngfs fiflds.
+     * Tifsf brf two 32 bit unsignfd int fiflds bt offsfts 78 bnd 82.
+     * Wf brf only intfrfstfd in dftfrmining if tif font supports
+     * tif windows fndodings wf fxpfdt bs tif dffbult fndoding in
+     * supportfd lodblfs, so wf only mbp tif first of tifsf fiflds.
      */
-    static final String encoding_mapping[] = {
-        "cp1252",    /*  0:Latin 1  */
-        "cp1250",    /*  1:Latin 2  */
-        "cp1251",    /*  2:Cyrillic */
-        "cp1253",    /*  3:Greek    */
-        "cp1254",    /*  4:Turkish/Latin 5  */
-        "cp1255",    /*  5:Hebrew   */
-        "cp1256",    /*  6:Arabic   */
-        "cp1257",    /*  7:Windows Baltic   */
-        "",          /*  8:reserved for alternate ANSI */
-        "",          /*  9:reserved for alternate ANSI */
-        "",          /* 10:reserved for alternate ANSI */
-        "",          /* 11:reserved for alternate ANSI */
-        "",          /* 12:reserved for alternate ANSI */
-        "",          /* 13:reserved for alternate ANSI */
-        "",          /* 14:reserved for alternate ANSI */
-        "",          /* 15:reserved for alternate ANSI */
-        "ms874",     /* 16:Thai     */
-        "ms932",     /* 17:JIS/Japanese */
+    stbtid finbl String fndoding_mbpping[] = {
+        "dp1252",    /*  0:Lbtin 1  */
+        "dp1250",    /*  1:Lbtin 2  */
+        "dp1251",    /*  2:Cyrillid */
+        "dp1253",    /*  3:Grffk    */
+        "dp1254",    /*  4:Turkisi/Lbtin 5  */
+        "dp1255",    /*  5:Hfbrfw   */
+        "dp1256",    /*  6:Arbbid   */
+        "dp1257",    /*  7:Windows Bbltid   */
+        "",          /*  8:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /*  9:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 10:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 11:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 12:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 13:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 14:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 15:rfsfrvfd for bltfrnbtf ANSI */
+        "ms874",     /* 16:Tibi     */
+        "ms932",     /* 17:JIS/Jbpbnfsf */
         "gbk",       /* 18:PRC GBK Cp950  */
-        "ms949",     /* 19:Korean Extended Wansung */
-        "ms950",     /* 20:Chinese (Taiwan, Hongkong, Macau) */
-        "ms1361",    /* 21:Korean Johab */
+        "ms949",     /* 19:Korfbn Extfndfd Wbnsung */
+        "ms950",     /* 20:Ciinfsf (Tbiwbn, Hongkong, Mbdbu) */
+        "ms1361",    /* 21:Korfbn Joibb */
         "",          /* 22 */
         "",          /* 23 */
         "",          /* 24 */
@@ -627,75 +627,75 @@ public class TrueTypeFont extends FileFont {
         "",          /* 31 */
     };
 
-    /* This maps two letter language codes to a Windows code page.
-     * Note that eg Cp1252 (the first subarray) is not exactly the same as
-     * Latin-1 since Windows code pages are do not necessarily correspond.
-     * There are two codepages for zh and ko so if a font supports
-     * only one of these ranges then we need to distinguish based on
-     * country. So far this only seems to matter for zh.
-     * REMIND: Unicode locales such as Hindi do not have a code page so
-     * this whole mechanism needs to be revised to map languages to
-     * the Unicode ranges either when this fails, or as an additional
-     * validating test. Basing it on Unicode ranges should get us away
-     * from needing to map to this small and incomplete set of Windows
-     * code pages which looks odd on non-Windows platforms.
+    /* Tiis mbps two lfttfr lbngubgf dodfs to b Windows dodf pbgf.
+     * Notf tibt fg Cp1252 (tif first subbrrby) is not fxbdtly tif sbmf bs
+     * Lbtin-1 sindf Windows dodf pbgfs brf do not nfdfssbrily dorrfspond.
+     * Tifrf brf two dodfpbgfs for zi bnd ko so if b font supports
+     * only onf of tifsf rbngfs tifn wf nffd to distinguisi bbsfd on
+     * dountry. So fbr tiis only sffms to mbttfr for zi.
+     * REMIND: Unidodf lodblfs sudi bs Hindi do not ibvf b dodf pbgf so
+     * tiis wiolf mfdibnism nffds to bf rfvisfd to mbp lbngubgfs to
+     * tif Unidodf rbngfs fitifr wifn tiis fbils, or bs bn bdditionbl
+     * vblidbting tfst. Bbsing it on Unidodf rbngfs siould gft us bwby
+     * from nffding to mbp to tiis smbll bnd indomplftf sft of Windows
+     * dodf pbgfs wiidi looks odd on non-Windows plbtforms.
      */
-    private static final String languages[][] = {
+    privbtf stbtid finbl String lbngubgfs[][] = {
 
-        /* cp1252/Latin 1 */
-        { "en", "ca", "da", "de", "es", "fi", "fr", "is", "it",
+        /* dp1252/Lbtin 1 */
+        { "fn", "db", "db", "df", "fs", "fi", "fr", "is", "it",
           "nl", "no", "pt", "sq", "sv", },
 
-         /* cp1250/Latin2 */
-        { "cs", "cz", "et", "hr", "hu", "nr", "pl", "ro", "sk",
+         /* dp1250/Lbtin2 */
+        { "ds", "dz", "ft", "ir", "iu", "nr", "pl", "ro", "sk",
           "sl", "sq", "sr", },
 
-        /* cp1251/Cyrillic */
-        { "bg", "mk", "ru", "sh", "uk" },
+        /* dp1251/Cyrillid */
+        { "bg", "mk", "ru", "si", "uk" },
 
-        /* cp1253/Greek*/
-        { "el" },
+        /* dp1253/Grffk*/
+        { "fl" },
 
-         /* cp1254/Turkish,Latin 5 */
+         /* dp1254/Turkisi,Lbtin 5 */
         { "tr" },
 
-         /* cp1255/Hebrew */
-        { "he" },
+         /* dp1255/Hfbrfw */
+        { "if" },
 
-        /* cp1256/Arabic */
-        { "ar" },
+        /* dp1256/Arbbid */
+        { "br" },
 
-         /* cp1257/Windows Baltic */
-        { "et", "lt", "lv" },
+         /* dp1257/Windows Bbltid */
+        { "ft", "lt", "lv" },
 
-        /* ms874/Thai */
-        { "th" },
+        /* ms874/Tibi */
+        { "ti" },
 
-         /* ms932/Japanese */
-        { "ja" },
+         /* ms932/Jbpbnfsf */
+        { "jb" },
 
-        /* gbk/Chinese (PRC GBK Cp950) */
-        { "zh", "zh_CN", },
+        /* gbk/Ciinfsf (PRC GBK Cp950) */
+        { "zi", "zi_CN", },
 
-        /* ms949/Korean Extended Wansung */
+        /* ms949/Korfbn Extfndfd Wbnsung */
         { "ko" },
 
-        /* ms950/Chinese (Taiwan, Hongkong, Macau) */
-        { "zh_HK", "zh_TW", },
+        /* ms950/Ciinfsf (Tbiwbn, Hongkong, Mbdbu) */
+        { "zi_HK", "zi_TW", },
 
-        /* ms1361/Korean Johab */
+        /* ms1361/Korfbn Joibb */
         { "ko" },
     };
 
-    private static final String codePages[] = {
-        "cp1252",
-        "cp1250",
-        "cp1251",
-        "cp1253",
-        "cp1254",
-        "cp1255",
-        "cp1256",
-        "cp1257",
+    privbtf stbtid finbl String dodfPbgfs[] = {
+        "dp1252",
+        "dp1250",
+        "dp1251",
+        "dp1253",
+        "dp1254",
+        "dp1255",
+        "dp1256",
+        "dp1257",
         "ms874",
         "ms932",
         "gbk",
@@ -704,1162 +704,1162 @@ public class TrueTypeFont extends FileFont {
         "ms1361",
     };
 
-    private static String defaultCodePage = null;
-    static String getCodePage() {
+    privbtf stbtid String dffbultCodfPbgf = null;
+    stbtid String gftCodfPbgf() {
 
-        if (defaultCodePage != null) {
-            return defaultCodePage;
+        if (dffbultCodfPbgf != null) {
+            rfturn dffbultCodfPbgf;
         }
 
-        if (FontUtilities.isWindows) {
-            defaultCodePage =
-                java.security.AccessController.doPrivileged(
-                   new sun.security.action.GetPropertyAction("file.encoding"));
-        } else {
-            if (languages.length != codePages.length) {
-                throw new InternalError("wrong code pages array length");
+        if (FontUtilitifs.isWindows) {
+            dffbultCodfPbgf =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("filf.fndoding"));
+        } flsf {
+            if (lbngubgfs.lfngti != dodfPbgfs.lfngti) {
+                tirow nfw IntfrnblError("wrong dodf pbgfs brrby lfngti");
             }
-            Locale locale = sun.awt.SunToolkit.getStartupLocale();
+            Lodblf lodblf = sun.bwt.SunToolkit.gftStbrtupLodblf();
 
-            String language = locale.getLanguage();
-            if (language != null) {
-                if (language.equals("zh")) {
-                    String country = locale.getCountry();
-                    if (country != null) {
-                        language = language + "_" + country;
+            String lbngubgf = lodblf.gftLbngubgf();
+            if (lbngubgf != null) {
+                if (lbngubgf.fqubls("zi")) {
+                    String dountry = lodblf.gftCountry();
+                    if (dountry != null) {
+                        lbngubgf = lbngubgf + "_" + dountry;
                     }
                 }
-                for (int i=0; i<languages.length;i++) {
-                    for (int l=0;l<languages[i].length; l++) {
-                        if (language.equals(languages[i][l])) {
-                            defaultCodePage = codePages[i];
-                            return defaultCodePage;
+                for (int i=0; i<lbngubgfs.lfngti;i++) {
+                    for (int l=0;l<lbngubgfs[i].lfngti; l++) {
+                        if (lbngubgf.fqubls(lbngubgfs[i][l])) {
+                            dffbultCodfPbgf = dodfPbgfs[i];
+                            rfturn dffbultCodfPbgf;
                         }
                     }
                 }
             }
         }
-        if (defaultCodePage == null) {
-            defaultCodePage = "";
+        if (dffbultCodfPbgf == null) {
+            dffbultCodfPbgf = "";
         }
-        return defaultCodePage;
+        rfturn dffbultCodfPbgf;
     }
 
-    /* Theoretically, reserved bits must not be set, include symbol bits */
-    public static final int reserved_bits1 = 0x80000000;
-    public static final int reserved_bits2 = 0x0000ffff;
-    @Override
-    boolean supportsEncoding(String encoding) {
-        if (encoding == null) {
-            encoding = getCodePage();
+    /* Tiforftidblly, rfsfrvfd bits must not bf sft, indludf symbol bits */
+    publid stbtid finbl int rfsfrvfd_bits1 = 0x80000000;
+    publid stbtid finbl int rfsfrvfd_bits2 = 0x0000ffff;
+    @Ovfrridf
+    boolfbn supportsEndoding(String fndoding) {
+        if (fndoding == null) {
+            fndoding = gftCodfPbgf();
         }
-        if ("".equals(encoding)) {
-            return false;
+        if ("".fqubls(fndoding)) {
+            rfturn fblsf;
         }
 
-        encoding = encoding.toLowerCase();
+        fndoding = fndoding.toLowfrCbsf();
 
-        /* java_props_md.c has a couple of special cases
-         * if language packs are installed. In these encodings the
-         * fontconfig files pick up different fonts :
-         * SimSun-18030 and MingLiU_HKSCS. Since these fonts will
-         * indicate they support the base encoding, we need to rewrite
-         * these encodings here before checking the map/array.
+        /* jbvb_props_md.d ibs b douplf of spfdibl dbsfs
+         * if lbngubgf pbdks brf instbllfd. In tifsf fndodings tif
+         * fontdonfig filfs pidk up difffrfnt fonts :
+         * SimSun-18030 bnd MingLiU_HKSCS. Sindf tifsf fonts will
+         * indidbtf tify support tif bbsf fndoding, wf nffd to rfwritf
+         * tifsf fndodings ifrf bfforf difdking tif mbp/brrby.
          */
-        if (encoding.equals("gb18030")) {
-            encoding = "gbk";
-        } else if (encoding.equals("ms950_hkscs")) {
-            encoding = "ms950";
+        if (fndoding.fqubls("gb18030")) {
+            fndoding = "gbk";
+        } flsf if (fndoding.fqubls("ms950_iksds")) {
+            fndoding = "ms950";
         }
 
-        ByteBuffer buffer = getTableBuffer(os_2Tag);
-        /* required info is at offsets 78 and 82 */
-        if (buffer == null || buffer.capacity() < 86) {
-            return false;
+        BytfBufffr bufffr = gftTbblfBufffr(os_2Tbg);
+        /* rfquirfd info is bt offsfts 78 bnd 82 */
+        if (bufffr == null || bufffr.dbpbdity() < 86) {
+            rfturn fblsf;
         }
 
-        int range1 = buffer.getInt(78); /* ulCodePageRange1 */
-        int range2 = buffer.getInt(82); /* ulCodePageRange2 */
+        int rbngf1 = bufffr.gftInt(78); /* ulCodfPbgfRbngf1 */
+        int rbngf2 = bufffr.gftInt(82); /* ulCodfPbgfRbngf2 */
 
-        /* This test is too stringent for Arial on Solaris (and perhaps
-         * other fonts). Arial has at least one reserved bit set for an
-         * unknown reason.
+        /* Tiis tfst is too stringfnt for Aribl on Solbris (bnd pfribps
+         * otifr fonts). Aribl ibs bt lfbst onf rfsfrvfd bit sft for bn
+         * unknown rfbson.
          */
-//         if (((range1 & reserved_bits1) | (range2 & reserved_bits2)) != 0) {
-//             return false;
+//         if (((rbngf1 & rfsfrvfd_bits1) | (rbngf2 & rfsfrvfd_bits2)) != 0) {
+//             rfturn fblsf;
 //         }
 
-        for (int em=0; em<encoding_mapping.length; em++) {
-            if (encoding_mapping[em].equals(encoding)) {
-                if (((1 << em) & range1) != 0) {
-                    return true;
+        for (int fm=0; fm<fndoding_mbpping.lfngti; fm++) {
+            if (fndoding_mbpping[fm].fqubls(fndoding)) {
+                if (((1 << fm) & rbngf1) != 0) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
-    /* Use info in the os_2Table to test CJK support */
-    private void setCJKSupport(ByteBuffer os2Table) {
-        /* required info is in ulong at offset 46 */
-        if (os2Table == null || os2Table.capacity() < 50) {
-            return;
+    /* Usf info in tif os_2Tbblf to tfst CJK support */
+    privbtf void sftCJKSupport(BytfBufffr os2Tbblf) {
+        /* rfquirfd info is in ulong bt offsft 46 */
+        if (os2Tbblf == null || os2Tbblf.dbpbdity() < 50) {
+            rfturn;
         }
-        int range2 = os2Table.getInt(46); /* ulUnicodeRange2 */
+        int rbngf2 = os2Tbblf.gftInt(46); /* ulUnidodfRbngf2 */
 
-        /* Any of these bits set in the 32-63 range indicate a font with
-         * support for a CJK range. We aren't looking at some other bits
-         * in the 64-69 range such as half width forms as its unlikely a font
-         * would include those and none of these.
+        /* Any of tifsf bits sft in tif 32-63 rbngf indidbtf b font witi
+         * support for b CJK rbngf. Wf brfn't looking bt somf otifr bits
+         * in tif 64-69 rbngf sudi bs iblf widti forms bs its unlikfly b font
+         * would indludf tiosf bnd nonf of tifsf.
          */
-        supportsCJK = ((range2 & 0x29bf0000) != 0);
+        supportsCJK = ((rbngf2 & 0x29bf0000) != 0);
 
-        /* This should be generalised, but for now just need to know if
-         * Hiragana or Katakana ranges are supported by the font.
-         * In the 4 longs representing unicode ranges supported
-         * bits 49 & 50 indicate hiragana and katakana
-         * This is bits 17 & 18 in the 2nd ulong. If either is supported
-         * we presume this is a JA font.
+        /* Tiis siould bf gfnfrblisfd, but for now just nffd to know if
+         * Hirbgbnb or Kbtbkbnb rbngfs brf supportfd by tif font.
+         * In tif 4 longs rfprfsfnting unidodf rbngfs supportfd
+         * bits 49 & 50 indidbtf iirbgbnb bnd kbtbkbnb
+         * Tiis is bits 17 & 18 in tif 2nd ulong. If fitifr is supportfd
+         * wf prfsumf tiis is b JA font.
          */
-        supportsJA = ((range2 & 0x60000) != 0);
+        supportsJA = ((rbngf2 & 0x60000) != 0);
     }
 
-    boolean supportsJA() {
-        return supportsJA;
+    boolfbn supportsJA() {
+        rfturn supportsJA;
     }
 
-     ByteBuffer getTableBuffer(int tag) {
-        DirectoryEntry entry = null;
+     BytfBufffr gftTbblfBufffr(int tbg) {
+        DirfdtoryEntry fntry = null;
 
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                entry = tableDirectory[i];
-                break;
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                fntry = tbblfDirfdtory[i];
+                brfbk;
             }
         }
-        if (entry == null || entry.length == 0 ||
-            entry.offset+entry.length > fileSize) {
-            return null;
+        if (fntry == null || fntry.lfngti == 0 ||
+            fntry.offsft+fntry.lfngti > filfSizf) {
+            rfturn null;
         }
 
-        int bread = 0;
-        ByteBuffer buffer = ByteBuffer.allocate(entry.length);
-        synchronized (this) {
+        int brfbd = 0;
+        BytfBufffr bufffr = BytfBufffr.bllodbtf(fntry.lfngti);
+        syndironizfd (tiis) {
             try {
-                if (disposerRecord.channel == null) {
-                    open();
+                if (disposfrRfdord.dibnnfl == null) {
+                    opfn();
                 }
-                disposerRecord.channel.position(entry.offset);
-                bread = disposerRecord.channel.read(buffer);
-                buffer.flip();
-            } catch (ClosedChannelException e) {
-                /* NIO I/O is interruptible, recurse to retry operation.
-                 * Clear interrupts before recursing in case NIO didn't.
+                disposfrRfdord.dibnnfl.position(fntry.offsft);
+                brfbd = disposfrRfdord.dibnnfl.rfbd(bufffr);
+                bufffr.flip();
+            } dbtdi (ClosfdCibnnflExdfption f) {
+                /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+                 * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
                  */
-                Thread.interrupted();
-                close();
-                return getTableBuffer(tag);
-            } catch (IOException e) {
-                return null;
-            } catch (FontFormatException e) {
-                return null;
+                Tirfbd.intfrruptfd();
+                dlosf();
+                rfturn gftTbblfBufffr(tbg);
+            } dbtdi (IOExdfption f) {
+                rfturn null;
+            } dbtdi (FontFormbtExdfption f) {
+                rfturn null;
             }
 
-            if (bread < entry.length) {
-                return null;
-            } else {
-                return buffer;
+            if (brfbd < fntry.lfngti) {
+                rfturn null;
+            } flsf {
+                rfturn bufffr;
             }
         }
     }
 
-    /* NB: is it better to move declaration to Font2D? */
-    long getLayoutTableCache() {
+    /* NB: is it bfttfr to movf dfdlbrbtion to Font2D? */
+    long gftLbyoutTbblfCbdif() {
         try {
-          return getScaler().getLayoutTableCache();
-        } catch(FontScalerException fe) {
-            return 0L;
+          rfturn gftSdblfr().gftLbyoutTbblfCbdif();
+        } dbtdi(FontSdblfrExdfption ff) {
+            rfturn 0L;
         }
     }
 
-    @Override
-    byte[] getTableBytes(int tag) {
-        ByteBuffer buffer = getTableBuffer(tag);
-        if (buffer == null) {
-            return null;
-        } else if (buffer.hasArray()) {
+    @Ovfrridf
+    bytf[] gftTbblfBytfs(int tbg) {
+        BytfBufffr bufffr = gftTbblfBufffr(tbg);
+        if (bufffr == null) {
+            rfturn null;
+        } flsf if (bufffr.ibsArrby()) {
             try {
-                return buffer.array();
-            } catch (Exception re) {
+                rfturn bufffr.brrby();
+            } dbtdi (Exdfption rf) {
             }
         }
-        byte []data = new byte[getTableSize(tag)];
-        buffer.get(data);
-        return data;
+        bytf []dbtb = nfw bytf[gftTbblfSizf(tbg)];
+        bufffr.gft(dbtb);
+        rfturn dbtb;
     }
 
-    int getTableSize(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i].length;
+    int gftTbblfSizf(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i].lfngti;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
-    int getTableOffset(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i].offset;
+    int gftTbblfOffsft(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i].offsft;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
-    DirectoryEntry getDirectoryEntry(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i];
+    DirfdtoryEntry gftDirfdtoryEntry(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i];
             }
         }
-        return null;
+        rfturn null;
     }
 
-    /* Used to determine if this size has embedded bitmaps, which
-     * for CJK fonts should be used in preference to LCD glyphs.
+    /* Usfd to dftfrminf if tiis sizf ibs fmbfddfd bitmbps, wiidi
+     * for CJK fonts siould bf usfd in prfffrfndf to LCD glypis.
      */
-    boolean useEmbeddedBitmapsForSize(int ptSize) {
+    boolfbn usfEmbfddfdBitmbpsForSizf(int ptSizf) {
         if (!supportsCJK) {
-            return false;
+            rfturn fblsf;
         }
-        if (getDirectoryEntry(EBLCTag) == null) {
-            return false;
+        if (gftDirfdtoryEntry(EBLCTbg) == null) {
+            rfturn fblsf;
         }
-        ByteBuffer eblcTable = getTableBuffer(EBLCTag);
-        int numSizes = eblcTable.getInt(4);
-        /* The bitmapSizeTable's start at offset of 8.
-         * Each bitmapSizeTable entry is 48 bytes.
-         * The offset of ppemY in the entry is 45.
+        BytfBufffr fbldTbblf = gftTbblfBufffr(EBLCTbg);
+        int numSizfs = fbldTbblf.gftInt(4);
+        /* Tif bitmbpSizfTbblf's stbrt bt offsft of 8.
+         * Ebdi bitmbpSizfTbblf fntry is 48 bytfs.
+         * Tif offsft of ppfmY in tif fntry is 45.
          */
-        for (int i=0;i<numSizes;i++) {
-            int ppemY = eblcTable.get(8+(i*48)+45) &0xff;
-            if (ppemY == ptSize) {
-                return true;
+        for (int i=0;i<numSizfs;i++) {
+            int ppfmY = fbldTbblf.gft(8+(i*48)+45) &0xff;
+            if (ppfmY == ptSizf) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public String getFullName() {
-        return fullName;
+    publid String gftFullNbmf() {
+        rfturn fullNbmf;
     }
 
-    /* This probably won't get called but is there to support the
-     * contract() of setStyle() defined in the superclass.
+    /* Tiis probbbly won't gft dbllfd but is tifrf to support tif
+     * dontrbdt() of sftStylf() dffinfd in tif supfrdlbss.
      */
-    @Override
-    protected void setStyle() {
-        setStyle(getTableBuffer(os_2Tag));
+    @Ovfrridf
+    protfdtfd void sftStylf() {
+        sftStylf(gftTbblfBufffr(os_2Tbg));
     }
 
-    /* TrueTypeFont can use the fsSelection fields of OS/2 table
-     * to determine the style. In the unlikely case that doesn't exist,
-     * can use macStyle in the 'head' table but simpler to
-     * fall back to super class algorithm of looking for well known string.
-     * A very few fonts don't specify this information, but I only
-     * came across one: Lucida Sans Thai Typewriter Oblique in
-     * /usr/openwin/lib/locale/th_TH/X11/fonts/TrueType/lucidai.ttf
-     * that explicitly specified the wrong value. It says its regular.
-     * I didn't find any fonts that were inconsistent (ie regular plus some
-     * other value).
+    /* TrufTypfFont dbn usf tif fsSflfdtion fiflds of OS/2 tbblf
+     * to dftfrminf tif stylf. In tif unlikfly dbsf tibt dofsn't fxist,
+     * dbn usf mbdStylf in tif 'ifbd' tbblf but simplfr to
+     * fbll bbdk to supfr dlbss blgoritim of looking for wfll known string.
+     * A vfry ffw fonts don't spfdify tiis informbtion, but I only
+     * dbmf bdross onf: Ludidb Sbns Tibi Typfwritfr Obliquf in
+     * /usr/opfnwin/lib/lodblf/ti_TH/X11/fonts/TrufTypf/ludidbi.ttf
+     * tibt fxpliditly spfdififd tif wrong vbluf. It sbys its rfgulbr.
+     * I didn't find bny fonts tibt wfrf indonsistfnt (if rfgulbr plus somf
+     * otifr vbluf).
      */
-    private static final int fsSelectionItalicBit  = 0x00001;
-    private static final int fsSelectionBoldBit    = 0x00020;
-    private static final int fsSelectionRegularBit = 0x00040;
-    private void setStyle(ByteBuffer os_2Table) {
-        /* fsSelection is unsigned short at buffer offset 62 */
-        if (os_2Table == null || os_2Table.capacity() < 64) {
-            super.setStyle();
-            return;
+    privbtf stbtid finbl int fsSflfdtionItblidBit  = 0x00001;
+    privbtf stbtid finbl int fsSflfdtionBoldBit    = 0x00020;
+    privbtf stbtid finbl int fsSflfdtionRfgulbrBit = 0x00040;
+    privbtf void sftStylf(BytfBufffr os_2Tbblf) {
+        /* fsSflfdtion is unsignfd siort bt bufffr offsft 62 */
+        if (os_2Tbblf == null || os_2Tbblf.dbpbdity() < 64) {
+            supfr.sftStylf();
+            rfturn;
         }
-        int fsSelection = os_2Table.getChar(62) & 0xffff;
-        int italic  = fsSelection & fsSelectionItalicBit;
-        int bold    = fsSelection & fsSelectionBoldBit;
-        int regular = fsSelection & fsSelectionRegularBit;
-//      System.out.println("platname="+platName+" font="+fullName+
-//                         " family="+familyName+
-//                         " R="+regular+" I="+italic+" B="+bold);
-        if (regular!=0 && ((italic|bold)!=0)) {
-            /* This is inconsistent. Try using the font name algorithm */
-            super.setStyle();
-            return;
-        } else if ((regular|italic|bold) == 0) {
-            /* No style specified. Try using the font name algorithm */
-            super.setStyle();
-            return;
+        int fsSflfdtion = os_2Tbblf.gftCibr(62) & 0xffff;
+        int itblid  = fsSflfdtion & fsSflfdtionItblidBit;
+        int bold    = fsSflfdtion & fsSflfdtionBoldBit;
+        int rfgulbr = fsSflfdtion & fsSflfdtionRfgulbrBit;
+//      Systfm.out.println("plbtnbmf="+plbtNbmf+" font="+fullNbmf+
+//                         " fbmily="+fbmilyNbmf+
+//                         " R="+rfgulbr+" I="+itblid+" B="+bold);
+        if (rfgulbr!=0 && ((itblid|bold)!=0)) {
+            /* Tiis is indonsistfnt. Try using tif font nbmf blgoritim */
+            supfr.sftStylf();
+            rfturn;
+        } flsf if ((rfgulbr|itblid|bold) == 0) {
+            /* No stylf spfdififd. Try using tif font nbmf blgoritim */
+            supfr.sftStylf();
+            rfturn;
         }
-        switch (bold|italic) {
-        case fsSelectionItalicBit:
-            style = Font.ITALIC;
-            break;
-        case fsSelectionBoldBit:
-            if (FontUtilities.isSolaris && platName.endsWith("HG-GothicB.ttf")) {
-                /* Workaround for Solaris's use of a JA font that's marked as
-                 * being designed bold, but is used as a PLAIN font.
+        switdi (bold|itblid) {
+        dbsf fsSflfdtionItblidBit:
+            stylf = Font.ITALIC;
+            brfbk;
+        dbsf fsSflfdtionBoldBit:
+            if (FontUtilitifs.isSolbris && plbtNbmf.fndsWiti("HG-GotiidB.ttf")) {
+                /* Workbround for Solbris's usf of b JA font tibt's mbrkfd bs
+                 * bfing dfsignfd bold, but is usfd bs b PLAIN font.
                  */
-                style = Font.PLAIN;
-            } else {
-                style = Font.BOLD;
+                stylf = Font.PLAIN;
+            } flsf {
+                stylf = Font.BOLD;
             }
-            break;
-        case fsSelectionBoldBit|fsSelectionItalicBit:
-            style = Font.BOLD|Font.ITALIC;
+            brfbk;
+        dbsf fsSflfdtionBoldBit|fsSflfdtionItblidBit:
+            stylf = Font.BOLD|Font.ITALIC;
         }
     }
 
-    private float stSize, stPos, ulSize, ulPos;
+    privbtf flobt stSizf, stPos, ulSizf, ulPos;
 
-    private void setStrikethroughMetrics(ByteBuffer os_2Table, int upem) {
-        if (os_2Table == null || os_2Table.capacity() < 30 || upem < 0) {
-            stSize = .05f;
+    privbtf void sftStrikftirougiMftrids(BytfBufffr os_2Tbblf, int upfm) {
+        if (os_2Tbblf == null || os_2Tbblf.dbpbdity() < 30 || upfm < 0) {
+            stSizf = .05f;
             stPos = -.4f;
-            return;
+            rfturn;
         }
-        ShortBuffer sb = os_2Table.asShortBuffer();
-        stSize = sb.get(13) / (float)upem;
-        stPos = -sb.get(14) / (float)upem;
+        SiortBufffr sb = os_2Tbblf.bsSiortBufffr();
+        stSizf = sb.gft(13) / (flobt)upfm;
+        stPos = -sb.gft(14) / (flobt)upfm;
     }
 
-    private void setUnderlineMetrics(ByteBuffer postTable, int upem) {
-        if (postTable == null || postTable.capacity() < 12 || upem < 0) {
-            ulSize = .05f;
+    privbtf void sftUndfrlinfMftrids(BytfBufffr postTbblf, int upfm) {
+        if (postTbblf == null || postTbblf.dbpbdity() < 12 || upfm < 0) {
+            ulSizf = .05f;
             ulPos = .1f;
-            return;
+            rfturn;
         }
-        ShortBuffer sb = postTable.asShortBuffer();
-        ulSize = sb.get(5) / (float)upem;
-        ulPos = -sb.get(4) / (float)upem;
+        SiortBufffr sb = postTbblf.bsSiortBufffr();
+        ulSizf = sb.gft(5) / (flobt)upfm;
+        ulPos = -sb.gft(4) / (flobt)upfm;
     }
 
-    @Override
-    public void getStyleMetrics(float pointSize, float[] metrics, int offset) {
+    @Ovfrridf
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
 
-        if (ulSize == 0f && ulPos == 0f) {
+        if (ulSizf == 0f && ulPos == 0f) {
 
-            ByteBuffer head_Table = getTableBuffer(headTag);
-            int upem = -1;
-            if (head_Table != null && head_Table.capacity() >= 18) {
-                ShortBuffer sb = head_Table.asShortBuffer();
-                upem = sb.get(9) & 0xffff;
-                if (upem < 16 || upem > 16384) {
-                    upem = 2048;
+            BytfBufffr ifbd_Tbblf = gftTbblfBufffr(ifbdTbg);
+            int upfm = -1;
+            if (ifbd_Tbblf != null && ifbd_Tbblf.dbpbdity() >= 18) {
+                SiortBufffr sb = ifbd_Tbblf.bsSiortBufffr();
+                upfm = sb.gft(9) & 0xffff;
+                if (upfm < 16 || upfm > 16384) {
+                    upfm = 2048;
                 }
             }
 
-            ByteBuffer os2_Table = getTableBuffer(os_2Tag);
-            setStrikethroughMetrics(os2_Table, upem);
+            BytfBufffr os2_Tbblf = gftTbblfBufffr(os_2Tbg);
+            sftStrikftirougiMftrids(os2_Tbblf, upfm);
 
-            ByteBuffer post_Table = getTableBuffer(postTag);
-            setUnderlineMetrics(post_Table, upem);
+            BytfBufffr post_Tbblf = gftTbblfBufffr(postTbg);
+            sftUndfrlinfMftrids(post_Tbblf, upfm);
         }
 
-        metrics[offset] = stPos * pointSize;
-        metrics[offset+1] = stSize * pointSize;
+        mftrids[offsft] = stPos * pointSizf;
+        mftrids[offsft+1] = stSizf * pointSizf;
 
-        metrics[offset+2] = ulPos * pointSize;
-        metrics[offset+3] = ulSize * pointSize;
+        mftrids[offsft+2] = ulPos * pointSizf;
+        mftrids[offsft+3] = ulSizf * pointSizf;
     }
 
-    private String makeString(byte[] bytes, int len, short encoding) {
+    privbtf String mbkfString(bytf[] bytfs, int lfn, siort fndoding) {
 
-        /* Check for fonts using encodings 2->6 is just for
-         * some old DBCS fonts, apparently mostly on Solaris.
-         * Some of these fonts encode ascii names as double-byte characters.
-         * ie with a leading zero byte for what properly should be a
-         * single byte-char.
+        /* Cifdk for fonts using fndodings 2->6 is just for
+         * somf old DBCS fonts, bppbrfntly mostly on Solbris.
+         * Somf of tifsf fonts fndodf bsdii nbmfs bs doublf-bytf dibrbdtfrs.
+         * if witi b lfbding zfro bytf for wibt propfrly siould bf b
+         * singlf bytf-dibr.
          */
-        if (encoding >=2 && encoding <= 6) {
-             byte[] oldbytes = bytes;
-             int oldlen = len;
-             bytes = new byte[oldlen];
-             len = 0;
-             for (int i=0; i<oldlen; i++) {
-                 if (oldbytes[i] != 0) {
-                     bytes[len++] = oldbytes[i];
+        if (fndoding >=2 && fndoding <= 6) {
+             bytf[] oldbytfs = bytfs;
+             int oldlfn = lfn;
+             bytfs = nfw bytf[oldlfn];
+             lfn = 0;
+             for (int i=0; i<oldlfn; i++) {
+                 if (oldbytfs[i] != 0) {
+                     bytfs[lfn++] = oldbytfs[i];
                  }
              }
          }
 
-        String charset;
-        switch (encoding) {
-            case 1:  charset = "UTF-16";  break; // most common case first.
-            case 0:  charset = "UTF-16";  break; // symbol uses this
-            case 2:  charset = "SJIS";    break;
-            case 3:  charset = "GBK";     break;
-            case 4:  charset = "MS950";   break;
-            case 5:  charset = "EUC_KR";  break;
-            case 6:  charset = "Johab";   break;
-            default: charset = "UTF-16";  break;
+        String dibrsft;
+        switdi (fndoding) {
+            dbsf 1:  dibrsft = "UTF-16";  brfbk; // most dommon dbsf first.
+            dbsf 0:  dibrsft = "UTF-16";  brfbk; // symbol usfs tiis
+            dbsf 2:  dibrsft = "SJIS";    brfbk;
+            dbsf 3:  dibrsft = "GBK";     brfbk;
+            dbsf 4:  dibrsft = "MS950";   brfbk;
+            dbsf 5:  dibrsft = "EUC_KR";  brfbk;
+            dbsf 6:  dibrsft = "Joibb";   brfbk;
+            dffbult: dibrsft = "UTF-16";  brfbk;
         }
 
         try {
-            return new String(bytes, 0, len, charset);
-        } catch (UnsupportedEncodingException e) {
-            if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().warning(e + " EncodingID=" + encoding);
+            rfturn nfw String(bytfs, 0, lfn, dibrsft);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().wbrning(f + " EndodingID=" + fndoding);
             }
-            return new String(bytes, 0, len);
-        } catch (Throwable t) {
-            return null;
+            rfturn nfw String(bytfs, 0, lfn);
+        } dbtdi (Tirowbblf t) {
+            rfturn null;
         }
     }
 
-    protected void initNames() {
+    protfdtfd void initNbmfs() {
 
-        byte[] name = new byte[256];
-        ByteBuffer buffer = getTableBuffer(nameTag);
+        bytf[] nbmf = nfw bytf[256];
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
 
-        if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
-            short numRecords = sbuffer.get();
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+        if (bufffr != null) {
+            SiortBufffr sbufffr = bufffr.bsSiortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            siort numRfdords = sbufffr.gft();
+            /* Tif nbmf tbblf usfs unsignfd siorts. Mbny of tifsf
+             * brf known smbll vblufs tibt fit in b siort.
+             * Tif vblufs tibt brf sizfs or offsfts into tif tbblf dould bf
+             * grfbtfr tibn 32767, so rfbd bnd storf tiosf bs ints
              */
-            int stringPtr = sbuffer.get() & 0xffff;
+            int stringPtr = sbufffr.gft() & 0xffff;
 
-            nameLocale = sun.awt.SunToolkit.getStartupLocale();
-            short nameLocaleID = getLCIDFromLocale(nameLocale);
-            languageCompatibleLCIDs =
-                getLanguageCompatibleLCIDsFromLocale(nameLocale);
+            nbmfLodblf = sun.bwt.SunToolkit.gftStbrtupLodblf();
+            siort nbmfLodblfID = gftLCIDFromLodblf(nbmfLodblf);
+            lbngubgfCompbtiblfLCIDs =
+                gftLbngubgfCompbtiblfLCIDsFromLodblf(nbmfLodblf);
 
-            for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
-                    sbuffer.position(sbuffer.position()+5);
-                    continue; // skip over this record.
+            for (int i=0; i<numRfdords; i++) {
+                siort plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr tiis rfdord.
                 }
-                short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
-                String tmpName = null;
-                switch (nameID) {
+                siort fndodingID = sbufffr.gft();
+                siort lbngID     = sbufffr.gft();
+                siort nbmfID     = sbufffr.gft();
+                int nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
+                String tmpNbmf = null;
+                switdi (nbmfID) {
 
-                case FAMILY_NAME_ID:
-                    boolean compatible = false;
-                    if (familyName == null || langID == ENGLISH_LOCALE_ID ||
-                        langID == nameLocaleID ||
-                        (localeFamilyName == null &&
-                         (compatible = isLanguageCompatible(langID))))
+                dbsf FAMILY_NAME_ID:
+                    boolfbn dompbtiblf = fblsf;
+                    if (fbmilyNbmf == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmfLodblfID ||
+                        (lodblfFbmilyNbmf == null &&
+                         (dompbtiblf = isLbngubgfCompbtiblf(lbngID))))
                     {
-                        buffer.position(namePtr);
-                        buffer.get(name, 0, nameLen);
-                        tmpName = makeString(name, nameLen, encodingID);
-                        if (familyName == null || langID == ENGLISH_LOCALE_ID){
-                            familyName = tmpName;
+                        bufffr.position(nbmfPtr);
+                        bufffr.gft(nbmf, 0, nbmfLfn);
+                        tmpNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
+                        if (fbmilyNbmf == null || lbngID == ENGLISH_LOCALE_ID){
+                            fbmilyNbmf = tmpNbmf;
                         }
-                        if (langID == nameLocaleID ||
-                            (localeFamilyName == null && compatible))
+                        if (lbngID == nbmfLodblfID ||
+                            (lodblfFbmilyNbmf == null && dompbtiblf))
                         {
-                            localeFamilyName = tmpName;
+                            lodblfFbmilyNbmf = tmpNbmf;
                         }
                     }
 /*
-                    for (int ii=0;ii<nameLen;ii++) {
-                        int val = (int)name[ii]&0xff;
-                        System.err.print(Integer.toHexString(val)+ " ");
+                    for (int ii=0;ii<nbmfLfn;ii++) {
+                        int vbl = (int)nbmf[ii]&0xff;
+                        Systfm.frr.print(Intfgfr.toHfxString(vbl)+ " ");
                     }
-                    System.err.println();
-                    System.err.println("familyName="+familyName +
-                                       " nameLen="+nameLen+
-                                       " langID="+langID+ " eid="+encodingID +
-                                       " str len="+familyName.length());
+                    Systfm.frr.println();
+                    Systfm.frr.println("fbmilyNbmf="+fbmilyNbmf +
+                                       " nbmfLfn="+nbmfLfn+
+                                       " lbngID="+lbngID+ " fid="+fndodingID +
+                                       " str lfn="+fbmilyNbmf.lfngti());
 
 */
-                    break;
+                    brfbk;
 
-                case FULL_NAME_ID:
-                    compatible = false;
-                    if (fullName == null || langID == ENGLISH_LOCALE_ID ||
-                        langID == nameLocaleID ||
-                        (localeFullName == null &&
-                         (compatible = isLanguageCompatible(langID))))
+                dbsf FULL_NAME_ID:
+                    dompbtiblf = fblsf;
+                    if (fullNbmf == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmfLodblfID ||
+                        (lodblfFullNbmf == null &&
+                         (dompbtiblf = isLbngubgfCompbtiblf(lbngID))))
                     {
-                        buffer.position(namePtr);
-                        buffer.get(name, 0, nameLen);
-                        tmpName = makeString(name, nameLen, encodingID);
+                        bufffr.position(nbmfPtr);
+                        bufffr.gft(nbmf, 0, nbmfLfn);
+                        tmpNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
 
-                        if (fullName == null || langID == ENGLISH_LOCALE_ID) {
-                            fullName = tmpName;
+                        if (fullNbmf == null || lbngID == ENGLISH_LOCALE_ID) {
+                            fullNbmf = tmpNbmf;
                         }
-                        if (langID == nameLocaleID ||
-                            (localeFullName == null && compatible))
+                        if (lbngID == nbmfLodblfID ||
+                            (lodblfFullNbmf == null && dompbtiblf))
                         {
-                            localeFullName = tmpName;
+                            lodblfFullNbmf = tmpNbmf;
                         }
                     }
-                    break;
+                    brfbk;
                 }
             }
-            if (localeFamilyName == null) {
-                localeFamilyName = familyName;
+            if (lodblfFbmilyNbmf == null) {
+                lodblfFbmilyNbmf = fbmilyNbmf;
             }
-            if (localeFullName == null) {
-                localeFullName = fullName;
+            if (lodblfFullNbmf == null) {
+                lodblfFullNbmf = fullNbmf;
             }
         }
     }
 
-    /* Return the requested name in the requested locale, for the
-     * MS platform ID. If the requested locale isn't found, return US
-     * English, if that isn't found, return null and let the caller
-     * figure out how to handle that.
+    /* Rfturn tif rfqufstfd nbmf in tif rfqufstfd lodblf, for tif
+     * MS plbtform ID. If tif rfqufstfd lodblf isn't found, rfturn US
+     * Englisi, if tibt isn't found, rfturn null bnd lft tif dbllfr
+     * figurf out iow to ibndlf tibt.
      */
-    protected String lookupName(short findLocaleID, int findNameID) {
-        String foundName = null;
-        byte[] name = new byte[1024];
+    protfdtfd String lookupNbmf(siort findLodblfID, int findNbmfID) {
+        String foundNbmf = null;
+        bytf[] nbmf = nfw bytf[1024];
 
-        ByteBuffer buffer = getTableBuffer(nameTag);
-        if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
-            short numRecords = sbuffer.get();
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
+        if (bufffr != null) {
+            SiortBufffr sbufffr = bufffr.bsSiortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            siort numRfdords = sbufffr.gft();
 
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+            /* Tif nbmf tbblf usfs unsignfd siorts. Mbny of tifsf
+             * brf known smbll vblufs tibt fit in b siort.
+             * Tif vblufs tibt brf sizfs or offsfts into tif tbblf dould bf
+             * grfbtfr tibn 32767, so rfbd bnd storf tiosf bs ints
              */
-            int stringPtr = ((int) sbuffer.get()) & 0xffff;
+            int stringPtr = ((int) sbufffr.gft()) & 0xffff;
 
-            for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
-                    sbuffer.position(sbuffer.position()+5);
-                    continue; // skip over this record.
+            for (int i=0; i<numRfdords; i++) {
+                siort plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr tiis rfdord.
                 }
-                short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int   nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int   namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
-                if (nameID == findNameID &&
-                    ((foundName == null && langID == ENGLISH_LOCALE_ID)
-                     || langID == findLocaleID)) {
-                    buffer.position(namePtr);
-                    buffer.get(name, 0, nameLen);
-                    foundName = makeString(name, nameLen, encodingID);
-                    if (langID == findLocaleID) {
-                        return foundName;
+                siort fndodingID = sbufffr.gft();
+                siort lbngID     = sbufffr.gft();
+                siort nbmfID     = sbufffr.gft();
+                int   nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int   nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
+                if (nbmfID == findNbmfID &&
+                    ((foundNbmf == null && lbngID == ENGLISH_LOCALE_ID)
+                     || lbngID == findLodblfID)) {
+                    bufffr.position(nbmfPtr);
+                    bufffr.gft(nbmf, 0, nbmfLfn);
+                    foundNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
+                    if (lbngID == findLodblfID) {
+                        rfturn foundNbmf;
                     }
                 }
             }
         }
-        return foundName;
+        rfturn foundNbmf;
     }
 
     /**
-     * @return number of logical fonts. Is "1" for all but TTC files
+     * @rfturn numbfr of logidbl fonts. Is "1" for bll but TTC filfs
      */
-    public int getFontCount() {
-        return directoryCount;
+    publid int gftFontCount() {
+        rfturn dirfdtoryCount;
     }
 
-    protected synchronized FontScaler getScaler() {
-        if (scaler == null) {
-            scaler = FontScaler.getScaler(this, fontIndex,
-                supportsCJK, fileSize);
+    protfdtfd syndironizfd FontSdblfr gftSdblfr() {
+        if (sdblfr == null) {
+            sdblfr = FontSdblfr.gftSdblfr(tiis, fontIndfx,
+                supportsCJK, filfSizf);
         }
-        return scaler;
+        rfturn sdblfr;
     }
 
 
-    /* Postscript name is rarely requested. Don't waste cycles locating it
-     * as part of font creation, nor storage to hold it. Get it only on demand.
+    /* Postsdript nbmf is rbrfly rfqufstfd. Don't wbstf dydlfs lodbting it
+     * bs pbrt of font drfbtion, nor storbgf to iold it. Gft it only on dfmbnd.
      */
-    @Override
-    public String getPostscriptName() {
-        String name = lookupName(ENGLISH_LOCALE_ID, POSTSCRIPT_NAME_ID);
-        if (name == null) {
-            return fullName;
-        } else {
-            return name;
+    @Ovfrridf
+    publid String gftPostsdriptNbmf() {
+        String nbmf = lookupNbmf(ENGLISH_LOCALE_ID, POSTSCRIPT_NAME_ID);
+        if (nbmf == null) {
+            rfturn fullNbmf;
+        } flsf {
+            rfturn nbmf;
         }
     }
 
-    @Override
-    public String getFontName(Locale locale) {
-        if (locale == null) {
-            return fullName;
-        } else if (locale.equals(nameLocale) && localeFullName != null) {
-            return localeFullName;
-        } else {
-            short localeID = getLCIDFromLocale(locale);
-            String name = lookupName(localeID, FULL_NAME_ID);
-            if (name == null) {
-                return fullName;
-            } else {
-                return name;
+    @Ovfrridf
+    publid String gftFontNbmf(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn fullNbmf;
+        } flsf if (lodblf.fqubls(nbmfLodblf) && lodblfFullNbmf != null) {
+            rfturn lodblfFullNbmf;
+        } flsf {
+            siort lodblfID = gftLCIDFromLodblf(lodblf);
+            String nbmf = lookupNbmf(lodblfID, FULL_NAME_ID);
+            if (nbmf == null) {
+                rfturn fullNbmf;
+            } flsf {
+                rfturn nbmf;
             }
         }
     }
 
-    // Return a Microsoft LCID from the given Locale.
-    // Used when getting localized font data.
+    // Rfturn b Midrosoft LCID from tif givfn Lodblf.
+    // Usfd wifn gftting lodblizfd font dbtb.
 
-    private static void addLCIDMapEntry(Map<String, Short> map,
-                                        String key, short value) {
-        map.put(key, Short.valueOf(value));
+    privbtf stbtid void bddLCIDMbpEntry(Mbp<String, Siort> mbp,
+                                        String kfy, siort vbluf) {
+        mbp.put(kfy, Siort.vblufOf(vbluf));
     }
 
-    private static synchronized void createLCIDMap() {
-        if (lcidMap != null) {
-            return;
+    privbtf stbtid syndironizfd void drfbtfLCIDMbp() {
+        if (ldidMbp != null) {
+            rfturn;
         }
 
-        Map<String, Short> map = new HashMap<String, Short>(200);
+        Mbp<String, Siort> mbp = nfw HbsiMbp<String, Siort>(200);
 
-        // the following statements are derived from the langIDMap
-        // in src/windows/native/java/lang/java_props_md.c using the following
-        // awk script:
-        //    $1~/\/\*/   { next}
-        //    $3~/\?\?/   { next }
-        //    $3!~/_/     { next }
-        //    $1~/0x0409/ { next }
-        //    $1~/0x0c0a/ { next }
-        //    $1~/0x042c/ { next }
-        //    $1~/0x0443/ { next }
-        //    $1~/0x0812/ { next }
-        //    $1~/0x04/   { print "        addLCIDMapEntry(map, " substr($3, 0, 3) "\", (short) " substr($1, 0, 6) ");" ; next }
-        //    $3~/,/      { print "        addLCIDMapEntry(map, " $3  " (short) " substr($1, 0, 6) ");" ; next }
-        //                { print "        addLCIDMapEntry(map, " $3 ", (short) " substr($1, 0, 6) ");" ; next }
-        // The lines of this script:
-        // - eliminate comments
-        // - eliminate questionable locales
-        // - eliminate language-only locales
-        // - eliminate the default LCID value
-        // - eliminate a few other unneeded LCID values
-        // - print language-only locale entries for x04* LCID values
-        //   (apparently Microsoft doesn't use language-only LCID values -
-        //   see http://www.microsoft.com/OpenType/otspec/name.htm
-        // - print complete entries for all other LCID values
+        // tif following stbtfmfnts brf dfrivfd from tif lbngIDMbp
+        // in srd/windows/nbtivf/jbvb/lbng/jbvb_props_md.d using tif following
+        // bwk sdript:
+        //    $1~/\/\*/   { nfxt}
+        //    $3~/\?\?/   { nfxt }
+        //    $3!~/_/     { nfxt }
+        //    $1~/0x0409/ { nfxt }
+        //    $1~/0x0d0b/ { nfxt }
+        //    $1~/0x042d/ { nfxt }
+        //    $1~/0x0443/ { nfxt }
+        //    $1~/0x0812/ { nfxt }
+        //    $1~/0x04/   { print "        bddLCIDMbpEntry(mbp, " substr($3, 0, 3) "\", (siort) " substr($1, 0, 6) ");" ; nfxt }
+        //    $3~/,/      { print "        bddLCIDMbpEntry(mbp, " $3  " (siort) " substr($1, 0, 6) ");" ; nfxt }
+        //                { print "        bddLCIDMbpEntry(mbp, " $3 ", (siort) " substr($1, 0, 6) ");" ; nfxt }
+        // Tif linfs of tiis sdript:
+        // - fliminbtf dommfnts
+        // - fliminbtf qufstionbblf lodblfs
+        // - fliminbtf lbngubgf-only lodblfs
+        // - fliminbtf tif dffbult LCID vbluf
+        // - fliminbtf b ffw otifr unnffdfd LCID vblufs
+        // - print lbngubgf-only lodblf fntrifs for x04* LCID vblufs
+        //   (bppbrfntly Midrosoft dofsn't usf lbngubgf-only LCID vblufs -
+        //   sff ittp://www.midrosoft.dom/OpfnTypf/otspfd/nbmf.itm
+        // - print domplftf fntrifs for bll otifr LCID vblufs
         // Run
-        //     awk -f awk-script langIDMap > statements
-        addLCIDMapEntry(map, "ar", (short) 0x0401);
-        addLCIDMapEntry(map, "bg", (short) 0x0402);
-        addLCIDMapEntry(map, "ca", (short) 0x0403);
-        addLCIDMapEntry(map, "zh", (short) 0x0404);
-        addLCIDMapEntry(map, "cs", (short) 0x0405);
-        addLCIDMapEntry(map, "da", (short) 0x0406);
-        addLCIDMapEntry(map, "de", (short) 0x0407);
-        addLCIDMapEntry(map, "el", (short) 0x0408);
-        addLCIDMapEntry(map, "es", (short) 0x040a);
-        addLCIDMapEntry(map, "fi", (short) 0x040b);
-        addLCIDMapEntry(map, "fr", (short) 0x040c);
-        addLCIDMapEntry(map, "iw", (short) 0x040d);
-        addLCIDMapEntry(map, "hu", (short) 0x040e);
-        addLCIDMapEntry(map, "is", (short) 0x040f);
-        addLCIDMapEntry(map, "it", (short) 0x0410);
-        addLCIDMapEntry(map, "ja", (short) 0x0411);
-        addLCIDMapEntry(map, "ko", (short) 0x0412);
-        addLCIDMapEntry(map, "nl", (short) 0x0413);
-        addLCIDMapEntry(map, "no", (short) 0x0414);
-        addLCIDMapEntry(map, "pl", (short) 0x0415);
-        addLCIDMapEntry(map, "pt", (short) 0x0416);
-        addLCIDMapEntry(map, "rm", (short) 0x0417);
-        addLCIDMapEntry(map, "ro", (short) 0x0418);
-        addLCIDMapEntry(map, "ru", (short) 0x0419);
-        addLCIDMapEntry(map, "hr", (short) 0x041a);
-        addLCIDMapEntry(map, "sk", (short) 0x041b);
-        addLCIDMapEntry(map, "sq", (short) 0x041c);
-        addLCIDMapEntry(map, "sv", (short) 0x041d);
-        addLCIDMapEntry(map, "th", (short) 0x041e);
-        addLCIDMapEntry(map, "tr", (short) 0x041f);
-        addLCIDMapEntry(map, "ur", (short) 0x0420);
-        addLCIDMapEntry(map, "in", (short) 0x0421);
-        addLCIDMapEntry(map, "uk", (short) 0x0422);
-        addLCIDMapEntry(map, "be", (short) 0x0423);
-        addLCIDMapEntry(map, "sl", (short) 0x0424);
-        addLCIDMapEntry(map, "et", (short) 0x0425);
-        addLCIDMapEntry(map, "lv", (short) 0x0426);
-        addLCIDMapEntry(map, "lt", (short) 0x0427);
-        addLCIDMapEntry(map, "fa", (short) 0x0429);
-        addLCIDMapEntry(map, "vi", (short) 0x042a);
-        addLCIDMapEntry(map, "hy", (short) 0x042b);
-        addLCIDMapEntry(map, "eu", (short) 0x042d);
-        addLCIDMapEntry(map, "mk", (short) 0x042f);
-        addLCIDMapEntry(map, "tn", (short) 0x0432);
-        addLCIDMapEntry(map, "xh", (short) 0x0434);
-        addLCIDMapEntry(map, "zu", (short) 0x0435);
-        addLCIDMapEntry(map, "af", (short) 0x0436);
-        addLCIDMapEntry(map, "ka", (short) 0x0437);
-        addLCIDMapEntry(map, "fo", (short) 0x0438);
-        addLCIDMapEntry(map, "hi", (short) 0x0439);
-        addLCIDMapEntry(map, "mt", (short) 0x043a);
-        addLCIDMapEntry(map, "se", (short) 0x043b);
-        addLCIDMapEntry(map, "gd", (short) 0x043c);
-        addLCIDMapEntry(map, "ms", (short) 0x043e);
-        addLCIDMapEntry(map, "kk", (short) 0x043f);
-        addLCIDMapEntry(map, "ky", (short) 0x0440);
-        addLCIDMapEntry(map, "sw", (short) 0x0441);
-        addLCIDMapEntry(map, "tt", (short) 0x0444);
-        addLCIDMapEntry(map, "bn", (short) 0x0445);
-        addLCIDMapEntry(map, "pa", (short) 0x0446);
-        addLCIDMapEntry(map, "gu", (short) 0x0447);
-        addLCIDMapEntry(map, "ta", (short) 0x0449);
-        addLCIDMapEntry(map, "te", (short) 0x044a);
-        addLCIDMapEntry(map, "kn", (short) 0x044b);
-        addLCIDMapEntry(map, "ml", (short) 0x044c);
-        addLCIDMapEntry(map, "mr", (short) 0x044e);
-        addLCIDMapEntry(map, "sa", (short) 0x044f);
-        addLCIDMapEntry(map, "mn", (short) 0x0450);
-        addLCIDMapEntry(map, "cy", (short) 0x0452);
-        addLCIDMapEntry(map, "gl", (short) 0x0456);
-        addLCIDMapEntry(map, "dv", (short) 0x0465);
-        addLCIDMapEntry(map, "qu", (short) 0x046b);
-        addLCIDMapEntry(map, "mi", (short) 0x0481);
-        addLCIDMapEntry(map, "ar_IQ", (short) 0x0801);
-        addLCIDMapEntry(map, "zh_CN", (short) 0x0804);
-        addLCIDMapEntry(map, "de_CH", (short) 0x0807);
-        addLCIDMapEntry(map, "en_GB", (short) 0x0809);
-        addLCIDMapEntry(map, "es_MX", (short) 0x080a);
-        addLCIDMapEntry(map, "fr_BE", (short) 0x080c);
-        addLCIDMapEntry(map, "it_CH", (short) 0x0810);
-        addLCIDMapEntry(map, "nl_BE", (short) 0x0813);
-        addLCIDMapEntry(map, "no_NO_NY", (short) 0x0814);
-        addLCIDMapEntry(map, "pt_PT", (short) 0x0816);
-        addLCIDMapEntry(map, "ro_MD", (short) 0x0818);
-        addLCIDMapEntry(map, "ru_MD", (short) 0x0819);
-        addLCIDMapEntry(map, "sr_CS", (short) 0x081a);
-        addLCIDMapEntry(map, "sv_FI", (short) 0x081d);
-        addLCIDMapEntry(map, "az_AZ", (short) 0x082c);
-        addLCIDMapEntry(map, "se_SE", (short) 0x083b);
-        addLCIDMapEntry(map, "ga_IE", (short) 0x083c);
-        addLCIDMapEntry(map, "ms_BN", (short) 0x083e);
-        addLCIDMapEntry(map, "uz_UZ", (short) 0x0843);
-        addLCIDMapEntry(map, "qu_EC", (short) 0x086b);
-        addLCIDMapEntry(map, "ar_EG", (short) 0x0c01);
-        addLCIDMapEntry(map, "zh_HK", (short) 0x0c04);
-        addLCIDMapEntry(map, "de_AT", (short) 0x0c07);
-        addLCIDMapEntry(map, "en_AU", (short) 0x0c09);
-        addLCIDMapEntry(map, "fr_CA", (short) 0x0c0c);
-        addLCIDMapEntry(map, "sr_CS", (short) 0x0c1a);
-        addLCIDMapEntry(map, "se_FI", (short) 0x0c3b);
-        addLCIDMapEntry(map, "qu_PE", (short) 0x0c6b);
-        addLCIDMapEntry(map, "ar_LY", (short) 0x1001);
-        addLCIDMapEntry(map, "zh_SG", (short) 0x1004);
-        addLCIDMapEntry(map, "de_LU", (short) 0x1007);
-        addLCIDMapEntry(map, "en_CA", (short) 0x1009);
-        addLCIDMapEntry(map, "es_GT", (short) 0x100a);
-        addLCIDMapEntry(map, "fr_CH", (short) 0x100c);
-        addLCIDMapEntry(map, "hr_BA", (short) 0x101a);
-        addLCIDMapEntry(map, "ar_DZ", (short) 0x1401);
-        addLCIDMapEntry(map, "zh_MO", (short) 0x1404);
-        addLCIDMapEntry(map, "de_LI", (short) 0x1407);
-        addLCIDMapEntry(map, "en_NZ", (short) 0x1409);
-        addLCIDMapEntry(map, "es_CR", (short) 0x140a);
-        addLCIDMapEntry(map, "fr_LU", (short) 0x140c);
-        addLCIDMapEntry(map, "bs_BA", (short) 0x141a);
-        addLCIDMapEntry(map, "ar_MA", (short) 0x1801);
-        addLCIDMapEntry(map, "en_IE", (short) 0x1809);
-        addLCIDMapEntry(map, "es_PA", (short) 0x180a);
-        addLCIDMapEntry(map, "fr_MC", (short) 0x180c);
-        addLCIDMapEntry(map, "sr_BA", (short) 0x181a);
-        addLCIDMapEntry(map, "ar_TN", (short) 0x1c01);
-        addLCIDMapEntry(map, "en_ZA", (short) 0x1c09);
-        addLCIDMapEntry(map, "es_DO", (short) 0x1c0a);
-        addLCIDMapEntry(map, "sr_BA", (short) 0x1c1a);
-        addLCIDMapEntry(map, "ar_OM", (short) 0x2001);
-        addLCIDMapEntry(map, "en_JM", (short) 0x2009);
-        addLCIDMapEntry(map, "es_VE", (short) 0x200a);
-        addLCIDMapEntry(map, "ar_YE", (short) 0x2401);
-        addLCIDMapEntry(map, "es_CO", (short) 0x240a);
-        addLCIDMapEntry(map, "ar_SY", (short) 0x2801);
-        addLCIDMapEntry(map, "en_BZ", (short) 0x2809);
-        addLCIDMapEntry(map, "es_PE", (short) 0x280a);
-        addLCIDMapEntry(map, "ar_JO", (short) 0x2c01);
-        addLCIDMapEntry(map, "en_TT", (short) 0x2c09);
-        addLCIDMapEntry(map, "es_AR", (short) 0x2c0a);
-        addLCIDMapEntry(map, "ar_LB", (short) 0x3001);
-        addLCIDMapEntry(map, "en_ZW", (short) 0x3009);
-        addLCIDMapEntry(map, "es_EC", (short) 0x300a);
-        addLCIDMapEntry(map, "ar_KW", (short) 0x3401);
-        addLCIDMapEntry(map, "en_PH", (short) 0x3409);
-        addLCIDMapEntry(map, "es_CL", (short) 0x340a);
-        addLCIDMapEntry(map, "ar_AE", (short) 0x3801);
-        addLCIDMapEntry(map, "es_UY", (short) 0x380a);
-        addLCIDMapEntry(map, "ar_BH", (short) 0x3c01);
-        addLCIDMapEntry(map, "es_PY", (short) 0x3c0a);
-        addLCIDMapEntry(map, "ar_QA", (short) 0x4001);
-        addLCIDMapEntry(map, "es_BO", (short) 0x400a);
-        addLCIDMapEntry(map, "es_SV", (short) 0x440a);
-        addLCIDMapEntry(map, "es_HN", (short) 0x480a);
-        addLCIDMapEntry(map, "es_NI", (short) 0x4c0a);
-        addLCIDMapEntry(map, "es_PR", (short) 0x500a);
+        //     bwk -f bwk-sdript lbngIDMbp > stbtfmfnts
+        bddLCIDMbpEntry(mbp, "br", (siort) 0x0401);
+        bddLCIDMbpEntry(mbp, "bg", (siort) 0x0402);
+        bddLCIDMbpEntry(mbp, "db", (siort) 0x0403);
+        bddLCIDMbpEntry(mbp, "zi", (siort) 0x0404);
+        bddLCIDMbpEntry(mbp, "ds", (siort) 0x0405);
+        bddLCIDMbpEntry(mbp, "db", (siort) 0x0406);
+        bddLCIDMbpEntry(mbp, "df", (siort) 0x0407);
+        bddLCIDMbpEntry(mbp, "fl", (siort) 0x0408);
+        bddLCIDMbpEntry(mbp, "fs", (siort) 0x040b);
+        bddLCIDMbpEntry(mbp, "fi", (siort) 0x040b);
+        bddLCIDMbpEntry(mbp, "fr", (siort) 0x040d);
+        bddLCIDMbpEntry(mbp, "iw", (siort) 0x040d);
+        bddLCIDMbpEntry(mbp, "iu", (siort) 0x040f);
+        bddLCIDMbpEntry(mbp, "is", (siort) 0x040f);
+        bddLCIDMbpEntry(mbp, "it", (siort) 0x0410);
+        bddLCIDMbpEntry(mbp, "jb", (siort) 0x0411);
+        bddLCIDMbpEntry(mbp, "ko", (siort) 0x0412);
+        bddLCIDMbpEntry(mbp, "nl", (siort) 0x0413);
+        bddLCIDMbpEntry(mbp, "no", (siort) 0x0414);
+        bddLCIDMbpEntry(mbp, "pl", (siort) 0x0415);
+        bddLCIDMbpEntry(mbp, "pt", (siort) 0x0416);
+        bddLCIDMbpEntry(mbp, "rm", (siort) 0x0417);
+        bddLCIDMbpEntry(mbp, "ro", (siort) 0x0418);
+        bddLCIDMbpEntry(mbp, "ru", (siort) 0x0419);
+        bddLCIDMbpEntry(mbp, "ir", (siort) 0x041b);
+        bddLCIDMbpEntry(mbp, "sk", (siort) 0x041b);
+        bddLCIDMbpEntry(mbp, "sq", (siort) 0x041d);
+        bddLCIDMbpEntry(mbp, "sv", (siort) 0x041d);
+        bddLCIDMbpEntry(mbp, "ti", (siort) 0x041f);
+        bddLCIDMbpEntry(mbp, "tr", (siort) 0x041f);
+        bddLCIDMbpEntry(mbp, "ur", (siort) 0x0420);
+        bddLCIDMbpEntry(mbp, "in", (siort) 0x0421);
+        bddLCIDMbpEntry(mbp, "uk", (siort) 0x0422);
+        bddLCIDMbpEntry(mbp, "bf", (siort) 0x0423);
+        bddLCIDMbpEntry(mbp, "sl", (siort) 0x0424);
+        bddLCIDMbpEntry(mbp, "ft", (siort) 0x0425);
+        bddLCIDMbpEntry(mbp, "lv", (siort) 0x0426);
+        bddLCIDMbpEntry(mbp, "lt", (siort) 0x0427);
+        bddLCIDMbpEntry(mbp, "fb", (siort) 0x0429);
+        bddLCIDMbpEntry(mbp, "vi", (siort) 0x042b);
+        bddLCIDMbpEntry(mbp, "iy", (siort) 0x042b);
+        bddLCIDMbpEntry(mbp, "fu", (siort) 0x042d);
+        bddLCIDMbpEntry(mbp, "mk", (siort) 0x042f);
+        bddLCIDMbpEntry(mbp, "tn", (siort) 0x0432);
+        bddLCIDMbpEntry(mbp, "xi", (siort) 0x0434);
+        bddLCIDMbpEntry(mbp, "zu", (siort) 0x0435);
+        bddLCIDMbpEntry(mbp, "bf", (siort) 0x0436);
+        bddLCIDMbpEntry(mbp, "kb", (siort) 0x0437);
+        bddLCIDMbpEntry(mbp, "fo", (siort) 0x0438);
+        bddLCIDMbpEntry(mbp, "ii", (siort) 0x0439);
+        bddLCIDMbpEntry(mbp, "mt", (siort) 0x043b);
+        bddLCIDMbpEntry(mbp, "sf", (siort) 0x043b);
+        bddLCIDMbpEntry(mbp, "gd", (siort) 0x043d);
+        bddLCIDMbpEntry(mbp, "ms", (siort) 0x043f);
+        bddLCIDMbpEntry(mbp, "kk", (siort) 0x043f);
+        bddLCIDMbpEntry(mbp, "ky", (siort) 0x0440);
+        bddLCIDMbpEntry(mbp, "sw", (siort) 0x0441);
+        bddLCIDMbpEntry(mbp, "tt", (siort) 0x0444);
+        bddLCIDMbpEntry(mbp, "bn", (siort) 0x0445);
+        bddLCIDMbpEntry(mbp, "pb", (siort) 0x0446);
+        bddLCIDMbpEntry(mbp, "gu", (siort) 0x0447);
+        bddLCIDMbpEntry(mbp, "tb", (siort) 0x0449);
+        bddLCIDMbpEntry(mbp, "tf", (siort) 0x044b);
+        bddLCIDMbpEntry(mbp, "kn", (siort) 0x044b);
+        bddLCIDMbpEntry(mbp, "ml", (siort) 0x044d);
+        bddLCIDMbpEntry(mbp, "mr", (siort) 0x044f);
+        bddLCIDMbpEntry(mbp, "sb", (siort) 0x044f);
+        bddLCIDMbpEntry(mbp, "mn", (siort) 0x0450);
+        bddLCIDMbpEntry(mbp, "dy", (siort) 0x0452);
+        bddLCIDMbpEntry(mbp, "gl", (siort) 0x0456);
+        bddLCIDMbpEntry(mbp, "dv", (siort) 0x0465);
+        bddLCIDMbpEntry(mbp, "qu", (siort) 0x046b);
+        bddLCIDMbpEntry(mbp, "mi", (siort) 0x0481);
+        bddLCIDMbpEntry(mbp, "br_IQ", (siort) 0x0801);
+        bddLCIDMbpEntry(mbp, "zi_CN", (siort) 0x0804);
+        bddLCIDMbpEntry(mbp, "df_CH", (siort) 0x0807);
+        bddLCIDMbpEntry(mbp, "fn_GB", (siort) 0x0809);
+        bddLCIDMbpEntry(mbp, "fs_MX", (siort) 0x080b);
+        bddLCIDMbpEntry(mbp, "fr_BE", (siort) 0x080d);
+        bddLCIDMbpEntry(mbp, "it_CH", (siort) 0x0810);
+        bddLCIDMbpEntry(mbp, "nl_BE", (siort) 0x0813);
+        bddLCIDMbpEntry(mbp, "no_NO_NY", (siort) 0x0814);
+        bddLCIDMbpEntry(mbp, "pt_PT", (siort) 0x0816);
+        bddLCIDMbpEntry(mbp, "ro_MD", (siort) 0x0818);
+        bddLCIDMbpEntry(mbp, "ru_MD", (siort) 0x0819);
+        bddLCIDMbpEntry(mbp, "sr_CS", (siort) 0x081b);
+        bddLCIDMbpEntry(mbp, "sv_FI", (siort) 0x081d);
+        bddLCIDMbpEntry(mbp, "bz_AZ", (siort) 0x082d);
+        bddLCIDMbpEntry(mbp, "sf_SE", (siort) 0x083b);
+        bddLCIDMbpEntry(mbp, "gb_IE", (siort) 0x083d);
+        bddLCIDMbpEntry(mbp, "ms_BN", (siort) 0x083f);
+        bddLCIDMbpEntry(mbp, "uz_UZ", (siort) 0x0843);
+        bddLCIDMbpEntry(mbp, "qu_EC", (siort) 0x086b);
+        bddLCIDMbpEntry(mbp, "br_EG", (siort) 0x0d01);
+        bddLCIDMbpEntry(mbp, "zi_HK", (siort) 0x0d04);
+        bddLCIDMbpEntry(mbp, "df_AT", (siort) 0x0d07);
+        bddLCIDMbpEntry(mbp, "fn_AU", (siort) 0x0d09);
+        bddLCIDMbpEntry(mbp, "fr_CA", (siort) 0x0d0d);
+        bddLCIDMbpEntry(mbp, "sr_CS", (siort) 0x0d1b);
+        bddLCIDMbpEntry(mbp, "sf_FI", (siort) 0x0d3b);
+        bddLCIDMbpEntry(mbp, "qu_PE", (siort) 0x0d6b);
+        bddLCIDMbpEntry(mbp, "br_LY", (siort) 0x1001);
+        bddLCIDMbpEntry(mbp, "zi_SG", (siort) 0x1004);
+        bddLCIDMbpEntry(mbp, "df_LU", (siort) 0x1007);
+        bddLCIDMbpEntry(mbp, "fn_CA", (siort) 0x1009);
+        bddLCIDMbpEntry(mbp, "fs_GT", (siort) 0x100b);
+        bddLCIDMbpEntry(mbp, "fr_CH", (siort) 0x100d);
+        bddLCIDMbpEntry(mbp, "ir_BA", (siort) 0x101b);
+        bddLCIDMbpEntry(mbp, "br_DZ", (siort) 0x1401);
+        bddLCIDMbpEntry(mbp, "zi_MO", (siort) 0x1404);
+        bddLCIDMbpEntry(mbp, "df_LI", (siort) 0x1407);
+        bddLCIDMbpEntry(mbp, "fn_NZ", (siort) 0x1409);
+        bddLCIDMbpEntry(mbp, "fs_CR", (siort) 0x140b);
+        bddLCIDMbpEntry(mbp, "fr_LU", (siort) 0x140d);
+        bddLCIDMbpEntry(mbp, "bs_BA", (siort) 0x141b);
+        bddLCIDMbpEntry(mbp, "br_MA", (siort) 0x1801);
+        bddLCIDMbpEntry(mbp, "fn_IE", (siort) 0x1809);
+        bddLCIDMbpEntry(mbp, "fs_PA", (siort) 0x180b);
+        bddLCIDMbpEntry(mbp, "fr_MC", (siort) 0x180d);
+        bddLCIDMbpEntry(mbp, "sr_BA", (siort) 0x181b);
+        bddLCIDMbpEntry(mbp, "br_TN", (siort) 0x1d01);
+        bddLCIDMbpEntry(mbp, "fn_ZA", (siort) 0x1d09);
+        bddLCIDMbpEntry(mbp, "fs_DO", (siort) 0x1d0b);
+        bddLCIDMbpEntry(mbp, "sr_BA", (siort) 0x1d1b);
+        bddLCIDMbpEntry(mbp, "br_OM", (siort) 0x2001);
+        bddLCIDMbpEntry(mbp, "fn_JM", (siort) 0x2009);
+        bddLCIDMbpEntry(mbp, "fs_VE", (siort) 0x200b);
+        bddLCIDMbpEntry(mbp, "br_YE", (siort) 0x2401);
+        bddLCIDMbpEntry(mbp, "fs_CO", (siort) 0x240b);
+        bddLCIDMbpEntry(mbp, "br_SY", (siort) 0x2801);
+        bddLCIDMbpEntry(mbp, "fn_BZ", (siort) 0x2809);
+        bddLCIDMbpEntry(mbp, "fs_PE", (siort) 0x280b);
+        bddLCIDMbpEntry(mbp, "br_JO", (siort) 0x2d01);
+        bddLCIDMbpEntry(mbp, "fn_TT", (siort) 0x2d09);
+        bddLCIDMbpEntry(mbp, "fs_AR", (siort) 0x2d0b);
+        bddLCIDMbpEntry(mbp, "br_LB", (siort) 0x3001);
+        bddLCIDMbpEntry(mbp, "fn_ZW", (siort) 0x3009);
+        bddLCIDMbpEntry(mbp, "fs_EC", (siort) 0x300b);
+        bddLCIDMbpEntry(mbp, "br_KW", (siort) 0x3401);
+        bddLCIDMbpEntry(mbp, "fn_PH", (siort) 0x3409);
+        bddLCIDMbpEntry(mbp, "fs_CL", (siort) 0x340b);
+        bddLCIDMbpEntry(mbp, "br_AE", (siort) 0x3801);
+        bddLCIDMbpEntry(mbp, "fs_UY", (siort) 0x380b);
+        bddLCIDMbpEntry(mbp, "br_BH", (siort) 0x3d01);
+        bddLCIDMbpEntry(mbp, "fs_PY", (siort) 0x3d0b);
+        bddLCIDMbpEntry(mbp, "br_QA", (siort) 0x4001);
+        bddLCIDMbpEntry(mbp, "fs_BO", (siort) 0x400b);
+        bddLCIDMbpEntry(mbp, "fs_SV", (siort) 0x440b);
+        bddLCIDMbpEntry(mbp, "fs_HN", (siort) 0x480b);
+        bddLCIDMbpEntry(mbp, "fs_NI", (siort) 0x4d0b);
+        bddLCIDMbpEntry(mbp, "fs_PR", (siort) 0x500b);
 
-        lcidMap = map;
+        ldidMbp = mbp;
     }
 
-    private static short getLCIDFromLocale(Locale locale) {
-        // optimize for common case
-        if (locale.equals(Locale.US)) {
-            return US_LCID;
+    privbtf stbtid siort gftLCIDFromLodblf(Lodblf lodblf) {
+        // optimizf for dommon dbsf
+        if (lodblf.fqubls(Lodblf.US)) {
+            rfturn US_LCID;
         }
 
-        if (lcidMap == null) {
-            createLCIDMap();
+        if (ldidMbp == null) {
+            drfbtfLCIDMbp();
         }
 
-        String key = locale.toString();
-        while (!"".equals(key)) {
-            Short lcidObject = lcidMap.get(key);
-            if (lcidObject != null) {
-                return lcidObject.shortValue();
+        String kfy = lodblf.toString();
+        wiilf (!"".fqubls(kfy)) {
+            Siort ldidObjfdt = ldidMbp.gft(kfy);
+            if (ldidObjfdt != null) {
+                rfturn ldidObjfdt.siortVbluf();
             }
-            int pos = key.lastIndexOf('_');
+            int pos = kfy.lbstIndfxOf('_');
             if (pos < 1) {
-                return US_LCID;
+                rfturn US_LCID;
             }
-            key = key.substring(0, pos);
+            kfy = kfy.substring(0, pos);
         }
 
-        return US_LCID;
+        rfturn US_LCID;
     }
 
-    @Override
-    public String getFamilyName(Locale locale) {
-        if (locale == null) {
-            return familyName;
-        } else if (locale.equals(nameLocale) && localeFamilyName != null) {
-            return localeFamilyName;
-        } else {
-            short localeID = getLCIDFromLocale(locale);
-            String name = lookupName(localeID, FAMILY_NAME_ID);
-            if (name == null) {
-                return familyName;
-            } else {
-                return name;
+    @Ovfrridf
+    publid String gftFbmilyNbmf(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn fbmilyNbmf;
+        } flsf if (lodblf.fqubls(nbmfLodblf) && lodblfFbmilyNbmf != null) {
+            rfturn lodblfFbmilyNbmf;
+        } flsf {
+            siort lodblfID = gftLCIDFromLodblf(lodblf);
+            String nbmf = lookupNbmf(lodblfID, FAMILY_NAME_ID);
+            if (nbmf == null) {
+                rfturn fbmilyNbmf;
+            } flsf {
+                rfturn nbmf;
             }
         }
     }
 
-    public CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            mapper = new TrueTypeGlyphMapper(this);
+    publid CibrToGlypiMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw TrufTypfGlypiMbppfr(tiis);
         }
-        return mapper;
+        rfturn mbppfr;
     }
 
-    /* This duplicates initNames() but that has to run fast as its used
-     * during typical start-up and the information here is likely never
-     * needed.
+    /* Tiis duplidbtfs initNbmfs() but tibt ibs to run fbst bs its usfd
+     * during typidbl stbrt-up bnd tif informbtion ifrf is likfly nfvfr
+     * nffdfd.
      */
-    protected void initAllNames(int requestedID, HashSet<String> names) {
+    protfdtfd void initAllNbmfs(int rfqufstfdID, HbsiSft<String> nbmfs) {
 
-        byte[] name = new byte[256];
-        ByteBuffer buffer = getTableBuffer(nameTag);
+        bytf[] nbmf = nfw bytf[256];
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
 
-        if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
-            short numRecords = sbuffer.get();
+        if (bufffr != null) {
+            SiortBufffr sbufffr = bufffr.bsSiortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            siort numRfdords = sbufffr.gft();
 
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+            /* Tif nbmf tbblf usfs unsignfd siorts. Mbny of tifsf
+             * brf known smbll vblufs tibt fit in b siort.
+             * Tif vblufs tibt brf sizfs or offsfts into tif tbblf dould bf
+             * grfbtfr tibn 32767, so rfbd bnd storf tiosf bs ints
              */
-            int stringPtr = ((int) sbuffer.get()) & 0xffff;
-            for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
-                    sbuffer.position(sbuffer.position()+5);
-                    continue; // skip over this record.
+            int stringPtr = ((int) sbufffr.gft()) & 0xffff;
+            for (int i=0; i<numRfdords; i++) {
+                siort plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr tiis rfdord.
                 }
-                short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int   nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int   namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
+                siort fndodingID = sbufffr.gft();
+                siort lbngID     = sbufffr.gft();
+                siort nbmfID     = sbufffr.gft();
+                int   nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int   nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
 
-                if (nameID == requestedID) {
-                    buffer.position(namePtr);
-                    buffer.get(name, 0, nameLen);
-                    names.add(makeString(name, nameLen, encodingID));
+                if (nbmfID == rfqufstfdID) {
+                    bufffr.position(nbmfPtr);
+                    bufffr.gft(nbmf, 0, nbmfLfn);
+                    nbmfs.bdd(mbkfString(nbmf, nbmfLfn, fndodingID));
                 }
             }
         }
     }
 
-    String[] getAllFamilyNames() {
-        HashSet<String> aSet = new HashSet<>();
+    String[] gftAllFbmilyNbmfs() {
+        HbsiSft<String> bSft = nfw HbsiSft<>();
         try {
-            initAllNames(FAMILY_NAME_ID, aSet);
-        } catch (Exception e) {
-            /* In case of malformed font */
+            initAllNbmfs(FAMILY_NAME_ID, bSft);
+        } dbtdi (Exdfption f) {
+            /* In dbsf of mblformfd font */
         }
-        return aSet.toArray(new String[0]);
+        rfturn bSft.toArrby(nfw String[0]);
     }
 
-    String[] getAllFullNames() {
-        HashSet<String> aSet = new HashSet<>();
+    String[] gftAllFullNbmfs() {
+        HbsiSft<String> bSft = nfw HbsiSft<>();
         try {
-            initAllNames(FULL_NAME_ID, aSet);
-        } catch (Exception e) {
-            /* In case of malformed font */
+            initAllNbmfs(FULL_NAME_ID, bSft);
+        } dbtdi (Exdfption f) {
+            /* In dbsf of mblformfd font */
         }
-        return aSet.toArray(new String[0]);
+        rfturn bSft.toArrby(nfw String[0]);
     }
 
-    /*  Used by the OpenType engine for mark positioning.
+    /*  Usfd by tif OpfnTypf fnginf for mbrk positioning.
      */
-    @Override
-    Point2D.Float getGlyphPoint(long pScalerContext,
-                                int glyphCode, int ptNumber) {
+    @Ovfrridf
+    Point2D.Flobt gftGlypiPoint(long pSdblfrContfxt,
+                                int glypiCodf, int ptNumbfr) {
         try {
-            return getScaler().getGlyphPoint(pScalerContext,
-                                             glyphCode, ptNumber);
-        } catch(FontScalerException fe) {
-            return null;
+            rfturn gftSdblfr().gftGlypiPoint(pSdblfrContfxt,
+                                             glypiCodf, ptNumbfr);
+        } dbtdi(FontSdblfrExdfption ff) {
+            rfturn null;
         }
     }
 
-    private char[] gaspTable;
+    privbtf dibr[] gbspTbblf;
 
-    private char[] getGaspTable() {
+    privbtf dibr[] gftGbspTbblf() {
 
-        if (gaspTable != null) {
-            return gaspTable;
+        if (gbspTbblf != null) {
+            rfturn gbspTbblf;
         }
 
-        ByteBuffer buffer = getTableBuffer(gaspTag);
-        if (buffer == null) {
-            return gaspTable = new char[0];
+        BytfBufffr bufffr = gftTbblfBufffr(gbspTbg);
+        if (bufffr == null) {
+            rfturn gbspTbblf = nfw dibr[0];
         }
 
-        CharBuffer cbuffer = buffer.asCharBuffer();
-        char format = cbuffer.get();
-        /* format "1" has appeared for some Windows Vista fonts.
-         * Its presently undocumented but the existing values
-         * seem to be still valid so we can use it.
+        CibrBufffr dbufffr = bufffr.bsCibrBufffr();
+        dibr formbt = dbufffr.gft();
+        /* formbt "1" ibs bppfbrfd for somf Windows Vistb fonts.
+         * Its prfsfntly undodumfntfd but tif fxisting vblufs
+         * sffm to bf still vblid so wf dbn usf it.
          */
-        if (format > 1) { // unrecognised format
-            return gaspTable = new char[0];
+        if (formbt > 1) { // unrfdognisfd formbt
+            rfturn gbspTbblf = nfw dibr[0];
         }
 
-        char numRanges = cbuffer.get();
-        if (4+numRanges*4 > getTableSize(gaspTag)) { // sanity check
-            return gaspTable = new char[0];
+        dibr numRbngfs = dbufffr.gft();
+        if (4+numRbngfs*4 > gftTbblfSizf(gbspTbg)) { // sbnity difdk
+            rfturn gbspTbblf = nfw dibr[0];
         }
-        gaspTable = new char[2*numRanges];
-        cbuffer.get(gaspTable);
-        return gaspTable;
+        gbspTbblf = nfw dibr[2*numRbngfs];
+        dbufffr.gft(gbspTbblf);
+        rfturn gbspTbblf;
     }
 
-    /* This is to obtain info from the TT 'gasp' (grid-fitting and
-     * scan-conversion procedure) table which specifies three combinations:
-     * Hint, Smooth (greyscale), Hint and Smooth.
-     * In this simplified scheme we don't distinguish the latter two. We
-     * hint even at small sizes, so as to preserve metrics consistency.
-     * If the information isn't available default values are substituted.
-     * The more precise defaults we'd do if we distinguished the cases are:
-     * Bold (no other style) fonts :
-     * 0-8 : Smooth ( do grey)
-     * 9+  : Hint + smooth (gridfit + grey)
-     * Plain, Italic and Bold-Italic fonts :
-     * 0-8 : Smooth ( do grey)
+    /* Tiis is to obtbin info from tif TT 'gbsp' (grid-fitting bnd
+     * sdbn-donvfrsion prodfdurf) tbblf wiidi spfdififs tirff dombinbtions:
+     * Hint, Smooti (grfysdblf), Hint bnd Smooti.
+     * In tiis simplififd sdifmf wf don't distinguisi tif lbttfr two. Wf
+     * iint fvfn bt smbll sizfs, so bs to prfsfrvf mftrids donsistfndy.
+     * If tif informbtion isn't bvbilbblf dffbult vblufs brf substitutfd.
+     * Tif morf prfdisf dffbults wf'd do if wf distinguisifd tif dbsfs brf:
+     * Bold (no otifr stylf) fonts :
+     * 0-8 : Smooti ( do grfy)
+     * 9+  : Hint + smooti (gridfit + grfy)
+     * Plbin, Itblid bnd Bold-Itblid fonts :
+     * 0-8 : Smooti ( do grfy)
      * 9-17 : Hint (gridfit)
-     * 18+  : Hint + smooth (gridfit + grey)
-     * The defaults should rarely come into play as most TT fonts provide
-     * better defaults.
-     * REMIND: consider unpacking the table into an array of booleans
-     * for faster use.
+     * 18+  : Hint + smooti (gridfit + grfy)
+     * Tif dffbults siould rbrfly domf into plby bs most TT fonts providf
+     * bfttfr dffbults.
+     * REMIND: donsidfr unpbdking tif tbblf into bn brrby of boolfbns
+     * for fbstfr usf.
      */
-    @Override
-    public boolean useAAForPtSize(int ptsize) {
+    @Ovfrridf
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
 
-        char[] gasp = getGaspTable();
-        if (gasp.length > 0) {
-            for (int i=0;i<gasp.length;i+=2) {
-                if (ptsize <= gasp[i]) {
-                    return ((gasp[i+1] & 0x2) != 0); // bit 2 means DO_GRAY;
+        dibr[] gbsp = gftGbspTbblf();
+        if (gbsp.lfngti > 0) {
+            for (int i=0;i<gbsp.lfngti;i+=2) {
+                if (ptsizf <= gbsp[i]) {
+                    rfturn ((gbsp[i+1] & 0x2) != 0); // bit 2 mfbns DO_GRAY;
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        if (style == Font.BOLD) {
-            return true;
-        } else {
-            return ptsize <= 8 || ptsize >= 18;
+        if (stylf == Font.BOLD) {
+            rfturn truf;
+        } flsf {
+            rfturn ptsizf <= 8 || ptsizf >= 18;
         }
     }
 
-    @Override
-    public boolean hasSupplementaryChars() {
-        return ((TrueTypeGlyphMapper)getMapper()).hasSupplementaryChars();
+    @Ovfrridf
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+        rfturn ((TrufTypfGlypiMbppfr)gftMbppfr()).ibsSupplfmfntbryCibrs();
     }
 
-    @Override
-    public String toString() {
-        return "** TrueType Font: Family="+familyName+ " Name="+fullName+
-            " style="+style+" fileName="+getPublicFileName();
+    @Ovfrridf
+    publid String toString() {
+        rfturn "** TrufTypf Font: Fbmily="+fbmilyNbmf+ " Nbmf="+fullNbmf+
+            " stylf="+stylf+" filfNbmf="+gftPublidFilfNbmf();
     }
 
 
-    private static Map<String, short[]> lcidLanguageCompatibilityMap;
-    private static final short[] EMPTY_COMPATIBLE_LCIDS = new short[0];
+    privbtf stbtid Mbp<String, siort[]> ldidLbngubgfCompbtibilityMbp;
+    privbtf stbtid finbl siort[] EMPTY_COMPATIBLE_LCIDS = nfw siort[0];
 
-    // the language compatible LCIDs for this font's nameLocale
-    private short[] languageCompatibleLCIDs;
+    // tif lbngubgf dompbtiblf LCIDs for tiis font's nbmfLodblf
+    privbtf siort[] lbngubgfCompbtiblfLCIDs;
 
     /*
-     * Returns true if the given lcid's language is compatible
-     * to the language of the startup Locale. I.e. if
-     * startupLocale.getLanguage().equals(lcidLocale.getLanguage()) would
-     * return true.
+     * Rfturns truf if tif givfn ldid's lbngubgf is dompbtiblf
+     * to tif lbngubgf of tif stbrtup Lodblf. I.f. if
+     * stbrtupLodblf.gftLbngubgf().fqubls(ldidLodblf.gftLbngubgf()) would
+     * rfturn truf.
      */
-    private boolean isLanguageCompatible(short lcid){
-        for (short s : languageCompatibleLCIDs) {
-            if (s == lcid) {
-                return true;
+    privbtf boolfbn isLbngubgfCompbtiblf(siort ldid){
+        for (siort s : lbngubgfCompbtiblfLCIDs) {
+            if (s == ldid) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Returns an array of all the language compatible LCIDs for the
-     * given Locale. This array is later used to find compatible
-     * locales.
+     * Rfturns bn brrby of bll tif lbngubgf dompbtiblf LCIDs for tif
+     * givfn Lodblf. Tiis brrby is lbtfr usfd to find dompbtiblf
+     * lodblfs.
      */
-    private static short[] getLanguageCompatibleLCIDsFromLocale(Locale locale) {
-        if (lcidLanguageCompatibilityMap == null) {
-            createLCIDMap();
-            createLCIDLanguageCompatibilityMap();
+    privbtf stbtid siort[] gftLbngubgfCompbtiblfLCIDsFromLodblf(Lodblf lodblf) {
+        if (ldidLbngubgfCompbtibilityMbp == null) {
+            drfbtfLCIDMbp();
+            drfbtfLCIDLbngubgfCompbtibilityMbp();
         }
-        String language = locale.getLanguage();
-        short[] result = lcidLanguageCompatibilityMap.get(language);
-        return result == null ? EMPTY_COMPATIBLE_LCIDS : result;
+        String lbngubgf = lodblf.gftLbngubgf();
+        siort[] rfsult = ldidLbngubgfCompbtibilityMbp.gft(lbngubgf);
+        rfturn rfsult == null ? EMPTY_COMPATIBLE_LCIDS : rfsult;
     }
 
-//     private static void prtLine(String s) {
-//        System.out.println(s);
+//     privbtf stbtid void prtLinf(String s) {
+//        Systfm.out.println(s);
 //     }
 
 //     /*
-//      * Initializes the map from Locale keys (e.g. "en_BZ" or "de")
-//      * to language compatible LCIDs.
-//      * This map could be statically created based on the fixed known set
-//      * added to lcidMap.
+//      * Initiblizfs tif mbp from Lodblf kfys (f.g. "fn_BZ" or "df")
+//      * to lbngubgf dompbtiblf LCIDs.
+//      * Tiis mbp dould bf stbtidblly drfbtfd bbsfd on tif fixfd known sft
+//      * bddfd to ldidMbp.
 //      */
-//     private static void createLCIDLanguageCompatibilityMap() {
-//         if (lcidLanguageCompatibilityMap != null) {
-//             return;
+//     privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {
+//         if (ldidLbngubgfCompbtibilityMbp != null) {
+//             rfturn;
 //         }
-//         HashMap<String, List<Short>> result = new HashMap<>();
-//         for (Entry<String, Short> e : lcidMap.entrySet()) {
-//             String language = e.getKey();
-//             int index = language.indexOf('_');
-//             if (index != -1) {
-//                 language = language.substring(0, index);
+//         HbsiMbp<String, List<Siort>> rfsult = nfw HbsiMbp<>();
+//         for (Entry<String, Siort> f : ldidMbp.fntrySft()) {
+//             String lbngubgf = f.gftKfy();
+//             int indfx = lbngubgf.indfxOf('_');
+//             if (indfx != -1) {
+//                 lbngubgf = lbngubgf.substring(0, indfx);
 //             }
-//             List<Short> list = result.get(language);
+//             List<Siort> list = rfsult.gft(lbngubgf);
 //             if (list == null) {
-//                 list = new ArrayList<>();
-//                 result.put(language, list);
+//                 list = nfw ArrbyList<>();
+//                 rfsult.put(lbngubgf, list);
 //             }
-//             if (index == -1) {
-//                 list.add(0, e.getValue());
-//             } else{
-//                 list.add(e.getValue());
+//             if (indfx == -1) {
+//                 list.bdd(0, f.gftVbluf());
+//             } flsf{
+//                 list.bdd(f.gftVbluf());
 //             }
 //         }
-//         Map<String, short[]> compMap = new HashMap<>();
-//         for (Entry<String, List<Short>> e : result.entrySet()) {
-//             if (e.getValue().size() > 1) {
-//                 List<Short> list = e.getValue();
-//                 short[] shorts = new short[list.size()];
-//                 for (int i = 0; i < shorts.length; i++) {
-//                     shorts[i] = list.get(i);
+//         Mbp<String, siort[]> dompMbp = nfw HbsiMbp<>();
+//         for (Entry<String, List<Siort>> f : rfsult.fntrySft()) {
+//             if (f.gftVbluf().sizf() > 1) {
+//                 List<Siort> list = f.gftVbluf();
+//                 siort[] siorts = nfw siort[list.sizf()];
+//                 for (int i = 0; i < siorts.lfngti; i++) {
+//                     siorts[i] = list.gft(i);
 //                 }
-//                 compMap.put(e.getKey(), shorts);
+//                 dompMbp.put(f.gftKfy(), siorts);
 //             }
 //         }
 
-//         /* Now dump code to init the map to System.out */
-//         prtLine("    private static void createLCIDLanguageCompatibilityMap() {");
-//         prtLine("");
+//         /* Now dump dodf to init tif mbp to Systfm.out */
+//         prtLinf("    privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {");
+//         prtLinf("");
 
-//         prtLine("        Map<String, short[]> map = new HashMap<>();");
-//         prtLine("");
-//         prtLine("        short[] sarr;");
-//         for (Entry<String, short[]> e : compMap.entrySet()) {
-//             String lang = e.getKey();
-//             short[] ids = e.getValue();
-//             StringBuilder sb = new StringBuilder("sarr = new short[] { ");
-//             for (int i = 0; i < ids.length; i++) {
-//                 sb.append(ids[i]+", ");
+//         prtLinf("        Mbp<String, siort[]> mbp = nfw HbsiMbp<>();");
+//         prtLinf("");
+//         prtLinf("        siort[] sbrr;");
+//         for (Entry<String, siort[]> f : dompMbp.fntrySft()) {
+//             String lbng = f.gftKfy();
+//             siort[] ids = f.gftVbluf();
+//             StringBuildfr sb = nfw StringBuildfr("sbrr = nfw siort[] { ");
+//             for (int i = 0; i < ids.lfngti; i++) {
+//                 sb.bppfnd(ids[i]+", ");
 //             }
-//             sb.append("}");
-//             prtLine("        " + sb + ";");
-//             prtLine("        map.put(\"" + lang + "\", sarr);");
+//             sb.bppfnd("}");
+//             prtLinf("        " + sb + ";");
+//             prtLinf("        mbp.put(\"" + lbng + "\", sbrr);");
 //         }
-//         prtLine("");
-//         prtLine("        lcidLanguageCompatibilityMap = map;");
-//         prtLine("    }");
-//         /* done dumping map */
+//         prtLinf("");
+//         prtLinf("        ldidLbngubgfCompbtibilityMbp = mbp;");
+//         prtLinf("    }");
+//         /* donf dumping mbp */
 
-//         lcidLanguageCompatibilityMap = compMap;
+//         ldidLbngubgfCompbtibilityMbp = dompMbp;
 //     }
 
-    private static void createLCIDLanguageCompatibilityMap() {
+    privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {
 
-        Map<String, short[]> map = new HashMap<>();
+        Mbp<String, siort[]> mbp = nfw HbsiMbp<>();
 
-        short[] sarr;
-        sarr = new short[] { 1031, 3079, 5127, 2055, 4103, };
-        map.put("de", sarr);
-        sarr = new short[] { 1044, 2068, };
-        map.put("no", sarr);
-        sarr = new short[] { 1049, 2073, };
-        map.put("ru", sarr);
-        sarr = new short[] { 1053, 2077, };
-        map.put("sv", sarr);
-        sarr = new short[] { 1046, 2070, };
-        map.put("pt", sarr);
-        sarr = new short[] { 1131, 3179, 2155, };
-        map.put("qu", sarr);
-        sarr = new short[] { 1086, 2110, };
-        map.put("ms", sarr);
-        sarr = new short[] { 11273, 3081, 12297, 8201, 10249, 4105, 13321, 6153, 7177, 5129, 2057, };
-        map.put("en", sarr);
-        sarr = new short[] { 1050, 4122, };
-        map.put("hr", sarr);
-        sarr = new short[] { 1040, 2064, };
-        map.put("it", sarr);
-        sarr = new short[] { 1036, 5132, 6156, 2060, 3084, 4108, };
-        map.put("fr", sarr);
-        sarr = new short[] { 1034, 12298, 14346, 2058, 8202, 19466, 17418, 9226, 13322, 5130, 7178, 11274, 16394, 4106, 10250, 6154, 18442, 20490, 15370, };
-        map.put("es", sarr);
-        sarr = new short[] { 1028, 3076, 5124, 4100, 2052, };
-        map.put("zh", sarr);
-        sarr = new short[] { 1025, 8193, 16385, 9217, 2049, 14337, 15361, 11265, 13313, 10241, 7169, 12289, 4097, 5121, 6145, 3073, };
-        map.put("ar", sarr);
-        sarr = new short[] { 1083, 3131, 2107, };
-        map.put("se", sarr);
-        sarr = new short[] { 1048, 2072, };
-        map.put("ro", sarr);
-        sarr = new short[] { 1043, 2067, };
-        map.put("nl", sarr);
-        sarr = new short[] { 7194, 3098, };
-        map.put("sr", sarr);
+        siort[] sbrr;
+        sbrr = nfw siort[] { 1031, 3079, 5127, 2055, 4103, };
+        mbp.put("df", sbrr);
+        sbrr = nfw siort[] { 1044, 2068, };
+        mbp.put("no", sbrr);
+        sbrr = nfw siort[] { 1049, 2073, };
+        mbp.put("ru", sbrr);
+        sbrr = nfw siort[] { 1053, 2077, };
+        mbp.put("sv", sbrr);
+        sbrr = nfw siort[] { 1046, 2070, };
+        mbp.put("pt", sbrr);
+        sbrr = nfw siort[] { 1131, 3179, 2155, };
+        mbp.put("qu", sbrr);
+        sbrr = nfw siort[] { 1086, 2110, };
+        mbp.put("ms", sbrr);
+        sbrr = nfw siort[] { 11273, 3081, 12297, 8201, 10249, 4105, 13321, 6153, 7177, 5129, 2057, };
+        mbp.put("fn", sbrr);
+        sbrr = nfw siort[] { 1050, 4122, };
+        mbp.put("ir", sbrr);
+        sbrr = nfw siort[] { 1040, 2064, };
+        mbp.put("it", sbrr);
+        sbrr = nfw siort[] { 1036, 5132, 6156, 2060, 3084, 4108, };
+        mbp.put("fr", sbrr);
+        sbrr = nfw siort[] { 1034, 12298, 14346, 2058, 8202, 19466, 17418, 9226, 13322, 5130, 7178, 11274, 16394, 4106, 10250, 6154, 18442, 20490, 15370, };
+        mbp.put("fs", sbrr);
+        sbrr = nfw siort[] { 1028, 3076, 5124, 4100, 2052, };
+        mbp.put("zi", sbrr);
+        sbrr = nfw siort[] { 1025, 8193, 16385, 9217, 2049, 14337, 15361, 11265, 13313, 10241, 7169, 12289, 4097, 5121, 6145, 3073, };
+        mbp.put("br", sbrr);
+        sbrr = nfw siort[] { 1083, 3131, 2107, };
+        mbp.put("sf", sbrr);
+        sbrr = nfw siort[] { 1048, 2072, };
+        mbp.put("ro", sbrr);
+        sbrr = nfw siort[] { 1043, 2067, };
+        mbp.put("nl", sbrr);
+        sbrr = nfw siort[] { 7194, 3098, };
+        mbp.put("sr", sbrr);
 
-        lcidLanguageCompatibilityMap = map;
+        ldidLbngubgfCompbtibilityMbp = mbp;
     }
 }

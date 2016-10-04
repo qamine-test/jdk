@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Lodblf;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.TfxtSyntbx;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+
+/**
+ * Clbss PrintfrInfo is b printing bttributf dlbss, b tfxt bttributf, thbt
+ * providfs dfsdriptivf informbtion bbout b printfr. This dould indludf things
+ * likf: <CODE>"This printfr dbn bf usfd for printing dolor trbnspbrfndifs for
+ * HR prfsfntbtions"</CODE>, or <CODE>"Out of dourtfsy for othfrs, plfbsf
+ * print only smbll (1-5 pbgf) jobs bt this printfr"</CODE>, or fvfn \
+ * <CODE>"This printfr is going bwby on July 1, 1997, plfbsf find b nfw
+ * printfr"</CODE>.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf string vbluf givfs thf IPP nbmf vbluf. Thf
+ * lodblf givfs thf IPP nbturbl lbngubgf. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss PrintfrInfo fxtfnds TfxtSyntbx
+        implfmfnts PrintSfrvidfAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7765280618777599727L;
+
+    /**
+     * Construdts b nfw printfr info bttributf with thf givfn informbtion
+     * string bnd lodblf.
+     *
+     * @pbrbm  info    Printfr informbtion string.
+     * @pbrbm  lodblf  Nbturbl lbngubgf of thf tfxt string. null
+     * is intfrprftfd to mfbn thf dffbult lodblf bs rfturnfd
+     * by <dodf>Lodblf.gftDffbult()</dodf>
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>info</CODE> is null.
+     */
+    publid PrintfrInfo(String info, Lodblf lodblf) {
+        supfr (info, lodblf);
+    }
+
+    /**
+     * Rfturns whfthfr this printfr info bttributf is fquivblfnt to thf pbssfd
+     * in objfdt. To bf fquivblfnt, bll of thf following donditions must bf
+     * truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss PrintfrInfo.
+     * <LI>
+     * This printfr info bttributf's undfrlying string bnd
+     * <CODE>objfdt</CODE>'s undfrlying string brf fqubl.
+     * <LI>
+     * This printfr info bttributf's lodblf bnd <CODE>objfdt</CODE>'s
+     * lodblf brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this printfr
+     *          info bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) && objfdt instbndfof PrintfrInfo);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss PrintfrInfo, thf dbtfgory is dlbss PrintfrInfo itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrintfrInfo.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss PrintfrInfo, thf dbtfgory nbmf is <CODE>"printfr-info"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "printfr-info";
+    }
+
+}

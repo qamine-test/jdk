@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,51 +30,51 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.nft.*;
 
 /**
- * A simple example to illustrate using a URL to access a resource
- * and then store the result to a File.
+ * A simplf fxbmplf to illustrbtf using b URL to bddfss b rfsourdf
+ * bnd tifn storf tif rfsult to b Filf.
  * <P>
- * Any type of URL can be used:  http, https, ftp, etc.
+ * Any typf of URL dbn bf usfd:  ittp, ittps, ftp, ftd.
  *
- * @author Brad R. Wetmore
- * @author Mark Reinhold
+ * @butior Brbd R. Wftmorf
+ * @butior Mbrk Rfiniold
  */
-public class URLDumper {
-    public static void main(String[] args) throws Exception {
+publid dlbss URLDumpfr {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
 
-        if (args.length != 2) {
-            System.out.println("Usage:  URLDumper <URL> <file>");
-            System.exit(1);
+        if (brgs.lfngti != 2) {
+            Systfm.out.println("Usbgf:  URLDumpfr <URL> <filf>");
+            Systfm.fxit(1);
         }
 
-        String location = args[0];
-        String file = args[1];
+        String lodbtion = brgs[0];
+        String filf = brgs[1];
 
-        URL url = new URL(location);
-        FileOutputStream fos = new FileOutputStream(file);
+        URL url = nfw URL(lodbtion);
+        FilfOutputStrfbm fos = nfw FilfOutputStrfbm(filf);
 
-        byte [] bytes = new byte [4096];
+        bytf [] bytfs = nfw bytf [4096];
 
-        InputStream is = url.openStream();
+        InputStrfbm is = url.opfnStrfbm();
 
-        int read;
+        int rfbd;
 
-        while ((read = is.read(bytes)) != -1) {
-            fos.write(bytes, 0, read);
+        wiilf ((rfbd = is.rfbd(bytfs)) != -1) {
+            fos.writf(bytfs, 0, rfbd);
         }
 
-        is.close();
-        fos.close();
+        is.dlosf();
+        fos.dlosf();
     }
 }

@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,228 +54,228 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import java.time.Duration;
+import jbvb.timf.Durbtion;
 
 /**
- * A standard set of date periods units.
+ * A stbndbrd sft of dbtf pfriods units.
  * <p>
- * This set of units provide unit-based access to manipulate a date, time or date-time.
- * The standard set of units can be extended by implementing {@link TemporalUnit}.
+ * Tiis sft of units providf unit-bbsfd bddfss to mbnipulbtf b dbtf, timf or dbtf-timf.
+ * Tif stbndbrd sft of units dbn bf fxtfndfd by implfmfnting {@link TfmporblUnit}.
  * <p>
- * These units are intended to be applicable in multiple calendar systems.
- * For example, most non-ISO calendar systems define units of years, months and days,
- * just with slightly different rules.
- * The documentation of each unit explains how it operates.
+ * Tifsf units brf intfndfd to bf bpplidbblf in multiplf dblfndbr systfms.
+ * For fxbmplf, most non-ISO dblfndbr systfms dffinf units of yfbrs, montis bnd dbys,
+ * just witi sligitly difffrfnt rulfs.
+ * Tif dodumfntbtion of fbdi unit fxplbins iow it opfrbtfs.
  *
- * @implSpec
- * This is a final, immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is b finbl, immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum ChronoUnit implements TemporalUnit {
+publid fnum CironoUnit implfmfnts TfmporblUnit {
 
     /**
-     * Unit that represents the concept of a nanosecond, the smallest supported unit of time.
-     * For the ISO calendar system, it is equal to the 1,000,000,000th part of the second unit.
+     * Unit tibt rfprfsfnts tif dondfpt of b nbnosfdond, tif smbllfst supportfd unit of timf.
+     * For tif ISO dblfndbr systfm, it is fqubl to tif 1,000,000,000ti pbrt of tif sfdond unit.
      */
-    NANOS("Nanos", Duration.ofNanos(1)),
+    NANOS("Nbnos", Durbtion.ofNbnos(1)),
     /**
-     * Unit that represents the concept of a microsecond.
-     * For the ISO calendar system, it is equal to the 1,000,000th part of the second unit.
+     * Unit tibt rfprfsfnts tif dondfpt of b midrosfdond.
+     * For tif ISO dblfndbr systfm, it is fqubl to tif 1,000,000ti pbrt of tif sfdond unit.
      */
-    MICROS("Micros", Duration.ofNanos(1000)),
+    MICROS("Midros", Durbtion.ofNbnos(1000)),
     /**
-     * Unit that represents the concept of a millisecond.
-     * For the ISO calendar system, it is equal to the 1000th part of the second unit.
+     * Unit tibt rfprfsfnts tif dondfpt of b millisfdond.
+     * For tif ISO dblfndbr systfm, it is fqubl to tif 1000ti pbrt of tif sfdond unit.
      */
-    MILLIS("Millis", Duration.ofNanos(1000_000)),
+    MILLIS("Millis", Durbtion.ofNbnos(1000_000)),
     /**
-     * Unit that represents the concept of a second.
-     * For the ISO calendar system, it is equal to the second in the SI system
-     * of units, except around a leap-second.
+     * Unit tibt rfprfsfnts tif dondfpt of b sfdond.
+     * For tif ISO dblfndbr systfm, it is fqubl to tif sfdond in tif SI systfm
+     * of units, fxdfpt bround b lfbp-sfdond.
      */
-    SECONDS("Seconds", Duration.ofSeconds(1)),
+    SECONDS("Sfdonds", Durbtion.ofSfdonds(1)),
     /**
-     * Unit that represents the concept of a minute.
-     * For the ISO calendar system, it is equal to 60 seconds.
+     * Unit tibt rfprfsfnts tif dondfpt of b minutf.
+     * For tif ISO dblfndbr systfm, it is fqubl to 60 sfdonds.
      */
-    MINUTES("Minutes", Duration.ofSeconds(60)),
+    MINUTES("Minutfs", Durbtion.ofSfdonds(60)),
     /**
-     * Unit that represents the concept of an hour.
-     * For the ISO calendar system, it is equal to 60 minutes.
+     * Unit tibt rfprfsfnts tif dondfpt of bn iour.
+     * For tif ISO dblfndbr systfm, it is fqubl to 60 minutfs.
      */
-    HOURS("Hours", Duration.ofSeconds(3600)),
+    HOURS("Hours", Durbtion.ofSfdonds(3600)),
     /**
-     * Unit that represents the concept of half a day, as used in AM/PM.
-     * For the ISO calendar system, it is equal to 12 hours.
+     * Unit tibt rfprfsfnts tif dondfpt of iblf b dby, bs usfd in AM/PM.
+     * For tif ISO dblfndbr systfm, it is fqubl to 12 iours.
      */
-    HALF_DAYS("HalfDays", Duration.ofSeconds(43200)),
+    HALF_DAYS("HblfDbys", Durbtion.ofSfdonds(43200)),
     /**
-     * Unit that represents the concept of a day.
-     * For the ISO calendar system, it is the standard day from midnight to midnight.
-     * The estimated duration of a day is {@code 24 Hours}.
+     * Unit tibt rfprfsfnts tif dondfpt of b dby.
+     * For tif ISO dblfndbr systfm, it is tif stbndbrd dby from midnigit to midnigit.
+     * Tif fstimbtfd durbtion of b dby is {@dodf 24 Hours}.
      * <p>
-     * When used with other calendar systems it must correspond to the day defined by
-     * the rising and setting of the Sun on Earth. It is not required that days begin
-     * at midnight - when converting between calendar systems, the date should be
-     * equivalent at midday.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to tif dby dffinfd by
+     * tif rising bnd sftting of tif Sun on Ebrti. It is not rfquirfd tibt dbys bfgin
+     * bt midnigit - wifn donvfrting bftwffn dblfndbr systfms, tif dbtf siould bf
+     * fquivblfnt bt middby.
      */
-    DAYS("Days", Duration.ofSeconds(86400)),
+    DAYS("Dbys", Durbtion.ofSfdonds(86400)),
     /**
-     * Unit that represents the concept of a week.
-     * For the ISO calendar system, it is equal to 7 days.
+     * Unit tibt rfprfsfnts tif dondfpt of b wffk.
+     * For tif ISO dblfndbr systfm, it is fqubl to 7 dbys.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys.
      */
-    WEEKS("Weeks", Duration.ofSeconds(7 * 86400L)),
+    WEEKS("Wffks", Durbtion.ofSfdonds(7 * 86400L)),
     /**
-     * Unit that represents the concept of a month.
-     * For the ISO calendar system, the length of the month varies by month-of-year.
-     * The estimated duration of a month is one twelfth of {@code 365.2425 Days}.
+     * Unit tibt rfprfsfnts tif dondfpt of b monti.
+     * For tif ISO dblfndbr systfm, tif lfngti of tif monti vbrifs by monti-of-yfbr.
+     * Tif fstimbtfd durbtion of b monti is onf twflfti of {@dodf 365.2425 Dbys}.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys.
      */
-    MONTHS("Months", Duration.ofSeconds(31556952L / 12)),
+    MONTHS("Montis", Durbtion.ofSfdonds(31556952L / 12)),
     /**
-     * Unit that represents the concept of a year.
-     * For the ISO calendar system, it is equal to 12 months.
-     * The estimated duration of a year is {@code 365.2425 Days}.
+     * Unit tibt rfprfsfnts tif dondfpt of b yfbr.
+     * For tif ISO dblfndbr systfm, it is fqubl to 12 montis.
+     * Tif fstimbtfd durbtion of b yfbr is {@dodf 365.2425 Dbys}.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * or months roughly equal to a year defined by the passage of the Earth around the Sun.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * or montis rougily fqubl to b yfbr dffinfd by tif pbssbgf of tif Ebrti bround tif Sun.
      */
-    YEARS("Years", Duration.ofSeconds(31556952L)),
+    YEARS("Yfbrs", Durbtion.ofSfdonds(31556952L)),
     /**
-     * Unit that represents the concept of a decade.
-     * For the ISO calendar system, it is equal to 10 years.
+     * Unit tibt rfprfsfnts tif dondfpt of b dfdbdf.
+     * For tif ISO dblfndbr systfm, it is fqubl to 10 yfbrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
      */
-    DECADES("Decades", Duration.ofSeconds(31556952L * 10L)),
+    DECADES("Dfdbdfs", Durbtion.ofSfdonds(31556952L * 10L)),
     /**
-     * Unit that represents the concept of a century.
-     * For the ISO calendar system, it is equal to 100 years.
+     * Unit tibt rfprfsfnts tif dondfpt of b dfntury.
+     * For tif ISO dblfndbr systfm, it is fqubl to 100 yfbrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
      */
-    CENTURIES("Centuries", Duration.ofSeconds(31556952L * 100L)),
+    CENTURIES("Cfnturifs", Durbtion.ofSfdonds(31556952L * 100L)),
     /**
-     * Unit that represents the concept of a millennium.
-     * For the ISO calendar system, it is equal to 1000 years.
+     * Unit tibt rfprfsfnts tif dondfpt of b millfnnium.
+     * For tif ISO dblfndbr systfm, it is fqubl to 1000 yfbrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * Wifn usfd witi otifr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
      */
-    MILLENNIA("Millennia", Duration.ofSeconds(31556952L * 1000L)),
+    MILLENNIA("Millfnnib", Durbtion.ofSfdonds(31556952L * 1000L)),
     /**
-     * Unit that represents the concept of an era.
-     * The ISO calendar system doesn't have eras thus it is impossible to add
-     * an era to a date or date-time.
-     * The estimated duration of the era is artificially defined as {@code 1,000,000,000 Years}.
+     * Unit tibt rfprfsfnts tif dondfpt of bn frb.
+     * Tif ISO dblfndbr systfm dofsn't ibvf frbs tius it is impossiblf to bdd
+     * bn frb to b dbtf or dbtf-timf.
+     * Tif fstimbtfd durbtion of tif frb is brtifidiblly dffinfd bs {@dodf 1,000,000,000 Yfbrs}.
      * <p>
-     * When used with other calendar systems there are no restrictions on the unit.
+     * Wifn usfd witi otifr dblfndbr systfms tifrf brf no rfstridtions on tif unit.
      */
-    ERAS("Eras", Duration.ofSeconds(31556952L * 1000_000_000L)),
+    ERAS("Erbs", Durbtion.ofSfdonds(31556952L * 1000_000_000L)),
     /**
-     * Artificial unit that represents the concept of forever.
-     * This is primarily used with {@link TemporalField} to represent unbounded fields
-     * such as the year or era.
-     * The estimated duration of the era is artificially defined as the largest duration
-     * supported by {@code Duration}.
+     * Artifidibl unit tibt rfprfsfnts tif dondfpt of forfvfr.
+     * Tiis is primbrily usfd witi {@link TfmporblFifld} to rfprfsfnt unboundfd fiflds
+     * sudi bs tif yfbr or frb.
+     * Tif fstimbtfd durbtion of tif frb is brtifidiblly dffinfd bs tif lbrgfst durbtion
+     * supportfd by {@dodf Durbtion}.
      */
-    FOREVER("Forever", Duration.ofSeconds(Long.MAX_VALUE, 999_999_999));
+    FOREVER("Forfvfr", Durbtion.ofSfdonds(Long.MAX_VALUE, 999_999_999));
 
-    private final String name;
-    private final Duration duration;
+    privbtf finbl String nbmf;
+    privbtf finbl Durbtion durbtion;
 
-    private ChronoUnit(String name, Duration estimatedDuration) {
-        this.name = name;
-        this.duration = estimatedDuration;
+    privbtf CironoUnit(String nbmf, Durbtion fstimbtfdDurbtion) {
+        tiis.nbmf = nbmf;
+        tiis.durbtion = fstimbtfdDurbtion;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the estimated duration of this unit in the ISO calendar system.
+     * Gfts tif fstimbtfd durbtion of tiis unit in tif ISO dblfndbr systfm.
      * <p>
-     * All of the units in this class have an estimated duration.
-     * Days vary due to daylight saving time, while months have different lengths.
+     * All of tif units in tiis dlbss ibvf bn fstimbtfd durbtion.
+     * Dbys vbry duf to dbyligit sbving timf, wiilf montis ibvf difffrfnt lfngtis.
      *
-     * @return the estimated duration of this unit, not null
+     * @rfturn tif fstimbtfd durbtion of tiis unit, not null
      */
-    @Override
-    public Duration getDuration() {
-        return duration;
+    @Ovfrridf
+    publid Durbtion gftDurbtion() {
+        rfturn durbtion;
     }
 
     /**
-     * Checks if the duration of the unit is an estimate.
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
      * <p>
-     * All time units in this class are considered to be accurate, while all date
-     * units in this class are considered to be estimated.
+     * All timf units in tiis dlbss brf donsidfrfd to bf bddurbtf, wiilf bll dbtf
+     * units in tiis dlbss brf donsidfrfd to bf fstimbtfd.
      * <p>
-     * This definition ignores leap seconds, but considers that Days vary due to
-     * daylight saving time and months have different lengths.
+     * Tiis dffinition ignorfs lfbp sfdonds, but donsidfrs tibt Dbys vbry duf to
+     * dbyligit sbving timf bnd montis ibvf difffrfnt lfngtis.
      *
-     * @return true if the duration is estimated, false if accurate
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
      */
-    @Override
-    public boolean isDurationEstimated() {
-        return this.compareTo(DAYS) >= 0;
+    @Ovfrridf
+    publid boolfbn isDurbtionEstimbtfd() {
+        rfturn tiis.dompbrfTo(DAYS) >= 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this unit is a date unit.
+     * Cifdks if tiis unit is b dbtf unit.
      * <p>
-     * All units from days to eras inclusive are date-based.
-     * Time-based units and {@code FOREVER} return false.
+     * All units from dbys to frbs indlusivf brf dbtf-bbsfd.
+     * Timf-bbsfd units bnd {@dodf FOREVER} rfturn fblsf.
      *
-     * @return true if a date unit, false if a time unit
+     * @rfturn truf if b dbtf unit, fblsf if b timf unit
      */
-    @Override
-    public boolean isDateBased() {
-        return this.compareTo(DAYS) >= 0 && this != FOREVER;
+    @Ovfrridf
+    publid boolfbn isDbtfBbsfd() {
+        rfturn tiis.dompbrfTo(DAYS) >= 0 && tiis != FOREVER;
     }
 
     /**
-     * Checks if this unit is a time unit.
+     * Cifdks if tiis unit is b timf unit.
      * <p>
-     * All units from nanos to half-days inclusive are time-based.
-     * Date-based units and {@code FOREVER} return false.
+     * All units from nbnos to iblf-dbys indlusivf brf timf-bbsfd.
+     * Dbtf-bbsfd units bnd {@dodf FOREVER} rfturn fblsf.
      *
-     * @return true if a time unit, false if a date unit
+     * @rfturn truf if b timf unit, fblsf if b dbtf unit
      */
-    @Override
-    public boolean isTimeBased() {
-        return this.compareTo(DAYS) < 0;
+    @Ovfrridf
+    publid boolfbn isTimfBbsfd() {
+        rfturn tiis.dompbrfTo(DAYS) < 0;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public boolean isSupportedBy(Temporal temporal) {
-        return temporal.isSupported(this);
+    @Ovfrridf
+    publid boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.isSupportfd(tiis);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R extends Temporal> R addTo(R temporal, long amount) {
-        return (R) temporal.plus(amount, this);
-    }
-
-    //-----------------------------------------------------------------------
-    @Override
-    public long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive) {
-        return temporal1Inclusive.until(temporal2Exclusive, this);
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount) {
+        rfturn (R) tfmporbl.plus(bmount, tiis);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public String toString() {
-        return name;
+    @Ovfrridf
+    publid long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf) {
+        rfturn tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
     }
 
 }

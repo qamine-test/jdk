@@ -1,1155 +1,1155 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.image.VolatileImage;
-import sun.awt.RepaintArea;
-import sun.awt.CausedFocusEvent;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.ToolkitImage;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageObserver;
-import java.awt.image.ColorModel;
-import java.awt.event.PaintEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.InputEvent;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.Win32GraphicsEnvironment;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SurfaceData;
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.d3d.D3DSurfaceData;
-import sun.java2d.opengl.OGLSurfaceData;
-import sun.java2d.pipe.Region;
-import sun.awt.PaintEventDispatcher;
-import sun.awt.SunToolkit;
-import sun.awt.event.IgnorePaintEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.RfpbintArfb;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.ToolkitImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfWifflEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import sun.bwt.Win32GrbpiidsConfig;
+import sun.bwt.Win32GrbpiidsEnvironmfnt;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SdrffnUpdbtfMbnbgfr;
+import sun.jbvb2d.d3d.D3DSurfbdfDbtb;
+import sun.jbvb2d.opfngl.OGLSurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.bwt.PbintEvfntDispbtdifr;
+import sun.bwt.SunToolkit;
+import sun.bwt.fvfnt.IgnorfPbintEvfnt;
 
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.peer.DropTargetPeer;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.dnd.pffr.DropTbrgftPffr;
+import sun.bwt.AWTAddfssor;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-public abstract class WComponentPeer extends WObjectPeer
-    implements ComponentPeer, DropTargetPeer
+publid bbstrbdt dlbss WComponfntPffr fxtfnds WObjfdtPffr
+    implfmfnts ComponfntPffr, DropTbrgftPffr
 {
     /**
-     * Handle to native window
+     * Hbndlf to nbtivf window
      */
-    protected volatile long hwnd;
+    protfdtfd volbtilf long iwnd;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WComponentPeer");
-    private static final PlatformLogger shapeLog = PlatformLogger.getLogger("sun.awt.windows.shape.WComponentPeer");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.windows.focus.WComponentPeer");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.WComponfntPffr");
+    privbtf stbtid finbl PlbtformLoggfr sibpfLog = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.sibpf.WComponfntPffr");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.fodus.WComponfntPffr");
 
-    // ComponentPeer implementation
-    SurfaceData surfaceData;
+    // ComponfntPffr implfmfntbtion
+    SurfbdfDbtb surfbdfDbtb;
 
-    private RepaintArea paintArea;
+    privbtf RfpbintArfb pbintArfb;
 
-    protected Win32GraphicsConfig winGraphicsConfig;
+    protfdtfd Win32GrbpiidsConfig winGrbpiidsConfig;
 
-    boolean isLayouting = false;
-    boolean paintPending = false;
-    int     oldWidth = -1;
-    int     oldHeight = -1;
-    private int numBackBuffers = 0;
-    private VolatileImage backBuffer = null;
-    private BufferCapabilities backBufferCaps = null;
+    boolfbn isLbyouting = fblsf;
+    boolfbn pbintPfnding = fblsf;
+    int     oldWidti = -1;
+    int     oldHfigit = -1;
+    privbtf int numBbdkBufffrs = 0;
+    privbtf VolbtilfImbgf bbdkBufffr = null;
+    privbtf BufffrCbpbbilitifs bbdkBufffrCbps = null;
 
-    // foreground, background and color are cached to avoid calling back
-    // into the Component.
-    private Color foreground;
-    private Color background;
-    private Font font;
+    // forfground, bbdkground bnd dolor brf dbdifd to bvoid dblling bbdk
+    // into tif Componfnt.
+    privbtf Color forfground;
+    privbtf Color bbdkground;
+    privbtf Font font;
 
-    @Override
-    public native boolean isObscured();
-    @Override
-    public boolean canDetermineObscurity() { return true; }
+    @Ovfrridf
+    publid nbtivf boolfbn isObsdurfd();
+    @Ovfrridf
+    publid boolfbn dbnDftfrminfObsdurity() { rfturn truf; }
 
-    // DropTarget support
+    // DropTbrgft support
 
-    int nDropTargets;
-    long nativeDropTargetContext; // native pointer
+    int nDropTbrgfts;
+    long nbtivfDropTbrgftContfxt; // nbtivf pointfr
 
-    private synchronized native void pShow();
-    synchronized native void hide();
-    synchronized native void enable();
-    synchronized native void disable();
+    privbtf syndironizfd nbtivf void pSiow();
+    syndironizfd nbtivf void iidf();
+    syndironizfd nbtivf void fnbblf();
+    syndironizfd nbtivf void disbblf();
 
-    public long getHWnd() {
-        return hwnd;
+    publid long gftHWnd() {
+        rfturn iwnd;
     }
 
-    /* New 1.1 API */
-    @Override
-    public native Point getLocationOnScreen();
+    /* Nfw 1.1 API */
+    @Ovfrridf
+    publid nbtivf Point gftLodbtionOnSdrffn();
 
-    /* New 1.1 API */
-    @Override
-    public void setVisible(boolean b) {
+    /* Nfw 1.1 API */
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn b) {
         if (b) {
-            show();
-        } else {
-            hide();
+            siow();
+        } flsf {
+            iidf();
         }
     }
 
-    public void show() {
-        Dimension s = ((Component)target).getSize();
-        oldHeight = s.height;
-        oldWidth = s.width;
-        pShow();
+    publid void siow() {
+        Dimfnsion s = ((Componfnt)tbrgft).gftSizf();
+        oldHfigit = s.ifigit;
+        oldWidti = s.widti;
+        pSiow();
     }
 
-    /* New 1.1 API */
-    @Override
-    public void setEnabled(boolean b) {
+    /* Nfw 1.1 API */
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn b) {
         if (b) {
-            enable();
-        } else {
-            disable();
+            fnbblf();
+        } flsf {
+            disbblf();
         }
     }
 
-    public int serialNum = 0;
+    publid int sfriblNum = 0;
 
-    private native void reshapeNoCheck(int x, int y, int width, int height);
+    privbtf nbtivf void rfsibpfNoCifdk(int x, int y, int widti, int ifigit);
 
-    /* New 1.1 API */
-    @Override
-    public void setBounds(int x, int y, int width, int height, int op) {
-        // Should set paintPending before reahape to prevent
-        // thread race between paint events
-        // Native components do redraw after resize
-        paintPending = (width != oldWidth) || (height != oldHeight);
+    /* Nfw 1.1 API */
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
+        // Siould sft pbintPfnding bfforf rfbibpf to prfvfnt
+        // tirfbd rbdf bftwffn pbint fvfnts
+        // Nbtivf domponfnts do rfdrbw bftfr rfsizf
+        pbintPfnding = (widti != oldWidti) || (ifigit != oldHfigit);
 
         if ( (op & NO_EMBEDDED_CHECK) != 0 ) {
-            reshapeNoCheck(x, y, width, height);
-        } else {
-            reshape(x, y, width, height);
+            rfsibpfNoCifdk(x, y, widti, ifigit);
+        } flsf {
+            rfsibpf(x, y, widti, ifigit);
         }
-        if ((width != oldWidth) || (height != oldHeight)) {
-            // Only recreate surfaceData if this setBounds is called
-            // for a resize; a simple move should not trigger a recreation
+        if ((widti != oldWidti) || (ifigit != oldHfigit)) {
+            // Only rfdrfbtf surfbdfDbtb if tiis sftBounds is dbllfd
+            // for b rfsizf; b simplf movf siould not triggfr b rfdrfbtion
             try {
-                replaceSurfaceData();
-            } catch (InvalidPipeException e) {
-                // REMIND : what do we do if our surface creation failed?
+                rfplbdfSurfbdfDbtb();
+            } dbtdi (InvblidPipfExdfption f) {
+                // REMIND : wibt do wf do if our surfbdf drfbtion fbilfd?
             }
-            oldWidth = width;
-            oldHeight = height;
+            oldWidti = widti;
+            oldHfigit = ifigit;
         }
 
-        serialNum++;
+        sfriblNum++;
     }
 
     /*
-     * Called from native code (on Toolkit thread) in order to
-     * dynamically layout the Container during resizing
+     * Cbllfd from nbtivf dodf (on Toolkit tirfbd) in ordfr to
+     * dynbmidblly lbyout tif Contbinfr during rfsizing
      */
-    void dynamicallyLayoutContainer() {
-        // If we got the WM_SIZING, this must be a Container, right?
-        // In fact, it must be the top-level Container.
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            Container parent = WToolkit.getNativeContainer((Component)target);
-            if (parent != null) {
-                log.fine("Assertion (parent == null) failed");
+    void dynbmidbllyLbyoutContbinfr() {
+        // If wf got tif WM_SIZING, tiis must bf b Contbinfr, rigit?
+        // In fbdt, it must bf tif top-lfvfl Contbinfr.
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            Contbinfr pbrfnt = WToolkit.gftNbtivfContbinfr((Componfnt)tbrgft);
+            if (pbrfnt != null) {
+                log.finf("Assfrtion (pbrfnt == null) fbilfd");
             }
         }
-        final Container cont = (Container)target;
+        finbl Contbinfr dont = (Contbinfr)tbrgft;
 
-        WToolkit.executeOnEventHandlerThread(cont, new Runnable() {
-            @Override
-            public void run() {
-                // Discarding old paint events doesn't seem to be necessary.
-                cont.invalidate();
-                cont.validate();
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(dont, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                // Disdbrding old pbint fvfnts dofsn't sffm to bf nfdfssbry.
+                dont.invblidbtf();
+                dont.vblidbtf();
 
-                if (surfaceData instanceof D3DSurfaceData.D3DWindowSurfaceData ||
-                    surfaceData instanceof OGLSurfaceData)
+                if (surfbdfDbtb instbndfof D3DSurfbdfDbtb.D3DWindowSurfbdfDbtb ||
+                    surfbdfDbtb instbndfof OGLSurfbdfDbtb)
                 {
-                    // When OGL or D3D is enabled, it is necessary to
-                    // replace the SurfaceData for each dynamic layout
-                    // request so that the viewport stays in sync
-                    // with the window bounds.
+                    // Wifn OGL or D3D is fnbblfd, it is nfdfssbry to
+                    // rfplbdf tif SurfbdfDbtb for fbdi dynbmid lbyout
+                    // rfqufst so tibt tif vifwport stbys in synd
+                    // witi tif window bounds.
                     try {
-                        replaceSurfaceData();
-                    } catch (InvalidPipeException e) {
-                        // REMIND: this is unlikely to occur for OGL, but
-                        // what do we do if surface creation fails?
+                        rfplbdfSurfbdfDbtb();
+                    } dbtdi (InvblidPipfExdfption f) {
+                        // REMIND: tiis is unlikfly to oddur for OGL, but
+                        // wibt do wf do if surfbdf drfbtion fbils?
                     }
                 }
 
-                // Forcing a paint here doesn't seem to be necessary.
-                // paintDamagedAreaImmediately();
+                // Fording b pbint ifrf dofsn't sffm to bf nfdfssbry.
+                // pbintDbmbgfdArfbImmfdibtfly();
             }
         });
     }
 
     /*
-     * Paints any portion of the component that needs updating
-     * before the call returns (similar to the Win32 API UpdateWindow)
+     * Pbints bny portion of tif domponfnt tibt nffds updbting
+     * bfforf tif dbll rfturns (similbr to tif Win32 API UpdbtfWindow)
      */
-    void paintDamagedAreaImmediately() {
-        // force Windows to send any pending WM_PAINT events so
-        // the damage area is updated on the Java side
-        updateWindow();
-        // make sure paint events are transferred to main event queue
-        // for coalescing
-        SunToolkit.flushPendingEvents();
-        // paint the damaged area
-        paintArea.paint(target, shouldClearRectBeforePaint());
+    void pbintDbmbgfdArfbImmfdibtfly() {
+        // fordf Windows to sfnd bny pfnding WM_PAINT fvfnts so
+        // tif dbmbgf brfb is updbtfd on tif Jbvb sidf
+        updbtfWindow();
+        // mbkf surf pbint fvfnts brf trbnsffrrfd to mbin fvfnt qufuf
+        // for doblfsding
+        SunToolkit.flusiPfndingEvfnts();
+        // pbint tif dbmbgfd brfb
+        pbintArfb.pbint(tbrgft, siouldClfbrRfdtBfforfPbint());
     }
 
-    native synchronized void updateWindow();
+    nbtivf syndironizfd void updbtfWindow();
 
-    @Override
-    public void paint(Graphics g) {
-        ((Component)target).paint(g);
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        ((Componfnt)tbrgft).pbint(g);
     }
 
-    public void repaint(long tm, int x, int y, int width, int height) {
+    publid void rfpbint(long tm, int x, int y, int widti, int ifigit) {
     }
 
-    private static final double BANDING_DIVISOR = 4.0;
-    private native int[] createPrintedPixels(int srcX, int srcY,
-                                             int srcW, int srcH,
-                                             int alpha);
-    @Override
-    public void print(Graphics g) {
+    privbtf stbtid finbl doublf BANDING_DIVISOR = 4.0;
+    privbtf nbtivf int[] drfbtfPrintfdPixfls(int srdX, int srdY,
+                                             int srdW, int srdH,
+                                             int blpib);
+    @Ovfrridf
+    publid void print(Grbpiids g) {
 
-        Component comp = (Component)target;
+        Componfnt domp = (Componfnt)tbrgft;
 
-        // To conserve memory usage, we will band the image.
+        // To donsfrvf mfmory usbgf, wf will bbnd tif imbgf.
 
-        int totalW = comp.getWidth();
-        int totalH = comp.getHeight();
+        int totblW = domp.gftWidti();
+        int totblH = domp.gftHfigit();
 
-        int hInc = (int)(totalH / BANDING_DIVISOR);
-        if (hInc == 0) {
-            hInc = totalH;
+        int iInd = (int)(totblH / BANDING_DIVISOR);
+        if (iInd == 0) {
+            iInd = totblH;
         }
 
-        for (int startY = 0; startY < totalH; startY += hInc) {
-            int endY = startY + hInc - 1;
-            if (endY >= totalH) {
-                endY = totalH - 1;
+        for (int stbrtY = 0; stbrtY < totblH; stbrtY += iInd) {
+            int fndY = stbrtY + iInd - 1;
+            if (fndY >= totblH) {
+                fndY = totblH - 1;
             }
-            int h = endY - startY + 1;
+            int i = fndY - stbrtY + 1;
 
-            Color bgColor = comp.getBackground();
-            int[] pix = createPrintedPixels(0, startY, totalW, h,
-                                            bgColor == null ? 255 : bgColor.getAlpha());
+            Color bgColor = domp.gftBbdkground();
+            int[] pix = drfbtfPrintfdPixfls(0, stbrtY, totblW, i,
+                                            bgColor == null ? 255 : bgColor.gftAlpib());
             if (pix != null) {
-                BufferedImage bim = new BufferedImage(totalW, h,
-                                              BufferedImage.TYPE_INT_ARGB);
-                bim.setRGB(0, 0, totalW, h, pix, 0, totalW);
-                g.drawImage(bim, 0, startY, null);
-                bim.flush();
+                BufffrfdImbgf bim = nfw BufffrfdImbgf(totblW, i,
+                                              BufffrfdImbgf.TYPE_INT_ARGB);
+                bim.sftRGB(0, 0, totblW, i, pix, 0, totblW);
+                g.drbwImbgf(bim, 0, stbrtY, null);
+                bim.flusi();
             }
         }
 
-        comp.print(g);
+        domp.print(g);
     }
 
-    @Override
-    public void coalescePaintEvent(PaintEvent e) {
-        Rectangle r = e.getUpdateRect();
-        if (!(e instanceof IgnorePaintEvent)) {
-            paintArea.add(r, e.getID());
+    @Ovfrridf
+    publid void doblfsdfPbintEvfnt(PbintEvfnt f) {
+        Rfdtbnglf r = f.gftUpdbtfRfdt();
+        if (!(f instbndfof IgnorfPbintEvfnt)) {
+            pbintArfb.bdd(r, f.gftID());
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            switch(e.getID()) {
-            case PaintEvent.UPDATE:
-                log.finest("coalescePaintEvent: UPDATE: add: x = " +
-                    r.x + ", y = " + r.y + ", width = " + r.width + ", height = " + r.height);
-                return;
-            case PaintEvent.PAINT:
-                log.finest("coalescePaintEvent: PAINT: add: x = " +
-                    r.x + ", y = " + r.y + ", width = " + r.width + ", height = " + r.height);
-                return;
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            switdi(f.gftID()) {
+            dbsf PbintEvfnt.UPDATE:
+                log.finfst("doblfsdfPbintEvfnt: UPDATE: bdd: x = " +
+                    r.x + ", y = " + r.y + ", widti = " + r.widti + ", ifigit = " + r.ifigit);
+                rfturn;
+            dbsf PbintEvfnt.PAINT:
+                log.finfst("doblfsdfPbintEvfnt: PAINT: bdd: x = " +
+                    r.x + ", y = " + r.y + ", widti = " + r.widti + ", ifigit = " + r.ifigit);
+                rfturn;
             }
         }
     }
 
-    public synchronized native void reshape(int x, int y, int width, int height);
+    publid syndironizfd nbtivf void rfsibpf(int x, int y, int widti, int ifigit);
 
-    // returns true if the event has been handled and shouldn't be propagated
-    // though handleEvent method chain - e.g. WTextFieldPeer returns true
-    // on handling '\n' to prevent it from being passed to native code
-    public boolean handleJavaKeyEvent(KeyEvent e) { return false; }
+    // rfturns truf if tif fvfnt ibs bffn ibndlfd bnd siouldn't bf propbgbtfd
+    // tiougi ibndlfEvfnt mftiod dibin - f.g. WTfxtFifldPffr rfturns truf
+    // on ibndling '\n' to prfvfnt it from bfing pbssfd to nbtivf dodf
+    publid boolfbn ibndlfJbvbKfyEvfnt(KfyEvfnt f) { rfturn fblsf; }
 
-    public void handleJavaMouseEvent(MouseEvent e) {
-        switch (e.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              // Note that Swing requests focus in its own mouse event handler.
-              if (target == e.getSource() &&
-                  !((Component)target).isFocusOwner() &&
-                  WKeyboardFocusManagerPeer.shouldFocusOnClick((Component)target))
+    publid void ibndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        switdi (f.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              // Notf tibt Swing rfqufsts fodus in its own mousf fvfnt ibndlfr.
+              if (tbrgft == f.gftSourdf() &&
+                  !((Componfnt)tbrgft).isFodusOwnfr() &&
+                  WKfybobrdFodusMbnbgfrPffr.siouldFodusOnClidk((Componfnt)tbrgft))
               {
-                  WKeyboardFocusManagerPeer.requestFocusFor((Component)target,
-                                                            CausedFocusEvent.Cause.MOUSE_EVENT);
+                  WKfybobrdFodusMbnbgfrPffr.rfqufstFodusFor((Componfnt)tbrgft,
+                                                            CbusfdFodusEvfnt.Cbusf.MOUSE_EVENT);
               }
-              break;
+              brfbk;
         }
     }
 
-    native void nativeHandleEvent(AWTEvent e);
+    nbtivf void nbtivfHbndlfEvfnt(AWTEvfnt f);
 
-    @Override
-    @SuppressWarnings("fallthrough")
-    public void handleEvent(AWTEvent e) {
-        int id = e.getID();
+    @Ovfrridf
+    @SupprfssWbrnings("fblltirougi")
+    publid void ibndlfEvfnt(AWTEvfnt f) {
+        int id = f.gftID();
 
-        if ((e instanceof InputEvent) && !((InputEvent)e).isConsumed() &&
-            ((Component)target).isEnabled())
+        if ((f instbndfof InputEvfnt) && !((InputEvfnt)f).isConsumfd() &&
+            ((Componfnt)tbrgft).isEnbblfd())
         {
-            if (e instanceof MouseEvent && !(e instanceof MouseWheelEvent)) {
-                handleJavaMouseEvent((MouseEvent) e);
-            } else if (e instanceof KeyEvent) {
-                if (handleJavaKeyEvent((KeyEvent)e)) {
-                    return;
+            if (f instbndfof MousfEvfnt && !(f instbndfof MousfWifflEvfnt)) {
+                ibndlfJbvbMousfEvfnt((MousfEvfnt) f);
+            } flsf if (f instbndfof KfyEvfnt) {
+                if (ibndlfJbvbKfyEvfnt((KfyEvfnt)f)) {
+                    rfturn;
                 }
             }
         }
 
-        switch(id) {
-            case PaintEvent.PAINT:
-                // Got native painting
-                paintPending = false;
-                // Fallthrough to next statement
-            case PaintEvent.UPDATE:
-                // Skip all painting while layouting and all UPDATEs
-                // while waiting for native paint
-                if (!isLayouting && ! paintPending) {
-                    paintArea.paint(target,shouldClearRectBeforePaint());
+        switdi(id) {
+            dbsf PbintEvfnt.PAINT:
+                // Got nbtivf pbinting
+                pbintPfnding = fblsf;
+                // Fblltirougi to nfxt stbtfmfnt
+            dbsf PbintEvfnt.UPDATE:
+                // Skip bll pbinting wiilf lbyouting bnd bll UPDATEs
+                // wiilf wbiting for nbtivf pbint
+                if (!isLbyouting && ! pbintPfnding) {
+                    pbintArfb.pbint(tbrgft,siouldClfbrRfdtBfforfPbint());
                 }
-                return;
-            case FocusEvent.FOCUS_LOST:
-            case FocusEvent.FOCUS_GAINED:
-                handleJavaFocusEvent((FocusEvent)e);
-            default:
-            break;
+                rfturn;
+            dbsf FodusEvfnt.FOCUS_LOST:
+            dbsf FodusEvfnt.FOCUS_GAINED:
+                ibndlfJbvbFodusEvfnt((FodusEvfnt)f);
+            dffbult:
+            brfbk;
         }
 
-        // Call the native code
-        nativeHandleEvent(e);
+        // Cbll tif nbtivf dodf
+        nbtivfHbndlfEvfnt(f);
     }
 
-    void handleJavaFocusEvent(FocusEvent fe) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-            focusLog.finer(fe.toString());
+    void ibndlfJbvbFodusEvfnt(FodusEvfnt ff) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr(ff.toString());
         }
-        setFocus(fe.getID() == FocusEvent.FOCUS_GAINED);
+        sftFodus(ff.gftID() == FodusEvfnt.FOCUS_GAINED);
     }
 
-    native void setFocus(boolean doSetFocus);
+    nbtivf void sftFodus(boolfbn doSftFodus);
 
-    @Override
-    public Dimension getMinimumSize() {
-        return ((Component)target).getSize();
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn ((Componfnt)tbrgft).gftSizf();
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return getMinimumSize();
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn gftMinimumSizf();
     }
 
-    // Do nothing for heavyweight implementation
-    @Override
-    public void layout() {}
+    // Do notiing for ifbvywfigit implfmfntbtion
+    @Ovfrridf
+    publid void lbyout() {}
 
-    public Rectangle getBounds() {
-        return ((Component)target).getBounds();
+    publid Rfdtbnglf gftBounds() {
+        rfturn ((Componfnt)tbrgft).gftBounds();
     }
 
-    @Override
-    public boolean isFocusable() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn fblsf;
     }
 
     /*
-     * Return the GraphicsConfiguration associated with this peer, either
-     * the locally stored winGraphicsConfig, or that of the target Component.
+     * Rfturn tif GrbpiidsConfigurbtion bssodibtfd witi tiis pffr, fitifr
+     * tif lodblly storfd winGrbpiidsConfig, or tibt of tif tbrgft Componfnt.
      */
-    @Override
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        if (winGraphicsConfig != null) {
-            return winGraphicsConfig;
+    @Ovfrridf
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        if (winGrbpiidsConfig != null) {
+            rfturn winGrbpiidsConfig;
         }
-        else {
-            // we don't need a treelock here, since
-            // Component.getGraphicsConfiguration() gets it itself.
-            return ((Component)target).getGraphicsConfiguration();
+        flsf {
+            // wf don't nffd b trfflodk ifrf, sindf
+            // Componfnt.gftGrbpiidsConfigurbtion() gfts it itsflf.
+            rfturn ((Componfnt)tbrgft).gftGrbpiidsConfigurbtion();
         }
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
     }
 
     /**
-     * Creates new surfaceData object and invalidates the previous
-     * surfaceData object.
-     * Replacing the surface data should never lock on any resources which are
-     * required by other threads which may have them and may require
-     * the tree-lock.
-     * This is a degenerate version of replaceSurfaceData(numBackBuffers), so
-     * just call that version with our current numBackBuffers.
+     * Crfbtfs nfw surfbdfDbtb objfdt bnd invblidbtfs tif prfvious
+     * surfbdfDbtb objfdt.
+     * Rfplbding tif surfbdf dbtb siould nfvfr lodk on bny rfsourdfs wiidi brf
+     * rfquirfd by otifr tirfbds wiidi mby ibvf tifm bnd mby rfquirf
+     * tif trff-lodk.
+     * Tiis is b dfgfnfrbtf vfrsion of rfplbdfSurfbdfDbtb(numBbdkBufffrs), so
+     * just dbll tibt vfrsion witi our durrfnt numBbdkBufffrs.
      */
-    public void replaceSurfaceData() {
-        replaceSurfaceData(this.numBackBuffers, this.backBufferCaps);
+    publid void rfplbdfSurfbdfDbtb() {
+        rfplbdfSurfbdfDbtb(tiis.numBbdkBufffrs, tiis.bbdkBufffrCbps);
     }
 
-    public void createScreenSurface(boolean isResize)
+    publid void drfbtfSdrffnSurfbdf(boolfbn isRfsizf)
     {
-        Win32GraphicsConfig gc = (Win32GraphicsConfig)getGraphicsConfiguration();
-        ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
+        Win32GrbpiidsConfig gd = (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        SdrffnUpdbtfMbnbgfr mgr = SdrffnUpdbtfMbnbgfr.gftInstbndf();
 
-        surfaceData = mgr.createScreenSurface(gc, this, numBackBuffers, isResize);
+        surfbdfDbtb = mgr.drfbtfSdrffnSurfbdf(gd, tiis, numBbdkBufffrs, isRfsizf);
     }
 
 
     /**
-     * Multi-buffer version of replaceSurfaceData.  This version is called
-     * by createBuffers(), which needs to acquire the same locks in the same
-     * order, but also needs to perform additional functions inside the
-     * locks.
+     * Multi-bufffr vfrsion of rfplbdfSurfbdfDbtb.  Tiis vfrsion is dbllfd
+     * by drfbtfBufffrs(), wiidi nffds to bdquirf tif sbmf lodks in tif sbmf
+     * ordfr, but blso nffds to pfrform bdditionbl fundtions insidf tif
+     * lodks.
      */
-    public void replaceSurfaceData(int newNumBackBuffers,
-                                   BufferCapabilities caps)
+    publid void rfplbdfSurfbdfDbtb(int nfwNumBbdkBufffrs,
+                                   BufffrCbpbbilitifs dbps)
     {
-        SurfaceData oldData = null;
-        VolatileImage oldBB = null;
-        synchronized(((Component)target).getTreeLock()) {
-            synchronized(this) {
-                if (pData == 0) {
-                    return;
+        SurfbdfDbtb oldDbtb = null;
+        VolbtilfImbgf oldBB = null;
+        syndironizfd(((Componfnt)tbrgft).gftTrffLodk()) {
+            syndironizfd(tiis) {
+                if (pDbtb == 0) {
+                    rfturn;
                 }
-                numBackBuffers = newNumBackBuffers;
-                ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
-                oldData = surfaceData;
-                mgr.dropScreenSurface(oldData);
-                createScreenSurface(true);
-                if (oldData != null) {
-                    oldData.invalidate();
+                numBbdkBufffrs = nfwNumBbdkBufffrs;
+                SdrffnUpdbtfMbnbgfr mgr = SdrffnUpdbtfMbnbgfr.gftInstbndf();
+                oldDbtb = surfbdfDbtb;
+                mgr.dropSdrffnSurfbdf(oldDbtb);
+                drfbtfSdrffnSurfbdf(truf);
+                if (oldDbtb != null) {
+                    oldDbtb.invblidbtf();
                 }
 
-                oldBB = backBuffer;
-                if (numBackBuffers > 0) {
-                    // set the caps first, they're used when creating the bb
-                    backBufferCaps = caps;
-                    Win32GraphicsConfig gc =
-                        (Win32GraphicsConfig)getGraphicsConfiguration();
-                    backBuffer = gc.createBackBuffer(this);
-                } else if (backBuffer != null) {
-                    backBufferCaps = null;
-                    backBuffer = null;
+                oldBB = bbdkBufffr;
+                if (numBbdkBufffrs > 0) {
+                    // sft tif dbps first, tify'rf usfd wifn drfbting tif bb
+                    bbdkBufffrCbps = dbps;
+                    Win32GrbpiidsConfig gd =
+                        (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+                    bbdkBufffr = gd.drfbtfBbdkBufffr(tiis);
+                } flsf if (bbdkBufffr != null) {
+                    bbdkBufffrCbps = null;
+                    bbdkBufffr = null;
                 }
             }
         }
-        // it would be better to do this before we create new ones,
-        // but then we'd run into deadlock issues
-        if (oldData != null) {
-            oldData.flush();
-            // null out the old data to make it collected faster
-            oldData = null;
+        // it would bf bfttfr to do tiis bfforf wf drfbtf nfw onfs,
+        // but tifn wf'd run into dfbdlodk issufs
+        if (oldDbtb != null) {
+            oldDbtb.flusi();
+            // null out tif old dbtb to mbkf it dollfdtfd fbstfr
+            oldDbtb = null;
         }
         if (oldBB != null) {
-            oldBB.flush();
-            // null out the old data to make it collected faster
-            oldData = null;
+            oldBB.flusi();
+            // null out tif old dbtb to mbkf it dollfdtfd fbstfr
+            oldDbtb = null;
         }
     }
 
-    public void replaceSurfaceDataLater() {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                // Shouldn't do anything if object is disposed in meanwhile
-                // No need for sync as disposeAction in Window is performed
+    publid void rfplbdfSurfbdfDbtbLbtfr() {
+        Runnbblf r = nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                // Siouldn't do bnytiing if objfdt is disposfd in mfbnwiilf
+                // No nffd for synd bs disposfAdtion in Window is pfrformfd
                 // on EDT
-                if (!isDisposed()) {
+                if (!isDisposfd()) {
                     try {
-                        replaceSurfaceData();
-                    } catch (InvalidPipeException e) {
-                        // REMIND : what do we do if our surface creation failed?
+                        rfplbdfSurfbdfDbtb();
+                    } dbtdi (InvblidPipfExdfption f) {
+                        // REMIND : wibt do wf do if our surfbdf drfbtion fbilfd?
                     }
                 }
             }
         };
-        Component c = (Component)target;
+        Componfnt d = (Componfnt)tbrgft;
         // Fix 6255371.
-        if (!PaintEventDispatcher.getPaintEventDispatcher().queueSurfaceDataReplacing(c, r)) {
-            postEvent(new InvocationEvent(c, r));
+        if (!PbintEvfntDispbtdifr.gftPbintEvfntDispbtdifr().qufufSurfbdfDbtbRfplbding(d, r)) {
+            postEvfnt(nfw InvodbtionEvfnt(d, r));
         }
     }
 
-    @Override
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        winGraphicsConfig = (Win32GraphicsConfig)gc;
+    @Ovfrridf
+    publid boolfbn updbtfGrbpiidsDbtb(GrbpiidsConfigurbtion gd) {
+        winGrbpiidsConfig = (Win32GrbpiidsConfig)gd;
         try {
-            replaceSurfaceData();
-        } catch (InvalidPipeException e) {
-            // REMIND : what do we do if our surface creation failed?
+            rfplbdfSurfbdfDbtb();
+        } dbtdi (InvblidPipfExdfption f) {
+            // REMIND : wibt do wf do if our surfbdf drfbtion fbilfd?
         }
-        return false;
+        rfturn fblsf;
     }
 
-    //This will return null for Components not yet added to a Container
-    @Override
-    public ColorModel getColorModel() {
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        if (gc != null) {
-            return gc.getColorModel();
+    //Tiis will rfturn null for Componfnts not yft bddfd to b Contbinfr
+    @Ovfrridf
+    publid ColorModfl gftColorModfl() {
+        GrbpiidsConfigurbtion gd = gftGrbpiidsConfigurbtion();
+        if (gd != null) {
+            rfturn gd.gftColorModfl();
         }
-        else {
-            return null;
-        }
-    }
-
-    //This will return null for Components not yet added to a Container
-    public ColorModel getDeviceColorModel() {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        if (gc != null) {
-            return gc.getDeviceColorModel();
-        }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
-    //Returns null for Components not yet added to a Container
-    public ColorModel getColorModel(int transparency) {
-//      return WToolkit.config.getColorModel(transparency);
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        if (gc != null) {
-            return gc.getColorModel(transparency);
+    //Tiis will rfturn null for Componfnts not yft bddfd to b Contbinfr
+    publid ColorModfl gftDfvidfColorModfl() {
+        Win32GrbpiidsConfig gd =
+            (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        if (gd != null) {
+            rfturn gd.gftDfvidfColorModfl();
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
-    // fallback default font object
-    final static Font defaultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
+    //Rfturns null for Componfnts not yft bddfd to b Contbinfr
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+//      rfturn WToolkit.donfig.gftColorModfl(trbnspbrfndy);
+        GrbpiidsConfigurbtion gd = gftGrbpiidsConfigurbtion();
+        if (gd != null) {
+            rfturn gd.gftColorModfl(trbnspbrfndy);
+        }
+        flsf {
+            rfturn null;
+        }
+    }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public Graphics getGraphics() {
-        if (isDisposed()) {
-            return null;
+    // fbllbbdk dffbult font objfdt
+    finbl stbtid Font dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, 12);
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid Grbpiids gftGrbpiids() {
+        if (isDisposfd()) {
+            rfturn null;
         }
 
-        Component target = (Component)getTarget();
-        Window window = SunToolkit.getContainingWindow(target);
+        Componfnt tbrgft = (Componfnt)gftTbrgft();
+        Window window = SunToolkit.gftContbiningWindow(tbrgft);
         if (window != null) {
-            Graphics g =
-                ((WWindowPeer)window.getPeer()).getTranslucentGraphics();
-            // getTranslucentGraphics() returns non-null value for non-opaque windows only
+            Grbpiids g =
+                ((WWindowPffr)window.gftPffr()).gftTrbnsludfntGrbpiids();
+            // gftTrbnsludfntGrbpiids() rfturns non-null vbluf for non-opbquf windows only
             if (g != null) {
-                // Non-opaque windows do not support heavyweight children.
-                // Redirect all painting to the Window's Graphics instead.
-                // The caller is responsible for calling the
-                // WindowPeer.updateWindow() after painting has finished.
+                // Non-opbquf windows do not support ifbvywfigit diildrfn.
+                // Rfdirfdt bll pbinting to tif Window's Grbpiids instfbd.
+                // Tif dbllfr is rfsponsiblf for dblling tif
+                // WindowPffr.updbtfWindow() bftfr pbinting ibs finisifd.
                 int x = 0, y = 0;
-                for (Component c = target; c != window; c = c.getParent()) {
-                    x += c.getX();
-                    y += c.getY();
+                for (Componfnt d = tbrgft; d != window; d = d.gftPbrfnt()) {
+                    x += d.gftX();
+                    y += d.gftY();
                 }
 
-                g.translate(x, y);
-                g.clipRect(0, 0, target.getWidth(), target.getHeight());
+                g.trbnslbtf(x, y);
+                g.dlipRfdt(0, 0, tbrgft.gftWidti(), tbrgft.gftHfigit());
 
-                return g;
+                rfturn g;
             }
         }
 
-        SurfaceData surfaceData = this.surfaceData;
-        if (surfaceData != null) {
-            /* Fix for bug 4746122. Color and Font shouldn't be null */
-            Color bgColor = background;
+        SurfbdfDbtb surfbdfDbtb = tiis.surfbdfDbtb;
+        if (surfbdfDbtb != null) {
+            /* Fix for bug 4746122. Color bnd Font siouldn't bf null */
+            Color bgColor = bbdkground;
             if (bgColor == null) {
-                bgColor = SystemColor.window;
+                bgColor = SystfmColor.window;
             }
-            Color fgColor = foreground;
+            Color fgColor = forfground;
             if (fgColor == null) {
-                fgColor = SystemColor.windowText;
+                fgColor = SystfmColor.windowTfxt;
             }
-            Font font = this.font;
+            Font font = tiis.font;
             if (font == null) {
-                font = defaultFont;
+                font = dffbultFont;
             }
-            ScreenUpdateManager mgr =
-                ScreenUpdateManager.getInstance();
-            return mgr.createGraphics(surfaceData, this, fgColor,
+            SdrffnUpdbtfMbnbgfr mgr =
+                SdrffnUpdbtfMbnbgfr.gftInstbndf();
+            rfturn mgr.drfbtfGrbpiids(surfbdfDbtb, tiis, fgColor,
                                       bgColor, font);
         }
-        return null;
+        rfturn null;
     }
-    @Override
-    public FontMetrics getFontMetrics(Font font) {
-        return WFontMetrics.getFontMetrics(font);
-    }
-
-    private synchronized native void _dispose();
-    @Override
-    protected void disposeImpl() {
-        SurfaceData oldData = surfaceData;
-        surfaceData = null;
-        ScreenUpdateManager.getInstance().dropScreenSurface(oldData);
-        oldData.invalidate();
-        // remove from updater before calling targetDisposedPeer
-        WToolkit.targetDisposedPeer(target, this);
-        _dispose();
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font font) {
+        rfturn WFontMftrids.gftFontMftrids(font);
     }
 
-    public void disposeLater() {
-        postEvent(new InvocationEvent(target, new Runnable() {
-            @Override
-            public void run() {
-                dispose();
+    privbtf syndironizfd nbtivf void _disposf();
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        surfbdfDbtb = null;
+        SdrffnUpdbtfMbnbgfr.gftInstbndf().dropSdrffnSurfbdf(oldDbtb);
+        oldDbtb.invblidbtf();
+        // rfmovf from updbtfr bfforf dblling tbrgftDisposfdPffr
+        WToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
+        _disposf();
+    }
+
+    publid void disposfLbtfr() {
+        postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                disposf();
             }
         }));
     }
 
-    @Override
-    public synchronized void setForeground(Color c) {
-        foreground = c;
-        _setForeground(c.getRGB());
+    @Ovfrridf
+    publid syndironizfd void sftForfground(Color d) {
+        forfground = d;
+        _sftForfground(d.gftRGB());
     }
 
-    @Override
-    public synchronized void setBackground(Color c) {
-        background = c;
-        _setBackground(c.getRGB());
+    @Ovfrridf
+    publid syndironizfd void sftBbdkground(Color d) {
+        bbdkground = d;
+        _sftBbdkground(d.gftRGB());
     }
 
     /**
-     * This method is intentionally not synchronized as it is called while
-     * holding other locks.
+     * Tiis mftiod is intfntionblly not syndironizfd bs it is dbllfd wiilf
+     * iolding otifr lodks.
      *
-     * @see sun.java2d.d3d.D3DScreenUpdateManager#validate(D3DWindowSurfaceData)
+     * @sff sun.jbvb2d.d3d.D3DSdrffnUpdbtfMbnbgfr#vblidbtf(D3DWindowSurfbdfDbtb)
      */
-    public Color getBackgroundNoSync() {
-        return background;
+    publid Color gftBbdkgroundNoSynd() {
+        rfturn bbdkground;
     }
 
-    private native void _setForeground(int rgb);
-    private native void _setBackground(int rgb);
+    privbtf nbtivf void _sftForfground(int rgb);
+    privbtf nbtivf void _sftBbdkground(int rgb);
 
-    @Override
-    public synchronized void setFont(Font f) {
+    @Ovfrridf
+    publid syndironizfd void sftFont(Font f) {
         font = f;
-        _setFont(f);
+        _sftFont(f);
     }
-    synchronized native void _setFont(Font f);
-    @Override
-    public void updateCursorImmediately() {
-        WGlobalCursorManager.getCursorManager().updateCursorImmediately();
+    syndironizfd nbtivf void _sftFont(Font f);
+    @Ovfrridf
+    publid void updbtfCursorImmfdibtfly() {
+        WGlobblCursorMbnbgfr.gftCursorMbnbgfr().updbtfCursorImmfdibtfly();
     }
 
-    // TODO: consider moving it to KeyboardFocusManagerPeerImpl
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean requestFocus(Component lightweightChild, boolean temporary,
-                                boolean focusedWindowChangeAllowed, long time,
-                                CausedFocusEvent.Cause cause)
+    // TODO: donsidfr moving it to KfybobrdFodusMbnbgfrPffrImpl
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid boolfbn rfqufstFodus(Componfnt ligitwfigitCiild, boolfbn tfmporbry,
+                                boolfbn fodusfdWindowCibngfAllowfd, long timf,
+                                CbusfdFodusEvfnt.Cbusf dbusf)
     {
-        if (WKeyboardFocusManagerPeer.
-            processSynchronousLightweightTransfer((Component)target, lightweightChild, temporary,
-                                                  focusedWindowChangeAllowed, time))
+        if (WKfybobrdFodusMbnbgfrPffr.
+            prodfssSyndironousLigitwfigitTrbnsffr((Componfnt)tbrgft, ligitwfigitCiild, tfmporbry,
+                                                  fodusfdWindowCibngfAllowfd, timf))
         {
-            return true;
+            rfturn truf;
         }
 
-        int result = WKeyboardFocusManagerPeer
-            .shouldNativelyFocusHeavyweight((Component)target, lightweightChild,
-                                            temporary, focusedWindowChangeAllowed,
-                                            time, cause);
+        int rfsult = WKfybobrdFodusMbnbgfrPffr
+            .siouldNbtivflyFodusHfbvywfigit((Componfnt)tbrgft, ligitwfigitCiild,
+                                            tfmporbry, fodusfdWindowCibngfAllowfd,
+                                            timf, dbusf);
 
-        switch (result) {
-          case WKeyboardFocusManagerPeer.SNFH_FAILURE:
-              return false;
-          case WKeyboardFocusManagerPeer.SNFH_SUCCESS_PROCEED:
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  focusLog.finer("Proceeding with request to " + lightweightChild + " in " + target);
+        switdi (rfsult) {
+          dbsf WKfybobrdFodusMbnbgfrPffr.SNFH_FAILURE:
+              rfturn fblsf;
+          dbsf WKfybobrdFodusMbnbgfrPffr.SNFH_SUCCESS_PROCEED:
+              if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                  fodusLog.finfr("Prodffding witi rfqufst to " + ligitwfigitCiild + " in " + tbrgft);
               }
-              Window parentWindow = SunToolkit.getContainingWindow((Component)target);
-              if (parentWindow == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window is null");
+              Window pbrfntWindow = SunToolkit.gftContbiningWindow((Componfnt)tbrgft);
+              if (pbrfntWindow == null) {
+                  rfturn rfjfdtFodusRfqufstHflpfr("WARNING: Pbrfnt window is null");
               }
-              WWindowPeer wpeer = (WWindowPeer)parentWindow.getPeer();
-              if (wpeer == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window's peer is null");
+              WWindowPffr wpffr = (WWindowPffr)pbrfntWindow.gftPffr();
+              if (wpffr == null) {
+                  rfturn rfjfdtFodusRfqufstHflpfr("WARNING: Pbrfnt window's pffr is null");
               }
-              boolean res = wpeer.requestWindowFocus(cause);
+              boolfbn rfs = wpffr.rfqufstWindowFodus(dbusf);
 
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  focusLog.finer("Requested window focus: " + res);
+              if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                  fodusLog.finfr("Rfqufstfd window fodus: " + rfs);
               }
-              // If parent window can be made focused and has been made focused(synchronously)
-              // then we can proceed with children, otherwise we retreat.
-              if (!(res && parentWindow.isFocused())) {
-                  return rejectFocusRequestHelper("Waiting for asynchronous processing of the request");
+              // If pbrfnt window dbn bf mbdf fodusfd bnd ibs bffn mbdf fodusfd(syndironously)
+              // tifn wf dbn prodffd witi diildrfn, otifrwisf wf rftrfbt.
+              if (!(rfs && pbrfntWindow.isFodusfd())) {
+                  rfturn rfjfdtFodusRfqufstHflpfr("Wbiting for bsyndironous prodfssing of tif rfqufst");
               }
-              return WKeyboardFocusManagerPeer.deliverFocus(lightweightChild,
-                                                            (Component)target,
-                                                            temporary,
-                                                            focusedWindowChangeAllowed,
-                                                            time, cause);
+              rfturn WKfybobrdFodusMbnbgfrPffr.dflivfrFodus(ligitwfigitCiild,
+                                                            (Componfnt)tbrgft,
+                                                            tfmporbry,
+                                                            fodusfdWindowCibngfAllowfd,
+                                                            timf, dbusf);
 
-          case WKeyboardFocusManagerPeer.SNFH_SUCCESS_HANDLED:
-              // Either lightweight or excessive request - all events are generated.
-              return true;
+          dbsf WKfybobrdFodusMbnbgfrPffr.SNFH_SUCCESS_HANDLED:
+              // Eitifr ligitwfigit or fxdfssivf rfqufst - bll fvfnts brf gfnfrbtfd.
+              rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean rejectFocusRequestHelper(String logMsg) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-            focusLog.finer(logMsg);
+    privbtf boolfbn rfjfdtFodusRfqufstHflpfr(String logMsg) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr(logMsg);
         }
-        WKeyboardFocusManagerPeer.removeLastFocusRequest((Component)target);
-        return false;
+        WKfybobrdFodusMbnbgfrPffr.rfmovfLbstFodusRfqufst((Componfnt)tbrgft);
+        rfturn fblsf;
     }
 
-    @Override
-    public Image createImage(ImageProducer producer) {
-        return new ToolkitImage(producer);
+    @Ovfrridf
+    publid Imbgf drfbtfImbgf(ImbgfProdudfr produdfr) {
+        rfturn nfw ToolkitImbgf(produdfr);
     }
 
-    @Override
-    public Image createImage(int width, int height) {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        return gc.createAcceleratedImage((Component)target, width, height);
+    @Ovfrridf
+    publid Imbgf drfbtfImbgf(int widti, int ifigit) {
+        Win32GrbpiidsConfig gd =
+            (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        rfturn gd.drfbtfAddflfrbtfdImbgf((Componfnt)tbrgft, widti, ifigit);
     }
 
-    @Override
-    public VolatileImage createVolatileImage(int width, int height) {
-        return new SunVolatileImage((Component)target, width, height);
+    @Ovfrridf
+    publid VolbtilfImbgf drfbtfVolbtilfImbgf(int widti, int ifigit) {
+        rfturn nfw SunVolbtilfImbgf((Componfnt)tbrgft, widti, ifigit);
     }
 
-    @Override
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().prepareImage(img, w, h, o);
+    @Ovfrridf
+    publid boolfbn prfpbrfImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o) {
+        rfturn Toolkit.gftDffbultToolkit().prfpbrfImbgf(img, w, i, o);
     }
 
-    @Override
-    public int checkImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().checkImage(img, w, h, o);
+    @Ovfrridf
+    publid int difdkImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o) {
+        rfturn Toolkit.gftDffbultToolkit().difdkImbgf(img, w, i, o);
     }
 
-    // Object overrides
+    // Objfdt ovfrridfs
 
-    public String toString() {
-        return getClass().getName() + "[" + target + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[" + tbrgft + "]";
     }
 
-    // Toolkit & peer internals
+    // Toolkit & pffr intfrnbls
 
-    private int updateX1, updateY1, updateX2, updateY2;
+    privbtf int updbtfX1, updbtfY1, updbtfX2, updbtfY2;
 
-    WComponentPeer(Component target) {
-        this.target = target;
-        this.paintArea = new RepaintArea();
-        create(getNativeParent());
-        // fix for 5088782: check if window object is created successfully
-        checkCreation();
+    WComponfntPffr(Componfnt tbrgft) {
+        tiis.tbrgft = tbrgft;
+        tiis.pbintArfb = nfw RfpbintArfb();
+        drfbtf(gftNbtivfPbrfnt());
+        // fix for 5088782: difdk if window objfdt is drfbtfd suddfssfully
+        difdkCrfbtion();
 
-        createScreenSurface(false);
-        initialize();
-        start();  // Initialize enable/disable state, turn on callbacks
+        drfbtfSdrffnSurfbdf(fblsf);
+        initiblizf();
+        stbrt();  // Initiblizf fnbblf/disbblf stbtf, turn on dbllbbdks
     }
-    abstract void create(WComponentPeer parent);
+    bbstrbdt void drfbtf(WComponfntPffr pbrfnt);
 
     /**
-     * Gets the native parent of this peer. We use the term "parent" explicitly,
-     * because we override the method in top-level window peer implementations.
+     * Gfts tif nbtivf pbrfnt of tiis pffr. Wf usf tif tfrm "pbrfnt" fxpliditly,
+     * bfdbusf wf ovfrridf tif mftiod in top-lfvfl window pffr implfmfntbtions.
      *
-     * @return the parent container/owner of this peer.
+     * @rfturn tif pbrfnt dontbinfr/ownfr of tiis pffr.
      */
-    WComponentPeer getNativeParent() {
-        Container parent = SunToolkit.getNativeContainer((Component) target);
-        return (WComponentPeer) WToolkit.targetToPeer(parent);
+    WComponfntPffr gftNbtivfPbrfnt() {
+        Contbinfr pbrfnt = SunToolkit.gftNbtivfContbinfr((Componfnt) tbrgft);
+        rfturn (WComponfntPffr) WToolkit.tbrgftToPffr(pbrfnt);
     }
 
-    protected void checkCreation()
+    protfdtfd void difdkCrfbtion()
     {
-        if ((hwnd == 0) || (pData == 0))
+        if ((iwnd == 0) || (pDbtb == 0))
         {
-            if (createError != null)
+            if (drfbtfError != null)
             {
-                throw createError;
+                tirow drfbtfError;
             }
-            else
+            flsf
             {
-                throw new InternalError("couldn't create component peer");
+                tirow nfw IntfrnblError("douldn't drfbtf domponfnt pffr");
             }
         }
     }
 
-    synchronized native void start();
+    syndironizfd nbtivf void stbrt();
 
-    void initialize() {
-        if (((Component)target).isVisible()) {
-            show();  // the wnd starts hidden
+    void initiblizf() {
+        if (((Componfnt)tbrgft).isVisiblf()) {
+            siow();  // tif wnd stbrts iiddfn
         }
-        Color fg = ((Component)target).getForeground();
+        Color fg = ((Componfnt)tbrgft).gftForfground();
         if (fg != null) {
-            setForeground(fg);
+            sftForfground(fg);
         }
-        // Set background color in C++, to avoid inheriting a parent's color.
-        Font  f = ((Component)target).getFont();
+        // Sft bbdkground dolor in C++, to bvoid inifriting b pbrfnt's dolor.
+        Font  f = ((Componfnt)tbrgft).gftFont();
         if (f != null) {
-            setFont(f);
+            sftFont(f);
         }
-        if (! ((Component)target).isEnabled()) {
-            disable();
+        if (! ((Componfnt)tbrgft).isEnbblfd()) {
+            disbblf();
         }
-        Rectangle r = ((Component)target).getBounds();
-        setBounds(r.x, r.y, r.width, r.height, SET_BOUNDS);
+        Rfdtbnglf r = ((Componfnt)tbrgft).gftBounds();
+        sftBounds(r.x, r.y, r.widti, r.ifigit, SET_BOUNDS);
     }
 
-    // Callbacks for window-system events to the frame
+    // Cbllbbdks for window-systfm fvfnts to tif frbmf
 
-    // Invoke a update() method call on the target
-    void handleRepaint(int x, int y, int w, int h) {
-        // Repaints are posted from updateClient now...
+    // Invokf b updbtf() mftiod dbll on tif tbrgft
+    void ibndlfRfpbint(int x, int y, int w, int i) {
+        // Rfpbints brf postfd from updbtfClifnt now...
     }
 
-    // Invoke a paint() method call on the target, after clearing the
-    // damaged area.
-    void handleExpose(int x, int y, int w, int h) {
-        // Bug ID 4081126 & 4129709 - can't do the clearRect() here,
-        // since it interferes with the java thread working in the
-        // same window on multi-processor NT machines.
+    // Invokf b pbint() mftiod dbll on tif tbrgft, bftfr dlfbring tif
+    // dbmbgfd brfb.
+    void ibndlfExposf(int x, int y, int w, int i) {
+        // Bug ID 4081126 & 4129709 - dbn't do tif dlfbrRfdt() ifrf,
+        // sindf it intfrffrfs witi tif jbvb tirfbd working in tif
+        // sbmf window on multi-prodfssor NT mbdiinfs.
 
-        postPaintIfNecessary(x, y, w, h);
+        postPbintIfNfdfssbry(x, y, w, i);
     }
 
-    /* Invoke a paint() method call on the target, without clearing the
-     * damaged area.  This is normally called by a native control after
-     * it has painted itself.
+    /* Invokf b pbint() mftiod dbll on tif tbrgft, witiout dlfbring tif
+     * dbmbgfd brfb.  Tiis is normblly dbllfd by b nbtivf dontrol bftfr
+     * it ibs pbintfd itsflf.
      *
-     * NOTE: This is called on the privileged toolkit thread. Do not
-     *       call directly into user code using this thread!
+     * NOTE: Tiis is dbllfd on tif privilfgfd toolkit tirfbd. Do not
+     *       dbll dirfdtly into usfr dodf using tiis tirfbd!
      */
-    public void handlePaint(int x, int y, int w, int h) {
-        postPaintIfNecessary(x, y, w, h);
+    publid void ibndlfPbint(int x, int y, int w, int i) {
+        postPbintIfNfdfssbry(x, y, w, i);
     }
 
-    private void postPaintIfNecessary(int x, int y, int w, int h) {
-        if ( !AWTAccessor.getComponentAccessor().getIgnoreRepaint( (Component) target) ) {
-            PaintEvent event = PaintEventDispatcher.getPaintEventDispatcher().
-                createPaintEvent((Component)target, x, y, w, h);
-            if (event != null) {
-                postEvent(event);
+    privbtf void postPbintIfNfdfssbry(int x, int y, int w, int i) {
+        if ( !AWTAddfssor.gftComponfntAddfssor().gftIgnorfRfpbint( (Componfnt) tbrgft) ) {
+            PbintEvfnt fvfnt = PbintEvfntDispbtdifr.gftPbintEvfntDispbtdifr().
+                drfbtfPbintEvfnt((Componfnt)tbrgft, x, y, w, i);
+            if (fvfnt != null) {
+                postEvfnt(fvfnt);
             }
         }
     }
 
     /*
-     * Post an event. Queue it for execution by the callback thread.
+     * Post bn fvfnt. Qufuf it for fxfdution by tif dbllbbdk tirfbd.
      */
-    void postEvent(AWTEvent event) {
-        preprocessPostEvent(event);
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+    void postEvfnt(AWTEvfnt fvfnt) {
+        prfprodfssPostEvfnt(fvfnt);
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(tbrgft), fvfnt);
     }
 
-    void preprocessPostEvent(AWTEvent event) {}
+    void prfprodfssPostEvfnt(AWTEvfnt fvfnt) {}
 
-    // Routines to support deferred window positioning.
-    public void beginLayout() {
-        // Skip all painting till endLayout
-        isLayouting = true;
+    // Routinfs to support dfffrrfd window positioning.
+    publid void bfginLbyout() {
+        // Skip bll pbinting till fndLbyout
+        isLbyouting = truf;
     }
 
-    public void endLayout() {
-        if(!paintArea.isEmpty() && !paintPending &&
-            !((Component)target).getIgnoreRepaint()) {
-            // if not waiting for native painting repaint damaged area
-            postEvent(new PaintEvent((Component)target, PaintEvent.PAINT,
-                          new Rectangle()));
+    publid void fndLbyout() {
+        if(!pbintArfb.isEmpty() && !pbintPfnding &&
+            !((Componfnt)tbrgft).gftIgnorfRfpbint()) {
+            // if not wbiting for nbtivf pbinting rfpbint dbmbgfd brfb
+            postEvfnt(nfw PbintEvfnt((Componfnt)tbrgft, PbintEvfnt.PAINT,
+                          nfw Rfdtbnglf()));
         }
-        isLayouting = false;
+        isLbyouting = fblsf;
     }
 
-    public native void beginValidate();
-    public native void endValidate();
+    publid nbtivf void bfginVblidbtf();
+    publid nbtivf void fndVblidbtf();
 
     /**
      * DEPRECATED
      */
-    public Dimension preferredSize() {
-        return getPreferredSize();
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn gftPrfffrrfdSizf();
     }
 
     /**
-     * register a DropTarget with this native peer
+     * rfgistfr b DropTbrgft witi tiis nbtivf pffr
      */
 
-    @Override
-    public synchronized void addDropTarget(DropTarget dt) {
-        if (nDropTargets == 0) {
-            nativeDropTargetContext = addNativeDropTarget();
+    @Ovfrridf
+    publid syndironizfd void bddDropTbrgft(DropTbrgft dt) {
+        if (nDropTbrgfts == 0) {
+            nbtivfDropTbrgftContfxt = bddNbtivfDropTbrgft();
         }
-        nDropTargets++;
+        nDropTbrgfts++;
     }
 
     /**
-     * unregister a DropTarget with this native peer
+     * unrfgistfr b DropTbrgft witi tiis nbtivf pffr
      */
 
-    @Override
-    public synchronized void removeDropTarget(DropTarget dt) {
-        nDropTargets--;
-        if (nDropTargets == 0) {
-            removeNativeDropTarget();
-            nativeDropTargetContext = 0;
+    @Ovfrridf
+    publid syndironizfd void rfmovfDropTbrgft(DropTbrgft dt) {
+        nDropTbrgfts--;
+        if (nDropTbrgfts == 0) {
+            rfmovfNbtivfDropTbrgft();
+            nbtivfDropTbrgftContfxt = 0;
         }
     }
 
     /**
-     * add the native peer's AwtDropTarget COM object
-     * @return reference to AwtDropTarget object
+     * bdd tif nbtivf pffr's AwtDropTbrgft COM objfdt
+     * @rfturn rfffrfndf to AwtDropTbrgft objfdt
      */
 
-    native long addNativeDropTarget();
+    nbtivf long bddNbtivfDropTbrgft();
 
     /**
-     * remove the native peer's AwtDropTarget COM object
+     * rfmovf tif nbtivf pffr's AwtDropTbrgft COM objfdt
      */
 
-    native void removeNativeDropTarget();
-    native boolean nativeHandlesWheelScrolling();
+    nbtivf void rfmovfNbtivfDropTbrgft();
+    nbtivf boolfbn nbtivfHbndlfsWifflSdrolling();
 
-    @Override
-    public boolean handlesWheelScrolling() {
-        // should this be cached?
-        return nativeHandlesWheelScrolling();
+    @Ovfrridf
+    publid boolfbn ibndlfsWifflSdrolling() {
+        // siould tiis bf dbdifd?
+        rfturn nbtivfHbndlfsWifflSdrolling();
     }
 
-    // Returns true if we are inside begin/endLayout and
-    // are waiting for native painting
-    public boolean isPaintPending() {
-        return paintPending && isLayouting;
+    // Rfturns truf if wf brf insidf bfgin/fndLbyout bnd
+    // brf wbiting for nbtivf pbinting
+    publid boolfbn isPbintPfnding() {
+        rfturn pbintPfnding && isLbyouting;
     }
 
     /**
-     * The following multibuffering-related methods delegate to our
-     * associated GraphicsConfig (Win or WGL) to handle the appropriate
-     * native windowing system specific actions.
+     * Tif following multibufffring-rflbtfd mftiods dflfgbtf to our
+     * bssodibtfd GrbpiidsConfig (Win or WGL) to ibndlf tif bppropribtf
+     * nbtivf windowing systfm spfdifid bdtions.
      */
 
-    @Override
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
-        throws AWTException
+    @Ovfrridf
+    publid void drfbtfBufffrs(int numBufffrs, BufffrCbpbbilitifs dbps)
+        tirows AWTExdfption
     {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        gc.assertOperationSupported((Component)target, numBuffers, caps);
+        Win32GrbpiidsConfig gd =
+            (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        gd.bssfrtOpfrbtionSupportfd((Componfnt)tbrgft, numBufffrs, dbps);
 
-        // Re-create the primary surface with the new number of back buffers
+        // Rf-drfbtf tif primbry surfbdf witi tif nfw numbfr of bbdk bufffrs
         try {
-            replaceSurfaceData(numBuffers - 1, caps);
-        } catch (InvalidPipeException e) {
-            throw new AWTException(e.getMessage());
+            rfplbdfSurfbdfDbtb(numBufffrs - 1, dbps);
+        } dbtdi (InvblidPipfExdfption f) {
+            tirow nfw AWTExdfption(f.gftMfssbgf());
         }
     }
 
-    @Override
-    public void destroyBuffers() {
-        replaceSurfaceData(0, null);
+    @Ovfrridf
+    publid void dfstroyBufffrs() {
+        rfplbdfSurfbdfDbtb(0, null);
     }
 
-    @Override
-    public void flip(int x1, int y1, int x2, int y2,
-                                  BufferCapabilities.FlipContents flipAction)
+    @Ovfrridf
+    publid void flip(int x1, int y1, int x2, int y2,
+                                  BufffrCbpbbilitifs.FlipContfnts flipAdtion)
     {
-        VolatileImage backBuffer = this.backBuffer;
-        if (backBuffer == null) {
-            throw new IllegalStateException("Buffers have not been created");
+        VolbtilfImbgf bbdkBufffr = tiis.bbdkBufffr;
+        if (bbdkBufffr == null) {
+            tirow nfw IllfgblStbtfExdfption("Bufffrs ibvf not bffn drfbtfd");
         }
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        gc.flip(this, (Component)target, backBuffer, x1, y1, x2, y2, flipAction);
+        Win32GrbpiidsConfig gd =
+            (Win32GrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        gd.flip(tiis, (Componfnt)tbrgft, bbdkBufffr, x1, y1, x2, y2, flipAdtion);
     }
 
-    @Override
-    public synchronized Image getBackBuffer() {
-        Image backBuffer = this.backBuffer;
-        if (backBuffer == null) {
-            throw new IllegalStateException("Buffers have not been created");
+    @Ovfrridf
+    publid syndironizfd Imbgf gftBbdkBufffr() {
+        Imbgf bbdkBufffr = tiis.bbdkBufffr;
+        if (bbdkBufffr == null) {
+            tirow nfw IllfgblStbtfExdfption("Bufffrs ibvf not bffn drfbtfd");
         }
-        return backBuffer;
+        rfturn bbdkBufffr;
     }
-    public BufferCapabilities getBackBufferCaps() {
-        return backBufferCaps;
+    publid BufffrCbpbbilitifs gftBbdkBufffrCbps() {
+        rfturn bbdkBufffrCbps;
     }
-    public int getBackBuffersNum() {
-        return numBackBuffers;
-    }
-
-    /* override and return false on components that DO NOT require
-       a clearRect() before painting (i.e. native components) */
-    public boolean shouldClearRectBeforePaint() {
-        return true;
+    publid int gftBbdkBufffrsNum() {
+        rfturn numBbdkBufffrs;
     }
 
-    native void pSetParent(ComponentPeer newNativeParent);
+    /* ovfrridf bnd rfturn fblsf on domponfnts tibt DO NOT rfquirf
+       b dlfbrRfdt() bfforf pbinting (i.f. nbtivf domponfnts) */
+    publid boolfbn siouldClfbrRfdtBfforfPbint() {
+        rfturn truf;
+    }
+
+    nbtivf void pSftPbrfnt(ComponfntPffr nfwNbtivfPbrfnt);
 
     /**
-     * @see java.awt.peer.ComponentPeer#reparent
+     * @sff jbvb.bwt.pffr.ComponfntPffr#rfpbrfnt
      */
-    @Override
-    public void reparent(ContainerPeer newNativeParent) {
-        pSetParent(newNativeParent);
+    @Ovfrridf
+    publid void rfpbrfnt(ContbinfrPffr nfwNbtivfPbrfnt) {
+        pSftPbrfnt(nfwNbtivfPbrfnt);
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#isReparentSupported
+     * @sff jbvb.bwt.pffr.ComponfntPffr#isRfpbrfntSupportfd
      */
-    @Override
-    public boolean isReparentSupported() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isRfpbrfntSupportfd() {
+        rfturn truf;
     }
 
-    public void setBoundsOperation(int operation) {
+    publid void sftBoundsOpfrbtion(int opfrbtion) {
     }
 
-    private volatile boolean isAccelCapable = true;
+    privbtf volbtilf boolfbn isAddflCbpbblf = truf;
 
     /**
-     * Returns whether this component is capable of being hw accelerated.
-     * More specifically, whether rendering to this component or a
-     * BufferStrategy's back-buffer for this component can be hw accelerated.
+     * Rfturns wiftifr tiis domponfnt is dbpbblf of bfing iw bddflfrbtfd.
+     * Morf spfdifidblly, wiftifr rfndfring to tiis domponfnt or b
+     * BufffrStrbtfgy's bbdk-bufffr for tiis domponfnt dbn bf iw bddflfrbtfd.
      *
-     * Conditions which could prevent hw acceleration include the toplevel
-     * window containing this component being
-     * {@link GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT
+     * Conditions wiidi dould prfvfnt iw bddflfrbtion indludf tif toplfvfl
+     * window dontbining tiis domponfnt bfing
+     * {@link GrbpiidsDfvidf.WindowTrbnsludfndy#PERPIXEL_TRANSLUCENT
      * PERPIXEL_TRANSLUCENT}.
      *
-     * Another condition is if Xor paint mode was detected when rendering
-     * to an on-screen accelerated surface associated with this peer.
-     * in this case both on- and off-screen acceleration for this peer is
-     * disabled.
+     * Anotifr dondition is if Xor pbint modf wbs dftfdtfd wifn rfndfring
+     * to bn on-sdrffn bddflfrbtfd surfbdf bssodibtfd witi tiis pffr.
+     * in tiis dbsf boti on- bnd off-sdrffn bddflfrbtion for tiis pffr is
+     * disbblfd.
      *
-     * @return {@code true} if this component is capable of being hw
-     * accelerated, {@code false} otherwise
-     * @see GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT
+     * @rfturn {@dodf truf} if tiis domponfnt is dbpbblf of bfing iw
+     * bddflfrbtfd, {@dodf fblsf} otifrwisf
+     * @sff GrbpiidsDfvidf.WindowTrbnsludfndy#PERPIXEL_TRANSLUCENT
      */
-    public boolean isAccelCapable() {
-        if (!isAccelCapable ||
-            !isContainingTopLevelAccelCapable((Component)target))
+    publid boolfbn isAddflCbpbblf() {
+        if (!isAddflCbpbblf ||
+            !isContbiningTopLfvflAddflCbpbblf((Componfnt)tbrgft))
         {
-            return false;
+            rfturn fblsf;
         }
 
-        boolean isTranslucent =
-            SunToolkit.isContainingTopLevelTranslucent((Component)target);
-        // D3D/OGL and translucent windows interacted poorly in Windows XP;
-        // these problems are no longer present in Vista
-        return !isTranslucent || Win32GraphicsEnvironment.isVistaOS();
+        boolfbn isTrbnsludfnt =
+            SunToolkit.isContbiningTopLfvflTrbnsludfnt((Componfnt)tbrgft);
+        // D3D/OGL bnd trbnsludfnt windows intfrbdtfd poorly in Windows XP;
+        // tifsf problfms brf no longfr prfsfnt in Vistb
+        rfturn !isTrbnsludfnt || Win32GrbpiidsEnvironmfnt.isVistbOS();
     }
 
     /**
-     * Disables acceleration for this peer.
+     * Disbblfs bddflfrbtion for tiis pffr.
      */
-    public void disableAcceleration() {
-        isAccelCapable = false;
+    publid void disbblfAddflfrbtion() {
+        isAddflCbpbblf = fblsf;
     }
 
 
-    native void setRectangularShape(int lox, int loy, int hix, int hiy,
-                     Region region);
+    nbtivf void sftRfdtbngulbrSibpf(int lox, int loy, int iix, int iiy,
+                     Rfgion rfgion);
 
 
-    // REMIND: Temp workaround for issues with using HW acceleration
-    // in the browser on Vista when DWM is enabled.
-    // @return true if the toplevel container is not an EmbeddedFrame or
-    // if this EmbeddedFrame is acceleration capable, false otherwise
-    @SuppressWarnings("deprecation")
-    private static final boolean isContainingTopLevelAccelCapable(Component c) {
-        while (c != null && !(c instanceof WEmbeddedFrame)) {
-            c = c.getParent();
+    // REMIND: Tfmp workbround for issufs witi using HW bddflfrbtion
+    // in tif browsfr on Vistb wifn DWM is fnbblfd.
+    // @rfturn truf if tif toplfvfl dontbinfr is not bn EmbfddfdFrbmf or
+    // if tiis EmbfddfdFrbmf is bddflfrbtion dbpbblf, fblsf otifrwisf
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid finbl boolfbn isContbiningTopLfvflAddflCbpbblf(Componfnt d) {
+        wiilf (d != null && !(d instbndfof WEmbfddfdFrbmf)) {
+            d = d.gftPbrfnt();
         }
-        if (c == null) {
-            return true;
+        if (d == null) {
+            rfturn truf;
         }
-        return ((WEmbeddedFramePeer)c.getPeer()).isAccelCapable();
+        rfturn ((WEmbfddfdFrbmfPffr)d.gftPffr()).isAddflCbpbblf();
     }
 
     /**
-     * Applies the shape to the native component window.
-     * @since 1.7
+     * Applifs tif sibpf to tif nbtivf domponfnt window.
+     * @sindf 1.7
      */
-    @Override
-    @SuppressWarnings("deprecation")
-    public void applyShape(Region shape) {
-        if (shapeLog.isLoggable(PlatformLogger.Level.FINER)) {
-            shapeLog.finer("*** INFO: Setting shape: PEER: " + this
-                            + "; TARGET: " + target
-                            + "; SHAPE: " + shape);
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bpplySibpf(Rfgion sibpf) {
+        if (sibpfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            sibpfLog.finfr("*** INFO: Sftting sibpf: PEER: " + tiis
+                            + "; TARGET: " + tbrgft
+                            + "; SHAPE: " + sibpf);
         }
 
-        if (shape != null) {
-            setRectangularShape(shape.getLoX(), shape.getLoY(), shape.getHiX(), shape.getHiY(),
-                    (shape.isRectangular() ? null : shape));
-        } else {
-            setRectangularShape(0, 0, 0, 0, null);
+        if (sibpf != null) {
+            sftRfdtbngulbrSibpf(sibpf.gftLoX(), sibpf.gftLoY(), sibpf.gftHiX(), sibpf.gftHiY(),
+                    (sibpf.isRfdtbngulbr() ? null : sibpf));
+        } flsf {
+            sftRfdtbngulbrSibpf(0, 0, 0, 0, null);
         }
     }
 
     /**
-     * Lowers this component at the bottom of the above component. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
+     * Lowfrs tiis domponfnt bt tif bottom of tif bbovf domponfnt. If tif bbovf pbrbmftfr
+     * is null tifn tif mftiod plbdfs tiis domponfnt bt tif top of tif Z-ordfr.
      */
-    @Override
-    public void setZOrder(ComponentPeer above) {
-        long aboveHWND = (above != null) ? ((WComponentPeer)above).getHWnd() : 0;
+    @Ovfrridf
+    publid void sftZOrdfr(ComponfntPffr bbovf) {
+        long bbovfHWND = (bbovf != null) ? ((WComponfntPffr)bbovf).gftHWnd() : 0;
 
-        setZOrder(aboveHWND);
+        sftZOrdfr(bbovfHWND);
     }
 
-    private native void setZOrder(long above);
+    privbtf nbtivf void sftZOrdfr(long bbovf);
 
-    public boolean isLightweightFramePeer() {
-        return false;
+    publid boolfbn isLigitwfigitFrbmfPffr() {
+        rfturn fblsf;
     }
 }

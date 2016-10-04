@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertPath;
-import java.security.cert.X509Extension;
-import java.util.Date;
-import java.util.List;
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
 
 /**
- * This class encapsulates information about a signed timestamp.
- * It is immutable.
- * It includes the timestamp's date and time as well as information about the
- * Timestamping Authority (TSA) which generated and signed the timestamp.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * It is immutbblf.
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
  *
- * @since 1.5
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
  */
 
-public final class Timestamp implements Serializable {
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = -5502683707821851294L;
-
-    /**
-     * The timestamp's date and time
-     *
-     * @serial
-     */
-    private Date timestamp;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
 
     /**
-     * The TSA's certificate path.
+     * Tif timfstbmp's dbtf bnd timf
      *
-     * @serial
+     * @sfribl
      */
-    private CertPath signerCertPath;
+    privbtf Dbtf timfstbmp;
+
+    /**
+     * Tif TSA's dfrtifidbtf pbti.
+     *
+     * @sfribl
+     */
+    privbtf CfrtPbti signfrCfrtPbti;
 
     /*
-     * Hash code for this timestamp.
+     * Hbsi dodf for tiis timfstbmp.
      */
-    private transient int myhash = -1;
+    privbtf trbnsifnt int myibsi = -1;
 
     /**
-     * Constructs a Timestamp.
+     * Construdts b Timfstbmp.
      *
-     * @param timestamp is the timestamp's date and time. It must not be null.
-     * @param signerCertPath is the TSA's certificate path. It must not be null.
-     * @throws NullPointerException if timestamp or signerCertPath is null.
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
      */
-    public Timestamp(Date timestamp, CertPath signerCertPath) {
-        if (timestamp == null || signerCertPath == null) {
-            throw new NullPointerException();
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.timestamp = new Date(timestamp.getTime()); // clone
-        this.signerCertPath = signerCertPath;
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
     }
 
     /**
-     * Returns the date and time when the timestamp was generated.
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
      *
-     * @return The timestamp's date and time.
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
      */
-    public Date getTimestamp() {
-        return new Date(timestamp.getTime()); // clone
+    publid Dbtf gftTimfstbmp() {
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
     }
 
     /**
-     * Returns the certificate path for the Timestamping Authority.
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
      *
-     * @return The TSA's certificate path.
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
      */
-    public CertPath getSignerCertPath() {
-        return signerCertPath;
+    publid CfrtPbti gftSignfrCfrtPbti() {
+        rfturn signfrCfrtPbti;
     }
 
     /**
-     * Returns the hash code value for this timestamp.
-     * The hash code is generated using the date and time of the timestamp
-     * and the TSA's certificate path.
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * bnd tif TSA's dfrtifidbtf pbti.
      *
-     * @return a hash code value for this timestamp.
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = timestamp.hashCode() + signerCertPath.hashCode();
+    publid int ibsiCodf() {
+        if (myibsi == -1) {
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
         }
-        return myhash;
+        rfturn myibsi;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * timestamp. Two timestamps are considered equal if the date and time of
-     * their timestamp's and their signer's certificate paths are equal.
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
      *
-     * @param obj the object to test for equality with this timestamp.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
      *
-     * @return true if the timestamp are considered equal, false otherwise.
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == null || (!(obj instanceof Timestamp))) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
+            rfturn fblsf;
         }
-        Timestamp that = (Timestamp)obj;
+        Timfstbmp tibt = (Timfstbmp)obj;
 
-        if (this == that) {
-            return true;
+        if (tiis == tibt) {
+            rfturn truf;
         }
-        return (timestamp.equals(that.getTimestamp()) &&
-            signerCertPath.equals(that.getSignerCertPath()));
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
     }
 
     /**
-     * Returns a string describing this timestamp.
+     * Rfturns b string dfsdribing tiis timfstbmp.
      *
-     * @return A string comprising the date and time of the timestamp and
-     *         its signer's certificate.
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     *         its signfr's dfrtifidbtf.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append("timestamp: " + timestamp);
-        List<? extends Certificate> certs = signerCertPath.getCertificates();
-        if (!certs.isEmpty()) {
-            sb.append("TSA: " + certs.get(0));
-        } else {
-            sb.append("TSA: <empty>");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        if (!dfrts.isEmpty()) {
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+        } flsf {
+            sb.bppfnd("TSA: <fmpty>");
         }
-        sb.append(")");
-        return sb.toString();
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 
-    // Explicitly reset hash code value to -1
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        myhash = -1;
-        timestamp = new Date(timestamp.getTime());
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
+        myibsi = -1;
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
     }
 }

@@ -1,272 +1,272 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jccolor.c
+ * jddolor.d
  *
- * Copyright (C) 1991-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains input colorspace conversion routines.
+ * Tiis filf dontbins input dolorspbdf donvfrsion routinfs.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
-/* Private subobject */
+/* Privbtf subobjfdt */
 
-typedef struct {
-  struct jpeg_color_converter pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_dolor_donvfrtfr pub; /* publid fiflds */
 
-  /* Private state for RGB->YCC conversion */
-  INT32 * rgb_ycc_tab;          /* => table for RGB to YCbCr conversion */
-} my_color_converter;
+  /* Privbtf stbtf for RGB->YCC donvfrsion */
+  INT32 * rgb_ydd_tbb;          /* => tbblf for RGB to YCbCr donvfrsion */
+} my_dolor_donvfrtfr;
 
-typedef my_color_converter * my_cconvert_ptr;
+typfdff my_dolor_donvfrtfr * my_ddonvfrt_ptr;
 
 
-/**************** RGB -> YCbCr conversion: most common case **************/
+/**************** RGB -> YCbCr donvfrsion: most dommon dbsf **************/
 
 /*
- * YCbCr is defined per CCIR 601-1, except that Cb and Cr are
- * normalized to the range 0..MAXJSAMPLE rather than -0.5 .. 0.5.
- * The conversion equations to be implemented are therefore
+ * YCbCr is dffinfd pfr CCIR 601-1, fxdfpt tibt Cb bnd Cr brf
+ * normblizfd to tif rbngf 0..MAXJSAMPLE rbtifr tibn -0.5 .. 0.5.
+ * Tif donvfrsion fqubtions to bf implfmfntfd brf tifrfforf
  *      Y  =  0.29900 * R + 0.58700 * G + 0.11400 * B
  *      Cb = -0.16874 * R - 0.33126 * G + 0.50000 * B  + CENTERJSAMPLE
  *      Cr =  0.50000 * R - 0.41869 * G - 0.08131 * B  + CENTERJSAMPLE
- * (These numbers are derived from TIFF 6.0 section 21, dated 3-June-92.)
- * Note: older versions of the IJG code used a zero offset of MAXJSAMPLE/2,
- * rather than CENTERJSAMPLE, for Cb and Cr.  This gave equal positive and
- * negative swings for Cb/Cr, but meant that grayscale values (Cb=Cr=0)
- * were not represented exactly.  Now we sacrifice exact representation of
- * maximum red and maximum blue in order to get exact grayscales.
+ * (Tifsf numbfrs brf dfrivfd from TIFF 6.0 sfdtion 21, dbtfd 3-Junf-92.)
+ * Notf: oldfr vfrsions of tif IJG dodf usfd b zfro offsft of MAXJSAMPLE/2,
+ * rbtifr tibn CENTERJSAMPLE, for Cb bnd Cr.  Tiis gbvf fqubl positivf bnd
+ * nfgbtivf swings for Cb/Cr, but mfbnt tibt grbysdblf vblufs (Cb=Cr=0)
+ * wfrf not rfprfsfntfd fxbdtly.  Now wf sbdrifidf fxbdt rfprfsfntbtion of
+ * mbximum rfd bnd mbximum bluf in ordfr to gft fxbdt grbysdblfs.
  *
- * To avoid floating-point arithmetic, we represent the fractional constants
- * as integers scaled up by 2^16 (about 4 digits precision); we have to divide
- * the products by 2^16, with appropriate rounding, to get the correct answer.
+ * To bvoid flobting-point britimftid, wf rfprfsfnt tif frbdtionbl donstbnts
+ * bs intfgfrs sdblfd up by 2^16 (bbout 4 digits prfdision); wf ibvf to dividf
+ * tif produdts by 2^16, witi bppropribtf rounding, to gft tif dorrfdt bnswfr.
  *
- * For even more speed, we avoid doing any multiplications in the inner loop
- * by precalculating the constants times R,G,B for all possible values.
- * For 8-bit JSAMPLEs this is very reasonable (only 256 entries per table);
- * for 12-bit samples it is still acceptable.  It's not very reasonable for
- * 16-bit samples, but if you want lossless storage you shouldn't be changing
- * colorspace anyway.
- * The CENTERJSAMPLE offsets and the rounding fudge-factor of 0.5 are included
- * in the tables to save adding them separately in the inner loop.
+ * For fvfn morf spffd, wf bvoid doing bny multiplidbtions in tif innfr loop
+ * by prfdbldulbting tif donstbnts timfs R,G,B for bll possiblf vblufs.
+ * For 8-bit JSAMPLEs tiis is vfry rfbsonbblf (only 256 fntrifs pfr tbblf);
+ * for 12-bit sbmplfs it is still bddfptbblf.  It's not vfry rfbsonbblf for
+ * 16-bit sbmplfs, but if you wbnt losslfss storbgf you siouldn't bf dibnging
+ * dolorspbdf bnywby.
+ * Tif CENTERJSAMPLE offsfts bnd tif rounding fudgf-fbdtor of 0.5 brf indludfd
+ * in tif tbblfs to sbvf bdding tifm sfpbrbtfly in tif innfr loop.
  */
 
-#define SCALEBITS       16      /* speediest right-shift on some machines */
-#define CBCR_OFFSET     ((INT32) CENTERJSAMPLE << SCALEBITS)
-#define ONE_HALF        ((INT32) 1 << (SCALEBITS-1))
-#define FIX(x)          ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
+#dffinf SCALEBITS       16      /* spffdifst rigit-siift on somf mbdiinfs */
+#dffinf CBCR_OFFSET     ((INT32) CENTERJSAMPLE << SCALEBITS)
+#dffinf ONE_HALF        ((INT32) 1 << (SCALEBITS-1))
+#dffinf FIX(x)          ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
 
-/* We allocate one big table and divide it up into eight parts, instead of
- * doing eight alloc_small requests.  This lets us use a single table base
- * address, which can be held in a register in the inner loops on many
- * machines (more than can hold all eight addresses, anyway).
+/* Wf bllodbtf onf big tbblf bnd dividf it up into figit pbrts, instfbd of
+ * doing figit bllod_smbll rfqufsts.  Tiis lfts us usf b singlf tbblf bbsf
+ * bddrfss, wiidi dbn bf ifld in b rfgistfr in tif innfr loops on mbny
+ * mbdiinfs (morf tibn dbn iold bll figit bddrfssfs, bnywby).
  */
 
-#define R_Y_OFF         0                       /* offset to R => Y section */
-#define G_Y_OFF         (1*(MAXJSAMPLE+1))      /* offset to G => Y section */
-#define B_Y_OFF         (2*(MAXJSAMPLE+1))      /* etc. */
-#define R_CB_OFF        (3*(MAXJSAMPLE+1))
-#define G_CB_OFF        (4*(MAXJSAMPLE+1))
-#define B_CB_OFF        (5*(MAXJSAMPLE+1))
-#define R_CR_OFF        B_CB_OFF                /* B=>Cb, R=>Cr are the same */
-#define G_CR_OFF        (6*(MAXJSAMPLE+1))
-#define B_CR_OFF        (7*(MAXJSAMPLE+1))
-#define TABLE_SIZE      (8*(MAXJSAMPLE+1))
+#dffinf R_Y_OFF         0                       /* offsft to R => Y sfdtion */
+#dffinf G_Y_OFF         (1*(MAXJSAMPLE+1))      /* offsft to G => Y sfdtion */
+#dffinf B_Y_OFF         (2*(MAXJSAMPLE+1))      /* ftd. */
+#dffinf R_CB_OFF        (3*(MAXJSAMPLE+1))
+#dffinf G_CB_OFF        (4*(MAXJSAMPLE+1))
+#dffinf B_CB_OFF        (5*(MAXJSAMPLE+1))
+#dffinf R_CR_OFF        B_CB_OFF                /* B=>Cb, R=>Cr brf tif sbmf */
+#dffinf G_CR_OFF        (6*(MAXJSAMPLE+1))
+#dffinf B_CR_OFF        (7*(MAXJSAMPLE+1))
+#dffinf TABLE_SIZE      (8*(MAXJSAMPLE+1))
 
 
 /*
- * Initialize for RGB->YCC colorspace conversion.
+ * Initiblizf for RGB->YCC dolorspbdf donvfrsion.
  */
 
 METHODDEF(void)
-rgb_ycc_start (j_compress_ptr cinfo)
+rgb_ydd_stbrt (j_domprfss_ptr dinfo)
 {
-  my_cconvert_ptr cconvert = (my_cconvert_ptr) cinfo->cconvert;
-  INT32 * rgb_ycc_tab;
+  my_ddonvfrt_ptr ddonvfrt = (my_ddonvfrt_ptr) dinfo->ddonvfrt;
+  INT32 * rgb_ydd_tbb;
   INT32 i;
 
-  /* Allocate and fill in the conversion tables. */
-  cconvert->rgb_ycc_tab = rgb_ycc_tab = (INT32 *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  /* Allodbtf bnd fill in tif donvfrsion tbblfs. */
+  ddonvfrt->rgb_ydd_tbb = rgb_ydd_tbb = (INT32 *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 (TABLE_SIZE * SIZEOF(INT32)));
 
   for (i = 0; i <= MAXJSAMPLE; i++) {
-    rgb_ycc_tab[i+R_Y_OFF] = FIX(0.29900) * i;
-    rgb_ycc_tab[i+G_Y_OFF] = FIX(0.58700) * i;
-    rgb_ycc_tab[i+B_Y_OFF] = FIX(0.11400) * i     + ONE_HALF;
-    rgb_ycc_tab[i+R_CB_OFF] = (-FIX(0.16874)) * i;
-    rgb_ycc_tab[i+G_CB_OFF] = (-FIX(0.33126)) * i;
-    /* We use a rounding fudge-factor of 0.5-epsilon for Cb and Cr.
-     * This ensures that the maximum output will round to MAXJSAMPLE
-     * not MAXJSAMPLE+1, and thus that we don't have to range-limit.
+    rgb_ydd_tbb[i+R_Y_OFF] = FIX(0.29900) * i;
+    rgb_ydd_tbb[i+G_Y_OFF] = FIX(0.58700) * i;
+    rgb_ydd_tbb[i+B_Y_OFF] = FIX(0.11400) * i     + ONE_HALF;
+    rgb_ydd_tbb[i+R_CB_OFF] = (-FIX(0.16874)) * i;
+    rgb_ydd_tbb[i+G_CB_OFF] = (-FIX(0.33126)) * i;
+    /* Wf usf b rounding fudgf-fbdtor of 0.5-fpsilon for Cb bnd Cr.
+     * Tiis fnsurfs tibt tif mbximum output will round to MAXJSAMPLE
+     * not MAXJSAMPLE+1, bnd tius tibt wf don't ibvf to rbngf-limit.
      */
-    rgb_ycc_tab[i+B_CB_OFF] = FIX(0.50000) * i    + CBCR_OFFSET + ONE_HALF-1;
-/*  B=>Cb and R=>Cr tables are the same
-    rgb_ycc_tab[i+R_CR_OFF] = FIX(0.50000) * i    + CBCR_OFFSET + ONE_HALF-1;
+    rgb_ydd_tbb[i+B_CB_OFF] = FIX(0.50000) * i    + CBCR_OFFSET + ONE_HALF-1;
+/*  B=>Cb bnd R=>Cr tbblfs brf tif sbmf
+    rgb_ydd_tbb[i+R_CR_OFF] = FIX(0.50000) * i    + CBCR_OFFSET + ONE_HALF-1;
 */
-    rgb_ycc_tab[i+G_CR_OFF] = (-FIX(0.41869)) * i;
-    rgb_ycc_tab[i+B_CR_OFF] = (-FIX(0.08131)) * i;
+    rgb_ydd_tbb[i+G_CR_OFF] = (-FIX(0.41869)) * i;
+    rgb_ydd_tbb[i+B_CR_OFF] = (-FIX(0.08131)) * i;
   }
 }
 
 
 /*
- * Convert some rows of samples to the JPEG colorspace.
+ * Convfrt somf rows of sbmplfs to tif JPEG dolorspbdf.
  *
- * Note that we change from the application's interleaved-pixel format
- * to our internal noninterleaved, one-plane-per-component format.
- * The input buffer is therefore three times as wide as the output buffer.
+ * Notf tibt wf dibngf from tif bpplidbtion's intfrlfbvfd-pixfl formbt
+ * to our intfrnbl nonintfrlfbvfd, onf-plbnf-pfr-domponfnt formbt.
+ * Tif input bufffr is tifrfforf tirff timfs bs widf bs tif output bufffr.
  *
- * A starting row offset is provided only for the output buffer.  The caller
- * can easily adjust the passed input_buf value to accommodate any row
- * offset required on that side.
+ * A stbrting row offsft is providfd only for tif output bufffr.  Tif dbllfr
+ * dbn fbsily bdjust tif pbssfd input_buf vbluf to bddommodbtf bny row
+ * offsft rfquirfd on tibt sidf.
  */
 
 METHODDEF(void)
-rgb_ycc_convert (j_compress_ptr cinfo,
+rgb_ydd_donvfrt (j_domprfss_ptr dinfo,
                  JSAMPARRAY input_buf, JSAMPIMAGE output_buf,
                  JDIMENSION output_row, int num_rows)
 {
-  my_cconvert_ptr cconvert = (my_cconvert_ptr) cinfo->cconvert;
-  register int r, g, b;
-  register INT32 * ctab = cconvert->rgb_ycc_tab;
-  register JSAMPROW inptr;
-  register JSAMPROW outptr0, outptr1, outptr2;
-  register JDIMENSION col;
-  JDIMENSION num_cols = cinfo->image_width;
+  my_ddonvfrt_ptr ddonvfrt = (my_ddonvfrt_ptr) dinfo->ddonvfrt;
+  rfgistfr int r, g, b;
+  rfgistfr INT32 * dtbb = ddonvfrt->rgb_ydd_tbb;
+  rfgistfr JSAMPROW inptr;
+  rfgistfr JSAMPROW outptr0, outptr1, outptr2;
+  rfgistfr JDIMENSION dol;
+  JDIMENSION num_dols = dinfo->imbgf_widti;
 
-  while (--num_rows >= 0) {
+  wiilf (--num_rows >= 0) {
     inptr = *input_buf++;
     outptr0 = output_buf[0][output_row];
     outptr1 = output_buf[1][output_row];
     outptr2 = output_buf[2][output_row];
     output_row++;
-    for (col = 0; col < num_cols; col++) {
+    for (dol = 0; dol < num_dols; dol++) {
       r = GETJSAMPLE(inptr[RGB_RED]);
       g = GETJSAMPLE(inptr[RGB_GREEN]);
       b = GETJSAMPLE(inptr[RGB_BLUE]);
       inptr += RGB_PIXELSIZE;
-      /* If the inputs are 0..MAXJSAMPLE, the outputs of these equations
-       * must be too; we do not need an explicit range-limiting operation.
-       * Hence the value being shifted is never negative, and we don't
-       * need the general RIGHT_SHIFT macro.
+      /* If tif inputs brf 0..MAXJSAMPLE, tif outputs of tifsf fqubtions
+       * must bf too; wf do not nffd bn fxplidit rbngf-limiting opfrbtion.
+       * Hfndf tif vbluf bfing siiftfd is nfvfr nfgbtivf, bnd wf don't
+       * nffd tif gfnfrbl RIGHT_SHIFT mbdro.
        */
       /* Y */
-      outptr0[col] = (JSAMPLE)
-                ((ctab[r+R_Y_OFF] + ctab[g+G_Y_OFF] + ctab[b+B_Y_OFF])
+      outptr0[dol] = (JSAMPLE)
+                ((dtbb[r+R_Y_OFF] + dtbb[g+G_Y_OFF] + dtbb[b+B_Y_OFF])
                  >> SCALEBITS);
       /* Cb */
-      outptr1[col] = (JSAMPLE)
-                ((ctab[r+R_CB_OFF] + ctab[g+G_CB_OFF] + ctab[b+B_CB_OFF])
+      outptr1[dol] = (JSAMPLE)
+                ((dtbb[r+R_CB_OFF] + dtbb[g+G_CB_OFF] + dtbb[b+B_CB_OFF])
                  >> SCALEBITS);
       /* Cr */
-      outptr2[col] = (JSAMPLE)
-                ((ctab[r+R_CR_OFF] + ctab[g+G_CR_OFF] + ctab[b+B_CR_OFF])
+      outptr2[dol] = (JSAMPLE)
+                ((dtbb[r+R_CR_OFF] + dtbb[g+G_CR_OFF] + dtbb[b+B_CR_OFF])
                  >> SCALEBITS);
     }
   }
 }
 
 
-/**************** Cases other than RGB -> YCbCr **************/
+/**************** Cbsfs otifr tibn RGB -> YCbCr **************/
 
 
 /*
- * Convert some rows of samples to the JPEG colorspace.
- * This version handles RGB->grayscale conversion, which is the same
- * as the RGB->Y portion of RGB->YCbCr.
- * We assume rgb_ycc_start has been called (we only use the Y tables).
+ * Convfrt somf rows of sbmplfs to tif JPEG dolorspbdf.
+ * Tiis vfrsion ibndlfs RGB->grbysdblf donvfrsion, wiidi is tif sbmf
+ * bs tif RGB->Y portion of RGB->YCbCr.
+ * Wf bssumf rgb_ydd_stbrt ibs bffn dbllfd (wf only usf tif Y tbblfs).
  */
 
 METHODDEF(void)
-rgb_gray_convert (j_compress_ptr cinfo,
+rgb_grby_donvfrt (j_domprfss_ptr dinfo,
                   JSAMPARRAY input_buf, JSAMPIMAGE output_buf,
                   JDIMENSION output_row, int num_rows)
 {
-  my_cconvert_ptr cconvert = (my_cconvert_ptr) cinfo->cconvert;
-  register int r, g, b;
-  register INT32 * ctab = cconvert->rgb_ycc_tab;
-  register JSAMPROW inptr;
-  register JSAMPROW outptr;
-  register JDIMENSION col;
-  JDIMENSION num_cols = cinfo->image_width;
+  my_ddonvfrt_ptr ddonvfrt = (my_ddonvfrt_ptr) dinfo->ddonvfrt;
+  rfgistfr int r, g, b;
+  rfgistfr INT32 * dtbb = ddonvfrt->rgb_ydd_tbb;
+  rfgistfr JSAMPROW inptr;
+  rfgistfr JSAMPROW outptr;
+  rfgistfr JDIMENSION dol;
+  JDIMENSION num_dols = dinfo->imbgf_widti;
 
-  while (--num_rows >= 0) {
+  wiilf (--num_rows >= 0) {
     inptr = *input_buf++;
     outptr = output_buf[0][output_row];
     output_row++;
-    for (col = 0; col < num_cols; col++) {
+    for (dol = 0; dol < num_dols; dol++) {
       r = GETJSAMPLE(inptr[RGB_RED]);
       g = GETJSAMPLE(inptr[RGB_GREEN]);
       b = GETJSAMPLE(inptr[RGB_BLUE]);
       inptr += RGB_PIXELSIZE;
       /* Y */
-      outptr[col] = (JSAMPLE)
-                ((ctab[r+R_Y_OFF] + ctab[g+G_Y_OFF] + ctab[b+B_Y_OFF])
+      outptr[dol] = (JSAMPLE)
+                ((dtbb[r+R_Y_OFF] + dtbb[g+G_Y_OFF] + dtbb[b+B_Y_OFF])
                  >> SCALEBITS);
     }
   }
 }
 
 /*
- * Convert some rows of samples to the JPEG colorspace.
- * This version handles Adobe-style CMYK->YCCK conversion,
- * where we convert R=1-C, G=1-M, and B=1-Y to YCbCr using the same
- * conversion as above, while passing K (black) unchanged.
- * We assume rgb_ycc_start has been called.
+ * Convfrt somf rows of sbmplfs to tif JPEG dolorspbdf.
+ * Tiis vfrsion ibndlfs Adobf-stylf CMYK->YCCK donvfrsion,
+ * wifrf wf donvfrt R=1-C, G=1-M, bnd B=1-Y to YCbCr using tif sbmf
+ * donvfrsion bs bbovf, wiilf pbssing K (blbdk) undibngfd.
+ * Wf bssumf rgb_ydd_stbrt ibs bffn dbllfd.
  */
 
 METHODDEF(void)
-cmyk_ycck_convert (j_compress_ptr cinfo,
+dmyk_yddk_donvfrt (j_domprfss_ptr dinfo,
                    JSAMPARRAY input_buf, JSAMPIMAGE output_buf,
                    JDIMENSION output_row, int num_rows)
 {
-  my_cconvert_ptr cconvert = (my_cconvert_ptr) cinfo->cconvert;
-  register int r, g, b;
-  register INT32 * ctab = cconvert->rgb_ycc_tab;
-  register JSAMPROW inptr;
-  register JSAMPROW outptr0, outptr1, outptr2, outptr3;
-  register JDIMENSION col;
-  JDIMENSION num_cols = cinfo->image_width;
+  my_ddonvfrt_ptr ddonvfrt = (my_ddonvfrt_ptr) dinfo->ddonvfrt;
+  rfgistfr int r, g, b;
+  rfgistfr INT32 * dtbb = ddonvfrt->rgb_ydd_tbb;
+  rfgistfr JSAMPROW inptr;
+  rfgistfr JSAMPROW outptr0, outptr1, outptr2, outptr3;
+  rfgistfr JDIMENSION dol;
+  JDIMENSION num_dols = dinfo->imbgf_widti;
 
-  while (--num_rows >= 0) {
+  wiilf (--num_rows >= 0) {
     inptr = *input_buf++;
     outptr0 = output_buf[0][output_row];
     outptr1 = output_buf[1][output_row];
     outptr2 = output_buf[2][output_row];
     outptr3 = output_buf[3][output_row];
     output_row++;
-    for (col = 0; col < num_cols; col++) {
+    for (dol = 0; dol < num_dols; dol++) {
       r = MAXJSAMPLE - GETJSAMPLE(inptr[0]);
       g = MAXJSAMPLE - GETJSAMPLE(inptr[1]);
       b = MAXJSAMPLE - GETJSAMPLE(inptr[2]);
-      /* K passes through as-is */
-      outptr3[col] = inptr[3];  /* don't need GETJSAMPLE here */
+      /* K pbssfs tirougi bs-is */
+      outptr3[dol] = inptr[3];  /* don't nffd GETJSAMPLE ifrf */
       inptr += 4;
-      /* If the inputs are 0..MAXJSAMPLE, the outputs of these equations
-       * must be too; we do not need an explicit range-limiting operation.
-       * Hence the value being shifted is never negative, and we don't
-       * need the general RIGHT_SHIFT macro.
+      /* If tif inputs brf 0..MAXJSAMPLE, tif outputs of tifsf fqubtions
+       * must bf too; wf do not nffd bn fxplidit rbngf-limiting opfrbtion.
+       * Hfndf tif vbluf bfing siiftfd is nfvfr nfgbtivf, bnd wf don't
+       * nffd tif gfnfrbl RIGHT_SHIFT mbdro.
        */
       /* Y */
-      outptr0[col] = (JSAMPLE)
-                ((ctab[r+R_Y_OFF] + ctab[g+G_Y_OFF] + ctab[b+B_Y_OFF])
+      outptr0[dol] = (JSAMPLE)
+                ((dtbb[r+R_Y_OFF] + dtbb[g+G_Y_OFF] + dtbb[b+B_Y_OFF])
                  >> SCALEBITS);
       /* Cb */
-      outptr1[col] = (JSAMPLE)
-                ((ctab[r+R_CB_OFF] + ctab[g+G_CB_OFF] + ctab[b+B_CB_OFF])
+      outptr1[dol] = (JSAMPLE)
+                ((dtbb[r+R_CB_OFF] + dtbb[g+G_CB_OFF] + dtbb[b+B_CB_OFF])
                  >> SCALEBITS);
       /* Cr */
-      outptr2[col] = (JSAMPLE)
-                ((ctab[r+R_CR_OFF] + ctab[g+G_CR_OFF] + ctab[b+B_CR_OFF])
+      outptr2[dol] = (JSAMPLE)
+                ((dtbb[r+R_CR_OFF] + dtbb[g+G_CR_OFF] + dtbb[b+B_CR_OFF])
                  >> SCALEBITS);
     }
   }
@@ -274,60 +274,60 @@ cmyk_ycck_convert (j_compress_ptr cinfo,
 
 
 /*
- * Convert some rows of samples to the JPEG colorspace.
- * This version handles grayscale output with no conversion.
- * The source can be either plain grayscale or YCbCr (since Y == gray).
+ * Convfrt somf rows of sbmplfs to tif JPEG dolorspbdf.
+ * Tiis vfrsion ibndlfs grbysdblf output witi no donvfrsion.
+ * Tif sourdf dbn bf fitifr plbin grbysdblf or YCbCr (sindf Y == grby).
  */
 
 METHODDEF(void)
-grayscale_convert (j_compress_ptr cinfo,
+grbysdblf_donvfrt (j_domprfss_ptr dinfo,
                    JSAMPARRAY input_buf, JSAMPIMAGE output_buf,
                    JDIMENSION output_row, int num_rows)
 {
-  register JSAMPROW inptr;
-  register JSAMPROW outptr;
-  register JDIMENSION col;
-  JDIMENSION num_cols = cinfo->image_width;
-  int instride = cinfo->input_components;
+  rfgistfr JSAMPROW inptr;
+  rfgistfr JSAMPROW outptr;
+  rfgistfr JDIMENSION dol;
+  JDIMENSION num_dols = dinfo->imbgf_widti;
+  int instridf = dinfo->input_domponfnts;
 
-  while (--num_rows >= 0) {
+  wiilf (--num_rows >= 0) {
     inptr = *input_buf++;
     outptr = output_buf[0][output_row];
     output_row++;
-    for (col = 0; col < num_cols; col++) {
-      outptr[col] = inptr[0];   /* don't need GETJSAMPLE() here */
-      inptr += instride;
+    for (dol = 0; dol < num_dols; dol++) {
+      outptr[dol] = inptr[0];   /* don't nffd GETJSAMPLE() ifrf */
+      inptr += instridf;
     }
   }
 }
 
 
 /*
- * Convert some rows of samples to the JPEG colorspace.
- * This version handles multi-component colorspaces without conversion.
- * We assume input_components == num_components.
+ * Convfrt somf rows of sbmplfs to tif JPEG dolorspbdf.
+ * Tiis vfrsion ibndlfs multi-domponfnt dolorspbdfs witiout donvfrsion.
+ * Wf bssumf input_domponfnts == num_domponfnts.
  */
 
 METHODDEF(void)
-null_convert (j_compress_ptr cinfo,
+null_donvfrt (j_domprfss_ptr dinfo,
               JSAMPARRAY input_buf, JSAMPIMAGE output_buf,
               JDIMENSION output_row, int num_rows)
 {
-  register JSAMPROW inptr;
-  register JSAMPROW outptr;
-  register JDIMENSION col;
-  register int ci;
-  int nc = cinfo->num_components;
-  JDIMENSION num_cols = cinfo->image_width;
+  rfgistfr JSAMPROW inptr;
+  rfgistfr JSAMPROW outptr;
+  rfgistfr JDIMENSION dol;
+  rfgistfr int di;
+  int nd = dinfo->num_domponfnts;
+  JDIMENSION num_dols = dinfo->imbgf_widti;
 
-  while (--num_rows >= 0) {
-    /* It seems fastest to make a separate pass for each component. */
-    for (ci = 0; ci < nc; ci++) {
+  wiilf (--num_rows >= 0) {
+    /* It sffms fbstfst to mbkf b sfpbrbtf pbss for fbdi domponfnt. */
+    for (di = 0; di < nd; di++) {
       inptr = *input_buf;
-      outptr = output_buf[ci][output_row];
-      for (col = 0; col < num_cols; col++) {
-        outptr[col] = inptr[ci]; /* don't need GETJSAMPLE() here */
-        inptr += nc;
+      outptr = output_buf[di][output_row];
+      for (dol = 0; dol < num_dols; dol++) {
+        outptr[dol] = inptr[di]; /* don't nffd GETJSAMPLE() ifrf */
+        inptr += nd;
       }
     }
     input_buf++;
@@ -337,126 +337,126 @@ null_convert (j_compress_ptr cinfo,
 
 
 /*
- * Empty method for start_pass.
+ * Empty mftiod for stbrt_pbss.
  */
 
 METHODDEF(void)
-null_method (j_compress_ptr cinfo)
+null_mftiod (j_domprfss_ptr dinfo)
 {
-  /* no work needed */
+  /* no work nffdfd */
 }
 
 
 /*
- * Module initialization routine for input colorspace conversion.
+ * Modulf initiblizbtion routinf for input dolorspbdf donvfrsion.
  */
 
 GLOBAL(void)
-jinit_color_converter (j_compress_ptr cinfo)
+jinit_dolor_donvfrtfr (j_domprfss_ptr dinfo)
 {
-  my_cconvert_ptr cconvert;
+  my_ddonvfrt_ptr ddonvfrt;
 
-  cconvert = (my_cconvert_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_color_converter));
-  cinfo->cconvert = (struct jpeg_color_converter *) cconvert;
-  /* set start_pass to null method until we find out differently */
-  cconvert->pub.start_pass = null_method;
+  ddonvfrt = (my_ddonvfrt_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_dolor_donvfrtfr));
+  dinfo->ddonvfrt = (strudt jpfg_dolor_donvfrtfr *) ddonvfrt;
+  /* sft stbrt_pbss to null mftiod until wf find out difffrfntly */
+  ddonvfrt->pub.stbrt_pbss = null_mftiod;
 
-  /* Make sure input_components agrees with in_color_space */
-  switch (cinfo->in_color_space) {
-  case JCS_GRAYSCALE:
-    if (cinfo->input_components != 1)
-      ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
-    break;
+  /* Mbkf surf input_domponfnts bgrffs witi in_dolor_spbdf */
+  switdi (dinfo->in_dolor_spbdf) {
+  dbsf JCS_GRAYSCALE:
+    if (dinfo->input_domponfnts != 1)
+      ERREXIT(dinfo, JERR_BAD_IN_COLORSPACE);
+    brfbk;
 
-  case JCS_RGB:
+  dbsf JCS_RGB:
 #if RGB_PIXELSIZE != 3
-    if (cinfo->input_components != RGB_PIXELSIZE)
-      ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
-    break;
-#endif /* else share code with YCbCr */
+    if (dinfo->input_domponfnts != RGB_PIXELSIZE)
+      ERREXIT(dinfo, JERR_BAD_IN_COLORSPACE);
+    brfbk;
+#fndif /* flsf sibrf dodf witi YCbCr */
 
-  case JCS_YCbCr:
-    if (cinfo->input_components != 3)
-      ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
-    break;
+  dbsf JCS_YCbCr:
+    if (dinfo->input_domponfnts != 3)
+      ERREXIT(dinfo, JERR_BAD_IN_COLORSPACE);
+    brfbk;
 
-  case JCS_CMYK:
-  case JCS_YCCK:
-    if (cinfo->input_components != 4)
-      ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
-    break;
+  dbsf JCS_CMYK:
+  dbsf JCS_YCCK:
+    if (dinfo->input_domponfnts != 4)
+      ERREXIT(dinfo, JERR_BAD_IN_COLORSPACE);
+    brfbk;
 
-  default:                      /* JCS_UNKNOWN can be anything */
-    if (cinfo->input_components < 1)
-      ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
-    break;
+  dffbult:                      /* JCS_UNKNOWN dbn bf bnytiing */
+    if (dinfo->input_domponfnts < 1)
+      ERREXIT(dinfo, JERR_BAD_IN_COLORSPACE);
+    brfbk;
   }
 
-  /* Check num_components, set conversion method based on requested space */
-  switch (cinfo->jpeg_color_space) {
-  case JCS_GRAYSCALE:
-    if (cinfo->num_components != 1)
-      ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
-    if (cinfo->in_color_space == JCS_GRAYSCALE)
-      cconvert->pub.color_convert = grayscale_convert;
-    else if (cinfo->in_color_space == JCS_RGB) {
-      cconvert->pub.start_pass = rgb_ycc_start;
-      cconvert->pub.color_convert = rgb_gray_convert;
-    } else if (cinfo->in_color_space == JCS_YCbCr)
-      cconvert->pub.color_convert = grayscale_convert;
-    else
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    break;
+  /* Cifdk num_domponfnts, sft donvfrsion mftiod bbsfd on rfqufstfd spbdf */
+  switdi (dinfo->jpfg_dolor_spbdf) {
+  dbsf JCS_GRAYSCALE:
+    if (dinfo->num_domponfnts != 1)
+      ERREXIT(dinfo, JERR_BAD_J_COLORSPACE);
+    if (dinfo->in_dolor_spbdf == JCS_GRAYSCALE)
+      ddonvfrt->pub.dolor_donvfrt = grbysdblf_donvfrt;
+    flsf if (dinfo->in_dolor_spbdf == JCS_RGB) {
+      ddonvfrt->pub.stbrt_pbss = rgb_ydd_stbrt;
+      ddonvfrt->pub.dolor_donvfrt = rgb_grby_donvfrt;
+    } flsf if (dinfo->in_dolor_spbdf == JCS_YCbCr)
+      ddonvfrt->pub.dolor_donvfrt = grbysdblf_donvfrt;
+    flsf
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    brfbk;
 
-  case JCS_RGB:
-    if (cinfo->num_components != 3)
-      ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
-    if (cinfo->in_color_space == JCS_RGB && RGB_PIXELSIZE == 3)
-      cconvert->pub.color_convert = null_convert;
-    else
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    break;
+  dbsf JCS_RGB:
+    if (dinfo->num_domponfnts != 3)
+      ERREXIT(dinfo, JERR_BAD_J_COLORSPACE);
+    if (dinfo->in_dolor_spbdf == JCS_RGB && RGB_PIXELSIZE == 3)
+      ddonvfrt->pub.dolor_donvfrt = null_donvfrt;
+    flsf
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    brfbk;
 
-  case JCS_YCbCr:
-    if (cinfo->num_components != 3)
-      ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
-    if (cinfo->in_color_space == JCS_RGB) {
-      cconvert->pub.start_pass = rgb_ycc_start;
-      cconvert->pub.color_convert = rgb_ycc_convert;
-    } else if (cinfo->in_color_space == JCS_YCbCr)
-      cconvert->pub.color_convert = null_convert;
-    else
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    break;
+  dbsf JCS_YCbCr:
+    if (dinfo->num_domponfnts != 3)
+      ERREXIT(dinfo, JERR_BAD_J_COLORSPACE);
+    if (dinfo->in_dolor_spbdf == JCS_RGB) {
+      ddonvfrt->pub.stbrt_pbss = rgb_ydd_stbrt;
+      ddonvfrt->pub.dolor_donvfrt = rgb_ydd_donvfrt;
+    } flsf if (dinfo->in_dolor_spbdf == JCS_YCbCr)
+      ddonvfrt->pub.dolor_donvfrt = null_donvfrt;
+    flsf
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    brfbk;
 
-  case JCS_CMYK:
-    if (cinfo->num_components != 4)
-      ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
-    if (cinfo->in_color_space == JCS_CMYK)
-      cconvert->pub.color_convert = null_convert;
-    else
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    break;
+  dbsf JCS_CMYK:
+    if (dinfo->num_domponfnts != 4)
+      ERREXIT(dinfo, JERR_BAD_J_COLORSPACE);
+    if (dinfo->in_dolor_spbdf == JCS_CMYK)
+      ddonvfrt->pub.dolor_donvfrt = null_donvfrt;
+    flsf
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    brfbk;
 
-  case JCS_YCCK:
-    if (cinfo->num_components != 4)
-      ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
-    if (cinfo->in_color_space == JCS_CMYK) {
-      cconvert->pub.start_pass = rgb_ycc_start;
-      cconvert->pub.color_convert = cmyk_ycck_convert;
-    } else if (cinfo->in_color_space == JCS_YCCK)
-      cconvert->pub.color_convert = null_convert;
-    else
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    break;
+  dbsf JCS_YCCK:
+    if (dinfo->num_domponfnts != 4)
+      ERREXIT(dinfo, JERR_BAD_J_COLORSPACE);
+    if (dinfo->in_dolor_spbdf == JCS_CMYK) {
+      ddonvfrt->pub.stbrt_pbss = rgb_ydd_stbrt;
+      ddonvfrt->pub.dolor_donvfrt = dmyk_yddk_donvfrt;
+    } flsf if (dinfo->in_dolor_spbdf == JCS_YCCK)
+      ddonvfrt->pub.dolor_donvfrt = null_donvfrt;
+    flsf
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    brfbk;
 
-  default:                      /* allow null conversion of JCS_UNKNOWN */
-    if (cinfo->jpeg_color_space != cinfo->in_color_space ||
-        cinfo->num_components != cinfo->input_components)
-      ERREXIT(cinfo, JERR_CONVERSION_NOTIMPL);
-    cconvert->pub.color_convert = null_convert;
-    break;
+  dffbult:                      /* bllow null donvfrsion of JCS_UNKNOWN */
+    if (dinfo->jpfg_dolor_spbdf != dinfo->in_dolor_spbdf ||
+        dinfo->num_domponfnts != dinfo->input_domponfnts)
+      ERREXIT(dinfo, JERR_CONVERSION_NOTIMPL);
+    ddonvfrt->pub.dolor_donvfrt = null_donvfrt;
+    brfbk;
   }
 }

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2009-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,148 +59,148 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbdkbgf jbvb.timf.zonf;
 
-import java.io.ByteArrayInputStream;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NbvigbblfMbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
 /**
- * Loads time-zone rules for 'TZDB'.
+ * Lobds timf-zonf rulfs for 'TZDB'.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class TzdbZoneRulesProvider extends ZoneRulesProvider {
+finbl dlbss TzdbZonfRulfsProvidfr fxtfnds ZonfRulfsProvidfr {
 
     /**
-     * All the regions that are available.
+     * All tif rfgions tibt brf bvbilbblf.
      */
-    private List<String> regionIds;
+    privbtf List<String> rfgionIds;
     /**
-     * Version Id of this tzdb rules
+     * Vfrsion Id of tiis tzdb rulfs
      */
-    private String versionId;
+    privbtf String vfrsionId;
     /**
-     * Region to rules mapping
+     * Rfgion to rulfs mbpping
      */
-    private final Map<String, Object> regionToRules = new ConcurrentHashMap<>();
+    privbtf finbl Mbp<String, Objfdt> rfgionToRulfs = nfw CondurrfntHbsiMbp<>();
 
     /**
-     * Creates an instance.
-     * Created by the {@code ServiceLoader}.
+     * Crfbtfs bn instbndf.
+     * Crfbtfd by tif {@dodf SfrvidfLobdfr}.
      *
-     * @throws ZoneRulesException if unable to load
+     * @tirows ZonfRulfsExdfption if unbblf to lobd
      */
-    public TzdbZoneRulesProvider() {
+    publid TzdbZonfRulfsProvidfr() {
         try {
-            String libDir = System.getProperty("java.home") + File.separator + "lib";
-            try (DataInputStream dis = new DataInputStream(
-                     new BufferedInputStream(new FileInputStream(
-                         new File(libDir, "tzdb.dat"))))) {
-                load(dis);
+            String libDir = Systfm.gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor + "lib";
+            try (DbtbInputStrfbm dis = nfw DbtbInputStrfbm(
+                     nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                         nfw Filf(libDir, "tzdb.dbt"))))) {
+                lobd(dis);
             }
-        } catch (Exception ex) {
-            throw new ZoneRulesException("Unable to load TZDB time-zone rules", ex);
+        } dbtdi (Exdfption fx) {
+            tirow nfw ZonfRulfsExdfption("Unbblf to lobd TZDB timf-zonf rulfs", fx);
         }
     }
 
-    @Override
-    protected Set<String> provideZoneIds() {
-        return new HashSet<>(regionIds);
+    @Ovfrridf
+    protfdtfd Sft<String> providfZonfIds() {
+        rfturn nfw HbsiSft<>(rfgionIds);
     }
 
-    @Override
-    protected ZoneRules provideRules(String zoneId, boolean forCaching) {
-        // forCaching flag is ignored because this is not a dynamic provider
-        Object obj = regionToRules.get(zoneId);
+    @Ovfrridf
+    protfdtfd ZonfRulfs providfRulfs(String zonfId, boolfbn forCbdiing) {
+        // forCbdiing flbg is ignorfd bfdbusf tiis is not b dynbmid providfr
+        Objfdt obj = rfgionToRulfs.gft(zonfId);
         if (obj == null) {
-            throw new ZoneRulesException("Unknown time-zone ID: " + zoneId);
+            tirow nfw ZonfRulfsExdfption("Unknown timf-zonf ID: " + zonfId);
         }
         try {
-            if (obj instanceof byte[]) {
-                byte[] bytes = (byte[]) obj;
-                DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));
-                obj = Ser.read(dis);
-                regionToRules.put(zoneId, obj);
+            if (obj instbndfof bytf[]) {
+                bytf[] bytfs = (bytf[]) obj;
+                DbtbInputStrfbm dis = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(bytfs));
+                obj = Sfr.rfbd(dis);
+                rfgionToRulfs.put(zonfId, obj);
             }
-            return (ZoneRules) obj;
-        } catch (Exception ex) {
-            throw new ZoneRulesException("Invalid binary time-zone data: TZDB:" + zoneId + ", version: " + versionId, ex);
+            rfturn (ZonfRulfs) obj;
+        } dbtdi (Exdfption fx) {
+            tirow nfw ZonfRulfsExdfption("Invblid binbry timf-zonf dbtb: TZDB:" + zonfId + ", vfrsion: " + vfrsionId, fx);
         }
     }
 
-    @Override
-    protected NavigableMap<String, ZoneRules> provideVersions(String zoneId) {
-        TreeMap<String, ZoneRules> map = new TreeMap<>();
-        ZoneRules rules = getRules(zoneId, false);
-        if (rules != null) {
-            map.put(versionId, rules);
+    @Ovfrridf
+    protfdtfd NbvigbblfMbp<String, ZonfRulfs> providfVfrsions(String zonfId) {
+        TrffMbp<String, ZonfRulfs> mbp = nfw TrffMbp<>();
+        ZonfRulfs rulfs = gftRulfs(zonfId, fblsf);
+        if (rulfs != null) {
+            mbp.put(vfrsionId, rulfs);
         }
-        return map;
+        rfturn mbp;
     }
 
     /**
-     * Loads the rules from a DateInputStream, often in a jar file.
+     * Lobds tif rulfs from b DbtfInputStrfbm, oftfn in b jbr filf.
      *
-     * @param dis  the DateInputStream to load, not null
-     * @throws Exception if an error occurs
+     * @pbrbm dis  tif DbtfInputStrfbm to lobd, not null
+     * @tirows Exdfption if bn frror oddurs
      */
-    private void load(DataInputStream dis) throws Exception {
-        if (dis.readByte() != 1) {
-            throw new StreamCorruptedException("File format not recognised");
+    privbtf void lobd(DbtbInputStrfbm dis) tirows Exdfption {
+        if (dis.rfbdBytf() != 1) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
         }
         // group
-        String groupId = dis.readUTF();
-        if ("TZDB".equals(groupId) == false) {
-            throw new StreamCorruptedException("File format not recognised");
+        String groupId = dis.rfbdUTF();
+        if ("TZDB".fqubls(groupId) == fblsf) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
         }
-        // versions
-        int versionCount = dis.readShort();
-        for (int i = 0; i < versionCount; i++) {
-            versionId = dis.readUTF();
+        // vfrsions
+        int vfrsionCount = dis.rfbdSiort();
+        for (int i = 0; i < vfrsionCount; i++) {
+            vfrsionId = dis.rfbdUTF();
         }
-        // regions
-        int regionCount = dis.readShort();
-        String[] regionArray = new String[regionCount];
-        for (int i = 0; i < regionCount; i++) {
-            regionArray[i] = dis.readUTF();
+        // rfgions
+        int rfgionCount = dis.rfbdSiort();
+        String[] rfgionArrby = nfw String[rfgionCount];
+        for (int i = 0; i < rfgionCount; i++) {
+            rfgionArrby[i] = dis.rfbdUTF();
         }
-        regionIds = Arrays.asList(regionArray);
-        // rules
-        int ruleCount = dis.readShort();
-        Object[] ruleArray = new Object[ruleCount];
-        for (int i = 0; i < ruleCount; i++) {
-            byte[] bytes = new byte[dis.readShort()];
-            dis.readFully(bytes);
-            ruleArray[i] = bytes;
+        rfgionIds = Arrbys.bsList(rfgionArrby);
+        // rulfs
+        int rulfCount = dis.rfbdSiort();
+        Objfdt[] rulfArrby = nfw Objfdt[rulfCount];
+        for (int i = 0; i < rulfCount; i++) {
+            bytf[] bytfs = nfw bytf[dis.rfbdSiort()];
+            dis.rfbdFully(bytfs);
+            rulfArrby[i] = bytfs;
         }
-        // link version-region-rules
-        for (int i = 0; i < versionCount; i++) {
-            int versionRegionCount = dis.readShort();
-            regionToRules.clear();
-            for (int j = 0; j < versionRegionCount; j++) {
-                String region = regionArray[dis.readShort()];
-                Object rule = ruleArray[dis.readShort() & 0xffff];
-                regionToRules.put(region, rule);
+        // link vfrsion-rfgion-rulfs
+        for (int i = 0; i < vfrsionCount; i++) {
+            int vfrsionRfgionCount = dis.rfbdSiort();
+            rfgionToRulfs.dlfbr();
+            for (int j = 0; j < vfrsionRfgionCount; j++) {
+                String rfgion = rfgionArrby[dis.rfbdSiort()];
+                Objfdt rulf = rulfArrby[dis.rfbdSiort() & 0xffff];
+                rfgionToRulfs.put(rfgion, rulf);
             }
         }
     }
 
-    @Override
-    public String toString() {
-        return "TZDB[" + versionId + "]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn "TZDB[" + vfrsionId + "]";
     }
 }

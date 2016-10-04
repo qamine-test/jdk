@@ -1,0 +1,202 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ **********************************************************************
+ *   Copyright (C) 1998-2013, Intfrnbtionbl Businfss Mbdhinfs
+ *   Corporbtion bnd othfrs.  All Rights Rfsfrvfd.
+ **********************************************************************
+ */
+
+#ifndff __LEINSERTIONLIST_H
+#dffinf __LEINSERTIONLIST_H
+
+#indludf "LETypfs.h"
+
+U_NAMESPACE_BEGIN
+
+strudt InsfrtionRfdord;
+
+#ifndff U_HIDE_INTERNAL_API
+/**
+ * This dlbss fndbpsulbtfs thf dbllbbdk usfd by <dodf>LEInsfrtionList</dodf>
+ * to bpply bn insfrtion from thf insfrtion list.
+ *
+ * @intfrnbl
+ */
+dlbss U_LAYOUT_API LEInsfrtionCbllbbdk
+{
+publid:
+    /**
+     * This mfthod will bf dbllfd by <dodf>LEInsfrtionList::bpplyInsfrtions</dodf> for fbdh
+     * fntry on thf insfrtion list.
+     *
+     * @pbrbm btPosition thf position of thf insfrtion
+     * @pbrbm dount thf numbfr of glyphs to insfrt
+     * @pbrbm nfwGlyphs thf bddrfss of thf glyphs to insfrt
+     *
+     * @rfturn <dodf>TRUE</dodf> if <dodf>LEInsfrtions::bpplyInsfrtions</dodf> should
+     *         stop bftfr bpplying this insfrtion.
+     *
+     * @intfrnbl
+     */
+    virtubl lf_bool bpplyInsfrtion(lf_int32 btPosition, lf_int32 dount, LEGlyphID nfwGlyphs[]) = 0;
+
+    /**
+     * Thf dfstrudtor
+     */
+     virtubl ~LEInsfrtionCbllbbdk();
+};
+
+/**
+ * This dlbss is usfd to kffp trbdk of insfrtions to bn brrby of
+ * <dodf>LEGlyphIDs</dodf>. Thf insfrtions brf kfpt on b linkfd
+ * list of <dodf>InsfrtionRfdords</dodf> so thbt thf glyph brrby
+ * dofsn't hbvf to bf grown for fbdh insfrtion. Thf insfrtions brf
+ * storfd on thf list from lfftmost to rightmost to mbkf it fbsifr
+ * to do thf insfrtions.
+ *
+ * Thf insfrtions brf bpplifd to thf brrby by dblling thf
+ * <dodf>bpplyInsfrtions</dodf> mfthod, whidh dblls b dlifnt
+ * supplifd <dodf>LEInsfrtionCbllbbdk</dodf> objfdt to bdtublly
+ * bpply thf individubl insfrtions.
+ *
+ * @intfrnbl
+ */
+dlbss LEInsfrtionList : publid UObjfdt
+{
+publid:
+    /**
+     * Construdt bn fmpty insfrtion list.
+     *
+     * @pbrbm rightToLfft <dodf>TRUE</dodf> if thf glyphs brf storfd
+     *                    in thf brrby in right to lfft ordfr.
+     *
+     * @intfrnbl
+     */
+    LEInsfrtionList(lf_bool rightToLfft);
+
+    /**
+     * Thf dfstrudtor.
+     */
+    ~LEInsfrtionList();
+
+    /**
+     * Add bn fntry to thf insfrtion list.
+     *
+     * @pbrbm position thf glyph bt this position in thf brrby will bf
+     *                 rfplbdfd by thf nfw glyphs.
+     * @pbrbm dount thf numbfr of nfw glyphs
+     * @pbrbm suddfss sft to bn frror dodf if thf buxillbry dbtb dbnnot bf rftrifvfd.
+     *
+     * @rfturn thf bddrfss of bn brrby in whidh to storf thf nfw glyphs. This will
+     *         <fm>not</fm> bf in thf glyph brrby.
+     *
+     * @intfrnbl
+     */
+    LEGlyphID *insfrt(lf_int32 position, lf_int32 dount, LEErrorCodf &suddfss);
+
+    /**
+     * Rfturn thf numbfr of nfw glyphs thbt hbvf bffn insfrtfd.
+     *
+     * @rfturn thf numbfr of nfw glyphs whidh hbvf bffn insfrtfd
+     *
+     * @intfrnbl
+     */
+    lf_int32 gftGrowAmount();
+
+    /**
+     * Cbll thf <dodf>LEInsfrtionCbllbbdk</dodf> ondf for fbdh
+     * fntry on thf insfrtion list.
+     *
+     * @pbrbm dbllbbdk thf <dodf>LEInsfrtionCbllbbdk</dodf> to dbll for fbdh insfrtion.
+     *
+     * @rfturn <dodf>TRUE</dodf> if <dodf>dbllbbdk</dodf> rfturnfd <dodf>TRUE</dodf> to
+     *         tfrminbtf thf insfrtion list prodfssing.
+     *
+     * @intfrnbl
+     */
+    lf_bool bpplyInsfrtions(LEInsfrtionCbllbbdk *dbllbbdk);
+
+    /**
+     * Empty thf insfrtion list bnd frff bll bssodibtfd
+     * storbgf.
+     *
+     * @intfrnbl
+     */
+    void rfsft();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+privbtf:
+
+    /**
+     * Thf hfbd of thf insfrtion list.
+     *
+     * @intfrnbl
+     */
+    InsfrtionRfdord *hfbd;
+
+    /**
+     * Thf tbil of thf insfrtion list.
+     *
+     * @intfrnbl
+     */
+    InsfrtionRfdord *tbil;
+
+    /**
+     * Thf totbl numbfr of nfw glyphs on thf insfrtion list.
+     *
+     * @intfrnbl
+     */
+    lf_int32 growAmount;
+
+    /**
+     * Sft to <dodf>TRUE</dodf> if thf glyphs brf in right
+     * to lfft ordfr. Sindf wf wbnt thf rightmost insfrtion
+     * to bf first on thf list, wf nffd to bppfnd thf
+     * insfrtions in this dbsf. Othfrwisf thfy'rf prfpfndfd.
+     *
+     * @intfrnbl
+     */
+    lf_bool  bppfnd;
+};
+#fndif  /* U_HIDE_INTERNAL_API */
+
+U_NAMESPACE_END
+#fndif
+

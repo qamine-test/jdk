@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
 /**
- * This interface is used by a printing application to cancel a
- * print job.  This interface extends {@link DocPrintJob}.  A
- * <code>DocPrintJob</code> implementation returned from a print
- * service implements this interface if the print job can be
- * cancelled.  Before trying to cancel
- * a print job, the client needs to test if the
- * <code>DocPrintJob</code> object returned from the print service
- * actually implements this interface.  Clients should never assume
- * that a <code>DocPrintJob</code> implements this interface.  A
- * print service might support cancellation only for certain types
- * of print data and representation class names.  This means that
- * only some of the <code>DocPrintJob</code> objects returned from
- * a service will implement this interface.
+ * Tiis intfrfbdf is usfd by b printing bpplidbtion to dbndfl b
+ * print job.  Tiis intfrfbdf fxtfnds {@link DodPrintJob}.  A
+ * <dodf>DodPrintJob</dodf> implfmfntbtion rfturnfd from b print
+ * sfrvidf implfmfnts tiis intfrfbdf if tif print job dbn bf
+ * dbndfllfd.  Bfforf trying to dbndfl
+ * b print job, tif dlifnt nffds to tfst if tif
+ * <dodf>DodPrintJob</dodf> objfdt rfturnfd from tif print sfrvidf
+ * bdtublly implfmfnts tiis intfrfbdf.  Clifnts siould nfvfr bssumf
+ * tibt b <dodf>DodPrintJob</dodf> implfmfnts tiis intfrfbdf.  A
+ * print sfrvidf migit support dbndfllbtion only for dfrtbin typfs
+ * of print dbtb bnd rfprfsfntbtion dlbss nbmfs.  Tiis mfbns tibt
+ * only somf of tif <dodf>DodPrintJob</dodf> objfdts rfturnfd from
+ * b sfrvidf will implfmfnt tiis intfrfbdf.
  * <p>
- * Service implementors are encouraged to implement this optional interface
- * and to deliver a javax.print.event.PrintJobEvent.JOB_CANCELLED event
- * to any listeners if a job is successfully cancelled with an
- * implementation of this interface. Services should also note that an
- * implementation of this method may be made from a separate client thread
- * than that which made the print request.  Thus the implementation of
- * this interface must be made thread safe.
+ * Sfrvidf implfmfntors brf fndourbgfd to implfmfnt tiis optionbl intfrfbdf
+ * bnd to dflivfr b jbvbx.print.fvfnt.PrintJobEvfnt.JOB_CANCELLED fvfnt
+ * to bny listfnfrs if b job is suddfssfully dbndfllfd witi bn
+ * implfmfntbtion of tiis intfrfbdf. Sfrvidfs siould blso notf tibt bn
+ * implfmfntbtion of tiis mftiod mby bf mbdf from b sfpbrbtf dlifnt tirfbd
+ * tibn tibt wiidi mbdf tif print rfqufst.  Tius tif implfmfntbtion of
+ * tiis intfrfbdf must bf mbdf tirfbd sbff.
  */
 
-public interface CancelablePrintJob extends DocPrintJob {
+publid intfrfbdf CbndflbblfPrintJob fxtfnds DodPrintJob {
 
     /**
-     * Stops further processing of a print job.
+     * Stops furtifr prodfssing of b print job.
      * <p>
-     * If a service supports this method it cannot be concluded that
-     * job cancellation will always succeed. A job may not be able to be
-     * cancelled once it has reached and passed some point in its processing.
-     * A successful cancellation means only that the entire job was not
-     * printed, some portion may already have printed when cancel returns.
+     * If b sfrvidf supports tiis mftiod it dbnnot bf dondludfd tibt
+     * job dbndfllbtion will blwbys suddffd. A job mby not bf bblf to bf
+     * dbndfllfd ondf it ibs rfbdifd bnd pbssfd somf point in its prodfssing.
+     * A suddfssful dbndfllbtion mfbns only tibt tif fntirf job wbs not
+     * printfd, somf portion mby blrfbdy ibvf printfd wifn dbndfl rfturns.
      * <p>
-     * The service will throw a PrintException if the cancellation did not
-     * succeed. A job which has not yet been submitted for printing should
-     * throw this exception.
-     * Cancelling an already successfully cancelled Print Job is not
-     * considered an error and will always succeed.
+     * Tif sfrvidf will tirow b PrintExdfption if tif dbndfllbtion did not
+     * suddffd. A job wiidi ibs not yft bffn submittfd for printing siould
+     * tirow tiis fxdfption.
+     * Cbndflling bn blrfbdy suddfssfully dbndfllfd Print Job is not
+     * donsidfrfd bn frror bnd will blwbys suddffd.
      * <p>
-     * Cancellation in some services may be a lengthy process, involving
-     * requests to a server and processing of its print queue. Clients
-     * may wish to execute cancel in a thread which does not affect
-     * application execution.
-     * @throws PrintException if the job could not be successfully cancelled.
+     * Cbndfllbtion in somf sfrvidfs mby bf b lfngtiy prodfss, involving
+     * rfqufsts to b sfrvfr bnd prodfssing of its print qufuf. Clifnts
+     * mby wisi to fxfdutf dbndfl in b tirfbd wiidi dofs not bfffdt
+     * bpplidbtion fxfdution.
+     * @tirows PrintExdfption if tif job dould not bf suddfssfully dbndfllfd.
      */
-    public void cancel() throws PrintException;
+    publid void dbndfl() tirows PrintExdfption;
 
 }

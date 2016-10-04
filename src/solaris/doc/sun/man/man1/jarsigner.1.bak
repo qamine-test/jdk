@@ -1,300 +1,300 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Security Tools
-.\"     Title: jarsigner.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: jbrsignfr.1
 .\"
 .if n .pl 99999
-.TH jarsigner 1 "21 November 2013" "JDK 8" "Security Tools"
+.TH jbrsignfr 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jarsigner \- Signs and verifies Java Archive (JAR) files\&.
+jbrsignfr \- Signs bnd vfrififs Jbvb Ardiivf (JAR) filfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjarsigner\fR [ \fIoptions\fR ] \fIjar\-file\fR \fIalias\fR
+\fBjbrsignfr\fR [ \fIoptions\fR ] \fIjbr\-filf\fR \fIblibs\fR
 .fi     
 .nf     
 
-\fBjarsigner\fR \fB\-verify\fR [ \fIoptions\fR ] \fIjar\-file\fR [\fIalias \&.\&.\&.\fR]
+\fBjbrsignfr\fR \fB\-vfrify\fR [ \fIoptions\fR ] \fIjbr\-filf\fR [\fIblibs \&.\&.\&.\fR]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP
--verify
+-vfrify
 .br
-The \f3-verify\fR option can take zero or more keystore alias names after the JAR file name\&. When the \f3-verify\fR option is specified, the \f3jarsigner\fR command checks that the certificate used to verify each signed entry in the JAR file matches one of the keystore aliases\&. The aliases are defined in the keystore specified by \f3-keystore\fR or the default keystore\&.
+Tif \f3-vfrify\fR option dbn tbkf zfro or morf kfystorf blibs nbmfs bftfr tif JAR filf nbmf\&. Wifn tif \f3-vfrify\fR option is spfdififd, tif \f3jbrsignfr\fR dommbnd difdks tibt tif dfrtifidbtf usfd to vfrify fbdi signfd fntry in tif JAR filf mbtdifs onf of tif kfystorf blibsfs\&. Tif blibsfs brf dffinfd in tif kfystorf spfdififd by \f3-kfystorf\fR or tif dffbult kfystorf\&.
 
-If you also specified the \f3-strict\fR option, and the \f3jarsigner\fR command detected severe warnings, the message, "jar verified, with signer errors" is displayed\&.
+If you blso spfdififd tif \f3-stridt\fR option, bnd tif \f3jbrsignfr\fR dommbnd dftfdtfd sfvfrf wbrnings, tif mfssbgf, "jbr vfrififd, witi signfr frrors" is displbyfd\&.
 .TP     
-\fIjar-file\fR
-The JAR file to be signed\&.
+\fIjbr-filf\fR
+Tif JAR filf to bf signfd\&.
 
-If you also specified the \f3-strict\fR option, and the \f3jarsigner\fR command detected severe warnings, the message, "jar signed, with signer errors" is displayed\&.
+If you blso spfdififd tif \f3-stridt\fR option, bnd tif \f3jbrsignfr\fR dommbnd dftfdtfd sfvfrf wbrnings, tif mfssbgf, "jbr signfd, witi signfr frrors" is displbyfd\&.
 .TP     
-\fIalias\fR
-The aliases are defined in the keystore specified by \f3-keystore\fR or the default keystore\&.
+\fIblibs\fR
+Tif blibsfs brf dffinfd in tif kfystorf spfdififd by \f3-kfystorf\fR or tif dffbult kfystorf\&.
 .SH DESCRIPTION    
-The \f3jarsigner\fR tool has two purposes:
+Tif \f3jbrsignfr\fR tool ibs two purposfs:
 .TP 0.2i    
 \(bu
-To sign Java Archive (JAR) files\&.
+To sign Jbvb Ardiivf (JAR) filfs\&.
 .TP 0.2i    
 \(bu
-To verify the signatures and integrity of signed JAR files\&.
+To vfrify tif signbturfs bnd intfgrity of signfd JAR filfs\&.
 .PP
-The JAR feature enables the packaging of class files, images, sounds, and other digital data in a single file for faster and easier distribution\&. A tool named \f3jar\fR enables developers to produce JAR files\&. (Technically, any zip file can also be considered a JAR file, although when created by the \f3jar\fR command or processed by the \f3jarsigner\fR command, JAR files also contain a \f3META-INF/MANIFEST\&.MF\fR file\&.)
+Tif JAR ffbturf fnbblfs tif pbdkbging of dlbss filfs, imbgfs, sounds, bnd otifr digitbl dbtb in b singlf filf for fbstfr bnd fbsifr distribution\&. A tool nbmfd \f3jbr\fR fnbblfs dfvflopfrs to produdf JAR filfs\&. (Tfdinidblly, bny zip filf dbn blso bf donsidfrfd b JAR filf, bltiougi wifn drfbtfd by tif \f3jbr\fR dommbnd or prodfssfd by tif \f3jbrsignfr\fR dommbnd, JAR filfs blso dontbin b \f3META-INF/MANIFEST\&.MF\fR filf\&.)
 .PP
-A digital signature is a string of bits that is computed from some data (the data being signed) and the private key of an entity (a person, company, and so on)\&. Similar to a handwritten signature, a digital signature has many useful characteristics:
+A digitbl signbturf is b string of bits tibt is domputfd from somf dbtb (tif dbtb bfing signfd) bnd tif privbtf kfy of bn fntity (b pfrson, dompbny, bnd so on)\&. Similbr to b ibndwrittfn signbturf, b digitbl signbturf ibs mbny usfful dibrbdtfristids:
 .TP 0.2i    
 \(bu
-Its authenticity can be verified by a computation that uses the public key corresponding to the private key used to generate the signature\&.
+Its butifntidity dbn bf vfrififd by b domputbtion tibt usfs tif publid kfy dorrfsponding to tif privbtf kfy usfd to gfnfrbtf tif signbturf\&.
 .TP 0.2i    
 \(bu
-It cannot be forged, assuming the private key is kept secret\&.
+It dbnnot bf forgfd, bssuming tif privbtf kfy is kfpt sfdrft\&.
 .TP 0.2i    
 \(bu
-It is a function of the data signed and thus cannot be claimed to be the signature for other data as well\&.
+It is b fundtion of tif dbtb signfd bnd tius dbnnot bf dlbimfd to bf tif signbturf for otifr dbtb bs wfll\&.
 .TP 0.2i    
 \(bu
-The signed data cannot be changed\&. If the data is changed, then the signature cannot be verified as authentic\&.
+Tif signfd dbtb dbnnot bf dibngfd\&. If tif dbtb is dibngfd, tifn tif signbturf dbnnot bf vfrififd bs butifntid\&.
 .PP
-To generate an entity\&'s signature for a file, the entity must first have a public/private key pair associated with it and one or more certificates that authenticate its public key\&. A certificate is a digitally signed statement from one entity that says that the public key of another entity has a particular value\&.
+To gfnfrbtf bn fntity\&'s signbturf for b filf, tif fntity must first ibvf b publid/privbtf kfy pbir bssodibtfd witi it bnd onf or morf dfrtifidbtfs tibt butifntidbtf its publid kfy\&. A dfrtifidbtf is b digitblly signfd stbtfmfnt from onf fntity tibt sbys tibt tif publid kfy of bnotifr fntity ibs b pbrtidulbr vbluf\&.
 .PP
-The \f3jarsigner\fR command uses key and certificate information from a keystore to generate digital signatures for JAR files\&. A keystore is a database of private keys and their associated X\&.509 certificate chains that authenticate the corresponding public keys\&. The \f3keytool\fR command is used to create and administer keystores\&.
+Tif \f3jbrsignfr\fR dommbnd usfs kfy bnd dfrtifidbtf informbtion from b kfystorf to gfnfrbtf digitbl signbturfs for JAR filfs\&. A kfystorf is b dbtbbbsf of privbtf kfys bnd tifir bssodibtfd X\&.509 dfrtifidbtf dibins tibt butifntidbtf tif dorrfsponding publid kfys\&. Tif \f3kfytool\fR dommbnd is usfd to drfbtf bnd bdministfr kfystorfs\&.
 .PP
-The \f3jarsigner\fR command uses an entity\&'s private key to generate a signature\&. The signed JAR file contains, among other things, a copy of the certificate from the keystore for the public key corresponding to the private key used to sign the file\&. The \f3jarsigner\fR command can verify the digital signature of the signed JAR file using the certificate inside it (in its signature block file)\&.
+Tif \f3jbrsignfr\fR dommbnd usfs bn fntity\&'s privbtf kfy to gfnfrbtf b signbturf\&. Tif signfd JAR filf dontbins, bmong otifr tiings, b dopy of tif dfrtifidbtf from tif kfystorf for tif publid kfy dorrfsponding to tif privbtf kfy usfd to sign tif filf\&. Tif \f3jbrsignfr\fR dommbnd dbn vfrify tif digitbl signbturf of tif signfd JAR filf using tif dfrtifidbtf insidf it (in its signbturf blodk filf)\&.
 .PP
-The \f3jarsigner\fR command can generate signatures that include a time stamp that lets a systems or deployer (including Java Plug-in) to check whether the JAR file was signed while the signing certificate was still valid\&. In addition, APIs allow applications to obtain the timestamp information\&.
+Tif \f3jbrsignfr\fR dommbnd dbn gfnfrbtf signbturfs tibt indludf b timf stbmp tibt lfts b systfms or dfployfr (indluding Jbvb Plug-in) to difdk wiftifr tif JAR filf wbs signfd wiilf tif signing dfrtifidbtf wbs still vblid\&. In bddition, APIs bllow bpplidbtions to obtbin tif timfstbmp informbtion\&.
 .PP
-At this time, the \f3jarsigner\fR command can only sign JAR files created by the \f3jar\fR command or zip files\&. JAR files are the same as zip files, except they also have a \f3META-INF/MANIFEST\&.MF\fR file\&. A \f3META-INF/MANIFEST\&.MF\fR file is created when the \f3jarsigner\fR command signs a zip file\&.
+At tiis timf, tif \f3jbrsignfr\fR dommbnd dbn only sign JAR filfs drfbtfd by tif \f3jbr\fR dommbnd or zip filfs\&. JAR filfs brf tif sbmf bs zip filfs, fxdfpt tify blso ibvf b \f3META-INF/MANIFEST\&.MF\fR filf\&. A \f3META-INF/MANIFEST\&.MF\fR filf is drfbtfd wifn tif \f3jbrsignfr\fR dommbnd signs b zip filf\&.
 .PP
-The default \f3jarsigner\fR command behavior is to sign a JAR or zip file\&. Use the \f3-verify\fR option to verify a signed JAR file\&.
+Tif dffbult \f3jbrsignfr\fR dommbnd bfibvior is to sign b JAR or zip filf\&. Usf tif \f3-vfrify\fR option to vfrify b signfd JAR filf\&.
 .PP
-The \f3jarsigner\fR command also attempts to validate the signer\&'s certificate after signing or verifying\&. If there is a validation error or any other problem, the command generates warning messages\&. If you specify the \f3-strict\fR option, then the command treats severe warnings as errors\&. See Errors and Warnings\&.
+Tif \f3jbrsignfr\fR dommbnd blso bttfmpts to vblidbtf tif signfr\&'s dfrtifidbtf bftfr signing or vfrifying\&. If tifrf is b vblidbtion frror or bny otifr problfm, tif dommbnd gfnfrbtfs wbrning mfssbgfs\&. If you spfdify tif \f3-stridt\fR option, tifn tif dommbnd trfbts sfvfrf wbrnings bs frrors\&. Sff Errors bnd Wbrnings\&.
 .SS KEYSTORE\ ALIASES    
-All keystore entities are accessed with unique aliases\&.
+All kfystorf fntitifs brf bddfssfd witi uniquf blibsfs\&.
 .PP
-When you use the \f3jarsigner\fR command to sign a JAR file, you must specify the alias for the keystore entry that contains the private key needed to generate the signature\&. For example, the following command signs the JAR file named \f3MyJARFile\&.jar\fR with the private key associated with the alias \f3duke\fR in the keystore named \f3mystore\fR in the \f3working\fR directory\&. Because no output file is specified, it overwrites \f3MyJARFile\&.jar\fR with the signed JAR file\&.
+Wifn you usf tif \f3jbrsignfr\fR dommbnd to sign b JAR filf, you must spfdify tif blibs for tif kfystorf fntry tibt dontbins tif privbtf kfy nffdfd to gfnfrbtf tif signbturf\&. For fxbmplf, tif following dommbnd signs tif JAR filf nbmfd \f3MyJARFilf\&.jbr\fR witi tif privbtf kfy bssodibtfd witi tif blibs \f3dukf\fR in tif kfystorf nbmfd \f3mystorf\fR in tif \f3working\fR dirfdtory\&. Bfdbusf no output filf is spfdififd, it ovfrwritfs \f3MyJARFilf\&.jbr\fR witi tif signfd JAR filf\&.
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore \-storepass <keystore password>\fP
+\f3jbrsignfr \-kfystorf /working/mystorf \-storfpbss <kfystorf pbssword>\fP
 .fi     
 .nf     
-\f3      \-keypass <private key password> MyJARFile\&.jar duke\fP
+\f3      \-kfypbss <privbtf kfy pbssword> MyJARFilf\&.jbr dukf\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-Keystores are protected with a password, so the store password must be specified\&. You are prompted for it when you do not specify it on the command line\&. Similarly, private keys are protected in a keystore with a password, so the private key\&'s password must be specified, and you are prompted for the password when you do not specify it on the command line and it is not the same as the store password\&.
+Kfystorfs brf protfdtfd witi b pbssword, so tif storf pbssword must bf spfdififd\&. You brf promptfd for it wifn you do not spfdify it on tif dommbnd linf\&. Similbrly, privbtf kfys brf protfdtfd in b kfystorf witi b pbssword, so tif privbtf kfy\&'s pbssword must bf spfdififd, bnd you brf promptfd for tif pbssword wifn you do not spfdify it on tif dommbnd linf bnd it is not tif sbmf bs tif storf pbssword\&.
 .SS KEYSTORE\ LOCATION    
-The \f3jarsigner\fR command has a \f3-keystore\fR option for specifying the URL of the keystore to be used\&. The keystore is by default stored in a file named \f3\&.keystore\fR in the user\&'s home directory, as determined by the \f3user\&.home\fR system property\&.
+Tif \f3jbrsignfr\fR dommbnd ibs b \f3-kfystorf\fR option for spfdifying tif URL of tif kfystorf to bf usfd\&. Tif kfystorf is by dffbult storfd in b filf nbmfd \f3\&.kfystorf\fR in tif usfr\&'s iomf dirfdtory, bs dftfrminfd by tif \f3usfr\&.iomf\fR systfm propfrty\&.
 .PP
-On Oracle Solaris systems, \f3user\&.home\fR defaults to the user\&'s home directory\&.
+On Orbdlf Solbris systfms, \f3usfr\&.iomf\fR dffbults to tif usfr\&'s iomf dirfdtory\&.
 .PP
-The input stream from the \f3-keystore\fR option is passed to the \f3KeyStore\&.load\fR method\&. If \f3NONE\fR is specified as the URL, then a null stream is passed to the \f3KeyStore\&.load\fR method\&. \f3NONE\fR should be specified when the \f3KeyStore\fR class is not file based, for example, when it resides on a hardware token device\&.
+Tif input strfbm from tif \f3-kfystorf\fR option is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. If \f3NONE\fR is spfdififd bs tif URL, tifn b null strfbm is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. \f3NONE\fR siould bf spfdififd wifn tif \f3KfyStorf\fR dlbss is not filf bbsfd, for fxbmplf, wifn it rfsidfs on b ibrdwbrf tokfn dfvidf\&.
 .SS KEYSTORE\ IMPLEMENTATION    
-The \f3KeyStore\fR class provided in the \f3java\&.security\fR package supplies a number of well-defined interfaces to access and modify the information in a keystore\&. You can have multiple different concrete implementations, where each implementation is for a particular type of keystore\&.
+Tif \f3KfyStorf\fR dlbss providfd in tif \f3jbvb\&.sfdurity\fR pbdkbgf supplifs b numbfr of wfll-dffinfd intfrfbdfs to bddfss bnd modify tif informbtion in b kfystorf\&. You dbn ibvf multiplf difffrfnt dondrftf implfmfntbtions, wifrf fbdi implfmfntbtion is for b pbrtidulbr typf of kfystorf\&.
 .PP
-Currently, there are two command-line tools that use keystore implementations (\f3keytool\fR and \f3jarsigner\fR), and a GUI-based tool named Policy Tool\&. Because the \f3KeyStore\fR class is publicly available, JDK users can write additional security applications that use it\&.
+Currfntly, tifrf brf two dommbnd-linf tools tibt usf kfystorf implfmfntbtions (\f3kfytool\fR bnd \f3jbrsignfr\fR), bnd b GUI-bbsfd tool nbmfd Polidy Tool\&. Bfdbusf tif \f3KfyStorf\fR dlbss is publidly bvbilbblf, JDK usfrs dbn writf bdditionbl sfdurity bpplidbtions tibt usf it\&.
 .PP
-There is a built-in default implementation provided by Oracle that implements the keystore as a file, that uses a proprietary keystore type (format) named JKS\&. The built-in implementation protects each private key with its individual password and protects the integrity of the entire keystore with a (possibly different) password\&.
+Tifrf is b built-in dffbult implfmfntbtion providfd by Orbdlf tibt implfmfnts tif kfystorf bs b filf, tibt usfs b propriftbry kfystorf typf (formbt) nbmfd JKS\&. Tif built-in implfmfntbtion protfdts fbdi privbtf kfy witi its individubl pbssword bnd protfdts tif intfgrity of tif fntirf kfystorf witi b (possibly difffrfnt) pbssword\&.
 .PP
-Keystore implementations are provider-based, which means the application interfaces supplied by the \f3KeyStore\fR class are implemented in terms of a Service Provider Interface (SPI)\&. There is a corresponding abstract \f3KeystoreSpi\fR class, also in the \f3java\&.security package\fR, that defines the Service Provider Interface methods that providers must implement\&. The term provider refers to a package or a set of packages that supply a concrete implementation of a subset of services that can be accessed by the Java Security API\&. To provide a keystore implementation, clients must implement a provider and supply a \f3KeystoreSpi\fR subclass implementation, as described in How to Implement a Provider in the Java Cryptography Architecture at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
+Kfystorf implfmfntbtions brf providfr-bbsfd, wiidi mfbns tif bpplidbtion intfrfbdfs supplifd by tif \f3KfyStorf\fR dlbss brf implfmfntfd in tfrms of b Sfrvidf Providfr Intfrfbdf (SPI)\&. Tifrf is b dorrfsponding bbstrbdt \f3KfystorfSpi\fR dlbss, blso in tif \f3jbvb\&.sfdurity pbdkbgf\fR, tibt dffinfs tif Sfrvidf Providfr Intfrfbdf mftiods tibt providfrs must implfmfnt\&. Tif tfrm providfr rfffrs to b pbdkbgf or b sft of pbdkbgfs tibt supply b dondrftf implfmfntbtion of b subsft of sfrvidfs tibt dbn bf bddfssfd by tif Jbvb Sfdurity API\&. To providf b kfystorf implfmfntbtion, dlifnts must implfmfnt b providfr bnd supply b \f3KfystorfSpi\fR subdlbss implfmfntbtion, bs dfsdribfd in How to Implfmfnt b Providfr in tif Jbvb Cryptogrbpiy Ardiitfdturf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr\&.itml
 .PP
-Applications can choose different types of keystore implementations from different providers, with the \f3getInstance\fR factory method in the \f3KeyStore\fR class\&. A keystore type defines the storage and data format of the keystore information and the algorithms used to protect private keys in the keystore and the integrity of the keystore itself\&. Keystore implementations of different types are not compatible\&.
+Applidbtions dbn dioosf difffrfnt typfs of kfystorf implfmfntbtions from difffrfnt providfrs, witi tif \f3gftInstbndf\fR fbdtory mftiod in tif \f3KfyStorf\fR dlbss\&. A kfystorf typf dffinfs tif storbgf bnd dbtb formbt of tif kfystorf informbtion bnd tif blgoritims usfd to protfdt privbtf kfys in tif kfystorf bnd tif intfgrity of tif kfystorf itsflf\&. Kfystorf implfmfntbtions of difffrfnt typfs brf not dompbtiblf\&.
 .PP
-The \f3jarsigner\fR and \f3policytool\fR commands can read file-based keystores from any location that can be specified using a URL\&. In addition, these commands can read non-file-based keystores such as those provided by MSCAPI on Windows and PKCS11 on all platforms\&.
+Tif \f3jbrsignfr\fR bnd \f3polidytool\fR dommbnds dbn rfbd filf-bbsfd kfystorfs from bny lodbtion tibt dbn bf spfdififd using b URL\&. In bddition, tifsf dommbnds dbn rfbd non-filf-bbsfd kfystorfs sudi bs tiosf providfd by MSCAPI on Windows bnd PKCS11 on bll plbtforms\&.
 .PP
-For the \f3jarsigner\fR and \f3keytool\fR commands, you can specify a keystore type at the command line with the \f3-storetype\fR option\&. For Policy Tool, you can specify a keystore type with the \fIEdit\fR command in the \fIKeyStore\fR menu\&.
+For tif \f3jbrsignfr\fR bnd \f3kfytool\fR dommbnds, you dbn spfdify b kfystorf typf bt tif dommbnd linf witi tif \f3-storftypf\fR option\&. For Polidy Tool, you dbn spfdify b kfystorf typf witi tif \fIEdit\fR dommbnd in tif \fIKfyStorf\fR mfnu\&.
 .PP
-If you do not explicitly specify a keystore type, then the tools choose a keystore implementation based on the value of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is called \f3java\&.security\fR, and it resides in the JDK security properties directory, \f3java\&.home/lib/security\fR, where \f3java\&.home\fR is the runtime environment\&'s directory\&. The \f3jre\fR directory in the JDK or the top-level directory of the Java Runtime Environment (JRE)\&.
+If you do not fxpliditly spfdify b kfystorf typf, tifn tif tools dioosf b kfystorf implfmfntbtion bbsfd on tif vbluf of tif \f3kfystorf\&.typf\fR propfrty spfdififd in tif sfdurity propfrtifs filf\&. Tif sfdurity propfrtifs filf is dbllfd \f3jbvb\&.sfdurity\fR, bnd it rfsidfs in tif JDK sfdurity propfrtifs dirfdtory, \f3jbvb\&.iomf/lib/sfdurity\fR, wifrf \f3jbvb\&.iomf\fR is tif runtimf fnvironmfnt\&'s dirfdtory\&. Tif \f3jrf\fR dirfdtory in tif JDK or tif top-lfvfl dirfdtory of tif Jbvb Runtimf Environmfnt (JRE)\&.
 .PP
-Each tool gets the \f3keystore\&.type\fR value and then examines all the installed providers until it finds one that implements keystores of that type\&. It then uses the keystore implementation from that provider\&.
+Ebdi tool gfts tif \f3kfystorf\&.typf\fR vbluf bnd tifn fxbminfs bll tif instbllfd providfrs until it finds onf tibt implfmfnts kfystorfs of tibt typf\&. It tifn usfs tif kfystorf implfmfntbtion from tibt providfr\&.
 .PP
-The \f3KeyStore\fR class defines a static method named \f3getDefaultType\fR that lets applications and applets retrieve the value of the \f3keystore\&.type\fR property\&. The following line of code creates an instance of the default keystore type as specified in the \f3keystore\&.type property\fR:
+Tif \f3KfyStorf\fR dlbss dffinfs b stbtid mftiod nbmfd \f3gftDffbultTypf\fR tibt lfts bpplidbtions bnd bpplfts rftrifvf tif vbluf of tif \f3kfystorf\&.typf\fR propfrty\&. Tif following linf of dodf drfbtfs bn instbndf of tif dffbult kfystorf typf bs spfdififd in tif \f3kfystorf\&.typf propfrty\fR:
 .sp     
 .nf     
-\f3KeyStore keyStore = KeyStore\&.getInstance(KeyStore\&.getDefaultType());\fP
+\f3KfyStorf kfyStorf = KfyStorf\&.gftInstbndf(KfyStorf\&.gftDffbultTypf());\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-The default keystore type is \f3jks\fR (the proprietary type of the keystore implementation provided by Oracle)\&. This is specified by the following line in the security properties file:
+Tif dffbult kfystorf typf is \f3jks\fR (tif propriftbry typf of tif kfystorf implfmfntbtion providfd by Orbdlf)\&. Tiis is spfdififd by tif following linf in tif sfdurity propfrtifs filf:
 .sp     
 .nf     
-\f3keystore\&.type=jks\fP
+\f3kfystorf\&.typf=jks\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-Case does not matter in keystore type designations\&. For example, \f3JKS\fR is the same as \f3jks\fR\&.
+Cbsf dofs not mbttfr in kfystorf typf dfsignbtions\&. For fxbmplf, \f3JKS\fR is tif sbmf bs \f3jks\fR\&.
 .PP
-To have the tools use a keystore implementation other than the default, change that line to specify a different keystore type\&. For example, if you have a provider package that supplies a keystore implementation for a keystore type called \f3pkcs12\fR, then change the line to the following:
+To ibvf tif tools usf b kfystorf implfmfntbtion otifr tibn tif dffbult, dibngf tibt linf to spfdify b difffrfnt kfystorf typf\&. For fxbmplf, if you ibvf b providfr pbdkbgf tibt supplifs b kfystorf implfmfntbtion for b kfystorf typf dbllfd \f3pkds12\fR, tifn dibngf tif linf to tif following:
 .sp     
 .nf     
-\f3keystore\&.type=pkcs12\fP
+\f3kfystorf\&.typf=pkds12\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR If you use the PKCS 11 provider package, then see "KeyTool" and "JarSigner" in Java PKCS #11 Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/p11guide\&.html
+\fINotf:\fR If you usf tif PKCS 11 providfr pbdkbgf, tifn sff "KfyTool" bnd "JbrSignfr" in Jbvb PKCS #11 Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/p11guidf\&.itml
 .SS SUPPORTED\ ALGORITHMS    
-By default, the \f3jarsigner\fR command signs a JAR file using one of the following algorithms:
+By dffbult, tif \f3jbrsignfr\fR dommbnd signs b JAR filf using onf of tif following blgoritims:
 .TP 0.2i    
 \(bu
-Digital Signature Algorithm (DSA) with the SHA1 digest algorithm
+Digitbl Signbturf Algoritim (DSA) witi tif SHA1 digfst blgoritim
 .TP 0.2i    
 \(bu
-RSA algorithm with the SHA256 digest algorithm
+RSA blgoritim witi tif SHA256 digfst blgoritim
 .TP 0.2i    
 \(bu
-Elliptic Curve (EC) cryptography algorithm with the SHA256 with Elliptic Curve Digital Signature Algorithm (ECDSA)\&.
+Elliptid Curvf (EC) dryptogrbpiy blgoritim witi tif SHA256 witi Elliptid Curvf Digitbl Signbturf Algoritim (ECDSA)\&.
 .PP
-If the signer\&'s public and private keys are DSA keys, then \f3jarsigner\fR signs the JAR file with the \f3SHA1withDSA\fR algorithm\&. If the signer\&'s keys are RSA keys, then \f3jarsigner\fR attempts to sign the JAR file with the \f3SHA256withRSA\fR algorithm\&. If the signer\&'s keys are EC keys, then \f3jarsigner\fR signs the JAR file with the \f3SHA256withECDSA\fR algorithm\&.
+If tif signfr\&'s publid bnd privbtf kfys brf DSA kfys, tifn \f3jbrsignfr\fR signs tif JAR filf witi tif \f3SHA1witiDSA\fR blgoritim\&. If tif signfr\&'s kfys brf RSA kfys, tifn \f3jbrsignfr\fR bttfmpts to sign tif JAR filf witi tif \f3SHA256witiRSA\fR blgoritim\&. If tif signfr\&'s kfys brf EC kfys, tifn \f3jbrsignfr\fR signs tif JAR filf witi tif \f3SHA256witiECDSA\fR blgoritim\&.
 .PP
-These default signature algorithms can be overridden using the \f3-sigalg\fR option\&.
+Tifsf dffbult signbturf blgoritims dbn bf ovfrriddfn using tif \f3-sigblg\fR option\&.
 .SS THE\ SIGNED\ JAR\ FILE    
-When the \f3jarsigner\fR command is used to sign a JAR file, the output signed JAR file is exactly the same as the input JAR file, except that it has two additional files placed in the META-INF directory:
+Wifn tif \f3jbrsignfr\fR dommbnd is usfd to sign b JAR filf, tif output signfd JAR filf is fxbdtly tif sbmf bs tif input JAR filf, fxdfpt tibt it ibs two bdditionbl filfs plbdfd in tif META-INF dirfdtory:
 .TP 0.2i    
 \(bu
-A signature file with an \f3\&.SF\fR extension
+A signbturf filf witi bn \f3\&.SF\fR fxtfnsion
 .TP 0.2i    
 \(bu
-A signature block file with a \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR extension
+A signbturf blodk filf witi b \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR fxtfnsion
 .PP
-The base file names for these two files come from the value of the \f3-sigFile\fR option\&. For example, when the option is \f3-sigFile MKSIGN\fR, the files are named \f3MKSIGN\&.SF\fR and \f3MKSIGN\&.DSA\fR
+Tif bbsf filf nbmfs for tifsf two filfs domf from tif vbluf of tif \f3-sigFilf\fR option\&. For fxbmplf, wifn tif option is \f3-sigFilf MKSIGN\fR, tif filfs brf nbmfd \f3MKSIGN\&.SF\fR bnd \f3MKSIGN\&.DSA\fR
 .PP
-If no \f3-sigfile\fR option appears on the command line, then the base file name for the \f3\&.SF\fR and \f3\&.DSA\fR files is the first 8 characters of the alias name specified on the command line, all converted to uppercase\&. If the alias name has fewer than 8 characters, then the full alias name is used\&. If the alias name contains any characters that are not allowed in a signature file name, then each such character is converted to an underscore (_) character in forming the file name\&. Valid characters include letters, digits, underscores, and hyphens\&.
+If no \f3-sigfilf\fR option bppfbrs on tif dommbnd linf, tifn tif bbsf filf nbmf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filfs is tif first 8 dibrbdtfrs of tif blibs nbmf spfdififd on tif dommbnd linf, bll donvfrtfd to uppfrdbsf\&. If tif blibs nbmf ibs ffwfr tibn 8 dibrbdtfrs, tifn tif full blibs nbmf is usfd\&. If tif blibs nbmf dontbins bny dibrbdtfrs tibt brf not bllowfd in b signbturf filf nbmf, tifn fbdi sudi dibrbdtfr is donvfrtfd to bn undfrsdorf (_) dibrbdtfr in forming tif filf nbmf\&. Vblid dibrbdtfrs indludf lfttfrs, digits, undfrsdorfs, bnd iypifns\&.
 .PP
-Signature File
+Signbturf Filf
 
-A signature file (\f3\&.SF\fR file) looks similar to the manifest file that is always included in a JAR file when the \f3jarsigner\fR command is used to sign the file\&. For each source file included in the JAR file, the \f3\&.SF\fR file has three lines, such as in the manifest file, that list the following:
+A signbturf filf (\f3\&.SF\fR filf) looks similbr to tif mbniffst filf tibt is blwbys indludfd in b JAR filf wifn tif \f3jbrsignfr\fR dommbnd is usfd to sign tif filf\&. For fbdi sourdf filf indludfd in tif JAR filf, tif \f3\&.SF\fR filf ibs tirff linfs, sudi bs in tif mbniffst filf, tibt list tif following:
 .TP 0.2i    
 \(bu
-File name
+Filf nbmf
 .TP 0.2i    
 \(bu
-Name of the digest algorithm (SHA)
+Nbmf of tif digfst blgoritim (SHA)
 .TP 0.2i    
 \(bu
-SHA digest value
+SHA digfst vbluf
 .PP
-In the manifest file, the SHA digest value for each source file is the digest (hash) of the binary data in the source file\&. In the \f3\&.SF\fR file, the digest value for a specified source file is the hash of the three lines in the manifest file for the source file\&.
+In tif mbniffst filf, tif SHA digfst vbluf for fbdi sourdf filf is tif digfst (ibsi) of tif binbry dbtb in tif sourdf filf\&. In tif \f3\&.SF\fR filf, tif digfst vbluf for b spfdififd sourdf filf is tif ibsi of tif tirff linfs in tif mbniffst filf for tif sourdf filf\&.
 .PP
-The signature file, by default, includes a header with a hash of the whole manifest file\&. The header also contains a hash of the manifest header\&. The presence of the header enables verification optimization\&. See JAR File Verification\&.
+Tif signbturf filf, by dffbult, indludfs b ifbdfr witi b ibsi of tif wiolf mbniffst filf\&. Tif ifbdfr blso dontbins b ibsi of tif mbniffst ifbdfr\&. Tif prfsfndf of tif ifbdfr fnbblfs vfrifidbtion optimizbtion\&. Sff JAR Filf Vfrifidbtion\&.
 .PP
-Signature Block File
+Signbturf Blodk Filf
 
-The \f3\&.SF\fR file is signed and the signature is placed in the signature block file\&. This file also contains, encoded inside it, the certificate or certificate chain from the keystore that authenticates the public key corresponding to the private key used for signing\&. The file has the extension \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR, depending on the digest algorithm used\&.
+Tif \f3\&.SF\fR filf is signfd bnd tif signbturf is plbdfd in tif signbturf blodk filf\&. Tiis filf blso dontbins, fndodfd insidf it, tif dfrtifidbtf or dfrtifidbtf dibin from tif kfystorf tibt butifntidbtfs tif publid kfy dorrfsponding to tif privbtf kfy usfd for signing\&. Tif filf ibs tif fxtfnsion \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR, dfpfnding on tif digfst blgoritim usfd\&.
 .SS SIGNATURE\ TIME\ STAMP    
-The \f3jarsigner\fR command can generate and store a signature time stamp when signing a JAR file\&. In addition, \f3jarsigner\fR supports alternative signing mechanisms\&. This behavior is optional and is controlled by the user at the time of signing through these options\&. See Options\&.
+Tif \f3jbrsignfr\fR dommbnd dbn gfnfrbtf bnd storf b signbturf timf stbmp wifn signing b JAR filf\&. In bddition, \f3jbrsignfr\fR supports bltfrnbtivf signing mfdibnisms\&. Tiis bfibvior is optionbl bnd is dontrollfd by tif usfr bt tif timf of signing tirougi tifsf options\&. Sff Options\&.
 .sp     
 .nf     
-\f3\-tsa \fIurl\fR\fP
+\f3\-tsb \fIurl\fR\fP
 .fi     
 .nf     
-\f3\-tsacert \fIalias\fR\fP
+\f3\-tsbdfrt \fIblibs\fR\fP
 .fi     
 .nf     
-\f3\-altsigner \fIclass\fR\fP
+\f3\-bltsignfr \fIdlbss\fR\fP
 .fi     
 .nf     
-\f3\-altsignerpath \fIclasspathlist\fR\fP
+\f3\-bltsignfrpbti \fIdlbsspbtilist\fR\fP
 .fi     
 .nf     
-\f3\-tsapolicyid \fIpolicyid\fR\fP
+\f3\-tsbpolidyid \fIpolidyid\fR\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS JAR\ FILE\ VERIFICATION    
-A successful JAR file verification occurs when the signatures are valid, and none of the files that were in the JAR file when the signatures were generated have changed since then\&. JAR file verification involves the following steps:
+A suddfssful JAR filf vfrifidbtion oddurs wifn tif signbturfs brf vblid, bnd nonf of tif filfs tibt wfrf in tif JAR filf wifn tif signbturfs wfrf gfnfrbtfd ibvf dibngfd sindf tifn\&. JAR filf vfrifidbtion involvfs tif following stfps:
 .TP 0.4i    
 1\&.
-Verify the signature of the \f3\&.SF\fR file\&.
+Vfrify tif signbturf of tif \f3\&.SF\fR filf\&.
 
-The verification ensures that the signature stored in each signature block (\f3\&.DSA\fR) file was generated using the private key corresponding to the public key whose certificate (or certificate chain) also appears in the \f3\&.DSA\fR file\&. It also ensures that the signature is a valid signature of the corresponding signature (\f3\&.SF\fR) file, and thus the \f3\&.SF\fR file was not tampered with\&.
+Tif vfrifidbtion fnsurfs tibt tif signbturf storfd in fbdi signbturf blodk (\f3\&.DSA\fR) filf wbs gfnfrbtfd using tif privbtf kfy dorrfsponding to tif publid kfy wiosf dfrtifidbtf (or dfrtifidbtf dibin) blso bppfbrs in tif \f3\&.DSA\fR filf\&. It blso fnsurfs tibt tif signbturf is b vblid signbturf of tif dorrfsponding signbturf (\f3\&.SF\fR) filf, bnd tius tif \f3\&.SF\fR filf wbs not tbmpfrfd witi\&.
 .TP 0.4i    
 2\&.
-Verify the digest listed in each entry in the \f3\&.SF\fR file with each corresponding section in the manifest\&.
+Vfrify tif digfst listfd in fbdi fntry in tif \f3\&.SF\fR filf witi fbdi dorrfsponding sfdtion in tif mbniffst\&.
 
-The \f3\&.SF\fR file by default includes a header that contains a hash of the entire manifest file\&. When the header is present, the verification can check to see whether or not the hash in the header matches the hash of the manifest file\&. If there is a match, then verification proceeds to the next step\&.
+Tif \f3\&.SF\fR filf by dffbult indludfs b ifbdfr tibt dontbins b ibsi of tif fntirf mbniffst filf\&. Wifn tif ifbdfr is prfsfnt, tif vfrifidbtion dbn difdk to sff wiftifr or not tif ibsi in tif ifbdfr mbtdifs tif ibsi of tif mbniffst filf\&. If tifrf is b mbtdi, tifn vfrifidbtion prodffds to tif nfxt stfp\&.
 
-If there is no match, then a less optimized verification is required to ensure that the hash in each source file information section in the \f3\&.SF\fR file equals the hash of its corresponding section in the manifest file\&. See Signature File\&.
+If tifrf is no mbtdi, tifn b lfss optimizfd vfrifidbtion is rfquirfd to fnsurf tibt tif ibsi in fbdi sourdf filf informbtion sfdtion in tif \f3\&.SF\fR filf fqubls tif ibsi of its dorrfsponding sfdtion in tif mbniffst filf\&. Sff Signbturf Filf\&.
 
-One reason the hash of the manifest file that is stored in the \f3\&.SF\fR file header might not equal the hash of the current manifest file is that one or more files were added to the JAR file (with the \f3jar\fR tool) after the signature and \f3\&.SF\fR file were generated\&. When the \f3jar\fR tool is used to add files, the manifest file is changed by adding sections to it for the new files, but the \f3\&.SF\fR file is not changed\&. A verification is still considered successful when none of the files that were in the JAR file when the signature was generated have been changed since then\&. This happens when the hashes in the non-header sections of the \f3\&.SF\fR file equal the hashes of the corresponding sections in the manifest file\&.
+Onf rfbson tif ibsi of tif mbniffst filf tibt is storfd in tif \f3\&.SF\fR filf ifbdfr migit not fqubl tif ibsi of tif durrfnt mbniffst filf is tibt onf or morf filfs wfrf bddfd to tif JAR filf (witi tif \f3jbr\fR tool) bftfr tif signbturf bnd \f3\&.SF\fR filf wfrf gfnfrbtfd\&. Wifn tif \f3jbr\fR tool is usfd to bdd filfs, tif mbniffst filf is dibngfd by bdding sfdtions to it for tif nfw filfs, but tif \f3\&.SF\fR filf is not dibngfd\&. A vfrifidbtion is still donsidfrfd suddfssful wifn nonf of tif filfs tibt wfrf in tif JAR filf wifn tif signbturf wbs gfnfrbtfd ibvf bffn dibngfd sindf tifn\&. Tiis ibppfns wifn tif ibsifs in tif non-ifbdfr sfdtions of tif \f3\&.SF\fR filf fqubl tif ibsifs of tif dorrfsponding sfdtions in tif mbniffst filf\&.
 .TP 0.4i    
 3\&.
-Read each file in the JAR file that has an entry in the \f3\&.SF\fR file\&. While reading, compute the file\&'s digest and compare the result with the digest for this file in the manifest section\&. The digests should be the same or verification fails\&.
+Rfbd fbdi filf in tif JAR filf tibt ibs bn fntry in tif \f3\&.SF\fR filf\&. Wiilf rfbding, domputf tif filf\&'s digfst bnd dompbrf tif rfsult witi tif digfst for tiis filf in tif mbniffst sfdtion\&. Tif digfsts siould bf tif sbmf or vfrifidbtion fbils\&.
 
-If any serious verification failures occur during the verification process, then the process is stopped and a security exception is thrown\&. The \f3jarsigner\fR command catches and displays the exception\&.
+If bny sfrious vfrifidbtion fbilurfs oddur during tif vfrifidbtion prodfss, tifn tif prodfss is stoppfd bnd b sfdurity fxdfption is tirown\&. Tif \f3jbrsignfr\fR dommbnd dbtdifs bnd displbys tif fxdfption\&.
 .PP
-\fINote:\fR You should read any addition warnings (or errors if you specified the \f3-strict\fR option), as well as the content of the certificate (by specifying the \f3-verbose\fR and \f3-certs\fR options) to determine if the signature can be trusted\&.
+\fINotf:\fR You siould rfbd bny bddition wbrnings (or frrors if you spfdififd tif \f3-stridt\fR option), bs wfll bs tif dontfnt of tif dfrtifidbtf (by spfdifying tif \f3-vfrbosf\fR bnd \f3-dfrts\fR options) to dftfrminf if tif signbturf dbn bf trustfd\&.
 .SS MULTIPLE\ SIGNATURES\ FOR\ A\ JAR\ FILE    
-A JAR file can be signed by multiple people by running the \f3jarsigner\fR command on the file multiple times and specifying the alias for a different person each time, as follows:
+A JAR filf dbn bf signfd by multiplf pfoplf by running tif \f3jbrsignfr\fR dommbnd on tif filf multiplf timfs bnd spfdifying tif blibs for b difffrfnt pfrson fbdi timf, bs follows:
 .sp     
 .nf     
-\f3jarsigner myBundle\&.jar susan\fP
+\f3jbrsignfr myBundlf\&.jbr susbn\fP
 .fi     
 .nf     
-\f3jarsigner myBundle\&.jar kevin\fP
+\f3jbrsignfr myBundlf\&.jbr kfvin\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-When a JAR file is signed multiple times, there are multiple \f3\&.SF\fR and \f3\&.DSA\fR files in the resulting JAR file, one pair for each signature\&. In the previous example, the output JAR file includes files with the following names:
+Wifn b JAR filf is signfd multiplf timfs, tifrf brf multiplf \f3\&.SF\fR bnd \f3\&.DSA\fR filfs in tif rfsulting JAR filf, onf pbir for fbdi signbturf\&. In tif prfvious fxbmplf, tif output JAR filf indludfs filfs witi tif following nbmfs:
 .sp     
 .nf     
 \f3SUSAN\&.SF\fP
@@ -312,37 +312,37 @@ When a JAR file is signed multiple times, there are multiple \f3\&.SF\fR and \f3
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR It is also possible for a JAR file to have mixed signatures, some generated by the JDK 1\&.1 by the \f3javakey\fR command and others by \f3jarsigner\fR\&. The \f3jarsigner\fR command can be used to sign JAR files that are already signed with the \f3javakey\fR command\&.
+\fINotf:\fR It is blso possiblf for b JAR filf to ibvf mixfd signbturfs, somf gfnfrbtfd by tif JDK 1\&.1 by tif \f3jbvbkfy\fR dommbnd bnd otifrs by \f3jbrsignfr\fR\&. Tif \f3jbrsignfr\fR dommbnd dbn bf usfd to sign JAR filfs tibt brf blrfbdy signfd witi tif \f3jbvbkfy\fR dommbnd\&.
 .SH OPTIONS    
-The following sections describe the various \f3jarsigner\fR options\&. Be aware of the following standards:
+Tif following sfdtions dfsdribf tif vbrious \f3jbrsignfr\fR options\&. Bf bwbrf of tif following stbndbrds:
 .TP 0.2i    
 \(bu
-All option names are preceded by a minus sign (-)\&.
+All option nbmfs brf prfdfdfd by b minus sign (-)\&.
 .TP 0.2i    
 \(bu
-The options can be provided in any order\&.
+Tif options dbn bf providfd in bny ordfr\&.
 .TP 0.2i    
 \(bu
-Items that are in italics or underlined (option values) represent the actual values that must be supplied\&.
+Itfms tibt brf in itblids or undfrlinfd (option vblufs) rfprfsfnt tif bdtubl vblufs tibt must bf supplifd\&.
 .TP 0.2i    
 \(bu
-The \f3-storepass\fR, \f3-keypass\fR, \f3-sigfile\fR, \f3-sigalg\fR, \f3-digestalg\fR, \f3-signedjar\fR, and TSA-related options are only relevant when signing a JAR file; they are not relevant when verifying a signed JAR file\&. The \f3-keystore\fR option is relevant for signing and verifying a JAR file\&. In addition, aliases are specified when signing and verifying a JAR file\&.
+Tif \f3-storfpbss\fR, \f3-kfypbss\fR, \f3-sigfilf\fR, \f3-sigblg\fR, \f3-digfstblg\fR, \f3-signfdjbr\fR, bnd TSA-rflbtfd options brf only rflfvbnt wifn signing b JAR filf; tify brf not rflfvbnt wifn vfrifying b signfd JAR filf\&. Tif \f3-kfystorf\fR option is rflfvbnt for signing bnd vfrifying b JAR filf\&. In bddition, blibsfs brf spfdififd wifn signing bnd vfrifying b JAR filf\&.
 .TP
--keystore \fIurl\fR
+-kfystorf \fIurl\fR
 .br
-Specifies the URL that tells the keystore location\&. This defaults to the file \f3\&.keystore\fR in the user\&'s home directory, as determined by the \f3user\&.home\fR system property\&.
+Spfdififs tif URL tibt tflls tif kfystorf lodbtion\&. Tiis dffbults to tif filf \f3\&.kfystorf\fR in tif usfr\&'s iomf dirfdtory, bs dftfrminfd by tif \f3usfr\&.iomf\fR systfm propfrty\&.
 
-A keystore is required when signing\&. You must explicitly specify a keystore when the default keystore does not exist or if you want to use one other than the default\&.
+A kfystorf is rfquirfd wifn signing\&. You must fxpliditly spfdify b kfystorf wifn tif dffbult kfystorf dofs not fxist or if you wbnt to usf onf otifr tibn tif dffbult\&.
 
-A keystore is not required when verifying, but if one is specified or the default exists and the \f3-verbose\fR option was also specified, then additional information is output regarding whether or not any of the certificates used to verify the JAR file are contained in that keystore\&.
+A kfystorf is not rfquirfd wifn vfrifying, but if onf is spfdififd or tif dffbult fxists bnd tif \f3-vfrbosf\fR option wbs blso spfdififd, tifn bdditionbl informbtion is output rfgbrding wiftifr or not bny of tif dfrtifidbtfs usfd to vfrify tif JAR filf brf dontbinfd in tibt kfystorf\&.
 
-The \f3-keystore\fR argument can be a file name and path specification rather than a URL, in which case it is treated the same as a file: URL, for example, the following are equivalent:
+Tif \f3-kfystorf\fR brgumfnt dbn bf b filf nbmf bnd pbti spfdifidbtion rbtifr tibn b URL, in wiidi dbsf it is trfbtfd tif sbmf bs b filf: URL, for fxbmplf, tif following brf fquivblfnt:
 .sp     
 .nf     
-\f3\-keystore \fIfilePathAndName\fR\fP
+\f3\-kfystorf \fIfilfPbtiAndNbmf\fR\fP
 .fi     
 .nf     
-\f3\-keystore file:\fIfilePathAndName\fR\fP
+\f3\-kfystorf filf:\fIfilfPbtiAndNbmf\fR\fP
 .fi     
 .nf     
 \f3\fR
@@ -350,13 +350,13 @@ The \f3-keystore\fR argument can be a file name and path specification rather th
 .sp     
 
 
-If the Sun PKCS #11 provider was configured in the \f3java\&.security\fR security properties file (located in the JRE\&'s \f3$JAVA_HOME/lib/security directory\fR), then the \f3keytool\fR and \f3jarsigner\fR tools can operate on the PKCS #11 token by specifying these options:
+If tif Sun PKCS #11 providfr wbs donfigurfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf (lodbtfd in tif JRE\&'s \f3$JAVA_HOME/lib/sfdurity dirfdtory\fR), tifn tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools dbn opfrbtf on tif PKCS #11 tokfn by spfdifying tifsf options:
 .sp     
 .nf     
-\f3\-keystore NONE\fP
+\f3\-kfystorf NONE\fP
 .fi     
 .nf     
-\f3\-storetype PKCS11\fP
+\f3\-storftypf PKCS11\fP
 .fi     
 .nf     
 \f3\fR
@@ -364,10 +364,10 @@ If the Sun PKCS #11 provider was configured in the \f3java\&.security\fR securit
 .sp     
 
 
-For example, the following command lists the contents of the configured PKCS#11 token:
+For fxbmplf, tif following dommbnd lists tif dontfnts of tif donfigurfd PKCS#11 tokfn:
 .sp     
 .nf     
-\f3keytool \-keystore NONE \-storetype PKCS11 \-list\fP
+\f3kfytool \-kfystorf NONE \-storftypf PKCS11 \-list\fP
 .fi     
 .nf     
 \f3\fR
@@ -375,114 +375,114 @@ For example, the following command lists the contents of the configured PKCS#11 
 .sp     
 
 .TP
--storetype \fIstoretype\fR
+-storftypf \fIstorftypf\fR
 .br
-Specifies the type of keystore to be instantiated\&. The default keystore type is the one that is specified as the value of the \f3keystore\&.type\fR property in the security properties file, which is returned by the static \f3getDefaultType\fR method in \f3java\&.security\&.KeyStore\fR\&.
+Spfdififs tif typf of kfystorf to bf instbntibtfd\&. Tif dffbult kfystorf typf is tif onf tibt is spfdififd bs tif vbluf of tif \f3kfystorf\&.typf\fR propfrty in tif sfdurity propfrtifs filf, wiidi is rfturnfd by tif stbtid \f3gftDffbultTypf\fR mftiod in \f3jbvb\&.sfdurity\&.KfyStorf\fR\&.
 
-The PIN for a PCKS #11 token can also be specified with the \f3-storepass\fR option\&. If none is specified, then the \f3keytool\fR and \f3jarsigner\fR commands prompt for the token PIN\&. If the token has a protected authentication path (such as a dedicated PIN-pad or a biometric reader), then the \f3-protected\fR option must be specified and no password options can be specified\&.
+Tif PIN for b PCKS #11 tokfn dbn blso bf spfdififd witi tif \f3-storfpbss\fR option\&. If nonf is spfdififd, tifn tif \f3kfytool\fR bnd \f3jbrsignfr\fR dommbnds prompt for tif tokfn PIN\&. If tif tokfn ibs b protfdtfd butifntidbtion pbti (sudi bs b dfdidbtfd PIN-pbd or b biomftrid rfbdfr), tifn tif \f3-protfdtfd\fR option must bf spfdififd bnd no pbssword options dbn bf spfdififd\&.
 .TP
--storepass[:env | :file] \fIargument\fR
+-storfpbss[:fnv | :filf] \fIbrgumfnt\fR
 .br
-Specifies the password that is required to access the keystore\&. This is only needed when signing (not verifying) a JAR file\&. In that case, if a \f3-storepass\fR option is not provided at the command line, then the user is prompted for the password\&.
+Spfdififs tif pbssword tibt is rfquirfd to bddfss tif kfystorf\&. Tiis is only nffdfd wifn signing (not vfrifying) b JAR filf\&. In tibt dbsf, if b \f3-storfpbss\fR option is not providfd bt tif dommbnd linf, tifn tif usfr is promptfd for tif pbssword\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the value \fIargument\fR\&. Otherwise, the password is retrieved as follows:
+If tif modififr \f3fnv\fR or \f3filf\fR is not spfdififd, tifn tif pbssword ibs tif vbluf \fIbrgumfnt\fR\&. Otifrwisf, tif pbssword is rftrifvfd bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3fnv\fR: Rftrifvf tif pbssword from tif fnvironmfnt vbribblf nbmfd \f3brgumfnt\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named \f3argument\fR\&.
+\f3filf\fR: Rftrifvf tif pbssword from tif filf nbmfd \f3brgumfnt\fR\&.
 .RE     
 
 
-\fINote:\fR The password should not be specified on the command line or in a script unless it is for testing purposes, or you are on a secure system\&.
+\fINotf:\fR Tif pbssword siould not bf spfdififd on tif dommbnd linf or in b sdript unlfss it is for tfsting purposfs, or you brf on b sfdurf systfm\&.
 .TP
--keypass [:env | :file] \fIargument\fR
+-kfypbss [:fnv | :filf] \fIbrgumfnt\fR
 .br
-Specifies the password used to protect the private key of the keystore entry addressed by the alias specified on the command line\&. The password is required when using \f3jarsigner\fR to sign a JAR file\&. If no password is provided on the command line, and the required password is different from the store password, then the user is prompted for it\&.
+Spfdififs tif pbssword usfd to protfdt tif privbtf kfy of tif kfystorf fntry bddrfssfd by tif blibs spfdififd on tif dommbnd linf\&. Tif pbssword is rfquirfd wifn using \f3jbrsignfr\fR to sign b JAR filf\&. If no pbssword is providfd on tif dommbnd linf, bnd tif rfquirfd pbssword is difffrfnt from tif storf pbssword, tifn tif usfr is promptfd for it\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the value \f3argument\fR\&. Otherwise, the password is retrieved as follows:
+If tif modififr \f3fnv\fR or \f3filf\fR is not spfdififd, tifn tif pbssword ibs tif vbluf \f3brgumfnt\fR\&. Otifrwisf, tif pbssword is rftrifvfd bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3fnv\fR: Rftrifvf tif pbssword from tif fnvironmfnt vbribblf nbmfd \f3brgumfnt\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named \f3argument\fR\&.
+\f3filf\fR: Rftrifvf tif pbssword from tif filf nbmfd \f3brgumfnt\fR\&.
 .RE     
 
 
-\fINote:\fR The password should not be specified on the command line or in a script unless it is for testing purposes, or you are on a secure system\&.
+\fINotf:\fR Tif pbssword siould not bf spfdififd on tif dommbnd linf or in b sdript unlfss it is for tfsting purposfs, or you brf on b sfdurf systfm\&.
 .TP
--sigfile \fIfile\fR
+-sigfilf \fIfilf\fR
 .br
-Specifies the base file name to be used for the generated \f3\&.SF\fR and \f3\&.DSA\fR files\&. For example, if file is \f3DUKESIGN\fR, then the generated \f3\&.SF\fR and \f3\&.DSA\fR files are named \f3DUKESIGN\&.SF\fR and \f3DUKESIGN\&.DSA\fR, and placed in the \f3META-INF\fR directory of the signed JAR file\&.
+Spfdififs tif bbsf filf nbmf to bf usfd for tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs\&. For fxbmplf, if filf is \f3DUKESIGN\fR, tifn tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs brf nbmfd \f3DUKESIGN\&.SF\fR bnd \f3DUKESIGN\&.DSA\fR, bnd plbdfd in tif \f3META-INF\fR dirfdtory of tif signfd JAR filf\&.
 
-The characters in the file must come from the set \f3a-zA-Z0-9_-\fR\&. Only letters, numbers, underscore, and hyphen characters are allowed\&. All lowercase characters are converted to uppercase for the \f3\&.SF\fR and \f3\&.DSA\fR file names\&.
+Tif dibrbdtfrs in tif filf must domf from tif sft \f3b-zA-Z0-9_-\fR\&. Only lfttfrs, numbfrs, undfrsdorf, bnd iypifn dibrbdtfrs brf bllowfd\&. All lowfrdbsf dibrbdtfrs brf donvfrtfd to uppfrdbsf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filf nbmfs\&.
 
-If no \f3-sigfile\fR option appears on the command line, then the base file name for the \f3\&.SF\fR and \f3\&.DSA\fR files is the first 8 characters of the alias name specified on the command line, all converted to upper case\&. If the alias name has fewer than 8 characters, then the full alias name is used\&. If the alias name contains any characters that are not valid in a signature file name, then each such character is converted to an underscore (_) character to form the file name\&.
+If no \f3-sigfilf\fR option bppfbrs on tif dommbnd linf, tifn tif bbsf filf nbmf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filfs is tif first 8 dibrbdtfrs of tif blibs nbmf spfdififd on tif dommbnd linf, bll donvfrtfd to uppfr dbsf\&. If tif blibs nbmf ibs ffwfr tibn 8 dibrbdtfrs, tifn tif full blibs nbmf is usfd\&. If tif blibs nbmf dontbins bny dibrbdtfrs tibt brf not vblid in b signbturf filf nbmf, tifn fbdi sudi dibrbdtfr is donvfrtfd to bn undfrsdorf (_) dibrbdtfr to form tif filf nbmf\&.
 .TP
--sigalg \fIalgorithm\fR
+-sigblg \fIblgoritim\fR
 .br
-Specifies the name of the signature algorithm to use to sign the JAR file\&.
+Spfdififs tif nbmf of tif signbturf blgoritim to usf to sign tif JAR filf\&.
 
-For a list of standard signature algorithm names, see "Appendix A: Standard Names" in the Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b list of stbndbrd signbturf blgoritim nbmfs, sff "Appfndix A: Stbndbrd Nbmfs" in tif Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml#AppA
 
-This algorithm must be compatible with the private key used to sign the JAR file\&. If this option is not specified, then \f3SHA1withDSA\fR, \f3SHA256withRSA\fR, or \f3SHA256withECDSA\fR are used depending on the type of private key\&. There must either be a statically installed provider supplying an implementation of the specified algorithm or the user must specify one with the \f3-providerClass\fR option; otherwise, the command will not succeed\&.
+Tiis blgoritim must bf dompbtiblf witi tif privbtf kfy usfd to sign tif JAR filf\&. If tiis option is not spfdififd, tifn \f3SHA1witiDSA\fR, \f3SHA256witiRSA\fR, or \f3SHA256witiECDSA\fR brf usfd dfpfnding on tif typf of privbtf kfy\&. Tifrf must fitifr bf b stbtidblly instbllfd providfr supplying bn implfmfntbtion of tif spfdififd blgoritim or tif usfr must spfdify onf witi tif \f3-providfrClbss\fR option; otifrwisf, tif dommbnd will not suddffd\&.
 .TP
--digestalg \fIalgorithm\fR
+-digfstblg \fIblgoritim\fR
 .br
-Specifies the name of the message digest algorithm to use when digesting the entries of a JAR file\&.
+Spfdififs tif nbmf of tif mfssbgf digfst blgoritim to usf wifn digfsting tif fntrifs of b JAR filf\&.
 
-For a list of standard message digest algorithm names, see "Appendix A: Standard Names" in the Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b list of stbndbrd mfssbgf digfst blgoritim nbmfs, sff "Appfndix A: Stbndbrd Nbmfs" in tif Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml#AppA
 
-If this option is not specified, then \f3SHA256\fR is used\&. There must either be a statically installed provider supplying an implementation of the specified algorithm or the user must specify one with the \f3-providerClass\fR option; otherwise, the command will not succeed\&.
+If tiis option is not spfdififd, tifn \f3SHA256\fR is usfd\&. Tifrf must fitifr bf b stbtidblly instbllfd providfr supplying bn implfmfntbtion of tif spfdififd blgoritim or tif usfr must spfdify onf witi tif \f3-providfrClbss\fR option; otifrwisf, tif dommbnd will not suddffd\&.
 .TP
--certs
+-dfrts
 .br
-If the \f3-certs\fR option appears on the command line with the \f3-verify\fR and \f3-verbose\fR options, then the output includes certificate information for each signer of the JAR file\&. This information includes the name of the type of certificate (stored in the \f3\&.DSA\fR file) that certifies the signer\&'s public key, and if the certificate is an X\&.509 certificate (an instance of the \f3java\&.security\&.cert\&.X509Certificate\fR), then the distinguished name of the signer\&.
+If tif \f3-dfrts\fR option bppfbrs on tif dommbnd linf witi tif \f3-vfrify\fR bnd \f3-vfrbosf\fR options, tifn tif output indludfs dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. Tiis informbtion indludfs tif nbmf of tif typf of dfrtifidbtf (storfd in tif \f3\&.DSA\fR filf) tibt dfrtififs tif signfr\&'s publid kfy, bnd if tif dfrtifidbtf is bn X\&.509 dfrtifidbtf (bn instbndf of tif \f3jbvb\&.sfdurity\&.dfrt\&.X509Cfrtifidbtf\fR), tifn tif distinguisifd nbmf of tif signfr\&.
 
-The keystore is also examined\&. If no keystore value is specified on the command line, then the default keystore file (if any) is checked\&. If the public key certificate for a signer matches an entry in the keystore, then the alias name for the keystore entry for that signer is displayed in parentheses\&. If the signer comes from a JDK 1\&.1 identity database instead of from a keystore, then the alias name displays in brackets instead of parentheses\&.
+Tif kfystorf is blso fxbminfd\&. If no kfystorf vbluf is spfdififd on tif dommbnd linf, tifn tif dffbult kfystorf filf (if bny) is difdkfd\&. If tif publid kfy dfrtifidbtf for b signfr mbtdifs bn fntry in tif kfystorf, tifn tif blibs nbmf for tif kfystorf fntry for tibt signfr is displbyfd in pbrfntifsfs\&. If tif signfr domfs from b JDK 1\&.1 idfntity dbtbbbsf instfbd of from b kfystorf, tifn tif blibs nbmf displbys in brbdkfts instfbd of pbrfntifsfs\&.
 .TP
--certchain \fIfile\fR
+-dfrtdibin \fIfilf\fR
 .br
-Specifies the certificate chain to be used when the certificate chain associated with the private key of the keystore entry that is addressed by the alias specified on the command line is not complete\&. This can happen when the keystore is located on a hardware token where there is not enough capacity to hold a complete certificate chain\&. The file can be a sequence of concatenated X\&.509 certificates, or a single PKCS#7 formatted data block, either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard\&. See Internet RFC 1421 Certificate Encoding Standard and http://tools\&.ietf\&.org/html/rfc1421\&.
+Spfdififs tif dfrtifidbtf dibin to bf usfd wifn tif dfrtifidbtf dibin bssodibtfd witi tif privbtf kfy of tif kfystorf fntry tibt is bddrfssfd by tif blibs spfdififd on tif dommbnd linf is not domplftf\&. Tiis dbn ibppfn wifn tif kfystorf is lodbtfd on b ibrdwbrf tokfn wifrf tifrf is not fnougi dbpbdity to iold b domplftf dfrtifidbtf dibin\&. Tif filf dbn bf b sfqufndf of dondbtfnbtfd X\&.509 dfrtifidbtfs, or b singlf PKCS#7 formbttfd dbtb blodk, fitifr in binbry fndoding formbt or in printbblf fndoding formbt (blso known bs Bbsf64 fndoding) bs dffinfd by tif Intfrnft RFC 1421 stbndbrd\&. Sff Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd bnd ittp://tools\&.iftf\&.org/itml/rfd1421\&.
 .TP
--verbose
+-vfrbosf
 .br
-When the \f3-verbose\fR option appears on the command line, it indicates verbose mode, which causes \f3jarsigner\fR to output extra information about the progress of the JAR signing or verification\&.
+Wifn tif \f3-vfrbosf\fR option bppfbrs on tif dommbnd linf, it indidbtfs vfrbosf modf, wiidi dbusfs \f3jbrsignfr\fR to output fxtrb informbtion bbout tif progrfss of tif JAR signing or vfrifidbtion\&.
 .TP
--internalsf
+-intfrnblsf
 .br
-In the past, the \f3\&.DSA\fR (signature block) file generated when a JAR file was signed included a complete encoded copy of the \f3\&.SF\fR file (signature file) also generated\&. This behavior has been changed\&. To reduce the overall size of the output JAR file, the \f3\&.DSA\fR file by default does not contain a copy of the \f3\&.SF\fR file anymore\&. If \f3-internalsf\fR appears on the command line, then the old behavior is utilized\&. This option is useful for testing\&. In practice, do not use the \f3-internalsf\fR option because it incurs higher overhead\&.
+In tif pbst, tif \f3\&.DSA\fR (signbturf blodk) filf gfnfrbtfd wifn b JAR filf wbs signfd indludfd b domplftf fndodfd dopy of tif \f3\&.SF\fR filf (signbturf filf) blso gfnfrbtfd\&. Tiis bfibvior ibs bffn dibngfd\&. To rfdudf tif ovfrbll sizf of tif output JAR filf, tif \f3\&.DSA\fR filf by dffbult dofs not dontbin b dopy of tif \f3\&.SF\fR filf bnymorf\&. If \f3-intfrnblsf\fR bppfbrs on tif dommbnd linf, tifn tif old bfibvior is utilizfd\&. Tiis option is usfful for tfsting\&. In prbdtidf, do not usf tif \f3-intfrnblsf\fR option bfdbusf it indurs iigifr ovfrifbd\&.
 .TP
--sectionsonly
+-sfdtionsonly
 .br
-If the \f3-sectionsonly\fR option appears on the command line, then the \f3\&.SF\fR file (signature file) generated when a JAR file is signed does not include a header that contains a hash of the whole manifest file\&. It contains only the information and hashes related to each individual source file included in the JAR file\&. See Signature File\&.
+If tif \f3-sfdtionsonly\fR option bppfbrs on tif dommbnd linf, tifn tif \f3\&.SF\fR filf (signbturf filf) gfnfrbtfd wifn b JAR filf is signfd dofs not indludf b ifbdfr tibt dontbins b ibsi of tif wiolf mbniffst filf\&. It dontbins only tif informbtion bnd ibsifs rflbtfd to fbdi individubl sourdf filf indludfd in tif JAR filf\&. Sff Signbturf Filf\&.
 
-By default, this header is added, as an optimization\&. When the header is present, whenever the JAR file is verified, the verification can first check to see whether the hash in the header matches the hash of the whole manifest file\&. When there is a match, verification proceeds to the next step\&. When there is no match, it is necessary to do a less optimized verification that the hash in each source file information section in the \f3\&.SF\fR file equals the hash of its corresponding section in the manifest file\&. See JAR File Verification\&.
+By dffbult, tiis ifbdfr is bddfd, bs bn optimizbtion\&. Wifn tif ifbdfr is prfsfnt, wifnfvfr tif JAR filf is vfrififd, tif vfrifidbtion dbn first difdk to sff wiftifr tif ibsi in tif ifbdfr mbtdifs tif ibsi of tif wiolf mbniffst filf\&. Wifn tifrf is b mbtdi, vfrifidbtion prodffds to tif nfxt stfp\&. Wifn tifrf is no mbtdi, it is nfdfssbry to do b lfss optimizfd vfrifidbtion tibt tif ibsi in fbdi sourdf filf informbtion sfdtion in tif \f3\&.SF\fR filf fqubls tif ibsi of its dorrfsponding sfdtion in tif mbniffst filf\&. Sff JAR Filf Vfrifidbtion\&.
 
-The \f3-sectionsonly\fR option is primarily used for testing\&. It should not be used other than for testing because using it incurs higher overhead\&.
+Tif \f3-sfdtionsonly\fR option is primbrily usfd for tfsting\&. It siould not bf usfd otifr tibn for tfsting bfdbusf using it indurs iigifr ovfrifbd\&.
 .TP
--protected
+-protfdtfd
 .br
-Values can be either \f3true\fR or \f3false\fR\&. Specify \f3true\fR when a password must be specified through a protected authentication path such as a dedicated PIN reader\&.
+Vblufs dbn bf fitifr \f3truf\fR or \f3fblsf\fR\&. Spfdify \f3truf\fR wifn b pbssword must bf spfdififd tirougi b protfdtfd butifntidbtion pbti sudi bs b dfdidbtfd PIN rfbdfr\&.
 .TP
--providerClass \fIprovider-class-name\fR
+-providfrClbss \fIprovidfr-dlbss-nbmf\fR
 .br
-Used to specify the name of cryptographic service provider\&'s master class file when the service provider is not listed in the \f3java\&.security\fR security properties file\&.
+Usfd to spfdify tif nbmf of dryptogrbpiid sfrvidf providfr\&'s mbstfr dlbss filf wifn tif sfrvidf providfr is not listfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf\&.
 
-Used with the \f3-providerArg ConfigFilePath\fR option, the \f3keytool\fR and \f3jarsigner\fR tools install the provider dynamically and use \fIConfigFilePath\fR for the path to the token configuration file\&. The following example shows a command to list a \f3PKCS #11\fR keystore when the Oracle PKCS #11 provider was not configured in the security properties file\&.
+Usfd witi tif \f3-providfrArg ConfigFilfPbti\fR option, tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools instbll tif providfr dynbmidblly bnd usf \fIConfigFilfPbti\fR for tif pbti to tif tokfn donfigurbtion filf\&. Tif following fxbmplf siows b dommbnd to list b \f3PKCS #11\fR kfystorf wifn tif Orbdlf PKCS #11 providfr wbs not donfigurfd in tif sfdurity propfrtifs filf\&.
 .sp     
 .nf     
-\f3jarsigner \-keystore NONE \-storetype PKCS11 \e\fP
+\f3jbrsignfr \-kfystorf NONE \-storftypf PKCS11 \f\fP
 .fi     
 .nf     
-\f3          \-providerClass sun\&.security\&.pkcs11\&.SunPKCS11 \e\fP
+\f3          \-providfrClbss sun\&.sfdurity\&.pkds11\&.SunPKCS11 \f\fP
 .fi     
 .nf     
-\f3          \-providerArg /mydir1/mydir2/token\&.config \e\fP
+\f3          \-providfrArg /mydir1/mydir2/tokfn\&.donfig \f\fP
 .fi     
 .nf     
 \f3          \-list\fP
@@ -493,17 +493,17 @@ Used with the \f3-providerArg ConfigFilePath\fR option, the \f3keytool\fR and \f
 .sp     
 
 .TP
--providerName \fIproviderName\fR
+-providfrNbmf \fIprovidfrNbmf\fR
 .br
-If more than one provider was configured in the \f3java\&.security\fR security properties file, then you can use the \f3-providerName\fR option to target a specific provider instance\&. The argument to this option is the name of the provider\&.
+If morf tibn onf providfr wbs donfigurfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf, tifn you dbn usf tif \f3-providfrNbmf\fR option to tbrgft b spfdifid providfr instbndf\&. Tif brgumfnt to tiis option is tif nbmf of tif providfr\&.
 
-For the Oracle PKCS #11 provider, \fIproviderName\fR is of the form \f3SunPKCS11-\fR\fITokenName\fR, where \fITokenName\fR is the name suffix that the provider instance has been configured with, as detailed in the configuration attributes table\&. For example, the following command lists the contents of the \f3PKCS #11\fR keystore provider instance with name suffix \f3SmartCard\fR:
+For tif Orbdlf PKCS #11 providfr, \fIprovidfrNbmf\fR is of tif form \f3SunPKCS11-\fR\fITokfnNbmf\fR, wifrf \fITokfnNbmf\fR is tif nbmf suffix tibt tif providfr instbndf ibs bffn donfigurfd witi, bs dftbilfd in tif donfigurbtion bttributfs tbblf\&. For fxbmplf, tif following dommbnd lists tif dontfnts of tif \f3PKCS #11\fR kfystorf providfr instbndf witi nbmf suffix \f3SmbrtCbrd\fR:
 .sp     
 .nf     
-\f3jarsigner \-keystore NONE \-storetype PKCS11 \e\fP
+\f3jbrsignfr \-kfystorf NONE \-storftypf PKCS11 \f\fP
 .fi     
 .nf     
-\f3        \-providerName SunPKCS11\-SmartCard \e\fP
+\f3        \-providfrNbmf SunPKCS11\-SmbrtCbrd \f\fP
 .fi     
 .nf     
 \f3        \-list\fP
@@ -514,44 +514,44 @@ For the Oracle PKCS #11 provider, \fIproviderName\fR is of the form \f3SunPKCS11
 .sp     
 
 .TP
--J\fIjavaoption\fR
+-J\fIjbvboption\fR
 .br
-Passes through the specified \fIjavaoption\fR string directly to the Java interpreter\&. The \f3jarsigner\fR command is a wrapper around the interpreter\&. This option should not contain any spaces\&. It is useful for adjusting the execution environment or memory usage\&. For a list of possible interpreter options, type \f3java -h\fR or \f3java -X\fR at the command line\&.
+Pbssfs tirougi tif spfdififd \fIjbvboption\fR string dirfdtly to tif Jbvb intfrprftfr\&. Tif \f3jbrsignfr\fR dommbnd is b wrbppfr bround tif intfrprftfr\&. Tiis option siould not dontbin bny spbdfs\&. It is usfful for bdjusting tif fxfdution fnvironmfnt or mfmory usbgf\&. For b list of possiblf intfrprftfr options, typf \f3jbvb -i\fR or \f3jbvb -X\fR bt tif dommbnd linf\&.
 .TP
--tsa \fIurl\fR
+-tsb \fIurl\fR
 .br
-If \f3-tsa http://example\&.tsa\&.url\fR appears on the command line when signing a JAR file then a time stamp is generated for the signature\&. The URL, \f3http://example\&.tsa\&.url\fR, identifies the location of the Time Stamping Authority (TSA) and overrides any URL found with the \f3-tsacert\fR option\&. The \f3-tsa\fR option does not require the TSA public key certificate to be present in the keystore\&.
+If \f3-tsb ittp://fxbmplf\&.tsb\&.url\fR bppfbrs on tif dommbnd linf wifn signing b JAR filf tifn b timf stbmp is gfnfrbtfd for tif signbturf\&. Tif URL, \f3ittp://fxbmplf\&.tsb\&.url\fR, idfntififs tif lodbtion of tif Timf Stbmping Autiority (TSA) bnd ovfrridfs bny URL found witi tif \f3-tsbdfrt\fR option\&. Tif \f3-tsb\fR option dofs not rfquirf tif TSA publid kfy dfrtifidbtf to bf prfsfnt in tif kfystorf\&.
 
-To generate the time stamp, \f3jarsigner\fR communicates with the TSA with the Time-Stamp Protocol (TSP) defined in RFC 3161\&. When successful, the time stamp token returned by the TSA is stored with the signature in the signature block file\&.
+To gfnfrbtf tif timf stbmp, \f3jbrsignfr\fR dommunidbtfs witi tif TSA witi tif Timf-Stbmp Protodol (TSP) dffinfd in RFC 3161\&. Wifn suddfssful, tif timf stbmp tokfn rfturnfd by tif TSA is storfd witi tif signbturf in tif signbturf blodk filf\&.
 .TP
--tsacert \fIalias\fR
+-tsbdfrt \fIblibs\fR
 .br
-When \f3-tsacert alias\fR appears on the command line when signing a JAR file, a time stamp is generated for the signature\&. The alias identifies the TSA public key certificate in the keystore that is in effect\&. The entry\&'s certificate is examined for a Subject Information Access extension that contains a URL identifying the location of the TSA\&.
+Wifn \f3-tsbdfrt blibs\fR bppfbrs on tif dommbnd linf wifn signing b JAR filf, b timf stbmp is gfnfrbtfd for tif signbturf\&. Tif blibs idfntififs tif TSA publid kfy dfrtifidbtf in tif kfystorf tibt is in ffffdt\&. Tif fntry\&'s dfrtifidbtf is fxbminfd for b Subjfdt Informbtion Addfss fxtfnsion tibt dontbins b URL idfntifying tif lodbtion of tif TSA\&.
 
-The TSA public key certificate must be present in the keystore when using the \f3-tsacert\fR option\&.
+Tif TSA publid kfy dfrtifidbtf must bf prfsfnt in tif kfystorf wifn using tif \f3-tsbdfrt\fR option\&.
 .TP
--tsapolicyid \fIpolicyid\fR
+-tsbpolidyid \fIpolidyid\fR
 .br
-Specifies the object identifier (OID) that identifies the policy ID to be sent to the TSA server\&. If this option is not specified, no policy ID is sent and the TSA server will choose a default policy ID\&.
+Spfdififs tif objfdt idfntififr (OID) tibt idfntififs tif polidy ID to bf sfnt to tif TSA sfrvfr\&. If tiis option is not spfdififd, no polidy ID is sfnt bnd tif TSA sfrvfr will dioosf b dffbult polidy ID\&.
 
-Object identifiers are defined by X\&.696, which is an ITU Telecommunication Standardization Sector (ITU-T) standard\&. These identifiers are typically period-separated sets of non-negative digits like \f31\&.2\&.3\&.4\fR, for example\&.
+Objfdt idfntififrs brf dffinfd by X\&.696, wiidi is bn ITU Tflfdommunidbtion Stbndbrdizbtion Sfdtor (ITU-T) stbndbrd\&. Tifsf idfntififrs brf typidblly pfriod-sfpbrbtfd sfts of non-nfgbtivf digits likf \f31\&.2\&.3\&.4\fR, for fxbmplf\&.
 .TP
--altsigner \fIclass\fR
+-bltsignfr \fIdlbss\fR
 .br
-This option specifies an alternative signing mechanism\&. The fully qualified class name identifies a class file that extends the \f3com\&.sun\&.jarsigner\&.ContentSigner\fR abstract class\&. The path to this class file is defined by the \f3-altsignerpath\fR option\&. If the \f3-altsigner\fR option is used, then the \f3jarsigner\fR command uses the signing mechanism provided by the specified class\&. Otherwise, the \f3jarsigner\fR command uses its default signing mechanism\&.
+Tiis option spfdififs bn bltfrnbtivf signing mfdibnism\&. Tif fully qublififd dlbss nbmf idfntififs b dlbss filf tibt fxtfnds tif \f3dom\&.sun\&.jbrsignfr\&.ContfntSignfr\fR bbstrbdt dlbss\&. Tif pbti to tiis dlbss filf is dffinfd by tif \f3-bltsignfrpbti\fR option\&. If tif \f3-bltsignfr\fR option is usfd, tifn tif \f3jbrsignfr\fR dommbnd usfs tif signing mfdibnism providfd by tif spfdififd dlbss\&. Otifrwisf, tif \f3jbrsignfr\fR dommbnd usfs its dffbult signing mfdibnism\&.
 
-For example, to use the signing mechanism provided by a class named \f3com\&.sun\&.sun\&.jarsigner\&.AuthSigner\fR, use the jarsigner option \f3-altsigner com\&.sun\&.jarsigner\&.AuthSigner\fR\&.
+For fxbmplf, to usf tif signing mfdibnism providfd by b dlbss nbmfd \f3dom\&.sun\&.sun\&.jbrsignfr\&.AutiSignfr\fR, usf tif jbrsignfr option \f3-bltsignfr dom\&.sun\&.jbrsignfr\&.AutiSignfr\fR\&.
 .TP
--altsignerpath \fIclasspathlist\fR
+-bltsignfrpbti \fIdlbsspbtilist\fR
 .br
-Specifies the path to the class file and any JAR file it depends on\&. The class file name is specified with the \f3-altsigner\fR option\&. If the class file is in a JAR file, then this option specifies the path to that JAR file\&.
+Spfdififs tif pbti to tif dlbss filf bnd bny JAR filf it dfpfnds on\&. Tif dlbss filf nbmf is spfdififd witi tif \f3-bltsignfr\fR option\&. If tif dlbss filf is in b JAR filf, tifn tiis option spfdififs tif pbti to tibt JAR filf\&.
 
-An absolute path or a path relative to the current directory can be specified\&. If \fIclasspathlist\fR contains multiple paths or JAR files, then they should be separated with a colon (:) on Oracle Solaris and a semicolon (;) on Windows\&. This option is not necessary when the class is already in the search path\&.
+An bbsolutf pbti or b pbti rflbtivf to tif durrfnt dirfdtory dbn bf spfdififd\&. If \fIdlbsspbtilist\fR dontbins multiplf pbtis or JAR filfs, tifn tify siould bf sfpbrbtfd witi b dolon (:) on Orbdlf Solbris bnd b sfmidolon (;) on Windows\&. Tiis option is not nfdfssbry wifn tif dlbss is blrfbdy in tif sfbrdi pbti\&.
 
-The following example shows how to specify the path to a JAR file that contains the class file\&. The JAR file name is included\&.
+Tif following fxbmplf siows iow to spfdify tif pbti to b JAR filf tibt dontbins tif dlbss filf\&. Tif JAR filf nbmf is indludfd\&.
 .sp     
 .nf     
-\f3\-altsignerpath /home/user/lib/authsigner\&.jar\fP
+\f3\-bltsignfrpbti /iomf/usfr/lib/butisignfr\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
@@ -559,10 +559,10 @@ The following example shows how to specify the path to a JAR file that contains 
 .sp     
 
 
-The following example shows how to specify the path to the JAR file that contains the class file\&. The JAR file name is omitted\&.
+Tif following fxbmplf siows iow to spfdify tif pbti to tif JAR filf tibt dontbins tif dlbss filf\&. Tif JAR filf nbmf is omittfd\&.
 .sp     
 .nf     
-\f3\-altsignerpath /home/user/classes/com/sun/tools/jarsigner/\fP
+\f3\-bltsignfrpbti /iomf/usfr/dlbssfs/dom/sun/tools/jbrsignfr/\fP
 .fi     
 .nf     
 \f3\fR
@@ -570,415 +570,415 @@ The following example shows how to specify the path to the JAR file that contain
 .sp     
 
 .TP
--strict
+-stridt
 .br
-During the signing or verifying process, the command may issue warning messages\&. If you specify this option, the exit code of the tool reflects the severe warning messages that this command found\&. See Errors and Warnings\&.
+During tif signing or vfrifying prodfss, tif dommbnd mby issuf wbrning mfssbgfs\&. If you spfdify tiis option, tif fxit dodf of tif tool rfflfdts tif sfvfrf wbrning mfssbgfs tibt tiis dommbnd found\&. Sff Errors bnd Wbrnings\&.
 .TP
--verbose \fIsuboptions\fR
+-vfrbosf \fIsuboptions\fR
 .br
-For the verifying process, the \f3-verbose\fR option takes suboptions to determine how much information is shown\&. If the \f3-certs\fR option is also specified, then the default mode (or suboption \f3all\fR) displays each entry as it is being processed, and after that, the certificate information for each signer of the JAR file\&. If the \f3-certs\fR and the \f3-verbose:grouped\fR suboptions are specified, then entries with the same signer info are grouped and displayed together with their certificate information\&. If \f3-certs\fR and the \f3-verbose:summary\fR suboptions are specified, then entries with the same signer information are grouped and displayed together with their certificate information\&. Details about each entry are summarized and displayed as \fIone entry (and more)\fR\&. See Examples\&.
+For tif vfrifying prodfss, tif \f3-vfrbosf\fR option tbkfs suboptions to dftfrminf iow mudi informbtion is siown\&. If tif \f3-dfrts\fR option is blso spfdififd, tifn tif dffbult modf (or suboption \f3bll\fR) displbys fbdi fntry bs it is bfing prodfssfd, bnd bftfr tibt, tif dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. If tif \f3-dfrts\fR bnd tif \f3-vfrbosf:groupfd\fR suboptions brf spfdififd, tifn fntrifs witi tif sbmf signfr info brf groupfd bnd displbyfd togftifr witi tifir dfrtifidbtf informbtion\&. If \f3-dfrts\fR bnd tif \f3-vfrbosf:summbry\fR suboptions brf spfdififd, tifn fntrifs witi tif sbmf signfr informbtion brf groupfd bnd displbyfd togftifr witi tifir dfrtifidbtf informbtion\&. Dftbils bbout fbdi fntry brf summbrizfd bnd displbyfd bs \fIonf fntry (bnd morf)\fR\&. Sff Exbmplfs\&.
 .SH ERRORS\ AND\ WARNINGS    
-During the signing or verifying process, the \f3jarsigner\fR command may issue various errors or warnings\&.
+During tif signing or vfrifying prodfss, tif \f3jbrsignfr\fR dommbnd mby issuf vbrious frrors or wbrnings\&.
 .PP
-If there is a failure, the \f3jarsigner\fR command exits with code 1\&. If there is no failure, but there are one or more severe warnings, the \f3jarsigner\fR command exits with code 0 when the \f3-strict\fR option is \fInot\fR specified, or exits with the OR-value of the warning codes when the \f3-strict\fR is specified\&. If there is only informational warnings or no warning at all, the command always exits with code 0\&.
+If tifrf is b fbilurf, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 1\&. If tifrf is no fbilurf, but tifrf brf onf or morf sfvfrf wbrnings, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 0 wifn tif \f3-stridt\fR option is \fInot\fR spfdififd, or fxits witi tif OR-vbluf of tif wbrning dodfs wifn tif \f3-stridt\fR is spfdififd\&. If tifrf is only informbtionbl wbrnings or no wbrning bt bll, tif dommbnd blwbys fxits witi dodf 0\&.
 .PP
-For example, if a certificate used to sign an entry is expired and has a KeyUsage extension that does not allow it to sign a file, the \f3jarsigner\fR command exits with code 12 (=4+8) when the \f3-strict\fR option is specified\&.
+For fxbmplf, if b dfrtifidbtf usfd to sign bn fntry is fxpirfd bnd ibs b KfyUsbgf fxtfnsion tibt dofs not bllow it to sign b filf, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 12 (=4+8) wifn tif \f3-stridt\fR option is spfdififd\&.
 .PP
-\fINote:\fR Exit codes are reused because only the values from 0 to 255 are legal on Unix-based operating systems\&.
+\fINotf:\fR Exit dodfs brf rfusfd bfdbusf only tif vblufs from 0 to 255 brf lfgbl on Unix-bbsfd opfrbting systfms\&.
 .PP
-The following sections describes the names, codes, and descriptions of the errors and warnings that the \f3jarsigner\fR command can issue\&.
+Tif following sfdtions dfsdribfs tif nbmfs, dodfs, bnd dfsdriptions of tif frrors bnd wbrnings tibt tif \f3jbrsignfr\fR dommbnd dbn issuf\&.
 .SS FAILURE    
-Reasons why the \f3jarsigner\fR command fails include (but are not limited to) a command line parsing error, the inability to find a keypair to sign the JAR file, or the verification of a signed JAR fails\&.
+Rfbsons wiy tif \f3jbrsignfr\fR dommbnd fbils indludf (but brf not limitfd to) b dommbnd linf pbrsing frror, tif inbbility to find b kfypbir to sign tif JAR filf, or tif vfrifidbtion of b signfd JAR fbils\&.
 .TP     
-failure
-Code 1\&. The signing or verifying fails\&.
+fbilurf
+Codf 1\&. Tif signing or vfrifying fbils\&.
 .SS SEVERE\ WARNINGS    
-\fINote:\fR Severe warnings are reported as errors if you specify the \f3-strict\fR option\&.
+\fINotf:\fR Sfvfrf wbrnings brf rfportfd bs frrors if you spfdify tif \f3-stridt\fR option\&.
 .PP
-Reasons why the \f3jarsigner\fR command issues a severe warning include the certificate used to sign the JAR file has an error or the signed JAR file has other problems\&.
+Rfbsons wiy tif \f3jbrsignfr\fR dommbnd issufs b sfvfrf wbrning indludf tif dfrtifidbtf usfd to sign tif JAR filf ibs bn frror or tif signfd JAR filf ibs otifr problfms\&.
 .TP     
-hasExpiredCert
-Code 4\&. This jar contains entries whose signer certificate has expired\&.
+ibsExpirfdCfrt
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf ibs fxpirfd\&.
 .TP     
-notYetValidCert
-Code 4\&. This jar contains entries whose signer certificate is not yet valid\&.
+notYftVblidCfrt
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf is not yft vblid\&.
 .TP     
-chainNotValidated
-Code 4\&. This jar contains entries whose certificate chain cannot be correctly validated\&.
+dibinNotVblidbtfd
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf dfrtifidbtf dibin dbnnot bf dorrfdtly vblidbtfd\&.
 .TP     
-badKeyUsage
-Code 8\&. This jar contains entries whose signer certificate\&'s KeyUsage extension doesn\&'t allow code signing\&.
+bbdKfyUsbgf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s KfyUsbgf fxtfnsion dofsn\&'t bllow dodf signing\&.
 .TP     
-badExtendedKeyUsage
-Code 8\&. This jar contains entries whose signer certificate\&'s ExtendedKeyUsage extension doesn\&'t allow code signing\&.
+bbdExtfndfdKfyUsbgf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s ExtfndfdKfyUsbgf fxtfnsion dofsn\&'t bllow dodf signing\&.
 .TP     
-badNetscapeCertType
-Code 8\&. This jar contains entries whose signer certificate\&'s NetscapeCertType extension doesn\&'t allow code signing\&.
+bbdNftsdbpfCfrtTypf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s NftsdbpfCfrtTypf fxtfnsion dofsn\&'t bllow dodf signing\&.
 .TP     
-hasUnsignedEntry
-Code 16\&. This jar contains unsigned entries which have not been integrity-checked\&.
+ibsUnsignfdEntry
+Codf 16\&. Tiis jbr dontbins unsignfd fntrifs wiidi ibvf not bffn intfgrity-difdkfd\&.
 .TP     
-notSignedByAlias
-Code 32\&. This jar contains signed entries which are not signed by the specified alias(es)\&.
+notSignfdByAlibs
+Codf 32\&. Tiis jbr dontbins signfd fntrifs wiidi brf not signfd by tif spfdififd blibs(fs)\&.
 .TP     
-aliasNotInStore
-Code 32\&. This jar contains signed entries that are not signed by alias in this keystore\&.
+blibsNotInStorf
+Codf 32\&. Tiis jbr dontbins signfd fntrifs tibt brf not signfd by blibs in tiis kfystorf\&.
 .SS INFORMATIONAL\ WARNINGS    
-Informational warnings include those that are not errors but regarded as bad practice\&. They do not have a code\&.
+Informbtionbl wbrnings indludf tiosf tibt brf not frrors but rfgbrdfd bs bbd prbdtidf\&. Tify do not ibvf b dodf\&.
 .TP     
-hasExpiringCert
-This jar contains entries whose signer certificate will expire within six months\&.
+ibsExpiringCfrt
+Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf will fxpirf witiin six montis\&.
 .TP     
-noTimestamp
-This jar contains signatures that does not include a timestamp\&. Without a timestamp, users may not be able to validate this JAR file after the signer certificate\&'s expiration date (\f3YYYY-MM-DD\fR) or after any future revocation date\&.
+noTimfstbmp
+Tiis jbr dontbins signbturfs tibt dofs not indludf b timfstbmp\&. Witiout b timfstbmp, usfrs mby not bf bblf to vblidbtf tiis JAR filf bftfr tif signfr dfrtifidbtf\&'s fxpirbtion dbtf (\f3YYYY-MM-DD\fR) or bftfr bny futurf rfvodbtion dbtf\&.
 .SH EXAMPLES    
 .SS SIGN\ A\ JAR\ FILE    
-Use the following command to sign bundle\&.jar with the private key of a user whose keystore alias is \f3jane\fR in a keystore named \f3mystore\fR in the \f3working\fR directory and name the signed JAR file \f3sbundle\&.jar\fR:
+Usf tif following dommbnd to sign bundlf\&.jbr witi tif privbtf kfy of b usfr wiosf kfystorf blibs is \f3jbnf\fR in b kfystorf nbmfd \f3mystorf\fR in tif \f3working\fR dirfdtory bnd nbmf tif signfd JAR filf \f3sbundlf\&.jbr\fR:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore\fP
+\f3jbrsignfr \-kfystorf /working/mystorf\fP
 .fi     
 .nf     
-\f3    \-storepass <keystore password>\fP
+\f3    \-storfpbss <kfystorf pbssword>\fP
 .fi     
 .nf     
-\f3    \-keypass <private key password>\fP
+\f3    \-kfypbss <privbtf kfy pbssword>\fP
 .fi     
 .nf     
-\f3    \-signedjar sbundle\&.jar bundle\&.jar jane\fP
+\f3    \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-There is no \f3-sigfile\fR specified in the previous command so the generated \f3\&.SF\fR and \f3\&.DSA\fR files to be placed in the signed JAR file have default names based on the alias name\&. They are named \f3JANE\&.SF\fR and \f3JANE\&.DSA\fR\&.
+Tifrf is no \f3-sigfilf\fR spfdififd in tif prfvious dommbnd so tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs to bf plbdfd in tif signfd JAR filf ibvf dffbult nbmfs bbsfd on tif blibs nbmf\&. Tify brf nbmfd \f3JANE\&.SF\fR bnd \f3JANE\&.DSA\fR\&.
 .PP
-If you want to be prompted for the store password and the private key password, then you could shorten the previous command to the following:
+If you wbnt to bf promptfd for tif storf pbssword bnd tif privbtf kfy pbssword, tifn you dould siortfn tif prfvious dommbnd to tif following:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore\fP
+\f3jbrsignfr \-kfystorf /working/mystorf\fP
 .fi     
 .nf     
-\f3    \-signedjar sbundle\&.jar bundle\&.jar jane\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.sp     
-If the keystore is the default keystore (\&.keystore in your home directory), then you do not need to specify a keystore, as follows:
-.sp     
-.nf     
-\f3jarsigner \-signedjar sbundle\&.jar bundle\&.jar jane\fP
+\f3    \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-If you want the signed JAR file to overwrite the input JAR file (bundle\&.jar), then you do not need to specify a \f3-signedjar\fR option, as follows:
+If tif kfystorf is tif dffbult kfystorf (\&.kfystorf in your iomf dirfdtory), tifn you do not nffd to spfdify b kfystorf, bs follows:
 .sp     
 .nf     
-\f3jarsigner bundle\&.jar jane\fP
+\f3jbrsignfr \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you wbnt tif signfd JAR filf to ovfrwritf tif input JAR filf (bundlf\&.jbr), tifn you do not nffd to spfdify b \f3-signfdjbr\fR option, bs follows:
+.sp     
+.nf     
+\f3jbrsignfr bundlf\&.jbr jbnf\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS VERIFY\ A\ SIGNED\ JAR\ FILE    
-To verify a signed JAR file to ensure that the signature is valid and the JAR file was not been tampered with, use a command such as the following:
+To vfrify b signfd JAR filf to fnsurf tibt tif signbturf is vblid bnd tif JAR filf wbs not bffn tbmpfrfd witi, usf b dommbnd sudi bs tif following:
 .sp     
 .nf     
-\f3jarsigner \-verify sbundle\&.jar\fP
+\f3jbrsignfr \-vfrify sbundlf\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-When the verification is successful, \f3jar verified\fR is displayed\&. Otherwise, an error message is displayed\&. You can get more information when you use the \f3-verbose\fR option\&. A sample use of \f3jarsigner\fR with the\f3-verbose\fR option follows:
+Wifn tif vfrifidbtion is suddfssful, \f3jbr vfrififd\fR is displbyfd\&. Otifrwisf, bn frror mfssbgf is displbyfd\&. You dbn gft morf informbtion wifn you usf tif \f3-vfrbosf\fR option\&. A sbmplf usf of \f3jbrsignfr\fR witi tif\f3-vfrbosf\fR option follows:
 .sp     
 .nf     
-\f3jarsigner \-verify \-verbose sbundle\&.jar\fP
+\f3jbrsignfr \-vfrify \-vfrbosf sbundlf\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3           198 Fri Sep 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
 .fi     
 .nf     
-\f3           199 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
 .fi     
 .nf     
-\f3          1013 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
 .fi     
 .nf     
-\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 AclEx\&.class\fP
+\f3    smk   2752 Fri Sfp 26 16:12:30 PDT 1997 AdlEx\&.dlbss\fP
 .fi     
 .nf     
-\f3    smk    849 Fri Sep 26 16:12:46 PDT 1997 test\&.class\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      s = signature was verified\fP
-.fi     
-.nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
+\f3    smk    849 Fri Sfp 26 16:12:46 PDT 1997 tfst\&.dlbss\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS VERIFICATION\ WITH\ CERTIFICATE\ INFORMATION    
-If you specify the \f3-certs\fR option with the \f3-verify\fR and \f3-verbose\fR options, then the output includes certificate information for each signer of the JAR file\&. The information includes the certificate type, the signer distinguished name information (when it is an X\&.509 certificate), and in parentheses, the keystore alias for the signer when the public key certificate in the JAR file matches the one in a keystore entry, for example:
+If you spfdify tif \f3-dfrts\fR option witi tif \f3-vfrify\fR bnd \f3-vfrbosf\fR options, tifn tif output indludfs dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. Tif informbtion indludfs tif dfrtifidbtf typf, tif signfr distinguisifd nbmf informbtion (wifn it is bn X\&.509 dfrtifidbtf), bnd in pbrfntifsfs, tif kfystorf blibs for tif signfr wifn tif publid kfy dfrtifidbtf in tif JAR filf mbtdifs tif onf in b kfystorf fntry, for fxbmplf:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore \-verify \-verbose \-certs myTest\&.jar\fP
+\f3jbrsignfr \-kfystorf /working/mystorf \-vfrify \-vfrbosf \-dfrts myTfst\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3           198 Fri Sep 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
 .fi     
 .nf     
-\f3           199 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
 .fi     
 .nf     
-\f3          1013 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
 .fi     
 .nf     
-\f3           208 Fri Sep 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.SF\fP
+\f3           208 Fri Sfp 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.SF\fP
 .fi     
 .nf     
-\f3          1087 Fri Sep 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.DSA\fP
+\f3          1087 Fri Sfp 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.DSA\fP
 .fi     
 .nf     
-\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 Tst\&.class\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      X\&.509, CN=Test Group, OU=Java Software, O=Oracle, L=CUP, S=CA, C=US (javatest)\fP
-.fi     
-.nf     
-\f3      X\&.509, CN=Jane Smith, OU=Java Software, O=Oracle, L=cup, S=ca, C=us (jane)\fP
+\f3    smk   2752 Fri Sfp 26 16:12:30 PDT 1997 Tst\&.dlbss\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3      s = signature was verified\fP
+\f3      X\&.509, CN=Tfst Group, OU=Jbvb Softwbrf, O=Orbdlf, L=CUP, S=CA, C=US (jbvbtfst)\fP
 .fi     
 .nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
+\f3      X\&.509, CN=Jbnf Smiti, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us (jbnf)\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-If the certificate for a signer is not an X\&.509 certificate, then there is no distinguished name information\&. In that case, just the certificate type and the alias are shown\&. For example, if the certificate is a PGP certificate, and the alias is \f3bob\fR, then you would get: \f3PGP, (bob)\fR\&.
+If tif dfrtifidbtf for b signfr is not bn X\&.509 dfrtifidbtf, tifn tifrf is no distinguisifd nbmf informbtion\&. In tibt dbsf, just tif dfrtifidbtf typf bnd tif blibs brf siown\&. For fxbmplf, if tif dfrtifidbtf is b PGP dfrtifidbtf, bnd tif blibs is \f3bob\fR, tifn you would gft: \f3PGP, (bob)\fR\&.
 .SS VERIFICATION\ THAT\ INCLUDES\ IDENTITY\ DATABASE\ SIGNERS    
-If a JAR file was signed with the JDK 1\&.1 \f3javakey\fR tool, and the signer is an alias in an identity database, then the verification output includes an \f3i\fR\&. If the JAR file was signed by both an alias in an identity database and an alias in a keystore, then both \f3k\fR and \f3i\fR appear\&.
+If b JAR filf wbs signfd witi tif JDK 1\&.1 \f3jbvbkfy\fR tool, bnd tif signfr is bn blibs in bn idfntity dbtbbbsf, tifn tif vfrifidbtion output indludfs bn \f3i\fR\&. If tif JAR filf wbs signfd by boti bn blibs in bn idfntity dbtbbbsf bnd bn blibs in b kfystorf, tifn boti \f3k\fR bnd \f3i\fR bppfbr\&.
 .PP
-When the \f3-certs\fR option is used, any identity database aliases are shown in brackets rather than the parentheses used for keystore aliases, for example:
+Wifn tif \f3-dfrts\fR option is usfd, bny idfntity dbtbbbsf blibsfs brf siown in brbdkfts rbtifr tibn tif pbrfntifsfs usfd for kfystorf blibsfs, for fxbmplf:
 .sp     
 .nf     
-\f3    jarsigner \-keystore /working/mystore \-verify \-verbose \-certs writeFile\&.jar\fP
+\f3    jbrsignfr \-kfystorf /working/mystorf \-vfrify \-vfrbosf \-dfrts writfFilf\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3           198 Fri Sep 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
 .fi     
 .nf     
-\f3           199 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
 .fi     
 .nf     
-\f3          1013 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
 .fi     
 .nf     
-\f3           199 Fri Sep 27 12:22:30 PDT 1997 META\-INF/DUKE\&.SF\fP
+\f3           199 Fri Sfp 27 12:22:30 PDT 1997 META\-INF/DUKE\&.SF\fP
 .fi     
 .nf     
-\f3          1013 Fri Sep 27 12:22:30 PDT 1997 META\-INF/DUKE\&.DSA\fP
+\f3          1013 Fri Sfp 27 12:22:30 PDT 1997 META\-INF/DUKE\&.DSA\fP
 .fi     
 .nf     
-\f3   smki   2752 Fri Sep 26 16:12:30 PDT 1997 writeFile\&.html\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      X\&.509, CN=Jane Smith, OU=Java Software, O=Oracle, L=cup, S=ca, C=us (jane)\fP
-.fi     
-.nf     
-\f3      X\&.509, CN=Duke, OU=Java Software, O=Oracle, L=cup, S=ca, C=us [duke]\fP
+\f3   smki   2752 Fri Sfp 26 16:12:30 PDT 1997 writfFilf\&.itml\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3      s = signature was verified\fP
+\f3      X\&.509, CN=Jbnf Smiti, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us (jbnf)\fP
 .fi     
 .nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
-.fi     
-.nf     
-\f3      i = at least one certificate was found in identity scope\fP
+\f3      X\&.509, CN=Dukf, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us [dukf]\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3      i = bt lfbst onf dfrtifidbtf wbs found in idfntity sdopf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR The alias \f3duke\fR is in brackets to denote that it is an identity database alias, and not a keystore alias\&.
+\fINotf:\fR Tif blibs \f3dukf\fR is in brbdkfts to dfnotf tibt it is bn idfntity dbtbbbsf blibs, bnd not b kfystorf blibs\&.
 .SH JDK\ 1\&.1\ COMPATIBILITY    
-The \f3keytool\fR and \f3jarsigner\fR tools replace the \f3javakey\fR tool in JDK 1\&.1\&. These new tools provide more features than \f3javakey\fR, including the ability to protect the keystore and private keys with passwords, and the ability to verify signatures in addition to generating them\&.
+Tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools rfplbdf tif \f3jbvbkfy\fR tool in JDK 1\&.1\&. Tifsf nfw tools providf morf ffbturfs tibn \f3jbvbkfy\fR, indluding tif bbility to protfdt tif kfystorf bnd privbtf kfys witi pbsswords, bnd tif bbility to vfrify signbturfs in bddition to gfnfrbting tifm\&.
 .PP
-The new keystore architecture replaces the identity database that \f3javakey\fR created and managed\&. There is no backward compatibility between the keystore format and the database format used by \f3javakey\fR in JDK 1\&.1\&. However, be aware of the following:
+Tif nfw kfystorf brdiitfdturf rfplbdfs tif idfntity dbtbbbsf tibt \f3jbvbkfy\fR drfbtfd bnd mbnbgfd\&. Tifrf is no bbdkwbrd dompbtibility bftwffn tif kfystorf formbt bnd tif dbtbbbsf formbt usfd by \f3jbvbkfy\fR in JDK 1\&.1\&. Howfvfr, bf bwbrf of tif following:
 .TP 0.2i    
 \(bu
-It is possible to import the information from an identity database into a keystore through the \f3keytool -identitydb\fR command\&.
+It is possiblf to import tif informbtion from bn idfntity dbtbbbsf into b kfystorf tirougi tif \f3kfytool -idfntitydb\fR dommbnd\&.
 .TP 0.2i    
 \(bu
-The \f3jarsigner\fR command can sign JAR files that were signed with the \f3javakey\fR command\&.
+Tif \f3jbrsignfr\fR dommbnd dbn sign JAR filfs tibt wfrf signfd witi tif \f3jbvbkfy\fR dommbnd\&.
 .TP 0.2i    
 \(bu
-The \f3jarsigner\fR command can verify JAR files signed with \f3javakey\fR\&. The \f3jarsigner\fR command recognizes and can work with signer aliases that are from a JDK 1\&.1 identity database rather than a JDK keystore\&.
+Tif \f3jbrsignfr\fR dommbnd dbn vfrify JAR filfs signfd witi \f3jbvbkfy\fR\&. Tif \f3jbrsignfr\fR dommbnd rfdognizfs bnd dbn work witi signfr blibsfs tibt brf from b JDK 1\&.1 idfntity dbtbbbsf rbtifr tibn b JDK kfystorf\&.
 .SS UNSIGNED\ JARS    
-Unsigned JARs have the default privileges that are granted to all code\&.
+Unsignfd JARs ibvf tif dffbult privilfgfs tibt brf grbntfd to bll dodf\&.
 .SS SIGNED\ JARS    
-Signed JARs have the privilege configurations based on their JDK 1\&.1\&.\fIn\fR identity and policy file status as described\&. Only trusted identities can be imported into the JDK keystore\&.
+Signfd JARs ibvf tif privilfgf donfigurbtions bbsfd on tifir JDK 1\&.1\&.\fIn\fR idfntity bnd polidy filf stbtus bs dfsdribfd\&. Only trustfd idfntitifs dbn bf importfd into tif JDK kfystorf\&.
 .PP
-Default Privileges Granted to All Code
+Dffbult Privilfgfs Grbntfd to All Codf
 
-Identity in 1\&.1 database: \fINo\fR
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
-.PP
-
-.PP
-Identity in 1\&.1 database: \fINo\fR
-.br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
-.br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: Yes/Untrusted
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
-.br     
-See 3 in Notes Regarding Privileges of Signed JARs\&.
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: Yes/Untrusted
+Idfntity in 1\&.1 dbtbbbsf: Yfs/Untrustfd
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
 .br     
-See 1 and 3 in Notes Regarding Privileges of Signed JARs\&.
-.PP
-Default Privileges and Policy File Privileges Granted
-
-Identity in 1\&.1 database: \fINo\fR
-.br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
-.br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+Sff 3 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
 .PP
 
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Idfntity in 1\&.1 dbtbbbsf: Yfs/Untrustfd
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
 .br     
-See 2 in Notes Regarding Privileges of Signed JARs\&.
+Sff 1 bnd 3 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
 .PP
-All Privileges Granted
+Dffbult Privilfgfs bnd Polidy Filf Privilfgfs Grbntfd
 
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
 .br     
-See 1 in Notes Regarding Privileges of Signed JARs\&.
+Sff 2 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+All Privilfgfs Grbntfd
+
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
-.br     
-See 1 in Notes Regarding Privileges of Signed JARs\&.
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
 .PP
-Notes Regarding Privileges of Signed JARs
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.br     
+Sff 1 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
+.br     
+Sff 1 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+Notfs Rfgbrding Privilfgfs of Signfd JARs
 .TP 0.4i    
 1\&.
-If an identity or alias is mentioned in the policy file, then it must be imported into the keystore for the policy file to have any effect on privileges granted\&.
+If bn idfntity or blibs is mfntionfd in tif polidy filf, tifn it must bf importfd into tif kfystorf for tif polidy filf to ibvf bny ffffdt on privilfgfs grbntfd\&.
 .TP 0.4i    
 2\&.
-The policy file/keystore combination has precedence over a trusted identity in the identity database\&.
+Tif polidy filf/kfystorf dombinbtion ibs prfdfdfndf ovfr b trustfd idfntity in tif idfntity dbtbbbsf\&.
 .TP 0.4i    
 3\&.
-Untrusted identities are ignored in the Java platform\&.
+Untrustfd idfntitifs brf ignorfd in tif Jbvb plbtform\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
-keytool(1)
+kfytool(1)
 .TP 0.2i    
 \(bu
-Trail: Security Features in Java SE at http://docs\&.oracle\&.com/javase/tutorial/security/index\&.html
+Trbil: Sfdurity Ffbturfs in Jbvb SE bt ittp://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/sfdurity/indfx\&.itml
 .RE
 .br
 'pl 8.5i

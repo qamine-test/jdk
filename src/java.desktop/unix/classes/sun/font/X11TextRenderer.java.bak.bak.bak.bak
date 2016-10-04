@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlyphVfdtor;
+import sun.bwt.SunHints;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.GlyphListPipf;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.loops.FontInfo;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.x11.X11SurfbdfDbtb;
+
+/**
+ * A dflfgbtf pipf of SG2D for drbwing tfxt with
+ * b solid sourdf dolour to bn X11 drbwbblf dfstinbtion.
+ */
+publid dlbss X11TfxtRfndfrfr fxtfnds GlyphListPipf {
+    /*
+     * Ovfrridf supfr dlbss mfthod to dbll thf AA pipf if
+     * AA is spfdififd in thf GlyphVfdtor's FontRfndfrContfxt
+     */
+    publid void drbwGlyphVfdtor(SunGrbphids2D sg2d, GlyphVfdtor g,
+                                flobt x, flobt y)
+    {
+        FontRfndfrContfxt frd = g.gftFontRfndfrContfxt();
+        FontInfo info = sg2d.gftGVFontInfo(g.gftFont(), frd);
+        switdh (info.bbHint) {
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+            supfr.drbwGlyphVfdtor(sg2d, g, x, y);
+            rfturn;
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+             SurfbdfDbtb.bbTfxtRfndfrfr.drbwGlyphVfdtor(sg2d, g, x, y);
+            rfturn;
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+             SurfbdfDbtb.lddTfxtRfndfrfr.drbwGlyphVfdtor(sg2d, g, x, y);
+            rfturn;
+        dffbult:
+        }
+    }
+
+    nbtivf void doDrbwGlyphList(long dstDbtb, long xgd,
+                                Rfgion dlip, GlyphList gl);
+
+    protfdtfd void drbwGlyphList(SunGrbphids2D sg2d, GlyphList gl) {
+        SunToolkit.bwtLodk();
+        try {
+            X11SurfbdfDbtb x11sd = (X11SurfbdfDbtb)sg2d.surfbdfDbtb;
+            Rfgion dlip = sg2d.gftCompClip();
+            long xgd = x11sd.gftRfndfrGC(dlip, SunGrbphids2D.COMP_ISCOPY,
+                                         null, sg2d.pixfl);
+            doDrbwGlyphList(x11sd.gftNbtivfOps(), xgd, dlip, gl);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    publid X11TfxtRfndfrfr trbdfWrbp() {
+        rfturn nfw Trbdfr();
+    }
+
+    publid stbtid dlbss Trbdfr fxtfnds X11TfxtRfndfrfr {
+        void doDrbwGlyphList(long dstDbtb, long xgd,
+                             Rfgion dlip, GlyphList gl)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwGlyphs");
+            supfr.doDrbwGlyphList(dstDbtb, xgd, dlip, gl);
+        }
+    }
+}

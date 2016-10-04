@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.annotation;
+pbdkbgf jbvb.lbng.bnnotbtion;
 
 /**
- * Thrown to indicate that a program has attempted to access an element of
- * an annotation type that was added to the annotation type definition after
- * the annotation was compiled (or serialized).  This exception will not be
- * thrown if the new element has a default value.
- * This exception can be thrown by the {@linkplain
- * java.lang.reflect.AnnotatedElement API used to read annotations
- * reflectively}.
+ * Tirown to indidbtf tibt b progrbm ibs bttfmptfd to bddfss bn flfmfnt of
+ * bn bnnotbtion typf tibt wbs bddfd to tif bnnotbtion typf dffinition bftfr
+ * tif bnnotbtion wbs dompilfd (or sfriblizfd).  Tiis fxdfption will not bf
+ * tirown if tif nfw flfmfnt ibs b dffbult vbluf.
+ * Tiis fxdfption dbn bf tirown by tif {@linkplbin
+ * jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt API usfd to rfbd bnnotbtions
+ * rfflfdtivfly}.
  *
- * @author  Josh Bloch
- * @see     java.lang.reflect.AnnotatedElement
- * @since 1.5
+ * @butior  Josi Blodi
+ * @sff     jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt
+ * @sindf 1.5
  */
-public class IncompleteAnnotationException extends RuntimeException {
-    private static final long serialVersionUID = 8445097402741811912L;
+publid dlbss IndomplftfAnnotbtionExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8445097402741811912L;
 
-    private Class<? extends Annotation> annotationType;
-    private String elementName;
+    privbtf Clbss<? fxtfnds Annotbtion> bnnotbtionTypf;
+    privbtf String flfmfntNbmf;
 
     /**
-     * Constructs an IncompleteAnnotationException to indicate that
-     * the named element was missing from the specified annotation type.
+     * Construdts bn IndomplftfAnnotbtionExdfption to indidbtf tibt
+     * tif nbmfd flfmfnt wbs missing from tif spfdififd bnnotbtion typf.
      *
-     * @param annotationType the Class object for the annotation type
-     * @param elementName the name of the missing element
-     * @throws NullPointerException if either parameter is {@code null}
+     * @pbrbm bnnotbtionTypf tif Clbss objfdt for tif bnnotbtion typf
+     * @pbrbm flfmfntNbmf tif nbmf of tif missing flfmfnt
+     * @tirows NullPointfrExdfption if fitifr pbrbmftfr is {@dodf null}
      */
-    public IncompleteAnnotationException(
-            Class<? extends Annotation> annotationType,
-            String elementName) {
-        super(annotationType.getName() + " missing element " +
-              elementName.toString());
+    publid IndomplftfAnnotbtionExdfption(
+            Clbss<? fxtfnds Annotbtion> bnnotbtionTypf,
+            String flfmfntNbmf) {
+        supfr(bnnotbtionTypf.gftNbmf() + " missing flfmfnt " +
+              flfmfntNbmf.toString());
 
-        this.annotationType = annotationType;
-        this.elementName = elementName;
+        tiis.bnnotbtionTypf = bnnotbtionTypf;
+        tiis.flfmfntNbmf = flfmfntNbmf;
     }
 
     /**
-     * Returns the Class object for the annotation type with the
-     * missing element.
+     * Rfturns tif Clbss objfdt for tif bnnotbtion typf witi tif
+     * missing flfmfnt.
      *
-     * @return the Class object for the annotation type with the
-     *     missing element
+     * @rfturn tif Clbss objfdt for tif bnnotbtion typf witi tif
+     *     missing flfmfnt
      */
-    public Class<? extends Annotation> annotationType() {
-        return annotationType;
+    publid Clbss<? fxtfnds Annotbtion> bnnotbtionTypf() {
+        rfturn bnnotbtionTypf;
     }
 
     /**
-     * Returns the name of the missing element.
+     * Rfturns tif nbmf of tif missing flfmfnt.
      *
-     * @return the name of the missing element
+     * @rfturn tif nbmf of tif missing flfmfnt
      */
-    public String elementName() {
-        return elementName;
+    publid String flfmfntNbmf() {
+        rfturn flfmfntNbmf;
     }
 }

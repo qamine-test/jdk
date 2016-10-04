@@ -1,49 +1,49 @@
 '\" t
-.\" Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: rmid
-.\" Lbngubge: English
-.\" Dbte: 2013Ç¯11·î21Æü
-.\" SectDesc: Remote Method Invocbtion (RMI)¥Ä¡¼¥ë
-.\" Softwbre: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: rmid
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "rmid" "1" "2013Ç¯11·î21Æü" "JDK 8" "Remote Method Invocbtion (RMI)"
+.TH "rmid" "1" "2013Ç¯11·î21Æü" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
@@ -68,7 +68,7 @@ rmid \- µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤¹¤ë¤È¡¢¥ª¥Ö¥¸¥§¥¯¥È¤òJbvb²¾ÁÛ¥Þ¥·¥ó(VM)¤ËÅÐ
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤·¤Þ¤¹¡£µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤·¤Æ¤«¤é¤Ç¤Ê¤¤¤È¡¢¥¢¥¯¥Æ¥£¥Ö²½²ÄÇ½¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¢¥¯¥Æ¥£¥Ö²½¥·¥¹¥Æ¥à¤ËÅÐÏ¿¤·¤¿¤ê¡¢JVMÆâ¤Ç¥¢¥¯¥Æ¥£¥Ö²½¤·¤¿¤ê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£¥¢¥¯¥Æ¥£¥Ö²½²ÄÇ½¤Ê¥ª¥Ö¥¸¥§¥¯¥È¤ò»ÈÍÑ¤¹¤ë¥×¥í¥°¥é¥à¤ÎºîÀ®ÊýË¡¤Î¾ÜºÙ¤Ï¡¢\fI¥¢¥¯¥Æ¥£¥Ö²½¤Î»ÈÍÑ\fR¤Ë´Ø¤¹¤ë¥Á¥å¡¼¥È¥ê¥¢¥ë(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/rmi/bctivbtion/overview\&.html)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
+\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤·¤Þ¤¹¡£µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤·¤Æ¤«¤é¤Ç¤Ê¤¤¤È¡¢¥¢¥¯¥Æ¥£¥Ö²½²ÄÇ½¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¢¥¯¥Æ¥£¥Ö²½¥·¥¹¥Æ¥à¤ËÅÐÏ¿¤·¤¿¤ê¡¢JVMÆâ¤Ç¥¢¥¯¥Æ¥£¥Ö²½¤·¤¿¤ê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£¥¢¥¯¥Æ¥£¥Ö²½²ÄÇ½¤Ê¥ª¥Ö¥¸¥§¥¯¥È¤ò»ÈÍÑ¤¹¤ë¥×¥í¥°¥é¥à¤ÎºîÀ®ÊýË¡¤Î¾ÜºÙ¤Ï¡¢\fI¥¢¥¯¥Æ¥£¥Ö²½¤Î»ÈÍÑ\fR¤Ë´Ø¤¹¤ë¥Á¥å¡¼¥È¥ê¥¢¥ë(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi/bdtivbtion/ovfrvifw\&.itml)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
 .PP
 \fIrmid\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¡¢¼¡¤Î¤è¤¦¤Ë¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Æ¡¢¥Ç¡¼¥â¥ó¤òµ¯Æ°¤·¤Þ¤¹¡£
 .sp
@@ -76,15 +76,15 @@ rmid \- µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤ò³«»Ï¤¹¤ë¤È¡¢¥ª¥Ö¥¸¥§¥¯¥È¤òJbvb²¾ÁÛ¥Þ¥·¥ó(VM)¤ËÅÐ
 .RS 4
 .\}
 .nf
-rmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy
+rmid \-J\-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIrmid\fR¥³¥Þ¥ó¥É¤ÎOrbcle¤Î¼ÂÁõ¤ò¼Â¹Ô¤¹¤ë¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤ì¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ËJVM¤òµ¯Æ°¤¹¤ë¤¿¤á¤Ë³Æ\fIActivbtionGroupDesc\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤Ç¤­¤ë¤«¤É¤¦¤«¤ò¸¡¾Ú¤Ç¤­¤ë¤è¤¦¤Ë¤¹¤ë¤¿¤á¤Ç¤¹ÆÃ¤Ë¡¢\fIActivbtionGroupDesc\fR¥³¥ó¥¹¥È¥é¥¯¥¿¤ËÅÏ¤µ¤ì¤ë\fICommbndEnvironment\fR¤äÇ¤°Õ¤Î¥×¥í¥Ñ¥Æ¥£¤Ë¤è¤Ã¤Æ»ØÄê¤µ¤ì¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Î¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÃæ¤ÇÌÀ¼¨Åª¤Ëµö²Ä¤¹¤ë¤³¤È¤¬É¬Í×¤Ë¤Ê¤ê¤Þ¤·¤¿¡£\fIsun\&.rmi\&.bctivbtion\&.execPolicy\fR¥×¥í¥Ñ¥Æ¥£¤ÎÃÍ¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ËJVM¤òµ¯Æ°¤¹¤ë¤¿¤á¤Ë\fIActivbtionGroupDesc\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤Ç¤­¤ë¤«¤É¤¦¤«¤òÈ½ÃÇ¤¹¤ë¤È¤­¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥Ý¥ê¥·¡¼¤ò·èÄê¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢\-J\-Dsun\&.rmi\&.bctivbtion\&.execPolicy=policy¥ª¥×¥·¥ç¥ó¤ÎÀâÌÀ¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+\fIrmid\fR¥³¥Þ¥ó¥É¤ÎOrbdlf¤Î¼ÂÁõ¤ò¼Â¹Ô¤¹¤ë¾ì¹ç¡¢¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤ì¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ËJVM¤òµ¯Æ°¤¹¤ë¤¿¤á¤Ë³Æ\fIAdtivbtionGroupDfsd\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤Ç¤­¤ë¤«¤É¤¦¤«¤ò¸¡¾Ú¤Ç¤­¤ë¤è¤¦¤Ë¤¹¤ë¤¿¤á¤Ç¤¹ÆÃ¤Ë¡¢\fIAdtivbtionGroupDfsd\fR¥³¥ó¥¹¥È¥é¥¯¥¿¤ËÅÏ¤µ¤ì¤ë\fICommbndEnvironmfnt\fR¤äÇ¤°Õ¤Î¥×¥í¥Ñ¥Æ¥£¤Ë¤è¤Ã¤Æ»ØÄê¤µ¤ì¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Î¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÃæ¤ÇÌÀ¼¨Åª¤Ëµö²Ä¤¹¤ë¤³¤È¤¬É¬Í×¤Ë¤Ê¤ê¤Þ¤·¤¿¡£\fIsun\&.rmi\&.bdtivbtion\&.fxfdPolidy\fR¥×¥í¥Ñ¥Æ¥£¤ÎÃÍ¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ËJVM¤òµ¯Æ°¤¹¤ë¤¿¤á¤Ë\fIAdtivbtionGroupDfsd\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤Ç¤­¤ë¤«¤É¤¦¤«¤òÈ½ÃÇ¤¹¤ë¤È¤­¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥Ý¥ê¥·¡¼¤ò·èÄê¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢\-J\-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=polidy¥ª¥×¥·¥ç¥ó¤ÎÀâÌÀ¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .PP
-\fIrmid\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¤È¡¢¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È1098¤Ç¥¢¥¯¥Æ¥£¥Ù¡¼¥¿¤ÈÆâÉô¥ì¥¸¥¹¥È¥ê¤¬µ¯Æ°¤µ¤ì¡¢\fIActivbtionSystem\fR¤¬¤³¤ÎÆâÉô¥ì¥¸¥¹¥È¥êÆâ¤ÎÌ¾Á°\fIjbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Þ¤¹¡£
+\fIrmid\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¤È¡¢¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È1098¤Ç¥¢¥¯¥Æ¥£¥Ù¡¼¥¿¤ÈÆâÉô¥ì¥¸¥¹¥È¥ê¤¬µ¯Æ°¤µ¤ì¡¢\fIAdtivbtionSystfm\fR¤¬¤³¤ÎÆâÉô¥ì¥¸¥¹¥È¥êÆâ¤ÎÌ¾Á°\fIjbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Þ¤¹¡£
 .PP
 ¥ì¥¸¥¹¥È¥ê¤ËÂ¾¤Î¥Ý¡¼¥È¤ò»ØÄê¤¹¤ë¤Ë¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Î¼Â¹Ô»þ¤Ë\fI\-port\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢¼¡¤Î¥³¥Þ¥ó¥É¤Ï¡¢¥ì¥¸¥¹¥È¥ê¤Î¥Ç¥Õ¥©¥ë¥È¡¦¥Ý¡¼¥È1099¤Ç¡¢µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤È¥ì¥¸¥¹¥È¥ê¤òµ¯Æ°¤·¤Þ¤¹¡£
 .sp
@@ -92,37 +92,37 @@ rmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy
 .RS 4
 .\}
 .nf
-rmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy \-port 1099
+rmid \-J\-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy \-port 1099
 .fi
 .if n \{\
 .RE
 .\}
 .SH "É¬Í×¤Ë±þ¤¸¤ÆRMID¤ò³«»Ï"
 .PP
-\fIrmid\fR¤ò¥³¥Þ¥ó¥É¥é¥¤¥ó¤«¤é³«»Ï¤¹¤ë¤Ë¤Ï¡¢\fIinetd\fR
-(Orbcle Solbris¤Î¾ì¹ç)¡¢¤Þ¤¿¤Ï\fIxinetd\fR
+\fIrmid\fR¤ò¥³¥Þ¥ó¥É¥é¥¤¥ó¤«¤é³«»Ï¤¹¤ë¤Ë¤Ï¡¢\fIinftd\fR
+(Orbdlf Solbris¤Î¾ì¹ç)¡¢¤Þ¤¿¤Ï\fIxinftd\fR
 (Linux¤Î¾ì¹ç)¤ò¹½À®¤·¤Æ\fIrmid\fR¤òÉ¬Í×¤Ë±þ¤¸¤Æ³«»Ï¤¹¤ëÊýË¡¤â¤¢¤ê¤Þ¤¹¡£
 .PP
-RMID¤ò³«»Ï¤¹¤ë¤È¡¢\fISystem\&.inheritedChbnnel\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Æ¡¢·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë(\fIinetd\fR/\fIxinetd\fR¤«¤é·Ñ¾µ)¤ò¼èÆÀ¤·¤è¤¦¤È¤·¤Þ¤¹¡£·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë¤¬null¤Ç¤¢¤ë¤«¡¢\fIjbvb\&.nio\&.chbnnels\&.ServerSocketChbnnel\fR¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤Ê¤«¤Ã¤¿¾ì¹ç¡¢RMID¤Ï¤½¤Î¥Á¥ã¥ó¥Í¥ë¤Ï\fIinetd\fR/\fIxinetd\fR¤Ë¤è¤Ã¤Æµ¯Æ°¤µ¤ì¤¿¤â¤Î¤Ç¤Ï¤Ê¤¤¤ÈÈ½ÃÇ¤·¡¢Á°½Ò¤Î¤è¤¦¤Ëµ¯Æ°¤·¤Þ¤¹¡£
+RMID¤ò³«»Ï¤¹¤ë¤È¡¢\fISystfm\&.inifritfdCibnnfl\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Æ¡¢·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë(\fIinftd\fR/\fIxinftd\fR¤«¤é·Ñ¾µ)¤ò¼èÆÀ¤·¤è¤¦¤È¤·¤Þ¤¹¡£·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë¤¬null¤Ç¤¢¤ë¤«¡¢\fIjbvb\&.nio\&.dibnnfls\&.SfrvfrSodkftCibnnfl\fR¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤Ê¤«¤Ã¤¿¾ì¹ç¡¢RMID¤Ï¤½¤Î¥Á¥ã¥ó¥Í¥ë¤Ï\fIinftd\fR/\fIxinftd\fR¤Ë¤è¤Ã¤Æµ¯Æ°¤µ¤ì¤¿¤â¤Î¤Ç¤Ï¤Ê¤¤¤ÈÈ½ÃÇ¤·¡¢Á°½Ò¤Î¤è¤¦¤Ëµ¯Æ°¤·¤Þ¤¹¡£
 .PP
-·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë¤¬\fIServerSocketChbnnel\fR¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¾ì¹ç¤Ï¡¢RMID¤Ï¥¨¥¯¥¹¥Ý¡¼¥È¤¹¤ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¢¤Ä¤Þ¤ê\fIjbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR¤¬¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤ë¥ì¥¸¥¹¥È¥ê¤È\fIjbvb\&.rmi\&.bctivbtion\&.Activbtor\fR¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ËÂÐ¤¹¤ë¥ê¥¯¥¨¥¹¥È¤ò¼õ¿®¤¹¤ë¥µ¡¼¥Ð¡¼¡¦¥½¥±¥Ã¥È¤È¤·¤Æ¡¢\fIServerSocketChbnnel\fR¤«¤é¼èÆÀ¤·¤¿\fIjbvb\&.net\&.ServerSocket\fR¤ò»ÈÍÑ¤·¤Þ¤¹¡£¤³¤Î¥â¡¼¥É¤Ç¤Ï¡¢RMID¤ÎÆ°ºî¤Ï¡¢¼¡¤Î¤³¤È¤ò½ü¤¤¤Æ¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤«¤éµ¯Æ°¤·¤¿¾ì¹ç¤ÈÆ±¤¸¤Ç¤¹¡£
+·Ñ¾µ¤µ¤ì¤¿¥Á¥ã¥ó¥Í¥ë¤¬\fISfrvfrSodkftCibnnfl\fR¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¾ì¹ç¤Ï¡¢RMID¤Ï¥¨¥¯¥¹¥Ý¡¼¥È¤¹¤ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¢¤Ä¤Þ¤ê\fIjbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR¤¬¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤ë¥ì¥¸¥¹¥È¥ê¤È\fIjbvb\&.rmi\&.bdtivbtion\&.Adtivbtor\fR¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ËÂÐ¤¹¤ë¥ê¥¯¥¨¥¹¥È¤ò¼õ¿®¤¹¤ë¥µ¡¼¥Ð¡¼¡¦¥½¥±¥Ã¥È¤È¤·¤Æ¡¢\fISfrvfrSodkftCibnnfl\fR¤«¤é¼èÆÀ¤·¤¿\fIjbvb\&.nft\&.SfrvfrSodkft\fR¤ò»ÈÍÑ¤·¤Þ¤¹¡£¤³¤Î¥â¡¼¥É¤Ç¤Ï¡¢RMID¤ÎÆ°ºî¤Ï¡¢¼¡¤Î¤³¤È¤ò½ü¤¤¤Æ¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤«¤éµ¯Æ°¤·¤¿¾ì¹ç¤ÈÆ±¤¸¤Ç¤¹¡£
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fISystem\&.err\fR¤ËÂÐ¤¹¤ë½ÐÎÏ¤Ï¡¢¥Õ¥¡¥¤¥ë¤Ë¥ê¥À¥¤¥ì¥¯¥È¤µ¤ì¤ë¡£¤³¤Î¥Õ¥¡¥¤¥ë¤Ï\fIjbvb\&.io\&.tmpdir\fR¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤Ç»ØÄê¤µ¤ì¤ë¥Ç¥£¥ì¥¯¥È¥ê(ÄÌ¾ï¤Ï\fI/vbr/tmp\fR¤Þ¤¿¤Ï\fI/tmp\fR)¤Ë¤¢¤ë¡£¥Õ¥¡¥¤¥ëÌ¾¤ÎÀÜÆ¬¼­¤Ï\fIrmid\-err\fR¤Ç¡¢ÀÜÈø¼­¤Ï\fItmp\fR¤Ç¤¢¤ë¡£
+\fISystfm\&.frr\fR¤ËÂÐ¤¹¤ë½ÐÎÏ¤Ï¡¢¥Õ¥¡¥¤¥ë¤Ë¥ê¥À¥¤¥ì¥¯¥È¤µ¤ì¤ë¡£¤³¤Î¥Õ¥¡¥¤¥ë¤Ï\fIjbvb\&.io\&.tmpdir\fR¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤Ç»ØÄê¤µ¤ì¤ë¥Ç¥£¥ì¥¯¥È¥ê(ÄÌ¾ï¤Ï\fI/vbr/tmp\fR¤Þ¤¿¤Ï\fI/tmp\fR)¤Ë¤¢¤ë¡£¥Õ¥¡¥¤¥ëÌ¾¤ÎÀÜÆ¬¼­¤Ï\fIrmid\-frr\fR¤Ç¡¢ÀÜÈø¼­¤Ï\fItmp\fR¤Ç¤¢¤ë¡£
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -130,18 +130,18 @@ RMID¤ò³«»Ï¤¹¤ë¤È¡¢\fISystem\&.inheritedChbnnel\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Æ¡¢·Ñ¾µ¤µ¤ì¤
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
 \fI\-log\fR¥ª¥×¥·¥ç¥ó¤ÏÉ¬¿Ü¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢RMID¤Ï¥¨¥é¡¼¡¦¥á¥Ã¥»¡¼¥¸¤¬É½¼¨¤µ¤ì¤Æ½ªÎ»¤·¤Þ¤¹¡£
 .RE
 .PP
-É¬Í×¤Ë±þ¤¸¤Æ¥µ¡¼¥Ó¥¹¤ò³«»Ï¤¹¤ë¤è¤¦¤Ë¹½À®¤¹¤ëÊýË¡¤Î¾ÜºÙ¤Ï¡¢\fIinetd\fR
-(Orbcle Solbris¤Î¾ì¹ç)¡¢¤Þ¤¿¤Ï\fIxinetd\fR
+É¬Í×¤Ë±þ¤¸¤Æ¥µ¡¼¥Ó¥¹¤ò³«»Ï¤¹¤ë¤è¤¦¤Ë¹½À®¤¹¤ëÊýË¡¤Î¾ÜºÙ¤Ï¡¢\fIinftd\fR
+(Orbdlf Solbris¤Î¾ì¹ç)¡¢¤Þ¤¿¤Ï\fIxinftd\fR
 (Linux)¤Î¥Þ¥Ë¥å¥¢¥ë¡¦¥Ú¡¼¥¸¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
@@ -153,18 +153,18 @@ RMID¤ò³«»Ï¤¹¤ë¤È¡¢\fISystem\&.inheritedChbnnel\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Æ¡¢·Ñ¾µ¤µ¤ì¤
 .RS 4
 .\}
 .nf
-rmid \-C\-Dsome\&.property=vblue
+rmid \-C\-Dsomf\&.propfrty=vbluf
 .fi
 .if n \{\
 .RE
 .\}
-¥³¥Þ¥ó¥É¥é¥¤¥ó°ú¿ô¤ò»Ò¥×¥í¥»¥¹¤ËÅÏ¤¹µ¡Ç½¤Ï¡¢¥Ç¥Ð¥Ã¥°¤ò¹Ô¤¦¾ì¹ç¤ËÊØÍø¤Ç¤¹¡£¤¿¤È¤¨¤Ð¡¢¼¡¤Î¥³¥Þ¥ó¥É¤Ç¤Ï¡¢¤¹¤Ù¤Æ¤Î»ÒJVM¤Çserver\-cbll¥í¥®¥ó¥°¤¬²ÄÇ½¤Ç¤¹¡£
+¥³¥Þ¥ó¥É¥é¥¤¥ó°ú¿ô¤ò»Ò¥×¥í¥»¥¹¤ËÅÏ¤¹µ¡Ç½¤Ï¡¢¥Ç¥Ð¥Ã¥°¤ò¹Ô¤¦¾ì¹ç¤ËÊØÍø¤Ç¤¹¡£¤¿¤È¤¨¤Ð¡¢¼¡¤Î¥³¥Þ¥ó¥É¤Ç¤Ï¡¢¤¹¤Ù¤Æ¤Î»ÒJVM¤Çsfrvfr\-dbll¥í¥®¥ó¥°¤¬²ÄÇ½¤Ç¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmid \-C\-Djbvb\&.rmi\&.server\&.logCblls=true
+rmid \-C\-Djbvb\&.rmi\&.sfrvfr\&.logCblls=truf
 .fi
 .if n \{\
 .RE
@@ -173,58 +173,58 @@ rmid \-C\-Djbvb\&.rmi\&.server\&.logCblls=true
 .PP
 \-J\fIoption\fR
 .RS 4
-RMID¤ò¼Â¹Ô¤·¤Æ¤¤¤ëJbvb¥¤¥ó¥¿¥×¥ê¥¿¤ËÅÏ¤¹¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬\fIrmid\&.policy\fR¤È¤¤¤¦Ì¾Á°¤Î¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤¹¤ë¤è¤¦¤Ë»ØÄê¤¹¤ë¤Ë¤Ï¡¢\fIrmid\fR¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ç\fI\-J\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢\fIjbvb\&.security\&.policy\fR¥×¥í¥Ñ¥Æ¥£¤òÄêµÁ¤·¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
+RMID¤ò¼Â¹Ô¤·¤Æ¤¤¤ëJbvb¥¤¥ó¥¿¥×¥ê¥¿¤ËÅÏ¤¹¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬\fIrmid\&.polidy\fR¤È¤¤¤¦Ì¾Á°¤Î¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤¹¤ë¤è¤¦¤Ë»ØÄê¤¹¤ë¤Ë¤Ï¡¢\fIrmid\fR¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ç\fI\-J\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢\fIjbvb\&.sfdurity\&.polidy\fR¥×¥í¥Ñ¥Æ¥£¤òÄêµÁ¤·¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmid \-J\-Djbvb\&.security\&.policy\-rmid\&.policy
+rmid \-J\-Djbvb\&.sfdurity\&.polidy\-rmid\&.polidy
 .fi
 .if n \{\
 .RE
 .\}
 .RE
 .PP
-\-J\-Dsun\&.rmi\&.bctivbtion\&.execPolicy=\fIpolicy\fR
+\-J\-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=\fIpolidy\fR
 .RS 4
-µ¯Æ°¥°¥ë¡¼¥×¤¬¼Â¹Ô¤µ¤ì¤ë¤³¤È¤Ë¤Ê¤ëJVM¤Îµ¯Æ°¤Ë»ÈÍÑ¤¹¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤¿¤á¤Ë¡¢RMID¤¬ºÎÍÑ¤¹¤ë¥Ý¥ê¥·¡¼¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢Jbvb RMIµ¯Æ°¥Ç¡¼¥â¥ó¤ÎOrbcle¤Î¼ÂÁõ¤Î¤ß¤ËÂ¸ºß¤¹¤ë¤³¤È¤ËÃí°Õ¤·¤Æ¤¯¤À¤µ¤¤¡£¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¤³¤Î¥×¥í¥Ñ¥Æ¥£¤ò»ØÄê¤·¤Ê¤¤¾ì¹ç¡¢·ë²Ì¤Ï\fI\-J\-Dsun\&.rmi\&.bctivbtion\&.execPolicy=defbult\fR¤ò»ØÄê¤·¤¿¾ì¹ç¤ÈÆ±¤¸¤Ë¤Ê¤ê¤Þ¤¹¡£\fIpolicy\fR¤Ë»ØÄê²ÄÇ½¤ÊÃÍ¤Ï¡¢\fIdefbult\fR¡¢\fIpolicyClbssNbme\fR¤Þ¤¿¤Ï\fInone\fR¤Ç¤¹¡£
+µ¯Æ°¥°¥ë¡¼¥×¤¬¼Â¹Ô¤µ¤ì¤ë¤³¤È¤Ë¤Ê¤ëJVM¤Îµ¯Æ°¤Ë»ÈÍÑ¤¹¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤¿¤á¤Ë¡¢RMID¤¬ºÎÍÑ¤¹¤ë¥Ý¥ê¥·¡¼¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢Jbvb RMIµ¯Æ°¥Ç¡¼¥â¥ó¤ÎOrbdlf¤Î¼ÂÁõ¤Î¤ß¤ËÂ¸ºß¤¹¤ë¤³¤È¤ËÃí°Õ¤·¤Æ¤¯¤À¤µ¤¤¡£¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¤³¤Î¥×¥í¥Ñ¥Æ¥£¤ò»ØÄê¤·¤Ê¤¤¾ì¹ç¡¢·ë²Ì¤Ï\fI\-J\-Dsun\&.rmi\&.bdtivbtion\&.fxfdPolidy=dffbult\fR¤ò»ØÄê¤·¤¿¾ì¹ç¤ÈÆ±¤¸¤Ë¤Ê¤ê¤Þ¤¹¡£\fIpolidy\fR¤Ë»ØÄê²ÄÇ½¤ÊÃÍ¤Ï¡¢\fIdffbult\fR¡¢\fIpolidyClbssNbmf\fR¤Þ¤¿¤Ï\fInonf\fR¤Ç¤¹¡£
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
 ¥Ç¥Õ¥©¥ë¥È
 .sp
-\fIdefbult\fR¤Þ¤¿¤ÏÌ¤»ØÄêÃÍ¤Î\fIexecPolicy\fR¤Î¾ì¹ç¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬¼Â¹Ô¤Ç¤­¤ë¤Î¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÃæ¤Ç¡¢¼Â¹Ô¤¹¤ë¸¢¸Â¤¬\fIrmid\fR¤ËÍ¿¤¨¤é¤ì¤Æ¤¤¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤Î¤ß¤Ç¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Î¼Â¹Ô¥Ý¥ê¥·¡¼¤Ç»ÈÍÑ¤Ç¤­¤ë¤Î¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤Îµ¯Æ°¥°¥ë¡¼¥×¼ÂÁõ¤Î¤ß¤Ç¤¹¡£
+\fIdffbult\fR¤Þ¤¿¤ÏÌ¤»ØÄêÃÍ¤Î\fIfxfdPolidy\fR¤Î¾ì¹ç¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬¼Â¹Ô¤Ç¤­¤ë¤Î¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÃæ¤Ç¡¢¼Â¹Ô¤¹¤ë¸¢¸Â¤¬\fIrmid\fR¤ËÍ¿¤¨¤é¤ì¤Æ¤¤¤ë¥³¥Þ¥ó¥É¤ª¤è¤Ó¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤Î¤ß¤Ç¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Î¼Â¹Ô¥Ý¥ê¥·¡¼¤Ç»ÈÍÑ¤Ç¤­¤ë¤Î¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤Îµ¯Æ°¥°¥ë¡¼¥×¼ÂÁõ¤Î¤ß¤Ç¤¹¡£
 .sp
-\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ÎJVM¤òµ¯Æ°¤¹¤ë¤È¤­¤Ë¡¢¤½¤Î¥°¥ë¡¼¥×¤Ë¤Ä¤¤¤ÆÅÐÏ¿¤µ¤ì¤¿µ¯Æ°¥°¥ë¡¼¥×µ­½Ò»Ò¤Ç¤¢¤ë\fIActivbtionGroupDesc\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤·¤Þ¤¹¡£¥°¥ë¡¼¥×µ­½Ò»Ò¤Ï¡¢\fIActivbtionGroupDesc\&.CommbndEnvironment\fR¤ò»ØÄê¤·¤Þ¤¹(¾ÊÎ¬²ÄÇ½)¡£¤³¤ì¤Ë¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¥³¥Þ¥ó¥É¤È¡¢¤½¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤ËÄÉ²Ã¤Ç¤­¤ë¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤¬´Þ¤Þ¤ì¤Æ¤¤¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï\fIjbvb\&.home\fR¤Ë¤¢¤ë\fIjbvb\fR¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£¥°¥ë¡¼¥×µ­½Ò»Ò¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¥ª¥×¥·¥ç¥ó¤È¤·¤ÆÄÉ²Ã¤µ¤ì¤ë¥×¥í¥Ñ¥Æ¥£¡¦¥ª¡¼¥Ð¡¼¥é¥¤¥É¤â´Þ¤Þ¤ì¤Þ¤¹(\fI\-D<property>=<vblue>\fR¤È¤·¤ÆÄêµÁ¤µ¤ì¤Þ¤¹)¡£\fIcom\&.sun\&.rmi\&.rmid\&.ExecPermission\fR¸¢¸Â¤Ï\fIrmid\fR¥³¥Þ¥ó¥É¤Ë¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Ë¥°¥ë¡¼¥×µ­½Ò»Ò¤Î\fICommbndEnvironment\fR¤Ç»ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉÕÍ¿¤·¤Þ¤¹¡£\fIcom\&.sun\&.rmi\&.rmid\&.ExecOptionPermission\fR¸¢¸Â¤Ïµ¯Æ°¥°¥ë¡¼¥×¤Î³«»Ï»þ¤Ë¡¢¥°¥ë¡¼¥×µ­½Ò»Ò¤Ç¥×¥í¥Ñ¥Æ¥£¡¦¥ª¡¼¥Ð¡¼¥é¥¤¥É¤È¤·¤Æ¡¢¤Þ¤¿¤Ï\fICommbndEnvironment\fR¤Ç¥ª¥×¥·¥ç¥ó¤È¤·¤Æ»ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Þ¤¹¡£\fIrmid\fR¥³¥Þ¥ó¥É¤ËÍÍ¡¹¤Ê¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉÕÍ¿¤¹¤ë¾ì¹ç¡¢¸¢¸Â\fIExecPermission\fR¤ª¤è¤Ó\fIExecOptionPermission\fR¤ò¤¹¤Ù¤Æ¤Î¥³¡¼¥É¡¦¥½¡¼¥¹¤ËÉÕÍ¿¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×ÍÑ¤ÎJVM¤òµ¯Æ°¤¹¤ë¤È¤­¤Ë¡¢¤½¤Î¥°¥ë¡¼¥×¤Ë¤Ä¤¤¤ÆÅÐÏ¿¤µ¤ì¤¿µ¯Æ°¥°¥ë¡¼¥×µ­½Ò»Ò¤Ç¤¢¤ë\fIAdtivbtionGroupDfsd\fRÆâ¤Î¾ðÊó¤ò»ÈÍÑ¤·¤Þ¤¹¡£¥°¥ë¡¼¥×µ­½Ò»Ò¤Ï¡¢\fIAdtivbtionGroupDfsd\&.CommbndEnvironmfnt\fR¤ò»ØÄê¤·¤Þ¤¹(¾ÊÎ¬²ÄÇ½)¡£¤³¤ì¤Ë¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¥³¥Þ¥ó¥É¤È¡¢¤½¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤ËÄÉ²Ã¤Ç¤­¤ë¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤¬´Þ¤Þ¤ì¤Æ¤¤¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï\fIjbvb\&.iomf\fR¤Ë¤¢¤ë\fIjbvb\fR¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£¥°¥ë¡¼¥×µ­½Ò»Ò¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¥ª¥×¥·¥ç¥ó¤È¤·¤ÆÄÉ²Ã¤µ¤ì¤ë¥×¥í¥Ñ¥Æ¥£¡¦¥ª¡¼¥Ð¡¼¥é¥¤¥É¤â´Þ¤Þ¤ì¤Þ¤¹(\fI\-D<propfrty>=<vbluf>\fR¤È¤·¤ÆÄêµÁ¤µ¤ì¤Þ¤¹)¡£\fIdom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission\fR¸¢¸Â¤Ï\fIrmid\fR¥³¥Þ¥ó¥É¤Ë¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Ë¥°¥ë¡¼¥×µ­½Ò»Ò¤Î\fICommbndEnvironmfnt\fR¤Ç»ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉÕÍ¿¤·¤Þ¤¹¡£\fIdom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission\fR¸¢¸Â¤Ïµ¯Æ°¥°¥ë¡¼¥×¤Î³«»Ï»þ¤Ë¡¢¥°¥ë¡¼¥×µ­½Ò»Ò¤Ç¥×¥í¥Ñ¥Æ¥£¡¦¥ª¡¼¥Ð¡¼¥é¥¤¥É¤È¤·¤Æ¡¢¤Þ¤¿¤Ï\fICommbndEnvironmfnt\fR¤Ç¥ª¥×¥·¥ç¥ó¤È¤·¤Æ»ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Þ¤¹¡£\fIrmid\fR¥³¥Þ¥ó¥É¤ËÍÍ¡¹¤Ê¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉÕÍ¿¤¹¤ë¾ì¹ç¡¢¸¢¸Â\fIExfdPfrmission\fR¤ª¤è¤Ó\fIExfdOptionPfrmission\fR¤ò¤¹¤Ù¤Æ¤Î¥³¡¼¥É¡¦¥½¡¼¥¹¤ËÉÕÍ¿¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .sp
-\fBExecPermission\fR
+\fBExfdPfrmission\fR
 .sp
-\fIExecPermission\fR¥¯¥é¥¹¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤¬ÆÃÄê¤Î¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉ½¤·¤Þ¤¹¡£
+\fIExfdPfrmission\fR¥¯¥é¥¹¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤¬ÆÃÄê¤Î¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òÉ½¤·¤Þ¤¹¡£
 .sp
 \fB¹½Ê¸\fR:
-\fIExecPermission\fR¤ÎÌ¾Á°¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ë¼Â¹Ô¤òµö²Ä¤¹¤ë¥³¥Þ¥ó¥É¤Î¥Ñ¥¹Ì¾¤Ç¤¹¡£¥¹¥é¥Ã¥·¥å(/)¤ª¤è¤Ó¥¢¥¹¥¿¥ê¥¹¥¯(*)¤Ç½ª¤ï¤ë¥Ñ¥¹Ì¾¤Ï¡¢¤½¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë´Þ¤Þ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤ò¼¨¤·¤Þ¤¹¡£¥¹¥é¥Ã¥·¥å¤Ï¥Õ¥¡¥¤¥ë¶èÀÚ¤êÊ¸»ú\fIFile\&.sepbrbtorChbr\fR¤Ç¤¹¡£¥¹¥é¥Ã¥·¥å(/)¤ª¤è¤Ó¥Þ¥¤¥Ê¥¹Éä¹æ(\-)¤Ç½ª¤ï¤ë¥Ñ¥¹Ì¾¤Ï¡¢¤½¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë´Þ¤Þ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤È¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê(ºÆµ¢Åª¤Ë)¤ò¼¨¤·¤Þ¤¹¡£¥Ñ¥¹Ì¾¤ËÆÃÊÌ¤Ê¥È¡¼¥¯¥ó\fI<<ALL FILES>>\fR¤ò»ØÄê¤·¤¿¾ì¹ç¤Ï¡¢Ç¤°Õ¤Î¥Õ¥¡¥¤¥ë¤ò¼¨¤·¤Þ¤¹¡£
+\fIExfdPfrmission\fR¤ÎÌ¾Á°¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ë¼Â¹Ô¤òµö²Ä¤¹¤ë¥³¥Þ¥ó¥É¤Î¥Ñ¥¹Ì¾¤Ç¤¹¡£¥¹¥é¥Ã¥·¥å(/)¤ª¤è¤Ó¥¢¥¹¥¿¥ê¥¹¥¯(*)¤Ç½ª¤ï¤ë¥Ñ¥¹Ì¾¤Ï¡¢¤½¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë´Þ¤Þ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤ò¼¨¤·¤Þ¤¹¡£¥¹¥é¥Ã¥·¥å¤Ï¥Õ¥¡¥¤¥ë¶èÀÚ¤êÊ¸»ú\fIFilf\&.sfpbrbtorCibr\fR¤Ç¤¹¡£¥¹¥é¥Ã¥·¥å(/)¤ª¤è¤Ó¥Þ¥¤¥Ê¥¹Éä¹æ(\-)¤Ç½ª¤ï¤ë¥Ñ¥¹Ì¾¤Ï¡¢¤½¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë´Þ¤Þ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤È¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê(ºÆµ¢Åª¤Ë)¤ò¼¨¤·¤Þ¤¹¡£¥Ñ¥¹Ì¾¤ËÆÃÊÌ¤Ê¥È¡¼¥¯¥ó\fI<<ALL FILES>>\fR¤ò»ØÄê¤·¤¿¾ì¹ç¤Ï¡¢Ç¤°Õ¤Î¥Õ¥¡¥¤¥ë¤ò¼¨¤·¤Þ¤¹¡£
 .sp
 ¥Ñ¥¹Ì¾¤Ë¥¢¥¹¥¿¥ê¥¹¥¯(*)¤ò»ØÄê¤·¤¿¾ì¹ç¤Ï¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤ò¼¨¤·¤Þ¤¹¡£¥Ñ¥¹Ì¾¤Ë¥Þ¥¤¥Ê¥¹Éä¹æ(\-)¤ò»ØÄê¤·¤¿¾ì¹ç¤Ï¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤ª¤è¤Ó(ºÆµ¢Åª¤Ë)¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë´Þ¤Þ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤È¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò¼¨¤·¤Þ¤¹¡£
 .sp
-\fBExecOptionPermission\fR
+\fBExfdOptionPfrmission\fR
 .sp
-\fIExecOptionPermission\fR¥¯¥é¥¹¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤È¤­¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤ÇÆÃÄê¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤Ç¤­¤ë¸¢¸Â¤òÉ½¤·¤Þ¤¹¡£\fIExecOptionPermission\fR¤ÎÌ¾Á°¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ÎÃÍ¤Ç¤¹¡£
+\fIExfdOptionPfrmission\fR¥¯¥é¥¹¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤È¤­¤Ë\fIrmid\fR¥³¥Þ¥ó¥É¤ÇÆÃÄê¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤Ç¤­¤ë¸¢¸Â¤òÉ½¤·¤Þ¤¹¡£\fIExfdOptionPfrmission\fR¤ÎÌ¾Á°¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¤ÎÃÍ¤Ç¤¹¡£
 .sp
 \fB¹½Ê¸\fR: ¥ª¥×¥·¥ç¥ó¤Ç¤Ï¡¢¥ï¥¤¥ë¥É¥«¡¼¥É¤¬¸ÂÄêÅª¤Ë¥µ¥Ý¡¼¥È¤µ¤ì¤Þ¤¹¡£¥¢¥¹¥¿¥ê¥¹¥¯¤Ï¡¢¥ï¥¤¥ë¥É¥«¡¼¥É¡¦¥Þ¥Ã¥Á¤òÉ½¤·¤Þ¤¹¡£¥¢¥¹¥¿¥ê¥¹¥¯(*)¤Ï¡¢¥ª¥×¥·¥ç¥óÌ¾¤½¤Î¤â¤Î¤È¤·¤Æ»ÈÍÑ¤Ç¤­¤Þ¤¹¡£¤Ä¤Þ¤ê¡¢Ç¤°Õ¤Î¥ª¥×¥·¥ç¥ó¤òÉ½¤¹¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤Þ¤¿¡¢¥ª¥×¥·¥ç¥óÌ¾¤ÎËöÈø¤Ë»ÈÍÑ¤¹¤ë¤³¤È¤â¤Ç¤­¤Þ¤¹¡£¤¿¤À¤·¡¢¥É¥Ã¥È(\&.)¤«Åù¹æ(=)¤ÎÄ¾¸å¤Ë¥¢¥¹¥¿¥ê¥¹¥¯(*)¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .sp
 Îã:
-\fI*\fR¤ä\fI\-Dmydir\&.*\fR¤ä\fI\-Db\&.b\&.c=*\fR¤ÏÍ­¸ú¤Ç¤¹¤¬¡¢\fI*mydir\fR¤ä\fI\-Db*b\fR¤ä\fIbb*\fR¤ÏÌµ¸ú¤Ç¤¹¡£
+\fI*\fR¤ä\fI\-Dmydir\&.*\fR¤ä\fI\-Db\&.b\&.d=*\fR¤ÏÍ­¸ú¤Ç¤¹¤¬¡¢\fI*mydir\fR¤ä\fI\-Db*b\fR¤ä\fIbb*\fR¤ÏÌµ¸ú¤Ç¤¹¡£
 .sp
 \fBrmid¤Î¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë\fR
 .sp
-\fIrmid\fR¥³¥Þ¥ó¥É¤ËÍÍ¡¹¤Ê¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òµö²Ä¤¹¤ë¾ì¹ç¤Ï¡¢¸¢¸Â\fIExecPermission\fR¤ª¤è¤Ó\fIExecOptionPermission\fR¤ò¤¹¤Ù¤Æ¤Î¥³¡¼¥É¡¦¥½¡¼¥¹¤ËÉÕÍ¿¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹(ÈÆÍÑÅª¤Ë)¡£¤³¤ì¤é¤Î¸¢¸Â¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤Î¤Ï\fIrmid\fR¥³¥Þ¥ó¥É¤Î¤ß¤Ê¤Î¤Ç¡¢¤³¤ì¤é¤Î¸¢¸Â¤òÈÆÍÑÅª¤ËÉÕÍ¿¤·¤Æ¤â°ÂÁ´¤Ç¤¹¡£
+\fIrmid\fR¥³¥Þ¥ó¥É¤ËÍÍ¡¹¤Ê¥³¥Þ¥ó¥É¤ª¤è¤Ó¥ª¥×¥·¥ç¥ó¤ò¼Â¹Ô¤¹¤ë¸¢¸Â¤òµö²Ä¤¹¤ë¾ì¹ç¤Ï¡¢¸¢¸Â\fIExfdPfrmission\fR¤ª¤è¤Ó\fIExfdOptionPfrmission\fR¤ò¤¹¤Ù¤Æ¤Î¥³¡¼¥É¡¦¥½¡¼¥¹¤ËÉÕÍ¿¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹(ÈÆÍÑÅª¤Ë)¡£¤³¤ì¤é¤Î¸¢¸Â¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤Î¤Ï\fIrmid\fR¥³¥Þ¥ó¥É¤Î¤ß¤Ê¤Î¤Ç¡¢¤³¤ì¤é¤Î¸¢¸Â¤òÈÆÍÑÅª¤ËÉÕÍ¿¤·¤Æ¤â°ÂÁ´¤Ç¤¹¡£
 .sp
 \fIrmid\fR¥³¥Þ¥ó¥É¤Ë³Æ¼ï¤Î¼Â¹Ô¸¢¸Â¤òÉÕÍ¿¤¹¤ë¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÎã¤ò¡¢¼¡¤Ë¼¨¤·¤Þ¤¹¡£
 .sp
@@ -233,72 +233,72 @@ rmid \-J\-Djbvb\&.security\&.policy\-rmid\&.policy
 .\}
 .nf
 grbnt {
-    permission com\&.sun\&.rmi\&.rmid\&.ExecPermission
-        "/files/bpps/jbvb/jdk1\&.7\&.0/solbris/bin/jbvb";
+    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission
+        "/filfs/bpps/jbvb/jdk1\&.7\&.0/solbris/bin/jbvb";
  
-    permission com\&.sun\&.rmi\&.rmid\&.ExecPermission
-        "/files/bpps/rmidcmds/*";
+    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdPfrmission
+        "/filfs/bpps/rmiddmds/*";
  
-    permission com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission
-        "\-Djbvb\&.security\&.policy=/files/policies/group\&.policy";
+    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission
+        "\-Djbvb\&.sfdurity\&.polidy=/filfs/polidifs/group\&.polidy";
  
-    permission com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission
-        "\-Djbvb\&.security\&.debug=*";
+    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission
+        "\-Djbvb\&.sfdurity\&.dfbug=*";
  
-    permission com\&.sun\&.rmi\&.rmid\&.ExecOptionPermission
+    pfrmission dom\&.sun\&.rmi\&.rmid\&.ExfdOptionPfrmission
         "\-Dsun\&.rmi\&.*";
 };
 .fi
 .if n \{\
 .RE
 .\}
-ºÇ½é¤ËÉÕÍ¿¤µ¤ì¤Æ¤¤¤ë¸¢¸Â¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¡¢¥Ñ¥¹Ì¾¤Ë¤è¤êÌÀ¼¨Åª¤Ë»ØÄê¤µ¤ì¤ë\fIjbvb\fR¥³¥Þ¥ó¥É¤Î1\&.7\&.0¥ê¥ê¡¼¥¹¤Î¼Â¹Ô¤òµö²Ä¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢\fIjbvb\&.home\fR¤Ë¤¢¤ë¥Ð¡¼¥¸¥ç¥ó¤Î\fIjbvb\fR¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¤Î¤ÈÆ±¤¸¥Ð¡¼¥¸¥ç¥ó¤¬»ÈÍÑ¤µ¤ì¤ë¤¿¤á¡¢¤½¤Î¥³¥Þ¥ó¥É¤Ï¡¢¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ç»ØÄê¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£2ÈÖÌÜ¤Î¸¢¸Â¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¤Æ¡¢¥Ç¥£¥ì¥¯¥È¥ê\fI/files/bpps/rmidcmds\fRÆâ¤ÎÇ¤°Õ¤Î¥³¥Þ¥ó¥É¤Î¼Â¹Ô¸¢¸Â¤òµö²Ä¤·¤Þ¤¹¡£
+ºÇ½é¤ËÉÕÍ¿¤µ¤ì¤Æ¤¤¤ë¸¢¸Â¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¡¢¥Ñ¥¹Ì¾¤Ë¤è¤êÌÀ¼¨Åª¤Ë»ØÄê¤µ¤ì¤ë\fIjbvb\fR¥³¥Þ¥ó¥É¤Î1\&.7\&.0¥ê¥ê¡¼¥¹¤Î¼Â¹Ô¤òµö²Ä¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢\fIjbvb\&.iomf\fR¤Ë¤¢¤ë¥Ð¡¼¥¸¥ç¥ó¤Î\fIjbvb\fR¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£\fIrmid\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¤Î¤ÈÆ±¤¸¥Ð¡¼¥¸¥ç¥ó¤¬»ÈÍÑ¤µ¤ì¤ë¤¿¤á¡¢¤½¤Î¥³¥Þ¥ó¥É¤Ï¡¢¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ç»ØÄê¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£2ÈÖÌÜ¤Î¸¢¸Â¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¤Æ¡¢¥Ç¥£¥ì¥¯¥È¥ê\fI/filfs/bpps/rmiddmds\fRÆâ¤ÎÇ¤°Õ¤Î¥³¥Þ¥ó¥É¤Î¼Â¹Ô¸¢¸Â¤òµö²Ä¤·¤Þ¤¹¡£
 .sp
-3ÈÖÌÜ¤ËÉÕÍ¿¤µ¤ì¤Æ¤¤¤ë¸¢¸Â\fIExecOptionPermission\fR¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¤Æ¡¢¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò\fI/files/policies/group\&.policy\fR¤È¤·¤ÆÄêµÁ¤·¤Æ¤¤¤ëµ¯Æ°¥°¥ë¡¼¥×¤Î³«»Ï¤òµö²Ä¤·¤Þ¤¹¡£¼¡¤Î¸¢¸Â¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤¬\fIjbvb\&.security\&.debug property\fR¤ò»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Æ¤¤¤Þ¤¹¡£ºÇ¸å¤Î¸¢¸Â¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤¬\fIsun\&.rmi property\fRÌ¾¤Î³¬ÁØÆâ¤ÎÇ¤°Õ¤Î¥×¥í¥Ñ¥Æ¥£¤ò»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Æ¤¤¤Þ¤¹¡£
+3ÈÖÌÜ¤ËÉÕÍ¿¤µ¤ì¤Æ¤¤¤ë¸¢¸Â\fIExfdOptionPfrmission\fR¤Ï¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤ËÂÐ¤·¤Æ¡¢¥»¥­¥å¥ê¥Æ¥£¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò\fI/filfs/polidifs/group\&.polidy\fR¤È¤·¤ÆÄêµÁ¤·¤Æ¤¤¤ëµ¯Æ°¥°¥ë¡¼¥×¤Î³«»Ï¤òµö²Ä¤·¤Þ¤¹¡£¼¡¤Î¸¢¸Â¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤¬\fIjbvb\&.sfdurity\&.dfbug propfrty\fR¤ò»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Æ¤¤¤Þ¤¹¡£ºÇ¸å¤Î¸¢¸Â¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤¬\fIsun\&.rmi propfrty\fRÌ¾¤Î³¬ÁØÆâ¤ÎÇ¤°Õ¤Î¥×¥í¥Ñ¥Æ¥£¤ò»ÈÍÑ¤¹¤ë¤³¤È¤òµö²Ä¤·¤Æ¤¤¤Þ¤¹¡£
 .sp
-¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Æ\fIrmid\fR¥³¥Þ¥ó¥É¤òµ¯Æ°¤¹¤ë¤Ë¤Ï¡¢\fIrmid\fR¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ç\fIjbvb\&.security\&.policy\fR¥×¥í¥Ñ¥Æ¥£¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
+¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Æ\fIrmid\fR¥³¥Þ¥ó¥É¤òµ¯Æ°¤¹¤ë¤Ë¤Ï¡¢\fIrmid\fR¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ç\fIjbvb\&.sfdurity\&.polidy\fR¥×¥í¥Ñ¥Æ¥£¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
 .sp
-\fIrmid \-J\-Djbvb\&.security\&.policy=rmid\&.policy\fR\&.
+\fIrmid \-J\-Djbvb\&.sfdurity\&.polidy=rmid\&.polidy\fR\&.
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-<policyClbssNbme>
+<polidyClbssNbmf>
 .sp
-¥Ç¥Õ¥©¥ë¥È¤ÎÆ°ºî¤Ç¤Ï½½Ê¬¤Ê½ÀÆðÀ­¤¬ÆÀ¤é¤ì¤Ê¤¤¾ì¹ç¡¢´ÉÍý¼Ô¤Ï¡¢\fIrmid\fR¤Îµ¯Æ°»þ¤Ë¡¢\fIcheckExecCommbnd\fR¥á¥½¥Ã¥É¤¬½êÂ°¤¹¤ë¥¯¥é¥¹¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬¼Â¹Ô¤¹¤ë¥³¥Þ¥ó¥É¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£
+¥Ç¥Õ¥©¥ë¥È¤ÎÆ°ºî¤Ç¤Ï½½Ê¬¤Ê½ÀÆðÀ­¤¬ÆÀ¤é¤ì¤Ê¤¤¾ì¹ç¡¢´ÉÍý¼Ô¤Ï¡¢\fIrmid\fR¤Îµ¯Æ°»þ¤Ë¡¢\fIdifdkExfdCommbnd\fR¥á¥½¥Ã¥É¤¬½êÂ°¤¹¤ë¥¯¥é¥¹¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤¬¼Â¹Ô¤¹¤ë¥³¥Þ¥ó¥É¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£
 .sp
-\fIpolicyClbssNbme\fR¤Ë¤Ï¡¢°ú¿ô¤Ê¤·¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤ò»ý¤Á¡¢¼¡¤Î¤è¤¦¤Ê\fIcheckExecCommbnd\fR¥á¥½¥Ã¥É¤ò¼ÂÁõ¤·¤Æ¤¤¤ëpublic¥¯¥é¥¹¤ò»ØÄê¤·¤Þ¤¹¡£
+\fIpolidyClbssNbmf\fR¤Ë¤Ï¡¢°ú¿ô¤Ê¤·¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤ò»ý¤Á¡¢¼¡¤Î¤è¤¦¤Ê\fIdifdkExfdCommbnd\fR¥á¥½¥Ã¥É¤ò¼ÂÁõ¤·¤Æ¤¤¤ëpublid¥¯¥é¥¹¤ò»ØÄê¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
- public void checkExecCommbnd(ActivbtionGroupDesc desc, String[] commbnd)
-        throws SecurityException;
+ publid void difdkExfdCommbnd(AdtivbtionGroupDfsd dfsd, String[] dommbnd)
+        tirows SfdurityExdfption;
 .fi
 .if n \{\
 .RE
 .\}
-µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ëÁ°¤Ë¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢¥Ý¥ê¥·¡¼¤Î\fIcheckExecCommbnd\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤Î¤È¤­¡¢µ¯Æ°¥°¥ë¡¼¥×¤Îµ­½Ò»Ò¤È¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Î´°Á´¤Ê¥³¥Þ¥ó¥É¤ò´Þ¤àÇÛÎó¤ò¤½¤Î¥á¥½¥Ã¥É¤ËÅÏ¤·¤Þ¤¹¡£\fIcheckExecCommbnd\fR¤¬\fISecurityException\fR¤ò¥¹¥í¡¼¤¹¤ë¤È¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¤½¤Îµ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤»¤º¡¢¥ª¥Ö¥¸¥§¥¯¥È¤Îµ¯Æ°¤ò»î¹Ô¤·¤Æ¤¤¤ë¸Æ½Ð¤·Â¦¤Ë¤Ï\fIActivbtionException\fR¤¬¥¹¥í¡¼¤µ¤ì¤Þ¤¹¡£
+µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ëÁ°¤Ë¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢¥Ý¥ê¥·¡¼¤Î\fIdifdkExfdCommbnd\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤Î¤È¤­¡¢µ¯Æ°¥°¥ë¡¼¥×¤Îµ­½Ò»Ò¤È¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¤¿¤á¤Î´°Á´¤Ê¥³¥Þ¥ó¥É¤ò´Þ¤àÇÛÎó¤ò¤½¤Î¥á¥½¥Ã¥É¤ËÅÏ¤·¤Þ¤¹¡£\fIdifdkExfdCommbnd\fR¤¬\fISfdurityExdfption\fR¤ò¥¹¥í¡¼¤¹¤ë¤È¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¤½¤Îµ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤»¤º¡¢¥ª¥Ö¥¸¥§¥¯¥È¤Îµ¯Æ°¤ò»î¹Ô¤·¤Æ¤¤¤ë¸Æ½Ð¤·Â¦¤Ë¤Ï\fIAdtivbtionExdfption\fR¤¬¥¹¥í¡¼¤µ¤ì¤Þ¤¹¡£
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-none
+nonf
 .sp
-\fIsun\&.rmi\&.bctivbtion\&.execPolicy\fR¥×¥í¥Ñ¥Æ¥£¤ÎÃÍ¤¬\fInone\fR¤Î¾ì¹ç¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¥³¥Þ¥ó¥É¤ò¤Þ¤Ã¤¿¤¯¸¡¾Ú¤·¤Þ¤»¤ó¡£
+\fIsun\&.rmi\&.bdtivbtion\&.fxfdPolidy\fR¥×¥í¥Ñ¥Æ¥£¤ÎÃÍ¤¬\fInonf\fR¤Î¾ì¹ç¡¢\fIrmid\fR¥³¥Þ¥ó¥É¤Ï¡¢µ¯Æ°¥°¥ë¡¼¥×¤ò³«»Ï¤¹¤ë¥³¥Þ¥ó¥É¤ò¤Þ¤Ã¤¿¤¯¸¡¾Ú¤·¤Þ¤»¤ó¡£
 .RE
 .RE
 .PP
@@ -309,17 +309,17 @@ none
 .PP
 \-port \fIport\fR
 .RS 4
-¥ì¥¸¥¹¥È¥ê¤¬»ÈÍÑ¤¹¤ë¥Ý¡¼¥È¤ò»ØÄê¤·¤Þ¤¹¡£µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤Ï¡¢¤³¤Î¥ì¥¸¥¹¥È¥ê¤ÎÃæ¤Ç¡¢\fIjbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem\fR¤È¤¤¤¦Ì¾Á°¤Ç\fIActivbtionSystem\fR¤ò¥Ð¥¤¥ó¥É¤·¤Þ¤¹¡£¥í¡¼¥«¥ë¡¦¥Þ¥·¥ó¾å¤Î\fIActivbtionSystem\fR¤Ï¡¢¼¡¤Î¤è¤¦¤Ë\fINbming\&.lookup\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹¤³¤È¤Ë¤è¤Ã¤Æ¼èÆÀ¤Ç¤­¤Þ¤¹¡£
+¥ì¥¸¥¹¥È¥ê¤¬»ÈÍÑ¤¹¤ë¥Ý¡¼¥È¤ò»ØÄê¤·¤Þ¤¹¡£µ¯Æ°¥·¥¹¥Æ¥à¡¦¥Ç¡¼¥â¥ó¤Ï¡¢¤³¤Î¥ì¥¸¥¹¥È¥ê¤ÎÃæ¤Ç¡¢\fIjbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm\fR¤È¤¤¤¦Ì¾Á°¤Ç\fIAdtivbtionSystfm\fR¤ò¥Ð¥¤¥ó¥É¤·¤Þ¤¹¡£¥í¡¼¥«¥ë¡¦¥Þ¥·¥ó¾å¤Î\fIAdtivbtionSystfm\fR¤Ï¡¢¼¡¤Î¤è¤¦¤Ë\fINbming\&.lookup\fR¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹¤³¤È¤Ë¤è¤Ã¤Æ¼èÆÀ¤Ç¤­¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
 import jbvb\&.rmi\&.*; 
-    import jbvb\&.rmi\&.bctivbtion\&.*;
+    import jbvb\&.rmi\&.bdtivbtion\&.*;
  
-    ActivbtionSystem system; system = (ActivbtionSystem)
-    Nbming\&.lookup("//:port/jbvb\&.rmi\&.bctivbtion\&.ActivbtionSystem");
+    AdtivbtionSystfm systfm; systfm = (AdtivbtionSystfm)
+    Nbming\&.lookup("//:port/jbvb\&.rmi\&.bdtivbtion\&.AdtivbtionSystfm");
 .fi
 .if n \{\
 .RE
@@ -335,15 +335,15 @@ import jbvb\&.rmi\&.*;
 CLASSPATH
 .RS 4
 ¥æ¡¼¥¶¡¼ÄêµÁ¥¯¥é¥¹¤Ø¤Î¥Ñ¥¹¤ò¥·¥¹¥Æ¥à¤Ë»ØÄê¤·¤Þ¤¹¡£¥Ç¥£¥ì¥¯¥È¥ê¤Ï¥³¥í¥ó¤Ç¶èÀÚ¤é¤ì¤Þ¤¹¡£Îã:
-\fI\&.:/usr/locbl/jbvb/clbsses\fR
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
 .RE
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -351,14 +351,14 @@ jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-Setting the Clbss Pbth
+Sftting tif Clbss Pbti
 .RE
 .br
 'pl 8.5i

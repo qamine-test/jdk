@@ -1,106 +1,106 @@
 '\" t
-.\"  Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Remote Method Invocbtion (RMI) Tools
-.\"     Title: rmic.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI) Tools
+.\"     Titlf: rmid.1
 .\"
 .if n .pl 99999
-.TH rmic 1 "21 November 2013" "JDK 8" "Remote Method Invocbtion (RMI) Tools"
+.TH rmid 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI) Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-rmic \- Generbtes stub, skeleton, bnd tie clbsses for remote objects thbt use the Jbvb Remote Method Protocol (JRMP) or Internet Inter-Orb protocol (IIOP)\&. Also generbtes Object Mbnbgement Group (OMG) Interfbce Definition Lbngubge (IDL)
+rmid \- Gfnfrbtfs stub, skflfton, bnd tif dlbssfs for rfmotf objfdts tibt usf tif Jbvb Rfmotf Mftiod Protodol (JRMP) or Intfrnft Intfr-Orb protodol (IIOP)\&. Also gfnfrbtfs Objfdt Mbnbgfmfnt Group (OMG) Intfrfbdf Dffinition Lbngubgf (IDL)
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBrmic\fR [ \fIoptions\fR ] \fIpbckbge\-qublified\-clbss\-nbmes\fR
+\fBrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line \f3options\fR\&. See Options\&.
+Tif dommbnd-linf \f3options\fR\&. Sff Options\&.
 .TP     
-\fIpbckbge-qublified-clbss-nbmes\fR
-Clbss nbmes thbt include their pbckbges, for exbmple, \f3jbvb\&.bwt\&.Color\fR\&.
+\fIpbdkbgf-qublififd-dlbss-nbmfs\fR
+Clbss nbmfs tibt indludf tifir pbdkbgfs, for fxbmplf, \f3jbvb\&.bwt\&.Color\fR\&.
 .SH DESCRIPTION    
-\fIDeprecbtion Note:\fR Support for stbtic generbtion of Jbvb Remote Method Protocol (JRMP) stubs bnd skeletons hbs been deprecbted\&. Orbcle recommends thbt you use dynbmicblly generbted JRMP stubs instebd, eliminbting the need to use this tool for JRMP-bbsed bpplicbtions\&. See the \f3jbvb\&.rmi\&.server\&.UnicbstRemoteObject\fR specificbtion bt http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/rmi/server/UnicbstRemoteObject\&.html for further informbtion\&.
+\fIDfprfdbtion Notf:\fR Support for stbtid gfnfrbtion of Jbvb Rfmotf Mftiod Protodol (JRMP) stubs bnd skflftons ibs bffn dfprfdbtfd\&. Orbdlf rfdommfnds tibt you usf dynbmidblly gfnfrbtfd JRMP stubs instfbd, fliminbting tif nffd to usf tiis tool for JRMP-bbsfd bpplidbtions\&. Sff tif \f3jbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR spfdifidbtion bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml for furtifr informbtion\&.
 .PP
-The \f3rmic\fR compiler generbtes stub bnd skeleton clbss files using the Jbvb Remote Method Protocol (JRMP) bnd stub bnd tie clbss files (IIOP protocol) for remote objects\&. These clbss files bre generbted from compiled Jbvb progrbmming lbngubge clbsses thbt bre remote object implementbtion clbsses\&. A remote implementbtion clbss is b clbss thbt implements the interfbce \f3jbvb\&.rmi\&.Remote\fR\&. The clbss nbmes in the \f3rmic\fR commbnd must be for clbsses thbt were compiled successfully with the \f3jbvbc\fR commbnd bnd must be fully pbckbge qublified\&. For exbmple, running the \f3rmic\fR commbnd on the clbss file nbme \f3HelloImpl\fR bs shown here crebtes the \f3HelloImpl_Stub\&.clbss\fRfile in the hello subdirectory (nbmed for the clbss\&'s pbckbge):
+Tif \f3rmid\fR dompilfr gfnfrbtfs stub bnd skflfton dlbss filfs using tif Jbvb Rfmotf Mftiod Protodol (JRMP) bnd stub bnd tif dlbss filfs (IIOP protodol) for rfmotf objfdts\&. Tifsf dlbss filfs brf gfnfrbtfd from dompilfd Jbvb progrbmming lbngubgf dlbssfs tibt brf rfmotf objfdt implfmfntbtion dlbssfs\&. A rfmotf implfmfntbtion dlbss is b dlbss tibt implfmfnts tif intfrfbdf \f3jbvb\&.rmi\&.Rfmotf\fR\&. Tif dlbss nbmfs in tif \f3rmid\fR dommbnd must bf for dlbssfs tibt wfrf dompilfd suddfssfully witi tif \f3jbvbd\fR dommbnd bnd must bf fully pbdkbgf qublififd\&. For fxbmplf, running tif \f3rmid\fR dommbnd on tif dlbss filf nbmf \f3HflloImpl\fR bs siown ifrf drfbtfs tif \f3HflloImpl_Stub\&.dlbss\fRfilf in tif ifllo subdirfdtory (nbmfd for tif dlbss\&'s pbdkbgf):
 .sp     
 .nf     
-\f3rmic hello\&.HelloImpl\fP
+\f3rmid ifllo\&.HflloImpl\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-A skeleton for b remote object is b JRMP protocol server-side entity thbt hbs b method thbt dispbtches cblls to the remote object implementbtion\&.
+A skflfton for b rfmotf objfdt is b JRMP protodol sfrvfr-sidf fntity tibt ibs b mftiod tibt dispbtdifs dblls to tif rfmotf objfdt implfmfntbtion\&.
 .PP
-A tie for b remote object is b server-side entity similbr to b skeleton, but communicbtes with the client with the IIOP protocol\&.
+A tif for b rfmotf objfdt is b sfrvfr-sidf fntity similbr to b skflfton, but dommunidbtfs witi tif dlifnt witi tif IIOP protodol\&.
 .PP
-A stub is b client-side proxy for b remote object thbt is responsible for communicbting method invocbtions on remote objects to the server where the bctubl remote object implementbtion resides\&. A client\&'s reference to b remote object, therefore, is bctublly b reference to b locbl stub\&.
+A stub is b dlifnt-sidf proxy for b rfmotf objfdt tibt is rfsponsiblf for dommunidbting mftiod invodbtions on rfmotf objfdts to tif sfrvfr wifrf tif bdtubl rfmotf objfdt implfmfntbtion rfsidfs\&. A dlifnt\&'s rfffrfndf to b rfmotf objfdt, tifrfforf, is bdtublly b rfffrfndf to b lodbl stub\&.
 .PP
-By defbult, the \f3rmic\fR commbnd generbtes stub clbsses thbt use the 1\&.2 JRMP stub protocol version only, bs though the \f3-v1\&.2\fR option wbs specified\&. The \f3-vcompbt\fR option wbs the defbult in relebses before 5\&.0\&. Use the \f3-iiop\fR option to generbte stub bnd tie clbsses for the IIOP protocol\&. See Options\&.
+By dffbult, tif \f3rmid\fR dommbnd gfnfrbtfs stub dlbssfs tibt usf tif 1\&.2 JRMP stub protodol vfrsion only, bs tiougi tif \f3-v1\&.2\fR option wbs spfdififd\&. Tif \f3-vdompbt\fR option wbs tif dffbult in rflfbsfs bfforf 5\&.0\&. Usf tif \f3-iiop\fR option to gfnfrbtf stub bnd tif dlbssfs for tif IIOP protodol\&. Sff Options\&.
 .PP
-A stub implements only the remote interfbces, bnd not bny locbl interfbces thbt the remote object blso implements\&. Becbuse b JRMP stub implements the sbme set of remote interfbces bs the remote object, b client cbn use the Jbvb progrbmming lbngubge built-in operbtors for cbsting bnd type checking\&. For IIOP, the \f3PortbbleRemoteObject\&.nbrrow\fR method must be used\&.
+A stub implfmfnts only tif rfmotf intfrfbdfs, bnd not bny lodbl intfrfbdfs tibt tif rfmotf objfdt blso implfmfnts\&. Bfdbusf b JRMP stub implfmfnts tif sbmf sft of rfmotf intfrfbdfs bs tif rfmotf objfdt, b dlifnt dbn usf tif Jbvb progrbmming lbngubgf built-in opfrbtors for dbsting bnd typf difdking\&. For IIOP, tif \f3PortbblfRfmotfObjfdt\&.nbrrow\fR mftiod must bf usfd\&.
 .SH OPTIONS    
 .TP
--bootclbsspbth \fIpbth\fR
+-bootdlbsspbti \fIpbti\fR
 .br
-Overrides the locbtion of bootstrbp clbss files\&.
+Ovfrridfs tif lodbtion of bootstrbp dlbss filfs\&.
 .TP
--clbsspbth pbth
+-dlbsspbti pbti
 .br
-Specifies the pbth the \f3rmic\fR commbnd uses to look up clbsses\&. This option overrides the defbult or the \f3CLASSPATH\fR environment vbribble when it is set\&. Directories bre sepbrbted by colons\&. The generbl formbt for pbth is: \f3\&.:<your_pbth>\fR, for exbmple: \f3\&.:/usr/locbl/jbvb/clbsses\fR\&.
+Spfdififs tif pbti tif \f3rmid\fR dommbnd usfs to look up dlbssfs\&. Tiis option ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons\&. Tif gfnfrbl formbt for pbti is: \f3\&.:<your_pbti>\fR, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
 .TP
--d \fIdirectory\fR
+-d \fIdirfdtory\fR
 .br
-Specifies the root destinbtion directory for the generbted clbss hierbrchy\&. You cbn use this option to specify b destinbtion directory for the stub, skeleton, bnd tie files\&. For exbmple, the following commbnd plbces the stub bnd skeleton clbsses derived from MyClbss into the directory /jbvb/clbsses/exbmpleclbss\&.
+Spfdififs tif root dfstinbtion dirfdtory for tif gfnfrbtfd dlbss iifrbrdiy\&. You dbn usf tiis option to spfdify b dfstinbtion dirfdtory for tif stub, skflfton, bnd tif filfs\&. For fxbmplf, tif following dommbnd plbdfs tif stub bnd skflfton dlbssfs dfrivfd from MyClbss into tif dirfdtory /jbvb/dlbssfs/fxbmplfdlbss\&.
 .sp     
 .nf     
-\f3rmic \-d /jbvb/clbsses exbmpleclbss\&.MyClbss\fP
+\f3rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -108,48 +108,48 @@ Specifies the root destinbtion directory for the generbted clbss hierbrchy\&. Yo
 .sp     
 
 
-If the \f3-d\fR option is not specified, then the defbult behbvior is bs if \f3-d \&.\fR wbs specified\&. The pbckbge hierbrchy of the tbrget clbss is crebted in the current directory, bnd stub/tie/skeleton files bre plbced within it\&. In some ebrlier relebses of the \f3rmic\fR commbnd, if the \f3-d\fR option wbs not specified, then the pbckbge hierbrchy wbs not crebted, bnd bll of the output files were plbced directly in the current directory\&.
+If tif \f3-d\fR option is not spfdififd, tifn tif dffbult bfibvior is bs if \f3-d \&.\fR wbs spfdififd\&. Tif pbdkbgf iifrbrdiy of tif tbrgft dlbss is drfbtfd in tif durrfnt dirfdtory, bnd stub/tif/skflfton filfs brf plbdfd witiin it\&. In somf fbrlifr rflfbsfs of tif \f3rmid\fR dommbnd, if tif \f3-d\fR option wbs not spfdififd, tifn tif pbdkbgf iifrbrdiy wbs not drfbtfd, bnd bll of tif output filfs wfrf plbdfd dirfdtly in tif durrfnt dirfdtory\&.
 .TP
--extdirs \fIpbth\fR
+-fxtdirs \fIpbti\fR
 .br
-Overrides the locbtion of instblled extensions\&.
+Ovfrridfs tif lodbtion of instbllfd fxtfnsions\&.
 .TP
 -g
 .br
-Enbbles the generbtion of bll debugging informbtion, including locbl vbribbles\&. By defbult, only line number informbtion is generbted\&.
+Enbblfs tif gfnfrbtion of bll dfbugging informbtion, indluding lodbl vbribblfs\&. By dffbult, only linf numbfr informbtion is gfnfrbtfd\&.
 .TP
 -idl
 .br
-Cbuses the \f3rmic\fR commbnd to generbte OMG IDL for the clbsses specified bnd bny clbsses referenced\&. IDL provides b purely declbrbtive, progrbmming lbngubge-independent wby to specify bn API for bn object\&. The IDL is used bs b specificbtion for methods bnd dbtb thbt cbn be written in bnd cblled from bny lbngubge thbt provides CORBA bindings\&. This includes Jbvb bnd C++ bmong others\&. See Jbvb IDL: IDL to Jbvb Lbngubge Mbpping bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/mbpping/jidlMbpping\&.html
+Cbusfs tif \f3rmid\fR dommbnd to gfnfrbtf OMG IDL for tif dlbssfs spfdififd bnd bny dlbssfs rfffrfndfd\&. IDL providfs b purfly dfdlbrbtivf, progrbmming lbngubgf-indfpfndfnt wby to spfdify bn API for bn objfdt\&. Tif IDL is usfd bs b spfdifidbtion for mftiods bnd dbtb tibt dbn bf writtfn in bnd dbllfd from bny lbngubgf tibt providfs CORBA bindings\&. Tiis indludfs Jbvb bnd C++ bmong otifrs\&. Sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
 
-When the \f3-idl\fR option is used, other options blso include:
+Wifn tif \f3-idl\fR option is usfd, otifr options blso indludf:
 .RS     
 .TP 0.2i    
 \(bu
-The \f3-blwbys\fR or \f3-blwbysgenerbte\fR options force regenerbtion even when existing stubs/ties/IDL bre newer thbn the input clbss\&.
+Tif \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn wifn fxisting stubs/tifs/IDL brf nfwfr tibn tif input dlbss\&.
 .TP 0.2i    
 \(bu
-The \f3-fbctory\fR option uses the \f3fbctory\fR keyword in generbted IDL\&.
+Tif \f3-fbdtory\fR option usfs tif \f3fbdtory\fR kfyword in gfnfrbtfd IDL\&.
 .TP 0.2i    
 \(bu
-The \f3-idlModule\fR from J\f3bvbPbckbge[\&.clbss]\fR\f3toIDLModule\fR specifies \f3IDLEntity\fR pbckbge mbpping, for exbmple: \f3-idlModule\fR\f3my\&.module my::rebl::idlmod\fR\&.
+Tif \f3-idlModulf\fR from J\f3bvbPbdkbgf[\&.dlbss]\fR\f3toIDLModulf\fR spfdififs \f3IDLEntity\fR pbdkbgf mbpping, for fxbmplf: \f3-idlModulf\fR\f3my\&.modulf my::rfbl::idlmod\fR\&.
 .TP 0.2i    
 \(bu
-\f3-idlFile\fR\f3fromJbvbPbckbge[\&.clbss] toIDLFile\fR specifies \f3IDLEntity\fR file mbpping, for exbmple: \f3-idlFile test\&.pkg\&.X TEST16\&.idl\fR\&.
+\f3-idlFilf\fR\f3fromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR spfdififs \f3IDLEntity\fR filf mbpping, for fxbmplf: \f3-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
 .RE     
 
 .TP
 -iiop
 .br
-Cbuses the \f3rmic\fR commbnd to generbte IIOP stub bnd tie clbsses, rbther thbn JRMP stub bnd skeleton clbsses\&. A stub clbss is b locbl proxy for b remote object bnd is used by clients to send cblls to b server\&. Ebch remote interfbce requires b stub clbss, which implements thbt remote interfbce\&. A client reference to b remote object is b reference to b stub\&. Tie clbsses bre used on the server side to process incoming cblls, bnd dispbtch the cblls to the proper implementbtion clbss\&. Ebch implementbtion clbss requires b tie clbss\&.
+Cbusfs tif \f3rmid\fR dommbnd to gfnfrbtf IIOP stub bnd tif dlbssfs, rbtifr tibn JRMP stub bnd skflfton dlbssfs\&. A stub dlbss is b lodbl proxy for b rfmotf objfdt bnd is usfd by dlifnts to sfnd dblls to b sfrvfr\&. Ebdi rfmotf intfrfbdf rfquirfs b stub dlbss, wiidi implfmfnts tibt rfmotf intfrfbdf\&. A dlifnt rfffrfndf to b rfmotf objfdt is b rfffrfndf to b stub\&. Tif dlbssfs brf usfd on tif sfrvfr sidf to prodfss indoming dblls, bnd dispbtdi tif dblls to tif propfr implfmfntbtion dlbss\&. Ebdi implfmfntbtion dlbss rfquirfs b tif dlbss\&.
 
-If you cbll the \f3rmic\fR commbnd with the \f3-iiop\fR, then it generbtes stubs bnd ties thbt conform to this nbming convention:
+If you dbll tif \f3rmid\fR dommbnd witi tif \f3-iiop\fR, tifn it gfnfrbtfs stubs bnd tifs tibt donform to tiis nbming donvfntion:
 .sp     
 .nf     
-\f3_<implementbtionNbme>_stub\&.clbss\fP
+\f3_<implfmfntbtionNbmf>_stub\&.dlbss\fP
 .fi     
 .nf     
-\f3_<interfbceNbme>_tie\&.clbss\fP
+\f3_<intfrfbdfNbmf>_tif\&.dlbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -158,66 +158,66 @@ If you cbll the \f3rmic\fR commbnd with the \f3-iiop\fR, then it generbtes stubs
 .RS     
 .TP 0.2i    
 \(bu
-When you use the \f3-iiop\fR option, other options blso include:
+Wifn you usf tif \f3-iiop\fR option, otifr options blso indludf:
 .TP 0.2i    
 \(bu
-The \f3-blwbys\fR or \f3-blwbysgenerbte\fR options force regenerbtion even when existing stubs/ties/IDL bre newer thbn the input clbss\&.
+Tif \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn wifn fxisting stubs/tifs/IDL brf nfwfr tibn tif input dlbss\&.
 .TP 0.2i    
 \(bu
-The \f3-nolocblstubs\fR option mebns do not crebte stubs optimized for sbme-process clients bnd servers\&.
+Tif \f3-nolodblstubs\fR option mfbns do not drfbtf stubs optimizfd for sbmf-prodfss dlifnts bnd sfrvfrs\&.
 .TP 0.2i    
 \(bu
-The \f3-noVblueMethods\fR option must be used with the \f3-idl\fR option\&. The \f3-noVblueMethods\fR option prevents the bddition of \f3vbluetype\fR methods bnd initiblizers to emitted IDL\&. These methods bnd initiblizers bre optionbl for vbluetypes, bnd bre generbted unless the \f3-noVblueMethods\fR option is specified with the \f3-idl\fR option\&.
+Tif \f3-noVblufMftiods\fR option must bf usfd witi tif \f3-idl\fR option\&. Tif \f3-noVblufMftiods\fR option prfvfnts tif bddition of \f3vbluftypf\fR mftiods bnd initiblizfrs to fmittfd IDL\&. Tifsf mftiods bnd initiblizfrs brf optionbl for vbluftypfs, bnd brf gfnfrbtfd unlfss tif \f3-noVblufMftiods\fR option is spfdififd witi tif \f3-idl\fR option\&.
 .TP 0.2i    
 \(bu
-The \f3-pob\fR option chbnges the inheritbnce from \f3org\&.omg\&.CORBA_2_3\&.portbble\&.ObjectImpl\fR to \f3org\&.omg\&.PortbbleServer\&.Servbnt\fR\&. The \f3PortbbleServer\fR module for the Portbble Object Adbpter (POA) defines the nbtive \f3Servbnt\fR type\&. In the Jbvb progrbmming lbngubge, the \f3Servbnt\fR type is mbpped to the \f3Jbvb org\&.omg\&.PortbbleServer\&.Servbnt\fR clbss\&. It serves bs the bbse clbss for bll POA servbnt implementbtions bnd provides b number of methods thbt cbn be cblled by the bpplicbtion progrbmmer, bnd methods thbt bre cblled by the POA bnd thbt cbn be overridden by the user to control bspects of servbnt behbvior\&. Bbsed on the OMG IDL to Jbvb Lbngubge Mbpping Specificbtion, CORBA V 2\&.3\&.1 ptc/00-01-08\&.pdf\&..RE     
+Tif \f3-pob\fR option dibngfs tif inifritbndf from \f3org\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fR to \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR\&. Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif \f3Jbvb org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&. Bbsfd on tif OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion, CORBA V 2\&.3\&.1 ptd/00-01-08\&.pdf\&..RE     
 
 .TP
 -J
 .br
-Used with bny Jbvb commbnd, the \f3-J\fR option pbsses the brgument thbt follows the \f3-J\fR (no spbces between the \f3-J\fRbnd the brgument) to the Jbvb interpreter
+Usfd witi bny Jbvb dommbnd, tif \f3-J\fR option pbssfs tif brgumfnt tibt follows tif \f3-J\fR (no spbdfs bftwffn tif \f3-J\fRbnd tif brgumfnt) to tif Jbvb intfrprftfr
 .TP
--keep or -keepgenerbted
+-kffp or -kffpgfnfrbtfd
 .br
-Retbins the generbted \f3\&.jbvb\fR source files for the stub, skeleton, bnd tie clbsses bnd writes them to the sbme directory bs the\f3\&.clbss\fR files\&.
+Rftbins tif gfnfrbtfd \f3\&.jbvb\fR sourdf filfs for tif stub, skflfton, bnd tif dlbssfs bnd writfs tifm to tif sbmf dirfdtory bs tif\f3\&.dlbss\fR filfs\&.
 .TP
 -nowbrn
 .br
-Turns off wbrnings\&. When the \f3-nowbrn\fR options is used\&. The compiler does not print out bny wbrnings\&.
+Turns off wbrnings\&. Wifn tif \f3-nowbrn\fR options is usfd\&. Tif dompilfr dofs not print out bny wbrnings\&.
 .TP
--nowrite
+-nowritf
 .br
-Does not write compiled clbsses to the file system\&.
+Dofs not writf dompilfd dlbssfs to tif filf systfm\&.
 .TP
--vcompbt (deprecbted)
+-vdompbt (dfprfdbtfd)
 .br
-Generbtes stub bnd skeleton clbsses thbt bre compbtible with both the 1\&.1 bnd 1\&.2 JRMP stub protocol versions\&. This option wbs the defbult in relebses before 5\&.0\&. The generbted stub clbsses use the 1\&.1 stub protocol version when lobded in b JDK 1\&.1 virtubl mbchine bnd use the 1\&.2 stub protocol version when lobded into b 1\&.2 (or lbter) virtubl mbchine\&. The generbted skeleton clbsses support both 1\&.1 bnd 1\&.2 stub protocol versions\&. The generbted clbsses bre relbtively lbrge to support both modes of operbtion\&. Note: This option hbs been deprecbted\&. See Description\&.
+Gfnfrbtfs stub bnd skflfton dlbssfs tibt brf dompbtiblf witi boti tif 1\&.1 bnd 1\&.2 JRMP stub protodol vfrsions\&. Tiis option wbs tif dffbult in rflfbsfs bfforf 5\&.0\&. Tif gfnfrbtfd stub dlbssfs usf tif 1\&.1 stub protodol vfrsion wifn lobdfd in b JDK 1\&.1 virtubl mbdiinf bnd usf tif 1\&.2 stub protodol vfrsion wifn lobdfd into b 1\&.2 (or lbtfr) virtubl mbdiinf\&. Tif gfnfrbtfd skflfton dlbssfs support boti 1\&.1 bnd 1\&.2 stub protodol vfrsions\&. Tif gfnfrbtfd dlbssfs brf rflbtivfly lbrgf to support boti modfs of opfrbtion\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .TP
--verbose
+-vfrbosf
 .br
-Cbuses the compiler bnd linker to print out messbges bbout whbt clbsses bre being compiled bnd whbt clbss files bre being lobded\&.
+Cbusfs tif dompilfr bnd linkfr to print out mfssbgfs bbout wibt dlbssfs brf bfing dompilfd bnd wibt dlbss filfs brf bfing lobdfd\&.
 .TP
--v1\&.1 (deprecbted)
+-v1\&.1 (dfprfdbtfd)
 .br
-Generbtes stub bnd skeleton clbsses for the 1\&.1 JRMP stub protocol version only\&. The \f3-v1\&.1\fR option is only useful for generbting stub clbsses thbt bre seriblizbtion-compbtible with preexisting, stbticblly deployed stub clbsses thbt were generbted by the \f3rmic\fR commbnd from JDK 1\&.1 bnd thbt cbnnot be upgrbded (bnd dynbmic clbss lobding is not being used)\&. Note: This option hbs been deprecbted\&. See Description\&.
+Gfnfrbtfs stub bnd skflfton dlbssfs for tif 1\&.1 JRMP stub protodol vfrsion only\&. Tif \f3-v1\&.1\fR option is only usfful for gfnfrbting stub dlbssfs tibt brf sfriblizbtion-dompbtiblf witi prffxisting, stbtidblly dfployfd stub dlbssfs tibt wfrf gfnfrbtfd by tif \f3rmid\fR dommbnd from JDK 1\&.1 bnd tibt dbnnot bf upgrbdfd (bnd dynbmid dlbss lobding is not bfing usfd)\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .TP
--v1\&.2 (deprecbted)
+-v1\&.2 (dfprfdbtfd)
 .br
-(Defbult) Generbtes stub clbsses for the 1\&.2 JRMP stub protocol version only\&. No skeleton clbsses bre generbted becbuse skeleton clbsses bre not used with the 1\&.2 stub protocol version\&. The generbted stub clbsses do not work when they bre lobded into b JDK 1\&.1 virtubl mbchine\&. Note: This option hbs been deprecbted\&. See Description\&.
+(Dffbult) Gfnfrbtfs stub dlbssfs for tif 1\&.2 JRMP stub protodol vfrsion only\&. No skflfton dlbssfs brf gfnfrbtfd bfdbusf skflfton dlbssfs brf not usfd witi tif 1\&.2 stub protodol vfrsion\&. Tif gfnfrbtfd stub dlbssfs do not work wifn tify brf lobdfd into b JDK 1\&.1 virtubl mbdiinf\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .SH ENVIRONMENT\ VARIABLES    
 .TP     
 CLASSPATH
-Used to provide the system b pbth to user-defined clbsses\&. Directories bre sepbrbted by colons, for exbmple: \f3\&.:/usr/locbl/jbvb/clbsses\fR\&.
+Usfd to providf tif systfm b pbti to usfr-dffinfd dlbssfs\&. Dirfdtorifs brf sfpbrbtfd by dolons, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jbvbc(1)
+jbvbd(1)
 .TP 0.2i    
 \(bu
 jbvb(1)
 .TP 0.2i    
 \(bu
-Setting the Clbss Pbth
+Sftting tif Clbss Pbti
 .RE
 .br
 'pl 8.5i

@@ -1,667 +1,667 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.io.*;
-import java.security.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
 
 /**
- * Provides the metal look and feel implementation of <code>RootPaneUI</code>.
+ * Providfs tif mftbl look bnd fffl implfmfntbtion of <dodf>RootPbnfUI</dodf>.
  * <p>
- * <code>MetalRootPaneUI</code> provides support for the
- * <code>windowDecorationStyle</code> property of <code>JRootPane</code>.
- * <code>MetalRootPaneUI</code> does this by way of installing a custom
- * <code>LayoutManager</code>, a private <code>Component</code> to render
- * the appropriate widgets, and a private <code>Border</code>. The
- * <code>LayoutManager</code> is always installed, regardless of the value of
- * the <code>windowDecorationStyle</code> property, but the
- * <code>Border</code> and <code>Component</code> are only installed/added if
- * the <code>windowDecorationStyle</code> is other than
- * <code>JRootPane.NONE</code>.
+ * <dodf>MftblRootPbnfUI</dodf> providfs support for tif
+ * <dodf>windowDfdorbtionStylf</dodf> propfrty of <dodf>JRootPbnf</dodf>.
+ * <dodf>MftblRootPbnfUI</dodf> dofs tiis by wby of instblling b dustom
+ * <dodf>LbyoutMbnbgfr</dodf>, b privbtf <dodf>Componfnt</dodf> to rfndfr
+ * tif bppropribtf widgfts, bnd b privbtf <dodf>Bordfr</dodf>. Tif
+ * <dodf>LbyoutMbnbgfr</dodf> is blwbys instbllfd, rfgbrdlfss of tif vbluf of
+ * tif <dodf>windowDfdorbtionStylf</dodf> propfrty, but tif
+ * <dodf>Bordfr</dodf> bnd <dodf>Componfnt</dodf> brf only instbllfd/bddfd if
+ * tif <dodf>windowDfdorbtionStylf</dodf> is otifr tibn
+ * <dodf>JRootPbnf.NONE</dodf>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Terry Kellerman
- * @since 1.4
+ * @butior Tfrry Kfllfrmbn
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalRootPaneUI extends BasicRootPaneUI
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblRootPbnfUI fxtfnds BbsidRootPbnfUI
 {
     /**
-     * Keys to lookup borders in defaults table.
+     * Kfys to lookup bordfrs in dffbults tbblf.
      */
-    private static final String[] borderKeys = new String[] {
-        null, "RootPane.frameBorder", "RootPane.plainDialogBorder",
-        "RootPane.informationDialogBorder",
-        "RootPane.errorDialogBorder", "RootPane.colorChooserDialogBorder",
-        "RootPane.fileChooserDialogBorder", "RootPane.questionDialogBorder",
-        "RootPane.warningDialogBorder"
+    privbtf stbtid finbl String[] bordfrKfys = nfw String[] {
+        null, "RootPbnf.frbmfBordfr", "RootPbnf.plbinDiblogBordfr",
+        "RootPbnf.informbtionDiblogBordfr",
+        "RootPbnf.frrorDiblogBordfr", "RootPbnf.dolorCioosfrDiblogBordfr",
+        "RootPbnf.filfCioosfrDiblogBordfr", "RootPbnf.qufstionDiblogBordfr",
+        "RootPbnf.wbrningDiblogBordfr"
     };
     /**
-     * The amount of space (in pixels) that the cursor is changed on.
+     * Tif bmount of spbdf (in pixfls) tibt tif dursor is dibngfd on.
      */
-    private static final int CORNER_DRAG_WIDTH = 16;
+    privbtf stbtid finbl int CORNER_DRAG_WIDTH = 16;
 
     /**
-     * Region from edges that dragging is active from.
+     * Rfgion from fdgfs tibt drbgging is bdtivf from.
      */
-    private static final int BORDER_DRAG_THICKNESS = 5;
+    privbtf stbtid finbl int BORDER_DRAG_THICKNESS = 5;
 
     /**
-     * Window the <code>JRootPane</code> is in.
+     * Window tif <dodf>JRootPbnf</dodf> is in.
      */
-    private Window window;
+    privbtf Window window;
 
     /**
-     * <code>JComponent</code> providing window decorations. This will be
-     * null if not providing window decorations.
+     * <dodf>JComponfnt</dodf> providing window dfdorbtions. Tiis will bf
+     * null if not providing window dfdorbtions.
      */
-    private JComponent titlePane;
+    privbtf JComponfnt titlfPbnf;
 
     /**
-     * <code>MouseInputListener</code> that is added to the parent
-     * <code>Window</code> the <code>JRootPane</code> is contained in.
+     * <dodf>MousfInputListfnfr</dodf> tibt is bddfd to tif pbrfnt
+     * <dodf>Window</dodf> tif <dodf>JRootPbnf</dodf> is dontbinfd in.
      */
-    private MouseInputListener mouseInputListener;
+    privbtf MousfInputListfnfr mousfInputListfnfr;
 
     /**
-     * The <code>LayoutManager</code> that is set on the
-     * <code>JRootPane</code>.
+     * Tif <dodf>LbyoutMbnbgfr</dodf> tibt is sft on tif
+     * <dodf>JRootPbnf</dodf>.
      */
-    private LayoutManager layoutManager;
+    privbtf LbyoutMbnbgfr lbyoutMbnbgfr;
 
     /**
-     * <code>LayoutManager</code> of the <code>JRootPane</code> before we
-     * replaced it.
+     * <dodf>LbyoutMbnbgfr</dodf> of tif <dodf>JRootPbnf</dodf> bfforf wf
+     * rfplbdfd it.
      */
-    private LayoutManager savedOldLayout;
+    privbtf LbyoutMbnbgfr sbvfdOldLbyout;
 
     /**
-     * <code>JRootPane</code> providing the look and feel for.
+     * <dodf>JRootPbnf</dodf> providing tif look bnd fffl for.
      */
-    private JRootPane root;
+    privbtf JRootPbnf root;
 
     /**
-     * <code>Cursor</code> used to track the cursor set by the user.
-     * This is initially <code>Cursor.DEFAULT_CURSOR</code>.
+     * <dodf>Cursor</dodf> usfd to trbdk tif dursor sft by tif usfr.
+     * Tiis is initiblly <dodf>Cursor.DEFAULT_CURSOR</dodf>.
      */
-    private Cursor lastCursor =
-            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    privbtf Cursor lbstCursor =
+            Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
 
     /**
-     * Creates a UI for a <code>JRootPane</code>.
+     * Crfbtfs b UI for b <dodf>JRootPbnf</dodf>.
      *
-     * @param c the JRootPane the RootPaneUI will be created for
-     * @return the RootPaneUI implementation for the passed in JRootPane
+     * @pbrbm d tif JRootPbnf tif RootPbnfUI will bf drfbtfd for
+     * @rfturn tif RootPbnfUI implfmfntbtion for tif pbssfd in JRootPbnf
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalRootPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblRootPbnfUI();
     }
 
     /**
-     * Invokes supers implementation of <code>installUI</code> to install
-     * the necessary state onto the passed in <code>JRootPane</code>
-     * to render the metal look and feel implementation of
-     * <code>RootPaneUI</code>. If
-     * the <code>windowDecorationStyle</code> property of the
-     * <code>JRootPane</code> is other than <code>JRootPane.NONE</code>,
-     * this will add a custom <code>Component</code> to render the widgets to
-     * <code>JRootPane</code>, as well as installing a custom
-     * <code>Border</code> and <code>LayoutManager</code> on the
-     * <code>JRootPane</code>.
+     * Invokfs supfrs implfmfntbtion of <dodf>instbllUI</dodf> to instbll
+     * tif nfdfssbry stbtf onto tif pbssfd in <dodf>JRootPbnf</dodf>
+     * to rfndfr tif mftbl look bnd fffl implfmfntbtion of
+     * <dodf>RootPbnfUI</dodf>. If
+     * tif <dodf>windowDfdorbtionStylf</dodf> propfrty of tif
+     * <dodf>JRootPbnf</dodf> is otifr tibn <dodf>JRootPbnf.NONE</dodf>,
+     * tiis will bdd b dustom <dodf>Componfnt</dodf> to rfndfr tif widgfts to
+     * <dodf>JRootPbnf</dodf>, bs wfll bs instblling b dustom
+     * <dodf>Bordfr</dodf> bnd <dodf>LbyoutMbnbgfr</dodf> on tif
+     * <dodf>JRootPbnf</dodf>.
      *
-     * @param c the JRootPane to install state onto
+     * @pbrbm d tif JRootPbnf to instbll stbtf onto
      */
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        root = (JRootPane)c;
-        int style = root.getWindowDecorationStyle();
-        if (style != JRootPane.NONE) {
-            installClientDecorations(root);
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        root = (JRootPbnf)d;
+        int stylf = root.gftWindowDfdorbtionStylf();
+        if (stylf != JRootPbnf.NONE) {
+            instbllClifntDfdorbtions(root);
         }
     }
 
 
     /**
-     * Invokes supers implementation to uninstall any of its state. This will
-     * also reset the <code>LayoutManager</code> of the <code>JRootPane</code>.
-     * If a <code>Component</code> has been added to the <code>JRootPane</code>
-     * to render the window decoration style, this method will remove it.
-     * Similarly, this will revert the Border and LayoutManager of the
-     * <code>JRootPane</code> to what it was before <code>installUI</code>
-     * was invoked.
+     * Invokfs supfrs implfmfntbtion to uninstbll bny of its stbtf. Tiis will
+     * blso rfsft tif <dodf>LbyoutMbnbgfr</dodf> of tif <dodf>JRootPbnf</dodf>.
+     * If b <dodf>Componfnt</dodf> ibs bffn bddfd to tif <dodf>JRootPbnf</dodf>
+     * to rfndfr tif window dfdorbtion stylf, tiis mftiod will rfmovf it.
+     * Similbrly, tiis will rfvfrt tif Bordfr bnd LbyoutMbnbgfr of tif
+     * <dodf>JRootPbnf</dodf> to wibt it wbs bfforf <dodf>instbllUI</dodf>
+     * wbs invokfd.
      *
-     * @param c the JRootPane to uninstall state from
+     * @pbrbm d tif JRootPbnf to uninstbll stbtf from
      */
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
-        uninstallClientDecorations(root);
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        uninstbllClifntDfdorbtions(root);
 
-        layoutManager = null;
-        mouseInputListener = null;
+        lbyoutMbnbgfr = null;
+        mousfInputListfnfr = null;
         root = null;
     }
 
     /**
-     * Installs the appropriate <code>Border</code> onto the
-     * <code>JRootPane</code>.
+     * Instblls tif bppropribtf <dodf>Bordfr</dodf> onto tif
+     * <dodf>JRootPbnf</dodf>.
      */
-    void installBorder(JRootPane root) {
-        int style = root.getWindowDecorationStyle();
+    void instbllBordfr(JRootPbnf root) {
+        int stylf = root.gftWindowDfdorbtionStylf();
 
-        if (style == JRootPane.NONE) {
-            LookAndFeel.uninstallBorder(root);
+        if (stylf == JRootPbnf.NONE) {
+            LookAndFffl.uninstbllBordfr(root);
         }
-        else {
-            LookAndFeel.installBorder(root, borderKeys[style]);
+        flsf {
+            LookAndFffl.instbllBordfr(root, bordfrKfys[stylf]);
         }
     }
 
     /**
-     * Removes any border that may have been installed.
+     * Rfmovfs bny bordfr tibt mby ibvf bffn instbllfd.
      */
-    private void uninstallBorder(JRootPane root) {
-        LookAndFeel.uninstallBorder(root);
+    privbtf void uninstbllBordfr(JRootPbnf root) {
+        LookAndFffl.uninstbllBordfr(root);
     }
 
     /**
-     * Installs the necessary Listeners on the parent <code>Window</code>,
-     * if there is one.
+     * Instblls tif nfdfssbry Listfnfrs on tif pbrfnt <dodf>Window</dodf>,
+     * if tifrf is onf.
      * <p>
-     * This takes the parent so that cleanup can be done from
-     * <code>removeNotify</code>, at which point the parent hasn't been
-     * reset yet.
+     * Tiis tbkfs tif pbrfnt so tibt dlfbnup dbn bf donf from
+     * <dodf>rfmovfNotify</dodf>, bt wiidi point tif pbrfnt ibsn't bffn
+     * rfsft yft.
      *
-     * @param parent The parent of the JRootPane
+     * @pbrbm pbrfnt Tif pbrfnt of tif JRootPbnf
      */
-    private void installWindowListeners(JRootPane root, Component parent) {
-        if (parent instanceof Window) {
-            window = (Window)parent;
+    privbtf void instbllWindowListfnfrs(JRootPbnf root, Componfnt pbrfnt) {
+        if (pbrfnt instbndfof Window) {
+            window = (Window)pbrfnt;
         }
-        else {
-            window = SwingUtilities.getWindowAncestor(parent);
+        flsf {
+            window = SwingUtilitifs.gftWindowAndfstor(pbrfnt);
         }
         if (window != null) {
-            if (mouseInputListener == null) {
-                mouseInputListener = createWindowMouseInputListener(root);
+            if (mousfInputListfnfr == null) {
+                mousfInputListfnfr = drfbtfWindowMousfInputListfnfr(root);
             }
-            window.addMouseListener(mouseInputListener);
-            window.addMouseMotionListener(mouseInputListener);
+            window.bddMousfListfnfr(mousfInputListfnfr);
+            window.bddMousfMotionListfnfr(mousfInputListfnfr);
         }
     }
 
     /**
-     * Uninstalls the necessary Listeners on the <code>Window</code> the
-     * Listeners were last installed on.
+     * Uninstblls tif nfdfssbry Listfnfrs on tif <dodf>Window</dodf> tif
+     * Listfnfrs wfrf lbst instbllfd on.
      */
-    private void uninstallWindowListeners(JRootPane root) {
+    privbtf void uninstbllWindowListfnfrs(JRootPbnf root) {
         if (window != null) {
-            window.removeMouseListener(mouseInputListener);
-            window.removeMouseMotionListener(mouseInputListener);
+            window.rfmovfMousfListfnfr(mousfInputListfnfr);
+            window.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
         }
     }
 
     /**
-     * Installs the appropriate LayoutManager on the <code>JRootPane</code>
-     * to render the window decorations.
+     * Instblls tif bppropribtf LbyoutMbnbgfr on tif <dodf>JRootPbnf</dodf>
+     * to rfndfr tif window dfdorbtions.
      */
-    private void installLayout(JRootPane root) {
-        if (layoutManager == null) {
-            layoutManager = createLayoutManager();
+    privbtf void instbllLbyout(JRootPbnf root) {
+        if (lbyoutMbnbgfr == null) {
+            lbyoutMbnbgfr = drfbtfLbyoutMbnbgfr();
         }
-        savedOldLayout = root.getLayout();
-        root.setLayout(layoutManager);
+        sbvfdOldLbyout = root.gftLbyout();
+        root.sftLbyout(lbyoutMbnbgfr);
     }
 
     /**
-     * Uninstalls the previously installed <code>LayoutManager</code>.
+     * Uninstblls tif prfviously instbllfd <dodf>LbyoutMbnbgfr</dodf>.
      */
-    private void uninstallLayout(JRootPane root) {
-        if (savedOldLayout != null) {
-            root.setLayout(savedOldLayout);
-            savedOldLayout = null;
+    privbtf void uninstbllLbyout(JRootPbnf root) {
+        if (sbvfdOldLbyout != null) {
+            root.sftLbyout(sbvfdOldLbyout);
+            sbvfdOldLbyout = null;
         }
     }
 
     /**
-     * Installs the necessary state onto the JRootPane to render client
-     * decorations. This is ONLY invoked if the <code>JRootPane</code>
-     * has a decoration style other than <code>JRootPane.NONE</code>.
+     * Instblls tif nfdfssbry stbtf onto tif JRootPbnf to rfndfr dlifnt
+     * dfdorbtions. Tiis is ONLY invokfd if tif <dodf>JRootPbnf</dodf>
+     * ibs b dfdorbtion stylf otifr tibn <dodf>JRootPbnf.NONE</dodf>.
      */
-    private void installClientDecorations(JRootPane root) {
-        installBorder(root);
+    privbtf void instbllClifntDfdorbtions(JRootPbnf root) {
+        instbllBordfr(root);
 
-        JComponent titlePane = createTitlePane(root);
+        JComponfnt titlfPbnf = drfbtfTitlfPbnf(root);
 
-        setTitlePane(root, titlePane);
-        installWindowListeners(root, root.getParent());
-        installLayout(root);
+        sftTitlfPbnf(root, titlfPbnf);
+        instbllWindowListfnfrs(root, root.gftPbrfnt());
+        instbllLbyout(root);
         if (window != null) {
-            root.revalidate();
-            root.repaint();
+            root.rfvblidbtf();
+            root.rfpbint();
         }
     }
 
     /**
-     * Uninstalls any state that <code>installClientDecorations</code> has
-     * installed.
+     * Uninstblls bny stbtf tibt <dodf>instbllClifntDfdorbtions</dodf> ibs
+     * instbllfd.
      * <p>
-     * NOTE: This may be called if you haven't installed client decorations
-     * yet (ie before <code>installClientDecorations</code> has been invoked).
+     * NOTE: Tiis mby bf dbllfd if you ibvfn't instbllfd dlifnt dfdorbtions
+     * yft (if bfforf <dodf>instbllClifntDfdorbtions</dodf> ibs bffn invokfd).
      */
-    private void uninstallClientDecorations(JRootPane root) {
-        uninstallBorder(root);
-        uninstallWindowListeners(root);
-        setTitlePane(root, null);
-        uninstallLayout(root);
-        // We have to revalidate/repaint root if the style is JRootPane.NONE
-        // only. When we needs to call revalidate/repaint with other styles
-        // the installClientDecorations is always called after this method
-        // imediatly and it will cause the revalidate/repaint at the proper
-        // time.
-        int style = root.getWindowDecorationStyle();
-        if (style == JRootPane.NONE) {
-            root.repaint();
-            root.revalidate();
+    privbtf void uninstbllClifntDfdorbtions(JRootPbnf root) {
+        uninstbllBordfr(root);
+        uninstbllWindowListfnfrs(root);
+        sftTitlfPbnf(root, null);
+        uninstbllLbyout(root);
+        // Wf ibvf to rfvblidbtf/rfpbint root if tif stylf is JRootPbnf.NONE
+        // only. Wifn wf nffds to dbll rfvblidbtf/rfpbint witi otifr stylfs
+        // tif instbllClifntDfdorbtions is blwbys dbllfd bftfr tiis mftiod
+        // imfdibtly bnd it will dbusf tif rfvblidbtf/rfpbint bt tif propfr
+        // timf.
+        int stylf = root.gftWindowDfdorbtionStylf();
+        if (stylf == JRootPbnf.NONE) {
+            root.rfpbint();
+            root.rfvblidbtf();
         }
-        // Reset the cursor, as we may have changed it to a resize cursor
+        // Rfsft tif dursor, bs wf mby ibvf dibngfd it to b rfsizf dursor
         if (window != null) {
-            window.setCursor(Cursor.getPredefinedCursor
+            window.sftCursor(Cursor.gftPrfdffinfdCursor
                              (Cursor.DEFAULT_CURSOR));
         }
         window = null;
     }
 
     /**
-     * Returns the <code>JComponent</code> to render the window decoration
-     * style.
+     * Rfturns tif <dodf>JComponfnt</dodf> to rfndfr tif window dfdorbtion
+     * stylf.
      */
-    private JComponent createTitlePane(JRootPane root) {
-        return new MetalTitlePane(root, this);
+    privbtf JComponfnt drfbtfTitlfPbnf(JRootPbnf root) {
+        rfturn nfw MftblTitlfPbnf(root, tiis);
     }
 
     /**
-     * Returns a <code>MouseListener</code> that will be added to the
-     * <code>Window</code> containing the <code>JRootPane</code>.
+     * Rfturns b <dodf>MousfListfnfr</dodf> tibt will bf bddfd to tif
+     * <dodf>Window</dodf> dontbining tif <dodf>JRootPbnf</dodf>.
      */
-    private MouseInputListener createWindowMouseInputListener(JRootPane root) {
-        return new MouseInputHandler();
+    privbtf MousfInputListfnfr drfbtfWindowMousfInputListfnfr(JRootPbnf root) {
+        rfturn nfw MousfInputHbndlfr();
     }
 
     /**
-     * Returns a <code>LayoutManager</code> that will be set on the
-     * <code>JRootPane</code>.
+     * Rfturns b <dodf>LbyoutMbnbgfr</dodf> tibt will bf sft on tif
+     * <dodf>JRootPbnf</dodf>.
      */
-    private LayoutManager createLayoutManager() {
-        return new MetalRootLayout();
+    privbtf LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw MftblRootLbyout();
     }
 
     /**
-     * Sets the window title pane -- the JComponent used to provide a plaf a
-     * way to override the native operating system's window title pane with
-     * one whose look and feel are controlled by the plaf.  The plaf creates
-     * and sets this value; the default is null, implying a native operating
-     * system window title pane.
+     * Sfts tif window titlf pbnf -- tif JComponfnt usfd to providf b plbf b
+     * wby to ovfrridf tif nbtivf opfrbting systfm's window titlf pbnf witi
+     * onf wiosf look bnd fffl brf dontrollfd by tif plbf.  Tif plbf drfbtfs
+     * bnd sfts tiis vbluf; tif dffbult is null, implying b nbtivf opfrbting
+     * systfm window titlf pbnf.
      *
-     * @param content the <code>JComponent</code> to use for the window title pane.
+     * @pbrbm dontfnt tif <dodf>JComponfnt</dodf> to usf for tif window titlf pbnf.
      */
-    private void setTitlePane(JRootPane root, JComponent titlePane) {
-        JLayeredPane layeredPane = root.getLayeredPane();
-        JComponent oldTitlePane = getTitlePane();
+    privbtf void sftTitlfPbnf(JRootPbnf root, JComponfnt titlfPbnf) {
+        JLbyfrfdPbnf lbyfrfdPbnf = root.gftLbyfrfdPbnf();
+        JComponfnt oldTitlfPbnf = gftTitlfPbnf();
 
-        if (oldTitlePane != null) {
-            oldTitlePane.setVisible(false);
-            layeredPane.remove(oldTitlePane);
+        if (oldTitlfPbnf != null) {
+            oldTitlfPbnf.sftVisiblf(fblsf);
+            lbyfrfdPbnf.rfmovf(oldTitlfPbnf);
         }
-        if (titlePane != null) {
-            layeredPane.add(titlePane, JLayeredPane.FRAME_CONTENT_LAYER);
-            titlePane.setVisible(true);
+        if (titlfPbnf != null) {
+            lbyfrfdPbnf.bdd(titlfPbnf, JLbyfrfdPbnf.FRAME_CONTENT_LAYER);
+            titlfPbnf.sftVisiblf(truf);
         }
-        this.titlePane = titlePane;
+        tiis.titlfPbnf = titlfPbnf;
     }
 
     /**
-     * Returns the <code>JComponent</code> rendering the title pane. If this
-     * returns null, it implies there is no need to render window decorations.
+     * Rfturns tif <dodf>JComponfnt</dodf> rfndfring tif titlf pbnf. If tiis
+     * rfturns null, it implifs tifrf is no nffd to rfndfr window dfdorbtions.
      *
-     * @return the current window title pane, or null
-     * @see #setTitlePane
+     * @rfturn tif durrfnt window titlf pbnf, or null
+     * @sff #sftTitlfPbnf
      */
-    private JComponent getTitlePane() {
-        return titlePane;
+    privbtf JComponfnt gftTitlfPbnf() {
+        rfturn titlfPbnf;
     }
 
     /**
-     * Returns the <code>JRootPane</code> we're providing the look and
-     * feel for.
+     * Rfturns tif <dodf>JRootPbnf</dodf> wf'rf providing tif look bnd
+     * fffl for.
      */
-    private JRootPane getRootPane() {
-        return root;
+    privbtf JRootPbnf gftRootPbnf() {
+        rfturn root;
     }
 
     /**
-     * Invoked when a property changes. <code>MetalRootPaneUI</code> is
-     * primarily interested in events originating from the
-     * <code>JRootPane</code> it has been installed on identifying the
-     * property <code>windowDecorationStyle</code>. If the
-     * <code>windowDecorationStyle</code> has changed to a value other
-     * than <code>JRootPane.NONE</code>, this will add a <code>Component</code>
-     * to the <code>JRootPane</code> to render the window decorations, as well
-     * as installing a <code>Border</code> on the <code>JRootPane</code>.
-     * On the other hand, if the <code>windowDecorationStyle</code> has
-     * changed to <code>JRootPane.NONE</code>, this will remove the
-     * <code>Component</code> that has been added to the <code>JRootPane</code>
-     * as well resetting the Border to what it was before
-     * <code>installUI</code> was invoked.
+     * Invokfd wifn b propfrty dibngfs. <dodf>MftblRootPbnfUI</dodf> is
+     * primbrily intfrfstfd in fvfnts originbting from tif
+     * <dodf>JRootPbnf</dodf> it ibs bffn instbllfd on idfntifying tif
+     * propfrty <dodf>windowDfdorbtionStylf</dodf>. If tif
+     * <dodf>windowDfdorbtionStylf</dodf> ibs dibngfd to b vbluf otifr
+     * tibn <dodf>JRootPbnf.NONE</dodf>, tiis will bdd b <dodf>Componfnt</dodf>
+     * to tif <dodf>JRootPbnf</dodf> to rfndfr tif window dfdorbtions, bs wfll
+     * bs instblling b <dodf>Bordfr</dodf> on tif <dodf>JRootPbnf</dodf>.
+     * On tif otifr ibnd, if tif <dodf>windowDfdorbtionStylf</dodf> ibs
+     * dibngfd to <dodf>JRootPbnf.NONE</dodf>, tiis will rfmovf tif
+     * <dodf>Componfnt</dodf> tibt ibs bffn bddfd to tif <dodf>JRootPbnf</dodf>
+     * bs wfll rfsftting tif Bordfr to wibt it wbs bfforf
+     * <dodf>instbllUI</dodf> wbs invokfd.
      *
-     * @param e A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
+     * @pbrbm f A PropfrtyCibngfEvfnt objfdt dfsdribing tif fvfnt sourdf
+     *          bnd tif propfrty tibt ibs dibngfd.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        super.propertyChange(e);
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        supfr.propfrtyCibngf(f);
 
-        String propertyName = e.getPropertyName();
-        if(propertyName == null) {
-            return;
+        String propfrtyNbmf = f.gftPropfrtyNbmf();
+        if(propfrtyNbmf == null) {
+            rfturn;
         }
 
-        if(propertyName.equals("windowDecorationStyle")) {
-            JRootPane root = (JRootPane) e.getSource();
-            int style = root.getWindowDecorationStyle();
+        if(propfrtyNbmf.fqubls("windowDfdorbtionStylf")) {
+            JRootPbnf root = (JRootPbnf) f.gftSourdf();
+            int stylf = root.gftWindowDfdorbtionStylf();
 
-            // This is potentially more than needs to be done,
-            // but it rarely happens and makes the install/uninstall process
-            // simpler. MetalTitlePane also assumes it will be recreated if
-            // the decoration style changes.
-            uninstallClientDecorations(root);
-            if (style != JRootPane.NONE) {
-                installClientDecorations(root);
+            // Tiis is potfntiblly morf tibn nffds to bf donf,
+            // but it rbrfly ibppfns bnd mbkfs tif instbll/uninstbll prodfss
+            // simplfr. MftblTitlfPbnf blso bssumfs it will bf rfdrfbtfd if
+            // tif dfdorbtion stylf dibngfs.
+            uninstbllClifntDfdorbtions(root);
+            if (stylf != JRootPbnf.NONE) {
+                instbllClifntDfdorbtions(root);
             }
         }
-        else if (propertyName.equals("ancestor")) {
-            uninstallWindowListeners(root);
-            if (((JRootPane)e.getSource()).getWindowDecorationStyle() !=
-                                           JRootPane.NONE) {
-                installWindowListeners(root, root.getParent());
+        flsf if (propfrtyNbmf.fqubls("bndfstor")) {
+            uninstbllWindowListfnfrs(root);
+            if (((JRootPbnf)f.gftSourdf()).gftWindowDfdorbtionStylf() !=
+                                           JRootPbnf.NONE) {
+                instbllWindowListfnfrs(root, root.gftPbrfnt());
             }
         }
-        return;
+        rfturn;
     }
 
     /**
-     * A custom layout manager that is responsible for the layout of
-     * layeredPane, glassPane, menuBar and titlePane, if one has been
-     * installed.
+     * A dustom lbyout mbnbgfr tibt is rfsponsiblf for tif lbyout of
+     * lbyfrfdPbnf, glbssPbnf, mfnuBbr bnd titlfPbnf, if onf ibs bffn
+     * instbllfd.
      */
-    // NOTE: Ideally this would extends JRootPane.RootLayout, but that
-    //       would force this to be non-static.
-    private static class MetalRootLayout implements LayoutManager2 {
+    // NOTE: Idfblly tiis would fxtfnds JRootPbnf.RootLbyout, but tibt
+    //       would fordf tiis to bf non-stbtid.
+    privbtf stbtid dlbss MftblRootLbyout implfmfnts LbyoutMbnbgfr2 {
         /**
-         * Returns the amount of space the layout would like to have.
+         * Rfturns tif bmount of spbdf tif lbyout would likf to ibvf.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's preferred size
+         * @pbrbm tif Contbinfr for wiidi tiis lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining tif lbyout's prfffrrfd sizf
          */
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension cpd, mbd, tpd;
-            int cpWidth = 0;
-            int cpHeight = 0;
-            int mbWidth = 0;
-            int mbHeight = 0;
-            int tpWidth = 0;
-            int tpHeight = 0;
-            Insets i = parent.getInsets();
-            JRootPane root = (JRootPane) parent;
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidti = 0;
+            int dpHfigit = 0;
+            int mbWidti = 0;
+            int mbHfigit = 0;
+            int tpWidti = 0;
+            int tpHfigit = 0;
+            Insfts i = pbrfnt.gftInsfts();
+            JRootPbnf root = (JRootPbnf) pbrfnt;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getPreferredSize();
-            } else {
-                cpd = root.getSize();
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftPrfffrrfdSizf();
+            } flsf {
+                dpd = root.gftSizf();
             }
-            if (cpd != null) {
-                cpWidth = cpd.width;
-                cpHeight = cpd.height;
+            if (dpd != null) {
+                dpWidti = dpd.widti;
+                dpHfigit = dpd.ifigit;
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getPreferredSize();
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftPrfffrrfdSizf();
                 if (mbd != null) {
-                    mbWidth = mbd.width;
-                    mbHeight = mbd.height;
+                    mbWidti = mbd.widti;
+                    mbHfigit = mbd.ifigit;
                 }
             }
 
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    tpd = titlePane.getPreferredSize();
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    tpd = titlfPbnf.gftPrfffrrfdSizf();
                     if (tpd != null) {
-                        tpWidth = tpd.width;
-                        tpHeight = tpd.height;
+                        tpWidti = tpd.widti;
+                        tpHfigit = tpd.ifigit;
                     }
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
-                                 cpHeight + mbHeight + tpWidth + i.top + i.bottom);
+            rfturn nfw Dimfnsion(Mbti.mbx(Mbti.mbx(dpWidti, mbWidti), tpWidti) + i.lfft + i.rigit,
+                                 dpHfigit + mbHfigit + tpWidti + i.top + i.bottom);
         }
 
         /**
-         * Returns the minimum amount of space the layout needs.
+         * Rfturns tif minimum bmount of spbdf tif lbyout nffds.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's minimum size
+         * @pbrbm tif Contbinfr for wiidi tiis lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining tif lbyout's minimum sizf
          */
-        public Dimension minimumLayoutSize(Container parent) {
-            Dimension cpd, mbd, tpd;
-            int cpWidth = 0;
-            int cpHeight = 0;
-            int mbWidth = 0;
-            int mbHeight = 0;
-            int tpWidth = 0;
-            int tpHeight = 0;
-            Insets i = parent.getInsets();
-            JRootPane root = (JRootPane) parent;
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidti = 0;
+            int dpHfigit = 0;
+            int mbWidti = 0;
+            int mbHfigit = 0;
+            int tpWidti = 0;
+            int tpHfigit = 0;
+            Insfts i = pbrfnt.gftInsfts();
+            JRootPbnf root = (JRootPbnf) pbrfnt;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getMinimumSize();
-            } else {
-                cpd = root.getSize();
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftMinimumSizf();
+            } flsf {
+                dpd = root.gftSizf();
             }
-            if (cpd != null) {
-                cpWidth = cpd.width;
-                cpHeight = cpd.height;
+            if (dpd != null) {
+                dpWidti = dpd.widti;
+                dpHfigit = dpd.ifigit;
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getMinimumSize();
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftMinimumSizf();
                 if (mbd != null) {
-                    mbWidth = mbd.width;
-                    mbHeight = mbd.height;
+                    mbWidti = mbd.widti;
+                    mbHfigit = mbd.ifigit;
                 }
             }
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    tpd = titlePane.getMinimumSize();
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    tpd = titlfPbnf.gftMinimumSizf();
                     if (tpd != null) {
-                        tpWidth = tpd.width;
-                        tpHeight = tpd.height;
+                        tpWidti = tpd.widti;
+                        tpHfigit = tpd.ifigit;
                     }
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
-                                 cpHeight + mbHeight + tpWidth + i.top + i.bottom);
+            rfturn nfw Dimfnsion(Mbti.mbx(Mbti.mbx(dpWidti, mbWidti), tpWidti) + i.lfft + i.rigit,
+                                 dpHfigit + mbHfigit + tpWidti + i.top + i.bottom);
         }
 
         /**
-         * Returns the maximum amount of space the layout can use.
+         * Rfturns tif mbximum bmount of spbdf tif lbyout dbn usf.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's maximum size
+         * @pbrbm tif Contbinfr for wiidi tiis lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining tif lbyout's mbximum sizf
          */
-        public Dimension maximumLayoutSize(Container target) {
-            Dimension cpd, mbd, tpd;
-            int cpWidth = Integer.MAX_VALUE;
-            int cpHeight = Integer.MAX_VALUE;
-            int mbWidth = Integer.MAX_VALUE;
-            int mbHeight = Integer.MAX_VALUE;
-            int tpWidth = Integer.MAX_VALUE;
-            int tpHeight = Integer.MAX_VALUE;
-            Insets i = target.getInsets();
-            JRootPane root = (JRootPane) target;
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidti = Intfgfr.MAX_VALUE;
+            int dpHfigit = Intfgfr.MAX_VALUE;
+            int mbWidti = Intfgfr.MAX_VALUE;
+            int mbHfigit = Intfgfr.MAX_VALUE;
+            int tpWidti = Intfgfr.MAX_VALUE;
+            int tpHfigit = Intfgfr.MAX_VALUE;
+            Insfts i = tbrgft.gftInsfts();
+            JRootPbnf root = (JRootPbnf) tbrgft;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getMaximumSize();
-                if (cpd != null) {
-                    cpWidth = cpd.width;
-                    cpHeight = cpd.height;
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftMbximumSizf();
+                if (dpd != null) {
+                    dpWidti = dpd.widti;
+                    dpHfigit = dpd.ifigit;
                 }
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getMaximumSize();
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftMbximumSizf();
                 if (mbd != null) {
-                    mbWidth = mbd.width;
-                    mbHeight = mbd.height;
+                    mbWidti = mbd.widti;
+                    mbHfigit = mbd.ifigit;
                 }
             }
 
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null)
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null)
                 {
-                    tpd = titlePane.getMaximumSize();
+                    tpd = titlfPbnf.gftMbximumSizf();
                     if (tpd != null) {
-                        tpWidth = tpd.width;
-                        tpHeight = tpd.height;
+                        tpWidti = tpd.widti;
+                        tpHfigit = tpd.ifigit;
                     }
                 }
             }
 
-            int maxHeight = Math.max(Math.max(cpHeight, mbHeight), tpHeight);
-            // Only overflows if 3 real non-MAX_VALUE heights, sum to > MAX_VALUE
-            // Only will happen if sums to more than 2 billion units.  Not likely.
-            if (maxHeight != Integer.MAX_VALUE) {
-                maxHeight = cpHeight + mbHeight + tpHeight + i.top + i.bottom;
+            int mbxHfigit = Mbti.mbx(Mbti.mbx(dpHfigit, mbHfigit), tpHfigit);
+            // Only ovfrflows if 3 rfbl non-MAX_VALUE ifigits, sum to > MAX_VALUE
+            // Only will ibppfn if sums to morf tibn 2 billion units.  Not likfly.
+            if (mbxHfigit != Intfgfr.MAX_VALUE) {
+                mbxHfigit = dpHfigit + mbHfigit + tpHfigit + i.top + i.bottom;
             }
 
-            int maxWidth = Math.max(Math.max(cpWidth, mbWidth), tpWidth);
-            // Similar overflow comment as above
-            if (maxWidth != Integer.MAX_VALUE) {
-                maxWidth += i.left + i.right;
+            int mbxWidti = Mbti.mbx(Mbti.mbx(dpWidti, mbWidti), tpWidti);
+            // Similbr ovfrflow dommfnt bs bbovf
+            if (mbxWidti != Intfgfr.MAX_VALUE) {
+                mbxWidti += i.lfft + i.rigit;
             }
 
-            return new Dimension(maxWidth, maxHeight);
+            rfturn nfw Dimfnsion(mbxWidti, mbxHfigit);
         }
 
         /**
-         * Instructs the layout manager to perform the layout for the specified
-         * container.
+         * Instrudts tif lbyout mbnbgfr to pfrform tif lbyout for tif spfdififd
+         * dontbinfr.
          *
-         * @param the Container for which this layout manager is being used
+         * @pbrbm tif Contbinfr for wiidi tiis lbyout mbnbgfr is bfing usfd
          */
-        public void layoutContainer(Container parent) {
-            JRootPane root = (JRootPane) parent;
-            Rectangle b = root.getBounds();
-            Insets i = root.getInsets();
-            int nextY = 0;
-            int w = b.width - i.right - i.left;
-            int h = b.height - i.top - i.bottom;
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            JRootPbnf root = (JRootPbnf) pbrfnt;
+            Rfdtbnglf b = root.gftBounds();
+            Insfts i = root.gftInsfts();
+            int nfxtY = 0;
+            int w = b.widti - i.rigit - i.lfft;
+            int i = b.ifigit - i.top - i.bottom;
 
-            if(root.getLayeredPane() != null) {
-                root.getLayeredPane().setBounds(i.left, i.top, w, h);
+            if(root.gftLbyfrfdPbnf() != null) {
+                root.gftLbyfrfdPbnf().sftBounds(i.lfft, i.top, w, i);
             }
-            if(root.getGlassPane() != null) {
-                root.getGlassPane().setBounds(i.left, i.top, w, h);
+            if(root.gftGlbssPbnf() != null) {
+                root.gftGlbssPbnf().sftBounds(i.lfft, i.top, w, i);
             }
-            // Note: This is laying out the children in the layeredPane,
-            // technically, these are not our children.
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    Dimension tpd = titlePane.getPreferredSize();
+            // Notf: Tiis is lbying out tif diildrfn in tif lbyfrfdPbnf,
+            // tfdinidblly, tifsf brf not our diildrfn.
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    Dimfnsion tpd = titlfPbnf.gftPrfffrrfdSizf();
                     if (tpd != null) {
-                        int tpHeight = tpd.height;
-                        titlePane.setBounds(0, 0, w, tpHeight);
-                        nextY += tpHeight;
+                        int tpHfigit = tpd.ifigit;
+                        titlfPbnf.sftBounds(0, 0, w, tpHfigit);
+                        nfxtY += tpHfigit;
                     }
                 }
             }
-            if(root.getMenuBar() != null) {
-                Dimension mbd = root.getMenuBar().getPreferredSize();
-                root.getMenuBar().setBounds(0, nextY, w, mbd.height);
-                nextY += mbd.height;
+            if(root.gftMfnuBbr() != null) {
+                Dimfnsion mbd = root.gftMfnuBbr().gftPrfffrrfdSizf();
+                root.gftMfnuBbr().sftBounds(0, nfxtY, w, mbd.ifigit);
+                nfxtY += mbd.ifigit;
             }
-            if(root.getContentPane() != null) {
-                Dimension cpd = root.getContentPane().getPreferredSize();
-                root.getContentPane().setBounds(0, nextY, w,
-                h < nextY ? 0 : h - nextY);
+            if(root.gftContfntPbnf() != null) {
+                Dimfnsion dpd = root.gftContfntPbnf().gftPrfffrrfdSizf();
+                root.gftContfntPbnf().sftBounds(0, nfxtY, w,
+                i < nfxtY ? 0 : i - nfxtY);
             }
         }
 
-        public void addLayoutComponent(String name, Component comp) {}
-        public void removeLayoutComponent(Component comp) {}
-        public void addLayoutComponent(Component comp, Object constraints) {}
-        public float getLayoutAlignmentX(Container target) { return 0.0f; }
-        public float getLayoutAlignmentY(Container target) { return 0.0f; }
-        public void invalidateLayout(Container target) {}
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {}
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {}
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) { rfturn 0.0f; }
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) { rfturn 0.0f; }
+        publid void invblidbtfLbyout(Contbinfr tbrgft) {}
     }
 
 
     /**
-     * Maps from positions to cursor type. Refer to calculateCorner and
-     * calculatePosition for details of this.
+     * Mbps from positions to dursor typf. Rfffr to dbldulbtfCornfr bnd
+     * dbldulbtfPosition for dftbils of tiis.
      */
-    private static final int[] cursorMapping = new int[]
+    privbtf stbtid finbl int[] dursorMbpping = nfw int[]
     { Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR,
              Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
       Cursor.NW_RESIZE_CURSOR, 0, 0, 0, Cursor.NE_RESIZE_CURSOR,
@@ -672,319 +672,319 @@ public class MetalRootPaneUI extends BasicRootPaneUI
     };
 
     /**
-     * MouseInputHandler is responsible for handling resize/moving of
-     * the Window. It sets the cursor directly on the Window when then
-     * mouse moves over a hot spot.
+     * MousfInputHbndlfr is rfsponsiblf for ibndling rfsizf/moving of
+     * tif Window. It sfts tif dursor dirfdtly on tif Window wifn tifn
+     * mousf movfs ovfr b iot spot.
      */
-    private class MouseInputHandler implements MouseInputListener {
+    privbtf dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
         /**
-         * Set to true if the drag operation is moving the window.
+         * Sft to truf if tif drbg opfrbtion is moving tif window.
          */
-        private boolean isMovingWindow;
-
-        /**
-         * Used to determine the corner the resize is occurring from.
-         */
-        private int dragCursor;
+        privbtf boolfbn isMovingWindow;
 
         /**
-         * X location the mouse went down on for a drag operation.
+         * Usfd to dftfrminf tif dornfr tif rfsizf is oddurring from.
          */
-        private int dragOffsetX;
+        privbtf int drbgCursor;
 
         /**
-         * Y location the mouse went down on for a drag operation.
+         * X lodbtion tif mousf wfnt down on for b drbg opfrbtion.
          */
-        private int dragOffsetY;
+        privbtf int drbgOffsftX;
 
         /**
-         * Width of the window when the drag started.
+         * Y lodbtion tif mousf wfnt down on for b drbg opfrbtion.
          */
-        private int dragWidth;
+        privbtf int drbgOffsftY;
 
         /**
-         * Height of the window when the drag started.
+         * Widti of tif window wifn tif drbg stbrtfd.
          */
-        private int dragHeight;
+        privbtf int drbgWidti;
 
-        public void mousePressed(MouseEvent ev) {
-            JRootPane rootPane = getRootPane();
+        /**
+         * Hfigit of tif window wifn tif drbg stbrtfd.
+         */
+        privbtf int drbgHfigit;
 
-            if (rootPane.getWindowDecorationStyle() == JRootPane.NONE) {
-                return;
+        publid void mousfPrfssfd(MousfEvfnt fv) {
+            JRootPbnf rootPbnf = gftRootPbnf();
+
+            if (rootPbnf.gftWindowDfdorbtionStylf() == JRootPbnf.NONE) {
+                rfturn;
             }
-            Point dragWindowOffset = ev.getPoint();
-            Window w = (Window)ev.getSource();
+            Point drbgWindowOffsft = fv.gftPoint();
+            Window w = (Window)fv.gftSourdf();
             if (w != null) {
                 w.toFront();
             }
-            Point convertedDragWindowOffset = SwingUtilities.convertPoint(
-                           w, dragWindowOffset, getTitlePane());
+            Point donvfrtfdDrbgWindowOffsft = SwingUtilitifs.donvfrtPoint(
+                           w, drbgWindowOffsft, gftTitlfPbnf());
 
-            Frame f = null;
-            Dialog d = null;
+            Frbmf f = null;
+            Diblog d = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog)w;
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf if (w instbndfof Diblog) {
+                d = (Diblog)w;
             }
 
-            int frameState = (f != null) ? f.getExtendedState() : 0;
+            int frbmfStbtf = (f != null) ? f.gftExtfndfdStbtf() : 0;
 
-            if (getTitlePane() != null &&
-                        getTitlePane().contains(convertedDragWindowOffset)) {
-                if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0)
+            if (gftTitlfPbnf() != null &&
+                        gftTitlfPbnf().dontbins(donvfrtfdDrbgWindowOffsft)) {
+                if ((f != null && ((frbmfStbtf & Frbmf.MAXIMIZED_BOTH) == 0)
                         || (d != null))
-                        && dragWindowOffset.y >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x < w.getWidth()
+                        && drbgWindowOffsft.y >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffsft.x >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffsft.x < w.gftWidti()
                             - BORDER_DRAG_THICKNESS) {
-                    isMovingWindow = true;
-                    dragOffsetX = dragWindowOffset.x;
-                    dragOffsetY = dragWindowOffset.y;
+                    isMovingWindow = truf;
+                    drbgOffsftX = drbgWindowOffsft.x;
+                    drbgOffsftY = drbgWindowOffsft.y;
                 }
             }
-            else if (f != null && f.isResizable()
-                    && ((frameState & Frame.MAXIMIZED_BOTH) == 0)
-                    || (d != null && d.isResizable())) {
-                dragOffsetX = dragWindowOffset.x;
-                dragOffsetY = dragWindowOffset.y;
-                dragWidth = w.getWidth();
-                dragHeight = w.getHeight();
-                dragCursor = getCursor(calculateCorner(
-                             w, dragWindowOffset.x, dragWindowOffset.y));
+            flsf if (f != null && f.isRfsizbblf()
+                    && ((frbmfStbtf & Frbmf.MAXIMIZED_BOTH) == 0)
+                    || (d != null && d.isRfsizbblf())) {
+                drbgOffsftX = drbgWindowOffsft.x;
+                drbgOffsftY = drbgWindowOffsft.y;
+                drbgWidti = w.gftWidti();
+                drbgHfigit = w.gftHfigit();
+                drbgCursor = gftCursor(dbldulbtfCornfr(
+                             w, drbgWindowOffsft.x, drbgWindowOffsft.y));
             }
         }
 
-        public void mouseReleased(MouseEvent ev) {
-            if (dragCursor != 0 && window != null && !window.isValid()) {
-                // Some Window systems validate as you resize, others won't,
-                // thus the check for validity before repainting.
-                window.validate();
-                getRootPane().repaint();
+        publid void mousfRflfbsfd(MousfEvfnt fv) {
+            if (drbgCursor != 0 && window != null && !window.isVblid()) {
+                // Somf Window systfms vblidbtf bs you rfsizf, otifrs won't,
+                // tius tif difdk for vblidity bfforf rfpbinting.
+                window.vblidbtf();
+                gftRootPbnf().rfpbint();
             }
-            isMovingWindow = false;
-            dragCursor = 0;
+            isMovingWindow = fblsf;
+            drbgCursor = 0;
         }
 
-        public void mouseMoved(MouseEvent ev) {
-            JRootPane root = getRootPane();
+        publid void mousfMovfd(MousfEvfnt fv) {
+            JRootPbnf root = gftRootPbnf();
 
-            if (root.getWindowDecorationStyle() == JRootPane.NONE) {
-                return;
+            if (root.gftWindowDfdorbtionStylf() == JRootPbnf.NONE) {
+                rfturn;
             }
 
-            Window w = (Window)ev.getSource();
+            Window w = (Window)fv.gftSourdf();
 
-            Frame f = null;
-            Dialog d = null;
+            Frbmf f = null;
+            Diblog d = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog)w;
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf if (w instbndfof Diblog) {
+                d = (Diblog)w;
             }
 
-            // Update the cursor
-            int cursor = getCursor(calculateCorner(w, ev.getX(), ev.getY()));
+            // Updbtf tif dursor
+            int dursor = gftCursor(dbldulbtfCornfr(w, fv.gftX(), fv.gftY()));
 
-            if (cursor != 0 && ((f != null && (f.isResizable() &&
-                    (f.getExtendedState() & Frame.MAXIMIZED_BOTH) == 0))
-                    || (d != null && d.isResizable()))) {
-                w.setCursor(Cursor.getPredefinedCursor(cursor));
+            if (dursor != 0 && ((f != null && (f.isRfsizbblf() &&
+                    (f.gftExtfndfdStbtf() & Frbmf.MAXIMIZED_BOTH) == 0))
+                    || (d != null && d.isRfsizbblf()))) {
+                w.sftCursor(Cursor.gftPrfdffinfdCursor(dursor));
             }
-            else {
-                w.setCursor(lastCursor);
+            flsf {
+                w.sftCursor(lbstCursor);
             }
         }
 
-        private void adjust(Rectangle bounds, Dimension min, int deltaX,
-                            int deltaY, int deltaWidth, int deltaHeight) {
-            bounds.x += deltaX;
-            bounds.y += deltaY;
-            bounds.width += deltaWidth;
-            bounds.height += deltaHeight;
+        privbtf void bdjust(Rfdtbnglf bounds, Dimfnsion min, int dfltbX,
+                            int dfltbY, int dfltbWidti, int dfltbHfigit) {
+            bounds.x += dfltbX;
+            bounds.y += dfltbY;
+            bounds.widti += dfltbWidti;
+            bounds.ifigit += dfltbHfigit;
             if (min != null) {
-                if (bounds.width < min.width) {
-                    int correction = min.width - bounds.width;
-                    if (deltaX != 0) {
-                        bounds.x -= correction;
+                if (bounds.widti < min.widti) {
+                    int dorrfdtion = min.widti - bounds.widti;
+                    if (dfltbX != 0) {
+                        bounds.x -= dorrfdtion;
                     }
-                    bounds.width = min.width;
+                    bounds.widti = min.widti;
                 }
-                if (bounds.height < min.height) {
-                    int correction = min.height - bounds.height;
-                    if (deltaY != 0) {
-                        bounds.y -= correction;
+                if (bounds.ifigit < min.ifigit) {
+                    int dorrfdtion = min.ifigit - bounds.ifigit;
+                    if (dfltbY != 0) {
+                        bounds.y -= dorrfdtion;
                     }
-                    bounds.height = min.height;
+                    bounds.ifigit = min.ifigit;
                 }
             }
         }
 
-        public void mouseDragged(MouseEvent ev) {
-            Window w = (Window)ev.getSource();
-            Point pt = ev.getPoint();
+        publid void mousfDrbggfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            Point pt = fv.gftPoint();
 
             if (isMovingWindow) {
-                Point eventLocationOnScreen = ev.getLocationOnScreen();
-                w.setLocation(eventLocationOnScreen.x - dragOffsetX,
-                              eventLocationOnScreen.y - dragOffsetY);
+                Point fvfntLodbtionOnSdrffn = fv.gftLodbtionOnSdrffn();
+                w.sftLodbtion(fvfntLodbtionOnSdrffn.x - drbgOffsftX,
+                              fvfntLodbtionOnSdrffn.y - drbgOffsftY);
             }
-            else if (dragCursor != 0) {
-                Rectangle r = w.getBounds();
-                Rectangle startBounds = new Rectangle(r);
-                Dimension min = w.getMinimumSize();
+            flsf if (drbgCursor != 0) {
+                Rfdtbnglf r = w.gftBounds();
+                Rfdtbnglf stbrtBounds = nfw Rfdtbnglf(r);
+                Dimfnsion min = w.gftMinimumSizf();
 
-                switch (dragCursor) {
-                case Cursor.E_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0, pt.x + (dragWidth - dragOffsetX) -
-                           r.width, 0);
-                    break;
-                case Cursor.S_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0, 0, pt.y + (dragHeight - dragOffsetY) -
-                           r.height);
-                    break;
-                case Cursor.N_RESIZE_CURSOR:
-                    adjust(r, min, 0, pt.y -dragOffsetY, 0,
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.W_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX, 0,
-                           -(pt.x - dragOffsetX), 0);
-                    break;
-                case Cursor.NE_RESIZE_CURSOR:
-                    adjust(r, min, 0, pt.y - dragOffsetY,
-                           pt.x + (dragWidth - dragOffsetX) - r.width,
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.SE_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0,
-                           pt.x + (dragWidth - dragOffsetX) - r.width,
-                           pt.y + (dragHeight - dragOffsetY) -
-                           r.height);
-                    break;
-                case Cursor.NW_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX,
-                           pt.y - dragOffsetY,
-                           -(pt.x - dragOffsetX),
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.SW_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX, 0,
-                           -(pt.x - dragOffsetX),
-                           pt.y + (dragHeight - dragOffsetY) - r.height);
-                    break;
-                default:
-                    break;
+                switdi (drbgCursor) {
+                dbsf Cursor.E_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, pt.x + (drbgWidti - drbgOffsftX) -
+                           r.widti, 0);
+                    brfbk;
+                dbsf Cursor.S_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, 0, pt.y + (drbgHfigit - drbgOffsftY) -
+                           r.ifigit);
+                    brfbk;
+                dbsf Cursor.N_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y -drbgOffsftY, 0,
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.W_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX, 0,
+                           -(pt.x - drbgOffsftX), 0);
+                    brfbk;
+                dbsf Cursor.NE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y - drbgOffsftY,
+                           pt.x + (drbgWidti - drbgOffsftX) - r.widti,
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.SE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0,
+                           pt.x + (drbgWidti - drbgOffsftX) - r.widti,
+                           pt.y + (drbgHfigit - drbgOffsftY) -
+                           r.ifigit);
+                    brfbk;
+                dbsf Cursor.NW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX,
+                           pt.y - drbgOffsftY,
+                           -(pt.x - drbgOffsftX),
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.SW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX, 0,
+                           -(pt.x - drbgOffsftX),
+                           pt.y + (drbgHfigit - drbgOffsftY) - r.ifigit);
+                    brfbk;
+                dffbult:
+                    brfbk;
                 }
-                if (!r.equals(startBounds)) {
-                    w.setBounds(r);
-                    // Defer repaint/validate on mouseReleased unless dynamic
-                    // layout is active.
-                    if (Toolkit.getDefaultToolkit().isDynamicLayoutActive()) {
-                        w.validate();
-                        getRootPane().repaint();
+                if (!r.fqubls(stbrtBounds)) {
+                    w.sftBounds(r);
+                    // Dfffr rfpbint/vblidbtf on mousfRflfbsfd unlfss dynbmid
+                    // lbyout is bdtivf.
+                    if (Toolkit.gftDffbultToolkit().isDynbmidLbyoutAdtivf()) {
+                        w.vblidbtf();
+                        gftRootPbnf().rfpbint();
                     }
                 }
             }
         }
 
-        public void mouseEntered(MouseEvent ev) {
-            Window w = (Window)ev.getSource();
-            lastCursor = w.getCursor();
-            mouseMoved(ev);
+        publid void mousfEntfrfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            lbstCursor = w.gftCursor();
+            mousfMovfd(fv);
         }
 
-        public void mouseExited(MouseEvent ev) {
-            Window w = (Window)ev.getSource();
-            w.setCursor(lastCursor);
+        publid void mousfExitfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            w.sftCursor(lbstCursor);
         }
 
-        public void mouseClicked(MouseEvent ev) {
-            Window w = (Window)ev.getSource();
-            Frame f = null;
+        publid void mousfClidkfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            Frbmf f = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
-            } else {
-                return;
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf {
+                rfturn;
             }
 
-            Point convertedPoint = SwingUtilities.convertPoint(
-                           w, ev.getPoint(), getTitlePane());
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint(
+                           w, fv.gftPoint(), gftTitlfPbnf());
 
-            int state = f.getExtendedState();
-            if (getTitlePane() != null &&
-                    getTitlePane().contains(convertedPoint)) {
-                if ((ev.getClickCount() % 2) == 0 &&
-                        ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0)) {
-                    if (f.isResizable()) {
-                        if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                            f.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+            int stbtf = f.gftExtfndfdStbtf();
+            if (gftTitlfPbnf() != null &&
+                    gftTitlfPbnf().dontbins(donvfrtfdPoint)) {
+                if ((fv.gftClidkCount() % 2) == 0 &&
+                        ((fv.gftModififrs() & InputEvfnt.BUTTON1_MASK) != 0)) {
+                    if (f.isRfsizbblf()) {
+                        if ((stbtf & Frbmf.MAXIMIZED_BOTH) != 0) {
+                            f.sftExtfndfdStbtf(stbtf & ~Frbmf.MAXIMIZED_BOTH);
                         }
-                        else {
-                            f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+                        flsf {
+                            f.sftExtfndfdStbtf(stbtf | Frbmf.MAXIMIZED_BOTH);
                         }
-                        return;
+                        rfturn;
                     }
                 }
             }
         }
 
         /**
-         * Returns the corner that contains the point <code>x</code>,
-         * <code>y</code>, or -1 if the position doesn't match a corner.
+         * Rfturns tif dornfr tibt dontbins tif point <dodf>x</dodf>,
+         * <dodf>y</dodf>, or -1 if tif position dofsn't mbtdi b dornfr.
          */
-        private int calculateCorner(Window w, int x, int y) {
-            Insets insets = w.getInsets();
-            int xPosition = calculatePosition(x - insets.left,
-                    w.getWidth() - insets.left - insets.right);
-            int yPosition = calculatePosition(y - insets.top,
-                    w.getHeight() - insets.top - insets.bottom);
+        privbtf int dbldulbtfCornfr(Window w, int x, int y) {
+            Insfts insfts = w.gftInsfts();
+            int xPosition = dbldulbtfPosition(x - insfts.lfft,
+                    w.gftWidti() - insfts.lfft - insfts.rigit);
+            int yPosition = dbldulbtfPosition(y - insfts.top,
+                    w.gftHfigit() - insfts.top - insfts.bottom);
 
             if (xPosition == -1 || yPosition == -1) {
-                return -1;
+                rfturn -1;
             }
-            return yPosition * 5 + xPosition;
+            rfturn yPosition * 5 + xPosition;
         }
 
         /**
-         * Returns the Cursor to render for the specified corner. This returns
-         * 0 if the corner doesn't map to a valid Cursor
+         * Rfturns tif Cursor to rfndfr for tif spfdififd dornfr. Tiis rfturns
+         * 0 if tif dornfr dofsn't mbp to b vblid Cursor
          */
-        private int getCursor(int corner) {
-            if (corner == -1) {
-                return 0;
+        privbtf int gftCursor(int dornfr) {
+            if (dornfr == -1) {
+                rfturn 0;
             }
-            return cursorMapping[corner];
+            rfturn dursorMbpping[dornfr];
         }
 
         /**
-         * Returns an integer indicating the position of <code>spot</code>
-         * in <code>width</code>. The return value will be:
+         * Rfturns bn intfgfr indidbting tif position of <dodf>spot</dodf>
+         * in <dodf>widti</dodf>. Tif rfturn vbluf will bf:
          * 0 if < BORDER_DRAG_THICKNESS
          * 1 if < CORNER_DRAG_WIDTH
-         * 2 if >= CORNER_DRAG_WIDTH && < width - BORDER_DRAG_THICKNESS
-         * 3 if >= width - CORNER_DRAG_WIDTH
-         * 4 if >= width - BORDER_DRAG_THICKNESS
-         * 5 otherwise
+         * 2 if >= CORNER_DRAG_WIDTH && < widti - BORDER_DRAG_THICKNESS
+         * 3 if >= widti - CORNER_DRAG_WIDTH
+         * 4 if >= widti - BORDER_DRAG_THICKNESS
+         * 5 otifrwisf
          */
-        private int calculatePosition(int spot, int width) {
+        privbtf int dbldulbtfPosition(int spot, int widti) {
             if (spot < BORDER_DRAG_THICKNESS) {
-                return 0;
+                rfturn 0;
             }
             if (spot < CORNER_DRAG_WIDTH) {
-                return 1;
+                rfturn 1;
             }
-            if (spot >= (width - BORDER_DRAG_THICKNESS)) {
-                return 4;
+            if (spot >= (widti - BORDER_DRAG_THICKNESS)) {
+                rfturn 4;
             }
-            if (spot >= (width - CORNER_DRAG_WIDTH)) {
-                return 3;
+            if (spot >= (widti - CORNER_DRAG_WIDTH)) {
+                rfturn 3;
             }
-            return 2;
+            rfturn 2;
         }
     }
 }

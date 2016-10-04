@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * Utility class for detecting inadvertent uses of boxing in
- * {@code java.util.stream} classes.  The detection is turned on or off based on
- * whether the system property {@code org.openjdk.java.util.stream.tripwire} is
- * considered {@code true} according to {@link Boolean#getBoolean(String)}.
- * This should normally be turned off for production use.
+ * Utility dlbss for dftfdting inbdvfrtfnt usfs of boxing in
+ * {@dodf jbvb.util.strfbm} dlbssfs.  Tif dftfdtion is turnfd on or off bbsfd on
+ * wiftifr tif systfm propfrty {@dodf org.opfnjdk.jbvb.util.strfbm.tripwirf} is
+ * donsidfrfd {@dodf truf} bddording to {@link Boolfbn#gftBoolfbn(String)}.
+ * Tiis siould normblly bf turnfd off for produdtion usf.
  *
- * @apiNote
- * Typical usage would be for boxing code to do:
- * <pre>{@code
- *     if (Tripwire.ENABLED)
- *         Tripwire.trip(getClass(), "{0} calling Sink.OfInt.accept(Integer)");
- * }</pre>
+ * @bpiNotf
+ * Typidbl usbgf would bf for boxing dodf to do:
+ * <prf>{@dodf
+ *     if (Tripwirf.ENABLED)
+ *         Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfInt.bddfpt(Intfgfr)");
+ * }</prf>
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class Tripwire {
-    private static final String TRIPWIRE_PROPERTY = "org.openjdk.java.util.stream.tripwire";
+finbl dlbss Tripwirf {
+    privbtf stbtid finbl String TRIPWIRE_PROPERTY = "org.opfnjdk.jbvb.util.strfbm.tripwirf";
 
-    /** Should debugging checks be enabled? */
-    static final boolean ENABLED = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean(TRIPWIRE_PROPERTY));
+    /** Siould dfbugging difdks bf fnbblfd? */
+    stbtid finbl boolfbn ENABLED = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn(TRIPWIRE_PROPERTY));
 
-    private Tripwire() { }
+    privbtf Tripwirf() { }
 
     /**
-     * Produces a log warning, using {@code PlatformLogger.getLogger(className)},
-     * using the supplied message.  The class name of {@code trippingClass} will
-     * be used as the first parameter to the message.
+     * Produdfs b log wbrning, using {@dodf PlbtformLoggfr.gftLoggfr(dlbssNbmf)},
+     * using tif supplifd mfssbgf.  Tif dlbss nbmf of {@dodf trippingClbss} will
+     * bf usfd bs tif first pbrbmftfr to tif mfssbgf.
      *
-     * @param trippingClass Name of the class generating the message
-     * @param msg A message format string of the type expected by
-     * {@link PlatformLogger}
+     * @pbrbm trippingClbss Nbmf of tif dlbss gfnfrbting tif mfssbgf
+     * @pbrbm msg A mfssbgf formbt string of tif typf fxpfdtfd by
+     * {@link PlbtformLoggfr}
      */
-    static void trip(Class<?> trippingClass, String msg) {
-        PlatformLogger.getLogger(trippingClass.getName()).warning(msg, trippingClass.getName());
+    stbtid void trip(Clbss<?> trippingClbss, String msg) {
+        PlbtformLoggfr.gftLoggfr(trippingClbss.gftNbmf()).wbrning(msg, trippingClbss.gftNbmf());
     }
 }

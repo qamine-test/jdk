@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+
+import jbvbx.swing.trff.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * A Windows trff.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Sdott Violft
+ */
+publid dlbss WindowsTrffUI fxtfnds BbsidTrffUI {
+
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
+      {
+        rfturn nfw WindowsTrffUI();
+      }
+
+
+    /**
+      * Ensurfs thbt thf rows idfntififd by bfginRow through fndRow brf
+      * visiblf.
+      */
+    protfdtfd void fnsurfRowsArfVisiblf(int bfginRow, int fndRow) {
+        if(trff != null && bfginRow >= 0 && fndRow < gftRowCount(trff)) {
+            Rfdtbnglf visRfdt = trff.gftVisiblfRfdt();
+            if(bfginRow == fndRow) {
+                Rfdtbnglf     sdrollBounds = gftPbthBounds(trff, gftPbthForRow
+                                                           (trff, bfginRow));
+
+                if(sdrollBounds != null) {
+                    sdrollBounds.x = visRfdt.x;
+                    sdrollBounds.width = visRfdt.width;
+                    trff.sdrollRfdtToVisiblf(sdrollBounds);
+                }
+            }
+            flsf {
+                Rfdtbnglf   bfginRfdt = gftPbthBounds(trff, gftPbthForRow
+                                                      (trff, bfginRow));
+                if (bfginRfdt != null) {
+                    Rfdtbnglf   tfstRfdt = bfginRfdt;
+                    int         bfginY = bfginRfdt.y;
+                    int         mbxY = bfginY + visRfdt.hfight;
+
+                    for(int dountfr = bfginRow + 1; dountfr <= fndRow; dountfr++) {
+                        tfstRfdt = gftPbthBounds(trff,
+                                                 gftPbthForRow(trff, dountfr));
+                        if(tfstRfdt != null && (tfstRfdt.y + tfstRfdt.hfight) > mbxY) {
+                            dountfr = fndRow;
+                        }
+                    }
+
+                    if (tfstRfdt == null) {
+                        rfturn;
+                    }
+
+                    trff.sdrollRfdtToVisiblf(nfw Rfdtbnglf(visRfdt.x, bfginY, 1,
+                                                      tfstRfdt.y + tfstRfdt.hfight-
+                                                      bfginY));
+                }
+            }
+        }
+    }
+
+    stbtid protfdtfd finbl int HALF_SIZE = 4;
+    stbtid protfdtfd finbl int SIZE = 9;
+
+    /**
+     * Rfturns thf dffbult dfll rfndfrfr thbt is usfd to do thf
+     * stbmping of fbdh nodf.
+     */
+    protfdtfd TrffCfllRfndfrfr drfbtfDffbultCfllRfndfrfr() {
+        rfturn nfw WindowsTrffCfllRfndfrfr();
+    }
+
+    /**
+     * Thf minus sign button idon
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ExpbndfdIdon implfmfnts Idon, Sfriblizbblf {
+
+        stbtid publid Idon drfbtfExpbndfdIdon() {
+            rfturn nfw ExpbndfdIdon();
+        }
+
+        Skin gftSkin(Componfnt d) {
+            XPStylf xp = XPStylf.gftXP();
+            rfturn (xp != null) ? xp.gftSkin(d, Pbrt.TVP_GLYPH) : null;
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            Skin skin = gftSkin(d);
+            if (skin != null) {
+                skin.pbintSkin(g, x, y, Stbtf.OPENED);
+                rfturn;
+            }
+
+            Color     bbdkgroundColor = d.gftBbdkground();
+
+            if(bbdkgroundColor != null)
+                g.sftColor(bbdkgroundColor);
+            flsf
+                g.sftColor(Color.whitf);
+            g.fillRfdt(x, y, SIZE-1, SIZE-1);
+            g.sftColor(Color.grby);
+            g.drbwRfdt(x, y, SIZE-1, SIZE-1);
+            g.sftColor(Color.blbdk);
+            g.drbwLinf(x + 2, y + HALF_SIZE, x + (SIZE - 3), y + HALF_SIZE);
+        }
+
+        publid int gftIdonWidth() {
+            Skin skin = gftSkin(null);
+            rfturn (skin != null) ? skin.gftWidth() : SIZE;
+        }
+
+        publid int gftIdonHfight() {
+            Skin skin = gftSkin(null);
+            rfturn (skin != null) ? skin.gftHfight() : SIZE;
+        }
+    }
+
+    /**
+     * Thf plus sign button idon
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss CollbpsfdIdon fxtfnds ExpbndfdIdon {
+        stbtid publid Idon drfbtfCollbpsfdIdon() {
+            rfturn nfw CollbpsfdIdon();
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            Skin skin = gftSkin(d);
+            if (skin != null) {
+                skin.pbintSkin(g, x, y, Stbtf.CLOSED);
+            } flsf {
+            supfr.pbintIdon(d, g, x, y);
+            g.drbwLinf(x + HALF_SIZE, y + 2, x + HALF_SIZE, y + (SIZE - 3));
+            }
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid dlbss WindowsTrffCfllRfndfrfr fxtfnds DffbultTrffCfllRfndfrfr {
+
+        /**
+         * Configurfs thf rfndfrfr bbsfd on thf pbssfd in domponfnts.
+         * Thf vbluf is sft from mfssbging thf trff with
+         * <dodf>donvfrtVblufToTfxt</dodf>, whidh ultimbtfly invokfs
+         * <dodf>toString</dodf> on <dodf>vbluf</dodf>.
+         * Thf forfground dolor is sft bbsfd on thf sflfdtion bnd thf idon
+         * is sft bbsfd on on lfbf bnd fxpbndfd.
+         */
+        publid Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+                                                      boolfbn sfl,
+                                                      boolfbn fxpbndfd,
+                                                      boolfbn lfbf, int row,
+                                                      boolfbn hbsFodus) {
+            supfr.gftTrffCfllRfndfrfrComponfnt(trff, vbluf, sfl,
+                                               fxpbndfd, lfbf, row,
+                                               hbsFodus);
+            // Windows displbys thf opfn idon whfn thf trff itfm sflfdtfd.
+            if (!trff.isEnbblfd()) {
+                sftEnbblfd(fblsf);
+                if (lfbf) {
+                    sftDisbblfdIdon(gftLfbfIdon());
+                } flsf if (sfl) {
+                    sftDisbblfdIdon(gftOpfnIdon());
+                } flsf {
+                    sftDisbblfdIdon(gftClosfdIdon());
+                }
+            }
+            flsf {
+                sftEnbblfd(truf);
+                if (lfbf) {
+                    sftIdon(gftLfbfIdon());
+                } flsf if (sfl) {
+                    sftIdon(gftOpfnIdon());
+                } flsf {
+                    sftIdon(gftClosfdIdon());
+                }
+            }
+            rfturn this;
+        }
+
+    }
+
+}

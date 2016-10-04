@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss implfmfnts thf LDAPv3 Rfqufst Control for thf pfrsistfnt sfbrdh
+ * mfdhbnism bs dffinfd in
+ * <b hrff="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdh-02.txt">drbft-iftf-ldbpfxt-psfbrdh-02.txt</b>.
+ *
+ * Thf dontrol's vbluf hbs thf following ASN.1 dffinition:
+ * <prf>
+ *
+ *     PfrsistfntSfbrdh ::= SEQUENCE {
+ *         dhbngfTypfs INTEGER,
+ *         dhbngfsOnly BOOLEAN,
+ *         rfturnECs BOOLEAN
+ *     }
+ *
+ * </prf>
+ *
+ * @sff EntryChbngfRfsponsfControl
+ * @buthor Vindfnt Rybn
+ */
+finbl publid dlbss PfrsistfntSfbrdhControl fxtfnds BbsidControl {
+
+    /**
+     * Thf pfrsistfnt sfbrdh dontrol's bssignfd objfdt idfntififr
+     * is 2.16.840.1.113730.3.4.3.
+     */
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.3";
+
+    /**
+     * Indidbtfs intfrfst in fntrifs whidh hbvf bffn bddfd.
+     */
+    publid stbtid finbl int ADD = 1;
+
+    /**
+     * Indidbtfs intfrfst in fntrifs whidh hbvf bffn dflftfd.
+     */
+    publid stbtid finbl int DELETE = 2;
+
+    /**
+     * Indidbtfs intfrfst in fntrifs whidh hbvf bffn modififd.
+     */
+    publid stbtid finbl int MODIFY = 4;
+
+    /**
+     * Indidbtfs intfrfst in fntrifs whidh hbvf bffn rfnbmfd.
+     */
+    publid stbtid finbl int RENAME = 8;
+
+    /**
+     * Indidbtfs intfrfst in fntrifs whidh hbvf bffn bddfd, dflftfd,
+     * modififd or rfnbmfd.
+     */
+    publid stbtid finbl int ANY = ADD | DELETE | MODIFY | RENAME;
+
+    /**
+     * Thf dhbngf typfs of intfrfst. All dhbngfs, by dffbult.
+     *
+     * @sfribl
+     */
+    privbtf int dhbngfTypfs = ANY;
+
+    /**
+     * Rfturn originbl fntrifs bnd dhbngfd fntrifs or only dhbngfd fntrifs.
+     *
+     * @sfribl
+     */
+    privbtf boolfbn dhbngfsOnly = fblsf;
+
+    /**
+     * Rfturn fntry dhbngf dontrols.
+     *
+     * @sfribl
+     */
+    privbtf boolfbn rfturnControls = truf;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6335140491154854116L;
+
+    /**
+     * Construdts b pfrsistfnt sfbrdh non-dritidbl dontrol.
+     * Thf originbl fntrifs, bny dhbngfd fntrifs (bdditions,
+     * dflftions, modifidbtions or rfnbmfs) bnd fntry dhbngf
+     * dontrols brf rfqufstfd.
+     *
+     * @fxdfption IOExdfption If b BER fndoding frror oddurs.
+     */
+    publid PfrsistfntSfbrdhControl() throws IOExdfption {
+        supfr(OID);
+        supfr.vbluf = sftEndodfdVbluf();
+    }
+
+    /**
+     * Construdts b pfrsistfnt sfbrdh dontrol.
+     *
+     * @pbrbm   dhbngfTypfs     Thf dhbngf typfs of intfrfst.
+     * @pbrbm   dhbngfsOnly     Rfturn originbl fntrifs bnd dhbngfd fntrifs
+     *                          or only thf dhbngfd fntrifs.
+     * @pbrbm   rfturnControls  Rfturn fntry dhbngf dontrols.
+     * @pbrbm   dritidblity     Thf dontrol's dritidblity.
+     * @fxdfption IOExdfption If b BER fndoding frror oddurs.
+     */
+    publid PfrsistfntSfbrdhControl(int dhbngfTypfs, boolfbn dhbngfsOnly,
+        boolfbn rfturnControls, boolfbn dritidblity) throws IOExdfption {
+
+        supfr(OID, dritidblity, null);
+        this.dhbngfTypfs = dhbngfTypfs;
+        this.dhbngfsOnly = dhbngfsOnly;
+        this.rfturnControls = rfturnControls;
+        supfr.vbluf = sftEndodfdVbluf();
+    }
+
+    /*
+     * Sfts thf ASN.1 BER fndodfd vbluf of thf pfrsistfnt sfbrdh dontrol.
+     * Thf rfsult is thf rbw BER bytfs indluding thf tbg bnd lfngth of
+     * thf dontrol's vbluf. It dofs not indludf thf dontrols OID or dritidblity.
+     *
+     * @rfturn A possibly null bytf brrby rfprfsfnting thf ASN.1 BER fndodfd
+     *         vbluf of thf LDAP pfrsistfnt sfbrdh dontrol.
+     * @fxdfption IOExdfption If b BER fndoding frror oddurs.
+     */
+    privbtf bytf[] sftEndodfdVbluf() throws IOExdfption {
+
+        // build thf ASN.1 fndoding
+        BfrEndodfr bfr = nfw BfrEndodfr(32);
+
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfInt(dhbngfTypfs);
+            bfr.fndodfBoolfbn(dhbngfsOnly);
+            bfr.fndodfBoolfbn(rfturnControls);
+        bfr.fndSfq();
+
+        rfturn bfr.gftTrimmfdBuf();
+    }
+}

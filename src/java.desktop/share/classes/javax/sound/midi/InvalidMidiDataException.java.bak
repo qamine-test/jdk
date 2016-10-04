@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * An <code>InvalidMidiDataException</code> indicates that inappropriate MIDI
- * data was encountered. This often means that the data is invalid in and of
- * itself, from the perspective of the MIDI specification.  An example would
- * be an undefined status byte.  However, the exception might simply
- * mean that the data was invalid in the context it was used, or that
- * the object to which the data was given was unable to parse or use it.
- * For example, a file reader might not be able to parse a Type 2 MIDI file, even
- * though that format is defined in the MIDI specification.
+ * An <dodf>InvblidMidiDbtbExdfption</dodf> indidbtfs tibt inbppropribtf MIDI
+ * dbtb wbs fndountfrfd. Tiis oftfn mfbns tibt tif dbtb is invblid in bnd of
+ * itsflf, from tif pfrspfdtivf of tif MIDI spfdifidbtion.  An fxbmplf would
+ * bf bn undffinfd stbtus bytf.  Howfvfr, tif fxdfption migit simply
+ * mfbn tibt tif dbtb wbs invblid in tif dontfxt it wbs usfd, or tibt
+ * tif objfdt to wiidi tif dbtb wbs givfn wbs unbblf to pbrsf or usf it.
+ * For fxbmplf, b filf rfbdfr migit not bf bblf to pbrsf b Typf 2 MIDI filf, fvfn
+ * tiougi tibt formbt is dffinfd in tif MIDI spfdifidbtion.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public class InvalidMidiDataException extends Exception {
-    private static final long serialVersionUID = 2780771756789932067L;
+publid dlbss InvblidMidiDbtbExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 2780771756789932067L;
 
     /**
-     * Constructs an <code>InvalidMidiDataException</code> with
-     * <code>null</code> for its error detail message.
+     * Construdts bn <dodf>InvblidMidiDbtbExdfption</dodf> witi
+     * <dodf>null</dodf> for its frror dftbil mfssbgf.
      */
-    public InvalidMidiDataException() {
+    publid InvblidMidiDbtbExdfption() {
 
-        super();
+        supfr();
     }
 
     /**
-     *  Constructs an <code>InvalidMidiDataException</code> with the
-     * specified detail message.
+     *  Construdts bn <dodf>InvblidMidiDbtbExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf.
      *
-     * @param message the string to display as an error detail message
+     * @pbrbm mfssbgf tif string to displby bs bn frror dftbil mfssbgf
      */
-    public InvalidMidiDataException(String message) {
+    publid InvblidMidiDbtbExdfption(String mfssbgf) {
 
-        super(message);
+        supfr(mfssbgf);
     }
 }

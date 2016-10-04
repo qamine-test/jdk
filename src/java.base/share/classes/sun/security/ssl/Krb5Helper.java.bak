@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import javax.crypto.SecretKey;
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
 
 /**
- * A helper class for Kerberos APIs.
+ * A iflpfr dlbss for Kfrbfros APIs.
  */
-public final class Krb5Helper {
+publid finbl dlbss Krb5Hflpfr {
 
-    private Krb5Helper() { }
+    privbtf Krb5Hflpfr() { }
 
-    // loads Krb5Proxy implementation class if available
-    private static final String IMPL_CLASS =
-        "sun.security.ssl.krb5.Krb5ProxyImpl";
+    // lobds Krb5Proxy implfmfntbtion dlbss if bvbilbblf
+    privbtf stbtid finbl String IMPL_CLASS =
+        "sun.sfdurity.ssl.krb5.Krb5ProxyImpl";
 
-    private static final Krb5Proxy proxy =
-        AccessController.doPrivileged(new PrivilegedAction<Krb5Proxy>() {
-            @Override
-            public Krb5Proxy run() {
+    privbtf stbtid finbl Krb5Proxy proxy =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Krb5Proxy>() {
+            @Ovfrridf
+            publid Krb5Proxy run() {
                 try {
-                    Class<?> c = Class.forName(IMPL_CLASS, true, null);
-                    return (Krb5Proxy)c.newInstance();
-                } catch (ClassNotFoundException cnf) {
-                    return null;
-                } catch (InstantiationException e) {
-                    throw new AssertionError(e);
-                } catch (IllegalAccessException e) {
-                    throw new AssertionError(e);
+                    Clbss<?> d = Clbss.forNbmf(IMPL_CLASS, truf, null);
+                    rfturn (Krb5Proxy)d.nfwInstbndf();
+                } dbtdi (ClbssNotFoundExdfption dnf) {
+                    rfturn null;
+                } dbtdi (InstbntibtionExdfption f) {
+                    tirow nfw AssfrtionError(f);
+                } dbtdi (IllfgblAddfssExdfption f) {
+                    tirow nfw AssfrtionError(f);
                 }
             }});
 
     /**
-     * Returns true if Kerberos is available.
+     * Rfturns truf if Kfrbfros is bvbilbblf.
      */
-    public static boolean isAvailable() {
-        return proxy != null;
+    publid stbtid boolfbn isAvbilbblf() {
+        rfturn proxy != null;
     }
 
-    private static void ensureAvailable() {
+    privbtf stbtid void fnsurfAvbilbblf() {
         if (proxy == null)
-            throw new AssertionError("Kerberos should have been available");
+            tirow nfw AssfrtionError("Kfrbfros siould ibvf bffn bvbilbblf");
     }
 
     /**
-     * Returns the Subject associated with client-side of the SSL socket.
+     * Rfturns tif Subjfdt bssodibtfd witi dlifnt-sidf of tif SSL sodkft.
      */
-    public static Subject getClientSubject(AccessControlContext acc)
-            throws LoginException {
-        ensureAvailable();
-        return proxy.getClientSubject(acc);
+    publid stbtid Subjfdt gftClifntSubjfdt(AddfssControlContfxt bdd)
+            tirows LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftClifntSubjfdt(bdd);
     }
 
     /**
-     * Returns the Subject associated with server-side of the SSL socket.
+     * Rfturns tif Subjfdt bssodibtfd witi sfrvfr-sidf of tif SSL sodkft.
      */
-    public static Subject getServerSubject(AccessControlContext acc)
-            throws LoginException {
-        ensureAvailable();
-        return proxy.getServerSubject(acc);
+    publid stbtid Subjfdt gftSfrvfrSubjfdt(AddfssControlContfxt bdd)
+            tirows LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvfrSubjfdt(bdd);
     }
 
     /**
-     * Returns the KerberosKeys for the default server-side principal.
+     * Rfturns tif KfrbfrosKfys for tif dffbult sfrvfr-sidf prindipbl.
      */
-    public static Object getServiceCreds(AccessControlContext acc)
-            throws LoginException {
-        ensureAvailable();
-        return proxy.getServiceCreds(acc);
+    publid stbtid Objfdt gftSfrvidfCrfds(AddfssControlContfxt bdd)
+            tirows LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvidfCrfds(bdd);
     }
 
     /**
-     * Returns the server-side principal name associated with the KerberosKey.
+     * Rfturns tif sfrvfr-sidf prindipbl nbmf bssodibtfd witi tif KfrbfrosKfy.
      */
-    public static String getServerPrincipalName(Object serviceCreds) {
-        ensureAvailable();
-        return proxy.getServerPrincipalName(serviceCreds);
+    publid stbtid String gftSfrvfrPrindipblNbmf(Objfdt sfrvidfCrfds) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvfrPrindipblNbmf(sfrvidfCrfds);
     }
 
     /**
-     * Returns the hostname embedded in the principal name.
+     * Rfturns tif iostnbmf fmbfddfd in tif prindipbl nbmf.
      */
-    public static String getPrincipalHostName(Principal principal) {
-        ensureAvailable();
-        return proxy.getPrincipalHostName(principal);
+    publid stbtid String gftPrindipblHostNbmf(Prindipbl prindipbl) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftPrindipblHostNbmf(prindipbl);
     }
 
     /**
-     * Returns a ServicePermission for the principal name and action.
+     * Rfturns b SfrvidfPfrmission for tif prindipbl nbmf bnd bdtion.
      */
-    public static Permission getServicePermission(String principalName,
-            String action) {
-        ensureAvailable();
-        return proxy.getServicePermission(principalName, action);
+    publid stbtid Pfrmission gftSfrvidfPfrmission(String prindipblNbmf,
+            String bdtion) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvidfPfrmission(prindipblNbmf, bdtion);
     }
 
     /**
-     * Determines if the Subject might contain creds for princ.
+     * Dftfrminfs if tif Subjfdt migit dontbin drfds for prind.
      */
-    public static boolean isRelated(Subject subject, Principal princ) {
-        ensureAvailable();
-        return proxy.isRelated(subject, princ);
+    publid stbtid boolfbn isRflbtfd(Subjfdt subjfdt, Prindipbl prind) {
+        fnsurfAvbilbblf();
+        rfturn proxy.isRflbtfd(subjfdt, prind);
     }
 }

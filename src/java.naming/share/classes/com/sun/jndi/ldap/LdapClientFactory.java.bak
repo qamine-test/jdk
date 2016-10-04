@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2002, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.OutputStream;
-import javax.naming.InterruptedNamingException;
-import javax.naming.CommunicationException;
-import javax.naming.NamingException;
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.IntfrruptfdNbmingExdfption;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.NbmingExdfption;
 
-import com.sun.jndi.ldap.pool.PoolCallback;
-import com.sun.jndi.ldap.pool.PooledConnection;
-import com.sun.jndi.ldap.pool.PooledConnectionFactory;
+import dom.sun.jndi.ldbp.pool.PoolCbllbbdk;
+import dom.sun.jndi.ldbp.pool.PoolfdConnfdtion;
+import dom.sun.jndi.ldbp.pool.PoolfdConnfdtionFbdtory;
 
 /**
- * Creates an LdapClient. Encapsulates the parameters required to create
- * an LdapClient and provides methods for returning appropriate exceptions
- * to throw when acquiring a pooled LdapClient fails.
+ * Crfbtfs bn LdbpClifnt. Endbpsulbtfs tif pbrbmftfrs rfquirfd to drfbtf
+ * bn LdbpClifnt bnd providfs mftiods for rfturning bppropribtf fxdfptions
+ * to tirow wifn bdquiring b poolfd LdbpClifnt fbils.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-final class LdapClientFactory implements PooledConnectionFactory {
-    final private String host;
-    final private int port;
-    final private String socketFactory;
-    final private int connTimeout;
-    final private int readTimeout;
-    final private OutputStream trace;
+finbl dlbss LdbpClifntFbdtory implfmfnts PoolfdConnfdtionFbdtory {
+    finbl privbtf String iost;
+    finbl privbtf int port;
+    finbl privbtf String sodkftFbdtory;
+    finbl privbtf int donnTimfout;
+    finbl privbtf int rfbdTimfout;
+    finbl privbtf OutputStrfbm trbdf;
 
-    LdapClientFactory(String host, int port, String socketFactory,
-        int connTimeout, int readTimeout, OutputStream trace) {
-        this.host = host;
-        this.port = port;
-        this.socketFactory = socketFactory;
-        this.connTimeout = connTimeout;
-        this.readTimeout = readTimeout;
-        this.trace = trace;
+    LdbpClifntFbdtory(String iost, int port, String sodkftFbdtory,
+        int donnTimfout, int rfbdTimfout, OutputStrfbm trbdf) {
+        tiis.iost = iost;
+        tiis.port = port;
+        tiis.sodkftFbdtory = sodkftFbdtory;
+        tiis.donnTimfout = donnTimfout;
+        tiis.rfbdTimfout = rfbdTimfout;
+        tiis.trbdf = trbdf;
     }
 
-    public PooledConnection createPooledConnection(PoolCallback pcb)
-        throws NamingException {
-        return new LdapClient(host, port, socketFactory,
-                connTimeout, readTimeout, trace, pcb);
+    publid PoolfdConnfdtion drfbtfPoolfdConnfdtion(PoolCbllbbdk pdb)
+        tirows NbmingExdfption {
+        rfturn nfw LdbpClifnt(iost, port, sodkftFbdtory,
+                donnTimfout, rfbdTimfout, trbdf, pdb);
     }
 
-    public String toString() {
-        return host + ":" + port;
+    publid String toString() {
+        rfturn iost + ":" + port;
     }
 }

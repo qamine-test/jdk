@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management.counter.perf;
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
 
-import sun.management.counter.*;
-import java.nio.*;
-import java.io.UnsupportedEncodingException;
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.*;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
-class PerfDataEntry {
-    private class EntryFieldOffset {
-        private final static int SIZEOF_BYTE = 1;
-        private final static int SIZEOF_INT  = 4;
-        private final static int SIZEOF_LONG = 8;
+dlbss PfrfDbtbEntry {
+    privbtf dlbss EntryFifldOffsft {
+        privbtf finbl stbtid int SIZEOF_BYTE = 1;
+        privbtf finbl stbtid int SIZEOF_INT  = 4;
+        privbtf finbl stbtid int SIZEOF_LONG = 8;
 
-        private final static int ENTRY_LENGTH_SIZE    = SIZEOF_INT;
-        private final static int NAME_OFFSET_SIZE     = SIZEOF_INT;
-        private final static int VECTOR_LENGTH_SIZE   = SIZEOF_INT;
-        private final static int DATA_TYPE_SIZE       = SIZEOF_BYTE;
-        private final static int FLAGS_SIZE           = SIZEOF_BYTE;
-        private final static int DATA_UNIT_SIZE       = SIZEOF_BYTE;
-        private final static int DATA_VAR_SIZE        = SIZEOF_BYTE;
-        private final static int DATA_OFFSET_SIZE     = SIZEOF_INT;
+        privbtf finbl stbtid int ENTRY_LENGTH_SIZE    = SIZEOF_INT;
+        privbtf finbl stbtid int NAME_OFFSET_SIZE     = SIZEOF_INT;
+        privbtf finbl stbtid int VECTOR_LENGTH_SIZE   = SIZEOF_INT;
+        privbtf finbl stbtid int DATA_TYPE_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int FLAGS_SIZE           = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_UNIT_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_VAR_SIZE        = SIZEOF_BYTE;
+        privbtf finbl stbtid int DATA_OFFSET_SIZE     = SIZEOF_INT;
 
-        final static int ENTRY_LENGTH  = 0;
-        final static int NAME_OFFSET   = ENTRY_LENGTH + ENTRY_LENGTH_SIZE;
-        final static int VECTOR_LENGTH = NAME_OFFSET + NAME_OFFSET_SIZE;;
-        final static int DATA_TYPE     = VECTOR_LENGTH + VECTOR_LENGTH_SIZE;
-        final static int FLAGS         = DATA_TYPE + DATA_TYPE_SIZE;
-        final static int DATA_UNIT     = FLAGS + FLAGS_SIZE;
-        final static int DATA_VAR      = DATA_UNIT + DATA_UNIT_SIZE;
-        final static int DATA_OFFSET   = DATA_VAR + DATA_VAR_SIZE;
+        finbl stbtid int ENTRY_LENGTH  = 0;
+        finbl stbtid int NAME_OFFSET   = ENTRY_LENGTH + ENTRY_LENGTH_SIZE;
+        finbl stbtid int VECTOR_LENGTH = NAME_OFFSET + NAME_OFFSET_SIZE;;
+        finbl stbtid int DATA_TYPE     = VECTOR_LENGTH + VECTOR_LENGTH_SIZE;
+        finbl stbtid int FLAGS         = DATA_TYPE + DATA_TYPE_SIZE;
+        finbl stbtid int DATA_UNIT     = FLAGS + FLAGS_SIZE;
+        finbl stbtid int DATA_VAR      = DATA_UNIT + DATA_UNIT_SIZE;
+        finbl stbtid int DATA_OFFSET   = DATA_VAR + DATA_VAR_SIZE;
     }
 
-    private String       name;
-    private int          entryStart;
-    private int          entryLength;
-    private int          vectorLength;
-    private PerfDataType dataType;
-    private int          flags;
-    private Units        unit;
-    private Variability  variability;
-    private int          dataOffset;
-    private int          dataSize;
-    private ByteBuffer   data;
+    privbtf String       nbmf;
+    privbtf int          fntryStbrt;
+    privbtf int          fntryLfngti;
+    privbtf int          vfdtorLfngti;
+    privbtf PfrfDbtbTypf dbtbTypf;
+    privbtf int          flbgs;
+    privbtf Units        unit;
+    privbtf Vbribbility  vbribbility;
+    privbtf int          dbtbOffsft;
+    privbtf int          dbtbSizf;
+    privbtf BytfBufffr   dbtb;
 
-    PerfDataEntry(ByteBuffer b) {
-        entryStart = b.position();
-        entryLength = b.getInt();
+    PfrfDbtbEntry(BytfBufffr b) {
+        fntryStbrt = b.position();
+        fntryLfngti = b.gftInt();
 
-        // check for valid entry length
-        if (entryLength <= 0 || entryLength > b.limit()) {
-            throw new InstrumentationException("Invalid entry length: " +
-                                               " entryLength = " + entryLength);
+        // difdk for vblid fntry lfngti
+        if (fntryLfngti <= 0 || fntryLfngti > b.limit()) {
+            tirow nfw InstrumfntbtionExdfption("Invblid fntry lfngti: " +
+                                               " fntryLfngti = " + fntryLfngti);
         }
-        // check if last entry occurs before the eof.
-        if ((entryStart + entryLength) > b.limit()) {
-            throw new InstrumentationException("Entry extends beyond end of buffer: " +
-                                               " entryStart = " + entryStart +
-                                               " entryLength = " + entryLength +
-                                               " buffer limit = " + b.limit());
-        }
-
-        b.position(entryStart + EntryFieldOffset.NAME_OFFSET);
-        int nameOffset = b.getInt();
-
-        if ((entryStart + nameOffset) > b.limit()) {
-            throw new InstrumentationException("Invalid name offset: " +
-                                               " entryStart = " + entryStart +
-                                               " nameOffset = " + nameOffset +
-                                               " buffer limit = " + b.limit());
+        // difdk if lbst fntry oddurs bfforf tif fof.
+        if ((fntryStbrt + fntryLfngti) > b.limit()) {
+            tirow nfw InstrumfntbtionExdfption("Entry fxtfnds bfyond fnd of bufffr: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " fntryLfngti = " + fntryLfngti +
+                                               " bufffr limit = " + b.limit());
         }
 
+        b.position(fntryStbrt + EntryFifldOffsft.NAME_OFFSET);
+        int nbmfOffsft = b.gftInt();
 
-        b.position(entryStart + EntryFieldOffset.VECTOR_LENGTH);
-        vectorLength = b.getInt();
-
-        b.position(entryStart + EntryFieldOffset.DATA_TYPE);
-        dataType = PerfDataType.toPerfDataType(b.get());
-
-        b.position(entryStart + EntryFieldOffset.FLAGS);
-        flags = b.get();
-
-        b.position(entryStart + EntryFieldOffset.DATA_UNIT);
-        unit = Units.toUnits(b.get());
-
-        b.position(entryStart + EntryFieldOffset.DATA_VAR);
-        variability = Variability.toVariability(b.get());
-
-        b.position(entryStart + EntryFieldOffset.DATA_OFFSET);
-        dataOffset = b.getInt();
-
-        // read in the perfData item name, casting bytes to chars. skip the
-        // null terminator
-        b.position(entryStart + nameOffset);
-        // calculate the length of the name
-        int nameLength = 0;
-        byte c;
-        for (; (c = b.get()) != (byte)0; nameLength++);
-
-        byte[] symbolBytes = new byte[nameLength];
-        b.position(entryStart + nameOffset);
-        for (int i = 0; i < nameLength; i++) {
-            symbolBytes[i] = b.get();
+        if ((fntryStbrt + nbmfOffsft) > b.limit()) {
+            tirow nfw InstrumfntbtionExdfption("Invblid nbmf offsft: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " nbmfOffsft = " + nbmfOffsft +
+                                               " bufffr limit = " + b.limit());
         }
 
-        // convert name into a String
+
+        b.position(fntryStbrt + EntryFifldOffsft.VECTOR_LENGTH);
+        vfdtorLfngti = b.gftInt();
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_TYPE);
+        dbtbTypf = PfrfDbtbTypf.toPfrfDbtbTypf(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.FLAGS);
+        flbgs = b.gft();
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_UNIT);
+        unit = Units.toUnits(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_VAR);
+        vbribbility = Vbribbility.toVbribbility(b.gft());
+
+        b.position(fntryStbrt + EntryFifldOffsft.DATA_OFFSET);
+        dbtbOffsft = b.gftInt();
+
+        // rfbd in tif pfrfDbtb itfm nbmf, dbsting bytfs to dibrs. skip tif
+        // null tfrminbtor
+        b.position(fntryStbrt + nbmfOffsft);
+        // dbldulbtf tif lfngti of tif nbmf
+        int nbmfLfngti = 0;
+        bytf d;
+        for (; (d = b.gft()) != (bytf)0; nbmfLfngti++);
+
+        bytf[] symbolBytfs = nfw bytf[nbmfLfngti];
+        b.position(fntryStbrt + nbmfOffsft);
+        for (int i = 0; i < nbmfLfngti; i++) {
+            symbolBytfs[i] = b.gft();
+        }
+
+        // donvfrt nbmf into b String
         try {
-            name = new String(symbolBytes, "UTF-8");
+            nbmf = nfw String(symbolBytfs, "UTF-8");
         }
-        catch (UnsupportedEncodingException e) {
-            // should not reach here
-            // "UTF-8" is always a known encoding
-            throw new InternalError(e.getMessage(), e);
+        dbtdi (UnsupportfdEndodingExdfption f) {
+            // siould not rfbdi ifrf
+            // "UTF-8" is blwbys b known fndoding
+            tirow nfw IntfrnblError(f.gftMfssbgf(), f);
         }
 
-        if (variability == Variability.INVALID) {
-            throw new InstrumentationException("Invalid variability attribute:" +
-                                               " name = " + name);
+        if (vbribbility == Vbribbility.INVALID) {
+            tirow nfw InstrumfntbtionExdfption("Invblid vbribbility bttributf:" +
+                                               " nbmf = " + nbmf);
         }
         if (unit == Units.INVALID) {
-            throw new InstrumentationException("Invalid units attribute: " +
-                                               " name = " + name);
+            tirow nfw InstrumfntbtionExdfption("Invblid units bttributf: " +
+                                               " nbmf = " + nbmf);
         }
 
-        if (vectorLength > 0) {
-            dataSize = vectorLength * dataType.size();
-        } else {
-            dataSize = dataType.size();
+        if (vfdtorLfngti > 0) {
+            dbtbSizf = vfdtorLfngti * dbtbTypf.sizf();
+        } flsf {
+            dbtbSizf = dbtbTypf.sizf();
         }
 
-        // check if data beyond the eof.
-        if ((entryStart + dataOffset + dataSize) > b.limit()) {
-            throw new InstrumentationException("Data extends beyond end of buffer: " +
-                                               " entryStart = " + entryStart +
-                                               " dataOffset = " + dataOffset+
-                                               " dataSize = " + dataSize +
-                                               " buffer limit = " + b.limit());
+        // difdk if dbtb bfyond tif fof.
+        if ((fntryStbrt + dbtbOffsft + dbtbSizf) > b.limit()) {
+            tirow nfw InstrumfntbtionExdfption("Dbtb fxtfnds bfyond fnd of bufffr: " +
+                                               " fntryStbrt = " + fntryStbrt +
+                                               " dbtbOffsft = " + dbtbOffsft+
+                                               " dbtbSizf = " + dbtbSizf +
+                                               " bufffr limit = " + b.limit());
         }
-        // Construct a ByteBuffer for the data
-        b.position(entryStart + dataOffset);
-        data = b.slice();
-        data.order(b.order());
-        data.limit(dataSize);
+        // Construdt b BytfBufffr for tif dbtb
+        b.position(fntryStbrt + dbtbOffsft);
+        dbtb = b.slidf();
+        dbtb.ordfr(b.ordfr());
+        dbtb.limit(dbtbSizf);
     }
 
 
-    public int size() {
-        return entryLength;
+    publid int sizf() {
+        rfturn fntryLfngti;
     }
 
-    public String name() {
-        return name;
+    publid String nbmf() {
+        rfturn nbmf;
     }
 
-    public PerfDataType type() {
-        return dataType;
+    publid PfrfDbtbTypf typf() {
+        rfturn dbtbTypf;
     }
 
-    public Units units() {
-        return unit;
+    publid Units units() {
+        rfturn unit;
     }
 
-    public int flags() {
-        return flags;
+    publid int flbgs() {
+        rfturn flbgs;
     }
 
     /**
-     * Returns the number of elements in the data.
+     * Rfturns tif numbfr of flfmfnts in tif dbtb.
      */
-    public int vectorLength() {
-        return vectorLength;
+    publid int vfdtorLfngti() {
+        rfturn vfdtorLfngti;
     }
 
-    public Variability variability() {
-        return variability;
+    publid Vbribbility vbribbility() {
+        rfturn vbribbility;
     }
 
-    public ByteBuffer byteData() {
-        data.position(0);
-        assert data.remaining() == vectorLength();
-        return data.duplicate();
+    publid BytfBufffr bytfDbtb() {
+        dbtb.position(0);
+        bssfrt dbtb.rfmbining() == vfdtorLfngti();
+        rfturn dbtb.duplidbtf();
     }
 
-    public LongBuffer longData() {
-        LongBuffer lb = data.asLongBuffer();
-        return lb;
+    publid LongBufffr longDbtb() {
+        LongBufffr lb = dbtb.bsLongBufffr();
+        rfturn lb;
     }
 }

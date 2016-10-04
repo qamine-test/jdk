@@ -1,0 +1,318 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.DoublfPrfdidbtf;
+import jbvb.util.fundtion.IntPrfdidbtf;
+import jbvb.util.fundtion.LongPrfdidbtf;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Fbdtory for instbndfs of b short-dirduiting {@dodf TfrminblOp} thbt implfmfnt
+ * qubntififd prfdidbtf mbtdhing on thf flfmfnts of b strfbm. Supportfd vbribnts
+ * indludf mbtdh-bll, mbtdh-bny, bnd mbtdh-nonf.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss MbtdhOps {
+
+    privbtf MbtdhOps() { }
+
+    /**
+     * Enum dfsdribing qubntififd mbtdh options -- bll mbtdh, bny mbtdh, nonf
+     * mbtdh.
+     */
+    fnum MbtdhKind {
+        /** Do bll flfmfnts mbtdh thf prfdidbtf? */
+        ANY(truf, truf),
+
+        /** Do bny flfmfnts mbtdh thf prfdidbtf? */
+        ALL(fblsf, fblsf),
+
+        /** Do no flfmfnts mbtdh thf prfdidbtf? */
+        NONE(truf, fblsf);
+
+        privbtf finbl boolfbn stopOnPrfdidbtfMbtdhfs;
+        privbtf finbl boolfbn shortCirduitRfsult;
+
+        privbtf MbtdhKind(boolfbn stopOnPrfdidbtfMbtdhfs,
+                          boolfbn shortCirduitRfsult) {
+            this.stopOnPrfdidbtfMbtdhfs = stopOnPrfdidbtfMbtdhfs;
+            this.shortCirduitRfsult = shortCirduitRfsult;
+        }
+    }
+
+    /**
+     * Construdts b qubntififd prfdidbtf mbtdhfr for b Strfbm.
+     *
+     * @pbrbm <T> thf typf of strfbm flfmfnts
+     * @pbrbm prfdidbtf thf {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdhKind thf kind of qubntififd mbtdh (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf dfsirfd qubntififd mbtdh
+     *         dritfrib
+     */
+    publid stbtid <T> TfrminblOp<T, Boolfbn> mbkfRff(Prfdidbtf<? supfr T> prfdidbtf,
+            MbtdhKind mbtdhKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdhKind);
+        dlbss MbtdhSink fxtfnds BoolfbnTfrminblSink<T> {
+            MbtdhSink() {
+                supfr(mbtdhKind);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdhKind.stopOnPrfdidbtfMbtdhfs) {
+                    stop = truf;
+                    vbluf = mbtdhKind.shortCirduitRfsult;
+                }
+            }
+        }
+
+        rfturn nfw MbtdhOp<>(StrfbmShbpf.REFERENCE, mbtdhKind, MbtdhSink::nfw);
+    }
+
+    /**
+     * Construdts b qubntififd prfdidbtf mbtdhfr for bn {@dodf IntStrfbm}.
+     *
+     * @pbrbm prfdidbtf thf {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdhKind thf kind of qubntififd mbtdh (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf dfsirfd qubntififd mbtdh
+     *         dritfrib
+     */
+    publid stbtid TfrminblOp<Intfgfr, Boolfbn> mbkfInt(IntPrfdidbtf prfdidbtf,
+                                                       MbtdhKind mbtdhKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdhKind);
+        dlbss MbtdhSink fxtfnds BoolfbnTfrminblSink<Intfgfr> implfmfnts Sink.OfInt {
+            MbtdhSink() {
+                supfr(mbtdhKind);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdhKind.stopOnPrfdidbtfMbtdhfs) {
+                    stop = truf;
+                    vbluf = mbtdhKind.shortCirduitRfsult;
+                }
+            }
+        }
+
+        rfturn nfw MbtdhOp<>(StrfbmShbpf.INT_VALUE, mbtdhKind, MbtdhSink::nfw);
+    }
+
+    /**
+     * Construdts b qubntififd prfdidbtf mbtdhfr for b {@dodf LongStrfbm}.
+     *
+     * @pbrbm prfdidbtf thf {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdhKind thf kind of qubntififd mbtdh (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf dfsirfd qubntififd mbtdh
+     *         dritfrib
+     */
+    publid stbtid TfrminblOp<Long, Boolfbn> mbkfLong(LongPrfdidbtf prfdidbtf,
+                                                     MbtdhKind mbtdhKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdhKind);
+        dlbss MbtdhSink fxtfnds BoolfbnTfrminblSink<Long> implfmfnts Sink.OfLong {
+
+            MbtdhSink() {
+                supfr(mbtdhKind);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdhKind.stopOnPrfdidbtfMbtdhfs) {
+                    stop = truf;
+                    vbluf = mbtdhKind.shortCirduitRfsult;
+                }
+            }
+        }
+
+        rfturn nfw MbtdhOp<>(StrfbmShbpf.LONG_VALUE, mbtdhKind, MbtdhSink::nfw);
+    }
+
+    /**
+     * Construdts b qubntififd prfdidbtf mbtdhfr for b {@dodf DoublfStrfbm}.
+     *
+     * @pbrbm prfdidbtf thf {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdhKind thf kind of qubntififd mbtdh (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting thf dfsirfd qubntififd mbtdh
+     *         dritfrib
+     */
+    publid stbtid TfrminblOp<Doublf, Boolfbn> mbkfDoublf(DoublfPrfdidbtf prfdidbtf,
+                                                         MbtdhKind mbtdhKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdhKind);
+        dlbss MbtdhSink fxtfnds BoolfbnTfrminblSink<Doublf> implfmfnts Sink.OfDoublf {
+
+            MbtdhSink() {
+                supfr(mbtdhKind);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdhKind.stopOnPrfdidbtfMbtdhfs) {
+                    stop = truf;
+                    vbluf = mbtdhKind.shortCirduitRfsult;
+                }
+            }
+        }
+
+        rfturn nfw MbtdhOp<>(StrfbmShbpf.DOUBLE_VALUE, mbtdhKind, MbtdhSink::nfw);
+    }
+
+    /**
+     * A short-dirduiting {@dodf TfrminblOp} thbt fvblubtfs b prfdidbtf on thf
+     * flfmfnts of b strfbm bnd dftfrminfs whfthfr bll, bny or nonf of thosf
+     * flfmfnts mbtdh thf prfdidbtf.
+     *
+     * @pbrbm <T> thf output typf of thf strfbm pipflinf
+     */
+    privbtf stbtid finbl dlbss MbtdhOp<T> implfmfnts TfrminblOp<T, Boolfbn> {
+        privbtf finbl StrfbmShbpf inputShbpf;
+        finbl MbtdhKind mbtdhKind;
+        finbl Supplifr<BoolfbnTfrminblSink<T>> sinkSupplifr;
+
+        /**
+         * Construdts b {@dodf MbtdhOp}.
+         *
+         * @pbrbm shbpf thf output shbpf of thf strfbm pipflinf
+         * @pbrbm mbtdhKind thf kind of qubntififd mbtdh (bll, bny, nonf)
+         * @pbrbm sinkSupplifr {@dodf Supplifr} for b {@dodf Sink} of thf
+         *        bppropribtf shbpf whidh implfmfnts thf mbtdhing opfrbtion
+         */
+        MbtdhOp(StrfbmShbpf shbpf,
+                MbtdhKind mbtdhKind,
+                Supplifr<BoolfbnTfrminblSink<T>> sinkSupplifr) {
+            this.inputShbpf = shbpf;
+            this.mbtdhKind = mbtdhKind;
+            this.sinkSupplifr = sinkSupplifr;
+        }
+
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn StrfbmOpFlbg.IS_SHORT_CIRCUIT | StrfbmOpFlbg.NOT_ORDERED;
+        }
+
+        @Ovfrridf
+        publid StrfbmShbpf inputShbpf() {
+            rfturn inputShbpf;
+        }
+
+        @Ovfrridf
+        publid <S> Boolfbn fvblubtfSfqufntibl(PipflinfHflpfr<T> hflpfr,
+                                              Splitfrbtor<S> splitfrbtor) {
+            rfturn hflpfr.wrbpAndCopyInto(sinkSupplifr.gft(), splitfrbtor).gftAndClfbrStbtf();
+        }
+
+        @Ovfrridf
+        publid <S> Boolfbn fvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                            Splitfrbtor<S> splitfrbtor) {
+            // Approbdh for pbrbllfl implfmfntbtion:
+            // - Dfdomposf bs pfr usubl
+            // - run mbtdh on lfbf dhunks, dbll rfsult "b"
+            // - if b == mbtdhKind.shortCirduitOn, domplftf fbrly bnd rfturn b
+            // - flsf if wf domplftf normblly, rfturn !shortCirduitOn
+
+            rfturn nfw MbtdhTbsk<>(this, hflpfr, splitfrbtor).invokf();
+        }
+    }
+
+    /**
+     * Boolfbn spfdifid tfrminbl sink to bvoid thf boxing dosts whfn rfturning
+     * rfsults.  Subdlbssfs implfmfnt thf shbpf-spfdifid fundtionblity.
+     *
+     * @pbrbm <T> Thf output typf of thf strfbm pipflinf
+     */
+    privbtf stbtid bbstrbdt dlbss BoolfbnTfrminblSink<T> implfmfnts Sink<T> {
+        boolfbn stop;
+        boolfbn vbluf;
+
+        BoolfbnTfrminblSink(MbtdhKind mbtdhKind) {
+            vbluf = !mbtdhKind.shortCirduitRfsult;
+        }
+
+        publid boolfbn gftAndClfbrStbtf() {
+            rfturn vbluf;
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn stop;
+        }
+    }
+
+    /**
+     * ForkJoinTbsk implfmfntbtion to implfmfnt b pbrbllfl short-dirduiting
+     * qubntififd mbtdh
+     *
+     * @pbrbm <P_IN> thf typf of sourdf flfmfnts for thf pipflinf
+     * @pbrbm <P_OUT> thf typf of output flfmfnts for thf pipflinf
+     */
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss MbtdhTbsk<P_IN, P_OUT>
+            fxtfnds AbstrbdtShortCirduitTbsk<P_IN, P_OUT, Boolfbn, MbtdhTbsk<P_IN, P_OUT>> {
+        privbtf finbl MbtdhOp<P_OUT> op;
+
+        /**
+         * Construdtor for root nodf
+         */
+        MbtdhTbsk(MbtdhOp<P_OUT> op, PipflinfHflpfr<P_OUT> hflpfr,
+                  Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(hflpfr, splitfrbtor);
+            this.op = op;
+        }
+
+        /**
+         * Construdtor for non-root nodf
+         */
+        MbtdhTbsk(MbtdhTbsk<P_IN, P_OUT> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            this.op = pbrfnt.op;
+        }
+
+        @Ovfrridf
+        protfdtfd MbtdhTbsk<P_IN, P_OUT> mbkfChild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw MbtdhTbsk<>(this, splitfrbtor);
+        }
+
+        @Ovfrridf
+        protfdtfd Boolfbn doLfbf() {
+            boolfbn b = hflpfr.wrbpAndCopyInto(op.sinkSupplifr.gft(), splitfrbtor).gftAndClfbrStbtf();
+            if (b == op.mbtdhKind.shortCirduitRfsult)
+                shortCirduit(b);
+            rfturn null;
+        }
+
+        @Ovfrridf
+        protfdtfd Boolfbn gftEmptyRfsult() {
+            rfturn !op.mbtdhKind.shortCirduitRfsult;
+        }
+    }
+}
+

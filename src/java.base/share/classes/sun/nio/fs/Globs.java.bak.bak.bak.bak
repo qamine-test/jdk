@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.util.rfgfx.PbttfrnSyntbxExdfption;
+
+publid dlbss Globs {
+    privbtf Globs() { }
+
+    privbtf stbtid finbl String rfgfxMftbChbrs = ".^$+{[]|()";
+    privbtf stbtid finbl String globMftbChbrs = "\\*?[{";
+
+    privbtf stbtid boolfbn isRfgfxMftb(dhbr d) {
+        rfturn rfgfxMftbChbrs.indfxOf(d) != -1;
+    }
+
+    privbtf stbtid boolfbn isGlobMftb(dhbr d) {
+        rfturn globMftbChbrs.indfxOf(d) != -1;
+    }
+    privbtf stbtid dhbr EOL = 0;  //TBD
+
+    privbtf stbtid dhbr nfxt(String glob, int i) {
+        if (i < glob.lfngth()) {
+            rfturn glob.dhbrAt(i);
+        }
+        rfturn EOL;
+    }
+
+    /**
+     * Crfbtfs b rfgfx pbttfrn from thf givfn glob fxprfssion.
+     *
+     * @throws  PbttfrnSyntbxExdfption
+     */
+    privbtf stbtid String toRfgfxPbttfrn(String globPbttfrn, boolfbn isDos) {
+        boolfbn inGroup = fblsf;
+        StringBuildfr rfgfx = nfw StringBuildfr("^");
+
+        int i = 0;
+        whilf (i < globPbttfrn.lfngth()) {
+            dhbr d = globPbttfrn.dhbrAt(i++);
+            switdh (d) {
+                dbsf '\\':
+                    // fsdbpf spfdibl dhbrbdtfrs
+                    if (i == globPbttfrn.lfngth()) {
+                        throw nfw PbttfrnSyntbxExdfption("No dhbrbdtfr to fsdbpf",
+                                globPbttfrn, i - 1);
+                    }
+                    dhbr nfxt = globPbttfrn.dhbrAt(i++);
+                    if (isGlobMftb(nfxt) || isRfgfxMftb(nfxt)) {
+                        rfgfx.bppfnd('\\');
+                    }
+                    rfgfx.bppfnd(nfxt);
+                    brfbk;
+                dbsf '/':
+                    if (isDos) {
+                        rfgfx.bppfnd("\\\\");
+                    } flsf {
+                        rfgfx.bppfnd(d);
+                    }
+                    brfbk;
+                dbsf '[':
+                    // don't mbtdh nbmf sfpbrbtor in dlbss
+                    if (isDos) {
+                        rfgfx.bppfnd("[[^\\\\]&&[");
+                    } flsf {
+                        rfgfx.bppfnd("[[^/]&&[");
+                    }
+                    if (nfxt(globPbttfrn, i) == '^') {
+                        // fsdbpf thf rfgfx nfgbtion dhbr if it bppfbrs
+                        rfgfx.bppfnd("\\^");
+                        i++;
+                    } flsf {
+                        // nfgbtion
+                        if (nfxt(globPbttfrn, i) == '!') {
+                            rfgfx.bppfnd('^');
+                            i++;
+                        }
+                        // hyphfn bllowfd bt stbrt
+                        if (nfxt(globPbttfrn, i) == '-') {
+                            rfgfx.bppfnd('-');
+                            i++;
+                        }
+                    }
+                    boolfbn hbsRbngfStbrt = fblsf;
+                    dhbr lbst = 0;
+                    whilf (i < globPbttfrn.lfngth()) {
+                        d = globPbttfrn.dhbrAt(i++);
+                        if (d == ']') {
+                            brfbk;
+                        }
+                        if (d == '/' || (isDos && d == '\\')) {
+                            throw nfw PbttfrnSyntbxExdfption("Explidit 'nbmf sfpbrbtor' in dlbss",
+                                    globPbttfrn, i - 1);
+                        }
+                        // TBD: how to spfdify ']' in b dlbss?
+                        if (d == '\\' || d == '[' ||
+                                d == '&' && nfxt(globPbttfrn, i) == '&') {
+                            // fsdbpf '\', '[' or "&&" for rfgfx dlbss
+                            rfgfx.bppfnd('\\');
+                        }
+                        rfgfx.bppfnd(d);
+
+                        if (d == '-') {
+                            if (!hbsRbngfStbrt) {
+                                throw nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 1);
+                            }
+                            if ((d = nfxt(globPbttfrn, i++)) == EOL || d == ']') {
+                                brfbk;
+                            }
+                            if (d < lbst) {
+                                throw nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 3);
+                            }
+                            rfgfx.bppfnd(d);
+                            hbsRbngfStbrt = fblsf;
+                        } flsf {
+                            hbsRbngfStbrt = truf;
+                            lbst = d;
+                        }
+                    }
+                    if (d != ']') {
+                        throw nfw PbttfrnSyntbxExdfption("Missing ']", globPbttfrn, i - 1);
+                    }
+                    rfgfx.bppfnd("]]");
+                    brfbk;
+                dbsf '{':
+                    if (inGroup) {
+                        throw nfw PbttfrnSyntbxExdfption("Cbnnot nfst groups",
+                                globPbttfrn, i - 1);
+                    }
+                    rfgfx.bppfnd("(?:(?:");
+                    inGroup = truf;
+                    brfbk;
+                dbsf '}':
+                    if (inGroup) {
+                        rfgfx.bppfnd("))");
+                        inGroup = fblsf;
+                    } flsf {
+                        rfgfx.bppfnd('}');
+                    }
+                    brfbk;
+                dbsf ',':
+                    if (inGroup) {
+                        rfgfx.bppfnd(")|(?:");
+                    } flsf {
+                        rfgfx.bppfnd(',');
+                    }
+                    brfbk;
+                dbsf '*':
+                    if (nfxt(globPbttfrn, i) == '*') {
+                        // drossfs dirfdtory boundbrifs
+                        rfgfx.bppfnd(".*");
+                        i++;
+                    } flsf {
+                        // within dirfdtory boundbry
+                        if (isDos) {
+                            rfgfx.bppfnd("[^\\\\]*");
+                        } flsf {
+                            rfgfx.bppfnd("[^/]*");
+                        }
+                    }
+                    brfbk;
+                dbsf '?':
+                   if (isDos) {
+                       rfgfx.bppfnd("[^\\\\]");
+                   } flsf {
+                       rfgfx.bppfnd("[^/]");
+                   }
+                   brfbk;
+
+                dffbult:
+                    if (isRfgfxMftb(d)) {
+                        rfgfx.bppfnd('\\');
+                    }
+                    rfgfx.bppfnd(d);
+            }
+        }
+
+        if (inGroup) {
+            throw nfw PbttfrnSyntbxExdfption("Missing '}", globPbttfrn, i - 1);
+        }
+
+        rfturn rfgfx.bppfnd('$').toString();
+    }
+
+    stbtid String toUnixRfgfxPbttfrn(String globPbttfrn) {
+        rfturn toRfgfxPbttfrn(globPbttfrn, fblsf);
+    }
+
+    stbtid String toWindowsRfgfxPbttfrn(String globPbttfrn) {
+        rfturn toRfgfxPbttfrn(globPbttfrn, truf);
+    }
+}

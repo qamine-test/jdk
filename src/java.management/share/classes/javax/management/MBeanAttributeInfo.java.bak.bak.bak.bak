@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.sfdurity.AddfssControllfr;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.util.Objfdts;
+
+
+/**
+ * Dfsdribfs bn MBfbn bttributf fxposfd for mbnbgfmfnt.  Instbndfs of
+ * this dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf but this is
+ * not rfdommfndfd.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss MBfbnAttributfInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    stbtid {
+        /* For domplidbtfd rfbsons, thf sfriblVfrsionUID dhbngfd
+           bftwffn JMX 1.0 bnd JMX 1.1, fvfn though JMX 1.1 did not
+           hbvf dompbtibility dodf for this dlbss.  So thf
+           sfriblizbtion produdfd by this dlbss with JMX 1.2 bnd
+           jmx.sfribl.form=1.0 is not thf sbmf bs thbt produdfd by
+           this dlbss with JMX 1.1 bnd jmx.sfribl.form=1.0.  Howfvfr,
+           thf sfriblizbtion without thbt propfrty is thf sbmf, bnd
+           thbt is thf only form rfquirfd by JMX 1.2.
+        */
+        long uid = 8644704819898565848L;
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            if ("1.0".fqubls(form))
+                uid = 7043855487133450673L;
+        } dbtdh (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt with 1.0, too bbd
+        }
+        sfriblVfrsionUID = uid;
+    }
+
+    stbtid finbl MBfbnAttributfInfo[] NO_ATTRIBUTES =
+        nfw MBfbnAttributfInfo[0];
+
+    /**
+     * @sfribl Thf bdtubl bttributf typf.
+     */
+    privbtf finbl String bttributfTypf;
+
+    /**
+     * @sfribl Thf bttributf writf right.
+     */
+    privbtf finbl boolfbn isWritf;
+
+    /**
+     * @sfribl Thf bttributf rfbd right.
+     */
+    privbtf finbl boolfbn isRfbd;
+
+    /**
+     * @sfribl Indidbtfs if this mfthod is b "is"
+     */
+    privbtf finbl boolfbn is;
+
+
+    /**
+     * Construdts bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf bttributf.
+     * @pbrbm typf Thf typf or dlbss nbmf of thf bttributf.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf.
+     * @pbrbm isRfbdbblf Truf if thf bttributf hbs b gfttfr mfthod, fblsf othfrwisf.
+     * @pbrbm isWritbblf Truf if thf bttributf hbs b sfttfr mfthod, fblsf othfrwisf.
+     * @pbrbm isIs Truf if this bttributf hbs bn "is" gfttfr, fblsf othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf isIs} is truf but
+     * {@dodf isRfbdbblf} is not, or if {@dodf isIs} is truf bnd
+     * {@dodf typf} is not {@dodf boolfbn} or {@dodf jbvb.lbng.Boolfbn}.
+     * (Nfw dodf should blwbys usf {@dodf boolfbn} rbthfr thbn
+     * {@dodf jbvb.lbng.Boolfbn}.)
+     */
+    publid MBfbnAttributfInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              boolfbn isRfbdbblf,
+                              boolfbn isWritbblf,
+                              boolfbn isIs) {
+        this(nbmf, typf, dfsdription, isRfbdbblf, isWritbblf, isIs,
+             (Dfsdriptor) null);
+    }
+
+    /**
+     * Construdts bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf bttributf.
+     * @pbrbm typf Thf typf or dlbss nbmf of thf bttributf.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf.
+     * @pbrbm isRfbdbblf Truf if thf bttributf hbs b gfttfr mfthod, fblsf othfrwisf.
+     * @pbrbm isWritbblf Truf if thf bttributf hbs b sfttfr mfthod, fblsf othfrwisf.
+     * @pbrbm isIs Truf if this bttributf hbs bn "is" gfttfr, fblsf othfrwisf.
+     * @pbrbm dfsdriptor Thf dfsdriptor for thf bttributf.  This mby bf null
+     * whidh is fquivblfnt to bn fmpty dfsdriptor.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf isIs} is truf but
+     * {@dodf isRfbdbblf} is not, or if {@dodf isIs} is truf bnd
+     * {@dodf typf} is not {@dodf boolfbn} or {@dodf jbvb.lbng.Boolfbn}.
+     * (Nfw dodf should blwbys usf {@dodf boolfbn} rbthfr thbn
+     * {@dodf jbvb.lbng.Boolfbn}.)
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnAttributfInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              boolfbn isRfbdbblf,
+                              boolfbn isWritbblf,
+                              boolfbn isIs,
+                              Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
+
+        this.bttributfTypf = typf;
+        this.isRfbd = isRfbdbblf;
+        this.isWritf = isWritbblf;
+        if (isIs && !isRfbdbblf) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbvf bn \"is\" gfttfr " +
+                                               "for b non-rfbdbblf bttributf");
+        }
+        if (isIs && !typf.fqubls("jbvb.lbng.Boolfbn") &&
+                !typf.fqubls("boolfbn")) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbvf bn \"is\" gfttfr " +
+                                               "for b non-boolfbn bttributf");
+        }
+        this.is = isIs;
+    }
+
+    /**
+     * <p>This donstrudtor tbkfs thf nbmf of b simplf bttributf, bnd Mfthod
+     * objfdts for rfbding bnd writing thf bttributf.  Thf {@link Dfsdriptor}
+     * of thf donstrudtfd objfdt will indludf fiflds dontributfd by bny
+     * bnnotbtions on thf {@dodf Mfthod} objfdts thbt dontbin thf
+     * {@link DfsdriptorKfy} mftb-bnnotbtion.
+     *
+     * @pbrbm nbmf Thf progrbmmbtid nbmf of thf bttributf.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf.
+     * @pbrbm gfttfr Thf mfthod usfd for rfbding thf bttributf vbluf.
+     *          Mby bf null if thf propfrty is writf-only.
+     * @pbrbm sfttfr Thf mfthod usfd for writing thf bttributf vbluf.
+     *          Mby bf null if thf bttributf is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption Thfrf is b donsistfndy
+     * problfm in thf dffinition of this bttributf.
+     */
+    publid MBfbnAttributfInfo(String nbmf,
+                              String dfsdription,
+                              Mfthod gfttfr,
+                              Mfthod sfttfr) throws IntrospfdtionExdfption {
+        this(nbmf,
+             bttributfTypf(gfttfr, sfttfr),
+             dfsdription,
+             (gfttfr != null),
+             (sfttfr != null),
+             isIs(gfttfr),
+             ImmutbblfDfsdriptor.union(Introspfdtor.dfsdriptorForElfmfnt(gfttfr),
+                                   Introspfdtor.dfsdriptorForElfmfnt(sfttfr)));
+    }
+
+    /**
+     * <p>Rfturns b shbllow dlonf of this instbndf.
+     * Thf dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * thus dblling thf dffbult nbtivf shbllow dloning mfdhbnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
+     *
+     * <p>Sindf this dlbss is immutbblf, dloning is dhiffly of
+     * intfrfst to subdlbssfs.</p>
+     */
+     publid Objfdt dlonf () {
+         try {
+             rfturn supfr.dlonf() ;
+         } dbtdh (ClonfNotSupportfdExdfption f) {
+             // should not hbppfn bs this dlbss is dlonfbblf
+             rfturn null;
+         }
+     }
+
+    /**
+     * Rfturns thf dlbss nbmf of thf bttributf.
+     *
+     * @rfturn thf dlbss nbmf.
+     */
+    publid String gftTypf() {
+        rfturn bttributfTypf;
+    }
+
+    /**
+     * Whfthfr thf vbluf of thf bttributf dbn bf rfbd.
+     *
+     * @rfturn Truf if thf bttributf dbn bf rfbd, fblsf othfrwisf.
+     */
+    publid boolfbn isRfbdbblf() {
+        rfturn isRfbd;
+    }
+
+    /**
+     * Whfthfr nfw vblufs dbn bf writtfn to thf bttributf.
+     *
+     * @rfturn Truf if thf bttributf dbn bf writtfn to, fblsf othfrwisf.
+     */
+    publid boolfbn isWritbblf() {
+        rfturn isWritf;
+    }
+
+    /**
+     * Indidbtfs if this bttributf hbs bn "is" gfttfr.
+     *
+     * @rfturn truf if this bttributf hbs bn "is" gfttfr.
+     */
+    publid boolfbn isIs() {
+        rfturn is;
+    }
+
+    publid String toString() {
+        String bddfss;
+        if (isRfbdbblf()) {
+            if (isWritbblf())
+                bddfss = "rfbd/writf";
+            flsf
+                bddfss = "rfbd-only";
+        } flsf if (isWritbblf())
+            bddfss = "writf-only";
+        flsf
+            bddfss = "no-bddfss";
+
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "typf=" + gftTypf() + ", " +
+            bddfss + ", " +
+            (isIs() ? "isIs, " : "") +
+            "dfsdriptor=" + gftDfsdriptor() +
+            "]";
+    }
+
+    /**
+     * Compbrf this MBfbnAttributfInfo to bnothfr.
+     *
+     * @pbrbm o thf objfdt to dompbrf to.
+     *
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnAttributfInfo sudh
+     * thbt its {@link #gftNbmf()}, {@link #gftTypf()}, {@link
+     * #gftDfsdription()}, {@link #isRfbdbblf()}, {@link
+     * #isWritbblf()}, bnd {@link #isIs()} vblufs brf fqubl (not
+     * nfdfssbrily idfntidbl) to thosf of this MBfbnAttributfInfo.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof MBfbnAttributfInfo))
+            rfturn fblsf;
+        MBfbnAttributfInfo p = (MBfbnAttributfInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftTypf(), gftTypf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()) &&
+                p.isRfbdbblf() == isRfbdbblf() &&
+                p.isWritbblf() == isWritbblf() &&
+                p.isIs() == isIs());
+    }
+
+    /* Wf do not indludf fvfrything in thf hbshdodf.  Wf bssumf thbt
+       if two opfrbtions brf difffrfnt thfy'll probbbly hbvf difffrfnt
+       nbmfs or typfs.  Thf pfnblty wf pby whfn this bssumption is
+       wrong should bf lfss thbn thf pfnblty wf would pby if it wfrf
+       right bnd wf nffdlfssly hbshfd in thf dfsdription bnd pbrbmftfr
+       brrby.  */
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(gftNbmf(), gftTypf());
+    }
+
+    privbtf stbtid boolfbn isIs(Mfthod gfttfr) {
+        rfturn (gfttfr != null &&
+                gfttfr.gftNbmf().stbrtsWith("is") &&
+                (gfttfr.gftRfturnTypf().fqubls(Boolfbn.TYPE) ||
+                 gfttfr.gftRfturnTypf().fqubls(Boolfbn.dlbss)));
+    }
+
+    /**
+     * Finds thf typf of thf bttributf.
+     */
+    privbtf stbtid String bttributfTypf(Mfthod gfttfr, Mfthod sfttfr)
+            throws IntrospfdtionExdfption {
+        Clbss<?> typf = null;
+
+        if (gfttfr != null) {
+            if (gfttfr.gftPbrbmftfrTypfs().lfngth != 0) {
+                throw nfw IntrospfdtionExdfption("bbd gfttfr brg dount");
+            }
+            typf = gfttfr.gftRfturnTypf();
+            if (typf == Void.TYPE) {
+                throw nfw IntrospfdtionExdfption("gfttfr " + gfttfr.gftNbmf() +
+                                                 " rfturns void");
+            }
+        }
+
+        if (sfttfr != null) {
+            Clbss<?> pbrbms[] = sfttfr.gftPbrbmftfrTypfs();
+            if (pbrbms.lfngth != 1) {
+                throw nfw IntrospfdtionExdfption("bbd sfttfr brg dount");
+            }
+            if (typf == null)
+                typf = pbrbms[0];
+            flsf if (typf != pbrbms[0]) {
+                throw nfw IntrospfdtionExdfption("typf mismbtdh bftwffn " +
+                                                 "gfttfr bnd sfttfr");
+            }
+        }
+
+        if (typf == null) {
+            throw nfw IntrospfdtionExdfption("gfttfr bnd sfttfr dbnnot " +
+                                             "both bf null");
+        }
+
+        rfturn typf.gftNbmf();
+    }
+
+}

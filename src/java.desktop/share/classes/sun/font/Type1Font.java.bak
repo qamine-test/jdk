@@ -1,682 +1,682 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.lang.ref.WeakReference;
-import java.awt.FontFormatException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.lang.ref.WeakReference;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.MappedByteBuffer;
-import java.nio.BufferUnderflowException;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.awt.Font;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.nio.dibnnfls.ClosfdCibnnflExdfption;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiMbp;
+import jbvb.bwt.Font;
 
 /*
- * Adobe Technical Note 5040 details the format of PFB files.
- * the file is divided into ascii and binary sections. Each section
- * starts with a header
- * 0x8001 - start of binary data, is followed by 4 bytes length, then data
- * 0x8002 - start of ascii data, is followed by 4 bytes length, then data
- * 0x8003 - end of data segment
- * The length is organised as LSB->MSB.
+ * Adobf Tfdinidbl Notf 5040 dftbils tif formbt of PFB filfs.
+ * tif filf is dividfd into bsdii bnd binbry sfdtions. Ebdi sfdtion
+ * stbrts witi b ifbdfr
+ * 0x8001 - stbrt of binbry dbtb, is followfd by 4 bytfs lfngti, tifn dbtb
+ * 0x8002 - stbrt of bsdii dbtb, is followfd by 4 bytfs lfngti, tifn dbtb
+ * 0x8003 - fnd of dbtb sfgmfnt
+ * Tif lfngti is orgbnisfd bs LSB->MSB.
  *
- * Note: I experimented with using a MappedByteBuffer and
- * there were two problems/questions.
- * 1. If a global buffer is used rather than one allocated in the calling
- * context, then we need to synchronize on all uses of that data, which
- * means more code would beed to be synchronized with probable repercussions
- * elsewhere.
- * 2. It is not clear whether to free the buffer when the file is closed.
- * If we have the contents in memory then why keep open files around?
- * The mmapped buffer doesn't need it.
- * Also regular GC is what frees the buffer. So closing the file and nulling
- * out the reference still needs to wait for the buffer to be GC'd to
- * reclaim the storage.
- * If the contents of the buffer are persistent there's no need
- * to worry about synchronization.
- * Perhaps could use a WeakReference, and when its referent is gone, and
- * need it can just reopen the file.
- * Type1 fonts thus don't use up file descriptor references, but can
- * use memory footprint in a way that's managed by the host O/S.
- * The main "pain" may be the different model means code needs to be written
- * without assumptions as to how this is handled by the different subclasses
- * of FileFont.
+ * Notf: I fxpfrimfntfd witi using b MbppfdBytfBufffr bnd
+ * tifrf wfrf two problfms/qufstions.
+ * 1. If b globbl bufffr is usfd rbtifr tibn onf bllodbtfd in tif dblling
+ * dontfxt, tifn wf nffd to syndironizf on bll usfs of tibt dbtb, wiidi
+ * mfbns morf dodf would bffd to bf syndironizfd witi probbblf rfpfrdussions
+ * flsfwifrf.
+ * 2. It is not dlfbr wiftifr to frff tif bufffr wifn tif filf is dlosfd.
+ * If wf ibvf tif dontfnts in mfmory tifn wiy kffp opfn filfs bround?
+ * Tif mmbppfd bufffr dofsn't nffd it.
+ * Also rfgulbr GC is wibt frffs tif bufffr. So dlosing tif filf bnd nulling
+ * out tif rfffrfndf still nffds to wbit for tif bufffr to bf GC'd to
+ * rfdlbim tif storbgf.
+ * If tif dontfnts of tif bufffr brf pfrsistfnt tifrf's no nffd
+ * to worry bbout syndironizbtion.
+ * Pfribps dould usf b WfbkRfffrfndf, bnd wifn its rfffrfnt is gonf, bnd
+ * nffd it dbn just rfopfn tif filf.
+ * Typf1 fonts tius don't usf up filf dfsdriptor rfffrfndfs, but dbn
+ * usf mfmory footprint in b wby tibt's mbnbgfd by tif iost O/S.
+ * Tif mbin "pbin" mby bf tif difffrfnt modfl mfbns dodf nffds to bf writtfn
+ * witiout bssumptions bs to iow tiis is ibndlfd by tif difffrfnt subdlbssfs
+ * of FilfFont.
  */
-public class Type1Font extends FileFont {
+publid dlbss Typf1Font fxtfnds FilfFont {
 
-     private static class T1DisposerRecord  implements DisposerRecord {
-        String fileName = null;
+     privbtf stbtid dlbss T1DisposfrRfdord  implfmfnts DisposfrRfdord {
+        String filfNbmf = null;
 
-        T1DisposerRecord(String name) {
-            fileName = name;
+        T1DisposfrRfdord(String nbmf) {
+            filfNbmf = nbmf;
         }
 
-        public synchronized void dispose() {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
-                    public Object run() {
+        publid syndironizfd void disposf() {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
 
-                        if (fileName != null) {
-                            (new java.io.File(fileName)).delete();
+                        if (filfNbmf != null) {
+                            (nfw jbvb.io.Filf(filfNbmf)).dflftf();
                         }
-                        return null;
+                        rfturn null;
                     }
              });
         }
     }
 
-    WeakReference<Object> bufferRef = new WeakReference<>(null);
+    WfbkRfffrfndf<Objfdt> bufffrRff = nfw WfbkRfffrfndf<>(null);
 
-    private String psName = null;
+    privbtf String psNbmf = null;
 
-    static private HashMap<String, String> styleAbbreviationsMapping;
-    static private HashSet<String> styleNameTokes;
+    stbtid privbtf HbsiMbp<String, String> stylfAbbrfvibtionsMbpping;
+    stbtid privbtf HbsiSft<String> stylfNbmfTokfs;
 
-    static {
-        styleAbbreviationsMapping = new HashMap<>();
-        styleNameTokes = new HashSet<>();
+    stbtid {
+        stylfAbbrfvibtionsMbpping = nfw HbsiMbp<>();
+        stylfNbmfTokfs = nfw HbsiSft<>();
 
-        /* These abbreviation rules are taken from Appendix 1 of Adobe Technical Note #5088 */
-        /* NB: this list is not complete - we did not include abbreviations which contain
-               several capital letters because current expansion algorithm do not support this.
-               (namely we have omited MM aka "Multiple Master", OsF aka "Oldstyle figures",
-                           OS aka "Oldstyle", SC aka "Small caps" and  DS aka "Display" */
-        String nm[] = {"Black", "Bold", "Book", "Demi", "Heavy", "Light",
-                       "Meduium", "Nord", "Poster", "Regular", "Super", "Thin",
-                       "Compressed", "Condensed", "Compact", "Extended", "Narrow",
-                       "Inclined", "Italic", "Kursiv", "Oblique", "Upright", "Sloped",
-                       "Semi", "Ultra", "Extra",
-                       "Alternate", "Alternate", "Deutsche Fraktur", "Expert", "Inline", "Ornaments",
-                       "Outline", "Roman", "Rounded", "Script", "Shaded", "Swash", "Titling", "Typewriter"};
-        String abbrv[] = {"Blk", "Bd", "Bk", "Dm", "Hv", "Lt",
-                          "Md", "Nd", "Po", "Rg", "Su", "Th",
+        /* Tifsf bbbrfvibtion rulfs brf tbkfn from Appfndix 1 of Adobf Tfdinidbl Notf #5088 */
+        /* NB: tiis list is not domplftf - wf did not indludf bbbrfvibtions wiidi dontbin
+               sfvfrbl dbpitbl lfttfrs bfdbusf durrfnt fxpbnsion blgoritim do not support tiis.
+               (nbmfly wf ibvf omitfd MM bkb "Multiplf Mbstfr", OsF bkb "Oldstylf figurfs",
+                           OS bkb "Oldstylf", SC bkb "Smbll dbps" bnd  DS bkb "Displby" */
+        String nm[] = {"Blbdk", "Bold", "Book", "Dfmi", "Hfbvy", "Ligit",
+                       "Mfduium", "Nord", "Postfr", "Rfgulbr", "Supfr", "Tiin",
+                       "Comprfssfd", "Condfnsfd", "Compbdt", "Extfndfd", "Nbrrow",
+                       "Indlinfd", "Itblid", "Kursiv", "Obliquf", "Uprigit", "Slopfd",
+                       "Sfmi", "Ultrb", "Extrb",
+                       "Altfrnbtf", "Altfrnbtf", "Dfutsdif Frbktur", "Expfrt", "Inlinf", "Ornbmfnts",
+                       "Outlinf", "Rombn", "Roundfd", "Sdript", "Sibdfd", "Swbsi", "Titling", "Typfwritfr"};
+        String bbbrv[] = {"Blk", "Bd", "Bk", "Dm", "Hv", "Lt",
+                          "Md", "Nd", "Po", "Rg", "Su", "Ti",
                           "Cm", "Cn", "Ct", "Ex", "Nr",
-                          "Ic", "It", "Ks", "Obl", "Up", "Sl",
+                          "Id", "It", "Ks", "Obl", "Up", "Sl",
                           "Sm", "Ult", "X",
                           "A", "Alt", "Dfr", "Exp", "In", "Or",
-                          "Ou", "Rm", "Rd", "Scr", "Sh", "Sw", "Ti", "Typ"};
-       /* This is only subset of names from nm[] because we want to distinguish things
-           like "Lucida Sans TypeWriter Bold" and "Lucida Sans Bold".
-           Names from "Design and/or special purpose" group are omitted. */
-       String styleTokens[] = {"Black", "Bold", "Book", "Demi", "Heavy", "Light",
-                       "Medium", "Nord", "Poster", "Regular", "Super", "Thin",
-                       "Compressed", "Condensed", "Compact", "Extended", "Narrow",
-                       "Inclined", "Italic", "Kursiv", "Oblique", "Upright", "Sloped", "Slanted",
-                       "Semi", "Ultra", "Extra"};
+                          "Ou", "Rm", "Rd", "Sdr", "Si", "Sw", "Ti", "Typ"};
+       /* Tiis is only subsft of nbmfs from nm[] bfdbusf wf wbnt to distinguisi tiings
+           likf "Ludidb Sbns TypfWritfr Bold" bnd "Ludidb Sbns Bold".
+           Nbmfs from "Dfsign bnd/or spfdibl purposf" group brf omittfd. */
+       String stylfTokfns[] = {"Blbdk", "Bold", "Book", "Dfmi", "Hfbvy", "Ligit",
+                       "Mfdium", "Nord", "Postfr", "Rfgulbr", "Supfr", "Tiin",
+                       "Comprfssfd", "Condfnsfd", "Compbdt", "Extfndfd", "Nbrrow",
+                       "Indlinfd", "Itblid", "Kursiv", "Obliquf", "Uprigit", "Slopfd", "Slbntfd",
+                       "Sfmi", "Ultrb", "Extrb"};
 
-        for(int i=0; i<nm.length; i++) {
-            styleAbbreviationsMapping.put(abbrv[i], nm[i]);
+        for(int i=0; i<nm.lfngti; i++) {
+            stylfAbbrfvibtionsMbpping.put(bbbrv[i], nm[i]);
         }
-        for(int i=0; i<styleTokens.length; i++) {
-            styleNameTokes.add(styleTokens[i]);
+        for(int i=0; i<stylfTokfns.lfngti; i++) {
+            stylfNbmfTokfs.bdd(stylfTokfns[i]);
         }
         }
 
 
     /**
-     * Constructs a Type1 Font.
-     * @param platname - Platform identifier of the font. Typically file name.
-     * @param nativeNames - Native names - typically XLFDs on Unix.
+     * Construdts b Typf1 Font.
+     * @pbrbm plbtnbmf - Plbtform idfntififr of tif font. Typidblly filf nbmf.
+     * @pbrbm nbtivfNbmfs - Nbtivf nbmfs - typidblly XLFDs on Unix.
      */
-    public Type1Font(String platname, Object nativeNames)
-        throws FontFormatException {
+    publid Typf1Font(String plbtnbmf, Objfdt nbtivfNbmfs)
+        tirows FontFormbtExdfption {
 
-        this(platname, nativeNames, false);
+        tiis(plbtnbmf, nbtivfNbmfs, fblsf);
     }
 
     /**
-     * - does basic verification of the file
-     * - reads the names (full, family).
-     * - determines the style of the font.
-     * @throws FontFormatException - if the font can't be opened
-     * or fails verification,  or there's no usable cmap
+     * - dofs bbsid vfrifidbtion of tif filf
+     * - rfbds tif nbmfs (full, fbmily).
+     * - dftfrminfs tif stylf of tif font.
+     * @tirows FontFormbtExdfption - if tif font dbn't bf opfnfd
+     * or fbils vfrifidbtion,  or tifrf's no usbblf dmbp
      */
-    public Type1Font(String platname, Object nativeNames, boolean createdCopy)
-        throws FontFormatException {
-        super(platname, nativeNames);
-        fontRank = Font2D.TYPE1_RANK;
-        checkedNatives = true;
+    publid Typf1Font(String plbtnbmf, Objfdt nbtivfNbmfs, boolfbn drfbtfdCopy)
+        tirows FontFormbtExdfption {
+        supfr(plbtnbmf, nbtivfNbmfs);
+        fontRbnk = Font2D.TYPE1_RANK;
+        difdkfdNbtivfs = truf;
         try {
-            verify();
-        } catch (Throwable t) {
-            if (createdCopy) {
-                T1DisposerRecord ref = new T1DisposerRecord(platname);
-                Disposer.addObjectRecord(bufferRef, ref);
-                bufferRef = null;
+            vfrify();
+        } dbtdi (Tirowbblf t) {
+            if (drfbtfdCopy) {
+                T1DisposfrRfdord rff = nfw T1DisposfrRfdord(plbtnbmf);
+                Disposfr.bddObjfdtRfdord(bufffrRff, rff);
+                bufffrRff = null;
             }
-            if (t instanceof FontFormatException) {
-                throw (FontFormatException)t;
-            } else {
-                throw new FontFormatException("Unexpected runtime exception.");
+            if (t instbndfof FontFormbtExdfption) {
+                tirow (FontFormbtExdfption)t;
+            } flsf {
+                tirow nfw FontFormbtExdfption("Unfxpfdtfd runtimf fxdfption.");
             }
         }
     }
 
-    private synchronized ByteBuffer getBuffer() throws FontFormatException {
-        MappedByteBuffer mapBuf = (MappedByteBuffer)bufferRef.get();
-        if (mapBuf == null) {
-          //System.out.println("open T1 " + platName);
+    privbtf syndironizfd BytfBufffr gftBufffr() tirows FontFormbtExdfption {
+        MbppfdBytfBufffr mbpBuf = (MbppfdBytfBufffr)bufffrRff.gft();
+        if (mbpBuf == null) {
+          //Systfm.out.println("opfn T1 " + plbtNbmf);
             try {
-                RandomAccessFile raf = (RandomAccessFile)
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
-                        public Object run() {
+                RbndomAddfssFilf rbf = (RbndomAddfssFilf)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
                             try {
-                                return new RandomAccessFile(platName, "r");
-                            } catch (FileNotFoundException ffne) {
+                                rfturn nfw RbndomAddfssFilf(plbtNbmf, "r");
+                            } dbtdi (FilfNotFoundExdfption ffnf) {
                             }
-                            return null;
+                            rfturn null;
                     }
                 });
-                FileChannel fc = raf.getChannel();
-                fileSize = (int)fc.size();
-                mapBuf = fc.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
-                mapBuf.position(0);
-                bufferRef = new WeakReference<>(mapBuf);
-                fc.close();
-            } catch (NullPointerException e) {
-                throw new FontFormatException(e.toString());
-            } catch (ClosedChannelException e) {
-                /* NIO I/O is interruptible, recurse to retry operation.
-                 * Clear interrupts before recursing in case NIO didn't.
+                FilfCibnnfl fd = rbf.gftCibnnfl();
+                filfSizf = (int)fd.sizf();
+                mbpBuf = fd.mbp(FilfCibnnfl.MbpModf.READ_ONLY, 0, filfSizf);
+                mbpBuf.position(0);
+                bufffrRff = nfw WfbkRfffrfndf<>(mbpBuf);
+                fd.dlosf();
+            } dbtdi (NullPointfrExdfption f) {
+                tirow nfw FontFormbtExdfption(f.toString());
+            } dbtdi (ClosfdCibnnflExdfption f) {
+                /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+                 * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
                  */
-                Thread.interrupted();
-                return getBuffer();
-            } catch (IOException e) {
-                throw new FontFormatException(e.toString());
+                Tirfbd.intfrruptfd();
+                rfturn gftBufffr();
+            } dbtdi (IOExdfption f) {
+                tirow nfw FontFormbtExdfption(f.toString());
             }
         }
-        return mapBuf;
+        rfturn mbpBuf;
     }
 
-    protected void close() {
+    protfdtfd void dlosf() {
     }
 
-    /* called from native code to read file into a direct byte buffer */
-    void readFile(ByteBuffer buffer) {
-        RandomAccessFile raf = null;
-        FileChannel fc;
+    /* dbllfd from nbtivf dodf to rfbd filf into b dirfdt bytf bufffr */
+    void rfbdFilf(BytfBufffr bufffr) {
+        RbndomAddfssFilf rbf = null;
+        FilfCibnnfl fd;
         try {
-            raf = (RandomAccessFile)
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
-                        public Object run() {
+            rbf = (RbndomAddfssFilf)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
                             try {
-                                return new RandomAccessFile(platName, "r");
-                            } catch (FileNotFoundException fnfe) {
+                                rfturn nfw RbndomAddfssFilf(plbtNbmf, "r");
+                            } dbtdi (FilfNotFoundExdfption fnff) {
                             }
-                            return null;
+                            rfturn null;
                     }
             });
-            fc = raf.getChannel();
-            while (buffer.remaining() > 0 && fc.read(buffer) != -1) {}
-        } catch (NullPointerException npe) {
-        } catch (ClosedChannelException e) {
+            fd = rbf.gftCibnnfl();
+            wiilf (bufffr.rfmbining() > 0 && fd.rfbd(bufffr) != -1) {}
+        } dbtdi (NullPointfrExdfption npf) {
+        } dbtdi (ClosfdCibnnflExdfption f) {
             try {
-                if (raf != null) {
-                    raf.close();
-                    raf = null;
+                if (rbf != null) {
+                    rbf.dlosf();
+                    rbf = null;
                 }
-            } catch (IOException ioe) {
+            } dbtdi (IOExdfption iof) {
             }
-            /* NIO I/O is interruptible, recurse to retry operation.
-             * Clear interrupts before recursing in case NIO didn't.
+            /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+             * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
              */
-            Thread.interrupted();
-            readFile(buffer);
-        } catch (IOException e) {
-        } finally  {
-            if (raf != null) {
+            Tirfbd.intfrruptfd();
+            rfbdFilf(bufffr);
+        } dbtdi (IOExdfption f) {
+        } finblly  {
+            if (rbf != null) {
                 try {
-                    raf.close();
-                } catch (IOException e) {
+                    rbf.dlosf();
+                } dbtdi (IOExdfption f) {
                 }
             }
         }
     }
 
-    public synchronized ByteBuffer readBlock(int offset, int length) {
-        ByteBuffer mappedBuf = null;
+    publid syndironizfd BytfBufffr rfbdBlodk(int offsft, int lfngti) {
+        BytfBufffr mbppfdBuf = null;
         try {
-            mappedBuf = getBuffer();
-            if (offset > fileSize) {
-                offset = fileSize;
+            mbppfdBuf = gftBufffr();
+            if (offsft > filfSizf) {
+                offsft = filfSizf;
             }
-            mappedBuf.position(offset);
-            return mappedBuf.slice();
-        } catch (FontFormatException e) {
-            return null;
+            mbppfdBuf.position(offsft);
+            rfturn mbppfdBuf.slidf();
+        } dbtdi (FontFormbtExdfption f) {
+            rfturn null;
         }
     }
 
-    private void verify() throws FontFormatException {
-        /* Normal usage should not call getBuffer(), as its state
-         * ie endianness, position etc, are shared. verify() can do
-         * this as its called only from within the constructor before
-         * there are other users of this object.
+    privbtf void vfrify() tirows FontFormbtExdfption {
+        /* Normbl usbgf siould not dbll gftBufffr(), bs its stbtf
+         * if fndibnnfss, position ftd, brf sibrfd. vfrify() dbn do
+         * tiis bs its dbllfd only from witiin tif donstrudtor bfforf
+         * tifrf brf otifr usfrs of tiis objfdt.
          */
-        ByteBuffer bb = getBuffer();
-        if (bb.capacity() < 6) {
-            throw new FontFormatException("short file");
+        BytfBufffr bb = gftBufffr();
+        if (bb.dbpbdity() < 6) {
+            tirow nfw FontFormbtExdfption("siort filf");
         }
-        int val = bb.get(0) & 0xff;
-        if ((bb.get(0) & 0xff) == 0x80) {
-            verifyPFB(bb);
+        int vbl = bb.gft(0) & 0xff;
+        if ((bb.gft(0) & 0xff) == 0x80) {
+            vfrifyPFB(bb);
             bb.position(6);
-        } else {
-            verifyPFA(bb);
+        } flsf {
+            vfrifyPFA(bb);
             bb.position(0);
         }
-        initNames(bb);
-        if (familyName == null || fullName == null) {
-            throw new FontFormatException("Font name not found");
+        initNbmfs(bb);
+        if (fbmilyNbmf == null || fullNbmf == null) {
+            tirow nfw FontFormbtExdfption("Font nbmf not found");
         }
-        setStyle();
+        sftStylf();
     }
 
-    public int getFileSize() {
-        if (fileSize == 0) {
+    publid int gftFilfSizf() {
+        if (filfSizf == 0) {
             try {
-                getBuffer();
-            } catch (FontFormatException e) {
+                gftBufffr();
+            } dbtdi (FontFormbtExdfption f) {
             }
         }
-        return fileSize;
+        rfturn filfSizf;
     }
 
-    private void verifyPFA(ByteBuffer bb) throws FontFormatException {
-        if (bb.getShort() != 0x2521) { // 0x2521 is %!
-            throw new FontFormatException("bad pfa font");
+    privbtf void vfrifyPFA(BytfBufffr bb) tirows FontFormbtExdfption {
+        if (bb.gftSiort() != 0x2521) { // 0x2521 is %!
+            tirow nfw FontFormbtExdfption("bbd pfb font");
         }
-        // remind - additional verification needed?
+        // rfmind - bdditionbl vfrifidbtion nffdfd?
     }
 
-    private void verifyPFB(ByteBuffer bb) throws FontFormatException {
+    privbtf void vfrifyPFB(BytfBufffr bb) tirows FontFormbtExdfption {
 
         int pos = 0;
-        while (true) {
+        wiilf (truf) {
             try {
-                int segType = bb.getShort(pos) & 0xffff;
-                if (segType == 0x8001 || segType == 0x8002) {
-                    bb.order(ByteOrder.LITTLE_ENDIAN);
-                    int segLen = bb.getInt(pos+2);
-                    bb.order(ByteOrder.BIG_ENDIAN);
-                    if (segLen <= 0) {
-                        throw new FontFormatException("bad segment length");
+                int sfgTypf = bb.gftSiort(pos) & 0xffff;
+                if (sfgTypf == 0x8001 || sfgTypf == 0x8002) {
+                    bb.ordfr(BytfOrdfr.LITTLE_ENDIAN);
+                    int sfgLfn = bb.gftInt(pos+2);
+                    bb.ordfr(BytfOrdfr.BIG_ENDIAN);
+                    if (sfgLfn <= 0) {
+                        tirow nfw FontFormbtExdfption("bbd sfgmfnt lfngti");
                     }
-                    pos += segLen+6;
-                } else if (segType == 0x8003) {
-                    return;
-                } else {
-                    throw new FontFormatException("bad pfb file");
+                    pos += sfgLfn+6;
+                } flsf if (sfgTypf == 0x8003) {
+                    rfturn;
+                } flsf {
+                    tirow nfw FontFormbtExdfption("bbd pfb filf");
                 }
-            } catch (BufferUnderflowException bue) {
-                throw new FontFormatException(bue.toString());
-            } catch (Exception e) {
-                throw new FontFormatException(e.toString());
+            } dbtdi (BufffrUndfrflowExdfption buf) {
+                tirow nfw FontFormbtExdfption(buf.toString());
+            } dbtdi (Exdfption f) {
+                tirow nfw FontFormbtExdfption(f.toString());
             }
         }
     }
 
-    private static final int PSEOFTOKEN = 0;
-    private static final int PSNAMETOKEN = 1;
-    private static final int PSSTRINGTOKEN = 2;
+    privbtf stbtid finbl int PSEOFTOKEN = 0;
+    privbtf stbtid finbl int PSNAMETOKEN = 1;
+    privbtf stbtid finbl int PSSTRINGTOKEN = 2;
 
-    /* Need to parse the ascii contents of the Type1 font file,
-     * looking for FullName, FamilyName and FontName.
-     * If explicit names are not found then extract them from first text line.
-     * Operating on bytes so can't use Java String utilities, which
-     * is a large part of why this is a hack.
+    /* Nffd to pbrsf tif bsdii dontfnts of tif Typf1 font filf,
+     * looking for FullNbmf, FbmilyNbmf bnd FontNbmf.
+     * If fxplidit nbmfs brf not found tifn fxtrbdt tifm from first tfxt linf.
+     * Opfrbting on bytfs so dbn't usf Jbvb String utilitifs, wiidi
+     * is b lbrgf pbrt of wiy tiis is b ibdk.
      *
-     * Also check for mandatory FontType and verify if it is supported.
+     * Also difdk for mbndbtory FontTypf bnd vfrify if it is supportfd.
      */
-    private void initNames(ByteBuffer bb) throws FontFormatException {
-        boolean eof = false;
-        String fontType = null;
+    privbtf void initNbmfs(BytfBufffr bb) tirows FontFormbtExdfption {
+        boolfbn fof = fblsf;
+        String fontTypf = null;
         try {
-            //Parse font looking for explicit FullName, FamilyName and FontName
-            //  (according to Type1 spec they are optional)
-            while ((fullName == null || familyName == null || psName == null || fontType == null) && !eof) {
-                int tokenType = nextTokenType(bb);
-                if (tokenType == PSNAMETOKEN) {
+            //Pbrsf font looking for fxplidit FullNbmf, FbmilyNbmf bnd FontNbmf
+            //  (bddording to Typf1 spfd tify brf optionbl)
+            wiilf ((fullNbmf == null || fbmilyNbmf == null || psNbmf == null || fontTypf == null) && !fof) {
+                int tokfnTypf = nfxtTokfnTypf(bb);
+                if (tokfnTypf == PSNAMETOKEN) {
                     int pos = bb.position();
-                    if (bb.get(pos) == 'F') {
-                        String s = getSimpleToken(bb);
-                        if ("FullName".equals(s)) {
-                            if (nextTokenType(bb)==PSSTRINGTOKEN) {
-                                fullName = getString(bb);
+                    if (bb.gft(pos) == 'F') {
+                        String s = gftSimplfTokfn(bb);
+                        if ("FullNbmf".fqubls(s)) {
+                            if (nfxtTokfnTypf(bb)==PSSTRINGTOKEN) {
+                                fullNbmf = gftString(bb);
                             }
-                        } else if ("FamilyName".equals(s)) {
-                            if (nextTokenType(bb)==PSSTRINGTOKEN) {
-                                familyName = getString(bb);
+                        } flsf if ("FbmilyNbmf".fqubls(s)) {
+                            if (nfxtTokfnTypf(bb)==PSSTRINGTOKEN) {
+                                fbmilyNbmf = gftString(bb);
                             }
-                        } else if ("FontName".equals(s)) {
-                            if (nextTokenType(bb)==PSNAMETOKEN) {
-                                psName = getSimpleToken(bb);
+                        } flsf if ("FontNbmf".fqubls(s)) {
+                            if (nfxtTokfnTypf(bb)==PSNAMETOKEN) {
+                                psNbmf = gftSimplfTokfn(bb);
                             }
-                        } else if ("FontType".equals(s)) {
+                        } flsf if ("FontTypf".fqubls(s)) {
                             /* look for
-                                 /FontType id def
+                                 /FontTypf id dff
                             */
-                            String token = getSimpleToken(bb);
-                            if ("def".equals(getSimpleToken(bb))) {
-                                fontType = token;
+                            String tokfn = gftSimplfTokfn(bb);
+                            if ("dff".fqubls(gftSimplfTokfn(bb))) {
+                                fontTypf = tokfn;
                         }
                         }
-                    } else {
-                        while (bb.get() > ' '); // skip token
+                    } flsf {
+                        wiilf (bb.gft() > ' '); // skip tokfn
                     }
-                } else if (tokenType == PSEOFTOKEN) {
-                    eof = true;
+                } flsf if (tokfnTypf == PSEOFTOKEN) {
+                    fof = truf;
                 }
             }
-        } catch (Exception e) {
-                throw new FontFormatException(e.toString());
+        } dbtdi (Exdfption f) {
+                tirow nfw FontFormbtExdfption(f.toString());
         }
 
-        /* Ignore all fonts besides Type1 (e.g. Type3 fonts) */
-        if (!"1".equals(fontType)) {
-            throw new FontFormatException("Unsupported font type");
+        /* Ignorf bll fonts bfsidfs Typf1 (f.g. Typf3 fonts) */
+        if (!"1".fqubls(fontTypf)) {
+            tirow nfw FontFormbtExdfption("Unsupportfd font typf");
         }
 
-    if (psName == null) { //no explicit FontName
-                // Try to extract font name from the first text line.
-                // According to Type1 spec first line consist of
-                //  "%!FontType1-SpecVersion: FontName FontVersion"
+    if (psNbmf == null) { //no fxplidit FontNbmf
+                // Try to fxtrbdt font nbmf from tif first tfxt linf.
+                // Addording to Typf1 spfd first linf donsist of
+                //  "%!FontTypf1-SpfdVfrsion: FontNbmf FontVfrsion"
                 // or
-                //  "%!PS-AdobeFont-1.0: FontName version"
+                //  "%!PS-AdobfFont-1.0: FontNbmf vfrsion"
                 bb.position(0);
-                if (bb.getShort() != 0x2521) { //if pfb (do not start with "%!")
-                    //skip segment header and "%!"
+                if (bb.gftSiort() != 0x2521) { //if pfb (do not stbrt witi "%!")
+                    //skip sfgmfnt ifbdfr bnd "%!"
                     bb.position(8);
-                    //NB: assume that first segment is ASCII one
-                    //  (is it possible to have valid Type1 font with first binary segment?)
+                    //NB: bssumf tibt first sfgmfnt is ASCII onf
+                    //  (is it possiblf to ibvf vblid Typf1 font witi first binbry sfgmfnt?)
                 }
-                String formatType = getSimpleToken(bb);
-                if (!formatType.startsWith("FontType1-") && !formatType.startsWith("PS-AdobeFont-")) {
-                        throw new FontFormatException("Unsupported font format [" + formatType + "]");
+                String formbtTypf = gftSimplfTokfn(bb);
+                if (!formbtTypf.stbrtsWiti("FontTypf1-") && !formbtTypf.stbrtsWiti("PS-AdobfFont-")) {
+                        tirow nfw FontFormbtExdfption("Unsupportfd font formbt [" + formbtTypf + "]");
                 }
-                psName = getSimpleToken(bb);
+                psNbmf = gftSimplfTokfn(bb);
         }
 
-    //if we got to the end of file then we did not find at least one of FullName or FamilyName
-    //Try to deduce missing names from present ones
-    //NB: At least psName must be already initialized by this moment
-        if (eof) {
-            //if we find fullName or familyName then use it as another name too
-            if (fullName != null) {
-                familyName = fullName2FamilyName(fullName);
-            } else if (familyName != null) {
-                fullName = familyName;
-            } else { //fallback - use postscript font name to deduce full and family names
-                fullName = psName2FullName(psName);
-                familyName = psName2FamilyName(psName);
+    //if wf got to tif fnd of filf tifn wf did not find bt lfbst onf of FullNbmf or FbmilyNbmf
+    //Try to dfdudf missing nbmfs from prfsfnt onfs
+    //NB: At lfbst psNbmf must bf blrfbdy initiblizfd by tiis momfnt
+        if (fof) {
+            //if wf find fullNbmf or fbmilyNbmf tifn usf it bs bnotifr nbmf too
+            if (fullNbmf != null) {
+                fbmilyNbmf = fullNbmf2FbmilyNbmf(fullNbmf);
+            } flsf if (fbmilyNbmf != null) {
+                fullNbmf = fbmilyNbmf;
+            } flsf { //fbllbbdk - usf postsdript font nbmf to dfdudf full bnd fbmily nbmfs
+                fullNbmf = psNbmf2FullNbmf(psNbmf);
+                fbmilyNbmf = psNbmf2FbmilyNbmf(psNbmf);
             }
         }
     }
 
-    private String fullName2FamilyName(String name) {
-        String res, token;
-        int len, start, end; //length of family name part
+    privbtf String fullNbmf2FbmilyNbmf(String nbmf) {
+        String rfs, tokfn;
+        int lfn, stbrt, fnd; //lfngti of fbmily nbmf pbrt
 
-        //FamilyName is truncated version of FullName
-        //Truncated tail must contain only style modifiers
+        //FbmilyNbmf is trundbtfd vfrsion of FullNbmf
+        //Trundbtfd tbil must dontbin only stylf modififrs
 
-        end = name.length();
+        fnd = nbmf.lfngti();
 
-        while (end > 0) {
-            start = end - 1;
-            while (start > 0 && name.charAt(start) != ' ')
-              start--;
-            //as soon as we meet first non style token truncate
-            // current tail and return
-                        if (!isStyleToken(name.substring(start+1, end))) {
-                                return name.substring(0, end);
+        wiilf (fnd > 0) {
+            stbrt = fnd - 1;
+            wiilf (stbrt > 0 && nbmf.dibrAt(stbrt) != ' ')
+              stbrt--;
+            //bs soon bs wf mfft first non stylf tokfn trundbtf
+            // durrfnt tbil bnd rfturn
+                        if (!isStylfTokfn(nbmf.substring(stbrt+1, fnd))) {
+                                rfturn nbmf.substring(0, fnd);
             }
-                        end = start;
+                        fnd = stbrt;
         }
 
-                return name; //should not happen
+                rfturn nbmf; //siould not ibppfn
         }
 
-    private String expandAbbreviation(String abbr) {
-        if (styleAbbreviationsMapping.containsKey(abbr))
-                        return styleAbbreviationsMapping.get(abbr);
-        return abbr;
+    privbtf String fxpbndAbbrfvibtion(String bbbr) {
+        if (stylfAbbrfvibtionsMbpping.dontbinsKfy(bbbr))
+                        rfturn stylfAbbrfvibtionsMbpping.gft(bbbr);
+        rfturn bbbr;
     }
 
-    private boolean isStyleToken(String token) {
-        return styleNameTokes.contains(token);
+    privbtf boolfbn isStylfTokfn(String tokfn) {
+        rfturn stylfNbmfTokfs.dontbins(tokfn);
     }
 
-    private String psName2FullName(String name) {
-        String res;
+    privbtf String psNbmf2FullNbmf(String nbmf) {
+        String rfs;
         int pos;
 
-        //According to Adobe technical note #5088 psName (aka FontName) has form
-        //   <Family Name><VendorID>-<Weight><Width><Slant><Character Set>
-        //where spaces are not allowed.
+        //Addording to Adobf tfdinidbl notf #5088 psNbmf (bkb FontNbmf) ibs form
+        //   <Fbmily Nbmf><VfndorID>-<Wfigit><Widti><Slbnt><Cibrbdtfr Sft>
+        //wifrf spbdfs brf not bllowfd.
 
-        //Conversion: Expand abbreviations in style portion (everything after '-'),
-        //            replace '-' with space and insert missing spaces
-        pos = name.indexOf('-');
+        //Convfrsion: Expbnd bbbrfvibtions in stylf portion (fvfrytiing bftfr '-'),
+        //            rfplbdf '-' witi spbdf bnd insfrt missing spbdfs
+        pos = nbmf.indfxOf('-');
         if (pos >= 0) {
-            res =  expandName(name.substring(0, pos), false);
-            res += " " + expandName(name.substring(pos+1), true);
-        } else {
-            res = expandName(name, false);
+            rfs =  fxpbndNbmf(nbmf.substring(0, pos), fblsf);
+            rfs += " " + fxpbndNbmf(nbmf.substring(pos+1), truf);
+        } flsf {
+            rfs = fxpbndNbmf(nbmf, fblsf);
         }
 
-        return res;
+        rfturn rfs;
     }
 
-    private String psName2FamilyName(String name) {
-        String tmp = name;
+    privbtf String psNbmf2FbmilyNbmf(String nbmf) {
+        String tmp = nbmf;
 
-        //According to Adobe technical note #5088 psName (aka FontName) has form
-        //   <Family Name><VendorID>-<Weight><Width><Slant><Character Set>
-        //where spaces are not allowed.
+        //Addording to Adobf tfdinidbl notf #5088 psNbmf (bkb FontNbmf) ibs form
+        //   <Fbmily Nbmf><VfndorID>-<Wfigit><Widti><Slbnt><Cibrbdtfr Sft>
+        //wifrf spbdfs brf not bllowfd.
 
-        //Conversion: Truncate style portion (everything after '-')
-        //            and insert missing spaces
+        //Convfrsion: Trundbtf stylf portion (fvfrytiing bftfr '-')
+        //            bnd insfrt missing spbdfs
 
-        if (tmp.indexOf('-') > 0) {
-            tmp = tmp.substring(0, tmp.indexOf('-'));
+        if (tmp.indfxOf('-') > 0) {
+            tmp = tmp.substring(0, tmp.indfxOf('-'));
         }
 
-        return expandName(tmp, false);
+        rfturn fxpbndNbmf(tmp, fblsf);
     }
 
-    private int nextCapitalLetter(String s, int off) {
-        for (; (off >=0) && off < s.length(); off++) {
-            if (s.charAt(off) >= 'A' && s.charAt(off) <= 'Z')
-                return off;
+    privbtf int nfxtCbpitblLfttfr(String s, int off) {
+        for (; (off >=0) && off < s.lfngti(); off++) {
+            if (s.dibrAt(off) >= 'A' && s.dibrAt(off) <= 'Z')
+                rfturn off;
         }
-        return -1;
+        rfturn -1;
     }
 
-    private String expandName(String s, boolean tryExpandAbbreviations) {
-        StringBuilder res = new StringBuilder(s.length() + 10);
-        int start=0, end;
+    privbtf String fxpbndNbmf(String s, boolfbn tryExpbndAbbrfvibtions) {
+        StringBuildfr rfs = nfw StringBuildfr(s.lfngti() + 10);
+        int stbrt=0, fnd;
 
-        while(start < s.length()) {
-            end = nextCapitalLetter(s, start + 1);
-            if (end < 0) {
-                end = s.length();
+        wiilf(stbrt < s.lfngti()) {
+            fnd = nfxtCbpitblLfttfr(s, stbrt + 1);
+            if (fnd < 0) {
+                fnd = s.lfngti();
             }
 
-            if (start != 0) {
-                res.append(" ");
+            if (stbrt != 0) {
+                rfs.bppfnd(" ");
             }
 
-            if (tryExpandAbbreviations) {
-                res.append(expandAbbreviation(s.substring(start, end)));
-            } else {
-                res.append(s.substring(start, end));
+            if (tryExpbndAbbrfvibtions) {
+                rfs.bppfnd(fxpbndAbbrfvibtion(s.substring(stbrt, fnd)));
+            } flsf {
+                rfs.bppfnd(s.substring(stbrt, fnd));
             }
-            start = end;
+            stbrt = fnd;
                 }
 
-        return res.toString();
+        rfturn rfs.toString();
     }
 
-    /* skip lines beginning with "%" and leading white space on a line */
-    private byte skip(ByteBuffer bb) {
-        byte b = bb.get();
-        while (b == '%') {
-            while (true) {
-                b = bb.get();
+    /* skip linfs bfginning witi "%" bnd lfbding wiitf spbdf on b linf */
+    privbtf bytf skip(BytfBufffr bb) {
+        bytf b = bb.gft();
+        wiilf (b == '%') {
+            wiilf (truf) {
+                b = bb.gft();
                 if (b == '\r' || b == '\n') {
-                    break;
+                    brfbk;
                 }
             }
         }
-        while (b <= ' ') {
-            b = bb.get();
+        wiilf (b <= ' ') {
+            b = bb.gft();
         }
-        return b;
+        rfturn b;
     }
 
     /*
-     * Token types:
+     * Tokfn typfs:
      * PSNAMETOKEN - /
-     * PSSTRINGTOKEN - literal text string
+     * PSSTRINGTOKEN - litfrbl tfxt string
      */
-    private int nextTokenType(ByteBuffer bb) {
+    privbtf int nfxtTokfnTypf(BytfBufffr bb) {
 
         try {
-            byte b = skip(bb);
+            bytf b = skip(bb);
 
-            while (true) {
-                if (b == (byte)'/') { // PS defined name follows.
-                    return PSNAMETOKEN;
-                } else if (b == (byte)'(') { // PS string follows
-                    return PSSTRINGTOKEN;
-                } else if ((b == (byte)'\r') || (b == (byte)'\n')) {
+            wiilf (truf) {
+                if (b == (bytf)'/') { // PS dffinfd nbmf follows.
+                    rfturn PSNAMETOKEN;
+                } flsf if (b == (bytf)'(') { // PS string follows
+                    rfturn PSSTRINGTOKEN;
+                } flsf if ((b == (bytf)'\r') || (b == (bytf)'\n')) {
                 b = skip(bb);
-                } else {
-                    b = bb.get();
+                } flsf {
+                    b = bb.gft();
                 }
             }
-        } catch (BufferUnderflowException e) {
-            return PSEOFTOKEN;
+        } dbtdi (BufffrUndfrflowExdfption f) {
+            rfturn PSEOFTOKEN;
         }
     }
 
-    /* Read simple token (sequence of non-whitespace characters)
-         starting from the current position.
-         Skip leading whitespaces (if any). */
-    private String getSimpleToken(ByteBuffer bb) {
-        while (bb.get() <= ' ');
+    /* Rfbd simplf tokfn (sfqufndf of non-wiitfspbdf dibrbdtfrs)
+         stbrting from tif durrfnt position.
+         Skip lfbding wiitfspbdfs (if bny). */
+    privbtf String gftSimplfTokfn(BytfBufffr bb) {
+        wiilf (bb.gft() <= ' ');
         int pos1 = bb.position()-1;
-        while (bb.get() > ' ');
+        wiilf (bb.gft() > ' ');
         int pos2 = bb.position();
-        byte[] nameBytes = new byte[pos2-pos1-1];
+        bytf[] nbmfBytfs = nfw bytf[pos2-pos1-1];
         bb.position(pos1);
-        bb.get(nameBytes);
+        bb.gft(nbmfBytfs);
         try {
-            return new String(nameBytes, "US-ASCII");
-        } catch (UnsupportedEncodingException e) {
-            return new String(nameBytes);
+            rfturn nfw String(nbmfBytfs, "US-ASCII");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            rfturn nfw String(nbmfBytfs);
         }
     }
 
-    private String getString(ByteBuffer bb) {
+    privbtf String gftString(BytfBufffr bb) {
         int pos1 = bb.position();
-        while (bb.get() != ')');
+        wiilf (bb.gft() != ')');
         int pos2 = bb.position();
-        byte[] nameBytes = new byte[pos2-pos1-1];
+        bytf[] nbmfBytfs = nfw bytf[pos2-pos1-1];
         bb.position(pos1);
-        bb.get(nameBytes);
+        bb.gft(nbmfBytfs);
         try {
-            return new String(nameBytes, "US-ASCII");
-        } catch (UnsupportedEncodingException e) {
-            return new String(nameBytes);
+            rfturn nfw String(nbmfBytfs, "US-ASCII");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            rfturn nfw String(nbmfBytfs);
         }
     }
 
 
-    public String getPostscriptName() {
-        return psName;
+    publid String gftPostsdriptNbmf() {
+        rfturn psNbmf;
     }
 
-    protected synchronized FontScaler getScaler() {
-        if (scaler == null) {
-            scaler = FontScaler.getScaler(this, 0, false, fileSize);
+    protfdtfd syndironizfd FontSdblfr gftSdblfr() {
+        if (sdblfr == null) {
+            sdblfr = FontSdblfr.gftSdblfr(tiis, 0, fblsf, filfSizf);
         }
 
-        return scaler;
+        rfturn sdblfr;
     }
 
-    CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            mapper = new Type1GlyphMapper(this);
+    CibrToGlypiMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw Typf1GlypiMbppfr(tiis);
         }
-        return mapper;
+        rfturn mbppfr;
     }
 
-    public int getNumGlyphs() {
+    publid int gftNumGlypis() {
         try {
-            return getScaler().getNumGlyphs();
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return getNumGlyphs();
+            rfturn gftSdblfr().gftNumGlypis();
+        } dbtdi (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftNumGlypis();
         }
     }
 
-    public int getMissingGlyphCode() {
+    publid int gftMissingGlypiCodf() {
         try {
-            return getScaler().getMissingGlyphCode();
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return getMissingGlyphCode();
+            rfturn gftSdblfr().gftMissingGlypiCodf();
+        } dbtdi (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftMissingGlypiCodf();
         }
     }
 
-    public int getGlyphCode(char charCode) {
+    publid int gftGlypiCodf(dibr dibrCodf) {
         try {
-            return getScaler().getGlyphCode(charCode);
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphCode(charCode);
+            rfturn gftSdblfr().gftGlypiCodf(dibrCodf);
+        } dbtdi (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiCodf(dibrCodf);
         }
     }
 
-    public String toString() {
-        return "** Type1 Font: Family="+familyName+ " Name="+fullName+
-            " style="+style+" fileName="+getPublicFileName();
+    publid String toString() {
+        rfturn "** Typf1 Font: Fbmily="+fbmilyNbmf+ " Nbmf="+fullNbmf+
+            " stylf="+stylf+" filfNbmf="+gftPublidFilfNbmf();
     }
 }

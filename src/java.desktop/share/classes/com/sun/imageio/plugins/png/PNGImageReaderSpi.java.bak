@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.png;
+pbdkbgf dom.sun.imbgfio.plugins.png;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Iterator;
-import javax.imageio.ImageReader;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOExdfption;
+import jbvb.util.Lodblf;
+import jbvb.util.Itfrbtor;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
 
-public class PNGImageReaderSpi extends ImageReaderSpi {
+publid dlbss PNGImbgfRfbdfrSpi fxtfnds ImbgfRfbdfrSpi {
 
-    private static final String vendorName = "Oracle Corporation";
+    privbtf stbtid finbl String vfndorNbmf = "Orbdlf Corporbtion";
 
-    private static final String version = "1.0";
+    privbtf stbtid finbl String vfrsion = "1.0";
 
-    private static final String[] names = { "png", "PNG" };
+    privbtf stbtid finbl String[] nbmfs = { "png", "PNG" };
 
-    private static final String[] suffixes = { "png" };
+    privbtf stbtid finbl String[] suffixfs = { "png" };
 
-    private static final String[] MIMETypes = { "image/png", "image/x-png" };
+    privbtf stbtid finbl String[] MIMETypfs = { "imbgf/png", "imbgf/x-png" };
 
-    private static final String readerClassName =
-        "com.sun.imageio.plugins.png.PNGImageReader";
+    privbtf stbtid finbl String rfbdfrClbssNbmf =
+        "dom.sun.imbgfio.plugins.png.PNGImbgfRfbdfr";
 
-    private static final String[] writerSpiNames = {
-        "com.sun.imageio.plugins.png.PNGImageWriterSpi"
+    privbtf stbtid finbl String[] writfrSpiNbmfs = {
+        "dom.sun.imbgfio.plugins.png.PNGImbgfWritfrSpi"
     };
 
-    public PNGImageReaderSpi() {
-        super(vendorName,
-              version,
-              names,
-              suffixes,
-              MIMETypes,
-              readerClassName,
-              new Class<?>[] { ImageInputStream.class },
-              writerSpiNames,
-              false,
+    publid PNGImbgfRfbdfrSpi() {
+        supfr(vfndorNbmf,
+              vfrsion,
+              nbmfs,
+              suffixfs,
+              MIMETypfs,
+              rfbdfrClbssNbmf,
+              nfw Clbss<?>[] { ImbgfInputStrfbm.dlbss },
+              writfrSpiNbmfs,
+              fblsf,
               null, null,
               null, null,
-              true,
-              PNGMetadata.nativeMetadataFormatName,
-              "com.sun.imageio.plugins.png.PNGMetadataFormat",
+              truf,
+              PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.png.PNGMftbdbtbFormbt",
               null, null
               );
     }
 
-    public String getDescription(Locale locale) {
-        return "Standard PNG image reader";
+    publid String gftDfsdription(Lodblf lodblf) {
+        rfturn "Stbndbrd PNG imbgf rfbdfr";
     }
 
-    public boolean canDecodeInput(Object input) throws IOException {
-        if (!(input instanceof ImageInputStream)) {
-            return false;
+    publid boolfbn dbnDfdodfInput(Objfdt input) tirows IOExdfption {
+        if (!(input instbndfof ImbgfInputStrfbm)) {
+            rfturn fblsf;
         }
 
-        ImageInputStream stream = (ImageInputStream)input;
-        byte[] b = new byte[8];
-        stream.mark();
-        stream.readFully(b);
-        stream.reset();
+        ImbgfInputStrfbm strfbm = (ImbgfInputStrfbm)input;
+        bytf[] b = nfw bytf[8];
+        strfbm.mbrk();
+        strfbm.rfbdFully(b);
+        strfbm.rfsft();
 
-        return (b[0] == (byte)137 &&
-                b[1] == (byte)80 &&
-                b[2] == (byte)78 &&
-                b[3] == (byte)71 &&
-                b[4] == (byte)13 &&
-                b[5] == (byte)10 &&
-                b[6] == (byte)26 &&
-                b[7] == (byte)10);
+        rfturn (b[0] == (bytf)137 &&
+                b[1] == (bytf)80 &&
+                b[2] == (bytf)78 &&
+                b[3] == (bytf)71 &&
+                b[4] == (bytf)13 &&
+                b[5] == (bytf)10 &&
+                b[6] == (bytf)26 &&
+                b[7] == (bytf)10);
     }
 
-    public ImageReader createReaderInstance(Object extension) {
-        return new PNGImageReader(this);
+    publid ImbgfRfbdfr drfbtfRfbdfrInstbndf(Objfdt fxtfnsion) {
+        rfturn nfw PNGImbgfRfbdfr(tiis);
     }
 }

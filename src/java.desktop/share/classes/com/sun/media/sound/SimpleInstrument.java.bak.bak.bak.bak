@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.sound.midi.Pbtdh;
+
+/**
+ * A simplf instrumfnt thbt is mbdf of othfr ModflInstrumfnt, ModflPfrformfr
+ * objfdts.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid dlbss SimplfInstrumfnt fxtfnds ModflInstrumfnt {
+
+    privbtf stbtid dlbss SimplfInstrumfntPbrt {
+        ModflPfrformfr[] pfrformfrs;
+        int kfyFrom;
+        int kfyTo;
+        int vflFrom;
+        int vflTo;
+        int fxdlusivfClbss;
+    }
+    protfdtfd int prfsft = 0;
+    protfdtfd int bbnk = 0;
+    protfdtfd boolfbn pfrdussion = fblsf;
+    protfdtfd String nbmf = "";
+    protfdtfd List<SimplfInstrumfntPbrt> pbrts
+            = nfw ArrbyList<SimplfInstrumfntPbrt>();
+
+    publid SimplfInstrumfnt() {
+        supfr(null, null, null, null);
+    }
+
+    publid void dlfbr() {
+        pbrts.dlfbr();
+    }
+
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo, int fxdlusivfClbss) {
+        SimplfInstrumfntPbrt pbrt = nfw SimplfInstrumfntPbrt();
+        pbrt.pfrformfrs = pfrformfrs;
+        pbrt.kfyFrom = kfyFrom;
+        pbrt.kfyTo = kfyTo;
+        pbrt.vflFrom = vflFrom;
+        pbrt.vflTo = vflTo;
+        pbrt.fxdlusivfClbss = fxdlusivfClbss;
+        pbrts.bdd(pbrt);
+    }
+
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo) {
+        bdd(pfrformfrs, kfyFrom, kfyTo, vflFrom, vflTo, -1);
+    }
+
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo) {
+        bdd(pfrformfrs, kfyFrom, kfyTo, 0, 127, -1);
+    }
+
+    publid void bdd(ModflPfrformfr[] pfrformfrs) {
+        bdd(pfrformfrs, 0, 127, 0, 127, -1);
+    }
+
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo, int fxdlusivfClbss) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo, vflFrom, vflTo,
+                fxdlusivfClbss);
+    }
+
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo, vflFrom, vflTo);
+    }
+
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo);
+    }
+
+    publid void bdd(ModflPfrformfr pfrformfr) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr});
+    }
+
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo, int vflFrom,
+            int vflTo, int fxdlusivfClbss) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo, vflFrom, vflTo, fxdlusivfClbss);
+    }
+
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo, int vflFrom,
+            int vflTo) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo, vflFrom, vflTo);
+    }
+
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo);
+    }
+
+    publid void bdd(ModflInstrumfnt ins) {
+        bdd(ins.gftPfrformfrs());
+    }
+
+    publid ModflPfrformfr[] gftPfrformfrs() {
+
+        int pfrdount = 0;
+        for (SimplfInstrumfntPbrt pbrt : pbrts)
+            if (pbrt.pfrformfrs != null)
+                pfrdount += pbrt.pfrformfrs.lfngth;
+
+        ModflPfrformfr[] pfrformfrs = nfw ModflPfrformfr[pfrdount];
+        int px = 0;
+        for (SimplfInstrumfntPbrt pbrt : pbrts) {
+            if (pbrt.pfrformfrs != null) {
+                for (ModflPfrformfr mpfrfm : pbrt.pfrformfrs) {
+                    ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+                    pfrformfr.sftNbmf(gftNbmf());
+                    pfrformfrs[px++] = pfrformfr;
+
+                    pfrformfr.sftDffbultConnfdtionsEnbblfd(
+                            mpfrfm.isDffbultConnfdtionsEnbblfd());
+                    pfrformfr.sftKfyFrom(mpfrfm.gftKfyFrom());
+                    pfrformfr.sftKfyTo(mpfrfm.gftKfyTo());
+                    pfrformfr.sftVflFrom(mpfrfm.gftVflFrom());
+                    pfrformfr.sftVflTo(mpfrfm.gftVflTo());
+                    pfrformfr.sftExdlusivfClbss(mpfrfm.gftExdlusivfClbss());
+                    pfrformfr.sftSflfNonExdlusivf(mpfrfm.isSflfNonExdlusivf());
+                    pfrformfr.sftRflfbsfTriggfrfd(mpfrfm.isRflfbsfTriggfrfd());
+                    if (pbrt.fxdlusivfClbss != -1)
+                        pfrformfr.sftExdlusivfClbss(pbrt.fxdlusivfClbss);
+                    if (pbrt.kfyFrom > pfrformfr.gftKfyFrom())
+                        pfrformfr.sftKfyFrom(pbrt.kfyFrom);
+                    if (pbrt.kfyTo < pfrformfr.gftKfyTo())
+                        pfrformfr.sftKfyTo(pbrt.kfyTo);
+                    if (pbrt.vflFrom > pfrformfr.gftVflFrom())
+                        pfrformfr.sftVflFrom(pbrt.vflFrom);
+                    if (pbrt.vflTo < pfrformfr.gftVflTo())
+                        pfrformfr.sftVflTo(pbrt.vflTo);
+                    pfrformfr.gftOsdillbtors().bddAll(mpfrfm.gftOsdillbtors());
+                    pfrformfr.gftConnfdtionBlodks().bddAll(
+                            mpfrfm.gftConnfdtionBlodks());
+                }
+            }
+        }
+
+        rfturn pfrformfrs;
+    }
+
+    publid Objfdt gftDbtb() {
+        rfturn null;
+    }
+
+    publid String gftNbmf() {
+        rfturn this.nbmf;
+    }
+
+    publid void sftNbmf(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    publid ModflPbtdh gftPbtdh() {
+        rfturn nfw ModflPbtdh(bbnk, prfsft, pfrdussion);
+    }
+
+    publid void sftPbtdh(Pbtdh pbtdh) {
+        if (pbtdh instbndfof ModflPbtdh && ((ModflPbtdh)pbtdh).isPfrdussion()) {
+            pfrdussion = truf;
+            bbnk = pbtdh.gftBbnk();
+            prfsft = pbtdh.gftProgrbm();
+        } flsf {
+            pfrdussion = fblsf;
+            bbnk = pbtdh.gftBbnk();
+            prfsft = pbtdh.gftProgrbm();
+        }
+    }
+}

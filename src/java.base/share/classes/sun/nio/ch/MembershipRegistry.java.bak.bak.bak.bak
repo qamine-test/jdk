@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.util.*;
+
+/**
+ * Simplf rfgistry of mfmbfrship kfys for b MultidbstChbnnfl.
+ *
+ * Instbndfs of this objfdt brf not sbff by multiplf dondurrfnt thrfbds.
+ */
+
+dlbss MfmbfrshipRfgistry {
+
+    // mbp multidbst group to kfys
+    privbtf Mbp<InftAddrfss,List<MfmbfrshipKfyImpl>> groups = null;
+
+    MfmbfrshipRfgistry() {
+    }
+
+    /**
+     * Chfdks rfgistry for mfmbfrship of thf group on thf givfn
+     * nftwork intfrfbdf.
+     */
+    MfmbfrshipKfy dhfdkMfmbfrship(InftAddrfss group, NftworkIntfrfbdf intfrf,
+                                  InftAddrfss sourdf)
+    {
+        if (groups != null) {
+            List<MfmbfrshipKfyImpl> kfys = groups.gft(group);
+            if (kfys != null) {
+                for (MfmbfrshipKfyImpl kfy: kfys) {
+                    if (kfy.nftworkIntfrfbdf().fqubls(intfrf)) {
+                        // blrfbdy b mfmbfr to rfdfivf bll pbdkfts so rfturn
+                        // fxisting kfy or dftfdt donflidt
+                        if (sourdf == null) {
+                            if (kfy.sourdfAddrfss() == null)
+                                rfturn kfy;
+                            throw nfw IllfgblStbtfExdfption("Alrfbdy b mfmbfr to rfdfivf bll pbdkfts");
+                        }
+
+                        // blrfbdy hbvf sourdf-spfdifid mfmbfrship so rfturn kfy
+                        // or dftfdt donflidt
+                        if (kfy.sourdfAddrfss() == null)
+                            throw nfw IllfgblStbtfExdfption("Alrfbdy hbvf sourdf-spfdifid mfmbfrship");
+                        if (sourdf.fqubls(kfy.sourdfAddrfss()))
+                            rfturn kfy;
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Add mfmbfrship to thf rfgistry, rfturning b nfw mfmbfrship kfy.
+     */
+    void bdd(MfmbfrshipKfyImpl kfy) {
+        InftAddrfss group = kfy.group();
+        List<MfmbfrshipKfyImpl> kfys;
+        if (groups == null) {
+            groups = nfw HbshMbp<InftAddrfss,List<MfmbfrshipKfyImpl>>();
+            kfys = null;
+        } flsf {
+            kfys = groups.gft(group);
+        }
+        if (kfys == null) {
+            kfys = nfw LinkfdList<MfmbfrshipKfyImpl>();
+            groups.put(group, kfys);
+        }
+        kfys.bdd(kfy);
+    }
+
+    /**
+     * Rfmovf b kfy from thf rfgistry
+     */
+    void rfmovf(MfmbfrshipKfyImpl kfy) {
+        InftAddrfss group = kfy.group();
+        List<MfmbfrshipKfyImpl> kfys = groups.gft(group);
+        if (kfys != null) {
+            Itfrbtor<MfmbfrshipKfyImpl> i = kfys.itfrbtor();
+            whilf (i.hbsNfxt()) {
+                if (i.nfxt() == kfy) {
+                    i.rfmovf();
+                    brfbk;
+                }
+            }
+            if (kfys.isEmpty()) {
+                groups.rfmovf(group);
+            }
+        }
+    }
+
+    /**
+     * Invblidbtf bll kfys in thf rfgistry
+     */
+    void invblidbtfAll() {
+        if (groups != null) {
+            for (InftAddrfss group: groups.kfySft()) {
+                for (MfmbfrshipKfyImpl kfy: groups.gft(group)) {
+                    kfy.invblidbtf();
+                }
+            }
+        }
+    }
+}

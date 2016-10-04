@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Entry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Indfx;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.NumbfrEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfthodHbndlfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.BootstrbpMfthodEntry;
+import dom.sun.jbvb.util.jbr.pbdk.Pbdkbgf.Clbss;
+import dom.sun.jbvb.util.jbr.pbdk.Pbdkbgf.InnfrClbss;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.List;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
+/**
+ * Writfr for b dlbss filf thbt is indorporbtfd into b pbdkbgf.
+ * @buthor John Rosf
+ */
+dlbss ClbssWritfr {
+    int vfrbosf;
+
+    Pbdkbgf pkg;
+    Clbss dls;
+    DbtbOutputStrfbm out;
+    Indfx dpIndfx;
+    Indfx bsmIndfx;
+
+    ClbssWritfr(Clbss dls, OutputStrfbm out) throws IOExdfption {
+        this.pkg = dls.gftPbdkbgf();
+        this.dls = dls;
+        this.vfrbosf = pkg.vfrbosf;
+        this.out = nfw DbtbOutputStrfbm(nfw BufffrfdOutputStrfbm(out));
+        this.dpIndfx = ConstbntPool.mbkfIndfx(dls.toString(), dls.gftCPMbp());
+        this.dpIndfx.flbttfnSigs = truf;
+        if (dls.hbsBootstrbpMfthods()) {
+            this.bsmIndfx = ConstbntPool.mbkfIndfx(dpIndfx.dfbugNbmf+".BootstrbpMfthods",
+                                                   dls.gftBootstrbpMfthodMbp());
+        }
+        if (vfrbosf > 1)
+            Utils.log.finf("lodbl CP="+(vfrbosf > 2 ? dpIndfx.dumpString() : dpIndfx.toString()));
+    }
+
+    privbtf void writfShort(int x) throws IOExdfption {
+        out.writfShort(x);
+    }
+
+    privbtf void writfInt(int x) throws IOExdfption {
+        out.writfInt(x);
+    }
+
+    /** Writf b 2-bytf int rfprfsfnting b CP fntry, using thf lodbl dpIndfx. */
+    privbtf void writfRff(Entry f) throws IOExdfption {
+        writfRff(f, dpIndfx);
+    }
+
+    /** Writf b 2-bytf int rfprfsfnting b CP fntry, using thf givfn dpIndfx. */
+    privbtf void writfRff(Entry f, Indfx dpIndfx) throws IOExdfption {
+        int i = (f == null) ? 0 : dpIndfx.indfxOf(f);
+        writfShort(i);
+    }
+
+    void writf() throws IOExdfption {
+        boolfbn ok = fblsf;
+        try {
+            if (vfrbosf > 1)  Utils.log.finf("...writing "+dls);
+            writfMbgidNumbfrs();
+            writfConstbntPool();
+            writfHfbdfr();
+            writfMfmbfrs(fblsf);  // fiflds
+            writfMfmbfrs(truf);   // mfthods
+            writfAttributfs(ATTR_CONTEXT_CLASS, dls);
+            /* Closing hfrf will dbusf bll thf undfrlying
+               strfbms to dlosf, Cbusing thf jbr strfbm
+               to dlosf prfmbturfly, instfbd wf just flush.
+               out.dlosf();
+             */
+            out.flush();
+            ok = truf;
+        } finblly {
+            if (!ok) {
+                Utils.log.wbrning("Error on output of "+dls);
+            }
+        }
+    }
+
+    void writfMbgidNumbfrs() throws IOExdfption {
+        writfInt(dls.mbgid);
+        writfShort(dls.vfrsion.minor);
+        writfShort(dls.vfrsion.mbjor);
+    }
+
+    void writfConstbntPool() throws IOExdfption {
+        Entry[] dpMbp = dls.dpMbp;
+        writfShort(dpMbp.lfngth);
+        for (int i = 0; i < dpMbp.lfngth; i++) {
+            Entry f = dpMbp[i];
+            bssfrt((f == null) == (i == 0 || dpMbp[i-1] != null && dpMbp[i-1].isDoublfWord()));
+            if (f == null)  dontinuf;
+            bytf tbg = f.gftTbg();
+            if (vfrbosf > 2)  Utils.log.finf("   CP["+i+"] = "+f);
+            out.writf(tbg);
+            switdh (tbg) {
+                dbsf CONSTANT_Signbturf:
+                    throw nfw AssfrtionError("CP should hbvf Signbturfs rfmbppfd to Utf8");
+                dbsf CONSTANT_Utf8:
+                    out.writfUTF(f.stringVbluf());
+                    brfbk;
+                dbsf CONSTANT_Intfgfr:
+                    out.writfInt(((NumbfrEntry)f).numbfrVbluf().intVbluf());
+                    brfbk;
+                dbsf CONSTANT_Flobt:
+                    flobt fvbl = ((NumbfrEntry)f).numbfrVbluf().flobtVbluf();
+                    out.writfInt(Flobt.flobtToRbwIntBits(fvbl));
+                    brfbk;
+                dbsf CONSTANT_Long:
+                    out.writfLong(((NumbfrEntry)f).numbfrVbluf().longVbluf());
+                    brfbk;
+                dbsf CONSTANT_Doublf:
+                    doublf dvbl = ((NumbfrEntry)f).numbfrVbluf().doublfVbluf();
+                    out.writfLong(Doublf.doublfToRbwLongBits(dvbl));
+                    brfbk;
+                dbsf CONSTANT_Clbss:
+                dbsf CONSTANT_String:
+                dbsf CONSTANT_MfthodTypf:
+                    writfRff(f.gftRff(0));
+                    brfbk;
+                dbsf CONSTANT_MfthodHbndlf:
+                    MfthodHbndlfEntry mhf = (MfthodHbndlfEntry) f;
+                    out.writfBytf(mhf.rffKind);
+                    writfRff(mhf.gftRff(0));
+                    brfbk;
+                dbsf CONSTANT_Fifldrff:
+                dbsf CONSTANT_Mfthodrff:
+                dbsf CONSTANT_IntfrfbdfMfthodrff:
+                dbsf CONSTANT_NbmfbndTypf:
+                    writfRff(f.gftRff(0));
+                    writfRff(f.gftRff(1));
+                    brfbk;
+                dbsf CONSTANT_InvokfDynbmid:
+                    writfRff(f.gftRff(0), bsmIndfx);
+                    writfRff(f.gftRff(1));
+                    brfbk;
+                dbsf CONSTANT_BootstrbpMfthod:
+                    throw nfw AssfrtionError("CP should hbvf BootstrbpMfthods movfd to sidf-tbblf");
+                dffbult:
+                    throw nfw IOExdfption("Bbd donstbnt pool tbg "+tbg);
+            }
+        }
+    }
+
+    void writfHfbdfr() throws IOExdfption {
+        writfShort(dls.flbgs);
+        writfRff(dls.thisClbss);
+        writfRff(dls.supfrClbss);
+        writfShort(dls.intfrfbdfs.lfngth);
+        for (int i = 0; i < dls.intfrfbdfs.lfngth; i++) {
+            writfRff(dls.intfrfbdfs[i]);
+        }
+    }
+
+    void writfMfmbfrs(boolfbn doMfthods) throws IOExdfption {
+        List<? fxtfnds Clbss.Mfmbfr> mfms;
+        if (!doMfthods)
+            mfms = dls.gftFiflds();
+        flsf
+            mfms = dls.gftMfthods();
+        writfShort(mfms.sizf());
+        for (Clbss.Mfmbfr m : mfms) {
+            writfMfmbfr(m, doMfthods);
+        }
+    }
+
+    void writfMfmbfr(Clbss.Mfmbfr m, boolfbn doMfthod) throws IOExdfption {
+        if (vfrbosf > 2)  Utils.log.finf("writfMfmbfr "+m);
+        writfShort(m.flbgs);
+        writfRff(m.gftDfsdriptor().nbmfRff);
+        writfRff(m.gftDfsdriptor().typfRff);
+        writfAttributfs(!doMfthod ? ATTR_CONTEXT_FIELD : ATTR_CONTEXT_METHOD,
+                        m);
+    }
+
+    privbtf void rfordfrBSMbndICS(Attributf.Holdfr h) {
+        Attributf bsmAttr = h.gftAttributf(Pbdkbgf.bttrBootstrbpMfthodsEmpty);
+        if (bsmAttr == null) rfturn;
+
+        Attributf idsAttr = h.gftAttributf(Pbdkbgf.bttrInnfrClbssfsEmpty);
+        if (idsAttr == null) rfturn;
+
+        int bsmidx = h.bttributfs.indfxOf(bsmAttr);
+        int idsidx = h.bttributfs.indfxOf(idsAttr);
+        if (bsmidx > idsidx) {
+            h.bttributfs.rfmovf(bsmAttr);
+            h.bttributfs.bdd(idsidx, bsmAttr);
+        }
+        rfturn;
+    }
+
+    // hbndy bufffr for dollfdting bttrs
+    BytfArrbyOutputStrfbm buf    = nfw BytfArrbyOutputStrfbm();
+    DbtbOutputStrfbm      bufOut = nfw DbtbOutputStrfbm(buf);
+
+    void writfAttributfs(int dtypf, Attributf.Holdfr h) throws IOExdfption {
+        if (h.bttributfs == null) {
+            writfShort(0);  // bttributf sizf
+            rfturn;
+        }
+        // thfrf mby bf dbsfs if bn InnfrClbss bttributf is fxplidit, thfn thf
+        // ordfring dould bf wrong, fix thf ordfring bfforf wf writf it out.
+        if (h instbndfof Pbdkbgf.Clbss)
+            rfordfrBSMbndICS(h);
+
+        writfShort(h.bttributfs.sizf());
+        for (Attributf b : h.bttributfs) {
+            b.finishRffs(dpIndfx);
+            writfRff(b.gftNbmfRff());
+            if (b.lbyout() == Pbdkbgf.bttrCodfEmpty ||
+                b.lbyout() == Pbdkbgf.bttrBootstrbpMfthodsEmpty ||
+                b.lbyout() == Pbdkbgf.bttrInnfrClbssfsEmpty) {
+                // Thfsf brf hbrdwirfd.
+                DbtbOutputStrfbm sbvfdOut = out;
+                bssfrt(out != bufOut);
+                buf.rfsft();
+                out = bufOut;
+                if ("Codf".fqubls(b.nbmf())) {
+                    Clbss.Mfthod m = (Clbss.Mfthod) h;
+                    writfCodf(m.dodf);
+                } flsf if ("BootstrbpMfthods".fqubls(b.nbmf())) {
+                    bssfrt(h == dls);
+                    writfBootstrbpMfthods(dls);
+                } flsf if ("InnfrClbssfs".fqubls(b.nbmf())) {
+                    bssfrt(h == dls);
+                    writfInnfrClbssfs(dls);
+                } flsf {
+                    throw nfw AssfrtionError();
+                }
+                out = sbvfdOut;
+                if (vfrbosf > 2)
+                    Utils.log.finf("Attributf "+b.nbmf()+" ["+buf.sizf()+"]");
+                writfInt(buf.sizf());
+                buf.writfTo(out);
+            } flsf {
+                if (vfrbosf > 2)
+                    Utils.log.finf("Attributf "+b.nbmf()+" ["+b.sizf()+"]");
+                writfInt(b.sizf());
+                out.writf(b.bytfs());
+            }
+        }
+    }
+
+    void writfCodf(Codf dodf) throws IOExdfption {
+        dodf.finishRffs(dpIndfx);
+        writfShort(dodf.mbx_stbdk);
+        writfShort(dodf.mbx_lodbls);
+        writfInt(dodf.bytfs.lfngth);
+        out.writf(dodf.bytfs);
+        int nh = dodf.gftHbndlfrCount();
+        writfShort(nh);
+        for (int i = 0; i < nh; i++) {
+             writfShort(dodf.hbndlfr_stbrt[i]);
+             writfShort(dodf.hbndlfr_fnd[i]);
+             writfShort(dodf.hbndlfr_dbtdh[i]);
+             writfRff(dodf.hbndlfr_dlbss[i]);
+        }
+        writfAttributfs(ATTR_CONTEXT_CODE, dodf);
+    }
+
+    void writfBootstrbpMfthods(Clbss dls) throws IOExdfption {
+        List<BootstrbpMfthodEntry> bsms = dls.gftBootstrbpMfthods();
+        writfShort(bsms.sizf());
+        for (BootstrbpMfthodEntry f : bsms) {
+            writfRff(f.bsmRff);
+            writfShort(f.brgRffs.lfngth);
+            for (Entry brgRff : f.brgRffs) {
+                writfRff(brgRff);
+            }
+        }
+    }
+
+    void writfInnfrClbssfs(Clbss dls) throws IOExdfption {
+        List<InnfrClbss> ids = dls.gftInnfrClbssfs();
+        writfShort(ids.sizf());
+        for (InnfrClbss id : ids) {
+            writfRff(id.thisClbss);
+            writfRff(id.outfrClbss);
+            writfRff(id.nbmf);
+            writfShort(id.flbgs);
+        }
+    }
+}

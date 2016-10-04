@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+
+#indludf "jvm.h"
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "jvm_symbols.h"
+#indludf "sun_trbding_dtrbdf_JVM.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+stbtid JvmSymbols* jvm_symbols = NULL;
+
+stbtid void initiblizf() {
+    stbtid int initiblizfd = 0;
+    if (initiblizfd == 0) {
+        jvm_symbols = lookupJvmSymbols();
+        initiblizfd = 1;
+    }
+}
+
+/*
+ * Clbss:     sun_trbding_dtrbdf_JVM
+ * Mfthod:    isSupportfd0
+ * Signbturf: ()I
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_trbding_dtrbdf_JVM_isSupportfd0(
+        JNIEnv* fnv, jdlbss dls) {
+    initiblizf();
+    if (jvm_symbols != NULL) {
+        rfturn jvm_symbols->IsSupportfd(fnv) ? JNI_TRUE : JNI_FALSE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+// Mbdros thbt dbusf bn immfdibtf rfturn if wf dftfdt bn fxdfption
+#dffinf CHECK if ((*fnv)->ExdfptionOddurrfd(fnv)) { rfturn; }
+#dffinf CHECK_(x) if ((*fnv)->ExdfptionOddurrfd(fnv)) { rfturn x; }
+
+stbtid void rfbdProbfDbtb (
+        JNIEnv* fnv, jobjfdt probf, JVM_DTrbdfProbf* jvm_probf) {
+    jdlbss dlbzz;
+    jmfthodID mid;
+    jobjfdt mfthod;
+
+    if (jvm_probf == NULL) {
+        rfturn; // just in dbsf
+    }
+
+    dlbzz = (*fnv)->GftObjfdtClbss(fnv, probf); CHECK
+
+    mid = (*fnv)->GftMfthodID(
+        fnv, dlbzz, "gftFundtionNbmf", "()Ljbvb/lbng/String;"); CHECK
+    jvm_probf->fundtion = (jstring)(*fnv)->CbllObjfdtMfthod(
+        fnv, probf, mid); CHECK
+
+    mid = (*fnv)->GftMfthodID(
+        fnv, dlbzz, "gftProbfNbmf", "()Ljbvb/lbng/String;"); CHECK
+    jvm_probf->nbmf = (jstring)(*fnv)->CbllObjfdtMfthod(fnv, probf, mid); CHECK
+
+    mid = (*fnv)->GftMfthodID(
+        fnv, dlbzz, "gftMfthod", "()Ljbvb/lbng/rfflfdt/Mfthod;"); CHECK
+    mfthod = (*fnv)->CbllObjfdtMfthod(fnv, probf, mid); CHECK
+    jvm_probf->mfthod = (*fnv)->FromRfflfdtfdMfthod(fnv, mfthod); CHECK
+}
+
+stbtid void rfbdFifldIntfrfbdfAttributfs(
+        dhbr* bnnotbtionNbmf, JNIEnv* fnv, jobjfdt providfr,
+        JVM_DTrbdfIntfrfbdfAttributfs* bttrs) {
+    jobjfdt rfsult;
+    jobjfdt rfsult_dlbzz;
+    jdlbss providfr_dlbzz;
+    jdlbss bnnotbtion_dlbzz;
+    jmfthodID gft;
+    jmfthodID fnd;
+
+    providfr_dlbzz = (*fnv)->GftObjfdtClbss(fnv, providfr); CHECK
+    bnnotbtion_dlbzz = (*fnv)->FindClbss(fnv, bnnotbtionNbmf); CHECK
+
+    gft = (*fnv)->GftMfthodID(fnv, providfr_dlbzz, "gftNbmfStbbilityFor",
+        "(Ljbvb/lbng/Clbss;)Ldom/sun/trbding/dtrbdf/StbbilityLfvfl;"); CHECK
+    rfsult = (*fnv)->CbllObjfdtMfthod(
+        fnv, providfr, gft, bnnotbtion_dlbzz); CHECK
+    rfsult_dlbzz = (*fnv)->GftObjfdtClbss(fnv, rfsult); CHECK
+    fnd = (*fnv)->GftMfthodID(fnv, rfsult_dlbzz, "gftEndoding", "()I"); CHECK
+    bttrs->nbmfStbbility = (*fnv)->CbllIntMfthod(fnv, rfsult, fnd); CHECK
+
+    gft = (*fnv)->GftMfthodID(fnv, providfr_dlbzz, "gftDbtbStbbilityFor",
+        "(Ljbvb/lbng/Clbss;)Ldom/sun/trbding/dtrbdf/StbbilityLfvfl;"); CHECK
+    rfsult = (*fnv)->CbllObjfdtMfthod(
+        fnv, providfr, gft, bnnotbtion_dlbzz); CHECK
+    rfsult_dlbzz = (*fnv)->GftObjfdtClbss(fnv, rfsult); CHECK
+    fnd = (*fnv)->GftMfthodID(fnv, rfsult_dlbzz, "gftEndoding", "()I"); CHECK
+    bttrs->dbtbStbbility = (*fnv)->CbllIntMfthod(fnv, rfsult, fnd); CHECK
+
+    gft = (*fnv)->GftMfthodID(fnv, providfr_dlbzz, "gftDfpfndfndyClbssFor",
+        "(Ljbvb/lbng/Clbss;)Ldom/sun/trbding/dtrbdf/DfpfndfndyClbss;"); CHECK
+    rfsult = (*fnv)->CbllObjfdtMfthod(
+        fnv, providfr, gft, bnnotbtion_dlbzz); CHECK
+    rfsult_dlbzz = (*fnv)->GftObjfdtClbss(fnv, rfsult); CHECK
+    fnd = (*fnv)->GftMfthodID(fnv, rfsult_dlbzz, "gftEndoding", "()I"); CHECK
+    bttrs->dfpfndfndyClbss = (*fnv)->CbllIntMfthod(fnv, rfsult, fnd); CHECK
+}
+
+stbtid void rfbdIntfrfbdfAttributfs(
+        JNIEnv* fnv, jobjfdt providfr, JVM_DTrbdfProvidfr* jvm_providfr) {
+    rfbdFifldIntfrfbdfAttributfs("dom/sun/trbding/dtrbdf/ProvidfrAttributfs",
+        fnv, providfr, &(jvm_providfr->providfrAttributfs));
+    rfbdFifldIntfrfbdfAttributfs("dom/sun/trbding/dtrbdf/ModulfAttributfs",
+        fnv, providfr, &(jvm_providfr->modulfAttributfs));
+    rfbdFifldIntfrfbdfAttributfs("dom/sun/trbding/dtrbdf/FundtionAttributfs",
+        fnv, providfr, &(jvm_providfr->fundtionAttributfs));
+    rfbdFifldIntfrfbdfAttributfs("dom/sun/trbding/dtrbdf/NbmfAttributfs",
+        fnv, providfr, &(jvm_providfr->nbmfAttributfs));
+    rfbdFifldIntfrfbdfAttributfs("dom/sun/trbding/dtrbdf/ArgsAttributfs",
+        fnv, providfr, &(jvm_providfr->brgsAttributfs));
+}
+
+stbtid int rfbdProvidfrDbtb(
+        JNIEnv* fnv, jobjfdt providfr, JVM_DTrbdfProvidfr* jvm_providfr) {
+    jmfthodID mid;
+    jobjfdtArrby probfs;
+    jsizf i;
+    jdlbss dlbzz = (*fnv)->GftObjfdtClbss(fnv, providfr); CHECK_(0)
+    mid = (*fnv)->GftMfthodID(
+        fnv, dlbzz, "gftProbfs", "()[Lsun/trbding/dtrbdf/DTrbdfProbf;"); CHECK_(0)
+    probfs = (jobjfdtArrby)(*fnv)->CbllObjfdtMfthod(
+        fnv, providfr, mid); CHECK_(0)
+
+    // Fill JVM strudturf, dfsdribing providfr
+    jvm_providfr->probf_dount = (*fnv)->GftArrbyLfngth(fnv, probfs); CHECK_(0)
+    jvm_providfr->probfs = (JVM_DTrbdfProbf*)dbllod(
+        jvm_providfr->probf_dount, sizfof(*jvm_providfr->probfs));
+    mid = (*fnv)->GftMfthodID(
+        fnv, dlbzz, "gftProvidfrNbmf", "()Ljbvb/lbng/String;"); CHECK_(0)
+    jvm_providfr->nbmf = (jstring)(*fnv)->CbllObjfdtMfthod(
+        fnv, providfr, mid); CHECK_(0)
+
+    rfbdIntfrfbdfAttributfs(fnv, providfr, jvm_providfr); CHECK_(0)
+
+    for (i = 0; i < jvm_providfr->probf_dount; ++i) {
+        jobjfdt probf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, probfs, i); CHECK_(0)
+        rfbdProbfDbtb(fnv, probf, &jvm_providfr->probfs[i]); CHECK_(0)
+    }
+
+    rfturn 1;
+}
+
+/*
+ * Clbss:     sun_trbding_dtrbdf_JVM
+ * Mfthod:    bdtivbtf0
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_trbding_dtrbdf_JVM_bdtivbtf0(
+        JNIEnv* fnv, jdlbss dls, jstring modulfNbmf, jobjfdtArrby providfrs) {
+    jlong hbndlf = 0;
+    jsizf num_providfrs;
+    jsizf i;
+    jsizf dount = 0;
+    JVM_DTrbdfProvidfr* jvm_providfrs;
+
+    initiblizf();
+
+    if (jvm_symbols == NULL) {
+      rfturn 0;
+    }
+
+    num_providfrs = (*fnv)->GftArrbyLfngth(fnv, providfrs); CHECK_(0L)
+
+    jvm_providfrs = (JVM_DTrbdfProvidfr*)dbllod(
+        num_providfrs, sizfof(*jvm_providfrs));
+
+    for (; dount < num_providfrs; ++dount) {
+        JVM_DTrbdfProvidfr* p = &(jvm_providfrs[dount]);
+        jobjfdt providfr = (*fnv)->GftObjfdtArrbyElfmfnt(
+            fnv, providfrs, dount);
+        if ((*fnv)->ExdfptionOddurrfd(fnv) ||
+            ! rfbdProvidfrDbtb(fnv, providfr, p)) {
+            // got bn frror, bbil out!
+            brfbk;
+        }
+    }
+
+    if (dount == num_providfrs) {
+        // bll providfrs suddfssfully lobdfd - gft thf hbndlf
+        hbndlf = jvm_symbols->Adtivbtf(
+            fnv, JVM_TRACING_DTRACE_VERSION, modulfNbmf,
+            num_providfrs, jvm_providfrs);
+    }
+
+    for (i = 0; i < num_providfrs; ++i) {
+        JVM_DTrbdfProvidfr* p = &(jvm_providfrs[i]);
+        frff(p->probfs);
+    }
+    frff(jvm_providfrs);
+
+    rfturn hbndlf;
+}
+
+/*
+ * Clbss:     sun_trbding_dtrbdf_JVM
+ * Mfthod:    disposf0
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_trbding_dtrbdf_JVM_disposf0(
+        JNIEnv* fnv, jdlbss dls, jlong hbndlf) {
+    if (jvm_symbols != NULL && hbndlf != 0) {
+        jvm_symbols->Disposf(fnv, hbndlf);
+    }
+}
+
+/*
+ * Clbss:     sun_trbding_dtrbdf_JVM
+ * Mfthod:    isEnbblfd0
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_trbding_dtrbdf_JVM_isEnbblfd0(
+        JNIEnv* fnv, jdlbss dls, jobjfdt mfthod) {
+    jmfthodID mid;
+    if (jvm_symbols != NULL && mfthod != NULL) {
+        mid = (*fnv)->FromRfflfdtfdMfthod(fnv, mfthod);
+        rfturn jvm_symbols->IsProbfEnbblfd(fnv, mid);
+    }
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Clbss:     sun_trbding_dtrbdf_JVM
+ * Mfthod:    dffinfClbss0
+ * Signbturf: (Ljbvb/lbng/ClbssLobdfr;Ljbvb/lbng/String;[BII)Ljbvb/lbng/Clbss;
+ *
+ * Thf implfmfntbtion of this nbtivf stbtid mfthod is b dopy of thbt of
+ * thf nbtivf instbndf mfthod Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss0()
+ * with thf implidit "this" pbrbmftfr bfdoming thf "lobdfr" pbrbmftfr.
+ *
+ * This dodf wbs dlonfd bnd modififd from jbvb_lbng_rfflfdt_Proxy
+ */
+JNIEXPORT jdlbss JNICALL
+Jbvb_sun_trbding_dtrbdf_JVM_dffinfClbss0(
+        JNIEnv *fnv, jdlbss ignorf, jobjfdt lobdfr, jstring nbmf, jbytfArrby dbtb,
+        jint offsft, jint lfngth)
+{
+    jbytf *body;
+    dhbr *utfNbmf;
+    jdlbss rfsult = 0;
+    dhbr buf[128];
+
+    if (dbtb == NULL) {
+        rfturn 0;
+    }
+
+    /* Work bround 4153825. mbllod drbshfs on Solbris whfn pbssfd b
+     * nfgbtivf sizf.
+     */
+    if (lfngth < 0) {
+        rfturn 0;
+    }
+
+    body = (jbytf *)mbllod(lfngth);
+
+    if (body == 0) {
+        rfturn 0;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, dbtb, offsft, lfngth, body);
+
+    if ((*fnv)->ExdfptionOddurrfd(fnv))
+        goto frff_body;
+
+    if (nbmf != NULL) {
+        int i;
+        jsizf lfn = (*fnv)->GftStringUTFLfngth(fnv, nbmf);
+        int unidodf_lfn = (*fnv)->GftStringLfngth(fnv, nbmf);
+        if (lfn >= (jsizf)sizfof(buf)) {
+            utfNbmf = mbllod(lfn + 1);
+            if (utfNbmf == NULL) {
+                goto frff_body;
+            }
+        } flsf {
+            utfNbmf = buf;
+        }
+        (*fnv)->GftStringUTFRfgion(fnv, nbmf, 0, unidodf_lfn, utfNbmf);
+
+        // Convfrt '.' to '/' in thf pbdkbgf nbmf
+        for (i = 0; i < unidodf_lfn; ++i) {
+            if (utfNbmf[i] == '.') {
+                utfNbmf[i] = '/';
+            }
+        }
+    } flsf {
+        utfNbmf = NULL;
+    }
+
+    rfsult = (*fnv)->DffinfClbss(fnv, utfNbmf, lobdfr, body, lfngth);
+
+    if (utfNbmf && utfNbmf != buf)
+        frff(utfNbmf);
+
+ frff_body:
+    frff(body);
+    rfturn rfsult;
+}
+
+#ifdff __dplusplus
+}
+#fndif

@@ -1,702 +1,702 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
-// java import
-import java.util.Vector;
-import java.io.IOException;
-import java.net.InetAddress;
+// jbvb import
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpVarBindList;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpTimeticks;
-import com.sun.jmx.snmp.SnmpIpAddress;
-import com.sun.jmx.snmp.SnmpPduPacket;
-import com.sun.jmx.snmp.InetAddressAcl;
-import com.sun.jmx.snmp.SnmpPeer;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.SnmpPffr;
 
-// SNMP Runtime imports
+// SNMP Runtimf imports
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibHandler;
-import com.sun.jmx.snmp.agent.SnmpUserDataFactory;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
 
 /**
- * Exposes the remote management interface of the {@link SnmpAdaptorServer} MBean.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public interface SnmpAdaptorServerMBean extends CommunicatorServerMBean {
+publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Returns the Ip address based ACL used by this SNMP protocol adaptor.
-     * @return The <CODE>InetAddressAcl</CODE> implementation.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public InetAddressAcl getInetAddressAcl();
+    publid InftAddrfssAdl gftInftAddrfssAdl();
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending traps.
-     * By default, port 162 is used.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * By dffbult, port 162 is usfd.
      *
-     * @return The port number for sending SNMP traps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
      */
-    public Integer getTrapPort();
+    publid Intfgfr gftTrbpPort();
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending traps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
      *
-     * @param port The port number for sending SNMP traps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
      */
-    public void setTrapPort(Integer port);
+    publid void sftTrbpPort(Intfgfr port);
 
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending inform requests.
-     * By default, port 162 is used.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * By dffbult, port 162 is usfd.
      *
-     * @return The port number for sending SNMP inform requests.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
      */
-    public int getInformPort();
+    publid int gftInformPort();
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending inform requests.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
      *
-     * @param port The port number for sending SNMP inform requests.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
      */
-    public void setInformPort(int port);
+    publid void sftInformPort(int port);
 
     /**
-     * Gets the number of managers that have been processed by this SNMP protocol adaptor
-     * since its creation.
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * sindf its drfbtion.
      *
-     * @return The number of managers handled by this SNMP protocol adaptor
-     * since its creation. This counter is not reset by the <CODE>stop</CODE> method.
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
      */
-    public int getServedClientCount();
+    publid int gftSfrvfdClifntCount();
 
     /**
-     * Gets the number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * SNMP protodol bdbptor.
      *
-     * @return The number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * SNMP protodol bdbptor.
      */
-    public int getActiveClientCount();
+    publid int gftAdtivfClifntCount();
 
     /**
-     * Gets the maximum number of managers that this SNMP protocol adaptor can
-     * process concurrently.
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
      *
-     * @return The maximum number of managers that this SNMP protocol adaptor can
-     * process concurrently.
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
      */
-    public int getMaxActiveClientCount();
+    publid int gftMbxAdtivfClifntCount();
 
     /**
-     * Sets the maximum number of managers this SNMP protocol adaptor can
-     * process concurrently.
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
      *
-     * @param c The number of managers.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    public void setMaxActiveClientCount(int c) throws java.lang.IllegalStateException;
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
 
     /**
-     * Returns the protocol of this SNMP protocol adaptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
      *
-     * @return The string "snmp".
+     * @rfturn Tif string "snmp".
      */
-    @Override
-    public String getProtocol();
+    @Ovfrridf
+    publid String gftProtodol();
 
     /**
-     * Returns the buffer size of this SNMP protocol adaptor.
-     * By default, buffer size 1024 is used.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * By dffbult, bufffr sizf 1024 is usfd.
      *
-     * @return The buffer size.
+     * @rfturn Tif bufffr sizf.
      */
-    public Integer getBufferSize();
+    publid Intfgfr gftBufffrSizf();
 
     /**
-     * Sets the buffer size of this SNMP protocol adaptor.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
      *
-     * @param s The buffer size.
+     * @pbrbm s Tif bufffr sizf.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    public void setBufferSize(Integer s) throws java.lang.IllegalStateException;
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
 
     /**
-     * Gets the number of times to try sending an inform request before giving up.
-     * @return The maximun number of tries.
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * @rfturn Tif mbximun numbfr of trifs.
      */
-    public int getMaxTries();
+    publid int gftMbxTrifs();
 
     /**
-     * Changes the maximun number of times to try sending an inform request before giving up.
-     * @param newMaxTries The maximun number of tries.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
      */
-    public void setMaxTries(int newMaxTries);
+    publid void sftMbxTrifs(int nfwMbxTrifs);
 
     /**
-     * Gets the timeout to wait for an inform response from the manager.
-     * @return The value of the timeout property.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * @rfturn Tif vbluf of tif timfout propfrty.
      */
-    public int getTimeout();
+    publid int gftTimfout();
 
     /**
-     * Changes the timeout to wait for an inform response from the manager.
-     * @param newTimeout The timeout (in milliseconds).
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
      */
-    public void setTimeout(int newTimeout);
+    publid void sftTimfout(int nfwTimfout);
 
     /**
-     * Returns the message factory of this SNMP protocol adaptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @return The factory object.
+     * @rfturn Tif fbdtory objfdt.
      */
-    public SnmpPduFactory getPduFactory();
+    publid SnmpPduFbdtory gftPduFbdtory();
 
     /**
-     * Sets the message factory of this SNMP protocol adaptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @param factory The factory object (null means the default factory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
      */
-    public void setPduFactory(SnmpPduFactory factory);
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
 
 
     /**
-     * Set the user-data factory of this SNMP protocol adaptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @param factory The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      */
-    public void setUserDataFactory(SnmpUserDataFactory factory);
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
 
     /**
-     * Get the user-data factory associated with this SNMP protocol adaptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
      *
-     * @return The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      */
-    public SnmpUserDataFactory getUserDataFactory();
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
 
     /**
-     * Returns <CODE>true</CODE> if authentication traps are enabled.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends
-     * an <CODE>authenticationFailure</CODE> trap each time an authentication fails.
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
      * <P>
-     * The default behaviour is to send authentication traps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
      *
-     * @return <CODE>true</CODE> if authentication traps are enabled, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean getAuthTrapEnabled();
+    publid boolfbn gftAutiTrbpEnbblfd();
 
     /**
-     * Sets the flag indicating if traps need to be sent in case of authentication failure.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
      *
-     * @param enabled Flag indicating if traps need to be sent.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
      */
-    public void setAuthTrapEnabled(boolean enabled);
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
 
     /**
-     * Returns <code>true</code> if this SNMP protocol adaptor sends a response in case
-     * of authentication failure.
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * of butifntidbtion fbilurf.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends a response with <CODE>noSuchName</CODE>
-     * or <CODE>readOnly</CODE> when the authentication failed. If the flag is disabled, the
-     * SNMP protocol adaptor trashes the PDU silently.
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
      * <P>
-     * The default behavior is to send responses.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
      *
-     * @return <code>true</code> if responses are sent.
+     * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
      */
-    public boolean getAuthRespEnabled();
+    publid boolfbn gftAutiRfspEnbblfd();
 
     /**
-     * Sets the flag indicating if responses need to be sent in case of authentication failure.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
      *
-     * @param enabled Flag indicating if responses need to be sent.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
      */
-    public void setAuthRespEnabled(boolean enabled);
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
 
     /**
-     * Returns the enterprise OID. It is used by {@link #snmpV1Trap snmpV1Trap} to fill
-     * the 'enterprise' field of the trap request.
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
      *
-     * @return The OID in string format "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
      */
-    public String getEnterpriseOid();
+    publid String gftEntfrprisfOid();
 
     /**
-     * Sets the enterprise OID.
+     * Sfts tif fntfrprisf OID.
      *
-     * @param oid The OID in string format "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
      *
-     * @exception IllegalArgumentException The string format is incorrect
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
      */
-    public void setEnterpriseOid(String oid) throws IllegalArgumentException;
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Returns the names of the MIBs available in this SNMP protocol adaptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
      *
-     * @return An array of MIB names.
+     * @rfturn An brrby of MIB nbmfs.
      */
-    public String[] getMibs();
+    publid String[] gftMibs();
 
     // GETTERS FOR SNMP GROUP (MIBII)
     //-------------------------------
 
     /**
-     * Returns the <CODE>snmpOutTraps</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutTraps</CODE> value.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
      */
-    public Long getSnmpOutTraps();
+    publid Long gftSnmpOutTrbps();
 
     /**
-     * Returns the <CODE>snmpOutGetResponses</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutGetResponses</CODE> value.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
      */
-    public Long getSnmpOutGetResponses();
+    publid Long gftSnmpOutGftRfsponsfs();
 
     /**
-     * Returns the <CODE>snmpOutGenErrs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutGenErrs</CODE> value.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
      */
-    public Long getSnmpOutGenErrs();
+    publid Long gftSnmpOutGfnErrs();
 
     /**
-     * Returns the <CODE>snmpOutBadValues</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutBadValues</CODE> value.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
      */
-    public Long getSnmpOutBadValues();
+    publid Long gftSnmpOutBbdVblufs();
 
     /**
-     * Returns the <CODE>snmpOutNoSuchNames</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutNoSuchNames</CODE> value.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
      */
-    public Long getSnmpOutNoSuchNames();
+    publid Long gftSnmpOutNoSudiNbmfs();
 
     /**
-     * Returns the <CODE>snmpOutTooBigs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutTooBigs</CODE> value.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
      */
-    public Long getSnmpOutTooBigs();
+    publid Long gftSnmpOutTooBigs();
 
     /**
-     * Returns the <CODE>snmpInASNParseErrs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInASNParseErrs</CODE> value.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
      */
-    public Long getSnmpInASNParseErrs();
+    publid Long gftSnmpInASNPbrsfErrs();
 
     /**
-     * Returns the <CODE>snmpInBadCommunityUses</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityUses</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
      */
-    public Long getSnmpInBadCommunityUses();
+    publid Long gftSnmpInBbdCommunityUsfs();
 
     /**
-     * Returns the <CODE>snmpInBadCommunityNames</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityNames</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
      */
-    public Long getSnmpInBadCommunityNames();
+    publid Long gftSnmpInBbdCommunityNbmfs();
 
     /**
-     * Returns the <CODE>snmpInBadVersions</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInBadVersions</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
      */
-    public Long getSnmpInBadVersions();
+    publid Long gftSnmpInBbdVfrsions();
 
     /**
-     * Returns the <CODE>snmpOutPkts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutPkts</CODE> value.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
      */
-    public Long getSnmpOutPkts();
+    publid Long gftSnmpOutPkts();
 
     /**
-     * Returns the <CODE>snmpInPkts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInPkts</CODE> value.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
      */
-    public Long getSnmpInPkts();
+    publid Long gftSnmpInPkts();
 
     /**
-     * Returns the <CODE>snmpInGetRequests</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInGetRequests</CODE> value.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
      */
-    public Long getSnmpInGetRequests();
+    publid Long gftSnmpInGftRfqufsts();
 
     /**
-     * Returns the <CODE>snmpInGetNexts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInGetNexts</CODE> value.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
      */
-    public Long getSnmpInGetNexts();
+    publid Long gftSnmpInGftNfxts();
 
     /**
-     * Returns the <CODE>snmpInSetRequests</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInSetRequests</CODE> value.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
      */
-    public Long getSnmpInSetRequests();
+    publid Long gftSnmpInSftRfqufsts();
 
     /**
-     * Returns the <CODE>snmpInTotalSetVars</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInTotalSetVars</CODE> value.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
      */
-    public Long getSnmpInTotalSetVars();
+    publid Long gftSnmpInTotblSftVbrs();
 
     /**
-     * Returns the <CODE>snmpInTotalReqVars</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInTotalReqVars</CODE> value.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
      */
-    public Long getSnmpInTotalReqVars();
+    publid Long gftSnmpInTotblRfqVbrs();
 
     /**
-     * Returns the <CODE>snmpSilentDrops</CODE> value defined in rfc 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpSilentDrops</CODE> value.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Long getSnmpSilentDrops();
+    publid Long gftSnmpSilfntDrops();
 
     /**
-     * Returns the <CODE>snmpProxyDrops</CODE> value defined in rfc 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpProxyDrops</CODE> value.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Long getSnmpProxyDrops();
+    publid Long gftSnmpProxyDrops();
 
     // PUBLIC METHODS
     //---------------
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)}
-     * and {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)}
-     * and should not be called directly.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd siould not bf dbllfd dirfdtly.
      *
-     * @param mib The MIB to add.
+     * @pbrbm mib Tif MIB to bdd.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib) throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
      *
-     * @param mib The MIB to add.
-     * @param oids The set of OIDs this agent implements.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)}
-     * and {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)}
-     * and should not be called directly.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd siould not bf dbllfd dirfdtly.
      *
-     * @param mib The MIB to be removed.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
      *
-     * @return <code>true</code> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean removeMib(SnmpMibAgent mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the trap is sent to the local host.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
      *
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public void snmpV1Trap(int generic, int specific, SnmpVarBindList varBindList) throws IOException, SnmpStatusException;
-
-
-    /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE> destination
-     * using the specified community string (and the ACL file is not used).
-     *
-     * @param address The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
-     */
-    public void snmpV1Trap(InetAddress address, String cs, int generic, int specific, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException;
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
 
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getRdCommunity() </CODE>).
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param agentAddr The agent address to be used for the trap.
-     * @param enterpOid The enterprise OID to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
-     *
-     * @since 1.5
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public void snmpV1Trap(SnmpPeer peer,
-                           SnmpIpAddress agentAddr,
-                           SnmpOid enterpOid,
-                           int generic,
-                           int specific,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time) throws IOException, SnmpStatusException;
+    publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption;
+
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * <BR>The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getRdCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     *
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     * @sindf 1.5
+     */
+    publid void snmpV1Trbp(SnmpPffr pffr,
+                           SnmpIpAddrfss bgfntAddr,
+                           SnmpOid fntfrpOid,
+                           int gfnfrid,
+                           int spfdifid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+
+    /**
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with the value specified by <CODE>time</CODE>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void snmpV2Trap(SnmpPeer peer,
-                           SnmpOid trapOid,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time) throws IOException, SnmpStatusException;
+    publid void snmpV2Trbp(SnmpPffr pffr,
+                           SnmpOid trbpOid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the trap is sent to the local host.
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public void snmpV2Trap(SnmpOid trapOid, SnmpVarBindList varBindList) throws IOException, SnmpStatusException;
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
 
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE> destination
-     * using the specified community string (and the ACL file is not used).
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param address The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public void snmpV2Trap(InetAddress address, String cs, SnmpOid trapOid, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException;
+    publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption;
 
     /**
-     * Send the specified trap PDU to the passed <CODE>InetAddress</CODE>.
-     * @param address The destination address.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void snmpPduTrap(InetAddress address, SnmpPduPacket pdu)
-        throws IOException, SnmpStatusException;
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+        tirows IOExdfption, SnmpStbtusExdfption;
     /**
-     * Send the specified trap PDU to the passed <CODE>SnmpPeer</CODE>.
-     * @param peer The destination peer. The Read community string is used of <CODE>SnmpParameters</CODE> is used as the trap community string.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
-     * @since 1.5
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @sindf 1.5
      */
-    public void snmpPduTrap(SnmpPeer peer,
-                            SnmpPduPacket pdu)
-        throws IOException, SnmpStatusException;
+    publid void snmpPduTrbp(SnmpPffr pffr,
+                            SnmpPduPbdkft pdu)
+        tirows IOExdfption, SnmpStbtusExdfption;
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform request is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the inform request is sent to the local host.
-     * <BR>The variable list included in the outgoing inform request is composed of the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return A vector of {@link com.sun.jmx.snmp.daemon.SnmpInformRequest} objects.
-     * <P>If there is no destination host for this inform request, the returned vector will be empty.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public Vector<?> snmpInformRequest(SnmpInformHandler cb, SnmpOid trapOid,
-            SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException;
+    publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
+            SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>InetAddress</CODE> destination
-     * using the specified community string.
-     * <BR>The variable list included in the outgoing inform request is composed of the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param address The <CODE>InetAddress</CODE> destination for this inform request.
-     * @param cs The community string to be used for the inform request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return The inform request object.
+     * @rfturn Tif inform rfqufst objfdt.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    public SnmpInformRequest snmpInformRequest(InetAddress address, String cs, SnmpInformHandler cb,
-                                               SnmpOid trapOid, SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException;
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
 
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * <BR> The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getInformCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing inform is composed of the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination for this inform request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return The inform request object.
+     * @rfturn Tif inform rfqufst objfdt.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpInformRequest snmpInformRequest(SnmpPeer peer,
-                                               SnmpInformHandler cb,
-                                               SnmpOid trapOid,
-                                               SnmpVarBindList varBindList) throws IllegalStateException, IOException, SnmpStatusException;
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+                                               SnmpInformHbndlfr db,
+                                               SnmpOid trbpOid,
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
 }

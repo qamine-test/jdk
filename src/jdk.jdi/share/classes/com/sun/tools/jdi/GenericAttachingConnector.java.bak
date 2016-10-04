@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import java.io.IOException;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
 
-import com.sun.jdi.Bootstrap;
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
+import dom.sun.jdi.Bootstrbp;
+import dom.sun.jdi.VirtublMbdiinf;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
 
 /*
- * An AttachingConnector to attach to a running VM using any
- * TransportService.
+ * An AttbdiingConnfdtor to bttbdi to b running VM using bny
+ * TrbnsportSfrvidf.
  */
 
-public class GenericAttachingConnector
-        extends ConnectorImpl implements AttachingConnector
+publid dlbss GfnfridAttbdiingConnfdtor
+        fxtfnds ConnfdtorImpl implfmfnts AttbdiingConnfdtor
 {
     /*
-     * The arguments that this connector supports
+     * Tif brgumfnts tibt tiis donnfdtor supports
      */
-    static final String ARG_ADDRESS = "address";
-    static final String ARG_TIMEOUT = "timeout";
+    stbtid finbl String ARG_ADDRESS = "bddrfss";
+    stbtid finbl String ARG_TIMEOUT = "timfout";
 
-    TransportService transportService;
-    Transport transport;
+    TrbnsportSfrvidf trbnsportSfrvidf;
+    Trbnsport trbnsport;
 
     /*
-     * Initialize a new instance of this connector. The connector
-     * encapsulates a transport service and optionally has an
-     * "address" connector argument.
+     * Initiblizf b nfw instbndf of tiis donnfdtor. Tif donnfdtor
+     * fndbpsulbtfs b trbnsport sfrvidf bnd optionblly ibs bn
+     * "bddrfss" donnfdtor brgumfnt.
      */
-    private GenericAttachingConnector(TransportService ts,
-                                      boolean addAddressArgument)
+    privbtf GfnfridAttbdiingConnfdtor(TrbnsportSfrvidf ts,
+                                      boolfbn bddAddrfssArgumfnt)
     {
-        transportService = ts;
-        transport = new Transport() {
-                public String name() {
-                    // delegate name to the transport service
-                    return transportService.name();
+        trbnsportSfrvidf = ts;
+        trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    // dflfgbtf nbmf to tif trbnsport sfrvidf
+                    rfturn trbnsportSfrvidf.nbmf();
                 }
             };
 
-        if (addAddressArgument) {
-            addStringArgument(
+        if (bddAddrfssArgumfnt) {
+            bddStringArgumfnt(
                 ARG_ADDRESS,
-                getString("generic_attaching.address.label"),
-                getString("generic_attaching.address"),
+                gftString("gfnfrid_bttbdiing.bddrfss.lbbfl"),
+                gftString("gfnfrid_bttbdiing.bddrfss"),
                 "",
-                true);
+                truf);
         }
 
 
-        addIntegerArgument(
+        bddIntfgfrArgumfnt(
                 ARG_TIMEOUT,
-                getString("generic_attaching.timeout.label"),
-                getString("generic_attaching.timeout"),
+                gftString("gfnfrid_bttbdiing.timfout.lbbfl"),
+                gftString("gfnfrid_bttbdiing.timfout"),
                 "",
-                false,
-                0, Integer.MAX_VALUE);
+                fblsf,
+                0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Initializes a new instance of this connector. This constructor
-     * is used when sub-classing - the resulting connector will have
-     * a "timeout" connector argument.
+     * Initiblizfs b nfw instbndf of tiis donnfdtor. Tiis donstrudtor
+     * is usfd wifn sub-dlbssing - tif rfsulting donnfdtor will ibvf
+     * b "timfout" donnfdtor brgumfnt.
      */
-    protected GenericAttachingConnector(TransportService ts) {
-        this(ts, false);
+    protfdtfd GfnfridAttbdiingConnfdtor(TrbnsportSfrvidf ts) {
+        tiis(ts, fblsf);
     }
 
     /*
-     * Create an instance of this connector. The resulting AttachingConnector
-     * will have address and timeout connector arguments.
+     * Crfbtf bn instbndf of tiis donnfdtor. Tif rfsulting AttbdiingConnfdtor
+     * will ibvf bddrfss bnd timfout donnfdtor brgumfnts.
      */
-    public static GenericAttachingConnector create(TransportService ts) {
-        return new GenericAttachingConnector(ts, true);
+    publid stbtid GfnfridAttbdiingConnfdtor drfbtf(TrbnsportSfrvidf ts) {
+        rfturn nfw GfnfridAttbdiingConnfdtor(ts, truf);
     }
 
     /**
-     * Attach to a target VM using the specified address and Connector arguments.
+     * Attbdi to b tbrgft VM using tif spfdififd bddrfss bnd Connfdtor brgumfnts.
      */
-    public VirtualMachine attach(String address, Map<String, ? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid VirtublMbdiinf bttbdi(String bddrfss, Mbp<String, ? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String ts  = argument(ARG_TIMEOUT, args).value();
-        int timeout = 0;
-        if (ts.length() > 0) {
-            timeout = Integer.decode(ts).intValue();
+        String ts  = brgumfnt(ARG_TIMEOUT, brgs).vbluf();
+        int timfout = 0;
+        if (ts.lfngti() > 0) {
+            timfout = Intfgfr.dfdodf(ts).intVbluf();
         }
-        Connection connection = transportService.attach(address, timeout, 0);
-        return Bootstrap.virtualMachineManager().createVirtualMachine(connection);
+        Connfdtion donnfdtion = trbnsportSfrvidf.bttbdi(bddrfss, timfout, 0);
+        rfturn Bootstrbp.virtublMbdiinfMbnbgfr().drfbtfVirtublMbdiinf(donnfdtion);
     }
 
     /**
-     * Attach to a target VM using the specified arguments - the address
-     * of the target VM is specified by the <code>address</code> connector
-     * argument.
+     * Attbdi to b tbrgft VM using tif spfdififd brgumfnts - tif bddrfss
+     * of tif tbrgft VM is spfdififd by tif <dodf>bddrfss</dodf> donnfdtor
+     * brgumfnt.
      */
-    public VirtualMachine
-        attach(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid VirtublMbdiinf
+        bttbdi(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String address = argument(ARG_ADDRESS, args).value();
-        return attach(address, args);
+        String bddrfss = brgumfnt(ARG_ADDRESS, brgs).vbluf();
+        rfturn bttbdi(bddrfss, brgs);
     }
 
-    public String name() {
-        return transport.name() + "Attach";
+    publid String nbmf() {
+        rfturn trbnsport.nbmf() + "Attbdi";
     }
 
-    public String description() {
-        return transportService.description();
+    publid String dfsdription() {
+        rfturn trbnsportSfrvidf.dfsdription();
     }
 
-    public Transport transport() {
-        return transport;
+    publid Trbnsport trbnsport() {
+        rfturn trbnsport;
     }
 
 }

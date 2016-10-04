@@ -1,0 +1,921 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <jni.h>
+#indludf <jlong.h>
+
+#indludf "SurfbdfDbtb.h"
+#indludf "OGLBlitLoops.h"
+#indludf "OGLRfndfrQufuf.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+
+#indludf <stdlib.h> // mbllod
+#indludf <string.h> // mfmdpy
+#indludf "IntArgbPrf.h"
+
+fxtfrn OGLPixflFormbt PixflFormbts[];
+
+/**
+ * Innfr loop usfd for dopying b sourdf OpfnGL "Surfbdf" (window, pbufffr,
+ * ftd.) to b dfstinbtion OpfnGL "Surfbdf".  Notf thbt thf sbmf surfbdf dbn
+ * bf usfd bs both thf sourdf bnd dfstinbtion, bs is thf dbsf in b dopyArfb()
+ * opfrbtion.  This mfthod is invokfd from OGLBlitLoops_IsoBlit() bs wfll bs
+ * OGLBlitLoops_CopyArfb().
+ *
+ * Thf stbndbrd glCopyPixfls() mfdhbnism is usfd to dopy thf sourdf rfgion
+ * into thf dfstinbtion rfgion.  If thf rfgions hbvf difffrfnt dimfnsions,
+ * thf sourdf will bf sdblfd into thf dfstinbtion bs bppropribtf (only
+ * nfbrfst nfighbor filtfring will bf bpplifd for simplf sdblf opfrbtions).
+ */
+stbtid void
+OGLBlitSurfbdfToSurfbdf(OGLContfxt *ogld, OGLSDOps *srdOps, OGLSDOps *dstOps,
+                        jint sx1, jint sy1, jint sx2, jint sy2,
+                        jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    GLflobt sdblfx, sdblfy;
+    jint srdw = sx2 - sx1;
+    jint srdh = sy2 - sy1;
+
+    sdblfx = ((GLflobt)(dx2-dx1)) / srdw;
+    sdblfy = ((GLflobt)(dy2-dy1)) / srdh;
+
+    // thf following linfs bddount for thf fbdt thbt glCopyPixfls() dopifs b
+    // rfgion whosf lowfr-lfft dornfr is bt (x,y), but thf sourdf pbrbmftfrs
+    // (sx1,sy1) wf brf givfn hfrf point to thf uppfr-lfft dornfr of thf
+    // sourdf rfgion... so hfrf wf plby with thf sy1 bnd dy1 pbrbmftfrs so
+    // thbt thfy point to thf lowfr-lfft dornfrs of thf rfgions...
+    sx1 = srdOps->xOffsft + sx1;
+    sy1 = srdOps->yOffsft + srdOps->hfight - sy2;
+    dy1 = dy2;
+
+    if (ogld->fxtrbAlphb != 1.0f) {
+        OGLContfxt_SftExtrbAlphb(ogld->fxtrbAlphb);
+    }
+
+    // sff OGLBlitSwToSurfbdf() for morf info on thf following two linfs
+    j2d_glRbstfrPos2i(0, 0);
+    j2d_glBitmbp(0, 0, 0, 0, (GLflobt)dx1, (GLflobt)-dy1, NULL);
+
+    if (sdblfx == 1.0f && sdblfy == 1.0f) {
+        j2d_glCopyPixfls(sx1, sy1, srdw, srdh, GL_COLOR);
+    } flsf {
+        j2d_glPixflZoom(sdblfx, sdblfy);
+        j2d_glCopyPixfls(sx1, sy1, srdw, srdh, GL_COLOR);
+        j2d_glPixflZoom(1.0f, 1.0f);
+    }
+
+    if (ogld->fxtrbAlphb != 1.0f) {
+        OGLContfxt_SftExtrbAlphb(1.0f);
+    }
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf OpfnGL "Tfxturf" to b dfstinbtion
+ * OpfnGL "Surfbdf".  This mfthod is invokfd from OGLBlitLoops_IsoBlit().
+ *
+ * This mfthod will dopy, sdblf, or trbnsform thf sourdf tfxturf into thf
+ * dfstinbtion dfpfnding on thf trbnsform stbtf, bs fstbblishfd in
+ * bnd OGLContfxt_SftTrbnsform().  If thf sourdf tfxturf is
+ * trbnsformfd in bny wby whfn rfndfrfd into thf dfstinbtion, thf filtfring
+ * mfthod bpplifd is dftfrminfd by thf hint pbrbmftfr (dbn bf GL_NEAREST or
+ * GL_LINEAR).
+ */
+stbtid void
+OGLBlitTfxturfToSurfbdf(OGLContfxt *ogld,
+                        OGLSDOps *srdOps, OGLSDOps *dstOps,
+                        jboolfbn rtt, jint hint,
+                        jint sx1, jint sy1, jint sx2, jint sy2,
+                        jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    GLdoublf tx1, ty1, tx2, ty2;
+
+    if (rtt) {
+        /*
+         * Thf sourdf is b rfndfr-to-tfxturf surfbdf.  Thfsf surfbdfs difffr
+         * from rfgulbr tfxturf objfdts in thbt thf bottom sdbnlinf (of
+         * thf bdtubl imbgf dontfnt) doindidfs with thf top fdgf of thf
+         * tfxturf objfdt.  Thfrfforf, wf nffd to bdjust thf sy1/sy2
+         * doordinbtfs rflbtivf to thf top sdbnlinf of thf imbgf dontfnt.
+         *
+         * In tfxturf doordinbtfs, thf top-lfft dornfr of thf imbgf dontfnt
+         * would bf bt:
+         *     (0.0, (imgHfight/tfxHfight))
+         * whilf thf bottom-right dornfr dorrfsponds to:
+         *     ((imgWidth/tfxWidth), 0.0)
+         */
+        sy1 = srdOps->hfight - sy1;
+        sy2 = srdOps->hfight - sy2;
+    }
+
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        // Thf GL_ARB_tfxturf_rfdtbnglf fxtfnsion rfquirfs thbt wf spfdify
+        // tfxturf doordinbtfs in thf rbngf [0,srdw] bnd [0,srdh] instfbd of
+        // [0,1] bs wf would normblly do in thf dbsf of GL_TEXTURE_2D
+        tx1 = (GLdoublf)sx1;
+        ty1 = (GLdoublf)sy1;
+        tx2 = (GLdoublf)sx2;
+        ty2 = (GLdoublf)sy2;
+    } flsf {
+        // Othfrwisf wf nffd to donvfrt thf sourdf bounds into thf rbngf [0,1]
+        tx1 = ((GLdoublf)sx1) / srdOps->tfxturfWidth;
+        ty1 = ((GLdoublf)sy1) / srdOps->tfxturfHfight;
+        tx2 = ((GLdoublf)sx2) / srdOps->tfxturfWidth;
+        ty2 = ((GLdoublf)sy2) / srdOps->tfxturfHfight;
+    }
+
+    // Notf thbt wf dbll CHECK_PREVIOUS_OP(tfxTbrgft) in IsoBlit(), whidh
+    // will dbll glEnbblf(tfxTbrgft) bs nfdfssbry.
+    j2d_glBindTfxturf(srdOps->tfxturfTbrgft, srdOps->tfxturfID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    OGLSD_UPDATE_TEXTURE_FILTER(srdOps, hint);
+
+    j2d_glBfgin(GL_QUADS);
+    j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx1, dy1);
+    j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx2, dy1);
+    j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx2, dy2);
+    j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx1, dy2);
+    j2d_glEnd();
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf to b
+ * dfstinbtion OpfnGL "Surfbdf".  This mfthod is invokfd from
+ * OGLBlitLoops_Blit().
+ *
+ * Thf stbndbrd glDrbwPixfls() mfdhbnism is usfd to dopy thf sourdf rfgion
+ * into thf dfstinbtion rfgion.  If thf rfgions hbvf difffrfnt
+ * dimfnsions, thf sourdf will bf sdblfd into thf dfstinbtion
+ * bs bppropribtf (only nfbrfst nfighbor filtfring will bf bpplifd for simplf
+ * sdblf opfrbtions).
+ */
+stbtid void
+OGLBlitSwToSurfbdf(OGLContfxt *ogld, SurfbdfDbtbRbsInfo *srdInfo,
+                   OGLPixflFormbt *pf,
+                   jint sx1, jint sy1, jint sx2, jint sy2,
+                   jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    GLflobt sdblfx, sdblfy;
+
+    sdblfx = ((GLflobt)(dx2-dx1)) / (sx2-sx1);
+    sdblfy = ((GLflobt)(dy2-dy1)) / (sy2-sy1);
+
+    if (ogld->fxtrbAlphb != 1.0f) {
+        OGLContfxt_SftExtrbAlphb(ogld->fxtrbAlphb);
+    }
+    if (!pf->hbsAlphb) {
+        // if thf sourdf surfbdf dofs not hbvf bn blphb dhbnnfl,
+        // wf nffd to fnsurf thbt thf blphb vblufs brf fordfd to
+        // thf durrfnt fxtrb blphb vbluf (sff OGLContfxt_SftExtrbAlphb()
+        // for morf informbtion)
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, ogld->fxtrbAlphb);
+    }
+
+    // This is b rbthfr intriguing (yft totblly vblid) hbdk... If wf wfrf to
+    // spfdify b rbstfr position thbt is outsidf thf surfbdf bounds, thf rbstfr
+    // position would bf invblid bnd nothing would bf rfndfrfd.  Howfvfr, wf
+    // dbn usf b widfly known tridk to movf thf rbstfr position outsidf thf
+    // surfbdf bounds whilf mbintbining its stbtus bs vblid.  Thf following
+    // dbll to glBitmbp() rfndfrs b no-op bitmbp, but offsfts thf durrfnt
+    // rbstfr position from (0,0) to thf dfsirfd lodbtion of (dx1,-dy1)...
+    j2d_glRbstfrPos2i(0, 0);
+    j2d_glBitmbp(0, 0, 0, 0, (GLflobt)dx1, (GLflobt)-dy1, NULL);
+
+    j2d_glPixflZoom(sdblfx, -sdblfy);
+
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf thf dopy
+    // hbs to bf donf linf by linf (sff 6207877)
+    if (srdInfo->sdbnStridf % srdInfo->pixflStridf != 0) {
+        jint width = sx2-sx1;
+        jint hfight = sy2-sy1;
+        GLvoid *pSrd = srdInfo->rbsBbsf;
+
+        whilf (hfight > 0) {
+            j2d_glDrbwPixfls(width, 1, pf->formbt, pf->typf, pSrd);
+            j2d_glBitmbp(0, 0, 0, 0, (GLflobt)0, (GLflobt)-1, NULL);
+            pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+            hfight--;
+        }
+    } flsf {
+        j2d_glDrbwPixfls(sx2-sx1, sy2-sy1, pf->formbt, pf->typf, srdInfo->rbsBbsf);
+    }
+
+    j2d_glPixflZoom(1.0, 1.0);
+
+    if (ogld->fxtrbAlphb != 1.0f) {
+        OGLContfxt_SftExtrbAlphb(1.0f);
+    }
+    if (!pf->hbsAlphb) {
+        // rfstorf sdblf/bibs to thfir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
+    }
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf or
+ * OpfnGL "Surfbdf" to b dfstinbtion OpfnGL "Surfbdf", using bn OpfnGL tfxturf
+ * tilf bs bn intfrmfdibtf surfbdf.  This mfthod is invokfd from
+ * OGLBlitLoops_Blit() for "Sw" surfbdfs bnd OGLBlitLoops_IsoBlit() for
+ * "Surfbdf" surfbdfs.
+ *
+ * This mfthod is usfd to trbnsform thf sourdf surfbdf into thf dfstinbtion.
+ * Pixfl rfdtbnglfs dbnnot bf brbitrbrily trbnsformfd (without thf
+ * GL_EXT_pixfl_trbnsform fxtfnsion, whidh is not supportfd on most modfrn
+ * hbrdwbrf).  Howfvfr, tfxturf mbppfd qubds do rfspfdt thf GL_MODELVIEW
+ * trbnsform mbtrix, so wf usf tfxturfs hfrf to pfrform thf trbnsform
+ * opfrbtion.  This mfthod usfs b tilf-bbsfd bpprobdh in whidh b smbll
+ * subrfgion of thf sourdf surfbdf is dopifd into b dbdhfd tfxturf tilf.  Thf
+ * tfxturf tilf is thfn mbppfd into thf bppropribtf lodbtion in thf
+ * dfstinbtion surfbdf.
+ *
+ * REMIND: this only works wfll using GL_NEAREST for thf filtfring modf
+ *         (GL_LINEAR dbusfs visiblf stitdhing problfms bftwffn tilfs,
+ *         but this dbn bf fixfd by mbking usf of tfxturf bordfrs)
+ */
+stbtid void
+OGLBlitToSurfbdfVibTfxturf(OGLContfxt *ogld, SurfbdfDbtbRbsInfo *srdInfo,
+                           OGLPixflFormbt *pf, OGLSDOps *srdOps,
+                           jboolfbn swsurfbdf, jint hint,
+                           jint sx1, jint sy1, jint sx2, jint sy2,
+                           jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    GLdoublf tx1, ty1, tx2, ty2;
+    GLdoublf dx, dy, dw, dh, ddw, ddh;
+    jint tw, th;
+    jint sx, sy, sw, sh;
+    GLint glhint = (hint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR : GL_NEAREST;
+    jboolfbn bdjustAlphb = (pf != NULL && !pf->hbsAlphb);
+    jboolfbn slowPbth;
+
+    if (ogld->blitTfxturfID == 0) {
+        if (!OGLContfxt_InitBlitTilfTfxturf(ogld)) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "OGLBlitToSurfbdfVibTfxturf: dould not init blit tilf");
+            rfturn;
+        }
+    }
+
+    tx1 = 0.0f;
+    ty1 = 0.0f;
+    tw = OGLC_BLIT_TILE_SIZE;
+    th = OGLC_BLIT_TILE_SIZE;
+    ddw = (dx2-dx1) / (((GLdoublf)(sx2-sx1)) / OGLC_BLIT_TILE_SIZE);
+    ddh = (dy2-dy1) / (((GLdoublf)(sy2-sy1)) / OGLC_BLIT_TILE_SIZE);
+
+    j2d_glEnbblf(GL_TEXTURE_2D);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, ogld->blitTfxturfID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glhint);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glhint);
+
+    if (bdjustAlphb) {
+        // if thf sourdf surfbdf dofs not hbvf bn blphb dhbnnfl,
+        // wf nffd to fnsurf thbt thf blphb vblufs brf fordfd to 1.0f
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0f);
+    }
+
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf thf dopy
+    // hbs to bf donf linf by linf (sff 6207877)
+    slowPbth = srdInfo->sdbnStridf % srdInfo->pixflStridf != 0;
+
+    for (sy = sy1, dy = dy1; sy < sy2; sy += th, dy += ddh) {
+        sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
+        dh = ((dy + ddh) > dy2) ? (dy2 - dy) : ddh;
+
+        for (sx = sx1, dx = dx1; sx < sx2; sx += tw, dx += ddw) {
+            sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
+            dw = ((dx + ddw) > dx2) ? (dx2 - dx) : ddw;
+
+            tx2 = ((GLdoublf)sw) / tw;
+            ty2 = ((GLdoublf)sh) / th;
+
+            if (swsurfbdf) {
+                if (slowPbth) {
+                    jint tmph = sh;
+                    GLvoid *pSrd = PtrCoord(srdInfo->rbsBbsf,
+                                            sx, srdInfo->pixflStridf,
+                                            sy, srdInfo->sdbnStridf);
+
+                    whilf (tmph > 0) {
+                        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                            0, sh - tmph, sw, 1,
+                                            pf->formbt, pf->typf,
+                                            pSrd);
+                        pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+                        tmph--;
+                    }
+                } flsf {
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, sx);
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, sy);
+
+                    j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                        0, 0, sw, sh,
+                                        pf->formbt, pf->typf,
+                                        srdInfo->rbsBbsf);
+
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+                    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+                }
+
+                // thf tfxturf imbgf is "right sidf up", so wf blign thf
+                // uppfr-lfft tfxturf dornfr with thf uppfr-lfft qubd dornfr
+                j2d_glBfgin(GL_QUADS);
+                j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx, dy);
+                j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx + dw, dy);
+                j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx + dw, dy + dh);
+                j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx, dy + dh);
+                j2d_glEnd();
+            } flsf {
+                // this bddounts for lowfr-lfft origin of thf sourdf rfgion
+                jint nfwsx = srdOps->xOffsft + sx;
+                jint nfwsy = srdOps->yOffsft + srdOps->hfight - (sy + sh);
+                j2d_glCopyTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                        0, 0, nfwsx, nfwsy, sw, sh);
+
+                // thf tfxturf imbgf is "upsidf down" bftfr thf lbst stfp, so
+                // wf blign thf bottom-lfft tfxturf dornfr with thf uppfr-lfft
+                // qubd dornfr (bnd vidf vfrsb) to ffffdtivfly flip thf
+                // tfxturf imbgf
+                j2d_glBfgin(GL_QUADS);
+                j2d_glTfxCoord2d(tx1, ty2); j2d_glVfrtfx2d(dx, dy);
+                j2d_glTfxCoord2d(tx2, ty2); j2d_glVfrtfx2d(dx + dw, dy);
+                j2d_glTfxCoord2d(tx2, ty1); j2d_glVfrtfx2d(dx + dw, dy + dh);
+                j2d_glTfxCoord2d(tx1, ty1); j2d_glVfrtfx2d(dx, dy + dh);
+                j2d_glEnd();
+            }
+        }
+    }
+
+    if (bdjustAlphb) {
+        // rfstorf sdblf/bibs to thfir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
+    }
+
+    j2d_glDisbblf(GL_TEXTURE_2D);
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf to b
+ * dfstinbtion OpfnGL "Tfxturf".  This mfthod is invokfd from
+ * OGLBlitLoops_Blit().
+ *
+ * Thf sourdf surfbdf is ffffdtivfly lobdfd into thf OpfnGL tfxturf objfdt,
+ * whidh must hbvf blrfbdy bffn initiblizfd by OGLSD_initTfxturf().  Notf
+ * thbt this mfthod is only dbpbblf of dopying thf sourdf surfbdf into thf
+ * dfstinbtion surfbdf (i.f. no sdbling or gfnfrbl trbnsform is bllowfd).
+ * This rfstridtion should not bf bn issuf bs this mfthod is only usfd
+ * durrfntly to dbdhf b stbtid systfm mfmory imbgf into bn OpfnGL tfxturf in
+ * b hiddfn-bddflfrbtion situbtion.
+ */
+stbtid void
+OGLBlitSwToTfxturf(SurfbdfDbtbRbsInfo *srdInfo, OGLPixflFormbt *pf,
+                   OGLSDOps *dstOps,
+                   jint dx1, jint dy1, jint dx2, jint dy2)
+{
+    jboolfbn bdjustAlphb = (pf != NULL && !pf->hbsAlphb);
+    j2d_glBindTfxturf(dstOps->tfxturfTbrgft, dstOps->tfxturfID);
+
+    if (bdjustAlphb) {
+        // if thf sourdf surfbdf dofs not hbvf bn blphb dhbnnfl,
+        // wf nffd to fnsurf thbt thf blphb vblufs brf fordfd to 1.0f
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 0.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0f);
+    }
+
+    // in dbsf pixfl stridf is not b multiplf of sdbnlinf stridf thf dopy
+    // hbs to bf donf linf by linf (sff 6207877)
+    if (srdInfo->sdbnStridf % srdInfo->pixflStridf != 0) {
+        jint width = dx2 - dx1;
+        jint hfight = dy2 - dy1;
+        GLvoid *pSrd = srdInfo->rbsBbsf;
+
+        whilf (hfight > 0) {
+            j2d_glTfxSubImbgf2D(dstOps->tfxturfTbrgft, 0,
+                                dx1, dy2 - hfight, width, 1,
+                                pf->formbt, pf->typf, pSrd);
+            pSrd = PtrAddBytfs(pSrd, srdInfo->sdbnStridf);
+            hfight--;
+        }
+    } flsf {
+        j2d_glTfxSubImbgf2D(dstOps->tfxturfTbrgft, 0,
+                            dx1, dy1, dx2-dx1, dy2-dy1,
+                            pf->formbt, pf->typf, srdInfo->rbsBbsf);
+    }
+    if (bdjustAlphb) {
+        // rfstorf sdblf/bibs to thfir originbl vblufs
+        j2d_glPixflTrbnsffrf(GL_ALPHA_SCALE, 1.0f);
+        j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0f);
+    }
+}
+
+/**
+ * Gfnfrbl blit mfthod for dopying b nbtivf OpfnGL surfbdf (of typf "Surfbdf"
+ * or "Tfxturf") to bnothfr OpfnGL "Surfbdf".  If tfxturf is JNI_TRUE, this
+ * mfthod will invokf thf Tfxturf->Surfbdf innfr loop; othfrwisf, onf of thf
+ * Surfbdf->Surfbdf innfr loops will bf invokfd, dfpfnding on thf trbnsform
+ * stbtf.
+ *
+ * REMIND: wf dbn tridk thfsf blit mfthods into doing XOR simply by pbssing
+ *         in thf (pixfl ^ xorpixfl) bs thf pixfl vbluf bnd prfdfding thf
+ *         blit with b fillrfdt...
+ */
+void
+OGLBlitLoops_IsoBlit(JNIEnv *fnv,
+                     OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                     jboolfbn xform, jint hint,
+                     jboolfbn tfxturf, jboolfbn rtt,
+                     jint sx1, jint sy1, jint sx2, jint sy2,
+                     jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    OGLSDOps *dstOps = (OGLSDOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo;
+    jint sw    = sx2 - sx1;
+    jint sh    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf dh = dy2 - dy1;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_IsoBlit");
+
+    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_IsoBlit: invblid dimfnsions");
+        rfturn;
+    }
+
+    RETURN_IF_NULL(srdOps);
+    RETURN_IF_NULL(dstOps);
+    RETURN_IF_NULL(ogld);
+
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->width, srdOps->hfight);
+
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        if (srdInfo.bounds.x1 != sx1) {
+            dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+            sx1 = srdInfo.bounds.x1;
+        }
+        if (srdInfo.bounds.y1 != sy1) {
+            dy1 += (srdInfo.bounds.y1 - sy1) * (dh / sh);
+            sy1 = srdInfo.bounds.y1;
+        }
+        if (srdInfo.bounds.x2 != sx2) {
+            dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+            sx2 = srdInfo.bounds.x2;
+        }
+        if (srdInfo.bounds.y2 != sy2) {
+            dy2 += (srdInfo.bounds.y2 - sy2) * (dh / sh);
+            sy2 = srdInfo.bounds.y2;
+        }
+
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  tfxturf=%d hint=%d", tfxturf, hint);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+                    sx1, sy1, sx2, sy2);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+                    dx1, dy1, dx2, dy2);
+
+        if (tfxturf) {
+            GLint glhint = (hint == OGLSD_XFORM_BILINEAR) ? GL_LINEAR :
+                                                            GL_NEAREST;
+            CHECK_PREVIOUS_OP(srdOps->tfxturfTbrgft);
+            OGLBlitTfxturfToSurfbdf(ogld, srdOps, dstOps, rtt, glhint,
+                                    sx1, sy1, sx2, sy2,
+                                    dx1, dy1, dx2, dy2);
+        } flsf {
+            jboolfbn vibTfxturf;
+            if (xform) {
+                // wf must usf thf vib-tfxturf dodfpbth whfn thfrf is b xform
+                vibTfxturf = JNI_TRUE;
+            } flsf {
+                // look bt thf vfndor to sff whidh dodfpbth is fbstfr
+                // (this hbs bffn fmpiridblly dftfrminfd; sff 5020009)
+                switdh (OGLC_GET_VENDOR(ogld)) {
+                dbsf OGLC_VENDOR_NVIDIA:
+                    // thf vib-tfxturf dodfpbth tfnds to bf fbstfr whfn
+                    // thfrf is fithfr b simplf sdblf OR bn fxtrb blphb
+                    vibTfxturf =
+                        (sx2-sx1) != (jint)(dx2-dx1) ||
+                        (sy2-sy1) != (jint)(dy2-dy1) ||
+                        ogld->fxtrbAlphb != 1.0f;
+                    brfbk;
+
+                dbsf OGLC_VENDOR_ATI:
+                    // thf vib-tfxturf dodfpbth tfnds to bf fbstfr only whfn
+                    // thfrf is bn fxtrb blphb involvfd (sdbling or not)
+                    vibTfxturf = (ogld->fxtrbAlphb != 1.0f);
+                    brfbk;
+
+                dffbult:
+                    // just usf thf glCopyPixfls() dodfpbth
+                    vibTfxturf = JNI_FALSE;
+                    brfbk;
+                }
+            }
+
+            RESET_PREVIOUS_OP();
+            if (vibTfxturf) {
+                OGLBlitToSurfbdfVibTfxturf(ogld, &srdInfo, NULL, srdOps,
+                                           JNI_FALSE, hint,
+                                           sx1, sy1, sx2, sy2,
+                                           dx1, dy1, dx2, dy2);
+            } flsf {
+                OGLBlitSurfbdfToSurfbdf(ogld, srdOps, dstOps,
+                                        sx1, sy1, sx2, sy2,
+                                        dx1, dy1, dx2, dy2);
+            }
+        }
+    }
+}
+
+/**
+ * Gfnfrbl blit mfthod for dopying b systfm mfmory ("Sw") surfbdf to b nbtivf
+ * OpfnGL surfbdf (of typf "Surfbdf" or "Tfxturf").  If tfxturf is JNI_TRUE,
+ * this mfthod will invokf thf Sw->Tfxturf innfr loop; othfrwisf, onf of thf
+ * Sw->Surfbdf innfr loops will bf invokfd, dfpfnding on thf trbnsform stbtf.
+ */
+void
+OGLBlitLoops_Blit(JNIEnv *fnv,
+                  OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                  jboolfbn xform, jint hint,
+                  jint srdtypf, jboolfbn tfxturf,
+                  jint sx1, jint sy1, jint sx2, jint sy2,
+                  jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    SurfbdfDbtbOps *srdOps = (SurfbdfDbtbOps *)jlong_to_ptr(pSrdOps);
+    OGLSDOps *dstOps = (OGLSDOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo;
+    OGLPixflFormbt pf = PixflFormbts[srdtypf];
+    jint sw    = sx2 - sx1;
+    jint sh    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf dh = dy2 - dy1;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_Blit");
+
+    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0 || srdtypf < 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_Blit: invblid dimfnsions or srdtypf");
+        rfturn;
+    }
+
+    RETURN_IF_NULL(srdOps);
+    RETURN_IF_NULL(dstOps);
+    RETURN_IF_NULL(ogld);
+    RESET_PREVIOUS_OP();
+
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, SD_LOCK_READ) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLBlitLoops_Blit: dould not bdquirf lodk");
+        rfturn;
+    }
+
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        if (srdInfo.rbsBbsf) {
+            if (srdInfo.bounds.x1 != sx1) {
+                dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+                sx1 = srdInfo.bounds.x1;
+            }
+            if (srdInfo.bounds.y1 != sy1) {
+                dy1 += (srdInfo.bounds.y1 - sy1) * (dh / sh);
+                sy1 = srdInfo.bounds.y1;
+            }
+            if (srdInfo.bounds.x2 != sx2) {
+                dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+                sx2 = srdInfo.bounds.x2;
+            }
+            if (srdInfo.bounds.y2 != sy2) {
+                dy2 += (srdInfo.bounds.y2 - sy2) * (dh / sh);
+                sy2 = srdInfo.bounds.y2;
+            }
+
+            J2dTrbdfLn3(J2D_TRACE_VERBOSE, "  tfxturf=%d srdtypf=%d hint=%d",
+                        tfxturf, srdtypf, hint);
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+                        sx1, sy1, sx2, sy2);
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+                        dx1, dy1, dx2, dy2);
+
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, sx1);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, sy1);
+            j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH,
+                              srdInfo.sdbnStridf / srdInfo.pixflStridf);
+            j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, pf.blignmfnt);
+
+            if (tfxturf) {
+                // Thfsf doordinbtfs will blwbys bf intfgfrs sindf wf
+                // only fvfr do b strbight dopy from sw to tfxturf.
+                // Thus thfsf dbsts brf "sbff" - no loss of prfdision.
+                OGLBlitSwToTfxturf(&srdInfo, &pf, dstOps,
+                                   (jint)dx1, (jint)dy1, (jint)dx2, (jint)dy2);
+            } flsf {
+                jboolfbn vibTfxturf;
+                if (xform) {
+                    // wf must usf thf vib-tfxturf dodfpbth whfn thfrf
+                    // is b xform
+                    vibTfxturf = JNI_TRUE;
+                } flsf {
+                    // look bt thf vfndor to sff whidh dodfpbth is fbstfr
+                    // (this hbs bffn fmpiridblly dftfrminfd; sff 5020009)
+                    switdh (OGLC_GET_VENDOR(ogld)) {
+                    dbsf OGLC_VENDOR_NVIDIA:
+                        // thf vib-tfxturf dodfpbth tfnds to bf fbstfr whfn
+                        // thfrf is fithfr b simplf sdblf OR bn fxtrb blphb
+                        vibTfxturf =
+                            (sx2-sx1) != (jint)(dx2-dx1) ||
+                            (sy2-sy1) != (jint)(dy2-dy1) ||
+                            ogld->fxtrbAlphb != 1.0f;
+                        brfbk;
+#ifdff MACOSX
+                    dbsf OGLC_VENDOR_ATI:
+                        // sff 8024461
+                        vibTfxturf = JNI_TRUE;
+                        brfbk;
+#fndif
+                    dffbult:
+                        // just usf thf glDrbwPixfls() dodfpbth
+                        vibTfxturf = JNI_FALSE;
+                        brfbk;
+                    }
+                }
+
+                if (vibTfxturf) {
+                    OGLBlitToSurfbdfVibTfxturf(ogld, &srdInfo, &pf, NULL,
+                                               JNI_TRUE, hint,
+                                               sx1, sy1, sx2, sy2,
+                                               dx1, dy1, dx2, dy2);
+                } flsf {
+                    OGLBlitSwToSurfbdf(ogld, &srdInfo, &pf,
+                                       sx1, sy1, sx2, sy2,
+                                       dx1, dy1, dx2, dy2);
+                }
+            }
+
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+            j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, 0);
+            j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 4);
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+}
+
+/**
+ * This mfthod mbkfs vfrtidbl flip of thf providfd brfb of Surfbdf bnd donvfrt
+ * pixfl's dbtb from brgbPrf to brgb formbt if rfqufstfd.
+ */
+void flip(void *pDst, juint w, juint h, jint sdbnStridf, jboolfbn donvfrt) {
+    donst sizf_t dlippfdStridf = 4 * w;
+    void *tfmpRow = (h > 1 && !donvfrt) ? mbllod(dlippfdStridf) : NULL;
+    juint i = 0;
+    juint stfp = 0;
+    // vfrtidbl flip bnd donvfrt brgbprf to brgb if nfdfssbry
+    for (; i < h / 2; ++i) {
+        juint *r1 = PtrAddBytfs(pDst, (i * sdbnStridf));
+        juint *r2 = PtrAddBytfs(pDst, (h - i - 1) * sdbnStridf);
+        if (tfmpRow) {
+            // fbst pbth
+            mfmdpy(tfmpRow, r1, dlippfdStridf);
+            mfmdpy(r1, r2, dlippfdStridf);
+            mfmdpy(r2, tfmpRow, dlippfdStridf);
+        } flsf {
+            // slow pbth
+            for (stfp = 0; stfp < w; ++stfp) {
+                juint tmp = r1[stfp];
+                if (donvfrt) {
+                    LobdIntArgbPrfTo1IntArgb(r2, 0, stfp, r1[stfp]);
+                    LobdIntArgbPrfTo1IntArgb(&tmp, 0, 0, r2[stfp]);
+                } flsf {
+                    r1[stfp] = r2[stfp];
+                    r2[stfp] = tmp;
+                }
+            }
+        }
+    }
+    // donvfrt thf middlf linf if nfdfssbry
+    if (donvfrt && h % 2) {
+        juint *r1 = PtrAddBytfs(pDst, (i * sdbnStridf));
+        for (stfp = 0; stfp < w; ++stfp) {
+            LobdIntArgbPrfTo1IntArgb(r1, 0, stfp, r1[stfp]);
+        }
+    }
+    if (tfmpRow) {
+        frff(tfmpRow);
+    }
+}
+
+/**
+ * Spfdiblizfd blit mfthod for dopying b nbtivf OpfnGL "Surfbdf" (pbufffr,
+ * window, ftd.) to b systfm mfmory ("Sw") surfbdf.
+ */
+void
+OGLBlitLoops_SurfbdfToSwBlit(JNIEnv *fnv, OGLContfxt *ogld,
+                             jlong pSrdOps, jlong pDstOps, jint dsttypf,
+                             jint srdx, jint srdy, jint dstx, jint dsty,
+                             jint width, jint hfight)
+{
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    SurfbdfDbtbOps *dstOps = (SurfbdfDbtbOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo, dstInfo;
+    OGLPixflFormbt pf = PixflFormbts[dsttypf];
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_SurfbdfToSwBlit");
+
+    if (width <= 0 || hfight <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "OGLBlitLoops_SurfbdfToSwBlit: dimfnsions brf non-positivf");
+        rfturn;
+    }
+
+    RETURN_IF_NULL(srdOps);
+    RETURN_IF_NULL(dstOps);
+    RETURN_IF_NULL(ogld);
+    RESET_PREVIOUS_OP();
+
+    srdInfo.bounds.x1 = srdx;
+    srdInfo.bounds.y1 = srdy;
+    srdInfo.bounds.x2 = srdx + width;
+    srdInfo.bounds.y2 = srdy + hfight;
+    dstInfo.bounds.x1 = dstx;
+    dstInfo.bounds.y1 = dsty;
+    dstInfo.bounds.x2 = dstx + width;
+    dstInfo.bounds.y2 = dsty + hfight;
+
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, SD_LOCK_WRITE) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "OGLBlitLoops_SurfbdfToSwBlit: dould not bdquirf dst lodk");
+        rfturn;
+    }
+
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->width, srdOps->hfight);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstInfo.bounds, &srdInfo.bounds,
+                                    srdx - dstx, srdy - dsty);
+
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (dstInfo.rbsBbsf) {
+            void *pDst = dstInfo.rbsBbsf;
+
+            srdx = srdInfo.bounds.x1;
+            srdy = srdInfo.bounds.y1;
+            dstx = dstInfo.bounds.x1;
+            dsty = dstInfo.bounds.y1;
+            width = srdInfo.bounds.x2 - srdInfo.bounds.x1;
+            hfight = srdInfo.bounds.y2 - srdInfo.bounds.y1;
+
+            pDst = PtrAddBytfs(pDst, dstx * dstInfo.pixflStridf);
+            pDst = PtrAddBytfs(pDst, dsty * dstInfo.sdbnStridf);
+
+            j2d_glPixflStorfi(GL_PACK_ROW_LENGTH,
+                              dstInfo.sdbnStridf / dstInfo.pixflStridf);
+            j2d_glPixflStorfi(GL_PACK_ALIGNMENT, pf.blignmfnt);
+#ifdff MACOSX
+            if (srdOps->isOpbquf) {
+                // For somf rfbson Applf's OpfnGL implfmfntbtion will
+                // rfbd bbdk zfro vblufs from thf blphb dhbnnfl of bn
+                // opbquf surfbdf whfn using glRfbdPixfls(), so hfrf wf
+                // fordf thf rfsulting pixfls to bf fully opbquf.
+                j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 1.0);
+            }
+#fndif
+
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d h=%d",
+                        srdx, srdy, width, hfight);
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+                        dstx, dsty);
+
+            // this bddounts for lowfr-lfft origin of thf sourdf rfgion
+            srdx = srdOps->xOffsft + srdx;
+            srdy = srdOps->yOffsft + srdOps->hfight - srdy - hfight;
+
+            // Notf thbt glRfbdPixfls() is fxtrfmfly slow!
+            // So wf dbll it only ondf bnd flip thf imbgf using mfmdpy.
+            j2d_glRfbdPixfls(srdx, srdy, width, hfight,
+                             pf.formbt, pf.typf, pDst);
+            // It wbs dhfdkfd bbovf thbt width bnd hfight brf positivf.
+            flip(pDst, (juint) width, (juint) hfight, dstInfo.sdbnStridf,
+                 !pf.isPrfmult && !srdOps->isOpbquf);
+#ifdff MACOSX
+            if (srdOps->isOpbquf) {
+                j2d_glPixflTrbnsffrf(GL_ALPHA_BIAS, 0.0);
+            }
+#fndif
+            j2d_glPixflStorfi(GL_PACK_ROW_LENGTH, 0);
+            j2d_glPixflStorfi(GL_PACK_ALIGNMENT, 4);
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+}
+
+void
+OGLBlitLoops_CopyArfb(JNIEnv *fnv,
+                      OGLContfxt *ogld, OGLSDOps *dstOps,
+                      jint x, jint y, jint width, jint hfight,
+                      jint dx, jint dy)
+{
+    SurfbdfDbtbBounds srdBounds, dstBounds;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBlitLoops_CopyArfb");
+
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(dstOps);
+    RESET_PREVIOUS_OP();
+
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d",
+                x, y, width, hfight);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+                dx, dy);
+
+    srdBounds.x1 = x;
+    srdBounds.y1 = y;
+    srdBounds.x2 = srdBounds.x1 + width;
+    srdBounds.y2 = srdBounds.y1 + hfight;
+    dstBounds.x1 = x + dx;
+    dstBounds.y1 = y + dy;
+    dstBounds.x2 = dstBounds.x1 + width;
+    dstBounds.y2 = dstBounds.y1 + hfight;
+
+    // 6430601: mbnublly dlip srd/dst pbrbmftfrs to work bround
+    // somf bugs in Sun's bnd Applf's OpfnGL implfmfntbtions
+    // (it's b good idfb to rfstridt thf sourdf pbrbmftfrs bnywby, sindf
+    // pbssing out of rbngf pbrbmftfrs to glCopyPixfls() will rfsult in
+    // bn OpfnGL frror)
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdBounds,
+                                    0, 0, dstOps->width, dstOps->hfight);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds,
+                                    0, 0, dstOps->width, dstOps->hfight);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstBounds, &srdBounds, -dx, -dy);
+
+    if (dstBounds.x1 < dstBounds.x2 && dstBounds.y1 < dstBounds.y2) {
+#ifdff MACOSX
+        if (dstOps->isOpbquf) {
+            // For somf rfbson Applf's OpfnGL implfmfntbtion will fbil
+            // to rfndfr glCopyPixfls() whfn thf srd/dst rfdtbnglfs brf
+            // ovfrlbpping bnd glColorMbsk() hbs disbblfd writfs to thf
+            // blphb dhbnnfl.  Thf workbround is to tfmporbrily rf-fnbblf
+            // thf blphb dhbnnfl during thf glCopyPixfls() opfrbtion.
+            j2d_glColorMbsk(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+        }
+#fndif
+
+        OGLBlitSurfbdfToSurfbdf(ogld, dstOps, dstOps,
+                                srdBounds.x1, srdBounds.y1,
+                                srdBounds.x2, srdBounds.y2,
+                                dstBounds.x1, dstBounds.y1,
+                                dstBounds.x2, dstBounds.y2);
+#ifdff MACOSX
+        if (dstOps->isOpbquf) {
+            j2d_glColorMbsk(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
+        }
+#fndif
+    }
+}
+
+#fndif /* !HEADLESS */

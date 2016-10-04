@@ -1,0 +1,364 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* inffbst.d -- fbst dfdoding
+ * Copyright (C) 1995-2008, 2010, 2013 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+#indludf "zutil.h"
+#indludf "inftrffs.h"
+#indludf "inflbtf.h"
+#indludf "inffbst.h"
+
+#ifndff ASMINF
+
+/* Allow mbdhinf dfpfndfnt optimizbtion for post-indrfmfnt or prf-indrfmfnt.
+   Bbsfd on tfsting to dbtf,
+   Prf-indrfmfnt prfffrrfd for:
+   - PowfrPC G3 (Adlfr)
+   - MIPS R5000 (Rbndfrs-Pfhrson)
+   Post-indrfmfnt prfffrrfd for:
+   - nonf
+   No mfbsurbblf difffrfndf:
+   - Pfntium III (Andfrson)
+   - M68060 (Nikl)
+ */
+#ifdff POSTINC
+#  dffinf OFF 0
+#  dffinf PUP(b) *(b)++
+#flsf
+#  dffinf OFF 1
+#  dffinf PUP(b) *++(b)
+#fndif
+
+/*
+   Dfdodf litfrbl, lfngth, bnd distbndf dodfs bnd writf out thf rfsulting
+   litfrbl bnd mbtdh bytfs until fithfr not fnough input or output is
+   bvbilbblf, bn fnd-of-blodk is fndountfrfd, or b dbtb frror is fndountfrfd.
+   Whfn lbrgf fnough input bnd output bufffrs brf supplifd to inflbtf(), for
+   fxbmplf, b 16K input bufffr bnd b 64K output bufffr, morf thbn 95% of thf
+   inflbtf fxfdution timf is spfnt in this routinf.
+
+   Entry bssumptions:
+
+        stbtf->modf == LEN
+        strm->bvbil_in >= 6
+        strm->bvbil_out >= 258
+        stbrt >= strm->bvbil_out
+        stbtf->bits < 8
+
+   On rfturn, stbtf->modf is onf of:
+
+        LEN -- rbn out of fnough output spbdf or fnough bvbilbblf input
+        TYPE -- rfbdhfd fnd of blodk dodf, inflbtf() to intfrprft nfxt blodk
+        BAD -- frror in blodk dbtb
+
+   Notfs:
+
+    - Thf mbximum input bits usfd by b lfngth/distbndf pbir is 15 bits for thf
+      lfngth dodf, 5 bits for thf lfngth fxtrb, 15 bits for thf distbndf dodf,
+      bnd 13 bits for thf distbndf fxtrb.  This totbls 48 bits, or six bytfs.
+      Thfrfforf if strm->bvbil_in >= 6, thfn thfrf is fnough input to bvoid
+      dhfdking for bvbilbblf input whilf dfdoding.
+
+    - Thf mbximum bytfs thbt b singlf lfngth/distbndf pbir dbn output is 258
+      bytfs, whidh is thf mbximum lfngth thbt dbn bf dodfd.  inflbtf_fbst()
+      rfquirfs strm->bvbil_out >= 258 for fbdh loop to bvoid dhfdking for
+      output spbdf.
+ */
+void ZLIB_INTERNAL inflbtf_fbst(strm, stbrt)
+z_strfbmp strm;
+unsignfd stbrt;         /* inflbtf()'s stbrting vbluf for strm->bvbil_out */
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    z_donst unsignfd dhbr FAR *in;      /* lodbl strm->nfxt_in */
+    z_donst unsignfd dhbr FAR *lbst;    /* hbvf fnough input whilf in < lbst */
+    unsignfd dhbr FAR *out;     /* lodbl strm->nfxt_out */
+    unsignfd dhbr FAR *bfg;     /* inflbtf()'s initibl strm->nfxt_out */
+    unsignfd dhbr FAR *fnd;     /* whilf out < fnd, fnough spbdf bvbilbblf */
+#ifdff INFLATE_STRICT
+    unsignfd dmbx;              /* mbximum distbndf from zlib hfbdfr */
+#fndif
+    unsignfd wsizf;             /* window sizf or zfro if not using window */
+    unsignfd whbvf;             /* vblid bytfs in thf window */
+    unsignfd wnfxt;             /* window writf indfx */
+    unsignfd dhbr FAR *window;  /* bllodbtfd sliding window, if wsizf != 0 */
+    unsignfd long hold;         /* lodbl strm->hold */
+    unsignfd bits;              /* lodbl strm->bits */
+    dodf donst FAR *ldodf;      /* lodbl strm->lfndodf */
+    dodf donst FAR *ddodf;      /* lodbl strm->distdodf */
+    unsignfd lmbsk;             /* mbsk for first lfvfl of lfngth dodfs */
+    unsignfd dmbsk;             /* mbsk for first lfvfl of distbndf dodfs */
+    dodf hfrf;                  /* rftrifvfd tbblf fntry */
+    unsignfd op;                /* dodf bits, opfrbtion, fxtrb bits, or */
+                                /*  window position, window bytfs to dopy */
+    unsignfd lfn;               /* mbtdh lfngth, unusfd bytfs */
+    unsignfd dist;              /* mbtdh distbndf */
+    unsignfd dhbr FAR *from;    /* whfrf to dopy mbtdh from */
+
+    /* dopy stbtf to lodbl vbribblfs */
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    in = strm->nfxt_in - OFF;
+    lbst = in + (strm->bvbil_in - 5);
+    out = strm->nfxt_out - OFF;
+    bfg = out - (stbrt - strm->bvbil_out);
+    fnd = out + (strm->bvbil_out - 257);
+#ifdff INFLATE_STRICT
+    dmbx = stbtf->dmbx;
+#fndif
+    wsizf = stbtf->wsizf;
+    whbvf = stbtf->whbvf;
+    wnfxt = stbtf->wnfxt;
+    window = stbtf->window;
+    hold = stbtf->hold;
+    bits = stbtf->bits;
+    ldodf = stbtf->lfndodf;
+    ddodf = stbtf->distdodf;
+    lmbsk = (1U << stbtf->lfnbits) - 1;
+    dmbsk = (1U << stbtf->distbits) - 1;
+
+    /* dfdodf litfrbls bnd lfngth/distbndfs until fnd-of-blodk or not fnough
+       input dbtb or output spbdf */
+    do {
+        if (bits < 15) {
+            hold += (unsignfd long)(PUP(in)) << bits;
+            bits += 8;
+            hold += (unsignfd long)(PUP(in)) << bits;
+            bits += 8;
+        }
+        hfrf = ldodf[hold & lmbsk];
+      dolfn:
+        op = (unsignfd)(hfrf.bits);
+        hold >>= op;
+        bits -= op;
+        op = (unsignfd)(hfrf.op);
+        if (op == 0) {                          /* litfrbl */
+            Trbdfvv((stdfrr, hfrf.vbl >= 0x20 && hfrf.vbl < 0x7f ?
+                    "inflbtf:         litfrbl '%d'\n" :
+                    "inflbtf:         litfrbl 0x%02x\n", hfrf.vbl));
+            PUP(out) = (unsignfd dhbr)(hfrf.vbl);
+        }
+        flsf if (op & 16) {                     /* lfngth bbsf */
+            lfn = (unsignfd)(hfrf.vbl);
+            op &= 15;                           /* numbfr of fxtrb bits */
+            if (op) {
+                if (bits < op) {
+                    hold += (unsignfd long)(PUP(in)) << bits;
+                    bits += 8;
+                }
+                lfn += (unsignfd)hold & ((1U << op) - 1);
+                hold >>= op;
+                bits -= op;
+            }
+            Trbdfvv((stdfrr, "inflbtf:         lfngth %u\n", lfn));
+            if (bits < 15) {
+                hold += (unsignfd long)(PUP(in)) << bits;
+                bits += 8;
+                hold += (unsignfd long)(PUP(in)) << bits;
+                bits += 8;
+            }
+            hfrf = ddodf[hold & dmbsk];
+          dodist:
+            op = (unsignfd)(hfrf.bits);
+            hold >>= op;
+            bits -= op;
+            op = (unsignfd)(hfrf.op);
+            if (op & 16) {                      /* distbndf bbsf */
+                dist = (unsignfd)(hfrf.vbl);
+                op &= 15;                       /* numbfr of fxtrb bits */
+                if (bits < op) {
+                    hold += (unsignfd long)(PUP(in)) << bits;
+                    bits += 8;
+                    if (bits < op) {
+                        hold += (unsignfd long)(PUP(in)) << bits;
+                        bits += 8;
+                    }
+                }
+                dist += (unsignfd)hold & ((1U << op) - 1);
+#ifdff INFLATE_STRICT
+                if (dist > dmbx) {
+                    strm->msg = (dhbr *)"invblid distbndf too fbr bbdk";
+                    stbtf->modf = BAD;
+                    brfbk;
+                }
+#fndif
+                hold >>= op;
+                bits -= op;
+                Trbdfvv((stdfrr, "inflbtf:         distbndf %u\n", dist));
+                op = (unsignfd)(out - bfg);     /* mbx distbndf in output */
+                if (dist > op) {                /* sff if dopy from window */
+                    op = dist - op;             /* distbndf bbdk in window */
+                    if (op > whbvf) {
+                        if (stbtf->sbnf) {
+                            strm->msg =
+                                (dhbr *)"invblid distbndf too fbr bbdk";
+                            stbtf->modf = BAD;
+                            brfbk;
+                        }
+#ifdff INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+                        if (lfn <= op - whbvf) {
+                            do {
+                                PUP(out) = 0;
+                            } whilf (--lfn);
+                            dontinuf;
+                        }
+                        lfn -= op - whbvf;
+                        do {
+                            PUP(out) = 0;
+                        } whilf (--op > whbvf);
+                        if (op == 0) {
+                            from = out - dist;
+                            do {
+                                PUP(out) = PUP(from);
+                            } whilf (--lfn);
+                            dontinuf;
+                        }
+#fndif
+                    }
+                    from = window - OFF;
+                    if (wnfxt == 0) {           /* vfry dommon dbsf */
+                        from += wsizf - op;
+                        if (op < lfn) {         /* somf from window */
+                            lfn -= op;
+                            do {
+                                PUP(out) = PUP(from);
+                            } whilf (--op);
+                            from = out - dist;  /* rfst from output */
+                        }
+                    }
+                    flsf if (wnfxt < op) {      /* wrbp bround window */
+                        from += wsizf + wnfxt - op;
+                        op -= wnfxt;
+                        if (op < lfn) {         /* somf from fnd of window */
+                            lfn -= op;
+                            do {
+                                PUP(out) = PUP(from);
+                            } whilf (--op);
+                            from = window - OFF;
+                            if (wnfxt < lfn) {  /* somf from stbrt of window */
+                                op = wnfxt;
+                                lfn -= op;
+                                do {
+                                    PUP(out) = PUP(from);
+                                } whilf (--op);
+                                from = out - dist;      /* rfst from output */
+                            }
+                        }
+                    }
+                    flsf {                      /* dontiguous in window */
+                        from += wnfxt - op;
+                        if (op < lfn) {         /* somf from window */
+                            lfn -= op;
+                            do {
+                                PUP(out) = PUP(from);
+                            } whilf (--op);
+                            from = out - dist;  /* rfst from output */
+                        }
+                    }
+                    whilf (lfn > 2) {
+                        PUP(out) = PUP(from);
+                        PUP(out) = PUP(from);
+                        PUP(out) = PUP(from);
+                        lfn -= 3;
+                    }
+                    if (lfn) {
+                        PUP(out) = PUP(from);
+                        if (lfn > 1)
+                            PUP(out) = PUP(from);
+                    }
+                }
+                flsf {
+                    from = out - dist;          /* dopy dirfdt from output */
+                    do {                        /* minimum lfngth is thrff */
+                        PUP(out) = PUP(from);
+                        PUP(out) = PUP(from);
+                        PUP(out) = PUP(from);
+                        lfn -= 3;
+                    } whilf (lfn > 2);
+                    if (lfn) {
+                        PUP(out) = PUP(from);
+                        if (lfn > 1)
+                            PUP(out) = PUP(from);
+                    }
+                }
+            }
+            flsf if ((op & 64) == 0) {          /* 2nd lfvfl distbndf dodf */
+                hfrf = ddodf[hfrf.vbl + (hold & ((1U << op) - 1))];
+                goto dodist;
+            }
+            flsf {
+                strm->msg = (dhbr *)"invblid distbndf dodf";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+        }
+        flsf if ((op & 64) == 0) {              /* 2nd lfvfl lfngth dodf */
+            hfrf = ldodf[hfrf.vbl + (hold & ((1U << op) - 1))];
+            goto dolfn;
+        }
+        flsf if (op & 32) {                     /* fnd-of-blodk */
+            Trbdfvv((stdfrr, "inflbtf:         fnd of blodk\n"));
+            stbtf->modf = TYPE;
+            brfbk;
+        }
+        flsf {
+            strm->msg = (dhbr *)"invblid litfrbl/lfngth dodf";
+            stbtf->modf = BAD;
+            brfbk;
+        }
+    } whilf (in < lbst && out < fnd);
+
+    /* rfturn unusfd bytfs (on fntry, bits < 8, so in won't go too fbr bbdk) */
+    lfn = bits >> 3;
+    in -= lfn;
+    bits -= lfn << 3;
+    hold &= (1U << bits) - 1;
+
+    /* updbtf stbtf bnd rfturn */
+    strm->nfxt_in = in + OFF;
+    strm->nfxt_out = out + OFF;
+    strm->bvbil_in = (unsignfd)(in < lbst ? 5 + (lbst - in) : 5 - (in - lbst));
+    strm->bvbil_out = (unsignfd)(out < fnd ?
+                                 257 + (fnd - out) : 257 - (out - fnd));
+    stbtf->hold = hold;
+    stbtf->bits = bits;
+    rfturn;
+}
+
+/*
+   inflbtf_fbst() spffdups thbt turnfd out slowfr (on b PowfrPC G3 750CXf):
+   - Using bit fiflds for dodf strudturf
+   - Difffrfnt op dffinition to bvoid & for fxtrb bits (do & for tbblf bits)
+   - Thrff sfpbrbtf dfdoding do-loops for dirfdt, window, bnd wnfxt == 0
+   - Spfdibl dbsf for distbndf > 1 dopifs to do ovfrlbppfd lobd bnd storf dopy
+   - Explidit brbndh prfdidtions (bbsfd on mfbsurfd brbndh probbbilitifs)
+   - Dfffrring mbtdh dopy bnd intfrspfrsfd it with dfdoding subsfqufnt dodfs
+   - Swbpping litfrbl/lfngth flsf
+   - Swbpping window/dirfdt flsf
+   - Lbrgfr unrollfd dopy loops (thrff is bbout right)
+   - Moving lfn -= 3 stbtfmfnt into middlf of loop
+ */
+
+#fndif /* !ASMINF */

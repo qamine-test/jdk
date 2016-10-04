@@ -1,212 +1,212 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
 
 /**
- * An {@code AtomicStampedReference} maintains an object reference
- * along with an integer "stamp", that can be updated atomically.
+ * An {@dodf AtomidStbmpfdRfffrfndf} mbintbins bn objfdt rfffrfndf
+ * blong witi bn intfgfr "stbmp", tibt dbn bf updbtfd btomidblly.
  *
- * <p>Implementation note: This implementation maintains stamped
- * references by creating internal objects representing "boxed"
- * [reference, integer] pairs.
+ * <p>Implfmfntbtion notf: Tiis implfmfntbtion mbintbins stbmpfd
+ * rfffrfndfs by drfbting intfrnbl objfdts rfprfsfnting "boxfd"
+ * [rfffrfndf, intfgfr] pbirs.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <V> The type of object referred to by this reference
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <V> Tif typf of objfdt rfffrrfd to by tiis rfffrfndf
  */
-public class AtomicStampedReference<V> {
+publid dlbss AtomidStbmpfdRfffrfndf<V> {
 
-    private static class Pair<T> {
-        final T reference;
-        final int stamp;
-        private Pair(T reference, int stamp) {
-            this.reference = reference;
-            this.stamp = stamp;
+    privbtf stbtid dlbss Pbir<T> {
+        finbl T rfffrfndf;
+        finbl int stbmp;
+        privbtf Pbir(T rfffrfndf, int stbmp) {
+            tiis.rfffrfndf = rfffrfndf;
+            tiis.stbmp = stbmp;
         }
-        static <T> Pair<T> of(T reference, int stamp) {
-            return new Pair<T>(reference, stamp);
+        stbtid <T> Pbir<T> of(T rfffrfndf, int stbmp) {
+            rfturn nfw Pbir<T>(rfffrfndf, stbmp);
         }
     }
 
-    private volatile Pair<V> pair;
+    privbtf volbtilf Pbir<V> pbir;
 
     /**
-     * Creates a new {@code AtomicStampedReference} with the given
-     * initial values.
+     * Crfbtfs b nfw {@dodf AtomidStbmpfdRfffrfndf} witi tif givfn
+     * initibl vblufs.
      *
-     * @param initialRef the initial reference
-     * @param initialStamp the initial stamp
+     * @pbrbm initiblRff tif initibl rfffrfndf
+     * @pbrbm initiblStbmp tif initibl stbmp
      */
-    public AtomicStampedReference(V initialRef, int initialStamp) {
-        pair = Pair.of(initialRef, initialStamp);
-    }
-
-    /**
-     * Returns the current value of the reference.
-     *
-     * @return the current value of the reference
-     */
-    public V getReference() {
-        return pair.reference;
+    publid AtomidStbmpfdRfffrfndf(V initiblRff, int initiblStbmp) {
+        pbir = Pbir.of(initiblRff, initiblStbmp);
     }
 
     /**
-     * Returns the current value of the stamp.
+     * Rfturns tif durrfnt vbluf of tif rfffrfndf.
      *
-     * @return the current value of the stamp
+     * @rfturn tif durrfnt vbluf of tif rfffrfndf
      */
-    public int getStamp() {
-        return pair.stamp;
+    publid V gftRfffrfndf() {
+        rfturn pbir.rfffrfndf;
     }
 
     /**
-     * Returns the current values of both the reference and the stamp.
-     * Typical usage is {@code int[1] holder; ref = v.get(holder); }.
+     * Rfturns tif durrfnt vbluf of tif stbmp.
      *
-     * @param stampHolder an array of size of at least one.  On return,
-     * {@code stampholder[0]} will hold the value of the stamp.
-     * @return the current value of the reference
+     * @rfturn tif durrfnt vbluf of tif stbmp
      */
-    public V get(int[] stampHolder) {
-        Pair<V> pair = this.pair;
-        stampHolder[0] = pair.stamp;
-        return pair.reference;
+    publid int gftStbmp() {
+        rfturn pbir.stbmp;
     }
 
     /**
-     * Atomically sets the value of both the reference and stamp
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current stamp is equal to the expected stamp.
+     * Rfturns tif durrfnt vblufs of boti tif rfffrfndf bnd tif stbmp.
+     * Typidbl usbgf is {@dodf int[1] ioldfr; rff = v.gft(ioldfr); }.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
-     *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedStamp the expected value of the stamp
-     * @param newStamp the new value for the stamp
-     * @return {@code true} if successful
+     * @pbrbm stbmpHoldfr bn brrby of sizf of bt lfbst onf.  On rfturn,
+     * {@dodf stbmpioldfr[0]} will iold tif vbluf of tif stbmp.
+     * @rfturn tif durrfnt vbluf of tif rfffrfndf
      */
-    public boolean weakCompareAndSet(V   expectedReference,
-                                     V   newReference,
-                                     int expectedStamp,
-                                     int newStamp) {
-        return compareAndSet(expectedReference, newReference,
-                             expectedStamp, newStamp);
+    publid V gft(int[] stbmpHoldfr) {
+        Pbir<V> pbir = tiis.pbir;
+        stbmpHoldfr[0] = pbir.stbmp;
+        rfturn pbir.rfffrfndf;
     }
 
     /**
-     * Atomically sets the value of both the reference and stamp
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current stamp is equal to the expected stamp.
+     * Atomidblly sfts tif vbluf of boti tif rfffrfndf bnd stbmp
+     * to tif givfn updbtf vblufs if tif
+     * durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd rfffrfndf
+     * bnd tif durrfnt stbmp is fqubl to tif fxpfdtfd stbmp.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedStamp the expected value of the stamp
-     * @param newStamp the new value for the stamp
-     * @return {@code true} if successful
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm fxpfdtfdStbmp tif fxpfdtfd vbluf of tif stbmp
+     * @pbrbm nfwStbmp tif nfw vbluf for tif stbmp
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public boolean compareAndSet(V   expectedReference,
-                                 V   newReference,
-                                 int expectedStamp,
-                                 int newStamp) {
-        Pair<V> current = pair;
-        return
-            expectedReference == current.reference &&
-            expectedStamp == current.stamp &&
-            ((newReference == current.reference &&
-              newStamp == current.stamp) ||
-             casPair(current, Pair.of(newReference, newStamp)));
+    publid boolfbn wfbkCompbrfAndSft(V   fxpfdtfdRfffrfndf,
+                                     V   nfwRfffrfndf,
+                                     int fxpfdtfdStbmp,
+                                     int nfwStbmp) {
+        rfturn dompbrfAndSft(fxpfdtfdRfffrfndf, nfwRfffrfndf,
+                             fxpfdtfdStbmp, nfwStbmp);
     }
 
     /**
-     * Unconditionally sets the value of both the reference and stamp.
+     * Atomidblly sfts tif vbluf of boti tif rfffrfndf bnd stbmp
+     * to tif givfn updbtf vblufs if tif
+     * durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd rfffrfndf
+     * bnd tif durrfnt stbmp is fqubl to tif fxpfdtfd stbmp.
      *
-     * @param newReference the new value for the reference
-     * @param newStamp the new value for the stamp
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm fxpfdtfdStbmp tif fxpfdtfd vbluf of tif stbmp
+     * @pbrbm nfwStbmp tif nfw vbluf for tif stbmp
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public void set(V newReference, int newStamp) {
-        Pair<V> current = pair;
-        if (newReference != current.reference || newStamp != current.stamp)
-            this.pair = Pair.of(newReference, newStamp);
+    publid boolfbn dompbrfAndSft(V   fxpfdtfdRfffrfndf,
+                                 V   nfwRfffrfndf,
+                                 int fxpfdtfdStbmp,
+                                 int nfwStbmp) {
+        Pbir<V> durrfnt = pbir;
+        rfturn
+            fxpfdtfdRfffrfndf == durrfnt.rfffrfndf &&
+            fxpfdtfdStbmp == durrfnt.stbmp &&
+            ((nfwRfffrfndf == durrfnt.rfffrfndf &&
+              nfwStbmp == durrfnt.stbmp) ||
+             dbsPbir(durrfnt, Pbir.of(nfwRfffrfndf, nfwStbmp)));
     }
 
     /**
-     * Atomically sets the value of the stamp to the given update value
-     * if the current reference is {@code ==} to the expected
-     * reference.  Any given invocation of this operation may fail
-     * (return {@code false}) spuriously, but repeated invocation
-     * when the current value holds the expected value and no other
-     * thread is also attempting to set the value will eventually
-     * succeed.
+     * Undonditionblly sfts tif vbluf of boti tif rfffrfndf bnd stbmp.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newStamp the new value for the stamp
-     * @return {@code true} if successful
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm nfwStbmp tif nfw vbluf for tif stbmp
      */
-    public boolean attemptStamp(V expectedReference, int newStamp) {
-        Pair<V> current = pair;
-        return
-            expectedReference == current.reference &&
-            (newStamp == current.stamp ||
-             casPair(current, Pair.of(expectedReference, newStamp)));
+    publid void sft(V nfwRfffrfndf, int nfwStbmp) {
+        Pbir<V> durrfnt = pbir;
+        if (nfwRfffrfndf != durrfnt.rfffrfndf || nfwStbmp != durrfnt.stbmp)
+            tiis.pbir = Pbir.of(nfwRfffrfndf, nfwStbmp);
     }
 
-    // Unsafe mechanics
-
-    private static final sun.misc.Unsafe UNSAFE = sun.misc.Unsafe.getUnsafe();
-    private static final long pairOffset =
-        objectFieldOffset(UNSAFE, "pair", AtomicStampedReference.class);
-
-    private boolean casPair(Pair<V> cmp, Pair<V> val) {
-        return UNSAFE.compareAndSwapObject(this, pairOffset, cmp, val);
+    /**
+     * Atomidblly sfts tif vbluf of tif stbmp to tif givfn updbtf vbluf
+     * if tif durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd
+     * rfffrfndf.  Any givfn invodbtion of tiis opfrbtion mby fbil
+     * (rfturn {@dodf fblsf}) spuriously, but rfpfbtfd invodbtion
+     * wifn tif durrfnt vbluf iolds tif fxpfdtfd vbluf bnd no otifr
+     * tirfbd is blso bttfmpting to sft tif vbluf will fvfntublly
+     * suddffd.
+     *
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwStbmp tif nfw vbluf for tif stbmp
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid boolfbn bttfmptStbmp(V fxpfdtfdRfffrfndf, int nfwStbmp) {
+        Pbir<V> durrfnt = pbir;
+        rfturn
+            fxpfdtfdRfffrfndf == durrfnt.rfffrfndf &&
+            (nfwStbmp == durrfnt.stbmp ||
+             dbsPbir(durrfnt, Pbir.of(fxpfdtfdRfffrfndf, nfwStbmp)));
     }
 
-    static long objectFieldOffset(sun.misc.Unsafe UNSAFE,
-                                  String field, Class<?> klazz) {
+    // Unsbff mfdibnids
+
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE = sun.misd.Unsbff.gftUnsbff();
+    privbtf stbtid finbl long pbirOffsft =
+        objfdtFifldOffsft(UNSAFE, "pbir", AtomidStbmpfdRfffrfndf.dlbss);
+
+    privbtf boolfbn dbsPbir(Pbir<V> dmp, Pbir<V> vbl) {
+        rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, pbirOffsft, dmp, vbl);
+    }
+
+    stbtid long objfdtFifldOffsft(sun.misd.Unsbff UNSAFE,
+                                  String fifld, Clbss<?> klbzz) {
         try {
-            return UNSAFE.objectFieldOffset(klazz.getDeclaredField(field));
-        } catch (NoSuchFieldException e) {
-            // Convert Exception to corresponding Error
-            NoSuchFieldError error = new NoSuchFieldError(field);
-            error.initCause(e);
-            throw error;
+            rfturn UNSAFE.objfdtFifldOffsft(klbzz.gftDfdlbrfdFifld(fifld));
+        } dbtdi (NoSudiFifldExdfption f) {
+            // Convfrt Exdfption to dorrfsponding Error
+            NoSudiFifldError frror = nfw NoSudiFifldError(fifld);
+            frror.initCbusf(f);
+            tirow frror;
         }
     }
 }

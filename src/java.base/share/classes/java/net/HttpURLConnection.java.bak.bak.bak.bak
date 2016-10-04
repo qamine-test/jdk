@@ -1,0 +1,817 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.Dbtf;
+
+/**
+ * A URLConnfdtion with support for HTTP-spfdifid ffbturfs. Sff
+ * <A HREF="http://www.w3.org/pub/WWW/Protodols/"> thf spfd </A> for
+ * dftbils.
+ * <p>
+ *
+ * Ebdh HttpURLConnfdtion instbndf is usfd to mbkf b singlf rfqufst
+ * but thf undfrlying nftwork donnfdtion to thf HTTP sfrvfr mby bf
+ * trbnspbrfntly shbrfd by othfr instbndfs. Cblling thf dlosf() mfthods
+ * on thf InputStrfbm or OutputStrfbm of bn HttpURLConnfdtion
+ * bftfr b rfqufst mby frff nftwork rfsourdfs bssodibtfd with this
+ * instbndf but hbs no ffffdt on bny shbrfd pfrsistfnt donnfdtion.
+ * Cblling thf disdonnfdt() mfthod mby dlosf thf undfrlying sodkft
+ * if b pfrsistfnt donnfdtion is othfrwisf idlf bt thbt timf.
+ *
+ * <P>Thf HTTP protodol hbndlfr hbs b ffw sfttings thbt dbn bf bddfssfd through
+ * Systfm Propfrtifs. This dovfrs
+ * <b hrff="dod-filfs/nft-propfrtifs.html#Proxifs">Proxy sfttings</b> bs wfll bs
+ * <b hrff="dod-filfs/nft-propfrtifs.html#MisdHTTP"> vbrious othfr sfttings</b>.
+ * </P>
+ * <p>
+ * <b>Sfdurity pfrmissions</b>
+ * <p>
+ * If b sfdurity mbnbgfr is instbllfd, bnd if b mfthod is dbllfd whidh rfsults in bn
+ * bttfmpt to opfn b donnfdtion, thf dbllfr must possfss fithfr:-
+ * <ul><li>b "donnfdt" {@link SodkftPfrmission} to thf host/port dombinbtion of thf
+ * dfstinbtion URL or</li>
+ * <li>b {@link URLPfrmission} thbt pfrmits this rfqufst.</li>
+ * </ul><p>
+ * If butombtid rfdirfdtion is fnbblfd, bnd this rfqufst is rfdirfdtfd to bnothfr
+ * dfstinbtion, thfn thf dbllfr must blso hbvf pfrmission to donnfdt to thf
+ * rfdirfdtfd host/URL.
+ *
+ * @sff     jbvb.nft.HttpURLConnfdtion#disdonnfdt()
+ * @sindf 1.1
+ */
+bbstrbdt publid dlbss HttpURLConnfdtion fxtfnds URLConnfdtion {
+    /* instbndf vbribblfs */
+
+    /**
+     * Thf HTTP mfthod (GET,POST,PUT,ftd.).
+     */
+    protfdtfd String mfthod = "GET";
+
+    /**
+     * Thf dhunk-lfngth whfn using dhunkfd fndoding strfbming modf for output.
+     * A vbluf of {@dodf -1} mfbns dhunkfd fndoding is disbblfd for output.
+     * @sindf 1.5
+     */
+    protfdtfd int dhunkLfngth = -1;
+
+    /**
+     * Thf fixfd dontfnt-lfngth whfn using fixfd-lfngth strfbming modf.
+     * A vbluf of {@dodf -1} mfbns fixfd-lfngth strfbming modf is disbblfd
+     * for output.
+     *
+     * <P> <B>NOTE:</B> {@link #fixfdContfntLfngthLong} is rfdommfndfd instfbd
+     * of this fifld, bs it bllows lbrgfr dontfnt lfngths to bf sft.
+     *
+     * @sindf 1.5
+     */
+    protfdtfd int fixfdContfntLfngth = -1;
+
+    /**
+     * Thf fixfd dontfnt-lfngth whfn using fixfd-lfngth strfbming modf.
+     * A vbluf of {@dodf -1} mfbns fixfd-lfngth strfbming modf is disbblfd
+     * for output.
+     *
+     * @sindf 1.7
+     */
+    protfdtfd long fixfdContfntLfngthLong = -1;
+
+    /**
+     * Rfturns thf kfy for thf {@dodf n}<sup>th</sup> hfbdfr fifld.
+     * Somf implfmfntbtions mby trfbt thf {@dodf 0}<sup>th</sup>
+     * hfbdfr fifld bs spfdibl, i.f. bs thf stbtus linf rfturnfd by thf HTTP
+     * sfrvfr. In this dbsf, {@link #gftHfbdfrFifld(int) gftHfbdfrFifld(0)} rfturns thf stbtus
+     * linf, but {@dodf gftHfbdfrFifldKfy(0)} rfturns null.
+     *
+     * @pbrbm   n   bn indfx, whfrf {@dodf n >=0}.
+     * @rfturn  thf kfy for thf {@dodf n}<sup>th</sup> hfbdfr fifld,
+     *          or {@dodf null} if thf kfy dofs not fxist.
+     */
+    publid String gftHfbdfrFifldKfy (int n) {
+        rfturn null;
+    }
+
+    /**
+     * This mfthod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * without intfrnbl bufffring, whfn thf dontfnt lfngth is known in
+     * bdvbndf.
+     * <p>
+     * An fxdfption will bf thrown if thf bpplidbtion
+     * bttfmpts to writf morf dbtb thbn thf indidbtfd
+     * dontfnt-lfngth, or if thf bpplidbtion dlosfs thf OutputStrfbm
+     * bfforf writing thf indidbtfd bmount.
+     * <p>
+     * Whfn output strfbming is fnbblfd, buthfntidbtion
+     * bnd rfdirfdtion dbnnot bf hbndlfd butombtidblly.
+     * A HttpRftryExdfption will bf thrown whfn rfbding
+     * thf rfsponsf if buthfntidbtion or rfdirfdtion brf rfquirfd.
+     * This fxdfption dbn bf qufrifd for thf dftbils of thf frror.
+     * <p>
+     * This mfthod must bf dbllfd bfforf thf URLConnfdtion is donnfdtfd.
+     * <p>
+     * <B>NOTE:</B> {@link #sftFixfdLfngthStrfbmingModf(long)} is rfdommfndfd
+     * instfbd of this mfthod bs it bllows lbrgfr dontfnt lfngths to bf sft.
+     *
+     * @pbrbm   dontfntLfngth Thf numbfr of bytfs whidh will bf writtfn
+     *          to thf OutputStrfbm.
+     *
+     * @throws  IllfgblStbtfExdfption if URLConnfdtion is blrfbdy donnfdtfd
+     *          or if b difffrfnt strfbming modf is blrfbdy fnbblfd.
+     *
+     * @throws  IllfgblArgumfntExdfption if b dontfnt lfngth lfss thbn
+     *          zfro is spfdififd.
+     *
+     * @sff     #sftChunkfdStrfbmingModf(int)
+     * @sindf 1.5
+     */
+    publid void sftFixfdLfngthStrfbmingModf (int dontfntLfngth) {
+        if (donnfdtfd) {
+            throw nfw IllfgblStbtfExdfption ("Alrfbdy donnfdtfd");
+        }
+        if (dhunkLfngth != -1) {
+            throw nfw IllfgblStbtfExdfption ("Chunkfd fndoding strfbming modf sft");
+        }
+        if (dontfntLfngth < 0) {
+            throw nfw IllfgblArgumfntExdfption ("invblid dontfnt lfngth");
+        }
+        fixfdContfntLfngth = dontfntLfngth;
+    }
+
+    /**
+     * This mfthod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * without intfrnbl bufffring, whfn thf dontfnt lfngth is known in
+     * bdvbndf.
+     *
+     * <P> An fxdfption will bf thrown if thf bpplidbtion bttfmpts to writf
+     * morf dbtb thbn thf indidbtfd dontfnt-lfngth, or if thf bpplidbtion
+     * dlosfs thf OutputStrfbm bfforf writing thf indidbtfd bmount.
+     *
+     * <P> Whfn output strfbming is fnbblfd, buthfntidbtion bnd rfdirfdtion
+     * dbnnot bf hbndlfd butombtidblly. A {@linkplbin HttpRftryExdfption} will
+     * bf thrown whfn rfbding thf rfsponsf if buthfntidbtion or rfdirfdtion
+     * brf rfquirfd. This fxdfption dbn bf qufrifd for thf dftbils of thf
+     * frror.
+     *
+     * <P> This mfthod must bf dbllfd bfforf thf URLConnfdtion is donnfdtfd.
+     *
+     * <P> Thf dontfnt lfngth sft by invoking this mfthod tbkfs prfdfdfndf
+     * ovfr bny vbluf sft by {@link #sftFixfdLfngthStrfbmingModf(int)}.
+     *
+     * @pbrbm  dontfntLfngth
+     *         Thf numbfr of bytfs whidh will bf writtfn to thf OutputStrfbm.
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          if URLConnfdtion is blrfbdy donnfdtfd or if b difffrfnt
+     *          strfbming modf is blrfbdy fnbblfd.
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if b dontfnt lfngth lfss thbn zfro is spfdififd.
+     *
+     * @sindf 1.7
+     */
+    publid void sftFixfdLfngthStrfbmingModf(long dontfntLfngth) {
+        if (donnfdtfd) {
+            throw nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        }
+        if (dhunkLfngth != -1) {
+            throw nfw IllfgblStbtfExdfption(
+                "Chunkfd fndoding strfbming modf sft");
+        }
+        if (dontfntLfngth < 0) {
+            throw nfw IllfgblArgumfntExdfption("invblid dontfnt lfngth");
+        }
+        fixfdContfntLfngthLong = dontfntLfngth;
+    }
+
+    /* Dffbult dhunk sizf (indluding dhunk hfbdfr) if not spfdififd;
+     * wf wbnt to kffp this in synd with thf onf dffinfd in
+     * sun.nft.www.http.ChunkfdOutputStrfbm
+     */
+    privbtf stbtid finbl int DEFAULT_CHUNK_SIZE = 4096;
+
+    /**
+     * This mfthod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * without intfrnbl bufffring, whfn thf dontfnt lfngth is <b>not</b>
+     * known in bdvbndf. In this modf, dhunkfd trbnsffr fndoding
+     * is usfd to sfnd thf rfqufst body. Notf, not bll HTTP sfrvfrs
+     * support this modf.
+     * <p>
+     * Whfn output strfbming is fnbblfd, buthfntidbtion
+     * bnd rfdirfdtion dbnnot bf hbndlfd butombtidblly.
+     * A HttpRftryExdfption will bf thrown whfn rfbding
+     * thf rfsponsf if buthfntidbtion or rfdirfdtion brf rfquirfd.
+     * This fxdfption dbn bf qufrifd for thf dftbils of thf frror.
+     * <p>
+     * This mfthod must bf dbllfd bfforf thf URLConnfdtion is donnfdtfd.
+     *
+     * @pbrbm   dhunklfn Thf numbfr of bytfs to writf in fbdh dhunk.
+     *          If dhunklfn is lfss thbn or fqubl to zfro, b dffbult
+     *          vbluf will bf usfd.
+     *
+     * @throws  IllfgblStbtfExdfption if URLConnfdtion is blrfbdy donnfdtfd
+     *          or if b difffrfnt strfbming modf is blrfbdy fnbblfd.
+     *
+     * @sff     #sftFixfdLfngthStrfbmingModf(int)
+     * @sindf 1.5
+     */
+    publid void sftChunkfdStrfbmingModf (int dhunklfn) {
+        if (donnfdtfd) {
+            throw nfw IllfgblStbtfExdfption ("Cbn't sft strfbming modf: blrfbdy donnfdtfd");
+        }
+        if (fixfdContfntLfngth != -1 || fixfdContfntLfngthLong != -1) {
+            throw nfw IllfgblStbtfExdfption ("Fixfd lfngth strfbming modf sft");
+        }
+        dhunkLfngth = dhunklfn <=0? DEFAULT_CHUNK_SIZE : dhunklfn;
+    }
+
+    /**
+     * Rfturns thf vbluf for thf {@dodf n}<sup>th</sup> hfbdfr fifld.
+     * Somf implfmfntbtions mby trfbt thf {@dodf 0}<sup>th</sup>
+     * hfbdfr fifld bs spfdibl, i.f. bs thf stbtus linf rfturnfd by thf HTTP
+     * sfrvfr.
+     * <p>
+     * This mfthod dbn bf usfd in donjundtion with thf
+     * {@link #gftHfbdfrFifldKfy gftHfbdfrFifldKfy} mfthod to itfrbtf through bll
+     * thf hfbdfrs in thf mfssbgf.
+     *
+     * @pbrbm   n   bn indfx, whfrf {@dodf n>=0}.
+     * @rfturn  thf vbluf of thf {@dodf n}<sup>th</sup> hfbdfr fifld,
+     *          or {@dodf null} if thf vbluf dofs not fxist.
+     * @sff     jbvb.nft.HttpURLConnfdtion#gftHfbdfrFifldKfy(int)
+     */
+    publid String gftHfbdfrFifld(int n) {
+        rfturn null;
+    }
+
+    /**
+     * An {@dodf int} rfprfsfnting thf thrff digit HTTP Stbtus-Codf.
+     * <ul>
+     * <li> 1xx: Informbtionbl
+     * <li> 2xx: Suddfss
+     * <li> 3xx: Rfdirfdtion
+     * <li> 4xx: Clifnt Error
+     * <li> 5xx: Sfrvfr Error
+     * </ul>
+     */
+    protfdtfd int rfsponsfCodf = -1;
+
+    /**
+     * Thf HTTP rfsponsf mfssbgf.
+     */
+    protfdtfd String rfsponsfMfssbgf = null;
+
+    /* stbtid vbribblfs */
+
+    /* do wf butombtidblly follow rfdirfdts? Thf dffbult is truf. */
+    privbtf stbtid boolfbn followRfdirfdts = truf;
+
+    /**
+     * If {@dodf truf}, thf protodol will butombtidblly follow rfdirfdts.
+     * If {@dodf fblsf}, thf protodol will not butombtidblly follow
+     * rfdirfdts.
+     * <p>
+     * This fifld is sft by thf {@dodf sftInstbndfFollowRfdirfdts}
+     * mfthod. Its vbluf is rfturnfd by thf {@dodf gftInstbndfFollowRfdirfdts}
+     * mfthod.
+     * <p>
+     * Its dffbult vbluf is bbsfd on thf vbluf of thf stbtid followRfdirfdts
+     * bt HttpURLConnfdtion donstrudtion timf.
+     *
+     * @sff     jbvb.nft.HttpURLConnfdtion#sftInstbndfFollowRfdirfdts(boolfbn)
+     * @sff     jbvb.nft.HttpURLConnfdtion#gftInstbndfFollowRfdirfdts()
+     * @sff     jbvb.nft.HttpURLConnfdtion#sftFollowRfdirfdts(boolfbn)
+     */
+    protfdtfd boolfbn instbndfFollowRfdirfdts = followRfdirfdts;
+
+    /* vblid HTTP mfthods */
+    privbtf stbtid finbl String[] mfthods = {
+        "GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE"
+    };
+
+    /**
+     * Construdtor for thf HttpURLConnfdtion.
+     * @pbrbm u thf URL
+     */
+    protfdtfd HttpURLConnfdtion (URL u) {
+        supfr(u);
+    }
+
+    /**
+     * Sfts whfthfr HTTP rfdirfdts  (rfqufsts with rfsponsf dodf 3xx) should
+     * bf butombtidblly followfd by this dlbss.  Truf by dffbult.  Applfts
+     * dbnnot dhbngf this vbribblf.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, this mfthod first dblls
+     * thf sfdurity mbnbgfr's {@dodf dhfdkSftFbdtory} mfthod
+     * to fnsurf thf opfrbtion is bllowfd.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm sft b {@dodf boolfbn} indidbting whfthfr or not
+     * to follow HTTP rfdirfdts.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkSftFbdtory} mfthod dofsn't
+     *             bllow thf opfrbtion.
+     * @sff        SfdurityMbnbgfr#dhfdkSftFbdtory
+     * @sff #gftFollowRfdirfdts()
+     */
+    publid stbtid void sftFollowRfdirfdts(boolfbn sft) {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            // sffms to bf thf bfst dhfdk hfrf...
+            sfd.dhfdkSftFbdtory();
+        }
+        followRfdirfdts = sft;
+    }
+
+    /**
+     * Rfturns b {@dodf boolfbn} indidbting
+     * whfthfr or not HTTP rfdirfdts (3xx) should
+     * bf butombtidblly followfd.
+     *
+     * @rfturn {@dodf truf} if HTTP rfdirfdts should
+     * bf butombtidblly followfd, {@dodf fblsf} if not.
+     * @sff #sftFollowRfdirfdts(boolfbn)
+     */
+    publid stbtid boolfbn gftFollowRfdirfdts() {
+        rfturn followRfdirfdts;
+    }
+
+    /**
+     * Sfts whfthfr HTTP rfdirfdts (rfqufsts with rfsponsf dodf 3xx) should
+     * bf butombtidblly followfd by this {@dodf HttpURLConnfdtion}
+     * instbndf.
+     * <p>
+     * Thf dffbult vbluf domfs from followRfdirfdts, whidh dffbults to
+     * truf.
+     *
+     * @pbrbm followRfdirfdts b {@dodf boolfbn} indidbting
+     * whfthfr or not to follow HTTP rfdirfdts.
+     *
+     * @sff    jbvb.nft.HttpURLConnfdtion#instbndfFollowRfdirfdts
+     * @sff #gftInstbndfFollowRfdirfdts
+     * @sindf 1.3
+     */
+     publid void sftInstbndfFollowRfdirfdts(boolfbn followRfdirfdts) {
+        instbndfFollowRfdirfdts = followRfdirfdts;
+     }
+
+     /**
+     * Rfturns thf vbluf of this {@dodf HttpURLConnfdtion}'s
+     * {@dodf instbndfFollowRfdirfdts} fifld.
+     *
+     * @rfturn  thf vbluf of this {@dodf HttpURLConnfdtion}'s
+     *          {@dodf instbndfFollowRfdirfdts} fifld.
+     * @sff     jbvb.nft.HttpURLConnfdtion#instbndfFollowRfdirfdts
+     * @sff #sftInstbndfFollowRfdirfdts(boolfbn)
+     * @sindf 1.3
+     */
+     publid boolfbn gftInstbndfFollowRfdirfdts() {
+         rfturn instbndfFollowRfdirfdts;
+     }
+
+    /**
+     * Sft thf mfthod for thf URL rfqufst, onf of:
+     * <UL>
+     *  <LI>GET
+     *  <LI>POST
+     *  <LI>HEAD
+     *  <LI>OPTIONS
+     *  <LI>PUT
+     *  <LI>DELETE
+     *  <LI>TRACE
+     * </UL> brf lfgbl, subjfdt to protodol rfstridtions.  Thf dffbult
+     * mfthod is GET.
+     *
+     * @pbrbm mfthod thf HTTP mfthod
+     * @fxdfption ProtodolExdfption if thf mfthod dbnnot bf rfsft or if
+     *              thf rfqufstfd mfthod isn't vblid for HTTP.
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is sft bnd thf
+     *              mfthod is "TRACE", but thf "bllowHttpTrbdf"
+     *              NftPfrmission is not grbntfd.
+     * @sff #gftRfqufstMfthod()
+     */
+    publid void sftRfqufstMfthod(String mfthod) throws ProtodolExdfption {
+        if (donnfdtfd) {
+            throw nfw ProtodolExdfption("Cbn't rfsft mfthod: blrfbdy donnfdtfd");
+        }
+        // This rfstridtion will prfvfnt pfoplf from using this dlbss to
+        // fxpfrimfnt w/ nfw HTTP mfthods using jbvb.  But it should
+        // bf plbdfd for sfdurity - thf rfqufst String dould bf
+        // brbitrbrily long.
+
+        for (int i = 0; i < mfthods.lfngth; i++) {
+            if (mfthods[i].fqubls(mfthod)) {
+                if (mfthod.fqubls("TRACE")) {
+                    SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+                    if (s != null) {
+                        s.dhfdkPfrmission(nfw NftPfrmission("bllowHttpTrbdf"));
+                    }
+                }
+                this.mfthod = mfthod;
+                rfturn;
+            }
+        }
+        throw nfw ProtodolExdfption("Invblid HTTP mfthod: " + mfthod);
+    }
+
+    /**
+     * Gft thf rfqufst mfthod.
+     * @rfturn thf HTTP rfqufst mfthod
+     * @sff #sftRfqufstMfthod(jbvb.lbng.String)
+     */
+    publid String gftRfqufstMfthod() {
+        rfturn mfthod;
+    }
+
+    /**
+     * Gfts thf stbtus dodf from bn HTTP rfsponsf mfssbgf.
+     * For fxbmplf, in thf dbsf of thf following stbtus linfs:
+     * <PRE>
+     * HTTP/1.0 200 OK
+     * HTTP/1.0 401 Unbuthorizfd
+     * </PRE>
+     * It will rfturn 200 bnd 401 rfspfdtivfly.
+     * Rfturns -1 if no dodf dbn bf disdfrnfd
+     * from thf rfsponsf (i.f., thf rfsponsf is not vblid HTTP).
+     * @throws IOExdfption if bn frror oddurrfd donnfdting to thf sfrvfr.
+     * @rfturn thf HTTP Stbtus-Codf, or -1
+     */
+    publid int gftRfsponsfCodf() throws IOExdfption {
+        /*
+         * Wf'rf got thf rfsponsf dodf blrfbdy
+         */
+        if (rfsponsfCodf != -1) {
+            rfturn rfsponsfCodf;
+        }
+
+        /*
+         * Ensurf thbt wf hbvf donnfdtfd to thf sfrvfr. Rfdord
+         * fxdfption bs wf nffd to rf-throw it if thfrf isn't
+         * b stbtus linf.
+         */
+        Exdfption fxd = null;
+        try {
+            gftInputStrfbm();
+        } dbtdh (Exdfption f) {
+            fxd = f;
+        }
+
+        /*
+         * If wf dbn't b stbtus-linf thfn rf-throw bny fxdfption
+         * thbt gftInputStrfbm thrfw.
+         */
+        String stbtusLinf = gftHfbdfrFifld(0);
+        if (stbtusLinf == null) {
+            if (fxd != null) {
+                if (fxd instbndfof RuntimfExdfption)
+                    throw (RuntimfExdfption)fxd;
+                flsf
+                    throw (IOExdfption)fxd;
+            }
+            rfturn -1;
+        }
+
+        /*
+         * Exbminf thf stbtus-linf - should bf formbttfd bs pfr
+         * sfdtion 6.1 of RFC 2616 :-
+         *
+         * Stbtus-Linf = HTTP-Vfrsion SP Stbtus-Codf SP Rfbson-Phrbsf
+         *
+         * If stbtus linf dbn't bf pbrsfd rfturn -1.
+         */
+        if (stbtusLinf.stbrtsWith("HTTP/1.")) {
+            int dodfPos = stbtusLinf.indfxOf(' ');
+            if (dodfPos > 0) {
+
+                int phrbsfPos = stbtusLinf.indfxOf(' ', dodfPos+1);
+                if (phrbsfPos > 0 && phrbsfPos < stbtusLinf.lfngth()) {
+                    rfsponsfMfssbgf = stbtusLinf.substring(phrbsfPos+1);
+                }
+
+                // dfvibtion from RFC 2616 - don't rfjfdt stbtus linf
+                // if SP Rfbson-Phrbsf is not indludfd.
+                if (phrbsfPos < 0)
+                    phrbsfPos = stbtusLinf.lfngth();
+
+                try {
+                    rfsponsfCodf = Intfgfr.pbrsfInt
+                            (stbtusLinf.substring(dodfPos+1, phrbsfPos));
+                    rfturn rfsponsfCodf;
+                } dbtdh (NumbfrFormbtExdfption f) { }
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Gfts thf HTTP rfsponsf mfssbgf, if bny, rfturnfd blong with thf
+     * rfsponsf dodf from b sfrvfr.  From rfsponsfs likf:
+     * <PRE>
+     * HTTP/1.0 200 OK
+     * HTTP/1.0 404 Not Found
+     * </PRE>
+     * Extrbdts thf Strings "OK" bnd "Not Found" rfspfdtivfly.
+     * Rfturns null if nonf dould bf disdfrnfd from thf rfsponsfs
+     * (thf rfsult wbs not vblid HTTP).
+     * @throws IOExdfption if bn frror oddurrfd donnfdting to thf sfrvfr.
+     * @rfturn thf HTTP rfsponsf mfssbgf, or {@dodf null}
+     */
+    publid String gftRfsponsfMfssbgf() throws IOExdfption {
+        gftRfsponsfCodf();
+        rfturn rfsponsfMfssbgf;
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        String dbtfString = gftHfbdfrFifld(nbmf);
+        try {
+            if (dbtfString.indfxOf("GMT") == -1) {
+                dbtfString = dbtfString+" GMT";
+            }
+            rfturn Dbtf.pbrsf(dbtfString);
+        } dbtdh (Exdfption f) {
+        }
+        rfturn Dffbult;
+    }
+
+
+    /**
+     * Indidbtfs thbt othfr rfqufsts to thf sfrvfr
+     * brf unlikfly in thf nfbr futurf. Cblling disdonnfdt()
+     * should not imply thbt this HttpURLConnfdtion
+     * instbndf dbn bf rfusfd for othfr rfqufsts.
+     */
+    publid bbstrbdt void disdonnfdt();
+
+    /**
+     * Indidbtfs if thf donnfdtion is going through b proxy.
+     * @rfturn b boolfbn indidbting if thf donnfdtion is
+     * using b proxy.
+     */
+    publid bbstrbdt boolfbn usingProxy();
+
+    /**
+     * Rfturns b {@link SodkftPfrmission} objfdt rfprfsfnting thf
+     * pfrmission nfdfssbry to donnfdt to thf dfstinbtion host bnd port.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs whilf domputing
+     *            thf pfrmission.
+     *
+     * @rfturn b {@dodf SodkftPfrmission} objfdt rfprfsfnting thf
+     *         pfrmission nfdfssbry to donnfdt to thf dfstinbtion
+     *         host bnd port.
+     */
+    publid Pfrmission gftPfrmission() throws IOExdfption {
+        int port = url.gftPort();
+        port = port < 0 ? 80 : port;
+        String host = url.gftHost() + ":" + port;
+        Pfrmission pfrmission = nfw SodkftPfrmission(host, "donnfdt");
+        rfturn pfrmission;
+    }
+
+   /**
+    * Rfturns thf frror strfbm if thf donnfdtion fbilfd
+    * but thf sfrvfr sfnt usfful dbtb nonfthflfss. Thf
+    * typidbl fxbmplf is whfn bn HTTP sfrvfr rfsponds
+    * with b 404, whidh will dbusf b FilfNotFoundExdfption
+    * to bf thrown in donnfdt, but thf sfrvfr sfnt bn HTML
+    * hflp pbgf with suggfstions bs to whbt to do.
+    *
+    * <p>This mfthod will not dbusf b donnfdtion to bf initibtfd.  If
+    * thf donnfdtion wbs not donnfdtfd, or if thf sfrvfr did not hbvf
+    * bn frror whilf donnfdting or if thf sfrvfr hbd bn frror but
+    * no frror dbtb wbs sfnt, this mfthod will rfturn null. This is
+    * thf dffbult.
+    *
+    * @rfturn bn frror strfbm if bny, null if thfrf hbvf bffn no
+    * frrors, thf donnfdtion is not donnfdtfd or thf sfrvfr sfnt no
+    * usfful dbtb.
+    */
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn null;
+    }
+
+    /**
+     * Thf rfsponsf dodfs for HTTP, bs of vfrsion 1.1.
+     */
+
+    // REMIND: do wf wbnt bll thfsf??
+    // Othfrs not hfrf thbt wf do wbnt??
+
+    /* 2XX: gfnfrblly "OK" */
+
+    /**
+     * HTTP Stbtus-Codf 200: OK.
+     */
+    publid stbtid finbl int HTTP_OK = 200;
+
+    /**
+     * HTTP Stbtus-Codf 201: Crfbtfd.
+     */
+    publid stbtid finbl int HTTP_CREATED = 201;
+
+    /**
+     * HTTP Stbtus-Codf 202: Addfptfd.
+     */
+    publid stbtid finbl int HTTP_ACCEPTED = 202;
+
+    /**
+     * HTTP Stbtus-Codf 203: Non-Authoritbtivf Informbtion.
+     */
+    publid stbtid finbl int HTTP_NOT_AUTHORITATIVE = 203;
+
+    /**
+     * HTTP Stbtus-Codf 204: No Contfnt.
+     */
+    publid stbtid finbl int HTTP_NO_CONTENT = 204;
+
+    /**
+     * HTTP Stbtus-Codf 205: Rfsft Contfnt.
+     */
+    publid stbtid finbl int HTTP_RESET = 205;
+
+    /**
+     * HTTP Stbtus-Codf 206: Pbrtibl Contfnt.
+     */
+    publid stbtid finbl int HTTP_PARTIAL = 206;
+
+    /* 3XX: rflodbtion/rfdirfdt */
+
+    /**
+     * HTTP Stbtus-Codf 300: Multiplf Choidfs.
+     */
+    publid stbtid finbl int HTTP_MULT_CHOICE = 300;
+
+    /**
+     * HTTP Stbtus-Codf 301: Movfd Pfrmbnfntly.
+     */
+    publid stbtid finbl int HTTP_MOVED_PERM = 301;
+
+    /**
+     * HTTP Stbtus-Codf 302: Tfmporbry Rfdirfdt.
+     */
+    publid stbtid finbl int HTTP_MOVED_TEMP = 302;
+
+    /**
+     * HTTP Stbtus-Codf 303: Sff Othfr.
+     */
+    publid stbtid finbl int HTTP_SEE_OTHER = 303;
+
+    /**
+     * HTTP Stbtus-Codf 304: Not Modififd.
+     */
+    publid stbtid finbl int HTTP_NOT_MODIFIED = 304;
+
+    /**
+     * HTTP Stbtus-Codf 305: Usf Proxy.
+     */
+    publid stbtid finbl int HTTP_USE_PROXY = 305;
+
+    /* 4XX: dlifnt frror */
+
+    /**
+     * HTTP Stbtus-Codf 400: Bbd Rfqufst.
+     */
+    publid stbtid finbl int HTTP_BAD_REQUEST = 400;
+
+    /**
+     * HTTP Stbtus-Codf 401: Unbuthorizfd.
+     */
+    publid stbtid finbl int HTTP_UNAUTHORIZED = 401;
+
+    /**
+     * HTTP Stbtus-Codf 402: Pbymfnt Rfquirfd.
+     */
+    publid stbtid finbl int HTTP_PAYMENT_REQUIRED = 402;
+
+    /**
+     * HTTP Stbtus-Codf 403: Forbiddfn.
+     */
+    publid stbtid finbl int HTTP_FORBIDDEN = 403;
+
+    /**
+     * HTTP Stbtus-Codf 404: Not Found.
+     */
+    publid stbtid finbl int HTTP_NOT_FOUND = 404;
+
+    /**
+     * HTTP Stbtus-Codf 405: Mfthod Not Allowfd.
+     */
+    publid stbtid finbl int HTTP_BAD_METHOD = 405;
+
+    /**
+     * HTTP Stbtus-Codf 406: Not Addfptbblf.
+     */
+    publid stbtid finbl int HTTP_NOT_ACCEPTABLE = 406;
+
+    /**
+     * HTTP Stbtus-Codf 407: Proxy Authfntidbtion Rfquirfd.
+     */
+    publid stbtid finbl int HTTP_PROXY_AUTH = 407;
+
+    /**
+     * HTTP Stbtus-Codf 408: Rfqufst Timf-Out.
+     */
+    publid stbtid finbl int HTTP_CLIENT_TIMEOUT = 408;
+
+    /**
+     * HTTP Stbtus-Codf 409: Conflidt.
+     */
+    publid stbtid finbl int HTTP_CONFLICT = 409;
+
+    /**
+     * HTTP Stbtus-Codf 410: Gonf.
+     */
+    publid stbtid finbl int HTTP_GONE = 410;
+
+    /**
+     * HTTP Stbtus-Codf 411: Lfngth Rfquirfd.
+     */
+    publid stbtid finbl int HTTP_LENGTH_REQUIRED = 411;
+
+    /**
+     * HTTP Stbtus-Codf 412: Prfdondition Fbilfd.
+     */
+    publid stbtid finbl int HTTP_PRECON_FAILED = 412;
+
+    /**
+     * HTTP Stbtus-Codf 413: Rfqufst Entity Too Lbrgf.
+     */
+    publid stbtid finbl int HTTP_ENTITY_TOO_LARGE = 413;
+
+    /**
+     * HTTP Stbtus-Codf 414: Rfqufst-URI Too Lbrgf.
+     */
+    publid stbtid finbl int HTTP_REQ_TOO_LONG = 414;
+
+    /**
+     * HTTP Stbtus-Codf 415: Unsupportfd Mfdib Typf.
+     */
+    publid stbtid finbl int HTTP_UNSUPPORTED_TYPE = 415;
+
+    /* 5XX: sfrvfr frror */
+
+    /**
+     * HTTP Stbtus-Codf 500: Intfrnbl Sfrvfr Error.
+     * @dfprfdbtfd   it is misplbdfd bnd shouldn't hbvf fxistfd.
+     */
+    @Dfprfdbtfd
+    publid stbtid finbl int HTTP_SERVER_ERROR = 500;
+
+    /**
+     * HTTP Stbtus-Codf 500: Intfrnbl Sfrvfr Error.
+     */
+    publid stbtid finbl int HTTP_INTERNAL_ERROR = 500;
+
+    /**
+     * HTTP Stbtus-Codf 501: Not Implfmfntfd.
+     */
+    publid stbtid finbl int HTTP_NOT_IMPLEMENTED = 501;
+
+    /**
+     * HTTP Stbtus-Codf 502: Bbd Gbtfwby.
+     */
+    publid stbtid finbl int HTTP_BAD_GATEWAY = 502;
+
+    /**
+     * HTTP Stbtus-Codf 503: Sfrvidf Unbvbilbblf.
+     */
+    publid stbtid finbl int HTTP_UNAVAILABLE = 503;
+
+    /**
+     * HTTP Stbtus-Codf 504: Gbtfwby Timfout.
+     */
+    publid stbtid finbl int HTTP_GATEWAY_TIMEOUT = 504;
+
+    /**
+     * HTTP Stbtus-Codf 505: HTTP Vfrsion Not Supportfd.
+     */
+    publid stbtid finbl int HTTP_VERSION = 505;
+
+}

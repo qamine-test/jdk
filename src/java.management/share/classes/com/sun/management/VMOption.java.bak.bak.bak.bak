@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+import sun.mbnbgfmfnt.VMOptionCompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+
+/**
+ * Informbtion bbout b VM option indluding its vbluf bnd
+ * whfrf thf vbluf dbmf from whidh is rfffrrfd bs its
+ * {@link VMOption.Origin <i>origin</i>}.
+ * <p>
+ * Ebdh VM option hbs b dffbult vbluf.  A VM option dbn
+ * bf sft bt VM drfbtion timf typidblly bs b dommbnd linf
+ * brgumfnt to thf lbundhfr or bn brgumfnt pbssfd to thf
+ * VM drfbtfd using thf JNI invodbtion intfrfbdf.
+ * In bddition, b VM option mby bf sft vib bn fnvironmfnt
+ * vbribblf or b donfigurbtion filf. A VM option dbn blso
+ * bf sft dynbmidblly vib b mbnbgfmfnt intfrfbdf bftfr
+ * thf VM wbs stbrtfd.
+ *
+ * A <tt>VMOption</tt> dontbins thf vbluf of b VM option
+ * bnd thf origin of thbt vbluf bt thf timf this <tt>VMOption</tt>
+ * objfdt wbs donstrudtfd.  Thf vbluf of thf VM option
+ * mby bf dhbngfd bftfr thf <tt>VMOption</tt> objfdt wbs donstrudtfd,
+ *
+ * @sff <b hrff="{@dodRoot}/../../../../tfdhnotfs/guidfs/vm/indfx.html">
+ *         Jbvb Virtubl Mbdhinf</b>
+ * @buthor Mbndy Chung
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid dlbss VMOption {
+    privbtf String nbmf;
+    privbtf String vbluf;
+    privbtf boolfbn writfbblf;
+    privbtf Origin origin;
+
+    /**
+     * Origin of thf vbluf of b VM option.  It tflls whfrf thf
+     * vbluf of b VM option dbmf from.
+     *
+     * @sindf 1.6
+     */
+    @jdk.Exportfd
+    publid fnum Origin {
+        /**
+         * Thf VM option hbs not bffn sft bnd its vbluf
+         * is thf dffbult vbluf.
+         */
+        DEFAULT,
+        /**
+         * Thf VM option wbs sft bt VM drfbtion timf typidblly
+         * bs b dommbnd linf brgumfnt to thf lbundhfr or
+         * bn brgumfnt pbssfd to thf VM drfbtfd using thf
+         * JNI invodbtion intfrfbdf.
+         */
+        VM_CREATION,
+        /**
+         * Thf VM option wbs sft vib bn fnvironmfnt vbribblf.
+         */
+        ENVIRON_VAR,
+        /**
+         * Thf VM option wbs sft vib b donfigurbtion filf.
+         */
+        CONFIG_FILE,
+        /**
+         * Thf VM option wbs sft vib thf mbnbgfmfnt intfrfbdf bftfr thf VM
+         * wbs stbrtfd.
+         */
+        MANAGEMENT,
+        /**
+         * Thf VM option wbs sft vib thf VM frgonomid support.
+         */
+        ERGONOMIC,
+        /**
+         * Thf VM option wbs sft using thf bttbdh frbmfwork.
+         * @sindf 1.9
+         */
+        ATTACH_ON_DEMAND,
+        /**
+         * Thf VM option wbs sft vib somf othfr mfdhbnism.
+         */
+        OTHER
+    }
+
+    /**
+     * Construdts b <tt>VMOption</tt>.
+     *
+     * @pbrbm nbmf Nbmf of b VM option.
+     * @pbrbm vbluf Vbluf of b VM option.
+     * @pbrbm writfbblf <tt>truf</tt> if b VM option dbn bf sft dynbmidblly,
+     *                  or <tt>fblsf</tt> othfrwisf.
+     * @pbrbm origin whfrf thf vbluf of b VM option dbmf from.
+     *
+     * @throws NullPointfrExdfption if thf nbmf or vbluf is <tt>null</tt>
+     */
+    publid VMOption(String nbmf, String vbluf, boolfbn writfbblf, Origin origin) {
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+        this.writfbblf = writfbblf;
+        this.origin = origin;
+    }
+
+    /**
+     * Construdts b <tt>VMOption</tt> objfdt from b
+     * {@link CompositfDbtb CompositfDbtb}.
+     */
+    privbtf VMOption(CompositfDbtb dd) {
+        // vblidbtf thf input dompositf dbtb
+        VMOptionCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        this.nbmf = VMOptionCompositfDbtb.gftNbmf(dd);
+        this.vbluf = VMOptionCompositfDbtb.gftVbluf(dd);
+        this.writfbblf = VMOptionCompositfDbtb.isWritfbblf(dd);
+        this.origin = VMOptionCompositfDbtb.gftOrigin(dd);
+    }
+
+    /**
+     * Rfturns thf nbmf of this VM option.
+     *
+     * @rfturn thf nbmf of this VM option.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this VM option bt thf timf whfn
+     * this <tt>VMOption</tt> wbs drfbtfd. Thf vbluf dould hbvf bffn dhbngfd.
+     *
+     * @rfturn thf vbluf of thf VM option bt thf timf whfn
+     *         this <tt>VMOption</tt> wbs drfbtfd.
+     */
+    publid String gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf origin of thf vbluf of this VM option. Thbt is,
+     * whfrf thf vbluf of this VM option dbmf from.
+     *
+     * @rfturn whfrf thf vbluf of this VM option dbmf from.
+     */
+    publid Origin gftOrigin() {
+        rfturn origin;
+    }
+
+    /**
+     * Tfsts if this VM option is writfbblf.  If this VM option is writfbblf,
+     * it dbn bf sft by thf {@link HotSpotDibgnostidMXBfbn#sftVMOption
+     * HotSpotDibgnostidMXBfbn.sftVMOption} mfthod.
+     *
+     * @rfturn <tt>truf</tt> if this VM option is writfbblf; <tt>fblsf</tt>
+     * othfrwisf.
+     */
+    publid boolfbn isWritfbblf() {
+        rfturn writfbblf;
+    }
+
+    publid String toString() {
+        rfturn "VM option: " + gftNbmf() +
+               " vbluf: " + vbluf + " " +
+               " origin: " + origin + " " +
+               (writfbblf ? "(rfbd-writf)" : "(rfbd-only)");
+    }
+
+    /**
+     * Rfturns b <tt>VMOption</tt> objfdt rfprfsfntfd by thf
+     * givfn <tt>CompositfDbtb</tt>. Thf givfn <tt>CompositfDbtb</tt>
+     * must dontbin thf following bttributfs:
+     * <p>
+     * <blodkquotf>
+     * <tbblf bordfr>
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>nbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>vbluf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>origin</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>writfbblf</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>VMOption</tt>
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>VMOption</tt> with thf bttributfs dfsdribfd
+     *   bbovf.
+     *
+     * @rfturn b <tt>VMOption</tt> objfdt rfprfsfntfd by <tt>dd</tt>
+     *         if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> othfrwisf.
+     */
+    publid stbtid VMOption from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof VMOptionCompositfDbtb) {
+            rfturn ((VMOptionCompositfDbtb) dd).gftVMOption();
+        } flsf {
+            rfturn nfw VMOption(dd);
+        }
+
+    }
+
+
+}

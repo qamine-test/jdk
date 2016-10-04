@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.event;
+pbdkbgf jbvbx.nbming.fvfnt;
 
-import javax.naming.Binding;
+import jbvbx.nbming.Binding;
 
 /**
-  * This class represents an event fired by a naming/directory service.
+  * Tiis dlbss rfprfsfnts bn fvfnt firfd by b nbming/dirfdtory sfrvidf.
   *<p>
-  * The <tt>NamingEvent</tt>'s state consists of
+  * Tif <tt>NbmingEvfnt</tt>'s stbtf donsists of
   * <ul>
-  * <li>The event source: the <tt>EventContext</tt> which fired this event.
-  * <li>The event type.
-  * <li>The new binding: information about the object after the change.
-  * <li>The old binding: information about the object before the change.
-  * <li>Change information: information about the change
-  * that triggered this event; usually service provider-specific or server-specific
-  * information.
+  * <li>Tif fvfnt sourdf: tif <tt>EvfntContfxt</tt> wiidi firfd tiis fvfnt.
+  * <li>Tif fvfnt typf.
+  * <li>Tif nfw binding: informbtion bbout tif objfdt bftfr tif dibngf.
+  * <li>Tif old binding: informbtion bbout tif objfdt bfforf tif dibngf.
+  * <li>Cibngf informbtion: informbtion bbout tif dibngf
+  * tibt triggfrfd tiis fvfnt; usublly sfrvidf providfr-spfdifid or sfrvfr-spfdifid
+  * informbtion.
   * </ul>
   * <p>
-  * Note that the event source is always the same <tt>EventContext</tt>
-  * <em>instance</em>  that the listener has registered with.
-  * Furthermore, the names of the bindings in
-  * the <tt>NamingEvent</tt> are always relative to that instance.
-  * For example, suppose a listener makes the following registration:
-  *<blockquote><pre>
-  *     NamespaceChangeListener listener = ...;
-  *     src.addNamingListener("x", SUBTREE_SCOPE, listener);
-  *</pre></blockquote>
-  * When an object named "x/y" is subsequently deleted, the corresponding
-  * <tt>NamingEvent</tt> (<tt>evt</tt>) must contain:
-  *<blockquote><pre>
-  *     evt.getEventContext() == src
-  *     evt.getOldBinding().getName().equals("x/y")
-  *</pre></blockquote>
+  * Notf tibt tif fvfnt sourdf is blwbys tif sbmf <tt>EvfntContfxt</tt>
+  * <fm>instbndf</fm>  tibt tif listfnfr ibs rfgistfrfd witi.
+  * Furtifrmorf, tif nbmfs of tif bindings in
+  * tif <tt>NbmingEvfnt</tt> brf blwbys rflbtivf to tibt instbndf.
+  * For fxbmplf, supposf b listfnfr mbkfs tif following rfgistrbtion:
+  *<blodkquotf><prf>
+  *     NbmfspbdfCibngfListfnfr listfnfr = ...;
+  *     srd.bddNbmingListfnfr("x", SUBTREE_SCOPE, listfnfr);
+  *</prf></blodkquotf>
+  * Wifn bn objfdt nbmfd "x/y" is subsfqufntly dflftfd, tif dorrfsponding
+  * <tt>NbmingEvfnt</tt> (<tt>fvt</tt>) must dontbin:
+  *<blodkquotf><prf>
+  *     fvt.gftEvfntContfxt() == srd
+  *     fvt.gftOldBinding().gftNbmf().fqubls("x/y")
+  *</prf></blodkquotf>
   *
-  * Care must be taken when multiple threads are accessing the same
-  * <tt>EventContext</tt> concurrently.
-  * See the
-  * <a href=package-summary.html#THREADING>package description</a>
-  * for more information on threading issues.
+  * Cbrf must bf tbkfn wifn multiplf tirfbds brf bddfssing tif sbmf
+  * <tt>EvfntContfxt</tt> dondurrfntly.
+  * Sff tif
+  * <b irff=pbdkbgf-summbry.itml#THREADING>pbdkbgf dfsdription</b>
+  * for morf informbtion on tirfbding issufs.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see NamingListener
-  * @see EventContext
-  * @since 1.3
+  * @sff NbmingListfnfr
+  * @sff EvfntContfxt
+  * @sindf 1.3
   */
-public class NamingEvent extends java.util.EventObject {
+publid dlbss NbmingEvfnt fxtfnds jbvb.util.EvfntObjfdt {
     /**
-     * Naming event type for indicating that a new object has been added.
-     * The value of this constant is <tt>0</tt>.
+     * Nbming fvfnt typf for indidbting tibt b nfw objfdt ibs bffn bddfd.
+     * Tif vbluf of tiis donstbnt is <tt>0</tt>.
      */
-    public static final int OBJECT_ADDED = 0;
+    publid stbtid finbl int OBJECT_ADDED = 0;
 
     /**
-     * Naming event type for indicating that an object has been removed.
-     * The value of this constant is <tt>1</tt>.
+     * Nbming fvfnt typf for indidbting tibt bn objfdt ibs bffn rfmovfd.
+     * Tif vbluf of tiis donstbnt is <tt>1</tt>.
      */
-    public static final int OBJECT_REMOVED = 1;
+    publid stbtid finbl int OBJECT_REMOVED = 1;
 
     /**
-     * Naming event type for indicating that an object has been renamed.
-     * Note that some services might fire multiple events for a single
-     * logical rename operation. For example, the rename operation might
-     * be implemented by adding a binding with the new name and removing
-     * the old binding.
+     * Nbming fvfnt typf for indidbting tibt bn objfdt ibs bffn rfnbmfd.
+     * Notf tibt somf sfrvidfs migit firf multiplf fvfnts for b singlf
+     * logidbl rfnbmf opfrbtion. For fxbmplf, tif rfnbmf opfrbtion migit
+     * bf implfmfntfd by bdding b binding witi tif nfw nbmf bnd rfmoving
+     * tif old binding.
      *<p>
-     * The old/new binding in <tt>NamingEvent</tt> may be null if the old
-     * name or new name is outside of the scope for which the listener
-     * has registered.
+     * Tif old/nfw binding in <tt>NbmingEvfnt</tt> mby bf null if tif old
+     * nbmf or nfw nbmf is outsidf of tif sdopf for wiidi tif listfnfr
+     * ibs rfgistfrfd.
      *<p>
-     * When an interior node in the namespace tree has been renamed, the
-     * topmost node which is part of the listener's scope should used to generate
-     * a rename event. The extent to which this can be supported is
-     * provider-specific. For example, a service might generate rename
-     * notifications for all descendants of the changed interior node and the
-     * corresponding provider might not be able to prevent those
-     * notifications from being propagated to the listeners.
+     * Wifn bn intfrior nodf in tif nbmfspbdf trff ibs bffn rfnbmfd, tif
+     * topmost nodf wiidi is pbrt of tif listfnfr's sdopf siould usfd to gfnfrbtf
+     * b rfnbmf fvfnt. Tif fxtfnt to wiidi tiis dbn bf supportfd is
+     * providfr-spfdifid. For fxbmplf, b sfrvidf migit gfnfrbtf rfnbmf
+     * notifidbtions for bll dfsdfndbnts of tif dibngfd intfrior nodf bnd tif
+     * dorrfsponding providfr migit not bf bblf to prfvfnt tiosf
+     * notifidbtions from bfing propbgbtfd to tif listfnfrs.
      *<p>
-     * The value of this constant is <tt>2</tt>.
+     * Tif vbluf of tiis donstbnt is <tt>2</tt>.
      */
-    public static final int OBJECT_RENAMED = 2;
+    publid stbtid finbl int OBJECT_RENAMED = 2;
 
     /**
-     * Naming event type for indicating that an object has been changed.
-     * The changes might include the object's attributes, or the object itself.
-     * Note that some services might fire multiple events for a single
-     * modification. For example, the modification might
-     * be implemented by first removing the old binding and adding
-     * a new binding containing the same name but a different object.
+     * Nbming fvfnt typf for indidbting tibt bn objfdt ibs bffn dibngfd.
+     * Tif dibngfs migit indludf tif objfdt's bttributfs, or tif objfdt itsflf.
+     * Notf tibt somf sfrvidfs migit firf multiplf fvfnts for b singlf
+     * modifidbtion. For fxbmplf, tif modifidbtion migit
+     * bf implfmfntfd by first rfmoving tif old binding bnd bdding
+     * b nfw binding dontbining tif sbmf nbmf but b difffrfnt objfdt.
      *<p>
-     * The value of this constant is <tt>3</tt>.
+     * Tif vbluf of tiis donstbnt is <tt>3</tt>.
      */
-    public static final int OBJECT_CHANGED = 3;
+    publid stbtid finbl int OBJECT_CHANGED = 3;
 
     /**
-     * Contains information about the change that generated this event.
-     * @serial
+     * Contbins informbtion bbout tif dibngf tibt gfnfrbtfd tiis fvfnt.
+     * @sfribl
      */
-    protected Object changeInfo;
+    protfdtfd Objfdt dibngfInfo;
 
     /**
-     * Contains the type of this event.
-     * @see #OBJECT_ADDED
-     * @see #OBJECT_REMOVED
-     * @see #OBJECT_RENAMED
-     * @see #OBJECT_CHANGED
-     * @serial
+     * Contbins tif typf of tiis fvfnt.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
+     * @sfribl
      */
-    protected int type;
+    protfdtfd int typf;
 
     /**
-     * Contains information about the object before the change.
-     * @serial
+     * Contbins informbtion bbout tif objfdt bfforf tif dibngf.
+     * @sfribl
      */
-    protected Binding oldBinding;
+    protfdtfd Binding oldBinding;
 
     /**
-     * Contains information about the object after the change.
-     * @serial
+     * Contbins informbtion bbout tif objfdt bftfr tif dibngf.
+     * @sfribl
      */
-    protected Binding newBinding;
+    protfdtfd Binding nfwBinding;
 
     /**
-     * Constructs an instance of <tt>NamingEvent</tt>.
+     * Construdts bn instbndf of <tt>NbmingEvfnt</tt>.
      *<p>
-     * The names in <tt>newBd</tt> and <tt>oldBd</tt> are to be resolved relative
-     * to the event source <tt>source</tt>.
+     * Tif nbmfs in <tt>nfwBd</tt> bnd <tt>oldBd</tt> brf to bf rfsolvfd rflbtivf
+     * to tif fvfnt sourdf <tt>sourdf</tt>.
      *
-     * For an <tt>OBJECT_ADDED</tt> event type, <tt>newBd</tt> must not be null.
-     * For an <tt>OBJECT_REMOVED</tt> event type, <tt>oldBd</tt> must not be null.
-     * For an <tt>OBJECT_CHANGED</tt> event type,  <tt>newBd</tt> and
-     * <tt>oldBd</tt> must not be null. For  an <tt>OBJECT_RENAMED</tt> event type,
-     * one of <tt>newBd</tt> or <tt>oldBd</tt> may be null if the new or old
-     * binding is outside of the scope for which the listener has registered.
+     * For bn <tt>OBJECT_ADDED</tt> fvfnt typf, <tt>nfwBd</tt> must not bf null.
+     * For bn <tt>OBJECT_REMOVED</tt> fvfnt typf, <tt>oldBd</tt> must not bf null.
+     * For bn <tt>OBJECT_CHANGED</tt> fvfnt typf,  <tt>nfwBd</tt> bnd
+     * <tt>oldBd</tt> must not bf null. For  bn <tt>OBJECT_RENAMED</tt> fvfnt typf,
+     * onf of <tt>nfwBd</tt> or <tt>oldBd</tt> mby bf null if tif nfw or old
+     * binding is outsidf of tif sdopf for wiidi tif listfnfr ibs rfgistfrfd.
      *
-     * @param source The non-null context that fired this event.
-     * @param type The type of the event.
-     * @param newBd A possibly null binding before the change. See method description.
-     * @param oldBd A possibly null binding after the change. See method description.
-     * @param changeInfo A possibly null object containing information about the change.
-     * @see #OBJECT_ADDED
-     * @see #OBJECT_REMOVED
-     * @see #OBJECT_RENAMED
-     * @see #OBJECT_CHANGED
+     * @pbrbm sourdf Tif non-null dontfxt tibt firfd tiis fvfnt.
+     * @pbrbm typf Tif typf of tif fvfnt.
+     * @pbrbm nfwBd A possibly null binding bfforf tif dibngf. Sff mftiod dfsdription.
+     * @pbrbm oldBd A possibly null binding bftfr tif dibngf. Sff mftiod dfsdription.
+     * @pbrbm dibngfInfo A possibly null objfdt dontbining informbtion bbout tif dibngf.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
      */
-    public NamingEvent(EventContext source, int type,
-        Binding newBd, Binding oldBd, Object changeInfo) {
-        super(source);
-        this.type = type;
+    publid NbmingEvfnt(EvfntContfxt sourdf, int typf,
+        Binding nfwBd, Binding oldBd, Objfdt dibngfInfo) {
+        supfr(sourdf);
+        tiis.typf = typf;
         oldBinding = oldBd;
-        newBinding = newBd;
-        this.changeInfo = changeInfo;
+        nfwBinding = nfwBd;
+        tiis.dibngfInfo = dibngfInfo;
     }
 
     /**
-     * Returns the type of this event.
-     * @return The type of this event.
-     * @see #OBJECT_ADDED
-     * @see #OBJECT_REMOVED
-     * @see #OBJECT_RENAMED
-     * @see #OBJECT_CHANGED
+     * Rfturns tif typf of tiis fvfnt.
+     * @rfturn Tif typf of tiis fvfnt.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Retrieves the event source that fired this event.
-     * This returns the same object as <tt>EventObject.getSource()</tt>.
+     * Rftrifvfs tif fvfnt sourdf tibt firfd tiis fvfnt.
+     * Tiis rfturns tif sbmf objfdt bs <tt>EvfntObjfdt.gftSourdf()</tt>.
      *<p>
-     * If the result of this method is used to access the
-     * event source, for example, to look up the object or get its attributes,
-     * then it needs to be locked  because implementations of <tt>Context</tt>
-     * are not guaranteed to be thread-safe
-     * (and <tt>EventContext</tt> is a subinterface of <tt>Context</tt>).
-     * See the
-     * <a href=package-summary.html#THREADING>package description</a>
-     * for more information on threading issues.
+     * If tif rfsult of tiis mftiod is usfd to bddfss tif
+     * fvfnt sourdf, for fxbmplf, to look up tif objfdt or gft its bttributfs,
+     * tifn it nffds to bf lodkfd  bfdbusf implfmfntbtions of <tt>Contfxt</tt>
+     * brf not gubrbntffd to bf tirfbd-sbff
+     * (bnd <tt>EvfntContfxt</tt> is b subintfrfbdf of <tt>Contfxt</tt>).
+     * Sff tif
+     * <b irff=pbdkbgf-summbry.itml#THREADING>pbdkbgf dfsdription</b>
+     * for morf informbtion on tirfbding issufs.
      *
-     * @return The non-null context that fired this event.
+     * @rfturn Tif non-null dontfxt tibt firfd tiis fvfnt.
      */
-    public EventContext getEventContext() {
-        return (EventContext)getSource();
+    publid EvfntContfxt gftEvfntContfxt() {
+        rfturn (EvfntContfxt)gftSourdf();
     }
 
     /**
-     * Retrieves the binding of the object before the change.
+     * Rftrifvfs tif binding of tif objfdt bfforf tif dibngf.
      *<p>
-     * The binding must be nonnull if the object existed before the change
-     * relative to the source context (<tt>getEventContext()</tt>).
-     * That is, it must be nonnull for <tt>OBJECT_REMOVED</tt> and
+     * Tif binding must bf nonnull if tif objfdt fxistfd bfforf tif dibngf
+     * rflbtivf to tif sourdf dontfxt (<tt>gftEvfntContfxt()</tt>).
+     * Tibt is, it must bf nonnull for <tt>OBJECT_REMOVED</tt> bnd
      * <tt>OBJECT_CHANGED</tt>.
-     * For <tt>OBJECT_RENAMED</tt>, it is null if the object before the rename
-     * is outside of the scope for which the listener has registered interest;
-     * it is nonnull if the object is inside the scope before the rename.
+     * For <tt>OBJECT_RENAMED</tt>, it is null if tif objfdt bfforf tif rfnbmf
+     * is outsidf of tif sdopf for wiidi tif listfnfr ibs rfgistfrfd intfrfst;
+     * it is nonnull if tif objfdt is insidf tif sdopf bfforf tif rfnbmf.
      *<p>
-     * The name in the binding is to be resolved relative
-     * to the event source <tt>getEventContext()</tt>.
-     * The object returned by <tt>Binding.getObject()</tt> may be null if
-     * such information is unavailable.
+     * Tif nbmf in tif binding is to bf rfsolvfd rflbtivf
+     * to tif fvfnt sourdf <tt>gftEvfntContfxt()</tt>.
+     * Tif objfdt rfturnfd by <tt>Binding.gftObjfdt()</tt> mby bf null if
+     * sudi informbtion is unbvbilbblf.
      *
-     * @return The possibly null binding of the object before the change.
+     * @rfturn Tif possibly null binding of tif objfdt bfforf tif dibngf.
      */
-    public Binding getOldBinding() {
-        return oldBinding;
+    publid Binding gftOldBinding() {
+        rfturn oldBinding;
     }
 
     /**
-     * Retrieves the binding of the object after the change.
+     * Rftrifvfs tif binding of tif objfdt bftfr tif dibngf.
      *<p>
-     * The binding must be nonnull if the object existed after the change
-     * relative to the source context (<tt>getEventContext()</tt>).
-     * That is, it must be nonnull for <tt>OBJECT_ADDED</tt> and
+     * Tif binding must bf nonnull if tif objfdt fxistfd bftfr tif dibngf
+     * rflbtivf to tif sourdf dontfxt (<tt>gftEvfntContfxt()</tt>).
+     * Tibt is, it must bf nonnull for <tt>OBJECT_ADDED</tt> bnd
      * <tt>OBJECT_CHANGED</tt>. For <tt>OBJECT_RENAMED</tt>,
-     * it is null if the object after the rename is outside the scope for
-     * which the listener registered interest; it is nonnull if the object
-     * is inside the scope after the rename.
+     * it is null if tif objfdt bftfr tif rfnbmf is outsidf tif sdopf for
+     * wiidi tif listfnfr rfgistfrfd intfrfst; it is nonnull if tif objfdt
+     * is insidf tif sdopf bftfr tif rfnbmf.
      *<p>
-     * The name in the binding is to be resolved relative
-     * to the event source <tt>getEventContext()</tt>.
-     * The object returned by <tt>Binding.getObject()</tt> may be null if
-     * such information is unavailable.
+     * Tif nbmf in tif binding is to bf rfsolvfd rflbtivf
+     * to tif fvfnt sourdf <tt>gftEvfntContfxt()</tt>.
+     * Tif objfdt rfturnfd by <tt>Binding.gftObjfdt()</tt> mby bf null if
+     * sudi informbtion is unbvbilbblf.
      *
-     * @return The possibly null binding of the object after the change.
+     * @rfturn Tif possibly null binding of tif objfdt bftfr tif dibngf.
      */
-    public Binding getNewBinding() {
-        return newBinding;
+    publid Binding gftNfwBinding() {
+        rfturn nfwBinding;
     }
 
     /**
-     * Retrieves the change information for this event.
-     * The value of the change information is service-specific. For example,
-     * it could be an ID that identifies the change in a change log on the server.
+     * Rftrifvfs tif dibngf informbtion for tiis fvfnt.
+     * Tif vbluf of tif dibngf informbtion is sfrvidf-spfdifid. For fxbmplf,
+     * it dould bf bn ID tibt idfntififs tif dibngf in b dibngf log on tif sfrvfr.
      *
-     * @return The possibly null change information of this event.
+     * @rfturn Tif possibly null dibngf informbtion of tiis fvfnt.
      */
-    public Object getChangeInfo() {
-        return changeInfo;
+    publid Objfdt gftCibngfInfo() {
+        rfturn dibngfInfo;
     }
 
     /**
-     * Invokes the appropriate listener method on this event.
-     * The default implementation of
-     * this method handles the following event types:
+     * Invokfs tif bppropribtf listfnfr mftiod on tiis fvfnt.
+     * Tif dffbult implfmfntbtion of
+     * tiis mftiod ibndlfs tif following fvfnt typfs:
      * <tt>OBJECT_ADDED</TT>, <TT>OBJECT_REMOVED</TT>,
      * <TT>OBJECT_RENAMED</TT>, <TT>OBJECT_CHANGED</TT>.
      *<p>
-     * The listener method is executed in the same thread
-     * as this method.  See the
-     * <a href=package-summary.html#THREADING>package description</a>
-     * for more information on threading issues.
-     * @param listener The nonnull listener.
+     * Tif listfnfr mftiod is fxfdutfd in tif sbmf tirfbd
+     * bs tiis mftiod.  Sff tif
+     * <b irff=pbdkbgf-summbry.itml#THREADING>pbdkbgf dfsdription</b>
+     * for morf informbtion on tirfbding issufs.
+     * @pbrbm listfnfr Tif nonnull listfnfr.
      */
-    public void dispatch(NamingListener listener) {
-        switch (type) {
-        case OBJECT_ADDED:
-            ((NamespaceChangeListener)listener).objectAdded(this);
-            break;
+    publid void dispbtdi(NbmingListfnfr listfnfr) {
+        switdi (typf) {
+        dbsf OBJECT_ADDED:
+            ((NbmfspbdfCibngfListfnfr)listfnfr).objfdtAddfd(tiis);
+            brfbk;
 
-        case OBJECT_REMOVED:
-            ((NamespaceChangeListener)listener).objectRemoved(this);
-            break;
+        dbsf OBJECT_REMOVED:
+            ((NbmfspbdfCibngfListfnfr)listfnfr).objfdtRfmovfd(tiis);
+            brfbk;
 
-        case OBJECT_RENAMED:
-            ((NamespaceChangeListener)listener).objectRenamed(this);
-            break;
+        dbsf OBJECT_RENAMED:
+            ((NbmfspbdfCibngfListfnfr)listfnfr).objfdtRfnbmfd(tiis);
+            brfbk;
 
-        case OBJECT_CHANGED:
-            ((ObjectChangeListener)listener).objectChanged(this);
-            break;
+        dbsf OBJECT_CHANGED:
+            ((ObjfdtCibngfListfnfr)listfnfr).objfdtCibngfd(tiis);
+            brfbk;
         }
     }
-    private static final long serialVersionUID = -7126752885365133499L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7126752885365133499L;
 }

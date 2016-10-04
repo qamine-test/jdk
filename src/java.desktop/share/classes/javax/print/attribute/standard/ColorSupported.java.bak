@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
 
 /**
- * Class ColorSupported is a printing attribute class, an enumeration, that
- * identifies whether the device is capable of any type of color printing at
- * all, including highlight color as well as full process color. All document
- * instructions having to do with color are embedded within the print data (none
- * are attributes attached to the job outside the print data).
+ * Clbss ColorSupportfd is b printing bttributf dlbss, bn fnumfrbtion, tibt
+ * idfntififs wiftifr tif dfvidf is dbpbblf of bny typf of dolor printing bt
+ * bll, indluding iigiligit dolor bs wfll bs full prodfss dolor. All dodumfnt
+ * instrudtions ibving to do witi dolor brf fmbfddfd witiin tif print dbtb (nonf
+ * brf bttributfs bttbdifd to tif job outsidf tif print dbtb).
  * <P>
- * Note: End users are able to determine the nature and details of the color
- * support by querying the {@link PrinterMoreInfoManufacturer
- * PrinterMoreInfoManufacturer} attribute.
+ * Notf: End usfrs brf bblf to dftfrminf tif nbturf bnd dftbils of tif dolor
+ * support by qufrying tif {@link PrintfrMorfInfoMbnufbdturfr
+ * PrintfrMorfInfoMbnufbdturfr} bttributf.
  * <P>
- * Don't confuse the ColorSupported attribute with the {@link Chromaticity
- * Chromaticity} attribute. {@link Chromaticity Chromaticity} is an attribute
- * the client can specify for a job to tell the printer whether to print a
- * document in monochrome or color, possibly causing the printer to print a
- * color document in monochrome. ColorSupported is a printer description
- * attribute that tells whether the printer can print in color regardless of how
- * the client specifies to print any particular document.
+ * Don't donfusf tif ColorSupportfd bttributf witi tif {@link Cirombtidity
+ * Cirombtidity} bttributf. {@link Cirombtidity Cirombtidity} is bn bttributf
+ * tif dlifnt dbn spfdify for b job to tfll tif printfr wiftifr to print b
+ * dodumfnt in monodiromf or dolor, possibly dbusing tif printfr to print b
+ * dolor dodumfnt in monodiromf. ColorSupportfd is b printfr dfsdription
+ * bttributf tibt tflls wiftifr tif printfr dbn print in dolor rfgbrdlfss of iow
+ * tif dlifnt spfdififs to print bny pbrtidulbr dodumfnt.
  * <P>
- * <B>IPP Compatibility:</B> The IPP boolean value is "true" for SUPPORTED and
- * "false" for NOT_SUPPORTED. The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> Tif IPP boolfbn vbluf is "truf" for SUPPORTED bnd
+ * "fblsf" for NOT_SUPPORTED. Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class ColorSupported extends EnumSyntax
-    implements PrintServiceAttribute {
+publid finbl dlbss ColorSupportfd fxtfnds EnumSyntbx
+    implfmfnts PrintSfrvidfAttributf {
 
-    private static final long serialVersionUID = -2700555589688535545L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2700555589688535545L;
 
     /**
-     * The printer is not capable of any type of color printing.
+     * Tif printfr is not dbpbblf of bny typf of dolor printing.
      */
-    public static final ColorSupported NOT_SUPPORTED = new ColorSupported(0);
+    publid stbtid finbl ColorSupportfd NOT_SUPPORTED = nfw ColorSupportfd(0);
 
     /**
-     * The printer is capable of some type of color printing, such as
-     * highlight color or full process color.
+     * Tif printfr is dbpbblf of somf typf of dolor printing, sudi bs
+     * iigiligit dolor or full prodfss dolor.
      */
-    public static final ColorSupported SUPPORTED = new ColorSupported(1);
+    publid stbtid finbl ColorSupportfd SUPPORTED = nfw ColorSupportfd(1);
 
     /**
-     * Construct a new color supported enumeration value with the given
-     * integer value.
+     * Construdt b nfw dolor supportfd fnumfrbtion vbluf witi tif givfn
+     * intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected ColorSupported(int value) {
-        super (value);
+    protfdtfd ColorSupportfd(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {"not-supported",
-                                                   "supported"};
+    privbtf stbtid finbl String[] myStringTbblf = {"not-supportfd",
+                                                   "supportfd"};
 
-    private static final ColorSupported[] myEnumValueTable = {NOT_SUPPORTED,
+    privbtf stbtid finbl ColorSupportfd[] myEnumVblufTbblf = {NOT_SUPPORTED,
                                                               SUPPORTED};
 
     /**
-     * Returns the string table for class ColorSupported.
+     * Rfturns tif string tbblf for dlbss ColorSupportfd.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
     }
 
     /**
-     * Returns the enumeration value table for class ColorSupported.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss ColorSupportfd.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class ColorSupported, the category is class ColorSupported itself.
+     * For dlbss ColorSupportfd, tif dbtfgory is dlbss ColorSupportfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return ColorSupported.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn ColorSupportfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class ColorSupported, the category name is <CODE>"color-supported"</CODE>.
+     * For dlbss ColorSupportfd, tif dbtfgory nbmf is <CODE>"dolor-supportfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "color-supported";
+    publid finbl String gftNbmf() {
+        rfturn "dolor-supportfd";
     }
 
 }

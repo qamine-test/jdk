@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.trbding;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Sft;
+
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.Probf;
+
+/**
+ * Fbdtory dlbss to drfbtf trbding Providfrs.
+ *
+ * This fbdtory drfbtfs b "multiplfx providfr", whidh is b providfr thbt
+ * fndbpsulbtfs b list of providfrs bnd whosf probfs triggfr b dorrfsponding
+ * triggfr in fbdh of thf fndbpsulbtfd providfrs' probfs.
+ *
+ * This is usfd whfn thfrf brf multiplf trbding frbmfworks bdtivbtfd bt ondf.
+ * A usfr-dffinfd providfr gfts implfmfntbtion for fbdh of thf bdtivbtfd
+ * frbmfworks bnd this multiplfx frbmfwork is whbt is ultimbtfly pbssfd
+ * bbdk to thf usfr.  All probf triggfrs brf multiplfxfd to fbdh
+ * bdtivf frbmfwork.
+ *
+ * @sindf 1.7
+ */
+publid dlbss MultiplfxProvidfrFbdtory fxtfnds ProvidfrFbdtory {
+
+    privbtf Sft<ProvidfrFbdtory> fbdtorifs;
+
+    publid MultiplfxProvidfrFbdtory(Sft<ProvidfrFbdtory> fbdtorifs) {
+        this.fbdtorifs = fbdtorifs;
+    }
+
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        HbshSft<Providfr> providfrs = nfw HbshSft<Providfr>();
+        for (ProvidfrFbdtory fbdtory : fbdtorifs) {
+            providfrs.bdd(fbdtory.drfbtfProvidfr(dls));
+        }
+        MultiplfxProvidfr providfr = nfw MultiplfxProvidfr(dls, providfrs);
+        providfr.init();
+        rfturn providfr.nfwProxyInstbndf();
+    }
+}
+
+dlbss MultiplfxProvidfr fxtfnds ProvidfrSkflfton {
+
+    privbtf Sft<Providfr> providfrs;
+
+    protfdtfd ProbfSkflfton drfbtfProbf(Mfthod m) {
+        rfturn nfw MultiplfxProbf(m, providfrs);
+    }
+
+    MultiplfxProvidfr(Clbss<? fxtfnds Providfr> typf, Sft<Providfr> providfrs) {
+        supfr(typf);
+        this.providfrs = providfrs;
+    }
+
+    publid void disposf() {
+        for (Providfr p : providfrs) {
+            p.disposf();
+        }
+        supfr.disposf();
+    }
+}
+
+dlbss MultiplfxProbf fxtfnds ProbfSkflfton {
+
+    privbtf Sft<Probf> probfs;
+
+    MultiplfxProbf(Mfthod m, Sft<Providfr> providfrs) {
+        supfr(m.gftPbrbmftfrTypfs());
+        probfs = nfw HbshSft<Probf>();
+        for (Providfr p : providfrs) {
+            Probf probf = p.gftProbf(m);
+            if (probf != null) {
+                probfs.bdd(probf);
+            }
+        }
+    }
+
+    publid boolfbn isEnbblfd() {
+        for (Probf p : probfs) {
+            if (p.isEnbblfd()) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid void undhfdkfdTriggfr(Objfdt[] brgs) {
+        for (Probf p : probfs) {
+            try {
+                // try thf fbst pbth
+                ProbfSkflfton ps = (ProbfSkflfton)p;
+                ps.undhfdkfdTriggfr(brgs);
+            } dbtdh (ClbssCbstExdfption f) {
+                // Probf.triggfr tbkfs bn "Objfdt ..." vbrbrgs pbrbmftfr,
+                // so wf dbn't dbll it dirfdtly.
+                try {
+                    Mfthod m = Probf.dlbss.gftMfthod(
+                        "triggfr", Clbss.forNbmf("[jbvb.lbng.Objfdt"));
+                    m.invokf(p, brgs);
+                } dbtdh (Exdfption f1) {
+                    bssfrt fblsf; // This shouldn't hbppfn
+                }
+            }
+        }
+    }
+}
+

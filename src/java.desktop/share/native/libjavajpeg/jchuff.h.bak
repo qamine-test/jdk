@@ -1,51 +1,51 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jchuff.h
+ * jdiuff.i
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains declarations for Huffman entropy encoding routines
- * that are shared between the sequential encoder (jchuff.c) and the
- * progressive encoder (jcphuff.c).  No other modules need to see these.
+ * Tiis filf dontbins dfdlbrbtions for Huffmbn fntropy fndoding routinfs
+ * tibt brf sibrfd bftwffn tif sfqufntibl fndodfr (jdiuff.d) bnd tif
+ * progrfssivf fndodfr (jdpiuff.d).  No otifr modulfs nffd to sff tifsf.
  */
 
-/* The legal range of a DCT coefficient is
- *  -1024 .. +1023  for 8-bit data;
- * -16384 .. +16383 for 12-bit data.
- * Hence the magnitude should always fit in 10 or 14 bits respectively.
+/* Tif lfgbl rbngf of b DCT dofffidifnt is
+ *  -1024 .. +1023  for 8-bit dbtb;
+ * -16384 .. +16383 for 12-bit dbtb.
+ * Hfndf tif mbgnitudf siould blwbys fit in 10 or 14 bits rfspfdtivfly.
  */
 
 #if BITS_IN_JSAMPLE == 8
-#define MAX_COEF_BITS 10
-#else
-#define MAX_COEF_BITS 14
-#endif
+#dffinf MAX_COEF_BITS 10
+#flsf
+#dffinf MAX_COEF_BITS 14
+#fndif
 
-/* Derived data constructed for each Huffman table */
+/* Dfrivfd dbtb donstrudtfd for fbdi Huffmbn tbblf */
 
-typedef struct {
-  unsigned int ehufco[256];     /* code for each symbol */
-  char ehufsi[256];             /* length of code for each symbol */
-  /* If no code has been allocated for a symbol S, ehufsi[S] contains 0 */
-} c_derived_tbl;
+typfdff strudt {
+  unsignfd int fiufdo[256];     /* dodf for fbdi symbol */
+  dibr fiufsi[256];             /* lfngti of dodf for fbdi symbol */
+  /* If no dodf ibs bffn bllodbtfd for b symbol S, fiufsi[S] dontbins 0 */
+} d_dfrivfd_tbl;
 
-/* Short forms of external names for systems with brain-damaged linkers. */
+/* Siort forms of fxtfrnbl nbmfs for systfms witi brbin-dbmbgfd linkfrs. */
 
-#ifdef NEED_SHORT_EXTERNAL_NAMES
-#define jpeg_make_c_derived_tbl jMkCDerived
-#define jpeg_gen_optimal_table  jGenOptTbl
-#endif /* NEED_SHORT_EXTERNAL_NAMES */
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_mbkf_d_dfrivfd_tbl jMkCDfrivfd
+#dffinf jpfg_gfn_optimbl_tbblf  jGfnOptTbl
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
 
-/* Expand a Huffman table definition into the derived format */
-EXTERN(void) jpeg_make_c_derived_tbl
-        JPP((j_compress_ptr cinfo, boolean isDC, int tblno,
-             c_derived_tbl ** pdtbl));
+/* Expbnd b Huffmbn tbblf dffinition into tif dfrivfd formbt */
+EXTERN(void) jpfg_mbkf_d_dfrivfd_tbl
+        JPP((j_domprfss_ptr dinfo, boolfbn isDC, int tblno,
+             d_dfrivfd_tbl ** pdtbl));
 
-/* Generate an optimal table definition given the specified counts */
-EXTERN(void) jpeg_gen_optimal_table
-        JPP((j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[]));
+/* Gfnfrbtf bn optimbl tbblf dffinition givfn tif spfdififd dounts */
+EXTERN(void) jpfg_gfn_optimbl_tbblf
+        JPP((j_domprfss_ptr dinfo, JHUFF_TBL * itbl, long frfq[]));

@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Shbpf;
+
+/**
+ * An intfrfbdf for bn objfdt thbt bllows onf to mbrk up thf bbdkground
+ * with dolorfd brfbs.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Highlightfr {
+
+    /**
+     * Cbllfd whfn thf UI is bfing instbllfd into thf
+     * intfrfbdf of b JTfxtComponfnt.  This dbn bf usfd
+     * to gbin bddfss to thf modfl thbt is bfing nbvigbtfd
+     * by thf implfmfntbtion of this intfrfbdf.
+     *
+     * @pbrbm d thf JTfxtComponfnt fditor
+     */
+    publid void instbll(JTfxtComponfnt d);
+
+    /**
+     * Cbllfd whfn thf UI is bfing rfmovfd from thf
+     * intfrfbdf of b JTfxtComponfnt.  This is usfd to
+     * unrfgistfr bny listfnfrs thbt wfrf bttbdhfd.
+     *
+     * @pbrbm d thf JTfxtComponfnt fditor
+     */
+    publid void dfinstbll(JTfxtComponfnt d);
+
+    /**
+     * Rfndfrs thf highlights.
+     *
+     * @pbrbm g thf grbphids dontfxt.
+     */
+    publid void pbint(Grbphids g);
+
+    /**
+     * Adds b highlight to thf vifw.  Rfturns b tbg thbt dbn bf usfd
+     * to rfffr to thf highlight.
+     *
+     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
+     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     * @pbrbm p thf pbintfr to usf for thf bdtubl highlighting
+     * @rfturn bn objfdt thbt rfffrs to thf highlight
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     */
+    publid Objfdt bddHighlight(int p0, int p1, HighlightPbintfr p) throws BbdLodbtionExdfption;
+
+    /**
+     * Rfmovfs b highlight from thf vifw.
+     *
+     * @pbrbm tbg  whidh highlight to rfmovf
+     */
+    publid void rfmovfHighlight(Objfdt tbg);
+
+    /**
+     * Rfmovfs bll highlights this highlightfr is rfsponsiblf for.
+     */
+    publid void rfmovfAllHighlights();
+
+    /**
+     * Chbngfs thf givfn highlight to spbn b difffrfnt portion of
+     * thf dodumfnt.  This mby bf morf fffidifnt thbn b rfmovf/bdd
+     * whfn b sflfdtion is fxpbnding/shrinking (sudh bs b swffp
+     * with b mousf) by dbmbging only whbt dhbngfd.
+     *
+     * @pbrbm tbg  whidh highlight to dhbngf
+     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
+     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     */
+    publid void dhbngfHighlight(Objfdt tbg, int p0, int p1) throws BbdLodbtionExdfption;
+
+    /**
+     * Fftdhfs thf durrfnt list of highlights.
+     *
+     * @rfturn thf highlight list
+     */
+    publid Highlight[] gftHighlights();
+
+    /**
+     * Highlight rfndfrfr.
+     */
+    publid intfrfbdf HighlightPbintfr {
+
+        /**
+         * Rfndfrs thf highlight.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm p0 thf stbrting offsft in thf modfl &gt;= 0
+         * @pbrbm p1 thf fnding offsft in thf modfl &gt;= p0
+         * @pbrbm bounds thf bounding box for thf highlight
+         * @pbrbm d thf fditor
+         */
+        publid void pbint(Grbphids g, int p0, int p1, Shbpf bounds, JTfxtComponfnt d);
+
+    }
+
+    publid intfrfbdf Highlight {
+
+        /**
+         * Gfts thf stbrting modfl offsft for thf highlight.
+         *
+         * @rfturn thf stbrting offsft &gt;= 0
+         */
+        publid int gftStbrtOffsft();
+
+        /**
+         * Gfts thf fnding modfl offsft for thf highlight.
+         *
+         * @rfturn thf fnding offsft &gt;= 0
+         */
+        publid int gftEndOffsft();
+
+        /**
+         * Gfts thf pbintfr for thf highlightfr.
+         *
+         * @rfturn thf pbintfr
+         */
+        publid HighlightPbintfr gftPbintfr();
+
+    }
+
+};

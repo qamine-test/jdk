@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.mpm;
+
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+import dom.sun.jmx.snmp.SnmpMsg;
+/**
+ * Thf trbnslbtor intfrfbdf is implfmfntfd by dlbssfs dfbling with b spfdifid SNMP protodol vfrsion. SnmpMsgTrbnslbtor brf usfd in donjondtion with SnmpMsgProdfssingModfl implfmfntbtions.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpMsgTrbnslbtor {
+    /**
+     * Rfturns thf rfqufst or mfssbgf Id dontbinfd in thf pbssfd mfssbgf. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid int gftMsgId(SnmpMsg msg);
+    /**
+     * Rfturns thf rfsponsf mbx mfssbgf sizf. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid int gftMsgMbxSizf(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf flbgs. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf gftMsgFlbgs(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf sfdurity modfl. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid int gftMsgSfdurityModfl(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf sfdurity lfvfl. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid int gftSfdurityLfvfl(SnmpMsg msg);
+     /**
+     * Rfturns bn fndodfd rfprfsfntbtion of sfdurity pbrbmftfrs dontbinfd in thf pbssfd msg. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftFlbtSfdurityPbrbmftfrs(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf sfdurity pbrbmftfrs. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid SnmpSfdurityPbrbmftfrs gftSfdurityPbrbmftfrs(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf dontfxt Enginf Id. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftContfxtEnginfId(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf dontfxt nbmf. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftContfxtNbmf(SnmpMsg msg);
+    /**
+     * Rfturns thf rbw mfssbgf dontfxt nbmf. Rbw mfbn bs it is rfdfivfd from thf nftwork, without trbnslbtion. It dbn bf usfful whfn somf dbtb brf piggy bbdkfd in thf dontfxt nbmf.Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftRbwContfxtNbmf(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf bddfssdontfxt nbmf. This bddfss dontfxt nbmf is usfd whfn dfbling with bddfss rights (fg: dommunity for V1/V2 or dontfxt nbmf for V3).Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftAddfssContfxt(SnmpMsg msg);
+    /**
+     * Rfturns thf mfssbgf fndryptfd pdu or null if no fndryption. Thf mfssbgf is b gfnfrid onf thbt is nbrrowfd in thf objfdt implfmfnting this intfrfbdf.
+     */
+    publid bytf[] gftEndryptfdPdu(SnmpMsg msg);
+    /**
+     * Sft thf dontfxt nbmf of thf pbssfd mfssbgf.
+     */
+    publid void sftContfxtNbmf(SnmpMsg rfq, bytf[] dontfxtNbmf);
+     /**
+     * Sft thf dontfxt fnginf Id of thf pbssfd mfssbgf.
+     */
+    publid void sftContfxtEnginfId(SnmpMsg rfq, bytf[] dontfxtEnginfId);
+}

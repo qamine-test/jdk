@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpStatusException;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpOidTable;
-import com.sun.jmx.snmp.SnmpOidRecord;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpOidTbblf;
+import dom.sun.jmx.snmp.SnmpOidRfdord;
 
-import sun.management.snmp.jvmmib.JvmThreadInstanceEntryMBean;
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTable;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmTirfbdInstbndfEntryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTbblf;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
 
 /**
- * The class is used for implementing the "JvmThreadInstanceEntry" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmTirfbdInstbndfEntry" group.
  */
-public class JvmThreadInstanceEntryImpl
-    implements JvmThreadInstanceEntryMBean, Serializable {
+publid dlbss JvmTirfbdInstbndfEntryImpl
+    implfmfnts JvmTirfbdInstbndfEntryMBfbn, Sfriblizbblf {
 
-    static final long serialVersionUID = 910173589985461347L;
+    stbtid finbl long sfriblVfrsionUID = 910173589985461347L;
 
-    public final static class ThreadStateMap {
-        public final static class Byte0 {
-            public final static byte inNative     = (byte)0x80; // bit 1
-            public final static byte suspended    = (byte)0x40; // bit 2
-            public final static byte newThread    = (byte)0x20; // bit 3
-            public final static byte runnable     = (byte)0x10; // bit 4
-            public final static byte blocked      = (byte)0x08; // bit 5
-            public final static byte terminated   = (byte)0x04; // bit 6
-            public final static byte waiting      = (byte)0x02; // bit 7
-            public final static byte timedWaiting = (byte)0x01; // bit 8
+    publid finbl stbtid dlbss TirfbdStbtfMbp {
+        publid finbl stbtid dlbss Bytf0 {
+            publid finbl stbtid bytf inNbtivf     = (bytf)0x80; // bit 1
+            publid finbl stbtid bytf suspfndfd    = (bytf)0x40; // bit 2
+            publid finbl stbtid bytf nfwTirfbd    = (bytf)0x20; // bit 3
+            publid finbl stbtid bytf runnbblf     = (bytf)0x10; // bit 4
+            publid finbl stbtid bytf blodkfd      = (bytf)0x08; // bit 5
+            publid finbl stbtid bytf tfrminbtfd   = (bytf)0x04; // bit 6
+            publid finbl stbtid bytf wbiting      = (bytf)0x02; // bit 7
+            publid finbl stbtid bytf timfdWbiting = (bytf)0x01; // bit 8
         }
-        public final static class Byte1 {
-            public final static byte other        = (byte)0x80; // bit 9
-            public final static byte reserved10   = (byte)0x40; // bit 10
-            public final static byte reserved11   = (byte)0x20; // bit 11
-            public final static byte reserved12   = (byte)0x10; // bit 12
-            public final static byte reserved13   = (byte)0x08; // bit 13
-            public final static byte reserved14   = (byte)0x04; // bit 14
-            public final static byte reserved15   = (byte)0x02; // bit 15
-            public final static byte reserved16   = (byte)0x01; // bit 16
+        publid finbl stbtid dlbss Bytf1 {
+            publid finbl stbtid bytf otifr        = (bytf)0x80; // bit 9
+            publid finbl stbtid bytf rfsfrvfd10   = (bytf)0x40; // bit 10
+            publid finbl stbtid bytf rfsfrvfd11   = (bytf)0x20; // bit 11
+            publid finbl stbtid bytf rfsfrvfd12   = (bytf)0x10; // bit 12
+            publid finbl stbtid bytf rfsfrvfd13   = (bytf)0x08; // bit 13
+            publid finbl stbtid bytf rfsfrvfd14   = (bytf)0x04; // bit 14
+            publid finbl stbtid bytf rfsfrvfd15   = (bytf)0x02; // bit 15
+            publid finbl stbtid bytf rfsfrvfd16   = (bytf)0x01; // bit 16
         }
 
-        public final static byte mask0 = (byte)0x3F;
-        public final static byte mask1 = (byte)0x80;
+        publid finbl stbtid bytf mbsk0 = (bytf)0x3F;
+        publid finbl stbtid bytf mbsk1 = (bytf)0x80;
 
-        private static void setBit(byte[] bitmap, int index, byte state) {
-            bitmap[index] = (byte) (bitmap[index] | state);
+        privbtf stbtid void sftBit(bytf[] bitmbp, int indfx, bytf stbtf) {
+            bitmbp[indfx] = (bytf) (bitmbp[indfx] | stbtf);
         }
-        public static void setNative(byte[] bitmap) {
-            setBit(bitmap,0,Byte0.inNative);
+        publid stbtid void sftNbtivf(bytf[] bitmbp) {
+            sftBit(bitmbp,0,Bytf0.inNbtivf);
         }
-        public static void setSuspended(byte[] bitmap) {
-            setBit(bitmap,0,Byte0.suspended);
+        publid stbtid void sftSuspfndfd(bytf[] bitmbp) {
+            sftBit(bitmbp,0,Bytf0.suspfndfd);
         }
-        public static void setState(byte[] bitmap, Thread.State state) {
-            switch(state) {
-            case BLOCKED:
-                setBit(bitmap,0,Byte0.blocked);
-                return;
-            case NEW:
-                setBit(bitmap,0,Byte0.newThread);
-                return;
-            case RUNNABLE:
-                setBit(bitmap,0,Byte0.runnable);
-                return;
-            case TERMINATED:
-                setBit(bitmap,0,Byte0.terminated);
-                return;
-            case TIMED_WAITING:
-                setBit(bitmap,0,Byte0.timedWaiting);
-                return;
-            case WAITING:
-                setBit(bitmap,0,Byte0.waiting);
-                return;
+        publid stbtid void sftStbtf(bytf[] bitmbp, Tirfbd.Stbtf stbtf) {
+            switdi(stbtf) {
+            dbsf BLOCKED:
+                sftBit(bitmbp,0,Bytf0.blodkfd);
+                rfturn;
+            dbsf NEW:
+                sftBit(bitmbp,0,Bytf0.nfwTirfbd);
+                rfturn;
+            dbsf RUNNABLE:
+                sftBit(bitmbp,0,Bytf0.runnbblf);
+                rfturn;
+            dbsf TERMINATED:
+                sftBit(bitmbp,0,Bytf0.tfrminbtfd);
+                rfturn;
+            dbsf TIMED_WAITING:
+                sftBit(bitmbp,0,Bytf0.timfdWbiting);
+                rfturn;
+            dbsf WAITING:
+                sftBit(bitmbp,0,Bytf0.wbiting);
+                rfturn;
             }
         }
 
-        public static void checkOther(byte[] bitmap) {
-            if (((bitmap[0]&mask0)==(byte)0x00) &&
-                ((bitmap[1]&mask1)==(byte)0x00))
-                setBit(bitmap,1,Byte1.other);
+        publid stbtid void difdkOtifr(bytf[] bitmbp) {
+            if (((bitmbp[0]&mbsk0)==(bytf)0x00) &&
+                ((bitmbp[1]&mbsk1)==(bytf)0x00))
+                sftBit(bitmbp,1,Bytf1.otifr);
         }
 
-        public static Byte[] getState(ThreadInfo info) {
-            byte[] bitmap = new byte[] {(byte)0x00, (byte)0x00};
+        publid stbtid Bytf[] gftStbtf(TirfbdInfo info) {
+            bytf[] bitmbp = nfw bytf[] {(bytf)0x00, (bytf)0x00};
             try {
-                final Thread.State state = info.getThreadState();
-                final boolean inNative  = info.isInNative();
-                final boolean suspended = info.isSuspended();
-                log.debug("getJvmThreadInstState",
-                          "[State=" + state +
-                          ",isInNative=" + inNative +
-                          ",isSuspended=" + suspended + "]");
-                setState(bitmap,state);
-                if (inNative)  setNative(bitmap);
-                if (suspended) setSuspended(bitmap);
-                checkOther(bitmap);
-            } catch (RuntimeException r) {
-                bitmap[0]=(byte)0x00;
-                bitmap[1]=Byte1.other;
-                log.trace("getJvmThreadInstState",
-                          "Unexpected exception: " + r);
-                log.debug("getJvmThreadInstState",r);
+                finbl Tirfbd.Stbtf stbtf = info.gftTirfbdStbtf();
+                finbl boolfbn inNbtivf  = info.isInNbtivf();
+                finbl boolfbn suspfndfd = info.isSuspfndfd();
+                log.dfbug("gftJvmTirfbdInstStbtf",
+                          "[Stbtf=" + stbtf +
+                          ",isInNbtivf=" + inNbtivf +
+                          ",isSuspfndfd=" + suspfndfd + "]");
+                sftStbtf(bitmbp,stbtf);
+                if (inNbtivf)  sftNbtivf(bitmbp);
+                if (suspfndfd) sftSuspfndfd(bitmbp);
+                difdkOtifr(bitmbp);
+            } dbtdi (RuntimfExdfption r) {
+                bitmbp[0]=(bytf)0x00;
+                bitmbp[1]=Bytf1.otifr;
+                log.trbdf("gftJvmTirfbdInstStbtf",
+                          "Unfxpfdtfd fxdfption: " + r);
+                log.dfbug("gftJvmTirfbdInstStbtf",r);
             }
-            Byte[] result = {bitmap[0], bitmap[1]};
-            return result;
+            Bytf[] rfsult = {bitmbp[0], bitmbp[1]};
+            rfturn rfsult;
         }
     }
 
-    private final ThreadInfo info;
-    private final Byte[] index;
+    privbtf finbl TirfbdInfo info;
+    privbtf finbl Bytf[] indfx;
 
     /**
-     * Constructor for the "JvmThreadInstanceEntry" group.
+     * Construdtor for tif "JvmTirfbdInstbndfEntry" group.
      */
-    public JvmThreadInstanceEntryImpl(ThreadInfo info,
-                                      Byte[] index) {
-        this.info = info;
-        this.index = index;
+    publid JvmTirfbdInstbndfEntryImpl(TirfbdInfo info,
+                                      Bytf[] indfx) {
+        tiis.info = info;
+        tiis.indfx = indfx;
     }
 
 
-    private static String  jvmThreadInstIndexOid = null;
-    public static String getJvmThreadInstIndexOid()
-        throws SnmpStatusException {
-        if (jvmThreadInstIndexOid == null) {
-            final SnmpOidTable  table = new JVM_MANAGEMENT_MIBOidTable();
-            final SnmpOidRecord record =
-                table.resolveVarName("jvmThreadInstIndex");
-            jvmThreadInstIndexOid = record.getOid();
+    privbtf stbtid String  jvmTirfbdInstIndfxOid = null;
+    publid stbtid String gftJvmTirfbdInstIndfxOid()
+        tirows SnmpStbtusExdfption {
+        if (jvmTirfbdInstIndfxOid == null) {
+            finbl SnmpOidTbblf  tbblf = nfw JVM_MANAGEMENT_MIBOidTbblf();
+            finbl SnmpOidRfdord rfdord =
+                tbblf.rfsolvfVbrNbmf("jvmTirfbdInstIndfx");
+            jvmTirfbdInstIndfxOid = rfdord.gftOid();
         }
-        return jvmThreadInstIndexOid;
+        rfturn jvmTirfbdInstIndfxOid;
     }
 
 
 
     /**
-     * Getter for the "JvmThreadInstLockedOwnerId" variable.
+     * Gfttfr for tif "JvmTirfbdInstLodkfdOwnfrId" vbribblf.
      */
-    public String getJvmThreadInstLockOwnerPtr() throws SnmpStatusException {
-       long id = info.getLockOwnerId();
+    publid String gftJvmTirfbdInstLodkOwnfrPtr() tirows SnmpStbtusExdfption {
+       long id = info.gftLodkOwnfrId();
 
        if(id == -1)
-           return new String("0.0");
+           rfturn nfw String("0.0");
 
-       SnmpOid oid = JvmThreadInstanceTableMetaImpl.makeOid(id);
+       SnmpOid oid = JvmTirfbdInstbndfTbblfMftbImpl.mbkfOid(id);
 
-       return getJvmThreadInstIndexOid() + "." + oid.toString();
+       rfturn gftJvmTirfbdInstIndfxOid() + "." + oid.toString();
     }
 
-    private String validDisplayStringTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validDisplayStringTC(str);
+    privbtf String vblidDisplbyStringTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
     }
 
-    private String validJavaObjectNameTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(str);
+    privbtf String vblidJbvbObjfdtNbmfTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(str);
     }
 
-    private String validPathElementTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validPathElementTC(str);
-    }
-
-    /**
-     * Getter for the "JvmThreadInstLockName" variable.
-     */
-    public String getJvmThreadInstLockName() throws SnmpStatusException {
-        return validJavaObjectNameTC(info.getLockName());
+    privbtf String vblidPbtiElfmfntTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidPbtiElfmfntTC(str);
     }
 
     /**
-     * Getter for the "JvmThreadInstName" variable.
+     * Gfttfr for tif "JvmTirfbdInstLodkNbmf" vbribblf.
      */
-    public String getJvmThreadInstName() throws SnmpStatusException {
-        return validJavaObjectNameTC(info.getThreadName());
+    publid String gftJvmTirfbdInstLodkNbmf() tirows SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(info.gftLodkNbmf());
     }
 
     /**
-     * Getter for the "JvmThreadInstCpuTimeNs" variable.
+     * Gfttfr for tif "JvmTirfbdInstNbmf" vbribblf.
      */
-    public Long getJvmThreadInstCpuTimeNs() throws SnmpStatusException {
+    publid String gftJvmTirfbdInstNbmf() tirows SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(info.gftTirfbdNbmf());
+    }
+
+    /**
+     * Gfttfr for tif "JvmTirfbdInstCpuTimfNs" vbribblf.
+     */
+    publid Long gftJvmTirfbdInstCpuTimfNs() tirows SnmpStbtusExdfption {
         long l = 0;
-        final ThreadMXBean tmb = JvmThreadingImpl.getThreadMXBean();
+        finbl TirfbdMXBfbn tmb = JvmTirfbdingImpl.gftTirfbdMXBfbn();
 
         try {
-            if (tmb.isThreadCpuTimeSupported()) {
-                l = tmb.getThreadCpuTime(info.getThreadId());
-                log.debug("getJvmThreadInstCpuTimeNs", "Cpu time ns : " + l);
+            if (tmb.isTirfbdCpuTimfSupportfd()) {
+                l = tmb.gftTirfbdCpuTimf(info.gftTirfbdId());
+                log.dfbug("gftJvmTirfbdInstCpuTimfNs", "Cpu timf ns : " + l);
 
-                //Cpu time measurement is disabled or the id is not valid.
+                //Cpu timf mfbsurfmfnt is disbblfd or tif id is not vblid.
                 if(l == -1) l = 0;
             }
-        } catch (UnsatisfiedLinkError e) {
-            // XXX Revisit: catch TO BE EVENTUALLY REMOVED
-            log.debug("getJvmThreadInstCpuTimeNs",
-                      "Operation not supported: " + e);
+        } dbtdi (UnsbtisfifdLinkError f) {
+            // XXX Rfvisit: dbtdi TO BE EVENTUALLY REMOVED
+            log.dfbug("gftJvmTirfbdInstCpuTimfNs",
+                      "Opfrbtion not supportfd: " + f);
         }
-        return l;
+        rfturn l;
     }
 
     /**
-     * Getter for the "JvmThreadInstBlockTimeMs" variable.
+     * Gfttfr for tif "JvmTirfbdInstBlodkTimfMs" vbribblf.
      */
-    public Long getJvmThreadInstBlockTimeMs() throws SnmpStatusException {
+    publid Long gftJvmTirfbdInstBlodkTimfMs() tirows SnmpStbtusExdfption {
         long l = 0;
 
-        final ThreadMXBean tmb = JvmThreadingImpl.getThreadMXBean();
+        finbl TirfbdMXBfbn tmb = JvmTirfbdingImpl.gftTirfbdMXBfbn();
 
-        if (tmb.isThreadContentionMonitoringSupported()) {
-            l = info.getBlockedTime();
+        if (tmb.isTirfbdContfntionMonitoringSupportfd()) {
+            l = info.gftBlodkfdTimf();
 
-            //Monitoring is disabled
+            //Monitoring is disbblfd
             if(l == -1) l = 0;
         }
-        return l;
+        rfturn l;
     }
 
     /**
-     * Getter for the "JvmThreadInstBlockCount" variable.
+     * Gfttfr for tif "JvmTirfbdInstBlodkCount" vbribblf.
      */
-    public Long getJvmThreadInstBlockCount() throws SnmpStatusException {
-        return info.getBlockedCount();
+    publid Long gftJvmTirfbdInstBlodkCount() tirows SnmpStbtusExdfption {
+        rfturn info.gftBlodkfdCount();
     }
 
     /**
-     * Getter for the "JvmThreadInstWaitTimeMs" variable.
+     * Gfttfr for tif "JvmTirfbdInstWbitTimfMs" vbribblf.
      */
-    public Long getJvmThreadInstWaitTimeMs() throws SnmpStatusException {
+    publid Long gftJvmTirfbdInstWbitTimfMs() tirows SnmpStbtusExdfption {
         long l = 0;
 
-        final ThreadMXBean tmb = JvmThreadingImpl.getThreadMXBean();
+        finbl TirfbdMXBfbn tmb = JvmTirfbdingImpl.gftTirfbdMXBfbn();
 
-        if (tmb.isThreadContentionMonitoringSupported()) {
-            l = info.getWaitedTime();
+        if (tmb.isTirfbdContfntionMonitoringSupportfd()) {
+            l = info.gftWbitfdTimf();
 
-            //Monitoring is disabled
+            //Monitoring is disbblfd
             if(l == -1) l = 0;
         }
-        return l;
+        rfturn l;
     }
 
     /**
-     * Getter for the "JvmThreadInstWaitCount" variable.
+     * Gfttfr for tif "JvmTirfbdInstWbitCount" vbribblf.
      */
-    public Long getJvmThreadInstWaitCount() throws SnmpStatusException {
-        return info.getWaitedCount();
+    publid Long gftJvmTirfbdInstWbitCount() tirows SnmpStbtusExdfption {
+        rfturn info.gftWbitfdCount();
     }
 
     /**
-     * Getter for the "JvmThreadInstState" variable.
+     * Gfttfr for tif "JvmTirfbdInstStbtf" vbribblf.
      */
-    public Byte[] getJvmThreadInstState()
-        throws SnmpStatusException {
-        return ThreadStateMap.getState(info);
+    publid Bytf[] gftJvmTirfbdInstStbtf()
+        tirows SnmpStbtusExdfption {
+        rfturn TirfbdStbtfMbp.gftStbtf(info);
     }
 
     /**
-     * Getter for the "JvmThreadInstId" variable.
+     * Gfttfr for tif "JvmTirfbdInstId" vbribblf.
      */
-    public Long getJvmThreadInstId() throws SnmpStatusException {
-        return info.getThreadId();
+    publid Long gftJvmTirfbdInstId() tirows SnmpStbtusExdfption {
+        rfturn info.gftTirfbdId();
     }
 
     /**
-     * Getter for the "JvmThreadInstIndex" variable.
+     * Gfttfr for tif "JvmTirfbdInstIndfx" vbribblf.
      */
-    public Byte[] getJvmThreadInstIndex() throws SnmpStatusException {
-        return index;
+    publid Bytf[] gftJvmTirfbdInstIndfx() tirows SnmpStbtusExdfption {
+        rfturn indfx;
     }
 
     /**
-     * Getter for the "JvmThreadInstStackTrace" variable.
+     * Gfttfr for tif "JvmTirfbdInstStbdkTrbdf" vbribblf.
      */
-    private String getJvmThreadInstStackTrace() throws SnmpStatusException {
-        StackTraceElement[] stackTrace = info.getStackTrace();
-        //We append the stack trace in a buffer
-        // XXX Revisit: should check isDebugOn()
-        StringBuilder sb = new StringBuilder();
-        final int stackSize = stackTrace.length;
-        log.debug("getJvmThreadInstStackTrace", "Stack size : " + stackSize);
-        for(int i = 0; i < stackSize; i++) {
-            log.debug("getJvmThreadInstStackTrace", "Append " +
-                      stackTrace[i].toString());
-            sb.append(stackTrace[i].toString());
-            //Append \n at the end of each line except the last one
-            if(i < stackSize)
-                sb.append("\n");
+    privbtf String gftJvmTirfbdInstStbdkTrbdf() tirows SnmpStbtusExdfption {
+        StbdkTrbdfElfmfnt[] stbdkTrbdf = info.gftStbdkTrbdf();
+        //Wf bppfnd tif stbdk trbdf in b bufffr
+        // XXX Rfvisit: siould difdk isDfbugOn()
+        StringBuildfr sb = nfw StringBuildfr();
+        finbl int stbdkSizf = stbdkTrbdf.lfngti;
+        log.dfbug("gftJvmTirfbdInstStbdkTrbdf", "Stbdk sizf : " + stbdkSizf);
+        for(int i = 0; i < stbdkSizf; i++) {
+            log.dfbug("gftJvmTirfbdInstStbdkTrbdf", "Appfnd " +
+                      stbdkTrbdf[i].toString());
+            sb.bppfnd(stbdkTrbdf[i].toString());
+            //Appfnd \n bt tif fnd of fbdi linf fxdfpt tif lbst onf
+            if(i < stbdkSizf)
+                sb.bppfnd("\n");
         }
-        //The stack trace is truncated if its size exceeds 255.
-        return validPathElementTC(sb.toString());
+        //Tif stbdk trbdf is trundbtfd if its sizf fxdffds 255.
+        rfturn vblidPbtiElfmfntTC(sb.toString());
     }
-    static final MibLogger log =
-        new MibLogger(JvmThreadInstanceEntryImpl.class);
+    stbtid finbl MibLoggfr log =
+        nfw MibLoggfr(JvmTirfbdInstbndfEntryImpl.dlbss);
 }

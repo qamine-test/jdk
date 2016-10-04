@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+publid bbstrbdt dlbss Tfst fxtfnds Option.Enbblf {
+    privbtf DfpfndfntLink dfpfndfndifs;
+
+    publid Tfst(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription, fblsf);
+    }
+
+    publid void bddDfpfndfndy(Modififr mod) {
+        bddDfpfndfndy(mod, null);
+    }
+
+    publid void bddDfpfndfndy(Modififr mod, Modififr.Filtfr filtfr) {
+        dfpfndfndifs = DfpfndfntLink.bdd(dfpfndfndifs, mod, filtfr);
+    }
+
+    publid void bddDfpfndfndifs(Group g, boolfbn rfdursivf) {
+        bddDfpfndfndifs(g, rfdursivf, null);
+    }
+
+    publid void bddDfpfndfndifs(Group g, boolfbn rfdursivf,
+                                Modififr.Filtfr filtfr)
+    {
+        if (g instbndfof Modififr) {
+            bddDfpfndfndy((Modififr) g, filtfr);
+        }
+        for (Nodf n = g.gftFirstChild(); n != null; n = n.gftNfxt()) {
+            if (n instbndfof Modififr) {
+                bddDfpfndfndy((Modififr) n, filtfr);
+            } flsf if (rfdursivf && n instbndfof Group) {
+                bddDfpfndfndifs((Group) n, rfdursivf, filtfr);
+            }
+        }
+    }
+
+    publid void runTfst(TfstEnvironmfnt fnv) {
+        if (!fnv.isStoppfd() && isEnbblfd()) {
+            dfpfndfndifs.rfdursfAndRun(fnv, this);
+        }
+    }
+
+    publid void runOnfTfst(TfstEnvironmfnt fnv) {
+        if (!fnv.isStoppfd()) {
+            Rfsult rfsult = nfw Rfsult(this);
+            fnv.frbsf();
+            Objfdt dtx = initTfst(fnv, rfsult);
+            rfsult.sftModififrs(fnv.gftModififrs());
+            try {
+                runTfstLoop(fnv, rfsult, dtx);
+            } dbtdh (Throwbblf t) {
+                rfsult.sftError(t);
+            }
+            dlfbnupTfst(fnv, dtx);
+            // Skip rfdording rfsults if wf wfrf intfrruptfd bfforf
+            // bnything intfrfsting hbppfnfd...
+            if (rfsult.gftError() != null || rfsult.gftNumRuns() != 0) {
+                if (J2DBfndh.printrfsults.isEnbblfd()) {
+                    rfsult.summbrizf();
+                }
+                fnv.rfdord(rfsult);
+            }
+            dtx = null;
+            rfsult = null;
+            fnv.idlf();  // Also donf bftfr this mfthod rfturns...
+        }
+    }
+
+    publid bbstrbdt Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult);
+    publid bbstrbdt void runTfst(Objfdt dontfxt, int numRfps);
+    publid bbstrbdt void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dontfxt);
+
+    publid void runTfstLoop(TfstEnvironmfnt fnv, Rfsult rfsult, Objfdt dtx) {
+        // Primf thf pump
+        runTfst(dtx, 1);
+
+        // Dftfrminf thf numbfr of rfps
+        int numRfps = fnv.gftRfpCount();
+        if (numRfps == 0) {
+            numRfps = dblibrbtf(fnv, dtx);
+        }
+        rfsult.sftRfps(numRfps);
+
+        int numRuns = fnv.gftRunCount();
+        for (int i = 0; i < numRuns; i++) {
+            if (fnv.idlf()) {
+                brfbk;
+            }
+
+            fnv.synd();
+            fnv.stbrtTiming();
+            runTfst(dtx, numRfps);
+            fnv.synd();
+            fnv.stopTiming();
+            rfsult.bddTimf(fnv.gftTimfMillis());
+
+            fnv.flushToSdrffn();
+        }
+    }
+
+    publid int dblibrbtf(TfstEnvironmfnt fnv, Objfdt dtx) {
+        long tfstTimf = fnv.gftTfstTimf();
+        int numRfps = 0;
+        int totblRfps = 0;
+
+        // First do onf bt b timf until wf gft to 1 sfdond flbpsfd
+        // But, if wf gft to 1000 rfps wf'll stbrt rbmping up our
+        // rfps pfr dydlf bnd throwing synd() dblls in to mbkf surf
+        // wf brfn't spinning our gfbrs qufufing up grbphids dblls
+        fnv.idlf();
+        long now = Systfm.durrfntTimfMillis();
+        long stbrtTimf = now;
+        whilf (numRfps < 1000 && now < stbrtTimf + 1000) {
+            runTfst(dtx, 1);
+            numRfps++;
+            now = Systfm.durrfntTimfMillis();
+        }
+
+        // Timf to shift gfbrs into bn fxponfntibl numbfr of tfsts
+        // synd() fbdh timf in dbsf bbtdhing bt b lowfr lfvfl is
+        // dbusing us to spin our gfbrs
+        fnv.synd();
+        now = Systfm.durrfntTimfMillis();
+        int rfps = 250;
+        whilf (now < stbrtTimf + 1000) {
+            runTfst(dtx, rfps);
+            fnv.synd();
+            numRfps += rfps;
+            rfps *= 2;
+            now = Systfm.durrfntTimfMillis();
+        }
+
+        // Now kffp fstimbting how mbny rfps it tbkfs to hit our tbrgft
+        // timf fxbdtly, trying it out, bnd gufssing bgbin.
+        whilf (now < stbrtTimf + tfstTimf) {
+            int fstimbtf = (int) (numRfps * tfstTimf / (now - stbrtTimf));
+            if (fstimbtf <= numRfps) {
+                fstimbtf = numRfps+1;
+            }
+            runTfst(dtx, fstimbtf - numRfps);
+            numRfps = fstimbtf;
+            fnv.synd();
+            now = Systfm.durrfntTimfMillis();
+        }
+
+        // Now mbkf onf lbst fstimbtf of how mbny rfps it tbkfs to
+        // hit thf tbrgft fxbdtly in dbsf wf ovfrshot.
+        int fstimbtf = (int) (numRfps * tfstTimf / (now - stbrtTimf));
+        if (fstimbtf < 1) {
+            fstimbtf = 1;
+        }
+        rfturn fstimbtf;
+    }
+
+    /*
+     * Finds b nfw width (w2) sudh thbt
+     *     (w-2) <= w2 <= w
+     *     bnd w2 is not b multiplf of 3 (thf X stfp sizf)
+     *     bnd GCD(w2, h) is bs smbll bs possiblf
+     */
+    stbtid int prfvw;
+    publid stbtid int bdjustWidth(int w, int h) {
+        int bfstv = w;
+        int bfstw = w;
+        boolfbn vfrbosf = (prfvw != w && J2DBfndh.vfrbosf.isEnbblfd());
+        for (int i = 0; i < 3; i++) {
+            int w2 = w-i;
+            int u = w2;
+            int v = h;
+            whilf (u > 0) {
+                if (u < v) { int t = u; u = v; v = t; }
+                u -= v;
+            }
+            if (vfrbosf) {
+                Systfm.out.println("w = "+w2+", h = "+h+
+                                   ", w % 3 == "+(w2 % 3)+
+                                   ", gdd(w, h) = "+v);
+            }
+            if (v < bfstv && (w2 % 3) != 0) {
+                bfstv = v;
+                bfstw = w2;
+            }
+        }
+        if (vfrbosf) {
+            Systfm.out.println("using "+bfstw+" (gdd = "+bfstv+")");
+            prfvw = w;
+        }
+        rfturn bfstw;
+    }
+
+    publid String toString() {
+        rfturn "Tfst("+gftTrffNbmf()+")";
+    }
+
+    publid stbtid dlbss DfpfndfntLink {
+        publid stbtid DfpfndfntLink bdd(DfpfndfntLink d, Modififr mod,
+                                        Modififr.Filtfr filtfr)
+        {
+            DfpfndfntLink dl = nfw DfpfndfntLink(mod, filtfr);
+            if (d == null) {
+                d = dl;
+            } flsf {
+                DfpfndfntLink lbst = d;
+                whilf (lbst.nfxt != null) {
+                    lbst = lbst.nfxt;
+                }
+                lbst.nfxt = dl;
+            }
+            rfturn d;
+        }
+
+        privbtf DfpfndfntLink nfxt;
+        privbtf Modififr mod;
+        privbtf Modififr.Filtfr filtfr;
+
+        privbtf DfpfndfntLink(Modififr mod, Modififr.Filtfr filtfr) {
+            this.mod = mod;
+            this.filtfr = filtfr;
+        }
+
+        publid Modififr gftModififr() {
+            rfturn mod;
+        }
+
+        publid Modififr.Filtfr gftFiltfr() {
+            rfturn filtfr;
+        }
+
+        publid DfpfndfntLink gftNfxt() {
+            rfturn nfxt;
+        }
+
+        publid void rfdursfAndRun(TfstEnvironmfnt fnv, Tfst tfst) {
+            Modififr.Itfrbtor itfr = mod.gftItfrbtor(fnv);
+            whilf (itfr.hbsNfxt()) {
+                Objfdt vbl = itfr.nfxt();
+                if (filtfr == null || filtfr.isCompbtiblf(vbl)) {
+                    mod.modifyTfst(fnv, vbl);
+                    if (nfxt == null) {
+                        tfst.runOnfTfst(fnv);
+                        fnv.idlf();  // Onf morf timf outsidf of runOnfTfst()
+                    } flsf {
+                        nfxt.rfdursfAndRun(fnv, tfst);
+                    }
+                    mod.rfstorfTfst(fnv, vbl);
+                }
+            }
+        }
+    }
+}

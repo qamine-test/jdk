@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * operations.
- * @serial include
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt binbry
+ * opfrbtions.
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class BinaryOpValueExp extends QueryEval implements ValueExp {
+dlbss BinbryOpVblufExp fxtfnds QufryEvbl implfmfnts VblufExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = 1216286847881456786L;
-
-    /**
-     * @serial The operator
-     */
-    private int op;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1216286847881456786L;
 
     /**
-     * @serial The first value
+     * @sfribl Tif opfrbtor
      */
-    private ValueExp exp1;
+    privbtf int op;
 
     /**
-     * @serial The second value
+     * @sfribl Tif first vbluf
      */
-    private ValueExp exp2;
+    privbtf VblufExp fxp1;
+
+    /**
+     * @sfribl Tif sfdond vbluf
+     */
+    privbtf VblufExp fxp2;
 
 
     /**
-     * Basic Constructor.
+     * Bbsid Construdtor.
      */
-    public BinaryOpValueExp() {
+    publid BinbryOpVblufExp() {
     }
 
     /**
-     * Creates a new BinaryOpValueExp using operator o applied on v1 and
-     * v2 values.
+     * Crfbtfs b nfw BinbryOpVblufExp using opfrbtor o bpplifd on v1 bnd
+     * v2 vblufs.
      */
-    public BinaryOpValueExp(int o, ValueExp v1, ValueExp v2) {
+    publid BinbryOpVblufExp(int o, VblufExp v1, VblufExp v2) {
         op   = o;
-        exp1 = v1;
-        exp2 = v2;
+        fxp1 = v1;
+        fxp2 = v2;
     }
 
 
     /**
-     * Returns the operator of the value expression.
+     * Rfturns tif opfrbtor of tif vbluf fxprfssion.
      */
-    public int getOperator()  {
-        return op;
+    publid int gftOpfrbtor()  {
+        rfturn op;
     }
 
     /**
-     * Returns the left value of the value expression.
+     * Rfturns tif lfft vbluf of tif vbluf fxprfssion.
      */
-    public ValueExp getLeftValue()  {
-        return exp1;
+    publid VblufExp gftLfftVbluf()  {
+        rfturn fxp1;
     }
 
     /**
-     * Returns the right value of the value expression.
+     * Rfturns tif rigit vbluf of tif vbluf fxprfssion.
      */
-    public ValueExp getRightValue()  {
-        return exp2;
+    publid VblufExp gftRigitVbluf()  {
+        rfturn fxp2;
     }
 
     /**
-     * Applies the BinaryOpValueExp on a MBean.
+     * Applifs tif BinbryOpVblufExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the BinaryOpValueExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif BinbryOpVblufExp will bf bpplifd.
      *
-     * @return  The ValueExp.
+     * @rfturn  Tif VblufExp.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        ValueExp val1 = exp1.apply(name);
-        ValueExp val2 = exp2.apply(name);
-        String sval1;
-        String sval2;
-        double dval1;
-        double dval2;
-        long   lval1;
-        long   lval2;
-        boolean numeric = val1 instanceof NumericValueExp;
+    publid VblufExp bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        VblufExp vbl1 = fxp1.bpply(nbmf);
+        VblufExp vbl2 = fxp2.bpply(nbmf);
+        String svbl1;
+        String svbl2;
+        doublf dvbl1;
+        doublf dvbl2;
+        long   lvbl1;
+        long   lvbl2;
+        boolfbn numfrid = vbl1 instbndfof NumfridVblufExp;
 
-        if (numeric) {
-            if (((NumericValueExp)val1).isLong()) {
-                lval1 = ((NumericValueExp)val1).longValue();
-                lval2 = ((NumericValueExp)val2).longValue();
+        if (numfrid) {
+            if (((NumfridVblufExp)vbl1).isLong()) {
+                lvbl1 = ((NumfridVblufExp)vbl1).longVbluf();
+                lvbl2 = ((NumfridVblufExp)vbl2).longVbluf();
 
-                switch (op) {
-                case Query.PLUS:
-                    return Query.value(lval1 + lval2);
-                case Query.TIMES:
-                    return Query.value(lval1 * lval2);
-                case Query.MINUS:
-                    return Query.value(lval1 - lval2);
-                case Query.DIV:
-                    return Query.value(lval1 / lval2);
+                switdi (op) {
+                dbsf Qufry.PLUS:
+                    rfturn Qufry.vbluf(lvbl1 + lvbl2);
+                dbsf Qufry.TIMES:
+                    rfturn Qufry.vbluf(lvbl1 * lvbl2);
+                dbsf Qufry.MINUS:
+                    rfturn Qufry.vbluf(lvbl1 - lvbl2);
+                dbsf Qufry.DIV:
+                    rfturn Qufry.vbluf(lvbl1 / lvbl2);
                 }
 
-            } else {
-                dval1 = ((NumericValueExp)val1).doubleValue();
-                dval2 = ((NumericValueExp)val2).doubleValue();
+            } flsf {
+                dvbl1 = ((NumfridVblufExp)vbl1).doublfVbluf();
+                dvbl2 = ((NumfridVblufExp)vbl2).doublfVbluf();
 
-                switch (op) {
-                case Query.PLUS:
-                    return Query.value(dval1 + dval2);
-                case Query.TIMES:
-                    return Query.value(dval1 * dval2);
-                case Query.MINUS:
-                    return Query.value(dval1 - dval2);
-                case Query.DIV:
-                    return Query.value(dval1 / dval2);
+                switdi (op) {
+                dbsf Qufry.PLUS:
+                    rfturn Qufry.vbluf(dvbl1 + dvbl2);
+                dbsf Qufry.TIMES:
+                    rfturn Qufry.vbluf(dvbl1 * dvbl2);
+                dbsf Qufry.MINUS:
+                    rfturn Qufry.vbluf(dvbl1 - dvbl2);
+                dbsf Qufry.DIV:
+                    rfturn Qufry.vbluf(dvbl1 / dvbl2);
                 }
             }
-        } else {
-            sval1 = ((StringValueExp)val1).getValue();
-            sval2 = ((StringValueExp)val2).getValue();
+        } flsf {
+            svbl1 = ((StringVblufExp)vbl1).gftVbluf();
+            svbl2 = ((StringVblufExp)vbl2).gftVbluf();
 
-            switch (op) {
-            case Query.PLUS:
-                return new StringValueExp(sval1 + sval2);
-            default:
-                throw new BadStringOperationException(opString());
+            switdi (op) {
+            dbsf Qufry.PLUS:
+                rfturn nfw StringVblufExp(svbl1 + svbl2);
+            dffbult:
+                tirow nfw BbdStringOpfrbtionExdfption(opString());
             }
         }
 
-        throw new BadBinaryOpValueExpException(this);
+        tirow nfw BbdBinbryOpVblufExpExdfption(tiis);
     }
 
     /**
-     * Returns the string representing the object
+     * Rfturns tif string rfprfsfnting tif objfdt
      */
-    public String toString()  {
+    publid String toString()  {
         try {
-            return parens(exp1, true) + " " + opString() + " " + parens(exp2, false);
-        } catch (BadBinaryOpValueExpException ex) {
-            return "invalid expression";
+            rfturn pbrfns(fxp1, truf) + " " + opString() + " " + pbrfns(fxp2, fblsf);
+        } dbtdi (BbdBinbryOpVblufExpExdfption fx) {
+            rfturn "invblid fxprfssion";
         }
     }
 
     /*
-     * Add parentheses to the given subexpression if necessary to
-     * preserve meaning.  Suppose this BinaryOpValueExp is
-     * Query.times(Query.plus(Query.attr("A"), Query.attr("B")), Query.attr("C")).
-     * Then the original toString() logic would return A + B * C.
-     * We check precedences in order to return (A + B) * C, which is the
-     * meaning of the ValueExp.
+     * Add pbrfntifsfs to tif givfn subfxprfssion if nfdfssbry to
+     * prfsfrvf mfbning.  Supposf tiis BinbryOpVblufExp is
+     * Qufry.timfs(Qufry.plus(Qufry.bttr("A"), Qufry.bttr("B")), Qufry.bttr("C")).
+     * Tifn tif originbl toString() logid would rfturn A + B * C.
+     * Wf difdk prfdfdfndfs in ordfr to rfturn (A + B) * C, wiidi is tif
+     * mfbning of tif VblufExp.
      *
-     * We need to add parentheses if the unparenthesized expression would
-     * be parsed as a different ValueExp from the original.
-     * We cannot omit parentheses even when mathematically
-     * the result would be equivalent, because we do not know whether the
-     * numeric values will be integer or floating-point.  Addition and
-     * multiplication are associative for integers but not always for
-     * floating-point.
+     * Wf nffd to bdd pbrfntifsfs if tif unpbrfntifsizfd fxprfssion would
+     * bf pbrsfd bs b difffrfnt VblufExp from tif originbl.
+     * Wf dbnnot omit pbrfntifsfs fvfn wifn mbtifmbtidblly
+     * tif rfsult would bf fquivblfnt, bfdbusf wf do not know wiftifr tif
+     * numfrid vblufs will bf intfgfr or flobting-point.  Addition bnd
+     * multiplidbtion brf bssodibtivf for intfgfrs but not blwbys for
+     * flobting-point.
      *
-     * So the rule is that we omit parentheses if the ValueExp
-     * is (A op1 B) op2 C and the precedence of op1 is greater than or
-     * equal to that of op2; or if the ValueExp is A op1 (B op2 C) and
-     * the precedence of op2 is greater than that of op1.  (There are two
-     * precedences: that of * and / is greater than that of + and -.)
-     * The case of (A op1 B) op2 (C op3 D) applies each rule in turn.
+     * So tif rulf is tibt wf omit pbrfntifsfs if tif VblufExp
+     * is (A op1 B) op2 C bnd tif prfdfdfndf of op1 is grfbtfr tibn or
+     * fqubl to tibt of op2; or if tif VblufExp is A op1 (B op2 C) bnd
+     * tif prfdfdfndf of op2 is grfbtfr tibn tibt of op1.  (Tifrf brf two
+     * prfdfdfndfs: tibt of * bnd / is grfbtfr tibn tibt of + bnd -.)
+     * Tif dbsf of (A op1 B) op2 (C op3 D) bpplifs fbdi rulf in turn.
      *
-     * The following examples show the rules in action.  On the left,
-     * the original ValueExp.  On the right, the string representation.
+     * Tif following fxbmplfs siow tif rulfs in bdtion.  On tif lfft,
+     * tif originbl VblufExp.  On tif rigit, tif string rfprfsfntbtion.
      *
      * (A + B) + C     A + B + C
      * (A * B) + C     A * B + C
@@ -208,50 +208,50 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
      * A * (B + C)     A * (B + C)
      * A * (B * C)     A * (B * C)
      */
-    private String parens(ValueExp subexp, boolean left)
-    throws BadBinaryOpValueExpException {
-        boolean omit;
-        if (subexp instanceof BinaryOpValueExp) {
-            int subop = ((BinaryOpValueExp) subexp).op;
-            if (left)
-                omit = (precedence(subop) >= precedence(op));
-            else
-                omit = (precedence(subop) > precedence(op));
-        } else
-            omit = true;
+    privbtf String pbrfns(VblufExp subfxp, boolfbn lfft)
+    tirows BbdBinbryOpVblufExpExdfption {
+        boolfbn omit;
+        if (subfxp instbndfof BinbryOpVblufExp) {
+            int subop = ((BinbryOpVblufExp) subfxp).op;
+            if (lfft)
+                omit = (prfdfdfndf(subop) >= prfdfdfndf(op));
+            flsf
+                omit = (prfdfdfndf(subop) > prfdfdfndf(op));
+        } flsf
+            omit = truf;
 
         if (omit)
-            return subexp.toString();
-        else
-            return "(" + subexp + ")";
+            rfturn subfxp.toString();
+        flsf
+            rfturn "(" + subfxp + ")";
     }
 
-    private int precedence(int xop) throws BadBinaryOpValueExpException {
-        switch (xop) {
-            case Query.PLUS: case Query.MINUS: return 0;
-            case Query.TIMES: case Query.DIV: return 1;
-            default:
-                throw new BadBinaryOpValueExpException(this);
+    privbtf int prfdfdfndf(int xop) tirows BbdBinbryOpVblufExpExdfption {
+        switdi (xop) {
+            dbsf Qufry.PLUS: dbsf Qufry.MINUS: rfturn 0;
+            dbsf Qufry.TIMES: dbsf Qufry.DIV: rfturn 1;
+            dffbult:
+                tirow nfw BbdBinbryOpVblufExpExdfption(tiis);
         }
     }
 
-    private String opString() throws BadBinaryOpValueExpException {
-        switch (op) {
-        case Query.PLUS:
-            return "+";
-        case Query.TIMES:
-            return "*";
-        case Query.MINUS:
-            return "-";
-        case Query.DIV:
-            return "/";
+    privbtf String opString() tirows BbdBinbryOpVblufExpExdfption {
+        switdi (op) {
+        dbsf Qufry.PLUS:
+            rfturn "+";
+        dbsf Qufry.TIMES:
+            rfturn "*";
+        dbsf Qufry.MINUS:
+            rfturn "-";
+        dbsf Qufry.DIV:
+            rfturn "/";
         }
 
-        throw new BadBinaryOpValueExpException(this);
+        tirow nfw BbdBinbryOpVblufExpExdfption(tiis);
     }
 
-    @Deprecated
-    public void setMBeanServer(MBeanServer s) {
-        super.setMBeanServer(s);
+    @Dfprfdbtfd
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        supfr.sftMBfbnSfrvfr(s);
      }
  }

@@ -1,0 +1,634 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.io.Sfriblizbblf;
+
+// Jbvbdod imports:
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.util.Arrbys;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+
+/**
+ * <p>Additionbl mftbdbtb for b JMX flfmfnt.  A {@dodf Dfsdriptor}
+ * is bssodibtfd with b {@link MBfbnInfo}, {@link MBfbnAttributfInfo}, ftd.
+ * It donsists of b dollfdtion of fiflds.  A fifld is b nbmf bnd bn
+ * bssodibtfd vbluf.</p>
+ *
+ * <p>Fifld nbmfs brf not dbsf-sfnsitivf.  Thf nbmfs {@dodf dfsdriptorTypf},
+ * {@dodf dfsdriptortypf}, bnd {@dodf DESCRIPTORTYPE} brf bll fquivblfnt.
+ * Howfvfr, thf dbsf thbt wbs usfd whfn thf fifld wbs first sft is prfsfrvfd
+ * in thf rfsult of thf {@link #gftFiflds} bnd {@link #gftFifldNbmfs}
+ * mfthods.</p>
+ *
+ * <p>Not bll fifld nbmfs bnd vblufs brf prfdffinfd.
+ * Nfw fiflds dbn bf dffinfd bnd bddfd by bny progrbm.</p>
+ *
+ * <p>A dfsdriptor dbn bf mutbblf or immutbblf.
+ * An immutbblf dfsdriptor, ondf drfbtfd, nfvfr dhbngfs.
+ * Thf <dodf>Dfsdriptor</dodf> mfthods thbt dould modify thf dontfnts
+ * of thf dfsdriptor will throw bn fxdfption
+ * for bn immutbblf dfsdriptor.  Immutbblf dfsdriptors brf usublly
+ * instbndfs of {@link ImmutbblfDfsdriptor} or b subdlbss.  Mutbblf
+ * dfsdriptors brf usublly instbndfs of
+ * {@link jbvbx.mbnbgfmfnt.modflmbfbn.DfsdriptorSupport} or b subdlbss.
+ *
+ * <p>Cfrtbin fiflds brf usfd by thf JMX implfmfntbtion.  This mfbns
+ * fithfr thbt thf prfsfndf of thf fifld mby dhbngf thf bfhbvior of
+ * thf JMX API or thbt thf fifld mby bf sft in dfsdriptors rfturnfd by
+ * thf JMX API.  Thfsf fiflds bppfbr in <i>itblids</i> in thf tbblf
+ * bflow, bnd fbdh onf hbs b dorrfsponding donstbnt in thf {@link JMX}
+ * dlbss.  For fxbmplf, thf fifld {@dodf dffbultVbluf} is rfprfsfntfd
+ * by thf donstbnt {@link JMX#DEFAULT_VALUE_FIELD}.</p>
+ *
+ * <p>Cfrtbin othfr fiflds hbvf donvfntionbl mfbnings dfsdribfd in thf
+ * tbblf bflow but thfy brf not rfquirfd to bf undfrstood or sft by
+ * thf JMX implfmfntbtion.</p>
+ *
+ * <p>Fifld nbmfs dffinfd by thf JMX spfdifidbtion in this bnd bll
+ * futurf vfrsions will nfvfr dontbin b pfriod (.).  Usfrs dbn sbffly
+ * drfbtf thfir own fiflds by indluding b pfriod in thf nbmf bnd bf
+ * surf thbt thfsf nbmfs will not dollidf with bny futurf vfrsion of
+ * thf JMX API.  It is rfdommfndfd to follow thf Jbvb pbdkbgf nbming
+ * donvfntion to bvoid dollisions bftwffn fifld nbmfs from difffrfnt
+ * origins.  For fxbmplf, b fifld drfbtfd by {@dodf fxbmplf.dom} might
+ * hbvf thf nbmf {@dodf dom.fxbmplf.intfrfstLfvfl}.</p>
+ *
+ * <p>Notf thbt thf vblufs in thf {@dodf dffbultVbluf}, {@dodf
+ * lfgblVblufs}, {@dodf mbxVbluf}, bnd {@dodf minVbluf} fiflds should
+ * bf donsistfnt with thf typf rfturnfd by thf {@dodf gftTypf()}
+ * mfthod for thf bssodibtfd {@dodf MBfbnAttributfInfo} or {@dodf
+ * MBfbnPbrbmftfrInfo}.  For MXBfbns, this mfbns thbt thfy should bf
+ * of thf mbppfd Jbvb typf, dbllfd <fm>opfndbtb</fm>(J) in thf <b
+ * hrff="MXBfbn.html#mbpping-rulfs">MXBfbn typf mbpping rulfs</b>.</p>
+ *
+ * <tbblf bordfr="1" dfllpbdding="5" summbry="Dfsdriptor Fiflds">
+ *
+ * <tr><th>Nbmf</th><th>Typf</th><th>Usfd in</th><th>Mfbning</th></tr>
+ *
+ * <tr id="dffbultVbluf"><td><i>dffbultVbluf</i><td>Objfdt</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td>Dffbult vbluf for bn bttributf or pbrbmftfr.  Sff
+ * {@link jbvbx.mbnbgfmfnt.opfnmbfbn}.</td>
+ *
+ * <tr><td>dfprfdbtfd</td><td>String</td><td>Any</td>
+ *
+ * <td>An indidbtion thbt this flfmfnt of thf informbtion modfl is no
+ * longfr rfdommfndfd for usf.  A sft of MBfbns dffinfd by bn
+ * bpplidbtion is dollfdtivfly dbllfd bn <fm>informbtion modfl</fm>.
+ * Thf donvfntion is for thf vbluf of this fifld to dontbin b string
+ * thbt is thf vfrsion of thf modfl in whidh thf flfmfnt wbs first
+ * dfprfdbtfd, followfd by b spbdf, followfd by bn fxplbnbtion of thf
+ * dfprfdbtion, for fxbmplf {@dodf "1.3 Rfplbdfd by thf Cbpbdity
+ * bttributf"}.</td>
+ *
+ * <tr><td id="dfsdriptionRfsourdfBundlfBbsfNbmf">dfsdriptionRfsourdf<br>
+ * BundlfBbsfNbmf</td><td>String</td><td>Any</td>
+ *
+ * <td>Thf bbsf nbmf for thf {@link RfsourdfBundlf} in whidh thf kfy givfn in
+ * thf {@dodf dfsdriptionRfsourdfKfy} fifld dbn bf found, for fxbmplf
+ * {@dodf "dom.fxbmplf.mybpp.MBfbnRfsourdfs"}.  Thf mfbning of this
+ * fifld is dffinfd by this spfdifidbtion but thf fifld is not sft or
+ * usfd by thf JMX API itsflf.</td>
+ *
+ * <tr><td id="dfsdriptionRfsourdfKfy">dfsdriptionRfsourdfKfy</td>
+ * <td>String</td><td>Any</td>
+ *
+ * <td>A rfsourdf kfy for thf dfsdription of this flfmfnt.  In
+ * donjundtion with thf {@dodf dfsdriptionRfsourdfBundlfBbsfNbmf},
+ * this dbn bf usfd to find b lodblizfd vfrsion of thf dfsdription.
+ * Thf mfbning of this fifld is dffinfd by this spfdifidbtion but thf
+ * fifld is not sft or usfd by thf JMX API itsflf.</td>
+ *
+ * <tr><td>fnbblfd</td><td>String</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnNotifidbtionInfo<br>MBfbnOpfrbtionInfo</td>
+ *
+ * <td>Thf string {@dodf "truf"} or {@dodf "fblsf"} bddording bs this
+ * itfm is fnbblfd.  Whfn bn bttributf or opfrbtion is not fnbblfd, it
+ * fxists but dbnnot durrfntly bf bddfssfd.  A usfr intfrfbdf might
+ * prfsfnt it bs b grfyfd-out itfm.  For fxbmplf, bn bttributf might
+ * only bf mfbningful bftfr thf {@dodf stbrt()} mfthod of bn MBfbn hbs
+ * bffn dbllfd, bnd is othfrwisf disbblfd.  Likfwisf, b notifidbtion
+ * might bf disbblfd if it dbnnot durrfntly bf fmittfd but dould bf in
+ * othfr dirdumstbndfs.</td>
+ *
+ * <tr id="fxdfptions"><td>fxdfptions<td>String[]</td>
+ * <td>MBfbnAttributfInfo, MBfbnConstrudtorInfo, MBfbnOpfrbtionInfo</td>
+ *
+ * <td>Thf dlbss nbmfs of thf fxdfptions thbt dbn bf thrown whfn invoking b
+ * donstrudtor or opfrbtion, or gftting bn bttributf. Thf mfbning of this fifld
+ * is dffinfd by this spfdifidbtion but thf fifld is not sft or usfd by thf
+ * JMX API itsflf. Exdfptions thrown whfn
+ * sftting bn bttributf brf spfdififd by thf fifld
+ * <b hrff="#sftExdfptions">{@dodf sftExdfptions}</b>.
+ *
+ * <tr id="immutbblfInfo"><td><i>immutbblfInfo</i><td>String</td>
+ * <td>MBfbnInfo</td>
+ *
+ * <td>Thf string {@dodf "truf"} or {@dodf "fblsf"} bddording bs this
+ * MBfbn's MBfbnInfo is <fm>immutbblf</fm>.  Whfn this fifld is truf,
+ * thf MBfbnInfo for thf givfn MBfbn is gubrbntffd not to dhbngf ovfr
+ * thf lifftimf of thf MBfbn.  Hfndf, b dlifnt dbn rfbd it ondf bnd
+ * dbdhf thf rfbd vbluf.  Whfn this fifld is fblsf or bbsfnt, thfrf is
+ * no sudh gubrbntff, blthough thbt dofs not mfbn thbt thf MBfbnInfo
+ * will nfdfssbrily dhbngf.  Sff blso thf <b
+ * hrff="MBfbnInfo.html#info-dhbngfd">{@dodf "jmx.mbfbn.info.dhbngfd"}</b>
+ * notifidbtion.</td>
+ *
+ * <tr id="infoTimfout"><td>infoTimfout</td><td>String<br>Long</td><td>MBfbnInfo</td>
+ *
+ * <td>Thf timf in milli-sfdonds thbt thf MBfbnInfo dbn rfbsonbbly bf
+ * fxpfdtfd to bf undhbngfd.  Thf vbluf dbn bf b {@dodf Long} or b
+ * dfdimbl string.  This providfs b hint from b DynbmidMBfbn or bny
+ * MBfbn thbt dofs not dffinf {@dodf immutbblfInfo} bs {@dodf truf}
+ * thbt thf MBfbnInfo is not likfly to dhbngf within this pfriod bnd
+ * thfrfforf dbn bf dbdhfd.  Whfn this fifld is missing or hbs thf
+ * vbluf zfro, it is not rfdommfndfd to dbdhf thf MBfbnInfo unlfss it
+ * hbs thf {@dodf immutbblfInfo} sft to {@dodf truf} or it hbs <b
+ * hrff="MBfbnInfo.html#info-dhbngfd">{@dodf "jmx.mbfbn.info.dhbngfd"}</b> in
+ * its {@link MBfbnNotifidbtionInfo} brrby.</td></tr>
+ *
+ * <tr id="intfrfbdfClbssNbmf"><td><i>intfrfbdfClbssNbmf</i></td>
+ * <td>String</td><td>MBfbnInfo</td>
+ *
+ * <td>Thf Jbvb intfrfbdf nbmf for b Stbndbrd MBfbn or MXBfbn, bs
+ * rfturnfd by {@link Clbss#gftNbmf()}.  A Stbndbrd MBfbn or MXBfbn
+ * rfgistfrfd dirfdtly in thf MBfbn Sfrvfr or drfbtfd using thf {@link
+ * StbndbrdMBfbn} dlbss will hbvf this fifld in its MBfbnInfo
+ * Dfsdriptor.</td>
+ *
+ * <tr id="lfgblVblufs"><td><i>lfgblVblufs</i></td>
+ * <td>{@litfrbl Sft<?>}</td><td>MBfbnAttributfInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td>Lfgbl vblufs for bn bttributf or pbrbmftfr.  Sff
+ * {@link jbvbx.mbnbgfmfnt.opfnmbfbn}.</td>
+ *
+ * <tr id="lodblf"><td>lodblf</td>
+ * <td>String</td><td>Any</td>
+ *
+ * <td>Thf {@linkplbin Lodblf lodblf} of thf dfsdription in this
+ * {@dodf MBfbnInfo}, {@dodf MBfbnAttributfInfo}, ftd, bs rfturnfd
+ * by {@link Lodblf#toString()}.</td>
+ *
+ * <tr id="mbxVbluf"><td><i>mbxVbluf</i><td>Objfdt</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td>Mbximum lfgbl vbluf for bn bttributf or pbrbmftfr.  Sff
+ * {@link jbvbx.mbnbgfmfnt.opfnmbfbn}.</td>
+ *
+ * <tr id="mftridTypf"><td>mftridTypf</td><td>String</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnOpfrbtionInfo</td>
+ *
+ * <td>Thf typf of b mftrid, onf of thf strings "dountfr" or "gbugf".
+ * A mftrid is b mfbsurfmfnt fxportfd by bn MBfbn, usublly bn
+ * bttributf but somftimfs thf rfsult of bn opfrbtion.  A mftrid thbt
+ * is b <fm>dountfr</fm> hbs b vbluf thbt nfvfr dfdrfbsfs fxdfpt by
+ * bfing rfsft to b stbrting vbluf.  Countfr mftrids brf blmost blwbys
+ * non-nfgbtivf intfgfrs.  An fxbmplf might bf thf numbfr of rfqufsts
+ * rfdfivfd.  A mftrid thbt is b <fm>gbugf</fm> hbs b numfrid vbluf
+ * thbt dbn indrfbsf or dfdrfbsf.  Exbmplfs might bf thf numbfr of
+ * opfn donnfdtions or b dbdhf hit rbtf or b tfmpfrbturf rfbding.
+ *
+ * <tr id="minVbluf"><td><i>minVbluf</i><td>Objfdt</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td>Minimum lfgbl vbluf for bn bttributf or pbrbmftfr.  Sff
+ * {@link jbvbx.mbnbgfmfnt.opfnmbfbn}.</td>
+ *
+ * <tr id="mxbfbn"><td><i>mxbfbn</i><td>String</td>
+ * <td>MBfbnInfo</td>
+ *
+ * <td>Thf string {@dodf "truf"} or {@dodf "fblsf"} bddording bs this
+ * MBfbn is bn {@link MXBfbn}.  A Stbndbrd MBfbn or MXBfbn rfgistfrfd
+ * dirfdtly with thf MBfbn Sfrvfr or drfbtfd using thf {@link
+ * StbndbrdMBfbn} dlbss will hbvf this fifld in its MBfbnInfo
+ * Dfsdriptor.</td>
+ *
+ * <tr id="opfnTypf"><td><i>opfnTypf</i><td>{@link OpfnTypf}</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnOpfrbtionInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td><p>Thf Opfn Typf of this flfmfnt.  In thf dbsf of {@dodf
+ * MBfbnAttributfInfo} bnd {@dodf MBfbnPbrbmftfrInfo}, this is thf
+ * Opfn Typf of thf bttributf or pbrbmftfr.  In thf dbsf of {@dodf
+ * MBfbnOpfrbtionInfo}, it is thf Opfn Typf of thf rfturn vbluf.  This
+ * fifld is sft in thf Dfsdriptor for bll instbndfs of {@link
+ * OpfnMBfbnAttributfInfoSupport}, {@link
+ * OpfnMBfbnOpfrbtionInfoSupport}, bnd {@link
+ * OpfnMBfbnPbrbmftfrInfoSupport}.  It is blso sft for bttributfs,
+ * opfrbtions, bnd pbrbmftfrs of MXBfbns.</p>
+ *
+ * <p>This fifld dbn bf sft for bn {@dodf MBfbnNotifidbtionInfo}, in
+ * whidh dbsf it indidbtfs thf Opfn Typf thbt thf {@link
+ * Notifidbtion#gftUsfrDbtb() usfr dbtb} will hbvf.</td>
+ *
+ * <tr id="originblTypf"><td><i>originblTypf</i><td>String</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnOpfrbtionInfo<br>MBfbnPbrbmftfrInfo</td>
+ *
+ * <td><p>Thf originbl Jbvb typf of this flfmfnt bs it bppfbrfd in thf
+ * {@link MXBfbn} intfrfbdf mfthod thbt produdfd this {@dodf
+ * MBfbnAttributfInfo} (ftd).  For fxbmplf, b mfthod<br> <dodf>publid
+ * </dodf> {@link MfmoryUsbgf}<dodf> gftHfbpMfmoryUsbgf();</dodf><br>
+ * in bn MXBfbn intfrfbdf dffinfs bn bttributf dbllfd {@dodf
+ * HfbpMfmoryUsbgf} of typf {@link CompositfDbtb}.  Thf {@dodf
+ * originblTypf} fifld in thf Dfsdriptor for this bttributf will hbvf
+ * thf vbluf {@dodf "jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf"}.
+ *
+ * <p>Thf formbt of this string is dfsdribfd in thf sfdtion <b
+ * hrff="MXBfbn.html#typf-nbmfs">Typf Nbmfs</b> of thf MXBfbn
+ * spfdifidbtion.</p>
+ *
+ * <tr id="sftExdfptions"><td><i>sftExdfptions</i><td>String[]</td>
+ * <td>MBfbnAttributfInfo</td>
+ *
+ * <td>Thf dlbss nbmfs of thf fxdfptions thbt dbn bf thrown whfn sftting
+ * bn bttributf. Thf mfbning of this fifld
+ * is dffinfd by this spfdifidbtion but thf fifld is not sft or usfd by thf
+ * JMX API itsflf.  Exdfptions thrown whfn gftting bn bttributf brf spfdififd
+ * by thf fifld <b hrff="#fxdfptions">{@dodf fxdfptions}</b>.
+ *
+ * <tr><td>sfvfrity</td><td>String<br>Intfgfr</td>
+ * <td>MBfbnNotifidbtionInfo</td>
+ *
+ * <td>Thf sfvfrity of this notifidbtion.  It dbn bf 0 to mfbn
+ * unknown sfvfrity or b vbluf from 1 to 6 rfprfsfnting dfdrfbsing
+ * lfvfls of sfvfrity.  It dbn bf rfprfsfntfd bs b dfdimbl string or
+ * bn {@dodf Intfgfr}.</td>
+ *
+ * <tr><td>sindf</td><td>String</td><td>Any</td>
+ *
+ * <td>Thf vfrsion of thf informbtion modfl in whidh this flfmfnt
+ * wbs introdudfd.  A sft of MBfbns dffinfd by bn bpplidbtion is
+ * dollfdtivfly dbllfd bn <fm>informbtion modfl</fm>.  Thf
+ * bpplidbtion mby blso dffinf vfrsions of this modfl, bnd usf thf
+ * {@dodf "sindf"} fifld to rfdord thf vfrsion in whidh bn flfmfnt
+ * first bppfbrfd.</td>
+ *
+ * <tr><td>units</td><td>String</td>
+ * <td>MBfbnAttributfInfo<br>MBfbnPbrbmftfrInfo<br>MBfbnOpfrbtionInfo</td>
+ *
+ * <td>Thf units in whidh bn bttributf, pbrbmftfr, or opfrbtion rfturn
+ * vbluf is mfbsurfd, for fxbmplf {@dodf "bytfs"} or {@dodf
+ * "sfdonds"}.</td>
+ *
+ * </tbblf>
+ *
+ * <p>Somf bdditionbl fiflds brf dffinfd by Modfl MBfbns.  Sff thf
+ * informbtion for <b hrff="modflmbfbn/ModflMBfbnInfo.html#dfsdriptor"><!--
+ * -->{@dodf ModflMBfbnInfo}</b>,
+ * <b hrff="modflmbfbn/ModflMBfbnAttributfInfo.html#dfsdriptor"><!--
+ * -->{@dodf ModflMBfbnAttributfInfo}</b>,
+ * <b hrff="modflmbfbn/ModflMBfbnConstrudtorInfo.html#dfsdriptor"><!--
+ * -->{@dodf ModflMBfbnConstrudtorInfo}</b>,
+ * <b hrff="modflmbfbn/ModflMBfbnNotifidbtionInfo.html#dfsdriptor"><!--
+ * -->{@dodf ModflMBfbnNotifidbtionInfo}</b>, bnd
+ * <b hrff="modflmbfbn/ModflMBfbnOpfrbtionInfo.html#dfsdriptor"><!--
+ * -->{@dodf ModflMBfbnOpfrbtionInfo}</b>, bs
+ * wfll bs thf dhbptfr "Modfl MBfbns" of thf <b
+ * hrff="http://www.orbdlf.dom/tfdhnftwork/jbvb/jbvbsf/tfdh/jbvbmbnbgfmfnt-140525.html">JMX
+ * Spfdifidbtion</b>.  Thf following tbblf summbrizfs thfsf fiflds.  Notf
+ * thbt whfn thf Typf in this tbblf is Numbfr, b String thbt is thf dfdimbl
+ * rfprfsfntbtion of b Long dbn blso bf usfd.</p>
+ *
+ * <p>Nothing prfvfnts thf usf of thfsf fiflds in MBfbns thbt brf not Modfl
+ * MBfbns.  Thf <b hrff="#displbyNbmf">displbyNbmf</b>, <b hrff="#sfvfrity"><!--
+ * -->sfvfrity</b>, bnd <b hrff="#visibility">visibility</b> fiflds brf of
+ * intfrfst outsidf Modfl MBfbns, for fxbmplf.  But only Modfl MBfbns hbvf
+ * b prfdffinfd bfhbvior for thfsf fiflds.</p>
+ *
+ * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbn Fiflds">
+ *
+ * <tr><th>Nbmf</th><th>Typf</th><th>Usfd in</th><th>Mfbning</th></tr>
+ *
+ * <tr><td>dlbss</td><td>String</td><td>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>Clbss whfrf mfthod is dffinfd (fully qublififd).</td></tr>
+ *
+ * <tr><td>durrfndyTimfLimit</td><td>Numbfr</td>
+ *     <td>ModflMBfbnInfo<br>ModflMBfbnAttributfInfo<br>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>How long dbdhfd vbluf is vblid: &lt;0 nfvfr, =0 blwbys,
+ *         &gt;0 sfdonds.</td></tr>
+ *
+ * <tr><td>dffbult</td><td>Objfdt</td><td>ModflMBfbnAttributfInfo</td>
+ *     <td>Dffbult vbluf for bttributf.</td></tr>
+ *
+ * <tr><td>dfsdriptorTypf</td><td>String</td><td>Any</td>
+ *     <td>Typf of dfsdriptor, "mbfbn", "bttributf", "donstrudtor", "opfrbtion",
+ *         or "notifidbtion".</td></tr>
+ *
+ * <tr id="displbyNbmf"><td>displbyNbmf</td><td>String</td><td>Any</td>
+ *     <td>Humbn rfbdbblf nbmf of this itfm.</td></tr>
+ *
+ * <tr><td>fxport</td><td>String</td><td>ModflMBfbnInfo</td>
+ *     <td>Nbmf to bf usfd to fxport/fxposf this MBfbn so thbt it is
+ *         findbblf by othfr JMX Agfnts.</td></tr>
+ *
+ * <tr><td>gftMfthod</td><td>String</td><td>ModflMBfbnAttributfInfo</td>
+ *     <td>Nbmf of opfrbtion dfsdriptor for gft mfthod.</td></tr>
+ *
+ * <tr><td>lbstUpdbtfdTimfStbmp</td><td>Numbfr</td>
+ *     <td>ModflMBfbnAttributfInfo<br>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>Whfn <b hrff="#vbluf-fifld">vbluf</b> wbs sft.</td></tr>
+ *
+ * <tr><td>log</td><td>String</td><td>ModflMBfbnInfo<br>ModflMBfbnNotifidbtionInfo</td>
+ *     <td>t or T: log bll notifidbtions, f or F: log no notifidbtions.</td></tr>
+ *
+ * <tr><td>logFilf</td><td>String</td><td>ModflMBfbnInfo<br>ModflMBfbnNotifidbtionInfo</td>
+ *     <td>Fully qublififd filfnbmf to log fvfnts to.</td></tr>
+ *
+ * <tr><td>mfssbgfID</td><td>String</td><td>ModflMBfbnNotifidbtionInfo</td>
+ *     <td>Uniquf kfy for mfssbgf tfxt (to bllow trbnslbtion, bnblysis).</td></tr>
+ *
+ * <tr><td>mfssbgfTfxt</td><td>String</td><td>ModflMBfbnNotifidbtionInfo</td>
+ *     <td>Tfxt of notifidbtion.</td></tr>
+ *
+ * <tr><td>nbmf</td><td>String</td><td>Any</td>
+ *     <td>Nbmf of this itfm.</td></tr>
+ *
+ * <tr><td>pfrsistFilf</td><td>String</td><td>ModflMBfbnInfo</td>
+ *     <td>Filf nbmf into whidh thf MBfbn should bf pfrsistfd.</td></tr>
+ *
+ * <tr><td>pfrsistLodbtion</td><td>String</td><td>ModflMBfbnInfo</td>
+ *     <td>Thf fully qublififd dirfdtory nbmf whfrf thf MBfbn should bf
+ *         pfrsistfd (if bppropribtf).</td></tr>
+ *
+ * <tr><td>pfrsistPfriod</td><td>Numbfr</td>
+ *     <td>ModflMBfbnInfo<br>ModflMBfbnAttributfInfo</td>
+ *     <td>Frfqufndy of pfrsist dydlf in sfdonds. Usfd whfn pfrsistPolidy is
+ *         "OnTimfr" or "NoMorfOftfnThbn".</td></tr>
+ *
+ * <tr><td>pfrsistPolidy</td><td>String</td>
+ *     <td>ModflMBfbnInfo<br>ModflMBfbnAttributfInfo</td>
+ *     <td>Onf of: OnUpdbtf|OnTimfr|NoMorfOftfnThbn|OnUnrfgistfr|Alwbys|Nfvfr.
+ *         Sff thf sfdtion "MBfbn Dfsdriptor Fiflds" in thf JMX spfdifidbtion
+ *         dodumfnt.</td></tr>
+ *
+ * <tr><td>prfsfntbtionString</td><td>String</td><td>Any</td>
+ *     <td>XML formbttfd string to bllow prfsfntbtion of dbtb.</td></tr>
+ *
+ * <tr><td>protodolMbp</td><td>Dfsdriptor</td><td>ModflMBfbnAttributfInfo</td>
+ *     <td>Sff thf sfdtion "Protodol Mbp Support" in thf JMX spfdifidbtion
+ *         dodumfnt.  Mbppings must bf bppropribtf for thf bttributf bnd fntrifs
+ *         dbn bf updbtfd or bugmfntfd bt runtimf.</td></tr>
+ *
+ * <tr><td>rolf</td><td>String</td>
+ *     <td>ModflMBfbnConstrudtorInfo<br>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>Onf of "donstrudtor", "opfrbtion", "gfttfr", or "sfttfr".</td></tr>
+ *
+ * <tr><td>sftMfthod</td><td>String</td><td>ModflMBfbnAttributfInfo</td>
+ *     <td>Nbmf of opfrbtion dfsdriptor for sft mfthod.</td></tr>
+ *
+ * <tr id="sfvfrity"><td>sfvfrity</td><td>Numbfr</td>
+ *     <td>ModflMBfbnNotifidbtionInfo</td>
+ *     <td>0-6 whfrf 0: unknown; 1: non-rfdovfrbblf;
+ *         2: dritidbl, fbilurf; 3: mbjor, sfvfrf;
+ *         4: minor, mbrginbl, frror; 5: wbrning;
+ *         6: normbl, dlfbrfd, informbtivf</td></tr>
+ *
+ * <tr><td>tbrgftObjfdt</td><td>Objfdt</td><td>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>Objfdt on whidh to fxfdutf this mfthod.</td></tr>
+ *
+ * <tr><td>tbrgftTypf</td><td>String</td><td>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>typf of objfdt rfffrfndf for tbrgftObjfdt. Cbn bf:
+ *         ObjfdtRfffrfndf | Hbndlf | EJBHbndlf | IOR | RMIRfffrfndf.</td></tr>
+ *
+ * <tr id="vbluf-fifld"><td>vbluf</td><td>Objfdt</td>
+ *     <td>ModflMBfbnAttributfInfo<br>ModflMBfbnOpfrbtionInfo</td>
+ *     <td>Currfnt (dbdhfd) vbluf for bttributf or opfrbtion.</td></tr>
+ *
+ * <tr id="visibility"><td>visibility</td><td>Numbfr</td><td>Any</td>
+ *     <td>1-4 whfrf 1: blwbys visiblf, 4: rbrfly visiblf.</td></tr>
+ *
+ * </tbblf>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf Dfsdriptor fxtfnds Sfriblizbblf, Clonfbblf
+{
+
+    /**
+     * Rfturns thf vbluf for b spfdifid fifld nbmf, or null if no vbluf
+     * is prfsfnt for thbt nbmf.
+     *
+     * @pbrbm fifldNbmf thf fifld nbmf.
+     *
+     * @rfturn thf dorrfsponding vbluf, or null if thf fifld is not prfsfnt.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption if thf fifld nbmf is illfgbl.
+     */
+    publid Objfdt gftFifldVbluf(String fifldNbmf)
+            throws RuntimfOpfrbtionsExdfption;
+
+    /**
+     * <p>Sfts thf vbluf for b spfdifid fifld nbmf. This will
+     * modify bn fxisting fifld or bdd b nfw fifld.</p>
+     *
+     * <p>Thf fifld vbluf will bf vblidbtfd bfforf it is sft.
+     * If it is not vblid, thfn bn fxdfption will bf thrown.
+     * Thf mfbning of vblidity is dfpfndfnt on thf dfsdriptor
+     * implfmfntbtion.</p>
+     *
+     * @pbrbm fifldNbmf Thf fifld nbmf to bf sft. Cbnnot bf null or fmpty.
+     * @pbrbm fifldVbluf Thf fifld vbluf to bf sft for thf fifld
+     * nbmf. Cbn bf null if thbt is b vblid vbluf for thf fifld.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption if thf fifld nbmf or fifld vbluf
+     * is illfgbl (wrbppfd fxdfption is {@link IllfgblArgumfntExdfption}); or
+     * if thf dfsdriptor is immutbblf (wrbppfd fxdfption is
+     * {@link UnsupportfdOpfrbtionExdfption}).
+     */
+    publid void sftFifld(String fifldNbmf, Objfdt fifldVbluf)
+        throws RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * Rfturns bll of thf fiflds dontbinfd in this dfsdriptor bs b string brrby.
+     *
+     * @rfturn String brrby of fiflds in thf formbt <i>fifldNbmf=fifldVbluf</i>
+     * <br>If thf vbluf of b fifld is not b String, thfn thf toString() mfthod
+     * will bf dbllfd on it bnd thf rfturnfd vbluf, fndlosfd in pbrfnthfsfs,
+     * usfd bs thf vbluf for thf fifld in thf rfturnfd brrby. If thf vbluf
+     * of b fifld is null, thfn thf vbluf of thf fifld in thf rfturnfd brrby
+     * will bf fmpty.  If thf dfsdriptor is fmpty, you will gft
+     * bn fmpty brrby.
+     *
+     * @sff #sftFiflds
+     */
+    publid String[] gftFiflds();
+
+
+    /**
+     * Rfturns bll thf fifld nbmfs in thf dfsdriptor.
+     *
+     * @rfturn String brrby of fifld nbmfs. If thf dfsdriptor is fmpty,
+     * you will gft bn fmpty brrby.
+     */
+    publid String[] gftFifldNbmfs();
+
+    /**
+     * Rfturns bll thf fifld vblufs in thf dfsdriptor bs bn brrby of Objfdts. Thf
+     * rfturnfd vblufs brf in thf sbmf ordfr bs thf {@dodf fifldNbmfs} String brrby pbrbmftfr.
+     *
+     * @pbrbm fifldNbmfs String brrby of thf nbmfs of thf fiflds thbt
+     * thf vblufs should bf rfturnfd for.  If thf brrby is fmpty thfn
+     * bn fmpty brrby will bf rfturnfd.  If thf brrby is null thfn bll
+     * vblufs will bf rfturnfd, bs if thf pbrbmftfr wfrf thf brrby
+     * rfturnfd by {@link #gftFifldNbmfs()}.  If b fifld nbmf in thf
+     * brrby dofs not fxist, indluding thf dbsf whfrf it is null or
+     * thf fmpty string, thfn null is rfturnfd for thf mbtdhing brrby
+     * flfmfnt bfing rfturnfd.
+     *
+     * @rfturn Objfdt brrby of fifld vblufs. If thf list of {@dodf fifldNbmfs}
+     * is fmpty, you will gft bn fmpty brrby.
+     */
+    publid Objfdt[] gftFifldVblufs(String... fifldNbmfs);
+
+    /**
+     * Rfmovfs b fifld from thf dfsdriptor.
+     *
+     * @pbrbm fifldNbmf String nbmf of thf fifld to bf rfmovfd.
+     * If thf fifld nbmf is illfgbl or thf fifld is not found,
+     * no fxdfption is thrown.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption if b fifld of thf givfn nbmf
+     * fxists bnd thf dfsdriptor is immutbblf.  Thf wrbppfd fxdfption will
+     * bf bn {@link UnsupportfdOpfrbtionExdfption}.
+     */
+    publid void rfmovfFifld(String fifldNbmf);
+
+    /**
+     * <p>Sfts bll fiflds in thf fifld nbmfs brrby to thf nfw vbluf with
+     * thf sbmf indfx in thf fifld vblufs brrby. Arrby sizfs must mbtdh.</p>
+     *
+     * <p>Thf fifld vbluf will bf vblidbtfd bfforf it is sft.
+     * If it is not vblid, thfn bn fxdfption will bf thrown.
+     * If thf brrbys brf fmpty, thfn no dhbngf will tbkf ffffdt.</p>
+     *
+     * @pbrbm fifldNbmfs String brrby of fifld nbmfs. Thf brrby bnd brrby
+     * flfmfnts dbnnot bf null.
+     * @pbrbm fifldVblufs Objfdt brrby of thf dorrfsponding fifld vblufs.
+     * Thf brrby dbnnot bf null. Elfmfnts of thf brrby dbn bf null.
+     *
+     * @throws RuntimfOpfrbtionsExdfption if thf dhbngf fbils for bny rfbson.
+     * Wrbppfd fxdfption is {@link IllfgblArgumfntExdfption} if
+     * {@dodf fifldNbmfs} or {@dodf fifldVblufs} is null, or if
+     * thf brrbys brf of difffrfnt lfngths, or if thfrf is bn
+     * illfgbl vbluf in onf of thfm.
+     * Wrbppfd fxdfption is {@link UnsupportfdOpfrbtionExdfption}
+     * if thf dfsdriptor is immutbblf, bnd thf dbll would dhbngf
+     * its dontfnts.
+     *
+     * @sff #gftFiflds
+     */
+    publid void sftFiflds(String[] fifldNbmfs, Objfdt[] fifldVblufs)
+        throws RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * <p>Rfturns b dfsdriptor whidh is fqubl to this dfsdriptor.
+     * Chbngfs to thf rfturnfd dfsdriptor will hbvf no ffffdt on this
+     * dfsdriptor, bnd vidf vfrsb.  If this dfsdriptor is immutbblf,
+     * it mby fulfill this dondition by rfturning itsflf.</p>
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for fifld nbmfs
+     * or fifld vblufs.
+     * If thf dfsdriptor donstrudtion fbils for bny rfbson, this fxdfption will
+     * bf thrown.
+     * @rfturn A dfsdriptor whidh is fqubl to this dfsdriptor.
+     */
+    publid Objfdt dlonf() throws RuntimfOpfrbtionsExdfption;
+
+
+    /**
+     * Rfturns truf if bll of thf fiflds hbvf lfgbl vblufs givfn thfir
+     * nbmfs.
+     *
+     * @rfturn truf if thf vblufs brf lfgbl.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption If thf vblidity dhfdking fbils for
+     * bny rfbson, this fxdfption will bf thrown.
+     * Thf mfthod rfturns fblsf if thf dfsdriptor is not vblid, but throws
+     * this fxdfption if thf bttfmpt to dftfrminf vblidity fbils.
+     */
+    publid boolfbn isVblid() throws RuntimfOpfrbtionsExdfption;
+
+    /**
+     * <p>Compbrfs this dfsdriptor to thf givfn objfdt.  Thf objfdts brf fqubl if
+     * thf givfn objfdt is blso b Dfsdriptor, bnd if thf two Dfsdriptors hbvf
+     * thf sbmf fifld nbmfs (possibly difffring in dbsf) bnd thf sbmf
+     * bssodibtfd vblufs.  Thf rfspfdtivf vblufs for b fifld in thf two
+     * Dfsdriptors brf fqubl if thf following donditions hold:</p>
+     *
+     * <ul>
+     * <li>If onf vbluf is null thfn thf othfr must bf too.</li>
+     * <li>If onf vbluf is b primitivf brrby thfn thf othfr must bf b primitivf
+     * brrby of thf sbmf typf with thf sbmf flfmfnts.</li>
+     * <li>If onf vbluf is bn objfdt brrby thfn thf othfr must bf too bnd
+     * {@link Arrbys#dffpEqubls(Objfdt[],Objfdt[])} must rfturn truf.</li>
+     * <li>Othfrwisf {@link Objfdt#fqubls(Objfdt)} must rfturn truf.</li>
+     * </ul>
+     *
+     * @pbrbm obj thf objfdt to dompbrf with.
+     *
+     * @rfturn {@dodf truf} if thf objfdts brf thf sbmf; {@dodf fblsf}
+     * othfrwisf.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt obj);
+
+    /**
+     * <p>Rfturns thf hbsh dodf vbluf for this dfsdriptor.  Thf hbsh
+     * dodf is domputfd bs thf sum of thf hbsh dodfs for fbdh fifld in
+     * thf dfsdriptor.  Thf hbsh dodf of b fifld with nbmf {@dodf n}
+     * bnd vbluf {@dodf v} is {@dodf n.toLowfrCbsf().hbshCodf() ^ h}.
+     * Hfrf {@dodf h} is thf hbsh dodf of {@dodf v}, domputfd bs
+     * follows:</p>
+     *
+     * <ul>
+     * <li>If {@dodf v} is null thfn {@dodf h} is 0.</li>
+     * <li>If {@dodf v} is b primitivf brrby thfn {@dodf h} is domputfd using
+     * thf bppropribtf ovfrlobding of {@dodf jbvb.util.Arrbys.hbshCodf}.</li>
+     * <li>If {@dodf v} is bn objfdt brrby thfn {@dodf h} is domputfd using
+     * {@link Arrbys#dffpHbshCodf(Objfdt[])}.</li>
+     * <li>Othfrwisf {@dodf h} is {@dodf v.hbshCodf()}.</li>
+     * </ul>
+     *
+     * @rfturn A hbsh dodf vbluf for this objfdt.
+     *
+     * @sindf 1.6
+     */
+    publid int hbshCodf();
+}

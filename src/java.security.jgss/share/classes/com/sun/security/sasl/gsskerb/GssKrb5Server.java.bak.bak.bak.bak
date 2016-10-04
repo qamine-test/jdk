@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+
+// JAAS
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+
+// JGSS
+import org.iftf.jgss.*;
+
+/**
+  * Implfmfnts thf GSSAPI SASL sfrvfr mfdhbnism for Kfrbfros V5.
+  * (<A HREF="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>,
+  * <b HREF="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-dbt-sbsl-gssbpi-00.txt">drbft-iftf-dbt-sbsl-gssbpi-00.txt</b>).
+  *
+  * Expfdts thrfbd's Subjfdt to dontbin sfrvfr's Kfrbfros drfdfntibls
+  * - If not, undfrlying KRB5 mfdh will bttfmpt to bdquirf Kfrbfros drfds
+  *   by logging into Kfrbfros (vib dffbult TfxtCbllbbdkHbndlfr).
+  * - Thfsf drfds will bf usfd for fxdhbngf with dlifnt.
+  *
+  * Rfquirfd dbllbbdks:
+  * - AuthorizfCbllbbdk
+  *      hbndlfr must vfrify thbt buthid/buthzids brf bllowfd bnd sft
+  *      buthorizfd ID to bf thf dbnonidblizfd buthzid (if bpplidbblf).
+  *
+  * Environmfnt propfrtifs thbt bfffdt bfhbvior of implfmfntbtion:
+  *
+  * jbvbx.sfdurity.sbsl.qop
+  * - qublity of protfdtion; list of buth, buth-int, buth-donf; dffbult is "buth"
+  * jbvbx.sfdurity.sbsl.mbxbuf
+  * - mbx rfdfivf bufffr sizf; dffbult is 65536
+  * jbvbx.sfdurity.sbsl.sfndmbxbufffr
+  * - mbx sfnd bufffr sizf; dffbult is 65536; (min with dlifnt mbx rfdv sizf)
+  *
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss GssKrb5Sfrvfr fxtfnds GssKrb5Bbsf implfmfnts SbslSfrvfr {
+    privbtf stbtid finbl String MY_CLASS_NAME = GssKrb5Sfrvfr.dlbss.gftNbmf();
+
+    privbtf int hbndshbkfStbgf = 0;
+    privbtf String pffr;
+    privbtf String mf;
+    privbtf String buthzid;
+    privbtf CbllbbdkHbndlfr dbh;
+
+    // Whfn sfrvfrNbmf is null, thf sfrvfr will bf unbound. Wf nffd to sbvf bnd
+    // dhfdk thf protodol nbmf bftfr thf dontfxt is fstbblishfd. This vbluf
+    // will bf null if sfrvfrNbmf is not null.
+    privbtf finbl String protodolSbvfd;
+    /**
+     * Crfbtfs b SASL mfdhbnism with sfrvfr drfdfntibls thbt it nffds
+     * to pbrtidipbtf in GSS-API/Kfrbfros v5 buthfntidbtion fxdhbngf
+     * with thf dlifnt.
+     */
+    GssKrb5Sfrvfr(String protodol, String sfrvfrNbmf,
+        Mbp<String, ?> props, CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+        supfr(props, MY_CLASS_NAME);
+
+        this.dbh = dbh;
+
+        String sfrvidf;
+        if (sfrvfrNbmf == null) {
+            protodolSbvfd = protodol;
+            sfrvidf = null;
+        } flsf {
+            protodolSbvfd = null;
+            sfrvidf = protodol + "@" + sfrvfrNbmf;
+        }
+
+        loggfr.log(Lfvfl.FINE, "KRB5SRV01:Using sfrvidf nbmf: {0}", sfrvidf);
+
+        try {
+            GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+
+            // Crfbtf thf nbmf for thf rfqufstfd sfrvidf fntity for Krb5 mfdh
+            GSSNbmf sfrvidfNbmf = sfrvidf == null ? null:
+                    mgr.drfbtfNbmf(sfrvidf, GSSNbmf.NT_HOSTBASED_SERVICE, KRB5_OID);
+
+            GSSCrfdfntibl drfd = mgr.drfbtfCrfdfntibl(sfrvidfNbmf,
+                GSSCrfdfntibl.INDEFINITE_LIFETIME,
+                KRB5_OID, GSSCrfdfntibl.ACCEPT_ONLY);
+
+            // Crfbtf b dontfxt using thf sfrvfr's drfdfntibls
+            sfdCtx = mgr.drfbtfContfxt(drfd);
+
+            if ((bllQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+                // Might nffd intfgrity
+                sfdCtx.rfqufstIntfg(truf);
+            }
+
+            if ((bllQop&PRIVACY_PROTECTION) != 0) {
+                // Might nffd privbdy
+                sfdCtx.rfqufstConf(truf);
+            }
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Fbilurf to initiblizf sfdurity dontfxt", f);
+        }
+        loggfr.log(Lfvfl.FINE, "KRB5SRV02:Initiblizbtion domplftf");
+    }
+
+
+    /**
+     * Prodfssfs thf rfsponsf dbtb.
+     *
+     * Thf dlifnt sfnds rfsponsf dbtb to whidh thf sfrvfr must
+     * prodfss using GSS_bddfpt_sfd_dontfxt.
+     * As pfr RFC 2222, thf GSS buthfnidbtion domplftfs (GSS_S_COMPLETE)
+     * wf do bn fxtrb hbnd shbkf to dftfrminf thf nfgotibtfd sfdurity protfdtion
+     * bnd bufffr sizfs.
+     *
+     * @pbrbm rfsponsfDbtb A non-null but possiblf fmpty bytf brrby dontbining thf
+     * rfsponsf dbtb from thf dlifnt.
+     * @rfturn A non-null bytf brrby dontbining thf dhbllfngf to bf
+     * sfnt to thf dlifnt, or null whfn no morf dbtb is to bf sfnt.
+     */
+    publid bytf[] fvblubtfRfsponsf(bytf[] rfsponsfDbtb) throws SbslExdfption {
+        if (domplftfd) {
+            throw nfw SbslExdfption(
+                "SASL buthfntidbtion blrfbdy domplftf");
+        }
+
+        if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+            trbdfOutput(MY_CLASS_NAME, "fvblubtfRfsponsf",
+                "KRB5SRV03:Rfsponsf [rbw]:", rfsponsfDbtb);
+        }
+
+        switdh (hbndshbkfStbgf) {
+        dbsf 1:
+            rfturn doHbndshbkf1(rfsponsfDbtb);
+
+        dbsf 2:
+            rfturn doHbndshbkf2(rfsponsfDbtb);
+
+        dffbult:
+            // Sfdurity dontfxt not fstbblishfd yft; dontinuf with bddfpt
+
+            try {
+                bytf[] gssOutTokfn = sfdCtx.bddfptSfdContfxt(rfsponsfDbtb,
+                    0, rfsponsfDbtb.lfngth);
+
+                if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                    trbdfOutput(MY_CLASS_NAME, "fvblubtfRfsponsf",
+                        "KRB5SRV04:Chbllfngf: [bftfr bddfptSfdCtx]", gssOutTokfn);
+                }
+
+                if (sfdCtx.isEstbblishfd()) {
+                    hbndshbkfStbgf = 1;
+
+                    pffr = sfdCtx.gftSrdNbmf().toString();
+                    mf = sfdCtx.gftTbrgNbmf().toString();
+
+                    loggfr.log(Lfvfl.FINE,
+                            "KRB5SRV05:Pffr nbmf is : {0}, my nbmf is : {1}",
+                            nfw Objfdt[]{pffr, mf});
+
+                    // mf might tbkf thf form of proto@host or proto/host
+                    if (protodolSbvfd != null &&
+                            !protodolSbvfd.fqublsIgnorfCbsf(mf.split("[/@]")[0])) {
+                        throw nfw SbslExdfption(
+                                "GSS dontfxt tbrg nbmf protodol frror: " + mf);
+                    }
+
+                    if (gssOutTokfn == null) {
+                        rfturn doHbndshbkf1(EMPTY);
+                    }
+                }
+
+                rfturn gssOutTokfn;
+            } dbtdh (GSSExdfption f) {
+                throw nfw SbslExdfption("GSS initibtf fbilfd", f);
+            }
+        }
+    }
+
+    privbtf bytf[] doHbndshbkf1(bytf[] rfsponsfDbtb) throws SbslExdfption {
+        try {
+            // Sfdurity dontfxt blrfbdy fstbblishfd. rfsponsfDbtb
+            // should dontbin no dbtb
+            if (rfsponsfDbtb != null && rfsponsfDbtb.lfngth > 0) {
+                throw nfw SbslExdfption(
+                    "Hbndshbkf fxpfdting no rfsponsf dbtb from sfrvfr");
+            }
+
+            // Construdt 4 odtfts of dbtb:
+            // First odtft dontbins bitmbsk spfdifying protfdtions supportfd
+            // 2nd-4th odtfts dontbins mbx rfdfivf bufffr of sfrvfr
+
+            bytf[] gssInTokfn = nfw bytf[4];
+            gssInTokfn[0] = bllQop;
+            intToNftworkBytfOrdfr(rfdvMbxBufSizf, gssInTokfn, 1, 3);
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+                    "KRB5SRV06:Supportfd protfdtions: {0}; rfdv mbx buf sizf: {1}",
+                    nfw Objfdt[]{bllQop,
+                                 rfdvMbxBufSizf});
+            }
+
+            hbndshbkfStbgf = 2;  // progrfss to nfxt stbgf
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndshbkf1",
+                    "KRB5SRV07:Chbllfngf [rbw]", gssInTokfn);
+            }
+
+            bytf[] gssOutTokfn = sfdCtx.wrbp(gssInTokfn, 0, gssInTokfn.lfngth,
+                nfw MfssbgfProp(0 /* gop */, fblsf /* privbdy */));
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndshbkf1",
+                    "KRB5SRV08:Chbllfngf [bftfr wrbp]", gssOutTokfn);
+            }
+            rfturn gssOutTokfn;
+
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Problfm wrbpping hbndshbkf1", f);
+        }
+    }
+
+    privbtf bytf[] doHbndshbkf2(bytf[] rfsponsfDbtb) throws SbslExdfption {
+        try {
+            // Expfdting 4 odtfts from dlifnt sflfdtfd protfdtion
+            // bnd dlifnt's rfdfivf bufffr sizf
+            bytf[] gssOutTokfn = sfdCtx.unwrbp(rfsponsfDbtb, 0,
+                rfsponsfDbtb.lfngth, nfw MfssbgfProp(0, fblsf));
+
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndshbkf2",
+                    "KRB5SRV09:Rfsponsf [bftfr unwrbp]", gssOutTokfn);
+            }
+
+            // First odtft is b bit-mbsk spfdifying thf sflfdtfd protfdtion
+            bytf sflfdtfdQop = gssOutTokfn[0];
+            if ((sflfdtfdQop&bllQop) == 0) {
+                throw nfw SbslExdfption("Clifnt sflfdtfd unsupportfd protfdtion: "
+                    + sflfdtfdQop);
+            }
+            if ((sflfdtfdQop&PRIVACY_PROTECTION) != 0) {
+                privbdy = truf;
+                intfgrity = truf;
+            } flsf if ((sflfdtfdQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+                intfgrity = truf;
+            }
+
+            // 2nd-4th odtfts spfdififs mbximum bufffr sizf fxpfdtfd by
+            // dlifnt (in nftwork bytf ordfr). This is thf sfrvfr's sfnd
+            // bufffr mbximum.
+            int dlntMbxBufSizf = nftworkBytfOrdfrToInt(gssOutTokfn, 1, 3);
+
+            // Dftfrminf thf mbx sfnd bufffr sizf bbsfd on whbt thf
+            // dlifnt is bblf to rfdfivf bnd our spfdififd mbx
+            sfndMbxBufSizf = (sfndMbxBufSizf == 0) ? dlntMbxBufSizf :
+                Mbth.min(sfndMbxBufSizf, dlntMbxBufSizf);
+
+            // Updbtf dontfxt to limit sizf of rfturnfd bufffr
+            rbwSfndSizf = sfdCtx.gftWrbpSizfLimit(JGSS_QOP, privbdy,
+                sfndMbxBufSizf);
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+            "KRB5SRV10:Sflfdtfd protfdtion: {0}; privbdy: {1}; intfgrity: {2}",
+                    nfw Objfdt[]{sflfdtfdQop,
+                                 Boolfbn.vblufOf(privbdy),
+                                 Boolfbn.vblufOf(intfgrity)});
+                loggfr.log(Lfvfl.FINE,
+"KRB5SRV11:Clifnt mbx rfdv sizf: {0}; sfrvfr mbx sfnd sizf: {1}; rbwSfndSizf: {2}",
+                    nfw Objfdt[] {dlntMbxBufSizf,
+                                  sfndMbxBufSizf,
+                                  rbwSfndSizf});
+            }
+
+            // Gft buthorizbtion idfntity, if bny
+            if (gssOutTokfn.lfngth > 4) {
+                try {
+                    buthzid = nfw String(gssOutTokfn, 4,
+                        gssOutTokfn.lfngth - 4, "UTF-8");
+                } dbtdh (UnsupportfdEndodingExdfption uff) {
+                    throw nfw SbslExdfption ("Cbnnot dfdodf buthzid", uff);
+                }
+            } flsf {
+                buthzid = pffr;
+            }
+            loggfr.log(Lfvfl.FINE, "KRB5SRV12:Authzid: {0}", buthzid);
+
+            AuthorizfCbllbbdk bdb = nfw AuthorizfCbllbbdk(pffr, buthzid);
+
+            // In Kfrbfros, rfblm is fmbfddfd in pffr nbmf
+            dbh.hbndlf(nfw Cbllbbdk[] {bdb});
+            if (bdb.isAuthorizfd()) {
+                buthzid = bdb.gftAuthorizfdID();
+                domplftfd = truf;
+            } flsf {
+                // Authorizbtion fbilfd
+                throw nfw SbslExdfption(pffr +
+                    " is not buthorizfd to donnfdt bs " + buthzid);
+            }
+
+            rfturn null;
+        } dbtdh (GSSExdfption f) {
+            throw nfw SbslExdfption("Finbl hbndshbkf stfp fbilfd", f);
+        } dbtdh (IOExdfption f) {
+            throw nfw SbslExdfption("Problfm with dbllbbdk hbndlfr", f);
+        } dbtdh (UnsupportfdCbllbbdkExdfption f) {
+            throw nfw SbslExdfption("Problfm with dbllbbdk hbndlfr", f);
+        }
+    }
+
+    publid String gftAuthorizbtionID() {
+        if (domplftfd) {
+            rfturn buthzid;
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("Authfntidbtion indomplftf");
+        }
+    }
+
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            throw nfw IllfgblStbtfExdfption("Authfntidbtion indomplftf");
+        }
+
+        Objfdt rfsult;
+        switdh (propNbmf) {
+            dbsf Sbsl.BOUND_SERVER_NAME:
+                try {
+                    // mf might tbkf thf form of proto@host or proto/host
+                    rfsult = mf.split("[/@]")[1];
+                } dbtdh (Exdfption f) {
+                    rfsult = null;
+                }
+                brfbk;
+            dffbult:
+                rfsult = supfr.gftNfgotibtfdPropfrty(propNbmf);
+        }
+        rfturn rfsult;
+    }
+}

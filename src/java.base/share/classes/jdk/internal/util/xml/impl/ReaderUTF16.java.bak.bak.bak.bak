@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml.impl;
+
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * UTF-16 fndodfd strfbm rfbdfr.
+ */
+publid dlbss RfbdfrUTF16 fxtfnds Rfbdfr {
+
+    privbtf InputStrfbm is;
+    privbtf dhbr bo;
+
+    /**
+     * Construdtor.
+     *
+     * Bytf ordfr brgumfnt dbn bf: 'l' for littlf-fndibn or 'b' for big-fndibn.
+     *
+     * @pbrbm is A bytf input strfbm.
+     * @pbrbm bo A bytf ordfr in thf input strfbm.
+     */
+    publid RfbdfrUTF16(InputStrfbm is, dhbr bo) {
+        switdh (bo) {
+            dbsf 'l':
+                brfbk;
+
+            dbsf 'b':
+                brfbk;
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("");
+        }
+        this.bo = bo;
+        this.is = is;
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+     *
+     * @pbrbm dbuf Dfstinbtion bufffr.
+     * @pbrbm off Offsft bt whidh to stbrt storing dhbrbdtfrs.
+     * @pbrbm lfn Mbximum numbfr of dhbrbdtfrs to rfbd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     */
+    publid int rfbd(dhbr[] dbuf, int off, int lfn) throws IOExdfption {
+        int num = 0;
+        int vbl;
+        if (bo == 'b') {
+            whilf (num < lfn) {
+                if ((vbl = is.rfbd()) < 0) {
+                    rfturn (num != 0) ? num : -1;
+                }
+                dbuf[off++] = (dhbr) ((vbl << 8) | (is.rfbd() & 0xff));
+                num++;
+            }
+        } flsf {
+            whilf (num < lfn) {
+                if ((vbl = is.rfbd()) < 0) {
+                    rfturn (num != 0) ? num : -1;
+                }
+                dbuf[off++] = (dhbr) ((is.rfbd() << 8) | (vbl & 0xff));
+                num++;
+            }
+        }
+        rfturn num;
+    }
+
+    /**
+     * Rfbds b singlf dhbrbdtfr.
+     *
+     * @rfturn Thf dhbrbdtfr rfbd, bs bn intfgfr in thf rbngf 0 to 65535
+     *  (0x0000-0xffff), or -1 if thf fnd of thf strfbm hbs bffn rfbdhfd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     */
+    publid int rfbd() throws IOExdfption {
+        int vbl;
+        if ((vbl = is.rfbd()) < 0) {
+            rfturn -1;
+        }
+        if (bo == 'b') {
+            vbl = (dhbr) ((vbl << 8) | (is.rfbd() & 0xff));
+        } flsf {
+            vbl = (dhbr) ((is.rfbd() << 8) | (vbl & 0xff));
+        }
+        rfturn vbl;
+    }
+
+    /**
+     * Closfs thf strfbm.
+     *
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     */
+    publid void dlosf() throws IOExdfption {
+        is.dlosf();
+    }
+}

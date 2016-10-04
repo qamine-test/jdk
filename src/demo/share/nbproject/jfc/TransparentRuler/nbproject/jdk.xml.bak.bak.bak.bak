@@ -1,0 +1,98 @@
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+
+<!--
+ Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr in thf
+     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from this softwbrf without spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<projfdt nbmf="jdk" bbsfdir=".">
+
+    <tbrgft nbmf="-jdk-prfinit">
+        <dondition propfrty=".fxf" vbluf=".fxf">
+            <os fbmily="windows"/>
+        </dondition>
+        <propfrty nbmf=".fxf" vbluf=""/>
+        <propfrty nbmf="nbjdk.jbvbd" vbluf="${nbjdk.homf}/bin/jbvbd${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvb" vbluf="${nbjdk.homf}/bin/jbvb${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvbdod" vbluf="${nbjdk.homf}/bin/jbvbdod${.fxf}"/>
+        <propfrty nbmf="nbjdk.bpplftvifwfr" vbluf="${nbjdk.homf}/bin/bpplftvifwfr${.fxf}"/>
+        <propfrty nbmf="nbjdk.bootdlbsspbth" vbluf="${nbjdk.homf}/jrf/lib/rt.jbr"/>
+    </tbrgft>
+
+    <tbrgft nbmf="-jdk-prfsftdff-bbsid" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.bbsid.donf">
+        <mbdrodff nbmf="jbvbd-prfsftdff">
+            <bttributf nbmf="jbvbdvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbd">
+                    <jbvbd fork="yfs" fxfdutbblf="@{jbvbdvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbd-prfsftdff jbvbdvbl="${nbjdk.jbvbd}"/>
+        <mbdrodff nbmf="jbvb-prfsftdff">
+            <bttributf nbmf="jbvbvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvb">
+                    <jbvb fork="yfs" jvm="@{jbvbvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvb-prfsftdff jbvbvbl="${nbjdk.jbvb}"/>
+        <mbdrodff nbmf="jbvbdod-prfsftdff">
+            <bttributf nbmf="jbvbdodvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbdod">
+                    <jbvbdod fxfdutbblf="@{jbvbdodvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbdod-prfsftdff jbvbdodvbl="${nbjdk.jbvbdod}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.bbsid.donf" vbluf="truf"/>
+    </tbrgft>
+
+    <tbrgft nbmf="-jdk-prfsftdff-nbjpdbstbrt" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.nbjpdbstbrt.donf">
+        <mbdrodff nbmf="nbjpdbstbrt-prfsftdff">
+            <bttributf nbmf="bootdpvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="nbjpdbstbrt">
+                    <nbjpdbstbrt>
+                        <bootdlbsspbth>
+                            <pbth pbth="@{bootdpvbl}"/>
+                        </bootdlbsspbth>
+                    </nbjpdbstbrt>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <nbjpdbstbrt-prfsftdff bootdpvbl="${nbjdk.bootdlbsspbth}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.nbjpdbstbrt.donf" vbluf="truf"/>
+    </tbrgft>
+
+    <tbrgft nbmf="-jdk-init" dfpfnds="-jdk-prfinit,-jdk-prfsftdff-bbsid"/>
+
+</projfdt>

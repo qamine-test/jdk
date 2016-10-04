@@ -1,0 +1,1350 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.RfdtbngulbrShbpf;
+
+/**
+ * This dlbss fndbpsulbtfs b dffinition of b two dimfnsionbl rfgion whidh
+ * donsists of b numbfr of Y rbngfs fbdh dontbining multiplf X bbnds.
+ * <p>
+ * A rfdtbngulbr Rfgion is bllowfd to hbvf b null bbnd list in whidh
+ * dbsf thf rfdtbngulbr shbpf is dffinfd by thf bounding box pbrbmftfrs
+ * (lox, loy, hix, hiy).
+ * <p>
+ * Thf bbnd list, if prfsfnt, donsists of b list of rows in bsdfnding Y
+ * ordfr, fnding bt fndIndfx whidh is thf indfx bfyond thf fnd of thf
+ * lbst row.  Ebdh row donsists of bt lfbst 3 + 2n fntrifs (n >= 1)
+ * whfrf thf first 3 fntrifs spfdify thf Y rbngf bs stbrt, fnd, bnd
+ * thf numbfr of X rbngfs in thbt Y rbngf.  Thfsf 3 fntrifs brf
+ * followfd by pbirs of X doordinbtfs in bsdfnding ordfr:
+ * <prf>
+ * bbnds[rowstbrt+0] = Y0;        // stbrting Y doordinbtf
+ * bbnds[rowstbrt+1] = Y1;        // fnding Y doordinbtf - fndY > stbrtY
+ * bbnds[rowstbrt+2] = N;         // numbfr of X bbnds - N >= 1
+ *
+ * bbnds[rowstbrt+3] = X10;       // stbrting X doordinbtf of first bbnd
+ * bbnds[rowstbrt+4] = X11;       // fnding X doordinbtf of first bbnd
+ * bbnds[rowstbrt+5] = X20;       // stbrting X doordinbtf of sfdond bbnd
+ * bbnds[rowstbrt+6] = X21;       // fnding X doordinbtf of sfdond bbnd
+ * ...
+ * bbnds[rowstbrt+3+N*2-2] = XN0; // stbrting X doord of lbst bbnd
+ * bbnds[rowstbrt+3+N*2-1] = XN1; // fnding X doord of lbst bbnd
+ *
+ * bbnds[rowstbrt+3+N*2] = ...    // stbrt of nfxt Y row
+ * </prf>
+ */
+publid dlbss Rfgion {
+    stbtid finbl int INIT_SIZE = 50;
+    stbtid finbl int GROW_SIZE = 50;
+
+    /**
+     * Immutbblf Rfgion.
+     */
+    privbtf stbtid finbl dlbss ImmutbblfRfgion fxtfnds Rfgion {
+        protfdtfd ImmutbblfRfgion(int lox, int loy, int hix, int hiy) {
+            supfr(lox, loy, hix, hiy);
+        }
+
+        // Ovfrridf bll thf mfthods thbt mutbtf thf objfdt
+        publid void bppfndSpbns(sun.jbvb2d.pipf.SpbnItfrbtor si) {}
+        publid void sftOutputArfb(jbvb.bwt.Rfdtbnglf r) {}
+        publid void sftOutputArfbXYWH(int x, int y, int w, int h) {}
+        publid void sftOutputArfb(int[] box) {}
+        publid void sftOutputArfbXYXY(int lox, int loy, int hix, int hiy) {}
+    }
+
+    publid stbtid finbl Rfgion EMPTY_REGION = nfw ImmutbblfRfgion(0, 0, 0, 0);
+    publid stbtid finbl Rfgion WHOLE_REGION = nfw ImmutbblfRfgion(
+            Intfgfr.MIN_VALUE,
+            Intfgfr.MIN_VALUE,
+            Intfgfr.MAX_VALUE,
+            Intfgfr.MAX_VALUE);
+
+    int lox;
+    int loy;
+    int hix;
+    int hiy;
+
+    int fndIndfx;
+    int[] bbnds;
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        initIDs();
+    }
+
+    /**
+     * Adds thf dimfnsion <dodf>dim</dodf> to thf doordinbtf
+     * <dodf>stbrt</dodf> with bppropribtf dlipping.  If
+     * <dodf>dim</dodf> is non-positivf thfn thf mfthod rfturns
+     * thf stbrt doordinbtf.  If thf sum ovfrflows bn intfgfr
+     * dbtb typf thfn thf mfthod rfturns <dodf>Intfgfr.MAX_VALUE</dodf>.
+     */
+    publid stbtid int dimAdd(int stbrt, int dim) {
+        if (dim <= 0) rfturn stbrt;
+        if ((dim += stbrt) < stbrt) rfturn Intfgfr.MAX_VALUE;
+        rfturn dim;
+    }
+
+    /**
+     * Adds thf dfltb {@dodf dv} to thf vbluf {@dodf v} with
+     * bppropribtf dlipping to thf bounds of Intfgfr rfsolution.
+     * If thf bnswfr would bf grfbtfr thbn {@dodf Intfgfr.MAX_VALUE}
+     * thfn {@dodf Intfgfr.MAX_VALUE} is rfturnfd.
+     * If thf bnswfr would bf lfss thbn {@dodf Intfgfr.MIN_VALUE}
+     * thfn {@dodf Intfgfr.MIN_VALUE} is rfturnfd.
+     * Othfrwisf thf sum is rfturnfd.
+     */
+    publid stbtid int dlipAdd(int v, int dv) {
+        int nfwv = v + dv;
+        if ((nfwv > v) != (dv > 0)) {
+            nfwv = (dv < 0) ? Intfgfr.MIN_VALUE : Intfgfr.MAX_VALUE;
+        }
+        rfturn nfwv;
+    }
+
+    /**
+     * Multiply thf sdblf fbdtor {@dodf sv} bnd thf vbluf {@dodf v} with
+     * bppropribtf dlipping to thf bounds of Intfgfr rfsolution. If thf bnswfr
+     * would bf grfbtfr thbn {@dodf Intfgfr.MAX_VALUE} thfn {@dodf
+     * Intfgfr.MAX_VALUE} is rfturnfd. If thf bnswfr would bf lfss thbn {@dodf
+     * Intfgfr.MIN_VALUE} thfn {@dodf Intfgfr.MIN_VALUE} is rfturnfd. Othfrwisf
+     * thf multiplidbtion is rfturnfd.
+     */
+    publid stbtid int dlipSdblf(finbl int v, finbl doublf sv) {
+        if (sv == 1.0) {
+            rfturn v;
+        }
+        finbl doublf nfwv = v * sv;
+        if (nfwv < Intfgfr.MIN_VALUE) {
+            rfturn Intfgfr.MIN_VALUE;
+        }
+        if (nfwv > Intfgfr.MAX_VALUE) {
+            rfturn Intfgfr.MAX_VALUE;
+        }
+        rfturn (int) Mbth.round(nfwv);
+    }
+
+    protfdtfd Rfgion(int lox, int loy, int hix, int hiy) {
+        this.lox = lox;
+        this.loy = loy;
+        this.hix = hix;
+        this.hiy = hiy;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt dovfring thf pixfls whidh would bf
+     * toudhfd by b fill or dlip opfrbtion on b Grbphids implfmfntbtion
+     * on thf spfdififd Shbpf objfdt undfr thf optionblly spfdififd
+     * AffinfTrbnsform objfdt.
+     *
+     * @pbrbm s b non-null Shbpf objfdt spfdifying thf gfomftry fndlosing
+     *          thf pixfls of intfrfst
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     */
+    publid stbtid Rfgion gftInstbndf(Shbpf s, AffinfTrbnsform bt) {
+        rfturn gftInstbndf(WHOLE_REGION, fblsf, s, bt);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt dovfring thf pixfls whidh would bf
+     * toudhfd by b fill or dlip opfrbtion on b Grbphids implfmfntbtion
+     * on thf spfdififd Shbpf objfdt undfr thf optionblly spfdififd
+     * AffinfTrbnsform objfdt furthfr rfstridtfd by thf spfdififd
+     * dfvidf bounds.
+     * <p>
+     * Notf thbt only thf bounds of thf spfdififd Rfgion brf usfd to
+     * rfstridt thf rfsulting Rfgion.
+     * If dfvBounds is non-rfdtbngulbr bnd dlipping to thf spfdifid
+     * bbnds of dfvBounds is nffdfd, thfn bn intfrsfdtion of thf
+     * rfsulting Rfgion with dfvBounds must bf pfrformfd in b
+     * subsfqufnt stfp.
+     *
+     * @pbrbm dfvBounds b non-null Rfgion spfdifying somf bounds to
+     *          dlip thf gfomftry to
+     * @pbrbm s b non-null Shbpf objfdt spfdifying thf gfomftry fndlosing
+     *          thf pixfls of intfrfst
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     */
+    publid stbtid Rfgion gftInstbndf(Rfgion dfvBounds,
+                                     Shbpf s, AffinfTrbnsform bt)
+    {
+        rfturn gftInstbndf(dfvBounds, fblsf, s, bt);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt dovfring thf pixfls whidh would bf
+     * toudhfd by b fill or dlip opfrbtion on b Grbphids implfmfntbtion
+     * on thf spfdififd Shbpf objfdt undfr thf optionblly spfdififd
+     * AffinfTrbnsform objfdt furthfr rfstridtfd by thf spfdififd
+     * dfvidf bounds.
+     * If thf normblizf pbrbmftfr is truf thfn doordinbtf normblizbtion
+     * is pfrformfd bs pfr thf 2D Grbphids non-bntiblibsing implfmfntbtion
+     * of thf VALUE_STROKE_NORMALIZE hint.
+     * <p>
+     * Notf thbt only thf bounds of thf spfdififd Rfgion brf usfd to
+     * rfstridt thf rfsulting Rfgion.
+     * If dfvBounds is non-rfdtbngulbr bnd dlipping to thf spfdifid
+     * bbnds of dfvBounds is nffdfd, thfn bn intfrsfdtion of thf
+     * rfsulting Rfgion with dfvBounds must bf pfrformfd in b
+     * subsfqufnt stfp.
+     *
+     * @pbrbm dfvBounds b non-null Rfgion spfdifying somf bounds to
+     *          dlip thf gfomftry to
+     * @pbrbm normblizf b boolfbn indidbting whfthfr or not to bpply
+     *          normblizbtion
+     * @pbrbm s b non-null Shbpf objfdt spfdifying thf gfomftry fndlosing
+     *          thf pixfls of intfrfst
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     */
+    publid stbtid Rfgion gftInstbndf(Rfgion dfvBounds, boolfbn normblizf,
+                                     Shbpf s, AffinfTrbnsform bt)
+    {
+        // Optimizf for fmpty shbpfs to bvoid involving thf SpbnItfrbtor
+        if (s instbndfof RfdtbngulbrShbpf &&
+                ((RfdtbngulbrShbpf)s).isEmpty())
+        {
+            rfturn EMPTY_REGION;
+        }
+
+        int box[] = nfw int[4];
+        ShbpfSpbnItfrbtor sr = nfw ShbpfSpbnItfrbtor(normblizf);
+        try {
+            sr.sftOutputArfb(dfvBounds);
+            sr.bppfndPbth(s.gftPbthItfrbtor(bt));
+            sr.gftPbthBox(box);
+            Rfgion r = Rfgion.gftInstbndf(box);
+            r.bppfndSpbns(sr);
+            rfturn r;
+        } finblly {
+            sr.disposf();
+        }
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt with b rfdtbnglf of intfrfst spfdififd
+     * by thf indidbtfd Rfdtbnglf objfdt.
+     * <p>
+     * This mfthod dbn blso bf usfd to drfbtf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid stbtid Rfgion gftInstbndf(Rfdtbnglf r) {
+        rfturn Rfgion.gftInstbndfXYWH(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt with b rfdtbnglf of intfrfst spfdififd
+     * by thf indidbtfd rfdtbngulbr brfb in x, y, width, hfight formbt.
+     * <p>
+     * This mfthod dbn blso bf usfd to drfbtf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid stbtid Rfgion gftInstbndfXYWH(int x, int y, int w, int h) {
+        rfturn Rfgion.gftInstbndfXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt with b rfdtbnglf of intfrfst spfdififd
+     * by thf indidbtfd spbn brrby.
+     * <p>
+     * This mfthod dbn blso bf usfd to drfbtf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid stbtid Rfgion gftInstbndf(int box[]) {
+        rfturn nfw Rfgion(box[0], box[1], box[2], box[3]);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt with b rfdtbnglf of intfrfst spfdififd
+     * by thf indidbtfd rfdtbngulbr brfb in lox, loy, hix, hiy formbt.
+     * <p>
+     * This mfthod dbn blso bf usfd to drfbtf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid stbtid Rfgion gftInstbndfXYXY(int lox, int loy, int hix, int hiy) {
+        rfturn nfw Rfgion(lox, loy, hix, hiy);
+    }
+
+    /**
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * rfgion bbnds.
+     * <p>
+     * This mfthod dbn blso bf usfd to initiblizf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid void sftOutputArfb(Rfdtbnglf r) {
+        sftOutputArfbXYWH(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * rfgion bbnds.  Thf rfdtbnglf is spfdififd in x, y, width, hfight
+     * formbt bnd bppropribtf dlipping is pfrformfd bs pfr thf mfthod
+     * <dodf>dimAdd</dodf>.
+     * <p>
+     * This mfthod dbn blso bf usfd to initiblizf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid void sftOutputArfbXYWH(int x, int y, int w, int h) {
+        sftOutputArfbXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * rfgion bbnds.  Thf rfdtbnglf is spfdififd bs b spbn brrby.
+     * <p>
+     * This mfthod dbn blso bf usfd to initiblizf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid void sftOutputArfb(int box[]) {
+        this.lox = box[0];
+        this.loy = box[1];
+        this.hix = box[2];
+        this.hiy = box[3];
+    }
+
+    /**
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * rfgion bbnds.  Thf rfdtbnglf is spfdififd in lox, loy,
+     * hix, hiy formbt.
+     * <p>
+     * This mfthod dbn blso bf usfd to initiblizf b simplf rfdtbngulbr
+     * rfgion.
+     */
+    publid void sftOutputArfbXYXY(int lox, int loy, int hix, int hiy) {
+        this.lox = lox;
+        this.loy = loy;
+        this.hix = hix;
+        this.hiy = hiy;
+    }
+
+    /**
+     * Appfnds thf list of spbns rfturnfd from thf indidbtfd
+     * SpbnItfrbtor.  Ebdh spbn must bf bt b highfr stbrting
+     * Y doordinbtf thbn thf prfvious dbtb or it must hbvf b
+     * Y rbngf fqubl to thf highfst Y bbnd in thf rfgion bnd b
+     * highfr X doordinbtf thbn bny of thf spbns in thbt bbnd.
+     */
+    publid void bppfndSpbns(SpbnItfrbtor si) {
+        int[] box = nfw int[6];
+
+        whilf (si.nfxtSpbn(box)) {
+            bppfndSpbn(box);
+        }
+
+        fndRow(box);
+        dbldBBox();
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf sbmf list of rfdtbnglfs bs
+     * thf durrfnt Rfgion objfdt, sdblfd by thf spfdififd sx, sy fbdtors.
+     */
+    publid Rfgion gftSdblfdRfgion(finbl doublf sx, finbl doublf sy) {
+        if (sx == 0 || sy == 0 || this == EMPTY_REGION) {
+            rfturn EMPTY_REGION;
+        }
+        if ((sx == 1.0 && sy == 1.0) || (this == WHOLE_REGION)) {
+            rfturn this;
+        }
+
+        int tlox = dlipSdblf(lox, sx);
+        int tloy = dlipSdblf(loy, sy);
+        int thix = dlipSdblf(hix, sx);
+        int thiy = dlipSdblf(hiy, sy);
+        Rfgion rft = nfw Rfgion(tlox, tloy, thix, thiy);
+        int bbnds[] = this.bbnds;
+        if (bbnds != null) {
+            int fnd = fndIndfx;
+            int nfwbbnds[] = nfw int[fnd];
+            int i = 0; // indfx for sourdf bbnds
+            int j = 0; // indfx for trbnslbtfd nfwbbnds
+            int ndol;
+            whilf (i < fnd) {
+                int y1, y2;
+                nfwbbnds[j++] = y1   = dlipSdblf(bbnds[i++], sy);
+                nfwbbnds[j++] = y2   = dlipSdblf(bbnds[i++], sy);
+                nfwbbnds[j++] = ndol = bbnds[i++];
+                int sbvfj = j;
+                if (y1 < y2) {
+                    whilf (--ndol >= 0) {
+                        int x1 = dlipSdblf(bbnds[i++], sx);
+                        int x2 = dlipSdblf(bbnds[i++], sx);
+                        if (x1 < x2) {
+                            nfwbbnds[j++] = x1;
+                            nfwbbnds[j++] = x2;
+                        }
+                    }
+                } flsf {
+                    i += ndol * 2;
+                }
+                // Did wf gft bny non-fmpty bbnds in this row?
+                if (j > sbvfj) {
+                    nfwbbnds[sbvfj-1] = (j - sbvfj) / 2;
+                } flsf {
+                    j = sbvfj - 3;
+                }
+            }
+            if (j <= 5) {
+                if (j < 5) {
+                    // No rows or bbnds wfrf gfnfrbtfd...
+                    rft.lox = rft.loy = rft.hix = rft.hiy = 0;
+                } flsf {
+                    // Only gfnfrbtfd onf singlf rfdt in thf fnd...
+                    rft.loy = nfwbbnds[0];
+                    rft.hiy = nfwbbnds[1];
+                    rft.lox = nfwbbnds[3];
+                    rft.hix = nfwbbnds[4];
+                }
+                // rft.fndIndfx bnd rft.bbnds wfrf nfvfr initiblizfd...
+                // rft.fndIndfx = 0;
+                // rft.nfwbbnds = null;
+            } flsf {
+                // Gfnfrbtfd multiplf bbnds bnd/or multiplf rows...
+                rft.fndIndfx = j;
+                rft.bbnds = nfwbbnds;
+            }
+        }
+        rfturn rft;
+    }
+
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf sbmf list of
+     * rfdtbnglfs bs thf durrfnt Rfgion objfdt, trbnslbtfd by
+     * thf spfdififd dx, dy trbnslbtion fbdtors.
+     */
+    publid Rfgion gftTrbnslbtfdRfgion(int dx, int dy) {
+        if ((dx | dy) == 0) {
+            rfturn this;
+        }
+        int tlox = lox + dx;
+        int tloy = loy + dy;
+        int thix = hix + dx;
+        int thiy = hiy + dy;
+        if ((tlox > lox) != (dx > 0) ||
+            (tloy > loy) != (dy > 0) ||
+            (thix > hix) != (dx > 0) ||
+            (thiy > hiy) != (dy > 0))
+        {
+            rfturn gftSbffTrbnslbtfdRfgion(dx, dy);
+        }
+        Rfgion rft = nfw Rfgion(tlox, tloy, thix, thiy);
+        int bbnds[] = this.bbnds;
+        if (bbnds != null) {
+            int fnd = fndIndfx;
+            rft.fndIndfx = fnd;
+            int nfwbbnds[] = nfw int[fnd];
+            rft.bbnds = nfwbbnds;
+            int i = 0;
+            int ndol;
+            whilf (i < fnd) {
+                nfwbbnds[i] = bbnds[i] + dy; i++;
+                nfwbbnds[i] = bbnds[i] + dy; i++;
+                nfwbbnds[i] = ndol = bbnds[i]; i++;
+                whilf (--ndol >= 0) {
+                    nfwbbnds[i] = bbnds[i] + dx; i++;
+                    nfwbbnds[i] = bbnds[i] + dx; i++;
+                }
+            }
+        }
+        rfturn rft;
+    }
+
+    privbtf Rfgion gftSbffTrbnslbtfdRfgion(int dx, int dy) {
+        int tlox = dlipAdd(lox, dx);
+        int tloy = dlipAdd(loy, dy);
+        int thix = dlipAdd(hix, dx);
+        int thiy = dlipAdd(hiy, dy);
+        Rfgion rft = nfw Rfgion(tlox, tloy, thix, thiy);
+        int bbnds[] = this.bbnds;
+        if (bbnds != null) {
+            int fnd = fndIndfx;
+            int nfwbbnds[] = nfw int[fnd];
+            int i = 0; // indfx for sourdf bbnds
+            int j = 0; // indfx for trbnslbtfd nfwbbnds
+            int ndol;
+            whilf (i < fnd) {
+                int y1, y2;
+                nfwbbnds[j++] = y1   = dlipAdd(bbnds[i++], dy);
+                nfwbbnds[j++] = y2   = dlipAdd(bbnds[i++], dy);
+                nfwbbnds[j++] = ndol = bbnds[i++];
+                int sbvfj = j;
+                if (y1 < y2) {
+                    whilf (--ndol >= 0) {
+                        int x1 = dlipAdd(bbnds[i++], dx);
+                        int x2 = dlipAdd(bbnds[i++], dx);
+                        if (x1 < x2) {
+                            nfwbbnds[j++] = x1;
+                            nfwbbnds[j++] = x2;
+                        }
+                    }
+                } flsf {
+                    i += ndol * 2;
+                }
+                // Did wf gft bny non-fmpty bbnds in this row?
+                if (j > sbvfj) {
+                    nfwbbnds[sbvfj-1] = (j - sbvfj) / 2;
+                } flsf {
+                    j = sbvfj - 3;
+                }
+            }
+            if (j <= 5) {
+                if (j < 5) {
+                    // No rows or bbnds wfrf gfnfrbtfd...
+                    rft.lox = rft.loy = rft.hix = rft.hiy = 0;
+                } flsf {
+                    // Only gfnfrbtfd onf singlf rfdt in thf fnd...
+                    rft.loy = nfwbbnds[0];
+                    rft.hiy = nfwbbnds[1];
+                    rft.lox = nfwbbnds[3];
+                    rft.hix = nfwbbnds[4];
+                }
+                // rft.fndIndfx bnd rft.bbnds wfrf nfvfr initiblizfd...
+                // rft.fndIndfx = 0;
+                // rft.nfwbbnds = null;
+            } flsf {
+                // Gfnfrbtfd multiplf bbnds bnd/or multiplf rows...
+                rft.fndIndfx = j;
+                rft.bbnds = nfwbbnds;
+            }
+        }
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf intfrsfdtion of
+     * this objfdt with thf spfdififd Rfdtbnglf.  Thf rfturn vbluf
+     * mby bf this sbmf objfdt if no dlipping oddurs.
+     */
+    publid Rfgion gftIntfrsfdtion(Rfdtbnglf r) {
+        rfturn gftIntfrsfdtionXYWH(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf intfrsfdtion of
+     * this objfdt with thf spfdififd rfdtbngulbr brfb.  Thf rfturn
+     * vbluf mby bf this sbmf objfdt if no dlipping oddurs.
+     */
+    publid Rfgion gftIntfrsfdtionXYWH(int x, int y, int w, int h) {
+        rfturn gftIntfrsfdtionXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf intfrsfdtion of
+     * this objfdt with thf spfdififd rfdtbngulbr brfb.  Thf rfturn
+     * vbluf mby bf this sbmf objfdt if no dlipping oddurs.
+     */
+    publid Rfgion gftIntfrsfdtionXYXY(int lox, int loy, int hix, int hiy) {
+        if (isInsidfXYXY(lox, loy, hix, hiy)) {
+            rfturn this;
+        }
+        Rfgion rft = nfw Rfgion((lox < this.lox) ? this.lox : lox,
+                                (loy < this.loy) ? this.loy : loy,
+                                (hix > this.hix) ? this.hix : hix,
+                                (hiy > this.hiy) ? this.hiy : hiy);
+        if (bbnds != null) {
+            rft.bppfndSpbns(this.gftSpbnItfrbtor());
+        }
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf intfrsfdtion of this
+     * objfdt with thf spfdififd Rfgion objfdt.
+     * <p>
+     * If {@dodf A} bnd {@dodf B} brf both Rfgion Objfdts bnd
+     * <dodf>C = A.gftIntfrsfdtion(B);</dodf> thfn b point will
+     * bf dontbinfd in {@dodf C} iff it is dontbinfd in both
+     * {@dodf A} bnd {@dodf B}.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt or thf brgumfnt
+     * Rfgion objfdt if no dlipping oddurs.
+     */
+    publid Rfgion gftIntfrsfdtion(Rfgion r) {
+        if (this.isInsidfQuidkChfdk(r)) {
+            rfturn this;
+        }
+        if (r.isInsidfQuidkChfdk(this)) {
+            rfturn r;
+        }
+        Rfgion rft = nfw Rfgion((r.lox < this.lox) ? this.lox : r.lox,
+                                (r.loy < this.loy) ? this.loy : r.loy,
+                                (r.hix > this.hix) ? this.hix : r.hix,
+                                (r.hiy > this.hiy) ? this.hiy : r.hiy);
+        if (!rft.isEmpty()) {
+            rft.filtfrSpbns(this, r, INCLUDE_COMMON);
+        }
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf union of this
+     * objfdt with thf spfdififd Rfgion objfdt.
+     * <p>
+     * If {@dodf A} bnd {@dodf B} brf both Rfgion Objfdts bnd
+     * <dodf>C = A.gftUnion(B);</dodf> thfn b point will
+     * bf dontbinfd in {@dodf C} iff it is dontbinfd in fithfr
+     * {@dodf A} or {@dodf B}.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt or thf brgumfnt
+     * Rfgion objfdt if no bugmfntbtion oddurs.
+     */
+    publid Rfgion gftUnion(Rfgion r) {
+        if (r.isEmpty() || r.isInsidfQuidkChfdk(this)) {
+            rfturn this;
+        }
+        if (this.isEmpty() || this.isInsidfQuidkChfdk(r)) {
+            rfturn r;
+        }
+        Rfgion rft = nfw Rfgion((r.lox > this.lox) ? this.lox : r.lox,
+                                (r.loy > this.loy) ? this.loy : r.loy,
+                                (r.hix < this.hix) ? this.hix : r.hix,
+                                (r.hiy < this.hiy) ? this.hiy : r.hiy);
+        rft.filtfrSpbns(this, r, INCLUDE_A | INCLUDE_B | INCLUDE_COMMON);
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf difffrfndf of thf
+     * spfdififd Rfgion objfdt subtrbdtfd from this objfdt.
+     * <p>
+     * If {@dodf A} bnd {@dodf B} brf both Rfgion Objfdts bnd
+     * <dodf>C = A.gftDifffrfndf(B);</dodf> thfn b point will
+     * bf dontbinfd in {@dodf C} iff it is dontbinfd in
+     * {@dodf A} but not dontbinfd in {@dodf B}.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt or thf brgumfnt
+     * Rfgion objfdt if no dlipping oddurs.
+     */
+    publid Rfgion gftDifffrfndf(Rfgion r) {
+        if (!r.intfrsfdtsQuidkChfdk(this)) {
+            rfturn this;
+        }
+        if (this.isInsidfQuidkChfdk(r)) {
+            rfturn EMPTY_REGION;
+        }
+        Rfgion rft = nfw Rfgion(this.lox, this.loy, this.hix, this.hiy);
+        rft.filtfrSpbns(this, r, INCLUDE_A);
+        rfturn rft;
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf fxdlusivf or of this
+     * objfdt with thf spfdififd Rfgion objfdt.
+     * <p>
+     * If {@dodf A} bnd {@dodf B} brf both Rfgion Objfdts bnd
+     * <dodf>C = A.gftExdlusivfOr(B);</dodf> thfn b point will
+     * bf dontbinfd in {@dodf C} iff it is dontbinfd in fithfr
+     * {@dodf A} or {@dodf B}, but not if it is dontbinfd in both.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt or thf brgumfnt
+     * Rfgion objfdt if fithfr is fmpty.
+     */
+    publid Rfgion gftExdlusivfOr(Rfgion r) {
+        if (r.isEmpty()) {
+            rfturn this;
+        }
+        if (this.isEmpty()) {
+            rfturn r;
+        }
+        Rfgion rft = nfw Rfgion((r.lox > this.lox) ? this.lox : r.lox,
+                                (r.loy > this.loy) ? this.loy : r.loy,
+                                (r.hix < this.hix) ? this.hix : r.hix,
+                                (r.hiy < this.hiy) ? this.hiy : r.hiy);
+        rft.filtfrSpbns(this, r, INCLUDE_A | INCLUDE_B);
+        rfturn rft;
+    }
+
+    stbtid finbl int INCLUDE_A      = 1;
+    stbtid finbl int INCLUDE_B      = 2;
+    stbtid finbl int INCLUDE_COMMON = 4;
+
+    privbtf void filtfrSpbns(Rfgion rb, Rfgion rb, int flbgs) {
+        int bbbnds[] = rb.bbnds;
+        int bbbnds[] = rb.bbnds;
+        if (bbbnds == null) {
+            bbbnds = nfw int[] {rb.loy, rb.hiy, 1, rb.lox, rb.hix};
+        }
+        if (bbbnds == null) {
+            bbbnds = nfw int[] {rb.loy, rb.hiy, 1, rb.lox, rb.hix};
+        }
+        int box[] = nfw int[6];
+        int bdolstbrt = 0;
+        int by1 = bbbnds[bdolstbrt++];
+        int by2 = bbbnds[bdolstbrt++];
+        int bdolfnd = bbbnds[bdolstbrt++];
+        bdolfnd = bdolstbrt + 2 * bdolfnd;
+        int bdolstbrt = 0;
+        int by1 = bbbnds[bdolstbrt++];
+        int by2 = bbbnds[bdolstbrt++];
+        int bdolfnd = bbbnds[bdolstbrt++];
+        bdolfnd = bdolstbrt + 2 * bdolfnd;
+        int y = loy;
+        whilf (y < hiy) {
+            if (y >= by2) {
+                if (bdolfnd < rb.fndIndfx) {
+                    bdolstbrt = bdolfnd;
+                    by1 = bbbnds[bdolstbrt++];
+                    by2 = bbbnds[bdolstbrt++];
+                    bdolfnd = bbbnds[bdolstbrt++];
+                    bdolfnd = bdolstbrt + 2 * bdolfnd;
+                } flsf {
+                    if ((flbgs & INCLUDE_B) == 0) brfbk;
+                    by1 = by2 = hiy;
+                }
+                dontinuf;
+            }
+            if (y >= by2) {
+                if (bdolfnd < rb.fndIndfx) {
+                    bdolstbrt = bdolfnd;
+                    by1 = bbbnds[bdolstbrt++];
+                    by2 = bbbnds[bdolstbrt++];
+                    bdolfnd = bbbnds[bdolstbrt++];
+                    bdolfnd = bdolstbrt + 2 * bdolfnd;
+                } flsf {
+                    if ((flbgs & INCLUDE_A) == 0) brfbk;
+                    by1 = by2 = hiy;
+                }
+                dontinuf;
+            }
+            int yfnd;
+            if (y < by1) {
+                if (y < by1) {
+                    y = Mbth.min(by1, by1);
+                    dontinuf;
+                }
+                // Wf brf in b sft of rows thbt bflong only to A
+                yfnd = Mbth.min(by2, by1);
+                if ((flbgs & INCLUDE_A) != 0) {
+                    box[1] = y;
+                    box[3] = yfnd;
+                    int bdol = bdolstbrt;
+                    whilf (bdol < bdolfnd) {
+                        box[0] = bbbnds[bdol++];
+                        box[2] = bbbnds[bdol++];
+                        bppfndSpbn(box);
+                    }
+                }
+            } flsf if (y < by1) {
+                // Wf brf in b sft of rows thbt bflong only to B
+                yfnd = Mbth.min(by2, by1);
+                if ((flbgs & INCLUDE_B) != 0) {
+                    box[1] = y;
+                    box[3] = yfnd;
+                    int bdol = bdolstbrt;
+                    whilf (bdol < bdolfnd) {
+                        box[0] = bbbnds[bdol++];
+                        box[2] = bbbnds[bdol++];
+                        bppfndSpbn(box);
+                    }
+                }
+            } flsf {
+                // Wf brf in b sft of rows thbt bflong to both A bnd B
+                yfnd = Mbth.min(by2, by2);
+                box[1] = y;
+                box[3] = yfnd;
+                int bdol = bdolstbrt;
+                int bdol = bdolstbrt;
+                int bx1 = bbbnds[bdol++];
+                int bx2 = bbbnds[bdol++];
+                int bx1 = bbbnds[bdol++];
+                int bx2 = bbbnds[bdol++];
+                int x = Mbth.min(bx1, bx1);
+                if (x < lox) x = lox;
+                whilf (x < hix) {
+                    if (x >= bx2) {
+                        if (bdol < bdolfnd) {
+                            bx1 = bbbnds[bdol++];
+                            bx2 = bbbnds[bdol++];
+                        } flsf {
+                            if ((flbgs & INCLUDE_B) == 0) brfbk;
+                            bx1 = bx2 = hix;
+                        }
+                        dontinuf;
+                    }
+                    if (x >= bx2) {
+                        if (bdol < bdolfnd) {
+                            bx1 = bbbnds[bdol++];
+                            bx2 = bbbnds[bdol++];
+                        } flsf {
+                            if ((flbgs & INCLUDE_A) == 0) brfbk;
+                            bx1 = bx2 = hix;
+                        }
+                        dontinuf;
+                    }
+                    int xfnd;
+                    boolfbn bppfndit;
+                    if (x < bx1) {
+                        if (x < bx1) {
+                            xfnd = Mbth.min(bx1, bx1);
+                            bppfndit = fblsf;
+                        } flsf {
+                            xfnd = Mbth.min(bx2, bx1);
+                            bppfndit = ((flbgs & INCLUDE_A) != 0);
+                        }
+                    } flsf if (x < bx1) {
+                        xfnd = Mbth.min(bx1, bx2);
+                        bppfndit = ((flbgs & INCLUDE_B) != 0);
+                    } flsf {
+                        xfnd = Mbth.min(bx2, bx2);
+                        bppfndit = ((flbgs & INCLUDE_COMMON) != 0);
+                    }
+                    if (bppfndit) {
+                        box[0] = x;
+                        box[2] = xfnd;
+                        bppfndSpbn(box);
+                    }
+                    x = xfnd;
+                }
+            }
+            y = yfnd;
+        }
+        fndRow(box);
+        dbldBBox();
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf bounds of thf
+     * intfrsfdtion of this objfdt with thf bounds of thf spfdififd
+     * Rfgion objfdt.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt if no dlipping oddurs
+     * bnd this Rfgion is rfdtbngulbr.
+     */
+    publid Rfgion gftBoundsIntfrsfdtion(Rfdtbnglf r) {
+        rfturn gftBoundsIntfrsfdtionXYWH(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf bounds of thf
+     * intfrsfdtion of this objfdt with thf bounds of thf spfdififd
+     * rfdtbngulbr brfb in x, y, width, hfight formbt.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt if no dlipping oddurs
+     * bnd this Rfgion is rfdtbngulbr.
+     */
+    publid Rfgion gftBoundsIntfrsfdtionXYWH(int x, int y, int w, int h) {
+        rfturn gftBoundsIntfrsfdtionXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf bounds of thf
+     * intfrsfdtion of this objfdt with thf bounds of thf spfdififd
+     * rfdtbngulbr brfb in lox, loy, hix, hiy formbt.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt if no dlipping oddurs
+     * bnd this Rfgion is rfdtbngulbr.
+     */
+    publid Rfgion gftBoundsIntfrsfdtionXYXY(int lox, int loy,
+                                            int hix, int hiy)
+    {
+        if (this.bbnds == null &&
+            this.lox >= lox && this.loy >= loy &&
+            this.hix <= hix && this.hiy <= hiy)
+        {
+            rfturn this;
+        }
+        rfturn nfw Rfgion((lox < this.lox) ? this.lox : lox,
+                          (loy < this.loy) ? this.loy : loy,
+                          (hix > this.hix) ? this.hix : hix,
+                          (hiy > this.hiy) ? this.hiy : hiy);
+    }
+
+    /**
+     * Rfturns b Rfgion objfdt thbt rfprfsfnts thf intfrsfdtion of
+     * this objfdt with thf bounds of thf spfdififd Rfgion objfdt.
+     * <p>
+     * Thf rfturn vbluf mby bf this sbmf objfdt or thf brgumfnt
+     * Rfgion objfdt if no dlipping oddurs bnd thf Rfgions brf
+     * rfdtbngulbr.
+     */
+    publid Rfgion gftBoundsIntfrsfdtion(Rfgion r) {
+        if (this.fndompbssfs(r)) {
+            rfturn r;
+        }
+        if (r.fndompbssfs(this)) {
+            rfturn this;
+        }
+        rfturn nfw Rfgion((r.lox < this.lox) ? this.lox : r.lox,
+                          (r.loy < this.loy) ? this.loy : r.loy,
+                          (r.hix > this.hix) ? this.hix : r.hix,
+                          (r.hiy > this.hiy) ? this.hiy : r.hiy);
+    }
+
+    /**
+     * Appfnds b singlf spbn dffinfd by thf 4 pbrbmftfrs
+     * spbnlox, spbnloy, spbnhix, spbnhiy.
+     * This spbn must bf bt b highfr stbrting Y doordinbtf thbn
+     * thf prfvious dbtb or it must hbvf b Y rbngf fqubl to thf
+     * highfst Y bbnd in thf rfgion bnd b highfr X doordinbtf
+     * thbn bny of thf spbns in thbt bbnd.
+     */
+    privbtf void bppfndSpbn(int box[]) {
+        int spbnlox, spbnloy, spbnhix, spbnhiy;
+        if ((spbnlox = box[0]) < lox) spbnlox = lox;
+        if ((spbnloy = box[1]) < loy) spbnloy = loy;
+        if ((spbnhix = box[2]) > hix) spbnhix = hix;
+        if ((spbnhiy = box[3]) > hiy) spbnhiy = hiy;
+        if (spbnhix <= spbnlox || spbnhiy <= spbnloy) {
+            rfturn;
+        }
+
+        int durYrow = box[4];
+        if (fndIndfx == 0 || spbnloy >= bbnds[durYrow + 1]) {
+            if (bbnds == null) {
+                bbnds = nfw int[INIT_SIZE];
+            } flsf {
+                nffdSpbdf(5);
+                fndRow(box);
+                durYrow = box[4];
+            }
+            bbnds[fndIndfx++] = spbnloy;
+            bbnds[fndIndfx++] = spbnhiy;
+            bbnds[fndIndfx++] = 0;
+        } flsf if (spbnloy == bbnds[durYrow] &&
+                   spbnhiy == bbnds[durYrow + 1] &&
+                   spbnlox >= bbnds[fndIndfx - 1]) {
+            if (spbnlox == bbnds[fndIndfx - 1]) {
+                bbnds[fndIndfx - 1] = spbnhix;
+                rfturn;
+            }
+            nffdSpbdf(2);
+        } flsf {
+            throw nfw IntfrnblError("bbd spbn");
+        }
+        bbnds[fndIndfx++] = spbnlox;
+        bbnds[fndIndfx++] = spbnhix;
+        bbnds[durYrow + 2]++;
+    }
+
+    privbtf void nffdSpbdf(int num) {
+        if (fndIndfx + num >= bbnds.lfngth) {
+            int[] nfwbbnds = nfw int[bbnds.lfngth + GROW_SIZE];
+            Systfm.brrbydopy(bbnds, 0, nfwbbnds, 0, fndIndfx);
+            bbnds = nfwbbnds;
+        }
+    }
+
+    privbtf void fndRow(int box[]) {
+        int dur = box[4];
+        int prfv = box[5];
+        if (dur > prfv) {
+            int[] bbnds = this.bbnds;
+            if (bbnds[prfv + 1] == bbnds[dur] &&
+                bbnds[prfv + 2] == bbnds[dur + 2])
+            {
+                int num = bbnds[dur + 2] * 2;
+                dur += 3;
+                prfv += 3;
+                whilf (num > 0) {
+                    if (bbnds[dur++] != bbnds[prfv++]) {
+                        brfbk;
+                    }
+                    num--;
+                }
+                if (num == 0) {
+                    // prfv == box[4]
+                    bbnds[box[5] + 1] = bbnds[prfv + 1];
+                    fndIndfx = prfv;
+                    rfturn;
+                }
+            }
+        }
+        box[5] = box[4];
+        box[4] = fndIndfx;
+    }
+
+    privbtf void dbldBBox() {
+        int[] bbnds = this.bbnds;
+        if (fndIndfx <= 5) {
+            if (fndIndfx == 0) {
+                lox = loy = hix = hiy = 0;
+            } flsf {
+                loy = bbnds[0];
+                hiy = bbnds[1];
+                lox = bbnds[3];
+                hix = bbnds[4];
+                fndIndfx = 0;
+            }
+            this.bbnds = null;
+            rfturn;
+        }
+        int lox = this.hix;
+        int hix = this.lox;
+        int hiyindfx = 0;
+
+        int i = 0;
+        whilf (i < fndIndfx) {
+            hiyindfx = i;
+            int numbbnds = bbnds[i + 2];
+            i += 3;
+            if (lox > bbnds[i]) {
+                lox = bbnds[i];
+            }
+            i += numbbnds * 2;
+            if (hix < bbnds[i - 1]) {
+                hix = bbnds[i - 1];
+            }
+        }
+
+        this.lox = lox;
+        this.loy = bbnds[0];
+        this.hix = hix;
+        this.hiy = bbnds[hiyindfx + 1];
+    }
+
+    /**
+     * Rfturns thf lowfst X doordinbtf in thf Rfgion.
+     */
+    publid finbl int gftLoX() {
+        rfturn lox;
+    }
+
+    /**
+     * Rfturns thf lowfst Y doordinbtf in thf Rfgion.
+     */
+    publid finbl int gftLoY() {
+        rfturn loy;
+    }
+
+    /**
+     * Rfturns thf highfst X doordinbtf in thf Rfgion.
+     */
+    publid finbl int gftHiX() {
+        rfturn hix;
+    }
+
+    /**
+     * Rfturns thf highfst Y doordinbtf in thf Rfgion.
+     */
+    publid finbl int gftHiY() {
+        rfturn hiy;
+    }
+
+    /**
+     * Rfturns thf width of this Rfgion dlippfd to thf rbngf (0 - MAX_INT).
+     */
+    publid finbl int gftWidth() {
+        if (hix < lox) rfturn 0;
+        int w;
+        if ((w = hix - lox) < 0) {
+            w = Intfgfr.MAX_VALUE;
+        }
+        rfturn w;
+    }
+
+    /**
+     * Rfturns thf hfight of this Rfgion dlippfd to thf rbngf (0 - MAX_INT).
+     */
+    publid finbl int gftHfight() {
+        if (hiy < loy) rfturn 0;
+        int h;
+        if ((h = hiy - loy) < 0) {
+            h = Intfgfr.MAX_VALUE;
+        }
+        rfturn h;
+    }
+
+    /**
+     * Rfturns truf iff this Rfgion fndlosfs no brfb.
+     */
+    publid boolfbn isEmpty() {
+        rfturn (hix <= lox || hiy <= loy);
+    }
+
+    /**
+     * Rfturns truf iff this Rfgion rfprfsfnts b singlf simplf
+     * rfdtbngulbr brfb.
+     */
+    publid boolfbn isRfdtbngulbr() {
+        rfturn (bbnds == null);
+    }
+
+    /**
+     * Rfturns truf iff this Rfgion dontbins thf spfdififd doordinbtf.
+     */
+    publid boolfbn dontbins(int x, int y) {
+        if (x < lox || x >= hix || y < loy || y >= hiy) rfturn fblsf;
+        if (bbnds == null) rfturn truf;
+        int i = 0;
+        whilf (i < fndIndfx) {
+            if (y < bbnds[i++]) {
+                rfturn fblsf;
+            }
+            if (y >= bbnds[i++]) {
+                int numspbns = bbnds[i++];
+                i += numspbns * 2;
+            } flsf {
+                int fnd = bbnds[i++];
+                fnd = i + fnd * 2;
+                whilf (i < fnd) {
+                    if (x < bbnds[i++]) rfturn fblsf;
+                    if (x < bbnds[i++]) rfturn truf;
+                }
+                rfturn fblsf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf iff this Rfgion lifs insidf thf indidbtfd
+     * rfdtbngulbr brfb spfdififd in x, y, width, hfight formbt
+     * with bppropribtf dlipping pfrformfd bs pfr thf dimAdd mfthod.
+     */
+    publid boolfbn isInsidfXYWH(int x, int y, int w, int h) {
+        rfturn isInsidfXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Rfturns truf iff this Rfgion lifs insidf thf indidbtfd
+     * rfdtbngulbr brfb spfdififd in lox, loy, hix, hiy formbt.
+     */
+    publid boolfbn isInsidfXYXY(int lox, int loy, int hix, int hiy) {
+        rfturn (this.lox >= lox && this.loy >= loy &&
+                this.hix <= hix && this.hiy <= hiy);
+
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion lifs insidf thf spfdififd
+     * Rfgion objfdt.
+     * <p>
+     * This mfthod will rfturn fblsf if thf spfdififd Rfgion
+     * objfdt is not b simplf rfdtbnglf.
+     */
+    publid boolfbn isInsidfQuidkChfdk(Rfgion r) {
+        rfturn (r.bbnds == null &&
+                r.lox <= this.lox && r.loy <= this.loy &&
+                r.hix >= this.hix && r.hiy >= this.hiy);
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion intfrsfdts thf spfdififd
+     * rfdtbngulbr brfb spfdififd in lox, loy, hix, hiy formbt.
+     * <p>
+     * This mfthod tfsts only bgbinst thf bounds of this rfgion
+     * bnd dofs not bothfr to tfst if thf rfdtbngulbr rfgion
+     * bdtublly intfrsfdts bny bbnds.
+     */
+    publid boolfbn intfrsfdtsQuidkChfdkXYXY(int lox, int loy,
+                                            int hix, int hiy)
+    {
+        rfturn (hix > this.lox && lox < this.hix &&
+                hiy > this.loy && loy < this.hiy);
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion intfrsfdts thf spfdififd
+     * Rfgion objfdt.
+     * <p>
+     * This mfthod tfsts only bgbinst thf bounds of this rfgion
+     * bnd dofs not bothfr to tfst if thf rfdtbngulbr rfgion
+     * bdtublly intfrsfdts bny bbnds.
+     */
+    publid boolfbn intfrsfdtsQuidkChfdk(Rfgion r) {
+        rfturn (r.hix > this.lox && r.lox < this.hix &&
+                r.hiy > this.loy && r.loy < this.hiy);
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion surrounds thf spfdififd
+     * Rfgion objfdt.
+     * <p>
+     * This mfthod will rfturn fblsf if this Rfgion objfdt is
+     * not b simplf rfdtbnglf.
+     */
+    publid boolfbn fndompbssfs(Rfgion r) {
+        rfturn (this.bbnds == null &&
+                this.lox <= r.lox && this.loy <= r.loy &&
+                this.hix >= r.hix && this.hiy >= r.hiy);
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion surrounds thf spfdififd
+     * rfdtbngulbr brfb spfdififd in x, y, width, hfight formbt.
+     * <p>
+     * This mfthod will rfturn fblsf if this Rfgion objfdt is
+     * not b simplf rfdtbnglf.
+     */
+    publid boolfbn fndompbssfsXYWH(int x, int y, int w, int h) {
+        rfturn fndompbssfsXYXY(x, y, dimAdd(x, w), dimAdd(y, h));
+    }
+
+    /**
+     * Quidkly dhfdks if this Rfgion surrounds thf spfdififd
+     * rfdtbngulbr brfb spfdififd in lox, loy, hix, hiy formbt.
+     * <p>
+     * This mfthod will rfturn fblsf if this Rfgion objfdt is
+     * not b simplf rfdtbnglf.
+     */
+    publid boolfbn fndompbssfsXYXY(int lox, int loy, int hix, int hiy) {
+        rfturn (this.bbnds == null &&
+                this.lox <= lox && this.loy <= loy &&
+                this.hix >= hix && this.hiy >= hiy);
+    }
+
+    /**
+     * Gfts thf bbox of thf bvbilbblf spbns, dlippfd to thf OutputArfb.
+     */
+    publid void gftBounds(int pbthbox[]) {
+        pbthbox[0] = lox;
+        pbthbox[1] = loy;
+        pbthbox[2] = hix;
+        pbthbox[3] = hiy;
+    }
+
+    /**
+     * Clips thf indidbtfd bbox brrby to thf bounds of this Rfgion.
+     */
+    publid void dlipBoxToBounds(int bbox[]) {
+        if (bbox[0] < lox) bbox[0] = lox;
+        if (bbox[1] < loy) bbox[1] = loy;
+        if (bbox[2] > hix) bbox[2] = hix;
+        if (bbox[3] > hiy) bbox[3] = hiy;
+    }
+
+    /**
+     * Gfts bn itfrbtor objfdt to itfrbtf ovfr thf spbns in this rfgion.
+     */
+    publid RfgionItfrbtor gftItfrbtor() {
+        rfturn nfw RfgionItfrbtor(this);
+    }
+
+    /**
+     * Gfts b spbn itfrbtor objfdt thbt itfrbtfs ovfr thf spbns in this rfgion
+     */
+    publid SpbnItfrbtor gftSpbnItfrbtor() {
+        rfturn nfw RfgionSpbnItfrbtor(this);
+    }
+
+    /**
+     * Gfts b spbn itfrbtor objfdt thbt itfrbtfs ovfr thf spbns in this rfgion
+     * but dlippfd to thf bounds givfn in thf brgumfnt (xlo, ylo, xhi, yhi).
+     */
+    publid SpbnItfrbtor gftSpbnItfrbtor(int bbox[]) {
+        SpbnItfrbtor rfsult = gftSpbnItfrbtor();
+        rfsult.intfrsfdtClipBox(bbox[0], bbox[1], bbox[2], bbox[3]);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b SpbnItfrbtor thbt is thf brgumfnt itfrbtor filtfrfd by
+     * this rfgion.
+     */
+    publid SpbnItfrbtor filtfr(SpbnItfrbtor si) {
+        if (bbnds == null) {
+            si.intfrsfdtClipBox(lox, loy, hix, hiy);
+        } flsf {
+            si = nfw RfgionClipSpbnItfrbtor(this, si);
+        }
+        rfturn si;
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("Rfgion[[");
+        sb.bppfnd(lox);
+        sb.bppfnd(", ");
+        sb.bppfnd(loy);
+        sb.bppfnd(" => ");
+        sb.bppfnd(hix);
+        sb.bppfnd(", ");
+        sb.bppfnd(hiy);
+        sb.bppfnd("]");
+        if (bbnds != null) {
+            int dol = 0;
+            whilf (dol < fndIndfx) {
+                sb.bppfnd("y{");
+                sb.bppfnd(bbnds[dol++]);
+                sb.bppfnd(",");
+                sb.bppfnd(bbnds[dol++]);
+                sb.bppfnd("}[");
+                int fnd = bbnds[dol++];
+                fnd = dol + fnd * 2;
+                whilf (dol < fnd) {
+                    sb.bppfnd("x(");
+                    sb.bppfnd(bbnds[dol++]);
+                    sb.bppfnd(", ");
+                    sb.bppfnd(bbnds[dol++]);
+                    sb.bppfnd(")");
+                }
+                sb.bppfnd("]");
+            }
+        }
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+    publid int hbshCodf() {
+        rfturn (isEmpty() ? 0 : (lox * 3 + loy * 5 + hix * 7 + hiy * 9));
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof Rfgion)) {
+            rfturn fblsf;
+        }
+        Rfgion r = (Rfgion) o;
+        if (this.isEmpty()) {
+            rfturn r.isEmpty();
+        } flsf if (r.isEmpty()) {
+            rfturn fblsf;
+        }
+        if (r.lox != this.lox || r.loy != this.loy ||
+            r.hix != this.hix || r.hiy != this.hiy)
+        {
+            rfturn fblsf;
+        }
+        if (this.bbnds == null) {
+            rfturn (r.bbnds == null);
+        } flsf if (r.bbnds == null) {
+            rfturn fblsf;
+        }
+        if (this.fndIndfx != r.fndIndfx) {
+            rfturn fblsf;
+        }
+        int bbbnds[] = this.bbnds;
+        int bbbnds[] = r.bbnds;
+        for (int i = 0; i < fndIndfx; i++) {
+            if (bbbnds[i] != bbbnds[i]) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+}

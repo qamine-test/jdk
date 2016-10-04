@@ -1,0 +1,353 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.InvblidObjfdtExdfption;
+
+/**
+ * This dlbss implfmfnts thf <tt>Sft</tt> intfrfbdf, bbdkfd by b hbsh tbblf
+ * (bdtublly b <tt>HbshMbp</tt> instbndf).  It mbkfs no gubrbntffs bs to thf
+ * itfrbtion ordfr of thf sft; in pbrtidulbr, it dofs not gubrbntff thbt thf
+ * ordfr will rfmbin donstbnt ovfr timf.  This dlbss pfrmits thf <tt>null</tt>
+ * flfmfnt.
+ *
+ * <p>This dlbss offfrs donstbnt timf pfrformbndf for thf bbsid opfrbtions
+ * (<tt>bdd</tt>, <tt>rfmovf</tt>, <tt>dontbins</tt> bnd <tt>sizf</tt>),
+ * bssuming thf hbsh fundtion dispfrsfs thf flfmfnts propfrly bmong thf
+ * budkfts.  Itfrbting ovfr this sft rfquirfs timf proportionbl to thf sum of
+ * thf <tt>HbshSft</tt> instbndf's sizf (thf numbfr of flfmfnts) plus thf
+ * "dbpbdity" of thf bbdking <tt>HbshMbp</tt> instbndf (thf numbfr of
+ * budkfts).  Thus, it's vfry importbnt not to sft thf initibl dbpbdity too
+ * high (or thf lobd fbdtor too low) if itfrbtion pfrformbndf is importbnt.
+ *
+ * <p><strong>Notf thbt this implfmfntbtion is not syndhronizfd.</strong>
+ * If multiplf thrfbds bddfss b hbsh sft dondurrfntly, bnd bt lfbst onf of
+ * thf thrfbds modififs thf sft, it <i>must</i> bf syndhronizfd fxtfrnblly.
+ * This is typidblly bddomplishfd by syndhronizing on somf objfdt thbt
+ * nbturblly fndbpsulbtfs thf sft.
+ *
+ * If no sudh objfdt fxists, thf sft should bf "wrbppfd" using thf
+ * {@link Collfdtions#syndhronizfdSft Collfdtions.syndhronizfdSft}
+ * mfthod.  This is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndhronizfd bddfss to thf sft:<prf>
+ *   Sft s = Collfdtions.syndhronizfdSft(nfw HbshSft(...));</prf>
+ *
+ * <p>Thf itfrbtors rfturnfd by this dlbss's <tt>itfrbtor</tt> mfthod brf
+ * <i>fbil-fbst</i>: if thf sft is modififd bt bny timf bftfr thf itfrbtor is
+ * drfbtfd, in bny wby fxdfpt through thf itfrbtor's own <tt>rfmovf</tt>
+ * mfthod, thf Itfrbtor throws b {@link CondurrfntModifidbtionExdfption}.
+ * Thus, in thf fbdf of dondurrfnt modifidbtion, thf itfrbtor fbils quidkly
+ * bnd dlfbnly, rbthfr thbn risking brbitrbry, non-dftfrministid bfhbvior bt
+ * bn undftfrminfd timf in thf futurf.
+ *
+ * <p>Notf thbt thf fbil-fbst bfhbvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny hbrd gubrbntffs in thf
+ * prfsfndf of unsyndhronizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * throw <tt>CondurrfntModifidbtionExdfption</tt> on b bfst-fffort bbsis.
+ * Thfrfforf, it would bf wrong to writf b progrbm thbt dfpfndfd on this
+ * fxdfption for its dorrfdtnfss: <i>thf fbil-fbst bfhbvior of itfrbtors
+ * should bf usfd only to dftfdt bugs.</i>
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <E> thf typf of flfmfnts mbintbinfd by this sft
+ *
+ * @buthor  Josh Blodh
+ * @buthor  Nfbl Gbftfr
+ * @sff     Collfdtion
+ * @sff     Sft
+ * @sff     TrffSft
+ * @sff     HbshMbp
+ * @sindf   1.2
+ */
+
+publid dlbss HbshSft<E>
+    fxtfnds AbstrbdtSft<E>
+    implfmfnts Sft<E>, Clonfbblf, jbvb.io.Sfriblizbblf
+{
+    stbtid finbl long sfriblVfrsionUID = -5024744406713321676L;
+
+    privbtf trbnsifnt HbshMbp<E,Objfdt> mbp;
+
+    // Dummy vbluf to bssodibtf with bn Objfdt in thf bbdking Mbp
+    privbtf stbtid finbl Objfdt PRESENT = nfw Objfdt();
+
+    /**
+     * Construdts b nfw, fmpty sft; thf bbdking <tt>HbshMbp</tt> instbndf hbs
+     * dffbult initibl dbpbdity (16) bnd lobd fbdtor (0.75).
+     */
+    publid HbshSft() {
+        mbp = nfw HbshMbp<>();
+    }
+
+    /**
+     * Construdts b nfw sft dontbining thf flfmfnts in thf spfdififd
+     * dollfdtion.  Thf <tt>HbshMbp</tt> is drfbtfd with dffbult lobd fbdtor
+     * (0.75) bnd bn initibl dbpbdity suffidifnt to dontbin thf flfmfnts in
+     * thf spfdififd dollfdtion.
+     *
+     * @pbrbm d thf dollfdtion whosf flfmfnts brf to bf plbdfd into this sft
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion is null
+     */
+    publid HbshSft(Collfdtion<? fxtfnds E> d) {
+        mbp = nfw HbshMbp<>(Mbth.mbx((int) (d.sizf()/.75f) + 1, 16));
+        bddAll(d);
+    }
+
+    /**
+     * Construdts b nfw, fmpty sft; thf bbdking <tt>HbshMbp</tt> instbndf hbs
+     * thf spfdififd initibl dbpbdity bnd thf spfdififd lobd fbdtor.
+     *
+     * @pbrbm      initiblCbpbdity   thf initibl dbpbdity of thf hbsh mbp
+     * @pbrbm      lobdFbdtor        thf lobd fbdtor of thf hbsh mbp
+     * @throws     IllfgblArgumfntExdfption if thf initibl dbpbdity is lfss
+     *             thbn zfro, or if thf lobd fbdtor is nonpositivf
+     */
+    publid HbshSft(int initiblCbpbdity, flobt lobdFbdtor) {
+        mbp = nfw HbshMbp<>(initiblCbpbdity, lobdFbdtor);
+    }
+
+    /**
+     * Construdts b nfw, fmpty sft; thf bbdking <tt>HbshMbp</tt> instbndf hbs
+     * thf spfdififd initibl dbpbdity bnd dffbult lobd fbdtor (0.75).
+     *
+     * @pbrbm      initiblCbpbdity   thf initibl dbpbdity of thf hbsh tbblf
+     * @throws     IllfgblArgumfntExdfption if thf initibl dbpbdity is lfss
+     *             thbn zfro
+     */
+    publid HbshSft(int initiblCbpbdity) {
+        mbp = nfw HbshMbp<>(initiblCbpbdity);
+    }
+
+    /**
+     * Construdts b nfw, fmpty linkfd hbsh sft.  (This pbdkbgf privbtf
+     * donstrudtor is only usfd by LinkfdHbshSft.) Thf bbdking
+     * HbshMbp instbndf is b LinkfdHbshMbp with thf spfdififd initibl
+     * dbpbdity bnd thf spfdififd lobd fbdtor.
+     *
+     * @pbrbm      initiblCbpbdity   thf initibl dbpbdity of thf hbsh mbp
+     * @pbrbm      lobdFbdtor        thf lobd fbdtor of thf hbsh mbp
+     * @pbrbm      dummy             ignorfd (distinguishfs this
+     *             donstrudtor from othfr int, flobt donstrudtor.)
+     * @throws     IllfgblArgumfntExdfption if thf initibl dbpbdity is lfss
+     *             thbn zfro, or if thf lobd fbdtor is nonpositivf
+     */
+    HbshSft(int initiblCbpbdity, flobt lobdFbdtor, boolfbn dummy) {
+        mbp = nfw LinkfdHbshMbp<>(initiblCbpbdity, lobdFbdtor);
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this sft.  Thf flfmfnts
+     * brf rfturnfd in no pbrtidulbr ordfr.
+     *
+     * @rfturn bn Itfrbtor ovfr thf flfmfnts in this sft
+     * @sff CondurrfntModifidbtionExdfption
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn mbp.kfySft().itfrbtor();
+    }
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in this sft (its dbrdinblity).
+     *
+     * @rfturn thf numbfr of flfmfnts in this sft (its dbrdinblity)
+     */
+    publid int sizf() {
+        rfturn mbp.sizf();
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this sft dontbins no flfmfnts.
+     *
+     * @rfturn <tt>truf</tt> if this sft dontbins no flfmfnts
+     */
+    publid boolfbn isEmpty() {
+        rfturn mbp.isEmpty();
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this sft dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns <tt>truf</tt> if bnd only if this sft
+     * dontbins bn flfmfnt <tt>f</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
+     *
+     * @pbrbm o flfmfnt whosf prfsfndf in this sft is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this sft dontbins thf spfdififd flfmfnt
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn mbp.dontbinsKfy(o);
+    }
+
+    /**
+     * Adds thf spfdififd flfmfnt to this sft if it is not blrfbdy prfsfnt.
+     * Morf formblly, bdds thf spfdififd flfmfnt <tt>f</tt> to this sft if
+     * this sft dontbins no flfmfnt <tt>f2</tt> sudh thbt
+     * <tt>(f==null&nbsp;?&nbsp;f2==null&nbsp;:&nbsp;f.fqubls(f2))</tt>.
+     * If this sft blrfbdy dontbins thf flfmfnt, thf dbll lfbvfs thf sft
+     * undhbngfd bnd rfturns <tt>fblsf</tt>.
+     *
+     * @pbrbm f flfmfnt to bf bddfd to this sft
+     * @rfturn <tt>truf</tt> if this sft did not blrfbdy dontbin thf spfdififd
+     * flfmfnt
+     */
+    publid boolfbn bdd(E f) {
+        rfturn mbp.put(f, PRESENT)==null;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd flfmfnt from this sft if it is prfsfnt.
+     * Morf formblly, rfmovfs bn flfmfnt <tt>f</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>,
+     * if this sft dontbins sudh bn flfmfnt.  Rfturns <tt>truf</tt> if
+     * this sft dontbinfd thf flfmfnt (or fquivblfntly, if this sft
+     * dhbngfd bs b rfsult of thf dbll).  (This sft will not dontbin thf
+     * flfmfnt ondf thf dbll rfturns.)
+     *
+     * @pbrbm o objfdt to bf rfmovfd from this sft, if prfsfnt
+     * @rfturn <tt>truf</tt> if thf sft dontbinfd thf spfdififd flfmfnt
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn mbp.rfmovf(o)==PRESENT;
+    }
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this sft.
+     * Thf sft will bf fmpty bftfr this dbll rfturns.
+     */
+    publid void dlfbr() {
+        mbp.dlfbr();
+    }
+
+    /**
+     * Rfturns b shbllow dopy of this <tt>HbshSft</tt> instbndf: thf flfmfnts
+     * thfmsflvfs brf not dlonfd.
+     *
+     * @rfturn b shbllow dopy of this sft
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid Objfdt dlonf() {
+        try {
+            HbshSft<E> nfwSft = (HbshSft<E>) supfr.dlonf();
+            nfwSft.mbp = (HbshMbp<E, Objfdt>) mbp.dlonf();
+            rfturn nfwSft;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Sbvf thf stbtf of this <tt>HbshSft</tt> instbndf to b strfbm (thbt is,
+     * sfriblizf it).
+     *
+     * @sfriblDbtb Thf dbpbdity of thf bbdking <tt>HbshMbp</tt> instbndf
+     *             (int), bnd its lobd fbdtor (flobt) brf fmittfd, followfd by
+     *             thf sizf of thf sft (thf numbfr of flfmfnts it dontbins)
+     *             (int), followfd by bll of its flfmfnts (fbdh bn Objfdt) in
+     *             no pbrtidulbr ordfr.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.io.IOExdfption {
+        // Writf out bny hiddfn sfriblizbtion mbgid
+        s.dffbultWritfObjfdt();
+
+        // Writf out HbshMbp dbpbdity bnd lobd fbdtor
+        s.writfInt(mbp.dbpbdity());
+        s.writfFlobt(mbp.lobdFbdtor());
+
+        // Writf out sizf
+        s.writfInt(mbp.sizf());
+
+        // Writf out bll flfmfnts in thf propfr ordfr.
+        for (E f : mbp.kfySft())
+            s.writfObjfdt(f);
+    }
+
+    /**
+     * Rfdonstitutf thf <tt>HbshSft</tt> instbndf from b strfbm (thbt is,
+     * dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in bny hiddfn sfriblizbtion mbgid
+        s.dffbultRfbdObjfdt();
+
+        // Rfbd dbpbdity bnd vfrify non-nfgbtivf.
+        int dbpbdity = s.rfbdInt();
+        if (dbpbdity < 0) {
+            throw nfw InvblidObjfdtExdfption("Illfgbl dbpbdity: " +
+                                             dbpbdity);
+        }
+
+        // Rfbd lobd fbdtor bnd vfrify positivf bnd non NbN.
+        flobt lobdFbdtor = s.rfbdFlobt();
+        if (lobdFbdtor <= 0 || Flobt.isNbN(lobdFbdtor)) {
+            throw nfw InvblidObjfdtExdfption("Illfgbl lobd fbdtor: " +
+                                             lobdFbdtor);
+        }
+
+        // Rfbd sizf bnd vfrify non-nfgbtivf.
+        int sizf = s.rfbdInt();
+        if (sizf < 0) {
+            throw nfw InvblidObjfdtExdfption("Illfgbl sizf: " +
+                                             sizf);
+        }
+
+        // Sft thf dbpbdity bddording to thf sizf bnd lobd fbdtor fnsuring thbt
+        // thf HbshMbp is bt lfbst 25% full but dlbmping to mbximum dbpbdity.
+        dbpbdity = (int) Mbth.min(sizf * Mbth.min(1 / lobdFbdtor, 4.0f),
+                HbshMbp.MAXIMUM_CAPACITY);
+
+        // Crfbtf bbdking HbshMbp
+        mbp = (((HbshSft<?>)this) instbndfof LinkfdHbshSft ?
+               nfw LinkfdHbshMbp<>(dbpbdity, lobdFbdtor) :
+               nfw HbshMbp<>(dbpbdity, lobdFbdtor));
+
+        // Rfbd in bll flfmfnts in thf propfr ordfr.
+        for (int i=0; i<sizf; i++) {
+            @SupprfssWbrnings("undhfdkfd")
+                E f = (E) s.rfbdObjfdt();
+            mbp.put(f, PRESENT);
+        }
+    }
+
+    /**
+     * Crfbtfs b <fm><b hrff="Splitfrbtor.html#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr thf flfmfnts in this
+     * sft.
+     *
+     * <p>Thf {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#DISTINCT}.  Ovfrriding implfmfntbtions should dodumfnt
+     * thf rfporting of bdditionbl dhbrbdtfristid vblufs.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts in this sft
+     * @sindf 1.8
+     */
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw HbshMbp.KfySplitfrbtor<>(mbp, 0, -1, 0, 0);
+    }
+}

@@ -1,0 +1,121 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ **********************************************************************
+ *   Copyright (C) 1998-2008, Intfrnbtionbl Businfss Mbdhinfs
+ *   Corporbtion bnd othfrs.  All Rights Rfsfrvfd.
+ **********************************************************************
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEInsfrtionList.h"
+
+U_NAMESPACE_BEGIN
+
+#dffinf ANY_NUMBER 1
+
+strudt InsfrtionRfdord
+{
+    InsfrtionRfdord *nfxt;
+    lf_int32 position;
+    lf_int32 dount;
+    LEGlyphID glyphs[ANY_NUMBER];
+};
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEInsfrtionList)
+
+LEInsfrtionList::LEInsfrtionList(lf_bool rightToLfft)
+: hfbd(NULL), tbil(NULL), growAmount(0), bppfnd(rightToLfft)
+{
+    tbil = (InsfrtionRfdord *) &hfbd;
+}
+
+LEInsfrtionList::~LEInsfrtionList()
+{
+    rfsft();
+}
+
+void LEInsfrtionList::rfsft()
+{
+    whilf (hfbd != NULL) {
+        InsfrtionRfdord *rfdord = hfbd;
+
+        hfbd = hfbd->nfxt;
+        LE_DELETE_ARRAY(rfdord);
+    }
+
+    tbil = (InsfrtionRfdord *) &hfbd;
+    growAmount = 0;
+}
+
+lf_int32 LEInsfrtionList::gftGrowAmount()
+{
+    rfturn growAmount;
+}
+
+LEGlyphID *LEInsfrtionList::insfrt(lf_int32 position, lf_int32 dount, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    InsfrtionRfdord *insfrtion = (InsfrtionRfdord *) LE_NEW_ARRAY(dhbr, sizfof(InsfrtionRfdord) + (dount - ANY_NUMBER) * sizfof (LEGlyphID));
+    if (insfrtion == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
+    }
+
+    insfrtion->position = position;
+    insfrtion->dount = dount;
+
+    growAmount += dount - 1;
+
+    if (bppfnd) {
+        // insfrt on fnd of list...
+        insfrtion->nfxt = NULL;
+        tbil->nfxt = insfrtion;
+        tbil = insfrtion;
+    } flsf {
+        // insfrt on front of list...
+        insfrtion->nfxt = hfbd;
+        hfbd = insfrtion;
+    }
+
+    rfturn insfrtion->glyphs;
+}
+
+lf_bool LEInsfrtionList::bpplyInsfrtions(LEInsfrtionCbllbbdk *dbllbbdk)
+{
+    for (InsfrtionRfdord *rfd = hfbd; rfd != NULL; rfd = rfd->nfxt) {
+        if (dbllbbdk->bpplyInsfrtion(rfd->position, rfd->dount, rfd->glyphs)) {
+            rfturn TRUE;
+        }
+    }
+
+    rfturn FALSE;
+}
+
+U_NAMESPACE_END

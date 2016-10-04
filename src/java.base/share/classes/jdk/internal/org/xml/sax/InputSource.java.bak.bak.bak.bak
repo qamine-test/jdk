@@ -1,0 +1,360 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAX input sourdf.
+// http://www.sbxprojfdt.org
+// No wbrrbnty; no dopyright -- usf this bs you will.
+// $Id: InputSourdf.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
+
+/**
+ * A singlf input sourdf for bn XML fntity.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>This dlbss bllows b SAX bpplidbtion to fndbpsulbtf informbtion
+ * bbout bn input sourdf in b singlf objfdt, whidh mby indludf
+ * b publid idfntififr, b systfm idfntififr, b bytf strfbm (possibly
+ * with b spfdififd fndoding), bnd/or b dhbrbdtfr strfbm.</p>
+ *
+ * <p>Thfrf brf two plbdfs thbt thf bpplidbtion dbn dflivfr bn
+ * input sourdf to thf pbrsfr: bs thf brgumfnt to thf Pbrsfr.pbrsf
+ * mfthod, or bs thf rfturn vbluf of thf EntityRfsolvfr.rfsolvfEntity
+ * mfthod.</p>
+ *
+ * <p>Thf SAX pbrsfr will usf thf InputSourdf objfdt to dftfrminf how
+ * to rfbd XML input.  If thfrf is b dhbrbdtfr strfbm bvbilbblf, thf
+ * pbrsfr will rfbd thbt strfbm dirfdtly, disrfgbrding bny tfxt
+ * fndoding dfdlbrbtion found in thbt strfbm.
+ * If thfrf is no dhbrbdtfr strfbm, but thfrf is
+ * b bytf strfbm, thf pbrsfr will usf thbt bytf strfbm, using thf
+ * fndoding spfdififd in thf InputSourdf or flsf (if no fndoding is
+ * spfdififd) butodftfdting thf dhbrbdtfr fndoding using bn blgorithm
+ * sudh bs thf onf in thf XML spfdifidbtion.  If nfithfr b dhbrbdtfr
+ * strfbm nor b
+ * bytf strfbm is bvbilbblf, thf pbrsfr will bttfmpt to opfn b URI
+ * donnfdtion to thf rfsourdf idfntififd by thf systfm
+ * idfntififr.</p>
+ *
+ * <p>An InputSourdf objfdt bflongs to thf bpplidbtion: thf SAX pbrsfr
+ * shbll nfvfr modify it in bny wby (it mby modify b dopy if
+ * nfdfssbry).  Howfvfr, stbndbrd prodfssing of both bytf bnd
+ * dhbrbdtfr strfbms is to dlosf thfm on bs pbrt of fnd-of-pbrsf dlfbnup,
+ * so bpplidbtions should not bttfmpt to rf-usf sudh strfbms bftfr thfy
+ * hbvf bffn hbndfd to b pbrsfr.  </p>
+ *
+ * @sindf SAX 1.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLRfbdfr#pbrsf(org.xml.sbx.InputSourdf)
+ * @sff org.xml.sbx.EntityRfsolvfr#rfsolvfEntity
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.Rfbdfr
+ */
+publid dlbss InputSourdf {
+
+    /**
+     * Zfro-brgumfnt dffbult donstrudtor.
+     *
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftChbrbdtfrStrfbm
+     * @sff #sftEndoding
+     */
+    publid InputSourdf ()
+    {
+    }
+
+
+    /**
+     * Crfbtf b nfw input sourdf with b systfm idfntififr.
+     *
+     * <p>Applidbtions mby usf sftPublidId to indludf b
+     * publid idfntififr bs wfll, or sftEndoding to spfdify
+     * thf dhbrbdtfr fndoding, if known.</p>
+     *
+     * <p>If thf systfm idfntififr is b URL, it must bf fully
+     * rfsolvfd (it mby not bf b rflbtivf URL).</p>
+     *
+     * @pbrbm systfmId Thf systfm idfntififr (URI).
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftEndoding
+     * @sff #sftChbrbdtfrStrfbm
+     */
+    publid InputSourdf (String systfmId)
+    {
+        sftSystfmId(systfmId);
+    }
+
+
+    /**
+     * Crfbtf b nfw input sourdf with b bytf strfbm.
+     *
+     * <p>Applidbtion writfrs should usf sftSystfmId() to providf b bbsf
+     * for rfsolving rflbtivf URIs, mby usf sftPublidId to indludf b
+     * publid idfntififr, bnd mby usf sftEndoding to spfdify thf objfdt's
+     * dhbrbdtfr fndoding.</p>
+     *
+     * @pbrbm bytfStrfbm Thf rbw bytf strfbm dontbining thf dodumfnt.
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftEndoding
+     * @sff #sftBytfStrfbm
+     * @sff #sftChbrbdtfrStrfbm
+     */
+    publid InputSourdf (InputStrfbm bytfStrfbm)
+    {
+        sftBytfStrfbm(bytfStrfbm);
+    }
+
+
+    /**
+     * Crfbtf b nfw input sourdf with b dhbrbdtfr strfbm.
+     *
+     * <p>Applidbtion writfrs should usf sftSystfmId() to providf b bbsf
+     * for rfsolving rflbtivf URIs, bnd mby usf sftPublidId to indludf b
+     * publid idfntififr.</p>
+     *
+     * <p>Thf dhbrbdtfr strfbm shbll not indludf b bytf ordfr mbrk.</p>
+     *
+     * @sff #sftPublidId
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #sftChbrbdtfrStrfbm
+     */
+    publid InputSourdf (Rfbdfr dhbrbdtfrStrfbm)
+    {
+        sftChbrbdtfrStrfbm(dhbrbdtfrStrfbm);
+    }
+
+
+    /**
+     * Sft thf publid idfntififr for this input sourdf.
+     *
+     * <p>Thf publid idfntififr is blwbys optionbl: if thf bpplidbtion
+     * writfr indludfs onf, it will bf providfd bs pbrt of thf
+     * lodbtion informbtion.</p>
+     *
+     * @pbrbm publidId Thf publid idfntififr bs b string.
+     * @sff #gftPublidId
+     * @sff org.xml.sbx.Lodbtor#gftPublidId
+     * @sff org.xml.sbx.SAXPbrsfExdfption#gftPublidId
+     */
+    publid void sftPublidId (String publidId)
+    {
+        this.publidId = publidId;
+    }
+
+
+    /**
+     * Gft thf publid idfntififr for this input sourdf.
+     *
+     * @rfturn Thf publid idfntififr, or null if nonf wbs supplifd.
+     * @sff #sftPublidId
+     */
+    publid String gftPublidId ()
+    {
+        rfturn publidId;
+    }
+
+
+    /**
+     * Sft thf systfm idfntififr for this input sourdf.
+     *
+     * <p>Thf systfm idfntififr is optionbl if thfrf is b bytf strfbm
+     * or b dhbrbdtfr strfbm, but it is still usfful to providf onf,
+     * sindf thf bpplidbtion dbn usf it to rfsolvf rflbtivf URIs
+     * bnd dbn indludf it in frror mfssbgfs bnd wbrnings (thf pbrsfr
+     * will bttfmpt to opfn b donnfdtion to thf URI only if
+     * thfrf is no bytf strfbm or dhbrbdtfr strfbm spfdififd).</p>
+     *
+     * <p>If thf bpplidbtion knows thf dhbrbdtfr fndoding of thf
+     * objfdt pointfd to by thf systfm idfntififr, it dbn rfgistfr
+     * thf fndoding using thf sftEndoding mfthod.</p>
+     *
+     * <p>If thf systfm idfntififr is b URL, it must bf fully
+     * rfsolvfd (it mby not bf b rflbtivf URL).</p>
+     *
+     * @pbrbm systfmId Thf systfm idfntififr bs b string.
+     * @sff #sftEndoding
+     * @sff #gftSystfmId
+     * @sff org.xml.sbx.Lodbtor#gftSystfmId
+     * @sff org.xml.sbx.SAXPbrsfExdfption#gftSystfmId
+     */
+    publid void sftSystfmId (String systfmId)
+    {
+        this.systfmId = systfmId;
+    }
+
+
+    /**
+     * Gft thf systfm idfntififr for this input sourdf.
+     *
+     * <p>Thf gftEndoding mfthod will rfturn thf dhbrbdtfr fndoding
+     * of thf objfdt pointfd to, or null if unknown.</p>
+     *
+     * <p>If thf systfm ID is b URL, it will bf fully rfsolvfd.</p>
+     *
+     * @rfturn Thf systfm idfntififr, or null if nonf wbs supplifd.
+     * @sff #sftSystfmId
+     * @sff #gftEndoding
+     */
+    publid String gftSystfmId ()
+    {
+        rfturn systfmId;
+    }
+
+
+    /**
+     * Sft thf bytf strfbm for this input sourdf.
+     *
+     * <p>Thf SAX pbrsfr will ignorf this if thfrf is blso b dhbrbdtfr
+     * strfbm spfdififd, but it will usf b bytf strfbm in prfffrfndf
+     * to opfning b URI donnfdtion itsflf.</p>
+     *
+     * <p>If thf bpplidbtion knows thf dhbrbdtfr fndoding of thf
+     * bytf strfbm, it should sft it with thf sftEndoding mfthod.</p>
+     *
+     * @pbrbm bytfStrfbm A bytf strfbm dontbining bn XML dodumfnt or
+     *        othfr fntity.
+     * @sff #sftEndoding
+     * @sff #gftBytfStrfbm
+     * @sff #gftEndoding
+     * @sff jbvb.io.InputStrfbm
+     */
+    publid void sftBytfStrfbm (InputStrfbm bytfStrfbm)
+    {
+        this.bytfStrfbm = bytfStrfbm;
+    }
+
+
+    /**
+     * Gft thf bytf strfbm for this input sourdf.
+     *
+     * <p>Thf gftEndoding mfthod will rfturn thf dhbrbdtfr
+     * fndoding for this bytf strfbm, or null if unknown.</p>
+     *
+     * @rfturn Thf bytf strfbm, or null if nonf wbs supplifd.
+     * @sff #gftEndoding
+     * @sff #sftBytfStrfbm
+     */
+    publid InputStrfbm gftBytfStrfbm ()
+    {
+        rfturn bytfStrfbm;
+    }
+
+
+    /**
+     * Sft thf dhbrbdtfr fndoding, if known.
+     *
+     * <p>Thf fndoding must bf b string bddfptbblf for bn
+     * XML fndoding dfdlbrbtion (sff sfdtion 4.3.3 of thf XML 1.0
+     * rfdommfndbtion).</p>
+     *
+     * <p>This mfthod hbs no ffffdt whfn thf bpplidbtion providfs b
+     * dhbrbdtfr strfbm.</p>
+     *
+     * @pbrbm fndoding A string dfsdribing thf dhbrbdtfr fndoding.
+     * @sff #sftSystfmId
+     * @sff #sftBytfStrfbm
+     * @sff #gftEndoding
+     */
+    publid void sftEndoding (String fndoding)
+    {
+        this.fndoding = fndoding;
+    }
+
+
+    /**
+     * Gft thf dhbrbdtfr fndoding for b bytf strfbm or URI.
+     * This vbluf will bf ignorfd whfn thf bpplidbtion providfs b
+     * dhbrbdtfr strfbm.
+     *
+     * @rfturn Thf fndoding, or null if nonf wbs supplifd.
+     * @sff #sftBytfStrfbm
+     * @sff #gftSystfmId
+     * @sff #gftBytfStrfbm
+     */
+    publid String gftEndoding ()
+    {
+        rfturn fndoding;
+    }
+
+
+    /**
+     * Sft thf dhbrbdtfr strfbm for this input sourdf.
+     *
+     * <p>If thfrf is b dhbrbdtfr strfbm spfdififd, thf SAX pbrsfr
+     * will ignorf bny bytf strfbm bnd will not bttfmpt to opfn
+     * b URI donnfdtion to thf systfm idfntififr.</p>
+     *
+     * @pbrbm dhbrbdtfrStrfbm Thf dhbrbdtfr strfbm dontbining thf
+     *        XML dodumfnt or othfr fntity.
+     * @sff #gftChbrbdtfrStrfbm
+     * @sff jbvb.io.Rfbdfr
+     */
+    publid void sftChbrbdtfrStrfbm (Rfbdfr dhbrbdtfrStrfbm)
+    {
+        this.dhbrbdtfrStrfbm = dhbrbdtfrStrfbm;
+    }
+
+
+    /**
+     * Gft thf dhbrbdtfr strfbm for this input sourdf.
+     *
+     * @rfturn Thf dhbrbdtfr strfbm, or null if nonf wbs supplifd.
+     * @sff #sftChbrbdtfrStrfbm
+     */
+    publid Rfbdfr gftChbrbdtfrStrfbm ()
+    {
+        rfturn dhbrbdtfrStrfbm;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Intfrnbl stbtf.
+    ////////////////////////////////////////////////////////////////////
+
+    privbtf String publidId;
+    privbtf String systfmId;
+    privbtf InputStrfbm bytfStrfbm;
+    privbtf String fndoding;
+    privbtf Rfbdfr dhbrbdtfrStrfbm;
+
+}
+
+// fnd of InputSourdf.jbvb

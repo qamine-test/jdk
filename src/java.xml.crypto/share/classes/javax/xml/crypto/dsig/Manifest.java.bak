@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: Manifest.java,v 1.7 2005/05/10 16:03:46 mullan Exp $
+ * $Id: Mbniffst.jbvb,v 1.7 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import javax.xml.crypto.XMLStructure;
-import java.util.List;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>Manifest</code> element as defined in
- * the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
- * <pre>{@code
- * <element name="Manifest" type="ds:ManifestType"/>
- *   <complexType name="ManifestType">
- *     <sequence>
- *       <element ref="ds:Reference" maxOccurs="unbounded"/>
- *     </sequence>
- *     <attribute name="Id" type="ID" use="optional"/>
- *   </complexType>
- * }</pre>
+ * A rfprfsfntbtion of tif XML <dodf>Mbniffst</dodf> flfmfnt bs dffinfd in
+ * tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * <prf>{@dodf
+ * <flfmfnt nbmf="Mbniffst" typf="ds:MbniffstTypf"/>
+ *   <domplfxTypf nbmf="MbniffstTypf">
+ *     <sfqufndf>
+ *       <flfmfnt rff="ds:Rfffrfndf" mbxOddurs="unboundfd"/>
+ *     </sfqufndf>
+ *     <bttributf nbmf="Id" typf="ID" usf="optionbl"/>
+ *   </domplfxTypf>
+ * }</prf>
  *
- * A <code>Manifest</code> instance may be created by invoking
- * one of the {@link XMLSignatureFactory#newManifest newManifest}
- * methods of the {@link XMLSignatureFactory} class; for example:
+ * A <dodf>Mbniffst</dodf> instbndf mby bf drfbtfd by invoking
+ * onf of tif {@link XMLSignbturfFbdtory#nfwMbniffst nfwMbniffst}
+ * mftiods of tif {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
  *
- * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   List references = Collections.singletonList(factory.newReference
- *       ("#reference-1", DigestMethod.SHA1));
- *   Manifest manifest = factory.newManifest(references, "manifest-1");
- * </pre>
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   List rfffrfndfs = Collfdtions.singlftonList(fbdtory.nfwRfffrfndf
+ *       ("#rfffrfndf-1", DigfstMftiod.SHA1));
+ *   Mbniffst mbniffst = fbdtory.nfwMbniffst(rfffrfndfs, "mbniffst-1");
+ * </prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLSignatureFactory#newManifest(List)
- * @see XMLSignatureFactory#newManifest(List, String)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwMbniffst(List)
+ * @sff XMLSignbturfFbdtory#nfwMbniffst(List, String)
  */
-public interface Manifest extends XMLStructure {
+publid intfrfbdf Mbniffst fxtfnds XMLStrudturf {
 
     /**
-     * URI that identifies the <code>Manifest</code> element (this can be
-     * specified as the value of the <code>type</code> parameter of the
-     * {@link Reference} class to identify the referent's type).
+     * URI tibt idfntififs tif <dodf>Mbniffst</dodf> flfmfnt (tiis dbn bf
+     * spfdififd bs tif vbluf of tif <dodf>typf</dodf> pbrbmftfr of tif
+     * {@link Rfffrfndf} dlbss to idfntify tif rfffrfnt's typf).
      */
-    final static String TYPE = "http://www.w3.org/2000/09/xmldsig#Manifest";
+    finbl stbtid String TYPE = "ittp://www.w3.org/2000/09/xmldsig#Mbniffst";
 
     /**
-     * Returns the Id of this <code>Manifest</code>.
+     * Rfturns tif Id of tiis <dodf>Mbniffst</dodf>.
      *
-     * @return the Id  of this <code>Manifest</code> (or <code>null</code>
-     *    if not specified)
+     * @rfturn tif Id  of tiis <dodf>Mbniffst</dodf> (or <dodf>null</dodf>
+     *    if not spfdififd)
      */
-    String getId();
+    String gftId();
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of one or more {@link Reference}s that are contained in this
-     * <code>Manifest</code>.
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of onf or morf {@link Rfffrfndf}s tibt brf dontbinfd in tiis
+     * <dodf>Mbniffst</dodf>.
      *
-     * @return an unmodifiable list of one or more <code>Reference</code>s
+     * @rfturn bn unmodifibblf list of onf or morf <dodf>Rfffrfndf</dodf>s
      */
-    @SuppressWarnings("rawtypes")
-    List getReferences();
+    @SupprfssWbrnings("rbwtypfs")
+    List gftRfffrfndfs();
 }

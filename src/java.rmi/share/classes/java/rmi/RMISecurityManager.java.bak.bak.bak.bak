@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi;
+
+import jbvb.sfdurity.*;
+
+/**
+ * {@dodf RMISfdurityMbnbgfr} implfmfnts b polidy idfntidbl to thf polidy
+ * implfmfntfd by {@link SfdurityMbnbgfr}. RMI bpplidbtions
+ * should usf thf {@dodf SfdurityMbnbgfr} dlbss or bnothfr bppropribtf
+ * {@dodf SfdurityMbnbgfr} implfmfntbtion instfbd of this dlbss. RMI's dlbss
+ * lobdfr will downlobd dlbssfs from rfmotf lodbtions only if b sfdurity
+ * mbnbgfr hbs bffn sft.
+ *
+ * @implNotf
+ * <p>Applfts typidblly run in b dontbinfr thbt blrfbdy hbs b sfdurity
+ * mbnbgfr, so thfrf is gfnfrblly no nffd for bpplfts to sft b sfdurity
+ * mbnbgfr. If you hbvf b stbndblonf bpplidbtion, you might nffd to sft b
+ * {@dodf SfdurityMbnbgfr} in ordfr to fnbblf dlbss downlobding. This dbn bf
+ * donf by bdding thf following to your dodf. (It nffds to bf fxfdutfd bfforf
+ * RMI dbn downlobd dodf from rfmotf hosts, so it most likfly nffds to bppfbr
+ * in thf {@dodf mbin} mfthod of your bpplidbtion.)
+ *
+ * <prf>{@dodf
+ *    if (Systfm.gftSfdurityMbnbgfr() == null) {
+ *        Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
+ *    }
+ * }</prf>
+ *
+ * @buthor  Rogfr Riggs
+ * @buthor  Pftfr Jonfs
+ * @sindf 1.1
+ * @dfprfdbtfd Usf {@link SfdurityMbnbgfr} instfbd.
+ */
+@Dfprfdbtfd
+publid dlbss RMISfdurityMbnbgfr fxtfnds SfdurityMbnbgfr {
+
+    /**
+     * Construdts b nfw {@dodf RMISfdurityMbnbgfr}.
+     * @sindf 1.1
+     */
+    publid RMISfdurityMbnbgfr() {
+    }
+}

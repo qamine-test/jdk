@@ -1,491 +1,491 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
 
 /**
- * A synchronization aid that allows a set of threads to all wait for
- * each other to reach a common barrier point.  CyclicBarriers are
- * useful in programs involving a fixed sized party of threads that
- * must occasionally wait for each other. The barrier is called
- * <em>cyclic</em> because it can be re-used after the waiting threads
- * are released.
+ * A syndironizbtion bid tibt bllows b sft of tirfbds to bll wbit for
+ * fbdi otifr to rfbdi b dommon bbrrifr point.  CydlidBbrrifrs brf
+ * usfful in progrbms involving b fixfd sizfd pbrty of tirfbds tibt
+ * must oddbsionblly wbit for fbdi otifr. Tif bbrrifr is dbllfd
+ * <fm>dydlid</fm> bfdbusf it dbn bf rf-usfd bftfr tif wbiting tirfbds
+ * brf rflfbsfd.
  *
- * <p>A {@code CyclicBarrier} supports an optional {@link Runnable} command
- * that is run once per barrier point, after the last thread in the party
- * arrives, but before any threads are released.
- * This <em>barrier action</em> is useful
- * for updating shared-state before any of the parties continue.
+ * <p>A {@dodf CydlidBbrrifr} supports bn optionbl {@link Runnbblf} dommbnd
+ * tibt is run ondf pfr bbrrifr point, bftfr tif lbst tirfbd in tif pbrty
+ * brrivfs, but bfforf bny tirfbds brf rflfbsfd.
+ * Tiis <fm>bbrrifr bdtion</fm> is usfful
+ * for updbting sibrfd-stbtf bfforf bny of tif pbrtifs dontinuf.
  *
- * <p><b>Sample usage:</b> Here is an example of using a barrier in a
- * parallel decomposition design:
+ * <p><b>Sbmplf usbgf:</b> Hfrf is bn fxbmplf of using b bbrrifr in b
+ * pbrbllfl dfdomposition dfsign:
  *
- *  <pre> {@code
- * class Solver {
- *   final int N;
- *   final float[][] data;
- *   final CyclicBarrier barrier;
+ *  <prf> {@dodf
+ * dlbss Solvfr {
+ *   finbl int N;
+ *   finbl flobt[][] dbtb;
+ *   finbl CydlidBbrrifr bbrrifr;
  *
- *   class Worker implements Runnable {
+ *   dlbss Workfr implfmfnts Runnbblf {
  *     int myRow;
- *     Worker(int row) { myRow = row; }
- *     public void run() {
- *       while (!done()) {
- *         processRow(myRow);
+ *     Workfr(int row) { myRow = row; }
+ *     publid void run() {
+ *       wiilf (!donf()) {
+ *         prodfssRow(myRow);
  *
  *         try {
- *           barrier.await();
- *         } catch (InterruptedException ex) {
- *           return;
- *         } catch (BrokenBarrierException ex) {
- *           return;
+ *           bbrrifr.bwbit();
+ *         } dbtdi (IntfrruptfdExdfption fx) {
+ *           rfturn;
+ *         } dbtdi (BrokfnBbrrifrExdfption fx) {
+ *           rfturn;
  *         }
  *       }
  *     }
  *   }
  *
- *   public Solver(float[][] matrix) {
- *     data = matrix;
- *     N = matrix.length;
- *     Runnable barrierAction =
- *       new Runnable() { public void run() { mergeRows(...); }};
- *     barrier = new CyclicBarrier(N, barrierAction);
+ *   publid Solvfr(flobt[][] mbtrix) {
+ *     dbtb = mbtrix;
+ *     N = mbtrix.lfngti;
+ *     Runnbblf bbrrifrAdtion =
+ *       nfw Runnbblf() { publid void run() { mfrgfRows(...); }};
+ *     bbrrifr = nfw CydlidBbrrifr(N, bbrrifrAdtion);
  *
- *     List<Thread> threads = new ArrayList<Thread>(N);
+ *     List<Tirfbd> tirfbds = nfw ArrbyList<Tirfbd>(N);
  *     for (int i = 0; i < N; i++) {
- *       Thread thread = new Thread(new Worker(i));
- *       threads.add(thread);
- *       thread.start();
+ *       Tirfbd tirfbd = nfw Tirfbd(nfw Workfr(i));
+ *       tirfbds.bdd(tirfbd);
+ *       tirfbd.stbrt();
  *     }
  *
- *     // wait until done
- *     for (Thread thread : threads)
- *       thread.join();
+ *     // wbit until donf
+ *     for (Tirfbd tirfbd : tirfbds)
+ *       tirfbd.join();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * Here, each worker thread processes a row of the matrix then waits at the
- * barrier until all rows have been processed. When all rows are processed
- * the supplied {@link Runnable} barrier action is executed and merges the
- * rows. If the merger
- * determines that a solution has been found then {@code done()} will return
- * {@code true} and each worker will terminate.
+ * Hfrf, fbdi workfr tirfbd prodfssfs b row of tif mbtrix tifn wbits bt tif
+ * bbrrifr until bll rows ibvf bffn prodfssfd. Wifn bll rows brf prodfssfd
+ * tif supplifd {@link Runnbblf} bbrrifr bdtion is fxfdutfd bnd mfrgfs tif
+ * rows. If tif mfrgfr
+ * dftfrminfs tibt b solution ibs bffn found tifn {@dodf donf()} will rfturn
+ * {@dodf truf} bnd fbdi workfr will tfrminbtf.
  *
- * <p>If the barrier action does not rely on the parties being suspended when
- * it is executed, then any of the threads in the party could execute that
- * action when it is released. To facilitate this, each invocation of
- * {@link #await} returns the arrival index of that thread at the barrier.
- * You can then choose which thread should execute the barrier action, for
- * example:
- *  <pre> {@code
- * if (barrier.await() == 0) {
- *   // log the completion of this iteration
- * }}</pre>
+ * <p>If tif bbrrifr bdtion dofs not rfly on tif pbrtifs bfing suspfndfd wifn
+ * it is fxfdutfd, tifn bny of tif tirfbds in tif pbrty dould fxfdutf tibt
+ * bdtion wifn it is rflfbsfd. To fbdilitbtf tiis, fbdi invodbtion of
+ * {@link #bwbit} rfturns tif brrivbl indfx of tibt tirfbd bt tif bbrrifr.
+ * You dbn tifn dioosf wiidi tirfbd siould fxfdutf tif bbrrifr bdtion, for
+ * fxbmplf:
+ *  <prf> {@dodf
+ * if (bbrrifr.bwbit() == 0) {
+ *   // log tif domplftion of tiis itfrbtion
+ * }}</prf>
  *
- * <p>The {@code CyclicBarrier} uses an all-or-none breakage model
- * for failed synchronization attempts: If a thread leaves a barrier
- * point prematurely because of interruption, failure, or timeout, all
- * other threads waiting at that barrier point will also leave
- * abnormally via {@link BrokenBarrierException} (or
- * {@link InterruptedException} if they too were interrupted at about
- * the same time).
+ * <p>Tif {@dodf CydlidBbrrifr} usfs bn bll-or-nonf brfbkbgf modfl
+ * for fbilfd syndironizbtion bttfmpts: If b tirfbd lfbvfs b bbrrifr
+ * point prfmbturfly bfdbusf of intfrruption, fbilurf, or timfout, bll
+ * otifr tirfbds wbiting bt tibt bbrrifr point will blso lfbvf
+ * bbnormblly vib {@link BrokfnBbrrifrExdfption} (or
+ * {@link IntfrruptfdExdfption} if tify too wfrf intfrruptfd bt bbout
+ * tif sbmf timf).
  *
- * <p>Memory consistency effects: Actions in a thread prior to calling
- * {@code await()}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions that are part of the barrier action, which in turn
- * <i>happen-before</i> actions following a successful return from the
- * corresponding {@code await()} in other threads.
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b tirfbd prior to dblling
+ * {@dodf bwbit()}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions tibt brf pbrt of tif bbrrifr bdtion, wiidi in turn
+ * <i>ibppfn-bfforf</i> bdtions following b suddfssful rfturn from tif
+ * dorrfsponding {@dodf bwbit()} in otifr tirfbds.
  *
- * @since 1.5
- * @see CountDownLatch
+ * @sindf 1.5
+ * @sff CountDownLbtdi
  *
- * @author Doug Lea
+ * @butior Doug Lfb
  */
-public class CyclicBarrier {
+publid dlbss CydlidBbrrifr {
     /**
-     * Each use of the barrier is represented as a generation instance.
-     * The generation changes whenever the barrier is tripped, or
-     * is reset. There can be many generations associated with threads
-     * using the barrier - due to the non-deterministic way the lock
-     * may be allocated to waiting threads - but only one of these
-     * can be active at a time (the one to which {@code count} applies)
-     * and all the rest are either broken or tripped.
-     * There need not be an active generation if there has been a break
-     * but no subsequent reset.
+     * Ebdi usf of tif bbrrifr is rfprfsfntfd bs b gfnfrbtion instbndf.
+     * Tif gfnfrbtion dibngfs wifnfvfr tif bbrrifr is trippfd, or
+     * is rfsft. Tifrf dbn bf mbny gfnfrbtions bssodibtfd witi tirfbds
+     * using tif bbrrifr - duf to tif non-dftfrministid wby tif lodk
+     * mby bf bllodbtfd to wbiting tirfbds - but only onf of tifsf
+     * dbn bf bdtivf bt b timf (tif onf to wiidi {@dodf dount} bpplifs)
+     * bnd bll tif rfst brf fitifr brokfn or trippfd.
+     * Tifrf nffd not bf bn bdtivf gfnfrbtion if tifrf ibs bffn b brfbk
+     * but no subsfqufnt rfsft.
      */
-    private static class Generation {
-        boolean broken = false;
+    privbtf stbtid dlbss Gfnfrbtion {
+        boolfbn brokfn = fblsf;
     }
 
-    /** The lock for guarding barrier entry */
-    private final ReentrantLock lock = new ReentrantLock();
-    /** Condition to wait on until tripped */
-    private final Condition trip = lock.newCondition();
-    /** The number of parties */
-    private final int parties;
-    /* The command to run when tripped */
-    private final Runnable barrierCommand;
-    /** The current generation */
-    private Generation generation = new Generation();
+    /** Tif lodk for gubrding bbrrifr fntry */
+    privbtf finbl RffntrbntLodk lodk = nfw RffntrbntLodk();
+    /** Condition to wbit on until trippfd */
+    privbtf finbl Condition trip = lodk.nfwCondition();
+    /** Tif numbfr of pbrtifs */
+    privbtf finbl int pbrtifs;
+    /* Tif dommbnd to run wifn trippfd */
+    privbtf finbl Runnbblf bbrrifrCommbnd;
+    /** Tif durrfnt gfnfrbtion */
+    privbtf Gfnfrbtion gfnfrbtion = nfw Gfnfrbtion();
 
     /**
-     * Number of parties still waiting. Counts down from parties to 0
-     * on each generation.  It is reset to parties on each new
-     * generation or when broken.
+     * Numbfr of pbrtifs still wbiting. Counts down from pbrtifs to 0
+     * on fbdi gfnfrbtion.  It is rfsft to pbrtifs on fbdi nfw
+     * gfnfrbtion or wifn brokfn.
      */
-    private int count;
+    privbtf int dount;
 
     /**
-     * Updates state on barrier trip and wakes up everyone.
-     * Called only while holding lock.
+     * Updbtfs stbtf on bbrrifr trip bnd wbkfs up fvfryonf.
+     * Cbllfd only wiilf iolding lodk.
      */
-    private void nextGeneration() {
-        // signal completion of last generation
-        trip.signalAll();
-        // set up next generation
-        count = parties;
-        generation = new Generation();
-    }
-
-    /**
-     * Sets current barrier generation as broken and wakes up everyone.
-     * Called only while holding lock.
-     */
-    private void breakBarrier() {
-        generation.broken = true;
-        count = parties;
-        trip.signalAll();
+    privbtf void nfxtGfnfrbtion() {
+        // signbl domplftion of lbst gfnfrbtion
+        trip.signblAll();
+        // sft up nfxt gfnfrbtion
+        dount = pbrtifs;
+        gfnfrbtion = nfw Gfnfrbtion();
     }
 
     /**
-     * Main barrier code, covering the various policies.
+     * Sfts durrfnt bbrrifr gfnfrbtion bs brokfn bnd wbkfs up fvfryonf.
+     * Cbllfd only wiilf iolding lodk.
      */
-    private int dowait(boolean timed, long nanos)
-        throws InterruptedException, BrokenBarrierException,
-               TimeoutException {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    privbtf void brfbkBbrrifr() {
+        gfnfrbtion.brokfn = truf;
+        dount = pbrtifs;
+        trip.signblAll();
+    }
+
+    /**
+     * Mbin bbrrifr dodf, dovfring tif vbrious polidifs.
+     */
+    privbtf int dowbit(boolfbn timfd, long nbnos)
+        tirows IntfrruptfdExdfption, BrokfnBbrrifrExdfption,
+               TimfoutExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            final Generation g = generation;
+            finbl Gfnfrbtion g = gfnfrbtion;
 
-            if (g.broken)
-                throw new BrokenBarrierException();
+            if (g.brokfn)
+                tirow nfw BrokfnBbrrifrExdfption();
 
-            if (Thread.interrupted()) {
-                breakBarrier();
-                throw new InterruptedException();
+            if (Tirfbd.intfrruptfd()) {
+                brfbkBbrrifr();
+                tirow nfw IntfrruptfdExdfption();
             }
 
-            int index = --count;
-            if (index == 0) {  // tripped
-                boolean ranAction = false;
+            int indfx = --dount;
+            if (indfx == 0) {  // trippfd
+                boolfbn rbnAdtion = fblsf;
                 try {
-                    final Runnable command = barrierCommand;
-                    if (command != null)
-                        command.run();
-                    ranAction = true;
-                    nextGeneration();
-                    return 0;
-                } finally {
-                    if (!ranAction)
-                        breakBarrier();
+                    finbl Runnbblf dommbnd = bbrrifrCommbnd;
+                    if (dommbnd != null)
+                        dommbnd.run();
+                    rbnAdtion = truf;
+                    nfxtGfnfrbtion();
+                    rfturn 0;
+                } finblly {
+                    if (!rbnAdtion)
+                        brfbkBbrrifr();
                 }
             }
 
-            // loop until tripped, broken, interrupted, or timed out
+            // loop until trippfd, brokfn, intfrruptfd, or timfd out
             for (;;) {
                 try {
-                    if (!timed)
-                        trip.await();
-                    else if (nanos > 0L)
-                        nanos = trip.awaitNanos(nanos);
-                } catch (InterruptedException ie) {
-                    if (g == generation && ! g.broken) {
-                        breakBarrier();
-                        throw ie;
-                    } else {
-                        // We're about to finish waiting even if we had not
-                        // been interrupted, so this interrupt is deemed to
-                        // "belong" to subsequent execution.
-                        Thread.currentThread().interrupt();
+                    if (!timfd)
+                        trip.bwbit();
+                    flsf if (nbnos > 0L)
+                        nbnos = trip.bwbitNbnos(nbnos);
+                } dbtdi (IntfrruptfdExdfption if) {
+                    if (g == gfnfrbtion && ! g.brokfn) {
+                        brfbkBbrrifr();
+                        tirow if;
+                    } flsf {
+                        // Wf'rf bbout to finisi wbiting fvfn if wf ibd not
+                        // bffn intfrruptfd, so tiis intfrrupt is dffmfd to
+                        // "bflong" to subsfqufnt fxfdution.
+                        Tirfbd.durrfntTirfbd().intfrrupt();
                     }
                 }
 
-                if (g.broken)
-                    throw new BrokenBarrierException();
+                if (g.brokfn)
+                    tirow nfw BrokfnBbrrifrExdfption();
 
-                if (g != generation)
-                    return index;
+                if (g != gfnfrbtion)
+                    rfturn indfx;
 
-                if (timed && nanos <= 0L) {
-                    breakBarrier();
-                    throw new TimeoutException();
+                if (timfd && nbnos <= 0L) {
+                    brfbkBbrrifr();
+                    tirow nfw TimfoutExdfption();
                 }
             }
-        } finally {
-            lock.unlock();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Creates a new {@code CyclicBarrier} that will trip when the
-     * given number of parties (threads) are waiting upon it, and which
-     * will execute the given barrier action when the barrier is tripped,
-     * performed by the last thread entering the barrier.
+     * Crfbtfs b nfw {@dodf CydlidBbrrifr} tibt will trip wifn tif
+     * givfn numbfr of pbrtifs (tirfbds) brf wbiting upon it, bnd wiidi
+     * will fxfdutf tif givfn bbrrifr bdtion wifn tif bbrrifr is trippfd,
+     * pfrformfd by tif lbst tirfbd fntfring tif bbrrifr.
      *
-     * @param parties the number of threads that must invoke {@link #await}
-     *        before the barrier is tripped
-     * @param barrierAction the command to execute when the barrier is
-     *        tripped, or {@code null} if there is no action
-     * @throws IllegalArgumentException if {@code parties} is less than 1
+     * @pbrbm pbrtifs tif numbfr of tirfbds tibt must invokf {@link #bwbit}
+     *        bfforf tif bbrrifr is trippfd
+     * @pbrbm bbrrifrAdtion tif dommbnd to fxfdutf wifn tif bbrrifr is
+     *        trippfd, or {@dodf null} if tifrf is no bdtion
+     * @tirows IllfgblArgumfntExdfption if {@dodf pbrtifs} is lfss tibn 1
      */
-    public CyclicBarrier(int parties, Runnable barrierAction) {
-        if (parties <= 0) throw new IllegalArgumentException();
-        this.parties = parties;
-        this.count = parties;
-        this.barrierCommand = barrierAction;
+    publid CydlidBbrrifr(int pbrtifs, Runnbblf bbrrifrAdtion) {
+        if (pbrtifs <= 0) tirow nfw IllfgblArgumfntExdfption();
+        tiis.pbrtifs = pbrtifs;
+        tiis.dount = pbrtifs;
+        tiis.bbrrifrCommbnd = bbrrifrAdtion;
     }
 
     /**
-     * Creates a new {@code CyclicBarrier} that will trip when the
-     * given number of parties (threads) are waiting upon it, and
-     * does not perform a predefined action when the barrier is tripped.
+     * Crfbtfs b nfw {@dodf CydlidBbrrifr} tibt will trip wifn tif
+     * givfn numbfr of pbrtifs (tirfbds) brf wbiting upon it, bnd
+     * dofs not pfrform b prfdffinfd bdtion wifn tif bbrrifr is trippfd.
      *
-     * @param parties the number of threads that must invoke {@link #await}
-     *        before the barrier is tripped
-     * @throws IllegalArgumentException if {@code parties} is less than 1
+     * @pbrbm pbrtifs tif numbfr of tirfbds tibt must invokf {@link #bwbit}
+     *        bfforf tif bbrrifr is trippfd
+     * @tirows IllfgblArgumfntExdfption if {@dodf pbrtifs} is lfss tibn 1
      */
-    public CyclicBarrier(int parties) {
-        this(parties, null);
+    publid CydlidBbrrifr(int pbrtifs) {
+        tiis(pbrtifs, null);
     }
 
     /**
-     * Returns the number of parties required to trip this barrier.
+     * Rfturns tif numbfr of pbrtifs rfquirfd to trip tiis bbrrifr.
      *
-     * @return the number of parties required to trip this barrier
+     * @rfturn tif numbfr of pbrtifs rfquirfd to trip tiis bbrrifr
      */
-    public int getParties() {
-        return parties;
+    publid int gftPbrtifs() {
+        rfturn pbrtifs;
     }
 
     /**
-     * Waits until all {@linkplain #getParties parties} have invoked
-     * {@code await} on this barrier.
+     * Wbits until bll {@linkplbin #gftPbrtifs pbrtifs} ibvf invokfd
+     * {@dodf bwbit} on tiis bbrrifr.
      *
-     * <p>If the current thread is not the last to arrive then it is
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of the following things happens:
+     * <p>If tif durrfnt tirfbd is not tif lbst to brrivf tifn it is
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of tif following tiings ibppfns:
      * <ul>
-     * <li>The last thread arrives; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * one of the other waiting threads; or
-     * <li>Some other thread times out while waiting for barrier; or
-     * <li>Some other thread invokes {@link #reset} on this barrier.
+     * <li>Tif lbst tirfbd brrivfs; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * onf of tif otifr wbiting tirfbds; or
+     * <li>Somf otifr tirfbd timfs out wiilf wbiting for bbrrifr; or
+     * <li>Somf otifr tirfbd invokfs {@link #rfsft} on tiis bbrrifr.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * <p>If the barrier is {@link #reset} while any thread is waiting,
-     * or if the barrier {@linkplain #isBroken is broken} when
-     * {@code await} is invoked, or while any thread is waiting, then
-     * {@link BrokenBarrierException} is thrown.
+     * <p>If tif bbrrifr is {@link #rfsft} wiilf bny tirfbd is wbiting,
+     * or if tif bbrrifr {@linkplbin #isBrokfn is brokfn} wifn
+     * {@dodf bwbit} is invokfd, or wiilf bny tirfbd is wbiting, tifn
+     * {@link BrokfnBbrrifrExdfption} is tirown.
      *
-     * <p>If any thread is {@linkplain Thread#interrupt interrupted} while waiting,
-     * then all other waiting threads will throw
-     * {@link BrokenBarrierException} and the barrier is placed in the broken
-     * state.
+     * <p>If bny tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting,
+     * tifn bll otifr wbiting tirfbds will tirow
+     * {@link BrokfnBbrrifrExdfption} bnd tif bbrrifr is plbdfd in tif brokfn
+     * stbtf.
      *
-     * <p>If the current thread is the last thread to arrive, and a
-     * non-null barrier action was supplied in the constructor, then the
-     * current thread runs the action before allowing the other threads to
-     * continue.
-     * If an exception occurs during the barrier action then that exception
-     * will be propagated in the current thread and the barrier is placed in
-     * the broken state.
+     * <p>If tif durrfnt tirfbd is tif lbst tirfbd to brrivf, bnd b
+     * non-null bbrrifr bdtion wbs supplifd in tif donstrudtor, tifn tif
+     * durrfnt tirfbd runs tif bdtion bfforf bllowing tif otifr tirfbds to
+     * dontinuf.
+     * If bn fxdfption oddurs during tif bbrrifr bdtion tifn tibt fxdfption
+     * will bf propbgbtfd in tif durrfnt tirfbd bnd tif bbrrifr is plbdfd in
+     * tif brokfn stbtf.
      *
-     * @return the arrival index of the current thread, where index
-     *         {@code getParties() - 1} indicates the first
-     *         to arrive and zero indicates the last to arrive
-     * @throws InterruptedException if the current thread was interrupted
-     *         while waiting
-     * @throws BrokenBarrierException if <em>another</em> thread was
-     *         interrupted or timed out while the current thread was
-     *         waiting, or the barrier was reset, or the barrier was
-     *         broken when {@code await} was called, or the barrier
-     *         action (if present) failed due to an exception
+     * @rfturn tif brrivbl indfx of tif durrfnt tirfbd, wifrf indfx
+     *         {@dodf gftPbrtifs() - 1} indidbtfs tif first
+     *         to brrivf bnd zfro indidbtfs tif lbst to brrivf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     *         wiilf wbiting
+     * @tirows BrokfnBbrrifrExdfption if <fm>bnotifr</fm> tirfbd wbs
+     *         intfrruptfd or timfd out wiilf tif durrfnt tirfbd wbs
+     *         wbiting, or tif bbrrifr wbs rfsft, or tif bbrrifr wbs
+     *         brokfn wifn {@dodf bwbit} wbs dbllfd, or tif bbrrifr
+     *         bdtion (if prfsfnt) fbilfd duf to bn fxdfption
      */
-    public int await() throws InterruptedException, BrokenBarrierException {
+    publid int bwbit() tirows IntfrruptfdExdfption, BrokfnBbrrifrExdfption {
         try {
-            return dowait(false, 0L);
-        } catch (TimeoutException toe) {
-            throw new Error(toe); // cannot happen
+            rfturn dowbit(fblsf, 0L);
+        } dbtdi (TimfoutExdfption tof) {
+            tirow nfw Error(tof); // dbnnot ibppfn
         }
     }
 
     /**
-     * Waits until all {@linkplain #getParties parties} have invoked
-     * {@code await} on this barrier, or the specified waiting time elapses.
+     * Wbits until bll {@linkplbin #gftPbrtifs pbrtifs} ibvf invokfd
+     * {@dodf bwbit} on tiis bbrrifr, or tif spfdififd wbiting timf flbpsfs.
      *
-     * <p>If the current thread is not the last to arrive then it is
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of the following things happens:
+     * <p>If tif durrfnt tirfbd is not tif lbst to brrivf tifn it is
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of tif following tiings ibppfns:
      * <ul>
-     * <li>The last thread arrives; or
-     * <li>The specified timeout elapses; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * one of the other waiting threads; or
-     * <li>Some other thread times out while waiting for barrier; or
-     * <li>Some other thread invokes {@link #reset} on this barrier.
+     * <li>Tif lbst tirfbd brrivfs; or
+     * <li>Tif spfdififd timfout flbpsfs; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * onf of tif otifr wbiting tirfbds; or
+     * <li>Somf otifr tirfbd timfs out wiilf wbiting for bbrrifr; or
+     * <li>Somf otifr tirfbd invokfs {@link #rfsft} on tiis bbrrifr.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * <p>If the specified waiting time elapses then {@link TimeoutException}
-     * is thrown. If the time is less than or equal to zero, the
-     * method will not wait at all.
+     * <p>If tif spfdififd wbiting timf flbpsfs tifn {@link TimfoutExdfption}
+     * is tirown. If tif timf is lfss tibn or fqubl to zfro, tif
+     * mftiod will not wbit bt bll.
      *
-     * <p>If the barrier is {@link #reset} while any thread is waiting,
-     * or if the barrier {@linkplain #isBroken is broken} when
-     * {@code await} is invoked, or while any thread is waiting, then
-     * {@link BrokenBarrierException} is thrown.
+     * <p>If tif bbrrifr is {@link #rfsft} wiilf bny tirfbd is wbiting,
+     * or if tif bbrrifr {@linkplbin #isBrokfn is brokfn} wifn
+     * {@dodf bwbit} is invokfd, or wiilf bny tirfbd is wbiting, tifn
+     * {@link BrokfnBbrrifrExdfption} is tirown.
      *
-     * <p>If any thread is {@linkplain Thread#interrupt interrupted} while
-     * waiting, then all other waiting threads will throw {@link
-     * BrokenBarrierException} and the barrier is placed in the broken
-     * state.
+     * <p>If bny tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf
+     * wbiting, tifn bll otifr wbiting tirfbds will tirow {@link
+     * BrokfnBbrrifrExdfption} bnd tif bbrrifr is plbdfd in tif brokfn
+     * stbtf.
      *
-     * <p>If the current thread is the last thread to arrive, and a
-     * non-null barrier action was supplied in the constructor, then the
-     * current thread runs the action before allowing the other threads to
-     * continue.
-     * If an exception occurs during the barrier action then that exception
-     * will be propagated in the current thread and the barrier is placed in
-     * the broken state.
+     * <p>If tif durrfnt tirfbd is tif lbst tirfbd to brrivf, bnd b
+     * non-null bbrrifr bdtion wbs supplifd in tif donstrudtor, tifn tif
+     * durrfnt tirfbd runs tif bdtion bfforf bllowing tif otifr tirfbds to
+     * dontinuf.
+     * If bn fxdfption oddurs during tif bbrrifr bdtion tifn tibt fxdfption
+     * will bf propbgbtfd in tif durrfnt tirfbd bnd tif bbrrifr is plbdfd in
+     * tif brokfn stbtf.
      *
-     * @param timeout the time to wait for the barrier
-     * @param unit the time unit of the timeout parameter
-     * @return the arrival index of the current thread, where index
-     *         {@code getParties() - 1} indicates the first
-     *         to arrive and zero indicates the last to arrive
-     * @throws InterruptedException if the current thread was interrupted
-     *         while waiting
-     * @throws TimeoutException if the specified timeout elapses.
-     *         In this case the barrier will be broken.
-     * @throws BrokenBarrierException if <em>another</em> thread was
-     *         interrupted or timed out while the current thread was
-     *         waiting, or the barrier was reset, or the barrier was broken
-     *         when {@code await} was called, or the barrier action (if
-     *         present) failed due to an exception
+     * @pbrbm timfout tif timf to wbit for tif bbrrifr
+     * @pbrbm unit tif timf unit of tif timfout pbrbmftfr
+     * @rfturn tif brrivbl indfx of tif durrfnt tirfbd, wifrf indfx
+     *         {@dodf gftPbrtifs() - 1} indidbtfs tif first
+     *         to brrivf bnd zfro indidbtfs tif lbst to brrivf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     *         wiilf wbiting
+     * @tirows TimfoutExdfption if tif spfdififd timfout flbpsfs.
+     *         In tiis dbsf tif bbrrifr will bf brokfn.
+     * @tirows BrokfnBbrrifrExdfption if <fm>bnotifr</fm> tirfbd wbs
+     *         intfrruptfd or timfd out wiilf tif durrfnt tirfbd wbs
+     *         wbiting, or tif bbrrifr wbs rfsft, or tif bbrrifr wbs brokfn
+     *         wifn {@dodf bwbit} wbs dbllfd, or tif bbrrifr bdtion (if
+     *         prfsfnt) fbilfd duf to bn fxdfption
      */
-    public int await(long timeout, TimeUnit unit)
-        throws InterruptedException,
-               BrokenBarrierException,
-               TimeoutException {
-        return dowait(true, unit.toNanos(timeout));
+    publid int bwbit(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption,
+               BrokfnBbrrifrExdfption,
+               TimfoutExdfption {
+        rfturn dowbit(truf, unit.toNbnos(timfout));
     }
 
     /**
-     * Queries if this barrier is in a broken state.
+     * Qufrifs if tiis bbrrifr is in b brokfn stbtf.
      *
-     * @return {@code true} if one or more parties broke out of this
-     *         barrier due to interruption or timeout since
-     *         construction or the last reset, or a barrier action
-     *         failed due to an exception; {@code false} otherwise.
+     * @rfturn {@dodf truf} if onf or morf pbrtifs brokf out of tiis
+     *         bbrrifr duf to intfrruption or timfout sindf
+     *         donstrudtion or tif lbst rfsft, or b bbrrifr bdtion
+     *         fbilfd duf to bn fxdfption; {@dodf fblsf} otifrwisf.
      */
-    public boolean isBroken() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn isBrokfn() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return generation.broken;
-        } finally {
-            lock.unlock();
+            rfturn gfnfrbtion.brokfn;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Resets the barrier to its initial state.  If any parties are
-     * currently waiting at the barrier, they will return with a
-     * {@link BrokenBarrierException}. Note that resets <em>after</em>
-     * a breakage has occurred for other reasons can be complicated to
-     * carry out; threads need to re-synchronize in some other way,
-     * and choose one to perform the reset.  It may be preferable to
-     * instead create a new barrier for subsequent use.
+     * Rfsfts tif bbrrifr to its initibl stbtf.  If bny pbrtifs brf
+     * durrfntly wbiting bt tif bbrrifr, tify will rfturn witi b
+     * {@link BrokfnBbrrifrExdfption}. Notf tibt rfsfts <fm>bftfr</fm>
+     * b brfbkbgf ibs oddurrfd for otifr rfbsons dbn bf domplidbtfd to
+     * dbrry out; tirfbds nffd to rf-syndironizf in somf otifr wby,
+     * bnd dioosf onf to pfrform tif rfsft.  It mby bf prfffrbblf to
+     * instfbd drfbtf b nfw bbrrifr for subsfqufnt usf.
      */
-    public void reset() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid void rfsft() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            breakBarrier();   // break the current generation
-            nextGeneration(); // start a new generation
-        } finally {
-            lock.unlock();
+            brfbkBbrrifr();   // brfbk tif durrfnt gfnfrbtion
+            nfxtGfnfrbtion(); // stbrt b nfw gfnfrbtion
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns the number of parties currently waiting at the barrier.
-     * This method is primarily useful for debugging and assertions.
+     * Rfturns tif numbfr of pbrtifs durrfntly wbiting bt tif bbrrifr.
+     * Tiis mftiod is primbrily usfful for dfbugging bnd bssfrtions.
      *
-     * @return the number of parties currently blocked in {@link #await}
+     * @rfturn tif numbfr of pbrtifs durrfntly blodkfd in {@link #bwbit}
      */
-    public int getNumberWaiting() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int gftNumbfrWbiting() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return parties - count;
-        } finally {
-            lock.unlock();
+            rfturn pbrtifs - dount;
+        } finblly {
+            lodk.unlodk();
         }
     }
 }

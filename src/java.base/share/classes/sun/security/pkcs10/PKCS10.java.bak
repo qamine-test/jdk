@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.pkcs10;
+pbdkbgf sun.sfdurity.pkds10;
 
-import java.io.PrintStream;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.cert.CertificateException;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.PublicKey;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.PublidKfy;
 
-import java.util.Base64;
+import jbvb.util.Bbsf64;
 
-import sun.security.util.*;
-import sun.security.x509.AlgorithmId;
-import sun.security.x509.X509Key;
-import sun.security.x509.X500Name;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.x509.X509Kfy;
+import sun.sfdurity.x509.X500Nbmf;
 
 /**
- * A PKCS #10 certificate request is created and sent to a Certificate
- * Authority, which then creates an X.509 certificate and returns it to
- * the entity that requested it. A certificate request basically consists
- * of the subject's X.500 name, public key, and optionally some attributes,
- * signed using the corresponding private key.
+ * A PKCS #10 dfrtifidbtf rfqufst is drfbtfd bnd sfnt to b Cfrtifidbtf
+ * Autiority, wiidi tifn drfbtfs bn X.509 dfrtifidbtf bnd rfturns it to
+ * tif fntity tibt rfqufstfd it. A dfrtifidbtf rfqufst bbsidblly donsists
+ * of tif subjfdt's X.500 nbmf, publid kfy, bnd optionblly somf bttributfs,
+ * signfd using tif dorrfsponding privbtf kfy.
  *
- * The ASN.1 syntax for a Certification Request is:
- * <pre>
- * CertificationRequest ::= SEQUENCE {
- *    certificationRequestInfo CertificationRequestInfo,
- *    signatureAlgorithm       SignatureAlgorithmIdentifier,
- *    signature                Signature
+ * Tif ASN.1 syntbx for b Cfrtifidbtion Rfqufst is:
+ * <prf>
+ * CfrtifidbtionRfqufst ::= SEQUENCE {
+ *    dfrtifidbtionRfqufstInfo CfrtifidbtionRfqufstInfo,
+ *    signbturfAlgoritim       SignbturfAlgoritimIdfntififr,
+ *    signbturf                Signbturf
  *  }
  *
- * SignatureAlgorithmIdentifier ::= AlgorithmIdentifier
- * Signature ::= BIT STRING
+ * SignbturfAlgoritimIdfntififr ::= AlgoritimIdfntififr
+ * Signbturf ::= BIT STRING
  *
- * CertificationRequestInfo ::= SEQUENCE {
- *    version                 Version,
- *    subject                 Name,
- *    subjectPublicKeyInfo    SubjectPublicKeyInfo,
- *    attributes [0] IMPLICIT Attributes
+ * CfrtifidbtionRfqufstInfo ::= SEQUENCE {
+ *    vfrsion                 Vfrsion,
+ *    subjfdt                 Nbmf,
+ *    subjfdtPublidKfyInfo    SubjfdtPublidKfyInfo,
+ *    bttributfs [0] IMPLICIT Attributfs
  * }
- * Attributes ::= SET OF Attribute
- * </pre>
+ * Attributfs ::= SET OF Attributf
+ * </prf>
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class PKCS10 {
+publid dlbss PKCS10 {
     /**
-     * Constructs an unsigned PKCS #10 certificate request.  Before this
-     * request may be used, it must be encoded and signed.  Then it
-     * must be retrieved in some conventional format (e.g. string).
+     * Construdts bn unsignfd PKCS #10 dfrtifidbtf rfqufst.  Bfforf tiis
+     * rfqufst mby bf usfd, it must bf fndodfd bnd signfd.  Tifn it
+     * must bf rftrifvfd in somf donvfntionbl formbt (f.g. string).
      *
-     * @param publicKey the public key that should be placed
-     *          into the certificate generated by the CA.
+     * @pbrbm publidKfy tif publid kfy tibt siould bf plbdfd
+     *          into tif dfrtifidbtf gfnfrbtfd by tif CA.
      */
-    public PKCS10(PublicKey publicKey) {
-        subjectPublicKeyInfo = publicKey;
-        attributeSet = new PKCS10Attributes();
+    publid PKCS10(PublidKfy publidKfy) {
+        subjfdtPublidKfyInfo = publidKfy;
+        bttributfSft = nfw PKCS10Attributfs();
     }
 
     /**
-     * Constructs an unsigned PKCS #10 certificate request.  Before this
-     * request may be used, it must be encoded and signed.  Then it
-     * must be retrieved in some conventional format (e.g. string).
+     * Construdts bn unsignfd PKCS #10 dfrtifidbtf rfqufst.  Bfforf tiis
+     * rfqufst mby bf usfd, it must bf fndodfd bnd signfd.  Tifn it
+     * must bf rftrifvfd in somf donvfntionbl formbt (f.g. string).
      *
-     * @param publicKey the public key that should be placed
-     *          into the certificate generated by the CA.
-     * @param attributes additonal set of PKCS10 attributes requested
-     *          for in the certificate.
+     * @pbrbm publidKfy tif publid kfy tibt siould bf plbdfd
+     *          into tif dfrtifidbtf gfnfrbtfd by tif CA.
+     * @pbrbm bttributfs bdditonbl sft of PKCS10 bttributfs rfqufstfd
+     *          for in tif dfrtifidbtf.
      */
-    public PKCS10(PublicKey publicKey, PKCS10Attributes attributes) {
-        subjectPublicKeyInfo = publicKey;
-        attributeSet = attributes;
+    publid PKCS10(PublidKfy publidKfy, PKCS10Attributfs bttributfs) {
+        subjfdtPublidKfyInfo = publidKfy;
+        bttributfSft = bttributfs;
     }
 
     /**
-     * Parses an encoded, signed PKCS #10 certificate request, verifying
-     * the request's signature as it does so.  This constructor would
-     * typically be used by a Certificate Authority, from which a new
-     * certificate would then be constructed.
+     * Pbrsfs bn fndodfd, signfd PKCS #10 dfrtifidbtf rfqufst, vfrifying
+     * tif rfqufst's signbturf bs it dofs so.  Tiis donstrudtor would
+     * typidblly bf usfd by b Cfrtifidbtf Autiority, from wiidi b nfw
+     * dfrtifidbtf would tifn bf donstrudtfd.
      *
-     * @param data the DER-encoded PKCS #10 request.
-     * @exception IOException for low level errors reading the data
-     * @exception SignatureException when the signature is invalid
-     * @exception NoSuchAlgorithmException when the signature
-     *  algorithm is not supported in this environment
+     * @pbrbm dbtb tif DER-fndodfd PKCS #10 rfqufst.
+     * @fxdfption IOExdfption for low lfvfl frrors rfbding tif dbtb
+     * @fxdfption SignbturfExdfption wifn tif signbturf is invblid
+     * @fxdfption NoSudiAlgoritimExdfption wifn tif signbturf
+     *  blgoritim is not supportfd in tiis fnvironmfnt
      */
-    public PKCS10(byte[] data)
-    throws IOException, SignatureException, NoSuchAlgorithmException {
-        DerInputStream  in;
-        DerValue[]      seq;
-        AlgorithmId     id;
-        byte[]          sigData;
-        Signature       sig;
+    publid PKCS10(bytf[] dbtb)
+    tirows IOExdfption, SignbturfExdfption, NoSudiAlgoritimExdfption {
+        DfrInputStrfbm  in;
+        DfrVbluf[]      sfq;
+        AlgoritimId     id;
+        bytf[]          sigDbtb;
+        Signbturf       sig;
 
-        encoded = data;
-
-        //
-        // Outer sequence:  request, signature algorithm, signature.
-        // Parse, and prepare to verify later.
-        //
-        in = new DerInputStream(data);
-        seq = in.getSequence(3);
-
-        if (seq.length != 3)
-            throw new IllegalArgumentException("not a PKCS #10 request");
-
-        data = seq[0].toByteArray();            // reusing this variable
-        id = AlgorithmId.parse(seq[1]);
-        sigData = seq[2].getBitString();
+        fndodfd = dbtb;
 
         //
-        // Inner sequence:  version, name, key, attributes
+        // Outfr sfqufndf:  rfqufst, signbturf blgoritim, signbturf.
+        // Pbrsf, bnd prfpbrf to vfrify lbtfr.
         //
-        BigInteger      serial;
-        DerValue        val;
+        in = nfw DfrInputStrfbm(dbtb);
+        sfq = in.gftSfqufndf(3);
 
-        serial = seq[0].data.getBigInteger();
-        if (!serial.equals(BigInteger.ZERO))
-            throw new IllegalArgumentException("not PKCS #10 v1");
+        if (sfq.lfngti != 3)
+            tirow nfw IllfgblArgumfntExdfption("not b PKCS #10 rfqufst");
 
-        subject = new X500Name(seq[0].data);
-        subjectPublicKeyInfo = X509Key.parse(seq[0].data.getDerValue());
-
-        // Cope with a somewhat common illegal PKCS #10 format
-        if (seq[0].data.available() != 0)
-            attributeSet = new PKCS10Attributes(seq[0].data);
-        else
-            attributeSet = new PKCS10Attributes();
-
-        if (seq[0].data.available() != 0)
-            throw new IllegalArgumentException("illegal PKCS #10 data");
+        dbtb = sfq[0].toBytfArrby();            // rfusing tiis vbribblf
+        id = AlgoritimId.pbrsf(sfq[1]);
+        sigDbtb = sfq[2].gftBitString();
 
         //
-        // OK, we parsed it all ... validate the signature using the
-        // key and signature algorithm we found.
+        // Innfr sfqufndf:  vfrsion, nbmf, kfy, bttributfs
+        //
+        BigIntfgfr      sfribl;
+        DfrVbluf        vbl;
+
+        sfribl = sfq[0].dbtb.gftBigIntfgfr();
+        if (!sfribl.fqubls(BigIntfgfr.ZERO))
+            tirow nfw IllfgblArgumfntExdfption("not PKCS #10 v1");
+
+        subjfdt = nfw X500Nbmf(sfq[0].dbtb);
+        subjfdtPublidKfyInfo = X509Kfy.pbrsf(sfq[0].dbtb.gftDfrVbluf());
+
+        // Copf witi b somfwibt dommon illfgbl PKCS #10 formbt
+        if (sfq[0].dbtb.bvbilbblf() != 0)
+            bttributfSft = nfw PKCS10Attributfs(sfq[0].dbtb);
+        flsf
+            bttributfSft = nfw PKCS10Attributfs();
+
+        if (sfq[0].dbtb.bvbilbblf() != 0)
+            tirow nfw IllfgblArgumfntExdfption("illfgbl PKCS #10 dbtb");
+
+        //
+        // OK, wf pbrsfd it bll ... vblidbtf tif signbturf using tif
+        // kfy bnd signbturf blgoritim wf found.
         //
         try {
-            sig = Signature.getInstance(id.getName());
-            sig.initVerify(subjectPublicKeyInfo);
-            sig.update(data);
-            if (!sig.verify(sigData))
-                throw new SignatureException("Invalid PKCS #10 signature");
-        } catch (InvalidKeyException e) {
-            throw new SignatureException("invalid key");
+            sig = Signbturf.gftInstbndf(id.gftNbmf());
+            sig.initVfrify(subjfdtPublidKfyInfo);
+            sig.updbtf(dbtb);
+            if (!sig.vfrify(sigDbtb))
+                tirow nfw SignbturfExdfption("Invblid PKCS #10 signbturf");
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw SignbturfExdfption("invblid kfy");
         }
     }
 
     /**
-     * Create the signed certificate request.  This will later be
-     * retrieved in either string or binary format.
+     * Crfbtf tif signfd dfrtifidbtf rfqufst.  Tiis will lbtfr bf
+     * rftrifvfd in fitifr string or binbry formbt.
      *
-     * @param subject identifies the signer (by X.500 name).
-     * @param signature private key and signing algorithm to use.
-     * @exception IOException on errors.
-     * @exception CertificateException on certificate handling errors.
-     * @exception SignatureException on signature handling errors.
+     * @pbrbm subjfdt idfntififs tif signfr (by X.500 nbmf).
+     * @pbrbm signbturf privbtf kfy bnd signing blgoritim to usf.
+     * @fxdfption IOExdfption on frrors.
+     * @fxdfption CfrtifidbtfExdfption on dfrtifidbtf ibndling frrors.
+     * @fxdfption SignbturfExdfption on signbturf ibndling frrors.
      */
-    public void encodeAndSign(X500Name subject, Signature signature)
-    throws CertificateException, IOException, SignatureException {
-        DerOutputStream out, scratch;
-        byte[]          certificateRequestInfo;
-        byte[]          sig;
+    publid void fndodfAndSign(X500Nbmf subjfdt, Signbturf signbturf)
+    tirows CfrtifidbtfExdfption, IOExdfption, SignbturfExdfption {
+        DfrOutputStrfbm out, sdrbtdi;
+        bytf[]          dfrtifidbtfRfqufstInfo;
+        bytf[]          sig;
 
-        if (encoded != null)
-            throw new SignatureException("request is already signed");
+        if (fndodfd != null)
+            tirow nfw SignbturfExdfption("rfqufst is blrfbdy signfd");
 
-        this.subject = subject;
+        tiis.subjfdt = subjfdt;
 
         /*
-         * Encode cert request info, wrap in a sequence for signing
+         * Endodf dfrt rfqufst info, wrbp in b sfqufndf for signing
          */
-        scratch = new DerOutputStream();
-        scratch.putInteger(BigInteger.ZERO);            // PKCS #10 v1.0
-        subject.encode(scratch);                        // X.500 name
-        scratch.write(subjectPublicKeyInfo.getEncoded()); // public key
-        attributeSet.encode(scratch);
+        sdrbtdi = nfw DfrOutputStrfbm();
+        sdrbtdi.putIntfgfr(BigIntfgfr.ZERO);            // PKCS #10 v1.0
+        subjfdt.fndodf(sdrbtdi);                        // X.500 nbmf
+        sdrbtdi.writf(subjfdtPublidKfyInfo.gftEndodfd()); // publid kfy
+        bttributfSft.fndodf(sdrbtdi);
 
-        out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, scratch);      // wrap it!
-        certificateRequestInfo = out.toByteArray();
-        scratch = out;
+        out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, sdrbtdi);      // wrbp it!
+        dfrtifidbtfRfqufstInfo = out.toBytfArrby();
+        sdrbtdi = out;
 
         /*
          * Sign it ...
          */
-        signature.update(certificateRequestInfo, 0,
-                certificateRequestInfo.length);
-        sig = signature.sign();
+        signbturf.updbtf(dfrtifidbtfRfqufstInfo, 0,
+                dfrtifidbtfRfqufstInfo.lfngti);
+        sig = signbturf.sign();
 
         /*
-         * Build guts of SIGNED macro
+         * Build guts of SIGNED mbdro
          */
-        AlgorithmId algId = null;
+        AlgoritimId blgId = null;
         try {
-            algId = AlgorithmId.get(signature.getAlgorithm());
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new SignatureException(nsae);
+            blgId = AlgoritimId.gft(signbturf.gftAlgoritim());
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw SignbturfExdfption(nsbf);
         }
-        algId.encode(scratch);     // sig algorithm
-        scratch.putBitString(sig);                      // sig
+        blgId.fndodf(sdrbtdi);     // sig blgoritim
+        sdrbtdi.putBitString(sig);                      // sig
 
         /*
-         * Wrap those guts in a sequence
+         * Wrbp tiosf guts in b sfqufndf
          */
-        out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, scratch);
-        encoded = out.toByteArray();
+        out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, sdrbtdi);
+        fndodfd = out.toBytfArrby();
     }
 
     /**
-     * Returns the subject's name.
+     * Rfturns tif subjfdt's nbmf.
      */
-    public X500Name getSubjectName() { return subject; }
+    publid X500Nbmf gftSubjfdtNbmf() { rfturn subjfdt; }
 
     /**
-     * Returns the subject's public key.
+     * Rfturns tif subjfdt's publid kfy.
      */
-    public PublicKey getSubjectPublicKeyInfo()
-        { return subjectPublicKeyInfo; }
+    publid PublidKfy gftSubjfdtPublidKfyInfo()
+        { rfturn subjfdtPublidKfyInfo; }
 
     /**
-     * Returns the additional attributes requested.
+     * Rfturns tif bdditionbl bttributfs rfqufstfd.
      */
-    public PKCS10Attributes getAttributes()
-        { return attributeSet; }
+    publid PKCS10Attributfs gftAttributfs()
+        { rfturn bttributfSft; }
 
     /**
-     * Returns the encoded and signed certificate request as a
-     * DER-encoded byte array.
+     * Rfturns tif fndodfd bnd signfd dfrtifidbtf rfqufst bs b
+     * DER-fndodfd bytf brrby.
      *
-     * @return the certificate request, or null if encodeAndSign()
-     *          has not yet been called.
+     * @rfturn tif dfrtifidbtf rfqufst, or null if fndodfAndSign()
+     *          ibs not yft bffn dbllfd.
      */
-    public byte[] getEncoded() {
-        if (encoded != null)
-            return encoded.clone();
-        else
-            return null;
+    publid bytf[] gftEndodfd() {
+        if (fndodfd != null)
+            rfturn fndodfd.dlonf();
+        flsf
+            rfturn null;
     }
 
     /**
-     * Prints an E-Mailable version of the certificate request on the print
-     * stream passed.  The format is a common base64 encoded one, supported
-     * by most Certificate Authorities because Netscape web servers have
-     * used this for some time.  Some certificate authorities expect some
-     * more information, in particular contact information for the web
-     * server administrator.
+     * Prints bn E-Mbilbblf vfrsion of tif dfrtifidbtf rfqufst on tif print
+     * strfbm pbssfd.  Tif formbt is b dommon bbsf64 fndodfd onf, supportfd
+     * by most Cfrtifidbtf Autioritifs bfdbusf Nftsdbpf wfb sfrvfrs ibvf
+     * usfd tiis for somf timf.  Somf dfrtifidbtf butioritifs fxpfdt somf
+     * morf informbtion, in pbrtidulbr dontbdt informbtion for tif wfb
+     * sfrvfr bdministrbtor.
      *
-     * @param out the print stream where the certificate request
-     *  will be printed.
-     * @exception IOException when an output operation failed
-     * @exception SignatureException when the certificate request was
-     *  not yet signed.
+     * @pbrbm out tif print strfbm wifrf tif dfrtifidbtf rfqufst
+     *  will bf printfd.
+     * @fxdfption IOExdfption wifn bn output opfrbtion fbilfd
+     * @fxdfption SignbturfExdfption wifn tif dfrtifidbtf rfqufst wbs
+     *  not yft signfd.
      */
-    public void print(PrintStream out)
-    throws IOException, SignatureException {
-        if (encoded == null)
-            throw new SignatureException("Cert request was not signed");
+    publid void print(PrintStrfbm out)
+    tirows IOExdfption, SignbturfExdfption {
+        if (fndodfd == null)
+            tirow nfw SignbturfExdfption("Cfrt rfqufst wbs not signfd");
 
 
         out.println("-----BEGIN NEW CERTIFICATE REQUEST-----");
-        out.println(Base64.getMimeEncoder().encodeToString(encoded));
+        out.println(Bbsf64.gftMimfEndodfr().fndodfToString(fndodfd));
         out.println("-----END NEW CERTIFICATE REQUEST-----");
     }
 
     /**
-     * Provides a short description of this request.
+     * Providfs b siort dfsdription of tiis rfqufst.
      */
-    public String toString() {
-        return "[PKCS #10 certificate request:\n"
-            + subjectPublicKeyInfo.toString()
-            + " subject: <" + subject + ">" + "\n"
-            + " attributes: " + attributeSet.toString()
+    publid String toString() {
+        rfturn "[PKCS #10 dfrtifidbtf rfqufst:\n"
+            + subjfdtPublidKfyInfo.toString()
+            + " subjfdt: <" + subjfdt + ">" + "\n"
+            + " bttributfs: " + bttributfSft.toString()
             + "\n]";
     }
 
     /**
-     * Compares this object for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>PKCS10</code>, then
-     * its encoded form is retrieved and compared with the
-     * encoded form of this certificate request.
+     * Compbrfs tiis objfdt for fqublity witi tif spfdififd
+     * objfdt. If tif <dodf>otifr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>PKCS10</dodf>, tifn
+     * its fndodfd form is rftrifvfd bnd dompbrfd witi tif
+     * fndodfd form of tiis dfrtifidbtf rfqufst.
      *
-     * @param other the object to test for equality with this object.
-     * @return true iff the encoded forms of the two certificate
-     * requests match, false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis objfdt.
+     * @rfturn truf iff tif fndodfd forms of tif two dfrtifidbtf
+     * rfqufsts mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof PKCS10))
-            return false;
-        if (encoded == null) // not signed yet
-            return false;
-        byte[] otherEncoded = ((PKCS10)other).getEncoded();
-        if (otherEncoded == null)
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof PKCS10))
+            rfturn fblsf;
+        if (fndodfd == null) // not signfd yft
+            rfturn fblsf;
+        bytf[] otifrEndodfd = ((PKCS10)otifr).gftEndodfd();
+        if (otifrEndodfd == null)
+            rfturn fblsf;
 
-        return java.util.Arrays.equals(encoded, otherEncoded);
+        rfturn jbvb.util.Arrbys.fqubls(fndodfd, otifrEndodfd);
     }
 
     /**
-     * Returns a hashcode value for this certificate request from its
-     * encoded form.
+     * Rfturns b ibsidodf vbluf for tiis dfrtifidbtf rfqufst from its
+     * fndodfd form.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        int     retval = 0;
-        if (encoded != null)
-            for (int i = 1; i < encoded.length; i++)
-             retval += encoded[i] * i;
-        return(retval);
+    publid int ibsiCodf() {
+        int     rftvbl = 0;
+        if (fndodfd != null)
+            for (int i = 1; i < fndodfd.lfngti; i++)
+             rftvbl += fndodfd[i] * i;
+        rfturn(rftvbl);
     }
 
-    private X500Name            subject;
-    private PublicKey           subjectPublicKeyInfo;
-    private PKCS10Attributes    attributeSet;
-    private byte[]              encoded;        // signed
+    privbtf X500Nbmf            subjfdt;
+    privbtf PublidKfy           subjfdtPublidKfyInfo;
+    privbtf PKCS10Attributfs    bttributfSft;
+    privbtf bytf[]              fndodfd;        // signfd
 }

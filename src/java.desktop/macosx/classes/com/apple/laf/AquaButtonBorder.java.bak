@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.*;
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.*;
 
-public abstract class AquaButtonBorder extends AquaBorder implements Border, UIResource {
-    public static final RecyclableSingleton<Dynamic> fDynamic = new RecyclableSingletonFromDefaultConstructor<Dynamic>(Dynamic.class);
-    static public AquaButtonBorder getDynamicButtonBorder() {
-        return fDynamic.get();
+publid bbstrbdt dlbss AqubButtonBordfr fxtfnds AqubBordfr implfmfnts Bordfr, UIRfsourdf {
+    publid stbtid finbl RfdydlbblfSinglfton<Dynbmid> fDynbmid = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<Dynbmid>(Dynbmid.dlbss);
+    stbtid publid AqubButtonBordfr gftDynbmidButtonBordfr() {
+        rfturn fDynbmid.gft();
     }
 
-    private static final RecyclableSingleton<Toggle> fToggle = new RecyclableSingletonFromDefaultConstructor<Toggle>(Toggle.class);
-    static public AquaButtonBorder getToggleButtonBorder() {
-        return fToggle.get();
+    privbtf stbtid finbl RfdydlbblfSinglfton<Togglf> fTogglf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<Togglf>(Togglf.dlbss);
+    stbtid publid AqubButtonBordfr gftTogglfButtonBordfr() {
+        rfturn fTogglf.gft();
     }
 
-    public static final RecyclableSingleton<Toolbar> fToolBar = new RecyclableSingletonFromDefaultConstructor<Toolbar>(Toolbar.class);
-    static public Border getToolBarButtonBorder() {
-        return fToolBar.get();
+    publid stbtid finbl RfdydlbblfSinglfton<Toolbbr> fToolBbr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<Toolbbr>(Toolbbr.dlbss);
+    stbtid publid Bordfr gftToolBbrButtonBordfr() {
+        rfturn fToolBbr.gft();
     }
 
-    public static final RecyclableSingleton<Named> fBevel = new RecyclableSingleton<Named>() {
-        protected Named getInstance() {
-            return new Named(Widget.BUTTON_BEVEL, new SizeDescriptor(new SizeVariant().alterMargins(2, 4, 2, 4)));
+    publid stbtid finbl RfdydlbblfSinglfton<Nbmfd> fBfvfl = nfw RfdydlbblfSinglfton<Nbmfd>() {
+        protfdtfd Nbmfd gftInstbndf() {
+            rfturn nfw Nbmfd(Widgft.BUTTON_BEVEL, nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(2, 4, 2, 4)));
         }
     };
-    public static AquaButtonBorder getBevelButtonBorder() {
-        return fBevel.get();
+    publid stbtid AqubButtonBordfr gftBfvflButtonBordfr() {
+        rfturn fBfvfl.gft();
     }
 
-    public AquaButtonBorder(final SizeDescriptor sizeDescriptor) {
-        super(sizeDescriptor);
+    publid AqubButtonBordfr(finbl SizfDfsdriptor sizfDfsdriptor) {
+        supfr(sizfDfsdriptor);
     }
 
-    public AquaButtonBorder(final AquaButtonBorder other) {
-        super(other);
+    publid AqubButtonBordfr(finbl AqubButtonBordfr otifr) {
+        supfr(otifr);
     }
 
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        // for now we don't paint a border. We let the button paint it since there
-        // needs to be a strict ordering for aqua components.
-        //paintButton(c, g, x, y, width, height);
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+        // for now wf don't pbint b bordfr. Wf lft tif button pbint it sindf tifrf
+        // nffds to bf b stridt ordfring for bqub domponfnts.
+        //pbintButton(d, g, x, y, widti, ifigit);
     }
 
-    public void paintButton(final Component c, final Graphics g, int x, int y, int width, int height) {
-        final AbstractButton b = (AbstractButton)c;
-        final ButtonModel model = b.getModel();
+    publid void pbintButton(finbl Componfnt d, finbl Grbpiids g, int x, int y, int widti, int ifigit) {
+        finbl AbstrbdtButton b = (AbstrbdtButton)d;
+        finbl ButtonModfl modfl = b.gftModfl();
 
-        final State state = getButtonState(b, model);
-        painter.state.set(state);
-        painter.state.set((state != State.DISABLED && state != State.INACTIVE) && b.isFocusPainted() && isFocused(b) ? Focused.YES : Focused.NO);
+        finbl Stbtf stbtf = gftButtonStbtf(b, modfl);
+        pbintfr.stbtf.sft(stbtf);
+        pbintfr.stbtf.sft((stbtf != Stbtf.DISABLED && stbtf != Stbtf.INACTIVE) && b.isFodusPbintfd() && isFodusfd(b) ? Fodusfd.YES : Fodusfd.NO);
 
-        // Full border size of the component.
-        // g.setColor(new Color(0, 255, 0, 70));
-        // g.drawRect(x, y, width - 1, height - 1);
+        // Full bordfr sizf of tif domponfnt.
+        // g.sftColor(nfw Color(0, 255, 0, 70));
+        // g.drbwRfdt(x, y, widti - 1, ifigit - 1);
 
-        final Insets subInsets = sizeVariant.insets;
-        x += subInsets.left;
-        y += subInsets.top;
-        width -= (subInsets.left + subInsets.right);
-        height -= (subInsets.top + subInsets.bottom);
+        finbl Insfts subInsfts = sizfVbribnt.insfts;
+        x += subInsfts.lfft;
+        y += subInsfts.top;
+        widti -= (subInsfts.lfft + subInsfts.rigit);
+        ifigit -= (subInsfts.top + subInsfts.bottom);
 
-        // Where the native border should start to paint.
-        // g.setColor(new Color(255, 0, 255, 70));
-        // g.drawRect(x, y, width - 1, height - 1);
+        // Wifrf tif nbtivf bordfr siould stbrt to pbint.
+        // g.sftColor(nfw Color(255, 0, 255, 70));
+        // g.drbwRfdt(x, y, widti - 1, ifigit - 1);
 
-        doButtonPaint(b, model, g, x, y, width, height);
+        doButtonPbint(b, modfl, g, x, y, widti, ifigit);
     }
 
-    protected void doButtonPaint(final AbstractButton b, final ButtonModel model, final Graphics g, final int x, final int y, final int width, final int height) {
-        painter.paint(g, b, x, y, width, height);
+    protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+        pbintfr.pbint(g, b, x, y, widti, ifigit);
     }
 
-    protected State getButtonState(final AbstractButton b, final ButtonModel model) {
-        if (!b.isEnabled()) return State.DISABLED;
+    protfdtfd Stbtf gftButtonStbtf(finbl AbstrbdtButton b, finbl ButtonModfl modfl) {
+        if (!b.isEnbblfd()) rfturn Stbtf.DISABLED;
 
-        // The default button shouldn't draw its color when the window is inactive.
-        // Changed for <rdar://problem/3614421>: Aqua LAF Buttons are incorrectly drawn disabled
-        // all we need to do is make sure we aren't the default button any more and that
-        // we aren't active, but we still are enabled if the button is enabled.
-        // if we set dimmed we would appear disabled despite being enabled and click through
-        // works so this now matches the text drawing and most importantly the HIG
-        if (!AquaFocusHandler.isActive(b)) return State.INACTIVE;
+        // Tif dffbult button siouldn't drbw its dolor wifn tif window is inbdtivf.
+        // Cibngfd for <rdbr://problfm/3614421>: Aqub LAF Buttons brf indorrfdtly drbwn disbblfd
+        // bll wf nffd to do is mbkf surf wf brfn't tif dffbult button bny morf bnd tibt
+        // wf brfn't bdtivf, but wf still brf fnbblfd if tif button is fnbblfd.
+        // if wf sft dimmfd wf would bppfbr disbblfd dfspitf bfing fnbblfd bnd dlidk tirougi
+        // works so tiis now mbtdifs tif tfxt drbwing bnd most importbntly tif HIG
+        if (!AqubFodusHbndlfr.isAdtivf(b)) rfturn Stbtf.INACTIVE;
 
-        if (model.isArmed() && model.isPressed()) return State.PRESSED;
-        if (model.isSelected() && isSelectionPressing()) return State.PRESSED;
-        if ((b instanceof JButton) && ((JButton)b).isDefaultButton()) return State.PULSED;
+        if (modfl.isArmfd() && modfl.isPrfssfd()) rfturn Stbtf.PRESSED;
+        if (modfl.isSflfdtfd() && isSflfdtionPrfssing()) rfturn Stbtf.PRESSED;
+        if ((b instbndfof JButton) && ((JButton)b).isDffbultButton()) rfturn Stbtf.PULSED;
 
-        return State.ACTIVE;
+        rfturn Stbtf.ACTIVE;
     }
 
-    protected boolean isSelectionPressing() {
-        return true;
+    protfdtfd boolfbn isSflfdtionPrfssing() {
+        rfturn truf;
     }
 
-    public boolean hasSmallerInsets(final JComponent c) {
-        final Insets inset = c.getInsets();
-        final Insets margin = sizeVariant.margins;
+    publid boolfbn ibsSmbllfrInsfts(finbl JComponfnt d) {
+        finbl Insfts insft = d.gftInsfts();
+        finbl Insfts mbrgin = sizfVbribnt.mbrgins;
 
-        if (margin.equals(inset)) return false;
+        if (mbrgin.fqubls(insft)) rfturn fblsf;
 
-        return (
-            (inset.top < margin.top) ||
-            (inset.left < margin.left) ||
-            (inset.right < margin.right) ||
-            (inset.bottom < margin.bottom)
+        rfturn (
+            (insft.top < mbrgin.top) ||
+            (insft.lfft < mbrgin.lfft) ||
+            (insft.rigit < mbrgin.rigit) ||
+            (insft.bottom < mbrgin.bottom)
         );
     }
 
     /**
-     * Returns the insets of the border.
-     * @param c the component for which this border insets value applies
+     * Rfturns tif insfts of tif bordfr.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
      */
-    public Insets getBorderInsets(final Component c) {
-        if (c == null || !(c instanceof AbstractButton)) return new Insets(0, 0, 0, 0);
+    publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+        if (d == null || !(d instbndfof AbstrbdtButton)) rfturn nfw Insfts(0, 0, 0, 0);
 
-        Insets margin = ((AbstractButton)c).getMargin();
-        margin = (margin == null) ? new InsetsUIResource(0, 0, 0, 0) : (Insets)margin.clone();
+        Insfts mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+        mbrgin = (mbrgin == null) ? nfw InsftsUIRfsourdf(0, 0, 0, 0) : (Insfts)mbrgin.dlonf();
 
-        margin.top += sizeVariant.margins.top;
-        margin.bottom += sizeVariant.margins.bottom;
-        margin.left += sizeVariant.margins.left;
-        margin.right += sizeVariant.margins.right;
+        mbrgin.top += sizfVbribnt.mbrgins.top;
+        mbrgin.bottom += sizfVbribnt.mbrgins.bottom;
+        mbrgin.lfft += sizfVbribnt.mbrgins.lfft;
+        mbrgin.rigit += sizfVbribnt.mbrgins.rigit;
 
-        return margin;
+        rfturn mbrgin;
     }
 
-    public Insets getContentInsets(final AbstractButton b, final int w, final int h) {
-        return null;
+    publid Insfts gftContfntInsfts(finbl AbstrbdtButton b, finbl int w, finbl int i) {
+        rfturn null;
     }
 
-    public void alterPreferredSize(final Dimension d) {
-        if (sizeVariant.h > 0 && sizeVariant.h > d.height) d.height = sizeVariant.h;
-        if (sizeVariant.w > 0 && sizeVariant.w > d.width) d.width = sizeVariant.w;
+    publid void bltfrPrfffrrfdSizf(finbl Dimfnsion d) {
+        if (sizfVbribnt.i > 0 && sizfVbribnt.i > d.ifigit) d.ifigit = sizfVbribnt.i;
+        if (sizfVbribnt.w > 0 && sizfVbribnt.w > d.widti) d.widti = sizfVbribnt.w;
     }
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
-     * background when painting.
+     * Rfturns wiftifr or not tif bordfr is opbquf.  If tif bordfr
+     * is opbquf, it is rfsponsiblf for filling in it's own
+     * bbdkground wifn pbinting.
      */
-    public boolean isBorderOpaque() {
-        return false;
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
     }
 
-    static class SizeConstants {
-        protected static final int fNormalButtonHeight = 29;
-        protected static final int fNormalMinButtonWidth = 40;
-        protected static final int fSquareButtonHeightThreshold = 23;
-        protected static final int fSquareButtonWidthThreshold = 16;
+    stbtid dlbss SizfConstbnts {
+        protfdtfd stbtid finbl int fNormblButtonHfigit = 29;
+        protfdtfd stbtid finbl int fNormblMinButtonWidti = 40;
+        protfdtfd stbtid finbl int fSqubrfButtonHfigitTirfsiold = 23;
+        protfdtfd stbtid finbl int fSqubrfButtonWidtiTirfsiold = 16;
     }
 
-    public static class Dynamic extends AquaButtonBorder {
-        final Insets ALTERNATE_PUSH_INSETS = new Insets(3, 12, 5, 12);
-        final Insets ALTERNATE_BEVEL_INSETS = new Insets(0, 5, 0, 5);
-        final Insets ALTERNATE_SQUARE_INSETS = new Insets(0, 2, 0, 2);
-        public Dynamic() {
-            super(new SizeDescriptor(new SizeVariant(75, 29).alterMargins(3, 20, 5, 20)) {
-                public SizeVariant deriveSmall(final SizeVariant v) {
-                    return super.deriveSmall(v.alterMinSize(0, -2).alterMargins(0, -3, 0, -3).alterInsets(-3, -3, -4, -3));
+    publid stbtid dlbss Dynbmid fxtfnds AqubButtonBordfr {
+        finbl Insfts ALTERNATE_PUSH_INSETS = nfw Insfts(3, 12, 5, 12);
+        finbl Insfts ALTERNATE_BEVEL_INSETS = nfw Insfts(0, 5, 0, 5);
+        finbl Insfts ALTERNATE_SQUARE_INSETS = nfw Insfts(0, 2, 0, 2);
+        publid Dynbmid() {
+            supfr(nfw SizfDfsdriptor(nfw SizfVbribnt(75, 29).bltfrMbrgins(3, 20, 5, 20)) {
+                publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) {
+                    rfturn supfr.dfrivfSmbll(v.bltfrMinSizf(0, -2).bltfrMbrgins(0, -3, 0, -3).bltfrInsfts(-3, -3, -4, -3));
                 }
-                public SizeVariant deriveMini(final SizeVariant v) {
-                    return super.deriveMini(v.alterMinSize(0, -2).alterMargins(0, -3, 0, -3).alterInsets(-3, -3, -1, -3));
+                publid SizfVbribnt dfrivfMini(finbl SizfVbribnt v) {
+                    rfturn supfr.dfrivfMini(v.bltfrMinSizf(0, -2).bltfrMbrgins(0, -3, 0, -3).bltfrInsfts(-3, -3, -1, -3));
                 }
             });
         }
 
-        public Dynamic(final Dynamic other) {
-            super(other);
+        publid Dynbmid(finbl Dynbmid otifr) {
+            supfr(otifr);
         }
 
-        protected State getButtonState(final AbstractButton b, final ButtonModel model) {
-            final State state = super.getButtonState(b, model);
-            painter.state.set(state == State.PULSED ? Animating.YES : Animating.NO);
-            return state;
+        protfdtfd Stbtf gftButtonStbtf(finbl AbstrbdtButton b, finbl ButtonModfl modfl) {
+            finbl Stbtf stbtf = supfr.gftButtonStbtf(b, modfl);
+            pbintfr.stbtf.sft(stbtf == Stbtf.PULSED ? Animbting.YES : Animbting.NO);
+            rfturn stbtf;
         }
 
-        public Insets getContentInsets(final AbstractButton b, final int width, final int height) {
-            final Size size = AquaUtilControlSize.getUserSizeFrom(b);
-            final Widget style = getStyleForSize(b, size, width, height);
+        publid Insfts gftContfntInsfts(finbl AbstrbdtButton b, finbl int widti, finbl int ifigit) {
+            finbl Sizf sizf = AqubUtilControlSizf.gftUsfrSizfFrom(b);
+            finbl Widgft stylf = gftStylfForSizf(b, sizf, widti, ifigit);
 
-            if (style == Widget.BUTTON_PUSH) {
-                return ALTERNATE_PUSH_INSETS;
+            if (stylf == Widgft.BUTTON_PUSH) {
+                rfturn ALTERNATE_PUSH_INSETS;
             }
-            if (style == Widget.BUTTON_BEVEL_ROUND) {
-                return ALTERNATE_BEVEL_INSETS;
+            if (stylf == Widgft.BUTTON_BEVEL_ROUND) {
+                rfturn ALTERNATE_BEVEL_INSETS;
             }
-            if (style == Widget.BUTTON_BEVEL) {
-                return ALTERNATE_SQUARE_INSETS;
+            if (stylf == Widgft.BUTTON_BEVEL) {
+                rfturn ALTERNATE_SQUARE_INSETS;
             }
 
-            return null;
+            rfturn null;
         }
 
-        protected void doButtonPaint(final AbstractButton b, final ButtonModel model, final Graphics g, int x, int y, int width, int height) {
-            final Size size = AquaUtilControlSize.getUserSizeFrom(b);
-            painter.state.set(size);
+        protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbpiids g, int x, int y, int widti, int ifigit) {
+            finbl Sizf sizf = AqubUtilControlSizf.gftUsfrSizfFrom(b);
+            pbintfr.stbtf.sft(sizf);
 
-            final Widget style = getStyleForSize(b, size, width, height);
-            painter.state.set(style);
+            finbl Widgft stylf = gftStylfForSizf(b, sizf, widti, ifigit);
+            pbintfr.stbtf.sft(stylf);
 
-            // custom adjusting
-            if (style == Widget.BUTTON_PUSH && y % 2 == 0) {
-                if (size == Size.REGULAR) { y += 1; height -= 1; }
-                if (size == Size.MINI) { height -= 1; x += 4; width -= 8; }
+            // dustom bdjusting
+            if (stylf == Widgft.BUTTON_PUSH && y % 2 == 0) {
+                if (sizf == Sizf.REGULAR) { y += 1; ifigit -= 1; }
+                if (sizf == Sizf.MINI) { ifigit -= 1; x += 4; widti -= 8; }
             }
 
-            super.doButtonPaint(b, model, g, x, y, width, height);
+            supfr.doButtonPbint(b, modfl, g, x, y, widti, ifigit);
         }
 
-        protected Widget getStyleForSize(final AbstractButton b, final Size size, final int width, final int height) {
-            if (size != null && size != Size.REGULAR) {
-                return Widget.BUTTON_PUSH;
+        protfdtfd Widgft gftStylfForSizf(finbl AbstrbdtButton b, finbl Sizf sizf, finbl int widti, finbl int ifigit) {
+            if (sizf != null && sizf != Sizf.REGULAR) {
+                rfturn Widgft.BUTTON_PUSH;
             }
 
-            if (height < SizeConstants.fSquareButtonHeightThreshold || width < SizeConstants.fSquareButtonWidthThreshold) {
-                return Widget.BUTTON_BEVEL;
+            if (ifigit < SizfConstbnts.fSqubrfButtonHfigitTirfsiold || widti < SizfConstbnts.fSqubrfButtonWidtiTirfsiold) {
+                rfturn Widgft.BUTTON_BEVEL;
             }
 
-            if (height <= SizeConstants.fNormalButtonHeight + 3 && width < SizeConstants.fNormalMinButtonWidth) {
-                return Widget.BUTTON_BEVEL;
+            if (ifigit <= SizfConstbnts.fNormblButtonHfigit + 3 && widti < SizfConstbnts.fNormblMinButtonWidti) {
+                rfturn Widgft.BUTTON_BEVEL;
             }
 
-            if ((height > SizeConstants.fNormalButtonHeight + 3) || (b.getIcon() != null) || hasSmallerInsets(b)){
-                return Widget.BUTTON_BEVEL_ROUND;
+            if ((ifigit > SizfConstbnts.fNormblButtonHfigit + 3) || (b.gftIdon() != null) || ibsSmbllfrInsfts(b)){
+                rfturn Widgft.BUTTON_BEVEL_ROUND;
             }
 
-            return Widget.BUTTON_PUSH;
+            rfturn Widgft.BUTTON_PUSH;
         }
     }
 
-    public static class Toggle extends AquaButtonBorder {
-        public Toggle() {
-            super(new SizeDescriptor(new SizeVariant().alterMargins(6, 6, 6, 6)));
+    publid stbtid dlbss Togglf fxtfnds AqubButtonBordfr {
+        publid Togglf() {
+            supfr(nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(6, 6, 6, 6)));
         }
 
-        public Toggle(final Toggle other) {
-            super(other);
+        publid Togglf(finbl Togglf otifr) {
+            supfr(otifr);
         }
 
-        protected void doButtonPaint(final AbstractButton b, final ButtonModel model, final Graphics g, final int x, final int y, final int width, final int height) {
-            if (height < SizeConstants.fSquareButtonHeightThreshold || width < SizeConstants.fSquareButtonWidthThreshold) {
-                painter.state.set(Widget.BUTTON_BEVEL);
-                super.doButtonPaint(b, model, g, x, y, width, height);
-                return;
+        protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+            if (ifigit < SizfConstbnts.fSqubrfButtonHfigitTirfsiold || widti < SizfConstbnts.fSqubrfButtonWidtiTirfsiold) {
+                pbintfr.stbtf.sft(Widgft.BUTTON_BEVEL);
+                supfr.doButtonPbint(b, modfl, g, x, y, widti, ifigit);
+                rfturn;
             }
 
-            painter.state.set(Widget.BUTTON_BEVEL_ROUND);
-            super.doButtonPaint(b, model, g, x, y + 1, width, height - 1);
+            pbintfr.stbtf.sft(Widgft.BUTTON_BEVEL_ROUND);
+            supfr.doButtonPbint(b, modfl, g, x, y + 1, widti, ifigit - 1);
         }
     }
 
-    public static class Named extends AquaButtonBorder {
-        public Named(final Widget widget, final SizeDescriptor sizeDescriptor) {
-            super(sizeDescriptor);
-            painter.state.set(widget);
+    publid stbtid dlbss Nbmfd fxtfnds AqubButtonBordfr {
+        publid Nbmfd(finbl Widgft widgft, finbl SizfDfsdriptor sizfDfsdriptor) {
+            supfr(sizfDfsdriptor);
+            pbintfr.stbtf.sft(widgft);
         }
 
-        // called by reflection
-        public Named(final Named sizeDescriptor) {
-            super(sizeDescriptor);
+        // dbllfd by rfflfdtion
+        publid Nbmfd(finbl Nbmfd sizfDfsdriptor) {
+            supfr(sizfDfsdriptor);
         }
 
-        protected void doButtonPaint(final AbstractButton b, final ButtonModel model, final Graphics g, final int x, final int y, final int width, final int height) {
-            painter.state.set(model.isSelected() ? BooleanValue.YES : BooleanValue.NO);
-            super.doButtonPaint(b, model, g, x, y, width, height);
+        protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+            pbintfr.stbtf.sft(modfl.isSflfdtfd() ? BoolfbnVbluf.YES : BoolfbnVbluf.NO);
+            supfr.doButtonPbint(b, modfl, g, x, y, widti, ifigit);
         }
     }
 
-    public static class Toolbar extends AquaButtonBorder {
-        public Toolbar() {
-            super(new SizeDescriptor(new SizeVariant().alterMargins(5, 5, 5, 5)));
-            painter.state.set(Widget.TOOLBAR_ITEM_WELL);
+    publid stbtid dlbss Toolbbr fxtfnds AqubButtonBordfr {
+        publid Toolbbr() {
+            supfr(nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(5, 5, 5, 5)));
+            pbintfr.stbtf.sft(Widgft.TOOLBAR_ITEM_WELL);
         }
 
-        public Toolbar(final Toolbar other) {
-            super(other);
+        publid Toolbbr(finbl Toolbbr otifr) {
+            supfr(otifr);
         }
 
-        protected void doButtonPaint(final AbstractButton b, final ButtonModel model, final Graphics g, final int x, final int y, final int w, final int h) {
-            if (!model.isSelected()) return; // only paint when the toolbar button is selected
-            super.doButtonPaint(b, model, g, x, y, w, h);
+        protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+            if (!modfl.isSflfdtfd()) rfturn; // only pbint wifn tif toolbbr button is sflfdtfd
+            supfr.doButtonPbint(b, modfl, g, x, y, w, i);
         }
     }
 }

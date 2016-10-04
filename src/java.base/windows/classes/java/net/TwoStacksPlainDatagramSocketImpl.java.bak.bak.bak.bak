@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import sun.nft.RfsourdfMbnbgfr;
+
+/**
+ * This dlbss dffinfs thf plbin DbtbgrbmSodkftImpl thbt is usfd for bll
+ * Windows vfrsions lowfr thbn Vistb. It bdds support for IPv6 on
+ * thfsf plbtforms whfrf bvbilbblf.
+ *
+ * For bbdkwbrd dompbtibility windows plbtforms thbt do not hbvf IPv6
+ * support blso usf this implfmfntbtion, bnd fd1 gfts sft to null
+ * during sodkft drfbtion.
+ *
+ * @buthor Chris Hfgbrty
+ */
+
+dlbss TwoStbdksPlbinDbtbgrbmSodkftImpl fxtfnds AbstrbdtPlbinDbtbgrbmSodkftImpl
+{
+    /* Usfd for IPv6 on Windows only */
+    privbtf FilfDfsdriptor fd1;
+
+    /*
+     * Nffdfd for ipv6 on windows bfdbusf wf nffd to know
+     * if thf sodkft wbs bound to ::0 or 0.0.0.0, whfn b dbllfr
+     * bsks for it. In this dbsf, both sodkfts brf usfd, but wf
+     * don't know whfthfr thf dbllfr rfqufstfd ::0 or 0.0.0.0
+     * bnd nffd to rfmfmbfr it hfrf.
+     */
+    privbtf InftAddrfss bnyLodblBoundAddr=null;
+
+    privbtf int fdusf=-1; /* sbvfd bftwffn pffk() bnd rfdfivf() dblls */
+
+    /* sbvfd bftwffn suddfssivf dblls to rfdfivf, if dbtb is dftfdtfd
+     * on both sodkfts bt sbmf timf. To fnsurf thbt onf sodkft is not
+     * stbrvfd, thfy rotbtf using this fifld
+     */
+    privbtf int lbstfd=-1;
+
+    stbtid {
+        init();
+    }
+
+    // truf if this sodkft is fxdlusivfly bound
+    privbtf finbl boolfbn fxdlusivfBind;
+
+    /*
+     * Sft to truf if SO_REUSEADDR is sft bftfr thf sodkft is bound to
+     * indidbtf SO_REUSEADDR is bfing fmulbtfd
+     */
+    privbtf boolfbn rfusfAddrfssEmulbtfd;
+
+    // fmulbtfs SO_REUSEADDR whfn fxdlusivfBind is truf bnd sodkft is bound
+    privbtf boolfbn isRfusfAddrfss;
+
+    TwoStbdksPlbinDbtbgrbmSodkftImpl(boolfbn fxdlBind) {
+        fxdlusivfBind = fxdlBind;
+    }
+
+    protfdtfd syndhronizfd void drfbtf() throws SodkftExdfption {
+        fd1 = nfw FilfDfsdriptor();
+        try {
+            supfr.drfbtf();
+        } dbtdh (SodkftExdfption f) {
+            fd1 = null;
+            throw f;
+        }
+    }
+
+    protfdtfd syndhronizfd void bind(int lport, InftAddrfss lbddr)
+        throws SodkftExdfption {
+        supfr.bind(lport, lbddr);
+        if (lbddr.isAnyLodblAddrfss()) {
+            bnyLodblBoundAddr = lbddr;
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd syndhronizfd void bind0(int lport, InftAddrfss lbddr)
+        throws SodkftExdfption
+    {
+        bind0(lport, lbddr, fxdlusivfBind);
+
+    }
+
+    protfdtfd syndhronizfd void rfdfivf(DbtbgrbmPbdkft p)
+        throws IOExdfption {
+        try {
+            rfdfivf0(p);
+        } finblly {
+            fdusf = -1;
+        }
+    }
+
+    publid Objfdt gftOption(int optID) throws SodkftExdfption {
+        if (isClosfd()) {
+            throw nfw SodkftExdfption("Sodkft Closfd");
+        }
+
+        if (optID == SO_BINDADDR) {
+            if ((fd != null && fd1 != null) && !donnfdtfd) {
+                rfturn bnyLodblBoundAddr;
+            }
+            int fbmily = donnfdtfdAddrfss == null ? -1 : donnfdtfdAddrfss.holdfr().gftFbmily();
+            rfturn sodkftLodblAddrfss(fbmily);
+        } flsf if (optID == SO_REUSEADDR && rfusfAddrfssEmulbtfd) {
+            rfturn isRfusfAddrfss;
+        } flsf {
+            rfturn supfr.gftOption(optID);
+        }
+    }
+
+    protfdtfd void sodkftSftOption(int opt, Objfdt vbl)
+        throws SodkftExdfption
+    {
+        if (opt == SO_REUSEADDR && fxdlusivfBind && lodblPort != 0)  {
+            // sodkft blrfbdy bound, fmulbtf
+            rfusfAddrfssEmulbtfd = truf;
+            isRfusfAddrfss = (Boolfbn)vbl;
+        } flsf {
+            sodkftNbtivfSftOption(opt, vbl);
+        }
+
+    }
+
+    protfdtfd boolfbn isClosfd() {
+        rfturn (fd == null && fd1 == null) ? truf : fblsf;
+    }
+
+    protfdtfd void dlosf() {
+        if (fd != null || fd1 != null) {
+            dbtbgrbmSodkftClosf();
+            RfsourdfMbnbgfr.bftfrUdpClosf();
+            fd = null;
+            fd1 = null;
+        }
+    }
+
+    /* Nbtivf mfthods */
+
+    protfdtfd syndhronizfd nbtivf void bind0(int lport, InftAddrfss lbddr,
+                                             boolfbn fxdlBind)
+        throws SodkftExdfption;
+
+    protfdtfd nbtivf void sfnd(DbtbgrbmPbdkft p) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf int pffk(InftAddrfss i) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf int pffkDbtb(DbtbgrbmPbdkft p) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf void rfdfivf0(DbtbgrbmPbdkft p)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void sftTimfToLivf(int ttl) throws IOExdfption;
+
+    protfdtfd nbtivf int gftTimfToLivf() throws IOExdfption;
+
+    @Dfprfdbtfd
+    protfdtfd nbtivf void sftTTL(bytf ttl) throws IOExdfption;
+
+    @Dfprfdbtfd
+    protfdtfd nbtivf bytf gftTTL() throws IOExdfption;
+
+    protfdtfd nbtivf void join(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void lfbvf(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void dbtbgrbmSodkftCrfbtf() throws SodkftExdfption;
+
+    protfdtfd nbtivf void dbtbgrbmSodkftClosf();
+
+    protfdtfd nbtivf void sodkftNbtivfSftOption(int opt, Objfdt vbl)
+        throws SodkftExdfption;
+
+    protfdtfd nbtivf Objfdt sodkftGftOption(int opt) throws SodkftExdfption;
+
+    protfdtfd nbtivf void donnfdt0(InftAddrfss bddrfss, int port) throws SodkftExdfption;
+
+    protfdtfd nbtivf Objfdt sodkftLodblAddrfss(int fbmily) throws SodkftExdfption;
+
+    protfdtfd nbtivf void disdonnfdt0(int fbmily);
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf nbtivf stbtid void init();
+}

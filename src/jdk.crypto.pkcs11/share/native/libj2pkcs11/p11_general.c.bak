@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,834 +45,834 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-/* declare file private functions */
+/* dfdlbrf filf privbtf fundtions */
 
-void prefetchFields(JNIEnv *env, jclass thisClass);
-jobject ckInfoPtrToJInfo(JNIEnv *env, const CK_INFO_PTR ckpInfo);
-jobject ckSlotInfoPtrToJSlotInfo(JNIEnv *env, const CK_SLOT_INFO_PTR ckpSlotInfo);
-jobject ckTokenInfoPtrToJTokenInfo(JNIEnv *env, const CK_TOKEN_INFO_PTR ckpTokenInfo);
-jobject ckMechanismInfoPtrToJMechanismInfo(JNIEnv *env, const CK_MECHANISM_INFO_PTR ckpMechanismInfo);
+void prffftdiFiflds(JNIEnv *fnv, jdlbss tiisClbss);
+jobjfdt dkInfoPtrToJInfo(JNIEnv *fnv, donst CK_INFO_PTR dkpInfo);
+jobjfdt dkSlotInfoPtrToJSlotInfo(JNIEnv *fnv, donst CK_SLOT_INFO_PTR dkpSlotInfo);
+jobjfdt dkTokfnInfoPtrToJTokfnInfo(JNIEnv *fnv, donst CK_TOKEN_INFO_PTR dkpTokfnInfo);
+jobjfdt dkMfdibnismInfoPtrToJMfdibnismInfo(JNIEnv *fnv, donst CK_MECHANISM_INFO_PTR dkpMfdibnismInfo);
 
-/* define variables */
+/* dffinf vbribblfs */
 
-jfieldID pNativeDataID;
-jfieldID mech_mechanismID;
-jfieldID mech_pParameterID;
+jfifldID pNbtivfDbtbID;
+jfifldID mfdi_mfdibnismID;
+jfifldID mfdi_pPbrbmftfrID;
 
-jclass jByteArrayClass;
-jclass jLongClass;
+jdlbss jBytfArrbyClbss;
+jdlbss jLongClbss;
 
-JavaVM* jvm = NULL;
+JbvbVM* jvm = NULL;
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd) {
     jvm = vm;
-    return JNI_VERSION_1_4;
+    rfturn JNI_VERSION_1_4;
 }
 
 /* ************************************************************************** */
-/* The native implementation of the methods of the PKCS11Implementation class */
+/* Tif nbtivf implfmfntbtion of tif mftiods of tif PKCS11Implfmfntbtion dlbss */
 /* ************************************************************************** */
 
 /*
- * This method is used to do static initialization. This method is static and
- * synchronized. Summary: use this method like a static initialization block.
+ * Tiis mftiod is usfd to do stbtid initiblizbtion. Tiis mftiod is stbtid bnd
+ * syndironizfd. Summbry: usf tiis mftiod likf b stbtid initiblizbtion blodk.
  *
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    initializeLibrary
- * Signature: ()V
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    initiblizfLibrbry
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_initializeLibrary
-(JNIEnv *env, jclass thisClass)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_initiblizfLibrbry
+(JNIEnv *fnv, jdlbss tiisClbss)
 {
-#ifndef NO_CALLBACKS
-    if (notifyListLock == NULL) {
-        notifyListLock = createLockObject(env);
+#ifndff NO_CALLBACKS
+    if (notifyListLodk == NULL) {
+        notifyListLodk = drfbtfLodkObjfdt(fnv);
     }
-#endif
+#fndif
 
-    prefetchFields(env, thisClass);
+    prffftdiFiflds(fnv, tiisClbss);
 }
 
-jclass fetchClass(JNIEnv *env, const char *name) {
-    jclass tmpClass = (*env)->FindClass(env, name);
-    if (tmpClass == NULL) { return NULL; }
-    return (*env)->NewGlobalRef(env, tmpClass);
+jdlbss fftdiClbss(JNIEnv *fnv, donst dibr *nbmf) {
+    jdlbss tmpClbss = (*fnv)->FindClbss(fnv, nbmf);
+    if (tmpClbss == NULL) { rfturn NULL; }
+    rfturn (*fnv)->NfwGlobblRff(fnv, tmpClbss);
 }
 
-void prefetchFields(JNIEnv *env, jclass thisClass) {
-    jclass tmpClass;
+void prffftdiFiflds(JNIEnv *fnv, jdlbss tiisClbss) {
+    jdlbss tmpClbss;
 
     /* PKCS11 */
-    pNativeDataID = (*env)->GetFieldID(env, thisClass, "pNativeData", "J");
-    if (pNativeDataID == NULL) { return; }
+    pNbtivfDbtbID = (*fnv)->GftFifldID(fnv, tiisClbss, "pNbtivfDbtb", "J");
+    if (pNbtivfDbtbID == NULL) { rfturn; }
 
     /* CK_MECHANISM */
-    tmpClass = (*env)->FindClass(env, CLASS_MECHANISM);
-    if (tmpClass == NULL) { return; }
-    mech_mechanismID = (*env)->GetFieldID(env, tmpClass, "mechanism", "J");
-    if (mech_mechanismID == NULL) { return; }
-    mech_pParameterID = (*env)->GetFieldID(env, tmpClass, "pParameter",
-                                           "Ljava/lang/Object;");
-    if (mech_pParameterID == NULL) { return; }
-    jByteArrayClass = fetchClass(env, "[B");
-    if (jByteArrayClass == NULL) { return; }
-    jLongClass = fetchClass(env, "java/lang/Long");
+    tmpClbss = (*fnv)->FindClbss(fnv, CLASS_MECHANISM);
+    if (tmpClbss == NULL) { rfturn; }
+    mfdi_mfdibnismID = (*fnv)->GftFifldID(fnv, tmpClbss, "mfdibnism", "J");
+    if (mfdi_mfdibnismID == NULL) { rfturn; }
+    mfdi_pPbrbmftfrID = (*fnv)->GftFifldID(fnv, tmpClbss, "pPbrbmftfr",
+                                           "Ljbvb/lbng/Objfdt;");
+    if (mfdi_pPbrbmftfrID == NULL) { rfturn; }
+    jBytfArrbyClbss = fftdiClbss(fnv, "[B");
+    if (jBytfArrbyClbss == NULL) { rfturn; }
+    jLongClbss = fftdiClbss(fnv, "jbvb/lbng/Long");
 }
 
-/* This method is designed to do a clean-up. It releases all global resources
- * of this library. By now, this function is not called. Calling from
- * JNI_OnUnload would be an option, but some VMs do not support JNI_OnUnload.
+/* Tiis mftiod is dfsignfd to do b dlfbn-up. It rflfbsfs bll globbl rfsourdfs
+ * of tiis librbry. By now, tiis fundtion is not dbllfd. Cblling from
+ * JNI_OnUnlobd would bf bn option, but somf VMs do not support JNI_OnUnlobd.
  *
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    finalizeLibrary
- * Signature: ()V
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    finblizfLibrbry
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_finalizeLibrary
-(JNIEnv *env, jclass thisClass)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_finblizfLibrbry
+(JNIEnv *fnv, jdlbss tiisClbss)
 {
 /* XXX
-    * remove all left lists and release the resources and the lock
-     * objects that synchroniz access to these lists.
+    * rfmovf bll lfft lists bnd rflfbsf tif rfsourdfs bnd tif lodk
+     * objfdts tibt syndironiz bddfss to tifsf lists.
      *
-    removeAllModuleEntries(env);
-    if (moduleListHead == NULL) { * check, if we removed the last active module *
-        * remove also the moduleListLock, it is no longer used *
-        if (moduleListLock != NULL) {
-            destroyLockObject(env, moduleListLock);
-            moduleListLock = NULL;
+    rfmovfAllModulfEntrifs(fnv);
+    if (modulfListHfbd == NULL) { * difdk, if wf rfmovfd tif lbst bdtivf modulf *
+        * rfmovf blso tif modulfListLodk, it is no longfr usfd *
+        if (modulfListLodk != NULL) {
+            dfstroyLodkObjfdt(fnv, modulfListLodk);
+            modulfListLodk = NULL;
         }
-#ifndef NO_CALLBACKS
-        * remove all left notify callback entries *
-        while (removeFirstNotifyEntry(env));
-        * remove also the notifyListLock, it is no longer used *
-        if (notifyListLock != NULL) {
-            destroyLockObject(env, notifyListLock);
-            notifyListLock = NULL;
+#ifndff NO_CALLBACKS
+        * rfmovf bll lfft notify dbllbbdk fntrifs *
+        wiilf (rfmovfFirstNotifyEntry(fnv));
+        * rfmovf blso tif notifyListLodk, it is no longfr usfd *
+        if (notifyListLodk != NULL) {
+            dfstroyLodkObjfdt(fnv, notifyListLodk);
+            notifyListLodk = NULL;
         }
-        if (jInitArgsObject != NULL) {
-            (*env)->DeleteGlobalRef(env, jInitArgsObject);
+        if (jInitArgsObjfdt != NULL) {
+            (*fnv)->DflftfGlobblRff(fnv, jInitArgsObjfdt);
         }
-        if (ckpGlobalInitArgs != NULL_PTR) {
-            free(ckpGlobalInitArgs);
+        if (dkpGlobblInitArgs != NULL_PTR) {
+            frff(dkpGlobblInitArgs);
         }
-#endif * NO_CALLBACKS *
+#fndif * NO_CALLBACKS *
     }
 */
 }
 
-#ifdef P11_ENABLE_C_INITIALIZE
+#ifdff P11_ENABLE_C_INITIALIZE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Initialize
- * Signature: (Ljava/lang/Object;)V
- * Parametermapping:                    *PKCS11*
- * @param   jobject jInitArgs           CK_VOID_PTR pInitArgs
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Initiblizf
+ * Signbturf: (Ljbvb/lbng/Objfdt;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jobjfdt jInitArgs           CK_VOID_PTR pInitArgs
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1Initialize
-(JNIEnv *env, jobject obj, jobject jInitArgs)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Initiblizf
+(JNIEnv *fnv, jobjfdt obj, jobjfdt jInitArgs)
 {
     /*
-     * Initalize Cryptoki
+     * Initblizf Cryptoki
      */
-    CK_C_INITIALIZE_ARGS_PTR ckpInitArgs;
+    CK_C_INITIALIZE_ARGS_PTR dkpInitArgs;
     CK_RV rv;
-    CK_FUNCTION_LIST_PTR ckpFunctions;
+    CK_FUNCTION_LIST_PTR dkpFundtions;
 
-    TRACE0("DEBUG: initializing module... ");
+    TRACE0("DEBUG: initiblizing modulf... ");
 
-    ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) {
-        TRACE0("failed getting module entry");
-        return;
+    dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) {
+        TRACE0("fbilfd gftting modulf fntry");
+        rfturn;
     }
 
-    ckpInitArgs = (jInitArgs != NULL)
-                ? makeCKInitArgsAdapter(env, jInitArgs)
+    dkpInitArgs = (jInitArgs != NULL)
+                ? mbkfCKInitArgsAdbptfr(fnv, jInitArgs)
                 : NULL_PTR;
 
-    rv = (*ckpFunctions->C_Initialize)(ckpInitArgs);
+    rv = (*dkpFundtions->C_Initiblizf)(dkpInitArgs);
 
-    free(ckpInitArgs);
+    frff(dkpInitArgs);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 
     TRACE0("FINISHED\n");
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_FINALIZE
+#ifdff P11_ENABLE_C_FINALIZE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Finalize
- * Signature: (Ljava/lang/Object;)V
- * Parametermapping:                    *PKCS11*
- * @param   jobject jReserved           CK_VOID_PTR pReserved
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Finblizf
+ * Signbturf: (Ljbvb/lbng/Objfdt;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jobjfdt jRfsfrvfd           CK_VOID_PTR pRfsfrvfd
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1Finalize
-(JNIEnv *env, jobject obj, jobject jReserved)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Finblizf
+(JNIEnv *fnv, jobjfdt obj, jobjfdt jRfsfrvfd)
 {
     /*
-     * Finalize Cryptoki
+     * Finblizf Cryptoki
      */
-    CK_VOID_PTR ckpReserved;
+    CK_VOID_PTR dkpRfsfrvfd;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckpReserved = jObjectToCKVoidPtr(jReserved);
+    dkpRfsfrvfd = jObjfdtToCKVoidPtr(jRfsfrvfd);
 
-    rv = (*ckpFunctions->C_Finalize)(ckpReserved);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_Finblizf)(dkpRfsfrvfd);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETINFO
+#ifdff P11_ENABLE_C_GETINFO
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetInfo
- * Signature: ()Lsun/security/pkcs11/wrapper/CK_INFO;
- * Parametermapping:                    *PKCS11*
- * @return  jobject jInfoObject         CK_INFO_PTR pInfo
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftInfo
+ * Signbturf: ()Lsun/sfdurity/pkds11/wrbppfr/CK_INFO;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @rfturn  jobjfdt jInfoObjfdt         CK_INFO_PTR pInfo
  */
-JNIEXPORT jobject JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetInfo
-(JNIEnv *env, jobject obj)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftInfo
+(JNIEnv *fnv, jobjfdt obj)
 {
-    CK_INFO ckLibInfo;
-    jobject jInfoObject=NULL;
+    CK_INFO dkLibInfo;
+    jobjfdt jInfoObjfdt=NULL;
     CK_RV rv;
-    CK_FUNCTION_LIST_PTR ckpFunctions;
-    memset(&ckLibInfo, 0, sizeof(CK_INFO));
+    CK_FUNCTION_LIST_PTR dkpFundtions;
+    mfmsft(&dkLibInfo, 0, sizfof(CK_INFO));
 
-    ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    rv = (*ckpFunctions->C_GetInfo)(&ckLibInfo);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jInfoObject = ckInfoPtrToJInfo(env, &ckLibInfo);
+    rv = (*dkpFundtions->C_GftInfo)(&dkLibInfo);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jInfoObjfdt = dkInfoPtrToJInfo(fnv, &dkLibInfo);
     }
-    return jInfoObject ;
+    rfturn jInfoObjfdt ;
 }
 
 /*
- * converts a pointer to a CK_INFO structure into a Java CK_INFO Object.
+ * donvfrts b pointfr to b CK_INFO strudturf into b Jbvb CK_INFO Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpInfo - the pointer to the CK_INFO structure
- * @return - the new Java CK_INFO object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpInfo - tif pointfr to tif CK_INFO strudturf
+ * @rfturn - tif nfw Jbvb CK_INFO objfdt
  */
-jobject ckInfoPtrToJInfo(JNIEnv *env, const CK_INFO_PTR ckpInfo)
+jobjfdt dkInfoPtrToJInfo(JNIEnv *fnv, donst CK_INFO_PTR dkpInfo)
 {
-    jclass jInfoClass;
-    jmethodID jCtrId;
-    jobject jInfoObject;
-    jobject jCryptokiVer;
-    jcharArray jVendor;
-    jlong jFlags;
-    jcharArray jLibraryDesc;
-    jobject jLibraryVer;
+    jdlbss jInfoClbss;
+    jmftiodID jCtrId;
+    jobjfdt jInfoObjfdt;
+    jobjfdt jCryptokiVfr;
+    jdibrArrby jVfndor;
+    jlong jFlbgs;
+    jdibrArrby jLibrbryDfsd;
+    jobjfdt jLibrbryVfr;
 
-    /* load CK_INFO class */
-    jInfoClass = (*env)->FindClass(env, CLASS_INFO);
-    if (jInfoClass == NULL) { return NULL; };
+    /* lobd CK_INFO dlbss */
+    jInfoClbss = (*fnv)->FindClbss(fnv, CLASS_INFO);
+    if (jInfoClbss == NULL) { rfturn NULL; };
 
-    /* load CK_INFO constructor */
-    jCtrId = (*env)->GetMethodID
-      (env, jInfoClass, "<init>",
-       "(Lsun/security/pkcs11/wrapper/CK_VERSION;[CJ[CLsun/security/pkcs11/wrapper/CK_VERSION;)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID
+      (fnv, jInfoClbss, "<init>",
+       "(Lsun/sfdurity/pkds11/wrbppfr/CK_VERSION;[CJ[CLsun/sfdurity/pkds11/wrbppfr/CK_VERSION;)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep all fields */
-    jCryptokiVer = ckVersionPtrToJVersion(env, &(ckpInfo->cryptokiVersion));
-    if (jCryptokiVer == NULL) { return NULL; }
-    jVendor =
-      ckUTF8CharArrayToJCharArray(env, &(ckpInfo->manufacturerID[0]), 32);
-    if (jVendor == NULL) { return NULL; }
-    jFlags = ckULongToJLong(ckpInfo->flags);
-    jLibraryDesc =
-      ckUTF8CharArrayToJCharArray(env, &(ckpInfo->libraryDescription[0]), 32);
-    if (jLibraryDesc == NULL) { return NULL; }
-    jLibraryVer = ckVersionPtrToJVersion(env, &(ckpInfo->libraryVersion));
-    if (jLibraryVer == NULL) { return NULL; }
+    /* prfp bll fiflds */
+    jCryptokiVfr = dkVfrsionPtrToJVfrsion(fnv, &(dkpInfo->dryptokiVfrsion));
+    if (jCryptokiVfr == NULL) { rfturn NULL; }
+    jVfndor =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpInfo->mbnufbdturfrID[0]), 32);
+    if (jVfndor == NULL) { rfturn NULL; }
+    jFlbgs = dkULongToJLong(dkpInfo->flbgs);
+    jLibrbryDfsd =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpInfo->librbryDfsdription[0]), 32);
+    if (jLibrbryDfsd == NULL) { rfturn NULL; }
+    jLibrbryVfr = dkVfrsionPtrToJVfrsion(fnv, &(dkpInfo->librbryVfrsion));
+    if (jLibrbryVfr == NULL) { rfturn NULL; }
 
-    /* create new CK_INFO object */
-    jInfoObject = (*env)->NewObject(env, jInfoClass, jCtrId, jCryptokiVer,
-                                    jVendor, jFlags, jLibraryDesc, jLibraryVer);
-    if (jInfoObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_INFO objfdt */
+    jInfoObjfdt = (*fnv)->NfwObjfdt(fnv, jInfoClbss, jCtrId, jCryptokiVfr,
+                                    jVfndor, jFlbgs, jLibrbryDfsd, jLibrbryVfr);
+    if (jInfoObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jInfoClass);
-    (*env)->DeleteLocalRef(env, jCryptokiVer);
-    (*env)->DeleteLocalRef(env, jVendor);
-    (*env)->DeleteLocalRef(env, jLibraryDesc);
-    (*env)->DeleteLocalRef(env, jLibraryVer);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jInfoClbss);
+    (*fnv)->DflftfLodblRff(fnv, jCryptokiVfr);
+    (*fnv)->DflftfLodblRff(fnv, jVfndor);
+    (*fnv)->DflftfLodblRff(fnv, jLibrbryDfsd);
+    (*fnv)->DflftfLodblRff(fnv, jLibrbryVfr);
 
-    return jInfoObject ;
+    rfturn jInfoObjfdt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETSLOTLIST
+#ifdff P11_ENABLE_C_GETSLOTLIST
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetSlotList
- * Signature: (Z)[J
- * Parametermapping:                    *PKCS11*
- * @param   jboolean jTokenPresent      CK_BBOOL tokenPresent
- * @return  jlongArray jSlotList        CK_SLOT_ID_PTR pSlotList
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftSlotList
+ * Signbturf: (Z)[J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jboolfbn jTokfnPrfsfnt      CK_BBOOL tokfnPrfsfnt
+ * @rfturn  jlongArrby jSlotList        CK_SLOT_ID_PTR pSlotList
  *                                      CK_ULONG_PTR pulCount
  */
-JNIEXPORT jlongArray JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetSlotList
-(JNIEnv *env, jobject obj, jboolean jTokenPresent)
+JNIEXPORT jlongArrby JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftSlotList
+(JNIEnv *fnv, jobjfdt obj, jboolfbn jTokfnPrfsfnt)
 {
-    CK_ULONG ckTokenNumber;
-    CK_SLOT_ID_PTR ckpSlotList;
-    CK_BBOOL ckTokenPresent;
-    jlongArray jSlotList = NULL;
+    CK_ULONG dkTokfnNumbfr;
+    CK_SLOT_ID_PTR dkpSlotList;
+    CK_BBOOL dkTokfnPrfsfnt;
+    jlongArrby jSlotList = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckTokenPresent = jBooleanToCKBBool(jTokenPresent);
+    dkTokfnPrfsfnt = jBoolfbnToCKBBool(jTokfnPrfsfnt);
 
-    rv = (*ckpFunctions->C_GetSlotList)(ckTokenPresent, NULL_PTR,
-                                        &ckTokenNumber);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return NULL ; }
+    rv = (*dkpFundtions->C_GftSlotList)(dkTokfnPrfsfnt, NULL_PTR,
+                                        &dkTokfnNumbfr);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn NULL ; }
 
-    ckpSlotList = (CK_SLOT_ID_PTR) malloc(ckTokenNumber * sizeof(CK_SLOT_ID));
-    if (ckpSlotList == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpSlotList = (CK_SLOT_ID_PTR) mbllod(dkTokfnNumbfr * sizfof(CK_SLOT_ID));
+    if (dkpSlotList == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_GetSlotList)(ckTokenPresent, ckpSlotList,
-                                        &ckTokenNumber);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSlotList = ckULongArrayToJLongArray(env, ckpSlotList, ckTokenNumber);
+    rv = (*dkpFundtions->C_GftSlotList)(dkTokfnPrfsfnt, dkpSlotList,
+                                        &dkTokfnNumbfr);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jSlotList = dkULongArrbyToJLongArrby(fnv, dkpSlotList, dkTokfnNumbfr);
     }
-    free(ckpSlotList);
+    frff(dkpSlotList);
 
-    return jSlotList ;
+    rfturn jSlotList ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETSLOTINFO
+#ifdff P11_ENABLE_C_GETSLOTINFO
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetSlotInfo
- * Signature: (J)Lsun/security/pkcs11/wrapper/CK_SLOT_INFO;
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @return  jobject jSlotInfoObject     CK_SLOT_INFO_PTR pInfo
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftSlotInfo
+ * Signbturf: (J)Lsun/sfdurity/pkds11/wrbppfr/CK_SLOT_INFO;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @rfturn  jobjfdt jSlotInfoObjfdt     CK_SLOT_INFO_PTR pInfo
  */
-JNIEXPORT jobject JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetSlotInfo
-(JNIEnv *env, jobject obj, jlong jSlotID)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftSlotInfo
+(JNIEnv *fnv, jobjfdt obj, jlong jSlotID)
 {
-    CK_SLOT_ID ckSlotID;
-    CK_SLOT_INFO ckSlotInfo;
-    jobject jSlotInfoObject=NULL;
+    CK_SLOT_ID dkSlotID;
+    CK_SLOT_INFO dkSlotInfo;
+    jobjfdt jSlotInfoObjfdt=NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
+    dkSlotID = jLongToCKULong(jSlotID);
 
-    rv = (*ckpFunctions->C_GetSlotInfo)(ckSlotID, &ckSlotInfo);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSlotInfoObject = ckSlotInfoPtrToJSlotInfo(env, &ckSlotInfo);
+    rv = (*dkpFundtions->C_GftSlotInfo)(dkSlotID, &dkSlotInfo);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jSlotInfoObjfdt = dkSlotInfoPtrToJSlotInfo(fnv, &dkSlotInfo);
     }
-    return jSlotInfoObject;
+    rfturn jSlotInfoObjfdt;
 }
 
 /*
- * converts a pointer to a CK_SLOT_INFO structure into a Java CK_SLOT_INFO
- * Object.
+ * donvfrts b pointfr to b CK_SLOT_INFO strudturf into b Jbvb CK_SLOT_INFO
+ * Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpSlotInfo - the pointer to the CK_SLOT_INFO structure
- * @return - the new Java CK_SLOT_INFO object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpSlotInfo - tif pointfr to tif CK_SLOT_INFO strudturf
+ * @rfturn - tif nfw Jbvb CK_SLOT_INFO objfdt
  */
-jobject
-ckSlotInfoPtrToJSlotInfo
-(JNIEnv *env, const CK_SLOT_INFO_PTR ckpSlotInfo)
+jobjfdt
+dkSlotInfoPtrToJSlotInfo
+(JNIEnv *fnv, donst CK_SLOT_INFO_PTR dkpSlotInfo)
 {
-    jclass jSlotInfoClass;
-    jmethodID jCtrId;
-    jobject jSlotInfoObject;
-    jcharArray jSlotDesc;
-    jcharArray jVendor;
-    jlong jFlags;
-    jobject jHardwareVer;
-    jobject jFirmwareVer;
+    jdlbss jSlotInfoClbss;
+    jmftiodID jCtrId;
+    jobjfdt jSlotInfoObjfdt;
+    jdibrArrby jSlotDfsd;
+    jdibrArrby jVfndor;
+    jlong jFlbgs;
+    jobjfdt jHbrdwbrfVfr;
+    jobjfdt jFirmwbrfVfr;
 
-    /* load CK_SLOT_INFO class */
-    jSlotInfoClass = (*env)->FindClass(env, CLASS_SLOT_INFO);
-    if (jSlotInfoClass == NULL) { return NULL; };
+    /* lobd CK_SLOT_INFO dlbss */
+    jSlotInfoClbss = (*fnv)->FindClbss(fnv, CLASS_SLOT_INFO);
+    if (jSlotInfoClbss == NULL) { rfturn NULL; };
 
-    /* load CK_SLOT_INFO constructor */
-    jCtrId = (*env)->GetMethodID
-      (env, jSlotInfoClass, "<init>",
-       "([C[CJLsun/security/pkcs11/wrapper/CK_VERSION;Lsun/security/pkcs11/wrapper/CK_VERSION;)V");
-    if (jCtrId == NULL) { return NULL; }
+    /* lobd CK_SLOT_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID
+      (fnv, jSlotInfoClbss, "<init>",
+       "([C[CJLsun/sfdurity/pkds11/wrbppfr/CK_VERSION;Lsun/sfdurity/pkds11/wrbppfr/CK_VERSION;)V");
+    if (jCtrId == NULL) { rfturn NULL; }
 
-    /* prep all fields */
-    jSlotDesc =
-      ckUTF8CharArrayToJCharArray(env, &(ckpSlotInfo->slotDescription[0]), 64);
-    if (jSlotDesc == NULL) { return NULL; }
-    jVendor =
-      ckUTF8CharArrayToJCharArray(env, &(ckpSlotInfo->manufacturerID[0]), 32);
-    if (jVendor == NULL) { return NULL; }
-    jFlags = ckULongToJLong(ckpSlotInfo->flags);
-    jHardwareVer = ckVersionPtrToJVersion(env, &(ckpSlotInfo->hardwareVersion));
-    if (jHardwareVer == NULL) { return NULL; }
-    jFirmwareVer = ckVersionPtrToJVersion(env, &(ckpSlotInfo->firmwareVersion));
-    if (jFirmwareVer == NULL) { return NULL; }
+    /* prfp bll fiflds */
+    jSlotDfsd =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpSlotInfo->slotDfsdription[0]), 64);
+    if (jSlotDfsd == NULL) { rfturn NULL; }
+    jVfndor =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpSlotInfo->mbnufbdturfrID[0]), 32);
+    if (jVfndor == NULL) { rfturn NULL; }
+    jFlbgs = dkULongToJLong(dkpSlotInfo->flbgs);
+    jHbrdwbrfVfr = dkVfrsionPtrToJVfrsion(fnv, &(dkpSlotInfo->ibrdwbrfVfrsion));
+    if (jHbrdwbrfVfr == NULL) { rfturn NULL; }
+    jFirmwbrfVfr = dkVfrsionPtrToJVfrsion(fnv, &(dkpSlotInfo->firmwbrfVfrsion));
+    if (jFirmwbrfVfr == NULL) { rfturn NULL; }
 
-    /* create new CK_SLOT_INFO object */
-    jSlotInfoObject = (*env)->NewObject
-      (env, jSlotInfoClass, jCtrId, jSlotDesc, jVendor, jFlags,
-       jHardwareVer, jFirmwareVer);
-    if (jSlotInfoObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_SLOT_INFO objfdt */
+    jSlotInfoObjfdt = (*fnv)->NfwObjfdt
+      (fnv, jSlotInfoClbss, jCtrId, jSlotDfsd, jVfndor, jFlbgs,
+       jHbrdwbrfVfr, jFirmwbrfVfr);
+    if (jSlotInfoObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jSlotInfoClass);
-    (*env)->DeleteLocalRef(env, jSlotDesc);
-    (*env)->DeleteLocalRef(env, jVendor);
-    (*env)->DeleteLocalRef(env, jHardwareVer);
-    (*env)->DeleteLocalRef(env, jFirmwareVer);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jSlotInfoClbss);
+    (*fnv)->DflftfLodblRff(fnv, jSlotDfsd);
+    (*fnv)->DflftfLodblRff(fnv, jVfndor);
+    (*fnv)->DflftfLodblRff(fnv, jHbrdwbrfVfr);
+    (*fnv)->DflftfLodblRff(fnv, jFirmwbrfVfr);
 
-    return jSlotInfoObject ;
+    rfturn jSlotInfoObjfdt ;
 }
 
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETTOKENINFO
+#ifdff P11_ENABLE_C_GETTOKENINFO
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetTokenInfo
- * Signature: (J)Lsun/security/pkcs11/wrapper/CK_TOKEN_INFO;
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @return  jobject jInfoTokenObject    CK_TOKEN_INFO_PTR pInfo
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftTokfnInfo
+ * Signbturf: (J)Lsun/sfdurity/pkds11/wrbppfr/CK_TOKEN_INFO;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @rfturn  jobjfdt jInfoTokfnObjfdt    CK_TOKEN_INFO_PTR pInfo
  */
-JNIEXPORT jobject JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetTokenInfo
-(JNIEnv *env, jobject obj, jlong jSlotID)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftTokfnInfo
+(JNIEnv *fnv, jobjfdt obj, jlong jSlotID)
 {
-    CK_SLOT_ID ckSlotID;
-    CK_TOKEN_INFO ckTokenInfo;
-    jobject jInfoTokenObject = NULL;
+    CK_SLOT_ID dkSlotID;
+    CK_TOKEN_INFO dkTokfnInfo;
+    jobjfdt jInfoTokfnObjfdt = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
+    dkSlotID = jLongToCKULong(jSlotID);
 
-    rv = (*ckpFunctions->C_GetTokenInfo)(ckSlotID, &ckTokenInfo);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jInfoTokenObject = ckTokenInfoPtrToJTokenInfo(env, &ckTokenInfo);
+    rv = (*dkpFundtions->C_GftTokfnInfo)(dkSlotID, &dkTokfnInfo);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jInfoTokfnObjfdt = dkTokfnInfoPtrToJTokfnInfo(fnv, &dkTokfnInfo);
     }
-    return jInfoTokenObject ;
+    rfturn jInfoTokfnObjfdt ;
 }
 
 /*
- * converts a pointer to a CK_TOKEN_INFO structure into a Java CK_TOKEN_INFO
- * Object.
+ * donvfrts b pointfr to b CK_TOKEN_INFO strudturf into b Jbvb CK_TOKEN_INFO
+ * Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpTokenInfo - the pointer to the CK_TOKEN_INFO structure
- * @return - the new Java CK_TOKEN_INFO object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpTokfnInfo - tif pointfr to tif CK_TOKEN_INFO strudturf
+ * @rfturn - tif nfw Jbvb CK_TOKEN_INFO objfdt
  */
-jobject
-ckTokenInfoPtrToJTokenInfo
-(JNIEnv *env, const CK_TOKEN_INFO_PTR ckpTokenInfo)
+jobjfdt
+dkTokfnInfoPtrToJTokfnInfo
+(JNIEnv *fnv, donst CK_TOKEN_INFO_PTR dkpTokfnInfo)
 {
-    jclass jTokenInfoClass;
-    jmethodID jCtrId;
-    jobject jTokenInfoObject;
-    jcharArray jLabel;
-    jcharArray jVendor;
-    jcharArray jModel;
-    jcharArray jSerialNo;
-    jlong jFlags;
-    jlong jMaxSnCnt;
+    jdlbss jTokfnInfoClbss;
+    jmftiodID jCtrId;
+    jobjfdt jTokfnInfoObjfdt;
+    jdibrArrby jLbbfl;
+    jdibrArrby jVfndor;
+    jdibrArrby jModfl;
+    jdibrArrby jSfriblNo;
+    jlong jFlbgs;
+    jlong jMbxSnCnt;
     jlong jSnCnt;
-    jlong jMaxRwSnCnt;
+    jlong jMbxRwSnCnt;
     jlong jRwSnCnt;
-    jlong jMaxPinLen;
-    jlong jMinPinLen;
-    jlong jTotalPubMem;
-    jlong jFreePubMem;
-    jlong jTotalPrivMem;
-    jlong jFreePrivMem;
-    jobject jHardwareVer;
-    jobject jFirmwareVer;
-    jcharArray jUtcTime;
+    jlong jMbxPinLfn;
+    jlong jMinPinLfn;
+    jlong jTotblPubMfm;
+    jlong jFrffPubMfm;
+    jlong jTotblPrivMfm;
+    jlong jFrffPrivMfm;
+    jobjfdt jHbrdwbrfVfr;
+    jobjfdt jFirmwbrfVfr;
+    jdibrArrby jUtdTimf;
 
-    /* load CK_TOKEN_INFO class */
-    jTokenInfoClass = (*env)->FindClass(env, CLASS_TOKEN_INFO);
-    if (jTokenInfoClass == NULL)  { return NULL; };
+    /* lobd CK_TOKEN_INFO dlbss */
+    jTokfnInfoClbss = (*fnv)->FindClbss(fnv, CLASS_TOKEN_INFO);
+    if (jTokfnInfoClbss == NULL)  { rfturn NULL; };
 
-    /* load CK_TOKEN_INFO constructor */
-    jCtrId = (*env)->GetMethodID
-      (env, jTokenInfoClass, "<init>",
-       "([C[C[C[CJJJJJJJJJJJLsun/security/pkcs11/wrapper/CK_VERSION;Lsun/security/pkcs11/wrapper/CK_VERSION;[C)V");
-    if (jCtrId == NULL)  { return NULL; };
+    /* lobd CK_TOKEN_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID
+      (fnv, jTokfnInfoClbss, "<init>",
+       "([C[C[C[CJJJJJJJJJJJLsun/sfdurity/pkds11/wrbppfr/CK_VERSION;Lsun/sfdurity/pkds11/wrbppfr/CK_VERSION;[C)V");
+    if (jCtrId == NULL)  { rfturn NULL; };
 
-    /* prep all fields */
-    jLabel = ckUTF8CharArrayToJCharArray(env, &(ckpTokenInfo->label[0]), 32);
-    if (jLabel == NULL)  { return NULL; };
-    jVendor =
-      ckUTF8CharArrayToJCharArray(env, &(ckpTokenInfo->manufacturerID[0]), 32);
-    if (jVendor == NULL)  { return NULL; };
-    jModel = ckUTF8CharArrayToJCharArray(env, &(ckpTokenInfo->model[0]), 16);
-    if (jModel == NULL)  { return NULL; };
-    jSerialNo =
-      ckUTF8CharArrayToJCharArray(env, &(ckpTokenInfo->serialNumber[0]), 16);
-    if (jSerialNo == NULL)  { return NULL; };
-    jFlags = ckULongToJLong(ckpTokenInfo->flags);
-    jMaxSnCnt = ckULongSpecialToJLong(ckpTokenInfo->ulMaxSessionCount);
-    jSnCnt = ckULongSpecialToJLong(ckpTokenInfo->ulSessionCount);
-    jMaxRwSnCnt = ckULongSpecialToJLong(ckpTokenInfo->ulMaxRwSessionCount);
-    jRwSnCnt = ckULongSpecialToJLong(ckpTokenInfo->ulRwSessionCount);
-    jMaxPinLen = ckULongToJLong(ckpTokenInfo->ulMaxPinLen);
-    jMinPinLen = ckULongToJLong(ckpTokenInfo->ulMinPinLen);
-    jTotalPubMem = ckULongSpecialToJLong(ckpTokenInfo->ulTotalPublicMemory);
-    jFreePubMem = ckULongSpecialToJLong(ckpTokenInfo->ulFreePublicMemory);
-    jTotalPrivMem = ckULongSpecialToJLong(ckpTokenInfo->ulTotalPrivateMemory);
-    jFreePrivMem = ckULongSpecialToJLong(ckpTokenInfo->ulFreePrivateMemory);
-    jHardwareVer =
-      ckVersionPtrToJVersion(env, &(ckpTokenInfo->hardwareVersion));
-    if (jHardwareVer == NULL) { return NULL; }
-    jFirmwareVer =
-      ckVersionPtrToJVersion(env, &(ckpTokenInfo->firmwareVersion));
-    if (jFirmwareVer == NULL) { return NULL; }
-    jUtcTime =
-      ckUTF8CharArrayToJCharArray(env, &(ckpTokenInfo->utcTime[0]), 16);
-    if (jUtcTime == NULL) { return NULL; }
+    /* prfp bll fiflds */
+    jLbbfl = dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpTokfnInfo->lbbfl[0]), 32);
+    if (jLbbfl == NULL)  { rfturn NULL; };
+    jVfndor =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpTokfnInfo->mbnufbdturfrID[0]), 32);
+    if (jVfndor == NULL)  { rfturn NULL; };
+    jModfl = dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpTokfnInfo->modfl[0]), 16);
+    if (jModfl == NULL)  { rfturn NULL; };
+    jSfriblNo =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpTokfnInfo->sfriblNumbfr[0]), 16);
+    if (jSfriblNo == NULL)  { rfturn NULL; };
+    jFlbgs = dkULongToJLong(dkpTokfnInfo->flbgs);
+    jMbxSnCnt = dkULongSpfdiblToJLong(dkpTokfnInfo->ulMbxSfssionCount);
+    jSnCnt = dkULongSpfdiblToJLong(dkpTokfnInfo->ulSfssionCount);
+    jMbxRwSnCnt = dkULongSpfdiblToJLong(dkpTokfnInfo->ulMbxRwSfssionCount);
+    jRwSnCnt = dkULongSpfdiblToJLong(dkpTokfnInfo->ulRwSfssionCount);
+    jMbxPinLfn = dkULongToJLong(dkpTokfnInfo->ulMbxPinLfn);
+    jMinPinLfn = dkULongToJLong(dkpTokfnInfo->ulMinPinLfn);
+    jTotblPubMfm = dkULongSpfdiblToJLong(dkpTokfnInfo->ulTotblPublidMfmory);
+    jFrffPubMfm = dkULongSpfdiblToJLong(dkpTokfnInfo->ulFrffPublidMfmory);
+    jTotblPrivMfm = dkULongSpfdiblToJLong(dkpTokfnInfo->ulTotblPrivbtfMfmory);
+    jFrffPrivMfm = dkULongSpfdiblToJLong(dkpTokfnInfo->ulFrffPrivbtfMfmory);
+    jHbrdwbrfVfr =
+      dkVfrsionPtrToJVfrsion(fnv, &(dkpTokfnInfo->ibrdwbrfVfrsion));
+    if (jHbrdwbrfVfr == NULL) { rfturn NULL; }
+    jFirmwbrfVfr =
+      dkVfrsionPtrToJVfrsion(fnv, &(dkpTokfnInfo->firmwbrfVfrsion));
+    if (jFirmwbrfVfr == NULL) { rfturn NULL; }
+    jUtdTimf =
+      dkUTF8CibrArrbyToJCibrArrby(fnv, &(dkpTokfnInfo->utdTimf[0]), 16);
+    if (jUtdTimf == NULL) { rfturn NULL; }
 
-    /* create new CK_TOKEN_INFO object */
-    jTokenInfoObject =
-      (*env)->NewObject(env, jTokenInfoClass, jCtrId, jLabel, jVendor, jModel,
-                        jSerialNo, jFlags,
-                        jMaxSnCnt, jSnCnt, jMaxRwSnCnt, jRwSnCnt,
-                        jMaxPinLen, jMinPinLen,
-                        jTotalPubMem, jFreePubMem, jTotalPrivMem, jFreePrivMem,
-                        jHardwareVer, jFirmwareVer, jUtcTime);
-    if (jTokenInfoObject == NULL) { return NULL; }
+    /* drfbtf nfw CK_TOKEN_INFO objfdt */
+    jTokfnInfoObjfdt =
+      (*fnv)->NfwObjfdt(fnv, jTokfnInfoClbss, jCtrId, jLbbfl, jVfndor, jModfl,
+                        jSfriblNo, jFlbgs,
+                        jMbxSnCnt, jSnCnt, jMbxRwSnCnt, jRwSnCnt,
+                        jMbxPinLfn, jMinPinLfn,
+                        jTotblPubMfm, jFrffPubMfm, jTotblPrivMfm, jFrffPrivMfm,
+                        jHbrdwbrfVfr, jFirmwbrfVfr, jUtdTimf);
+    if (jTokfnInfoObjfdt == NULL) { rfturn NULL; }
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jTokenInfoClass);
-    (*env)->DeleteLocalRef(env, jLabel);
-    (*env)->DeleteLocalRef(env, jVendor);
-    (*env)->DeleteLocalRef(env, jModel);
-    (*env)->DeleteLocalRef(env, jSerialNo);
-    (*env)->DeleteLocalRef(env, jHardwareVer);
-    (*env)->DeleteLocalRef(env, jFirmwareVer);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jTokfnInfoClbss);
+    (*fnv)->DflftfLodblRff(fnv, jLbbfl);
+    (*fnv)->DflftfLodblRff(fnv, jVfndor);
+    (*fnv)->DflftfLodblRff(fnv, jModfl);
+    (*fnv)->DflftfLodblRff(fnv, jSfriblNo);
+    (*fnv)->DflftfLodblRff(fnv, jHbrdwbrfVfr);
+    (*fnv)->DflftfLodblRff(fnv, jFirmwbrfVfr);
 
-    return jTokenInfoObject ;
+    rfturn jTokfnInfoObjfdt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_WAITFORSLOTEVENT
+#ifdff P11_ENABLE_C_WAITFORSLOTEVENT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_WaitForSlotEvent
- * Signature: (JLjava/lang/Object;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jFlags                CK_FLAGS flags
- * @param   jobject jReserved           CK_VOID_PTR pReserved
- * @return  jlong jSlotID               CK_SLOT_ID_PTR pSlot
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_WbitForSlotEvfnt
+ * Signbturf: (JLjbvb/lbng/Objfdt;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jFlbgs                CK_FLAGS flbgs
+ * @pbrbm   jobjfdt jRfsfrvfd           CK_VOID_PTR pRfsfrvfd
+ * @rfturn  jlong jSlotID               CK_SLOT_ID_PTR pSlot
  */
 JNIEXPORT jlong JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1WaitForSlotEvent
-(JNIEnv *env, jobject obj, jlong jFlags, jobject jReserved)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1WbitForSlotEvfnt
+(JNIEnv *fnv, jobjfdt obj, jlong jFlbgs, jobjfdt jRfsfrvfd)
 {
-    CK_FLAGS ckFlags;
-    CK_SLOT_ID ckSlotID;
+    CK_FLAGS dkFlbgs;
+    CK_SLOT_ID dkSlotID;
     jlong jSlotID = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckFlags = jLongToCKULong(jFlags);
+    dkFlbgs = jLongToCKULong(jFlbgs);
 
-    rv = (*ckpFunctions->C_WaitForSlotEvent)(ckFlags, &ckSlotID, NULL_PTR);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSlotID = ckULongToJLong(ckSlotID);
+    rv = (*dkpFundtions->C_WbitForSlotEvfnt)(dkFlbgs, &dkSlotID, NULL_PTR);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jSlotID = dkULongToJLong(dkSlotID);
     }
 
-    return jSlotID ;
+    rfturn jSlotID ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETMECHANISMLIST
+#ifdff P11_ENABLE_C_GETMECHANISMLIST
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetMechanismList
- * Signature: (J)[J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @return  jlongArray jMechanismList   CK_MECHANISM_TYPE_PTR pMechanismList
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftMfdibnismList
+ * Signbturf: (J)[J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @rfturn  jlongArrby jMfdibnismList   CK_MECHANISM_TYPE_PTR pMfdibnismList
  *                                      CK_ULONG_PTR pulCount
  */
-JNIEXPORT jlongArray JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetMechanismList
-(JNIEnv *env, jobject obj, jlong jSlotID)
+JNIEXPORT jlongArrby JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftMfdibnismList
+(JNIEnv *fnv, jobjfdt obj, jlong jSlotID)
 {
-    CK_SLOT_ID ckSlotID;
-    CK_ULONG ckMechanismNumber;
-    CK_MECHANISM_TYPE_PTR ckpMechanismList;
-    jlongArray jMechanismList = NULL;
+    CK_SLOT_ID dkSlotID;
+    CK_ULONG dkMfdibnismNumbfr;
+    CK_MECHANISM_TYPE_PTR dkpMfdibnismList;
+    jlongArrby jMfdibnismList = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
+    dkSlotID = jLongToCKULong(jSlotID);
 
-    rv = (*ckpFunctions->C_GetMechanismList)(ckSlotID, NULL_PTR,
-                                             &ckMechanismNumber);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return NULL ; }
+    rv = (*dkpFundtions->C_GftMfdibnismList)(dkSlotID, NULL_PTR,
+                                             &dkMfdibnismNumbfr);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn NULL ; }
 
-    ckpMechanismList = (CK_MECHANISM_TYPE_PTR)
-      malloc(ckMechanismNumber * sizeof(CK_MECHANISM_TYPE));
-    if (ckpMechanismList == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpMfdibnismList = (CK_MECHANISM_TYPE_PTR)
+      mbllod(dkMfdibnismNumbfr * sizfof(CK_MECHANISM_TYPE));
+    if (dkpMfdibnismList == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_GetMechanismList)(ckSlotID, ckpMechanismList,
-                                             &ckMechanismNumber);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jMechanismList = ckULongArrayToJLongArray(env, ckpMechanismList,
-                                                  ckMechanismNumber);
+    rv = (*dkpFundtions->C_GftMfdibnismList)(dkSlotID, dkpMfdibnismList,
+                                             &dkMfdibnismNumbfr);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jMfdibnismList = dkULongArrbyToJLongArrby(fnv, dkpMfdibnismList,
+                                                  dkMfdibnismNumbfr);
     }
-    free(ckpMechanismList);
+    frff(dkpMfdibnismList);
 
-    return jMechanismList ;
+    rfturn jMfdibnismList ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETMECHANISMINFO
+#ifdff P11_ENABLE_C_GETMECHANISMINFO
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetMechanismInfo
- * Signature: (JJ)Lsun/security/pkcs11/wrapper/CK_MECHANISM_INFO;
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @param   jlong jType                 CK_MECHANISM_TYPE type
- * @return  jobject jMechanismInfo      CK_MECHANISM_INFO_PTR pInfo
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftMfdibnismInfo
+ * Signbturf: (JJ)Lsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM_INFO;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @pbrbm   jlong jTypf                 CK_MECHANISM_TYPE typf
+ * @rfturn  jobjfdt jMfdibnismInfo      CK_MECHANISM_INFO_PTR pInfo
  */
-JNIEXPORT jobject JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetMechanismInfo
-(JNIEnv *env, jobject obj, jlong jSlotID, jlong jType)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftMfdibnismInfo
+(JNIEnv *fnv, jobjfdt obj, jlong jSlotID, jlong jTypf)
 {
-    CK_SLOT_ID ckSlotID;
-    CK_MECHANISM_TYPE ckMechanismType;
-    CK_MECHANISM_INFO ckMechanismInfo;
-    jobject jMechanismInfo = NULL;
+    CK_SLOT_ID dkSlotID;
+    CK_MECHANISM_TYPE dkMfdibnismTypf;
+    CK_MECHANISM_INFO dkMfdibnismInfo;
+    jobjfdt jMfdibnismInfo = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
-    ckMechanismType = jLongToCKULong(jType);
+    dkSlotID = jLongToCKULong(jSlotID);
+    dkMfdibnismTypf = jLongToCKULong(jTypf);
 
-    rv = (*ckpFunctions->C_GetMechanismInfo)(ckSlotID, ckMechanismType,
-                                             &ckMechanismInfo);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jMechanismInfo = ckMechanismInfoPtrToJMechanismInfo(env, &ckMechanismInfo);
+    rv = (*dkpFundtions->C_GftMfdibnismInfo)(dkSlotID, dkMfdibnismTypf,
+                                             &dkMfdibnismInfo);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jMfdibnismInfo = dkMfdibnismInfoPtrToJMfdibnismInfo(fnv, &dkMfdibnismInfo);
     }
-    return jMechanismInfo ;
+    rfturn jMfdibnismInfo ;
 }
 
 /*
- * converts a pointer to a CK_MECHANISM_INFO structure into a Java
- * CK_MECHANISM_INFO Object.
+ * donvfrts b pointfr to b CK_MECHANISM_INFO strudturf into b Jbvb
+ * CK_MECHANISM_INFO Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpMechanismInfo - the pointer to the CK_MECHANISM_INFO structure
- * @return - the new Java CK_MECHANISM_INFO object
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpMfdibnismInfo - tif pointfr to tif CK_MECHANISM_INFO strudturf
+ * @rfturn - tif nfw Jbvb CK_MECHANISM_INFO objfdt
  */
-jobject
-ckMechanismInfoPtrToJMechanismInfo
-(JNIEnv *env, const CK_MECHANISM_INFO_PTR ckpMechanismInfo)
+jobjfdt
+dkMfdibnismInfoPtrToJMfdibnismInfo
+(JNIEnv *fnv, donst CK_MECHANISM_INFO_PTR dkpMfdibnismInfo)
 {
 
-    jclass jMechanismInfoClass;
-    jmethodID jCtrId;
-    jobject jMechanismInfoObject;
-    jlong jMinKeySize;
-    jlong jMaxKeySize;
-    jlong jFlags;
+    jdlbss jMfdibnismInfoClbss;
+    jmftiodID jCtrId;
+    jobjfdt jMfdibnismInfoObjfdt;
+    jlong jMinKfySizf;
+    jlong jMbxKfySizf;
+    jlong jFlbgs;
 
-    /* load CK_MECHANISM_INFO class */
-    jMechanismInfoClass = (*env)->FindClass(env, CLASS_MECHANISM_INFO);
-    if (jMechanismInfoClass == NULL) { return NULL; };
+    /* lobd CK_MECHANISM_INFO dlbss */
+    jMfdibnismInfoClbss = (*fnv)->FindClbss(fnv, CLASS_MECHANISM_INFO);
+    if (jMfdibnismInfoClbss == NULL) { rfturn NULL; };
 
-    /* load CK_MECHANISM_INFO constructor */
-    jCtrId = (*env)->GetMethodID(env, jMechanismInfoClass, "<init>", "(JJJ)V");
-    if (jCtrId == NULL) { return NULL; };
+    /* lobd CK_MECHANISM_INFO donstrudtor */
+    jCtrId = (*fnv)->GftMftiodID(fnv, jMfdibnismInfoClbss, "<init>", "(JJJ)V");
+    if (jCtrId == NULL) { rfturn NULL; };
 
-    /* prep all fields */
-    jMinKeySize = ckULongToJLong(ckpMechanismInfo->ulMinKeySize);
-    jMaxKeySize = ckULongToJLong(ckpMechanismInfo->ulMaxKeySize);
-    jFlags = ckULongToJLong(ckpMechanismInfo->flags);
+    /* prfp bll fiflds */
+    jMinKfySizf = dkULongToJLong(dkpMfdibnismInfo->ulMinKfySizf);
+    jMbxKfySizf = dkULongToJLong(dkpMfdibnismInfo->ulMbxKfySizf);
+    jFlbgs = dkULongToJLong(dkpMfdibnismInfo->flbgs);
 
-    /* create new CK_MECHANISM_INFO object */
-    jMechanismInfoObject = (*env)->NewObject(env, jMechanismInfoClass, jCtrId,
-                                             jMinKeySize, jMaxKeySize, jFlags);
-    if (jMechanismInfoObject == NULL) { return NULL; };
+    /* drfbtf nfw CK_MECHANISM_INFO objfdt */
+    jMfdibnismInfoObjfdt = (*fnv)->NfwObjfdt(fnv, jMfdibnismInfoClbss, jCtrId,
+                                             jMinKfySizf, jMbxKfySizf, jFlbgs);
+    if (jMfdibnismInfoObjfdt == NULL) { rfturn NULL; };
 
-    /* free local references */
-    (*env)->DeleteLocalRef(env, jMechanismInfoClass);
+    /* frff lodbl rfffrfndfs */
+    (*fnv)->DflftfLodblRff(fnv, jMfdibnismInfoClbss);
 
-    return jMechanismInfoObject ;
+    rfturn jMfdibnismInfoObjfdt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_INITTOKEN
+#ifdff P11_ENABLE_C_INITTOKEN
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_InitToken
- * Signature: (J[C[C)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @param   jcharArray jPin             CK_CHAR_PTR pPin
- *                                      CK_ULONG ulPinLen
- * @param   jcharArray jLabel           CK_UTF8CHAR_PTR pLabel
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_InitTokfn
+ * Signbturf: (J[C[C)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @pbrbm   jdibrArrby jPin             CK_CHAR_PTR pPin
+ *                                      CK_ULONG ulPinLfn
+ * @pbrbm   jdibrArrby jLbbfl           CK_UTF8CHAR_PTR pLbbfl
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1InitToken
-(JNIEnv *env, jobject obj, jlong jSlotID, jcharArray jPin, jcharArray jLabel)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1InitTokfn
+(JNIEnv *fnv, jobjfdt obj, jlong jSlotID, jdibrArrby jPin, jdibrArrby jLbbfl)
 {
-    CK_SLOT_ID ckSlotID;
-    CK_CHAR_PTR ckpPin = NULL_PTR;
-    CK_UTF8CHAR_PTR ckpLabel = NULL_PTR;
-    CK_ULONG ckPinLength;
-    CK_ULONG ckLabelLength;
+    CK_SLOT_ID dkSlotID;
+    CK_CHAR_PTR dkpPin = NULL_PTR;
+    CK_UTF8CHAR_PTR dkpLbbfl = NULL_PTR;
+    CK_ULONG dkPinLfngti;
+    CK_ULONG dkLbbflLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
-    jCharArrayToCKCharArray(env, jPin, &ckpPin, &ckPinLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
-    /* ckLabelLength <= 32 !!! */
-    jCharArrayToCKUTF8CharArray(env, jLabel, &ckpLabel, &ckLabelLength);
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckpPin);
-        return;
+    dkSlotID = jLongToCKULong(jSlotID);
+    jCibrArrbyToCKCibrArrby(fnv, jPin, &dkpPin, &dkPinLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
+    /* dkLbbflLfngti <= 32 !!! */
+    jCibrArrbyToCKUTF8CibrArrby(fnv, jLbbfl, &dkpLbbfl, &dkLbbflLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkpPin);
+        rfturn;
     }
 
-    rv = (*ckpFunctions->C_InitToken)(ckSlotID, ckpPin, ckPinLength, ckpLabel);
-    TRACE1("InitToken return code: %d", rv);
+    rv = (*dkpFundtions->C_InitTokfn)(dkSlotID, dkpPin, dkPinLfngti, dkpLbbfl);
+    TRACE1("InitTokfn rfturn dodf: %d", rv);
 
-    free(ckpPin);
-    free(ckpLabel);
+    frff(dkpPin);
+    frff(dkpLbbfl);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_INITPIN
+#ifdff P11_ENABLE_C_INITPIN
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_InitPIN
- * Signature: (J[C)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE
- * @param   jcharArray jPin             CK_CHAR_PTR pPin
- *                                      CK_ULONG ulPinLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_InitPIN
+ * Signbturf: (J[C)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE
+ * @pbrbm   jdibrArrby jPin             CK_CHAR_PTR pPin
+ *                                      CK_ULONG ulPinLfn
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1InitPIN
-(JNIEnv *env, jobject obj, jlong jSessionHandle, jcharArray jPin)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1InitPIN
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jdibrArrby jPin)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_CHAR_PTR ckpPin = NULL_PTR;
-    CK_ULONG ckPinLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_CHAR_PTR dkpPin = NULL_PTR;
+    CK_ULONG dkPinLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jCharArrayToCKCharArray(env, jPin, &ckpPin, &ckPinLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jCibrArrbyToCKCibrArrby(fnv, jPin, &dkpPin, &dkPinLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_InitPIN)(ckSessionHandle, ckpPin, ckPinLength);
+    rv = (*dkpFundtions->C_InitPIN)(dkSfssionHbndlf, dkpPin, dkPinLfngti);
 
-    free(ckpPin);
+    frff(dkpPin);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_SETPIN
+#ifdff P11_ENABLE_C_SETPIN
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SetPIN
- * Signature: (J[C[C)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jcharArray jOldPin          CK_CHAR_PTR pOldPin
- *                                      CK_ULONG ulOldLen
- * @param   jcharArray jNewPin          CK_CHAR_PTR pNewPin
- *                                      CK_ULONG ulNewLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_SftPIN
+ * Signbturf: (J[C[C)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jdibrArrby jOldPin          CK_CHAR_PTR pOldPin
+ *                                      CK_ULONG ulOldLfn
+ * @pbrbm   jdibrArrby jNfwPin          CK_CHAR_PTR pNfwPin
+ *                                      CK_ULONG ulNfwLfn
  */
 JNIEXPORT void JNICALL
-Java_sun_security_pkcs11_wrapper_PKCS11_C_1SetPIN
-(JNIEnv *env, jobject obj, jlong jSessionHandle, jcharArray jOldPin,
-jcharArray jNewPin)
+Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SftPIN
+(JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jdibrArrby jOldPin,
+jdibrArrby jNfwPin)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_CHAR_PTR ckpOldPin = NULL_PTR;
-    CK_CHAR_PTR ckpNewPin = NULL_PTR;
-    CK_ULONG ckOldPinLength;
-    CK_ULONG ckNewPinLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_CHAR_PTR dkpOldPin = NULL_PTR;
+    CK_CHAR_PTR dkpNfwPin = NULL_PTR;
+    CK_ULONG dkOldPinLfngti;
+    CK_ULONG dkNfwPinLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jCharArrayToCKCharArray(env, jOldPin, &ckpOldPin, &ckOldPinLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
-    jCharArrayToCKCharArray(env, jNewPin, &ckpNewPin, &ckNewPinLength);
-    if ((*env)->ExceptionCheck(env)) {
-        free(ckpOldPin);
-        return;
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jCibrArrbyToCKCibrArrby(fnv, jOldPin, &dkpOldPin, &dkOldPinLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
+    jCibrArrbyToCKCibrArrby(fnv, jNfwPin, &dkpNfwPin, &dkNfwPinLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(dkpOldPin);
+        rfturn;
     }
 
-    rv = (*ckpFunctions->C_SetPIN)(ckSessionHandle, ckpOldPin, ckOldPinLength,
-                                   ckpNewPin, ckNewPinLength);
+    rv = (*dkpFundtions->C_SftPIN)(dkSfssionHbndlf, dkpOldPin, dkOldPinLfngti,
+                                   dkpNfwPin, dkNfwPinLfngti);
 
-    free(ckpOldPin);
-    free(ckpNewPin);
+    frff(dkpOldPin);
+    frff(dkpNfwPin);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif

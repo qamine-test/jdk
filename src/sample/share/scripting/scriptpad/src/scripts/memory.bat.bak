@@ -1,21 +1,21 @@
-@echo off
+@fdio off
 REM
-REM Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+REM Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 REM
-REM Redistribution and use in source and binary forms, with or without
-REM modification, are permitted provided that the following conditions
-REM are met:
+REM Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+REM modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+REM brf mft:
 REM
-REM   - Redistributions of source code must retain the above copyright
-REM     notice, this list of conditions and the following disclaimer.
+REM   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+REM     notidf, tiis list of donditions bnd tif following disdlbimfr.
 REM
-REM   - Redistributions in binary form must reproduce the above copyright
-REM     notice, this list of conditions and the following disclaimer in the
-REM     documentation and/or other materials provided with the distribution.
+REM   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+REM     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+REM     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 REM
-REM   - Neither the name of Oracle nor the names of its
-REM     contributors may be used to endorse or promote products derived
-REM     from this software without specific prior written permission.
+REM   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+REM     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+REM     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 REM
 REM THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 REM IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,5 +31,5 @@ REM SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 REM
 
 
-jrunscript -J-Dcom.sun.management.jmxremote.port=1090 -J-Dcom.sun.management.jmxremote.ssl=false -J-Dcom.sun.management.jmxremote.authenticate=false memory.js
+jrunsdript -J-Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090 -J-Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf -J-Ddom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf mfmory.js
 

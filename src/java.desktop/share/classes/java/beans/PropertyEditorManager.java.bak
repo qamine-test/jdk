@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
- * The PropertyEditorManager can be used to locate a property editor for
- * any given type name.  This property editor must support the
- * java.beans.PropertyEditor interface for editing a given object.
+ * Tif PropfrtyEditorMbnbgfr dbn bf usfd to lodbtf b propfrty fditor for
+ * bny givfn typf nbmf.  Tiis propfrty fditor must support tif
+ * jbvb.bfbns.PropfrtyEditor intfrfbdf for fditing b givfn objfdt.
  * <P>
- * The PropertyEditorManager uses three techniques for locating an editor
- * for a given type.  First, it provides a registerEditor method to allow
- * an editor to be specifically registered for a given type.  Second it
- * tries to locate a suitable class by adding "Editor" to the full
- * qualified classname of the given type (e.g. "foo.bah.FozEditor").
- * Finally it takes the simple classname (without the package name) adds
- * "Editor" to it and looks in a search-path of packages for a matching
- * class.
+ * Tif PropfrtyEditorMbnbgfr usfs tirff tfdiniqufs for lodbting bn fditor
+ * for b givfn typf.  First, it providfs b rfgistfrEditor mftiod to bllow
+ * bn fditor to bf spfdifidblly rfgistfrfd for b givfn typf.  Sfdond it
+ * trifs to lodbtf b suitbblf dlbss by bdding "Editor" to tif full
+ * qublififd dlbssnbmf of tif givfn typf (f.g. "foo.bbi.FozEditor").
+ * Finblly it tbkfs tif simplf dlbssnbmf (witiout tif pbdkbgf nbmf) bdds
+ * "Editor" to it bnd looks in b sfbrdi-pbti of pbdkbgfs for b mbtdiing
+ * dlbss.
  * <P>
- * So for an input class foo.bah.Fred, the PropertyEditorManager would
- * first look in its tables to see if an editor had been registered for
- * foo.bah.Fred and if so use that.  Then it will look for a
- * foo.bah.FredEditor class.  Then it will look for (say)
- * standardEditorsPackage.FredEditor class.
+ * So for bn input dlbss foo.bbi.Frfd, tif PropfrtyEditorMbnbgfr would
+ * first look in its tbblfs to sff if bn fditor ibd bffn rfgistfrfd for
+ * foo.bbi.Frfd bnd if so usf tibt.  Tifn it will look for b
+ * foo.bbi.FrfdEditor dlbss.  Tifn it will look for (sby)
+ * stbndbrdEditorsPbdkbgf.FrfdEditor dlbss.
  * <p>
- * Default PropertyEditors will be provided for the Java primitive types
- * "boolean", "byte", "short", "int", "long", "float", and "double"; and
- * for the classes java.lang.String. java.awt.Color, and java.awt.Font.
+ * Dffbult PropfrtyEditors will bf providfd for tif Jbvb primitivf typfs
+ * "boolfbn", "bytf", "siort", "int", "long", "flobt", bnd "doublf"; bnd
+ * for tif dlbssfs jbvb.lbng.String. jbvb.bwt.Color, bnd jbvb.bwt.Font.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class PropertyEditorManager {
+publid dlbss PropfrtyEditorMbnbgfr {
 
     /**
-     * Registers an editor class to edit values of the given target class.
-     * If the editor class is {@code null},
-     * then any existing definition will be removed.
-     * Thus this method can be used to cancel the registration.
-     * The registration is canceled automatically
-     * if either the target or editor class is unloaded.
+     * Rfgistfrs bn fditor dlbss to fdit vblufs of tif givfn tbrgft dlbss.
+     * If tif fditor dlbss is {@dodf null},
+     * tifn bny fxisting dffinition will bf rfmovfd.
+     * Tius tiis mftiod dbn bf usfd to dbndfl tif rfgistrbtion.
+     * Tif rfgistrbtion is dbndflfd butombtidblly
+     * if fitifr tif tbrgft or fditor dlbss is unlobdfd.
      * <p>
-     * If there is a security manager, its {@code checkPropertiesAccess}
-     * method is called. This could result in a {@linkplain SecurityException}.
+     * If tifrf is b sfdurity mbnbgfr, its {@dodf difdkPropfrtifsAddfss}
+     * mftiod is dbllfd. Tiis dould rfsult in b {@linkplbin SfdurityExdfption}.
      *
-     * @param targetType   the class object of the type to be edited
-     * @param editorClass  the class object of the editor class
-     * @throws SecurityException  if a security manager exists and
-     *                            its {@code checkPropertiesAccess} method
-     *                            doesn't allow setting of system properties
+     * @pbrbm tbrgftTypf   tif dlbss objfdt of tif typf to bf fditfd
+     * @pbrbm fditorClbss  tif dlbss objfdt of tif fditor dlbss
+     * @tirows SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd
+     *                            its {@dodf difdkPropfrtifsAddfss} mftiod
+     *                            dofsn't bllow sftting of systfm propfrtifs
      *
-     * @see SecurityManager#checkPropertiesAccess
+     * @sff SfdurityMbnbgfr#difdkPropfrtifsAddfss
      */
-    public static void registerEditor(Class<?> targetType, Class<?> editorClass) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void rfgistfrEditor(Clbss<?> tbrgftTypf, Clbss<?> fditorClbss) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
-        ThreadGroupContext.getContext().getPropertyEditorFinder().register(targetType, editorClass);
+        TirfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().rfgistfr(tbrgftTypf, fditorClbss);
     }
 
     /**
-     * Locate a value editor for a given target type.
+     * Lodbtf b vbluf fditor for b givfn tbrgft typf.
      *
-     * @param targetType  The Class object for the type to be edited
-     * @return An editor object for the given target class.
-     * The result is null if no suitable editor can be found.
+     * @pbrbm tbrgftTypf  Tif Clbss objfdt for tif typf to bf fditfd
+     * @rfturn An fditor objfdt for tif givfn tbrgft dlbss.
+     * Tif rfsult is null if no suitbblf fditor dbn bf found.
      */
-    public static PropertyEditor findEditor(Class<?> targetType) {
-        return ThreadGroupContext.getContext().getPropertyEditorFinder().find(targetType);
+    publid stbtid PropfrtyEditor findEditor(Clbss<?> tbrgftTypf) {
+        rfturn TirfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().find(tbrgftTypf);
     }
 
     /**
-     * Gets the package names that will be searched for property editors.
+     * Gfts tif pbdkbgf nbmfs tibt will bf sfbrdifd for propfrty fditors.
      *
-     * @return  The array of package names that will be searched in
-     *          order to find property editors.
-     * <p>     The default value for this array is implementation-dependent,
-     *         e.g. Sun implementation initially sets to  {"sun.beans.editors"}.
+     * @rfturn  Tif brrby of pbdkbgf nbmfs tibt will bf sfbrdifd in
+     *          ordfr to find propfrty fditors.
+     * <p>     Tif dffbult vbluf for tiis brrby is implfmfntbtion-dfpfndfnt,
+     *         f.g. Sun implfmfntbtion initiblly sfts to  {"sun.bfbns.fditors"}.
      */
-    public static String[] getEditorSearchPath() {
-        return ThreadGroupContext.getContext().getPropertyEditorFinder().getPackages();
+    publid stbtid String[] gftEditorSfbrdiPbti() {
+        rfturn TirfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().gftPbdkbgfs();
     }
 
     /**
-     * Change the list of package names that will be used for
-     *          finding property editors.
+     * Cibngf tif list of pbdkbgf nbmfs tibt will bf usfd for
+     *          finding propfrty fditors.
      *
-     * <p>First, if there is a security manager, its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkPropfrtifsAddfss</dodf>
+     * mftiod is dbllfd. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param path  Array of package names.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
-     *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @pbrbm pbti  Arrby of pbdkbgf nbmfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow sftting
+     *              of systfm propfrtifs.
+     * @sff SfdurityMbnbgfr#difdkPropfrtifsAddfss
      */
-    public static void setEditorSearchPath(String[] path) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftEditorSfbrdiPbti(String[] pbti) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
-        ThreadGroupContext.getContext().getPropertyEditorFinder().setPackages(path);
+        TirfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().sftPbdkbgfs(pbti);
     }
 }

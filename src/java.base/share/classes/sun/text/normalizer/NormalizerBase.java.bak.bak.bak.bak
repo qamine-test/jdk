@@ -1,0 +1,1683 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+import jbvb.tfxt.Normblizfr;
+
+/**
+ * Unidodf Normblizbtion
+ *
+ * <h2>Unidodf normblizbtion API</h2>
+ *
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdhing of tfxt.
+ * <dodf>normblizf</dodf> supports thf stbndbrd normblizbtion forms dfsdribfd in
+ * <b hrff="http://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
+ * Unidodf Stbndbrd Annfx #15 &mdbsh; Unidodf Normblizbtion Forms</b>.
+ *
+ * Chbrbdtfrs with bddfnts or othfr bdornmfnts dbn bf fndodfd in
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf thf dhbrbdtfr A-bdutf.
+ * In Unidodf, this dbn bf fndodfd bs b singlf dhbrbdtfr (thf
+ * "domposfd" form):
+ *
+ * <p>
+ *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
+ * </p>
+ *
+ * or bs two sfpbrbtf dhbrbdtfrs (thf "dfdomposfd" form):
+ *
+ * <p>
+ *      0041    LATIN CAPITAL LETTER A
+ *      0301    COMBINING ACUTE ACCENT
+ * </p>
+ *
+ * To b usfr of your progrbm, howfvfr, both of thfsf sfqufndfs should bf
+ * trfbtfd bs thf sbmf "usfr-lfvfl" dhbrbdtfr "A with bdutf bddfnt".  Whfn you
+ * brf sfbrdhing or dompbring tfxt, you must fnsurf thbt thfsf two sfqufndfs brf
+ * trfbtfd fquivblfntly.  In bddition, you must hbndlf dhbrbdtfrs with morf thbn
+ * onf bddfnt.  Somftimfs thf ordfr of b dhbrbdtfr's dombining bddfnts is
+ * signifidbnt, whilf in othfr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * rfblly fquivblfnt.
+ *
+ * Similbrly, thf string "ffi" dbn bf fndodfd bs thrff sfpbrbtf lfttfrs:
+ *
+ * <p>
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0069    LATIN SMALL LETTER I
+ * </p>
+ *
+ * or bs thf singlf dhbrbdtfr
+ *
+ * <p>
+ *      FB03    LATIN SMALL LIGATURE FFI
+ * </p>
+ *
+ * Thf ffi ligbturf is not b distindt sfmbntid dhbrbdtfr, bnd stridtly spfbking
+ * it shouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * with fxisting dhbrbdtfr sfts thbt blrfbdy providfd it.  Thf Unidodf stbndbrd
+ * idfntififs sudh dhbrbdtfrs by giving thfm "dompbtibility" dfdompositions
+ * into thf dorrfsponding sfmbntid dhbrbdtfrs.  Whfn sorting bnd sfbrdhing, you
+ * will oftfn wbnt to usf thfsf mbppings.
+ *
+ * <dodf>normblizf</dodf> hflps solvf thfsf problfms by trbnsforming tfxt into
+ * thf dbnonidbl domposfd bnd dfdomposfd forms bs shown in thf first fxbmplf
+ * bbovf. In bddition, you dbn hbvf it pfrform dompbtibility dfdompositions so
+ * thbt you dbn trfbt dompbtibility dhbrbdtfrs thf sbmf bs thfir fquivblfnts.
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into thf propfr dbnonidbl
+ * ordfr, so thbt you do not hbvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * own.
+ *
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
+ * It bllows to work on strings thbt brf not nfdfssbrily normblizfd
+ * with bn blgorithm (likf in dollbtion) thbt works undfr "dbnonidbl dlosurf",
+ * i.f., it trfbts prfdomposfd dhbrbdtfrs bnd thfir dfdomposfd fquivblfnts thf
+ * sbmf.
+ *
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (thfir NFDs
+ * brf idfntidbl) bnd mby bll donform to FCD without bfing idfntidbl thfmsflvfs.
+ *
+ * Thf form is dffinfd sudh thbt thf "rbw dfdomposition", thf rfdursivf
+ * dbnonidbl dfdomposition of fbdh dhbrbdtfr, rfsults in b string thbt is
+ * dbnonidblly ordfrfd. This mfbns thbt prfdomposfd dhbrbdtfrs brf bllowfd for
+ * bs long bs thfir dfdompositions do not nffd dbnonidbl rfordfring.
+ *
+ * Its bdvbntbgf for b prodfss likf dollbtion is thbt bll NFD bnd most NFC tfxts
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
+ * normblizfd (NFD) for sudh b prodfss. Thf FCD quidk dhfdk will rfturn YES for
+ * most strings in prbdtidf.
+ *
+ * normblizf(FCD) mby bf implfmfntfd with NFD.
+ *
+ * For morf dftbils on FCD sff thf dollbtion dfsign dodumfnt:
+ * http://sourdf.idu-projfdt.org/rfpos/idu/iduhtml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.htm
+ *
+ * ICU dollbtion pfrforms fithfr NFD or FCD normblizbtion butombtidblly if
+ * normblizbtion is turnfd on for thf dollbtor objfdt. Bfyond dollbtion bnd
+ * string sfbrdh, normblizfd strings mby bf usfful for string fquivblfndf
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
+ *
+ * Thf W3C gfnfrblly rfdommfnds to fxdhbngf tfxts in NFC.
+ * Notf blso thbt most lfgbdy dhbrbdtfr fndodings usf only prfdomposfd forms bnd
+ * oftfn do not fndodf bny dombining mbrks by thfmsflvfs. For donvfrsion to sudh
+ * dhbrbdtfr fndodings thf Unidodf tfxt nffds to bf normblizfd to NFC.
+ * For morf usbgf fxbmplfs, sff thf Unidodf Stbndbrd Annfx.
+ * @stbblf ICU 2.8
+ */
+
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
+
+    //-------------------------------------------------------------------------
+    // Privbtf dbtb
+    //-------------------------------------------------------------------------
+    privbtf dhbr[] bufffr = nfw dhbr[100];
+    privbtf int bufffrStbrt = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrLimit = 0;
+
+    // Thf input tfxt bnd our position in it
+    privbtf UChbrbdtfrItfrbtor  tfxt;
+    privbtf Modf                modf = NFC;
+    privbtf int                 options = 0;
+    privbtf int                 durrfntIndfx;
+    privbtf int                 nfxtIndfx;
+
+    /**
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * (fxdfpt NormblizbtionCorrfdtions).
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * @stbblf ICU 2.6
+     */
+    publid stbtid finbl int UNICODE_3_2=0x20;
+
+    /**
+     * Constbnt indidbting thbt thf fnd of thf itfrbtion hbs bffn rfbdhfd.
+     * This is gubrbntffd to hbvf thf sbmf vbluf bs {@link UChbrbdtfrItfrbtor#DONE}.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl int DONE = UChbrbdtfrItfrbtor.DONE;
+
+    /**
+     * Constbnts for normblizbtion modfs.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid dlbss Modf {
+        privbtf int modfVbluf;
+        privbtf Modf(int vbluf) {
+            modfVbluf = vbluf;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.6
+         */
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int srdLfn = (srdLimit - srdStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
+            if( srdLfn > dfstLfn ) {
+                rfturn srdLfn;
+            }
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
+            rfturn srdLfn;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.6
+         */
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                int options) {
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                NormblizfrImpl.gftNX(options)
+                                );
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.6
+         */
+        protfdtfd String normblizf(String srd, int options) {
+            rfturn srd;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.8
+         */
+        protfdtfd int gftMinC() {
+            rfturn -1;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.8
+         */
+        protfdtfd int gftMbsk() {
+            rfturn -1;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.8
+         */
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn null;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.8
+         */
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn null;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.6
+         */
+        protfdtfd QuidkChfdkRfsult quidkChfdk(dhbr[] srd,int stbrt, int limit,
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
+            if(bllowMbybf) {
+                rfturn MAYBE;
+            }
+            rfturn NO;
+        }
+
+        /**
+         * This mfthod is usfd for mfthod dispbtdh
+         * @stbblf ICU 2.8
+         */
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn truf;
+        }
+    }
+
+    /**
+     * No dfdomposition/domposition.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl Modf NONE = nfw Modf(1);
+
+    /**
+     * Cbnonidbl dfdomposition.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
+
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+        privbtf NFDModf(int vbluf) {
+            supfr(vbluf);
+        }
+
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int[] trbilCC = nfw int[1];
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            fblsf, trbilCC,nx);
+        }
+
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn dfdomposf(srd,fblsf,options);
+        }
+
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+        }
+
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvNFDSbff();
+        }
+
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtNFDSbff();
+        }
+
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+        }
+
+        protfdtfd QuidkChfdkRfsult quidkChfdk(dhbr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkChfdk(
+                                             srd, stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              ),
+                                             NormblizfrImpl.QC_NFD,
+                                             0,
+                                             bllowMbybf,
+                                             nx
+                                             );
+        }
+
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,this,
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                );
+        }
+    }
+
+    /**
+     * Compbtibility dfdomposition.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+        privbtf NFKDModf(int vbluf) {
+            supfr(vbluf);
+        }
+
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            int[] trbilCC = nfw int[1];
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            truf, trbilCC, nx);
+        }
+
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn dfdomposf(srd,truf,options);
+        }
+
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+        }
+
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvNFDSbff();
+        }
+
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtNFDSbff();
+        }
+
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+        }
+
+        protfdtfd QuidkChfdkRfsult quidkChfdk(dhbr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkChfdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              ),
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             bllowMbybf,
+                                             nx
+                                             );
+        }
+
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, this,
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                );
+        }
+    }
+
+    /**
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
+
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+        privbtf NFCModf(int vbluf) {
+            supfr(vbluf);
+        }
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           0, nx);
+        }
+
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, fblsf, options);
+        }
+
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    );
+        }
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvTrufStbrtfr();
+        }
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
+        }
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+        }
+        protfdtfd QuidkChfdkRfsult quidkChfdk(dhbr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkChfdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                                              ),
+                                             NormblizfrImpl.QC_NFC,
+                                             0,
+                                             bllowMbybf,
+                                             nx
+                                             );
+        }
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,this,
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  )
+                                                );
+        }
+    };
+
+    /**
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+        privbtf NFKCModf(int vbluf) {
+            supfr(vbluf);
+        }
+        protfdtfd int normblizf(dhbr[] srd, int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+        }
+
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, truf, options);
+        }
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    );
+        }
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvTrufStbrtfr();
+        }
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
+        }
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+        }
+        protfdtfd QuidkChfdkRfsult quidkChfdk(dhbr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkChfdk(
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              ),
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             bllowMbybf,
+                                             nx
+                                             );
+        }
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, this,
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  )
+                                                );
+        }
+    };
+
+    /**
+     * Rfsult vblufs for quidkChfdk().
+     * For dftbils sff Unidodf Tfdhnidbl Rfport 15.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl dlbss QuidkChfdkRfsult{
+        privbtf int rfsultVbluf;
+        privbtf QuidkChfdkRfsult(int vbluf) {
+            rfsultVbluf=vbluf;
+        }
+    }
+    /**
+     * Indidbtfs thbt string is not in thf normblizfd formbt
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl QuidkChfdkRfsult NO = nfw QuidkChfdkRfsult(0);
+
+    /**
+     * Indidbtfs thbt string is in thf normblizfd formbt
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl QuidkChfdkRfsult YES = nfw QuidkChfdkRfsult(1);
+
+    /**
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in thf normblizfd
+     * formbt without furthfr thorough dhfdks.
+     * @stbblf ICU 2.8
+     */
+    publid stbtid finbl QuidkChfdkRfsult MAYBE = nfw QuidkChfdkRfsult(2);
+
+    //-------------------------------------------------------------------------
+    // Construdtors
+    //-------------------------------------------------------------------------
+
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr thf
+     * normblizfd form of b givfn string.
+     * <p>
+     * Thf <tt>options</tt> pbrbmftfr spfdififs whidh optionbl
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for this objfdt.
+     * <p>
+     * @pbrbm str  Thf string to bf normblizfd.  Thf normblizbtion
+     *              will stbrt bt thf bfginning of thf string.
+     *
+     * @pbrbm modf Thf normblizbtion modf.
+     *
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly thf only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            If you wbnt thf dffbult bfhbvior dorrfsponding to onf of thf
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for this brgumfnt.
+     * @stbblf ICU 2.6
+     */
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+        this.tfxt = UChbrbdtfrItfrbtor.gftInstbndf(str);
+        this.modf = modf;
+        this.options=opt;
+    }
+
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr thf
+     * normblizfd form of thf givfn tfxt.
+     * <p>
+     * @pbrbm itfr  Thf input tfxt to bf normblizfd.  Thf normblizbtion
+     *              will stbrt bt thf bfginning of thf string.
+     *
+     * @pbrbm modf  Thf normblizbtion modf.
+     */
+    publid NormblizfrBbsf(ChbrbdtfrItfrbtor itfr, Modf modf) {
+          this(itfr, modf, UNICODE_LATEST);
+    }
+
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr thf
+     * normblizfd form of thf givfn tfxt.
+     * <p>
+     * @pbrbm itfr  Thf input tfxt to bf normblizfd.  Thf normblizbtion
+     *              will stbrt bt thf bfginning of thf string.
+     *
+     * @pbrbm modf  Thf normblizbtion modf.
+     *
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly thf only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            If you wbnt thf dffbult bfhbvior dorrfsponding to onf of thf
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for this brgumfnt.
+     * @stbblf ICU 2.6
+     */
+    publid NormblizfrBbsf(ChbrbdtfrItfrbtor itfr, Modf modf, int opt) {
+        this.tfxt = UChbrbdtfrItfrbtor.gftInstbndf(
+                                                   (ChbrbdtfrItfrbtor)itfr.dlonf()
+                                                   );
+        this.modf = modf;
+        this.options = opt;
+    }
+
+    /**
+     * Clonfs this <tt>Normblizfr</tt> objfdt.  All propfrtifs of this
+     * objfdt brf duplidbtfd in thf nfw objfdt, indluding thf dloning of bny
+     * {@link ChbrbdtfrItfrbtor} thbt wbs pbssfd in to thf donstrudtor
+     * or to {@link #sftTfxt(ChbrbdtfrItfrbtor) sftTfxt}.
+     * Howfvfr, thf tfxt storbgf undfrlying
+     * thf <tt>ChbrbdtfrItfrbtor</tt> is not duplidbtfd unlfss thf
+     * itfrbtor's <tt>dlonf</tt> mfthod dofs so.
+     * @stbblf ICU 2.8
+     */
+    publid Objfdt dlonf() {
+        try {
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            dopy.tfxt = (UChbrbdtfrItfrbtor) tfxt.dlonf();
+            //dlonf thf intfrnbl bufffr
+            if (bufffr != null) {
+                dopy.bufffr = nfw dhbr[bufffr.lfngth];
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngth);
+            }
+            rfturn dopy;
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Stbtid Utility mfthods
+    //--------------------------------------------------------------------------
+
+    /**
+     * Composf b string.
+     * Thf string will bf domposfd to bddording thf thf spfdififd modf.
+     * @pbrbm str        Thf string to domposf.
+     * @pbrbm dompbt     If truf thf string will bf domposfd bddoding to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFC rulfs.
+     * @pbrbm options    Thf only rfdognizfd option is UNICODE_3_2
+     * @rfturn String    Thf domposfd string
+     * @stbblf ICU 2.6
+     */
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+
+        dhbr[] dfst, srd;
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            dfst = nfw dhbr[mbppfdStr.lfngth()*MAX_BUF_SIZE_COMPOSE];
+            srd = mbppfdStr.toChbrArrby();
+        } flsf {
+            dfst = nfw dhbr[str.lfngth()*MAX_BUF_SIZE_COMPOSE];
+            srd = str.toChbrArrby();
+        }
+        int dfstSizf=0;
+
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+
+        /* rfsft options bits thbt should only bf sft hfrf or insidf domposf() */
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+
+        if(dompbt) {
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
+        }
+
+        for(;;) {
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngth,
+                                            dfst,0,dfst.lfngth,options,
+                                            nx);
+            if(dfstSizf<=dfst.lfngth) {
+                rfturn nfw String(dfst,0,dfstSizf);
+            } flsf {
+                dfst = nfw dhbr[dfstSizf];
+            }
+        }
+    }
+
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
+
+    /**
+     * Dfdomposf b string.
+     * Thf string will bf dfdomposfd to bddording thf thf spfdififd modf.
+     * @pbrbm str       Thf string to dfdomposf.
+     * @pbrbm dompbt    If truf thf string will bf dfdomposfd bddoding to NFKD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs.
+     * @rfturn String   Thf dfdomposfd string
+     * @stbblf ICU 2.8
+     */
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
+    }
+
+    /**
+     * Dfdomposf b string.
+     * Thf string will bf dfdomposfd to bddording thf thf spfdififd modf.
+     * @pbrbm str     Thf string to dfdomposf.
+     * @pbrbm dompbt  If truf thf string will bf dfdomposfd bddoding to NFKD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs.
+     * @pbrbm options Thf normblizbtion options, ORfd togfthfr (0 for no options).
+     * @rfturn String Thf dfdomposfd string
+     * @stbblf ICU 2.6
+     */
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+
+        int[] trbilCC = nfw int[1];
+        int dfstSizf=0;
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        dhbr[] dfst;
+
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            dfst = nfw dhbr[mbppfdStr.lfngth()*MAX_BUF_SIZE_DECOMPOSE];
+
+            for(;;) {
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toChbrArrby(),0,mbppfdStr.lfngth(),
+                                                  dfst,0,dfst.lfngth,
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngth) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                    dfst = nfw dhbr[dfstSizf];
+                }
+            }
+        } flsf {
+            dfst = nfw dhbr[str.lfngth()*MAX_BUF_SIZE_DECOMPOSE];
+
+            for(;;) {
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toChbrArrby(),0,str.lfngth(),
+                                                  dfst,0,dfst.lfngth,
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngth) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                    dfst = nfw dhbr[dfstSizf];
+                }
+            }
+        }
+    }
+
+    /**
+     * Normblizf b string.
+     * Thf string will bf normblizfd bddording thf thf spfdififd normblizbtion
+     * modf bnd options.
+     * @pbrbm srd       Thf dhbr brrby to domposf.
+     * @pbrbm srdStbrt  Stbrt indfx of thf sourdf
+     * @pbrbm srdLimit  Limit indfx of thf sourdf
+     * @pbrbm dfst      Thf dhbr bufffr to fill in
+     * @pbrbm dfstStbrt Stbrt indfx of thf dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of thf dfstinbtion bufffr
+     * @pbrbm modf      Thf normblizbtion modf; onf of Normblizfr.NONE,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     * @pbrbm options Thf normblizbtion options, ORfd togfthfr (0 for no options).
+     * @rfturn int      Thf totbl bufffr sizf nffdfd;if grfbtfr thbn lfngth of
+     *                   rfsult, thf output wbs trundbtfd.
+     * @fxdfption       IndfxOutOfBoundsExdfption if thf tbrgft dbpbdity is
+     *                   lfss thbn thf rfquirfd lfngth
+     * @stbblf ICU 2.6
+     */
+    publid stbtid int normblizf(dhbr[] srd,int srdStbrt, int srdLimit,
+                                dhbr[] dfst,int dfstStbrt, int dfstLimit,
+                                Modf  modf, int options) {
+        int lfngth = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+
+        if(lfngth<=(dfstLimit-dfstStbrt)) {
+            rfturn lfngth;
+        } flsf {
+            throw nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngth));
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    // Itfrbtion API
+    //-------------------------------------------------------------------------
+
+    /**
+     * Rfturn thf durrfnt dhbrbdtfr in thf normblizfd tfxt->
+     * @rfturn Thf dodfpoint bs bn int
+     * @stbblf ICU 2.8
+     */
+    publid int durrfnt() {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
+            rfturn gftCodfPointAt(bufffrPos);
+        } flsf {
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Rfturn thf nfxt dhbrbdtfr in thf normblizfd tfxt bnd bdvbndf
+     * thf itfrbtion position by onf.  If thf fnd
+     * of thf tfxt hbs blrfbdy bffn rfbdhfd, {@link #DONE} is rfturnfd.
+     * @rfturn Thf dodfpoint bs bn int
+     * @stbblf ICU 2.8
+     */
+    publid int nfxt() {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos);
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+        } flsf {
+            rfturn DONE;
+        }
+    }
+
+
+    /**
+     * Rfturn thf prfvious dhbrbdtfr in thf normblizfd tfxt bnd dfdrfmfnt
+     * thf itfrbtion position by onf.  If thf bfginning
+     * of thf tfxt hbs blrfbdy bffn rfbdhfd, {@link #DONE} is rfturnfd.
+     * @rfturn Thf dodfpoint bs bn int
+     * @stbblf ICU 2.8
+     */
+    publid int prfvious() {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos-1);
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+        } flsf {
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Rfsft thf indfx to thf bfginning of thf tfxt.
+     * This is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
+     * @stbblf ICU 2.8
+     */
+    publid void rfsft() {
+        tfxt.sftIndfx(0);
+        durrfntIndfx=nfxtIndfx=0;
+        dlfbrBufffr();
+    }
+
+    /**
+     * Sft thf itfrbtion position in thf input tfxt thbt is bfing normblizfd,
+     * without bny immfdibtf normblizbtion.
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn thf sbmf indfx thbt is
+     * spfdififd hfrf.
+     *
+     * @pbrbm indfx thf dfsirfd indfx in thf input tfxt.
+     * @stbblf ICU 2.8
+     */
+    publid void sftIndfxOnly(int indfx) {
+        tfxt.sftIndfx(indfx);
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        dlfbrBufffr();
+    }
+
+    /**
+     * Sft thf itfrbtion position in thf input tfxt thbt is bfing normblizfd
+     * bnd rfturn thf first normblizfd dhbrbdtfr bt thbt position.
+     * <p>
+     * <b>Notf:</b> This mfthod sfts thf position in thf <fm>input</fm> tfxt,
+     * whilf {@link #nfxt} bnd {@link #prfvious} itfrbtf through dhbrbdtfrs
+     * in thf normblizfd <fm>output</fm>.  This mfbns thbt thfrf is not
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dhbrbdtfrs rfturnfd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd thf indidfs pbssfd to bnd
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <p>
+     * @pbrbm indfx thf dfsirfd indfx in thf input tfxt->
+     *
+     * @rfturn   thf first normblizfd dhbrbdtfr thbt is thf rfsult of itfrbting
+     *            forwbrd stbrting bt thf givfn indfx.
+     *
+     * @throws IllfgblArgumfntExdfption if thf givfn indfx is lfss thbn
+     *          {@link #gftBfginIndfx} or grfbtfr thbn {@link #gftEndIndfx}.
+     * @rfturn Thf dodfpoint bs bn int
+     * @dfprfdbtfd ICU 3.2
+     * @obsolftf ICU 3.2
+     */
+     @Dfprfdbtfd
+     publid int sftIndfx(int indfx) {
+         sftIndfxOnly(indfx);
+         rfturn durrfnt();
+     }
+
+    /**
+     * Rftrifvf thf indfx of thf stbrt of thf input tfxt. This is thf bfgin
+     * indfx of thf <tt>ChbrbdtfrItfrbtor</tt> or thf stbrt (i.f. 0) of thf
+     * <tt>String</tt> ovfr whidh this <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @rfturn Thf dodfpoint bs bn int
+     * @sff #stbrtIndfx
+     */
+    @Dfprfdbtfd
+    publid int gftBfginIndfx() {
+        rfturn 0;
+    }
+
+    /**
+     * Rftrifvf thf indfx of thf fnd of thf input tfxt.  This is thf fnd indfx
+     * of thf <tt>ChbrbdtfrItfrbtor</tt> or thf lfngth of thf <tt>String</tt>
+     * ovfr whidh this <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @rfturn Thf dodfpoint bs bn int
+     * @sff #fndIndfx
+     */
+    @Dfprfdbtfd
+    publid int gftEndIndfx() {
+        rfturn fndIndfx();
+    }
+
+    /**
+     * Rftrifvf thf durrfnt itfrbtion position in thf input tfxt thbt is
+     * bfing normblizfd.  This mfthod is usfful in bpplidbtions sudh bs
+     * sfbrdhing, whfrf you nffd to bf bblf to dftfrminf thf position in
+     * thf input tfxt thbt dorrfsponds to b givfn normblizfd output dhbrbdtfr.
+     * <p>
+     * <b>Notf:</b> This mfthod sfts thf position in thf <fm>input</fm>, whilf
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf through dhbrbdtfrs in thf
+     * <fm>output</fm>.  This mfbns thbt thfrf is not nfdfssbrily b onf-to-onf
+     * dorrfspondfndf bftwffn dhbrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * <tt>prfvious</tt> bnd thf indidfs pbssfd to bnd rfturnfd from
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * @rfturn Thf durrfnt itfrbtion position
+     * @stbblf ICU 2.8
+     */
+    publid int gftIndfx() {
+        if(bufffrPos<bufffrLimit) {
+            rfturn durrfntIndfx;
+        } flsf {
+            rfturn nfxtIndfx;
+        }
+    }
+
+    /**
+     * Rftrifvf thf indfx of thf fnd of thf input tfxt->  This is thf fnd indfx
+     * of thf <tt>ChbrbdtfrItfrbtor</tt> or thf lfngth of thf <tt>String</tt>
+     * ovfr whidh this <tt>Normblizfr</tt> is itfrbting
+     * @rfturn Thf durrfnt itfrbtion position
+     * @stbblf ICU 2.8
+     */
+    publid int fndIndfx() {
+        rfturn tfxt.gftLfngth();
+    }
+
+    //-------------------------------------------------------------------------
+    // Propfrty bddfss mfthods
+    //-------------------------------------------------------------------------
+    /**
+     * Sft thf normblizbtion modf for this objfdt.
+     * <p>
+     * <b>Notf:</b>If thf normblizbtion modf is dhbngfd whilf itfrbting
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * rfturn prfviously bufffrs dhbrbdtfrs in thf old normblizbtion modf
+     * until thf itfrbtion is bblf to rf-synd bt thf nfxt bbsf dhbrbdtfr.
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * <p>
+     * @pbrbm nfwModf thf nfw modf for this <tt>Normblizfr</tt>.
+     * Thf supportfd modfs brf:
+     * <ul>
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *                                  followfd by dbnonidbl domposition.
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *                                  follwfd by dbnonidbl domposition.
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #NO_OP}          - Do nothing but rfturn dhbrbdtfrs
+     *                                  from thf undfrlying input tfxt.
+     * </ul>
+     *
+     * @sff #gftModf
+     * @stbblf ICU 2.8
+     */
+    publid void sftModf(Modf nfwModf) {
+        modf = nfwModf;
+    }
+    /**
+     * Rfturn thf bbsid opfrbtion pfrformfd by this <tt>Normblizfr</tt>
+     *
+     * @sff #sftModf
+     * @stbblf ICU 2.8
+     */
+    publid Modf gftModf() {
+        rfturn modf;
+    }
+
+    /**
+     * Sft thf input tfxt ovfr whidh this <tt>Normblizfr</tt> will itfrbtf.
+     * Thf itfrbtion position is sft to thf bfginning of thf input tfxt->
+     * @pbrbm nfwTfxt   Thf nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
+     */
+    publid void sftTfxt(String nfwTfxt) {
+
+        UChbrbdtfrItfrbtor nfwItfr = UChbrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+            throw nfw IntfrnblError("Could not drfbtf b nfw UChbrbdtfrItfrbtor");
+        }
+        tfxt = nfwItfr;
+        rfsft();
+    }
+
+    /**
+     * Sft thf input tfxt ovfr whidh this <tt>Normblizfr</tt> will itfrbtf.
+     * Thf itfrbtion position is sft to thf bfginning of thf input tfxt->
+     * @pbrbm nfwTfxt   Thf nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
+     */
+    publid void sftTfxt(ChbrbdtfrItfrbtor nfwTfxt) {
+
+        UChbrbdtfrItfrbtor nfwItfr = UChbrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+            throw nfw IntfrnblError("Could not drfbtf b nfw UChbrbdtfrItfrbtor");
+        }
+        tfxt = nfwItfr;
+        durrfntIndfx=nfxtIndfx=0;
+        dlfbrBufffr();
+    }
+
+    //-------------------------------------------------------------------------
+    // Privbtf utility mfthods
+    //-------------------------------------------------------------------------
+
+
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
+
+    /*
+     * rfbd bbdkwbrds bnd gft norm32
+     * rfturn 0 if thf dhbrbdtfr is <minC
+     * if d2!=0 thfn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+     * surrogbtf but rfbd sfdond!)
+     */
+
+    privbtf stbtid  long gftPrfvNorm32(UChbrbdtfrItfrbtor srd,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ mbsk,
+                                       dhbr[] dhbrs) {
+        long norm32;
+        int dh=0;
+        /* nffd srd.hbsPrfvious() */
+        if((dh=srd.prfvious()) == UChbrbdtfrItfrbtor.DONE) {
+            rfturn 0;
+        }
+        dhbrs[0]=(dhbr)dh;
+        dhbrs[1]=0;
+
+        /* dhfdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
+         * prfdfdrfmfnt furthfr */
+        if(dhbrs[0]<minC) {
+            rfturn 0;
+        } flsf if(!UTF16.isSurrogbtf(dhbrs[0])) {
+            rfturn NormblizfrImpl.gftNorm32(dhbrs[0]);
+        } flsf if(UTF16.isLfbdSurrogbtf(dhbrs[0]) || (srd.gftIndfx()==0)) {
+            /* unpbirfd surrogbtf */
+            dhbrs[1]=(dhbr)srd.durrfnt();
+            rfturn 0;
+        } flsf if(UTF16.isLfbdSurrogbtf(dhbrs[1]=(dhbr)srd.prfvious())) {
+            norm32=NormblizfrImpl.gftNorm32(dhbrs[1]);
+            if((norm32&mbsk)==0) {
+                /* bll surrogbtf pbirs with this lfbd surrogbtf hbvf irrflfvbnt
+                 * dbtb */
+                rfturn 0;
+            } flsf {
+                /* norm32 must bf b surrogbtf spfdibl */
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dhbrs[0]);
+            }
+        } flsf {
+            /* unpbirfd sfdond surrogbtf, undo thf d2=srd.prfvious() movfmfnt */
+            srd.movfIndfx( 1);
+            rfturn 0;
+        }
+    }
+
+    privbtf intfrfbdf IsPrfvBoundbry{
+        publid boolfbn isPrfvBoundbry(UChbrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ mbsk,
+                                      dhbr[] dhbrs);
+    }
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
+        /*
+         * for NF*D:
+         * rfbd bbdkwbrds bnd dhfdk if thf lfbd dombining dlbss is 0
+         * if d2!=0 thfn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * surrogbtf but rfbd sfdond!)
+         */
+        publid boolfbn isPrfvBoundbry(UChbrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      dhbr[] dhbrs) {
+
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+                                                          ddOrQCMbsk, dhbrs),
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
+        }
+    }
+
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+        /*
+         * rfbd bbdkwbrds bnd dhfdk if thf dhbrbdtfr is (or its dfdomposition
+         * bfgins with) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+         * if d2!=0 thfn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * surrogbtf but rfbd sfdond!)
+         */
+        publid boolfbn isPrfvBoundbry(UChbrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      dhbr[] dhbrs) {
+            long norm32;
+            int/*unsignfd*/ dfdompQCMbsk;
+
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk dhfdk mbsk*/
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dhbrs);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+        }
+    }
+
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UChbrbdtfrItfrbtor srd,
+                                                     IsPrfvBoundbry obj,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*mbsk*/ mbsk,
+                                                     dhbr[] bufffr,
+                                                     int[] stbrtIndfx) {
+        dhbr[] dhbrs=nfw dhbr[2];
+        boolfbn isBoundbry;
+
+        /* fill thf bufffr from thf fnd bbdkwbrds */
+        stbrtIndfx[0] = bufffr.lfngth;
+        dhbrs[0]=0;
+        whilf(srd.gftIndfx()>0 && dhbrs[0]!=UChbrbdtfrItfrbtor.DONE) {
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dhbrs);
+
+            /* blwbys writf this dhbrbdtfr to thf front of thf bufffr */
+            /* mbkf surf thfrf is fnough spbdf in thf bufffr */
+            if(stbrtIndfx[0] < (dhbrs[1]==0 ? 1 : 2)) {
+
+                // grow thf bufffr
+                dhbr[] nfwBuf = nfw dhbr[bufffr.lfngth*2];
+                /* movf thf durrfnt bufffr dontfnts up */
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                                 nfwBuf.lfngth-(bufffr.lfngth-stbrtIndfx[0]),
+                                 bufffr.lfngth-stbrtIndfx[0]);
+                //bdjust thf stbrtIndfx
+                stbrtIndfx[0]+=nfwBuf.lfngth-bufffr.lfngth;
+
+                bufffr=nfwBuf;
+                nfwBuf=null;
+
+            }
+
+            bufffr[--stbrtIndfx[0]]=dhbrs[0];
+            if(dhbrs[1]!=0) {
+                bufffr[--stbrtIndfx[0]]=dhbrs[1];
+            }
+
+            /* stop if this just-dopifd dhbrbdtfr is b boundbry */
+            if(isBoundbry) {
+                brfbk;
+            }
+        }
+
+        /* rfturn thf lfngth of thf bufffr dontfnts */
+        rfturn bufffr.lfngth-stbrtIndfx[0];
+    }
+
+    privbtf stbtid int prfvious(UChbrbdtfrItfrbtor srd,
+                                dhbr[] dfst, int dfstStbrt, int dfstLimit,
+                                Modf modf,
+                                boolfbn doNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
+                                int options) {
+
+        IsPrfvBoundbry isPrfviousBoundbry;
+        int dfstLfngth, bufffrLfngth;
+        int/*unsignfd*/ mbsk;
+        int d,d2;
+
+        dhbr minC;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
+        dfstLfngth=0;
+
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
+        }
+        minC = (dhbr)modf.gftMinC();
+        mbsk = modf.gftMbsk();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
+
+        if(isPrfviousBoundbry==null) {
+            dfstLfngth=0;
+            if((d=srd.prfvious())>=0) {
+                dfstLfngth=1;
+                if(UTF16.isTrbilSurrogbtf((dhbr)d)) {
+                    d2= srd.prfvious();
+                    if(d2!= UChbrbdtfrItfrbtor.DONE) {
+                        if(UTF16.isLfbdSurrogbtf((dhbr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                                dfst[1]=(dhbr)d; // trbil surrogbtf
+                                dfstLfngth=2;
+                            }
+                            // lfbd surrogbtf to bf writtfn bflow
+                            d=d2;
+                        } flsf {
+                            srd.movfIndfx(1);
+                        }
+                    }
+                }
+
+                if(dfstCbpbdity>0) {
+                    dfst[0]=(dhbr)d;
+                }
+            }
+            rfturn dfstLfngth;
+        }
+
+        dhbr[] bufffr = nfw dhbr[100];
+        int[] stbrtIndfx= nfw int[1];
+        bufffrLfngth=findPrfviousItfrbtionBoundbry(srd,
+                                                   isPrfviousBoundbry,
+                                                   minC, mbsk,bufffr,
+                                                   stbrtIndfx);
+        if(bufffrLfngth>0) {
+            if(doNormblizf) {
+                dfstLfngth=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                                                stbrtIndfx[0]+bufffrLfngth,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                modf, options);
+
+                if(pNffdfdToNormblizf!=null) {
+                    pNffdfdToNormblizf[0]=dfstLfngth!=bufffrLfngth ||
+                                          Utility.brrbyRfgionMbtdhfs(
+                                            bufffr,0,dfst,
+                                            dfstStbrt,dfstLimit
+                                          );
+                }
+            } flsf {
+                /* just dopy thf sourdf dhbrbdtfrs */
+                if(dfstCbpbdity>0) {
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
+                                     (bufffrLfngth<dfstCbpbdity) ?
+                                     bufffrLfngth : dfstCbpbdity
+                                     );
+                }
+            }
+        }
+
+
+        rfturn dfstLfngth;
+    }
+
+
+
+    /* forwbrd itfrbtion ---------------------------------------------------- */
+    /*
+     * rfbd forwbrd bnd dhfdk if thf dhbrbdtfr is b nfxt-itfrbtion boundbry
+     * if d2!=0 thfn (d, d2) is b surrogbtf pbir
+     */
+    privbtf intfrfbdf IsNfxtBoundbry{
+        boolfbn isNfxtBoundbry(UChbrbdtfrItfrbtor srd,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ mbsk,
+                               int[] dhbrs);
+    }
+    /*
+     * rfbd forwbrd bnd gft norm32
+     * rfturn 0 if thf dhbrbdtfr is <minC
+     * if d2!=0 thfn (d2, d) is b surrogbtf pbir
+     * blwbys rfbds domplftf dhbrbdtfrs
+     */
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UChbrbdtfrItfrbtor srd,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ mbsk,
+                                                   int[] dhbrs) {
+        long norm32;
+
+        /* nffd srd.hbsNfxt() to bf truf */
+        dhbrs[0]=srd.nfxt();
+        dhbrs[1]=0;
+
+        if(dhbrs[0]<minC) {
+            rfturn 0;
+        }
+
+        norm32=NormblizfrImpl.gftNorm32((dhbr)dhbrs[0]);
+        if(UTF16.isLfbdSurrogbtf((dhbr)dhbrs[0])) {
+            if(srd.durrfnt()!=UChbrbdtfrItfrbtor.DONE &&
+               UTF16.isTrbilSurrogbtf((dhbr)(dhbrs[1]=srd.durrfnt()))) {
+                srd.movfIndfx(1); /* skip thf d2 surrogbtf */
+                if((norm32&mbsk)==0) {
+                    /* irrflfvbnt dbtb */
+                    rfturn 0;
+                } flsf {
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dhbr)dhbrs[1]);
+                }
+            } flsf {
+                /* unmbtdhfd surrogbtf */
+                rfturn 0;
+            }
+        }
+        rfturn norm32;
+    }
+
+
+    /*
+     * for NF*D:
+     * rfbd forwbrd bnd dhfdk if thf lfbd dombining dlbss is 0
+     * if d2!=0 thfn (d, d2) is b surrogbtf pbir
+     */
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UChbrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dhbrs) {
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dhbrs),
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+        }
+    }
+
+    /*
+     * for NF*C:
+     * rfbd forwbrd bnd dhfdk if thf dhbrbdtfr is (or its dfdomposition bfgins
+     * with) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * if d2!=0 thfn (d, d2) is b surrogbtf pbir
+     */
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UChbrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dhbrs) {
+            long norm32;
+            int/*unsignfd*/ dfdompQCMbsk;
+
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk dhfdk mbsk*/
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dhbrs);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+        }
+    }
+
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UChbrbdtfrItfrbtor srd,
+                                                 IsNfxtBoundbry obj,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ mbsk,
+                                                 dhbr[] bufffr) {
+        if(srd.durrfnt()==UChbrbdtfrItfrbtor.DONE) {
+            rfturn 0;
+        }
+
+        /* gft onf dhbrbdtfr bnd ignorf its propfrtifs */
+        int[] dhbrs = nfw int[2];
+        dhbrs[0]=srd.nfxt();
+        bufffr[0]=(dhbr)dhbrs[0];
+        int bufffrIndfx = 1;
+
+        if(UTF16.isLfbdSurrogbtf((dhbr)dhbrs[0])&&
+           srd.durrfnt()!=UChbrbdtfrItfrbtor.DONE) {
+            if(UTF16.isTrbilSurrogbtf((dhbr)(dhbrs[1]=srd.nfxt()))) {
+                bufffr[bufffrIndfx++]=(dhbr)dhbrs[1];
+            } flsf {
+                srd.movfIndfx(-1); /* bbdk out thf non-trbil-surrogbtf */
+            }
+        }
+
+        /* gft bll following dhbrbdtfrs until wf sff b boundbry */
+        /* dhfdking hbsNfxt() instfbd of d!=DONE on thf off-dhbndf thbt U+ffff
+         * is pbrt of thf string */
+        whilf( srd.durrfnt()!=UChbrbdtfrItfrbtor.DONE) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dhbrs)) {
+                /* bbdk out thf lbtfst movfmfnt to stop bt thf boundbry */
+                srd.movfIndfx(dhbrs[1]==0 ? -1 : -2);
+                brfbk;
+            } flsf {
+                if(bufffrIndfx+(dhbrs[1]==0 ? 1 : 2)<=bufffr.lfngth) {
+                    bufffr[bufffrIndfx++]=(dhbr)dhbrs[0];
+                    if(dhbrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dhbr)dhbrs[1];
+                    }
+                } flsf {
+                    dhbr[] nfwBuf = nfw dhbr[bufffr.lfngth*2];
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    bufffr = nfwBuf;
+                    bufffr[bufffrIndfx++]=(dhbr)dhbrs[0];
+                    if(dhbrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dhbr)dhbrs[1];
+                    }
+                }
+            }
+        }
+
+        /* rfturn thf lfngth of thf bufffr dontfnts */
+        rfturn bufffrIndfx;
+    }
+
+    privbtf stbtid int nfxt(UChbrbdtfrItfrbtor srd,
+                            dhbr[] dfst, int dfstStbrt, int dfstLimit,
+                            NormblizfrBbsf.Modf modf,
+                            boolfbn doNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            int options) {
+
+        IsNfxtBoundbry isNfxtBoundbry;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ bufffrLfngth;
+        int d,d2;
+        dhbr minC;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstLfngth = 0;
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
+        }
+
+        minC = (dhbr)modf.gftMinC();
+        mbsk = modf.gftMbsk();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+
+        if(isNfxtBoundbry==null) {
+            dfstLfngth=0;
+            d=srd.nfxt();
+            if(d!=UChbrbdtfrItfrbtor.DONE) {
+                dfstLfngth=1;
+                if(UTF16.isLfbdSurrogbtf((dhbr)d)) {
+                    d2= srd.nfxt();
+                    if(d2!= UChbrbdtfrItfrbtor.DONE) {
+                        if(UTF16.isTrbilSurrogbtf((dhbr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                                dfst[1]=(dhbr)d2; // trbil surrogbtf
+                                dfstLfngth=2;
+                            }
+                            // lfbd surrogbtf to bf writtfn bflow
+                        } flsf {
+                            srd.movfIndfx(-1);
+                        }
+                    }
+                }
+
+                if(dfstCbpbdity>0) {
+                    dfst[0]=(dhbr)d;
+                }
+            }
+            rfturn dfstLfngth;
+        }
+
+        dhbr[] bufffr=nfw dhbr[100];
+        int[] stbrtIndfx = nfw int[1];
+        bufffrLfngth=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+                                               bufffr);
+        if(bufffrLfngth>0) {
+            if(doNormblizf) {
+                dfstLfngth=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngth,
+                                          dfst,dfstStbrt,dfstLimit, options);
+
+                if(pNffdfdToNormblizf!=null) {
+                    pNffdfdToNormblizf[0]=dfstLfngth!=bufffrLfngth ||
+                                          Utility.brrbyRfgionMbtdhfs(bufffr,stbrtIndfx[0],
+                                            dfst,dfstStbrt,
+                                            dfstLfngth);
+                }
+            } flsf {
+                /* just dopy thf sourdf dhbrbdtfrs */
+                if(dfstCbpbdity>0) {
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                                     Mbth.min(bufffrLfngth,dfstCbpbdity)
+                                     );
+                }
+
+
+            }
+        }
+        rfturn dfstLfngth;
+    }
+
+    privbtf void dlfbrBufffr() {
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
+    }
+
+    privbtf boolfbn nfxtNormblizf() {
+
+        dlfbrBufffr();
+        durrfntIndfx=nfxtIndfx;
+        tfxt.sftIndfx(nfxtIndfx);
+
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngth,modf,truf,null,options);
+
+        nfxtIndfx=tfxt.gftIndfx();
+        rfturn (bufffrLimit>0);
+    }
+
+    privbtf boolfbn prfviousNormblizf() {
+
+        dlfbrBufffr();
+        nfxtIndfx=durrfntIndfx;
+        tfxt.sftIndfx(durrfntIndfx);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngth,modf,truf,null,options);
+
+        durrfntIndfx=tfxt.gftIndfx();
+        bufffrPos = bufffrLimit;
+        rfturn bufffrLimit>0;
+    }
+
+    privbtf int gftCodfPointAt(int indfx) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+                if((indfx+1)<bufffrLimit &&
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                    rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx+1]
+                                                                  );
+                }
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                    rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx]
+                                                                  );
+                }
+            }
+        }
+        rfturn bufffr[indfx];
+
+    }
+
+    /**
+     * Intfrnbl API
+     * @intfrnbl
+     */
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
+        rfturn modf.isNFSkippbblf(d);
+    }
+
+    //
+    // Options
+    //
+
+    /*
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
+     * IDNA/StringPrfp.
+     * Thf publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply thf fix for PRI #29, but it isn't
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
+     */
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
+                               UNICODE_3_2 |
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizfrImpl.BEFORE_PRI_29;
+
+    /*
+     * Dffbult option for thf lbtfst Unidodf normblizbtion. This option is
+     * providfd mbinly for tfsting.
+     * Thf vbluf zfro mfbns thbt normblizbtion is donf with thf fixfs for
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
+     */
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
+
+    //
+    // publid donstrudtor bnd mfthods for jbvb.tfxt.Normblizfr bnd
+    // sun.tfxt.Normblizfr
+    //
+
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr thf
+     * normblizfd form of b givfn string.
+     *
+     * @pbrbm str  Thf string to bf normblizfd.  Thf normblizbtion
+     *              will stbrt bt thf bfginning of thf string.
+     *
+     * @pbrbm modf Thf normblizbtion modf.
+     */
+    publid NormblizfrBbsf(String str, Modf modf) {
+          this(str, modf, UNICODE_LATEST);
+    }
+
+    /**
+     * Normblizfs b <dodf>String</dodf> using thf givfn normblizbtion form.
+     *
+     * @pbrbm str      thf input string to bf normblizfd.
+     * @pbrbm form     thf normblizbtion form
+     */
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+        rfturn normblizf(str, form, UNICODE_LATEST);
+    }
+
+    /**
+     * Normblizfs b <dodf>String</dodf> using thf givfn normblizbtion form.
+     *
+     * @pbrbm str      thf input string to bf normblizfd.
+     * @pbrbm form     thf normblizbtion form
+     * @pbrbm options   thf optionbl ffbturfs to bf fnbblfd.
+     */
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+        int lfn = str.lfngth();
+        boolfbn bsdiiOnly = truf;
+        if (lfn < 80) {
+            for (int i = 0; i < lfn; i++) {
+                if (str.dhbrAt(i) > 127) {
+                    bsdiiOnly = fblsf;
+                    brfbk;
+                }
+            }
+        } flsf {
+            dhbr[] b = str.toChbrArrby();
+            for (int i = 0; i < lfn; i++) {
+                if (b[i] > 127) {
+                    bsdiiOnly = fblsf;
+                    brfbk;
+                }
+            }
+        }
+
+        switdh (form) {
+        dbsf NFC :
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
+        dbsf NFD :
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
+        dbsf NFKC :
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
+        dbsf NFKD :
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
+        }
+
+        throw nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+                                           form);
+    }
+
+    /**
+     * Tfst if b string is in b givfn normblizbtion form.
+     * This is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     *
+     * Unlikf quidkChfdk(), this fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, both fundtions work fxbdtly thf sbmf.
+     * For NFC bnd NFKC whfrf quidkChfdk mby rfturn "mbybf", this fundtion will
+     * pfrform furthfr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       thf input string to bf dhfdkfd to sff if it is normblizfd
+     * @pbrbm form      thf normblizbtion form
+     * @pbrbm options   thf optionbl ffbturfs to bf fnbblfd.
+     */
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+    }
+
+    /**
+     * Tfst if b string is in b givfn normblizbtion form.
+     * This is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     *
+     * Unlikf quidkChfdk(), this fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, both fundtions work fxbdtly thf sbmf.
+     * For NFC bnd NFKC whfrf quidkChfdk mby rfturn "mbybf", this fundtion will
+     * pfrform furthfr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       thf input string to bf dhfdkfd to sff if it is normblizfd
+     * @pbrbm form      thf normblizbtion form
+     * @pbrbm options   thf optionbl ffbturfs to bf fnbblfd.
+     */
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+        switdh (form) {
+        dbsf NFC:
+            rfturn (NFC.quidkChfdk(str.toChbrArrby(),0,str.lfngth(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFD:
+            rfturn (NFD.quidkChfdk(str.toChbrArrby(),0,str.lfngth(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKC:
+            rfturn (NFKC.quidkChfdk(str.toChbrArrby(),0,str.lfngth(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKD:
+            rfturn (NFKD.quidkChfdk(str.toChbrArrby(),0,str.lfngth(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        }
+
+        throw nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+                                           form);
+    }
+}

@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvbx.drypto.ShortBufffrExdfption;
+
+/**
+ * This dlbss implfmfnts pbdding bs spfdififd in thf W3 XML ENC stbndbrd.
+ *
+ * @buthor Vblfrif Pfng
+ *
+ *
+ * @sff Pbdding
+ */
+finbl dlbss ISO10126Pbdding implfmfnts Pbdding {
+
+    privbtf int blodkSizf;
+
+    ISO10126Pbdding(int blodkSizf) {
+        this.blodkSizf = blodkSizf;
+    }
+
+    /**
+     * Adds thf givfn numbfr of pbdding bytfs to thf dbtb input.
+     * Thf vbluf of thf pbdding bytfs is dftfrminfd
+     * by thf spfdifid pbdding mfdhbnism thbt implfmfnts this
+     * intfrfbdf.
+     *
+     * @pbrbm in thf input bufffr with thf dbtb to pbd
+     * @pbrbm off thf offsft in <dodf>in</dodf> whfrf thf pbdding bytfs
+     * brf bppfndfd
+     * @pbrbm lfn thf numbfr of pbdding bytfs to bdd
+     *
+     * @fxdfption ShortBufffrExdfption if <dodf>in</dodf> is too smbll to hold
+     * thf pbdding bytfs
+     */
+    publid void pbdWithLfn(bytf[] in, int off, int lfn)
+        throws ShortBufffrExdfption
+    {
+        if (in == null)
+            rfturn;
+
+        if ((off + lfn) > in.lfngth) {
+            throw nfw ShortBufffrExdfption("Bufffr too smbll to hold pbdding");
+        }
+
+        bytf pbddingOdtft = (bytf) (lfn & 0xff);
+        bytf[] pbdding = nfw bytf[lfn];
+        SunJCE.gftRbndom().nfxtBytfs(pbdding);
+        pbdding[lfn-1] = pbddingOdtft;
+        Systfm.brrbydopy(pbdding, 0, in, off, lfn);
+        rfturn;
+    }
+
+    /**
+     * Rfturns thf indfx whfrf thf pbdding stbrts.
+     *
+     * <p>Givfn b bufffr with pbddfd dbtb, this mfthod rfturns thf
+     * indfx whfrf thf pbdding stbrts.
+     *
+     * @pbrbm in thf bufffr with thf pbddfd dbtb
+     * @pbrbm off thf offsft in <dodf>in</dodf> whfrf thf pbddfd dbtb stbrts
+     * @pbrbm lfn thf lfngth of thf pbddfd dbtb
+     *
+     * @rfturn thf indfx whfrf thf pbdding stbrts, or -1 if thf input is
+     * not propfrly pbddfd
+     */
+    publid int unpbd(bytf[] in, int off, int lfn) {
+        if ((in == null) ||
+            (lfn == 0)) { // this dbn hbppfn if input is rfblly b pbddfd bufffr
+            rfturn 0;
+        }
+
+        bytf lbstBytf = in[off + lfn - 1];
+        int pbdVbluf = (int)lbstBytf & 0x0ff;
+        if ((pbdVbluf < 0x01)
+            || (pbdVbluf > blodkSizf)) {
+            rfturn -1;
+        }
+
+        int stbrt = off + lfn - ((int)lbstBytf & 0x0ff);
+        if (stbrt < off) {
+            rfturn -1;
+        }
+
+        rfturn stbrt;
+    }
+
+    /**
+     * Dftfrminfs how long thf pbdding will bf for b givfn input lfngth.
+     *
+     * @pbrbm lfn thf lfngth of thf dbtb to pbd
+     *
+     * @rfturn thf lfngth of thf pbdding
+     */
+    publid int pbdLfngth(int lfn) {
+        int pbddingOdtft = blodkSizf - (lfn % blodkSizf);
+        rfturn pbddingOdtft;
+    }
+}

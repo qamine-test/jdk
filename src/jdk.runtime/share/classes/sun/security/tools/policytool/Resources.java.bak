@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.policytool;
+pbdkbgf sun.sfdurity.tools.polidytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the policytool.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for tif polidytool.
  *
  */
-public class Resources extends java.util.ListResourceBundle {
+publid dlbss Rfsourdfs fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
         {"NEWLINE", "\n"},
-        {"Warning.A.public.key.for.alias.signers.i.does.not.exist.Make.sure.a.KeyStore.is.properly.configured.",
-                "Warning: A public key for alias {0} does not exist.  Make sure a KeyStore is properly configured."},
-        {"Warning.Class.not.found.class", "Warning: Class not found: {0}"},
-        {"Warning.Invalid.argument.s.for.constructor.arg",
-                "Warning: Invalid argument(s) for constructor: {0}"},
-        {"Illegal.Principal.Type.type", "Illegal Principal Type: {0}"},
-        {"Illegal.option.option", "Illegal option: {0}"},
-        {"Usage.policytool.options.", "Usage: policytool [options]"},
-        {".file.file.policy.file.location",
-                "  [-file <file>]    policy file location"},
-        {"New", "&New"},
-        {"Open", "&Open..."},
-        {"Save", "&Save"},
-        {"Save.As", "Save &As..."},
-        {"View.Warning.Log", "View &Warning Log"},
+        {"Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd.",
+                "Wbrning: A publid kfy for blibs {0} dofs not fxist.  Mbkf surf b KfyStorf is propfrly donfigurfd."},
+        {"Wbrning.Clbss.not.found.dlbss", "Wbrning: Clbss not found: {0}"},
+        {"Wbrning.Invblid.brgumfnt.s.for.donstrudtor.brg",
+                "Wbrning: Invblid brgumfnt(s) for donstrudtor: {0}"},
+        {"Illfgbl.Prindipbl.Typf.typf", "Illfgbl Prindipbl Typf: {0}"},
+        {"Illfgbl.option.option", "Illfgbl option: {0}"},
+        {"Usbgf.polidytool.options.", "Usbgf: polidytool [options]"},
+        {".filf.filf.polidy.filf.lodbtion",
+                "  [-filf <filf>]    polidy filf lodbtion"},
+        {"Nfw", "&Nfw"},
+        {"Opfn", "&Opfn..."},
+        {"Sbvf", "&Sbvf"},
+        {"Sbvf.As", "Sbvf &As..."},
+        {"Vifw.Wbrning.Log", "Vifw &Wbrning Log"},
         {"Exit", "E&xit"},
-        {"Add.Policy.Entry", "&Add Policy Entry"},
-        {"Edit.Policy.Entry", "&Edit Policy Entry"},
-        {"Remove.Policy.Entry", "&Remove Policy Entry"},
+        {"Add.Polidy.Entry", "&Add Polidy Entry"},
+        {"Edit.Polidy.Entry", "&Edit Polidy Entry"},
+        {"Rfmovf.Polidy.Entry", "&Rfmovf Polidy Entry"},
         {"Edit", "&Edit"},
-        {"Retain", "Retain"},
+        {"Rftbin", "Rftbin"},
 
-        {"Warning.File.name.may.include.escaped.backslash.characters.It.is.not.necessary.to.escape.backslash.characters.the.tool.escapes",
-            "Warning: File name may include escaped backslash characters. " +
-                        "It is not necessary to escape backslash characters " +
-                        "(the tool escapes characters as necessary when writing " +
-                        "the policy contents to the persistent store).\n\n" +
-                        "Click on Retain to retain the entered name, or click on " +
-                        "Edit to edit the name."},
+        {"Wbrning.Filf.nbmf.mby.indludf.fsdbpfd.bbdkslbsi.dibrbdtfrs.It.is.not.nfdfssbry.to.fsdbpf.bbdkslbsi.dibrbdtfrs.tif.tool.fsdbpfs",
+            "Wbrning: Filf nbmf mby indludf fsdbpfd bbdkslbsi dibrbdtfrs. " +
+                        "It is not nfdfssbry to fsdbpf bbdkslbsi dibrbdtfrs " +
+                        "(tif tool fsdbpfs dibrbdtfrs bs nfdfssbry wifn writing " +
+                        "tif polidy dontfnts to tif pfrsistfnt storf).\n\n" +
+                        "Clidk on Rftbin to rftbin tif fntfrfd nbmf, or dlidk on " +
+                        "Edit to fdit tif nbmf."},
 
-        {"Add.Public.Key.Alias", "Add Public Key Alias"},
-        {"Remove.Public.Key.Alias", "Remove Public Key Alias"},
-        {"File", "&File"},
-        {"KeyStore", "&KeyStore"},
-        {"Policy.File.", "Policy File:"},
-        {"Could.not.open.policy.file.policyFile.e.toString.",
-                "Could not open policy file: {0}: {1}"},
-        {"Policy.Tool", "Policy Tool"},
-        {"Errors.have.occurred.while.opening.the.policy.configuration.View.the.Warning.Log.for.more.information.",
-                "Errors have occurred while opening the policy configuration.  View the Warning Log for more information."},
+        {"Add.Publid.Kfy.Alibs", "Add Publid Kfy Alibs"},
+        {"Rfmovf.Publid.Kfy.Alibs", "Rfmovf Publid Kfy Alibs"},
+        {"Filf", "&Filf"},
+        {"KfyStorf", "&KfyStorf"},
+        {"Polidy.Filf.", "Polidy Filf:"},
+        {"Could.not.opfn.polidy.filf.polidyFilf.f.toString.",
+                "Could not opfn polidy filf: {0}: {1}"},
+        {"Polidy.Tool", "Polidy Tool"},
+        {"Errors.ibvf.oddurrfd.wiilf.opfning.tif.polidy.donfigurbtion.Vifw.tif.Wbrning.Log.for.morf.informbtion.",
+                "Errors ibvf oddurrfd wiilf opfning tif polidy donfigurbtion.  Vifw tif Wbrning Log for morf informbtion."},
         {"Error", "Error"},
         {"OK", "OK"},
-        {"Status", "Status"},
-        {"Warning", "Warning"},
-        {"Permission.",
-                "Permission:                                                       "},
-        {"Principal.Type.", "Principal Type:"},
-        {"Principal.Name.", "Principal Name:"},
-        {"Target.Name.",
-                "Target Name:                                                    "},
-        {"Actions.",
-                "Actions:                                                             "},
-        {"OK.to.overwrite.existing.file.filename.",
-                "OK to overwrite existing file {0}?"},
-        {"Cancel", "Cancel"},
-        {"CodeBase.", "&CodeBase:"},
-        {"SignedBy.", "&SignedBy:"},
-        {"Add.Principal", "&Add Principal"},
-        {"Edit.Principal", "&Edit Principal"},
-        {"Remove.Principal", "&Remove Principal"},
-        {"Principals.", "&Principals:"},
-        {".Add.Permission", "  A&dd Permission"},
-        {".Edit.Permission", "  Ed&it Permission"},
-        {"Remove.Permission", "Re&move Permission"},
-        {"Done", "Done"},
-        {"KeyStore.URL.", "KeyStore &URL:"},
-        {"KeyStore.Type.", "KeyStore &Type:"},
-        {"KeyStore.Provider.", "KeyStore &Provider:"},
-        {"KeyStore.Password.URL.", "KeyStore Pass&word URL:"},
-        {"Principals", "Principals"},
-        {".Edit.Principal.", "  Edit Principal:"},
-        {".Add.New.Principal.", "  Add New Principal:"},
-        {"Permissions", "Permissions"},
-        {".Edit.Permission.", "  Edit Permission:"},
-        {".Add.New.Permission.", "  Add New Permission:"},
-        {"Signed.By.", "Signed By:"},
-        {"Cannot.Specify.Principal.with.a.Wildcard.Class.without.a.Wildcard.Name",
-            "Cannot Specify Principal with a Wildcard Class without a Wildcard Name"},
-        {"Cannot.Specify.Principal.without.a.Name",
-            "Cannot Specify Principal without a Name"},
-        {"Permission.and.Target.Name.must.have.a.value",
-                "Permission and Target Name must have a value"},
-        {"Remove.this.Policy.Entry.", "Remove this Policy Entry?"},
-        {"Overwrite.File", "Overwrite File"},
-        {"Policy.successfully.written.to.filename",
-                "Policy successfully written to {0}"},
-        {"null.filename", "null filename"},
-        {"Save.changes.", "Save changes?"},
-        {"Yes", "&Yes"},
+        {"Stbtus", "Stbtus"},
+        {"Wbrning", "Wbrning"},
+        {"Pfrmission.",
+                "Pfrmission:                                                       "},
+        {"Prindipbl.Typf.", "Prindipbl Typf:"},
+        {"Prindipbl.Nbmf.", "Prindipbl Nbmf:"},
+        {"Tbrgft.Nbmf.",
+                "Tbrgft Nbmf:                                                    "},
+        {"Adtions.",
+                "Adtions:                                                             "},
+        {"OK.to.ovfrwritf.fxisting.filf.filfnbmf.",
+                "OK to ovfrwritf fxisting filf {0}?"},
+        {"Cbndfl", "Cbndfl"},
+        {"CodfBbsf.", "&CodfBbsf:"},
+        {"SignfdBy.", "&SignfdBy:"},
+        {"Add.Prindipbl", "&Add Prindipbl"},
+        {"Edit.Prindipbl", "&Edit Prindipbl"},
+        {"Rfmovf.Prindipbl", "&Rfmovf Prindipbl"},
+        {"Prindipbls.", "&Prindipbls:"},
+        {".Add.Pfrmission", "  A&dd Pfrmission"},
+        {".Edit.Pfrmission", "  Ed&it Pfrmission"},
+        {"Rfmovf.Pfrmission", "Rf&movf Pfrmission"},
+        {"Donf", "Donf"},
+        {"KfyStorf.URL.", "KfyStorf &URL:"},
+        {"KfyStorf.Typf.", "KfyStorf &Typf:"},
+        {"KfyStorf.Providfr.", "KfyStorf &Providfr:"},
+        {"KfyStorf.Pbssword.URL.", "KfyStorf Pbss&word URL:"},
+        {"Prindipbls", "Prindipbls"},
+        {".Edit.Prindipbl.", "  Edit Prindipbl:"},
+        {".Add.Nfw.Prindipbl.", "  Add Nfw Prindipbl:"},
+        {"Pfrmissions", "Pfrmissions"},
+        {".Edit.Pfrmission.", "  Edit Pfrmission:"},
+        {".Add.Nfw.Pfrmission.", "  Add Nfw Pfrmission:"},
+        {"Signfd.By.", "Signfd By:"},
+        {"Cbnnot.Spfdify.Prindipbl.witi.b.Wilddbrd.Clbss.witiout.b.Wilddbrd.Nbmf",
+            "Cbnnot Spfdify Prindipbl witi b Wilddbrd Clbss witiout b Wilddbrd Nbmf"},
+        {"Cbnnot.Spfdify.Prindipbl.witiout.b.Nbmf",
+            "Cbnnot Spfdify Prindipbl witiout b Nbmf"},
+        {"Pfrmission.bnd.Tbrgft.Nbmf.must.ibvf.b.vbluf",
+                "Pfrmission bnd Tbrgft Nbmf must ibvf b vbluf"},
+        {"Rfmovf.tiis.Polidy.Entry.", "Rfmovf tiis Polidy Entry?"},
+        {"Ovfrwritf.Filf", "Ovfrwritf Filf"},
+        {"Polidy.suddfssfully.writtfn.to.filfnbmf",
+                "Polidy suddfssfully writtfn to {0}"},
+        {"null.filfnbmf", "null filfnbmf"},
+        {"Sbvf.dibngfs.", "Sbvf dibngfs?"},
+        {"Yfs", "&Yfs"},
         {"No", "&No"},
-        {"Policy.Entry", "Policy Entry"},
-        {"Save.Changes", "Save Changes"},
-        {"No.Policy.Entry.selected", "No Policy Entry selected"},
-        {"Unable.to.open.KeyStore.ex.toString.",
-                "Unable to open KeyStore: {0}"},
-        {"No.principal.selected", "No principal selected"},
-        {"No.permission.selected", "No permission selected"},
-        {"name", "name"},
-        {"configuration.type", "configuration type"},
-        {"environment.variable.name", "environment variable name"},
-        {"library.name", "library name"},
-        {"package.name", "package name"},
-        {"policy.type", "policy type"},
-        {"property.name", "property name"},
-        {"provider.name", "provider name"},
+        {"Polidy.Entry", "Polidy Entry"},
+        {"Sbvf.Cibngfs", "Sbvf Cibngfs"},
+        {"No.Polidy.Entry.sflfdtfd", "No Polidy Entry sflfdtfd"},
+        {"Unbblf.to.opfn.KfyStorf.fx.toString.",
+                "Unbblf to opfn KfyStorf: {0}"},
+        {"No.prindipbl.sflfdtfd", "No prindipbl sflfdtfd"},
+        {"No.pfrmission.sflfdtfd", "No pfrmission sflfdtfd"},
+        {"nbmf", "nbmf"},
+        {"donfigurbtion.typf", "donfigurbtion typf"},
+        {"fnvironmfnt.vbribblf.nbmf", "fnvironmfnt vbribblf nbmf"},
+        {"librbry.nbmf", "librbry nbmf"},
+        {"pbdkbgf.nbmf", "pbdkbgf nbmf"},
+        {"polidy.typf", "polidy typf"},
+        {"propfrty.nbmf", "propfrty nbmf"},
+        {"providfr.nbmf", "providfr nbmf"},
         {"url", "url"},
-        {"method.list", "method list"},
-        {"request.headers.list", "request headers list"},
-        {"Principal.List", "Principal List"},
-        {"Permission.List", "Permission List"},
-        {"Code.Base", "Code Base"},
-        {"KeyStore.U.R.L.", "KeyStore U R L:"},
-        {"KeyStore.Password.U.R.L.", "KeyStore Password U R L:"}
+        {"mftiod.list", "mftiod list"},
+        {"rfqufst.ifbdfrs.list", "rfqufst ifbdfrs list"},
+        {"Prindipbl.List", "Prindipbl List"},
+        {"Pfrmission.List", "Pfrmission List"},
+        {"Codf.Bbsf", "Codf Bbsf"},
+        {"KfyStorf.U.R.L.", "KfyStorf U R L:"},
+        {"KfyStorf.Pbssword.U.R.L.", "KfyStorf Pbssword U R L:"}
     };
 
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    @Override
-    public Object[][] getContents() {
-        return contents;
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }

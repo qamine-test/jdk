@@ -1,1486 +1,1486 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
 
-import java.util.*;
-import java.lang.invoke.LambdaForm.BasicType;
-import sun.invoke.util.*;
-import sun.misc.Unsafe;
+import jbvb.util.*;
+import jbvb.lbng.invokf.LbmbdbForm.BbsidTypf;
+import sun.invokf.util.*;
+import sun.misd.Unsbff;
 
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.LambdaForm.BasicType.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
 
 /**
- * A method handle is a typed, directly executable reference to an underlying method,
- * constructor, field, or similar low-level operation, with optional
- * transformations of arguments or return values.
- * These transformations are quite general, and include such patterns as
- * {@linkplain #asType conversion},
- * {@linkplain #bindTo insertion},
- * {@linkplain java.lang.invoke.MethodHandles#dropArguments deletion},
- * and {@linkplain java.lang.invoke.MethodHandles#filterArguments substitution}.
+ * A mftiod ibndlf is b typfd, dirfdtly fxfdutbblf rfffrfndf to bn undfrlying mftiod,
+ * donstrudtor, fifld, or similbr low-lfvfl opfrbtion, witi optionbl
+ * trbnsformbtions of brgumfnts or rfturn vblufs.
+ * Tifsf trbnsformbtions brf quitf gfnfrbl, bnd indludf sudi pbttfrns bs
+ * {@linkplbin #bsTypf donvfrsion},
+ * {@linkplbin #bindTo insfrtion},
+ * {@linkplbin jbvb.lbng.invokf.MftiodHbndlfs#dropArgumfnts dflftion},
+ * bnd {@linkplbin jbvb.lbng.invokf.MftiodHbndlfs#filtfrArgumfnts substitution}.
  *
- * <h1>Method handle contents</h1>
- * Method handles are dynamically and strongly typed according to their parameter and return types.
- * They are not distinguished by the name or the defining class of their underlying methods.
- * A method handle must be invoked using a symbolic type descriptor which matches
- * the method handle's own {@linkplain #type type descriptor}.
+ * <i1>Mftiod ibndlf dontfnts</i1>
+ * Mftiod ibndlfs brf dynbmidblly bnd strongly typfd bddording to tifir pbrbmftfr bnd rfturn typfs.
+ * Tify brf not distinguisifd by tif nbmf or tif dffining dlbss of tifir undfrlying mftiods.
+ * A mftiod ibndlf must bf invokfd using b symbolid typf dfsdriptor wiidi mbtdifs
+ * tif mftiod ibndlf's own {@linkplbin #typf typf dfsdriptor}.
  * <p>
- * Every method handle reports its type descriptor via the {@link #type type} accessor.
- * This type descriptor is a {@link java.lang.invoke.MethodType MethodType} object,
- * whose structure is a series of classes, one of which is
- * the return type of the method (or {@code void.class} if none).
+ * Evfry mftiod ibndlf rfports its typf dfsdriptor vib tif {@link #typf typf} bddfssor.
+ * Tiis typf dfsdriptor is b {@link jbvb.lbng.invokf.MftiodTypf MftiodTypf} objfdt,
+ * wiosf strudturf is b sfrifs of dlbssfs, onf of wiidi is
+ * tif rfturn typf of tif mftiod (or {@dodf void.dlbss} if nonf).
  * <p>
- * A method handle's type controls the types of invocations it accepts,
- * and the kinds of transformations that apply to it.
+ * A mftiod ibndlf's typf dontrols tif typfs of invodbtions it bddfpts,
+ * bnd tif kinds of trbnsformbtions tibt bpply to it.
  * <p>
- * A method handle contains a pair of special invoker methods
- * called {@link #invokeExact invokeExact} and {@link #invoke invoke}.
- * Both invoker methods provide direct access to the method handle's
- * underlying method, constructor, field, or other operation,
- * as modified by transformations of arguments and return values.
- * Both invokers accept calls which exactly match the method handle's own type.
- * The plain, inexact invoker also accepts a range of other call types.
+ * A mftiod ibndlf dontbins b pbir of spfdibl invokfr mftiods
+ * dbllfd {@link #invokfExbdt invokfExbdt} bnd {@link #invokf invokf}.
+ * Boti invokfr mftiods providf dirfdt bddfss to tif mftiod ibndlf's
+ * undfrlying mftiod, donstrudtor, fifld, or otifr opfrbtion,
+ * bs modififd by trbnsformbtions of brgumfnts bnd rfturn vblufs.
+ * Boti invokfrs bddfpt dblls wiidi fxbdtly mbtdi tif mftiod ibndlf's own typf.
+ * Tif plbin, infxbdt invokfr blso bddfpts b rbngf of otifr dbll typfs.
  * <p>
- * Method handles are immutable and have no visible state.
- * Of course, they can be bound to underlying methods or data which exhibit state.
- * With respect to the Java Memory Model, any method handle will behave
- * as if all of its (internal) fields are final variables.  This means that any method
- * handle made visible to the application will always be fully formed.
- * This is true even if the method handle is published through a shared
- * variable in a data race.
+ * Mftiod ibndlfs brf immutbblf bnd ibvf no visiblf stbtf.
+ * Of doursf, tify dbn bf bound to undfrlying mftiods or dbtb wiidi fxiibit stbtf.
+ * Witi rfspfdt to tif Jbvb Mfmory Modfl, bny mftiod ibndlf will bfibvf
+ * bs if bll of its (intfrnbl) fiflds brf finbl vbribblfs.  Tiis mfbns tibt bny mftiod
+ * ibndlf mbdf visiblf to tif bpplidbtion will blwbys bf fully formfd.
+ * Tiis is truf fvfn if tif mftiod ibndlf is publisifd tirougi b sibrfd
+ * vbribblf in b dbtb rbdf.
  * <p>
- * Method handles cannot be subclassed by the user.
- * Implementations may (or may not) create internal subclasses of {@code MethodHandle}
- * which may be visible via the {@link java.lang.Object#getClass Object.getClass}
- * operation.  The programmer should not draw conclusions about a method handle
- * from its specific class, as the method handle class hierarchy (if any)
- * may change from time to time or across implementations from different vendors.
+ * Mftiod ibndlfs dbnnot bf subdlbssfd by tif usfr.
+ * Implfmfntbtions mby (or mby not) drfbtf intfrnbl subdlbssfs of {@dodf MftiodHbndlf}
+ * wiidi mby bf visiblf vib tif {@link jbvb.lbng.Objfdt#gftClbss Objfdt.gftClbss}
+ * opfrbtion.  Tif progrbmmfr siould not drbw dondlusions bbout b mftiod ibndlf
+ * from its spfdifid dlbss, bs tif mftiod ibndlf dlbss iifrbrdiy (if bny)
+ * mby dibngf from timf to timf or bdross implfmfntbtions from difffrfnt vfndors.
  *
- * <h1>Method handle compilation</h1>
- * A Java method call expression naming {@code invokeExact} or {@code invoke}
- * can invoke a method handle from Java source code.
- * From the viewpoint of source code, these methods can take any arguments
- * and their result can be cast to any return type.
- * Formally this is accomplished by giving the invoker methods
- * {@code Object} return types and variable arity {@code Object} arguments,
- * but they have an additional quality called <em>signature polymorphism</em>
- * which connects this freedom of invocation directly to the JVM execution stack.
+ * <i1>Mftiod ibndlf dompilbtion</i1>
+ * A Jbvb mftiod dbll fxprfssion nbming {@dodf invokfExbdt} or {@dodf invokf}
+ * dbn invokf b mftiod ibndlf from Jbvb sourdf dodf.
+ * From tif vifwpoint of sourdf dodf, tifsf mftiods dbn tbkf bny brgumfnts
+ * bnd tifir rfsult dbn bf dbst to bny rfturn typf.
+ * Formblly tiis is bddomplisifd by giving tif invokfr mftiods
+ * {@dodf Objfdt} rfturn typfs bnd vbribblf brity {@dodf Objfdt} brgumfnts,
+ * but tify ibvf bn bdditionbl qublity dbllfd <fm>signbturf polymorpiism</fm>
+ * wiidi donnfdts tiis frffdom of invodbtion dirfdtly to tif JVM fxfdution stbdk.
  * <p>
- * As is usual with virtual methods, source-level calls to {@code invokeExact}
- * and {@code invoke} compile to an {@code invokevirtual} instruction.
- * More unusually, the compiler must record the actual argument types,
- * and may not perform method invocation conversions on the arguments.
- * Instead, it must push them on the stack according to their own unconverted types.
- * The method handle object itself is pushed on the stack before the arguments.
- * The compiler then calls the method handle with a symbolic type descriptor which
- * describes the argument and return types.
+ * As is usubl witi virtubl mftiods, sourdf-lfvfl dblls to {@dodf invokfExbdt}
+ * bnd {@dodf invokf} dompilf to bn {@dodf invokfvirtubl} instrudtion.
+ * Morf unusublly, tif dompilfr must rfdord tif bdtubl brgumfnt typfs,
+ * bnd mby not pfrform mftiod invodbtion donvfrsions on tif brgumfnts.
+ * Instfbd, it must pusi tifm on tif stbdk bddording to tifir own undonvfrtfd typfs.
+ * Tif mftiod ibndlf objfdt itsflf is pusifd on tif stbdk bfforf tif brgumfnts.
+ * Tif dompilfr tifn dblls tif mftiod ibndlf witi b symbolid typf dfsdriptor wiidi
+ * dfsdribfs tif brgumfnt bnd rfturn typfs.
  * <p>
- * To issue a complete symbolic type descriptor, the compiler must also determine
- * the return type.  This is based on a cast on the method invocation expression,
- * if there is one, or else {@code Object} if the invocation is an expression
- * or else {@code void} if the invocation is a statement.
- * The cast may be to a primitive type (but not {@code void}).
+ * To issuf b domplftf symbolid typf dfsdriptor, tif dompilfr must blso dftfrminf
+ * tif rfturn typf.  Tiis is bbsfd on b dbst on tif mftiod invodbtion fxprfssion,
+ * if tifrf is onf, or flsf {@dodf Objfdt} if tif invodbtion is bn fxprfssion
+ * or flsf {@dodf void} if tif invodbtion is b stbtfmfnt.
+ * Tif dbst mby bf to b primitivf typf (but not {@dodf void}).
  * <p>
- * As a corner case, an uncasted {@code null} argument is given
- * a symbolic type descriptor of {@code java.lang.Void}.
- * The ambiguity with the type {@code Void} is harmless, since there are no references of type
- * {@code Void} except the null reference.
+ * As b dornfr dbsf, bn undbstfd {@dodf null} brgumfnt is givfn
+ * b symbolid typf dfsdriptor of {@dodf jbvb.lbng.Void}.
+ * Tif bmbiguity witi tif typf {@dodf Void} is ibrmlfss, sindf tifrf brf no rfffrfndfs of typf
+ * {@dodf Void} fxdfpt tif null rfffrfndf.
  *
- * <h1>Method handle invocation</h1>
- * The first time a {@code invokevirtual} instruction is executed
- * it is linked, by symbolically resolving the names in the instruction
- * and verifying that the method call is statically legal.
- * This is true of calls to {@code invokeExact} and {@code invoke}.
- * In this case, the symbolic type descriptor emitted by the compiler is checked for
- * correct syntax and names it contains are resolved.
- * Thus, an {@code invokevirtual} instruction which invokes
- * a method handle will always link, as long
- * as the symbolic type descriptor is syntactically well-formed
- * and the types exist.
+ * <i1>Mftiod ibndlf invodbtion</i1>
+ * Tif first timf b {@dodf invokfvirtubl} instrudtion is fxfdutfd
+ * it is linkfd, by symbolidblly rfsolving tif nbmfs in tif instrudtion
+ * bnd vfrifying tibt tif mftiod dbll is stbtidblly lfgbl.
+ * Tiis is truf of dblls to {@dodf invokfExbdt} bnd {@dodf invokf}.
+ * In tiis dbsf, tif symbolid typf dfsdriptor fmittfd by tif dompilfr is difdkfd for
+ * dorrfdt syntbx bnd nbmfs it dontbins brf rfsolvfd.
+ * Tius, bn {@dodf invokfvirtubl} instrudtion wiidi invokfs
+ * b mftiod ibndlf will blwbys link, bs long
+ * bs tif symbolid typf dfsdriptor is syntbdtidblly wfll-formfd
+ * bnd tif typfs fxist.
  * <p>
- * When the {@code invokevirtual} is executed after linking,
- * the receiving method handle's type is first checked by the JVM
- * to ensure that it matches the symbolic type descriptor.
- * If the type match fails, it means that the method which the
- * caller is invoking is not present on the individual
- * method handle being invoked.
+ * Wifn tif {@dodf invokfvirtubl} is fxfdutfd bftfr linking,
+ * tif rfdfiving mftiod ibndlf's typf is first difdkfd by tif JVM
+ * to fnsurf tibt it mbtdifs tif symbolid typf dfsdriptor.
+ * If tif typf mbtdi fbils, it mfbns tibt tif mftiod wiidi tif
+ * dbllfr is invoking is not prfsfnt on tif individubl
+ * mftiod ibndlf bfing invokfd.
  * <p>
- * In the case of {@code invokeExact}, the type descriptor of the invocation
- * (after resolving symbolic type names) must exactly match the method type
- * of the receiving method handle.
- * In the case of plain, inexact {@code invoke}, the resolved type descriptor
- * must be a valid argument to the receiver's {@link #asType asType} method.
- * Thus, plain {@code invoke} is more permissive than {@code invokeExact}.
+ * In tif dbsf of {@dodf invokfExbdt}, tif typf dfsdriptor of tif invodbtion
+ * (bftfr rfsolving symbolid typf nbmfs) must fxbdtly mbtdi tif mftiod typf
+ * of tif rfdfiving mftiod ibndlf.
+ * In tif dbsf of plbin, infxbdt {@dodf invokf}, tif rfsolvfd typf dfsdriptor
+ * must bf b vblid brgumfnt to tif rfdfivfr's {@link #bsTypf bsTypf} mftiod.
+ * Tius, plbin {@dodf invokf} is morf pfrmissivf tibn {@dodf invokfExbdt}.
  * <p>
- * After type matching, a call to {@code invokeExact} directly
- * and immediately invoke the method handle's underlying method
- * (or other behavior, as the case may be).
+ * Aftfr typf mbtdiing, b dbll to {@dodf invokfExbdt} dirfdtly
+ * bnd immfdibtfly invokf tif mftiod ibndlf's undfrlying mftiod
+ * (or otifr bfibvior, bs tif dbsf mby bf).
  * <p>
- * A call to plain {@code invoke} works the same as a call to
- * {@code invokeExact}, if the symbolic type descriptor specified by the caller
- * exactly matches the method handle's own type.
- * If there is a type mismatch, {@code invoke} attempts
- * to adjust the type of the receiving method handle,
- * as if by a call to {@link #asType asType},
- * to obtain an exactly invokable method handle {@code M2}.
- * This allows a more powerful negotiation of method type
- * between caller and callee.
+ * A dbll to plbin {@dodf invokf} works tif sbmf bs b dbll to
+ * {@dodf invokfExbdt}, if tif symbolid typf dfsdriptor spfdififd by tif dbllfr
+ * fxbdtly mbtdifs tif mftiod ibndlf's own typf.
+ * If tifrf is b typf mismbtdi, {@dodf invokf} bttfmpts
+ * to bdjust tif typf of tif rfdfiving mftiod ibndlf,
+ * bs if by b dbll to {@link #bsTypf bsTypf},
+ * to obtbin bn fxbdtly invokbblf mftiod ibndlf {@dodf M2}.
+ * Tiis bllows b morf powfrful nfgotibtion of mftiod typf
+ * bftwffn dbllfr bnd dbllff.
  * <p>
- * (<em>Note:</em> The adjusted method handle {@code M2} is not directly observable,
- * and implementations are therefore not required to materialize it.)
+ * (<fm>Notf:</fm> Tif bdjustfd mftiod ibndlf {@dodf M2} is not dirfdtly obsfrvbblf,
+ * bnd implfmfntbtions brf tifrfforf not rfquirfd to mbtfriblizf it.)
  *
- * <h1>Invocation checking</h1>
- * In typical programs, method handle type matching will usually succeed.
- * But if a match fails, the JVM will throw a {@link WrongMethodTypeException},
- * either directly (in the case of {@code invokeExact}) or indirectly as if
- * by a failed call to {@code asType} (in the case of {@code invoke}).
+ * <i1>Invodbtion difdking</i1>
+ * In typidbl progrbms, mftiod ibndlf typf mbtdiing will usublly suddffd.
+ * But if b mbtdi fbils, tif JVM will tirow b {@link WrongMftiodTypfExdfption},
+ * fitifr dirfdtly (in tif dbsf of {@dodf invokfExbdt}) or indirfdtly bs if
+ * by b fbilfd dbll to {@dodf bsTypf} (in tif dbsf of {@dodf invokf}).
  * <p>
- * Thus, a method type mismatch which might show up as a linkage error
- * in a statically typed program can show up as
- * a dynamic {@code WrongMethodTypeException}
- * in a program which uses method handles.
+ * Tius, b mftiod typf mismbtdi wiidi migit siow up bs b linkbgf frror
+ * in b stbtidblly typfd progrbm dbn siow up bs
+ * b dynbmid {@dodf WrongMftiodTypfExdfption}
+ * in b progrbm wiidi usfs mftiod ibndlfs.
  * <p>
- * Because method types contain "live" {@code Class} objects,
- * method type matching takes into account both types names and class loaders.
- * Thus, even if a method handle {@code M} is created in one
- * class loader {@code L1} and used in another {@code L2},
- * method handle calls are type-safe, because the caller's symbolic type
- * descriptor, as resolved in {@code L2},
- * is matched against the original callee method's symbolic type descriptor,
- * as resolved in {@code L1}.
- * The resolution in {@code L1} happens when {@code M} is created
- * and its type is assigned, while the resolution in {@code L2} happens
- * when the {@code invokevirtual} instruction is linked.
+ * Bfdbusf mftiod typfs dontbin "livf" {@dodf Clbss} objfdts,
+ * mftiod typf mbtdiing tbkfs into bddount boti typfs nbmfs bnd dlbss lobdfrs.
+ * Tius, fvfn if b mftiod ibndlf {@dodf M} is drfbtfd in onf
+ * dlbss lobdfr {@dodf L1} bnd usfd in bnotifr {@dodf L2},
+ * mftiod ibndlf dblls brf typf-sbff, bfdbusf tif dbllfr's symbolid typf
+ * dfsdriptor, bs rfsolvfd in {@dodf L2},
+ * is mbtdifd bgbinst tif originbl dbllff mftiod's symbolid typf dfsdriptor,
+ * bs rfsolvfd in {@dodf L1}.
+ * Tif rfsolution in {@dodf L1} ibppfns wifn {@dodf M} is drfbtfd
+ * bnd its typf is bssignfd, wiilf tif rfsolution in {@dodf L2} ibppfns
+ * wifn tif {@dodf invokfvirtubl} instrudtion is linkfd.
  * <p>
- * Apart from the checking of type descriptors,
- * a method handle's capability to call its underlying method is unrestricted.
- * If a method handle is formed on a non-public method by a class
- * that has access to that method, the resulting handle can be used
- * in any place by any caller who receives a reference to it.
+ * Apbrt from tif difdking of typf dfsdriptors,
+ * b mftiod ibndlf's dbpbbility to dbll its undfrlying mftiod is unrfstridtfd.
+ * If b mftiod ibndlf is formfd on b non-publid mftiod by b dlbss
+ * tibt ibs bddfss to tibt mftiod, tif rfsulting ibndlf dbn bf usfd
+ * in bny plbdf by bny dbllfr wio rfdfivfs b rfffrfndf to it.
  * <p>
- * Unlike with the Core Reflection API, where access is checked every time
- * a reflective method is invoked,
- * method handle access checking is performed
- * <a href="MethodHandles.Lookup.html#access">when the method handle is created</a>.
- * In the case of {@code ldc} (see below), access checking is performed as part of linking
- * the constant pool entry underlying the constant method handle.
+ * Unlikf witi tif Corf Rfflfdtion API, wifrf bddfss is difdkfd fvfry timf
+ * b rfflfdtivf mftiod is invokfd,
+ * mftiod ibndlf bddfss difdking is pfrformfd
+ * <b irff="MftiodHbndlfs.Lookup.itml#bddfss">wifn tif mftiod ibndlf is drfbtfd</b>.
+ * In tif dbsf of {@dodf ldd} (sff bflow), bddfss difdking is pfrformfd bs pbrt of linking
+ * tif donstbnt pool fntry undfrlying tif donstbnt mftiod ibndlf.
  * <p>
- * Thus, handles to non-public methods, or to methods in non-public classes,
- * should generally be kept secret.
- * They should not be passed to untrusted code unless their use from
- * the untrusted code would be harmless.
+ * Tius, ibndlfs to non-publid mftiods, or to mftiods in non-publid dlbssfs,
+ * siould gfnfrblly bf kfpt sfdrft.
+ * Tify siould not bf pbssfd to untrustfd dodf unlfss tifir usf from
+ * tif untrustfd dodf would bf ibrmlfss.
  *
- * <h1>Method handle creation</h1>
- * Java code can create a method handle that directly accesses
- * any method, constructor, or field that is accessible to that code.
- * This is done via a reflective, capability-based API called
- * {@link java.lang.invoke.MethodHandles.Lookup MethodHandles.Lookup}
- * For example, a static method handle can be obtained
- * from {@link java.lang.invoke.MethodHandles.Lookup#findStatic Lookup.findStatic}.
- * There are also conversion methods from Core Reflection API objects,
- * such as {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect}.
+ * <i1>Mftiod ibndlf drfbtion</i1>
+ * Jbvb dodf dbn drfbtf b mftiod ibndlf tibt dirfdtly bddfssfs
+ * bny mftiod, donstrudtor, or fifld tibt is bddfssiblf to tibt dodf.
+ * Tiis is donf vib b rfflfdtivf, dbpbbility-bbsfd API dbllfd
+ * {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup MftiodHbndlfs.Lookup}
+ * For fxbmplf, b stbtid mftiod ibndlf dbn bf obtbinfd
+ * from {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#findStbtid Lookup.findStbtid}.
+ * Tifrf brf blso donvfrsion mftiods from Corf Rfflfdtion API objfdts,
+ * sudi bs {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt}.
  * <p>
- * Like classes and strings, method handles that correspond to accessible
- * fields, methods, and constructors can also be represented directly
- * in a class file's constant pool as constants to be loaded by {@code ldc} bytecodes.
- * A new type of constant pool entry, {@code CONSTANT_MethodHandle},
- * refers directly to an associated {@code CONSTANT_Methodref},
- * {@code CONSTANT_InterfaceMethodref}, or {@code CONSTANT_Fieldref}
- * constant pool entry.
- * (For full details on method handle constants,
- * see sections 4.4.8 and 5.4.3.5 of the Java Virtual Machine Specification.)
+ * Likf dlbssfs bnd strings, mftiod ibndlfs tibt dorrfspond to bddfssiblf
+ * fiflds, mftiods, bnd donstrudtors dbn blso bf rfprfsfntfd dirfdtly
+ * in b dlbss filf's donstbnt pool bs donstbnts to bf lobdfd by {@dodf ldd} bytfdodfs.
+ * A nfw typf of donstbnt pool fntry, {@dodf CONSTANT_MftiodHbndlf},
+ * rfffrs dirfdtly to bn bssodibtfd {@dodf CONSTANT_Mftiodrff},
+ * {@dodf CONSTANT_IntfrfbdfMftiodrff}, or {@dodf CONSTANT_Fifldrff}
+ * donstbnt pool fntry.
+ * (For full dftbils on mftiod ibndlf donstbnts,
+ * sff sfdtions 4.4.8 bnd 5.4.3.5 of tif Jbvb Virtubl Mbdiinf Spfdifidbtion.)
  * <p>
- * Method handles produced by lookups or constant loads from methods or
- * constructors with the variable arity modifier bit ({@code 0x0080})
- * have a corresponding variable arity, as if they were defined with
- * the help of {@link #asVarargsCollector asVarargsCollector}.
+ * Mftiod ibndlfs produdfd by lookups or donstbnt lobds from mftiods or
+ * donstrudtors witi tif vbribblf brity modififr bit ({@dodf 0x0080})
+ * ibvf b dorrfsponding vbribblf brity, bs if tify wfrf dffinfd witi
+ * tif iflp of {@link #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor}.
  * <p>
- * A method reference may refer either to a static or non-static method.
- * In the non-static case, the method handle type includes an explicit
- * receiver argument, prepended before any other arguments.
- * In the method handle's type, the initial receiver argument is typed
- * according to the class under which the method was initially requested.
- * (E.g., if a non-static method handle is obtained via {@code ldc},
- * the type of the receiver is the class named in the constant pool entry.)
+ * A mftiod rfffrfndf mby rfffr fitifr to b stbtid or non-stbtid mftiod.
+ * In tif non-stbtid dbsf, tif mftiod ibndlf typf indludfs bn fxplidit
+ * rfdfivfr brgumfnt, prfpfndfd bfforf bny otifr brgumfnts.
+ * In tif mftiod ibndlf's typf, tif initibl rfdfivfr brgumfnt is typfd
+ * bddording to tif dlbss undfr wiidi tif mftiod wbs initiblly rfqufstfd.
+ * (E.g., if b non-stbtid mftiod ibndlf is obtbinfd vib {@dodf ldd},
+ * tif typf of tif rfdfivfr is tif dlbss nbmfd in tif donstbnt pool fntry.)
  * <p>
- * Method handle constants are subject to the same link-time access checks
- * their corresponding bytecode instructions, and the {@code ldc} instruction
- * will throw corresponding linkage errors if the bytecode behaviors would
- * throw such errors.
+ * Mftiod ibndlf donstbnts brf subjfdt to tif sbmf link-timf bddfss difdks
+ * tifir dorrfsponding bytfdodf instrudtions, bnd tif {@dodf ldd} instrudtion
+ * will tirow dorrfsponding linkbgf frrors if tif bytfdodf bfibviors would
+ * tirow sudi frrors.
  * <p>
- * As a corollary of this, access to protected members is restricted
- * to receivers only of the accessing class, or one of its subclasses,
- * and the accessing class must in turn be a subclass (or package sibling)
- * of the protected member's defining class.
- * If a method reference refers to a protected non-static method or field
- * of a class outside the current package, the receiver argument will
- * be narrowed to the type of the accessing class.
+ * As b dorollbry of tiis, bddfss to protfdtfd mfmbfrs is rfstridtfd
+ * to rfdfivfrs only of tif bddfssing dlbss, or onf of its subdlbssfs,
+ * bnd tif bddfssing dlbss must in turn bf b subdlbss (or pbdkbgf sibling)
+ * of tif protfdtfd mfmbfr's dffining dlbss.
+ * If b mftiod rfffrfndf rfffrs to b protfdtfd non-stbtid mftiod or fifld
+ * of b dlbss outsidf tif durrfnt pbdkbgf, tif rfdfivfr brgumfnt will
+ * bf nbrrowfd to tif typf of tif bddfssing dlbss.
  * <p>
- * When a method handle to a virtual method is invoked, the method is
- * always looked up in the receiver (that is, the first argument).
+ * Wifn b mftiod ibndlf to b virtubl mftiod is invokfd, tif mftiod is
+ * blwbys lookfd up in tif rfdfivfr (tibt is, tif first brgumfnt).
  * <p>
- * A non-virtual method handle to a specific virtual method implementation
- * can also be created.  These do not perform virtual lookup based on
- * receiver type.  Such a method handle simulates the effect of
- * an {@code invokespecial} instruction to the same method.
+ * A non-virtubl mftiod ibndlf to b spfdifid virtubl mftiod implfmfntbtion
+ * dbn blso bf drfbtfd.  Tifsf do not pfrform virtubl lookup bbsfd on
+ * rfdfivfr typf.  Sudi b mftiod ibndlf simulbtfs tif ffffdt of
+ * bn {@dodf invokfspfdibl} instrudtion to tif sbmf mftiod.
  *
- * <h1>Usage examples</h1>
- * Here are some examples of usage:
- * <blockquote><pre>{@code
-Object x, y; String s; int i;
-MethodType mt; MethodHandle mh;
-MethodHandles.Lookup lookup = MethodHandles.lookup();
-// mt is (char,char)String
-mt = MethodType.methodType(String.class, char.class, char.class);
-mh = lookup.findVirtual(String.class, "replace", mt);
-s = (String) mh.invokeExact("daddy",'d','n');
-// invokeExact(Ljava/lang/String;CC)Ljava/lang/String;
-assertEquals(s, "nanny");
-// weakly typed invocation (using MHs.invoke)
-s = (String) mh.invokeWithArguments("sappy", 'p', 'v');
-assertEquals(s, "savvy");
-// mt is (Object[])List
-mt = MethodType.methodType(java.util.List.class, Object[].class);
-mh = lookup.findStatic(java.util.Arrays.class, "asList", mt);
-assert(mh.isVarargsCollector());
-x = mh.invoke("one", "two");
-// invoke(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;
-assertEquals(x, java.util.Arrays.asList("one","two"));
-// mt is (Object,Object,Object)Object
-mt = MethodType.genericMethodType(3);
-mh = mh.asType(mt);
-x = mh.invokeExact((Object)1, (Object)2, (Object)3);
-// invokeExact(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-assertEquals(x, java.util.Arrays.asList(1,2,3));
+ * <i1>Usbgf fxbmplfs</i1>
+ * Hfrf brf somf fxbmplfs of usbgf:
+ * <blodkquotf><prf>{@dodf
+Objfdt x, y; String s; int i;
+MftiodTypf mt; MftiodHbndlf mi;
+MftiodHbndlfs.Lookup lookup = MftiodHbndlfs.lookup();
+// mt is (dibr,dibr)String
+mt = MftiodTypf.mftiodTypf(String.dlbss, dibr.dlbss, dibr.dlbss);
+mi = lookup.findVirtubl(String.dlbss, "rfplbdf", mt);
+s = (String) mi.invokfExbdt("dbddy",'d','n');
+// invokfExbdt(Ljbvb/lbng/String;CC)Ljbvb/lbng/String;
+bssfrtEqubls(s, "nbnny");
+// wfbkly typfd invodbtion (using MHs.invokf)
+s = (String) mi.invokfWitiArgumfnts("sbppy", 'p', 'v');
+bssfrtEqubls(s, "sbvvy");
+// mt is (Objfdt[])List
+mt = MftiodTypf.mftiodTypf(jbvb.util.List.dlbss, Objfdt[].dlbss);
+mi = lookup.findStbtid(jbvb.util.Arrbys.dlbss, "bsList", mt);
+bssfrt(mi.isVbrbrgsCollfdtor());
+x = mi.invokf("onf", "two");
+// invokf(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/Objfdt;
+bssfrtEqubls(x, jbvb.util.Arrbys.bsList("onf","two"));
+// mt is (Objfdt,Objfdt,Objfdt)Objfdt
+mt = MftiodTypf.gfnfridMftiodTypf(3);
+mi = mi.bsTypf(mt);
+x = mi.invokfExbdt((Objfdt)1, (Objfdt)2, (Objfdt)3);
+// invokfExbdt(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;
+bssfrtEqubls(x, jbvb.util.Arrbys.bsList(1,2,3));
 // mt is ()int
-mt = MethodType.methodType(int.class);
-mh = lookup.findVirtual(java.util.List.class, "size", mt);
-i = (int) mh.invokeExact(java.util.Arrays.asList(1,2,3));
-// invokeExact(Ljava/util/List;)I
-assert(i == 3);
-mt = MethodType.methodType(void.class, String.class);
-mh = lookup.findVirtual(java.io.PrintStream.class, "println", mt);
-mh.invokeExact(System.out, "Hello, world.");
-// invokeExact(Ljava/io/PrintStream;Ljava/lang/String;)V
- * }</pre></blockquote>
- * Each of the above calls to {@code invokeExact} or plain {@code invoke}
- * generates a single invokevirtual instruction with
- * the symbolic type descriptor indicated in the following comment.
- * In these examples, the helper method {@code assertEquals} is assumed to
- * be a method which calls {@link java.util.Objects#equals(Object,Object) Objects.equals}
- * on its arguments, and asserts that the result is true.
+mt = MftiodTypf.mftiodTypf(int.dlbss);
+mi = lookup.findVirtubl(jbvb.util.List.dlbss, "sizf", mt);
+i = (int) mi.invokfExbdt(jbvb.util.Arrbys.bsList(1,2,3));
+// invokfExbdt(Ljbvb/util/List;)I
+bssfrt(i == 3);
+mt = MftiodTypf.mftiodTypf(void.dlbss, String.dlbss);
+mi = lookup.findVirtubl(jbvb.io.PrintStrfbm.dlbss, "println", mt);
+mi.invokfExbdt(Systfm.out, "Hfllo, world.");
+// invokfExbdt(Ljbvb/io/PrintStrfbm;Ljbvb/lbng/String;)V
+ * }</prf></blodkquotf>
+ * Ebdi of tif bbovf dblls to {@dodf invokfExbdt} or plbin {@dodf invokf}
+ * gfnfrbtfs b singlf invokfvirtubl instrudtion witi
+ * tif symbolid typf dfsdriptor indidbtfd in tif following dommfnt.
+ * In tifsf fxbmplfs, tif iflpfr mftiod {@dodf bssfrtEqubls} is bssumfd to
+ * bf b mftiod wiidi dblls {@link jbvb.util.Objfdts#fqubls(Objfdt,Objfdt) Objfdts.fqubls}
+ * on its brgumfnts, bnd bssfrts tibt tif rfsult is truf.
  *
- * <h1>Exceptions</h1>
- * The methods {@code invokeExact} and {@code invoke} are declared
- * to throw {@link java.lang.Throwable Throwable},
- * which is to say that there is no static restriction on what a method handle
- * can throw.  Since the JVM does not distinguish between checked
- * and unchecked exceptions (other than by their class, of course),
- * there is no particular effect on bytecode shape from ascribing
- * checked exceptions to method handle invocations.  But in Java source
- * code, methods which perform method handle calls must either explicitly
- * throw {@code Throwable}, or else must catch all
- * throwables locally, rethrowing only those which are legal in the context,
- * and wrapping ones which are illegal.
+ * <i1>Exdfptions</i1>
+ * Tif mftiods {@dodf invokfExbdt} bnd {@dodf invokf} brf dfdlbrfd
+ * to tirow {@link jbvb.lbng.Tirowbblf Tirowbblf},
+ * wiidi is to sby tibt tifrf is no stbtid rfstridtion on wibt b mftiod ibndlf
+ * dbn tirow.  Sindf tif JVM dofs not distinguisi bftwffn difdkfd
+ * bnd undifdkfd fxdfptions (otifr tibn by tifir dlbss, of doursf),
+ * tifrf is no pbrtidulbr ffffdt on bytfdodf sibpf from bsdribing
+ * difdkfd fxdfptions to mftiod ibndlf invodbtions.  But in Jbvb sourdf
+ * dodf, mftiods wiidi pfrform mftiod ibndlf dblls must fitifr fxpliditly
+ * tirow {@dodf Tirowbblf}, or flsf must dbtdi bll
+ * tirowbblfs lodblly, rftirowing only tiosf wiidi brf lfgbl in tif dontfxt,
+ * bnd wrbpping onfs wiidi brf illfgbl.
  *
- * <h1><a name="sigpoly"></a>Signature polymorphism</h1>
- * The unusual compilation and linkage behavior of
- * {@code invokeExact} and plain {@code invoke}
- * is referenced by the term <em>signature polymorphism</em>.
- * As defined in the Java Language Specification,
- * a signature polymorphic method is one which can operate with
- * any of a wide range of call signatures and return types.
+ * <i1><b nbmf="sigpoly"></b>Signbturf polymorpiism</i1>
+ * Tif unusubl dompilbtion bnd linkbgf bfibvior of
+ * {@dodf invokfExbdt} bnd plbin {@dodf invokf}
+ * is rfffrfndfd by tif tfrm <fm>signbturf polymorpiism</fm>.
+ * As dffinfd in tif Jbvb Lbngubgf Spfdifidbtion,
+ * b signbturf polymorpiid mftiod is onf wiidi dbn opfrbtf witi
+ * bny of b widf rbngf of dbll signbturfs bnd rfturn typfs.
  * <p>
- * In source code, a call to a signature polymorphic method will
- * compile, regardless of the requested symbolic type descriptor.
- * As usual, the Java compiler emits an {@code invokevirtual}
- * instruction with the given symbolic type descriptor against the named method.
- * The unusual part is that the symbolic type descriptor is derived from
- * the actual argument and return types, not from the method declaration.
+ * In sourdf dodf, b dbll to b signbturf polymorpiid mftiod will
+ * dompilf, rfgbrdlfss of tif rfqufstfd symbolid typf dfsdriptor.
+ * As usubl, tif Jbvb dompilfr fmits bn {@dodf invokfvirtubl}
+ * instrudtion witi tif givfn symbolid typf dfsdriptor bgbinst tif nbmfd mftiod.
+ * Tif unusubl pbrt is tibt tif symbolid typf dfsdriptor is dfrivfd from
+ * tif bdtubl brgumfnt bnd rfturn typfs, not from tif mftiod dfdlbrbtion.
  * <p>
- * When the JVM processes bytecode containing signature polymorphic calls,
- * it will successfully link any such call, regardless of its symbolic type descriptor.
- * (In order to retain type safety, the JVM will guard such calls with suitable
- * dynamic type checks, as described elsewhere.)
+ * Wifn tif JVM prodfssfs bytfdodf dontbining signbturf polymorpiid dblls,
+ * it will suddfssfully link bny sudi dbll, rfgbrdlfss of its symbolid typf dfsdriptor.
+ * (In ordfr to rftbin typf sbffty, tif JVM will gubrd sudi dblls witi suitbblf
+ * dynbmid typf difdks, bs dfsdribfd flsfwifrf.)
  * <p>
- * Bytecode generators, including the compiler back end, are required to emit
- * untransformed symbolic type descriptors for these methods.
- * Tools which determine symbolic linkage are required to accept such
- * untransformed descriptors, without reporting linkage errors.
+ * Bytfdodf gfnfrbtors, indluding tif dompilfr bbdk fnd, brf rfquirfd to fmit
+ * untrbnsformfd symbolid typf dfsdriptors for tifsf mftiods.
+ * Tools wiidi dftfrminf symbolid linkbgf brf rfquirfd to bddfpt sudi
+ * untrbnsformfd dfsdriptors, witiout rfporting linkbgf frrors.
  *
- * <h1>Interoperation between method handles and the Core Reflection API</h1>
- * Using factory methods in the {@link java.lang.invoke.MethodHandles.Lookup Lookup} API,
- * any class member represented by a Core Reflection API object
- * can be converted to a behaviorally equivalent method handle.
- * For example, a reflective {@link java.lang.reflect.Method Method} can
- * be converted to a method handle using
- * {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect}.
- * The resulting method handles generally provide more direct and efficient
- * access to the underlying class members.
+ * <i1>Intfropfrbtion bftwffn mftiod ibndlfs bnd tif Corf Rfflfdtion API</i1>
+ * Using fbdtory mftiods in tif {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup Lookup} API,
+ * bny dlbss mfmbfr rfprfsfntfd by b Corf Rfflfdtion API objfdt
+ * dbn bf donvfrtfd to b bfibviorblly fquivblfnt mftiod ibndlf.
+ * For fxbmplf, b rfflfdtivf {@link jbvb.lbng.rfflfdt.Mftiod Mftiod} dbn
+ * bf donvfrtfd to b mftiod ibndlf using
+ * {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt}.
+ * Tif rfsulting mftiod ibndlfs gfnfrblly providf morf dirfdt bnd fffidifnt
+ * bddfss to tif undfrlying dlbss mfmbfrs.
  * <p>
- * As a special case,
- * when the Core Reflection API is used to view the signature polymorphic
- * methods {@code invokeExact} or plain {@code invoke} in this class,
- * they appear as ordinary non-polymorphic methods.
- * Their reflective appearance, as viewed by
- * {@link java.lang.Class#getDeclaredMethod Class.getDeclaredMethod},
- * is unaffected by their special status in this API.
- * For example, {@link java.lang.reflect.Method#getModifiers Method.getModifiers}
- * will report exactly those modifier bits required for any similarly
- * declared method, including in this case {@code native} and {@code varargs} bits.
+ * As b spfdibl dbsf,
+ * wifn tif Corf Rfflfdtion API is usfd to vifw tif signbturf polymorpiid
+ * mftiods {@dodf invokfExbdt} or plbin {@dodf invokf} in tiis dlbss,
+ * tify bppfbr bs ordinbry non-polymorpiid mftiods.
+ * Tifir rfflfdtivf bppfbrbndf, bs vifwfd by
+ * {@link jbvb.lbng.Clbss#gftDfdlbrfdMftiod Clbss.gftDfdlbrfdMftiod},
+ * is unbfffdtfd by tifir spfdibl stbtus in tiis API.
+ * For fxbmplf, {@link jbvb.lbng.rfflfdt.Mftiod#gftModififrs Mftiod.gftModififrs}
+ * will rfport fxbdtly tiosf modififr bits rfquirfd for bny similbrly
+ * dfdlbrfd mftiod, indluding in tiis dbsf {@dodf nbtivf} bnd {@dodf vbrbrgs} bits.
  * <p>
- * As with any reflected method, these methods (when reflected) may be
- * invoked via {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}.
- * However, such reflective calls do not result in method handle invocations.
- * Such a call, if passed the required argument
- * (a single one, of type {@code Object[]}), will ignore the argument and
- * will throw an {@code UnsupportedOperationException}.
+ * As witi bny rfflfdtfd mftiod, tifsf mftiods (wifn rfflfdtfd) mby bf
+ * invokfd vib {@link jbvb.lbng.rfflfdt.Mftiod#invokf jbvb.lbng.rfflfdt.Mftiod.invokf}.
+ * Howfvfr, sudi rfflfdtivf dblls do not rfsult in mftiod ibndlf invodbtions.
+ * Sudi b dbll, if pbssfd tif rfquirfd brgumfnt
+ * (b singlf onf, of typf {@dodf Objfdt[]}), will ignorf tif brgumfnt bnd
+ * will tirow bn {@dodf UnsupportfdOpfrbtionExdfption}.
  * <p>
- * Since {@code invokevirtual} instructions can natively
- * invoke method handles under any symbolic type descriptor, this reflective view conflicts
- * with the normal presentation of these methods via bytecodes.
- * Thus, these two native methods, when reflectively viewed by
- * {@code Class.getDeclaredMethod}, may be regarded as placeholders only.
+ * Sindf {@dodf invokfvirtubl} instrudtions dbn nbtivfly
+ * invokf mftiod ibndlfs undfr bny symbolid typf dfsdriptor, tiis rfflfdtivf vifw donflidts
+ * witi tif normbl prfsfntbtion of tifsf mftiods vib bytfdodfs.
+ * Tius, tifsf two nbtivf mftiods, wifn rfflfdtivfly vifwfd by
+ * {@dodf Clbss.gftDfdlbrfdMftiod}, mby bf rfgbrdfd bs plbdfioldfrs only.
  * <p>
- * In order to obtain an invoker method for a particular type descriptor,
- * use {@link java.lang.invoke.MethodHandles#exactInvoker MethodHandles.exactInvoker},
- * or {@link java.lang.invoke.MethodHandles#invoker MethodHandles.invoker}.
- * The {@link java.lang.invoke.MethodHandles.Lookup#findVirtual Lookup.findVirtual}
- * API is also able to return a method handle
- * to call {@code invokeExact} or plain {@code invoke},
- * for any specified type descriptor .
+ * In ordfr to obtbin bn invokfr mftiod for b pbrtidulbr typf dfsdriptor,
+ * usf {@link jbvb.lbng.invokf.MftiodHbndlfs#fxbdtInvokfr MftiodHbndlfs.fxbdtInvokfr},
+ * or {@link jbvb.lbng.invokf.MftiodHbndlfs#invokfr MftiodHbndlfs.invokfr}.
+ * Tif {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#findVirtubl Lookup.findVirtubl}
+ * API is blso bblf to rfturn b mftiod ibndlf
+ * to dbll {@dodf invokfExbdt} or plbin {@dodf invokf},
+ * for bny spfdififd typf dfsdriptor .
  *
- * <h1>Interoperation between method handles and Java generics</h1>
- * A method handle can be obtained on a method, constructor, or field
- * which is declared with Java generic types.
- * As with the Core Reflection API, the type of the method handle
- * will constructed from the erasure of the source-level type.
- * When a method handle is invoked, the types of its arguments
- * or the return value cast type may be generic types or type instances.
- * If this occurs, the compiler will replace those
- * types by their erasures when it constructs the symbolic type descriptor
- * for the {@code invokevirtual} instruction.
+ * <i1>Intfropfrbtion bftwffn mftiod ibndlfs bnd Jbvb gfnfrids</i1>
+ * A mftiod ibndlf dbn bf obtbinfd on b mftiod, donstrudtor, or fifld
+ * wiidi is dfdlbrfd witi Jbvb gfnfrid typfs.
+ * As witi tif Corf Rfflfdtion API, tif typf of tif mftiod ibndlf
+ * will donstrudtfd from tif frbsurf of tif sourdf-lfvfl typf.
+ * Wifn b mftiod ibndlf is invokfd, tif typfs of its brgumfnts
+ * or tif rfturn vbluf dbst typf mby bf gfnfrid typfs or typf instbndfs.
+ * If tiis oddurs, tif dompilfr will rfplbdf tiosf
+ * typfs by tifir frbsurfs wifn it donstrudts tif symbolid typf dfsdriptor
+ * for tif {@dodf invokfvirtubl} instrudtion.
  * <p>
- * Method handles do not represent
- * their function-like types in terms of Java parameterized (generic) types,
- * because there are three mismatches between function-like types and parameterized
- * Java types.
+ * Mftiod ibndlfs do not rfprfsfnt
+ * tifir fundtion-likf typfs in tfrms of Jbvb pbrbmftfrizfd (gfnfrid) typfs,
+ * bfdbusf tifrf brf tirff mismbtdifs bftwffn fundtion-likf typfs bnd pbrbmftfrizfd
+ * Jbvb typfs.
  * <ul>
- * <li>Method types range over all possible arities,
- * from no arguments to up to the  <a href="MethodHandle.html#maxarity">maximum number</a> of allowed arguments.
- * Generics are not variadic, and so cannot represent this.</li>
- * <li>Method types can specify arguments of primitive types,
- * which Java generic types cannot range over.</li>
- * <li>Higher order functions over method handles (combinators) are
- * often generic across a wide range of function types, including
- * those of multiple arities.  It is impossible to represent such
- * genericity with a Java type parameter.</li>
+ * <li>Mftiod typfs rbngf ovfr bll possiblf britifs,
+ * from no brgumfnts to up to tif  <b irff="MftiodHbndlf.itml#mbxbrity">mbximum numbfr</b> of bllowfd brgumfnts.
+ * Gfnfrids brf not vbribdid, bnd so dbnnot rfprfsfnt tiis.</li>
+ * <li>Mftiod typfs dbn spfdify brgumfnts of primitivf typfs,
+ * wiidi Jbvb gfnfrid typfs dbnnot rbngf ovfr.</li>
+ * <li>Higifr ordfr fundtions ovfr mftiod ibndlfs (dombinbtors) brf
+ * oftfn gfnfrid bdross b widf rbngf of fundtion typfs, indluding
+ * tiosf of multiplf britifs.  It is impossiblf to rfprfsfnt sudi
+ * gfnfridity witi b Jbvb typf pbrbmftfr.</li>
  * </ul>
  *
- * <h1><a name="maxarity"></a>Arity limits</h1>
- * The JVM imposes on all methods and constructors of any kind an absolute
- * limit of 255 stacked arguments.  This limit can appear more restrictive
- * in certain cases:
+ * <i1><b nbmf="mbxbrity"></b>Arity limits</i1>
+ * Tif JVM imposfs on bll mftiods bnd donstrudtors of bny kind bn bbsolutf
+ * limit of 255 stbdkfd brgumfnts.  Tiis limit dbn bppfbr morf rfstridtivf
+ * in dfrtbin dbsfs:
  * <ul>
- * <li>A {@code long} or {@code double} argument counts (for purposes of arity limits) as two argument slots.
- * <li>A non-static method consumes an extra argument for the object on which the method is called.
- * <li>A constructor consumes an extra argument for the object which is being constructed.
- * <li>Since a method handle&rsquo;s {@code invoke} method (or other signature-polymorphic method) is non-virtual,
- *     it consumes an extra argument for the method handle itself, in addition to any non-virtual receiver object.
+ * <li>A {@dodf long} or {@dodf doublf} brgumfnt dounts (for purposfs of brity limits) bs two brgumfnt slots.
+ * <li>A non-stbtid mftiod donsumfs bn fxtrb brgumfnt for tif objfdt on wiidi tif mftiod is dbllfd.
+ * <li>A donstrudtor donsumfs bn fxtrb brgumfnt for tif objfdt wiidi is bfing donstrudtfd.
+ * <li>Sindf b mftiod ibndlf&rsquo;s {@dodf invokf} mftiod (or otifr signbturf-polymorpiid mftiod) is non-virtubl,
+ *     it donsumfs bn fxtrb brgumfnt for tif mftiod ibndlf itsflf, in bddition to bny non-virtubl rfdfivfr objfdt.
  * </ul>
- * These limits imply that certain method handles cannot be created, solely because of the JVM limit on stacked arguments.
- * For example, if a static JVM method accepts exactly 255 arguments, a method handle cannot be created for it.
- * Attempts to create method handles with impossible method types lead to an {@link IllegalArgumentException}.
- * In particular, a method handle&rsquo;s type must not have an arity of the exact maximum 255.
+ * Tifsf limits imply tibt dfrtbin mftiod ibndlfs dbnnot bf drfbtfd, solfly bfdbusf of tif JVM limit on stbdkfd brgumfnts.
+ * For fxbmplf, if b stbtid JVM mftiod bddfpts fxbdtly 255 brgumfnts, b mftiod ibndlf dbnnot bf drfbtfd for it.
+ * Attfmpts to drfbtf mftiod ibndlfs witi impossiblf mftiod typfs lfbd to bn {@link IllfgblArgumfntExdfption}.
+ * In pbrtidulbr, b mftiod ibndlf&rsquo;s typf must not ibvf bn brity of tif fxbdt mbximum 255.
  *
- * @see MethodType
- * @see MethodHandles
- * @author John Rose, JSR 292 EG
+ * @sff MftiodTypf
+ * @sff MftiodHbndlfs
+ * @butior Join Rosf, JSR 292 EG
  */
-public abstract class MethodHandle {
-    static { MethodHandleImpl.initStatics(); }
+publid bbstrbdt dlbss MftiodHbndlf {
+    stbtid { MftiodHbndlfImpl.initStbtids(); }
 
     /**
-     * Internal marker interface which distinguishes (to the Java compiler)
-     * those methods which are <a href="MethodHandle.html#sigpoly">signature polymorphic</a>.
+     * Intfrnbl mbrkfr intfrfbdf wiidi distinguisifs (to tif Jbvb dompilfr)
+     * tiosf mftiods wiidi brf <b irff="MftiodHbndlf.itml#sigpoly">signbturf polymorpiid</b>.
      */
-    @java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD})
-    @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-    @interface PolymorphicSignature { }
+    @jbvb.lbng.bnnotbtion.Tbrgft({jbvb.lbng.bnnotbtion.ElfmfntTypf.METHOD})
+    @jbvb.lbng.bnnotbtion.Rftfntion(jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME)
+    @intfrfbdf PolymorpiidSignbturf { }
 
-    private final MethodType type;
-    /*private*/ final LambdaForm form;
-    // form is not private so that invokers can easily fetch it
-    /*private*/ MethodHandle asTypeCache;
-    // asTypeCache is not private so that invokers can easily fetch it
+    privbtf finbl MftiodTypf typf;
+    /*privbtf*/ finbl LbmbdbForm form;
+    // form is not privbtf so tibt invokfrs dbn fbsily fftdi it
+    /*privbtf*/ MftiodHbndlf bsTypfCbdif;
+    // bsTypfCbdif is not privbtf so tibt invokfrs dbn fbsily fftdi it
 
     /**
-     * Reports the type of this method handle.
-     * Every invocation of this method handle via {@code invokeExact} must exactly match this type.
-     * @return the method handle type
+     * Rfports tif typf of tiis mftiod ibndlf.
+     * Evfry invodbtion of tiis mftiod ibndlf vib {@dodf invokfExbdt} must fxbdtly mbtdi tiis typf.
+     * @rfturn tif mftiod ibndlf typf
      */
-    public MethodType type() {
-        return type;
+    publid MftiodTypf typf() {
+        rfturn typf;
     }
 
     /**
-     * Package-private constructor for the method handle implementation hierarchy.
-     * Method handle inheritance will be contained completely within
-     * the {@code java.lang.invoke} package.
+     * Pbdkbgf-privbtf donstrudtor for tif mftiod ibndlf implfmfntbtion iifrbrdiy.
+     * Mftiod ibndlf inifritbndf will bf dontbinfd domplftfly witiin
+     * tif {@dodf jbvb.lbng.invokf} pbdkbgf.
      */
-    // @param type type (permanently assigned) of the new method handle
-    /*non-public*/ MethodHandle(MethodType type, LambdaForm form) {
-        type.getClass();  // explicit NPE
-        form.getClass();  // explicit NPE
-        this.type = type;
-        this.form = form;
+    // @pbrbm typf typf (pfrmbnfntly bssignfd) of tif nfw mftiod ibndlf
+    /*non-publid*/ MftiodHbndlf(MftiodTypf typf, LbmbdbForm form) {
+        typf.gftClbss();  // fxplidit NPE
+        form.gftClbss();  // fxplidit NPE
+        tiis.typf = typf;
+        tiis.form = form;
 
-        form.prepare();  // TO DO:  Try to delay this step until just before invocation.
+        form.prfpbrf();  // TO DO:  Try to dflby tiis stfp until just bfforf invodbtion.
     }
 
     /**
-     * Invokes the method handle, allowing any caller type descriptor, but requiring an exact type match.
-     * The symbolic type descriptor at the call site of {@code invokeExact} must
-     * exactly match this method handle's {@link #type type}.
-     * No conversions are allowed on arguments or return values.
+     * Invokfs tif mftiod ibndlf, bllowing bny dbllfr typf dfsdriptor, but rfquiring bn fxbdt typf mbtdi.
+     * Tif symbolid typf dfsdriptor bt tif dbll sitf of {@dodf invokfExbdt} must
+     * fxbdtly mbtdi tiis mftiod ibndlf's {@link #typf typf}.
+     * No donvfrsions brf bllowfd on brgumfnts or rfturn vblufs.
      * <p>
-     * When this method is observed via the Core Reflection API,
-     * it will appear as a single native method, taking an object array and returning an object.
-     * If this native method is invoked directly via
-     * {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}, via JNI,
-     * or indirectly via {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect},
-     * it will throw an {@code UnsupportedOperationException}.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
-     * @throws WrongMethodTypeException if the target's type is not identical with the caller's symbolic type descriptor
-     * @throws Throwable anything thrown by the underlying method propagates unchanged through the method handle call
+     * Wifn tiis mftiod is obsfrvfd vib tif Corf Rfflfdtion API,
+     * it will bppfbr bs b singlf nbtivf mftiod, tbking bn objfdt brrby bnd rfturning bn objfdt.
+     * If tiis nbtivf mftiod is invokfd dirfdtly vib
+     * {@link jbvb.lbng.rfflfdt.Mftiod#invokf jbvb.lbng.rfflfdt.Mftiod.invokf}, vib JNI,
+     * or indirfdtly vib {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt},
+     * it will tirow bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     * @tirows WrongMftiodTypfExdfption if tif tbrgft's typf is not idfntidbl witi tif dbllfr's symbolid typf dfsdriptor
+     * @tirows Tirowbblf bnytiing tirown by tif undfrlying mftiod propbgbtfs undibngfd tirougi tif mftiod ibndlf dbll
      */
-    public final native @PolymorphicSignature Object invokeExact(Object... args) throws Throwable;
+    publid finbl nbtivf @PolymorpiidSignbturf Objfdt invokfExbdt(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Invokes the method handle, allowing any caller type descriptor,
-     * and optionally performing conversions on arguments and return values.
+     * Invokfs tif mftiod ibndlf, bllowing bny dbllfr typf dfsdriptor,
+     * bnd optionblly pfrforming donvfrsions on brgumfnts bnd rfturn vblufs.
      * <p>
-     * If the call site's symbolic type descriptor exactly matches this method handle's {@link #type type},
-     * the call proceeds as if by {@link #invokeExact invokeExact}.
+     * If tif dbll sitf's symbolid typf dfsdriptor fxbdtly mbtdifs tiis mftiod ibndlf's {@link #typf typf},
+     * tif dbll prodffds bs if by {@link #invokfExbdt invokfExbdt}.
      * <p>
-     * Otherwise, the call proceeds as if this method handle were first
-     * adjusted by calling {@link #asType asType} to adjust this method handle
-     * to the required type, and then the call proceeds as if by
-     * {@link #invokeExact invokeExact} on the adjusted method handle.
+     * Otifrwisf, tif dbll prodffds bs if tiis mftiod ibndlf wfrf first
+     * bdjustfd by dblling {@link #bsTypf bsTypf} to bdjust tiis mftiod ibndlf
+     * to tif rfquirfd typf, bnd tifn tif dbll prodffds bs if by
+     * {@link #invokfExbdt invokfExbdt} on tif bdjustfd mftiod ibndlf.
      * <p>
-     * There is no guarantee that the {@code asType} call is actually made.
-     * If the JVM can predict the results of making the call, it may perform
-     * adaptations directly on the caller's arguments,
-     * and call the target method handle according to its own exact type.
+     * Tifrf is no gubrbntff tibt tif {@dodf bsTypf} dbll is bdtublly mbdf.
+     * If tif JVM dbn prfdidt tif rfsults of mbking tif dbll, it mby pfrform
+     * bdbptbtions dirfdtly on tif dbllfr's brgumfnts,
+     * bnd dbll tif tbrgft mftiod ibndlf bddording to its own fxbdt typf.
      * <p>
-     * The resolved type descriptor at the call site of {@code invoke} must
-     * be a valid argument to the receivers {@code asType} method.
-     * In particular, the caller must specify the same argument arity
-     * as the callee's type,
-     * if the callee is not a {@linkplain #asVarargsCollector variable arity collector}.
+     * Tif rfsolvfd typf dfsdriptor bt tif dbll sitf of {@dodf invokf} must
+     * bf b vblid brgumfnt to tif rfdfivfrs {@dodf bsTypf} mftiod.
+     * In pbrtidulbr, tif dbllfr must spfdify tif sbmf brgumfnt brity
+     * bs tif dbllff's typf,
+     * if tif dbllff is not b {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity dollfdtor}.
      * <p>
-     * When this method is observed via the Core Reflection API,
-     * it will appear as a single native method, taking an object array and returning an object.
-     * If this native method is invoked directly via
-     * {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}, via JNI,
-     * or indirectly via {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect},
-     * it will throw an {@code UnsupportedOperationException}.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to the caller's symbolic type descriptor
-     * @throws ClassCastException if the target's type can be adjusted to the caller, but a reference cast fails
-     * @throws Throwable anything thrown by the underlying method propagates unchanged through the method handle call
+     * Wifn tiis mftiod is obsfrvfd vib tif Corf Rfflfdtion API,
+     * it will bppfbr bs b singlf nbtivf mftiod, tbking bn objfdt brrby bnd rfturning bn objfdt.
+     * If tiis nbtivf mftiod is invokfd dirfdtly vib
+     * {@link jbvb.lbng.rfflfdt.Mftiod#invokf jbvb.lbng.rfflfdt.Mftiod.invokf}, vib JNI,
+     * or indirfdtly vib {@link jbvb.lbng.invokf.MftiodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt},
+     * it will tirow bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     * @tirows WrongMftiodTypfExdfption if tif tbrgft's typf dbnnot bf bdjustfd to tif dbllfr's symbolid typf dfsdriptor
+     * @tirows ClbssCbstExdfption if tif tbrgft's typf dbn bf bdjustfd to tif dbllfr, but b rfffrfndf dbst fbils
+     * @tirows Tirowbblf bnytiing tirown by tif undfrlying mftiod propbgbtfs undibngfd tirougi tif mftiod ibndlf dbll
      */
-    public final native @PolymorphicSignature Object invoke(Object... args) throws Throwable;
+    publid finbl nbtivf @PolymorpiidSignbturf Objfdt invokf(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Private method for trusted invocation of a method handle respecting simplified signatures.
-     * Type mismatches will not throw {@code WrongMethodTypeException}, but could crash the JVM.
+     * Privbtf mftiod for trustfd invodbtion of b mftiod ibndlf rfspfdting simplififd signbturfs.
+     * Typf mismbtdifs will not tirow {@dodf WrongMftiodTypfExdfption}, but dould drbsi tif JVM.
      * <p>
-     * The caller signature is restricted to the following basic types:
-     * Object, int, long, float, double, and void return.
+     * Tif dbllfr signbturf is rfstridtfd to tif following bbsid typfs:
+     * Objfdt, int, long, flobt, doublf, bnd void rfturn.
      * <p>
-     * The caller is responsible for maintaining type correctness by ensuring
-     * that the each outgoing argument value is a member of the range of the corresponding
-     * callee argument type.
-     * (The caller should therefore issue appropriate casts and integer narrowing
-     * operations on outgoing argument values.)
-     * The caller can assume that the incoming result value is part of the range
-     * of the callee's return type.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Tif dbllfr is rfsponsiblf for mbintbining typf dorrfdtnfss by fnsuring
+     * tibt tif fbdi outgoing brgumfnt vbluf is b mfmbfr of tif rbngf of tif dorrfsponding
+     * dbllff brgumfnt typf.
+     * (Tif dbllfr siould tifrfforf issuf bppropribtf dbsts bnd intfgfr nbrrowing
+     * opfrbtions on outgoing brgumfnt vblufs.)
+     * Tif dbllfr dbn bssumf tibt tif indoming rfsult vbluf is pbrt of tif rbngf
+     * of tif dbllff's rfturn typf.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
      */
-    /*non-public*/ final native @PolymorphicSignature Object invokeBasic(Object... args) throws Throwable;
+    /*non-publid*/ finbl nbtivf @PolymorpiidSignbturf Objfdt invokfBbsid(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeVirtual}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbtf mftiod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfVirtubl}.
+     * Tif dbllfr signbturf is rfstridtfd to bbsid typfs bs witi {@dodf invokfBbsid}.
+     * Tif trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToVirtual(Object... args) throws Throwable;
+    /*non-publid*/ stbtid nbtivf @PolymorpiidSignbturf Objfdt linkToVirtubl(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeStatic}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbtf mftiod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfStbtid}.
+     * Tif dbllfr signbturf is rfstridtfd to bbsid typfs bs witi {@dodf invokfBbsid}.
+     * Tif trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToStatic(Object... args) throws Throwable;
+    /*non-publid*/ stbtid nbtivf @PolymorpiidSignbturf Objfdt linkToStbtid(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeSpecial}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbtf mftiod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfSpfdibl}.
+     * Tif dbllfr signbturf is rfstridtfd to bbsid typfs bs witi {@dodf invokfBbsid}.
+     * Tif trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToSpecial(Object... args) throws Throwable;
+    /*non-publid*/ stbtid nbtivf @PolymorpiidSignbturf Objfdt linkToSpfdibl(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeInterface}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbtf mftiod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfIntfrfbdf}.
+     * Tif dbllfr signbturf is rfstridtfd to bbsid typfs bs witi {@dodf invokfBbsid}.
+     * Tif trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs tif signbturf-polymorpiid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn tif signbturf-polymorpiid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToInterface(Object... args) throws Throwable;
+    /*non-publid*/ stbtid nbtivf @PolymorpiidSignbturf Objfdt linkToIntfrfbdf(Objfdt... brgs) tirows Tirowbblf;
 
     /**
-     * Performs a variable arity invocation, passing the arguments in the given list
-     * to the method handle, as if via an inexact {@link #invoke invoke} from a call site
-     * which mentions only the type {@code Object}, and whose arity is the length
-     * of the argument list.
+     * Pfrforms b vbribblf brity invodbtion, pbssing tif brgumfnts in tif givfn list
+     * to tif mftiod ibndlf, bs if vib bn infxbdt {@link #invokf invokf} from b dbll sitf
+     * wiidi mfntions only tif typf {@dodf Objfdt}, bnd wiosf brity is tif lfngti
+     * of tif brgumfnt list.
      * <p>
-     * Specifically, execution proceeds as if by the following steps,
-     * although the methods are not guaranteed to be called if the JVM
-     * can predict their effects.
+     * Spfdifidblly, fxfdution prodffds bs if by tif following stfps,
+     * bltiougi tif mftiods brf not gubrbntffd to bf dbllfd if tif JVM
+     * dbn prfdidt tifir ffffdts.
      * <ul>
-     * <li>Determine the length of the argument array as {@code N}.
-     *     For a null reference, {@code N=0}. </li>
-     * <li>Determine the general type {@code TN} of {@code N} arguments as
-     *     as {@code TN=MethodType.genericMethodType(N)}.</li>
-     * <li>Force the original target method handle {@code MH0} to the
-     *     required type, as {@code MH1 = MH0.asType(TN)}. </li>
-     * <li>Spread the array into {@code N} separate arguments {@code A0, ...}. </li>
-     * <li>Invoke the type-adjusted method handle on the unpacked arguments:
-     *     MH1.invokeExact(A0, ...). </li>
-     * <li>Take the return value as an {@code Object} reference. </li>
+     * <li>Dftfrminf tif lfngti of tif brgumfnt brrby bs {@dodf N}.
+     *     For b null rfffrfndf, {@dodf N=0}. </li>
+     * <li>Dftfrminf tif gfnfrbl typf {@dodf TN} of {@dodf N} brgumfnts bs
+     *     bs {@dodf TN=MftiodTypf.gfnfridMftiodTypf(N)}.</li>
+     * <li>Fordf tif originbl tbrgft mftiod ibndlf {@dodf MH0} to tif
+     *     rfquirfd typf, bs {@dodf MH1 = MH0.bsTypf(TN)}. </li>
+     * <li>Sprfbd tif brrby into {@dodf N} sfpbrbtf brgumfnts {@dodf A0, ...}. </li>
+     * <li>Invokf tif typf-bdjustfd mftiod ibndlf on tif unpbdkfd brgumfnts:
+     *     MH1.invokfExbdt(A0, ...). </li>
+     * <li>Tbkf tif rfturn vbluf bs bn {@dodf Objfdt} rfffrfndf. </li>
      * </ul>
      * <p>
-     * Because of the action of the {@code asType} step, the following argument
-     * conversions are applied as necessary:
+     * Bfdbusf of tif bdtion of tif {@dodf bsTypf} stfp, tif following brgumfnt
+     * donvfrsions brf bpplifd bs nfdfssbry:
      * <ul>
-     * <li>reference casting
+     * <li>rfffrfndf dbsting
      * <li>unboxing
-     * <li>widening primitive conversions
+     * <li>widfning primitivf donvfrsions
      * </ul>
      * <p>
-     * The result returned by the call is boxed if it is a primitive,
-     * or forced to null if the return type is void.
+     * Tif rfsult rfturnfd by tif dbll is boxfd if it is b primitivf,
+     * or fordfd to null if tif rfturn typf is void.
      * <p>
-     * This call is equivalent to the following code:
-     * <blockquote><pre>{@code
-     * MethodHandle invoker = MethodHandles.spreadInvoker(this.type(), 0);
-     * Object result = invoker.invokeExact(this, arguments);
-     * }</pre></blockquote>
+     * Tiis dbll is fquivblfnt to tif following dodf:
+     * <blodkquotf><prf>{@dodf
+     * MftiodHbndlf invokfr = MftiodHbndlfs.sprfbdInvokfr(tiis.typf(), 0);
+     * Objfdt rfsult = invokfr.invokfExbdt(tiis, brgumfnts);
+     * }</prf></blodkquotf>
      * <p>
-     * Unlike the signature polymorphic methods {@code invokeExact} and {@code invoke},
-     * {@code invokeWithArguments} can be accessed normally via the Core Reflection API and JNI.
-     * It can therefore be used as a bridge between native or reflective code and method handles.
+     * Unlikf tif signbturf polymorpiid mftiods {@dodf invokfExbdt} bnd {@dodf invokf},
+     * {@dodf invokfWitiArgumfnts} dbn bf bddfssfd normblly vib tif Corf Rfflfdtion API bnd JNI.
+     * It dbn tifrfforf bf usfd bs b bridgf bftwffn nbtivf or rfflfdtivf dodf bnd mftiod ibndlfs.
      *
-     * @param arguments the arguments to pass to the target
-     * @return the result returned by the target
-     * @throws ClassCastException if an argument cannot be converted by reference casting
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to take the given number of {@code Object} arguments
-     * @throws Throwable anything thrown by the target method invocation
-     * @see MethodHandles#spreadInvoker
+     * @pbrbm brgumfnts tif brgumfnts to pbss to tif tbrgft
+     * @rfturn tif rfsult rfturnfd by tif tbrgft
+     * @tirows ClbssCbstExdfption if bn brgumfnt dbnnot bf donvfrtfd by rfffrfndf dbsting
+     * @tirows WrongMftiodTypfExdfption if tif tbrgft's typf dbnnot bf bdjustfd to tbkf tif givfn numbfr of {@dodf Objfdt} brgumfnts
+     * @tirows Tirowbblf bnytiing tirown by tif tbrgft mftiod invodbtion
+     * @sff MftiodHbndlfs#sprfbdInvokfr
      */
-    public Object invokeWithArguments(Object... arguments) throws Throwable {
-        int argc = arguments == null ? 0 : arguments.length;
-        @SuppressWarnings("LocalVariableHidesMemberVariable")
-        MethodType type = type();
-        if (type.parameterCount() != argc || isVarargsCollector()) {
-            // simulate invoke
-            return asType(MethodType.genericMethodType(argc)).invokeWithArguments(arguments);
+    publid Objfdt invokfWitiArgumfnts(Objfdt... brgumfnts) tirows Tirowbblf {
+        int brgd = brgumfnts == null ? 0 : brgumfnts.lfngti;
+        @SupprfssWbrnings("LodblVbribblfHidfsMfmbfrVbribblf")
+        MftiodTypf typf = typf();
+        if (typf.pbrbmftfrCount() != brgd || isVbrbrgsCollfdtor()) {
+            // simulbtf invokf
+            rfturn bsTypf(MftiodTypf.gfnfridMftiodTypf(brgd)).invokfWitiArgumfnts(brgumfnts);
         }
-        MethodHandle invoker = type.invokers().varargsInvoker();
-        return invoker.invokeExact(this, arguments);
+        MftiodHbndlf invokfr = typf.invokfrs().vbrbrgsInvokfr();
+        rfturn invokfr.invokfExbdt(tiis, brgumfnts);
     }
 
     /**
-     * Performs a variable arity invocation, passing the arguments in the given array
-     * to the method handle, as if via an inexact {@link #invoke invoke} from a call site
-     * which mentions only the type {@code Object}, and whose arity is the length
-     * of the argument array.
+     * Pfrforms b vbribblf brity invodbtion, pbssing tif brgumfnts in tif givfn brrby
+     * to tif mftiod ibndlf, bs if vib bn infxbdt {@link #invokf invokf} from b dbll sitf
+     * wiidi mfntions only tif typf {@dodf Objfdt}, bnd wiosf brity is tif lfngti
+     * of tif brgumfnt brrby.
      * <p>
-     * This method is also equivalent to the following code:
-     * <blockquote><pre>{@code
-     *   invokeWithArguments(arguments.toArray()
-     * }</pre></blockquote>
+     * Tiis mftiod is blso fquivblfnt to tif following dodf:
+     * <blodkquotf><prf>{@dodf
+     *   invokfWitiArgumfnts(brgumfnts.toArrby()
+     * }</prf></blodkquotf>
      *
-     * @param arguments the arguments to pass to the target
-     * @return the result returned by the target
-     * @throws NullPointerException if {@code arguments} is a null reference
-     * @throws ClassCastException if an argument cannot be converted by reference casting
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to take the given number of {@code Object} arguments
-     * @throws Throwable anything thrown by the target method invocation
+     * @pbrbm brgumfnts tif brgumfnts to pbss to tif tbrgft
+     * @rfturn tif rfsult rfturnfd by tif tbrgft
+     * @tirows NullPointfrExdfption if {@dodf brgumfnts} is b null rfffrfndf
+     * @tirows ClbssCbstExdfption if bn brgumfnt dbnnot bf donvfrtfd by rfffrfndf dbsting
+     * @tirows WrongMftiodTypfExdfption if tif tbrgft's typf dbnnot bf bdjustfd to tbkf tif givfn numbfr of {@dodf Objfdt} brgumfnts
+     * @tirows Tirowbblf bnytiing tirown by tif tbrgft mftiod invodbtion
      */
-    public Object invokeWithArguments(java.util.List<?> arguments) throws Throwable {
-        return invokeWithArguments(arguments.toArray());
+    publid Objfdt invokfWitiArgumfnts(jbvb.util.List<?> brgumfnts) tirows Tirowbblf {
+        rfturn invokfWitiArgumfnts(brgumfnts.toArrby());
     }
 
     /**
-     * Produces an adapter method handle which adapts the type of the
-     * current method handle to a new type.
-     * The resulting method handle is guaranteed to report a type
-     * which is equal to the desired new type.
+     * Produdfs bn bdbptfr mftiod ibndlf wiidi bdbpts tif typf of tif
+     * durrfnt mftiod ibndlf to b nfw typf.
+     * Tif rfsulting mftiod ibndlf is gubrbntffd to rfport b typf
+     * wiidi is fqubl to tif dfsirfd nfw typf.
      * <p>
-     * If the original type and new type are equal, returns {@code this}.
+     * If tif originbl typf bnd nfw typf brf fqubl, rfturns {@dodf tiis}.
      * <p>
-     * The new method handle, when invoked, will perform the following
-     * steps:
+     * Tif nfw mftiod ibndlf, wifn invokfd, will pfrform tif following
+     * stfps:
      * <ul>
-     * <li>Convert the incoming argument list to match the original
-     *     method handle's argument list.
-     * <li>Invoke the original method handle on the converted argument list.
-     * <li>Convert any result returned by the original method handle
-     *     to the return type of new method handle.
+     * <li>Convfrt tif indoming brgumfnt list to mbtdi tif originbl
+     *     mftiod ibndlf's brgumfnt list.
+     * <li>Invokf tif originbl mftiod ibndlf on tif donvfrtfd brgumfnt list.
+     * <li>Convfrt bny rfsult rfturnfd by tif originbl mftiod ibndlf
+     *     to tif rfturn typf of nfw mftiod ibndlf.
      * </ul>
      * <p>
-     * This method provides the crucial behavioral difference between
-     * {@link #invokeExact invokeExact} and plain, inexact {@link #invoke invoke}.
-     * The two methods
-     * perform the same steps when the caller's type descriptor exactly m atches
-     * the callee's, but when the types differ, plain {@link #invoke invoke}
-     * also calls {@code asType} (or some internal equivalent) in order
-     * to match up the caller's and callee's types.
+     * Tiis mftiod providfs tif drudibl bfibviorbl difffrfndf bftwffn
+     * {@link #invokfExbdt invokfExbdt} bnd plbin, infxbdt {@link #invokf invokf}.
+     * Tif two mftiods
+     * pfrform tif sbmf stfps wifn tif dbllfr's typf dfsdriptor fxbdtly m btdifs
+     * tif dbllff's, but wifn tif typfs difffr, plbin {@link #invokf invokf}
+     * blso dblls {@dodf bsTypf} (or somf intfrnbl fquivblfnt) in ordfr
+     * to mbtdi up tif dbllfr's bnd dbllff's typfs.
      * <p>
-     * If the current method is a variable arity method handle
-     * argument list conversion may involve the conversion and collection
-     * of several arguments into an array, as
-     * {@linkplain #asVarargsCollector described elsewhere}.
-     * In every other case, all conversions are applied <em>pairwise</em>,
-     * which means that each argument or return value is converted to
-     * exactly one argument or return value (or no return value).
-     * The applied conversions are defined by consulting the
-     * the corresponding component types of the old and new
-     * method handle types.
+     * If tif durrfnt mftiod is b vbribblf brity mftiod ibndlf
+     * brgumfnt list donvfrsion mby involvf tif donvfrsion bnd dollfdtion
+     * of sfvfrbl brgumfnts into bn brrby, bs
+     * {@linkplbin #bsVbrbrgsCollfdtor dfsdribfd flsfwifrf}.
+     * In fvfry otifr dbsf, bll donvfrsions brf bpplifd <fm>pbirwisf</fm>,
+     * wiidi mfbns tibt fbdi brgumfnt or rfturn vbluf is donvfrtfd to
+     * fxbdtly onf brgumfnt or rfturn vbluf (or no rfturn vbluf).
+     * Tif bpplifd donvfrsions brf dffinfd by donsulting tif
+     * tif dorrfsponding domponfnt typfs of tif old bnd nfw
+     * mftiod ibndlf typfs.
      * <p>
-     * Let <em>T0</em> and <em>T1</em> be corresponding new and old parameter types,
-     * or old and new return types.  Specifically, for some valid index {@code i}, let
-     * <em>T0</em>{@code =newType.parameterType(i)} and <em>T1</em>{@code =this.type().parameterType(i)}.
-     * Or else, going the other way for return values, let
-     * <em>T0</em>{@code =this.type().returnType()} and <em>T1</em>{@code =newType.returnType()}.
-     * If the types are the same, the new method handle makes no change
-     * to the corresponding argument or return value (if any).
-     * Otherwise, one of the following conversions is applied
-     * if possible:
+     * Lft <fm>T0</fm> bnd <fm>T1</fm> bf dorrfsponding nfw bnd old pbrbmftfr typfs,
+     * or old bnd nfw rfturn typfs.  Spfdifidblly, for somf vblid indfx {@dodf i}, lft
+     * <fm>T0</fm>{@dodf =nfwTypf.pbrbmftfrTypf(i)} bnd <fm>T1</fm>{@dodf =tiis.typf().pbrbmftfrTypf(i)}.
+     * Or flsf, going tif otifr wby for rfturn vblufs, lft
+     * <fm>T0</fm>{@dodf =tiis.typf().rfturnTypf()} bnd <fm>T1</fm>{@dodf =nfwTypf.rfturnTypf()}.
+     * If tif typfs brf tif sbmf, tif nfw mftiod ibndlf mbkfs no dibngf
+     * to tif dorrfsponding brgumfnt or rfturn vbluf (if bny).
+     * Otifrwisf, onf of tif following donvfrsions is bpplifd
+     * if possiblf:
      * <ul>
-     * <li>If <em>T0</em> and <em>T1</em> are references, then a cast to <em>T1</em> is applied.
-     *     (The types do not need to be related in any particular way.
-     *     This is because a dynamic value of null can convert to any reference type.)
-     * <li>If <em>T0</em> and <em>T1</em> are primitives, then a Java method invocation
-     *     conversion (JLS 5.3) is applied, if one exists.
-     *     (Specifically, <em>T0</em> must convert to <em>T1</em> by a widening primitive conversion.)
-     * <li>If <em>T0</em> is a primitive and <em>T1</em> a reference,
-     *     a Java casting conversion (JLS 5.5) is applied if one exists.
-     *     (Specifically, the value is boxed from <em>T0</em> to its wrapper class,
-     *     which is then widened as needed to <em>T1</em>.)
-     * <li>If <em>T0</em> is a reference and <em>T1</em> a primitive, an unboxing
-     *     conversion will be applied at runtime, possibly followed
-     *     by a Java method invocation conversion (JLS 5.3)
-     *     on the primitive value.  (These are the primitive widening conversions.)
-     *     <em>T0</em> must be a wrapper class or a supertype of one.
-     *     (In the case where <em>T0</em> is Object, these are the conversions
-     *     allowed by {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}.)
-     *     The unboxing conversion must have a possibility of success, which means that
-     *     if <em>T0</em> is not itself a wrapper class, there must exist at least one
-     *     wrapper class <em>TW</em> which is a subtype of <em>T0</em> and whose unboxed
-     *     primitive value can be widened to <em>T1</em>.
-     * <li>If the return type <em>T1</em> is marked as void, any returned value is discarded
-     * <li>If the return type <em>T0</em> is void and <em>T1</em> a reference, a null value is introduced.
-     * <li>If the return type <em>T0</em> is void and <em>T1</em> a primitive,
-     *     a zero value is introduced.
+     * <li>If <fm>T0</fm> bnd <fm>T1</fm> brf rfffrfndfs, tifn b dbst to <fm>T1</fm> is bpplifd.
+     *     (Tif typfs do not nffd to bf rflbtfd in bny pbrtidulbr wby.
+     *     Tiis is bfdbusf b dynbmid vbluf of null dbn donvfrt to bny rfffrfndf typf.)
+     * <li>If <fm>T0</fm> bnd <fm>T1</fm> brf primitivfs, tifn b Jbvb mftiod invodbtion
+     *     donvfrsion (JLS 5.3) is bpplifd, if onf fxists.
+     *     (Spfdifidblly, <fm>T0</fm> must donvfrt to <fm>T1</fm> by b widfning primitivf donvfrsion.)
+     * <li>If <fm>T0</fm> is b primitivf bnd <fm>T1</fm> b rfffrfndf,
+     *     b Jbvb dbsting donvfrsion (JLS 5.5) is bpplifd if onf fxists.
+     *     (Spfdifidblly, tif vbluf is boxfd from <fm>T0</fm> to its wrbppfr dlbss,
+     *     wiidi is tifn widfnfd bs nffdfd to <fm>T1</fm>.)
+     * <li>If <fm>T0</fm> is b rfffrfndf bnd <fm>T1</fm> b primitivf, bn unboxing
+     *     donvfrsion will bf bpplifd bt runtimf, possibly followfd
+     *     by b Jbvb mftiod invodbtion donvfrsion (JLS 5.3)
+     *     on tif primitivf vbluf.  (Tifsf brf tif primitivf widfning donvfrsions.)
+     *     <fm>T0</fm> must bf b wrbppfr dlbss or b supfrtypf of onf.
+     *     (In tif dbsf wifrf <fm>T0</fm> is Objfdt, tifsf brf tif donvfrsions
+     *     bllowfd by {@link jbvb.lbng.rfflfdt.Mftiod#invokf jbvb.lbng.rfflfdt.Mftiod.invokf}.)
+     *     Tif unboxing donvfrsion must ibvf b possibility of suddfss, wiidi mfbns tibt
+     *     if <fm>T0</fm> is not itsflf b wrbppfr dlbss, tifrf must fxist bt lfbst onf
+     *     wrbppfr dlbss <fm>TW</fm> wiidi is b subtypf of <fm>T0</fm> bnd wiosf unboxfd
+     *     primitivf vbluf dbn bf widfnfd to <fm>T1</fm>.
+     * <li>If tif rfturn typf <fm>T1</fm> is mbrkfd bs void, bny rfturnfd vbluf is disdbrdfd
+     * <li>If tif rfturn typf <fm>T0</fm> is void bnd <fm>T1</fm> b rfffrfndf, b null vbluf is introdudfd.
+     * <li>If tif rfturn typf <fm>T0</fm> is void bnd <fm>T1</fm> b primitivf,
+     *     b zfro vbluf is introdudfd.
      * </ul>
-     * (<em>Note:</em> Both <em>T0</em> and <em>T1</em> may be regarded as static types,
-     * because neither corresponds specifically to the <em>dynamic type</em> of any
-     * actual argument or return value.)
+     * (<fm>Notf:</fm> Boti <fm>T0</fm> bnd <fm>T1</fm> mby bf rfgbrdfd bs stbtid typfs,
+     * bfdbusf nfitifr dorrfsponds spfdifidblly to tif <fm>dynbmid typf</fm> of bny
+     * bdtubl brgumfnt or rfturn vbluf.)
      * <p>
-     * The method handle conversion cannot be made if any one of the required
-     * pairwise conversions cannot be made.
+     * Tif mftiod ibndlf donvfrsion dbnnot bf mbdf if bny onf of tif rfquirfd
+     * pbirwisf donvfrsions dbnnot bf mbdf.
      * <p>
-     * At runtime, the conversions applied to reference arguments
-     * or return values may require additional runtime checks which can fail.
-     * An unboxing operation may fail because the original reference is null,
-     * causing a {@link java.lang.NullPointerException NullPointerException}.
-     * An unboxing operation or a reference cast may also fail on a reference
-     * to an object of the wrong type,
-     * causing a {@link java.lang.ClassCastException ClassCastException}.
-     * Although an unboxing operation may accept several kinds of wrappers,
-     * if none are available, a {@code ClassCastException} will be thrown.
+     * At runtimf, tif donvfrsions bpplifd to rfffrfndf brgumfnts
+     * or rfturn vblufs mby rfquirf bdditionbl runtimf difdks wiidi dbn fbil.
+     * An unboxing opfrbtion mby fbil bfdbusf tif originbl rfffrfndf is null,
+     * dbusing b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption}.
+     * An unboxing opfrbtion or b rfffrfndf dbst mby blso fbil on b rfffrfndf
+     * to bn objfdt of tif wrong typf,
+     * dbusing b {@link jbvb.lbng.ClbssCbstExdfption ClbssCbstExdfption}.
+     * Altiougi bn unboxing opfrbtion mby bddfpt sfvfrbl kinds of wrbppfrs,
+     * if nonf brf bvbilbblf, b {@dodf ClbssCbstExdfption} will bf tirown.
      *
-     * @param newType the expected type of the new method handle
-     * @return a method handle which delegates to {@code this} after performing
-     *           any necessary argument conversions, and arranges for any
-     *           necessary return value conversions
-     * @throws NullPointerException if {@code newType} is a null reference
-     * @throws WrongMethodTypeException if the conversion cannot be made
-     * @see MethodHandles#explicitCastArguments
+     * @pbrbm nfwTypf tif fxpfdtfd typf of tif nfw mftiod ibndlf
+     * @rfturn b mftiod ibndlf wiidi dflfgbtfs to {@dodf tiis} bftfr pfrforming
+     *           bny nfdfssbry brgumfnt donvfrsions, bnd brrbngfs for bny
+     *           nfdfssbry rfturn vbluf donvfrsions
+     * @tirows NullPointfrExdfption if {@dodf nfwTypf} is b null rfffrfndf
+     * @tirows WrongMftiodTypfExdfption if tif donvfrsion dbnnot bf mbdf
+     * @sff MftiodHbndlfs#fxpliditCbstArgumfnts
      */
-    public MethodHandle asType(MethodType newType) {
-        // Fast path alternative to a heavyweight {@code asType} call.
-        // Return 'this' if the conversion will be a no-op.
-        if (newType == type) {
-            return this;
+    publid MftiodHbndlf bsTypf(MftiodTypf nfwTypf) {
+        // Fbst pbti bltfrnbtivf to b ifbvywfigit {@dodf bsTypf} dbll.
+        // Rfturn 'tiis' if tif donvfrsion will bf b no-op.
+        if (nfwTypf == typf) {
+            rfturn tiis;
         }
-        // Return 'this.asTypeCache' if the conversion is already memoized.
-        MethodHandle atc = asTypeCache;
-        if (atc != null && newType == atc.type) {
-            return atc;
+        // Rfturn 'tiis.bsTypfCbdif' if tif donvfrsion is blrfbdy mfmoizfd.
+        MftiodHbndlf btd = bsTypfCbdif;
+        if (btd != null && nfwTypf == btd.typf) {
+            rfturn btd;
         }
-        return asTypeUncached(newType);
+        rfturn bsTypfUndbdifd(nfwTypf);
     }
 
-    /** Override this to change asType behavior. */
-    /*non-public*/ MethodHandle asTypeUncached(MethodType newType) {
-        if (!type.isConvertibleTo(newType))
-            throw new WrongMethodTypeException("cannot convert "+this+" to "+newType);
-        return asTypeCache = convertArguments(newType);
+    /** Ovfrridf tiis to dibngf bsTypf bfibvior. */
+    /*non-publid*/ MftiodHbndlf bsTypfUndbdifd(MftiodTypf nfwTypf) {
+        if (!typf.isConvfrtiblfTo(nfwTypf))
+            tirow nfw WrongMftiodTypfExdfption("dbnnot donvfrt "+tiis+" to "+nfwTypf);
+        rfturn bsTypfCbdif = donvfrtArgumfnts(nfwTypf);
     }
 
     /**
-     * Makes an <em>array-spreading</em> method handle, which accepts a trailing array argument
-     * and spreads its elements as positional arguments.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle.  The type of the adapter will be
-     * the same as the type of the target, except that the final
-     * {@code arrayLength} parameters of the target's type are replaced
-     * by a single array parameter of type {@code arrayType}.
+     * Mbkfs bn <fm>brrby-sprfbding</fm> mftiod ibndlf, wiidi bddfpts b trbiling brrby brgumfnt
+     * bnd sprfbds its flfmfnts bs positionbl brgumfnts.
+     * Tif nfw mftiod ibndlf bdbpts, bs its <i>tbrgft</i>,
+     * tif durrfnt mftiod ibndlf.  Tif typf of tif bdbptfr will bf
+     * tif sbmf bs tif typf of tif tbrgft, fxdfpt tibt tif finbl
+     * {@dodf brrbyLfngti} pbrbmftfrs of tif tbrgft's typf brf rfplbdfd
+     * by b singlf brrby pbrbmftfr of typf {@dodf brrbyTypf}.
      * <p>
-     * If the array element type differs from any of the corresponding
-     * argument types on the original target,
-     * the original target is adapted to take the array elements directly,
-     * as if by a call to {@link #asType asType}.
+     * If tif brrby flfmfnt typf difffrs from bny of tif dorrfsponding
+     * brgumfnt typfs on tif originbl tbrgft,
+     * tif originbl tbrgft is bdbptfd to tbkf tif brrby flfmfnts dirfdtly,
+     * bs if by b dbll to {@link #bsTypf bsTypf}.
      * <p>
-     * When called, the adapter replaces a trailing array argument
-     * by the array's elements, each as its own argument to the target.
-     * (The order of the arguments is preserved.)
-     * They are converted pairwise by casting and/or unboxing
-     * to the types of the trailing parameters of the target.
-     * Finally the target is called.
-     * What the target eventually returns is returned unchanged by the adapter.
+     * Wifn dbllfd, tif bdbptfr rfplbdfs b trbiling brrby brgumfnt
+     * by tif brrby's flfmfnts, fbdi bs its own brgumfnt to tif tbrgft.
+     * (Tif ordfr of tif brgumfnts is prfsfrvfd.)
+     * Tify brf donvfrtfd pbirwisf by dbsting bnd/or unboxing
+     * to tif typfs of tif trbiling pbrbmftfrs of tif tbrgft.
+     * Finblly tif tbrgft is dbllfd.
+     * Wibt tif tbrgft fvfntublly rfturns is rfturnfd undibngfd by tif bdbptfr.
      * <p>
-     * Before calling the target, the adapter verifies that the array
-     * contains exactly enough elements to provide a correct argument count
-     * to the target method handle.
-     * (The array may also be null when zero elements are required.)
+     * Bfforf dblling tif tbrgft, tif bdbptfr vfrififs tibt tif brrby
+     * dontbins fxbdtly fnougi flfmfnts to providf b dorrfdt brgumfnt dount
+     * to tif tbrgft mftiod ibndlf.
+     * (Tif brrby mby blso bf null wifn zfro flfmfnts brf rfquirfd.)
      * <p>
-     * If, when the adapter is called, the supplied array argument does
-     * not have the correct number of elements, the adapter will throw
-     * an {@link IllegalArgumentException} instead of invoking the target.
+     * If, wifn tif bdbptfr is dbllfd, tif supplifd brrby brgumfnt dofs
+     * not ibvf tif dorrfdt numbfr of flfmfnts, tif bdbptfr will tirow
+     * bn {@link IllfgblArgumfntExdfption} instfbd of invoking tif tbrgft.
      * <p>
-     * Here are some simple examples of array-spreading method handles:
-     * <blockquote><pre>{@code
-MethodHandle equals = publicLookup()
-  .findVirtual(String.class, "equals", methodType(boolean.class, Object.class));
-assert( (boolean) equals.invokeExact("me", (Object)"me"));
-assert(!(boolean) equals.invokeExact("me", (Object)"thee"));
-// spread both arguments from a 2-array:
-MethodHandle eq2 = equals.asSpreader(Object[].class, 2);
-assert( (boolean) eq2.invokeExact(new Object[]{ "me", "me" }));
-assert(!(boolean) eq2.invokeExact(new Object[]{ "me", "thee" }));
-// try to spread from anything but a 2-array:
+     * Hfrf brf somf simplf fxbmplfs of brrby-sprfbding mftiod ibndlfs:
+     * <blodkquotf><prf>{@dodf
+MftiodHbndlf fqubls = publidLookup()
+  .findVirtubl(String.dlbss, "fqubls", mftiodTypf(boolfbn.dlbss, Objfdt.dlbss));
+bssfrt( (boolfbn) fqubls.invokfExbdt("mf", (Objfdt)"mf"));
+bssfrt(!(boolfbn) fqubls.invokfExbdt("mf", (Objfdt)"tiff"));
+// sprfbd boti brgumfnts from b 2-brrby:
+MftiodHbndlf fq2 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 2);
+bssfrt( (boolfbn) fq2.invokfExbdt(nfw Objfdt[]{ "mf", "mf" }));
+bssfrt(!(boolfbn) fq2.invokfExbdt(nfw Objfdt[]{ "mf", "tiff" }));
+// try to sprfbd from bnytiing but b 2-brrby:
 for (int n = 0; n <= 10; n++) {
-  Object[] badArityArgs = (n == 2 ? null : new Object[n]);
-  try { assert((boolean) eq2.invokeExact(badArityArgs) && false); }
-  catch (IllegalArgumentException ex) { } // OK
+  Objfdt[] bbdArityArgs = (n == 2 ? null : nfw Objfdt[n]);
+  try { bssfrt((boolfbn) fq2.invokfExbdt(bbdArityArgs) && fblsf); }
+  dbtdi (IllfgblArgumfntExdfption fx) { } // OK
 }
-// spread both arguments from a String array:
-MethodHandle eq2s = equals.asSpreader(String[].class, 2);
-assert( (boolean) eq2s.invokeExact(new String[]{ "me", "me" }));
-assert(!(boolean) eq2s.invokeExact(new String[]{ "me", "thee" }));
-// spread second arguments from a 1-array:
-MethodHandle eq1 = equals.asSpreader(Object[].class, 1);
-assert( (boolean) eq1.invokeExact("me", new Object[]{ "me" }));
-assert(!(boolean) eq1.invokeExact("me", new Object[]{ "thee" }));
-// spread no arguments from a 0-array or null:
-MethodHandle eq0 = equals.asSpreader(Object[].class, 0);
-assert( (boolean) eq0.invokeExact("me", (Object)"me", new Object[0]));
-assert(!(boolean) eq0.invokeExact("me", (Object)"thee", (Object[])null));
-// asSpreader and asCollector are approximate inverses:
+// sprfbd boti brgumfnts from b String brrby:
+MftiodHbndlf fq2s = fqubls.bsSprfbdfr(String[].dlbss, 2);
+bssfrt( (boolfbn) fq2s.invokfExbdt(nfw String[]{ "mf", "mf" }));
+bssfrt(!(boolfbn) fq2s.invokfExbdt(nfw String[]{ "mf", "tiff" }));
+// sprfbd sfdond brgumfnts from b 1-brrby:
+MftiodHbndlf fq1 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 1);
+bssfrt( (boolfbn) fq1.invokfExbdt("mf", nfw Objfdt[]{ "mf" }));
+bssfrt(!(boolfbn) fq1.invokfExbdt("mf", nfw Objfdt[]{ "tiff" }));
+// sprfbd no brgumfnts from b 0-brrby or null:
+MftiodHbndlf fq0 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 0);
+bssfrt( (boolfbn) fq0.invokfExbdt("mf", (Objfdt)"mf", nfw Objfdt[0]));
+bssfrt(!(boolfbn) fq0.invokfExbdt("mf", (Objfdt)"tiff", (Objfdt[])null));
+// bsSprfbdfr bnd bsCollfdtor brf bpproximbtf invfrsfs:
 for (int n = 0; n <= 2; n++) {
-    for (Class<?> a : new Class<?>[]{Object[].class, String[].class, CharSequence[].class}) {
-        MethodHandle equals2 = equals.asSpreader(a, n).asCollector(a, n);
-        assert( (boolean) equals2.invokeWithArguments("me", "me"));
-        assert(!(boolean) equals2.invokeWithArguments("me", "thee"));
+    for (Clbss<?> b : nfw Clbss<?>[]{Objfdt[].dlbss, String[].dlbss, CibrSfqufndf[].dlbss}) {
+        MftiodHbndlf fqubls2 = fqubls.bsSprfbdfr(b, n).bsCollfdtor(b, n);
+        bssfrt( (boolfbn) fqubls2.invokfWitiArgumfnts("mf", "mf"));
+        bssfrt(!(boolfbn) fqubls2.invokfWitiArgumfnts("mf", "tiff"));
     }
 }
-MethodHandle caToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, char[].class));
-assertEquals("[A, B, C]", (String) caToString.invokeExact("ABC".toCharArray()));
-MethodHandle caString3 = caToString.asCollector(char[].class, 3);
-assertEquals("[A, B, C]", (String) caString3.invokeExact('A', 'B', 'C'));
-MethodHandle caToString2 = caString3.asSpreader(char[].class, 2);
-assertEquals("[A, B, C]", (String) caToString2.invokeExact('A', "BC".toCharArray()));
-     * }</pre></blockquote>
-     * @param arrayType usually {@code Object[]}, the type of the array argument from which to extract the spread arguments
-     * @param arrayLength the number of arguments to spread from an incoming array argument
-     * @return a new method handle which spreads its final array argument,
-     *         before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type,
-     *         or if target does not have at least
-     *         {@code arrayLength} parameter types,
-     *         or if {@code arrayLength} is negative,
-     *         or if the resulting method handle's type would have
-     *         <a href="MethodHandle.html#maxarity">too many parameters</a>
-     * @throws WrongMethodTypeException if the implied {@code asType} call fails
-     * @see #asCollector
+MftiodHbndlf dbToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mftiodTypf(String.dlbss, dibr[].dlbss));
+bssfrtEqubls("[A, B, C]", (String) dbToString.invokfExbdt("ABC".toCibrArrby()));
+MftiodHbndlf dbString3 = dbToString.bsCollfdtor(dibr[].dlbss, 3);
+bssfrtEqubls("[A, B, C]", (String) dbString3.invokfExbdt('A', 'B', 'C'));
+MftiodHbndlf dbToString2 = dbString3.bsSprfbdfr(dibr[].dlbss, 2);
+bssfrtEqubls("[A, B, C]", (String) dbToString2.invokfExbdt('A', "BC".toCibrArrby()));
+     * }</prf></blodkquotf>
+     * @pbrbm brrbyTypf usublly {@dodf Objfdt[]}, tif typf of tif brrby brgumfnt from wiidi to fxtrbdt tif sprfbd brgumfnts
+     * @pbrbm brrbyLfngti tif numbfr of brgumfnts to sprfbd from bn indoming brrby brgumfnt
+     * @rfturn b nfw mftiod ibndlf wiidi sprfbds its finbl brrby brgumfnt,
+     *         bfforf dblling tif originbl mftiod ibndlf
+     * @tirows NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @tirows IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf,
+     *         or if tbrgft dofs not ibvf bt lfbst
+     *         {@dodf brrbyLfngti} pbrbmftfr typfs,
+     *         or if {@dodf brrbyLfngti} is nfgbtivf,
+     *         or if tif rfsulting mftiod ibndlf's typf would ibvf
+     *         <b irff="MftiodHbndlf.itml#mbxbrity">too mbny pbrbmftfrs</b>
+     * @tirows WrongMftiodTypfExdfption if tif implifd {@dodf bsTypf} dbll fbils
+     * @sff #bsCollfdtor
      */
-    public MethodHandle asSpreader(Class<?> arrayType, int arrayLength) {
-        asSpreaderChecks(arrayType, arrayLength);
-        int spreadArgPos = type.parameterCount() - arrayLength;
-        return MethodHandleImpl.makeSpreadArguments(this, arrayType, spreadArgPos, arrayLength);
+    publid MftiodHbndlf bsSprfbdfr(Clbss<?> brrbyTypf, int brrbyLfngti) {
+        bsSprfbdfrCifdks(brrbyTypf, brrbyLfngti);
+        int sprfbdArgPos = typf.pbrbmftfrCount() - brrbyLfngti;
+        rfturn MftiodHbndlfImpl.mbkfSprfbdArgumfnts(tiis, brrbyTypf, sprfbdArgPos, brrbyLfngti);
     }
 
-    private void asSpreaderChecks(Class<?> arrayType, int arrayLength) {
-        spreadArrayChecks(arrayType, arrayLength);
-        int nargs = type().parameterCount();
-        if (nargs < arrayLength || arrayLength < 0)
-            throw newIllegalArgumentException("bad spread array length");
-        if (arrayType != Object[].class && arrayLength != 0) {
-            boolean sawProblem = false;
-            Class<?> arrayElement = arrayType.getComponentType();
-            for (int i = nargs - arrayLength; i < nargs; i++) {
-                if (!MethodType.canConvert(arrayElement, type().parameterType(i))) {
-                    sawProblem = true;
-                    break;
+    privbtf void bsSprfbdfrCifdks(Clbss<?> brrbyTypf, int brrbyLfngti) {
+        sprfbdArrbyCifdks(brrbyTypf, brrbyLfngti);
+        int nbrgs = typf().pbrbmftfrCount();
+        if (nbrgs < brrbyLfngti || brrbyLfngti < 0)
+            tirow nfwIllfgblArgumfntExdfption("bbd sprfbd brrby lfngti");
+        if (brrbyTypf != Objfdt[].dlbss && brrbyLfngti != 0) {
+            boolfbn sbwProblfm = fblsf;
+            Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+            for (int i = nbrgs - brrbyLfngti; i < nbrgs; i++) {
+                if (!MftiodTypf.dbnConvfrt(brrbyElfmfnt, typf().pbrbmftfrTypf(i))) {
+                    sbwProblfm = truf;
+                    brfbk;
                 }
             }
-            if (sawProblem) {
-                ArrayList<Class<?>> ptypes = new ArrayList<>(type().parameterList());
-                for (int i = nargs - arrayLength; i < nargs; i++) {
-                    ptypes.set(i, arrayElement);
+            if (sbwProblfm) {
+                ArrbyList<Clbss<?>> ptypfs = nfw ArrbyList<>(typf().pbrbmftfrList());
+                for (int i = nbrgs - brrbyLfngti; i < nbrgs; i++) {
+                    ptypfs.sft(i, brrbyElfmfnt);
                 }
-                // elicit an error:
-                this.asType(MethodType.methodType(type().returnType(), ptypes));
+                // flidit bn frror:
+                tiis.bsTypf(MftiodTypf.mftiodTypf(typf().rfturnTypf(), ptypfs));
             }
         }
     }
 
-    private void spreadArrayChecks(Class<?> arrayType, int arrayLength) {
-        Class<?> arrayElement = arrayType.getComponentType();
-        if (arrayElement == null)
-            throw newIllegalArgumentException("not an array type", arrayType);
-        if ((arrayLength & 0x7F) != arrayLength) {
-            if ((arrayLength & 0xFF) != arrayLength)
-                throw newIllegalArgumentException("array length is not legal", arrayLength);
-            assert(arrayLength >= 128);
-            if (arrayElement == long.class ||
-                arrayElement == double.class)
-                throw newIllegalArgumentException("array length is not legal for long[] or double[]", arrayLength);
+    privbtf void sprfbdArrbyCifdks(Clbss<?> brrbyTypf, int brrbyLfngti) {
+        Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+        if (brrbyElfmfnt == null)
+            tirow nfwIllfgblArgumfntExdfption("not bn brrby typf", brrbyTypf);
+        if ((brrbyLfngti & 0x7F) != brrbyLfngti) {
+            if ((brrbyLfngti & 0xFF) != brrbyLfngti)
+                tirow nfwIllfgblArgumfntExdfption("brrby lfngti is not lfgbl", brrbyLfngti);
+            bssfrt(brrbyLfngti >= 128);
+            if (brrbyElfmfnt == long.dlbss ||
+                brrbyElfmfnt == doublf.dlbss)
+                tirow nfwIllfgblArgumfntExdfption("brrby lfngti is not lfgbl for long[] or doublf[]", brrbyLfngti);
         }
     }
 
     /**
-     * Makes an <em>array-collecting</em> method handle, which accepts a given number of trailing
-     * positional arguments and collects them into an array argument.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle.  The type of the adapter will be
-     * the same as the type of the target, except that a single trailing
-     * parameter (usually of type {@code arrayType}) is replaced by
-     * {@code arrayLength} parameters whose type is element type of {@code arrayType}.
+     * Mbkfs bn <fm>brrby-dollfdting</fm> mftiod ibndlf, wiidi bddfpts b givfn numbfr of trbiling
+     * positionbl brgumfnts bnd dollfdts tifm into bn brrby brgumfnt.
+     * Tif nfw mftiod ibndlf bdbpts, bs its <i>tbrgft</i>,
+     * tif durrfnt mftiod ibndlf.  Tif typf of tif bdbptfr will bf
+     * tif sbmf bs tif typf of tif tbrgft, fxdfpt tibt b singlf trbiling
+     * pbrbmftfr (usublly of typf {@dodf brrbyTypf}) is rfplbdfd by
+     * {@dodf brrbyLfngti} pbrbmftfrs wiosf typf is flfmfnt typf of {@dodf brrbyTypf}.
      * <p>
-     * If the array type differs from the final argument type on the original target,
-     * the original target is adapted to take the array type directly,
-     * as if by a call to {@link #asType asType}.
+     * If tif brrby typf difffrs from tif finbl brgumfnt typf on tif originbl tbrgft,
+     * tif originbl tbrgft is bdbptfd to tbkf tif brrby typf dirfdtly,
+     * bs if by b dbll to {@link #bsTypf bsTypf}.
      * <p>
-     * When called, the adapter replaces its trailing {@code arrayLength}
-     * arguments by a single new array of type {@code arrayType}, whose elements
-     * comprise (in order) the replaced arguments.
-     * Finally the target is called.
-     * What the target eventually returns is returned unchanged by the adapter.
+     * Wifn dbllfd, tif bdbptfr rfplbdfs its trbiling {@dodf brrbyLfngti}
+     * brgumfnts by b singlf nfw brrby of typf {@dodf brrbyTypf}, wiosf flfmfnts
+     * domprisf (in ordfr) tif rfplbdfd brgumfnts.
+     * Finblly tif tbrgft is dbllfd.
+     * Wibt tif tbrgft fvfntublly rfturns is rfturnfd undibngfd by tif bdbptfr.
      * <p>
-     * (The array may also be a shared constant when {@code arrayLength} is zero.)
+     * (Tif brrby mby blso bf b sibrfd donstbnt wifn {@dodf brrbyLfngti} is zfro.)
      * <p>
-     * (<em>Note:</em> The {@code arrayType} is often identical to the last
-     * parameter type of the original target.
-     * It is an explicit argument for symmetry with {@code asSpreader}, and also
-     * to allow the target to use a simple {@code Object} as its last parameter type.)
+     * (<fm>Notf:</fm> Tif {@dodf brrbyTypf} is oftfn idfntidbl to tif lbst
+     * pbrbmftfr typf of tif originbl tbrgft.
+     * It is bn fxplidit brgumfnt for symmftry witi {@dodf bsSprfbdfr}, bnd blso
+     * to bllow tif tbrgft to usf b simplf {@dodf Objfdt} bs its lbst pbrbmftfr typf.)
      * <p>
-     * In order to create a collecting adapter which is not restricted to a particular
-     * number of collected arguments, use {@link #asVarargsCollector asVarargsCollector} instead.
+     * In ordfr to drfbtf b dollfdting bdbptfr wiidi is not rfstridtfd to b pbrtidulbr
+     * numbfr of dollfdtfd brgumfnts, usf {@link #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor} instfbd.
      * <p>
-     * Here are some examples of array-collecting method handles:
-     * <blockquote><pre>{@code
-MethodHandle deepToString = publicLookup()
-  .findStatic(Arrays.class, "deepToString", methodType(String.class, Object[].class));
-assertEquals("[won]",   (String) deepToString.invokeExact(new Object[]{"won"}));
-MethodHandle ts1 = deepToString.asCollector(Object[].class, 1);
-assertEquals(methodType(String.class, Object.class), ts1.type());
-//assertEquals("[won]", (String) ts1.invokeExact(         new Object[]{"won"})); //FAIL
-assertEquals("[[won]]", (String) ts1.invokeExact((Object) new Object[]{"won"}));
-// arrayType can be a subtype of Object[]
-MethodHandle ts2 = deepToString.asCollector(String[].class, 2);
-assertEquals(methodType(String.class, String.class, String.class), ts2.type());
-assertEquals("[two, too]", (String) ts2.invokeExact("two", "too"));
-MethodHandle ts0 = deepToString.asCollector(Object[].class, 0);
-assertEquals("[]", (String) ts0.invokeExact());
-// collectors can be nested, Lisp-style
-MethodHandle ts22 = deepToString.asCollector(Object[].class, 3).asCollector(String[].class, 2);
-assertEquals("[A, B, [C, D]]", ((String) ts22.invokeExact((Object)'A', (Object)"B", "C", "D")));
-// arrayType can be any primitive array type
-MethodHandle bytesToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, byte[].class))
-  .asCollector(byte[].class, 3);
-assertEquals("[1, 2, 3]", (String) bytesToString.invokeExact((byte)1, (byte)2, (byte)3));
-MethodHandle longsToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, long[].class))
-  .asCollector(long[].class, 1);
-assertEquals("[123]", (String) longsToString.invokeExact((long)123));
-     * }</pre></blockquote>
-     * @param arrayType often {@code Object[]}, the type of the array argument which will collect the arguments
-     * @param arrayLength the number of arguments to collect into a new array argument
-     * @return a new method handle which collects some trailing argument
-     *         into an array, before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type
-     *         or {@code arrayType} is not assignable to this method handle's trailing parameter type,
-     *         or {@code arrayLength} is not a legal array size,
-     *         or the resulting method handle's type would have
-     *         <a href="MethodHandle.html#maxarity">too many parameters</a>
-     * @throws WrongMethodTypeException if the implied {@code asType} call fails
-     * @see #asSpreader
-     * @see #asVarargsCollector
+     * Hfrf brf somf fxbmplfs of brrby-dollfdting mftiod ibndlfs:
+     * <blodkquotf><prf>{@dodf
+MftiodHbndlf dffpToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "dffpToString", mftiodTypf(String.dlbss, Objfdt[].dlbss));
+bssfrtEqubls("[won]",   (String) dffpToString.invokfExbdt(nfw Objfdt[]{"won"}));
+MftiodHbndlf ts1 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 1);
+bssfrtEqubls(mftiodTypf(String.dlbss, Objfdt.dlbss), ts1.typf());
+//bssfrtEqubls("[won]", (String) ts1.invokfExbdt(         nfw Objfdt[]{"won"})); //FAIL
+bssfrtEqubls("[[won]]", (String) ts1.invokfExbdt((Objfdt) nfw Objfdt[]{"won"}));
+// brrbyTypf dbn bf b subtypf of Objfdt[]
+MftiodHbndlf ts2 = dffpToString.bsCollfdtor(String[].dlbss, 2);
+bssfrtEqubls(mftiodTypf(String.dlbss, String.dlbss, String.dlbss), ts2.typf());
+bssfrtEqubls("[two, too]", (String) ts2.invokfExbdt("two", "too"));
+MftiodHbndlf ts0 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 0);
+bssfrtEqubls("[]", (String) ts0.invokfExbdt());
+// dollfdtors dbn bf nfstfd, Lisp-stylf
+MftiodHbndlf ts22 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 3).bsCollfdtor(String[].dlbss, 2);
+bssfrtEqubls("[A, B, [C, D]]", ((String) ts22.invokfExbdt((Objfdt)'A', (Objfdt)"B", "C", "D")));
+// brrbyTypf dbn bf bny primitivf brrby typf
+MftiodHbndlf bytfsToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mftiodTypf(String.dlbss, bytf[].dlbss))
+  .bsCollfdtor(bytf[].dlbss, 3);
+bssfrtEqubls("[1, 2, 3]", (String) bytfsToString.invokfExbdt((bytf)1, (bytf)2, (bytf)3));
+MftiodHbndlf longsToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mftiodTypf(String.dlbss, long[].dlbss))
+  .bsCollfdtor(long[].dlbss, 1);
+bssfrtEqubls("[123]", (String) longsToString.invokfExbdt((long)123));
+     * }</prf></blodkquotf>
+     * @pbrbm brrbyTypf oftfn {@dodf Objfdt[]}, tif typf of tif brrby brgumfnt wiidi will dollfdt tif brgumfnts
+     * @pbrbm brrbyLfngti tif numbfr of brgumfnts to dollfdt into b nfw brrby brgumfnt
+     * @rfturn b nfw mftiod ibndlf wiidi dollfdts somf trbiling brgumfnt
+     *         into bn brrby, bfforf dblling tif originbl mftiod ibndlf
+     * @tirows NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @tirows IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf
+     *         or {@dodf brrbyTypf} is not bssignbblf to tiis mftiod ibndlf's trbiling pbrbmftfr typf,
+     *         or {@dodf brrbyLfngti} is not b lfgbl brrby sizf,
+     *         or tif rfsulting mftiod ibndlf's typf would ibvf
+     *         <b irff="MftiodHbndlf.itml#mbxbrity">too mbny pbrbmftfrs</b>
+     * @tirows WrongMftiodTypfExdfption if tif implifd {@dodf bsTypf} dbll fbils
+     * @sff #bsSprfbdfr
+     * @sff #bsVbrbrgsCollfdtor
      */
-    public MethodHandle asCollector(Class<?> arrayType, int arrayLength) {
-        asCollectorChecks(arrayType, arrayLength);
-        int collectArgPos = type().parameterCount()-1;
-        MethodHandle target = this;
-        if (arrayType != type().parameterType(collectArgPos))
-            target = convertArguments(type().changeParameterType(collectArgPos, arrayType));
-        MethodHandle collector = ValueConversions.varargsArray(arrayType, arrayLength);
-        return MethodHandles.collectArguments(target, collectArgPos, collector);
+    publid MftiodHbndlf bsCollfdtor(Clbss<?> brrbyTypf, int brrbyLfngti) {
+        bsCollfdtorCifdks(brrbyTypf, brrbyLfngti);
+        int dollfdtArgPos = typf().pbrbmftfrCount()-1;
+        MftiodHbndlf tbrgft = tiis;
+        if (brrbyTypf != typf().pbrbmftfrTypf(dollfdtArgPos))
+            tbrgft = donvfrtArgumfnts(typf().dibngfPbrbmftfrTypf(dollfdtArgPos, brrbyTypf));
+        MftiodHbndlf dollfdtor = VblufConvfrsions.vbrbrgsArrby(brrbyTypf, brrbyLfngti);
+        rfturn MftiodHbndlfs.dollfdtArgumfnts(tbrgft, dollfdtArgPos, dollfdtor);
     }
 
-    // private API: return true if last param exactly matches arrayType
-    private boolean asCollectorChecks(Class<?> arrayType, int arrayLength) {
-        spreadArrayChecks(arrayType, arrayLength);
-        int nargs = type().parameterCount();
-        if (nargs != 0) {
-            Class<?> lastParam = type().parameterType(nargs-1);
-            if (lastParam == arrayType)  return true;
-            if (lastParam.isAssignableFrom(arrayType))  return false;
+    // privbtf API: rfturn truf if lbst pbrbm fxbdtly mbtdifs brrbyTypf
+    privbtf boolfbn bsCollfdtorCifdks(Clbss<?> brrbyTypf, int brrbyLfngti) {
+        sprfbdArrbyCifdks(brrbyTypf, brrbyLfngti);
+        int nbrgs = typf().pbrbmftfrCount();
+        if (nbrgs != 0) {
+            Clbss<?> lbstPbrbm = typf().pbrbmftfrTypf(nbrgs-1);
+            if (lbstPbrbm == brrbyTypf)  rfturn truf;
+            if (lbstPbrbm.isAssignbblfFrom(brrbyTypf))  rfturn fblsf;
         }
-        throw newIllegalArgumentException("array type not assignable to trailing argument", this, arrayType);
+        tirow nfwIllfgblArgumfntExdfption("brrby typf not bssignbblf to trbiling brgumfnt", tiis, brrbyTypf);
     }
 
     /**
-     * Makes a <em>variable arity</em> adapter which is able to accept
-     * any number of trailing positional arguments and collect them
-     * into an array argument.
+     * Mbkfs b <fm>vbribblf brity</fm> bdbptfr wiidi is bblf to bddfpt
+     * bny numbfr of trbiling positionbl brgumfnts bnd dollfdt tifm
+     * into bn brrby brgumfnt.
      * <p>
-     * The type and behavior of the adapter will be the same as
-     * the type and behavior of the target, except that certain
-     * {@code invoke} and {@code asType} requests can lead to
-     * trailing positional arguments being collected into target's
-     * trailing parameter.
-     * Also, the last parameter type of the adapter will be
-     * {@code arrayType}, even if the target has a different
-     * last parameter type.
+     * Tif typf bnd bfibvior of tif bdbptfr will bf tif sbmf bs
+     * tif typf bnd bfibvior of tif tbrgft, fxdfpt tibt dfrtbin
+     * {@dodf invokf} bnd {@dodf bsTypf} rfqufsts dbn lfbd to
+     * trbiling positionbl brgumfnts bfing dollfdtfd into tbrgft's
+     * trbiling pbrbmftfr.
+     * Also, tif lbst pbrbmftfr typf of tif bdbptfr will bf
+     * {@dodf brrbyTypf}, fvfn if tif tbrgft ibs b difffrfnt
+     * lbst pbrbmftfr typf.
      * <p>
-     * This transformation may return {@code this} if the method handle is
-     * already of variable arity and its trailing parameter type
-     * is identical to {@code arrayType}.
+     * Tiis trbnsformbtion mby rfturn {@dodf tiis} if tif mftiod ibndlf is
+     * blrfbdy of vbribblf brity bnd its trbiling pbrbmftfr typf
+     * is idfntidbl to {@dodf brrbyTypf}.
      * <p>
-     * When called with {@link #invokeExact invokeExact}, the adapter invokes
-     * the target with no argument changes.
-     * (<em>Note:</em> This behavior is different from a
-     * {@linkplain #asCollector fixed arity collector},
-     * since it accepts a whole array of indeterminate length,
-     * rather than a fixed number of arguments.)
+     * Wifn dbllfd witi {@link #invokfExbdt invokfExbdt}, tif bdbptfr invokfs
+     * tif tbrgft witi no brgumfnt dibngfs.
+     * (<fm>Notf:</fm> Tiis bfibvior is difffrfnt from b
+     * {@linkplbin #bsCollfdtor fixfd brity dollfdtor},
+     * sindf it bddfpts b wiolf brrby of indftfrminbtf lfngti,
+     * rbtifr tibn b fixfd numbfr of brgumfnts.)
      * <p>
-     * When called with plain, inexact {@link #invoke invoke}, if the caller
-     * type is the same as the adapter, the adapter invokes the target as with
-     * {@code invokeExact}.
-     * (This is the normal behavior for {@code invoke} when types match.)
+     * Wifn dbllfd witi plbin, infxbdt {@link #invokf invokf}, if tif dbllfr
+     * typf is tif sbmf bs tif bdbptfr, tif bdbptfr invokfs tif tbrgft bs witi
+     * {@dodf invokfExbdt}.
+     * (Tiis is tif normbl bfibvior for {@dodf invokf} wifn typfs mbtdi.)
      * <p>
-     * Otherwise, if the caller and adapter arity are the same, and the
-     * trailing parameter type of the caller is a reference type identical to
-     * or assignable to the trailing parameter type of the adapter,
-     * the arguments and return values are converted pairwise,
-     * as if by {@link #asType asType} on a fixed arity
-     * method handle.
+     * Otifrwisf, if tif dbllfr bnd bdbptfr brity brf tif sbmf, bnd tif
+     * trbiling pbrbmftfr typf of tif dbllfr is b rfffrfndf typf idfntidbl to
+     * or bssignbblf to tif trbiling pbrbmftfr typf of tif bdbptfr,
+     * tif brgumfnts bnd rfturn vblufs brf donvfrtfd pbirwisf,
+     * bs if by {@link #bsTypf bsTypf} on b fixfd brity
+     * mftiod ibndlf.
      * <p>
-     * Otherwise, the arities differ, or the adapter's trailing parameter
-     * type is not assignable from the corresponding caller type.
-     * In this case, the adapter replaces all trailing arguments from
-     * the original trailing argument position onward, by
-     * a new array of type {@code arrayType}, whose elements
-     * comprise (in order) the replaced arguments.
+     * Otifrwisf, tif britifs difffr, or tif bdbptfr's trbiling pbrbmftfr
+     * typf is not bssignbblf from tif dorrfsponding dbllfr typf.
+     * In tiis dbsf, tif bdbptfr rfplbdfs bll trbiling brgumfnts from
+     * tif originbl trbiling brgumfnt position onwbrd, by
+     * b nfw brrby of typf {@dodf brrbyTypf}, wiosf flfmfnts
+     * domprisf (in ordfr) tif rfplbdfd brgumfnts.
      * <p>
-     * The caller type must provides as least enough arguments,
-     * and of the correct type, to satisfy the target's requirement for
-     * positional arguments before the trailing array argument.
-     * Thus, the caller must supply, at a minimum, {@code N-1} arguments,
-     * where {@code N} is the arity of the target.
-     * Also, there must exist conversions from the incoming arguments
-     * to the target's arguments.
-     * As with other uses of plain {@code invoke}, if these basic
-     * requirements are not fulfilled, a {@code WrongMethodTypeException}
-     * may be thrown.
+     * Tif dbllfr typf must providfs bs lfbst fnougi brgumfnts,
+     * bnd of tif dorrfdt typf, to sbtisfy tif tbrgft's rfquirfmfnt for
+     * positionbl brgumfnts bfforf tif trbiling brrby brgumfnt.
+     * Tius, tif dbllfr must supply, bt b minimum, {@dodf N-1} brgumfnts,
+     * wifrf {@dodf N} is tif brity of tif tbrgft.
+     * Also, tifrf must fxist donvfrsions from tif indoming brgumfnts
+     * to tif tbrgft's brgumfnts.
+     * As witi otifr usfs of plbin {@dodf invokf}, if tifsf bbsid
+     * rfquirfmfnts brf not fulfillfd, b {@dodf WrongMftiodTypfExdfption}
+     * mby bf tirown.
      * <p>
-     * In all cases, what the target eventually returns is returned unchanged by the adapter.
+     * In bll dbsfs, wibt tif tbrgft fvfntublly rfturns is rfturnfd undibngfd by tif bdbptfr.
      * <p>
-     * In the final case, it is exactly as if the target method handle were
-     * temporarily adapted with a {@linkplain #asCollector fixed arity collector}
-     * to the arity required by the caller type.
-     * (As with {@code asCollector}, if the array length is zero,
-     * a shared constant may be used instead of a new array.
-     * If the implied call to {@code asCollector} would throw
-     * an {@code IllegalArgumentException} or {@code WrongMethodTypeException},
-     * the call to the variable arity adapter must throw
-     * {@code WrongMethodTypeException}.)
+     * In tif finbl dbsf, it is fxbdtly bs if tif tbrgft mftiod ibndlf wfrf
+     * tfmporbrily bdbptfd witi b {@linkplbin #bsCollfdtor fixfd brity dollfdtor}
+     * to tif brity rfquirfd by tif dbllfr typf.
+     * (As witi {@dodf bsCollfdtor}, if tif brrby lfngti is zfro,
+     * b sibrfd donstbnt mby bf usfd instfbd of b nfw brrby.
+     * If tif implifd dbll to {@dodf bsCollfdtor} would tirow
+     * bn {@dodf IllfgblArgumfntExdfption} or {@dodf WrongMftiodTypfExdfption},
+     * tif dbll to tif vbribblf brity bdbptfr must tirow
+     * {@dodf WrongMftiodTypfExdfption}.)
      * <p>
-     * The behavior of {@link #asType asType} is also specialized for
-     * variable arity adapters, to maintain the invariant that
-     * plain, inexact {@code invoke} is always equivalent to an {@code asType}
-     * call to adjust the target type, followed by {@code invokeExact}.
-     * Therefore, a variable arity adapter responds
-     * to an {@code asType} request by building a fixed arity collector,
-     * if and only if the adapter and requested type differ either
-     * in arity or trailing argument type.
-     * The resulting fixed arity collector has its type further adjusted
-     * (if necessary) to the requested type by pairwise conversion,
-     * as if by another application of {@code asType}.
+     * Tif bfibvior of {@link #bsTypf bsTypf} is blso spfdiblizfd for
+     * vbribblf brity bdbptfrs, to mbintbin tif invbribnt tibt
+     * plbin, infxbdt {@dodf invokf} is blwbys fquivblfnt to bn {@dodf bsTypf}
+     * dbll to bdjust tif tbrgft typf, followfd by {@dodf invokfExbdt}.
+     * Tifrfforf, b vbribblf brity bdbptfr rfsponds
+     * to bn {@dodf bsTypf} rfqufst by building b fixfd brity dollfdtor,
+     * if bnd only if tif bdbptfr bnd rfqufstfd typf difffr fitifr
+     * in brity or trbiling brgumfnt typf.
+     * Tif rfsulting fixfd brity dollfdtor ibs its typf furtifr bdjustfd
+     * (if nfdfssbry) to tif rfqufstfd typf by pbirwisf donvfrsion,
+     * bs if by bnotifr bpplidbtion of {@dodf bsTypf}.
      * <p>
-     * When a method handle is obtained by executing an {@code ldc} instruction
-     * of a {@code CONSTANT_MethodHandle} constant, and the target method is marked
-     * as a variable arity method (with the modifier bit {@code 0x0080}),
-     * the method handle will accept multiple arities, as if the method handle
-     * constant were created by means of a call to {@code asVarargsCollector}.
+     * Wifn b mftiod ibndlf is obtbinfd by fxfduting bn {@dodf ldd} instrudtion
+     * of b {@dodf CONSTANT_MftiodHbndlf} donstbnt, bnd tif tbrgft mftiod is mbrkfd
+     * bs b vbribblf brity mftiod (witi tif modififr bit {@dodf 0x0080}),
+     * tif mftiod ibndlf will bddfpt multiplf britifs, bs if tif mftiod ibndlf
+     * donstbnt wfrf drfbtfd by mfbns of b dbll to {@dodf bsVbrbrgsCollfdtor}.
      * <p>
-     * In order to create a collecting adapter which collects a predetermined
-     * number of arguments, and whose type reflects this predetermined number,
-     * use {@link #asCollector asCollector} instead.
+     * In ordfr to drfbtf b dollfdting bdbptfr wiidi dollfdts b prfdftfrminfd
+     * numbfr of brgumfnts, bnd wiosf typf rfflfdts tiis prfdftfrminfd numbfr,
+     * usf {@link #bsCollfdtor bsCollfdtor} instfbd.
      * <p>
-     * No method handle transformations produce new method handles with
-     * variable arity, unless they are documented as doing so.
-     * Therefore, besides {@code asVarargsCollector},
-     * all methods in {@code MethodHandle} and {@code MethodHandles}
-     * will return a method handle with fixed arity,
-     * except in the cases where they are specified to return their original
-     * operand (e.g., {@code asType} of the method handle's own type).
+     * No mftiod ibndlf trbnsformbtions produdf nfw mftiod ibndlfs witi
+     * vbribblf brity, unlfss tify brf dodumfntfd bs doing so.
+     * Tifrfforf, bfsidfs {@dodf bsVbrbrgsCollfdtor},
+     * bll mftiods in {@dodf MftiodHbndlf} bnd {@dodf MftiodHbndlfs}
+     * will rfturn b mftiod ibndlf witi fixfd brity,
+     * fxdfpt in tif dbsfs wifrf tify brf spfdififd to rfturn tifir originbl
+     * opfrbnd (f.g., {@dodf bsTypf} of tif mftiod ibndlf's own typf).
      * <p>
-     * Calling {@code asVarargsCollector} on a method handle which is already
-     * of variable arity will produce a method handle with the same type and behavior.
-     * It may (or may not) return the original variable arity method handle.
+     * Cblling {@dodf bsVbrbrgsCollfdtor} on b mftiod ibndlf wiidi is blrfbdy
+     * of vbribblf brity will produdf b mftiod ibndlf witi tif sbmf typf bnd bfibvior.
+     * It mby (or mby not) rfturn tif originbl vbribblf brity mftiod ibndlf.
      * <p>
-     * Here is an example, of a list-making variable arity method handle:
-     * <blockquote><pre>{@code
-MethodHandle deepToString = publicLookup()
-  .findStatic(Arrays.class, "deepToString", methodType(String.class, Object[].class));
-MethodHandle ts1 = deepToString.asVarargsCollector(Object[].class);
-assertEquals("[won]",   (String) ts1.invokeExact(    new Object[]{"won"}));
-assertEquals("[won]",   (String) ts1.invoke(         new Object[]{"won"}));
-assertEquals("[won]",   (String) ts1.invoke(                      "won" ));
-assertEquals("[[won]]", (String) ts1.invoke((Object) new Object[]{"won"}));
-// findStatic of Arrays.asList(...) produces a variable arity method handle:
-MethodHandle asList = publicLookup()
-  .findStatic(Arrays.class, "asList", methodType(List.class, Object[].class));
-assertEquals(methodType(List.class, Object[].class), asList.type());
-assert(asList.isVarargsCollector());
-assertEquals("[]", asList.invoke().toString());
-assertEquals("[1]", asList.invoke(1).toString());
-assertEquals("[two, too]", asList.invoke("two", "too").toString());
-String[] argv = { "three", "thee", "tee" };
-assertEquals("[three, thee, tee]", asList.invoke(argv).toString());
-assertEquals("[three, thee, tee]", asList.invoke((Object[])argv).toString());
-List ls = (List) asList.invoke((Object)argv);
-assertEquals(1, ls.size());
-assertEquals("[three, thee, tee]", Arrays.toString((Object[])ls.get(0)));
-     * }</pre></blockquote>
-     * <p style="font-size:smaller;">
-     * <em>Discussion:</em>
-     * These rules are designed as a dynamically-typed variation
-     * of the Java rules for variable arity methods.
-     * In both cases, callers to a variable arity method or method handle
-     * can either pass zero or more positional arguments, or else pass
-     * pre-collected arrays of any length.  Users should be aware of the
-     * special role of the final argument, and of the effect of a
-     * type match on that final argument, which determines whether
-     * or not a single trailing argument is interpreted as a whole
-     * array or a single element of an array to be collected.
-     * Note that the dynamic type of the trailing argument has no
-     * effect on this decision, only a comparison between the symbolic
-     * type descriptor of the call site and the type descriptor of the method handle.)
+     * Hfrf is bn fxbmplf, of b list-mbking vbribblf brity mftiod ibndlf:
+     * <blodkquotf><prf>{@dodf
+MftiodHbndlf dffpToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "dffpToString", mftiodTypf(String.dlbss, Objfdt[].dlbss));
+MftiodHbndlf ts1 = dffpToString.bsVbrbrgsCollfdtor(Objfdt[].dlbss);
+bssfrtEqubls("[won]",   (String) ts1.invokfExbdt(    nfw Objfdt[]{"won"}));
+bssfrtEqubls("[won]",   (String) ts1.invokf(         nfw Objfdt[]{"won"}));
+bssfrtEqubls("[won]",   (String) ts1.invokf(                      "won" ));
+bssfrtEqubls("[[won]]", (String) ts1.invokf((Objfdt) nfw Objfdt[]{"won"}));
+// findStbtid of Arrbys.bsList(...) produdfs b vbribblf brity mftiod ibndlf:
+MftiodHbndlf bsList = publidLookup()
+  .findStbtid(Arrbys.dlbss, "bsList", mftiodTypf(List.dlbss, Objfdt[].dlbss));
+bssfrtEqubls(mftiodTypf(List.dlbss, Objfdt[].dlbss), bsList.typf());
+bssfrt(bsList.isVbrbrgsCollfdtor());
+bssfrtEqubls("[]", bsList.invokf().toString());
+bssfrtEqubls("[1]", bsList.invokf(1).toString());
+bssfrtEqubls("[two, too]", bsList.invokf("two", "too").toString());
+String[] brgv = { "tirff", "tiff", "tff" };
+bssfrtEqubls("[tirff, tiff, tff]", bsList.invokf(brgv).toString());
+bssfrtEqubls("[tirff, tiff, tff]", bsList.invokf((Objfdt[])brgv).toString());
+List ls = (List) bsList.invokf((Objfdt)brgv);
+bssfrtEqubls(1, ls.sizf());
+bssfrtEqubls("[tirff, tiff, tff]", Arrbys.toString((Objfdt[])ls.gft(0)));
+     * }</prf></blodkquotf>
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * Tifsf rulfs brf dfsignfd bs b dynbmidblly-typfd vbribtion
+     * of tif Jbvb rulfs for vbribblf brity mftiods.
+     * In boti dbsfs, dbllfrs to b vbribblf brity mftiod or mftiod ibndlf
+     * dbn fitifr pbss zfro or morf positionbl brgumfnts, or flsf pbss
+     * prf-dollfdtfd brrbys of bny lfngti.  Usfrs siould bf bwbrf of tif
+     * spfdibl rolf of tif finbl brgumfnt, bnd of tif ffffdt of b
+     * typf mbtdi on tibt finbl brgumfnt, wiidi dftfrminfs wiftifr
+     * or not b singlf trbiling brgumfnt is intfrprftfd bs b wiolf
+     * brrby or b singlf flfmfnt of bn brrby to bf dollfdtfd.
+     * Notf tibt tif dynbmid typf of tif trbiling brgumfnt ibs no
+     * ffffdt on tiis dfdision, only b dompbrison bftwffn tif symbolid
+     * typf dfsdriptor of tif dbll sitf bnd tif typf dfsdriptor of tif mftiod ibndlf.)
      *
-     * @param arrayType often {@code Object[]}, the type of the array argument which will collect the arguments
-     * @return a new method handle which can collect any number of trailing arguments
-     *         into an array, before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type
-     *         or {@code arrayType} is not assignable to this method handle's trailing parameter type
-     * @see #asCollector
-     * @see #isVarargsCollector
-     * @see #asFixedArity
+     * @pbrbm brrbyTypf oftfn {@dodf Objfdt[]}, tif typf of tif brrby brgumfnt wiidi will dollfdt tif brgumfnts
+     * @rfturn b nfw mftiod ibndlf wiidi dbn dollfdt bny numbfr of trbiling brgumfnts
+     *         into bn brrby, bfforf dblling tif originbl mftiod ibndlf
+     * @tirows NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @tirows IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf
+     *         or {@dodf brrbyTypf} is not bssignbblf to tiis mftiod ibndlf's trbiling pbrbmftfr typf
+     * @sff #bsCollfdtor
+     * @sff #isVbrbrgsCollfdtor
+     * @sff #bsFixfdArity
      */
-    public MethodHandle asVarargsCollector(Class<?> arrayType) {
-        Class<?> arrayElement = arrayType.getComponentType();
-        boolean lastMatch = asCollectorChecks(arrayType, 0);
-        if (isVarargsCollector() && lastMatch)
-            return this;
-        return MethodHandleImpl.makeVarargsCollector(this, arrayType);
+    publid MftiodHbndlf bsVbrbrgsCollfdtor(Clbss<?> brrbyTypf) {
+        Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+        boolfbn lbstMbtdi = bsCollfdtorCifdks(brrbyTypf, 0);
+        if (isVbrbrgsCollfdtor() && lbstMbtdi)
+            rfturn tiis;
+        rfturn MftiodHbndlfImpl.mbkfVbrbrgsCollfdtor(tiis, brrbyTypf);
     }
 
     /**
-     * Determines if this method handle
-     * supports {@linkplain #asVarargsCollector variable arity} calls.
-     * Such method handles arise from the following sources:
+     * Dftfrminfs if tiis mftiod ibndlf
+     * supports {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity} dblls.
+     * Sudi mftiod ibndlfs brisf from tif following sourdfs:
      * <ul>
-     * <li>a call to {@linkplain #asVarargsCollector asVarargsCollector}
-     * <li>a call to a {@linkplain java.lang.invoke.MethodHandles.Lookup lookup method}
-     *     which resolves to a variable arity Java method or constructor
-     * <li>an {@code ldc} instruction of a {@code CONSTANT_MethodHandle}
-     *     which resolves to a variable arity Java method or constructor
+     * <li>b dbll to {@linkplbin #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor}
+     * <li>b dbll to b {@linkplbin jbvb.lbng.invokf.MftiodHbndlfs.Lookup lookup mftiod}
+     *     wiidi rfsolvfs to b vbribblf brity Jbvb mftiod or donstrudtor
+     * <li>bn {@dodf ldd} instrudtion of b {@dodf CONSTANT_MftiodHbndlf}
+     *     wiidi rfsolvfs to b vbribblf brity Jbvb mftiod or donstrudtor
      * </ul>
-     * @return true if this method handle accepts more than one arity of plain, inexact {@code invoke} calls
-     * @see #asVarargsCollector
-     * @see #asFixedArity
+     * @rfturn truf if tiis mftiod ibndlf bddfpts morf tibn onf brity of plbin, infxbdt {@dodf invokf} dblls
+     * @sff #bsVbrbrgsCollfdtor
+     * @sff #bsFixfdArity
      */
-    public boolean isVarargsCollector() {
-        return false;
+    publid boolfbn isVbrbrgsCollfdtor() {
+        rfturn fblsf;
     }
 
     /**
-     * Makes a <em>fixed arity</em> method handle which is otherwise
-     * equivalent to the current method handle.
+     * Mbkfs b <fm>fixfd brity</fm> mftiod ibndlf wiidi is otifrwisf
+     * fquivblfnt to tif durrfnt mftiod ibndlf.
      * <p>
-     * If the current method handle is not of
-     * {@linkplain #asVarargsCollector variable arity},
-     * the current method handle is returned.
-     * This is true even if the current method handle
-     * could not be a valid input to {@code asVarargsCollector}.
+     * If tif durrfnt mftiod ibndlf is not of
+     * {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity},
+     * tif durrfnt mftiod ibndlf is rfturnfd.
+     * Tiis is truf fvfn if tif durrfnt mftiod ibndlf
+     * dould not bf b vblid input to {@dodf bsVbrbrgsCollfdtor}.
      * <p>
-     * Otherwise, the resulting fixed-arity method handle has the same
-     * type and behavior of the current method handle,
-     * except that {@link #isVarargsCollector isVarargsCollector}
-     * will be false.
-     * The fixed-arity method handle may (or may not) be the
-     * a previous argument to {@code asVarargsCollector}.
+     * Otifrwisf, tif rfsulting fixfd-brity mftiod ibndlf ibs tif sbmf
+     * typf bnd bfibvior of tif durrfnt mftiod ibndlf,
+     * fxdfpt tibt {@link #isVbrbrgsCollfdtor isVbrbrgsCollfdtor}
+     * will bf fblsf.
+     * Tif fixfd-brity mftiod ibndlf mby (or mby not) bf tif
+     * b prfvious brgumfnt to {@dodf bsVbrbrgsCollfdtor}.
      * <p>
-     * Here is an example, of a list-making variable arity method handle:
-     * <blockquote><pre>{@code
-MethodHandle asListVar = publicLookup()
-  .findStatic(Arrays.class, "asList", methodType(List.class, Object[].class))
-  .asVarargsCollector(Object[].class);
-MethodHandle asListFix = asListVar.asFixedArity();
-assertEquals("[1]", asListVar.invoke(1).toString());
-Exception caught = null;
-try { asListFix.invoke((Object)1); }
-catch (Exception ex) { caught = ex; }
-assert(caught instanceof ClassCastException);
-assertEquals("[two, too]", asListVar.invoke("two", "too").toString());
-try { asListFix.invoke("two", "too"); }
-catch (Exception ex) { caught = ex; }
-assert(caught instanceof WrongMethodTypeException);
-Object[] argv = { "three", "thee", "tee" };
-assertEquals("[three, thee, tee]", asListVar.invoke(argv).toString());
-assertEquals("[three, thee, tee]", asListFix.invoke(argv).toString());
-assertEquals(1, ((List) asListVar.invoke((Object)argv)).size());
-assertEquals("[three, thee, tee]", asListFix.invoke((Object)argv).toString());
-     * }</pre></blockquote>
+     * Hfrf is bn fxbmplf, of b list-mbking vbribblf brity mftiod ibndlf:
+     * <blodkquotf><prf>{@dodf
+MftiodHbndlf bsListVbr = publidLookup()
+  .findStbtid(Arrbys.dlbss, "bsList", mftiodTypf(List.dlbss, Objfdt[].dlbss))
+  .bsVbrbrgsCollfdtor(Objfdt[].dlbss);
+MftiodHbndlf bsListFix = bsListVbr.bsFixfdArity();
+bssfrtEqubls("[1]", bsListVbr.invokf(1).toString());
+Exdfption dbugit = null;
+try { bsListFix.invokf((Objfdt)1); }
+dbtdi (Exdfption fx) { dbugit = fx; }
+bssfrt(dbugit instbndfof ClbssCbstExdfption);
+bssfrtEqubls("[two, too]", bsListVbr.invokf("two", "too").toString());
+try { bsListFix.invokf("two", "too"); }
+dbtdi (Exdfption fx) { dbugit = fx; }
+bssfrt(dbugit instbndfof WrongMftiodTypfExdfption);
+Objfdt[] brgv = { "tirff", "tiff", "tff" };
+bssfrtEqubls("[tirff, tiff, tff]", bsListVbr.invokf(brgv).toString());
+bssfrtEqubls("[tirff, tiff, tff]", bsListFix.invokf(brgv).toString());
+bssfrtEqubls(1, ((List) bsListVbr.invokf((Objfdt)brgv)).sizf());
+bssfrtEqubls("[tirff, tiff, tff]", bsListFix.invokf((Objfdt)brgv).toString());
+     * }</prf></blodkquotf>
      *
-     * @return a new method handle which accepts only a fixed number of arguments
-     * @see #asVarargsCollector
-     * @see #isVarargsCollector
+     * @rfturn b nfw mftiod ibndlf wiidi bddfpts only b fixfd numbfr of brgumfnts
+     * @sff #bsVbrbrgsCollfdtor
+     * @sff #isVbrbrgsCollfdtor
      */
-    public MethodHandle asFixedArity() {
-        assert(!isVarargsCollector());
-        return this;
+    publid MftiodHbndlf bsFixfdArity() {
+        bssfrt(!isVbrbrgsCollfdtor());
+        rfturn tiis;
     }
 
     /**
-     * Binds a value {@code x} to the first argument of a method handle, without invoking it.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle by binding it to the given argument.
-     * The type of the bound handle will be
-     * the same as the type of the target, except that a single leading
-     * reference parameter will be omitted.
+     * Binds b vbluf {@dodf x} to tif first brgumfnt of b mftiod ibndlf, witiout invoking it.
+     * Tif nfw mftiod ibndlf bdbpts, bs its <i>tbrgft</i>,
+     * tif durrfnt mftiod ibndlf by binding it to tif givfn brgumfnt.
+     * Tif typf of tif bound ibndlf will bf
+     * tif sbmf bs tif typf of tif tbrgft, fxdfpt tibt b singlf lfbding
+     * rfffrfndf pbrbmftfr will bf omittfd.
      * <p>
-     * When called, the bound handle inserts the given value {@code x}
-     * as a new leading argument to the target.  The other arguments are
-     * also passed unchanged.
-     * What the target eventually returns is returned unchanged by the bound handle.
+     * Wifn dbllfd, tif bound ibndlf insfrts tif givfn vbluf {@dodf x}
+     * bs b nfw lfbding brgumfnt to tif tbrgft.  Tif otifr brgumfnts brf
+     * blso pbssfd undibngfd.
+     * Wibt tif tbrgft fvfntublly rfturns is rfturnfd undibngfd by tif bound ibndlf.
      * <p>
-     * The reference {@code x} must be convertible to the first parameter
-     * type of the target.
+     * Tif rfffrfndf {@dodf x} must bf donvfrtiblf to tif first pbrbmftfr
+     * typf of tif tbrgft.
      * <p>
-     * (<em>Note:</em>  Because method handles are immutable, the target method handle
-     * retains its original type and behavior.)
-     * @param x  the value to bind to the first argument of the target
-     * @return a new method handle which prepends the given value to the incoming
-     *         argument list, before calling the original method handle
-     * @throws IllegalArgumentException if the target does not have a
-     *         leading parameter type that is a reference type
-     * @throws ClassCastException if {@code x} cannot be converted
-     *         to the leading parameter type of the target
-     * @see MethodHandles#insertArguments
+     * (<fm>Notf:</fm>  Bfdbusf mftiod ibndlfs brf immutbblf, tif tbrgft mftiod ibndlf
+     * rftbins its originbl typf bnd bfibvior.)
+     * @pbrbm x  tif vbluf to bind to tif first brgumfnt of tif tbrgft
+     * @rfturn b nfw mftiod ibndlf wiidi prfpfnds tif givfn vbluf to tif indoming
+     *         brgumfnt list, bfforf dblling tif originbl mftiod ibndlf
+     * @tirows IllfgblArgumfntExdfption if tif tbrgft dofs not ibvf b
+     *         lfbding pbrbmftfr typf tibt is b rfffrfndf typf
+     * @tirows ClbssCbstExdfption if {@dodf x} dbnnot bf donvfrtfd
+     *         to tif lfbding pbrbmftfr typf of tif tbrgft
+     * @sff MftiodHbndlfs#insfrtArgumfnts
      */
-    public MethodHandle bindTo(Object x) {
-        Class<?> ptype;
-        @SuppressWarnings("LocalVariableHidesMemberVariable")
-        MethodType type = type();
-        if (type.parameterCount() == 0 ||
-            (ptype = type.parameterType(0)).isPrimitive())
-            throw newIllegalArgumentException("no leading reference parameter", x);
-        x = ptype.cast(x);  // throw CCE if needed
-        return bindReceiver(x);
+    publid MftiodHbndlf bindTo(Objfdt x) {
+        Clbss<?> ptypf;
+        @SupprfssWbrnings("LodblVbribblfHidfsMfmbfrVbribblf")
+        MftiodTypf typf = typf();
+        if (typf.pbrbmftfrCount() == 0 ||
+            (ptypf = typf.pbrbmftfrTypf(0)).isPrimitivf())
+            tirow nfwIllfgblArgumfntExdfption("no lfbding rfffrfndf pbrbmftfr", x);
+        x = ptypf.dbst(x);  // tirow CCE if nffdfd
+        rfturn bindRfdfivfr(x);
     }
 
     /**
-     * Returns a string representation of the method handle,
-     * starting with the string {@code "MethodHandle"} and
-     * ending with the string representation of the method handle's type.
-     * In other words, this method returns a string equal to the value of:
-     * <blockquote><pre>{@code
-     * "MethodHandle" + type().toString()
-     * }</pre></blockquote>
+     * Rfturns b string rfprfsfntbtion of tif mftiod ibndlf,
+     * stbrting witi tif string {@dodf "MftiodHbndlf"} bnd
+     * fnding witi tif string rfprfsfntbtion of tif mftiod ibndlf's typf.
+     * In otifr words, tiis mftiod rfturns b string fqubl to tif vbluf of:
+     * <blodkquotf><prf>{@dodf
+     * "MftiodHbndlf" + typf().toString()
+     * }</prf></blodkquotf>
      * <p>
-     * (<em>Note:</em>  Future releases of this API may add further information
-     * to the string representation.
-     * Therefore, the present syntax should not be parsed by applications.)
+     * (<fm>Notf:</fm>  Futurf rflfbsfs of tiis API mby bdd furtifr informbtion
+     * to tif string rfprfsfntbtion.
+     * Tifrfforf, tif prfsfnt syntbx siould not bf pbrsfd by bpplidbtions.)
      *
-     * @return a string representation of the method handle
+     * @rfturn b string rfprfsfntbtion of tif mftiod ibndlf
      */
-    @Override
-    public String toString() {
-        if (DEBUG_METHOD_HANDLE_NAMES)  return debugString();
-        return standardString();
+    @Ovfrridf
+    publid String toString() {
+        if (DEBUG_METHOD_HANDLE_NAMES)  rfturn dfbugString();
+        rfturn stbndbrdString();
     }
-    String standardString() {
-        return "MethodHandle"+type;
+    String stbndbrdString() {
+        rfturn "MftiodHbndlf"+typf;
     }
-    String debugString() {
-        return standardString()+"/LF="+internalForm()+internalProperties();
+    String dfbugString() {
+        rfturn stbndbrdString()+"/LF="+intfrnblForm()+intfrnblPropfrtifs();
     }
 
-    //// Implementation methods.
-    //// Sub-classes can override these default implementations.
-    //// All these methods assume arguments are already validated.
+    //// Implfmfntbtion mftiods.
+    //// Sub-dlbssfs dbn ovfrridf tifsf dffbult implfmfntbtions.
+    //// All tifsf mftiods bssumf brgumfnts brf blrfbdy vblidbtfd.
 
-    // Other transforms to do:  convert, explicitCast, permute, drop, filter, fold, GWT, catch
+    // Otifr trbnsforms to do:  donvfrt, fxpliditCbst, pfrmutf, drop, filtfr, fold, GWT, dbtdi
 
-    /*non-public*/
-    MethodHandle setVarargs(MemberName member) throws IllegalAccessException {
-        if (!member.isVarargs())  return this;
-        int argc = type().parameterCount();
-        if (argc != 0) {
-            Class<?> arrayType = type().parameterType(argc-1);
-            if (arrayType.isArray()) {
-                return MethodHandleImpl.makeVarargsCollector(this, arrayType);
+    /*non-publid*/
+    MftiodHbndlf sftVbrbrgs(MfmbfrNbmf mfmbfr) tirows IllfgblAddfssExdfption {
+        if (!mfmbfr.isVbrbrgs())  rfturn tiis;
+        int brgd = typf().pbrbmftfrCount();
+        if (brgd != 0) {
+            Clbss<?> brrbyTypf = typf().pbrbmftfrTypf(brgd-1);
+            if (brrbyTypf.isArrby()) {
+                rfturn MftiodHbndlfImpl.mbkfVbrbrgsCollfdtor(tiis, brrbyTypf);
             }
         }
-        throw member.makeAccessException("cannot make variable arity", null);
+        tirow mfmbfr.mbkfAddfssExdfption("dbnnot mbkf vbribblf brity", null);
     }
-    /*non-public*/
-    MethodHandle viewAsType(MethodType newType) {
-        // No actual conversions, just a new view of the same method.
-        return MethodHandleImpl.makePairwiseConvert(this, newType, 0);
-    }
-
-    // Decoding
-
-    /*non-public*/
-    LambdaForm internalForm() {
-        return form;
+    /*non-publid*/
+    MftiodHbndlf vifwAsTypf(MftiodTypf nfwTypf) {
+        // No bdtubl donvfrsions, just b nfw vifw of tif sbmf mftiod.
+        rfturn MftiodHbndlfImpl.mbkfPbirwisfConvfrt(tiis, nfwTypf, 0);
     }
 
-    /*non-public*/
-    MemberName internalMemberName() {
-        return null;  // DMH returns DMH.member
+    // Dfdoding
+
+    /*non-publid*/
+    LbmbdbForm intfrnblForm() {
+        rfturn form;
     }
 
-    /*non-public*/
-    Class<?> internalCallerClass() {
-        return null;  // caller-bound MH for @CallerSensitive method returns caller
+    /*non-publid*/
+    MfmbfrNbmf intfrnblMfmbfrNbmf() {
+        rfturn null;  // DMH rfturns DMH.mfmbfr
     }
 
-    /*non-public*/
-    MethodHandle withInternalMemberName(MemberName member) {
-        if (member != null) {
-            return MethodHandleImpl.makeWrappedMember(this, member);
-        } else if (internalMemberName() == null) {
-            // The required internaMemberName is null, and this MH (like most) doesn't have one.
-            return this;
-        } else {
-            // The following case is rare. Mask the internalMemberName by wrapping the MH in a BMH.
-            MethodHandle result = rebind();
-            assert (result.internalMemberName() == null);
-            return result;
+    /*non-publid*/
+    Clbss<?> intfrnblCbllfrClbss() {
+        rfturn null;  // dbllfr-bound MH for @CbllfrSfnsitivf mftiod rfturns dbllfr
+    }
+
+    /*non-publid*/
+    MftiodHbndlf witiIntfrnblMfmbfrNbmf(MfmbfrNbmf mfmbfr) {
+        if (mfmbfr != null) {
+            rfturn MftiodHbndlfImpl.mbkfWrbppfdMfmbfr(tiis, mfmbfr);
+        } flsf if (intfrnblMfmbfrNbmf() == null) {
+            // Tif rfquirfd intfrnbMfmbfrNbmf is null, bnd tiis MH (likf most) dofsn't ibvf onf.
+            rfturn tiis;
+        } flsf {
+            // Tif following dbsf is rbrf. Mbsk tif intfrnblMfmbfrNbmf by wrbpping tif MH in b BMH.
+            MftiodHbndlf rfsult = rfbind();
+            bssfrt (rfsult.intfrnblMfmbfrNbmf() == null);
+            rfturn rfsult;
         }
     }
 
-    /*non-public*/
-    boolean isInvokeSpecial() {
-        return false;  // DMH.Special returns true
+    /*non-publid*/
+    boolfbn isInvokfSpfdibl() {
+        rfturn fblsf;  // DMH.Spfdibl rfturns truf
     }
 
-    /*non-public*/
-    Object internalValues() {
-        return null;
+    /*non-publid*/
+    Objfdt intfrnblVblufs() {
+        rfturn null;
     }
 
-    /*non-public*/
-    Object internalProperties() {
-        // Override to something like "/FOO=bar"
-        return "";
+    /*non-publid*/
+    Objfdt intfrnblPropfrtifs() {
+        // Ovfrridf to somftiing likf "/FOO=bbr"
+        rfturn "";
     }
 
-    //// Method handle implementation methods.
-    //// Sub-classes can override these default implementations.
-    //// All these methods assume arguments are already validated.
+    //// Mftiod ibndlf implfmfntbtion mftiods.
+    //// Sub-dlbssfs dbn ovfrridf tifsf dffbult implfmfntbtions.
+    //// All tifsf mftiods bssumf brgumfnts brf blrfbdy vblidbtfd.
 
-    /*non-public*/ MethodHandle convertArguments(MethodType newType) {
-        // Override this if it can be improved.
-        return MethodHandleImpl.makePairwiseConvert(this, newType, 1);
+    /*non-publid*/ MftiodHbndlf donvfrtArgumfnts(MftiodTypf nfwTypf) {
+        // Ovfrridf tiis if it dbn bf improvfd.
+        rfturn MftiodHbndlfImpl.mbkfPbirwisfConvfrt(tiis, nfwTypf, 1);
     }
 
-    /*non-public*/
-    MethodHandle bindArgument(int pos, BasicType basicType, Object value) {
-        // Override this if it can be improved.
-        return rebind().bindArgument(pos, basicType, value);
+    /*non-publid*/
+    MftiodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        // Ovfrridf tiis if it dbn bf improvfd.
+        rfturn rfbind().bindArgumfnt(pos, bbsidTypf, vbluf);
     }
 
-    /*non-public*/
-    MethodHandle bindReceiver(Object receiver) {
-        // Override this if it can be improved.
-        return bindArgument(0, L_TYPE, receiver);
+    /*non-publid*/
+    MftiodHbndlf bindRfdfivfr(Objfdt rfdfivfr) {
+        // Ovfrridf tiis if it dbn bf improvfd.
+        rfturn bindArgumfnt(0, L_TYPE, rfdfivfr);
     }
 
-    /*non-public*/
-    MethodHandle dropArguments(MethodType srcType, int pos, int drops) {
-        // Override this if it can be improved.
-        return rebind().dropArguments(srcType, pos, drops);
+    /*non-publid*/
+    MftiodHbndlf dropArgumfnts(MftiodTypf srdTypf, int pos, int drops) {
+        // Ovfrridf tiis if it dbn bf improvfd.
+        rfturn rfbind().dropArgumfnts(srdTypf, pos, drops);
     }
 
-    /*non-public*/
-    MethodHandle permuteArguments(MethodType newType, int[] reorder) {
-        // Override this if it can be improved.
-        return rebind().permuteArguments(newType, reorder);
+    /*non-publid*/
+    MftiodHbndlf pfrmutfArgumfnts(MftiodTypf nfwTypf, int[] rfordfr) {
+        // Ovfrridf tiis if it dbn bf improvfd.
+        rfturn rfbind().pfrmutfArgumfnts(nfwTypf, rfordfr);
     }
 
-    /*non-public*/
-    MethodHandle rebind() {
-        // Bind 'this' into a new invoker, of the known class BMH.
-        MethodType type2 = type();
-        LambdaForm form2 = reinvokerForm(this);
-        // form2 = lambda (bmh, arg*) { thismh = bmh[0]; invokeBasic(thismh, arg*) }
-        return BoundMethodHandle.bindSingle(type2, form2, this);
+    /*non-publid*/
+    MftiodHbndlf rfbind() {
+        // Bind 'tiis' into b nfw invokfr, of tif known dlbss BMH.
+        MftiodTypf typf2 = typf();
+        LbmbdbForm form2 = rfinvokfrForm(tiis);
+        // form2 = lbmbdb (bmi, brg*) { tiismi = bmi[0]; invokfBbsid(tiismi, brg*) }
+        rfturn BoundMftiodHbndlf.bindSinglf(typf2, form2, tiis);
     }
 
-    /*non-public*/
-    MethodHandle reinvokerTarget() {
-        throw new InternalError("not a reinvoker MH: "+this.getClass().getName()+": "+this);
+    /*non-publid*/
+    MftiodHbndlf rfinvokfrTbrgft() {
+        tirow nfw IntfrnblError("not b rfinvokfr MH: "+tiis.gftClbss().gftNbmf()+": "+tiis);
     }
 
-    /** Create a LF which simply reinvokes a target of the given basic type.
-     *  The target MH must override {@link #reinvokerTarget} to provide the target.
+    /** Crfbtf b LF wiidi simply rfinvokfs b tbrgft of tif givfn bbsid typf.
+     *  Tif tbrgft MH must ovfrridf {@link #rfinvokfrTbrgft} to providf tif tbrgft.
      */
-    static LambdaForm reinvokerForm(MethodHandle target) {
-        MethodType mtype = target.type().basicType();
-        LambdaForm reinvoker = mtype.form().cachedLambdaForm(MethodTypeForm.LF_REINVOKE);
-        if (reinvoker != null)  return reinvoker;
-        if (mtype.parameterSlotCount() >= MethodType.MAX_MH_ARITY)
-            return makeReinvokerForm(target.type(), target);  // cannot cache this
-        reinvoker = makeReinvokerForm(mtype, null);
-        return mtype.form().setCachedLambdaForm(MethodTypeForm.LF_REINVOKE, reinvoker);
+    stbtid LbmbdbForm rfinvokfrForm(MftiodHbndlf tbrgft) {
+        MftiodTypf mtypf = tbrgft.typf().bbsidTypf();
+        LbmbdbForm rfinvokfr = mtypf.form().dbdifdLbmbdbForm(MftiodTypfForm.LF_REINVOKE);
+        if (rfinvokfr != null)  rfturn rfinvokfr;
+        if (mtypf.pbrbmftfrSlotCount() >= MftiodTypf.MAX_MH_ARITY)
+            rfturn mbkfRfinvokfrForm(tbrgft.typf(), tbrgft);  // dbnnot dbdif tiis
+        rfinvokfr = mbkfRfinvokfrForm(mtypf, null);
+        rfturn mtypf.form().sftCbdifdLbmbdbForm(MftiodTypfForm.LF_REINVOKE, rfinvokfr);
     }
-    private static LambdaForm makeReinvokerForm(MethodType mtype, MethodHandle customTargetOrNull) {
-        boolean customized = (customTargetOrNull != null);
-        MethodHandle MH_invokeBasic = customized ? null : MethodHandles.basicInvoker(mtype);
-        final int THIS_BMH    = 0;
-        final int ARG_BASE    = 1;
-        final int ARG_LIMIT   = ARG_BASE + mtype.parameterCount();
-        int nameCursor = ARG_LIMIT;
-        final int NEXT_MH     = customized ? -1 : nameCursor++;
-        final int REINVOKE    = nameCursor++;
-        LambdaForm.Name[] names = LambdaForm.arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        Object[] targetArgs;
-        MethodHandle targetMH;
-        if (customized) {
-            targetArgs = Arrays.copyOfRange(names, ARG_BASE, ARG_LIMIT, Object[].class);
-            targetMH = customTargetOrNull;
-        } else {
-            names[NEXT_MH] = new LambdaForm.Name(NF_reinvokerTarget, names[THIS_BMH]);
-            targetArgs = Arrays.copyOfRange(names, THIS_BMH, ARG_LIMIT, Object[].class);
-            targetArgs[0] = names[NEXT_MH];  // overwrite this MH with next MH
-            targetMH = MethodHandles.basicInvoker(mtype);
+    privbtf stbtid LbmbdbForm mbkfRfinvokfrForm(MftiodTypf mtypf, MftiodHbndlf dustomTbrgftOrNull) {
+        boolfbn dustomizfd = (dustomTbrgftOrNull != null);
+        MftiodHbndlf MH_invokfBbsid = dustomizfd ? null : MftiodHbndlfs.bbsidInvokfr(mtypf);
+        finbl int THIS_BMH    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtypf.pbrbmftfrCount();
+        int nbmfCursor = ARG_LIMIT;
+        finbl int NEXT_MH     = dustomizfd ? -1 : nbmfCursor++;
+        finbl int REINVOKE    = nbmfCursor++;
+        LbmbdbForm.Nbmf[] nbmfs = LbmbdbForm.brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        Objfdt[] tbrgftArgs;
+        MftiodHbndlf tbrgftMH;
+        if (dustomizfd) {
+            tbrgftArgs = Arrbys.dopyOfRbngf(nbmfs, ARG_BASE, ARG_LIMIT, Objfdt[].dlbss);
+            tbrgftMH = dustomTbrgftOrNull;
+        } flsf {
+            nbmfs[NEXT_MH] = nfw LbmbdbForm.Nbmf(NF_rfinvokfrTbrgft, nbmfs[THIS_BMH]);
+            tbrgftArgs = Arrbys.dopyOfRbngf(nbmfs, THIS_BMH, ARG_LIMIT, Objfdt[].dlbss);
+            tbrgftArgs[0] = nbmfs[NEXT_MH];  // ovfrwritf tiis MH witi nfxt MH
+            tbrgftMH = MftiodHbndlfs.bbsidInvokfr(mtypf);
         }
-        names[REINVOKE] = new LambdaForm.Name(targetMH, targetArgs);
-        return new LambdaForm("BMH.reinvoke", ARG_LIMIT, names);
+        nbmfs[REINVOKE] = nfw LbmbdbForm.Nbmf(tbrgftMH, tbrgftArgs);
+        rfturn nfw LbmbdbForm("BMH.rfinvokf", ARG_LIMIT, nbmfs);
     }
 
-    private static final LambdaForm.NamedFunction NF_reinvokerTarget;
-    static {
+    privbtf stbtid finbl LbmbdbForm.NbmfdFundtion NF_rfinvokfrTbrgft;
+    stbtid {
         try {
-            NF_reinvokerTarget = new LambdaForm.NamedFunction(MethodHandle.class
-                .getDeclaredMethod("reinvokerTarget"));
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            NF_rfinvokfrTbrgft = nfw LbmbdbForm.NbmfdFundtion(MftiodHbndlf.dlbss
+                .gftDfdlbrfdMftiod("rfinvokfrTbrgft"));
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
     }
 
     /**
-     * Replace the old lambda form of this method handle with a new one.
-     * The new one must be functionally equivalent to the old one.
-     * Threads may continue running the old form indefinitely,
-     * but it is likely that the new one will be preferred for new executions.
-     * Use with discretion.
+     * Rfplbdf tif old lbmbdb form of tiis mftiod ibndlf witi b nfw onf.
+     * Tif nfw onf must bf fundtionblly fquivblfnt to tif old onf.
+     * Tirfbds mby dontinuf running tif old form indffinitfly,
+     * but it is likfly tibt tif nfw onf will bf prfffrrfd for nfw fxfdutions.
+     * Usf witi disdrftion.
      */
-    /*non-public*/
-    void updateForm(LambdaForm newForm) {
-        if (form == newForm)  return;
-        // ISSUE: Should we have a memory fence here?
-        UNSAFE.putObject(this, FORM_OFFSET, newForm);
-        this.form.prepare();  // as in MethodHandle.<init>
+    /*non-publid*/
+    void updbtfForm(LbmbdbForm nfwForm) {
+        if (form == nfwForm)  rfturn;
+        // ISSUE: Siould wf ibvf b mfmory ffndf ifrf?
+        UNSAFE.putObjfdt(tiis, FORM_OFFSET, nfwForm);
+        tiis.form.prfpbrf();  // bs in MftiodHbndlf.<init>
     }
 
-    private static final long FORM_OFFSET;
-    static {
+    privbtf stbtid finbl long FORM_OFFSET;
+    stbtid {
         try {
-            FORM_OFFSET = UNSAFE.objectFieldOffset(MethodHandle.class.getDeclaredField("form"));
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            FORM_OFFSET = UNSAFE.objfdtFifldOffsft(MftiodHbndlf.dlbss.gftDfdlbrfdFifld("form"));
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            tirow nfwIntfrnblError(fx);
         }
     }
 }

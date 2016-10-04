@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+/**
+ * This dlbss is dfsignfd to bf b kfy of b dbdhf
+ * of donstrudtors or mfthods.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+finbl dlbss Signbturf {
+    privbtf finbl Clbss<?> typf;
+    privbtf finbl String nbmf;
+    privbtf finbl Clbss<?>[] brgs;
+
+    privbtf volbtilf int dodf;
+
+    /**
+     * Construdts signbturf for donstrudtor.
+     *
+     * @pbrbm typf  thf dlbss thbt dontbins donstrudtor
+     * @pbrbm brgs  thf typfs of donstrudtor's pbrbmftfrs
+     */
+    Signbturf(Clbss<?> typf, Clbss<?>[] brgs) {
+        this(typf, null, brgs);
+    }
+
+    /**
+     * Construdts signbturf for mfthod.
+     *
+     * @pbrbm typf  thf dlbss thbt dontbins mfthod
+     * @pbrbm nbmf  thf nbmf of thf mfthod
+     * @pbrbm brgs  thf typfs of mfthod's pbrbmftfrs
+     */
+    Signbturf(Clbss<?> typf, String nbmf, Clbss<?>[] brgs) {
+        this.typf = typf;
+        this.nbmf = nbmf;
+        this.brgs = brgs;
+    }
+
+    Clbss<?> gftTypf() {
+        rfturn this.typf;
+    }
+
+    String gftNbmf() {
+        rfturn this.nbmf;
+    }
+
+    Clbss<?>[] gftArgs() {
+        rfturn this.brgs;
+    }
+
+    /**
+     * Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this onf.
+     *
+     * @pbrbm objfdt  thf rfffrfndf objfdt with whidh to dompbrf
+     * @rfturn {@dodf truf} if this objfdt is thf sbmf bs thf
+     *         {@dodf objfdt} brgumfnt, {@dodf fblsf} othfrwisf
+     * @sff #hbshCodf()
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (this == objfdt) {
+            rfturn truf;
+        }
+        if (objfdt instbndfof Signbturf) {
+            Signbturf signbturf = (Signbturf) objfdt;
+            rfturn isEqubl(signbturf.typf, this.typf)
+                && isEqubl(signbturf.nbmf, this.nbmf)
+                && isEqubl(signbturf.brgs, this.brgs);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Indidbtfs whfthfr somf objfdt is "fqubl to" bnothfr onf.
+     * This mfthod supports {@dodf null} vblufs.
+     *
+     * @pbrbm obj1  thf first rfffrfndf objfdt thbt will dompbrfd
+     * @pbrbm obj2  thf sfdond rfffrfndf objfdt thbt will dompbrfd
+     * @rfturn {@dodf truf} if first objfdt is thf sbmf bs thf sfdond objfdt,
+     *         {@dodf fblsf} othfrwisf
+     */
+    privbtf stbtid boolfbn isEqubl(Objfdt obj1, Objfdt obj2) {
+        rfturn (obj1 == null)
+                ? obj2 == null
+                : obj1.fqubls(obj2);
+    }
+
+    /**
+     * Indidbtfs whfthfr somf brrby is "fqubl to" bnothfr onf.
+     * This mfthod supports {@dodf null} vblufs.
+     *
+     * @pbrbm brgs1 thf first rfffrfndf brrby thbt will dompbrfd
+     * @pbrbm brgs2 thf sfdond rfffrfndf brrby thbt will dompbrfd
+     * @rfturn {@dodf truf} if first brrby is thf sbmf bs thf sfdond brrby,
+     *         {@dodf fblsf} othfrwisf
+     */
+    privbtf stbtid boolfbn isEqubl(Clbss<?>[] brgs1, Clbss<?>[] brgs2) {
+        if ((brgs1 == null) || (brgs2 == null)) {
+            rfturn brgs1 == brgs2;
+        }
+        if (brgs1.lfngth != brgs2.lfngth) {
+            rfturn fblsf;
+        }
+        for (int i = 0; i < brgs1.lfngth; i++) {
+            if (!isEqubl(brgs1[i], brgs2[i])) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for thf objfdt.
+     * This mfthod is supportfd for thf bfnffit of hbshtbblfs
+     * sudh bs {@link jbvb.util.HbshMbp} or {@link jbvb.util.HbshSft}.
+     * Hbsh dodf domputfd using blgorithm
+     * suggfstfd in Efffdtivf Jbvb, Itfm 8.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt
+     * @sff #fqubls(Objfdt)
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        if (this.dodf == 0) {
+            int dodf = 17;
+            dodf = bddHbshCodf(dodf, this.typf);
+            dodf = bddHbshCodf(dodf, this.nbmf);
+
+            if (this.brgs != null) {
+                for (Clbss<?> brg : this.brgs) {
+                    dodf = bddHbshCodf(dodf, brg);
+                }
+            }
+            this.dodf = dodf;
+        }
+        rfturn this.dodf;
+    }
+
+    /**
+     * Adds hbsh dodf vbluf if spfdififd objfdt.
+     * This is b pbrt of thf blgorithm
+     * suggfstfd in Efffdtivf Jbvb, Itfm 8.
+     *
+     * @pbrbm dodf    durrfnt hbsh dodf vbluf
+     * @pbrbm objfdt  objfdt thbt updbtfs hbsh dodf vbluf
+     * @rfturn updbtfd hbsh dodf vbluf
+     * @sff #hbshCodf()
+     */
+    privbtf stbtid int bddHbshCodf(int dodf, Objfdt objfdt) {
+        dodf *= 37;
+        rfturn (objfdt != null)
+                ? dodf + objfdt.hbshCodf()
+                : dodf;
+    }
+}

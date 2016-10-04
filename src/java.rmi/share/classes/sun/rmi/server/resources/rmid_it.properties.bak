@@ -1,96 +1,96 @@
 #
 #
-# Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# "rmid", inetd", and "wait" should not be translated.
-rmid.syntax.exec.invalid=rmid \u00E8 stato avviato da inetd con uno stato non valido (diverso da wait)
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+rmid.syntbx.fxfd.invblid=rmid \u00E8 stbto bvvibto db inftd don uno stbto non vblido (divfrso db wbit)
 
-# "rmid" and "inetd" should not be translated.
-rmid.syntax.port.badarg=non \u00E8 possibile specificare la porta se rmid viene avviato da inetd
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+rmid.syntbx.port.bbdbrg=non \u00E8 possibilf spfdifidbrf lb portb sf rmid vifnf bvvibto db inftd
 
-# "port" here refers to a TCP port for the server to listen on.
-rmid.syntax.port.badnumber=la porta non \u00E8 un numero
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+rmid.syntbx.port.bbdnumbfr=lb portb non \u00E8 un numfro
 
-# "-port" should not be translated, because it's part of command syntax.
-rmid.syntax.port.missing=L'opzione -port richiede un argomento
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.port.missing=L'opzionf -port ridiifdf un brgomfnto
 
-# "-log" should not be translated, because it's part of command syntax.
-rmid.syntax.log.missing=L'opzione -log richiede un argomento
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.missing=L'opzionf -log ridiifdf un brgomfnto
 
-# "-log" should not be translated, because it's part of command syntax.
-rmid.syntax.log.required=\u00C8 richiesta l'opzione -log
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.rfquirfd=\u00C8 ridiifstb l'opzionf -log
 
-# {0} = the (string) illegal argument in question
-rmid.syntax.illegal.option=opzione non valida: {0}
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+rmid.syntbx.illfgbl.option=opzionf non vblidb: {0}
 
-# {0} = the (string) reason text that came with a thrown exception
-# "Activation.main" should not be translated, because it's a codepoint
-rmid.unexpected.exception=Activation.main: si \u00E8 verificata un''eccezione: {0}
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: si \u00E8 vfrifidbtb un''fddfzionf: {0}
 
-# "java.home" should not be translated, because it's a property name
-# "ActivatorImpl" should not be translated, because it's a codepoint
-rmid.unfound.java.home.property=ActivatorImpl: impossibile individuare java.home
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: impossibilf individubrf jbvb.iomf
 
-# "rmid" should not be translated
-rmid.inherited.channel.info=Avvio di rmid con canale ereditato
+# "rmid" siould not bf trbnslbtfd
+rmid.inifritfd.dibnnfl.info=Avvio di rmid don dbnblf frfditbto
 
-# "Activation.main" should not be translated, because it's a codepoint
-rmid.exec.policy.invalid=Activation.main: classe di criteri eseguibili non valida
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: dlbssf di dritfri fsfguibili non vblidb
 
-# "rmid" should not be translated
-rmid.exec.policy.exception=rmid: il tentativo di ottenere i criteri di esecuzione ha restituito:
+# "rmid" siould not bf trbnslbtfd
+rmid.fxfd.polidy.fxdfption=rmid: il tfntbtivo di ottfnfrf i dritfri di fsfduzionf ib rfstituito:
 
-# "rmid" should not be translated
-rmid.exec.command=rmid: debugExec: esecuzione di "{0}" in corso
+# "rmid" siould not bf trbnslbtfd
+rmid.fxfd.dommbnd=rmid: dfbugExfd: fsfduzionf di "{0}" in dorso
 
-# "rmid" should not be translated
-rmid.group.inactive=rmid: gruppo attivazione inattivo: {0}
+# "rmid" siould not bf trbnslbtfd
+rmid.group.inbdtivf=rmid: gruppo bttivbzionf inbttivo: {0}
 
-# "Activation.main", "sun.rmi.activation.execPolicy", "ExecPermission" and 
-# "ExecOptionPermission" should not be translated, since they refer to
-# class/permission names.
-rmid.exec.perms.inadequate=Activation.main: avvertenza: sistema sun.rmi.activation.execPolicy\nPropriet\u00E0 non specificata e nessun ExecPermissions/ExecOptionPermissions\ngarantito. I tentativi di attivazione successivi potrebbero fallire a causa di \ncontrolli di autorizzazione ExecPermission/ExecOptionPermission non andati a buon fine.  Per\nla documentazione e le modalit\u00E0 di configurazione della sicurezza rmid, fare riferimento a (informazioni in inglese):\n\nhttp://java.sun.com/j2se/1.4/docs/tooldocs/solaris/rmid.html\nhttp://java.sun.com/j2se/1.4/docs/tooldocs/win32/rmid.html\n
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# dlbss/pfrmission nbmfs.
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvvfrtfnzb: sistfmb sun.rmi.bdtivbtion.fxfdPolidy\nProprift\u00E0 non spfdifidbtb f nfssun ExfdPfrmissions/ExfdOptionPfrmissions\ngbrbntito. I tfntbtivi di bttivbzionf suddfssivi potrfbbfro fbllirf b dbusb di \ndontrolli di butorizzbzionf ExfdPfrmission/ExfdOptionPfrmission non bndbti b buon finf.  Pfr\nlb dodumfntbzionf f lf modblit\u00E0 di donfigurbzionf dfllb sidurfzzb rmid, fbrf riffrimfnto b (informbzioni in inglfsf):\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
 
-# "rmid", "-port", "-log", "-stop", "-C" and "-J" should not be translated,
-# because they are syntax
-rmid.usage=Uso: {0} <opzioni>\n\ndove <opzioni> include:\n  -port <porta>       Specifica la porta usata da rmid\n  -log <directory>    Specifica la directory in cui rmid scrive il log\n  -stop              Arresta l''invocazione corrente di rmid (per la porta specificata)\n  -C<flag fase di esecuzione>    Passa l''argomento a ciascun processo figlio (gruppo di attivazione)\n  -J<flag fase di esecuzione>    Passa l''argomento all''interprete java\n
-# This means "The currently running activation daemon has been shut down,
-# and is about to exit".
-rmid.daemon.shutdown=daemon di attivazione terminato
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# bfdbusf tify brf syntbx
+rmid.usbgf=Uso: {0} <opzioni>\n\ndovf <opzioni> indludf:\n  -port <portb>       Spfdifidb lb portb usbtb db rmid\n  -log <dirfdtory>    Spfdifidb lb dirfdtory in dui rmid sdrivf il log\n  -stop              Arrfstb l''invodbzionf dorrfntf di rmid (pfr lb portb spfdifidbtb)\n  -C<flbg fbsf di fsfduzionf>    Pbssb l''brgomfnto b dibsdun prodfsso figlio (gruppo di bttivbzionf)\n  -J<flbg fbsf di fsfduzionf>    Pbssb l''brgomfnto bll''intfrprftf jbvb\n
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# bnd is bbout to fxit".
+rmid.dbfmon.siutdown=dbfmon di bttivbzionf tfrminbto
 
-# "rmid" should not be translated
-rmid.restart.group.warning=\nrmid: (AVVERTENZA) il riavvio del gruppo ha restituito:
+# "rmid" siould not bf trbnslbtfd
+rmid.rfstbrt.group.wbrning=\nrmid: (AVVERTENZA) il ribvvio dfl gruppo ib rfstituito:
 
-# "rmid" should not be translated
-rmid.restart.service.warning=\nrmid: (AVVERTENZA) il riavvio del servizio ha restituito:
+# "rmid" siould not bf trbnslbtfd
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (AVVERTENZA) il ribvvio dfl sfrvizio ib rfstituito:
 
-# "rmid" should not be translated
-rmid.log.update.warning=\nrmid: (AVVERTENZA) il log dell'aggiornamento ha restituito:
+# "rmid" siould not bf trbnslbtfd
+rmid.log.updbtf.wbrning=\nrmid: (AVVERTENZA) il log dfll'bggiornbmfnto ib rfstituito:
 
-# "rmid" should not be translated
-rmid.log.snapshot.warning=\nrmid: (GRAVE) snapshot log ha restituito:
+# "rmid" siould not bf trbnslbtfd
+rmid.log.snbpsiot.wbrning=\nrmid: (GRAVE) snbpsiot log ib rfstituito:
 
-# "rmid" should not be translated
-rmid.log.recover.warning=\nrmid: (AVVERTENZA) {0}: record del log ignorato durante il recupero:
+# "rmid" siould not bf trbnslbtfd
+rmid.log.rfdovfr.wbrning=\nrmid: (AVVERTENZA) {0}: rfdord dfl log ignorbto durbntf il rfdupfro:

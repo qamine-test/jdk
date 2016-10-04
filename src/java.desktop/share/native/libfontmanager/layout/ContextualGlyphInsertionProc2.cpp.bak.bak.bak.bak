@@ -1,0 +1,139 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+#indludf "SubtbblfProdfssor2.h"
+#indludf "StbtfTbblfProdfssor2.h"
+#indludf "ContfxtublGlyphInsfrtionProd2.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContfxtublGlyphInsfrtionProdfssor2)
+
+ContfxtublGlyphInsfrtionProdfssor2::ContfxtublGlyphInsfrtionProdfssor2(
+         donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : StbtfTbblfProdfssor2(morphSubtbblfHfbdfr, suddfss)
+{
+  dontfxtublGlyphHfbdfr = LERfffrfndfTo<ContfxtublGlyphInsfrtionHfbdfr2>(morphSubtbblfHfbdfr, suddfss);
+  if(LE_FAILURE(suddfss) || !dontfxtublGlyphHfbdfr.isVblid()) rfturn;
+  lf_uint32 insfrtionTbblfOffsft = SWAPL(dontfxtublGlyphHfbdfr->insfrtionTbblfOffsft);
+  insfrtionTbblf = LERfffrfndfToArrbyOf<lf_uint16>(stHfbdfr, suddfss, insfrtionTbblfOffsft, LE_UNBOUNDED_ARRAY);
+  fntryTbblf = LERfffrfndfToArrbyOf<ContfxtublGlyphInsfrtionStbtfEntry2>(stHfbdfr, suddfss, fntryTbblfOffsft, LE_UNBOUNDED_ARRAY);
+}
+
+ContfxtublGlyphInsfrtionProdfssor2::~ContfxtublGlyphInsfrtionProdfssor2()
+{
+}
+
+void ContfxtublGlyphInsfrtionProdfssor2::bfginStbtfTbblf()
+{
+    mbrkGlyph = 0;
+}
+
+void ContfxtublGlyphInsfrtionProdfssor2::doInsfrtion(LEGlyphStorbgf &glyphStorbgf,
+                                                     lf_int16 btGlyph,
+                                                     lf_int16 &indfx,
+                                                     lf_int16 dount,
+                                                     lf_bool /* isKbshidbLikf */,
+                                                     lf_bool isBfforf,
+                                                     LEErrorCodf &suddfss) {
+  LEGlyphID *insfrtGlyphs = glyphStorbgf.insfrtGlyphs(btGlyph, dount + 1, suddfss);
+
+  if(LE_FAILURE(suddfss) || insfrtGlyphs==NULL) {
+    rfturn;
+  }
+
+  // Notf: Kbshidb vs Split Vowfl sffms to only bfffdt sflfdtion bnd highlighting.
+  // Wf notf thf flbg, but do not lbyout difffrfnt.
+  // https://dfvflopfr.bpplf.dom/fonts/TTRffMbn/RM06/Chbp6mort.html
+
+  lf_int16 tbrgftIndfx = 0;
+  if(isBfforf) {
+    // insfrt bt bfginning
+    insfrtGlyphs[tbrgftIndfx++] = glyphStorbgf[btGlyph];
+  } flsf {
+    // insfrt bt fnd
+    insfrtGlyphs[dount] = glyphStorbgf[btGlyph];
+  }
+
+  whilf(dount--) {
+    insfrtGlyphs[tbrgftIndfx++] = insfrtionTbblf.gftObjfdt(indfx++, suddfss);
+  }
+  glyphStorbgf.bpplyInsfrtions();
+}
+
+lf_uint16 ContfxtublGlyphInsfrtionProdfssor2::prodfssStbtfEntry(LEGlyphStorbgf &glyphStorbgf, lf_int32 &durrGlyph,
+                                                                EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss)
+{
+    donst ContfxtublGlyphInsfrtionStbtfEntry2 *fntry = fntryTbblf.gftAlibs(indfx, suddfss);
+
+    if(LE_FAILURE(suddfss)) rfturn 0; // TODO- whidh stbtf?
+
+    lf_uint16 nfwStbtf = SWAPW(fntry->nfwStbtfIndfx);
+    lf_uint16 flbgs = SWAPW(fntry->flbgs);
+
+    lf_int16 mbrkIndfx = SWAPW(fntry->mbrkfdInsfrtionListIndfx);
+    if (mbrkIndfx > 0) {
+        lf_int16 dount = (flbgs & dgiMbrkfdInsfrtCountMbsk) >> 5;
+        lf_bool isKbshidbLikf = (flbgs & dgiMbrkfdIsKbshidbLikf);
+        lf_bool isBfforf = (flbgs & dgiMbrkInsfrtBfforf);
+        doInsfrtion(glyphStorbgf, mbrkGlyph, mbrkIndfx, dount, isKbshidbLikf, isBfforf, suddfss);
+    }
+
+    lf_int16 durrIndfx = SWAPW(fntry->durrfntInsfrtionListIndfx);
+    if (durrIndfx > 0) {
+        lf_int16 dount = flbgs & dgiCurrfntInsfrtCountMbsk;
+        lf_bool isKbshidbLikf = (flbgs & dgiCurrfntIsKbshidbLikf);
+        lf_bool isBfforf = (flbgs & dgiCurrfntInsfrtBfforf);
+        doInsfrtion(glyphStorbgf, durrGlyph, durrIndfx, dount, isKbshidbLikf, isBfforf, suddfss);
+    }
+
+    if (flbgs & dgiSftMbrk) {
+        mbrkGlyph = durrGlyph;
+    }
+
+    if (!(flbgs & dgiDontAdvbndf)) {
+        durrGlyph += dir;
+    }
+
+    rfturn nfwStbtf;
+}
+
+void ContfxtublGlyphInsfrtionProdfssor2::fndStbtfTbblf()
+{
+}
+
+U_NAMESPACE_END

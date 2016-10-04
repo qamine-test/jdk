@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+/**
+ * This dlbss dffinfs login bnd logout mfthods for b providfr.
+ *
+ * <p> Whilf dbllfrs mby invokf {@dodf login} dirfdtly,
+ * thf providfr mby blso invokf {@dodf login} on bfhblf of dbllfrs
+ * if it dftfrminfs thbt b login must bf pfrformfd
+ * prior to dfrtbin opfrbtions.
+ *
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss AuthProvidfr fxtfnds Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4197859053084546461L;
+
+    /**
+     * Construdts b providfr with thf spfdififd nbmf, vfrsion numbfr,
+     * bnd informbtion.
+     *
+     * @pbrbm nbmf thf providfr nbmf.
+     * @pbrbm vfrsion thf providfr vfrsion numbfr.
+     * @pbrbm info b dfsdription of thf providfr bnd its sfrvidfs.
+     */
+    protfdtfd AuthProvidfr(String nbmf, doublf vfrsion, String info) {
+        supfr(nbmf, vfrsion, info);
+    }
+
+    /**
+     * Log in to this providfr.
+     *
+     * <p> Thf providfr rflifs on b {@dodf CbllbbdkHbndlfr}
+     * to obtbin buthfntidbtion informbtion from thf dbllfr
+     * (b PIN, for fxbmplf).  If thf dbllfr pbssfs b {@dodf null}
+     * hbndlfr to this mfthod, thf providfr usfs thf hbndlfr sft in thf
+     * {@dodf sftCbllbbdkHbndlfr} mfthod.
+     * If no hbndlfr wbs sft in thbt mfthod, thf providfr qufrifs thf
+     * <i>buth.login.dffbultCbllbbdkHbndlfr</i> sfdurity propfrty
+     * for thf fully qublififd dlbss nbmf of b dffbult hbndlfr implfmfntbtion.
+     * If thf sfdurity propfrty is not sft,
+     * thf providfr is bssumfd to hbvf bltfrnbtivf mfbns
+     * for obtbining buthfntidbtion informbtion.
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} whidh mby dontbin
+     *          prindipbls/drfdfntibls usfd for buthfntidbtion,
+     *          or mby bf populbtfd with bdditionbl prindipbls/drfdfntibls
+     *          bftfr suddfssful buthfntidbtion hbs domplftfd.
+     *          This pbrbmftfr mby bf {@dodf null}.
+     * @pbrbm hbndlfr thf {@dodf CbllbbdkHbndlfr} usfd by
+     *          this providfr to obtbin buthfntidbtion informbtion
+     *          from thf dbllfr, whidh mby bf {@dodf null}
+     *
+     * @fxdfption LoginExdfption if thf login opfrbtion fbils
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not pbss b
+     *  sfdurity dhfdk for
+     *  {@dodf SfdurityPfrmission("buthProvidfr.nbmf")},
+     *  whfrf {@dodf nbmf} is thf vbluf rfturnfd by
+     *  this providfr's {@dodf gftNbmf} mfthod
+     */
+    publid bbstrbdt void login(Subjfdt subjfdt, CbllbbdkHbndlfr hbndlfr)
+        throws LoginExdfption;
+
+    /**
+     * Log out from this providfr.
+     *
+     * @fxdfption LoginExdfption if thf logout opfrbtion fbils
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not pbss b
+     *  sfdurity dhfdk for
+     *  {@dodf SfdurityPfrmission("buthProvidfr.nbmf")},
+     *  whfrf {@dodf nbmf} is thf vbluf rfturnfd by
+     *  this providfr's {@dodf gftNbmf} mfthod
+     */
+    publid bbstrbdt void logout() throws LoginExdfption;
+
+    /**
+     * Sft b {@dodf CbllbbdkHbndlfr}.
+     *
+     * <p> Thf providfr usfs this hbndlfr if onf is not pbssfd to thf
+     * {@dodf login} mfthod.  Thf providfr blso usfs this hbndlfr
+     * if it invokfs {@dodf login} on bfhblf of dbllfrs.
+     * In fithfr dbsf if b hbndlfr is not sft vib this mfthod,
+     * thf providfr qufrifs thf
+     * <i>buth.login.dffbultCbllbbdkHbndlfr</i> sfdurity propfrty
+     * for thf fully qublififd dlbss nbmf of b dffbult hbndlfr implfmfntbtion.
+     * If thf sfdurity propfrty is not sft,
+     * thf providfr is bssumfd to hbvf bltfrnbtivf mfbns
+     * for obtbining buthfntidbtion informbtion.
+     *
+     * @pbrbm hbndlfr b {@dodf CbllbbdkHbndlfr} for obtbining
+     *          buthfntidbtion informbtion, whidh mby bf {@dodf null}
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not pbss b
+     *  sfdurity dhfdk for
+     *  {@dodf SfdurityPfrmission("buthProvidfr.nbmf")},
+     *  whfrf {@dodf nbmf} is thf vbluf rfturnfd by
+     *  this providfr's {@dodf gftNbmf} mfthod
+     */
+    publid bbstrbdt void sftCbllbbdkHbndlfr(CbllbbdkHbndlfr hbndlfr);
+}

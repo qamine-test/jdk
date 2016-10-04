@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <winsodk2.h>
+#indludf <stddff.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf "nft_util.h"
+
+#indludf "sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl.h"
+
+#ifndff WSAID_CONNECTEX
+#dffinf WSAID_CONNECTEX {0x25b207b9,0xddf3,0x4660,{0x8f,0xf9,0x76,0xf5,0x8d,0x74,0x06,0x3f}}
+#fndif
+
+#ifndff SO_UPDATE_CONNECT_CONTEXT
+#dffinf SO_UPDATE_CONNECT_CONTEXT 0x7010
+#fndif
+
+typfdff BOOL (PASCAL *ConnfdtEx_t)
+(
+    SOCKET s,
+    donst strudt sodkbddr* nbmf,
+    int nbmflfn,
+    PVOID lpSfndBufffr,
+    DWORD dwSfndDbtbLfngth,
+    LPDWORD lpdwBytfsSfnt,
+    LPOVERLAPPED lpOvfrlbppfd
+);
+
+stbtid ConnfdtEx_t ConnfdtEx_fund;
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_initIDs(JNIEnv* fnv, jdlbss this) {
+    GUID GuidConnfdtEx = WSAID_CONNECTEX;
+    SOCKET s;
+    int rv;
+    DWORD dwBytfs;
+
+    s = sodkft(AF_INET, SOCK_STREAM, 0);
+    if (s == INVALID_SOCKET) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "sodkft fbilfd");
+        rfturn;
+    }
+    rv = WSAIodtl(s,
+                  SIO_GET_EXTENSION_FUNCTION_POINTER,
+                  (LPVOID)&GuidConnfdtEx,
+                  sizfof(GuidConnfdtEx),
+                  &ConnfdtEx_fund,
+                  sizfof(ConnfdtEx_fund),
+                  &dwBytfs,
+                  NULL,
+                  NULL);
+    if (rv != 0)
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "WSAIodtl fbilfd");
+    dlosfsodkft(s);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_donnfdt0(JNIEnv* fnv, jdlbss this,
+    jlong sodkft, jboolfbn prfffrIPv6, jobjfdt ibo, jint port, jlong ov)
+{
+    SOCKET s = (SOCKET) jlong_to_ptr(sodkft);
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*) jlong_to_ptr(ov);
+
+    SOCKETADDRESS sb;
+    int sb_lfn;
+    BOOL rfs;
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *)&sb, &sb_lfn, prfffrIPv6) != 0) {
+        rfturn IOS_THROWN;
+    }
+
+    ZfroMfmory((PVOID)lpOvfrlbppfd, sizfof(OVERLAPPED));
+
+    rfs = (*ConnfdtEx_fund)(s,
+                            (strudt sodkbddr *)&sb,
+                            sb_lfn,
+                            NULL,
+                            0,
+                            NULL,
+                            lpOvfrlbppfd);
+    if (rfs == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_IO_PENDING) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "ConnfdtEx fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_updbtfConnfdtContfxt(JNIEnv* fnv, jdlbss this,
+    jlong sodkft)
+{
+    SOCKET s = (SOCKET)jlong_to_ptr(sodkft);
+    sftsodkopt(s, SOL_SOCKET, SO_UPDATE_CONNECT_CONTEXT, NULL, 0);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_shutdown0(JNIEnv *fnv, jdlbss dl,
+    jlong sodkft, jint how)
+{
+    SOCKET s =(SOCKET) jlong_to_ptr(sodkft);
+    if (shutdown(s, how) == SOCKET_ERROR) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "shutdown fbilfd");
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_dlosfsodkft0(JNIEnv* fnv, jdlbss this,
+    jlong sodkft)
+{
+    SOCKET s = (SOCKET)jlong_to_ptr(sodkft);
+    if (dlosfsodkft(s) == SOCKET_ERROR)
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "dlosfsodkft fbilfd");
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_rfbd0(JNIEnv* fnv, jdlbss this,
+    jlong sodkft, jint dount, jlong bddrfss, jlong ov)
+{
+    SOCKET s = (SOCKET) jlong_to_ptr(sodkft);
+    WSABUF* lpWsbBuf = (WSABUF*) jlong_to_ptr(bddrfss);
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*) jlong_to_ptr(ov);
+    BOOL rfs;
+    DWORD flbgs = 0;
+
+    ZfroMfmory((PVOID)lpOvfrlbppfd, sizfof(OVERLAPPED));
+    rfs = WSARfdv(s,
+                  lpWsbBuf,
+                  (DWORD)dount,
+                  NULL,
+                  &flbgs,
+                  lpOvfrlbppfd,
+                  NULL);
+
+    if (rfs == SOCKET_ERROR) {
+        int frror = WSAGftLbstError();
+        if (frror == WSA_IO_PENDING) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (frror == WSAESHUTDOWN) {
+            rfturn IOS_EOF;       // input shutdown
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "WSARfdv fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn IOS_UNAVAILABLE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_WindowsAsyndhronousSodkftChbnnflImpl_writf0(JNIEnv* fnv, jdlbss this,
+    jlong sodkft, jint dount, jlong bddrfss, jlong ov)
+{
+    SOCKET s = (SOCKET) jlong_to_ptr(sodkft);
+    WSABUF* lpWsbBuf = (WSABUF*) jlong_to_ptr(bddrfss);
+    OVERLAPPED* lpOvfrlbppfd = (OVERLAPPED*) jlong_to_ptr(ov);
+    BOOL rfs;
+
+    ZfroMfmory((PVOID)lpOvfrlbppfd, sizfof(OVERLAPPED));
+    rfs = WSASfnd(s,
+                  lpWsbBuf,
+                  (DWORD)dount,
+                  NULL,
+                  0,
+                  lpOvfrlbppfd,
+                  NULL);
+
+    if (rfs == SOCKET_ERROR) {
+        int frror = WSAGftLbstError();
+        if (frror == WSA_IO_PENDING) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (frror == WSAESHUTDOWN) {
+            rfturn IOS_EOF;     // output shutdown
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "WSASfnd fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn IOS_UNAVAILABLE;
+}

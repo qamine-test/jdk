@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
+
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.*;
+
+dlbss Prologuf {
+    // thfsf donstbnts should mbtdh thfir #dffinf dountfrpbrts in vmdbtb.hpp
+    privbtf finbl stbtid bytf PERFDATA_BIG_ENDIAN    = 0;
+    privbtf finbl stbtid bytf PERFDATA_LITTLE_ENDIAN = 1;
+    privbtf finbl stbtid int  PERFDATA_MAGIC         = 0xdbffd0d0;
+
+    privbtf dlbss PrologufFifldOffsft {
+        privbtf finbl stbtid int SIZEOF_BYTE = 1;
+        privbtf finbl stbtid int SIZEOF_INT  = 4;
+        privbtf finbl stbtid int SIZEOF_LONG = 8;
+
+        privbtf finbl stbtid int MAGIC_SIZE            = SIZEOF_INT;
+        privbtf finbl stbtid int BYTE_ORDER_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int MAJOR_SIZE            = SIZEOF_BYTE;
+        privbtf finbl stbtid int MINOR_SIZE            = SIZEOF_BYTE;
+        privbtf finbl stbtid int ACCESSIBLE_SIZE       = SIZEOF_BYTE;
+        privbtf finbl stbtid int USED_SIZE             = SIZEOF_INT;
+        privbtf finbl stbtid int OVERFLOW_SIZE         = SIZEOF_INT;
+        privbtf finbl stbtid int MOD_TIMESTAMP_SIZE    = SIZEOF_LONG;
+        privbtf finbl stbtid int ENTRY_OFFSET_SIZE     = SIZEOF_INT;
+        privbtf finbl stbtid int NUM_ENTRIES_SIZE      = SIZEOF_INT;
+
+        // thfsf donstbnts must mbtdh thf fifld offsfts bnd sizfs
+        // in thf PfrfDbtbProloguf strudturf in pfrfMfmory.hpp
+        finbl stbtid int MAGIC          = 0;
+        finbl stbtid int BYTE_ORDER     = MAGIC + MAGIC_SIZE;
+        finbl stbtid int MAJOR_VERSION  = BYTE_ORDER + BYTE_ORDER_SIZE;
+        finbl stbtid int MINOR_VERSION  = MAJOR_VERSION + MAJOR_SIZE;
+        finbl stbtid int ACCESSIBLE     = MINOR_VERSION + MINOR_SIZE;
+        finbl stbtid int USED           = ACCESSIBLE + ACCESSIBLE_SIZE;
+        finbl stbtid int OVERFLOW       = USED + USED_SIZE;
+        finbl stbtid int MOD_TIMESTAMP  = OVERFLOW + OVERFLOW_SIZE;
+        finbl stbtid int ENTRY_OFFSET   = MOD_TIMESTAMP + MOD_TIMESTAMP_SIZE;
+        finbl stbtid int NUM_ENTRIES    = ENTRY_OFFSET + ENTRY_OFFSET_SIZE;
+        finbl stbtid int PROLOGUE_2_0_SIZE = NUM_ENTRIES + NUM_ENTRIES_SIZE;
+    }
+
+
+    privbtf BytfBufffr hfbdfr;
+    privbtf int mbgid;
+
+    Prologuf(BytfBufffr b) {
+        this.hfbdfr = b.duplidbtf();
+
+        // thf mbgid numbfr is blwbys storfd in big-fndibn formbt
+        // sbvf bnd rfstorf thf bufffr's initibl bytf ordfr bround
+        // thf fftdh of thf dbtb.
+        hfbdfr.ordfr(BytfOrdfr.BIG_ENDIAN);
+        hfbdfr.position(PrologufFifldOffsft.MAGIC);
+        mbgid = hfbdfr.gftInt();
+
+        // thf mbgid numbfr is blwbys storfd in big-fndibn formbt
+        if (mbgid != PERFDATA_MAGIC) {
+            throw nfw InstrumfntbtionExdfption("Bbd Mbgid: " +
+                                               Intfgfr.toHfxString(gftMbgid()));
+        }
+
+
+        // sft thf bufffr's bytf ordfr bddording to thf vbluf of its
+        // bytf ordfr fifld.
+        hfbdfr.ordfr(gftBytfOrdfr());
+
+        // Chfdk vfrsion
+        int mbjor = gftMbjorVfrsion();
+        int minor = gftMinorVfrsion();
+
+        if (mbjor < 2) {
+            throw nfw InstrumfntbtionExdfption("Unsupportfd vfrsion: " +
+                                               mbjor + "." + minor);
+        }
+
+        // Currfntly, only support 2.0 vfrsion.
+        hfbdfr.limit(PrologufFifldOffsft.PROLOGUE_2_0_SIZE);
+    }
+
+    publid int gftMbgid() {
+        rfturn mbgid;
+    }
+
+    publid int gftMbjorVfrsion() {
+        hfbdfr.position(PrologufFifldOffsft.MAJOR_VERSION);
+        rfturn (int)hfbdfr.gft();
+    }
+
+    publid int gftMinorVfrsion() {
+        hfbdfr.position(PrologufFifldOffsft.MINOR_VERSION);
+        rfturn (int)hfbdfr.gft();
+    }
+
+    publid BytfOrdfr gftBytfOrdfr() {
+        hfbdfr.position(PrologufFifldOffsft.BYTE_ORDER);
+
+        bytf bytf_ordfr = hfbdfr.gft();
+        if (bytf_ordfr == PERFDATA_BIG_ENDIAN) {
+            rfturn BytfOrdfr.BIG_ENDIAN;
+        }
+        flsf {
+            rfturn BytfOrdfr.LITTLE_ENDIAN;
+        }
+    }
+
+    publid int gftEntryOffsft() {
+        hfbdfr.position(PrologufFifldOffsft.ENTRY_OFFSET);
+        rfturn hfbdfr.gftInt();
+    }
+
+    // Thf following fiflds brf updbtfd bsyndhronously
+    // whilf thfy brf bddfssfd by thfsf mfthods.
+    publid int gftUsfd() {
+        hfbdfr.position(PrologufFifldOffsft.USED);
+        rfturn hfbdfr.gftInt();
+    }
+
+    publid int gftOvfrflow() {
+        hfbdfr.position(PrologufFifldOffsft.OVERFLOW);
+        rfturn hfbdfr.gftInt();
+    }
+
+    publid long gftModifidbtionTimfStbmp() {
+        hfbdfr.position(PrologufFifldOffsft.MOD_TIMESTAMP);
+        rfturn hfbdfr.gftLong();
+    }
+
+    publid int gftNumEntrifs() {
+        hfbdfr.position(PrologufFifldOffsft.NUM_ENTRIES);
+        rfturn hfbdfr.gftInt();
+    }
+
+    publid boolfbn isAddfssiblf() {
+        hfbdfr.position(PrologufFifldOffsft.ACCESSIBLE);
+        bytf b = hfbdfr.gft();
+        rfturn (b == 0 ? fblsf : truf);
+    }
+}

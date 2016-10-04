@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.util.EventObject;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.util.EvfntObjfdt;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
 /**
- * <p>The Notification class represents a notification emitted by an
- * MBean.  It contains a reference to the source MBean: if the
- * notification has been forwarded through the MBean server, and the
- * original source of the notification was a reference to the emitting
- * MBean object, then the MBean server replaces it by the MBean's
- * ObjectName.  If the listener has registered directly with the
- * MBean, this is either the object name or a direct reference to the
- * MBean.</p>
+ * <p>Tif Notifidbtion dlbss rfprfsfnts b notifidbtion fmittfd by bn
+ * MBfbn.  It dontbins b rfffrfndf to tif sourdf MBfbn: if tif
+ * notifidbtion ibs bffn forwbrdfd tirougi tif MBfbn sfrvfr, bnd tif
+ * originbl sourdf of tif notifidbtion wbs b rfffrfndf to tif fmitting
+ * MBfbn objfdt, tifn tif MBfbn sfrvfr rfplbdfs it by tif MBfbn's
+ * ObjfdtNbmf.  If tif listfnfr ibs rfgistfrfd dirfdtly witi tif
+ * MBfbn, tiis is fitifr tif objfdt nbmf or b dirfdt rfffrfndf to tif
+ * MBfbn.</p>
  *
- * <p>It is strongly recommended that notification senders use the
- * object name rather than a reference to the MBean object as the
- * source.</p>
+ * <p>It is strongly rfdommfndfd tibt notifidbtion sfndfrs usf tif
+ * objfdt nbmf rbtifr tibn b rfffrfndf to tif MBfbn objfdt bs tif
+ * sourdf.</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-7516092053498031989L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-7516092053498031989L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class Notification extends EventObject {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+publid dlbss Notifidbtion fxtfnds EvfntObjfdt {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 1716977971058914352L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 1716977971058914352L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -7516092053498031989L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -7516092053498031989L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("message", String.class),
-        new ObjectStreamField("sequenceNumber", Long.TYPE),
-        new ObjectStreamField("source", Object.class),
-        new ObjectStreamField("sourceObjectName", ObjectName.class),
-        new ObjectStreamField("timeStamp", Long.TYPE),
-        new ObjectStreamField("type", String.class),
-        new ObjectStreamField("userData", Object.class)
+        nfw ObjfdtStrfbmFifld("mfssbgf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("sfqufndfNumbfr", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+        nfw ObjfdtStrfbmFifld("sourdfObjfdtNbmf", ObjfdtNbmf.dlbss),
+        nfw ObjfdtStrfbmFifld("timfStbmp", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("typf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("usfrDbtb", Objfdt.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("message", String.class),
-        new ObjectStreamField("sequenceNumber", Long.TYPE),
-        new ObjectStreamField("source", Object.class),
-        new ObjectStreamField("timeStamp", Long.TYPE),
-        new ObjectStreamField("type", String.class),
-        new ObjectStreamField("userData", Object.class)
+        nfw ObjfdtStrfbmFifld("mfssbgf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("sfqufndfNumbfr", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+        nfw ObjfdtStrfbmFifld("timfStbmp", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("typf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("usfrDbtb", Objfdt.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField type String The notification type.
-     *              A string expressed in a dot notation similar to Java properties.
-     *              An example of a notification type is network.alarm.router
-     * @serialField sequenceNumber long The notification sequence number.
-     *              A serial number which identify particular instance
-     *              of notification in the context of the notification source.
-     * @serialField timeStamp long The notification timestamp.
-     *              Indicating when the notification was generated
-     * @serialField userData Object The notification user data.
-     *              Used for whatever other data the notification
-     *              source wishes to communicate to its consumers
-     * @serialField message String The notification message.
-     * @serialField source Object The object on which the notification initially occurred.
+     * @sfriblFifld typf String Tif notifidbtion typf.
+     *              A string fxprfssfd in b dot notbtion similbr to Jbvb propfrtifs.
+     *              An fxbmplf of b notifidbtion typf is nftwork.blbrm.routfr
+     * @sfriblFifld sfqufndfNumbfr long Tif notifidbtion sfqufndf numbfr.
+     *              A sfribl numbfr wiidi idfntify pbrtidulbr instbndf
+     *              of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
+     * @sfriblFifld timfStbmp long Tif notifidbtion timfstbmp.
+     *              Indidbting wifn tif notifidbtion wbs gfnfrbtfd
+     * @sfriblFifld usfrDbtb Objfdt Tif notifidbtion usfr dbtb.
+     *              Usfd for wibtfvfr otifr dbtb tif notifidbtion
+     *              sourdf wisifs to dommunidbtf to its donsumfrs
+     * @sfriblFifld mfssbgf String Tif notifidbtion mfssbgf.
+     * @sfriblFifld sourdf Objfdt Tif objfdt on wiidi tif notifidbtion initiblly oddurrfd.
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt witi 1.0, too bbd
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     /**
-     * @serial The notification type.
-     *         A string expressed in a dot notation similar to Java properties.
-     *         An example of a notification type is network.alarm.router
+     * @sfribl Tif notifidbtion typf.
+     *         A string fxprfssfd in b dot notbtion similbr to Jbvb propfrtifs.
+     *         An fxbmplf of b notifidbtion typf is nftwork.blbrm.routfr
      */
-    private String type;
+    privbtf String typf;
 
     /**
-     * @serial The notification sequence number.
-     *         A serial number which identify particular instance
-     *         of notification in the context of the notification source.
+     * @sfribl Tif notifidbtion sfqufndf numbfr.
+     *         A sfribl numbfr wiidi idfntify pbrtidulbr instbndf
+     *         of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
      */
-    private long sequenceNumber;
+    privbtf long sfqufndfNumbfr;
 
     /**
-     * @serial The notification timestamp.
-     *         Indicating when the notification was generated
+     * @sfribl Tif notifidbtion timfstbmp.
+     *         Indidbting wifn tif notifidbtion wbs gfnfrbtfd
      */
-    private long timeStamp;
+    privbtf long timfStbmp;
 
     /**
-     * @serial The notification user data.
-     *         Used for whatever other data the notification
-     *         source wishes to communicate to its consumers
+     * @sfribl Tif notifidbtion usfr dbtb.
+     *         Usfd for wibtfvfr otifr dbtb tif notifidbtion
+     *         sourdf wisifs to dommunidbtf to its donsumfrs
      */
-    private Object userData = null;
+    privbtf Objfdt usfrDbtb = null;
 
     /**
-     * @serial The notification message.
+     * @sfribl Tif notifidbtion mfssbgf.
      */
-    private String message  = "";
+    privbtf String mfssbgf  = "";
 
     /**
-     * <p>This field hides the {@link EventObject#source} field in the
-     * parent class to make it non-transient and therefore part of the
-     * serialized form.</p>
+     * <p>Tiis fifld iidfs tif {@link EvfntObjfdt#sourdf} fifld in tif
+     * pbrfnt dlbss to mbkf it non-trbnsifnt bnd tifrfforf pbrt of tif
+     * sfriblizfd form.</p>
      *
-     * @serial The object on which the notification initially occurred.
+     * @sfribl Tif objfdt on wiidi tif notifidbtion initiblly oddurrfd.
      */
-    protected Object source = null;
+    protfdtfd Objfdt sourdf = null;
 
 
     /**
-     * Creates a Notification object.
-     * The notification timeStamp is set to the current date.
+     * Crfbtfs b Notifidbtion objfdt.
+     * Tif notifidbtion timfStbmp is sft to tif durrfnt dbtf.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber) {
-        super (source) ;
-        this.source = source;
-        this.type = type;
-        this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = (new java.util.Date()).getTime() ;
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = (nfw jbvb.util.Dbtf()).gftTimf() ;
     }
 
     /**
-     * Creates a Notification object.
-     * The notification timeStamp is set to the current date.
+     * Crfbtfs b Notifidbtion objfdt.
+     * Tif notifidbtion timfStbmp is sft to tif durrfnt dbtf.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param message The detailed message.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm mfssbgf Tif dftbilfd mfssbgf.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, String message) {
-        super (source) ;
-        this.source = source;
-        this.type = type;
-        this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = (new java.util.Date()).getTime() ;
-        this.message = message ;
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, String mfssbgf) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = (nfw jbvb.util.Dbtf()).gftTimf() ;
+        tiis.mfssbgf = mfssbgf ;
     }
 
     /**
-     * Creates a Notification object.
+     * Crfbtfs b Notifidbtion objfdt.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, long timeStamp) {
-        super (source) ;
-        this.source = source;
-        this.type = type ;
-        this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = timeStamp ;
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf ;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = timfStbmp ;
     }
 
     /**
-     * Creates a Notification object.
+     * Crfbtfs b Notifidbtion objfdt.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
-     * @param message The detailed message.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     * @pbrbm mfssbgf Tif dftbilfd mfssbgf.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, long timeStamp, String message) {
-        super (source) ;
-        this.source = source;
-        this.type = type ;
-        this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = timeStamp ;
-        this.message = message ;
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String mfssbgf) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf ;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = timfStbmp ;
+        tiis.mfssbgf = mfssbgf ;
     }
 
     /**
-     * Sets the source.
+     * Sfts tif sourdf.
      *
-     * @param source the new source for this object.
+     * @pbrbm sourdf tif nfw sourdf for tiis objfdt.
      *
-     * @see EventObject#getSource
+     * @sff EvfntObjfdt#gftSourdf
      */
-    public void setSource(Object source) {
-        super.source = source;
-        this.source = source;
+    publid void sftSourdf(Objfdt sourdf) {
+        supfr.sourdf = sourdf;
+        tiis.sourdf = sourdf;
     }
 
     /**
-     * Get the notification sequence number.
+     * Gft tif notifidbtion sfqufndf numbfr.
      *
-     * @return The notification sequence number within the source object. It's a serial number
-     * identifying a particular instance of notification in the context of the notification source.
-     * The notification model does not assume that notifications will be received in the same order
-     * that they are sent. The sequence number helps listeners to sort received notifications.
+     * @rfturn Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt. It's b sfribl numbfr
+     * idfntifying b pbrtidulbr instbndf of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
+     * Tif notifidbtion modfl dofs not bssumf tibt notifidbtions will bf rfdfivfd in tif sbmf ordfr
+     * tibt tify brf sfnt. Tif sfqufndf numbfr iflps listfnfrs to sort rfdfivfd notifidbtions.
      *
-     * @see #setSequenceNumber
+     * @sff #sftSfqufndfNumbfr
      */
-    public long getSequenceNumber() {
-        return sequenceNumber ;
+    publid long gftSfqufndfNumbfr() {
+        rfturn sfqufndfNumbfr ;
     }
 
     /**
-     * Set the notification sequence number.
+     * Sft tif notifidbtion sfqufndf numbfr.
      *
-     * @param sequenceNumber The notification sequence number within the source object. It is
-     * a serial number identifying a particular instance of notification in the
-     * context of the notification source.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt. It is
+     * b sfribl numbfr idfntifying b pbrtidulbr instbndf of notifidbtion in tif
+     * dontfxt of tif notifidbtion sourdf.
      *
-     * @see #getSequenceNumber
+     * @sff #gftSfqufndfNumbfr
      */
-    public void setSequenceNumber(long sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+    publid void sftSfqufndfNumbfr(long sfqufndfNumbfr) {
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr;
     }
 
     /**
-     * Get the notification type.
+     * Gft tif notifidbtion typf.
      *
-     * @return The notification type. It's a string expressed in a dot notation
-     * similar to Java properties. It is recommended that the notification type
-     * should follow the reverse-domain-name convention used by Java package
-     * names.  An example of a notification type is com.example.alarm.router.
+     * @rfturn Tif notifidbtion typf. It's b string fxprfssfd in b dot notbtion
+     * similbr to Jbvb propfrtifs. It is rfdommfndfd tibt tif notifidbtion typf
+     * siould follow tif rfvfrsf-dombin-nbmf donvfntion usfd by Jbvb pbdkbgf
+     * nbmfs.  An fxbmplf of b notifidbtion typf is dom.fxbmplf.blbrm.routfr.
      */
-    public String getType() {
-        return type ;
+    publid String gftTypf() {
+        rfturn typf ;
     }
 
     /**
-     * Get the notification timestamp.
+     * Gft tif notifidbtion timfstbmp.
      *
-     * @return The notification timestamp.
+     * @rfturn Tif notifidbtion timfstbmp.
      *
-     * @see #setTimeStamp
+     * @sff #sftTimfStbmp
      */
-    public long getTimeStamp() {
-        return timeStamp ;
+    publid long gftTimfStbmp() {
+        rfturn timfStbmp ;
     }
 
     /**
-     * Set the notification timestamp.
+     * Sft tif notifidbtion timfstbmp.
      *
-     * @param timeStamp The notification timestamp. It indicates when the notification was generated.
+     * @pbrbm timfStbmp Tif notifidbtion timfstbmp. It indidbtfs wifn tif notifidbtion wbs gfnfrbtfd.
      *
-     * @see #getTimeStamp
+     * @sff #gftTimfStbmp
      */
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    publid void sftTimfStbmp(long timfStbmp) {
+        tiis.timfStbmp = timfStbmp;
     }
 
     /**
-     * Get the notification message.
+     * Gft tif notifidbtion mfssbgf.
      *
-     * @return The message string of this notification object.
+     * @rfturn Tif mfssbgf string of tiis notifidbtion objfdt.
      *
      */
-    public String getMessage() {
-        return message ;
+    publid String gftMfssbgf() {
+        rfturn mfssbgf ;
     }
 
     /**
-     * Get the user data.
+     * Gft tif usfr dbtb.
      *
-     * @return The user data object. It is used for whatever data
-     * the notification source wishes to communicate to its consumers.
+     * @rfturn Tif usfr dbtb objfdt. It is usfd for wibtfvfr dbtb
+     * tif notifidbtion sourdf wisifs to dommunidbtf to its donsumfrs.
      *
-     * @see #setUserData
+     * @sff #sftUsfrDbtb
      */
-    public Object getUserData() {
-        return userData ;
+    publid Objfdt gftUsfrDbtb() {
+        rfturn usfrDbtb ;
     }
 
     /**
-     * Set the user data.
+     * Sft tif usfr dbtb.
      *
-     * @param userData The user data object. It is used for whatever data
-     * the notification source wishes to communicate to its consumers.
+     * @pbrbm usfrDbtb Tif usfr dbtb objfdt. It is usfd for wibtfvfr dbtb
+     * tif notifidbtion sourdf wisifs to dommunidbtf to its donsumfrs.
      *
-     * @see #getUserData
+     * @sff #gftUsfrDbtb
      */
-    public void setUserData(Object userData) {
+    publid void sftUsfrDbtb(Objfdt usfrDbtb) {
 
-        this.userData = userData ;
+        tiis.usfrDbtb = usfrDbtb ;
     }
 
     /**
-     * Returns a String representation of this notification.
+     * Rfturns b String rfprfsfntbtion of tiis notifidbtion.
      *
-     * @return A String representation of this notification.
+     * @rfturn A String rfprfsfntbtion of tiis notifidbtion.
      */
-    @Override
-    public String toString() {
-        return super.toString()+"[type="+type+"][message="+message+"]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn supfr.toString()+"[typf="+typf+"][mfssbgf="+mfssbgf+"]";
     }
 
     /**
-     * Deserializes a {@link Notification} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link Notifidbtion} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      // New serial form ignores extra field "sourceObjectName"
-      in.defaultReadObject();
-      super.source = source;
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      // Nfw sfribl form ignorfs fxtrb fifld "sourdfObjfdtNbmf"
+      in.dffbultRfbdObjfdt();
+      supfr.sourdf = sourdf;
     }
 
 
     /**
-     * Serializes a {@link Notification} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link Notifidbtion} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+        if (dompbt) {
+            // Sfriblizfs tiis instbndf in tif old sfribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
-            fields.put("type", type);
-            fields.put("sequenceNumber", sequenceNumber);
-            fields.put("timeStamp", timeStamp);
-            fields.put("userData", userData);
-            fields.put("message", message);
-            fields.put("source", source);
-            out.writeFields();
-        } else {
-            // Serializes this instance in the new serial form
+            ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+            fiflds.put("typf", typf);
+            fiflds.put("sfqufndfNumbfr", sfqufndfNumbfr);
+            fiflds.put("timfStbmp", timfStbmp);
+            fiflds.put("usfrDbtb", usfrDbtb);
+            fiflds.put("mfssbgf", mfssbgf);
+            fiflds.put("sourdf", sourdf);
+            out.writfFiflds();
+        } flsf {
+            // Sfriblizfs tiis instbndf in tif nfw sfribl form
             //
-            out.defaultWriteObject();
+            out.dffbultWritfObjfdt();
         }
     }
 }

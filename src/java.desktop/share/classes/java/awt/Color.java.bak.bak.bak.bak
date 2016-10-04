@@ -1,0 +1,1244 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.dolor.ColorSpbdf;
+
+/**
+ * Thf <dodf>Color</dodf> dlbss is usfd to fndbpsulbtf dolors in thf dffbult
+ * sRGB dolor spbdf or dolors in brbitrbry dolor spbdfs idfntififd by b
+ * {@link ColorSpbdf}.  Evfry dolor hbs bn implidit blphb vbluf of 1.0 or
+ * bn fxplidit onf providfd in thf donstrudtor.  Thf blphb vbluf
+ * dffinfs thf trbnspbrfndy of b dolor bnd dbn bf rfprfsfntfd by
+ * b flobt vbluf in thf rbngf 0.0&nbsp;-&nbsp;1.0 or 0&nbsp;-&nbsp;255.
+ * An blphb vbluf of 1.0 or 255 mfbns thbt thf dolor is domplftfly
+ * opbquf bnd bn blphb vbluf of 0 or 0.0 mfbns thbt thf dolor is
+ * domplftfly trbnspbrfnt.
+ * Whfn donstrudting b <dodf>Color</dodf> with bn fxplidit blphb or
+ * gftting thf dolor/blphb domponfnts of b <dodf>Color</dodf>, thf dolor
+ * domponfnts brf nfvfr prfmultiplifd by thf blphb domponfnt.
+ * <p>
+ * Thf dffbult dolor spbdf for thf Jbvb 2D(tm) API is sRGB, b proposfd
+ * stbndbrd RGB dolor spbdf.  For furthfr informbtion on sRGB,
+ * sff <A hrff="http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html">
+ * http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html
+ * </A>.
+ *
+ * @vfrsion     10 Ffb 1997
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @sff         ColorSpbdf
+ * @sff         AlphbCompositf
+ */
+publid dlbss Color implfmfnts Pbint, jbvb.io.Sfriblizbblf {
+
+    /**
+     * Thf dolor whitf.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color whitf     = nfw Color(255, 255, 255);
+
+    /**
+     * Thf dolor whitf.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color WHITE = whitf;
+
+    /**
+     * Thf dolor light grby.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color lightGrby = nfw Color(192, 192, 192);
+
+    /**
+     * Thf dolor light grby.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color LIGHT_GRAY = lightGrby;
+
+    /**
+     * Thf dolor grby.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color grby      = nfw Color(128, 128, 128);
+
+    /**
+     * Thf dolor grby.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color GRAY = grby;
+
+    /**
+     * Thf dolor dbrk grby.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color dbrkGrby  = nfw Color(64, 64, 64);
+
+    /**
+     * Thf dolor dbrk grby.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color DARK_GRAY = dbrkGrby;
+
+    /**
+     * Thf dolor blbdk.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color blbdk     = nfw Color(0, 0, 0);
+
+    /**
+     * Thf dolor blbdk.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color BLACK = blbdk;
+
+    /**
+     * Thf dolor rfd.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color rfd       = nfw Color(255, 0, 0);
+
+    /**
+     * Thf dolor rfd.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color RED = rfd;
+
+    /**
+     * Thf dolor pink.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color pink      = nfw Color(255, 175, 175);
+
+    /**
+     * Thf dolor pink.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color PINK = pink;
+
+    /**
+     * Thf dolor orbngf.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color orbngf    = nfw Color(255, 200, 0);
+
+    /**
+     * Thf dolor orbngf.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color ORANGE = orbngf;
+
+    /**
+     * Thf dolor yfllow.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color yfllow    = nfw Color(255, 255, 0);
+
+    /**
+     * Thf dolor yfllow.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color YELLOW = yfllow;
+
+    /**
+     * Thf dolor grffn.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color grffn     = nfw Color(0, 255, 0);
+
+    /**
+     * Thf dolor grffn.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color GREEN = grffn;
+
+    /**
+     * Thf dolor mbgfntb.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color mbgfntb   = nfw Color(255, 0, 255);
+
+    /**
+     * Thf dolor mbgfntb.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color MAGENTA = mbgfntb;
+
+    /**
+     * Thf dolor dybn.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color dybn      = nfw Color(0, 255, 255);
+
+    /**
+     * Thf dolor dybn.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color CYAN = dybn;
+
+    /**
+     * Thf dolor bluf.  In thf dffbult sRGB spbdf.
+     */
+    publid finbl stbtid Color bluf      = nfw Color(0, 0, 255);
+
+    /**
+     * Thf dolor bluf.  In thf dffbult sRGB spbdf.
+     * @sindf 1.4
+     */
+    publid finbl stbtid Color BLUE = bluf;
+
+    /**
+     * Thf dolor vbluf.
+     * @sfribl
+     * @sff #gftRGB
+     */
+    int vbluf;
+
+    /**
+     * Thf dolor vbluf in thf dffbult sRGB <dodf>ColorSpbdf</dodf> bs
+     * <dodf>flobt</dodf> domponfnts (no blphb).
+     * If <dodf>null</dodf> bftfr objfdt donstrudtion, this must bf bn
+     * sRGB dolor donstrudtfd with 8-bit prfdision, so domputf from thf
+     * <dodf>int</dodf> dolor vbluf.
+     * @sfribl
+     * @sff #gftRGBColorComponfnts
+     * @sff #gftRGBComponfnts
+     */
+    privbtf flobt frgbvbluf[] = null;
+
+    /**
+     * Thf dolor vbluf in thf nbtivf <dodf>ColorSpbdf</dodf> bs
+     * <dodf>flobt</dodf> domponfnts (no blphb).
+     * If <dodf>null</dodf> bftfr objfdt donstrudtion, this must bf bn
+     * sRGB dolor donstrudtfd with 8-bit prfdision, so domputf from thf
+     * <dodf>int</dodf> dolor vbluf.
+     * @sfribl
+     * @sff #gftRGBColorComponfnts
+     * @sff #gftRGBComponfnts
+     */
+    privbtf flobt fvbluf[] = null;
+
+    /**
+     * Thf blphb vbluf bs b <dodf>flobt</dodf> domponfnt.
+     * If <dodf>frgbvbluf</dodf> is <dodf>null</dodf>, this is not vblid
+     * dbtb, so domputf from thf <dodf>int</dodf> dolor vbluf.
+     * @sfribl
+     * @sff #gftRGBComponfnts
+     * @sff #gftComponfnts
+     */
+    privbtf flobt fblphb = 0.0f;
+
+    /**
+     * Thf <dodf>ColorSpbdf</dodf>.  If <dodf>null</dodf>, thfn it's
+     * dffbult is sRGB.
+     * @sfribl
+     * @sff #gftColor
+     * @sff #gftColorSpbdf
+     * @sff #gftColorComponfnts
+     */
+    privbtf ColorSpbdf ds = null;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 118526816881161077L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /** 4112352 - Cblling gftDffbultToolkit()
+         ** hfrf dbn dbusf this dlbss to bf bddfssfd bfforf it is fully
+         ** initiblizfd. DON'T DO IT!!!
+         **
+         ** Toolkit.gftDffbultToolkit();
+         **/
+
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Chfdks thf dolor intfgfr domponfnts supplifd for vblidity.
+     * Throws bn {@link IllfgblArgumfntExdfption} if thf vbluf is out of
+     * rbngf.
+     * @pbrbm r thf Rfd domponfnt
+     * @pbrbm g thf Grffn domponfnt
+     * @pbrbm b thf Bluf domponfnt
+     **/
+    privbtf stbtid void tfstColorVblufRbngf(int r, int g, int b, int b) {
+        boolfbn rbngfError = fblsf;
+        String bbdComponfntString = "";
+
+        if ( b < 0 || b > 255) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Alphb";
+        }
+        if ( r < 0 || r > 255) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Rfd";
+        }
+        if ( g < 0 || g > 255) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Grffn";
+        }
+        if ( b < 0 || b > 255) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Bluf";
+        }
+        if ( rbngfError == truf ) {
+        throw nfw IllfgblArgumfntExdfption("Color pbrbmftfr outsidf of fxpfdtfd rbngf:"
+                                           + bbdComponfntString);
+        }
+    }
+
+    /**
+     * Chfdks thf dolor <dodf>flobt</dodf> domponfnts supplifd for
+     * vblidity.
+     * Throws bn <dodf>IllfgblArgumfntExdfption</dodf> if thf vbluf is out
+     * of rbngf.
+     * @pbrbm r thf Rfd domponfnt
+     * @pbrbm g thf Grffn domponfnt
+     * @pbrbm b thf Bluf domponfnt
+     **/
+    privbtf stbtid void tfstColorVblufRbngf(flobt r, flobt g, flobt b, flobt b) {
+        boolfbn rbngfError = fblsf;
+        String bbdComponfntString = "";
+        if ( b < 0.0 || b > 1.0) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Alphb";
+        }
+        if ( r < 0.0 || r > 1.0) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Rfd";
+        }
+        if ( g < 0.0 || g > 1.0) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Grffn";
+        }
+        if ( b < 0.0 || b > 1.0) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + " Bluf";
+        }
+        if ( rbngfError == truf ) {
+        throw nfw IllfgblArgumfntExdfption("Color pbrbmftfr outsidf of fxpfdtfd rbngf:"
+                                           + bbdComponfntString);
+        }
+    }
+
+    /**
+     * Crfbtfs bn opbquf sRGB dolor with thf spfdififd rfd, grffn,
+     * bnd bluf vblufs in thf rbngf (0 - 255).
+     * Thf bdtubl dolor usfd in rfndfring dfpfnds
+     * on finding thf bfst mbtdh givfn thf dolor spbdf
+     * bvbilbblf for b givfn output dfvidf.
+     * Alphb is dffbultfd to 255.
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>r</dodf>, <dodf>g</dodf>
+     *        or <dodf>b</dodf> brf outsidf of thf rbngf
+     *        0 to 255, indlusivf
+     * @pbrbm r thf rfd domponfnt
+     * @pbrbm g thf grffn domponfnt
+     * @pbrbm b thf bluf domponfnt
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftRGB
+     */
+    publid Color(int r, int g, int b) {
+        this(r, g, b, 255);
+    }
+
+    /**
+     * Crfbtfs bn sRGB dolor with thf spfdififd rfd, grffn, bluf, bnd blphb
+     * vblufs in thf rbngf (0 - 255).
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>r</dodf>, <dodf>g</dodf>,
+     *        <dodf>b</dodf> or <dodf>b</dodf> brf outsidf of thf rbngf
+     *        0 to 255, indlusivf
+     * @pbrbm r thf rfd domponfnt
+     * @pbrbm g thf grffn domponfnt
+     * @pbrbm b thf bluf domponfnt
+     * @pbrbm b thf blphb domponfnt
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftAlphb
+     * @sff #gftRGB
+     */
+    @ConstrudtorPropfrtifs({"rfd", "grffn", "bluf", "blphb"})
+    publid Color(int r, int g, int b, int b) {
+        vbluf = ((b & 0xFF) << 24) |
+                ((r & 0xFF) << 16) |
+                ((g & 0xFF) << 8)  |
+                ((b & 0xFF) << 0);
+        tfstColorVblufRbngf(r,g,b,b);
+    }
+
+    /**
+     * Crfbtfs bn opbquf sRGB dolor with thf spfdififd dombinfd RGB vbluf
+     * donsisting of thf rfd domponfnt in bits 16-23, thf grffn domponfnt
+     * in bits 8-15, bnd thf bluf domponfnt in bits 0-7.  Thf bdtubl dolor
+     * usfd in rfndfring dfpfnds on finding thf bfst mbtdh givfn thf
+     * dolor spbdf bvbilbblf for b pbrtidulbr output dfvidf.  Alphb is
+     * dffbultfd to 255.
+     *
+     * @pbrbm rgb thf dombinfd RGB domponfnts
+     * @sff jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftRGB
+     */
+    publid Color(int rgb) {
+        vbluf = 0xff000000 | rgb;
+    }
+
+    /**
+     * Crfbtfs bn sRGB dolor with thf spfdififd dombinfd RGBA vbluf donsisting
+     * of thf blphb domponfnt in bits 24-31, thf rfd domponfnt in bits 16-23,
+     * thf grffn domponfnt in bits 8-15, bnd thf bluf domponfnt in bits 0-7.
+     * If thf <dodf>hbsblphb</dodf> brgumfnt is <dodf>fblsf</dodf>, blphb
+     * is dffbultfd to 255.
+     *
+     * @pbrbm rgbb thf dombinfd RGBA domponfnts
+     * @pbrbm hbsblphb <dodf>truf</dodf> if thf blphb bits brf vblid;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @sff jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftAlphb
+     * @sff #gftRGB
+     */
+    publid Color(int rgbb, boolfbn hbsblphb) {
+        if (hbsblphb) {
+            vbluf = rgbb;
+        } flsf {
+            vbluf = 0xff000000 | rgbb;
+        }
+    }
+
+    /**
+     * Crfbtfs bn opbquf sRGB dolor with thf spfdififd rfd, grffn, bnd bluf
+     * vblufs in thf rbngf (0.0 - 1.0).  Alphb is dffbultfd to 1.0.  Thf
+     * bdtubl dolor usfd in rfndfring dfpfnds on finding thf bfst
+     * mbtdh givfn thf dolor spbdf bvbilbblf for b pbrtidulbr output
+     * dfvidf.
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>r</dodf>, <dodf>g</dodf>
+     *        or <dodf>b</dodf> brf outsidf of thf rbngf
+     *        0.0 to 1.0, indlusivf
+     * @pbrbm r thf rfd domponfnt
+     * @pbrbm g thf grffn domponfnt
+     * @pbrbm b thf bluf domponfnt
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftRGB
+     */
+    publid Color(flobt r, flobt g, flobt b) {
+        this( (int) (r*255+0.5), (int) (g*255+0.5), (int) (b*255+0.5));
+        tfstColorVblufRbngf(r,g,b,1.0f);
+        frgbvbluf = nfw flobt[3];
+        frgbvbluf[0] = r;
+        frgbvbluf[1] = g;
+        frgbvbluf[2] = b;
+        fblphb = 1.0f;
+        fvbluf = frgbvbluf;
+    }
+
+    /**
+     * Crfbtfs bn sRGB dolor with thf spfdififd rfd, grffn, bluf, bnd
+     * blphb vblufs in thf rbngf (0.0 - 1.0).  Thf bdtubl dolor
+     * usfd in rfndfring dfpfnds on finding thf bfst mbtdh givfn thf
+     * dolor spbdf bvbilbblf for b pbrtidulbr output dfvidf.
+     * @throws IllfgblArgumfntExdfption if <dodf>r</dodf>, <dodf>g</dodf>
+     *        <dodf>b</dodf> or <dodf>b</dodf> brf outsidf of thf rbngf
+     *        0.0 to 1.0, indlusivf
+     * @pbrbm r thf rfd domponfnt
+     * @pbrbm g thf grffn domponfnt
+     * @pbrbm b thf bluf domponfnt
+     * @pbrbm b thf blphb domponfnt
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sff #gftAlphb
+     * @sff #gftRGB
+     */
+    publid Color(flobt r, flobt g, flobt b, flobt b) {
+        this((int)(r*255+0.5), (int)(g*255+0.5), (int)(b*255+0.5), (int)(b*255+0.5));
+        frgbvbluf = nfw flobt[3];
+        frgbvbluf[0] = r;
+        frgbvbluf[1] = g;
+        frgbvbluf[2] = b;
+        fblphb = b;
+        fvbluf = frgbvbluf;
+    }
+
+    /**
+     * Crfbtfs b dolor in thf spfdififd <dodf>ColorSpbdf</dodf>
+     * with thf dolor domponfnts spfdififd in thf <dodf>flobt</dodf>
+     * brrby bnd thf spfdififd blphb.  Thf numbfr of domponfnts is
+     * dftfrminfd by thf typf of thf <dodf>ColorSpbdf</dodf>.  For
+     * fxbmplf, RGB rfquirfs 3 domponfnts, but CMYK rfquirfs 4
+     * domponfnts.
+     * @pbrbm dspbdf thf <dodf>ColorSpbdf</dodf> to bf usfd to
+     *                  intfrprft thf domponfnts
+     * @pbrbm domponfnts bn brbitrbry numbfr of dolor domponfnts
+     *                      thbt is dompbtiblf with thf <dodf>ColorSpbdf</dodf>
+     * @pbrbm blphb blphb vbluf
+     * @throws IllfgblArgumfntExdfption if bny of thf vblufs in thf
+     *         <dodf>domponfnts</dodf> brrby or <dodf>blphb</dodf> is
+     *         outsidf of thf rbngf 0.0 to 1.0
+     * @sff #gftComponfnts
+     * @sff #gftColorComponfnts
+     */
+    publid Color(ColorSpbdf dspbdf, flobt domponfnts[], flobt blphb) {
+        boolfbn rbngfError = fblsf;
+        String bbdComponfntString = "";
+        int n = dspbdf.gftNumComponfnts();
+        fvbluf = nfw flobt[n];
+        for (int i = 0; i < n; i++) {
+            if (domponfnts[i] < 0.0 || domponfnts[i] > 1.0) {
+                rbngfError = truf;
+                bbdComponfntString = bbdComponfntString + "Componfnt " + i
+                                     + " ";
+            } flsf {
+                fvbluf[i] = domponfnts[i];
+            }
+        }
+        if (blphb < 0.0 || blphb > 1.0) {
+            rbngfError = truf;
+            bbdComponfntString = bbdComponfntString + "Alphb";
+        } flsf {
+            fblphb = blphb;
+        }
+        if (rbngfError) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Color pbrbmftfr outsidf of fxpfdtfd rbngf: " +
+                bbdComponfntString);
+        }
+        frgbvbluf = dspbdf.toRGB(fvbluf);
+        ds = dspbdf;
+        vbluf = ((((int)(fblphb*255)) & 0xFF) << 24) |
+                ((((int)(frgbvbluf[0]*255)) & 0xFF) << 16) |
+                ((((int)(frgbvbluf[1]*255)) & 0xFF) << 8)  |
+                ((((int)(frgbvbluf[2]*255)) & 0xFF) << 0);
+    }
+
+    /**
+     * Rfturns thf rfd domponfnt in thf rbngf 0-255 in thf dffbult sRGB
+     * spbdf.
+     * @rfturn thf rfd domponfnt.
+     * @sff #gftRGB
+     */
+    publid int gftRfd() {
+        rfturn (gftRGB() >> 16) & 0xFF;
+    }
+
+    /**
+     * Rfturns thf grffn domponfnt in thf rbngf 0-255 in thf dffbult sRGB
+     * spbdf.
+     * @rfturn thf grffn domponfnt.
+     * @sff #gftRGB
+     */
+    publid int gftGrffn() {
+        rfturn (gftRGB() >> 8) & 0xFF;
+    }
+
+    /**
+     * Rfturns thf bluf domponfnt in thf rbngf 0-255 in thf dffbult sRGB
+     * spbdf.
+     * @rfturn thf bluf domponfnt.
+     * @sff #gftRGB
+     */
+    publid int gftBluf() {
+        rfturn (gftRGB() >> 0) & 0xFF;
+    }
+
+    /**
+     * Rfturns thf blphb domponfnt in thf rbngf 0-255.
+     * @rfturn thf blphb domponfnt.
+     * @sff #gftRGB
+     */
+    publid int gftAlphb() {
+        rfturn (gftRGB() >> 24) & 0xff;
+    }
+
+    /**
+     * Rfturns thf RGB vbluf rfprfsfnting thf dolor in thf dffbult sRGB
+     * {@link ColorModfl}.
+     * (Bits 24-31 brf blphb, 16-23 brf rfd, 8-15 brf grffn, 0-7 brf
+     * bluf).
+     * @rfturn thf RGB vbluf of thf dolor in thf dffbult sRGB
+     *         <dodf>ColorModfl</dodf>.
+     * @sff jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sindf 1.0
+     */
+    publid int gftRGB() {
+        rfturn vbluf;
+    }
+
+    privbtf stbtid finbl doublf FACTOR = 0.7;
+
+    /**
+     * Crfbtfs b nfw <dodf>Color</dodf> thbt is b brightfr vfrsion of this
+     * <dodf>Color</dodf>.
+     * <p>
+     * This mfthod bpplifs bn brbitrbry sdblf fbdtor to fbdh of thf thrff RGB
+     * domponfnts of this <dodf>Color</dodf> to drfbtf b brightfr vfrsion
+     * of this <dodf>Color</dodf>.
+     * Thf {@dodf blphb} vbluf is prfsfrvfd.
+     * Although <dodf>brightfr</dodf> bnd
+     * <dodf>dbrkfr</dodf> brf invfrsf opfrbtions, thf rfsults of b
+     * sfrifs of invodbtions of thfsf two mfthods might bf indonsistfnt
+     * bfdbusf of rounding frrors.
+     * @rfturn     b nfw <dodf>Color</dodf> objfdt thbt is
+     *                 b brightfr vfrsion of this <dodf>Color</dodf>
+     *                 with thf sbmf {@dodf blphb} vbluf.
+     * @sff        jbvb.bwt.Color#dbrkfr
+     * @sindf      1.0
+     */
+    publid Color brightfr() {
+        int r = gftRfd();
+        int g = gftGrffn();
+        int b = gftBluf();
+        int blphb = gftAlphb();
+
+        /* From 2D group:
+         * 1. blbdk.brightfr() should rfturn grfy
+         * 2. bpplying brightfr to bluf will blwbys rfturn bluf, brightfr
+         * 3. non purf dolor (non zfro rgb) will fvfntublly rfturn whitf
+         */
+        int i = (int)(1.0/(1.0-FACTOR));
+        if ( r == 0 && g == 0 && b == 0) {
+            rfturn nfw Color(i, i, i, blphb);
+        }
+        if ( r > 0 && r < i ) r = i;
+        if ( g > 0 && g < i ) g = i;
+        if ( b > 0 && b < i ) b = i;
+
+        rfturn nfw Color(Mbth.min((int)(r/FACTOR), 255),
+                         Mbth.min((int)(g/FACTOR), 255),
+                         Mbth.min((int)(b/FACTOR), 255),
+                         blphb);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>Color</dodf> thbt is b dbrkfr vfrsion of this
+     * <dodf>Color</dodf>.
+     * <p>
+     * This mfthod bpplifs bn brbitrbry sdblf fbdtor to fbdh of thf thrff RGB
+     * domponfnts of this <dodf>Color</dodf> to drfbtf b dbrkfr vfrsion of
+     * this <dodf>Color</dodf>.
+     * Thf {@dodf blphb} vbluf is prfsfrvfd.
+     * Although <dodf>brightfr</dodf> bnd
+     * <dodf>dbrkfr</dodf> brf invfrsf opfrbtions, thf rfsults of b sfrifs
+     * of invodbtions of thfsf two mfthods might bf indonsistfnt bfdbusf
+     * of rounding frrors.
+     * @rfturn  b nfw <dodf>Color</dodf> objfdt thbt is
+     *                    b dbrkfr vfrsion of this <dodf>Color</dodf>
+     *                    with thf sbmf {@dodf blphb} vbluf.
+     * @sff        jbvb.bwt.Color#brightfr
+     * @sindf      1.0
+     */
+    publid Color dbrkfr() {
+        rfturn nfw Color(Mbth.mbx((int)(gftRfd()  *FACTOR), 0),
+                         Mbth.mbx((int)(gftGrffn()*FACTOR), 0),
+                         Mbth.mbx((int)(gftBluf() *FACTOR), 0),
+                         gftAlphb());
+    }
+
+    /**
+     * Computfs thf hbsh dodf for this <dodf>Color</dodf>.
+     * @rfturn     b hbsh dodf vbluf for this objfdt.
+     * @sindf      1.0
+     */
+    publid int hbshCodf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Dftfrminfs whfthfr bnothfr objfdt is fqubl to this
+     * <dodf>Color</dodf>.
+     * <p>
+     * Thf rfsult is <dodf>truf</dodf> if bnd only if thf brgumfnt is not
+     * <dodf>null</dodf> bnd is b <dodf>Color</dodf> objfdt thbt hbs thf sbmf
+     * rfd, grffn, bluf, bnd blphb vblufs bs this objfdt.
+     * @pbrbm       obj   thf objfdt to tfst for fqublity with this
+     *                          <dodf>Color</dodf>
+     * @rfturn      <dodf>truf</dodf> if thf objfdts brf thf sbmf;
+     *                             <dodf>fblsf</dodf> othfrwisf.
+     * @sindf   1.0
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj instbndfof Color && ((Color)obj).gftRGB() == this.gftRGB();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>Color</dodf>. This
+     * mfthod is intfndfd to bf usfd only for dfbugging purposfs.  Thf
+     * dontfnt bnd formbt of thf rfturnfd string might vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string might bf fmpty but dbnnot
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>Color</dodf>.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[r=" + gftRfd() + ",g=" + gftGrffn() + ",b=" + gftBluf() + "]";
+    }
+
+    /**
+     * Convfrts b <dodf>String</dodf> to bn intfgfr bnd rfturns thf
+     * spfdififd opbquf <dodf>Color</dodf>. This mfthod hbndlfs string
+     * formbts thbt brf usfd to rfprfsfnt odtbl bnd hfxbdfdimbl numbfrs.
+     * @pbrbm      nm b <dodf>String</dodf> thbt rfprfsfnts
+     *                            bn opbquf dolor bs b 24-bit intfgfr
+     * @rfturn     thf nfw <dodf>Color</dodf> objfdt.
+     * @sff        jbvb.lbng.Intfgfr#dfdodf
+     * @fxdfption  NumbfrFormbtExdfption  if thf spfdififd string dbnnot
+     *                      bf intfrprftfd bs b dfdimbl,
+     *                      odtbl, or hfxbdfdimbl intfgfr.
+     * @sindf      1.1
+     */
+    publid stbtid Color dfdodf(String nm) throws NumbfrFormbtExdfption {
+        Intfgfr intvbl = Intfgfr.dfdodf(nm);
+        int i = intvbl.intVbluf();
+        rfturn nfw Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
+    }
+
+    /**
+     * Finds b dolor in thf systfm propfrtifs.
+     * <p>
+     * Thf brgumfnt is trfbtfd bs thf nbmf of b systfm propfrty to
+     * bf obtbinfd. Thf string vbluf of this propfrty is thfn intfrprftfd
+     * bs bn intfgfr whidh is thfn donvfrtfd to b <dodf>Color</dodf>
+     * objfdt.
+     * <p>
+     * If thf spfdififd propfrty is not found or dould not bf pbrsfd bs
+     * bn intfgfr thfn <dodf>null</dodf> is rfturnfd.
+     * @pbrbm    nm thf nbmf of thf dolor propfrty
+     * @rfturn   thf <dodf>Color</dodf> donvfrtfd from thf systfm
+     *          propfrty.
+     * @sff      jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff      jbvb.lbng.Intfgfr#gftIntfgfr(jbvb.lbng.String)
+     * @sff      jbvb.bwt.Color#Color(int)
+     * @sindf    1.0
+     */
+    publid stbtid Color gftColor(String nm) {
+        rfturn gftColor(nm, null);
+    }
+
+    /**
+     * Finds b dolor in thf systfm propfrtifs.
+     * <p>
+     * Thf first brgumfnt is trfbtfd bs thf nbmf of b systfm propfrty to
+     * bf obtbinfd. Thf string vbluf of this propfrty is thfn intfrprftfd
+     * bs bn intfgfr whidh is thfn donvfrtfd to b <dodf>Color</dodf>
+     * objfdt.
+     * <p>
+     * If thf spfdififd propfrty is not found or dbnnot bf pbrsfd bs
+     * bn intfgfr thfn thf <dodf>Color</dodf> spfdififd by thf sfdond
+     * brgumfnt is rfturnfd instfbd.
+     * @pbrbm    nm thf nbmf of thf dolor propfrty
+     * @pbrbm    v    thf dffbult <dodf>Color</dodf>
+     * @rfturn   thf <dodf>Color</dodf> donvfrtfd from thf systfm
+     *          propfrty, or thf spfdififd <dodf>Color</dodf>.
+     * @sff      jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff      jbvb.lbng.Intfgfr#gftIntfgfr(jbvb.lbng.String)
+     * @sff      jbvb.bwt.Color#Color(int)
+     * @sindf    1.0
+     */
+    publid stbtid Color gftColor(String nm, Color v) {
+        Intfgfr intvbl = Intfgfr.gftIntfgfr(nm);
+        if (intvbl == null) {
+            rfturn v;
+        }
+        int i = intvbl.intVbluf();
+        rfturn nfw Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
+    }
+
+    /**
+     * Finds b dolor in thf systfm propfrtifs.
+     * <p>
+     * Thf first brgumfnt is trfbtfd bs thf nbmf of b systfm propfrty to
+     * bf obtbinfd. Thf string vbluf of this propfrty is thfn intfrprftfd
+     * bs bn intfgfr whidh is thfn donvfrtfd to b <dodf>Color</dodf>
+     * objfdt.
+     * <p>
+     * If thf spfdififd propfrty is not found or dould not bf pbrsfd bs
+     * bn intfgfr thfn thf intfgfr vbluf <dodf>v</dodf> is usfd instfbd,
+     * bnd is donvfrtfd to b <dodf>Color</dodf> objfdt.
+     * @pbrbm    nm  thf nbmf of thf dolor propfrty
+     * @pbrbm    v   thf dffbult dolor vbluf, bs bn intfgfr
+     * @rfturn   thf <dodf>Color</dodf> donvfrtfd from thf systfm
+     *          propfrty or thf <dodf>Color</dodf> donvfrtfd from
+     *          thf spfdififd intfgfr.
+     * @sff      jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff      jbvb.lbng.Intfgfr#gftIntfgfr(jbvb.lbng.String)
+     * @sff      jbvb.bwt.Color#Color(int)
+     * @sindf    1.0
+     */
+    publid stbtid Color gftColor(String nm, int v) {
+        Intfgfr intvbl = Intfgfr.gftIntfgfr(nm);
+        int i = (intvbl != null) ? intvbl.intVbluf() : v;
+        rfturn nfw Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, (i >> 0) & 0xFF);
+    }
+
+    /**
+     * Convfrts thf domponfnts of b dolor, bs spfdififd by thf HSB
+     * modfl, to bn fquivblfnt sft of vblufs for thf dffbult RGB modfl.
+     * <p>
+     * Thf <dodf>sbturbtion</dodf> bnd <dodf>brightnfss</dodf> domponfnts
+     * should bf flobting-point vblufs bftwffn zfro bnd onf
+     * (numbfrs in thf rbngf 0.0-1.0).  Thf <dodf>huf</dodf> domponfnt
+     * dbn bf bny flobting-point numbfr.  Thf floor of this numbfr is
+     * subtrbdtfd from it to drfbtf b frbdtion bftwffn 0 bnd 1.  This
+     * frbdtionbl numbfr is thfn multiplifd by 360 to produdf thf huf
+     * bnglf in thf HSB dolor modfl.
+     * <p>
+     * Thf intfgfr thbt is rfturnfd by <dodf>HSBtoRGB</dodf> fndodfs thf
+     * vbluf of b dolor in bits 0-23 of bn intfgfr vbluf thbt is thf sbmf
+     * formbt usfd by thf mfthod {@link #gftRGB() gftRGB}.
+     * This intfgfr dbn bf supplifd bs bn brgumfnt to thf
+     * <dodf>Color</dodf> donstrudtor thbt tbkfs b singlf intfgfr brgumfnt.
+     * @pbrbm     huf   thf huf domponfnt of thf dolor
+     * @pbrbm     sbturbtion   thf sbturbtion of thf dolor
+     * @pbrbm     brightnfss   thf brightnfss of thf dolor
+     * @rfturn    thf RGB vbluf of thf dolor with thf indidbtfd huf,
+     *                            sbturbtion, bnd brightnfss.
+     * @sff       jbvb.bwt.Color#gftRGB()
+     * @sff       jbvb.bwt.Color#Color(int)
+     * @sff       jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult()
+     * @sindf     1.0
+     */
+    publid stbtid int HSBtoRGB(flobt huf, flobt sbturbtion, flobt brightnfss) {
+        int r = 0, g = 0, b = 0;
+        if (sbturbtion == 0) {
+            r = g = b = (int) (brightnfss * 255.0f + 0.5f);
+        } flsf {
+            flobt h = (huf - (flobt)Mbth.floor(huf)) * 6.0f;
+            flobt f = h - (flobt)jbvb.lbng.Mbth.floor(h);
+            flobt p = brightnfss * (1.0f - sbturbtion);
+            flobt q = brightnfss * (1.0f - sbturbtion * f);
+            flobt t = brightnfss * (1.0f - (sbturbtion * (1.0f - f)));
+            switdh ((int) h) {
+            dbsf 0:
+                r = (int) (brightnfss * 255.0f + 0.5f);
+                g = (int) (t * 255.0f + 0.5f);
+                b = (int) (p * 255.0f + 0.5f);
+                brfbk;
+            dbsf 1:
+                r = (int) (q * 255.0f + 0.5f);
+                g = (int) (brightnfss * 255.0f + 0.5f);
+                b = (int) (p * 255.0f + 0.5f);
+                brfbk;
+            dbsf 2:
+                r = (int) (p * 255.0f + 0.5f);
+                g = (int) (brightnfss * 255.0f + 0.5f);
+                b = (int) (t * 255.0f + 0.5f);
+                brfbk;
+            dbsf 3:
+                r = (int) (p * 255.0f + 0.5f);
+                g = (int) (q * 255.0f + 0.5f);
+                b = (int) (brightnfss * 255.0f + 0.5f);
+                brfbk;
+            dbsf 4:
+                r = (int) (t * 255.0f + 0.5f);
+                g = (int) (p * 255.0f + 0.5f);
+                b = (int) (brightnfss * 255.0f + 0.5f);
+                brfbk;
+            dbsf 5:
+                r = (int) (brightnfss * 255.0f + 0.5f);
+                g = (int) (p * 255.0f + 0.5f);
+                b = (int) (q * 255.0f + 0.5f);
+                brfbk;
+            }
+        }
+        rfturn 0xff000000 | (r << 16) | (g << 8) | (b << 0);
+    }
+
+    /**
+     * Convfrts thf domponfnts of b dolor, bs spfdififd by thf dffbult RGB
+     * modfl, to bn fquivblfnt sft of vblufs for huf, sbturbtion, bnd
+     * brightnfss thbt brf thf thrff domponfnts of thf HSB modfl.
+     * <p>
+     * If thf <dodf>hsbvbls</dodf> brgumfnt is <dodf>null</dodf>, thfn b
+     * nfw brrby is bllodbtfd to rfturn thf rfsult. Othfrwisf, thf mfthod
+     * rfturns thf brrby <dodf>hsbvbls</dodf>, with thf vblufs put into
+     * thbt brrby.
+     * @pbrbm     r   thf rfd domponfnt of thf dolor
+     * @pbrbm     g   thf grffn domponfnt of thf dolor
+     * @pbrbm     b   thf bluf domponfnt of thf dolor
+     * @pbrbm     hsbvbls  thf brrby usfd to rfturn thf
+     *                     thrff HSB vblufs, or <dodf>null</dodf>
+     * @rfturn    bn brrby of thrff flfmfnts dontbining thf huf, sbturbtion,
+     *                     bnd brightnfss (in thbt ordfr), of thf dolor with
+     *                     thf indidbtfd rfd, grffn, bnd bluf domponfnts.
+     * @sff       jbvb.bwt.Color#gftRGB()
+     * @sff       jbvb.bwt.Color#Color(int)
+     * @sff       jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult()
+     * @sindf     1.0
+     */
+    publid stbtid flobt[] RGBtoHSB(int r, int g, int b, flobt[] hsbvbls) {
+        flobt huf, sbturbtion, brightnfss;
+        if (hsbvbls == null) {
+            hsbvbls = nfw flobt[3];
+        }
+        int dmbx = (r > g) ? r : g;
+        if (b > dmbx) dmbx = b;
+        int dmin = (r < g) ? r : g;
+        if (b < dmin) dmin = b;
+
+        brightnfss = ((flobt) dmbx) / 255.0f;
+        if (dmbx != 0)
+            sbturbtion = ((flobt) (dmbx - dmin)) / ((flobt) dmbx);
+        flsf
+            sbturbtion = 0;
+        if (sbturbtion == 0)
+            huf = 0;
+        flsf {
+            flobt rfdd = ((flobt) (dmbx - r)) / ((flobt) (dmbx - dmin));
+            flobt grffnd = ((flobt) (dmbx - g)) / ((flobt) (dmbx - dmin));
+            flobt blufd = ((flobt) (dmbx - b)) / ((flobt) (dmbx - dmin));
+            if (r == dmbx)
+                huf = blufd - grffnd;
+            flsf if (g == dmbx)
+                huf = 2.0f + rfdd - blufd;
+            flsf
+                huf = 4.0f + grffnd - rfdd;
+            huf = huf / 6.0f;
+            if (huf < 0)
+                huf = huf + 1.0f;
+        }
+        hsbvbls[0] = huf;
+        hsbvbls[1] = sbturbtion;
+        hsbvbls[2] = brightnfss;
+        rfturn hsbvbls;
+    }
+
+    /**
+     * Crfbtfs b <dodf>Color</dodf> objfdt bbsfd on thf spfdififd vblufs
+     * for thf HSB dolor modfl.
+     * <p>
+     * Thf <dodf>s</dodf> bnd <dodf>b</dodf> domponfnts should bf
+     * flobting-point vblufs bftwffn zfro bnd onf
+     * (numbfrs in thf rbngf 0.0-1.0).  Thf <dodf>h</dodf> domponfnt
+     * dbn bf bny flobting-point numbfr.  Thf floor of this numbfr is
+     * subtrbdtfd from it to drfbtf b frbdtion bftwffn 0 bnd 1.  This
+     * frbdtionbl numbfr is thfn multiplifd by 360 to produdf thf huf
+     * bnglf in thf HSB dolor modfl.
+     * @pbrbm  h   thf huf domponfnt
+     * @pbrbm  s   thf sbturbtion of thf dolor
+     * @pbrbm  b   thf brightnfss of thf dolor
+     * @rfturn  b <dodf>Color</dodf> objfdt with thf spfdififd huf,
+     *                                 sbturbtion, bnd brightnfss.
+     * @sindf   1.0
+     */
+    publid stbtid Color gftHSBColor(flobt h, flobt s, flobt b) {
+        rfturn nfw Color(HSBtoRGB(h, s, b));
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining thf dolor bnd blphb
+     * domponfnts of thf <dodf>Color</dodf>, bs rfprfsfntfd in thf dffbult
+     * sRGB dolor spbdf.
+     * If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn brrby of lfngth
+     * 4 is drfbtfd for thf rfturn vbluf.  Othfrwisf,
+     * <dodf>dompArrby</dodf> must hbvf lfngth 4 or grfbtfr,
+     * bnd it is fillfd in with thf domponfnts bnd rfturnfd.
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with
+     *                  dolor bnd blphb domponfnts bnd rfturns
+     * @rfturn thf RGBA domponfnts in b <dodf>flobt</dodf> brrby.
+     */
+    publid flobt[] gftRGBComponfnts(flobt[] dompArrby) {
+        flobt[] f;
+        if (dompArrby == null) {
+            f = nfw flobt[4];
+        } flsf {
+            f = dompArrby;
+        }
+        if (frgbvbluf == null) {
+            f[0] = ((flobt)gftRfd())/255f;
+            f[1] = ((flobt)gftGrffn())/255f;
+            f[2] = ((flobt)gftBluf())/255f;
+            f[3] = ((flobt)gftAlphb())/255f;
+        } flsf {
+            f[0] = frgbvbluf[0];
+            f[1] = frgbvbluf[1];
+            f[2] = frgbvbluf[2];
+            f[3] = fblphb;
+        }
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining only thf dolor
+     * domponfnts of thf <dodf>Color</dodf>, in thf dffbult sRGB dolor
+     * spbdf.  If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn brrby of
+     * lfngth 3 is drfbtfd for thf rfturn vbluf.  Othfrwisf,
+     * <dodf>dompArrby</dodf> must hbvf lfngth 3 or grfbtfr, bnd it is
+     * fillfd in with thf domponfnts bnd rfturnfd.
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with dolor
+     *          domponfnts bnd rfturns
+     * @rfturn thf RGB domponfnts in b <dodf>flobt</dodf> brrby.
+     */
+    publid flobt[] gftRGBColorComponfnts(flobt[] dompArrby) {
+        flobt[] f;
+        if (dompArrby == null) {
+            f = nfw flobt[3];
+        } flsf {
+            f = dompArrby;
+        }
+        if (frgbvbluf == null) {
+            f[0] = ((flobt)gftRfd())/255f;
+            f[1] = ((flobt)gftGrffn())/255f;
+            f[2] = ((flobt)gftBluf())/255f;
+        } flsf {
+            f[0] = frgbvbluf[0];
+            f[1] = frgbvbluf[1];
+            f[2] = frgbvbluf[2];
+        }
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining thf dolor bnd blphb
+     * domponfnts of thf <dodf>Color</dodf>, in thf
+     * <dodf>ColorSpbdf</dodf> of thf <dodf>Color</dodf>.
+     * If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn brrby with
+     * lfngth fqubl to thf numbfr of domponfnts in thf bssodibtfd
+     * <dodf>ColorSpbdf</dodf> plus onf is drfbtfd for
+     * thf rfturn vbluf.  Othfrwisf, <dodf>dompArrby</dodf> must hbvf bt
+     * lfbst this lfngth bnd it is fillfd in with thf domponfnts bnd
+     * rfturnfd.
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with thf dolor bnd
+     *          blphb domponfnts of this <dodf>Color</dodf> in its
+     *          <dodf>ColorSpbdf</dodf> bnd rfturns
+     * @rfturn thf dolor bnd blphb domponfnts in b <dodf>flobt</dodf>
+     *          brrby.
+     */
+    publid flobt[] gftComponfnts(flobt[] dompArrby) {
+        if (fvbluf == null)
+            rfturn gftRGBComponfnts(dompArrby);
+        flobt[] f;
+        int n = fvbluf.lfngth;
+        if (dompArrby == null) {
+            f = nfw flobt[n + 1];
+        } flsf {
+            f = dompArrby;
+        }
+        for (int i = 0; i < n; i++) {
+            f[i] = fvbluf[i];
+        }
+        f[n] = fblphb;
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining only thf dolor
+     * domponfnts of thf <dodf>Color</dodf>, in thf
+     * <dodf>ColorSpbdf</dodf> of thf <dodf>Color</dodf>.
+     * If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn brrby with
+     * lfngth fqubl to thf numbfr of domponfnts in thf bssodibtfd
+     * <dodf>ColorSpbdf</dodf> is drfbtfd for
+     * thf rfturn vbluf.  Othfrwisf, <dodf>dompArrby</dodf> must hbvf bt
+     * lfbst this lfngth bnd it is fillfd in with thf domponfnts bnd
+     * rfturnfd.
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with thf dolor
+     *          domponfnts of this <dodf>Color</dodf> in its
+     *          <dodf>ColorSpbdf</dodf> bnd rfturns
+     * @rfturn thf dolor domponfnts in b <dodf>flobt</dodf> brrby.
+     */
+    publid flobt[] gftColorComponfnts(flobt[] dompArrby) {
+        if (fvbluf == null)
+            rfturn gftRGBColorComponfnts(dompArrby);
+        flobt[] f;
+        int n = fvbluf.lfngth;
+        if (dompArrby == null) {
+            f = nfw flobt[n];
+        } flsf {
+            f = dompArrby;
+        }
+        for (int i = 0; i < n; i++) {
+            f[i] = fvbluf[i];
+        }
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining thf dolor bnd blphb
+     * domponfnts of thf <dodf>Color</dodf>, in thf
+     * <dodf>ColorSpbdf</dodf> spfdififd by thf <dodf>dspbdf</dodf>
+     * pbrbmftfr.  If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn
+     * brrby with lfngth fqubl to thf numbfr of domponfnts in
+     * <dodf>dspbdf</dodf> plus onf is drfbtfd for thf rfturn vbluf.
+     * Othfrwisf, <dodf>dompArrby</dodf> must hbvf bt lfbst this
+     * lfngth, bnd it is fillfd in with thf domponfnts bnd rfturnfd.
+     * @pbrbm dspbdf b spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with thf
+     *          dolor bnd blphb domponfnts of this <dodf>Color</dodf> in
+     *          thf spfdififd <dodf>ColorSpbdf</dodf> bnd rfturns
+     * @rfturn thf dolor bnd blphb domponfnts in b <dodf>flobt</dodf>
+     *          brrby.
+     */
+    publid flobt[] gftComponfnts(ColorSpbdf dspbdf, flobt[] dompArrby) {
+        if (ds == null) {
+            ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        }
+        flobt f[];
+        if (fvbluf == null) {
+            f = nfw flobt[3];
+            f[0] = ((flobt)gftRfd())/255f;
+            f[1] = ((flobt)gftGrffn())/255f;
+            f[2] = ((flobt)gftBluf())/255f;
+        } flsf {
+            f = fvbluf;
+        }
+        flobt tmp[] = ds.toCIEXYZ(f);
+        flobt tmpout[] = dspbdf.fromCIEXYZ(tmp);
+        if (dompArrby == null) {
+            dompArrby = nfw flobt[tmpout.lfngth + 1];
+        }
+        for (int i = 0 ; i < tmpout.lfngth ; i++) {
+            dompArrby[i] = tmpout[i];
+        }
+        if (fvbluf == null) {
+            dompArrby[tmpout.lfngth] = ((flobt)gftAlphb())/255f;
+        } flsf {
+            dompArrby[tmpout.lfngth] = fblphb;
+        }
+        rfturn dompArrby;
+    }
+
+    /**
+     * Rfturns b <dodf>flobt</dodf> brrby dontbining only thf dolor
+     * domponfnts of thf <dodf>Color</dodf> in thf
+     * <dodf>ColorSpbdf</dodf> spfdififd by thf <dodf>dspbdf</dodf>
+     * pbrbmftfr. If <dodf>dompArrby</dodf> is <dodf>null</dodf>, bn brrby
+     * with lfngth fqubl to thf numbfr of domponfnts in
+     * <dodf>dspbdf</dodf> is drfbtfd for thf rfturn vbluf.  Othfrwisf,
+     * <dodf>dompArrby</dodf> must hbvf bt lfbst this lfngth, bnd it is
+     * fillfd in with thf domponfnts bnd rfturnfd.
+     * @pbrbm dspbdf b spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm dompArrby bn brrby thbt this mfthod fills with thf dolor
+     *          domponfnts of this <dodf>Color</dodf> in thf spfdififd
+     *          <dodf>ColorSpbdf</dodf>
+     * @rfturn thf dolor domponfnts in b <dodf>flobt</dodf> brrby.
+     */
+    publid flobt[] gftColorComponfnts(ColorSpbdf dspbdf, flobt[] dompArrby) {
+        if (ds == null) {
+            ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        }
+        flobt f[];
+        if (fvbluf == null) {
+            f = nfw flobt[3];
+            f[0] = ((flobt)gftRfd())/255f;
+            f[1] = ((flobt)gftGrffn())/255f;
+            f[2] = ((flobt)gftBluf())/255f;
+        } flsf {
+            f = fvbluf;
+        }
+        flobt tmp[] = ds.toCIEXYZ(f);
+        flobt tmpout[] = dspbdf.fromCIEXYZ(tmp);
+        if (dompArrby == null) {
+            rfturn tmpout;
+        }
+        for (int i = 0 ; i < tmpout.lfngth ; i++) {
+            dompArrby[i] = tmpout[i];
+        }
+        rfturn dompArrby;
+    }
+
+    /**
+     * Rfturns thf <dodf>ColorSpbdf</dodf> of this <dodf>Color</dodf>.
+     * @rfturn this <dodf>Color</dodf> objfdt's <dodf>ColorSpbdf</dodf>.
+     */
+    publid ColorSpbdf gftColorSpbdf() {
+        if (ds == null) {
+            ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        }
+        rfturn ds;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b solid dolor fifld pbttfrn.
+     * Sff thf {@link Pbint#drfbtfContfxt spfdifidbtion} of thf
+     * mfthod in thf {@link Pbint} intfrfbdf for informbtion
+     * on null pbrbmftfr hbndling.
+     *
+     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
+     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
+     *           if thfrf is no prfffrfndf.
+     * @pbrbm r thf dfvidf spbdf bounding box
+     *                     of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm r2d thf usfr spbdf bounding box
+     *                   of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm xform thf {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
+     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn thf {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
+     */
+    publid syndhronizfd PbintContfxt drfbtfContfxt(ColorModfl dm, Rfdtbnglf r,
+                                                   Rfdtbnglf2D r2d,
+                                                   AffinfTrbnsform xform,
+                                                   RfndfringHints hints) {
+        rfturn nfw ColorPbintContfxt(gftRGB(), dm);
+    }
+
+    /**
+     * Rfturns thf trbnspbrfndy modf for this <dodf>Color</dodf>.  This is
+     * rfquirfd to implfmfnt thf <dodf>Pbint</dodf> intfrfbdf.
+     * @rfturn this <dodf>Color</dodf> objfdt's trbnspbrfndy modf.
+     * @sff Pbint
+     * @sff Trbnspbrfndy
+     * @sff #drfbtfContfxt
+     */
+    publid int gftTrbnspbrfndy() {
+        int blphb = gftAlphb();
+        if (blphb == 0xff) {
+            rfturn Trbnspbrfndy.OPAQUE;
+        }
+        flsf if (blphb == 0) {
+            rfturn Trbnspbrfndy.BITMASK;
+        }
+        flsf {
+            rfturn Trbnspbrfndy.TRANSLUCENT;
+        }
+    }
+
+}

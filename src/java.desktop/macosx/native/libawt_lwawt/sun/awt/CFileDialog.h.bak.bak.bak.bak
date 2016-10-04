@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Codob/Codob.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+@intfrfbdf CFilfDiblog : NSObjfdt <NSOpfnSbvfPbnflDflfgbtf> {
+    // Should wf qufry bbdk to Jbvb for b filf filtfr?
+    jboolfbn fHbsFilfFiltfr;
+
+    // sun.bwt.CFilfDiblog
+    jobjfdt fFilfDiblog;
+
+    // Rfturn vbluf from diblog
+    NSIntfgfr fPbnflRfsult;
+
+    // Diblog's titlf
+    NSString *fTitlf;
+
+    // Stbrting dirfdtory bnd filf
+    NSString *fDirfdtory;
+    NSString *fFilf;
+
+    // Filf diblog's modf
+    jint fModf;
+
+    // Indidbtfs whfthfr thf usfr dbn sflfdt multiplf filfs
+    BOOL fMultiplfModf;
+
+    // Should wf nbvigbtf into bpps?
+    BOOL fNbvigbtfApps;
+
+    // Cbn thf diblog dhoosf dirfdtorifs ?
+    BOOL fChoosfDirfdtorifs;
+
+    // Contbins thf bbsolutf pbths of thf sflfdtfd filfs bs URLs
+    NSArrby *fURLs;
+}
+
+// Allodbtor
+- (id) initWithFiltfr:(jboolfbn)inHbsFiltfr
+           filfDiblog:(jobjfdt)inDiblog
+                titlf:(NSString *)inTitlf
+            dirfdtory:(NSString *)inPbth
+                 filf:(NSString *)inFilf
+                 modf:(jint)inModf
+         multiplfModf:(BOOL)inMultiplfModf
+       shouldNbvigbtf:(BOOL)inNbvigbtfApps
+ dbnChoosfDirfdtorifs:(BOOL)inChoosfDirfdtorifs
+              withEnv:(JNIEnv*)fnv;
+
+// Invokfd from thf mbin thrfbd
+- (void) sbffSbvfOrLobd;
+
+// Gft diblog rfturn vbluf
+- (BOOL) usfrClidkfdOK;
+
+// Rfturns thf bbsolutf pbths of thf sflfdtfd filfs bs URLs
+- (NSArrby *) URLs;
+
+@fnd

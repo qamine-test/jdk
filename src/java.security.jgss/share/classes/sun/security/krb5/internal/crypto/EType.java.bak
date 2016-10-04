@@ -1,350 +1,350 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.Config;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.KrbException;
-import sun.security.krb5.KrbCryptoException;
-import javax.crypto.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import jbvbx.drypto.*;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-//only needed if dataSize() implementation changes back to spec;
-//see dataSize() below
+//only nffdfd if dbtbSizf() implfmfntbtion dibngfs bbdk to spfd;
+//sff dbtbSizf() bflow
 
-public abstract class EType {
+publid bbstrbdt dlbss ETypf {
 
-    private static final boolean DEBUG = Krb5.DEBUG;
-    private static boolean allowWeakCrypto;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
+    privbtf stbtid boolfbn bllowWfbkCrypto;
 
-    static {
-        initStatic();
+    stbtid {
+        initStbtid();
     }
 
-    public static void initStatic() {
-        boolean allowed = false;
+    publid stbtid void initStbtid() {
+        boolfbn bllowfd = fblsf;
         try {
-            Config cfg = Config.getInstance();
-            allowed = cfg.getBooleanObject("libdefaults", "allow_weak_crypto")
-                    == Boolean.TRUE;
-        } catch (Exception exc) {
+            Config dfg = Config.gftInstbndf();
+            bllowfd = dfg.gftBoolfbnObjfdt("libdffbults", "bllow_wfbk_drypto")
+                    == Boolfbn.TRUE;
+        } dbtdi (Exdfption fxd) {
             if (DEBUG) {
-                System.out.println ("Exception in getting allow_weak_crypto, " +
-                                    "using default value " +
-                                    exc.getMessage());
+                Systfm.out.println ("Exdfption in gftting bllow_wfbk_drypto, " +
+                                    "using dffbult vbluf " +
+                                    fxd.gftMfssbgf());
             }
         }
-        allowWeakCrypto = allowed;
+        bllowWfbkCrypto = bllowfd;
     }
 
-    public static EType getInstance  (int eTypeConst)
-        throws KdcErrException {
-        EType eType = null;
-        String eTypeName = null;
-        switch (eTypeConst) {
-        case EncryptedData.ETYPE_NULL:
-            eType = new NullEType();
-            eTypeName = "sun.security.krb5.internal.crypto.NullEType";
-            break;
-        case EncryptedData.ETYPE_DES_CBC_CRC:
-            eType = new DesCbcCrcEType();
-            eTypeName = "sun.security.krb5.internal.crypto.DesCbcCrcEType";
-            break;
-        case EncryptedData.ETYPE_DES_CBC_MD5:
-            eType = new DesCbcMd5EType();
-            eTypeName = "sun.security.krb5.internal.crypto.DesCbcMd5EType";
-            break;
+    publid stbtid ETypf gftInstbndf  (int fTypfConst)
+        tirows KddErrExdfption {
+        ETypf fTypf = null;
+        String fTypfNbmf = null;
+        switdi (fTypfConst) {
+        dbsf EndryptfdDbtb.ETYPE_NULL:
+            fTypf = nfw NullETypf();
+            fTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.NullETypf";
+            brfbk;
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_CRC:
+            fTypf = nfw DfsCbdCrdETypf();
+            fTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.DfsCbdCrdETypf";
+            brfbk;
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_MD5:
+            fTypf = nfw DfsCbdMd5ETypf();
+            fTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.DfsCbdMd5ETypf";
+            brfbk;
 
-        case EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD:
-            eType = new Des3CbcHmacSha1KdEType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Des3CbcHmacSha1KdEType";
-            break;
+        dbsf EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            fTypf = nfw Dfs3CbdHmbdSib1KdETypf();
+            fTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.Dfs3CbdHmbdSib1KdETypf";
+            brfbk;
 
-        case EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96:
-            eType = new Aes128CtsHmacSha1EType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Aes128CtsHmacSha1EType";
-            break;
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            fTypf = nfw Afs128CtsHmbdSib1ETypf();
+            fTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.Afs128CtsHmbdSib1ETypf";
+            brfbk;
 
-        case EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96:
-            eType = new Aes256CtsHmacSha1EType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Aes256CtsHmacSha1EType";
-            break;
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            fTypf = nfw Afs256CtsHmbdSib1ETypf();
+            fTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.Afs256CtsHmbdSib1ETypf";
+            brfbk;
 
-        case EncryptedData.ETYPE_ARCFOUR_HMAC:
-            eType = new ArcFourHmacEType();
-            eTypeName = "sun.security.krb5.internal.crypto.ArcFourHmacEType";
-            break;
+        dbsf EndryptfdDbtb.ETYPE_ARCFOUR_HMAC:
+            fTypf = nfw ArdFourHmbdETypf();
+            fTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.ArdFourHmbdETypf";
+            brfbk;
 
-        default:
-            String msg = "encryption type = " + toString(eTypeConst)
-                + " ("  + eTypeConst + ")";
-            throw new KdcErrException(Krb5.KDC_ERR_ETYPE_NOSUPP, msg);
+        dffbult:
+            String msg = "fndryption typf = " + toString(fTypfConst)
+                + " ("  + fTypfConst + ")";
+            tirow nfw KddErrExdfption(Krb5.KDC_ERR_ETYPE_NOSUPP, msg);
         }
         if (DEBUG) {
-            System.out.println(">>> EType: " + eTypeName);
+            Systfm.out.println(">>> ETypf: " + fTypfNbmf);
         }
-        return eType;
+        rfturn fTypf;
     }
 
-    public abstract int eType();
+    publid bbstrbdt int fTypf();
 
-    public abstract int minimumPadSize();
+    publid bbstrbdt int minimumPbdSizf();
 
-    public abstract int confounderSize();
+    publid bbstrbdt int donfoundfrSizf();
 
-    public abstract int checksumType();
+    publid bbstrbdt int difdksumTypf();
 
-    public abstract int checksumSize();
+    publid bbstrbdt int difdksumSizf();
 
-    public abstract int blockSize();
+    publid bbstrbdt int blodkSizf();
 
-    public abstract int keyType();
+    publid bbstrbdt int kfyTypf();
 
-    public abstract int keySize();
+    publid bbstrbdt int kfySizf();
 
-    public abstract byte[] encrypt(byte[] data, byte[] key, int usage)
-        throws KrbCryptoException;
+    publid bbstrbdt bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, int usbgf)
+        tirows KrbCryptoExdfption;
 
-    public abstract byte[] encrypt(byte[] data, byte[] key, byte[] ivec,
-        int usage) throws KrbCryptoException;
+    publid bbstrbdt bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, bytf[] ivfd,
+        int usbgf) tirows KrbCryptoExdfption;
 
-    public abstract byte[] decrypt(byte[] cipher, byte[] key, int usage)
-        throws KrbApErrException, KrbCryptoException;
+    publid bbstrbdt bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, int usbgf)
+        tirows KrbApErrExdfption, KrbCryptoExdfption;
 
-    public abstract byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec,
-        int usage) throws KrbApErrException, KrbCryptoException;
+    publid bbstrbdt bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, bytf[] ivfd,
+        int usbgf) tirows KrbApErrExdfption, KrbCryptoExdfption;
 
-    public int dataSize(byte[] data)
-    // throws Asn1Exception
+    publid int dbtbSizf(bytf[] dbtb)
+    // tirows Asn1Exdfption
     {
-        // EncodeRef ref = new EncodeRef(data, startOfData());
-        // return ref.end - startOfData();
-        // should be the above according to spec, but in fact
-        // implementations include the pad bytes in the data size
-        return data.length - startOfData();
+        // EndodfRff rff = nfw EndodfRff(dbtb, stbrtOfDbtb());
+        // rfturn rff.fnd - stbrtOfDbtb();
+        // siould bf tif bbovf bddording to spfd, but in fbdt
+        // implfmfntbtions indludf tif pbd bytfs in tif dbtb sizf
+        rfturn dbtb.lfngti - stbrtOfDbtb();
     }
 
-    public int padSize(byte[] data) {
-        return data.length - confounderSize() - checksumSize() -
-            dataSize(data);
+    publid int pbdSizf(bytf[] dbtb) {
+        rfturn dbtb.lfngti - donfoundfrSizf() - difdksumSizf() -
+            dbtbSizf(dbtb);
     }
 
-    public int startOfChecksum() {
-        return confounderSize();
+    publid int stbrtOfCifdksum() {
+        rfturn donfoundfrSizf();
     }
 
-    public int startOfData() {
-        return confounderSize() + checksumSize();
+    publid int stbrtOfDbtb() {
+        rfturn donfoundfrSizf() + difdksumSizf();
     }
 
-    public int startOfPad(byte[] data) {
-        return confounderSize() + checksumSize() + dataSize(data);
+    publid int stbrtOfPbd(bytf[] dbtb) {
+        rfturn donfoundfrSizf() + difdksumSizf() + dbtbSizf(dbtb);
     }
 
-    public byte[] decryptedData(byte[] data) {
-        int tempSize = dataSize(data);
-        byte[] result = new byte[tempSize];
-        System.arraycopy(data, startOfData(), result, 0, tempSize);
-        return result;
+    publid bytf[] dfdryptfdDbtb(bytf[] dbtb) {
+        int tfmpSizf = dbtbSizf(dbtb);
+        bytf[] rfsult = nfw bytf[tfmpSizf];
+        Systfm.brrbydopy(dbtb, stbrtOfDbtb(), rfsult, 0, tfmpSizf);
+        rfturn rfsult;
     }
 
-    // Note: the first 2 entries of BUILTIN_ETYPES and BUILTIN_ETYPES_NOAES256
-    // should be kept DES-related. They will be removed when allow_weak_crypto
-    // is set to false.
+    // Notf: tif first 2 fntrifs of BUILTIN_ETYPES bnd BUILTIN_ETYPES_NOAES256
+    // siould bf kfpt DES-rflbtfd. Tify will bf rfmovfd wifn bllow_wfbk_drypto
+    // is sft to fblsf.
 
-    private static final int[] BUILTIN_ETYPES = new int[] {
-        EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD,
-        EncryptedData.ETYPE_ARCFOUR_HMAC,
-        EncryptedData.ETYPE_DES_CBC_CRC,
-        EncryptedData.ETYPE_DES_CBC_MD5,
+    privbtf stbtid finbl int[] BUILTIN_ETYPES = nfw int[] {
+        EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96,
+        EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96,
+        EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD,
+        EndryptfdDbtb.ETYPE_ARCFOUR_HMAC,
+        EndryptfdDbtb.ETYPE_DES_CBC_CRC,
+        EndryptfdDbtb.ETYPE_DES_CBC_MD5,
     };
 
-    private static final int[] BUILTIN_ETYPES_NOAES256 = new int[] {
-        EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD,
-        EncryptedData.ETYPE_ARCFOUR_HMAC,
-        EncryptedData.ETYPE_DES_CBC_CRC,
-        EncryptedData.ETYPE_DES_CBC_MD5,
+    privbtf stbtid finbl int[] BUILTIN_ETYPES_NOAES256 = nfw int[] {
+        EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96,
+        EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD,
+        EndryptfdDbtb.ETYPE_ARCFOUR_HMAC,
+        EndryptfdDbtb.ETYPE_DES_CBC_CRC,
+        EndryptfdDbtb.ETYPE_DES_CBC_MD5,
     };
 
 
-    // used in Config
-    public static int[] getBuiltInDefaults() {
-        int allowed = 0;
+    // usfd in Config
+    publid stbtid int[] gftBuiltInDffbults() {
+        int bllowfd = 0;
         try {
-            allowed = Cipher.getMaxAllowedKeyLength("AES");
-        } catch (Exception e) {
-            // should not happen
+            bllowfd = Cipifr.gftMbxAllowfdKfyLfngti("AES");
+        } dbtdi (Exdfption f) {
+            // siould not ibppfn
         }
-        int[] result;
-        if (allowed < 256) {
-            result = BUILTIN_ETYPES_NOAES256;
-        } else {
-            result = BUILTIN_ETYPES;
+        int[] rfsult;
+        if (bllowfd < 256) {
+            rfsult = BUILTIN_ETYPES_NOAES256;
+        } flsf {
+            rfsult = BUILTIN_ETYPES;
         }
-        if (!allowWeakCrypto) {
-            // The last 2 etypes are now weak ones
-            return Arrays.copyOfRange(result, 0, result.length - 2);
+        if (!bllowWfbkCrypto) {
+            // Tif lbst 2 ftypfs brf now wfbk onfs
+            rfturn Arrbys.dopyOfRbngf(rfsult, 0, rfsult.lfngti - 2);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Retrieves the default etypes from the configuration file, or
-     * if that's not available, return the built-in list of default etypes.
-     * This result is always non-empty. If no etypes are found,
-     * an exception is thrown.
+     * Rftrifvfs tif dffbult ftypfs from tif donfigurbtion filf, or
+     * if tibt's not bvbilbblf, rfturn tif built-in list of dffbult ftypfs.
+     * Tiis rfsult is blwbys non-fmpty. If no ftypfs brf found,
+     * bn fxdfption is tirown.
      */
-    public static int[] getDefaults(String configName)
-            throws KrbException {
-        Config config = null;
+    publid stbtid int[] gftDffbults(String donfigNbmf)
+            tirows KrbExdfption {
+        Config donfig = null;
         try {
-            config = Config.getInstance();
-        } catch (KrbException exc) {
+            donfig = Config.gftInstbndf();
+        } dbtdi (KrbExdfption fxd) {
             if (DEBUG) {
-                System.out.println("Exception while getting " +
-                    configName + exc.getMessage());
-                System.out.println("Using default builtin etypes");
+                Systfm.out.println("Exdfption wiilf gftting " +
+                    donfigNbmf + fxd.gftMfssbgf());
+                Systfm.out.println("Using dffbult builtin ftypfs");
             }
-            return getBuiltInDefaults();
+            rfturn gftBuiltInDffbults();
         }
-        return config.defaultEtype(configName);
+        rfturn donfig.dffbultEtypf(donfigNbmf);
     }
 
     /**
-     * Retrieve the default etypes from the configuration file for
-     * those etypes for which there are corresponding keys.
-     * Used in scenario we have some keys from a keytab with etypes
-     * different from those named in configName. Then, in order
-     * to decrypt an AS-REP, we should only ask for etypes for which
-     * we have keys.
+     * Rftrifvf tif dffbult ftypfs from tif donfigurbtion filf for
+     * tiosf ftypfs for wiidi tifrf brf dorrfsponding kfys.
+     * Usfd in sdfnbrio wf ibvf somf kfys from b kfytbb witi ftypfs
+     * difffrfnt from tiosf nbmfd in donfigNbmf. Tifn, in ordfr
+     * to dfdrypt bn AS-REP, wf siould only bsk for ftypfs for wiidi
+     * wf ibvf kfys.
      */
-    public static int[] getDefaults(String configName, EncryptionKey[] keys)
-            throws KrbException {
-        int[] answer = getDefaults(configName);
+    publid stbtid int[] gftDffbults(String donfigNbmf, EndryptionKfy[] kfys)
+            tirows KrbExdfption {
+        int[] bnswfr = gftDffbults(donfigNbmf);
 
-        List<Integer> list = new ArrayList<>(answer.length);
-        for (int i = 0; i < answer.length; i++) {
-            if (EncryptionKey.findKey(answer[i], keys) != null) {
-                list.add(answer[i]);
+        List<Intfgfr> list = nfw ArrbyList<>(bnswfr.lfngti);
+        for (int i = 0; i < bnswfr.lfngti; i++) {
+            if (EndryptionKfy.findKfy(bnswfr[i], kfys) != null) {
+                list.bdd(bnswfr[i]);
             }
         }
-        int len = list.size();
-        if (len <= 0) {
-            StringBuilder keystr = new StringBuilder();
-            for (int i = 0; i < keys.length; i++) {
-                keystr.append(toString(keys[i].getEType()));
-                keystr.append(" ");
+        int lfn = list.sizf();
+        if (lfn <= 0) {
+            StringBuildfr kfystr = nfw StringBuildfr();
+            for (int i = 0; i < kfys.lfngti; i++) {
+                kfystr.bppfnd(toString(kfys[i].gftETypf()));
+                kfystr.bppfnd(" ");
             }
-            throw new KrbException(
-                "Do not have keys of types listed in " + configName +
-                " available; only have keys of following type: " +
-                keystr.toString());
-        } else {
-            answer = new int[len];
-            for (int i = 0; i < len; i++) {
-                answer[i] = list.get(i);
+            tirow nfw KrbExdfption(
+                "Do not ibvf kfys of typfs listfd in " + donfigNbmf +
+                " bvbilbblf; only ibvf kfys of following typf: " +
+                kfystr.toString());
+        } flsf {
+            bnswfr = nfw int[lfn];
+            for (int i = 0; i < lfn; i++) {
+                bnswfr[i] = list.gft(i);
             }
-            return answer;
+            rfturn bnswfr;
         }
     }
 
-    public static boolean isSupported(int eTypeConst, int[] config) {
-        for (int i = 0; i < config.length; i++) {
-            if (eTypeConst == config[i]) {
-                return true;
+    publid stbtid boolfbn isSupportfd(int fTypfConst, int[] donfig) {
+        for (int i = 0; i < donfig.lfngti; i++) {
+            if (fTypfConst == donfig[i]) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static boolean isSupported(int eTypeConst) {
-        int[] enabledETypes = getBuiltInDefaults();
-        return isSupported(eTypeConst, enabledETypes);
+    publid stbtid boolfbn isSupportfd(int fTypfConst) {
+        int[] fnbblfdETypfs = gftBuiltInDffbults();
+        rfturn isSupportfd(fTypfConst, fnbblfdETypfs);
     }
 
-    public static String toString(int type) {
-        switch (type) {
-        case 0:
-            return "NULL";
-        case 1:
-            return "DES CBC mode with CRC-32";
-        case 2:
-            return "DES CBC mode with MD4";
-        case 3:
-            return "DES CBC mode with MD5";
-        case 4:
-            return "reserved";
-        case 5:
-            return "DES3 CBC mode with MD5";
-        case 6:
-            return "reserved";
-        case 7:
-            return "DES3 CBC mode with SHA1";
-        case 9:
-            return "DSA with SHA1- Cms0ID";
-        case 10:
-            return "MD5 with RSA encryption - Cms0ID";
-        case 11:
-            return "SHA1 with RSA encryption - Cms0ID";
-        case 12:
-            return "RC2 CBC mode with Env0ID";
-        case 13:
-            return "RSA encryption with Env0ID";
-        case 14:
-            return "RSAES-0AEP-ENV-0ID";
-        case 15:
-            return "DES-EDE3-CBC-ENV-0ID";
-        case 16:
-            return "DES3 CBC mode with SHA1-KD";
-        case 17:
-            return "AES128 CTS mode with HMAC SHA1-96";
-        case 18:
-            return "AES256 CTS mode with HMAC SHA1-96";
-        case 23:
-            return "RC4 with HMAC";
-        case 24:
-            return "RC4 with HMAC EXP";
+    publid stbtid String toString(int typf) {
+        switdi (typf) {
+        dbsf 0:
+            rfturn "NULL";
+        dbsf 1:
+            rfturn "DES CBC modf witi CRC-32";
+        dbsf 2:
+            rfturn "DES CBC modf witi MD4";
+        dbsf 3:
+            rfturn "DES CBC modf witi MD5";
+        dbsf 4:
+            rfturn "rfsfrvfd";
+        dbsf 5:
+            rfturn "DES3 CBC modf witi MD5";
+        dbsf 6:
+            rfturn "rfsfrvfd";
+        dbsf 7:
+            rfturn "DES3 CBC modf witi SHA1";
+        dbsf 9:
+            rfturn "DSA witi SHA1- Cms0ID";
+        dbsf 10:
+            rfturn "MD5 witi RSA fndryption - Cms0ID";
+        dbsf 11:
+            rfturn "SHA1 witi RSA fndryption - Cms0ID";
+        dbsf 12:
+            rfturn "RC2 CBC modf witi Env0ID";
+        dbsf 13:
+            rfturn "RSA fndryption witi Env0ID";
+        dbsf 14:
+            rfturn "RSAES-0AEP-ENV-0ID";
+        dbsf 15:
+            rfturn "DES-EDE3-CBC-ENV-0ID";
+        dbsf 16:
+            rfturn "DES3 CBC modf witi SHA1-KD";
+        dbsf 17:
+            rfturn "AES128 CTS modf witi HMAC SHA1-96";
+        dbsf 18:
+            rfturn "AES256 CTS modf witi HMAC SHA1-96";
+        dbsf 23:
+            rfturn "RC4 witi HMAC";
+        dbsf 24:
+            rfturn "RC4 witi HMAC EXP";
 
         }
-        return "Unknown (" + type + ")";
+        rfturn "Unknown (" + typf + ")";
     }
 }

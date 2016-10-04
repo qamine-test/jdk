@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.LockInfo;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * A CompositeData for LockInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for LodkInfo for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class LockInfoCompositeData extends LazyCompositeData {
-    private final LockInfo lock;
+publid dlbss LodkInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl LodkInfo lodk;
 
-    private LockInfoCompositeData(LockInfo li) {
-        this.lock = li;
+    privbtf LodkInfoCompositfDbtb(LodkInfo li) {
+        tiis.lodk = li;
     }
 
-    public LockInfo getLockInfo() {
-        return lock;
+    publid LodkInfo gftLodkInfo() {
+        rfturn lodk;
     }
 
-    public static CompositeData toCompositeData(LockInfo li) {
+    publid stbtid CompositfDbtb toCompositfDbtb(LodkInfo li) {
         if (li == null) {
-            return null;
+            rfturn null;
         }
 
-        LockInfoCompositeData licd = new LockInfoCompositeData(li);
-        return licd.getCompositeData();
+        LodkInfoCompositfDbtb lidd = nfw LodkInfoCompositfDbtb(li);
+        rfturn lidd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // lockInfoItemNames!
-        final Object[] lockInfoItemValues = {
-            new String(lock.getClassName()),
-            lock.getIdentityHashCode(),
+        // lodkInfoItfmNbmfs!
+        finbl Objfdt[] lodkInfoItfmVblufs = {
+            nfw String(lodk.gftClbssNbmf()),
+            lodk.gftIdfntityHbsiCodf(),
         };
 
         try {
-            return new CompositeDataSupport(lockInfoCompositeType,
-                                            lockInfoItemNames,
-                                            lockInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw Util.newException(e);
+            rfturn nfw CompositfDbtbSupport(lodkInfoCompositfTypf,
+                                            lodkInfoItfmNbmfs,
+                                            lodkInfoItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow Util.nfwExdfption(f);
         }
     }
 
-    private static final CompositeType lockInfoCompositeType;
-    static {
+    privbtf stbtid finbl CompositfTypf lodkInfoCompositfTypf;
+    stbtid {
         try {
-            lockInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(LockInfo.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw Util.newException(e);
+            lodkInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(LodkInfo.dlbss);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow Util.nfwExdfption(f);
         }
     }
 
-    static CompositeType getLockInfoCompositeType() {
-        return lockInfoCompositeType;
+    stbtid CompositfTypf gftLodkInfoCompositfTypf() {
+        rfturn lodkInfoCompositfTypf;
     }
 
-    private static final String CLASS_NAME         = "className";
-    private static final String IDENTITY_HASH_CODE = "identityHashCode";
-    private static final String[] lockInfoItemNames = {
+    privbtf stbtid finbl String CLASS_NAME         = "dlbssNbmf";
+    privbtf stbtid finbl String IDENTITY_HASH_CODE = "idfntityHbsiCodf";
+    privbtf stbtid finbl String[] lodkInfoItfmNbmfs = {
         CLASS_NAME,
         IDENTITY_HASH_CODE,
     };
 
     /*
-     * Returns a LockInfo object mapped from the given CompositeData.
+     * Rfturns b LodkInfo objfdt mbppfd from tif givfn CompositfDbtb.
      */
-    public static LockInfo toLockInfo(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid LodkInfo toLodkInfo(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(lockInfoCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for LockInfo");
+        if (!isTypfMbtdifd(lodkInfoCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for LodkInfo");
         }
 
-        String className = getString(cd, CLASS_NAME);
-        int identityHashCode = getInt(cd, IDENTITY_HASH_CODE);
-        return new LockInfo(className, identityHashCode);
+        String dlbssNbmf = gftString(dd, CLASS_NAME);
+        int idfntityHbsiCodf = gftInt(dd, IDENTITY_HASH_CODE);
+        rfturn nfw LodkInfo(dlbssNbmf, idfntityHbsiCodf);
     }
 
-    private static final long serialVersionUID = -6374759159749014052L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6374759159749014052L;
 }

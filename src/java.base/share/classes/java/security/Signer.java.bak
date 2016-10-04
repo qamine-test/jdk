@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * This class is used to represent an Identity that can also digitally
- * sign data.
+ * Tiis dlbss is usfd to rfprfsfnt bn Idfntity tibt dbn blso digitblly
+ * sign dbtb.
  *
- * <p>The management of a signer's private keys is an important and
- * sensitive issue that should be handled by subclasses as appropriate
- * to their intended use.
+ * <p>Tif mbnbgfmfnt of b signfr's privbtf kfys is bn importbnt bnd
+ * sfnsitivf issuf tibt siould bf ibndlfd by subdlbssfs bs bppropribtf
+ * to tifir intfndfd usf.
  *
- * @see Identity
+ * @sff Idfntity
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @dfprfdbtfd Tiis dlbss is no longfr usfd. Its fundtionblity ibs bffn
+ * rfplbdfd by {@dodf jbvb.sfdurity.KfyStorf}, tif
+ * {@dodf jbvb.sfdurity.dfrt} pbdkbgf, bnd
+ * {@dodf jbvb.sfdurity.Prindipbl}.
  */
-@Deprecated
-public abstract class Signer extends Identity {
+@Dfprfdbtfd
+publid bbstrbdt dlbss Signfr fxtfnds Idfntity {
 
-    private static final long serialVersionUID = -1763464102261361480L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1763464102261361480L;
 
     /**
-     * The signer's private key.
+     * Tif signfr's privbtf kfy.
      *
-     * @serial
+     * @sfribl
      */
-    private PrivateKey privateKey;
+    privbtf PrivbtfKfy privbtfKfy;
 
     /**
-     * Creates a signer. This constructor should only be used for
-     * serialization.
+     * Crfbtfs b signfr. Tiis donstrudtor siould only bf usfd for
+     * sfriblizbtion.
      */
-    protected Signer() {
-        super();
+    protfdtfd Signfr() {
+        supfr();
     }
 
 
     /**
-     * Creates a signer with the specified identity name.
+     * Crfbtfs b signfr witi tif spfdififd idfntity nbmf.
      *
-     * @param name the identity name.
+     * @pbrbm nbmf tif idfntity nbmf.
      */
-    public Signer(String name) {
-        super(name);
+    publid Signfr(String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Creates a signer with the specified identity name and scope.
+     * Crfbtfs b signfr witi tif spfdififd idfntity nbmf bnd sdopf.
      *
-     * @param name the identity name.
+     * @pbrbm nbmf tif idfntity nbmf.
      *
-     * @param scope the scope of the identity.
+     * @pbrbm sdopf tif sdopf of tif idfntity.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @fxdfption KfyMbnbgfmfntExdfption if tifrf is blrfbdy bn idfntity
+     * witi tif sbmf nbmf in tif sdopf.
      */
-    public Signer(String name, IdentityScope scope)
-    throws KeyManagementException {
-        super(name, scope);
+    publid Signfr(String nbmf, IdfntitySdopf sdopf)
+    tirows KfyMbnbgfmfntExdfption {
+        supfr(nbmf, sdopf);
     }
 
     /**
-     * Returns this signer's private key.
+     * Rfturns tiis signfr's privbtf kfy.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "getSignerPrivateKey"}
-     * as its argument to see if it's ok to return the private key.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "gftSignfrPrivbtfKfy"}
+     * bs its brgumfnt to sff if it's ok to rfturn tif privbtf kfy.
      *
-     * @return this signer's private key, or null if the private key has
-     * not yet been set.
+     * @rfturn tiis signfr's privbtf kfy, or null if tif privbtf kfy ibs
+     * not yft bffn sft.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning the private key.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * rfturning tif privbtf kfy.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public PrivateKey getPrivateKey() {
-        check("getSignerPrivateKey");
-        return privateKey;
+    publid PrivbtfKfy gftPrivbtfKfy() {
+        difdk("gftSignfrPrivbtfKfy");
+        rfturn privbtfKfy;
     }
 
    /**
-     * Sets the key pair (public key and private key) for this signer.
+     * Sfts tif kfy pbir (publid kfy bnd privbtf kfy) for tiis signfr.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setSignerKeyPair"}
-     * as its argument to see if it's ok to set the key pair.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "sftSignfrKfyPbir"}
+     * bs its brgumfnt to sff if it's ok to sft tif kfy pbir.
      *
-     * @param pair an initialized key pair.
+     * @pbrbm pbir bn initiblizfd kfy pbir.
      *
-     * @exception InvalidParameterException if the key pair is not
-     * properly initialized.
-     * @exception KeyException if the key pair cannot be set for any
-     * other reason.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the key pair.
+     * @fxdfption InvblidPbrbmftfrExdfption if tif kfy pbir is not
+     * propfrly initiblizfd.
+     * @fxdfption KfyExdfption if tif kfy pbir dbnnot bf sft for bny
+     * otifr rfbson.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * sftting tif kfy pbir.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public final void setKeyPair(KeyPair pair)
-    throws InvalidParameterException, KeyException {
-        check("setSignerKeyPair");
-        final PublicKey pub = pair.getPublic();
-        PrivateKey priv = pair.getPrivate();
+    publid finbl void sftKfyPbir(KfyPbir pbir)
+    tirows InvblidPbrbmftfrExdfption, KfyExdfption {
+        difdk("sftSignfrKfyPbir");
+        finbl PublidKfy pub = pbir.gftPublid();
+        PrivbtfKfy priv = pbir.gftPrivbtf();
 
         if (pub == null || priv == null) {
-            throw new InvalidParameterException();
+            tirow nfw InvblidPbrbmftfrExdfption();
         }
         try {
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Void>() {
-                public Void run() throws KeyManagementException {
-                    setPublicKey(pub);
-                    return null;
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows KfyMbnbgfmfntExdfption {
+                    sftPublidKfy(pub);
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException pae) {
-            throw (KeyManagementException) pae.getException();
+        } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+            tirow (KfyMbnbgfmfntExdfption) pbf.gftExdfption();
         }
-        privateKey = priv;
+        privbtfKfy = priv;
     }
 
-    String printKeys() {
-        String keys = "";
-        PublicKey publicKey = getPublicKey();
-        if (publicKey != null && privateKey != null) {
-            keys = "\tpublic and private keys initialized";
+    String printKfys() {
+        String kfys = "";
+        PublidKfy publidKfy = gftPublidKfy();
+        if (publidKfy != null && privbtfKfy != null) {
+            kfys = "\tpublid bnd privbtf kfys initiblizfd";
 
-        } else {
-            keys = "\tno keys";
+        } flsf {
+            kfys = "\tno kfys";
         }
-        return keys;
+        rfturn kfys;
     }
 
     /**
-     * Returns a string of information about the signer.
+     * Rfturns b string of informbtion bbout tif signfr.
      *
-     * @return a string of information about the signer.
+     * @rfturn b string of informbtion bbout tif signfr.
      */
-    public String toString() {
-        return "[Signer]" + super.toString();
+    publid String toString() {
+        rfturn "[Signfr]" + supfr.toString();
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSecurityAccess(directive);
+    privbtf stbtid void difdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSfdurityAddfss(dirfdtivf);
         }
     }
 

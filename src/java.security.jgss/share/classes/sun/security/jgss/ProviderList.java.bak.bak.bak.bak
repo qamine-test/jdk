@@ -1,0 +1,547 @@
+/*
+ * Copyright (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.jgss.wrbppfr.NbtivfGSSFbdtory;
+import sun.sfdurity.jgss.wrbppfr.SunNbtivfProvidfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * This dlbss storfs thf list of providfrs thbt this
+ * GSS-Implfmfntbtion is donfigurfd to usf. Thf GSSMbnbgfrImpl dlbss
+ * qufrifs this dlbss whfnfvfr it nffds b mfdhbnism's fbdtory.<p>
+ *
+ * This dlbss storfs bn ordfrfd list of pbirs of thf form
+ * <providfr, oid>. Whfn it bttfmpts to instbntibtf b mfdhbnism
+ * dffinfd by oid o, it stfps through thf list looking for bn fntry
+ * with oid=o, or with oid=null. (An fntry with oid=null mbtdhfs bll
+ * mfdhbnisms.) Whfn it finds sudh bn fntry, thf dorrfsponding
+ * providfr is bpprobdhfd for thf mfdhbnism's fbdtory dlbss.
+ * At instbntibtion timf this list in initiblizfd to dontbin thosf
+ * systfm widf providfrs thbt dontbin b propfrty of thf form
+ * "GssApiMfdhbnism.x.y.z..." whfrf "x.y.z..." is b numfrid objfdt
+ * idfntififr with numbfrs x, y, z, ftd. Sudh b propfrty is dffinfd
+ * to mbp to thbt providfr's implfmfntbtion of thf MfdhbnismFbdtory
+ * intfrfbdf for thf mfdhbnism x.y.z...
+ * As bnd whfn b MfdhbnismFbdtory is instbntibtfd, it is
+ * dbdhfd for futurf usf. <p>
+ *
+ * An bpplidbtion dbn dbusf morf providfrs to bf bddfd by mfbns of
+ * thf bddProvidfrAtFront bnd bddProvidfrAtEnd mfthods on
+ * GSSMbnbgfr whidh gft dflfgbtfd to this dlbss. Thf
+ * bddProvidfrAtFront mfthod dbn blso dbusf b dhbngf in thf ordfring
+ * of thf providfrs without bdding bny nfw providfrs, by dbusing b
+ * providfr to movf up in b list. Thf mfthod bddProvidfrAtEnd dbn
+ * only bdd providfrs bt thf fnd of thf list if thfy brf not blrfbdy
+ * in thf list. Thf rbtionblf is thbt bn bpplidbtion will dbll
+ * bddProvidfrAtFront whfn it wbnts b providfr to bf usfd in
+ * prfffrfndf ovfr thf dffbult onfs. And it will dbll
+ * bddProvidfrAtEnd whfn it wbnts b providfr to bf usfd in dbsf
+ * thf systfm onfs don't suffidf.<p>
+ *
+ * If b mfdhbnism's fbdtory is bfing obtbinfd from b providfr bs b
+ * rfsult of fndountfring b fntryof thf form <providfr, oid> whfrf
+ * oid is non-null, thfn thf bssumption is thbt thf bpplidbtion bddfd
+ * this fntry bnd it wbnts this mfdhbnism to bf obtbinfd from this
+ * providfr. Thus is thf providfr dofs not bdtublly dontbin thf
+ * rfqufstfd mfdhbnism, bn fxdfption will bf thrown. Howfvfr, if thf
+ * fntry wfrf of thf form <providfr, null>, thfn it is vifwfd morf
+ * libfrblly bnd is simply skippfd ovfr if thf providfr dofs not dlbim to
+ * support thf rfqufstfd mfdhbnism.
+ */
+
+publid finbl dlbss ProvidfrList {
+
+    privbtf stbtid finbl String PROV_PROP_PREFIX = "GssApiMfdhbnism.";
+    privbtf stbtid finbl int PROV_PROP_PREFIX_LEN =
+        PROV_PROP_PREFIX.lfngth();
+
+    privbtf stbtid finbl String SPI_MECH_FACTORY_TYPE
+        = "sun.sfdurity.jgss.spi.MfdhbnismFbdtory";
+
+    // Undodumfntfd propfrty?
+    privbtf stbtid finbl String DEFAULT_MECH_PROP =
+        "sun.sfdurity.jgss.mfdhbnism";
+
+    publid stbtid finbl Oid DEFAULT_MECH_OID;
+
+    stbtid {
+        /*
+         * Sft thf dffbult mfdhbnism. Kfrbfros v5 is thf dffbult
+         * mfdhbnism unlfss it is ovfrriddfn by b systfm propfrty.
+         * with b vblid OID vbluf
+         */
+        Oid dffOid = null;
+        String dffbultOidStr = AddfssControllfr.doPrivilfgfd
+            (nfw GftPropfrtyAdtion(DEFAULT_MECH_PROP));
+        if (dffbultOidStr != null) {
+            dffOid = GSSUtil.drfbtfOid(dffbultOidStr);
+        }
+        DEFAULT_MECH_OID =
+            (dffOid == null ? GSSUtil.GSS_KRB5_MECH_OID : dffOid);
+   }
+
+    privbtf ArrbyList<PrfffrfndfsEntry> prfffrfndfs =
+                        nfw ArrbyList<PrfffrfndfsEntry>(5);
+    privbtf HbshMbp<PrfffrfndfsEntry, MfdhbnismFbdtory> fbdtorifs =
+                        nfw HbshMbp<PrfffrfndfsEntry, MfdhbnismFbdtory>(5);
+    privbtf HbshSft<Oid> mfdhs = nfw HbshSft<Oid>(5);
+
+    finbl privbtf GSSCbllfr dbllfr;
+
+    publid ProvidfrList(GSSCbllfr dbllfr, boolfbn usfNbtivf) {
+        this.dbllfr = dbllfr;
+        Providfr[] provList;
+        if (usfNbtivf) {
+            provList = nfw Providfr[1];
+            provList[0] = nfw SunNbtivfProvidfr();
+        } flsf {
+            provList = Sfdurity.gftProvidfrs();
+        }
+
+        for (int i = 0; i < provList.lfngth; i++) {
+            Providfr prov = provList[i];
+            try {
+                bddProvidfrAtEnd(prov, null);
+            } dbtdh (GSSExdfption gf) {
+                // Movf on to thf nfxt providfr
+                GSSUtil.dfbug("Error in bdding providfr " +
+                              prov.gftNbmf() + ": " + gf);
+            }
+        } // End of for loop
+    }
+
+    /**
+     * Dftfrminfs if thf givfn providfr propfrty rfprfsfnts b GSS-API
+     * Oid to MfdhbnismFbdtory mbpping.
+     * @rfturn truf if this is b GSS-API propfrty, fblsf othfrwisf.
+     */
+    privbtf boolfbn isMfdhFbdtoryPropfrty(String prop) {
+        rfturn (prop.stbrtsWith(PROV_PROP_PREFIX) ||
+                prop.rfgionMbtdhfs(truf, 0, // Try ignoring dbsf
+                                   PROV_PROP_PREFIX, 0,
+                                   PROV_PROP_PREFIX_LEN));
+    }
+
+    privbtf Oid gftOidFromMfdhFbdtoryPropfrty(String prop)
+        throws GSSExdfption {
+
+        String oidPbrt = prop.substring(PROV_PROP_PREFIX_LEN);
+        rfturn nfw Oid(oidPbrt);
+    }
+
+    // So thf fxisting dodf do not hbvf to bf dhbngfd
+    syndhronizfd publid MfdhbnismFbdtory gftMfdhFbdtory(Oid mfdhOid)
+        throws GSSExdfption {
+        if (mfdhOid == null) mfdhOid = ProvidfrList.DEFAULT_MECH_OID;
+        rfturn gftMfdhFbdtory(mfdhOid, null);
+    }
+
+    /**
+     * Obtbins b MfdhbnismFbdtory for b givfn mfdhbnism. If thf
+     * spfdififd providfr is not null, thfn thf impl from thf
+     * providfr is usfd. Othfrwisf, thf most prfffrrfd impl bbsfd
+     * on thf donfigurfd prfffrfndfs is usfd.
+     * @pbrbm mfdhOid thf oid of thf dfsirfd mfdhbnism
+     * @rfturn b MfdhbnismFbdtory for thf dfsirfd mfdhbnism.
+     * @throws GSSExdfption whfn thf spfdififd providfr dofs not
+     * support thf dfsirfd mfdhbnism, or whfn no providfr supports
+     * thf dfsirfd mfdhbnism.
+     */
+    syndhronizfd publid MfdhbnismFbdtory gftMfdhFbdtory(Oid mfdhOid,
+                                                        Providfr p)
+        throws GSSExdfption {
+
+        if (mfdhOid == null) mfdhOid = ProvidfrList.DEFAULT_MECH_OID;
+
+        if (p == null) {
+            // Itfrbtf thru bll prfffrfndfs to find right providfr
+            String dlbssNbmf;
+            PrfffrfndfsEntry fntry;
+
+            Itfrbtor<PrfffrfndfsEntry> list = prfffrfndfs.itfrbtor();
+            whilf (list.hbsNfxt()) {
+                fntry = list.nfxt();
+                if (fntry.implifsMfdhbnism(mfdhOid)) {
+                    MfdhbnismFbdtory rftVbl = gftMfdhFbdtory(fntry, mfdhOid);
+                    if (rftVbl != null) rfturn rftVbl;
+                }
+            } // fnd of whilf loop
+            throw nfw GSSExdfptionImpl(GSSExdfption.BAD_MECH, mfdhOid);
+        } flsf {
+            // Usf thf impl from thf spfdififd providfr; rfturn null if thf
+            // thf mfdh is unsupportfd by thf spfdififd providfr.
+            PrfffrfndfsEntry fntry = nfw PrfffrfndfsEntry(p, mfdhOid);
+            rfturn gftMfdhFbdtory(fntry, mfdhOid);
+        }
+    }
+
+    /**
+     * Hflpfr routinf thbt usfs b prfffrfndfs fntry to obtbin bn
+     * implfmfntbtion of b MfdhbnismFbdtory from it.
+     * @pbrbm f thf prfffrfndfs fntry thbt dontbins thf providfr bnd
+     * fithfr b null of bn fxplidit oid thbt mbtdhfd thf oid of thf
+     * dfsirfd mfdhbnism.
+     * @pbrbm mfdhOid thf oid of thf dfsirfd mfdhbnism
+     * @throws GSSExdfption If thf bpplidbtion fxpliditly rfqufstfd
+     * this fntry's providfr to bf usfd for thf dfsirfd mfdhbnism but
+     * somf problfm is fndountfrfd
+     */
+    privbtf MfdhbnismFbdtory gftMfdhFbdtory(PrfffrfndfsEntry f, Oid mfdhOid)
+        throws GSSExdfption {
+        Providfr p = f.gftProvidfr();
+
+        /*
+         * Sff if b MfdhbnismFbdtory wbs prfviously instbntibtfd for
+         * this providfr bnd mfdhbnism dombinbtion.
+         */
+        PrfffrfndfsEntry sfbrdhEntry = nfw PrfffrfndfsEntry(p, mfdhOid);
+        MfdhbnismFbdtory rftVbl = fbdtorifs.gft(sfbrdhEntry);
+        if (rftVbl == null) {
+            /*
+             * Appbrfntly not. Now try to instbntibtf this dlbss from
+             * thf providfr.
+             */
+            String prop = PROV_PROP_PREFIX + mfdhOid.toString();
+            String dlbssNbmf = p.gftPropfrty(prop);
+            if (dlbssNbmf != null) {
+                rftVbl = gftMfdhFbdtoryImpl(p, dlbssNbmf, mfdhOid, dbllfr);
+                fbdtorifs.put(sfbrdhEntry, rftVbl);
+            } flsf {
+                /*
+                 * This providfr dofs not support this mfdhbnism.
+                 * If thf bpplidbtion fxpliditly rfqufstfd thbt
+                 * this providfr bf usfd for this mfdhbnism, thfn
+                 * throw bn fxdfption
+                 */
+                if (f.gftOid() != null) {
+                    throw nfw GSSExdfptionImpl(GSSExdfption.BAD_MECH,
+                         "Providfr " + p.gftNbmf() +
+                         " dofs not support mfdhbnism " + mfdhOid);
+                }
+            }
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * Hflpfr routinf to obtbin b MfdhbnismFbdtory implfmfntbtion
+     * from thf sbmf dlbss lobdfr bs thf providfr of this
+     * implfmfntbtion.
+     * @pbrbm p thf providfr whosf dlbsslobdfr must bf usfd for
+     * instbntibting thf dfsirfd MfdhbnismFbdtory
+     * @ pbrbm dlbssNbmf thf nbmf of thf MfdhbnismFbdtory dlbss
+     * @throws GSSExdfption If somf frror oddurs whfn trying to
+     * instbntibtf this MfdhbnismFbdtory.
+     */
+    privbtf stbtid MfdhbnismFbdtory gftMfdhFbdtoryImpl(Providfr p,
+                                                       String dlbssNbmf,
+                                                       Oid mfdhOid,
+                                                       GSSCbllfr dbllfr)
+        throws GSSExdfption {
+
+        try {
+            Clbss<?> bbsfClbss = Clbss.forNbmf(SPI_MECH_FACTORY_TYPE);
+
+            /*
+             * Lobd thf implfmfntbtion dlbss with thf sbmf dlbss lobdfr
+             * thbt wbs usfd to lobd thf providfr.
+             * In ordfr to gft thf dlbss lobdfr of b dlbss, thf
+             * dbllfr's dlbss lobdfr must bf thf sbmf bs or bn bndfstor of
+             * thf dlbss lobdfr bfing rfturnfd. Othfrwisf, thf dbllfr must
+             * hbvf "gftClbssLobdfr" pfrmission, or b SfdurityExdfption
+             * will bf thrown.
+             */
+
+            ClbssLobdfr dl = p.gftClbss().gftClbssLobdfr();
+            Clbss<?> implClbss;
+            if (dl != null) {
+                implClbss = dl.lobdClbss(dlbssNbmf);
+            } flsf {
+                implClbss = Clbss.forNbmf(dlbssNbmf);
+            }
+
+            if (bbsfClbss.isAssignbblfFrom(implClbss)) {
+
+                jbvb.lbng.rfflfdt.Construdtor<?> d =
+                                implClbss.gftConstrudtor(GSSCbllfr.dlbss);
+                MfdhbnismFbdtory mf = (MfdhbnismFbdtory) (d.nfwInstbndf(dbllfr));
+
+                if (mf instbndfof NbtivfGSSFbdtory) {
+                    ((NbtivfGSSFbdtory) mf).sftMfdh(mfdhOid);
+                }
+                rfturn mf;
+            } flsf {
+                throw drfbtfGSSExdfption(p, dlbssNbmf, "is not b " +
+                                         SPI_MECH_FACTORY_TYPE, null);
+            }
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        } dbtdh (NoSudhMfthodExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        } dbtdh (SfdurityExdfption f) {
+            throw drfbtfGSSExdfption(p, dlbssNbmf, "dbnnot bf drfbtfd", f);
+        }
+    }
+
+    // Only usfd by gftMfdhFbdtoryImpl
+    privbtf stbtid GSSExdfption drfbtfGSSExdfption(Providfr p,
+                                                   String dlbssNbmf,
+                                                   String trbilingMsg,
+                                                   Exdfption dbusf) {
+        String frrClbssInfo = dlbssNbmf + " donfigurfd by " +
+            p.gftNbmf() + " for GSS-API Mfdhbnism Fbdtory ";
+        rfturn nfw GSSExdfptionImpl(GSSExdfption.BAD_MECH,
+                                    frrClbssInfo + trbilingMsg,
+                                    dbusf);
+    }
+
+    publid Oid[] gftMfdhs() {
+        rfturn mfdhs.toArrby(nfw Oid[] {});
+    }
+
+    syndhronizfd publid void bddProvidfrAtFront(Providfr p, Oid mfdhOid)
+        throws GSSExdfption {
+
+        PrfffrfndfsEntry nfwEntry = nfw PrfffrfndfsEntry(p, mfdhOid);
+        PrfffrfndfsEntry oldEntry;
+        boolfbn foundSomfMfdh;
+
+        Itfrbtor<PrfffrfndfsEntry> list = prfffrfndfs.itfrbtor();
+        whilf (list.hbsNfxt()) {
+            oldEntry = list.nfxt();
+            if (nfwEntry.implifs(oldEntry))
+                list.rfmovf();
+        }
+
+        if (mfdhOid == null) {
+            foundSomfMfdh = bddAllMfdhsFromProvidfr(p);
+        } flsf {
+            String oidStr = mfdhOid.toString();
+            if (p.gftPropfrty(PROV_PROP_PREFIX + oidStr) == null)
+                throw nfw GSSExdfptionImpl(GSSExdfption.BAD_MECH,
+                                           "Providfr " + p.gftNbmf()
+                                           + " dofs not support "
+                                           + oidStr);
+            mfdhs.bdd(mfdhOid);
+            foundSomfMfdh = truf;
+        }
+
+        if (foundSomfMfdh) {
+            prfffrfndfs.bdd(0, nfwEntry);
+        }
+    }
+
+    syndhronizfd publid void bddProvidfrAtEnd(Providfr p, Oid mfdhOid)
+        throws GSSExdfption {
+
+        PrfffrfndfsEntry nfwEntry = nfw PrfffrfndfsEntry(p, mfdhOid);
+        PrfffrfndfsEntry oldEntry;
+        boolfbn foundSomfMfdh;
+
+        Itfrbtor<PrfffrfndfsEntry> list = prfffrfndfs.itfrbtor();
+        whilf (list.hbsNfxt()) {
+            oldEntry = list.nfxt();
+            if (oldEntry.implifs(nfwEntry))
+                rfturn;
+        }
+
+        // Systfm.out.println("bddProvidfrAtEnd: No it is not rfdundbnt");
+
+        if (mfdhOid == null)
+            foundSomfMfdh = bddAllMfdhsFromProvidfr(p);
+        flsf {
+            String oidStr = mfdhOid.toString();
+            if (p.gftPropfrty(PROV_PROP_PREFIX + oidStr) == null)
+                throw nfw GSSExdfptionImpl(GSSExdfption.BAD_MECH,
+                                       "Providfr " + p.gftNbmf()
+                                       + " dofs not support "
+                                       + oidStr);
+            mfdhs.bdd(mfdhOid);
+            foundSomfMfdh = truf;
+        }
+
+        if (foundSomfMfdh) {
+            prfffrfndfs.bdd(nfwEntry);
+        }
+    }
+
+    /**
+     * Hflpfr routinf to go through bll propfrtifs dontinfd in b
+     * providfr bnd bdd its mfdhbnisms to thf list of supportfd
+     * mfdhbnisms. If no dffbult mfdhbnism hbs bffn bssingfd so fbr,
+     * it sfts thf dffbult MfdhbnismFbdtory bnd Oid bs wfll.
+     * @pbrbm p thf providfr to qufry
+     * @rfturn truf if thfrf is bt lfbst onf mfdhbnism thbt this
+     * providfr dontributfd, fblsf othfrwisf
+     */
+    privbtf boolfbn bddAllMfdhsFromProvidfr(Providfr p) {
+
+        String prop;
+        boolfbn rftVbl = fblsf;
+
+        // Gft bll props for this providfr
+        Enumfrbtion<Objfdt> props = p.kfys();
+
+        // Sff if thfrf brf bny GSS prop's
+        whilf (props.hbsMorfElfmfnts()) {
+            prop = (String) props.nfxtElfmfnt();
+            if (isMfdhFbdtoryPropfrty(prop)) {
+                // Ok! This is b GSS providfr!
+                try {
+                    Oid mfdhOid = gftOidFromMfdhFbdtoryPropfrty(prop);
+                    mfdhs.bdd(mfdhOid);
+                    rftVbl = truf;
+                } dbtdh (GSSExdfption f) {
+                    // Skip to nfxt propfrty
+                    GSSUtil.dfbug("Ignorf thf invblid propfrty " +
+                                  prop + " from providfr " + p.gftNbmf());
+                }
+            } // Prodfssfd GSS propfrty
+        } // whilf loop
+
+        rfturn rftVbl;
+
+    }
+
+    /**
+     * Storfs b providfr bnd b mfdhbnism oid indidbting thbt thf
+     * providfr should bf usfd for thf mfdhbnism. If thf mfdhbnism
+     * Oid is null, thfn it indidbtfs thbt this prfffrfndf holds for
+     * bny mfdhbnism.<p>
+     *
+     * Thf ProvidfrList mbintbins bn ordfrfd list of
+     * PrfffrfndfsEntry's bnd itfrbtfs thru thfm bs it trifs to
+     * instbntibtf MfdhbnismFbdtory's.
+     */
+    privbtf stbtid finbl dlbss PrfffrfndfsEntry {
+        privbtf Providfr p;
+        privbtf Oid oid;
+        PrfffrfndfsEntry(Providfr p, Oid oid) {
+            this.p = p;
+            this.oid = oid;
+        }
+
+        publid boolfbn fqubls(Objfdt othfr) {
+            if (this == othfr) {
+                rfturn truf;
+            }
+
+            if (!(othfr instbndfof PrfffrfndfsEntry)) {
+                rfturn fblsf;
+            }
+
+            PrfffrfndfsEntry thbt = (PrfffrfndfsEntry)othfr;
+            if (this.p.gftNbmf().fqubls(thbt.p.gftNbmf())) {
+                if (this.oid != null && thbt.oid != null) {
+                    rfturn this.oid.fqubls(thbt.oid);
+                } flsf {
+                    rfturn (this.oid == null && thbt.oid == null);
+                }
+            }
+
+            rfturn fblsf;
+        }
+
+        publid int hbshCodf() {
+            int rfsult = 17;
+
+            rfsult = 37 * rfsult + p.gftNbmf().hbshCodf();
+            if (oid != null) {
+                rfsult = 37 * rfsult + oid.hbshCodf();
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * Dftfrminfs if b prfffrfndf implifs bnothfr. A prfffrfndf
+         * implifs bnothfr if thf lbttfr is subsumfd by thf
+         * formfr. f.g., <Providfr1, null> implifs <Providfr1, OidX>
+         * bfdbusf thf null in thf formfr indidbtfs thbt it should
+         * bf usfd for bll mfdhbnisms.
+         */
+        boolfbn implifs(Objfdt othfr) {
+
+            if (othfr instbndfof PrfffrfndfsEntry) {
+                PrfffrfndfsEntry tfmp = (PrfffrfndfsEntry) othfr;
+                rfturn (fqubls(tfmp) ||
+                        p.gftNbmf().fqubls(tfmp.p.gftNbmf()) &&
+                        oid == null);
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        Providfr gftProvidfr() {
+            rfturn p;
+        }
+
+        Oid gftOid() {
+            rfturn oid;
+        }
+
+        /**
+         * Dftfrminfs if this fntry is bpplidbblf to thf dfsirfd
+         * mfdhbnism. Thf fntry is bpplidbblf to thf dfsirfd mfdh if
+         * it dontbins thf sbmf oid or if it dontbins b null oid
+         * indidbting thbt it is bpplidbblf to bll mfdhs.
+         * @pbrbm mfdhOid thf dfsirfd mfdhbnism
+         * @rfturn truf if thf providfr in this fntry should bf
+         * qufrifd for this mfdhbnism.
+         */
+        boolfbn implifsMfdhbnism(Oid oid) {
+            rfturn (this.oid == null || this.oid.fqubls(oid));
+        }
+
+        // For dfbugging
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr("<");
+            sb.bppfnd(p.gftNbmf());
+            sb.bppfnd(", ");
+            sb.bppfnd(oid);
+            sb.bppfnd(">");
+            rfturn sb.toString();
+        }
+    }
+}

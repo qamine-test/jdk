@@ -1,0 +1,243 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.InvblidityDbtfExtfnsion;
+
+/**
+ * An fxdfption thbt indidbtfs bn X.509 dfrtifidbtf is rfvokfd. A
+ * {@dodf CfrtifidbtfRfvokfdExdfption} dontbins bdditionbl informbtion
+ * bbout thf rfvokfd dfrtifidbtf, sudh bs thf dbtf on whidh thf
+ * dfrtifidbtf wbs rfvokfd bnd thf rfbson it wbs rfvokfd.
+ *
+ * @buthor Sfbn Mullbn
+ * @sindf 1.7
+ * @sff CfrtPbthVblidbtorExdfption
+ */
+publid dlbss CfrtifidbtfRfvokfdExdfption fxtfnds CfrtifidbtfExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7839996631571608627L;
+
+    /**
+     * @sfribl thf dbtf on whidh thf dfrtifidbtf wbs rfvokfd
+     */
+    privbtf Dbtf rfvodbtionDbtf;
+    /**
+     * @sfribl thf rfvodbtion rfbson
+     */
+    privbtf finbl CRLRfbson rfbson;
+    /**
+     * @sfribl thf {@dodf X500Prindipbl} thbt rfprfsfnts thf nbmf of thf
+     * buthority thbt signfd thf dfrtifidbtf's rfvodbtion stbtus informbtion
+     */
+    privbtf finbl X500Prindipbl buthority;
+
+    privbtf trbnsifnt Mbp<String, Extfnsion> fxtfnsions;
+
+    /**
+     * Construdts b {@dodf CfrtifidbtfRfvokfdExdfption} with
+     * thf spfdififd rfvodbtion dbtf, rfbson dodf, buthority nbmf, bnd mbp
+     * of fxtfnsions.
+     *
+     * @pbrbm rfvodbtionDbtf thf dbtf on whidh thf dfrtifidbtf wbs rfvokfd. Thf
+     *    dbtf is dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm rfbson thf rfvodbtion rfbson
+     * @pbrbm fxtfnsions b mbp of X.509 Extfnsions. Ebdh kfy is bn OID String
+     *    thbt mbps to thf dorrfsponding Extfnsion. Thf mbp is dopifd to
+     *    prfvfnt subsfqufnt modifidbtion.
+     * @pbrbm buthority thf {@dodf X500Prindipbl} thbt rfprfsfnts thf nbmf
+     *    of thf buthority thbt signfd thf dfrtifidbtf's rfvodbtion stbtus
+     *    informbtion
+     * @throws NullPointfrExdfption if {@dodf rfvodbtionDbtf},
+     *    {@dodf rfbson}, {@dodf buthority}, or
+     *    {@dodf fxtfnsions} is {@dodf null}
+     */
+    publid CfrtifidbtfRfvokfdExdfption(Dbtf rfvodbtionDbtf, CRLRfbson rfbson,
+        X500Prindipbl buthority, Mbp<String, Extfnsion> fxtfnsions) {
+        if (rfvodbtionDbtf == null || rfbson == null || buthority == null ||
+            fxtfnsions == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.rfvodbtionDbtf = nfw Dbtf(rfvodbtionDbtf.gftTimf());
+        this.rfbson = rfbson;
+        this.buthority = buthority;
+        this.fxtfnsions = nfw HbshMbp<String, Extfnsion>(fxtfnsions);
+    }
+
+    /**
+     * Rfturns thf dbtf on whidh thf dfrtifidbtf wbs rfvokfd. A nfw dopy is
+     * rfturnfd fbdh timf thf mfthod is invokfd to protfdt bgbinst subsfqufnt
+     * modifidbtion.
+     *
+     * @rfturn thf rfvodbtion dbtf
+     */
+    publid Dbtf gftRfvodbtionDbtf() {
+        rfturn (Dbtf) rfvodbtionDbtf.dlonf();
+    }
+
+    /**
+     * Rfturns thf rfbson thf dfrtifidbtf wbs rfvokfd.
+     *
+     * @rfturn thf rfvodbtion rfbson
+     */
+    publid CRLRfbson gftRfvodbtionRfbson() {
+        rfturn rfbson;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf buthority thbt signfd thf dfrtifidbtf's
+     * rfvodbtion stbtus informbtion.
+     *
+     * @rfturn thf {@dodf X500Prindipbl} thbt rfprfsfnts thf nbmf of thf
+     *     buthority thbt signfd thf dfrtifidbtf's rfvodbtion stbtus informbtion
+     */
+    publid X500Prindipbl gftAuthorityNbmf() {
+        rfturn buthority;
+    }
+
+    /**
+     * Rfturns thf invblidity dbtf, bs spfdififd in thf Invblidity Dbtf
+     * fxtfnsion of this {@dodf CfrtifidbtfRfvokfdExdfption}. Thf
+     * invblidity dbtf is thf dbtf on whidh it is known or suspfdtfd thbt thf
+     * privbtf kfy wbs dompromisfd or thbt thf dfrtifidbtf othfrwisf bfdbmf
+     * invblid. This implfmfntbtion dblls {@dodf gftExtfnsions()} bnd
+     * dhfdks thf rfturnfd mbp for bn fntry for thf Invblidity Dbtf fxtfnsion
+     * OID ("2.5.29.24"). If found, it rfturns thf invblidity dbtf in thf
+     * fxtfnsion; othfrwisf null. A nfw Dbtf objfdt is rfturnfd fbdh timf thf
+     * mfthod is invokfd to protfdt bgbinst subsfqufnt modifidbtion.
+     *
+     * @rfturn thf invblidity dbtf, or {@dodf null} if not spfdififd
+     */
+    publid Dbtf gftInvblidityDbtf() {
+        Extfnsion fxt = gftExtfnsions().gft("2.5.29.24");
+        if (fxt == null) {
+            rfturn null;
+        } flsf {
+            try {
+                Dbtf invblidity = InvblidityDbtfExtfnsion.toImpl(fxt).gft("DATE");
+                rfturn nfw Dbtf(invblidity.gftTimf());
+            } dbtdh (IOExdfption iof) {
+                rfturn null;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b mbp of X.509 fxtfnsions dontbining bdditionbl informbtion
+     * bbout thf rfvokfd dfrtifidbtf, sudh bs thf Invblidity Dbtf
+     * Extfnsion. Ebdh kfy is bn OID String thbt mbps to thf dorrfsponding
+     * Extfnsion.
+     *
+     * @rfturn bn unmodifibblf mbp of X.509 fxtfnsions, or bn fmpty mbp
+     *    if thfrf brf no fxtfnsions
+     */
+    publid Mbp<String, Extfnsion> gftExtfnsions() {
+        rfturn Collfdtions.unmodifibblfMbp(fxtfnsions);
+    }
+
+    @Ovfrridf
+    publid String gftMfssbgf() {
+        rfturn "Cfrtifidbtf hbs bffn rfvokfd, rfbson: "
+               + rfbson + ", rfvodbtion dbtf: " + rfvodbtionDbtf
+               + ", buthority: " + buthority + ", fxtfnsions: " + fxtfnsions;
+    }
+
+    /**
+     * Sfriblizf this {@dodf CfrtifidbtfRfvokfdExdfption} instbndf.
+     *
+     * @sfriblDbtb thf sizf of thf fxtfnsions mbp (int), followfd by bll of
+     * thf fxtfnsions in thf mbp, in no pbrtidulbr ordfr. For fbdh fxtfnsion,
+     * thf following dbtb is fmittfd: thf OID String (Objfdt), thf dritidblity
+     * flbg (boolfbn), thf lfngth of thf fndodfd fxtfnsion vbluf bytf brrby
+     * (int), bnd thf fndodfd fxtfnsion vbluf bytfs.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm oos) throws IOExdfption {
+        // Writf out thf non-trbnsifnt fiflds
+        // (rfvodbtionDbtf, rfbson, buthority)
+        oos.dffbultWritfObjfdt();
+
+        // Writf out thf sizf (numbfr of mbppings) of thf fxtfnsions mbp
+        oos.writfInt(fxtfnsions.sizf());
+
+        // For fbdh fxtfnsion in thf mbp, thf following brf fmittfd (in ordfr):
+        // thf OID String (Objfdt), thf dritidblity flbg (boolfbn), thf lfngth
+        // of thf fndodfd fxtfnsion vbluf bytf brrby (int), bnd thf fndodfd
+        // fxtfnsion vbluf bytf brrby. Thf fxtfnsions thfmsflvfs brf fmittfd
+        // in no pbrtidulbr ordfr.
+        for (Mbp.Entry<String, Extfnsion> fntry : fxtfnsions.fntrySft()) {
+            Extfnsion fxt = fntry.gftVbluf();
+            oos.writfObjfdt(fxt.gftId());
+            oos.writfBoolfbn(fxt.isCritidbl());
+            bytf[] fxtVbl = fxt.gftVbluf();
+            oos.writfInt(fxtVbl.lfngth);
+            oos.writf(fxtVbl);
+        }
+    }
+
+    /**
+     * Dfsfriblizf thf {@dodf CfrtifidbtfRfvokfdExdfption} instbndf.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in thf non-trbnsifnt fiflds
+        // (rfvodbtionDbtf, rfbson, buthority)
+        ois.dffbultRfbdObjfdt();
+
+        // Dfffnsivfly dopy thf rfvodbtion dbtf
+        rfvodbtionDbtf = nfw Dbtf(rfvodbtionDbtf.gftTimf());
+
+        // Rfbd in thf sizf (numbfr of mbppings) of thf fxtfnsions mbp
+        // bnd drfbtf thf fxtfnsions mbp
+        int sizf = ois.rfbdInt();
+        if (sizf == 0) {
+            fxtfnsions = Collfdtions.fmptyMbp();
+        } flsf {
+            fxtfnsions = nfw HbshMbp<String, Extfnsion>(sizf);
+        }
+
+        // Rfbd in thf fxtfnsions bnd put thf mbppings in thf fxtfnsions mbp
+        for (int i = 0; i < sizf; i++) {
+            String oid = (String) ois.rfbdObjfdt();
+            boolfbn dritidbl = ois.rfbdBoolfbn();
+            int lfngth = ois.rfbdInt();
+            bytf[] fxtVbl = nfw bytf[lfngth];
+            ois.rfbdFully(fxtVbl);
+            Extfnsion fxt = sun.sfdurity.x509.Extfnsion.nfwExtfnsion
+                (nfw ObjfdtIdfntififr(oid), dritidbl, fxtVbl);
+            fxtfnsions.put(oid, fxt);
+        }
+    }
+}

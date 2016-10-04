@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.function;
+pbdkbgf jbvb.util.fundtion;
 
 /**
- * Represents a function that accepts two arguments and produces a long-valued
- * result.  This is the {@code long}-producing primitive specialization for
- * {@link BiFunction}.
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b long-vblufd
+ * rfsult.  Tiis is tif {@dodf long}-produding primitivf spfdiblizbtion for
+ * {@link BiFundtion}.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #applyAsLong(Object, Object)}.
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * wiosf fundtionbl mftiod is {@link #bpplyAsLong(Objfdt, Objfdt)}.
  *
- * @param <T> the type of the first argument to the function
- * @param <U> the type of the second argument to the function
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
  *
- * @see BiFunction
- * @since 1.8
+ * @sff BiFundtion
+ * @sindf 1.8
  */
-@FunctionalInterface
-public interface ToLongBiFunction<T, U> {
+@FundtionblIntfrfbdf
+publid intfrfbdf ToLongBiFundtion<T, U> {
 
     /**
-     * Applies this function to the given arguments.
+     * Applifs tiis fundtion to tif givfn brgumfnts.
      *
-     * @param t the first function argument
-     * @param u the second function argument
-     * @return the function result
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @rfturn tif fundtion rfsult
      */
-    long applyAsLong(T t, U u);
+    long bpplyAsLong(T t, U u);
 }

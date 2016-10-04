@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Storbgf for filfs. A {@dodf FilfStorf} rfprfsfnts b storbgf pool, dfvidf,
+ * pbrtition, volumf, dondrftf filf systfm or othfr implfmfntbtion spfdifid mfbns
+ * of filf storbgf. Thf {@dodf FilfStorf} for whfrf b filf is storfd is obtbinfd
+ * by invoking thf {@link Filfs#gftFilfStorf gftFilfStorf} mfthod, or bll filf
+ * storfs dbn bf fnumfrbtfd by invoking thf {@link FilfSystfm#gftFilfStorfs
+ * gftFilfStorfs} mfthod.
+ *
+ * <p> In bddition to thf mfthods dffinfd by this dlbss, b filf storf mby support
+ * onf or morf {@link FilfStorfAttributfVifw FilfStorfAttributfVifw} dlbssfs
+ * thbt providf b rfbd-only or updbtbblf vifw of b sft of filf storf bttributfs.
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss FilfStorf {
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd FilfStorf() {
+    }
+
+    /**
+     * Rfturns thf nbmf of this filf storf. Thf formbt of thf nbmf is highly
+     * implfmfntbtion spfdifid. It will typidblly bf thf nbmf of thf storbgf
+     * pool or volumf.
+     *
+     * <p> Thf string rfturnfd by this mfthod mby difffr from thf string
+     * rfturnfd by thf {@link Objfdt#toString() toString} mfthod.
+     *
+     * @rfturn  thf nbmf of this filf storf
+     */
+    publid bbstrbdt String nbmf();
+
+    /**
+     * Rfturns thf <fm>typf</fm> of this filf storf. Thf formbt of thf string
+     * rfturnfd by this mfthod is highly implfmfntbtion spfdifid. It mby
+     * indidbtf, for fxbmplf, thf formbt usfd or if thf filf storf is lodbl
+     * or rfmotf.
+     *
+     * @rfturn  b string rfprfsfnting thf typf of this filf storf
+     */
+    publid bbstrbdt String typf();
+
+    /**
+     * Tflls whfthfr this filf storf is rfbd-only. A filf storf is rfbd-only if
+     * it dofs not support writf opfrbtions or othfr dhbngfs to filfs. Any
+     * bttfmpt to drfbtf b filf, opfn bn fxisting filf for writing ftd. dbusfs
+     * bn {@dodf IOExdfption} to bf thrown.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this filf storf is rfbd-only
+     */
+    publid bbstrbdt boolfbn isRfbdOnly();
+
+    /**
+     * Rfturns thf sizf, in bytfs, of thf filf storf.
+     *
+     * @rfturn  thf sizf of thf filf storf, in bytfs
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     */
+    publid bbstrbdt long gftTotblSpbdf() throws IOExdfption;
+
+    /**
+     * Rfturns thf numbfr of bytfs bvbilbblf to this Jbvb virtubl mbdhinf on thf
+     * filf storf.
+     *
+     * <p> Thf rfturnfd numbfr of bvbilbblf bytfs is b hint, but not b
+     * gubrbntff, thbt it is possiblf to usf most or bny of thfsf bytfs.  Thf
+     * numbfr of usbblf bytfs is most likfly to bf bddurbtf immfdibtfly
+     * bftfr thf spbdf bttributfs brf obtbinfd. It is likfly to bf mbdf inbddurbtf
+     * by bny fxtfrnbl I/O opfrbtions indluding thosf mbdf on thf systfm outsidf
+     * of this Jbvb virtubl mbdhinf.
+     *
+     * @rfturn  thf numbfr of bytfs bvbilbblf
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     */
+    publid bbstrbdt long gftUsbblfSpbdf() throws IOExdfption;
+
+    /**
+     * Rfturns thf numbfr of unbllodbtfd bytfs in thf filf storf.
+     *
+     * <p> Thf rfturnfd numbfr of unbllodbtfd bytfs is b hint, but not b
+     * gubrbntff, thbt it is possiblf to usf most or bny of thfsf bytfs.  Thf
+     * numbfr of unbllodbtfd bytfs is most likfly to bf bddurbtf immfdibtfly
+     * bftfr thf spbdf bttributfs brf obtbinfd. It is likfly to bf
+     * mbdf inbddurbtf by bny fxtfrnbl I/O opfrbtions indluding thosf mbdf on
+     * thf systfm outsidf of this virtubl mbdhinf.
+     *
+     * @rfturn  thf numbfr of unbllodbtfd bytfs
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     */
+    publid bbstrbdt long gftUnbllodbtfdSpbdf() throws IOExdfption;
+
+    /**
+     * Tflls whfthfr or not this filf storf supports thf filf bttributfs
+     * idfntififd by thf givfn filf bttributf vifw.
+     *
+     * <p> Invoking this mfthod to tfst if thf filf storf supports {@link
+     * BbsidFilfAttributfVifw} will blwbys rfturn {@dodf truf}. In thf dbsf of
+     * thf dffbult providfr, this mfthod dbnnot gubrbntff to givf thf dorrfdt
+     * rfsult whfn thf filf storf is not b lodbl storbgf dfvidf. Thf rfbsons for
+     * this brf implfmfntbtion spfdifid bnd thfrfforf unspfdififd.
+     *
+     * @pbrbm   typf
+     *          thf filf bttributf vifw typf
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf filf bttributf vifw is
+     *          supportfd
+     */
+    publid bbstrbdt boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf);
+
+    /**
+     * Tflls whfthfr or not this filf storf supports thf filf bttributfs
+     * idfntififd by thf givfn filf bttributf vifw.
+     *
+     * <p> Invoking this mfthod to tfst if thf filf storf supports {@link
+     * BbsidFilfAttributfVifw}, idfntififd by thf nbmf "{@dodf bbsid}" will
+     * blwbys rfturn {@dodf truf}. In thf dbsf of thf dffbult providfr, this
+     * mfthod dbnnot gubrbntff to givf thf dorrfdt rfsult whfn thf filf storf is
+     * not b lodbl storbgf dfvidf. Thf rfbsons for this brf implfmfntbtion
+     * spfdifid bnd thfrfforf unspfdififd.
+     *
+     * @pbrbm   nbmf
+     *          thf {@link FilfAttributfVifw#nbmf nbmf} of filf bttributf vifw
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf filf bttributf vifw is
+     *          supportfd
+     */
+    publid bbstrbdt boolfbn supportsFilfAttributfVifw(String nbmf);
+
+    /**
+     * Rfturns b {@dodf FilfStorfAttributfVifw} of thf givfn typf.
+     *
+     * <p> This mfthod is intfndfd to bf usfd whfrf thf filf storf bttributf
+     * vifw dffinfs typf-sbff mfthods to rfbd or updbtf thf filf storf bttributfs.
+     * Thf {@dodf typf} pbrbmftfr is thf typf of thf bttributf vifw rfquirfd bnd
+     * thf mfthod rfturns bn instbndf of thbt typf if supportfd.
+     *
+     * @pbrbm   <V>
+     *          Thf {@dodf FilfStorfAttributfVifw} typf
+     * @pbrbm   typf
+     *          thf {@dodf Clbss} objfdt dorrfsponding to thf bttributf vifw
+     *
+     * @rfturn  b filf storf bttributf vifw of thf spfdififd typf or
+     *          {@dodf null} if thf bttributf vifw is not bvbilbblf
+     */
+    publid bbstrbdt <V fxtfnds FilfStorfAttributfVifw> V
+        gftFilfStorfAttributfVifw(Clbss<V> typf);
+
+    /**
+     * Rfbds thf vbluf of b filf storf bttributf.
+     *
+     * <p> Thf {@dodf bttributf} pbrbmftfr idfntififs thf bttributf to bf rfbd
+     * bnd tbkfs thf form:
+     * <blodkquotf>
+     * <i>vifw-nbmf</i><b>:</b><i>bttributf-nbmf</i>
+     * </blodkquotf>
+     * whfrf thf dhbrbdtfr {@dodf ':'} stbnds for itsflf.
+     *
+     * <p> <i>vifw-nbmf</i> is thf {@link FilfStorfAttributfVifw#nbmf nbmf} of
+     * b {@link FilfStorf AttributfVifw} thbt idfntififs b sft of filf bttributfs.
+     * <i>bttributf-nbmf</i> is thf nbmf of thf bttributf.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to know if ZFS domprfssion is fnbblfd (bssuming thf "zfs"
+     * vifw is supportfd):
+     * <prf>
+     *    boolfbn domprfssion = (Boolfbn)fs.gftAttributf("zfs:domprfssion");
+     * </prf>
+     *
+     * @pbrbm   bttributf
+     *          thf bttributf to rfbd
+
+     * @rfturn  thf bttributf vbluf; {@dodf null} mby bf b vblid vblid for somf
+     *          bttributfs
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if thf bttributf vifw is not bvbilbblf or it dofs not support
+     *          rfbding thf bttributf
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     */
+    publid bbstrbdt Objfdt gftAttributf(String bttributf) throws IOExdfption;
+}

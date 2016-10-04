@@ -1,424 +1,424 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
 
-import java.security.cert.*;
+import jbvb.sfdurity.dfrt.*;
 
 /**
- * Implements the <code>PolicyNode</code> interface.
+ * Implfmfnts tif <dodf>PolidyNodf</dodf> intfrfbdf.
  * <p>
- * This class provides an implementation of the <code>PolicyNode</code>
- * interface, and is used internally to build and search Policy Trees.
- * While the implementation is mutable during construction, it is immutable
- * before returning to a client and no mutable public or protected methods
- * are exposed by this implementation, as per the contract of PolicyNode.
+ * Tiis dlbss providfs bn implfmfntbtion of tif <dodf>PolidyNodf</dodf>
+ * intfrfbdf, bnd is usfd intfrnblly to build bnd sfbrdi Polidy Trffs.
+ * Wiilf tif implfmfntbtion is mutbblf during donstrudtion, it is immutbblf
+ * bfforf rfturning to b dlifnt bnd no mutbblf publid or protfdtfd mftiods
+ * brf fxposfd by tiis implfmfntbtion, bs pfr tif dontrbdt of PolidyNodf.
  *
- * @since       1.4
- * @author      Seth Proctor
- * @author      Sean Mullan
+ * @sindf       1.4
+ * @butior      Sfti Prodtor
+ * @butior      Sfbn Mullbn
  */
-final class PolicyNodeImpl implements PolicyNode {
+finbl dlbss PolidyNodfImpl implfmfnts PolidyNodf {
 
     /**
-     * Use to specify the special policy "Any Policy"
+     * Usf to spfdify tif spfdibl polidy "Any Polidy"
      */
-    private static final String ANY_POLICY = "2.5.29.32.0";
+    privbtf stbtid finbl String ANY_POLICY = "2.5.29.32.0";
 
-    // every node has one parent, and zero or more children
-    private PolicyNodeImpl mParent;
-    private HashSet<PolicyNodeImpl> mChildren;
+    // fvfry nodf ibs onf pbrfnt, bnd zfro or morf diildrfn
+    privbtf PolidyNodfImpl mPbrfnt;
+    privbtf HbsiSft<PolidyNodfImpl> mCiildrfn;
 
-    // the 4 fields specified by RFC 3280
-    private String mValidPolicy;
-    private HashSet<PolicyQualifierInfo> mQualifierSet;
-    private boolean mCriticalityIndicator;
-    private HashSet<String> mExpectedPolicySet;
-    private boolean mOriginalExpectedPolicySet;
+    // tif 4 fiflds spfdififd by RFC 3280
+    privbtf String mVblidPolidy;
+    privbtf HbsiSft<PolidyQublififrInfo> mQublififrSft;
+    privbtf boolfbn mCritidblityIndidbtor;
+    privbtf HbsiSft<String> mExpfdtfdPolidySft;
+    privbtf boolfbn mOriginblExpfdtfdPolidySft;
 
-    // the tree depth
-    private int mDepth;
-    // immutability flag
-    private boolean isImmutable = false;
+    // tif trff dfpti
+    privbtf int mDfpti;
+    // immutbbility flbg
+    privbtf boolfbn isImmutbblf = fblsf;
 
     /**
-     * Constructor which takes a <code>PolicyNodeImpl</code> representing the
-     * parent in the Policy Tree to this node. If null, this is the
-     * root of the tree. The constructor also takes the associated data
-     * for this node, as found in the certificate. It also takes a boolean
-     * argument specifying whether this node is being created as a result
-     * of policy mapping.
+     * Construdtor wiidi tbkfs b <dodf>PolidyNodfImpl</dodf> rfprfsfnting tif
+     * pbrfnt in tif Polidy Trff to tiis nodf. If null, tiis is tif
+     * root of tif trff. Tif donstrudtor blso tbkfs tif bssodibtfd dbtb
+     * for tiis nodf, bs found in tif dfrtifidbtf. It blso tbkfs b boolfbn
+     * brgumfnt spfdifying wiftifr tiis nodf is bfing drfbtfd bs b rfsult
+     * of polidy mbpping.
      *
-     * @param parent the PolicyNode above this in the tree, or null if this
-     *               node is the tree's root node
-     * @param validPolicy a String representing this node's valid policy OID
-     * @param qualifierSet the Set of qualifiers for this policy
-     * @param criticalityIndicator a boolean representing whether or not the
-     *                             extension is critical
-     * @param expectedPolicySet a Set of expected policies
-     * @param generatedByPolicyMapping a boolean indicating whether this
-     * node was generated by a policy mapping
+     * @pbrbm pbrfnt tif PolidyNodf bbovf tiis in tif trff, or null if tiis
+     *               nodf is tif trff's root nodf
+     * @pbrbm vblidPolidy b String rfprfsfnting tiis nodf's vblid polidy OID
+     * @pbrbm qublififrSft tif Sft of qublififrs for tiis polidy
+     * @pbrbm dritidblityIndidbtor b boolfbn rfprfsfnting wiftifr or not tif
+     *                             fxtfnsion is dritidbl
+     * @pbrbm fxpfdtfdPolidySft b Sft of fxpfdtfd polidifs
+     * @pbrbm gfnfrbtfdByPolidyMbpping b boolfbn indidbting wiftifr tiis
+     * nodf wbs gfnfrbtfd by b polidy mbpping
      */
-    PolicyNodeImpl(PolicyNodeImpl parent, String validPolicy,
-                Set<PolicyQualifierInfo> qualifierSet,
-                boolean criticalityIndicator, Set<String> expectedPolicySet,
-                boolean generatedByPolicyMapping) {
-        mParent = parent;
-        mChildren = new HashSet<PolicyNodeImpl>();
+    PolidyNodfImpl(PolidyNodfImpl pbrfnt, String vblidPolidy,
+                Sft<PolidyQublififrInfo> qublififrSft,
+                boolfbn dritidblityIndidbtor, Sft<String> fxpfdtfdPolidySft,
+                boolfbn gfnfrbtfdByPolidyMbpping) {
+        mPbrfnt = pbrfnt;
+        mCiildrfn = nfw HbsiSft<PolidyNodfImpl>();
 
-        if (validPolicy != null)
-            mValidPolicy = validPolicy;
-        else
-            mValidPolicy = "";
+        if (vblidPolidy != null)
+            mVblidPolidy = vblidPolidy;
+        flsf
+            mVblidPolidy = "";
 
-        if (qualifierSet != null)
-            mQualifierSet = new HashSet<PolicyQualifierInfo>(qualifierSet);
-        else
-            mQualifierSet = new HashSet<PolicyQualifierInfo>();
+        if (qublififrSft != null)
+            mQublififrSft = nfw HbsiSft<PolidyQublififrInfo>(qublififrSft);
+        flsf
+            mQublififrSft = nfw HbsiSft<PolidyQublififrInfo>();
 
-        mCriticalityIndicator = criticalityIndicator;
+        mCritidblityIndidbtor = dritidblityIndidbtor;
 
-        if (expectedPolicySet != null)
-            mExpectedPolicySet = new HashSet<String>(expectedPolicySet);
-        else
-            mExpectedPolicySet = new HashSet<String>();
+        if (fxpfdtfdPolidySft != null)
+            mExpfdtfdPolidySft = nfw HbsiSft<String>(fxpfdtfdPolidySft);
+        flsf
+            mExpfdtfdPolidySft = nfw HbsiSft<String>();
 
-        mOriginalExpectedPolicySet = !generatedByPolicyMapping;
+        mOriginblExpfdtfdPolidySft = !gfnfrbtfdByPolidyMbpping;
 
-        // see if we're the root, and act appropriately
-        if (mParent != null) {
-            mDepth = mParent.getDepth() + 1;
-            mParent.addChild(this);
-        } else {
-            mDepth = 0;
+        // sff if wf'rf tif root, bnd bdt bppropribtfly
+        if (mPbrfnt != null) {
+            mDfpti = mPbrfnt.gftDfpti() + 1;
+            mPbrfnt.bddCiild(tiis);
+        } flsf {
+            mDfpti = 0;
         }
     }
 
     /**
-     * Alternate constructor which makes a new node with the policy data
-     * in an existing <code>PolicyNodeImpl</code>.
+     * Altfrnbtf donstrudtor wiidi mbkfs b nfw nodf witi tif polidy dbtb
+     * in bn fxisting <dodf>PolidyNodfImpl</dodf>.
      *
-     * @param parent a PolicyNode that's the new parent of the node, or
-     *               null if this is the root node
-     * @param node a PolicyNode containing the policy data to copy
+     * @pbrbm pbrfnt b PolidyNodf tibt's tif nfw pbrfnt of tif nodf, or
+     *               null if tiis is tif root nodf
+     * @pbrbm nodf b PolidyNodf dontbining tif polidy dbtb to dopy
      */
-    PolicyNodeImpl(PolicyNodeImpl parent, PolicyNodeImpl node) {
-        this(parent, node.mValidPolicy, node.mQualifierSet,
-             node.mCriticalityIndicator, node.mExpectedPolicySet, false);
+    PolidyNodfImpl(PolidyNodfImpl pbrfnt, PolidyNodfImpl nodf) {
+        tiis(pbrfnt, nodf.mVblidPolidy, nodf.mQublififrSft,
+             nodf.mCritidblityIndidbtor, nodf.mExpfdtfdPolidySft, fblsf);
     }
 
-    @Override
-    public PolicyNode getParent() {
-        return mParent;
+    @Ovfrridf
+    publid PolidyNodf gftPbrfnt() {
+        rfturn mPbrfnt;
     }
 
-    @Override
-    public Iterator<PolicyNodeImpl> getChildren() {
-        return Collections.unmodifiableSet(mChildren).iterator();
+    @Ovfrridf
+    publid Itfrbtor<PolidyNodfImpl> gftCiildrfn() {
+        rfturn Collfdtions.unmodifibblfSft(mCiildrfn).itfrbtor();
     }
 
-    @Override
-    public int getDepth() {
-        return mDepth;
+    @Ovfrridf
+    publid int gftDfpti() {
+        rfturn mDfpti;
     }
 
-    @Override
-    public String getValidPolicy() {
-        return mValidPolicy;
+    @Ovfrridf
+    publid String gftVblidPolidy() {
+        rfturn mVblidPolidy;
     }
 
-    @Override
-    public Set<PolicyQualifierInfo> getPolicyQualifiers() {
-        return Collections.unmodifiableSet(mQualifierSet);
+    @Ovfrridf
+    publid Sft<PolidyQublififrInfo> gftPolidyQublififrs() {
+        rfturn Collfdtions.unmodifibblfSft(mQublififrSft);
     }
 
-    @Override
-    public Set<String> getExpectedPolicies() {
-        return Collections.unmodifiableSet(mExpectedPolicySet);
+    @Ovfrridf
+    publid Sft<String> gftExpfdtfdPolidifs() {
+        rfturn Collfdtions.unmodifibblfSft(mExpfdtfdPolidySft);
     }
 
-    @Override
-    public boolean isCritical() {
-        return mCriticalityIndicator;
+    @Ovfrridf
+    publid boolfbn isCritidbl() {
+        rfturn mCritidblityIndidbtor;
     }
 
     /**
-     * Return a printable representation of the PolicyNode.
-     * Starting at the node on which this method is called,
-     * it recurses through the tree and prints out each node.
+     * Rfturn b printbblf rfprfsfntbtion of tif PolidyNodf.
+     * Stbrting bt tif nodf on wiidi tiis mftiod is dbllfd,
+     * it rfdursfs tirougi tif trff bnd prints out fbdi nodf.
      *
-     * @return a String describing the contents of the Policy Node
+     * @rfturn b String dfsdribing tif dontfnts of tif Polidy Nodf
      */
-    @Override
-    public String toString() {
-        StringBuilder buffer = new StringBuilder(this.asString());
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr bufffr = nfw StringBuildfr(tiis.bsString());
 
-        for (PolicyNodeImpl node : mChildren) {
-            buffer.append(node);
+        for (PolidyNodfImpl nodf : mCiildrfn) {
+            bufffr.bppfnd(nodf);
         }
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
-    // private methods and package private operations
+    // privbtf mftiods bnd pbdkbgf privbtf opfrbtions
 
-    boolean isImmutable() {
-        return isImmutable;
+    boolfbn isImmutbblf() {
+        rfturn isImmutbblf;
     }
 
     /**
-     * Sets the immutability flag of this node and all of its children
-     * to true.
+     * Sfts tif immutbbility flbg of tiis nodf bnd bll of its diildrfn
+     * to truf.
      */
-    void setImmutable() {
-        if (isImmutable)
-            return;
-        for (PolicyNodeImpl node : mChildren) {
-            node.setImmutable();
+    void sftImmutbblf() {
+        if (isImmutbblf)
+            rfturn;
+        for (PolidyNodfImpl nodf : mCiildrfn) {
+            nodf.sftImmutbblf();
         }
-        isImmutable = true;
+        isImmutbblf = truf;
     }
 
     /**
-     * Private method sets a child node. This is called from the child's
-     * constructor.
+     * Privbtf mftiod sfts b diild nodf. Tiis is dbllfd from tif diild's
+     * donstrudtor.
      *
-     * @param child new <code>PolicyNodeImpl</code> child node
+     * @pbrbm diild nfw <dodf>PolidyNodfImpl</dodf> diild nodf
      */
-    private void addChild(PolicyNodeImpl child) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+    privbtf void bddCiild(PolidyNodfImpl diild) {
+        if (isImmutbblf) {
+            tirow nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
         }
-        mChildren.add(child);
+        mCiildrfn.bdd(diild);
     }
 
     /**
-     * Adds an expectedPolicy to the expected policy set.
-     * If this is the original expected policy set initialized
-     * by the constructor, then the expected policy set is cleared
-     * before the expected policy is added.
+     * Adds bn fxpfdtfdPolidy to tif fxpfdtfd polidy sft.
+     * If tiis is tif originbl fxpfdtfd polidy sft initiblizfd
+     * by tif donstrudtor, tifn tif fxpfdtfd polidy sft is dlfbrfd
+     * bfforf tif fxpfdtfd polidy is bddfd.
      *
-     * @param expectedPolicy a String representing an expected policy.
+     * @pbrbm fxpfdtfdPolidy b String rfprfsfnting bn fxpfdtfd polidy.
      */
-    void addExpectedPolicy(String expectedPolicy) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+    void bddExpfdtfdPolidy(String fxpfdtfdPolidy) {
+        if (isImmutbblf) {
+            tirow nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
         }
-        if (mOriginalExpectedPolicySet) {
-            mExpectedPolicySet.clear();
-            mOriginalExpectedPolicySet = false;
+        if (mOriginblExpfdtfdPolidySft) {
+            mExpfdtfdPolidySft.dlfbr();
+            mOriginblExpfdtfdPolidySft = fblsf;
         }
-        mExpectedPolicySet.add(expectedPolicy);
+        mExpfdtfdPolidySft.bdd(fxpfdtfdPolidy);
     }
 
     /**
-     * Removes all paths which don't reach the specified depth.
+     * Rfmovfs bll pbtis wiidi don't rfbdi tif spfdififd dfpti.
      *
-     * @param depth an int representing the desired minimum depth of all paths
+     * @pbrbm dfpti bn int rfprfsfnting tif dfsirfd minimum dfpti of bll pbtis
      */
-    void prune(int depth) {
-        if (isImmutable)
-            throw new IllegalStateException("PolicyNode is immutable");
+    void prunf(int dfpti) {
+        if (isImmutbblf)
+            tirow nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
 
-        // if we have no children, we can't prune below us...
-        if (mChildren.size() == 0)
-            return;
+        // if wf ibvf no diildrfn, wf dbn't prunf bflow us...
+        if (mCiildrfn.sizf() == 0)
+            rfturn;
 
-        Iterator<PolicyNodeImpl> it = mChildren.iterator();
-        while (it.hasNext()) {
-            PolicyNodeImpl node = it.next();
-            node.prune(depth);
-            // now that we've called prune on the child, see if we should
-            // remove it from the tree
-            if ((node.mChildren.size() == 0) && (depth > mDepth + 1))
-                it.remove();
+        Itfrbtor<PolidyNodfImpl> it = mCiildrfn.itfrbtor();
+        wiilf (it.ibsNfxt()) {
+            PolidyNodfImpl nodf = it.nfxt();
+            nodf.prunf(dfpti);
+            // now tibt wf'vf dbllfd prunf on tif diild, sff if wf siould
+            // rfmovf it from tif trff
+            if ((nodf.mCiildrfn.sizf() == 0) && (dfpti > mDfpti + 1))
+                it.rfmovf();
         }
     }
 
     /**
-     * Deletes the specified child node of this node, if it exists.
+     * Dflftfs tif spfdififd diild nodf of tiis nodf, if it fxists.
      *
-     * @param childNode the child node to be deleted
+     * @pbrbm diildNodf tif diild nodf to bf dflftfd
      */
-    void deleteChild(PolicyNode childNode) {
-        if (isImmutable) {
-            throw new IllegalStateException("PolicyNode is immutable");
+    void dflftfCiild(PolidyNodf diildNodf) {
+        if (isImmutbblf) {
+            tirow nfw IllfgblStbtfExdfption("PolidyNodf is immutbblf");
         }
-        mChildren.remove(childNode);
+        mCiildrfn.rfmovf(diildNodf);
     }
 
     /**
-     * Returns a copy of the tree, without copying the policy-related data,
-     * rooted at the node on which this was called.
+     * Rfturns b dopy of tif trff, witiout dopying tif polidy-rflbtfd dbtb,
+     * rootfd bt tif nodf on wiidi tiis wbs dbllfd.
      *
-     * @return a copy of the tree
+     * @rfturn b dopy of tif trff
      */
-    PolicyNodeImpl copyTree() {
-        return copyTree(null);
+    PolidyNodfImpl dopyTrff() {
+        rfturn dopyTrff(null);
     }
 
-    private PolicyNodeImpl copyTree(PolicyNodeImpl parent) {
-        PolicyNodeImpl newNode = new PolicyNodeImpl(parent, this);
+    privbtf PolidyNodfImpl dopyTrff(PolidyNodfImpl pbrfnt) {
+        PolidyNodfImpl nfwNodf = nfw PolidyNodfImpl(pbrfnt, tiis);
 
-        for (PolicyNodeImpl node : mChildren) {
-            node.copyTree(newNode);
+        for (PolidyNodfImpl nodf : mCiildrfn) {
+            nodf.dopyTrff(nfwNodf);
         }
 
-        return newNode;
+        rfturn nfwNodf;
     }
 
     /**
-     * Returns all nodes at the specified depth in the tree.
+     * Rfturns bll nodfs bt tif spfdififd dfpti in tif trff.
      *
-     * @param depth an int representing the depth of the desired nodes
-     * @return a <code>Set</code> of all nodes at the specified depth
+     * @pbrbm dfpti bn int rfprfsfnting tif dfpti of tif dfsirfd nodfs
+     * @rfturn b <dodf>Sft</dodf> of bll nodfs bt tif spfdififd dfpti
      */
-    Set<PolicyNodeImpl> getPolicyNodes(int depth) {
-        Set<PolicyNodeImpl> set = new HashSet<>();
-        getPolicyNodes(depth, set);
-        return set;
+    Sft<PolidyNodfImpl> gftPolidyNodfs(int dfpti) {
+        Sft<PolidyNodfImpl> sft = nfw HbsiSft<>();
+        gftPolidyNodfs(dfpti, sft);
+        rfturn sft;
     }
 
     /**
-     * Add all nodes at depth depth to set and return the Set.
-     * Internal recursion helper.
+     * Add bll nodfs bt dfpti dfpti to sft bnd rfturn tif Sft.
+     * Intfrnbl rfdursion iflpfr.
      */
-    private void getPolicyNodes(int depth, Set<PolicyNodeImpl> set) {
-        // if we've reached the desired depth, then return ourself
-        if (mDepth == depth) {
-            set.add(this);
-        } else {
-            for (PolicyNodeImpl node : mChildren) {
-                node.getPolicyNodes(depth, set);
+    privbtf void gftPolidyNodfs(int dfpti, Sft<PolidyNodfImpl> sft) {
+        // if wf'vf rfbdifd tif dfsirfd dfpti, tifn rfturn oursflf
+        if (mDfpti == dfpti) {
+            sft.bdd(tiis);
+        } flsf {
+            for (PolidyNodfImpl nodf : mCiildrfn) {
+                nodf.gftPolidyNodfs(dfpti, sft);
             }
         }
     }
 
     /**
-     * Finds all nodes at the specified depth whose expected_policy_set
-     * contains the specified expected OID (if matchAny is false)
-     * or the special OID "any value" (if matchAny is true).
+     * Finds bll nodfs bt tif spfdififd dfpti wiosf fxpfdtfd_polidy_sft
+     * dontbins tif spfdififd fxpfdtfd OID (if mbtdiAny is fblsf)
+     * or tif spfdibl OID "bny vbluf" (if mbtdiAny is truf).
      *
-     * @param depth an int representing the desired depth
-     * @param expectedOID a String encoding the valid OID to match
-     * @param matchAny a boolean indicating whether an expected_policy_set
-     * containing ANY_POLICY should be considered a match
-     * @return a Set of matched <code>PolicyNode</code>s
+     * @pbrbm dfpti bn int rfprfsfnting tif dfsirfd dfpti
+     * @pbrbm fxpfdtfdOID b String fndoding tif vblid OID to mbtdi
+     * @pbrbm mbtdiAny b boolfbn indidbting wiftifr bn fxpfdtfd_polidy_sft
+     * dontbining ANY_POLICY siould bf donsidfrfd b mbtdi
+     * @rfturn b Sft of mbtdifd <dodf>PolidyNodf</dodf>s
      */
-    Set<PolicyNodeImpl> getPolicyNodesExpected(int depth,
-        String expectedOID, boolean matchAny) {
+    Sft<PolidyNodfImpl> gftPolidyNodfsExpfdtfd(int dfpti,
+        String fxpfdtfdOID, boolfbn mbtdiAny) {
 
-        if (expectedOID.equals(ANY_POLICY)) {
-            return getPolicyNodes(depth);
-        } else {
-            return getPolicyNodesExpectedHelper(depth, expectedOID, matchAny);
+        if (fxpfdtfdOID.fqubls(ANY_POLICY)) {
+            rfturn gftPolidyNodfs(dfpti);
+        } flsf {
+            rfturn gftPolidyNodfsExpfdtfdHflpfr(dfpti, fxpfdtfdOID, mbtdiAny);
         }
     }
 
-    private Set<PolicyNodeImpl> getPolicyNodesExpectedHelper(int depth,
-        String expectedOID, boolean matchAny) {
+    privbtf Sft<PolidyNodfImpl> gftPolidyNodfsExpfdtfdHflpfr(int dfpti,
+        String fxpfdtfdOID, boolfbn mbtdiAny) {
 
-        HashSet<PolicyNodeImpl> set = new HashSet<>();
+        HbsiSft<PolidyNodfImpl> sft = nfw HbsiSft<>();
 
-        if (mDepth < depth) {
-            for (PolicyNodeImpl node : mChildren) {
-                set.addAll(node.getPolicyNodesExpectedHelper(depth,
-                                                             expectedOID,
-                                                             matchAny));
+        if (mDfpti < dfpti) {
+            for (PolidyNodfImpl nodf : mCiildrfn) {
+                sft.bddAll(nodf.gftPolidyNodfsExpfdtfdHflpfr(dfpti,
+                                                             fxpfdtfdOID,
+                                                             mbtdiAny));
             }
-        } else {
-            if (matchAny) {
-                if (mExpectedPolicySet.contains(ANY_POLICY))
-                    set.add(this);
-            } else {
-                if (mExpectedPolicySet.contains(expectedOID))
-                    set.add(this);
+        } flsf {
+            if (mbtdiAny) {
+                if (mExpfdtfdPolidySft.dontbins(ANY_POLICY))
+                    sft.bdd(tiis);
+            } flsf {
+                if (mExpfdtfdPolidySft.dontbins(fxpfdtfdOID))
+                    sft.bdd(tiis);
             }
         }
 
-        return set;
+        rfturn sft;
     }
 
     /**
-     * Finds all nodes at the specified depth that contains the
-     * specified valid OID
+     * Finds bll nodfs bt tif spfdififd dfpti tibt dontbins tif
+     * spfdififd vblid OID
      *
-     * @param depth an int representing the desired depth
-     * @param validOID a String encoding the valid OID to match
-     * @return a Set of matched <code>PolicyNode</code>s
+     * @pbrbm dfpti bn int rfprfsfnting tif dfsirfd dfpti
+     * @pbrbm vblidOID b String fndoding tif vblid OID to mbtdi
+     * @rfturn b Sft of mbtdifd <dodf>PolidyNodf</dodf>s
      */
-    Set<PolicyNodeImpl> getPolicyNodesValid(int depth, String validOID) {
-        HashSet<PolicyNodeImpl> set = new HashSet<>();
+    Sft<PolidyNodfImpl> gftPolidyNodfsVblid(int dfpti, String vblidOID) {
+        HbsiSft<PolidyNodfImpl> sft = nfw HbsiSft<>();
 
-        if (mDepth < depth) {
-            for (PolicyNodeImpl node : mChildren) {
-                set.addAll(node.getPolicyNodesValid(depth, validOID));
+        if (mDfpti < dfpti) {
+            for (PolidyNodfImpl nodf : mCiildrfn) {
+                sft.bddAll(nodf.gftPolidyNodfsVblid(dfpti, vblidOID));
             }
-        } else {
-            if (mValidPolicy.equals(validOID))
-                set.add(this);
+        } flsf {
+            if (mVblidPolidy.fqubls(vblidOID))
+                sft.bdd(tiis);
         }
 
-        return set;
+        rfturn sft;
     }
 
-    private static String policyToString(String oid) {
-        if (oid.equals(ANY_POLICY)) {
-            return "anyPolicy";
-        } else {
-            return oid;
+    privbtf stbtid String polidyToString(String oid) {
+        if (oid.fqubls(ANY_POLICY)) {
+            rfturn "bnyPolidy";
+        } flsf {
+            rfturn oid;
         }
     }
 
     /**
-     * Prints out some data on this node.
+     * Prints out somf dbtb on tiis nodf.
      */
-    String asString() {
-        if (mParent == null) {
-            return "anyPolicy  ROOT\n";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0, n = getDepth(); i < n; i++) {
-                sb.append("  ");
+    String bsString() {
+        if (mPbrfnt == null) {
+            rfturn "bnyPolidy  ROOT\n";
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            for (int i = 0, n = gftDfpti(); i < n; i++) {
+                sb.bppfnd("  ");
             }
-            sb.append(policyToString(getValidPolicy()));
-            sb.append("  CRIT: ");
-            sb.append(isCritical());
-            sb.append("  EP: ");
-            for (String policy : getExpectedPolicies()) {
-                sb.append(policyToString(policy));
-                sb.append(" ");
+            sb.bppfnd(polidyToString(gftVblidPolidy()));
+            sb.bppfnd("  CRIT: ");
+            sb.bppfnd(isCritidbl());
+            sb.bppfnd("  EP: ");
+            for (String polidy : gftExpfdtfdPolidifs()) {
+                sb.bppfnd(polidyToString(polidy));
+                sb.bppfnd(" ");
             }
-            sb.append(" (");
-            sb.append(getDepth());
-            sb.append(")\n");
-            return sb.toString();
+            sb.bppfnd(" (");
+            sb.bppfnd(gftDfpti());
+            sb.bppfnd(")\n");
+            rfturn sb.toString();
         }
     }
 }

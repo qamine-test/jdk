@@ -1,664 +1,664 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* infback.c -- inflate using a call-back interface
- * Copyright (C) 1995-2011 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* infbbdk.d -- inflbtf using b dbll-bbdk intfrfbdf
+ * Copyrigit (C) 1995-2011 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /*
-   This code is largely copied from inflate.c.  Normally either infback.o or
-   inflate.o would be linked into an application--not both.  The interface
-   with inffast.c is retained so that optimized assembler-coded versions of
-   inflate_fast() can be used with either inflate.c or infback.c.
+   Tiis dodf is lbrgfly dopifd from inflbtf.d.  Normblly fitifr infbbdk.o or
+   inflbtf.o would bf linkfd into bn bpplidbtion--not boti.  Tif intfrfbdf
+   witi inffbst.d is rftbinfd so tibt optimizfd bssfmblfr-dodfd vfrsions of
+   inflbtf_fbst() dbn bf usfd witi fitifr inflbtf.d or infbbdk.d.
  */
 
-#include "zutil.h"
-#include "inftrees.h"
-#include "inflate.h"
-#include "inffast.h"
+#indludf "zutil.i"
+#indludf "inftrffs.i"
+#indludf "inflbtf.i"
+#indludf "inffbst.i"
 
-/* function prototypes */
-local void fixedtables OF((struct inflate_state FAR *state));
+/* fundtion prototypfs */
+lodbl void fixfdtbblfs OF((strudt inflbtf_stbtf FAR *stbtf));
 
 /*
-   strm provides memory allocation functions in zalloc and zfree, or
-   Z_NULL to use the library memory allocation functions.
+   strm providfs mfmory bllodbtion fundtions in zbllod bnd zfrff, or
+   Z_NULL to usf tif librbry mfmory bllodbtion fundtions.
 
-   windowBits is in the range 8..15, and window is a user-supplied
-   window and output buffer that is 2**windowBits bytes.
+   windowBits is in tif rbngf 8..15, bnd window is b usfr-supplifd
+   window bnd output bufffr tibt is 2**windowBits bytfs.
  */
-int ZEXPORT inflateBackInit_(strm, windowBits, window, version, stream_size)
-z_streamp strm;
+int ZEXPORT inflbtfBbdkInit_(strm, windowBits, window, vfrsion, strfbm_sizf)
+z_strfbmp strm;
 int windowBits;
-unsigned char FAR *window;
-const char *version;
-int stream_size;
+unsignfd dibr FAR *window;
+donst dibr *vfrsion;
+int strfbm_sizf;
 {
-    struct inflate_state FAR *state;
+    strudt inflbtf_stbtf FAR *stbtf;
 
-    if (version == Z_NULL || version[0] != ZLIB_VERSION[0] ||
-        stream_size != (int)(sizeof(z_stream)))
-        return Z_VERSION_ERROR;
+    if (vfrsion == Z_NULL || vfrsion[0] != ZLIB_VERSION[0] ||
+        strfbm_sizf != (int)(sizfof(z_strfbm)))
+        rfturn Z_VERSION_ERROR;
     if (strm == Z_NULL || window == Z_NULL ||
         windowBits < 8 || windowBits > 15)
-        return Z_STREAM_ERROR;
-    strm->msg = Z_NULL;                 /* in case we return an error */
-    if (strm->zalloc == (alloc_func)0) {
-#ifdef Z_SOLO
-        return Z_STREAM_ERROR;
-#else
-        strm->zalloc = zcalloc;
-        strm->opaque = (voidpf)0;
-#endif
+        rfturn Z_STREAM_ERROR;
+    strm->msg = Z_NULL;                 /* in dbsf wf rfturn bn frror */
+    if (strm->zbllod == (bllod_fund)0) {
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+        strm->zbllod = zdbllod;
+        strm->opbquf = (voidpf)0;
+#fndif
     }
-    if (strm->zfree == (free_func)0)
-#ifdef Z_SOLO
-        return Z_STREAM_ERROR;
-#else
-    strm->zfree = zcfree;
-#endif
-    state = (struct inflate_state FAR *)ZALLOC(strm, 1,
-                                               sizeof(struct inflate_state));
-    if (state == Z_NULL) return Z_MEM_ERROR;
-    Tracev((stderr, "inflate: allocated\n"));
-    strm->state = (struct internal_state FAR *)state;
-    state->dmax = 32768U;
-    state->wbits = windowBits;
-    state->wsize = 1U << windowBits;
-    state->window = window;
-    state->wnext = 0;
-    state->whave = 0;
-    return Z_OK;
+    if (strm->zfrff == (frff_fund)0)
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+    strm->zfrff = zdfrff;
+#fndif
+    stbtf = (strudt inflbtf_stbtf FAR *)ZALLOC(strm, 1,
+                                               sizfof(strudt inflbtf_stbtf));
+    if (stbtf == Z_NULL) rfturn Z_MEM_ERROR;
+    Trbdfv((stdfrr, "inflbtf: bllodbtfd\n"));
+    strm->stbtf = (strudt intfrnbl_stbtf FAR *)stbtf;
+    stbtf->dmbx = 32768U;
+    stbtf->wbits = windowBits;
+    stbtf->wsizf = 1U << windowBits;
+    stbtf->window = window;
+    stbtf->wnfxt = 0;
+    stbtf->wibvf = 0;
+    rfturn Z_OK;
 }
 
 /*
-   Return state with length and distance decoding tables and index sizes set to
-   fixed code decoding.  Normally this returns fixed tables from inffixed.h.
-   If BUILDFIXED is defined, then instead this routine builds the tables the
-   first time it's called, and returns those tables the first time and
-   thereafter.  This reduces the size of the code by about 2K bytes, in
-   exchange for a little execution time.  However, BUILDFIXED should not be
-   used for threaded applications, since the rewriting of the tables and virgin
-   may not be thread-safe.
+   Rfturn stbtf witi lfngti bnd distbndf dfdoding tbblfs bnd indfx sizfs sft to
+   fixfd dodf dfdoding.  Normblly tiis rfturns fixfd tbblfs from inffixfd.i.
+   If BUILDFIXED is dffinfd, tifn instfbd tiis routinf builds tif tbblfs tif
+   first timf it's dbllfd, bnd rfturns tiosf tbblfs tif first timf bnd
+   tifrfbftfr.  Tiis rfdudfs tif sizf of tif dodf by bbout 2K bytfs, in
+   fxdibngf for b littlf fxfdution timf.  Howfvfr, BUILDFIXED siould not bf
+   usfd for tirfbdfd bpplidbtions, sindf tif rfwriting of tif tbblfs bnd virgin
+   mby not bf tirfbd-sbff.
  */
-local void fixedtables(state)
-struct inflate_state FAR *state;
+lodbl void fixfdtbblfs(stbtf)
+strudt inflbtf_stbtf FAR *stbtf;
 {
-#ifdef BUILDFIXED
-    static int virgin = 1;
-    static code *lenfix, *distfix;
-    static code fixed[544];
+#ifdff BUILDFIXED
+    stbtid int virgin = 1;
+    stbtid dodf *lfnfix, *distfix;
+    stbtid dodf fixfd[544];
 
-    /* build fixed huffman tables if first call (may not be thread safe) */
+    /* build fixfd iuffmbn tbblfs if first dbll (mby not bf tirfbd sbff) */
     if (virgin) {
-        unsigned sym, bits;
-        static code *next;
+        unsignfd sym, bits;
+        stbtid dodf *nfxt;
 
-        /* literal/length table */
+        /* litfrbl/lfngti tbblf */
         sym = 0;
-        while (sym < 144) state->lens[sym++] = 8;
-        while (sym < 256) state->lens[sym++] = 9;
-        while (sym < 280) state->lens[sym++] = 7;
-        while (sym < 288) state->lens[sym++] = 8;
-        next = fixed;
-        lenfix = next;
+        wiilf (sym < 144) stbtf->lfns[sym++] = 8;
+        wiilf (sym < 256) stbtf->lfns[sym++] = 9;
+        wiilf (sym < 280) stbtf->lfns[sym++] = 7;
+        wiilf (sym < 288) stbtf->lfns[sym++] = 8;
+        nfxt = fixfd;
+        lfnfix = nfxt;
         bits = 9;
-        inflate_table(LENS, state->lens, 288, &(next), &(bits), state->work);
+        inflbtf_tbblf(LENS, stbtf->lfns, 288, &(nfxt), &(bits), stbtf->work);
 
-        /* distance table */
+        /* distbndf tbblf */
         sym = 0;
-        while (sym < 32) state->lens[sym++] = 5;
-        distfix = next;
+        wiilf (sym < 32) stbtf->lfns[sym++] = 5;
+        distfix = nfxt;
         bits = 5;
-        inflate_table(DISTS, state->lens, 32, &(next), &(bits), state->work);
+        inflbtf_tbblf(DISTS, stbtf->lfns, 32, &(nfxt), &(bits), stbtf->work);
 
-        /* do this just once */
+        /* do tiis just ondf */
         virgin = 0;
     }
-#else /* !BUILDFIXED */
-#   include "inffixed.h"
-#endif /* BUILDFIXED */
-    state->lencode = lenfix;
-    state->lenbits = 9;
-    state->distcode = distfix;
-    state->distbits = 5;
+#flsf /* !BUILDFIXED */
+#   indludf "inffixfd.i"
+#fndif /* BUILDFIXED */
+    stbtf->lfndodf = lfnfix;
+    stbtf->lfnbits = 9;
+    stbtf->distdodf = distfix;
+    stbtf->distbits = 5;
 }
 
-/* Macros for inflateBack(): */
+/* Mbdros for inflbtfBbdk(): */
 
-/* Load returned state from inflate_fast() */
-#define LOAD() \
+/* Lobd rfturnfd stbtf from inflbtf_fbst() */
+#dffinf LOAD() \
     do { \
-        put = strm->next_out; \
-        left = strm->avail_out; \
-        next = strm->next_in; \
-        have = strm->avail_in; \
-        hold = state->hold; \
-        bits = state->bits; \
-    } while (0)
+        put = strm->nfxt_out; \
+        lfft = strm->bvbil_out; \
+        nfxt = strm->nfxt_in; \
+        ibvf = strm->bvbil_in; \
+        iold = stbtf->iold; \
+        bits = stbtf->bits; \
+    } wiilf (0)
 
-/* Set state from registers for inflate_fast() */
-#define RESTORE() \
+/* Sft stbtf from rfgistfrs for inflbtf_fbst() */
+#dffinf RESTORE() \
     do { \
-        strm->next_out = put; \
-        strm->avail_out = left; \
-        strm->next_in = next; \
-        strm->avail_in = have; \
-        state->hold = hold; \
-        state->bits = bits; \
-    } while (0)
+        strm->nfxt_out = put; \
+        strm->bvbil_out = lfft; \
+        strm->nfxt_in = nfxt; \
+        strm->bvbil_in = ibvf; \
+        stbtf->iold = iold; \
+        stbtf->bits = bits; \
+    } wiilf (0)
 
-/* Clear the input bit accumulator */
-#define INITBITS() \
+/* Clfbr tif input bit bddumulbtor */
+#dffinf INITBITS() \
     do { \
-        hold = 0; \
+        iold = 0; \
         bits = 0; \
-    } while (0)
+    } wiilf (0)
 
-/* Assure that some input is available.  If input is requested, but denied,
-   then return a Z_BUF_ERROR from inflateBack(). */
-#define PULL() \
+/* Assurf tibt somf input is bvbilbblf.  If input is rfqufstfd, but dfnifd,
+   tifn rfturn b Z_BUF_ERROR from inflbtfBbdk(). */
+#dffinf PULL() \
     do { \
-        if (have == 0) { \
-            have = in(in_desc, &next); \
-            if (have == 0) { \
-                next = Z_NULL; \
-                ret = Z_BUF_ERROR; \
-                goto inf_leave; \
+        if (ibvf == 0) { \
+            ibvf = in(in_dfsd, &nfxt); \
+            if (ibvf == 0) { \
+                nfxt = Z_NULL; \
+                rft = Z_BUF_ERROR; \
+                goto inf_lfbvf; \
             } \
         } \
-    } while (0)
+    } wiilf (0)
 
-/* Get a byte of input into the bit accumulator, or return from inflateBack()
-   with an error if there is no input available. */
-#define PULLBYTE() \
+/* Gft b bytf of input into tif bit bddumulbtor, or rfturn from inflbtfBbdk()
+   witi bn frror if tifrf is no input bvbilbblf. */
+#dffinf PULLBYTE() \
     do { \
         PULL(); \
-        have--; \
-        hold += (unsigned long)(*next++) << bits; \
+        ibvf--; \
+        iold += (unsignfd long)(*nfxt++) << bits; \
         bits += 8; \
-    } while (0)
+    } wiilf (0)
 
-/* Assure that there are at least n bits in the bit accumulator.  If there is
-   not enough available input to do that, then return from inflateBack() with
-   an error. */
-#define NEEDBITS(n) \
+/* Assurf tibt tifrf brf bt lfbst n bits in tif bit bddumulbtor.  If tifrf is
+   not fnougi bvbilbblf input to do tibt, tifn rfturn from inflbtfBbdk() witi
+   bn frror. */
+#dffinf NEEDBITS(n) \
     do { \
-        while (bits < (unsigned)(n)) \
+        wiilf (bits < (unsignfd)(n)) \
             PULLBYTE(); \
-    } while (0)
+    } wiilf (0)
 
-/* Return the low n bits of the bit accumulator (n < 16) */
-#define BITS(n) \
-    ((unsigned)hold & ((1U << (n)) - 1))
+/* Rfturn tif low n bits of tif bit bddumulbtor (n < 16) */
+#dffinf BITS(n) \
+    ((unsignfd)iold & ((1U << (n)) - 1))
 
-/* Remove n bits from the bit accumulator */
-#define DROPBITS(n) \
+/* Rfmovf n bits from tif bit bddumulbtor */
+#dffinf DROPBITS(n) \
     do { \
-        hold >>= (n); \
-        bits -= (unsigned)(n); \
-    } while (0)
+        iold >>= (n); \
+        bits -= (unsignfd)(n); \
+    } wiilf (0)
 
-/* Remove zero to seven bits as needed to go to a byte boundary */
-#define BYTEBITS() \
+/* Rfmovf zfro to sfvfn bits bs nffdfd to go to b bytf boundbry */
+#dffinf BYTEBITS() \
     do { \
-        hold >>= bits & 7; \
+        iold >>= bits & 7; \
         bits -= bits & 7; \
-    } while (0)
+    } wiilf (0)
 
-/* Assure that some output space is available, by writing out the window
-   if it's full.  If the write fails, return from inflateBack() with a
+/* Assurf tibt somf output spbdf is bvbilbblf, by writing out tif window
+   if it's full.  If tif writf fbils, rfturn from inflbtfBbdk() witi b
    Z_BUF_ERROR. */
-#define ROOM() \
+#dffinf ROOM() \
     do { \
-        if (left == 0) { \
-            put = state->window; \
-            left = state->wsize; \
-            state->whave = left; \
-            if (out(out_desc, put, left)) { \
-                ret = Z_BUF_ERROR; \
-                goto inf_leave; \
+        if (lfft == 0) { \
+            put = stbtf->window; \
+            lfft = stbtf->wsizf; \
+            stbtf->wibvf = lfft; \
+            if (out(out_dfsd, put, lfft)) { \
+                rft = Z_BUF_ERROR; \
+                goto inf_lfbvf; \
             } \
         } \
-    } while (0)
+    } wiilf (0)
 
 /*
-   strm provides the memory allocation functions and window buffer on input,
-   and provides information on the unused input on return.  For Z_DATA_ERROR
-   returns, strm will also provide an error message.
+   strm providfs tif mfmory bllodbtion fundtions bnd window bufffr on input,
+   bnd providfs informbtion on tif unusfd input on rfturn.  For Z_DATA_ERROR
+   rfturns, strm will blso providf bn frror mfssbgf.
 
-   in() and out() are the call-back input and output functions.  When
-   inflateBack() needs more input, it calls in().  When inflateBack() has
-   filled the window with output, or when it completes with data in the
-   window, it calls out() to write out the data.  The application must not
-   change the provided input until in() is called again or inflateBack()
-   returns.  The application must not change the window/output buffer until
-   inflateBack() returns.
+   in() bnd out() brf tif dbll-bbdk input bnd output fundtions.  Wifn
+   inflbtfBbdk() nffds morf input, it dblls in().  Wifn inflbtfBbdk() ibs
+   fillfd tif window witi output, or wifn it domplftfs witi dbtb in tif
+   window, it dblls out() to writf out tif dbtb.  Tif bpplidbtion must not
+   dibngf tif providfd input until in() is dbllfd bgbin or inflbtfBbdk()
+   rfturns.  Tif bpplidbtion must not dibngf tif window/output bufffr until
+   inflbtfBbdk() rfturns.
 
-   in() and out() are called with a descriptor parameter provided in the
-   inflateBack() call.  This parameter can be a structure that provides the
-   information required to do the read or write, as well as accumulated
-   information on the input and output such as totals and check values.
+   in() bnd out() brf dbllfd witi b dfsdriptor pbrbmftfr providfd in tif
+   inflbtfBbdk() dbll.  Tiis pbrbmftfr dbn bf b strudturf tibt providfs tif
+   informbtion rfquirfd to do tif rfbd or writf, bs wfll bs bddumulbtfd
+   informbtion on tif input bnd output sudi bs totbls bnd difdk vblufs.
 
-   in() should return zero on failure.  out() should return non-zero on
-   failure.  If either in() or out() fails, than inflateBack() returns a
-   Z_BUF_ERROR.  strm->next_in can be checked for Z_NULL to see whether it
-   was in() or out() that caused in the error.  Otherwise,  inflateBack()
-   returns Z_STREAM_END on success, Z_DATA_ERROR for an deflate format
-   error, or Z_MEM_ERROR if it could not allocate memory for the state.
-   inflateBack() can also return Z_STREAM_ERROR if the input parameters
-   are not correct, i.e. strm is Z_NULL or the state was not initialized.
+   in() siould rfturn zfro on fbilurf.  out() siould rfturn non-zfro on
+   fbilurf.  If fitifr in() or out() fbils, tibn inflbtfBbdk() rfturns b
+   Z_BUF_ERROR.  strm->nfxt_in dbn bf difdkfd for Z_NULL to sff wiftifr it
+   wbs in() or out() tibt dbusfd in tif frror.  Otifrwisf,  inflbtfBbdk()
+   rfturns Z_STREAM_END on suddfss, Z_DATA_ERROR for bn dfflbtf formbt
+   frror, or Z_MEM_ERROR if it dould not bllodbtf mfmory for tif stbtf.
+   inflbtfBbdk() dbn blso rfturn Z_STREAM_ERROR if tif input pbrbmftfrs
+   brf not dorrfdt, i.f. strm is Z_NULL or tif stbtf wbs not initiblizfd.
  */
-int ZEXPORT inflateBack(strm, in, in_desc, out, out_desc)
-z_streamp strm;
-in_func in;
-void FAR *in_desc;
-out_func out;
-void FAR *out_desc;
+int ZEXPORT inflbtfBbdk(strm, in, in_dfsd, out, out_dfsd)
+z_strfbmp strm;
+in_fund in;
+void FAR *in_dfsd;
+out_fund out;
+void FAR *out_dfsd;
 {
-    struct inflate_state FAR *state;
-    z_const unsigned char FAR *next;    /* next input */
-    unsigned char FAR *put;     /* next output */
-    unsigned have, left;        /* available input and output */
-    unsigned long hold;         /* bit buffer */
-    unsigned bits;              /* bits in bit buffer */
-    unsigned copy;              /* number of stored or match bytes to copy */
-    unsigned char FAR *from;    /* where to copy match bytes from */
-    code here;                  /* current decoding table entry */
-    code last;                  /* parent table entry */
-    unsigned len;               /* length to copy for repeats, bits to drop */
-    int ret;                    /* return code */
-    static const unsigned short order[19] = /* permutation of code lengths */
+    strudt inflbtf_stbtf FAR *stbtf;
+    z_donst unsignfd dibr FAR *nfxt;    /* nfxt input */
+    unsignfd dibr FAR *put;     /* nfxt output */
+    unsignfd ibvf, lfft;        /* bvbilbblf input bnd output */
+    unsignfd long iold;         /* bit bufffr */
+    unsignfd bits;              /* bits in bit bufffr */
+    unsignfd dopy;              /* numbfr of storfd or mbtdi bytfs to dopy */
+    unsignfd dibr FAR *from;    /* wifrf to dopy mbtdi bytfs from */
+    dodf ifrf;                  /* durrfnt dfdoding tbblf fntry */
+    dodf lbst;                  /* pbrfnt tbblf fntry */
+    unsignfd lfn;               /* lfngti to dopy for rfpfbts, bits to drop */
+    int rft;                    /* rfturn dodf */
+    stbtid donst unsignfd siort ordfr[19] = /* pfrmutbtion of dodf lfngtis */
         {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
 
-    /* Check that the strm exists and that the state was initialized */
-    if (strm == Z_NULL || strm->state == Z_NULL)
-        return Z_STREAM_ERROR;
-    state = (struct inflate_state FAR *)strm->state;
+    /* Cifdk tibt tif strm fxists bnd tibt tif stbtf wbs initiblizfd */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
 
-    /* Reset the state */
+    /* Rfsft tif stbtf */
     strm->msg = Z_NULL;
-    state->mode = TYPE;
-    state->last = 0;
-    state->whave = 0;
-    next = strm->next_in;
-    have = next != Z_NULL ? strm->avail_in : 0;
-    hold = 0;
+    stbtf->modf = TYPE;
+    stbtf->lbst = 0;
+    stbtf->wibvf = 0;
+    nfxt = strm->nfxt_in;
+    ibvf = nfxt != Z_NULL ? strm->bvbil_in : 0;
+    iold = 0;
     bits = 0;
-    put = state->window;
-    left = state->wsize;
+    put = stbtf->window;
+    lfft = stbtf->wsizf;
 
-    /* Inflate until end of block marked as last */
+    /* Inflbtf until fnd of blodk mbrkfd bs lbst */
     for (;;)
-        switch (state->mode) {
-        case TYPE:
-            /* determine and dispatch block type */
-            if (state->last) {
+        switdi (stbtf->modf) {
+        dbsf TYPE:
+            /* dftfrminf bnd dispbtdi blodk typf */
+            if (stbtf->lbst) {
                 BYTEBITS();
-                state->mode = DONE;
-                break;
+                stbtf->modf = DONE;
+                brfbk;
             }
             NEEDBITS(3);
-            state->last = BITS(1);
+            stbtf->lbst = BITS(1);
             DROPBITS(1);
-            switch (BITS(2)) {
-            case 0:                             /* stored block */
-                Tracev((stderr, "inflate:     stored block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = STORED;
-                break;
-            case 1:                             /* fixed block */
-                fixedtables(state);
-                Tracev((stderr, "inflate:     fixed codes block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = LEN;              /* decode codes */
-                break;
-            case 2:                             /* dynamic block */
-                Tracev((stderr, "inflate:     dynamic codes block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = TABLE;
-                break;
-            case 3:
-                strm->msg = (char *)"invalid block type";
-                state->mode = BAD;
+            switdi (BITS(2)) {
+            dbsf 0:                             /* storfd blodk */
+                Trbdfv((stdfrr, "inflbtf:     storfd blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = STORED;
+                brfbk;
+            dbsf 1:                             /* fixfd blodk */
+                fixfdtbblfs(stbtf);
+                Trbdfv((stdfrr, "inflbtf:     fixfd dodfs blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = LEN;              /* dfdodf dodfs */
+                brfbk;
+            dbsf 2:                             /* dynbmid blodk */
+                Trbdfv((stdfrr, "inflbtf:     dynbmid dodfs blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = TABLE;
+                brfbk;
+            dbsf 3:
+                strm->msg = (dibr *)"invblid blodk typf";
+                stbtf->modf = BAD;
             }
             DROPBITS(2);
-            break;
+            brfbk;
 
-        case STORED:
-            /* get and verify stored block length */
-            BYTEBITS();                         /* go to byte boundary */
+        dbsf STORED:
+            /* gft bnd vfrify storfd blodk lfngti */
+            BYTEBITS();                         /* go to bytf boundbry */
             NEEDBITS(32);
-            if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-                strm->msg = (char *)"invalid stored block lengths";
-                state->mode = BAD;
-                break;
+            if ((iold & 0xffff) != ((iold >> 16) ^ 0xffff)) {
+                strm->msg = (dibr *)"invblid storfd blodk lfngtis";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            state->length = (unsigned)hold & 0xffff;
-            Tracev((stderr, "inflate:       stored length %u\n",
-                    state->length));
+            stbtf->lfngti = (unsignfd)iold & 0xffff;
+            Trbdfv((stdfrr, "inflbtf:       storfd lfngti %u\n",
+                    stbtf->lfngti));
             INITBITS();
 
-            /* copy stored block from input to output */
-            while (state->length != 0) {
-                copy = state->length;
+            /* dopy storfd blodk from input to output */
+            wiilf (stbtf->lfngti != 0) {
+                dopy = stbtf->lfngti;
                 PULL();
                 ROOM();
-                if (copy > have) copy = have;
-                if (copy > left) copy = left;
-                zmemcpy(put, next, copy);
-                have -= copy;
-                next += copy;
-                left -= copy;
-                put += copy;
-                state->length -= copy;
+                if (dopy > ibvf) dopy = ibvf;
+                if (dopy > lfft) dopy = lfft;
+                zmfmdpy(put, nfxt, dopy);
+                ibvf -= dopy;
+                nfxt += dopy;
+                lfft -= dopy;
+                put += dopy;
+                stbtf->lfngti -= dopy;
             }
-            Tracev((stderr, "inflate:       stored end\n"));
-            state->mode = TYPE;
-            break;
+            Trbdfv((stdfrr, "inflbtf:       storfd fnd\n"));
+            stbtf->modf = TYPE;
+            brfbk;
 
-        case TABLE:
-            /* get dynamic table entries descriptor */
+        dbsf TABLE:
+            /* gft dynbmid tbblf fntrifs dfsdriptor */
             NEEDBITS(14);
-            state->nlen = BITS(5) + 257;
+            stbtf->nlfn = BITS(5) + 257;
             DROPBITS(5);
-            state->ndist = BITS(5) + 1;
+            stbtf->ndist = BITS(5) + 1;
             DROPBITS(5);
-            state->ncode = BITS(4) + 4;
+            stbtf->ndodf = BITS(4) + 4;
             DROPBITS(4);
-#ifndef PKZIP_BUG_WORKAROUND
-            if (state->nlen > 286 || state->ndist > 30) {
-                strm->msg = (char *)"too many length or distance symbols";
-                state->mode = BAD;
-                break;
+#ifndff PKZIP_BUG_WORKAROUND
+            if (stbtf->nlfn > 286 || stbtf->ndist > 30) {
+                strm->msg = (dibr *)"too mbny lfngti or distbndf symbols";
+                stbtf->modf = BAD;
+                brfbk;
             }
-#endif
-            Tracev((stderr, "inflate:       table sizes ok\n"));
+#fndif
+            Trbdfv((stdfrr, "inflbtf:       tbblf sizfs ok\n"));
 
-            /* get code length code lengths (not a typo) */
-            state->have = 0;
-            while (state->have < state->ncode) {
+            /* gft dodf lfngti dodf lfngtis (not b typo) */
+            stbtf->ibvf = 0;
+            wiilf (stbtf->ibvf < stbtf->ndodf) {
                 NEEDBITS(3);
-                state->lens[order[state->have++]] = (unsigned short)BITS(3);
+                stbtf->lfns[ordfr[stbtf->ibvf++]] = (unsignfd siort)BITS(3);
                 DROPBITS(3);
             }
-            while (state->have < 19)
-                state->lens[order[state->have++]] = 0;
-            state->next = state->codes;
-            state->lencode = (code const FAR *)(state->next);
-            state->lenbits = 7;
-            ret = inflate_table(CODES, state->lens, 19, &(state->next),
-                                &(state->lenbits), state->work);
-            if (ret) {
-                strm->msg = (char *)"invalid code lengths set";
-                state->mode = BAD;
-                break;
+            wiilf (stbtf->ibvf < 19)
+                stbtf->lfns[ordfr[stbtf->ibvf++]] = 0;
+            stbtf->nfxt = stbtf->dodfs;
+            stbtf->lfndodf = (dodf donst FAR *)(stbtf->nfxt);
+            stbtf->lfnbits = 7;
+            rft = inflbtf_tbblf(CODES, stbtf->lfns, 19, &(stbtf->nfxt),
+                                &(stbtf->lfnbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dibr *)"invblid dodf lfngtis sft";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            Tracev((stderr, "inflate:       code lengths ok\n"));
+            Trbdfv((stdfrr, "inflbtf:       dodf lfngtis ok\n"));
 
-            /* get length and distance code code lengths */
-            state->have = 0;
-            while (state->have < state->nlen + state->ndist) {
+            /* gft lfngti bnd distbndf dodf dodf lfngtis */
+            stbtf->ibvf = 0;
+            wiilf (stbtf->ibvf < stbtf->nlfn + stbtf->ndist) {
                 for (;;) {
-                    here = state->lencode[BITS(state->lenbits)];
-                    if ((unsigned)(here.bits) <= bits) break;
+                    ifrf = stbtf->lfndodf[BITS(stbtf->lfnbits)];
+                    if ((unsignfd)(ifrf.bits) <= bits) brfbk;
                     PULLBYTE();
                 }
-                if (here.val < 16) {
-                    DROPBITS(here.bits);
-                    state->lens[state->have++] = here.val;
+                if (ifrf.vbl < 16) {
+                    DROPBITS(ifrf.bits);
+                    stbtf->lfns[stbtf->ibvf++] = ifrf.vbl;
                 }
-                else {
-                    if (here.val == 16) {
-                        NEEDBITS(here.bits + 2);
-                        DROPBITS(here.bits);
-                        if (state->have == 0) {
-                            strm->msg = (char *)"invalid bit length repeat";
-                            state->mode = BAD;
-                            break;
+                flsf {
+                    if (ifrf.vbl == 16) {
+                        NEEDBITS(ifrf.bits + 2);
+                        DROPBITS(ifrf.bits);
+                        if (stbtf->ibvf == 0) {
+                            strm->msg = (dibr *)"invblid bit lfngti rfpfbt";
+                            stbtf->modf = BAD;
+                            brfbk;
                         }
-                        len = (unsigned)(state->lens[state->have - 1]);
-                        copy = 3 + BITS(2);
+                        lfn = (unsignfd)(stbtf->lfns[stbtf->ibvf - 1]);
+                        dopy = 3 + BITS(2);
                         DROPBITS(2);
                     }
-                    else if (here.val == 17) {
-                        NEEDBITS(here.bits + 3);
-                        DROPBITS(here.bits);
-                        len = 0;
-                        copy = 3 + BITS(3);
+                    flsf if (ifrf.vbl == 17) {
+                        NEEDBITS(ifrf.bits + 3);
+                        DROPBITS(ifrf.bits);
+                        lfn = 0;
+                        dopy = 3 + BITS(3);
                         DROPBITS(3);
                     }
-                    else {
-                        NEEDBITS(here.bits + 7);
-                        DROPBITS(here.bits);
-                        len = 0;
-                        copy = 11 + BITS(7);
+                    flsf {
+                        NEEDBITS(ifrf.bits + 7);
+                        DROPBITS(ifrf.bits);
+                        lfn = 0;
+                        dopy = 11 + BITS(7);
                         DROPBITS(7);
                     }
-                    if (state->have + copy > state->nlen + state->ndist) {
-                        strm->msg = (char *)"invalid bit length repeat";
-                        state->mode = BAD;
-                        break;
+                    if (stbtf->ibvf + dopy > stbtf->nlfn + stbtf->ndist) {
+                        strm->msg = (dibr *)"invblid bit lfngti rfpfbt";
+                        stbtf->modf = BAD;
+                        brfbk;
                     }
-                    while (copy--)
-                        state->lens[state->have++] = (unsigned short)len;
+                    wiilf (dopy--)
+                        stbtf->lfns[stbtf->ibvf++] = (unsignfd siort)lfn;
                 }
             }
 
-            /* handle error breaks in while */
-            if (state->mode == BAD) break;
+            /* ibndlf frror brfbks in wiilf */
+            if (stbtf->modf == BAD) brfbk;
 
-            /* check for end-of-block code (better have one) */
-            if (state->lens[256] == 0) {
-                strm->msg = (char *)"invalid code -- missing end-of-block";
-                state->mode = BAD;
-                break;
+            /* difdk for fnd-of-blodk dodf (bfttfr ibvf onf) */
+            if (stbtf->lfns[256] == 0) {
+                strm->msg = (dibr *)"invblid dodf -- missing fnd-of-blodk";
+                stbtf->modf = BAD;
+                brfbk;
             }
 
-            /* build code tables -- note: do not change the lenbits or distbits
-               values here (9 and 6) without reading the comments in inftrees.h
-               concerning the ENOUGH constants, which depend on those values */
-            state->next = state->codes;
-            state->lencode = (code const FAR *)(state->next);
-            state->lenbits = 9;
-            ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
-                                &(state->lenbits), state->work);
-            if (ret) {
-                strm->msg = (char *)"invalid literal/lengths set";
-                state->mode = BAD;
-                break;
+            /* build dodf tbblfs -- notf: do not dibngf tif lfnbits or distbits
+               vblufs ifrf (9 bnd 6) witiout rfbding tif dommfnts in inftrffs.i
+               dondfrning tif ENOUGH donstbnts, wiidi dfpfnd on tiosf vblufs */
+            stbtf->nfxt = stbtf->dodfs;
+            stbtf->lfndodf = (dodf donst FAR *)(stbtf->nfxt);
+            stbtf->lfnbits = 9;
+            rft = inflbtf_tbblf(LENS, stbtf->lfns, stbtf->nlfn, &(stbtf->nfxt),
+                                &(stbtf->lfnbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dibr *)"invblid litfrbl/lfngtis sft";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            state->distcode = (code const FAR *)(state->next);
-            state->distbits = 6;
-            ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
-                            &(state->next), &(state->distbits), state->work);
-            if (ret) {
-                strm->msg = (char *)"invalid distances set";
-                state->mode = BAD;
-                break;
+            stbtf->distdodf = (dodf donst FAR *)(stbtf->nfxt);
+            stbtf->distbits = 6;
+            rft = inflbtf_tbblf(DISTS, stbtf->lfns + stbtf->nlfn, stbtf->ndist,
+                            &(stbtf->nfxt), &(stbtf->distbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dibr *)"invblid distbndfs sft";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            Tracev((stderr, "inflate:       codes ok\n"));
-            state->mode = LEN;
+            Trbdfv((stdfrr, "inflbtf:       dodfs ok\n"));
+            stbtf->modf = LEN;
 
-        case LEN:
-            /* use inflate_fast() if we have enough input and output */
-            if (have >= 6 && left >= 258) {
+        dbsf LEN:
+            /* usf inflbtf_fbst() if wf ibvf fnougi input bnd output */
+            if (ibvf >= 6 && lfft >= 258) {
                 RESTORE();
-                if (state->whave < state->wsize)
-                    state->whave = state->wsize - left;
-                inflate_fast(strm, state->wsize);
+                if (stbtf->wibvf < stbtf->wsizf)
+                    stbtf->wibvf = stbtf->wsizf - lfft;
+                inflbtf_fbst(strm, stbtf->wsizf);
                 LOAD();
-                break;
+                brfbk;
             }
 
-            /* get a literal, length, or end-of-block code */
+            /* gft b litfrbl, lfngti, or fnd-of-blodk dodf */
             for (;;) {
-                here = state->lencode[BITS(state->lenbits)];
-                if ((unsigned)(here.bits) <= bits) break;
+                ifrf = stbtf->lfndodf[BITS(stbtf->lfnbits)];
+                if ((unsignfd)(ifrf.bits) <= bits) brfbk;
                 PULLBYTE();
             }
-            if (here.op && (here.op & 0xf0) == 0) {
-                last = here;
+            if (ifrf.op && (ifrf.op & 0xf0) == 0) {
+                lbst = ifrf;
                 for (;;) {
-                    here = state->lencode[last.val +
-                            (BITS(last.bits + last.op) >> last.bits)];
-                    if ((unsigned)(last.bits + here.bits) <= bits) break;
+                    ifrf = stbtf->lfndodf[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsignfd)(lbst.bits + ifrf.bits) <= bits) brfbk;
                     PULLBYTE();
                 }
-                DROPBITS(last.bits);
+                DROPBITS(lbst.bits);
             }
-            DROPBITS(here.bits);
-            state->length = (unsigned)here.val;
+            DROPBITS(ifrf.bits);
+            stbtf->lfngti = (unsignfd)ifrf.vbl;
 
-            /* process literal */
-            if (here.op == 0) {
-                Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-                        "inflate:         literal '%c'\n" :
-                        "inflate:         literal 0x%02x\n", here.val));
+            /* prodfss litfrbl */
+            if (ifrf.op == 0) {
+                Trbdfvv((stdfrr, ifrf.vbl >= 0x20 && ifrf.vbl < 0x7f ?
+                        "inflbtf:         litfrbl '%d'\n" :
+                        "inflbtf:         litfrbl 0x%02x\n", ifrf.vbl));
                 ROOM();
-                *put++ = (unsigned char)(state->length);
-                left--;
-                state->mode = LEN;
-                break;
+                *put++ = (unsignfd dibr)(stbtf->lfngti);
+                lfft--;
+                stbtf->modf = LEN;
+                brfbk;
             }
 
-            /* process end of block */
-            if (here.op & 32) {
-                Tracevv((stderr, "inflate:         end of block\n"));
-                state->mode = TYPE;
-                break;
+            /* prodfss fnd of blodk */
+            if (ifrf.op & 32) {
+                Trbdfvv((stdfrr, "inflbtf:         fnd of blodk\n"));
+                stbtf->modf = TYPE;
+                brfbk;
             }
 
-            /* invalid code */
-            if (here.op & 64) {
-                strm->msg = (char *)"invalid literal/length code";
-                state->mode = BAD;
-                break;
+            /* invblid dodf */
+            if (ifrf.op & 64) {
+                strm->msg = (dibr *)"invblid litfrbl/lfngti dodf";
+                stbtf->modf = BAD;
+                brfbk;
             }
 
-            /* length code -- get extra bits, if any */
-            state->extra = (unsigned)(here.op) & 15;
-            if (state->extra != 0) {
-                NEEDBITS(state->extra);
-                state->length += BITS(state->extra);
-                DROPBITS(state->extra);
+            /* lfngti dodf -- gft fxtrb bits, if bny */
+            stbtf->fxtrb = (unsignfd)(ifrf.op) & 15;
+            if (stbtf->fxtrb != 0) {
+                NEEDBITS(stbtf->fxtrb);
+                stbtf->lfngti += BITS(stbtf->fxtrb);
+                DROPBITS(stbtf->fxtrb);
             }
-            Tracevv((stderr, "inflate:         length %u\n", state->length));
+            Trbdfvv((stdfrr, "inflbtf:         lfngti %u\n", stbtf->lfngti));
 
-            /* get distance code */
+            /* gft distbndf dodf */
             for (;;) {
-                here = state->distcode[BITS(state->distbits)];
-                if ((unsigned)(here.bits) <= bits) break;
+                ifrf = stbtf->distdodf[BITS(stbtf->distbits)];
+                if ((unsignfd)(ifrf.bits) <= bits) brfbk;
                 PULLBYTE();
             }
-            if ((here.op & 0xf0) == 0) {
-                last = here;
+            if ((ifrf.op & 0xf0) == 0) {
+                lbst = ifrf;
                 for (;;) {
-                    here = state->distcode[last.val +
-                            (BITS(last.bits + last.op) >> last.bits)];
-                    if ((unsigned)(last.bits + here.bits) <= bits) break;
+                    ifrf = stbtf->distdodf[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsignfd)(lbst.bits + ifrf.bits) <= bits) brfbk;
                     PULLBYTE();
                 }
-                DROPBITS(last.bits);
+                DROPBITS(lbst.bits);
             }
-            DROPBITS(here.bits);
-            if (here.op & 64) {
-                strm->msg = (char *)"invalid distance code";
-                state->mode = BAD;
-                break;
+            DROPBITS(ifrf.bits);
+            if (ifrf.op & 64) {
+                strm->msg = (dibr *)"invblid distbndf dodf";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            state->offset = (unsigned)here.val;
+            stbtf->offsft = (unsignfd)ifrf.vbl;
 
-            /* get distance extra bits, if any */
-            state->extra = (unsigned)(here.op) & 15;
-            if (state->extra != 0) {
-                NEEDBITS(state->extra);
-                state->offset += BITS(state->extra);
-                DROPBITS(state->extra);
+            /* gft distbndf fxtrb bits, if bny */
+            stbtf->fxtrb = (unsignfd)(ifrf.op) & 15;
+            if (stbtf->fxtrb != 0) {
+                NEEDBITS(stbtf->fxtrb);
+                stbtf->offsft += BITS(stbtf->fxtrb);
+                DROPBITS(stbtf->fxtrb);
             }
-            if (state->offset > state->wsize - (state->whave < state->wsize ?
-                                                left : 0)) {
-                strm->msg = (char *)"invalid distance too far back";
-                state->mode = BAD;
-                break;
+            if (stbtf->offsft > stbtf->wsizf - (stbtf->wibvf < stbtf->wsizf ?
+                                                lfft : 0)) {
+                strm->msg = (dibr *)"invblid distbndf too fbr bbdk";
+                stbtf->modf = BAD;
+                brfbk;
             }
-            Tracevv((stderr, "inflate:         distance %u\n", state->offset));
+            Trbdfvv((stdfrr, "inflbtf:         distbndf %u\n", stbtf->offsft));
 
-            /* copy match from window to output */
+            /* dopy mbtdi from window to output */
             do {
                 ROOM();
-                copy = state->wsize - state->offset;
-                if (copy < left) {
-                    from = put + copy;
-                    copy = left - copy;
+                dopy = stbtf->wsizf - stbtf->offsft;
+                if (dopy < lfft) {
+                    from = put + dopy;
+                    dopy = lfft - dopy;
                 }
-                else {
-                    from = put - state->offset;
-                    copy = left;
+                flsf {
+                    from = put - stbtf->offsft;
+                    dopy = lfft;
                 }
-                if (copy > state->length) copy = state->length;
-                state->length -= copy;
-                left -= copy;
+                if (dopy > stbtf->lfngti) dopy = stbtf->lfngti;
+                stbtf->lfngti -= dopy;
+                lfft -= dopy;
                 do {
                     *put++ = *from++;
-                } while (--copy);
-            } while (state->length != 0);
-            break;
+                } wiilf (--dopy);
+            } wiilf (stbtf->lfngti != 0);
+            brfbk;
 
-        case DONE:
-            /* inflate stream terminated properly -- write leftover output */
-            ret = Z_STREAM_END;
-            if (left < state->wsize) {
-                if (out(out_desc, state->window, state->wsize - left))
-                    ret = Z_BUF_ERROR;
+        dbsf DONE:
+            /* inflbtf strfbm tfrminbtfd propfrly -- writf lfftovfr output */
+            rft = Z_STREAM_END;
+            if (lfft < stbtf->wsizf) {
+                if (out(out_dfsd, stbtf->window, stbtf->wsizf - lfft))
+                    rft = Z_BUF_ERROR;
             }
-            goto inf_leave;
+            goto inf_lfbvf;
 
-        case BAD:
-            ret = Z_DATA_ERROR;
-            goto inf_leave;
+        dbsf BAD:
+            rft = Z_DATA_ERROR;
+            goto inf_lfbvf;
 
-        default:                /* can't happen, but makes compilers happy */
-            ret = Z_STREAM_ERROR;
-            goto inf_leave;
+        dffbult:                /* dbn't ibppfn, but mbkfs dompilfrs ibppy */
+            rft = Z_STREAM_ERROR;
+            goto inf_lfbvf;
         }
 
-    /* Return unused input */
-  inf_leave:
-    strm->next_in = next;
-    strm->avail_in = have;
-    return ret;
+    /* Rfturn unusfd input */
+  inf_lfbvf:
+    strm->nfxt_in = nfxt;
+    strm->bvbil_in = ibvf;
+    rfturn rft;
 }
 
-int ZEXPORT inflateBackEnd(strm)
-z_streamp strm;
+int ZEXPORT inflbtfBbdkEnd(strm)
+z_strfbmp strm;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL || strm->zfree == (free_func)0)
-        return Z_STREAM_ERROR;
-    ZFREE(strm, strm->state);
-    strm->state = Z_NULL;
-    Tracev((stderr, "inflate: end\n"));
-    return Z_OK;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL || strm->zfrff == (frff_fund)0)
+        rfturn Z_STREAM_ERROR;
+    ZFREE(strm, strm->stbtf);
+    strm->stbtf = Z_NULL;
+    Trbdfv((stdfrr, "inflbtf: fnd\n"));
+    rfturn Z_OK;
 }

@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.decoder;
+pbdkbgf dom.sun.bfbns.dfdodfr;
 
 /**
- * The base class for element handlers.
+ * Tif bbsf dlbss for flfmfnt ibndlfrs.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  *
- * @see DocumentHandler
+ * @sff DodumfntHbndlfr
  */
-public abstract class ElementHandler {
-    private DocumentHandler owner;
-    private ElementHandler parent;
+publid bbstrbdt dlbss ElfmfntHbndlfr {
+    privbtf DodumfntHbndlfr ownfr;
+    privbtf ElfmfntHbndlfr pbrfnt;
 
-    private String id;
+    privbtf String id;
 
     /**
-     * Returns the document handler that creates this element handler.
+     * Rfturns tif dodumfnt ibndlfr tibt drfbtfs tiis flfmfnt ibndlfr.
      *
-     * @return the owner document handler
+     * @rfturn tif ownfr dodumfnt ibndlfr
      */
-    public final DocumentHandler getOwner() {
-        return this.owner;
+    publid finbl DodumfntHbndlfr gftOwnfr() {
+        rfturn tiis.ownfr;
     }
 
     /**
-     * Sets the document handler that creates this element handler.
-     * The owner document handler should be set after instantiation.
-     * Such approach is used to simplify the extensibility.
+     * Sfts tif dodumfnt ibndlfr tibt drfbtfs tiis flfmfnt ibndlfr.
+     * Tif ownfr dodumfnt ibndlfr siould bf sft bftfr instbntibtion.
+     * Sudi bpprobdi is usfd to simplify tif fxtfnsibility.
      *
-     * @param owner  the owner document handler
-     * @see DocumentHandler#startElement
+     * @pbrbm ownfr  tif ownfr dodumfnt ibndlfr
+     * @sff DodumfntHbndlfr#stbrtElfmfnt
      */
-    final void setOwner(DocumentHandler owner) {
-        if (owner == null) {
-            throw new IllegalArgumentException("Every element should have owner");
+    finbl void sftOwnfr(DodumfntHbndlfr ownfr) {
+        if (ownfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Evfry flfmfnt siould ibvf ownfr");
         }
-        this.owner = owner;
+        tiis.ownfr = ownfr;
     }
 
     /**
-     * Returns the element handler that contains this one.
+     * Rfturns tif flfmfnt ibndlfr tibt dontbins tiis onf.
      *
-     * @return the parent element handler
+     * @rfturn tif pbrfnt flfmfnt ibndlfr
      */
-    public final ElementHandler getParent() {
-        return this.parent;
+    publid finbl ElfmfntHbndlfr gftPbrfnt() {
+        rfturn tiis.pbrfnt;
     }
 
     /**
-     * Sets the element handler that contains this one.
-     * The parent element handler should be set after instantiation.
-     * Such approach is used to simplify the extensibility.
+     * Sfts tif flfmfnt ibndlfr tibt dontbins tiis onf.
+     * Tif pbrfnt flfmfnt ibndlfr siould bf sft bftfr instbntibtion.
+     * Sudi bpprobdi is usfd to simplify tif fxtfnsibility.
      *
-     * @param parent  the parent element handler
-     * @see DocumentHandler#startElement
+     * @pbrbm pbrfnt  tif pbrfnt flfmfnt ibndlfr
+     * @sff DodumfntHbndlfr#stbrtElfmfnt
      */
-    final void setParent(ElementHandler parent) {
-        this.parent = parent;
+    finbl void sftPbrfnt(ElfmfntHbndlfr pbrfnt) {
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Returns the value of the variable with specified identifier.
+     * Rfturns tif vbluf of tif vbribblf witi spfdififd idfntififr.
      *
-     * @param id  the identifier
-     * @return the value of the variable
+     * @pbrbm id  tif idfntififr
+     * @rfturn tif vbluf of tif vbribblf
      */
-    protected final Object getVariable(String id) {
-        if (id.equals(this.id)) {
-            ValueObject value = getValueObject();
-            if (value.isVoid()) {
-                throw new IllegalStateException("The element does not return value");
+    protfdtfd finbl Objfdt gftVbribblf(String id) {
+        if (id.fqubls(tiis.id)) {
+            VblufObjfdt vbluf = gftVblufObjfdt();
+            if (vbluf.isVoid()) {
+                tirow nfw IllfgblStbtfExdfption("Tif flfmfnt dofs not rfturn vbluf");
             }
-            return value.getValue();
+            rfturn vbluf.gftVbluf();
         }
-        return (this.parent != null)
-                ? this.parent.getVariable(id)
-                : this.owner.getVariable(id);
+        rfturn (tiis.pbrfnt != null)
+                ? tiis.pbrfnt.gftVbribblf(id)
+                : tiis.ownfr.gftVbribblf(id);
     }
 
     /**
-     * Returns the value of the parent element.
+     * Rfturns tif vbluf of tif pbrfnt flfmfnt.
      *
-     * @return the value of the parent element
+     * @rfturn tif vbluf of tif pbrfnt flfmfnt
      */
-    protected Object getContextBean() {
-        if (this.parent != null) {
-            ValueObject value = this.parent.getValueObject();
-            if (!value.isVoid()) {
-                return value.getValue();
+    protfdtfd Objfdt gftContfxtBfbn() {
+        if (tiis.pbrfnt != null) {
+            VblufObjfdt vbluf = tiis.pbrfnt.gftVblufObjfdt();
+            if (!vbluf.isVoid()) {
+                rfturn vbluf.gftVbluf();
             }
-            throw new IllegalStateException("The outer element does not return value");
-        } else {
-            Object value = this.owner.getOwner();
-            if (value != null) {
-                return value;
+            tirow nfw IllfgblStbtfExdfption("Tif outfr flfmfnt dofs not rfturn vbluf");
+        } flsf {
+            Objfdt vbluf = tiis.ownfr.gftOwnfr();
+            if (vbluf != null) {
+                rfturn vbluf;
             }
-            throw new IllegalStateException("The topmost element does not have context");
+            tirow nfw IllfgblStbtfExdfption("Tif topmost flfmfnt dofs not ibvf dontfxt");
         }
     }
 
     /**
-     * Parses attributes of the element.
-     * By default, the following attribute is supported:
+     * Pbrsfs bttributfs of tif flfmfnt.
+     * By dffbult, tif following bttributf is supportfd:
      * <dl>
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>tif idfntififr of tif vbribblf tibt is intfndfd to storf tif rfsult
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbmf   tif bttributf nbmf
+     * @pbrbm vbluf  tif bttributf vbluf
      */
-    public void addAttribute(String name, String value) {
-        if (name.equals("id")) { // NON-NLS: the attribute name
-            this.id = value;
-        } else {
-            throw new IllegalArgumentException("Unsupported attribute: " + name);
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("id")) { // NON-NLS: tif bttributf nbmf
+            tiis.id = vbluf;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bttributf: " + nbmf);
         }
     }
 
     /**
-     * This method is called before parsing of the element's body.
-     * All attributes are parsed at this point.
-     * By default, do nothing.
+     * Tiis mftiod is dbllfd bfforf pbrsing of tif flfmfnt's body.
+     * All bttributfs brf pbrsfd bt tiis point.
+     * By dffbult, do notiing.
      */
-    public void startElement() {
+    publid void stbrtElfmfnt() {
     }
 
     /**
-     * This method is called after parsing of the element's body.
-     * By default, it calculates the value of this element.
-     * The following tasks are executing for any non-void value:
+     * Tiis mftiod is dbllfd bftfr pbrsing of tif flfmfnt's body.
+     * By dffbult, it dbldulbtfs tif vbluf of tiis flfmfnt.
+     * Tif following tbsks brf fxfduting for bny non-void vbluf:
      * <ol>
-     * <li>If the {@code id} attribute is set
-     * the value of the variable with the specified identifier
-     * is set to the value of this element.</li>
-     * <li>This element is used as an argument of parent element if it is possible.</li>
+     * <li>If tif {@dodf id} bttributf is sft
+     * tif vbluf of tif vbribblf witi tif spfdififd idfntififr
+     * is sft to tif vbluf of tiis flfmfnt.</li>
+     * <li>Tiis flfmfnt is usfd bs bn brgumfnt of pbrfnt flfmfnt if it is possiblf.</li>
      * </ol>
      *
-     * @see #isArgument
+     * @sff #isArgumfnt
      */
-    public void endElement() {
-        // do nothing if no value returned
-        ValueObject value = getValueObject();
-        if (!value.isVoid()) {
-            if (this.id != null) {
-                this.owner.setVariable(this.id, value.getValue());
+    publid void fndElfmfnt() {
+        // do notiing if no vbluf rfturnfd
+        VblufObjfdt vbluf = gftVblufObjfdt();
+        if (!vbluf.isVoid()) {
+            if (tiis.id != null) {
+                tiis.ownfr.sftVbribblf(tiis.id, vbluf.gftVbluf());
             }
-            if (isArgument()) {
-                if (this.parent != null) {
-                    this.parent.addArgument(value.getValue());
-                } else {
-                    this.owner.addObject(value.getValue());
+            if (isArgumfnt()) {
+                if (tiis.pbrfnt != null) {
+                    tiis.pbrfnt.bddArgumfnt(vbluf.gftVbluf());
+                } flsf {
+                    tiis.ownfr.bddObjfdt(vbluf.gftVbluf());
                 }
             }
         }
     }
 
     /**
-     * Adds the character that contained in this element.
-     * By default, only whitespaces are acceptable.
+     * Adds tif dibrbdtfr tibt dontbinfd in tiis flfmfnt.
+     * By dffbult, only wiitfspbdfs brf bddfptbblf.
      *
-     * @param ch  the character
+     * @pbrbm di  tif dibrbdtfr
      */
-    public void addCharacter(char ch) {
-        if ((ch != ' ') && (ch != '\n') && (ch != '\t') && (ch != '\r')) {
-            throw new IllegalStateException("Illegal character with code " + (int) ch);
+    publid void bddCibrbdtfr(dibr di) {
+        if ((di != ' ') && (di != '\n') && (di != '\t') && (di != '\r')) {
+            tirow nfw IllfgblStbtfExdfption("Illfgbl dibrbdtfr witi dodf " + (int) di);
         }
     }
 
     /**
-     * Adds the argument that is used to calculate the value of this element.
-     * By default, no arguments are acceptable.
+     * Adds tif brgumfnt tibt is usfd to dbldulbtf tif vbluf of tiis flfmfnt.
+     * By dffbult, no brgumfnts brf bddfptbblf.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgumfnt  tif vbluf of tif flfmfnt tibt dontbinfd in tiis onf
      */
-    protected void addArgument(Object argument) {
-        throw new IllegalStateException("Could not add argument to simple element");
+    protfdtfd void bddArgumfnt(Objfdt brgumfnt) {
+        tirow nfw IllfgblStbtfExdfption("Could not bdd brgumfnt to simplf flfmfnt");
     }
 
     /**
-     * Tests whether the value of this element can be used
-     * as an argument of the element that contained in this one.
+     * Tfsts wiftifr tif vbluf of tiis flfmfnt dbn bf usfd
+     * bs bn brgumfnt of tif flfmfnt tibt dontbinfd in tiis onf.
      *
-     * @return {@code true} if the value of this element can be used
-     *         as an argument of the element that contained in this one,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif vbluf of tiis flfmfnt dbn bf usfd
+     *         bs bn brgumfnt of tif flfmfnt tibt dontbinfd in tiis onf,
+     *         {@dodf fblsf} otifrwisf
      */
-    protected boolean isArgument() {
-        return this.id == null;
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn tiis.id == null;
     }
 
     /**
-     * Returns the value of this element.
+     * Rfturns tif vbluf of tiis flfmfnt.
      *
-     * @return the value of this element
+     * @rfturn tif vbluf of tiis flfmfnt
      */
-    protected abstract ValueObject getValueObject();
+    protfdtfd bbstrbdt VblufObjfdt gftVblufObjfdt();
 }

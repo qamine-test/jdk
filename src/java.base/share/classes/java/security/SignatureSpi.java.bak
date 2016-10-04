@@ -1,390 +1,390 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.*;
-import java.io.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.util.*;
+import jbvb.io.*;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import sun.security.jca.JCAUtil;
+import sun.sfdurity.jdb.JCAUtil;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code Signature} class, which is used to provide the
- * functionality of a digital signature algorithm. Digital signatures are used
- * for authentication and integrity assurance of digital data.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf Signbturf} dlbss, wiidi is usfd to providf tif
+ * fundtionblity of b digitbl signbturf blgoritim. Digitbl signbturfs brf usfd
+ * for butifntidbtion bnd intfgrity bssurbndf of digitbl dbtb.
  *.
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular signature algorithm.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr signbturf blgoritim.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
  *
- * @see Signature
+ * @sff Signbturf
  */
 
-public abstract class SignatureSpi {
+publid bbstrbdt dlbss SignbturfSpi {
 
     /**
-     * Application-specified source of randomness.
+     * Applidbtion-spfdififd sourdf of rbndomnfss.
      */
-    protected SecureRandom appRandom = null;
+    protfdtfd SfdurfRbndom bppRbndom = null;
 
     /**
-     * Initializes this signature object with the specified
-     * public key for verification operations.
+     * Initiblizfs tiis signbturf objfdt witi tif spfdififd
+     * publid kfy for vfrifidbtion opfrbtions.
      *
-     * @param publicKey the public key of the identity whose signature is
-     * going to be verified.
+     * @pbrbm publidKfy tif publid kfy of tif idfntity wiosf signbturf is
+     * going to bf vfrififd.
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @fxdfption InvblidKfyExdfption if tif kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
      */
-    protected abstract void engineInitVerify(PublicKey publicKey)
-        throws InvalidKeyException;
+    protfdtfd bbstrbdt void fnginfInitVfrify(PublidKfy publidKfy)
+        tirows InvblidKfyExdfption;
 
     /**
-     * Initializes this signature object with the specified
-     * private key for signing operations.
+     * Initiblizfs tiis signbturf objfdt witi tif spfdififd
+     * privbtf kfy for signing opfrbtions.
      *
-     * @param privateKey the private key of the identity whose signature
-     * will be generated.
+     * @pbrbm privbtfKfy tif privbtf kfy of tif idfntity wiosf signbturf
+     * will bf gfnfrbtfd.
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @fxdfption InvblidKfyExdfption if tif kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
      */
-    protected abstract void engineInitSign(PrivateKey privateKey)
-        throws InvalidKeyException;
+    protfdtfd bbstrbdt void fnginfInitSign(PrivbtfKfy privbtfKfy)
+        tirows InvblidKfyExdfption;
 
     /**
-     * Initializes this signature object with the specified
-     * private key and source of randomness for signing operations.
+     * Initiblizfs tiis signbturf objfdt witi tif spfdififd
+     * privbtf kfy bnd sourdf of rbndomnfss for signing opfrbtions.
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class. (For backwards compatibility, it cannot be abstract.)
+     * <p>Tiis dondrftf mftiod ibs bffn bddfd to tiis prfviously-dffinfd
+     * bbstrbdt dlbss. (For bbdkwbrds dompbtibility, it dbnnot bf bbstrbdt.)
      *
-     * @param privateKey the private key of the identity whose signature
-     * will be generated.
-     * @param random the source of randomness
+     * @pbrbm privbtfKfy tif privbtf kfy of tif idfntity wiosf signbturf
+     * will bf gfnfrbtfd.
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @fxdfption InvblidKfyExdfption if tif kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
      */
-    protected void engineInitSign(PrivateKey privateKey,
-                                  SecureRandom random)
-        throws InvalidKeyException {
-            this.appRandom = random;
-            engineInitSign(privateKey);
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy,
+                                  SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption {
+            tiis.bppRbndom = rbndom;
+            fnginfInitSign(privbtfKfy);
     }
 
     /**
-     * Updates the data to be signed or verified
-     * using the specified byte.
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * using tif spfdififd bytf.
      *
-     * @param b the byte to use for the update.
+     * @pbrbm b tif bytf to usf for tif updbtf.
      *
-     * @exception SignatureException if the engine is not initialized
-     * properly.
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly.
      */
-    protected abstract void engineUpdate(byte b) throws SignatureException;
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf b) tirows SignbturfExdfption;
 
     /**
-     * Updates the data to be signed or verified, using the
-     * specified array of bytes, starting at the specified offset.
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
      *
-     * @param b the array of bytes
-     * @param off the offset to start from in the array of bytes
-     * @param len the number of bytes to use, starting at offset
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
      *
-     * @exception SignatureException if the engine is not initialized
-     * properly
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly
      */
-    protected abstract void engineUpdate(byte[] b, int off, int len)
-        throws SignatureException;
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        tirows SignbturfExdfption;
 
     /**
-     * Updates the data to be signed or verified using the specified
-     * ByteBuffer. Processes the {@code data.remaining()} bytes
-     * starting at at {@code data.position()}.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Updbtfs tif dbtb to bf signfd or vfrififd using tif spfdififd
+     * BytfBufffr. Prodfssfs tif {@dodf dbtb.rfmbining()} bytfs
+     * stbrting bt bt {@dodf dbtb.position()}.
+     * Upon rfturn, tif bufffr's position will bf fqubl to its limit;
+     * its limit will not ibvf dibngfd.
      *
-     * @param input the ByteBuffer
-     * @since 1.5
+     * @pbrbm input tif BytfBufffr
+     * @sindf 1.5
      */
-    protected void engineUpdate(ByteBuffer input) {
-        if (input.hasRemaining() == false) {
-            return;
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (input.ibsRfmbining() == fblsf) {
+            rfturn;
         }
         try {
-            if (input.hasArray()) {
-                byte[] b = input.array();
-                int ofs = input.arrayOffset();
+            if (input.ibsArrby()) {
+                bytf[] b = input.brrby();
+                int ofs = input.brrbyOffsft();
                 int pos = input.position();
                 int lim = input.limit();
-                engineUpdate(b, ofs + pos, lim - pos);
+                fnginfUpdbtf(b, ofs + pos, lim - pos);
                 input.position(lim);
-            } else {
-                int len = input.remaining();
-                byte[] b = new byte[JCAUtil.getTempArraySize(len)];
-                while (len > 0) {
-                    int chunk = Math.min(len, b.length);
-                    input.get(b, 0, chunk);
-                    engineUpdate(b, 0, chunk);
-                    len -= chunk;
+            } flsf {
+                int lfn = input.rfmbining();
+                bytf[] b = nfw bytf[JCAUtil.gftTfmpArrbySizf(lfn)];
+                wiilf (lfn > 0) {
+                    int diunk = Mbti.min(lfn, b.lfngti);
+                    input.gft(b, 0, diunk);
+                    fnginfUpdbtf(b, 0, diunk);
+                    lfn -= diunk;
                 }
             }
-        } catch (SignatureException e) {
-            // is specified to only occur when the engine is not initialized
-            // this case should never occur as it is caught in Signature.java
-            throw new ProviderException("update() failed", e);
+        } dbtdi (SignbturfExdfption f) {
+            // is spfdififd to only oddur wifn tif fnginf is not initiblizfd
+            // tiis dbsf siould nfvfr oddur bs it is dbugit in Signbturf.jbvb
+            tirow nfw ProvidfrExdfption("updbtf() fbilfd", f);
         }
     }
 
     /**
-     * Returns the signature bytes of all the data
-     * updated so far.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * updbtfd so fbr.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
      *
-     * @return the signature bytes of the signing operation's result.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly or if this signature algorithm is unable to
-     * process the input data provided.
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd.
      */
-    protected abstract byte[] engineSign() throws SignatureException;
+    protfdtfd bbstrbdt bytf[] fnginfSign() tirows SignbturfExdfption;
 
     /**
-     * Finishes this signature operation and stores the resulting signature
-     * bytes in the provided buffer {@code outbuf}, starting at
-     * {@code offset}.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Finisifs tiis signbturf opfrbtion bnd storfs tif rfsulting signbturf
+     * bytfs in tif providfd bufffr {@dodf outbuf}, stbrting bt
+     * {@dodf offsft}.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
      *
-     * <p>The signature implementation is reset to its initial state
-     * (the state it was in after a call to one of the
-     * {@code engineInitSign} methods)
-     * and can be reused to generate further signatures with the same private
-     * key.
+     * <p>Tif signbturf implfmfntbtion is rfsft to its initibl stbtf
+     * (tif stbtf it wbs in bftfr b dbll to onf of tif
+     * {@dodf fnginfInitSign} mftiods)
+     * bnd dbn bf rfusfd to gfnfrbtf furtifr signbturfs witi tif sbmf privbtf
+     * kfy.
      *
-     * This method should be abstract, but we leave it concrete for
-     * binary compatibility.  Knowledgeable providers should override this
-     * method.
+     * Tiis mftiod siould bf bbstrbdt, but wf lfbvf it dondrftf for
+     * binbry dompbtibility.  Knowlfdgfbblf providfrs siould ovfrridf tiis
+     * mftiod.
      *
-     * @param outbuf buffer for the signature result.
+     * @pbrbm outbuf bufffr for tif signbturf rfsult.
      *
-     * @param offset offset into {@code outbuf} where the signature is
-     * stored.
+     * @pbrbm offsft offsft into {@dodf outbuf} wifrf tif signbturf is
+     * storfd.
      *
-     * @param len number of bytes within {@code outbuf} allotted for the
-     * signature.
-     * Both this default implementation and the SUN provider do not
-     * return partial digests. If the value of this parameter is less
-     * than the actual signature length, this method will throw a
-     * SignatureException.
-     * This parameter is ignored if its value is greater than or equal to
-     * the actual signature length.
+     * @pbrbm lfn numbfr of bytfs witiin {@dodf outbuf} bllottfd for tif
+     * signbturf.
+     * Boti tiis dffbult implfmfntbtion bnd tif SUN providfr do not
+     * rfturn pbrtibl digfsts. If tif vbluf of tiis pbrbmftfr is lfss
+     * tibn tif bdtubl signbturf lfngti, tiis mftiod will tirow b
+     * SignbturfExdfption.
+     * Tiis pbrbmftfr is ignorfd if its vbluf is grfbtfr tibn or fqubl to
+     * tif bdtubl signbturf lfngti.
      *
-     * @return the number of bytes placed into {@code outbuf}
+     * @rfturn tif numbfr of bytfs plbdfd into {@dodf outbuf}
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, if this signature algorithm is unable to
-     * process the input data provided, or if {@code len} is less
-     * than the actual signature length.
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, or if {@dodf lfn} is lfss
+     * tibn tif bdtubl signbturf lfngti.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    protected int engineSign(byte[] outbuf, int offset, int len)
-                        throws SignatureException {
-        byte[] sig = engineSign();
-        if (len < sig.length) {
-                throw new SignatureException
-                    ("partial signatures not returned");
+    protfdtfd int fnginfSign(bytf[] outbuf, int offsft, int lfn)
+                        tirows SignbturfExdfption {
+        bytf[] sig = fnginfSign();
+        if (lfn < sig.lfngti) {
+                tirow nfw SignbturfExdfption
+                    ("pbrtibl signbturfs not rfturnfd");
         }
-        if (outbuf.length - offset < sig.length) {
-                throw new SignatureException
-                    ("insufficient space in the output buffer to store the "
-                     + "signature");
+        if (outbuf.lfngti - offsft < sig.lfngti) {
+                tirow nfw SignbturfExdfption
+                    ("insuffidifnt spbdf in tif output bufffr to storf tif "
+                     + "signbturf");
         }
-        System.arraycopy(sig, 0, outbuf, offset, sig.length);
-        return sig.length;
+        Systfm.brrbydopy(sig, 0, outbuf, offsft, sig.lfngti);
+        rfturn sig.lfngti;
     }
 
     /**
-     * Verifies the passed-in signature.
+     * Vfrififs tif pbssfd-in signbturf.
      *
-     * @param sigBytes the signature bytes to be verified.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
      *
-     * @return true if the signature was verified, false if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
      */
-    protected abstract boolean engineVerify(byte[] sigBytes)
-        throws SignatureException;
+    protfdtfd bbstrbdt boolfbn fnginfVfrify(bytf[] sigBytfs)
+        tirows SignbturfExdfption;
 
     /**
-     * Verifies the passed-in signature in the specified array
-     * of bytes, starting at the specified offset.
+     * Vfrififs tif pbssfd-in signbturf in tif spfdififd brrby
+     * of bytfs, stbrting bt tif spfdififd offsft.
      *
-     * <p> Note: Subclasses should overwrite the default implementation.
+     * <p> Notf: Subdlbssfs siould ovfrwritf tif dffbult implfmfntbtion.
      *
      *
-     * @param sigBytes the signature bytes to be verified.
-     * @param offset the offset to start from in the array of bytes.
-     * @param length the number of bytes to use, starting at offset.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     * @pbrbm offsft tif offsft to stbrt from in tif brrby of bytfs.
+     * @pbrbm lfngti tif numbfr of bytfs to usf, stbrting bt offsft.
      *
-     * @return true if the signature was verified, false if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
-     * @since 1.4
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
+     * @sindf 1.4
      */
-    protected boolean engineVerify(byte[] sigBytes, int offset, int length)
-        throws SignatureException {
-        byte[] sigBytesCopy = new byte[length];
-        System.arraycopy(sigBytes, offset, sigBytesCopy, 0, length);
-        return engineVerify(sigBytesCopy);
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs, int offsft, int lfngti)
+        tirows SignbturfExdfption {
+        bytf[] sigBytfsCopy = nfw bytf[lfngti];
+        Systfm.brrbydopy(sigBytfs, offsft, sigBytfsCopy, 0, lfngti);
+        rfturn fnginfVfrify(sigBytfsCopy);
     }
 
     /**
-     * Sets the specified algorithm parameter to the specified
-     * value. This method supplies a general-purpose mechanism through
-     * which it is possible to set the various parameters of this object.
-     * A parameter may be any settable parameter for the algorithm, such as
-     * a parameter size, or a source of random bits for signature generation
-     * (if appropriate), or an indication of whether or not to perform
-     * a specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
      *
-     * @param param the string identifier of the parameter.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
      *
-     * @param value the parameter value.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
      *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this signature algorithm engine,
-     * the parameter is already set
-     * and cannot be set again, a security exception occurs, and so on.
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * tif pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
      *
-     * @deprecated Replaced by {@link
-     * #engineSetParameter(java.security.spec.AlgorithmParameterSpec)
-     * engineSetParameter}.
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * fnginfSftPbrbmftfr}.
      */
-    @Deprecated
-    protected abstract void engineSetParameter(String param, Object value)
-        throws InvalidParameterException;
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+        tirows InvblidPbrbmftfrExdfption;
 
     /**
-     * <p>This method is overridden by providers to initialize
-     * this signature engine with the specified parameter set.
+     * <p>Tiis mftiod is ovfrriddfn by providfrs to initiblizf
+     * tiis signbturf fnginf witi tif spfdififd pbrbmftfr sft.
      *
-     * @param params the parameters
+     * @pbrbm pbrbms tif pbrbmftfrs
      *
-     * @exception UnsupportedOperationException if this method is not
-     * overridden by a provider
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis mftiod is not
+     * ovfrriddfn by b providfr
      *
-     * @exception InvalidAlgorithmParameterException if this method is
-     * overridden by a provider and the given parameters
-     * are inappropriate for this signature engine
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tiis mftiod is
+     * ovfrriddfn by b providfr bnd tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis signbturf fnginf
      */
-    protected void engineSetParameter(AlgorithmParameterSpec params)
-        throws InvalidAlgorithmParameterException {
-            throw new UnsupportedOperationException();
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * <p>This method is overridden by providers to return the
-     * parameters used with this signature engine, or null
-     * if this signature engine does not use any parameters.
+     * <p>Tiis mftiod is ovfrriddfn by providfrs to rfturn tif
+     * pbrbmftfrs usfd witi tiis signbturf fnginf, or null
+     * if tiis signbturf fnginf dofs not usf bny pbrbmftfrs.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this signature engine, or may contain a combination of default and
-     * randomly generated parameter values used by the underlying signature
-     * implementation if this signature engine requires algorithm parameters
-     * but was not initialized with any.
+     * <p>Tif rfturnfd pbrbmftfrs mby bf tif sbmf tibt wfrf usfd to initiblizf
+     * tiis signbturf fnginf, or mby dontbin b dombinbtion of dffbult bnd
+     * rbndomly gfnfrbtfd pbrbmftfr vblufs usfd by tif undfrlying signbturf
+     * implfmfntbtion if tiis signbturf fnginf rfquirfs blgoritim pbrbmftfrs
+     * but wbs not initiblizfd witi bny.
      *
-     * @return the parameters used with this signature engine, or null if this
-     * signature engine does not use any parameters
+     * @rfturn tif pbrbmftfrs usfd witi tiis signbturf fnginf, or null if tiis
+     * signbturf fnginf dofs not usf bny pbrbmftfrs
      *
-     * @exception UnsupportedOperationException if this method is
-     * not overridden by a provider
-     * @since 1.4
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis mftiod is
+     * not ovfrriddfn by b providfr
+     * @sindf 1.4
      */
-    protected AlgorithmParameters engineGetParameters() {
-        throw new UnsupportedOperationException();
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Gets the value of the specified algorithm parameter.
-     * This method supplies a general-purpose mechanism through which it
-     * is possible to get the various parameters of this object. A parameter
-     * may be any settable parameter for the algorithm, such as a parameter
-     * size, or  a source of random bits for signature generation (if
-     * appropriate), or an indication of whether or not to perform a
-     * specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
      *
-     * @param param the string name of the parameter.
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
      *
-     * @return the object that represents the parameter value, or null if
-     * there is none.
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * tifrf is nonf.
      *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this engine, or another exception occurs while
-     * trying to get this parameter.
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * trying to gft tiis pbrbmftfr.
      *
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    protected abstract Object engineGetParameter(String param)
-        throws InvalidParameterException;
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt Objfdt fnginfGftPbrbmftfr(String pbrbm)
+        tirows InvblidPbrbmftfrExdfption;
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Rfturns b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @return a clone if the implementation is cloneable.
+     * @rfturn b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support {@code Cloneable}.
+     * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd
+     * on bn implfmfntbtion tibt dofs not support {@dodf Clonfbblf}.
      */
-    public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
-            return super.clone();
-        } else {
-            throw new CloneNotSupportedException();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        if (tiis instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            tirow nfw ClonfNotSupportfdExdfption();
         }
     }
 }

@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+import jbvb.sql.SQLExdfption;
+import jbvb.io.Rfbdfr;
+
+import jbvbx.sql.RowSftWritfr;
+import jbvbx.sql.rowsft.*;
+import jbvb.sql.Sbvfpoint;
+
+/**
+ * A spfdiblizfd intfrfbdf thbt fbdilitbtfs bn fxtfnsion of thf stbndbrd
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss so thbt it hbs finfr grbinfd
+ * trbnsbdtion dontrol.
+ * <p>
+ * If onf or morf disdonnfdtfd <dodf>RowSft</dodf> objfdts brf pbrtidipbting
+ * in b globbl trbnsbdtion, thfy mby wish to doordinbtf thfir syndhronizbtion
+ * dommits to prfsfrvf dbtb intfgrity bnd rfdudf thf numbfr of
+ * syndhronizbtion fxdfptions. If this is thf dbsf, bn bpplidbtion should sft
+ * thf <dodf>CbdhfdRowSft</dodf> donstbnt <dodf>COMMIT_ON_ACCEPT_CHANGES</dodf>
+ * to <dodf>fblsf</dodf> bnd usf thf <dodf>dommit</dodf> bnd <dodf>rollbbdk</dodf>
+ * mfthods dffinfd in this intfrfbdf to mbnbgf trbnsbdtion boundbrifs.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf TrbnsbdtionblWritfr fxtfnds RowSftWritfr {
+
+    /**
+     * Mbkfs pfrmbnfnt bll dhbngfs thbt hbvf bffn pfrformfd by thf
+     * <dodf>bddfptChbngfs</dodf> mfthod sindf thf lbst dbll to fithfr thf
+     * <dodf>dommit</dodf> or <dodf>rollbbdk</dodf> mfthods.
+     * This mfthod should bf usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @throws SQLExdfption  if b dbtbbbsf bddfss frror oddurs or thf
+     *         <dodf>Connfdtion</dodf> objfdt within this <dodf>CbdhfdRowSft</dodf>
+     *         objfdt is in buto-dommit modf
+     */
+    publid void dommit() throws SQLExdfption;
+
+    /**
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion. This mfthod should bf
+     * usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf <dodf>Connfdtion</dodf>
+     *         objfdt within this <dodf>CbdhfdRowSft</dodf> objfdt is in buto-dommit modf
+     */
+    publid void rollbbdk() throws SQLExdfption;
+
+    /**
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion mbdf prior to thf givfn
+     * <dodf>Sbvfpoint</dodf> objfdt.  This mfthod should bf usfd only whfn buto-dommit
+     * modf hbs bffn disbblfd.
+     *
+     * @pbrbm s b <dodf>Sbvfpoint</dodf> objfdt mbrking b sbvfpoint in thf durrfnt
+     *        trbnsbdtion.  All dhbngfs mbdf bfforf <i>s</i> wbs sft will bf undonf.
+     *        All dhbngfs mbdf bftfr <i>s</i> wbs sft will bf mbdf pfrmbnfnt.
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf <dodf>Connfdtion</dodf>
+     *         objfdt within this <dodf>CbdhfdRowSft</dodf> objfdt is in buto-dommit modf
+     */
+    publid void rollbbdk(Sbvfpoint s) throws SQLExdfption;
+}

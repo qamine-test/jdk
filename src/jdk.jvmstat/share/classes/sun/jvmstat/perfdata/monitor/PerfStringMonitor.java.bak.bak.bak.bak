@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+
+/**
+ * Clbss for monitoring b PfrfDbtb String instrumfnt.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss PfrfStringMonitor fxtfnds PfrfBytfArrbyMonitor
+       implfmfnts StringMonitor {
+
+    privbtf stbtid Chbrsft dffbultChbrsft = Chbrsft.dffbultChbrsft();
+
+    /**
+     * Construdtor to drfbtf b StringMonitor objfdt for thf string instrumfnt
+     * rfprfsfntfd by thf dbtb in thf givfn bufffr.
+     *
+     * @pbrbm nbmf thf nbmf of thf string instrumfnt
+     * @pbrbm v thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     * @pbrbm bb thf bufffr dontbining thf string instrumfnt dbtb.
+     */
+    publid PfrfStringMonitor(String nbmf, Vbribbility v, boolfbn supportfd,
+                             BytfBufffr bb) {
+        this(nbmf, v, supportfd, bb, bb.limit());
+    }
+
+    /**
+     * Construdtor to drfbtf b StringMonitor objfdt for thf string instrumfnt
+     * rfprfsfntfd by thf dbtb in thf givfn bufffr.
+     *
+     * @pbrbm nbmf thf nbmf of thf string instrumfnt
+     * @pbrbm v thf vbribbility bttributf
+     * @pbrbm supportfd support lfvfl indidbtor
+     * @pbrbm bb thf bufffr dontbining thf string instrumfnt dbtb.
+     * @pbrbm mbxLfngth thf mbximum lfngth of thf string dbtb.
+     */
+    publid PfrfStringMonitor(String nbmf, Vbribbility v, boolfbn supportfd,
+                             BytfBufffr bb, int mbxLfngth) {
+        supfr(nbmf, Units.STRING, v, supportfd, bb, mbxLfngth);
+    }
+
+    /**
+     * {@inhfritDod}
+     * Thf objfdt rfturnfd dontbins b String with b dopy of thf durrfnt
+     * vbluf of thf StringInstrumfnt.
+     *
+     * @rfturn Objfdt - b dopy of thf durrfnt vbluf of thf StringInstrumfnt.
+     *                  Thf rfturn vbluf is gubrbntffd to bf of typf String.
+     */
+    publid Objfdt gftVbluf() {
+        rfturn stringVbluf();
+    }
+
+    /**
+     * Rfturn thf durrfnt vbluf of thf StringInstrumfnt bs b String.
+     *
+     * @rfturn String - b dopy of thf durrfnt vbluf of thf StringInstrumfnt.
+     */
+    publid String stringVbluf() {
+        String str = "";
+        bytf[] b = bytfArrbyVbluf();
+
+        // dbtdh null strings
+        if ((b == null) || (b.lfngth <= 1) || (b[0] == (bytf)0)) {
+            rfturn str;
+        }
+
+        int i;
+        for (i = 0; i < b.lfngth && b[i] != (bytf)0; i++);
+
+        rfturn nfw String(b, 0, i, dffbultChbrsft);
+    }
+}

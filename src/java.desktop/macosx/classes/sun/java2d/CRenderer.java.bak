@@ -1,646 +1,646 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.nio.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.nio.*;
 
-import sun.awt.image.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
-import sun.lwawt.macosx.*;
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
+import sun.lwbwt.mbdosx.*;
 
-public class CRenderer implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, DrawImagePipe {
-    native static void init();
+publid dlbss CRfndfrfr implfmfnts PixflDrbwPipf, PixflFillPipf, SibpfDrbwPipf, DrbwImbgfPipf {
+    nbtivf stbtid void init();
 
-    // cache of the runtime options
-    static {
-        init(); // initialize coordinate tables for shapes
+    // dbdif of tif runtimf options
+    stbtid {
+        init(); // initiblizf doordinbtf tbblfs for sibpfs
     }
 
-    native void doLine(SurfaceData sData, float x1, float y1, float x2, float y2);
+    nbtivf void doLinf(SurfbdfDbtb sDbtb, flobt x1, flobt y1, flobt x2, flobt y2);
 
-    public void drawLine(SunGraphics2D sg2d, int x1, int y1, int x2, int y2) {
-        drawLine(sg2d, (float) x1, (float) y1, (float) x2, (float) y2);
+    publid void drbwLinf(SunGrbpiids2D sg2d, int x1, int y1, int x2, int y2) {
+        drbwLinf(sg2d, (flobt) x1, (flobt) y1, (flobt) x2, (flobt) y2);
     }
 
-    Line2D lineToShape;
+    Linf2D linfToSibpf;
 
-    public void drawLine(SunGraphics2D sg2d, float x1, float y1, float x2, float y2) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doLine(this, sg2d, x1, y1, x2, y2);
-        } else {
-            if (lineToShape == null) {
-                synchronized (this) {
-                    if (lineToShape == null) {
-                        lineToShape = new Line2D.Float();
+    publid void drbwLinf(SunGrbpiids2D sg2d, flobt x1, flobt y1, flobt x2, flobt y2) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doLinf(tiis, sg2d, x1, y1, x2, y2);
+        } flsf {
+            if (linfToSibpf == null) {
+                syndironizfd (tiis) {
+                    if (linfToSibpf == null) {
+                        linfToSibpf = nfw Linf2D.Flobt();
                     }
                 }
             }
-            synchronized (lineToShape) {
-                lineToShape.setLine(x1, y1, x2, y2);
-                drawfillShape(sg2d, sg2d.stroke.createStrokedShape(lineToShape), true, true);
+            syndironizfd (linfToSibpf) {
+                linfToSibpf.sftLinf(x1, y1, x2, y2);
+                drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(linfToSibpf), truf, truf);
             }
         }
     }
 
-    native void doRect(SurfaceData sData, float x, float y, float width, float height, boolean isfill);
+    nbtivf void doRfdt(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, boolfbn isfill);
 
-    public void drawRect(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        drawRect(sg2d, (float) x, (float) y, (float) width, (float) height);
+    publid void drbwRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        drbwRfdt(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit);
     }
 
-    Rectangle2D rectToShape;
+    Rfdtbnglf2D rfdtToSibpf;
 
-    public void drawRect(SunGraphics2D sg2d, float x, float y, float width, float height) {
-        if ((width < 0) || (height < 0)) return;
+    publid void drbwRfdt(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doRect(this, sg2d, x, y, width, height, false);
-        } else {
-            if (rectToShape == null) {
-                synchronized (this) {
-                    if (rectToShape == null) {
-                        rectToShape = new Rectangle2D.Float();
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doRfdt(tiis, sg2d, x, y, widti, ifigit, fblsf);
+        } flsf {
+            if (rfdtToSibpf == null) {
+                syndironizfd (tiis) {
+                    if (rfdtToSibpf == null) {
+                        rfdtToSibpf = nfw Rfdtbnglf2D.Flobt();
                     }
                 }
             }
-            synchronized (rectToShape) {
-                rectToShape.setRect(x, y, width, height);
-                drawfillShape(sg2d, sg2d.stroke.createStrokedShape(rectToShape), true, true);
+            syndironizfd (rfdtToSibpf) {
+                rfdtToSibpf.sftRfdt(x, y, widti, ifigit);
+                drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(rfdtToSibpf), truf, truf);
             }
         }
     }
 
-    public void fillRect(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        fillRect(sg2d, (float) x, (float) y, (float) width, (float) height);
+    publid void fillRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        fillRfdt(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit);
     }
 
-    public void fillRect(SunGraphics2D sg2d, float x, float y, float width, float height) {
-        if ((width >= 0) && (height >= 0)) {
-            OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-            surfaceData.doRect(this, sg2d, x, y, width, height, true);
+    publid void fillRfdt(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit) {
+        if ((widti >= 0) && (ifigit >= 0)) {
+            OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+            surfbdfDbtb.doRfdt(tiis, sg2d, x, y, widti, ifigit, truf);
         }
     }
 
-    native void doRoundRect(SurfaceData sData, float x, float y, float width, float height, float arcW, float arcH, boolean isfill);
+    nbtivf void doRoundRfdt(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, flobt brdW, flobt brdH, boolfbn isfill);
 
-    public void drawRoundRect(SunGraphics2D sg2d, int x, int y, int width, int height, int arcWidth, int arcHeight) {
-        drawRoundRect(sg2d, (float) x, (float) y, (float) width, (float) height, (float) arcWidth, (float) arcHeight);
+    publid void drbwRoundRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int brdWidti, int brdHfigit) {
+        drbwRoundRfdt(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit, (flobt) brdWidti, (flobt) brdHfigit);
     }
 
-    RoundRectangle2D roundrectToShape;
+    RoundRfdtbnglf2D roundrfdtToSibpf;
 
-    public void drawRoundRect(SunGraphics2D sg2d, float x, float y, float width, float height, float arcWidth, float arcHeight) {
-        if ((width < 0) || (height < 0)) return;
+    publid void drbwRoundRfdt(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit, flobt brdWidti, flobt brdHfigit) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doRoundRect(this, sg2d, x, y, width, height, arcWidth, arcHeight, false);
-        } else {
-            if (roundrectToShape == null) {
-                synchronized (this) {
-                    if (roundrectToShape == null) {
-                        roundrectToShape = new RoundRectangle2D.Float();
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doRoundRfdt(tiis, sg2d, x, y, widti, ifigit, brdWidti, brdHfigit, fblsf);
+        } flsf {
+            if (roundrfdtToSibpf == null) {
+                syndironizfd (tiis) {
+                    if (roundrfdtToSibpf == null) {
+                        roundrfdtToSibpf = nfw RoundRfdtbnglf2D.Flobt();
                     }
                 }
             }
-            synchronized (roundrectToShape) {
-                roundrectToShape.setRoundRect(x, y, width, height, arcWidth, arcHeight);
-                drawfillShape(sg2d, sg2d.stroke.createStrokedShape(roundrectToShape), true, true);
+            syndironizfd (roundrfdtToSibpf) {
+                roundrfdtToSibpf.sftRoundRfdt(x, y, widti, ifigit, brdWidti, brdHfigit);
+                drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(roundrfdtToSibpf), truf, truf);
             }
         }
     }
 
-    public void fillRoundRect(SunGraphics2D sg2d, int x, int y, int width, int height, int arcWidth, int arcHeight) {
-        fillRoundRect(sg2d, (float) x, (float) y, (float) width, (float) height, (float) arcWidth, (float) arcHeight);
+    publid void fillRoundRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int brdWidti, int brdHfigit) {
+        fillRoundRfdt(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit, (flobt) brdWidti, (flobt) brdHfigit);
     }
 
-    public void fillRoundRect(SunGraphics2D sg2d, float x, float y, float width, float height, float arcWidth, float arcHeight) {
-        if ((width < 0) || (height < 0)) return;
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        surfaceData.doRoundRect(this, sg2d, x, y, width, height, arcWidth, arcHeight, true);
+    publid void fillRoundRfdt(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit, flobt brdWidti, flobt brdHfigit) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        surfbdfDbtb.doRoundRfdt(tiis, sg2d, x, y, widti, ifigit, brdWidti, brdHfigit, truf);
     }
 
-    native void doOval(SurfaceData sData, float x, float y, float width, float height, boolean isfill);
+    nbtivf void doOvbl(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, boolfbn isfill);
 
-    public void drawOval(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        drawOval(sg2d, (float) x, (float) y, (float) width, (float) height);
+    publid void drbwOvbl(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        drbwOvbl(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit);
     }
 
-    Ellipse2D ovalToShape;
+    Ellipsf2D ovblToSibpf;
 
-    public void drawOval(SunGraphics2D sg2d, float x, float y, float width, float height) {
-        if ((width < 0) || (height < 0)) return;
+    publid void drbwOvbl(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doOval(this, sg2d, x, y, width, height, false);
-        } else {
-            if (ovalToShape == null) {
-                synchronized (this) {
-                    if (ovalToShape == null) {
-                        ovalToShape = new Ellipse2D.Float();
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doOvbl(tiis, sg2d, x, y, widti, ifigit, fblsf);
+        } flsf {
+            if (ovblToSibpf == null) {
+                syndironizfd (tiis) {
+                    if (ovblToSibpf == null) {
+                        ovblToSibpf = nfw Ellipsf2D.Flobt();
                     }
                 }
             }
-            synchronized (ovalToShape) {
-                ovalToShape.setFrame(x, y, width, height);
-                drawfillShape(sg2d, sg2d.stroke.createStrokedShape(ovalToShape), true, true);
+            syndironizfd (ovblToSibpf) {
+                ovblToSibpf.sftFrbmf(x, y, widti, ifigit);
+                drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(ovblToSibpf), truf, truf);
             }
         }
     }
 
-    public void fillOval(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        fillOval(sg2d, (float) x, (float) y, (float) width, (float) height);
+    publid void fillOvbl(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        fillOvbl(sg2d, (flobt) x, (flobt) y, (flobt) widti, (flobt) ifigit);
     }
 
-    public void fillOval(SunGraphics2D sg2d, float x, float y, float width, float height) {
-        if ((width < 0) || (height < 0)) return;
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        surfaceData.doOval(this, sg2d, x, y, width, height, true);
+    publid void fillOvbl(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        surfbdfDbtb.doOvbl(tiis, sg2d, x, y, widti, ifigit, truf);
     }
 
-    native void doArc(SurfaceData sData, float x, float y, float width, float height, float angleStart, float angleExtent, int type, boolean isfill);
+    nbtivf void doArd(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, flobt bnglfStbrt, flobt bnglfExtfnt, int typf, boolfbn isfill);
 
-    public void drawArc(SunGraphics2D sg2d, int x, int y, int width, int height, int startAngle, int arcAngle) {
-        drawArc(sg2d, x, y, width, height, startAngle, arcAngle, Arc2D.OPEN);
+    publid void drbwArd(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int stbrtAnglf, int brdAnglf) {
+        drbwArd(sg2d, x, y, widti, ifigit, stbrtAnglf, brdAnglf, Ard2D.OPEN);
     }
 
-    Arc2D arcToShape;
+    Ard2D brdToSibpf;
 
-    public void drawArc(SunGraphics2D sg2d, float x, float y, float width, float height, float startAngle, float arcAngle, int type) {
-        if ((width < 0) || (height < 0)) return;
+    publid void drbwArd(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit, flobt stbrtAnglf, flobt brdAnglf, int typf) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doArc(this, sg2d, x, y, width, height, startAngle, arcAngle, type, false);
-        } else {
-            if (arcToShape == null) {
-                synchronized (this) {
-                    if (arcToShape == null) {
-                        arcToShape = new Arc2D.Float();
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doArd(tiis, sg2d, x, y, widti, ifigit, stbrtAnglf, brdAnglf, typf, fblsf);
+        } flsf {
+            if (brdToSibpf == null) {
+                syndironizfd (tiis) {
+                    if (brdToSibpf == null) {
+                        brdToSibpf = nfw Ard2D.Flobt();
                     }
                 }
             }
-            synchronized (arcToShape) {
-                arcToShape.setArc(x, y, width, height, startAngle, arcAngle, type);
-                drawfillShape(sg2d, sg2d.stroke.createStrokedShape(arcToShape), true, true);
+            syndironizfd (brdToSibpf) {
+                brdToSibpf.sftArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf, typf);
+                drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(brdToSibpf), truf, truf);
             }
         }
     }
 
-    public void fillArc(SunGraphics2D sg2d, int x, int y, int width, int height, int startAngle, int arcAngle) {
-        fillArc(sg2d, x, y, width, height, startAngle, arcAngle, Arc2D.PIE);
+    publid void fillArd(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int stbrtAnglf, int brdAnglf) {
+        fillArd(sg2d, x, y, widti, ifigit, stbrtAnglf, brdAnglf, Ard2D.PIE);
     }
 
-    public void fillArc(SunGraphics2D sg2d, float x, float y, float width, float height, float startAngle, float arcAngle, int type) {
-        if ((width < 0) || (height < 0)) return;
+    publid void fillArd(SunGrbpiids2D sg2d, flobt x, flobt y, flobt widti, flobt ifigit, flobt stbrtAnglf, flobt brdAnglf, int typf) {
+        if ((widti < 0) || (ifigit < 0)) rfturn;
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        surfaceData.doArc(this, sg2d, x, y, width, height, startAngle, arcAngle, type, true);
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        surfbdfDbtb.doArd(tiis, sg2d, x, y, widti, ifigit, stbrtAnglf, brdAnglf, typf, truf);
     }
 
-    native void doPoly(SurfaceData sData, int[] xpoints, int[] ypoints, int npoints, boolean ispolygon, boolean isfill);
+    nbtivf void doPoly(SurfbdfDbtb sDbtb, int[] xpoints, int[] ypoints, int npoints, boolfbn ispolygon, boolfbn isfill);
 
-    public void drawPolyline(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doPolygon(this, sg2d, xpoints, ypoints, npoints, false, false);
-        } else {
-            GeneralPath polyToShape = new GeneralPath();
-            polyToShape.moveTo(xpoints[0], ypoints[0]);
+    publid void drbwPolylinf(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doPolygon(tiis, sg2d, xpoints, ypoints, npoints, fblsf, fblsf);
+        } flsf {
+            GfnfrblPbti polyToSibpf = nfw GfnfrblPbti();
+            polyToSibpf.movfTo(xpoints[0], ypoints[0]);
             for (int i = 1; i < npoints; i++) {
-                polyToShape.lineTo(xpoints[i], ypoints[i]);
+                polyToSibpf.linfTo(xpoints[i], ypoints[i]);
             }
-            drawfillShape(sg2d, sg2d.stroke.createStrokedShape(polyToShape), true, true);
+            drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(polyToSibpf), truf, truf);
         }
     }
 
-    public void drawPolygon(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            surfaceData.doPolygon(this, sg2d, xpoints, ypoints, npoints, true, false);
-        } else {
-            GeneralPath polyToShape = new GeneralPath();
-            polyToShape.moveTo(xpoints[0], ypoints[0]);
+    publid void drbwPolygon(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            surfbdfDbtb.doPolygon(tiis, sg2d, xpoints, ypoints, npoints, truf, fblsf);
+        } flsf {
+            GfnfrblPbti polyToSibpf = nfw GfnfrblPbti();
+            polyToSibpf.movfTo(xpoints[0], ypoints[0]);
             for (int i = 1; i < npoints; i++) {
-                polyToShape.lineTo(xpoints[i], ypoints[i]);
+                polyToSibpf.linfTo(xpoints[i], ypoints[i]);
             }
-            polyToShape.lineTo(xpoints[0], ypoints[0]);
-            drawfillShape(sg2d, sg2d.stroke.createStrokedShape(polyToShape), true, true);
+            polyToSibpf.linfTo(xpoints[0], ypoints[0]);
+            drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(polyToSibpf), truf, truf);
         }
     }
 
-    public void fillPolygon(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        surfaceData.doPolygon(this, sg2d, xpoints, ypoints, npoints, true, true);
+    publid void fillPolygon(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        surfbdfDbtb.doPolygon(tiis, sg2d, xpoints, ypoints, npoints, truf, truf);
     }
 
-    native void doShape(SurfaceData sData, int length, FloatBuffer coordinates, IntBuffer types, int windingRule, boolean isfill, boolean shouldApplyOffset);
+    nbtivf void doSibpf(SurfbdfDbtb sDbtb, int lfngti, FlobtBufffr doordinbtfs, IntBufffr typfs, int windingRulf, boolfbn isfill, boolfbn siouldApplyOffsft);
 
-    void drawfillShape(SunGraphics2D sg2d, Shape s, boolean isfill, boolean shouldApplyOffset) {
-        if (s == null) { throw new NullPointerException(); }
+    void drbwfillSibpf(SunGrbpiids2D sg2d, Sibpf s, boolfbn isfill, boolfbn siouldApplyOffsft) {
+        if (s == null) { tirow nfw NullPointfrExdfption(); }
 
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
         // TODO:
-        boolean sOptimizeShapes = true;
-        if (sOptimizeShapes && OSXSurfaceData.IsSimpleColor(sg2d.paint)) {
-            if (s instanceof Rectangle2D) {
-                Rectangle2D rectangle = (Rectangle2D) s;
+        boolfbn sOptimizfSibpfs = truf;
+        if (sOptimizfSibpfs && OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint)) {
+            if (s instbndfof Rfdtbnglf2D) {
+                Rfdtbnglf2D rfdtbnglf = (Rfdtbnglf2D) s;
 
-                float x = (float) rectangle.getX();
-                float y = (float) rectangle.getY();
-                float w = (float) rectangle.getWidth();
-                float h = (float) rectangle.getHeight();
+                flobt x = (flobt) rfdtbnglf.gftX();
+                flobt y = (flobt) rfdtbnglf.gftY();
+                flobt w = (flobt) rfdtbnglf.gftWidti();
+                flobt i = (flobt) rfdtbnglf.gftHfigit();
                 if (isfill) {
-                    fillRect(sg2d, x, y, w, h);
-                } else {
-                    drawRect(sg2d, x, y, w, h);
+                    fillRfdt(sg2d, x, y, w, i);
+                } flsf {
+                    drbwRfdt(sg2d, x, y, w, i);
                 }
-            } else if (s instanceof Ellipse2D) {
-                Ellipse2D ellipse = (Ellipse2D) s;
+            } flsf if (s instbndfof Ellipsf2D) {
+                Ellipsf2D fllipsf = (Ellipsf2D) s;
 
-                float x = (float) ellipse.getX();
-                float y = (float) ellipse.getY();
-                float w = (float) ellipse.getWidth();
-                float h = (float) ellipse.getHeight();
-
-                if (isfill) {
-                    fillOval(sg2d, x, y, w, h);
-                } else {
-                    drawOval(sg2d, x, y, w, h);
-                }
-            } else if (s instanceof Arc2D) {
-                Arc2D arc = (Arc2D) s;
-
-                float x = (float) arc.getX();
-                float y = (float) arc.getY();
-                float w = (float) arc.getWidth();
-                float h = (float) arc.getHeight();
-                float as = (float) arc.getAngleStart();
-                float ae = (float) arc.getAngleExtent();
+                flobt x = (flobt) fllipsf.gftX();
+                flobt y = (flobt) fllipsf.gftY();
+                flobt w = (flobt) fllipsf.gftWidti();
+                flobt i = (flobt) fllipsf.gftHfigit();
 
                 if (isfill) {
-                    fillArc(sg2d, x, y, w, h, as, ae, arc.getArcType());
-                } else {
-                    drawArc(sg2d, x, y, w, h, as, ae, arc.getArcType());
+                    fillOvbl(sg2d, x, y, w, i);
+                } flsf {
+                    drbwOvbl(sg2d, x, y, w, i);
                 }
-            } else if (s instanceof RoundRectangle2D) {
-                RoundRectangle2D roundrect = (RoundRectangle2D) s;
+            } flsf if (s instbndfof Ard2D) {
+                Ard2D brd = (Ard2D) s;
 
-                float x = (float) roundrect.getX();
-                float y = (float) roundrect.getY();
-                float w = (float) roundrect.getWidth();
-                float h = (float) roundrect.getHeight();
-                float aw = (float) roundrect.getArcWidth();
-                float ah = (float) roundrect.getArcHeight();
+                flobt x = (flobt) brd.gftX();
+                flobt y = (flobt) brd.gftY();
+                flobt w = (flobt) brd.gftWidti();
+                flobt i = (flobt) brd.gftHfigit();
+                flobt bs = (flobt) brd.gftAnglfStbrt();
+                flobt bf = (flobt) brd.gftAnglfExtfnt();
 
                 if (isfill) {
-                    fillRoundRect(sg2d, x, y, w, h, aw, ah);
-                } else {
-                    drawRoundRect(sg2d, x, y, w, h, aw, ah);
+                    fillArd(sg2d, x, y, w, i, bs, bf, brd.gftArdTypf());
+                } flsf {
+                    drbwArd(sg2d, x, y, w, i, bs, bf, brd.gftArdTypf());
                 }
-            } else if (s instanceof Line2D) {
-                Line2D line = (Line2D) s;
+            } flsf if (s instbndfof RoundRfdtbnglf2D) {
+                RoundRfdtbnglf2D roundrfdt = (RoundRfdtbnglf2D) s;
 
-                float x1 = (float) line.getX1();
-                float y1 = (float) line.getY1();
-                float x2 = (float) line.getX2();
-                float y2 = (float) line.getY2();
+                flobt x = (flobt) roundrfdt.gftX();
+                flobt y = (flobt) roundrfdt.gftY();
+                flobt w = (flobt) roundrfdt.gftWidti();
+                flobt i = (flobt) roundrfdt.gftHfigit();
+                flobt bw = (flobt) roundrfdt.gftArdWidti();
+                flobt bi = (flobt) roundrfdt.gftArdHfigit();
 
-                drawLine(sg2d, x1, y1, x2, y2);
-            } else if (s instanceof Point2D) {
+                if (isfill) {
+                    fillRoundRfdt(sg2d, x, y, w, i, bw, bi);
+                } flsf {
+                    drbwRoundRfdt(sg2d, x, y, w, i, bw, bi);
+                }
+            } flsf if (s instbndfof Linf2D) {
+                Linf2D linf = (Linf2D) s;
+
+                flobt x1 = (flobt) linf.gftX1();
+                flobt y1 = (flobt) linf.gftY1();
+                flobt x2 = (flobt) linf.gftX2();
+                flobt y2 = (flobt) linf.gftY2();
+
+                drbwLinf(sg2d, x1, y1, x2, y2);
+            } flsf if (s instbndfof Point2D) {
                 Point2D point = (Point2D) s;
 
-                float x = (float) point.getX();
-                float y = (float) point.getY();
+                flobt x = (flobt) point.gftX();
+                flobt y = (flobt) point.gftY();
 
-                drawLine(sg2d, x, y, x, y);
-            } else {
-                GeneralPath gp;
+                drbwLinf(sg2d, x, y, x, y);
+            } flsf {
+                GfnfrblPbti gp;
 
-                if (s instanceof GeneralPath) {
-                    gp = (GeneralPath) s;
-                } else {
-                    gp = new GeneralPath(s);
+                if (s instbndfof GfnfrblPbti) {
+                    gp = (GfnfrblPbti) s;
+                } flsf {
+                    gp = nfw GfnfrblPbti(s);
                 }
 
-                PathIterator pi = gp.getPathIterator(null);
-                if (pi.isDone() == false) {
-                    surfaceData.drawfillShape(this, sg2d, gp, isfill, shouldApplyOffset);
+                PbtiItfrbtor pi = gp.gftPbtiItfrbtor(null);
+                if (pi.isDonf() == fblsf) {
+                    surfbdfDbtb.drbwfillSibpf(tiis, sg2d, gp, isfill, siouldApplyOffsft);
                 }
             }
-        } else {
-            GeneralPath gp;
+        } flsf {
+            GfnfrblPbti gp;
 
-            if (s instanceof GeneralPath) {
-                gp = (GeneralPath) s;
-            } else {
-                gp = new GeneralPath(s);
+            if (s instbndfof GfnfrblPbti) {
+                gp = (GfnfrblPbti) s;
+            } flsf {
+                gp = nfw GfnfrblPbti(s);
             }
 
-            PathIterator pi = gp.getPathIterator(null);
-            if (pi.isDone() == false) {
-                surfaceData.drawfillShape(this, sg2d, gp, isfill, shouldApplyOffset);
+            PbtiItfrbtor pi = gp.gftPbtiItfrbtor(null);
+            if (pi.isDonf() == fblsf) {
+                surfbdfDbtb.drbwfillSibpf(tiis, sg2d, gp, isfill, siouldApplyOffsft);
             }
         }
     }
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
-        if ((sg2d.strokeState != SunGraphics2D.STROKE_CUSTOM) && (OSXSurfaceData.IsSimpleColor(sg2d.paint))) {
-            drawfillShape(sg2d, s, false, true);
-        } else {
-            drawfillShape(sg2d, sg2d.stroke.createStrokedShape(s), true, true);
+    publid void drbw(SunGrbpiids2D sg2d, Sibpf s) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
+        if ((sg2d.strokfStbtf != SunGrbpiids2D.STROKE_CUSTOM) && (OSXSurfbdfDbtb.IsSimplfColor(sg2d.pbint))) {
+            drbwfillSibpf(sg2d, s, fblsf, truf);
+        } flsf {
+            drbwfillSibpf(sg2d, sg2d.strokf.drfbtfStrokfdSibpf(s), truf, truf);
         }
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        drawfillShape(sg2d, s, true, false);
+    publid void fill(SunGrbpiids2D sg2d, Sibpf s) {
+        drbwfillSibpf(sg2d, s, truf, fblsf);
     }
 
-    native void doImage(SurfaceData sData, SurfaceData img, boolean fliph, boolean flipv, int w, int h, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh);
+    nbtivf void doImbgf(SurfbdfDbtb sDbtb, SurfbdfDbtb img, boolfbn flipi, boolfbn flipv, int w, int i, int sx, int sy, int sw, int si, int dx, int dy, int dw, int di);
 
-    // Copy img to scaled sg2d @ x,y with width height
-    public boolean scaleImage(SunGraphics2D sg2d, Image img, int x, int y, int width, int height, Color bgColor) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
+    // Copy img to sdblfd sg2d @ x,y witi widti ifigit
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg2d, Imbgf img, int x, int y, int widti, int ifigit, Color bgColor) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
 
         int sx = 0;
         int sy = 0;
-        int iw = img.getWidth(null);
-        int ih = img.getHeight(null);
+        int iw = img.gftWidti(null);
+        int ii = img.gftHfigit(null);
 
-        return scaleImage(sg2d, img, x, y, x + width, y + height, sx, sy, sx + iw, sy + ih, bgColor);
+        rfturn sdblfImbgf(sg2d, img, x, y, x + widti, y + ifigit, sx, sy, sx + iw, sy + ii, bgColor);
     }
 
-    // Copy img, clipped to sx1, sy1 by sx2, sy2 to dx1, dy2 by dx2, dy2
-    public boolean scaleImage(SunGraphics2D sg2d, Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor) {
+    // Copy img, dlippfd to sx1, sy1 by sx2, sy2 to dx1, dy2 by dx2, dy2
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg2d, Imbgf img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor) {
 
-        // System.err.println("scaleImage");
-        // System.err.println("    sx1="+sx1+", sy1="+sy1+", sx2="+sx2+", sy2="+sy2);
-        // System.err.println("    dx1="+dx1+", dy1="+dy1+", dx2="+dx2+", dy2="+dy2);
+        // Systfm.frr.println("sdblfImbgf");
+        // Systfm.frr.println("    sx1="+sx1+", sy1="+sy1+", sx2="+sx2+", sy2="+sy2);
+        // Systfm.frr.println("    dx1="+dx1+", dy1="+dy1+", dx2="+dx2+", dy2="+dy2);
 
-        int srcW, srcH, dstW, dstH;
-        int srcX, srcY, dstX, dstY;
-        boolean srcWidthFlip = false;
-        boolean srcHeightFlip = false;
-        boolean dstWidthFlip = false;
-        boolean dstHeightFlip = false;
+        int srdW, srdH, dstW, dstH;
+        int srdX, srdY, dstX, dstY;
+        boolfbn srdWidtiFlip = fblsf;
+        boolfbn srdHfigitFlip = fblsf;
+        boolfbn dstWidtiFlip = fblsf;
+        boolfbn dstHfigitFlip = fblsf;
 
         if (sx2 > sx1) {
-            srcW = sx2 - sx1;
-            srcX = sx1;
-        } else {
-            srcWidthFlip = true;
-            srcW = sx1 - sx2;
-            srcX = sx2;
+            srdW = sx2 - sx1;
+            srdX = sx1;
+        } flsf {
+            srdWidtiFlip = truf;
+            srdW = sx1 - sx2;
+            srdX = sx2;
         }
         if (sy2 > sy1) {
-            srcH = sy2 - sy1;
-            srcY = sy1;
-        } else {
-            srcHeightFlip = true;
-            srcH = sy1 - sy2;
-            srcY = sy2;
+            srdH = sy2 - sy1;
+            srdY = sy1;
+        } flsf {
+            srdHfigitFlip = truf;
+            srdH = sy1 - sy2;
+            srdY = sy2;
         }
         if (dx2 > dx1) {
             dstW = dx2 - dx1;
             dstX = dx1;
-        } else {
+        } flsf {
             dstW = dx1 - dx2;
-            dstWidthFlip = true;
+            dstWidtiFlip = truf;
             dstX = dx2;
         }
         if (dy2 > dy1) {
             dstH = dy2 - dy1;
             dstY = dy1;
-        } else {
+        } flsf {
             dstH = dy1 - dy2;
-            dstHeightFlip = true;
+            dstHfigitFlip = truf;
             dstY = dy2;
         }
-        if (srcW <= 0 || srcH <= 0) { return true; }
+        if (srdW <= 0 || srdH <= 0) { rfturn truf; }
 
-        boolean flipv = (srcHeightFlip != dstHeightFlip);
-        boolean fliph = (srcWidthFlip != dstWidthFlip);
+        boolfbn flipv = (srdHfigitFlip != dstHfigitFlip);
+        boolfbn flipi = (srdWidtiFlip != dstWidtiFlip);
 
-        return blitImage(sg2d, img, fliph, flipv, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH, bgColor);
+        rfturn blitImbgf(sg2d, img, flipi, flipv, srdX, srdY, srdW, srdH, dstX, dstY, dstW, dstH, bgColor);
     }
 
-    protected boolean blitImage(SunGraphics2D sg2d, Image img, boolean fliph, boolean flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
-        CPrinterSurfaceData surfaceData = (CPrinterSurfaceData)sg2d.getSurfaceData();
-        OSXOffScreenSurfaceData imgSurfaceData = OSXOffScreenSurfaceData.createNewSurface((BufferedImage)img);
-        surfaceData.blitImage(this, sg2d, imgSurfaceData, fliph, flipv, sx, sy, sw, sh, dx, dy, dw, dh, bgColor);
-        return true;
+    protfdtfd boolfbn blitImbgf(SunGrbpiids2D sg2d, Imbgf img, boolfbn flipi, boolfbn flipv, int sx, int sy, int sw, int si, int dx, int dy, int dw, int di, Color bgColor) {
+        CPrintfrSurfbdfDbtb surfbdfDbtb = (CPrintfrSurfbdfDbtb)sg2d.gftSurfbdfDbtb();
+        OSXOffSdrffnSurfbdfDbtb imgSurfbdfDbtb = OSXOffSdrffnSurfbdfDbtb.drfbtfNfwSurfbdf((BufffrfdImbgf)img);
+        surfbdfDbtb.blitImbgf(tiis, sg2d, imgSurfbdfDbtb, flipi, flipv, sx, sy, sw, si, dx, dy, dw, di, bgColor);
+        rfturn truf;
     }
 
     // Copy img to sg2d @ x, y
-    protected boolean copyImage(SunGraphics2D sg2d, Image img, int dx, int dy, Color bgColor) {
-        if (img == null) { return true; }
+    protfdtfd boolfbn dopyImbgf(SunGrbpiids2D sg2d, Imbgf img, int dx, int dy, Color bgColor) {
+        if (img == null) { rfturn truf; }
 
         int sx = 0;
         int sy = 0;
-        int width = img.getWidth(null);
-        int height = img.getHeight(null);
+        int widti = img.gftWidti(null);
+        int ifigit = img.gftHfigit(null);
 
-        return blitImage(sg2d, img, false, false, sx, sy, width, height, dx, dy, width, height, bgColor);
+        rfturn blitImbgf(sg2d, img, fblsf, fblsf, sx, sy, widti, ifigit, dx, dy, widti, ifigit, bgColor);
     }
 
-    // Copy img, clipped to sx, sy with width, height to sg2d @ dx, dy
-    protected boolean copyImage(SunGraphics2D sg2d, Image img, int dx, int dy, int sx, int sy, int width, int height, Color bgColor) {
-        return blitImage(sg2d, img, false, false, sx, sy, width, height, dx, dy, width, height, bgColor);
+    // Copy img, dlippfd to sx, sy witi widti, ifigit to sg2d @ dx, dy
+    protfdtfd boolfbn dopyImbgf(SunGrbpiids2D sg2d, Imbgf img, int dx, int dy, int sx, int sy, int widti, int ifigit, Color bgColor) {
+        rfturn blitImbgf(sg2d, img, fblsf, fblsf, sx, sy, widti, ifigit, dx, dy, widti, ifigit, bgColor);
     }
 
-    protected void transformImage(SunGraphics2D sg2d, Image img, int x, int y, BufferedImageOp op, AffineTransform xf, Color bgColor) {
+    protfdtfd void trbnsformImbgf(SunGrbpiids2D sg2d, Imbgf img, int x, int y, BufffrfdImbgfOp op, AffinfTrbnsform xf, Color bgColor) {
         if (img != null) {
-            int iw = img.getWidth(null);
-            int ih = img.getHeight(null);
+            int iw = img.gftWidti(null);
+            int ii = img.gftHfigit(null);
 
-            if ((op != null) && (img instanceof BufferedImage)) {
-                if (((BufferedImage) img).getType() == BufferedImage.TYPE_CUSTOM) {
-                    // BufferedImageOp can not handle custom images
-                    BufferedImage dest = null;
-                    dest = new BufferedImage(iw, ih, BufferedImage.TYPE_INT_ARGB_PRE);
-                    Graphics g = dest.createGraphics();
-                    g.drawImage(img, 0, 0, null);
-                    g.dispose();
-                    img = op.filter(dest, null);
-                } else {
-                    // sun.awt.image.BufImgSurfaceData.createData((BufferedImage)img).finishLazyDrawing();
-                    img = op.filter((BufferedImage) img, null);
+            if ((op != null) && (img instbndfof BufffrfdImbgf)) {
+                if (((BufffrfdImbgf) img).gftTypf() == BufffrfdImbgf.TYPE_CUSTOM) {
+                    // BufffrfdImbgfOp dbn not ibndlf dustom imbgfs
+                    BufffrfdImbgf dfst = null;
+                    dfst = nfw BufffrfdImbgf(iw, ii, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+                    Grbpiids g = dfst.drfbtfGrbpiids();
+                    g.drbwImbgf(img, 0, 0, null);
+                    g.disposf();
+                    img = op.filtfr(dfst, null);
+                } flsf {
+                    // sun.bwt.imbgf.BufImgSurfbdfDbtb.drfbtfDbtb((BufffrfdImbgf)img).finisiLbzyDrbwing();
+                    img = op.filtfr((BufffrfdImbgf) img, null);
                 }
 
-                iw = img.getWidth(null);
-                ih = img.getHeight(null);
+                iw = img.gftWidti(null);
+                ii = img.gftHfigit(null);
             }
 
             if (xf != null) {
-                AffineTransform reset = sg2d.getTransform();
-                sg2d.transform(xf);
-                scaleImage(sg2d, img, x, y, x + iw, y + ih, 0, 0, iw, ih, bgColor);
-                sg2d.setTransform(reset);
-            } else {
-                scaleImage(sg2d, img, x, y, x + iw, y + ih, 0, 0, iw, ih, bgColor);
+                AffinfTrbnsform rfsft = sg2d.gftTrbnsform();
+                sg2d.trbnsform(xf);
+                sdblfImbgf(sg2d, img, x, y, x + iw, y + ii, 0, 0, iw, ii, bgColor);
+                sg2d.sftTrbnsform(rfsft);
+            } flsf {
+                sdblfImbgf(sg2d, img, x, y, x + iw, y + ii, 0, 0, iw, ii, bgColor);
             }
-        } else {
-            throw new NullPointerException();
+        } flsf {
+            tirow nfw NullPointfrExdfption();
         }
     }
 
-    // copied from DrawImage.java
-    protected boolean imageReady(sun.awt.image.ToolkitImage sunimg, ImageObserver observer) {
-        if (sunimg.hasError()) {
-            if (observer != null) {
-                observer.imageUpdate(sunimg, ImageObserver.ERROR | ImageObserver.ABORT, -1, -1, -1, -1);
+    // dopifd from DrbwImbgf.jbvb
+    protfdtfd boolfbn imbgfRfbdy(sun.bwt.imbgf.ToolkitImbgf sunimg, ImbgfObsfrvfr obsfrvfr) {
+        if (sunimg.ibsError()) {
+            if (obsfrvfr != null) {
+                obsfrvfr.imbgfUpdbtf(sunimg, ImbgfObsfrvfr.ERROR | ImbgfObsfrvfr.ABORT, -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    // copied from DrawImage.java
-    public boolean copyImage(SunGraphics2D sg2d, Image img, int x, int y, Color bgColor, ImageObserver observer) {
-        if (img == null) { throw new NullPointerException(); }
+    // dopifd from DrbwImbgf.jbvb
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg2d, Imbgf img, int x, int y, Color bgColor, ImbgfObsfrvfr obsfrvfr) {
+        if (img == null) { tirow nfw NullPointfrExdfption(); }
 
-        if (!(img instanceof sun.awt.image.ToolkitImage)) { return copyImage(sg2d, img, x, y, bgColor); }
+        if (!(img instbndfof sun.bwt.imbgf.ToolkitImbgf)) { rfturn dopyImbgf(sg2d, img, x, y, bgColor); }
 
-        sun.awt.image.ToolkitImage sunimg = (sun.awt.image.ToolkitImage) img;
-        if (!imageReady(sunimg, observer)) { return false; }
-        ImageRepresentation ir = sunimg.getImageRep();
-        return ir.drawToBufImage(sg2d, sunimg, x, y, bgColor, observer);
+        sun.bwt.imbgf.ToolkitImbgf sunimg = (sun.bwt.imbgf.ToolkitImbgf) img;
+        if (!imbgfRfbdy(sunimg, obsfrvfr)) { rfturn fblsf; }
+        ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+        rfturn ir.drbwToBufImbgf(sg2d, sunimg, x, y, bgColor, obsfrvfr);
     }
 
-    // copied from DrawImage.java
-    public boolean copyImage(SunGraphics2D sg2d, Image img, int dx, int dy, int sx, int sy, int width, int height, Color bgColor, ImageObserver observer) {
-        if (img == null) { throw new NullPointerException(); }
+    // dopifd from DrbwImbgf.jbvb
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg2d, Imbgf img, int dx, int dy, int sx, int sy, int widti, int ifigit, Color bgColor, ImbgfObsfrvfr obsfrvfr) {
+        if (img == null) { tirow nfw NullPointfrExdfption(); }
 
-        if (!(img instanceof sun.awt.image.ToolkitImage)) { return copyImage(sg2d, img, dx, dy, sx, sy, width, height, bgColor); }
+        if (!(img instbndfof sun.bwt.imbgf.ToolkitImbgf)) { rfturn dopyImbgf(sg2d, img, dx, dy, sx, sy, widti, ifigit, bgColor); }
 
-        sun.awt.image.ToolkitImage sunimg = (sun.awt.image.ToolkitImage) img;
-        if (!imageReady(sunimg, observer)) { return false; }
-        ImageRepresentation ir = sunimg.getImageRep();
-        return ir.drawToBufImage(sg2d, sunimg, dx, dy, (dx + width), (dy + height), sx, sy, (sx + width), (sy + height), null, observer);
+        sun.bwt.imbgf.ToolkitImbgf sunimg = (sun.bwt.imbgf.ToolkitImbgf) img;
+        if (!imbgfRfbdy(sunimg, obsfrvfr)) { rfturn fblsf; }
+        ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+        rfturn ir.drbwToBufImbgf(sg2d, sunimg, dx, dy, (dx + widti), (dy + ifigit), sx, sy, (sx + widti), (sy + ifigit), null, obsfrvfr);
     }
 
-    // copied from DrawImage.java
-    public boolean scaleImage(SunGraphics2D sg2d, Image img, int x, int y, int width, int height, Color bgColor, ImageObserver observer) {
-        if (img == null) { throw new NullPointerException(); }
+    // dopifd from DrbwImbgf.jbvb
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg2d, Imbgf img, int x, int y, int widti, int ifigit, Color bgColor, ImbgfObsfrvfr obsfrvfr) {
+        if (img == null) { tirow nfw NullPointfrExdfption(); }
 
-        if (!(img instanceof sun.awt.image.ToolkitImage)) { return scaleImage(sg2d, img, x, y, width, height, bgColor); }
+        if (!(img instbndfof sun.bwt.imbgf.ToolkitImbgf)) { rfturn sdblfImbgf(sg2d, img, x, y, widti, ifigit, bgColor); }
 
-        sun.awt.image.ToolkitImage sunimg = (sun.awt.image.ToolkitImage) img;
-        if (!imageReady(sunimg, observer)) { return false; }
-        ImageRepresentation ir = sunimg.getImageRep();
-        return ir.drawToBufImage(sg2d, sunimg, x, y, width, height, bgColor, observer);
+        sun.bwt.imbgf.ToolkitImbgf sunimg = (sun.bwt.imbgf.ToolkitImbgf) img;
+        if (!imbgfRfbdy(sunimg, obsfrvfr)) { rfturn fblsf; }
+        ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+        rfturn ir.drbwToBufImbgf(sg2d, sunimg, x, y, widti, ifigit, bgColor, obsfrvfr);
     }
 
-    // copied from DrawImage.java
-    public boolean scaleImage(SunGraphics2D sg2d, Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor, ImageObserver observer) {
-        if (img == null) { throw new NullPointerException(); }
+    // dopifd from DrbwImbgf.jbvb
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg2d, Imbgf img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor, ImbgfObsfrvfr obsfrvfr) {
+        if (img == null) { tirow nfw NullPointfrExdfption(); }
 
-        if (!(img instanceof sun.awt.image.ToolkitImage)) { return scaleImage(sg2d, img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgColor); }
+        if (!(img instbndfof sun.bwt.imbgf.ToolkitImbgf)) { rfturn sdblfImbgf(sg2d, img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgColor); }
 
-        sun.awt.image.ToolkitImage sunimg = (sun.awt.image.ToolkitImage) img;
-        if (!imageReady(sunimg, observer)) { return false; }
-        ImageRepresentation ir = sunimg.getImageRep();
-        return ir.drawToBufImage(sg2d, sunimg, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgColor, observer);
+        sun.bwt.imbgf.ToolkitImbgf sunimg = (sun.bwt.imbgf.ToolkitImbgf) img;
+        if (!imbgfRfbdy(sunimg, obsfrvfr)) { rfturn fblsf; }
+        ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+        rfturn ir.drbwToBufImbgf(sg2d, sunimg, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgColor, obsfrvfr);
     }
 
-    // copied from DrawImage.java
-    public boolean transformImage(SunGraphics2D sg2d, Image img, AffineTransform atfm, ImageObserver observer) {
-        if (img == null) { throw new NullPointerException(); }
+    // dopifd from DrbwImbgf.jbvb
+    publid boolfbn trbnsformImbgf(SunGrbpiids2D sg2d, Imbgf img, AffinfTrbnsform btfm, ImbgfObsfrvfr obsfrvfr) {
+        if (img == null) { tirow nfw NullPointfrExdfption(); }
 
-        if (!(img instanceof sun.awt.image.ToolkitImage)) {
-            transformImage(sg2d, img, 0, 0, null, atfm, null);
-            return true;
+        if (!(img instbndfof sun.bwt.imbgf.ToolkitImbgf)) {
+            trbnsformImbgf(sg2d, img, 0, 0, null, btfm, null);
+            rfturn truf;
         }
 
-        sun.awt.image.ToolkitImage sunimg = (sun.awt.image.ToolkitImage) img;
-        if (!imageReady(sunimg, observer)) { return false; }
-        ImageRepresentation ir = sunimg.getImageRep();
-        return ir.drawToBufImage(sg2d, sunimg, atfm, observer);
+        sun.bwt.imbgf.ToolkitImbgf sunimg = (sun.bwt.imbgf.ToolkitImbgf) img;
+        if (!imbgfRfbdy(sunimg, obsfrvfr)) { rfturn fblsf; }
+        ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+        rfturn ir.drbwToBufImbgf(sg2d, sunimg, btfm, obsfrvfr);
     }
 
-    // copied from DrawImage.java
-    public void transformImage(SunGraphics2D sg2d, BufferedImage img, BufferedImageOp op, int x, int y) {
+    // dopifd from DrbwImbgf.jbvb
+    publid void trbnsformImbgf(SunGrbpiids2D sg2d, BufffrfdImbgf img, BufffrfdImbgfOp op, int x, int y) {
         if (img != null) {
-            transformImage(sg2d, img, x, y, op, null, null);
-        } else {
-            throw new NullPointerException();
+            trbnsformImbgf(sg2d, img, x, y, op, null, null);
+        } flsf {
+            tirow nfw NullPointfrExdfption();
         }
     }
 
-    public CRenderer traceWrap() {
-        return new Tracer();
+    publid CRfndfrfr trbdfWrbp() {
+        rfturn nfw Trbdfr();
     }
 
-    public static class Tracer extends CRenderer {
-        void doLine(SurfaceData sData, float x1, float y1, float x2, float y2) {
-            GraphicsPrimitive.tracePrimitive("QuartzLine");
-            super.doLine(sData, x1, y1, x2, y2);
+    publid stbtid dlbss Trbdfr fxtfnds CRfndfrfr {
+        void doLinf(SurfbdfDbtb sDbtb, flobt x1, flobt y1, flobt x2, flobt y2) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzLinf");
+            supfr.doLinf(sDbtb, x1, y1, x2, y2);
         }
 
-        void doRect(SurfaceData sData, float x, float y, float width, float height, boolean isfill) {
-            GraphicsPrimitive.tracePrimitive("QuartzRect");
-            super.doRect(sData, x, y, width, height, isfill);
+        void doRfdt(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, boolfbn isfill) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzRfdt");
+            supfr.doRfdt(sDbtb, x, y, widti, ifigit, isfill);
         }
 
-        void doRoundRect(SurfaceData sData, float x, float y, float width, float height, float arcW, float arcH, boolean isfill) {
-            GraphicsPrimitive.tracePrimitive("QuartzRoundRect");
-            super.doRoundRect(sData, x, y, width, height, arcW, arcH, isfill);
+        void doRoundRfdt(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, flobt brdW, flobt brdH, boolfbn isfill) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzRoundRfdt");
+            supfr.doRoundRfdt(sDbtb, x, y, widti, ifigit, brdW, brdH, isfill);
         }
 
-        void doOval(SurfaceData sData, float x, float y, float width, float height, boolean isfill) {
-            GraphicsPrimitive.tracePrimitive("QuartzOval");
-            super.doOval(sData, x, y, width, height, isfill);
+        void doOvbl(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, boolfbn isfill) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzOvbl");
+            supfr.doOvbl(sDbtb, x, y, widti, ifigit, isfill);
         }
 
-        void doArc(SurfaceData sData, float x, float y, float width, float height, float angleStart, float angleExtent, int type, boolean isfill) {
-            GraphicsPrimitive.tracePrimitive("QuartzArc");
-            super.doArc(sData, x, y, width, height, angleStart, angleExtent, type, isfill);
+        void doArd(SurfbdfDbtb sDbtb, flobt x, flobt y, flobt widti, flobt ifigit, flobt bnglfStbrt, flobt bnglfExtfnt, int typf, boolfbn isfill) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzArd");
+            supfr.doArd(sDbtb, x, y, widti, ifigit, bnglfStbrt, bnglfExtfnt, typf, isfill);
         }
 
-        void doPoly(SurfaceData sData, int[] xpoints, int[] ypoints, int npoints, boolean ispolygon, boolean isfill) {
-            GraphicsPrimitive.tracePrimitive("QuartzDoPoly");
-            super.doPoly(sData, xpoints, ypoints, npoints, ispolygon, isfill);
+        void doPoly(SurfbdfDbtb sDbtb, int[] xpoints, int[] ypoints, int npoints, boolfbn ispolygon, boolfbn isfill) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzDoPoly");
+            supfr.doPoly(sDbtb, xpoints, ypoints, npoints, ispolygon, isfill);
         }
 
-        void doShape(SurfaceData sData, int length, FloatBuffer coordinates, IntBuffer types, int windingRule, boolean isfill, boolean shouldApplyOffset) {
-            GraphicsPrimitive.tracePrimitive("QuartzFillOrDrawShape");
-            super.doShape(sData, length, coordinates, types, windingRule, isfill, shouldApplyOffset);
+        void doSibpf(SurfbdfDbtb sDbtb, int lfngti, FlobtBufffr doordinbtfs, IntBufffr typfs, int windingRulf, boolfbn isfill, boolfbn siouldApplyOffsft) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzFillOrDrbwSibpf");
+            supfr.doSibpf(sDbtb, lfngti, doordinbtfs, typfs, windingRulf, isfill, siouldApplyOffsft);
         }
 
-        void doImage(SurfaceData sData, SurfaceData img, boolean fliph, boolean flipv, int w, int h, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh) {
-            GraphicsPrimitive.tracePrimitive("QuartzDrawImage");
-            super.doImage(sData, img, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+        void doImbgf(SurfbdfDbtb sDbtb, SurfbdfDbtb img, boolfbn flipi, boolfbn flipv, int w, int i, int sx, int sy, int sw, int si, int dx, int dy, int dw, int di) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("QubrtzDrbwImbgf");
+            supfr.doImbgf(sDbtb, img, flipi, flipv, w, i, sx, sy, sw, si, dx, dy, dw, di);
         }
     }
 }

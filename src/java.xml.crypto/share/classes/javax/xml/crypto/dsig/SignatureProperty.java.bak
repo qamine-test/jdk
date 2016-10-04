@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: SignatureProperty.java,v 1.4 2005/05/10 16:03:46 mullan Exp $
+ * $Id: SignbturfPropfrty.jbvb,v 1.4 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
 
-import javax.xml.crypto.XMLStructure;
-import java.util.List;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>SignatureProperty</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
- * <pre><code>
- *&lt;element name="SignatureProperty" type="ds:SignaturePropertyType"/&gt;
- *   &lt;complexType name="SignaturePropertyType" mixed="true"&gt;
- *     &lt;choice maxOccurs="unbounded"&gt;
- *       &lt;any namespace="##other" processContents="lax"/&gt;
- *       &lt;!-- (1,1) elements from (1, unbounded) namespaces --&gt;
- *     &lt;/choice&gt;
- *     &lt;attribute name="Target" type="anyURI" use="required"/&gt;
- *     &lt;attribute name="Id" type="ID" use="optional"/&gt;
- *   &lt;/complexType&gt;
- * </code></pre>
+ * A rfprfsfntbtion of tif XML <dodf>SignbturfPropfrty</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * <prf><dodf>
+ *&lt;flfmfnt nbmf="SignbturfPropfrty" typf="ds:SignbturfPropfrtyTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="SignbturfPropfrtyTypf" mixfd="truf"&gt;
+ *     &lt;dioidf mbxOddurs="unboundfd"&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;!-- (1,1) flfmfnts from (1, unboundfd) nbmfspbdfs --&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;bttributf nbmf="Tbrgft" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </dodf></prf>
  *
- * A <code>SignatureProperty</code> instance may be created by invoking the
- * {@link XMLSignatureFactory#newSignatureProperty newSignatureProperty}
- * method of the {@link XMLSignatureFactory} class; for example:
+ * A <dodf>SignbturfPropfrty</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link XMLSignbturfFbdtory#nfwSignbturfPropfrty nfwSignbturfPropfrty}
+ * mftiod of tif {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
  *
- * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   SignatureProperty property = factory.newSignatureProperty
- *      (Collections.singletonList(content), "#Signature-1", "TimeStamp");
- * </pre>
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   SignbturfPropfrty propfrty = fbdtory.nfwSignbturfPropfrty
+ *      (Collfdtions.singlftonList(dontfnt), "#Signbturf-1", "TimfStbmp");
+ * </prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see XMLSignatureFactory#newSignatureProperty(List, String, String)
- * @see SignatureProperties
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwSignbturfPropfrty(List, String, String)
+ * @sff SignbturfPropfrtifs
  */
-public interface SignatureProperty extends XMLStructure {
+publid intfrfbdf SignbturfPropfrty fxtfnds XMLStrudturf {
 
     /**
-     * Returns the target URI of this <code>SignatureProperty</code>.
+     * Rfturns tif tbrgft URI of tiis <dodf>SignbturfPropfrty</dodf>.
      *
-     * @return the target URI of this <code>SignatureProperty</code> (never
-     *    <code>null</code>)
+     * @rfturn tif tbrgft URI of tiis <dodf>SignbturfPropfrty</dodf> (nfvfr
+     *    <dodf>null</dodf>)
      */
-    String getTarget();
+    String gftTbrgft();
 
     /**
-     * Returns the Id of this <code>SignatureProperty</code>.
+     * Rfturns tif Id of tiis <dodf>SignbturfPropfrty</dodf>.
      *
-     * @return the Id of this <code>SignatureProperty</code> (or
-     *    <code>null</code> if not specified)
+     * @rfturn tif Id of tiis <dodf>SignbturfPropfrty</dodf> (or
+     *    <dodf>null</dodf> if not spfdififd)
      */
-    String getId();
+    String gftId();
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of one or more {@link XMLStructure}s that are contained in
-     * this <code>SignatureProperty</code>. These represent additional
-     * information items concerning the generation of the {@link XMLSignature}
-     * (i.e. date/time stamp or serial numbers of cryptographic hardware used
-     * in signature generation).
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of onf or morf {@link XMLStrudturf}s tibt brf dontbinfd in
+     * tiis <dodf>SignbturfPropfrty</dodf>. Tifsf rfprfsfnt bdditionbl
+     * informbtion itfms dondfrning tif gfnfrbtion of tif {@link XMLSignbturf}
+     * (i.f. dbtf/timf stbmp or sfribl numbfrs of dryptogrbpiid ibrdwbrf usfd
+     * in signbturf gfnfrbtion).
      *
-     * @return an unmodifiable list of one or more <code>XMLStructure</code>s
+     * @rfturn bn unmodifibblf list of onf or morf <dodf>XMLStrudturf</dodf>s
      */
-    @SuppressWarnings("rawtypes")
-    List getContent();
+    @SupprfssWbrnings("rbwtypfs")
+    List gftContfnt();
 }

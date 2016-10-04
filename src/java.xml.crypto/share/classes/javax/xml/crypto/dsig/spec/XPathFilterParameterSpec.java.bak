@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: XPathFilterParameterSpec.java,v 1.4 2005/05/10 16:40:17 mullan Exp $
+ * $Id: XPbtiFiltfrPbrbmftfrSpfd.jbvb,v 1.4 2005/05/10 16:40:17 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
 
-import javax.xml.crypto.dsig.Transform;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
 
 /**
- * Parameters for the <a href="http://www.w3.org/TR/xmldsig-core/#sec-XPath">
- * XPath Filtering Transform Algorithm</a>.
- * The parameters include the XPath expression and an optional <code>Map</code>
- * of additional namespace prefix mappings. The XML Schema Definition of
- * the XPath Filtering transform parameters is defined as:
- * <pre><code>
- * &lt;element name="XPath" type="string"/&gt;
- * </code></pre>
+ * Pbrbmftfrs for tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-XPbti">
+ * XPbti Filtfring Trbnsform Algoritim</b>.
+ * Tif pbrbmftfrs indludf tif XPbti fxprfssion bnd bn optionbl <dodf>Mbp</dodf>
+ * of bdditionbl nbmfspbdf prffix mbppings. Tif XML Sdifmb Dffinition of
+ * tif XPbti Filtfring trbnsform pbrbmftfrs is dffinfd bs:
+ * <prf><dodf>
+ * &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ * </dodf></prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see Transform
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
  */
-public final class XPathFilterParameterSpec implements TransformParameterSpec {
+publid finbl dlbss XPbtiFiltfrPbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd {
 
-    private String xPath;
-    private Map<String,String> nsMap;
+    privbtf String xPbti;
+    privbtf Mbp<String,String> nsMbp;
 
     /**
-     * Creates an <code>XPathFilterParameterSpec</code> with the specified
-     * XPath expression.
+     * Crfbtfs bn <dodf>XPbtiFiltfrPbrbmftfrSpfd</dodf> witi tif spfdififd
+     * XPbti fxprfssion.
      *
-     * @param xPath the XPath expression to be evaluated
-     * @throws NullPointerException if <code>xPath</code> is <code>null</code>
+     * @pbrbm xPbti tif XPbti fxprfssion to bf fvblubtfd
+     * @tirows NullPointfrExdfption if <dodf>xPbti</dodf> is <dodf>null</dodf>
      */
-    public XPathFilterParameterSpec(String xPath) {
-        if (xPath == null) {
-            throw new NullPointerException();
+    publid XPbtiFiltfrPbrbmftfrSpfd(String xPbti) {
+        if (xPbti == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.xPath = xPath;
-        this.nsMap = Collections.emptyMap();
+        tiis.xPbti = xPbti;
+        tiis.nsMbp = Collfdtions.fmptyMbp();
     }
 
     /**
-     * Creates an <code>XPathFilterParameterSpec</code> with the specified
-     * XPath expression and namespace map. The map is copied to protect against
-     * subsequent modification.
+     * Crfbtfs bn <dodf>XPbtiFiltfrPbrbmftfrSpfd</dodf> witi tif spfdififd
+     * XPbti fxprfssion bnd nbmfspbdf mbp. Tif mbp is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
      *
-     * @param xPath the XPath expression to be evaluated
-     * @param namespaceMap the map of namespace prefixes. Each key is a
-     *    namespace prefix <code>String</code> that maps to a corresponding
-     *    namespace URI <code>String</code>.
-     * @throws NullPointerException if <code>xPath</code> or
-     *    <code>namespaceMap</code> are <code>null</code>
-     * @throws ClassCastException if any of the map's keys or entries are not
-     *    of type <code>String</code>
+     * @pbrbm xPbti tif XPbti fxprfssion to bf fvblubtfd
+     * @pbrbm nbmfspbdfMbp tif mbp of nbmfspbdf prffixfs. Ebdi kfy is b
+     *    nbmfspbdf prffix <dodf>String</dodf> tibt mbps to b dorrfsponding
+     *    nbmfspbdf URI <dodf>String</dodf>.
+     * @tirows NullPointfrExdfption if <dodf>xPbti</dodf> or
+     *    <dodf>nbmfspbdfMbp</dodf> brf <dodf>null</dodf>
+     * @tirows ClbssCbstExdfption if bny of tif mbp's kfys or fntrifs brf not
+     *    of typf <dodf>String</dodf>
      */
-    @SuppressWarnings("rawtypes")
-    public XPathFilterParameterSpec(String xPath, Map namespaceMap) {
-        if (xPath == null || namespaceMap == null) {
-            throw new NullPointerException();
+    @SupprfssWbrnings("rbwtypfs")
+    publid XPbtiFiltfrPbrbmftfrSpfd(String xPbti, Mbp nbmfspbdfMbp) {
+        if (xPbti == null || nbmfspbdfMbp == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.xPath = xPath;
-        Map<?,?> copy = new HashMap<>((Map<?,?>)namespaceMap);
-        Iterator<? extends Map.Entry<?,?>> entries = copy.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<?,?> me = entries.next();
-            if (!(me.getKey() instanceof String) ||
-                !(me.getValue() instanceof String)) {
-                throw new ClassCastException("not a String");
+        tiis.xPbti = xPbti;
+        Mbp<?,?> dopy = nfw HbsiMbp<>((Mbp<?,?>)nbmfspbdfMbp);
+        Itfrbtor<? fxtfnds Mbp.Entry<?,?>> fntrifs = dopy.fntrySft().itfrbtor();
+        wiilf (fntrifs.ibsNfxt()) {
+            Mbp.Entry<?,?> mf = fntrifs.nfxt();
+            if (!(mf.gftKfy() instbndfof String) ||
+                !(mf.gftVbluf() instbndfof String)) {
+                tirow nfw ClbssCbstExdfption("not b String");
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String,String> temp = (Map<String,String>)copy;
+        @SupprfssWbrnings("undifdkfd")
+        Mbp<String,String> tfmp = (Mbp<String,String>)dopy;
 
-        nsMap = Collections.unmodifiableMap(temp);
+        nsMbp = Collfdtions.unmodifibblfMbp(tfmp);
     }
 
     /**
-     * Returns the XPath expression to be evaluated.
+     * Rfturns tif XPbti fxprfssion to bf fvblubtfd.
      *
-     * @return the XPath expression to be evaluated
+     * @rfturn tif XPbti fxprfssion to bf fvblubtfd
      */
-    public String getXPath() {
-        return xPath;
+    publid String gftXPbti() {
+        rfturn xPbti;
     }
 
     /**
-     * Returns a map of namespace prefixes. Each key is a namespace prefix
-     * <code>String</code> that maps to a corresponding namespace URI
-     * <code>String</code>.
+     * Rfturns b mbp of nbmfspbdf prffixfs. Ebdi kfy is b nbmfspbdf prffix
+     * <dodf>String</dodf> tibt mbps to b dorrfsponding nbmfspbdf URI
+     * <dodf>String</dodf>.
      * <p>
-     * This implementation returns an {@link Collections#unmodifiableMap
-     * unmodifiable map}.
+     * Tiis implfmfntbtion rfturns bn {@link Collfdtions#unmodifibblfMbp
+     * unmodifibblf mbp}.
      *
-     * @return a <code>Map</code> of namespace prefixes to namespace URIs (may
-     *    be empty, but never <code>null</code>)
+     * @rfturn b <dodf>Mbp</dodf> of nbmfspbdf prffixfs to nbmfspbdf URIs (mby
+     *    bf fmpty, but nfvfr <dodf>null</dodf>)
      */
-    @SuppressWarnings("rawtypes")
-    public Map getNamespaceMap() {
-        return nsMap;
+    @SupprfssWbrnings("rbwtypfs")
+    publid Mbp gftNbmfspbdfMbp() {
+        rfturn nsMbp;
     }
 }

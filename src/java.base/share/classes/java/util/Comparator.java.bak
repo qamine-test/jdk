@@ -1,534 +1,534 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.Serializable;
-import java.util.function.Function;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
-import java.util.function.ToDoubleFunction;
-import java.util.Comparators;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.ToIntFundtion;
+import jbvb.util.fundtion.ToLongFundtion;
+import jbvb.util.fundtion.ToDoublfFundtion;
+import jbvb.util.Compbrbtors;
 
 /**
- * A comparison function, which imposes a <i>total ordering</i> on some
- * collection of objects.  Comparators can be passed to a sort method (such
- * as {@link Collections#sort(List,Comparator) Collections.sort} or {@link
- * Arrays#sort(Object[],Comparator) Arrays.sort}) to allow precise control
- * over the sort order.  Comparators can also be used to control the order of
- * certain data structures (such as {@link SortedSet sorted sets} or {@link
- * SortedMap sorted maps}), or to provide an ordering for collections of
- * objects that don't have a {@link Comparable natural ordering}.<p>
+ * A dompbrison fundtion, wiidi imposfs b <i>totbl ordfring</i> on somf
+ * dollfdtion of objfdts.  Compbrbtors dbn bf pbssfd to b sort mftiod (sudi
+ * bs {@link Collfdtions#sort(List,Compbrbtor) Collfdtions.sort} or {@link
+ * Arrbys#sort(Objfdt[],Compbrbtor) Arrbys.sort}) to bllow prfdisf dontrol
+ * ovfr tif sort ordfr.  Compbrbtors dbn blso bf usfd to dontrol tif ordfr of
+ * dfrtbin dbtb strudturfs (sudi bs {@link SortfdSft sortfd sfts} or {@link
+ * SortfdMbp sortfd mbps}), or to providf bn ordfring for dollfdtions of
+ * objfdts tibt don't ibvf b {@link Compbrbblf nbturbl ordfring}.<p>
  *
- * The ordering imposed by a comparator <tt>c</tt> on a set of elements
- * <tt>S</tt> is said to be <i>consistent with equals</i> if and only if
- * <tt>c.compare(e1, e2)==0</tt> has the same boolean value as
- * <tt>e1.equals(e2)</tt> for every <tt>e1</tt> and <tt>e2</tt> in
+ * Tif ordfring imposfd by b dompbrbtor <tt>d</tt> on b sft of flfmfnts
+ * <tt>S</tt> is sbid to bf <i>donsistfnt witi fqubls</i> if bnd only if
+ * <tt>d.dompbrf(f1, f2)==0</tt> ibs tif sbmf boolfbn vbluf bs
+ * <tt>f1.fqubls(f2)</tt> for fvfry <tt>f1</tt> bnd <tt>f2</tt> in
  * <tt>S</tt>.<p>
  *
- * Caution should be exercised when using a comparator capable of imposing an
- * ordering inconsistent with equals to order a sorted set (or sorted map).
- * Suppose a sorted set (or sorted map) with an explicit comparator <tt>c</tt>
- * is used with elements (or keys) drawn from a set <tt>S</tt>.  If the
- * ordering imposed by <tt>c</tt> on <tt>S</tt> is inconsistent with equals,
- * the sorted set (or sorted map) will behave "strangely."  In particular the
- * sorted set (or sorted map) will violate the general contract for set (or
- * map), which is defined in terms of <tt>equals</tt>.<p>
+ * Cbution siould bf fxfrdisfd wifn using b dompbrbtor dbpbblf of imposing bn
+ * ordfring indonsistfnt witi fqubls to ordfr b sortfd sft (or sortfd mbp).
+ * Supposf b sortfd sft (or sortfd mbp) witi bn fxplidit dompbrbtor <tt>d</tt>
+ * is usfd witi flfmfnts (or kfys) drbwn from b sft <tt>S</tt>.  If tif
+ * ordfring imposfd by <tt>d</tt> on <tt>S</tt> is indonsistfnt witi fqubls,
+ * tif sortfd sft (or sortfd mbp) will bfibvf "strbngfly."  In pbrtidulbr tif
+ * sortfd sft (or sortfd mbp) will violbtf tif gfnfrbl dontrbdt for sft (or
+ * mbp), wiidi is dffinfd in tfrms of <tt>fqubls</tt>.<p>
  *
- * For example, suppose one adds two elements {@code a} and {@code b} such that
- * {@code (a.equals(b) && c.compare(a, b) != 0)}
- * to an empty {@code TreeSet} with comparator {@code c}.
- * The second {@code add} operation will return
- * true (and the size of the tree set will increase) because {@code a} and
- * {@code b} are not equivalent from the tree set's perspective, even though
- * this is contrary to the specification of the
- * {@link Set#add Set.add} method.<p>
+ * For fxbmplf, supposf onf bdds two flfmfnts {@dodf b} bnd {@dodf b} sudi tibt
+ * {@dodf (b.fqubls(b) && d.dompbrf(b, b) != 0)}
+ * to bn fmpty {@dodf TrffSft} witi dompbrbtor {@dodf d}.
+ * Tif sfdond {@dodf bdd} opfrbtion will rfturn
+ * truf (bnd tif sizf of tif trff sft will indrfbsf) bfdbusf {@dodf b} bnd
+ * {@dodf b} brf not fquivblfnt from tif trff sft's pfrspfdtivf, fvfn tiougi
+ * tiis is dontrbry to tif spfdifidbtion of tif
+ * {@link Sft#bdd Sft.bdd} mftiod.<p>
  *
- * Note: It is generally a good idea for comparators to also implement
- * <tt>java.io.Serializable</tt>, as they may be used as ordering methods in
- * serializable data structures (like {@link TreeSet}, {@link TreeMap}).  In
- * order for the data structure to serialize successfully, the comparator (if
- * provided) must implement <tt>Serializable</tt>.<p>
+ * Notf: It is gfnfrblly b good idfb for dompbrbtors to blso implfmfnt
+ * <tt>jbvb.io.Sfriblizbblf</tt>, bs tify mby bf usfd bs ordfring mftiods in
+ * sfriblizbblf dbtb strudturfs (likf {@link TrffSft}, {@link TrffMbp}).  In
+ * ordfr for tif dbtb strudturf to sfriblizf suddfssfully, tif dompbrbtor (if
+ * providfd) must implfmfnt <tt>Sfriblizbblf</tt>.<p>
  *
- * For the mathematically inclined, the <i>relation</i> that defines the
- * <i>imposed ordering</i> that a given comparator <tt>c</tt> imposes on a
- * given set of objects <tt>S</tt> is:<pre>
- *       {(x, y) such that c.compare(x, y) &lt;= 0}.
- * </pre> The <i>quotient</i> for this total order is:<pre>
- *       {(x, y) such that c.compare(x, y) == 0}.
- * </pre>
+ * For tif mbtifmbtidblly indlinfd, tif <i>rflbtion</i> tibt dffinfs tif
+ * <i>imposfd ordfring</i> tibt b givfn dompbrbtor <tt>d</tt> imposfs on b
+ * givfn sft of objfdts <tt>S</tt> is:<prf>
+ *       {(x, y) sudi tibt d.dompbrf(x, y) &lt;= 0}.
+ * </prf> Tif <i>quotifnt</i> for tiis totbl ordfr is:<prf>
+ *       {(x, y) sudi tibt d.dompbrf(x, y) == 0}.
+ * </prf>
  *
- * It follows immediately from the contract for <tt>compare</tt> that the
- * quotient is an <i>equivalence relation</i> on <tt>S</tt>, and that the
- * imposed ordering is a <i>total order</i> on <tt>S</tt>.  When we say that
- * the ordering imposed by <tt>c</tt> on <tt>S</tt> is <i>consistent with
- * equals</i>, we mean that the quotient for the ordering is the equivalence
- * relation defined by the objects' {@link Object#equals(Object)
- * equals(Object)} method(s):<pre>
- *     {(x, y) such that x.equals(y)}. </pre>
+ * It follows immfdibtfly from tif dontrbdt for <tt>dompbrf</tt> tibt tif
+ * quotifnt is bn <i>fquivblfndf rflbtion</i> on <tt>S</tt>, bnd tibt tif
+ * imposfd ordfring is b <i>totbl ordfr</i> on <tt>S</tt>.  Wifn wf sby tibt
+ * tif ordfring imposfd by <tt>d</tt> on <tt>S</tt> is <i>donsistfnt witi
+ * fqubls</i>, wf mfbn tibt tif quotifnt for tif ordfring is tif fquivblfndf
+ * rflbtion dffinfd by tif objfdts' {@link Objfdt#fqubls(Objfdt)
+ * fqubls(Objfdt)} mftiod(s):<prf>
+ *     {(x, y) sudi tibt x.fqubls(y)}. </prf>
  *
- * <p>Unlike {@code Comparable}, a comparator may optionally permit
- * comparison of null arguments, while maintaining the requirements for
- * an equivalence relation.
+ * <p>Unlikf {@dodf Compbrbblf}, b dompbrbtor mby optionblly pfrmit
+ * dompbrison of null brgumfnts, wiilf mbintbining tif rfquirfmfnts for
+ * bn fquivblfndf rflbtion.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <T> the type of objects that may be compared by this comparator
+ * @pbrbm <T> tif typf of objfdts tibt mby bf dompbrfd by tiis dompbrbtor
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see Comparable
- * @see java.io.Serializable
- * @since 1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff Compbrbblf
+ * @sff jbvb.io.Sfriblizbblf
+ * @sindf 1.2
  */
-@FunctionalInterface
-public interface Comparator<T> {
+@FundtionblIntfrfbdf
+publid intfrfbdf Compbrbtor<T> {
     /**
-     * Compares its two arguments for order.  Returns a negative integer,
-     * zero, or a positive integer as the first argument is less than, equal
-     * to, or greater than the second.<p>
+     * Compbrfs its two brgumfnts for ordfr.  Rfturns b nfgbtivf intfgfr,
+     * zfro, or b positivf intfgfr bs tif first brgumfnt is lfss tibn, fqubl
+     * to, or grfbtfr tibn tif sfdond.<p>
      *
-     * In the foregoing description, the notation
-     * <tt>sgn(</tt><i>expression</i><tt>)</tt> designates the mathematical
-     * <i>signum</i> function, which is defined to return one of <tt>-1</tt>,
-     * <tt>0</tt>, or <tt>1</tt> according to whether the value of
-     * <i>expression</i> is negative, zero or positive.<p>
+     * In tif forfgoing dfsdription, tif notbtion
+     * <tt>sgn(</tt><i>fxprfssion</i><tt>)</tt> dfsignbtfs tif mbtifmbtidbl
+     * <i>signum</i> fundtion, wiidi is dffinfd to rfturn onf of <tt>-1</tt>,
+     * <tt>0</tt>, or <tt>1</tt> bddording to wiftifr tif vbluf of
+     * <i>fxprfssion</i> is nfgbtivf, zfro or positivf.<p>
      *
-     * The implementor must ensure that <tt>sgn(compare(x, y)) ==
-     * -sgn(compare(y, x))</tt> for all <tt>x</tt> and <tt>y</tt>.  (This
-     * implies that <tt>compare(x, y)</tt> must throw an exception if and only
-     * if <tt>compare(y, x)</tt> throws an exception.)<p>
+     * Tif implfmfntor must fnsurf tibt <tt>sgn(dompbrf(x, y)) ==
+     * -sgn(dompbrf(y, x))</tt> for bll <tt>x</tt> bnd <tt>y</tt>.  (Tiis
+     * implifs tibt <tt>dompbrf(x, y)</tt> must tirow bn fxdfption if bnd only
+     * if <tt>dompbrf(y, x)</tt> tirows bn fxdfption.)<p>
      *
-     * The implementor must also ensure that the relation is transitive:
-     * <tt>((compare(x, y)&gt;0) &amp;&amp; (compare(y, z)&gt;0))</tt> implies
-     * <tt>compare(x, z)&gt;0</tt>.<p>
+     * Tif implfmfntor must blso fnsurf tibt tif rflbtion is trbnsitivf:
+     * <tt>((dompbrf(x, y)&gt;0) &bmp;&bmp; (dompbrf(y, z)&gt;0))</tt> implifs
+     * <tt>dompbrf(x, z)&gt;0</tt>.<p>
      *
-     * Finally, the implementor must ensure that <tt>compare(x, y)==0</tt>
-     * implies that <tt>sgn(compare(x, z))==sgn(compare(y, z))</tt> for all
+     * Finblly, tif implfmfntor must fnsurf tibt <tt>dompbrf(x, y)==0</tt>
+     * implifs tibt <tt>sgn(dompbrf(x, z))==sgn(dompbrf(y, z))</tt> for bll
      * <tt>z</tt>.<p>
      *
-     * It is generally the case, but <i>not</i> strictly required that
-     * <tt>(compare(x, y)==0) == (x.equals(y))</tt>.  Generally speaking,
-     * any comparator that violates this condition should clearly indicate
-     * this fact.  The recommended language is "Note: this comparator
-     * imposes orderings that are inconsistent with equals."
+     * It is gfnfrblly tif dbsf, but <i>not</i> stridtly rfquirfd tibt
+     * <tt>(dompbrf(x, y)==0) == (x.fqubls(y))</tt>.  Gfnfrblly spfbking,
+     * bny dompbrbtor tibt violbtfs tiis dondition siould dlfbrly indidbtf
+     * tiis fbdt.  Tif rfdommfndfd lbngubgf is "Notf: tiis dompbrbtor
+     * imposfs ordfrings tibt brf indonsistfnt witi fqubls."
      *
-     * @param o1 the first object to be compared.
-     * @param o2 the second object to be compared.
-     * @return a negative integer, zero, or a positive integer as the
-     *         first argument is less than, equal to, or greater than the
-     *         second.
-     * @throws NullPointerException if an argument is null and this
-     *         comparator does not permit null arguments
-     * @throws ClassCastException if the arguments' types prevent them from
-     *         being compared by this comparator.
+     * @pbrbm o1 tif first objfdt to bf dompbrfd.
+     * @pbrbm o2 tif sfdond objfdt to bf dompbrfd.
+     * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tif
+     *         first brgumfnt is lfss tibn, fqubl to, or grfbtfr tibn tif
+     *         sfdond.
+     * @tirows NullPointfrExdfption if bn brgumfnt is null bnd tiis
+     *         dompbrbtor dofs not pfrmit null brgumfnts
+     * @tirows ClbssCbstExdfption if tif brgumfnts' typfs prfvfnt tifm from
+     *         bfing dompbrfd by tiis dompbrbtor.
      */
-    int compare(T o1, T o2);
+    int dompbrf(T o1, T o2);
 
     /**
-     * Indicates whether some other object is &quot;equal to&quot; this
-     * comparator.  This method must obey the general contract of
-     * {@link Object#equals(Object)}.  Additionally, this method can return
-     * <tt>true</tt> <i>only</i> if the specified object is also a comparator
-     * and it imposes the same ordering as this comparator.  Thus,
-     * <code>comp1.equals(comp2)</code> implies that <tt>sgn(comp1.compare(o1,
-     * o2))==sgn(comp2.compare(o1, o2))</tt> for every object reference
-     * <tt>o1</tt> and <tt>o2</tt>.<p>
+     * Indidbtfs wiftifr somf otifr objfdt is &quot;fqubl to&quot; tiis
+     * dompbrbtor.  Tiis mftiod must obfy tif gfnfrbl dontrbdt of
+     * {@link Objfdt#fqubls(Objfdt)}.  Additionblly, tiis mftiod dbn rfturn
+     * <tt>truf</tt> <i>only</i> if tif spfdififd objfdt is blso b dompbrbtor
+     * bnd it imposfs tif sbmf ordfring bs tiis dompbrbtor.  Tius,
+     * <dodf>domp1.fqubls(domp2)</dodf> implifs tibt <tt>sgn(domp1.dompbrf(o1,
+     * o2))==sgn(domp2.dompbrf(o1, o2))</tt> for fvfry objfdt rfffrfndf
+     * <tt>o1</tt> bnd <tt>o2</tt>.<p>
      *
-     * Note that it is <i>always</i> safe <i>not</i> to override
-     * <tt>Object.equals(Object)</tt>.  However, overriding this method may,
-     * in some cases, improve performance by allowing programs to determine
-     * that two distinct comparators impose the same order.
+     * Notf tibt it is <i>blwbys</i> sbff <i>not</i> to ovfrridf
+     * <tt>Objfdt.fqubls(Objfdt)</tt>.  Howfvfr, ovfrriding tiis mftiod mby,
+     * in somf dbsfs, improvf pfrformbndf by bllowing progrbms to dftfrminf
+     * tibt two distindt dompbrbtors imposf tif sbmf ordfr.
      *
-     * @param   obj   the reference object with which to compare.
-     * @return  <code>true</code> only if the specified object is also
-     *          a comparator and it imposes the same ordering as this
-     *          comparator.
-     * @see Object#equals(Object)
-     * @see Object#hashCode()
+     * @pbrbm   obj   tif rfffrfndf objfdt witi wiidi to dompbrf.
+     * @rfturn  <dodf>truf</dodf> only if tif spfdififd objfdt is blso
+     *          b dompbrbtor bnd it imposfs tif sbmf ordfring bs tiis
+     *          dompbrbtor.
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff Objfdt#ibsiCodf()
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns a comparator that imposes the reverse ordering of this
-     * comparator.
+     * Rfturns b dompbrbtor tibt imposfs tif rfvfrsf ordfring of tiis
+     * dompbrbtor.
      *
-     * @return a comparator that imposes the reverse ordering of this
-     *         comparator.
-     * @since 1.8
+     * @rfturn b dompbrbtor tibt imposfs tif rfvfrsf ordfring of tiis
+     *         dompbrbtor.
+     * @sindf 1.8
      */
-    default Comparator<T> reversed() {
-        return Collections.reverseOrder(this);
+    dffbult Compbrbtor<T> rfvfrsfd() {
+        rfturn Collfdtions.rfvfrsfOrdfr(tiis);
     }
 
     /**
-     * Returns a lexicographic-order comparator with another comparator.
-     * If this {@code Comparator} considers two elements equal, i.e.
-     * {@code compare(a, b) == 0}, {@code other} is used to determine the order.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi bnotifr dompbrbtor.
+     * If tiis {@dodf Compbrbtor} donsidfrs two flfmfnts fqubl, i.f.
+     * {@dodf dompbrf(b, b) == 0}, {@dodf otifr} is usfd to dftfrminf tif ordfr.
      *
-     * <p>The returned comparator is serializable if the specified comparator
-     * is also serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is blso sfriblizbblf.
      *
-     * @apiNote
-     * For example, to sort a collection of {@code String} based on the length
-     * and then case-insensitive natural ordering, the comparator can be
-     * composed using following code,
+     * @bpiNotf
+     * For fxbmplf, to sort b dollfdtion of {@dodf String} bbsfd on tif lfngti
+     * bnd tifn dbsf-insfnsitivf nbturbl ordfring, tif dompbrbtor dbn bf
+     * domposfd using following dodf,
      *
-     * <pre>{@code
-     *     Comparator<String> cmp = Comparator.comparingInt(String::length)
-     *             .thenComparing(String.CASE_INSENSITIVE_ORDER);
-     * }</pre>
+     * <prf>{@dodf
+     *     Compbrbtor<String> dmp = Compbrbtor.dompbringInt(String::lfngti)
+     *             .tifnCompbring(String.CASE_INSENSITIVE_ORDER);
+     * }</prf>
      *
-     * @param  other the other comparator to be used when this comparator
-     *         compares two objects that are equal.
-     * @return a lexicographic-order comparator composed of this and then the
-     *         other comparator
-     * @throws NullPointerException if the argument is null.
-     * @since 1.8
+     * @pbrbm  otifr tif otifr dompbrbtor to bf usfd wifn tiis dompbrbtor
+     *         dompbrfs two objfdts tibt brf fqubl.
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         otifr dompbrbtor
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sindf 1.8
      */
-    default Comparator<T> thenComparing(Comparator<? super T> other) {
-        Objects.requireNonNull(other);
-        return (Comparator<T> & Serializable) (c1, c2) -> {
-            int res = compare(c1, c2);
-            return (res != 0) ? res : other.compare(c1, c2);
+    dffbult Compbrbtor<T> tifnCompbring(Compbrbtor<? supfr T> otifr) {
+        Objfdts.rfquirfNonNull(otifr);
+        rfturn (Compbrbtor<T> & Sfriblizbblf) (d1, d2) -> {
+            int rfs = dompbrf(d1, d2);
+            rfturn (rfs != 0) ? rfs : otifr.dompbrf(d1, d2);
         };
     }
 
     /**
-     * Returns a lexicographic-order comparator with a function that
-     * extracts a key to be compared with the given {@code Comparator}.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b kfy to bf dompbrfd witi tif givfn {@dodf Compbrbtor}.
      *
-     * @implSpec This default implementation behaves as if {@code
-     *           thenComparing(comparing(keyExtractor, cmp))}.
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbring(kfyExtrbdtor, dmp))}.
      *
-     * @param  <U>  the type of the sort key
-     * @param  keyExtractor the function used to extract the sort key
-     * @param  keyComparator the {@code Comparator} used to compare the sort key
-     * @return a lexicographic-order comparator composed of this comparator
-     *         and then comparing on the key extracted by the keyExtractor function
-     * @throws NullPointerException if either argument is null.
-     * @see #comparing(Function, Comparator)
-     * @see #thenComparing(Comparator)
-     * @since 1.8
+     * @pbrbm  <U>  tif typf of tif sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif sort kfy
+     * @pbrbm  kfyCompbrbtor tif {@dodf Compbrbtor} usfd to dompbrf tif sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis dompbrbtor
+     *         bnd tifn dompbring on tif kfy fxtrbdtfd by tif kfyExtrbdtor fundtion
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
+     * @sff #dompbring(Fundtion, Compbrbtor)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
      */
-    default <U> Comparator<T> thenComparing(
-            Function<? super T, ? extends U> keyExtractor,
-            Comparator<? super U> keyComparator)
+    dffbult <U> Compbrbtor<T> tifnCompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor,
+            Compbrbtor<? supfr U> kfyCompbrbtor)
     {
-        return thenComparing(comparing(keyExtractor, keyComparator));
+        rfturn tifnCompbring(dompbring(kfyExtrbdtor, kfyCompbrbtor));
     }
 
     /**
-     * Returns a lexicographic-order comparator with a function that
-     * extracts a {@code Comparable} sort key.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf Compbrbblf} sort kfy.
      *
-     * @implSpec This default implementation behaves as if {@code
-     *           thenComparing(comparing(keyExtractor))}.
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbring(kfyExtrbdtor))}.
      *
-     * @param  <U>  the type of the {@link Comparable} sort key
-     * @param  keyExtractor the function used to extract the {@link
-     *         Comparable} sort key
-     * @return a lexicographic-order comparator composed of this and then the
-     *         {@link Comparable} sort key.
-     * @throws NullPointerException if the argument is null.
-     * @see #comparing(Function)
-     * @see #thenComparing(Comparator)
-     * @since 1.8
+     * @pbrbm  <U>  tif typf of tif {@link Compbrbblf} sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif {@link
+     *         Compbrbblf} sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@link Compbrbblf} sort kfy.
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbring(Fundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
      */
-    default <U extends Comparable<? super U>> Comparator<T> thenComparing(
-            Function<? super T, ? extends U> keyExtractor)
+    dffbult <U fxtfnds Compbrbblf<? supfr U>> Compbrbtor<T> tifnCompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor)
     {
-        return thenComparing(comparing(keyExtractor));
+        rfturn tifnCompbring(dompbring(kfyExtrbdtor));
     }
 
     /**
-     * Returns a lexicographic-order comparator with a function that
-     * extracts a {@code int} sort key.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf int} sort kfy.
      *
-     * @implSpec This default implementation behaves as if {@code
-     *           thenComparing(comparingInt(keyExtractor))}.
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringInt(kfyExtrbdtor))}.
      *
-     * @param  keyExtractor the function used to extract the integer sort key
-     * @return a lexicographic-order comparator composed of this and then the
-     *         {@code int} sort key
-     * @throws NullPointerException if the argument is null.
-     * @see #comparingInt(ToIntFunction)
-     * @see #thenComparing(Comparator)
-     * @since 1.8
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif intfgfr sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf int} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringInt(ToIntFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
      */
-    default Comparator<T> thenComparingInt(ToIntFunction<? super T> keyExtractor) {
-        return thenComparing(comparingInt(keyExtractor));
+    dffbult Compbrbtor<T> tifnCompbringInt(ToIntFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringInt(kfyExtrbdtor));
     }
 
     /**
-     * Returns a lexicographic-order comparator with a function that
-     * extracts a {@code long} sort key.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf long} sort kfy.
      *
-     * @implSpec This default implementation behaves as if {@code
-     *           thenComparing(comparingLong(keyExtractor))}.
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringLong(kfyExtrbdtor))}.
      *
-     * @param  keyExtractor the function used to extract the long sort key
-     * @return a lexicographic-order comparator composed of this and then the
-     *         {@code long} sort key
-     * @throws NullPointerException if the argument is null.
-     * @see #comparingLong(ToLongFunction)
-     * @see #thenComparing(Comparator)
-     * @since 1.8
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif long sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf long} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringLong(ToLongFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
      */
-    default Comparator<T> thenComparingLong(ToLongFunction<? super T> keyExtractor) {
-        return thenComparing(comparingLong(keyExtractor));
+    dffbult Compbrbtor<T> tifnCompbringLong(ToLongFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringLong(kfyExtrbdtor));
     }
 
     /**
-     * Returns a lexicographic-order comparator with a function that
-     * extracts a {@code double} sort key.
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf doublf} sort kfy.
      *
-     * @implSpec This default implementation behaves as if {@code
-     *           thenComparing(comparingDouble(keyExtractor))}.
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringDoublf(kfyExtrbdtor))}.
      *
-     * @param  keyExtractor the function used to extract the double sort key
-     * @return a lexicographic-order comparator composed of this and then the
-     *         {@code double} sort key
-     * @throws NullPointerException if the argument is null.
-     * @see #comparingDouble(ToDoubleFunction)
-     * @see #thenComparing(Comparator)
-     * @since 1.8
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif doublf sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf doublf} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringDoublf(ToDoublfFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
      */
-    default Comparator<T> thenComparingDouble(ToDoubleFunction<? super T> keyExtractor) {
-        return thenComparing(comparingDouble(keyExtractor));
+    dffbult Compbrbtor<T> tifnCompbringDoublf(ToDoublfFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringDoublf(kfyExtrbdtor));
     }
 
     /**
-     * Returns a comparator that imposes the reverse of the <em>natural
-     * ordering</em>.
+     * Rfturns b dompbrbtor tibt imposfs tif rfvfrsf of tif <fm>nbturbl
+     * ordfring</fm>.
      *
-     * <p>The returned comparator is serializable and throws {@link
-     * NullPointerException} when comparing {@code null}.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf bnd tirows {@link
+     * NullPointfrExdfption} wifn dompbring {@dodf null}.
      *
-     * @param  <T> the {@link Comparable} type of element to be compared
-     * @return a comparator that imposes the reverse of the <i>natural
-     *         ordering</i> on {@code Comparable} objects.
-     * @see Comparable
-     * @since 1.8
+     * @pbrbm  <T> tif {@link Compbrbblf} typf of flfmfnt to bf dompbrfd
+     * @rfturn b dompbrbtor tibt imposfs tif rfvfrsf of tif <i>nbturbl
+     *         ordfring</i> on {@dodf Compbrbblf} objfdts.
+     * @sff Compbrbblf
+     * @sindf 1.8
      */
-    public static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
-        return Collections.reverseOrder();
+    publid stbtid <T fxtfnds Compbrbblf<? supfr T>> Compbrbtor<T> rfvfrsfOrdfr() {
+        rfturn Collfdtions.rfvfrsfOrdfr();
     }
 
     /**
-     * Returns a comparator that compares {@link Comparable} objects in natural
-     * order.
+     * Rfturns b dompbrbtor tibt dompbrfs {@link Compbrbblf} objfdts in nbturbl
+     * ordfr.
      *
-     * <p>The returned comparator is serializable and throws {@link
-     * NullPointerException} when comparing {@code null}.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf bnd tirows {@link
+     * NullPointfrExdfption} wifn dompbring {@dodf null}.
      *
-     * @param  <T> the {@link Comparable} type of element to be compared
-     * @return a comparator that imposes the <i>natural ordering</i> on {@code
-     *         Comparable} objects.
-     * @see Comparable
-     * @since 1.8
+     * @pbrbm  <T> tif {@link Compbrbblf} typf of flfmfnt to bf dompbrfd
+     * @rfturn b dompbrbtor tibt imposfs tif <i>nbturbl ordfring</i> on {@dodf
+     *         Compbrbblf} objfdts.
+     * @sff Compbrbblf
+     * @sindf 1.8
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Comparable<? super T>> Comparator<T> naturalOrder() {
-        return (Comparator<T>) Comparators.NaturalOrderComparator.INSTANCE;
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T fxtfnds Compbrbblf<? supfr T>> Compbrbtor<T> nbturblOrdfr() {
+        rfturn (Compbrbtor<T>) Compbrbtors.NbturblOrdfrCompbrbtor.INSTANCE;
     }
 
     /**
-     * Returns a null-friendly comparator that considers {@code null} to be
-     * less than non-null. When both are {@code null}, they are considered
-     * equal. If both are non-null, the specified {@code Comparator} is used
-     * to determine the order. If the specified comparator is {@code null},
-     * then the returned comparator considers all non-null values to be equal.
+     * Rfturns b null-frifndly dompbrbtor tibt donsidfrs {@dodf null} to bf
+     * lfss tibn non-null. Wifn boti brf {@dodf null}, tify brf donsidfrfd
+     * fqubl. If boti brf non-null, tif spfdififd {@dodf Compbrbtor} is usfd
+     * to dftfrminf tif ordfr. If tif spfdififd dompbrbtor is {@dodf null},
+     * tifn tif rfturnfd dompbrbtor donsidfrs bll non-null vblufs to bf fqubl.
      *
-     * <p>The returned comparator is serializable if the specified comparator
-     * is serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is sfriblizbblf.
      *
-     * @param  <T> the type of the elements to be compared
-     * @param  comparator a {@code Comparator} for comparing non-null values
-     * @return a comparator that considers {@code null} to be less than
-     *         non-null, and compares non-null objects with the supplied
-     *         {@code Comparator}.
-     * @since 1.8
+     * @pbrbm  <T> tif typf of tif flfmfnts to bf dompbrfd
+     * @pbrbm  dompbrbtor b {@dodf Compbrbtor} for dompbring non-null vblufs
+     * @rfturn b dompbrbtor tibt donsidfrs {@dodf null} to bf lfss tibn
+     *         non-null, bnd dompbrfs non-null objfdts witi tif supplifd
+     *         {@dodf Compbrbtor}.
+     * @sindf 1.8
      */
-    public static <T> Comparator<T> nullsFirst(Comparator<? super T> comparator) {
-        return new Comparators.NullComparator<>(true, comparator);
+    publid stbtid <T> Compbrbtor<T> nullsFirst(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn nfw Compbrbtors.NullCompbrbtor<>(truf, dompbrbtor);
     }
 
     /**
-     * Returns a null-friendly comparator that considers {@code null} to be
-     * greater than non-null. When both are {@code null}, they are considered
-     * equal. If both are non-null, the specified {@code Comparator} is used
-     * to determine the order. If the specified comparator is {@code null},
-     * then the returned comparator considers all non-null values to be equal.
+     * Rfturns b null-frifndly dompbrbtor tibt donsidfrs {@dodf null} to bf
+     * grfbtfr tibn non-null. Wifn boti brf {@dodf null}, tify brf donsidfrfd
+     * fqubl. If boti brf non-null, tif spfdififd {@dodf Compbrbtor} is usfd
+     * to dftfrminf tif ordfr. If tif spfdififd dompbrbtor is {@dodf null},
+     * tifn tif rfturnfd dompbrbtor donsidfrs bll non-null vblufs to bf fqubl.
      *
-     * <p>The returned comparator is serializable if the specified comparator
-     * is serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is sfriblizbblf.
      *
-     * @param  <T> the type of the elements to be compared
-     * @param  comparator a {@code Comparator} for comparing non-null values
-     * @return a comparator that considers {@code null} to be greater than
-     *         non-null, and compares non-null objects with the supplied
-     *         {@code Comparator}.
-     * @since 1.8
+     * @pbrbm  <T> tif typf of tif flfmfnts to bf dompbrfd
+     * @pbrbm  dompbrbtor b {@dodf Compbrbtor} for dompbring non-null vblufs
+     * @rfturn b dompbrbtor tibt donsidfrs {@dodf null} to bf grfbtfr tibn
+     *         non-null, bnd dompbrfs non-null objfdts witi tif supplifd
+     *         {@dodf Compbrbtor}.
+     * @sindf 1.8
      */
-    public static <T> Comparator<T> nullsLast(Comparator<? super T> comparator) {
-        return new Comparators.NullComparator<>(false, comparator);
+    publid stbtid <T> Compbrbtor<T> nullsLbst(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn nfw Compbrbtors.NullCompbrbtor<>(fblsf, dompbrbtor);
     }
 
     /**
-     * Accepts a function that extracts a sort key from a type {@code T}, and
-     * returns a {@code Comparator<T>} that compares by that sort key using
-     * the specified {@link Comparator}.
+     * Addfpts b fundtion tibt fxtrbdts b sort kfy from b typf {@dodf T}, bnd
+     * rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt sort kfy using
+     * tif spfdififd {@link Compbrbtor}.
       *
-     * <p>The returned comparator is serializable if the specified function
-     * and comparator are both serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * bnd dompbrbtor brf boti sfriblizbblf.
      *
-     * @apiNote
-     * For example, to obtain a {@code Comparator} that compares {@code
-     * Person} objects by their last name ignoring case differences,
+     * @bpiNotf
+     * For fxbmplf, to obtbin b {@dodf Compbrbtor} tibt dompbrfs {@dodf
+     * Pfrson} objfdts by tifir lbst nbmf ignoring dbsf difffrfndfs,
      *
-     * <pre>{@code
-     *     Comparator<Person> cmp = Comparator.comparing(
-     *             Person::getLastName,
+     * <prf>{@dodf
+     *     Compbrbtor<Pfrson> dmp = Compbrbtor.dompbring(
+     *             Pfrson::gftLbstNbmf,
      *             String.CASE_INSENSITIVE_ORDER);
-     * }</pre>
+     * }</prf>
      *
-     * @param  <T> the type of element to be compared
-     * @param  <U> the type of the sort key
-     * @param  keyExtractor the function used to extract the sort key
-     * @param  keyComparator the {@code Comparator} used to compare the sort key
-     * @return a comparator that compares by an extracted key using the
-     *         specified {@code Comparator}
-     * @throws NullPointerException if either argument is null
-     * @since 1.8
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  <U> tif typf of tif sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif sort kfy
+     * @pbrbm  kfyCompbrbtor tif {@dodf Compbrbtor} usfd to dompbrf tif sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy using tif
+     *         spfdififd {@dodf Compbrbtor}
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null
+     * @sindf 1.8
      */
-    public static <T, U> Comparator<T> comparing(
-            Function<? super T, ? extends U> keyExtractor,
-            Comparator<? super U> keyComparator)
+    publid stbtid <T, U> Compbrbtor<T> dompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor,
+            Compbrbtor<? supfr U> kfyCompbrbtor)
     {
-        Objects.requireNonNull(keyExtractor);
-        Objects.requireNonNull(keyComparator);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> keyComparator.compare(keyExtractor.apply(c1),
-                                              keyExtractor.apply(c2));
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        Objfdts.rfquirfNonNull(kfyCompbrbtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> kfyCompbrbtor.dompbrf(kfyExtrbdtor.bpply(d1),
+                                              kfyExtrbdtor.bpply(d2));
     }
 
     /**
-     * Accepts a function that extracts a {@link java.lang.Comparable
-     * Comparable} sort key from a type {@code T}, and returns a {@code
-     * Comparator<T>} that compares by that sort key.
+     * Addfpts b fundtion tibt fxtrbdts b {@link jbvb.lbng.Compbrbblf
+     * Compbrbblf} sort kfy from b typf {@dodf T}, bnd rfturns b {@dodf
+     * Compbrbtor<T>} tibt dompbrfs by tibt sort kfy.
      *
-     * <p>The returned comparator is serializable if the specified function
-     * is also serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
      *
-     * @apiNote
-     * For example, to obtain a {@code Comparator} that compares {@code
-     * Person} objects by their last name,
+     * @bpiNotf
+     * For fxbmplf, to obtbin b {@dodf Compbrbtor} tibt dompbrfs {@dodf
+     * Pfrson} objfdts by tifir lbst nbmf,
      *
-     * <pre>{@code
-     *     Comparator<Person> byLastName = Comparator.comparing(Person::getLastName);
-     * }</pre>
+     * <prf>{@dodf
+     *     Compbrbtor<Pfrson> byLbstNbmf = Compbrbtor.dompbring(Pfrson::gftLbstNbmf);
+     * }</prf>
      *
-     * @param  <T> the type of element to be compared
-     * @param  <U> the type of the {@code Comparable} sort key
-     * @param  keyExtractor the function used to extract the {@link
-     *         Comparable} sort key
-     * @return a comparator that compares by an extracted key
-     * @throws NullPointerException if the argument is null
-     * @since 1.8
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  <U> tif typf of tif {@dodf Compbrbblf} sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif {@link
+     *         Compbrbblf} sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
      */
-    public static <T, U extends Comparable<? super U>> Comparator<T> comparing(
-            Function<? super T, ? extends U> keyExtractor)
+    publid stbtid <T, U fxtfnds Compbrbblf<? supfr U>> Compbrbtor<T> dompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor)
     {
-        Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> kfyExtrbdtor.bpply(d1).dompbrfTo(kfyExtrbdtor.bpply(d2));
     }
 
     /**
-     * Accepts a function that extracts an {@code int} sort key from a type
-     * {@code T}, and returns a {@code Comparator<T>} that compares by that
-     * sort key.
+     * Addfpts b fundtion tibt fxtrbdts bn {@dodf int} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
      *
-     * <p>The returned comparator is serializable if the specified function
-     * is also serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
      *
-     * @param  <T> the type of element to be compared
-     * @param  keyExtractor the function used to extract the integer sort key
-     * @return a comparator that compares by an extracted key
-     * @see #comparing(Function)
-     * @throws NullPointerException if the argument is null
-     * @since 1.8
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif intfgfr sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
      */
-    public static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
-        Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
+    publid stbtid <T> Compbrbtor<T> dompbringInt(ToIntFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Intfgfr.dompbrf(kfyExtrbdtor.bpplyAsInt(d1), kfyExtrbdtor.bpplyAsInt(d2));
     }
 
     /**
-     * Accepts a function that extracts a {@code long} sort key from a type
-     * {@code T}, and returns a {@code Comparator<T>} that compares by that
-     * sort key.
+     * Addfpts b fundtion tibt fxtrbdts b {@dodf long} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
      *
-     * <p>The returned comparator is serializable if the specified function is
-     * also serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion is
+     * blso sfriblizbblf.
      *
-     * @param  <T> the type of element to be compared
-     * @param  keyExtractor the function used to extract the long sort key
-     * @return a comparator that compares by an extracted key
-     * @see #comparing(Function)
-     * @throws NullPointerException if the argument is null
-     * @since 1.8
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif long sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
      */
-    public static <T> Comparator<T> comparingLong(ToLongFunction<? super T> keyExtractor) {
-        Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> Long.compare(keyExtractor.applyAsLong(c1), keyExtractor.applyAsLong(c2));
+    publid stbtid <T> Compbrbtor<T> dompbringLong(ToLongFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Long.dompbrf(kfyExtrbdtor.bpplyAsLong(d1), kfyExtrbdtor.bpplyAsLong(d2));
     }
 
     /**
-     * Accepts a function that extracts a {@code double} sort key from a type
-     * {@code T}, and returns a {@code Comparator<T>} that compares by that
-     * sort key.
+     * Addfpts b fundtion tibt fxtrbdts b {@dodf doublf} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
      *
-     * <p>The returned comparator is serializable if the specified function
-     * is also serializable.
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
      *
-     * @param  <T> the type of element to be compared
-     * @param  keyExtractor the function used to extract the double sort key
-     * @return a comparator that compares by an extracted key
-     * @see #comparing(Function)
-     * @throws NullPointerException if the argument is null
-     * @since 1.8
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif doublf sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
      */
-    public static<T> Comparator<T> comparingDouble(ToDoubleFunction<? super T> keyExtractor) {
-        Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> Double.compare(keyExtractor.applyAsDouble(c1), keyExtractor.applyAsDouble(c2));
+    publid stbtid<T> Compbrbtor<T> dompbringDoublf(ToDoublfFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Doublf.dompbrf(kfyExtrbdtor.bpplyAsDoublf(d1), kfyExtrbdtor.bpplyAsDoublf(d2));
     }
 }

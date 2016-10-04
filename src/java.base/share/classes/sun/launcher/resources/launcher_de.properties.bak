@@ -1,54 +1,54 @@
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# Translators please note do not translate the options themselves
-java.launcher.opt.header  =   Verwendung: {0} [-options] class [args...]\n           (zur Ausf\u00FChrung einer Klasse)\n   oder  {0} [-options] -jar jarfile [args...]\n           (zur Ausf\u00FChrung einer JAR-Datei)\nwobei options Folgendes umfasst:\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
 
-java.launcher.opt.datamodel  =\    -d{0}\t  Verwendet ein {0}-Bit-Datenmodell, sofern verf\u00FCgbar\n
-java.launcher.opt.vmselect   =\    {0}\t  zur Auswahl der "{1}" VM\n
-java.launcher.opt.hotspot    =\    {0}\t  ist ein Synonym f\u00FCr die "{1}" VM  [verworfen]\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
 
-java.launcher.ergo.message1  =\                  Die Standard-VM ist {0}
-java.launcher.ergo.message2  =\                  weil die Ausf\u00FChrung auf einem Server-Class-Rechner erfolgt.\n
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
 
-# Translators please note do not translate the options themselves
-java.launcher.opt.footer     =\    -cp <Klassensuchpfad von Verzeichnissen und ZIP-/JAR-Dateien>\n    -classpath <Klassensuchpfad von Verzeichnissen und ZIP-/JAR-Dateien>\n                  Eine durch {0} getrennte Liste mit Verzeichnissen, JAR-Archiven\n                  und ZIP-Archiven zur Suche nach Klassendateien.\n    -D<name>=<value>\n                  Legt eine Systemeigenschaft fest\n    -verbose:[class|gc|jni]\n                  Aktiviert die Verbose-Ausgabe\n    -version      Druckt Produktversion und beendet das Programm\n    -version:<value>\n                  Erfordert die angegebene Version zur Ausf\u00FChrung\n    -showversion  Druckt Produktversion und f\u00E4hrt fort\n    -jre-restrict-search | -no-jre-restrict-search\n                  Bezieht private JREs des Benutzers in Versionssuche ein bzw. schlie\u00DFt sie aus\n    -? -help      Druckt diese Hilfemeldung\n    -X            Druckt Hilfe zu Nicht-Standardoptionen\n    -ea[:<packagename>...|:<classname>]\n    -enableassertions[:<packagename>...|:<classname>]\n                  Aktiviert Assertionen mit angegebener Granularit\u00E4t\n    -da[:<packagename>...|:<classname>]\n    -disableassertions[:<packagename>...|:<classname>]\n                  Deaktiviert Assertionen mit angegebener Granularit\u00E4t\n    -esa | -enablesystemassertions\n                  Aktiviert Systemassertionen\n    -dsa | -disablesystemassertions\n                  Deaktiviert Systemassertionen\n    -agentlib:<libname>[=<options>]\n                  L\u00E4dt native Agent Library <libname>, z.B. -agentlib:hprof\n                  siehe auch -agentlib:jdwp=help und -agentlib:hprof=help\n    -agentpath:<pathname>[=<options>]\n                  L\u00E4dt native Agent Library nach vollem Pfadnamen\n    -javaagent:<jarpath>[=<options>]\n                  L\u00E4dt Java-Programmiersprachen-Agent, siehe java.lang.instrument\n    -splash:<imagepath>\n                  Zeigt Startbildschirm mit angegebenem Bild\nWeitere Einzelheiten finden Sie unter http://www.oracle.com/technetwork/java/javase/documentation/index.html
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
 
-# Translators please note do not translate the options themselves
-java.launcher.X.usage=\    -Xmixed           Ausf\u00FChrung im gemischten Modus (Standard)\n    -Xint             Nur Ausf\u00FChrung im interpretierten Modus\n    -Xbootclasspath:<Verzeichnisse und ZIP-/JAR-Dateien durch {0} getrennt>\n                      Legt Suchpfad f\u00FCr Bootstrap-Klassen und Ressourcen fest\n    -Xbootclasspath/a:<Verzeichnisse und ZIP-/JAR-Dateien durch {0} getrennt>\n                      H\u00E4ngt an das Ende des Bootstrap Classpath an\n    -Xbootclasspath/p:<Verzeichnisse und ZIP-/JAR-Dateien durch {0} getrennt>\n                      Stellt Bootstrap Classpath voran\n    -Xdiag            Zeigt zus\u00E4tzliche Diagnosemeldungen an\n    -Xnoclassgc       Deaktiviert Klassen-Garbage Collection\n    -Xincgc           Aktiviert inkrementelle Garbage Collection\n    -Xloggc:<file>    Loggt GC-Status in einer Datei mit Zeitstempeln\n    -Xbatch           Deaktiviert Hintergrundkompilierung\n    -Xms<size>        Legt anf\u00E4ngliche Java Heap-Gr\u00F6\u00DFe fest\n    -Xmx<size>        Legt maximale Java Heap-Gr\u00F6\u00DFe fest\n    -Xss<size>        Legt Java-Thread-Stackgr\u00F6\u00DFe fest\n    -Xprof            Gibt CPU-Profiling-Daten aus\n    -Xfuture          Aktiviert strengste Pr\u00FCfungen, antizipiert zuk\u00FCnftigen Standardwert\n    -Xrs              Reduziert Verwendung von BS-Signalen durch Java/VM (siehe Dokumentation)\n    -Xcheck:jni       F\u00FChrt zus\u00E4tzliche Pr\u00FCfungen f\u00FCr JNI-Funktionen durch\n    -Xshare:off       Kein Versuch, gemeinsame Klassendaten zu verwenden\n    -Xshare:auto      Verwendet gemeinsame Klassendaten, wenn m\u00F6glich (Standard)\n    -Xshare:on        Erfordert die Verwendung gemeinsamer Klassendaten, sonst verl\u00E4uft der Vorgang nicht erfolgreich.\n    -XshowSettings    Zeigt alle Einstellungen und f\u00E4hrt fort\n    -XshowSettings:all\n                      Zeigt alle Einstellungen und f\u00E4hrt fort\n    -XshowSettings:vm Zeigt alle VM-bezogenen Einstellungen und f\u00E4hrt fort\n    -XshowSettings:properties\n                      Zeigt alle Eigenschaftseinstellungen und f\u00E4hrt fort\n    -XshowSettings:locale\n                      Zeigt alle gebietsschemabezogenen Einstellungen und f\u00E4hrt fort\n\nDie -X-Optionen sind keine Standardoptionen und k\u00F6nnen ohne Vorank\u00FCndigung ge\u00E4ndert werden.\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
 
-# Translators please note do not translate the options themselves
-java.launcher.X.macosx.usage=\nDie folgenden Optionen sind f\u00FCr Mac OS X spezifisch:\n    -XstartOnFirstThread\n                      f\u00FChrt die main()-Methode f\u00FCr den ersten (AppKit) Thread aus\n    -Xdock:name=<Anwendungsname>"\n                      \u00DCberschreibt den in der Uhr angezeigten Standardanwendungsnamen\n    -Xdock:icon=<Pfad zu Symboldatei>\n                      \u00DCberschreibt das in der Uhr angezeigte Standardsymbol\n\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
 
-java.launcher.cls.error1=Fehler: Hauptklasse {0} konnte nicht gefunden oder geladen werden
-java.launcher.cls.error2=Fehler: Hauptmethode ist nicht {0} in Klasse {1}. Definieren Sie die Hauptmethode als:\n   public static void main(String[] args)
-java.launcher.cls.error3=Fehler: Hauptmethode muss einen Wert vom Typ void in Klasse {0} zur\u00FCckgeben. Definieren Sie \ndie Hauptmethode als:\n   public static void main(String[] args)
-java.launcher.cls.error4=Fehler: Hauptmethode in Klasse {0} nicht gefunden. Definieren Sie die Hauptmethode als:\n   public static void main(String[] args):\noder eine JavaFX-Anwendung muss {1} erweitern
-java.launcher.cls.error5=Fehler: Zum Ausf\u00FChren dieser Anwendung ben\u00F6tigte JavaFX-Runtime-Komponenten fehlen
-java.launcher.jar.error1=Fehler: Beim Versuch, Datei {0} zu \u00F6ffnen, ist ein unerwarteter Fehler aufgetreten
-java.launcher.jar.error2=Manifest in {0} nicht gefunden
-java.launcher.jar.error3=kein Hauptmanifestattribut, in {0}
-java.launcher.init.error=Initialisierungsfehler
-java.launcher.javafx.error1=Fehler: Die JavaFX-Methode launchApplication hat die falsche Signatur, sie\nmuss als statisch deklariert werden und einen Wert vom Typ VOID zur\u00FCckgeben
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn

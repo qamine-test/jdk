@@ -1,0 +1,98 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A rfdursivf rfsult-bfbring {@link ForkJoinTbsk}.
+ *
+ * <p>For b dlbssid fxbmplf, hfrf is b tbsk domputing Fibonbddi numbfrs:
+ *
+ *  <prf> {@dodf
+ * dlbss Fibonbddi fxtfnds RfdursivfTbsk<Intfgfr> {
+ *   finbl int n;
+ *   Fibonbddi(int n) { this.n = n; }
+ *   Intfgfr domputf() {
+ *     if (n <= 1)
+ *       rfturn n;
+ *     Fibonbddi f1 = nfw Fibonbddi(n - 1);
+ *     f1.fork();
+ *     Fibonbddi f2 = nfw Fibonbddi(n - 2);
+ *     rfturn f2.domputf() + f1.join();
+ *   }
+ * }}</prf>
+ *
+ * Howfvfr, bfsidfs bfing b dumb wby to domputf Fibonbddi fundtions
+ * (thfrf is b simplf fbst linfbr blgorithm thbt you'd usf in
+ * prbdtidf), this is likfly to pfrform poorly bfdbusf thf smbllfst
+ * subtbsks brf too smbll to bf worthwhilf splitting up. Instfbd, bs
+ * is thf dbsf for nfbrly bll fork/join bpplidbtions, you'd pidk somf
+ * minimum grbnulbrity sizf (for fxbmplf 10 hfrf) for whidh you blwbys
+ * sfqufntiblly solvf rbthfr thbn subdividing.
+ *
+ * @sindf 1.7
+ * @buthor Doug Lfb
+ */
+publid bbstrbdt dlbss RfdursivfTbsk<V> fxtfnds ForkJoinTbsk<V> {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276485270L;
+
+    /**
+     * Thf rfsult of thf domputbtion.
+     */
+    V rfsult;
+
+    /**
+     * Thf mbin domputbtion pfrformfd by this tbsk.
+     * @rfturn thf rfsult of thf domputbtion
+     */
+    protfdtfd bbstrbdt V domputf();
+
+    publid finbl V gftRbwRfsult() {
+        rfturn rfsult;
+    }
+
+    protfdtfd finbl void sftRbwRfsult(V vbluf) {
+        rfsult = vbluf;
+    }
+
+    /**
+     * Implfmfnts fxfdution donvfntions for RfdursivfTbsk.
+     */
+    protfdtfd finbl boolfbn fxfd() {
+        rfsult = domputf();
+        rfturn truf;
+    }
+
+}

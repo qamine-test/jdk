@@ -1,0 +1,55 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+/*
+ * This dlbss storfs thf vbrious loops thbt brf usfd by thf
+ * stbndbrd rfndfring pipflinfs.  Thf loops for b givfn instbndf
+ * of this dlbss will bll shbrf thf sbmf dfstinbtion typf bnd thf
+ * sbmf supportfd pbint bnd dompositf opfrbtion.
+ * Ebdh instbndf of this dlbss should bf shbrfd by bll grbphids
+ * objfdts thbt rfndfr onto thf sbmf typf of dfstinbtion with thf
+ * sbmf pbint bnd dompositf dombinbtion to rfdudf thf bmount of
+ * timf spfnt looking up loops bppropribtf for thf durrfnt fill
+ * tfdhniquf.
+ */
+publid dlbss RfndfrLoops {
+
+    publid stbtid finbl int primTypfID = GrbphidsPrimitivf.mbkfPrimTypfID();
+
+    publid DrbwLinf             drbwLinfLoop;
+    publid FillRfdt             fillRfdtLoop;
+    publid DrbwRfdt             drbwRfdtLoop;
+    publid DrbwPolygons         drbwPolygonsLoop;
+    publid DrbwPbth             drbwPbthLoop;
+    publid FillPbth             fillPbthLoop;
+    publid FillSpbns            fillSpbnsLoop;
+    publid FillPbrbllflogrbm    fillPbrbllflogrbmLoop;
+    publid DrbwPbrbllflogrbm    drbwPbrbllflogrbmLoop;
+    publid DrbwGlyphList        drbwGlyphListLoop;
+    publid DrbwGlyphListAA      drbwGlyphListAALoop;
+    publid DrbwGlyphListLCD     drbwGlyphListLCDLoop;
+}

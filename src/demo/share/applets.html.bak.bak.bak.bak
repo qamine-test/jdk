@@ -1,0 +1,218 @@
+<HTML>
+<!--  
+ Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr in thf
+     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from this softwbrf without spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->  
+<HEAD>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/html; dhbrsft=iso-8859-1">
+   <META NAME="kfywords" CONTENT="Jbvb(tm) Plug-in">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.02 [fn] (X11; U; SunOS 5.5.1 sun4u) [Nftsdbpf]">
+   <TITLE>Jbvb(tm) Plug-in Dfmo Pbgf</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<!-- bfgin mbin pbgf tbblf -->
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 >
+<TR>
+<TD VALIGN=TOP WIDTH="157"><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  NAVIGATION MENU AT LEFT  --><!-------------------------------><!--#indludf virtubl="/shbrf/indludf/nbvigbtf.html"--></TD>
+
+<TD VALIGN=TOP WIDTH="452"><!--  bfgin hfbdfr tbblf -->
+<TABLE BORDER=0 WIDTH="452" >
+<CAPTION><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  HEADER AT TOP OF PAGE    --><!-------------------------------><!--#indludf virtubl="/shbrf/indludf/normbl.hfbdfr.html"--><!-- brfbddrumb trbil --></CAPTION>
+
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP HEIGHT="25"></TD>
+</TR>
+
+<TR>
+<TD></TD>
+</TR>
+
+<TR>
+<TD ALIGN=RIGHT COLSPAN="2"><!-- pbgf hfbdlinf --><!-------------------------------><!--EDIT THE PAGE HEADLINE HERE--><!------------BEGIN-HEADLINE-----><FONT SIZE=+2>JAVA</FONT><SUP><FONT SIZE=-2>TM</FONT></SUP><FONT SIZE=+2>
+PLUG-IN</FONT> &nbsp;
+<BR><B>Dfmonstrbtion Applfts</B>&nbsp;
+<BR><!-------------END-HEADLINE------><!--    END OF PAGE HEADLINE   --><!-------------------------------></TD>
+</TR>
+
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP COLSPAN="2" HEIGHT="30"><!-- subdbtfgorifs of thf durrfnt topid --><!-------------------------------><!-- MAKE DUPLICATE LINKS HERE --><!--OF LINKS THAT OCCUR THROUGH--><!--  OUT THE BODY OF THIS DOC --><!------------BEGIN-SUB TOPICS---><FONT SIZE=-1><A HREF="http://jbvb.sun.dom/produdts/plugin/indfx.html">Jbvb
+Plug-in homf pbgf</A> | <A HREF="http://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dods/tfdhnotfs/guidfs/plugin/dfvflopfr_guidf/fbq/indfx.html">FAQ</A>
+| <A HREF="http://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dods/tfdhnotfs/guidfs/plugin/dfvflopfr_guidf/dontfnts.html">Dodumfntbtion</A>&nbsp;</FONT>&nbsp;
+</TD>
+</TR>
+</TABLE>
+&nbsp;
+<TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH="452" >
+<TR>
+<TD COLSPAN="2" WIDTH="452">
+<TABLE WIDTH="100%" NOSAVE >
+<TR>
+<TD></TD>
+
+<TD></TD>
+</TR>
+</TABLE>
+<!-- Bfgin Pbgf Dbtb --><!-------------------------------><!--  EDIT PAGE CONTENT HERE   --><!------------BEGIN-CONTENT------><!--  Bfginning of thf morf info tbblf -->
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="466" >
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP ROWSPAN="2" WIDTH="8"></TD>
+
+<TD>
+<DIV ALIGN=right><!--<TD WIDTH=466 VALIGN=TOP ALIGN=RIGHT><BR>--><!-- <IMG WIDTH=60 HEIGHT=1 SRC="/imbgfs/dot_dlfbr.gif"> --></DIV>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="466"><!--  Bfginning of thf morf info tbblf -->
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=3 >
+<CAPTION><!-- #===================== DOWNLOAD HOTJAVA 1.1 BETA 2 ===================== --></CAPTION>
+
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP><!-- <FONT COLOR="#FF0000" SIZE="+2"><STRONG>2.</STRONG></FONT> --></TD>
+
+<TD><!--<IMG SRC="/imbgfs/dhidlft2.jpg" WIDTH=14 HEIGHT=11 BORDER=0 ALT="Bullft">
+			<FONT SIZE="+1"><STRONG>Jbvb Plug-in Dfmo Pbgf</STRONG></FONT><BR> --></TD>
+</TR>
+
+<TR>
+<TD></TD>
+
+<TD><!-- stbrt -->
+
+<P>Thf fxbmplfs on this pbgf providf dfmonstrbtion bpplfts for
+thf purposf of dfmonstrbting bnd fvblubting Jbvb Plug-in. Hfndf, thf HTML
+of fbdh pbgf fxpliditly spfdififs thf usf of thf Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP>Plug-in
+rbthfr thbn thf dffbult Jbvb virtubl mbdhinf dontbinfd in your browsfr.&nbsp;
+
+<P>Jbvb Plug-in is instbllfd bs pbrt of thf publid Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Runtimf Environmfnt.
+Ondf instbllfd, thf Jbvb Plug-in lobds butombtidblly
+bnd trbnspbrfntly to rfndfr Jbvb bpplfts.&nbsp;
+
+<P>All of thfsf bpplfts lfvfrbgf Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Dfvflopmfnt Kit MKTG_VERSION ffbturfs, bnd brf thus dfpfndfnt
+on ffbturfs in thbt vfrsion.&nbsp; For informbtion on dompbtibility, sff <A HREF="http://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dompbtibility.html">Compbtibility 
+with Prfvious Rflfbsfs</A>.&nbsp;&nbsp; Thf bpplfts indludf thosf in thf <TT>dfmo</TT>
+dirfdtory of thf Jbvb SE Dfvflopmfnt Kit, plus b ffw fxtrbs.&nbsp; Ebdh bpplft is vifwfd
+by opfning thf rfspfdtivf wfb pbgf (sff thf links bflow) in your
+Wfb browsfr.&nbsp;
+
+<H3>
+<A NAME="fdudbtionbl"></A>Edudbtionbl Applfts</H3>
+
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf thf dbtf you bdd thf bpplft. --><!-- Also indludf thf buthor's nbmf. -->
+<LI>
+<!--Jbmfs Gosling--><A HREF="bpplfts/MolfdulfVifwfr/fxbmplf1.html">3D Chfmidbl Modfls</A>
+
+<BR>(sff blso <A HREF="bpplfts/MolfdulfVifwfr/fxbmplf2.html">fxbmplf2</A>
+bnd <A HREF="bpplfts/MolfdulfVifwfr/fxbmplf3.html">fxbmplf3</A>)</LI></UL>
+<!--fdudbtionbl-->
+<H3>
+<A NAME="utilitifs"></A>Utilitifs</H3>
+
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf thf dbtf you bdd thf bpplft. --><!-- Also indludf thf buthor's nbmf. -->
+<LI>
+<!--Rbdhfl Gollub--><A HREF="bpplfts/Clodk/fxbmplf1.html">A
+Clodk</A></LI>
+
+<LI>
+<!--Sbmi Shbio--><A HREF="bpplfts/SprfbdShfft/fxbmplf1.html">A
+Simplf Sprfbdshfft</A></LI>
+
+<LI>
+<!--Sbmi Shbio--><A HREF="bpplfts/BbrChbrt/fxbmplf1.html">A
+Simplf Bbr Chbrt Applft</A></LI>
+
+</UL>
+<!--utilitifs-->
+<H3>
+<A NAME="progrbmmfrs"></A>For Progrbmmfrs Only</H3>
+
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf thf dbtf you bdd thf bpplft. --><!-- Also indludf thf buthor's nbmf. -->
+<LI>
+<A HREF="bpplfts/ArdTfst/fxbmplf1.html">ArdTfst</A></LI>
+
+<LI>
+<A HREF="bpplfts/CbrdTfst/fxbmplf1.html">CbrdTfst</A></LI>
+
+<LI>
+<A HREF="bpplfts/DithfrTfst/fxbmplf1.html">DithfrTfst</A></LI>
+
+<LI>
+<A HREF="bpplfts/DrbwTfst/fxbmplf1.html">DrbwTfst</A></LI>
+
+<LI>
+<A HREF="bpplfts/GrbphidsTfst/fxbmplf1.html">GrbphidsTfst</A></LI>
+
+<LI>
+<A HREF="bpplfts/SimplfGrbph/fxbmplf1.html">SimplfGrbph</A></LI>
+</UL>
+
+<H3>
+<A NAME="spidf"></A>Applfts to Enhbndf b Wfb Pbgf</H3>
+
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf thf dbtf you bdd thf bpplft. --><!-- Also indludf thf buthor's nbmf. --><!-- <LI>
+by Arthur vbn Hoff; bddfd 10/12/95<A HREF="ImbgfLoop/1.1/indfx.html">ImbgfLoop,
+thf Originbl Animbtion Applft</A></LI> -->
+<!--Arthur vbn Hoff--><A HREF="bpplfts/Blink/fxbmplf1.html">Blinking
+Tfxt</A></LI>
+</UL>
+
+<H3>
+<A NAME="spidf"></A>JFC Applfts</H3>
+
+<UL><!-- Plfbsf notf thf dbtf you bdd thf bpplft. --><!-- Also indludf thf buthor's nbmf. --><!-- <LI>
+by Arthur vbn Hoff; bddfd 10/12/95<A HREF="ImbgfLoop/1.1/indfx.html">ImbgfLoop,
+thf Originbl Animbtion Applft</A></LI> -->
+
+<!--spidf--><!-- fnd -->
+<LI>
+<!----><A HREF="jfd/Jbvb2D/Jbvb2Dfmo.html">Jbvb
+2D</A></LI>
+
+<!--spidf--><!-- fnd --></UL>
+</TD>
+</TR>
+
+<TR>
+<TD></TD>
+</TR>
+</TABLE>
+&nbsp;</TD>
+</TR>
+</TABLE>
+<!-------------END-CONTENT-------><!--     END OF PAGE DATA      --><!-------------------------------><!-- End Pbgf Dbtb --></TD>
+</TR>
+</TABLE>
+&nbsp;</TD>
+</TR>
+</TABLE>
+<!-- Footfr tbblf --><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  FOOTER AT BOTTOM OF PAGE --><!-------------------------------><!--#indludf virtubl="/shbrf/indludf/normbl.footfr.html"-->
+</BODY>
+</HTML>

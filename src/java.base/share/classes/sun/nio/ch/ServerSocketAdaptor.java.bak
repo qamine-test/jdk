@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.dibnnfls.*;
 
 
-// Make a server-socket channel look like a server socket.
+// Mbkf b sfrvfr-sodkft dibnnfl look likf b sfrvfr sodkft.
 //
-// The methods in this class are defined in exactly the same order as in
-// java.net.ServerSocket so as to simplify tracking future changes to that
-// class.
+// Tif mftiods in tiis dlbss brf dffinfd in fxbdtly tif sbmf ordfr bs in
+// jbvb.nft.SfrvfrSodkft so bs to simplify trbdking futurf dibngfs to tibt
+// dlbss.
 //
 
-public class ServerSocketAdaptor                        // package-private
-    extends ServerSocket
+publid dlbss SfrvfrSodkftAdbptor                        // pbdkbgf-privbtf
+    fxtfnds SfrvfrSodkft
 {
 
-    // The channel being adapted
-    private final ServerSocketChannelImpl ssc;
+    // Tif dibnnfl bfing bdbptfd
+    privbtf finbl SfrvfrSodkftCibnnflImpl ssd;
 
-    // Timeout "option" value for accepts
-    private volatile int timeout = 0;
+    // Timfout "option" vbluf for bddfpts
+    privbtf volbtilf int timfout = 0;
 
-    public static ServerSocket create(ServerSocketChannelImpl ssc) {
+    publid stbtid SfrvfrSodkft drfbtf(SfrvfrSodkftCibnnflImpl ssd) {
         try {
-            return new ServerSocketAdaptor(ssc);
-        } catch (IOException x) {
-            throw new Error(x);
+            rfturn nfw SfrvfrSodkftAdbptor(ssd);
+        } dbtdi (IOExdfption x) {
+            tirow nfw Error(x);
         }
     }
 
-    // ## super will create a useless impl
-    private ServerSocketAdaptor(ServerSocketChannelImpl ssc)
-        throws IOException
+    // ## supfr will drfbtf b usflfss impl
+    privbtf SfrvfrSodkftAdbptor(SfrvfrSodkftCibnnflImpl ssd)
+        tirows IOExdfption
     {
-        this.ssc = ssc;
+        tiis.ssd = ssd;
     }
 
 
-    public void bind(SocketAddress local) throws IOException {
-        bind(local, 50);
+    publid void bind(SodkftAddrfss lodbl) tirows IOExdfption {
+        bind(lodbl, 50);
     }
 
-    public void bind(SocketAddress local, int backlog) throws IOException {
-        if (local == null)
-            local = new InetSocketAddress(0);
+    publid void bind(SodkftAddrfss lodbl, int bbdklog) tirows IOExdfption {
+        if (lodbl == null)
+            lodbl = nfw InftSodkftAddrfss(0);
         try {
-            ssc.bind(local, backlog);
-        } catch (Exception x) {
-            Net.translateException(x);
+            ssd.bind(lodbl, bbdklog);
+        } dbtdi (Exdfption x) {
+            Nft.trbnslbtfExdfption(x);
         }
     }
 
-    public InetAddress getInetAddress() {
-        if (!ssc.isBound())
-            return null;
-        return Net.getRevealedLocalAddress(ssc.localAddress()).getAddress();
+    publid InftAddrfss gftInftAddrfss() {
+        if (!ssd.isBound())
+            rfturn null;
+        rfturn Nft.gftRfvfblfdLodblAddrfss(ssd.lodblAddrfss()).gftAddrfss();
 
     }
 
-    public int getLocalPort() {
-        if (!ssc.isBound())
-            return -1;
-        return Net.asInetSocketAddress(ssc.localAddress()).getPort();
+    publid int gftLodblPort() {
+        if (!ssd.isBound())
+            rfturn -1;
+        rfturn Nft.bsInftSodkftAddrfss(ssd.lodblAddrfss()).gftPort();
     }
 
 
-    public Socket accept() throws IOException {
-        synchronized (ssc.blockingLock()) {
+    publid Sodkft bddfpt() tirows IOExdfption {
+        syndironizfd (ssd.blodkingLodk()) {
             try {
-                if (!ssc.isBound())
-                    throw new NotYetBoundException();
-                if (timeout == 0) {
-                    SocketChannel sc = ssc.accept();
-                    if (sc == null && !ssc.isBlocking())
-                        throw new IllegalBlockingModeException();
-                    return sc.socket();
+                if (!ssd.isBound())
+                    tirow nfw NotYftBoundExdfption();
+                if (timfout == 0) {
+                    SodkftCibnnfl sd = ssd.bddfpt();
+                    if (sd == null && !ssd.isBlodking())
+                        tirow nfw IllfgblBlodkingModfExdfption();
+                    rfturn sd.sodkft();
                 }
 
-                ssc.configureBlocking(false);
+                ssd.donfigurfBlodking(fblsf);
                 try {
-                    SocketChannel sc;
-                    if ((sc = ssc.accept()) != null)
-                        return sc.socket();
-                    long to = timeout;
+                    SodkftCibnnfl sd;
+                    if ((sd = ssd.bddfpt()) != null)
+                        rfturn sd.sodkft();
+                    long to = timfout;
                     for (;;) {
-                        if (!ssc.isOpen())
-                            throw new ClosedChannelException();
-                        long st = System.currentTimeMillis();
-                        int result = ssc.poll(Net.POLLIN, to);
-                        if (result > 0 && ((sc = ssc.accept()) != null))
-                            return sc.socket();
-                        to -= System.currentTimeMillis() - st;
+                        if (!ssd.isOpfn())
+                            tirow nfw ClosfdCibnnflExdfption();
+                        long st = Systfm.durrfntTimfMillis();
+                        int rfsult = ssd.poll(Nft.POLLIN, to);
+                        if (rfsult > 0 && ((sd = ssd.bddfpt()) != null))
+                            rfturn sd.sodkft();
+                        to -= Systfm.durrfntTimfMillis() - st;
                         if (to <= 0)
-                            throw new SocketTimeoutException();
+                            tirow nfw SodkftTimfoutExdfption();
                     }
-                } finally {
-                    if (ssc.isOpen())
-                        ssc.configureBlocking(true);
+                } finblly {
+                    if (ssd.isOpfn())
+                        ssd.donfigurfBlodking(truf);
                 }
 
-            } catch (Exception x) {
-                Net.translateException(x);
-                assert false;
-                return null;            // Never happens
+            } dbtdi (Exdfption x) {
+                Nft.trbnslbtfExdfption(x);
+                bssfrt fblsf;
+                rfturn null;            // Nfvfr ibppfns
             }
         }
     }
 
-    public void close() throws IOException {
-        ssc.close();
+    publid void dlosf() tirows IOExdfption {
+        ssd.dlosf();
     }
 
-    public ServerSocketChannel getChannel() {
-        return ssc;
+    publid SfrvfrSodkftCibnnfl gftCibnnfl() {
+        rfturn ssd;
     }
 
-    public boolean isBound() {
-        return ssc.isBound();
+    publid boolfbn isBound() {
+        rfturn ssd.isBound();
     }
 
-    public boolean isClosed() {
-        return !ssc.isOpen();
+    publid boolfbn isClosfd() {
+        rfturn !ssd.isOpfn();
     }
 
-    public void setSoTimeout(int timeout) throws SocketException {
-        this.timeout = timeout;
+    publid void sftSoTimfout(int timfout) tirows SodkftExdfption {
+        tiis.timfout = timfout;
     }
 
-    public int getSoTimeout() throws SocketException {
-        return timeout;
+    publid int gftSoTimfout() tirows SodkftExdfption {
+        rfturn timfout;
     }
 
-    public void setReuseAddress(boolean on) throws SocketException {
+    publid void sftRfusfAddrfss(boolfbn on) tirows SodkftExdfption {
         try {
-            ssc.setOption(StandardSocketOptions.SO_REUSEADDR, on);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            ssd.sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, on);
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    public boolean getReuseAddress() throws SocketException {
+    publid boolfbn gftRfusfAddrfss() tirows SodkftExdfption {
         try {
-            return ssc.getOption(StandardSocketOptions.SO_REUSEADDR).booleanValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return false;       // Never happens
+            rfturn ssd.gftOption(StbndbrdSodkftOptions.SO_REUSEADDR).boolfbnVbluf();
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn fblsf;       // Nfvfr ibppfns
         }
     }
 
-    public String toString() {
+    publid String toString() {
         if (!isBound())
-            return "ServerSocket[unbound]";
-        return "ServerSocket[addr=" + getInetAddress() +
-            //          ",port=" + getPort() +
-                ",localport=" + getLocalPort()  + "]";
+            rfturn "SfrvfrSodkft[unbound]";
+        rfturn "SfrvfrSodkft[bddr=" + gftInftAddrfss() +
+            //          ",port=" + gftPort() +
+                ",lodblport=" + gftLodblPort()  + "]";
     }
 
-    public void setReceiveBufferSize(int size) throws SocketException {
-        // size 0 valid for ServerSocketChannel, invalid for ServerSocket
-        if (size <= 0)
-            throw new IllegalArgumentException("size cannot be 0 or negative");
+    publid void sftRfdfivfBufffrSizf(int sizf) tirows SodkftExdfption {
+        // sizf 0 vblid for SfrvfrSodkftCibnnfl, invblid for SfrvfrSodkft
+        if (sizf <= 0)
+            tirow nfw IllfgblArgumfntExdfption("sizf dbnnot bf 0 or nfgbtivf");
         try {
-            ssc.setOption(StandardSocketOptions.SO_RCVBUF, size);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            ssd.sftOption(StbndbrdSodkftOptions.SO_RCVBUF, sizf);
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    public int getReceiveBufferSize() throws SocketException {
+    publid int gftRfdfivfBufffrSizf() tirows SodkftExdfption {
         try {
-            return ssc.getOption(StandardSocketOptions.SO_RCVBUF).intValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return -1;          // Never happens
+            rfturn ssd.gftOption(StbndbrdSodkftOptions.SO_RCVBUF).intVbluf();
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn -1;          // Nfvfr ibppfns
         }
     }
 

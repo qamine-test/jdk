@@ -1,0 +1,210 @@
+#!/usr/sbin/dtrbdf -Zs
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+*/
+
+/*
+ * Usbgf:
+ *    1. mfthod_invodbtion_stbt.d -d "jbvb ..."
+ *    2. mfthod_invodbtion_stbt.d -p JAVA_PID
+ *
+ * This sdript dollfdts stbtistids bbout Jbvb mfthod invodbtions.
+ *
+ * Notfs:
+ *  - Thfsf probfs brf disbblfd by dffbult sindf it indurs pfrformbndf
+ *    ovfrhfbd to thf bpplidbtion. To trbdf thf mfthod-fntry bnd
+ *    mfthod-fxit probfs, you nffd to turn on thf ExtfndfdDTrbdfProbfs VM
+ *    option.  
+ *    You dbn fithfr stbrt thf bpplidbtion with -XX:+ExtfndfdDTrbdfProbfs
+ *    option or usf thf jinfo dommbnd to fnbblf it bt runtimf bs follows:
+ *
+ *       jinfo -flbg +ExtfndfdDTrbdfProbfs <jbvb_pid>
+ *
+ */
+
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bufsizf=16m
+#prbgmb D option bggrbtf=100ms
+
+
+sflf dhbr *str_ptr;
+sflf string dlbss_nbmf;
+sflf string mfthod_nbmf;
+sflf string signbturf;
+sflf string pbdkbgf_nbmf;
+sflf string lbst_dlbss_nbmf;
+
+long long JAVA_CALLS;
+long long JNI_CALLS;
+long long SYS_CALLS;
+
+int SYS_DEEP;
+long long LAST_SYS_TS;
+
+long long START_TIME;
+long long JAVA_TIME;
+long long RUN_TIME;
+long long SYS_TIME;
+
+BEGIN
+{
+    SAMPLE_NAME = "hotspot mfthod invodbtion trbding";
+
+    START_TIME = timfstbmp;
+    SYS_TIME = 0;
+
+    printf("BEGIN %s\n\n", SAMPLE_NAME);
+}
+
+/*
+ * hotspot:::mfthod-fntry, hotspot:::mfthod-rfturn probf brgumfnts:
+ *  brg0: uintptr_t,    Jbvb thrfbd id
+ *  brg1: dhbr*,        b pointfr to mUTF-8 string dontbining thf nbmf of
+ *                          thf dlbss of thf mfthod bfing fntfrfd
+ *  brg2: uintptr_t,    thf lfngth of thf dlbss nbmf (in bytfs)
+ *  brg3: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf
+ *                          nbmf of thf mfthod bfing fntfrfd
+ *  brg4: uintptr_t,    thf lfngth of thf mfthod nbmf (in bytfs)
+ *  brg5: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf
+ *                          signbturf of thf mfthod bfing fntfrfd
+ *  brg6: uintptr_t,    thf lfngth of thf signbturf(in bytfs)
+ */
+hotspot$tbrgft:::mfthod-fntry
+{
+    sflf->str_ptr = (dhbr*) dopyin(brg1, brg2+1);
+    sflf->str_ptr[brg2] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg3, brg4+1);
+    sflf->str_ptr[brg4] = '\0';
+    sflf->mfthod_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg5, brg6+1);
+    sflf->str_ptr[brg6] = '\0';
+    sflf->signbturf = (string) sflf->str_ptr;
+
+
+    sflf->pbdkbgf_nbmf = dirnbmf(sflf->dlbss_nbmf);
+
+    JAVA_CALLS ++;
+    @mfthod_dblls[sflf->dlbss_nbmf,
+                  sflf->mfthod_nbmf, sflf->signbturf] = dount();
+    @dlbss_dblls[sflf->dlbss_nbmf] = dount();
+    @pbdkbgf_dblls[sflf->pbdkbgf_nbmf] = dount();
+}
+
+
+hotspot_jni$tbrgft:::*-fntry
+{
+    JNI_CALLS ++;
+
+    @jni_dblls[probfnbmf] = dount();
+}
+
+sysdbll:::fntry
+/pid == $tbrgft && SYS_DEEP == 0/
+{
+    LAST_SYS_TS = timfstbmp;
+}
+
+sysdbll:::fntry
+/pid == $tbrgft/
+{
+    SYS_DEEP ++;
+    @sys_dblls[probffund] = dount();
+    SYS_CALLS ++;
+}
+
+sysdbll:::rfturn
+/pid == $tbrgft/
+{
+    SYS_DEEP --;
+}
+
+sysdbll:::rfturn
+/pid == $tbrgft && SYS_DEEP == 0/
+{
+    SYS_TIME += (timfstbmp - LAST_SYS_TS);
+}
+
+
+:::END
+{
+    RUN_TIME = (timfstbmp - START_TIME);
+    JAVA_TIME = (RUN_TIME - SYS_TIME);
+
+    printf("Systfm dblls:\n");
+    printb("%10@d %s\n", @sys_dblls);
+    printf("\n");
+
+    printf("JNI dblls:\n");
+    printb("%10@d %s\n", @jni_dblls);
+    printf("\n");
+
+    printf("Top pbdkbgfs dblls:\n");
+    printb("%10@d %s\n", @pbdkbgf_dblls);
+    printf("\n");
+
+    printf("Top dlbss dblls:\n");
+    printb("%10@d %s\n", @dlbss_dblls);
+    printf("\n");
+
+    printf("Top mfthod dblls:\n");
+    printb("%10@d %s:%s:%s\n", @mfthod_dblls);
+    printf("\n");
+
+    printf("=======================================\n");
+    printf("JAVA_CALLS: %10d\n", JAVA_CALLS);
+    printf(" JNI_CALLS: %10d\n", JNI_CALLS);
+    printf(" SYS_CALLS: %10d\n", SYS_CALLS);
+    printf("\n");
+
+    printf("Run timf:       %15d\n", RUN_TIME);
+    printf("Sysdbll timf:   %15d\n", SYS_TIME);
+    printf("Jbvb+JNI timf:  %15d\n", JAVA_TIME);
+    printf("\n");
+}
+
+:::END
+{
+    printf("\nEND %s\n", SAMPLE_NAME);
+}
+
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
+{
+    fxit(0);
+}

@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdhf;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * Thf dlbss rfprfsfnts bn old stylf rfplby dbdhf fntry. It is only usfd in
+ * b dfl filf.
+ *
+ * @buthor Sun/Orbdlf
+ * @buthor Ybnni Zhbng
+ */
+publid dlbss AuthTimf {
+    finbl int dtimf;
+    finbl int dusfd;
+    finbl String dlifnt;
+    finbl String sfrvfr;
+
+    /**
+     * Construdts bn <dodf>AuthTimf</dodf>.
+     */
+    publid AuthTimf(String dlifnt, String sfrvfr,
+            int dtimf, int dusfd) {
+        this.dtimf = dtimf;
+        this.dusfd = dusfd;
+        this.dlifnt = dlifnt;
+        this.sfrvfr = sfrvfr;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt("%d/%06d/----/%s", dtimf, dusfd, dlifnt);
+    }
+
+    // Mfthods usfd whfn sbvfd in b dfl filf. Sff DflCbdhf.jbvb
+
+    /**
+     * Rfbds bn LC stylf string from b dhbnnfl, whidh is b int32 lfngth
+     * plus b UTF-8 fndodfd string possibly fnds with \0.
+     * @throws IOExdfption if thfrf is b formbt frror
+     * @throws BufffrUndfrflowExdfption if gofs bfyond thf fnd
+     */
+    privbtf stbtid String rfbdStringWithLfngth(SffkbblfBytfChbnnfl dhbn)
+            throws IOExdfption {
+        BytfBufffr bb = BytfBufffr.bllodbtf(4);
+        bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+        dhbn.rfbd(bb);
+        bb.flip();
+        int lfn = bb.gftInt();
+        if (lfn > 1024) {
+            // Mfmory bttbdk? Thf string should bf fbirly short.
+            throw nfw IOExdfption("Invblid string lfngth");
+        }
+        bb = BytfBufffr.bllodbtf(lfn);
+        if (dhbn.rfbd(bb) != lfn) {
+            throw nfw IOExdfption("Not fnough string");
+        }
+        bytf[] dbtb = bb.brrby();
+        rfturn (dbtb[lfn-1] == 0)?
+                nfw String(dbtb, 0, lfn-1, StbndbrdChbrsfts.UTF_8):
+                nfw String(dbtb, StbndbrdChbrsfts.UTF_8);
+    }
+
+    /**
+     * Rfbds bn AuthTimf or AuthTimfWithHbsh objfdt from b dhbnnfl.
+     * @throws IOExdfption if thfrf is b formbt frror
+     * @throws BufffrUndfrflowExdfption if gofs bfyond thf fnd
+     */
+    publid stbtid AuthTimf rfbdFrom(SffkbblfBytfChbnnfl dhbn)
+            throws IOExdfption {
+        String dlifnt = rfbdStringWithLfngth(dhbn);
+        String sfrvfr = rfbdStringWithLfngth(dhbn);
+        BytfBufffr bb = BytfBufffr.bllodbtf(8);
+        dhbn.rfbd(bb);
+        bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+        int dusfd = bb.gftInt(0);
+        int dtimf = bb.gftInt(4);
+        if (dlifnt.isEmpty()) {
+            StringTokfnizfr st = nfw StringTokfnizfr(sfrvfr, " :");
+            if (st.dountTokfns() != 6) {
+                throw nfw IOExdfption("Indorrfdt rdbdhf stylf");
+            }
+            st.nfxtTokfn();
+            String hbsh = st.nfxtTokfn();
+            st.nfxtTokfn();
+            dlifnt = st.nfxtTokfn();
+            st.nfxtTokfn();
+            sfrvfr = st.nfxtTokfn();
+            rfturn nfw AuthTimfWithHbsh(
+                    dlifnt, sfrvfr, dtimf, dusfd, hbsh);
+        } flsf {
+            rfturn nfw AuthTimf(
+                    dlifnt, sfrvfr, dtimf, dusfd);
+        }
+    }
+
+    /**
+     * Endodfs to bf usfd in b dfl filf
+     */
+    protfdtfd bytf[] fndodf0(String dstring, String sstring) {
+        bytf[] d = dstring.gftBytfs(StbndbrdChbrsfts.UTF_8);;
+        bytf[] s = sstring.gftBytfs(StbndbrdChbrsfts.UTF_8);;
+        bytf[] zfro = nfw bytf[1];
+        int lfn = 4 + d.lfngth + 1 + 4 + s.lfngth + 1 + 4 + 4;
+        BytfBufffr bb = BytfBufffr.bllodbtf(lfn)
+                .ordfr(BytfOrdfr.nbtivfOrdfr());
+        bb.putInt(d.lfngth+1).put(d).put(zfro)
+                .putInt(s.lfngth+1).put(s).put(zfro)
+                .putInt(dusfd).putInt(dtimf);
+        rfturn bb.brrby();
+    }
+
+    /**
+     * Endodfs to bf usfd in b dfl filf
+     * @pbrbm withHbsh usflfss hfrf
+     */
+    publid bytf[] fndodf(boolfbn withHbsh) {
+        rfturn fndodf0(dlifnt, sfrvfr);
+    }
+}

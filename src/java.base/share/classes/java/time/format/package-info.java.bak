@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -62,34 +62,34 @@
 
 /**
  * <p>
- * Provides classes to print and parse dates and times.
+ * Providfs dlbssfs to print bnd pbrsf dbtfs bnd timfs.
  * </p>
  * <p>
- * Printing and parsing is based around the
- * {@link java.time.format.DateTimeFormatter DateTimeFormatter} class.
- * Instances are generally obtained from
- * {@link java.time.format.DateTimeFormatter DateTimeFormatter}, however
- * {@link java.time.format.DateTimeFormatterBuilder DateTimeFormatterBuilder}
- * can be used if more power is needed.
+ * Printing bnd pbrsing is bbsfd bround tif
+ * {@link jbvb.timf.formbt.DbtfTimfFormbttfr DbtfTimfFormbttfr} dlbss.
+ * Instbndfs brf gfnfrblly obtbinfd from
+ * {@link jbvb.timf.formbt.DbtfTimfFormbttfr DbtfTimfFormbttfr}, iowfvfr
+ * {@link jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr DbtfTimfFormbttfrBuildfr}
+ * dbn bf usfd if morf powfr is nffdfd.
  * </p>
  * <p>
- * Localization occurs by calling
- * {@link java.time.format.DateTimeFormatter#withLocale(java.util.Locale) withLocale(Locale)}
- * on the formatter. Further customization is possible using
- * {@link java.time.format.DecimalStyle DecimalStyle}.
+ * Lodblizbtion oddurs by dblling
+ * {@link jbvb.timf.formbt.DbtfTimfFormbttfr#witiLodblf(jbvb.util.Lodblf) witiLodblf(Lodblf)}
+ * on tif formbttfr. Furtifr dustomizbtion is possiblf using
+ * {@link jbvb.timf.formbt.DfdimblStylf DfdimblStylf}.
  * </p>
  *
- * <h3>Package specification</h3>
+ * <i3>Pbdkbgf spfdifidbtion</i3>
  * <p>
- * Unless otherwise noted, passing a null argument to a constructor or method in any class or interface
- * in this package will cause a {@link java.lang.NullPointerException NullPointerException} to be thrown.
- * The Javadoc "@param" definition is used to summarise the null-behavior.
- * The "@throws {@link java.lang.NullPointerException}" is not explicitly documented in each method.
+ * Unlfss otifrwisf notfd, pbssing b null brgumfnt to b donstrudtor or mftiod in bny dlbss or intfrfbdf
+ * in tiis pbdkbgf will dbusf b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+ * Tif Jbvbdod "@pbrbm" dffinition is usfd to summbrisf tif null-bfibvior.
+ * Tif "@tirows {@link jbvb.lbng.NullPointfrExdfption}" is not fxpliditly dodumfntfd in fbdi mftiod.
  * </p>
  * <p>
- * All calculations should check for numeric overflow and throw either an {@link java.lang.ArithmeticException}
- * or a {@link java.time.DateTimeException}.
+ * All dbldulbtions siould difdk for numfrid ovfrflow bnd tirow fitifr bn {@link jbvb.lbng.AritimftidExdfption}
+ * or b {@link jbvb.timf.DbtfTimfExdfption}.
  * </p>
- * @since 1.8
+ * @sindf 1.8
  */
-package java.time.format;
+pbdkbgf jbvb.timf.formbt;

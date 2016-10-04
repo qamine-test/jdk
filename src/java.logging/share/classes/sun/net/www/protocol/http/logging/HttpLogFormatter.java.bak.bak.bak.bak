@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http.logging;
+
+import jbvb.util.logging.LogRfdord;
+import jbvb.util.rfgfx.*;
+
+/**
+ * A Formbttfr to mbkf thf HTTP logs b bit morf pblbtbblf to thf dfvflopfr
+ * looking bt thfm. Thf idfb is to prfsfnt thf HTTP fvfnts in sudh b wby thbt
+ * dommbnds bnd hfbdfrs brf fbsily spottfd (i.f. on sfpbrbtf linfs).
+ * @buthor jddollft
+ */
+publid dlbss HttpLogFormbttfr fxtfnds jbvb.util.logging.SimplfFormbttfr {
+    // Pbttfrn for MfssbgfHfbdfr dbtb. Mostly pbirs within durly brbdkfts
+    privbtf stbtid volbtilf Pbttfrn pbttfrn = null;
+    // Pbttfrn for Cookifs
+    privbtf stbtid volbtilf Pbttfrn dpbttfrn = null;
+
+    publid HttpLogFormbttfr() {
+        if (pbttfrn == null) {
+            pbttfrn = Pbttfrn.dompilf("\\{[^\\}]*\\}");
+            dpbttfrn = Pbttfrn.dompilf("[^,\\] ]{2,}");
+        }
+    }
+
+    @Ovfrridf
+    publid String formbt(LogRfdord rfdord) {
+        String sourdfClbssNbmf = rfdord.gftSourdfClbssNbmf();
+        if (sourdfClbssNbmf == null ||
+            !(sourdfClbssNbmf.stbrtsWith("sun.nft.www.protodol.http") ||
+              sourdfClbssNbmf.stbrtsWith("sun.nft.www.http"))) {
+            rfturn supfr.formbt(rfdord);
+        }
+        String srd = rfdord.gftMfssbgf();
+        StringBuildfr buf = nfw StringBuildfr("HTTP: ");
+        if (srd.stbrtsWith("sun.nft.www.MfssbgfHfbdfr@")) {
+            // MfssbgfHfbdfr logs brf domposfd of pbirs within durly brbdkfts
+            // Lft's fxtrbdt thfm to mbkf it morf rfbdbblf. Thbt wby wf gft onf
+            // hfbdfr pbir (nbmf, vbluf) pfr linf. A lot fbsifr to rfbd.
+            Mbtdhfr mbtdh = pbttfrn.mbtdhfr(srd);
+            whilf (mbtdh.find()) {
+                int i = mbtdh.stbrt();
+                int j = mbtdh.fnd();
+                String s = srd.substring(i + 1, j - 1);
+                if (s.stbrtsWith("null: ")) {
+                    s = s.substring(6);
+                }
+                if (s.fndsWith(": null")) {
+                    s = s.substring(0, s.lfngth() - 6);
+                }
+                buf.bppfnd("\t").bppfnd(s).bppfnd("\n");
+            }
+        } flsf if (srd.stbrtsWith("Cookifs rftrifvfd: {")) {
+            // This domfs from thf Cookif hbndlfr, lft's dlfbn up thf formbt b bit
+            String s = srd.substring(20);
+            buf.bppfnd("Cookifs from hbndlfr:\n");
+            whilf (s.lfngth() >= 7) {
+                if (s.stbrtsWith("Cookif=[")) {
+                    String s2 = s.substring(8);
+                    int d = s2.indfxOf("Cookif2=[");
+                    if (d > 0) {
+                        s2 = s2.substring(0, d-1);
+                        s = s2.substring(d);
+                    } flsf {
+                        s = "";
+                    }
+                    if (s2.lfngth() < 4) {
+                        dontinuf;
+                    }
+                    Mbtdhfr m = dpbttfrn.mbtdhfr(s2);
+                    whilf (m.find()) {
+                        int i = m.stbrt();
+                        int j = m.fnd();
+                        if (i >= 0) {
+                            String dookif = s2.substring(i + 1, j > 0 ? j - 1 : s2.lfngth() - 1);
+                            buf.bppfnd("\t").bppfnd(dookif).bppfnd("\n");
+                        }
+                    }
+                }
+                if (s.stbrtsWith("Cookif2=[")) {
+                    String s2 = s.substring(9);
+                    int d = s2.indfxOf("Cookif=[");
+                    if (d > 0) {
+                        s2 = s2.substring(0, d-1);
+                        s = s2.substring(d);
+                    } flsf {
+                        s = "";
+                    }
+                    Mbtdhfr m = dpbttfrn.mbtdhfr(s2);
+                    whilf (m.find()) {
+                        int i = m.stbrt();
+                        int j = m.fnd();
+                        if (i >= 0) {
+                            String dookif = s2.substring(i+1, j > 0 ? j-1 : s2.lfngth() - 1);
+                            buf.bppfnd("\t").bppfnd(dookif).bppfnd("\n");
+                        }
+                    }
+                }
+            }
+        } flsf {
+            // Anything flsf wf lft bs is.
+            buf.bppfnd(srd).bppfnd("\n");
+        }
+        rfturn buf.toString();
+    }
+
+}

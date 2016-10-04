@@ -1,0 +1,463 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * A <dodf>SpinnfrModfl</dodf> for sfqufndfs of numbfrs.
+ * Thf uppfr bnd lowfr bounds of thf sfqufndf brf dffinfd
+ * by propfrtifs dbllfd <dodf>minimum</dodf> bnd
+ * <dodf>mbximum</dodf>. Thf sizf of thf indrfbsf or dfdrfbsf
+ * domputfd by thf <dodf>nfxtVbluf</dodf> bnd
+ * <dodf>prfviousVbluf</dodf> mfthods is dffinfd by b propfrty dbllfd
+ * <dodf>stfpSizf</dodf>.  Thf <dodf>minimum</dodf> bnd
+ * <dodf>mbximum</dodf> propfrtifs dbn bf <dodf>null</dodf>
+ * to indidbtf thbt thf sfqufndf hbs no lowfr or uppfr limit.
+ * All of thf propfrtifs in this dlbss brf dffinfd in tfrms of two
+ * gfnfrid typfs: <dodf>Numbfr</dodf> bnd
+ * <dodf>Compbrbblf</dodf>, so thbt bll Jbvb numfrid typfs
+ * mby bf bddommodbtfd.  Intfrnblly, thfrf's only support for
+ * vblufs whosf typf is onf of thf primitivf <dodf>Numbfr</dodf> typfs:
+ * <dodf>Doublf</dodf>, <dodf>Flobt</dodf>, <dodf>Long</dodf>,
+ * <dodf>Intfgfr</dodf>, <dodf>Short</dodf>, or <dodf>Bytf</dodf>.
+ * <p>
+ * To drfbtf b <dodf>SpinnfrNumbfrModfl</dodf> for thf intfgfr
+ * rbngf zfro to onf hundrfd, with
+ * fifty bs thf initibl vbluf, onf dould writf:
+ * <prf>
+ * Intfgfr vbluf = nfw Intfgfr(50);
+ * Intfgfr min = nfw Intfgfr(0);
+ * Intfgfr mbx = nfw Intfgfr(100);
+ * Intfgfr stfp = nfw Intfgfr(1);
+ * SpinnfrNumbfrModfl modfl = nfw SpinnfrNumbfrModfl(vbluf, min, mbx, stfp);
+ * int fifty = modfl.gftNumbfr().intVbluf();
+ * </prf>
+ * <p>
+ * Spinnfrs for intfgfrs bnd doublfs brf dommon, so spfdibl donstrudtors
+ * for thfsf dbsfs brf providfd.  For fxbmplf to drfbtf thf modfl in
+ * thf prfvious fxbmplf, onf dould blso writf:
+ * <prf>
+ * SpinnfrNumbfrModfl modfl = nfw SpinnfrNumbfrModfl(50, 0, 100, 1);
+ * </prf>
+ * <p>
+ * This modfl inhfrits b <dodf>ChbngfListfnfr</dodf>.
+ * Thf <dodf>ChbngfListfnfrs</dodf> brf notififd
+ * whfnfvfr thf modfl's <dodf>vbluf</dodf>, <dodf>stfpSizf</dodf>,
+ * <dodf>minimum</dodf>, or <dodf>mbximum</dodf> propfrtifs dhbngfs.
+ *
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrDbtfModfl
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.4
+*/
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss SpinnfrNumbfrModfl fxtfnds AbstrbdtSpinnfrModfl implfmfnts Sfriblizbblf
+{
+    privbtf Numbfr stfpSizf, vbluf;
+    // Both minimum bnd mbximum brf logidblly Compbrbblf<? fxtfnds
+    // Numbfr>, but thbt typf is bwkwbrd to usf sindf difffrfnt
+    // instbndfs of Numbfr brf not nbturblly Compbrbblf. For fxbmplf,
+    // b Doublf implfmfnts Compbrbblf<Doublf> bnd bn Intfgfr
+    // implfmfnts Compbrbblf<Intfgfr>. Nfithfr Intfgfr nor Doublf will
+    // hbvf b bridgf mfthod for Compbrbblf<Numbfr>. Howfvfr, it sbff
+    // to dbst Compbrbblf<?> to Compbrbblf<Objfdt> sindf bll
+    // Compbrbblfs will hbvf b dompbrf(Objfdt> mfthod, possibly bs b
+    // bridgf.
+    privbtf Compbrbblf<?> minimum, mbximum;
+
+
+    /**
+     * Construdts b <dodf>SpinnfrModfl</dodf> thbt rfprfsfnts
+     * b dlosfd sfqufndf of
+     * numbfrs from <dodf>minimum</dodf> to <dodf>mbximum</dodf>.  Thf
+     * <dodf>nfxtVbluf</dodf> bnd <dodf>prfviousVbluf</dodf> mfthods
+     * domputf flfmfnts of thf sfqufndf by bdding or subtrbdting
+     * <dodf>stfpSizf</dodf> rfspfdtivfly.  All of thf pbrbmftfrs
+     * must bf mutublly <dodf>Compbrbblf</dodf>, <dodf>vbluf</dodf>
+     * bnd <dodf>stfpSizf</dodf> must bf instbndfs of <dodf>Intfgfr</dodf>
+     * <dodf>Long</dodf>, <dodf>Flobt</dodf>, or <dodf>Doublf</dodf>.
+     * <p>
+     * Thf <dodf>minimum</dodf> bnd <dodf>mbximum</dodf> pbrbmftfrs
+     * dbn bf <dodf>null</dodf> to indidbtf thbt thf rbngf dofsn't
+     * hbvf bn uppfr or lowfr bound.
+     * If <dodf>vbluf</dodf> or <dodf>stfpSizf</dodf> is <dodf>null</dodf>,
+     * or if both <dodf>minimum</dodf> bnd <dodf>mbximum</dodf>
+     * brf spfdififd bnd <dodf>minimum &gt; mbximum</dodf> thfn bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * Similbrly if <dodf>(minimum &lt;= vbluf &lt;= mbximum</dodf>) is fblsf,
+     * bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * @pbrbm vbluf thf durrfnt (non <dodf>null</dodf>) vbluf of thf modfl
+     * @pbrbm minimum thf first numbfr in thf sfqufndf or <dodf>null</dodf>
+     * @pbrbm mbximum thf lbst numbfr in thf sfqufndf or <dodf>null</dodf>
+     * @pbrbm stfpSizf thf difffrfndf bftwffn flfmfnts of thf sfqufndf
+     *
+     * @throws IllfgblArgumfntExdfption if stfpSizf or vbluf is
+     *     <dodf>null</dodf> or if thf following fxprfssion is fblsf:
+     *     <dodf>minimum &lt;= vbluf &lt;= mbximum</dodf>
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbsts to Compbrbblf<Objfdt>
+    publid SpinnfrNumbfrModfl(Numbfr vbluf,
+                               Compbrbblf<?> minimum,
+                               Compbrbblf<?> mbximum,
+                               Numbfr stfpSizf) {
+        if ((vbluf == null) || (stfpSizf == null)) {
+            throw nfw IllfgblArgumfntExdfption("vbluf bnd stfpSizf must bf non-null");
+        }
+        if (!(((minimum == null) || (((Compbrbblf<Objfdt>)minimum).dompbrfTo(vbluf) <= 0)) &&
+              ((mbximum == null) || (((Compbrbblf<Objfdt>)mbximum).dompbrfTo(vbluf) >= 0)))) {
+            throw nfw IllfgblArgumfntExdfption("(minimum <= vbluf <= mbximum) is fblsf");
+        }
+        this.vbluf = vbluf;
+        this.minimum = minimum;
+        this.mbximum = mbximum;
+        this.stfpSizf = stfpSizf;
+    }
+
+
+    /**
+     * Construdts b <dodf>SpinnfrNumbfrModfl</dodf> with thf spfdififd
+     * <dodf>vbluf</dodf>, <dodf>minimum</dodf>/<dodf>mbximum</dodf> bounds,
+     * bnd <dodf>stfpSizf</dodf>.
+     *
+     * @pbrbm vbluf thf durrfnt vbluf of thf modfl
+     * @pbrbm minimum thf first numbfr in thf sfqufndf
+     * @pbrbm mbximum thf lbst numbfr in thf sfqufndf
+     * @pbrbm stfpSizf thf difffrfndf bftwffn flfmfnts of thf sfqufndf
+     * @throws IllfgblArgumfntExdfption if thf following fxprfssion is fblsf:
+     *     <dodf>minimum &lt;= vbluf &lt;= mbximum</dodf>
+     */
+    publid SpinnfrNumbfrModfl(int vbluf, int minimum, int mbximum, int stfpSizf) {
+        this(Intfgfr.vblufOf(vbluf), Intfgfr.vblufOf(minimum), Intfgfr.vblufOf(mbximum), Intfgfr.vblufOf(stfpSizf));
+    }
+
+
+    /**
+     * Construdts b <dodf>SpinnfrNumbfrModfl</dodf> with thf spfdififd
+     * <dodf>vbluf</dodf>, <dodf>minimum</dodf>/<dodf>mbximum</dodf> bounds,
+     * bnd <dodf>stfpSizf</dodf>.
+     *
+     * @pbrbm vbluf thf durrfnt vbluf of thf modfl
+     * @pbrbm minimum thf first numbfr in thf sfqufndf
+     * @pbrbm mbximum thf lbst numbfr in thf sfqufndf
+     * @pbrbm stfpSizf thf difffrfndf bftwffn flfmfnts of thf sfqufndf
+     * @throws IllfgblArgumfntExdfption   if thf following fxprfssion is fblsf:
+     *     <dodf>minimum &lt;= vbluf &lt;= mbximum</dodf>
+     */
+    publid SpinnfrNumbfrModfl(doublf vbluf, doublf minimum, doublf mbximum, doublf stfpSizf) {
+        this(nfw Doublf(vbluf), nfw Doublf(minimum), nfw Doublf(mbximum), nfw Doublf(stfpSizf));
+    }
+
+
+    /**
+     * Construdts b <dodf>SpinnfrNumbfrModfl</dodf> with no
+     * <dodf>minimum</dodf> or <dodf>mbximum</dodf> vbluf,
+     * <dodf>stfpSizf</dodf> fqubl to onf, bnd bn initibl vbluf of zfro.
+     */
+    publid SpinnfrNumbfrModfl() {
+        this(Intfgfr.vblufOf(0), null, null, Intfgfr.vblufOf(1));
+    }
+
+
+    /**
+     * Chbngfs thf lowfr bound for numbfrs in this sfqufndf.
+     * If <dodf>minimum</dodf> is <dodf>null</dodf>,
+     * thfn thfrf is no lowfr bound.  No bounds dhfdking is donf hfrf;
+     * thf nfw <dodf>minimum</dodf> vbluf mby invblidbtf thf
+     * <dodf>(minimum &lt;= vbluf &lt;= mbximum)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.  This is to simplify updbting
+     * thf modfl, nbturblly onf should fnsurf thbt thf invbribnt is truf
+     * bfforf dblling thf <dodf>gftNfxtVbluf</dodf>,
+     * <dodf>gftPrfviousVbluf</dodf>, or <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * Typidblly this propfrty is b <dodf>Numbfr</dodf> of thf sbmf typf
+     * bs thf <dodf>vbluf</dodf> howfvfr it's possiblf to usf bny
+     * <dodf>Compbrbblf</dodf> with b <dodf>dompbrfTo</dodf>
+     * mfthod for b <dodf>Numbfr</dodf> with thf sbmf typf bs thf vbluf.
+     * For fxbmplf if vbluf wbs b <dodf>Long</dodf>,
+     * <dodf>minimum</dodf> might bf b Dbtf subdlbss dffinfd likf this:
+     * <prf>
+     * MyDbtf fxtfnds Dbtf {  // Dbtf blrfbdy implfmfnts Compbrbblf
+     *     publid int dompbrfTo(Long o) {
+     *         long t = gftTimf();
+     *         rfturn (t &lt; o.longVbluf() ? -1 : (t == o.longVbluf() ? 0 : 1));
+     *     }
+     * }
+     * </prf>
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf>
+     * if thf <dodf>minimum</dodf> hbs dhbngfd.
+     *
+     * @pbrbm minimum b <dodf>Compbrbblf</dodf> thbt hbs b
+     *     <dodf>dompbrfTo</dodf> mfthod for <dodf>Numbfr</dodf>s with
+     *     thf sbmf typf bs <dodf>vbluf</dodf>
+     * @sff #gftMinimum
+     * @sff #sftMbximum
+     * @sff SpinnfrModfl#bddChbngfListfnfr
+     */
+    publid void sftMinimum(Compbrbblf<?> minimum) {
+        if ((minimum == null) ? (this.minimum != null) : !minimum.fqubls(this.minimum)) {
+            this.minimum = minimum;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf first numbfr in this sfqufndf.
+     *
+     * @rfturn thf vbluf of thf <dodf>minimum</dodf> propfrty
+     * @sff #sftMinimum
+     */
+    publid Compbrbblf<?> gftMinimum() {
+        rfturn minimum;
+    }
+
+
+    /**
+     * Chbngfs thf uppfr bound for numbfrs in this sfqufndf.
+     * If <dodf>mbximum</dodf> is <dodf>null</dodf>, thfn thfrf
+     * is no uppfr bound.  No bounds dhfdking is donf hfrf; thf nfw
+     * <dodf>mbximum</dodf> vbluf mby invblidbtf thf
+     * <dodf>(minimum &lt;= vbluf &lt; mbximum)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.  This is to simplify updbting
+     * thf modfl, nbturblly onf should fnsurf thbt thf invbribnt is truf
+     * bfforf dblling thf <dodf>nfxt</dodf>, <dodf>prfvious</dodf>,
+     * or <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * Typidblly this propfrty is b <dodf>Numbfr</dodf> of thf sbmf typf
+     * bs thf <dodf>vbluf</dodf> howfvfr it's possiblf to usf bny
+     * <dodf>Compbrbblf</dodf> with b <dodf>dompbrfTo</dodf>
+     * mfthod for b <dodf>Numbfr</dodf> with thf sbmf typf bs thf vbluf.
+     * Sff <b hrff="#sftMinimum(jbvb.lbng.Compbrbblf)">
+     * <dodf>sftMinimum</dodf></b> for bn fxbmplf.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf
+     * <dodf>mbximum</dodf> hbs dhbngfd.
+     *
+     * @pbrbm mbximum b <dodf>Compbrbblf</dodf> thbt hbs b
+     *     <dodf>dompbrfTo</dodf> mfthod for <dodf>Numbfr</dodf>s with
+     *     thf sbmf typf bs <dodf>vbluf</dodf>
+     * @sff #gftMbximum
+     * @sff #sftMinimum
+     * @sff SpinnfrModfl#bddChbngfListfnfr
+     */
+    publid void sftMbximum(Compbrbblf<?> mbximum) {
+        if ((mbximum == null) ? (this.mbximum != null) : !mbximum.fqubls(this.mbximum)) {
+            this.mbximum = mbximum;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf lbst numbfr in thf sfqufndf.
+     *
+     * @rfturn thf vbluf of thf <dodf>mbximum</dodf> propfrty
+     * @sff #sftMbximum
+     */
+    publid Compbrbblf<?> gftMbximum() {
+        rfturn mbximum;
+    }
+
+
+    /**
+     * Chbngfs thf sizf of thf vbluf dhbngf domputfd by thf
+     * <dodf>gftNfxtVbluf</dodf> bnd <dodf>gftPrfviousVbluf</dodf>
+     * mfthods.  An <dodf>IllfgblArgumfntExdfption</dodf>
+     * is thrown if <dodf>stfpSizf</dodf> is <dodf>null</dodf>.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf
+     * <dodf>stfpSizf</dodf> hbs dhbngfd.
+     *
+     * @pbrbm stfpSizf thf sizf of thf vbluf dhbngf domputfd by thf
+     *     <dodf>gftNfxtVbluf</dodf> bnd <dodf>gftPrfviousVbluf</dodf> mfthods
+     * @sff #gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff #gftStfpSizf
+     * @sff SpinnfrModfl#bddChbngfListfnfr
+     */
+    publid void sftStfpSizf(Numbfr stfpSizf) {
+        if (stfpSizf == null) {
+            throw nfw IllfgblArgumfntExdfption("null stfpSizf");
+        }
+        if (!stfpSizf.fqubls(this.stfpSizf)) {
+            this.stfpSizf = stfpSizf;
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns thf sizf of thf vbluf dhbngf domputfd by thf
+     * <dodf>gftNfxtVbluf</dodf>
+     * bnd <dodf>gftPrfviousVbluf</dodf> mfthods.
+     *
+     * @rfturn thf vbluf of thf <dodf>stfpSizf</dodf> propfrty
+     * @sff #sftStfpSizf
+     */
+    publid Numbfr gftStfpSizf() {
+        rfturn stfpSizf;
+    }
+
+    @SupprfssWbrnings("undhfdkfd") // Cbsts to Compbrbblf<Objfdt>
+    privbtf Numbfr indrVbluf(int dir)
+    {
+        Numbfr nfwVbluf;
+        if ((vbluf instbndfof Flobt) || (vbluf instbndfof Doublf)) {
+            doublf v = vbluf.doublfVbluf() + (stfpSizf.doublfVbluf() * (doublf)dir);
+            if (vbluf instbndfof Doublf) {
+                nfwVbluf = nfw Doublf(v);
+            }
+            flsf {
+                nfwVbluf = nfw Flobt(v);
+            }
+        } flsf {
+            long v = vbluf.longVbluf() + (stfpSizf.longVbluf() * (long)dir);
+
+            if (vbluf instbndfof Long) {
+                nfwVbluf = Long.vblufOf(v);
+            }
+            flsf if (vbluf instbndfof Intfgfr) {
+                nfwVbluf = Intfgfr.vblufOf((int)v);
+            }
+            flsf if (vbluf instbndfof Short) {
+                nfwVbluf = Short.vblufOf((short)v);
+            }
+            flsf {
+                nfwVbluf = Bytf.vblufOf((bytf)v);
+            }
+        }
+
+        if ((mbximum != null) && (((Compbrbblf<Objfdt>)mbximum).dompbrfTo(nfwVbluf) < 0)) {
+            rfturn null;
+        }
+        if ((minimum != null) && (((Compbrbblf<Objfdt>)minimum).dompbrfTo(nfwVbluf) > 0)) {
+            rfturn null;
+        }
+        flsf {
+            rfturn nfwVbluf;
+        }
+    }
+
+
+    /**
+     * Rfturns thf nfxt numbfr in thf sfqufndf.
+     *
+     * @rfturn <dodf>vbluf + stfpSizf</dodf> or <dodf>null</dodf> if thf sum
+     *     fxdffds <dodf>mbximum</dodf>.
+     *
+     * @sff SpinnfrModfl#gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff #sftStfpSizf
+     */
+    publid Objfdt gftNfxtVbluf() {
+        rfturn indrVbluf(+1);
+    }
+
+
+    /**
+     * Rfturns thf prfvious numbfr in thf sfqufndf.
+     *
+     * @rfturn <dodf>vbluf - stfpSizf</dodf>, or
+     *     <dodf>null</dodf> if thf sum is lfss
+     *     thbn <dodf>minimum</dodf>.
+     *
+     * @sff SpinnfrModfl#gftPrfviousVbluf
+     * @sff #gftNfxtVbluf
+     * @sff #sftStfpSizf
+     */
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn indrVbluf(-1);
+    }
+
+
+    /**
+     * Rfturns thf vbluf of thf durrfnt flfmfnt of thf sfqufndf.
+     *
+     * @rfturn thf vbluf propfrty
+     * @sff #sftVbluf
+     */
+    publid Numbfr gftNumbfr() {
+        rfturn vbluf;
+    }
+
+
+    /**
+     * Rfturns thf vbluf of thf durrfnt flfmfnt of thf sfqufndf.
+     *
+     * @rfturn thf vbluf propfrty
+     * @sff #sftVbluf
+     * @sff #gftNumbfr
+     */
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+    }
+
+
+    /**
+     * Sfts thf durrfnt vbluf for this sfqufndf.  If <dodf>vbluf</dodf> is
+     * <dodf>null</dodf>, or not b <dodf>Numbfr</dodf>, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.  No
+     * bounds dhfdking is donf hfrf; thf nfw vbluf mby invblidbtf thf
+     * <dodf>(minimum &lt;= vbluf &lt;= mbximum)</dodf>
+     * invbribnt fnfordfd by thf donstrudtors.   It's blso possiblf to sft
+     * thf vbluf to bf somfthing thbt wouldn't nbturblly oddur in thf sfqufndf,
+     * i.f. b vbluf thbt's not modulo thf <dodf>stfpSizf</dodf>.
+     * This is to simplify updbting thf modfl, bnd to bddommodbtf
+     * spinnfrs thbt don't wbnt to rfstridt vblufs thbt hbvf bffn
+     * dirfdtly fntfrfd by thf usfr. Nbturblly, onf should fnsurf thbt thf
+     * <dodf>(minimum &lt;= vbluf &lt;= mbximum)</dodf> invbribnt is truf
+     * bfforf dblling thf <dodf>nfxt</dodf>, <dodf>prfvious</dodf>, or
+     * <dodf>sftVbluf</dodf> mfthods.
+     * <p>
+     * This mfthod firfs b <dodf>ChbngfEvfnt</dodf> if thf vbluf hbs dhbngfd.
+     *
+     * @pbrbm vbluf thf durrfnt (non <dodf>null</dodf>) <dodf>Numbfr</dodf>
+     *         for this sfqufndf
+     * @throws IllfgblArgumfntExdfption if <dodf>vbluf</dodf> is
+     *         <dodf>null</dodf> or not b <dodf>Numbfr</dodf>
+     * @sff #gftNumbfr
+     * @sff #gftVbluf
+     * @sff SpinnfrModfl#bddChbngfListfnfr
+     */
+    publid void sftVbluf(Objfdt vbluf) {
+        if ((vbluf == null) || !(vbluf instbndfof Numbfr)) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl vbluf");
+        }
+        if (!vbluf.fqubls(this.vbluf)) {
+            this.vbluf = (Numbfr)vbluf;
+            firfStbtfChbngfd();
+        }
+    }
+}

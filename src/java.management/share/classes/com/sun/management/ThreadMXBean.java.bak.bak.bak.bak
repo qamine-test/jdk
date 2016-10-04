@@ -1,0 +1,222 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+import jbvb.util.Mbp;
+
+/**
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for thf thrfbd systfm
+ * of thf Jbvb virtubl mbdhinf.
+ * <p>
+ * This plbtform fxtfnsion is only bvbilbblf to b thrfbd
+ * implfmfntbtion thbt supports this fxtfnsion.
+ *
+ * @buthor  Pbul Hohfnsff
+ * @sindf   6u25
+ */
+
+@jdk.Exportfd
+publid intfrfbdf ThrfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn {
+    /**
+     * Rfturns thf totbl CPU timf for fbdh thrfbd whosf ID is
+     * in thf input brrby {@dodf ids} in nbnosfdonds.
+     * Thf rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * <p>
+     * This mfthod is fquivblfnt to dblling thf
+     * {@link ThrfbdMXBfbn#gftThrfbdCpuTimf(long)}
+     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
+     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     *
+     * @pbrbm ids bn brrby of thrfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdh of whidh is thf bmount of CPU
+     * timf thf thrfbd whosf ID is in thf dorrfsponding flfmfnt of thf input
+     * brrby of IDs hbs usfd,
+     * if thf thrfbd of b spfdififd ID fxists, thf thrfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} othfrwisf.
+     *
+     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     *         virtubl mbdhinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
+     *
+     * @sff ThrfbdMXBfbn#gftThrfbdCpuTimf(long)
+     * @sff #gftThrfbdUsfrTimf
+     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfSupportfd
+     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfEnbblfd
+     * @sff ThrfbdMXBfbn#sftThrfbdCpuTimfEnbblfd
+     */
+    publid long[] gftThrfbdCpuTimf(long[] ids);
+
+    /**
+     * Rfturns thf CPU timf thbt fbdh thrfbd whosf ID is in thf input brrby
+     * {@dodf ids} hbs fxfdutfd in usfr modf in nbnosfdonds.
+     * Thf rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * <p>
+     * This mfthod is fquivblfnt to dblling thf
+     * {@link ThrfbdMXBfbn#gftThrfbdUsfrTimf(long)}
+     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
+     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     *
+     * @pbrbm ids bn brrby of thrfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdh of whidh is thf bmount of usfr
+     * modf CPU timf thf thrfbd whosf ID is in thf dorrfsponding flfmfnt of
+     * thf input brrby of IDs hbs usfd,
+     * if thf thrfbd of b spfdififd ID fxists, thf thrfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} othfrwisf.
+     *
+     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     *         virtubl mbdhinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
+     *
+     * @sff ThrfbdMXBfbn#gftThrfbdUsfrTimf(long)
+     * @sff #gftThrfbdCpuTimf
+     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfSupportfd
+     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfEnbblfd
+     * @sff ThrfbdMXBfbn#sftThrfbdCpuTimfEnbblfd
+     */
+    publid long[] gftThrfbdUsfrTimf(long[] ids);
+
+    /**
+     * Rfturns bn bpproximbtion of thf totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in hfbp mfmory for thf thrfbd of thf spfdififd ID.
+     * Thf rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdhinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdhbnisms thbt rfsult in b
+     * dflby bftwffn thf timf bn objfdt is bllodbtfd bnd thf timf its sizf is
+     * rfdordfd.
+     * <p>
+     * If thf thrfbd of thf spfdififd ID is not blivf or dofs not fxist,
+     * this mfthod rfturns {@dodf -1}. If thrfbd mfmory bllodbtion mfbsurfmfnt
+     * is disbblfd, this mfthod rfturns {@dodf -1}.
+     * A thrfbd is blivf if it hbs bffn stbrtfd bnd hbs not yft difd.
+     * <p>
+     * If thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr thf thrfbd hbs
+     * stbrtfd, thf Jbvb virtubl mbdhinf implfmfntbtion mby dhoosf bny timf up
+     * to bnd indluding thf timf thbt thf dbpbbility is fnbblfd bs thf point
+     * whfrf thrfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     *
+     * @pbrbm id thf thrfbd ID of b thrfbd
+     * @rfturn bn bpproximbtion of thf totbl mfmory bllodbtfd, in bytfs, in
+     * hfbp mfmory for b thrfbd of thf spfdififd ID
+     * if thf thrfbd of thf spfdififd ID fxists, thf thrfbd is blivf,
+     * bnd thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     *         mbdhinf implfmfntbtion dofs not support thrfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
+     *
+     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     * @sff #isThrfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftThrfbdAllodbtfdMfmoryEnbblfd
+     */
+    publid long gftThrfbdAllodbtfdBytfs(long id);
+
+    /**
+     * Rfturns bn bpproximbtion of thf totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in hfbp mfmory for fbdh thrfbd whosf ID is in thf input
+     * brrby {@dodf ids}.
+     * Thf rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdhinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdhbnisms thbt rfsult in b
+     * dflby bftwffn thf timf bn objfdt is bllodbtfd bnd thf timf its sizf is
+     * rfdordfd.
+     * <p>
+     * This mfthod is fquivblfnt to dblling thf
+     * {@link #gftThrfbdAllodbtfdBytfs(long)}
+     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
+     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     *
+     * @pbrbm ids bn brrby of thrfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdh of whidh is bn bpproximbtion of
+     * thf totbl mfmory bllodbtfd, in bytfs, in hfbp mfmory for thf thrfbd
+     * whosf ID is in thf dorrfsponding flfmfnt of thf input brrby of IDs.
+     *
+     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     *         mbdhinf implfmfntbtion dofs not support thrfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
+     *
+     * @sff #gftThrfbdAllodbtfdBytfs(long)
+     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     * @sff #isThrfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftThrfbdAllodbtfdMfmoryEnbblfd
+     */
+    publid long[] gftThrfbdAllodbtfdBytfs(long[] ids);
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf implfmfntbtion supports thrfbd mfmory
+     * bllodbtion mfbsurfmfnt.
+     *
+     * @rfturn
+     *   {@dodf truf}
+     *     if thf Jbvb virtubl mbdhinf implfmfntbtion supports thrfbd mfmory
+     *     bllodbtion mfbsurfmfnt;
+     *   {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn isThrfbdAllodbtfdMfmorySupportfd();
+
+    /**
+     * Tfsts if thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+     *
+     * @rfturn {@dodf truf} if thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     *         {@dodf fblsf} othfrwisf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     *         mbdhinf dofs not support thrfbd mfmory bllodbtion mfbsurfmfnt.
+     *
+     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     */
+    publid boolfbn isThrfbdAllodbtfdMfmoryEnbblfd();
+
+    /**
+     * Enbblfs or disbblfs thrfbd mfmory bllodbtion mfbsurfmfnt.  Thf dffbult
+     * is plbtform dfpfndfnt.
+     *
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
+     *               {@dodf fblsf} to disbblf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
+     *         mbdhinf dofs not support thrfbd mfmory bllodbtion mfbsurfmfnt.
+     *
+     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd thf dbllfr dofs not hbvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     */
+    publid void sftThrfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+}

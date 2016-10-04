@@ -1,0 +1,293 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.SfqufndfInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+
+/**
+ * This dlbss implfmfnts b strfbm filtfr for rfbding domprfssfd dbtb in
+ * thf GZIP filf formbt.
+ *
+ * @sff         InflbtfrInputStrfbm
+ * @buthor      Dbvid Connflly
+ *
+ */
+publid
+dlbss GZIPInputStrfbm fxtfnds InflbtfrInputStrfbm {
+    /**
+     * CRC-32 for undomprfssfd dbtb.
+     */
+    protfdtfd CRC32 drd = nfw CRC32();
+
+    /**
+     * Indidbtfs fnd of input strfbm.
+     */
+    protfdtfd boolfbn fos;
+
+    privbtf boolfbn dlosfd = fblsf;
+
+    /**
+     * Chfdk to mbkf surf thbt this strfbm hbs not bffn dlosfd
+     */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm with thf spfdififd bufffr sizf.
+     * @pbrbm in thf input strfbm
+     * @pbrbm sizf thf input bufffr sizf
+     *
+     * @fxdfption ZipExdfption if b GZIP formbt frror hbs oddurrfd or thf
+     *                         domprfssion mfthod usfd is unsupportfd
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
+     */
+    publid GZIPInputStrfbm(InputStrfbm in, int sizf) throws IOExdfption {
+        supfr(in, nfw Inflbtfr(truf), sizf);
+        usfsDffbultInflbtfr = truf;
+        rfbdHfbdfr(in);
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm with b dffbult bufffr sizf.
+     * @pbrbm in thf input strfbm
+     *
+     * @fxdfption ZipExdfption if b GZIP formbt frror hbs oddurrfd or thf
+     *                         domprfssion mfthod usfd is unsupportfd
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid GZIPInputStrfbm(InputStrfbm in) throws IOExdfption {
+        this(in, 512);
+    }
+
+    /**
+     * Rfbds undomprfssfd dbtb into bn brrby of bytfs. If <dodf>lfn</dodf> is not
+     * zfro, thf mfthod will blodk until somf input dbn bf dfdomprfssfd; othfrwisf,
+     * no bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm buf thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft in thf dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfbd
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd, or -1 if thf fnd of thf
+     *          domprfssfd input strfbm is rfbdhfd
+     *
+     * @fxdfption  NullPointfrExdfption If <dodf>buf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr thbn
+     * <dodf>buf.lfngth - off</dodf>
+     * @fxdfption ZipExdfption if thf domprfssfd input dbtb is dorrupt.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd.
+     *
+     */
+    publid int rfbd(bytf[] buf, int off, int lfn) throws IOExdfption {
+        fnsurfOpfn();
+        if (fos) {
+            rfturn -1;
+        }
+        int n = supfr.rfbd(buf, off, lfn);
+        if (n == -1) {
+            if (rfbdTrbilfr())
+                fos = truf;
+            flsf
+                rfturn this.rfbd(buf, off, lfn);
+        } flsf {
+            drd.updbtf(buf, off, n);
+        }
+        rfturn n;
+    }
+
+    /**
+     * Closfs this input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * with thf strfbm.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void dlosf() throws IOExdfption {
+        if (!dlosfd) {
+            supfr.dlosf();
+            fos = truf;
+            dlosfd = truf;
+        }
+    }
+
+    /**
+     * GZIP hfbdfr mbgid numbfr.
+     */
+    publid finbl stbtid int GZIP_MAGIC = 0x8b1f;
+
+    /*
+     * Filf hfbdfr flbgs.
+     */
+    privbtf finbl stbtid int FTEXT      = 1;    // Extrb tfxt
+    privbtf finbl stbtid int FHCRC      = 2;    // Hfbdfr CRC
+    privbtf finbl stbtid int FEXTRA     = 4;    // Extrb fifld
+    privbtf finbl stbtid int FNAME      = 8;    // Filf nbmf
+    privbtf finbl stbtid int FCOMMENT   = 16;   // Filf dommfnt
+
+    /*
+     * Rfbds GZIP mfmbfr hfbdfr bnd rfturns thf totbl bytf numbfr
+     * of this mfmbfr hfbdfr.
+     */
+    privbtf int rfbdHfbdfr(InputStrfbm this_in) throws IOExdfption {
+        ChfdkfdInputStrfbm in = nfw ChfdkfdInputStrfbm(this_in, drd);
+        drd.rfsft();
+        // Chfdk hfbdfr mbgid
+        if (rfbdUShort(in) != GZIP_MAGIC) {
+            throw nfw ZipExdfption("Not in GZIP formbt");
+        }
+        // Chfdk domprfssion mfthod
+        if (rfbdUBytf(in) != 8) {
+            throw nfw ZipExdfption("Unsupportfd domprfssion mfthod");
+        }
+        // Rfbd flbgs
+        int flg = rfbdUBytf(in);
+        // Skip MTIME, XFL, bnd OS fiflds
+        skipBytfs(in, 6);
+        int n = 2 + 2 + 6;
+        // Skip optionbl fxtrb fifld
+        if ((flg & FEXTRA) == FEXTRA) {
+            int m = rfbdUShort(in);
+            skipBytfs(in, m);
+            n += m + 2;
+        }
+        // Skip optionbl filf nbmf
+        if ((flg & FNAME) == FNAME) {
+            do {
+                n++;
+            } whilf (rfbdUBytf(in) != 0);
+        }
+        // Skip optionbl filf dommfnt
+        if ((flg & FCOMMENT) == FCOMMENT) {
+            do {
+                n++;
+            } whilf (rfbdUBytf(in) != 0);
+        }
+        // Chfdk optionbl hfbdfr CRC
+        if ((flg & FHCRC) == FHCRC) {
+            int v = (int)drd.gftVbluf() & 0xffff;
+            if (rfbdUShort(in) != v) {
+                throw nfw ZipExdfption("Corrupt GZIP hfbdfr");
+            }
+            n += 2;
+        }
+        drd.rfsft();
+        rfturn n;
+    }
+
+    /*
+     * Rfbds GZIP mfmbfr trbilfr bnd rfturns truf if thf fos
+     * rfbdhfd, fblsf if thfrf brf morf (dondbtfnbtfd gzip
+     * dbtb sft)
+     */
+    privbtf boolfbn rfbdTrbilfr() throws IOExdfption {
+        InputStrfbm in = this.in;
+        int n = inf.gftRfmbining();
+        if (n > 0) {
+            in = nfw SfqufndfInputStrfbm(
+                        nfw BytfArrbyInputStrfbm(buf, lfn - n, n),
+                        nfw FiltfrInputStrfbm(in) {
+                            publid void dlosf() throws IOExdfption {}
+                        });
+        }
+        // Usfs lfft-to-right fvblubtion ordfr
+        if ((rfbdUInt(in) != drd.gftVbluf()) ||
+            // rfd1952; ISIZE is thf input sizf modulo 2^32
+            (rfbdUInt(in) != (inf.gftBytfsWrittfn() & 0xffffffffL)))
+            throw nfw ZipExdfption("Corrupt GZIP trbilfr");
+
+        // If thfrf brf morf bytfs bvbilbblf in "in" or
+        // thf lfftovfr in thf "inf" is > 26 bytfs:
+        // this.trbilfr(8) + nfxt.hfbdfr.min(10) + nfxt.trbilfr(8)
+        // try dondbtfnbtfd dbsf
+        if (this.in.bvbilbblf() > 0 || n > 26) {
+            int m = 8;                  // this.trbilfr
+            try {
+                m += rfbdHfbdfr(in);    // nfxt.hfbdfr
+            } dbtdh (IOExdfption zf) {
+                rfturn truf;  // ignorf bny mblformfd, do nothing
+            }
+            inf.rfsft();
+            if (n > m)
+                inf.sftInput(buf, lfn - n + m, n - m);
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Rfbds unsignfd intfgfr in Intfl bytf ordfr.
+     */
+    privbtf long rfbdUInt(InputStrfbm in) throws IOExdfption {
+        long s = rfbdUShort(in);
+        rfturn ((long)rfbdUShort(in) << 16) | s;
+    }
+
+    /*
+     * Rfbds unsignfd short in Intfl bytf ordfr.
+     */
+    privbtf int rfbdUShort(InputStrfbm in) throws IOExdfption {
+        int b = rfbdUBytf(in);
+        rfturn (rfbdUBytf(in) << 8) | b;
+    }
+
+    /*
+     * Rfbds unsignfd bytf.
+     */
+    privbtf int rfbdUBytf(InputStrfbm in) throws IOExdfption {
+        int b = in.rfbd();
+        if (b == -1) {
+            throw nfw EOFExdfption();
+        }
+        if (b < -1 || b > 255) {
+            // Rfport on this.in, not brgumfnt in; sff rfbd{Hfbdfr, Trbilfr}.
+            throw nfw IOExdfption(this.in.gftClbss().gftNbmf()
+                + ".rfbd() rfturnfd vbluf out of rbngf -1..255: " + b);
+        }
+        rfturn b;
+    }
+
+    privbtf bytf[] tmpbuf = nfw bytf[128];
+
+    /*
+     * Skips bytfs of input dbtb blodking until bll bytfs brf skippfd.
+     * Dofs not bssumf thbt thf input strfbm is dbpbblf of sffking.
+     */
+    privbtf void skipBytfs(InputStrfbm in, int n) throws IOExdfption {
+        whilf (n > 0) {
+            int lfn = in.rfbd(tmpbuf, 0, n < tmpbuf.lfngth ? n : tmpbuf.lfngth);
+            if (lfn == -1) {
+                throw nfw EOFExdfption();
+            }
+            n -= lfn;
+        }
+    }
+}

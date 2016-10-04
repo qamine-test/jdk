@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+publid dlbss Environmfnt {
+
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
+    privbtf ContfxtMbnbgfr dontfxtMbnbgfr;
+    privbtf MonitorListModfl monitorListModfl;
+    privbtf ExfdutionMbnbgfr runtimf;
+
+    privbtf PrintWritfr typfSdript;
+
+    privbtf boolfbn vfrbosf;
+
+    publid Environmfnt() {
+        this.dlbssMbnbgfr = nfw ClbssMbnbgfr(this);
+        //### Ordfr of thf nfxt thrff linfs is importbnt!  (FIX THIS)
+        this.runtimf = nfw ExfdutionMbnbgfr();
+        this.sourdfMbnbgfr = nfw SourdfMbnbgfr(this);
+        this.dontfxtMbnbgfr = nfw ContfxtMbnbgfr(this);
+        this.monitorListModfl = nfw MonitorListModfl(this);
+    }
+
+    // Sfrvidfs usfd by dfbugging tools.
+
+    publid SourdfMbnbgfr gftSourdfMbnbgfr() {
+        rfturn sourdfMbnbgfr;
+    }
+
+    publid ClbssMbnbgfr gftClbssMbnbgfr() {
+        rfturn dlbssMbnbgfr;
+    }
+
+    publid ContfxtMbnbgfr gftContfxtMbnbgfr() {
+        rfturn dontfxtMbnbgfr;
+    }
+
+    publid MonitorListModfl gftMonitorListModfl() {
+        rfturn monitorListModfl;
+    }
+
+    publid ExfdutionMbnbgfr gftExfdutionMbnbgfr() {
+        rfturn runtimf;
+    }
+
+    //### TODO:
+    //### Tools should bttbdh/dftbdh from fnvironmfnt
+    //### vib b propfrty, whidh should dbll bn 'bddTool'
+    //### mfthod whfn sft to mbintbin b rfgistry of
+    //### tools for fxit-timf dlfbnup, ftd.  Tool
+    //### dlbss donstrudtors should bf brgumfnt-frff, so
+    //### thbt thfy mby bf instbntibtfd by bfbn buildfrs.
+    //### Will blso nffd 'rfmovfTool' in dbsf propfrty
+    //### vbluf is dhbngfd.
+    //
+    // publid void bddTool(Tool t);
+    // publid void rfmovfTool(Tool t);
+
+     publid void tfrminbtf() {
+         Systfm.fxit(0);
+     }
+
+    // publid void rffrfsh();    // notify bll tools to rffrfsh thfir vifws
+
+
+    // publid void bddStbtusListfnfr(StbtusListfnfr l);
+    // publid void rfmovfStbtusListfnfr(StbtusListfnfr l);
+
+    // publid void bddOutputListfnfr(OutputListfnfr l);
+    // publid void rfmovfOutputListfnfr(OutputListfnfr l);
+
+    publid void sftTypfSdript(PrintWritfr writfr) {
+        typfSdript = writfr;
+    }
+
+    publid void frror(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
+        }
+    }
+
+    publid void fbilurf(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
+        }
+    }
+
+    publid void notidf(String mfssbgf) {
+        if (typfSdript != null) {
+            typfSdript.println(mfssbgf);
+        } flsf {
+            Systfm.out.println(mfssbgf);
+        }
+    }
+
+    publid OutputSink gftOutputSink() {
+        rfturn nfw OutputSink(typfSdript);
+    }
+
+    publid void vifwSourdf(String filfNbmf) {
+        //### HACK ###
+        //### Should usf listfnfr hfrf.
+        dom.sun.tools.fxbmplf.dfbug.gui.GUI.srdTool.showSourdfFilf(filfNbmf);
+    }
+
+    publid void vifwLodbtion(Lodbtion lodn) {
+        //### HACK ###
+        //### Should usf listfnfr hfrf.
+        //### Should wf usf sourdfForLodbtion hfrf?
+        dom.sun.tools.fxbmplf.dfbug.gui.GUI.srdTool.showSourdfForLodbtion(lodn);
+    }
+
+    //### Also in 'ContfxtMbnbgfr'.  Do wf nffd both?
+
+    publid boolfbn gftVfrbosfFlbg() {
+        rfturn vfrbosf;
+    }
+
+    publid void sftVfrbosfFlbg(boolfbn vfrbosf) {
+        this.vfrbosf = vfrbosf;
+    }
+
+}

@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Lodblf;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss JobShffts is b printing bttributf dlbss, bn fnumfrbtion, thbt
+ * dftfrminfs whidh job stbrt bnd fnd shffts, if bny, must bf printfd with b
+ * job. Clbss JobShffts dfdlbrfs kfywords for stbndbrd job shffts vblufs.
+ * Implfmfntbtion- or sitf-dffinfd nbmfs for b job shffts bttributf mby blso bf
+ * drfbtfd by dffining b subdlbss of dlbss JobShffts.
+ * <P>
+ * Thf ffffdt of b JobShffts bttributf on multidod print jobs (jobs with
+ * multiplf dodumfnts) mby bf bfffdtfd by thf {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} job bttributf, dfpfnding on thf mfbning of thf
+ * pbrtidulbr JobShffts vbluf.
+ * <P>
+ * <B>IPP Compbtibility:</B>  Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is thf IPP bttributf nbmf.  Thf
+ * fnumfrbtion's intfgfr vbluf is thf IPP fnum vbluf.  Thf
+ * <dodf>toString()</dodf> mfthod rfturns thf IPP string rfprfsfntbtion of
+ * thf bttributf vbluf. For b subdlbss, thf bttributf vbluf must bf
+ * lodblizfd to givf thf IPP nbmf bnd nbturbl lbngubgf vblufs.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss JobShffts fxtfnds EnumSyntbx
+        implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4735258056132519759L;
+
+    /**
+     * No job shffts brf printfd.
+     */
+    publid stbtid finbl JobShffts NONE = nfw JobShffts(0);
+
+    /**
+     * Onf or morf sitf spfdifid stbndbrd job shffts brf printfd. f.g. b
+     * singlf stbrt shfft is printfd, or both stbrt bnd fnd shffts brf
+     * printfd.
+     */
+    publid stbtid finbl JobShffts STANDARD = nfw JobShffts(1);
+
+    /**
+     * Construdt b nfw job shffts fnumfrbtion vbluf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd JobShffts(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "nonf",
+        "stbndbrd"
+    };
+
+    privbtf stbtid finbl JobShffts[] myEnumVblufTbblf = {
+        NONE,
+        STANDARD
+    };
+
+    /**
+     * Rfturns thf string tbblf for dlbss JobShffts.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss JobShffts.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobShffts bnd bny vfndor-dffinfd subdlbssfs, thf dbtfgory is
+     * dlbss JobShffts itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobShffts.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobShffts bnd bny vfndor-dffinfd subdlbssfs, thf dbtfgory
+     * nbmf is <CODE>"job-shffts"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-shffts";
+    }
+
+}

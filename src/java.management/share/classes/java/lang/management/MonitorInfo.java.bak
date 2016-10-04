@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
-import javax.management.openmbean.CompositeData;
-import sun.management.MonitorInfoCompositeData;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
 
 /**
- * Information about an object monitor lock.  An object monitor is locked
- * when entering a synchronization block or method on that object.
+ * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
  *
- * <h3>MXBean Mapping</h3>
- * <tt>MonitorInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in
- * the {@link #from from} method.
+ * <i3>MXBfbn Mbpping</i3>
+ * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * witi bttributfs bs spfdififd in
+ * tif {@link #from from} mftiod.
  *
- * @author  Mandy Chung
- * @since   1.6
+ * @butior  Mbndy Ciung
+ * @sindf   1.6
  */
-public class MonitorInfo extends LockInfo {
+publid dlbss MonitorInfo fxtfnds LodkInfo {
 
-    private int    stackDepth;
-    private StackTraceElement stackFrame;
+    privbtf int    stbdkDfpti;
+    privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
 
     /**
-     * Construct a <tt>MonitorInfo</tt> object.
+     * Construdt b <tt>MonitorInfo</tt> objfdt.
      *
-     * @param className the fully qualified name of the class of the lock object.
-     * @param identityHashCode the {@link System#identityHashCode
-     *                         identity hash code} of the lock object.
-     * @param stackDepth the depth in the stack trace where the object monitor
-     *                   was locked.
-     * @param stackFrame the stack frame that locked the object monitor.
-     * @throws IllegalArgumentException if
-     *    <tt>stackDepth</tt> &ge; 0 but <tt>stackFrame</tt> is <tt>null</tt>,
-     *    or <tt>stackDepth</tt> &lt; 0 but <tt>stackFrame</tt> is not
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     *                   wbs lodkfd.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @tirows IllfgblArgumfntExdfption if
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
      *       <tt>null</tt>.
      */
-    public MonitorInfo(String className,
-                       int identityHashCode,
-                       int stackDepth,
-                       StackTraceElement stackFrame) {
-        super(className, identityHashCode);
-        if (stackDepth >= 0 && stackFrame == null) {
-            throw new IllegalArgumentException("Parameter stackDepth is " +
-                stackDepth + " but stackFrame is null");
+    publid MonitorInfo(String dlbssNbmf,
+                       int idfntityHbsiCodf,
+                       int stbdkDfpti,
+                       StbdkTrbdfElfmfnt stbdkFrbmf) {
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+                stbdkDfpti + " but stbdkFrbmf is null");
         }
-        if (stackDepth < 0 && stackFrame != null) {
-            throw new IllegalArgumentException("Parameter stackDepth is " +
-                stackDepth + " but stackFrame is not null");
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+                stbdkDfpti + " but stbdkFrbmf is not null");
         }
-        this.stackDepth = stackDepth;
-        this.stackFrame = stackFrame;
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkFrbmf = stbdkFrbmf;
     }
 
     /**
-     * Returns the depth in the stack trace where the object monitor
-     * was locked.  The depth is the index to the <tt>StackTraceElement</tt>
-     * array returned in the {@link ThreadInfo#getStackTrace} method.
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
      *
-     * @return the depth in the stack trace where the object monitor
-     *         was locked, or a negative number if not available.
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
      */
-    public int getLockedStackDepth() {
-        return stackDepth;
+    publid int gftLodkfdStbdkDfpti() {
+        rfturn stbdkDfpti;
     }
 
     /**
-     * Returns the stack frame that locked the object monitor.
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
      *
-     * @return <tt>StackTraceElement</tt> that locked the object monitor,
-     *         or <tt>null</tt> if not available.
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     *         or <tt>null</tt> if not bvbilbblf.
      */
-    public StackTraceElement getLockedStackFrame() {
-        return stackFrame;
+    publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
+        rfturn stbdkFrbmf;
     }
 
     /**
-     * Returns a <tt>MonitorInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain the following attributes
-     * as well as the attributes specified in the
-     * <a href="LockInfo.html#MappedType">
-     * mapped type</a> for the {@link LockInfo} class:
-     * <blockquote>
-     * <table border summary="The attributes and their types the given CompositeData contains">
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>.
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>lockedStackFrame</td>
-     *   <td><tt>CompositeData as specified in the
-     *       <a href="ThreadInfo.html#StackTrace">stackTrace</a>
-     *       attribute defined in the {@link ThreadInfo#from
-     *       ThreadInfo.from} method.
+     *   <td>lodkfdStbdkFrbmf</td>
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       TirfbdInfo.from} mftiod.
      *       </tt></td>
      * </tr>
      * <tr>
-     *   <td>lockedStackDepth</td>
-     *   <td><tt>java.lang.Integer</tt></td>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>MonitorInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>MonitorInfo</tt> with the attributes described
-     *   above.
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   bbovf.
 
-     * @return a <tt>MonitorInfo</tt> object represented
-     *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
-     *         <tt>null</tt> otherwise.
+     * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
      */
-    public static MonitorInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid MonitorInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof MonitorInfoCompositeData) {
-            return ((MonitorInfoCompositeData) cd).getMonitorInfo();
-        } else {
-            MonitorInfoCompositeData.validateCompositeData(cd);
-            String className = MonitorInfoCompositeData.getClassName(cd);
-            int identityHashCode = MonitorInfoCompositeData.getIdentityHashCode(cd);
-            int stackDepth = MonitorInfoCompositeData.getLockedStackDepth(cd);
-            StackTraceElement stackFrame = MonitorInfoCompositeData.getLockedStackFrame(cd);
-            return new MonitorInfo(className,
-                                   identityHashCode,
-                                   stackDepth,
-                                   stackFrame);
+        if (dd instbndfof MonitorInfoCompositfDbtb) {
+            rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
+        } flsf {
+            MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+            String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
+            rfturn nfw MonitorInfo(dlbssNbmf,
+                                   idfntityHbsiCodf,
+                                   stbdkDfpti,
+                                   stbdkFrbmf);
         }
     }
 

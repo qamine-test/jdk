@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.beans.*;
-import java.util.EventListener;
-import java.io.Serializable;
-import javax.swing.plaf.basic.BasicDesktopIconUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.plbf.bbsid.BbsidDfsktopIdonUI;
 
 /**
- * Metal desktop icon.
+ * Mftbl dfsktop idon.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-public class MetalDesktopIconUI extends BasicDesktopIconUI
+publid dlbss MftblDfsktopIdonUI fxtfnds BbsidDfsktopIdonUI
 {
 
     JButton button;
-    JLabel label;
-    TitleListener titleListener;
-    private int width;
+    JLbbfl lbbfl;
+    TitlfListfnfr titlfListfnfr;
+    privbtf int widti;
 
     /**
-     * Constructs a new instance of {@code MetalDesktopIconUI}.
+     * Construdts b nfw instbndf of {@dodf MftblDfsktopIdonUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code MetalDesktopIconUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf MftblDfsktopIdonUI}
      */
-    public static ComponentUI createUI(JComponent c)    {
-        return new MetalDesktopIconUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MftblDfsktopIdonUI();
     }
 
     /**
-     * Constructs a new instance of {@code MetalDesktopIconUI}.
+     * Construdts b nfw instbndf of {@dodf MftblDfsktopIdonUI}.
      */
-    public MetalDesktopIconUI() {
+    publid MftblDfsktopIdonUI() {
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        LookAndFeel.installColorsAndFont(desktopIcon, "DesktopIcon.background", "DesktopIcon.foreground", "DesktopIcon.font");
-        width = UIManager.getInt("DesktopIcon.width");
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        LookAndFffl.instbllColorsAndFont(dfsktopIdon, "DfsktopIdon.bbdkground", "DfsktopIdon.forfground", "DfsktopIdon.font");
+        widti = UIMbnbgfr.gftInt("DfsktopIdon.widti");
     }
 
-    protected void installComponents() {
-        frame = desktopIcon.getInternalFrame();
-        Icon icon = frame.getFrameIcon();
-        String title = frame.getTitle();
+    protfdtfd void instbllComponfnts() {
+        frbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        Idon idon = frbmf.gftFrbmfIdon();
+        String titlf = frbmf.gftTitlf();
 
-        button = new JButton (title, icon);
-        button.addActionListener( new ActionListener() {
-                                  public void actionPerformed(ActionEvent e) {
-             deiconize(); }} );
-        button.setFont(desktopIcon.getFont());
-        button.setBackground(desktopIcon.getBackground());
-        button.setForeground(desktopIcon.getForeground());
+        button = nfw JButton (titlf, idon);
+        button.bddAdtionListfnfr( nfw AdtionListfnfr() {
+                                  publid void bdtionPfrformfd(AdtionEvfnt f) {
+             dfidonizf(); }} );
+        button.sftFont(dfsktopIdon.gftFont());
+        button.sftBbdkground(dfsktopIdon.gftBbdkground());
+        button.sftForfground(dfsktopIdon.gftForfground());
 
-        int buttonH = button.getPreferredSize().height;
+        int buttonH = button.gftPrfffrrfdSizf().ifigit;
 
-        Icon drag = new MetalBumps((buttonH/3), buttonH,
-                                   MetalLookAndFeel.getControlHighlight(),
-                                   MetalLookAndFeel.getControlDarkShadow(),
-                                   MetalLookAndFeel.getControl());
-        label = new JLabel(drag);
+        Idon drbg = nfw MftblBumps((buttonH/3), buttonH,
+                                   MftblLookAndFffl.gftControlHigiligit(),
+                                   MftblLookAndFffl.gftControlDbrkSibdow(),
+                                   MftblLookAndFffl.gftControl());
+        lbbfl = nfw JLbbfl(drbg);
 
-        label.setBorder( new MatteBorder( 0, 2, 0, 1, desktopIcon.getBackground()) );
-        desktopIcon.setLayout(new BorderLayout(2, 0));
-        desktopIcon.add(button, BorderLayout.CENTER);
-        desktopIcon.add(label, BorderLayout.WEST);
+        lbbfl.sftBordfr( nfw MbttfBordfr( 0, 2, 0, 1, dfsktopIdon.gftBbdkground()) );
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout(2, 0));
+        dfsktopIdon.bdd(button, BordfrLbyout.CENTER);
+        dfsktopIdon.bdd(lbbfl, BordfrLbyout.WEST);
     }
 
-    protected void uninstallComponents() {
-        desktopIcon.setLayout(null);
-        desktopIcon.remove(label);
-        desktopIcon.remove(button);
+    protfdtfd void uninstbllComponfnts() {
+        dfsktopIdon.sftLbyout(null);
+        dfsktopIdon.rfmovf(lbbfl);
+        dfsktopIdon.rfmovf(button);
         button = null;
-        frame = null;
+        frbmf = null;
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        desktopIcon.getInternalFrame().addPropertyChangeListener(
-                titleListener = new TitleListener());
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        dfsktopIdon.gftIntfrnblFrbmf().bddPropfrtyCibngfListfnfr(
+                titlfListfnfr = nfw TitlfListfnfr());
     }
 
-    protected void uninstallListeners() {
-        desktopIcon.getInternalFrame().removePropertyChangeListener(
-                titleListener);
-        titleListener = null;
-        super.uninstallListeners();
+    protfdtfd void uninstbllListfnfrs() {
+        dfsktopIdon.gftIntfrnblFrbmf().rfmovfPropfrtyCibngfListfnfr(
+                titlfListfnfr);
+        titlfListfnfr = null;
+        supfr.uninstbllListfnfrs();
     }
 
 
-    public Dimension getPreferredSize(JComponent c) {
-        // Metal desktop icons can not be resized.  Their dimensions should
-        // always be the minimum size.  See getMinimumSize(JComponent c).
-        return getMinimumSize(c);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        // Mftbl dfsktop idons dbn not bf rfsizfd.  Tifir dimfnsions siould
+        // blwbys bf tif minimum sizf.  Sff gftMinimumSizf(JComponfnt d).
+        rfturn gftMinimumSizf(d);
     }
 
-    public Dimension getMinimumSize(JComponent c) {
-        // For the metal desktop icon we will use the layout maanger to
-        // determine the correct height of the component, but we want to keep
-        // the width consistent according to the jlf spec.
-        return new Dimension(width,
-                desktopIcon.getLayout().minimumLayoutSize(desktopIcon).height);
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        // For tif mftbl dfsktop idon wf will usf tif lbyout mbbngfr to
+        // dftfrminf tif dorrfdt ifigit of tif domponfnt, but wf wbnt to kffp
+        // tif widti donsistfnt bddording to tif jlf spfd.
+        rfturn nfw Dimfnsion(widti,
+                dfsktopIdon.gftLbyout().minimumLbyoutSizf(dfsktopIdon).ifigit);
     }
 
-    public Dimension getMaximumSize(JComponent c) {
-        // Metal desktop icons can not be resized.  Their dimensions should
-        // always be the minimum size.  See getMinimumSize(JComponent c).
-        return getMinimumSize(c);
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        // Mftbl dfsktop idons dbn not bf rfsizfd.  Tifir dimfnsions siould
+        // blwbys bf tif minimum sizf.  Sff gftMinimumSizf(JComponfnt d).
+        rfturn gftMinimumSizf(d);
     }
 
-    class TitleListener implements PropertyChangeListener {
-        public void propertyChange (PropertyChangeEvent e) {
-          if (e.getPropertyName().equals("title")) {
-            button.setText((String)e.getNewValue());
+    dlbss TitlfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf (PropfrtyCibngfEvfnt f) {
+          if (f.gftPropfrtyNbmf().fqubls("titlf")) {
+            button.sftTfxt((String)f.gftNfwVbluf());
           }
 
-          if (e.getPropertyName().equals("frameIcon")) {
-            button.setIcon((Icon)e.getNewValue());
+          if (f.gftPropfrtyNbmf().fqubls("frbmfIdon")) {
+            button.sftIdon((Idon)f.gftNfwVbluf());
           }
         }
     }

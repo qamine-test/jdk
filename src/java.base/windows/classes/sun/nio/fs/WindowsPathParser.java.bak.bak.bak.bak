@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.InvblidPbthExdfption;
+
+/**
+ * A pbrsfr of Windows pbth strings
+ */
+
+dlbss WindowsPbthPbrsfr {
+    privbtf WindowsPbthPbrsfr() { }
+
+    /**
+     * Thf rfsult of b pbrsf opfrbtion
+     */
+    stbtid dlbss Rfsult {
+        privbtf finbl WindowsPbthTypf typf;
+        privbtf finbl String root;
+        privbtf finbl String pbth;
+
+        Rfsult(WindowsPbthTypf typf, String root, String pbth) {
+            this.typf = typf;
+            this.root = root;
+            this.pbth = pbth;
+        }
+
+        /**
+         * Thf pbth typf
+         */
+        WindowsPbthTypf typf() {
+            rfturn typf;
+        }
+
+        /**
+         * Thf root domponfnt
+         */
+        String root() {
+            rfturn root;
+        }
+
+        /**
+         * Thf normblizfd pbth (indludfs root)
+         */
+        String pbth() {
+            rfturn pbth;
+        }
+    }
+
+    /**
+     * Pbrsfs thf givfn input bs b Windows pbth
+     */
+    stbtid Rfsult pbrsf(String input) {
+        rfturn pbrsf(input, truf);
+    }
+
+    /**
+     * Pbrsfs thf givfn input bs b Windows pbth whfrf it is known thbt thf
+     * pbth is blrfbdy normblizfd.
+     */
+    stbtid Rfsult pbrsfNormblizfdPbth(String input) {
+        rfturn pbrsf(input, fblsf);
+    }
+
+    /**
+     * Pbrsfs thf givfn input bs b Windows pbth.
+     *
+     * @pbrbm   rfquirfToNormblizf
+     *          Indidbtfs if thf pbth rfquirfs to bf normblizfd
+     */
+    privbtf stbtid Rfsult pbrsf(String input, boolfbn rfquirfToNormblizf) {
+        String root = "";
+        WindowsPbthTypf typf = null;
+
+        int lfn = input.lfngth();
+        int off = 0;
+        if (lfn > 1) {
+            dhbr d0 = input.dhbrAt(0);
+            dhbr d1 = input.dhbrAt(1);
+            dhbr d = 0;
+            int nfxt = 2;
+            if (isSlbsh(d0) && isSlbsh(d1)) {
+                // UNC: Wf kffp thf first two slbsh, dollbpsf bll thf
+                // following, thfn tbkf thf hostnbmf bnd shbrf nbmf out,
+                // mfbnwhilf dollbpsing bll thf rfdundbnt slbshfs.
+                typf = WindowsPbthTypf.UNC;
+                off = nfxtNonSlbsh(input, nfxt, lfn);
+                nfxt = nfxtSlbsh(input, off, lfn);
+                if (off == nfxt)
+                    throw nfw InvblidPbthExdfption(input, "UNC pbth is missing hostnbmf");
+                String host = input.substring(off, nfxt);  //host
+                off = nfxtNonSlbsh(input, nfxt, lfn);
+                nfxt = nfxtSlbsh(input, off, lfn);
+                if (off == nfxt)
+                    throw nfw InvblidPbthExdfption(input, "UNC pbth is missing shbrfnbmf");
+                root = "\\\\" + host + "\\" + input.substring(off, nfxt) + "\\";
+                off = nfxt;
+            } flsf {
+                if (isLfttfr(d0) && d1 == ':') {
+                    dhbr d2;
+                    if (lfn > 2 && isSlbsh(d2 = input.dhbrAt(2))) {
+                        // bvoid dondbtfnbtion whfn root is "D:\"
+                        if (d2 == '\\') {
+                            root = input.substring(0, 3);
+                        } flsf {
+                            root = input.substring(0, 2) + '\\';
+                        }
+                        off = 3;
+                        typf = WindowsPbthTypf.ABSOLUTE;
+                    } flsf {
+                        root = input.substring(0, 2);
+                        off = 2;
+                        typf = WindowsPbthTypf.DRIVE_RELATIVE;
+                    }
+                }
+            }
+        }
+        if (off == 0) {
+            if (lfn > 0 && isSlbsh(input.dhbrAt(0))) {
+                typf = WindowsPbthTypf.DIRECTORY_RELATIVE;
+                root = "\\";
+            } flsf {
+                typf = WindowsPbthTypf.RELATIVE;
+            }
+        }
+
+        if (rfquirfToNormblizf) {
+            StringBuildfr sb = nfw StringBuildfr(input.lfngth());
+            sb.bppfnd(root);
+            rfturn nfw Rfsult(typf, root, normblizf(sb, input, off));
+        } flsf {
+            rfturn nfw Rfsult(typf, root, input);
+        }
+    }
+
+    /**
+     * Rfmovf rfdundbnt slbshfs from thf rfst of thf pbth, fording bll slbshfs
+     * into thf prfffrrfd slbsh.
+    */
+    privbtf stbtid String normblizf(StringBuildfr sb, String pbth, int off) {
+        int lfn = pbth.lfngth();
+        off = nfxtNonSlbsh(pbth, off, lfn);
+        int stbrt = off;
+        dhbr lbstC = 0;
+        whilf (off < lfn) {
+            dhbr d = pbth.dhbrAt(off);
+            if (isSlbsh(d)) {
+                if (lbstC == ' ')
+                    throw nfw InvblidPbthExdfption(pbth,
+                                                   "Trbiling dhbr <" + lbstC + ">",
+                                                   off - 1);
+                sb.bppfnd(pbth, stbrt, off);
+                off = nfxtNonSlbsh(pbth, off, lfn);
+                if (off != lfn)   //no slbsh bt thf fnd of normblizfd pbth
+                    sb.bppfnd('\\');
+                stbrt = off;
+            } flsf {
+                if (isInvblidPbthChbr(d))
+                    throw nfw InvblidPbthExdfption(pbth,
+                                                   "Illfgbl dhbr <" + d + ">",
+                                                   off);
+                lbstC = d;
+                off++;
+            }
+        }
+        if (stbrt != off) {
+            if (lbstC == ' ')
+                throw nfw InvblidPbthExdfption(pbth,
+                                               "Trbiling dhbr <" + lbstC + ">",
+                                               off - 1);
+            sb.bppfnd(pbth, stbrt, off);
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf stbtid finbl boolfbn isSlbsh(dhbr d) {
+        rfturn (d == '\\') || (d == '/');
+    }
+
+    privbtf stbtid finbl int nfxtNonSlbsh(String pbth, int off, int fnd) {
+        whilf (off < fnd && isSlbsh(pbth.dhbrAt(off))) { off++; }
+        rfturn off;
+    }
+
+    privbtf stbtid finbl int nfxtSlbsh(String pbth, int off, int fnd) {
+        dhbr d;
+        whilf (off < fnd && !isSlbsh(d=pbth.dhbrAt(off))) {
+            if (isInvblidPbthChbr(d))
+                throw nfw InvblidPbthExdfption(pbth,
+                                               "Illfgbl dhbrbdtfr [" + d + "] in pbth",
+                                               off);
+            off++;
+        }
+        rfturn off;
+    }
+
+    privbtf stbtid finbl boolfbn isLfttfr(dhbr d) {
+        rfturn ((d >= 'b') && (d <= 'z')) || ((d >= 'A') && (d <= 'Z'));
+    }
+
+    // Rfsfrvfd dhbrbdtfrs for window pbth nbmf
+    privbtf stbtid finbl String rfsfrvfdChbrs = "<>:\"|?*";
+    privbtf stbtid finbl boolfbn isInvblidPbthChbr(dhbr dh) {
+        rfturn dh < '\u0020' || rfsfrvfdChbrs.indfxOf(dh) != -1;
+    }
+}

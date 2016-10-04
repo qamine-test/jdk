@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,804 +30,804 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include "stdlib.h"
+#indludf "stdlib.i"
 
-#include "mtrace.h"
-#include "java_crw_demo.h"
+#indludf "mtrbdf.i"
+#indludf "jbvb_drw_dfmo.i"
 
 
 /* ------------------------------------------------------------------- */
-/* Some constant maximum sizes */
+/* Somf donstbnt mbximum sizfs */
 
-#define MAX_TOKEN_LENGTH        16
-#define MAX_THREAD_NAME_LENGTH  512
-#define MAX_METHOD_NAME_LENGTH  1024
+#dffinf MAX_TOKEN_LENGTH        16
+#dffinf MAX_THREAD_NAME_LENGTH  512
+#dffinf MAX_METHOD_NAME_LENGTH  1024
 
-/* Some constant names that tie to Java class/method names.
- *    We assume the Java class whose static methods we will be calling
- *    looks like:
+/* Somf donstbnt nbmfs tibt tif to Jbvb dlbss/mftiod nbmfs.
+ *    Wf bssumf tif Jbvb dlbss wiosf stbtid mftiods wf will bf dblling
+ *    looks likf:
  *
- * public class Mtrace {
- *     private static int engaged;
- *     private static native void _method_entry(Object thr, int cnum, int mnum);
- *     public static void method_entry(int cnum, int mnum)
+ * publid dlbss Mtrbdf {
+ *     privbtf stbtid int fngbgfd;
+ *     privbtf stbtid nbtivf void _mftiod_fntry(Objfdt tir, int dnum, int mnum);
+ *     publid stbtid void mftiod_fntry(int dnum, int mnum)
  *     {
- *         if ( engaged != 0 ) {
- *             _method_entry(Thread.currentThread(), cnum, mnum);
+ *         if ( fngbgfd != 0 ) {
+ *             _mftiod_fntry(Tirfbd.durrfntTirfbd(), dnum, mnum);
  *         }
  *     }
- *     private static native void _method_exit(Object thr, int cnum, int mnum);
- *     public static void method_exit(int cnum, int mnum)
+ *     privbtf stbtid nbtivf void _mftiod_fxit(Objfdt tir, int dnum, int mnum);
+ *     publid stbtid void mftiod_fxit(int dnum, int mnum)
  *     {
- *         if ( engaged != 0 ) {
- *             _method_exit(Thread.currentThread(), cnum, mnum);
+ *         if ( fngbgfd != 0 ) {
+ *             _mftiod_fxit(Tirfbd.durrfntTirfbd(), dnum, mnum);
  *         }
  *     }
  * }
  *
- *    The engaged field allows us to inject all classes (even system classes)
- *    and delay the actual calls to the native code until the VM has reached
- *    a safe time to call native methods (Past the JVMTI VM_START event).
+ *    Tif fngbgfd fifld bllows us to injfdt bll dlbssfs (fvfn systfm dlbssfs)
+ *    bnd dflby tif bdtubl dblls to tif nbtivf dodf until tif VM ibs rfbdifd
+ *    b sbff timf to dbll nbtivf mftiods (Pbst tif JVMTI VM_START fvfnt).
  *
  */
 
-#define MTRACE_class        Mtrace          /* Name of class we are using */
-#define MTRACE_entry        method_entry    /* Name of java entry method */
-#define MTRACE_exit         method_exit     /* Name of java exit method */
-#define MTRACE_native_entry _method_entry   /* Name of java entry native */
-#define MTRACE_native_exit  _method_exit    /* Name of java exit native */
-#define MTRACE_engaged      engaged         /* Name of java static field */
+#dffinf MTRACE_dlbss        Mtrbdf          /* Nbmf of dlbss wf brf using */
+#dffinf MTRACE_fntry        mftiod_fntry    /* Nbmf of jbvb fntry mftiod */
+#dffinf MTRACE_fxit         mftiod_fxit     /* Nbmf of jbvb fxit mftiod */
+#dffinf MTRACE_nbtivf_fntry _mftiod_fntry   /* Nbmf of jbvb fntry nbtivf */
+#dffinf MTRACE_nbtivf_fxit  _mftiod_fxit    /* Nbmf of jbvb fxit nbtivf */
+#dffinf MTRACE_fngbgfd      fngbgfd         /* Nbmf of jbvb stbtid fifld */
 
-/* C macros to create strings from tokens */
-#define _STRING(s) #s
-#define STRING(s) _STRING(s)
+/* C mbdros to drfbtf strings from tokfns */
+#dffinf _STRING(s) #s
+#dffinf STRING(s) _STRING(s)
 
 /* ------------------------------------------------------------------- */
 
-/* Data structure to hold method and class information in agent */
+/* Dbtb strudturf to iold mftiod bnd dlbss informbtion in bgfnt */
 
-typedef struct MethodInfo {
-    const char *name;          /* Method name */
-    const char *signature;     /* Method signature */
-    int         calls;         /* Method call count */
-    int         returns;       /* Method return count */
-} MethodInfo;
+typfdff strudt MftiodInfo {
+    donst dibr *nbmf;          /* Mftiod nbmf */
+    donst dibr *signbturf;     /* Mftiod signbturf */
+    int         dblls;         /* Mftiod dbll dount */
+    int         rfturns;       /* Mftiod rfturn dount */
+} MftiodInfo;
 
-typedef struct ClassInfo {
-    const char *name;          /* Class name */
-    int         mcount;        /* Method count */
-    MethodInfo *methods;       /* Method information */
-    int         calls;         /* Method call count for this class */
-} ClassInfo;
+typfdff strudt ClbssInfo {
+    donst dibr *nbmf;          /* Clbss nbmf */
+    int         mdount;        /* Mftiod dount */
+    MftiodInfo *mftiods;       /* Mftiod informbtion */
+    int         dblls;         /* Mftiod dbll dount for tiis dlbss */
+} ClbssInfo;
 
-/* Global agent data structure */
+/* Globbl bgfnt dbtb strudturf */
 
-typedef struct {
-    /* JVMTI Environment */
+typfdff strudt {
+    /* JVMTI Environmfnt */
     jvmtiEnv      *jvmti;
-    jboolean       vm_is_dead;
-    jboolean       vm_is_started;
-    /* Data access Lock */
-    jrawMonitorID  lock;
+    jboolfbn       vm_is_dfbd;
+    jboolfbn       vm_is_stbrtfd;
+    /* Dbtb bddfss Lodk */
+    jrbwMonitorID  lodk;
     /* Options */
-    char           *include;
-    char           *exclude;
-    int             max_count;
-    /* ClassInfo Table */
-    ClassInfo      *classes;
-    jint            ccount;
-} GlobalAgentData;
+    dibr           *indludf;
+    dibr           *fxdludf;
+    int             mbx_dount;
+    /* ClbssInfo Tbblf */
+    ClbssInfo      *dlbssfs;
+    jint            ddount;
+} GlobblAgfntDbtb;
 
-static GlobalAgentData *gdata;
+stbtid GlobblAgfntDbtb *gdbtb;
 
-/* Enter a critical section by doing a JVMTI Raw Monitor Enter */
-static void
-enter_critical_section(jvmtiEnv *jvmti)
+/* Entfr b dritidbl sfdtion by doing b JVMTI Rbw Monitor Entfr */
+stbtid void
+fntfr_dritidbl_sfdtion(jvmtiEnv *jvmti)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    error = (*jvmti)->RawMonitorEnter(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, error, "Cannot enter with raw monitor");
+    frror = (*jvmti)->RbwMonitorEntfr(jvmti, gdbtb->lodk);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot fntfr witi rbw monitor");
 }
 
-/* Exit a critical section by doing a JVMTI Raw Monitor Exit */
-static void
-exit_critical_section(jvmtiEnv *jvmti)
+/* Exit b dritidbl sfdtion by doing b JVMTI Rbw Monitor Exit */
+stbtid void
+fxit_dritidbl_sfdtion(jvmtiEnv *jvmti)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    error = (*jvmti)->RawMonitorExit(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, error, "Cannot exit with raw monitor");
+    frror = (*jvmti)->RbwMonitorExit(jvmti, gdbtb->lodk);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot fxit witi rbw monitor");
 }
 
-/* Get a name for a jthread */
-static void
-get_thread_name(jvmtiEnv *jvmti, jthread thread, char *tname, int maxlen)
+/* Gft b nbmf for b jtirfbd */
+stbtid void
+gft_tirfbd_nbmf(jvmtiEnv *jvmti, jtirfbd tirfbd, dibr *tnbmf, int mbxlfn)
 {
-    jvmtiThreadInfo info;
-    jvmtiError      error;
+    jvmtiTirfbdInfo info;
+    jvmtiError      frror;
 
-    /* Make sure the stack variables are garbage free */
-    (void)memset(&info,0, sizeof(info));
+    /* Mbkf surf tif stbdk vbribblfs brf gbrbbgf frff */
+    (void)mfmsft(&info,0, sizfof(info));
 
-    /* Assume the name is unknown for now */
-    (void)strcpy(tname, "Unknown");
+    /* Assumf tif nbmf is unknown for now */
+    (void)strdpy(tnbmf, "Unknown");
 
-    /* Get the thread information, which includes the name */
-    error = (*jvmti)->GetThreadInfo(jvmti, thread, &info);
-    check_jvmti_error(jvmti, error, "Cannot get thread info");
+    /* Gft tif tirfbd informbtion, wiidi indludfs tif nbmf */
+    frror = (*jvmti)->GftTirfbdInfo(jvmti, tirfbd, &info);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot gft tirfbd info");
 
-    /* The thread might not have a name, be careful here. */
-    if ( info.name != NULL ) {
-        int len;
+    /* Tif tirfbd migit not ibvf b nbmf, bf dbrfful ifrf. */
+    if ( info.nbmf != NULL ) {
+        int lfn;
 
-        /* Copy the thread name into tname if it will fit */
-        len = (int)strlen(info.name);
-        if ( len < maxlen ) {
-            (void)strcpy(tname, info.name);
+        /* Copy tif tirfbd nbmf into tnbmf if it will fit */
+        lfn = (int)strlfn(info.nbmf);
+        if ( lfn < mbxlfn ) {
+            (void)strdpy(tnbmf, info.nbmf);
         }
 
-        /* Every string allocated by JVMTI needs to be freed */
-        deallocate(jvmti, (void*)info.name);
+        /* Evfry string bllodbtfd by JVMTI nffds to bf frffd */
+        dfbllodbtf(jvmti, (void*)info.nbmf);
     }
 }
 
-/* Qsort class compare routine */
-static int
-class_compar(const void *e1, const void *e2)
+/* Qsort dlbss dompbrf routinf */
+stbtid int
+dlbss_dompbr(donst void *f1, donst void *f2)
 {
-    ClassInfo *c1 = (ClassInfo*)e1;
-    ClassInfo *c2 = (ClassInfo*)e2;
-    if ( c1->calls > c2->calls ) return  1;
-    if ( c1->calls < c2->calls ) return -1;
-    return 0;
+    ClbssInfo *d1 = (ClbssInfo*)f1;
+    ClbssInfo *d2 = (ClbssInfo*)f2;
+    if ( d1->dblls > d2->dblls ) rfturn  1;
+    if ( d1->dblls < d2->dblls ) rfturn -1;
+    rfturn 0;
 }
 
-/* Qsort method compare routine */
-static int
-method_compar(const void *e1, const void *e2)
+/* Qsort mftiod dompbrf routinf */
+stbtid int
+mftiod_dompbr(donst void *f1, donst void *f2)
 {
-    MethodInfo *m1 = (MethodInfo*)e1;
-    MethodInfo *m2 = (MethodInfo*)e2;
-    if ( m1->calls > m2->calls ) return  1;
-    if ( m1->calls < m2->calls ) return -1;
-    return 0;
+    MftiodInfo *m1 = (MftiodInfo*)f1;
+    MftiodInfo *m2 = (MftiodInfo*)f2;
+    if ( m1->dblls > m2->dblls ) rfturn  1;
+    if ( m1->dblls < m2->dblls ) rfturn -1;
+    rfturn 0;
 }
 
-/* Callback from java_crw_demo() that gives us mnum mappings */
-static void
-mnum_callbacks(unsigned cnum, const char **names, const char**sigs, int mcount)
+/* Cbllbbdk from jbvb_drw_dfmo() tibt givfs us mnum mbppings */
+stbtid void
+mnum_dbllbbdks(unsignfd dnum, donst dibr **nbmfs, donst dibr**sigs, int mdount)
 {
-    ClassInfo  *cp;
+    ClbssInfo  *dp;
     int         mnum;
 
-    if ( cnum >= (unsigned)gdata->ccount ) {
-        fatal_error("ERROR: Class number out of range\n");
+    if ( dnum >= (unsignfd)gdbtb->ddount ) {
+        fbtbl_frror("ERROR: Clbss numbfr out of rbngf\n");
     }
-    if ( mcount == 0 ) {
-        return;
-    }
-
-    cp           = gdata->classes + (int)cnum;
-    cp->calls    = 0;
-    cp->mcount   = mcount;
-    cp->methods  = (MethodInfo*)calloc(mcount, sizeof(MethodInfo));
-    if ( cp->methods == NULL ) {
-        fatal_error("ERROR: Out of malloc memory\n");
+    if ( mdount == 0 ) {
+        rfturn;
     }
 
-    for ( mnum = 0 ; mnum < mcount ; mnum++ ) {
-        MethodInfo *mp;
+    dp           = gdbtb->dlbssfs + (int)dnum;
+    dp->dblls    = 0;
+    dp->mdount   = mdount;
+    dp->mftiods  = (MftiodInfo*)dbllod(mdount, sizfof(MftiodInfo));
+    if ( dp->mftiods == NULL ) {
+        fbtbl_frror("ERROR: Out of mbllod mfmory\n");
+    }
 
-        mp            = cp->methods + mnum;
-        mp->name      = (const char *)strdup(names[mnum]);
-        if ( mp->name == NULL ) {
-            fatal_error("ERROR: Out of malloc memory\n");
+    for ( mnum = 0 ; mnum < mdount ; mnum++ ) {
+        MftiodInfo *mp;
+
+        mp            = dp->mftiods + mnum;
+        mp->nbmf      = (donst dibr *)strdup(nbmfs[mnum]);
+        if ( mp->nbmf == NULL ) {
+            fbtbl_frror("ERROR: Out of mbllod mfmory\n");
         }
-        mp->signature = (const char *)strdup(sigs[mnum]);
-        if ( mp->signature == NULL ) {
-            fatal_error("ERROR: Out of malloc memory\n");
+        mp->signbturf = (donst dibr *)strdup(sigs[mnum]);
+        if ( mp->signbturf == NULL ) {
+            fbtbl_frror("ERROR: Out of mbllod mfmory\n");
         }
     }
 }
 
-/* Java Native Method for entry */
-static void
-MTRACE_native_entry(JNIEnv *env, jclass klass, jobject thread, jint cnum, jint mnum)
+/* Jbvb Nbtivf Mftiod for fntry */
+stbtid void
+MTRACE_nbtivf_fntry(JNIEnv *fnv, jdlbss klbss, jobjfdt tirfbd, jint dnum, jint mnum)
 {
-    enter_critical_section(gdata->jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
-            ClassInfo  *cp;
-            MethodInfo *mp;
+    fntfr_dritidbl_sfdtion(gdbtb->jvmti); {
+        /* It's possiblf wf gft ifrf rigit bftfr VmDfbti fvfnt, bf dbrfful */
+        if ( !gdbtb->vm_is_dfbd ) {
+            ClbssInfo  *dp;
+            MftiodInfo *mp;
 
-            if ( cnum >= gdata->ccount ) {
-                fatal_error("ERROR: Class number out of range\n");
+            if ( dnum >= gdbtb->ddount ) {
+                fbtbl_frror("ERROR: Clbss numbfr out of rbngf\n");
             }
-            cp = gdata->classes + cnum;
-            if ( mnum >= cp->mcount ) {
-                fatal_error("ERROR: Method number out of range\n");
+            dp = gdbtb->dlbssfs + dnum;
+            if ( mnum >= dp->mdount ) {
+                fbtbl_frror("ERROR: Mftiod numbfr out of rbngf\n");
             }
-            mp = cp->methods + mnum;
-            if ( interested((char*)cp->name, (char*)mp->name,
-                            gdata->include, gdata->exclude)  ) {
-                mp->calls++;
-                cp->calls++;
+            mp = dp->mftiods + mnum;
+            if ( intfrfstfd((dibr*)dp->nbmf, (dibr*)mp->nbmf,
+                            gdbtb->indludf, gdbtb->fxdludf)  ) {
+                mp->dblls++;
+                dp->dblls++;
             }
         }
-    } exit_critical_section(gdata->jvmti);
+    } fxit_dritidbl_sfdtion(gdbtb->jvmti);
 }
 
-/* Java Native Method for exit */
-static void
-MTRACE_native_exit(JNIEnv *env, jclass klass, jobject thread, jint cnum, jint mnum)
+/* Jbvb Nbtivf Mftiod for fxit */
+stbtid void
+MTRACE_nbtivf_fxit(JNIEnv *fnv, jdlbss klbss, jobjfdt tirfbd, jint dnum, jint mnum)
 {
-    enter_critical_section(gdata->jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
-            ClassInfo  *cp;
-            MethodInfo *mp;
+    fntfr_dritidbl_sfdtion(gdbtb->jvmti); {
+        /* It's possiblf wf gft ifrf rigit bftfr VmDfbti fvfnt, bf dbrfful */
+        if ( !gdbtb->vm_is_dfbd ) {
+            ClbssInfo  *dp;
+            MftiodInfo *mp;
 
-            if ( cnum >= gdata->ccount ) {
-                fatal_error("ERROR: Class number out of range\n");
+            if ( dnum >= gdbtb->ddount ) {
+                fbtbl_frror("ERROR: Clbss numbfr out of rbngf\n");
             }
-            cp = gdata->classes + cnum;
-            if ( mnum >= cp->mcount ) {
-                fatal_error("ERROR: Method number out of range\n");
+            dp = gdbtb->dlbssfs + dnum;
+            if ( mnum >= dp->mdount ) {
+                fbtbl_frror("ERROR: Mftiod numbfr out of rbngf\n");
             }
-            mp = cp->methods + mnum;
-            if ( interested((char*)cp->name, (char*)mp->name,
-                            gdata->include, gdata->exclude)  ) {
-                mp->returns++;
+            mp = dp->mftiods + mnum;
+            if ( intfrfstfd((dibr*)dp->nbmf, (dibr*)mp->nbmf,
+                            gdbtb->indludf, gdbtb->fxdludf)  ) {
+                mp->rfturns++;
             }
         }
-    } exit_critical_section(gdata->jvmti);
+    } fxit_dritidbl_sfdtion(gdbtb->jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_START */
-static void JNICALL
-cbVMStart(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbdk for JVMTI_EVENT_VM_START */
+stbtid void JNICALL
+dbVMStbrt(jvmtiEnv *jvmti, JNIEnv *fnv)
 {
-    enter_critical_section(jvmti); {
-        jclass   klass;
-        jfieldID field;
-        int      rc;
+    fntfr_dritidbl_sfdtion(jvmti); {
+        jdlbss   klbss;
+        jfifldID fifld;
+        int      rd;
 
-        /* Java Native Methods for class */
-        static JNINativeMethod registry[2] = {
-            {STRING(MTRACE_native_entry), "(Ljava/lang/Object;II)V",
-                (void*)&MTRACE_native_entry},
-            {STRING(MTRACE_native_exit),  "(Ljava/lang/Object;II)V",
-                (void*)&MTRACE_native_exit}
+        /* Jbvb Nbtivf Mftiods for dlbss */
+        stbtid JNINbtivfMftiod rfgistry[2] = {
+            {STRING(MTRACE_nbtivf_fntry), "(Ljbvb/lbng/Objfdt;II)V",
+                (void*)&MTRACE_nbtivf_fntry},
+            {STRING(MTRACE_nbtivf_fxit),  "(Ljbvb/lbng/Objfdt;II)V",
+                (void*)&MTRACE_nbtivf_fxit}
         };
 
-        /* The VM has started. */
-        stdout_message("VMStart\n");
+        /* Tif VM ibs stbrtfd. */
+        stdout_mfssbgf("VMStbrt\n");
 
-        /* Register Natives for class whose methods we use */
-        klass = (*env)->FindClass(env, STRING(MTRACE_class));
-        if ( klass == NULL ) {
-            fatal_error("ERROR: JNI: Cannot find %s with FindClass\n",
-                        STRING(MTRACE_class));
+        /* Rfgistfr Nbtivfs for dlbss wiosf mftiods wf usf */
+        klbss = (*fnv)->FindClbss(fnv, STRING(MTRACE_dlbss));
+        if ( klbss == NULL ) {
+            fbtbl_frror("ERROR: JNI: Cbnnot find %s witi FindClbss\n",
+                        STRING(MTRACE_dlbss));
         }
-        rc = (*env)->RegisterNatives(env, klass, registry, 2);
-        if ( rc != 0 ) {
-            fatal_error("ERROR: JNI: Cannot register native methods for %s\n",
-                        STRING(MTRACE_class));
+        rd = (*fnv)->RfgistfrNbtivfs(fnv, klbss, rfgistry, 2);
+        if ( rd != 0 ) {
+            fbtbl_frror("ERROR: JNI: Cbnnot rfgistfr nbtivf mftiods for %s\n",
+                        STRING(MTRACE_dlbss));
         }
 
-        /* Engage calls. */
-        field = (*env)->GetStaticFieldID(env, klass, STRING(MTRACE_engaged), "I");
-        if ( field == NULL ) {
-            fatal_error("ERROR: JNI: Cannot get field from %s\n",
-                        STRING(MTRACE_class));
+        /* Engbgf dblls. */
+        fifld = (*fnv)->GftStbtidFifldID(fnv, klbss, STRING(MTRACE_fngbgfd), "I");
+        if ( fifld == NULL ) {
+            fbtbl_frror("ERROR: JNI: Cbnnot gft fifld from %s\n",
+                        STRING(MTRACE_dlbss));
         }
-        (*env)->SetStaticIntField(env, klass, field, 1);
+        (*fnv)->SftStbtidIntFifld(fnv, klbss, fifld, 1);
 
-        /* Indicate VM has started */
-        gdata->vm_is_started = JNI_TRUE;
+        /* Indidbtf VM ibs stbrtfd */
+        gdbtb->vm_is_stbrtfd = JNI_TRUE;
 
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbdk for JVMTI_EVENT_VM_INIT */
+stbtid void JNICALL
+dbVMInit(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    enter_critical_section(jvmti); {
-        char  tname[MAX_THREAD_NAME_LENGTH];
-        static jvmtiEvent events[] =
+    fntfr_dritidbl_sfdtion(jvmti); {
+        dibr  tnbmf[MAX_THREAD_NAME_LENGTH];
+        stbtid jvmtiEvfnt fvfnts[] =
                 { JVMTI_EVENT_THREAD_START, JVMTI_EVENT_THREAD_END };
         int        i;
 
-        /* The VM has started. */
-        get_thread_name(jvmti, thread, tname, sizeof(tname));
-        stdout_message("VMInit %s\n", tname);
+        /* Tif VM ibs stbrtfd. */
+        gft_tirfbd_nbmf(jvmti, tirfbd, tnbmf, sizfof(tnbmf));
+        stdout_mfssbgf("VMInit %s\n", tnbmf);
 
-        /* The VM is now initialized, at this time we make our requests
-         *   for additional events.
+        /* Tif VM is now initiblizfd, bt tiis timf wf mbkf our rfqufsts
+         *   for bdditionbl fvfnts.
          */
 
-        for( i=0; i < (int)(sizeof(events)/sizeof(jvmtiEvent)); i++) {
-            jvmtiError error;
+        for( i=0; i < (int)(sizfof(fvfnts)/sizfof(jvmtiEvfnt)); i++) {
+            jvmtiError frror;
 
-            /* Setup event  notification modes */
-            error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                                  events[i], (jthread)NULL);
-            check_jvmti_error(jvmti, error, "Cannot set event notification");
+            /* Sftup fvfnt  notifidbtion modfs */
+            frror = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                                  fvfnts[i], (jtirfbd)NULL);
+            difdk_jvmti_frror(jvmti, frror, "Cbnnot sft fvfnt notifidbtion");
         }
 
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-cbVMDeath(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbdk for JVMTI_EVENT_VM_DEATH */
+stbtid void JNICALL
+dbVMDfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
 {
-    enter_critical_section(jvmti); {
-        jclass   klass;
-        jfieldID field;
+    fntfr_dritidbl_sfdtion(jvmti); {
+        jdlbss   klbss;
+        jfifldID fifld;
 
-        /* The VM has died. */
-        stdout_message("VMDeath\n");
+        /* Tif VM ibs difd. */
+        stdout_mfssbgf("VMDfbti\n");
 
-        /* Disengage calls in MTRACE_class. */
-        klass = (*env)->FindClass(env, STRING(MTRACE_class));
-        if ( klass == NULL ) {
-            fatal_error("ERROR: JNI: Cannot find %s with FindClass\n",
-                        STRING(MTRACE_class));
+        /* Disfngbgf dblls in MTRACE_dlbss. */
+        klbss = (*fnv)->FindClbss(fnv, STRING(MTRACE_dlbss));
+        if ( klbss == NULL ) {
+            fbtbl_frror("ERROR: JNI: Cbnnot find %s witi FindClbss\n",
+                        STRING(MTRACE_dlbss));
         }
-        field = (*env)->GetStaticFieldID(env, klass, STRING(MTRACE_engaged), "I");
-        if ( field == NULL ) {
-            fatal_error("ERROR: JNI: Cannot get field from %s\n",
-                        STRING(MTRACE_class));
+        fifld = (*fnv)->GftStbtidFifldID(fnv, klbss, STRING(MTRACE_fngbgfd), "I");
+        if ( fifld == NULL ) {
+            fbtbl_frror("ERROR: JNI: Cbnnot gft fifld from %s\n",
+                        STRING(MTRACE_dlbss));
         }
-        (*env)->SetStaticIntField(env, klass, field, 0);
+        (*fnv)->SftStbtidIntFifld(fnv, klbss, fifld, 0);
 
-        /* The critical section here is important to hold back the VM death
-         *    until all other callbacks have completed.
+        /* Tif dritidbl sfdtion ifrf is importbnt to iold bbdk tif VM dfbti
+         *    until bll otifr dbllbbdks ibvf domplftfd.
          */
 
-        /* Since this critical section could be holding up other threads
-         *   in other event callbacks, we need to indicate that the VM is
-         *   dead so that the other callbacks can short circuit their work.
-         *   We don't expect any further events after VmDeath but we do need
-         *   to be careful that existing threads might be in our own agent
-         *   callback code.
+        /* Sindf tiis dritidbl sfdtion dould bf iolding up otifr tirfbds
+         *   in otifr fvfnt dbllbbdks, wf nffd to indidbtf tibt tif VM is
+         *   dfbd so tibt tif otifr dbllbbdks dbn siort dirduit tifir work.
+         *   Wf don't fxpfdt bny furtifr fvfnts bftfr VmDfbti but wf do nffd
+         *   to bf dbrfful tibt fxisting tirfbds migit bf in our own bgfnt
+         *   dbllbbdk dodf.
          */
-        gdata->vm_is_dead = JNI_TRUE;
+        gdbtb->vm_is_dfbd = JNI_TRUE;
 
-        /* Dump out stats */
-        stdout_message("Begin Class Stats\n");
-        if ( gdata->ccount > 0 ) {
-            int cnum;
+        /* Dump out stbts */
+        stdout_mfssbgf("Bfgin Clbss Stbts\n");
+        if ( gdbtb->ddount > 0 ) {
+            int dnum;
 
-            /* Sort table (in place) by number of method calls into class. */
-            /*  Note: Do not use this table after this qsort! */
-            qsort(gdata->classes, gdata->ccount, sizeof(ClassInfo),
-                        &class_compar);
+            /* Sort tbblf (in plbdf) by numbfr of mftiod dblls into dlbss. */
+            /*  Notf: Do not usf tiis tbblf bftfr tiis qsort! */
+            qsort(gdbtb->dlbssfs, gdbtb->ddount, sizfof(ClbssInfo),
+                        &dlbss_dompbr);
 
-            /* Dump out gdata->max_count most called classes */
-            for ( cnum=gdata->ccount-1 ;
-                  cnum >= 0 && cnum >= gdata->ccount - gdata->max_count;
-                  cnum-- ) {
-                ClassInfo *cp;
+            /* Dump out gdbtb->mbx_dount most dbllfd dlbssfs */
+            for ( dnum=gdbtb->ddount-1 ;
+                  dnum >= 0 && dnum >= gdbtb->ddount - gdbtb->mbx_dount;
+                  dnum-- ) {
+                ClbssInfo *dp;
                 int        mnum;
 
-                cp = gdata->classes + cnum;
-                stdout_message("Class %s %d calls\n", cp->name, cp->calls);
-                if ( cp->calls==0 ) continue;
+                dp = gdbtb->dlbssfs + dnum;
+                stdout_mfssbgf("Clbss %s %d dblls\n", dp->nbmf, dp->dblls);
+                if ( dp->dblls==0 ) dontinuf;
 
-                /* Sort method table (in place) by number of method calls. */
-                /*  Note: Do not use this table after this qsort! */
-                qsort(cp->methods, cp->mcount, sizeof(MethodInfo),
-                            &method_compar);
-                for ( mnum=cp->mcount-1 ; mnum >= 0 ; mnum-- ) {
-                    MethodInfo *mp;
+                /* Sort mftiod tbblf (in plbdf) by numbfr of mftiod dblls. */
+                /*  Notf: Do not usf tiis tbblf bftfr tiis qsort! */
+                qsort(dp->mftiods, dp->mdount, sizfof(MftiodInfo),
+                            &mftiod_dompbr);
+                for ( mnum=dp->mdount-1 ; mnum >= 0 ; mnum-- ) {
+                    MftiodInfo *mp;
 
-                    mp = cp->methods + mnum;
-                    if ( mp->calls==0 ) continue;
-                    stdout_message("\tMethod %s %s %d calls %d returns\n",
-                        mp->name, mp->signature, mp->calls, mp->returns);
+                    mp = dp->mftiods + mnum;
+                    if ( mp->dblls==0 ) dontinuf;
+                    stdout_mfssbgf("\tMftiod %s %s %d dblls %d rfturns\n",
+                        mp->nbmf, mp->signbturf, mp->dblls, mp->rfturns);
                 }
             }
         }
-        stdout_message("End Class Stats\n");
-        (void)fflush(stdout);
+        stdout_mfssbgf("End Clbss Stbts\n");
+        (void)fflusi(stdout);
 
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 
 }
 
-/* Callback for JVMTI_EVENT_THREAD_START */
-static void JNICALL
-cbThreadStart(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbdk for JVMTI_EVENT_THREAD_START */
+stbtid void JNICALL
+dbTirfbdStbrt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    enter_critical_section(jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
-            char  tname[MAX_THREAD_NAME_LENGTH];
+    fntfr_dritidbl_sfdtion(jvmti); {
+        /* It's possiblf wf gft ifrf rigit bftfr VmDfbti fvfnt, bf dbrfful */
+        if ( !gdbtb->vm_is_dfbd ) {
+            dibr  tnbmf[MAX_THREAD_NAME_LENGTH];
 
-            get_thread_name(jvmti, thread, tname, sizeof(tname));
-            stdout_message("ThreadStart %s\n", tname);
+            gft_tirfbd_nbmf(jvmti, tirfbd, tnbmf, sizfof(tnbmf));
+            stdout_mfssbgf("TirfbdStbrt %s\n", tnbmf);
         }
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_THREAD_END */
-static void JNICALL
-cbThreadEnd(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbdk for JVMTI_EVENT_THREAD_END */
+stbtid void JNICALL
+dbTirfbdEnd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    enter_critical_section(jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
-            char  tname[MAX_THREAD_NAME_LENGTH];
+    fntfr_dritidbl_sfdtion(jvmti); {
+        /* It's possiblf wf gft ifrf rigit bftfr VmDfbti fvfnt, bf dbrfful */
+        if ( !gdbtb->vm_is_dfbd ) {
+            dibr  tnbmf[MAX_THREAD_NAME_LENGTH];
 
-            get_thread_name(jvmti, thread, tname, sizeof(tname));
-            stdout_message("ThreadEnd %s\n", tname);
+            gft_tirfbd_nbmf(jvmti, tirfbd, tnbmf, sizfof(tnbmf));
+            stdout_mfssbgf("TirfbdEnd %s\n", tnbmf);
         }
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-static void JNICALL
-cbClassFileLoadHook(jvmtiEnv *jvmti, JNIEnv* env,
-                jclass class_being_redefined, jobject loader,
-                const char* name, jobject protection_domain,
-                jint class_data_len, const unsigned char* class_data,
-                jint* new_class_data_len, unsigned char** new_class_data)
+/* Cbllbbdk for JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
+stbtid void JNICALL
+dbClbssFilfLobdHook(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jdlbss dlbss_bfing_rfdffinfd, jobjfdt lobdfr,
+                donst dibr* nbmf, jobjfdt protfdtion_dombin,
+                jint dlbss_dbtb_lfn, donst unsignfd dibr* dlbss_dbtb,
+                jint* nfw_dlbss_dbtb_lfn, unsignfd dibr** nfw_dlbss_dbtb)
 {
-    enter_critical_section(jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
+    fntfr_dritidbl_sfdtion(jvmti); {
+        /* It's possiblf wf gft ifrf rigit bftfr VmDfbti fvfnt, bf dbrfful */
+        if ( !gdbtb->vm_is_dfbd ) {
 
-            const char *classname;
+            donst dibr *dlbssnbmf;
 
-            /* Name could be NULL */
-            if ( name == NULL ) {
-                classname = java_crw_demo_classname(class_data, class_data_len,
+            /* Nbmf dould bf NULL */
+            if ( nbmf == NULL ) {
+                dlbssnbmf = jbvb_drw_dfmo_dlbssnbmf(dlbss_dbtb, dlbss_dbtb_lfn,
                         NULL);
-                if ( classname == NULL ) {
-                    fatal_error("ERROR: No classname inside classfile\n");
+                if ( dlbssnbmf == NULL ) {
+                    fbtbl_frror("ERROR: No dlbssnbmf insidf dlbssfilf\n");
                 }
-            } else {
-                classname = strdup(name);
-                if ( classname == NULL ) {
-                    fatal_error("ERROR: Out of malloc memory\n");
+            } flsf {
+                dlbssnbmf = strdup(nbmf);
+                if ( dlbssnbmf == NULL ) {
+                    fbtbl_frror("ERROR: Out of mbllod mfmory\n");
                 }
             }
 
-            *new_class_data_len = 0;
-            *new_class_data     = NULL;
+            *nfw_dlbss_dbtb_lfn = 0;
+            *nfw_dlbss_dbtb     = NULL;
 
-            /* The tracker class itself? */
-            if ( interested((char*)classname, "", gdata->include, gdata->exclude)
-                  &&  strcmp(classname, STRING(MTRACE_class)) != 0 ) {
-                jint           cnum;
-                int            system_class;
-                unsigned char *new_image;
-                long           new_length;
-                ClassInfo     *cp;
+            /* Tif trbdkfr dlbss itsflf? */
+            if ( intfrfstfd((dibr*)dlbssnbmf, "", gdbtb->indludf, gdbtb->fxdludf)
+                  &&  strdmp(dlbssnbmf, STRING(MTRACE_dlbss)) != 0 ) {
+                jint           dnum;
+                int            systfm_dlbss;
+                unsignfd dibr *nfw_imbgf;
+                long           nfw_lfngti;
+                ClbssInfo     *dp;
 
-                /* Get unique number for every class file image loaded */
-                cnum = gdata->ccount++;
+                /* Gft uniquf numbfr for fvfry dlbss filf imbgf lobdfd */
+                dnum = gdbtb->ddount++;
 
-                /* Save away class information */
-                if ( gdata->classes == NULL ) {
-                    gdata->classes = (ClassInfo*)malloc(
-                                gdata->ccount*sizeof(ClassInfo));
-                } else {
-                    gdata->classes = (ClassInfo*)
-                                realloc((void*)gdata->classes,
-                                gdata->ccount*sizeof(ClassInfo));
+                /* Sbvf bwby dlbss informbtion */
+                if ( gdbtb->dlbssfs == NULL ) {
+                    gdbtb->dlbssfs = (ClbssInfo*)mbllod(
+                                gdbtb->ddount*sizfof(ClbssInfo));
+                } flsf {
+                    gdbtb->dlbssfs = (ClbssInfo*)
+                                rfbllod((void*)gdbtb->dlbssfs,
+                                gdbtb->ddount*sizfof(ClbssInfo));
                 }
-                if ( gdata->classes == NULL ) {
-                    fatal_error("ERROR: Out of malloc memory\n");
+                if ( gdbtb->dlbssfs == NULL ) {
+                    fbtbl_frror("ERROR: Out of mbllod mfmory\n");
                 }
-                cp           = gdata->classes + cnum;
-                cp->name     = (const char *)strdup(classname);
-                if ( cp->name == NULL ) {
-                    fatal_error("ERROR: Out of malloc memory\n");
+                dp           = gdbtb->dlbssfs + dnum;
+                dp->nbmf     = (donst dibr *)strdup(dlbssnbmf);
+                if ( dp->nbmf == NULL ) {
+                    fbtbl_frror("ERROR: Out of mbllod mfmory\n");
                 }
-                cp->calls    = 0;
-                cp->mcount   = 0;
-                cp->methods  = NULL;
+                dp->dblls    = 0;
+                dp->mdount   = 0;
+                dp->mftiods  = NULL;
 
-                /* Is it a system class? If the class load is before VmStart
-                 *   then we will consider it a system class that should
-                 *   be treated carefully. (See java_crw_demo)
+                /* Is it b systfm dlbss? If tif dlbss lobd is bfforf VmStbrt
+                 *   tifn wf will donsidfr it b systfm dlbss tibt siould
+                 *   bf trfbtfd dbrffully. (Sff jbvb_drw_dfmo)
                  */
-                system_class = 0;
-                if ( !gdata->vm_is_started ) {
-                    system_class = 1;
+                systfm_dlbss = 0;
+                if ( !gdbtb->vm_is_stbrtfd ) {
+                    systfm_dlbss = 1;
                 }
 
-                new_image = NULL;
-                new_length = 0;
+                nfw_imbgf = NULL;
+                nfw_lfngti = 0;
 
-                /* Call the class file reader/write demo code */
-                java_crw_demo(cnum,
-                    classname,
-                    class_data,
-                    class_data_len,
-                    system_class,
-                    STRING(MTRACE_class), "L" STRING(MTRACE_class) ";",
-                    STRING(MTRACE_entry), "(II)V",
-                    STRING(MTRACE_exit), "(II)V",
+                /* Cbll tif dlbss filf rfbdfr/writf dfmo dodf */
+                jbvb_drw_dfmo(dnum,
+                    dlbssnbmf,
+                    dlbss_dbtb,
+                    dlbss_dbtb_lfn,
+                    systfm_dlbss,
+                    STRING(MTRACE_dlbss), "L" STRING(MTRACE_dlbss) ";",
+                    STRING(MTRACE_fntry), "(II)V",
+                    STRING(MTRACE_fxit), "(II)V",
                     NULL, NULL,
                     NULL, NULL,
-                    &new_image,
-                    &new_length,
+                    &nfw_imbgf,
+                    &nfw_lfngti,
                     NULL,
-                    &mnum_callbacks);
+                    &mnum_dbllbbdks);
 
-                /* If we got back a new class image, return it back as "the"
-                 *   new class image. This must be JVMTI Allocate space.
+                /* If wf got bbdk b nfw dlbss imbgf, rfturn it bbdk bs "tif"
+                 *   nfw dlbss imbgf. Tiis must bf JVMTI Allodbtf spbdf.
                  */
-                if ( new_length > 0 ) {
-                    unsigned char *jvmti_space;
+                if ( nfw_lfngti > 0 ) {
+                    unsignfd dibr *jvmti_spbdf;
 
-                    jvmti_space = (unsigned char *)allocate(jvmti, (jint)new_length);
-                    (void)memcpy((void*)jvmti_space, (void*)new_image, (int)new_length);
-                    *new_class_data_len = (jint)new_length;
-                    *new_class_data     = jvmti_space; /* VM will deallocate */
+                    jvmti_spbdf = (unsignfd dibr *)bllodbtf(jvmti, (jint)nfw_lfngti);
+                    (void)mfmdpy((void*)jvmti_spbdf, (void*)nfw_imbgf, (int)nfw_lfngti);
+                    *nfw_dlbss_dbtb_lfn = (jint)nfw_lfngti;
+                    *nfw_dlbss_dbtb     = jvmti_spbdf; /* VM will dfbllodbtf */
                 }
 
-                /* Always free up the space we get from java_crw_demo() */
-                if ( new_image != NULL ) {
-                    (void)free((void*)new_image); /* Free malloc() space with free() */
+                /* Alwbys frff up tif spbdf wf gft from jbvb_drw_dfmo() */
+                if ( nfw_imbgf != NULL ) {
+                    (void)frff((void*)nfw_imbgf); /* Frff mbllod() spbdf witi frff() */
                 }
             }
-            (void)free((void*)classname);
+            (void)frff((void*)dlbssnbmf);
         }
-    } exit_critical_section(jvmti);
+    } fxit_dritidbl_sfdtion(jvmti);
 }
 
-/* Parse the options for this mtrace agent */
-static void
-parse_agent_options(char *options)
+/* Pbrsf tif options for tiis mtrbdf bgfnt */
+stbtid void
+pbrsf_bgfnt_options(dibr *options)
 {
-    char token[MAX_TOKEN_LENGTH];
-    char *next;
+    dibr tokfn[MAX_TOKEN_LENGTH];
+    dibr *nfxt;
 
-    gdata->max_count = 10; /* Default max=n */
+    gdbtb->mbx_dount = 10; /* Dffbult mbx=n */
 
-    /* Parse options and set flags in gdata */
+    /* Pbrsf options bnd sft flbgs in gdbtb */
     if ( options==NULL ) {
-        return;
+        rfturn;
     }
 
-    /* Get the first token from the options string. */
-    next = get_token(options, ",=", token, sizeof(token));
+    /* Gft tif first tokfn from tif options string. */
+    nfxt = gft_tokfn(options, ",=", tokfn, sizfof(tokfn));
 
-    /* While not at the end of the options string, process this option. */
-    while ( next != NULL ) {
-        if ( strcmp(token,"help")==0 ) {
-            stdout_message("The mtrace JVMTI demo agent\n");
-            stdout_message("\n");
-            stdout_message(" java -agent:mtrace[=options] ...\n");
-            stdout_message("\n");
-            stdout_message("The options are comma separated:\n");
-            stdout_message("\t help\t\t\t Print help information\n");
-            stdout_message("\t max=n\t\t Only list top n classes\n");
-            stdout_message("\t include=item\t\t Only these classes/methods\n");
-            stdout_message("\t exclude=item\t\t Exclude these classes/methods\n");
-            stdout_message("\n");
-            stdout_message("item\t Qualified class and/or method names\n");
-            stdout_message("\t\t e.g. (*.<init>;Foobar.method;sun.*)\n");
-            stdout_message("\n");
-            exit(0);
-        } else if ( strcmp(token,"max")==0 ) {
-            char number[MAX_TOKEN_LENGTH];
+    /* Wiilf not bt tif fnd of tif options string, prodfss tiis option. */
+    wiilf ( nfxt != NULL ) {
+        if ( strdmp(tokfn,"iflp")==0 ) {
+            stdout_mfssbgf("Tif mtrbdf JVMTI dfmo bgfnt\n");
+            stdout_mfssbgf("\n");
+            stdout_mfssbgf(" jbvb -bgfnt:mtrbdf[=options] ...\n");
+            stdout_mfssbgf("\n");
+            stdout_mfssbgf("Tif options brf dommb sfpbrbtfd:\n");
+            stdout_mfssbgf("\t iflp\t\t\t Print iflp informbtion\n");
+            stdout_mfssbgf("\t mbx=n\t\t Only list top n dlbssfs\n");
+            stdout_mfssbgf("\t indludf=itfm\t\t Only tifsf dlbssfs/mftiods\n");
+            stdout_mfssbgf("\t fxdludf=itfm\t\t Exdludf tifsf dlbssfs/mftiods\n");
+            stdout_mfssbgf("\n");
+            stdout_mfssbgf("itfm\t Qublififd dlbss bnd/or mftiod nbmfs\n");
+            stdout_mfssbgf("\t\t f.g. (*.<init>;Foobbr.mftiod;sun.*)\n");
+            stdout_mfssbgf("\n");
+            fxit(0);
+        } flsf if ( strdmp(tokfn,"mbx")==0 ) {
+            dibr numbfr[MAX_TOKEN_LENGTH];
 
-            /* Get the numeric option */
-            next = get_token(next, ",=", number, (int)sizeof(number));
-            /* Check for token scan error */
-            if ( next==NULL ) {
-                fatal_error("ERROR: max=n option error\n");
+            /* Gft tif numfrid option */
+            nfxt = gft_tokfn(nfxt, ",=", numbfr, (int)sizfof(numbfr));
+            /* Cifdk for tokfn sdbn frror */
+            if ( nfxt==NULL ) {
+                fbtbl_frror("ERROR: mbx=n option frror\n");
             }
-            /* Save numeric value */
-            gdata->max_count = atoi(number);
-        } else if ( strcmp(token,"include")==0 ) {
-            int   used;
-            int   maxlen;
+            /* Sbvf numfrid vbluf */
+            gdbtb->mbx_dount = btoi(numbfr);
+        } flsf if ( strdmp(tokfn,"indludf")==0 ) {
+            int   usfd;
+            int   mbxlfn;
 
-            maxlen = MAX_METHOD_NAME_LENGTH;
-            if ( gdata->include == NULL ) {
-                gdata->include = (char*)calloc(maxlen+1, 1);
-                used = 0;
-            } else {
-                used  = (int)strlen(gdata->include);
-                gdata->include[used++] = ',';
-                gdata->include[used] = 0;
-                gdata->include = (char*)
-                             realloc((void*)gdata->include, used+maxlen+1);
+            mbxlfn = MAX_METHOD_NAME_LENGTH;
+            if ( gdbtb->indludf == NULL ) {
+                gdbtb->indludf = (dibr*)dbllod(mbxlfn+1, 1);
+                usfd = 0;
+            } flsf {
+                usfd  = (int)strlfn(gdbtb->indludf);
+                gdbtb->indludf[usfd++] = ',';
+                gdbtb->indludf[usfd] = 0;
+                gdbtb->indludf = (dibr*)
+                             rfbllod((void*)gdbtb->indludf, usfd+mbxlfn+1);
             }
-            if ( gdata->include == NULL ) {
-                fatal_error("ERROR: Out of malloc memory\n");
+            if ( gdbtb->indludf == NULL ) {
+                fbtbl_frror("ERROR: Out of mbllod mfmory\n");
             }
-            /* Add this item to the list */
-            next = get_token(next, ",=", gdata->include+used, maxlen);
-            /* Check for token scan error */
-            if ( next==NULL ) {
-                fatal_error("ERROR: include option error\n");
+            /* Add tiis itfm to tif list */
+            nfxt = gft_tokfn(nfxt, ",=", gdbtb->indludf+usfd, mbxlfn);
+            /* Cifdk for tokfn sdbn frror */
+            if ( nfxt==NULL ) {
+                fbtbl_frror("ERROR: indludf option frror\n");
             }
-        } else if ( strcmp(token,"exclude")==0 ) {
-            int   used;
-            int   maxlen;
+        } flsf if ( strdmp(tokfn,"fxdludf")==0 ) {
+            int   usfd;
+            int   mbxlfn;
 
-            maxlen = MAX_METHOD_NAME_LENGTH;
-            if ( gdata->exclude == NULL ) {
-                gdata->exclude = (char*)calloc(maxlen+1, 1);
-                used = 0;
-            } else {
-                used  = (int)strlen(gdata->exclude);
-                gdata->exclude[used++] = ',';
-                gdata->exclude[used] = 0;
-                gdata->exclude = (char*)
-                             realloc((void*)gdata->exclude, used+maxlen+1);
+            mbxlfn = MAX_METHOD_NAME_LENGTH;
+            if ( gdbtb->fxdludf == NULL ) {
+                gdbtb->fxdludf = (dibr*)dbllod(mbxlfn+1, 1);
+                usfd = 0;
+            } flsf {
+                usfd  = (int)strlfn(gdbtb->fxdludf);
+                gdbtb->fxdludf[usfd++] = ',';
+                gdbtb->fxdludf[usfd] = 0;
+                gdbtb->fxdludf = (dibr*)
+                             rfbllod((void*)gdbtb->fxdludf, usfd+mbxlfn+1);
             }
-            if ( gdata->exclude == NULL ) {
-                fatal_error("ERROR: Out of malloc memory\n");
+            if ( gdbtb->fxdludf == NULL ) {
+                fbtbl_frror("ERROR: Out of mbllod mfmory\n");
             }
-            /* Add this item to the list */
-            next = get_token(next, ",=", gdata->exclude+used, maxlen);
-            /* Check for token scan error */
-            if ( next==NULL ) {
-                fatal_error("ERROR: exclude option error\n");
+            /* Add tiis itfm to tif list */
+            nfxt = gft_tokfn(nfxt, ",=", gdbtb->fxdludf+usfd, mbxlfn);
+            /* Cifdk for tokfn sdbn frror */
+            if ( nfxt==NULL ) {
+                fbtbl_frror("ERROR: fxdludf option frror\n");
             }
-        } else if ( token[0]!=0 ) {
-            /* We got a non-empty token and we don't know what it is. */
-            fatal_error("ERROR: Unknown option: %s\n", token);
+        } flsf if ( tokfn[0]!=0 ) {
+            /* Wf got b non-fmpty tokfn bnd wf don't know wibt it is. */
+            fbtbl_frror("ERROR: Unknown option: %s\n", tokfn);
         }
-        /* Get the next token (returns NULL if there are no more) */
-        next = get_token(next, ",=", token, sizeof(token));
+        /* Gft tif nfxt tokfn (rfturns NULL if tifrf brf no morf) */
+        nfxt = gft_tokfn(nfxt, ",=", tokfn, sizfof(tokfn));
     }
 }
 
-/* Agent_OnLoad: This is called immediately after the shared library is
- *   loaded. This is the first code executed.
+/* Agfnt_OnLobd: Tiis is dbllfd immfdibtfly bftfr tif sibrfd librbry is
+ *   lobdfd. Tiis is tif first dodf fxfdutfd.
  */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd)
 {
-    static GlobalAgentData data;
+    stbtid GlobblAgfntDbtb dbtb;
     jvmtiEnv              *jvmti;
-    jvmtiError             error;
-    jint                   res;
-    jvmtiCapabilities      capabilities;
-    jvmtiEventCallbacks    callbacks;
+    jvmtiError             frror;
+    jint                   rfs;
+    jvmtiCbpbbilitifs      dbpbbilitifs;
+    jvmtiEvfntCbllbbdks    dbllbbdks;
 
-    /* Setup initial global agent data area
-     *   Use of static/extern data should be handled carefully here.
-     *   We need to make sure that we are able to cleanup after ourselves
-     *     so anything allocated in this library needs to be freed in
-     *     the Agent_OnUnload() function.
+    /* Sftup initibl globbl bgfnt dbtb brfb
+     *   Usf of stbtid/fxtfrn dbtb siould bf ibndlfd dbrffully ifrf.
+     *   Wf nffd to mbkf surf tibt wf brf bblf to dlfbnup bftfr oursflvfs
+     *     so bnytiing bllodbtfd in tiis librbry nffds to bf frffd in
+     *     tif Agfnt_OnUnlobd() fundtion.
      */
-    (void)memset((void*)&data, 0, sizeof(data));
-    gdata = &data;
+    (void)mfmsft((void*)&dbtb, 0, sizfof(dbtb));
+    gdbtb = &dbtb;
 
-    /* First thing we need to do is get the jvmtiEnv* or JVMTI environment */
-    res = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION_1);
-    if (res != JNI_OK) {
-        /* This means that the VM was unable to obtain this version of the
-         *   JVMTI interface, this is a fatal error.
+    /* First tiing wf nffd to do is gft tif jvmtiEnv* or JVMTI fnvironmfnt */
+    rfs = (*vm)->GftEnv(vm, (void **)&jvmti, JVMTI_VERSION_1);
+    if (rfs != JNI_OK) {
+        /* Tiis mfbns tibt tif VM wbs unbblf to obtbin tiis vfrsion of tif
+         *   JVMTI intfrfbdf, tiis is b fbtbl frror.
          */
-        fatal_error("ERROR: Unable to access JVMTI Version 1 (0x%x),"
-                " is your JDK a 5.0 or newer version?"
-                " JNIEnv's GetEnv() returned %d\n",
-               JVMTI_VERSION_1, res);
+        fbtbl_frror("ERROR: Unbblf to bddfss JVMTI Vfrsion 1 (0x%x),"
+                " is your JDK b 5.0 or nfwfr vfrsion?"
+                " JNIEnv's GftEnv() rfturnfd %d\n",
+               JVMTI_VERSION_1, rfs);
     }
 
-    /* Here we save the jvmtiEnv* for Agent_OnUnload(). */
-    gdata->jvmti = jvmti;
+    /* Hfrf wf sbvf tif jvmtiEnv* for Agfnt_OnUnlobd(). */
+    gdbtb->jvmti = jvmti;
 
-    /* Parse any options supplied on java command line */
-    parse_agent_options(options);
+    /* Pbrsf bny options supplifd on jbvb dommbnd linf */
+    pbrsf_bgfnt_options(options);
 
-    /* Immediately after getting the jvmtiEnv* we need to ask for the
-     *   capabilities this agent will need. In this case we need to make
-     *   sure that we can get all class load hooks.
+    /* Immfdibtfly bftfr gftting tif jvmtiEnv* wf nffd to bsk for tif
+     *   dbpbbilitifs tiis bgfnt will nffd. In tiis dbsf wf nffd to mbkf
+     *   surf tibt wf dbn gft bll dlbss lobd iooks.
      */
-    (void)memset(&capabilities,0, sizeof(capabilities));
-    capabilities.can_generate_all_class_hook_events  = 1;
-    error = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, error, "Unable to get necessary JVMTI capabilities.");
+    (void)mfmsft(&dbpbbilitifs,0, sizfof(dbpbbilitifs));
+    dbpbbilitifs.dbn_gfnfrbtf_bll_dlbss_iook_fvfnts  = 1;
+    frror = (*jvmti)->AddCbpbbilitifs(jvmti, &dbpbbilitifs);
+    difdk_jvmti_frror(jvmti, frror, "Unbblf to gft nfdfssbry JVMTI dbpbbilitifs.");
 
-    /* Next we need to provide the pointers to the callback functions to
-     *   to this jvmtiEnv*
+    /* Nfxt wf nffd to providf tif pointfrs to tif dbllbbdk fundtions to
+     *   to tiis jvmtiEnv*
      */
-    (void)memset(&callbacks,0, sizeof(callbacks));
+    (void)mfmsft(&dbllbbdks,0, sizfof(dbllbbdks));
     /* JVMTI_EVENT_VM_START */
-    callbacks.VMStart           = &cbVMStart;
+    dbllbbdks.VMStbrt           = &dbVMStbrt;
     /* JVMTI_EVENT_VM_INIT */
-    callbacks.VMInit            = &cbVMInit;
+    dbllbbdks.VMInit            = &dbVMInit;
     /* JVMTI_EVENT_VM_DEATH */
-    callbacks.VMDeath           = &cbVMDeath;
+    dbllbbdks.VMDfbti           = &dbVMDfbti;
     /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-    callbacks.ClassFileLoadHook = &cbClassFileLoadHook;
+    dbllbbdks.ClbssFilfLobdHook = &dbClbssFilfLobdHook;
     /* JVMTI_EVENT_THREAD_START */
-    callbacks.ThreadStart       = &cbThreadStart;
+    dbllbbdks.TirfbdStbrt       = &dbTirfbdStbrt;
     /* JVMTI_EVENT_THREAD_END */
-    callbacks.ThreadEnd         = &cbThreadEnd;
-    error = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, (jint)sizeof(callbacks));
-    check_jvmti_error(jvmti, error, "Cannot set jvmti callbacks");
+    dbllbbdks.TirfbdEnd         = &dbTirfbdEnd;
+    frror = (*jvmti)->SftEvfntCbllbbdks(jvmti, &dbllbbdks, (jint)sizfof(dbllbbdks));
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot sft jvmti dbllbbdks");
 
-    /* At first the only initial events we are interested in are VM
-     *   initialization, VM death, and Class File Loads.
-     *   Once the VM is initialized we will request more events.
+    /* At first tif only initibl fvfnts wf brf intfrfstfd in brf VM
+     *   initiblizbtion, VM dfbti, bnd Clbss Filf Lobds.
+     *   Ondf tif VM is initiblizfd wf will rfqufst morf fvfnts.
      */
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_START, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_INIT, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_DEATH, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_CLASS_FILE_LOAD_HOOK, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
+    frror = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_START, (jtirfbd)NULL);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot sft fvfnt notifidbtion");
+    frror = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_INIT, (jtirfbd)NULL);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot sft fvfnt notifidbtion");
+    frror = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_DEATH, (jtirfbd)NULL);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot sft fvfnt notifidbtion");
+    frror = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_CLASS_FILE_LOAD_HOOK, (jtirfbd)NULL);
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot sft fvfnt notifidbtion");
 
-    /* Here we create a raw monitor for our use in this agent to
-     *   protect critical sections of code.
+    /* Hfrf wf drfbtf b rbw monitor for our usf in tiis bgfnt to
+     *   protfdt dritidbl sfdtions of dodf.
      */
-    error = (*jvmti)->CreateRawMonitor(jvmti, "agent data", &(gdata->lock));
-    check_jvmti_error(jvmti, error, "Cannot create raw monitor");
+    frror = (*jvmti)->CrfbtfRbwMonitor(jvmti, "bgfnt dbtb", &(gdbtb->lodk));
+    difdk_jvmti_frror(jvmti, frror, "Cbnnot drfbtf rbw monitor");
 
-    /* Add demo jar file to boot classpath */
-    add_demo_jar_to_bootclasspath(jvmti, "mtrace");
+    /* Add dfmo jbr filf to boot dlbsspbti */
+    bdd_dfmo_jbr_to_bootdlbsspbti(jvmti, "mtrbdf");
 
-    /* We return JNI_OK to signify success */
-    return JNI_OK;
+    /* Wf rfturn JNI_OK to signify suddfss */
+    rfturn JNI_OK;
 }
 
-/* Agent_OnUnload: This is called immediately before the shared library is
- *   unloaded. This is the last code executed.
+/* Agfnt_OnUnlobd: Tiis is dbllfd immfdibtfly bfforf tif sibrfd librbry is
+ *   unlobdfd. Tiis is tif lbst dodf fxfdutfd.
  */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agfnt_OnUnlobd(JbvbVM *vm)
 {
-    /* Make sure all malloc/calloc/strdup space is freed */
-    if ( gdata->include != NULL ) {
-        (void)free((void*)gdata->include);
-        gdata->include = NULL;
+    /* Mbkf surf bll mbllod/dbllod/strdup spbdf is frffd */
+    if ( gdbtb->indludf != NULL ) {
+        (void)frff((void*)gdbtb->indludf);
+        gdbtb->indludf = NULL;
     }
-    if ( gdata->exclude != NULL ) {
-        (void)free((void*)gdata->exclude);
-        gdata->exclude = NULL;
+    if ( gdbtb->fxdludf != NULL ) {
+        (void)frff((void*)gdbtb->fxdludf);
+        gdbtb->fxdludf = NULL;
     }
-    if ( gdata->classes != NULL ) {
-        int cnum;
+    if ( gdbtb->dlbssfs != NULL ) {
+        int dnum;
 
-        for ( cnum = 0 ; cnum < gdata->ccount ; cnum++ ) {
-            ClassInfo *cp;
+        for ( dnum = 0 ; dnum < gdbtb->ddount ; dnum++ ) {
+            ClbssInfo *dp;
 
-            cp = gdata->classes + cnum;
-            (void)free((void*)cp->name);
-            if ( cp->mcount > 0 ) {
+            dp = gdbtb->dlbssfs + dnum;
+            (void)frff((void*)dp->nbmf);
+            if ( dp->mdount > 0 ) {
                 int mnum;
 
-                for ( mnum = 0 ; mnum < cp->mcount ; mnum++ ) {
-                    MethodInfo *mp;
+                for ( mnum = 0 ; mnum < dp->mdount ; mnum++ ) {
+                    MftiodInfo *mp;
 
-                    mp = cp->methods + mnum;
-                    (void)free((void*)mp->name);
-                    (void)free((void*)mp->signature);
+                    mp = dp->mftiods + mnum;
+                    (void)frff((void*)mp->nbmf);
+                    (void)frff((void*)mp->signbturf);
                 }
-                (void)free((void*)cp->methods);
+                (void)frff((void*)dp->mftiods);
             }
         }
-        (void)free((void*)gdata->classes);
-        gdata->classes = NULL;
+        (void)frff((void*)gdbtb->dlbssfs);
+        gdbtb->dlbssfs = NULL;
     }
 }

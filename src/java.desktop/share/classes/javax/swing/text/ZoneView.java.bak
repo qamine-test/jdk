@@ -1,649 +1,649 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.event.*;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * ZoneView is a View implementation that creates zones for which
- * the child views are not created or stored until they are needed
- * for display or model/view translations.  This enables a substantial
- * reduction in memory consumption for situations where the model
- * being represented is very large, by building view objects only for
- * the region being actively viewed/edited.  The size of the children
- * can be estimated in some way, or calculated asynchronously with
- * only the result being saved.
+ * ZonfVifw is b Vifw implfmfntbtion tibt drfbtfs zonfs for wiidi
+ * tif diild vifws brf not drfbtfd or storfd until tify brf nffdfd
+ * for displby or modfl/vifw trbnslbtions.  Tiis fnbblfs b substbntibl
+ * rfdudtion in mfmory donsumption for situbtions wifrf tif modfl
+ * bfing rfprfsfntfd is vfry lbrgf, by building vifw objfdts only for
+ * tif rfgion bfing bdtivfly vifwfd/fditfd.  Tif sizf of tif diildrfn
+ * dbn bf fstimbtfd in somf wby, or dbldulbtfd bsyndironously witi
+ * only tif rfsult bfing sbvfd.
  * <p>
- * ZoneView extends BoxView to provide a box that implements
- * zones for its children.  The zones are special View implementations
- * (the children of an instance of this class) that represent only a
- * portion of the model that an instance of ZoneView is responsible
- * for.  The zones don't create child views until an attempt is made
- * to display them. A box shaped view is well suited to this because:
+ * ZonfVifw fxtfnds BoxVifw to providf b box tibt implfmfnts
+ * zonfs for its diildrfn.  Tif zonfs brf spfdibl Vifw implfmfntbtions
+ * (tif diildrfn of bn instbndf of tiis dlbss) tibt rfprfsfnt only b
+ * portion of tif modfl tibt bn instbndf of ZonfVifw is rfsponsiblf
+ * for.  Tif zonfs don't drfbtf diild vifws until bn bttfmpt is mbdf
+ * to displby tifm. A box sibpfd vifw is wfll suitfd to tiis bfdbusf:
  *   <ul>
  *   <li>
- *   Boxes are a heavily used view, and having a box that
- *   provides this behavior gives substantial opportunity
- *   to plug the behavior into a view hierarchy from the
- *   view factory.
+ *   Boxfs brf b ifbvily usfd vifw, bnd ibving b box tibt
+ *   providfs tiis bfibvior givfs substbntibl opportunity
+ *   to plug tif bfibvior into b vifw iifrbrdiy from tif
+ *   vifw fbdtory.
  *   <li>
- *   Boxes are tiled in one direction, so it is easy to
- *   divide them into zones in a reliable way.
+ *   Boxfs brf tilfd in onf dirfdtion, so it is fbsy to
+ *   dividf tifm into zonfs in b rflibblf wby.
  *   <li>
- *   Boxes typically have a simple relationship to the model (i.e. they
- *   create child views that directly represent the child elements).
+ *   Boxfs typidblly ibvf b simplf rflbtionsiip to tif modfl (i.f. tify
+ *   drfbtf diild vifws tibt dirfdtly rfprfsfnt tif diild flfmfnts).
  *   <li>
- *   Boxes are easier to estimate the size of than some other shapes.
+ *   Boxfs brf fbsifr to fstimbtf tif sizf of tibn somf otifr sibpfs.
  *   </ul>
  * <p>
- * The default behavior is controlled by two properties, maxZoneSize
- * and maxZonesLoaded.  Setting maxZoneSize to Integer.MAX_VALUE would
- * have the effect of causing only one zone to be created.  This would
- * effectively turn the view into an implementation of the decorator
- * pattern.  Setting maxZonesLoaded to a value of Integer.MAX_VALUE would
- * cause zones to never be unloaded.  For simplicity, zones are created on
- * boundaries represented by the child elements of the element the view is
- * responsible for.  The zones can be any View implementation, but the
- * default implementation is based upon AsyncBoxView which supports fairly
- * large zones efficiently.
+ * Tif dffbult bfibvior is dontrollfd by two propfrtifs, mbxZonfSizf
+ * bnd mbxZonfsLobdfd.  Sftting mbxZonfSizf to Intfgfr.MAX_VALUE would
+ * ibvf tif ffffdt of dbusing only onf zonf to bf drfbtfd.  Tiis would
+ * ffffdtivfly turn tif vifw into bn implfmfntbtion of tif dfdorbtor
+ * pbttfrn.  Sftting mbxZonfsLobdfd to b vbluf of Intfgfr.MAX_VALUE would
+ * dbusf zonfs to nfvfr bf unlobdfd.  For simplidity, zonfs brf drfbtfd on
+ * boundbrifs rfprfsfntfd by tif diild flfmfnts of tif flfmfnt tif vifw is
+ * rfsponsiblf for.  Tif zonfs dbn bf bny Vifw implfmfntbtion, but tif
+ * dffbult implfmfntbtion is bbsfd upon AsyndBoxVifw wiidi supports fbirly
+ * lbrgf zonfs fffidifntly.
  *
- * @author  Timothy Prinzing
- * @see     View
- * @since   1.3
+ * @butior  Timotiy Prinzing
+ * @sff     Vifw
+ * @sindf   1.3
  */
-public class ZoneView extends BoxView {
+publid dlbss ZonfVifw fxtfnds BoxVifw {
 
-    int maxZoneSize = 8 * 1024;
-    int maxZonesLoaded = 3;
-    Vector<View> loadedZones;
+    int mbxZonfSizf = 8 * 1024;
+    int mbxZonfsLobdfd = 3;
+    Vfdtor<Vifw> lobdfdZonfs;
 
     /**
-     * Constructs a ZoneView.
+     * Construdts b ZonfVifw.
      *
-     * @param elem the element this view is responsible for
-     * @param axis either View.X_AXIS or View.Y_AXIS
+     * @pbrbm flfm tif flfmfnt tiis vifw is rfsponsiblf for
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
      */
-    public ZoneView(Element elem, int axis) {
-        super(elem, axis);
-        loadedZones = new Vector<View>();
+    publid ZonfVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm, bxis);
+        lobdfdZonfs = nfw Vfdtor<Vifw>();
     }
 
     /**
-     * Get the current maximum zone size.
+     * Gft tif durrfnt mbximum zonf sizf.
      */
-    public int getMaximumZoneSize() {
-        return maxZoneSize;
+    publid int gftMbximumZonfSizf() {
+        rfturn mbxZonfSizf;
     }
 
     /**
-     * Set the desired maximum zone size.  A
-     * zone may get larger than this size if
-     * a single child view is larger than this
-     * size since zones are formed on child view
-     * boundaries.
+     * Sft tif dfsirfd mbximum zonf sizf.  A
+     * zonf mby gft lbrgfr tibn tiis sizf if
+     * b singlf diild vifw is lbrgfr tibn tiis
+     * sizf sindf zonfs brf formfd on diild vifw
+     * boundbrifs.
      *
-     * @param size the number of characters the zone
-     * may represent before attempting to break
-     * the zone into a smaller size.
+     * @pbrbm sizf tif numbfr of dibrbdtfrs tif zonf
+     * mby rfprfsfnt bfforf bttfmpting to brfbk
+     * tif zonf into b smbllfr sizf.
      */
-    public void setMaximumZoneSize(int size) {
-        maxZoneSize = size;
+    publid void sftMbximumZonfSizf(int sizf) {
+        mbxZonfSizf = sizf;
     }
 
     /**
-     * Get the current setting of the number of zones
-     * allowed to be loaded at the same time.
+     * Gft tif durrfnt sftting of tif numbfr of zonfs
+     * bllowfd to bf lobdfd bt tif sbmf timf.
      */
-    public int getMaxZonesLoaded() {
-        return maxZonesLoaded;
+    publid int gftMbxZonfsLobdfd() {
+        rfturn mbxZonfsLobdfd;
     }
 
     /**
-     * Sets the current setting of the number of zones
-     * allowed to be loaded at the same time. This will throw an
-     * <code>IllegalArgumentException</code> if <code>mzl</code> is less
-     * than 1.
+     * Sfts tif durrfnt sftting of tif numbfr of zonfs
+     * bllowfd to bf lobdfd bt tif sbmf timf. Tiis will tirow bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>mzl</dodf> is lfss
+     * tibn 1.
      *
-     * @param mzl the desired maximum number of zones
-     *  to be actively loaded, must be greater than 0
-     * @exception IllegalArgumentException if <code>mzl</code> is &lt; 1
+     * @pbrbm mzl tif dfsirfd mbximum numbfr of zonfs
+     *  to bf bdtivfly lobdfd, must bf grfbtfr tibn 0
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mzl</dodf> is &lt; 1
      */
-    public void setMaxZonesLoaded(int mzl) {
+    publid void sftMbxZonfsLobdfd(int mzl) {
         if (mzl < 1) {
-            throw new IllegalArgumentException("ZoneView.setMaxZonesLoaded must be greater than 0.");
+            tirow nfw IllfgblArgumfntExdfption("ZonfVifw.sftMbxZonfsLobdfd must bf grfbtfr tibn 0.");
         }
-        maxZonesLoaded = mzl;
-        unloadOldZones();
+        mbxZonfsLobdfd = mzl;
+        unlobdOldZonfs();
     }
 
     /**
-     * Called by a zone when it gets loaded.  This happens when
-     * an attempt is made to display or perform a model/view
-     * translation on a zone that was in an unloaded state.
-     * This is implemented to check if the maximum number of
-     * zones was reached and to unload the oldest zone if so.
+     * Cbllfd by b zonf wifn it gfts lobdfd.  Tiis ibppfns wifn
+     * bn bttfmpt is mbdf to displby or pfrform b modfl/vifw
+     * trbnslbtion on b zonf tibt wbs in bn unlobdfd stbtf.
+     * Tiis is implfmfntfd to difdk if tif mbximum numbfr of
+     * zonfs wbs rfbdifd bnd to unlobd tif oldfst zonf if so.
      *
-     * @param zone the child view that was just loaded.
+     * @pbrbm zonf tif diild vifw tibt wbs just lobdfd.
      */
-    protected void zoneWasLoaded(View zone) {
-        //System.out.println("loading: " + zone.getStartOffset() + "," + zone.getEndOffset());
-        loadedZones.addElement(zone);
-        unloadOldZones();
+    protfdtfd void zonfWbsLobdfd(Vifw zonf) {
+        //Systfm.out.println("lobding: " + zonf.gftStbrtOffsft() + "," + zonf.gftEndOffsft());
+        lobdfdZonfs.bddElfmfnt(zonf);
+        unlobdOldZonfs();
     }
 
-    void unloadOldZones() {
-        while (loadedZones.size() > getMaxZonesLoaded()) {
-            View zone = loadedZones.elementAt(0);
-            loadedZones.removeElementAt(0);
-            unloadZone(zone);
+    void unlobdOldZonfs() {
+        wiilf (lobdfdZonfs.sizf() > gftMbxZonfsLobdfd()) {
+            Vifw zonf = lobdfdZonfs.flfmfntAt(0);
+            lobdfdZonfs.rfmovfElfmfntAt(0);
+            unlobdZonf(zonf);
         }
     }
 
     /**
-     * Unload a zone (Convert the zone to its memory saving state).
-     * The zones are expected to represent a subset of the
-     * child elements of the element this view is responsible for.
-     * Therefore, the default implementation is to simple remove
-     * all the children.
+     * Unlobd b zonf (Convfrt tif zonf to its mfmory sbving stbtf).
+     * Tif zonfs brf fxpfdtfd to rfprfsfnt b subsft of tif
+     * diild flfmfnts of tif flfmfnt tiis vifw is rfsponsiblf for.
+     * Tifrfforf, tif dffbult implfmfntbtion is to simplf rfmovf
+     * bll tif diildrfn.
      *
-     * @param zone the child view desired to be set to an
-     *  unloaded state.
+     * @pbrbm zonf tif diild vifw dfsirfd to bf sft to bn
+     *  unlobdfd stbtf.
      */
-    protected void unloadZone(View zone) {
-        //System.out.println("unloading: " + zone.getStartOffset() + "," + zone.getEndOffset());
-        zone.removeAll();
+    protfdtfd void unlobdZonf(Vifw zonf) {
+        //Systfm.out.println("unlobding: " + zonf.gftStbrtOffsft() + "," + zonf.gftEndOffsft());
+        zonf.rfmovfAll();
     }
 
     /**
-     * Determine if a zone is in the loaded state.
-     * The zones are expected to represent a subset of the
-     * child elements of the element this view is responsible for.
-     * Therefore, the default implementation is to return
-     * true if the view has children.
+     * Dftfrminf if b zonf is in tif lobdfd stbtf.
+     * Tif zonfs brf fxpfdtfd to rfprfsfnt b subsft of tif
+     * diild flfmfnts of tif flfmfnt tiis vifw is rfsponsiblf for.
+     * Tifrfforf, tif dffbult implfmfntbtion is to rfturn
+     * truf if tif vifw ibs diildrfn.
      */
-    protected boolean isZoneLoaded(View zone) {
-        return (zone.getViewCount() > 0);
+    protfdtfd boolfbn isZonfLobdfd(Vifw zonf) {
+        rfturn (zonf.gftVifwCount() > 0);
     }
 
     /**
-     * Create a view to represent a zone for the given
-     * range within the model (which should be within
-     * the range of this objects responsibility).  This
-     * is called by the zone management logic to create
-     * new zones.  Subclasses can provide a different
-     * implementation for a zone by changing this method.
+     * Crfbtf b vifw to rfprfsfnt b zonf for tif givfn
+     * rbngf witiin tif modfl (wiidi siould bf witiin
+     * tif rbngf of tiis objfdts rfsponsibility).  Tiis
+     * is dbllfd by tif zonf mbnbgfmfnt logid to drfbtf
+     * nfw zonfs.  Subdlbssfs dbn providf b difffrfnt
+     * implfmfntbtion for b zonf by dibnging tiis mftiod.
      *
-     * @param p0 the start of the desired zone.  This should
-     *  be &gt;= getStartOffset() and &lt; getEndOffset().  This
-     *  value should also be &lt; p1.
-     * @param p1 the end of the desired zone.  This should
-     *  be &gt; getStartOffset() and &lt;= getEndOffset().  This
-     *  value should also be &gt; p0.
+     * @pbrbm p0 tif stbrt of tif dfsirfd zonf.  Tiis siould
+     *  bf &gt;= gftStbrtOffsft() bnd &lt; gftEndOffsft().  Tiis
+     *  vbluf siould blso bf &lt; p1.
+     * @pbrbm p1 tif fnd of tif dfsirfd zonf.  Tiis siould
+     *  bf &gt; gftStbrtOffsft() bnd &lt;= gftEndOffsft().  Tiis
+     *  vbluf siould blso bf &gt; p0.
      */
-    protected View createZone(int p0, int p1) {
-        Document doc = getDocument();
-        View zone;
+    protfdtfd Vifw drfbtfZonf(int p0, int p1) {
+        Dodumfnt dod = gftDodumfnt();
+        Vifw zonf;
         try {
-            zone = new Zone(getElement(),
-                            doc.createPosition(p0),
-                            doc.createPosition(p1));
-        } catch (BadLocationException ble) {
-            // this should puke in some way.
-            throw new StateInvariantError(ble.getMessage());
+            zonf = nfw Zonf(gftElfmfnt(),
+                            dod.drfbtfPosition(p0),
+                            dod.drfbtfPosition(p1));
+        } dbtdi (BbdLodbtionExdfption blf) {
+            // tiis siould pukf in somf wby.
+            tirow nfw StbtfInvbribntError(blf.gftMfssbgf());
         }
-        return zone;
+        rfturn zonf;
     }
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the <code>setParent</code> method.
-     * This is reimplemented to not load any children directly
-     * (as they are created by the zones).  This method creates
-     * the initial set of zones.  Zones don't actually get
-     * populated however until an attempt is made to display
-     * them or to do model/view coordinate translation.
+     * Lobds bll of tif diildrfn to initiblizf tif vifw.
+     * Tiis is dbllfd by tif <dodf>sftPbrfnt</dodf> mftiod.
+     * Tiis is rfimplfmfntfd to not lobd bny diildrfn dirfdtly
+     * (bs tify brf drfbtfd by tif zonfs).  Tiis mftiod drfbtfs
+     * tif initibl sft of zonfs.  Zonfs don't bdtublly gft
+     * populbtfd iowfvfr until bn bttfmpt is mbdf to displby
+     * tifm or to do modfl/vifw doordinbtf trbnslbtion.
      *
-     * @param f the view factory
+     * @pbrbm f tif vifw fbdtory
      */
-    protected void loadChildren(ViewFactory f) {
-        // build the first zone.
-        Document doc = getDocument();
-        int offs0 = getStartOffset();
-        int offs1 = getEndOffset();
-        append(createZone(offs0, offs1));
-        handleInsert(offs0, offs1 - offs0);
+    protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+        // build tif first zonf.
+        Dodumfnt dod = gftDodumfnt();
+        int offs0 = gftStbrtOffsft();
+        int offs1 = gftEndOffsft();
+        bppfnd(drfbtfZonf(offs0, offs1));
+        ibndlfInsfrt(offs0, offs1 - offs0);
     }
 
     /**
-     * Returns the child view index representing the given position in
-     * the model.
+     * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif modfl.
      *
-     * @param pos the position &gt;= 0
-     * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     * @pbrbm pos tif position &gt;= 0
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+     *   -1 if no vifw rfprfsfnts tibt position
      */
-    protected int getViewIndexAtPosition(int pos) {
-        // PENDING(prinz) this could be done as a binary
-        // search, and probably should be.
-        int n = getViewCount();
-        if (pos == getEndOffset()) {
-            return n - 1;
+    protfdtfd int gftVifwIndfxAtPosition(int pos) {
+        // PENDING(prinz) tiis dould bf donf bs b binbry
+        // sfbrdi, bnd probbbly siould bf.
+        int n = gftVifwCount();
+        if (pos == gftEndOffsft()) {
+            rfturn n - 1;
         }
         for(int i = 0; i < n; i++) {
-            View v = getView(i);
-            if(pos >= v.getStartOffset() &&
-               pos < v.getEndOffset()) {
-                return i;
+            Vifw v = gftVifw(i);
+            if(pos >= v.gftStbrtOffsft() &&
+               pos < v.gftEndOffsft()) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    void handleInsert(int pos, int length) {
-        int index = getViewIndex(pos, Position.Bias.Forward);
-        View v = getView(index);
-        int offs0 = v.getStartOffset();
-        int offs1 = v.getEndOffset();
-        if ((offs1 - offs0) > maxZoneSize) {
-            splitZone(index, offs0, offs1);
+    void ibndlfInsfrt(int pos, int lfngti) {
+        int indfx = gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+        Vifw v = gftVifw(indfx);
+        int offs0 = v.gftStbrtOffsft();
+        int offs1 = v.gftEndOffsft();
+        if ((offs1 - offs0) > mbxZonfSizf) {
+            splitZonf(indfx, offs0, offs1);
         }
     }
 
-    void handleRemove(int pos, int length) {
+    void ibndlfRfmovf(int pos, int lfngti) {
         // IMPLEMENT
     }
 
     /**
-     * Break up the zone at the given index into pieces
-     * of an acceptable size.
+     * Brfbk up tif zonf bt tif givfn indfx into pifdfs
+     * of bn bddfptbblf sizf.
      */
-    void splitZone(int index, int offs0, int offs1) {
-        // divide the old zone into a new set of bins
-        Element elem = getElement();
-        Document doc = elem.getDocument();
-        Vector<View> zones = new Vector<View>();
+    void splitZonf(int indfx, int offs0, int offs1) {
+        // dividf tif old zonf into b nfw sft of bins
+        Elfmfnt flfm = gftElfmfnt();
+        Dodumfnt dod = flfm.gftDodumfnt();
+        Vfdtor<Vifw> zonfs = nfw Vfdtor<Vifw>();
         int offs = offs0;
         do {
             offs0 = offs;
-            offs = Math.min(getDesiredZoneEnd(offs0), offs1);
-            zones.addElement(createZone(offs0, offs));
-        } while (offs < offs1);
-        View oldZone = getView(index);
-        View[] newZones = new View[zones.size()];
-        zones.copyInto(newZones);
-        replace(index, 1, newZones);
+            offs = Mbti.min(gftDfsirfdZonfEnd(offs0), offs1);
+            zonfs.bddElfmfnt(drfbtfZonf(offs0, offs));
+        } wiilf (offs < offs1);
+        Vifw oldZonf = gftVifw(indfx);
+        Vifw[] nfwZonfs = nfw Vifw[zonfs.sizf()];
+        zonfs.dopyInto(nfwZonfs);
+        rfplbdf(indfx, 1, nfwZonfs);
     }
 
     /**
-     * Returns the zone position to use for the
-     * end of a zone that starts at the given
-     * position.  By default this returns something
-     * close to half the max zone size.
+     * Rfturns tif zonf position to usf for tif
+     * fnd of b zonf tibt stbrts bt tif givfn
+     * position.  By dffbult tiis rfturns somftiing
+     * dlosf to iblf tif mbx zonf sizf.
      */
-    int getDesiredZoneEnd(int pos) {
-        Element elem = getElement();
-        int index = elem.getElementIndex(pos + (maxZoneSize / 2));
-        Element child = elem.getElement(index);
-        int offs0 = child.getStartOffset();
-        int offs1 = child.getEndOffset();
-        if ((offs1 - pos) > maxZoneSize) {
+    int gftDfsirfdZonfEnd(int pos) {
+        Elfmfnt flfm = gftElfmfnt();
+        int indfx = flfm.gftElfmfntIndfx(pos + (mbxZonfSizf / 2));
+        Elfmfnt diild = flfm.gftElfmfnt(indfx);
+        int offs0 = diild.gftStbrtOffsft();
+        int offs1 = diild.gftEndOffsft();
+        if ((offs1 - pos) > mbxZonfSizf) {
             if (offs0 > pos) {
-                return offs0;
+                rfturn offs0;
             }
         }
-        return offs1;
+        rfturn offs1;
     }
 
-    // ---- View methods ----------------------------------------------------
+    // ---- Vifw mftiods ----------------------------------------------------
 
     /**
-     * The superclass behavior will try to update the child views
-     * which is not desired in this case, since the children are
-     * zones and not directly effected by the changes to the
-     * associated element.  This is reimplemented to do nothing
-     * and return false.
+     * Tif supfrdlbss bfibvior will try to updbtf tif diild vifws
+     * wiidi is not dfsirfd in tiis dbsf, sindf tif diildrfn brf
+     * zonfs bnd not dirfdtly ffffdtfd by tif dibngfs to tif
+     * bssodibtfd flfmfnt.  Tiis is rfimplfmfntfd to do notiing
+     * bnd rfturn fblsf.
      */
-    protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                     DocumentEvent e, ViewFactory f) {
-        return false;
+    protfdtfd boolfbn updbtfCiildrfn(DodumfntEvfnt.ElfmfntCibngf fd,
+                                     DodumfntEvfnt f, VifwFbdtory f) {
+        rfturn fblsf;
     }
 
     /**
-     * Gives notification that something was inserted into the document
-     * in a location that this view is responsible for.  This is largely
-     * delegated to the superclass, but is reimplemented to update the
-     * relevant zone (i.e. determine if a zone needs to be split into a
-     * set of 2 or more zones).
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.  Tiis is lbrgfly
+     * dflfgbtfd to tif supfrdlbss, but is rfimplfmfntfd to updbtf tif
+     * rflfvbnt zonf (i.f. dftfrminf if b zonf nffds to bf split into b
+     * sft of 2 or morf zonfs).
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#insfrtUpdbtf
      */
-    public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        handleInsert(changes.getOffset(), changes.getLength());
-        super.insertUpdate(changes, a, f);
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        ibndlfInsfrt(dibngfs.gftOffsft(), dibngfs.gftLfngti());
+        supfr.insfrtUpdbtf(dibngfs, b, f);
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.  This is largely
-     * delegated to the superclass, but is reimplemented to update the
-     * relevant zones (i.e. determine if zones need to be removed or
-     * joined with another zone).
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.  Tiis is lbrgfly
+     * dflfgbtfd to tif supfrdlbss, but is rfimplfmfntfd to updbtf tif
+     * rflfvbnt zonfs (i.f. dftfrminf if zonfs nffd to bf rfmovfd or
+     * joinfd witi bnotifr zonf).
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#rfmovfUpdbtf
      */
-    public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        handleRemove(changes.getOffset(), changes.getLength());
-        super.removeUpdate(changes, a, f);
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        ibndlfRfmovf(dibngfs.gftOffsft(), dibngfs.gftLfngti());
+        supfr.rfmovfUpdbtf(dibngfs, b, f);
     }
 
     /**
-     * Internally created view that has the purpose of holding
-     * the views that represent the children of the ZoneView
-     * that have been arranged in a zone.
+     * Intfrnblly drfbtfd vifw tibt ibs tif purposf of iolding
+     * tif vifws tibt rfprfsfnt tif diildrfn of tif ZonfVifw
+     * tibt ibvf bffn brrbngfd in b zonf.
      */
-    class Zone extends AsyncBoxView {
+    dlbss Zonf fxtfnds AsyndBoxVifw {
 
-        private Position start;
-        private Position end;
+        privbtf Position stbrt;
+        privbtf Position fnd;
 
-        public Zone(Element elem, Position start, Position end) {
-            super(elem, ZoneView.this.getAxis());
-            this.start = start;
-            this.end = end;
+        publid Zonf(Elfmfnt flfm, Position stbrt, Position fnd) {
+            supfr(flfm, ZonfVifw.tiis.gftAxis());
+            tiis.stbrt = stbrt;
+            tiis.fnd = fnd;
         }
 
         /**
-         * Creates the child views and populates the
-         * zone with them.  This is done by translating
-         * the positions to child element index locations
-         * and building views to those elements.  If the
-         * zone is already loaded, this does nothing.
+         * Crfbtfs tif diild vifws bnd populbtfs tif
+         * zonf witi tifm.  Tiis is donf by trbnslbting
+         * tif positions to diild flfmfnt indfx lodbtions
+         * bnd building vifws to tiosf flfmfnts.  If tif
+         * zonf is blrfbdy lobdfd, tiis dofs notiing.
          */
-        public void load() {
-            if (! isLoaded()) {
-                setEstimatedMajorSpan(true);
-                Element e = getElement();
-                ViewFactory f = getViewFactory();
-                int index0 = e.getElementIndex(getStartOffset());
-                int index1 = e.getElementIndex(getEndOffset());
-                View[] added = new View[index1 - index0 + 1];
-                for (int i = index0; i <= index1; i++) {
-                    added[i - index0] = f.create(e.getElement(i));
+        publid void lobd() {
+            if (! isLobdfd()) {
+                sftEstimbtfdMbjorSpbn(truf);
+                Elfmfnt f = gftElfmfnt();
+                VifwFbdtory f = gftVifwFbdtory();
+                int indfx0 = f.gftElfmfntIndfx(gftStbrtOffsft());
+                int indfx1 = f.gftElfmfntIndfx(gftEndOffsft());
+                Vifw[] bddfd = nfw Vifw[indfx1 - indfx0 + 1];
+                for (int i = indfx0; i <= indfx1; i++) {
+                    bddfd[i - indfx0] = f.drfbtf(f.gftElfmfnt(i));
                 }
-                replace(0, 0, added);
+                rfplbdf(0, 0, bddfd);
 
-                zoneWasLoaded(this);
+                zonfWbsLobdfd(tiis);
             }
         }
 
         /**
-         * Removes the child views and returns to a
-         * state of unloaded.
+         * Rfmovfs tif diild vifws bnd rfturns to b
+         * stbtf of unlobdfd.
          */
-        public void unload() {
-            setEstimatedMajorSpan(true);
-            removeAll();
+        publid void unlobd() {
+            sftEstimbtfdMbjorSpbn(truf);
+            rfmovfAll();
         }
 
         /**
-         * Determines if the zone is in the loaded state
+         * Dftfrminfs if tif zonf is in tif lobdfd stbtf
          * or not.
          */
-        public boolean isLoaded() {
-            return (getViewCount() != 0);
+        publid boolfbn isLobdfd() {
+            rfturn (gftVifwCount() != 0);
         }
 
         /**
-         * This method is reimplemented to not build the children
-         * since the children are created when the zone is loaded
-         * rather then when it is placed in the view hierarchy.
-         * The major span is estimated at this point by building
-         * the first child (but not storing it), and calling
-         * setEstimatedMajorSpan(true) followed by setSpan for
-         * the major axis with the estimated span.
+         * Tiis mftiod is rfimplfmfntfd to not build tif diildrfn
+         * sindf tif diildrfn brf drfbtfd wifn tif zonf is lobdfd
+         * rbtifr tifn wifn it is plbdfd in tif vifw iifrbrdiy.
+         * Tif mbjor spbn is fstimbtfd bt tiis point by building
+         * tif first diild (but not storing it), bnd dblling
+         * sftEstimbtfdMbjorSpbn(truf) followfd by sftSpbn for
+         * tif mbjor bxis witi tif fstimbtfd spbn.
          */
-        protected void loadChildren(ViewFactory f) {
-            // mark the major span as estimated
-            setEstimatedMajorSpan(true);
+        protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+            // mbrk tif mbjor spbn bs fstimbtfd
+            sftEstimbtfdMbjorSpbn(truf);
 
-            // estimate the span
-            Element elem = getElement();
-            int index0 = elem.getElementIndex(getStartOffset());
-            int index1 = elem.getElementIndex(getEndOffset());
-            int nChildren = index1 - index0;
+            // fstimbtf tif spbn
+            Elfmfnt flfm = gftElfmfnt();
+            int indfx0 = flfm.gftElfmfntIndfx(gftStbrtOffsft());
+            int indfx1 = flfm.gftElfmfntIndfx(gftEndOffsft());
+            int nCiildrfn = indfx1 - indfx0;
 
-            // replace this with something real
-            //setSpan(getMajorAxis(), nChildren * 10);
+            // rfplbdf tiis witi somftiing rfbl
+            //sftSpbn(gftMbjorAxis(), nCiildrfn * 10);
 
-            View first = f.create(elem.getElement(index0));
-            first.setParent(this);
-            float w = first.getPreferredSpan(X_AXIS);
-            float h = first.getPreferredSpan(Y_AXIS);
-            if (getMajorAxis() == X_AXIS) {
-                w *= nChildren;
-            } else {
-                h += nChildren;
+            Vifw first = f.drfbtf(flfm.gftElfmfnt(indfx0));
+            first.sftPbrfnt(tiis);
+            flobt w = first.gftPrfffrrfdSpbn(X_AXIS);
+            flobt i = first.gftPrfffrrfdSpbn(Y_AXIS);
+            if (gftMbjorAxis() == X_AXIS) {
+                w *= nCiildrfn;
+            } flsf {
+                i += nCiildrfn;
             }
 
-            setSize(w, h);
+            sftSizf(w, i);
         }
 
         /**
-         * Publish the changes in preferences upward to the parent
-         * view.
+         * Publisi tif dibngfs in prfffrfndfs upwbrd to tif pbrfnt
+         * vifw.
          * <p>
-         * This is reimplemented to stop the superclass behavior
-         * if the zone has not yet been loaded.  If the zone is
-         * unloaded for example, the last seen major span is the
-         * best estimate and a calculated span for no children
-         * is undesirable.
+         * Tiis is rfimplfmfntfd to stop tif supfrdlbss bfibvior
+         * if tif zonf ibs not yft bffn lobdfd.  If tif zonf is
+         * unlobdfd for fxbmplf, tif lbst sffn mbjor spbn is tif
+         * bfst fstimbtf bnd b dbldulbtfd spbn for no diildrfn
+         * is undfsirbblf.
          */
-        protected void flushRequirementChanges() {
-            if (isLoaded()) {
-                super.flushRequirementChanges();
+        protfdtfd void flusiRfquirfmfntCibngfs() {
+            if (isLobdfd()) {
+                supfr.flusiRfquirfmfntCibngfs();
             }
         }
 
         /**
-         * Returns the child view index representing the given position in
-         * the model.  Since the zone contains a cluster of the overall
-         * set of child elements, we can determine the index fairly
-         * quickly from the model by subtracting the index of the
-         * start offset from the index of the position given.
+         * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+         * tif modfl.  Sindf tif zonf dontbins b dlustfr of tif ovfrbll
+         * sft of diild flfmfnts, wf dbn dftfrminf tif indfx fbirly
+         * quidkly from tif modfl by subtrbdting tif indfx of tif
+         * stbrt offsft from tif indfx of tif position givfn.
          *
-         * @param pos the position >= 0
-         * @return  index of the view representing the given position, or
-         *   -1 if no view represents that position
-         * @since 1.3
+         * @pbrbm pos tif position >= 0
+         * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+         *   -1 if no vifw rfprfsfnts tibt position
+         * @sindf 1.3
          */
-        public int getViewIndex(int pos, Position.Bias b) {
-            boolean isBackward = (b == Position.Bias.Backward);
-            pos = (isBackward) ? Math.max(0, pos - 1) : pos;
-            Element elem = getElement();
-            int index1 = elem.getElementIndex(pos);
-            int index0 = elem.getElementIndex(getStartOffset());
-            return index1 - index0;
+        publid int gftVifwIndfx(int pos, Position.Bibs b) {
+            boolfbn isBbdkwbrd = (b == Position.Bibs.Bbdkwbrd);
+            pos = (isBbdkwbrd) ? Mbti.mbx(0, pos - 1) : pos;
+            Elfmfnt flfm = gftElfmfnt();
+            int indfx1 = flfm.gftElfmfntIndfx(pos);
+            int indfx0 = flfm.gftElfmfntIndfx(gftStbrtOffsft());
+            rfturn indfx1 - indfx0;
         }
 
-        protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                         DocumentEvent e, ViewFactory f) {
-            // the structure of this element changed.
-            Element[] removedElems = ec.getChildrenRemoved();
-            Element[] addedElems = ec.getChildrenAdded();
-            Element elem = getElement();
-            int index0 = elem.getElementIndex(getStartOffset());
-            int index1 = elem.getElementIndex(getEndOffset()-1);
-            int index = ec.getIndex();
-            if ((index >= index0) && (index <= index1)) {
-                // The change is in this zone
-                int replaceIndex = index - index0;
-                int nadd = Math.min(index1 - index0 + 1, addedElems.length);
-                int nremove = Math.min(index1 - index0 + 1, removedElems.length);
-                View[] added = new View[nadd];
-                for (int i = 0; i < nadd; i++) {
-                    added[i] = f.create(addedElems[i]);
+        protfdtfd boolfbn updbtfCiildrfn(DodumfntEvfnt.ElfmfntCibngf fd,
+                                         DodumfntEvfnt f, VifwFbdtory f) {
+            // tif strudturf of tiis flfmfnt dibngfd.
+            Elfmfnt[] rfmovfdElfms = fd.gftCiildrfnRfmovfd();
+            Elfmfnt[] bddfdElfms = fd.gftCiildrfnAddfd();
+            Elfmfnt flfm = gftElfmfnt();
+            int indfx0 = flfm.gftElfmfntIndfx(gftStbrtOffsft());
+            int indfx1 = flfm.gftElfmfntIndfx(gftEndOffsft()-1);
+            int indfx = fd.gftIndfx();
+            if ((indfx >= indfx0) && (indfx <= indfx1)) {
+                // Tif dibngf is in tiis zonf
+                int rfplbdfIndfx = indfx - indfx0;
+                int nbdd = Mbti.min(indfx1 - indfx0 + 1, bddfdElfms.lfngti);
+                int nrfmovf = Mbti.min(indfx1 - indfx0 + 1, rfmovfdElfms.lfngti);
+                Vifw[] bddfd = nfw Vifw[nbdd];
+                for (int i = 0; i < nbdd; i++) {
+                    bddfd[i] = f.drfbtf(bddfdElfms[i]);
                 }
-                replace(replaceIndex, nremove, added);
+                rfplbdf(rfplbdfIndfx, nrfmovf, bddfd);
             }
-            return true;
+            rfturn truf;
         }
 
-        // --- View methods ----------------------------------
+        // --- Vifw mftiods ----------------------------------
 
         /**
-         * Fetches the attributes to use when rendering.  This view
-         * isn't directly responsible for an element so it returns
-         * the outer classes attributes.
+         * Fftdifs tif bttributfs to usf wifn rfndfring.  Tiis vifw
+         * isn't dirfdtly rfsponsiblf for bn flfmfnt so it rfturns
+         * tif outfr dlbssfs bttributfs.
          */
-        public AttributeSet getAttributes() {
-            return ZoneView.this.getAttributes();
+        publid AttributfSft gftAttributfs() {
+            rfturn ZonfVifw.tiis.gftAttributfs();
         }
 
         /**
-         * Renders using the given rendering surface and area on that
-         * surface.  This is implemented to load the zone if its not
-         * already loaded, and then perform the superclass behavior.
+         * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt
+         * surfbdf.  Tiis is implfmfntfd to lobd tif zonf if its not
+         * blrfbdy lobdfd, bnd tifn pfrform tif supfrdlbss bfibvior.
          *
-         * @param g the rendering surface to use
-         * @param a the allocated region to render into
-         * @see View#paint
+         * @pbrbm g tif rfndfring surfbdf to usf
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @sff Vifw#pbint
          */
-        public void paint(Graphics g, Shape a) {
-            load();
-            super.paint(g, a);
+        publid void pbint(Grbpiids g, Sibpf b) {
+            lobd();
+            supfr.pbint(g, b);
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.  This is implemented to first
-         * make sure the zone is loaded before providing the superclass
-         * behavior.
+         * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+         * doordinbtf spbdf of tif modfl.  Tiis is implfmfntfd to first
+         * mbkf surf tif zonf is lobdfd bfforf providing tif supfrdlbss
+         * bfibvior.
          *
-         * @param x   x coordinate of the view location to convert >= 0
-         * @param y   y coordinate of the view location to convert >= 0
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
-         *  given point in the view >= 0
-         * @see View#viewToModel
+         * @pbrbm x   x doordinbtf of tif vifw lodbtion to donvfrt >= 0
+         * @pbrbm y   y doordinbtf of tif vifw lodbtion to donvfrt >= 0
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+         *  givfn point in tif vifw >= 0
+         * @sff Vifw#vifwToModfl
          */
-        public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-            load();
-            return super.viewToModel(x, y, a, bias);
+        publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+            lobd();
+            rfturn supfr.vifwToModfl(x, y, b, bibs);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.  This is
-         * implemented to provide the superclass behavior after first
-         * making sure the zone is loaded (The zone must be loaded to
-         * make this calculation).
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.  Tiis is
+         * implfmfntfd to providf tif supfrdlbss bfibvior bftfr first
+         * mbking surf tif zonf is lobdfd (Tif zonf must bf lobdfd to
+         * mbkf tiis dbldulbtion).
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position
-         * @exception BadLocationException  if the given position does not represent a
-         *   valid location in the associated document
-         * @see View#modelToView
+         * @pbrbm pos tif position to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not rfprfsfnt b
+         *   vblid lodbtion in tif bssodibtfd dodumfnt
+         * @sff Vifw#modflToVifw
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            load();
-            return super.modelToView(pos, a, b);
+        publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+            lobd();
+            rfturn supfr.modflToVifw(pos, b, b);
         }
 
         /**
-         * Start of the zones range.
+         * Stbrt of tif zonfs rbngf.
          *
-         * @see View#getStartOffset
+         * @sff Vifw#gftStbrtOffsft
          */
-        public int getStartOffset() {
-            return start.getOffset();
+        publid int gftStbrtOffsft() {
+            rfturn stbrt.gftOffsft();
         }
 
         /**
-         * End of the zones range.
+         * End of tif zonfs rbngf.
          */
-        public int getEndOffset() {
-            return end.getOffset();
+        publid int gftEndOffsft() {
+            rfturn fnd.gftOffsft();
         }
 
         /**
-         * Gives notification that something was inserted into
-         * the document in a location that this view is responsible for.
-         * If the zone has been loaded, the superclass behavior is
-         * invoked, otherwise this does nothing.
+         * Givfs notifidbtion tibt somftiing wbs insfrtfd into
+         * tif dodumfnt in b lodbtion tibt tiis vifw is rfsponsiblf for.
+         * If tif zonf ibs bffn lobdfd, tif supfrdlbss bfibvior is
+         * invokfd, otifrwisf tiis dofs notiing.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#insertUpdate
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff Vifw#insfrtUpdbtf
          */
-        public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (isLoaded()) {
-                super.insertUpdate(e, a, f);
-            }
-        }
-
-        /**
-         * Gives notification that something was removed from the document
-         * in a location that this view is responsible for.
-         * If the zone has been loaded, the superclass behavior is
-         * invoked, otherwise this does nothing.
-         *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#removeUpdate
-         */
-        public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (isLoaded()) {
-                super.removeUpdate(e, a, f);
+        publid void insfrtUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (isLobdfd()) {
+                supfr.insfrtUpdbtf(f, b, f);
             }
         }
 
         /**
-         * Gives notification from the document that attributes were changed
-         * in a location that this view is responsible for.
-         * If the zone has been loaded, the superclass behavior is
-         * invoked, otherwise this does nothing.
+         * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+         * If tif zonf ibs bffn lobdfd, tif supfrdlbss bfibvior is
+         * invokfd, otifrwisf tiis dofs notiing.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#removeUpdate
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff Vifw#rfmovfUpdbtf
          */
-        public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (isLoaded()) {
-                super.changedUpdate(e, a, f);
+        publid void rfmovfUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (isLobdfd()) {
+                supfr.rfmovfUpdbtf(f, b, f);
+            }
+        }
+
+        /**
+         * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+         * If tif zonf ibs bffn lobdfd, tif supfrdlbss bfibvior is
+         * invokfd, otifrwisf tiis dofs notiing.
+         *
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff Vifw#rfmovfUpdbtf
+         */
+        publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (isLobdfd()) {
+                supfr.dibngfdUpdbtf(f, b, f);
             }
         }
 

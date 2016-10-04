@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2009-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,970 +59,970 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbdkbgf jbvb.timf.zonf;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.Yfbr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
 
 /**
- * The rules defining how the zone offset varies for a single time-zone.
+ * Tif rulfs dffining iow tif zonf offsft vbrifs for b singlf timf-zonf.
  * <p>
- * The rules model all the historic and future transitions for a time-zone.
- * {@link ZoneOffsetTransition} is used for known transitions, typically historic.
- * {@link ZoneOffsetTransitionRule} is used for future transitions that are based
- * on the result of an algorithm.
+ * Tif rulfs modfl bll tif iistorid bnd futurf trbnsitions for b timf-zonf.
+ * {@link ZonfOffsftTrbnsition} is usfd for known trbnsitions, typidblly iistorid.
+ * {@link ZonfOffsftTrbnsitionRulf} is usfd for futurf trbnsitions tibt brf bbsfd
+ * on tif rfsult of bn blgoritim.
  * <p>
- * The rules are loaded via {@link ZoneRulesProvider} using a {@link ZoneId}.
- * The same rules may be shared internally between multiple zone IDs.
+ * Tif rulfs brf lobdfd vib {@link ZonfRulfsProvidfr} using b {@link ZonfId}.
+ * Tif sbmf rulfs mby bf sibrfd intfrnblly bftwffn multiplf zonf IDs.
  * <p>
- * Serializing an instance of {@code ZoneRules} will store the entire set of rules.
- * It does not store the zone ID as it is not part of the state of this object.
+ * Sfriblizing bn instbndf of {@dodf ZonfRulfs} will storf tif fntirf sft of rulfs.
+ * It dofs not storf tif zonf ID bs it is not pbrt of tif stbtf of tiis objfdt.
  * <p>
- * A rule implementation may or may not store full information about historic
- * and future transitions, and the information stored is only as accurate as
- * that supplied to the implementation by the rules provider.
- * Applications should treat the data provided as representing the best information
- * available to the implementation of this rule.
+ * A rulf implfmfntbtion mby or mby not storf full informbtion bbout iistorid
+ * bnd futurf trbnsitions, bnd tif informbtion storfd is only bs bddurbtf bs
+ * tibt supplifd to tif implfmfntbtion by tif rulfs providfr.
+ * Applidbtions siould trfbt tif dbtb providfd bs rfprfsfnting tif bfst informbtion
+ * bvbilbblf to tif implfmfntbtion of tiis rulf.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ZoneRules implements Serializable {
+publid finbl dlbss ZonfRulfs implfmfnts Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 3044319355680032515L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3044319355680032515L;
     /**
-     * The last year to have its transitions cached.
+     * Tif lbst yfbr to ibvf its trbnsitions dbdifd.
      */
-    private static final int LAST_CACHED_YEAR = 2100;
+    privbtf stbtid finbl int LAST_CACHED_YEAR = 2100;
 
     /**
-     * The transitions between standard offsets (epoch seconds), sorted.
+     * Tif trbnsitions bftwffn stbndbrd offsfts (fpodi sfdonds), sortfd.
      */
-    private final long[] standardTransitions;
+    privbtf finbl long[] stbndbrdTrbnsitions;
     /**
-     * The standard offsets.
+     * Tif stbndbrd offsfts.
      */
-    private final ZoneOffset[] standardOffsets;
+    privbtf finbl ZonfOffsft[] stbndbrdOffsfts;
     /**
-     * The transitions between instants (epoch seconds), sorted.
+     * Tif trbnsitions bftwffn instbnts (fpodi sfdonds), sortfd.
      */
-    private final long[] savingsInstantTransitions;
+    privbtf finbl long[] sbvingsInstbntTrbnsitions;
     /**
-     * The transitions between local date-times, sorted.
-     * This is a paired array, where the first entry is the start of the transition
-     * and the second entry is the end of the transition.
+     * Tif trbnsitions bftwffn lodbl dbtf-timfs, sortfd.
+     * Tiis is b pbirfd brrby, wifrf tif first fntry is tif stbrt of tif trbnsition
+     * bnd tif sfdond fntry is tif fnd of tif trbnsition.
      */
-    private final LocalDateTime[] savingsLocalTransitions;
+    privbtf finbl LodblDbtfTimf[] sbvingsLodblTrbnsitions;
     /**
-     * The wall offsets.
+     * Tif wbll offsfts.
      */
-    private final ZoneOffset[] wallOffsets;
+    privbtf finbl ZonfOffsft[] wbllOffsfts;
     /**
-     * The last rule.
+     * Tif lbst rulf.
      */
-    private final ZoneOffsetTransitionRule[] lastRules;
+    privbtf finbl ZonfOffsftTrbnsitionRulf[] lbstRulfs;
     /**
-     * The map of recent transitions.
+     * Tif mbp of rfdfnt trbnsitions.
      */
-    private final transient ConcurrentMap<Integer, ZoneOffsetTransition[]> lastRulesCache =
-                new ConcurrentHashMap<Integer, ZoneOffsetTransition[]>();
+    privbtf finbl trbnsifnt CondurrfntMbp<Intfgfr, ZonfOffsftTrbnsition[]> lbstRulfsCbdif =
+                nfw CondurrfntHbsiMbp<Intfgfr, ZonfOffsftTrbnsition[]>();
     /**
-     * The zero-length long array.
+     * Tif zfro-lfngti long brrby.
      */
-    private static final long[] EMPTY_LONG_ARRAY = new long[0];
+    privbtf stbtid finbl long[] EMPTY_LONG_ARRAY = nfw long[0];
     /**
-     * The zero-length lastrules array.
+     * Tif zfro-lfngti lbstrulfs brrby.
      */
-    private static final ZoneOffsetTransitionRule[] EMPTY_LASTRULES =
-        new ZoneOffsetTransitionRule[0];
+    privbtf stbtid finbl ZonfOffsftTrbnsitionRulf[] EMPTY_LASTRULES =
+        nfw ZonfOffsftTrbnsitionRulf[0];
     /**
-     * The zero-length ldt array.
+     * Tif zfro-lfngti ldt brrby.
      */
-    private static final LocalDateTime[] EMPTY_LDT_ARRAY = new LocalDateTime[0];
+    privbtf stbtid finbl LodblDbtfTimf[] EMPTY_LDT_ARRAY = nfw LodblDbtfTimf[0];
 
     /**
-     * Obtains an instance of a ZoneRules.
+     * Obtbins bn instbndf of b ZonfRulfs.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
-     * @return the zone rules, not null
+     * @pbrbm bbsfStbndbrdOffsft  tif stbndbrd offsft to usf bfforf lfgbl rulfs wfrf sft, not null
+     * @pbrbm bbsfWbllOffsft  tif wbll offsft to usf bfforf lfgbl rulfs wfrf sft, not null
+     * @pbrbm stbndbrdOffsftTrbnsitionList  tif list of dibngfs to tif stbndbrd offsft, not null
+     * @pbrbm trbnsitionList  tif list of trbnsitions, not null
+     * @pbrbm lbstRulfs  tif rfdurring lbst rulfs, sizf 16 or lfss, not null
+     * @rfturn tif zonf rulfs, not null
      */
-    public static ZoneRules of(ZoneOffset baseStandardOffset,
-                               ZoneOffset baseWallOffset,
-                               List<ZoneOffsetTransition> standardOffsetTransitionList,
-                               List<ZoneOffsetTransition> transitionList,
-                               List<ZoneOffsetTransitionRule> lastRules) {
-        Objects.requireNonNull(baseStandardOffset, "baseStandardOffset");
-        Objects.requireNonNull(baseWallOffset, "baseWallOffset");
-        Objects.requireNonNull(standardOffsetTransitionList, "standardOffsetTransitionList");
-        Objects.requireNonNull(transitionList, "transitionList");
-        Objects.requireNonNull(lastRules, "lastRules");
-        return new ZoneRules(baseStandardOffset, baseWallOffset,
-                             standardOffsetTransitionList, transitionList, lastRules);
+    publid stbtid ZonfRulfs of(ZonfOffsft bbsfStbndbrdOffsft,
+                               ZonfOffsft bbsfWbllOffsft,
+                               List<ZonfOffsftTrbnsition> stbndbrdOffsftTrbnsitionList,
+                               List<ZonfOffsftTrbnsition> trbnsitionList,
+                               List<ZonfOffsftTrbnsitionRulf> lbstRulfs) {
+        Objfdts.rfquirfNonNull(bbsfStbndbrdOffsft, "bbsfStbndbrdOffsft");
+        Objfdts.rfquirfNonNull(bbsfWbllOffsft, "bbsfWbllOffsft");
+        Objfdts.rfquirfNonNull(stbndbrdOffsftTrbnsitionList, "stbndbrdOffsftTrbnsitionList");
+        Objfdts.rfquirfNonNull(trbnsitionList, "trbnsitionList");
+        Objfdts.rfquirfNonNull(lbstRulfs, "lbstRulfs");
+        rfturn nfw ZonfRulfs(bbsfStbndbrdOffsft, bbsfWbllOffsft,
+                             stbndbrdOffsftTrbnsitionList, trbnsitionList, lbstRulfs);
     }
 
     /**
-     * Obtains an instance of ZoneRules that has fixed zone rules.
+     * Obtbins bn instbndf of ZonfRulfs tibt ibs fixfd zonf rulfs.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
-     * @return the zone rules, not null
-     * @see #isFixedOffset()
+     * @pbrbm offsft  tif offsft tiis fixfd zonf rulfs is bbsfd on, not null
+     * @rfturn tif zonf rulfs, not null
+     * @sff #isFixfdOffsft()
      */
-    public static ZoneRules of(ZoneOffset offset) {
-        Objects.requireNonNull(offset, "offset");
-        return new ZoneRules(offset);
+    publid stbtid ZonfRulfs of(ZonfOffsft offsft) {
+        Objfdts.rfquirfNonNull(offsft, "offsft");
+        rfturn nfw ZonfRulfs(offsft);
     }
 
     /**
-     * Creates an instance.
+     * Crfbtfs bn instbndf.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
+     * @pbrbm bbsfStbndbrdOffsft  tif stbndbrd offsft to usf bfforf lfgbl rulfs wfrf sft, not null
+     * @pbrbm bbsfWbllOffsft  tif wbll offsft to usf bfforf lfgbl rulfs wfrf sft, not null
+     * @pbrbm stbndbrdOffsftTrbnsitionList  tif list of dibngfs to tif stbndbrd offsft, not null
+     * @pbrbm trbnsitionList  tif list of trbnsitions, not null
+     * @pbrbm lbstRulfs  tif rfdurring lbst rulfs, sizf 16 or lfss, not null
      */
-    ZoneRules(ZoneOffset baseStandardOffset,
-              ZoneOffset baseWallOffset,
-              List<ZoneOffsetTransition> standardOffsetTransitionList,
-              List<ZoneOffsetTransition> transitionList,
-              List<ZoneOffsetTransitionRule> lastRules) {
-        super();
+    ZonfRulfs(ZonfOffsft bbsfStbndbrdOffsft,
+              ZonfOffsft bbsfWbllOffsft,
+              List<ZonfOffsftTrbnsition> stbndbrdOffsftTrbnsitionList,
+              List<ZonfOffsftTrbnsition> trbnsitionList,
+              List<ZonfOffsftTrbnsitionRulf> lbstRulfs) {
+        supfr();
 
-        // convert standard transitions
+        // donvfrt stbndbrd trbnsitions
 
-        this.standardTransitions = new long[standardOffsetTransitionList.size()];
+        tiis.stbndbrdTrbnsitions = nfw long[stbndbrdOffsftTrbnsitionList.sizf()];
 
-        this.standardOffsets = new ZoneOffset[standardOffsetTransitionList.size() + 1];
-        this.standardOffsets[0] = baseStandardOffset;
-        for (int i = 0; i < standardOffsetTransitionList.size(); i++) {
-            this.standardTransitions[i] = standardOffsetTransitionList.get(i).toEpochSecond();
-            this.standardOffsets[i + 1] = standardOffsetTransitionList.get(i).getOffsetAfter();
+        tiis.stbndbrdOffsfts = nfw ZonfOffsft[stbndbrdOffsftTrbnsitionList.sizf() + 1];
+        tiis.stbndbrdOffsfts[0] = bbsfStbndbrdOffsft;
+        for (int i = 0; i < stbndbrdOffsftTrbnsitionList.sizf(); i++) {
+            tiis.stbndbrdTrbnsitions[i] = stbndbrdOffsftTrbnsitionList.gft(i).toEpodiSfdond();
+            tiis.stbndbrdOffsfts[i + 1] = stbndbrdOffsftTrbnsitionList.gft(i).gftOffsftAftfr();
         }
 
-        // convert savings transitions to locals
-        List<LocalDateTime> localTransitionList = new ArrayList<>();
-        List<ZoneOffset> localTransitionOffsetList = new ArrayList<>();
-        localTransitionOffsetList.add(baseWallOffset);
-        for (ZoneOffsetTransition trans : transitionList) {
-            if (trans.isGap()) {
-                localTransitionList.add(trans.getDateTimeBefore());
-                localTransitionList.add(trans.getDateTimeAfter());
-            } else {
-                localTransitionList.add(trans.getDateTimeAfter());
-                localTransitionList.add(trans.getDateTimeBefore());
+        // donvfrt sbvings trbnsitions to lodbls
+        List<LodblDbtfTimf> lodblTrbnsitionList = nfw ArrbyList<>();
+        List<ZonfOffsft> lodblTrbnsitionOffsftList = nfw ArrbyList<>();
+        lodblTrbnsitionOffsftList.bdd(bbsfWbllOffsft);
+        for (ZonfOffsftTrbnsition trbns : trbnsitionList) {
+            if (trbns.isGbp()) {
+                lodblTrbnsitionList.bdd(trbns.gftDbtfTimfBfforf());
+                lodblTrbnsitionList.bdd(trbns.gftDbtfTimfAftfr());
+            } flsf {
+                lodblTrbnsitionList.bdd(trbns.gftDbtfTimfAftfr());
+                lodblTrbnsitionList.bdd(trbns.gftDbtfTimfBfforf());
             }
-            localTransitionOffsetList.add(trans.getOffsetAfter());
+            lodblTrbnsitionOffsftList.bdd(trbns.gftOffsftAftfr());
         }
-        this.savingsLocalTransitions = localTransitionList.toArray(new LocalDateTime[localTransitionList.size()]);
-        this.wallOffsets = localTransitionOffsetList.toArray(new ZoneOffset[localTransitionOffsetList.size()]);
+        tiis.sbvingsLodblTrbnsitions = lodblTrbnsitionList.toArrby(nfw LodblDbtfTimf[lodblTrbnsitionList.sizf()]);
+        tiis.wbllOffsfts = lodblTrbnsitionOffsftList.toArrby(nfw ZonfOffsft[lodblTrbnsitionOffsftList.sizf()]);
 
-        // convert savings transitions to instants
-        this.savingsInstantTransitions = new long[transitionList.size()];
-        for (int i = 0; i < transitionList.size(); i++) {
-            this.savingsInstantTransitions[i] = transitionList.get(i).toEpochSecond();
+        // donvfrt sbvings trbnsitions to instbnts
+        tiis.sbvingsInstbntTrbnsitions = nfw long[trbnsitionList.sizf()];
+        for (int i = 0; i < trbnsitionList.sizf(); i++) {
+            tiis.sbvingsInstbntTrbnsitions[i] = trbnsitionList.gft(i).toEpodiSfdond();
         }
 
-        // last rules
-        if (lastRules.size() > 16) {
-            throw new IllegalArgumentException("Too many transition rules");
+        // lbst rulfs
+        if (lbstRulfs.sizf() > 16) {
+            tirow nfw IllfgblArgumfntExdfption("Too mbny trbnsition rulfs");
         }
-        this.lastRules = lastRules.toArray(new ZoneOffsetTransitionRule[lastRules.size()]);
+        tiis.lbstRulfs = lbstRulfs.toArrby(nfw ZonfOffsftTrbnsitionRulf[lbstRulfs.sizf()]);
     }
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param standardTransitions  the standard transitions, not null
-     * @param standardOffsets  the standard offsets, not null
-     * @param savingsInstantTransitions  the standard transitions, not null
-     * @param wallOffsets  the wall offsets, not null
-     * @param lastRules  the recurring last rules, size 15 or less, not null
+     * @pbrbm stbndbrdTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm stbndbrdOffsfts  tif stbndbrd offsfts, not null
+     * @pbrbm sbvingsInstbntTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm wbllOffsfts  tif wbll offsfts, not null
+     * @pbrbm lbstRulfs  tif rfdurring lbst rulfs, sizf 15 or lfss, not null
      */
-    private ZoneRules(long[] standardTransitions,
-                      ZoneOffset[] standardOffsets,
-                      long[] savingsInstantTransitions,
-                      ZoneOffset[] wallOffsets,
-                      ZoneOffsetTransitionRule[] lastRules) {
-        super();
+    privbtf ZonfRulfs(long[] stbndbrdTrbnsitions,
+                      ZonfOffsft[] stbndbrdOffsfts,
+                      long[] sbvingsInstbntTrbnsitions,
+                      ZonfOffsft[] wbllOffsfts,
+                      ZonfOffsftTrbnsitionRulf[] lbstRulfs) {
+        supfr();
 
-        this.standardTransitions = standardTransitions;
-        this.standardOffsets = standardOffsets;
-        this.savingsInstantTransitions = savingsInstantTransitions;
-        this.wallOffsets = wallOffsets;
-        this.lastRules = lastRules;
+        tiis.stbndbrdTrbnsitions = stbndbrdTrbnsitions;
+        tiis.stbndbrdOffsfts = stbndbrdOffsfts;
+        tiis.sbvingsInstbntTrbnsitions = sbvingsInstbntTrbnsitions;
+        tiis.wbllOffsfts = wbllOffsfts;
+        tiis.lbstRulfs = lbstRulfs;
 
-        if (savingsInstantTransitions.length == 0) {
-            this.savingsLocalTransitions = EMPTY_LDT_ARRAY;
-        } else {
-            // convert savings transitions to locals
-            List<LocalDateTime> localTransitionList = new ArrayList<>();
-            for (int i = 0; i < savingsInstantTransitions.length; i++) {
-                ZoneOffset before = wallOffsets[i];
-                ZoneOffset after = wallOffsets[i + 1];
-                ZoneOffsetTransition trans = new ZoneOffsetTransition(savingsInstantTransitions[i], before, after);
-                if (trans.isGap()) {
-                    localTransitionList.add(trans.getDateTimeBefore());
-                    localTransitionList.add(trans.getDateTimeAfter());
-                } else {
-                    localTransitionList.add(trans.getDateTimeAfter());
-                    localTransitionList.add(trans.getDateTimeBefore());
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            tiis.sbvingsLodblTrbnsitions = EMPTY_LDT_ARRAY;
+        } flsf {
+            // donvfrt sbvings trbnsitions to lodbls
+            List<LodblDbtfTimf> lodblTrbnsitionList = nfw ArrbyList<>();
+            for (int i = 0; i < sbvingsInstbntTrbnsitions.lfngti; i++) {
+                ZonfOffsft bfforf = wbllOffsfts[i];
+                ZonfOffsft bftfr = wbllOffsfts[i + 1];
+                ZonfOffsftTrbnsition trbns = nfw ZonfOffsftTrbnsition(sbvingsInstbntTrbnsitions[i], bfforf, bftfr);
+                if (trbns.isGbp()) {
+                    lodblTrbnsitionList.bdd(trbns.gftDbtfTimfBfforf());
+                    lodblTrbnsitionList.bdd(trbns.gftDbtfTimfAftfr());
+                } flsf {
+                    lodblTrbnsitionList.bdd(trbns.gftDbtfTimfAftfr());
+                    lodblTrbnsitionList.bdd(trbns.gftDbtfTimfBfforf());
                }
             }
-            this.savingsLocalTransitions = localTransitionList.toArray(new LocalDateTime[localTransitionList.size()]);
+            tiis.sbvingsLodblTrbnsitions = lodblTrbnsitionList.toArrby(nfw LodblDbtfTimf[lodblTrbnsitionList.sizf()]);
         }
     }
 
     /**
-     * Creates an instance of ZoneRules that has fixed zone rules.
+     * Crfbtfs bn instbndf of ZonfRulfs tibt ibs fixfd zonf rulfs.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
-     * @return the zone rules, not null
-     * @see #isFixedOffset()
+     * @pbrbm offsft  tif offsft tiis fixfd zonf rulfs is bbsfd on, not null
+     * @rfturn tif zonf rulfs, not null
+     * @sff #isFixfdOffsft()
      */
-    private ZoneRules(ZoneOffset offset) {
-        this.standardOffsets = new ZoneOffset[1];
-        this.standardOffsets[0] = offset;
-        this.standardTransitions = EMPTY_LONG_ARRAY;
-        this.savingsInstantTransitions = EMPTY_LONG_ARRAY;
-        this.savingsLocalTransitions = EMPTY_LDT_ARRAY;
-        this.wallOffsets = standardOffsets;
-        this.lastRules = EMPTY_LASTRULES;
+    privbtf ZonfRulfs(ZonfOffsft offsft) {
+        tiis.stbndbrdOffsfts = nfw ZonfOffsft[1];
+        tiis.stbndbrdOffsfts[0] = offsft;
+        tiis.stbndbrdTrbnsitions = EMPTY_LONG_ARRAY;
+        tiis.sbvingsInstbntTrbnsitions = EMPTY_LONG_ARRAY;
+        tiis.sbvingsLodblTrbnsitions = EMPTY_LDT_ARRAY;
+        tiis.wbllOffsfts = stbndbrdOffsfts;
+        tiis.lbstRulfs = EMPTY_LASTRULES;
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre style="font-size:1.0em">{@code
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf stylf="font-sizf:1.0fm">{@dodf
      *
-     *   out.writeByte(1);  // identifies a ZoneRules
-     *   out.writeInt(standardTransitions.length);
-     *   for (long trans : standardTransitions) {
-     *       Ser.writeEpochSec(trans, out);
+     *   out.writfBytf(1);  // idfntififs b ZonfRulfs
+     *   out.writfInt(stbndbrdTrbnsitions.lfngti);
+     *   for (long trbns : stbndbrdTrbnsitions) {
+     *       Sfr.writfEpodiSfd(trbns, out);
      *   }
-     *   for (ZoneOffset offset : standardOffsets) {
-     *       Ser.writeOffset(offset, out);
+     *   for (ZonfOffsft offsft : stbndbrdOffsfts) {
+     *       Sfr.writfOffsft(offsft, out);
      *   }
-     *   out.writeInt(savingsInstantTransitions.length);
-     *   for (long trans : savingsInstantTransitions) {
-     *       Ser.writeEpochSec(trans, out);
+     *   out.writfInt(sbvingsInstbntTrbnsitions.lfngti);
+     *   for (long trbns : sbvingsInstbntTrbnsitions) {
+     *       Sfr.writfEpodiSfd(trbns, out);
      *   }
-     *   for (ZoneOffset offset : wallOffsets) {
-     *       Ser.writeOffset(offset, out);
+     *   for (ZonfOffsft offsft : wbllOffsfts) {
+     *       Sfr.writfOffsft(offsft, out);
      *   }
-     *   out.writeByte(lastRules.length);
-     *   for (ZoneOffsetTransitionRule rule : lastRules) {
-     *       rule.writeExternal(out);
+     *   out.writfBytf(lbstRulfs.lfngti);
+     *   for (ZonfOffsftTrbnsitionRulf rulf : lbstRulfs) {
+     *       rulf.writfExtfrnbl(out);
      *   }
      * }
-     * </pre>
+     * </prf>
      * <p>
-     * Epoch second values used for offsets are encoded in a variable
-     * length form to make the common cases put fewer bytes in the stream.
-     * <pre style="font-size:1.0em">{@code
+     * Epodi sfdond vblufs usfd for offsfts brf fndodfd in b vbribblf
+     * lfngti form to mbkf tif dommon dbsfs put ffwfr bytfs in tif strfbm.
+     * <prf stylf="font-sizf:1.0fm">{@dodf
      *
-     *  static void writeEpochSec(long epochSec, DataOutput out) throws IOException {
-     *     if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // quarter hours between 1825 and 2300
-     *         int store = (int) ((epochSec + 4575744000L) / 900);
-     *         out.writeByte((store >>> 16) & 255);
-     *         out.writeByte((store >>> 8) & 255);
-     *         out.writeByte(store & 255);
-     *      } else {
-     *          out.writeByte(255);
-     *          out.writeLong(epochSec);
+     *  stbtid void writfEpodiSfd(long fpodiSfd, DbtbOutput out) tirows IOExdfption {
+     *     if (fpodiSfd >= -4575744000L && fpodiSfd < 10413792000L && fpodiSfd % 900 == 0) {  // qubrtfr iours bftwffn 1825 bnd 2300
+     *         int storf = (int) ((fpodiSfd + 4575744000L) / 900);
+     *         out.writfBytf((storf >>> 16) & 255);
+     *         out.writfBytf((storf >>> 8) & 255);
+     *         out.writfBytf(storf & 255);
+     *      } flsf {
+     *          out.writfBytf(255);
+     *          out.writfLong(fpodiSfd);
      *      }
      *  }
      * }
-     * </pre>
+     * </prf>
      * <p>
-     * ZoneOffset values are encoded in a variable length form so the
-     * common cases put fewer bytes in the stream.
-     * <pre style="font-size:1.0em">{@code
+     * ZonfOffsft vblufs brf fndodfd in b vbribblf lfngti form so tif
+     * dommon dbsfs put ffwfr bytfs in tif strfbm.
+     * <prf stylf="font-sizf:1.0fm">{@dodf
      *
-     *  static void writeOffset(ZoneOffset offset, DataOutput out) throws IOException {
-     *     final int offsetSecs = offset.getTotalSeconds();
-     *     int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
-     *     out.writeByte(offsetByte);
-     *     if (offsetByte == 127) {
-     *         out.writeInt(offsetSecs);
+     *  stbtid void writfOffsft(ZonfOffsft offsft, DbtbOutput out) tirows IOExdfption {
+     *     finbl int offsftSfds = offsft.gftTotblSfdonds();
+     *     int offsftBytf = offsftSfds % 900 == 0 ? offsftSfds / 900 : 127;  // domprfss to -72 to +72
+     *     out.writfBytf(offsftBytf);
+     *     if (offsftBytf == 127) {
+     *         out.writfInt(offsftSfds);
      *     }
      * }
      *}
-     * </pre>
-     * @return the replacing object, not null
+     * </prf>
+     * @rfturn tif rfplbding objfdt, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.ZRULES, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZRULES, tiis);
     }
 
     /**
-     * Writes the state to the stream.
+     * Writfs tif stbtf to tif strfbm.
      *
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm out  tif output strfbm, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeInt(standardTransitions.length);
-        for (long trans : standardTransitions) {
-            Ser.writeEpochSec(trans, out);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfInt(stbndbrdTrbnsitions.lfngti);
+        for (long trbns : stbndbrdTrbnsitions) {
+            Sfr.writfEpodiSfd(trbns, out);
         }
-        for (ZoneOffset offset : standardOffsets) {
-            Ser.writeOffset(offset, out);
+        for (ZonfOffsft offsft : stbndbrdOffsfts) {
+            Sfr.writfOffsft(offsft, out);
         }
-        out.writeInt(savingsInstantTransitions.length);
-        for (long trans : savingsInstantTransitions) {
-            Ser.writeEpochSec(trans, out);
+        out.writfInt(sbvingsInstbntTrbnsitions.lfngti);
+        for (long trbns : sbvingsInstbntTrbnsitions) {
+            Sfr.writfEpodiSfd(trbns, out);
         }
-        for (ZoneOffset offset : wallOffsets) {
-            Ser.writeOffset(offset, out);
+        for (ZonfOffsft offsft : wbllOffsfts) {
+            Sfr.writfOffsft(offsft, out);
         }
-        out.writeByte(lastRules.length);
-        for (ZoneOffsetTransitionRule rule : lastRules) {
-            rule.writeExternal(out);
+        out.writfBytf(lbstRulfs.lfngti);
+        for (ZonfOffsftTrbnsitionRulf rulf : lbstRulfs) {
+            rulf.writfExtfrnbl(out);
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rfbds tif stbtf from tif strfbm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  tif input strfbm, not null
+     * @rfturn tif drfbtfd objfdt, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static ZoneRules readExternal(DataInput in) throws IOException, ClassNotFoundException {
-        int stdSize = in.readInt();
-        long[] stdTrans = (stdSize == 0) ? EMPTY_LONG_ARRAY
-                                         : new long[stdSize];
-        for (int i = 0; i < stdSize; i++) {
-            stdTrans[i] = Ser.readEpochSec(in);
+    stbtid ZonfRulfs rfbdExtfrnbl(DbtbInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        int stdSizf = in.rfbdInt();
+        long[] stdTrbns = (stdSizf == 0) ? EMPTY_LONG_ARRAY
+                                         : nfw long[stdSizf];
+        for (int i = 0; i < stdSizf; i++) {
+            stdTrbns[i] = Sfr.rfbdEpodiSfd(in);
         }
-        ZoneOffset[] stdOffsets = new ZoneOffset[stdSize + 1];
-        for (int i = 0; i < stdOffsets.length; i++) {
-            stdOffsets[i] = Ser.readOffset(in);
+        ZonfOffsft[] stdOffsfts = nfw ZonfOffsft[stdSizf + 1];
+        for (int i = 0; i < stdOffsfts.lfngti; i++) {
+            stdOffsfts[i] = Sfr.rfbdOffsft(in);
         }
-        int savSize = in.readInt();
-        long[] savTrans = (savSize == 0) ? EMPTY_LONG_ARRAY
-                                         : new long[savSize];
-        for (int i = 0; i < savSize; i++) {
-            savTrans[i] = Ser.readEpochSec(in);
+        int sbvSizf = in.rfbdInt();
+        long[] sbvTrbns = (sbvSizf == 0) ? EMPTY_LONG_ARRAY
+                                         : nfw long[sbvSizf];
+        for (int i = 0; i < sbvSizf; i++) {
+            sbvTrbns[i] = Sfr.rfbdEpodiSfd(in);
         }
-        ZoneOffset[] savOffsets = new ZoneOffset[savSize + 1];
-        for (int i = 0; i < savOffsets.length; i++) {
-            savOffsets[i] = Ser.readOffset(in);
+        ZonfOffsft[] sbvOffsfts = nfw ZonfOffsft[sbvSizf + 1];
+        for (int i = 0; i < sbvOffsfts.lfngti; i++) {
+            sbvOffsfts[i] = Sfr.rfbdOffsft(in);
         }
-        int ruleSize = in.readByte();
-        ZoneOffsetTransitionRule[] rules = (ruleSize == 0) ?
-            EMPTY_LASTRULES : new ZoneOffsetTransitionRule[ruleSize];
-        for (int i = 0; i < ruleSize; i++) {
-            rules[i] = ZoneOffsetTransitionRule.readExternal(in);
+        int rulfSizf = in.rfbdBytf();
+        ZonfOffsftTrbnsitionRulf[] rulfs = (rulfSizf == 0) ?
+            EMPTY_LASTRULES : nfw ZonfOffsftTrbnsitionRulf[rulfSizf];
+        for (int i = 0; i < rulfSizf; i++) {
+            rulfs[i] = ZonfOffsftTrbnsitionRulf.rfbdExtfrnbl(in);
         }
-        return new ZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules);
+        rfturn nfw ZonfRulfs(stdTrbns, stdOffsfts, sbvTrbns, sbvOffsfts, rulfs);
     }
 
     /**
-     * Checks of the zone rules are fixed, such that the offset never varies.
+     * Cifdks of tif zonf rulfs brf fixfd, sudi tibt tif offsft nfvfr vbrifs.
      *
-     * @return true if the time-zone is fixed and the offset never changes
+     * @rfturn truf if tif timf-zonf is fixfd bnd tif offsft nfvfr dibngfs
      */
-    public boolean isFixedOffset() {
-        return savingsInstantTransitions.length == 0;
+    publid boolfbn isFixfdOffsft() {
+        rfturn sbvingsInstbntTrbnsitions.lfngti == 0;
     }
 
     /**
-     * Gets the offset applicable at the specified instant in these rules.
+     * Gfts tif offsft bpplidbblf bt tif spfdififd instbnt in tifsf rulfs.
      * <p>
-     * The mapping from an instant to an offset is simple, there is only
-     * one valid offset for each instant.
-     * This method returns that offset.
+     * Tif mbpping from bn instbnt to bn offsft is simplf, tifrf is only
+     * onf vblid offsft for fbdi instbnt.
+     * Tiis mftiod rfturns tibt offsft.
      *
-     * @param instant  the instant to find the offset for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the offset, not null
+     * @pbrbm instbnt  tif instbnt to find tif offsft for, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif offsft, not null
      */
-    public ZoneOffset getOffset(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    publid ZonfOffsft gftOffsft(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn stbndbrdOffsfts[0];
         }
-        long epochSec = instant.getEpochSecond();
-        // check if using last rules
-        if (lastRules.length > 0 &&
-                epochSec > savingsInstantTransitions[savingsInstantTransitions.length - 1]) {
-            int year = findYear(epochSec, wallOffsets[wallOffsets.length - 1]);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            ZoneOffsetTransition trans = null;
-            for (int i = 0; i < transArray.length; i++) {
-                trans = transArray[i];
-                if (epochSec < trans.toEpochSecond()) {
-                    return trans.getOffsetBefore();
+        long fpodiSfd = instbnt.gftEpodiSfdond();
+        // difdk if using lbst rulfs
+        if (lbstRulfs.lfngti > 0 &&
+                fpodiSfd > sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.lfngti - 1]) {
+            int yfbr = findYfbr(fpodiSfd, wbllOffsfts[wbllOffsfts.lfngti - 1]);
+            ZonfOffsftTrbnsition[] trbnsArrby = findTrbnsitionArrby(yfbr);
+            ZonfOffsftTrbnsition trbns = null;
+            for (int i = 0; i < trbnsArrby.lfngti; i++) {
+                trbns = trbnsArrby[i];
+                if (fpodiSfd < trbns.toEpodiSfdond()) {
+                    rfturn trbns.gftOffsftBfforf();
                 }
             }
-            return trans.getOffsetAfter();
+            rfturn trbns.gftOffsftAftfr();
         }
 
-        // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
-        if (index < 0) {
-            // switch negative insert position to start of matched range
-            index = -index - 2;
+        // using iistorid rulfs
+        int indfx  = Arrbys.binbrySfbrdi(sbvingsInstbntTrbnsitions, fpodiSfd);
+        if (indfx < 0) {
+            // switdi nfgbtivf insfrt position to stbrt of mbtdifd rbngf
+            indfx = -indfx - 2;
         }
-        return wallOffsets[index + 1];
+        rfturn wbllOffsfts[indfx + 1];
     }
 
     /**
-     * Gets a suitable offset for the specified local date-time in these rules.
+     * Gfts b suitbblf offsft for tif spfdififd lodbl dbtf-timf in tifsf rulfs.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * Tif mbpping from b lodbl dbtf-timf to bn offsft is not strbigitforwbrd.
+     * Tifrf brf tirff dbsfs:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, witi onf vblid offsft. For tif vbst mbjority of tif yfbr, tif normbl
+     *  dbsf bpplifs, wifrf tifrf is b singlf vblid offsft for tif lodbl dbtf-timf.</li>
+     * <li>Gbp, witi zfro vblid offsfts. Tiis is wifn dlodks jump forwbrd typidblly
+     *  duf to tif spring dbyligit sbvings dibngf from "wintfr" to "summfr".
+     *  In b gbp tifrf brf lodbl dbtf-timf vblufs witi no vblid offsft.</li>
+     * <li>Ovfrlbp, witi two vblid offsfts. Tiis is wifn dlodks brf sft bbdk typidblly
+     *  duf to tif butumn dbyligit sbvings dibngf from "summfr" to "wintfr".
+     *  In bn ovfrlbp tifrf brf lodbl dbtf-timf vblufs witi two vblid offsfts.</li>
      * </ul>
-     * Thus, for any given local date-time there can be zero, one or two valid offsets.
-     * This method returns the single offset in the Normal case, and in the Gap or Overlap
-     * case it returns the offset before the transition.
+     * Tius, for bny givfn lodbl dbtf-timf tifrf dbn bf zfro, onf or two vblid offsfts.
+     * Tiis mftiod rfturns tif singlf offsft in tif Normbl dbsf, bnd in tif Gbp or Ovfrlbp
+     * dbsf it rfturns tif offsft bfforf tif trbnsition.
      * <p>
-     * Since, in the case of Gap and Overlap, the offset returned is a "best" value, rather
-     * than the "correct" value, it should be treated with care. Applications that care
-     * about the correct offset should use a combination of this method,
-     * {@link #getValidOffsets(LocalDateTime)} and {@link #getTransition(LocalDateTime)}.
+     * Sindf, in tif dbsf of Gbp bnd Ovfrlbp, tif offsft rfturnfd is b "bfst" vbluf, rbtifr
+     * tibn tif "dorrfdt" vbluf, it siould bf trfbtfd witi dbrf. Applidbtions tibt dbrf
+     * bbout tif dorrfdt offsft siould usf b dombinbtion of tiis mftiod,
+     * {@link #gftVblidOffsfts(LodblDbtfTimf)} bnd {@link #gftTrbnsition(LodblDbtfTimf)}.
      *
-     * @param localDateTime  the local date-time to query, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the best available offset for the local date-time, not null
+     * @pbrbm lodblDbtfTimf  tif lodbl dbtf-timf to qufry, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif bfst bvbilbblf offsft for tif lodbl dbtf-timf, not null
      */
-    public ZoneOffset getOffset(LocalDateTime localDateTime) {
-        Object info = getOffsetInfo(localDateTime);
-        if (info instanceof ZoneOffsetTransition) {
-            return ((ZoneOffsetTransition) info).getOffsetBefore();
+    publid ZonfOffsft gftOffsft(LodblDbtfTimf lodblDbtfTimf) {
+        Objfdt info = gftOffsftInfo(lodblDbtfTimf);
+        if (info instbndfof ZonfOffsftTrbnsition) {
+            rfturn ((ZonfOffsftTrbnsition) info).gftOffsftBfforf();
         }
-        return (ZoneOffset) info;
+        rfturn (ZonfOffsft) info;
     }
 
     /**
-     * Gets the offset applicable at the specified local date-time in these rules.
+     * Gfts tif offsft bpplidbblf bt tif spfdififd lodbl dbtf-timf in tifsf rulfs.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * Tif mbpping from b lodbl dbtf-timf to bn offsft is not strbigitforwbrd.
+     * Tifrf brf tirff dbsfs:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, witi onf vblid offsft. For tif vbst mbjority of tif yfbr, tif normbl
+     *  dbsf bpplifs, wifrf tifrf is b singlf vblid offsft for tif lodbl dbtf-timf.</li>
+     * <li>Gbp, witi zfro vblid offsfts. Tiis is wifn dlodks jump forwbrd typidblly
+     *  duf to tif spring dbyligit sbvings dibngf from "wintfr" to "summfr".
+     *  In b gbp tifrf brf lodbl dbtf-timf vblufs witi no vblid offsft.</li>
+     * <li>Ovfrlbp, witi two vblid offsfts. Tiis is wifn dlodks brf sft bbdk typidblly
+     *  duf to tif butumn dbyligit sbvings dibngf from "summfr" to "wintfr".
+     *  In bn ovfrlbp tifrf brf lodbl dbtf-timf vblufs witi two vblid offsfts.</li>
      * </ul>
-     * Thus, for any given local date-time there can be zero, one or two valid offsets.
-     * This method returns that list of valid offsets, which is a list of size 0, 1 or 2.
-     * In the case where there are two offsets, the earlier offset is returned at index 0
-     * and the later offset at index 1.
+     * Tius, for bny givfn lodbl dbtf-timf tifrf dbn bf zfro, onf or two vblid offsfts.
+     * Tiis mftiod rfturns tibt list of vblid offsfts, wiidi is b list of sizf 0, 1 or 2.
+     * In tif dbsf wifrf tifrf brf two offsfts, tif fbrlifr offsft is rfturnfd bt indfx 0
+     * bnd tif lbtfr offsft bt indfx 1.
      * <p>
-     * There are various ways to handle the conversion from a {@code LocalDateTime}.
-     * One technique, using this method, would be:
-     * <pre>
-     *  List&lt;ZoneOffset&gt; validOffsets = rules.getOffset(localDT);
-     *  if (validOffsets.size() == 1) {
-     *    // Normal case: only one valid offset
-     *    zoneOffset = validOffsets.get(0);
-     *  } else {
-     *    // Gap or Overlap: determine what to do from transition (which will be non-null)
-     *    ZoneOffsetTransition trans = rules.getTransition(localDT);
+     * Tifrf brf vbrious wbys to ibndlf tif donvfrsion from b {@dodf LodblDbtfTimf}.
+     * Onf tfdiniquf, using tiis mftiod, would bf:
+     * <prf>
+     *  List&lt;ZonfOffsft&gt; vblidOffsfts = rulfs.gftOffsft(lodblDT);
+     *  if (vblidOffsfts.sizf() == 1) {
+     *    // Normbl dbsf: only onf vblid offsft
+     *    zonfOffsft = vblidOffsfts.gft(0);
+     *  } flsf {
+     *    // Gbp or Ovfrlbp: dftfrminf wibt to do from trbnsition (wiidi will bf non-null)
+     *    ZonfOffsftTrbnsition trbns = rulfs.gftTrbnsition(lodblDT);
      *  }
-     * </pre>
+     * </prf>
      * <p>
-     * In theory, it is possible for there to be more than two valid offsets.
-     * This would happen if clocks to be put back more than once in quick succession.
-     * This has never happened in the history of time-zones and thus has no special handling.
-     * However, if it were to happen, then the list would return more than 2 entries.
+     * In tifory, it is possiblf for tifrf to bf morf tibn two vblid offsfts.
+     * Tiis would ibppfn if dlodks to bf put bbdk morf tibn ondf in quidk suddfssion.
+     * Tiis ibs nfvfr ibppfnfd in tif iistory of timf-zonfs bnd tius ibs no spfdibl ibndling.
+     * Howfvfr, if it wfrf to ibppfn, tifn tif list would rfturn morf tibn 2 fntrifs.
      *
-     * @param localDateTime  the local date-time to query for valid offsets, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the list of valid offsets, may be immutable, not null
+     * @pbrbm lodblDbtfTimf  tif lodbl dbtf-timf to qufry for vblid offsfts, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif list of vblid offsfts, mby bf immutbblf, not null
      */
-    public List<ZoneOffset> getValidOffsets(LocalDateTime localDateTime) {
-        // should probably be optimized
-        Object info = getOffsetInfo(localDateTime);
-        if (info instanceof ZoneOffsetTransition) {
-            return ((ZoneOffsetTransition) info).getValidOffsets();
+    publid List<ZonfOffsft> gftVblidOffsfts(LodblDbtfTimf lodblDbtfTimf) {
+        // siould probbbly bf optimizfd
+        Objfdt info = gftOffsftInfo(lodblDbtfTimf);
+        if (info instbndfof ZonfOffsftTrbnsition) {
+            rfturn ((ZonfOffsftTrbnsition) info).gftVblidOffsfts();
         }
-        return Collections.singletonList((ZoneOffset) info);
+        rfturn Collfdtions.singlftonList((ZonfOffsft) info);
     }
 
     /**
-     * Gets the offset transition applicable at the specified local date-time in these rules.
+     * Gfts tif offsft trbnsition bpplidbblf bt tif spfdififd lodbl dbtf-timf in tifsf rulfs.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * Tif mbpping from b lodbl dbtf-timf to bn offsft is not strbigitforwbrd.
+     * Tifrf brf tirff dbsfs:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, witi onf vblid offsft. For tif vbst mbjority of tif yfbr, tif normbl
+     *  dbsf bpplifs, wifrf tifrf is b singlf vblid offsft for tif lodbl dbtf-timf.</li>
+     * <li>Gbp, witi zfro vblid offsfts. Tiis is wifn dlodks jump forwbrd typidblly
+     *  duf to tif spring dbyligit sbvings dibngf from "wintfr" to "summfr".
+     *  In b gbp tifrf brf lodbl dbtf-timf vblufs witi no vblid offsft.</li>
+     * <li>Ovfrlbp, witi two vblid offsfts. Tiis is wifn dlodks brf sft bbdk typidblly
+     *  duf to tif butumn dbyligit sbvings dibngf from "summfr" to "wintfr".
+     *  In bn ovfrlbp tifrf brf lodbl dbtf-timf vblufs witi two vblid offsfts.</li>
      * </ul>
-     * A transition is used to model the cases of a Gap or Overlap.
-     * The Normal case will return null.
+     * A trbnsition is usfd to modfl tif dbsfs of b Gbp or Ovfrlbp.
+     * Tif Normbl dbsf will rfturn null.
      * <p>
-     * There are various ways to handle the conversion from a {@code LocalDateTime}.
-     * One technique, using this method, would be:
-     * <pre>
-     *  ZoneOffsetTransition trans = rules.getTransition(localDT);
-     *  if (trans == null) {
-     *    // Gap or Overlap: determine what to do from transition
-     *  } else {
-     *    // Normal case: only one valid offset
-     *    zoneOffset = rule.getOffset(localDT);
+     * Tifrf brf vbrious wbys to ibndlf tif donvfrsion from b {@dodf LodblDbtfTimf}.
+     * Onf tfdiniquf, using tiis mftiod, would bf:
+     * <prf>
+     *  ZonfOffsftTrbnsition trbns = rulfs.gftTrbnsition(lodblDT);
+     *  if (trbns == null) {
+     *    // Gbp or Ovfrlbp: dftfrminf wibt to do from trbnsition
+     *  } flsf {
+     *    // Normbl dbsf: only onf vblid offsft
+     *    zonfOffsft = rulf.gftOffsft(lodblDT);
      *  }
-     * </pre>
+     * </prf>
      *
-     * @param localDateTime  the local date-time to query for offset transition, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the offset transition, null if the local date-time is not in transition
+     * @pbrbm lodblDbtfTimf  tif lodbl dbtf-timf to qufry for offsft trbnsition, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif offsft trbnsition, null if tif lodbl dbtf-timf is not in trbnsition
      */
-    public ZoneOffsetTransition getTransition(LocalDateTime localDateTime) {
-        Object info = getOffsetInfo(localDateTime);
-        return (info instanceof ZoneOffsetTransition ? (ZoneOffsetTransition) info : null);
+    publid ZonfOffsftTrbnsition gftTrbnsition(LodblDbtfTimf lodblDbtfTimf) {
+        Objfdt info = gftOffsftInfo(lodblDbtfTimf);
+        rfturn (info instbndfof ZonfOffsftTrbnsition ? (ZonfOffsftTrbnsition) info : null);
     }
 
-    private Object getOffsetInfo(LocalDateTime dt) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    privbtf Objfdt gftOffsftInfo(LodblDbtfTimf dt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn stbndbrdOffsfts[0];
         }
-        // check if using last rules
-        if (lastRules.length > 0 &&
-                dt.isAfter(savingsLocalTransitions[savingsLocalTransitions.length - 1])) {
-            ZoneOffsetTransition[] transArray = findTransitionArray(dt.getYear());
-            Object info = null;
-            for (ZoneOffsetTransition trans : transArray) {
-                info = findOffsetInfo(dt, trans);
-                if (info instanceof ZoneOffsetTransition || info.equals(trans.getOffsetBefore())) {
-                    return info;
+        // difdk if using lbst rulfs
+        if (lbstRulfs.lfngti > 0 &&
+                dt.isAftfr(sbvingsLodblTrbnsitions[sbvingsLodblTrbnsitions.lfngti - 1])) {
+            ZonfOffsftTrbnsition[] trbnsArrby = findTrbnsitionArrby(dt.gftYfbr());
+            Objfdt info = null;
+            for (ZonfOffsftTrbnsition trbns : trbnsArrby) {
+                info = findOffsftInfo(dt, trbns);
+                if (info instbndfof ZonfOffsftTrbnsition || info.fqubls(trbns.gftOffsftBfforf())) {
+                    rfturn info;
                 }
             }
-            return info;
+            rfturn info;
         }
 
-        // using historic rules
-        int index  = Arrays.binarySearch(savingsLocalTransitions, dt);
-        if (index == -1) {
-            // before first transition
-            return wallOffsets[0];
+        // using iistorid rulfs
+        int indfx  = Arrbys.binbrySfbrdi(sbvingsLodblTrbnsitions, dt);
+        if (indfx == -1) {
+            // bfforf first trbnsition
+            rfturn wbllOffsfts[0];
         }
-        if (index < 0) {
-            // switch negative insert position to start of matched range
-            index = -index - 2;
-        } else if (index < savingsLocalTransitions.length - 1 &&
-                savingsLocalTransitions[index].equals(savingsLocalTransitions[index + 1])) {
-            // handle overlap immediately following gap
-            index++;
+        if (indfx < 0) {
+            // switdi nfgbtivf insfrt position to stbrt of mbtdifd rbngf
+            indfx = -indfx - 2;
+        } flsf if (indfx < sbvingsLodblTrbnsitions.lfngti - 1 &&
+                sbvingsLodblTrbnsitions[indfx].fqubls(sbvingsLodblTrbnsitions[indfx + 1])) {
+            // ibndlf ovfrlbp immfdibtfly following gbp
+            indfx++;
         }
-        if ((index & 1) == 0) {
-            // gap or overlap
-            LocalDateTime dtBefore = savingsLocalTransitions[index];
-            LocalDateTime dtAfter = savingsLocalTransitions[index + 1];
-            ZoneOffset offsetBefore = wallOffsets[index / 2];
-            ZoneOffset offsetAfter = wallOffsets[index / 2 + 1];
-            if (offsetAfter.getTotalSeconds() > offsetBefore.getTotalSeconds()) {
-                // gap
-                return new ZoneOffsetTransition(dtBefore, offsetBefore, offsetAfter);
-            } else {
-                // overlap
-                return new ZoneOffsetTransition(dtAfter, offsetBefore, offsetAfter);
+        if ((indfx & 1) == 0) {
+            // gbp or ovfrlbp
+            LodblDbtfTimf dtBfforf = sbvingsLodblTrbnsitions[indfx];
+            LodblDbtfTimf dtAftfr = sbvingsLodblTrbnsitions[indfx + 1];
+            ZonfOffsft offsftBfforf = wbllOffsfts[indfx / 2];
+            ZonfOffsft offsftAftfr = wbllOffsfts[indfx / 2 + 1];
+            if (offsftAftfr.gftTotblSfdonds() > offsftBfforf.gftTotblSfdonds()) {
+                // gbp
+                rfturn nfw ZonfOffsftTrbnsition(dtBfforf, offsftBfforf, offsftAftfr);
+            } flsf {
+                // ovfrlbp
+                rfturn nfw ZonfOffsftTrbnsition(dtAftfr, offsftBfforf, offsftAftfr);
             }
-        } else {
-            // normal (neither gap or overlap)
-            return wallOffsets[index / 2 + 1];
+        } flsf {
+            // normbl (nfitifr gbp or ovfrlbp)
+            rfturn wbllOffsfts[indfx / 2 + 1];
         }
     }
 
     /**
-     * Finds the offset info for a local date-time and transition.
+     * Finds tif offsft info for b lodbl dbtf-timf bnd trbnsition.
      *
-     * @param dt  the date-time, not null
-     * @param trans  the transition, not null
-     * @return the offset info, not null
+     * @pbrbm dt  tif dbtf-timf, not null
+     * @pbrbm trbns  tif trbnsition, not null
+     * @rfturn tif offsft info, not null
      */
-    private Object findOffsetInfo(LocalDateTime dt, ZoneOffsetTransition trans) {
-        LocalDateTime localTransition = trans.getDateTimeBefore();
-        if (trans.isGap()) {
-            if (dt.isBefore(localTransition)) {
-                return trans.getOffsetBefore();
+    privbtf Objfdt findOffsftInfo(LodblDbtfTimf dt, ZonfOffsftTrbnsition trbns) {
+        LodblDbtfTimf lodblTrbnsition = trbns.gftDbtfTimfBfforf();
+        if (trbns.isGbp()) {
+            if (dt.isBfforf(lodblTrbnsition)) {
+                rfturn trbns.gftOffsftBfforf();
             }
-            if (dt.isBefore(trans.getDateTimeAfter())) {
-                return trans;
-            } else {
-                return trans.getOffsetAfter();
+            if (dt.isBfforf(trbns.gftDbtfTimfAftfr())) {
+                rfturn trbns;
+            } flsf {
+                rfturn trbns.gftOffsftAftfr();
             }
-        } else {
-            if (dt.isBefore(localTransition) == false) {
-                return trans.getOffsetAfter();
+        } flsf {
+            if (dt.isBfforf(lodblTrbnsition) == fblsf) {
+                rfturn trbns.gftOffsftAftfr();
             }
-            if (dt.isBefore(trans.getDateTimeAfter())) {
-                return trans.getOffsetBefore();
-            } else {
-                return trans;
+            if (dt.isBfforf(trbns.gftDbtfTimfAftfr())) {
+                rfturn trbns.gftOffsftBfforf();
+            } flsf {
+                rfturn trbns;
             }
         }
     }
 
     /**
-     * Finds the appropriate transition array for the given year.
+     * Finds tif bppropribtf trbnsition brrby for tif givfn yfbr.
      *
-     * @param year  the year, not null
-     * @return the transition array, not null
+     * @pbrbm yfbr  tif yfbr, not null
+     * @rfturn tif trbnsition brrby, not null
      */
-    private ZoneOffsetTransition[] findTransitionArray(int year) {
-        Integer yearObj = year;  // should use Year class, but this saves a class load
-        ZoneOffsetTransition[] transArray = lastRulesCache.get(yearObj);
-        if (transArray != null) {
-            return transArray;
+    privbtf ZonfOffsftTrbnsition[] findTrbnsitionArrby(int yfbr) {
+        Intfgfr yfbrObj = yfbr;  // siould usf Yfbr dlbss, but tiis sbvfs b dlbss lobd
+        ZonfOffsftTrbnsition[] trbnsArrby = lbstRulfsCbdif.gft(yfbrObj);
+        if (trbnsArrby != null) {
+            rfturn trbnsArrby;
         }
-        ZoneOffsetTransitionRule[] ruleArray = lastRules;
-        transArray  = new ZoneOffsetTransition[ruleArray.length];
-        for (int i = 0; i < ruleArray.length; i++) {
-            transArray[i] = ruleArray[i].createTransition(year);
+        ZonfOffsftTrbnsitionRulf[] rulfArrby = lbstRulfs;
+        trbnsArrby  = nfw ZonfOffsftTrbnsition[rulfArrby.lfngti];
+        for (int i = 0; i < rulfArrby.lfngti; i++) {
+            trbnsArrby[i] = rulfArrby[i].drfbtfTrbnsition(yfbr);
         }
-        if (year < LAST_CACHED_YEAR) {
-            lastRulesCache.putIfAbsent(yearObj, transArray);
+        if (yfbr < LAST_CACHED_YEAR) {
+            lbstRulfsCbdif.putIfAbsfnt(yfbrObj, trbnsArrby);
         }
-        return transArray;
+        rfturn trbnsArrby;
     }
 
     /**
-     * Gets the standard offset for the specified instant in this zone.
+     * Gfts tif stbndbrd offsft for tif spfdififd instbnt in tiis zonf.
      * <p>
-     * This provides access to historic information on how the standard offset
-     * has changed over time.
-     * The standard offset is the offset before any daylight saving time is applied.
-     * This is typically the offset applicable during winter.
+     * Tiis providfs bddfss to iistorid informbtion on iow tif stbndbrd offsft
+     * ibs dibngfd ovfr timf.
+     * Tif stbndbrd offsft is tif offsft bfforf bny dbyligit sbving timf is bpplifd.
+     * Tiis is typidblly tif offsft bpplidbblf during wintfr.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the standard offset, not null
+     * @pbrbm instbnt  tif instbnt to find tif offsft informbtion for, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif stbndbrd offsft, not null
      */
-    public ZoneOffset getStandardOffset(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    publid ZonfOffsft gftStbndbrdOffsft(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn stbndbrdOffsfts[0];
         }
-        long epochSec = instant.getEpochSecond();
-        int index  = Arrays.binarySearch(standardTransitions, epochSec);
-        if (index < 0) {
-            // switch negative insert position to start of matched range
-            index = -index - 2;
+        long fpodiSfd = instbnt.gftEpodiSfdond();
+        int indfx  = Arrbys.binbrySfbrdi(stbndbrdTrbnsitions, fpodiSfd);
+        if (indfx < 0) {
+            // switdi nfgbtivf insfrt position to stbrt of mbtdifd rbngf
+            indfx = -indfx - 2;
         }
-        return standardOffsets[index + 1];
+        rfturn stbndbrdOffsfts[indfx + 1];
     }
 
     /**
-     * Gets the amount of daylight savings in use for the specified instant in this zone.
+     * Gfts tif bmount of dbyligit sbvings in usf for tif spfdififd instbnt in tiis zonf.
      * <p>
-     * This provides access to historic information on how the amount of daylight
-     * savings has changed over time.
-     * This is the difference between the standard offset and the actual offset.
-     * Typically the amount is zero during winter and one hour during summer.
-     * Time-zones are second-based, so the nanosecond part of the duration will be zero.
+     * Tiis providfs bddfss to iistorid informbtion on iow tif bmount of dbyligit
+     * sbvings ibs dibngfd ovfr timf.
+     * Tiis is tif difffrfndf bftwffn tif stbndbrd offsft bnd tif bdtubl offsft.
+     * Typidblly tif bmount is zfro during wintfr bnd onf iour during summfr.
+     * Timf-zonfs brf sfdond-bbsfd, so tif nbnosfdond pbrt of tif durbtion will bf zfro.
      * <p>
-     * This default implementation calculates the duration from the
-     * {@link #getOffset(java.time.Instant) actual} and
-     * {@link #getStandardOffset(java.time.Instant) standard} offsets.
+     * Tiis dffbult implfmfntbtion dbldulbtfs tif durbtion from tif
+     * {@link #gftOffsft(jbvb.timf.Instbnt) bdtubl} bnd
+     * {@link #gftStbndbrdOffsft(jbvb.timf.Instbnt) stbndbrd} offsfts.
      *
-     * @param instant  the instant to find the daylight savings for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the difference between the standard and actual offset, not null
+     * @pbrbm instbnt  tif instbnt to find tif dbyligit sbvings for, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif difffrfndf bftwffn tif stbndbrd bnd bdtubl offsft, not null
      */
-    public Duration getDaylightSavings(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return Duration.ZERO;
+    publid Durbtion gftDbyligitSbvings(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn Durbtion.ZERO;
         }
-        ZoneOffset standardOffset = getStandardOffset(instant);
-        ZoneOffset actualOffset = getOffset(instant);
-        return Duration.ofSeconds(actualOffset.getTotalSeconds() - standardOffset.getTotalSeconds());
+        ZonfOffsft stbndbrdOffsft = gftStbndbrdOffsft(instbnt);
+        ZonfOffsft bdtublOffsft = gftOffsft(instbnt);
+        rfturn Durbtion.ofSfdonds(bdtublOffsft.gftTotblSfdonds() - stbndbrdOffsft.gftTotblSfdonds());
     }
 
     /**
-     * Checks if the specified instant is in daylight savings.
+     * Cifdks if tif spfdififd instbnt is in dbyligit sbvings.
      * <p>
-     * This checks if the standard offset and the actual offset are the same
-     * for the specified instant.
-     * If they are not, it is assumed that daylight savings is in operation.
+     * Tiis difdks if tif stbndbrd offsft bnd tif bdtubl offsft brf tif sbmf
+     * for tif spfdififd instbnt.
+     * If tify brf not, it is bssumfd tibt dbyligit sbvings is in opfrbtion.
      * <p>
-     * This default implementation compares the {@link #getOffset(java.time.Instant) actual}
-     * and {@link #getStandardOffset(java.time.Instant) standard} offsets.
+     * Tiis dffbult implfmfntbtion dompbrfs tif {@link #gftOffsft(jbvb.timf.Instbnt) bdtubl}
+     * bnd {@link #gftStbndbrdOffsft(jbvb.timf.Instbnt) stbndbrd} offsfts.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the standard offset, not null
+     * @pbrbm instbnt  tif instbnt to find tif offsft informbtion for, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif stbndbrd offsft, not null
      */
-    public boolean isDaylightSavings(Instant instant) {
-        return (getStandardOffset(instant).equals(getOffset(instant)) == false);
+    publid boolfbn isDbyligitSbvings(Instbnt instbnt) {
+        rfturn (gftStbndbrdOffsft(instbnt).fqubls(gftOffsft(instbnt)) == fblsf);
     }
 
     /**
-     * Checks if the offset date-time is valid for these rules.
+     * Cifdks if tif offsft dbtf-timf is vblid for tifsf rulfs.
      * <p>
-     * To be valid, the local date-time must not be in a gap and the offset
-     * must match one of the valid offsets.
+     * To bf vblid, tif lodbl dbtf-timf must not bf in b gbp bnd tif offsft
+     * must mbtdi onf of tif vblid offsfts.
      * <p>
-     * This default implementation checks if {@link #getValidOffsets(java.time.LocalDateTime)}
-     * contains the specified offset.
+     * Tiis dffbult implfmfntbtion difdks if {@link #gftVblidOffsfts(jbvb.timf.LodblDbtfTimf)}
+     * dontbins tif spfdififd offsft.
      *
-     * @param localDateTime  the date-time to check, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @param offset  the offset to check, null returns false
-     * @return true if the offset date-time is valid for these rules
+     * @pbrbm lodblDbtfTimf  tif dbtf-timf to difdk, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @pbrbm offsft  tif offsft to difdk, null rfturns fblsf
+     * @rfturn truf if tif offsft dbtf-timf is vblid for tifsf rulfs
      */
-    public boolean isValidOffset(LocalDateTime localDateTime, ZoneOffset offset) {
-        return getValidOffsets(localDateTime).contains(offset);
+    publid boolfbn isVblidOffsft(LodblDbtfTimf lodblDbtfTimf, ZonfOffsft offsft) {
+        rfturn gftVblidOffsfts(lodblDbtfTimf).dontbins(offsft);
     }
 
     /**
-     * Gets the next transition after the specified instant.
+     * Gfts tif nfxt trbnsition bftfr tif spfdififd instbnt.
      * <p>
-     * This returns details of the next transition after the specified instant.
-     * For example, if the instant represents a point where "Summer" daylight savings time
-     * applies, then the method will return the transition to the next "Winter" time.
+     * Tiis rfturns dftbils of tif nfxt trbnsition bftfr tif spfdififd instbnt.
+     * For fxbmplf, if tif instbnt rfprfsfnts b point wifrf "Summfr" dbyligit sbvings timf
+     * bpplifs, tifn tif mftiod will rfturn tif trbnsition to tif nfxt "Wintfr" timf.
      *
-     * @param instant  the instant to get the next transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the next transition after the specified instant, null if this is after the last transition
+     * @pbrbm instbnt  tif instbnt to gft tif nfxt trbnsition bftfr, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif nfxt trbnsition bftfr tif spfdififd instbnt, null if tiis is bftfr tif lbst trbnsition
      */
-    public ZoneOffsetTransition nextTransition(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return null;
+    publid ZonfOffsftTrbnsition nfxtTrbnsition(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn null;
         }
-        long epochSec = instant.getEpochSecond();
-        // check if using last rules
-        if (epochSec >= savingsInstantTransitions[savingsInstantTransitions.length - 1]) {
-            if (lastRules.length == 0) {
-                return null;
+        long fpodiSfd = instbnt.gftEpodiSfdond();
+        // difdk if using lbst rulfs
+        if (fpodiSfd >= sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.lfngti - 1]) {
+            if (lbstRulfs.lfngti == 0) {
+                rfturn null;
             }
-            // search year the instant is in
-            int year = findYear(epochSec, wallOffsets[wallOffsets.length - 1]);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            for (ZoneOffsetTransition trans : transArray) {
-                if (epochSec < trans.toEpochSecond()) {
-                    return trans;
+            // sfbrdi yfbr tif instbnt is in
+            int yfbr = findYfbr(fpodiSfd, wbllOffsfts[wbllOffsfts.lfngti - 1]);
+            ZonfOffsftTrbnsition[] trbnsArrby = findTrbnsitionArrby(yfbr);
+            for (ZonfOffsftTrbnsition trbns : trbnsArrby) {
+                if (fpodiSfd < trbns.toEpodiSfdond()) {
+                    rfturn trbns;
                 }
             }
-            // use first from following year
-            if (year < Year.MAX_VALUE) {
-                transArray = findTransitionArray(year + 1);
-                return transArray[0];
+            // usf first from following yfbr
+            if (yfbr < Yfbr.MAX_VALUE) {
+                trbnsArrby = findTrbnsitionArrby(yfbr + 1);
+                rfturn trbnsArrby[0];
             }
-            return null;
+            rfturn null;
         }
 
-        // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
-        if (index < 0) {
-            index = -index - 1;  // switched value is the next transition
-        } else {
-            index += 1;  // exact match, so need to add one to get the next
+        // using iistorid rulfs
+        int indfx  = Arrbys.binbrySfbrdi(sbvingsInstbntTrbnsitions, fpodiSfd);
+        if (indfx < 0) {
+            indfx = -indfx - 1;  // switdifd vbluf is tif nfxt trbnsition
+        } flsf {
+            indfx += 1;  // fxbdt mbtdi, so nffd to bdd onf to gft tif nfxt
         }
-        return new ZoneOffsetTransition(savingsInstantTransitions[index], wallOffsets[index], wallOffsets[index + 1]);
+        rfturn nfw ZonfOffsftTrbnsition(sbvingsInstbntTrbnsitions[indfx], wbllOffsfts[indfx], wbllOffsfts[indfx + 1]);
     }
 
     /**
-     * Gets the previous transition before the specified instant.
+     * Gfts tif prfvious trbnsition bfforf tif spfdififd instbnt.
      * <p>
-     * This returns details of the previous transition after the specified instant.
-     * For example, if the instant represents a point where "summer" daylight saving time
-     * applies, then the method will return the transition from the previous "winter" time.
+     * Tiis rfturns dftbils of tif prfvious trbnsition bftfr tif spfdififd instbnt.
+     * For fxbmplf, if tif instbnt rfprfsfnts b point wifrf "summfr" dbyligit sbving timf
+     * bpplifs, tifn tif mftiod will rfturn tif trbnsition from tif prfvious "wintfr" timf.
      *
-     * @param instant  the instant to get the previous transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the previous transition after the specified instant, null if this is before the first transition
+     * @pbrbm instbnt  tif instbnt to gft tif prfvious trbnsition bftfr, not null, but null
+     *  mby bf ignorfd if tif rulfs ibvf b singlf offsft for bll instbnts
+     * @rfturn tif prfvious trbnsition bftfr tif spfdififd instbnt, null if tiis is bfforf tif first trbnsition
      */
-    public ZoneOffsetTransition previousTransition(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return null;
+    publid ZonfOffsftTrbnsition prfviousTrbnsition(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.lfngti == 0) {
+            rfturn null;
         }
-        long epochSec = instant.getEpochSecond();
-        if (instant.getNano() > 0 && epochSec < Long.MAX_VALUE) {
-            epochSec += 1;  // allow rest of method to only use seconds
+        long fpodiSfd = instbnt.gftEpodiSfdond();
+        if (instbnt.gftNbno() > 0 && fpodiSfd < Long.MAX_VALUE) {
+            fpodiSfd += 1;  // bllow rfst of mftiod to only usf sfdonds
         }
 
-        // check if using last rules
-        long lastHistoric = savingsInstantTransitions[savingsInstantTransitions.length - 1];
-        if (lastRules.length > 0 && epochSec > lastHistoric) {
-            // search year the instant is in
-            ZoneOffset lastHistoricOffset = wallOffsets[wallOffsets.length - 1];
-            int year = findYear(epochSec, lastHistoricOffset);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            for (int i = transArray.length - 1; i >= 0; i--) {
-                if (epochSec > transArray[i].toEpochSecond()) {
-                    return transArray[i];
+        // difdk if using lbst rulfs
+        long lbstHistorid = sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.lfngti - 1];
+        if (lbstRulfs.lfngti > 0 && fpodiSfd > lbstHistorid) {
+            // sfbrdi yfbr tif instbnt is in
+            ZonfOffsft lbstHistoridOffsft = wbllOffsfts[wbllOffsfts.lfngti - 1];
+            int yfbr = findYfbr(fpodiSfd, lbstHistoridOffsft);
+            ZonfOffsftTrbnsition[] trbnsArrby = findTrbnsitionArrby(yfbr);
+            for (int i = trbnsArrby.lfngti - 1; i >= 0; i--) {
+                if (fpodiSfd > trbnsArrby[i].toEpodiSfdond()) {
+                    rfturn trbnsArrby[i];
                 }
             }
-            // use last from preceding year
-            int lastHistoricYear = findYear(lastHistoric, lastHistoricOffset);
-            if (--year > lastHistoricYear) {
-                transArray = findTransitionArray(year);
-                return transArray[transArray.length - 1];
+            // usf lbst from prfdfding yfbr
+            int lbstHistoridYfbr = findYfbr(lbstHistorid, lbstHistoridOffsft);
+            if (--yfbr > lbstHistoridYfbr) {
+                trbnsArrby = findTrbnsitionArrby(yfbr);
+                rfturn trbnsArrby[trbnsArrby.lfngti - 1];
             }
-            // drop through
+            // drop tirougi
         }
 
-        // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
-        if (index < 0) {
-            index = -index - 1;
+        // using iistorid rulfs
+        int indfx  = Arrbys.binbrySfbrdi(sbvingsInstbntTrbnsitions, fpodiSfd);
+        if (indfx < 0) {
+            indfx = -indfx - 1;
         }
-        if (index <= 0) {
-            return null;
+        if (indfx <= 0) {
+            rfturn null;
         }
-        return new ZoneOffsetTransition(savingsInstantTransitions[index - 1], wallOffsets[index - 1], wallOffsets[index]);
+        rfturn nfw ZonfOffsftTrbnsition(sbvingsInstbntTrbnsitions[indfx - 1], wbllOffsfts[indfx - 1], wbllOffsfts[indfx]);
     }
 
-    private int findYear(long epochSecond, ZoneOffset offset) {
-        // inline for performance
-        long localSecond = epochSecond + offset.getTotalSeconds();
-        long localEpochDay = Math.floorDiv(localSecond, 86400);
-        return LocalDate.ofEpochDay(localEpochDay).getYear();
-    }
-
-    /**
-     * Gets the complete list of fully defined transitions.
-     * <p>
-     * The complete set of transitions for this rules instance is defined by this method
-     * and {@link #getTransitionRules()}. This method returns those transitions that have
-     * been fully defined. These are typically historical, but may be in the future.
-     * <p>
-     * The list will be empty for fixed offset rules and for any time-zone where there has
-     * only ever been a single offset. The list will also be empty if the transition rules are unknown.
-     *
-     * @return an immutable list of fully defined transitions, not null
-     */
-    public List<ZoneOffsetTransition> getTransitions() {
-        List<ZoneOffsetTransition> list = new ArrayList<>();
-        for (int i = 0; i < savingsInstantTransitions.length; i++) {
-            list.add(new ZoneOffsetTransition(savingsInstantTransitions[i], wallOffsets[i], wallOffsets[i + 1]));
-        }
-        return Collections.unmodifiableList(list);
+    privbtf int findYfbr(long fpodiSfdond, ZonfOffsft offsft) {
+        // inlinf for pfrformbndf
+        long lodblSfdond = fpodiSfdond + offsft.gftTotblSfdonds();
+        long lodblEpodiDby = Mbti.floorDiv(lodblSfdond, 86400);
+        rfturn LodblDbtf.ofEpodiDby(lodblEpodiDby).gftYfbr();
     }
 
     /**
-     * Gets the list of transition rules for years beyond those defined in the transition list.
+     * Gfts tif domplftf list of fully dffinfd trbnsitions.
      * <p>
-     * The complete set of transitions for this rules instance is defined by this method
-     * and {@link #getTransitions()}. This method returns instances of {@link ZoneOffsetTransitionRule}
-     * that define an algorithm for when transitions will occur.
+     * Tif domplftf sft of trbnsitions for tiis rulfs instbndf is dffinfd by tiis mftiod
+     * bnd {@link #gftTrbnsitionRulfs()}. Tiis mftiod rfturns tiosf trbnsitions tibt ibvf
+     * bffn fully dffinfd. Tifsf brf typidblly iistoridbl, but mby bf in tif futurf.
      * <p>
-     * For any given {@code ZoneRules}, this list contains the transition rules for years
-     * beyond those years that have been fully defined. These rules typically refer to future
-     * daylight saving time rule changes.
-     * <p>
-     * If the zone defines daylight savings into the future, then the list will normally
-     * be of size two and hold information about entering and exiting daylight savings.
-     * If the zone does not have daylight savings, or information about future changes
-     * is uncertain, then the list will be empty.
-     * <p>
-     * The list will be empty for fixed offset rules and for any time-zone where there is no
-     * daylight saving time. The list will also be empty if the transition rules are unknown.
+     * Tif list will bf fmpty for fixfd offsft rulfs bnd for bny timf-zonf wifrf tifrf ibs
+     * only fvfr bffn b singlf offsft. Tif list will blso bf fmpty if tif trbnsition rulfs brf unknown.
      *
-     * @return an immutable list of transition rules, not null
+     * @rfturn bn immutbblf list of fully dffinfd trbnsitions, not null
      */
-    public List<ZoneOffsetTransitionRule> getTransitionRules() {
-        return Collections.unmodifiableList(Arrays.asList(lastRules));
-    }
-
-    /**
-     * Checks if this set of rules equals another.
-     * <p>
-     * Two rule sets are equal if they will always result in the same output
-     * for any given input instant or local date-time.
-     * Rules from two different groups may return false even if they are in fact the same.
-     * <p>
-     * This definition should result in implementations comparing their entire state.
-     *
-     * @param otherRules  the other rules, null returns false
-     * @return true if this rules is the same as that specified
-     */
-    @Override
-    public boolean equals(Object otherRules) {
-        if (this == otherRules) {
-           return true;
+    publid List<ZonfOffsftTrbnsition> gftTrbnsitions() {
+        List<ZonfOffsftTrbnsition> list = nfw ArrbyList<>();
+        for (int i = 0; i < sbvingsInstbntTrbnsitions.lfngti; i++) {
+            list.bdd(nfw ZonfOffsftTrbnsition(sbvingsInstbntTrbnsitions[i], wbllOffsfts[i], wbllOffsfts[i + 1]));
         }
-        if (otherRules instanceof ZoneRules) {
-            ZoneRules other = (ZoneRules) otherRules;
-            return Arrays.equals(standardTransitions, other.standardTransitions) &&
-                    Arrays.equals(standardOffsets, other.standardOffsets) &&
-                    Arrays.equals(savingsInstantTransitions, other.savingsInstantTransitions) &&
-                    Arrays.equals(wallOffsets, other.wallOffsets) &&
-                    Arrays.equals(lastRules, other.lastRules);
+        rfturn Collfdtions.unmodifibblfList(list);
+    }
+
+    /**
+     * Gfts tif list of trbnsition rulfs for yfbrs bfyond tiosf dffinfd in tif trbnsition list.
+     * <p>
+     * Tif domplftf sft of trbnsitions for tiis rulfs instbndf is dffinfd by tiis mftiod
+     * bnd {@link #gftTrbnsitions()}. Tiis mftiod rfturns instbndfs of {@link ZonfOffsftTrbnsitionRulf}
+     * tibt dffinf bn blgoritim for wifn trbnsitions will oddur.
+     * <p>
+     * For bny givfn {@dodf ZonfRulfs}, tiis list dontbins tif trbnsition rulfs for yfbrs
+     * bfyond tiosf yfbrs tibt ibvf bffn fully dffinfd. Tifsf rulfs typidblly rfffr to futurf
+     * dbyligit sbving timf rulf dibngfs.
+     * <p>
+     * If tif zonf dffinfs dbyligit sbvings into tif futurf, tifn tif list will normblly
+     * bf of sizf two bnd iold informbtion bbout fntfring bnd fxiting dbyligit sbvings.
+     * If tif zonf dofs not ibvf dbyligit sbvings, or informbtion bbout futurf dibngfs
+     * is undfrtbin, tifn tif list will bf fmpty.
+     * <p>
+     * Tif list will bf fmpty for fixfd offsft rulfs bnd for bny timf-zonf wifrf tifrf is no
+     * dbyligit sbving timf. Tif list will blso bf fmpty if tif trbnsition rulfs brf unknown.
+     *
+     * @rfturn bn immutbblf list of trbnsition rulfs, not null
+     */
+    publid List<ZonfOffsftTrbnsitionRulf> gftTrbnsitionRulfs() {
+        rfturn Collfdtions.unmodifibblfList(Arrbys.bsList(lbstRulfs));
+    }
+
+    /**
+     * Cifdks if tiis sft of rulfs fqubls bnotifr.
+     * <p>
+     * Two rulf sfts brf fqubl if tify will blwbys rfsult in tif sbmf output
+     * for bny givfn input instbnt or lodbl dbtf-timf.
+     * Rulfs from two difffrfnt groups mby rfturn fblsf fvfn if tify brf in fbdt tif sbmf.
+     * <p>
+     * Tiis dffinition siould rfsult in implfmfntbtions dompbring tifir fntirf stbtf.
+     *
+     * @pbrbm otifrRulfs  tif otifr rulfs, null rfturns fblsf
+     * @rfturn truf if tiis rulfs is tif sbmf bs tibt spfdififd
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifrRulfs) {
+        if (tiis == otifrRulfs) {
+           rfturn truf;
         }
-        return false;
+        if (otifrRulfs instbndfof ZonfRulfs) {
+            ZonfRulfs otifr = (ZonfRulfs) otifrRulfs;
+            rfturn Arrbys.fqubls(stbndbrdTrbnsitions, otifr.stbndbrdTrbnsitions) &&
+                    Arrbys.fqubls(stbndbrdOffsfts, otifr.stbndbrdOffsfts) &&
+                    Arrbys.fqubls(sbvingsInstbntTrbnsitions, otifr.sbvingsInstbntTrbnsitions) &&
+                    Arrbys.fqubls(wbllOffsfts, otifr.wbllOffsfts) &&
+                    Arrbys.fqubls(lbstRulfs, otifr.lbstRulfs);
+        }
+        rfturn fblsf;
     }
 
     /**
-     * Returns a suitable hash code given the definition of {@code #equals}.
+     * Rfturns b suitbblf ibsi dodf givfn tif dffinition of {@dodf #fqubls}.
      *
-     * @return the hash code
+     * @rfturn tif ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(standardTransitions) ^
-                Arrays.hashCode(standardOffsets) ^
-                Arrays.hashCode(savingsInstantTransitions) ^
-                Arrays.hashCode(wallOffsets) ^
-                Arrays.hashCode(lastRules);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Arrbys.ibsiCodf(stbndbrdTrbnsitions) ^
+                Arrbys.ibsiCodf(stbndbrdOffsfts) ^
+                Arrbys.ibsiCodf(sbvingsInstbntTrbnsitions) ^
+                Arrbys.ibsiCodf(wbllOffsfts) ^
+                Arrbys.ibsiCodf(lbstRulfs);
     }
 
     /**
-     * Returns a string describing this object.
+     * Rfturns b string dfsdribing tiis objfdt.
      *
-     * @return a string for debugging, not null
+     * @rfturn b string for dfbugging, not null
      */
-    @Override
-    public String toString() {
-        return "ZoneRules[currentStandardOffset=" + standardOffsets[standardOffsets.length - 1] + "]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn "ZonfRulfs[durrfntStbndbrdOffsft=" + stbndbrdOffsfts[stbndbrdOffsfts.lfngti - 1] + "]";
     }
 
 }

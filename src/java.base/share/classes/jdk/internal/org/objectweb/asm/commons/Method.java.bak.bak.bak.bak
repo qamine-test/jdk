@@ -1,0 +1,311 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+
+/**
+ * A nbmfd mfthod dfsdriptor.
+ *
+ * @buthor Juozbs Bbliukb
+ * @buthor Chris Noklfbfrg
+ * @buthor Erid Brunfton
+ */
+publid dlbss Mfthod {
+
+    /**
+     * Thf mfthod nbmf.
+     */
+    privbtf finbl String nbmf;
+
+    /**
+     * Thf mfthod dfsdriptor.
+     */
+    privbtf finbl String dfsd;
+
+    /**
+     * Mbps primitivf Jbvb typf nbmfs to thfir dfsdriptors.
+     */
+    privbtf stbtid finbl Mbp<String, String> DESCRIPTORS;
+
+    stbtid {
+        DESCRIPTORS = nfw HbshMbp<String, String>();
+        DESCRIPTORS.put("void", "V");
+        DESCRIPTORS.put("bytf", "B");
+        DESCRIPTORS.put("dhbr", "C");
+        DESCRIPTORS.put("doublf", "D");
+        DESCRIPTORS.put("flobt", "F");
+        DESCRIPTORS.put("int", "I");
+        DESCRIPTORS.put("long", "J");
+        DESCRIPTORS.put("short", "S");
+        DESCRIPTORS.put("boolfbn", "Z");
+    }
+
+    /**
+     * Crfbtfs b nfw {@link Mfthod}.
+     *
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor.
+     */
+    publid Mfthod(finbl String nbmf, finbl String dfsd) {
+        this.nbmf = nbmf;
+        this.dfsd = dfsd;
+    }
+
+    /**
+     * Crfbtfs b nfw {@link Mfthod}.
+     *
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm rfturnTypf
+     *            thf mfthod's rfturn typf.
+     * @pbrbm brgumfntTypfs
+     *            thf mfthod's brgumfnt typfs.
+     */
+    publid Mfthod(finbl String nbmf, finbl Typf rfturnTypf,
+            finbl Typf[] brgumfntTypfs) {
+        this(nbmf, Typf.gftMfthodDfsdriptor(rfturnTypf, brgumfntTypfs));
+    }
+
+    /**
+     * Crfbtfs b nfw {@link Mfthod}.
+     *
+     * @pbrbm m
+     *            b jbvb.lbng.rfflfdt mfthod dfsdriptor
+     * @rfturn b {@link Mfthod} dorrfsponding to thf givfn Jbvb mfthod
+     *         dfdlbrbtion.
+     */
+    publid stbtid Mfthod gftMfthod(jbvb.lbng.rfflfdt.Mfthod m) {
+        rfturn nfw Mfthod(m.gftNbmf(), Typf.gftMfthodDfsdriptor(m));
+    }
+
+    /**
+     * Crfbtfs b nfw {@link Mfthod}.
+     *
+     * @pbrbm d
+     *            b jbvb.lbng.rfflfdt donstrudtor dfsdriptor
+     * @rfturn b {@link Mfthod} dorrfsponding to thf givfn Jbvb donstrudtor
+     *         dfdlbrbtion.
+     */
+    publid stbtid Mfthod gftMfthod(jbvb.lbng.rfflfdt.Construdtor<?> d) {
+        rfturn nfw Mfthod("<init>", Typf.gftConstrudtorDfsdriptor(d));
+    }
+
+    /**
+     * Rfturns b {@link Mfthod} dorrfsponding to thf givfn Jbvb mfthod
+     * dfdlbrbtion.
+     *
+     * @pbrbm mfthod
+     *            b Jbvb mfthod dfdlbrbtion, without brgumfnt nbmfs, of thf form
+     *            "rfturnTypf nbmf (brgumfntTypf1, ... brgumfntTypfN)", whfrf
+     *            thf typfs brf in plbin Jbvb (f.g. "int", "flobt",
+     *            "jbvb.util.List", ...). Clbssfs of thf jbvb.lbng pbdkbgf dbn
+     *            bf spfdififd by thfir unqublififd nbmf; bll othfr dlbssfs
+     *            nbmfs must bf fully qublififd.
+     * @rfturn b {@link Mfthod} dorrfsponding to thf givfn Jbvb mfthod
+     *         dfdlbrbtion.
+     * @throws IllfgblArgumfntExdfption
+     *             if <dodf>mfthod</dodf> dould not gft pbrsfd.
+     */
+    publid stbtid Mfthod gftMfthod(finbl String mfthod)
+            throws IllfgblArgumfntExdfption {
+        rfturn gftMfthod(mfthod, fblsf);
+    }
+
+    /**
+     * Rfturns b {@link Mfthod} dorrfsponding to thf givfn Jbvb mfthod
+     * dfdlbrbtion.
+     *
+     * @pbrbm mfthod
+     *            b Jbvb mfthod dfdlbrbtion, without brgumfnt nbmfs, of thf form
+     *            "rfturnTypf nbmf (brgumfntTypf1, ... brgumfntTypfN)", whfrf
+     *            thf typfs brf in plbin Jbvb (f.g. "int", "flobt",
+     *            "jbvb.util.List", ...). Clbssfs of thf jbvb.lbng pbdkbgf mby
+     *            bf spfdififd by thfir unqublififd nbmf, dfpfnding on thf
+     *            dffbultPbdkbgf brgumfnt; bll othfr dlbssfs nbmfs must bf fully
+     *            qublififd.
+     * @pbrbm dffbultPbdkbgf
+     *            truf if unqublififd dlbss nbmfs bflong to thf dffbult pbdkbgf,
+     *            or fblsf if thfy dorrfspond to jbvb.lbng dlbssfs. For instbndf
+     *            "Objfdt" mfbns "Objfdt" if this option is truf, or
+     *            "jbvb.lbng.Objfdt" othfrwisf.
+     * @rfturn b {@link Mfthod} dorrfsponding to thf givfn Jbvb mfthod
+     *         dfdlbrbtion.
+     * @throws IllfgblArgumfntExdfption
+     *             if <dodf>mfthod</dodf> dould not gft pbrsfd.
+     */
+    publid stbtid Mfthod gftMfthod(finbl String mfthod,
+            finbl boolfbn dffbultPbdkbgf) throws IllfgblArgumfntExdfption {
+        int spbdf = mfthod.indfxOf(' ');
+        int stbrt = mfthod.indfxOf('(', spbdf) + 1;
+        int fnd = mfthod.indfxOf(')', stbrt);
+        if (spbdf == -1 || stbrt == -1 || fnd == -1) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        String rfturnTypf = mfthod.substring(0, spbdf);
+        String mfthodNbmf = mfthod.substring(spbdf + 1, stbrt - 1).trim();
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('(');
+        int p;
+        do {
+            String s;
+            p = mfthod.indfxOf(',', stbrt);
+            if (p == -1) {
+                s = mbp(mfthod.substring(stbrt, fnd).trim(), dffbultPbdkbgf);
+            } flsf {
+                s = mbp(mfthod.substring(stbrt, p).trim(), dffbultPbdkbgf);
+                stbrt = p + 1;
+            }
+            sb.bppfnd(s);
+        } whilf (p != -1);
+        sb.bppfnd(')');
+        sb.bppfnd(mbp(rfturnTypf, dffbultPbdkbgf));
+        rfturn nfw Mfthod(mfthodNbmf, sb.toString());
+    }
+
+    privbtf stbtid String mbp(finbl String typf, finbl boolfbn dffbultPbdkbgf) {
+        if ("".fqubls(typf)) {
+            rfturn typf;
+        }
+
+        StringBuildfr sb = nfw StringBuildfr();
+        int indfx = 0;
+        whilf ((indfx = typf.indfxOf("[]", indfx) + 1) > 0) {
+            sb.bppfnd('[');
+        }
+
+        String t = typf.substring(0, typf.lfngth() - sb.lfngth() * 2);
+        String dfsd = DESCRIPTORS.gft(t);
+        if (dfsd != null) {
+            sb.bppfnd(dfsd);
+        } flsf {
+            sb.bppfnd('L');
+            if (t.indfxOf('.') < 0) {
+                if (!dffbultPbdkbgf) {
+                    sb.bppfnd("jbvb/lbng/");
+                }
+                sb.bppfnd(t);
+            } flsf {
+                sb.bppfnd(t.rfplbdf('.', '/'));
+            }
+            sb.bppfnd(';');
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf nbmf of thf mfthod dfsdribfd by this objfdt.
+     *
+     * @rfturn thf nbmf of thf mfthod dfsdribfd by this objfdt.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf dfsdriptor of thf mfthod dfsdribfd by this objfdt.
+     *
+     * @rfturn thf dfsdriptor of thf mfthod dfsdribfd by this objfdt.
+     */
+    publid String gftDfsdriptor() {
+        rfturn dfsd;
+    }
+
+    /**
+     * Rfturns thf rfturn typf of thf mfthod dfsdribfd by this objfdt.
+     *
+     * @rfturn thf rfturn typf of thf mfthod dfsdribfd by this objfdt.
+     */
+    publid Typf gftRfturnTypf() {
+        rfturn Typf.gftRfturnTypf(dfsd);
+    }
+
+    /**
+     * Rfturns thf brgumfnt typfs of thf mfthod dfsdribfd by this objfdt.
+     *
+     * @rfturn thf brgumfnt typfs of thf mfthod dfsdribfd by this objfdt.
+     */
+    publid Typf[] gftArgumfntTypfs() {
+        rfturn Typf.gftArgumfntTypfs(dfsd);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf + dfsd;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt o) {
+        if (!(o instbndfof Mfthod)) {
+            rfturn fblsf;
+        }
+        Mfthod othfr = (Mfthod) o;
+        rfturn nbmf.fqubls(othfr.nbmf) && dfsd.fqubls(othfr.dfsd);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf() ^ dfsd.hbshCodf();
+    }
+}

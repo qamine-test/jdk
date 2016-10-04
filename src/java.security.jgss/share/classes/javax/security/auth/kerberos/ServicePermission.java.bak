@@ -1,447 +1,447 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import java.util.*;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class is used to protect Kerberos services and the
- * credentials necessary to access those services. There is a one to
- * one mapping of a service principal and the credentials necessary
- * to access the service. Therefore granting access to a service
- * principal implicitly grants access to the credential necessary to
- * establish a security context with the service principal. This
- * applies regardless of whether the credentials are in a cache
- * or acquired via an exchange with the KDC. The credential can
- * be either a ticket granting ticket, a service ticket or a secret
- * key from a key table.
+ * Tiis dlbss is usfd to protfdt Kfrbfros sfrvidfs bnd tif
+ * drfdfntibls nfdfssbry to bddfss tiosf sfrvidfs. Tifrf is b onf to
+ * onf mbpping of b sfrvidf prindipbl bnd tif drfdfntibls nfdfssbry
+ * to bddfss tif sfrvidf. Tifrfforf grbnting bddfss to b sfrvidf
+ * prindipbl impliditly grbnts bddfss to tif drfdfntibl nfdfssbry to
+ * fstbblisi b sfdurity dontfxt witi tif sfrvidf prindipbl. Tiis
+ * bpplifs rfgbrdlfss of wiftifr tif drfdfntibls brf in b dbdif
+ * or bdquirfd vib bn fxdibngf witi tif KDC. Tif drfdfntibl dbn
+ * bf fitifr b tidkft grbnting tidkft, b sfrvidf tidkft or b sfdrft
+ * kfy from b kfy tbblf.
  * <p>
- * A ServicePermission contains a service principal name and
- * a list of actions which specify the context the credential can be
- * used within.
+ * A SfrvidfPfrmission dontbins b sfrvidf prindipbl nbmf bnd
+ * b list of bdtions wiidi spfdify tif dontfxt tif drfdfntibl dbn bf
+ * usfd witiin.
  * <p>
- * The service principal name is the canonical name of the
- * {@code KereberosPrincipal} supplying the service, that is
- * the KerberosPrincipal represents a Kerberos service
- * principal. This name is treated in a case sensitive manner.
- * An asterisk may appear by itself, to signify any service principal.
+ * Tif sfrvidf prindipbl nbmf is tif dbnonidbl nbmf of tif
+ * {@dodf KfrfbfrosPrindipbl} supplying tif sfrvidf, tibt is
+ * tif KfrbfrosPrindipbl rfprfsfnts b Kfrbfros sfrvidf
+ * prindipbl. Tiis nbmf is trfbtfd in b dbsf sfnsitivf mbnnfr.
+ * An bstfrisk mby bppfbr by itsflf, to signify bny sfrvidf prindipbl.
  * <p>
- * Granting this permission implies that the caller can use a cached
- * credential (TGT, service ticket or secret key) within the context
- * designated by the action. In the case of the TGT, granting this
- * permission also implies that the TGT can be obtained by an
- * Authentication Service exchange.
+ * Grbnting tiis pfrmission implifs tibt tif dbllfr dbn usf b dbdifd
+ * drfdfntibl (TGT, sfrvidf tidkft or sfdrft kfy) witiin tif dontfxt
+ * dfsignbtfd by tif bdtion. In tif dbsf of tif TGT, grbnting tiis
+ * pfrmission blso implifs tibt tif TGT dbn bf obtbinfd by bn
+ * Autifntidbtion Sfrvidf fxdibngf.
  * <p>
- * The possible actions are:
+ * Tif possiblf bdtions brf:
  *
- * <pre>
- *    initiate -              allow the caller to use the credential to
- *                            initiate a security context with a service
- *                            principal.
+ * <prf>
+ *    initibtf -              bllow tif dbllfr to usf tif drfdfntibl to
+ *                            initibtf b sfdurity dontfxt witi b sfrvidf
+ *                            prindipbl.
  *
- *    accept -                allow the caller to use the credential to
- *                            accept security context as a particular
- *                            principal.
- * </pre>
+ *    bddfpt -                bllow tif dbllfr to usf tif drfdfntibl to
+ *                            bddfpt sfdurity dontfxt bs b pbrtidulbr
+ *                            prindipbl.
+ * </prf>
  *
- * For example, to specify the permission to access to the TGT to
- * initiate a security context the permission is constructed as follows:
+ * For fxbmplf, to spfdify tif pfrmission to bddfss to tif TGT to
+ * initibtf b sfdurity dontfxt tif pfrmission is donstrudtfd bs follows:
  *
- * <pre>
- *     ServicePermission("krbtgt/EXAMPLE.COM@EXAMPLE.COM", "initiate");
- * </pre>
+ * <prf>
+ *     SfrvidfPfrmission("krbtgt/EXAMPLE.COM@EXAMPLE.COM", "initibtf");
+ * </prf>
  * <p>
- * To obtain a service ticket to initiate a context with the "host"
- * service the permission is constructed as follows:
- * <pre>
- *     ServicePermission("host/foo.example.com@EXAMPLE.COM", "initiate");
- * </pre>
+ * To obtbin b sfrvidf tidkft to initibtf b dontfxt witi tif "iost"
+ * sfrvidf tif pfrmission is donstrudtfd bs follows:
+ * <prf>
+ *     SfrvidfPfrmission("iost/foo.fxbmplf.dom@EXAMPLE.COM", "initibtf");
+ * </prf>
  * <p>
- * For a Kerberized server the action is "accept". For example, the permission
- * necessary to access and use the secret key of the  Kerberized "host"
- * service (telnet and the likes)  would be constructed as follows:
+ * For b Kfrbfrizfd sfrvfr tif bdtion is "bddfpt". For fxbmplf, tif pfrmission
+ * nfdfssbry to bddfss bnd usf tif sfdrft kfy of tif  Kfrbfrizfd "iost"
+ * sfrvidf (tflnft bnd tif likfs)  would bf donstrudtfd bs follows:
  *
- * <pre>
- *     ServicePermission("host/foo.example.com@EXAMPLE.COM", "accept");
- * </pre>
+ * <prf>
+ *     SfrvidfPfrmission("iost/foo.fxbmplf.dom@EXAMPLE.COM", "bddfpt");
+ * </prf>
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public final class ServicePermission extends Permission
-    implements java.io.Serializable {
+publid finbl dlbss SfrvidfPfrmission fxtfnds Pfrmission
+    implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -1227585031618624935L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1227585031618624935L;
 
     /**
-     * Initiate a security context to the specified service
+     * Initibtf b sfdurity dontfxt to tif spfdififd sfrvidf
      */
-    private final static int INITIATE   = 0x1;
+    privbtf finbl stbtid int INITIATE   = 0x1;
 
     /**
-     * Accept a security context
+     * Addfpt b sfdurity dontfxt
      */
-    private final static int ACCEPT     = 0x2;
+    privbtf finbl stbtid int ACCEPT     = 0x2;
 
     /**
-     * All actions
+     * All bdtions
      */
-    private final static int ALL        = INITIATE|ACCEPT;
+    privbtf finbl stbtid int ALL        = INITIATE|ACCEPT;
 
     /**
-     * No actions.
+     * No bdtions.
      */
-    private final static int NONE    = 0x0;
+    privbtf finbl stbtid int NONE    = 0x0;
 
-    // the actions mask
-    private transient int mask;
+    // tif bdtions mbsk
+    privbtf trbnsifnt int mbsk;
 
     /**
-     * the actions string.
+     * tif bdtions string.
      *
-     * @serial
+     * @sfribl
      */
 
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbtf String bdtions; // Lfft null bs long bs possiblf, tifn
+                            // drfbtfd bnd rf-usfd in tif gftAdtion fundtion.
 
     /**
-     * Create a new {@code ServicePermission}
-     * with the specified {@code servicePrincipal}
-     * and {@code action}.
+     * Crfbtf b nfw {@dodf SfrvidfPfrmission}
+     * witi tif spfdififd {@dodf sfrvidfPrindipbl}
+     * bnd {@dodf bdtion}.
      *
-     * @param servicePrincipal the name of the service principal.
-     * An asterisk may appear by itself, to signify any service principal.
+     * @pbrbm sfrvidfPrindipbl tif nbmf of tif sfrvidf prindipbl.
+     * An bstfrisk mby bppfbr by itsflf, to signify bny sfrvidf prindipbl.
      * <p>
-     * @param action the action string
+     * @pbrbm bdtion tif bdtion string
      */
-    public ServicePermission(String servicePrincipal, String action) {
-        super(servicePrincipal);
-        init(servicePrincipal, getMask(action));
+    publid SfrvidfPfrmission(String sfrvidfPrindipbl, String bdtion) {
+        supfr(sfrvidfPrindipbl);
+        init(sfrvidfPrindipbl, gftMbsk(bdtion));
     }
 
 
     /**
-     * Initialize the ServicePermission object.
+     * Initiblizf tif SfrvidfPfrmission objfdt.
      */
-    private void init(String servicePrincipal, int mask) {
+    privbtf void init(String sfrvidfPrindipbl, int mbsk) {
 
-        if (servicePrincipal == null)
-                throw new NullPointerException("service principal can't be null");
+        if (sfrvidfPrindipbl == null)
+                tirow nfw NullPointfrExdfption("sfrvidf prindipbl dbn't bf null");
 
-        if ((mask & ALL) != mask)
-            throw new IllegalArgumentException("invalid actions mask");
+        if ((mbsk & ALL) != mbsk)
+            tirow nfw IllfgblArgumfntExdfption("invblid bdtions mbsk");
 
-        this.mask = mask;
+        tiis.mbsk = mbsk;
     }
 
 
     /**
-     * Checks if this Kerberos service permission object "implies" the
-     * specified permission.
+     * Cifdks if tiis Kfrbfros sfrvidf pfrmission objfdt "implifs" tif
+     * spfdififd pfrmission.
      * <P>
-     * If none of the above are true, {@code implies} returns false.
-     * @param p the permission to check against.
+     * If nonf of tif bbovf brf truf, {@dodf implifs} rfturns fblsf.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the specified permission is implied by this object,
-     * false if not.
+     * @rfturn truf if tif spfdififd pfrmission is implifd by tiis objfdt,
+     * fblsf if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof ServicePermission))
-            return false;
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof SfrvidfPfrmission))
+            rfturn fblsf;
 
-        ServicePermission that = (ServicePermission) p;
+        SfrvidfPfrmission tibt = (SfrvidfPfrmission) p;
 
-        return ((this.mask & that.mask) == that.mask) &&
-            impliesIgnoreMask(that);
+        rfturn ((tiis.mbsk & tibt.mbsk) == tibt.mbsk) &&
+            implifsIgnorfMbsk(tibt);
     }
 
 
-    boolean impliesIgnoreMask(ServicePermission p) {
-        return ((this.getName().equals("*")) ||
-                this.getName().equals(p.getName()));
+    boolfbn implifsIgnorfMbsk(SfrvidfPfrmission p) {
+        rfturn ((tiis.gftNbmf().fqubls("*")) ||
+                tiis.gftNbmf().fqubls(p.gftNbmf()));
     }
 
     /**
-     * Checks two ServicePermission objects for equality.
+     * Cifdks two SfrvidfPfrmission objfdts for fqublity.
      * <P>
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if <i>obj</i> is a ServicePermission, and has the
-     *  same service principal, and actions as this
-     * ServicePermission object.
+     * @rfturn truf if <i>obj</i> is b SfrvidfPfrmission, bnd ibs tif
+     *  sbmf sfrvidf prindipbl, bnd bdtions bs tiis
+     * SfrvidfPfrmission objfdt.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (! (obj instanceof ServicePermission))
-            return false;
+        if (! (obj instbndfof SfrvidfPfrmission))
+            rfturn fblsf;
 
-        ServicePermission that = (ServicePermission) obj;
-        return ((this.mask & that.mask) == that.mask) &&
-            this.getName().equals(that.getName());
+        SfrvidfPfrmission tibt = (SfrvidfPfrmission) obj;
+        rfturn ((tiis.mbsk & tibt.mbsk) == tibt.mbsk) &&
+            tiis.gftNbmf().fqubls(tibt.gftNbmf());
 
 
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
 
-    public int hashCode() {
-        return (getName().hashCode() ^ mask);
+    publid int ibsiCodf() {
+        rfturn (gftNbmf().ibsiCodf() ^ mbsk);
     }
 
 
     /**
-     * Returns the "canonical string representation" of the actions in the
-     * specified mask.
-     * Always returns present actions in the following order:
-     * initiate, accept.
+     * Rfturns tif "dbnonidbl string rfprfsfntbtion" of tif bdtions in tif
+     * spfdififd mbsk.
+     * Alwbys rfturns prfsfnt bdtions in tif following ordfr:
+     * initibtf, bddfpt.
      *
-     * @param mask a specific integer action mask to translate into a string
-     * @return the canonical string representation of the actions
+     * @pbrbm mbsk b spfdifid intfgfr bdtion mbsk to trbnslbtf into b string
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions
      */
-    private static String getActions(int mask)
+    privbtf stbtid String gftAdtions(int mbsk)
     {
-        StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn dommb = fblsf;
 
-        if ((mask & INITIATE) == INITIATE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("initiate");
+        if ((mbsk & INITIATE) == INITIATE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("initibtf");
         }
 
-        if ((mask & ACCEPT) == ACCEPT) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("accept");
+        if ((mbsk & ACCEPT) == ACCEPT) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("bddfpt");
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * initiate, accept.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
+     * Alwbys rfturns prfsfnt bdtions in tif following ordfr:
+     * initibtf, bddfpt.
      */
-    public String getActions() {
-        if (actions == null)
-            actions = getActions(this.mask);
+    publid String gftAdtions() {
+        if (bdtions == null)
+            bdtions = gftAdtions(tiis.mbsk);
 
-        return actions;
+        rfturn bdtions;
     }
 
 
     /**
-     * Returns a PermissionCollection object for storing
-     * ServicePermission objects.
+     * Rfturns b PfrmissionCollfdtion objfdt for storing
+     * SfrvidfPfrmission objfdts.
      * <br>
-     * ServicePermission objects must be stored in a manner that
-     * allows them to be inserted into the collection in any order, but
-     * that also enables the PermissionCollection implies method to
-     * be implemented in an efficient (and consistent) manner.
+     * SfrvidfPfrmission objfdts must bf storfd in b mbnnfr tibt
+     * bllows tifm to bf insfrtfd into tif dollfdtion in bny ordfr, but
+     * tibt blso fnbblfs tif PfrmissionCollfdtion implifs mftiod to
+     * bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
      *
-     * @return a new PermissionCollection object suitable for storing
-     * ServicePermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing
+     * SfrvidfPfrmissions.
      */
-    public PermissionCollection newPermissionCollection() {
-        return new KrbServicePermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw KrbSfrvidfPfrmissionCollfdtion();
     }
 
     /**
-     * Return the current action mask.
+     * Rfturn tif durrfnt bdtion mbsk.
      *
-     * @return the actions mask.
+     * @rfturn tif bdtions mbsk.
      */
-    int getMask() {
-        return mask;
+    int gftMbsk() {
+        rfturn mbsk;
     }
 
     /**
-     * Convert an action string to an integer actions mask.
+     * Convfrt bn bdtion string to bn intfgfr bdtions mbsk.
      *
-     * @param action the action string
-     * @return the action mask
+     * @pbrbm bdtion tif bdtion string
+     * @rfturn tif bdtion mbsk
      */
-    private static int getMask(String action) {
+    privbtf stbtid int gftMbsk(String bdtion) {
 
-        if (action == null) {
-            throw new NullPointerException("action can't be null");
+        if (bdtion == null) {
+            tirow nfw NullPointfrExdfption("bdtion dbn't bf null");
         }
 
-        if (action.equals("")) {
-            throw new IllegalArgumentException("action can't be empty");
+        if (bdtion.fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("bdtion dbn't bf fmpty");
         }
 
-        int mask = NONE;
+        int mbsk = NONE;
 
-        char[] a = action.toCharArray();
+        dibr[] b = bdtion.toCibrArrby();
 
-        int i = a.length - 1;
+        int i = b.lfngti - 1;
         if (i < 0)
-            return mask;
+            rfturn mbsk;
 
-        while (i != -1) {
-            char c;
+        wiilf (i != -1) {
+            dibr d;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
-                               c == '\r' ||
-                               c == '\n' ||
-                               c == '\f' ||
-                               c == '\t'))
+            // skip wiitfspbdf
+            wiilf ((i!=-1) && ((d = b[i]) == ' ' ||
+                               d == '\r' ||
+                               d == '\n' ||
+                               d == '\f' ||
+                               d == '\t'))
                 i--;
 
-            // check for the known strings
-            int matchlen;
+            // difdk for tif known strings
+            int mbtdilfn;
 
-            if (i >= 7 && (a[i-7] == 'i' || a[i-7] == 'I') &&
-                          (a[i-6] == 'n' || a[i-6] == 'N') &&
-                          (a[i-5] == 'i' || a[i-5] == 'I') &&
-                          (a[i-4] == 't' || a[i-4] == 'T') &&
-                          (a[i-3] == 'i' || a[i-3] == 'I') &&
-                          (a[i-2] == 'a' || a[i-2] == 'A') &&
-                          (a[i-1] == 't' || a[i-1] == 'T') &&
-                          (a[i] == 'e' || a[i] == 'E'))
+            if (i >= 7 && (b[i-7] == 'i' || b[i-7] == 'I') &&
+                          (b[i-6] == 'n' || b[i-6] == 'N') &&
+                          (b[i-5] == 'i' || b[i-5] == 'I') &&
+                          (b[i-4] == 't' || b[i-4] == 'T') &&
+                          (b[i-3] == 'i' || b[i-3] == 'I') &&
+                          (b[i-2] == 'b' || b[i-2] == 'A') &&
+                          (b[i-1] == 't' || b[i-1] == 'T') &&
+                          (b[i] == 'f' || b[i] == 'E'))
             {
-                matchlen = 8;
-                mask |= INITIATE;
+                mbtdilfn = 8;
+                mbsk |= INITIATE;
 
-            } else if (i >= 5 && (a[i-5] == 'a' || a[i-5] == 'A') &&
-                                 (a[i-4] == 'c' || a[i-4] == 'C') &&
-                                 (a[i-3] == 'c' || a[i-3] == 'C') &&
-                                 (a[i-2] == 'e' || a[i-2] == 'E') &&
-                                 (a[i-1] == 'p' || a[i-1] == 'P') &&
-                                 (a[i] == 't' || a[i] == 'T'))
+            } flsf if (i >= 5 && (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'd' || b[i-4] == 'C') &&
+                                 (b[i-3] == 'd' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'f' || b[i-2] == 'E') &&
+                                 (b[i-1] == 'p' || b[i-1] == 'P') &&
+                                 (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 6;
-                mask |= ACCEPT;
+                mbtdilfn = 6;
+                mbsk |= ACCEPT;
 
-            } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + action);
+            } flsf {
+                // pbrsf frror
+                tirow nfw IllfgblArgumfntExdfption(
+                        "invblid pfrmission: " + bdtion);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + action);
+            // mbkf surf wf didn't just mbtdi tif tbil of b word
+            // likf "bdkbbrfbddfpt".  Also, skip to tif dommb.
+            boolfbn sffndommb = fblsf;
+            wiilf (i >= mbtdilfn && !sffndommb) {
+                switdi(b[i-mbtdilfn]) {
+                dbsf ',':
+                    sffndommb = truf;
+                    brfbk;
+                dbsf ' ': dbsf '\r': dbsf '\n':
+                dbsf '\f': dbsf '\t':
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "invblid pfrmission: " + bdtion);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt tif lodbtion of tif dommb minus onf (or -1).
+            i -= mbtdilfn;
         }
 
-        return mask;
+        rfturn mbsk;
     }
 
 
     /**
-     * WriteObject is called to save the state of the ServicePermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WritfObjfdt is dbllfd to sbvf tif stbtf of tif SfrvidfPfrmission
+     * to b strfbm. Tif bdtions brf sfriblizfd, bnd tif supfrdlbss
+     * tbkfs dbrf of tif nbmf.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
-            getActions();
-        s.defaultWriteObject();
+        // Writf out tif bdtions. Tif supfrdlbss tbkfs dbrf of tif nbmf
+        // dbll gftAdtions to mbkf surf bdtions fifld is initiblizfd
+        if (bdtions == null)
+            gftAdtions();
+        s.dffbultWritfObjfdt();
     }
 
     /**
-     * readObject is called to restore the state of the
-     * ServicePermission from a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif
+     * SfrvidfPfrmission from b strfbm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getName(),getMask(actions));
+        // Rfbd in tif bdtion, tifn initiblizf tif rfst
+        s.dffbultRfbdObjfdt();
+        init(gftNbmf(),gftMbsk(bdtions));
     }
 
 
     /*
-      public static void main(String args[]) throws Exception {
-      ServicePermission this_ =
-      new ServicePermission(args[0], "accept");
-      ServicePermission that_ =
-      new ServicePermission(args[1], "accept,initiate");
-      System.out.println("-----\n");
-      System.out.println("this.implies(that) = " + this_.implies(that_));
-      System.out.println("-----\n");
-      System.out.println("this = "+this_);
-      System.out.println("-----\n");
-      System.out.println("that = "+that_);
-      System.out.println("-----\n");
+      publid stbtid void mbin(String brgs[]) tirows Exdfption {
+      SfrvidfPfrmission tiis_ =
+      nfw SfrvidfPfrmission(brgs[0], "bddfpt");
+      SfrvidfPfrmission tibt_ =
+      nfw SfrvidfPfrmission(brgs[1], "bddfpt,initibtf");
+      Systfm.out.println("-----\n");
+      Systfm.out.println("tiis.implifs(tibt) = " + tiis_.implifs(tibt_));
+      Systfm.out.println("-----\n");
+      Systfm.out.println("tiis = "+tiis_);
+      Systfm.out.println("-----\n");
+      Systfm.out.println("tibt = "+tibt_);
+      Systfm.out.println("-----\n");
 
-      KrbServicePermissionCollection nps =
-      new KrbServicePermissionCollection();
-      nps.add(this_);
-      nps.add(new ServicePermission("nfs/example.com@EXAMPLE.COM",
-      "accept"));
-      nps.add(new ServicePermission("host/example.com@EXAMPLE.COM",
-      "initiate"));
-      System.out.println("nps.implies(that) = " + nps.implies(that_));
-      System.out.println("-----\n");
+      KrbSfrvidfPfrmissionCollfdtion nps =
+      nfw KrbSfrvidfPfrmissionCollfdtion();
+      nps.bdd(tiis_);
+      nps.bdd(nfw SfrvidfPfrmission("nfs/fxbmplf.dom@EXAMPLE.COM",
+      "bddfpt"));
+      nps.bdd(nfw SfrvidfPfrmission("iost/fxbmplf.dom@EXAMPLE.COM",
+      "initibtf"));
+      Systfm.out.println("nps.implifs(tibt) = " + nps.implifs(tibt_));
+      Systfm.out.println("-----\n");
 
-      Enumeration e = nps.elements();
+      Enumfrbtion f = nps.flfmfnts();
 
-      while (e.hasMoreElements()) {
-      ServicePermission x =
-      (ServicePermission) e.nextElement();
-      System.out.println("nps.e = " + x);
+      wiilf (f.ibsMorfElfmfnts()) {
+      SfrvidfPfrmission x =
+      (SfrvidfPfrmission) f.nfxtElfmfnt();
+      Systfm.out.println("nps.f = " + x);
       }
 
       }
@@ -450,146 +450,146 @@ public final class ServicePermission extends Permission
 }
 
 
-final class KrbServicePermissionCollection extends PermissionCollection
-    implements java.io.Serializable {
+finbl dlbss KrbSfrvidfPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf {
 
-    // Not serialized; see serialization section at end of class
-    private transient List<Permission> perms;
+    // Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss
+    privbtf trbnsifnt List<Pfrmission> pfrms;
 
-    public KrbServicePermissionCollection() {
-        perms = new ArrayList<Permission>();
+    publid KrbSfrvidfPfrmissionCollfdtion() {
+        pfrms = nfw ArrbyList<Pfrmission>();
     }
 
     /**
-     * Check and see if this collection of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis dollfdtion of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the collection, false if not.
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * tif dollfdtion, fblsf if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof ServicePermission))
-                return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof SfrvidfPfrmission))
+                rfturn fblsf;
 
-        ServicePermission np = (ServicePermission) permission;
-        int desired = np.getMask();
-        int effective = 0;
-        int needed = desired;
+        SfrvidfPfrmission np = (SfrvidfPfrmission) pfrmission;
+        int dfsirfd = np.gftMbsk();
+        int ffffdtivf = 0;
+        int nffdfd = dfsirfd;
 
-        synchronized (this) {
-            int len = perms.size();
+        syndironizfd (tiis) {
+            int lfn = pfrms.sizf();
 
-            // need to deal with the case where the needed permission has
-            // more than one action and the collection has individual permissions
-            // that sum up to the needed.
+            // nffd to dfbl witi tif dbsf wifrf tif nffdfd pfrmission ibs
+            // morf tibn onf bdtion bnd tif dollfdtion ibs individubl pfrmissions
+            // tibt sum up to tif nffdfd.
 
-            for (int i = 0; i < len; i++) {
-                ServicePermission x = (ServicePermission) perms.get(i);
+            for (int i = 0; i < lfn; i++) {
+                SfrvidfPfrmission x = (SfrvidfPfrmission) pfrms.gft(i);
 
-                //System.out.println("  trying "+x);
-                if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(np)) {
-                    effective |=  x.getMask();
-                    if ((effective & desired) == desired)
-                        return true;
-                    needed = (desired ^ effective);
+                //Systfm.out.println("  trying "+x);
+                if (((nffdfd & x.gftMbsk()) != 0) && x.implifsIgnorfMbsk(np)) {
+                    ffffdtivf |=  x.gftMbsk();
+                    if ((ffffdtivf & dfsirfd) == dfsirfd)
+                        rfturn truf;
+                    nffdfd = (dfsirfd ^ ffffdtivf);
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Adds a permission to the ServicePermissions. The key for
-     * the hash is the name.
+     * Adds b pfrmission to tif SfrvidfPfrmissions. Tif kfy for
+     * tif ibsi is tif nbmf.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       ServicePermission
+     * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+     *                                       SfrvidfPfrmission
      *
-     * @exception SecurityException - if this PermissionCollection object
-     *                                has been marked readonly
+     * @fxdfption SfdurityExdfption - if tiis PfrmissionCollfdtion objfdt
+     *                                ibs bffn mbrkfd rfbdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof ServicePermission))
-            throw new IllegalArgumentException("invalid permission: "+
-                                               permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof SfrvidfPfrmission))
+            tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
 
-        synchronized (this) {
-            perms.add(0, permission);
+        syndironizfd (tiis) {
+            pfrms.bdd(0, pfrmission);
         }
     }
 
     /**
-     * Returns an enumeration of all the ServicePermission objects
-     * in the container.
+     * Rfturns bn fnumfrbtion of bll tif SfrvidfPfrmission objfdts
+     * in tif dontbinfr.
      *
-     * @return an enumeration of all the ServicePermission objects.
+     * @rfturn bn fnumfrbtion of bll tif SfrvidfPfrmission objfdts.
      */
 
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
-        synchronized (this) {
-            return Collections.enumeration(perms);
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor into Enumfrbtion
+        syndironizfd (tiis) {
+            rfturn Collfdtions.fnumfrbtion(pfrms);
         }
     }
 
-    private static final long serialVersionUID = -4118834211490102011L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4118834211490102011L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Vector permissions;
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility witi fbrlifr rflfbsfs,
+    // wiidi ibd tif sfriblizbblf fifld:
+    // privbtf Vfdtor pfrmissions;
 
     /**
-     * @serialField permissions java.util.Vector
-     *     A list of ServicePermission objects.
+     * @sfriblFifld pfrmissions jbvb.util.Vfdtor
+     *     A list of SfrvidfPfrmission objfdts.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Vfdtor.dlbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the ServicePermissions).
+     * @sfriblDbtb "pfrmissions" fifld (b Vfdtor dontbining tif SfrvidfPfrmissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writfs tif dontfnts of tif pfrms fifld out bs b Vfdtor for
+     * sfriblizbtion dompbtibility witi fbrlifr rflfbsfs.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
 
-        // Write out Vector
-        Vector<Permission> permissions = new Vector<>(perms.size());
+        // Writf out Vfdtor
+        Vfdtor<Pfrmission> pfrmissions = nfw Vfdtor<>(pfrms.sizf());
 
-        synchronized (this) {
-            permissions.addAll(perms);
+        syndironizfd (tiis) {
+            pfrmissions.bddAll(pfrms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("permissions", permissions);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrmissions", pfrmissions);
+        out.writfFiflds();
     }
 
     /*
-     * Reads in a Vector of ServicePermissions and saves them in the perms field.
+     * Rfbds in b Vfdtor of SfrvidfPfrmissions bnd sbvfs tifm in tif pfrms fifld.
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Don't call defaultReadObject()
+        // Don't dbll dffbultRfbdObjfdt()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
 
-        // Get the one we want
-        Vector<Permission> permissions =
-                (Vector<Permission>)gfields.get("permissions", null);
-        perms = new ArrayList<Permission>(permissions.size());
-        perms.addAll(permissions);
+        // Gft tif onf wf wbnt
+        Vfdtor<Pfrmission> pfrmissions =
+                (Vfdtor<Pfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw ArrbyList<Pfrmission>(pfrmissions.sizf());
+        pfrms.bddAll(pfrmissions);
     }
 }

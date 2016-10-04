@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.repository;
+pbdkbgf sun.rfflfdt.gfnfrids.rfpository;
 
-import java.lang.reflect.Type;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.parser.SignatureParser;
-import sun.reflect.generics.tree.FieldTypeSignature;
-import sun.reflect.generics.tree.MethodTypeSignature;
-import sun.reflect.generics.tree.TypeSignature;
-import sun.reflect.generics.visitor.Reifier;
+import jbvb.lbng.rfflfdt.Typf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.pbrsfr.SignbturfPbrsfr;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+import sun.rfflfdt.gfnfrids.trff.MftiodTypfSignbturf;
+import sun.rfflfdt.gfnfrids.trff.TypfSignbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
 
 
 
 /**
- * This class represents the generic type information for a constructor.
- * The code is not dependent on a particular reflective implementation.
- * It is designed to be used unchanged by at least core reflection and JDI.
+ * Tiis dlbss rfprfsfnts tif gfnfrid typf informbtion for b donstrudtor.
+ * Tif dodf is not dfpfndfnt on b pbrtidulbr rfflfdtivf implfmfntbtion.
+ * It is dfsignfd to bf usfd undibngfd by bt lfbst dorf rfflfdtion bnd JDI.
  */
-public class ConstructorRepository
-    extends GenericDeclRepository<MethodTypeSignature> {
+publid dlbss ConstrudtorRfpository
+    fxtfnds GfnfridDfdlRfpository<MftiodTypfSignbturf> {
 
-    private Type[] paramTypes; // caches the generic parameter types info
-    private Type[] exceptionTypes; // caches the generic exception types info
+    privbtf Typf[] pbrbmTypfs; // dbdifs tif gfnfrid pbrbmftfr typfs info
+    privbtf Typf[] fxdfptionTypfs; // dbdifs tif gfnfrid fxdfption typfs info
 
- // protected, to enforce use of static factory yet allow subclassing
-    protected ConstructorRepository(String rawSig, GenericsFactory f) {
-      super(rawSig, f);
+ // protfdtfd, to fnfordf usf of stbtid fbdtory yft bllow subdlbssing
+    protfdtfd ConstrudtorRfpository(String rbwSig, GfnfridsFbdtory f) {
+      supfr(rbwSig, f);
     }
 
-    protected MethodTypeSignature parse(String s) {
-        return SignatureParser.make().parseMethodSig(s);
+    protfdtfd MftiodTypfSignbturf pbrsf(String s) {
+        rfturn SignbturfPbrsfr.mbkf().pbrsfMftiodSig(s);
     }
 
     /**
-     * Static factory method.
-     * @param rawSig - the generic signature of the reflective object
-     * that this repository is servicing
-     * @param f - a factory that will provide instances of reflective
-     * objects when this repository converts its AST
-     * @return a <tt>ConstructorRepository</tt> that manages the generic type
-     * information represented in the signature <tt>rawSig</tt>
+     * Stbtid fbdtory mftiod.
+     * @pbrbm rbwSig - tif gfnfrid signbturf of tif rfflfdtivf objfdt
+     * tibt tiis rfpository is sfrviding
+     * @pbrbm f - b fbdtory tibt will providf instbndfs of rfflfdtivf
+     * objfdts wifn tiis rfpository donvfrts its AST
+     * @rfturn b <tt>ConstrudtorRfpository</tt> tibt mbnbgfs tif gfnfrid typf
+     * informbtion rfprfsfntfd in tif signbturf <tt>rbwSig</tt>
      */
-    public static ConstructorRepository make(String rawSig,
-                                             GenericsFactory f) {
-        return new ConstructorRepository(rawSig, f);
+    publid stbtid ConstrudtorRfpository mbkf(String rbwSig,
+                                             GfnfridsFbdtory f) {
+        rfturn nfw ConstrudtorRfpository(rbwSig, f);
     }
 
-    // public API
+    // publid API
 
  /*
- * When queried for a particular piece of type information, the
- * general pattern is to consult the corresponding cached value.
- * If the corresponding field is non-null, it is returned.
- * If not, it is created lazily. This is done by selecting the appropriate
- * part of the tree and transforming it into a reflective object
- * using a visitor.
- * a visitor, which is created by feeding it the factory
- * with which the repository was created.
+ * Wifn qufrifd for b pbrtidulbr pifdf of typf informbtion, tif
+ * gfnfrbl pbttfrn is to donsult tif dorrfsponding dbdifd vbluf.
+ * If tif dorrfsponding fifld is non-null, it is rfturnfd.
+ * If not, it is drfbtfd lbzily. Tiis is donf by sflfdting tif bppropribtf
+ * pbrt of tif trff bnd trbnsforming it into b rfflfdtivf objfdt
+ * using b visitor.
+ * b visitor, wiidi is drfbtfd by fffding it tif fbdtory
+ * witi wiidi tif rfpository wbs drfbtfd.
  */
 
-    public Type[] getParameterTypes(){
-        if (paramTypes == null) { // lazily initialize parameter types
-            // first, extract parameter type subtree(s) from AST
-            TypeSignature[] pts = getTree().getParameterTypes();
-            // create array to store reified subtree(s)
-            Type[] ps = new Type[pts.length];
-            // reify all subtrees
-            for (int i = 0; i < pts.length; i++) {
-                Reifier r = getReifier(); // obtain visitor
-                pts[i].accept(r); // reify subtree
-                // extract result from visitor and store it
-                ps[i] = r.getResult();
+    publid Typf[] gftPbrbmftfrTypfs(){
+        if (pbrbmTypfs == null) { // lbzily initiblizf pbrbmftfr typfs
+            // first, fxtrbdt pbrbmftfr typf subtrff(s) from AST
+            TypfSignbturf[] pts = gftTrff().gftPbrbmftfrTypfs();
+            // drfbtf brrby to storf rfififd subtrff(s)
+            Typf[] ps = nfw Typf[pts.lfngti];
+            // rfify bll subtrffs
+            for (int i = 0; i < pts.lfngti; i++) {
+                Rfififr r = gftRfififr(); // obtbin visitor
+                pts[i].bddfpt(r); // rfify subtrff
+                // fxtrbdt rfsult from visitor bnd storf it
+                ps[i] = r.gftRfsult();
             }
-            paramTypes = ps; // cache overall result
+            pbrbmTypfs = ps; // dbdif ovfrbll rfsult
         }
-        return paramTypes.clone(); // return cached result
+        rfturn pbrbmTypfs.dlonf(); // rfturn dbdifd rfsult
     }
 
-    public Type[] getExceptionTypes(){
-        if (exceptionTypes == null) { // lazily initialize exception types
-            // first, extract exception type subtree(s) from AST
-            FieldTypeSignature[] ets = getTree().getExceptionTypes();
-            // create array to store reified subtree(s)
-            Type[] es = new Type[ets.length];
-            // reify all subtrees
-            for (int i = 0; i < ets.length; i++) {
-                Reifier r = getReifier(); // obtain visitor
-                ets[i].accept(r); // reify subtree
-                // extract result from visitor and store it
-                es[i] = r.getResult();
+    publid Typf[] gftExdfptionTypfs(){
+        if (fxdfptionTypfs == null) { // lbzily initiblizf fxdfption typfs
+            // first, fxtrbdt fxdfption typf subtrff(s) from AST
+            FifldTypfSignbturf[] fts = gftTrff().gftExdfptionTypfs();
+            // drfbtf brrby to storf rfififd subtrff(s)
+            Typf[] fs = nfw Typf[fts.lfngti];
+            // rfify bll subtrffs
+            for (int i = 0; i < fts.lfngti; i++) {
+                Rfififr r = gftRfififr(); // obtbin visitor
+                fts[i].bddfpt(r); // rfify subtrff
+                // fxtrbdt rfsult from visitor bnd storf it
+                fs[i] = r.gftRfsult();
             }
-            exceptionTypes = es; // cache overall result
+            fxdfptionTypfs = fs; // dbdif ovfrbll rfsult
         }
-        return exceptionTypes.clone(); // return cached result
+        rfturn fxdfptionTypfs.dlonf(); // rfturn dbdifd rfsult
     }
 }

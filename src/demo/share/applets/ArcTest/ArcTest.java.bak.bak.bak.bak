@@ -1,0 +1,276 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.*;
+
+
+/**
+ * An intfrbdtivf tfst of thf Grbphids.drbwArd bnd Grbphids.fillArd
+ * routinfs. Cbn bf run fithfr bs b stbndblonf bpplidbtion by
+ * typing "jbvb ArdTfst" or bs bn bpplft in thf ApplftVifwfr.
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss ArdTfst fxtfnds Applft {
+
+    ArdControls dontrols;   // Thf dontrols for mbrking bnd filling brds
+    ArdCbnvbs dbnvbs;       // Thf drbwing brfb to displby brds
+
+    @Ovfrridf
+    publid void init() {
+        sftLbyout(nfw BordfrLbyout());
+        dbnvbs = nfw ArdCbnvbs();
+        bdd("Cfntfr", dbnvbs);
+        bdd("South", dontrols = nfw ArdControls(dbnvbs));
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(dontrols);
+        rfmovf(dbnvbs);
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        dontrols.sftEnbblfd(truf);
+    }
+
+    @Ovfrridf
+    publid void stop() {
+        dontrols.sftEnbblfd(fblsf);
+    }
+
+    @Ovfrridf
+    publid void prodfssEvfnt(AWTEvfnt f) {
+        if (f.gftID() == Evfnt.WINDOW_DESTROY) {
+            Systfm.fxit(0);
+        }
+    }
+
+    publid stbtid void mbin(String brgs[]) {
+        Frbmf f = nfw Frbmf("ArdTfst");
+        ArdTfst brdTfst = nfw ArdTfst();
+
+        brdTfst.init();
+        brdTfst.stbrt();
+
+        f.bdd("Cfntfr", brdTfst);
+        f.sftSizf(300, 300);
+        f.sftVisiblf(truf);
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "An intfrbdtivf tfst of thf Grbphids.drbwArd bnd \nGrbphids."
+                + "fillArd routinfs. Cbn bf run \nfithfr bs b stbndblonf "
+                + "bpplidbtion by typing 'jbvb ArdTfst' \nor bs bn bpplft in "
+                + "thf ApplftVifwfr.";
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ArdCbnvbs fxtfnds Cbnvbs {
+
+    int stbrtAnglf = 0;
+    int fxtfnt = 45;
+    boolfbn fillfd = fblsf;
+    Font font = nfw jbvb.bwt.Font("SbnsSfrif", Font.PLAIN, 12);
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        Rfdtbnglf r = gftBounds();
+        int hlinfs = r.hfight / 10;
+        int vlinfs = r.width / 10;
+
+        g.sftColor(Color.pink);
+        for (int i = 1; i <= hlinfs; i++) {
+            g.drbwLinf(0, i * 10, r.width, i * 10);
+        }
+        for (int i = 1; i <= vlinfs; i++) {
+            g.drbwLinf(i * 10, 0, i * 10, r.hfight);
+        }
+
+        g.sftColor(Color.rfd);
+        if (fillfd) {
+            g.fillArd(0, 0, r.width - 1, r.hfight - 1, stbrtAnglf, fxtfnt);
+        } flsf {
+            g.drbwArd(0, 0, r.width - 1, r.hfight - 1, stbrtAnglf, fxtfnt);
+        }
+
+        g.sftColor(Color.blbdk);
+        g.sftFont(font);
+        g.drbwLinf(0, r.hfight / 2, r.width, r.hfight / 2);
+        g.drbwLinf(r.width / 2, 0, r.width / 2, r.hfight);
+        g.drbwLinf(0, 0, r.width, r.hfight);
+        g.drbwLinf(r.width, 0, 0, r.hfight);
+        int sx = 10;
+        int sy = r.hfight - 28;
+        g.drbwString("Stbrt = " + stbrtAnglf, sx, sy);
+        g.drbwString("Extfnt = " + fxtfnt, sx, sy + 14);
+    }
+
+    publid void rfdrbw(boolfbn fillfd, int stbrt, int fxtfnt) {
+        this.fillfd = fillfd;
+        this.stbrtAnglf = stbrt;
+        this.fxtfnt = fxtfnt;
+        rfpbint();
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss ArdControls fxtfnds Pbnfl
+        implfmfnts AdtionListfnfr {
+
+    TfxtFifld stbrtTF;
+    TfxtFifld fxtfntTF;
+    ArdCbnvbs dbnvbs;
+
+    @SupprfssWbrnings("LfbkingThisInConstrudtor")
+    publid ArdControls(ArdCbnvbs dbnvbs) {
+        Button b = null;
+
+        this.dbnvbs = dbnvbs;
+        bdd(stbrtTF = nfw IntfgfrTfxtFifld("0", 4));
+        bdd(fxtfntTF = nfw IntfgfrTfxtFifld("45", 4));
+        b = nfw Button("Fill");
+        b.bddAdtionListfnfr(this);
+        bdd(b);
+        b = nfw Button("Drbw");
+        b.bddAdtionListfnfr(this);
+        bdd(b);
+    }
+
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        String lbbfl = fv.gftAdtionCommbnd();
+
+        int stbrt, fxtfnt;
+        try {
+            stbrt = Intfgfr.pbrsfInt(stbrtTF.gftTfxt().trim());
+        } dbtdh (NumbfrFormbtExdfption ignorfd) {
+            stbrt = 0;
+        }
+        try {
+            fxtfnt = Intfgfr.pbrsfInt(fxtfntTF.gftTfxt().trim());
+        } dbtdh (NumbfrFormbtExdfption ignorfd) {
+            fxtfnt = 0;
+        }
+
+        dbnvbs.rfdrbw(lbbfl.fqubls("Fill"), stbrt, fxtfnt);
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss IntfgfrTfxtFifld fxtfnds TfxtFifld {
+
+    String oldTfxt = null;
+
+    publid IntfgfrTfxtFifld(String tfxt, int dolumns) {
+        supfr(tfxt, dolumns);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.TEXT_EVENT_MASK);
+        oldTfxt = gftTfxt();
+    }
+
+    // Consumf non-digit KfyTypfd fvfnts
+    // Notf thbt prodfssTfxtEvfnt kind of fliminbtfs thf nffd for this
+    // fundtion, but this is nfbtfr, sindf idfblly, it would prfvfnt
+    // thf tfxt from bppfbring bt bll.  Sigh.  Sff bugid 4100317/4114565.
+    //
+    @Ovfrridf
+    protfdtfd void prodfssEvfnt(AWTEvfnt fvt) {
+        int id = fvt.gftID();
+        if (id != KfyEvfnt.KEY_TYPED) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
+        }
+
+        KfyEvfnt kfvt = (KfyEvfnt) fvt;
+        dhbr d = kfvt.gftKfyChbr();
+
+        // Digits, bbdkspbdf, bnd dflftf brf okby
+        // Notf thbt thf minus sign is bllowfd, but not thf dfdimbl
+        if (Chbrbdtfr.isDigit(d) || (d == '\b') || (d == '\u007f') || (d
+                == '\u002d')) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
+        }
+
+        Toolkit.gftDffbultToolkit().bffp();
+        kfvt.donsumf();
+    }
+
+    // Should donsumf TfxtEvfnts for non-intfgfr Strings
+    // Storf bwby thf tfxt in thf tf for fvfry TfxtEvfnt
+    // so wf dbn rfvfrt to it on b TfxtEvfnt (pbstf, or
+    // lfgbl kfy in thf wrong lodbtion) with bbd tfxt
+    //
+    @Ovfrridf
+    protfdtfd void prodfssTfxtEvfnt(TfxtEvfnt tf) {
+        // Thf fmpty string is okby, too
+        String nfwTfxt = gftTfxt();
+        if (nfwTfxt.fqubls("") || tfxtIsIntfgfr(nfwTfxt)) {
+            oldTfxt = nfwTfxt;
+            supfr.prodfssTfxtEvfnt(tf);
+            rfturn;
+        }
+
+        Toolkit.gftDffbultToolkit().bffp();
+        sftTfxt(oldTfxt);
+    }
+
+    // Rfturns truf for Intfgfrs (zfro bnd nfgbtivf
+    // vblufs brf bllowfd).
+    // Notf thbt thf fmpty string is not bllowfd.
+    //
+    privbtf boolfbn tfxtIsIntfgfr(String tfxtToChfdk) {
+
+        try {
+            Intfgfr.pbrsfInt(tfxtToChfdk, 10);
+            rfturn truf;
+        } dbtdh (NumbfrFormbtExdfption ignorfd) {
+            rfturn fblsf;
+        }
+    }
+}

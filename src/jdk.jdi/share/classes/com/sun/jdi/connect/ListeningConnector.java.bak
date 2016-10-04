@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect;
+pbdkbgf dom.sun.jdi.donnfdt;
 
-import java.util.Map;
-import java.io.IOException;
-import com.sun.jdi.VirtualMachine;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+import dom.sun.jdi.VirtublMbdiinf;
 
 /**
- * A connector which listens for a connection initiated by a target VM.
+ * A donnfdtor wiidi listfns for b donnfdtion initibtfd by b tbrgft VM.
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ListeningConnector extends Connector {
+@jdk.Exportfd
+publid intfrfbdf ListfningConnfdtor fxtfnds Connfdtor {
     /**
-     * Indicates whether this listening connector supports multiple
-     * connections for a single argument map. If so, a call to
-     * {@link #startListening} may allow
-     * multiple target VM to become connected.
+     * Indidbtfs wiftifr tiis listfning donnfdtor supports multiplf
+     * donnfdtions for b singlf brgumfnt mbp. If so, b dbll to
+     * {@link #stbrtListfning} mby bllow
+     * multiplf tbrgft VM to bfdomf donnfdtfd.
      *
-     * @return <code>true</code> if multiple connections are supported;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if multiplf donnfdtions brf supportfd;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean supportsMultipleConnections();
+    boolfbn supportsMultiplfConnfdtions();
 
     /**
-     * Listens for one or more connections initiated by target VMs.
-     * The connector uses the given argument map
-     * in determining the address at which to listen or else it generates
-     * an appropriate listen address. In either case, an address string
-     * is returned from this method which can be used in starting target VMs
-     * to identify this connector. The format of the address string
-     * is connector, transport, and, possibly, platform dependent.
+     * Listfns for onf or morf donnfdtions initibtfd by tbrgft VMs.
+     * Tif donnfdtor usfs tif givfn brgumfnt mbp
+     * in dftfrmining tif bddrfss bt wiidi to listfn or flsf it gfnfrbtfs
+     * bn bppropribtf listfn bddrfss. In fitifr dbsf, bn bddrfss string
+     * is rfturnfd from tiis mftiod wiidi dbn bf usfd in stbrting tbrgft VMs
+     * to idfntify tiis donnfdtor. Tif formbt of tif bddrfss string
+     * is donnfdtor, trbnsport, bnd, possibly, plbtform dfpfndfnt.
      * <p>
-     * The argument map associates argument name strings to instances
-     * of {@link Connector.Argument}. The default argument map for a
-     * connector can be obtained through {@link Connector#defaultArguments}.
-     * Argument map values can be changed, but map entries should not be
-     * added or deleted.
+     * Tif brgumfnt mbp bssodibtfs brgumfnt nbmf strings to instbndfs
+     * of {@link Connfdtor.Argumfnt}. Tif dffbult brgumfnt mbp for b
+     * donnfdtor dbn bf obtbinfd tirougi {@link Connfdtor#dffbultArgumfnts}.
+     * Argumfnt mbp vblufs dbn bf dibngfd, but mbp fntrifs siould not bf
+     * bddfd or dflftfd.
      * <p>
-     * This method does not return a {@link VirtualMachine}, and, normally,
-     * returns before any target VM initiates
-     * a connection. The connected target is obtained through
-     * {@link #accept} (using the same argument map as is passed to this
-     * method).
+     * Tiis mftiod dofs not rfturn b {@link VirtublMbdiinf}, bnd, normblly,
+     * rfturns bfforf bny tbrgft VM initibtfs
+     * b donnfdtion. Tif donnfdtfd tbrgft is obtbinfd tirougi
+     * {@link #bddfpt} (using tif sbmf brgumfnt mbp bs is pbssfd to tiis
+     * mftiod).
      * <p>
-     * If <code>arguments</code> contains addressing information. and
-     * only one connection will be accepted, the {@link #accept accept} method
-     * can be called immediately without calling this method.
+     * If <dodf>brgumfnts</dodf> dontbins bddrfssing informbtion. bnd
+     * only onf donnfdtion will bf bddfptfd, tif {@link #bddfpt bddfpt} mftiod
+     * dbn bf dbllfd immfdibtfly witiout dblling tiis mftiod.
      *
-     * @return the address at which the connector is listening
-     * for a connection.
-     * @throws java.io.IOException when unable to start listening.
-     * Specific exceptions are dependent on the Connector implementation
-     * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @rfturn tif bddrfss bt wiidi tif donnfdtor is listfning
+     * for b donnfdtion.
+     * @tirows jbvb.io.IOExdfption wifn unbblf to stbrt listfning.
+     * Spfdifid fxdfptions brf dfpfndfnt on tif Connfdtor implfmfntbtion
+     * in usf.
+     * @tirows IllfgblConnfdtorArgumfntsExdfption wifn onf of tif
+     * donnfdtor brgumfnts is invblid.
      */
-    String startListening(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    String stbrtListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption;
 
     /**
-     * Cancels listening for connections. The given argument map should match
-     * the argument map given for a previous {@link #startListening} invocation.
+     * Cbndfls listfning for donnfdtions. Tif givfn brgumfnt mbp siould mbtdi
+     * tif brgumfnt mbp givfn for b prfvious {@link #stbrtListfning} invodbtion.
      *
-     * @throws java.io.IOException when unable to stop listening.
-     * Specific exceptions are dependent on the Connector implementation
-     * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @tirows jbvb.io.IOExdfption wifn unbblf to stop listfning.
+     * Spfdifid fxdfptions brf dfpfndfnt on tif Connfdtor implfmfntbtion
+     * in usf.
+     * @tirows IllfgblConnfdtorArgumfntsExdfption wifn onf of tif
+     * donnfdtor brgumfnts is invblid.
      */
-    void stopListening(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    void stopListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption;
 
 
     /**
-     * Waits for a target VM to attach to this connector.
+     * Wbits for b tbrgft VM to bttbdi to tiis donnfdtor.
      *
-     * @throws TransportTimeoutException when the Connector encapsulates
-     * a transport that supports a timeout when accepting, a
-     * {@link Connector.Argument} representing a timeout has been set
-     * in the argument map, and a timeout occurs whilst waiting for
-     * the target VM to connect.
-     * @throws java.io.IOException when unable to accept.
-     * Specific exceptions are dependent on the Connector implementation
-     * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @tirows TrbnsportTimfoutExdfption wifn tif Connfdtor fndbpsulbtfs
+     * b trbnsport tibt supports b timfout wifn bddfpting, b
+     * {@link Connfdtor.Argumfnt} rfprfsfnting b timfout ibs bffn sft
+     * in tif brgumfnt mbp, bnd b timfout oddurs wiilst wbiting for
+     * tif tbrgft VM to donnfdt.
+     * @tirows jbvb.io.IOExdfption wifn unbblf to bddfpt.
+     * Spfdifid fxdfptions brf dfpfndfnt on tif Connfdtor implfmfntbtion
+     * in usf.
+     * @tirows IllfgblConnfdtorArgumfntsExdfption wifn onf of tif
+     * donnfdtor brgumfnts is invblid.
      */
-    VirtualMachine accept(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    VirtublMbdiinf bddfpt(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption;
 
 }

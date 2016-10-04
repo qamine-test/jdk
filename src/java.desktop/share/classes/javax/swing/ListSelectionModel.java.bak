@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import javax.swing.event.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * This interface represents the current state of the
- * selection for any of the components that display a
- * list of values with stable indices.  The selection is
- * modeled as a set of intervals, each interval represents
- * a contiguous range of selected list elements.
- * The methods for modifying the set of selected intervals
- * all take a pair of indices, index0 and index1, that represent
- * a closed interval, i.e. the interval includes both index0 and
- * index1.
+ * Tiis intfrfbdf rfprfsfnts tif durrfnt stbtf of tif
+ * sflfdtion for bny of tif domponfnts tibt displby b
+ * list of vblufs witi stbblf indidfs.  Tif sflfdtion is
+ * modflfd bs b sft of intfrvbls, fbdi intfrvbl rfprfsfnts
+ * b dontiguous rbngf of sflfdtfd list flfmfnts.
+ * Tif mftiods for modifying tif sft of sflfdtfd intfrvbls
+ * bll tbkf b pbir of indidfs, indfx0 bnd indfx1, tibt rfprfsfnt
+ * b dlosfd intfrvbl, i.f. tif intfrvbl indludfs boti indfx0 bnd
+ * indfx1.
  *
- * @author Hans Muller
- * @author Philip Milne
- * @see DefaultListSelectionModel
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @butior Piilip Milnf
+ * @sff DffbultListSflfdtionModfl
+ * @sindf 1.2
  */
 
-public interface ListSelectionModel
+publid intfrfbdf ListSflfdtionModfl
 {
     /**
-     * A value for the selectionMode property: select one list index
-     * at a time.
+     * A vbluf for tif sflfdtionModf propfrty: sflfdt onf list indfx
+     * bt b timf.
      *
-     * @see #setSelectionMode
+     * @sff #sftSflfdtionModf
      */
     int SINGLE_SELECTION = 0;
 
     /**
-     * A value for the selectionMode property: select one contiguous
-     * range of indices at a time.
+     * A vbluf for tif sflfdtionModf propfrty: sflfdt onf dontiguous
+     * rbngf of indidfs bt b timf.
      *
-     * @see #setSelectionMode
+     * @sff #sftSflfdtionModf
      */
     int SINGLE_INTERVAL_SELECTION = 1;
 
     /**
-     * A value for the selectionMode property: select one or more
-     * contiguous ranges of indices at a time.
+     * A vbluf for tif sflfdtionModf propfrty: sflfdt onf or morf
+     * dontiguous rbngfs of indidfs bt b timf.
      *
-     * @see #setSelectionMode
+     * @sff #sftSflfdtionModf
      */
     int MULTIPLE_INTERVAL_SELECTION = 2;
 
 
     /**
-     * Changes the selection to be between {@code index0} and {@code index1}
-     * inclusive. {@code index0} doesn't have to be less than or equal to
-     * {@code index1}.
+     * Cibngfs tif sflfdtion to bf bftwffn {@dodf indfx0} bnd {@dodf indfx1}
+     * indlusivf. {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to
+     * {@dodf indfx1}.
      * <p>
-     * In {@code SINGLE_SELECTION} selection mode, only the second index
-     * is used.
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, only tif sfdond indfx
+     * is usfd.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @see #addListSelectionListener
+     * @pbrbm indfx0 onf fnd of tif intfrvbl.
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @sff #bddListSflfdtionListfnfr
      */
-    void setSelectionInterval(int index0, int index1);
+    void sftSflfdtionIntfrvbl(int indfx0, int indfx1);
 
 
     /**
-     * Changes the selection to be the set union of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * Cibngfs tif sflfdtion to bf tif sft union of tif durrfnt sflfdtion
+     * bnd tif indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to {@dodf indfx1}.
      * <p>
-     * In {@code SINGLE_SELECTION} selection mode, this is equivalent
-     * to calling {@code setSelectionInterval}, and only the second index
-     * is used. In {@code SINGLE_INTERVAL_SELECTION} selection mode, this
-     * method behaves like {@code setSelectionInterval}, unless the given
-     * interval is immediately adjacent to or overlaps the existing selection,
-     * and can therefore be used to grow the selection.
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, tiis is fquivblfnt
+     * to dblling {@dodf sftSflfdtionIntfrvbl}, bnd only tif sfdond indfx
+     * is usfd. In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, tiis
+     * mftiod bfibvfs likf {@dodf sftSflfdtionIntfrvbl}, unlfss tif givfn
+     * intfrvbl is immfdibtfly bdjbdfnt to or ovfrlbps tif fxisting sflfdtion,
+     * bnd dbn tifrfforf bf usfd to grow tif sflfdtion.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @see #addListSelectionListener
-     * @see #setSelectionInterval
+     * @pbrbm indfx0 onf fnd of tif intfrvbl.
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @sff #bddListSflfdtionListfnfr
+     * @sff #sftSflfdtionIntfrvbl
      */
-    void addSelectionInterval(int index0, int index1);
+    void bddSflfdtionIntfrvbl(int indfx0, int indfx1);
 
 
     /**
-     * Changes the selection to be the set difference of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * Cibngfs tif sflfdtion to bf tif sft difffrfndf of tif durrfnt sflfdtion
+     * bnd tif indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to {@dodf indfx1}.
      * <p>
-     * In {@code SINGLE_INTERVAL_SELECTION} selection mode, if the removal
-     * would produce two disjoint selections, the removal is extended through
-     * the greater end of the selection. For example, if the selection is
-     * {@code 0-10} and you supply indices {@code 5,6} (in any order) the
-     * resulting selection is {@code 0-4}.
+     * In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, if tif rfmovbl
+     * would produdf two disjoint sflfdtions, tif rfmovbl is fxtfndfd tirougi
+     * tif grfbtfr fnd of tif sflfdtion. For fxbmplf, if tif sflfdtion is
+     * {@dodf 0-10} bnd you supply indidfs {@dodf 5,6} (in bny ordfr) tif
+     * rfsulting sflfdtion is {@dodf 0-4}.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @see #addListSelectionListener
+     * @pbrbm indfx0 onf fnd of tif intfrvbl.
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @sff #bddListSflfdtionListfnfr
      */
-    void removeSelectionInterval(int index0, int index1);
+    void rfmovfSflfdtionIntfrvbl(int indfx0, int indfx1);
 
 
     /**
-     * Returns the first selected index or -1 if the selection is empty.
+     * Rfturns tif first sflfdtfd indfx or -1 if tif sflfdtion is fmpty.
      *
-     * @return the first selected index or -1 if the selection is empty.
+     * @rfturn tif first sflfdtfd indfx or -1 if tif sflfdtion is fmpty.
      */
-    int getMinSelectionIndex();
+    int gftMinSflfdtionIndfx();
 
 
     /**
-     * Returns the last selected index or -1 if the selection is empty.
+     * Rfturns tif lbst sflfdtfd indfx or -1 if tif sflfdtion is fmpty.
      *
-     * @return the last selected index or -1 if the selection is empty.
+     * @rfturn tif lbst sflfdtfd indfx or -1 if tif sflfdtion is fmpty.
      */
-    int getMaxSelectionIndex();
+    int gftMbxSflfdtionIndfx();
 
 
     /**
-     * Returns true if the specified index is selected.
+     * Rfturns truf if tif spfdififd indfx is sflfdtfd.
      *
-     * @param index an index
-     * @return {@code true} if the specified index is selected
+     * @pbrbm indfx bn indfx
+     * @rfturn {@dodf truf} if tif spfdififd indfx is sflfdtfd
      */
-    boolean isSelectedIndex(int index);
+    boolfbn isSflfdtfdIndfx(int indfx);
 
 
     /**
-     * Return the first index argument from the most recent call to
-     * setSelectionInterval(), addSelectionInterval() or removeSelectionInterval().
-     * The most recent index0 is considered the "anchor" and the most recent
-     * index1 is considered the "lead".  Some interfaces display these
-     * indices specially, e.g. Windows95 displays the lead index with a
-     * dotted yellow outline.
+     * Rfturn tif first indfx brgumfnt from tif most rfdfnt dbll to
+     * sftSflfdtionIntfrvbl(), bddSflfdtionIntfrvbl() or rfmovfSflfdtionIntfrvbl().
+     * Tif most rfdfnt indfx0 is donsidfrfd tif "bndior" bnd tif most rfdfnt
+     * indfx1 is donsidfrfd tif "lfbd".  Somf intfrfbdfs displby tifsf
+     * indidfs spfdiblly, f.g. Windows95 displbys tif lfbd indfx witi b
+     * dottfd yfllow outlinf.
      *
-     * @return the anchor selection index
-     * @see #getLeadSelectionIndex
-     * @see #setSelectionInterval
-     * @see #addSelectionInterval
+     * @rfturn tif bndior sflfdtion indfx
+     * @sff #gftLfbdSflfdtionIndfx
+     * @sff #sftSflfdtionIntfrvbl
+     * @sff #bddSflfdtionIntfrvbl
      */
-    int getAnchorSelectionIndex();
+    int gftAndiorSflfdtionIndfx();
 
 
     /**
-     * Set the anchor selection index.
+     * Sft tif bndior sflfdtion indfx.
      *
-     * @param index the anchor selection index
-     * @see #getAnchorSelectionIndex
+     * @pbrbm indfx tif bndior sflfdtion indfx
+     * @sff #gftAndiorSflfdtionIndfx
      */
-    void setAnchorSelectionIndex(int index);
+    void sftAndiorSflfdtionIndfx(int indfx);
 
 
     /**
-     * Return the second index argument from the most recent call to
-     * setSelectionInterval(), addSelectionInterval() or removeSelectionInterval().
+     * Rfturn tif sfdond indfx brgumfnt from tif most rfdfnt dbll to
+     * sftSflfdtionIntfrvbl(), bddSflfdtionIntfrvbl() or rfmovfSflfdtionIntfrvbl().
      *
-     * @return the lead selection index.
-     * @see #getAnchorSelectionIndex
-     * @see #setSelectionInterval
-     * @see #addSelectionInterval
+     * @rfturn tif lfbd sflfdtion indfx.
+     * @sff #gftAndiorSflfdtionIndfx
+     * @sff #sftSflfdtionIntfrvbl
+     * @sff #bddSflfdtionIntfrvbl
      */
-    int getLeadSelectionIndex();
+    int gftLfbdSflfdtionIndfx();
 
     /**
-     * Set the lead selection index.
+     * Sft tif lfbd sflfdtion indfx.
      *
-     * @param index the lead selection index
-     * @see #getLeadSelectionIndex
+     * @pbrbm indfx tif lfbd sflfdtion indfx
+     * @sff #gftLfbdSflfdtionIndfx
      */
-    void setLeadSelectionIndex(int index);
+    void sftLfbdSflfdtionIndfx(int indfx);
 
     /**
-     * Change the selection to the empty set.  If this represents
-     * a change to the current selection then notify each ListSelectionListener.
+     * Cibngf tif sflfdtion to tif fmpty sft.  If tiis rfprfsfnts
+     * b dibngf to tif durrfnt sflfdtion tifn notify fbdi ListSflfdtionListfnfr.
      *
-     * @see #addListSelectionListener
+     * @sff #bddListSflfdtionListfnfr
      */
-    void clearSelection();
+    void dlfbrSflfdtion();
 
     /**
-     * Returns true if no indices are selected.
+     * Rfturns truf if no indidfs brf sflfdtfd.
      *
-     * @return {@code true} if no indices are selected.
+     * @rfturn {@dodf truf} if no indidfs brf sflfdtfd.
      */
-    boolean isSelectionEmpty();
+    boolfbn isSflfdtionEmpty();
 
     /**
-     * Insert {@code length} indices beginning before/after {@code index}. This is typically
-     * called to sync the selection model with a corresponding change
-     * in the data model.
+     * Insfrt {@dodf lfngti} indidfs bfginning bfforf/bftfr {@dodf indfx}. Tiis is typidblly
+     * dbllfd to synd tif sflfdtion modfl witi b dorrfsponding dibngf
+     * in tif dbtb modfl.
      *
-     * @param index the beginning of the interval
-     * @param length the length of the interval
-     * @param before if {@code true}, interval inserts before the {@code index},
-     *               otherwise, interval inserts after the {@code index}
+     * @pbrbm indfx tif bfginning of tif intfrvbl
+     * @pbrbm lfngti tif lfngti of tif intfrvbl
+     * @pbrbm bfforf if {@dodf truf}, intfrvbl insfrts bfforf tif {@dodf indfx},
+     *               otifrwisf, intfrvbl insfrts bftfr tif {@dodf indfx}
      */
-    void insertIndexInterval(int index, int length, boolean before);
+    void insfrtIndfxIntfrvbl(int indfx, int lfngti, boolfbn bfforf);
 
     /**
-     * Remove the indices in the interval {@code index0,index1} (inclusive) from
-     * the selection model.  This is typically called to sync the selection
-     * model width a corresponding change in the data model.
+     * Rfmovf tif indidfs in tif intfrvbl {@dodf indfx0,indfx1} (indlusivf) from
+     * tif sflfdtion modfl.  Tiis is typidblly dbllfd to synd tif sflfdtion
+     * modfl widti b dorrfsponding dibngf in tif dbtb modfl.
      *
-     * @param index0 the beginning of the interval
-     * @param index1 the end of the interval
+     * @pbrbm indfx0 tif bfginning of tif intfrvbl
+     * @pbrbm indfx1 tif fnd of tif intfrvbl
      */
-    void removeIndexInterval(int index0, int index1);
+    void rfmovfIndfxIntfrvbl(int indfx0, int indfx1);
 
     /**
-     * Sets the {@code valueIsAdjusting} property, which indicates whether
-     * or not upcoming selection changes should be considered part of a single
-     * change. The value of this property is used to initialize the
-     * {@code valueIsAdjusting} property of the {@code ListSelectionEvent}s that
-     * are generated.
+     * Sfts tif {@dodf vblufIsAdjusting} propfrty, wiidi indidbtfs wiftifr
+     * or not updoming sflfdtion dibngfs siould bf donsidfrfd pbrt of b singlf
+     * dibngf. Tif vbluf of tiis propfrty is usfd to initiblizf tif
+     * {@dodf vblufIsAdjusting} propfrty of tif {@dodf ListSflfdtionEvfnt}s tibt
+     * brf gfnfrbtfd.
      * <p>
-     * For example, if the selection is being updated in response to a user
-     * drag, this property can be set to {@code true} when the drag is initiated
-     * and set to {@code false} when the drag is finished. During the drag,
-     * listeners receive events with a {@code valueIsAdjusting} property
-     * set to {@code true}. At the end of the drag, when the change is
-     * finalized, listeners receive an event with the value set to {@code false}.
-     * Listeners can use this pattern if they wish to update only when a change
-     * has been finalized.
+     * For fxbmplf, if tif sflfdtion is bfing updbtfd in rfsponsf to b usfr
+     * drbg, tiis propfrty dbn bf sft to {@dodf truf} wifn tif drbg is initibtfd
+     * bnd sft to {@dodf fblsf} wifn tif drbg is finisifd. During tif drbg,
+     * listfnfrs rfdfivf fvfnts witi b {@dodf vblufIsAdjusting} propfrty
+     * sft to {@dodf truf}. At tif fnd of tif drbg, wifn tif dibngf is
+     * finblizfd, listfnfrs rfdfivf bn fvfnt witi tif vbluf sft to {@dodf fblsf}.
+     * Listfnfrs dbn usf tiis pbttfrn if tify wisi to updbtf only wifn b dibngf
+     * ibs bffn finblizfd.
      * <p>
-     * Setting this property to {@code true} begins a series of changes that
-     * is to be considered part of a single change. When the property is changed
-     * back to {@code false}, an event is sent out characterizing the entire
-     * selection change (if there was one), with the event's
-     * {@code valueIsAdjusting} property set to {@code false}.
+     * Sftting tiis propfrty to {@dodf truf} bfgins b sfrifs of dibngfs tibt
+     * is to bf donsidfrfd pbrt of b singlf dibngf. Wifn tif propfrty is dibngfd
+     * bbdk to {@dodf fblsf}, bn fvfnt is sfnt out dibrbdtfrizing tif fntirf
+     * sflfdtion dibngf (if tifrf wbs onf), witi tif fvfnt's
+     * {@dodf vblufIsAdjusting} propfrty sft to {@dodf fblsf}.
      *
-     * @param valueIsAdjusting the new value of the property
-     * @see #getValueIsAdjusting
-     * @see javax.swing.event.ListSelectionEvent#getValueIsAdjusting
+     * @pbrbm vblufIsAdjusting tif nfw vbluf of tif propfrty
+     * @sff #gftVblufIsAdjusting
+     * @sff jbvbx.swing.fvfnt.ListSflfdtionEvfnt#gftVblufIsAdjusting
      */
-    void setValueIsAdjusting(boolean valueIsAdjusting);
+    void sftVblufIsAdjusting(boolfbn vblufIsAdjusting);
 
     /**
-     * Returns {@code true} if the selection is undergoing a series of changes.
+     * Rfturns {@dodf truf} if tif sflfdtion is undfrgoing b sfrifs of dibngfs.
      *
-     * @return true if the selection is undergoing a series of changes
-     * @see #setValueIsAdjusting
+     * @rfturn truf if tif sflfdtion is undfrgoing b sfrifs of dibngfs
+     * @sff #sftVblufIsAdjusting
      */
-    boolean getValueIsAdjusting();
+    boolfbn gftVblufIsAdjusting();
 
     /**
-     * Sets the selection mode. The following list describes the accepted
-     * selection modes:
+     * Sfts tif sflfdtion modf. Tif following list dfsdribfs tif bddfptfd
+     * sflfdtion modfs:
      * <ul>
-     * <li>{@code ListSelectionModel.SINGLE_SELECTION} -
-     *   Only one list index can be selected at a time. In this mode,
-     *   {@code setSelectionInterval} and {@code addSelectionInterval} are
-     *   equivalent, both replacing the current selection with the index
-     *   represented by the second argument (the "lead").
-     * <li>{@code ListSelectionModel.SINGLE_INTERVAL_SELECTION} -
-     *   Only one contiguous interval can be selected at a time.
-     *   In this mode, {@code addSelectionInterval} behaves like
-     *   {@code setSelectionInterval} (replacing the current selection),
-     *   unless the given interval is immediately adjacent to or overlaps
-     *   the existing selection, and can therefore be used to grow it.
-     * <li>{@code ListSelectionModel.MULTIPLE_INTERVAL_SELECTION} -
-     *   In this mode, there's no restriction on what can be selected.
+     * <li>{@dodf ListSflfdtionModfl.SINGLE_SELECTION} -
+     *   Only onf list indfx dbn bf sflfdtfd bt b timf. In tiis modf,
+     *   {@dodf sftSflfdtionIntfrvbl} bnd {@dodf bddSflfdtionIntfrvbl} brf
+     *   fquivblfnt, boti rfplbding tif durrfnt sflfdtion witi tif indfx
+     *   rfprfsfntfd by tif sfdond brgumfnt (tif "lfbd").
+     * <li>{@dodf ListSflfdtionModfl.SINGLE_INTERVAL_SELECTION} -
+     *   Only onf dontiguous intfrvbl dbn bf sflfdtfd bt b timf.
+     *   In tiis modf, {@dodf bddSflfdtionIntfrvbl} bfibvfs likf
+     *   {@dodf sftSflfdtionIntfrvbl} (rfplbding tif durrfnt sflfdtion),
+     *   unlfss tif givfn intfrvbl is immfdibtfly bdjbdfnt to or ovfrlbps
+     *   tif fxisting sflfdtion, bnd dbn tifrfforf bf usfd to grow it.
+     * <li>{@dodf ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION} -
+     *   In tiis modf, tifrf's no rfstridtion on wibt dbn bf sflfdtfd.
      * </ul>
      *
-     * @param selectionMode the selection mode
-     * @see #getSelectionMode
-     * @throws IllegalArgumentException if the selection mode isn't
-     *         one of those allowed
+     * @pbrbm sflfdtionModf tif sflfdtion modf
+     * @sff #gftSflfdtionModf
+     * @tirows IllfgblArgumfntExdfption if tif sflfdtion modf isn't
+     *         onf of tiosf bllowfd
      */
-    void setSelectionMode(int selectionMode);
+    void sftSflfdtionModf(int sflfdtionModf);
 
     /**
-     * Returns the current selection mode.
+     * Rfturns tif durrfnt sflfdtion modf.
      *
-     * @return the current selection mode
-     * @see #setSelectionMode
+     * @rfturn tif durrfnt sflfdtion modf
+     * @sff #sftSflfdtionModf
      */
-    int getSelectionMode();
+    int gftSflfdtionModf();
 
     /**
-     * Add a listener to the list that's notified each time a change
-     * to the selection occurs.
+     * Add b listfnfr to tif list tibt's notififd fbdi timf b dibngf
+     * to tif sflfdtion oddurs.
      *
-     * @param x the ListSelectionListener
-     * @see #removeListSelectionListener
-     * @see #setSelectionInterval
-     * @see #addSelectionInterval
-     * @see #removeSelectionInterval
-     * @see #clearSelection
-     * @see #insertIndexInterval
-     * @see #removeIndexInterval
+     * @pbrbm x tif ListSflfdtionListfnfr
+     * @sff #rfmovfListSflfdtionListfnfr
+     * @sff #sftSflfdtionIntfrvbl
+     * @sff #bddSflfdtionIntfrvbl
+     * @sff #rfmovfSflfdtionIntfrvbl
+     * @sff #dlfbrSflfdtion
+     * @sff #insfrtIndfxIntfrvbl
+     * @sff #rfmovfIndfxIntfrvbl
      */
-    void addListSelectionListener(ListSelectionListener x);
+    void bddListSflfdtionListfnfr(ListSflfdtionListfnfr x);
 
     /**
-     * Remove a listener from the list that's notified each time a
-     * change to the selection occurs.
+     * Rfmovf b listfnfr from tif list tibt's notififd fbdi timf b
+     * dibngf to tif sflfdtion oddurs.
      *
-     * @param x the ListSelectionListener
-     * @see #addListSelectionListener
+     * @pbrbm x tif ListSflfdtionListfnfr
+     * @sff #bddListSflfdtionListfnfr
      */
-    void removeListSelectionListener(ListSelectionListener x);
+    void rfmovfListSflfdtionListfnfr(ListSflfdtionListfnfr x);
 }

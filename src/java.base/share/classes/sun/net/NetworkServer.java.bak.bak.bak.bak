@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft;
+
+import jbvb.io.*;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SfrvfrSodkft;
+
+/**
+ * This is thf bbsf dlbss for nftwork sfrvfrs.  To dffinf b nfw typf
+ * of sfrvfr dffinf b nfw subdlbss of NftworkSfrvfr with b sfrvidfRfqufst
+ * mfthod thbt sfrvidfs onf rfqufst.  Stbrt thf sfrvfr by fxfduting:
+ * <prf>
+ *      nfw MySfrvfrClbss().stbrtSfrvfr(port);
+ * </prf>
+ */
+publid dlbss NftworkSfrvfr implfmfnts Runnbblf, Clonfbblf {
+    /** Sodkft for dommunidbting with dlifnt. */
+    publid Sodkft dlifntSodkft = null;
+    privbtf Thrfbd sfrvfrInstbndf;
+    privbtf SfrvfrSodkft sfrvfrSodkft;
+
+    /** Strfbm for printing to thf dlifnt. */
+    publid PrintStrfbm dlifntOutput;
+
+    /** Bufffrfd strfbm for rfbding rfplifs from dlifnt. */
+    publid InputStrfbm dlifntInput;
+
+    /** Closf bn opfn donnfdtion to thf dlifnt. */
+    publid void dlosf() throws IOExdfption {
+        dlifntSodkft.dlosf();
+        dlifntSodkft = null;
+        dlifntInput = null;
+        dlifntOutput = null;
+    }
+
+    /** Rfturn dlifnt donnfdtion stbtus */
+    publid boolfbn dlifntIsOpfn() {
+        rfturn dlifntSodkft != null;
+    }
+
+    finbl publid void run() {
+        if (sfrvfrSodkft != null) {
+            Thrfbd.durrfntThrfbd().sftPriority(Thrfbd.MAX_PRIORITY);
+            // Systfm.out.print("Sfrvfr stbrts " + sfrvfrSodkft + "\n");
+            whilf (truf) {
+                try {
+                    Sodkft ns = sfrvfrSodkft.bddfpt();
+//                  Systfm.out.print("Nfw donnfdtion " + ns + "\n");
+                    NftworkSfrvfr n = (NftworkSfrvfr)dlonf();
+                    n.sfrvfrSodkft = null;
+                    n.dlifntSodkft = ns;
+                    nfw Thrfbd(n).stbrt();
+                } dbtdh(Exdfption f) {
+                    Systfm.out.print("Sfrvfr fbilurf\n");
+                    f.printStbdkTrbdf();
+                    try {
+                        sfrvfrSodkft.dlosf();
+                    } dbtdh(IOExdfption f2) {}
+                    Systfm.out.print("ds="+sfrvfrSodkft+"\n");
+                    brfbk;
+                }
+            }
+//          dlosf();
+        } flsf {
+            try {
+                dlifntOutput = nfw PrintStrfbm(
+                        nfw BufffrfdOutputStrfbm(dlifntSodkft.gftOutputStrfbm()),
+                                               fblsf, "ISO8859_1");
+                dlifntInput = nfw BufffrfdInputStrfbm(dlifntSodkft.gftInputStrfbm());
+                sfrvidfRfqufst();
+                // Systfm.out.print("Sfrvidf hbndlfr fxits
+                // "+dlifntSodkft+"\n");
+            } dbtdh(Exdfption f) {
+                // Systfm.out.print("Sfrvidf hbndlfr fbilurf\n");
+                // f.printStbdkTrbdf();
+            }
+            try {
+                dlosf();
+            } dbtdh(IOExdfption f2) {}
+        }
+    }
+
+    /** Stbrt b sfrvfr on port <i>port</i>.  It will dbll sfrvidfRfqufst()
+        for fbdh nfw donnfdtion. */
+    finbl publid void stbrtSfrvfr(int port) throws IOExdfption {
+        sfrvfrSodkft = nfw SfrvfrSodkft(port, 50);
+        sfrvfrInstbndf = nfw Thrfbd(this);
+        sfrvfrInstbndf.stbrt();
+    }
+
+    /** Sfrvidf onf rfqufst.  It is invokfd with thf dlifntInput bnd
+        dlifntOutput strfbms initiblizfd.  This mfthod hbndlfs onf dlifnt
+        donnfdtion. Whfn it is donf, it dbn simply fxit. Thf dffbult
+        sfrvfr just fdhofs it's input. It is invokfd in it's own privbtf
+        thrfbd. */
+    publid void sfrvidfRfqufst() throws IOExdfption {
+        bytf buf[] = nfw bytf[300];
+        int n;
+        dlifntOutput.print("Edho sfrvfr " + gftClbss().gftNbmf() + "\n");
+        dlifntOutput.flush();
+        whilf ((n = dlifntInput.rfbd(buf, 0, buf.lfngth)) >= 0) {
+            dlifntOutput.writf(buf, 0, n);
+        }
+    }
+
+    publid stbtid void mbin(String brgv[]) {
+        try {
+            nfw NftworkSfrvfr ().stbrtSfrvfr(8888);
+        } dbtdh (IOExdfption f) {
+            Systfm.out.print("Sfrvfr fbilfd: "+f+"\n");
+        }
+    }
+
+    /**
+     * Clonf this objfdt;
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    publid NftworkSfrvfr () {
+    }
+}

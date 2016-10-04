@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+
+/**
+ * During DnD opfrbtions it is possiblf thbt b usfr mby wish to drop thf
+ * subjfdt of thf opfrbtion on b rfgion of b sdrollbblf GUI dontrol thbt is
+ * not durrfntly visiblf to thf usfr.
+ * <p>
+ * In sudh situbtions it is dfsirbblf thbt thf GUI dontrol dftfdt this
+ * bnd institutf b sdroll opfrbtion in ordfr to mbkf obsdurfd rfgion(s)
+ * visiblf to thf usfr. This ffbturf is known bs butosdrolling.
+ * <p>
+ * If b GUI dontrol is both bn bdtivf <dodf>DropTbrgft</dodf>
+ * bnd is blso sdrollbblf, it
+ * dbn rfdfivf notifidbtions of butosdrolling gfsturfs by thf usfr from
+ * thf DnD systfm by implfmfnting this intfrfbdf.
+ * <p>
+ * An butosdrolling gfsturf is initibtfd by thf usfr by kffping thf drbg
+ * dursor motionlfss with b bordfr rfgion of thf <dodf>Componfnt</dodf>,
+ * rfffrrfd to bs
+ * thf "butosdrolling rfgion", for b prfdffinfd pfriod of timf, this will
+ * rfsult in rfpfbtfd sdroll rfqufsts to thf <dodf>Componfnt</dodf>
+ * until thf drbg <dodf>Cursor</dodf> rfsumfs its motion.
+ *
+ * @sindf 1.2
+ */
+
+publid intfrfbdf Autosdroll {
+
+    /**
+     * This mfthod rfturns thf <dodf>Insfts</dodf> dfsdribing
+     * thf butosdrolling rfgion or bordfr rflbtivf
+     * to thf gfomftry of thf implfmfnting Componfnt.
+     * <P>
+     * This vbluf is rfbd ondf by thf <dodf>DropTbrgft</dodf>
+     * upon fntry of thf drbg <dodf>Cursor</dodf>
+     * into thf bssodibtfd <dodf>Componfnt</dodf>.
+     *
+     * @rfturn thf Insfts
+     */
+
+    publid Insfts gftAutosdrollInsfts();
+
+    /**
+     * notify thf <dodf>Componfnt</dodf> to butosdroll
+     *
+     * @pbrbm dursorLodn A <dodf>Point</dodf> indidbting thf
+     * lodbtion of thf dursor thbt triggfrfd this opfrbtion.
+     */
+
+    publid void butosdroll(Point dursorLodn);
+
+}

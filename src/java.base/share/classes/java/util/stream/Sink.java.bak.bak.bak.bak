@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * An fxtfnsion of {@link Consumfr} usfd to dondudt vblufs through thf stbgfs of
+ * b strfbm pipflinf, with bdditionbl mfthods to mbnbgf sizf informbtion,
+ * dontrol flow, ftd.  Bfforf dblling thf {@dodf bddfpt()} mfthod on b
+ * {@dodf Sink} for thf first timf, you must first dbll thf {@dodf bfgin()}
+ * mfthod to inform it thbt dbtb is doming (optionblly informing thf sink how
+ * mudh dbtb is doming), bnd bftfr bll dbtb hbs bffn sfnt, you must dbll thf
+ * {@dodf fnd()} mfthod.  Aftfr dblling {@dodf fnd()}, you should not dbll
+ * {@dodf bddfpt()} without bgbin dblling {@dodf bfgin()}.  {@dodf Sink} blso
+ * offfrs b mfdhbnism by whidh thf sink dbn doopfrbtivfly signbl thbt it dofs
+ * not wish to rfdfivf bny morf dbtb (thf {@dodf dbndfllbtionRfqufstfd()}
+ * mfthod), whidh b sourdf dbn poll bfforf sfnding morf dbtb to thf
+ * {@dodf Sink}.
+ *
+ * <p>A sink mby bf in onf of two stbtfs: bn initibl stbtf bnd bn bdtivf stbtf.
+ * It stbrts out in thf initibl stbtf; thf {@dodf bfgin()} mfthod trbnsitions
+ * it to thf bdtivf stbtf, bnd thf {@dodf fnd()} mfthod trbnsitions it bbdk into
+ * thf initibl stbtf, whfrf it dbn bf rf-usfd.  Dbtb-bddfpting mfthods (sudh bs
+ * {@dodf bddfpt()} brf only vblid in thf bdtivf stbtf.
+ *
+ * @bpiNotf
+ * A strfbm pipflinf donsists of b sourdf, zfro or morf intfrmfdibtf stbgfs
+ * (sudh bs filtfring or mbpping), bnd b tfrminbl stbgf, sudh bs rfdudtion or
+ * for-fbdh.  For dondrftfnfss, donsidfr thf pipflinf:
+ *
+ * <prf>{@dodf
+ *     int longfstStringLfngthStbrtingWithA
+ *         = strings.strfbm()
+ *                  .filtfr(s -> s.stbrtsWith("A"))
+ *                  .mbpToInt(String::lfngth)
+ *                  .mbx();
+ * }</prf>
+ *
+ * <p>Hfrf, wf hbvf thrff stbgfs, filtfring, mbpping, bnd rfduding.  Thf
+ * filtfring stbgf donsumfs strings bnd fmits b subsft of thosf strings; thf
+ * mbpping stbgf donsumfs strings bnd fmits ints; thf rfdudtion stbgf donsumfs
+ * thosf ints bnd domputfs thf mbximbl vbluf.
+ *
+ * <p>A {@dodf Sink} instbndf is usfd to rfprfsfnt fbdh stbgf of this pipflinf,
+ * whfthfr thf stbgf bddfpts objfdts, ints, longs, or doublfs.  Sink hbs fntry
+ * points for {@dodf bddfpt(Objfdt)}, {@dodf bddfpt(int)}, ftd, so thbt wf do
+ * not nffd b spfdiblizfd intfrfbdf for fbdh primitivf spfdiblizbtion.  (It
+ * might bf dbllfd b "kitdhfn sink" for this omnivorous tfndfndy.)  Thf fntry
+ * point to thf pipflinf is thf {@dodf Sink} for thf filtfring stbgf, whidh
+ * sfnds somf flfmfnts "downstrfbm" -- into thf {@dodf Sink} for thf mbpping
+ * stbgf, whidh in turn sfnds intfgrbl vblufs downstrfbm into thf {@dodf Sink}
+ * for thf rfdudtion stbgf. Thf {@dodf Sink} implfmfntbtions bssodibtfd with b
+ * givfn stbgf is fxpfdtfd to know thf dbtb typf for thf nfxt stbgf, bnd dbll
+ * thf dorrfdt {@dodf bddfpt} mfthod on its downstrfbm {@dodf Sink}.  Similbrly,
+ * fbdh stbgf must implfmfnt thf dorrfdt {@dodf bddfpt} mfthod dorrfsponding to
+ * thf dbtb typf it bddfpts.
+ *
+ * <p>Thf spfdiblizfd subtypfs sudh bs {@link Sink.OfInt} ovfrridf
+ * {@dodf bddfpt(Objfdt)} to dbll thf bppropribtf primitivf spfdiblizbtion of
+ * {@dodf bddfpt}, implfmfnt thf bppropribtf primitivf spfdiblizbtion of
+ * {@dodf Consumfr}, bnd rf-bbstrbdt thf bppropribtf primitivf spfdiblizbtion of
+ * {@dodf bddfpt}.
+ *
+ * <p>Thf dhbining subtypfs sudh bs {@link ChbinfdInt} not only implfmfnt
+ * {@dodf Sink.OfInt}, but blso mbintbin b {@dodf downstrfbm} fifld whidh
+ * rfprfsfnts thf downstrfbm {@dodf Sink}, bnd implfmfnt thf mfthods
+ * {@dodf bfgin()}, {@dodf fnd()}, bnd {@dodf dbndfllbtionRfqufstfd()} to
+ * dflfgbtf to thf downstrfbm {@dodf Sink}.  Most implfmfntbtions of
+ * intfrmfdibtf opfrbtions will usf thfsf dhbining wrbppfrs.  For fxbmplf, thf
+ * mbpping stbgf in thf bbovf fxbmplf would look likf:
+ *
+ * <prf>{@dodf
+ *     IntSink is = nfw Sink.ChbinfdRfffrfndf<U>(sink) {
+ *         publid void bddfpt(U u) {
+ *             downstrfbm.bddfpt(mbppfr.bpplyAsInt(u));
+ *         }
+ *     };
+ * }</prf>
+ *
+ * <p>Hfrf, wf implfmfnt {@dodf Sink.ChbinfdRfffrfndf<U>}, mfbning thbt wf fxpfdt
+ * to rfdfivf flfmfnts of typf {@dodf U} bs input, bnd pbss thf downstrfbm sink
+ * to thf donstrudtor.  Bfdbusf thf nfxt stbgf fxpfdts to rfdfivf intfgfrs, wf
+ * must dbll thf {@dodf bddfpt(int)} mfthod whfn fmitting vblufs to thf downstrfbm.
+ * Thf {@dodf bddfpt()} mfthod bpplifs thf mbpping fundtion from {@dodf U} to
+ * {@dodf int} bnd pbssfs thf rfsulting vbluf to thf downstrfbm {@dodf Sink}.
+ *
+ * @pbrbm <T> typf of flfmfnts for vbluf strfbms
+ * @sindf 1.8
+ */
+intfrfbdf Sink<T> fxtfnds Consumfr<T> {
+    /**
+     * Rfsfts thf sink stbtf to rfdfivf b frfsh dbtb sft.  This must bf dbllfd
+     * bfforf sfnding bny dbtb to thf sink.  Aftfr dblling {@link #fnd()},
+     * you mby dbll this mfthod to rfsft thf sink for bnothfr dbldulbtion.
+     * @pbrbm sizf Thf fxbdt sizf of thf dbtb to bf pushfd downstrfbm, if
+     * known or {@dodf -1} if unknown or infinitf.
+     *
+     * <p>Prior to this dbll, thf sink must bf in thf initibl stbtf, bnd bftfr
+     * this dbll it is in thf bdtivf stbtf.
+     */
+    dffbult void bfgin(long sizf) {}
+
+    /**
+     * Indidbtfs thbt bll flfmfnts hbvf bffn pushfd.  If thf {@dodf Sink} is
+     * stbtfful, it should sfnd bny storfd stbtf downstrfbm bt this timf, bnd
+     * should dlfbr bny bddumulbtfd stbtf (bnd bssodibtfd rfsourdfs).
+     *
+     * <p>Prior to this dbll, thf sink must bf in thf bdtivf stbtf, bnd bftfr
+     * this dbll it is rfturnfd to thf initibl stbtf.
+     */
+    dffbult void fnd() {}
+
+    /**
+     * Indidbtfs thbt this {@dodf Sink} dofs not wish to rfdfivf bny morf dbtb.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion blwbys rfturns fblsf.
+     *
+     * @rfturn truf if dbndfllbtion is rfqufstfd
+     */
+    dffbult boolfbn dbndfllbtionRfqufstfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Addfpts bn int vbluf.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion throws IllfgblStbtfExdfption.
+     *
+     * @throws IllfgblStbtfExdfption if this sink dofs not bddfpt int vblufs
+     */
+    dffbult void bddfpt(int vbluf) {
+        throw nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mfthod");
+    }
+
+    /**
+     * Addfpts b long vbluf.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion throws IllfgblStbtfExdfption.
+     *
+     * @throws IllfgblStbtfExdfption if this sink dofs not bddfpt long vblufs
+     */
+    dffbult void bddfpt(long vbluf) {
+        throw nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mfthod");
+    }
+
+    /**
+     * Addfpts b doublf vbluf.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion throws IllfgblStbtfExdfption.
+     *
+     * @throws IllfgblStbtfExdfption if this sink dofs not bddfpt doublf vblufs
+     */
+    dffbult void bddfpt(doublf vbluf) {
+        throw nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mfthod");
+    }
+
+    /**
+     * {@dodf Sink} thbt implfmfnts {@dodf Sink<Intfgfr>}, rf-bbstrbdts
+     * {@dodf bddfpt(int)}, bnd wirfs {@dodf bddfpt(Intfgfr)} to bridgf to
+     * {@dodf bddfpt(int)}.
+     */
+    intfrfbdf OfInt fxtfnds Sink<Intfgfr>, IntConsumfr {
+        @Ovfrridf
+        void bddfpt(int vbluf);
+
+        @Ovfrridf
+        dffbult void bddfpt(Intfgfr i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfInt.bddfpt(Intfgfr)");
+            bddfpt(i.intVbluf());
+        }
+    }
+
+    /**
+     * {@dodf Sink} thbt implfmfnts {@dodf Sink<Long>}, rf-bbstrbdts
+     * {@dodf bddfpt(long)}, bnd wirfs {@dodf bddfpt(Long)} to bridgf to
+     * {@dodf bddfpt(long)}.
+     */
+    intfrfbdf OfLong fxtfnds Sink<Long>, LongConsumfr {
+        @Ovfrridf
+        void bddfpt(long vbluf);
+
+        @Ovfrridf
+        dffbult void bddfpt(Long i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfLong.bddfpt(Long)");
+            bddfpt(i.longVbluf());
+        }
+    }
+
+    /**
+     * {@dodf Sink} thbt implfmfnts {@dodf Sink<Doublf>}, rf-bbstrbdts
+     * {@dodf bddfpt(doublf)}, bnd wirfs {@dodf bddfpt(Doublf)} to bridgf to
+     * {@dodf bddfpt(doublf)}.
+     */
+    intfrfbdf OfDoublf fxtfnds Sink<Doublf>, DoublfConsumfr {
+        @Ovfrridf
+        void bddfpt(doublf vbluf);
+
+        @Ovfrridf
+        dffbult void bddfpt(Doublf i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfDoublf.bddfpt(Doublf)");
+            bddfpt(i.doublfVbluf());
+        }
+    }
+
+    /**
+     * Abstrbdt {@dodf Sink} implfmfntbtion for drfbting dhbins of
+     * sinks.  Thf {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mfthods brf wirfd to dhbin to thf
+     * downstrfbm {@dodf Sink}.  This implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input shbpf bnd produdfs b {@dodf Sink<T>}.  Thf
+     * implfmfntbtion of thf {@dodf bddfpt()} mfthod must dbll thf dorrfdt
+     * {@dodf bddfpt()} mfthod on thf downstrfbm {@dodf Sink}.
+     */
+    stbtid bbstrbdt dlbss ChbinfdRfffrfndf<T, E_OUT> implfmfnts Sink<T> {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
+
+        publid ChbinfdRfffrfndf(Sink<? supfr E_OUT> downstrfbm) {
+            this.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
+        }
+    }
+
+    /**
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dhbins of
+     * sinks.  Thf {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mfthods brf wirfd to dhbin to thf
+     * downstrfbm {@dodf Sink}.  This implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input shbpf bnd produdfs b {@dodf Sink.OfInt}.
+     * Thf implfmfntbtion of thf {@dodf bddfpt()} mfthod must dbll thf dorrfdt
+     * {@dodf bddfpt()} mfthod on thf downstrfbm {@dodf Sink}.
+     */
+    stbtid bbstrbdt dlbss ChbinfdInt<E_OUT> implfmfnts Sink.OfInt {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
+
+        publid ChbinfdInt(Sink<? supfr E_OUT> downstrfbm) {
+            this.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
+        }
+    }
+
+    /**
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dhbins of
+     * sinks.  Thf {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mfthods brf wirfd to dhbin to thf
+     * downstrfbm {@dodf Sink}.  This implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input shbpf bnd produdfs b {@dodf Sink.OfLong}.
+     * Thf implfmfntbtion of thf {@dodf bddfpt()} mfthod must dbll thf dorrfdt
+     * {@dodf bddfpt()} mfthod on thf downstrfbm {@dodf Sink}.
+     */
+    stbtid bbstrbdt dlbss ChbinfdLong<E_OUT> implfmfnts Sink.OfLong {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
+
+        publid ChbinfdLong(Sink<? supfr E_OUT> downstrfbm) {
+            this.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
+        }
+    }
+
+    /**
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dhbins of
+     * sinks.  Thf {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mfthods brf wirfd to dhbin to thf
+     * downstrfbm {@dodf Sink}.  This implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input shbpf bnd produdfs b {@dodf Sink.OfDoublf}.
+     * Thf implfmfntbtion of thf {@dodf bddfpt()} mfthod must dbll thf dorrfdt
+     * {@dodf bddfpt()} mfthod on thf downstrfbm {@dodf Sink}.
+     */
+    stbtid bbstrbdt dlbss ChbinfdDoublf<E_OUT> implfmfnts Sink.OfDoublf {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
+
+        publid ChbinfdDoublf(Sink<? supfr E_OUT> downstrfbm) {
+            this.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
+        }
+    }
+}

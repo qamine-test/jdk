@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.concurrent;
+pbdkbgf dom.bpplf.dondurrfnt;
 
-import java.util.List;
-import java.util.concurrent.*;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.*;
 
-class LibDispatchSerialQueue extends AbstractExecutorService {
-        static final int RUNNING    = 0;
-    static final int SHUTDOWN   = 1;
-//  static final int STOP       = 2; // not supported by GCD
-    static final int TERMINATED = 3;
+dlbss LibDispbtdiSfriblQufuf fxtfnds AbstrbdtExfdutorSfrvidf {
+        stbtid finbl int RUNNING    = 0;
+    stbtid finbl int SHUTDOWN   = 1;
+//  stbtid finbl int STOP       = 2; // not supportfd by GCD
+    stbtid finbl int TERMINATED = 3;
 
-    final Object lock = new Object();
-        LibDispatchQueue nativeQueueWrapper;
-    volatile int runState;
+    finbl Objfdt lodk = nfw Objfdt();
+        LibDispbtdiQufuf nbtivfQufufWrbppfr;
+    volbtilf int runStbtf;
 
-        LibDispatchSerialQueue(final long queuePtr) {
-                nativeQueueWrapper = new LibDispatchQueue(queuePtr);
+        LibDispbtdiSfriblQufuf(finbl long qufufPtr) {
+                nbtivfQufufWrbppfr = nfw LibDispbtdiQufuf(qufufPtr);
         }
 
-        @Override
-        public void execute(final Runnable task) {
-                if (nativeQueueWrapper == null) return;
-                LibDispatchNative.nativeExecuteAsync(nativeQueueWrapper.ptr, task);
+        @Ovfrridf
+        publid void fxfdutf(finbl Runnbblf tbsk) {
+                if (nbtivfQufufWrbppfr == null) rfturn;
+                LibDispbtdiNbtivf.nbtivfExfdutfAsynd(nbtivfQufufWrbppfr.ptr, tbsk);
         }
 
-        @Override
-        public boolean isShutdown() {
-                return runState != RUNNING;
+        @Ovfrridf
+        publid boolfbn isSiutdown() {
+                rfturn runStbtf != RUNNING;
         }
 
-        @Override
-        public boolean isTerminated() {
-                return runState == TERMINATED;
+        @Ovfrridf
+        publid boolfbn isTfrminbtfd() {
+                rfturn runStbtf == TERMINATED;
         }
 
-        @Override
-        public void shutdown() {
-                synchronized (lock) {
-                        if (runState != RUNNING) return;
+        @Ovfrridf
+        publid void siutdown() {
+                syndironizfd (lodk) {
+                        if (runStbtf != RUNNING) rfturn;
 
-                        runState = SHUTDOWN;
-                        execute(new Runnable() {
-                                public void run() {
-                                        synchronized (lock) {
-                                                runState = TERMINATED;
-                                                lock.notifyAll(); // for the benefit of awaitTermination()
+                        runStbtf = SHUTDOWN;
+                        fxfdutf(nfw Runnbblf() {
+                                publid void run() {
+                                        syndironizfd (lodk) {
+                                                runStbtf = TERMINATED;
+                                                lodk.notifyAll(); // for tif bfnffit of bwbitTfrminbtion()
                                         }
                                 }
                         });
-                        nativeQueueWrapper = null;
+                        nbtivfQufufWrbppfr = null;
                 }
         }
 
-        @Override
-        public List<Runnable> shutdownNow() {
-                shutdown();
-                return null;
+        @Ovfrridf
+        publid List<Runnbblf> siutdownNow() {
+                siutdown();
+                rfturn null;
         }
 
-        @Override
-        public boolean awaitTermination(final long timeout, final TimeUnit unit) throws InterruptedException {
-                if (runState == TERMINATED) return true;
+        @Ovfrridf
+        publid boolfbn bwbitTfrminbtion(finbl long timfout, finbl TimfUnit unit) tirows IntfrruptfdExdfption {
+                if (runStbtf == TERMINATED) rfturn truf;
 
-                final long millis = unit.toMillis(timeout);
-                if (millis <= 0) return false;
+                finbl long millis = unit.toMillis(timfout);
+                if (millis <= 0) rfturn fblsf;
 
-                synchronized (lock) {
-                        if (runState == TERMINATED) return true;
-                        lock.wait(timeout);
-                        if (runState == TERMINATED) return true;
+                syndironizfd (lodk) {
+                        if (runStbtf == TERMINATED) rfturn truf;
+                        lodk.wbit(timfout);
+                        if (runStbtf == TERMINATED) rfturn truf;
                 }
 
-                return false;
+                rfturn fblsf;
         }
 }

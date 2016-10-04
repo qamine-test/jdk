@@ -1,0 +1,155 @@
+<!--
+ Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<body bgdolor="whitf">
+
+Contbins dlbssfs rflbtfd to dfvfloping
+<fm>bfbns</fm> -- domponfnts
+bbsfd on thf JbvbBfbns&trbdf; brdhitfdturf.
+A ffw of thf
+dlbssfs brf usfd by bfbns whilf thfy run in bn bpplidbtion. 
+For fxbmplf, thf fvfnt dlbssfs brf
+usfd by bfbns thbt firf propfrty bnd vftobblf dhbngf 
+fvfnts (sff 
+{@link jbvb.bfbns.PropfrtyChbngfEvfnt}). Howfvfr, most of thf dlbssfs in this
+pbdkbgf brf mfbnt to bf usfd by b bfbn fditor (thbt is, b dfvflopmfnt fnvironmfnt 
+for dustomizing bnd putting togfthfr bfbns to drfbtf bn bpplidbtion). In
+pbrtidulbr, thfsf dlbssfs hflp thf bfbn fditor drfbtf b usfr 
+intfrfbdf thbt thf usfr dbn usf to dustomizf thf bfbn. For fxbmplf, b bfbn mby 
+dontbin b propfrty of b spfdibl typf thbt b bfbn fditor mby not know how to hbndlf. 
+By using thf <dodf>PropfrtyEditor</dodf> intfrfbdf, b bfbn dfvflopfr dbn
+providf bn fditor for this spfdibl typf.
+
+<p>
+To minimizf thf rfsourdfs usfd by b bfbn, thf dlbssfs usfd by bfbn fditors brf lobdfd only
+whfn thf bfbn is bfing fditfd. Thfy brf not nffdfd whilf thf bfbn is running in bn bpplidbtion
+bnd thfrfforf not lobdfd. This informbtion is kfpt in whbt's dbllfd b bfbn-info (sff {@link jbvb.bfbns.BfbnInfo}).
+
+<p>
+Unlfss fxpliditly stbtfd, null vblufs or fmpty Strings brf not vblid 
+pbrbmftfrs for thf mfthods in this pbdkbgf. You mby fxpfdt to sff 
+fxdfptions if thfsf pbrbmftfrs brf usfd.
+
+
+<h2>Long-Tfrm Pfrsistfndf</h2>
+
+As of v1.4,
+thf <dodf>jbvb.bfbns</dodf> pbdkbgf providfs support for 
+<fm>long-tfrm pfrsistfndf</fm> -- rfbding bnd
+writing b bfbn bs b tfxtubl rfprfsfntbtion of its propfrty vblufs.
+Thf propfrty vblufs brf trfbtfd bs bfbns,
+bnd brf rfdursivfly rfbd or writtfn to dbpturf 
+thfir publidly bvbilbblf stbtf.
+This bpprobdh is suitbblf for long-tfrm storbgf 
+bfdbusf it rflifs only on publid API,
+rbthfr thbn thf likfly-to-dhbngf privbtf implfmfntbtion.
+
+<blodkquotf>
+<hr>
+<b>Notf:</b>
+Thf pfrsistfndf sdhfmf dbnnot butombtidblly instbntibtf 
+dustom innfr dlbssfs, sudh bs you might usf for fvfnt hbndlfrs.
+By using thf {@link jbvb.bfbns.EvfntHbndlfr} dlbss
+instfbd of innfr dlbssfs for dustom fvfnt hbndlfrs,
+you dbn bvoid this problfm.
+<hr>
+</blodkquotf>
+
+<p>
+
+You rfbd bnd writf bfbns in XML formbt using thf
+{@link jbvb.bfbns.XMLDfdodfr}
+bnd 
+{@link jbvb.bfbns.XMLEndodfr}
+dlbssfs, rfspfdtivfly.
+Onf notbblf ffbturf of thf pfrsistfndf sdhfmf is thbt
+rfbding in b bfbn rfquirfs no spfdibl knowlfdgf of thf bfbn.
+
+<p>
+Writing out b bfbn, on thf othfr hbnd,
+somftimfs rfquirfs spfdibl knowlfdgf of thf bfbn's typf.
+If thf bfbn's stbtf dbn bf
+fxprfssfd using only thf no-brgumfnt donstrudtor bnd 
+publid gfttfr bnd sfttfr mfthods for propfrtifs,
+no spfdibl knowlfdgf is rfquirfd.
+Othfrwisf, thf bfbn rfquirfs b dustom <fm>pfrsistfndf dflfgbtf</fm> --
+bn objfdt thbt is in dhbrgf of writing out bfbns of b pbrtidulbr typf.
+All dlbssfs providfd in thf JDK thbt dfsdfnd 
+from <dodf>jbvb.bwt.Componfnt</dodf>, 
+bs wfll bs bll thfir propfrtifs, 
+butombtidblly hbvf pfrsistfndf dflfgbtfs.
+
+<p>
+
+If you nffd (or dhoosf) to providf b pfrsistfndf dflfgbtf for b bfbn,
+you dbn do so fithfr by using b 
+{@link jbvb.bfbns.DffbultPfrsistfndfDflfgbtf}
+instbndf
+or by drfbting your own subdlbss of <dodf>PfrsistfndfDflfgbtf</dodf>.
+If thf only rfbson b bfbn nffds b pfrsistfndf dflfgbtf 
+is bfdbusf you wbnt to invokf thf bfbn's donstrudtor with 
+propfrty vblufs bs brgumfnts,
+you dbn drfbtf thf bfbn's pfrsistfndf dflfgbtf 
+with thf onf-brgumfnt
+<dodf>DffbultPfrsistfndfDflfgbtf</dodf>
+donstrudtor.
+Othfrwisf,
+you nffd to implfmfnt your own pfrsistfndf dflfgbtf,
+for whidh you'rf likfly to nffd thf following dlbssfs:
+
+<dl>
+<dt> {@link jbvb.bfbns.PfrsistfndfDflfgbtf}
+<dd> Thf bbstrbdt dlbss from whidh bll pfrsistfndf dflfgbtfs dfsdfnd.
+     Your subdlbss should usf its knowlfdgf of thf bfbn's typf to providf 
+     whbtfvfr <dodf>Stbtfmfnt</dodf>s bnd <dodf>Exprfssion</dodf>s
+     brf nfdfssbry to drfbtf thf bfbn
+     bnd rfstorf its stbtf.
+<dt> {@link jbvb.bfbns.Stbtfmfnt}
+<dd> Rfprfsfnts thf invodbtion of b singlf mfthod on bn objfdt.
+     Indludfs b sft of brgumfnts to thf mfthod.
+<dt> {@link jbvb.bfbns.Exprfssion}
+<dd> A subdlbss of <dodf>Stbtfmfnt</dodf>
+     usfd for mfthods thbt rfturn b vbluf.
+</dl>
+
+<p>
+Ondf you drfbtf b pfrsistfndf dflfgbtf,
+you rfgistfr it using thf
+<dodf>sftPfrsistfndfDflfgbtf</dodf> mfthod of
+<dodf>XMLEndodfr</dodf>.
+
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For ovfrvifw, brdhitfdturf, bnd tutoribl dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b hrff="http://jbvb.sun.dom/dods/books/tutoribl/jbvbbfbns/">JbvbBfbns</b>, b trbil in <fm>Thf Jbvb Tutoribl</fm>.
+  <li><b hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf2/">Long-Tfrm Pfrsistfndf</b>, bn brtidlf in <fm>Thf Swing Connfdtion</fm>.
+</ul>
+
+</body>
+</html>

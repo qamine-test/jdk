@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.net.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.nft.*;
 
 /**
- * Concrete implementation of the MonitoredHost interface for the
- * <em>local</em> protocol of the HotSpot PerfData monitoring implementation.
+ * Condrftf implfmfntbtion of tif MonitorfdHost intfrfbdf for tif
+ * <fm>lodbl</fm> protodol of tif HotSpot PfrfDbtb monitoring implfmfntbtion.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class MonitoredHostProvider extends MonitoredHost {
-    private static final int DEFAULT_POLLING_INTERVAL = 1000;
+publid dlbss MonitorfdHostProvidfr fxtfnds MonitorfdHost {
+    privbtf stbtid finbl int DEFAULT_POLLING_INTERVAL = 1000;
 
-    private ArrayList<HostListener> listeners;
-    private NotifierTask task;
-    private HashSet<Integer> activeVms;
-    private LocalVmManager vmManager;
+    privbtf ArrbyList<HostListfnfr> listfnfrs;
+    privbtf NotififrTbsk tbsk;
+    privbtf HbsiSft<Intfgfr> bdtivfVms;
+    privbtf LodblVmMbnbgfr vmMbnbgfr;
 
     /**
-     * Create a MonitoredHostProvider instance using the given HostIdentifier.
+     * Crfbtf b MonitorfdHostProvidfr instbndf using tif givfn HostIdfntififr.
      *
-     * @param hostId the host identifier for this MonitoredHost
+     * @pbrbm iostId tif iost idfntififr for tiis MonitorfdHost
      */
-    public MonitoredHostProvider(HostIdentifier hostId) {
-        this.hostId = hostId;
-        this.listeners = new ArrayList<HostListener>();
-        this.interval = DEFAULT_POLLING_INTERVAL;
-        this.activeVms = new HashSet<Integer>();
-        this.vmManager = new LocalVmManager();
+    publid MonitorfdHostProvidfr(HostIdfntififr iostId) {
+        tiis.iostId = iostId;
+        tiis.listfnfrs = nfw ArrbyList<HostListfnfr>();
+        tiis.intfrvbl = DEFAULT_POLLING_INTERVAL;
+        tiis.bdtivfVms = nfw HbsiSft<Intfgfr>();
+        tiis.vmMbnbgfr = nfw LodblVmMbnbgfr();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public MonitoredVm getMonitoredVm(VmIdentifier vmid)
-                       throws MonitorException {
-        return getMonitoredVm(vmid, DEFAULT_POLLING_INTERVAL);
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid)
+                       tirows MonitorExdfption {
+        rfturn gftMonitorfdVm(vmid, DEFAULT_POLLING_INTERVAL);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public MonitoredVm getMonitoredVm(VmIdentifier vmid, int interval)
-                       throws MonitorException {
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+                       tirows MonitorExdfption {
         try {
-            VmIdentifier nvmid = hostId.resolve(vmid);
-            return new LocalMonitoredVm(nvmid, interval);
-        } catch (URISyntaxException e) {
+            VmIdfntififr nvmid = iostId.rfsolvf(vmid);
+            rfturn nfw LodblMonitorfdVm(nvmid, intfrvbl);
+        } dbtdi (URISyntbxExdfption f) {
             /*
-             * the VmIdentifier is expected to be a valid and it should
-             * resolve reasonably against the host identifier. A
-             * URISyntaxException here is most likely a programming error.
+             * tif VmIdfntififr is fxpfdtfd to bf b vblid bnd it siould
+             * rfsolvf rfbsonbbly bgbinst tif iost idfntififr. A
+             * URISyntbxExdfption ifrf is most likfly b progrbmming frror.
              */
-            throw new IllegalArgumentException("Malformed URI: "
-                                               + vmid.toString(), e);
+            tirow nfw IllfgblArgumfntExdfption("Mblformfd URI: "
+                                               + vmid.toString(), f);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void detach(MonitoredVm vm) {
-        vm.detach();
+    publid void dftbdi(MonitorfdVm vm) {
+        vm.dftbdi();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void addHostListener(HostListener listener) {
-        synchronized(listeners) {
-            listeners.add(listener);
-            if (task == null) {
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                timer.schedule(task, interval, interval);
+    publid void bddHostListfnfr(HostListfnfr listfnfr) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.bdd(listfnfr);
+            if (tbsk == null) {
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                timfr.sdifdulf(tbsk, intfrvbl, intfrvbl);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void removeHostListener(HostListener listener) {
-        synchronized(listeners) {
-            listeners.remove(listener);
-            if (listeners.isEmpty() && (task != null)) {
-                task.cancel();
-                task = null;
+    publid void rfmovfHostListfnfr(HostListfnfr listfnfr) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.rfmovf(listfnfr);
+            if (listfnfrs.isEmpty() && (tbsk != null)) {
+                tbsk.dbndfl();
+                tbsk = null;
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setInterval(int newInterval) {
-        synchronized(listeners) {
-            if (newInterval == interval) {
-                return;
+    publid void sftIntfrvbl(int nfwIntfrvbl) {
+        syndironizfd(listfnfrs) {
+            if (nfwIntfrvbl == intfrvbl) {
+                rfturn;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntfrvbl = intfrvbl;
+            supfr.sftIntfrvbl(nfwIntfrvbl);
 
-            if (task != null) {
-                task.cancel();
-                NotifierTask oldTask = task;
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                CountedTimerTaskUtils.reschedule(timer, oldTask, task,
-                                                 oldInterval, newInterval);
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                NotififrTbsk oldTbsk = tbsk;
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                CountfdTimfrTbskUtils.rfsdifdulf(timfr, oldTbsk, tbsk,
+                                                 oldIntfrvbl, nfwIntfrvbl);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public Set<Integer> activeVms() {
-        return vmManager.activeVms();
+    publid Sft<Intfgfr> bdtivfVms() {
+        rfturn vmMbnbgfr.bdtivfVms();
     }
 
     /**
-     * Fire VmEvent events.
+     * Firf VmEvfnt fvfnts.
      *
-     * @param active a set of Integer objects containing the vmid of
-     *               the active Vms
-     * @param started a set of Integer objects containing the vmid of
-     *                new Vms started since last interval.
-     * @param terminated a set of Integer objects containing the vmid of
-     *                   terminated Vms since last interval.
+     * @pbrbm bdtivf b sft of Intfgfr objfdts dontbining tif vmid of
+     *               tif bdtivf Vms
+     * @pbrbm stbrtfd b sft of Intfgfr objfdts dontbining tif vmid of
+     *                nfw Vms stbrtfd sindf lbst intfrvbl.
+     * @pbrbm tfrminbtfd b sft of Intfgfr objfdts dontbining tif vmid of
+     *                   tfrminbtfd Vms sindf lbst intfrvbl.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    private void fireVmStatusChangedEvents(Set<Integer> active, Set<Integer> started,
-                                           Set<Integer> terminated) {
-        ArrayList<HostListener> registered = null;
-        VmStatusChangeEvent ev = null;
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    privbtf void firfVmStbtusCibngfdEvfnts(Sft<Intfgfr> bdtivf, Sft<Intfgfr> stbrtfd,
+                                           Sft<Intfgfr> tfrminbtfd) {
+        ArrbyList<HostListfnfr> rfgistfrfd = null;
+        VmStbtusCibngfEvfnt fv = null;
 
-        synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+        syndironizfd(listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
         }
 
-        for (Iterator<HostListener> i = registered.iterator(); i.hasNext(); /* empty */) {
-            HostListener l = i.next();
-            if (ev == null) {
-                ev = new VmStatusChangeEvent(this, active, started, terminated);
+        for (Itfrbtor<HostListfnfr> i = rfgistfrfd.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+            HostListfnfr l = i.nfxt();
+            if (fv == null) {
+                fv = nfw VmStbtusCibngfEvfnt(tiis, bdtivf, stbrtfd, tfrminbtfd);
             }
-            l.vmStatusChanged(ev);
+            l.vmStbtusCibngfd(fv);
         }
     }
 
     /**
-     * Class to poll the local system and generate event notifications.
+     * Clbss to poll tif lodbl systfm bnd gfnfrbtf fvfnt notifidbtions.
      */
-    private class NotifierTask extends CountedTimerTask {
-        public void run() {
-            super.run();
+    privbtf dlbss NotififrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
 
-            // save the last set of active JVMs
-            Set<Integer> lastActiveVms = activeVms;
+            // sbvf tif lbst sft of bdtivf JVMs
+            Sft<Intfgfr> lbstAdtivfVms = bdtivfVms;
 
-            // get the current set of active JVMs
-            activeVms = (HashSet<Integer>)vmManager.activeVms();
+            // gft tif durrfnt sft of bdtivf JVMs
+            bdtivfVms = (HbsiSft<Intfgfr>)vmMbnbgfr.bdtivfVms();
 
-            if (activeVms.isEmpty()) {
-                return;
+            if (bdtivfVms.isEmpty()) {
+                rfturn;
             }
-            Set<Integer> startedVms = new HashSet<>();
-            Set<Integer> terminatedVms = new HashSet<>();
+            Sft<Intfgfr> stbrtfdVms = nfw HbsiSft<>();
+            Sft<Intfgfr> tfrminbtfdVms = nfw HbsiSft<>();
 
-            for (Iterator<Integer> i = activeVms.iterator(); i.hasNext(); /* empty */) {
-                Integer vmid = i.next();
-                if (!lastActiveVms.contains(vmid)) {
-                    // a new file has been detected, add to set
-                    startedVms.add(vmid);
+            for (Itfrbtor<Intfgfr> i = bdtivfVms.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+                Intfgfr vmid = i.nfxt();
+                if (!lbstAdtivfVms.dontbins(vmid)) {
+                    // b nfw filf ibs bffn dftfdtfd, bdd to sft
+                    stbrtfdVms.bdd(vmid);
                 }
             }
 
-            for (Iterator<Integer> i = lastActiveVms.iterator(); i.hasNext();
-                    /* empty */) {
-                Integer o = i.next();
-                if (!activeVms.contains(o)) {
-                    // JVM has terminated, remove it from the active list
-                    terminatedVms.add(o);
+            for (Itfrbtor<Intfgfr> i = lbstAdtivfVms.itfrbtor(); i.ibsNfxt();
+                    /* fmpty */) {
+                Intfgfr o = i.nfxt();
+                if (!bdtivfVms.dontbins(o)) {
+                    // JVM ibs tfrminbtfd, rfmovf it from tif bdtivf list
+                    tfrminbtfdVms.bdd(o);
                 }
             }
 
-            if (!startedVms.isEmpty() || !terminatedVms.isEmpty()) {
-                fireVmStatusChangedEvents(activeVms, startedVms,
-                                          terminatedVms);
+            if (!stbrtfdVms.isEmpty() || !tfrminbtfdVms.isEmpty()) {
+                firfVmStbtusCibngfdEvfnts(bdtivfVms, stbrtfdVms,
+                                          tfrminbtfdVms);
             }
         }
     }

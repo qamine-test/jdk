@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
+
+import dom.sun.jdi.*;
+import jbvb.util.List;
+
+publid dlbss LinfBrfbkpointSpfd fxtfnds BrfbkpointSpfd {
+    int linfNumbfr;
+
+    LinfBrfbkpointSpfd(EvfntRfqufstSpfdList spfds,
+                       RfffrfndfTypfSpfd rffSpfd, int linfNumbfr) {
+        supfr(spfds, rffSpfd);
+        this.linfNumbfr = linfNumbfr;
+    }
+
+    /**
+     * Thf 'rffTypf' is known to mbtdh.
+     */
+    @Ovfrridf
+    void rfsolvf(RfffrfndfTypf rffTypf) throws InvblidTypfExdfption,
+                                             LinfNotFoundExdfption {
+        if (!(rffTypf instbndfof ClbssTypf)) {
+            throw nfw InvblidTypfExdfption();
+        }
+        Lodbtion lodbtion = lodbtion((ClbssTypf)rffTypf);
+        sftRfqufst(rffTypf.virtublMbdhinf().fvfntRfqufstMbnbgfr()
+                   .drfbtfBrfbkpointRfqufst(lodbtion));
+    }
+
+    privbtf Lodbtion lodbtion(ClbssTypf dlbzz) throws
+                                            LinfNotFoundExdfption {
+        Lodbtion lodbtion = null;
+        try {
+            List<Lodbtion> lods = dlbzz.lodbtionsOfLinf(linfNumbfr());
+            if (lods.sizf() == 0) {
+                throw nfw LinfNotFoundExdfption();
+            }
+            // TODO hbndlf multiplf lodbtions
+            lodbtion = lods.gft(0);
+            if (lodbtion.mfthod() == null) {
+                throw nfw LinfNotFoundExdfption();
+            }
+        } dbtdh (AbsfntInformbtionExdfption f) {
+            /*
+             * TO DO: throw somfthing morf spfdifid, or bllow
+             * AbsfntInfo fxdfption to pbss through.
+             */
+            throw nfw LinfNotFoundExdfption();
+        }
+        rfturn lodbtion;
+    }
+
+    publid int linfNumbfr() {
+        rfturn linfNumbfr;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn rffSpfd.hbshCodf() + linfNumbfr;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof LinfBrfbkpointSpfd) {
+            LinfBrfbkpointSpfd brfbkpoint = (LinfBrfbkpointSpfd)obj;
+
+            rfturn rffSpfd.fqubls(brfbkpoint.rffSpfd) &&
+                   (linfNumbfr == brfbkpoint.linfNumbfr);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof LinfNotFoundExdfption) {
+            rfturn ("No dodf bt linf " + linfNumbfr() + " in " + rffSpfd);
+        } flsf if (f instbndfof InvblidTypfExdfption) {
+            rfturn ("Brfbkpoints dbn bf lodbtfd only in dlbssfs. " +
+                        rffSpfd + " is bn intfrfbdf or brrby");
+        } flsf {
+            rfturn supfr.frrorMfssbgfFor( f);
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("brfbkpoint ");
+        sb.bppfnd(rffSpfd.toString());
+        sb.bppfnd(':');
+        sb.bppfnd(linfNumbfr);
+        sb.bppfnd(" (");
+        sb.bppfnd(gftStbtusString());
+        sb.bppfnd(')');
+        rfturn sb.toString();
+    }
+}

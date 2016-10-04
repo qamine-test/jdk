@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#ifndff JAVA_CRW_DEMO_H
+#dffinf JAVA_CRW_DEMO_H
+
+#indludf <jni.h>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/* This dbllbbdk is usfd to notify thf dbllfr of b fbtbl frror. */
+
+typfdff void (*FbtblErrorHbndlfr)(donst dhbr*mfssbgf, donst dhbr*filf, int linf);
+
+/* This dbllbbdk is usfd to rfturn thf mfthod informbtion for b dlbss.
+ *   Sindf thf informbtion wbs blrfbdy rfbd hfrf, it wbs usfful to
+ *   rfturn it hfrf, with no JVMTI phbsf rfstridtions.
+ *   If thf dlbss filf dofs rfprfsfnt b "dlbss" bnd it hbs mfthods, thfn
+ *   this dbllbbdk will bf dbllfd with thf dlbss numbfr bnd pointfrs to
+ *   thf brrby of nbmfs, brrby of signbturfs, bnd thf dount of mfthods.
+ */
+
+typfdff void (*MfthodNumbfrRfgistfr)(unsignfd, donst dhbr**, donst dhbr**, int);
+
+/* Clbss filf rfbdfr/writfr intfrfbdf. Bbsid input is b dlbssfilf imbgf
+ *     bnd dftbils bbout whbt to injfdt. Thf output is b nfw dlbssfilf imbgf
+ *     thbt wbs bllodbtfd with mbllod(), bnd should bf frffd by thf dbllfr.
+ */
+
+/* Nbmfs of fxtfrnbl symbols to look for. Thfsf brf thf nbmfs thbt wf
+ *   try bnd lookup in thf shbrfd librbry. On Windows 2000, thf nbming
+ *   donvfntion is to prffix b "_" bnd suffix b "@N" whfrf N is 4 timfs
+ *   thf numbfr or brgumfnts supplifd.It hbs 19 brgs, so 76 = 19*4.
+ *   On Windows 2003, Linux, bnd Solbris, thf first nbmf will bf
+ *   found, on Windows 2000 b sfdond try should find thf sfdond nbmf.
+ *
+ *   WARNING: If You dhbngf thf JbvbCrwDfmo typfdff, you MUST dhbngf
+ *            multiplf things in this filf, indluding this nbmf.
+ */
+
+#dffinf JAVA_CRW_DEMO_SYMBOLS { "jbvb_drw_dfmo", "_jbvb_drw_dfmo@76" }
+
+/* Typfdff nffdfd for typf dbsting in dynbmid bddfss situbtions. */
+
+typfdff void (JNICALL *JbvbCrwDfmo)(
+         unsignfd dlbss_numbfr,
+         donst dhbr *nbmf,
+         donst unsignfd dhbr *filf_imbgf,
+         long filf_lfn,
+         int systfm_dlbss,
+         dhbr* tdlbss_nbmf,
+         dhbr* tdlbss_sig,
+         dhbr* dbll_nbmf,
+         dhbr* dbll_sig,
+         dhbr* rfturn_nbmf,
+         dhbr* rfturn_sig,
+         dhbr* obj_init_nbmf,
+         dhbr* obj_init_sig,
+         dhbr* nfwbrrby_nbmf,
+         dhbr* nfwbrrby_sig,
+         unsignfd dhbr **pnfw_filf_imbgf,
+         long *pnfw_filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_hbndlfr,
+         MfthodNumbfrRfgistfr mnum_dbllbbdk
+);
+
+/* Fundtion fxport (should mbtdh typfdff bbovf) */
+
+JNIEXPORT void JNICALL jbvb_drw_dfmo(
+
+         unsignfd dlbss_numbfr, /* Cbllfr bssignfd dlbss numbfr for dlbss */
+
+         donst dhbr *nbmf,      /* Intfrnbl dlbss nbmf, f.g. jbvb/lbng/Objfdt */
+                                /*   (Do not usf "jbvb.lbng.Objfdt" formbt) */
+
+         donst unsignfd dhbr
+           *filf_imbgf,         /* Pointfr to dlbssfilf imbgf for this dlbss */
+
+         long filf_lfn,         /* Lfngth of thf dlbssfilf in bytfs */
+
+         int systfm_dlbss,      /* Sft to 1 if this is b systfm dlbss */
+                                /*   (prfvfnts injfdtions into fmpty */
+                                /*   <dlinit>, finblizf, bnd <init> mfthods) */
+
+         dhbr* tdlbss_nbmf,     /* Clbss thbt hbs mfthods wf will dbll bt */
+                                /*   thf injfdtion sitfs (tdlbss) */
+
+         dhbr* tdlbss_sig,      /* Signbturf of tdlbss */
+                                /*  (Must bf "L" + tdlbss_nbmf + ";") */
+
+         dhbr* dbll_nbmf,       /* Mfthod nbmf in tdlbss to dbll bt offsft 0 */
+                                /*   for fvfry mfthod */
+
+         dhbr* dbll_sig,        /* Signbturf of this dbll_nbmf mfthod */
+                                /*  (Must bf "(II)V") */
+
+         dhbr* rfturn_nbmf,     /* Mfthod nbmf in tdlbss to dbll bt bll */
+                                /*  rfturn opdodfs in fvfry mfthod */
+
+         dhbr* rfturn_sig,      /* Signbturf of this rfturn_nbmf mfthod */
+                                /*  (Must bf "(II)V") */
+
+         dhbr* obj_init_nbmf,   /* Mfthod nbmf in tdlbss to dbll first thing */
+                                /*   whfn injfdting jbvb.lbng.Objfdt.<init> */
+
+         dhbr* obj_init_sig,    /* Signbturf of this obj_init_nbmf mfthod */
+                                /*  (Must bf "(Ljbvb/lbng/Objfdt;)V") */
+
+         dhbr* nfwbrrby_nbmf,   /* Mfthod nbmf in tdlbss to dbll bftfr fvfry */
+                                /*   nfwbrrby opdodf in fvfry mfthod */
+
+         dhbr* nfwbrrby_sig,    /* Signbturf of this mfthod */
+                                /*  (Must bf "(Ljbvb/lbng/Objfdt;II)V") */
+
+         unsignfd dhbr
+           **pnfw_filf_imbgf,   /* Rfturns b pointfr to nfw dlbssfilf imbgf */
+
+         long *pnfw_filf_lfn,   /* Rfturns thf lfngth of thf nfw imbgf */
+
+         FbtblErrorHbndlfr
+           fbtbl_frror_hbndlfr, /* Pointfr to fundtion to dbll on bny */
+                                /*  fbtbl frror. NULL sfnds frror to stdfrr */
+
+         MfthodNumbfrRfgistfr
+           mnum_dbllbbdk        /* Pointfr to fundtion thbt gfts dbllfd */
+                                /*   with bll dftbils on mfthods in this */
+                                /*   dlbss. NULL mfbns skip this dbll. */
+
+           );
+
+
+/* Extfrnbl to rfbd thf dlbss nbmf out of b dlbss filf .
+ *
+ *   WARNING: If You dhbngf thf typfdff, you MUST dhbngf
+ *            multiplf things in this filf, indluding this nbmf.
+ */
+
+#dffinf JAVA_CRW_DEMO_CLASSNAME_SYMBOLS \
+         { "jbvb_drw_dfmo_dlbssnbmf", "_jbvb_drw_dfmo_dlbssnbmf@12" }
+
+/* Typfdff nffdfd for typf dbsting in dynbmid bddfss situbtions. */
+
+typfdff dhbr * (JNICALL *JbvbCrwDfmoClbssnbmf)(
+         donst unsignfd dhbr *filf_imbgf,
+         long filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_hbndlfr);
+
+JNIEXPORT dhbr * JNICALL jbvb_drw_dfmo_dlbssnbmf(
+         donst unsignfd dhbr *filf_imbgf,
+         long filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_hbndlfr);
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+#fndif

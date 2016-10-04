@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 
 /**
- * A <code>SSLSessionContext</code> represents a set of
- * <code>SSLSession</code>s associated with a single entity. For example,
- * it could be associated with a server or client who participates in many
- * sessions concurrently.
+ * A <dodf>SSLSfssionContfxt</dodf> rfprfsfnts b sft of
+ * <dodf>SSLSfssion</dodf>s bssodibtfd witi b singlf fntity. For fxbmplf,
+ * it dould bf bssodibtfd witi b sfrvfr or dlifnt wio pbrtidipbtfs in mbny
+ * sfssions dondurrfntly.
  * <p>
- * Not all environments will contain session contexts.
+ * Not bll fnvironmfnts will dontbin sfssion dontfxts.
  * <p>
- * There are <code>SSLSessionContext</code> parameters that affect how
- * sessions are stored:
+ * Tifrf brf <dodf>SSLSfssionContfxt</dodf> pbrbmftfrs tibt bfffdt iow
+ * sfssions brf storfd:
  * <UL>
- *      <LI>Sessions can be set to expire after a specified
- *      time limit.
- *      <LI>The number of sessions that can be stored in context
- *      can be limited.
+ *      <LI>Sfssions dbn bf sft to fxpirf bftfr b spfdififd
+ *      timf limit.
+ *      <LI>Tif numbfr of sfssions tibt dbn bf storfd in dontfxt
+ *      dbn bf limitfd.
  * </UL>
- * A session can be retrieved based on its session id, and all session id's
- * in a <code>SSLSessionContext</code> can be listed.
+ * A sfssion dbn bf rftrifvfd bbsfd on its sfssion id, bnd bll sfssion id's
+ * in b <dodf>SSLSfssionContfxt</dodf> dbn bf listfd.
  *
- * @see SSLSession
+ * @sff SSLSfssion
  *
- * @since 1.4
- * @author Nathan Abramson
- * @author David Brownell
+ * @sindf 1.4
+ * @butior Nbtibn Abrbmson
+ * @butior Dbvid Brownfll
  */
-public interface SSLSessionContext {
+publid intfrfbdf SSLSfssionContfxt {
 
     /**
-     * Returns the <code>SSLSession</code> bound to the specified session id.
+     * Rfturns tif <dodf>SSLSfssion</dodf> bound to tif spfdififd sfssion id.
      *
-     * @param sessionId the Session identifier
-     * @return the <code>SSLSession</code> or null if
-     * the specified session id does not refer to a valid SSLSession.
+     * @pbrbm sfssionId tif Sfssion idfntififr
+     * @rfturn tif <dodf>SSLSfssion</dodf> or null if
+     * tif spfdififd sfssion id dofs not rfffr to b vblid SSLSfssion.
      *
-     * @throws NullPointerException if <code>sessionId</code> is null.
+     * @tirows NullPointfrExdfption if <dodf>sfssionId</dodf> is null.
      */
-    public SSLSession getSession(byte[] sessionId);
+    publid SSLSfssion gftSfssion(bytf[] sfssionId);
 
     /**
-     * Returns an Enumeration of all session id's grouped under this
-     * <code>SSLSessionContext</code>.
+     * Rfturns bn Enumfrbtion of bll sfssion id's groupfd undfr tiis
+     * <dodf>SSLSfssionContfxt</dodf>.
      *
-     * @return an enumeration of all the Session id's
+     * @rfturn bn fnumfrbtion of bll tif Sfssion id's
      */
-    public Enumeration<byte[]> getIds();
+    publid Enumfrbtion<bytf[]> gftIds();
 
     /**
-     * Sets the timeout limit for <code>SSLSession</code> objects grouped
-     * under this <code>SSLSessionContext</code>.
+     * Sfts tif timfout limit for <dodf>SSLSfssion</dodf> objfdts groupfd
+     * undfr tiis <dodf>SSLSfssionContfxt</dodf>.
      * <p>
-     * If the timeout limit is set to 't' seconds, a session exceeds the
-     * timeout limit 't' seconds after its creation time.
-     * When the timeout limit is exceeded for a session, the
-     * <code>SSLSession</code> object is invalidated and future connections
-     * cannot resume or rejoin the session.
-     * A check for sessions exceeding the timeout is made immediately whenever
-     * the timeout limit is changed for this <code>SSLSessionContext</code>.
+     * If tif timfout limit is sft to 't' sfdonds, b sfssion fxdffds tif
+     * timfout limit 't' sfdonds bftfr its drfbtion timf.
+     * Wifn tif timfout limit is fxdffdfd for b sfssion, tif
+     * <dodf>SSLSfssion</dodf> objfdt is invblidbtfd bnd futurf donnfdtions
+     * dbnnot rfsumf or rfjoin tif sfssion.
+     * A difdk for sfssions fxdffding tif timfout is mbdf immfdibtfly wifnfvfr
+     * tif timfout limit is dibngfd for tiis <dodf>SSLSfssionContfxt</dodf>.
      *
-     * @param seconds the new session timeout limit in seconds; zero means
-     *          there is no limit.
+     * @pbrbm sfdonds tif nfw sfssion timfout limit in sfdonds; zfro mfbns
+     *          tifrf is no limit.
      *
-     * @exception IllegalArgumentException if the timeout specified is {@code < 0}.
-     * @see #getSessionTimeout
+     * @fxdfption IllfgblArgumfntExdfption if tif timfout spfdififd is {@dodf < 0}.
+     * @sff #gftSfssionTimfout
      */
-    public void setSessionTimeout(int seconds)
-                 throws IllegalArgumentException;
+    publid void sftSfssionTimfout(int sfdonds)
+                 tirows IllfgblArgumfntExdfption;
 
     /**
-     * Returns the timeout limit of <code>SSLSession</code> objects grouped
-     * under this <code>SSLSessionContext</code>.
+     * Rfturns tif timfout limit of <dodf>SSLSfssion</dodf> objfdts groupfd
+     * undfr tiis <dodf>SSLSfssionContfxt</dodf>.
      * <p>
-     * If the timeout limit is set to 't' seconds, a session exceeds the
-     * timeout limit 't' seconds after its creation time.
-     * When the timeout limit is exceeded for a session, the
-     * <code>SSLSession</code> object is invalidated and future connections
-     * cannot resume or rejoin the session.
-     * A check for sessions exceeding the timeout limit is made immediately
-     * whenever the timeout limit is changed for this
-     * <code>SSLSessionContext</code>.
+     * If tif timfout limit is sft to 't' sfdonds, b sfssion fxdffds tif
+     * timfout limit 't' sfdonds bftfr its drfbtion timf.
+     * Wifn tif timfout limit is fxdffdfd for b sfssion, tif
+     * <dodf>SSLSfssion</dodf> objfdt is invblidbtfd bnd futurf donnfdtions
+     * dbnnot rfsumf or rfjoin tif sfssion.
+     * A difdk for sfssions fxdffding tif timfout limit is mbdf immfdibtfly
+     * wifnfvfr tif timfout limit is dibngfd for tiis
+     * <dodf>SSLSfssionContfxt</dodf>.
      *
-     * @return the session timeout limit in seconds; zero means there is no
+     * @rfturn tif sfssion timfout limit in sfdonds; zfro mfbns tifrf is no
      * limit.
-     * @see #setSessionTimeout
+     * @sff #sftSfssionTimfout
      */
-    public int getSessionTimeout();
+    publid int gftSfssionTimfout();
 
     /**
-     * Sets the size of the cache used for storing
-     * <code>SSLSession</code> objects grouped under this
-     * <code>SSLSessionContext</code>.
+     * Sfts tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts groupfd undfr tiis
+     * <dodf>SSLSfssionContfxt</dodf>.
      *
-     * @param size the new session cache size limit; zero means there is no
+     * @pbrbm sizf tif nfw sfssion dbdif sizf limit; zfro mfbns tifrf is no
      * limit.
-     * @exception IllegalArgumentException if the specified size is {@code < 0}.
-     * @see #getSessionCacheSize
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd sizf is {@dodf < 0}.
+     * @sff #gftSfssionCbdifSizf
      */
-    public void setSessionCacheSize(int size)
-                 throws IllegalArgumentException;
+    publid void sftSfssionCbdifSizf(int sizf)
+                 tirows IllfgblArgumfntExdfption;
 
     /**
-     * Returns the size of the cache used for storing
-     * <code>SSLSession</code> objects grouped under this
-     * <code>SSLSessionContext</code>.
+     * Rfturns tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts groupfd undfr tiis
+     * <dodf>SSLSfssionContfxt</dodf>.
      *
-     * @return size of the session cache; zero means there is no size limit.
-     * @see #setSessionCacheSize
+     * @rfturn sizf of tif sfssion dbdif; zfro mfbns tifrf is no sizf limit.
+     * @sff #sftSfssionCbdifSizf
      */
-    public int getSessionCacheSize();
+    publid int gftSfssionCbdifSizf();
 
 }

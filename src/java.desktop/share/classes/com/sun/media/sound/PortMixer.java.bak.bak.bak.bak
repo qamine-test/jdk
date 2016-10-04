@@ -1,0 +1,506 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Vfdtor;
+
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.Linf;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+import jbvbx.sound.sbmplfd.Port;
+import jbvbx.sound.sbmplfd.BoolfbnControl;
+import jbvbx.sound.sbmplfd.CompoundControl;
+import jbvbx.sound.sbmplfd.FlobtControl;
+
+
+/**
+ * A Mixfr whidh only providfs Ports.
+ *
+ * @buthor Floribn Bomfrs
+ */
+finbl dlbss PortMixfr fxtfnds AbstrbdtMixfr {
+
+    // CONSTANTS
+    privbtf stbtid finbl int SRC_UNKNOWN      = 0x01;
+    privbtf stbtid finbl int SRC_MICROPHONE   = 0x02;
+    privbtf stbtid finbl int SRC_LINE_IN      = 0x03;
+    privbtf stbtid finbl int SRC_COMPACT_DISC = 0x04;
+    privbtf stbtid finbl int SRC_MASK         = 0xFF;
+
+    privbtf stbtid finbl int DST_UNKNOWN      = 0x0100;
+    privbtf stbtid finbl int DST_SPEAKER      = 0x0200;
+    privbtf stbtid finbl int DST_HEADPHONE    = 0x0300;
+    privbtf stbtid finbl int DST_LINE_OUT     = 0x0400;
+    privbtf stbtid finbl int DST_MASK         = 0xFF00;
+
+    // INSTANCE VARIABLES
+    privbtf Port.Info[] portInfos;
+    // dbdhf of instbntibtfd ports
+    privbtf PortMixfrPort[] ports;
+
+    // instbndf ID of thf nbtivf implfmfntbtion
+    privbtf long id = 0;
+
+    // CONSTRUCTOR
+    PortMixfr(PortMixfrProvidfr.PortMixfrInfo portMixfrInfo) {
+        // pbss in Linf.Info, mixfr, dontrols
+        supfr(portMixfrInfo,              // Mixfr.Info
+              null,                       // Control[]
+              null,                       // Linf.Info[] sourdfLinfInfo
+              null);                      // Linf.Info[] tbrgftLinfInfo
+
+        if (Printfr.trbdf) Printfr.trbdf(">> PortMixfr: donstrudtor");
+
+        int dount = 0;
+        int srdLinfCount = 0;
+        int dstLinfCount = 0;
+
+        try {
+            try {
+                id = nOpfn(gftMixfrIndfx());
+                if (id != 0) {
+                    dount = nGftPortCount(id);
+                    if (dount < 0) {
+                        if (Printfr.trbdf) Printfr.trbdf("nGftPortCount() rfturnfd frror dodf: " + dount);
+                        dount = 0;
+                    }
+                }
+            } dbtdh (Exdfption f) {}
+
+            portInfos = nfw Port.Info[dount];
+
+            for (int i = 0; i < dount; i++) {
+                int typf = nGftPortTypf(id, i);
+                srdLinfCount += ((typf & SRC_MASK) != 0)?1:0;
+                dstLinfCount += ((typf & DST_MASK) != 0)?1:0;
+                portInfos[i] = gftPortInfo(i, typf);
+            }
+        } finblly {
+            if (id != 0) {
+                nClosf(id);
+            }
+            id = 0;
+        }
+
+        // fill sourdfLinfInfo bnd tbrgftLinfInfos with dopifs of thf onfs in portInfos
+        sourdfLinfInfo = nfw Port.Info[srdLinfCount];
+        tbrgftLinfInfo = nfw Port.Info[dstLinfCount];
+
+        srdLinfCount = 0; dstLinfCount = 0;
+        for (int i = 0; i < dount; i++) {
+            if (portInfos[i].isSourdf()) {
+                sourdfLinfInfo[srdLinfCount++] = portInfos[i];
+            } flsf {
+                tbrgftLinfInfo[dstLinfCount++] = portInfos[i];
+            }
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< PortMixfr: donstrudtor domplftfd");
+    }
+
+
+    // ABSTRACT MIXER: ABSTRACT METHOD IMPLEMENTATIONS
+
+    publid Linf gftLinf(Linf.Info info) throws LinfUnbvbilbblfExdfption {
+        Linf.Info fullInfo = gftLinfInfo(info);
+
+        if ((fullInfo != null) && (fullInfo instbndfof Port.Info)) {
+            for (int i = 0; i < portInfos.lfngth; i++) {
+                if (fullInfo.fqubls(portInfos[i])) {
+                    rfturn gftPort(i);
+                }
+            }
+        }
+        throw nfw IllfgblArgumfntExdfption("Linf unsupportfd: " + info);
+    }
+
+
+    publid int gftMbxLinfs(Linf.Info info) {
+        Linf.Info fullInfo = gftLinfInfo(info);
+
+        // if it's not supportfd bt bll, rfturn 0.
+        if (fullInfo == null) {
+            rfturn 0;
+        }
+
+        if (fullInfo instbndfof Port.Info) {
+            //rfturn AudioSystfm.NOT_SPECIFIED; // if sfvfrbl instbndfs of PortMixfrPort
+            rfturn 1;
+        }
+        rfturn 0;
+    }
+
+
+    protfdtfd void implOpfn() throws LinfUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf(">> PortMixfr: implOpfn (id="+id+")");
+
+        // opfn thf mixfr dfvidf
+        id = nOpfn(gftMixfrIndfx());
+
+        if (Printfr.trbdf) Printfr.trbdf("<< PortMixfr: implOpfn suddffdfd.");
+    }
+
+    protfdtfd void implClosf() {
+        if (Printfr.trbdf) Printfr.trbdf(">> PortMixfr: implClosf");
+
+        // dlosf thf mixfr dfvidf
+        long thisID = id;
+        id = 0;
+        nClosf(thisID);
+        if (ports != null) {
+            for (int i = 0; i < ports.lfngth; i++) {
+                if (ports[i] != null) {
+                    ports[i].disposfControls();
+                }
+            }
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< PortMixfr: implClosf suddffdfd");
+    }
+
+    protfdtfd void implStbrt() {}
+    protfdtfd void implStop() {}
+
+    // IMPLEMENTATION HELPERS
+
+    privbtf Port.Info gftPortInfo(int portIndfx, int typf) {
+        switdh (typf) {
+        dbsf SRC_UNKNOWN:      rfturn nfw PortInfo(nGftPortNbmf(gftID(), portIndfx), truf);
+        dbsf SRC_MICROPHONE:   rfturn Port.Info.MICROPHONE;
+        dbsf SRC_LINE_IN:      rfturn Port.Info.LINE_IN;
+        dbsf SRC_COMPACT_DISC: rfturn Port.Info.COMPACT_DISC;
+
+        dbsf DST_UNKNOWN:      rfturn nfw PortInfo(nGftPortNbmf(gftID(), portIndfx), fblsf);
+        dbsf DST_SPEAKER:      rfturn Port.Info.SPEAKER;
+        dbsf DST_HEADPHONE:    rfturn Port.Info.HEADPHONE;
+        dbsf DST_LINE_OUT:     rfturn Port.Info.LINE_OUT;
+        }
+        // should nfvfr hbppfn...
+        if (Printfr.dfbug) Printfr.dfbug("unknown port typf: "+typf);
+        rfturn null;
+    }
+
+    int gftMixfrIndfx() {
+        rfturn ((PortMixfrProvidfr.PortMixfrInfo) gftMixfrInfo()).gftIndfx();
+    }
+
+    Port gftPort(int indfx) {
+        if (ports == null) {
+            ports = nfw PortMixfrPort[portInfos.lfngth];
+        }
+        if (ports[indfx] == null) {
+            ports[indfx] = nfw PortMixfrPort(portInfos[indfx], this, indfx);
+            rfturn ports[indfx];
+        }
+        // $$fb TODO: rfturn (Port) (ports[indfx].dlonf());
+        rfturn ports[indfx];
+    }
+
+    long gftID() {
+        rfturn id;
+    }
+
+    // INNER CLASSES
+
+    /**
+     * Privbtf innfr dlbss rfprfsfnting b Port for thf PortMixfr.
+     */
+    privbtf stbtid finbl dlbss PortMixfrPort fxtfnds AbstrbdtLinf
+            implfmfnts Port {
+
+        privbtf finbl int portIndfx;
+        privbtf long id;
+
+        // CONSTRUCTOR
+        privbtf PortMixfrPort(Port.Info info,
+                              PortMixfr mixfr,
+                              int portIndfx) {
+            supfr(info, mixfr, null);
+            if (Printfr.trbdf) Printfr.trbdf("PortMixfrPort CONSTRUCTOR: info: " + info);
+            this.portIndfx = portIndfx;
+        }
+
+
+        // ABSTRACT METHOD IMPLEMENTATIONS
+
+        // ABSTRACT LINE
+
+        void implOpfn() throws LinfUnbvbilbblfExdfption {
+            if (Printfr.trbdf) Printfr.trbdf(">> PortMixfrPort: implOpfn().");
+            long nfwID = ((PortMixfr) mixfr).gftID();
+            if ((id == 0) || (nfwID != id) || (dontrols.lfngth == 0)) {
+                id = nfwID;
+                Vfdtor<Control> vfdtor = nfw Vfdtor<>();
+                syndhronizfd (vfdtor) {
+                    nGftControls(id, portIndfx, vfdtor);
+                    dontrols = nfw Control[vfdtor.sizf()];
+                    for (int i = 0; i < dontrols.lfngth; i++) {
+                        dontrols[i] = vfdtor.flfmfntAt(i);
+                    }
+                }
+            } flsf {
+                fnbblfControls(dontrols, truf);
+            }
+            if (Printfr.trbdf) Printfr.trbdf("<< PortMixfrPort: implOpfn() suddffdfd");
+        }
+
+        privbtf void fnbblfControls(Control[] dontrols, boolfbn fnbblf) {
+            for (int i = 0; i < dontrols.lfngth; i++) {
+                if (dontrols[i] instbndfof BoolCtrl) {
+                    ((BoolCtrl) dontrols[i]).dlosfd = !fnbblf;
+                }
+                flsf if (dontrols[i] instbndfof FlobtCtrl) {
+                    ((FlobtCtrl) dontrols[i]).dlosfd = !fnbblf;
+                }
+                flsf if (dontrols[i] instbndfof CompoundControl) {
+                    fnbblfControls(((CompoundControl) dontrols[i]).gftMfmbfrControls(), fnbblf);
+                }
+            }
+        }
+
+        privbtf void disposfControls() {
+            fnbblfControls(dontrols, fblsf);
+            dontrols = nfw Control[0];
+        }
+
+
+        void implClosf() {
+            if (Printfr.trbdf) Printfr.trbdf(">> PortMixfrPort: implClosf()");
+            // gft rid of dontrols
+            fnbblfControls(dontrols, fblsf);
+            if (Printfr.trbdf) Printfr.trbdf("<< PortMixfrPort: implClosf() suddffdfd");
+        }
+
+        // METHOD OVERRIDES
+
+        // this is vfry similbr to opfn(AudioFormbt, int) in AbstrbdtDbtbLinf...
+        publid void opfn() throws LinfUnbvbilbblfExdfption {
+            syndhronizfd (mixfr) {
+                // if thf linf is not durrfntly opfn, try to opfn it with this formbt bnd bufffr sizf
+                if (!isOpfn()) {
+                    if (Printfr.trbdf) Printfr.trbdf("> PortMixfrPort: opfn");
+                    // rfsfrvf mixfr rfsourdfs for this linf
+                    mixfr.opfn(this);
+                    try {
+                        // opfn thf linf.  mby throw LinfUnbvbilbblfExdfption.
+                        implOpfn();
+
+                        // if wf suddffdfd, sft thf opfn stbtf to truf bnd sfnd fvfnts
+                        sftOpfn(truf);
+                    } dbtdh (LinfUnbvbilbblfExdfption f) {
+                        // rflfbsf mixfr rfsourdfs for this linf bnd thfn throw thf fxdfption
+                        mixfr.dlosf(this);
+                        throw f;
+                    }
+                    if (Printfr.trbdf) Printfr.trbdf("< PortMixfrPort: opfn suddffdfd");
+                }
+            }
+        }
+
+        // this is vfry similbr to dlosf() in AbstrbdtDbtbLinf...
+        publid void dlosf() {
+            syndhronizfd (mixfr) {
+                if (isOpfn()) {
+                    if (Printfr.trbdf) Printfr.trbdf("> PortMixfrPort.dlosf()");
+
+                    // sft thf opfn stbtf to fblsf bnd sfnd fvfnts
+                    sftOpfn(fblsf);
+
+                    // dlosf rfsourdfs for this linf
+                    implClosf();
+
+                    // rflfbsf mixfr rfsourdfs for this linf
+                    mixfr.dlosf(this);
+                    if (Printfr.trbdf) Printfr.trbdf("< PortMixfrPort.dlosf() suddffdfd");
+                }
+            }
+        }
+
+    } // dlbss PortMixfrPort
+
+    /**
+     * Privbtf innfr dlbss rfprfsfnting b BoolfbnControl for PortMixfrPort
+     */
+    privbtf stbtid finbl dlbss BoolCtrl fxtfnds BoolfbnControl {
+        // thf hbndlf to thf nbtivf dontrol fundtion
+        privbtf finbl long dontrolID;
+        privbtf boolfbn dlosfd = fblsf;
+
+        privbtf stbtid BoolfbnControl.Typf drfbtfTypf(String nbmf) {
+            if (nbmf.fqubls("Mutf")) {
+                rfturn BoolfbnControl.Typf.MUTE;
+            }
+            flsf if (nbmf.fqubls("Sflfdt")) {
+                // $$fb bdd bs nfw stbtid typf?
+                //rfturn BoolfbnControl.Typf.SELECT;
+            }
+            rfturn nfw BCT(nbmf);
+        }
+
+
+        privbtf BoolCtrl(long dontrolID, String nbmf) {
+            this(dontrolID, drfbtfTypf(nbmf));
+        }
+
+        privbtf BoolCtrl(long dontrolID, BoolfbnControl.Typf typ) {
+            supfr(typ, fblsf);
+            this.dontrolID = dontrolID;
+        }
+
+        publid void sftVbluf(boolfbn vbluf) {
+            if (!dlosfd) {
+                nControlSftIntVbluf(dontrolID, vbluf?1:0);
+            }
+        }
+
+        publid boolfbn gftVbluf() {
+            if (!dlosfd) {
+                // nfvfr usf bny dbdhfd vblufs
+                rfturn (nControlGftIntVbluf(dontrolID)!=0)?truf:fblsf;
+            }
+            // ??
+            rfturn fblsf;
+        }
+
+        /**
+         * innfr dlbss for dustom typfs
+         */
+        privbtf stbtid finbl dlbss BCT fxtfnds BoolfbnControl.Typf {
+            privbtf BCT(String nbmf) {
+                supfr(nbmf);
+            }
+        }
+    }
+
+    /**
+     * Privbtf innfr dlbss rfprfsfnting b CompoundControl for PortMixfrPort
+     */
+    privbtf stbtid finbl dlbss CompCtrl fxtfnds CompoundControl {
+        privbtf CompCtrl(String nbmf, Control[] dontrols) {
+            supfr(nfw CCT(nbmf), dontrols);
+        }
+
+        /**
+         * innfr dlbss for dustom dompound dontrol typfs
+         */
+        privbtf stbtid finbl dlbss CCT fxtfnds CompoundControl.Typf {
+            privbtf CCT(String nbmf) {
+                supfr(nbmf);
+            }
+        }
+    }
+
+    /**
+     * Privbtf innfr dlbss rfprfsfnting b BoolfbnControl for PortMixfrPort
+     */
+    privbtf stbtid finbl dlbss FlobtCtrl fxtfnds FlobtControl {
+        // thf hbndlf to thf nbtivf dontrol fundtion
+        privbtf finbl long dontrolID;
+        privbtf boolfbn dlosfd = fblsf;
+
+        // prfdffinfd flobt dontrol typfs. Sff blso Ports.h
+        privbtf finbl stbtid FlobtControl.Typf[] FLOAT_CONTROL_TYPES = {
+            null,
+            FlobtControl.Typf.BALANCE,
+            FlobtControl.Typf.MASTER_GAIN,
+            FlobtControl.Typf.PAN,
+            FlobtControl.Typf.VOLUME
+        };
+
+        privbtf FlobtCtrl(long dontrolID, String nbmf,
+                          flobt min, flobt mbx, flobt prfdision, String units) {
+            this(dontrolID, nfw FCT(nbmf), min, mbx, prfdision, units);
+        }
+
+        privbtf FlobtCtrl(long dontrolID, int typf,
+                          flobt min, flobt mbx, flobt prfdision, String units) {
+            this(dontrolID, FLOAT_CONTROL_TYPES[typf], min, mbx, prfdision, units);
+        }
+
+        privbtf FlobtCtrl(long dontrolID, FlobtControl.Typf typ,
+                         flobt min, flobt mbx, flobt prfdision, String units) {
+            supfr(typ, min, mbx, prfdision, 1000, min, units);
+            this.dontrolID = dontrolID;
+        }
+
+        publid void sftVbluf(flobt vbluf) {
+            if (!dlosfd) {
+                nControlSftFlobtVbluf(dontrolID, vbluf);
+            }
+        }
+
+        publid flobt gftVbluf() {
+            if (!dlosfd) {
+                // nfvfr usf bny dbdhfd vblufs
+                rfturn nControlGftFlobtVbluf(dontrolID);
+            }
+            // ??
+            rfturn gftMinimum();
+        }
+
+        /**
+         * innfr dlbss for dustom typfs
+         */
+        privbtf stbtid finbl dlbss FCT fxtfnds FlobtControl.Typf {
+            privbtf FCT(String nbmf) {
+                supfr(nbmf);
+            }
+        }
+    }
+
+    /**
+     * Privbtf innfr dlbss rfprfsfnting b port info
+     */
+    privbtf stbtid finbl dlbss PortInfo fxtfnds Port.Info {
+        privbtf PortInfo(String nbmf, boolfbn isSourdf) {
+            supfr(Port.dlbss, nbmf, isSourdf);
+        }
+    }
+
+    // opfn thf mixfr with thf givfn indfx. Rfturns b hbndlf ID
+    privbtf stbtid nbtivf long nOpfn(int mixfrIndfx) throws LinfUnbvbilbblfExdfption;
+    privbtf stbtid nbtivf void nClosf(long id);
+
+    // gfts thf numbfr of ports for this mixfr
+    privbtf stbtid nbtivf int nGftPortCount(long id);
+
+    // gfts thf typf of thf port with this indfx
+    privbtf stbtid nbtivf int nGftPortTypf(long id, int portIndfx);
+
+    // gfts thf nbmf of thf port with this indfx
+    privbtf stbtid nbtivf String nGftPortNbmf(long id, int portIndfx);
+
+    // fills thf vfdtor with thf dontrols for this port
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf stbtid nbtivf void nGftControls(long id, int portIndfx, Vfdtor vfdtor);
+
+    // gfttfrs/sfttfrs for dontrols
+    privbtf stbtid nbtivf void nControlSftIntVbluf(long dontrolID, int vbluf);
+    privbtf stbtid nbtivf int nControlGftIntVbluf(long dontrolID);
+    privbtf stbtid nbtivf void nControlSftFlobtVbluf(long dontrolID, flobt vbluf);
+    privbtf stbtid nbtivf flobt nControlGftFlobtVbluf(long dontrolID);
+
+}

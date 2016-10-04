@@ -1,0 +1,1149 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+// jbvb import
+//
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.nft.DbtbgrbmSodkft;
+import jbvb.nft.DbtbgrbmPbdkft;
+import jbvb.nft.SodkftExdfption;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import dom.sun.jmx.snmp.SnmpMfssbgf;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduBulk;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduRfqufst;
+import dom.sun.jmx.snmp.SnmpPduTrbp;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpDbtbTypfEnums;
+
+// RI imports
+//
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+
+// SNMP runtimf import
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+//import dom.sun.jmx.snmp.IPAdl.IPAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+
+
+dlbss SnmpRfqufstHbndlfr fxtfnds ClifntHbndlfr implfmfnts SnmpDffinitions {
+
+    privbtf trbnsifnt DbtbgrbmSodkft       sodkft = null ;
+    privbtf trbnsifnt DbtbgrbmPbdkft       pbdkft = null ;
+    privbtf trbnsifnt Vfdtor<SnmpMibAgfnt> mibs = null ;
+
+    /**
+     * Contbins thf list of sub-rfqufsts bssodibtfd to thf durrfnt rfqufst.
+     */
+    privbtf trbnsifnt Hbshtbblf<SnmpMibAgfnt, SnmpSubRfqufstHbndlfr> subs = null;
+
+    /**
+     * Rfffrfndf on thf MIBS
+     */
+    privbtf trbnsifnt SnmpMibTrff root;
+
+    privbtf trbnsifnt InftAddrfssAdl      ipbdl = null ;
+    privbtf trbnsifnt SnmpPduFbdtory      pduFbdtory = null ;
+    privbtf trbnsifnt SnmpUsfrDbtbFbdtory usfrDbtbFbdtory = null ;
+    privbtf trbnsifnt SnmpAdbptorSfrvfr bdbptor = null;
+    /**
+     * Full donstrudtor
+     */
+    publid SnmpRfqufstHbndlfr(SnmpAdbptorSfrvfr sfrvfr, int id,
+                              DbtbgrbmSodkft s, DbtbgrbmPbdkft p,
+                              SnmpMibTrff trff, Vfdtor<SnmpMibAgfnt> m,
+                              InftAddrfssAdl b,
+                              SnmpPduFbdtory fbdtory,
+                              SnmpUsfrDbtbFbdtory dbtbFbdtory,
+                              MBfbnSfrvfr f, ObjfdtNbmf n)
+    {
+        supfr(sfrvfr, id, f, n);
+
+        // Nffd b rfffrfndf on SnmpAdbptorSfrvfr for gftNfxt & gftBulk,
+        // in dbsf of oid fqublity (mib ovfrlbpping).
+        //
+        bdbptor = sfrvfr;
+        sodkft = s;
+        pbdkft = p;
+        root= trff;
+        mibs = nfw Vfdtor<>(m);
+        subs= nfw Hbshtbblf<>(mibs.sizf());
+        ipbdl = b;
+        pduFbdtory = fbdtory ;
+        usfrDbtbFbdtory = dbtbFbdtory ;
+        //thrfbd.stbrt();
+    }
+
+    /**
+     * Trfbt thf rfqufst bvbilbblf in 'pbdkft' bnd sfnd thf rfsult
+     * bbdk to thf dlifnt.
+     * Notf: wf ovfrwritf 'pbdkft' with thf rfsponsf bytfs.
+     */
+    @Ovfrridf
+    publid void doRun() {
+
+        // Trbdf thf input pbdkft
+        //
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "doRun","Pbdkft rfdfivfd:\n" +
+                    SnmpMfssbgf.dumpHfxBufffr(pbdkft.gftDbtb(), 0, pbdkft.gftLfngth()));
+        }
+
+        // Lft's build thf rfsponsf pbdkft
+        //
+        DbtbgrbmPbdkft rfspPbdkft = mbkfRfsponsfPbdkft(pbdkft) ;
+
+        // Trbdf thf output pbdkft
+        //
+        if ((SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) && (rfspPbdkft != null)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "doRun","Pbdkft to bf sfnt:\n" +
+                    SnmpMfssbgf.dumpHfxBufffr(rfspPbdkft.gftDbtb(), 0, rfspPbdkft.gftLfngth()));
+        }
+
+        // Sfnd thf rfsponsf pbdkft if bny
+        //
+        if (rfspPbdkft != null) {
+            try {
+                sodkft.sfnd(rfspPbdkft) ;
+            } dbtdh (SodkftExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    if (f.gftMfssbgf().fqubls(IntfrruptSysCbllMsg)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "doRun", "intfrruptfd");
+                    } flsf {
+                      SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "doRun", "I/O fxdfption", f);
+                    }
+                }
+            } dbtdh(IntfrruptfdIOExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "doRun", "intfrruptfd");
+                }
+            } dbtdh(Exdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "doRun", "fbilurf whfn sfnding rfsponsf", f);
+                }
+            }
+        }
+    }
+
+    /**
+     * Hfrf wf mbkf b rfsponsf pbdkft from b rfqufst pbdkft.
+     * Wf rfturn null if thfrf no rfsponsf pbdkft to sfnt.
+     */
+    privbtf DbtbgrbmPbdkft mbkfRfsponsfPbdkft(DbtbgrbmPbdkft rfqPbdkft) {
+        DbtbgrbmPbdkft rfspPbdkft = null ;
+
+        // Trbnsform thf rfqufst pbdkft into b rfqufst SnmpMfssbgf
+        //
+        SnmpMfssbgf rfqMsg = nfw SnmpMfssbgf() ;
+        try {
+            rfqMsg.dfdodfMfssbgf(rfqPbdkft.gftDbtb(), rfqPbdkft.gftLfngth()) ;
+            rfqMsg.bddrfss = rfqPbdkft.gftAddrfss() ;
+            rfqMsg.port = rfqPbdkft.gftPort() ;
+        }
+        dbtdh(SnmpStbtusExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "mbkfRfsponsfPbdkft", "pbdkft dfdoding fbilfd", x);
+            }
+            rfqMsg = null ;
+            ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).indSnmpInASNPbrsfErrs(1) ;
+        }
+
+        // Mbkf thf rfsponsf SnmpMfssbgf if bny
+        //
+        SnmpMfssbgf rfspMsg = null ;
+        if (rfqMsg != null) {
+            rfspMsg = mbkfRfsponsfMfssbgf(rfqMsg) ;
+        }
+
+        // Try to trbnsform thf rfsponsf SnmpMfssbgf into rfsponsf pbdkft.
+        // NOTE: wf ovfrwritf thf rfqufst pbdkft.
+        //
+        if (rfspMsg != null) {
+            try {
+                rfqPbdkft.sftLfngth(rfspMsg.fndodfMfssbgf(rfqPbdkft.gftDbtb())) ;
+                rfspPbdkft = rfqPbdkft ;
+            }
+            dbtdh(SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfPbdkft", "rfsponsf mfssbgf is too big");
+                }
+                try {
+                    rfspMsg = nfwTooBigMfssbgf(rfqMsg) ;
+                    rfqPbdkft.sftLfngth(rfspMsg.fndodfMfssbgf(rfqPbdkft.gftDbtb())) ;
+                    rfspPbdkft = rfqPbdkft ;
+                }
+                dbtdh(SnmpTooBigExdfption xx) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "mbkfRfsponsfPbdkft", "'too big' is 'too big' !!!");
+                    }
+                    bdbptor.indSnmpSilfntDrops(1);
+                }
+            }
+        }
+
+        rfturn rfspPbdkft ;
+    }
+
+    /**
+     * Hfrf wf mbkf b rfsponsf mfssbgf from b rfqufst mfssbgf.
+     * Wf rfturn null if thfrf is no mfssbgf to rfply.
+     */
+    privbtf SnmpMfssbgf mbkfRfsponsfMfssbgf(SnmpMfssbgf rfqMsg) {
+        SnmpMfssbgf rfspMsg = null ;
+
+        // Trbnsform thf rfqufst mfssbgf into b rfqufst pdu
+        //
+        SnmpPduPbdkft rfqPdu;
+        Objfdt usfrDbtb = null;
+        try {
+            rfqPdu = (SnmpPduPbdkft)pduFbdtory.dfdodfSnmpPdu(rfqMsg) ;
+            if (rfqPdu != null && usfrDbtbFbdtory != null)
+                usfrDbtb = usfrDbtbFbdtory.bllodbtfUsfrDbtb(rfqPdu);
+        }
+        dbtdh(SnmpStbtusExdfption x) {
+            rfqPdu = null ;
+            SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+            snmpSfrvfr.indSnmpInASNPbrsfErrs(1) ;
+            if (x.gftStbtus()== SnmpDffinitions.snmpWrongSnmpVfrsion)
+                snmpSfrvfr.indSnmpInBbdVfrsions(1) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "mbkfRfsponsfMfssbgf", "mfssbgf dfdoding fbilfd", x);
+            }
+        }
+
+        // Mbkf thf rfsponsf pdu if bny
+        //
+        SnmpPduPbdkft rfspPdu = null ;
+        if (rfqPdu != null) {
+            rfspPdu = mbkfRfsponsfPdu(rfqPdu,usfrDbtb) ;
+            try {
+                if (usfrDbtbFbdtory != null)
+                    usfrDbtbFbdtory.rflfbsfUsfrDbtb(usfrDbtb,rfspPdu);
+            } dbtdh (SnmpStbtusExdfption x) {
+                rfspPdu = null;
+            }
+        }
+
+        // Try to trbnsform thf rfsponsf pdu into b rfsponsf mfssbgf if bny
+        //
+        if (rfspPdu != null) {
+            try {
+                rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                    fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngth) ;
+            }
+            dbtdh(SnmpStbtusExdfption x) {
+                rfspMsg = null ;
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfMfssbgf", "fbilurf whfn fndoding thf rfsponsf mfssbgf", x);
+                }
+            }
+            dbtdh(SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "mbkfRfsponsfMfssbgf", "rfsponsf mfssbgf is too big");
+                }
+
+                try {
+                    // if thf PDU is too smbll, why should wf try to do
+                    // rfdovfry ?
+                    //
+                    if (pbdkft.gftDbtb().lfngth <=32)
+                        throw x;
+                    int pos= x.gftVbrBindCount();
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                            "mbkfRfsponsfMfssbgf", "fbil on flfmfnt" + pos);
+                    }
+                    int old;
+                    whilf (truf) {
+                        try {
+                            rfspPdu = rfdudfRfsponsfPdu(rfqPdu, rfspPdu, pos) ;
+                            rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                                fndodfSnmpPdu(rfspPdu,
+                                              pbdkft.gftDbtb().lfngth -32) ;
+                            brfbk;
+                        } dbtdh (SnmpTooBigExdfption xx) {
+                            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                                    "mbkfRfsponsfMfssbgf", "rfsponsf mfssbgf is still too big");
+                            }
+                            old= pos;
+                            pos= xx.gftVbrBindCount();
+                            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                                    "mbkfRfsponsfMfssbgf","fbil on flfmfnt" + pos);
+                            }
+                            if (pos == old) {
+                                // wf dbn not go bny furthfr in trying to
+                                // rfdudf thf mfssbgf !
+                                //
+                                throw xx;
+                            }
+                        }
+                    }// fnd of loop
+                } dbtdh(SnmpStbtusExdfption xx) {
+                    rfspMsg = null ;
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "mbkfRfsponsfMfssbgf", "fbilurf whfn fndoding thf rfsponsf mfssbgf", xx);
+                    }
+                }
+                dbtdh(SnmpTooBigExdfption xx) {
+                    try {
+                        rfspPdu = nfwTooBigPdu(rfqPdu) ;
+                        rfspMsg = (SnmpMfssbgf)pduFbdtory.
+                            fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngth) ;
+                    }
+                    dbtdh(SnmpTooBigExdfption xxx) {
+                        rfspMsg = null ;
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfMfssbgf", "'too big' is 'too big' !!!");
+                        }
+                        bdbptor.indSnmpSilfntDrops(1);
+                    }
+                    dbtdh(Exdfption xxx) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfMfssbgf", "Got unfxpfdtfd fxdfption", xxx);
+                        }
+                        rfspMsg = null ;
+                    }
+                }
+                dbtdh(Exdfption xx) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "mbkfRfsponsfMfssbgf", "Got unfxpfdtfd fxdfption", xx);
+                    }
+                    rfspMsg = null ;
+                }
+            }
+        }
+        rfturn rfspMsg ;
+    }
+
+    /**
+     * Hfrf wf mbkf b rfsponsf pdu from b rfqufst pdu.
+     * Wf rfturn null if thfrf is no pdu to rfply.
+     */
+    privbtf SnmpPduPbdkft mbkfRfsponsfPdu(SnmpPduPbdkft rfqPdu,
+                                          Objfdt usfrDbtb) {
+
+        SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+        SnmpPduPbdkft rfspPdu = null ;
+
+        snmpSfrvfr.updbtfRfqufstCountfrs(rfqPdu.typf) ;
+        if (rfqPdu.vbrBindList != null)
+            snmpSfrvfr.updbtfVbrCountfrs(rfqPdu.typf,
+                                         rfqPdu.vbrBindList.lfngth) ;
+
+        if (dhfdkPduTypf(rfqPdu)) {
+            rfspPdu = dhfdkAdl(rfqPdu) ;
+            if (rfspPdu == null) { // rfqPdu is bddfptfd by ACLs
+                if (mibs.sizf() < 1) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "mbkfRfsponsfPdu", "Rfqufst " + rfqPdu.rfqufstId +
+                           " rfdfivfd but no MIB rfgistfrfd.");
+                    }
+                    rfturn mbkfNoMibErrorPdu((SnmpPduRfqufst)rfqPdu, usfrDbtb);
+                }
+                switdh(rfqPdu.typf) {
+                dbsf SnmpPduPbdkft.pduGftRfqufstPdu:
+                dbsf SnmpPduPbdkft.pduGftNfxtRfqufstPdu:
+                dbsf SnmpPduPbdkft.pduSftRfqufstPdu:
+                    rfspPdu = mbkfGftSftRfsponsfPdu((SnmpPduRfqufst)rfqPdu,
+                                                    usfrDbtb) ;
+                    brfbk ;
+
+                dbsf SnmpPduPbdkft.pduGftBulkRfqufstPdu:
+                    rfspPdu = mbkfGftBulkRfsponsfPdu((SnmpPduBulk)rfqPdu,
+                                                     usfrDbtb) ;
+                    brfbk ;
+                }
+            }
+            flsf { // rfqPdu is rfjfdtfd by ACLs
+                // rfspPdu dontbins thf frror rfsponsf to bf sfnt.
+                // Wf sfnd this rfsponsf only if buthRfsEnbblfd is truf.
+                if (!snmpSfrvfr.gftAuthRfspEnbblfd()) { // No rfsponsf should bf sfnt
+                    rfspPdu = null ;
+                }
+                if (snmpSfrvfr.gftAuthTrbpEnbblfd()) { // A trbp must bf sfnt
+                    try {
+                        snmpSfrvfr.snmpV1Trbp(SnmpPduTrbp.
+                                              trbpAuthfntidbtionFbilurf, 0,
+                                              nfw SnmpVbrBindList()) ;
+                    }
+                    dbtdh(Exdfption x) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                               "mbkfRfsponsfPdu", "Fbilurf whfn sfnding buthfntidbtion trbp", x);
+                        }
+                    }
+                }
+            }
+        }
+        rfturn rfspPdu ;
+    }
+
+    //
+    // Gfnfrbtfs b rfsponsf pbdkft, filling thf vblufs in thf
+    // vbrbindlist with onf of fndOfMibVifw, noSudhObjfdt, noSudhInstbndf
+    // bddording to thf vbluf of <dodf>stbtus</dodf>
+    //
+    // @pbrbm stbtusTbg should bf onf of:
+    //        <li>SnmpDbtbTypfEnums.frrEndOfMibVifwTbg</li>
+    //        <li>SnmpDbtbTypfEnums.frrNoSudhObjfdtTbg</li>
+    //        <li>SnmpDbtbTypfEnums.frrNoSudhInstbndfTbg</li>
+    //
+    SnmpPduPbdkft mbkfErrorVbrbindPdu(SnmpPduPbdkft rfq, int stbtusTbg) {
+
+        finbl SnmpVbrBind[] vblist = rfq.vbrBindList;
+        finbl int lfngth = vblist.lfngth;
+
+        switdh (stbtusTbg) {
+        dbsf SnmpDbtbTypfEnums.frrEndOfMibVifwTbg:
+            for (int i=0 ; i<lfngth ; i++)
+                vblist[i].vbluf = SnmpVbrBind.fndOfMibVifw;
+            brfbk;
+        dbsf SnmpDbtbTypfEnums.frrNoSudhObjfdtTbg:
+            for (int i=0 ; i<lfngth ; i++)
+                vblist[i].vbluf = SnmpVbrBind.noSudhObjfdt;
+            brfbk;
+        dbsf SnmpDbtbTypfEnums.frrNoSudhInstbndfTbg:
+            for (int i=0 ; i<lfngth ; i++)
+                vblist[i].vbluf = SnmpVbrBind.noSudhInstbndf;
+            brfbk;
+        dffbult:
+            rfturn nfwErrorRfsponsfPdu(rfq,snmpRspGfnErr,1);
+        }
+        rfturn nfwVblidRfsponsfPdu(rfq,vblist);
+    }
+
+    // Gfnfrbtfs bn bppropribtf rfsponsf whfn no mib is rfgistfrfd in
+    // thf bdbptor.
+    //
+    // <li>If thf vfrsion is V1:</li>
+    // <ul><li>Gfnfrbtfs b NoSudhNbmf frror V1 rfsponsf PDU</li></ul>
+    // <li>If thf vfrsion is V2:</li>
+    // <ul><li>If thf rfqufst is b GET, fills thf vbrbind list with
+    //         NoSudhObjfdt's</li>
+    //     <li>If thf rfqufst is b GET-NEXT/GET-BULK, fills thf vbrbind
+    //         list with EndOfMibVifw's</li>
+    //     <li>If thf rfqufst is b SET, gfnfrbtfs b NoAddfss frror V2
+    //          rfsponsf PDU</li>
+    // </ul>
+    //
+    //
+    SnmpPduPbdkft mbkfNoMibErrorPdu(SnmpPduRfqufst rfq, Objfdt usfrDbtb) {
+        // Thfrf is no bgfnt rfgistfrfd
+        //
+        if (rfq.vfrsion == SnmpDffinitions.snmpVfrsionOnf) {
+            // Vfrsion 1: => NoSudhNbmf
+            rfturn
+                nfwErrorRfsponsfPdu(rfq,snmpRspNoSudhNbmf,1);
+        } flsf if (rfq.vfrsion == SnmpDffinitions.snmpVfrsionTwo) {
+            // Vfrsion 2: => dfpfnds on PDU typf
+            switdh (rfq.typf) {
+            dbsf pduSftRfqufstPdu :
+            dbsf pduWblkRfqufst :
+                // SET rfqufst => NoAddfss
+                rfturn
+                    nfwErrorRfsponsfPdu(rfq,snmpRspNoAddfss,1);
+            dbsf pduGftRfqufstPdu :
+                // GET rfqufst => NoSudhObjfdt
+                rfturn
+                    mbkfErrorVbrbindPdu(rfq,SnmpDbtbTypfEnums.
+                                        frrNoSudhObjfdtTbg);
+            dbsf pduGftNfxtRfqufstPdu :
+            dbsf pduGftBulkRfqufstPdu :
+                // GET-NEXT or GET-BULK => EndOfMibVifw
+                rfturn
+                    mbkfErrorVbrbindPdu(rfq,SnmpDbtbTypfEnums.
+                                        frrEndOfMibVifwTbg);
+            dffbult:
+            }
+        }
+        // Somfthing wrong hfrf: => snmpRspGfnErr
+        rfturn nfwErrorRfsponsfPdu(rfq,snmpRspGfnErr,1);
+    }
+
+    /**
+     * Hfrf wf mbkf thf rfsponsf pdu from b gft/sft rfqufst pdu.
+     * At this lfvfl, thf rfsult is nfvfr null.
+     */
+    privbtf SnmpPduPbdkft mbkfGftSftRfsponsfPdu(SnmpPduRfqufst rfq,
+                                                Objfdt usfrDbtb) {
+
+        // Crfbtf thf trhfbd group spfdifid for hbndling sub-rfqufsts
+        // bssodibtfd to thf durrfnt rfqufst. Usf thf invokf id
+        //
+        // Nidf idfb to usf b thrfbd group on b rfqufst bbsis.
+        // Howfvfr thf impbdt on pfrformbndf is tfrriblf !
+        // thfGroup= nfw ThrfbdGroup(thrfbd.gftThrfbdGroup(),
+        //                "rfqufst " + String.vblufOf(rfq.rfqufstId));
+
+        // Lft's build thf vbrBindList for thf rfsponsf pdu
+        //
+
+        if (rfq.vbrBindList == null) {
+            // Good ! Lft's mbkf b full rfsponsf pdu.
+            //
+            rfturn nfwVblidRfsponsfPdu(rfq, null) ;
+        }
+
+        // First wf nffd to split thf rfqufst into subrfqufsts
+        //
+        splitRfqufst(rfq);
+        int nbSubRfqufst= subs.sizf();
+        if (nbSubRfqufst == 1)
+            rfturn turboProdfssingGftSft(rfq,usfrDbtb);
+
+
+        // Exfdutf bll thf subrfqufsts rfsulting from thf split of thf
+        // vbrbind list.
+        //
+        SnmpPduPbdkft rfsult= fxfdutfSubRfqufst(rfq,usfrDbtb);
+        if (rfsult != null)
+            // It mfbns thbt bn frror oddurrfd. Thf frror is blrfbdy
+            // formbttfd by thf fxfdutfSubRfqufst
+            // mfthod.
+            rfturn rfsult;
+
+        // So fbr so good. So wf nffd to dondbtfnbtf bll thf bnswfrs.
+        //
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+               "mbkfGftSftRfsponsfPdu",
+               "Build thf unififd rfsponsf for rfqufst " + rfq.rfqufstId);
+        }
+        rfturn mfrgfRfsponsfs(rfq);
+    }
+
+    /**
+     * Thf mfthod runs bll thf sub-rfqufsts bssodibtfd to thf durrfnt
+     * instbndf of SnmpRfqufstHbndlfr.
+     */
+    privbtf SnmpPduPbdkft fxfdutfSubRfqufst(SnmpPduPbdkft rfq,
+                                            Objfdt usfrDbtb) {
+
+        int frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+
+        int i;
+        // If it's b sft rfqufst, wf must first dhfdk bny vbrBind
+        //
+        if (rfq.typf == pduSftRfqufstPdu) {
+
+            i=0;
+            for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.hbsMorfElfmfnts() ; i++) {
+                // Indidbtf to thf sub rfqufst thbt b dhfdk must bf invokfd ...
+                // OK wf should hbvf dffinfd out own tbg for thbt !
+                //
+                SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+                sub.sftUsfrDbtb(usfrDbtb);
+                sub.typf= pduWblkRfqufst;
+
+                sub.run();
+
+                sub.typf= pduSftRfqufstPdu;
+
+                if (sub.gftErrorStbtus() != SnmpDffinitions.snmpRspNoError) {
+                    // No point to go bny furthfr.
+                    //
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                           "fxfdutfSubRfqufst", "bn frror oddurs");
+                    }
+
+                    rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                               sub.gftErrorIndfx() + 1) ;
+                }
+            }
+        }// fnd prodfssing dhfdk opfrbtion for b sft PDU.
+
+        // Lft's stbrt thf sub-rfqufsts.
+        //
+        i=0;
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.hbsMorfElfmfnts() ;i++) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+        /* NPCTE fix for bugId 4492741, fsd 0, 16-August 2001 */
+            sub.sftUsfrDbtb(usfrDbtb);
+        /* fnd of NPCTE fix for bugId 4492741 */
+
+            sub.run();
+
+            if (sub.gftErrorStbtus() != SnmpDffinitions.snmpRspNoError) {
+                // No point to go bny furthfr.
+                //
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                       "fxfdutfSubRfqufst", "bn frror oddurs");
+                }
+
+                rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                           sub.gftErrorIndfx() + 1) ;
+            }
+        }
+
+        // fvfrything is ok
+        //
+        rfturn null;
+    }
+
+    /**
+     * Optimizf whfn thfrf is only onf sub rfqufst
+     */
+    privbtf SnmpPduPbdkft turboProdfssingGftSft(SnmpPduRfqufst rfq,
+                                                Objfdt usfrDbtb) {
+
+        int frrorStbtus;
+        SnmpSubRfqufstHbndlfr sub = subs.flfmfnts().nfxtElfmfnt();
+        sub.sftUsfrDbtb(usfrDbtb);
+
+        // Indidbtf to thf sub rfqufst thbt b dhfdk must bf invokfd ...
+        // OK wf should hbvf dffinfd out own tbg for thbt !
+        //
+        if (rfq.typf == SnmpDffinitions.pduSftRfqufstPdu) {
+            sub.typf= pduWblkRfqufst;
+            sub.run();
+            sub.typf= pduSftRfqufstPdu;
+
+            // Chfdk thf frror stbtus.
+            //
+            frrorStbtus= sub.gftErrorStbtus();
+            if (frrorStbtus != SnmpDffinitions.snmpRspNoError) {
+                // No point to go bny furthfr.
+                //
+                rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus,
+                                           sub.gftErrorIndfx() + 1) ;
+            }
+        }
+
+        // prodfss thf opfrbtion
+        //
+
+        sub.run();
+        frrorStbtus= sub.gftErrorStbtus();
+        if (frrorStbtus != SnmpDffinitions.snmpRspNoError) {
+            // No point to go bny furthfr.
+            //
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "turboProdfssingGftSft", "bn frror oddurs");
+            }
+            int rfblIndfx= sub.gftErrorIndfx() + 1;
+            rfturn nfwErrorRfsponsfPdu(rfq, frrorStbtus, rfblIndfx) ;
+        }
+
+        // So fbr so good. So wf nffd to dondbtfnbtf bll thf bnswfrs.
+        //
+
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+               "turboProdfssingGftSft",  "build thf unififd rfsponsf for rfqufst "
+                + rfq.rfqufstId);
+        }
+        rfturn mfrgfRfsponsfs(rfq);
+    }
+
+    /**
+     * Hfrf wf mbkf thf rfsponsf pdu for b bulk rfqufst.
+     * At this lfvfl, thf rfsult is nfvfr null.
+     */
+    privbtf SnmpPduPbdkft mbkfGftBulkRfsponsfPdu(SnmpPduBulk rfq,
+                                                 Objfdt usfrDbtb) {
+
+        SnmpVbrBind[] rfspVbrBindList;
+
+        // RFC 1905, Sfdtion 4.2.3, p14
+        int L = rfq.vbrBindList.lfngth ;
+        int N = Mbth.mbx(Mbth.min(rfq.nonRfpfbtfrs, L), 0) ;
+        int M = Mbth.mbx(rfq.mbxRfpftitions, 0) ;
+        int R = L - N ;
+
+        if (rfq.vbrBindList == null) {
+            // Good ! Lft's mbkf b full rfsponsf pdu.
+            //
+            rfturn nfwVblidRfsponsfPdu(rfq, null) ;
+        }
+
+        // Split thf rfqufst into subrfqufsts.
+        //
+        splitBulkRfqufst(rfq, N, M, R);
+        SnmpPduPbdkft rfsult= fxfdutfSubRfqufst(rfq,usfrDbtb);
+        if (rfsult != null)
+            rfturn rfsult;
+
+        rfspVbrBindList= mfrgfBulkRfsponsfs(N + (M * R));
+
+        // Now wf rfmovf usflfss trbiling fndOfMibVifw.
+        //
+        int m2 ; // rfspVbrBindList[m2] itfm bnd nfxt brf going to bf rfmovfd
+        int t = rfspVbrBindList.lfngth ;
+        whilf ((t > N) && (rfspVbrBindList[t-1].
+                           vbluf.fqubls(SnmpVbrBind.fndOfMibVifw))) {
+            t-- ;
+        }
+        if (t == N)
+            m2 = N + R ;
+        flsf
+            m2 = N + ((t -1 -N) / R + 2) * R ; // Trivibl, of doursf...
+        if (m2 < rfspVbrBindList.lfngth) {
+            SnmpVbrBind[] trundbtfdList = nfw SnmpVbrBind[m2] ;
+            for (int i = 0 ; i < m2 ; i++) {
+                trundbtfdList[i] = rfspVbrBindList[i] ;
+            }
+            rfspVbrBindList = trundbtfdList ;
+        }
+
+        // Good ! Lft's mbkf b full rfsponsf pdu.
+        //
+        rfturn nfwVblidRfsponsfPdu(rfq, rfspVbrBindList) ;
+    }
+
+    /**
+     * Chfdk thf typf of thf pdu: only thf gft/sft/bulk rfqufst
+     * brf bddfptfd.
+     */
+    privbtf boolfbn dhfdkPduTypf(SnmpPduPbdkft pdu) {
+
+        boolfbn rfsult;
+
+        switdh(pdu.typf) {
+
+        dbsf SnmpDffinitions.pduGftRfqufstPdu:
+        dbsf SnmpDffinitions.pduGftNfxtRfqufstPdu:
+        dbsf SnmpDffinitions.pduSftRfqufstPdu:
+        dbsf SnmpDffinitions.pduGftBulkRfqufstPdu:
+            rfsult = truf ;
+            brfbk;
+
+        dffbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "dhfdkPduTypf", "dbnnot rfspond to this kind of PDU");
+            }
+            rfsult = fblsf ;
+            brfbk;
+        }
+
+        rfturn rfsult ;
+    }
+
+    /**
+     * Chfdk if thf spfdififd pdu is donform to thf ACL.
+     * This mfthod rfturns null if thf pdu is ok. If not, it rfturns
+     * thf rfsponsf pdu to bf rfplifd.
+     */
+    privbtf SnmpPduPbdkft dhfdkAdl(SnmpPduPbdkft pdu) {
+        SnmpPduPbdkft rfsponsf = null ;
+        String dommunity = nfw String(pdu.dommunity) ;
+
+        // Wf dhfdk thf pdu typf bnd drfbtf bn frror rfsponsf if
+        // thf dhfdk fbilfd.
+        //
+        if (ipbdl != null) {
+            if (pdu.typf == SnmpDffinitions.pduSftRfqufstPdu) {
+                if (!ipbdl.dhfdkWritfPfrmission(pdu.bddrfss, dommunity)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "dhfdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " with " + dommunity +". Sfndfr hbs no writf pfrmission");
+                    }
+                    int frr = SnmpSubRfqufstHbndlfr.
+                        mbpErrorStbtus(SnmpDffinitions.
+                                       snmpRspAuthorizbtionError,
+                                       pdu.vfrsion, pdu.typf);
+                    rfsponsf = nfwErrorRfsponsfPdu(pdu, frr, 0) ;
+                }
+                flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "dhfdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " with " + dommunity +". Sfndfr hbs writf pfrmission");
+                    }
+                }
+            }
+            flsf {
+                if (!ipbdl.dhfdkRfbdPfrmission(pdu.bddrfss, dommunity)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "dhfdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " with " + dommunity +". Sfndfr hbs no rfbd pfrmission");
+                    }
+                    int frr = SnmpSubRfqufstHbndlfr.
+                        mbpErrorStbtus(SnmpDffinitions.
+                                       snmpRspAuthorizbtionError,
+                                       pdu.vfrsion, pdu.typf);
+                    rfsponsf = nfwErrorRfsponsfPdu(pdu,
+                                                   frr,
+                                                   0);
+                    SnmpAdbptorSfrvfr snmpSfrvfr =
+                        (SnmpAdbptorSfrvfr)bdbptorSfrvfr;
+                    snmpSfrvfr.updbtfErrorCountfrs(SnmpDffinitions.
+                                                   snmpRspNoSudhNbmf);
+                }
+                flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                           "dhfdkAdl", "sfndfr is " + pdu.bddrfss +
+                              " with " + dommunity +". Sfndfr hbs rfbd pfrmission");
+                    }
+                }
+            }
+        }
+
+        // If thf rfsponsf is not null, this mfbns thf pdu is rfjfdtfd.
+        // So lft's updbtf thf stbtistids.
+        //
+        if (rfsponsf != null) {
+            SnmpAdbptorSfrvfr snmpSfrvfr = (SnmpAdbptorSfrvfr)bdbptorSfrvfr ;
+            snmpSfrvfr.indSnmpInBbdCommunityUsfs(1) ;
+            if (ipbdl.dhfdkCommunity(dommunity) == fblsf)
+                snmpSfrvfr.indSnmpInBbdCommunityNbmfs(1) ;
+        }
+
+        rfturn rfsponsf ;
+    }
+
+    /**
+     * Mbkf b rfsponsf pdu with thf spfdififd frror stbtus bnd indfx.
+     * NOTE: thf rfsponsf pdu shbrf its vbrBindList with thf rfqufst pdu.
+     */
+    privbtf SnmpPduRfqufst nfwVblidRfsponsfPdu(SnmpPduPbdkft rfqPdu,
+                                               SnmpVbrBind[] vbrBindList) {
+        SnmpPduRfqufst rfsult = nfw SnmpPduRfqufst() ;
+
+        rfsult.bddrfss = rfqPdu.bddrfss ;
+        rfsult.port = rfqPdu.port ;
+        rfsult.vfrsion = rfqPdu.vfrsion ;
+        rfsult.dommunity = rfqPdu.dommunity ;
+        rfsult.typf = SnmpPduRfqufst.pduGftRfsponsfPdu ;
+        rfsult.rfqufstId = rfqPdu.rfqufstId ;
+        rfsult.frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+        rfsult.frrorIndfx = 0 ;
+        rfsult.vbrBindList = vbrBindList ;
+
+        ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).
+            updbtfErrorCountfrs(rfsult.frrorStbtus) ;
+
+        rfturn rfsult ;
+    }
+
+    /**
+     * Mbkf b rfsponsf pdu with thf spfdififd frror stbtus bnd indfx.
+     * NOTE: thf rfsponsf pdu shbrf its vbrBindList with thf rfqufst pdu.
+     */
+    privbtf SnmpPduRfqufst nfwErrorRfsponsfPdu(SnmpPduPbdkft rfq,int s,int i) {
+        SnmpPduRfqufst rfsult = nfwVblidRfsponsfPdu(rfq, null) ;
+        rfsult.frrorStbtus = s ;
+        rfsult.frrorIndfx = i ;
+        rfsult.vbrBindList = rfq.vbrBindList ;
+
+        ((SnmpAdbptorSfrvfr)bdbptorSfrvfr).
+            updbtfErrorCountfrs(rfsult.frrorStbtus) ;
+
+        rfturn rfsult ;
+    }
+
+    privbtf SnmpMfssbgf nfwTooBigMfssbgf(SnmpMfssbgf rfqMsg)
+        throws SnmpTooBigExdfption {
+        SnmpMfssbgf rfsult = null ;
+        SnmpPduPbdkft rfqPdu;
+
+        try {
+            rfqPdu = (SnmpPduPbdkft)pduFbdtory.dfdodfSnmpPdu(rfqMsg) ;
+            if (rfqPdu != null) {
+                SnmpPduPbdkft rfspPdu = nfwTooBigPdu(rfqPdu) ;
+                rfsult = (SnmpMfssbgf)pduFbdtory.
+                    fndodfSnmpPdu(rfspPdu, pbdkft.gftDbtb().lfngth) ;
+            }
+        }
+        dbtdh(SnmpStbtusExdfption x) {
+            // This should not oddur bfdbusf dfdodfIndomingRfqufst hbs normblly
+            // bffn suddfssfully dbllfd bfforf.
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "nfwTooBigMfssbgf", "Intfrnbl frror", x);
+            }
+            throw nfw IntfrnblError(x) ;
+        }
+
+        rfturn rfsult ;
+    }
+
+    privbtf SnmpPduPbdkft nfwTooBigPdu(SnmpPduPbdkft rfq) {
+        SnmpPduRfqufst rfsult =
+            nfwErrorRfsponsfPdu(rfq, SnmpDffinitions.snmpRspTooBig, 0) ;
+        rfsult.vbrBindList = null ;
+        rfturn rfsult ;
+    }
+
+    privbtf SnmpPduPbdkft rfdudfRfsponsfPdu(SnmpPduPbdkft rfq,
+                                            SnmpPduPbdkft rfsp,
+                                            int bddfptfdVbCount)
+        throws SnmpTooBigExdfption {
+
+        // Rfdudtion dbn bf bttfmptfd only on bulk rfsponsf
+        //
+        if (rfq.typf != SnmpPduPbdkft.pduGftBulkRfqufstPdu) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", "dbnnot rfmovf bnything");
+            }
+            throw nfw SnmpTooBigExdfption(bddfptfdVbCount) ;
+        }
+
+        // Wf'rf going to rfdudf thf vbrbind list.
+        // First dftfrminf whidh itfms should bf rfmovfd.
+        // Nfxt duplidbtf bnd rfplbdf thf fxisting list by thf rfdudfd onf.
+        //
+        // bddfptfdVbCount is thf numbfr of vbrbind whidh hbvf bffn
+        // suddfssfully fndodfd bfforf rfbdhing bufffrSizf:
+        //   * whfn it is >= 2, wf split thf vbrbindlist bt this
+        //     position (-1 to bf sbff),
+        //   * whfn it is 1, wf only put onf (big?) itfm in thf vbrbindlist
+        //   * whfn it is 0 (in fbdt, bddfptfdVbCount is not bvbilbblf),
+        //     wf split thf vbrbindlist by 2.
+        //
+        int vbCount;
+        if (bddfptfdVbCount >= 3)
+            vbCount = Mbth.min(bddfptfdVbCount - 1, rfsp.vbrBindList.lfngth) ;
+        flsf if (bddfptfdVbCount == 1)
+            vbCount = 1 ;
+        flsf // bddfptfdCount == 0 if it is unknown
+            vbCount = rfsp.vbrBindList.lfngth / 2 ;
+
+        if (vbCount < 1) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", "dbnnot rfmovf bnything");
+            }
+            throw nfw SnmpTooBigExdfption(bddfptfdVbCount) ;
+        }
+        flsf {
+            SnmpVbrBind[] nfwVbList = nfw SnmpVbrBind[vbCount] ;
+            for (int i = 0 ; i < vbCount ; i++) {
+                nfwVbList[i] = rfsp.vbrBindList[i] ;
+            }
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                   "rfdudfRfsponsfPdu", (rfsp.vbrBindList.lfngth - nfwVbList.lfngth) +
+                    " itfms hbvf bffn rfmovfd");
+            }
+            rfsp.vbrBindList = nfwVbList ;
+        }
+
+        rfturn rfsp ;
+    }
+
+    /**
+     * Thf mfthod tbkfs thf indoming rfqufsts bnd split it into subrfqufsts.
+     */
+    privbtf void splitRfqufst(SnmpPduRfqufst rfq) {
+
+        int nbAgfnts= mibs.sizf();
+        SnmpMibAgfnt bgfnt = mibs.firstElfmfnt();
+        if (nbAgfnts == 1) {
+            // Tbkf bll thf oids dontbinfd in thf rfqufst bnd
+            //
+            subs.put(bgfnt, nfw SnmpSubRfqufstHbndlfr(bgfnt, rfq, truf));
+            rfturn;
+        }
+
+        // For thf gft nfxt opfrbtion wf brf going to sfnd thf vbrbind list
+        // to bll bgfnts
+        //
+        if (rfq.typf == pduGftNfxtRfqufstPdu) {
+            for(Enumfrbtion<SnmpMibAgfnt> f= mibs.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+                finbl SnmpMibAgfnt bg= f.nfxtElfmfnt();
+                subs.put(bg, nfw SnmpSubNfxtRfqufstHbndlfr(bdbptor, bg, rfq));
+            }
+            rfturn;
+        }
+
+        int nbRfqs= rfq.vbrBindList.lfngth;
+        SnmpVbrBind[] vbrs= rfq.vbrBindList;
+        SnmpSubRfqufstHbndlfr sub;
+        for(int i=0; i < nbRfqs; i++) {
+            bgfnt= root.gftAgfntMib(vbrs[i].oid);
+            sub= subs.gft(bgfnt);
+            if (sub == null) {
+                // Wf nffd to drfbtf thf sub rfqufst hbndlfr bnd updbtf
+                // thf hbshtbblf
+                //
+                sub= nfw SnmpSubRfqufstHbndlfr(bgfnt, rfq);
+                subs.put(bgfnt, sub);
+            }
+
+            // Updbtf thf trbnslbtion tbblf within thf subrfqufst
+            //
+            sub.updbtfRfqufst(vbrs[i], i);
+        }
+    }
+
+    /**
+     * Thf mfthod tbkfs thf indoming gft bulk rfqufsts bnd split it into
+     * subrfqufsts.
+     */
+    privbtf void splitBulkRfqufst(SnmpPduBulk rfq,
+                                  int nonRfpfbtfrs,
+                                  int mbxRfpftitions,
+                                  int R) {
+        // Sfnd thf gftBulk to bll bgfnts
+        //
+        for(Enumfrbtion<SnmpMibAgfnt> f= mibs.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+            finbl SnmpMibAgfnt bgfnt = f.nfxtElfmfnt();
+
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                   "splitBulkRfqufst", "Crfbtf b sub with : " + bgfnt + " " + nonRfpfbtfrs
+                   + " " + mbxRfpftitions + " " + R);
+            }
+
+            subs.put(bgfnt,
+                     nfw SnmpSubBulkRfqufstHbndlfr(bdbptor,
+                                                   bgfnt,
+                                                   rfq,
+                                                   nonRfpfbtfrs,
+                                                   mbxRfpftitions,
+                                                   R));
+        }
+    }
+
+    privbtf SnmpPduPbdkft mfrgfRfsponsfs(SnmpPduRfqufst rfq) {
+
+        if (rfq.typf == pduGftNfxtRfqufstPdu) {
+            rfturn mfrgfNfxtRfsponsfs(rfq);
+        }
+
+        SnmpVbrBind[] rfsult= rfq.vbrBindList;
+
+        // Go through thf list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll thf sub-rfqufsts should bf finishfd
+        //
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
+        }
+        rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
+    }
+
+    privbtf SnmpPduPbdkft mfrgfNfxtRfsponsfs(SnmpPduRfqufst rfq) {
+        int mbx= rfq.vbrBindList.lfngth;
+        SnmpVbrBind[] rfsult= nfw SnmpVbrBind[mbx];
+
+        // Go through thf list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll thf sub-rfqufsts should bf finishfd
+        //
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
+        }
+
+        if (rfq.vfrsion == snmpVfrsionTwo) {
+            rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
+        }
+
+        // In v1 mbkf surf thfrf is no fndOfMibVifw ...
+        //
+        for(int i=0; i < mbx; i++) {
+            SnmpVbluf vbl= rfsult[i].vbluf;
+            if (vbl == SnmpVbrBind.fndOfMibVifw)
+                rfturn nfwErrorRfsponsfPdu(rfq,
+                                   SnmpDffinitions.snmpRspNoSudhNbmf, i+1);
+        }
+
+        // So fbr so good ...
+        //
+        rfturn nfwVblidRfsponsfPdu(rfq,rfsult);
+    }
+
+    privbtf SnmpVbrBind[] mfrgfBulkRfsponsfs(int sizf) {
+        // Lft's bllodbtf thf brrby for storing thf rfsult
+        //
+        SnmpVbrBind[] rfsult= nfw SnmpVbrBind[sizf];
+        for(int i= sizf-1; i >=0; --i) {
+            rfsult[i]= nfw SnmpVbrBind();
+            rfsult[i].vbluf= SnmpVbrBind.fndOfMibVifw;
+        }
+
+        // Go through thf list of subrfqufsts bnd dondbtfnbtf.
+        // Hopffully, by now bll thf sub-rfqufsts should bf finishfd
+        //
+        for(Enumfrbtion<SnmpSubRfqufstHbndlfr> f= subs.flfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpSubRfqufstHbndlfr sub= f.nfxtElfmfnt();
+            sub.updbtfRfsult(rfsult);
+        }
+
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    protfdtfd String mbkfDfbugTbg() {
+        rfturn "SnmpRfqufstHbndlfr[" + bdbptorSfrvfr.gftProtodol() + ":" +
+            bdbptorSfrvfr.gftPort() + "]";
+    }
+
+    @Ovfrridf
+    Thrfbd drfbtfThrfbd(Runnbblf r) {
+        rfturn null;
+    }
+
+    stbtid finbl privbtf String IntfrruptSysCbllMsg =
+        "Intfrruptfd systfm dbll";
+}

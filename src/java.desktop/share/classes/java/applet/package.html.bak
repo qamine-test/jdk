@@ -1,60 +1,60 @@
 <!--
- Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<body bgcolor="white">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<body bgdolor="wiitf">
 
-Provides the classes necessary to create an applet and the classes an applet
-uses to communicate with its applet context.
+Providfs tif dlbssfs nfdfssbry to drfbtf bn bpplft bnd tif dlbssfs bn bpplft
+usfs to dommunidbtf witi its bpplft dontfxt.
 <p>
-The applet framework involves two
-entities: the <i>applet</i> and the <i>applet context</i>. An applet is an 
-embeddable window (see the Panel class) with a few extra methods that the applet 
-context can use to initialize, start, and stop the applet.
+Tif bpplft frbmfwork involvfs two
+fntitifs: tif <i>bpplft</i> bnd tif <i>bpplft dontfxt</i>. An bpplft is bn 
+fmbfddbblf window (sff tif Pbnfl dlbss) witi b ffw fxtrb mftiods tibt tif bpplft 
+dontfxt dbn usf to initiblizf, stbrt, bnd stop tif bpplft.
 <p>
-The applet context is an application that is responsible for loading and running
-applets. For example, the applet context could be a Web browser or an applet
-development environment.
+Tif bpplft dontfxt is bn bpplidbtion tibt is rfsponsiblf for lobding bnd running
+bpplfts. For fxbmplf, tif bpplft dontfxt dould bf b Wfb browsfr or bn bpplft
+dfvflopmfnt fnvironmfnt.
 <p>
 <!--
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
-  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.0
+@sindf 1.0
 </body>
-</html>
+</itml>

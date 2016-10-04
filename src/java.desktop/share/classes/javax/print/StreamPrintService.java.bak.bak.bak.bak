@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.OutputStrfbm;
+
+/**
+ * This dlbss fxtfnds {@link PrintSfrvidf} bnd rfprfsfnts b
+ * print sfrvidf thbt prints dbtb in difffrfnt formbts to b
+ * dlifnt-providfd output strfbm.
+ * This is prindipblly intfndfd for sfrvidfs whfrf
+ * thf output formbt is b dodumfnt typf suitbblf for vifwing
+ * or brdhiving.
+ * Thf output formbt must bf dfdlbrfd bs b mimf typf.
+ * This is fquivblfnt to bn output dodumfnt flbvor whfrf thf
+ * rfprfsfntbtion dlbss is blwbys "jbvb.io.OutputStrfbm"
+ * An instbndf of thf <dodf>StrfbmPrintSfrvidf</dodf> dlbss is
+ * obtbinfd from b {@link StrfbmPrintSfrvidfFbdtory} instbndf.
+ * <p>
+ * Notf thbt b <dodf>StrfbmPrintSfrvidf</dodf> is difffrfnt from b
+ * <dodf>PrintSfrvidf</dodf>, whidh supports b
+ * {@link jbvbx.print.bttributf.stbndbrd.Dfstinbtion Dfstinbtion}
+ * bttributf.  A <dodf>StrfbmPrintSfrvidf</dodf> blwbys rfquirfs bn output
+ * strfbm, whfrfbs b <dodf>PrintSfrvidf</dodf> optionblly bddfpts b
+ * <dodf>Dfstinbtion</dodf>. A <dodf>StrfbmPrintSfrvidf</dodf>
+ * hbs no dffbult dfstinbtion for its formbttfd output.
+ * Additionblly b <dodf>StrfbmPrintSfrvidf</dodf> is fxpfdtfd to gfnfrbtf
+output in
+ * b formbt usfful in othfr dontfxts.
+ * StrfbmPrintSfrvidf's brf not fxpfdtfd to support thf Dfstinbtion bttributf.
+ */
+
+publid bbstrbdt dlbss StrfbmPrintSfrvidf implfmfnts PrintSfrvidf {
+
+    privbtf OutputStrfbm outStrfbm;
+    privbtf boolfbn disposfd = fblsf;
+
+    privbtf StrfbmPrintSfrvidf() {
+    };
+
+    /**
+     * Construdts b StrfbmPrintSfrvidf objfdt.
+     *
+     * @pbrbm out  strfbm to whidh to sfnd formbttfd print dbtb.
+     */
+    protfdtfd StrfbmPrintSfrvidf(OutputStrfbm out) {
+        this.outStrfbm = out;
+    }
+
+    /**
+     * Gfts thf output strfbm.
+     *
+     * @rfturn thf strfbm to whidh this sfrvidf will sfnd formbttfd print dbtb.
+     */
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn outStrfbm;
+    }
+
+    /**
+     * Rfturns thf dodumfnt formbt fmittfd by this print sfrvidf.
+     * Must bf in mimftypf formbt, dompbtiblf with thf mimf typf
+     * domponfnts of DodFlbvors @sff DodFlbvor.
+     * @rfturn mimf typf idfntifying thf output formbt.
+     */
+    publid bbstrbdt String gftOutputFormbt();
+
+    /**
+     * Disposfs this <dodf>StrfbmPrintSfrvidf</dodf>.
+     * If b strfbm sfrvidf dbnnot bf rf-usfd, it must bf disposfd
+     * to indidbtf this. Typidblly thf dlifnt will dbll this mfthod.
+     * Sfrvidfs whidh writf dbtb whidh dbnnot mfbningfully bf bppfndfd to
+     * mby blso disposf thf strfbm. This dofs not dlosf thf strfbm. It
+     * just mbrks it bs not for furthfr usf by this sfrvidf.
+     */
+    publid void disposf() {
+        disposfd = truf;
+    }
+
+    /**
+     * Rfturns b <dodf>boolfbn</dodf> indidbting whfthfr or not
+     * this <dodf>StrfbmPrintSfrvidf</dodf> hbs bffn disposfd.
+     * If this objfdt hbs bffn disposfd, will rfturn truf.
+     * Usfd by sfrvidfs bnd dlifnt bpplidbtions to rfdognizf strfbms
+     * to whidh no furthfr dbtb should bf writtfn.
+     * @rfturn if this <dodf>StrfbmPrintSfrvidf</dodf> hbs bffn disposfd
+     */
+    publid boolfbn isDisposfd() {
+        rfturn disposfd;
+    }
+
+}

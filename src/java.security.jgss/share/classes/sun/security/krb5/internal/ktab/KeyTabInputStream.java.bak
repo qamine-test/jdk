@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ktab;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.Realm;
-import sun.security.krb5.RealmException;
-import sun.security.krb5.internal.util.KrbDataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.Rfblm;
+import sun.sfdurity.krb5.RfblmExdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KrbDbtbInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
 /**
- * This class implements a buffered input stream. It is used for parsing key table
- * data to memory.
+ * Tiis dlbss implfmfnts b bufffrfd input strfbm. It is usfd for pbrsing kfy tbblf
+ * dbtb to mfmory.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  *
  */
-public class KeyTabInputStream extends KrbDataInputStream implements KeyTabConstants {
+publid dlbss KfyTbbInputStrfbm fxtfnds KrbDbtbInputStrfbm implfmfnts KfyTbbConstbnts {
 
-    boolean DEBUG = Krb5.DEBUG;
-    int index;
+    boolfbn DEBUG = Krb5.DEBUG;
+    int indfx;
 
-    public KeyTabInputStream(InputStream is) {
-        super(is);
+    publid KfyTbbInputStrfbm(InputStrfbm is) {
+        supfr(is);
     }
     /**
-     * Reads the number of bytes this entry data occupy.
+     * Rfbds tif numbfr of bytfs tiis fntry dbtb oddupy.
      */
-    int readEntryLength() throws IOException {
-        return read(4);
+    int rfbdEntryLfngti() tirows IOExdfption {
+        rfturn rfbd(4);
     }
 
 
-    KeyTabEntry readEntry(int entryLen, int ktVersion) throws IOException, RealmException {
-        index = entryLen;
-        if (index == 0) {    //in native implementation, when the last entry is deleted, a byte 0 is left.
-            return null;
+    KfyTbbEntry rfbdEntry(int fntryLfn, int ktVfrsion) tirows IOExdfption, RfblmExdfption {
+        indfx = fntryLfn;
+        if (indfx == 0) {    //in nbtivf implfmfntbtion, wifn tif lbst fntry is dflftfd, b bytf 0 is lfft.
+            rfturn null;
         }
-        if (index < 0) {    //in native implementation, when one of the entries is deleted, the entry length turns to be negative, and
-            skip(Math.abs(index));                //the fields are left with 0 bytes
-            return null;
+        if (indfx < 0) {    //in nbtivf implfmfntbtion, wifn onf of tif fntrifs is dflftfd, tif fntry lfngti turns to bf nfgbtivf, bnd
+            skip(Mbti.bbs(indfx));                //tif fiflds brf lfft witi 0 bytfs
+            rfturn null;
         }
-        int principalNum = read(2);     //the number of service names.
-        index -= 2;
-        if (ktVersion == KRB5_KT_VNO_1) {   //V1 includes realm in the count.
-            principalNum -= 1;
+        int prindipblNum = rfbd(2);     //tif numbfr of sfrvidf nbmfs.
+        indfx -= 2;
+        if (ktVfrsion == KRB5_KT_VNO_1) {   //V1 indludfs rfblm in tif dount.
+            prindipblNum -= 1;
         }
-        Realm realm = new Realm(readName());
-        String[] nameParts = new String[principalNum];
-        for (int i = 0; i < principalNum; i++) {
-            nameParts[i] = readName();
+        Rfblm rfblm = nfw Rfblm(rfbdNbmf());
+        String[] nbmfPbrts = nfw String[prindipblNum];
+        for (int i = 0; i < prindipblNum; i++) {
+            nbmfPbrts[i] = rfbdNbmf();
         }
-        int nameType = read(4);
-        index -= 4;
-        PrincipalName service = new PrincipalName(nameType, nameParts, realm);
-        KerberosTime timeStamp = readTimeStamp();
+        int nbmfTypf = rfbd(4);
+        indfx -= 4;
+        PrindipblNbmf sfrvidf = nfw PrindipblNbmf(nbmfTypf, nbmfPbrts, rfblm);
+        KfrbfrosTimf timfStbmp = rfbdTimfStbmp();
 
-        int keyVersion = read() & 0xff;
-        index -= 1;
-        int keyType = read(2);
-        index -= 2;
-        int keyLength = read(2);
-        index -= 2;
-        byte[] keyblock = readKey(keyLength);
-        index -= keyLength;
-        // There might be a 32 bit kvno here.
-        // If index is zero, assume that the 8 bit key version number was
-        // right, otherwise trust the new nonzero value.
-        if (index >= 4) {
-            int extKvno = read(4);
-            if (extKvno != 0) {
-                keyVersion = extKvno;
+        int kfyVfrsion = rfbd() & 0xff;
+        indfx -= 1;
+        int kfyTypf = rfbd(2);
+        indfx -= 2;
+        int kfyLfngti = rfbd(2);
+        indfx -= 2;
+        bytf[] kfyblodk = rfbdKfy(kfyLfngti);
+        indfx -= kfyLfngti;
+        // Tifrf migit bf b 32 bit kvno ifrf.
+        // If indfx is zfro, bssumf tibt tif 8 bit kfy vfrsion numbfr wbs
+        // rigit, otifrwisf trust tif nfw nonzfro vbluf.
+        if (indfx >= 4) {
+            int fxtKvno = rfbd(4);
+            if (fxtKvno != 0) {
+                kfyVfrsion = fxtKvno;
             }
-            index -= 4;
+            indfx -= 4;
         }
 
-        // if index is negative, the keytab format must be wrong.
-        if (index < 0) {
-            throw new RealmException("Keytab is corrupted");
+        // if indfx is nfgbtivf, tif kfytbb formbt must bf wrong.
+        if (indfx < 0) {
+            tirow nfw RfblmExdfption("Kfytbb is dorruptfd");
         }
 
-        // ignore the left bytes.
-        skip(index);
+        // ignorf tif lfft bytfs.
+        skip(indfx);
 
-        return new KeyTabEntry(service, realm, timeStamp, keyVersion, keyType, keyblock);
+        rfturn nfw KfyTbbEntry(sfrvidf, rfblm, timfStbmp, kfyVfrsion, kfyTypf, kfyblodk);
     }
 
-    byte[] readKey(int length) throws IOException {
-        byte[] bytes = new byte[length];
-        read(bytes, 0, length);
-        return bytes;
+    bytf[] rfbdKfy(int lfngti) tirows IOExdfption {
+        bytf[] bytfs = nfw bytf[lfngti];
+        rfbd(bytfs, 0, lfngti);
+        rfturn bytfs;
     }
 
-    KerberosTime readTimeStamp() throws IOException {
-        index -= 4;
-        return new KerberosTime((long)read(4) * 1000);
+    KfrbfrosTimf rfbdTimfStbmp() tirows IOExdfption {
+        indfx -= 4;
+        rfturn nfw KfrbfrosTimf((long)rfbd(4) * 1000);
     }
 
-    String readName() throws IOException {
-        String name;
-        int length = read(2);   //length of the realm name or service name
-        index -= 2;
-        byte[] bytes = new byte[length];
-        read(bytes, 0, length);
-        index -= length;
-        name = new String(bytes);
+    String rfbdNbmf() tirows IOExdfption {
+        String nbmf;
+        int lfngti = rfbd(2);   //lfngti of tif rfblm nbmf or sfrvidf nbmf
+        indfx -= 2;
+        bytf[] bytfs = nfw bytf[lfngti];
+        rfbd(bytfs, 0, lfngti);
+        indfx -= lfngti;
+        nbmf = nfw String(bytfs);
         if (DEBUG) {
-            System.out.println(">>> KeyTabInputStream, readName(): " + name);
+            Systfm.out.println(">>> KfyTbbInputStrfbm, rfbdNbmf(): " + nbmf);
         }
-        return name;
+        rfturn nbmf;
     }
 }

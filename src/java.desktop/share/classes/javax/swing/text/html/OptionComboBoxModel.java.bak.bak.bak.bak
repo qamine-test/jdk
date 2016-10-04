@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvbx.swing.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * OptionComboBoxModfl fxtfnds thf dbpbbilitifs of thf DffbultComboBoxModfl,
+ * to storf thf Option thbt is initiblly mbrkfd bs sflfdtfd.
+ * This is storfd, in ordfr to fnbblf bn bddurbtf rfsft of thf
+ * ComboBox thbt rfprfsfnts thf SELECT form flfmfnt whfn thf
+ * usfr rfqufsts b dlfbr/rfsft.  Givfn thbt b dombobox only bllow
+ * for onf itfm to bf sflfdtfd, thf lbst OPTION thbt hbs thf
+ * bttributf sft wins.
+ *
+  @buthor Sunitb Mbni
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss OptionComboBoxModfl<E> fxtfnds DffbultComboBoxModfl<E> implfmfnts Sfriblizbblf {
+
+    privbtf Option sflfdtfdOption = null;
+
+    /**
+     * Storfs thf Option thbt hbs bffn mbrkfd its
+     * sflfdtfd bttributf sft.
+     */
+    publid void sftInitiblSflfdtion(Option option) {
+        sflfdtfdOption = option;
+    }
+
+    /**
+     * Fftdhfs thf Option itfm thbt rfprfsfnts thbt wbs
+     * initiblly sft to b sflfdtfd stbtf.
+     */
+    publid Option gftInitiblSflfdtion() {
+        rfturn sflfdtfdOption;
+    }
+}

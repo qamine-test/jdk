@@ -1,916 +1,916 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Util;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 // jmx import
 //
 
 
 /**
- * The <tt>TabularDataSupport</tt> class is the <i>open data</i> class which implements the <tt>TabularData</tt>
- * and the <tt>Map</tt> interfaces, and which is internally based on a hash map data structure.
+ * Tif <tt>TbbulbrDbtbSupport</tt> dlbss is tif <i>opfn dbtb</i> dlbss wiidi implfmfnts tif <tt>TbbulbrDbtb</tt>
+ * bnd tif <tt>Mbp</tt> intfrfbdfs, bnd wiidi is intfrnblly bbsfd on b ibsi mbp dbtb strudturf.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-/* It would make much more sense to implement
-   Map<List<?>,CompositeData> here, but unfortunately we cannot for
-   compatibility reasons.  If we did that, then we would have to
-   define e.g.
-   CompositeData remove(Object)
-   instead of
-   Object remove(Object).
+/* It would mbkf mudi morf sfnsf to implfmfnt
+   Mbp<List<?>,CompositfDbtb> ifrf, but unfortunbtfly wf dbnnot for
+   dompbtibility rfbsons.  If wf did tibt, tifn wf would ibvf to
+   dffinf f.g.
+   CompositfDbtb rfmovf(Objfdt)
+   instfbd of
+   Objfdt rfmovf(Objfdt).
 
-   That would mean that if any existing code subclassed
-   TabularDataSupport and overrode
-   Object remove(Object),
-   it would (a) no longer compile and (b) not actually override
-   CompositeData remove(Object)
-   in binaries compiled before the change.
+   Tibt would mfbn tibt if bny fxisting dodf subdlbssfd
+   TbbulbrDbtbSupport bnd ovfrrodf
+   Objfdt rfmovf(Objfdt),
+   it would (b) no longfr dompilf bnd (b) not bdtublly ovfrridf
+   CompositfDbtb rfmovf(Objfdt)
+   in binbrifs dompilfd bfforf tif dibngf.
 */
-public class TabularDataSupport
-    implements TabularData, Map<Object,Object>,
-               Cloneable, Serializable {
+publid dlbss TbbulbrDbtbSupport
+    implfmfnts TbbulbrDbtb, Mbp<Objfdt,Objfdt>,
+               Clonfbblf, Sfriblizbblf {
 
 
-    /* Serial version */
-    static final long serialVersionUID = 5720150593236309827L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 5720150593236309827L;
 
 
     /**
-     * @serial This tabular data instance's contents: a {@link HashMap}
+     * @sfribl Tiis tbbulbr dbtb instbndf's dontfnts: b {@link HbsiMbp}
      */
-    // field cannot be final because of clone method
-    private Map<Object,CompositeData> dataMap;
+    // fifld dbnnot bf finbl bfdbusf of dlonf mftiod
+    privbtf Mbp<Objfdt,CompositfDbtb> dbtbMbp;
 
     /**
-     * @serial This tabular data instance's tabular type
+     * @sfribl Tiis tbbulbr dbtb instbndf's tbbulbr typf
      */
-    private final TabularType tabularType;
+    privbtf finbl TbbulbrTypf tbbulbrTypf;
 
     /**
-     * The array of item names that define the index used for rows (convenience field)
+     * Tif brrby of itfm nbmfs tibt dffinf tif indfx usfd for rows (donvfnifndf fifld)
      */
-    private transient String[] indexNamesArray;
+    privbtf trbnsifnt String[] indfxNbmfsArrby;
 
 
 
-    /* *** Constructors *** */
+    /* *** Construdtors *** */
 
 
     /**
-     * Creates an empty <tt>TabularDataSupport</tt> instance whose open-type is <var>tabularType</var>,
-     * and whose underlying <tt>HashMap</tt> has a default initial capacity (101) and default load factor (0.75).
+     * Crfbtfs bn fmpty <tt>TbbulbrDbtbSupport</tt> instbndf wiosf opfn-typf is <vbr>tbbulbrTypf</vbr>,
+     * bnd wiosf undfrlying <tt>HbsiMbp</tt> ibs b dffbult initibl dbpbdity (101) bnd dffbult lobd fbdtor (0.75).
      * <p>
-     * This constructor simply calls <tt>this(tabularType, 101, 0.75f);</tt>
+     * Tiis donstrudtor simply dblls <tt>tiis(tbbulbrTypf, 101, 0.75f);</tt>
      *
-     * @param  tabularType               the <i>tabular type</i> describing this <tt>TabularData</tt> instance;
-     *                                   cannot be null.
+     * @pbrbm  tbbulbrTypf               tif <i>tbbulbr typf</i> dfsdribing tiis <tt>TbbulbrDbtb</tt> instbndf;
+     *                                   dbnnot bf null.
      *
-     * @throws IllegalArgumentException  if the tabular type is null.
+     * @tirows IllfgblArgumfntExdfption  if tif tbbulbr typf is null.
      */
-    public TabularDataSupport(TabularType tabularType) {
+    publid TbbulbrDbtbSupport(TbbulbrTypf tbbulbrTypf) {
 
-        this(tabularType, 16, 0.75f);
+        tiis(tbbulbrTypf, 16, 0.75f);
     }
 
     /**
-     * Creates an empty <tt>TabularDataSupport</tt> instance whose open-type is <var>tabularType</var>,
-     * and whose underlying <tt>HashMap</tt> has the specified initial capacity and load factor.
+     * Crfbtfs bn fmpty <tt>TbbulbrDbtbSupport</tt> instbndf wiosf opfn-typf is <vbr>tbbulbrTypf</vbr>,
+     * bnd wiosf undfrlying <tt>HbsiMbp</tt> ibs tif spfdififd initibl dbpbdity bnd lobd fbdtor.
      *
-     * @param  tabularType               the <i>tabular type</i> describing this <tt>TabularData</tt> instance;
-     *                           cannot be null.
+     * @pbrbm  tbbulbrTypf               tif <i>tbbulbr typf</i> dfsdribing tiis <tt>TbbulbrDbtb</tt> instbndf;
+     *                           dbnnot bf null.
      *
-     * @param  initialCapacity   the initial capacity of the HashMap.
+     * @pbrbm  initiblCbpbdity   tif initibl dbpbdity of tif HbsiMbp.
      *
-     * @param  loadFactor        the load factor of the HashMap
+     * @pbrbm  lobdFbdtor        tif lobd fbdtor of tif HbsiMbp
      *
-     * @throws IllegalArgumentException  if the initial capacity is less than zero,
-     *                                   or the load factor is nonpositive,
-     *                                   or the tabular type is null.
+     * @tirows IllfgblArgumfntExdfption  if tif initibl dbpbdity is lfss tibn zfro,
+     *                                   or tif lobd fbdtor is nonpositivf,
+     *                                   or tif tbbulbr typf is null.
      */
-    public TabularDataSupport(TabularType tabularType, int initialCapacity, float loadFactor) {
+    publid TbbulbrDbtbSupport(TbbulbrTypf tbbulbrTypf, int initiblCbpbdity, flobt lobdFbdtor) {
 
-        // Check tabularType is not null
+        // Cifdk tbbulbrTypf is not null
         //
-        if (tabularType == null) {
-            throw new IllegalArgumentException("Argument tabularType cannot be null.");
+        if (tbbulbrTypf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt tbbulbrTypf dbnnot bf null.");
         }
 
-        // Initialize this.tabularType (and indexNamesArray for convenience)
+        // Initiblizf tiis.tbbulbrTypf (bnd indfxNbmfsArrby for donvfnifndf)
         //
-        this.tabularType = tabularType;
-        List<String> tmpNames = tabularType.getIndexNames();
-        this.indexNamesArray = tmpNames.toArray(new String[tmpNames.size()]);
+        tiis.tbbulbrTypf = tbbulbrTypf;
+        List<String> tmpNbmfs = tbbulbrTypf.gftIndfxNbmfs();
+        tiis.indfxNbmfsArrby = tmpNbmfs.toArrby(nfw String[tmpNbmfs.sizf()]);
 
-        // Since LinkedHashMap was introduced in SE 1.4, it's conceivable even
-        // if very unlikely that we might be the server of a 1.3 client.  In
-        // that case you'll need to set this property.  See CR 6334663.
-        String useHashMapProp = AccessController.doPrivileged(
-                new GetPropertyAction("jmx.tabular.data.hash.map"));
-        boolean useHashMap = "true".equalsIgnoreCase(useHashMapProp);
+        // Sindf LinkfdHbsiMbp wbs introdudfd in SE 1.4, it's dondfivbblf fvfn
+        // if vfry unlikfly tibt wf migit bf tif sfrvfr of b 1.3 dlifnt.  In
+        // tibt dbsf you'll nffd to sft tiis propfrty.  Sff CR 6334663.
+        String usfHbsiMbpProp = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jmx.tbbulbr.dbtb.ibsi.mbp"));
+        boolfbn usfHbsiMbp = "truf".fqublsIgnorfCbsf(usfHbsiMbpProp);
 
-        // Construct the empty contents HashMap
+        // Construdt tif fmpty dontfnts HbsiMbp
         //
-        this.dataMap = useHashMap ?
-            new HashMap<Object,CompositeData>(initialCapacity, loadFactor) :
-            new LinkedHashMap<Object, CompositeData>(initialCapacity, loadFactor);
+        tiis.dbtbMbp = usfHbsiMbp ?
+            nfw HbsiMbp<Objfdt,CompositfDbtb>(initiblCbpbdity, lobdFbdtor) :
+            nfw LinkfdHbsiMbp<Objfdt, CompositfDbtb>(initiblCbpbdity, lobdFbdtor);
     }
 
 
 
 
-    /* *** TabularData specific information methods *** */
+    /* *** TbbulbrDbtb spfdifid informbtion mftiods *** */
 
 
     /**
-     * Returns the <i>tabular type</i> describing this <tt>TabularData</tt> instance.
+     * Rfturns tif <i>tbbulbr typf</i> dfsdribing tiis <tt>TbbulbrDbtb</tt> instbndf.
      */
-    public TabularType getTabularType() {
+    publid TbbulbrTypf gftTbbulbrTypf() {
 
-        return tabularType;
+        rfturn tbbulbrTypf;
     }
 
     /**
-     * Calculates the index that would be used in this <tt>TabularData</tt> instance to refer to the specified
-     * composite data <var>value</var> parameter if it were added to this instance.
-     * This method checks for the type validity of the specified <var>value</var>,
-     * but does not check if the calculated index is already used to refer to a value in this <tt>TabularData</tt> instance.
+     * Cbldulbtfs tif indfx tibt would bf usfd in tiis <tt>TbbulbrDbtb</tt> instbndf to rfffr to tif spfdififd
+     * dompositf dbtb <vbr>vbluf</vbr> pbrbmftfr if it wfrf bddfd to tiis instbndf.
+     * Tiis mftiod difdks for tif typf vblidity of tif spfdififd <vbr>vbluf</vbr>,
+     * but dofs not difdk if tif dbldulbtfd indfx is blrfbdy usfd to rfffr to b vbluf in tiis <tt>TbbulbrDbtb</tt> instbndf.
      *
-     * @param  value                      the composite data value whose index in this
-     *                                    <tt>TabularData</tt> instance is to be calculated;
-     *                                    must be of the same composite type as this instance's row type;
-     *                                    must not be null.
+     * @pbrbm  vbluf                      tif dompositf dbtb vbluf wiosf indfx in tiis
+     *                                    <tt>TbbulbrDbtb</tt> instbndf is to bf dbldulbtfd;
+     *                                    must bf of tif sbmf dompositf typf bs tiis instbndf's row typf;
+     *                                    must not bf null.
      *
-     * @return the index that the specified <var>value</var> would have in this <tt>TabularData</tt> instance.
+     * @rfturn tif indfx tibt tif spfdififd <vbr>vbluf</vbr> would ibvf in tiis <tt>TbbulbrDbtb</tt> instbndf.
      *
-     * @throws NullPointerException       if <var>value</var> is <tt>null</tt>.
+     * @tirows NullPointfrExdfption       if <vbr>vbluf</vbr> is <tt>null</tt>.
      *
-     * @throws InvalidOpenTypeException   if <var>value</var> does not conform to this <tt>TabularData</tt> instance's
-     *                                    row type definition.
+     * @tirows InvblidOpfnTypfExdfption   if <vbr>vbluf</vbr> dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     *                                    row typf dffinition.
      */
-    public Object[] calculateIndex(CompositeData value) {
+    publid Objfdt[] dbldulbtfIndfx(CompositfDbtb vbluf) {
 
-        // Check value is valid
+        // Cifdk vbluf is vblid
         //
-        checkValueType(value);
+        difdkVblufTypf(vbluf);
 
-        // Return its calculated index
+        // Rfturn its dbldulbtfd indfx
         //
-        return internalCalculateIndex(value).toArray();
+        rfturn intfrnblCbldulbtfIndfx(vbluf).toArrby();
     }
 
 
 
 
-    /* *** Content information query methods *** */
+    /* *** Contfnt informbtion qufry mftiods *** */
 
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains a <tt>CompositeData</tt> value
-     * (ie a row) whose index is the specified <var>key</var>. If <var>key</var> cannot be cast to a one dimension array
-     * of Object instances, this method simply returns <tt>false</tt>; otherwise it returns the the result of the call to
-     * <tt>this.containsKey((Object[]) key)</tt>.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins b <tt>CompositfDbtb</tt> vbluf
+     * (if b row) wiosf indfx is tif spfdififd <vbr>kfy</vbr>. If <vbr>kfy</vbr> dbnnot bf dbst to b onf dimfnsion brrby
+     * of Objfdt instbndfs, tiis mftiod simply rfturns <tt>fblsf</tt>; otifrwisf it rfturns tif tif rfsult of tif dbll to
+     * <tt>tiis.dontbinsKfy((Objfdt[]) kfy)</tt>.
      *
-     * @param  key  the index value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  kfy  tif indfx vbluf wiosf prfsfndf in tiis <tt>TbbulbrDbtb</tt> instbndf is to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> indexes a row value with the specified key.
+     * @rfturn  <tt>truf</tt> if tiis <tt>TbbulbrDbtb</tt> indfxfs b row vbluf witi tif spfdififd kfy.
      */
-    public boolean containsKey(Object key) {
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
 
-        // if key is not an array of Object instances, return false
+        // if kfy is not bn brrby of Objfdt instbndfs, rfturn fblsf
         //
-        Object[] k;
+        Objfdt[] k;
         try {
-            k = (Object[]) key;
-        } catch (ClassCastException e) {
-            return false;
+            k = (Objfdt[]) kfy;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        return  this.containsKey(k);
+        rfturn  tiis.dontbinsKfy(k);
     }
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains a <tt>CompositeData</tt> value
-     * (ie a row) whose index is the specified <var>key</var>. If <var>key</var> is <tt>null</tt> or does not conform to
-     * this <tt>TabularData</tt> instance's <tt>TabularType</tt> definition, this method simply returns <tt>false</tt>.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins b <tt>CompositfDbtb</tt> vbluf
+     * (if b row) wiosf indfx is tif spfdififd <vbr>kfy</vbr>. If <vbr>kfy</vbr> is <tt>null</tt> or dofs not donform to
+     * tiis <tt>TbbulbrDbtb</tt> instbndf's <tt>TbbulbrTypf</tt> dffinition, tiis mftiod simply rfturns <tt>fblsf</tt>.
      *
-     * @param  key  the index value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  kfy  tif indfx vbluf wiosf prfsfndf in tiis <tt>TbbulbrDbtb</tt> instbndf is to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> indexes a row value with the specified key.
+     * @rfturn  <tt>truf</tt> if tiis <tt>TbbulbrDbtb</tt> indfxfs b row vbluf witi tif spfdififd kfy.
      */
-    public boolean containsKey(Object[] key) {
+    publid boolfbn dontbinsKfy(Objfdt[] kfy) {
 
-        return  ( key == null ? false : dataMap.containsKey(Arrays.asList(key)));
+        rfturn  ( kfy == null ? fblsf : dbtbMbp.dontbinsKfy(Arrbys.bsList(kfy)));
     }
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains the specified
-     * <tt>CompositeData</tt> value. If <var>value</var> is <tt>null</tt> or does not conform to
-     * this <tt>TabularData</tt> instance's row type definition, this method simply returns <tt>false</tt>.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins tif spfdififd
+     * <tt>CompositfDbtb</tt> vbluf. If <vbr>vbluf</vbr> is <tt>null</tt> or dofs not donform to
+     * tiis <tt>TbbulbrDbtb</tt> instbndf's row typf dffinition, tiis mftiod simply rfturns <tt>fblsf</tt>.
      *
-     * @param  value  the row value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  vbluf  tif row vbluf wiosf prfsfndf in tiis <tt>TbbulbrDbtb</tt> instbndf is to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> instance contains the specified row value.
+     * @rfturn  <tt>truf</tt> if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins tif spfdififd row vbluf.
      */
-    public boolean containsValue(CompositeData value) {
+    publid boolfbn dontbinsVbluf(CompositfDbtb vbluf) {
 
-        return dataMap.containsValue(value);
+        rfturn dbtbMbp.dontbinsVbluf(vbluf);
     }
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains the specified
-     * value.
+     * Rfturns <tt>truf</tt> if bnd only if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins tif spfdififd
+     * vbluf.
      *
-     * @param  value  the row value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  vbluf  tif row vbluf wiosf prfsfndf in tiis <tt>TbbulbrDbtb</tt> instbndf is to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> instance contains the specified row value.
+     * @rfturn  <tt>truf</tt> if tiis <tt>TbbulbrDbtb</tt> instbndf dontbins tif spfdififd row vbluf.
      */
-    public boolean containsValue(Object value) {
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
 
-        return dataMap.containsValue(value);
+        rfturn dbtbMbp.dontbinsVbluf(vbluf);
     }
 
     /**
-     * This method simply calls <tt>get((Object[]) key)</tt>.
+     * Tiis mftiod simply dblls <tt>gft((Objfdt[]) kfy)</tt>.
      *
-     * @throws NullPointerException  if the <var>key</var> is <tt>null</tt>
-     * @throws ClassCastException    if the <var>key</var> is not of the type <tt>Object[]</tt>
-     * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
-     *                               <tt>TabularType</tt> definition
+     * @tirows NullPointfrExdfption  if tif <vbr>kfy</vbr> is <tt>null</tt>
+     * @tirows ClbssCbstExdfption    if tif <vbr>kfy</vbr> is not of tif typf <tt>Objfdt[]</tt>
+     * @tirows InvblidKfyExdfption   if tif <vbr>kfy</vbr> dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     *                               <tt>TbbulbrTypf</tt> dffinition
      */
-    public Object get(Object key) {
+    publid Objfdt gft(Objfdt kfy) {
 
-        return get((Object[]) key);
+        rfturn gft((Objfdt[]) kfy);
     }
 
     /**
-     * Returns the <tt>CompositeData</tt> value whose index is
-     * <var>key</var>, or <tt>null</tt> if there is no value mapping
-     * to <var>key</var>, in this <tt>TabularData</tt> instance.
+     * Rfturns tif <tt>CompositfDbtb</tt> vbluf wiosf indfx is
+     * <vbr>kfy</vbr>, or <tt>null</tt> if tifrf is no vbluf mbpping
+     * to <vbr>kfy</vbr>, in tiis <tt>TbbulbrDbtb</tt> instbndf.
      *
-     * @param key the index of the value to get in this
-     * <tt>TabularData</tt> instance; * must be valid with this
-     * <tt>TabularData</tt> instance's row type definition; * must not
-     * be null.
+     * @pbrbm kfy tif indfx of tif vbluf to gft in tiis
+     * <tt>TbbulbrDbtb</tt> instbndf; * must bf vblid witi tiis
+     * <tt>TbbulbrDbtb</tt> instbndf's row typf dffinition; * must not
+     * bf null.
      *
-     * @return the value corresponding to <var>key</var>.
+     * @rfturn tif vbluf dorrfsponding to <vbr>kfy</vbr>.
      *
-     * @throws NullPointerException  if the <var>key</var> is <tt>null</tt>
-     * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
-     *                               <tt>TabularType</tt> type definition.
+     * @tirows NullPointfrExdfption  if tif <vbr>kfy</vbr> is <tt>null</tt>
+     * @tirows InvblidKfyExdfption   if tif <vbr>kfy</vbr> dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     *                               <tt>TbbulbrTypf</tt> typf dffinition.
      */
-    public CompositeData get(Object[] key) {
+    publid CompositfDbtb gft(Objfdt[] kfy) {
 
-        // Check key is not null and valid with tabularType
-        // (throws NullPointerException, InvalidKeyException)
+        // Cifdk kfy is not null bnd vblid witi tbbulbrTypf
+        // (tirows NullPointfrExdfption, InvblidKfyExdfption)
         //
-        checkKeyType(key);
+        difdkKfyTypf(kfy);
 
-        // Return the mapping stored in the parent HashMap
+        // Rfturn tif mbpping storfd in tif pbrfnt HbsiMbp
         //
-        return dataMap.get(Arrays.asList(key));
+        rfturn dbtbMbp.gft(Arrbys.bsList(kfy));
     }
 
 
 
 
-    /* *** Content modification operations (one element at a time) *** */
+    /* *** Contfnt modifidbtion opfrbtions (onf flfmfnt bt b timf) *** */
 
 
     /**
-     * This method simply calls <tt>put((CompositeData) value)</tt> and
-     * therefore ignores its <var>key</var> parameter which can be <tt>null</tt>.
+     * Tiis mftiod simply dblls <tt>put((CompositfDbtb) vbluf)</tt> bnd
+     * tifrfforf ignorfs its <vbr>kfy</vbr> pbrbmftfr wiidi dbn bf <tt>null</tt>.
      *
-     * @param key an ignored parameter.
-     * @param value the {@link CompositeData} to put.
+     * @pbrbm kfy bn ignorfd pbrbmftfr.
+     * @pbrbm vbluf tif {@link CompositfDbtb} to put.
      *
-     * @return the value which is put
+     * @rfturn tif vbluf wiidi is put
      *
-     * @throws NullPointerException  if the <var>value</var> is <tt>null</tt>
-     * @throws ClassCastException if the <var>value</var> is not of
-     * the type <tt>CompositeData</tt>
-     * @throws InvalidOpenTypeException if the <var>value</var> does
-     * not conform to this <tt>TabularData</tt> instance's
-     * <tt>TabularType</tt> definition
-     * @throws KeyAlreadyExistsException if the key for the
-     * <var>value</var> parameter, calculated according to this
-     * <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
-     * already maps to an existing value
+     * @tirows NullPointfrExdfption  if tif <vbr>vbluf</vbr> is <tt>null</tt>
+     * @tirows ClbssCbstExdfption if tif <vbr>vbluf</vbr> is not of
+     * tif typf <tt>CompositfDbtb</tt>
+     * @tirows InvblidOpfnTypfExdfption if tif <vbr>vbluf</vbr> dofs
+     * not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     * <tt>TbbulbrTypf</tt> dffinition
+     * @tirows KfyAlrfbdyExistsExdfption if tif kfy for tif
+     * <vbr>vbluf</vbr> pbrbmftfr, dbldulbtfd bddording to tiis
+     * <tt>TbbulbrDbtb</tt> instbndf's <tt>TbbulbrTypf</tt> dffinition
+     * blrfbdy mbps to bn fxisting vbluf
      */
-    public Object put(Object key, Object value) {
-        internalPut((CompositeData) value);
-        return value; // should be return internalPut(...); (5090566)
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        intfrnblPut((CompositfDbtb) vbluf);
+        rfturn vbluf; // siould bf rfturn intfrnblPut(...); (5090566)
     }
 
-    public void put(CompositeData value) {
-        internalPut(value);
+    publid void put(CompositfDbtb vbluf) {
+        intfrnblPut(vbluf);
     }
 
-    private CompositeData internalPut(CompositeData value) {
-        // Check value is not null, value's type is the same as this instance's row type,
-        // and calculate the value's index according to this instance's tabularType and
-        // check it is not already used for a mapping in the parent HashMap
+    privbtf CompositfDbtb intfrnblPut(CompositfDbtb vbluf) {
+        // Cifdk vbluf is not null, vbluf's typf is tif sbmf bs tiis instbndf's row typf,
+        // bnd dbldulbtf tif vbluf's indfx bddording to tiis instbndf's tbbulbrTypf bnd
+        // difdk it is not blrfbdy usfd for b mbpping in tif pbrfnt HbsiMbp
         //
-        List<?> index = checkValueAndIndex(value);
+        List<?> indfx = difdkVblufAndIndfx(vbluf);
 
-        // store the (key, value) mapping in the dataMap HashMap
+        // storf tif (kfy, vbluf) mbpping in tif dbtbMbp HbsiMbp
         //
-        return dataMap.put(index, value);
+        rfturn dbtbMbp.put(indfx, vbluf);
     }
 
     /**
-     * This method simply calls <tt>remove((Object[]) key)</tt>.
+     * Tiis mftiod simply dblls <tt>rfmovf((Objfdt[]) kfy)</tt>.
      *
-     * @param key an <tt>Object[]</tt> representing the key to remove.
+     * @pbrbm kfy bn <tt>Objfdt[]</tt> rfprfsfnting tif kfy to rfmovf.
      *
-     * @return previous value associated with specified key, or <tt>null</tt>
-     *         if there was no mapping for key.
+     * @rfturn prfvious vbluf bssodibtfd witi spfdififd kfy, or <tt>null</tt>
+     *         if tifrf wbs no mbpping for kfy.
      *
-     * @throws NullPointerException  if the <var>key</var> is <tt>null</tt>
-     * @throws ClassCastException    if the <var>key</var> is not of the type <tt>Object[]</tt>
-     * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
-     *                               <tt>TabularType</tt> definition
+     * @tirows NullPointfrExdfption  if tif <vbr>kfy</vbr> is <tt>null</tt>
+     * @tirows ClbssCbstExdfption    if tif <vbr>kfy</vbr> is not of tif typf <tt>Objfdt[]</tt>
+     * @tirows InvblidKfyExdfption   if tif <vbr>kfy</vbr> dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     *                               <tt>TbbulbrTypf</tt> dffinition
      */
-    public Object remove(Object key) {
+    publid Objfdt rfmovf(Objfdt kfy) {
 
-        return remove((Object[]) key);
+        rfturn rfmovf((Objfdt[]) kfy);
     }
 
     /**
-     * Removes the <tt>CompositeData</tt> value whose index is <var>key</var> from this <tt>TabularData</tt> instance,
-     * and returns the removed value, or returns <tt>null</tt> if there is no value whose index is <var>key</var>.
+     * Rfmovfs tif <tt>CompositfDbtb</tt> vbluf wiosf indfx is <vbr>kfy</vbr> from tiis <tt>TbbulbrDbtb</tt> instbndf,
+     * bnd rfturns tif rfmovfd vbluf, or rfturns <tt>null</tt> if tifrf is no vbluf wiosf indfx is <vbr>kfy</vbr>.
      *
-     * @param  key  the index of the value to get in this <tt>TabularData</tt> instance;
-     *              must be valid with this <tt>TabularData</tt> instance's row type definition;
-     *              must not be null.
+     * @pbrbm  kfy  tif indfx of tif vbluf to gft in tiis <tt>TbbulbrDbtb</tt> instbndf;
+     *              must bf vblid witi tiis <tt>TbbulbrDbtb</tt> instbndf's row typf dffinition;
+     *              must not bf null.
      *
-     * @return previous value associated with specified key, or <tt>null</tt>
-     *         if there was no mapping for key.
+     * @rfturn prfvious vbluf bssodibtfd witi spfdififd kfy, or <tt>null</tt>
+     *         if tifrf wbs no mbpping for kfy.
      *
-     * @throws NullPointerException  if the <var>key</var> is <tt>null</tt>
-     * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
-     *                               <tt>TabularType</tt> definition
+     * @tirows NullPointfrExdfption  if tif <vbr>kfy</vbr> is <tt>null</tt>
+     * @tirows InvblidKfyExdfption   if tif <vbr>kfy</vbr> dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     *                               <tt>TbbulbrTypf</tt> dffinition
      */
-    public CompositeData remove(Object[] key) {
+    publid CompositfDbtb rfmovf(Objfdt[] kfy) {
 
-        // Check key is not null and valid with tabularType
-        // (throws NullPointerException, InvalidKeyException)
+        // Cifdk kfy is not null bnd vblid witi tbbulbrTypf
+        // (tirows NullPointfrExdfption, InvblidKfyExdfption)
         //
-        checkKeyType(key);
+        difdkKfyTypf(kfy);
 
-        // Removes the (key, value) mapping in the parent HashMap
+        // Rfmovfs tif (kfy, vbluf) mbpping in tif pbrfnt HbsiMbp
         //
-        return dataMap.remove(Arrays.asList(key));
+        rfturn dbtbMbp.rfmovf(Arrbys.bsList(kfy));
     }
 
 
 
-    /* ***   Content modification bulk operations   *** */
+    /* ***   Contfnt modifidbtion bulk opfrbtions   *** */
 
 
     /**
-     * Add all the values contained in the specified map <var>t</var>
-     * to this <tt>TabularData</tt> instance.  This method converts
-     * the collection of values contained in this map into an array of
-     * <tt>CompositeData</tt> values, if possible, and then call the
-     * method <tt>putAll(CompositeData[])</tt>. Note that the keys
-     * used in the specified map <var>t</var> are ignored. This method
-     * allows, for example to add the content of another
-     * <tt>TabularData</tt> instance with the same row type (but
-     * possibly different index names) into this instance.
+     * Add bll tif vblufs dontbinfd in tif spfdififd mbp <vbr>t</vbr>
+     * to tiis <tt>TbbulbrDbtb</tt> instbndf.  Tiis mftiod donvfrts
+     * tif dollfdtion of vblufs dontbinfd in tiis mbp into bn brrby of
+     * <tt>CompositfDbtb</tt> vblufs, if possiblf, bnd tifn dbll tif
+     * mftiod <tt>putAll(CompositfDbtb[])</tt>. Notf tibt tif kfys
+     * usfd in tif spfdififd mbp <vbr>t</vbr> brf ignorfd. Tiis mftiod
+     * bllows, for fxbmplf to bdd tif dontfnt of bnotifr
+     * <tt>TbbulbrDbtb</tt> instbndf witi tif sbmf row typf (but
+     * possibly difffrfnt indfx nbmfs) into tiis instbndf.
      *
-     * @param t the map whose values are to be added as new rows to
-     * this <tt>TabularData</tt> instance; if <var>t</var> is
-     * <tt>null</tt> or empty, this method returns without doing
-     * anything.
+     * @pbrbm t tif mbp wiosf vblufs brf to bf bddfd bs nfw rows to
+     * tiis <tt>TbbulbrDbtb</tt> instbndf; if <vbr>t</vbr> is
+     * <tt>null</tt> or fmpty, tiis mftiod rfturns witiout doing
+     * bnytiing.
      *
-     * @throws NullPointerException if a value in <var>t</var> is
+     * @tirows NullPointfrExdfption if b vbluf in <vbr>t</vbr> is
      * <tt>null</tt>.
-     * @throws ClassCastException if a value in <var>t</var> is not an
-     * instance of <tt>CompositeData</tt>.
-     * @throws InvalidOpenTypeException if a value in <var>t</var>
-     * does not conform to this <tt>TabularData</tt> instance's row
-     * type definition.
-     * @throws KeyAlreadyExistsException if the index for a value in
-     * <var>t</var>, calculated according to this
-     * <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
-     * already maps to an existing value in this instance, or two
-     * values in <var>t</var> have the same index.
+     * @tirows ClbssCbstExdfption if b vbluf in <vbr>t</vbr> is not bn
+     * instbndf of <tt>CompositfDbtb</tt>.
+     * @tirows InvblidOpfnTypfExdfption if b vbluf in <vbr>t</vbr>
+     * dofs not donform to tiis <tt>TbbulbrDbtb</tt> instbndf's row
+     * typf dffinition.
+     * @tirows KfyAlrfbdyExistsExdfption if tif indfx for b vbluf in
+     * <vbr>t</vbr>, dbldulbtfd bddording to tiis
+     * <tt>TbbulbrDbtb</tt> instbndf's <tt>TbbulbrTypf</tt> dffinition
+     * blrfbdy mbps to bn fxisting vbluf in tiis instbndf, or two
+     * vblufs in <vbr>t</vbr> ibvf tif sbmf indfx.
      */
-    public void putAll(Map<?,?> t) {
+    publid void putAll(Mbp<?,?> t) {
 
-        // if t is null or empty, just return
+        // if t is null or fmpty, just rfturn
         //
-        if ( (t == null) || (t.size() == 0) ) {
-            return;
+        if ( (t == null) || (t.sizf() == 0) ) {
+            rfturn;
         }
 
-        // Convert the values in t into an array of <tt>CompositeData</tt>
+        // Convfrt tif vblufs in t into bn brrby of <tt>CompositfDbtb</tt>
         //
-        CompositeData[] values;
+        CompositfDbtb[] vblufs;
         try {
-            values =
-                t.values().toArray(new CompositeData[t.size()]);
-        } catch (java.lang.ArrayStoreException e) {
-            throw new ClassCastException("Map argument t contains values which are not instances of <tt>CompositeData</tt>");
+            vblufs =
+                t.vblufs().toArrby(nfw CompositfDbtb[t.sizf()]);
+        } dbtdi (jbvb.lbng.ArrbyStorfExdfption f) {
+            tirow nfw ClbssCbstExdfption("Mbp brgumfnt t dontbins vblufs wiidi brf not instbndfs of <tt>CompositfDbtb</tt>");
         }
 
-        // Add the array of values
+        // Add tif brrby of vblufs
         //
-        putAll(values);
+        putAll(vblufs);
     }
 
     /**
-     * Add all the elements in <var>values</var> to this
-     * <tt>TabularData</tt> instance.  If any element in
-     * <var>values</var> does not satisfy the constraints defined in
-     * {@link #put(CompositeData) <tt>put</tt>}, or if any two
-     * elements in <var>values</var> have the same index calculated
-     * according to this <tt>TabularData</tt> instance's
-     * <tt>TabularType</tt> definition, then an exception describing
-     * the failure is thrown and no element of <var>values</var> is
-     * added, thus leaving this <tt>TabularData</tt> instance
-     * unchanged.
+     * Add bll tif flfmfnts in <vbr>vblufs</vbr> to tiis
+     * <tt>TbbulbrDbtb</tt> instbndf.  If bny flfmfnt in
+     * <vbr>vblufs</vbr> dofs not sbtisfy tif donstrbints dffinfd in
+     * {@link #put(CompositfDbtb) <tt>put</tt>}, or if bny two
+     * flfmfnts in <vbr>vblufs</vbr> ibvf tif sbmf indfx dbldulbtfd
+     * bddording to tiis <tt>TbbulbrDbtb</tt> instbndf's
+     * <tt>TbbulbrTypf</tt> dffinition, tifn bn fxdfption dfsdribing
+     * tif fbilurf is tirown bnd no flfmfnt of <vbr>vblufs</vbr> is
+     * bddfd, tius lfbving tiis <tt>TbbulbrDbtb</tt> instbndf
+     * undibngfd.
      *
-     * @param values the array of composite data values to be added as
-     * new rows to this <tt>TabularData</tt> instance; if
-     * <var>values</var> is <tt>null</tt> or empty, this method
-     * returns without doing anything.
+     * @pbrbm vblufs tif brrby of dompositf dbtb vblufs to bf bddfd bs
+     * nfw rows to tiis <tt>TbbulbrDbtb</tt> instbndf; if
+     * <vbr>vblufs</vbr> is <tt>null</tt> or fmpty, tiis mftiod
+     * rfturns witiout doing bnytiing.
      *
-     * @throws NullPointerException if an element of <var>values</var>
+     * @tirows NullPointfrExdfption if bn flfmfnt of <vbr>vblufs</vbr>
      * is <tt>null</tt>
-     * @throws InvalidOpenTypeException if an element of
-     * <var>values</var> does not conform to this
-     * <tt>TabularData</tt> instance's row type definition (ie its
-     * <tt>TabularType</tt> definition)
-     * @throws KeyAlreadyExistsException if the index for an element
-     * of <var>values</var>, calculated according to this
-     * <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
-     * already maps to an existing value in this instance, or two
-     * elements of <var>values</var> have the same index
+     * @tirows InvblidOpfnTypfExdfption if bn flfmfnt of
+     * <vbr>vblufs</vbr> dofs not donform to tiis
+     * <tt>TbbulbrDbtb</tt> instbndf's row typf dffinition (if its
+     * <tt>TbbulbrTypf</tt> dffinition)
+     * @tirows KfyAlrfbdyExistsExdfption if tif indfx for bn flfmfnt
+     * of <vbr>vblufs</vbr>, dbldulbtfd bddording to tiis
+     * <tt>TbbulbrDbtb</tt> instbndf's <tt>TbbulbrTypf</tt> dffinition
+     * blrfbdy mbps to bn fxisting vbluf in tiis instbndf, or two
+     * flfmfnts of <vbr>vblufs</vbr> ibvf tif sbmf indfx
      */
-    public void putAll(CompositeData[] values) {
+    publid void putAll(CompositfDbtb[] vblufs) {
 
-        // if values is null or empty, just return
+        // if vblufs is null or fmpty, just rfturn
         //
-        if ( (values == null) || (values.length == 0) ) {
-            return;
+        if ( (vblufs == null) || (vblufs.lfngti == 0) ) {
+            rfturn;
         }
 
-        // create the list of indexes corresponding to each value
-        List<List<?>> indexes =
-            new ArrayList<List<?>>(values.length + 1);
+        // drfbtf tif list of indfxfs dorrfsponding to fbdi vbluf
+        List<List<?>> indfxfs =
+            nfw ArrbyList<List<?>>(vblufs.lfngti + 1);
 
-        // Check all elements in values and build index list
+        // Cifdk bll flfmfnts in vblufs bnd build indfx list
         //
-        List<?> index;
-        for (int i=0; i<values.length; i++) {
-            // check value and calculate index
-            index = checkValueAndIndex(values[i]);
-            // check index is different of those previously calculated
-            if (indexes.contains(index)) {
-                throw new KeyAlreadyExistsException("Argument elements values["+ i +"] and values["+ indexes.indexOf(index) +
-                                                    "] have the same indexes, "+
-                                                    "calculated according to this TabularData instance's tabularType.");
+        List<?> indfx;
+        for (int i=0; i<vblufs.lfngti; i++) {
+            // difdk vbluf bnd dbldulbtf indfx
+            indfx = difdkVblufAndIndfx(vblufs[i]);
+            // difdk indfx is difffrfnt of tiosf prfviously dbldulbtfd
+            if (indfxfs.dontbins(indfx)) {
+                tirow nfw KfyAlrfbdyExistsExdfption("Argumfnt flfmfnts vblufs["+ i +"] bnd vblufs["+ indfxfs.indfxOf(indfx) +
+                                                    "] ibvf tif sbmf indfxfs, "+
+                                                    "dbldulbtfd bddording to tiis TbbulbrDbtb instbndf's tbbulbrTypf.");
             }
-            // add to index list
-            indexes.add(index);
+            // bdd to indfx list
+            indfxfs.bdd(indfx);
         }
 
-        // store all (index, value) mappings in the dataMap HashMap
+        // storf bll (indfx, vbluf) mbppings in tif dbtbMbp HbsiMbp
         //
-        for (int i=0; i<values.length; i++) {
-            dataMap.put(indexes.get(i), values[i]);
+        for (int i=0; i<vblufs.lfngti; i++) {
+            dbtbMbp.put(indfxfs.gft(i), vblufs[i]);
         }
     }
 
     /**
-     * Removes all rows from this <code>TabularDataSupport</code> instance.
+     * Rfmovfs bll rows from tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      */
-    public void clear() {
+    publid void dlfbr() {
 
-        dataMap.clear();
+        dbtbMbp.dlfbr();
     }
 
 
 
-    /* ***  Informational methods from java.util.Map  *** */
+    /* ***  Informbtionbl mftiods from jbvb.util.Mbp  *** */
 
     /**
-     * Returns the number of rows in this <code>TabularDataSupport</code> instance.
+     * Rfturns tif numbfr of rows in tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      *
-     * @return the number of rows in this <code>TabularDataSupport</code> instance.
+     * @rfturn tif numbfr of rows in tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      */
-    public int size() {
+    publid int sizf() {
 
-        return dataMap.size();
+        rfturn dbtbMbp.sizf();
     }
 
     /**
-     * Returns <tt>true</tt> if this <code>TabularDataSupport</code> instance contains no rows.
+     * Rfturns <tt>truf</tt> if tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf dontbins no rows.
      *
-     * @return <tt>true</tt> if this <code>TabularDataSupport</code> instance contains no rows.
+     * @rfturn <tt>truf</tt> if tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf dontbins no rows.
      */
-    public boolean isEmpty() {
+    publid boolfbn isEmpty() {
 
-        return (this.size() == 0);
+        rfturn (tiis.sizf() == 0);
     }
 
 
 
-    /* ***  Collection views from java.util.Map  *** */
+    /* ***  Collfdtion vifws from jbvb.util.Mbp  *** */
 
     /**
-     * Returns a set view of the keys contained in the underlying map of this
-     * {@code TabularDataSupport} instance used to index the rows.
-     * Each key contained in this {@code Set} is an unmodifiable {@code List<?>}
-     * so the returned set view is a {@code Set<List<?>>} but is declared as a
-     * {@code Set<Object>} for compatibility reasons.
-     * The set is backed by the underlying map of this
-     * {@code TabularDataSupport} instance, so changes to the
-     * {@code TabularDataSupport} instance are reflected in the
-     * set, and vice-versa.
+     * Rfturns b sft vifw of tif kfys dontbinfd in tif undfrlying mbp of tiis
+     * {@dodf TbbulbrDbtbSupport} instbndf usfd to indfx tif rows.
+     * Ebdi kfy dontbinfd in tiis {@dodf Sft} is bn unmodifibblf {@dodf List<?>}
+     * so tif rfturnfd sft vifw is b {@dodf Sft<List<?>>} but is dfdlbrfd bs b
+     * {@dodf Sft<Objfdt>} for dompbtibility rfbsons.
+     * Tif sft is bbdkfd by tif undfrlying mbp of tiis
+     * {@dodf TbbulbrDbtbSupport} instbndf, so dibngfs to tif
+     * {@dodf TbbulbrDbtbSupport} instbndf brf rfflfdtfd in tif
+     * sft, bnd vidf-vfrsb.
      *
-     * The set supports element removal, which removes the corresponding
-     * row from this {@code TabularDataSupport} instance, via the
-     * {@link Iterator#remove}, {@link Set#remove}, {@link Set#removeAll},
-     * {@link Set#retainAll}, and {@link Set#clear} operations. It does
-     *  not support the {@link Set#add} or {@link Set#addAll} operations.
+     * Tif sft supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding
+     * row from tiis {@dodf TbbulbrDbtbSupport} instbndf, vib tif
+     * {@link Itfrbtor#rfmovf}, {@link Sft#rfmovf}, {@link Sft#rfmovfAll},
+     * {@link Sft#rftbinAll}, bnd {@link Sft#dlfbr} opfrbtions. It dofs
+     *  not support tif {@link Sft#bdd} or {@link Sft#bddAll} opfrbtions.
      *
-     * @return a set view ({@code Set<List<?>>}) of the keys used to index
-     * the rows of this {@code TabularDataSupport} instance.
+     * @rfturn b sft vifw ({@dodf Sft<List<?>>}) of tif kfys usfd to indfx
+     * tif rows of tiis {@dodf TbbulbrDbtbSupport} instbndf.
      */
-    public Set<Object> keySet() {
+    publid Sft<Objfdt> kfySft() {
 
-        return dataMap.keySet() ;
+        rfturn dbtbMbp.kfySft() ;
     }
 
     /**
-     * Returns a collection view of the rows contained in this
-     * {@code TabularDataSupport} instance. The returned {@code Collection}
-     * is a {@code Collection<CompositeData>} but is declared as a
-     * {@code Collection<Object>} for compatibility reasons.
-     * The returned collection can be used to iterate over the values.
-     * The collection is backed by the underlying map, so changes to the
-     * {@code TabularDataSupport} instance are reflected in the collection,
-     * and vice-versa.
+     * Rfturns b dollfdtion vifw of tif rows dontbinfd in tiis
+     * {@dodf TbbulbrDbtbSupport} instbndf. Tif rfturnfd {@dodf Collfdtion}
+     * is b {@dodf Collfdtion<CompositfDbtb>} but is dfdlbrfd bs b
+     * {@dodf Collfdtion<Objfdt>} for dompbtibility rfbsons.
+     * Tif rfturnfd dollfdtion dbn bf usfd to itfrbtf ovfr tif vblufs.
+     * Tif dollfdtion is bbdkfd by tif undfrlying mbp, so dibngfs to tif
+     * {@dodf TbbulbrDbtbSupport} instbndf brf rfflfdtfd in tif dollfdtion,
+     * bnd vidf-vfrsb.
      *
-     * The collection supports element removal, which removes the corresponding
-     * index to row mapping from this {@code TabularDataSupport} instance, via
-     * the {@link Iterator#remove}, {@link Collection#remove},
-     * {@link Collection#removeAll}, {@link Collection#retainAll},
-     * and {@link Collection#clear} operations. It does not support
-     * the {@link Collection#add} or {@link Collection#addAll} operations.
+     * Tif dollfdtion supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding
+     * indfx to row mbpping from tiis {@dodf TbbulbrDbtbSupport} instbndf, vib
+     * tif {@link Itfrbtor#rfmovf}, {@link Collfdtion#rfmovf},
+     * {@link Collfdtion#rfmovfAll}, {@link Collfdtion#rftbinAll},
+     * bnd {@link Collfdtion#dlfbr} opfrbtions. It dofs not support
+     * tif {@link Collfdtion#bdd} or {@link Collfdtion#bddAll} opfrbtions.
      *
-     * @return a collection view ({@code Collection<CompositeData>}) of
-     * the values contained in this {@code TabularDataSupport} instance.
+     * @rfturn b dollfdtion vifw ({@dodf Collfdtion<CompositfDbtb>}) of
+     * tif vblufs dontbinfd in tiis {@dodf TbbulbrDbtbSupport} instbndf.
      */
-    @SuppressWarnings("unchecked")  // historical confusion about the return type
-    public Collection<Object> values() {
+    @SupprfssWbrnings("undifdkfd")  // iistoridbl donfusion bbout tif rfturn typf
+    publid Collfdtion<Objfdt> vblufs() {
 
-        return Util.cast(dataMap.values());
+        rfturn Util.dbst(dbtbMbp.vblufs());
     }
 
 
     /**
-     * Returns a collection view of the index to row mappings
-     * contained in this {@code TabularDataSupport} instance.
-     * Each element in the returned collection is
-     * a {@code Map.Entry<List<?>,CompositeData>} but
-     * is declared as a {@code Map.Entry<Object,Object>}
-     * for compatibility reasons. Each of the map entry
-     * keys is an unmodifiable {@code List<?>}.
-     * The collection is backed by the underlying map of this
-     * {@code TabularDataSupport} instance, so changes to the
-     * {@code TabularDataSupport} instance are reflected in
-     * the collection, and vice-versa.
-     * The collection supports element removal, which removes
-     * the corresponding mapping from the map, via the
-     * {@link Iterator#remove}, {@link Collection#remove},
-     * {@link Collection#removeAll}, {@link Collection#retainAll},
-     * and {@link Collection#clear} operations. It does not support
-     * the {@link Collection#add} or {@link Collection#addAll}
-     * operations.
+     * Rfturns b dollfdtion vifw of tif indfx to row mbppings
+     * dontbinfd in tiis {@dodf TbbulbrDbtbSupport} instbndf.
+     * Ebdi flfmfnt in tif rfturnfd dollfdtion is
+     * b {@dodf Mbp.Entry<List<?>,CompositfDbtb>} but
+     * is dfdlbrfd bs b {@dodf Mbp.Entry<Objfdt,Objfdt>}
+     * for dompbtibility rfbsons. Ebdi of tif mbp fntry
+     * kfys is bn unmodifibblf {@dodf List<?>}.
+     * Tif dollfdtion is bbdkfd by tif undfrlying mbp of tiis
+     * {@dodf TbbulbrDbtbSupport} instbndf, so dibngfs to tif
+     * {@dodf TbbulbrDbtbSupport} instbndf brf rfflfdtfd in
+     * tif dollfdtion, bnd vidf-vfrsb.
+     * Tif dollfdtion supports flfmfnt rfmovbl, wiidi rfmovfs
+     * tif dorrfsponding mbpping from tif mbp, vib tif
+     * {@link Itfrbtor#rfmovf}, {@link Collfdtion#rfmovf},
+     * {@link Collfdtion#rfmovfAll}, {@link Collfdtion#rftbinAll},
+     * bnd {@link Collfdtion#dlfbr} opfrbtions. It dofs not support
+     * tif {@link Collfdtion#bdd} or {@link Collfdtion#bddAll}
+     * opfrbtions.
      * <p>
-     * <b>IMPORTANT NOTICE</b>: Do not use the {@code setValue} method of the
-     * {@code Map.Entry} elements contained in the returned collection view.
-     * Doing so would corrupt the index to row mappings contained in this
-     * {@code TabularDataSupport} instance.
+     * <b>IMPORTANT NOTICE</b>: Do not usf tif {@dodf sftVbluf} mftiod of tif
+     * {@dodf Mbp.Entry} flfmfnts dontbinfd in tif rfturnfd dollfdtion vifw.
+     * Doing so would dorrupt tif indfx to row mbppings dontbinfd in tiis
+     * {@dodf TbbulbrDbtbSupport} instbndf.
      *
-     * @return a collection view ({@code Set<Map.Entry<List<?>,CompositeData>>})
-     * of the mappings contained in this map.
-     * @see java.util.Map.Entry
+     * @rfturn b dollfdtion vifw ({@dodf Sft<Mbp.Entry<List<?>,CompositfDbtb>>})
+     * of tif mbppings dontbinfd in tiis mbp.
+     * @sff jbvb.util.Mbp.Entry
      */
-    @SuppressWarnings("unchecked")  // historical confusion about the return type
-    public Set<Map.Entry<Object,Object>> entrySet() {
+    @SupprfssWbrnings("undifdkfd")  // iistoridbl donfusion bbout tif rfturn typf
+    publid Sft<Mbp.Entry<Objfdt,Objfdt>> fntrySft() {
 
-        return Util.cast(dataMap.entrySet());
+        rfturn Util.dbst(dbtbMbp.fntrySft());
     }
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
 
 
     /**
-     * Returns a clone of this <code>TabularDataSupport</code> instance:
-     * the clone is obtained by calling <tt>super.clone()</tt>, and then cloning the underlying map.
-     * Only a shallow clone of the underlying map is made, i.e. no cloning of the indexes and row values is made as they are immutable.
+     * Rfturns b dlonf of tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf:
+     * tif dlonf is obtbinfd by dblling <tt>supfr.dlonf()</tt>, bnd tifn dloning tif undfrlying mbp.
+     * Only b sibllow dlonf of tif undfrlying mbp is mbdf, i.f. no dloning of tif indfxfs bnd row vblufs is mbdf bs tify brf immutbblf.
      */
-    /* We cannot use covariance here and return TabularDataSupport
-       because this would fail with existing code that subclassed
-       TabularDataSupport and overrode Object clone().  It would not
-       override the new clone().  */
-    public Object clone() {
+    /* Wf dbnnot usf dovbribndf ifrf bnd rfturn TbbulbrDbtbSupport
+       bfdbusf tiis would fbil witi fxisting dodf tibt subdlbssfd
+       TbbulbrDbtbSupport bnd ovfrrodf Objfdt dlonf().  It would not
+       ovfrridf tif nfw dlonf().  */
+    publid Objfdt dlonf() {
         try {
-            TabularDataSupport c = (TabularDataSupport) super.clone();
-            c.dataMap = new HashMap<Object,CompositeData>(c.dataMap);
-            return c;
+            TbbulbrDbtbSupport d = (TbbulbrDbtbSupport) supfr.dlonf();
+            d.dbtbMbp = nfw HbsiMbp<Objfdt,CompositfDbtb>(d.dbtbMbp);
+            rfturn d;
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+        dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>TabularDataSupport</code> instance for equality.
+     * Compbrfs tif spfdififd <vbr>obj</vbr> pbrbmftfr witi tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf for fqublity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Rfturns <tt>truf</tt> if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>TabularData</code> interface,</li>
-     * <li>their tabular types are equal</li>
-     * <li>their contents (ie all CompositeData values) are equal.</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts tif <dodf>TbbulbrDbtb</dodf> intfrfbdf,</li>
+     * <li>tifir tbbulbr typfs brf fqubl</li>
+     * <li>tifir dontfnts (if bll CompositfDbtb vblufs) brf fqubl.</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>TabularData</code> interface.
+     * Tiis fnsurfs tibt tiis <tt>fqubls</tt> mftiod works propfrly for <vbr>obj</vbr> pbrbmftfrs wiidi brf
+     * difffrfnt implfmfntbtions of tif <dodf>TbbulbrDbtb</dodf> intfrfbdf.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>TabularDataSupport</code> instance;
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>TabularDataSupport</code> instance.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        // if obj is null, return false
+        // if obj is null, rfturn fblsf
         //
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        // if obj is not a TabularData, return false
+        // if obj is not b TbbulbrDbtb, rfturn fblsf
         //
-        TabularData other;
+        TbbulbrDbtb otifr;
         try {
-            other = (TabularData) obj;
-        } catch (ClassCastException e) {
-            return false;
+            otifr = (TbbulbrDbtb) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        // Now, really test for equality between this TabularData implementation and the other:
+        // Now, rfblly tfst for fqublity bftwffn tiis TbbulbrDbtb implfmfntbtion bnd tif otifr:
         //
 
-        // their tabularType should be equal
-        if ( ! this.getTabularType().equals(other.getTabularType()) ) {
-            return false;
+        // tifir tbbulbrTypf siould bf fqubl
+        if ( ! tiis.gftTbbulbrTypf().fqubls(otifr.gftTbbulbrTypf()) ) {
+            rfturn fblsf;
         }
 
-        // their contents should be equal:
-        // . same size
-        // . values in this instance are in the other (we know there are no duplicate elements possible)
-        // (row values comparison is enough, because keys are calculated according to tabularType)
+        // tifir dontfnts siould bf fqubl:
+        // . sbmf sizf
+        // . vblufs in tiis instbndf brf in tif otifr (wf know tifrf brf no duplidbtf flfmfnts possiblf)
+        // (row vblufs dompbrison is fnougi, bfdbusf kfys brf dbldulbtfd bddording to tbbulbrTypf)
 
-        if (this.size() != other.size()) {
-            return false;
+        if (tiis.sizf() != otifr.sizf()) {
+            rfturn fblsf;
         }
-        for (CompositeData value : dataMap.values()) {
-            if ( ! other.containsValue(value) ) {
-                return false;
+        for (CompositfDbtb vbluf : dbtbMbp.vblufs()) {
+            if ( ! otifr.dontbinsVbluf(vbluf) ) {
+                rfturn fblsf;
             }
         }
 
-        // All tests for equality were successfull
+        // All tfsts for fqublity wfrf suddfssfull
         //
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this <code>TabularDataSupport</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      * <p>
-     * The hash code of a <code>TabularDataSupport</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its <i>tabular type</i> and its content, where the content is defined as all the CompositeData values).
+     * Tif ibsi dodf of b <dodf>TbbulbrDbtbSupport</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its <i>tbbulbr typf</i> bnd its dontfnt, wifrf tif dontfnt is dffinfd bs bll tif CompositfDbtb vblufs).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>TabularDataSupport</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>TbbulbrDbtbSupport</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      * <p>
-     * However, note that another instance of a class implementing the <code>TabularData</code> interface
-     * may be equal to this <code>TabularDataSupport</code> instance as defined by {@link #equals},
-     * but may have a different hash code if it is calculated differently.
+     * Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting tif <dodf>TbbulbrDbtb</dodf> intfrfbdf
+     * mby bf fqubl to tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf bs dffinfd by {@link #fqubls},
+     * but mby ibvf b difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.
      *
-     * @return  the hash code value for this <code>TabularDataSupport</code> instance
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf
      */
-   public int hashCode() {
+   publid int ibsiCodf() {
 
-        int result = 0;
+        int rfsult = 0;
 
-        result += this.tabularType.hashCode();
-        for (Object value : values())
-            result += value.hashCode();
+        rfsult += tiis.tbbulbrTypf.ibsiCodf();
+        for (Objfdt vbluf : vblufs())
+            rfsult += vbluf.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
 
     }
 
     /**
-     * Returns a string representation of this <code>TabularDataSupport</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.TabularDataSupport</code>),
-     * the string representation of the tabular type of this instance, and the string representation of the contents
-     * (ie list the key=value mappings as returned by a call to
-     * <tt>dataMap.</tt>{@link java.util.HashMap#toString() toString()}).
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtbSupport</dodf>),
+     * tif string rfprfsfntbtion of tif tbbulbr typf of tiis instbndf, bnd tif string rfprfsfntbtion of tif dontfnts
+     * (if list tif kfy=vbluf mbppings bs rfturnfd by b dbll to
+     * <tt>dbtbMbp.</tt>{@link jbvb.util.HbsiMbp#toString() toString()}).
      *
-     * @return  a string representation of this <code>TabularDataSupport</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>TbbulbrDbtbSupport</dodf> instbndf
      */
-    public String toString() {
+    publid String toString() {
 
-        return new StringBuilder()
-            .append(this.getClass().getName())
-            .append("(tabularType=")
-            .append(tabularType.toString())
-            .append(",contents=")
-            .append(dataMap.toString())
-            .append(")")
+        rfturn nfw StringBuildfr()
+            .bppfnd(tiis.gftClbss().gftNbmf())
+            .bppfnd("(tbbulbrTypf=")
+            .bppfnd(tbbulbrTypf.toString())
+            .bppfnd(",dontfnts=")
+            .bppfnd(dbtbMbp.toString())
+            .bppfnd(")")
             .toString();
     }
 
 
 
 
-    /* *** TabularDataSupport internal utility methods *** */
+    /* *** TbbulbrDbtbSupport intfrnbl utility mftiods *** */
 
 
     /**
-     * Returns the index for value, assuming value is valid for this <tt>TabularData</tt> instance
-     * (ie value is not null, and its composite type is equal to row type).
+     * Rfturns tif indfx for vbluf, bssuming vbluf is vblid for tiis <tt>TbbulbrDbtb</tt> instbndf
+     * (if vbluf is not null, bnd its dompositf typf is fqubl to row typf).
      *
-     * The index is a List, and not an array, so that an index.equals(otherIndex) call will actually compare contents,
-     * not just the objects references as is done for an array object.
+     * Tif indfx is b List, bnd not bn brrby, so tibt bn indfx.fqubls(otifrIndfx) dbll will bdtublly dompbrf dontfnts,
+     * not just tif objfdts rfffrfndfs bs is donf for bn brrby objfdt.
      *
-     * The returned List is unmodifiable so that once a row has been put into the dataMap, its index cannot be modified,
-     * for example by a user that would attempt to modify an index contained in the Set returned by keySet().
+     * Tif rfturnfd List is unmodifibblf so tibt ondf b row ibs bffn put into tif dbtbMbp, its indfx dbnnot bf modififd,
+     * for fxbmplf by b usfr tibt would bttfmpt to modify bn indfx dontbinfd in tif Sft rfturnfd by kfySft().
      */
-    private List<?> internalCalculateIndex(CompositeData value) {
+    privbtf List<?> intfrnblCbldulbtfIndfx(CompositfDbtb vbluf) {
 
-        return Collections.unmodifiableList(Arrays.asList(value.getAll(this.indexNamesArray)));
+        rfturn Collfdtions.unmodifibblfList(Arrbys.bsList(vbluf.gftAll(tiis.indfxNbmfsArrby)));
     }
 
     /**
-     * Checks if the specified key is valid for this <tt>TabularData</tt> instance.
+     * Cifdks if tif spfdififd kfy is vblid for tiis <tt>TbbulbrDbtb</tt> instbndf.
      *
-     * @throws  NullPointerException
-     * @throws  InvalidOpenTypeException
+     * @tirows  NullPointfrExdfption
+     * @tirows  InvblidOpfnTypfExdfption
      */
-    private void checkKeyType(Object[] key) {
+    privbtf void difdkKfyTypf(Objfdt[] kfy) {
 
-        // Check key is neither null nor empty
+        // Cifdk kfy is nfitifr null nor fmpty
         //
-        if ( (key == null) || (key.length == 0) ) {
-            throw new NullPointerException("Argument key cannot be null or empty.");
+        if ( (kfy == null) || (kfy.lfngti == 0) ) {
+            tirow nfw NullPointfrExdfption("Argumfnt kfy dbnnot bf null or fmpty.");
         }
 
-        /* Now check key is valid with tabularType index and row type definitions: */
+        /* Now difdk kfy is vblid witi tbbulbrTypf indfx bnd row typf dffinitions: */
 
-        // key[] should have the size expected for an index
+        // kfy[] siould ibvf tif sizf fxpfdtfd for bn indfx
         //
-        if (key.length != this.indexNamesArray.length) {
-            throw new InvalidKeyException("Argument key's length="+ key.length +
-                                          " is different from the number of item values, which is "+ indexNamesArray.length +
-                                          ", specified for the indexing rows in this TabularData instance.");
+        if (kfy.lfngti != tiis.indfxNbmfsArrby.lfngti) {
+            tirow nfw InvblidKfyExdfption("Argumfnt kfy's lfngti="+ kfy.lfngti +
+                                          " is difffrfnt from tif numbfr of itfm vblufs, wiidi is "+ indfxNbmfsArrby.lfngti +
+                                          ", spfdififd for tif indfxing rows in tiis TbbulbrDbtb instbndf.");
         }
 
-        // each element in key[] should be a value for its corresponding open type specified in rowType
+        // fbdi flfmfnt in kfy[] siould bf b vbluf for its dorrfsponding opfn typf spfdififd in rowTypf
         //
-        OpenType<?> keyElementType;
-        for (int i=0; i<key.length; i++) {
-            keyElementType = tabularType.getRowType().getType(this.indexNamesArray[i]);
-            if ( (key[i] != null) && (! keyElementType.isValue(key[i])) ) {
-                throw new InvalidKeyException("Argument element key["+ i +"] is not a value for the open type expected for "+
-                                              "this element of the index, whose name is \""+ indexNamesArray[i] +
-                                              "\" and whose open type is "+ keyElementType);
+        OpfnTypf<?> kfyElfmfntTypf;
+        for (int i=0; i<kfy.lfngti; i++) {
+            kfyElfmfntTypf = tbbulbrTypf.gftRowTypf().gftTypf(tiis.indfxNbmfsArrby[i]);
+            if ( (kfy[i] != null) && (! kfyElfmfntTypf.isVbluf(kfy[i])) ) {
+                tirow nfw InvblidKfyExdfption("Argumfnt flfmfnt kfy["+ i +"] is not b vbluf for tif opfn typf fxpfdtfd for "+
+                                              "tiis flfmfnt of tif indfx, wiosf nbmf is \""+ indfxNbmfsArrby[i] +
+                                              "\" bnd wiosf opfn typf is "+ kfyElfmfntTypf);
             }
         }
     }
 
     /**
-     * Checks the specified value's type is valid for this <tt>TabularData</tt> instance
-     * (ie value is not null, and its composite type is equal to row type).
+     * Cifdks tif spfdififd vbluf's typf is vblid for tiis <tt>TbbulbrDbtb</tt> instbndf
+     * (if vbluf is not null, bnd its dompositf typf is fqubl to row typf).
      *
-     * @throws  NullPointerException
-     * @throws  InvalidOpenTypeException
+     * @tirows  NullPointfrExdfption
+     * @tirows  InvblidOpfnTypfExdfption
      */
-    private void checkValueType(CompositeData value) {
+    privbtf void difdkVblufTypf(CompositfDbtb vbluf) {
 
-        // Check value is not null
+        // Cifdk vbluf is not null
         //
-        if (value == null) {
-            throw new NullPointerException("Argument value cannot be null.");
+        if (vbluf == null) {
+            tirow nfw NullPointfrExdfption("Argumfnt vbluf dbnnot bf null.");
         }
 
-        // if value's type is not the same as this instance's row type, throw InvalidOpenTypeException
+        // if vbluf's typf is not tif sbmf bs tiis instbndf's row typf, tirow InvblidOpfnTypfExdfption
         //
-        if (!tabularType.getRowType().isValue(value)) {
-            throw new InvalidOpenTypeException("Argument value's composite type ["+ value.getCompositeType() +
-                                               "] is not assignable to "+
-                                               "this TabularData instance's row type ["+ tabularType.getRowType() +"].");
+        if (!tbbulbrTypf.gftRowTypf().isVbluf(vbluf)) {
+            tirow nfw InvblidOpfnTypfExdfption("Argumfnt vbluf's dompositf typf ["+ vbluf.gftCompositfTypf() +
+                                               "] is not bssignbblf to "+
+                                               "tiis TbbulbrDbtb instbndf's row typf ["+ tbbulbrTypf.gftRowTypf() +"].");
         }
     }
 
     /**
-     * Checks if the specified value can be put (ie added) in this <tt>TabularData</tt> instance
-     * (ie value is not null, its composite type is equal to row type, and its index is not already used),
-     * and returns the index calculated for this value.
+     * Cifdks if tif spfdififd vbluf dbn bf put (if bddfd) in tiis <tt>TbbulbrDbtb</tt> instbndf
+     * (if vbluf is not null, its dompositf typf is fqubl to row typf, bnd its indfx is not blrfbdy usfd),
+     * bnd rfturns tif indfx dbldulbtfd for tiis vbluf.
      *
-     * The index is a List, and not an array, so that an index.equals(otherIndex) call will actually compare contents,
-     * not just the objects references as is done for an array object.
+     * Tif indfx is b List, bnd not bn brrby, so tibt bn indfx.fqubls(otifrIndfx) dbll will bdtublly dompbrf dontfnts,
+     * not just tif objfdts rfffrfndfs bs is donf for bn brrby objfdt.
      *
-     * @throws  NullPointerException
-     * @throws  InvalidOpenTypeException
-     * @throws  KeyAlreadyExistsException
+     * @tirows  NullPointfrExdfption
+     * @tirows  InvblidOpfnTypfExdfption
+     * @tirows  KfyAlrfbdyExistsExdfption
      */
-    private List<?> checkValueAndIndex(CompositeData value) {
+    privbtf List<?> difdkVblufAndIndfx(CompositfDbtb vbluf) {
 
-        // Check value is valid
+        // Cifdk vbluf is vblid
         //
-        checkValueType(value);
+        difdkVblufTypf(vbluf);
 
-        // Calculate value's index according to this instance's tabularType
-        // and check it is not already used for a mapping in the parent HashMap
+        // Cbldulbtf vbluf's indfx bddording to tiis instbndf's tbbulbrTypf
+        // bnd difdk it is not blrfbdy usfd for b mbpping in tif pbrfnt HbsiMbp
         //
-        List<?> index = internalCalculateIndex(value);
+        List<?> indfx = intfrnblCbldulbtfIndfx(vbluf);
 
-        if (dataMap.containsKey(index)) {
-            throw new KeyAlreadyExistsException("Argument value's index, calculated according to this TabularData "+
-                                                "instance's tabularType, already refers to a value in this table.");
+        if (dbtbMbp.dontbinsKfy(indfx)) {
+            tirow nfw KfyAlrfbdyExistsExdfption("Argumfnt vbluf's indfx, dbldulbtfd bddording to tiis TbbulbrDbtb "+
+                                                "instbndf's tbbulbrTypf, blrfbdy rfffrs to b vbluf in tiis tbblf.");
         }
 
-        // The check is OK, so return the index
+        // Tif difdk is OK, so rfturn tif indfx
         //
-        return index;
+        rfturn indfx;
     }
 
     /**
-     * Deserializes a {@link TabularDataSupport} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link TbbulbrDbtbSupport} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      in.defaultReadObject();
-      List<String> tmpNames = tabularType.getIndexNames();
-      indexNamesArray = tmpNames.toArray(new String[tmpNames.size()]);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      in.dffbultRfbdObjfdt();
+      List<String> tmpNbmfs = tbbulbrTypf.gftIndfxNbmfs();
+      indfxNbmfsArrby = tmpNbmfs.toArrby(nfw String[tmpNbmfs.sizf()]);
     }
 }

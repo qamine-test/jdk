@@ -1,161 +1,161 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
 
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.RFC2253Parser;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.RFC2253Pbrsfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
-public class XMLX509IssuerSerial extends SignatureElementProxy implements XMLX509DataContent {
+publid dlbss XMLX509IssufrSfribl fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLX509IssuerSerial.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLX509IssufrSfribl.dlbss.gftNbmf());
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Construdtor XMLX509IssufrSfribl
      *
-     * @param element
-     * @param baseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509IssuerSerial(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    publid XMLX509IssufrSfribl(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Construdtor XMLX509IssufrSfribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, BigInteger x509SerialNumber) {
-        super(doc);
-        XMLUtils.addReturnToElement(this.constructionElement);
-        addTextElement(x509IssuerName, Constants._TAG_X509ISSUERNAME);
-        addTextElement(x509SerialNumber.toString(), Constants._TAG_X509SERIALNUMBER);
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, BigIntfgfr x509SfriblNumbfr) {
+        supfr(dod);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        bddTfxtElfmfnt(x509IssufrNbmf, Constbnts._TAG_X509ISSUERNAME);
+        bddTfxtElfmfnt(x509SfriblNumbfr.toString(), Constbnts._TAG_X509SERIALNUMBER);
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Construdtor XMLX509IssufrSfribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, String x509SerialNumber) {
-        this(doc, x509IssuerName, new BigInteger(x509SerialNumber));
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, String x509SfriblNumbfr) {
+        tiis(dod, x509IssufrNbmf, nfw BigIntfgfr(x509SfriblNumbfr));
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Construdtor XMLX509IssufrSfribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, int x509SerialNumber) {
-        this(doc, x509IssuerName, new BigInteger(Integer.toString(x509SerialNumber)));
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, int x509SfriblNumbfr) {
+        tiis(dod, x509IssufrNbmf, nfw BigIntfgfr(Intfgfr.toString(x509SfriblNumbfr)));
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Construdtor XMLX509IssufrSfribl
      *
-     * @param doc
-     * @param x509certificate
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
      */
-    public XMLX509IssuerSerial(Document doc, X509Certificate x509certificate) {
-        this(
-            doc,
-            x509certificate.getIssuerX500Principal().getName(),
-            x509certificate.getSerialNumber()
+    publid XMLX509IssufrSfribl(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf) {
+        tiis(
+            dod,
+            x509dfrtifidbtf.gftIssufrX500Prindipbl().gftNbmf(),
+            x509dfrtifidbtf.gftSfriblNumbfr()
         );
     }
 
     /**
-     * Method getSerialNumber
+     * Mftiod gftSfriblNumbfr
      *
-     * @return the serial number
+     * @rfturn tif sfribl numbfr
      */
-    public BigInteger getSerialNumber() {
-        String text =
-            this.getTextFromChildElement(Constants._TAG_X509SERIALNUMBER, Constants.SignatureSpecNS);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "X509SerialNumber text: " + text);
+    publid BigIntfgfr gftSfriblNumbfr() {
+        String tfxt =
+            tiis.gftTfxtFromCiildElfmfnt(Constbnts._TAG_X509SERIALNUMBER, Constbnts.SignbturfSpfdNS);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "X509SfriblNumbfr tfxt: " + tfxt);
         }
 
-        return new BigInteger(text);
+        rfturn nfw BigIntfgfr(tfxt);
     }
 
     /**
-     * Method getSerialNumberInteger
+     * Mftiod gftSfriblNumbfrIntfgfr
      *
-     * @return the serial number as plain int
+     * @rfturn tif sfribl numbfr bs plbin int
      */
-    public int getSerialNumberInteger() {
-        return this.getSerialNumber().intValue();
+    publid int gftSfriblNumbfrIntfgfr() {
+        rfturn tiis.gftSfriblNumbfr().intVbluf();
     }
 
     /**
-     * Method getIssuerName
+     * Mftiod gftIssufrNbmf
      *
-     * @return the issuer name
+     * @rfturn tif issufr nbmf
      */
-    public String getIssuerName()  {
-        return RFC2253Parser.normalize(
-            this.getTextFromChildElement(Constants._TAG_X509ISSUERNAME, Constants.SignatureSpecNS)
+    publid String gftIssufrNbmf()  {
+        rfturn RFC2253Pbrsfr.normblizf(
+            tiis.gftTfxtFromCiildElfmfnt(Constbnts._TAG_X509ISSUERNAME, Constbnts.SignbturfSpfdNS)
         );
     }
 
-    /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509IssuerSerial)) {
-            return false;
+    /** @inifritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509IssufrSfribl)) {
+            rfturn fblsf;
         }
 
-        XMLX509IssuerSerial other = (XMLX509IssuerSerial) obj;
+        XMLX509IssufrSfribl otifr = (XMLX509IssufrSfribl) obj;
 
-        return this.getSerialNumber().equals(other.getSerialNumber())
-            && this.getIssuerName().equals(other.getIssuerName());
+        rfturn tiis.gftSfriblNumbfr().fqubls(otifr.gftSfriblNumbfr())
+            && tiis.gftIssufrNbmf().fqubls(otifr.gftIssufrNbmf());
     }
 
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + getSerialNumber().hashCode();
-        result = 31 * result + getIssuerName().hashCode();
-        return result;
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftSfriblNumbfr().ibsiCodf();
+        rfsult = 31 * rfsult + gftIssufrNbmf().ibsiCodf();
+        rfturn rfsult;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509ISSUERSERIAL;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509ISSUERSERIAL;
     }
 }

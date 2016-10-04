@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventObject;
-import javax.swing.table.*;
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.tbblf.*;
 
 /**
- * <B>TableColumnModelEvent</B> is used to notify listeners that a table
- * column model has changed, such as a column was added, removed, or
- * moved.
+ * <B>TbblfColumnModflEvfnt</B> is usfd to notify listfnfrs tibt b tbblf
+ * dolumn modfl ibs dibngfd, sudi bs b dolumn wbs bddfd, rfmovfd, or
+ * movfd.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Alan Chung
- * @see TableColumnModelListener
+ * @butior Albn Ciung
+ * @sff TbblfColumnModflListfnfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TableColumnModelEvent extends java.util.EventObject
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbblfColumnModflEvfnt fxtfnds jbvb.util.EvfntObjfdt
 {
 //
-//  Instance Variables
+//  Instbndf Vbribblfs
 //
 
-    /** The index of the column from where it was moved or removed */
-    protected int       fromIndex;
+    /** Tif indfx of tif dolumn from wifrf it wbs movfd or rfmovfd */
+    protfdtfd int       fromIndfx;
 
-    /** The index of the column to where it was moved or added */
-    protected int       toIndex;
+    /** Tif indfx of tif dolumn to wifrf it wbs movfd or bddfd */
+    protfdtfd int       toIndfx;
 
 //
-// Constructors
+// Construdtors
 //
 
     /**
-     * Constructs a {@code TableColumnModelEvent} object.
+     * Construdts b {@dodf TbblfColumnModflEvfnt} objfdt.
      *
-     * @param source  the {@code TableColumnModel} that originated the event
-     * @param from    an int specifying the index from where the column was
-     *                moved or removed
-     * @param to      an int specifying the index to where the column was
-     *                moved or added
-     * @see #getFromIndex
-     * @see #getToIndex
+     * @pbrbm sourdf  tif {@dodf TbblfColumnModfl} tibt originbtfd tif fvfnt
+     * @pbrbm from    bn int spfdifying tif indfx from wifrf tif dolumn wbs
+     *                movfd or rfmovfd
+     * @pbrbm to      bn int spfdifying tif indfx to wifrf tif dolumn wbs
+     *                movfd or bddfd
+     * @sff #gftFromIndfx
+     * @sff #gftToIndfx
      */
-    public TableColumnModelEvent(TableColumnModel source, int from, int to) {
-        super(source);
-        fromIndex = from;
-        toIndex = to;
+    publid TbblfColumnModflEvfnt(TbblfColumnModfl sourdf, int from, int to) {
+        supfr(sourdf);
+        fromIndfx = from;
+        toIndfx = to;
     }
 
 //
-// Querying Methods
+// Qufrying Mftiods
 //
 
     /**
-     * Returns the fromIndex.  Valid for removed or moved events
+     * Rfturns tif fromIndfx.  Vblid for rfmovfd or movfd fvfnts
      *
-     * @return int value for index from which the column was moved or removed
+     * @rfturn int vbluf for indfx from wiidi tif dolumn wbs movfd or rfmovfd
      */
-    public int getFromIndex() { return fromIndex; };
+    publid int gftFromIndfx() { rfturn fromIndfx; };
 
     /**
-     * Returns the toIndex.  Valid for add and moved events
+     * Rfturns tif toIndfx.  Vblid for bdd bnd movfd fvfnts
      *
-     * @return int value of column's new index
+     * @rfturn int vbluf of dolumn's nfw indfx
      */
-    public int getToIndex() { return toIndex; };
+    publid int gftToIndfx() { rfturn toIndfx; };
 }

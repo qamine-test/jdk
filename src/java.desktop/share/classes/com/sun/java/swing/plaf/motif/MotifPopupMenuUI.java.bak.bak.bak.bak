@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import sun.swing.SwingUtilitifs2;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidPopupMfnuUI;
+
+
+/**
+ * A Motif L&F implfmfntbtion of PopupMfnuUI.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Gforgfs Sbbb
+ * @buthor Ridh Sdhibvi
+ */
+publid dlbss MotifPopupMfnuUI fxtfnds BbsidPopupMfnuUI {
+    privbtf stbtid Bordfr bordfr = null;
+    privbtf Font titlfFont = null;
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MotifPopupMfnuUI();
+    }
+
+    /* This hbs to dfbl with thf fbdt thbt thf titlf mby bf widfr thbn
+       thf widfst dhild domponfnt.
+       */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        LbyoutMbnbgfr lbyout = d.gftLbyout();
+        Dimfnsion d = lbyout.prfffrrfdLbyoutSizf(d);
+        String titlf = ((JPopupMfnu)d).gftLbbfl();
+        if (titlfFont == null) {
+            UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+            titlfFont = tbblf.gftFont("PopupMfnu.font");
+        }
+        FontMftrids fm = d.gftFontMftrids(titlfFont);
+        int         stringWidth = 0;
+
+        if (titlf!=null) {
+            stringWidth += SwingUtilitifs2.stringWidth(d, fm, titlf);
+        }
+
+        if (d.width < stringWidth) {
+            d.width = stringWidth + 8;
+            Insfts i = d.gftInsfts();
+            if (i!=null) {
+                d.width += i.lfft + i.right;
+            }
+            if (bordfr != null) {
+                i = bordfr.gftBordfrInsfts(d);
+                d.width += i.lfft + i.right;
+            }
+
+            rfturn d;
+        }
+        rfturn null;
+    }
+
+    protfdtfd ChbngfListfnfr drfbtfChbngfListfnfr(JPopupMfnu m) {
+        rfturn nfw ChbngfListfnfr() {
+            publid void stbtfChbngfd(ChbngfEvfnt f) {}
+        };
+    }
+
+    publid boolfbn isPopupTriggfr(MousfEvfnt f) {
+        rfturn ((f.gftID()==MousfEvfnt.MOUSE_PRESSED)
+                && ((f.gftModififrs() & MousfEvfnt.BUTTON3_MASK)!=0));
+    }
+}

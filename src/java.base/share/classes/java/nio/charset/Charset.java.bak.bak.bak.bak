@@ -1,0 +1,917 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbrsft;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.spi.ChbrsftProvidfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import sun.misd.ASCIICbsfInsfnsitivfCompbrbtor;
+import sun.nio.ds.StbndbrdChbrsfts;
+import sun.nio.ds.ThrfbdLodblCodfrs;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+
+/**
+ * A nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf <b
+ * hrff="../../lbng/Chbrbdtfr.html#unidodf">dodf units</b> bnd sfqufndfs of
+ * bytfs.  This dlbss dffinfs mfthods for drfbting dfdodfrs bnd fndodfrs bnd
+ * for rftrifving thf vbrious nbmfs bssodibtfd with b dhbrsft.  Instbndfs of
+ * this dlbss brf immutbblf.
+ *
+ * <p> This dlbss blso dffinfs stbtid mfthods for tfsting whfthfr b pbrtidulbr
+ * dhbrsft is supportfd, for lodbting dhbrsft instbndfs by nbmf, bnd for
+ * donstrudting b mbp thbt dontbins fvfry dhbrsft for whidh support is
+ * bvbilbblf in thf durrfnt Jbvb virtubl mbdhinf.  Support for nfw dhbrsfts dbn
+ * bf bddfd vib thf sfrvidf-providfr intfrfbdf dffinfd in thf {@link
+ * jbvb.nio.dhbrsft.spi.ChbrsftProvidfr} dlbss.
+ *
+ * <p> All of thf mfthods dffinfd in this dlbss brf sbff for usf by multiplf
+ * dondurrfnt thrfbds.
+ *
+ *
+ * <b nbmf="nbmfs"></b><b nbmf="dhbrfnd"></b>
+ * <h2>Chbrsft nbmfs</h2>
+ *
+ * <p> Chbrsfts brf nbmfd by strings domposfd of thf following dhbrbdtfrs:
+ *
+ * <ul>
+ *
+ *   <li> Thf uppfrdbsf lfttfrs <tt>'A'</tt> through <tt>'Z'</tt>
+ *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005b'</tt>),
+ *
+ *   <li> Thf lowfrdbsf lfttfrs <tt>'b'</tt> through <tt>'z'</tt>
+ *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007b'</tt>),
+ *
+ *   <li> Thf digits <tt>'0'</tt> through <tt>'9'</tt>
+ *        (<tt>'&#92;u0030'</tt>&nbsp;through&nbsp;<tt>'&#92;u0039'</tt>),
+ *
+ *   <li> Thf dbsh dhbrbdtfr <tt>'-'</tt>
+ *        (<tt>'&#92;u002d'</tt>,&nbsp;<smbll>HYPHEN-MINUS</smbll>),
+ *
+ *   <li> Thf plus dhbrbdtfr <tt>'+'</tt>
+ *        (<tt>'&#92;u002b'</tt>,&nbsp;<smbll>PLUS SIGN</smbll>),
+ *
+ *   <li> Thf pfriod dhbrbdtfr <tt>'.'</tt>
+ *        (<tt>'&#92;u002f'</tt>,&nbsp;<smbll>FULL STOP</smbll>),
+ *
+ *   <li> Thf dolon dhbrbdtfr <tt>':'</tt>
+ *        (<tt>'&#92;u003b'</tt>,&nbsp;<smbll>COLON</smbll>), bnd
+ *
+ *   <li> Thf undfrsdorf dhbrbdtfr <tt>'_'</tt>
+ *        (<tt>'&#92;u005f'</tt>,&nbsp;<smbll>LOW&nbsp;LINE</smbll>).
+ *
+ * </ul>
+ *
+ * A dhbrsft nbmf must bfgin with fithfr b lfttfr or b digit.  Thf fmpty string
+ * is not b lfgbl dhbrsft nbmf.  Chbrsft nbmfs brf not dbsf-sfnsitivf; thbt is,
+ * dbsf is blwbys ignorfd whfn dompbring dhbrsft nbmfs.  Chbrsft nbmfs
+ * gfnfrblly follow thf donvfntions dodumfntfd in <b
+ * hrff="http://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278:&nbsp;IANA Chbrsft
+ * Rfgistrbtion Prodfdurfs</i></b>.
+ *
+ * <p> Evfry dhbrsft hbs b <i>dbnonidbl nbmf</i> bnd mby blso hbvf onf or morf
+ * <i>blibsfs</i>.  Thf dbnonidbl nbmf is rfturnfd by thf {@link #nbmf() nbmf} mfthod
+ * of this dlbss.  Cbnonidbl nbmfs brf, by donvfntion, usublly in uppfr dbsf.
+ * Thf blibsfs of b dhbrsft brf rfturnfd by thf {@link #blibsfs() blibsfs}
+ * mfthod.
+ *
+ * <p><b nbmf="hn">Somf dhbrsfts hbvf bn <i>historidbl nbmf</i> thbt is dffinfd for
+ * dompbtibility with prfvious vfrsions of thf Jbvb plbtform.</b>  A dhbrsft's
+ * historidbl nbmf is fithfr its dbnonidbl nbmf or onf of its blibsfs.  Thf
+ * historidbl nbmf is rfturnfd by thf <tt>gftEndoding()</tt> mfthods of thf
+ * {@link jbvb.io.InputStrfbmRfbdfr#gftEndoding InputStrfbmRfbdfr} bnd {@link
+ * jbvb.io.OutputStrfbmWritfr#gftEndoding OutputStrfbmWritfr} dlbssfs.
+ *
+ * <p><b nbmf="ibnb"> </b>If b dhbrsft listfd in thf <b
+ * hrff="http://www.ibnb.org/bssignmfnts/dhbrbdtfr-sfts"><i>IANA Chbrsft
+ * Rfgistry</i></b> is supportfd by bn implfmfntbtion of thf Jbvb plbtform thfn
+ * its dbnonidbl nbmf must bf thf nbmf listfd in thf rfgistry. Mbny dhbrsfts
+ * brf givfn morf thbn onf nbmf in thf rfgistry, in whidh dbsf thf rfgistry
+ * idfntififs onf of thf nbmfs bs <i>MIME-prfffrrfd</i>.  If b dhbrsft hbs morf
+ * thbn onf rfgistry nbmf thfn its dbnonidbl nbmf must bf thf MIME-prfffrrfd
+ * nbmf bnd thf othfr nbmfs in thf rfgistry must bf vblid blibsfs.  If b
+ * supportfd dhbrsft is not listfd in thf IANA rfgistry thfn its dbnonidbl nbmf
+ * must bfgin with onf of thf strings <tt>"X-"</tt> or <tt>"x-"</tt>.
+ *
+ * <p> Thf IANA dhbrsft rfgistry dofs dhbngf ovfr timf, bnd so thf dbnonidbl
+ * nbmf bnd thf blibsfs of b pbrtidulbr dhbrsft mby blso dhbngf ovfr timf.  To
+ * fnsurf dompbtibility it is rfdommfndfd thbt no blibs fvfr bf rfmovfd from b
+ * dhbrsft, bnd thbt if thf dbnonidbl nbmf of b dhbrsft is dhbngfd thfn its
+ * prfvious dbnonidbl nbmf bf mbdf into bn blibs.
+ *
+ *
+ * <h2>Stbndbrd dhbrsfts</h2>
+ *
+ *
+ *
+ * <p><b nbmf="stbndbrd">Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd dhbrsfts.</b>  Consult thf rflfbsf dodumfntbtion for your
+ * implfmfntbtion to sff if bny othfr dhbrsfts brf supportfd.  Thf bfhbvior
+ * of sudh optionbl dhbrsfts mby difffr bftwffn implfmfntbtions.
+ *
+ * <blodkquotf><tbblf width="80%" summbry="Dfsdription of stbndbrd dhbrsfts">
+ * <tr><th blign="lfft">Chbrsft</th><th blign="lfft">Dfsdription</th></tr>
+ * <tr><td vblign=top><tt>US-ASCII</tt></td>
+ *     <td>Sfvfn-bit ASCII, b.k.b. <tt>ISO646-US</tt>,
+ *         b.k.b. thf Bbsid Lbtin blodk of thf Unidodf dhbrbdtfr sft</td></tr>
+ * <tr><td vblign=top><tt>ISO-8859-1&nbsp;&nbsp;</tt></td>
+ *     <td>ISO Lbtin Alphbbft No. 1, b.k.b. <tt>ISO-LATIN-1</tt></td></tr>
+ * <tr><td vblign=top><tt>UTF-8</tt></td>
+ *     <td>Eight-bit UCS Trbnsformbtion Formbt</td></tr>
+ * <tr><td vblign=top><tt>UTF-16BE</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         big-fndibn bytf&nbsp;ordfr</td></tr>
+ * <tr><td vblign=top><tt>UTF-16LE</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         littlf-fndibn bytf&nbsp;ordfr</td></tr>
+ * <tr><td vblign=top><tt>UTF-16</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         bytf&nbsp;ordfr idfntififd by bn optionbl bytf-ordfr mbrk</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> Thf <tt>UTF-8</tt> dhbrsft is spfdififd by <b
+ * hrff="http://www.iftf.org/rfd/rfd2279.txt"><i>RFC&nbsp;2279</i></b>; thf
+ * trbnsformbtion formbt upon whidh it is bbsfd is spfdififd in
+ * Amfndmfnt&nbsp;2 of ISO&nbsp;10646-1 bnd is blso dfsdribfd in thf <b
+ * hrff="http://www.unidodf.org/unidodf/stbndbrd/stbndbrd.html"><i>Unidodf
+ * Stbndbrd</i></b>.
+ *
+ * <p> Thf <tt>UTF-16</tt> dhbrsfts brf spfdififd by <b
+ * hrff="http://www.iftf.org/rfd/rfd2781.txt"><i>RFC&nbsp;2781</i></b>; thf
+ * trbnsformbtion formbts upon whidh thfy brf bbsfd brf spfdififd in
+ * Amfndmfnt&nbsp;1 of ISO&nbsp;10646-1 bnd brf blso dfsdribfd in thf <b
+ * hrff="http://www.unidodf.org/unidodf/stbndbrd/stbndbrd.html"><i>Unidodf
+ * Stbndbrd</i></b>.
+ *
+ * <p> Thf <tt>UTF-16</tt> dhbrsfts usf sixtffn-bit qubntitifs bnd brf
+ * thfrfforf sfnsitivf to bytf ordfr.  In thfsf fndodings thf bytf ordfr of b
+ * strfbm mby bf indidbtfd by bn initibl <i>bytf-ordfr mbrk</i> rfprfsfntfd by
+ * thf Unidodf dhbrbdtfr <tt>'&#92;uFEFF'</tt>.  Bytf-ordfr mbrks brf hbndlfd
+ * bs follows:
+ *
+ * <ul>
+ *
+ *   <li><p> Whfn dfdoding, thf <tt>UTF-16BE</tt> bnd <tt>UTF-16LE</tt>
+ *   dhbrsfts intfrprft thf initibl bytf-ordfr mbrks bs b <smbll>ZERO-WIDTH
+ *   NON-BREAKING SPACE</smbll>; whfn fndoding, thfy do not writf
+ *   bytf-ordfr mbrks. </p></li>
+
+ *
+ *   <li><p> Whfn dfdoding, thf <tt>UTF-16</tt> dhbrsft intfrprfts thf
+ *   bytf-ordfr mbrk bt thf bfginning of thf input strfbm to indidbtf thf
+ *   bytf-ordfr of thf strfbm but dffbults to big-fndibn if thfrf is no
+ *   bytf-ordfr mbrk; whfn fndoding, it usfs big-fndibn bytf ordfr bnd writfs
+ *   b big-fndibn bytf-ordfr mbrk. </p></li>
+ *
+ * </ul>
+ *
+ * In bny dbsf, bytf ordfr mbrks oddurring bftfr thf first flfmfnt of bn
+ * input sfqufndf brf not omittfd sindf thf sbmf dodf is usfd to rfprfsfnt
+ * <smbll>ZERO-WIDTH NON-BREAKING SPACE</smbll>.
+ *
+ * <p> Evfry instbndf of thf Jbvb virtubl mbdhinf hbs b dffbult dhbrsft, whidh
+ * mby or mby not bf onf of thf stbndbrd dhbrsfts.  Thf dffbult dhbrsft is
+ * dftfrminfd during virtubl-mbdhinf stbrtup bnd typidblly dfpfnds upon thf
+ * lodblf bnd dhbrsft bfing usfd by thf undfrlying opfrbting systfm. </p>
+ *
+ * <p>Thf {@link StbndbrdChbrsfts} dlbss dffinfs donstbnts for fbdh of thf
+ * stbndbrd dhbrsfts.
+ *
+ * <h2>Tfrminology</h2>
+ *
+ * <p> Thf nbmf of this dlbss is tbkfn from thf tfrms usfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.
+ * In thbt dodumfnt b <i>dhbrsft</i> is dffinfd bs thf dombinbtion of
+ * onf or morf dodfd dhbrbdtfr sfts bnd b dhbrbdtfr-fndoding sdhfmf.
+ * (This dffinition is donfusing; somf othfr softwbrf systfms dffinf
+ * <i>dhbrsft</i> bs b synonym for <i>dodfd dhbrbdtfr sft</i>.)
+ *
+ * <p> A <i>dodfd dhbrbdtfr sft</i> is b mbpping bftwffn b sft of bbstrbdt
+ * dhbrbdtfrs bnd b sft of intfgfrs.  US-ASCII, ISO&nbsp;8859-1,
+ * JIS&nbsp;X&nbsp;0201, bnd Unidodf brf fxbmplfs of dodfd dhbrbdtfr sfts.
+ *
+ * <p> Somf stbndbrds hbvf dffinfd b <i>dhbrbdtfr sft</i> to bf simply b
+ * sft of bbstrbdt dhbrbdtfrs without bn bssodibtfd bssignfd numbfring.
+ * An blphbbft is bn fxbmplf of sudh b dhbrbdtfr sft.  Howfvfr, thf subtlf
+ * distindtion bftwffn <i>dhbrbdtfr sft</i> bnd <i>dodfd dhbrbdtfr sft</i>
+ * is rbrfly usfd in prbdtidf; thf formfr hbs bfdomf b short form for thf
+ * lbttfr, indluding in thf Jbvb API spfdifidbtion.
+ *
+ * <p> A <i>dhbrbdtfr-fndoding sdhfmf</i> is b mbpping bftwffn onf or morf
+ * dodfd dhbrbdtfr sfts bnd b sft of odtft (fight-bit bytf) sfqufndfs.
+ * UTF-8, UTF-16, ISO&nbsp;2022, bnd EUC brf fxbmplfs of
+ * dhbrbdtfr-fndoding sdhfmfs.  Endoding sdhfmfs brf oftfn bssodibtfd with
+ * b pbrtidulbr dodfd dhbrbdtfr sft; UTF-8, for fxbmplf, is usfd only to
+ * fndodf Unidodf.  Somf sdhfmfs, howfvfr, brf bssodibtfd with multiplf
+ * dodfd dhbrbdtfr sfts; EUC, for fxbmplf, dbn bf usfd to fndodf
+ * dhbrbdtfrs in b vbrifty of Asibn dodfd dhbrbdtfr sfts.
+ *
+ * <p> Whfn b dodfd dhbrbdtfr sft is usfd fxdlusivfly with b singlf
+ * dhbrbdtfr-fndoding sdhfmf thfn thf dorrfsponding dhbrsft is usublly
+ * nbmfd for thf dodfd dhbrbdtfr sft; othfrwisf b dhbrsft is usublly nbmfd
+ * for thf fndoding sdhfmf bnd, possibly, thf lodblf of thf dodfd
+ * dhbrbdtfr sfts thbt it supports.  Hfndf <tt>US-ASCII</tt> is both thf
+ * nbmf of b dodfd dhbrbdtfr sft bnd of thf dhbrsft thbt fndodfs it, whilf
+ * <tt>EUC-JP</tt> is thf nbmf of thf dhbrsft thbt fndodfs thf
+ * JIS&nbsp;X&nbsp;0201, JIS&nbsp;X&nbsp;0208, bnd JIS&nbsp;X&nbsp;0212
+ * dodfd dhbrbdtfr sfts for thf Jbpbnfsf lbngubgf.
+ *
+ * <p> Thf nbtivf dhbrbdtfr fndoding of thf Jbvb progrbmming lbngubgf is
+ * UTF-16.  A dhbrsft in thf Jbvb plbtform thfrfforf dffinfs b mbpping
+ * bftwffn sfqufndfs of sixtffn-bit UTF-16 dodf units (thbt is, sfqufndfs
+ * of dhbrs) bnd sfqufndfs of bytfs. </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff ChbrsftDfdodfr
+ * @sff ChbrsftEndodfr
+ * @sff jbvb.nio.dhbrsft.spi.ChbrsftProvidfr
+ * @sff jbvb.lbng.Chbrbdtfr
+ */
+
+publid bbstrbdt dlbss Chbrsft
+    implfmfnts Compbrbblf<Chbrsft>
+{
+
+    /* -- Stbtid mfthods -- */
+
+    privbtf stbtid volbtilf String bugLfvfl = null;
+
+    stbtid boolfbn btBugLfvfl(String bl) {              // pbdkbgf-privbtf
+        String lfvfl = bugLfvfl;
+        if (lfvfl == null) {
+            if (!sun.misd.VM.isBootfd())
+                rfturn fblsf;
+            bugLfvfl = lfvfl = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.nio.ds.bugLfvfl", ""));
+        }
+        rfturn lfvfl.fqubls(bl);
+    }
+
+    /**
+     * Chfdks thbt thf givfn string is b lfgbl dhbrsft nbmf. </p>
+     *
+     * @pbrbm  s
+     *         A purportfd dhbrsft nbmf
+     *
+     * @throws  IllfgblChbrsftNbmfExdfption
+     *          If thf givfn nbmf is not b lfgbl dhbrsft nbmf
+     */
+    privbtf stbtid void dhfdkNbmf(String s) {
+        int n = s.lfngth();
+        if (!btBugLfvfl("1.4")) {
+            if (n == 0)
+                throw nfw IllfgblChbrsftNbmfExdfption(s);
+        }
+        for (int i = 0; i < n; i++) {
+            dhbr d = s.dhbrAt(i);
+            if (d >= 'A' && d <= 'Z') dontinuf;
+            if (d >= 'b' && d <= 'z') dontinuf;
+            if (d >= '0' && d <= '9') dontinuf;
+            if (d == '-' && i != 0) dontinuf;
+            if (d == '+' && i != 0) dontinuf;
+            if (d == ':' && i != 0) dontinuf;
+            if (d == '_' && i != 0) dontinuf;
+            if (d == '.' && i != 0) dontinuf;
+            throw nfw IllfgblChbrsftNbmfExdfption(s);
+        }
+    }
+
+    /* Thf stbndbrd sft of dhbrsfts */
+    privbtf stbtid ChbrsftProvidfr stbndbrdProvidfr = nfw StbndbrdChbrsfts();
+
+    // Cbdhf of thf most-rfdfntly-rfturnfd dhbrsfts,
+    // blong with thf nbmfs thbt wfrf usfd to find thfm
+    //
+    privbtf stbtid volbtilf Objfdt[] dbdhf1 = null; // "Lfvfl 1" dbdhf
+    privbtf stbtid volbtilf Objfdt[] dbdhf2 = null; // "Lfvfl 2" dbdhf
+
+    privbtf stbtid void dbdhf(String dhbrsftNbmf, Chbrsft ds) {
+        dbdhf2 = dbdhf1;
+        dbdhf1 = nfw Objfdt[] { dhbrsftNbmf, ds };
+    }
+
+    // Crfbtfs bn itfrbtor thbt wblks ovfr thf bvbilbblf providfrs, ignoring
+    // thosf whosf lookup or instbntibtion dbusfs b sfdurity fxdfption to bf
+    // thrown.  Should bf invokfd with full privilfgfs.
+    //
+    privbtf stbtid Itfrbtor<ChbrsftProvidfr> providfrs() {
+        rfturn nfw Itfrbtor<ChbrsftProvidfr>() {
+
+                ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                SfrvidfLobdfr<ChbrsftProvidfr> sl =
+                    SfrvidfLobdfr.lobd(ChbrsftProvidfr.dlbss, dl);
+                Itfrbtor<ChbrsftProvidfr> i = sl.itfrbtor();
+
+                ChbrsftProvidfr nfxt = null;
+
+                privbtf boolfbn gftNfxt() {
+                    whilf (nfxt == null) {
+                        try {
+                            if (!i.hbsNfxt())
+                                rfturn fblsf;
+                            nfxt = i.nfxt();
+                        } dbtdh (SfrvidfConfigurbtionError sdf) {
+                            if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                                // Ignorf sfdurity fxdfptions
+                                dontinuf;
+                            }
+                            throw sdf;
+                        }
+                    }
+                    rfturn truf;
+                }
+
+                publid boolfbn hbsNfxt() {
+                    rfturn gftNfxt();
+                }
+
+                publid ChbrsftProvidfr nfxt() {
+                    if (!gftNfxt())
+                        throw nfw NoSudhElfmfntExdfption();
+                    ChbrsftProvidfr n = nfxt;
+                    nfxt = null;
+                    rfturn n;
+                }
+
+                publid void rfmovf() {
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+                }
+
+            };
+    }
+
+    // Thrfbd-lodbl gbtf to prfvfnt rfdursivf providfr lookups
+    privbtf stbtid ThrfbdLodbl<ThrfbdLodbl<?>> gbtf =
+            nfw ThrfbdLodbl<ThrfbdLodbl<?>>();
+
+    privbtf stbtid Chbrsft lookupVibProvidfrs(finbl String dhbrsftNbmf) {
+
+        // Thf runtimf stbrtup sfqufndf looks up stbndbrd dhbrsfts bs b
+        // donsfqufndf of thf VM's invodbtion of Systfm.initiblizfSystfmClbss
+        // in ordfr to, f.g., sft systfm propfrtifs bnd fndodf filfnbmfs.  At
+        // thbt point thf bpplidbtion dlbss lobdfr hbs not bffn initiblizfd,
+        // howfvfr, so wf dbn't look for providfrs bfdbusf doing so will dbusf
+        // thbt lobdfr to bf prfmbturfly initiblizfd with indomplftf
+        // informbtion.
+        //
+        if (!sun.misd.VM.isBootfd())
+            rfturn null;
+
+        if (gbtf.gft() != null)
+            // Avoid rfdursivf providfr lookups
+            rfturn null;
+        try {
+            gbtf.sft(gbtf);
+
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Chbrsft>() {
+                    publid Chbrsft run() {
+                        for (Itfrbtor<ChbrsftProvidfr> i = providfrs();
+                             i.hbsNfxt();) {
+                            ChbrsftProvidfr dp = i.nfxt();
+                            Chbrsft ds = dp.dhbrsftForNbmf(dhbrsftNbmf);
+                            if (ds != null)
+                                rfturn ds;
+                        }
+                        rfturn null;
+                    }
+                });
+
+        } finblly {
+            gbtf.sft(null);
+        }
+    }
+
+    /* Thf fxtfndfd sft of dhbrsfts */
+    privbtf stbtid dlbss ExtfndfdProvidfrHoldfr {
+        stbtid finbl ChbrsftProvidfr fxtfndfdProvidfr = fxtfndfdProvidfr();
+        // rfturns ExtfndfdProvidfr, if instbllfd
+        privbtf stbtid ChbrsftProvidfr fxtfndfdProvidfr() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                       nfw PrivilfgfdAdtion<ChbrsftProvidfr>() {
+                           publid ChbrsftProvidfr run() {
+                                try {
+                                    Clbss<?> fpd
+                                        = Clbss.forNbmf("sun.nio.ds.fxt.ExtfndfdChbrsfts");
+                                    rfturn (ChbrsftProvidfr)fpd.nfwInstbndf();
+                                } dbtdh (ClbssNotFoundExdfption x) {
+                                    // Extfndfd dhbrsfts not bvbilbblf
+                                    // (dhbrsfts.jbr not prfsfnt)
+                                } dbtdh (InstbntibtionExdfption |
+                                         IllfgblAddfssExdfption x) {
+                                  throw nfw Error(x);
+                                }
+                                rfturn null;
+                            }
+                        });
+        }
+    }
+
+    privbtf stbtid Chbrsft lookupExtfndfdChbrsft(String dhbrsftNbmf) {
+        ChbrsftProvidfr fdp = ExtfndfdProvidfrHoldfr.fxtfndfdProvidfr;
+        rfturn (fdp != null) ? fdp.dhbrsftForNbmf(dhbrsftNbmf) : null;
+    }
+
+    privbtf stbtid Chbrsft lookup(String dhbrsftNbmf) {
+        if (dhbrsftNbmf == null)
+            throw nfw IllfgblArgumfntExdfption("Null dhbrsft nbmf");
+        Objfdt[] b;
+        if ((b = dbdhf1) != null && dhbrsftNbmf.fqubls(b[0]))
+            rfturn (Chbrsft)b[1];
+        // Wf fxpfdt most progrbms to usf onf Chbrsft rfpfbtfdly.
+        // Wf donvfy b hint to this ffffdt to thf VM by putting thf
+        // lfvfl 1 dbdhf miss dodf in b sfpbrbtf mfthod.
+        rfturn lookup2(dhbrsftNbmf);
+    }
+
+    privbtf stbtid Chbrsft lookup2(String dhbrsftNbmf) {
+        Objfdt[] b;
+        if ((b = dbdhf2) != null && dhbrsftNbmf.fqubls(b[0])) {
+            dbdhf2 = dbdhf1;
+            dbdhf1 = b;
+            rfturn (Chbrsft)b[1];
+        }
+        Chbrsft ds;
+        if ((ds = stbndbrdProvidfr.dhbrsftForNbmf(dhbrsftNbmf)) != null ||
+            (ds = lookupExtfndfdChbrsft(dhbrsftNbmf))           != null ||
+            (ds = lookupVibProvidfrs(dhbrsftNbmf))              != null)
+        {
+            dbdhf(dhbrsftNbmf, ds);
+            rfturn ds;
+        }
+
+        /* Only nffd to dhfdk thf nbmf if wf didn't find b dhbrsft for it */
+        dhfdkNbmf(dhbrsftNbmf);
+        rfturn null;
+    }
+
+    /**
+     * Tflls whfthfr thf nbmfd dhbrsft is supportfd.
+     *
+     * @pbrbm  dhbrsftNbmf
+     *         Thf nbmf of thf rfqufstfd dhbrsft; mby bf fithfr
+     *         b dbnonidbl nbmf or bn blibs
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, support for thf nbmfd dhbrsft
+     *          is bvbilbblf in thf durrfnt Jbvb virtubl mbdhinf
+     *
+     * @throws IllfgblChbrsftNbmfExdfption
+     *         If thf givfn dhbrsft nbmf is illfgbl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf givfn <tt>dhbrsftNbmf</tt> is null
+     */
+    publid stbtid boolfbn isSupportfd(String dhbrsftNbmf) {
+        rfturn (lookup(dhbrsftNbmf) != null);
+    }
+
+    /**
+     * Rfturns b dhbrsft objfdt for thf nbmfd dhbrsft.
+     *
+     * @pbrbm  dhbrsftNbmf
+     *         Thf nbmf of thf rfqufstfd dhbrsft; mby bf fithfr
+     *         b dbnonidbl nbmf or bn blibs
+     *
+     * @rfturn  A dhbrsft objfdt for thf nbmfd dhbrsft
+     *
+     * @throws  IllfgblChbrsftNbmfExdfption
+     *          If thf givfn dhbrsft nbmf is illfgbl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf givfn <tt>dhbrsftNbmf</tt> is null
+     *
+     * @throws  UnsupportfdChbrsftExdfption
+     *          If no support for thf nbmfd dhbrsft is bvbilbblf
+     *          in this instbndf of thf Jbvb virtubl mbdhinf
+     */
+    publid stbtid Chbrsft forNbmf(String dhbrsftNbmf) {
+        Chbrsft ds = lookup(dhbrsftNbmf);
+        if (ds != null)
+            rfturn ds;
+        throw nfw UnsupportfdChbrsftExdfption(dhbrsftNbmf);
+    }
+
+    // Fold dhbrsfts from thf givfn itfrbtor into thf givfn mbp, ignoring
+    // dhbrsfts whosf nbmfs blrfbdy hbvf fntrifs in thf mbp.
+    //
+    privbtf stbtid void put(Itfrbtor<Chbrsft> i, Mbp<String,Chbrsft> m) {
+        whilf (i.hbsNfxt()) {
+            Chbrsft ds = i.nfxt();
+            if (!m.dontbinsKfy(ds.nbmf()))
+                m.put(ds.nbmf(), ds);
+        }
+    }
+
+    /**
+     * Construdts b sortfd mbp from dbnonidbl dhbrsft nbmfs to dhbrsft objfdts.
+     *
+     * <p> Thf mbp rfturnfd by this mfthod will hbvf onf fntry for fbdh dhbrsft
+     * for whidh support is bvbilbblf in thf durrfnt Jbvb virtubl mbdhinf.  If
+     * two or morf supportfd dhbrsfts hbvf thf sbmf dbnonidbl nbmf thfn thf
+     * rfsulting mbp will dontbin just onf of thfm; whidh onf it will dontbin
+     * is not spfdififd. </p>
+     *
+     * <p> Thf invodbtion of this mfthod, bnd thf subsfqufnt usf of thf
+     * rfsulting mbp, mby dbusf timf-donsuming disk or nftwork I/O opfrbtions
+     * to oddur.  This mfthod is providfd for bpplidbtions thbt nffd to
+     * fnumfrbtf bll of thf bvbilbblf dhbrsfts, for fxbmplf to bllow usfr
+     * dhbrsft sflfdtion.  This mfthod is not usfd by thf {@link #forNbmf
+     * forNbmf} mfthod, whidh instfbd fmploys bn fffidifnt indrfmfntbl lookup
+     * blgorithm.
+     *
+     * <p> This mfthod mby rfturn difffrfnt rfsults bt difffrfnt timfs if nfw
+     * dhbrsft providfrs brf dynbmidblly mbdf bvbilbblf to thf durrfnt Jbvb
+     * virtubl mbdhinf.  In thf bbsfndf of sudh dhbngfs, thf dhbrsfts rfturnfd
+     * by this mfthod brf fxbdtly thosf thbt dbn bf rftrifvfd vib thf {@link
+     * #forNbmf forNbmf} mfthod.  </p>
+     *
+     * @rfturn An immutbblf, dbsf-insfnsitivf mbp from dbnonidbl dhbrsft nbmfs
+     *         to dhbrsft objfdts
+     */
+    publid stbtid SortfdMbp<String,Chbrsft> bvbilbblfChbrsfts() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<SortfdMbp<String,Chbrsft>>() {
+                publid SortfdMbp<String,Chbrsft> run() {
+                    TrffMbp<String,Chbrsft> m =
+                        nfw TrffMbp<String,Chbrsft>(
+                            ASCIICbsfInsfnsitivfCompbrbtor.CASE_INSENSITIVE_ORDER);
+                    put(stbndbrdProvidfr.dhbrsfts(), m);
+                    ChbrsftProvidfr fdp = ExtfndfdProvidfrHoldfr.fxtfndfdProvidfr;
+                    if (fdp != null)
+                        put(fdp.dhbrsfts(), m);
+                    for (Itfrbtor<ChbrsftProvidfr> i = providfrs(); i.hbsNfxt();) {
+                        ChbrsftProvidfr dp = i.nfxt();
+                        put(dp.dhbrsfts(), m);
+                    }
+                    rfturn Collfdtions.unmodifibblfSortfdMbp(m);
+                }
+            });
+    }
+
+    privbtf stbtid volbtilf Chbrsft dffbultChbrsft;
+
+    /**
+     * Rfturns thf dffbult dhbrsft of this Jbvb virtubl mbdhinf.
+     *
+     * <p> Thf dffbult dhbrsft is dftfrminfd during virtubl-mbdhinf stbrtup bnd
+     * typidblly dfpfnds upon thf lodblf bnd dhbrsft of thf undfrlying
+     * opfrbting systfm.
+     *
+     * @rfturn  A dhbrsft objfdt for thf dffbult dhbrsft
+     *
+     * @sindf 1.5
+     */
+    publid stbtid Chbrsft dffbultChbrsft() {
+        if (dffbultChbrsft == null) {
+            syndhronizfd (Chbrsft.dlbss) {
+                String dsn = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("filf.fndoding"));
+                Chbrsft ds = lookup(dsn);
+                if (ds != null)
+                    dffbultChbrsft = ds;
+                flsf
+                    dffbultChbrsft = forNbmf("UTF-8");
+            }
+        }
+        rfturn dffbultChbrsft;
+    }
+
+
+    /* -- Instbndf fiflds bnd mfthods -- */
+
+    privbtf finbl String nbmf;          // tidklfs b bug in oldjbvbd
+    privbtf finbl String[] blibsfs;     // tidklfs b bug in oldjbvbd
+    privbtf Sft<String> blibsSft = null;
+
+    /**
+     * Initiblizfs b nfw dhbrsft with thf givfn dbnonidbl nbmf bnd blibs
+     * sft.
+     *
+     * @pbrbm  dbnonidblNbmf
+     *         Thf dbnonidbl nbmf of this dhbrsft
+     *
+     * @pbrbm  blibsfs
+     *         An brrby of this dhbrsft's blibsfs, or null if it hbs no blibsfs
+     *
+     * @throws IllfgblChbrsftNbmfExdfption
+     *         If thf dbnonidbl nbmf or bny of thf blibsfs brf illfgbl
+     */
+    protfdtfd Chbrsft(String dbnonidblNbmf, String[] blibsfs) {
+        dhfdkNbmf(dbnonidblNbmf);
+        String[] bs = (blibsfs == null) ? nfw String[0] : blibsfs;
+        for (int i = 0; i < bs.lfngth; i++)
+            dhfdkNbmf(bs[i]);
+        this.nbmf = dbnonidblNbmf;
+        this.blibsfs = bs;
+    }
+
+    /**
+     * Rfturns this dhbrsft's dbnonidbl nbmf.
+     *
+     * @rfturn  Thf dbnonidbl nbmf of this dhbrsft
+     */
+    publid finbl String nbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b sft dontbining this dhbrsft's blibsfs.
+     *
+     * @rfturn  An immutbblf sft of this dhbrsft's blibsfs
+     */
+    publid finbl Sft<String> blibsfs() {
+        if (blibsSft != null)
+            rfturn blibsSft;
+        int n = blibsfs.lfngth;
+        HbshSft<String> hs = nfw HbshSft<String>(n);
+        for (int i = 0; i < n; i++)
+            hs.bdd(blibsfs[i]);
+        blibsSft = Collfdtions.unmodifibblfSft(hs);
+        rfturn blibsSft;
+    }
+
+    /**
+     * Rfturns this dhbrsft's humbn-rfbdbblf nbmf for thf dffbult lodblf.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod simply rfturns this
+     * dhbrsft's dbnonidbl nbmf.  Condrftf subdlbssfs of this dlbss mby
+     * ovfrridf this mfthod in ordfr to providf b lodblizfd displby nbmf. </p>
+     *
+     * @rfturn  Thf displby nbmf of this dhbrsft in thf dffbult lodblf
+     */
+    publid String displbyNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Tflls whfthfr or not this dhbrsft is rfgistfrfd in thf <b
+     * hrff="http://www.ibnb.org/bssignmfnts/dhbrbdtfr-sfts">IANA Chbrsft
+     * Rfgistry</b>.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this dhbrsft is known by its
+     *          implfmfntor to bf rfgistfrfd with thf IANA
+     */
+    publid finbl boolfbn isRfgistfrfd() {
+        rfturn !nbmf.stbrtsWith("X-") && !nbmf.stbrtsWith("x-");
+    }
+
+    /**
+     * Rfturns this dhbrsft's humbn-rfbdbblf nbmf for thf givfn lodblf.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod simply rfturns this
+     * dhbrsft's dbnonidbl nbmf.  Condrftf subdlbssfs of this dlbss mby
+     * ovfrridf this mfthod in ordfr to providf b lodblizfd displby nbmf. </p>
+     *
+     * @pbrbm  lodblf
+     *         Thf lodblf for whidh thf displby nbmf is to bf rftrifvfd
+     *
+     * @rfturn  Thf displby nbmf of this dhbrsft in thf givfn lodblf
+     */
+    publid String displbyNbmf(Lodblf lodblf) {
+        rfturn nbmf;
+    }
+
+    /**
+     * Tflls whfthfr or not this dhbrsft dontbins thf givfn dhbrsft.
+     *
+     * <p> A dhbrsft <i>C</i> is sbid to <i>dontbin</i> b dhbrsft <i>D</i> if,
+     * bnd only if, fvfry dhbrbdtfr rfprfsfntbblf in <i>D</i> is blso
+     * rfprfsfntbblf in <i>C</i>.  If this rflbtionship holds thfn it is
+     * gubrbntffd thbt fvfry string thbt dbn bf fndodfd in <i>D</i> dbn blso bf
+     * fndodfd in <i>C</i> without pfrforming bny rfplbdfmfnts.
+     *
+     * <p> Thbt <i>C</i> dontbins <i>D</i> dofs not imply thbt fbdh dhbrbdtfr
+     * rfprfsfntbblf in <i>C</i> by b pbrtidulbr bytf sfqufndf is rfprfsfntfd
+     * in <i>D</i> by thf sbmf bytf sfqufndf, blthough somftimfs this is thf
+     * dbsf.
+     *
+     * <p> Evfry dhbrsft dontbins itsflf.
+     *
+     * <p> This mfthod domputfs bn bpproximbtion of thf dontbinmfnt rflbtion:
+     * If it rfturns <tt>truf</tt> thfn thf givfn dhbrsft is known to bf
+     * dontbinfd by this dhbrsft; if it rfturns <tt>fblsf</tt>, howfvfr, thfn
+     * it is not nfdfssbrily thf dbsf thbt thf givfn dhbrsft is not dontbinfd
+     * in this dhbrsft.
+     *
+     * @pbrbm   ds
+     *          Thf givfn dhbrsft
+     *
+     * @rfturn  <tt>truf</tt> if thf givfn dhbrsft is dontbinfd in this dhbrsft
+     */
+    publid bbstrbdt boolfbn dontbins(Chbrsft ds);
+
+    /**
+     * Construdts b nfw dfdodfr for this dhbrsft.
+     *
+     * @rfturn  A nfw dfdodfr for this dhbrsft
+     */
+    publid bbstrbdt ChbrsftDfdodfr nfwDfdodfr();
+
+    /**
+     * Construdts b nfw fndodfr for this dhbrsft.
+     *
+     * @rfturn  A nfw fndodfr for this dhbrsft
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this dhbrsft dofs not support fndoding
+     */
+    publid bbstrbdt ChbrsftEndodfr nfwEndodfr();
+
+    /**
+     * Tflls whfthfr or not this dhbrsft supports fndoding.
+     *
+     * <p> Nfbrly bll dhbrsfts support fndoding.  Thf primbry fxdfptions brf
+     * spfdibl-purposf <i>buto-dftfdt</i> dhbrsfts whosf dfdodfrs dbn dftfrminf
+     * whidh of sfvfrbl possiblf fndoding sdhfmfs is in usf by fxbmining thf
+     * input bytf sfqufndf.  Sudh dhbrsfts do not support fndoding bfdbusf
+     * thfrf is no wby to dftfrminf whidh fndoding should bf usfd on output.
+     * Implfmfntbtions of sudh dhbrsfts should ovfrridf this mfthod to rfturn
+     * <tt>fblsf</tt>. </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this dhbrsft supports fndoding
+     */
+    publid boolfbn dbnEndodf() {
+        rfturn truf;
+    }
+
+    /**
+     * Convfnifndf mfthod thbt dfdodfs bytfs in this dhbrsft into Unidodf
+     * dhbrbdtfrs.
+     *
+     * <p> An invodbtion of this mfthod upon b dhbrsft <tt>ds</tt> rfturns thf
+     * sbmf rfsult bs thf fxprfssion
+     *
+     * <prf>
+     *     ds.nfwDfdodfr()
+     *       .onMblformfdInput(CodingErrorAdtion.REPLACE)
+     *       .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+     *       .dfdodf(bb); </prf>
+     *
+     * fxdfpt thbt it is potfntiblly morf fffidifnt bfdbusf it dbn dbdhf
+     * dfdodfrs bftwffn suddfssivf invodbtions.
+     *
+     * <p> This mfthod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dhbrbdtfr
+     * sfqufndfs with this dhbrsft's dffbult rfplbdfmfnt bytf brrby.  In ordfr
+     * to dftfdt sudh sfqufndfs, usf thf {@link
+     * ChbrsftDfdodfr#dfdodf(jbvb.nio.BytfBufffr)} mfthod dirfdtly.  </p>
+     *
+     * @pbrbm  bb  Thf bytf bufffr to bf dfdodfd
+     *
+     * @rfturn  A dhbr bufffr dontbining thf dfdodfd dhbrbdtfrs
+     */
+    publid finbl ChbrBufffr dfdodf(BytfBufffr bb) {
+        try {
+            rfturn ThrfbdLodblCodfrs.dfdodfrFor(this)
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+                .dfdodf(bb);
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            throw nfw Error(x);         // Cbn't hbppfn
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod thbt fndodfs Unidodf dhbrbdtfrs into bytfs in this
+     * dhbrsft.
+     *
+     * <p> An invodbtion of this mfthod upon b dhbrsft <tt>ds</tt> rfturns thf
+     * sbmf rfsult bs thf fxprfssion
+     *
+     * <prf>
+     *     ds.nfwEndodfr()
+     *       .onMblformfdInput(CodingErrorAdtion.REPLACE)
+     *       .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+     *       .fndodf(bb); </prf>
+     *
+     * fxdfpt thbt it is potfntiblly morf fffidifnt bfdbusf it dbn dbdhf
+     * fndodfrs bftwffn suddfssivf invodbtions.
+     *
+     * <p> This mfthod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dhbrbdtfr
+     * sfqufndfs with this dhbrsft's dffbult rfplbdfmfnt string.  In ordfr to
+     * dftfdt sudh sfqufndfs, usf thf {@link
+     * ChbrsftEndodfr#fndodf(jbvb.nio.ChbrBufffr)} mfthod dirfdtly.  </p>
+     *
+     * @pbrbm  db  Thf dhbr bufffr to bf fndodfd
+     *
+     * @rfturn  A bytf bufffr dontbining thf fndodfd dhbrbdtfrs
+     */
+    publid finbl BytfBufffr fndodf(ChbrBufffr db) {
+        try {
+            rfturn ThrfbdLodblCodfrs.fndodfrFor(this)
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+                .fndodf(db);
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            throw nfw Error(x);         // Cbn't hbppfn
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod thbt fndodfs b string into bytfs in this dhbrsft.
+     *
+     * <p> An invodbtion of this mfthod upon b dhbrsft <tt>ds</tt> rfturns thf
+     * sbmf rfsult bs thf fxprfssion
+     *
+     * <prf>
+     *     ds.fndodf(ChbrBufffr.wrbp(s)); </prf>
+     *
+     * @pbrbm  str  Thf string to bf fndodfd
+     *
+     * @rfturn  A bytf bufffr dontbining thf fndodfd dhbrbdtfrs
+     */
+    publid finbl BytfBufffr fndodf(String str) {
+        rfturn fndodf(ChbrBufffr.wrbp(str));
+    }
+
+    /**
+     * Compbrfs this dhbrsft to bnothfr.
+     *
+     * <p> Chbrsfts brf ordfrfd by thfir dbnonidbl nbmfs, without rfgbrd to
+     * dbsf. </p>
+     *
+     * @pbrbm  thbt
+     *         Thf dhbrsft to whidh this dhbrsft is to bf dompbrfd
+     *
+     * @rfturn A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this dhbrsft
+     *         is lfss thbn, fqubl to, or grfbtfr thbn thf spfdififd dhbrsft
+     */
+    publid finbl int dompbrfTo(Chbrsft thbt) {
+        rfturn (nbmf().dompbrfToIgnorfCbsf(thbt.nbmf()));
+    }
+
+    /**
+     * Computfs b hbshdodf for this dhbrsft.
+     *
+     * @rfturn  An intfgfr hbshdodf
+     */
+    publid finbl int hbshCodf() {
+        rfturn nbmf().hbshCodf();
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt is fqubl to bnothfr.
+     *
+     * <p> Two dhbrsfts brf fqubl if, bnd only if, thfy hbvf thf sbmf dbnonidbl
+     * nbmfs.  A dhbrsft is nfvfr fqubl to bny othfr typf of objfdt.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this dhbrsft is fqubl to thf
+     *          givfn objfdt
+     */
+    publid finbl boolfbn fqubls(Objfdt ob) {
+        if (!(ob instbndfof Chbrsft))
+            rfturn fblsf;
+        if (this == ob)
+            rfturn truf;
+        rfturn nbmf.fqubls(((Chbrsft)ob).nbmf());
+    }
+
+    /**
+     * Rfturns b string dfsdribing this dhbrsft.
+     *
+     * @rfturn  A string dfsdribing this dhbrsft
+     */
+    publid finbl String toString() {
+        rfturn nbmf();
+    }
+
+}

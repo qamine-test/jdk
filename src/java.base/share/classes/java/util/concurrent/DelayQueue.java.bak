@@ -1,556 +1,556 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.*;
+pbdkbgf jbvb.util.dondurrfnt;
+import stbtid jbvb.util.dondurrfnt.TimfUnit.NANOSECONDS;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.*;
 
 /**
- * An unbounded {@linkplain BlockingQueue blocking queue} of
- * {@code Delayed} elements, in which an element can only be taken
- * when its delay has expired.  The <em>head</em> of the queue is that
- * {@code Delayed} element whose delay expired furthest in the
- * past.  If no delay has expired there is no head and {@code poll}
- * will return {@code null}. Expiration occurs when an element's
- * {@code getDelay(TimeUnit.NANOSECONDS)} method returns a value less
- * than or equal to zero.  Even though unexpired elements cannot be
- * removed using {@code take} or {@code poll}, they are otherwise
- * treated as normal elements. For example, the {@code size} method
- * returns the count of both expired and unexpired elements.
- * This queue does not permit null elements.
+ * An unboundfd {@linkplbin BlodkingQufuf blodking qufuf} of
+ * {@dodf Dflbyfd} flfmfnts, in wiidi bn flfmfnt dbn only bf tbkfn
+ * wifn its dflby ibs fxpirfd.  Tif <fm>ifbd</fm> of tif qufuf is tibt
+ * {@dodf Dflbyfd} flfmfnt wiosf dflby fxpirfd furtifst in tif
+ * pbst.  If no dflby ibs fxpirfd tifrf is no ifbd bnd {@dodf poll}
+ * will rfturn {@dodf null}. Expirbtion oddurs wifn bn flfmfnt's
+ * {@dodf gftDflby(TimfUnit.NANOSECONDS)} mftiod rfturns b vbluf lfss
+ * tibn or fqubl to zfro.  Evfn tiougi unfxpirfd flfmfnts dbnnot bf
+ * rfmovfd using {@dodf tbkf} or {@dodf poll}, tify brf otifrwisf
+ * trfbtfd bs normbl flfmfnts. For fxbmplf, tif {@dodf sizf} mftiod
+ * rfturns tif dount of boti fxpirfd bnd unfxpirfd flfmfnts.
+ * Tiis qufuf dofs not pfrmit null flfmfnts.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.  The Iterator provided in method {@link
- * #iterator()} is <em>not</em> guaranteed to traverse the elements of
- * the DelayQueue in any particular order.
+ * <p>Tiis dlbss bnd its itfrbtor implfmfnt bll of tif
+ * <fm>optionbl</fm> mftiods of tif {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.  Tif Itfrbtor providfd in mftiod {@link
+ * #itfrbtor()} is <fm>not</fm> gubrbntffd to trbvfrsf tif flfmfnts of
+ * tif DflbyQufuf in bny pbrtidulbr ordfr.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public class DelayQueue<E extends Delayed> extends AbstractQueue<E>
-    implements BlockingQueue<E> {
+publid dlbss DflbyQufuf<E fxtfnds Dflbyfd> fxtfnds AbstrbdtQufuf<E>
+    implfmfnts BlodkingQufuf<E> {
 
-    private final transient ReentrantLock lock = new ReentrantLock();
-    private final PriorityQueue<E> q = new PriorityQueue<E>();
+    privbtf finbl trbnsifnt RffntrbntLodk lodk = nfw RffntrbntLodk();
+    privbtf finbl PriorityQufuf<E> q = nfw PriorityQufuf<E>();
 
     /**
-     * Thread designated to wait for the element at the head of
-     * the queue.  This variant of the Leader-Follower pattern
-     * (http://www.cs.wustl.edu/~schmidt/POSA/POSA2/) serves to
-     * minimize unnecessary timed waiting.  When a thread becomes
-     * the leader, it waits only for the next delay to elapse, but
-     * other threads await indefinitely.  The leader thread must
-     * signal some other thread before returning from take() or
-     * poll(...), unless some other thread becomes leader in the
-     * interim.  Whenever the head of the queue is replaced with
-     * an element with an earlier expiration time, the leader
-     * field is invalidated by being reset to null, and some
-     * waiting thread, but not necessarily the current leader, is
-     * signalled.  So waiting threads must be prepared to acquire
-     * and lose leadership while waiting.
+     * Tirfbd dfsignbtfd to wbit for tif flfmfnt bt tif ifbd of
+     * tif qufuf.  Tiis vbribnt of tif Lfbdfr-Followfr pbttfrn
+     * (ittp://www.ds.wustl.fdu/~sdimidt/POSA/POSA2/) sfrvfs to
+     * minimizf unnfdfssbry timfd wbiting.  Wifn b tirfbd bfdomfs
+     * tif lfbdfr, it wbits only for tif nfxt dflby to flbpsf, but
+     * otifr tirfbds bwbit indffinitfly.  Tif lfbdfr tirfbd must
+     * signbl somf otifr tirfbd bfforf rfturning from tbkf() or
+     * poll(...), unlfss somf otifr tirfbd bfdomfs lfbdfr in tif
+     * intfrim.  Wifnfvfr tif ifbd of tif qufuf is rfplbdfd witi
+     * bn flfmfnt witi bn fbrlifr fxpirbtion timf, tif lfbdfr
+     * fifld is invblidbtfd by bfing rfsft to null, bnd somf
+     * wbiting tirfbd, but not nfdfssbrily tif durrfnt lfbdfr, is
+     * signbllfd.  So wbiting tirfbds must bf prfpbrfd to bdquirf
+     * bnd losf lfbdfrsiip wiilf wbiting.
      */
-    private Thread leader = null;
+    privbtf Tirfbd lfbdfr = null;
 
     /**
-     * Condition signalled when a newer element becomes available
-     * at the head of the queue or a new thread may need to
-     * become leader.
+     * Condition signbllfd wifn b nfwfr flfmfnt bfdomfs bvbilbblf
+     * bt tif ifbd of tif qufuf or b nfw tirfbd mby nffd to
+     * bfdomf lfbdfr.
      */
-    private final Condition available = lock.newCondition();
+    privbtf finbl Condition bvbilbblf = lodk.nfwCondition();
 
     /**
-     * Creates a new {@code DelayQueue} that is initially empty.
+     * Crfbtfs b nfw {@dodf DflbyQufuf} tibt is initiblly fmpty.
      */
-    public DelayQueue() {}
+    publid DflbyQufuf() {}
 
     /**
-     * Creates a {@code DelayQueue} initially containing the elements of the
-     * given collection of {@link Delayed} instances.
+     * Crfbtfs b {@dodf DflbyQufuf} initiblly dontbining tif flfmfnts of tif
+     * givfn dollfdtion of {@link Dflbyfd} instbndfs.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm d tif dollfdtion of flfmfnts to initiblly dontbin
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public DelayQueue(Collection<? extends E> c) {
-        this.addAll(c);
+    publid DflbyQufuf(Collfdtion<? fxtfnds E> d) {
+        tiis.bddAll(d);
     }
 
     /**
-     * Inserts the specified element into this delay queue.
+     * Insfrts tif spfdififd flfmfnt into tiis dflby qufuf.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        return offer(e);
+    publid boolfbn bdd(E f) {
+        rfturn offfr(f);
     }
 
     /**
-     * Inserts the specified element into this delay queue.
+     * Insfrts tif spfdififd flfmfnt into tiis dflby qufuf.
      *
-     * @param e the element to add
-     * @return {@code true}
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offer(E e) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn offfr(E f) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            q.offer(e);
-            if (q.peek() == e) {
-                leader = null;
-                available.signal();
+            q.offfr(f);
+            if (q.pffk() == f) {
+                lfbdfr = null;
+                bvbilbblf.signbl();
             }
-            return true;
-        } finally {
-            lock.unlock();
+            rfturn truf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Inserts the specified element into this delay queue. As the queue is
-     * unbounded this method will never block.
+     * Insfrts tif spfdififd flfmfnt into tiis dflby qufuf. As tif qufuf is
+     * unboundfd tiis mftiod will nfvfr blodk.
      *
-     * @param e the element to add
-     * @throws NullPointerException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public void put(E e) {
-        offer(e);
+    publid void put(E f) {
+        offfr(f);
     }
 
     /**
-     * Inserts the specified element into this delay queue. As the queue is
-     * unbounded this method will never block.
+     * Insfrts tif spfdififd flfmfnt into tiis dflby qufuf. As tif qufuf is
+     * unboundfd tiis mftiod will nfvfr blodk.
      *
-     * @param e the element to add
-     * @param timeout This parameter is ignored as the method never blocks
-     * @param unit This parameter is ignored as the method never blocks
-     * @return {@code true}
-     * @throws NullPointerException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @pbrbm timfout Tiis pbrbmftfr is ignorfd bs tif mftiod nfvfr blodks
+     * @pbrbm unit Tiis pbrbmftfr is ignorfd bs tif mftiod nfvfr blodks
+     * @rfturn {@dodf truf}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public boolean offer(E e, long timeout, TimeUnit unit) {
-        return offer(e);
+    publid boolfbn offfr(E f, long timfout, TimfUnit unit) {
+        rfturn offfr(f);
     }
 
     /**
-     * Retrieves and removes the head of this queue, or returns {@code null}
-     * if this queue has no elements with an expired delay.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf, or rfturns {@dodf null}
+     * if tiis qufuf ibs no flfmfnts witi bn fxpirfd dflby.
      *
-     * @return the head of this queue, or {@code null} if this
-     *         queue has no elements with an expired delay
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tiis
+     *         qufuf ibs no flfmfnts witi bn fxpirfd dflby
      */
-    public E poll() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E poll() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            E first = q.peek();
-            if (first == null || first.getDelay(NANOSECONDS) > 0)
-                return null;
-            else
-                return q.poll();
-        } finally {
-            lock.unlock();
+            E first = q.pffk();
+            if (first == null || first.gftDflby(NANOSECONDS) > 0)
+                rfturn null;
+            flsf
+                rfturn q.poll();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Retrieves and removes the head of this queue, waiting if necessary
-     * until an element with an expired delay is available on this queue.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf, wbiting if nfdfssbry
+     * until bn flfmfnt witi bn fxpirfd dflby is bvbilbblf on tiis qufuf.
      *
-     * @return the head of this queue
-     * @throws InterruptedException {@inheritDoc}
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public E take() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid E tbkf() tirows IntfrruptfdExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
         try {
             for (;;) {
-                E first = q.peek();
+                E first = q.pffk();
                 if (first == null)
-                    available.await();
-                else {
-                    long delay = first.getDelay(NANOSECONDS);
-                    if (delay <= 0)
-                        return q.poll();
-                    first = null; // don't retain ref while waiting
-                    if (leader != null)
-                        available.await();
-                    else {
-                        Thread thisThread = Thread.currentThread();
-                        leader = thisThread;
+                    bvbilbblf.bwbit();
+                flsf {
+                    long dflby = first.gftDflby(NANOSECONDS);
+                    if (dflby <= 0)
+                        rfturn q.poll();
+                    first = null; // don't rftbin rff wiilf wbiting
+                    if (lfbdfr != null)
+                        bvbilbblf.bwbit();
+                    flsf {
+                        Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                        lfbdfr = tiisTirfbd;
                         try {
-                            available.awaitNanos(delay);
-                        } finally {
-                            if (leader == thisThread)
-                                leader = null;
+                            bvbilbblf.bwbitNbnos(dflby);
+                        } finblly {
+                            if (lfbdfr == tiisTirfbd)
+                                lfbdfr = null;
                         }
                     }
                 }
             }
-        } finally {
-            if (leader == null && q.peek() != null)
-                available.signal();
-            lock.unlock();
+        } finblly {
+            if (lfbdfr == null && q.pffk() != null)
+                bvbilbblf.signbl();
+            lodk.unlodk();
         }
     }
 
     /**
-     * Retrieves and removes the head of this queue, waiting if necessary
-     * until an element with an expired delay is available on this queue,
-     * or the specified wait time expires.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf, wbiting if nfdfssbry
+     * until bn flfmfnt witi bn fxpirfd dflby is bvbilbblf on tiis qufuf,
+     * or tif spfdififd wbit timf fxpirfs.
      *
-     * @return the head of this queue, or {@code null} if the
-     *         specified waiting time elapses before an element with
-     *         an expired delay becomes available
-     * @throws InterruptedException {@inheritDoc}
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tif
+     *         spfdififd wbiting timf flbpsfs bfforf bn flfmfnt witi
+     *         bn fxpirfd dflby bfdomfs bvbilbblf
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid E poll(long timfout, TimfUnit unit) tirows IntfrruptfdExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
         try {
             for (;;) {
-                E first = q.peek();
+                E first = q.pffk();
                 if (first == null) {
-                    if (nanos <= 0)
-                        return null;
-                    else
-                        nanos = available.awaitNanos(nanos);
-                } else {
-                    long delay = first.getDelay(NANOSECONDS);
-                    if (delay <= 0)
-                        return q.poll();
-                    if (nanos <= 0)
-                        return null;
-                    first = null; // don't retain ref while waiting
-                    if (nanos < delay || leader != null)
-                        nanos = available.awaitNanos(nanos);
-                    else {
-                        Thread thisThread = Thread.currentThread();
-                        leader = thisThread;
+                    if (nbnos <= 0)
+                        rfturn null;
+                    flsf
+                        nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                } flsf {
+                    long dflby = first.gftDflby(NANOSECONDS);
+                    if (dflby <= 0)
+                        rfturn q.poll();
+                    if (nbnos <= 0)
+                        rfturn null;
+                    first = null; // don't rftbin rff wiilf wbiting
+                    if (nbnos < dflby || lfbdfr != null)
+                        nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                    flsf {
+                        Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                        lfbdfr = tiisTirfbd;
                         try {
-                            long timeLeft = available.awaitNanos(delay);
-                            nanos -= delay - timeLeft;
-                        } finally {
-                            if (leader == thisThread)
-                                leader = null;
+                            long timfLfft = bvbilbblf.bwbitNbnos(dflby);
+                            nbnos -= dflby - timfLfft;
+                        } finblly {
+                            if (lfbdfr == tiisTirfbd)
+                                lfbdfr = null;
                         }
                     }
                 }
             }
-        } finally {
-            if (leader == null && q.peek() != null)
-                available.signal();
-            lock.unlock();
+        } finblly {
+            if (lfbdfr == null && q.pffk() != null)
+                bvbilbblf.signbl();
+            lodk.unlodk();
         }
     }
 
     /**
-     * Retrieves, but does not remove, the head of this queue, or
-     * returns {@code null} if this queue is empty.  Unlike
-     * {@code poll}, if no expired elements are available in the queue,
-     * this method returns the element that will expire next,
-     * if one exists.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tiis qufuf, or
+     * rfturns {@dodf null} if tiis qufuf is fmpty.  Unlikf
+     * {@dodf poll}, if no fxpirfd flfmfnts brf bvbilbblf in tif qufuf,
+     * tiis mftiod rfturns tif flfmfnt tibt will fxpirf nfxt,
+     * if onf fxists.
      *
-     * @return the head of this queue, or {@code null} if this
-     *         queue is empty
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tiis
+     *         qufuf is fmpty
      */
-    public E peek() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pffk() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return q.peek();
-        } finally {
-            lock.unlock();
+            rfturn q.pffk();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public int size() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int sizf() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return q.size();
-        } finally {
-            lock.unlock();
+            rfturn q.sizf();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns first element only if it is expired.
-     * Used only by drainTo.  Call only when holding lock.
+     * Rfturns first flfmfnt only if it is fxpirfd.
+     * Usfd only by drbinTo.  Cbll only wifn iolding lodk.
      */
-    private E peekExpired() {
-        // assert lock.isHeldByCurrentThread();
-        E first = q.peek();
-        return (first == null || first.getDelay(NANOSECONDS) > 0) ?
+    privbtf E pffkExpirfd() {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        E first = q.pffk();
+        rfturn (first == null || first.gftDflby(NANOSECONDS) > 0) ?
             null : first;
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c) {
-        if (c == null)
-            throw new NullPointerException();
-        if (c == this)
-            throw new IllegalArgumentException();
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int drbinTo(Collfdtion<? supfr E> d) {
+        if (d == null)
+            tirow nfw NullPointfrExdfption();
+        if (d == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
             int n = 0;
-            for (E e; (e = peekExpired()) != null;) {
-                c.add(e);       // In this order, in case add() throws.
+            for (E f; (f = pffkExpirfd()) != null;) {
+                d.bdd(f);       // In tiis ordfr, in dbsf bdd() tirows.
                 q.poll();
                 ++n;
             }
-            return n;
-        } finally {
-            lock.unlock();
+            rfturn n;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
-        if (c == null)
-            throw new NullPointerException();
-        if (c == this)
-            throw new IllegalArgumentException();
-        if (maxElements <= 0)
-            return 0;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int drbinTo(Collfdtion<? supfr E> d, int mbxElfmfnts) {
+        if (d == null)
+            tirow nfw NullPointfrExdfption();
+        if (d == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (mbxElfmfnts <= 0)
+            rfturn 0;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
             int n = 0;
-            for (E e; n < maxElements && (e = peekExpired()) != null;) {
-                c.add(e);       // In this order, in case add() throws.
+            for (E f; n < mbxElfmfnts && (f = pffkExpirfd()) != null;) {
+                d.bdd(f);       // In tiis ordfr, in dbsf bdd() tirows.
                 q.poll();
                 ++n;
             }
-            return n;
-        } finally {
-            lock.unlock();
+            rfturn n;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Atomically removes all of the elements from this delay queue.
-     * The queue will be empty after this call returns.
-     * Elements with an unexpired delay are not waited for; they are
-     * simply discarded from the queue.
+     * Atomidblly rfmovfs bll of tif flfmfnts from tiis dflby qufuf.
+     * Tif qufuf will bf fmpty bftfr tiis dbll rfturns.
+     * Elfmfnts witi bn unfxpirfd dflby brf not wbitfd for; tify brf
+     * simply disdbrdfd from tif qufuf.
      */
-    public void clear() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid void dlfbr() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            q.clear();
-        } finally {
-            lock.unlock();
+            q.dlfbr();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Always returns {@code Integer.MAX_VALUE} because
-     * a {@code DelayQueue} is not capacity constrained.
+     * Alwbys rfturns {@dodf Intfgfr.MAX_VALUE} bfdbusf
+     * b {@dodf DflbyQufuf} is not dbpbdity donstrbinfd.
      *
-     * @return {@code Integer.MAX_VALUE}
+     * @rfturn {@dodf Intfgfr.MAX_VALUE}
      */
-    public int remainingCapacity() {
-        return Integer.MAX_VALUE;
+    publid int rfmbiningCbpbdity() {
+        rfturn Intfgfr.MAX_VALUE;
     }
 
     /**
-     * Returns an array containing all of the elements in this queue.
-     * The returned array elements are in no particular order.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf.
+     * Tif rfturnfd brrby flfmfnts brf in no pbrtidulbr ordfr.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis qufuf.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
      */
-    public Object[] toArray() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid Objfdt[] toArrby() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return q.toArray();
-        } finally {
-            lock.unlock();
+            rfturn q.toArrby();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue; the
-     * runtime type of the returned array is that of the specified array.
-     * The returned array elements are in no particular order.
-     * If the queue fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this queue.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf; tif
+     * runtimf typf of tif rfturnfd brrby is tibt of tif spfdififd brrby.
+     * Tif rfturnfd brrby flfmfnts brf in no pbrtidulbr ordfr.
+     * If tif qufuf fits in tif spfdififd brrby, it is rfturnfd tifrfin.
+     * Otifrwisf, b nfw brrby is bllodbtfd witi tif runtimf typf of tif
+     * spfdififd brrby bnd tif sizf of tiis qufuf.
      *
-     * <p>If this queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than this queue), the element in
-     * the array immediately following the end of the queue is set to
-     * {@code null}.
+     * <p>If tiis qufuf fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis qufuf), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif qufuf is sft to
+     * {@dodf null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>The following code can be used to dump a delay queue into a newly
-     * allocated array of {@code Delayed}:
+     * <p>Tif following dodf dbn bf usfd to dump b dflby qufuf into b nfwly
+     * bllodbtfd brrby of {@dodf Dflbyfd}:
      *
-     * <pre> {@code Delayed[] a = q.toArray(new Delayed[0]);}</pre>
+     * <prf> {@dodf Dflbyfd[] b = q.toArrby(nfw Dflbyfd[0]);}</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif qufuf brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    public <T> T[] toArray(T[] a) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid <T> T[] toArrby(T[] b) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return q.toArray(a);
-        } finally {
-            lock.unlock();
+            rfturn q.toArrby(b);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Removes a single instance of the specified element from this
-     * queue, if it is present, whether or not it has expired.
+     * Rfmovfs b singlf instbndf of tif spfdififd flfmfnt from tiis
+     * qufuf, if it is prfsfnt, wiftifr or not it ibs fxpirfd.
      */
-    public boolean remove(Object o) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn rfmovf(Objfdt o) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return q.remove(o);
-        } finally {
-            lock.unlock();
+            rfturn q.rfmovf(o);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Identity-based version for use in Itr.remove
+     * Idfntity-bbsfd vfrsion for usf in Itr.rfmovf
      */
-    void removeEQ(Object o) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    void rfmovfEQ(Objfdt o) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            for (Iterator<E> it = q.iterator(); it.hasNext(); ) {
-                if (o == it.next()) {
-                    it.remove();
-                    break;
+            for (Itfrbtor<E> it = q.itfrbtor(); it.ibsNfxt(); ) {
+                if (o == it.nfxt()) {
+                    it.rfmovf();
+                    brfbk;
                 }
             }
-        } finally {
-            lock.unlock();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an iterator over all the elements (both expired and
-     * unexpired) in this queue. The iterator does not return the
-     * elements in any particular order.
+     * Rfturns bn itfrbtor ovfr bll tif flfmfnts (boti fxpirfd bnd
+     * unfxpirfd) in tiis qufuf. Tif itfrbtor dofs not rfturn tif
+     * flfmfnts in bny pbrtidulbr ordfr.
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd itfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * @return an iterator over the elements in this queue
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis qufuf
      */
-    public Iterator<E> iterator() {
-        return new Itr(toArray());
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr(toArrby());
     }
 
     /**
-     * Snapshot iterator that works off copy of underlying q array.
+     * Snbpsiot itfrbtor tibt works off dopy of undfrlying q brrby.
      */
-    private class Itr implements Iterator<E> {
-        final Object[] array; // Array of all elements
-        int cursor;           // index of next element to return
-        int lastRet;          // index of last element, or -1 if no such
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
+        finbl Objfdt[] brrby; // Arrby of bll flfmfnts
+        int dursor;           // indfx of nfxt flfmfnt to rfturn
+        int lbstRft;          // indfx of lbst flfmfnt, or -1 if no sudi
 
-        Itr(Object[] array) {
-            lastRet = -1;
-            this.array = array;
+        Itr(Objfdt[] brrby) {
+            lbstRft = -1;
+            tiis.brrby = brrby;
         }
 
-        public boolean hasNext() {
-            return cursor < array.length;
+        publid boolfbn ibsNfxt() {
+            rfturn dursor < brrby.lfngti;
         }
 
-        @SuppressWarnings("unchecked")
-        public E next() {
-            if (cursor >= array.length)
-                throw new NoSuchElementException();
-            lastRet = cursor;
-            return (E)array[cursor++];
+        @SupprfssWbrnings("undifdkfd")
+        publid E nfxt() {
+            if (dursor >= brrby.lfngti)
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRft = dursor;
+            rfturn (E)brrby[dursor++];
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            removeEQ(array[lastRet]);
-            lastRet = -1;
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            rfmovfEQ(brrby[lbstRft]);
+            lbstRft = -1;
         }
     }
 

@@ -1,425 +1,425 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import javax.swing.SortOrder;
-import javax.swing.event.*;
-import java.util.*;
+import jbvbx.swing.SortOrdfr;
+import jbvbx.swing.fvfnt.*;
+import jbvb.util.*;
 
 /**
- * <code>RowSorter</code> provides the basis for sorting and filtering.
- * Beyond creating and installing a <code>RowSorter</code>, you very rarely
- * need to interact with one directly.  Refer to
- * {@link javax.swing.table.TableRowSorter TableRowSorter} for a concrete
- * implementation of <code>RowSorter</code> for <code>JTable</code>.
+ * <dodf>RowSortfr</dodf> providfs tif bbsis for sorting bnd filtfring.
+ * Bfyond drfbting bnd instblling b <dodf>RowSortfr</dodf>, you vfry rbrfly
+ * nffd to intfrbdt witi onf dirfdtly.  Rfffr to
+ * {@link jbvbx.swing.tbblf.TbblfRowSortfr TbblfRowSortfr} for b dondrftf
+ * implfmfntbtion of <dodf>RowSortfr</dodf> for <dodf>JTbblf</dodf>.
  * <p>
- * <code>RowSorter</code>'s primary role is to provide a mapping between
- * two coordinate systems: that of the view (for example a
- * <code>JTable</code>) and that of the underlying data source, typically a
- * model.
+ * <dodf>RowSortfr</dodf>'s primbry rolf is to providf b mbpping bftwffn
+ * two doordinbtf systfms: tibt of tif vifw (for fxbmplf b
+ * <dodf>JTbblf</dodf>) bnd tibt of tif undfrlying dbtb sourdf, typidblly b
+ * modfl.
  * <p>
- * The view invokes the following methods on the <code>RowSorter</code>:
+ * Tif vifw invokfs tif following mftiods on tif <dodf>RowSortfr</dodf>:
  * <ul>
- * <li><code>toggleSortOrder</code> &#8212; The view invokes this when the
- *     appropriate user gesture has occurred to trigger a sort.  For example,
- *     the user clicked a column header in a table.
- * <li>One of the model change methods &#8212; The view invokes a model
- *     change method when the underlying model
- *     has changed.  There may be order dependencies in how the events are
- *     delivered, so a <code>RowSorter</code> should not update its mapping
- *     until one of these methods is invoked.
+ * <li><dodf>togglfSortOrdfr</dodf> &#8212; Tif vifw invokfs tiis wifn tif
+ *     bppropribtf usfr gfsturf ibs oddurrfd to triggfr b sort.  For fxbmplf,
+ *     tif usfr dlidkfd b dolumn ifbdfr in b tbblf.
+ * <li>Onf of tif modfl dibngf mftiods &#8212; Tif vifw invokfs b modfl
+ *     dibngf mftiod wifn tif undfrlying modfl
+ *     ibs dibngfd.  Tifrf mby bf ordfr dfpfndfndifs in iow tif fvfnts brf
+ *     dflivfrfd, so b <dodf>RowSortfr</dodf> siould not updbtf its mbpping
+ *     until onf of tifsf mftiods is invokfd.
  * </ul>
- * Because the view makes extensive use of  the
- * <code>convertRowIndexToModel</code>,
- * <code>convertRowIndexToView</code> and <code>getViewRowCount</code> methods,
- * these methods need to be fast.
+ * Bfdbusf tif vifw mbkfs fxtfnsivf usf of  tif
+ * <dodf>donvfrtRowIndfxToModfl</dodf>,
+ * <dodf>donvfrtRowIndfxToVifw</dodf> bnd <dodf>gftVifwRowCount</dodf> mftiods,
+ * tifsf mftiods nffd to bf fbst.
  * <p>
- * <code>RowSorter</code> provides notification of changes by way of
- * <code>RowSorterListener</code>.  Two types of notification are sent:
+ * <dodf>RowSortfr</dodf> providfs notifidbtion of dibngfs by wby of
+ * <dodf>RowSortfrListfnfr</dodf>.  Two typfs of notifidbtion brf sfnt:
  * <ul>
- * <li><code>RowSorterEvent.Type.SORT_ORDER_CHANGED</code> &#8212; notifies
- *     listeners that the sort order has changed.  This is typically followed
- *     by a notification that the sort has changed.
- * <li><code>RowSorterEvent.Type.SORTED</code> &#8212; notifies listeners that
- *     the mapping maintained by the <code>RowSorter</code> has changed in
- *     some way.
+ * <li><dodf>RowSortfrEvfnt.Typf.SORT_ORDER_CHANGED</dodf> &#8212; notififs
+ *     listfnfrs tibt tif sort ordfr ibs dibngfd.  Tiis is typidblly followfd
+ *     by b notifidbtion tibt tif sort ibs dibngfd.
+ * <li><dodf>RowSortfrEvfnt.Typf.SORTED</dodf> &#8212; notififs listfnfrs tibt
+ *     tif mbpping mbintbinfd by tif <dodf>RowSortfr</dodf> ibs dibngfd in
+ *     somf wby.
  * </ul>
- * <code>RowSorter</code> implementations typically don't have a one-to-one
- * mapping with the underlying model, but they can.
- * For example, if a database does the sorting,
- * <code>toggleSortOrder</code> might call through to the database
- * (on a background thread), and override the mapping methods to return the
- * argument that is passed in.
+ * <dodf>RowSortfr</dodf> implfmfntbtions typidblly don't ibvf b onf-to-onf
+ * mbpping witi tif undfrlying modfl, but tify dbn.
+ * For fxbmplf, if b dbtbbbsf dofs tif sorting,
+ * <dodf>togglfSortOrdfr</dodf> migit dbll tirougi to tif dbtbbbsf
+ * (on b bbdkground tirfbd), bnd ovfrridf tif mbpping mftiods to rfturn tif
+ * brgumfnt tibt is pbssfd in.
  * <p>
- * Concrete implementations of <code>RowSorter</code>
- * need to reference a model such as <code>TableModel</code> or
- * <code>ListModel</code>.  The view classes, such as
- * <code>JTable</code> and <code>JList</code>, will also have a
- * reference to the model.  To avoid ordering dependencies,
- * <code>RowSorter</code> implementations should not install a
- * listener on the model.  Instead the view class will call into the
- * <code>RowSorter</code> when the model changes.  For
- * example, if a row is updated in a <code>TableModel</code>
- * <code>JTable</code> invokes <code>rowsUpdated</code>.
- * When the model changes, the view may call into any of the following methods:
- * <code>modelStructureChanged</code>, <code>allRowsChanged</code>,
- * <code>rowsInserted</code>, <code>rowsDeleted</code> and
- * <code>rowsUpdated</code>.
+ * Condrftf implfmfntbtions of <dodf>RowSortfr</dodf>
+ * nffd to rfffrfndf b modfl sudi bs <dodf>TbblfModfl</dodf> or
+ * <dodf>ListModfl</dodf>.  Tif vifw dlbssfs, sudi bs
+ * <dodf>JTbblf</dodf> bnd <dodf>JList</dodf>, will blso ibvf b
+ * rfffrfndf to tif modfl.  To bvoid ordfring dfpfndfndifs,
+ * <dodf>RowSortfr</dodf> implfmfntbtions siould not instbll b
+ * listfnfr on tif modfl.  Instfbd tif vifw dlbss will dbll into tif
+ * <dodf>RowSortfr</dodf> wifn tif modfl dibngfs.  For
+ * fxbmplf, if b row is updbtfd in b <dodf>TbblfModfl</dodf>
+ * <dodf>JTbblf</dodf> invokfs <dodf>rowsUpdbtfd</dodf>.
+ * Wifn tif modfl dibngfs, tif vifw mby dbll into bny of tif following mftiods:
+ * <dodf>modflStrudturfCibngfd</dodf>, <dodf>bllRowsCibngfd</dodf>,
+ * <dodf>rowsInsfrtfd</dodf>, <dodf>rowsDflftfd</dodf> bnd
+ * <dodf>rowsUpdbtfd</dodf>.
  *
- * @param <M> the type of the underlying model
- * @see javax.swing.table.TableRowSorter
- * @since 1.6
+ * @pbrbm <M> tif typf of tif undfrlying modfl
+ * @sff jbvbx.swing.tbblf.TbblfRowSortfr
+ * @sindf 1.6
  */
-public abstract class RowSorter<M> {
-    private EventListenerList listenerList = new EventListenerList();
+publid bbstrbdt dlbss RowSortfr<M> {
+    privbtf EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
     /**
-     * Creates a <code>RowSorter</code>.
+     * Crfbtfs b <dodf>RowSortfr</dodf>.
      */
-    public RowSorter() {
+    publid RowSortfr() {
     }
 
     /**
-     * Returns the underlying model.
+     * Rfturns tif undfrlying modfl.
      *
-     * @return the underlying model
+     * @rfturn tif undfrlying modfl
      */
-    public abstract M getModel();
+    publid bbstrbdt M gftModfl();
 
     /**
-     * Reverses the sort order of the specified column.  It is up to
-     * subclasses to provide the exact behavior when invoked.  Typically
-     * this will reverse the sort order from ascending to descending (or
-     * descending to ascending) if the specified column is already the
-     * primary sorted column; otherwise, makes the specified column
-     * the primary sorted column, with an ascending sort order.  If
-     * the specified column is not sortable, this method has no
-     * effect.
+     * Rfvfrsfs tif sort ordfr of tif spfdififd dolumn.  It is up to
+     * subdlbssfs to providf tif fxbdt bfibvior wifn invokfd.  Typidblly
+     * tiis will rfvfrsf tif sort ordfr from bsdfnding to dfsdfnding (or
+     * dfsdfnding to bsdfnding) if tif spfdififd dolumn is blrfbdy tif
+     * primbry sortfd dolumn; otifrwisf, mbkfs tif spfdififd dolumn
+     * tif primbry sortfd dolumn, witi bn bsdfnding sort ordfr.  If
+     * tif spfdififd dolumn is not sortbblf, tiis mftiod ibs no
+     * ffffdt.
      * <p>
-     * If this results in changing the sort order and sorting, the
-     * appropriate <code>RowSorterListener</code> notification will be
-     * sent.
+     * If tiis rfsults in dibnging tif sort ordfr bnd sorting, tif
+     * bppropribtf <dodf>RowSortfrListfnfr</dodf> notifidbtion will bf
+     * sfnt.
      *
-     * @param column the column to toggle the sort ordering of, in
-     *        terms of the underlying model
-     * @throws IndexOutOfBoundsException if column is outside the range of
-     *         the underlying model
+     * @pbrbm dolumn tif dolumn to togglf tif sort ordfring of, in
+     *        tfrms of tif undfrlying modfl
+     * @tirows IndfxOutOfBoundsExdfption if dolumn is outsidf tif rbngf of
+     *         tif undfrlying modfl
      */
-    public abstract void toggleSortOrder(int column);
+    publid bbstrbdt void togglfSortOrdfr(int dolumn);
 
     /**
-     * Returns the location of <code>index</code> in terms of the
-     * underlying model.  That is, for the row <code>index</code> in
-     * the coordinates of the view this returns the row index in terms
-     * of the underlying model.
+     * Rfturns tif lodbtion of <dodf>indfx</dodf> in tfrms of tif
+     * undfrlying modfl.  Tibt is, for tif row <dodf>indfx</dodf> in
+     * tif doordinbtfs of tif vifw tiis rfturns tif row indfx in tfrms
+     * of tif undfrlying modfl.
      *
-     * @param index the row index in terms of the underlying view
-     * @return row index in terms of the view
-     * @throws IndexOutOfBoundsException if <code>index</code> is outside the
-     *         range of the view
+     * @pbrbm indfx tif row indfx in tfrms of tif undfrlying vifw
+     * @rfturn row indfx in tfrms of tif vifw
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>indfx</dodf> is outsidf tif
+     *         rbngf of tif vifw
      */
-    public abstract int convertRowIndexToModel(int index);
+    publid bbstrbdt int donvfrtRowIndfxToModfl(int indfx);
 
     /**
-     * Returns the location of <code>index</code> in terms of the
-     * view.  That is, for the row <code>index</code> in the
-     * coordinates of the underlying model this returns the row index
-     * in terms of the view.
+     * Rfturns tif lodbtion of <dodf>indfx</dodf> in tfrms of tif
+     * vifw.  Tibt is, for tif row <dodf>indfx</dodf> in tif
+     * doordinbtfs of tif undfrlying modfl tiis rfturns tif row indfx
+     * in tfrms of tif vifw.
      *
-     * @param index the row index in terms of the underlying model
-     * @return row index in terms of the view, or -1 if index has been
-     *         filtered out of the view
-     * @throws IndexOutOfBoundsException if <code>index</code> is outside
-     *         the range of the model
+     * @pbrbm indfx tif row indfx in tfrms of tif undfrlying modfl
+     * @rfturn row indfx in tfrms of tif vifw, or -1 if indfx ibs bffn
+     *         filtfrfd out of tif vifw
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>indfx</dodf> is outsidf
+     *         tif rbngf of tif modfl
      */
-    public abstract int convertRowIndexToView(int index);
+    publid bbstrbdt int donvfrtRowIndfxToVifw(int indfx);
 
     /**
-     * Sets the current sort keys.
+     * Sfts tif durrfnt sort kfys.
      *
-     * @param keys the new <code>SortKeys</code>; <code>null</code>
-     *        is a shorthand for specifying an empty list,
-     *        indicating that the view should be unsorted
+     * @pbrbm kfys tif nfw <dodf>SortKfys</dodf>; <dodf>null</dodf>
+     *        is b siortibnd for spfdifying bn fmpty list,
+     *        indidbting tibt tif vifw siould bf unsortfd
      */
-    public abstract void setSortKeys(List<? extends SortKey> keys);
+    publid bbstrbdt void sftSortKfys(List<? fxtfnds SortKfy> kfys);
 
     /**
-     * Returns the current sort keys.  This must return a {@code
-     * non-null List} and may return an unmodifiable {@code List}. If
-     * you need to change the sort keys, make a copy of the returned
-     * {@code List}, mutate the copy and invoke {@code setSortKeys}
-     * with the new list.
+     * Rfturns tif durrfnt sort kfys.  Tiis must rfturn b {@dodf
+     * non-null List} bnd mby rfturn bn unmodifibblf {@dodf List}. If
+     * you nffd to dibngf tif sort kfys, mbkf b dopy of tif rfturnfd
+     * {@dodf List}, mutbtf tif dopy bnd invokf {@dodf sftSortKfys}
+     * witi tif nfw list.
      *
-     * @return the current sort order
+     * @rfturn tif durrfnt sort ordfr
      */
-    public abstract List<? extends SortKey> getSortKeys();
+    publid bbstrbdt List<? fxtfnds SortKfy> gftSortKfys();
 
     /**
-     * Returns the number of rows in the view.  If the contents have
-     * been filtered this might differ from the row count of the
-     * underlying model.
+     * Rfturns tif numbfr of rows in tif vifw.  If tif dontfnts ibvf
+     * bffn filtfrfd tiis migit difffr from tif row dount of tif
+     * undfrlying modfl.
      *
-     * @return number of rows in the view
-     * @see #getModelRowCount
+     * @rfturn numbfr of rows in tif vifw
+     * @sff #gftModflRowCount
      */
-    public abstract int getViewRowCount();
+    publid bbstrbdt int gftVifwRowCount();
 
     /**
-     * Returns the number of rows in the underlying model.
+     * Rfturns tif numbfr of rows in tif undfrlying modfl.
      *
-     * @return number of rows in the underlying model
-     * @see #getViewRowCount
+     * @rfturn numbfr of rows in tif undfrlying modfl
+     * @sff #gftVifwRowCount
      */
-    public abstract int getModelRowCount();
+    publid bbstrbdt int gftModflRowCount();
 
     /**
-     * Invoked when the underlying model structure has completely
-     * changed.  For example, if the number of columns in a
-     * <code>TableModel</code> changed, this method would be invoked.
+     * Invokfd wifn tif undfrlying modfl strudturf ibs domplftfly
+     * dibngfd.  For fxbmplf, if tif numbfr of dolumns in b
+     * <dodf>TbblfModfl</dodf> dibngfd, tiis mftiod would bf invokfd.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      */
-    public abstract void modelStructureChanged();
+    publid bbstrbdt void modflStrudturfCibngfd();
 
     /**
-     * Invoked when the contents of the underlying model have
-     * completely changed. The structure of the table is the same,
-     * only the contents have changed. This is typically sent when it
-     * is too expensive to characterize the change in terms of the
-     * other methods.
+     * Invokfd wifn tif dontfnts of tif undfrlying modfl ibvf
+     * domplftfly dibngfd. Tif strudturf of tif tbblf is tif sbmf,
+     * only tif dontfnts ibvf dibngfd. Tiis is typidblly sfnt wifn it
+     * is too fxpfnsivf to dibrbdtfrizf tif dibngf in tfrms of tif
+     * otifr mftiods.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      */
-    public abstract void allRowsChanged();
+    publid bbstrbdt void bllRowsCibngfd();
 
     /**
-     * Invoked when rows have been inserted into the underlying model
-     * in the specified range (inclusive).
+     * Invokfd wifn rows ibvf bffn insfrtfd into tif undfrlying modfl
+     * in tif spfdififd rbngf (indlusivf).
      * <p>
-     * The arguments give the indices of the effected range.
-     * The first argument is in terms of the model before the change, and
-     * must be less than or equal to the size of the model before the change.
-     * The second argument is in terms of the model after the change and must
-     * be less than the size of the model after the change. For example,
-     * if you have a 5-row model and add 3 items to the end of the model
-     * the indices are 5, 7.
+     * Tif brgumfnts givf tif indidfs of tif ffffdtfd rbngf.
+     * Tif first brgumfnt is in tfrms of tif modfl bfforf tif dibngf, bnd
+     * must bf lfss tibn or fqubl to tif sizf of tif modfl bfforf tif dibngf.
+     * Tif sfdond brgumfnt is in tfrms of tif modfl bftfr tif dibngf bnd must
+     * bf lfss tibn tif sizf of tif modfl bftfr tif dibngf. For fxbmplf,
+     * if you ibvf b 5-row modfl bnd bdd 3 itfms to tif fnd of tif modfl
+     * tif indidfs brf 5, 7.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      *
-     * @param firstRow the first row
-     * @param endRow the last row
-     * @throws IndexOutOfBoundsException if either argument is invalid, or
-     *         <code>firstRow</code> &gt; <code>endRow</code>
+     * @pbrbm firstRow tif first row
+     * @pbrbm fndRow tif lbst row
+     * @tirows IndfxOutOfBoundsExdfption if fitifr brgumfnt is invblid, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
      */
-    public abstract void rowsInserted(int firstRow, int endRow);
+    publid bbstrbdt void rowsInsfrtfd(int firstRow, int fndRow);
 
     /**
-     * Invoked when rows have been deleted from the underlying model
-     * in the specified range (inclusive).
+     * Invokfd wifn rows ibvf bffn dflftfd from tif undfrlying modfl
+     * in tif spfdififd rbngf (indlusivf).
      * <p>
-     * The arguments give the indices of the effected range and
-     * are in terms of the model <b>before</b> the change.
-     * For example, if you have a 5-row model and delete 3 items from the end
-     * of the model the indices are 2, 4.
+     * Tif brgumfnts givf tif indidfs of tif ffffdtfd rbngf bnd
+     * brf in tfrms of tif modfl <b>bfforf</b> tif dibngf.
+     * For fxbmplf, if you ibvf b 5-row modfl bnd dflftf 3 itfms from tif fnd
+     * of tif modfl tif indidfs brf 2, 4.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      *
-     * @param firstRow the first row
-     * @param endRow the last row
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the model before the change, or
-     *         <code>firstRow</code> &gt; <code>endRow</code>
+     * @pbrbm firstRow tif first row
+     * @pbrbm fndRow tif lbst row
+     * @tirows IndfxOutOfBoundsExdfption if fitifr brgumfnt is outsidf
+     *         tif rbngf of tif modfl bfforf tif dibngf, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
      */
-    public abstract void rowsDeleted(int firstRow, int endRow);
+    publid bbstrbdt void rowsDflftfd(int firstRow, int fndRow);
 
     /**
-     * Invoked when rows have been changed in the underlying model
-     * between the specified range (inclusive).
+     * Invokfd wifn rows ibvf bffn dibngfd in tif undfrlying modfl
+     * bftwffn tif spfdififd rbngf (indlusivf).
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      *
-     * @param firstRow the first row, in terms of the underlying model
-     * @param endRow the last row, in terms of the underlying model
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the underlying model, or
-     *         <code>firstRow</code> &gt; <code>endRow</code>
+     * @pbrbm firstRow tif first row, in tfrms of tif undfrlying modfl
+     * @pbrbm fndRow tif lbst row, in tfrms of tif undfrlying modfl
+     * @tirows IndfxOutOfBoundsExdfption if fitifr brgumfnt is outsidf
+     *         tif rbngf of tif undfrlying modfl, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
      */
-    public abstract void rowsUpdated(int firstRow, int endRow);
+    publid bbstrbdt void rowsUpdbtfd(int firstRow, int fndRow);
 
     /**
-     * Invoked when the column in the rows have been updated in
-     * the underlying model between the specified range.
+     * Invokfd wifn tif dolumn in tif rows ibvf bffn updbtfd in
+     * tif undfrlying modfl bftwffn tif spfdififd rbngf.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not dbll tiis mftiod.  Tiis mftiod is publid
+     * to bllow vifw dlbssfs to dbll it.
      *
-     * @param firstRow the first row, in terms of the underlying model
-     * @param endRow the last row, in terms of the underlying model
-     * @param column the column that has changed, in terms of the underlying
-     *        model
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the underlying model after the change,
-     *         <code>firstRow</code> &gt; <code>endRow</code>, or
-     *         <code>column</code> is outside the range of the underlying
-     *          model
+     * @pbrbm firstRow tif first row, in tfrms of tif undfrlying modfl
+     * @pbrbm fndRow tif lbst row, in tfrms of tif undfrlying modfl
+     * @pbrbm dolumn tif dolumn tibt ibs dibngfd, in tfrms of tif undfrlying
+     *        modfl
+     * @tirows IndfxOutOfBoundsExdfption if fitifr brgumfnt is outsidf
+     *         tif rbngf of tif undfrlying modfl bftfr tif dibngf,
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>, or
+     *         <dodf>dolumn</dodf> is outsidf tif rbngf of tif undfrlying
+     *          modfl
      */
-    public abstract void rowsUpdated(int firstRow, int endRow, int column);
+    publid bbstrbdt void rowsUpdbtfd(int firstRow, int fndRow, int dolumn);
 
     /**
-     * Adds a <code>RowSorterListener</code> to receive notification
-     * about this <code>RowSorter</code>.  If the same
-     * listener is added more than once it will receive multiple
-     * notifications.  If <code>l</code> is <code>null</code> nothing
-     * is done.
+     * Adds b <dodf>RowSortfrListfnfr</dodf> to rfdfivf notifidbtion
+     * bbout tiis <dodf>RowSortfr</dodf>.  If tif sbmf
+     * listfnfr is bddfd morf tibn ondf it will rfdfivf multiplf
+     * notifidbtions.  If <dodf>l</dodf> is <dodf>null</dodf> notiing
+     * is donf.
      *
-     * @param l the <code>RowSorterListener</code>
+     * @pbrbm l tif <dodf>RowSortfrListfnfr</dodf>
      */
-    public void addRowSorterListener(RowSorterListener l) {
-        listenerList.add(RowSorterListener.class, l);
+    publid void bddRowSortfrListfnfr(RowSortfrListfnfr l) {
+        listfnfrList.bdd(RowSortfrListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>RowSorterListener</code>.  If
-     * <code>l</code> is <code>null</code> nothing is done.
+     * Rfmovfs b <dodf>RowSortfrListfnfr</dodf>.  If
+     * <dodf>l</dodf> is <dodf>null</dodf> notiing is donf.
      *
-     * @param l the <code>RowSorterListener</code>
+     * @pbrbm l tif <dodf>RowSortfrListfnfr</dodf>
      */
-    public void removeRowSorterListener(RowSorterListener l) {
-        listenerList.remove(RowSorterListener.class, l);
+    publid void rfmovfRowSortfrListfnfr(RowSortfrListfnfr l) {
+        listfnfrList.rfmovf(RowSortfrListfnfr.dlbss, l);
     }
 
     /**
-     * Notifies listener that the sort order has changed.
+     * Notififs listfnfr tibt tif sort ordfr ibs dibngfd.
      */
-    protected void fireSortOrderChanged() {
-        fireRowSorterChanged(new RowSorterEvent(this));
+    protfdtfd void firfSortOrdfrCibngfd() {
+        firfRowSortfrCibngfd(nfw RowSortfrEvfnt(tiis));
     }
 
     /**
-     * Notifies listener that the mapping has changed.
+     * Notififs listfnfr tibt tif mbpping ibs dibngfd.
      *
-     * @param lastRowIndexToModel the mapping from model indices to
-     *        view indices prior to the sort, may be <code>null</code>
+     * @pbrbm lbstRowIndfxToModfl tif mbpping from modfl indidfs to
+     *        vifw indidfs prior to tif sort, mby bf <dodf>null</dodf>
      */
-    protected void fireRowSorterChanged(int[] lastRowIndexToModel) {
-        fireRowSorterChanged(new RowSorterEvent(this,
-                RowSorterEvent.Type.SORTED, lastRowIndexToModel));
+    protfdtfd void firfRowSortfrCibngfd(int[] lbstRowIndfxToModfl) {
+        firfRowSortfrCibngfd(nfw RowSortfrEvfnt(tiis,
+                RowSortfrEvfnt.Typf.SORTED, lbstRowIndfxToModfl));
     }
 
-    void fireRowSorterChanged(RowSorterEvent event) {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == RowSorterListener.class) {
-                ((RowSorterListener)listeners[i + 1]).
-                        sorterChanged(event);
+    void firfRowSortfrCibngfd(RowSortfrEvfnt fvfnt) {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == RowSortfrListfnfr.dlbss) {
+                ((RowSortfrListfnfr)listfnfrs[i + 1]).
+                        sortfrCibngfd(fvfnt);
             }
         }
     }
 
     /**
-     * SortKey describes the sort order for a particular column.  The
-     * column index is in terms of the underlying model, which may differ
-     * from that of the view.
+     * SortKfy dfsdribfs tif sort ordfr for b pbrtidulbr dolumn.  Tif
+     * dolumn indfx is in tfrms of tif undfrlying modfl, wiidi mby difffr
+     * from tibt of tif vifw.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static class SortKey {
-        private int column;
-        private SortOrder sortOrder;
+    publid stbtid dlbss SortKfy {
+        privbtf int dolumn;
+        privbtf SortOrdfr sortOrdfr;
 
         /**
-         * Creates a <code>SortKey</code> for the specified column with
-         * the specified sort order.
+         * Crfbtfs b <dodf>SortKfy</dodf> for tif spfdififd dolumn witi
+         * tif spfdififd sort ordfr.
          *
-         * @param column index of the column, in terms of the model
-         * @param sortOrder the sorter order
-         * @throws IllegalArgumentException if <code>sortOrder</code> is
-         *         <code>null</code>
+         * @pbrbm dolumn indfx of tif dolumn, in tfrms of tif modfl
+         * @pbrbm sortOrdfr tif sortfr ordfr
+         * @tirows IllfgblArgumfntExdfption if <dodf>sortOrdfr</dodf> is
+         *         <dodf>null</dodf>
          */
-        public SortKey(int column, SortOrder sortOrder) {
-            if (sortOrder == null) {
-                throw new IllegalArgumentException(
-                        "sort order must be non-null");
+        publid SortKfy(int dolumn, SortOrdfr sortOrdfr) {
+            if (sortOrdfr == null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "sort ordfr must bf non-null");
             }
-            this.column = column;
-            this.sortOrder = sortOrder;
+            tiis.dolumn = dolumn;
+            tiis.sortOrdfr = sortOrdfr;
         }
 
         /**
-         * Returns the index of the column.
+         * Rfturns tif indfx of tif dolumn.
          *
-         * @return index of column
+         * @rfturn indfx of dolumn
          */
-        public final int getColumn() {
-            return column;
+        publid finbl int gftColumn() {
+            rfturn dolumn;
         }
 
         /**
-         * Returns the sort order of the column.
+         * Rfturns tif sort ordfr of tif dolumn.
          *
-         * @return the sort order of the column
+         * @rfturn tif sort ordfr of tif dolumn
          */
-        public final SortOrder getSortOrder() {
-            return sortOrder;
+        publid finbl SortOrdfr gftSortOrdfr() {
+            rfturn sortOrdfr;
         }
 
         /**
-         * Returns the hash code for this <code>SortKey</code>.
+         * Rfturns tif ibsi dodf for tiis <dodf>SortKfy</dodf>.
          *
-         * @return hash code
+         * @rfturn ibsi dodf
          */
-        public int hashCode() {
-            int result = 17;
-            result = 37 * result + column;
-            result = 37 * result + sortOrder.hashCode();
-            return result;
+        publid int ibsiCodf() {
+            int rfsult = 17;
+            rfsult = 37 * rfsult + dolumn;
+            rfsult = 37 * rfsult + sortOrdfr.ibsiCodf();
+            rfturn rfsult;
         }
 
         /**
-         * Returns true if this object equals the specified object.
-         * If the specified object is a <code>SortKey</code> and
-         * references the same column and sort order, the two objects
-         * are equal.
+         * Rfturns truf if tiis objfdt fqubls tif spfdififd objfdt.
+         * If tif spfdififd objfdt is b <dodf>SortKfy</dodf> bnd
+         * rfffrfndfs tif sbmf dolumn bnd sort ordfr, tif two objfdts
+         * brf fqubl.
          *
-         * @param o the object to compare to
-         * @return true if <code>o</code> is equal to this <code>SortKey</code>
+         * @pbrbm o tif objfdt to dompbrf to
+         * @rfturn truf if <dodf>o</dodf> is fqubl to tiis <dodf>SortKfy</dodf>
          */
-        public boolean equals(Object o) {
-            if (o == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == tiis) {
+                rfturn truf;
             }
-            if (o instanceof SortKey) {
-                return (((SortKey)o).column == column &&
-                        ((SortKey)o).sortOrder == sortOrder);
+            if (o instbndfof SortKfy) {
+                rfturn (((SortKfy)o).dolumn == dolumn &&
+                        ((SortKfy)o).sortOrdfr == sortOrdfr);
             }
-            return false;
+            rfturn fblsf;
         }
     }
 }

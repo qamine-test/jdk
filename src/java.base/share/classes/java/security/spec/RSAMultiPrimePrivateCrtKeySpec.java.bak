@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This class specifies an RSA multi-prime private key, as defined in the
- * PKCS#1 v2.1, using the Chinese Remainder Theorem (CRT) information
- * values for efficiency.
+ * Tiis dlbss spfdififs bn RSA multi-primf privbtf kfy, bs dffinfd in tif
+ * PKCS#1 v2.1, using tif Ciinfsf Rfmbindfr Tiforfm (CRT) informbtion
+ * vblufs for fffidifndy.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  *
- * @see java.security.Key
- * @see java.security.KeyFactory
- * @see KeySpec
- * @see PKCS8EncodedKeySpec
- * @see RSAPrivateKeySpec
- * @see RSAPublicKeySpec
- * @see RSAOtherPrimeInfo
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff PKCS8EndodfdKfySpfd
+ * @sff RSAPrivbtfKfySpfd
+ * @sff RSAPublidKfySpfd
+ * @sff RSAOtifrPrimfInfo
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class RSAMultiPrimePrivateCrtKeySpec extends RSAPrivateKeySpec {
+publid dlbss RSAMultiPrimfPrivbtfCrtKfySpfd fxtfnds RSAPrivbtfKfySpfd {
 
-    private final BigInteger publicExponent;
-    private final BigInteger primeP;
-    private final BigInteger primeQ;
-    private final BigInteger primeExponentP;
-    private final BigInteger primeExponentQ;
-    private final BigInteger crtCoefficient;
-    private final RSAOtherPrimeInfo otherPrimeInfo[];
+    privbtf finbl BigIntfgfr publidExponfnt;
+    privbtf finbl BigIntfgfr primfP;
+    privbtf finbl BigIntfgfr primfQ;
+    privbtf finbl BigIntfgfr primfExponfntP;
+    privbtf finbl BigIntfgfr primfExponfntQ;
+    privbtf finbl BigIntfgfr drtCofffidifnt;
+    privbtf finbl RSAOtifrPrimfInfo otifrPrimfInfo[];
 
    /**
-    * Creates a new {@code RSAMultiPrimePrivateCrtKeySpec}
-    * given the modulus, publicExponent, privateExponent,
-    * primeP, primeQ, primeExponentP, primeExponentQ,
-    * crtCoefficient, and otherPrimeInfo as defined in PKCS#1 v2.1.
+    * Crfbtfs b nfw {@dodf RSAMultiPrimfPrivbtfCrtKfySpfd}
+    * givfn tif modulus, publidExponfnt, privbtfExponfnt,
+    * primfP, primfQ, primfExponfntP, primfExponfntQ,
+    * drtCofffidifnt, bnd otifrPrimfInfo bs dffinfd in PKCS#1 v2.1.
     *
-    * <p>Note that the contents of {@code otherPrimeInfo}
-    * are copied to protect against subsequent modification when
-    * constructing this object.
+    * <p>Notf tibt tif dontfnts of {@dodf otifrPrimfInfo}
+    * brf dopifd to protfdt bgbinst subsfqufnt modifidbtion wifn
+    * donstrudting tiis objfdt.
     *
-    * @param modulus the modulus n.
-    * @param publicExponent the public exponent e.
-    * @param privateExponent the private exponent d.
-    * @param primeP the prime factor p of n.
-    * @param primeQ the prime factor q of n.
-    * @param primeExponentP this is d mod (p-1).
-    * @param primeExponentQ this is d mod (q-1).
-    * @param crtCoefficient the Chinese Remainder Theorem
-    * coefficient q-1 mod p.
-    * @param otherPrimeInfo triplets of the rest of primes, null can be
-    * specified if there are only two prime factors (p and q).
-    * @exception NullPointerException if any of the parameters, i.e.
-    * {@code modulus},
-    * {@code publicExponent}, {@code privateExponent},
-    * {@code primeP}, {@code primeQ},
-    * {@code primeExponentP}, {@code primeExponentQ},
-    * {@code crtCoefficient}, is null.
-    * @exception IllegalArgumentException if an empty, i.e. 0-length,
-    * {@code otherPrimeInfo} is specified.
+    * @pbrbm modulus tif modulus n.
+    * @pbrbm publidExponfnt tif publid fxponfnt f.
+    * @pbrbm privbtfExponfnt tif privbtf fxponfnt d.
+    * @pbrbm primfP tif primf fbdtor p of n.
+    * @pbrbm primfQ tif primf fbdtor q of n.
+    * @pbrbm primfExponfntP tiis is d mod (p-1).
+    * @pbrbm primfExponfntQ tiis is d mod (q-1).
+    * @pbrbm drtCofffidifnt tif Ciinfsf Rfmbindfr Tiforfm
+    * dofffidifnt q-1 mod p.
+    * @pbrbm otifrPrimfInfo triplfts of tif rfst of primfs, null dbn bf
+    * spfdififd if tifrf brf only two primf fbdtors (p bnd q).
+    * @fxdfption NullPointfrExdfption if bny of tif pbrbmftfrs, i.f.
+    * {@dodf modulus},
+    * {@dodf publidExponfnt}, {@dodf privbtfExponfnt},
+    * {@dodf primfP}, {@dodf primfQ},
+    * {@dodf primfExponfntP}, {@dodf primfExponfntQ},
+    * {@dodf drtCofffidifnt}, is null.
+    * @fxdfption IllfgblArgumfntExdfption if bn fmpty, i.f. 0-lfngti,
+    * {@dodf otifrPrimfInfo} is spfdififd.
     */
-    public RSAMultiPrimePrivateCrtKeySpec(BigInteger modulus,
-                                BigInteger publicExponent,
-                                BigInteger privateExponent,
-                                BigInteger primeP,
-                                BigInteger primeQ,
-                                BigInteger primeExponentP,
-                                BigInteger primeExponentQ,
-                                BigInteger crtCoefficient,
-                                RSAOtherPrimeInfo[] otherPrimeInfo) {
-        super(modulus, privateExponent);
+    publid RSAMultiPrimfPrivbtfCrtKfySpfd(BigIntfgfr modulus,
+                                BigIntfgfr publidExponfnt,
+                                BigIntfgfr privbtfExponfnt,
+                                BigIntfgfr primfP,
+                                BigIntfgfr primfQ,
+                                BigIntfgfr primfExponfntP,
+                                BigIntfgfr primfExponfntQ,
+                                BigIntfgfr drtCofffidifnt,
+                                RSAOtifrPrimfInfo[] otifrPrimfInfo) {
+        supfr(modulus, privbtfExponfnt);
         if (modulus == null) {
-            throw new NullPointerException("the modulus parameter must be " +
+            tirow nfw NullPointfrExdfption("tif modulus pbrbmftfr must bf " +
                                             "non-null");
         }
-        if (publicExponent == null) {
-            throw new NullPointerException("the publicExponent parameter " +
-                                            "must be non-null");
+        if (publidExponfnt == null) {
+            tirow nfw NullPointfrExdfption("tif publidExponfnt pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (privateExponent == null) {
-            throw new NullPointerException("the privateExponent parameter " +
-                                            "must be non-null");
+        if (privbtfExponfnt == null) {
+            tirow nfw NullPointfrExdfption("tif privbtfExponfnt pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (primeP == null) {
-            throw new NullPointerException("the primeP parameter " +
-                                            "must be non-null");
+        if (primfP == null) {
+            tirow nfw NullPointfrExdfption("tif primfP pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (primeQ == null) {
-            throw new NullPointerException("the primeQ parameter " +
-                                            "must be non-null");
+        if (primfQ == null) {
+            tirow nfw NullPointfrExdfption("tif primfQ pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (primeExponentP == null) {
-            throw new NullPointerException("the primeExponentP parameter " +
-                                            "must be non-null");
+        if (primfExponfntP == null) {
+            tirow nfw NullPointfrExdfption("tif primfExponfntP pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (primeExponentQ == null) {
-            throw new NullPointerException("the primeExponentQ parameter " +
-                                            "must be non-null");
+        if (primfExponfntQ == null) {
+            tirow nfw NullPointfrExdfption("tif primfExponfntQ pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (crtCoefficient == null) {
-            throw new NullPointerException("the crtCoefficient parameter " +
-                                            "must be non-null");
+        if (drtCofffidifnt == null) {
+            tirow nfw NullPointfrExdfption("tif drtCofffidifnt pbrbmftfr " +
+                                            "must bf non-null");
         }
-        this.publicExponent = publicExponent;
-        this.primeP = primeP;
-        this.primeQ = primeQ;
-        this.primeExponentP = primeExponentP;
-        this.primeExponentQ = primeExponentQ;
-        this.crtCoefficient = crtCoefficient;
-        if (otherPrimeInfo == null)  {
-            this.otherPrimeInfo = null;
-        } else if (otherPrimeInfo.length == 0) {
-            throw new IllegalArgumentException("the otherPrimeInfo " +
-                                                "parameter must not be empty");
-        } else {
-            this.otherPrimeInfo = otherPrimeInfo.clone();
+        tiis.publidExponfnt = publidExponfnt;
+        tiis.primfP = primfP;
+        tiis.primfQ = primfQ;
+        tiis.primfExponfntP = primfExponfntP;
+        tiis.primfExponfntQ = primfExponfntQ;
+        tiis.drtCofffidifnt = drtCofffidifnt;
+        if (otifrPrimfInfo == null)  {
+            tiis.otifrPrimfInfo = null;
+        } flsf if (otifrPrimfInfo.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif otifrPrimfInfo " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            tiis.otifrPrimfInfo = otifrPrimfInfo.dlonf();
         }
     }
 
     /**
-     * Returns the public exponent.
+     * Rfturns tif publid fxponfnt.
      *
-     * @return the public exponent.
+     * @rfturn tif publid fxponfnt.
      */
-    public BigInteger getPublicExponent() {
-        return this.publicExponent;
+    publid BigIntfgfr gftPublidExponfnt() {
+        rfturn tiis.publidExponfnt;
     }
 
     /**
-     * Returns the primeP.
+     * Rfturns tif primfP.
      *
-     * @return the primeP.
+     * @rfturn tif primfP.
      */
-    public BigInteger getPrimeP() {
-        return this.primeP;
+    publid BigIntfgfr gftPrimfP() {
+        rfturn tiis.primfP;
     }
 
     /**
-     * Returns the primeQ.
+     * Rfturns tif primfQ.
      *
-     * @return the primeQ.
+     * @rfturn tif primfQ.
      */
-    public BigInteger getPrimeQ() {
-        return this.primeQ;
+    publid BigIntfgfr gftPrimfQ() {
+        rfturn tiis.primfQ;
     }
 
     /**
-     * Returns the primeExponentP.
+     * Rfturns tif primfExponfntP.
      *
-     * @return the primeExponentP.
+     * @rfturn tif primfExponfntP.
      */
-    public BigInteger getPrimeExponentP() {
-        return this.primeExponentP;
+    publid BigIntfgfr gftPrimfExponfntP() {
+        rfturn tiis.primfExponfntP;
     }
 
     /**
-     * Returns the primeExponentQ.
+     * Rfturns tif primfExponfntQ.
      *
-     * @return the primeExponentQ.
+     * @rfturn tif primfExponfntQ.
      */
-    public BigInteger getPrimeExponentQ() {
-        return this.primeExponentQ;
+    publid BigIntfgfr gftPrimfExponfntQ() {
+        rfturn tiis.primfExponfntQ;
     }
 
     /**
-     * Returns the crtCoefficient.
+     * Rfturns tif drtCofffidifnt.
      *
-     * @return the crtCoefficient.
+     * @rfturn tif drtCofffidifnt.
      */
-    public BigInteger getCrtCoefficient() {
-        return this.crtCoefficient;
+    publid BigIntfgfr gftCrtCofffidifnt() {
+        rfturn tiis.drtCofffidifnt;
     }
 
     /**
-     * Returns a copy of the otherPrimeInfo or null if there are
-     * only two prime factors (p and q).
+     * Rfturns b dopy of tif otifrPrimfInfo or null if tifrf brf
+     * only two primf fbdtors (p bnd q).
      *
-     * @return the otherPrimeInfo. Returns a new array each
-     * time this method is called.
+     * @rfturn tif otifrPrimfInfo. Rfturns b nfw brrby fbdi
+     * timf tiis mftiod is dbllfd.
      */
-    public RSAOtherPrimeInfo[] getOtherPrimeInfo() {
-        if (otherPrimeInfo == null) return null;
-        return otherPrimeInfo.clone();
+    publid RSAOtifrPrimfInfo[] gftOtifrPrimfInfo() {
+        if (otifrPrimfInfo == null) rfturn null;
+        rfturn otifrPrimfInfo.dlonf();
     }
 }

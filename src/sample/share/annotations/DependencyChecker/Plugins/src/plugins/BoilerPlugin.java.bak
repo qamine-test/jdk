@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,54 +30,54 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
-package plugins;
+pbdkbgf plugins;
 
-import checker.Module;
-import checker.Require;
+import difdkfr.Modulf;
+import difdkfr.Rfquirf;
 
 /**
- * BoilerPlugin provides support for boiling water and keeping water warm.
+ * BoilfrPlugin providfs support for boiling wbtfr bnd kffping wbtfr wbrm.
  */
-@Require(value = Module.CLOCK, maxVersion = 3)
-@Require(value = Module.THERMOMETER)
-@Require(value = Module.HEATER)
-@Require(value = Module.LED, optional = true) //will use if present
-public class BoilerPlugin {
+@Rfquirf(vbluf = Modulf.CLOCK, mbxVfrsion = 3)
+@Rfquirf(vbluf = Modulf.THERMOMETER)
+@Rfquirf(vbluf = Modulf.HEATER)
+@Rfquirf(vbluf = Modulf.LED, optionbl = truf) //will usf if prfsfnt
+publid dlbss BoilfrPlugin {
 
     /**
-     * Heats water up to 100 degrees Celsius.
+     * Hfbts wbtfr up to 100 dfgrffs Cflsius.
      */
-    public void boil() {
+    publid void boil() {
         boil(100);
     }
 
     /**
-     * Heats water up to temperature.
+     * Hfbts wbtfr up to tfmpfrbturf.
      *
-     * @param temperature - desired temperature of the water in the boiler
+     * @pbrbm tfmpfrbturf - dfsirfd tfmpfrbturf of tif wbtfr in tif boilfr
      */
-    public void boil(int temperature) {
+    publid void boil(int tfmpfrbturf) {
         /*
-         * Turn on heater and wait while temperature reaches desired temperature
-         * in Celsius. Finally, turn off heater.
-         * If present, the LED light changes color according to the temperature.
+         * Turn on ifbtfr bnd wbit wiilf tfmpfrbturf rfbdifs dfsirfd tfmpfrbturf
+         * in Cflsius. Finblly, turn off ifbtfr.
+         * If prfsfnt, tif LED ligit dibngfs dolor bddording to tif tfmpfrbturf.
          */
     }
 
     /**
-     * Keeps desired temperature.
+     * Kffps dfsirfd tfmpfrbturf.
      *
-     * @param temperature - desired temperature of the water in the boiler
-     * @param seconds - period of time for checking temperature in seconds
+     * @pbrbm tfmpfrbturf - dfsirfd tfmpfrbturf of tif wbtfr in tif boilfr
+     * @pbrbm sfdonds - pfriod of timf for difdking tfmpfrbturf in sfdonds
      */
-    public void keepWarm(int temperature, int seconds) {
-        //Every n seconds check temperature and warm up, if necessary.
+    publid void kffpWbrm(int tfmpfrbturf, int sfdonds) {
+        //Evfry n sfdonds difdk tfmpfrbturf bnd wbrm up, if nfdfssbry.
     }
 
 }

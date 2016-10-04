@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.util.Properties;
-import java.io.IOException;
-import java.rmi.Remote;
-import java.rmi.NoSuchObjectException;
+import jbvb.util.Propfrtifs;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.NoSudiObjfdtExdfption;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * A helper class for RMI-IIOP and CORBA APIs.
+ * A iflpfr dlbss for RMI-IIOP bnd CORBA APIs.
  */
 
-public final class IIOPHelper {
-    private IIOPHelper() { }
+publid finbl dlbss IIOPHflpfr {
+    privbtf IIOPHflpfr() { }
 
-    // loads IIOPProxy implementation class if available
-    private static final String IMPL_CLASS =
-        "com.sun.jmx.remote.protocol.iiop.IIOPProxyImpl";
-    private static final IIOPProxy proxy =
-        AccessController.doPrivileged(new PrivilegedAction<IIOPProxy>() {
-            public IIOPProxy run() {
+    // lobds IIOPProxy implfmfntbtion dlbss if bvbilbblf
+    privbtf stbtid finbl String IMPL_CLASS =
+        "dom.sun.jmx.rfmotf.protodol.iiop.IIOPProxyImpl";
+    privbtf stbtid finbl IIOPProxy proxy =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<IIOPProxy>() {
+            publid IIOPProxy run() {
                 try {
-                    Class<?> c = Class.forName(IMPL_CLASS, true,
-                                               IIOPHelper.class.getClassLoader());
-                    return (IIOPProxy)c.newInstance();
-                } catch (ClassNotFoundException cnf) {
-                    return null;
-                } catch (InstantiationException e) {
-                    throw new AssertionError(e);
-                } catch (IllegalAccessException e) {
-                    throw new AssertionError(e);
+                    Clbss<?> d = Clbss.forNbmf(IMPL_CLASS, truf,
+                                               IIOPHflpfr.dlbss.gftClbssLobdfr());
+                    rfturn (IIOPProxy)d.nfwInstbndf();
+                } dbtdi (ClbssNotFoundExdfption dnf) {
+                    rfturn null;
+                } dbtdi (InstbntibtionExdfption f) {
+                    tirow nfw AssfrtionError(f);
+                } dbtdi (IllfgblAddfssExdfption f) {
+                    tirow nfw AssfrtionError(f);
                 }
             }});
 
     /**
-     * Returns true if RMI-IIOP and CORBA is available.
+     * Rfturns truf if RMI-IIOP bnd CORBA is bvbilbblf.
      */
-    public static boolean isAvailable() {
-        return proxy != null;
+    publid stbtid boolfbn isAvbilbblf() {
+        rfturn proxy != null;
     }
 
-    private static void ensureAvailable() {
+    privbtf stbtid void fnsurfAvbilbblf() {
         if (proxy == null)
-            throw new AssertionError("Should not here");
+            tirow nfw AssfrtionError("Siould not ifrf");
     }
 
     /**
-     * Returns true if the given object is a Stub.
+     * Rfturns truf if tif givfn objfdt is b Stub.
      */
-    public static boolean isStub(Object obj) {
-        return (proxy == null) ? false : proxy.isStub(obj);
+    publid stbtid boolfbn isStub(Objfdt obj) {
+        rfturn (proxy == null) ? fblsf : proxy.isStub(obj);
     }
 
     /**
-     * Returns the Delegate to which the given Stub delegates.
+     * Rfturns tif Dflfgbtf to wiidi tif givfn Stub dflfgbtfs.
      */
-    public static Object getDelegate(Object stub) {
-        ensureAvailable();
-        return proxy.getDelegate(stub);
+    publid stbtid Objfdt gftDflfgbtf(Objfdt stub) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftDflfgbtf(stub);
     }
 
     /**
-     * Sets the Delegate for a given Stub.
+     * Sfts tif Dflfgbtf for b givfn Stub.
      */
-    public static void setDelegate(Object stub, Object delegate) {
-        ensureAvailable();
-        proxy.setDelegate(stub, delegate);
+    publid stbtid void sftDflfgbtf(Objfdt stub, Objfdt dflfgbtf) {
+        fnsurfAvbilbblf();
+        proxy.sftDflfgbtf(stub, dflfgbtf);
     }
 
     /**
-     * Returns the ORB associated with the given stub
+     * Rfturns tif ORB bssodibtfd witi tif givfn stub
      *
-     * @throws  UnsupportedOperationException
-     *          if the object does not support the operation that
-     *          was invoked
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if tif objfdt dofs not support tif opfrbtion tibt
+     *          wbs invokfd
      */
-    public static Object getOrb(Object stub) {
-        ensureAvailable();
-        return proxy.getOrb(stub);
+    publid stbtid Objfdt gftOrb(Objfdt stub) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftOrb(stub);
     }
 
     /**
-     * Connects the Stub to the given ORB.
+     * Connfdts tif Stub to tif givfn ORB.
      */
-    public static void connect(Object stub, Object orb)
-        throws IOException
+    publid stbtid void donnfdt(Objfdt stub, Objfdt orb)
+        tirows IOExdfption
     {
         if (proxy == null)
-            throw new IOException("Connection to ORB failed, RMI/IIOP not available");
-        proxy.connect(stub, orb);
+            tirow nfw IOExdfption("Connfdtion to ORB fbilfd, RMI/IIOP not bvbilbblf");
+        proxy.donnfdt(stub, orb);
     }
 
     /**
-     * Returns true if the given object is an ORB.
+     * Rfturns truf if tif givfn objfdt is bn ORB.
      */
-    public static boolean isOrb(Object obj) {
-        return (proxy == null) ? false : proxy.isOrb(obj);
+    publid stbtid boolfbn isOrb(Objfdt obj) {
+        rfturn (proxy == null) ? fblsf : proxy.isOrb(obj);
     }
 
     /**
-     * Creates, and returns, a new ORB instance.
+     * Crfbtfs, bnd rfturns, b nfw ORB instbndf.
      */
-    public static Object createOrb(String[] args, Properties props)
-        throws IOException
+    publid stbtid Objfdt drfbtfOrb(String[] brgs, Propfrtifs props)
+        tirows IOExdfption
     {
         if (proxy == null)
-            throw new IOException("ORB initialization failed, RMI/IIOP not available");
-        return proxy.createOrb(args, props);
+            tirow nfw IOExdfption("ORB initiblizbtion fbilfd, RMI/IIOP not bvbilbblf");
+        rfturn proxy.drfbtfOrb(brgs, props);
     }
 
     /**
-     * Converts a string, produced by the object_to_string method, back
-     * to a CORBA object reference.
+     * Convfrts b string, produdfd by tif objfdt_to_string mftiod, bbdk
+     * to b CORBA objfdt rfffrfndf.
      */
-    public static Object stringToObject(Object orb, String str) {
-        ensureAvailable();
-        return proxy.stringToObject(orb, str);
+    publid stbtid Objfdt stringToObjfdt(Objfdt orb, String str) {
+        fnsurfAvbilbblf();
+        rfturn proxy.stringToObjfdt(orb, str);
     }
 
     /**
-     * Converts the given CORBA object reference to a string.
+     * Convfrts tif givfn CORBA objfdt rfffrfndf to b string.
      */
-    public static String objectToString(Object orb, Object obj) {
-        ensureAvailable();
-        return proxy.objectToString(orb, obj);
+    publid stbtid String objfdtToString(Objfdt orb, Objfdt obj) {
+        fnsurfAvbilbblf();
+        rfturn proxy.objfdtToString(orb, obj);
     }
 
     /**
-     * Checks to ensure that an object of a remote or abstract interface
-     * type can be cast to a desired type.
+     * Cifdks to fnsurf tibt bn objfdt of b rfmotf or bbstrbdt intfrfbdf
+     * typf dbn bf dbst to b dfsirfd typf.
      */
-    public static <T> T narrow(Object narrowFrom, Class<T> narrowTo) {
-        ensureAvailable();
-        return proxy.narrow(narrowFrom, narrowTo);
+    publid stbtid <T> T nbrrow(Objfdt nbrrowFrom, Clbss<T> nbrrowTo) {
+        fnsurfAvbilbblf();
+        rfturn proxy.nbrrow(nbrrowFrom, nbrrowTo);
     }
 
     /**
-     * Makes a server object ready to receive remote calls
+     * Mbkfs b sfrvfr objfdt rfbdy to rfdfivf rfmotf dblls
      */
-    public static void exportObject(Remote obj) throws IOException {
+    publid stbtid void fxportObjfdt(Rfmotf obj) tirows IOExdfption {
         if (proxy == null)
-            throw new IOException("RMI object cannot be exported, RMI/IIOP not available");
-        proxy.exportObject(obj);
+            tirow nfw IOExdfption("RMI objfdt dbnnot bf fxportfd, RMI/IIOP not bvbilbblf");
+        proxy.fxportObjfdt(obj);
     }
 
     /**
-     * Deregisters a server object from the runtime.
+     * Dfrfgistfrs b sfrvfr objfdt from tif runtimf.
      */
-    public static void unexportObject(Remote obj) throws IOException {
+    publid stbtid void unfxportObjfdt(Rfmotf obj) tirows IOExdfption {
         if (proxy == null)
-            throw new NoSuchObjectException("Object not exported");
-        proxy.unexportObject(obj);
+            tirow nfw NoSudiObjfdtExdfption("Objfdt not fxportfd");
+        proxy.unfxportObjfdt(obj);
     }
 
     /**
-     * Returns a stub for the given server object.
+     * Rfturns b stub for tif givfn sfrvfr objfdt.
      */
-    public static Remote toStub(Remote obj) throws IOException {
+    publid stbtid Rfmotf toStub(Rfmotf obj) tirows IOExdfption {
         if (proxy == null)
-            throw new NoSuchObjectException("Object not exported");
-        return proxy.toStub(obj);
+            tirow nfw NoSudiObjfdtExdfption("Objfdt not fxportfd");
+        rfturn proxy.toStub(obj);
     }
 }

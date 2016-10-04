@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1995, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.Dimension;
-import java.awt.List;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.List;
 
 /**
- * The peer interface for {@link List}.
+ * Tif pffr intfrfbdf for {@link List}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface ListPeer extends ComponentPeer {
+publid intfrfbdf ListPffr fxtfnds ComponfntPffr {
 
     /**
-     * Returns the indices of the list items that are currently selected.
-     * The returned array is not required to be a copy, the callers of this
-     * method already make sure it is not modified.
+     * Rfturns tif indidfs of tif list itfms tibt brf durrfntly sflfdtfd.
+     * Tif rfturnfd brrby is not rfquirfd to bf b dopy, tif dbllfrs of tiis
+     * mftiod blrfbdy mbkf surf it is not modififd.
      *
-     * @return the indices of the list items that are currently selected
+     * @rfturn tif indidfs of tif list itfms tibt brf durrfntly sflfdtfd
      *
-     * @see List#getSelectedIndexes()
+     * @sff List#gftSflfdtfdIndfxfs()
      */
-    int[] getSelectedIndexes();
+    int[] gftSflfdtfdIndfxfs();
 
     /**
-     * Adds an item to the list at the specified index.
+     * Adds bn itfm to tif list bt tif spfdififd indfx.
      *
-     * @param item the item to add to the list
-     * @param index the index where to add the item into the list
+     * @pbrbm itfm tif itfm to bdd to tif list
+     * @pbrbm indfx tif indfx wifrf to bdd tif itfm into tif list
      *
-     * @see List#add(String, int)
+     * @sff List#bdd(String, int)
      */
-    void add(String item, int index);
+    void bdd(String itfm, int indfx);
 
     /**
-     * Deletes items from the list. All items from start to end should are
-     * deleted, including the item at the start and end indices.
+     * Dflftfs itfms from tif list. All itfms from stbrt to fnd siould brf
+     * dflftfd, indluding tif itfm bt tif stbrt bnd fnd indidfs.
      *
-     * @param start the first item to be deleted
-     * @param end the last item to be deleted
+     * @pbrbm stbrt tif first itfm to bf dflftfd
+     * @pbrbm fnd tif lbst itfm to bf dflftfd
      */
-    void delItems(int start, int end);
+    void dflItfms(int stbrt, int fnd);
 
     /**
-     * Removes all items from the list.
+     * Rfmovfs bll itfms from tif list.
      *
-     * @see List#removeAll()
+     * @sff List#rfmovfAll()
      */
-    void removeAll();
+    void rfmovfAll();
 
     /**
-     * Selects the item at the specified {@code index}.
+     * Sflfdts tif itfm bt tif spfdififd {@dodf indfx}.
      *
-     * @param index the index of the item to select
+     * @pbrbm indfx tif indfx of tif itfm to sflfdt
      *
-     * @see List#select(int)
+     * @sff List#sflfdt(int)
      */
-    void select(int index);
+    void sflfdt(int indfx);
 
     /**
-     * De-selects the item at the specified {@code index}.
+     * Df-sflfdts tif itfm bt tif spfdififd {@dodf indfx}.
      *
-     * @param index the index of the item to de-select
+     * @pbrbm indfx tif indfx of tif itfm to df-sflfdt
      *
-     * @see List#deselect(int)
+     * @sff List#dfsflfdt(int)
      */
-    void deselect(int index);
+    void dfsflfdt(int indfx);
 
     /**
-     * Makes sure that the item at the specified {@code index} is visible,
-     * by scrolling the list or similar.
+     * Mbkfs surf tibt tif itfm bt tif spfdififd {@dodf indfx} is visiblf,
+     * by sdrolling tif list or similbr.
      *
-     * @param index the index of the item to make visible
+     * @pbrbm indfx tif indfx of tif itfm to mbkf visiblf
      *
-     * @see List#makeVisible(int)
+     * @sff List#mbkfVisiblf(int)
      */
-    void makeVisible(int index);
+    void mbkfVisiblf(int indfx);
 
     /**
-     * Toggles multiple selection mode on or off.
+     * Togglfs multiplf sflfdtion modf on or off.
      *
-     * @param m {@code true} for multiple selection mode,
-     *        {@code false} for single selection mode
+     * @pbrbm m {@dodf truf} for multiplf sflfdtion modf,
+     *        {@dodf fblsf} for singlf sflfdtion modf
      *
-     * @see List#setMultipleMode(boolean)
+     * @sff List#sftMultiplfModf(boolfbn)
      */
-    void setMultipleMode(boolean m);
+    void sftMultiplfModf(boolfbn m);
 
     /**
-     * Returns the preferred size for a list with the specified number of rows.
+     * Rfturns tif prfffrrfd sizf for b list witi tif spfdififd numbfr of rows.
      *
-     * @param rows the number of rows
+     * @pbrbm rows tif numbfr of rows
      *
-     * @return the preferred size of the list
+     * @rfturn tif prfffrrfd sizf of tif list
      *
-     * @see List#getPreferredSize(int)
+     * @sff List#gftPrfffrrfdSizf(int)
      */
-    Dimension getPreferredSize(int rows);
+    Dimfnsion gftPrfffrrfdSizf(int rows);
 
     /**
-     * Returns the minimum size for a list with the specified number of rows.
+     * Rfturns tif minimum sizf for b list witi tif spfdififd numbfr of rows.
      *
-     * @param rows the number of rows
+     * @pbrbm rows tif numbfr of rows
      *
-     * @return the minimum size of the list
+     * @rfturn tif minimum sizf of tif list
      *
-     * @see List#getMinimumSize(int)
+     * @sff List#gftMinimumSizf(int)
      */
-    Dimension getMinimumSize(int rows);
+    Dimfnsion gftMinimumSizf(int rows);
 
 }

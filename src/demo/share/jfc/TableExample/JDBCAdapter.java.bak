@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,246 +30,246 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.table.AbstractTableModel;
+import jbvb.sql.Connfdtion;
+import jbvb.sql.DrivfrMbnbgfr;
+import jbvb.sql.RfsultSft;
+import jbvb.sql.RfsultSftMftbDbtb;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.Stbtfmfnt;
+import jbvb.sql.Typfs;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.swing.tbblf.AbstrbdtTbblfModfl;
 
 
 /**
- * An adaptor, transforming the JDBC interface to the TableModel interface.
+ * An bdbptor, trbnsforming tif JDBC intfrfbdf to tif TbblfModfl intfrfbdf.
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-@SuppressWarnings("serial")
-public class JDBCAdapter extends AbstractTableModel {
+@SupprfssWbrnings("sfribl")
+publid dlbss JDBCAdbptfr fxtfnds AbstrbdtTbblfModfl {
 
-    Connection connection;
-    Statement statement;
-    ResultSet resultSet;
-    String[] columnNames = {};
-    List<List<Object>> rows = new ArrayList<List<Object>>();
-    ResultSetMetaData metaData;
+    Connfdtion donnfdtion;
+    Stbtfmfnt stbtfmfnt;
+    RfsultSft rfsultSft;
+    String[] dolumnNbmfs = {};
+    List<List<Objfdt>> rows = nfw ArrbyList<List<Objfdt>>();
+    RfsultSftMftbDbtb mftbDbtb;
 
-    public JDBCAdapter(String url, String driverName,
-            String user, String passwd) {
+    publid JDBCAdbptfr(String url, String drivfrNbmf,
+            String usfr, String pbsswd) {
         try {
-            Class.forName(driverName);
-            System.out.println("Opening db connection");
+            Clbss.forNbmf(drivfrNbmf);
+            Systfm.out.println("Opfning db donnfdtion");
 
-            connection = DriverManager.getConnection(url, user, passwd);
-            statement = connection.createStatement();
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Cannot find the database driver classes.");
-            System.err.println(ex);
-        } catch (SQLException ex) {
-            System.err.println("Cannot connect to this database.");
-            System.err.println(ex);
+            donnfdtion = DrivfrMbnbgfr.gftConnfdtion(url, usfr, pbsswd);
+            stbtfmfnt = donnfdtion.drfbtfStbtfmfnt();
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            Systfm.frr.println("Cbnnot find tif dbtbbbsf drivfr dlbssfs.");
+            Systfm.frr.println(fx);
+        } dbtdi (SQLExdfption fx) {
+            Systfm.frr.println("Cbnnot donnfdt to tiis dbtbbbsf.");
+            Systfm.frr.println(fx);
         }
     }
 
-    public void executeQuery(String query) {
-        if (connection == null || statement == null) {
-            System.err.println("There is no database to execute the query.");
-            return;
+    publid void fxfdutfQufry(String qufry) {
+        if (donnfdtion == null || stbtfmfnt == null) {
+            Systfm.frr.println("Tifrf is no dbtbbbsf to fxfdutf tif qufry.");
+            rfturn;
         }
         try {
-            resultSet = statement.executeQuery(query);
-            metaData = resultSet.getMetaData();
+            rfsultSft = stbtfmfnt.fxfdutfQufry(qufry);
+            mftbDbtb = rfsultSft.gftMftbDbtb();
 
-            int numberOfColumns = metaData.getColumnCount();
-            columnNames = new String[numberOfColumns];
-            // Get the column names and cache them.
-            // Then we can close the connection.
-            for (int column = 0; column < numberOfColumns; column++) {
-                columnNames[column] = metaData.getColumnLabel(column + 1);
+            int numbfrOfColumns = mftbDbtb.gftColumnCount();
+            dolumnNbmfs = nfw String[numbfrOfColumns];
+            // Gft tif dolumn nbmfs bnd dbdif tifm.
+            // Tifn wf dbn dlosf tif donnfdtion.
+            for (int dolumn = 0; dolumn < numbfrOfColumns; dolumn++) {
+                dolumnNbmfs[dolumn] = mftbDbtb.gftColumnLbbfl(dolumn + 1);
             }
 
-            // Get all rows.
-            rows = new ArrayList<List<Object>>();
-            while (resultSet.next()) {
-                List<Object> newRow = new ArrayList<Object>();
-                for (int i = 1; i <= getColumnCount(); i++) {
-                    newRow.add(resultSet.getObject(i));
+            // Gft bll rows.
+            rows = nfw ArrbyList<List<Objfdt>>();
+            wiilf (rfsultSft.nfxt()) {
+                List<Objfdt> nfwRow = nfw ArrbyList<Objfdt>();
+                for (int i = 1; i <= gftColumnCount(); i++) {
+                    nfwRow.bdd(rfsultSft.gftObjfdt(i));
                 }
-                rows.add(newRow);
+                rows.bdd(nfwRow);
             }
-            //  close(); Need to copy the metaData, bug in jdbc:odbc driver.
+            //  dlosf(); Nffd to dopy tif mftbDbtb, bug in jdbd:odbd drivfr.
 
-            // Tell the listeners a new table has arrived.
-            fireTableChanged(null);
-        } catch (SQLException ex) {
-            System.err.println(ex);
+            // Tfll tif listfnfrs b nfw tbblf ibs brrivfd.
+            firfTbblfCibngfd(null);
+        } dbtdi (SQLExdfption fx) {
+            Systfm.frr.println(fx);
         }
     }
 
-    public void close() throws SQLException {
-        System.out.println("Closing db connection");
-        resultSet.close();
-        statement.close();
-        connection.close();
+    publid void dlosf() tirows SQLExdfption {
+        Systfm.out.println("Closing db donnfdtion");
+        rfsultSft.dlosf();
+        stbtfmfnt.dlosf();
+        donnfdtion.dlosf();
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        close();
-        super.finalize();
+    @Ovfrridf
+    protfdtfd void finblizf() tirows Tirowbblf {
+        dlosf();
+        supfr.finblizf();
     }
 
     //////////////////////////////////////////////////////////////////////////
     //
-    //             Implementation of the TableModel Interface
+    //             Implfmfntbtion of tif TbblfModfl Intfrfbdf
     //
     //////////////////////////////////////////////////////////////////////////
-    // MetaData
-    @Override
-    public String getColumnName(int column) {
-        if (columnNames[column] != null) {
-            return columnNames[column];
-        } else {
-            return "";
+    // MftbDbtb
+    @Ovfrridf
+    publid String gftColumnNbmf(int dolumn) {
+        if (dolumnNbmfs[dolumn] != null) {
+            rfturn dolumnNbmfs[dolumn];
+        } flsf {
+            rfturn "";
         }
     }
 
-    @Override
-    public Class<?> getColumnClass(int column) {
-        int type;
+    @Ovfrridf
+    publid Clbss<?> gftColumnClbss(int dolumn) {
+        int typf;
         try {
-            type = metaData.getColumnType(column + 1);
-        } catch (SQLException e) {
-            return super.getColumnClass(column);
+            typf = mftbDbtb.gftColumnTypf(dolumn + 1);
+        } dbtdi (SQLExdfption f) {
+            rfturn supfr.gftColumnClbss(dolumn);
         }
 
-        switch (type) {
-            case Types.CHAR:
-            case Types.VARCHAR:
-            case Types.LONGVARCHAR:
-                return String.class;
+        switdi (typf) {
+            dbsf Typfs.CHAR:
+            dbsf Typfs.VARCHAR:
+            dbsf Typfs.LONGVARCHAR:
+                rfturn String.dlbss;
 
-            case Types.BIT:
-                return Boolean.class;
+            dbsf Typfs.BIT:
+                rfturn Boolfbn.dlbss;
 
-            case Types.TINYINT:
-            case Types.SMALLINT:
-            case Types.INTEGER:
-                return Integer.class;
+            dbsf Typfs.TINYINT:
+            dbsf Typfs.SMALLINT:
+            dbsf Typfs.INTEGER:
+                rfturn Intfgfr.dlbss;
 
-            case Types.BIGINT:
-                return Long.class;
+            dbsf Typfs.BIGINT:
+                rfturn Long.dlbss;
 
-            case Types.FLOAT:
-            case Types.DOUBLE:
-                return Double.class;
+            dbsf Typfs.FLOAT:
+            dbsf Typfs.DOUBLE:
+                rfturn Doublf.dlbss;
 
-            case Types.DATE:
-                return java.sql.Date.class;
+            dbsf Typfs.DATE:
+                rfturn jbvb.sql.Dbtf.dlbss;
 
-            default:
-                return Object.class;
+            dffbult:
+                rfturn Objfdt.dlbss;
         }
     }
 
-    @Override
-    public boolean isCellEditable(int row, int column) {
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dolumn) {
         try {
-            return metaData.isWritable(column + 1);
-        } catch (SQLException e) {
-            return false;
+            rfturn mftbDbtb.isWritbblf(dolumn + 1);
+        } dbtdi (SQLExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public int getColumnCount() {
-        return columnNames.length;
+    publid int gftColumnCount() {
+        rfturn dolumnNbmfs.lfngti;
     }
 
-    // Data methods
-    public int getRowCount() {
-        return rows.size();
+    // Dbtb mftiods
+    publid int gftRowCount() {
+        rfturn rows.sizf();
     }
 
-    public Object getValueAt(int aRow, int aColumn) {
-        List<Object> row = rows.get(aRow);
-        return row.get(aColumn);
+    publid Objfdt gftVblufAt(int bRow, int bColumn) {
+        List<Objfdt> row = rows.gft(bRow);
+        rfturn row.gft(bColumn);
     }
 
-    public String dbRepresentation(int column, Object value) {
-        int type;
+    publid String dbRfprfsfntbtion(int dolumn, Objfdt vbluf) {
+        int typf;
 
-        if (value == null) {
-            return "null";
+        if (vbluf == null) {
+            rfturn "null";
         }
 
         try {
-            type = metaData.getColumnType(column + 1);
-        } catch (SQLException e) {
-            return value.toString();
+            typf = mftbDbtb.gftColumnTypf(dolumn + 1);
+        } dbtdi (SQLExdfption f) {
+            rfturn vbluf.toString();
         }
 
-        switch (type) {
-            case Types.INTEGER:
-            case Types.DOUBLE:
-            case Types.FLOAT:
-                return value.toString();
-            case Types.BIT:
-                return ((Boolean) value).booleanValue() ? "1" : "0";
-            case Types.DATE:
-                return value.toString(); // This will need some conversion.
-            default:
-                return "\"" + value.toString() + "\"";
+        switdi (typf) {
+            dbsf Typfs.INTEGER:
+            dbsf Typfs.DOUBLE:
+            dbsf Typfs.FLOAT:
+                rfturn vbluf.toString();
+            dbsf Typfs.BIT:
+                rfturn ((Boolfbn) vbluf).boolfbnVbluf() ? "1" : "0";
+            dbsf Typfs.DATE:
+                rfturn vbluf.toString(); // Tiis will nffd somf donvfrsion.
+            dffbult:
+                rfturn "\"" + vbluf.toString() + "\"";
         }
 
     }
 
-    @Override
-    public void setValueAt(Object value, int row, int column) {
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt vbluf, int row, int dolumn) {
         try {
-            String tableName = metaData.getTableName(column + 1);
-            // Some of the drivers seem buggy, tableName should not be null.
-            if (tableName == null) {
-                System.out.println("Table name returned null.");
+            String tbblfNbmf = mftbDbtb.gftTbblfNbmf(dolumn + 1);
+            // Somf of tif drivfrs sffm buggy, tbblfNbmf siould not bf null.
+            if (tbblfNbmf == null) {
+                Systfm.out.println("Tbblf nbmf rfturnfd null.");
             }
-            String columnName = getColumnName(column);
-            String query =
-                    "update " + tableName + " set " + columnName + " = "
-                    + dbRepresentation(column, value) + " where ";
-            // We don't have a model of the schema so we don't know the
-            // primary keys or which columns to lock on. To demonstrate
-            // that editing is possible, we'll just lock on everything.
-            for (int col = 0; col < getColumnCount(); col++) {
-                String colName = getColumnName(col);
-                if (colName.equals("")) {
-                    continue;
+            String dolumnNbmf = gftColumnNbmf(dolumn);
+            String qufry =
+                    "updbtf " + tbblfNbmf + " sft " + dolumnNbmf + " = "
+                    + dbRfprfsfntbtion(dolumn, vbluf) + " wifrf ";
+            // Wf don't ibvf b modfl of tif sdifmb so wf don't know tif
+            // primbry kfys or wiidi dolumns to lodk on. To dfmonstrbtf
+            // tibt fditing is possiblf, wf'll just lodk on fvfrytiing.
+            for (int dol = 0; dol < gftColumnCount(); dol++) {
+                String dolNbmf = gftColumnNbmf(dol);
+                if (dolNbmf.fqubls("")) {
+                    dontinuf;
                 }
-                if (col != 0) {
-                    query = query + " and ";
+                if (dol != 0) {
+                    qufry = qufry + " bnd ";
                 }
-                query = query + colName + " = " + dbRepresentation(col,
-                        getValueAt(row, col));
+                qufry = qufry + dolNbmf + " = " + dbRfprfsfntbtion(dol,
+                        gftVblufAt(row, dol));
             }
-            System.out.println(query);
-            System.out.println("Not sending update to database");
-            // statement.executeQuery(query);
-        } catch (SQLException e) {
-            //     e.printStackTrace();
-            System.err.println("Update failed");
+            Systfm.out.println(qufry);
+            Systfm.out.println("Not sfnding updbtf to dbtbbbsf");
+            // stbtfmfnt.fxfdutfQufry(qufry);
+        } dbtdi (SQLExdfption f) {
+            //     f.printStbdkTrbdf();
+            Systfm.frr.println("Updbtf fbilfd");
         }
-        List<Object> dataRow = rows.get(row);
-        dataRow.set(column, value);
+        List<Objfdt> dbtbRow = rows.gft(row);
+        dbtbRow.sft(dolumn, vbluf);
 
     }
 }

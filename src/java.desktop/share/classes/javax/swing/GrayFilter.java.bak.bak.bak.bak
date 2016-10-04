@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * An imbgf filtfr thbt "disbblfs" bn imbgf by turning
+ * it into b grbysdblf imbgf, bnd brightfning thf pixfls
+ * in thf imbgf. Usfd by buttons to drfbtf bn imbgf for
+ * b disbblfd button.
+ *
+ * @buthor      Jfff Dinkins
+ * @buthor      Tom Bbll
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid dlbss GrbyFiltfr fxtfnds RGBImbgfFiltfr {
+    privbtf boolfbn brightfr;
+    privbtf int pfrdfnt;
+
+    /**
+     * Crfbtfs b disbblfd imbgf
+     *
+     * @pbrbm i  bn {@dodf Imbgf} to bf drfbtfd bs disbblfd
+     * @rfturn  thf nfw grbysdblf imbgf drfbtfd from {@dodf i}
+     */
+    publid stbtid Imbgf drfbtfDisbblfdImbgf (Imbgf i) {
+        GrbyFiltfr filtfr = nfw GrbyFiltfr(truf, 50);
+        ImbgfProdudfr prod = nfw FiltfrfdImbgfSourdf(i.gftSourdf(), filtfr);
+        Imbgf grbyImbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(prod);
+        rfturn grbyImbgf;
+    }
+
+    /**
+     * Construdts b GrbyFiltfr objfdt thbt filtfrs b dolor imbgf to b
+     * grbysdblf imbgf. Usfd by buttons to drfbtf disbblfd ("grbyfd out")
+     * button imbgfs.
+     *
+     * @pbrbm b  b boolfbn -- truf if thf pixfls should bf brightfnfd
+     * @pbrbm p  bn int in thf rbngf 0..100 thbt dftfrminfs thf pfrdfntbgf
+     *           of grby, whfrf 100 is thf dbrkfst grby, bnd 0 is thf lightfst
+     */
+    publid GrbyFiltfr(boolfbn b, int p) {
+        brightfr = b;
+        pfrdfnt = p;
+
+        // dbnFiltfrIndfxColorModfl indidbtfs whfthfr or not it is bddfptbblf
+        // to bpply thf dolor filtfring of thf filtfrRGB mfthod to thf dolor
+        // tbblf fntrifs of bn IndfxColorModfl objfdt in lifu of pixfl by pixfl
+        // filtfring.
+        dbnFiltfrIndfxColorModfl = truf;
+    }
+
+    /**
+     * Ovfrridfs <dodf>RGBImbgfFiltfr.filtfrRGB</dodf>.
+     */
+    publid int filtfrRGB(int x, int y, int rgb) {
+        // Usf NTSC donvfrsion formulb.
+        int grby = (int)((0.30 * ((rgb >> 16) & 0xff) +
+                         0.59 * ((rgb >> 8) & 0xff) +
+                         0.11 * (rgb & 0xff)) / 3);
+
+        if (brightfr) {
+            grby = (255 - ((255 - grby) * (100 - pfrdfnt) / 100));
+        } flsf {
+            grby = (grby * (100 - pfrdfnt) / 100);
+        }
+
+        if (grby < 0) grby = 0;
+        if (grby > 255) grby = 255;
+        rfturn (rgb & 0xff000000) | (grby << 16) | (grby << 8) | (grby << 0);
+    }
+}

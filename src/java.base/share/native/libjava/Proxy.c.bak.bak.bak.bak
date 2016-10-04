@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "jbvb_lbng_rfflfdt_Proxy.h"
+
+/* dffinfd in libvfrify.so/vfrify.dll (srd filf dommon/dhfdk_formbt.d) */
+fxtfrn jboolfbn VfrifyFixClbssnbmf(dhbr *utf_nbmf);
+
+/*
+ * Clbss:     jbvb_lbng_rfflfdt_Proxy
+ * Mfthod:    dffinfClbss0
+ * Signbturf: (Ljbvb/lbng/ClbssLobdfr;Ljbvb/lbng/String;[BII)Ljbvb/lbng/Clbss;
+ *
+ * Thf implfmfntbtion of this nbtivf stbtid mfthod is b dopy of thbt of
+ * thf nbtivf instbndf mfthod Jbvb_jbvb_lbng_ClbssLobdfr_dffinfClbss0()
+ * with thf implidit "this" pbrbmftfr bfdoming thf "lobdfr" pbrbmftfr.
+ */
+JNIEXPORT jdlbss JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Proxy_dffinfClbss0(JNIEnv *fnv,
+                                          jdlbss ignorf,
+                                          jobjfdt lobdfr,
+                                          jstring nbmf,
+                                          jbytfArrby dbtb,
+                                          jint offsft,
+                                          jint lfngth)
+{
+    jbytf *body;
+    dhbr *utfNbmf;
+    jdlbss rfsult = 0;
+    dhbr buf[128];
+
+    if (dbtb == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
+    }
+
+    /* Work bround 4153825. mbllod drbshfs on Solbris whfn pbssfd b
+     * nfgbtivf sizf.
+     */
+    if (lfngth < 0) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, 0);
+        rfturn 0;
+    }
+
+    body = (jbytf *)mbllod(lfngth);
+
+    if (body == 0) {
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, dbtb, offsft, lfngth, body);
+
+    if ((*fnv)->ExdfptionOddurrfd(fnv))
+        goto frff_body;
+
+    if (nbmf != NULL) {
+        jsizf lfn = (*fnv)->GftStringUTFLfngth(fnv, nbmf);
+        jsizf unidodf_lfn = (*fnv)->GftStringLfngth(fnv, nbmf);
+        if (lfn >= (jsizf)sizfof(buf)) {
+            utfNbmf = mbllod(lfn + 1);
+            if (utfNbmf == NULL) {
+                JNU_ThrowOutOfMfmoryError(fnv, NULL);
+                goto frff_body;
+            }
+        } flsf {
+            utfNbmf = buf;
+        }
+        (*fnv)->GftStringUTFRfgion(fnv, nbmf, 0, unidodf_lfn, utfNbmf);
+        VfrifyFixClbssnbmf(utfNbmf);
+    } flsf {
+        utfNbmf = NULL;
+    }
+
+    rfsult = (*fnv)->DffinfClbss(fnv, utfNbmf, lobdfr, body, lfngth);
+
+    if (utfNbmf && utfNbmf != buf)
+        frff(utfNbmf);
+
+ frff_body:
+    frff(body);
+    rfturn rfsult;
+}

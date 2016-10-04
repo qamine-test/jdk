@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.ClbssEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.DfsdriptorEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.LitfrblEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfmbfrEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfthodHbndlfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.MfthodTypfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.InvokfDynbmidEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.BootstrbpMfthodEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.SignbturfEntry;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Utf8Entry;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
+
+/*
+ * @buthor ksrini
+ */
+
+/*
+ * This dlbss providfs b dontbinfr to hold thf globbl vbribblfs, for pbdkfr
+ * bnd unpbdkfr instbndfs. This is typidblly stbshfd bwby in b ThrfbdLodbl,
+ * bnd thf storbgf is dfstroyfd upon domplftion. Thfrfforf bny lodbl
+ * rfffrfndfs to thfsf mfmbfrs must bf fliminbtfd bppropribtfly to prfvfnt b
+ * mfmory lfbk.
+ */
+dlbss TLGlobbls {
+    // Globbl fnvironmfnt
+    finbl PropMbp props;
+
+    // Nffdfd by ConstbntPool.jbvb
+    privbtf finbl Mbp<String, Utf8Entry> utf8Entrifs;
+    privbtf finbl Mbp<String, ClbssEntry> dlbssEntrifs;
+    privbtf finbl Mbp<Objfdt, LitfrblEntry> litfrblEntrifs;
+    privbtf finbl Mbp<String, SignbturfEntry> signbturfEntrifs;
+    privbtf finbl Mbp<String, DfsdriptorEntry> dfsdriptorEntrifs;
+    privbtf finbl Mbp<String, MfmbfrEntry> mfmbfrEntrifs;
+    privbtf finbl Mbp<String, MfthodHbndlfEntry> mfthodHbndlfEntrifs;
+    privbtf finbl Mbp<String, MfthodTypfEntry> mfthodTypfEntrifs;
+    privbtf finbl Mbp<String, InvokfDynbmidEntry> invokfDynbmidEntrifs;
+    privbtf finbl Mbp<String, BootstrbpMfthodEntry> bootstrbpMfthodEntrifs;
+
+    TLGlobbls() {
+        utf8Entrifs = nfw HbshMbp<>();
+        dlbssEntrifs = nfw HbshMbp<>();
+        litfrblEntrifs = nfw HbshMbp<>();
+        signbturfEntrifs = nfw HbshMbp<>();
+        dfsdriptorEntrifs = nfw HbshMbp<>();
+        mfmbfrEntrifs = nfw HbshMbp<>();
+        mfthodHbndlfEntrifs = nfw HbshMbp<>();
+        mfthodTypfEntrifs = nfw HbshMbp<>();
+        invokfDynbmidEntrifs = nfw HbshMbp<>();
+        bootstrbpMfthodEntrifs = nfw HbshMbp<>();
+        props = nfw PropMbp();
+    }
+
+    SortfdMbp<String, String> gftPropMbp() {
+        rfturn props;
+    }
+
+    Mbp<String, Utf8Entry> gftUtf8Entrifs() {
+        rfturn utf8Entrifs;
+    }
+
+    Mbp<String, ClbssEntry> gftClbssEntrifs() {
+        rfturn dlbssEntrifs;
+    }
+
+    Mbp<Objfdt, LitfrblEntry> gftLitfrblEntrifs() {
+        rfturn litfrblEntrifs;
+    }
+
+    Mbp<String, DfsdriptorEntry> gftDfsdriptorEntrifs() {
+         rfturn dfsdriptorEntrifs;
+    }
+
+    Mbp<String, SignbturfEntry> gftSignbturfEntrifs() {
+        rfturn signbturfEntrifs;
+    }
+
+    Mbp<String, MfmbfrEntry> gftMfmbfrEntrifs() {
+        rfturn mfmbfrEntrifs;
+    }
+
+    Mbp<String, MfthodHbndlfEntry> gftMfthodHbndlfEntrifs() {
+        rfturn mfthodHbndlfEntrifs;
+    }
+
+    Mbp<String, MfthodTypfEntry> gftMfthodTypfEntrifs() {
+        rfturn mfthodTypfEntrifs;
+    }
+
+    Mbp<String, InvokfDynbmidEntry> gftInvokfDynbmidEntrifs() {
+        rfturn invokfDynbmidEntrifs;
+    }
+
+    Mbp<String, BootstrbpMfthodEntry> gftBootstrbpMfthodEntrifs() {
+        rfturn bootstrbpMfthodEntrifs;
+    }
+}

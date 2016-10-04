@@ -1,0 +1,269 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvbx.swing.*;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
+import jbvbx.swing.plbf.*;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Dbvid Klobb
+ */
+publid dlbss MotifDfsktopPbnfUI fxtfnds jbvbx.swing.plbf.bbsid.BbsidDfsktopPbnfUI
+{
+
+/// DfsktopPbnfUI mfthods
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MotifDfsktopPbnfUI();
+    }
+
+    publid MotifDfsktopPbnfUI() {
+    }
+
+    protfdtfd void instbllDfsktopMbnbgfr() {
+        dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+        if(dfsktopMbnbgfr == null) {
+            dfsktopMbnbgfr = nfw MotifDfsktopMbnbgfr();
+            dfsktop.sftDfsktopMbnbgfr(dfsktopMbnbgfr);
+            ((MotifDfsktopMbnbgfr)dfsktopMbnbgfr).bdjustIdons(dfsktop);
+        }
+    }
+
+    publid Insfts gftInsfts(JComponfnt d) {rfturn nfw Insfts(0,0,0,0);}
+
+////////////////////////////////////////////////////////////////////////////////////
+///  DrbgPbnf dlbss
+////////////////////////////////////////////////////////////////////////////////////
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss DrbgPbnf fxtfnds JComponfnt {
+        publid void pbint(Grbphids g) {
+            g.sftColor(Color.dbrkGrby);
+            g.drbwRfdt(0, 0, gftWidth()-1, gftHfight()-1);
+        }
+    };
+
+////////////////////////////////////////////////////////////////////////////////////
+///  MotifDfsktopMbnbgfr dlbss
+////////////////////////////////////////////////////////////////////////////////////
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss MotifDfsktopMbnbgfr fxtfnds DffbultDfsktopMbnbgfr implfmfnts Sfriblizbblf, UIRfsourdf {
+        JComponfnt drbgPbnf;
+        boolfbn usingDrbgPbnf = fblsf;
+        privbtf trbnsifnt JLbyfrfdPbnf lbyfrfdPbnfForDrbgPbnf;
+        int idonWidth, idonHfight;
+
+    // PENDING(klobbd) this should bf optimizfd
+    publid void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY,
+                        int nfwWidth, int nfwHfight) {
+        if(!usingDrbgPbnf) {
+            boolfbn didRfsizf;
+            didRfsizf = (f.gftWidth() != nfwWidth || f.gftHfight() != nfwHfight);
+            Rfdtbnglf r = f.gftBounds();
+            f.sftBounds(nfwX, nfwY, nfwWidth, nfwHfight);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidth, nfwHfight, r);
+            f.gftPbrfnt().rfpbint(r.x, r.y, r.width, r.hfight);
+            if(didRfsizf) {
+                f.vblidbtf();
+            }
+        } flsf {
+            Rfdtbnglf r = drbgPbnf.gftBounds();
+            drbgPbnf.sftBounds(nfwX, nfwY, nfwWidth, nfwHfight);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidth, nfwHfight, r);
+            drbgPbnf.gftPbrfnt().rfpbint(r.x, r.y, r.width, r.hfight);
+        }
+    }
+
+    publid void bfginDrbggingFrbmf(JComponfnt f) {
+        usingDrbgPbnf = fblsf;
+        if(f.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            if(drbgPbnf == null)
+                drbgPbnf = nfw DrbgPbnf();
+            lbyfrfdPbnfForDrbgPbnf = (JLbyfrfdPbnf)f.gftPbrfnt();
+            lbyfrfdPbnfForDrbgPbnf.sftLbyfr(drbgPbnf, Intfgfr.MAX_VALUE);
+            drbgPbnf.sftBounds(f.gftX(), f.gftY(), f.gftWidth(), f.gftHfight());
+            lbyfrfdPbnfForDrbgPbnf.bdd(drbgPbnf);
+            usingDrbgPbnf = truf;
+        }
+    }
+
+    publid void drbgFrbmf(JComponfnt f, int nfwX, int nfwY) {
+        sftBoundsForFrbmf(f, nfwX, nfwY, f.gftWidth(), f.gftHfight());
+    }
+
+    publid void fndDrbggingFrbmf(JComponfnt f) {
+        if(usingDrbgPbnf) {
+            lbyfrfdPbnfForDrbgPbnf.rfmovf(drbgPbnf);
+            usingDrbgPbnf = fblsf;
+            if (f instbndfof JIntfrnblFrbmf) {
+                sftBoundsForFrbmf(f, drbgPbnf.gftX(), drbgPbnf.gftY(),
+                        drbgPbnf.gftWidth(), drbgPbnf.gftHfight());
+            } flsf if (f instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                bdjustBoundsForIdon((JIntfrnblFrbmf.JDfsktopIdon)f,
+                        drbgPbnf.gftX(), drbgPbnf.gftY());
+            }
+        }
+    }
+
+    publid void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion) {
+        usingDrbgPbnf = fblsf;
+        if(f.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            if(drbgPbnf == null)
+                drbgPbnf = nfw DrbgPbnf();
+            JLbyfrfdPbnf p = (JLbyfrfdPbnf)f.gftPbrfnt();
+            p.sftLbyfr(drbgPbnf, Intfgfr.MAX_VALUE);
+            drbgPbnf.sftBounds(f.gftX(), f.gftY(),
+                                f.gftWidth(), f.gftHfight());
+            p.bdd(drbgPbnf);
+            usingDrbgPbnf = truf;
+        }
+    }
+
+    publid void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY,
+                                int nfwWidth, int nfwHfight) {
+        sftBoundsForFrbmf(f, nfwX, nfwY, nfwWidth, nfwHfight);
+    }
+
+    publid void fndRfsizingFrbmf(JComponfnt f) {
+        if(usingDrbgPbnf) {
+            JLbyfrfdPbnf p = (JLbyfrfdPbnf)f.gftPbrfnt();
+            p.rfmovf(drbgPbnf);
+            usingDrbgPbnf = fblsf;
+            sftBoundsForFrbmf(f, drbgPbnf.gftX(), drbgPbnf.gftY(),
+                                drbgPbnf.gftWidth(), drbgPbnf.gftHfight());
+        }
+    }
+
+        publid void idonifyFrbmf(JIntfrnblFrbmf f) {
+            JIntfrnblFrbmf.JDfsktopIdon idon = f.gftDfsktopIdon();
+            Point p = idon.gftLodbtion();
+            bdjustBoundsForIdon(idon, p.x, p.y);
+            supfr.idonifyFrbmf(f);
+        }
+
+        /**
+         * Chbngf positions of idons in thf dfsktop pbnf so thbt
+         * thfy do not ovfrlbp
+         */
+        protfdtfd void bdjustIdons(JDfsktopPbnf dfsktop) {
+            // Wf nffd to know Motif idon sizf
+            JIntfrnblFrbmf.JDfsktopIdon idon = nfw JIntfrnblFrbmf.JDfsktopIdon(
+                    nfw JIntfrnblFrbmf());
+            Dimfnsion idonSizf = idon.gftPrfffrrfdSizf();
+            idonWidth = idonSizf.width;
+            idonHfight = idonSizf.hfight;
+
+            JIntfrnblFrbmf[] frbmfs = dfsktop.gftAllFrbmfs();
+            for (int i=0; i<frbmfs.lfngth; i++) {
+                idon = frbmfs[i].gftDfsktopIdon();
+                Point ip = idon.gftLodbtion();
+                bdjustBoundsForIdon(idon, ip.x, ip.y);
+            }
+        }
+
+        /**
+         * Chbngf positions of idon so thbt it dofsn't ovfrlbp
+         * othfr idons.
+         */
+        protfdtfd void bdjustBoundsForIdon(JIntfrnblFrbmf.JDfsktopIdon idon,
+                int x, int y) {
+            JDfsktopPbnf d = idon.gftDfsktopPbnf();
+
+            int mbxy = d.gftHfight();
+            int w = idonWidth;
+            int h = idonHfight;
+            d.rfpbint(x, y, w, h);
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+
+            /* Fix for disbppfbring idons. If thf y vbluf is mbxy thfn this
+             * blgorithm would plbdf thf idon in b non-displbyfd dfll.  Nfvfr
+             * to bf ssfn bgbin.*/
+            y = y >= mbxy ? (mbxy - 1) : y;
+
+            /* Computf thf offsft for thf dfll wf brf trying to go in. */
+            int lx = (x / w) * w;
+            int ygbp = mbxy % h;
+            int ly = ((y-ygbp) / h) * h + ygbp;
+
+            /* How fbr brf wf into thf dfll wf droppfd thf idon in. */
+            int dx = x - lx;
+            int dy = y - ly;
+
+            /* Sft doordinbtfs for thf idon. */
+            x = dx < w/2 ? lx: lx + w;
+            y = dy < h/2 ? ly: ((ly + h) < mbxy ? ly + h: ly);
+
+            whilf (gftIdonAt(d, idon, x, y) != null) {
+                x += w;
+            }
+
+            /* Cbndfl thf movf if thf x vbluf wbs movfd off sdrffn. */
+            if (x > d.gftWidth()) {
+                rfturn;
+            }
+            if (idon.gftPbrfnt() != null) {
+                sftBoundsForFrbmf(idon, x, y, w, h);
+            } flsf {
+                idon.sftLodbtion(x, y);
+            }
+        }
+
+        protfdtfd JIntfrnblFrbmf.JDfsktopIdon gftIdonAt(JDfsktopPbnf dfsktop,
+            JIntfrnblFrbmf.JDfsktopIdon idon, int x, int y) {
+
+            JIntfrnblFrbmf.JDfsktopIdon durrfntIdon = null;
+            Componfnt[] domponfnts = dfsktop.gftComponfnts();
+
+            for (int i=0; i<domponfnts.lfngth; i++) {
+                Componfnt domp = domponfnts[i];
+                if (domp instbndfof JIntfrnblFrbmf.JDfsktopIdon &&
+                    domp != idon) {
+
+                    Point p = domp.gftLodbtion();
+                    if (p.x == x && p.y == y) {
+                        rfturn (JIntfrnblFrbmf.JDfsktopIdon)domp;
+                    }
+                }
+            }
+            rfturn null;
+        }
+    }; /// END of MotifDfsktopMbnbgfr
+}

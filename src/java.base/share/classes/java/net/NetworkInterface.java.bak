@@ -1,580 +1,580 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-import sun.security.action.*;
-import java.security.AccessController;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudiElfmfntExdfption;
+import sun.sfdurity.bdtion.*;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * This class represents a Network Interface made up of a name,
- * and a list of IP addresses assigned to this interface.
- * It is used to identify the local interface on which a multicast group
- * is joined.
+ * Tiis dlbss rfprfsfnts b Nftwork Intfrfbdf mbdf up of b nbmf,
+ * bnd b list of IP bddrfssfs bssignfd to tiis intfrfbdf.
+ * It is usfd to idfntify tif lodbl intfrfbdf on wiidi b multidbst group
+ * is joinfd.
  *
- * Interfaces are normally known by names such as "le0".
+ * Intfrfbdfs brf normblly known by nbmfs sudi bs "lf0".
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public final class NetworkInterface {
-    private String name;
-    private String displayName;
-    private int index;
-    private InetAddress addrs[];
-    private InterfaceAddress bindings[];
-    private NetworkInterface childs[];
-    private NetworkInterface parent = null;
-    private boolean virtual = false;
-    private static final NetworkInterface defaultInterface;
-    private static final int defaultIndex; /* index of defaultInterface */
+publid finbl dlbss NftworkIntfrfbdf {
+    privbtf String nbmf;
+    privbtf String displbyNbmf;
+    privbtf int indfx;
+    privbtf InftAddrfss bddrs[];
+    privbtf IntfrfbdfAddrfss bindings[];
+    privbtf NftworkIntfrfbdf diilds[];
+    privbtf NftworkIntfrfbdf pbrfnt = null;
+    privbtf boolfbn virtubl = fblsf;
+    privbtf stbtid finbl NftworkIntfrfbdf dffbultIntfrfbdf;
+    privbtf stbtid finbl int dffbultIndfx; /* indfx of dffbultIntfrfbdf */
 
-    static {
-        AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("net");
-                    return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
                 }
             });
 
         init();
-        defaultInterface = DefaultInterface.getDefault();
-        if (defaultInterface != null) {
-            defaultIndex = defaultInterface.getIndex();
-        } else {
-            defaultIndex = 0;
+        dffbultIntfrfbdf = DffbultIntfrfbdf.gftDffbult();
+        if (dffbultIntfrfbdf != null) {
+            dffbultIndfx = dffbultIntfrfbdf.gftIndfx();
+        } flsf {
+            dffbultIndfx = 0;
         }
     }
 
     /**
-     * Returns an NetworkInterface object with index set to 0 and name to null.
-     * Setting such an interface on a MulticastSocket will cause the
-     * kernel to choose one interface for sending multicast packets.
+     * Rfturns bn NftworkIntfrfbdf objfdt witi indfx sft to 0 bnd nbmf to null.
+     * Sftting sudi bn intfrfbdf on b MultidbstSodkft will dbusf tif
+     * kfrnfl to dioosf onf intfrfbdf for sfnding multidbst pbdkfts.
      *
      */
-    NetworkInterface() {
+    NftworkIntfrfbdf() {
     }
 
-    NetworkInterface(String name, int index, InetAddress[] addrs) {
-        this.name = name;
-        this.index = index;
-        this.addrs = addrs;
+    NftworkIntfrfbdf(String nbmf, int indfx, InftAddrfss[] bddrs) {
+        tiis.nbmf = nbmf;
+        tiis.indfx = indfx;
+        tiis.bddrs = bddrs;
     }
 
     /**
-     * Get the name of this network interface.
+     * Gft tif nbmf of tiis nftwork intfrfbdf.
      *
-     * @return the name of this network interface
+     * @rfturn tif nbmf of tiis nftwork intfrfbdf
      */
-    public String getName() {
-            return name;
+    publid String gftNbmf() {
+            rfturn nbmf;
     }
 
     /**
-     * Convenience method to return an Enumeration with all or a
-     * subset of the InetAddresses bound to this network interface.
+     * Convfnifndf mftiod to rfturn bn Enumfrbtion witi bll or b
+     * subsft of tif InftAddrfssfs bound to tiis nftwork intfrfbdf.
      * <p>
-     * If there is a security manager, its {@code checkConnect}
-     * method is called for each InetAddress. Only InetAddresses where
-     * the {@code checkConnect} doesn't throw a SecurityException
-     * will be returned in the Enumeration. However, if the caller has the
-     * {@link NetPermission}("getNetworkInformation") permission, then all
-     * InetAddresses are returned.
-     * @return an Enumeration object with all or a subset of the InetAddresses
-     * bound to this network interface
+     * If tifrf is b sfdurity mbnbgfr, its {@dodf difdkConnfdt}
+     * mftiod is dbllfd for fbdi InftAddrfss. Only InftAddrfssfs wifrf
+     * tif {@dodf difdkConnfdt} dofsn't tirow b SfdurityExdfption
+     * will bf rfturnfd in tif Enumfrbtion. Howfvfr, if tif dbllfr ibs tif
+     * {@link NftPfrmission}("gftNftworkInformbtion") pfrmission, tifn bll
+     * InftAddrfssfs brf rfturnfd.
+     * @rfturn bn Enumfrbtion objfdt witi bll or b subsft of tif InftAddrfssfs
+     * bound to tiis nftwork intfrfbdf
      */
-    public Enumeration<InetAddress> getInetAddresses() {
+    publid Enumfrbtion<InftAddrfss> gftInftAddrfssfs() {
 
-        class checkedAddresses implements Enumeration<InetAddress> {
+        dlbss difdkfdAddrfssfs implfmfnts Enumfrbtion<InftAddrfss> {
 
-            private int i=0, count=0;
-            private InetAddress local_addrs[];
+            privbtf int i=0, dount=0;
+            privbtf InftAddrfss lodbl_bddrs[];
 
-            checkedAddresses() {
-                local_addrs = new InetAddress[addrs.length];
-                boolean trusted = true;
+            difdkfdAddrfssfs() {
+                lodbl_bddrs = nfw InftAddrfss[bddrs.lfngti];
+                boolfbn trustfd = truf;
 
-                SecurityManager sec = System.getSecurityManager();
-                if (sec != null) {
+                SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+                if (sfd != null) {
                     try {
-                        sec.checkPermission(new NetPermission("getNetworkInformation"));
-                    } catch (SecurityException e) {
-                        trusted = false;
+                        sfd.difdkPfrmission(nfw NftPfrmission("gftNftworkInformbtion"));
+                    } dbtdi (SfdurityExdfption f) {
+                        trustfd = fblsf;
                     }
                 }
-                for (int j=0; j<addrs.length; j++) {
+                for (int j=0; j<bddrs.lfngti; j++) {
                     try {
-                        if (sec != null && !trusted) {
-                            sec.checkConnect(addrs[j].getHostAddress(), -1);
+                        if (sfd != null && !trustfd) {
+                            sfd.difdkConnfdt(bddrs[j].gftHostAddrfss(), -1);
                         }
-                        local_addrs[count++] = addrs[j];
-                    } catch (SecurityException e) { }
+                        lodbl_bddrs[dount++] = bddrs[j];
+                    } dbtdi (SfdurityExdfption f) { }
                 }
 
             }
 
-            public InetAddress nextElement() {
-                if (i < count) {
-                    return local_addrs[i++];
-                } else {
-                    throw new NoSuchElementException();
+            publid InftAddrfss nfxtElfmfnt() {
+                if (i < dount) {
+                    rfturn lodbl_bddrs[i++];
+                } flsf {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
 
-            public boolean hasMoreElements() {
-                return (i < count);
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn (i < dount);
             }
         }
-        return new checkedAddresses();
+        rfturn nfw difdkfdAddrfssfs();
 
     }
 
     /**
-     * Get a List of all or a subset of the {@code InterfaceAddresses}
-     * of this network interface.
+     * Gft b List of bll or b subsft of tif {@dodf IntfrfbdfAddrfssfs}
+     * of tiis nftwork intfrfbdf.
      * <p>
-     * If there is a security manager, its {@code checkConnect}
-     * method is called with the InetAddress for each InterfaceAddress.
-     * Only InterfaceAddresses where the {@code checkConnect} doesn't throw
-     * a SecurityException will be returned in the List.
+     * If tifrf is b sfdurity mbnbgfr, its {@dodf difdkConnfdt}
+     * mftiod is dbllfd witi tif InftAddrfss for fbdi IntfrfbdfAddrfss.
+     * Only IntfrfbdfAddrfssfs wifrf tif {@dodf difdkConnfdt} dofsn't tirow
+     * b SfdurityExdfption will bf rfturnfd in tif List.
      *
-     * @return a {@code List} object with all or a subset of the
-     *         InterfaceAddresss of this network interface
-     * @since 1.6
+     * @rfturn b {@dodf List} objfdt witi bll or b subsft of tif
+     *         IntfrfbdfAddrfsss of tiis nftwork intfrfbdf
+     * @sindf 1.6
      */
-    public java.util.List<InterfaceAddress> getInterfaceAddresses() {
-        java.util.List<InterfaceAddress> lst = new java.util.ArrayList<InterfaceAddress>(1);
-        SecurityManager sec = System.getSecurityManager();
-        for (int j=0; j<bindings.length; j++) {
+    publid jbvb.util.List<IntfrfbdfAddrfss> gftIntfrfbdfAddrfssfs() {
+        jbvb.util.List<IntfrfbdfAddrfss> lst = nfw jbvb.util.ArrbyList<IntfrfbdfAddrfss>(1);
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        for (int j=0; j<bindings.lfngti; j++) {
             try {
-                if (sec != null) {
-                    sec.checkConnect(bindings[j].getAddress().getHostAddress(), -1);
+                if (sfd != null) {
+                    sfd.difdkConnfdt(bindings[j].gftAddrfss().gftHostAddrfss(), -1);
                 }
-                lst.add(bindings[j]);
-            } catch (SecurityException e) { }
+                lst.bdd(bindings[j]);
+            } dbtdi (SfdurityExdfption f) { }
         }
-        return lst;
+        rfturn lst;
     }
 
     /**
-     * Get an Enumeration with all the subinterfaces (also known as virtual
-     * interfaces) attached to this network interface.
+     * Gft bn Enumfrbtion witi bll tif subintfrfbdfs (blso known bs virtubl
+     * intfrfbdfs) bttbdifd to tiis nftwork intfrfbdf.
      * <p>
-     * For instance eth0:1 will be a subinterface to eth0.
+     * For instbndf fti0:1 will bf b subintfrfbdf to fti0.
      *
-     * @return an Enumeration object with all of the subinterfaces
-     * of this network interface
-     * @since 1.6
+     * @rfturn bn Enumfrbtion objfdt witi bll of tif subintfrfbdfs
+     * of tiis nftwork intfrfbdf
+     * @sindf 1.6
      */
-    public Enumeration<NetworkInterface> getSubInterfaces() {
-        class subIFs implements Enumeration<NetworkInterface> {
+    publid Enumfrbtion<NftworkIntfrfbdf> gftSubIntfrfbdfs() {
+        dlbss subIFs implfmfnts Enumfrbtion<NftworkIntfrfbdf> {
 
-            private int i=0;
+            privbtf int i=0;
 
             subIFs() {
             }
 
-            public NetworkInterface nextElement() {
-                if (i < childs.length) {
-                    return childs[i++];
-                } else {
-                    throw new NoSuchElementException();
+            publid NftworkIntfrfbdf nfxtElfmfnt() {
+                if (i < diilds.lfngti) {
+                    rfturn diilds[i++];
+                } flsf {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
 
-            public boolean hasMoreElements() {
-                return (i < childs.length);
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn (i < diilds.lfngti);
             }
         }
-        return new subIFs();
+        rfturn nfw subIFs();
 
     }
 
     /**
-     * Returns the parent NetworkInterface of this interface if this is
-     * a subinterface, or {@code null} if it is a physical
-     * (non virtual) interface or has no parent.
+     * Rfturns tif pbrfnt NftworkIntfrfbdf of tiis intfrfbdf if tiis is
+     * b subintfrfbdf, or {@dodf null} if it is b piysidbl
+     * (non virtubl) intfrfbdf or ibs no pbrfnt.
      *
-     * @return The {@code NetworkInterface} this interface is attached to.
-     * @since 1.6
+     * @rfturn Tif {@dodf NftworkIntfrfbdf} tiis intfrfbdf is bttbdifd to.
+     * @sindf 1.6
      */
-    public NetworkInterface getParent() {
-        return parent;
+    publid NftworkIntfrfbdf gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     * Returns the index of this network interface. The index is an integer greater
-     * or equal to zero, or {@code -1} for unknown. This is a system specific value
-     * and interfaces with the same name can have different indexes on different
-     * machines.
+     * Rfturns tif indfx of tiis nftwork intfrfbdf. Tif indfx is bn intfgfr grfbtfr
+     * or fqubl to zfro, or {@dodf -1} for unknown. Tiis is b systfm spfdifid vbluf
+     * bnd intfrfbdfs witi tif sbmf nbmf dbn ibvf difffrfnt indfxfs on difffrfnt
+     * mbdiinfs.
      *
-     * @return the index of this network interface or {@code -1} if the index is
+     * @rfturn tif indfx of tiis nftwork intfrfbdf or {@dodf -1} if tif indfx is
      *         unknown
-     * @see #getByIndex(int)
-     * @since 1.7
+     * @sff #gftByIndfx(int)
+     * @sindf 1.7
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
     /**
-     * Get the display name of this network interface.
-     * A display name is a human readable String describing the network
-     * device.
+     * Gft tif displby nbmf of tiis nftwork intfrfbdf.
+     * A displby nbmf is b iumbn rfbdbblf String dfsdribing tif nftwork
+     * dfvidf.
      *
-     * @return a non-empty string representing the display name of this network
-     *         interface, or null if no display name is available.
+     * @rfturn b non-fmpty string rfprfsfnting tif displby nbmf of tiis nftwork
+     *         intfrfbdf, or null if no displby nbmf is bvbilbblf.
      */
-    public String getDisplayName() {
-        /* strict TCK conformance */
-        return "".equals(displayName) ? null : displayName;
+    publid String gftDisplbyNbmf() {
+        /* stridt TCK donformbndf */
+        rfturn "".fqubls(displbyNbmf) ? null : displbyNbmf;
     }
 
     /**
-     * Searches for the network interface with the specified name.
+     * Sfbrdifs for tif nftwork intfrfbdf witi tif spfdififd nbmf.
      *
-     * @param   name
-     *          The name of the network interface.
+     * @pbrbm   nbmf
+     *          Tif nbmf of tif nftwork intfrfbdf.
      *
-     * @return  A {@code NetworkInterface} with the specified name,
-     *          or {@code null} if there is no network interface
-     *          with the specified name.
+     * @rfturn  A {@dodf NftworkIntfrfbdf} witi tif spfdififd nbmf,
+     *          or {@dodf null} if tifrf is no nftwork intfrfbdf
+     *          witi tif spfdififd nbmf.
      *
-     * @throws  SocketException
-     *          If an I/O error occurs.
+     * @tirows  SodkftExdfption
+     *          If bn I/O frror oddurs.
      *
-     * @throws  NullPointerException
-     *          If the specified name is {@code null}.
+     * @tirows  NullPointfrExdfption
+     *          If tif spfdififd nbmf is {@dodf null}.
      */
-    public static NetworkInterface getByName(String name) throws SocketException {
-        if (name == null)
-            throw new NullPointerException();
-        return getByName0(name);
+    publid stbtid NftworkIntfrfbdf gftByNbmf(String nbmf) tirows SodkftExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn gftByNbmf0(nbmf);
     }
 
     /**
-     * Get a network interface given its index.
+     * Gft b nftwork intfrfbdf givfn its indfx.
      *
-     * @param index an integer, the index of the interface
-     * @return the NetworkInterface obtained from its index, or {@code null} if
-     *         there is no interface with such an index on the system
-     * @throws  SocketException  if an I/O error occurs.
-     * @throws  IllegalArgumentException if index has a negative value
-     * @see #getIndex()
-     * @since 1.7
+     * @pbrbm indfx bn intfgfr, tif indfx of tif intfrfbdf
+     * @rfturn tif NftworkIntfrfbdf obtbinfd from its indfx, or {@dodf null} if
+     *         tifrf is no intfrfbdf witi sudi bn indfx on tif systfm
+     * @tirows  SodkftExdfption  if bn I/O frror oddurs.
+     * @tirows  IllfgblArgumfntExdfption if indfx ibs b nfgbtivf vbluf
+     * @sff #gftIndfx()
+     * @sindf 1.7
      */
-    public static NetworkInterface getByIndex(int index) throws SocketException {
-        if (index < 0)
-            throw new IllegalArgumentException("Interface index can't be negative");
-        return getByIndex0(index);
+    publid stbtid NftworkIntfrfbdf gftByIndfx(int indfx) tirows SodkftExdfption {
+        if (indfx < 0)
+            tirow nfw IllfgblArgumfntExdfption("Intfrfbdf indfx dbn't bf nfgbtivf");
+        rfturn gftByIndfx0(indfx);
     }
 
     /**
-     * Convenience method to search for a network interface that
-     * has the specified Internet Protocol (IP) address bound to
+     * Convfnifndf mftiod to sfbrdi for b nftwork intfrfbdf tibt
+     * ibs tif spfdififd Intfrnft Protodol (IP) bddrfss bound to
      * it.
      * <p>
-     * If the specified IP address is bound to multiple network
-     * interfaces it is not defined which network interface is
-     * returned.
+     * If tif spfdififd IP bddrfss is bound to multiplf nftwork
+     * intfrfbdfs it is not dffinfd wiidi nftwork intfrfbdf is
+     * rfturnfd.
      *
-     * @param   addr
-     *          The {@code InetAddress} to search with.
+     * @pbrbm   bddr
+     *          Tif {@dodf InftAddrfss} to sfbrdi witi.
      *
-     * @return  A {@code NetworkInterface}
-     *          or {@code null} if there is no network interface
-     *          with the specified IP address.
+     * @rfturn  A {@dodf NftworkIntfrfbdf}
+     *          or {@dodf null} if tifrf is no nftwork intfrfbdf
+     *          witi tif spfdififd IP bddrfss.
      *
-     * @throws  SocketException
-     *          If an I/O error occurs.
+     * @tirows  SodkftExdfption
+     *          If bn I/O frror oddurs.
      *
-     * @throws  NullPointerException
-     *          If the specified address is {@code null}.
+     * @tirows  NullPointfrExdfption
+     *          If tif spfdififd bddrfss is {@dodf null}.
      */
-    public static NetworkInterface getByInetAddress(InetAddress addr) throws SocketException {
-        if (addr == null) {
-            throw new NullPointerException();
+    publid stbtid NftworkIntfrfbdf gftByInftAddrfss(InftAddrfss bddr) tirows SodkftExdfption {
+        if (bddr == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address)) {
-            throw new IllegalArgumentException ("invalid address type");
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss)) {
+            tirow nfw IllfgblArgumfntExdfption ("invblid bddrfss typf");
         }
-        return getByInetAddress0(addr);
+        rfturn gftByInftAddrfss0(bddr);
     }
 
     /**
-     * Returns all the interfaces on this machine. The {@code Enumeration}
-     * contains at least one element, possibly representing a loopback
-     * interface that only supports communication between entities on
-     * this machine.
+     * Rfturns bll tif intfrfbdfs on tiis mbdiinf. Tif {@dodf Enumfrbtion}
+     * dontbins bt lfbst onf flfmfnt, possibly rfprfsfnting b loopbbdk
+     * intfrfbdf tibt only supports dommunidbtion bftwffn fntitifs on
+     * tiis mbdiinf.
      *
-     * NOTE: can use getNetworkInterfaces()+getInetAddresses()
-     *       to obtain all IP addresses for this node
+     * NOTE: dbn usf gftNftworkIntfrfbdfs()+gftInftAddrfssfs()
+     *       to obtbin bll IP bddrfssfs for tiis nodf
      *
-     * @return an Enumeration of NetworkInterfaces found on this machine
-     * @exception  SocketException  if an I/O error occurs.
+     * @rfturn bn Enumfrbtion of NftworkIntfrfbdfs found on tiis mbdiinf
+     * @fxdfption  SodkftExdfption  if bn I/O frror oddurs.
      */
 
-    public static Enumeration<NetworkInterface> getNetworkInterfaces()
-        throws SocketException {
-        final NetworkInterface[] netifs = getAll();
+    publid stbtid Enumfrbtion<NftworkIntfrfbdf> gftNftworkIntfrfbdfs()
+        tirows SodkftExdfption {
+        finbl NftworkIntfrfbdf[] nftifs = gftAll();
 
-        // specified to return null if no network interfaces
-        if (netifs == null)
-            return null;
+        // spfdififd to rfturn null if no nftwork intfrfbdfs
+        if (nftifs == null)
+            rfturn null;
 
-        return new Enumeration<NetworkInterface>() {
-            private int i = 0;
-            public NetworkInterface nextElement() {
-                if (netifs != null && i < netifs.length) {
-                    NetworkInterface netif = netifs[i++];
-                    return netif;
-                } else {
-                    throw new NoSuchElementException();
+        rfturn nfw Enumfrbtion<NftworkIntfrfbdf>() {
+            privbtf int i = 0;
+            publid NftworkIntfrfbdf nfxtElfmfnt() {
+                if (nftifs != null && i < nftifs.lfngti) {
+                    NftworkIntfrfbdf nftif = nftifs[i++];
+                    rfturn nftif;
+                } flsf {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
 
-            public boolean hasMoreElements() {
-                return (netifs != null && i < netifs.length);
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn (nftifs != null && i < nftifs.lfngti);
             }
         };
     }
 
-    private native static NetworkInterface[] getAll()
-        throws SocketException;
+    privbtf nbtivf stbtid NftworkIntfrfbdf[] gftAll()
+        tirows SodkftExdfption;
 
-    private native static NetworkInterface getByName0(String name)
-        throws SocketException;
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByNbmf0(String nbmf)
+        tirows SodkftExdfption;
 
-    private native static NetworkInterface getByIndex0(int index)
-        throws SocketException;
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByIndfx0(int indfx)
+        tirows SodkftExdfption;
 
-    private native static NetworkInterface getByInetAddress0(InetAddress addr)
-        throws SocketException;
+    privbtf nbtivf stbtid NftworkIntfrfbdf gftByInftAddrfss0(InftAddrfss bddr)
+        tirows SodkftExdfption;
 
     /**
-     * Returns whether a network interface is up and running.
+     * Rfturns wiftifr b nftwork intfrfbdf is up bnd running.
      *
-     * @return  {@code true} if the interface is up and running.
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @rfturn  {@dodf truf} if tif intfrfbdf is up bnd running.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
 
-    public boolean isUp() throws SocketException {
-        return isUp0(name, index);
+    publid boolfbn isUp() tirows SodkftExdfption {
+        rfturn isUp0(nbmf, indfx);
     }
 
     /**
-     * Returns whether a network interface is a loopback interface.
+     * Rfturns wiftifr b nftwork intfrfbdf is b loopbbdk intfrfbdf.
      *
-     * @return  {@code true} if the interface is a loopback interface.
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @rfturn  {@dodf truf} if tif intfrfbdf is b loopbbdk intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
 
-    public boolean isLoopback() throws SocketException {
-        return isLoopback0(name, index);
+    publid boolfbn isLoopbbdk() tirows SodkftExdfption {
+        rfturn isLoopbbdk0(nbmf, indfx);
     }
 
     /**
-     * Returns whether a network interface is a point to point interface.
-     * A typical point to point interface would be a PPP connection through
-     * a modem.
+     * Rfturns wiftifr b nftwork intfrfbdf is b point to point intfrfbdf.
+     * A typidbl point to point intfrfbdf would bf b PPP donnfdtion tirougi
+     * b modfm.
      *
-     * @return  {@code true} if the interface is a point to point
-     *          interface.
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @rfturn  {@dodf truf} if tif intfrfbdf is b point to point
+     *          intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
 
-    public boolean isPointToPoint() throws SocketException {
-        return isP2P0(name, index);
+    publid boolfbn isPointToPoint() tirows SodkftExdfption {
+        rfturn isP2P0(nbmf, indfx);
     }
 
     /**
-     * Returns whether a network interface supports multicasting or not.
+     * Rfturns wiftifr b nftwork intfrfbdf supports multidbsting or not.
      *
-     * @return  {@code true} if the interface supports Multicasting.
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @rfturn  {@dodf truf} if tif intfrfbdf supports Multidbsting.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
 
-    public boolean supportsMulticast() throws SocketException {
-        return supportsMulticast0(name, index);
+    publid boolfbn supportsMultidbst() tirows SodkftExdfption {
+        rfturn supportsMultidbst0(nbmf, indfx);
     }
 
     /**
-     * Returns the hardware address (usually MAC) of the interface if it
-     * has one and if it can be accessed given the current privileges.
-     * If a security manager is set, then the caller must have
-     * the permission {@link NetPermission}("getNetworkInformation").
+     * Rfturns tif ibrdwbrf bddrfss (usublly MAC) of tif intfrfbdf if it
+     * ibs onf bnd if it dbn bf bddfssfd givfn tif durrfnt privilfgfs.
+     * If b sfdurity mbnbgfr is sft, tifn tif dbllfr must ibvf
+     * tif pfrmission {@link NftPfrmission}("gftNftworkInformbtion").
      *
-     * @return  a byte array containing the address, or {@code null} if
-     *          the address doesn't exist, is not accessible or a security
-     *          manager is set and the caller does not have the permission
-     *          NetPermission("getNetworkInformation")
+     * @rfturn  b bytf brrby dontbining tif bddrfss, or {@dodf null} if
+     *          tif bddrfss dofsn't fxist, is not bddfssiblf or b sfdurity
+     *          mbnbgfr is sft bnd tif dbllfr dofs not ibvf tif pfrmission
+     *          NftPfrmission("gftNftworkInformbtion")
      *
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
-    public byte[] getHardwareAddress() throws SocketException {
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
+    publid bytf[] gftHbrdwbrfAddrfss() tirows SodkftExdfption {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
             try {
-                sec.checkPermission(new NetPermission("getNetworkInformation"));
-            } catch (SecurityException e) {
-                if (!getInetAddresses().hasMoreElements()) {
-                    // don't have connect permission to any local address
-                    return null;
+                sfd.difdkPfrmission(nfw NftPfrmission("gftNftworkInformbtion"));
+            } dbtdi (SfdurityExdfption f) {
+                if (!gftInftAddrfssfs().ibsMorfElfmfnts()) {
+                    // don't ibvf donnfdt pfrmission to bny lodbl bddrfss
+                    rfturn null;
                 }
             }
         }
-        for (InetAddress addr : addrs) {
-            if (addr instanceof Inet4Address) {
-                return getMacAddr0(((Inet4Address)addr).getAddress(), name, index);
+        for (InftAddrfss bddr : bddrs) {
+            if (bddr instbndfof Inft4Addrfss) {
+                rfturn gftMbdAddr0(((Inft4Addrfss)bddr).gftAddrfss(), nbmf, indfx);
             }
         }
-        return getMacAddr0(null, name, index);
+        rfturn gftMbdAddr0(null, nbmf, indfx);
     }
 
     /**
-     * Returns the Maximum Transmission Unit (MTU) of this interface.
+     * Rfturns tif Mbximum Trbnsmission Unit (MTU) of tiis intfrfbdf.
      *
-     * @return the value of the MTU for that interface.
-     * @exception       SocketException if an I/O error occurs.
-     * @since 1.6
+     * @rfturn tif vbluf of tif MTU for tibt intfrfbdf.
+     * @fxdfption       SodkftExdfption if bn I/O frror oddurs.
+     * @sindf 1.6
      */
-    public int getMTU() throws SocketException {
-        return getMTU0(name, index);
+    publid int gftMTU() tirows SodkftExdfption {
+        rfturn gftMTU0(nbmf, indfx);
     }
 
     /**
-     * Returns whether this interface is a virtual interface (also called
-     * subinterface).
-     * Virtual interfaces are, on some systems, interfaces created as a child
-     * of a physical interface and given different settings (like address or
-     * MTU). Usually the name of the interface will the name of the parent
-     * followed by a colon (:) and a number identifying the child since there
-     * can be several virtual interfaces attached to a single physical
-     * interface.
+     * Rfturns wiftifr tiis intfrfbdf is b virtubl intfrfbdf (blso dbllfd
+     * subintfrfbdf).
+     * Virtubl intfrfbdfs brf, on somf systfms, intfrfbdfs drfbtfd bs b diild
+     * of b piysidbl intfrfbdf bnd givfn difffrfnt sfttings (likf bddrfss or
+     * MTU). Usublly tif nbmf of tif intfrfbdf will tif nbmf of tif pbrfnt
+     * followfd by b dolon (:) bnd b numbfr idfntifying tif diild sindf tifrf
+     * dbn bf sfvfrbl virtubl intfrfbdfs bttbdifd to b singlf piysidbl
+     * intfrfbdf.
      *
-     * @return {@code true} if this interface is a virtual interface.
-     * @since 1.6
+     * @rfturn {@dodf truf} if tiis intfrfbdf is b virtubl intfrfbdf.
+     * @sindf 1.6
      */
-    public boolean isVirtual() {
-        return virtual;
+    publid boolfbn isVirtubl() {
+        rfturn virtubl;
     }
 
-    private native static boolean isUp0(String name, int ind) throws SocketException;
-    private native static boolean isLoopback0(String name, int ind) throws SocketException;
-    private native static boolean supportsMulticast0(String name, int ind) throws SocketException;
-    private native static boolean isP2P0(String name, int ind) throws SocketException;
-    private native static byte[] getMacAddr0(byte[] inAddr, String name, int ind) throws SocketException;
-    private native static int getMTU0(String name, int ind) throws SocketException;
+    privbtf nbtivf stbtid boolfbn isUp0(String nbmf, int ind) tirows SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn isLoopbbdk0(String nbmf, int ind) tirows SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn supportsMultidbst0(String nbmf, int ind) tirows SodkftExdfption;
+    privbtf nbtivf stbtid boolfbn isP2P0(String nbmf, int ind) tirows SodkftExdfption;
+    privbtf nbtivf stbtid bytf[] gftMbdAddr0(bytf[] inAddr, String nbmf, int ind) tirows SodkftExdfption;
+    privbtf nbtivf stbtid int gftMTU0(String nbmf, int ind) tirows SodkftExdfption;
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same NetworkInterface
-     * as this object.
+     * Compbrfs tiis objfdt bgbinst tif spfdififd objfdt.
+     * Tif rfsult is {@dodf truf} if bnd only if tif brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts tif sbmf NftworkIntfrfbdf
+     * bs tiis objfdt.
      * <p>
-     * Two instances of {@code NetworkInterface} represent the same
-     * NetworkInterface if both name and addrs are the same for both.
+     * Two instbndfs of {@dodf NftworkIntfrfbdf} rfprfsfnt tif sbmf
+     * NftworkIntfrfbdf if boti nbmf bnd bddrs brf tif sbmf for boti.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.net.InetAddress#getAddress()
+     * @pbrbm   obj   tif objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
+     * @sff     jbvb.nft.InftAddrfss#gftAddrfss()
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof NetworkInterface)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof NftworkIntfrfbdf)) {
+            rfturn fblsf;
         }
-        NetworkInterface that = (NetworkInterface)obj;
-        if (this.name != null ) {
-            if (!this.name.equals(that.name)) {
-                return false;
+        NftworkIntfrfbdf tibt = (NftworkIntfrfbdf)obj;
+        if (tiis.nbmf != null ) {
+            if (!tiis.nbmf.fqubls(tibt.nbmf)) {
+                rfturn fblsf;
             }
-        } else {
-            if (that.name != null) {
-                return false;
+        } flsf {
+            if (tibt.nbmf != null) {
+                rfturn fblsf;
             }
         }
 
-        if (this.addrs == null) {
-            return that.addrs == null;
-        } else if (that.addrs == null) {
-            return false;
+        if (tiis.bddrs == null) {
+            rfturn tibt.bddrs == null;
+        } flsf if (tibt.bddrs == null) {
+            rfturn fblsf;
         }
 
-        /* Both addrs not null. Compare number of addresses */
+        /* Boti bddrs not null. Compbrf numbfr of bddrfssfs */
 
-        if (this.addrs.length != that.addrs.length) {
-            return false;
+        if (tiis.bddrs.lfngti != tibt.bddrs.lfngti) {
+            rfturn fblsf;
         }
 
-        InetAddress[] thatAddrs = that.addrs;
-        int count = thatAddrs.length;
+        InftAddrfss[] tibtAddrs = tibt.bddrs;
+        int dount = tibtAddrs.lfngti;
 
-        for (int i=0; i<count; i++) {
-            boolean found = false;
-            for (int j=0; j<count; j++) {
-                if (addrs[i].equals(thatAddrs[j])) {
-                    found = true;
-                    break;
+        for (int i=0; i<dount; i++) {
+            boolfbn found = fblsf;
+            for (int j=0; j<dount; j++) {
+                if (bddrs[i].fqubls(tibtAddrs[j])) {
+                    found = truf;
+                    brfbk;
                 }
             }
             if (!found) {
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public int hashCode() {
-        return name == null? 0: name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf == null? 0: nbmf.ibsiCodf();
     }
 
-    public String toString() {
-        String result = "name:";
-        result += name == null? "null": name;
-        if (displayName != null) {
-            result += " (" + displayName + ")";
+    publid String toString() {
+        String rfsult = "nbmf:";
+        rfsult += nbmf == null? "null": nbmf;
+        if (displbyNbmf != null) {
+            rfsult += " (" + displbyNbmf + ")";
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private static native void init();
+    privbtf stbtid nbtivf void init();
 
     /**
-     * Returns the default network interface of this system
+     * Rfturns tif dffbult nftwork intfrfbdf of tiis systfm
      *
-     * @return the default interface
+     * @rfturn tif dffbult intfrfbdf
      */
-    static NetworkInterface getDefault() {
-        return defaultInterface;
+    stbtid NftworkIntfrfbdf gftDffbult() {
+        rfturn dffbultIntfrfbdf;
     }
 }

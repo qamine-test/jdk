@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans;
+pbdkbgf dom.sun.bfbns;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.GfnfridArrbyTypf;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
-import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+import sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.GfnfridArrbyTypfImpl;
+import sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.PbrbmftfrizfdTypfImpl;
 
 /**
- * This is utility class to resolve types.
+ * Tiis is utility dlbss to rfsolvf typfs.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Eamonn McManus
- * @author Sergey Malenkov
+ * @butior Ebmonn MdMbnus
+ * @butior Sfrgfy Mblfnkov
  */
-public final class TypeResolver {
+publid finbl dlbss TypfRfsolvfr {
 
-    private static final WeakCache<Type, Map<Type, Type>> CACHE = new WeakCache<>();
+    privbtf stbtid finbl WfbkCbdif<Typf, Mbp<Typf, Typf>> CACHE = nfw WfbkCbdif<>();
 
     /**
-     * Replaces the given {@code type} in an inherited method
-     * with the actual type it has in the given {@code inClass}.
+     * Rfplbdfs tif givfn {@dodf typf} in bn inifritfd mftiod
+     * witi tif bdtubl typf it ibs in tif givfn {@dodf inClbss}.
      *
-     * <p>Although type parameters are not inherited by subclasses in the Java
-     * language, they <em>are</em> effectively inherited when using reflection.
-     * For example, if you declare an interface like this...</p>
+     * <p>Altiougi typf pbrbmftfrs brf not inifritfd by subdlbssfs in tif Jbvb
+     * lbngubgf, tify <fm>brf</fm> ffffdtivfly inifritfd wifn using rfflfdtion.
+     * For fxbmplf, if you dfdlbrf bn intfrfbdf likf tiis...</p>
      *
-     * <pre>
-     * public interface StringToIntMap extends Map&lt;String,Integer> {}
-     * </pre>
+     * <prf>
+     * publid intfrfbdf StringToIntMbp fxtfnds Mbp&lt;String,Intfgfr> {}
+     * </prf>
      *
-     * <p>...then StringToIntMap.class.getMethods() will show that it has methods
-     * like put(K,V) even though StringToIntMap has no type parameters.  The K
-     * and V variables are the ones declared by Map, so
-     * {@link TypeVariable#getGenericDeclaration()} will return Map.class.</p>
+     * <p>...tifn StringToIntMbp.dlbss.gftMftiods() will siow tibt it ibs mftiods
+     * likf put(K,V) fvfn tiougi StringToIntMbp ibs no typf pbrbmftfrs.  Tif K
+     * bnd V vbribblfs brf tif onfs dfdlbrfd by Mbp, so
+     * {@link TypfVbribblf#gftGfnfridDfdlbrbtion()} will rfturn Mbp.dlbss.</p>
      *
-     * <p>The purpose of this method is to take a Type from a possibly-inherited
-     * method and replace it with the correct Type for the inheriting class.
-     * So given parameters of K and StringToIntMap.class in the above example,
-     * this method will return String.</p>
+     * <p>Tif purposf of tiis mftiod is to tbkf b Typf from b possibly-inifritfd
+     * mftiod bnd rfplbdf it witi tif dorrfdt Typf for tif inifriting dlbss.
+     * So givfn pbrbmftfrs of K bnd StringToIntMbp.dlbss in tif bbovf fxbmplf,
+     * tiis mftiod will rfturn String.</p>
      *
-     * @param inClass  the base class used to resolve
-     * @param type     the type to resolve
-     * @return a resolved type
+     * @pbrbm inClbss  tif bbsf dlbss usfd to rfsolvf
+     * @pbrbm typf     tif typf to rfsolvf
+     * @rfturn b rfsolvfd typf
      *
-     * @see #getActualType(Class)
-     * @see #resolve(Type,Type)
+     * @sff #gftAdtublTypf(Clbss)
+     * @sff #rfsolvf(Typf,Typf)
      */
-    public static Type resolveInClass(Class<?> inClass, Type type) {
-        return resolve(getActualType(inClass), type);
+    publid stbtid Typf rfsolvfInClbss(Clbss<?> inClbss, Typf typf) {
+        rfturn rfsolvf(gftAdtublTypf(inClbss), typf);
     }
 
     /**
-     * Replaces all {@code types} in the given array
-     * with the actual types they have in the given {@code inClass}.
+     * Rfplbdfs bll {@dodf typfs} in tif givfn brrby
+     * witi tif bdtubl typfs tify ibvf in tif givfn {@dodf inClbss}.
      *
-     * @param inClass  the base class used to resolve
-     * @param types    the array of types to resolve
-     * @return an array of resolved types
+     * @pbrbm inClbss  tif bbsf dlbss usfd to rfsolvf
+     * @pbrbm typfs    tif brrby of typfs to rfsolvf
+     * @rfturn bn brrby of rfsolvfd typfs
      *
-     * @see #getActualType(Class)
-     * @see #resolve(Type,Type[])
+     * @sff #gftAdtublTypf(Clbss)
+     * @sff #rfsolvf(Typf,Typf[])
      */
-    public static Type[] resolveInClass(Class<?> inClass, Type[] types) {
-        return resolve(getActualType(inClass), types);
+    publid stbtid Typf[] rfsolvfInClbss(Clbss<?> inClbss, Typf[] typfs) {
+        rfturn rfsolvf(gftAdtublTypf(inClbss), typfs);
     }
 
     /**
-     * Replaces type variables of the given {@code formal} type
-     * with the types they stand for in the given {@code actual} type.
+     * Rfplbdfs typf vbribblfs of tif givfn {@dodf formbl} typf
+     * witi tif typfs tify stbnd for in tif givfn {@dodf bdtubl} typf.
      *
-     * <p>A ParameterizedType is a class with type parameters, and the values
-     * of those parameters.  For example, Map&lt;K,V> is a generic class, and
-     * a corresponding ParameterizedType might look like
-     * Map&lt;K=String,V=Integer>.  Given such a ParameterizedType, this method
-     * will replace K with String, or List&lt;K> with List&ltString;, or
-     * List&lt;? super K> with List&lt;? super String>.</p>
+     * <p>A PbrbmftfrizfdTypf is b dlbss witi typf pbrbmftfrs, bnd tif vblufs
+     * of tiosf pbrbmftfrs.  For fxbmplf, Mbp&lt;K,V> is b gfnfrid dlbss, bnd
+     * b dorrfsponding PbrbmftfrizfdTypf migit look likf
+     * Mbp&lt;K=String,V=Intfgfr>.  Givfn sudi b PbrbmftfrizfdTypf, tiis mftiod
+     * will rfplbdf K witi String, or List&lt;K> witi List&ltString;, or
+     * List&lt;? supfr K> witi List&lt;? supfr String>.</p>
      *
-     * <p>The {@code actual} argument to this method can also be a Class.
-     * In this case, either it is equivalent to a ParameterizedType with
-     * no parameters (for example, Integer.class), or it is equivalent to
-     * a "raw" ParameterizedType (for example, Map.class).  In the latter
-     * case, every type parameter declared or inherited by the class is replaced
-     * by its "erasure".  For a type parameter declared as &lt;T>, the erasure
-     * is Object.  For a type parameter declared as &lt;T extends Number>,
-     * the erasure is Number.</p>
+     * <p>Tif {@dodf bdtubl} brgumfnt to tiis mftiod dbn blso bf b Clbss.
+     * In tiis dbsf, fitifr it is fquivblfnt to b PbrbmftfrizfdTypf witi
+     * no pbrbmftfrs (for fxbmplf, Intfgfr.dlbss), or it is fquivblfnt to
+     * b "rbw" PbrbmftfrizfdTypf (for fxbmplf, Mbp.dlbss).  In tif lbttfr
+     * dbsf, fvfry typf pbrbmftfr dfdlbrfd or inifritfd by tif dlbss is rfplbdfd
+     * by its "frbsurf".  For b typf pbrbmftfr dfdlbrfd bs &lt;T>, tif frbsurf
+     * is Objfdt.  For b typf pbrbmftfr dfdlbrfd bs &lt;T fxtfnds Numbfr>,
+     * tif frbsurf is Numbfr.</p>
      *
-     * <p>Although type parameters are not inherited by subclasses in the Java
-     * language, they <em>are</em> effectively inherited when using reflection.
-     * For example, if you declare an interface like this...</p>
+     * <p>Altiougi typf pbrbmftfrs brf not inifritfd by subdlbssfs in tif Jbvb
+     * lbngubgf, tify <fm>brf</fm> ffffdtivfly inifritfd wifn using rfflfdtion.
+     * For fxbmplf, if you dfdlbrf bn intfrfbdf likf tiis...</p>
      *
-     * <pre>
-     * public interface StringToIntMap extends Map&lt;String,Integer> {}
-     * </pre>
+     * <prf>
+     * publid intfrfbdf StringToIntMbp fxtfnds Mbp&lt;String,Intfgfr> {}
+     * </prf>
      *
-     * <p>...then StringToIntMap.class.getMethods() will show that it has methods
-     * like put(K,V) even though StringToIntMap has no type parameters.  The K
-     * and V variables are the ones declared by Map, so
-     * {@link TypeVariable#getGenericDeclaration()} will return {@link Map Map.class}.</p>
+     * <p>...tifn StringToIntMbp.dlbss.gftMftiods() will siow tibt it ibs mftiods
+     * likf put(K,V) fvfn tiougi StringToIntMbp ibs no typf pbrbmftfrs.  Tif K
+     * bnd V vbribblfs brf tif onfs dfdlbrfd by Mbp, so
+     * {@link TypfVbribblf#gftGfnfridDfdlbrbtion()} will rfturn {@link Mbp Mbp.dlbss}.</p>
      *
-     * <p>For this reason, this method replaces inherited type parameters too.
-     * Therefore if this method is called with {@code actual} being
-     * StringToIntMap.class and {@code formal} being the K from Map,
-     * it will return {@link String String.class}.</p>
+     * <p>For tiis rfbson, tiis mftiod rfplbdfs inifritfd typf pbrbmftfrs too.
+     * Tifrfforf if tiis mftiod is dbllfd witi {@dodf bdtubl} bfing
+     * StringToIntMbp.dlbss bnd {@dodf formbl} bfing tif K from Mbp,
+     * it will rfturn {@link String String.dlbss}.</p>
      *
-     * <p>In the case where {@code actual} is a "raw" ParameterizedType, the
-     * inherited type parameters will also be replaced by their erasures.
-     * The erasure of a Class is the Class itself, so a "raw" subinterface of
-     * StringToIntMap will still show the K from Map as String.class.  But
-     * in a case like this...
+     * <p>In tif dbsf wifrf {@dodf bdtubl} is b "rbw" PbrbmftfrizfdTypf, tif
+     * inifritfd typf pbrbmftfrs will blso bf rfplbdfd by tifir frbsurfs.
+     * Tif frbsurf of b Clbss is tif Clbss itsflf, so b "rbw" subintfrfbdf of
+     * StringToIntMbp will still siow tif K from Mbp bs String.dlbss.  But
+     * in b dbsf likf tiis...
      *
-     * <pre>
-     * public interface StringToIntListMap extends Map&lt;String,List&lt;Integer>> {}
-     * public interface RawStringToIntListMap extends StringToIntListMap {}
-     * </pre>
+     * <prf>
+     * publid intfrfbdf StringToIntListMbp fxtfnds Mbp&lt;String,List&lt;Intfgfr>> {}
+     * publid intfrfbdf RbwStringToIntListMbp fxtfnds StringToIntListMbp {}
+     * </prf>
      *
-     * <p>...the V inherited from Map will show up as List&lt;Integer> in
-     * StringToIntListMap, but as plain List in RawStringToIntListMap.</p>
+     * <p>...tif V inifritfd from Mbp will siow up bs List&lt;Intfgfr> in
+     * StringToIntListMbp, but bs plbin List in RbwStringToIntListMbp.</p>
      *
-     * @param actual  the type that supplies bindings for type variables
-     * @param formal  the type where occurrences of the variables
-     *                in {@code actual} will be replaced by the corresponding bound values
-     * @return a resolved type
+     * @pbrbm bdtubl  tif typf tibt supplifs bindings for typf vbribblfs
+     * @pbrbm formbl  tif typf wifrf oddurrfndfs of tif vbribblfs
+     *                in {@dodf bdtubl} will bf rfplbdfd by tif dorrfsponding bound vblufs
+     * @rfturn b rfsolvfd typf
      */
-    public static Type resolve(Type actual, Type formal) {
-        if (formal instanceof Class) {
-            return formal;
+    publid stbtid Typf rfsolvf(Typf bdtubl, Typf formbl) {
+        if (formbl instbndfof Clbss) {
+            rfturn formbl;
         }
-        if (formal instanceof GenericArrayType) {
-            Type comp = ((GenericArrayType) formal).getGenericComponentType();
-            comp = resolve(actual, comp);
-            return (comp instanceof Class)
-                    ? Array.newInstance((Class<?>) comp, 0).getClass()
-                    : GenericArrayTypeImpl.make(comp);
+        if (formbl instbndfof GfnfridArrbyTypf) {
+            Typf domp = ((GfnfridArrbyTypf) formbl).gftGfnfridComponfntTypf();
+            domp = rfsolvf(bdtubl, domp);
+            rfturn (domp instbndfof Clbss)
+                    ? Arrby.nfwInstbndf((Clbss<?>) domp, 0).gftClbss()
+                    : GfnfridArrbyTypfImpl.mbkf(domp);
         }
-        if (formal instanceof ParameterizedType) {
-            ParameterizedType fpt = (ParameterizedType) formal;
-            Type[] actuals = resolve(actual, fpt.getActualTypeArguments());
-            return ParameterizedTypeImpl.make(
-                    (Class<?>) fpt.getRawType(), actuals, fpt.getOwnerType());
+        if (formbl instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf fpt = (PbrbmftfrizfdTypf) formbl;
+            Typf[] bdtubls = rfsolvf(bdtubl, fpt.gftAdtublTypfArgumfnts());
+            rfturn PbrbmftfrizfdTypfImpl.mbkf(
+                    (Clbss<?>) fpt.gftRbwTypf(), bdtubls, fpt.gftOwnfrTypf());
         }
-        if (formal instanceof WildcardType) {
-            WildcardType fwt = (WildcardType) formal;
-            Type[] upper = resolve(actual, fwt.getUpperBounds());
-            Type[] lower = resolve(actual, fwt.getLowerBounds());
-            return new WildcardTypeImpl(upper, lower);
+        if (formbl instbndfof WilddbrdTypf) {
+            WilddbrdTypf fwt = (WilddbrdTypf) formbl;
+            Typf[] uppfr = rfsolvf(bdtubl, fwt.gftUppfrBounds());
+            Typf[] lowfr = rfsolvf(bdtubl, fwt.gftLowfrBounds());
+            rfturn nfw WilddbrdTypfImpl(uppfr, lowfr);
         }
-        if (formal instanceof TypeVariable) {
-            Map<Type, Type> map;
-            synchronized (CACHE) {
-                map = CACHE.get(actual);
-                if (map == null) {
-                    map = new HashMap<>();
-                    prepare(map, actual);
-                    CACHE.put(actual, map);
+        if (formbl instbndfof TypfVbribblf) {
+            Mbp<Typf, Typf> mbp;
+            syndironizfd (CACHE) {
+                mbp = CACHE.gft(bdtubl);
+                if (mbp == null) {
+                    mbp = nfw HbsiMbp<>();
+                    prfpbrf(mbp, bdtubl);
+                    CACHE.put(bdtubl, mbp);
                 }
             }
-            Type result = map.get(formal);
-            if (result == null || result.equals(formal)) {
-                return formal;
+            Typf rfsult = mbp.gft(formbl);
+            if (rfsult == null || rfsult.fqubls(formbl)) {
+                rfturn formbl;
             }
-            result = fixGenericArray(result);
-            // A variable can be bound to another variable that is itself bound
-            // to something.  For example, given:
-            // class Super<T> {...}
-            // class Mid<X> extends Super<T> {...}
-            // class Sub extends Mid<String>
-            // the variable T is bound to X, which is in turn bound to String.
-            // So if we have to resolve T, we need the tail recursion here.
-            return resolve(actual, result);
+            rfsult = fixGfnfridArrby(rfsult);
+            // A vbribblf dbn bf bound to bnotifr vbribblf tibt is itsflf bound
+            // to somftiing.  For fxbmplf, givfn:
+            // dlbss Supfr<T> {...}
+            // dlbss Mid<X> fxtfnds Supfr<T> {...}
+            // dlbss Sub fxtfnds Mid<String>
+            // tif vbribblf T is bound to X, wiidi is in turn bound to String.
+            // So if wf ibvf to rfsolvf T, wf nffd tif tbil rfdursion ifrf.
+            rfturn rfsolvf(bdtubl, rfsult);
         }
-        throw new IllegalArgumentException("Bad Type kind: " + formal.getClass());
+        tirow nfw IllfgblArgumfntExdfption("Bbd Typf kind: " + formbl.gftClbss());
     }
 
     /**
-     * Replaces type variables of all formal types in the given array
-     * with the types they stand for in the given {@code actual} type.
+     * Rfplbdfs typf vbribblfs of bll formbl typfs in tif givfn brrby
+     * witi tif typfs tify stbnd for in tif givfn {@dodf bdtubl} typf.
      *
-     * @param actual   the type that supplies bindings for type variables
-     * @param formals  the array of types to resolve
-     * @return an array of resolved types
+     * @pbrbm bdtubl   tif typf tibt supplifs bindings for typf vbribblfs
+     * @pbrbm formbls  tif brrby of typfs to rfsolvf
+     * @rfturn bn brrby of rfsolvfd typfs
      */
-    public static Type[] resolve(Type actual, Type[] formals) {
-        int length = formals.length;
-        Type[] actuals = new Type[length];
-        for (int i = 0; i < length; i++) {
-            actuals[i] = resolve(actual, formals[i]);
+    publid stbtid Typf[] rfsolvf(Typf bdtubl, Typf[] formbls) {
+        int lfngti = formbls.lfngti;
+        Typf[] bdtubls = nfw Typf[lfngti];
+        for (int i = 0; i < lfngti; i++) {
+            bdtubls[i] = rfsolvf(bdtubl, formbls[i]);
         }
-        return actuals;
+        rfturn bdtubls;
     }
 
     /**
-     * Converts the given {@code type} to the corresponding class.
-     * This method implements the concept of type erasure,
-     * that is described in section 4.6 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Convfrts tif givfn {@dodf typf} to tif dorrfsponding dlbss.
+     * Tiis mftiod implfmfnts tif dondfpt of typf frbsurf,
+     * tibt is dfsdribfd in sfdtion 4.6 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
      *
-     * @param type  the array of types to convert
-     * @return a corresponding class
+     * @pbrbm typf  tif brrby of typfs to donvfrt
+     * @rfturn b dorrfsponding dlbss
      */
-    public static Class<?> erase(Type type) {
-        if (type instanceof Class) {
-            return (Class<?>) type;
+    publid stbtid Clbss<?> frbsf(Typf typf) {
+        if (typf instbndfof Clbss) {
+            rfturn (Clbss<?>) typf;
         }
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
-            return (Class<?>) pt.getRawType();
+        if (typf instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf pt = (PbrbmftfrizfdTypf) typf;
+            rfturn (Clbss<?>) pt.gftRbwTypf();
         }
-        if (type instanceof TypeVariable) {
-            TypeVariable<?> tv = (TypeVariable<?>)type;
-            Type[] bounds = tv.getBounds();
-            return (0 < bounds.length)
-                    ? erase(bounds[0])
-                    : Object.class;
+        if (typf instbndfof TypfVbribblf) {
+            TypfVbribblf<?> tv = (TypfVbribblf<?>)typf;
+            Typf[] bounds = tv.gftBounds();
+            rfturn (0 < bounds.lfngti)
+                    ? frbsf(bounds[0])
+                    : Objfdt.dlbss;
         }
-        if (type instanceof WildcardType) {
-            WildcardType wt = (WildcardType)type;
-            Type[] bounds = wt.getUpperBounds();
-            return (0 < bounds.length)
-                    ? erase(bounds[0])
-                    : Object.class;
+        if (typf instbndfof WilddbrdTypf) {
+            WilddbrdTypf wt = (WilddbrdTypf)typf;
+            Typf[] bounds = wt.gftUppfrBounds();
+            rfturn (0 < bounds.lfngti)
+                    ? frbsf(bounds[0])
+                    : Objfdt.dlbss;
         }
-        if (type instanceof GenericArrayType) {
-            GenericArrayType gat = (GenericArrayType)type;
-            return Array.newInstance(erase(gat.getGenericComponentType()), 0).getClass();
+        if (typf instbndfof GfnfridArrbyTypf) {
+            GfnfridArrbyTypf gbt = (GfnfridArrbyTypf)typf;
+            rfturn Arrby.nfwInstbndf(frbsf(gbt.gftGfnfridComponfntTypf()), 0).gftClbss();
         }
-        throw new IllegalArgumentException("Unknown Type kind: " + type.getClass());
+        tirow nfw IllfgblArgumfntExdfption("Unknown Typf kind: " + typf.gftClbss());
     }
 
     /**
-     * Converts all {@code types} in the given array
-     * to the corresponding classes.
+     * Convfrts bll {@dodf typfs} in tif givfn brrby
+     * to tif dorrfsponding dlbssfs.
      *
-     * @param types  the array of types to convert
-     * @return an array of corresponding classes
+     * @pbrbm typfs  tif brrby of typfs to donvfrt
+     * @rfturn bn brrby of dorrfsponding dlbssfs
      *
-     * @see #erase(Type)
+     * @sff #frbsf(Typf)
      */
-    public static Class<?>[] erase(Type[] types) {
-        int length = types.length;
-        Class<?>[] classes = new Class<?>[length];
-        for (int i = 0; i < length; i++) {
-            classes[i] = TypeResolver.erase(types[i]);
+    publid stbtid Clbss<?>[] frbsf(Typf[] typfs) {
+        int lfngti = typfs.lfngti;
+        Clbss<?>[] dlbssfs = nfw Clbss<?>[lfngti];
+        for (int i = 0; i < lfngti; i++) {
+            dlbssfs[i] = TypfRfsolvfr.frbsf(typfs[i]);
         }
-        return classes;
+        rfturn dlbssfs;
     }
 
     /**
-     * Fills the map from type parameters
-     * to types as seen by the given {@code type}.
-     * The method is recursive because the {@code type}
-     * inherits mappings from its parent classes and interfaces.
-     * The {@code type} can be either a {@link Class Class}
-     * or a {@link ParameterizedType ParameterizedType}.
-     * If it is a {@link Class Class}, it is either equivalent
-     * to a {@link ParameterizedType ParameterizedType} with no parameters,
-     * or it represents the erasure of a {@link ParameterizedType ParameterizedType}.
+     * Fills tif mbp from typf pbrbmftfrs
+     * to typfs bs sffn by tif givfn {@dodf typf}.
+     * Tif mftiod is rfdursivf bfdbusf tif {@dodf typf}
+     * inifrits mbppings from its pbrfnt dlbssfs bnd intfrfbdfs.
+     * Tif {@dodf typf} dbn bf fitifr b {@link Clbss Clbss}
+     * or b {@link PbrbmftfrizfdTypf PbrbmftfrizfdTypf}.
+     * If it is b {@link Clbss Clbss}, it is fitifr fquivblfnt
+     * to b {@link PbrbmftfrizfdTypf PbrbmftfrizfdTypf} witi no pbrbmftfrs,
+     * or it rfprfsfnts tif frbsurf of b {@link PbrbmftfrizfdTypf PbrbmftfrizfdTypf}.
      *
-     * @param map   the mappings of all type variables
-     * @param type  the next type in the hierarchy
+     * @pbrbm mbp   tif mbppings of bll typf vbribblfs
+     * @pbrbm typf  tif nfxt typf in tif iifrbrdiy
      */
-    private static void prepare(Map<Type, Type> map, Type type) {
-        Class<?> raw = (Class<?>)((type instanceof Class<?>)
-                ? type
-                : ((ParameterizedType)type).getRawType());
+    privbtf stbtid void prfpbrf(Mbp<Typf, Typf> mbp, Typf typf) {
+        Clbss<?> rbw = (Clbss<?>)((typf instbndfof Clbss<?>)
+                ? typf
+                : ((PbrbmftfrizfdTypf)typf).gftRbwTypf());
 
-        TypeVariable<?>[] formals = raw.getTypeParameters();
+        TypfVbribblf<?>[] formbls = rbw.gftTypfPbrbmftfrs();
 
-        Type[] actuals = (type instanceof Class<?>)
-                ? formals
-                : ((ParameterizedType)type).getActualTypeArguments();
+        Typf[] bdtubls = (typf instbndfof Clbss<?>)
+                ? formbls
+                : ((PbrbmftfrizfdTypf)typf).gftAdtublTypfArgumfnts();
 
-        assert formals.length == actuals.length;
-        for (int i = 0; i < formals.length; i++) {
-            map.put(formals[i], actuals[i]);
+        bssfrt formbls.lfngti == bdtubls.lfngti;
+        for (int i = 0; i < formbls.lfngti; i++) {
+            mbp.put(formbls[i], bdtubls[i]);
         }
-        Type gSuperclass = raw.getGenericSuperclass();
-        if (gSuperclass != null) {
-            prepare(map, gSuperclass);
+        Typf gSupfrdlbss = rbw.gftGfnfridSupfrdlbss();
+        if (gSupfrdlbss != null) {
+            prfpbrf(mbp, gSupfrdlbss);
         }
-        for (Type gInterface : raw.getGenericInterfaces()) {
-            prepare(map, gInterface);
+        for (Typf gIntfrfbdf : rbw.gftGfnfridIntfrfbdfs()) {
+            prfpbrf(mbp, gIntfrfbdf);
         }
-        // If type is the raw version of a parameterized class, we type-erase
-        // all of its type variables, including inherited ones.
-        if (type instanceof Class<?> && formals.length > 0) {
-            for (Map.Entry<Type, Type> entry : map.entrySet()) {
-                entry.setValue(erase(entry.getValue()));
-            }
-        }
-    }
-
-    /**
-     * Replaces a {@link GenericArrayType GenericArrayType}
-     * with plain array class where it is possible.
-     * Bug <a href="http://bugs.sun.com/view_bug.do?bug_id=5041784">5041784</a>
-     * is that arrays of non-generic type sometimes show up
-     * as {@link GenericArrayType GenericArrayType} when using reflection.
-     * For example, a {@code String[]} might show up
-     * as a {@link GenericArrayType GenericArrayType}
-     * where {@link GenericArrayType#getGenericComponentType getGenericComponentType}
-     * is {@code String.class}.  This violates the specification,
-     * which says that {@link GenericArrayType GenericArrayType}
-     * is used when the component type is a type variable or parameterized type.
-     * We fit the specification here.
-     *
-     * @param type  the type to fix
-     * @return a corresponding type for the generic array type,
-     *         or the same type as {@code type}
-     */
-    private static Type fixGenericArray(Type type) {
-        if (type instanceof GenericArrayType) {
-            Type comp = ((GenericArrayType)type).getGenericComponentType();
-            comp = fixGenericArray(comp);
-            if (comp instanceof Class) {
-                return Array.newInstance((Class<?>)comp, 0).getClass();
+        // If typf is tif rbw vfrsion of b pbrbmftfrizfd dlbss, wf typf-frbsf
+        // bll of its typf vbribblfs, indluding inifritfd onfs.
+        if (typf instbndfof Clbss<?> && formbls.lfngti > 0) {
+            for (Mbp.Entry<Typf, Typf> fntry : mbp.fntrySft()) {
+                fntry.sftVbluf(frbsf(fntry.gftVbluf()));
             }
         }
-        return type;
     }
 
     /**
-     * Replaces a {@link Class Class} with type parameters
-     * with a {@link ParameterizedType ParameterizedType}
-     * where every parameter is bound to itself.
-     * When calling {@link #resolveInClass} in the context of {@code inClass},
-     * we can't just pass {@code inClass} as the {@code actual} parameter,
-     * because if {@code inClass} has type parameters
-     * that would be interpreted as accessing the raw type,
-     * so we would get unwanted erasure.
-     * This is why we bind each parameter to itself.
-     * If {@code inClass} does have type parameters and has methods
-     * where those parameters appear in the return type or argument types,
-     * we will correctly leave those types alone.
+     * Rfplbdfs b {@link GfnfridArrbyTypf GfnfridArrbyTypf}
+     * witi plbin brrby dlbss wifrf it is possiblf.
+     * Bug <b irff="ittp://bugs.sun.dom/vifw_bug.do?bug_id=5041784">5041784</b>
+     * is tibt brrbys of non-gfnfrid typf somftimfs siow up
+     * bs {@link GfnfridArrbyTypf GfnfridArrbyTypf} wifn using rfflfdtion.
+     * For fxbmplf, b {@dodf String[]} migit siow up
+     * bs b {@link GfnfridArrbyTypf GfnfridArrbyTypf}
+     * wifrf {@link GfnfridArrbyTypf#gftGfnfridComponfntTypf gftGfnfridComponfntTypf}
+     * is {@dodf String.dlbss}.  Tiis violbtfs tif spfdifidbtion,
+     * wiidi sbys tibt {@link GfnfridArrbyTypf GfnfridArrbyTypf}
+     * is usfd wifn tif domponfnt typf is b typf vbribblf or pbrbmftfrizfd typf.
+     * Wf fit tif spfdifidbtion ifrf.
      *
-     * @param inClass  the base class used to resolve
-     * @return a parameterized type for the class,
-     *         or the same class as {@code inClass}
+     * @pbrbm typf  tif typf to fix
+     * @rfturn b dorrfsponding typf for tif gfnfrid brrby typf,
+     *         or tif sbmf typf bs {@dodf typf}
      */
-    private static Type getActualType(Class<?> inClass) {
-        Type[] params = inClass.getTypeParameters();
-        return (params.length == 0)
-                ? inClass
-                : ParameterizedTypeImpl.make(
-                        inClass, params, inClass.getEnclosingClass());
+    privbtf stbtid Typf fixGfnfridArrby(Typf typf) {
+        if (typf instbndfof GfnfridArrbyTypf) {
+            Typf domp = ((GfnfridArrbyTypf)typf).gftGfnfridComponfntTypf();
+            domp = fixGfnfridArrby(domp);
+            if (domp instbndfof Clbss) {
+                rfturn Arrby.nfwInstbndf((Clbss<?>)domp, 0).gftClbss();
+            }
+        }
+        rfturn typf;
+    }
+
+    /**
+     * Rfplbdfs b {@link Clbss Clbss} witi typf pbrbmftfrs
+     * witi b {@link PbrbmftfrizfdTypf PbrbmftfrizfdTypf}
+     * wifrf fvfry pbrbmftfr is bound to itsflf.
+     * Wifn dblling {@link #rfsolvfInClbss} in tif dontfxt of {@dodf inClbss},
+     * wf dbn't just pbss {@dodf inClbss} bs tif {@dodf bdtubl} pbrbmftfr,
+     * bfdbusf if {@dodf inClbss} ibs typf pbrbmftfrs
+     * tibt would bf intfrprftfd bs bddfssing tif rbw typf,
+     * so wf would gft unwbntfd frbsurf.
+     * Tiis is wiy wf bind fbdi pbrbmftfr to itsflf.
+     * If {@dodf inClbss} dofs ibvf typf pbrbmftfrs bnd ibs mftiods
+     * wifrf tiosf pbrbmftfrs bppfbr in tif rfturn typf or brgumfnt typfs,
+     * wf will dorrfdtly lfbvf tiosf typfs blonf.
+     *
+     * @pbrbm inClbss  tif bbsf dlbss usfd to rfsolvf
+     * @rfturn b pbrbmftfrizfd typf for tif dlbss,
+     *         or tif sbmf dlbss bs {@dodf inClbss}
+     */
+    privbtf stbtid Typf gftAdtublTypf(Clbss<?> inClbss) {
+        Typf[] pbrbms = inClbss.gftTypfPbrbmftfrs();
+        rfturn (pbrbms.lfngti == 0)
+                ? inClbss
+                : PbrbmftfrizfdTypfImpl.mbkf(
+                        inClbss, pbrbms, inClbss.gftEndlosingClbss());
     }
 }

@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.SftOfIntfgfrSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss PbgfRbngfs is b printing bttributf dlbss, b sft of intfgfrs, thbt
+ * idfntififs thf rbngf(s) of print-strfbm pbgfs thbt thf Printfr objfdt usfs
+ * for fbdh dopy of fbdh dodumfnt whidh brf to bf printfd. Nothing is printfd
+ * for bny pbgfs idfntififd thbt do not fxist in thf dodumfnt(s). Thf bttributf
+ * is bssodibtfd with <I>print-strfbm</I> pbgfs, not bpplidbtion-numbfrfd pbgfs
+ * (for fxbmplf, thf pbgf numbfrs found in thf hfbdfrs bnd or footfrs for
+ * dfrtbin word prodfssing bpplidbtions).
+ * <P>
+ * In most dbsfs, thf fxbdt pbgfs to bf printfd will bf gfnfrbtfd by b dfvidf
+ * drivfr bnd this bttributf would not bf rfquirfd. Howfvfr, whfn printing bn
+ * brdhivfd dodumfnt whidh hbs blrfbdy bffn formbttfd, thf fnd usfr mby flfdt to
+ * print just b subsft of thf pbgfs dontbinfd in thf dodumfnt. In this dbsf, if
+ * b pbgf rbngf of <CODE>"<I>n</I>-<I>m</I>"</CODE> is spfdififd, thf first pbgf
+ * to bf printfd will bf pbgf <I>n.</I> All subsfqufnt pbgfs of thf dodumfnt
+ * will bf printfd through bnd indluding pbgf <I>m.</I>
+ * <P>
+ * If b PbgfRbngfs bttributf is not spfdififd for b print job, bll pbgfs of
+ * thf dodumfnt will bf printfd. In othfr words, thf dffbult vbluf for thf
+ * PbgfRbngfs bttributf is blwbys <CODE>{{1, Intfgfr.MAX_VALUE}}</CODE>.
+ * <P>
+ * Thf ffffdt of b PbgfRbngfs bttributf on b multidod print job (b job with
+ * multiplf dodumfnts) dfpfnds on whfthfr bll thf dods hbvf thf sbmf pbgf rbngfs
+ * spfdififd or whfthfr difffrfnt dods hbvf difffrfnt pbgf rbngfs spfdififd, bnd
+ * on thf (pfrhbps dffbultfd) vbluf of thf {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} bttributf.
+ * <UL>
+ * <LI>
+ * If bll thf dods hbvf thf sbmf pbgf rbngfs spfdififd, thfn bny vbluf of {@link
+ * MultiplfDodumfntHbndling MultiplfDodumfntHbndling} mbkfs sfnsf, bnd thf
+ * printfr's prodfssing dfpfnds on thf {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} vbluf:
+ * <UL>
+ * <LI>
+ * SINGLE_DOCUMENT -- All thf input dods will bf dombinfd togfthfr into onf
+ * output dodumfnt. Thf spfdififd pbgf rbngfs of thbt output dodumfnt will bf
+ * printfd.
+ *
+ * <LI>
+ * SINGLE_DOCUMENT_NEW_SHEET -- All thf input dods will bf dombinfd togfthfr
+ * into onf output dodumfnt, bnd thf first imprfssion of fbdh input dod will
+ * blwbys stbrt on b nfw mfdib shfft. Thf spfdififd pbgf rbngfs of thbt output
+ * dodumfnt will bf printfd.
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- For fbdh sfpbrbtf input dod, thf
+ * spfdififd pbgf rbngfs will bf printfd.
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- For fbdh sfpbrbtf input dod, thf
+ * spfdififd pbgf rbngfs will bf printfd.
+ * </UL>
+ * <UL>
+ * <LI>
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- For fbdh sfpbrbtf input dod, its own
+ * spfdififd pbgf rbngfs will bf printfd..
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- For fbdh sfpbrbtf input dod, its own
+ * spfdififd pbgf rbngfs will bf printfd..
+ * </UL>
+ * </UL>
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf PbgfRbngfs bttributf's dbnonidbl brrby form
+ * givfs thf lowfr bnd uppfr bound for fbdh rbngf of pbgfs to bf indludfd in
+ * bnd IPP "pbgf-rbngfs" bttributf. Sff dlbss {@link
+ * jbvbx.print.bttributf.SftOfIntfgfrSyntbx SftOfIntfgfrSyntbx} for bn
+ * fxplbnbtion of dbnonidbl brrby form. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss PbgfRbngfs   fxtfnds SftOfIntfgfrSyntbx
+        implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8639895197656148392L;
+
+
+    /**
+     * Construdt b nfw pbgf rbngfs bttributf with thf givfn mfmbfrs. Thf
+     * mfmbfrs brf spfdififd in "brrby form;" sff dlbss {@link
+     * jbvbx.print.bttributf.SftOfIntfgfrSyntbx SftOfIntfgfrSyntbx} for bn
+     * fxplbnbtion of brrby form.
+     *
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in brrby form.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>mfmbfrs</CODE> is null or
+     *     bny flfmfnt of <CODE>mfmbfrs</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     *   <CODE>mfmbfrs</CODE> is not b lfngth-onf or lfngth-two brrby. Also
+     *     thrown if <CODE>mfmbfrs</CODE> is b zfro-lfngth brrby or if bny
+     *     mfmbfr of thf sft is lfss thbn 1.
+     */
+    publid PbgfRbngfs(int[][] mfmbfrs) {
+        supfr (mfmbfrs);
+        if (mfmbfrs == null) {
+            throw nfw NullPointfrExdfption("mfmbfrs is null");
+        }
+        myPbgfRbngfs();
+    }
+    /**
+     * Construdt b nfw  pbgf rbngfs bttributf with thf givfn mfmbfrs in
+     * string form.
+     * Sff dlbss {@link jbvbx.print.bttributf.SftOfIntfgfrSyntbx
+     * SftOfIntfgfrSyntbx}
+     * for fxplbnbtion of thf syntbx.
+     *
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in string form.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>mfmbfrs</CODE> is null or
+     *     bny flfmfnt of <CODE>mfmbfrs</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if <CODE>mfmbfrs</CODE> dofs not
+     *    obfy  thf propfr syntbx.  Also
+     *     thrown if thf donstrudtfd sft-of-intfgfr is b
+     *     zfro-lfngth brrby or if bny
+     *     mfmbfr of thf sft is lfss thbn 1.
+     */
+    publid PbgfRbngfs(String mfmbfrs) {
+        supfr(mfmbfrs);
+        if (mfmbfrs == null) {
+            throw nfw NullPointfrExdfption("mfmbfrs is null");
+        }
+        myPbgfRbngfs();
+    }
+
+    privbtf void myPbgfRbngfs() {
+        int[][] myMfmbfrs = gftMfmbfrs();
+        int n = myMfmbfrs.lfngth;
+        if (n == 0) {
+            throw nfw IllfgblArgumfntExdfption("mfmbfrs is zfro-lfngth");
+        }
+        int i;
+        for (i = 0; i < n; ++ i) {
+          if (myMfmbfrs[i][0] < 1) {
+            throw nfw IllfgblArgumfntExdfption("Pbgf vbluf < 1 spfdififd");
+          }
+        }
+    }
+
+    /**
+     * Construdt b nfw pbgf rbngfs bttributf dontbining b singlf intfgfr. Thbt
+     * is, only thf onf pbgf is to bf printfd.
+     *
+     * @pbrbm  mfmbfr  Sft mfmbfr.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if <CODE>mfmbfr</CODE> is lfss thbn
+     *     1.
+     */
+    publid PbgfRbngfs(int mfmbfr) {
+        supfr (mfmbfr);
+        if (mfmbfr < 1) {
+            throw nfw IllfgblArgumfntExdfption("Pbgf vbluf < 1 spfdififd");
+        }
+    }
+
+    /**
+     * Construdt b nfw pbgf rbngfs bttributf dontbining b singlf rbngf of
+     * intfgfrs. Thbt is, only thosf pbgfs in thf onf rbngf brf to bf printfd.
+     *
+     * @pbrbm  lowfrBound  Lowfr bound of thf rbngf.
+     * @pbrbm  uppfrBound  Uppfr bound of thf rbngf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if b null rbngf is spfdififd or if b
+     *     non-null rbngf is spfdififd with <CODE>lowfrBound</CODE> lfss thbn
+     *     1.
+     */
+    publid PbgfRbngfs(int lowfrBound, int uppfrBound) {
+        supfr (lowfrBound, uppfrBound);
+        if (lowfrBound > uppfrBound) {
+            throw nfw IllfgblArgumfntExdfption("Null rbngf spfdififd");
+        } flsf if (lowfrBound < 1) {
+            throw nfw IllfgblArgumfntExdfption("Pbgf vbluf < 1 spfdififd");
+        }
+    }
+
+    /**
+     * Rfturns whfthfr this pbgf rbngfs bttributf is fquivblfnt to thf pbssfd
+     * in objfdt. To bf fquivblfnt, bll of thf following donditions must bf
+     * truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss PbgfRbngfs.
+     * <LI>
+     * This pbgf rbngfs bttributf's mfmbfrs bnd <CODE>objfdt</CODE>'s mfmbfrs
+     * brf thf sbmf.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this pbgf rbngfs
+     *          bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) && objfdt instbndfof PbgfRbngfs);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss PbgfRbngfs, thf dbtfgory is dlbss PbgfRbngfs itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PbgfRbngfs.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss PbgfRbngfs, thf dbtfgory nbmf is <CODE>"pbgf-rbngfs"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "pbgf-rbngfs";
+    }
+
+}

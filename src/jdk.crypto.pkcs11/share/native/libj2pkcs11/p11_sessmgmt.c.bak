@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,590 +45,590 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-/* The list of notify callback handles that are currently active and waiting
- * for callbacks from their sessions.
+/* Tif list of notify dbllbbdk ibndlfs tibt brf durrfntly bdtivf bnd wbiting
+ * for dbllbbdks from tifir sfssions.
  */
-#ifndef NO_CALLBACKS
-NotifyListNode *notifyListHead = NULL;
-jobject notifyListLock = NULL;
-#endif /* NO_CALLBACKS */
+#ifndff NO_CALLBACKS
+NotifyListNodf *notifyListHfbd = NULL;
+jobjfdt notifyListLodk = NULL;
+#fndif /* NO_CALLBACKS */
 
-#ifdef P11_ENABLE_C_OPENSESSION
+#ifdff P11_ENABLE_C_OPENSESSION
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_OpenSession
- * Signature: (JJLjava/lang/Object;Lsun/security/pkcs11/wrapper/CK_NOTIFY;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
- * @param   jlong jFlags                CK_FLAGS flags
- * @param   jobject jApplication        CK_VOID_PTR pApplication
- * @param   jobject jNotify             CK_NOTIFY Notify
- * @return  jlong jSessionHandle        CK_SESSION_HANDLE_PTR phSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_OpfnSfssion
+ * Signbturf: (JJLjbvb/lbng/Objfdt;Lsun/sfdurity/pkds11/wrbppfr/CK_NOTIFY;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
+ * @pbrbm   jlong jFlbgs                CK_FLAGS flbgs
+ * @pbrbm   jobjfdt jApplidbtion        CK_VOID_PTR pApplidbtion
+ * @pbrbm   jobjfdt jNotify             CK_NOTIFY Notify
+ * @rfturn  jlong jSfssionHbndlf        CK_SESSION_HANDLE_PTR piSfssion
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1OpenSession
-    (JNIEnv *env, jobject obj, jlong jSlotID, jlong jFlags, jobject jApplication, jobject jNotify)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1OpfnSfssion
+    (JNIEnv *fnv, jobjfdt obj, jlong jSlotID, jlong jFlbgs, jobjfdt jApplidbtion, jobjfdt jNotify)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_SLOT_ID ckSlotID;
-    CK_FLAGS ckFlags;
-    CK_VOID_PTR ckpApplication;
-    CK_NOTIFY ckNotify;
-    jlong jSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_SLOT_ID dkSlotID;
+    CK_FLAGS dkFlbgs;
+    CK_VOID_PTR dkpApplidbtion;
+    CK_NOTIFY dkNotify;
+    jlong jSfssionHbndlf;
     CK_RV rv;
-#ifndef NO_CALLBACKS
-    NotifyEncapsulation *notifyEncapsulation = NULL;
-#endif /* NO_CALLBACKS */
+#ifndff NO_CALLBACKS
+    NotifyEndbpsulbtion *notifyEndbpsulbtion = NULL;
+#fndif /* NO_CALLBACKS */
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
-    ckFlags = jLongToCKULong(jFlags);
+    dkSlotID = jLongToCKULong(jSlotID);
+    dkFlbgs = jLongToCKULong(jFlbgs);
 
-#ifndef NO_CALLBACKS
+#ifndff NO_CALLBACKS
     if (jNotify != NULL) {
-        notifyEncapsulation = (NotifyEncapsulation *) malloc(sizeof(NotifyEncapsulation));
-        if (notifyEncapsulation == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return 0L;
+        notifyEndbpsulbtion = (NotifyEndbpsulbtion *) mbllod(sizfof(NotifyEndbpsulbtion));
+        if (notifyEndbpsulbtion == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn 0L;
         }
-        notifyEncapsulation->jApplicationData = (jApplication != NULL)
-                ? (*env)->NewGlobalRef(env, jApplication)
+        notifyEndbpsulbtion->jApplidbtionDbtb = (jApplidbtion != NULL)
+                ? (*fnv)->NfwGlobblRff(fnv, jApplidbtion)
                 : NULL;
-        notifyEncapsulation->jNotifyObject = (*env)->NewGlobalRef(env, jNotify);
-        ckpApplication = notifyEncapsulation;
-        ckNotify = (CK_NOTIFY) &notifyCallback;
-    } else {
-        ckpApplication = NULL_PTR;
-        ckNotify = NULL_PTR;
+        notifyEndbpsulbtion->jNotifyObjfdt = (*fnv)->NfwGlobblRff(fnv, jNotify);
+        dkpApplidbtion = notifyEndbpsulbtion;
+        dkNotify = (CK_NOTIFY) &notifyCbllbbdk;
+    } flsf {
+        dkpApplidbtion = NULL_PTR;
+        dkNotify = NULL_PTR;
     }
-#else
-        ckpApplication = NULL_PTR;
-        ckNotify = NULL_PTR;
-#endif /* NO_CALLBACKS */
+#flsf
+        dkpApplidbtion = NULL_PTR;
+        dkNotify = NULL_PTR;
+#fndif /* NO_CALLBACKS */
 
-    TRACE0("DEBUG: C_OpenSession");
-    TRACE1(", slotID=%u", ckSlotID);
-    TRACE1(", flags=%x", ckFlags);
+    TRACE0("DEBUG: C_OpfnSfssion");
+    TRACE1(", slotID=%u", dkSlotID);
+    TRACE1(", flbgs=%x", dkFlbgs);
     TRACE0(" ... ");
 
-    rv = (*ckpFunctions->C_OpenSession)(ckSlotID, ckFlags, ckpApplication, ckNotify, &ckSessionHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-#ifndef NO_CALLBACKS
-        if (notifyEncapsulation != NULL) {
-            if (notifyEncapsulation->jApplicationData != NULL) {
-                (*env)->DeleteGlobalRef(env, jApplication);
+    rv = (*dkpFundtions->C_OpfnSfssion)(dkSlotID, dkFlbgs, dkpApplidbtion, dkNotify, &dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+#ifndff NO_CALLBACKS
+        if (notifyEndbpsulbtion != NULL) {
+            if (notifyEndbpsulbtion->jApplidbtionDbtb != NULL) {
+                (*fnv)->DflftfGlobblRff(fnv, jApplidbtion);
             }
-            (*env)->DeleteGlobalRef(env, jNotify);
-            free(notifyEncapsulation);
+            (*fnv)->DflftfGlobblRff(fnv, jNotify);
+            frff(notifyEndbpsulbtion);
         }
-#endif /* NO_CALLBACKS */
-        return 0L;
+#fndif /* NO_CALLBACKS */
+        rfturn 0L;
     }
 
-    TRACE0("got session");
-    TRACE1(", SessionHandle=%u", ckSessionHandle);
+    TRACE0("got sfssion");
+    TRACE1(", SfssionHbndlf=%u", dkSfssionHbndlf);
     TRACE0(" ... ");
 
-    jSessionHandle = ckULongToJLong(ckSessionHandle);
+    jSfssionHbndlf = dkULongToJLong(dkSfssionHbndlf);
 
-#ifndef NO_CALLBACKS
-    if (notifyEncapsulation != NULL) {
-        /* store the notifyEncapsulation to enable later cleanup */
-        putNotifyEntry(env, ckSessionHandle, notifyEncapsulation);
+#ifndff NO_CALLBACKS
+    if (notifyEndbpsulbtion != NULL) {
+        /* storf tif notifyEndbpsulbtion to fnbblf lbtfr dlfbnup */
+        putNotifyEntry(fnv, dkSfssionHbndlf, notifyEndbpsulbtion);
     }
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */
 
     TRACE0("FINISHED\n");
 
-    return jSessionHandle ;
+    rfturn jSfssionHbndlf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_CLOSESESSION
+#ifdff P11_ENABLE_C_CLOSESESSION
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_CloseSession
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_ClosfSfssion
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1CloseSession
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1ClosfSfssion
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
-#ifndef NO_CALLBACKS
-    NotifyEncapsulation *notifyEncapsulation;
-    jobject jApplicationData;
-#endif /* NO_CALLBACKS */
+#ifndff NO_CALLBACKS
+    NotifyEndbpsulbtion *notifyEndbpsulbtion;
+    jobjfdt jApplidbtionDbtb;
+#fndif /* NO_CALLBACKS */
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    rv = (*ckpFunctions->C_CloseSession)(ckSessionHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_ClosfSfssion)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 
-#ifndef NO_CALLBACKS
-    notifyEncapsulation = removeNotifyEntry(env, ckSessionHandle);
+#ifndff NO_CALLBACKS
+    notifyEndbpsulbtion = rfmovfNotifyEntry(fnv, dkSfssionHbndlf);
 
-    if (notifyEncapsulation != NULL) {
-        /* there was a notify object used with this session, now dump the
-         * encapsulation object
+    if (notifyEndbpsulbtion != NULL) {
+        /* tifrf wbs b notify objfdt usfd witi tiis sfssion, now dump tif
+         * fndbpsulbtion objfdt
          */
-        (*env)->DeleteGlobalRef(env, notifyEncapsulation->jNotifyObject);
-        jApplicationData = notifyEncapsulation->jApplicationData;
-        if (jApplicationData != NULL) {
-            (*env)->DeleteGlobalRef(env, jApplicationData);
+        (*fnv)->DflftfGlobblRff(fnv, notifyEndbpsulbtion->jNotifyObjfdt);
+        jApplidbtionDbtb = notifyEndbpsulbtion->jApplidbtionDbtb;
+        if (jApplidbtionDbtb != NULL) {
+            (*fnv)->DflftfGlobblRff(fnv, jApplidbtionDbtb);
         }
-        free(notifyEncapsulation);
+        frff(notifyEndbpsulbtion);
     }
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */
 
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_CLOSEALLSESSIONS
+#ifdff P11_ENABLE_C_CLOSEALLSESSIONS
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_CloseAllSessions
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSlotID               CK_SLOT_ID slotID
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_ClosfAllSfssions
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSlotID               CK_SLOT_ID slotID
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1CloseAllSessions
-    (JNIEnv *env, jobject obj, jlong jSlotID)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1ClosfAllSfssions
+    (JNIEnv *fnv, jobjfdt obj, jlong jSlotID)
 {
-    CK_SLOT_ID ckSlotID;
+    CK_SLOT_ID dkSlotID;
     CK_RV rv;
-#ifndef NO_CALLBACKS
-    NotifyEncapsulation *notifyEncapsulation;
-    jobject jApplicationData;
-#endif /* NO_CALLBACKS */
+#ifndff NO_CALLBACKS
+    NotifyEndbpsulbtion *notifyEndbpsulbtion;
+    jobjfdt jApplidbtionDbtb;
+#fndif /* NO_CALLBACKS */
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSlotID = jLongToCKULong(jSlotID);
+    dkSlotID = jLongToCKULong(jSlotID);
 
-    rv = (*ckpFunctions->C_CloseAllSessions)(ckSlotID);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_ClosfAllSfssions)(dkSlotID);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 
-#ifndef NO_CALLBACKS
-    /* Remove all notify callback helper objects. */
-    while ((notifyEncapsulation = removeFirstNotifyEntry(env)) != NULL) {
-        /* there was a notify object used with this session, now dump the
-         * encapsulation object
+#ifndff NO_CALLBACKS
+    /* Rfmovf bll notify dbllbbdk iflpfr objfdts. */
+    wiilf ((notifyEndbpsulbtion = rfmovfFirstNotifyEntry(fnv)) != NULL) {
+        /* tifrf wbs b notify objfdt usfd witi tiis sfssion, now dump tif
+         * fndbpsulbtion objfdt
          */
-        (*env)->DeleteGlobalRef(env, notifyEncapsulation->jNotifyObject);
-        jApplicationData = notifyEncapsulation->jApplicationData;
-        if (jApplicationData != NULL) {
-            (*env)->DeleteGlobalRef(env, jApplicationData);
+        (*fnv)->DflftfGlobblRff(fnv, notifyEndbpsulbtion->jNotifyObjfdt);
+        jApplidbtionDbtb = notifyEndbpsulbtion->jApplidbtionDbtb;
+        if (jApplidbtionDbtb != NULL) {
+            (*fnv)->DflftfGlobblRff(fnv, jApplidbtionDbtb);
         }
-        free(notifyEncapsulation);
+        frff(notifyEndbpsulbtion);
     }
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETSESSIONINFO
+#ifdff P11_ENABLE_C_GETSESSIONINFO
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetSessionInfo
- * Signature: (J)Lsun/security/pkcs11/wrapper/CK_SESSION_INFO;
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @return  jobject jSessionInfo        CK_SESSION_INFO_PTR pInfo
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftSfssionInfo
+ * Signbturf: (J)Lsun/sfdurity/pkds11/wrbppfr/CK_SESSION_INFO;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @rfturn  jobjfdt jSfssionInfo        CK_SESSION_INFO_PTR pInfo
  */
-JNIEXPORT jobject JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetSessionInfo
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftSfssionInfo
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_SESSION_INFO ckSessionInfo;
-    jobject jSessionInfo=NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_SESSION_INFO dkSfssionInfo;
+    jobjfdt jSfssionInfo=NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    rv = (*ckpFunctions->C_GetSessionInfo)(ckSessionHandle, &ckSessionInfo);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSessionInfo = ckSessionInfoPtrToJSessionInfo(env, &ckSessionInfo);
+    rv = (*dkpFundtions->C_GftSfssionInfo)(dkSfssionHbndlf, &dkSfssionInfo);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jSfssionInfo = dkSfssionInfoPtrToJSfssionInfo(fnv, &dkSfssionInfo);
     }
-    return jSessionInfo ;
+    rfturn jSfssionInfo ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETOPERATIONSTATE
+#ifdff P11_ENABLE_C_GETOPERATIONSTATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetOperationState
- * Signature: (J)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @return  jbyteArray jState           CK_BYTE_PTR pOperationState
- *                                      CK_ULONG_PTR pulOperationStateLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftOpfrbtionStbtf
+ * Signbturf: (J)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @rfturn  jbytfArrby jStbtf           CK_BYTE_PTR pOpfrbtionStbtf
+ *                                      CK_ULONG_PTR pulOpfrbtionStbtfLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetOperationState
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftOpfrbtionStbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpState;
-    CK_ULONG ckStateLength;
-    jbyteArray jState = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpStbtf;
+    CK_ULONG dkStbtfLfngti;
+    jbytfArrby jStbtf = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    rv = (*ckpFunctions->C_GetOperationState)(ckSessionHandle, NULL_PTR, &ckStateLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return NULL ; }
+    rv = (*dkpFundtions->C_GftOpfrbtionStbtf)(dkSfssionHbndlf, NULL_PTR, &dkStbtfLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn NULL ; }
 
-    ckpState = (CK_BYTE_PTR) malloc(ckStateLength);
-    if (ckpState == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpStbtf = (CK_BYTE_PTR) mbllod(dkStbtfLfngti);
+    if (dkpStbtf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_GetOperationState)(ckSessionHandle, ckpState, &ckStateLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jState = ckByteArrayToJByteArray(env, ckpState, ckStateLength);
+    rv = (*dkpFundtions->C_GftOpfrbtionStbtf)(dkSfssionHbndlf, dkpStbtf, &dkStbtfLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jStbtf = dkBytfArrbyToJBytfArrby(fnv, dkpStbtf, dkStbtfLfngti);
     }
-    free(ckpState);
+    frff(dkpStbtf);
 
-    return jState ;
+    rfturn jStbtf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_SETOPERATIONSTATE
+#ifdff P11_ENABLE_C_SETOPERATIONSTATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SetOperationState
- * Signature: (J[BJJ)V
- * Parametermapping:                        *PKCS11*
- * @param   jlong jSessionHandle            CK_SESSION_HANDLE hSession
- * @param   jbyteArray jOperationState      CK_BYTE_PTR pOperationState
- *                                          CK_ULONG ulOperationStateLen
- * @param   jlong jEncryptionKeyHandle      CK_OBJECT_HANDLE hEncryptionKey
- * @param   jlong jAuthenticationKeyHandle  CK_OBJECT_HANDLE hAuthenticationKey
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_SftOpfrbtionStbtf
+ * Signbturf: (J[BJJ)V
+ * Pbrbmftfrmbpping:                        *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf            CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jOpfrbtionStbtf      CK_BYTE_PTR pOpfrbtionStbtf
+ *                                          CK_ULONG ulOpfrbtionStbtfLfn
+ * @pbrbm   jlong jEndryptionKfyHbndlf      CK_OBJECT_HANDLE iEndryptionKfy
+ * @pbrbm   jlong jAutifntidbtionKfyHbndlf  CK_OBJECT_HANDLE iAutifntidbtionKfy
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SetOperationState
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jOperationState, jlong jEncryptionKeyHandle, jlong jAuthenticationKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SftOpfrbtionStbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jOpfrbtionStbtf, jlong jEndryptionKfyHbndlf, jlong jAutifntidbtionKfyHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpState = NULL_PTR;
-    CK_ULONG ckStateLength;
-    CK_OBJECT_HANDLE ckEncryptionKeyHandle;
-    CK_OBJECT_HANDLE ckAuthenticationKeyHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpStbtf = NULL_PTR;
+    CK_ULONG dkStbtfLfngti;
+    CK_OBJECT_HANDLE dkEndryptionKfyHbndlf;
+    CK_OBJECT_HANDLE dkAutifntidbtionKfyHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jOperationState, &ckpState, &ckStateLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jOpfrbtionStbtf, &dkpStbtf, &dkStbtfLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    ckEncryptionKeyHandle = jLongToCKULong(jEncryptionKeyHandle);
-    ckAuthenticationKeyHandle = jLongToCKULong(jAuthenticationKeyHandle);
+    dkEndryptionKfyHbndlf = jLongToCKULong(jEndryptionKfyHbndlf);
+    dkAutifntidbtionKfyHbndlf = jLongToCKULong(jAutifntidbtionKfyHbndlf);
 
-    rv = (*ckpFunctions->C_SetOperationState)(ckSessionHandle, ckpState, ckStateLength, ckEncryptionKeyHandle, ckAuthenticationKeyHandle);
+    rv = (*dkpFundtions->C_SftOpfrbtionStbtf)(dkSfssionHbndlf, dkpStbtf, dkStbtfLfngti, dkEndryptionKfyHbndlf, dkAutifntidbtionKfyHbndlf);
 
-    free(ckpState);
+    frff(dkpStbtf);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_LOGIN
+#ifdff P11_ENABLE_C_LOGIN
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Login
- * Signature: (JJ[C)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jUserType             CK_USER_TYPE userType
- * @param   jcharArray jPin             CK_CHAR_PTR pPin
- *                                      CK_ULONG ulPinLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Login
+ * Signbturf: (JJ[C)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jUsfrTypf             CK_USER_TYPE usfrTypf
+ * @pbrbm   jdibrArrby jPin             CK_CHAR_PTR pPin
+ *                                      CK_ULONG ulPinLfn
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1Login
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jUserType, jcharArray jPin)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Login
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jUsfrTypf, jdibrArrby jPin)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_USER_TYPE ckUserType;
-    CK_CHAR_PTR ckpPinArray = NULL_PTR;
-    CK_ULONG ckPinLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_USER_TYPE dkUsfrTypf;
+    CK_CHAR_PTR dkpPinArrby = NULL_PTR;
+    CK_ULONG dkPinLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckUserType = jLongToCKULong(jUserType);
-    jCharArrayToCKCharArray(env, jPin, &ckpPinArray, &ckPinLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkUsfrTypf = jLongToCKULong(jUsfrTypf);
+    jCibrArrbyToCKCibrArrby(fnv, jPin, &dkpPinArrby, &dkPinLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_Login)(ckSessionHandle, ckUserType, ckpPinArray, ckPinLength);
+    rv = (*dkpFundtions->C_Login)(dkSfssionHbndlf, dkUsfrTypf, dkpPinArrby, dkPinLfngti);
 
-    free(ckpPinArray);
+    frff(dkpPinArrby);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_LOGOUT
+#ifdff P11_ENABLE_C_LOGOUT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Logout
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Logout
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1Logout
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1Logout
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    rv = (*ckpFunctions->C_Logout)(ckSessionHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_Logout)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
 /* ************************************************************************** */
-/* Functions for keeping track of notify callbacks                            */
+/* Fundtions for kffping trbdk of notify dbllbbdks                            */
 /* ************************************************************************** */
 
-#ifndef NO_CALLBACKS
+#ifndff NO_CALLBACKS
 
 /*
- * Add the given notify encapsulation object to the list of active notify
- * objects.
- * If notifyEncapsulation is NULL, this function does nothing.
+ * Add tif givfn notify fndbpsulbtion objfdt to tif list of bdtivf notify
+ * objfdts.
+ * If notifyEndbpsulbtion is NULL, tiis fundtion dofs notiing.
  */
-void putNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession, NotifyEncapsulation *notifyEncapsulation) {
-    NotifyListNode *currentNode, *newNode;
+void putNotifyEntry(JNIEnv *fnv, CK_SESSION_HANDLE iSfssion, NotifyEndbpsulbtion *notifyEndbpsulbtion) {
+    NotifyListNodf *durrfntNodf, *nfwNodf;
 
-    if (notifyEncapsulation == NULL) {
-        return;
+    if (notifyEndbpsulbtion == NULL) {
+        rfturn;
     }
 
-    newNode = (NotifyListNode *) malloc(sizeof(NotifyListNode));
-    if (newNode == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    nfwNodf = (NotifyListNodf *) mbllod(sizfof(NotifyListNodf));
+    if (nfwNodf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    newNode->hSession = hSession;
-    newNode->notifyEncapsulation = notifyEncapsulation;
-    newNode->next = NULL;
+    nfwNodf->iSfssion = iSfssion;
+    nfwNodf->notifyEndbpsulbtion = notifyEndbpsulbtion;
+    nfwNodf->nfxt = NULL;
 
-    (*env)->MonitorEnter(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorEntfr(fnv, notifyListLodk); /* syndironizf bddfss to list */
 
-    if (notifyListHead == NULL) {
-        /* this is the first entry */
-        notifyListHead = newNode;
-    } else {
-        /* go to the last entry; i.e. the first node which's 'next' is NULL.
+    if (notifyListHfbd == NULL) {
+        /* tiis is tif first fntry */
+        notifyListHfbd = nfwNodf;
+    } flsf {
+        /* go to tif lbst fntry; i.f. tif first nodf wiidi's 'nfxt' is NULL.
          */
-        currentNode = notifyListHead;
-        while (currentNode->next != NULL) {
-            currentNode = currentNode->next;
+        durrfntNodf = notifyListHfbd;
+        wiilf (durrfntNodf->nfxt != NULL) {
+            durrfntNodf = durrfntNodf->nfxt;
         }
-        currentNode->next = newNode;
+        durrfntNodf->nfxt = nfwNodf;
     }
 
-    (*env)->MonitorExit(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorExit(fnv, notifyListLodk); /* syndironizf bddfss to list */
 }
 
 /*
- * Removes the active notifyEncapsulation object used with the given session and
- * returns it. If there is no notifyEncapsulation active for this session, this
- * function returns NULL.
+ * Rfmovfs tif bdtivf notifyEndbpsulbtion objfdt usfd witi tif givfn sfssion bnd
+ * rfturns it. If tifrf is no notifyEndbpsulbtion bdtivf for tiis sfssion, tiis
+ * fundtion rfturns NULL.
  */
-NotifyEncapsulation * removeNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession) {
-    NotifyEncapsulation *notifyEncapsulation;
-    NotifyListNode *currentNode, *previousNode;
+NotifyEndbpsulbtion * rfmovfNotifyEntry(JNIEnv *fnv, CK_SESSION_HANDLE iSfssion) {
+    NotifyEndbpsulbtion *notifyEndbpsulbtion;
+    NotifyListNodf *durrfntNodf, *prfviousNodf;
 
-    (*env)->MonitorEnter(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorEntfr(fnv, notifyListLodk); /* syndironizf bddfss to list */
 
-    if (notifyListHead == NULL) {
-        /* this is the first entry */
-        notifyEncapsulation = NULL;
-    } else {
-        /* Find the node with the wanted session handle. Also stop, when we reach
-         * the last entry; i.e. the first node which's 'next' is NULL.
+    if (notifyListHfbd == NULL) {
+        /* tiis is tif first fntry */
+        notifyEndbpsulbtion = NULL;
+    } flsf {
+        /* Find tif nodf witi tif wbntfd sfssion ibndlf. Also stop, wifn wf rfbdi
+         * tif lbst fntry; i.f. tif first nodf wiidi's 'nfxt' is NULL.
          */
-        currentNode = notifyListHead;
-        previousNode = NULL;
+        durrfntNodf = notifyListHfbd;
+        prfviousNodf = NULL;
 
-        while ((currentNode->hSession != hSession) && (currentNode->next != NULL)) {
-            previousNode = currentNode;
-            currentNode = currentNode->next;
+        wiilf ((durrfntNodf->iSfssion != iSfssion) && (durrfntNodf->nfxt != NULL)) {
+            prfviousNodf = durrfntNodf;
+            durrfntNodf = durrfntNodf->nfxt;
         }
 
-        if (currentNode->hSession == hSession) {
-            /* We found a entry for the wanted session, now remove it. */
-            if (previousNode == NULL) {
-                /* it's the first node */
-                notifyListHead = currentNode->next;
-            } else {
-                previousNode->next = currentNode->next;
+        if (durrfntNodf->iSfssion == iSfssion) {
+            /* Wf found b fntry for tif wbntfd sfssion, now rfmovf it. */
+            if (prfviousNodf == NULL) {
+                /* it's tif first nodf */
+                notifyListHfbd = durrfntNodf->nfxt;
+            } flsf {
+                prfviousNodf->nfxt = durrfntNodf->nfxt;
             }
-            notifyEncapsulation = currentNode->notifyEncapsulation;
-            free(currentNode);
-        } else {
-            /* We did not find a entry for this session */
-            notifyEncapsulation = NULL;
+            notifyEndbpsulbtion = durrfntNodf->notifyEndbpsulbtion;
+            frff(durrfntNodf);
+        } flsf {
+            /* Wf did not find b fntry for tiis sfssion */
+            notifyEndbpsulbtion = NULL;
         }
     }
 
-    (*env)->MonitorExit(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorExit(fnv, notifyListLodk); /* syndironizf bddfss to list */
 
-    return notifyEncapsulation ;
+    rfturn notifyEndbpsulbtion ;
 }
 
 /*
 
- * Removes the first notifyEncapsulation object. If there is no notifyEncapsulation,
- * this function returns NULL.
+ * Rfmovfs tif first notifyEndbpsulbtion objfdt. If tifrf is no notifyEndbpsulbtion,
+ * tiis fundtion rfturns NULL.
  */
-NotifyEncapsulation * removeFirstNotifyEntry(JNIEnv *env) {
-    NotifyEncapsulation *notifyEncapsulation;
-    NotifyListNode *currentNode;
+NotifyEndbpsulbtion * rfmovfFirstNotifyEntry(JNIEnv *fnv) {
+    NotifyEndbpsulbtion *notifyEndbpsulbtion;
+    NotifyListNodf *durrfntNodf;
 
-    (*env)->MonitorEnter(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorEntfr(fnv, notifyListLodk); /* syndironizf bddfss to list */
 
-    if (notifyListHead == NULL) {
-        /* this is the first entry */
-        notifyEncapsulation = NULL;
-    } else {
-        /* Remove the first entry. */
-        currentNode = notifyListHead;
-        notifyListHead = notifyListHead->next;
-        notifyEncapsulation = currentNode->notifyEncapsulation;
-        free(currentNode);
+    if (notifyListHfbd == NULL) {
+        /* tiis is tif first fntry */
+        notifyEndbpsulbtion = NULL;
+    } flsf {
+        /* Rfmovf tif first fntry. */
+        durrfntNodf = notifyListHfbd;
+        notifyListHfbd = notifyListHfbd->nfxt;
+        notifyEndbpsulbtion = durrfntNodf->notifyEndbpsulbtion;
+        frff(durrfntNodf);
     }
 
-    (*env)->MonitorExit(env, notifyListLock); /* synchronize access to list */
+    (*fnv)->MonitorExit(fnv, notifyListLodk); /* syndironizf bddfss to list */
 
-    return notifyEncapsulation ;
+    rfturn notifyEndbpsulbtion ;
 }
 
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */
 
-#ifndef NO_CALLBACKS
+#ifndff NO_CALLBACKS
 
 /*
- * The function handling notify callbacks. It casts the pApplication parameter
- * back to a NotifyEncapsulation structure and retrieves the Notify object and
- * the application data from it.
+ * Tif fundtion ibndling notify dbllbbdks. It dbsts tif pApplidbtion pbrbmftfr
+ * bbdk to b NotifyEndbpsulbtion strudturf bnd rftrifvfs tif Notify objfdt bnd
+ * tif bpplidbtion dbtb from it.
  *
- * @param hSession The session, this callback is comming from.
- * @param event The type of event that occurred.
- * @param pApplication The application data as passed in upon OpenSession. In
-                       this wrapper we always pass in a NotifyEncapsulation
-                       object, which holds necessary information for delegating
-                       the callback to the Java VM.
- * @return
+ * @pbrbm iSfssion Tif sfssion, tiis dbllbbdk is domming from.
+ * @pbrbm fvfnt Tif typf of fvfnt tibt oddurrfd.
+ * @pbrbm pApplidbtion Tif bpplidbtion dbtb bs pbssfd in upon OpfnSfssion. In
+                       tiis wrbppfr wf blwbys pbss in b NotifyEndbpsulbtion
+                       objfdt, wiidi iolds nfdfssbry informbtion for dflfgbting
+                       tif dbllbbdk to tif Jbvb VM.
+ * @rfturn
  */
-CK_RV notifyCallback(
-    CK_SESSION_HANDLE hSession,     /* the session's handle */
-    CK_NOTIFICATION   event,
-    CK_VOID_PTR       pApplication  /* passed to C_OpenSession */
+CK_RV notifyCbllbbdk(
+    CK_SESSION_HANDLE iSfssion,     /* tif sfssion's ibndlf */
+    CK_NOTIFICATION   fvfnt,
+    CK_VOID_PTR       pApplidbtion  /* pbssfd to C_OpfnSfssion */
 )
 {
-    NotifyEncapsulation *notifyEncapsulation;
-    extern JavaVM *jvm;
-    JNIEnv *env;
-    jint returnValue;
-    jlong jSessionHandle;
-    jlong jEvent;
-    jclass ckNotifyClass;
-    jmethodID jmethod;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
-    jlong errorCode;
+    NotifyEndbpsulbtion *notifyEndbpsulbtion;
+    fxtfrn JbvbVM *jvm;
+    JNIEnv *fnv;
+    jint rfturnVbluf;
+    jlong jSfssionHbndlf;
+    jlong jEvfnt;
+    jdlbss dkNotifyClbss;
+    jmftiodID jmftiod;
+    jtirowbblf pkds11Exdfption;
+    jdlbss pkds11ExdfptionClbss;
+    jlong frrorCodf;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
+    int wbsAttbdifd = 1;
 
-    if (pApplication == NULL) { return rv ; } /* This should not occur in this wrapper. */
+    if (pApplidbtion == NULL) { rfturn rv ; } /* Tiis siould not oddur in tiis wrbppfr. */
 
-    notifyEncapsulation = (NotifyEncapsulation *) pApplication;
+    notifyEndbpsulbtion = (NotifyEndbpsulbtion *) pApplidbtion;
 
-    /* Get the currently running Java VM */
-    if (jvm == NULL) { return rv ; } /* there is no VM running */
+    /* Gft tif durrfntly running Jbvb VM */
+    if (jvm == NULL) { rfturn rv ; } /* tifrf is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Dftfrminf, if durrfnt tirfbd is blrfbdy bttbdifd */
+    rfturnVbluf = (*jvm)->GftEnv(jvm, (void **) &fnv, JNI_VERSION_1_2);
+    if (rfturnVbluf == JNI_EDETACHED) {
+        /* tirfbd dftbdifd, so bttbdi it */
+        wbsAttbdifd = 0;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf if (rfturnVbluf == JNI_EVERSION) {
+        /* tiis vfrsion of JNI is not supportfd, so just try to bttbdi */
+        /* wf bssumf it wbs bttbdifd to fnsurf tibt tiis tirfbd is not dftbdifd
+         * bftfrwbrds fvfn tiougi it siould not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else {
-        /* attached */
-        wasAttached = 1;
+        wbsAttbdifd = 1;
+        rfturnVbluf = (*jvm)->AttbdiCurrfntTirfbd(jvm, (void **) &fnv, NULL);
+    } flsf {
+        /* bttbdifd */
+        wbsAttbdifd = 1;
     }
 
-    jSessionHandle = ckULongToJLong(hSession);
-    jEvent = ckULongToJLong(event);
+    jSfssionHbndlf = dkULongToJLong(iSfssion);
+    jEvfnt = dkULongToJLong(fvfnt);
 
-    ckNotifyClass = (*env)->FindClass(env, CLASS_NOTIFY);
-    if (ckNotifyClass == NULL) { return rv; }
-    jmethod = (*env)->GetMethodID(env, ckNotifyClass, "CK_NOTIFY", "(JJLjava/lang/Object;)V");
-    if (jmethod == NULL) { return rv; }
+    dkNotifyClbss = (*fnv)->FindClbss(fnv, CLASS_NOTIFY);
+    if (dkNotifyClbss == NULL) { rfturn rv; }
+    jmftiod = (*fnv)->GftMftiodID(fnv, dkNotifyClbss, "CK_NOTIFY", "(JJLjbvb/lbng/Objfdt;)V");
+    if (jmftiod == NULL) { rfturn rv; }
 
-    (*env)->CallVoidMethod(env, notifyEncapsulation->jNotifyObject, jmethod,
-                         jSessionHandle, jEvent, notifyEncapsulation->jApplicationData);
+    (*fnv)->CbllVoidMftiod(fnv, notifyEndbpsulbtion->jNotifyObjfdt, jmftiod,
+                         jSfssionHbndlf, jEvfnt, notifyEndbpsulbtion->jApplidbtionDbtb);
 
-    /* check, if callback threw an exception */
-    pkcs11Exception = (*env)->ExceptionOccurred(env);
+    /* difdk, if dbllbbdk tirfw bn fxdfption */
+    pkds11Exdfption = (*fnv)->ExdfptionOddurrfd(fnv);
 
-    if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
+    if (pkds11Exdfption != NULL) {
+        /* TBD: dlfbr tif pfnding fxdfption witi ExdfptionClfbr? */
+        /* Tif wbs bn fxdfption tirown, now wf gft tif frror-dodf from it */
+        pkds11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (pkds11ExdfptionClbss == NULL) { rfturn rv; }
 
-        jmethod = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
-        if (jmethod == NULL) { return rv; }
+        jmftiod = (*fnv)->GftMftiodID(fnv, pkds11ExdfptionClbss, "gftErrorCodf", "()J");
+        if (jmftiod == NULL) { rfturn rv; }
 
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, jmethod);
-        rv = jLongToCKULong(errorCode);
+        frrorCodf = (*fnv)->CbllLongMftiod(fnv, pkds11Exdfption, jmftiod);
+        rv = jLongToCKULong(frrorCodf);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if wf bttbdifd tiis tirfbd to tif VM just for dbllbbdk, wf dftbdi it now */
+    if (wbsAttbdifd) {
+        rfturnVbluf = (*jvm)->DftbdiCurrfntTirfbd(jvm);
     }
 
-    return rv ;
+    rfturn rv ;
 }
 
-#endif /* NO_CALLBACKS */
+#fndif /* NO_CALLBACKS */

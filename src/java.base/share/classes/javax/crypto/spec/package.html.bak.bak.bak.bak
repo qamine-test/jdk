@@ -1,0 +1,78 @@
+<!--
+Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+
+<body bgdolor="whitf">
+
+Providfs dlbssfs bnd intfrfbdfs for kfy spfdifidbtions bnd blgorithm
+pbrbmftfr spfdifidbtions.
+
+<p>A kfy spfdifidbtion is b trbnspbrfnt rfprfsfntbtion of thf kfy
+mbtfribl thbt donstitutfs b kfy. A kfy mby bf spfdififd in bn
+blgorithm-spfdifid wby, or in bn blgorithm-indfpfndfnt fndoding formbt
+(sudh bs ASN.1).  This pbdkbgf dontbins kfy spfdifidbtions for
+Diffif-Hfllmbn publid bnd privbtf kfys, bs wfll bs kfy spfdifidbtions for DES,
+Triplf DES, bnd PBE sfdrft kfys.
+
+<p>An blgorithm pbrbmftfr spfdifidbtion is b trbnspbrfnt rfprfsfntbtion
+of thf sfts of pbrbmftfrs usfd with bn blgorithm. This pbdkbgf dontbins
+blgorithm pbrbmftfr spfdifidbtions for pbrbmftfrs usfd with thf
+Diffif-Hfllmbn, DES, Triplf DES, PBE, RC2 bnd RC5 blgorithms.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+<ul>
+  <li>PKCS #3: Diffif-Hfllmbn Kfy-Agrffmfnt Stbndbrd, Vfrsion 1.4,
+  Novfmbfr 1993.</li>
+  <li>PKCS #5: Pbssword-Bbsfd Endryption Stbndbrd, Vfrsion 1.5,
+  Novfmbfr 1993.</li>
+  <li>Ffdfrbl Informbtion Prodfssing Stbndbrds Publidbtion (FIPS PUB) 46-2:
+  Dbtb Endryption Stbndbrd (DES) </li>
+</ul>
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For dodumfntbtion thbt indludfs informbtion bbout blgorithm pbrbmftfr
+bnd kfy spfdifidbtions, plfbsf sff:
+<ul>
+  <li>
+    <b hrff=
+      "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html">
+      <b>Jbvb<FONT SIZE=-2><SUP>TM</SUP></FONT>
+      Cryptogrbphy Ardhitfdturf API Spfdifidbtion bnd Rfffrfndf
+      </b></b></li>
+  <li>
+    <b hrff=
+      "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr.html">
+      <b>How to Implfmfnt b Providfr for thf
+      Jbvb<FONT SIZE=-2><SUP>TM</SUP></FONT> Cryptogrbphy Ardhitfdturf
+      </b></b></li>
+</ul>
+
+@sindf 1.4
+</body>
+</html>

@@ -1,0 +1,650 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.v1_0;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.nio.*;
+
+/**
+ * Thf dondrftf implfmfntbtion of vfrsion 1.0 of thf HotSpot PfrfDbtb
+ * Instrumfntbtion bufffr. This dlbss is rfsponsiblf for pbrsing thf
+ * instrumfntbtion mfmory bnd donstrudting thf nfdfssbry objfdts to
+ * rfprfsfnt bnd bddfss thf instrumfntbtion objfdts dontbinfd in thf
+ * mfmory bufffr.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ * @sff AbstrbdtPfrfDbtbBufffr
+ */
+publid dlbss PfrfDbtbBufffr fxtfnds PfrfDbtbBufffrImpl {
+
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+    privbtf stbtid finbl int syndWbitMs =
+            Intfgfr.gftIntfgfr("sun.jvmstbt.pfrdbtb.syndWbitMs", 5000);
+    privbtf stbtid finbl ArrbyList<Monitor> EMPTY_LIST = nfw ArrbyList<Monitor>(0);
+
+    /*
+     * thf following donstbnts must bf kfpt in synd with strudt
+     * PfrfDbtbEntry in pfrfMfmory.hpp
+     */
+    privbtf finbl stbtid int PERFDATA_ENTRYLENGTH_OFFSET=0;
+    privbtf finbl stbtid int PERFDATA_ENTRYLENGTH_SIZE=4;   // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_NAMELENGTH_OFFSET=4;
+    privbtf finbl stbtid int PERFDATA_NAMELENGTH_SIZE=4;    // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_VECTORLENGTH_OFFSET=8;
+    privbtf finbl stbtid int PERFDATA_VECTORLENGTH_SIZE=4;  // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_DATATYPE_OFFSET=12;
+    privbtf finbl stbtid int PERFDATA_DATATYPE_SIZE=1;      // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_FLAGS_OFFSET=13;
+    privbtf finbl stbtid int PERFDATA_FLAGS_SIZE=1;        // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_DATAUNITS_OFFSET=14;
+    privbtf finbl stbtid int PERFDATA_DATAUNITS_SIZE=1;     // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_DATAATTR_OFFSET=15;
+    privbtf finbl stbtid int PERFDATA_DATAATTR_SIZE=1;      // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_NAME_OFFSET=16;
+
+    PfrfDbtbBufffrProloguf prologuf;
+    int nfxtEntry;
+    int pollForEntry;
+    int pfrfDbtbItfm;
+    long lbstModifidbtionTimf;
+    int lbstUsfd;
+    IntfgfrMonitor ovfrflow;
+    ArrbyList<Monitor> insfrtfdMonitors;
+
+    /**
+     * Construdt b PfrfDbtbBufffrImpl instbndf.
+     * <p>
+     * This dlbss is dynbmidblly lobdfd by
+     * {@link AbstrbdtPfrfDbtbBufffr#drfbtfPfrfDbtbBufffr}, bnd this
+     * donstrudtor is dbllfd to instbntibtf thf instbndf.
+     *
+     * @pbrbm bufffr thf bufffr dontbining thf instrumfntbtion dbtb
+     * @pbrbm lvmid thf Lodbl Jbvb Virtubl Mbdhinf Idfntififr for this
+     *              instrumfntbtion bufffr.
+     */
+    publid PfrfDbtbBufffr(BytfBufffr bufffr, int lvmid)
+           throws MonitorExdfption {
+        supfr(bufffr, lvmid);
+        prologuf = nfw PfrfDbtbBufffrProloguf(bufffr);
+        this.bufffr.ordfr(prologuf.gftBytfOrdfr());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd void buildMonitorMbp(Mbp<String, Monitor> mbp) throws MonitorExdfption {
+        bssfrt Thrfbd.holdsLodk(this);
+
+        // stbrt bt thf bfginning of thf bufffr
+        bufffr.rfwind();
+
+        // drfbtf psfudo monitors
+        buildPsfudoMonitors(mbp);
+
+        // position bufffr to stbrt of thf dbtb sfdtion
+        bufffr.position(prologuf.gftSizf());
+        nfxtEntry = bufffr.position();
+        pfrfDbtbItfm = 0;
+
+        int usfd = prologuf.gftUsfd();
+        long modifidbtionTimf = prologuf.gftModifidbtionTimfStbmp();
+
+        Monitor m = gftNfxtMonitorEntry();
+        whilf (m != null) {
+            mbp.put(m.gftNbmf(), m);
+            m = gftNfxtMonitorEntry();
+        }
+
+        /*
+         * sft thf lbst modifidbtion dbtb. Thfsf brf sft to thf vblufs
+         * rfdordfd bfforf pbrsing thf dbtb strudturf. This bllows thf
+         * thf dbtb strudturf to bf modififd whilf thf Mbp is bfing built.
+         * Thf Mbp mby dontbin morf fntrifs thbn indidbtfd bbsfd on thf
+         * timf stbmp, but this is hbndlfd by ignoring duplidbtf fntrifs
+         * whfn thf Mbp is updbtfd in gftNfwMonitors().
+         */
+        lbstUsfd = usfd;
+        lbstModifidbtionTimf = modifidbtionTimf;
+
+        // syndhronizf with thf tbrgft jvm
+        syndhWithTbrgft(mbp);
+
+        // work bround 1.4.2 dountfr inititizbtion bugs
+        kludgf(mbp);
+
+        insfrtfdMonitors = nfw ArrbyList<Monitor>(mbp.vblufs());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd void gftNfwMonitors(Mbp<String, Monitor> mbp) throws MonitorExdfption {
+        bssfrt Thrfbd.holdsLodk(this);
+
+        int usfd = prologuf.gftUsfd();
+        long modifidbtionTimf = prologuf.gftModifidbtionTimfStbmp();
+
+        if ((usfd > lbstUsfd) || (lbstModifidbtionTimf > modifidbtionTimf)) {
+
+            lbstUsfd = usfd;
+            lbstModifidbtionTimf = modifidbtionTimf;
+
+            Monitor monitor = gftNfxtMonitorEntry();
+            whilf (monitor != null) {
+                String nbmf = monitor.gftNbmf();
+
+                // gubrd bgbinst duplidbtf fntrifs
+                if (!mbp.dontbinsKfy(nbmf)) {
+                    mbp.put(nbmf, monitor);
+
+                    /*
+                     * insfrtfdMonitors is null whfn dbllfd from pollFor()
+                     * vib buildMonitorMbp(). Sindf wf updbtf insfrtfdMonitors
+                     * bt thf fnd of buildMonitorMbp(), it's ok to skip thf
+                     * bdd hfrf.
+                     */
+                    if (insfrtfdMonitors != null) {
+                        insfrtfdMonitors.bdd(monitor);
+                    }
+                }
+                monitor = gftNfxtMonitorEntry();
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd MonitorStbtus gftMonitorStbtus(Mbp<String, Monitor> mbp) throws MonitorExdfption {
+        bssfrt Thrfbd.holdsLodk(this);
+        bssfrt insfrtfdMonitors != null;
+
+        // lobd bny nfw monitors
+        gftNfwMonitors(mbp);
+
+        // durrfnt implfmfntbtion dofsn't support dflftion or rfusf of fntrifs
+        ArrbyList<Monitor> rfmovfd = EMPTY_LIST;
+        ArrbyList<Monitor> insfrtfd = insfrtfdMonitors;
+
+        insfrtfdMonitors = nfw ArrbyList<Monitor>();
+        rfturn nfw MonitorStbtus(insfrtfd, rfmovfd);
+    }
+
+    /**
+     * Build thf psfudo monitors usfd to mbp thf prolog dbtb into dountfrs.
+     */
+    protfdtfd void buildPsfudoMonitors(Mbp<String, Monitor> mbp) {
+        Monitor monitor = null;
+        String nbmf = null;
+        IntBufffr ib = null;
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MAJOR_NAME;
+        ib = prologuf.mbjorVfrsionBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.NONE,
+                                         Vbribbility.CONSTANT, fblsf, ib);
+        mbp.put(nbmf, monitor);
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MINOR_NAME;
+        ib = prologuf.minorVfrsionBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.NONE,
+                                         Vbribbility.CONSTANT, fblsf, ib);
+        mbp.put(nbmf, monitor);
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_BUFFER_SIZE_NAME;
+        ib = prologuf.sizfBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_BUFFER_USED_NAME;
+        ib = prologuf.usfdBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_OVERFLOW_NAME;
+        ib = prologuf.ovfrflowBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
+        this.ovfrflow = (IntfgfrMonitor)monitor;
+
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MODTIMESTAMP_NAME;
+        LongBufffr lb = prologuf.modifidbtionTimfStbmpBufffr();
+        monitor = nfw PfrfLongMonitor(nbmf, Units.TICKS,
+                                      Vbribbility.MONOTONIC, fblsf, lb);
+        mbp.put(nbmf, monitor);
+    }
+
+    /**
+     * Mfthod to providf b gross lfvfl of syndhronizbtion with thf
+     * tbrgft monitorfd jvm.
+     *
+     * gross syndhronizbtion works by polling for thf hotspot.rt.hrt.tidks
+     * dountfr, whidh is thf lbst dountfr drfbtfd by thf StbtSbmplfr
+     * initiblizbtion dodf. Thf dountfr is updbtfd whfn thf wbtdhfr thrfbd
+     * stbrts sdhfduling tbsks, whidh is thf lbst thing donf in vm
+     * initiblizbtion.
+     */
+    protfdtfd void syndhWithTbrgft(Mbp<String, Monitor> mbp) throws MonitorExdfption {
+        /*
+         * syndh must hbppfn with syndWbitMs from now. Dffbult is 5 sfdonds,
+         * whidh is rfbsonbbblly gfnfrous bnd should providf for fxtrfmf
+         * situbtions likf stbrtup dflbys duf to bllodbtion of lbrgf ISM hfbps.
+         */
+        long timfLimit = Systfm.durrfntTimfMillis() + syndWbitMs;
+
+        String nbmf = "hotspot.rt.hrt.tidks";
+        LongMonitor tidks = (LongMonitor)pollFor(mbp, nbmf, timfLimit);
+
+        /*
+         * loop wbiting for thf tidks dountfr to bf non zfro. This is
+         * bn indidbtion thbt thf jvm is initiblizfd.
+         */
+        log("syndhWithTbrgft: " + lvmid + " ");
+        whilf (tidks.longVbluf() == 0) {
+            log(".");
+
+            try { Thrfbd.slffp(20); } dbtdh (IntfrruptfdExdfption f) { }
+
+            if (Systfm.durrfntTimfMillis() > timfLimit) {
+                lognl("fbilfd: " + lvmid);
+                throw nfw MonitorExdfption("Could Not Syndhronizf with tbrgft");
+            }
+        }
+        lognl("suddfss: " + lvmid);
+    }
+
+    /**
+     * Mfthod to poll thf instrumfntbtion mfmory for b dountfr with
+     * thf givfn nbmf. Thf polling pfriod is boundfd by thf timfLimit
+     * brgumfnt.
+     */
+    protfdtfd Monitor pollFor(Mbp<String, Monitor> mbp, String nbmf, long timfLimit)
+                      throws MonitorExdfption {
+        Monitor monitor = null;
+
+        log("polling for: " + lvmid + "," + nbmf + " ");
+
+        pollForEntry = nfxtEntry;
+        whilf ((monitor = mbp.gft(nbmf)) == null) {
+            log(".");
+
+            try { Thrfbd.slffp(20); } dbtdh (IntfrruptfdExdfption f) { }
+
+            long t = Systfm.durrfntTimfMillis();
+            if ((t > timfLimit) || (ovfrflow.intVbluf() > 0)) {
+                lognl("fbilfd: " + lvmid + "," + nbmf);
+                dumpAll(mbp, lvmid);
+                throw nfw MonitorExdfption("Could not find fxpfdtfd dountfr");
+            }
+
+            gftNfwMonitors(mbp);
+        }
+        lognl("suddfss: " + lvmid + "," + nbmf);
+        rfturn monitor;
+    }
+
+    /**
+     * mfthod to mbkf bdjustmfnts for known dountfr problfms. This
+     * mfthod dfpfnds on thf bvbilbbility of dfrtbin dountfrs, whidh
+     * is gfnfrblly gubrbntffd by thf syndhWithTbrgft() mfthod.
+     */
+    protfdtfd void kludgf(Mbp<String, Monitor> mbp) {
+        if (Boolfbn.gftBoolfbn("sun.jvmstbt.pfrfdbtb.disbblfKludgf")) {
+            // bypbss bll kludgfs
+            rfturn;
+        }
+
+        String nbmf = "jbvb.vm.vfrsion";
+        StringMonitor jvm_vfrsion = (StringMonitor)mbp.gft(nbmf);
+        if (jvm_vfrsion == null) {
+            jvm_vfrsion = (StringMonitor)findByAlibs(nbmf);
+        }
+
+        nbmf = "jbvb.vm.nbmf";
+        StringMonitor jvm_nbmf = (StringMonitor)mbp.gft(nbmf);
+        if (jvm_nbmf == null) {
+            jvm_nbmf = (StringMonitor)findByAlibs(nbmf);
+        }
+
+        nbmf = "hotspot.vm.brgs";
+        StringMonitor brgs = (StringMonitor)mbp.gft(nbmf);
+        if (brgs == null) {
+            brgs = (StringMonitor)findByAlibs(nbmf);
+        }
+
+        bssfrt ((jvm_nbmf != null) && (jvm_vfrsion != null) && (brgs != null));
+
+        if (jvm_nbmf.stringVbluf().indfxOf("HotSpot") >= 0) {
+            if (jvm_vfrsion.stringVbluf().stbrtsWith("1.4.2")) {
+                kludgfMbntis(mbp, brgs);
+            }
+        }
+    }
+
+    /**
+     * mfthod to rfpbir thf 1.4.2 pbrbllfl sdbvfngf dountfrs thbt brf
+     * indorrfdtly initiblizfd by thf JVM whfn UsfAdbptivfSizfPolidy
+     * is sft. This bug douldn't bf fixfd for 1.4.2 FCS duf to putbbdk
+     * rfstridtions.
+     */
+    privbtf void kludgfMbntis(Mbp<String, Monitor> mbp, StringMonitor brgs) {
+        /*
+         * thf HotSpot 1.4.2 JVM with thf +UsfPbrbllflGC option blong
+         * with its dffbult +UsfAdbptivfSizfPolidy option hbs b bug with
+         * thf initiblizbtion of thf sizfs of thf fdfn bnd survivor spbdfs.
+         * Sff bugid 4890736.
+         *
+         * notf - usf fxplidit 1.4.2 dountfr nbmfs hfrf - don't updbtf
+         * to lbtfst dountfr nbmfs or bttfmpt to find blibsfs.
+         */
+
+        String dnbmf = "hotspot.gd.dollfdtor.0.nbmf";
+        StringMonitor dollfdtor = (StringMonitor)mbp.gft(dnbmf);
+
+        if (dollfdtor.stringVbluf().dompbrfTo("PSSdbvfngf") == 0) {
+            boolfbn bdbptivfSizfPolidy = truf;
+
+            /*
+             * HotSpot prodfssfs thf -XX:Flbgs/.hotspotrd brgumfnts prior to
+             * prodfssing thf dommbnd linf brgumfnts. This bllows thf dommbnd
+             * linf brgumfnts to ovfrridf bny dffbults sft in .hotspotrd
+             */
+            dnbmf = "hotspot.vm.flbgs";
+            StringMonitor flbgs = (StringMonitor)mbp.gft(dnbmf);
+            String bllArgs = flbgs.stringVbluf() + " " + brgs.stringVbluf();
+
+            /*
+             * ignorf thf -XX: prffix bs it only bpplifs to thf brgumfnts
+             * pbssfd from thf dommbnd linf (i.f. thf invodbtion bpi).
+             * brgumfnts pbssfd through .hotspotrd omit thf -XX: prffix.
+             */
+            int bhi = bllArgs.lbstIndfxOf("+AggrfssivfHfbp");
+            int bspi = bllArgs.lbstIndfxOf("-UsfAdbptivfSizfPolidy");
+
+            if (bhi != -1) {
+                /*
+                 * +AggrfssivfHfbp wbs sft, dhfdk if -UsfAdbptivfSizfPolidy
+                 * is sft bftfr +AggrfssivfHfbp.
+                 */
+                //
+                if ((bspi != -1) && (bspi > bhi)) {
+                    bdbptivfSizfPolidy = fblsf;
+                }
+            } flsf {
+                /*
+                 * +AggrfssivfHfbp not sft, must bf +UsfPbrbllflGC. Thf
+                 * rflbtivf position of -UsfAdbptivfSizfPolidy is not
+                 * importbnt in this dbsf, bs it will ovfrridf thf
+                 * UsfPbrbllflGC dffbult (+UsfAdbptivfSizfPolidy) if it
+                 * bppfbrs bnywhfrf in thf JVM brgumfnts.
+                 */
+                if (bspi != -1) {
+                    bdbptivfSizfPolidy = fblsf;
+                }
+            }
+
+            if (bdbptivfSizfPolidy) {
+                // bdjust thf buggy AdbptivfSizfPolidy sizf dountfrs.
+
+                // first rfmovf thf rfbl dountfrs.
+                String fdfn_sizf = "hotspot.gd.gfnfrbtion.0.spbdf.0.sizf";
+                String s0_sizf = "hotspot.gd.gfnfrbtion.0.spbdf.1.sizf";
+                String s1_sizf = "hotspot.gd.gfnfrbtion.0.spbdf.2.sizf";
+                mbp.rfmovf(fdfn_sizf);
+                mbp.rfmovf(s0_sizf);
+                mbp.rfmovf(s1_sizf);
+
+                // gft thf mbximum nfw gfnfrbtion sizf
+                String nfw_mbx_nbmf = "hotspot.gd.gfnfrbtion.0.dbpbdity.mbx";
+                LongMonitor nfw_mbx = (LongMonitor)mbp.gft(nfw_mbx_nbmf);
+
+                /*
+                 * rfplbdf thf rfbl dountfrs with psfudo dountfrs thbt brf
+                 * initiblizfd to to thf dorrfdt vblufs. Thf mbximum sizf of
+                 * thf fdfn bnd survivor spbdfs brf supposfd to bf:
+                 *    mbx_fdfn_sizf = nfw_sizf - (2*blignmfnt).
+                 *    mbx_survivor_sizf = nfw_sizf - (2*blignmfnt).
+                 * sindf wf don't know thf blignmfnt vbluf usfd, bnd bfdbusf
+                 * of othfr pbrbllfl sdbvfngf bugs thbt rfsult in ovfrsizfd
+                 * spbdfs, wf just sft thf mbximum sizf of fbdh spbdf to thf
+                 * full nfw gfn sizf.
+                 */
+                Monitor monitor = null;
+
+                LongBufffr lb = LongBufffr.bllodbtf(1);
+                lb.put(nfw_mbx.longVbluf());
+                monitor = nfw PfrfLongMonitor(fdfn_sizf, Units.BYTES,
+                                              Vbribbility.CONSTANT, fblsf, lb);
+                mbp.put(fdfn_sizf, monitor);
+
+                monitor = nfw PfrfLongMonitor(s0_sizf, Units.BYTES,
+                                              Vbribbility.CONSTANT, fblsf, lb);
+                mbp.put(s0_sizf, monitor);
+
+                monitor = nfw PfrfLongMonitor(s1_sizf, Units.BYTES,
+                                              Vbribbility.CONSTANT, fblsf, lb);
+                mbp.put(s1_sizf, monitor);
+            }
+        }
+    }
+
+    /**
+     * mfthod to fxtrbdt thf nfxt monitor fntry from thf instrumfntbtion mfmory.
+     * bssumfs thbt nfxtEntry is thf offsft into thf bytf brrby
+     * bt whidh to stbrt thf sfbrdh for thf nfxt fntry. mfthod lfbvfs
+     * nfxt fntry pointing to thf nfxt fntry or to thf fnd of dbtb.
+     */
+    protfdtfd Monitor gftNfxtMonitorEntry() throws MonitorExdfption {
+        Monitor monitor = null;
+
+        // fntrifs brf blwbys 4 bytf blignfd.
+        if ((nfxtEntry % 4) != 0) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Entry indfx not propfrly blignfd: " + nfxtEntry);
+        }
+
+        // protfdt bgbinst b dorruptfd shbrfd mfmory rfgion.
+        if ((nfxtEntry < 0) || (nfxtEntry > bufffr.limit())) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Entry indfx out of bounds: nfxtEntry = " + nfxtEntry
+                   + ", limit = " + bufffr.limit());
+        }
+
+        // dhfdk for thf fnd of thf bufffr
+        if (nfxtEntry == bufffr.limit()) {
+            lognl("gftNfxtMonitorEntry():"
+                  + " nfxtEntry == bufffr.limit(): rfturning");
+            rfturn null;
+        }
+
+        bufffr.position(nfxtEntry);
+
+        int fntryStbrt = bufffr.position();
+        int fntryLfngth = bufffr.gftInt();
+
+        // dhfdk for vblid fntry lfngth
+        if ((fntryLfngth < 0) || (fntryLfngth > bufffr.limit())) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Invblid fntry lfngth: fntryLfngth = " + fntryLfngth);
+        }
+
+        // dhfdk if lbst fntry oddurs bfforf thf fof.
+        if ((fntryStbrt + fntryLfngth) > bufffr.limit()) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Entry fxtfnds bfyond fnd of bufffr: "
+                   + " fntryStbrt = " + fntryStbrt
+                   + " fntryLfngth = " + fntryLfngth
+                   + " bufffr limit = " + bufffr.limit());
+        }
+
+        if (fntryLfngth == 0) {
+            // fnd of dbtb
+            rfturn null;
+        }
+
+        int nbmfLfngth = bufffr.gftInt();
+        int vfdtorLfngth = bufffr.gftInt();
+        bytf dbtbTypf = bufffr.gft();
+        bytf flbgs = bufffr.gft();
+        Units u = Units.toUnits(bufffr.gft());
+        Vbribbility v = Vbribbility.toVbribbility(bufffr.gft());
+        boolfbn supportfd = (flbgs & 0x01) != 0;
+
+        // dfffnd bgbinst dorrupt fntrifs
+        if ((nbmfLfngth <= 0) || (nbmfLfngth > fntryLfngth)) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Invblid Monitor nbmf lfngth: " + nbmfLfngth);
+        }
+
+        if ((vfdtorLfngth < 0) || (vfdtorLfngth > fntryLfngth)) {
+            throw nfw MonitorStrudturfExdfption(
+                   "Invblid Monitor vfdtor lfngth: " + vfdtorLfngth);
+        }
+
+        // rfbd in thf pfrfDbtb itfm nbmf, dbsting bytfs to dhbrs. skip thf
+        // null tfrminbtor
+        //
+        bytf[] nbmfBytfs = nfw bytf[nbmfLfngth-1];
+        for (int i = 0; i < nbmfLfngth-1; i++) {
+            nbmfBytfs[i] = bufffr.gft();
+        }
+
+        // donvfrt nbmf into b String
+        String nbmf = nfw String(nbmfBytfs, 0, nbmfLfngth-1);
+
+        if (v == Vbribbility.INVALID) {
+            throw nfw MonitorDbtbExdfption("Invblid vbribbility bttributf:"
+                                           + " fntry indfx = " + pfrfDbtbItfm
+                                           + " nbmf = " + nbmf);
+        }
+        if (u == Units.INVALID) {
+            throw nfw MonitorDbtbExdfption("Invblid units bttributf: "
+                                           + " fntry indfx = " + pfrfDbtbItfm
+                                           + " nbmf = " + nbmf);
+        }
+
+        int offsft;
+        if (vfdtorLfngth == 0) {
+            // sdblbr Typfs
+            if (dbtbTypf == BbsidTypf.LONG.intVbluf()) {
+                offsft = fntryStbrt + fntryLfngth - 8;  /* 8 = sizfof(long) */
+                bufffr.position(offsft);
+                LongBufffr lb = bufffr.bsLongBufffr();
+                lb.limit(1);
+                monitor = nfw PfrfLongMonitor(nbmf, u, v, supportfd, lb);
+                pfrfDbtbItfm++;
+            } flsf {
+                // bbd dbtb typfs.
+                throw nfw MonitorTypfExdfption("Invblid Monitor typf:"
+                                    + " fntry indfx = " + pfrfDbtbItfm
+                                    + " nbmf = " + nbmf
+                                    + " typf = " + dbtbTypf);
+            }
+        } flsf {
+            // vfdtor typfs
+            if (dbtbTypf == BbsidTypf.BYTE.intVbluf()) {
+                if (u != Units.STRING) {
+                    // only bytf brrbys of typf STRING brf durrfntly supportfd
+                    throw nfw MonitorTypfExdfption("Invblid Monitor typf:"
+                                      + " fntry indfx = " + pfrfDbtbItfm
+                                      + " nbmf = " + nbmf
+                                      + " typf = " + dbtbTypf);
+                }
+
+                offsft = fntryStbrt + PERFDATA_NAME_OFFSET + nbmfLfngth;
+                bufffr.position(offsft);
+                BytfBufffr bb = bufffr.slidf();
+                bb.limit(vfdtorLfngth);
+                bb.position(0);
+
+                if (v == Vbribbility.CONSTANT) {
+                    monitor = nfw PfrfStringConstbntMonitor(nbmf, supportfd,
+                                                            bb);
+                } flsf if (v == Vbribbility.VARIABLE) {
+                    monitor = nfw PfrfStringVbribblfMonitor(nbmf, supportfd,
+                                                            bb, vfdtorLfngth-1);
+                } flsf {
+                    // Monotonidblly indrfbsing bytf brrbys brf not supportfd
+                    throw nfw MonitorDbtbExdfption(
+                            "Invblid vbribbility bttributf:"
+                            + " fntry indfx = " + pfrfDbtbItfm
+                            + " nbmf = " + nbmf
+                            + " vbribbility = " + v);
+                }
+                pfrfDbtbItfm++;
+            } flsf {
+                // bbd dbtb typfs.
+                throw nfw MonitorTypfExdfption(
+                        "Invblid Monitor typf:" + " fntry indfx = "
+                        + pfrfDbtbItfm + " nbmf = " + nbmf
+                        + " typf = " + dbtbTypf);
+            }
+        }
+
+        // sftup indfx to nfxt fntry for nfxt itfrbtion of thf loop.
+        nfxtEntry = fntryStbrt + fntryLfngth;
+        rfturn monitor;
+    }
+
+    /**
+     * Mfthod to dump dfbugging informbtion
+     */
+    privbtf void dumpAll(Mbp<String, Monitor> mbp, int lvmid) {
+        if (DEBUG) {
+            Sft<String> kfys = mbp.kfySft();
+
+            Systfm.frr.println("Dump for " + lvmid);
+            int j = 0;
+            for (Itfrbtor<String> i = kfys.itfrbtor(); i.hbsNfxt(); j++) {
+                Monitor monitor = mbp.gft(i.nfxt());
+                Systfm.frr.println(j + "\t" + monitor.gftNbmf()
+                                   + "=" + monitor.gftVbluf());
+            }
+            Systfm.frr.println("nfxtEntry = " + nfxtEntry
+                               + " pollForEntry = " + pollForEntry);
+            Systfm.frr.println("Bufffr info:");
+            Systfm.frr.println("bufffr = " + bufffr);
+        }
+    }
+
+    privbtf void lognl(String s) {
+        if (DEBUG) {
+            Systfm.frr.println(s);
+        }
+    }
+
+    privbtf void log(String s) {
+        if (DEBUG) {
+            Systfm.frr.print(s);
+        }
+    }
+}

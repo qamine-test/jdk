@@ -1,0 +1,4190 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.mbth.BigDfdimbl;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.mbth.RoundingModf;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Currfndy;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.RfsourdfBundlfBbsfdAdbptfr;
+
+/**
+ * <dodf>DfdimblFormbt</dodf> is b dondrftf subdlbss of
+ * <dodf>NumbfrFormbt</dodf> thbt formbts dfdimbl numbfrs. It hbs b vbrifty of
+ * ffbturfs dfsignfd to mbkf it possiblf to pbrsf bnd formbt numbfrs in bny
+ * lodblf, indluding support for Wfstfrn, Arbbid, bnd Indid digits.  It blso
+ * supports difffrfnt kinds of numbfrs, indluding intfgfrs (123), fixfd-point
+ * numbfrs (123.4), sdifntifid notbtion (1.23E4), pfrdfntbgfs (12%), bnd
+ * durrfndy bmounts ($123).  All of thfsf dbn bf lodblizfd.
+ *
+ * <p>To obtbin b <dodf>NumbfrFormbt</dodf> for b spfdifid lodblf, indluding thf
+ * dffbult lodblf, dbll onf of <dodf>NumbfrFormbt</dodf>'s fbdtory mfthods, sudh
+ * bs <dodf>gftInstbndf()</dodf>.  In gfnfrbl, do not dbll thf
+ * <dodf>DfdimblFormbt</dodf> donstrudtors dirfdtly, sindf thf
+ * <dodf>NumbfrFormbt</dodf> fbdtory mfthods mby rfturn subdlbssfs othfr thbn
+ * <dodf>DfdimblFormbt</dodf>. If you nffd to dustomizf thf formbt objfdt, do
+ * somfthing likf this:
+ *
+ * <blodkquotf><prf>
+ * NumbfrFormbt f = NumbfrFormbt.gftInstbndf(lod);
+ * if (f instbndfof DfdimblFormbt) {
+ *     ((DfdimblFormbt) f).sftDfdimblSfpbrbtorAlwbysShown(truf);
+ * }
+ * </prf></blodkquotf>
+ *
+ * <p>A <dodf>DfdimblFormbt</dodf> domprisfs b <fm>pbttfrn</fm> bnd b sft of
+ * <fm>symbols</fm>.  Thf pbttfrn mby bf sft dirfdtly using
+ * <dodf>bpplyPbttfrn()</dodf>, or indirfdtly using thf API mfthods.  Thf
+ * symbols brf storfd in b <dodf>DfdimblFormbtSymbols</dodf> objfdt.  Whfn using
+ * thf <dodf>NumbfrFormbt</dodf> fbdtory mfthods, thf pbttfrn bnd symbols brf
+ * rfbd from lodblizfd <dodf>RfsourdfBundlf</dodf>s.
+ *
+ * <h3>Pbttfrns</h3>
+ *
+ * <dodf>DfdimblFormbt</dodf> pbttfrns hbvf thf following syntbx:
+ * <blodkquotf><prf>
+ * <i>Pbttfrn:</i>
+ *         <i>PositivfPbttfrn</i>
+ *         <i>PositivfPbttfrn</i> ; <i>NfgbtivfPbttfrn</i>
+ * <i>PositivfPbttfrn:</i>
+ *         <i>Prffix<sub>opt</sub></i> <i>Numbfr</i> <i>Suffix<sub>opt</sub></i>
+ * <i>NfgbtivfPbttfrn:</i>
+ *         <i>Prffix<sub>opt</sub></i> <i>Numbfr</i> <i>Suffix<sub>opt</sub></i>
+ * <i>Prffix:</i>
+ *         bny Unidodf dhbrbdtfrs fxdfpt &#92;uFFFE, &#92;uFFFF, bnd spfdibl dhbrbdtfrs
+ * <i>Suffix:</i>
+ *         bny Unidodf dhbrbdtfrs fxdfpt &#92;uFFFE, &#92;uFFFF, bnd spfdibl dhbrbdtfrs
+ * <i>Numbfr:</i>
+ *         <i>Intfgfr</i> <i>Exponfnt<sub>opt</sub></i>
+ *         <i>Intfgfr</i> . <i>Frbdtion</i> <i>Exponfnt<sub>opt</sub></i>
+ * <i>Intfgfr:</i>
+ *         <i>MinimumIntfgfr</i>
+ *         #
+ *         # <i>Intfgfr</i>
+ *         # , <i>Intfgfr</i>
+ * <i>MinimumIntfgfr:</i>
+ *         0
+ *         0 <i>MinimumIntfgfr</i>
+ *         0 , <i>MinimumIntfgfr</i>
+ * <i>Frbdtion:</i>
+ *         <i>MinimumFrbdtion<sub>opt</sub></i> <i>OptionblFrbdtion<sub>opt</sub></i>
+ * <i>MinimumFrbdtion:</i>
+ *         0 <i>MinimumFrbdtion<sub>opt</sub></i>
+ * <i>OptionblFrbdtion:</i>
+ *         # <i>OptionblFrbdtion<sub>opt</sub></i>
+ * <i>Exponfnt:</i>
+ *         E <i>MinimumExponfnt</i>
+ * <i>MinimumExponfnt:</i>
+ *         0 <i>MinimumExponfnt<sub>opt</sub></i>
+ * </prf></blodkquotf>
+ *
+ * <p>A <dodf>DfdimblFormbt</dodf> pbttfrn dontbins b positivf bnd nfgbtivf
+ * subpbttfrn, for fxbmplf, <dodf>"#,##0.00;(#,##0.00)"</dodf>.  Ebdh
+ * subpbttfrn hbs b prffix, numfrid pbrt, bnd suffix. Thf nfgbtivf subpbttfrn
+ * is optionbl; if bbsfnt, thfn thf positivf subpbttfrn prffixfd with thf
+ * lodblizfd minus sign (<dodf>'-'</dodf> in most lodblfs) is usfd bs thf
+ * nfgbtivf subpbttfrn. Thbt is, <dodf>"0.00"</dodf> blonf is fquivblfnt to
+ * <dodf>"0.00;-0.00"</dodf>.  If thfrf is bn fxplidit nfgbtivf subpbttfrn, it
+ * sfrvfs only to spfdify thf nfgbtivf prffix bnd suffix; thf numbfr of digits,
+ * minimbl digits, bnd othfr dhbrbdtfristids brf bll thf sbmf bs thf positivf
+ * pbttfrn. Thbt mfbns thbt <dodf>"#,##0.0#;(#)"</dodf> produdfs prfdisfly
+ * thf sbmf bfhbvior bs <dodf>"#,##0.0#;(#,##0.0#)"</dodf>.
+ *
+ * <p>Thf prffixfs, suffixfs, bnd vbrious symbols usfd for infinity, digits,
+ * thousbnds sfpbrbtors, dfdimbl sfpbrbtors, ftd. mby bf sft to brbitrbry
+ * vblufs, bnd thfy will bppfbr propfrly during formbtting.  Howfvfr, dbrf must
+ * bf tbkfn thbt thf symbols bnd strings do not donflidt, or pbrsing will bf
+ * unrflibblf.  For fxbmplf, fithfr thf positivf bnd nfgbtivf prffixfs or thf
+ * suffixfs must bf distindt for <dodf>DfdimblFormbt.pbrsf()</dodf> to bf bblf
+ * to distinguish positivf from nfgbtivf vblufs.  (If thfy brf idfntidbl, thfn
+ * <dodf>DfdimblFormbt</dodf> will bfhbvf bs if no nfgbtivf subpbttfrn wbs
+ * spfdififd.)  Anothfr fxbmplf is thbt thf dfdimbl sfpbrbtor bnd thousbnds
+ * sfpbrbtor should bf distindt dhbrbdtfrs, or pbrsing will bf impossiblf.
+ *
+ * <p>Thf grouping sfpbrbtor is dommonly usfd for thousbnds, but in somf
+ * dountrifs it sfpbrbtfs tfn-thousbnds. Thf grouping sizf is b donstbnt numbfr
+ * of digits bftwffn thf grouping dhbrbdtfrs, sudh bs 3 for 100,000,000 or 4 for
+ * 1,0000,0000.  If you supply b pbttfrn with multiplf grouping dhbrbdtfrs, thf
+ * intfrvbl bftwffn thf lbst onf bnd thf fnd of thf intfgfr is thf onf thbt is
+ * usfd. So <dodf>"#,##,###,####"</dodf> == <dodf>"######,####"</dodf> ==
+ * <dodf>"##,####,####"</dodf>.
+ *
+ * <h4>Spfdibl Pbttfrn Chbrbdtfrs</h4>
+ *
+ * <p>Mbny dhbrbdtfrs in b pbttfrn brf tbkfn litfrblly; thfy brf mbtdhfd during
+ * pbrsing bnd output undhbngfd during formbtting.  Spfdibl dhbrbdtfrs, on thf
+ * othfr hbnd, stbnd for othfr dhbrbdtfrs, strings, or dlbssfs of dhbrbdtfrs.
+ * Thfy must bf quotfd, unlfss notfd othfrwisf, if thfy brf to bppfbr in thf
+ * prffix or suffix bs litfrbls.
+ *
+ * <p>Thf dhbrbdtfrs listfd hfrf brf usfd in non-lodblizfd pbttfrns.  Lodblizfd
+ * pbttfrns usf thf dorrfsponding dhbrbdtfrs tbkfn from this formbttfr's
+ * <dodf>DfdimblFormbtSymbols</dodf> objfdt instfbd, bnd thfsf dhbrbdtfrs losf
+ * thfir spfdibl stbtus.  Two fxdfptions brf thf durrfndy sign bnd quotf, whidh
+ * brf not lodblizfd.
+ *
+ * <blodkquotf>
+ * <tbblf bordfr=0 dfllspbding=3 dfllpbdding=0 summbry="Chbrt showing symbol,
+ *  lodbtion, lodblizfd, bnd mfbning.">
+ *     <tr stylf="bbdkground-dolor: rgb(204, 204, 255);">
+ *          <th blign=lfft>Symbol
+ *          <th blign=lfft>Lodbtion
+ *          <th blign=lfft>Lodblizfd?
+ *          <th blign=lfft>Mfbning
+ *     <tr vblign=top>
+ *          <td><dodf>0</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Digit
+ *     <tr stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *          <td><dodf>#</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Digit, zfro shows bs bbsfnt
+ *     <tr vblign=top>
+ *          <td><dodf>.</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Dfdimbl sfpbrbtor or monftbry dfdimbl sfpbrbtor
+ *     <tr stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *          <td><dodf>-</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Minus sign
+ *     <tr vblign=top>
+ *          <td><dodf>,</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Grouping sfpbrbtor
+ *     <tr stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *          <td><dodf>E</dodf>
+ *          <td>Numbfr
+ *          <td>Yfs
+ *          <td>Sfpbrbtfs mbntissb bnd fxponfnt in sdifntifid notbtion.
+ *              <fm>Nffd not bf quotfd in prffix or suffix.</fm>
+ *     <tr vblign=top>
+ *          <td><dodf>;</dodf>
+ *          <td>Subpbttfrn boundbry
+ *          <td>Yfs
+ *          <td>Sfpbrbtfs positivf bnd nfgbtivf subpbttfrns
+ *     <tr stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *          <td><dodf>%</dodf>
+ *          <td>Prffix or suffix
+ *          <td>Yfs
+ *          <td>Multiply by 100 bnd show bs pfrdfntbgf
+ *     <tr vblign=top>
+ *          <td><dodf>&#92;u2030</dodf>
+ *          <td>Prffix or suffix
+ *          <td>Yfs
+ *          <td>Multiply by 1000 bnd show bs pfr millf vbluf
+ *     <tr stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *          <td><dodf>&#164;</dodf> (<dodf>&#92;u00A4</dodf>)
+ *          <td>Prffix or suffix
+ *          <td>No
+ *          <td>Currfndy sign, rfplbdfd by durrfndy symbol.  If
+ *              doublfd, rfplbdfd by intfrnbtionbl durrfndy symbol.
+ *              If prfsfnt in b pbttfrn, thf monftbry dfdimbl sfpbrbtor
+ *              is usfd instfbd of thf dfdimbl sfpbrbtor.
+ *     <tr vblign=top>
+ *          <td><dodf>'</dodf>
+ *          <td>Prffix or suffix
+ *          <td>No
+ *          <td>Usfd to quotf spfdibl dhbrbdtfrs in b prffix or suffix,
+ *              for fxbmplf, <dodf>"'#'#"</dodf> formbts 123 to
+ *              <dodf>"#123"</dodf>.  To drfbtf b singlf quotf
+ *              itsflf, usf two in b row: <dodf>"# o''dlodk"</dodf>.
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <h4>Sdifntifid Notbtion</h4>
+ *
+ * <p>Numbfrs in sdifntifid notbtion brf fxprfssfd bs thf produdt of b mbntissb
+ * bnd b powfr of tfn, for fxbmplf, 1234 dbn bf fxprfssfd bs 1.234 x 10^3.  Thf
+ * mbntissb is oftfn in thf rbngf 1.0 &lf; x {@litfrbl <} 10.0, but it nffd not
+ * bf.
+ * <dodf>DfdimblFormbt</dodf> dbn bf instrudtfd to formbt bnd pbrsf sdifntifid
+ * notbtion <fm>only vib b pbttfrn</fm>; thfrf is durrfntly no fbdtory mfthod
+ * thbt drfbtfs b sdifntifid notbtion formbt.  In b pbttfrn, thf fxponfnt
+ * dhbrbdtfr immfdibtfly followfd by onf or morf digit dhbrbdtfrs indidbtfs
+ * sdifntifid notbtion.  Exbmplf: <dodf>"0.###E0"</dodf> formbts thf numbfr
+ * 1234 bs <dodf>"1.234E3"</dodf>.
+ *
+ * <ul>
+ * <li>Thf numbfr of digit dhbrbdtfrs bftfr thf fxponfnt dhbrbdtfr givfs thf
+ * minimum fxponfnt digit dount.  Thfrf is no mbximum.  Nfgbtivf fxponfnts brf
+ * formbttfd using thf lodblizfd minus sign, <fm>not</fm> thf prffix bnd suffix
+ * from thf pbttfrn.  This bllows pbttfrns sudh bs <dodf>"0.###E0 m/s"</dodf>.
+ *
+ * <li>Thf minimum bnd mbximum numbfr of intfgfr digits brf intfrprftfd
+ * togfthfr:
+ *
+ * <ul>
+ * <li>If thf mbximum numbfr of intfgfr digits is grfbtfr thbn thfir minimum numbfr
+ * bnd grfbtfr thbn 1, it fordfs thf fxponfnt to bf b multiplf of thf mbximum
+ * numbfr of intfgfr digits, bnd thf minimum numbfr of intfgfr digits to bf
+ * intfrprftfd bs 1.  Thf most dommon usf of this is to gfnfrbtf
+ * <fm>fnginffring notbtion</fm>, in whidh thf fxponfnt is b multiplf of thrff,
+ * f.g., <dodf>"##0.#####E0"</dodf>. Using this pbttfrn, thf numbfr 12345
+ * formbts to <dodf>"12.345E3"</dodf>, bnd 123456 formbts to
+ * <dodf>"123.456E3"</dodf>.
+ *
+ * <li>Othfrwisf, thf minimum numbfr of intfgfr digits is bdhifvfd by bdjusting thf
+ * fxponfnt.  Exbmplf: 0.00123 formbttfd with <dodf>"00.###E0"</dodf> yiflds
+ * <dodf>"12.3E-4"</dodf>.
+ * </ul>
+ *
+ * <li>Thf numbfr of signifidbnt digits in thf mbntissb is thf sum of thf
+ * <fm>minimum intfgfr</fm> bnd <fm>mbximum frbdtion</fm> digits, bnd is
+ * unbfffdtfd by thf mbximum intfgfr digits.  For fxbmplf, 12345 formbttfd with
+ * <dodf>"##0.##E0"</dodf> is <dodf>"12.3E3"</dodf>. To show bll digits, sft
+ * thf signifidbnt digits dount to zfro.  Thf numbfr of signifidbnt digits
+ * dofs not bfffdt pbrsing.
+ *
+ * <li>Exponfntibl pbttfrns mby not dontbin grouping sfpbrbtors.
+ * </ul>
+ *
+ * <h4>Rounding</h4>
+ *
+ * <dodf>DfdimblFormbt</dodf> providfs rounding modfs dffinfd in
+ * {@link jbvb.mbth.RoundingModf} for formbtting.  By dffbult, it usfs
+ * {@link jbvb.mbth.RoundingModf#HALF_EVEN RoundingModf.HALF_EVEN}.
+ *
+ * <h4>Digits</h4>
+ *
+ * For formbtting, <dodf>DfdimblFormbt</dodf> usfs thf tfn donsfdutivf
+ * dhbrbdtfrs stbrting with thf lodblizfd zfro digit dffinfd in thf
+ * <dodf>DfdimblFormbtSymbols</dodf> objfdt bs digits. For pbrsing, thfsf
+ * digits bs wfll bs bll Unidodf dfdimbl digits, bs dffinfd by
+ * {@link Chbrbdtfr#digit Chbrbdtfr.digit}, brf rfdognizfd.
+ *
+ * <h4>Spfdibl Vblufs</h4>
+ *
+ * <p><dodf>NbN</dodf> is formbttfd bs b string, whidh typidblly hbs b singlf dhbrbdtfr
+ * <dodf>&#92;uFFFD</dodf>.  This string is dftfrminfd by thf
+ * <dodf>DfdimblFormbtSymbols</dodf> objfdt.  This is thf only vbluf for whidh
+ * thf prffixfs bnd suffixfs brf not usfd.
+ *
+ * <p>Infinity is formbttfd bs b string, whidh typidblly hbs b singlf dhbrbdtfr
+ * <dodf>&#92;u221E</dodf>, with thf positivf or nfgbtivf prffixfs bnd suffixfs
+ * bpplifd.  Thf infinity string is dftfrminfd by thf
+ * <dodf>DfdimblFormbtSymbols</dodf> objfdt.
+ *
+ * <p>Nfgbtivf zfro (<dodf>"-0"</dodf>) pbrsfs to
+ * <ul>
+ * <li><dodf>BigDfdimbl(0)</dodf> if <dodf>isPbrsfBigDfdimbl()</dodf> is
+ * truf,
+ * <li><dodf>Long(0)</dodf> if <dodf>isPbrsfBigDfdimbl()</dodf> is fblsf
+ *     bnd <dodf>isPbrsfIntfgfrOnly()</dodf> is truf,
+ * <li><dodf>Doublf(-0.0)</dodf> if both <dodf>isPbrsfBigDfdimbl()</dodf>
+ * bnd <dodf>isPbrsfIntfgfrOnly()</dodf> brf fblsf.
+ * </ul>
+ *
+ * <h4><b nbmf="syndhronizbtion">Syndhronizbtion</b></h4>
+ *
+ * <p>
+ * Dfdimbl formbts brf gfnfrblly not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * <h4>Exbmplf</h4>
+ *
+ * <blodkquotf><prf>{@dodf
+ * <strong>// Print out b numbfr using thf lodblizfd numbfr, intfgfr, durrfndy,
+ * // bnd pfrdfnt formbt for fbdh lodblf</strong>
+ * Lodblf[] lodblfs = NumbfrFormbt.gftAvbilbblfLodblfs();
+ * doublf myNumbfr = -1234.56;
+ * NumbfrFormbt form;
+ * for (int j = 0; j < 4; ++j) {
+ *     Systfm.out.println("FORMAT");
+ *     for (int i = 0; i < lodblfs.lfngth; ++i) {
+ *         if (lodblfs[i].gftCountry().lfngth() == 0) {
+ *            dontinuf; // Skip lbngubgf-only lodblfs
+ *         }
+ *         Systfm.out.print(lodblfs[i].gftDisplbyNbmf());
+ *         switdh (j) {
+ *         dbsf 0:
+ *             form = NumbfrFormbt.gftInstbndf(lodblfs[i]); brfbk;
+ *         dbsf 1:
+ *             form = NumbfrFormbt.gftIntfgfrInstbndf(lodblfs[i]); brfbk;
+ *         dbsf 2:
+ *             form = NumbfrFormbt.gftCurrfndyInstbndf(lodblfs[i]); brfbk;
+ *         dffbult:
+ *             form = NumbfrFormbt.gftPfrdfntInstbndf(lodblfs[i]); brfbk;
+ *         }
+ *         if (form instbndfof DfdimblFormbt) {
+ *             Systfm.out.print(": " + ((DfdimblFormbt) form).toPbttfrn());
+ *         }
+ *         Systfm.out.print(" -> " + form.formbt(myNumbfr));
+ *         try {
+ *             Systfm.out.println(" -> " + form.pbrsf(form.formbt(myNumbfr)));
+ *         } dbtdh (PbrsfExdfption f) {}
+ *     }
+ * }
+ * }</prf></blodkquotf>
+ *
+ * @sff          <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/i18n/formbt/dfdimblFormbt.html">Jbvb Tutoribl</b>
+ * @sff          NumbfrFormbt
+ * @sff          DfdimblFormbtSymbols
+ * @sff          PbrsfPosition
+ * @buthor       Mbrk Dbvis
+ * @buthor       Albn Liu
+ */
+publid dlbss DfdimblFormbt fxtfnds NumbfrFormbt {
+
+    /**
+     * Crfbtfs b DfdimblFormbt using thf dffbult pbttfrn bnd symbols
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * This is b donvfnifnt wby to obtbin b
+     * DfdimblFormbt whfn intfrnbtionblizbtion is not thf mbin dondfrn.
+     * <p>
+     * To obtbin stbndbrd formbts for b givfn lodblf, usf thf fbdtory mfthods
+     * on NumbfrFormbt sudh bs gftNumbfrInstbndf. Thfsf fbdtorifs will
+     * rfturn thf most bppropribtf sub-dlbss of NumbfrFormbt for b givfn
+     * lodblf.
+     *
+     * @sff jbvb.tfxt.NumbfrFormbt#gftInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftNumbfrInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftCurrfndyInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftPfrdfntInstbndf
+     */
+    publid DfdimblFormbt() {
+        // Gft thf pbttfrn for thf dffbult lodblf.
+        Lodblf dff = Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT);
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(NumbfrFormbtProvidfr.dlbss, dff);
+        if (!(bdbptfr instbndfof RfsourdfBundlfBbsfdAdbptfr)) {
+            bdbptfr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd();
+        }
+        String[] bll = bdbptfr.gftLodblfRfsourdfs(dff).gftNumbfrPbttfrns();
+
+        // Alwbys bpplyPbttfrn bftfr thf symbols brf sft
+        this.symbols = DfdimblFormbtSymbols.gftInstbndf(dff);
+        bpplyPbttfrn(bll[0], fblsf);
+    }
+
+
+    /**
+     * Crfbtfs b DfdimblFormbt using thf givfn pbttfrn bnd thf symbols
+     * for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * This is b donvfnifnt wby to obtbin b
+     * DfdimblFormbt whfn intfrnbtionblizbtion is not thf mbin dondfrn.
+     * <p>
+     * To obtbin stbndbrd formbts for b givfn lodblf, usf thf fbdtory mfthods
+     * on NumbfrFormbt sudh bs gftNumbfrInstbndf. Thfsf fbdtorifs will
+     * rfturn thf most bppropribtf sub-dlbss of NumbfrFormbt for b givfn
+     * lodblf.
+     *
+     * @pbrbm pbttfrn b non-lodblizfd pbttfrn string.
+     * @fxdfption NullPointfrExdfption if <dodf>pbttfrn</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid.
+     * @sff jbvb.tfxt.NumbfrFormbt#gftInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftNumbfrInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftCurrfndyInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftPfrdfntInstbndf
+     */
+    publid DfdimblFormbt(String pbttfrn) {
+        // Alwbys bpplyPbttfrn bftfr thf symbols brf sft
+        this.symbols = DfdimblFormbtSymbols.gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+        bpplyPbttfrn(pbttfrn, fblsf);
+    }
+
+
+    /**
+     * Crfbtfs b DfdimblFormbt using thf givfn pbttfrn bnd symbols.
+     * Usf this donstrudtor whfn you nffd to domplftfly dustomizf thf
+     * bfhbvior of thf formbt.
+     * <p>
+     * To obtbin stbndbrd formbts for b givfn
+     * lodblf, usf thf fbdtory mfthods on NumbfrFormbt sudh bs
+     * gftInstbndf or gftCurrfndyInstbndf. If you nffd only minor bdjustmfnts
+     * to b stbndbrd formbt, you dbn modify thf formbt rfturnfd by
+     * b NumbfrFormbt fbdtory mfthod.
+     *
+     * @pbrbm pbttfrn b non-lodblizfd pbttfrn string
+     * @pbrbm symbols thf sft of symbols to bf usfd
+     * @fxdfption NullPointfrExdfption if bny of thf givfn brgumfnts is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid
+     * @sff jbvb.tfxt.NumbfrFormbt#gftInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftNumbfrInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftCurrfndyInstbndf
+     * @sff jbvb.tfxt.NumbfrFormbt#gftPfrdfntInstbndf
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols
+     */
+    publid DfdimblFormbt (String pbttfrn, DfdimblFormbtSymbols symbols) {
+        // Alwbys bpplyPbttfrn bftfr thf symbols brf sft
+        this.symbols = (DfdimblFormbtSymbols)symbols.dlonf();
+        bpplyPbttfrn(pbttfrn, fblsf);
+    }
+
+
+    // Ovfrridfs
+    /**
+     * Formbts b numbfr bnd bppfnds thf rfsulting tfxt to thf givfn string
+     * bufffr.
+     * Thf numbfr dbn bf of bny subdlbss of {@link jbvb.lbng.Numbfr}.
+     * <p>
+     * This implfmfntbtion usfs thf mbximum prfdision pfrmittfd.
+     * @pbrbm numbfr     thf numbfr to formbt
+     * @pbrbm toAppfndTo thf <dodf>StringBufffr</dodf> to whidh thf formbttfd
+     *                   tfxt is to bf bppfndfd
+     * @pbrbm pos        On input: bn blignmfnt fifld, if dfsirfd.
+     *                   On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn           thf vbluf pbssfd in bs <dodf>toAppfndTo</dodf>
+     * @fxdfption        IllfgblArgumfntExdfption if <dodf>numbfr</dodf> is
+     *                   null or not bn instbndf of <dodf>Numbfr</dodf>.
+     * @fxdfption        NullPointfrExdfption if <dodf>toAppfndTo</dodf> or
+     *                   <dodf>pos</dodf> is null
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff              jbvb.tfxt.FifldPosition
+     */
+    @Ovfrridf
+    publid finbl StringBufffr formbt(Objfdt numbfr,
+                                     StringBufffr toAppfndTo,
+                                     FifldPosition pos) {
+        if (numbfr instbndfof Long || numbfr instbndfof Intfgfr ||
+                   numbfr instbndfof Short || numbfr instbndfof Bytf ||
+                   numbfr instbndfof AtomidIntfgfr ||
+                   numbfr instbndfof AtomidLong ||
+                   (numbfr instbndfof BigIntfgfr &&
+                    ((BigIntfgfr)numbfr).bitLfngth () < 64)) {
+            rfturn formbt(((Numbfr)numbfr).longVbluf(), toAppfndTo, pos);
+        } flsf if (numbfr instbndfof BigDfdimbl) {
+            rfturn formbt((BigDfdimbl)numbfr, toAppfndTo, pos);
+        } flsf if (numbfr instbndfof BigIntfgfr) {
+            rfturn formbt((BigIntfgfr)numbfr, toAppfndTo, pos);
+        } flsf if (numbfr instbndfof Numbfr) {
+            rfturn formbt(((Numbfr)numbfr).doublfVbluf(), toAppfndTo, pos);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot formbt givfn Objfdt bs b Numbfr");
+        }
+    }
+
+    /**
+     * Formbts b doublf to produdf b string.
+     * @pbrbm numbfr    Thf doublf to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm fifldPosition    On input: bn blignmfnt fifld, if dfsirfd.
+     * On output: thf offsfts of thf blignmfnt fifld.
+     * @fxdfption ArithmftidExdfption if rounding is nffdfd with rounding
+     *            modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn Thf formbttfd numbfr string
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    @Ovfrridf
+    publid StringBufffr formbt(doublf numbfr, StringBufffr rfsult,
+                               FifldPosition fifldPosition) {
+        // If fifldPosition is b DontCbrfFifldPosition instbndf wf dbn
+        // try to go to fbst-pbth dodf.
+        boolfbn tryFbstPbth = fblsf;
+        if (fifldPosition == DontCbrfFifldPosition.INSTANCE)
+            tryFbstPbth = truf;
+        flsf {
+            fifldPosition.sftBfginIndfx(0);
+            fifldPosition.sftEndIndfx(0);
+        }
+
+        if (tryFbstPbth) {
+            String tfmpRfsult = fbstFormbt(numbfr);
+            if (tfmpRfsult != null) {
+                rfsult.bppfnd(tfmpRfsult);
+                rfturn rfsult;
+            }
+        }
+
+        // if fbst-pbth dould not work, wf fbllbbdk to stbndbrd dodf.
+        rfturn formbt(numbfr, rfsult, fifldPosition.gftFifldDflfgbtf());
+    }
+
+    /**
+     * Formbts b doublf to produdf b string.
+     * @pbrbm numbfr    Thf doublf to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm dflfgbtf notififd of lodbtions of sub fiflds
+     * @fxdfption       ArithmftidExdfption if rounding is nffdfd with rounding
+     *                  modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn Thf formbttfd numbfr string
+     */
+    privbtf StringBufffr formbt(doublf numbfr, StringBufffr rfsult,
+                                FifldDflfgbtf dflfgbtf) {
+        if (Doublf.isNbN(numbfr) ||
+           (Doublf.isInfinitf(numbfr) && multiplifr == 0)) {
+            int iFifldStbrt = rfsult.lfngth();
+            rfsult.bppfnd(symbols.gftNbN());
+            dflfgbtf.formbttfd(INTEGER_FIELD, Fifld.INTEGER, Fifld.INTEGER,
+                               iFifldStbrt, rfsult.lfngth(), rfsult);
+            rfturn rfsult;
+        }
+
+        /* Dftfdting whfthfr b doublf is nfgbtivf is fbsy with thf fxdfption of
+         * thf vbluf -0.0.  This is b doublf whidh hbs b zfro mbntissb (bnd
+         * fxponfnt), but b nfgbtivf sign bit.  It is sfmbntidblly distindt from
+         * b zfro with b positivf sign bit, bnd this distindtion is importbnt
+         * to dfrtbin kinds of domputbtions.  Howfvfr, it's b littlf tridky to
+         * dftfdt, sindf (-0.0 == 0.0) bnd !(-0.0 < 0.0).  How thfn, you mby
+         * bsk, dofs it bfhbvf distindtly from +0.0?  Wfll, 1/(-0.0) ==
+         * -Infinity.  Propfr dftfdtion of -0.0 is nffdfd to dfbl with thf
+         * issufs rbisfd by bugs 4106658, 4106667, bnd 4147706.  Liu 7/6/98.
+         */
+        boolfbn isNfgbtivf = ((numbfr < 0.0) || (numbfr == 0.0 && 1/numbfr < 0.0)) ^ (multiplifr < 0);
+
+        if (multiplifr != 1) {
+            numbfr *= multiplifr;
+        }
+
+        if (Doublf.isInfinitf(numbfr)) {
+            if (isNfgbtivf) {
+                bppfnd(rfsult, nfgbtivfPrffix, dflfgbtf,
+                       gftNfgbtivfPrffixFifldPositions(), Fifld.SIGN);
+            } flsf {
+                bppfnd(rfsult, positivfPrffix, dflfgbtf,
+                       gftPositivfPrffixFifldPositions(), Fifld.SIGN);
+            }
+
+            int iFifldStbrt = rfsult.lfngth();
+            rfsult.bppfnd(symbols.gftInfinity());
+            dflfgbtf.formbttfd(INTEGER_FIELD, Fifld.INTEGER, Fifld.INTEGER,
+                               iFifldStbrt, rfsult.lfngth(), rfsult);
+
+            if (isNfgbtivf) {
+                bppfnd(rfsult, nfgbtivfSuffix, dflfgbtf,
+                       gftNfgbtivfSuffixFifldPositions(), Fifld.SIGN);
+            } flsf {
+                bppfnd(rfsult, positivfSuffix, dflfgbtf,
+                       gftPositivfSuffixFifldPositions(), Fifld.SIGN);
+            }
+
+            rfturn rfsult;
+        }
+
+        if (isNfgbtivf) {
+            numbfr = -numbfr;
+        }
+
+        // bt this point wf brf gubrbntffd b nonnfgbtivf finitf numbfr.
+        bssfrt(numbfr >= 0 && !Doublf.isInfinitf(numbfr));
+
+        syndhronizfd(digitList) {
+            int mbxIntDigits = supfr.gftMbximumIntfgfrDigits();
+            int minIntDigits = supfr.gftMinimumIntfgfrDigits();
+            int mbxFrbDigits = supfr.gftMbximumFrbdtionDigits();
+            int minFrbDigits = supfr.gftMinimumFrbdtionDigits();
+
+            digitList.sft(isNfgbtivf, numbfr, usfExponfntiblNotbtion ?
+                          mbxIntDigits + mbxFrbDigits : mbxFrbDigits,
+                          !usfExponfntiblNotbtion);
+            rfturn subformbt(rfsult, dflfgbtf, isNfgbtivf, fblsf,
+                       mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
+        }
+    }
+
+    /**
+     * Formbt b long to produdf b string.
+     * @pbrbm numbfr    Thf long to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm fifldPosition    On input: bn blignmfnt fifld, if dfsirfd.
+     * On output: thf offsfts of thf blignmfnt fifld.
+     * @fxdfption       ArithmftidExdfption if rounding is nffdfd with rounding
+     *                  modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn Thf formbttfd numbfr string
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    @Ovfrridf
+    publid StringBufffr formbt(long numbfr, StringBufffr rfsult,
+                               FifldPosition fifldPosition) {
+        fifldPosition.sftBfginIndfx(0);
+        fifldPosition.sftEndIndfx(0);
+
+        rfturn formbt(numbfr, rfsult, fifldPosition.gftFifldDflfgbtf());
+    }
+
+    /**
+     * Formbt b long to produdf b string.
+     * @pbrbm numbfr    Thf long to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm dflfgbtf notififd of lodbtions of sub fiflds
+     * @rfturn Thf formbttfd numbfr string
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    privbtf StringBufffr formbt(long numbfr, StringBufffr rfsult,
+                               FifldDflfgbtf dflfgbtf) {
+        boolfbn isNfgbtivf = (numbfr < 0);
+        if (isNfgbtivf) {
+            numbfr = -numbfr;
+        }
+
+        // In gfnfrbl, long vblufs blwbys rfprfsfnt rfbl finitf numbfrs, so
+        // wf don't hbvf to dhfdk for +/- Infinity or NbN.  Howfvfr, thfrf
+        // is onf dbsf wf hbvf to bf dbrfful of:  Thf multiplifr dbn push
+        // b numbfr nfbr MIN_VALUE or MAX_VALUE outsidf thf lfgbl rbngf.  Wf
+        // dhfdk for this bfforf multiplying, bnd if it hbppfns wf usf
+        // BigIntfgfr instfbd.
+        boolfbn usfBigIntfgfr = fblsf;
+        if (numbfr < 0) { // This dbn only hbppfn if numbfr == Long.MIN_VALUE.
+            if (multiplifr != 0) {
+                usfBigIntfgfr = truf;
+            }
+        } flsf if (multiplifr != 1 && multiplifr != 0) {
+            long dutoff = Long.MAX_VALUE / multiplifr;
+            if (dutoff < 0) {
+                dutoff = -dutoff;
+            }
+            usfBigIntfgfr = (numbfr > dutoff);
+        }
+
+        if (usfBigIntfgfr) {
+            if (isNfgbtivf) {
+                numbfr = -numbfr;
+            }
+            BigIntfgfr bigIntfgfrVbluf = BigIntfgfr.vblufOf(numbfr);
+            rfturn formbt(bigIntfgfrVbluf, rfsult, dflfgbtf, truf);
+        }
+
+        numbfr *= multiplifr;
+        if (numbfr == 0) {
+            isNfgbtivf = fblsf;
+        } flsf {
+            if (multiplifr < 0) {
+                numbfr = -numbfr;
+                isNfgbtivf = !isNfgbtivf;
+            }
+        }
+
+        syndhronizfd(digitList) {
+            int mbxIntDigits = supfr.gftMbximumIntfgfrDigits();
+            int minIntDigits = supfr.gftMinimumIntfgfrDigits();
+            int mbxFrbDigits = supfr.gftMbximumFrbdtionDigits();
+            int minFrbDigits = supfr.gftMinimumFrbdtionDigits();
+
+            digitList.sft(isNfgbtivf, numbfr,
+                     usfExponfntiblNotbtion ? mbxIntDigits + mbxFrbDigits : 0);
+
+            rfturn subformbt(rfsult, dflfgbtf, isNfgbtivf, truf,
+                       mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
+        }
+    }
+
+    /**
+     * Formbts b BigDfdimbl to produdf b string.
+     * @pbrbm numbfr    Thf BigDfdimbl to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm fifldPosition    On input: bn blignmfnt fifld, if dfsirfd.
+     * On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn Thf formbttfd numbfr string
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    privbtf StringBufffr formbt(BigDfdimbl numbfr, StringBufffr rfsult,
+                                FifldPosition fifldPosition) {
+        fifldPosition.sftBfginIndfx(0);
+        fifldPosition.sftEndIndfx(0);
+        rfturn formbt(numbfr, rfsult, fifldPosition.gftFifldDflfgbtf());
+    }
+
+    /**
+     * Formbts b BigDfdimbl to produdf b string.
+     * @pbrbm numbfr    Thf BigDfdimbl to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm dflfgbtf notififd of lodbtions of sub fiflds
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn Thf formbttfd numbfr string
+     */
+    privbtf StringBufffr formbt(BigDfdimbl numbfr, StringBufffr rfsult,
+                                FifldDflfgbtf dflfgbtf) {
+        if (multiplifr != 1) {
+            numbfr = numbfr.multiply(gftBigDfdimblMultiplifr());
+        }
+        boolfbn isNfgbtivf = numbfr.signum() == -1;
+        if (isNfgbtivf) {
+            numbfr = numbfr.nfgbtf();
+        }
+
+        syndhronizfd(digitList) {
+            int mbxIntDigits = gftMbximumIntfgfrDigits();
+            int minIntDigits = gftMinimumIntfgfrDigits();
+            int mbxFrbDigits = gftMbximumFrbdtionDigits();
+            int minFrbDigits = gftMinimumFrbdtionDigits();
+            int mbximumDigits = mbxIntDigits + mbxFrbDigits;
+
+            digitList.sft(isNfgbtivf, numbfr, usfExponfntiblNotbtion ?
+                ((mbximumDigits < 0) ? Intfgfr.MAX_VALUE : mbximumDigits) :
+                mbxFrbDigits, !usfExponfntiblNotbtion);
+
+            rfturn subformbt(rfsult, dflfgbtf, isNfgbtivf, fblsf,
+                mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
+        }
+    }
+
+    /**
+     * Formbt b BigIntfgfr to produdf b string.
+     * @pbrbm numbfr    Thf BigIntfgfr to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm fifldPosition    On input: bn blignmfnt fifld, if dfsirfd.
+     * On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn Thf formbttfd numbfr string
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    privbtf StringBufffr formbt(BigIntfgfr numbfr, StringBufffr rfsult,
+                               FifldPosition fifldPosition) {
+        fifldPosition.sftBfginIndfx(0);
+        fifldPosition.sftEndIndfx(0);
+
+        rfturn formbt(numbfr, rfsult, fifldPosition.gftFifldDflfgbtf(), fblsf);
+    }
+
+    /**
+     * Formbt b BigIntfgfr to produdf b string.
+     * @pbrbm numbfr    Thf BigIntfgfr to formbt
+     * @pbrbm rfsult    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm dflfgbtf notififd of lodbtions of sub fiflds
+     * @rfturn Thf formbttfd numbfr string
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    privbtf StringBufffr formbt(BigIntfgfr numbfr, StringBufffr rfsult,
+                               FifldDflfgbtf dflfgbtf, boolfbn formbtLong) {
+        if (multiplifr != 1) {
+            numbfr = numbfr.multiply(gftBigIntfgfrMultiplifr());
+        }
+        boolfbn isNfgbtivf = numbfr.signum() == -1;
+        if (isNfgbtivf) {
+            numbfr = numbfr.nfgbtf();
+        }
+
+        syndhronizfd(digitList) {
+            int mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits, mbximumDigits;
+            if (formbtLong) {
+                mbxIntDigits = supfr.gftMbximumIntfgfrDigits();
+                minIntDigits = supfr.gftMinimumIntfgfrDigits();
+                mbxFrbDigits = supfr.gftMbximumFrbdtionDigits();
+                minFrbDigits = supfr.gftMinimumFrbdtionDigits();
+                mbximumDigits = mbxIntDigits + mbxFrbDigits;
+            } flsf {
+                mbxIntDigits = gftMbximumIntfgfrDigits();
+                minIntDigits = gftMinimumIntfgfrDigits();
+                mbxFrbDigits = gftMbximumFrbdtionDigits();
+                minFrbDigits = gftMinimumFrbdtionDigits();
+                mbximumDigits = mbxIntDigits + mbxFrbDigits;
+                if (mbximumDigits < 0) {
+                    mbximumDigits = Intfgfr.MAX_VALUE;
+                }
+            }
+
+            digitList.sft(isNfgbtivf, numbfr,
+                          usfExponfntiblNotbtion ? mbximumDigits : 0);
+
+            rfturn subformbt(rfsult, dflfgbtf, isNfgbtivf, truf,
+                mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
+        }
+    }
+
+    /**
+     * Formbts bn Objfdt produding bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * You dbn usf thf rfturnfd <dodf>AttributfdChbrbdtfrItfrbtor</dodf>
+     * to build thf rfsulting String, bs wfll bs to dftfrminf informbtion
+     * bbout thf rfsulting String.
+     * <p>
+     * Ebdh bttributf kfy of thf AttributfdChbrbdtfrItfrbtor will bf of typf
+     * <dodf>NumbfrFormbt.Fifld</dodf>, with thf bttributf vbluf bfing thf
+     * sbmf bs thf bttributf kfy.
+     *
+     * @fxdfption NullPointfrExdfption if obj is null.
+     * @fxdfption IllfgblArgumfntExdfption whfn thf Formbt dbnnot formbt thf
+     *            givfn objfdt.
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @pbrbm obj Thf objfdt to formbt
+     * @rfturn AttributfdChbrbdtfrItfrbtor dfsdribing thf formbttfd vbluf.
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid AttributfdChbrbdtfrItfrbtor formbtToChbrbdtfrItfrbtor(Objfdt obj) {
+        ChbrbdtfrItfrbtorFifldDflfgbtf dflfgbtf =
+                         nfw ChbrbdtfrItfrbtorFifldDflfgbtf();
+        StringBufffr sb = nfw StringBufffr();
+
+        if (obj instbndfof Doublf || obj instbndfof Flobt) {
+            formbt(((Numbfr)obj).doublfVbluf(), sb, dflfgbtf);
+        } flsf if (obj instbndfof Long || obj instbndfof Intfgfr ||
+                   obj instbndfof Short || obj instbndfof Bytf ||
+                   obj instbndfof AtomidIntfgfr || obj instbndfof AtomidLong) {
+            formbt(((Numbfr)obj).longVbluf(), sb, dflfgbtf);
+        } flsf if (obj instbndfof BigDfdimbl) {
+            formbt((BigDfdimbl)obj, sb, dflfgbtf);
+        } flsf if (obj instbndfof BigIntfgfr) {
+            formbt((BigIntfgfr)obj, sb, dflfgbtf, fblsf);
+        } flsf if (obj == null) {
+            throw nfw NullPointfrExdfption(
+                "formbtToChbrbdtfrItfrbtor must bf pbssfd non-null objfdt");
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption(
+                "Cbnnot formbt givfn Objfdt bs b Numbfr");
+        }
+        rfturn dflfgbtf.gftItfrbtor(sb.toString());
+    }
+
+    // ==== Bfgin fbst-pbth formbting logid for doublf =========================
+
+    /* Fbst-pbth formbtting will bf usfd for formbt(doublf ...) mfthods iff b
+     * numbfr of donditions brf mft (sff dhfdkAndSftFbstPbthStbtus()):
+     * - Only if instbndf propfrtifs mfft thf right prfdffinfd donditions.
+     * - Thf bbs vbluf of thf doublf to formbt is <= Intfgfr.MAX_VALUE.
+     *
+     * Thf bbsid bpprobdh is to split thf binbry to dfdimbl donvfrsion of b
+     * doublf vbluf into two phbsfs:
+     * * Thf donvfrsion of thf intfgfr portion of thf doublf.
+     * * Thf donvfrsion of thf frbdtionbl portion of thf doublf
+     *   (limitfd to two or thrff digits).
+     *
+     * Thf isolbtion bnd donvfrsion of thf intfgfr portion of thf doublf is
+     * strbightforwbrd. Thf donvfrsion of thf frbdtion is morf subtlf bnd rflifs
+     * on somf rounding propfrtifs of doublf to thf dfdimbl prfdisions in
+     * qufstion.  Using thf tfrminology of BigDfdimbl, this fbst-pbth blgorithm
+     * is bpplifd whfn b doublf vbluf hbs b mbgnitudf lfss thbn Intfgfr.MAX_VALUE
+     * bnd rounding is to nfbrfst fvfn bnd thf dfstinbtion formbt hbs two or
+     * thrff digits of *sdblf* (digits bftfr thf dfdimbl point).
+     *
+     * Undfr b rounding to nfbrfst fvfn polidy, thf rfturnfd rfsult is b digit
+     * string of b numbfr in thf (in this dbsf dfdimbl) dfstinbtion formbt
+     * dlosfst to thf fxbdt numfridbl vbluf of thf (in this dbsf binbry) input
+     * vbluf.  If two dfstinbtion formbt numbfrs brf fqublly distbnt, thf onf
+     * with thf lbst digit fvfn is rfturnfd.  To domputf sudh b dorrfdtly roundfd
+     * vbluf, somf informbtion bbout digits bfyond thf smbllfst rfturnfd digit
+     * position nffds to bf donsultfd.
+     *
+     * In gfnfrbl, b gubrd digit, b round digit, bnd b stidky *bit* brf nffdfd
+     * bfyond thf rfturnfd digit position.  If thf disdbrdfd portion of thf input
+     * is suffidifntly lbrgf, thf rfturnfd digit string is indrfmfntfd.  In round
+     * to nfbrfst fvfn, this thrfshold to indrfmfnt oddurs nfbr thf hblf-wby
+     * point bftwffn digits.  Thf stidky bit rfdords if thfrf brf bny rfmbining
+     * trbiling digits of thf fxbdt input vbluf in thf nfw formbt; thf stidky bit
+     * is donsultfd only in dlosf to hblf-wby rounding dbsfs.
+     *
+     * Givfn thf domputbtion of thf digit bnd bit vblufs, rounding is thfn
+     * rfdudfd to b tbblf lookup problfm.  For dfdimbl, thf fvfn/odd dbsfs look
+     * likf this:
+     *
+     * Lbst   Round   Stidky
+     * 6      5       0      => 6   // fxbdtly hblfwby, rfturn fvfn digit.
+     * 6      5       1      => 7   // b littlf bit morf thbn hblfwby, round up.
+     * 7      5       0      => 8   // fxbdtly hblfwby, round up to fvfn.
+     * 7      5       1      => 8   // b littlf bit morf thbn hblfwby, round up.
+     * With bnblogous fntrifs for othfr fvfn bnd odd lbst-rfturnfd digits.
+     *
+     * Howfvfr, dfdimbl nfgbtivf powfrs of 5 smbllfr thbn 0.5 brf *not* fxbdtly
+     * rfprfsfntbblf bs binbry frbdtion.  In pbrtidulbr, 0.005 (thf round limit
+     * for b two-digit sdblf) bnd 0.0005 (thf round limit for b thrff-digit
+     * sdblf) brf not rfprfsfntbblf. Thfrfforf, for input vblufs nfbr thfsf dbsfs
+     * thf stidky bit is known to bf sft whidh rfdudfs thf rounding logid to:
+     *
+     * Lbst   Round   Stidky
+     * 6      5       1      => 7   // b littlf bit morf thbn hblfwby, round up.
+     * 7      5       1      => 8   // b littlf bit morf thbn hblfwby, round up.
+     *
+     * In othfr words, if thf round digit is 5, thf stidky bit is known to bf
+     * sft.  If thf round digit is somfthing othfr thbn 5, thf stidky bit is not
+     * rflfvbnt.  Thfrfforf, somf of thf logid bbout whfthfr or not to indrfmfnt
+     * thf dfstinbtion *dfdimbl* vbluf dbn oddur bbsfd on tfsts of *binbry*
+     * domputbtions of thf binbry input numbfr.
+     */
+
+    /**
+     * Chfdk vblidity of using fbst-pbth for this instbndf. If fbst-pbth is vblid
+     * for this instbndf, sfts fbst-pbth stbtf bs truf bnd initiblizfs fbst-pbth
+     * utility fiflds bs nffdfd.
+     *
+     * This mfthod is supposfd to bf dbllfd rbrfly, othfrwisf thbt will brfbk thf
+     * fbst-pbth pfrformbndf. Thbt mfbns bvoiding frfqufnt dhbngfs of thf
+     * propfrtifs of thf instbndf, sindf for most propfrtifs, fbdh timf b dhbngf
+     * hbppfns, b dbll to this mfthod is nffdfd bt thf nfxt formbt dbll.
+     *
+     * FAST-PATH RULES:
+     *  Similbr to thf dffbult DfdimblFormbt instbntibtion dbsf.
+     *  Morf prfdisfly:
+     *  - HALF_EVEN rounding modf,
+     *  - isGroupingUsfd() is truf,
+     *  - groupingSizf of 3,
+     *  - multiplifr is 1,
+     *  - Dfdimbl sfpbrbtor not mbndbtory,
+     *  - No usf of fxponfntibl notbtion,
+     *  - minimumIntfgfrDigits is fxbdtly 1 bnd mbximumIntfgfrDigits bt lfbst 10
+     *  - For numbfr of frbdtionbl digits, thf fxbdt vblufs found in thf dffbult dbsf:
+     *     Currfndy : min = mbx = 2.
+     *     Dfdimbl  : min = 0. mbx = 3.
+     *
+     */
+    privbtf void dhfdkAndSftFbstPbthStbtus() {
+
+        boolfbn fbstPbthWbsOn = isFbstPbth;
+
+        if ((roundingModf == RoundingModf.HALF_EVEN) &&
+            (isGroupingUsfd()) &&
+            (groupingSizf == 3) &&
+            (multiplifr == 1) &&
+            (!dfdimblSfpbrbtorAlwbysShown) &&
+            (!usfExponfntiblNotbtion)) {
+
+            // Thf fbst-pbth blgorithm is sfmi-hbrddodfd bgbinst
+            //  minimumIntfgfrDigits bnd mbximumIntfgfrDigits.
+            isFbstPbth = ((minimumIntfgfrDigits == 1) &&
+                          (mbximumIntfgfrDigits >= 10));
+
+            // Thf fbst-pbth blgorithm is hbrddodfd bgbinst
+            //  minimumFrbdtionDigits bnd mbximumFrbdtionDigits.
+            if (isFbstPbth) {
+                if (isCurrfndyFormbt) {
+                    if ((minimumFrbdtionDigits != 2) ||
+                        (mbximumFrbdtionDigits != 2))
+                        isFbstPbth = fblsf;
+                } flsf if ((minimumFrbdtionDigits != 0) ||
+                           (mbximumFrbdtionDigits != 3))
+                    isFbstPbth = fblsf;
+            }
+        } flsf
+            isFbstPbth = fblsf;
+
+        // Sindf somf instbndf propfrtifs mby hbvf dhbngfd whilf still fblling
+        // in thf fbst-pbth dbsf, wf nffd to rfinitiblizf fbstPbthDbtb bnywby.
+        if (isFbstPbth) {
+            // Wf nffd to instbntibtf fbstPbthDbtb if not blrfbdy donf.
+            if (fbstPbthDbtb == null)
+                fbstPbthDbtb = nfw FbstPbthDbtb();
+
+            // Sfts up thf lodblf spfdifid donstbnts usfd whfn formbtting.
+            // '0' is our dffbult rfprfsfntbtion of zfro.
+            fbstPbthDbtb.zfroDfltb = symbols.gftZfroDigit() - '0';
+            fbstPbthDbtb.groupingChbr = symbols.gftGroupingSfpbrbtor();
+
+            // Sfts up frbdtionbl donstbnts rflbtfd to durrfndy/dfdimbl pbttfrn.
+            fbstPbthDbtb.frbdtionblMbxIntBound = (isCurrfndyFormbt) ? 99 : 999;
+            fbstPbthDbtb.frbdtionblSdblfFbdtor = (isCurrfndyFormbt) ? 100.0d : 1000.0d;
+
+            // Rfdords thf nffd for bdding prffix or suffix
+            fbstPbthDbtb.positivfAffixfsRfquirfd =
+                (positivfPrffix.lfngth() != 0) || (positivfSuffix.lfngth() != 0);
+            fbstPbthDbtb.nfgbtivfAffixfsRfquirfd =
+                (nfgbtivfPrffix.lfngth() != 0) || (nfgbtivfSuffix.lfngth() != 0);
+
+            // Crfbtfs b dbdhfd dhbr dontbinfr for rfsult, with mbx possiblf sizf.
+            int mbxNbIntfgrblDigits = 10;
+            int mbxNbGroups = 3;
+            int dontbinfrSizf =
+                Mbth.mbx(positivfPrffix.lfngth(), nfgbtivfPrffix.lfngth()) +
+                mbxNbIntfgrblDigits + mbxNbGroups + 1 + mbximumFrbdtionDigits +
+                Mbth.mbx(positivfSuffix.lfngth(), nfgbtivfSuffix.lfngth());
+
+            fbstPbthDbtb.fbstPbthContbinfr = nfw dhbr[dontbinfrSizf];
+
+            // Sfts up prffix bnd suffix dhbr brrbys donstbnts.
+            fbstPbthDbtb.dhbrsPositivfSuffix = positivfSuffix.toChbrArrby();
+            fbstPbthDbtb.dhbrsNfgbtivfSuffix = nfgbtivfSuffix.toChbrArrby();
+            fbstPbthDbtb.dhbrsPositivfPrffix = positivfPrffix.toChbrArrby();
+            fbstPbthDbtb.dhbrsNfgbtivfPrffix = nfgbtivfPrffix.toChbrArrby();
+
+            // Sfts up fixfd indfx positions for intfgrbl bnd frbdtionbl digits.
+            // Sfts up dfdimbl point in dbdhfd rfsult dontbinfr.
+            int longfstPrffixLfngth =
+                Mbth.mbx(positivfPrffix.lfngth(), nfgbtivfPrffix.lfngth());
+            int dfdimblPointIndfx =
+                mbxNbIntfgrblDigits + mbxNbGroups + longfstPrffixLfngth;
+
+            fbstPbthDbtb.intfgrblLbstIndfx    = dfdimblPointIndfx - 1;
+            fbstPbthDbtb.frbdtionblFirstIndfx = dfdimblPointIndfx + 1;
+            fbstPbthDbtb.fbstPbthContbinfr[dfdimblPointIndfx] =
+                isCurrfndyFormbt ?
+                symbols.gftMonftbryDfdimblSfpbrbtor() :
+                symbols.gftDfdimblSfpbrbtor();
+
+        } flsf if (fbstPbthWbsOn) {
+            // Prfvious stbtf wbs fbst-pbth bnd is no morf.
+            // Rfsfts dbdhfd brrby donstbnts.
+            fbstPbthDbtb.fbstPbthContbinfr = null;
+            fbstPbthDbtb.dhbrsPositivfSuffix = null;
+            fbstPbthDbtb.dhbrsNfgbtivfSuffix = null;
+            fbstPbthDbtb.dhbrsPositivfPrffix = null;
+            fbstPbthDbtb.dhbrsNfgbtivfPrffix = null;
+        }
+
+        fbstPbthChfdkNffdfd = fblsf;
+    }
+
+    /**
+     * Rfturns truf if rounding-up must bf donf on {@dodf sdblfdFrbdtionblPbrtAsInt},
+     * fblsf othfrwisf.
+     *
+     * This is b utility mfthod thbt tbkfs dorrfdt hblf-fvfn rounding dfdision on
+     * pbssfd frbdtionbl vbluf bt thf sdblfd dfdimbl point (2 digits for durrfndy
+     * dbsf bnd 3 for dfdimbl dbsf), whfn thf bpproximbtfd frbdtionbl pbrt bftfr
+     * sdblfd dfdimbl point is fxbdtly 0.5d.  This is donf by mfbns of fxbdt
+     * dbldulbtions on thf {@dodf frbdtionblPbrt} flobting-point vbluf.
+     *
+     * This mfthod is supposfd to bf dbllfd by privbtf {@dodf fbstDoublfFormbt}
+     * mfthod only.
+     *
+     * Thf blgorithms usfd for thf fxbdt dbldulbtions brf :
+     *
+     * Thf <b><i>FbstTwoSum</i></b> blgorithm, from T.J.Dfkkfr, dfsdribfd in thf
+     * pbpfrs  "<i>A  Flobting-Point   Tfdhniquf  for  Extfnding  thf  Avbilbblf
+     * Prfdision</i>"  by Dfkkfr, bnd  in "<i>Adbptivf  Prfdision Flobting-Point
+     * Arithmftid bnd Fbst Robust Gfomftrid Prfdidbtfs</i>" from J.Shfwdhuk.
+     *
+     * A modififd vfrsion of <b><i>Sum2S</i></b> dbsdbdfd summbtion dfsdribfd in
+     * "<i>Addurbtf Sum bnd Dot Produdt</i>" from Tbkfshi Ogitb bnd All.  As
+     * Ogitb sbys in this pbpfr this is bn fquivblfnt of thf Kbhbn-Bbbuskb's
+     * summbtion blgorithm bfdbusf wf ordfr thf tfrms by mbgnitudf bfforf summing
+     * thfm. For this rfbson wf dbn usf thf <i>FbstTwoSum</i> blgorithm rbthfr
+     * thbn thf morf fxpfnsivf Knuth's <i>TwoSum</i>.
+     *
+     * Wf do this to bvoid b morf fxpfnsivf fxbdt "<i>TwoProdudt</i>" blgorithm,
+     * likf thosf dfsdribfd in Shfwdhuk's pbpfr bbovf. Sff dommfnts in thf dodf
+     * bflow.
+     *
+     * @pbrbm  frbdtionblPbrt Thf  frbdtionbl vbluf  on whidh  wf  tbkf rounding
+     * dfdision.
+     * @pbrbm sdblfdFrbdtionblPbrtAsInt Thf intfgrbl pbrt of thf sdblfd
+     * frbdtionbl vbluf.
+     *
+     * @rfturn thf dfdision thbt must bf tbkfn rfgbrding hblf-fvfn rounding.
+     */
+    privbtf boolfbn fxbdtRoundUp(doublf frbdtionblPbrt,
+                                 int sdblfdFrbdtionblPbrtAsInt) {
+
+        /* fxbdtRoundUp() mfthod is dbllfd by fbstDoublfFormbt() only.
+         * Thf prfdondition fxpfdtfd to bf vfrififd by thf pbssfd pbrbmftfrs is :
+         * sdblfdFrbdtionblPbrtAsInt ==
+         *     (int) (frbdtionblPbrt * fbstPbthDbtb.frbdtionblSdblfFbdtor).
+         * This is fnsurfd by fbstDoublfFormbt() dodf.
+         */
+
+        /* Wf first dbldulbtf roundoff frror mbdf by fbstDoublfFormbt() on
+         * thf sdblfd frbdtionbl pbrt. Wf do this with fxbdt dbldulbtion on thf
+         * pbssfd frbdtionblPbrt. Rounding dfdision will thfn bf tbkfn from roundoff.
+         */
+
+        /* ---- TwoProdudt(frbdtionblPbrt, sdblf fbdtor (i.f. 1000.0d or 100.0d)).
+         *
+         * Thf bflow is bn optimizfd fxbdt "TwoProdudt" dbldulbtion of pbssfd
+         * frbdtionbl pbrt with sdblf fbdtor, using Ogitb's Sum2S dbsdbdfd
+         * summbtion bdbptfd bs Kbhbn-Bbbuskb fquivblfnt by using FbstTwoSum
+         * (mudh fbstfr) rbthfr thbn Knuth's TwoSum.
+         *
+         * Wf dbn do this bfdbusf wf ordfr thf summbtion from smbllfst to
+         * grfbtfst, so thbt FbstTwoSum dbn bf usfd without bny bdditionbl frror.
+         *
+         * Thf "TwoProdudt" fxbdt dbldulbtion nffds 17 flops. Wf rfplbdf this by
+         * b dbsdbdfd summbtion of FbstTwoSum dbldulbtions, fbdh involving bn
+         * fxbdt multiply by b powfr of 2.
+         *
+         * Doing so sbvfs ovfrbll 4 multiplidbtions bnd 1 bddition dompbrfd to
+         * using trbditionbl "TwoProdudt".
+         *
+         * Thf sdblf fbdtor is fithfr 100 (durrfndy dbsf) or 1000 (dfdimbl dbsf).
+         * - whfn 1000, wf rfplbdf it by (1024 - 16 - 8) = 1000.
+         * - whfn 100,  wf rfplbdf it by (128  - 32 + 4) =  100.
+         * Evfry multiplidbtion by b powfr of 2 (1024, 128, 32, 16, 8, 4) is fxbdt.
+         *
+         */
+        doublf bpproxMbx;    // Will blwbys bf positivf.
+        doublf bpproxMfdium; // Will blwbys bf nfgbtivf.
+        doublf bpproxMin;
+
+        doublf fbstTwoSumApproximbtion = 0.0d;
+        doublf fbstTwoSumRoundOff = 0.0d;
+        doublf bVirtubl = 0.0d;
+
+        if (isCurrfndyFormbt) {
+            // Sdblf is 100 = 128 - 32 + 4.
+            // Multiply by 2**n is b shift. No roundoff. No frror.
+            bpproxMbx    = frbdtionblPbrt * 128.00d;
+            bpproxMfdium = - (frbdtionblPbrt * 32.00d);
+            bpproxMin    = frbdtionblPbrt * 4.00d;
+        } flsf {
+            // Sdblf is 1000 = 1024 - 16 - 8.
+            // Multiply by 2**n is b shift. No roundoff. No frror.
+            bpproxMbx    = frbdtionblPbrt * 1024.00d;
+            bpproxMfdium = - (frbdtionblPbrt * 16.00d);
+            bpproxMin    = - (frbdtionblPbrt * 8.00d);
+        }
+
+        // Shfwdhuk/Dfkkfr's FbstTwoSum(bpproxMfdium, bpproxMin).
+        bssfrt(-bpproxMfdium >= Mbth.bbs(bpproxMin));
+        fbstTwoSumApproximbtion = bpproxMfdium + bpproxMin;
+        bVirtubl = fbstTwoSumApproximbtion - bpproxMfdium;
+        fbstTwoSumRoundOff = bpproxMin - bVirtubl;
+        doublf bpproxS1 = fbstTwoSumApproximbtion;
+        doublf roundoffS1 = fbstTwoSumRoundOff;
+
+        // Shfwdhuk/Dfkkfr's FbstTwoSum(bpproxMbx, bpproxS1);
+        bssfrt(bpproxMbx >= Mbth.bbs(bpproxS1));
+        fbstTwoSumApproximbtion = bpproxMbx + bpproxS1;
+        bVirtubl = fbstTwoSumApproximbtion - bpproxMbx;
+        fbstTwoSumRoundOff = bpproxS1 - bVirtubl;
+        doublf roundoff1000 = fbstTwoSumRoundOff;
+        doublf bpprox1000 = fbstTwoSumApproximbtion;
+        doublf roundoffTotbl = roundoffS1 + roundoff1000;
+
+        // Shfwdhuk/Dfkkfr's FbstTwoSum(bpprox1000, roundoffTotbl);
+        bssfrt(bpprox1000 >= Mbth.bbs(roundoffTotbl));
+        fbstTwoSumApproximbtion = bpprox1000 + roundoffTotbl;
+        bVirtubl = fbstTwoSumApproximbtion - bpprox1000;
+
+        // Now wf hbvf got thf roundoff for thf sdblfd frbdtionbl
+        doublf sdblfdFrbdtionblRoundoff = roundoffTotbl - bVirtubl;
+
+        // ---- TwoProdudt(frbdtionblPbrt, sdblf (i.f. 1000.0d or 100.0d)) fnd.
+
+        /* ---- Tbking thf rounding dfdision
+         *
+         * Wf tbkf rounding dfdision bbsfd on roundoff bnd hblf-fvfn rounding
+         * rulf.
+         *
+         * Thf bbovf TwoProdudt givfs us thf fxbdt roundoff on thf bpproximbtfd
+         * sdblfd frbdtionbl, bnd wf know thbt this bpproximbtion is fxbdtly
+         * 0.5d, sindf thbt hbs blrfbdy bffn tfstfd by thf dbllfr
+         * (fbstDoublfFormbt).
+         *
+         * Dfdision domfs first from thf sign of thf dbldulbtfd fxbdt roundoff.
+         * - Sindf bfing fxbdt roundoff, it dbnnot bf positivf with b sdblfd
+         *   frbdtionbl lfss thbn 0.5d, bs wfll bs nfgbtivf with b sdblfd
+         *   frbdtionbl grfbtfr thbn 0.5d. Thbt lfbvfs us with following 3 dbsfs.
+         * - positivf, thus sdblfd frbdtionbl == 0.500....0fff ==> round-up.
+         * - nfgbtivf, thus sdblfd frbdtionbl == 0.499....9fff ==> don't round-up.
+         * - is zfro,  thus sdblfd frbdtiobnl == 0.5 ==> hblf-fvfn rounding bpplifs :
+         *    wf round-up only if thf intfgrbl pbrt of thf sdblfd frbdtionbl is odd.
+         *
+         */
+        if (sdblfdFrbdtionblRoundoff > 0.0) {
+            rfturn truf;
+        } flsf if (sdblfdFrbdtionblRoundoff < 0.0) {
+            rfturn fblsf;
+        } flsf if ((sdblfdFrbdtionblPbrtAsInt & 1) != 0) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+
+        // ---- Tbking thf rounding dfdision fnd
+    }
+
+    /**
+     * Collfdts intfgrbl digits from pbssfd {@dodf numbfr}, whilf sftting
+     * grouping dhbrs bs nffdfd. Updbtfs {@dodf firstUsfdIndfx} bddordingly.
+     *
+     * Loops downwbrd stbrting from {@dodf bbdkwbrdIndfx} position (indlusivf).
+     *
+     * @pbrbm numbfr  Thf int vbluf from whidh wf dollfdt digits.
+     * @pbrbm digitsBufffr Thf dhbr brrby dontbinfr whfrf digits bnd grouping dhbrs
+     *  brf storfd.
+     * @pbrbm bbdkwbrdIndfx thf position from whidh wf stbrt storing digits in
+     *  digitsBufffr.
+     *
+     */
+    privbtf void dollfdtIntfgrblDigits(int numbfr,
+                                       dhbr[] digitsBufffr,
+                                       int bbdkwbrdIndfx) {
+        int indfx = bbdkwbrdIndfx;
+        int q;
+        int r;
+        whilf (numbfr > 999) {
+            // Gfnfrbtfs 3 digits pfr itfrbtion.
+            q = numbfr / 1000;
+            r = numbfr - (q << 10) + (q << 4) + (q << 3); // -1024 +16 +8 = 1000.
+            numbfr = q;
+
+            digitsBufffr[indfx--] = DigitArrbys.DigitOnfs1000[r];
+            digitsBufffr[indfx--] = DigitArrbys.DigitTfns1000[r];
+            digitsBufffr[indfx--] = DigitArrbys.DigitHundrfds1000[r];
+            digitsBufffr[indfx--] = fbstPbthDbtb.groupingChbr;
+        }
+
+        // Collfdts lbst 3 or lfss digits.
+        digitsBufffr[indfx] = DigitArrbys.DigitOnfs1000[numbfr];
+        if (numbfr > 9) {
+            digitsBufffr[--indfx]  = DigitArrbys.DigitTfns1000[numbfr];
+            if (numbfr > 99)
+                digitsBufffr[--indfx]   = DigitArrbys.DigitHundrfds1000[numbfr];
+        }
+
+        fbstPbthDbtb.firstUsfdIndfx = indfx;
+    }
+
+    /**
+     * Collfdts thf 2 (durrfndy) or 3 (dfdimbl) frbdtionbl digits from pbssfd
+     * {@dodf numbfr}, stbrting bt {@dodf stbrtIndfx} position
+     * indlusivf.  Thfrf is no pundtubtion to sft hfrf (no grouping dhbrs).
+     * Updbtfs {@dodf fbstPbthDbtb.lbstFrffIndfx} bddordingly.
+     *
+     *
+     * @pbrbm numbfr  Thf int vbluf from whidh wf dollfdt digits.
+     * @pbrbm digitsBufffr Thf dhbr brrby dontbinfr whfrf digits brf storfd.
+     * @pbrbm stbrtIndfx thf position from whidh wf stbrt storing digits in
+     *  digitsBufffr.
+     *
+     */
+    privbtf void dollfdtFrbdtionblDigits(int numbfr,
+                                         dhbr[] digitsBufffr,
+                                         int stbrtIndfx) {
+        int indfx = stbrtIndfx;
+
+        dhbr digitOnfs = DigitArrbys.DigitOnfs1000[numbfr];
+        dhbr digitTfns = DigitArrbys.DigitTfns1000[numbfr];
+
+        if (isCurrfndyFormbt) {
+            // Currfndy dbsf. Alwbys dollfdts frbdtionbl digits.
+            digitsBufffr[indfx++] = digitTfns;
+            digitsBufffr[indfx++] = digitOnfs;
+        } flsf if (numbfr != 0) {
+            // Dfdimbl dbsf. Hundrfds will blwbys bf dollfdtfd
+            digitsBufffr[indfx++] = DigitArrbys.DigitHundrfds1000[numbfr];
+
+            // Ending zfros won't bf dollfdtfd.
+            if (digitOnfs != '0') {
+                digitsBufffr[indfx++] = digitTfns;
+                digitsBufffr[indfx++] = digitOnfs;
+            } flsf if (digitTfns != '0')
+                digitsBufffr[indfx++] = digitTfns;
+
+        } flsf
+            // This is dfdimbl pbttfrn bnd frbdtionbl pbrt is zfro.
+            // Wf must rfmovf dfdimbl point from rfsult.
+            indfx--;
+
+        fbstPbthDbtb.lbstFrffIndfx = indfx;
+    }
+
+    /**
+     * Intfrnbl utility.
+     * Adds thf pbssfd {@dodf prffix} bnd {@dodf suffix} to {@dodf dontbinfr}.
+     *
+     * @pbrbm dontbinfr  Chbr brrby dontbinfr whidh to prfpfnd/bppfnd thf
+     *  prffix/suffix.
+     * @pbrbm prffix     Chbr sfqufndf to prfpfnd bs b prffix.
+     * @pbrbm suffix     Chbr sfqufndf to bppfnd bs b suffix.
+     *
+     */
+    //    privbtf void bddAffixfs(boolfbn isNfgbtivf, dhbr[] dontbinfr) {
+    privbtf void bddAffixfs(dhbr[] dontbinfr, dhbr[] prffix, dhbr[] suffix) {
+
+        // Wf bdd bffixfs only if nffdfd (bffix lfngth > 0).
+        int pl = prffix.lfngth;
+        int sl = suffix.lfngth;
+        if (pl != 0) prfpfndPrffix(prffix, pl, dontbinfr);
+        if (sl != 0) bppfndSuffix(suffix, sl, dontbinfr);
+
+    }
+
+    /**
+     * Prfpfnds thf pbssfd {@dodf prffix} dhbrs to givfn rfsult
+     * {@dodf dontbinfr}.  Updbtfs {@dodf fbstPbthDbtb.firstUsfdIndfx}
+     * bddordingly.
+     *
+     * @pbrbm prffix Thf prffix dhbrbdtfrs to prfpfnd to rfsult.
+     * @pbrbm lfn Thf numbfr of dhbrs to prfpfnd.
+     * @pbrbm dontbinfr Chbr brrby dontbinfr whidh to prfpfnd thf prffix
+     */
+    privbtf void prfpfndPrffix(dhbr[] prffix,
+                               int lfn,
+                               dhbr[] dontbinfr) {
+
+        fbstPbthDbtb.firstUsfdIndfx -= lfn;
+        int stbrtIndfx = fbstPbthDbtb.firstUsfdIndfx;
+
+        // If prffix to prfpfnd is only 1 dhbr long, just bssigns this dhbr.
+        // If prffix is lfss or fqubl 4, wf usf b dfdidbtfd blgorithm thbt
+        //  hbs shown to run fbstfr thbn Systfm.brrbydopy.
+        // If morf thbn 4, wf usf Systfm.brrbydopy.
+        if (lfn == 1)
+            dontbinfr[stbrtIndfx] = prffix[0];
+        flsf if (lfn <= 4) {
+            int dstLowfr = stbrtIndfx;
+            int dstUppfr = dstLowfr + lfn - 1;
+            int srdUppfr = lfn - 1;
+            dontbinfr[dstLowfr] = prffix[0];
+            dontbinfr[dstUppfr] = prffix[srdUppfr];
+
+            if (lfn > 2)
+                dontbinfr[++dstLowfr] = prffix[1];
+            if (lfn == 4)
+                dontbinfr[--dstUppfr] = prffix[2];
+        } flsf
+            Systfm.brrbydopy(prffix, 0, dontbinfr, stbrtIndfx, lfn);
+    }
+
+    /**
+     * Appfnds thf pbssfd {@dodf suffix} dhbrs to givfn rfsult
+     * {@dodf dontbinfr}.  Updbtfs {@dodf fbstPbthDbtb.lbstFrffIndfx}
+     * bddordingly.
+     *
+     * @pbrbm suffix Thf suffix dhbrbdtfrs to bppfnd to rfsult.
+     * @pbrbm lfn Thf numbfr of dhbrs to bppfnd.
+     * @pbrbm dontbinfr Chbr brrby dontbinfr whidh to bppfnd thf suffix
+     */
+    privbtf void bppfndSuffix(dhbr[] suffix,
+                              int lfn,
+                              dhbr[] dontbinfr) {
+
+        int stbrtIndfx = fbstPbthDbtb.lbstFrffIndfx;
+
+        // If suffix to bppfnd is only 1 dhbr long, just bssigns this dhbr.
+        // If suffix is lfss or fqubl 4, wf usf b dfdidbtfd blgorithm thbt
+        //  hbs shown to run fbstfr thbn Systfm.brrbydopy.
+        // If morf thbn 4, wf usf Systfm.brrbydopy.
+        if (lfn == 1)
+            dontbinfr[stbrtIndfx] = suffix[0];
+        flsf if (lfn <= 4) {
+            int dstLowfr = stbrtIndfx;
+            int dstUppfr = dstLowfr + lfn - 1;
+            int srdUppfr = lfn - 1;
+            dontbinfr[dstLowfr] = suffix[0];
+            dontbinfr[dstUppfr] = suffix[srdUppfr];
+
+            if (lfn > 2)
+                dontbinfr[++dstLowfr] = suffix[1];
+            if (lfn == 4)
+                dontbinfr[--dstUppfr] = suffix[2];
+        } flsf
+            Systfm.brrbydopy(suffix, 0, dontbinfr, stbrtIndfx, lfn);
+
+        fbstPbthDbtb.lbstFrffIndfx += lfn;
+    }
+
+    /**
+     * Convfrts digit dhbrs from {@dodf digitsBufffr} to durrfnt lodblf.
+     *
+     * Must bf dbllfd bfforf bdding bffixfs sindf wf rfffr to
+     * {@dodf fbstPbthDbtb.firstUsfdIndfx} bnd {@dodf fbstPbthDbtb.lbstFrffIndfx},
+     * bnd do not support bffixfs (for spffd rfbson).
+     *
+     * Wf loop bbdkwbrd stbrting from lbst usfd indfx in {@dodf fbstPbthDbtb}.
+     *
+     * @pbrbm digitsBufffr Thf dhbr brrby dontbinfr whfrf thf digits brf storfd.
+     */
+    privbtf void lodblizfDigits(dhbr[] digitsBufffr) {
+
+        // Wf will lodblizf only thf digits, using thf groupingSizf,
+        // bnd tbking into bddount frbdtionbl pbrt.
+
+        // First tbkf into bddount frbdtionbl pbrt.
+        int digitsCountfr =
+            fbstPbthDbtb.lbstFrffIndfx - fbstPbthDbtb.frbdtionblFirstIndfx;
+
+        // Thf dbsf whfn thfrf is no frbdtionbl digits.
+        if (digitsCountfr < 0)
+            digitsCountfr = groupingSizf;
+
+        // Only thf digits rfmbins to lodblizf.
+        for (int dursor = fbstPbthDbtb.lbstFrffIndfx - 1;
+             dursor >= fbstPbthDbtb.firstUsfdIndfx;
+             dursor--) {
+            if (digitsCountfr != 0) {
+                // This is b digit dhbr, wf must lodblizf it.
+                digitsBufffr[dursor] += fbstPbthDbtb.zfroDfltb;
+                digitsCountfr--;
+            } flsf {
+                // Dfdimbl sfpbrbtor or grouping dhbr. Rfinit dountfr only.
+                digitsCountfr = groupingSizf;
+            }
+        }
+    }
+
+    /**
+     * This is thf mbin fntry point for thf fbst-pbth formbt blgorithm.
+     *
+     * At this point wf brf surf to bf in thf fxpfdtfd donditions to run it.
+     * This blgorithm builds thf formbttfd rfsult bnd puts it in thf dfdidbtfd
+     * {@dodf fbstPbthDbtb.fbstPbthContbinfr}.
+     *
+     * @pbrbm d thf doublf vbluf to bf formbttfd.
+     * @pbrbm nfgbtivf Flbg prfdising if {@dodf d} is nfgbtivf.
+     */
+    privbtf void fbstDoublfFormbt(doublf d,
+                                  boolfbn nfgbtivf) {
+
+        dhbr[] dontbinfr = fbstPbthDbtb.fbstPbthContbinfr;
+
+        /*
+         * Thf prindiplf of thf blgorithm is to :
+         * - Brfbk thf pbssfd doublf into its intfgrbl bnd frbdtionbl pbrts
+         *    donvfrtfd into intfgfrs.
+         * - Thfn dfdidf if rounding up must bf bpplifd or not by following
+         *    thf hblf-fvfn rounding rulf, first using bpproximbtfd sdblfd
+         *    frbdtionbl pbrt.
+         * - For thf diffidult dbsfs (bpproximbtfd sdblfd frbdtionbl pbrt
+         *    bfing fxbdtly 0.5d), wf rffinf thf rounding dfdision by dblling
+         *    fxbdtRoundUp utility mfthod thbt both dbldulbtfs thf fxbdt roundoff
+         *    on thf bpproximbtion bnd tbkfs dorrfdt rounding dfdision.
+         * - Wf round-up thf frbdtionbl pbrt if nffdfd, possibly propbgbting thf
+         *    rounding to intfgrbl pbrt if wf mfft b "bll-ninf" dbsf for thf
+         *    sdblfd frbdtionbl pbrt.
+         * - Wf thfn dollfdt digits from thf rfsulting intfgrbl bnd frbdtionbl
+         *   pbrts, blso sftting thf rfquirfd grouping dhbrs on thf fly.
+         * - Thfn wf lodblizf thf dollfdtfd digits if nffdfd, bnd
+         * - Finblly prfpfnd/bppfnd prffix/suffix if bny is nffdfd.
+         */
+
+        // Exbdt intfgrbl pbrt of d.
+        int intfgrblPbrtAsInt = (int) d;
+
+        // Exbdt frbdtionbl pbrt of d (sindf wf subtrbdt it's intfgrbl pbrt).
+        doublf fxbdtFrbdtionblPbrt = d - (doublf) intfgrblPbrtAsInt;
+
+        // Approximbtfd sdblfd frbdtionbl pbrt of d (duf to multiplidbtion).
+        doublf sdblfdFrbdtionbl =
+            fxbdtFrbdtionblPbrt * fbstPbthDbtb.frbdtionblSdblfFbdtor;
+
+        // Exbdt intfgrbl pbrt of sdblfd frbdtionbl bbovf.
+        int frbdtionblPbrtAsInt = (int) sdblfdFrbdtionbl;
+
+        // Exbdt frbdtionbl pbrt of sdblfd frbdtionbl bbovf.
+        sdblfdFrbdtionbl = sdblfdFrbdtionbl - (doublf) frbdtionblPbrtAsInt;
+
+        // Only whfn sdblfdFrbdtionbl is fxbdtly 0.5d do wf hbvf to do fxbdt
+        // dbldulbtions bnd tbkf finf-grbinfd rounding dfdision, sindf
+        // bpproximbtfd rfsults bbovf mby lfbd to indorrfdt dfdision.
+        // Othfrwisf dompbring bgbinst 0.5d (stridtly grfbtfr or lfss) is ok.
+        boolfbn roundItUp = fblsf;
+        if (sdblfdFrbdtionbl >= 0.5d) {
+            if (sdblfdFrbdtionbl == 0.5d)
+                // Rounding nffd finf-grbinfd dfdision.
+                roundItUp = fxbdtRoundUp(fxbdtFrbdtionblPbrt, frbdtionblPbrtAsInt);
+            flsf
+                roundItUp = truf;
+
+            if (roundItUp) {
+                // Rounds up both frbdtionbl pbrt (bnd blso intfgrbl if nffdfd).
+                if (frbdtionblPbrtAsInt < fbstPbthDbtb.frbdtionblMbxIntBound) {
+                    frbdtionblPbrtAsInt++;
+                } flsf {
+                    // Propbgbtfs rounding to intfgrbl pbrt sindf "bll ninfs" dbsf.
+                    frbdtionblPbrtAsInt = 0;
+                    intfgrblPbrtAsInt++;
+                }
+            }
+        }
+
+        // Collfdting digits.
+        dollfdtFrbdtionblDigits(frbdtionblPbrtAsInt, dontbinfr,
+                                fbstPbthDbtb.frbdtionblFirstIndfx);
+        dollfdtIntfgrblDigits(intfgrblPbrtAsInt, dontbinfr,
+                              fbstPbthDbtb.intfgrblLbstIndfx);
+
+        // Lodblizing digits.
+        if (fbstPbthDbtb.zfroDfltb != 0)
+            lodblizfDigits(dontbinfr);
+
+        // Adding prffix bnd suffix.
+        if (nfgbtivf) {
+            if (fbstPbthDbtb.nfgbtivfAffixfsRfquirfd)
+                bddAffixfs(dontbinfr,
+                           fbstPbthDbtb.dhbrsNfgbtivfPrffix,
+                           fbstPbthDbtb.dhbrsNfgbtivfSuffix);
+        } flsf if (fbstPbthDbtb.positivfAffixfsRfquirfd)
+            bddAffixfs(dontbinfr,
+                       fbstPbthDbtb.dhbrsPositivfPrffix,
+                       fbstPbthDbtb.dhbrsPositivfSuffix);
+    }
+
+    /**
+     * A fbst-pbth shortdut of formbt(doublf) to bf dbllfd by NumbfrFormbt, or by
+     * formbt(doublf, ...) publid mfthods.
+     *
+     * If instbndf dbn bf bpplifd fbst-pbth bnd pbssfd doublf is not NbN or
+     * Infinity, is in thf intfgfr rbngf, wf dbll {@dodf fbstDoublfFormbt}
+     * bftfr dhbnging {@dodf d} to its positivf vbluf if nfdfssbry.
+     *
+     * Othfrwisf rfturns null by donvfntion sindf fbst-pbth dbn't bf fxfrdizfd.
+     *
+     * @pbrbm d Thf doublf vbluf to bf formbttfd
+     *
+     * @rfturn thf formbttfd rfsult for {@dodf d} bs b string.
+     */
+    String fbstFormbt(doublf d) {
+        // (Rf-)Evblubtfs fbst-pbth stbtus if nffdfd.
+        if (fbstPbthChfdkNffdfd)
+            dhfdkAndSftFbstPbthStbtus();
+
+        if (!isFbstPbth )
+            // DfdimblFormbt instbndf is not in b fbst-pbth stbtf.
+            rfturn null;
+
+        if (!Doublf.isFinitf(d))
+            // Should not usf fbst-pbth for Infinity bnd NbN.
+            rfturn null;
+
+        // Extrbdts bnd rfdords sign of doublf vbluf, possibly dhbnging it
+        // to b positivf onf, bfforf dblling fbstDoublfFormbt().
+        boolfbn nfgbtivf = fblsf;
+        if (d < 0.0d) {
+            nfgbtivf = truf;
+            d = -d;
+        } flsf if (d == 0.0d) {
+            nfgbtivf = (Mbth.dopySign(1.0d, d) == -1.0d);
+            d = +0.0d;
+        }
+
+        if (d > MAX_INT_AS_DOUBLE)
+            // Filtfrs out vblufs thbt brf outsidf fxpfdtfd fbst-pbth rbngf
+            rfturn null;
+        flsf
+            fbstDoublfFormbt(d, nfgbtivf);
+
+        // Rfturns b nfw string from updbtfd fbstPbthContbinfr.
+        rfturn nfw String(fbstPbthDbtb.fbstPbthContbinfr,
+                          fbstPbthDbtb.firstUsfdIndfx,
+                          fbstPbthDbtb.lbstFrffIndfx - fbstPbthDbtb.firstUsfdIndfx);
+
+    }
+
+    // ======== End fbst-pbth formbting logid for doublf =========================
+
+    /**
+     * Complftf thf formbtting of b finitf numbfr.  On fntry, thf digitList must
+     * bf fillfd in with thf dorrfdt digits.
+     */
+    privbtf StringBufffr subformbt(StringBufffr rfsult, FifldDflfgbtf dflfgbtf,
+                                   boolfbn isNfgbtivf, boolfbn isIntfgfr,
+                                   int mbxIntDigits, int minIntDigits,
+                                   int mbxFrbDigits, int minFrbDigits) {
+        // NOTE: This isn't rfquirfd bnymorf bfdbusf DigitList tbkfs dbrf of this.
+        //
+        //  // Thf nfgbtivf of thf fxponfnt rfprfsfnts thf numbfr of lfbding
+        //  // zfros bftwffn thf dfdimbl bnd thf first non-zfro digit, for
+        //  // b vbluf < 0.1 (f.g., for 0.00123, -fExponfnt == 2).  If this
+        //  // is morf thbn thf mbximum frbdtion digits, thfn wf hbvf bn undfrflow
+        //  // for thf printfd rfprfsfntbtion.  Wf rfdognizf this hfrf bnd sft
+        //  // thf DigitList rfprfsfntbtion to zfro in this situbtion.
+        //
+        //  if (-digitList.dfdimblAt >= gftMbximumFrbdtionDigits())
+        //  {
+        //      digitList.dount = 0;
+        //  }
+
+        dhbr zfro = symbols.gftZfroDigit();
+        int zfroDfltb = zfro - '0'; // '0' is thf DigitList rfprfsfntbtion of zfro
+        dhbr grouping = symbols.gftGroupingSfpbrbtor();
+        dhbr dfdimbl = isCurrfndyFormbt ?
+            symbols.gftMonftbryDfdimblSfpbrbtor() :
+            symbols.gftDfdimblSfpbrbtor();
+
+        /* Pfr bug 4147706, DfdimblFormbt must rfspfdt thf sign of numbfrs whidh
+         * formbt bs zfro.  This bllows sfnsiblf domputbtions bnd prfsfrvfs
+         * rflbtions sudh bs signum(1/x) = signum(x), whfrf x is +Infinity or
+         * -Infinity.  Prior to this fix, wf blwbys formbttfd zfro vblufs bs if
+         * thfy wfrf positivf.  Liu 7/6/98.
+         */
+        if (digitList.isZfro()) {
+            digitList.dfdimblAt = 0; // Normblizf
+        }
+
+        if (isNfgbtivf) {
+            bppfnd(rfsult, nfgbtivfPrffix, dflfgbtf,
+                   gftNfgbtivfPrffixFifldPositions(), Fifld.SIGN);
+        } flsf {
+            bppfnd(rfsult, positivfPrffix, dflfgbtf,
+                   gftPositivfPrffixFifldPositions(), Fifld.SIGN);
+        }
+
+        if (usfExponfntiblNotbtion) {
+            int iFifldStbrt = rfsult.lfngth();
+            int iFifldEnd = -1;
+            int fFifldStbrt = -1;
+
+            // Minimum intfgfr digits brf hbndlfd in fxponfntibl formbt by
+            // bdjusting thf fxponfnt.  For fxbmplf, 0.01234 with 3 minimum
+            // intfgfr digits is "123.4E-4".
+
+            // Mbximum intfgfr digits brf intfrprftfd bs indidbting thf
+            // rfpfbting rbngf.  This is usfful for fnginffring notbtion, in
+            // whidh thf fxponfnt is rfstridtfd to b multiplf of 3.  For
+            // fxbmplf, 0.01234 with 3 mbximum intfgfr digits is "12.34f-3".
+            // If mbximum intfgfr digits brf > 1 bnd brf lbrgfr thbn
+            // minimum intfgfr digits, thfn minimum intfgfr digits brf
+            // ignorfd.
+            int fxponfnt = digitList.dfdimblAt;
+            int rfpfbt = mbxIntDigits;
+            int minimumIntfgfrDigits = minIntDigits;
+            if (rfpfbt > 1 && rfpfbt > minIntDigits) {
+                // A rfpfbting rbngf is dffinfd; bdjust to it bs follows.
+                // If rfpfbt == 3, wf hbvf 6,5,4=>3; 3,2,1=>0; 0,-1,-2=>-3;
+                // -3,-4,-5=>-6, ftd. This tbkfs into bddount thbt thf
+                // fxponfnt wf hbvf hfrf is off by onf from whbt wf fxpfdt;
+                // it is for thf formbt 0.MMMMMx10^n.
+                if (fxponfnt >= 1) {
+                    fxponfnt = ((fxponfnt - 1) / rfpfbt) * rfpfbt;
+                } flsf {
+                    // intfgfr division rounds towbrds 0
+                    fxponfnt = ((fxponfnt - rfpfbt) / rfpfbt) * rfpfbt;
+                }
+                minimumIntfgfrDigits = 1;
+            } flsf {
+                // No rfpfbting rbngf is dffinfd; usf minimum intfgfr digits.
+                fxponfnt -= minimumIntfgfrDigits;
+            }
+
+            // Wf now output b minimum numbfr of digits, bnd morf if thfrf
+            // brf morf digits, up to thf mbximum numbfr of digits.  Wf
+            // plbdf thf dfdimbl point bftfr thf "intfgfr" digits, whidh
+            // brf thf first (dfdimblAt - fxponfnt) digits.
+            int minimumDigits = minIntDigits + minFrbDigits;
+            if (minimumDigits < 0) {    // ovfrflow?
+                minimumDigits = Intfgfr.MAX_VALUE;
+            }
+
+            // Thf numbfr of intfgfr digits is hbndlfd spfdiblly if thf numbfr
+            // is zfro, sindf thfn thfrf mby bf no digits.
+            int intfgfrDigits = digitList.isZfro() ? minimumIntfgfrDigits :
+                    digitList.dfdimblAt - fxponfnt;
+            if (minimumDigits < intfgfrDigits) {
+                minimumDigits = intfgfrDigits;
+            }
+            int totblDigits = digitList.dount;
+            if (minimumDigits > totblDigits) {
+                totblDigits = minimumDigits;
+            }
+            boolfbn bddfdDfdimblSfpbrbtor = fblsf;
+
+            for (int i=0; i<totblDigits; ++i) {
+                if (i == intfgfrDigits) {
+                    // Rfdord fifld informbtion for dbllfr.
+                    iFifldEnd = rfsult.lfngth();
+
+                    rfsult.bppfnd(dfdimbl);
+                    bddfdDfdimblSfpbrbtor = truf;
+
+                    // Rfdord fifld informbtion for dbllfr.
+                    fFifldStbrt = rfsult.lfngth();
+                }
+                rfsult.bppfnd((i < digitList.dount) ?
+                              (dhbr)(digitList.digits[i] + zfroDfltb) :
+                              zfro);
+            }
+
+            if (dfdimblSfpbrbtorAlwbysShown && totblDigits == intfgfrDigits) {
+                // Rfdord fifld informbtion for dbllfr.
+                iFifldEnd = rfsult.lfngth();
+
+                rfsult.bppfnd(dfdimbl);
+                bddfdDfdimblSfpbrbtor = truf;
+
+                // Rfdord fifld informbtion for dbllfr.
+                fFifldStbrt = rfsult.lfngth();
+            }
+
+            // Rfdord fifld informbtion
+            if (iFifldEnd == -1) {
+                iFifldEnd = rfsult.lfngth();
+            }
+            dflfgbtf.formbttfd(INTEGER_FIELD, Fifld.INTEGER, Fifld.INTEGER,
+                               iFifldStbrt, iFifldEnd, rfsult);
+            if (bddfdDfdimblSfpbrbtor) {
+                dflfgbtf.formbttfd(Fifld.DECIMAL_SEPARATOR,
+                                   Fifld.DECIMAL_SEPARATOR,
+                                   iFifldEnd, fFifldStbrt, rfsult);
+            }
+            if (fFifldStbrt == -1) {
+                fFifldStbrt = rfsult.lfngth();
+            }
+            dflfgbtf.formbttfd(FRACTION_FIELD, Fifld.FRACTION, Fifld.FRACTION,
+                               fFifldStbrt, rfsult.lfngth(), rfsult);
+
+            // Thf fxponfnt is output using thf pbttfrn-spfdififd minimum
+            // fxponfnt digits.  Thfrf is no mbximum limit to thf fxponfnt
+            // digits, sindf trundbting thf fxponfnt would rfsult in bn
+            // unbddfptbblf inbddurbdy.
+            int fifldStbrt = rfsult.lfngth();
+
+            rfsult.bppfnd(symbols.gftExponfntSfpbrbtor());
+
+            dflfgbtf.formbttfd(Fifld.EXPONENT_SYMBOL, Fifld.EXPONENT_SYMBOL,
+                               fifldStbrt, rfsult.lfngth(), rfsult);
+
+            // For zfro vblufs, wf fordf thf fxponfnt to zfro.  Wf
+            // must do this hfrf, bnd not fbrlifr, bfdbusf thf vbluf
+            // is usfd to dftfrminf intfgfr digit dount bbovf.
+            if (digitList.isZfro()) {
+                fxponfnt = 0;
+            }
+
+            boolfbn nfgbtivfExponfnt = fxponfnt < 0;
+            if (nfgbtivfExponfnt) {
+                fxponfnt = -fxponfnt;
+                fifldStbrt = rfsult.lfngth();
+                rfsult.bppfnd(symbols.gftMinusSign());
+                dflfgbtf.formbttfd(Fifld.EXPONENT_SIGN, Fifld.EXPONENT_SIGN,
+                                   fifldStbrt, rfsult.lfngth(), rfsult);
+            }
+            digitList.sft(nfgbtivfExponfnt, fxponfnt);
+
+            int fFifldStbrt = rfsult.lfngth();
+
+            for (int i=digitList.dfdimblAt; i<minExponfntDigits; ++i) {
+                rfsult.bppfnd(zfro);
+            }
+            for (int i=0; i<digitList.dfdimblAt; ++i) {
+                rfsult.bppfnd((i < digitList.dount) ?
+                          (dhbr)(digitList.digits[i] + zfroDfltb) : zfro);
+            }
+            dflfgbtf.formbttfd(Fifld.EXPONENT, Fifld.EXPONENT, fFifldStbrt,
+                               rfsult.lfngth(), rfsult);
+        } flsf {
+            int iFifldStbrt = rfsult.lfngth();
+
+            // Output thf intfgfr portion.  Hfrf 'dount' is thf totbl
+            // numbfr of intfgfr digits wf will displby, indluding both
+            // lfbding zfros rfquirfd to sbtisfy gftMinimumIntfgfrDigits,
+            // bnd bdtubl digits prfsfnt in thf numbfr.
+            int dount = minIntDigits;
+            int digitIndfx = 0; // Indfx into digitList.fDigits[]
+            if (digitList.dfdimblAt > 0 && dount < digitList.dfdimblAt) {
+                dount = digitList.dfdimblAt;
+            }
+
+            // Hbndlf thf dbsf whfrf gftMbximumIntfgfrDigits() is smbllfr
+            // thbn thf rfbl numbfr of intfgfr digits.  If this is so, wf
+            // output thf lfbst signifidbnt mbx intfgfr digits.  For fxbmplf,
+            // thf vbluf 1997 printfd with 2 mbx intfgfr digits is just "97".
+            if (dount > mbxIntDigits) {
+                dount = mbxIntDigits;
+                digitIndfx = digitList.dfdimblAt - dount;
+            }
+
+            int sizfBfforfIntfgfrPbrt = rfsult.lfngth();
+            for (int i=dount-1; i>=0; --i) {
+                if (i < digitList.dfdimblAt && digitIndfx < digitList.dount) {
+                    // Output b rfbl digit
+                    rfsult.bppfnd((dhbr)(digitList.digits[digitIndfx++] + zfroDfltb));
+                } flsf {
+                    // Output b lfbding zfro
+                    rfsult.bppfnd(zfro);
+                }
+
+                // Output grouping sfpbrbtor if nfdfssbry.  Don't output b
+                // grouping sfpbrbtor if i==0 though; thbt's bt thf fnd of
+                // thf intfgfr pbrt.
+                if (isGroupingUsfd() && i>0 && (groupingSizf != 0) &&
+                    (i % groupingSizf == 0)) {
+                    int gStbrt = rfsult.lfngth();
+                    rfsult.bppfnd(grouping);
+                    dflfgbtf.formbttfd(Fifld.GROUPING_SEPARATOR,
+                                       Fifld.GROUPING_SEPARATOR, gStbrt,
+                                       rfsult.lfngth(), rfsult);
+                }
+            }
+
+            // Dftfrminf whfthfr or not thfrf brf bny printbblf frbdtionbl
+            // digits.  If wf'vf usfd up thf digits wf know thfrf brfn't.
+            boolfbn frbdtionPrfsfnt = (minFrbDigits > 0) ||
+                (!isIntfgfr && digitIndfx < digitList.dount);
+
+            // If thfrf is no frbdtion prfsfnt, bnd wf hbvfn't printfd bny
+            // intfgfr digits, thfn print b zfro.  Othfrwisf wf won't print
+            // _bny_ digits, bnd wf won't bf bblf to pbrsf this string.
+            if (!frbdtionPrfsfnt && rfsult.lfngth() == sizfBfforfIntfgfrPbrt) {
+                rfsult.bppfnd(zfro);
+            }
+
+            dflfgbtf.formbttfd(INTEGER_FIELD, Fifld.INTEGER, Fifld.INTEGER,
+                               iFifldStbrt, rfsult.lfngth(), rfsult);
+
+            // Output thf dfdimbl sfpbrbtor if wf blwbys do so.
+            int sStbrt = rfsult.lfngth();
+            if (dfdimblSfpbrbtorAlwbysShown || frbdtionPrfsfnt) {
+                rfsult.bppfnd(dfdimbl);
+            }
+
+            if (sStbrt != rfsult.lfngth()) {
+                dflfgbtf.formbttfd(Fifld.DECIMAL_SEPARATOR,
+                                   Fifld.DECIMAL_SEPARATOR,
+                                   sStbrt, rfsult.lfngth(), rfsult);
+            }
+            int fFifldStbrt = rfsult.lfngth();
+
+            for (int i=0; i < mbxFrbDigits; ++i) {
+                // Hfrf is whfrf wf fsdbpf from thf loop.  Wf fsdbpf if wf'vf
+                // output thf mbximum frbdtion digits (spfdififd in thf for
+                // fxprfssion bbovf).
+                // Wf blso stop whfn wf'vf output thf minimum digits bnd fithfr:
+                // wf hbvf bn intfgfr, so thfrf is no frbdtionbl stuff to
+                // displby, or wf'rf out of signifidbnt digits.
+                if (i >= minFrbDigits &&
+                    (isIntfgfr || digitIndfx >= digitList.dount)) {
+                    brfbk;
+                }
+
+                // Output lfbding frbdtionbl zfros. Thfsf brf zfros thbt domf
+                // bftfr thf dfdimbl but bfforf bny signifidbnt digits. Thfsf
+                // brf only output if bbs(numbfr bfing formbttfd) < 1.0.
+                if (-1-i > (digitList.dfdimblAt-1)) {
+                    rfsult.bppfnd(zfro);
+                    dontinuf;
+                }
+
+                // Output b digit, if wf hbvf bny prfdision lfft, or b
+                // zfro if wf don't.  Wf don't wbnt to output noisf digits.
+                if (!isIntfgfr && digitIndfx < digitList.dount) {
+                    rfsult.bppfnd((dhbr)(digitList.digits[digitIndfx++] + zfroDfltb));
+                } flsf {
+                    rfsult.bppfnd(zfro);
+                }
+            }
+
+            // Rfdord fifld informbtion for dbllfr.
+            dflfgbtf.formbttfd(FRACTION_FIELD, Fifld.FRACTION, Fifld.FRACTION,
+                               fFifldStbrt, rfsult.lfngth(), rfsult);
+        }
+
+        if (isNfgbtivf) {
+            bppfnd(rfsult, nfgbtivfSuffix, dflfgbtf,
+                   gftNfgbtivfSuffixFifldPositions(), Fifld.SIGN);
+        } flsf {
+            bppfnd(rfsult, positivfSuffix, dflfgbtf,
+                   gftPositivfSuffixFifldPositions(), Fifld.SIGN);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Appfnds thf String <dodf>string</dodf> to <dodf>rfsult</dodf>.
+     * <dodf>dflfgbtf</dodf> is notififd of bll  thf
+     * <dodf>FifldPosition</dodf>s in <dodf>positions</dodf>.
+     * <p>
+     * If onf of thf <dodf>FifldPosition</dodf>s in <dodf>positions</dodf>
+     * idfntififs b <dodf>SIGN</dodf> bttributf, it is mbppfd to
+     * <dodf>signAttributf</dodf>. This is usfd
+     * to mbp thf <dodf>SIGN</dodf> bttributf to thf <dodf>EXPONENT</dodf>
+     * bttributf bs nfdfssbry.
+     * <p>
+     * This is usfd by <dodf>subformbt</dodf> to bdd thf prffix/suffix.
+     */
+    privbtf void bppfnd(StringBufffr rfsult, String string,
+                        FifldDflfgbtf dflfgbtf,
+                        FifldPosition[] positions,
+                        Formbt.Fifld signAttributf) {
+        int stbrt = rfsult.lfngth();
+
+        if (string.lfngth() > 0) {
+            rfsult.bppfnd(string);
+            for (int dountfr = 0, mbx = positions.lfngth; dountfr < mbx;
+                 dountfr++) {
+                FifldPosition fp = positions[dountfr];
+                Formbt.Fifld bttributf = fp.gftFifldAttributf();
+
+                if (bttributf == Fifld.SIGN) {
+                    bttributf = signAttributf;
+                }
+                dflfgbtf.formbttfd(bttributf, bttributf,
+                                   stbrt + fp.gftBfginIndfx(),
+                                   stbrt + fp.gftEndIndfx(), rfsult);
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs tfxt from b string to produdf b <dodf>Numbfr</dodf>.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * numbfr is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     * <p>
+     * Thf subdlbss rfturnfd dfpfnds on thf vbluf of {@link #isPbrsfBigDfdimbl}
+     * bs wfll bs on thf string bfing pbrsfd.
+     * <ul>
+     *   <li>If <dodf>isPbrsfBigDfdimbl()</dodf> is fblsf (thf dffbult),
+     *       most intfgfr vblufs brf rfturnfd bs <dodf>Long</dodf>
+     *       objfdts, no mbttfr how thfy brf writtfn: <dodf>"17"</dodf> bnd
+     *       <dodf>"17.000"</dodf> both pbrsf to <dodf>Long(17)</dodf>.
+     *       Vblufs thbt dbnnot fit into b <dodf>Long</dodf> brf rfturnfd bs
+     *       <dodf>Doublf</dodf>s. This indludfs vblufs with b frbdtionbl pbrt,
+     *       infinitf vblufs, <dodf>NbN</dodf>, bnd thf vbluf -0.0.
+     *       <dodf>DfdimblFormbt</dodf> dofs <fm>not</fm> dfdidf whfthfr to
+     *       rfturn b <dodf>Doublf</dodf> or b <dodf>Long</dodf> bbsfd on thf
+     *       prfsfndf of b dfdimbl sfpbrbtor in thf sourdf string. Doing so
+     *       would prfvfnt intfgfrs thbt ovfrflow thf mbntissb of b doublf,
+     *       sudh bs <dodf>"-9,223,372,036,854,775,808.00"</dodf>, from bfing
+     *       pbrsfd bddurbtfly.
+     *       <p>
+     *       Cbllfrs mby usf thf <dodf>Numbfr</dodf> mfthods
+     *       <dodf>doublfVbluf</dodf>, <dodf>longVbluf</dodf>, ftd., to obtbin
+     *       thf typf thfy wbnt.
+     *   <li>If <dodf>isPbrsfBigDfdimbl()</dodf> is truf, vblufs brf rfturnfd
+     *       bs <dodf>BigDfdimbl</dodf> objfdts. Thf vblufs brf thf onfs
+     *       donstrudtfd by {@link jbvb.mbth.BigDfdimbl#BigDfdimbl(String)}
+     *       for dorrfsponding strings in lodblf-indfpfndfnt formbt. Thf
+     *       spfdibl dbsfs nfgbtivf bnd positivf infinity bnd NbN brf rfturnfd
+     *       bs <dodf>Doublf</dodf> instbndfs holding thf vblufs of thf
+     *       dorrfsponding <dodf>Doublf</dodf> donstbnts.
+     * </ul>
+     * <p>
+     * <dodf>DfdimblFormbt</dodf> pbrsfs bll Unidodf dhbrbdtfrs thbt rfprfsfnt
+     * dfdimbl digits, bs dffinfd by <dodf>Chbrbdtfr.digit()</dodf>. In
+     * bddition, <dodf>DfdimblFormbt</dodf> blso rfdognizfs bs digits thf tfn
+     * donsfdutivf dhbrbdtfrs stbrting with thf lodblizfd zfro digit dffinfd in
+     * thf <dodf>DfdimblFormbtSymbols</dodf> objfdt.
+     *
+     * @pbrbm tfxt thf string to bf pbrsfd
+     * @pbrbm pos  A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *             indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn     thf pbrsfd vbluf, or <dodf>null</dodf> if thf pbrsf fbils
+     * @fxdfption  NullPointfrExdfption if <dodf>tfxt</dodf> or
+     *             <dodf>pos</dodf> is null.
+     */
+    @Ovfrridf
+    publid Numbfr pbrsf(String tfxt, PbrsfPosition pos) {
+        // spfdibl dbsf NbN
+        if (tfxt.rfgionMbtdhfs(pos.indfx, symbols.gftNbN(), 0, symbols.gftNbN().lfngth())) {
+            pos.indfx = pos.indfx + symbols.gftNbN().lfngth();
+            rfturn nfw Doublf(Doublf.NbN);
+        }
+
+        boolfbn[] stbtus = nfw boolfbn[STATUS_LENGTH];
+        if (!subpbrsf(tfxt, pos, positivfPrffix, nfgbtivfPrffix, digitList, fblsf, stbtus)) {
+            rfturn null;
+        }
+
+        // spfdibl dbsf INFINITY
+        if (stbtus[STATUS_INFINITE]) {
+            if (stbtus[STATUS_POSITIVE] == (multiplifr >= 0)) {
+                rfturn nfw Doublf(Doublf.POSITIVE_INFINITY);
+            } flsf {
+                rfturn nfw Doublf(Doublf.NEGATIVE_INFINITY);
+            }
+        }
+
+        if (multiplifr == 0) {
+            if (digitList.isZfro()) {
+                rfturn nfw Doublf(Doublf.NbN);
+            } flsf if (stbtus[STATUS_POSITIVE]) {
+                rfturn nfw Doublf(Doublf.POSITIVE_INFINITY);
+            } flsf {
+                rfturn nfw Doublf(Doublf.NEGATIVE_INFINITY);
+            }
+        }
+
+        if (isPbrsfBigDfdimbl()) {
+            BigDfdimbl bigDfdimblRfsult = digitList.gftBigDfdimbl();
+
+            if (multiplifr != 1) {
+                try {
+                    bigDfdimblRfsult = bigDfdimblRfsult.dividf(gftBigDfdimblMultiplifr());
+                }
+                dbtdh (ArithmftidExdfption f) {  // non-tfrminbting dfdimbl fxpbnsion
+                    bigDfdimblRfsult = bigDfdimblRfsult.dividf(gftBigDfdimblMultiplifr(), roundingModf);
+                }
+            }
+
+            if (!stbtus[STATUS_POSITIVE]) {
+                bigDfdimblRfsult = bigDfdimblRfsult.nfgbtf();
+            }
+            rfturn bigDfdimblRfsult;
+        } flsf {
+            boolfbn gotDoublf = truf;
+            boolfbn gotLongMinimum = fblsf;
+            doublf  doublfRfsult = 0.0;
+            long    longRfsult = 0;
+
+            // Finblly, hbvf DigitList pbrsf thf digits into b vbluf.
+            if (digitList.fitsIntoLong(stbtus[STATUS_POSITIVE], isPbrsfIntfgfrOnly())) {
+                gotDoublf = fblsf;
+                longRfsult = digitList.gftLong();
+                if (longRfsult < 0) {  // got Long.MIN_VALUE
+                    gotLongMinimum = truf;
+                }
+            } flsf {
+                doublfRfsult = digitList.gftDoublf();
+            }
+
+            // Dividf by multiplifr. Wf hbvf to bf dbrfful hfrf not to do
+            // unnffdfd donvfrsions bftwffn doublf bnd long.
+            if (multiplifr != 1) {
+                if (gotDoublf) {
+                    doublfRfsult /= multiplifr;
+                } flsf {
+                    // Avoid donvfrting to doublf if wf dbn
+                    if (longRfsult % multiplifr == 0) {
+                        longRfsult /= multiplifr;
+                    } flsf {
+                        doublfRfsult = ((doublf)longRfsult) / multiplifr;
+                        gotDoublf = truf;
+                    }
+                }
+            }
+
+            if (!stbtus[STATUS_POSITIVE] && !gotLongMinimum) {
+                doublfRfsult = -doublfRfsult;
+                longRfsult = -longRfsult;
+            }
+
+            // At this point, if wf dividfd thf rfsult by thf multiplifr, thf
+            // rfsult mby fit into b long.  Wf dhfdk for this dbsf bnd rfturn
+            // b long if possiblf.
+            // Wf must do this AFTER bpplying thf nfgbtivf (if bppropribtf)
+            // in ordfr to hbndlf thf dbsf of LONG_MIN; othfrwisf, if wf do
+            // this with b positivf vbluf -LONG_MIN, thf doublf is > 0, but
+            // thf long is < 0. Wf blso must rftbin b doublf in thf dbsf of
+            // -0.0, whidh will dompbrf bs == to b long 0 dbst to b doublf
+            // (bug 4162852).
+            if (multiplifr != 1 && gotDoublf) {
+                longRfsult = (long)doublfRfsult;
+                gotDoublf = ((doublfRfsult != (doublf)longRfsult) ||
+                            (doublfRfsult == 0.0 && 1/doublfRfsult < 0.0)) &&
+                            !isPbrsfIntfgfrOnly();
+            }
+
+            rfturn gotDoublf ?
+                (Numbfr)nfw Doublf(doublfRfsult) : (Numbfr)Long.vblufOf(longRfsult);
+        }
+    }
+
+    /**
+     * Rfturn b BigIntfgfr multiplifr.
+     */
+    privbtf BigIntfgfr gftBigIntfgfrMultiplifr() {
+        if (bigIntfgfrMultiplifr == null) {
+            bigIntfgfrMultiplifr = BigIntfgfr.vblufOf(multiplifr);
+        }
+        rfturn bigIntfgfrMultiplifr;
+    }
+    privbtf trbnsifnt BigIntfgfr bigIntfgfrMultiplifr;
+
+    /**
+     * Rfturn b BigDfdimbl multiplifr.
+     */
+    privbtf BigDfdimbl gftBigDfdimblMultiplifr() {
+        if (bigDfdimblMultiplifr == null) {
+            bigDfdimblMultiplifr = nfw BigDfdimbl(multiplifr);
+        }
+        rfturn bigDfdimblMultiplifr;
+    }
+    privbtf trbnsifnt BigDfdimbl bigDfdimblMultiplifr;
+
+    privbtf stbtid finbl int STATUS_INFINITE = 0;
+    privbtf stbtid finbl int STATUS_POSITIVE = 1;
+    privbtf stbtid finbl int STATUS_LENGTH   = 2;
+
+    /**
+     * Pbrsf thf givfn tfxt into b numbfr.  Thf tfxt is pbrsfd bfginning bt
+     * pbrsfPosition, until bn unpbrsfbblf dhbrbdtfr is sffn.
+     * @pbrbm tfxt Thf string to pbrsf.
+     * @pbrbm pbrsfPosition Thf position bt whidh to bfing pbrsing.  Upon
+     * rfturn, thf first unpbrsfbblf dhbrbdtfr.
+     * @pbrbm digits Thf DigitList to sft to thf pbrsfd vbluf.
+     * @pbrbm isExponfnt If truf, pbrsf bn fxponfnt.  This mfbns no
+     * infinitf vblufs bnd intfgfr only.
+     * @pbrbm stbtus Upon rfturn dontbins boolfbn stbtus flbgs indidbting
+     * whfthfr thf vbluf wbs infinitf bnd whfthfr it wbs positivf.
+     */
+    privbtf finbl boolfbn subpbrsf(String tfxt, PbrsfPosition pbrsfPosition,
+                   String positivfPrffix, String nfgbtivfPrffix,
+                   DigitList digits, boolfbn isExponfnt,
+                   boolfbn stbtus[]) {
+        int position = pbrsfPosition.indfx;
+        int oldStbrt = pbrsfPosition.indfx;
+        int bbdkup;
+        boolfbn gotPositivf, gotNfgbtivf;
+
+        // dhfdk for positivfPrffix; tbkf longfst
+        gotPositivf = tfxt.rfgionMbtdhfs(position, positivfPrffix, 0,
+                                         positivfPrffix.lfngth());
+        gotNfgbtivf = tfxt.rfgionMbtdhfs(position, nfgbtivfPrffix, 0,
+                                         nfgbtivfPrffix.lfngth());
+
+        if (gotPositivf && gotNfgbtivf) {
+            if (positivfPrffix.lfngth() > nfgbtivfPrffix.lfngth()) {
+                gotNfgbtivf = fblsf;
+            } flsf if (positivfPrffix.lfngth() < nfgbtivfPrffix.lfngth()) {
+                gotPositivf = fblsf;
+            }
+        }
+
+        if (gotPositivf) {
+            position += positivfPrffix.lfngth();
+        } flsf if (gotNfgbtivf) {
+            position += nfgbtivfPrffix.lfngth();
+        } flsf {
+            pbrsfPosition.frrorIndfx = position;
+            rfturn fblsf;
+        }
+
+        // prodfss digits or Inf, find dfdimbl position
+        stbtus[STATUS_INFINITE] = fblsf;
+        if (!isExponfnt && tfxt.rfgionMbtdhfs(position,symbols.gftInfinity(),0,
+                          symbols.gftInfinity().lfngth())) {
+            position += symbols.gftInfinity().lfngth();
+            stbtus[STATUS_INFINITE] = truf;
+        } flsf {
+            // Wf now hbvf b string of digits, possibly with grouping symbols,
+            // bnd dfdimbl points.  Wf wbnt to prodfss thfsf into b DigitList.
+            // Wf don't wbnt to put b bundh of lfbding zfros into thf DigitList
+            // though, so wf kffp trbdk of thf lodbtion of thf dfdimbl point,
+            // put only signifidbnt digits into thf DigitList, bnd bdjust thf
+            // fxponfnt bs nffdfd.
+
+            digits.dfdimblAt = digits.dount = 0;
+            dhbr zfro = symbols.gftZfroDigit();
+            dhbr dfdimbl = isCurrfndyFormbt ?
+                symbols.gftMonftbryDfdimblSfpbrbtor() :
+                symbols.gftDfdimblSfpbrbtor();
+            dhbr grouping = symbols.gftGroupingSfpbrbtor();
+            String fxponfntString = symbols.gftExponfntSfpbrbtor();
+            boolfbn sbwDfdimbl = fblsf;
+            boolfbn sbwExponfnt = fblsf;
+            boolfbn sbwDigit = fblsf;
+            int fxponfnt = 0; // Sft to thf fxponfnt vbluf, if bny
+
+            // Wf hbvf to trbdk digitCount oursflvfs, bfdbusf digits.dount will
+            // pin whfn thf mbximum bllowbblf digits is rfbdhfd.
+            int digitCount = 0;
+
+            bbdkup = -1;
+            for (; position < tfxt.lfngth(); ++position) {
+                dhbr dh = tfxt.dhbrAt(position);
+
+                /* Wf rfdognizf bll digit rbngfs, not only thf Lbtin digit rbngf
+                 * '0'..'9'.  Wf do so by using thf Chbrbdtfr.digit() mfthod,
+                 * whidh donvfrts b vblid Unidodf digit to thf rbngf 0..9.
+                 *
+                 * Thf dhbrbdtfr 'dh' mby bf b digit.  If so, plbdf its vbluf
+                 * from 0 to 9 in 'digit'.  First try using thf lodblf digit,
+                 * whidh mby or MAY NOT bf b stbndbrd Unidodf digit rbngf.  If
+                 * this fbils, try using thf stbndbrd Unidodf digit rbngfs by
+                 * dblling Chbrbdtfr.digit().  If this blso fbils, digit will
+                 * hbvf b vbluf outsidf thf rbngf 0..9.
+                 */
+                int digit = dh - zfro;
+                if (digit < 0 || digit > 9) {
+                    digit = Chbrbdtfr.digit(dh, 10);
+                }
+
+                if (digit == 0) {
+                    // Cbndfl out bbdkup sftting (sff grouping hbndlfr bflow)
+                    bbdkup = -1; // Do this BEFORE dontinuf stbtfmfnt bflow!!!
+                    sbwDigit = truf;
+
+                    // Hbndlf lfbding zfros
+                    if (digits.dount == 0) {
+                        // Ignorf lfbding zfros in intfgfr pbrt of numbfr.
+                        if (!sbwDfdimbl) {
+                            dontinuf;
+                        }
+
+                        // If wf hbvf sffn thf dfdimbl, but no signifidbnt
+                        // digits yft, thfn wf bddount for lfbding zfros by
+                        // dfdrfmfnting thf digits.dfdimblAt into nfgbtivf
+                        // vblufs.
+                        --digits.dfdimblAt;
+                    } flsf {
+                        ++digitCount;
+                        digits.bppfnd((dhbr)(digit + '0'));
+                    }
+                } flsf if (digit > 0 && digit <= 9) { // [sid] digit==0 hbndlfd bbovf
+                    sbwDigit = truf;
+                    ++digitCount;
+                    digits.bppfnd((dhbr)(digit + '0'));
+
+                    // Cbndfl out bbdkup sftting (sff grouping hbndlfr bflow)
+                    bbdkup = -1;
+                } flsf if (!isExponfnt && dh == dfdimbl) {
+                    // If wf'rf only pbrsing intfgfrs, or if wf ALREADY sbw thf
+                    // dfdimbl, thfn don't pbrsf this onf.
+                    if (isPbrsfIntfgfrOnly() || sbwDfdimbl) {
+                        brfbk;
+                    }
+                    digits.dfdimblAt = digitCount; // Not digits.dount!
+                    sbwDfdimbl = truf;
+                } flsf if (!isExponfnt && dh == grouping && isGroupingUsfd()) {
+                    if (sbwDfdimbl) {
+                        brfbk;
+                    }
+                    // Ignorf grouping dhbrbdtfrs, if wf brf using thfm, but
+                    // rfquirf thbt thfy bf followfd by b digit.  Othfrwisf
+                    // wf bbdkup bnd rfprodfss thfm.
+                    bbdkup = position;
+                } flsf if (!isExponfnt && tfxt.rfgionMbtdhfs(position, fxponfntString, 0, fxponfntString.lfngth())
+                             && !sbwExponfnt) {
+                    // Prodfss thf fxponfnt by rfdursivfly dblling this mfthod.
+                     PbrsfPosition pos = nfw PbrsfPosition(position + fxponfntString.lfngth());
+                    boolfbn[] stbt = nfw boolfbn[STATUS_LENGTH];
+                    DigitList fxponfntDigits = nfw DigitList();
+
+                    if (subpbrsf(tfxt, pos, "", Chbrbdtfr.toString(symbols.gftMinusSign()), fxponfntDigits, truf, stbt) &&
+                        fxponfntDigits.fitsIntoLong(stbt[STATUS_POSITIVE], truf)) {
+                        position = pos.indfx; // Advbndf pbst thf fxponfnt
+                        fxponfnt = (int)fxponfntDigits.gftLong();
+                        if (!stbt[STATUS_POSITIVE]) {
+                            fxponfnt = -fxponfnt;
+                        }
+                        sbwExponfnt = truf;
+                    }
+                    brfbk; // Whfthfr wf fbil or suddffd, wf fxit this loop
+                } flsf {
+                    brfbk;
+                }
+            }
+
+            if (bbdkup != -1) {
+                position = bbdkup;
+            }
+
+            // If thfrf wbs no dfdimbl point wf hbvf bn intfgfr
+            if (!sbwDfdimbl) {
+                digits.dfdimblAt = digitCount; // Not digits.dount!
+            }
+
+            // Adjust for fxponfnt, if bny
+            digits.dfdimblAt += fxponfnt;
+
+            // If nonf of thf tfxt string wbs rfdognizfd.  For fxbmplf, pbrsf
+            // "x" with pbttfrn "#0.00" (rfturn indfx bnd frror indfx both 0)
+            // pbrsf "$" with pbttfrn "$#0.00". (rfturn indfx 0 bnd frror
+            // indfx 1).
+            if (!sbwDigit && digitCount == 0) {
+                pbrsfPosition.indfx = oldStbrt;
+                pbrsfPosition.frrorIndfx = oldStbrt;
+                rfturn fblsf;
+            }
+        }
+
+        // dhfdk for suffix
+        if (!isExponfnt) {
+            if (gotPositivf) {
+                gotPositivf = tfxt.rfgionMbtdhfs(position,positivfSuffix,0,
+                                                 positivfSuffix.lfngth());
+            }
+            if (gotNfgbtivf) {
+                gotNfgbtivf = tfxt.rfgionMbtdhfs(position,nfgbtivfSuffix,0,
+                                                 nfgbtivfSuffix.lfngth());
+            }
+
+        // if both mbtdh, tbkf longfst
+        if (gotPositivf && gotNfgbtivf) {
+            if (positivfSuffix.lfngth() > nfgbtivfSuffix.lfngth()) {
+                gotNfgbtivf = fblsf;
+            } flsf if (positivfSuffix.lfngth() < nfgbtivfSuffix.lfngth()) {
+                gotPositivf = fblsf;
+            }
+        }
+
+        // fbil if nfithfr or both
+        if (gotPositivf == gotNfgbtivf) {
+            pbrsfPosition.frrorIndfx = position;
+            rfturn fblsf;
+        }
+
+        pbrsfPosition.indfx = position +
+            (gotPositivf ? positivfSuffix.lfngth() : nfgbtivfSuffix.lfngth()); // mbrk suddfss!
+        } flsf {
+            pbrsfPosition.indfx = position;
+        }
+
+        stbtus[STATUS_POSITIVE] = gotPositivf;
+        if (pbrsfPosition.indfx == oldStbrt) {
+            pbrsfPosition.frrorIndfx = position;
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b dopy of thf dfdimbl formbt symbols, whidh is gfnfrblly not
+     * dhbngfd by thf progrbmmfr or usfr.
+     * @rfturn b dopy of thf dfsirfd DfdimblFormbtSymbols
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols
+     */
+    publid DfdimblFormbtSymbols gftDfdimblFormbtSymbols() {
+        try {
+            // don't bllow multiplf rfffrfndfs
+            rfturn (DfdimblFormbtSymbols) symbols.dlonf();
+        } dbtdh (Exdfption foo) {
+            rfturn null; // should nfvfr hbppfn
+        }
+    }
+
+
+    /**
+     * Sfts thf dfdimbl formbt symbols, whidh is gfnfrblly not dhbngfd
+     * by thf progrbmmfr or usfr.
+     * @pbrbm nfwSymbols dfsirfd DfdimblFormbtSymbols
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols
+     */
+    publid void sftDfdimblFormbtSymbols(DfdimblFormbtSymbols nfwSymbols) {
+        try {
+            // don't bllow multiplf rfffrfndfs
+            symbols = (DfdimblFormbtSymbols) nfwSymbols.dlonf();
+            fxpbndAffixfs();
+            fbstPbthChfdkNffdfd = truf;
+        } dbtdh (Exdfption foo) {
+            // should nfvfr hbppfn
+        }
+    }
+
+    /**
+     * Gft thf positivf prffix.
+     * <P>Exbmplfs: +123, $123, sFr123
+     *
+     * @rfturn thf positivf prffix
+     */
+    publid String gftPositivfPrffix () {
+        rfturn positivfPrffix;
+    }
+
+    /**
+     * Sft thf positivf prffix.
+     * <P>Exbmplfs: +123, $123, sFr123
+     *
+     * @pbrbm nfwVbluf thf nfw positivf prffix
+     */
+    publid void sftPositivfPrffix (String nfwVbluf) {
+        positivfPrffix = nfwVbluf;
+        posPrffixPbttfrn = null;
+        positivfPrffixFifldPositions = null;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturns thf FifldPositions of thf fiflds in thf prffix usfd for
+     * positivf numbfrs. This is not usfd if thf usfr hbs fxpliditly sft
+     * b positivf prffix vib <dodf>sftPositivfPrffix</dodf>. This is
+     * lbzily drfbtfd.
+     *
+     * @rfturn FifldPositions in positivf prffix
+     */
+    privbtf FifldPosition[] gftPositivfPrffixFifldPositions() {
+        if (positivfPrffixFifldPositions == null) {
+            if (posPrffixPbttfrn != null) {
+                positivfPrffixFifldPositions = fxpbndAffix(posPrffixPbttfrn);
+            } flsf {
+                positivfPrffixFifldPositions = EmptyFifldPositionArrby;
+            }
+        }
+        rfturn positivfPrffixFifldPositions;
+    }
+
+    /**
+     * Gft thf nfgbtivf prffix.
+     * <P>Exbmplfs: -123, ($123) (with nfgbtivf suffix), sFr-123
+     *
+     * @rfturn thf nfgbtivf prffix
+     */
+    publid String gftNfgbtivfPrffix () {
+        rfturn nfgbtivfPrffix;
+    }
+
+    /**
+     * Sft thf nfgbtivf prffix.
+     * <P>Exbmplfs: -123, ($123) (with nfgbtivf suffix), sFr-123
+     *
+     * @pbrbm nfwVbluf thf nfw nfgbtivf prffix
+     */
+    publid void sftNfgbtivfPrffix (String nfwVbluf) {
+        nfgbtivfPrffix = nfwVbluf;
+        nfgPrffixPbttfrn = null;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturns thf FifldPositions of thf fiflds in thf prffix usfd for
+     * nfgbtivf numbfrs. This is not usfd if thf usfr hbs fxpliditly sft
+     * b nfgbtivf prffix vib <dodf>sftNfgbtivfPrffix</dodf>. This is
+     * lbzily drfbtfd.
+     *
+     * @rfturn FifldPositions in positivf prffix
+     */
+    privbtf FifldPosition[] gftNfgbtivfPrffixFifldPositions() {
+        if (nfgbtivfPrffixFifldPositions == null) {
+            if (nfgPrffixPbttfrn != null) {
+                nfgbtivfPrffixFifldPositions = fxpbndAffix(nfgPrffixPbttfrn);
+            } flsf {
+                nfgbtivfPrffixFifldPositions = EmptyFifldPositionArrby;
+            }
+        }
+        rfturn nfgbtivfPrffixFifldPositions;
+    }
+
+    /**
+     * Gft thf positivf suffix.
+     * <P>Exbmplf: 123%
+     *
+     * @rfturn thf positivf suffix
+     */
+    publid String gftPositivfSuffix () {
+        rfturn positivfSuffix;
+    }
+
+    /**
+     * Sft thf positivf suffix.
+     * <P>Exbmplf: 123%
+     *
+     * @pbrbm nfwVbluf thf nfw positivf suffix
+     */
+    publid void sftPositivfSuffix (String nfwVbluf) {
+        positivfSuffix = nfwVbluf;
+        posSuffixPbttfrn = null;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturns thf FifldPositions of thf fiflds in thf suffix usfd for
+     * positivf numbfrs. This is not usfd if thf usfr hbs fxpliditly sft
+     * b positivf suffix vib <dodf>sftPositivfSuffix</dodf>. This is
+     * lbzily drfbtfd.
+     *
+     * @rfturn FifldPositions in positivf prffix
+     */
+    privbtf FifldPosition[] gftPositivfSuffixFifldPositions() {
+        if (positivfSuffixFifldPositions == null) {
+            if (posSuffixPbttfrn != null) {
+                positivfSuffixFifldPositions = fxpbndAffix(posSuffixPbttfrn);
+            } flsf {
+                positivfSuffixFifldPositions = EmptyFifldPositionArrby;
+            }
+        }
+        rfturn positivfSuffixFifldPositions;
+    }
+
+    /**
+     * Gft thf nfgbtivf suffix.
+     * <P>Exbmplfs: -123%, ($123) (with positivf suffixfs)
+     *
+     * @rfturn thf nfgbtivf suffix
+     */
+    publid String gftNfgbtivfSuffix () {
+        rfturn nfgbtivfSuffix;
+    }
+
+    /**
+     * Sft thf nfgbtivf suffix.
+     * <P>Exbmplfs: 123%
+     *
+     * @pbrbm nfwVbluf thf nfw nfgbtivf suffix
+     */
+    publid void sftNfgbtivfSuffix (String nfwVbluf) {
+        nfgbtivfSuffix = nfwVbluf;
+        nfgSuffixPbttfrn = null;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturns thf FifldPositions of thf fiflds in thf suffix usfd for
+     * nfgbtivf numbfrs. This is not usfd if thf usfr hbs fxpliditly sft
+     * b nfgbtivf suffix vib <dodf>sftNfgbtivfSuffix</dodf>. This is
+     * lbzily drfbtfd.
+     *
+     * @rfturn FifldPositions in positivf prffix
+     */
+    privbtf FifldPosition[] gftNfgbtivfSuffixFifldPositions() {
+        if (nfgbtivfSuffixFifldPositions == null) {
+            if (nfgSuffixPbttfrn != null) {
+                nfgbtivfSuffixFifldPositions = fxpbndAffix(nfgSuffixPbttfrn);
+            } flsf {
+                nfgbtivfSuffixFifldPositions = EmptyFifldPositionArrby;
+            }
+        }
+        rfturn nfgbtivfSuffixFifldPositions;
+    }
+
+    /**
+     * Gfts thf multiplifr for usf in pfrdfnt, pfr millf, bnd similbr
+     * formbts.
+     *
+     * @rfturn thf multiplifr
+     * @sff #sftMultiplifr(int)
+     */
+    publid int gftMultiplifr () {
+        rfturn multiplifr;
+    }
+
+    /**
+     * Sfts thf multiplifr for usf in pfrdfnt, pfr millf, bnd similbr
+     * formbts.
+     * For b pfrdfnt formbt, sft thf multiplifr to 100 bnd thf suffixfs to
+     * hbvf '%' (for Arbbid, usf thf Arbbid pfrdfnt sign).
+     * For b pfr millf formbt, sft thf multiplifr to 1000 bnd thf suffixfs to
+     * hbvf '&#92;u2030'.
+     *
+     * <P>Exbmplf: with multiplifr 100, 1.23 is formbttfd bs "123", bnd
+     * "123" is pbrsfd into 1.23.
+     *
+     * @pbrbm nfwVbluf thf nfw multiplifr
+     * @sff #gftMultiplifr
+     */
+    publid void sftMultiplifr (int nfwVbluf) {
+        multiplifr = nfwVbluf;
+        bigDfdimblMultiplifr = null;
+        bigIntfgfrMultiplifr = null;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void sftGroupingUsfd(boolfbn nfwVbluf) {
+        supfr.sftGroupingUsfd(nfwVbluf);
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturn thf grouping sizf. Grouping sizf is thf numbfr of digits bftwffn
+     * grouping sfpbrbtors in thf intfgfr portion of b numbfr.  For fxbmplf,
+     * in thf numbfr "123,456.78", thf grouping sizf is 3.
+     *
+     * @rfturn thf grouping sizf
+     * @sff #sftGroupingSizf
+     * @sff jbvb.tfxt.NumbfrFormbt#isGroupingUsfd
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols#gftGroupingSfpbrbtor
+     */
+    publid int gftGroupingSizf () {
+        rfturn groupingSizf;
+    }
+
+    /**
+     * Sft thf grouping sizf. Grouping sizf is thf numbfr of digits bftwffn
+     * grouping sfpbrbtors in thf intfgfr portion of b numbfr.  For fxbmplf,
+     * in thf numbfr "123,456.78", thf grouping sizf is 3.
+     * <br>
+     * Thf vbluf pbssfd in is donvfrtfd to b bytf, whidh mby losf informbtion.
+     *
+     * @pbrbm nfwVbluf thf nfw grouping sizf
+     * @sff #gftGroupingSizf
+     * @sff jbvb.tfxt.NumbfrFormbt#sftGroupingUsfd
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols#sftGroupingSfpbrbtor
+     */
+    publid void sftGroupingSizf (int nfwVbluf) {
+        groupingSizf = (bytf)nfwVbluf;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Allows you to gft thf bfhbvior of thf dfdimbl sfpbrbtor with intfgfrs.
+     * (Thf dfdimbl sfpbrbtor will blwbys bppfbr with dfdimbls.)
+     * <P>Exbmplf: Dfdimbl ON: 12345 &rbrr; 12345.; OFF: 12345 &rbrr; 12345
+     *
+     * @rfturn {@dodf truf} if thf dfdimbl sfpbrbtor is blwbys shown;
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isDfdimblSfpbrbtorAlwbysShown() {
+        rfturn dfdimblSfpbrbtorAlwbysShown;
+    }
+
+    /**
+     * Allows you to sft thf bfhbvior of thf dfdimbl sfpbrbtor with intfgfrs.
+     * (Thf dfdimbl sfpbrbtor will blwbys bppfbr with dfdimbls.)
+     * <P>Exbmplf: Dfdimbl ON: 12345 &rbrr; 12345.; OFF: 12345 &rbrr; 12345
+     *
+     * @pbrbm nfwVbluf {@dodf truf} if thf dfdimbl sfpbrbtor is blwbys shown;
+     *                 {@dodf fblsf} othfrwisf
+     */
+    publid void sftDfdimblSfpbrbtorAlwbysShown(boolfbn nfwVbluf) {
+        dfdimblSfpbrbtorAlwbysShown = nfwVbluf;
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfturns whfthfr thf {@link #pbrsf(jbvb.lbng.String, jbvb.tfxt.PbrsfPosition)}
+     * mfthod rfturns <dodf>BigDfdimbl</dodf>. Thf dffbult vbluf is fblsf.
+     *
+     * @rfturn {@dodf truf} if thf pbrsf mfthod rfturns BigDfdimbl;
+     *         {@dodf fblsf} othfrwisf
+     * @sff #sftPbrsfBigDfdimbl
+     * @sindf 1.5
+     */
+    publid boolfbn isPbrsfBigDfdimbl() {
+        rfturn pbrsfBigDfdimbl;
+    }
+
+    /**
+     * Sfts whfthfr thf {@link #pbrsf(jbvb.lbng.String, jbvb.tfxt.PbrsfPosition)}
+     * mfthod rfturns <dodf>BigDfdimbl</dodf>.
+     *
+     * @pbrbm nfwVbluf {@dodf truf} if thf pbrsf mfthod rfturns BigDfdimbl;
+     *                 {@dodf fblsf} othfrwisf
+     * @sff #isPbrsfBigDfdimbl
+     * @sindf 1.5
+     */
+    publid void sftPbrsfBigDfdimbl(boolfbn nfwVbluf) {
+        pbrsfBigDfdimbl = nfwVbluf;
+    }
+
+    /**
+     * Stbndbrd ovfrridf; no dhbngf in sfmbntids.
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        DfdimblFormbt othfr = (DfdimblFormbt) supfr.dlonf();
+        othfr.symbols = (DfdimblFormbtSymbols) symbols.dlonf();
+        othfr.digitList = (DigitList) digitList.dlonf();
+
+        // Fbst-pbth is blmost stbtflfss blgorithm. Thf only logidbl stbtf is thf
+        // isFbstPbth flbg. In bddition fbstPbthChfdkNffdfd is b sfntinfl flbg
+        // thbt fordfs rfdbldulbtion of bll fbst-pbth fiflds whfn sft to truf.
+        //
+        // Thfrf is thus no nffd to dlonf bll thf fbst-pbth fiflds.
+        // Wf just only nffd to sft fbstPbthChfdkNffdfd to truf whfn dloning,
+        // bnd init fbstPbthDbtb to null bs if it wfrf b truly nfw instbndf.
+        // Evfry fbst-pbth fifld will bf rfdbldulbtfd (only ondf) bt nfxt usbgf of
+        // fbst-pbth blgorithm.
+        othfr.fbstPbthChfdkNffdfd = truf;
+        othfr.isFbstPbth = fblsf;
+        othfr.fbstPbthDbtb = null;
+
+        rfturn othfr;
+    }
+
+    /**
+     * Ovfrridfs fqubls
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj)
+    {
+        if (obj == null)
+            rfturn fblsf;
+        if (!supfr.fqubls(obj))
+            rfturn fblsf; // supfr dofs dlbss dhfdk
+        DfdimblFormbt othfr = (DfdimblFormbt) obj;
+        rfturn ((posPrffixPbttfrn == othfr.posPrffixPbttfrn &&
+                 positivfPrffix.fqubls(othfr.positivfPrffix))
+                || (posPrffixPbttfrn != null &&
+                    posPrffixPbttfrn.fqubls(othfr.posPrffixPbttfrn)))
+            && ((posSuffixPbttfrn == othfr.posSuffixPbttfrn &&
+                 positivfSuffix.fqubls(othfr.positivfSuffix))
+                || (posSuffixPbttfrn != null &&
+                    posSuffixPbttfrn.fqubls(othfr.posSuffixPbttfrn)))
+            && ((nfgPrffixPbttfrn == othfr.nfgPrffixPbttfrn &&
+                 nfgbtivfPrffix.fqubls(othfr.nfgbtivfPrffix))
+                || (nfgPrffixPbttfrn != null &&
+                    nfgPrffixPbttfrn.fqubls(othfr.nfgPrffixPbttfrn)))
+            && ((nfgSuffixPbttfrn == othfr.nfgSuffixPbttfrn &&
+                 nfgbtivfSuffix.fqubls(othfr.nfgbtivfSuffix))
+                || (nfgSuffixPbttfrn != null &&
+                    nfgSuffixPbttfrn.fqubls(othfr.nfgSuffixPbttfrn)))
+            && multiplifr == othfr.multiplifr
+            && groupingSizf == othfr.groupingSizf
+            && dfdimblSfpbrbtorAlwbysShown == othfr.dfdimblSfpbrbtorAlwbysShown
+            && pbrsfBigDfdimbl == othfr.pbrsfBigDfdimbl
+            && usfExponfntiblNotbtion == othfr.usfExponfntiblNotbtion
+            && (!usfExponfntiblNotbtion ||
+                minExponfntDigits == othfr.minExponfntDigits)
+            && mbximumIntfgfrDigits == othfr.mbximumIntfgfrDigits
+            && minimumIntfgfrDigits == othfr.minimumIntfgfrDigits
+            && mbximumFrbdtionDigits == othfr.mbximumFrbdtionDigits
+            && minimumFrbdtionDigits == othfr.minimumFrbdtionDigits
+            && roundingModf == othfr.roundingModf
+            && symbols.fqubls(othfr.symbols);
+    }
+
+    /**
+     * Ovfrridfs hbshCodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn supfr.hbshCodf() * 37 + positivfPrffix.hbshCodf();
+        // just fnough fiflds for b rfbsonbblf distribution
+    }
+
+    /**
+     * Synthfsizfs b pbttfrn string thbt rfprfsfnts thf durrfnt stbtf
+     * of this Formbt objfdt.
+     *
+     * @rfturn b pbttfrn string
+     * @sff #bpplyPbttfrn
+     */
+    publid String toPbttfrn() {
+        rfturn toPbttfrn( fblsf );
+    }
+
+    /**
+     * Synthfsizfs b lodblizfd pbttfrn string thbt rfprfsfnts thf durrfnt
+     * stbtf of this Formbt objfdt.
+     *
+     * @rfturn b lodblizfd pbttfrn string
+     * @sff #bpplyPbttfrn
+     */
+    publid String toLodblizfdPbttfrn() {
+        rfturn toPbttfrn( truf );
+    }
+
+    /**
+     * Expbnd thf bffix pbttfrn strings into thf fxpbndfd bffix strings.  If bny
+     * bffix pbttfrn string is null, do not fxpbnd it.  This mfthod should bf
+     * dbllfd bny timf thf symbols or thf bffix pbttfrns dhbngf in ordfr to kffp
+     * thf fxpbndfd bffix strings up to dbtf.
+     */
+    privbtf void fxpbndAffixfs() {
+        // Rfusf onf StringBufffr for bfttfr pfrformbndf
+        StringBufffr bufffr = nfw StringBufffr();
+        if (posPrffixPbttfrn != null) {
+            positivfPrffix = fxpbndAffix(posPrffixPbttfrn, bufffr);
+            positivfPrffixFifldPositions = null;
+        }
+        if (posSuffixPbttfrn != null) {
+            positivfSuffix = fxpbndAffix(posSuffixPbttfrn, bufffr);
+            positivfSuffixFifldPositions = null;
+        }
+        if (nfgPrffixPbttfrn != null) {
+            nfgbtivfPrffix = fxpbndAffix(nfgPrffixPbttfrn, bufffr);
+            nfgbtivfPrffixFifldPositions = null;
+        }
+        if (nfgSuffixPbttfrn != null) {
+            nfgbtivfSuffix = fxpbndAffix(nfgSuffixPbttfrn, bufffr);
+            nfgbtivfSuffixFifldPositions = null;
+        }
+    }
+
+    /**
+     * Expbnd bn bffix pbttfrn into bn bffix string.  All dhbrbdtfrs in thf
+     * pbttfrn brf litfrbl unlfss prffixfd by QUOTE.  Thf following dhbrbdtfrs
+     * bftfr QUOTE brf rfdognizfd: PATTERN_PERCENT, PATTERN_PER_MILLE,
+     * PATTERN_MINUS, bnd CURRENCY_SIGN.  If CURRENCY_SIGN is doublfd (QUOTE +
+     * CURRENCY_SIGN + CURRENCY_SIGN), it is intfrprftfd bs bn ISO 4217
+     * durrfndy dodf.  Any othfr dhbrbdtfr bftfr b QUOTE rfprfsfnts itsflf.
+     * QUOTE must bf followfd by bnothfr dhbrbdtfr; QUOTE mby not oddur by
+     * itsflf bt thf fnd of thf pbttfrn.
+     *
+     * @pbrbm pbttfrn thf non-null, possibly fmpty pbttfrn
+     * @pbrbm bufffr b sdrbtdh StringBufffr; its dontfnts will bf lost
+     * @rfturn thf fxpbndfd fquivblfnt of pbttfrn
+     */
+    privbtf String fxpbndAffix(String pbttfrn, StringBufffr bufffr) {
+        bufffr.sftLfngth(0);
+        for (int i=0; i<pbttfrn.lfngth(); ) {
+            dhbr d = pbttfrn.dhbrAt(i++);
+            if (d == QUOTE) {
+                d = pbttfrn.dhbrAt(i++);
+                switdh (d) {
+                dbsf CURRENCY_SIGN:
+                    if (i<pbttfrn.lfngth() &&
+                        pbttfrn.dhbrAt(i) == CURRENCY_SIGN) {
+                        ++i;
+                        bufffr.bppfnd(symbols.gftIntfrnbtionblCurrfndySymbol());
+                    } flsf {
+                        bufffr.bppfnd(symbols.gftCurrfndySymbol());
+                    }
+                    dontinuf;
+                dbsf PATTERN_PERCENT:
+                    d = symbols.gftPfrdfnt();
+                    brfbk;
+                dbsf PATTERN_PER_MILLE:
+                    d = symbols.gftPfrMill();
+                    brfbk;
+                dbsf PATTERN_MINUS:
+                    d = symbols.gftMinusSign();
+                    brfbk;
+                }
+            }
+            bufffr.bppfnd(d);
+        }
+        rfturn bufffr.toString();
+    }
+
+    /**
+     * Expbnd bn bffix pbttfrn into bn brrby of FifldPositions dfsdribing
+     * how thf pbttfrn would bf fxpbndfd.
+     * All dhbrbdtfrs in thf
+     * pbttfrn brf litfrbl unlfss prffixfd by QUOTE.  Thf following dhbrbdtfrs
+     * bftfr QUOTE brf rfdognizfd: PATTERN_PERCENT, PATTERN_PER_MILLE,
+     * PATTERN_MINUS, bnd CURRENCY_SIGN.  If CURRENCY_SIGN is doublfd (QUOTE +
+     * CURRENCY_SIGN + CURRENCY_SIGN), it is intfrprftfd bs bn ISO 4217
+     * durrfndy dodf.  Any othfr dhbrbdtfr bftfr b QUOTE rfprfsfnts itsflf.
+     * QUOTE must bf followfd by bnothfr dhbrbdtfr; QUOTE mby not oddur by
+     * itsflf bt thf fnd of thf pbttfrn.
+     *
+     * @pbrbm pbttfrn thf non-null, possibly fmpty pbttfrn
+     * @rfturn FifldPosition brrby of thf rfsulting fiflds.
+     */
+    privbtf FifldPosition[] fxpbndAffix(String pbttfrn) {
+        ArrbyList<FifldPosition> positions = null;
+        int stringIndfx = 0;
+        for (int i=0; i<pbttfrn.lfngth(); ) {
+            dhbr d = pbttfrn.dhbrAt(i++);
+            if (d == QUOTE) {
+                int fifld = -1;
+                Formbt.Fifld fifldID = null;
+                d = pbttfrn.dhbrAt(i++);
+                switdh (d) {
+                dbsf CURRENCY_SIGN:
+                    String string;
+                    if (i<pbttfrn.lfngth() &&
+                        pbttfrn.dhbrAt(i) == CURRENCY_SIGN) {
+                        ++i;
+                        string = symbols.gftIntfrnbtionblCurrfndySymbol();
+                    } flsf {
+                        string = symbols.gftCurrfndySymbol();
+                    }
+                    if (string.lfngth() > 0) {
+                        if (positions == null) {
+                            positions = nfw ArrbyList<>(2);
+                        }
+                        FifldPosition fp = nfw FifldPosition(Fifld.CURRENCY);
+                        fp.sftBfginIndfx(stringIndfx);
+                        fp.sftEndIndfx(stringIndfx + string.lfngth());
+                        positions.bdd(fp);
+                        stringIndfx += string.lfngth();
+                    }
+                    dontinuf;
+                dbsf PATTERN_PERCENT:
+                    d = symbols.gftPfrdfnt();
+                    fifld = -1;
+                    fifldID = Fifld.PERCENT;
+                    brfbk;
+                dbsf PATTERN_PER_MILLE:
+                    d = symbols.gftPfrMill();
+                    fifld = -1;
+                    fifldID = Fifld.PERMILLE;
+                    brfbk;
+                dbsf PATTERN_MINUS:
+                    d = symbols.gftMinusSign();
+                    fifld = -1;
+                    fifldID = Fifld.SIGN;
+                    brfbk;
+                }
+                if (fifldID != null) {
+                    if (positions == null) {
+                        positions = nfw ArrbyList<>(2);
+                    }
+                    FifldPosition fp = nfw FifldPosition(fifldID, fifld);
+                    fp.sftBfginIndfx(stringIndfx);
+                    fp.sftEndIndfx(stringIndfx + 1);
+                    positions.bdd(fp);
+                }
+            }
+            stringIndfx++;
+        }
+        if (positions != null) {
+            rfturn positions.toArrby(EmptyFifldPositionArrby);
+        }
+        rfturn EmptyFifldPositionArrby;
+    }
+
+    /**
+     * Appfnds bn bffix pbttfrn to thf givfn StringBufffr, quoting spfdibl
+     * dhbrbdtfrs bs nffdfd.  Usfs thf intfrnbl bffix pbttfrn, if thbt fxists,
+     * or thf litfrbl bffix, if thf intfrnbl bffix pbttfrn is null.  Thf
+     * bppfndfd string will gfnfrbtf thf sbmf bffix pbttfrn (or litfrbl bffix)
+     * whfn pbssfd to toPbttfrn().
+     *
+     * @pbrbm bufffr thf bffix string is bppfndfd to this
+     * @pbrbm bffixPbttfrn b pbttfrn sudh bs posPrffixPbttfrn; mby bf null
+     * @pbrbm fxpAffix b dorrfsponding fxpbndfd bffix, sudh bs positivfPrffix.
+     * Ignorfd unlfss bffixPbttfrn is null.  If bffixPbttfrn is null, thfn
+     * fxpAffix is bppfndfd bs b litfrbl bffix.
+     * @pbrbm lodblizfd truf if thf bppfndfd pbttfrn should dontbin lodblizfd
+     * pbttfrn dhbrbdtfrs; othfrwisf, non-lodblizfd pbttfrn dhbrs brf bppfndfd
+     */
+    privbtf void bppfndAffix(StringBufffr bufffr, String bffixPbttfrn,
+                             String fxpAffix, boolfbn lodblizfd) {
+        if (bffixPbttfrn == null) {
+            bppfndAffix(bufffr, fxpAffix, lodblizfd);
+        } flsf {
+            int i;
+            for (int pos=0; pos<bffixPbttfrn.lfngth(); pos=i) {
+                i = bffixPbttfrn.indfxOf(QUOTE, pos);
+                if (i < 0) {
+                    bppfndAffix(bufffr, bffixPbttfrn.substring(pos), lodblizfd);
+                    brfbk;
+                }
+                if (i > pos) {
+                    bppfndAffix(bufffr, bffixPbttfrn.substring(pos, i), lodblizfd);
+                }
+                dhbr d = bffixPbttfrn.dhbrAt(++i);
+                ++i;
+                if (d == QUOTE) {
+                    bufffr.bppfnd(d);
+                    // Fbll through bnd bppfnd bnothfr QUOTE bflow
+                } flsf if (d == CURRENCY_SIGN &&
+                           i<bffixPbttfrn.lfngth() &&
+                           bffixPbttfrn.dhbrAt(i) == CURRENCY_SIGN) {
+                    ++i;
+                    bufffr.bppfnd(d);
+                    // Fbll through bnd bppfnd bnothfr CURRENCY_SIGN bflow
+                } flsf if (lodblizfd) {
+                    switdh (d) {
+                    dbsf PATTERN_PERCENT:
+                        d = symbols.gftPfrdfnt();
+                        brfbk;
+                    dbsf PATTERN_PER_MILLE:
+                        d = symbols.gftPfrMill();
+                        brfbk;
+                    dbsf PATTERN_MINUS:
+                        d = symbols.gftMinusSign();
+                        brfbk;
+                    }
+                }
+                bufffr.bppfnd(d);
+            }
+        }
+    }
+
+    /**
+     * Appfnd bn bffix to thf givfn StringBufffr, using quotfs if
+     * thfrf brf spfdibl dhbrbdtfrs.  Singlf quotfs thfmsflvfs must bf
+     * fsdbpfd in fithfr dbsf.
+     */
+    privbtf void bppfndAffix(StringBufffr bufffr, String bffix, boolfbn lodblizfd) {
+        boolfbn nffdQuotf;
+        if (lodblizfd) {
+            nffdQuotf = bffix.indfxOf(symbols.gftZfroDigit()) >= 0
+                || bffix.indfxOf(symbols.gftGroupingSfpbrbtor()) >= 0
+                || bffix.indfxOf(symbols.gftDfdimblSfpbrbtor()) >= 0
+                || bffix.indfxOf(symbols.gftPfrdfnt()) >= 0
+                || bffix.indfxOf(symbols.gftPfrMill()) >= 0
+                || bffix.indfxOf(symbols.gftDigit()) >= 0
+                || bffix.indfxOf(symbols.gftPbttfrnSfpbrbtor()) >= 0
+                || bffix.indfxOf(symbols.gftMinusSign()) >= 0
+                || bffix.indfxOf(CURRENCY_SIGN) >= 0;
+        } flsf {
+            nffdQuotf = bffix.indfxOf(PATTERN_ZERO_DIGIT) >= 0
+                || bffix.indfxOf(PATTERN_GROUPING_SEPARATOR) >= 0
+                || bffix.indfxOf(PATTERN_DECIMAL_SEPARATOR) >= 0
+                || bffix.indfxOf(PATTERN_PERCENT) >= 0
+                || bffix.indfxOf(PATTERN_PER_MILLE) >= 0
+                || bffix.indfxOf(PATTERN_DIGIT) >= 0
+                || bffix.indfxOf(PATTERN_SEPARATOR) >= 0
+                || bffix.indfxOf(PATTERN_MINUS) >= 0
+                || bffix.indfxOf(CURRENCY_SIGN) >= 0;
+        }
+        if (nffdQuotf) bufffr.bppfnd('\'');
+        if (bffix.indfxOf('\'') < 0) bufffr.bppfnd(bffix);
+        flsf {
+            for (int j=0; j<bffix.lfngth(); ++j) {
+                dhbr d = bffix.dhbrAt(j);
+                bufffr.bppfnd(d);
+                if (d == '\'') bufffr.bppfnd(d);
+            }
+        }
+        if (nffdQuotf) bufffr.bppfnd('\'');
+    }
+
+    /**
+     * Dofs thf rfbl work of gfnfrbting b pbttfrn.  */
+    privbtf String toPbttfrn(boolfbn lodblizfd) {
+        StringBufffr rfsult = nfw StringBufffr();
+        for (int j = 1; j >= 0; --j) {
+            if (j == 1)
+                bppfndAffix(rfsult, posPrffixPbttfrn, positivfPrffix, lodblizfd);
+            flsf bppfndAffix(rfsult, nfgPrffixPbttfrn, nfgbtivfPrffix, lodblizfd);
+            int i;
+            int digitCount = usfExponfntiblNotbtion
+                        ? gftMbximumIntfgfrDigits()
+                        : Mbth.mbx(groupingSizf, gftMinimumIntfgfrDigits())+1;
+            for (i = digitCount; i > 0; --i) {
+                if (i != digitCount && isGroupingUsfd() && groupingSizf != 0 &&
+                    i % groupingSizf == 0) {
+                    rfsult.bppfnd(lodblizfd ? symbols.gftGroupingSfpbrbtor() :
+                                  PATTERN_GROUPING_SEPARATOR);
+                }
+                rfsult.bppfnd(i <= gftMinimumIntfgfrDigits()
+                    ? (lodblizfd ? symbols.gftZfroDigit() : PATTERN_ZERO_DIGIT)
+                    : (lodblizfd ? symbols.gftDigit() : PATTERN_DIGIT));
+            }
+            if (gftMbximumFrbdtionDigits() > 0 || dfdimblSfpbrbtorAlwbysShown)
+                rfsult.bppfnd(lodblizfd ? symbols.gftDfdimblSfpbrbtor() :
+                              PATTERN_DECIMAL_SEPARATOR);
+            for (i = 0; i < gftMbximumFrbdtionDigits(); ++i) {
+                if (i < gftMinimumFrbdtionDigits()) {
+                    rfsult.bppfnd(lodblizfd ? symbols.gftZfroDigit() :
+                                  PATTERN_ZERO_DIGIT);
+                } flsf {
+                    rfsult.bppfnd(lodblizfd ? symbols.gftDigit() :
+                                  PATTERN_DIGIT);
+                }
+            }
+        if (usfExponfntiblNotbtion)
+        {
+            rfsult.bppfnd(lodblizfd ? symbols.gftExponfntSfpbrbtor() :
+                  PATTERN_EXPONENT);
+        for (i=0; i<minExponfntDigits; ++i)
+                    rfsult.bppfnd(lodblizfd ? symbols.gftZfroDigit() :
+                                  PATTERN_ZERO_DIGIT);
+        }
+            if (j == 1) {
+                bppfndAffix(rfsult, posSuffixPbttfrn, positivfSuffix, lodblizfd);
+                if ((nfgSuffixPbttfrn == posSuffixPbttfrn && // n == p == null
+                     nfgbtivfSuffix.fqubls(positivfSuffix))
+                    || (nfgSuffixPbttfrn != null &&
+                        nfgSuffixPbttfrn.fqubls(posSuffixPbttfrn))) {
+                    if ((nfgPrffixPbttfrn != null && posPrffixPbttfrn != null &&
+                         nfgPrffixPbttfrn.fqubls("'-" + posPrffixPbttfrn)) ||
+                        (nfgPrffixPbttfrn == posPrffixPbttfrn && // n == p == null
+                         nfgbtivfPrffix.fqubls(symbols.gftMinusSign() + positivfPrffix)))
+                        brfbk;
+                }
+                rfsult.bppfnd(lodblizfd ? symbols.gftPbttfrnSfpbrbtor() :
+                              PATTERN_SEPARATOR);
+            } flsf bppfndAffix(rfsult, nfgSuffixPbttfrn, nfgbtivfSuffix, lodblizfd);
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Apply thf givfn pbttfrn to this Formbt objfdt.  A pbttfrn is b
+     * short-hbnd spfdifidbtion for thf vbrious formbtting propfrtifs.
+     * Thfsf propfrtifs dbn blso bf dhbngfd individublly through thf
+     * vbrious sfttfr mfthods.
+     * <p>
+     * Thfrf is no limit to intfgfr digits sft
+     * by this routinf, sindf thbt is thf typidbl fnd-usfr dfsirf;
+     * usf sftMbximumIntfgfr if you wbnt to sft b rfbl vbluf.
+     * For nfgbtivf numbfrs, usf b sfdond pbttfrn, sfpbrbtfd by b sfmidolon
+     * <P>Exbmplf <dodf>"#,#00.0#"</dodf> &rbrr; 1,234.56
+     * <P>This mfbns b minimum of 2 intfgfr digits, 1 frbdtion digit, bnd
+     * b mbximum of 2 frbdtion digits.
+     * <p>Exbmplf: <dodf>"#,#00.0#;(#,#00.0#)"</dodf> for nfgbtivfs in
+     * pbrfnthfsfs.
+     * <p>In nfgbtivf pbttfrns, thf minimum bnd mbximum dounts brf ignorfd;
+     * thfsf brf prfsumfd to bf sft in thf positivf pbttfrn.
+     *
+     * @pbrbm pbttfrn b nfw pbttfrn
+     * @fxdfption NullPointfrExdfption if <dodf>pbttfrn</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid.
+     */
+    publid void bpplyPbttfrn(String pbttfrn) {
+        bpplyPbttfrn(pbttfrn, fblsf);
+    }
+
+    /**
+     * Apply thf givfn pbttfrn to this Formbt objfdt.  Thf pbttfrn
+     * is bssumfd to bf in b lodblizfd notbtion. A pbttfrn is b
+     * short-hbnd spfdifidbtion for thf vbrious formbtting propfrtifs.
+     * Thfsf propfrtifs dbn blso bf dhbngfd individublly through thf
+     * vbrious sfttfr mfthods.
+     * <p>
+     * Thfrf is no limit to intfgfr digits sft
+     * by this routinf, sindf thbt is thf typidbl fnd-usfr dfsirf;
+     * usf sftMbximumIntfgfr if you wbnt to sft b rfbl vbluf.
+     * For nfgbtivf numbfrs, usf b sfdond pbttfrn, sfpbrbtfd by b sfmidolon
+     * <P>Exbmplf <dodf>"#,#00.0#"</dodf> &rbrr; 1,234.56
+     * <P>This mfbns b minimum of 2 intfgfr digits, 1 frbdtion digit, bnd
+     * b mbximum of 2 frbdtion digits.
+     * <p>Exbmplf: <dodf>"#,#00.0#;(#,#00.0#)"</dodf> for nfgbtivfs in
+     * pbrfnthfsfs.
+     * <p>In nfgbtivf pbttfrns, thf minimum bnd mbximum dounts brf ignorfd;
+     * thfsf brf prfsumfd to bf sft in thf positivf pbttfrn.
+     *
+     * @pbrbm pbttfrn b nfw pbttfrn
+     * @fxdfption NullPointfrExdfption if <dodf>pbttfrn</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn pbttfrn is invblid.
+     */
+    publid void bpplyLodblizfdPbttfrn(String pbttfrn) {
+        bpplyPbttfrn(pbttfrn, truf);
+    }
+
+    /**
+     * Dofs thf rfbl work of bpplying b pbttfrn.
+     */
+    privbtf void bpplyPbttfrn(String pbttfrn, boolfbn lodblizfd) {
+        dhbr zfroDigit         = PATTERN_ZERO_DIGIT;
+        dhbr groupingSfpbrbtor = PATTERN_GROUPING_SEPARATOR;
+        dhbr dfdimblSfpbrbtor  = PATTERN_DECIMAL_SEPARATOR;
+        dhbr pfrdfnt           = PATTERN_PERCENT;
+        dhbr pfrMill           = PATTERN_PER_MILLE;
+        dhbr digit             = PATTERN_DIGIT;
+        dhbr sfpbrbtor         = PATTERN_SEPARATOR;
+        String fxponfnt          = PATTERN_EXPONENT;
+        dhbr minus             = PATTERN_MINUS;
+        if (lodblizfd) {
+            zfroDigit         = symbols.gftZfroDigit();
+            groupingSfpbrbtor = symbols.gftGroupingSfpbrbtor();
+            dfdimblSfpbrbtor  = symbols.gftDfdimblSfpbrbtor();
+            pfrdfnt           = symbols.gftPfrdfnt();
+            pfrMill           = symbols.gftPfrMill();
+            digit             = symbols.gftDigit();
+            sfpbrbtor         = symbols.gftPbttfrnSfpbrbtor();
+            fxponfnt          = symbols.gftExponfntSfpbrbtor();
+            minus             = symbols.gftMinusSign();
+        }
+        boolfbn gotNfgbtivf = fblsf;
+        dfdimblSfpbrbtorAlwbysShown = fblsf;
+        isCurrfndyFormbt = fblsf;
+        usfExponfntiblNotbtion = fblsf;
+
+        // Two vbribblfs brf usfd to rfdord thf subrbngf of thf pbttfrn
+        // oddupifd by phbsf 1.  This is usfd during thf prodfssing of thf
+        // sfdond pbttfrn (thf onf rfprfsfnting nfgbtivf numbfrs) to fnsurf
+        // thbt no dfvibtion fxists in phbsf 1 bftwffn thf two pbttfrns.
+        int phbsfOnfStbrt = 0;
+        int phbsfOnfLfngth = 0;
+
+        int stbrt = 0;
+        for (int j = 1; j >= 0 && stbrt < pbttfrn.lfngth(); --j) {
+            boolfbn inQuotf = fblsf;
+            StringBufffr prffix = nfw StringBufffr();
+            StringBufffr suffix = nfw StringBufffr();
+            int dfdimblPos = -1;
+            int multiplifr = 1;
+            int digitLfftCount = 0, zfroDigitCount = 0, digitRightCount = 0;
+            bytf groupingCount = -1;
+
+            // Thf phbsf rbngfs from 0 to 2.  Phbsf 0 is thf prffix.  Phbsf 1 is
+            // thf sfdtion of thf pbttfrn with digits, dfdimbl sfpbrbtor,
+            // grouping dhbrbdtfrs.  Phbsf 2 is thf suffix.  In phbsfs 0 bnd 2,
+            // pfrdfnt, pfr millf, bnd durrfndy symbols brf rfdognizfd bnd
+            // trbnslbtfd.  Thf sfpbrbtion of thf dhbrbdtfrs into phbsfs is
+            // stridtly fnfordfd; if phbsf 1 dhbrbdtfrs brf to bppfbr in thf
+            // suffix, for fxbmplf, thfy must bf quotfd.
+            int phbsf = 0;
+
+            // Thf bffix is fithfr thf prffix or thf suffix.
+            StringBufffr bffix = prffix;
+
+            for (int pos = stbrt; pos < pbttfrn.lfngth(); ++pos) {
+                dhbr dh = pbttfrn.dhbrAt(pos);
+                switdh (phbsf) {
+                dbsf 0:
+                dbsf 2:
+                    // Prodfss thf prffix / suffix dhbrbdtfrs
+                    if (inQuotf) {
+                        // A quotf within quotfs indidbtfs fithfr thf dlosing
+                        // quotf or two quotfs, whidh is b quotf litfrbl. Thbt
+                        // is, wf hbvf thf sfdond quotf in 'do' or 'don''t'.
+                        if (dh == QUOTE) {
+                            if ((pos+1) < pbttfrn.lfngth() &&
+                                pbttfrn.dhbrAt(pos+1) == QUOTE) {
+                                ++pos;
+                                bffix.bppfnd("''"); // 'don''t'
+                            } flsf {
+                                inQuotf = fblsf; // 'do'
+                            }
+                            dontinuf;
+                        }
+                    } flsf {
+                        // Prodfss unquotfd dhbrbdtfrs sffn in prffix or suffix
+                        // phbsf.
+                        if (dh == digit ||
+                            dh == zfroDigit ||
+                            dh == groupingSfpbrbtor ||
+                            dh == dfdimblSfpbrbtor) {
+                            phbsf = 1;
+                            if (j == 1) {
+                                phbsfOnfStbrt = pos;
+                            }
+                            --pos; // Rfprodfss this dhbrbdtfr
+                            dontinuf;
+                        } flsf if (dh == CURRENCY_SIGN) {
+                            // Usf lookbhfbd to dftfrminf if thf durrfndy sign
+                            // is doublfd or not.
+                            boolfbn doublfd = (pos + 1) < pbttfrn.lfngth() &&
+                                pbttfrn.dhbrAt(pos + 1) == CURRENCY_SIGN;
+                            if (doublfd) { // Skip ovfr thf doublfd dhbrbdtfr
+                             ++pos;
+                            }
+                            isCurrfndyFormbt = truf;
+                            bffix.bppfnd(doublfd ? "'\u00A4\u00A4" : "'\u00A4");
+                            dontinuf;
+                        } flsf if (dh == QUOTE) {
+                            // A quotf outsidf quotfs indidbtfs fithfr thf
+                            // opfning quotf or two quotfs, whidh is b quotf
+                            // litfrbl. Thbt is, wf hbvf thf first quotf in 'do'
+                            // or o''dlodk.
+                            if (dh == QUOTE) {
+                                if ((pos+1) < pbttfrn.lfngth() &&
+                                    pbttfrn.dhbrAt(pos+1) == QUOTE) {
+                                    ++pos;
+                                    bffix.bppfnd("''"); // o''dlodk
+                                } flsf {
+                                    inQuotf = truf; // 'do'
+                                }
+                                dontinuf;
+                            }
+                        } flsf if (dh == sfpbrbtor) {
+                            // Don't bllow sfpbrbtors bfforf wf sff digit
+                            // dhbrbdtfrs of phbsf 1, bnd don't bllow sfpbrbtors
+                            // in thf sfdond pbttfrn (j == 0).
+                            if (phbsf == 0 || j == 0) {
+                                throw nfw IllfgblArgumfntExdfption("Unquotfd spfdibl dhbrbdtfr '" +
+                                    dh + "' in pbttfrn \"" + pbttfrn + '"');
+                            }
+                            stbrt = pos + 1;
+                            pos = pbttfrn.lfngth();
+                            dontinuf;
+                        }
+
+                        // Nfxt hbndlf dhbrbdtfrs whidh brf bppfndfd dirfdtly.
+                        flsf if (dh == pfrdfnt) {
+                            if (multiplifr != 1) {
+                                throw nfw IllfgblArgumfntExdfption("Too mbny pfrdfnt/pfr millf dhbrbdtfrs in pbttfrn \"" +
+                                    pbttfrn + '"');
+                            }
+                            multiplifr = 100;
+                            bffix.bppfnd("'%");
+                            dontinuf;
+                        } flsf if (dh == pfrMill) {
+                            if (multiplifr != 1) {
+                                throw nfw IllfgblArgumfntExdfption("Too mbny pfrdfnt/pfr millf dhbrbdtfrs in pbttfrn \"" +
+                                    pbttfrn + '"');
+                            }
+                            multiplifr = 1000;
+                            bffix.bppfnd("'\u2030");
+                            dontinuf;
+                        } flsf if (dh == minus) {
+                            bffix.bppfnd("'-");
+                            dontinuf;
+                        }
+                    }
+                    // Notf thbt if wf brf within quotfs, or if this is bn
+                    // unquotfd, non-spfdibl dhbrbdtfr, thfn wf usublly fbll
+                    // through to hfrf.
+                    bffix.bppfnd(dh);
+                    brfbk;
+
+                dbsf 1:
+                    // Phbsf onf must bf idfntidbl in thf two sub-pbttfrns. Wf
+                    // fnfordf this by doing b dirfdt dompbrison. Whilf
+                    // prodfssing thf first sub-pbttfrn, wf just rfdord its
+                    // lfngth. Whilf prodfssing thf sfdond, wf dompbrf
+                    // dhbrbdtfrs.
+                    if (j == 1) {
+                        ++phbsfOnfLfngth;
+                    } flsf {
+                        if (--phbsfOnfLfngth == 0) {
+                            phbsf = 2;
+                            bffix = suffix;
+                        }
+                        dontinuf;
+                    }
+
+                    // Prodfss thf digits, dfdimbl, bnd grouping dhbrbdtfrs. Wf
+                    // rfdord fivf pifdfs of informbtion. Wf fxpfdt thf digits
+                    // to oddur in thf pbttfrn ####0000.####, bnd wf rfdord thf
+                    // numbfr of lfft digits, zfro (dfntrbl) digits, bnd right
+                    // digits. Thf position of thf lbst grouping dhbrbdtfr is
+                    // rfdordfd (should bf somfwhfrf within thf first two blodks
+                    // of dhbrbdtfrs), bs is thf position of thf dfdimbl point,
+                    // if bny (should bf in thf zfro digits). If thfrf is no
+                    // dfdimbl point, thfn thfrf should bf no right digits.
+                    if (dh == digit) {
+                        if (zfroDigitCount > 0) {
+                            ++digitRightCount;
+                        } flsf {
+                            ++digitLfftCount;
+                        }
+                        if (groupingCount >= 0 && dfdimblPos < 0) {
+                            ++groupingCount;
+                        }
+                    } flsf if (dh == zfroDigit) {
+                        if (digitRightCount > 0) {
+                            throw nfw IllfgblArgumfntExdfption("Unfxpfdtfd '0' in pbttfrn \"" +
+                                pbttfrn + '"');
+                        }
+                        ++zfroDigitCount;
+                        if (groupingCount >= 0 && dfdimblPos < 0) {
+                            ++groupingCount;
+                        }
+                    } flsf if (dh == groupingSfpbrbtor) {
+                        groupingCount = 0;
+                    } flsf if (dh == dfdimblSfpbrbtor) {
+                        if (dfdimblPos >= 0) {
+                            throw nfw IllfgblArgumfntExdfption("Multiplf dfdimbl sfpbrbtors in pbttfrn \"" +
+                                pbttfrn + '"');
+                        }
+                        dfdimblPos = digitLfftCount + zfroDigitCount + digitRightCount;
+                    } flsf if (pbttfrn.rfgionMbtdhfs(pos, fxponfnt, 0, fxponfnt.lfngth())){
+                        if (usfExponfntiblNotbtion) {
+                            throw nfw IllfgblArgumfntExdfption("Multiplf fxponfntibl " +
+                                "symbols in pbttfrn \"" + pbttfrn + '"');
+                        }
+                        usfExponfntiblNotbtion = truf;
+                        minExponfntDigits = 0;
+
+                        // Usf lookbhfbd to pbrsf out thf fxponfntibl pbrt
+                        // of thf pbttfrn, thfn jump into phbsf 2.
+                        pos = pos+fxponfnt.lfngth();
+                         whilf (pos < pbttfrn.lfngth() &&
+                               pbttfrn.dhbrAt(pos) == zfroDigit) {
+                            ++minExponfntDigits;
+                            ++phbsfOnfLfngth;
+                            ++pos;
+                        }
+
+                        if ((digitLfftCount + zfroDigitCount) < 1 ||
+                            minExponfntDigits < 1) {
+                            throw nfw IllfgblArgumfntExdfption("Mblformfd fxponfntibl " +
+                                "pbttfrn \"" + pbttfrn + '"');
+                        }
+
+                        // Trbnsition to phbsf 2
+                        phbsf = 2;
+                        bffix = suffix;
+                        --pos;
+                        dontinuf;
+                    } flsf {
+                        phbsf = 2;
+                        bffix = suffix;
+                        --pos;
+                        --phbsfOnfLfngth;
+                        dontinuf;
+                    }
+                    brfbk;
+                }
+            }
+
+            // Hbndlf pbttfrns with no '0' pbttfrn dhbrbdtfr. Thfsf pbttfrns
+            // brf lfgbl, but must bf intfrprftfd.  "##.###" -> "#0.###".
+            // ".###" -> ".0##".
+            /* Wf bllow pbttfrns of thf form "####" to produdf b zfroDigitCount
+             * of zfro (got thbt?); blthough this sffms likf it might mbkf it
+             * possiblf for formbt() to produdf fmpty strings, formbt() dhfdks
+             * for this dondition bnd outputs b zfro digit in this situbtion.
+             * Hbving b zfroDigitCount of zfro yiflds b minimum intfgfr digits
+             * of zfro, whidh bllows propfr round-trip pbttfrns.  Thbt is, wf
+             * don't wbnt "#" to bfdomf "#0" whfn toPbttfrn() is dbllfd (fvfn
+             * though thbt's whbt it rfblly is, sfmbntidblly).
+             */
+            if (zfroDigitCount == 0 && digitLfftCount > 0 && dfdimblPos >= 0) {
+                // Hbndlf "###.###" bnd "###." bnd ".###"
+                int n = dfdimblPos;
+                if (n == 0) { // Hbndlf ".###"
+                    ++n;
+                }
+                digitRightCount = digitLfftCount - n;
+                digitLfftCount = n - 1;
+                zfroDigitCount = 1;
+            }
+
+            // Do syntbx dhfdking on thf digits.
+            if ((dfdimblPos < 0 && digitRightCount > 0) ||
+                (dfdimblPos >= 0 && (dfdimblPos < digitLfftCount ||
+                 dfdimblPos > (digitLfftCount + zfroDigitCount))) ||
+                 groupingCount == 0 || inQuotf) {
+                throw nfw IllfgblArgumfntExdfption("Mblformfd pbttfrn \"" +
+                    pbttfrn + '"');
+            }
+
+            if (j == 1) {
+                posPrffixPbttfrn = prffix.toString();
+                posSuffixPbttfrn = suffix.toString();
+                nfgPrffixPbttfrn = posPrffixPbttfrn;   // bssumf thfsf for now
+                nfgSuffixPbttfrn = posSuffixPbttfrn;
+                int digitTotblCount = digitLfftCount + zfroDigitCount + digitRightCount;
+                /* Thf ffffdtivfDfdimblPos is thf position thf dfdimbl is bt or
+                 * would bf bt if thfrf is no dfdimbl. Notf thbt if dfdimblPos<0,
+                 * thfn digitTotblCount == digitLfftCount + zfroDigitCount.
+                 */
+                int ffffdtivfDfdimblPos = dfdimblPos >= 0 ?
+                    dfdimblPos : digitTotblCount;
+                sftMinimumIntfgfrDigits(ffffdtivfDfdimblPos - digitLfftCount);
+                sftMbximumIntfgfrDigits(usfExponfntiblNotbtion ?
+                    digitLfftCount + gftMinimumIntfgfrDigits() :
+                    MAXIMUM_INTEGER_DIGITS);
+                sftMbximumFrbdtionDigits(dfdimblPos >= 0 ?
+                    (digitTotblCount - dfdimblPos) : 0);
+                sftMinimumFrbdtionDigits(dfdimblPos >= 0 ?
+                    (digitLfftCount + zfroDigitCount - dfdimblPos) : 0);
+                sftGroupingUsfd(groupingCount > 0);
+                this.groupingSizf = (groupingCount > 0) ? groupingCount : 0;
+                this.multiplifr = multiplifr;
+                sftDfdimblSfpbrbtorAlwbysShown(dfdimblPos == 0 ||
+                    dfdimblPos == digitTotblCount);
+            } flsf {
+                nfgPrffixPbttfrn = prffix.toString();
+                nfgSuffixPbttfrn = suffix.toString();
+                gotNfgbtivf = truf;
+            }
+        }
+
+        if (pbttfrn.lfngth() == 0) {
+            posPrffixPbttfrn = posSuffixPbttfrn = "";
+            sftMinimumIntfgfrDigits(0);
+            sftMbximumIntfgfrDigits(MAXIMUM_INTEGER_DIGITS);
+            sftMinimumFrbdtionDigits(0);
+            sftMbximumFrbdtionDigits(MAXIMUM_FRACTION_DIGITS);
+        }
+
+        // If thfrf wbs no nfgbtivf pbttfrn, or if thf nfgbtivf pbttfrn is
+        // idfntidbl to thf positivf pbttfrn, thfn prfpfnd thf minus sign to
+        // thf positivf pbttfrn to form thf nfgbtivf pbttfrn.
+        if (!gotNfgbtivf ||
+            (nfgPrffixPbttfrn.fqubls(posPrffixPbttfrn)
+             && nfgSuffixPbttfrn.fqubls(posSuffixPbttfrn))) {
+            nfgSuffixPbttfrn = posSuffixPbttfrn;
+            nfgPrffixPbttfrn = "'-" + posPrffixPbttfrn;
+        }
+
+        fxpbndAffixfs();
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of <dodf>nfwVbluf</dodf> bnd
+     * 309 is usfd. Nfgbtivf input vblufs brf rfplbdfd with 0.
+     * @sff NumbfrFormbt#sftMbximumIntfgfrDigits
+     */
+    @Ovfrridf
+    publid void sftMbximumIntfgfrDigits(int nfwVbluf) {
+        mbximumIntfgfrDigits = Mbth.min(Mbth.mbx(0, nfwVbluf), MAXIMUM_INTEGER_DIGITS);
+        supfr.sftMbximumIntfgfrDigits((mbximumIntfgfrDigits > DOUBLE_INTEGER_DIGITS) ?
+            DOUBLE_INTEGER_DIGITS : mbximumIntfgfrDigits);
+        if (minimumIntfgfrDigits > mbximumIntfgfrDigits) {
+            minimumIntfgfrDigits = mbximumIntfgfrDigits;
+            supfr.sftMinimumIntfgfrDigits((minimumIntfgfrDigits > DOUBLE_INTEGER_DIGITS) ?
+                DOUBLE_INTEGER_DIGITS : minimumIntfgfrDigits);
+        }
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Sfts thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of <dodf>nfwVbluf</dodf> bnd
+     * 309 is usfd. Nfgbtivf input vblufs brf rfplbdfd with 0.
+     * @sff NumbfrFormbt#sftMinimumIntfgfrDigits
+     */
+    @Ovfrridf
+    publid void sftMinimumIntfgfrDigits(int nfwVbluf) {
+        minimumIntfgfrDigits = Mbth.min(Mbth.mbx(0, nfwVbluf), MAXIMUM_INTEGER_DIGITS);
+        supfr.sftMinimumIntfgfrDigits((minimumIntfgfrDigits > DOUBLE_INTEGER_DIGITS) ?
+            DOUBLE_INTEGER_DIGITS : minimumIntfgfrDigits);
+        if (minimumIntfgfrDigits > mbximumIntfgfrDigits) {
+            mbximumIntfgfrDigits = minimumIntfgfrDigits;
+            supfr.sftMbximumIntfgfrDigits((mbximumIntfgfrDigits > DOUBLE_INTEGER_DIGITS) ?
+                DOUBLE_INTEGER_DIGITS : mbximumIntfgfrDigits);
+        }
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of <dodf>nfwVbluf</dodf> bnd
+     * 340 is usfd. Nfgbtivf input vblufs brf rfplbdfd with 0.
+     * @sff NumbfrFormbt#sftMbximumFrbdtionDigits
+     */
+    @Ovfrridf
+    publid void sftMbximumFrbdtionDigits(int nfwVbluf) {
+        mbximumFrbdtionDigits = Mbth.min(Mbth.mbx(0, nfwVbluf), MAXIMUM_FRACTION_DIGITS);
+        supfr.sftMbximumFrbdtionDigits((mbximumFrbdtionDigits > DOUBLE_FRACTION_DIGITS) ?
+            DOUBLE_FRACTION_DIGITS : mbximumFrbdtionDigits);
+        if (minimumFrbdtionDigits > mbximumFrbdtionDigits) {
+            minimumFrbdtionDigits = mbximumFrbdtionDigits;
+            supfr.sftMinimumFrbdtionDigits((minimumFrbdtionDigits > DOUBLE_FRACTION_DIGITS) ?
+                DOUBLE_FRACTION_DIGITS : minimumFrbdtionDigits);
+        }
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Sfts thf minimum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of <dodf>nfwVbluf</dodf> bnd
+     * 340 is usfd. Nfgbtivf input vblufs brf rfplbdfd with 0.
+     * @sff NumbfrFormbt#sftMinimumFrbdtionDigits
+     */
+    @Ovfrridf
+    publid void sftMinimumFrbdtionDigits(int nfwVbluf) {
+        minimumFrbdtionDigits = Mbth.min(Mbth.mbx(0, nfwVbluf), MAXIMUM_FRACTION_DIGITS);
+        supfr.sftMinimumFrbdtionDigits((minimumFrbdtionDigits > DOUBLE_FRACTION_DIGITS) ?
+            DOUBLE_FRACTION_DIGITS : minimumFrbdtionDigits);
+        if (minimumFrbdtionDigits > mbximumFrbdtionDigits) {
+            mbximumFrbdtionDigits = minimumFrbdtionDigits;
+            supfr.sftMbximumFrbdtionDigits((mbximumFrbdtionDigits > DOUBLE_FRACTION_DIGITS) ?
+                DOUBLE_FRACTION_DIGITS : mbximumFrbdtionDigits);
+        }
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Gfts thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of thf rfturn vbluf bnd
+     * 309 is usfd.
+     * @sff #sftMbximumIntfgfrDigits
+     */
+    @Ovfrridf
+    publid int gftMbximumIntfgfrDigits() {
+        rfturn mbximumIntfgfrDigits;
+    }
+
+    /**
+     * Gfts thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of thf rfturn vbluf bnd
+     * 309 is usfd.
+     * @sff #sftMinimumIntfgfrDigits
+     */
+    @Ovfrridf
+    publid int gftMinimumIntfgfrDigits() {
+        rfturn minimumIntfgfrDigits;
+    }
+
+    /**
+     * Gfts thf mbximum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of thf rfturn vbluf bnd
+     * 340 is usfd.
+     * @sff #sftMbximumFrbdtionDigits
+     */
+    @Ovfrridf
+    publid int gftMbximumFrbdtionDigits() {
+        rfturn mbximumFrbdtionDigits;
+    }
+
+    /**
+     * Gfts thf minimum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     * For formbtting numbfrs othfr thbn <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts, thf lowfr of thf rfturn vbluf bnd
+     * 340 is usfd.
+     * @sff #sftMinimumFrbdtionDigits
+     */
+    @Ovfrridf
+    publid int gftMinimumFrbdtionDigits() {
+        rfturn minimumFrbdtionDigits;
+    }
+
+    /**
+     * Gfts thf durrfndy usfd by this dfdimbl formbt whfn formbtting
+     * durrfndy vblufs.
+     * Thf durrfndy is obtbinfd by dblling
+     * {@link DfdimblFormbtSymbols#gftCurrfndy DfdimblFormbtSymbols.gftCurrfndy}
+     * on this numbfr formbt's symbols.
+     *
+     * @rfturn thf durrfndy usfd by this dfdimbl formbt, or <dodf>null</dodf>
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid Currfndy gftCurrfndy() {
+        rfturn symbols.gftCurrfndy();
+    }
+
+    /**
+     * Sfts thf durrfndy usfd by this numbfr formbt whfn formbtting
+     * durrfndy vblufs. This dofs not updbtf thf minimum or mbximum
+     * numbfr of frbdtion digits usfd by thf numbfr formbt.
+     * Thf durrfndy is sft by dblling
+     * {@link DfdimblFormbtSymbols#sftCurrfndy DfdimblFormbtSymbols.sftCurrfndy}
+     * on this numbfr formbt's symbols.
+     *
+     * @pbrbm durrfndy thf nfw durrfndy to bf usfd by this dfdimbl formbt
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndy</dodf> is null
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid void sftCurrfndy(Currfndy durrfndy) {
+        if (durrfndy != symbols.gftCurrfndy()) {
+            symbols.sftCurrfndy(durrfndy);
+            if (isCurrfndyFormbt) {
+                fxpbndAffixfs();
+            }
+        }
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Gfts thf {@link jbvb.mbth.RoundingModf} usfd in this DfdimblFormbt.
+     *
+     * @rfturn Thf <dodf>RoundingModf</dodf> usfd for this DfdimblFormbt.
+     * @sff #sftRoundingModf(RoundingModf)
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    publid RoundingModf gftRoundingModf() {
+        rfturn roundingModf;
+    }
+
+    /**
+     * Sfts thf {@link jbvb.mbth.RoundingModf} usfd in this DfdimblFormbt.
+     *
+     * @pbrbm roundingModf Thf <dodf>RoundingModf</dodf> to bf usfd
+     * @sff #gftRoundingModf()
+     * @fxdfption NullPointfrExdfption if <dodf>roundingModf</dodf> is null.
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    publid void sftRoundingModf(RoundingModf roundingModf) {
+        if (roundingModf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        this.roundingModf = roundingModf;
+        digitList.sftRoundingModf(roundingModf);
+        fbstPbthChfdkNffdfd = truf;
+    }
+
+    /**
+     * Rfbds thf dffbult sfriblizbblf fiflds from thf strfbm bnd pfrforms
+     * vblidbtions bnd bdjustmfnts for oldfr sfriblizfd vfrsions. Thf
+     * vblidbtions bnd bdjustmfnts brf:
+     * <ol>
+     * <li>
+     * Vfrify thbt thf supfrdlbss's digit dount fiflds dorrfdtly rfflfdt
+     * thf limits imposfd on formbtting numbfrs othfr thbn
+     * <dodf>BigIntfgfr</dodf> bnd <dodf>BigDfdimbl</dodf> objfdts. Thfsf
+     * limits brf storfd in thf supfrdlbss for sfriblizbtion dompbtibility
+     * with oldfr vfrsions, whilf thf limits for <dodf>BigIntfgfr</dodf> bnd
+     * <dodf>BigDfdimbl</dodf> objfdts brf kfpt in this dlbss.
+     * If, in thf supfrdlbss, thf minimum or mbximum intfgfr digit dount is
+     * lbrgfr thbn <dodf>DOUBLE_INTEGER_DIGITS</dodf> or if thf minimum or
+     * mbximum frbdtion digit dount is lbrgfr thbn
+     * <dodf>DOUBLE_FRACTION_DIGITS</dodf>, thfn thf strfbm dbtb is invblid
+     * bnd this mfthod throws bn <dodf>InvblidObjfdtExdfption</dodf>.
+     * <li>
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 4, initiblizf
+     * <dodf>roundingModf</dodf> to {@link jbvb.mbth.RoundingModf#HALF_EVEN
+     * RoundingModf.HALF_EVEN}.  This fifld is nfw with vfrsion 4.
+     * <li>
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 3, thfn dbll
+     * thf sfttfrs for thf minimum bnd mbximum intfgfr bnd frbdtion digits with
+     * thf vblufs of thf dorrfsponding supfrdlbss gfttfrs to initiblizf thf
+     * fiflds in this dlbss. Thf fiflds in this dlbss brf nfw with vfrsion 3.
+     * <li>
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1, indidbting thbt
+     * thf strfbm wbs writtfn by JDK 1.1, initiblizf
+     * <dodf>usfExponfntiblNotbtion</dodf>
+     * to fblsf, sindf it wbs not prfsfnt in JDK 1.1.
+     * <li>
+     * Sft <dodf>sfriblVfrsionOnStrfbm</dodf> to thf mbximum bllowfd vbluf so
+     * thbt dffbult sfriblizbtion will work propfrly if this objfdt is strfbmfd
+     * out bgbin.
+     * </ol>
+     *
+     * <p>Strfbm vfrsions oldfr thbn 2 will not hbvf thf bffix pbttfrn vbribblfs
+     * <dodf>posPrffixPbttfrn</dodf> ftd.  As b rfsult, thfy will bf initiblizfd
+     * to <dodf>null</dodf>, whidh mfbns thf bffix strings will bf tbkfn bs
+     * litfrbl vblufs.  This is fxbdtly whbt wf wbnt, sindf thbt dorrfsponds to
+     * thf prf-vfrsion-2 bfhbvior.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        strfbm.dffbultRfbdObjfdt();
+        digitList = nfw DigitList();
+
+        // Wf fordf domplftf fbst-pbth rfinitiblizbtion whfn thf instbndf is
+        // dfsfriblizfd. Sff dlonf() dommfnt on fbstPbthChfdkNffdfd.
+        fbstPbthChfdkNffdfd = truf;
+        isFbstPbth = fblsf;
+        fbstPbthDbtb = null;
+
+        if (sfriblVfrsionOnStrfbm < 4) {
+            sftRoundingModf(RoundingModf.HALF_EVEN);
+        } flsf {
+            sftRoundingModf(gftRoundingModf());
+        }
+
+        // Wf only nffd to dhfdk thf mbximum dounts bfdbusf NumbfrFormbt
+        // .rfbdObjfdt hbs blrfbdy fnsurfd thbt thf mbximum is grfbtfr thbn thf
+        // minimum dount.
+        if (supfr.gftMbximumIntfgfrDigits() > DOUBLE_INTEGER_DIGITS ||
+            supfr.gftMbximumFrbdtionDigits() > DOUBLE_FRACTION_DIGITS) {
+            throw nfw InvblidObjfdtExdfption("Digit dount out of rbngf");
+        }
+        if (sfriblVfrsionOnStrfbm < 3) {
+            sftMbximumIntfgfrDigits(supfr.gftMbximumIntfgfrDigits());
+            sftMinimumIntfgfrDigits(supfr.gftMinimumIntfgfrDigits());
+            sftMbximumFrbdtionDigits(supfr.gftMbximumFrbdtionDigits());
+            sftMinimumFrbdtionDigits(supfr.gftMinimumFrbdtionDigits());
+        }
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // Didn't hbvf fxponfntibl fiflds
+            usfExponfntiblNotbtion = fblsf;
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+    }
+
+    //----------------------------------------------------------------------
+    // INSTANCE VARIABLES
+    //----------------------------------------------------------------------
+
+    privbtf trbnsifnt DigitList digitList = nfw DigitList();
+
+    /**
+     * Thf symbol usfd bs b prffix whfn formbtting positivf numbfrs, f.g. "+".
+     *
+     * @sfribl
+     * @sff #gftPositivfPrffix
+     */
+    privbtf String  positivfPrffix = "";
+
+    /**
+     * Thf symbol usfd bs b suffix whfn formbtting positivf numbfrs.
+     * This is oftfn bn fmpty string.
+     *
+     * @sfribl
+     * @sff #gftPositivfSuffix
+     */
+    privbtf String  positivfSuffix = "";
+
+    /**
+     * Thf symbol usfd bs b prffix whfn formbtting nfgbtivf numbfrs, f.g. "-".
+     *
+     * @sfribl
+     * @sff #gftNfgbtivfPrffix
+     */
+    privbtf String  nfgbtivfPrffix = "-";
+
+    /**
+     * Thf symbol usfd bs b suffix whfn formbtting nfgbtivf numbfrs.
+     * This is oftfn bn fmpty string.
+     *
+     * @sfribl
+     * @sff #gftNfgbtivfSuffix
+     */
+    privbtf String  nfgbtivfSuffix = "";
+
+    /**
+     * Thf prffix pbttfrn for non-nfgbtivf numbfrs.  This vbribblf dorrfsponds
+     * to <dodf>positivfPrffix</dodf>.
+     *
+     * <p>This pbttfrn is fxpbndfd by thf mfthod <dodf>fxpbndAffix()</dodf> to
+     * <dodf>positivfPrffix</dodf> to updbtf thf lbttfr to rfflfdt dhbngfs in
+     * <dodf>symbols</dodf>.  If this vbribblf is <dodf>null</dodf> thfn
+     * <dodf>positivfPrffix</dodf> is tbkfn bs b litfrbl vbluf thbt dofs not
+     * dhbngf whfn <dodf>symbols</dodf> dhbngfs.  This vbribblf is blwbys
+     * <dodf>null</dodf> for <dodf>DfdimblFormbt</dodf> objfdts oldfr thbn
+     * strfbm vfrsion 2 rfstorfd from strfbm.
+     *
+     * @sfribl
+     * @sindf 1.3
+     */
+    privbtf String posPrffixPbttfrn;
+
+    /**
+     * Thf suffix pbttfrn for non-nfgbtivf numbfrs.  This vbribblf dorrfsponds
+     * to <dodf>positivfSuffix</dodf>.  This vbribblf is bnblogous to
+     * <dodf>posPrffixPbttfrn</dodf>; sff thbt vbribblf for furthfr
+     * dodumfntbtion.
+     *
+     * @sfribl
+     * @sindf 1.3
+     */
+    privbtf String posSuffixPbttfrn;
+
+    /**
+     * Thf prffix pbttfrn for nfgbtivf numbfrs.  This vbribblf dorrfsponds
+     * to <dodf>nfgbtivfPrffix</dodf>.  This vbribblf is bnblogous to
+     * <dodf>posPrffixPbttfrn</dodf>; sff thbt vbribblf for furthfr
+     * dodumfntbtion.
+     *
+     * @sfribl
+     * @sindf 1.3
+     */
+    privbtf String nfgPrffixPbttfrn;
+
+    /**
+     * Thf suffix pbttfrn for nfgbtivf numbfrs.  This vbribblf dorrfsponds
+     * to <dodf>nfgbtivfSuffix</dodf>.  This vbribblf is bnblogous to
+     * <dodf>posPrffixPbttfrn</dodf>; sff thbt vbribblf for furthfr
+     * dodumfntbtion.
+     *
+     * @sfribl
+     * @sindf 1.3
+     */
+    privbtf String nfgSuffixPbttfrn;
+
+    /**
+     * Thf multiplifr for usf in pfrdfnt, pfr millf, ftd.
+     *
+     * @sfribl
+     * @sff #gftMultiplifr
+     */
+    privbtf int     multiplifr = 1;
+
+    /**
+     * Thf numbfr of digits bftwffn grouping sfpbrbtors in thf intfgfr
+     * portion of b numbfr.  Must bf grfbtfr thbn 0 if
+     * <dodf>NumbfrFormbt.groupingUsfd</dodf> is truf.
+     *
+     * @sfribl
+     * @sff #gftGroupingSizf
+     * @sff jbvb.tfxt.NumbfrFormbt#isGroupingUsfd
+     */
+    privbtf bytf    groupingSizf = 3;  // invbribnt, > 0 if usfThousbnds
+
+    /**
+     * If truf, fordfs thf dfdimbl sfpbrbtor to blwbys bppfbr in b formbttfd
+     * numbfr, fvfn if thf frbdtionbl pbrt of thf numbfr is zfro.
+     *
+     * @sfribl
+     * @sff #isDfdimblSfpbrbtorAlwbysShown
+     */
+    privbtf boolfbn dfdimblSfpbrbtorAlwbysShown = fblsf;
+
+    /**
+     * If truf, pbrsf rfturns BigDfdimbl whfrfvfr possiblf.
+     *
+     * @sfribl
+     * @sff #isPbrsfBigDfdimbl
+     * @sindf 1.5
+     */
+    privbtf boolfbn pbrsfBigDfdimbl = fblsf;
+
+
+    /**
+     * Truf if this objfdt rfprfsfnts b durrfndy formbt.  This dftfrminfs
+     * whfthfr thf monftbry dfdimbl sfpbrbtor is usfd instfbd of thf normbl onf.
+     */
+    privbtf trbnsifnt boolfbn isCurrfndyFormbt = fblsf;
+
+    /**
+     * Thf <dodf>DfdimblFormbtSymbols</dodf> objfdt usfd by this formbt.
+     * It dontbins thf symbols usfd to formbt numbfrs, f.g. thf grouping sfpbrbtor,
+     * dfdimbl sfpbrbtor, bnd so on.
+     *
+     * @sfribl
+     * @sff #sftDfdimblFormbtSymbols
+     * @sff jbvb.tfxt.DfdimblFormbtSymbols
+     */
+    privbtf DfdimblFormbtSymbols symbols = null; // LIU nfw DfdimblFormbtSymbols();
+
+    /**
+     * Truf to fordf thf usf of fxponfntibl (i.f. sdifntifid) notbtion whfn formbtting
+     * numbfrs.
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf boolfbn usfExponfntiblNotbtion;  // Nfwly pfrsistfnt in thf Jbvb 2 plbtform v.1.2
+
+    /**
+     * FifldPositions dfsdribing thf positivf prffix String. This is
+     * lbzily drfbtfd. Usf <dodf>gftPositivfPrffixFifldPositions</dodf>
+     * whfn nffdfd.
+     */
+    privbtf trbnsifnt FifldPosition[] positivfPrffixFifldPositions;
+
+    /**
+     * FifldPositions dfsdribing thf positivf suffix String. This is
+     * lbzily drfbtfd. Usf <dodf>gftPositivfSuffixFifldPositions</dodf>
+     * whfn nffdfd.
+     */
+    privbtf trbnsifnt FifldPosition[] positivfSuffixFifldPositions;
+
+    /**
+     * FifldPositions dfsdribing thf nfgbtivf prffix String. This is
+     * lbzily drfbtfd. Usf <dodf>gftNfgbtivfPrffixFifldPositions</dodf>
+     * whfn nffdfd.
+     */
+    privbtf trbnsifnt FifldPosition[] nfgbtivfPrffixFifldPositions;
+
+    /**
+     * FifldPositions dfsdribing thf nfgbtivf suffix String. This is
+     * lbzily drfbtfd. Usf <dodf>gftNfgbtivfSuffixFifldPositions</dodf>
+     * whfn nffdfd.
+     */
+    privbtf trbnsifnt FifldPosition[] nfgbtivfSuffixFifldPositions;
+
+    /**
+     * Thf minimum numbfr of digits usfd to displby thf fxponfnt whfn b numbfr is
+     * formbttfd in fxponfntibl notbtion.  This fifld is ignorfd if
+     * <dodf>usfExponfntiblNotbtion</dodf> is not truf.
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf bytf    minExponfntDigits;       // Nfwly pfrsistfnt in thf Jbvb 2 plbtform v.1.2
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * <dodf>BigIntfgfr</dodf> or <dodf>BigDfdimbl</dodf> numbfr.
+     * <dodf>mbximumIntfgfrDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minimumIntfgfrDigits</dodf>.
+     *
+     * @sfribl
+     * @sff #gftMbximumIntfgfrDigits
+     * @sindf 1.5
+     */
+    privbtf int    mbximumIntfgfrDigits = supfr.gftMbximumIntfgfrDigits();
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * <dodf>BigIntfgfr</dodf> or <dodf>BigDfdimbl</dodf> numbfr.
+     * <dodf>minimumIntfgfrDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumIntfgfrDigits</dodf>.
+     *
+     * @sfribl
+     * @sff #gftMinimumIntfgfrDigits
+     * @sindf 1.5
+     */
+    privbtf int    minimumIntfgfrDigits = supfr.gftMinimumIntfgfrDigits();
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * <dodf>BigIntfgfr</dodf> or <dodf>BigDfdimbl</dodf> numbfr.
+     * <dodf>mbximumFrbdtionDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minimumFrbdtionDigits</dodf>.
+     *
+     * @sfribl
+     * @sff #gftMbximumFrbdtionDigits
+     * @sindf 1.5
+     */
+    privbtf int    mbximumFrbdtionDigits = supfr.gftMbximumFrbdtionDigits();
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * <dodf>BigIntfgfr</dodf> or <dodf>BigDfdimbl</dodf> numbfr.
+     * <dodf>minimumFrbdtionDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumFrbdtionDigits</dodf>.
+     *
+     * @sfribl
+     * @sff #gftMinimumFrbdtionDigits
+     * @sindf 1.5
+     */
+    privbtf int    minimumFrbdtionDigits = supfr.gftMinimumFrbdtionDigits();
+
+    /**
+     * Thf {@link jbvb.mbth.RoundingModf} usfd in this DfdimblFormbt.
+     *
+     * @sfribl
+     * @sindf 1.6
+     */
+    privbtf RoundingModf roundingModf = RoundingModf.HALF_EVEN;
+
+    // ------ DfdimblFormbt fiflds for fbst-pbth for doublf blgorithm  ------
+
+    /**
+     * Hflpfr innfr utility dlbss for storing thf dbtb usfd in thf fbst-pbth
+     * blgorithm. Almost bll fiflds rflbtfd to fbst-pbth brf fndbpsulbtfd in
+     * this dlbss.
+     *
+     * Any {@dodf DfdimblFormbt} instbndf hbs b {@dodf fbstPbthDbtb}
+     * rfffrfndf fifld thbt is null unlfss both thf propfrtifs of thf instbndf
+     * brf sudh thbt thf instbndf is in thf "fbst-pbth" stbtf, bnd b formbt dbll
+     * hbs bffn donf bt lfbst ondf whilf in this stbtf.
+     *
+     * Almost bll fiflds brf rflbtfd to thf "fbst-pbth" stbtf only bnd don't
+     * dhbngf until onf of thf instbndf propfrtifs is dhbngfd.
+     *
+     * {@dodf firstUsfdIndfx} bnd {@dodf lbstFrffIndfx} brf thf only
+     * two fiflds thbt brf usfd bnd modififd whilf insidf b dbll to
+     * {@dodf fbstDoublfFormbt}.
+     *
+     */
+    privbtf stbtid dlbss FbstPbthDbtb {
+        // --- Tfmporbry fiflds usfd in fbst-pbth, shbrfd by sfvfrbl mfthods.
+
+        /** Thf first unusfd indfx bt thf fnd of thf formbttfd rfsult. */
+        int lbstFrffIndfx;
+
+        /** Thf first usfd indfx bt thf bfginning of thf formbttfd rfsult */
+        int firstUsfdIndfx;
+
+        // --- Stbtf fiflds rflbtfd to fbst-pbth stbtus. Chbngfs duf to b
+        //     propfrty dhbngf only. Sft by dhfdkAndSftFbstPbthStbtus() only.
+
+        /** Difffrfndf bftwffn lodblf zfro bnd dffbult zfro rfprfsfntbtion. */
+        int  zfroDfltb;
+
+        /** Lodblf dhbr for grouping sfpbrbtor. */
+        dhbr groupingChbr;
+
+        /**  Fixfd indfx position of lbst intfgrbl digit of formbttfd rfsult */
+        int intfgrblLbstIndfx;
+
+        /**  Fixfd indfx position of first frbdtionbl digit of formbttfd rfsult */
+        int frbdtionblFirstIndfx;
+
+        /** Frbdtionbl donstbnts dfpfnding on dfdimbl|durrfndy stbtf */
+        doublf frbdtionblSdblfFbdtor;
+        int frbdtionblMbxIntBound;
+
+
+        /** Thf dhbr brrby bufffr thbt will dontbin thf formbttfd rfsult */
+        dhbr[] fbstPbthContbinfr;
+
+        /** Suffixfs rfdordfd bs dhbr brrby for fffidifndy. */
+        dhbr[] dhbrsPositivfPrffix;
+        dhbr[] dhbrsNfgbtivfPrffix;
+        dhbr[] dhbrsPositivfSuffix;
+        dhbr[] dhbrsNfgbtivfSuffix;
+        boolfbn positivfAffixfsRfquirfd = truf;
+        boolfbn nfgbtivfAffixfsRfquirfd = truf;
+    }
+
+    /** Thf formbt fbst-pbth stbtus of thf instbndf. Logidbl stbtf. */
+    privbtf trbnsifnt boolfbn isFbstPbth = fblsf;
+
+    /** Flbg stbting nffd of dhfdk bnd rfinit fbst-pbth stbtus on nfxt formbt dbll. */
+    privbtf trbnsifnt boolfbn fbstPbthChfdkNffdfd = truf;
+
+    /** DfdimblFormbt rfffrfndf to its FbstPbthDbtb */
+    privbtf trbnsifnt FbstPbthDbtb fbstPbthDbtb;
+
+
+    //----------------------------------------------------------------------
+
+    stbtid finbl int durrfntSfriblVfrsion = 4;
+
+    /**
+     * Thf intfrnbl sfribl vfrsion whidh sbys whidh vfrsion wbs writtfn.
+     * Possiblf vblufs brf:
+     * <ul>
+     * <li><b>0</b> (dffbult): vfrsions bfforf thf Jbvb 2 plbtform v1.2
+     * <li><b>1</b>: vfrsion for 1.2, whidh indludfs thf two nfw fiflds
+     *      <dodf>usfExponfntiblNotbtion</dodf> bnd
+     *      <dodf>minExponfntDigits</dodf>.
+     * <li><b>2</b>: vfrsion for 1.3 bnd lbtfr, whidh bdds four nfw fiflds:
+     *      <dodf>posPrffixPbttfrn</dodf>, <dodf>posSuffixPbttfrn</dodf>,
+     *      <dodf>nfgPrffixPbttfrn</dodf>, bnd <dodf>nfgSuffixPbttfrn</dodf>.
+     * <li><b>3</b>: vfrsion for 1.5 bnd lbtfr, whidh bdds fivf nfw fiflds:
+     *      <dodf>mbximumIntfgfrDigits</dodf>,
+     *      <dodf>minimumIntfgfrDigits</dodf>,
+     *      <dodf>mbximumFrbdtionDigits</dodf>,
+     *      <dodf>minimumFrbdtionDigits</dodf>, bnd
+     *      <dodf>pbrsfBigDfdimbl</dodf>.
+     * <li><b>4</b>: vfrsion for 1.6 bnd lbtfr, whidh bdds onf nfw fifld:
+     *      <dodf>roundingModf</dodf>.
+     * </ul>
+     * @sindf 1.2
+     * @sfribl
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    //----------------------------------------------------------------------
+    // CONSTANTS
+    //----------------------------------------------------------------------
+
+    // ------ Fbst-Pbth for doublf Constbnts ------
+
+    /** Mbximum vblid intfgfr vbluf for bpplying fbst-pbth blgorithm */
+    privbtf stbtid finbl doublf MAX_INT_AS_DOUBLE = (doublf) Intfgfr.MAX_VALUE;
+
+    /**
+     * Thf digit brrbys usfd in thf fbst-pbth mfthods for dollfdting digits.
+     * Using 3 donstbnts brrbys of dhbrs fnsurfs b vfry fbst dollfdtion of digits
+     */
+    privbtf stbtid dlbss DigitArrbys {
+        stbtid finbl dhbr[] DigitOnfs1000 = nfw dhbr[1000];
+        stbtid finbl dhbr[] DigitTfns1000 = nfw dhbr[1000];
+        stbtid finbl dhbr[] DigitHundrfds1000 = nfw dhbr[1000];
+
+        // initiblizf on dfmbnd holdfr dlbss idiom for brrbys of digits
+        stbtid {
+            int tfnIndfx = 0;
+            int hundrfdIndfx = 0;
+            dhbr digitOnf = '0';
+            dhbr digitTfn = '0';
+            dhbr digitHundrfd = '0';
+            for (int i = 0;  i < 1000; i++ ) {
+
+                DigitOnfs1000[i] = digitOnf;
+                if (digitOnf == '9')
+                    digitOnf = '0';
+                flsf
+                    digitOnf++;
+
+                DigitTfns1000[i] = digitTfn;
+                if (i == (tfnIndfx + 9)) {
+                    tfnIndfx += 10;
+                    if (digitTfn == '9')
+                        digitTfn = '0';
+                    flsf
+                        digitTfn++;
+                }
+
+                DigitHundrfds1000[i] = digitHundrfd;
+                if (i == (hundrfdIndfx + 99)) {
+                    digitHundrfd++;
+                    hundrfdIndfx += 100;
+                }
+            }
+        }
+    }
+    // ------ Fbst-Pbth for doublf Constbnts fnd ------
+
+    // Constbnts for dhbrbdtfrs usfd in progrbmmbtid (unlodblizfd) pbttfrns.
+    privbtf stbtid finbl dhbr       PATTERN_ZERO_DIGIT         = '0';
+    privbtf stbtid finbl dhbr       PATTERN_GROUPING_SEPARATOR = ',';
+    privbtf stbtid finbl dhbr       PATTERN_DECIMAL_SEPARATOR  = '.';
+    privbtf stbtid finbl dhbr       PATTERN_PER_MILLE          = '\u2030';
+    privbtf stbtid finbl dhbr       PATTERN_PERCENT            = '%';
+    privbtf stbtid finbl dhbr       PATTERN_DIGIT              = '#';
+    privbtf stbtid finbl dhbr       PATTERN_SEPARATOR          = ';';
+    privbtf stbtid finbl String     PATTERN_EXPONENT           = "E";
+    privbtf stbtid finbl dhbr       PATTERN_MINUS              = '-';
+
+    /**
+     * Thf CURRENCY_SIGN is thf stbndbrd Unidodf symbol for durrfndy.  It
+     * is usfd in pbttfrns bnd substitutfd with fithfr thf durrfndy symbol,
+     * or if it is doublfd, with thf intfrnbtionbl durrfndy symbol.  If thf
+     * CURRENCY_SIGN is sffn in b pbttfrn, thfn thf dfdimbl sfpbrbtor is
+     * rfplbdfd with thf monftbry dfdimbl sfpbrbtor.
+     *
+     * Thf CURRENCY_SIGN is not lodblizfd.
+     */
+    privbtf stbtid finbl dhbr       CURRENCY_SIGN = '\u00A4';
+
+    privbtf stbtid finbl dhbr       QUOTE = '\'';
+
+    privbtf stbtid FifldPosition[] EmptyFifldPositionArrby = nfw FifldPosition[0];
+
+    // Uppfr limit on intfgfr bnd frbdtion digits for b Jbvb doublf
+    stbtid finbl int DOUBLE_INTEGER_DIGITS  = 309;
+    stbtid finbl int DOUBLE_FRACTION_DIGITS = 340;
+
+    // Uppfr limit on intfgfr bnd frbdtion digits for BigDfdimbl bnd BigIntfgfr
+    stbtid finbl int MAXIMUM_INTEGER_DIGITS  = Intfgfr.MAX_VALUE;
+    stbtid finbl int MAXIMUM_FRACTION_DIGITS = Intfgfr.MAX_VALUE;
+
+    // Prodlbim JDK 1.1 sfribl dompbtibility.
+    stbtid finbl long sfriblVfrsionUID = 864413376551465018L;
+}

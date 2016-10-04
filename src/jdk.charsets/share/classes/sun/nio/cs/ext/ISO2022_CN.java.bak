@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CharacterCodingException;
-import sun.nio.cs.HistoricallyNamedCharset;
-import sun.nio.cs.US_ASCII;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.nio.dibrsft.CibrbdtfrCodingExdfption;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
+import sun.nio.ds.US_ASCII;
 
-public class ISO2022_CN
-    extends Charset
-    implements HistoricallyNamedCharset
+publid dlbss ISO2022_CN
+    fxtfnds Cibrsft
+    implfmfnts HistoridbllyNbmfdCibrsft
 {
-    private static final byte ISO_ESC = 0x1b;
-    private static final byte ISO_SI = 0x0f;
-    private static final byte ISO_SO = 0x0e;
-    private static final byte ISO_SS2_7 = 0x4e;
-    private static final byte ISO_SS3_7 = 0x4f;
-    private static final byte MSB = (byte)0x80;
-    private static final char REPLACE_CHAR = '\uFFFD';
+    privbtf stbtid finbl bytf ISO_ESC = 0x1b;
+    privbtf stbtid finbl bytf ISO_SI = 0x0f;
+    privbtf stbtid finbl bytf ISO_SO = 0x0f;
+    privbtf stbtid finbl bytf ISO_SS2_7 = 0x4f;
+    privbtf stbtid finbl bytf ISO_SS3_7 = 0x4f;
+    privbtf stbtid finbl bytf MSB = (bytf)0x80;
+    privbtf stbtid finbl dibr REPLACE_CHAR = '\uFFFD';
 
-    private static final byte SODesigGB = 0;
-    private static final byte SODesigCNS = 1;
+    privbtf stbtid finbl bytf SODfsigGB = 0;
+    privbtf stbtid finbl bytf SODfsigCNS = 1;
 
-    public ISO2022_CN() {
-        super("ISO-2022-CN", ExtendedCharsets.aliasesFor("ISO-2022-CN"));
+    publid ISO2022_CN() {
+        supfr("ISO-2022-CN", ExtfndfdCibrsfts.blibsfsFor("ISO-2022-CN"));
     }
 
-    public String historicalName() {
-        return "ISO2022CN";
+    publid String iistoridblNbmf() {
+        rfturn "ISO2022CN";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs instanceof EUC_CN)     // GB2312-80 repertoire
-                || (cs instanceof US_ASCII)
-                || (cs instanceof EUC_TW)  // CNS11643 repertoire
-                || (cs instanceof ISO2022_CN));
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ((ds instbndfof EUC_CN)     // GB2312-80 rfpfrtoirf
+                || (ds instbndfof US_ASCII)
+                || (ds instbndfof EUC_TW)  // CNS11643 rfpfrtoirf
+                || (ds instbndfof ISO2022_CN));
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        throw new UnsupportedOperationException();
+    publid CibrsftEndodfr nfwEndodfr() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    public boolean canEncode() {
-        return false;
+    publid boolfbn dbnEndodf() {
+        rfturn fblsf;
     }
 
-    static class Decoder extends CharsetDecoder {
-        private boolean shiftOut;
-        private byte currentSODesig;
+    stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr {
+        privbtf boolfbn siiftOut;
+        privbtf bytf durrfntSODfsig;
 
-        private static final Charset gb2312 = new EUC_CN();
-        private static final Charset cns = new EUC_TW();
-        private final DoubleByte.Decoder gb2312Decoder;
-        private final EUC_TW.Decoder cnsDecoder;
+        privbtf stbtid finbl Cibrsft gb2312 = nfw EUC_CN();
+        privbtf stbtid finbl Cibrsft dns = nfw EUC_TW();
+        privbtf finbl DoublfBytf.Dfdodfr gb2312Dfdodfr;
+        privbtf finbl EUC_TW.Dfdodfr dnsDfdodfr;
 
-        Decoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
-            shiftOut = false;
-            currentSODesig = SODesigGB;
-            gb2312Decoder = (DoubleByte.Decoder)gb2312.newDecoder();
-            cnsDecoder = (EUC_TW.Decoder)cns.newDecoder();
+        Dfdodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
+            siiftOut = fblsf;
+            durrfntSODfsig = SODfsigGB;
+            gb2312Dfdodfr = (DoublfBytf.Dfdodfr)gb2312.nfwDfdodfr();
+            dnsDfdodfr = (EUC_TW.Dfdodfr)dns.nfwDfdodfr();
         }
 
-        protected void implReset() {
-            shiftOut= false;
-            currentSODesig = SODesigGB;
+        protfdtfd void implRfsft() {
+            siiftOut= fblsf;
+            durrfntSODfsig = SODfsigGB;
         }
 
-        private char cnsDecode(byte byte1, byte byte2, byte SS) {
-            byte1 |= MSB;
-            byte2 |= MSB;
+        privbtf dibr dnsDfdodf(bytf bytf1, bytf bytf2, bytf SS) {
+            bytf1 |= MSB;
+            bytf2 |= MSB;
             int p = 0;
             if (SS == ISO_SS2_7)
-                p = 1;    //plane 2, index -- 1
-            else if (SS == ISO_SS3_7)
-                p = 2;    //plane 3, index -- 2
-            else
-                return REPLACE_CHAR;  //never happen.
-            char[] ret = cnsDecoder.toUnicode(byte1 & 0xff,
-                                              byte2 & 0xff,
+                p = 1;    //plbnf 2, indfx -- 1
+            flsf if (SS == ISO_SS3_7)
+                p = 2;    //plbnf 3, indfx -- 2
+            flsf
+                rfturn REPLACE_CHAR;  //nfvfr ibppfn.
+            dibr[] rft = dnsDfdodfr.toUnidodf(bytf1 & 0xff,
+                                              bytf2 & 0xff,
                                               p);
-            if (ret == null || ret.length == 2)
-                return REPLACE_CHAR;
-            return ret[0];
+            if (rft == null || rft.lfngti == 2)
+                rfturn REPLACE_CHAR;
+            rfturn rft[0];
         }
 
-        private char SODecode(byte byte1, byte byte2, byte SOD) {
-            byte1 |= MSB;
-            byte2 |= MSB;
-            if (SOD == SODesigGB) {
-                return gb2312Decoder.decodeDouble(byte1 & 0xff,
-                                                  byte2 & 0xff);
-            } else {    // SOD == SODesigCNS
-                char[] ret = cnsDecoder.toUnicode(byte1 & 0xff,
-                                                  byte2 & 0xff,
+        privbtf dibr SODfdodf(bytf bytf1, bytf bytf2, bytf SOD) {
+            bytf1 |= MSB;
+            bytf2 |= MSB;
+            if (SOD == SODfsigGB) {
+                rfturn gb2312Dfdodfr.dfdodfDoublf(bytf1 & 0xff,
+                                                  bytf2 & 0xff);
+            } flsf {    // SOD == SODfsigCNS
+                dibr[] rft = dnsDfdodfr.toUnidodf(bytf1 & 0xff,
+                                                  bytf2 & 0xff,
                                                   0);
-                if (ret == null)
-                    return REPLACE_CHAR;
-                return ret[0];
+                if (rft == null)
+                    rfturn REPLACE_CHAR;
+                rfturn rft[0];
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             CibrBufffr dst)
         {
-            int mark = src.position();
-            byte b1 = 0, b2 = 0, b3 = 0, b4 = 0;
-            int inputSize = 0;
-            char c = REPLACE_CHAR;
+            int mbrk = srd.position();
+            bytf b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            int inputSizf = 0;
+            dibr d = REPLACE_CHAR;
             try {
-                while (src.hasRemaining()) {
-                    b1 = src.get();
-                    inputSize = 1;
+                wiilf (srd.ibsRfmbining()) {
+                    b1 = srd.gft();
+                    inputSizf = 1;
 
-                    while (b1 == ISO_ESC ||
+                    wiilf (b1 == ISO_ESC ||
                            b1 == ISO_SO ||
                            b1 == ISO_SI) {
                         if (b1 == ISO_ESC) {  // ESC
-                            currentSODesig = SODesigGB;
+                            durrfntSODfsig = SODfsigGB;
 
-                            if (src.remaining() < 1)
-                                return CoderResult.UNDERFLOW;
+                            if (srd.rfmbining() < 1)
+                                rfturn CodfrRfsult.UNDERFLOW;
 
-                            b2 = src.get();
-                            inputSize++;
+                            b2 = srd.gft();
+                            inputSizf++;
 
-                            if ((b2 & (byte)0x80) != 0)
-                                return CoderResult.malformedForLength(inputSize);
+                            if ((b2 & (bytf)0x80) != 0)
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
 
-                            if (b2 == (byte)0x24) {
-                                if (src.remaining() < 1)
-                                    return CoderResult.UNDERFLOW;
+                            if (b2 == (bytf)0x24) {
+                                if (srd.rfmbining() < 1)
+                                    rfturn CodfrRfsult.UNDERFLOW;
 
-                                b3 = src.get();
-                                inputSize++;
+                                b3 = srd.gft();
+                                inputSizf++;
 
-                                if ((b3 & (byte)0x80) != 0)
-                                    return CoderResult.malformedForLength(inputSize);
+                                if ((b3 & (bytf)0x80) != 0)
+                                    rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 if (b3 == 'A'){              // "$A"
-                                    currentSODesig = SODesigGB;
-                                } else if (b3 == ')') {
-                                    if (src.remaining() < 1)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = src.get();
-                                    inputSize++;
+                                    durrfntSODfsig = SODfsigGB;
+                                } flsf if (b3 == ')') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
                                     if (b4 == 'A'){          // "$)A"
-                                        currentSODesig = SODesigGB;
-                                    } else if (b4 == 'G'){   // "$)G"
-                                        currentSODesig = SODesigCNS;
-                                    } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        durrfntSODfsig = SODfsigGB;
+                                    } flsf if (b4 == 'G'){   // "$)G"
+                                        durrfntSODfsig = SODfsigCNS;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else if (b3 == '*') {
-                                    if (src.remaining() < 1)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = src.get();
-                                    inputSize++;
+                                } flsf if (b3 == '*') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
                                     if (b4 != 'H') {         // "$*H"
-                                        //SS2Desig -> CNS-P1
-                                        return CoderResult.malformedForLength(inputSize);
+                                        //SS2Dfsig -> CNS-P1
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else if (b3 == '+') {
-                                    if (src.remaining() < 1)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = src.get();
-                                    inputSize++;
+                                } flsf if (b3 == '+') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
                                     if (b4 != 'I'){          // "$+I"
-                                        //SS3Desig -> CNS-P2.
-                                        return CoderResult.malformedForLength(inputSize);
+                                        //SS3Dfsig -> CNS-P2.
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
-                                if (src.remaining() < 2)
-                                    return CoderResult.UNDERFLOW;
-                                b3 = src.get();
-                                b4 = src.get();
-                                inputSize += 2;
-                                if (dst.remaining() < 1)
-                                    return CoderResult.OVERFLOW;
+                            } flsf if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
+                                if (srd.rfmbining() < 2)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b3 = srd.gft();
+                                b4 = srd.gft();
+                                inputSizf += 2;
+                                if (dst.rfmbining() < 1)
+                                    rfturn CodfrRfsult.OVERFLOW;
                                 //SS2->CNS-P2, SS3->CNS-P3
-                                c = cnsDecode(b3, b4, b2);
-                                if (c == REPLACE_CHAR)
-                                    return CoderResult.unmappableForLength(inputSize);
-                                dst.put(c);
-                            } else {
-                                return CoderResult.malformedForLength(inputSize);
+                                d = dnsDfdodf(b3, b4, b2);
+                                if (d == REPLACE_CHAR)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                                dst.put(d);
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                        } else if (b1 == ISO_SO) {
-                            shiftOut = true;
-                        } else if (b1 == ISO_SI) { // shift back in
-                            shiftOut = false;
+                        } flsf if (b1 == ISO_SO) {
+                            siiftOut = truf;
+                        } flsf if (b1 == ISO_SI) { // siift bbdk in
+                            siiftOut = fblsf;
                         }
-                        mark += inputSize;
-                        if (src.remaining() < 1)
-                            return CoderResult.UNDERFLOW;
-                        b1 = src.get();
-                        inputSize = 1;
+                        mbrk += inputSizf;
+                        if (srd.rfmbining() < 1)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b1 = srd.gft();
+                        inputSizf = 1;
                     }
 
-                    if (dst.remaining() < 1)
-                        return CoderResult.OVERFLOW;
+                    if (dst.rfmbining() < 1)
+                        rfturn CodfrRfsult.OVERFLOW;
 
-                    if (!shiftOut) {
-                        dst.put((char)(b1 & 0xff));  //clear the upper byte
-                        mark += inputSize;
-                    } else {
-                        if (src.remaining() < 1)
-                            return CoderResult.UNDERFLOW;
-                        b2 = src.get();
-                        inputSize++;
-                        c = SODecode(b1, b2, currentSODesig);
-                        if (c == REPLACE_CHAR)
-                            return CoderResult.unmappableForLength(inputSize);
-                        dst.put(c);
-                        mark += inputSize;
+                    if (!siiftOut) {
+                        dst.put((dibr)(b1 & 0xff));  //dlfbr tif uppfr bytf
+                        mbrk += inputSizf;
+                    } flsf {
+                        if (srd.rfmbining() < 1)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b2 = srd.gft();
+                        inputSizf++;
+                        d = SODfdodf(b1, b2, durrfntSODfsig);
+                        if (d == REPLACE_CHAR)
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                        dst.put(d);
+                        mbrk += inputSizf;
                     }
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            CibrBufffr dst)
         {
-            int inputSize = 0;
-            byte b1 = 0, b2 = 0, b3 = 0, b4 = 0;
-            char c = REPLACE_CHAR;
+            int inputSizf = 0;
+            bytf b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            dibr d = REPLACE_CHAR;
 
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
-                while (sp < sl) {
-                    b1 = sa[sp];
-                    inputSize = 1;
+                wiilf (sp < sl) {
+                    b1 = sb[sp];
+                    inputSizf = 1;
 
-                    while (b1 == ISO_ESC || b1 == ISO_SO || b1 == ISO_SI) {
+                    wiilf (b1 == ISO_ESC || b1 == ISO_SO || b1 == ISO_SI) {
                         if (b1 == ISO_ESC) {  // ESC
-                            currentSODesig = SODesigGB;
+                            durrfntSODfsig = SODfsigGB;
 
                             if (sp + 2 > sl)
-                                return CoderResult.UNDERFLOW;
+                                rfturn CodfrRfsult.UNDERFLOW;
 
-                            b2 = sa[sp + 1];
-                            inputSize++;
+                            b2 = sb[sp + 1];
+                            inputSizf++;
 
-                            if ((b2 & (byte)0x80) != 0)
-                                return CoderResult.malformedForLength(inputSize);
-                            if (b2 == (byte)0x24) {
+                            if ((b2 & (bytf)0x80) != 0)
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
+                            if (b2 == (bytf)0x24) {
                                 if (sp + 3 > sl)
-                                    return CoderResult.UNDERFLOW;
+                                    rfturn CodfrRfsult.UNDERFLOW;
 
-                                b3 = sa[sp + 2];
-                                inputSize++;
+                                b3 = sb[sp + 2];
+                                inputSizf++;
 
-                                if ((b3 & (byte)0x80) != 0)
-                                    return CoderResult.malformedForLength(inputSize);
+                                if ((b3 & (bytf)0x80) != 0)
+                                    rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 if (b3 == 'A'){              // "$A"
-                                    /* <ESC>$A is not a legal designator sequence for
-                                       ISO2022_CN, it is listed as an escape sequence
-                                       for GB2312 in ISO2022-JP-2. Keep it here just for
-                                       the sake of "compatibility".
+                                    /* <ESC>$A is not b lfgbl dfsignbtor sfqufndf for
+                                       ISO2022_CN, it is listfd bs bn fsdbpf sfqufndf
+                                       for GB2312 in ISO2022-JP-2. Kffp it ifrf just for
+                                       tif sbkf of "dompbtibility".
                                      */
-                                    currentSODesig = SODesigGB;
-                                } else if (b3 == ')') {
+                                    durrfntSODfsig = SODfsigGB;
+                                } flsf if (b3 == ')') {
                                     if (sp + 4 > sl)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = sa[sp + 3];
-                                    inputSize++;
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
 
                                     if (b4 == 'A'){          // "$)A"
-                                        currentSODesig = SODesigGB;
-                                    } else if (b4 == 'G'){   // "$)G"
-                                        currentSODesig = SODesigCNS;
-                                    } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        durrfntSODfsig = SODfsigGB;
+                                    } flsf if (b4 == 'G'){   // "$)G"
+                                        durrfntSODfsig = SODfsigCNS;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else if (b3 == '*') {
+                                } flsf if (b3 == '*') {
                                     if (sp + 4 > sl)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = sa[sp + 3];
-                                    inputSize++;
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
                                     if (b4 != 'H'){          // "$*H"
-                                        return CoderResult.malformedForLength(inputSize);
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else if (b3 == '+') {
+                                } flsf if (b3 == '+') {
                                     if (sp + 4 > sl)
-                                        return CoderResult.UNDERFLOW;
-                                    b4 = sa[sp + 3];
-                                    inputSize++;
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
                                     if (b4 != 'I'){          // "$+I"
-                                        return CoderResult.malformedForLength(inputSize);
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                     }
-                                } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                                 }
-                            } else if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
+                            } flsf if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
                                 if (sp + 4 > sl) {
-                                    return CoderResult.UNDERFLOW;
+                                    rfturn CodfrRfsult.UNDERFLOW;
                                 }
-                                b3 = sa[sp + 2];
-                                b4 = sa[sp + 3];
+                                b3 = sb[sp + 2];
+                                b4 = sb[sp + 3];
                                 if (dl - dp < 1)  {
-                                    return CoderResult.OVERFLOW;
+                                    rfturn CodfrRfsult.OVERFLOW;
                                 }
-                                inputSize += 2;
-                                c = cnsDecode(b3, b4, b2);
-                                if (c == REPLACE_CHAR)
-                                    return CoderResult.unmappableForLength(inputSize);
-                                da[dp++] = c;
-                            } else {
-                                return CoderResult.malformedForLength(inputSize);
+                                inputSizf += 2;
+                                d = dnsDfdodf(b3, b4, b2);
+                                if (d == REPLACE_CHAR)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                                db[dp++] = d;
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngti(inputSizf);
                             }
-                        } else if (b1 == ISO_SO) {
-                            shiftOut = true;
-                        } else if (b1 == ISO_SI) { // shift back in
-                            shiftOut = false;
+                        } flsf if (b1 == ISO_SO) {
+                            siiftOut = truf;
+                        } flsf if (b1 == ISO_SI) { // siift bbdk in
+                            siiftOut = fblsf;
                         }
-                        sp += inputSize;
+                        sp += inputSizf;
                         if (sp + 1 > sl)
-                            return CoderResult.UNDERFLOW;
-                        b1 = sa[sp];
-                        inputSize = 1;
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b1 = sb[sp];
+                        inputSizf = 1;
                     }
 
                     if (dl - dp < 1) {
-                        return CoderResult.OVERFLOW;
+                        rfturn CodfrRfsult.OVERFLOW;
                     }
 
-                    if (!shiftOut) {
-                        da[dp++] = (char)(b1 & 0xff);  //clear the upper byte
-                    } else {
+                    if (!siiftOut) {
+                        db[dp++] = (dibr)(b1 & 0xff);  //dlfbr tif uppfr bytf
+                    } flsf {
                         if (sp + 2 > sl)
-                            return CoderResult.UNDERFLOW;
-                        b2 = sa[sp + 1];
-                        inputSize++;
-                        c = SODecode(b1, b2, currentSODesig);
-                        if (c == REPLACE_CHAR)
-                            return CoderResult.unmappableForLength(inputSize);
-                        da[dp++] = c;
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b2 = sb[sp + 1];
+                        inputSizf++;
+                        d = SODfdodf(b1, b2, durrfntSODfsig);
+                        if (d == REPLACE_CHAR)
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(inputSizf);
+                        db[dp++] = d;
                     }
-                    sp += inputSize;
+                    sp += inputSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         CibrBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
     }
 }

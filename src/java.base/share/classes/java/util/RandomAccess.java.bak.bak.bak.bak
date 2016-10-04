@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * Mbrkfr intfrfbdf usfd by <tt>List</tt> implfmfntbtions to indidbtf thbt
+ * thfy support fbst (gfnfrblly donstbnt timf) rbndom bddfss.  Thf primbry
+ * purposf of this intfrfbdf is to bllow gfnfrid blgorithms to bltfr thfir
+ * bfhbvior to providf good pfrformbndf whfn bpplifd to fithfr rbndom or
+ * sfqufntibl bddfss lists.
+ *
+ * <p>Thf bfst blgorithms for mbnipulbting rbndom bddfss lists (sudh bs
+ * <tt>ArrbyList</tt>) dbn produdf qubdrbtid bfhbvior whfn bpplifd to
+ * sfqufntibl bddfss lists (sudh bs <tt>LinkfdList</tt>).  Gfnfrid list
+ * blgorithms brf fndourbgfd to dhfdk whfthfr thf givfn list is bn
+ * <tt>instbndfof</tt> this intfrfbdf bfforf bpplying bn blgorithm thbt would
+ * providf poor pfrformbndf if it wfrf bpplifd to b sfqufntibl bddfss list,
+ * bnd to bltfr thfir bfhbvior if nfdfssbry to gubrbntff bddfptbblf
+ * pfrformbndf.
+ *
+ * <p>It is rfdognizfd thbt thf distindtion bftwffn rbndom bnd sfqufntibl
+ * bddfss is oftfn fuzzy.  For fxbmplf, somf <tt>List</tt> implfmfntbtions
+ * providf bsymptotidblly linfbr bddfss timfs if thfy gft hugf, but donstbnt
+ * bddfss timfs in prbdtidf.  Sudh b <tt>List</tt> implfmfntbtion
+ * should gfnfrblly implfmfnt this intfrfbdf.  As b rulf of thumb, b
+ * <tt>List</tt> implfmfntbtion should implfmfnt this intfrfbdf if,
+ * for typidbl instbndfs of thf dlbss, this loop:
+ * <prf>
+ *     for (int i=0, n=list.sizf(); i &lt; n; i++)
+ *         list.gft(i);
+ * </prf>
+ * runs fbstfr thbn this loop:
+ * <prf>
+ *     for (Itfrbtor i=list.itfrbtor(); i.hbsNfxt(); )
+ *         i.nfxt();
+ * </prf>
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sindf 1.4
+ */
+publid intfrfbdf RbndomAddfss {
+}

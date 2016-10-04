@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.io.IOException;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.io.IOExdfption;
 
 /*
- * A ListeningConnector based on the SharedMemoryTransportService
+ * A ListfningConnfdtor bbsfd on tif SibrfdMfmoryTrbnsportSfrvidf
  */
-public class SharedMemoryListeningConnector extends GenericListeningConnector {
+publid dlbss SibrfdMfmoryListfningConnfdtor fxtfnds GfnfridListfningConnfdtor {
 
-    static final String ARG_NAME = "name";
+    stbtid finbl String ARG_NAME = "nbmf";
 
-    public SharedMemoryListeningConnector() {
-        super(new SharedMemoryTransportService());
+    publid SibrfdMfmoryListfningConnfdtor() {
+        supfr(nfw SibrfdMfmoryTrbnsportSfrvidf());
 
-        addStringArgument(
+        bddStringArgumfnt(
             ARG_NAME,
-            getString("memory_listening.name.label"),
-            getString("memory_listening.name"),
+            gftString("mfmory_listfning.nbmf.lbbfl"),
+            gftString("mfmory_listfning.nbmf"),
             "",
-            false);
+            fblsf);
 
-        transport = new Transport() {
-            public String name() {
-                return "dt_shmem";              // compatibility
+        trbnsport = nfw Trbnsport() {
+            publid String nbmf() {
+                rfturn "dt_simfm";              // dompbtibility
             }
         };
     }
 
-    // override startListening so that "name" argument can be
-    // converted into "address" argument
+    // ovfrridf stbrtListfning so tibt "nbmf" brgumfnt dbn bf
+    // donvfrtfd into "bddrfss" brgumfnt
 
-    public String
-        startListening(Map<String, ? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid String
+        stbrtListfning(Mbp<String, ? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String name = argument(ARG_NAME, args).value();
+        String nbmf = brgumfnt(ARG_NAME, brgs).vbluf();
 
-        // if the name argument isn't specified then we use the default
-        // address for the transport service.
-        if (name.length() == 0) {
-            assert transportService instanceof SharedMemoryTransportService;
-            SharedMemoryTransportService ts = (SharedMemoryTransportService)transportService;
-            name = ts.defaultAddress();
+        // if tif nbmf brgumfnt isn't spfdififd tifn wf usf tif dffbult
+        // bddrfss for tif trbnsport sfrvidf.
+        if (nbmf.lfngti() == 0) {
+            bssfrt trbnsportSfrvidf instbndfof SibrfdMfmoryTrbnsportSfrvidf;
+            SibrfdMfmoryTrbnsportSfrvidf ts = (SibrfdMfmoryTrbnsportSfrvidf)trbnsportSfrvidf;
+            nbmf = ts.dffbultAddrfss();
         }
 
-        return super.startListening(name, args);
+        rfturn supfr.stbrtListfning(nbmf, brgs);
     }
 
-    public String name() {
-        return "com.sun.jdi.SharedMemoryListen";
+    publid String nbmf() {
+        rfturn "dom.sun.jdi.SibrfdMfmoryListfn";
     }
 
-    public String description() {
-       return getString("memory_listening.description");
+    publid String dfsdription() {
+       rfturn gftString("mfmory_listfning.dfsdription");
     }
 }

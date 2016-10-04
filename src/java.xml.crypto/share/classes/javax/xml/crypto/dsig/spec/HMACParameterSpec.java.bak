@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: HMACParameterSpec.java,v 1.4 2005/05/10 16:40:17 mullan Exp $
+ * $Id: HMACPbrbmftfrSpfd.jbvb,v 1.4 2005/05/10 16:40:17 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
 
-import javax.xml.crypto.dsig.SignatureMethod;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
 
 /**
- * Parameters for the <a href="http://www.w3.org/TR/xmldsig-core/#sec-MACs">
- * XML Signature HMAC Algorithm</a>. The parameters include an optional output
- * length which specifies the MAC truncation length in bits. The resulting
- * HMAC will be truncated to the specified number of bits. If the parameter is
- * not specified, then this implies that all the bits of the hash are to be
- * output. The XML Schema Definition of the <code>HMACOutputLength</code>
- * element is defined as:
- * <pre><code>
- * &lt;element name="HMACOutputLength" minOccurs="0" type="ds:HMACOutputLengthType"/&gt;
- * &lt;simpleType name="HMACOutputLengthType"&gt;
- *   &lt;restriction base="integer"/&gt;
- * &lt;/simpleType&gt;
- * </code></pre>
+ * Pbrbmftfrs for tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-MACs">
+ * XML Signbturf HMAC Algoritim</b>. Tif pbrbmftfrs indludf bn optionbl output
+ * lfngti wiidi spfdififs tif MAC trundbtion lfngti in bits. Tif rfsulting
+ * HMAC will bf trundbtfd to tif spfdififd numbfr of bits. If tif pbrbmftfr is
+ * not spfdififd, tifn tiis implifs tibt bll tif bits of tif ibsi brf to bf
+ * output. Tif XML Sdifmb Dffinition of tif <dodf>HMACOutputLfngti</dodf>
+ * flfmfnt is dffinfd bs:
+ * <prf><dodf>
+ * &lt;flfmfnt nbmf="HMACOutputLfngti" minOddurs="0" typf="ds:HMACOutputLfngtiTypf"/&gt;
+ * &lt;simplfTypf nbmf="HMACOutputLfngtiTypf"&gt;
+ *   &lt;rfstridtion bbsf="intfgfr"/&gt;
+ * &lt;/simplfTypf&gt;
+ * </dodf></prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see SignatureMethod
- * @see <a href="http://www.ietf.org/rfc/rfc2104.txt">RFC 2104</a>
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff SignbturfMftiod
+ * @sff <b irff="ittp://www.iftf.org/rfd/rfd2104.txt">RFC 2104</b>
  */
-public final class HMACParameterSpec implements SignatureMethodParameterSpec {
+publid finbl dlbss HMACPbrbmftfrSpfd implfmfnts SignbturfMftiodPbrbmftfrSpfd {
 
-    private int outputLength;
+    privbtf int outputLfngti;
 
     /**
-     * Creates an <code>HMACParameterSpec</code> with the specified truncation
-     * length.
+     * Crfbtfs bn <dodf>HMACPbrbmftfrSpfd</dodf> witi tif spfdififd trundbtion
+     * lfngti.
      *
-     * @param outputLength the truncation length in number of bits
+     * @pbrbm outputLfngti tif trundbtion lfngti in numbfr of bits
      */
-    public HMACParameterSpec(int outputLength) {
-        this.outputLength = outputLength;
+    publid HMACPbrbmftfrSpfd(int outputLfngti) {
+        tiis.outputLfngti = outputLfngti;
     }
 
     /**
-     * Returns the truncation length.
+     * Rfturns tif trundbtion lfngti.
      *
-     * @return the truncation length in number of bits
+     * @rfturn tif trundbtion lfngti in numbfr of bits
      */
-    public int getOutputLength() {
-        return outputLength;
+    publid int gftOutputLfngti() {
+        rfturn outputLfngti;
     }
 }

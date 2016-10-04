@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContfxt;
 
-import javax.swing.text.html.HTMLEditorKit;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.DataInputStream;
-import java.io.ObjectInputStream;
-import java.io.Reader;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvbx.swing.tfxt.itml.HTMLEditorKit;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Responsible for starting up a new DocumentParser
- * each time its parse method is invoked. Stores a
- * reference to the dtd.
+ * Rfsponsiblf for stbrting up b nfw DodumfntPbrsfr
+ * fbdi timf its pbrsf mftiod is invokfd. Storfs b
+ * rfffrfndf to tif dtd.
  *
- * @author  Sunita Mani
+ * @butior  Sunitb Mbni
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ParserDelegator extends HTMLEditorKit.Parser implements Serializable {
-    private static final Object DTD_KEY = new Object();
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss PbrsfrDflfgbtor fxtfnds HTMLEditorKit.Pbrsfr implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl Objfdt DTD_KEY = nfw Objfdt();
 
     /**
-     * Sets the default DTD.
+     * Sfts tif dffbult DTD.
      */
-    protected static void setDefaultDTD() {
-        getDefaultDTD();
+    protfdtfd stbtid void sftDffbultDTD() {
+        gftDffbultDTD();
     }
 
-    private static synchronized DTD getDefaultDTD() {
-        AppContext appContext = AppContext.getAppContext();
+    privbtf stbtid syndironizfd DTD gftDffbultDTD() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
 
-        DTD dtd = (DTD) appContext.get(DTD_KEY);
+        DTD dtd = (DTD) bppContfxt.gft(DTD_KEY);
 
         if (dtd == null) {
             DTD _dtd = null;
-            // (PENDING) Hate having to hard code!
-            String nm = "html32";
+            // (PENDING) Hbtf ibving to ibrd dodf!
+            String nm = "itml32";
             try {
-                _dtd = DTD.getDTD(nm);
-            } catch (IOException e) {
+                _dtd = DTD.gftDTD(nm);
+            } dbtdi (IOExdfption f) {
                 // (PENDING) UGLY!
-                System.out.println("Throw an exception: could not get default dtd: " + nm);
+                Systfm.out.println("Tirow bn fxdfption: dould not gft dffbult dtd: " + nm);
             }
-            dtd = createDTD(_dtd, nm);
+            dtd = drfbtfDTD(_dtd, nm);
 
-            appContext.put(DTD_KEY, dtd);
+            bppContfxt.put(DTD_KEY, dtd);
         }
 
-        return dtd;
+        rfturn dtd;
     }
 
     /**
-     * Recreates a DTD from an archived format with the specified {@code name}.
+     * Rfdrfbtfs b DTD from bn brdiivfd formbt witi tif spfdififd {@dodf nbmf}.
      *
-     * @param dtd a DTD
-     * @param name the name of the resource, relative to the  ParserDelegator class.
-     * @return the DTD with the specified {@code name}.
+     * @pbrbm dtd b DTD
+     * @pbrbm nbmf tif nbmf of tif rfsourdf, rflbtivf to tif  PbrsfrDflfgbtor dlbss.
+     * @rfturn tif DTD witi tif spfdififd {@dodf nbmf}.
      */
-    protected static DTD createDTD(DTD dtd, String name) {
+    protfdtfd stbtid DTD drfbtfDTD(DTD dtd, String nbmf) {
 
-        InputStream in = null;
-        boolean debug = true;
+        InputStrfbm in = null;
+        boolfbn dfbug = truf;
         try {
-            String path = name + ".bdtd";
-            in = getResourceAsStream(path);
+            String pbti = nbmf + ".bdtd";
+            in = gftRfsourdfAsStrfbm(pbti);
             if (in != null) {
-                dtd.read(new DataInputStream(new BufferedInputStream(in)));
-                DTD.putDTDHash(name, dtd);
+                dtd.rfbd(nfw DbtbInputStrfbm(nfw BufffrfdInputStrfbm(in)));
+                DTD.putDTDHbsi(nbmf, dtd);
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        } dbtdi (Exdfption f) {
+            Systfm.out.println(f);
         }
-        return dtd;
+        rfturn dtd;
     }
 
     /**
-     * Creates {@code ParserDelegator} with default DTD.
+     * Crfbtfs {@dodf PbrsfrDflfgbtor} witi dffbult DTD.
      */
-    public ParserDelegator() {
-        setDefaultDTD();
+    publid PbrsfrDflfgbtor() {
+        sftDffbultDTD();
     }
 
-    public void parse(Reader r, HTMLEditorKit.ParserCallback cb, boolean ignoreCharSet) throws IOException {
-        new DocumentParser(getDefaultDTD()).parse(r, cb, ignoreCharSet);
+    publid void pbrsf(Rfbdfr r, HTMLEditorKit.PbrsfrCbllbbdk db, boolfbn ignorfCibrSft) tirows IOExdfption {
+        nfw DodumfntPbrsfr(gftDffbultDTD()).pbrsf(r, db, ignorfCibrSft);
     }
 
     /**
-     * Fetch a resource relative to the ParserDelegator classfile.
-     * If this is called on 1.2 the loading will occur under the
-     * protection of a doPrivileged call to allow the ParserDelegator
-     * to function when used in an applet.
+     * Fftdi b rfsourdf rflbtivf to tif PbrsfrDflfgbtor dlbssfilf.
+     * If tiis is dbllfd on 1.2 tif lobding will oddur undfr tif
+     * protfdtion of b doPrivilfgfd dbll to bllow tif PbrsfrDflfgbtor
+     * to fundtion wifn usfd in bn bpplft.
      *
-     * @param name the name of the resource, relative to the
-     *  ParserDelegator class.
-     * @return a stream representing the resource
+     * @pbrbm nbmf tif nbmf of tif rfsourdf, rflbtivf to tif
+     *  PbrsfrDflfgbtor dlbss.
+     * @rfturn b strfbm rfprfsfnting tif rfsourdf
      */
-    static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged(
-                new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return ParserDelegator.class.getResourceAsStream(name);
+    stbtid InputStrfbm gftRfsourdfAsStrfbm(finbl String nbmf) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        rfturn PbrsfrDflfgbtor.dlbss.gftRfsourdfAsStrfbm(nbmf);
                     }
                 });
     }
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
-        setDefaultDTD();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption {
+        s.dffbultRfbdObjfdt();
+        sftDffbultDTD();
     }
 }

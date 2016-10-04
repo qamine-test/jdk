@@ -1,114 +1,114 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Security Tools
-.\"     Title: policytool.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: polidytool.1
 .\"
 .if n .pl 99999
-.TH policytool 1 "21 November 2013" "JDK 8" "Security Tools"
+.TH polidytool 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-policytool \- Reads and writes a plain text policy file based on user input through the utility GUI\&.
+polidytool \- Rfbds bnd writfs b plbin tfxt polidy filf bbsfd on usfr input tirougi tif utility GUI\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBpolicytool\fR [ \fB\-file\fR ] [ \fIfilename\fR ] 
+\fBpolidytool\fR [ \fB\-filf\fR ] [ \fIfilfnbmf\fR ] 
 .fi     
 .sp     
 .TP
--file
+-filf
 .br
-Directs the \f3policytool\fR command to load a policy file\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
 .TP     
-\fIfilename\fR
-The name of the file to be loaded\&.
+\fIfilfnbmf\fR
+Tif nbmf of tif filf to bf lobdfd\&.
 .PP
-\fIExamples\fR:
+\fIExbmplfs\fR:
 .PP
-Run the policy tool administrator utility:
+Run tif polidy tool bdministrbtor utility:
 .sp     
 .nf     
-\f3policytool\fP
+\f3polidytool\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Run the \f3policytool\fR command and load the specified file:
+Run tif \f3polidytool\fR dommbnd bnd lobd tif spfdififd filf:
 .sp     
 .nf     
-\f3policytool\-file mypolicyfile\fP
+\f3polidytool\-filf mypolidyfilf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SH DESCRIPTION    
-The \f3policytool\fR command calls an administrator\&'s GUI that enables system administrators to manage the contents of local policy files\&. A policy file is a plain-text file with a \f3\&.policy\fR extension, that maps remote requestors by domain, to permission objects\&. For details, see Default Policy Implementation and Policy File Syntax at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html
+Tif \f3polidytool\fR dommbnd dblls bn bdministrbtor\&'s GUI tibt fnbblfs systfm bdministrbtors to mbnbgf tif dontfnts of lodbl polidy filfs\&. A polidy filf is b plbin-tfxt filf witi b \f3\&.polidy\fR fxtfnsion, tibt mbps rfmotf rfqufstors by dombin, to pfrmission objfdts\&. For dftbils, sff Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
 .SH OPTIONS    
 .TP
--file
+-filf
 .br
-Directs the \f3policytool\fR command to load a policy file\&.
+Dirfdts tif \f3polidytool\fR dommbnd to lobd b polidy filf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Default Policy Implementation and Policy File Syntax at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html
+Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
 .TP 0.2i    
 \(bu
-Policy File Creation and Management at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyGuide\&.html
+Polidy Filf Crfbtion bnd Mbnbgfmfnt bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml
 .TP 0.2i    
 \(bu
-Permissions in Java SE Development Kit (JDK) at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/permissions\&.html
+Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml
 .TP 0.2i    
 \(bu
-Java Security Overview at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/overview/jsoverview\&.html
+Jbvb Sfdurity Ovfrvifw bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml
 .TP 0.2i    
 \(bu
-Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html
+Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml
 .RE
 .br
 'pl 8.5i

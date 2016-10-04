@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "ThreadGroupReferenceImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "TirfbdGroupRfffrfndfImpl.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
 
-static jboolean
-name(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+nbmf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jthreadGroup group;
+    JNIEnv *fnv;
+    jtirfbdGroup group;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    group = inStream_readThreadGroupRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    group = inStrfbm_rfbdTirfbdGroupRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jvmtiThreadGroupInfo info;
+        jvmtiTirfbdGroupInfo info;
 
-        (void)memset(&info, 0, sizeof(info));
-        threadGroupInfo(group, &info);
-        (void)outStream_writeString(out, info.name == NULL ? "" : info.name);
-        if ( info.name != NULL )
-            jvmtiDeallocate(info.name);
+        (void)mfmsft(&info, 0, sizfof(info));
+        tirfbdGroupInfo(group, &info);
+        (void)outStrfbm_writfString(out, info.nbmf == NULL ? "" : info.nbmf);
+        if ( info.nbmf != NULL )
+            jvmtiDfbllodbtf(info.nbmf);
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-parent(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+pbrfnt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jthreadGroup group;
+    JNIEnv *fnv;
+    jtirfbdGroup group;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    group = inStream_readThreadGroupRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    group = inStrfbm_rfbdTirfbdGroupRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jvmtiThreadGroupInfo info;
+        jvmtiTirfbdGroupInfo info;
 
-        (void)memset(&info, 0, sizeof(info));
-        threadGroupInfo(group, &info);
-        (void)outStream_writeObjectRef(env, out, info.parent);
-        if ( info.name != NULL )
-            jvmtiDeallocate(info.name);
+        (void)mfmsft(&info, 0, sizfof(info));
+        tirfbdGroupInfo(group, &info);
+        (void)outStrfbm_writfObjfdtRff(fnv, out, info.pbrfnt);
+        if ( info.nbmf != NULL )
+            jvmtiDfbllodbtf(info.nbmf);
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-children(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+diildrfn(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-     JNIEnv *env;
-     jthreadGroup group;
+     JNIEnv *fnv;
+     jtirfbdGroup group;
 
-     env = getEnv();
+     fnv = gftEnv();
 
-     group = inStream_readThreadGroupRef(env, in);
-     if (inStream_error(in)) {
-         return JNI_TRUE;
+     group = inStrfbm_rfbdTirfbdGroupRff(fnv, in);
+     if (inStrfbm_frror(in)) {
+         rfturn JNI_TRUE;
      }
 
-     WITH_LOCAL_REFS(env, 1) {
+     WITH_LOCAL_REFS(fnv, 1) {
 
-         jvmtiError error;
-         jint threadCount;
+         jvmtiError frror;
+         jint tirfbdCount;
          jint groupCount;
-         jthread *theThreads;
-         jthread *theGroups;
+         jtirfbd *tifTirfbds;
+         jtirfbd *tifGroups;
 
-         error = JVMTI_FUNC_PTR(gdata->jvmti,GetThreadGroupChildren)(gdata->jvmti, group,
-                                              &threadCount,&theThreads,
-                                              &groupCount, &theGroups);
-         if (error != JVMTI_ERROR_NONE) {
-             outStream_setError(out, map2jdwpError(error));
-         } else {
+         frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftTirfbdGroupCiildrfn)(gdbtb->jvmti, group,
+                                              &tirfbdCount,&tifTirfbds,
+                                              &groupCount, &tifGroups);
+         if (frror != JVMTI_ERROR_NONE) {
+             outStrfbm_sftError(out, mbp2jdwpError(frror));
+         } flsf {
 
              int i;
 
-             /* Squish out all of the debugger-spawned threads */
-             threadCount = filterDebugThreads(theThreads, threadCount);
+             /* Squisi out bll of tif dfbuggfr-spbwnfd tirfbds */
+             tirfbdCount = filtfrDfbugTirfbds(tifTirfbds, tirfbdCount);
 
-             (void)outStream_writeInt(out, threadCount);
-             for (i = 0; i < threadCount; i++) {
-                 (void)outStream_writeObjectRef(env, out, theThreads[i]);
+             (void)outStrfbm_writfInt(out, tirfbdCount);
+             for (i = 0; i < tirfbdCount; i++) {
+                 (void)outStrfbm_writfObjfdtRff(fnv, out, tifTirfbds[i]);
              }
-             (void)outStream_writeInt(out, groupCount);
+             (void)outStrfbm_writfInt(out, groupCount);
              for (i = 0; i < groupCount; i++) {
-                 (void)outStream_writeObjectRef(env, out, theGroups[i]);
+                 (void)outStrfbm_writfObjfdtRff(fnv, out, tifGroups[i]);
              }
 
-             jvmtiDeallocate(theGroups);
-             jvmtiDeallocate(theThreads);
+             jvmtiDfbllodbtf(tifGroups);
+             jvmtiDfbllodbtf(tifTirfbds);
          }
 
-     } END_WITH_LOCAL_REFS(env);
+     } END_WITH_LOCAL_REFS(fnv);
 
-     return JNI_TRUE;
+     rfturn JNI_TRUE;
 }
 
-void *ThreadGroupReference_Cmds[] = { (void *)3,
-                                      (void *)name,
-                                      (void *)parent,
-                                      (void *)children };
+void *TirfbdGroupRfffrfndf_Cmds[] = { (void *)3,
+                                      (void *)nbmf,
+                                      (void *)pbrfnt,
+                                      (void *)diildrfn };

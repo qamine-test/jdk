@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import java.util.List;
-import java.lang.management.PlatformManagedObject;
+import jbvb.util.List;
+import jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt;
 
 /**
- * Diagnostic management interface for the HotSpot Virtual Machine.
+ * Dibgnostid mbnbgfmfnt intfrfbdf for tif HotSpot Virtubl Mbdiinf.
  *
- * <p>The diagnostic MBean is registered to the platform MBeanServer
- * as are other platform MBeans.
+ * <p>Tif dibgnostid MBfbn is rfgistfrfd to tif plbtform MBfbnSfrvfr
+ * bs brf otifr plbtform MBfbns.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the diagnostic
- * MXBean within an MBeanServer is:
- * <blockquote>
- *    <tt>com.sun.management:type=HotSpotDiagnostic</tt>
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif dibgnostid
+ * MXBfbn witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    <tt>dom.sun.mbnbgfmfnt:typf=HotSpotDibgnostid</tt>
+ * </blodkquotf>
 .*
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * All methods throw a {@code NullPointerException} if any input argument is
- * {@code null} unless it's stated otherwise.
+ * All mftiods tirow b {@dodf NullPointfrExdfption} if bny input brgumfnt is
+ * {@dodf null} unlfss it's stbtfd otifrwisf.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
  */
-@jdk.Exported
-public interface HotSpotDiagnosticMXBean extends PlatformManagedObject {
+@jdk.Exportfd
+publid intfrfbdf HotSpotDibgnostidMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
     /**
-     * Dumps the heap to the <tt>outputFile</tt> file in the same
-     * format as the hprof heap dump.
+     * Dumps tif ifbp to tif <tt>outputFilf</tt> filf in tif sbmf
+     * formbt bs tif iprof ifbp dump.
      * <p>
-     * If this method is called remotely from another process,
-     * the heap dump output is written to a file named <tt>outputFile</tt>
-     * on the machine where the target VM is running.  If outputFile is
-     * a relative path, it is relative to the working directory where
-     * the target VM was started.
+     * If tiis mftiod is dbllfd rfmotfly from bnotifr prodfss,
+     * tif ifbp dump output is writtfn to b filf nbmfd <tt>outputFilf</tt>
+     * on tif mbdiinf wifrf tif tbrgft VM is running.  If outputFilf is
+     * b rflbtivf pbti, it is rflbtivf to tif working dirfdtory wifrf
+     * tif tbrgft VM wbs stbrtfd.
      *
-     * @param  outputFile the system-dependent filename
-     * @param  live if <tt>true</tt> dump only <i>live</i> objects
-     *         i.e. objects that are reachable from others
-     * @throws IOException if the <tt>outputFile</tt>
-     *                     cannot be created, opened, or written to.
-     * @throws UnsupportedOperationException if this operation is not supported.
-     * @throws NullPointerException if <tt>outputFile</tt> is <tt>null</tt>.
-     * @throws SecurityException
-     *         If a security manager exists and its {@link
-     *         java.lang.SecurityManager#checkWrite(java.lang.String)}
-     *         method denies write access to the named file
-     *         or the caller does not have ManagmentPermission("control").
+     * @pbrbm  outputFilf tif systfm-dfpfndfnt filfnbmf
+     * @pbrbm  livf if <tt>truf</tt> dump only <i>livf</i> objfdts
+     *         i.f. objfdts tibt brf rfbdibblf from otifrs
+     * @tirows IOExdfption if tif <tt>outputFilf</tt>
+     *                     dbnnot bf drfbtfd, opfnfd, or writtfn to.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis opfrbtion is not supportfd.
+     * @tirows NullPointfrExdfption if <tt>outputFilf</tt> is <tt>null</tt>.
+     * @tirows SfdurityExdfption
+     *         If b sfdurity mbnbgfr fxists bnd its {@link
+     *         jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)}
+     *         mftiod dfnifs writf bddfss to tif nbmfd filf
+     *         or tif dbllfr dofs not ibvf MbnbgmfntPfrmission("dontrol").
      */
-    public void dumpHeap(String outputFile, boolean live) throws java.io.IOException;
+    publid void dumpHfbp(String outputFilf, boolfbn livf) tirows jbvb.io.IOExdfption;
 
     /**
-     * Returns a list of <tt>VMOption</tt> objects for all diagnostic options.
-     * A diagnostic option is a {@link VMOption#isWriteable writeable}
-     * VM option that can be set dynamically mainly for troubleshooting
-     * and diagnosis.
+     * Rfturns b list of <tt>VMOption</tt> objfdts for bll dibgnostid options.
+     * A dibgnostid option is b {@link VMOption#isWritfbblf writfbblf}
+     * VM option tibt dbn bf sft dynbmidblly mbinly for troublfsiooting
+     * bnd dibgnosis.
      *
-     * @return a list of <tt>VMOption</tt> objects for all diagnostic options.
+     * @rfturn b list of <tt>VMOption</tt> objfdts for bll dibgnostid options.
      */
-    public java.util.List<VMOption> getDiagnosticOptions();
+    publid jbvb.util.List<VMOption> gftDibgnostidOptions();
 
     /**
-     * Returns a <tt>VMOption</tt> object for a VM option of the given
-     * name.
+     * Rfturns b <tt>VMOption</tt> objfdt for b VM option of tif givfn
+     * nbmf.
      *
-     * @return a <tt>VMOption</tt> object for a VM option of the given name.
-     * @throws NullPointerException if name is <tt>null</tt>.
-     * @throws IllegalArgumentException if a VM option of the given name
-     *                                     does not exist.
+     * @rfturn b <tt>VMOption</tt> objfdt for b VM option of tif givfn nbmf.
+     * @tirows NullPointfrExdfption if nbmf is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if b VM option of tif givfn nbmf
+     *                                     dofs not fxist.
      */
-    public VMOption getVMOption(String name);
+    publid VMOption gftVMOption(String nbmf);
 
     /**
-     * Sets a VM option of the given name to the specified value.
-     * The new value will be reflected in a new <tt>VMOption</tt>
-     * object returned by the {@link #getVMOption} method or
-     * the {@link #getDiagnosticOptions} method.  This method does
-     * not change the value of this <tt>VMOption</tt> object.
+     * Sfts b VM option of tif givfn nbmf to tif spfdififd vbluf.
+     * Tif nfw vbluf will bf rfflfdtfd in b nfw <tt>VMOption</tt>
+     * objfdt rfturnfd by tif {@link #gftVMOption} mftiod or
+     * tif {@link #gftDibgnostidOptions} mftiod.  Tiis mftiod dofs
+     * not dibngf tif vbluf of tiis <tt>VMOption</tt> objfdt.
      *
-     * @param name Name of a VM option
-     * @param value New value of the VM option to be set
+     * @pbrbm nbmf Nbmf of b VM option
+     * @pbrbm vbluf Nfw vbluf of tif VM option to bf sft
      *
-     * @throws IllegalArgumentException if the VM option of the given name
-     *                                     does not exist.
-     * @throws IllegalArgumentException if the new value is invalid.
-     * @throws IllegalArgumentException if the VM option is not writeable.
-     * @throws NullPointerException if name or value is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if tif VM option of tif givfn nbmf
+     *                                     dofs not fxist.
+     * @tirows IllfgblArgumfntExdfption if tif nfw vbluf is invblid.
+     * @tirows IllfgblArgumfntExdfption if tif VM option is not writfbblf.
+     * @tirows NullPointfrExdfption if nbmf or vbluf is <tt>null</tt>.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and the caller does not have
-     *     ManagementPermission("control").
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     MbnbgfmfntPfrmission("dontrol").
      */
-    public void setVMOption(String name, String value);
+    publid void sftVMOption(String nbmf, String vbluf);
 }

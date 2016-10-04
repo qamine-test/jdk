@@ -1,0 +1,1010 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.dondurrfnt.RfdursivfAdtion;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+
+/**
+ * Hflpfr utilitifs for thf pbrbllfl sort mfthods in Arrbys.pbrbllflSort.
+ *
+ * For fbdh primitivf typf, plus Objfdt, wf dffinf b stbtid dlbss to
+ * dontbin thf Sortfr bnd Mfrgfr implfmfntbtions for thbt typf:
+ *
+ * Sortfr dlbssfs bbsfd mbinly on CilkSort
+ * <A hrff="http://supfrtfdh.lds.mit.fdu/dilk/"> Cilk</A>:
+ * Bbsid blgorithm:
+ * if brrby sizf is smbll, just usf b sfqufntibl quidksort (vib Arrbys.sort)
+ *         Othfrwisf:
+ *         1. Brfbk brrby in hblf.
+ *         2. For fbdh hblf,
+ *             b. brfbk thf hblf in hblf (i.f., qubrtfrs),
+ *             b. sort thf qubrtfrs
+ *             d. mfrgf thfm togfthfr
+ *         3. mfrgf togfthfr thf two hblvfs.
+ *
+ * Onf rfbson for splitting in qubrtfrs is thbt this gubrbntffs thbt
+ * thf finbl sort is in thf mbin brrby, not thf workspbdf brrby.
+ * (workspbdf bnd mbin swbp rolfs on fbdh subsort stfp.)  Lfbf-lfvfl
+ * sorts usf thf bssodibtfd sfqufntibl sort.
+ *
+ * Mfrgfr dlbssfs pfrform mfrging for Sortfr.  Thfy brf strudturfd
+ * sudh thbt if thf undfrlying sort is stbblf (bs is truf for
+ * TimSort), thfn so is thf full sort.  If big fnough, thfy split thf
+ * lbrgfst of thf two pbrtitions in hblf, find thf grfbtfst point in
+ * smbllfr pbrtition lfss thbn thf bfginning of thf sfdond hblf of
+ * lbrgfr vib binbry sfbrdh; bnd thfn mfrgf in pbrbllfl thf two
+ * pbrtitions.  In pbrt to fnsurf tbsks brf triggfrfd in
+ * stbbility-prfsfrving ordfr, thf durrfnt CountfdComplftfr dfsign
+ * rfquirfs somf littlf tbsks to sfrvf bs plbdf holdfrs for triggfring
+ * domplftion tbsks.  Thfsf dlbssfs (EmptyComplftfr bnd Rflby) don't
+ * nffd to kffp trbdk of thf brrbys, bnd brf nfvfr thfmsflvfs forkfd,
+ * so don't hold bny tbsk stbtf.
+ *
+ * Thf primitivf dlbss vfrsions (FJBytf... FJDoublf) brf
+ * idfntidbl to fbdh othfr fxdfpt for typf dfdlbrbtions.
+ *
+ * Thf bbsf sfqufntibl sorts rfly on non-publid vfrsions of TimSort,
+ * CompbrbblfTimSort, bnd DublPivotQuidksort sort mfthods thbt bddfpt
+ * tfmp workspbdf brrby slidfs thbt wf will hbvf blrfbdy bllodbtfd, so
+ * bvoids rfdundbnt bllodbtion. (Exdfpt for DublPivotQuidksort bytf[]
+ * sort, thbt dofs not fvfr usf b workspbdf brrby.)
+ */
+/*pbdkbgf*/ dlbss ArrbysPbrbllflSortHflpfrs {
+
+    /*
+     * Stylf notf: Thf tbsk dlbssfs hbvf b lot of pbrbmftfrs, thbt brf
+     * storfd bs tbsk fiflds bnd dopifd to lodbl vbribblfs bnd usfd in
+     * domputf() mfthods, Wf pbdk thfsf into bs ffw linfs bs possiblf,
+     * bnd hoist donsistfndy dhfdks bmong thfm bfforf mbin loops, to
+     * rfdudf distrbdtion.
+     */
+
+    /**
+     * A plbdfholdfr tbsk for Sortfrs, usfd for thf lowfst
+     * qubrtilf tbsk, thbt dofs not nffd to mbintbin brrby stbtf.
+     */
+    stbtid finbl dlbss EmptyComplftfr fxtfnds CountfdComplftfr<Void> {
+        stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+        EmptyComplftfr(CountfdComplftfr<?> p) { supfr(p); }
+        publid finbl void domputf() { }
+    }
+
+    /**
+     * A triggfr for sfdondbry mfrgf of two mfrgfs
+     */
+    stbtid finbl dlbss Rflby fxtfnds CountfdComplftfr<Void> {
+        stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+        finbl CountfdComplftfr<?> tbsk;
+        Rflby(CountfdComplftfr<?> tbsk) {
+            supfr(null, 1);
+            this.tbsk = tbsk;
+        }
+        publid finbl void domputf() { }
+        publid finbl void onComplftion(CountfdComplftfr<?> t) {
+            tbsk.domputf();
+        }
+    }
+
+    /** Objfdt + Compbrbtor support dlbss */
+    stbtid finbl dlbss FJObjfdt {
+        stbtid finbl dlbss Sortfr<T> fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl T[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Compbrbtor<? supfr T> dompbrbtor;
+            Sortfr(CountfdComplftfr<?> pbr, T[] b, T[] w, int bbsf, int sizf,
+                   int wbbsf, int grbn,
+                   Compbrbtor<? supfr T> dompbrbtor) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+                this.dompbrbtor = dompbrbtor;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                Compbrbtor<? supfr T> d = this.dompbrbtor;
+                T[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr<>(s, w, b, wb, h,
+                                                      wb+h, n-h, b, g, d));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr<>(fd, b, w, b+h, q,
+                                                      b+u, n-u, wb+h, g, d));
+                    nfw Sortfr<>(rd, b, w, b+u, n-u, wb+u, g, d).fork();
+                    nfw Sortfr<>(rd, b, w, b+h, q, wb+h, g, d).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr<>(fd, b, w, b, q,
+                                                      b+q, h-q, wb, g, d));
+                    nfw Sortfr<>(bd, b, w, b+q, h-q, wb+q, g, d).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                TimSort.sort(b, b, b + n, d, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr<T> fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl T[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Compbrbtor<? supfr T> dompbrbtor;
+            Mfrgfr(CountfdComplftfr<?> pbr, T[] b, T[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn,
+                   Compbrbtor<? supfr T> dompbrbtor) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+                this.dompbrbtor = dompbrbtor;
+            }
+
+            publid finbl void domputf() {
+                Compbrbtor<? supfr T> d = this.dompbrbtor;
+                T[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0 ||
+                    d == null)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        T split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (d.dompbrf(split, b[rm + rb]) <= 0)
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        T split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (d.dompbrf(split, b[lm + lb]) <= 0)
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr<T> m = nfw Mfrgfr<>(this, b, w, lb + lh, ln - lh,
+                                               rb + rh, rn - rh,
+                                               k + lh + rh, g, d);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    T t, bl, br;
+                    if (d.dompbrf((bl = b[lb]), (br = b[rb])) <= 0) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+
+                tryComplftf();
+            }
+
+        }
+    } // FJObjfdt
+
+    /** bytf support dlbss */
+    stbtid finbl dlbss FJBytf {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl bytf[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, bytf[] b, bytf[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                bytf[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl bytf[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, bytf[] b, bytf[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                bytf[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        bytf split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        bytf split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    bytf t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJBytf
+
+    /** dhbr support dlbss */
+    stbtid finbl dlbss FJChbr {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl dhbr[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, dhbr[] b, dhbr[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                dhbr[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl dhbr[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, dhbr[] b, dhbr[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                dhbr[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        dhbr split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        dhbr split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    dhbr t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJChbr
+
+    /** short support dlbss */
+    stbtid finbl dlbss FJShort {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl short[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, short[] b, short[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                short[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl short[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, short[] b, short[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                short[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        short split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        short split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    short t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJShort
+
+    /** int support dlbss */
+    stbtid finbl dlbss FJInt {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl int[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, int[] b, int[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                int[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl int[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, int[] b, int[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                int[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        int split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        int split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    int t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJInt
+
+    /** long support dlbss */
+    stbtid finbl dlbss FJLong {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl long[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, long[] b, long[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                long[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl long[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, long[] b, long[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                long[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        long split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        long split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    long t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJLong
+
+    /** flobt support dlbss */
+    stbtid finbl dlbss FJFlobt {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl flobt[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, flobt[] b, flobt[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                flobt[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl flobt[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, flobt[] b, flobt[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                flobt[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        flobt split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        flobt split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    flobt t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJFlobt
+
+    /** doublf support dlbss */
+    stbtid finbl dlbss FJDoublf {
+        stbtid finbl dlbss Sortfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl doublf[] b, w;
+            finbl int bbsf, sizf, wbbsf, grbn;
+            Sortfr(CountfdComplftfr<?> pbr, doublf[] b, doublf[] w, int bbsf,
+                   int sizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w; this.bbsf = bbsf; this.sizf = sizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+            publid finbl void domputf() {
+                CountfdComplftfr<?> s = this;
+                doublf[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int b = this.bbsf, n = this.sizf, wb = this.wbbsf, g = this.grbn;
+                whilf (n > g) {
+                    int h = n >>> 1, q = h >>> 1, u = h + q; // qubrtilfs
+                    Rflby fd = nfw Rflby(nfw Mfrgfr(s, w, b, wb, h,
+                                                    wb+h, n-h, b, g));
+                    Rflby rd = nfw Rflby(nfw Mfrgfr(fd, b, w, b+h, q,
+                                                    b+u, n-u, wb+h, g));
+                    nfw Sortfr(rd, b, w, b+u, n-u, wb+u, g).fork();
+                    nfw Sortfr(rd, b, w, b+h, q, wb+h, g).fork();;
+                    Rflby bd = nfw Rflby(nfw Mfrgfr(fd, b, w, b, q,
+                                                    b+q, h-q, wb, g));
+                    nfw Sortfr(bd, b, w, b+q, h-q, wb+q, g).fork();
+                    s = nfw EmptyComplftfr(bd);
+                    n = q;
+                }
+                DublPivotQuidksort.sort(b, b, b + n - 1, w, wb, n);
+                s.tryComplftf();
+            }
+        }
+
+        stbtid finbl dlbss Mfrgfr fxtfnds CountfdComplftfr<Void> {
+            stbtid finbl long sfriblVfrsionUID = 2446542900576103244L;
+            finbl doublf[] b, w; // mbin bnd workspbdf brrbys
+            finbl int lbbsf, lsizf, rbbsf, rsizf, wbbsf, grbn;
+            Mfrgfr(CountfdComplftfr<?> pbr, doublf[] b, doublf[] w,
+                   int lbbsf, int lsizf, int rbbsf,
+                   int rsizf, int wbbsf, int grbn) {
+                supfr(pbr);
+                this.b = b; this.w = w;
+                this.lbbsf = lbbsf; this.lsizf = lsizf;
+                this.rbbsf = rbbsf; this.rsizf = rsizf;
+                this.wbbsf = wbbsf; this.grbn = grbn;
+            }
+
+            publid finbl void domputf() {
+                doublf[] b = this.b, w = this.w; // lodblizf bll pbrbms
+                int lb = this.lbbsf, ln = this.lsizf, rb = this.rbbsf,
+                    rn = this.rsizf, k = this.wbbsf, g = this.grbn;
+                if (b == null || w == null || lb < 0 || rb < 0 || k < 0)
+                    throw nfw IllfgblStbtfExdfption(); // hoist dhfdks
+                for (int lh, rh;;) {  // split lbrgfr, find point in smbllfr
+                    if (ln >= rn) {
+                        if (ln <= g)
+                            brfbk;
+                        rh = rn;
+                        doublf split = b[(lh = ln >>> 1) + lb];
+                        for (int lo = 0; lo < rh; ) {
+                            int rm = (lo + rh) >>> 1;
+                            if (split <= b[rm + rb])
+                                rh = rm;
+                            flsf
+                                lo = rm + 1;
+                        }
+                    }
+                    flsf {
+                        if (rn <= g)
+                            brfbk;
+                        lh = ln;
+                        doublf split = b[(rh = rn >>> 1) + rb];
+                        for (int lo = 0; lo < lh; ) {
+                            int lm = (lo + lh) >>> 1;
+                            if (split <= b[lm + lb])
+                                lh = lm;
+                            flsf
+                                lo = lm + 1;
+                        }
+                    }
+                    Mfrgfr m = nfw Mfrgfr(this, b, w, lb + lh, ln - lh,
+                                          rb + rh, rn - rh,
+                                          k + lh + rh, g);
+                    rn = rh;
+                    ln = lh;
+                    bddToPfndingCount(1);
+                    m.fork();
+                }
+
+                int lf = lb + ln, rf = rb + rn; // indfx bounds
+                whilf (lb < lf && rb < rf) {
+                    doublf t, bl, br;
+                    if ((bl = b[lb]) <= (br = b[rb])) {
+                        lb++; t = bl;
+                    }
+                    flsf {
+                        rb++; t = br;
+                    }
+                    w[k++] = t;
+                }
+                if (rb < rf)
+                    Systfm.brrbydopy(b, rb, w, k, rf - rb);
+                flsf if (lb < lf)
+                    Systfm.brrbydopy(b, lb, w, k, lf - lb);
+                tryComplftf();
+            }
+        }
+    } // FJDoublf
+
+}

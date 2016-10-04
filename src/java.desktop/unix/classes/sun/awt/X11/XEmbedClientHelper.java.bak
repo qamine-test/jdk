@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.AWTKeyStroke;
-import sun.awt.SunToolkit;
-import java.awt.Component;
-import java.awt.Container;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.AWTKfyStrokf;
+import sun.bwt.SunToolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsDevice;
+import sun.bwt.X11GrbpiidsConfig;
+import sun.bwt.X11GrbpiidsDfvidf;
 
 /**
- * Helper class implementing XEmbed protocol handling routines(client side)
- * Window which wants to participate in a protocol should create an instance,
- * call install and forward all XClientMessageEvents to it.
+ * Hflpfr dlbss implfmfnting XEmbfd protodol ibndling routinfs(dlifnt sidf)
+ * Window wiidi wbnts to pbrtidipbtf in b protodol siould drfbtf bn instbndf,
+ * dbll instbll bnd forwbrd bll XClifntMfssbgfEvfnts to it.
  */
-public class XEmbedClientHelper extends XEmbedHelper implements XEventDispatcher {
-    private static final PlatformLogger xembedLog = PlatformLogger.getLogger("sun.awt.X11.xembed.XEmbedClientHelper");
+publid dlbss XEmbfdClifntHflpfr fxtfnds XEmbfdHflpfr implfmfnts XEvfntDispbtdifr {
+    privbtf stbtid finbl PlbtformLoggfr xfmbfdLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.XEmbfdClifntHflpfr");
 
-    private XEmbeddedFramePeer embedded; // XEmbed client
-    private long server; // XEmbed server
+    privbtf XEmbfddfdFrbmfPffr fmbfddfd; // XEmbfd dlifnt
+    privbtf long sfrvfr; // XEmbfd sfrvfr
 
-    private boolean active;
-    private boolean applicationActive;
+    privbtf boolfbn bdtivf;
+    privbtf boolfbn bpplidbtionAdtivf;
 
-    XEmbedClientHelper() {
-        super();
+    XEmbfdClifntHflpfr() {
+        supfr();
     }
 
-    void setClient(XEmbeddedFramePeer client) {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("XEmbed client: " + client);
+    void sftClifnt(XEmbfddfdFrbmfPffr dlifnt) {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("XEmbfd dlifnt: " + dlifnt);
         }
-        if (embedded != null) {
-            XToolkit.removeEventDispatcher(embedded.getWindow(), this);
-            active = false;
+        if (fmbfddfd != null) {
+            XToolkit.rfmovfEvfntDispbtdifr(fmbfddfd.gftWindow(), tiis);
+            bdtivf = fblsf;
         }
-        embedded = client;
-        if (embedded != null) {
-            XToolkit.addEventDispatcher(embedded.getWindow(), this);
+        fmbfddfd = dlifnt;
+        if (fmbfddfd != null) {
+            XToolkit.bddEvfntDispbtdifr(fmbfddfd.gftWindow(), tiis);
         }
     }
 
-    void install() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("Installing xembedder on " + embedded);
+    void instbll() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("Instblling xfmbfddfr on " + fmbfddfd);
         }
-        long[] info = new long[] { XEMBED_VERSION, XEMBED_MAPPED };
-        long data = Native.card32ToData(info);
+        long[] info = nfw long[] { XEMBED_VERSION, XEMBED_MAPPED };
+        long dbtb = Nbtivf.dbrd32ToDbtb(info);
         try {
-            XEmbedInfo.setAtomData(embedded.getWindow(), data, 2);
-        } finally {
-            unsafe.freeMemory(data);
+            XEmbfdInfo.sftAtomDbtb(fmbfddfd.gftWindow(), dbtb, 2);
+        } finblly {
+            unsbff.frffMfmory(dbtb);
         }
-        // XEmbeddedFrame is initially created with a null parent..
-        // Here it is reparented to the proper parent window.
-        long parentWindow = embedded.getParentWindowHandle();
-        if (parentWindow != 0) {
-            XToolkit.awtLock();
+        // XEmbfddfdFrbmf is initiblly drfbtfd witi b null pbrfnt..
+        // Hfrf it is rfpbrfntfd to tif propfr pbrfnt window.
+        long pbrfntWindow = fmbfddfd.gftPbrfntWindowHbndlf();
+        if (pbrfntWindow != 0) {
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XReparentWindow(XToolkit.getDisplay(),
-                                            embedded.getWindow(),
-                                            parentWindow,
+                XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(),
+                                            fmbfddfd.gftWindow(),
+                                            pbrfntWindow,
                                             0, 0);
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
     }
 
-    void handleClientMessage(XEvent xev) {
-        XClientMessageEvent msg = xev.get_xclient();
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine(msg.toString());
+    void ibndlfClifntMfssbgf(XEvfnt xfv) {
+        XClifntMfssbgfEvfnt msg = xfv.gft_xdlifnt();
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf(msg.toString());
         }
-        if (msg.get_message_type() == XEmbed.getAtom()) {
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine("Embedded message: " + msgidToString((int)msg.get_data(1)));
+        if (msg.gft_mfssbgf_typf() == XEmbfd.gftAtom()) {
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Embfddfd mfssbgf: " + msgidToString((int)msg.gft_dbtb(1)));
             }
-            switch ((int)msg.get_data(1)) {
-              case XEMBED_EMBEDDED_NOTIFY: // Notification about embedding protocol start
-                  active = true;
-                  server = getEmbedder(embedded, msg);
-                  // Check if window is reparented. If not - it was created with
-                  // parent and so we should update it here.
-                  if (!embedded.isReparented()) {
-                      embedded.setReparented(true);
-                      embedded.updateSizeHints();
+            switdi ((int)msg.gft_dbtb(1)) {
+              dbsf XEMBED_EMBEDDED_NOTIFY: // Notifidbtion bbout fmbfdding protodol stbrt
+                  bdtivf = truf;
+                  sfrvfr = gftEmbfddfr(fmbfddfd, msg);
+                  // Cifdk if window is rfpbrfntfd. If not - it wbs drfbtfd witi
+                  // pbrfnt bnd so wf siould updbtf it ifrf.
+                  if (!fmbfddfd.isRfpbrfntfd()) {
+                      fmbfddfd.sftRfpbrfntfd(truf);
+                      fmbfddfd.updbtfSizfHints();
                   }
-                  embedded.notifyStarted();
-                  break;
-              case XEMBED_WINDOW_ACTIVATE:
-                  applicationActive = true;
-                  break;
-              case XEMBED_WINDOW_DEACTIVATE:
-                  if (applicationActive) {
-                      applicationActive = false;
-                      handleWindowFocusOut();
+                  fmbfddfd.notifyStbrtfd();
+                  brfbk;
+              dbsf XEMBED_WINDOW_ACTIVATE:
+                  bpplidbtionAdtivf = truf;
+                  brfbk;
+              dbsf XEMBED_WINDOW_DEACTIVATE:
+                  if (bpplidbtionAdtivf) {
+                      bpplidbtionAdtivf = fblsf;
+                      ibndlfWindowFodusOut();
                   }
-                  break;
-              case XEMBED_FOCUS_IN: // We got focus!
-                  // Check for direction
-                  handleFocusIn((int)msg.get_data(2));
-                  break;
-              case XEMBED_FOCUS_OUT:
-                  if (applicationActive) {
-                      handleWindowFocusOut();
+                  brfbk;
+              dbsf XEMBED_FOCUS_IN: // Wf got fodus!
+                  // Cifdk for dirfdtion
+                  ibndlfFodusIn((int)msg.gft_dbtb(2));
+                  brfbk;
+              dbsf XEMBED_FOCUS_OUT:
+                  if (bpplidbtionAdtivf) {
+                      ibndlfWindowFodusOut();
                   }
-                  break;
+                  brfbk;
             }
         }
     }
-    void handleFocusIn(int detail) {
-        if (embedded.focusAllowedFor()) {
-            embedded.handleWindowFocusIn(0);
+    void ibndlfFodusIn(int dftbil) {
+        if (fmbfddfd.fodusAllowfdFor()) {
+            fmbfddfd.ibndlfWindowFodusIn(0);
         }
-        switch(detail) {
-          case XEMBED_FOCUS_CURRENT:
-              // Do nothing - just restore to the current value
-              break;
-          case XEMBED_FOCUS_FIRST:
-              SunToolkit.executeOnEventHandlerThread(embedded.target, new Runnable() {
-                      public void run() {
-                          Component comp = ((Container)embedded.target).getFocusTraversalPolicy().getFirstComponent((Container)embedded.target);
-                          if (comp != null) {
-                              comp.requestFocusInWindow();
+        switdi(dftbil) {
+          dbsf XEMBED_FOCUS_CURRENT:
+              // Do notiing - just rfstorf to tif durrfnt vbluf
+              brfbk;
+          dbsf XEMBED_FOCUS_FIRST:
+              SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(fmbfddfd.tbrgft, nfw Runnbblf() {
+                      publid void run() {
+                          Componfnt domp = ((Contbinfr)fmbfddfd.tbrgft).gftFodusTrbvfrsblPolidy().gftFirstComponfnt((Contbinfr)fmbfddfd.tbrgft);
+                          if (domp != null) {
+                              domp.rfqufstFodusInWindow();
                           }
                       }});
-              break;
-          case XEMBED_FOCUS_LAST:
-              SunToolkit.executeOnEventHandlerThread(embedded.target, new Runnable() {
-                      public void run() {
-                          Component comp = ((Container)embedded.target).getFocusTraversalPolicy().getLastComponent((Container)embedded.target);
-                          if (comp != null) {
-                              comp.requestFocusInWindow();
+              brfbk;
+          dbsf XEMBED_FOCUS_LAST:
+              SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(fmbfddfd.tbrgft, nfw Runnbblf() {
+                      publid void run() {
+                          Componfnt domp = ((Contbinfr)fmbfddfd.tbrgft).gftFodusTrbvfrsblPolidy().gftLbstComponfnt((Contbinfr)fmbfddfd.tbrgft);
+                          if (domp != null) {
+                              domp.rfqufstFodusInWindow();
                           }
                       }});
-              break;
+              brfbk;
         }
     }
 
-    public void dispatchEvent(XEvent xev) {
-        switch(xev.get_type()) {
-          case XConstants.ClientMessage:
-              handleClientMessage(xev);
-              break;
-          case XConstants.ReparentNotify:
-              handleReparentNotify(xev);
-              break;
+    publid void dispbtdiEvfnt(XEvfnt xfv) {
+        switdi(xfv.gft_typf()) {
+          dbsf XConstbnts.ClifntMfssbgf:
+              ibndlfClifntMfssbgf(xfv);
+              brfbk;
+          dbsf XConstbnts.RfpbrfntNotify:
+              ibndlfRfpbrfntNotify(xfv);
+              brfbk;
         }
     }
-    public void handleReparentNotify(XEvent xev) {
-        XReparentEvent re = xev.get_xreparent();
-        long newParent = re.get_parent();
-        if (active) {
-            // unregister accelerators, etc. for old parent
-            embedded.notifyStopped();
-            // check if newParent is a root window
-            X11GraphicsConfig gc = (X11GraphicsConfig)embedded.getGraphicsConfiguration();
-            X11GraphicsDevice gd = (X11GraphicsDevice)gc.getDevice();
-            if ((newParent == XlibUtil.getRootWindow(gd.getScreen())) ||
-                (newParent == XToolkit.getDefaultRootWindow()))
+    publid void ibndlfRfpbrfntNotify(XEvfnt xfv) {
+        XRfpbrfntEvfnt rf = xfv.gft_xrfpbrfnt();
+        long nfwPbrfnt = rf.gft_pbrfnt();
+        if (bdtivf) {
+            // unrfgistfr bddflfrbtors, ftd. for old pbrfnt
+            fmbfddfd.notifyStoppfd();
+            // difdk if nfwPbrfnt is b root window
+            X11GrbpiidsConfig gd = (X11GrbpiidsConfig)fmbfddfd.gftGrbpiidsConfigurbtion();
+            X11GrbpiidsDfvidf gd = (X11GrbpiidsDfvidf)gd.gftDfvidf();
+            if ((nfwPbrfnt == XlibUtil.gftRootWindow(gd.gftSdrffn())) ||
+                (nfwPbrfnt == XToolkit.gftDffbultRootWindow()))
             {
-                // reparenting to root means XEmbed termination
-                active = false;
-            } else {
-                // continue XEmbed with a new parent
-                server = newParent;
-                embedded.notifyStarted();
+                // rfpbrfnting to root mfbns XEmbfd tfrminbtion
+                bdtivf = fblsf;
+            } flsf {
+                // dontinuf XEmbfd witi b nfw pbrfnt
+                sfrvfr = nfwPbrfnt;
+                fmbfddfd.notifyStbrtfd();
             }
         }
     }
-    boolean requestFocus() {
-        if (active && embedded.focusAllowedFor()) {
-            sendMessage(server, XEMBED_REQUEST_FOCUS);
-            return true;
+    boolfbn rfqufstFodus() {
+        if (bdtivf && fmbfddfd.fodusAllowfdFor()) {
+            sfndMfssbgf(sfrvfr, XEMBED_REQUEST_FOCUS);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
-    void handleWindowFocusOut() {
-        // fix for 6269309: it is possible that we call this method twice
-        // (for example, when receiving XEMBED_WINDOW_DEACTIVATE and then
-        // XEMBED_FOCUS_OUT client messages), so we first need to check if
-        // embedded is an active window before sending WINDOW_LOST_FOCUS
-        // to shared code
-        if (XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow() == embedded.target) {
-            embedded.handleWindowFocusOut(null, 0);
-        }
-    }
-
-    long getEmbedder(XWindowPeer embedded, XClientMessageEvent info) {
-        // Embedder is the parent of embedded.
-        return XlibUtil.getParentWindow(embedded.getWindow());
-    }
-
-    boolean isApplicationActive() {
-        return applicationActive;
-    }
-
-    boolean isActive() {
-        return active;
-    }
-
-    void traverseOutForward() {
-        if (active) {
-            sendMessage(server, XEMBED_FOCUS_NEXT);
+    void ibndlfWindowFodusOut() {
+        // fix for 6269309: it is possiblf tibt wf dbll tiis mftiod twidf
+        // (for fxbmplf, wifn rfdfiving XEMBED_WINDOW_DEACTIVATE bnd tifn
+        // XEMBED_FOCUS_OUT dlifnt mfssbgfs), so wf first nffd to difdk if
+        // fmbfddfd is bn bdtivf window bfforf sfnding WINDOW_LOST_FOCUS
+        // to sibrfd dodf
+        if (XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow() == fmbfddfd.tbrgft) {
+            fmbfddfd.ibndlfWindowFodusOut(null, 0);
         }
     }
 
-    void traverseOutBackward() {
-        if (active) {
-            sendMessage(server, XEMBED_FOCUS_PREV);
+    long gftEmbfddfr(XWindowPffr fmbfddfd, XClifntMfssbgfEvfnt info) {
+        // Embfddfr is tif pbrfnt of fmbfddfd.
+        rfturn XlibUtil.gftPbrfntWindow(fmbfddfd.gftWindow());
+    }
+
+    boolfbn isApplidbtionAdtivf() {
+        rfturn bpplidbtionAdtivf;
+    }
+
+    boolfbn isAdtivf() {
+        rfturn bdtivf;
+    }
+
+    void trbvfrsfOutForwbrd() {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_FOCUS_NEXT);
         }
     }
 
-    void registerAccelerator(AWTKeyStroke stroke, int id) {
-        if (active) {
-            long sym = getX11KeySym(stroke);
-            long mods = getX11Mods(stroke);
-            sendMessage(server, XEMBED_REGISTER_ACCELERATOR, id, sym, mods);
-        }
-    }
-    void unregisterAccelerator(int id) {
-        if (active) {
-            sendMessage(server, XEMBED_UNREGISTER_ACCELERATOR, id, 0, 0);
+    void trbvfrsfOutBbdkwbrd() {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_FOCUS_PREV);
         }
     }
 
-    long getX11KeySym(AWTKeyStroke stroke) {
-        XToolkit.awtLock();
+    void rfgistfrAddflfrbtor(AWTKfyStrokf strokf, int id) {
+        if (bdtivf) {
+            long sym = gftX11KfySym(strokf);
+            long mods = gftX11Mods(strokf);
+            sfndMfssbgf(sfrvfr, XEMBED_REGISTER_ACCELERATOR, id, sym, mods);
+        }
+    }
+    void unrfgistfrAddflfrbtor(int id) {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_UNREGISTER_ACCELERATOR, id, 0, 0);
+        }
+    }
+
+    long gftX11KfySym(AWTKfyStrokf strokf) {
+        XToolkit.bwtLodk();
         try {
-            return XWindow.getKeySymForAWTKeyCode(stroke.getKeyCode());
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn XWindow.gftKfySymForAWTKfyCodf(strokf.gftKfyCodf());
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    long getX11Mods(AWTKeyStroke stroke) {
-        return XWindow.getXModifiers(stroke);
+    long gftX11Mods(AWTKfyStrokf strokf) {
+        rfturn XWindow.gftXModififrs(strokf);
     }
 }

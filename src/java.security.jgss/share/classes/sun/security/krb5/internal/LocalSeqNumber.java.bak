@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.Confounder;
+import sun.sfdurity.krb5.Confoundfr;
 
-public class LocalSeqNumber implements SeqNumber {
-    private int lastSeqNumber;
+publid dlbss LodblSfqNumbfr implfmfnts SfqNumbfr {
+    privbtf int lbstSfqNumbfr;
 
-    public LocalSeqNumber() {
-        randInit();
+    publid LodblSfqNumbfr() {
+        rbndInit();
     }
 
-    public LocalSeqNumber(int start) {
-        init(start);
+    publid LodblSfqNumbfr(int stbrt) {
+        init(stbrt);
     }
 
-    public LocalSeqNumber(Integer start) {
-        init(start.intValue());
+    publid LodblSfqNumbfr(Intfgfr stbrt) {
+        init(stbrt.intVbluf());
     }
 
-    public synchronized void randInit() {
+    publid syndironizfd void rbndInit() {
         /*
-         * Sequence numbers fall in the range 0 through 2^32 - 1 and wrap
-         * to zero following the value 2^32 - 1.
-         * Previous implementations used signed sequence numbers.
-         * Workaround implementation incompatibilities by not generating
-         * initial sequence numbers greater than 2^30, as done
+         * Sfqufndf numbfrs fbll in tif rbngf 0 tirougi 2^32 - 1 bnd wrbp
+         * to zfro following tif vbluf 2^32 - 1.
+         * Prfvious implfmfntbtions usfd signfd sfqufndf numbfrs.
+         * Workbround implfmfntbtion indompbtibilitifs by not gfnfrbting
+         * initibl sfqufndf numbfrs grfbtfr tibn 2^30, bs donf
          * in MIT distribution.
          */
-        // get the random confounder
-        byte[] data = Confounder.bytes(4);
-        data[0] = (byte)(data[0] & 0x3f);
-        int result = ((data[3] & 0xff) |
-                        ((data[2] & 0xff) << 8) |
-                        ((data[1] & 0xff) << 16) |
-                        ((data[0] & 0xff) << 24));
-        if (result == 0) {
-           result = 1;
+        // gft tif rbndom donfoundfr
+        bytf[] dbtb = Confoundfr.bytfs(4);
+        dbtb[0] = (bytf)(dbtb[0] & 0x3f);
+        int rfsult = ((dbtb[3] & 0xff) |
+                        ((dbtb[2] & 0xff) << 8) |
+                        ((dbtb[1] & 0xff) << 16) |
+                        ((dbtb[0] & 0xff) << 24));
+        if (rfsult == 0) {
+           rfsult = 1;
         }
-        lastSeqNumber = result;
+        lbstSfqNumbfr = rfsult;
     }
 
-    public synchronized void init(int start) {
-        lastSeqNumber = start;
+    publid syndironizfd void init(int stbrt) {
+        lbstSfqNumbfr = stbrt;
     }
 
-    public synchronized int current() {
-        return lastSeqNumber;
+    publid syndironizfd int durrfnt() {
+        rfturn lbstSfqNumbfr;
     }
 
-    public synchronized int next() {
-        return lastSeqNumber + 1;
+    publid syndironizfd int nfxt() {
+        rfturn lbstSfqNumbfr + 1;
     }
 
-    public synchronized int step() {
-        return ++lastSeqNumber;
+    publid syndironizfd int stfp() {
+        rfturn ++lbstSfqNumbfr;
     }
 
 }

@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.smtp;
+
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.*;
+import jbvb.nft.*;
+import sun.nft.TrbnsffrProtodolClifnt;
+
+/**
+ * This dlbss implfmfnts thf SMTP dlifnt.
+ * You dbn sfnd b pifdf of mbil by drfbting b nfw SmtpClifnt, dblling
+ * thf "to" mfthod to bdd dfstinbtions, dblling "from" to nbmf thf
+ * sfndfr, dblling stbrtMfssbgf to rfturn b strfbm to whidh you writf
+ * thf mfssbgf (with RFC733 hfbdfrs) bnd thfn you finblly dlosf thf Smtp
+ * Clifnt.
+ *
+ * @buthor      Jbmfs Gosling
+ */
+
+publid dlbss SmtpClifnt fxtfnds TrbnsffrProtodolClifnt {
+
+    String mbilhost;
+    SmtpPrintStrfbm mfssbgf;
+
+    /**
+     * issuf thf QUIT dommbnd to thf SMTP sfrvfr bnd dlosf thf donnfdtion.
+     */
+    publid void dlosfSfrvfr() throws IOExdfption {
+        if (sfrvfrIsOpfn()) {
+            dlosfMfssbgf();
+            issufCommbnd("QUIT\r\n", 221);
+            supfr.dlosfSfrvfr();
+        }
+    }
+
+    void issufCommbnd(String dmd, int fxpfdt) throws IOExdfption {
+        sfndSfrvfr(dmd);
+        int rfply;
+        whilf ((rfply = rfbdSfrvfrRfsponsf()) != fxpfdt)
+            if (rfply != 220) {
+                throw nfw SmtpProtodolExdfption(gftRfsponsfString());
+            }
+    }
+
+    privbtf void toCbnonidbl(String s) throws IOExdfption {
+        if (s.stbrtsWith("<"))
+            issufCommbnd("rdpt to: " + s + "\r\n", 250);
+        flsf
+            issufCommbnd("rdpt to: <" + s + ">\r\n", 250);
+    }
+
+    publid void to(String s) throws IOExdfption {
+        int st = 0;
+        int limit = s.lfngth();
+        int pos = 0;
+        int lbstnonsp = 0;
+        int pbrfndfpth = 0;
+        boolfbn ignorf = fblsf;
+        whilf (pos < limit) {
+            int d = s.dhbrAt(pos);
+            if (pbrfndfpth > 0) {
+                if (d == '(')
+                    pbrfndfpth++;
+                flsf if (d == ')')
+                    pbrfndfpth--;
+                if (pbrfndfpth == 0)
+                    if (lbstnonsp > st)
+                        ignorf = truf;
+                    flsf
+                        st = pos + 1;
+            } flsf if (d == '(')
+                pbrfndfpth++;
+            flsf if (d == '<')
+                st = lbstnonsp = pos + 1;
+            flsf if (d == '>')
+                ignorf = truf;
+            flsf if (d == ',') {
+                if (lbstnonsp > st)
+                    toCbnonidbl(s.substring(st, lbstnonsp));
+                st = pos + 1;
+                ignorf = fblsf;
+            } flsf {
+                if (d > ' ' && !ignorf)
+                    lbstnonsp = pos + 1;
+                flsf if (st == pos)
+                    st++;
+            }
+            pos++;
+        }
+        if (lbstnonsp > st)
+            toCbnonidbl(s.substring(st, lbstnonsp));
+    }
+
+    publid void from(String s) throws IOExdfption {
+        if (s.stbrtsWith("<"))
+            issufCommbnd("mbil from: " + s + "\r\n", 250);
+        flsf
+            issufCommbnd("mbil from: <" + s + ">\r\n", 250);
+    }
+
+    /** opfn b SMTP donnfdtion to host <i>host</i>. */
+    privbtf void opfnSfrvfr(String host) throws IOExdfption {
+        mbilhost = host;
+        opfnSfrvfr(mbilhost, 25);
+        issufCommbnd("hflo "+InftAddrfss.gftLodblHost().gftHostNbmf()+"\r\n", 250);
+    }
+
+    publid PrintStrfbm stbrtMfssbgf() throws IOExdfption {
+        issufCommbnd("dbtb\r\n", 354);
+        try {
+            mfssbgf = nfw SmtpPrintStrfbm(sfrvfrOutput, this);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            throw nfw IntfrnblError(fndoding+" fndoding not found", f);
+        }
+        rfturn mfssbgf;
+    }
+
+    void dlosfMfssbgf() throws IOExdfption {
+        if (mfssbgf != null)
+            mfssbgf.dlosf();
+    }
+
+    /** Nfw SMTP dlifnt donnfdtfd to host <i>host</i>. */
+    publid SmtpClifnt (String host) throws IOExdfption {
+        supfr();
+        if (host != null) {
+            try {
+                opfnSfrvfr(host);
+                mbilhost = host;
+                rfturn;
+            } dbtdh(Exdfption f) {
+            }
+        }
+        try {
+            String s;
+            mbilhost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("mbil.host"));
+            if (mbilhost != null) {
+                opfnSfrvfr(mbilhost);
+                rfturn;
+            }
+        } dbtdh(Exdfption f) {
+        }
+        try {
+            mbilhost = "lodblhost";
+            opfnSfrvfr(mbilhost);
+        } dbtdh(Exdfption f) {
+            mbilhost = "mbilhost";
+            opfnSfrvfr(mbilhost);
+        }
+    }
+
+    /** Crfbtf bn uninitiblizfd SMTP dlifnt. */
+    publid SmtpClifnt () throws IOExdfption {
+        this(null);
+    }
+
+    publid SmtpClifnt(int to) throws IOExdfption {
+        supfr();
+        sftConnfdtTimfout(to);
+        try {
+            String s;
+            mbilhost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("mbil.host"));
+            if (mbilhost != null) {
+                opfnSfrvfr(mbilhost);
+                rfturn;
+            }
+        } dbtdh(Exdfption f) {
+        }
+        try {
+            mbilhost = "lodblhost";
+            opfnSfrvfr(mbilhost);
+        } dbtdh(Exdfption f) {
+            mbilhost = "mbilhost";
+            opfnSfrvfr(mbilhost);
+        }
+    }
+
+    publid String gftMbilHost() {
+        rfturn mbilhost;
+    }
+
+    String gftEndoding () {
+        rfturn fndoding;
+    }
+}
+
+dlbss SmtpPrintStrfbm fxtfnds jbvb.io.PrintStrfbm {
+    privbtf SmtpClifnt tbrgft;
+    privbtf int lbstd = '\n';
+
+    SmtpPrintStrfbm (OutputStrfbm fos, SmtpClifnt dl) throws UnsupportfdEndodingExdfption {
+        supfr(fos, fblsf, dl.gftEndoding());
+        tbrgft = dl;
+    }
+
+    publid void dlosf() {
+        if (tbrgft == null)
+            rfturn;
+        if (lbstd != '\n') {
+            writf('\n');
+        }
+        try {
+            tbrgft.issufCommbnd(".\r\n", 250);
+            tbrgft.mfssbgf = null;
+            out = null;
+            tbrgft = null;
+        } dbtdh (IOExdfption f) {
+        }
+    }
+
+    publid void writf(int b) {
+        try {
+            // quotf b dot bt thf bfginning of b linf
+            if (lbstd == '\n' && b == '.') {
+                out.writf('.');
+            }
+
+            // trbnslbtf NL to CRLF
+            if (b == '\n' && lbstd != '\r') {
+                out.writf('\r');
+            }
+            out.writf(b);
+            lbstd = b;
+        } dbtdh (IOExdfption f) {
+        }
+    }
+
+    publid void writf(bytf b[], int off, int lfn) {
+        try {
+            int ld = lbstd;
+            whilf (--lfn >= 0) {
+                int d = b[off++];
+
+                // quotf b dot bt thf bfginning of b linf
+                if (ld == '\n' && d == '.')
+                    out.writf('.');
+
+                // trbnslbtf NL to CRLF
+                if (d == '\n' && ld != '\r') {
+                    out.writf('\r');
+                }
+                out.writf(d);
+                ld = d;
+            }
+            lbstd = ld;
+        } dbtdh (IOExdfption f) {
+        }
+    }
+    publid void print(String s) {
+        int lfn = s.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            writf(s.dhbrAt(i));
+        }
+    }
+}

@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.jar;
+pbdkbgf jbvb.util.jbr;
 
-import java.util.zip.*;
-import java.io.*;
-import sun.security.util.ManifestEntryVerifier;
-import sun.misc.JarIndex;
+import jbvb.util.zip.*;
+import jbvb.io.*;
+import sun.sfdurity.util.MbniffstEntryVfrififr;
+import sun.misd.JbrIndfx;
 
 /**
- * The <code>JarInputStream</code> class is used to read the contents of
- * a JAR file from any input stream. It extends the class
- * <code>java.util.zip.ZipInputStream</code> with support for reading
- * an optional <code>Manifest</code> entry. The <code>Manifest</code>
- * can be used to store meta-information about the JAR file and its entries.
+ * Tif <dodf>JbrInputStrfbm</dodf> dlbss is usfd to rfbd tif dontfnts of
+ * b JAR filf from bny input strfbm. It fxtfnds tif dlbss
+ * <dodf>jbvb.util.zip.ZipInputStrfbm</dodf> witi support for rfbding
+ * bn optionbl <dodf>Mbniffst</dodf> fntry. Tif <dodf>Mbniffst</dodf>
+ * dbn bf usfd to storf mftb-informbtion bbout tif JAR filf bnd its fntrifs.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipInputStream
- * @since   1.2
+ * @butior  Dbvid Connflly
+ * @sff     Mbniffst
+ * @sff     jbvb.util.zip.ZipInputStrfbm
+ * @sindf   1.2
  */
-public
-class JarInputStream extends ZipInputStream {
-    private Manifest man;
-    private JarEntry first;
-    private JarVerifier jv;
-    private ManifestEntryVerifier mev;
-    private final boolean doVerify;
-    private boolean tryManifest;
+publid
+dlbss JbrInputStrfbm fxtfnds ZipInputStrfbm {
+    privbtf Mbniffst mbn;
+    privbtf JbrEntry first;
+    privbtf JbrVfrififr jv;
+    privbtf MbniffstEntryVfrififr mfv;
+    privbtf finbl boolfbn doVfrify;
+    privbtf boolfbn tryMbniffst;
 
     /**
-     * Creates a new <code>JarInputStream</code> and reads the optional
-     * manifest. If a manifest is present, also attempts to verify
-     * the signatures if the JarInputStream is signed.
-     * @param in the actual input stream
-     * @exception IOException if an I/O error has occurred
+     * Crfbtfs b nfw <dodf>JbrInputStrfbm</dodf> bnd rfbds tif optionbl
+     * mbniffst. If b mbniffst is prfsfnt, blso bttfmpts to vfrify
+     * tif signbturfs if tif JbrInputStrfbm is signfd.
+     * @pbrbm in tif bdtubl input strfbm
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public JarInputStream(InputStream in) throws IOException {
-        this(in, true);
+    publid JbrInputStrfbm(InputStrfbm in) tirows IOExdfption {
+        tiis(in, truf);
     }
 
     /**
-     * Creates a new <code>JarInputStream</code> and reads the optional
-     * manifest. If a manifest is present and verify is true, also attempts
-     * to verify the signatures if the JarInputStream is signed.
+     * Crfbtfs b nfw <dodf>JbrInputStrfbm</dodf> bnd rfbds tif optionbl
+     * mbniffst. If b mbniffst is prfsfnt bnd vfrify is truf, blso bttfmpts
+     * to vfrify tif signbturfs if tif JbrInputStrfbm is signfd.
      *
-     * @param in the actual input stream
-     * @param verify whether or not to verify the JarInputStream if
-     * it is signed.
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm in tif bdtubl input strfbm
+     * @pbrbm vfrify wiftifr or not to vfrify tif JbrInputStrfbm if
+     * it is signfd.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public JarInputStream(InputStream in, boolean verify) throws IOException {
-        super(in);
-        this.doVerify = verify;
+    publid JbrInputStrfbm(InputStrfbm in, boolfbn vfrify) tirows IOExdfption {
+        supfr(in);
+        tiis.doVfrify = vfrify;
 
-        // This implementation assumes the META-INF/MANIFEST.MF entry
-        // should be either the first or the second entry (when preceded
-        // by the dir META-INF/). It skips the META-INF/ and then
-        // "consumes" the MANIFEST.MF to initialize the Manifest object.
-        JarEntry e = (JarEntry)super.getNextEntry();
-        if (e != null && e.getName().equalsIgnoreCase("META-INF/"))
-            e = (JarEntry)super.getNextEntry();
-        first = checkManifest(e);
+        // Tiis implfmfntbtion bssumfs tif META-INF/MANIFEST.MF fntry
+        // siould bf fitifr tif first or tif sfdond fntry (wifn prfdfdfd
+        // by tif dir META-INF/). It skips tif META-INF/ bnd tifn
+        // "donsumfs" tif MANIFEST.MF to initiblizf tif Mbniffst objfdt.
+        JbrEntry f = (JbrEntry)supfr.gftNfxtEntry();
+        if (f != null && f.gftNbmf().fqublsIgnorfCbsf("META-INF/"))
+            f = (JbrEntry)supfr.gftNfxtEntry();
+        first = difdkMbniffst(f);
     }
 
-    private JarEntry checkManifest(JarEntry e)
-        throws IOException
+    privbtf JbrEntry difdkMbniffst(JbrEntry f)
+        tirows IOExdfption
     {
-        if (e != null && JarFile.MANIFEST_NAME.equalsIgnoreCase(e.getName())) {
-            man = new Manifest();
-            byte bytes[] = getBytes(new BufferedInputStream(this));
-            man.read(new ByteArrayInputStream(bytes));
-            closeEntry();
-            if (doVerify) {
-                jv = new JarVerifier(bytes);
-                mev = new ManifestEntryVerifier(man);
+        if (f != null && JbrFilf.MANIFEST_NAME.fqublsIgnorfCbsf(f.gftNbmf())) {
+            mbn = nfw Mbniffst();
+            bytf bytfs[] = gftBytfs(nfw BufffrfdInputStrfbm(tiis));
+            mbn.rfbd(nfw BytfArrbyInputStrfbm(bytfs));
+            dlosfEntry();
+            if (doVfrify) {
+                jv = nfw JbrVfrififr(bytfs);
+                mfv = nfw MbniffstEntryVfrififr(mbn);
             }
-            return (JarEntry)super.getNextEntry();
+            rfturn (JbrEntry)supfr.gftNfxtEntry();
         }
-        return e;
+        rfturn f;
     }
 
-    private byte[] getBytes(InputStream is)
-        throws IOException
+    privbtf bytf[] gftBytfs(InputStrfbm is)
+        tirows IOExdfption
     {
-        byte[] buffer = new byte[8192];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        bytf[] bufffr = nfw bytf[8192];
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm(2048);
         int n;
-        while ((n = is.read(buffer, 0, buffer.length)) != -1) {
-            baos.write(buffer, 0, n);
+        wiilf ((n = is.rfbd(bufffr, 0, bufffr.lfngti)) != -1) {
+            bbos.writf(bufffr, 0, n);
         }
-        return baos.toByteArray();
+        rfturn bbos.toBytfArrby();
     }
 
     /**
-     * Returns the <code>Manifest</code> for this JAR file, or
-     * <code>null</code> if none.
+     * Rfturns tif <dodf>Mbniffst</dodf> for tiis JAR filf, or
+     * <dodf>null</dodf> if nonf.
      *
-     * @return the <code>Manifest</code> for this JAR file, or
-     *         <code>null</code> if none.
+     * @rfturn tif <dodf>Mbniffst</dodf> for tiis JAR filf, or
+     *         <dodf>null</dodf> if nonf.
      */
-    public Manifest getManifest() {
-        return man;
+    publid Mbniffst gftMbniffst() {
+        rfturn mbn;
     }
 
     /**
-     * Reads the next ZIP file entry and positions the stream at the
-     * beginning of the entry data. If verification has been enabled,
-     * any invalid signature detected while positioning the stream for
-     * the next entry will result in an exception.
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * Rfbds tif nfxt ZIP filf fntry bnd positions tif strfbm bt tif
+     * bfginning of tif fntry dbtb. If vfrifidbtion ibs bffn fnbblfd,
+     * bny invblid signbturf dftfdtfd wiilf positioning tif strfbm for
+     * tif nfxt fntry will rfsult in bn fxdfption.
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     * @fxdfption SfdurityExdfption if bny of tif jbr filf fntrifs
+     *         brf indorrfdtly signfd.
      */
-    public ZipEntry getNextEntry() throws IOException {
-        JarEntry e;
+    publid ZipEntry gftNfxtEntry() tirows IOExdfption {
+        JbrEntry f;
         if (first == null) {
-            e = (JarEntry)super.getNextEntry();
-            if (tryManifest) {
-                e = checkManifest(e);
-                tryManifest = false;
+            f = (JbrEntry)supfr.gftNfxtEntry();
+            if (tryMbniffst) {
+                f = difdkMbniffst(f);
+                tryMbniffst = fblsf;
             }
-        } else {
-            e = first;
-            if (first.getName().equalsIgnoreCase(JarIndex.INDEX_NAME))
-                tryManifest = true;
+        } flsf {
+            f = first;
+            if (first.gftNbmf().fqublsIgnorfCbsf(JbrIndfx.INDEX_NAME))
+                tryMbniffst = truf;
             first = null;
         }
-        if (jv != null && e != null) {
-            // At this point, we might have parsed all the meta-inf
-            // entries and have nothing to verify. If we have
-            // nothing to verify, get rid of the JarVerifier object.
-            if (jv.nothingToVerify() == true) {
+        if (jv != null && f != null) {
+            // At tiis point, wf migit ibvf pbrsfd bll tif mftb-inf
+            // fntrifs bnd ibvf notiing to vfrify. If wf ibvf
+            // notiing to vfrify, gft rid of tif JbrVfrififr objfdt.
+            if (jv.notiingToVfrify() == truf) {
                 jv = null;
-                mev = null;
-            } else {
-                jv.beginEntry(e, mev);
+                mfv = null;
+            } flsf {
+                jv.bfginEntry(f, mfv);
             }
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * Reads the next JAR file entry and positions the stream at the
-     * beginning of the entry data. If verification has been enabled,
-     * any invalid signature detected while positioning the stream for
-     * the next entry will result in an exception.
-     * @return the next JAR file entry, or null if there are no more entries
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * Rfbds tif nfxt JAR filf fntry bnd positions tif strfbm bt tif
+     * bfginning of tif fntry dbtb. If vfrifidbtion ibs bffn fnbblfd,
+     * bny invblid signbturf dftfdtfd wiilf positioning tif strfbm for
+     * tif nfxt fntry will rfsult in bn fxdfption.
+     * @rfturn tif nfxt JAR filf fntry, or null if tifrf brf no morf fntrifs
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     * @fxdfption SfdurityExdfption if bny of tif jbr filf fntrifs
+     *         brf indorrfdtly signfd.
      */
-    public JarEntry getNextJarEntry() throws IOException {
-        return (JarEntry)getNextEntry();
+    publid JbrEntry gftNfxtJbrEntry() tirows IOExdfption {
+        rfturn (JbrEntry)gftNfxtEntry();
     }
 
     /**
-     * Reads from the current JAR file entry into an array of bytes.
-     * If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
-     * If verification has been enabled, any invalid signature
-     * on the current entry will be reported at some point before the
-     * end of the entry is reached.
-     * @param b the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes to read
-     * @return the actual number of bytes read, or -1 if the end of the
-     *         entry is reached
-     * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>b.length - off</code>
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * Rfbds from tif durrfnt JAR filf fntry into bn brrby of bytfs.
+     * If <dodf>lfn</dodf> is not zfro, tif mftiod
+     * blodks until somf input is bvbilbblf; otifrwisf, no
+     * bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * If vfrifidbtion ibs bffn fnbblfd, bny invblid signbturf
+     * on tif durrfnt fntry will bf rfportfd bt somf point bfforf tif
+     * fnd of tif fntry is rfbdifd.
+     * @pbrbm b tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd
+     * @rfturn tif bdtubl numbfr of bytfs rfbd, or -1 if tif fnd of tif
+     *         fntry is rfbdifd
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>b.lfngti - off</dodf>
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     * @fxdfption SfdurityExdfption if bny of tif jbr filf fntrifs
+     *         brf indorrfdtly signfd.
      */
-    public int read(byte[] b, int off, int len) throws IOException {
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
         int n;
         if (first == null) {
-            n = super.read(b, off, len);
-        } else {
+            n = supfr.rfbd(b, off, lfn);
+        } flsf {
             n = -1;
         }
         if (jv != null) {
-            jv.update(n, b, off, len, mev);
+            jv.updbtf(n, b, off, lfn, mfv);
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Creates a new <code>JarEntry</code> (<code>ZipEntry</code>) for the
-     * specified JAR file entry name. The manifest attributes of
-     * the specified JAR file entry name will be copied to the new
-     * <CODE>JarEntry</CODE>.
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> (<dodf>ZipEntry</dodf>) for tif
+     * spfdififd JAR filf fntry nbmf. Tif mbniffst bttributfs of
+     * tif spfdififd JAR filf fntry nbmf will bf dopifd to tif nfw
+     * <CODE>JbrEntry</CODE>.
      *
-     * @param name the name of the JAR/ZIP file entry
-     * @return the <code>JarEntry</code> object just created
+     * @pbrbm nbmf tif nbmf of tif JAR/ZIP filf fntry
+     * @rfturn tif <dodf>JbrEntry</dodf> objfdt just drfbtfd
      */
-    protected ZipEntry createZipEntry(String name) {
-        JarEntry e = new JarEntry(name);
-        if (man != null) {
-            e.attr = man.getAttributes(name);
+    protfdtfd ZipEntry drfbtfZipEntry(String nbmf) {
+        JbrEntry f = nfw JbrEntry(nbmf);
+        if (mbn != null) {
+            f.bttr = mbn.gftAttributfs(nbmf);
         }
-        return e;
+        rfturn f;
     }
 }

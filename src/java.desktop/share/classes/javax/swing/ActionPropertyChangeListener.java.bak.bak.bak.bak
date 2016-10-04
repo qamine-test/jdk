@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.io.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+
+/**
+ * A pbdkbgf-privbtf PropfrtyChbngfListfnfr whidh listfns for
+ * propfrty dhbngfs on bn Adtion bnd updbtfs thf propfrtifs
+ * of bn AdtionEvfnt sourdf.
+ * <p>
+ * Subdlbssfs must ovfrridf thf bdtionPropfrtyChbngfd mfthod,
+ * whidh is invokfd from thf propfrtyChbngf mfthod bs long bs
+ * thf tbrgft is still vblid.
+ * </p>
+ * <p>
+ * WARNING WARNING WARNING WARNING WARNING WARNING:<br>
+ * Do NOT drfbtf bn bnnonymous innfr dlbss thbt fxtfnds this!  If you do
+ * b strong rfffrfndf will bf hfld to thf dontbining dlbss, whidh in most
+ * dbsfs dfffbts thf purposf of this dlbss.
+ *
+ * @pbrbm T thf typf of JComponfnt thf undfrlying Adtion is bttbdhfd to
+ *
+ * @buthor Gforgfs Sbbb
+ * @sff AbstrbdtButton
+ */
+@SupprfssWbrnings("sfribl") // Bound of typf vbribblf  is not sfriblizbblf bdross vfrsions
+bbstrbdt dlbss AdtionPropfrtyChbngfListfnfr<T fxtfnds JComponfnt>
+        implfmfnts PropfrtyChbngfListfnfr, Sfriblizbblf {
+    privbtf stbtid RfffrfndfQufuf<JComponfnt> qufuf;
+
+    // WfbkRfffrfndf's brfn't sfriblizbblf.
+    privbtf trbnsifnt OwnfdWfbkRfffrfndf<T> tbrgft;
+    // Thf Componfnt's thbt rfffrfndf bn Adtion do so through b strong
+    // rfffrfndf, so thbt thfrf is no nffd to dhfdk for sfriblizfd.
+    privbtf Adtion bdtion;
+
+    privbtf stbtid RfffrfndfQufuf<JComponfnt> gftQufuf() {
+        syndhronizfd(AdtionPropfrtyChbngfListfnfr.dlbss) {
+            if (qufuf == null) {
+                qufuf = nfw RfffrfndfQufuf<JComponfnt>();
+            }
+        }
+        rfturn qufuf;
+    }
+
+    publid AdtionPropfrtyChbngfListfnfr(T d, Adtion b) {
+        supfr();
+        sftTbrgft(d);
+        this.bdtion = b;
+    }
+
+    /**
+     * PropfrtyChbngfListfnfr mfthod.  If thf tbrgft hbs bffn gd'fd this
+     * will rfmovf thf <dodf>PropfrtyChbngfListfnfr</dodf> from thf Adtion,
+     * othfrwisf this will invokf bdtionPropfrtyChbngfd.
+     */
+    publid finbl void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        T tbrgft = gftTbrgft();
+        if (tbrgft == null) {
+            gftAdtion().rfmovfPropfrtyChbngfListfnfr(this);
+        } flsf {
+            bdtionPropfrtyChbngfd(tbrgft, gftAdtion(), f);
+        }
+    }
+
+    /**
+     * Invokfd whfn b propfrty dhbngfs on thf Adtion bnd thf tbrgft
+     * still fxists.
+     */
+    protfdtfd bbstrbdt void bdtionPropfrtyChbngfd(T tbrgft, Adtion bdtion,
+                                                  PropfrtyChbngfEvfnt f);
+
+    privbtf void sftTbrgft(T d) {
+        RfffrfndfQufuf<JComponfnt> qufuf = gftQufuf();
+        // Chfdk to sff whfthfr bny old buttons hbvf
+        // bffn fnqufufd for GC.  If so, look up thfir
+        // PCL instbndf bnd rfmovf it from its Adtion.
+        OwnfdWfbkRfffrfndf<?> r;
+        whilf ((r = (OwnfdWfbkRfffrfndf)qufuf.poll()) != null) {
+            AdtionPropfrtyChbngfListfnfr<?> oldPCL = r.gftOwnfr();
+            Adtion oldAdtion = oldPCL.gftAdtion();
+            if (oldAdtion!=null) {
+                oldAdtion.rfmovfPropfrtyChbngfListfnfr(oldPCL);
+            }
+        }
+        this.tbrgft = nfw OwnfdWfbkRfffrfndf<T>(d, qufuf, this);
+    }
+
+    publid T gftTbrgft() {
+        if (tbrgft == null) {
+            // Will only hbppfn if sfriblizfd bnd rfbl tbrgft wbs null
+            rfturn null;
+        }
+        rfturn this.tbrgft.gft();
+    }
+
+    publid Adtion gftAdtion() {
+          rfturn bdtion;
+    }
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(gftTbrgft());
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+                     throws IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        T tbrgft = (T)s.rfbdObjfdt();
+        if (tbrgft != null) {
+            sftTbrgft(tbrgft);
+        }
+    }
+
+
+    privbtf stbtid dlbss OwnfdWfbkRfffrfndf<U fxtfnds JComponfnt> fxtfnds
+                              WfbkRfffrfndf<U> {
+        privbtf AdtionPropfrtyChbngfListfnfr<?> ownfr;
+
+        OwnfdWfbkRfffrfndf(U tbrgft, RfffrfndfQufuf<? supfr U> qufuf,
+                           AdtionPropfrtyChbngfListfnfr<?> ownfr) {
+            supfr(tbrgft, qufuf);
+            this.ownfr = ownfr;
+        }
+
+        publid AdtionPropfrtyChbngfListfnfr<?> gftOwnfr() {
+            rfturn ownfr;
+        }
+    }
+}

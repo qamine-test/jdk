@@ -1,0 +1,2464 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *   Intfrnbl fundtions for mlib_ImbgfConv* on U8/S16/U16 typfs bnd
+ *   MLIB_EDGE_DST_NO_WRITE mbsk
+ */
+
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfConv.h"
+#indludf "mlib_d_ImbgfConv.h"
+
+/*
+  This dffinf switdhfs bftwffn fundtions of difffrfnt dbtb typfs
+*/
+#dffinf IMG_TYPE 1
+
+/***************************************************************/
+#if IMG_TYPE == 1
+
+#dffinf DTYPE             mlib_u8
+#dffinf CONV_FUNC(KERN)   mlib_d_donv##KERN##nw_u8
+#dffinf CONV_FUNC_I(KERN) mlib_i_donv##KERN##nw_u8
+#dffinf DSCALE            (1 << 24)
+#dffinf FROM_S32(x)       (((x) >> 24) ^ 128)
+#dffinf S64TOS32(x)       (x)
+#dffinf SAT_OFF           -(1u << 31)
+
+#flif IMG_TYPE == 2
+
+#dffinf DTYPE             mlib_s16
+#dffinf CONV_FUNC(KERN)   mlib_donv##KERN##nw_s16
+#dffinf CONV_FUNC_I(KERN) mlib_i_donv##KERN##nw_s16
+#dffinf DSCALE            65536.0
+#dffinf FROM_S32(x)       ((x) >> 16)
+#dffinf S64TOS32(x)       ((x) & 0xffffffff)
+#dffinf SAT_OFF
+
+#flif IMG_TYPE == 3
+
+#dffinf DTYPE             mlib_u16
+#dffinf CONV_FUNC(KERN)   mlib_donv##KERN##nw_u16
+#dffinf CONV_FUNC_I(KERN) mlib_i_donv##KERN##nw_u16
+#dffinf DSCALE            65536.0
+#dffinf FROM_S32(x)       (((x) >> 16) ^ 0x8000)
+#dffinf S64TOS32(x)       (x)
+#dffinf SAT_OFF           -(1u << 31)
+
+#fndif /* IMG_TYPE == 1 */
+
+/***************************************************************/
+#dffinf BUFF_SIZE   1600
+
+#dffinf CACHE_SIZE  (64*1024)
+
+/***************************************************************/
+#dffinf FTYPE mlib_d64
+
+#ifndff MLIB_USE_FTOI_CLAMPING
+
+#dffinf CLAMP_S32(x)                                            \
+  (((x) <= MLIB_S32_MIN) ? MLIB_S32_MIN : (((x) >= MLIB_S32_MAX) ? MLIB_S32_MAX : (mlib_s32)(x)))
+
+#flsf
+
+#dffinf CLAMP_S32(x) ((mlib_s32)(x))
+
+#fndif /* MLIB_USE_FTOI_CLAMPING */
+
+/***************************************************************/
+#dffinf D2I(x) CLAMP_S32((x) SAT_OFF)
+
+/***************************************************************/
+#ifdff _LITTLE_ENDIAN
+
+#dffinf STORE2(rfs0, rfs1)                                      \
+  dp[0    ] = rfs1;                                             \
+  dp[dhbn1] = rfs0
+
+#flsf
+
+#dffinf STORE2(rfs0, rfs1)                                      \
+  dp[0    ] = rfs0;                                             \
+  dp[dhbn1] = rfs1
+
+#fndif /* _LITTLE_ENDIAN */
+
+/***************************************************************/
+#ifdff _NO_LONGLONG
+
+#dffinf LOAD_BUFF(buff)                                         \
+  buff[i    ] = sp[0];                                          \
+  buff[i + 1] = sp[dhbn1]
+
+#flsf /* _NO_LONGLONG */
+
+#ifdff _LITTLE_ENDIAN
+
+#dffinf LOAD_BUFF(buff)                                         \
+  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[dhbn1]) << 32) | S64TOS32((mlib_s64)sp[0])
+
+#flsf /* _LITTLE_ENDIAN */
+
+#dffinf LOAD_BUFF(buff)                                         \
+  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[0]) << 32) | S64TOS32((mlib_s64)sp[dhbn1])
+
+#fndif /* _LITTLE_ENDIAN */
+#fndif /* _NO_LONGLONG */
+
+/***************************************************************/
+typfdff union {
+  mlib_d64 d64;
+  strudt {
+    mlib_s32 i0;
+    mlib_s32 i1;
+  } i32s;
+  strudt {
+    mlib_s32 f0;
+    mlib_s32 f1;
+  } f32s;
+} d64_2x32;
+
+/***************************************************************/
+#dffinf BUFF_LINE 256
+
+/***************************************************************/
+#dffinf DEF_VARS(typf)                                          \
+  typf     *bdr_srd, *sl, *sp = NULL;                           \
+  typf     *bdr_dst, *dl, *dp = NULL;                           \
+  FTYPE    *pbuff = buff;                                       \
+  mlib_s32 wid, hgt, sll, dll;                                  \
+  mlib_s32 ndhbnnfl, dhbn1;                                     \
+  mlib_s32 i, j, d
+
+/***************************************************************/
+#dffinf LOAD_KERNEL3()                                                   \
+  FTYPE    sdblff = DSCALE;                                              \
+  FTYPE    k0, k1, k2, k3, k4, k5, k6, k7, k8;                           \
+  FTYPE    p00, p01, p02, p03,                                           \
+           p10, p11, p12, p13,                                           \
+           p20, p21, p22, p23;                                           \
+                                                                         \
+  whilf (sdblff_fxpon > 30) {                                            \
+    sdblff /= (1 << 30);                                                 \
+    sdblff_fxpon -= 30;                                                  \
+  }                                                                      \
+                                                                         \
+  sdblff /= (1 << sdblff_fxpon);                                         \
+                                                                         \
+  /* kffp kfrnfl in rfgs */                                              \
+  k0 = sdblff * kfrn[0];  k1 = sdblff * kfrn[1];  k2 = sdblff * kfrn[2]; \
+  k3 = sdblff * kfrn[3];  k4 = sdblff * kfrn[4];  k5 = sdblff * kfrn[5]; \
+  k6 = sdblff * kfrn[6];  k7 = sdblff * kfrn[7];  k8 = sdblff * kfrn[8]
+
+/***************************************************************/
+#dffinf LOAD_KERNEL(SIZE)                                       \
+  FTYPE    sdblff = DSCALE;                                     \
+                                                                \
+  whilf (sdblff_fxpon > 30) {                                   \
+    sdblff /= (1 << 30);                                        \
+    sdblff_fxpon -= 30;                                         \
+  }                                                             \
+                                                                \
+  sdblff /= (1 << sdblff_fxpon);                                \
+                                                                \
+  for (j = 0; j < SIZE; j++) k[j] = sdblff * kfrn[j]
+
+/***************************************************************/
+#dffinf GET_SRC_DST_PARAMETERS(typf)                            \
+  hgt = mlib_ImbgfGftHfight(srd);                               \
+  wid = mlib_ImbgfGftWidth(srd);                                \
+  ndhbnnfl = mlib_ImbgfGftChbnnfls(srd);                        \
+  sll = mlib_ImbgfGftStridf(srd) / sizfof(typf);                \
+  dll = mlib_ImbgfGftStridf(dst) / sizfof(typf);                \
+  bdr_srd = (typf *)mlib_ImbgfGftDbtb(srd);                     \
+  bdr_dst = (typf *)mlib_ImbgfGftDbtb(dst)
+
+/***************************************************************/
+#ifndff __spbrd
+
+#if IMG_TYPE == 1
+
+/* Tfst for thf prfsfndf of bny "1" bit in bits
+   8 to 31 of vbl. If prfsfnt, thfn vbl is fithfr
+   nfgbtivf or >255. If ovfr/undfrflows of 8 bits
+   brf undommon, thfn this tfdhniquf dbn bf b win,
+   sindf only b singlf tfst, rbthfr thbn two, is
+   nfdfssbry to dftfrminf if dlbmping is nffdfd.
+   On thf othfr hbnd, if ovfr/undfrflows brf dommon,
+   it bdds bn fxtrb tfst.
+*/
+#dffinf CLAMP_STORE(dst, vbl)                                   \
+  if (vbl & 0xffffff00) {                                       \
+    if (vbl < MLIB_U8_MIN)                                      \
+      dst = MLIB_U8_MIN;                                        \
+    flsf                                                        \
+      dst = MLIB_U8_MAX;                                        \
+  } flsf {                                                      \
+    dst = (mlib_u8)vbl;                                         \
+  }
+
+#flif IMG_TYPE == 2
+
+#dffinf CLAMP_STORE(dst, vbl)                                   \
+  if (vbl >= MLIB_S16_MAX)                                      \
+    dst = MLIB_S16_MAX;                                         \
+  flsf if (vbl <= MLIB_S16_MIN)                                 \
+    dst = MLIB_S16_MIN;                                         \
+  flsf                                                          \
+    dst = (mlib_s16)vbl
+
+#flif IMG_TYPE == 3
+
+#dffinf CLAMP_STORE(dst, vbl)                                   \
+  if (vbl >= MLIB_U16_MAX)                                      \
+    dst = MLIB_U16_MAX;                                         \
+  flsf if (vbl <= MLIB_U16_MIN)                                 \
+    dst = MLIB_U16_MIN;                                         \
+  flsf                                                          \
+    dst = (mlib_u16)vbl
+
+#fndif /* IMG_TYPE == 1 */
+#fndif /* __spbrd */
+
+/***************************************************************/
+#dffinf KSIZE  3
+
+mlib_stbtus CONV_FUNC(3x3)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_s32   *kfrn,
+                           mlib_s32         sdblff_fxpon,
+                           mlib_s32         dmbsk)
+{
+  FTYPE    buff[(KSIZE + 2)*BUFF_LINE], *buff0, *buff1, *buff2, *buff3, *buffT;
+  DEF_VARS(DTYPE);
+  DTYPE *sl1;
+  mlib_s32 dhbn2;
+  mlib_s32 *buffo, *buffi;
+  DTYPE *sl2;
+#ifndff __spbrd
+  mlib_s32 d0, d1;
+#fndif /* __spbrd */
+  LOAD_KERNEL3();
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (wid > BUFF_LINE) {
+    pbuff = mlib_mbllod((KSIZE + 2)*sizfof(FTYPE)*wid);
+
+    if (pbuff == NULL) rfturn MLIB_FAILURE;
+  }
+
+  buff0 = pbuff;
+  buff1 = buff0 + wid;
+  buff2 = buff1 + wid;
+  buff3 = buff2 + wid;
+  buffo = (mlib_s32*)(buff3 + wid);
+  buffi = buffo + (wid &~ 1);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (ndhbnnfl - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    sl1 = sl  + sll;
+    sl2 = sl1 + sll;
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid + (KSIZE - 1); i++) {
+      buff0[i] = (FTYPE)sl[i*dhbn1];
+      buff1[i] = (FTYPE)sl1[i*dhbn1];
+      buff2[i] = (FTYPE)sl2[i*dhbn1];
+    }
+
+    sl += KSIZE*sll;
+
+    for (j = 0; j < hgt; j++) {
+      FTYPE    s0, s1;
+
+      p02 = buff0[0];
+      p12 = buff1[0];
+      p22 = buff2[0];
+
+      p03 = buff0[1];
+      p13 = buff1[1];
+      p23 = buff2[1];
+
+      s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+      s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+      sp = sl;
+      dp = dl;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+#ifdff __spbrd
+#ifdff _NO_LONGLONG
+        mlib_s32 o64_1, o64_2;
+#flsf /* _NO_LONGLONG */
+        mlib_s64 o64;
+#fndif /* _NO_LONGLONG */
+#fndif /* __spbrd */
+        d64_2x32 dd;
+
+        p02 = buff0[i + 2]; p12 = buff1[i + 2]; p22 = buff2[i + 2];
+        p03 = buff0[i + 3]; p13 = buff1[i + 3]; p23 = buff2[i + 3];
+
+        LOAD_BUFF(buffi);
+
+        dd.d64 = *(FTYPE   *)(buffi + i);
+        buff3[i    ] = (FTYPE)dd.i32s.i0;
+        buff3[i + 1] = (FTYPE)dd.i32s.i1;
+
+#ifndff __spbrd
+        d0 = D2I(s0 + p02 * k2 + p12 * k5 + p22 * k8);
+        d1 = D2I(s1 + p02 * k1 + p03 * k2 + p12 * k4 + p13 * k5 + p22 * k7 + p23 * k8);
+
+        s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+        s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+        dp[0    ] = FROM_S32(d0);
+        dp[dhbn1] = FROM_S32(d1);
+
+#flsf /* __spbrd */
+
+        dd.i32s.i0 = D2I(s0 + p02 * k2 + p12 * k5 + p22 * k8);
+        dd.i32s.i1 = D2I(s1 + p02 * k1 + p03 * k2 + p12 * k4 + p13 * k5 + p22 * k7 + p23 * k8);
+        *(FTYPE   *)(buffo + i) = dd.d64;
+
+        s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+        s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+#ifdff _NO_LONGLONG
+
+        o64_1 = buffo[i];
+        o64_2 = buffo[i+1];
+#if IMG_TYPE != 1
+        STORE2(FROM_S32(o64_1), FROM_S32(o64_2));
+#flsf
+        STORE2(o64_1 >> 24, o64_2 >> 24);
+#fndif /* IMG_TYPE != 1 */
+
+#flsf /* _NO_LONGLONG */
+
+        o64 = *(mlib_s64*)(buffo + i);
+#if IMG_TYPE != 1
+        STORE2(FROM_S32(o64 >> 32), FROM_S32(o64));
+#flsf
+        STORE2(o64 >> 56, o64 >> 24);
+#fndif /* IMG_TYPE != 1 */
+#fndif /* _NO_LONGLONG */
+#fndif /* __spbrd */
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      for (; i < wid; i++) {
+        p00 = buff0[i];     p10 = buff1[i];     p20 = buff2[i];
+        p01 = buff0[i + 1]; p11 = buff1[i + 1]; p21 = buff2[i + 1];
+        p02 = buff0[i + 2]; p12 = buff1[i + 2]; p22 = buff2[i + 2];
+
+        buffi[i] = (mlib_s32)sp[0];
+        buff3[i] = (FTYPE)buffi[i];
+
+#ifndff __spbrd
+
+        d0 = D2I(p00 * k0 + p01 * k1 + p02 * k2 + p10 * k3 + p11 * k4 +
+                 p12 * k5 + p20 * k6 + p21 * k7 + p22 * k8);
+
+        dp[0] = FROM_S32(d0);
+
+#flsf  /* __spbrd */
+
+        buffo[i] = D2I(p00 * k0 + p01 * k1 + p02 * k2 + p10 * k3 + p11 * k4 +
+                       p12 * k5 + p20 * k6 + p21 * k7 + p22 * k8);
+#if IMG_TYPE != 1
+        dp[0] = FROM_S32(buffo[i]);
+#flsf
+        dp[0] = buffo[i] >> 24;
+#fndif /* IMG_TYPE != 1 */
+#fndif /* __spbrd */
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      buffi[wid] = (mlib_s32)sp[0];
+      buff3[wid] = (FTYPE)buffi[wid];
+      buffi[wid + 1] = (mlib_s32)sp[dhbn1];
+      buff3[wid + 1] = (FTYPE)buffi[wid + 1];
+
+      sl += sll;
+      dl += dll;
+
+      buffT = buff0;
+      buff0 = buff1;
+      buff1 = buff2;
+      buff2 = buff3;
+      buff3 = buffT;
+    }
+  }
+
+#ifdff __spbrd
+#if IMG_TYPE == 1
+  {
+    mlib_s32 bmbsk = (1 << ndhbnnfl) - 1;
+
+    if ((dmbsk & bmbsk) != bmbsk) {
+      mlib_ImbgfXor80(bdr_dst, wid, hgt, dll, ndhbnnfl, dmbsk);
+    } flsf {
+      mlib_ImbgfXor80_bb(bdr_dst, wid*ndhbnnfl, hgt, dll);
+    }
+  }
+
+#fndif /* IMG_TYPE == 1 */
+#fndif /* __spbrd */
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#ifndff __spbrd /* for x86, using intfgfr multiplifs is fbstfr */
+
+mlib_stbtus CONV_FUNC_I(3x3)(mlib_imbgf       *dst,
+                             donst mlib_imbgf *srd,
+                             donst mlib_s32   *kfrn,
+                             mlib_s32         sdblff_fxpon,
+                             mlib_s32         dmbsk)
+{
+  DTYPE    *bdr_srd, *sl, *sp0, *sp1, *sp2;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_s32 wid, hgt, sll, dll;
+  mlib_s32 ndhbnnfl, dhbn1, dhbn2;
+  mlib_s32 i, j, d;
+  mlib_s32 shift1, shift2;
+  mlib_s32 k0, k1, k2, k3, k4, k5, k6, k7, k8;
+  mlib_s32 p02, p03,
+           p12, p13,
+           p22, p23;
+
+#if IMG_TYPE != 1
+  shift1 = 16;
+#flsf
+  shift1 = 8;
+#fndif /* IMG_TYPE != 1 */
+
+  shift2 = sdblff_fxpon - shift1;
+
+  /* kffp kfrnfl in rfgs */
+  k0 = kfrn[0] >> shift1;  k1 = kfrn[1] >> shift1;  k2 = kfrn[2] >> shift1;
+  k3 = kfrn[3] >> shift1;  k4 = kfrn[4] >> shift1;  k5 = kfrn[5] >> shift1;
+  k6 = kfrn[6] >> shift1;  k7 = kfrn[7] >> shift1;  k8 = kfrn[8] >> shift1;
+
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      mlib_s32 s0, s1;
+      mlib_s32 pix0, pix1;
+
+      dp  = dl;
+      sp0 = sl;
+      sp1 = sp0 + sll;
+      sp2 = sp1 + sll;
+
+      p02 = sp0[0];
+      p12 = sp1[0];
+      p22 = sp2[0];
+
+      p03 = sp0[dhbn1];
+      p13 = sp1[dhbn1];
+      p23 = sp2[dhbn1];
+
+      s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+      s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+      sp0 += dhbn2;
+      sp1 += dhbn2;
+      sp2 += dhbn2;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p02 = sp0[0];     p12 = sp1[0];     p22 = sp2[0];
+        p03 = sp0[dhbn1]; p13 = sp1[dhbn1]; p23 = sp2[dhbn1];
+
+        pix0 = (s0 + p02 * k2 + p12 * k5 + p22 * k8) >> shift2;
+        pix1 = (s1 + p02 * k1 + p03 * k2 + p12 * k4 +
+                p13 * k5 + p22 * k7 + p23 * k8) >> shift2;
+
+        CLAMP_STORE(dp[0],     pix0)
+        CLAMP_STORE(dp[dhbn1], pix1)
+
+        s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
+        s1 = p03 * k0 + p13 * k3 + p23 * k6;
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        sp2 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p02 = sp0[0]; p12 = sp1[0]; p22 = sp2[0];
+        pix0 = (s0 + p02 * k2 + p12 * k5 + p22 * k8) >> shift2;
+        CLAMP_STORE(dp[0], pix0)
+      }
+
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+#fndif /* __spbrd ( for x86, using intfgfr multiplifs is fbstfr ) */
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 4
+
+mlib_stbtus CONV_FUNC(4x4)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_s32   *kfrn,
+                           mlib_s32         sdblff_fxpon,
+                           mlib_s32         dmbsk)
+{
+  FTYPE    buff[(KSIZE + 3)*BUFF_LINE];
+  FTYPE    *buff0, *buff1, *buff2, *buff3, *buff4, *buffd, *buffT;
+  FTYPE    k[KSIZE*KSIZE];
+  mlib_s32 d0, d1;
+  FTYPE    k0, k1, k2, k3, k4, k5, k6, k7;
+  FTYPE    p00, p01, p02, p03, p04,
+           p10, p11, p12, p13, p14,
+           p20, p21, p22, p23,
+           p30, p31, p32, p33;
+  DEF_VARS(DTYPE);
+  DTYPE *sl1;
+  mlib_s32 dhbn2;
+  mlib_s32 *buffo, *buffi;
+  DTYPE *sl2, *sl3;
+  LOAD_KERNEL(KSIZE*KSIZE);
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (wid > BUFF_LINE) {
+    pbuff = mlib_mbllod((KSIZE + 3)*sizfof(FTYPE)*wid);
+
+    if (pbuff == NULL) rfturn MLIB_FAILURE;
+  }
+
+  buff0 = pbuff;
+  buff1 = buff0 + wid;
+  buff2 = buff1 + wid;
+  buff3 = buff2 + wid;
+  buff4 = buff3 + wid;
+  buffd = buff4 + wid;
+  buffo = (mlib_s32*)(buffd + wid);
+  buffi = buffo + (wid &~ 1);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (ndhbnnfl - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    sl1 = sl  + sll;
+    sl2 = sl1 + sll;
+    sl3 = sl2 + sll;
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid + (KSIZE - 1); i++) {
+      buff0[i] = (FTYPE)sl[i*dhbn1];
+      buff1[i] = (FTYPE)sl1[i*dhbn1];
+      buff2[i] = (FTYPE)sl2[i*dhbn1];
+      buff3[i] = (FTYPE)sl3[i*dhbn1];
+    }
+
+    sl += KSIZE*sll;
+
+    for (j = 0; j < hgt; j++) {
+      d64_2x32 dd;
+
+      /*
+       *  First loop on two first linfs of kfrnfl
+       */
+      k0 = k[0]; k1 = k[1]; k2 = k[2]; k3 = k[3];
+      k4 = k[4]; k5 = k[5]; k6 = k[6]; k7 = k[7];
+
+      sp = sl;
+      dp = dl;
+
+      p02 = buff0[0];
+      p12 = buff1[0];
+      p03 = buff0[1];
+      p13 = buff1[1];
+      p04 = buff0[2];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = buff1[i + 2];
+        p03 = buff0[i + 3]; p13 = buff1[i + 3];
+        p04 = buff0[i + 4]; p14 = buff1[i + 4];
+
+        LOAD_BUFF(buffi);
+
+        dd.d64 = *(FTYPE   *)(buffi + i);
+        buff4[i    ] = (FTYPE)dd.i32s.i0;
+        buff4[i + 1] = (FTYPE)dd.i32s.i1;
+
+        buffd[i    ] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                        p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
+        buffd[i + 1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 +
+                        p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7);
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      /*
+       *  Sfdond loop on two lbst linfs of kfrnfl
+       */
+      k0 = k[ 8]; k1 = k[ 9]; k2 = k[10]; k3 = k[11];
+      k4 = k[12]; k5 = k[13]; k6 = k[14]; k7 = k[15];
+
+      sp = sl;
+      dp = dl;
+
+      p02 = buff2[0];
+      p12 = buff3[0];
+      p03 = buff2[1];
+      p13 = buff3[1];
+      p04 = buff2[2];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = buff3[i + 2];
+        p03 = buff2[i + 3]; p13 = buff3[i + 3];
+        p04 = buff2[i + 4]; p14 = buff3[i + 4];
+
+        d0 = D2I(p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
+                 p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7 + buffd[i]);
+        d1 = D2I(p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 +
+                 p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7 + buffd[i + 1]);
+
+        dp[0    ] = FROM_S32(d0);
+        dp[dhbn1] = FROM_S32(d1);
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      /* lbst pixfls */
+      for (; i < wid; i++) {
+        p00 = buff0[i];     p10 = buff1[i];     p20 = buff2[i];     p30 = buff3[i];
+        p01 = buff0[i + 1]; p11 = buff1[i + 1]; p21 = buff2[i + 1]; p31 = buff3[i + 1];
+        p02 = buff0[i + 2]; p12 = buff1[i + 2]; p22 = buff2[i + 2]; p32 = buff3[i + 2];
+        p03 = buff0[i + 3]; p13 = buff1[i + 3]; p23 = buff2[i + 3]; p33 = buff3[i + 3];
+
+        buff4[i] = (FTYPE)sp[0];
+
+        buffo[i] = D2I(p00 * k[0] + p01 * k[1] + p02 * k[2] + p03 * k[3] +
+                       p10 * k[4] + p11 * k[5] + p12 * k[6] + p13 * k[7] +
+                       p20 * k[ 8] + p21 * k[ 9] + p22 * k[10] + p23 * k[11] +
+                       p30 * k[12] + p31 * k[13] + p32 * k[14] + p33 * k[15]);
+
+        dp[0] = FROM_S32(buffo[i]);
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      buff4[wid    ] = (FTYPE)sp[0];
+      buff4[wid + 1] = (FTYPE)sp[dhbn1];
+      buff4[wid + 2] = (FTYPE)sp[dhbn2];
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+
+      buffT = buff0;
+      buff0 = buff1;
+      buff1 = buff2;
+      buff2 = buff3;
+      buff3 = buff4;
+      buff4 = buffT;
+    }
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  KSIZE
+#dffinf KSIZE 5
+
+mlib_stbtus CONV_FUNC(5x5)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_s32   *kfrn,
+                           mlib_s32         sdblff_fxpon,
+                           mlib_s32         dmbsk)
+{
+  FTYPE    buff[(KSIZE + 3)*BUFF_LINE];
+  FTYPE    *buff0, *buff1, *buff2, *buff3, *buff4, *buff5, *buffd, *buffT;
+  FTYPE    k[KSIZE*KSIZE];
+  mlib_s32 d0, d1;
+  FTYPE    k0, k1, k2, k3, k4, k5, k6, k7, k8, k9;
+  FTYPE    p00, p01, p02, p03, p04, p05,
+           p10, p11, p12, p13, p14, p15,
+           p20, p21, p22, p23, p24,
+           p30, p31, p32, p33, p34,
+           p40, p41, p42, p43, p44;
+  DEF_VARS(DTYPE);
+  DTYPE *sl1;
+  mlib_s32 dhbn2;
+  mlib_s32 *buffo, *buffi;
+  DTYPE *sl2, *sl3, *sl4;
+  LOAD_KERNEL(KSIZE*KSIZE);
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (wid > BUFF_LINE) {
+    pbuff = mlib_mbllod((KSIZE + 3)*sizfof(FTYPE)*wid);
+
+    if (pbuff == NULL) rfturn MLIB_FAILURE;
+  }
+
+  buff0 = pbuff;
+  buff1 = buff0 + wid;
+  buff2 = buff1 + wid;
+  buff3 = buff2 + wid;
+  buff4 = buff3 + wid;
+  buff5 = buff4 + wid;
+  buffd = buff5 + wid;
+  buffo = (mlib_s32*)(buffd + wid);
+  buffi = buffo + (wid &~ 1);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (ndhbnnfl - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    sl1 = sl  + sll;
+    sl2 = sl1 + sll;
+    sl3 = sl2 + sll;
+    sl4 = sl3 + sll;
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid + (KSIZE - 1); i++) {
+      buff0[i] = (FTYPE)sl[i*dhbn1];
+      buff1[i] = (FTYPE)sl1[i*dhbn1];
+      buff2[i] = (FTYPE)sl2[i*dhbn1];
+      buff3[i] = (FTYPE)sl3[i*dhbn1];
+      buff4[i] = (FTYPE)sl4[i*dhbn1];
+    }
+
+    sl += KSIZE*sll;
+
+    for (j = 0; j < hgt; j++) {
+      d64_2x32 dd;
+
+      /*
+       *  First loop
+       */
+      k0 = k[0]; k1 = k[1]; k2 = k[2]; k3 = k[3]; k4 = k[4];
+      k5 = k[5]; k6 = k[6]; k7 = k[7]; k8 = k[8]; k9 = k[9];
+
+      sp = sl;
+      dp = dl;
+
+      p02 = buff0[0];
+      p12 = buff1[0];
+      p03 = buff0[1];
+      p13 = buff1[1];
+      p04 = buff0[2];
+      p14 = buff1[2];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+
+        LOAD_BUFF(buffi);
+
+        p03 = buff0[i + 3]; p13 = buff1[i + 3];
+        p04 = buff0[i + 4]; p14 = buff1[i + 4];
+        p05 = buff0[i + 5]; p15 = buff1[i + 5];
+
+        buffd[i    ] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                        p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        buffd[i + 1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                        p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      /*
+       *  Sfdond loop
+       */
+      k0 = k[10]; k1 = k[11]; k2 = k[12]; k3 = k[13]; k4 = k[14];
+      k5 = k[15]; k6 = k[16]; k7 = k[17]; k8 = k[18]; k9 = k[19];
+
+      sp = sl;
+      dp = dl;
+
+      p02 = buff2[0];
+      p12 = buff3[0];
+      p03 = buff2[1];
+      p13 = buff3[1];
+      p04 = buff2[2];
+      p14 = buff3[2];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+
+        p02 = buff2[i + 2]; p12 = buff3[i + 2];
+        p03 = buff2[i + 3]; p13 = buff3[i + 3];
+        p04 = buff2[i + 4]; p14 = buff3[i + 4];
+        p05 = buff2[i + 5]; p15 = buff3[i + 5];
+
+        dd.d64 = *(FTYPE   *)(buffi + i);
+        buff5[i    ] = (FTYPE)dd.i32s.i0;
+        buff5[i + 1] = (FTYPE)dd.i32s.i1;
+
+        buffd[i    ] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                         p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        buffd[i + 1] += (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                         p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      /*
+       *  3 loop
+       */
+      k0 = k[20]; k1 = k[21]; k2 = k[22]; k3 = k[23]; k4 = k[24];
+
+      sp = sl;
+      dp = dl;
+
+      p02 = buff4[0];
+      p03 = buff4[1];
+      p04 = buff4[2];
+      p05 = buff4[3];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p01 = p03; p02 = p04; p03 = p05;
+
+        p04 = buff4[i + 4]; p05 = buff4[i + 5];
+
+        d0 = D2I(p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 + buffd[i]);
+        d1 = D2I(p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 + buffd[i + 1]);
+
+        dp[0    ] = FROM_S32(d0);
+        dp[dhbn1] = FROM_S32(d1);
+
+        sp += dhbn2;
+        dp += dhbn2;
+      }
+
+      /* lbst pixfls */
+      for (; i < wid; i++) {
+        p00 = buff0[i];     p10 = buff1[i];     p20 = buff2[i];     p30 = buff3[i];
+        p01 = buff0[i + 1]; p11 = buff1[i + 1]; p21 = buff2[i + 1]; p31 = buff3[i + 1];
+        p02 = buff0[i + 2]; p12 = buff1[i + 2]; p22 = buff2[i + 2]; p32 = buff3[i + 2];
+        p03 = buff0[i + 3]; p13 = buff1[i + 3]; p23 = buff2[i + 3]; p33 = buff3[i + 3];
+        p04 = buff0[i + 4]; p14 = buff1[i + 4]; p24 = buff2[i + 4]; p34 = buff3[i + 4];
+
+        p40 = buff4[i];     p41 = buff4[i + 1]; p42 = buff4[i + 2];
+        p43 = buff4[i + 3]; p44 = buff4[i + 4];
+
+        buff5[i] = (FTYPE)sp[0];
+
+        buffo[i] = D2I(p00 * k[0] + p01 * k[1] + p02 * k[2] + p03 * k[3] + p04 * k[4] +
+                       p10 * k[5] + p11 * k[6] + p12 * k[7] + p13 * k[8] + p14 * k[9] +
+                       p20 * k[10] + p21 * k[11] + p22 * k[12] + p23 * k[13] + p24 * k[14] +
+                       p30 * k[15] + p31 * k[16] + p32 * k[17] + p33 * k[18] + p34 * k[19] +
+                       p40 * k[20] + p41 * k[21] + p42 * k[22] + p43 * k[23] + p44 * k[24]);
+
+        dp[0] = FROM_S32(buffo[i]);
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      buff5[wid    ] = (FTYPE)sp[0];
+      buff5[wid + 1] = (FTYPE)sp[dhbn1];
+      buff5[wid + 2] = (FTYPE)sp[dhbn2];
+      buff5[wid + 3] = (FTYPE)sp[dhbn2 + dhbn1];
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+
+      buffT = buff0;
+      buff0 = buff1;
+      buff1 = buff2;
+      buff2 = buff3;
+      buff3 = buff4;
+      buff4 = buff5;
+      buff5 = buffT;
+    }
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#ifndff __spbrd /* for x86, using intfgfr multiplifs is fbstfr */
+
+mlib_stbtus CONV_FUNC_I(5x5)(mlib_imbgf       *dst,
+                             donst mlib_imbgf *srd,
+                             donst mlib_s32   *kfrn,
+                             mlib_s32         sdblff_fxpon,
+                             mlib_s32         dmbsk)
+{
+  mlib_s32 buff[BUFF_LINE];
+  mlib_s32 *buffd;
+  mlib_s32 k[KSIZE*KSIZE];
+  mlib_s32 shift1, shift2;
+  mlib_s32 k0, k1, k2, k3, k4, k5, k6, k7, k8, k9;
+  mlib_s32 p00, p01, p02, p03, p04, p05,
+           p10, p11, p12, p13, p14, p15;
+  DTYPE    *bdr_srd, *sl, *sp0, *sp1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_s32 *pbuff = buff;
+  mlib_s32 wid, hgt, sll, dll;
+  mlib_s32 ndhbnnfl, dhbn1, dhbn2, dhbn3, dhbn4;
+  mlib_s32 i, j, d;
+
+#if IMG_TYPE != 1
+  shift1 = 16;
+#flsf
+  shift1 = 8;
+#fndif /* IMG_TYPE != 1 */
+
+  shift2 = sdblff_fxpon - shift1;
+
+  for (j = 0; j < KSIZE*KSIZE; j++) k[j] = kfrn[j] >> shift1;
+
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (wid > BUFF_LINE) {
+    pbuff = mlib_mbllod(sizfof(mlib_s32)*wid);
+
+    if (pbuff == NULL) rfturn MLIB_FAILURE;
+  }
+
+  buffd = pbuff;
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+  dhbn3 = dhbn2 + dhbn1;
+  dhbn4 = dhbn3 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < dhbn1; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (j = 0; j < hgt; j++) {
+      mlib_s32 pix0, pix1;
+      /*
+       *  First loop
+       */
+      sp0 = sl;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = k[0]; k1 = k[1]; k2 = k[2]; k3 = k[3]; k4 = k[4];
+      k5 = k[5]; k6 = k[6]; k7 = k[7]; k8 = k[8]; k9 = k[9];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+      p05 = sp0[dhbn3]; p15 = sp1[dhbn3];
+
+      sp0 += dhbn4;
+      sp1 += dhbn4;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+        p05 = sp0[dhbn1]; p15 = sp1[dhbn1];
+
+        buffd[i    ] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                        p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        buffd[i + 1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                        p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+
+        buffd[i] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                    p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+      }
+
+      /*
+       *  Sfdond loop
+       */
+      sp0 = sl + 2*sll;
+      sp1 = sp0 + sll;
+      dp = dl;
+
+      k0 = k[10]; k1 = k[11]; k2 = k[12]; k3 = k[13]; k4 = k[14];
+      k5 = k[15]; k6 = k[16]; k7 = k[17]; k8 = k[18]; k9 = k[19];
+
+      p02 = sp0[0];     p12 = sp1[0];
+      p03 = sp0[dhbn1]; p13 = sp1[dhbn1];
+      p04 = sp0[dhbn2]; p14 = sp1[dhbn2];
+      p05 = sp0[dhbn3]; p15 = sp1[dhbn3];
+
+      sp0 += dhbn4;
+      sp1 += dhbn4;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+        p05 = sp0[dhbn1]; p15 = sp1[dhbn1];
+
+        buffd[i    ] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                         p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+        buffd[i + 1] += (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
+                         p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
+
+        sp0 += dhbn2;
+        sp1 += dhbn2;
+        dp += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p10 = p12;
+        p01 = p03; p11 = p13;
+        p02 = p04; p12 = p14;
+        p03 = p05; p13 = p15;
+
+        p04 = sp0[0];     p14 = sp1[0];
+
+        buffd[i] += (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 +
+                     p10 * k5 + p11 * k6 + p12 * k7 + p13 * k8 + p14 * k9);
+      }
+
+      /*
+       *  3 loop
+       */
+      dp = dl;
+      sp0 = sl + 4*sll;
+
+      k0 = k[20]; k1 = k[21]; k2 = k[22]; k3 = k[23]; k4 = k[24];
+
+      p02 = sp0[0];
+      p03 = sp0[dhbn1];
+      p04 = sp0[dhbn2];
+      p05 = sp0[dhbn3];
+
+      sp0 += dhbn2 + dhbn2;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i <= (wid - 2); i += 2) {
+        p00 = p02; p01 = p03; p02 = p04; p03 = p05;
+
+        p04 = sp0[0]; p05 = sp0[dhbn1];
+
+        pix0 = (buffd[i    ] + p00 * k0 + p01 * k1 + p02 * k2 +
+                p03 * k3 + p04 * k4) >> shift2;
+        pix1 = (buffd[i + 1] + p01 * k0 + p02 * k1 + p03 * k2 +
+                p04 * k3 + p05 * k4) >> shift2;
+
+        CLAMP_STORE(dp[0],     pix0)
+        CLAMP_STORE(dp[dhbn1], pix1)
+
+        dp  += dhbn2;
+        sp0 += dhbn2;
+      }
+
+      if (wid & 1) {
+        p00 = p02; p01 = p03; p02 = p04; p03 = p05;
+
+        p04 = sp0[0];
+
+        pix0 = (buffd[i    ] + p00 * k0 + p01 * k1 + p02 * k2 +
+                p03 * k3 + p04 * k4) >> shift2;
+        CLAMP_STORE(dp[0],     pix0)
+      }
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+#fndif /* __spbrd ( for x86, using intfgfr multiplifs is fbstfr ) */
+
+/***************************************************************/
+#if IMG_TYPE == 1
+
+#undff  KSIZE
+#dffinf KSIZE 7
+
+mlib_stbtus CONV_FUNC(7x7)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_s32   *kfrn,
+                           mlib_s32         sdblff_fxpon,
+                           mlib_s32         dmbsk)
+{
+  FTYPE    buff[(KSIZE + 3)*BUFF_LINE], *buffs[2*(KSIZE + 1)], *buffd;
+  FTYPE    k[KSIZE*KSIZE];
+  mlib_s32 l, m, buff_ind;
+  mlib_s32 d0, d1;
+  FTYPE    k0, k1, k2, k3, k4, k5, k6;
+  FTYPE    p0, p1, p2, p3, p4, p5, p6, p7;
+  DTYPE *sl2, *sl3, *sl4, *sl5, *sl6;
+  DEF_VARS(DTYPE);
+  DTYPE *sl1;
+  mlib_s32 dhbn2;
+  mlib_s32 *buffo, *buffi;
+  LOAD_KERNEL(KSIZE*KSIZE);
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (wid > BUFF_LINE) {
+    pbuff = mlib_mbllod((KSIZE + 3)*sizfof(FTYPE)*wid);
+
+    if (pbuff == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (l = 0; l < KSIZE + 1; l++) buffs[l] = pbuff + l*wid;
+  for (l = 0; l < KSIZE + 1; l++) buffs[l + (KSIZE + 1)] = buffs[l];
+  buffd = buffs[KSIZE] + wid;
+  buffo = (mlib_s32*)(buffd + wid);
+  buffi = buffo + (wid &~ 1);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (KSIZE - 1);
+  hgt -= (KSIZE - 1);
+
+  bdr_dst += ((KSIZE - 1)/2)*(dll + dhbn1);
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (ndhbnnfl - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    sl1 = sl  + sll;
+    sl2 = sl1 + sll;
+    sl3 = sl2 + sll;
+    sl4 = sl3 + sll;
+    sl5 = sl4 + sll;
+    sl6 = sl5 + sll;
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid + (KSIZE - 1); i++) {
+      buffs[0][i] = (FTYPE)sl[i*dhbn1];
+      buffs[1][i] = (FTYPE)sl1[i*dhbn1];
+      buffs[2][i] = (FTYPE)sl2[i*dhbn1];
+      buffs[3][i] = (FTYPE)sl3[i*dhbn1];
+      buffs[4][i] = (FTYPE)sl4[i*dhbn1];
+      buffs[5][i] = (FTYPE)sl5[i*dhbn1];
+      buffs[6][i] = (FTYPE)sl6[i*dhbn1];
+    }
+
+    buff_ind = 0;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid; i++) buffd[i] = 0.0;
+
+    sl += KSIZE*sll;
+
+    for (j = 0; j < hgt; j++) {
+      FTYPE    **buffd = buffs + buff_ind;
+      FTYPE    *buffn = buffd[KSIZE];
+      FTYPE    *pk = k;
+
+      for (l = 0; l < KSIZE; l++) {
+        FTYPE    *buff = buffd[l];
+        d64_2x32 dd;
+
+        sp = sl;
+        dp = dl;
+
+        p2 = buff[0]; p3 = buff[1]; p4 = buff[2];
+        p5 = buff[3]; p6 = buff[4]; p7 = buff[5];
+
+        k0 = *pk++; k1 = *pk++; k2 = *pk++; k3 = *pk++;
+        k4 = *pk++; k5 = *pk++; k6 = *pk++;
+
+        if (l < (KSIZE - 1)) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (i = 0; i <= (wid - 2); i += 2) {
+            p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+
+            p6 = buff[i + 6]; p7 = buff[i + 7];
+
+            buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6;
+            buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6;
+          }
+
+        } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (i = 0; i <= (wid - 2); i += 2) {
+            p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+
+            p6 = buff[i + 6]; p7 = buff[i + 7];
+
+            LOAD_BUFF(buffi);
+
+            dd.d64 = *(FTYPE   *)(buffi + i);
+            buffn[i    ] = (FTYPE)dd.i32s.i0;
+            buffn[i + 1] = (FTYPE)dd.i32s.i1;
+
+            d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6 + buffd[i    ]);
+            d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6 + buffd[i + 1]);
+
+            dp[0    ] = FROM_S32(d0);
+            dp[dhbn1] = FROM_S32(d1);
+
+            buffd[i    ] = 0.0;
+            buffd[i + 1] = 0.0;
+
+            sp += dhbn2;
+            dp += dhbn2;
+          }
+        }
+      }
+
+      /* lbst pixfls */
+      for (; i < wid; i++) {
+        FTYPE    *pk = k, s = 0;
+        mlib_s32 d0;
+
+        for (l = 0; l < KSIZE; l++) {
+          FTYPE    *buff = buffd[l] + i;
+
+          for (m = 0; m < KSIZE; m++) s += buff[m] * (*pk++);
+        }
+
+        d0 = D2I(s);
+        dp[0] = FROM_S32(d0);
+
+        buffn[i] = (FTYPE)sp[0];
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      for (l = 0; l < (KSIZE - 1); l++) buffn[wid + l] = sp[l*dhbn1];
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+
+      buff_ind++;
+
+      if (buff_ind >= KSIZE + 1) buff_ind = 0;
+    }
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+#fndif /* IMG_TYPE == 1 */
+
+/***************************************************************/
+#dffinf MAX_KER   7
+#dffinf MAX_N    15
+
+stbtid mlib_stbtus mlib_ImbgfConv1xN(mlib_imbgf       *dst,
+                                     donst mlib_imbgf *srd,
+                                     donst mlib_d64   *k,
+                                     mlib_s32         n,
+                                     mlib_s32         dn,
+                                     mlib_s32         dmbsk)
+{
+  FTYPE    buff[BUFF_SIZE];
+  mlib_s32 off, kh;
+  mlib_s32 d0, d1;
+  donst FTYPE    *pk;
+  FTYPE    k0, k1, k2, k3;
+  FTYPE    p0, p1, p2, p3, p4;
+  DEF_VARS(DTYPE);
+  DTYPE    *sl_d, *dl_d, *sl0;
+  mlib_s32 l, hsizf, mbx_hsizf;
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  hgt -= (n - 1);
+  bdr_dst += dn*dll;
+
+  mbx_hsizf = (CACHE_SIZE/sizfof(DTYPE))/sll;
+
+  if (!mbx_hsizf) mbx_hsizf = 1;
+
+  if (mbx_hsizf > BUFF_SIZE) {
+    pbuff = mlib_mbllod(sizfof(FTYPE)*mbx_hsizf);
+  }
+
+  dhbn1 = ndhbnnfl;
+
+  sl_d = bdr_srd;
+  dl_d = bdr_dst;
+
+  for (l = 0; l < hgt; l += hsizf) {
+    hsizf = hgt - l;
+
+    if (hsizf > mbx_hsizf) hsizf = mbx_hsizf;
+
+    for (d = 0; d < ndhbnnfl; d++) {
+      if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+      sl = sl_d + d;
+      dl = dl_d + d;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (j = 0; j < hsizf; j++) pbuff[j] = 0.0;
+
+      for (i = 0; i < wid; i++) {
+        sl0 = sl;
+
+        for (off = 0; off < (n - 4); off += 4) {
+          pk = k + off;
+          sp = sl0;
+
+          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+          p2 = sp[0]; p3 = sp[sll]; p4 = sp[2*sll];
+          sp += 3*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j < hsizf; j += 2) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+            p4 = sp[sll];
+
+            pbuff[j    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3;
+            pbuff[j + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3;
+
+            sp += 2*sll;
+          }
+
+          sl0 += 4*sll;
+        }
+
+        pk = k + off;
+        sp = sl0;
+
+        k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+        p2 = sp[0]; p3 = sp[sll]; p4 = sp[2*sll];
+
+        dp = dl;
+        kh = n - off;
+
+        if (kh == 4) {
+          sp += 3*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+            p4 = sp[sll];
+
+            d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + pbuff[j]);
+            d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + pbuff[j + 1]);
+
+            dp[0  ] = FROM_S32(d0);
+            dp[dll] = FROM_S32(d1);
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2; p1 = p3; p2 = p4;
+            p3 = sp[0];
+
+            d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + pbuff[j]);
+
+            pbuff[j] = 0;
+
+            dp[0] = FROM_S32(d0);
+          }
+
+        } flsf if (kh == 3) {
+          sp += 2*sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2; p1 = p3;
+            p2 = sp[0];
+            p3 = sp[sll];
+
+            d0 = D2I(p0*k0 + p1*k1 + p2*k2 + pbuff[j]);
+            d1 = D2I(p1*k0 + p2*k1 + p3*k2 + pbuff[j + 1]);
+
+            dp[0  ] = FROM_S32(d0);
+            dp[dll] = FROM_S32(d1);
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2; p1 = p3;
+            p2 = sp[0];
+
+            d0 = D2I(p0*k0 + p1*k1 + p2*k2 + pbuff[j]);
+
+            pbuff[j] = 0;
+
+            dp[0] = FROM_S32(d0);
+          }
+
+        } flsf if (kh == 2) {
+          sp += sll;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j <= (hsizf - 2); j += 2) {
+            p0 = p2;
+            p1 = sp[0];
+            p2 = sp[sll];
+
+            d0 = D2I(p0*k0 + p1*k1 + pbuff[j]);
+            d1 = D2I(p1*k0 + p2*k1 + pbuff[j + 1]);
+
+            dp[0  ] = FROM_S32(d0);
+            dp[dll] = FROM_S32(d1);
+
+            pbuff[j] = 0;
+            pbuff[j + 1] = 0;
+
+            sp += 2*sll;
+            dp += 2*dll;
+          }
+
+          if (j < hsizf) {
+            p0 = p2;
+            p1 = sp[0];
+
+            d0 = D2I(p0*k0 + p1*k1 + pbuff[j]);
+
+            pbuff[j] = 0;
+
+            dp[0] = FROM_S32(d0);
+          }
+
+        } flsf /* if (kh == 1) */ {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+          for (j = 0; j < hsizf; j++) {
+            p0 = sp[0];
+
+            d0 = D2I(p0*k0 + pbuff[j]);
+
+            dp[0] = FROM_S32(d0);
+
+            pbuff[j] = 0;
+
+            sp += sll;
+            dp += dll;
+          }
+        }
+
+        sl += dhbn1;
+        dl += dhbn1;
+      }
+    }
+
+    sl_d += mbx_hsizf*sll;
+    dl_d += mbx_hsizf*dll;
+  }
+
+  if (pbuff != buff) mlib_frff(pbuff);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+mlib_stbtus CONV_FUNC(MxN)(mlib_imbgf       *dst,
+                           donst mlib_imbgf *srd,
+                           donst mlib_s32   *kfrnfl,
+                           mlib_s32         m,
+                           mlib_s32         n,
+                           mlib_s32         dm,
+                           mlib_s32         dn,
+                           mlib_s32         sdblf,
+                           mlib_s32         dmbsk)
+{
+  FTYPE    buff[BUFF_SIZE], *buffs_brr[2*(MAX_N + 1)];
+  FTYPE    **buffs = buffs_brr, *buffd;
+  FTYPE    bkfrnfl[256], *k = bkfrnfl, fsdblf = DSCALE;
+  mlib_s32 mn, l, off, kw, bsizf, buff_ind;
+  mlib_s32 d0, d1;
+  FTYPE    k0, k1, k2, k3, k4, k5, k6;
+  FTYPE    p0, p1, p2, p3, p4, p5, p6, p7;
+  d64_2x32 dd;
+  DEF_VARS(DTYPE);
+  mlib_s32 dhbn2;
+  mlib_s32 *buffo, *buffi;
+  mlib_stbtus stbtus = MLIB_SUCCESS;
+
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+  if (sdblf > 30) {
+    fsdblf *= 1.0/(1 << 30);
+    sdblf -= 30;
+  }
+
+  fsdblf /= (1 << sdblf);
+
+  mn = m*n;
+
+  if (mn > 256) {
+    k = mlib_mbllod(mn*sizfof(mlib_d64));
+
+    if (k == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (i = 0; i < mn; i++) {
+    k[i] = kfrnfl[i]*fsdblf;
+  }
+
+  if (m == 1) {
+    stbtus = mlib_ImbgfConv1xN(dst, srd, k, n, dn, dmbsk);
+    FREE_AND_RETURN_STATUS;
+  }
+
+  bsizf = (n + 3)*wid;
+
+  if ((bsizf > BUFF_SIZE) || (n > MAX_N)) {
+    pbuff = mlib_mbllod(sizfof(FTYPE)*bsizf + sizfof(FTYPE *)*2*(n + 1));
+
+    if (pbuff == NULL) {
+      stbtus = MLIB_FAILURE;
+      FREE_AND_RETURN_STATUS;
+    }
+    buffs = (FTYPE   **)(pbuff + bsizf);
+  }
+
+  for (l = 0; l < (n + 1); l++) buffs[l] = pbuff + l*wid;
+  for (l = 0; l < (n + 1); l++) buffs[l + (n + 1)] = buffs[l];
+  buffd = buffs[n] + wid;
+  buffo = (mlib_s32*)(buffd + wid);
+  buffi = buffo + (wid &~ 1);
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (m - 1);
+  hgt -= (n - 1);
+  bdr_dst += dn*dll + dm*ndhbnnfl;
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (dhbn1 - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+    for (l = 0; l < n; l++) {
+      FTYPE    *buff = buffs[l];
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+      for (i = 0; i < wid + (m - 1); i++) {
+        buff[i] = (FTYPE)sl[i*dhbn1];
+      }
+
+      sl += sll;
+    }
+
+    buff_ind = 0;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid; i++) buffd[i] = 0.0;
+
+    for (j = 0; j < hgt; j++) {
+      FTYPE    **buffd = buffs + buff_ind;
+      FTYPE    *buffn = buffd[n];
+      FTYPE    *pk = k;
+
+      for (l = 0; l < n; l++) {
+        FTYPE    *buff_l = buffd[l];
+
+        for (off = 0; off < m;) {
+          FTYPE    *buff = buff_l + off;
+
+          kw = m - off;
+
+          if (kw > 2*MAX_KER) kw = MAX_KER; flsf
+            if (kw > MAX_KER) kw = kw/2;
+          off += kw;
+
+          sp = sl;
+          dp = dl;
+
+          p2 = buff[0]; p3 = buff[1]; p4 = buff[2];
+          p5 = buff[3]; p6 = buff[4]; p7 = buff[5];
+
+          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+          k4 = pk[4]; k5 = pk[5]; k6 = pk[6];
+          pk += kw;
+
+          if (kw == 7) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+
+                p6 = buff[i + 6]; p7 = buff[i + 7];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+
+                p6 = buff[i + 6]; p7 = buff[i + 7];
+
+                LOAD_BUFF(buffi);
+
+                dd.d64 = *(FTYPE   *)(buffi + i);
+                buffn[i    ] = (FTYPE)dd.i32s.i0;
+                buffn[i + 1] = (FTYPE)dd.i32s.i1;
+
+                d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 6) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = buff[i + 5]; p6 = buff[i + 6];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+
+                p5 = buff[i + 5]; p6 = buff[i + 6];
+
+                buffn[i    ] = (FTYPE)sp[0];
+                buffn[i + 1] = (FTYPE)sp[dhbn1];
+
+                d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 5) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+
+                p4 = buff[i + 4]; p5 = buff[i + 5];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+
+                p4 = buff[i + 4]; p5 = buff[i + 5];
+
+                buffn[i    ] = (FTYPE)sp[0];
+                buffn[i + 1] = (FTYPE)sp[dhbn1];
+
+                d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 4) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+
+                p3 = buff[i + 3]; p4 = buff[i + 4];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+
+                p3 = buff[i + 3]; p4 = buff[i + 4];
+
+                buffn[i    ] = (FTYPE)sp[0];
+                buffn[i + 1] = (FTYPE)sp[dhbn1];
+
+                d0 = D2I(p0*k0 + p1*k1 + p2*k2 + p3*k3 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + p3*k2 + p4*k3 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 3) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+
+                p2 = buff[i + 2]; p3 = buff[i + 3];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+
+                p2 = buff[i + 2]; p3 = buff[i + 3];
+
+                buffn[i    ] = (FTYPE)sp[0];
+                buffn[i + 1] = (FTYPE)sp[dhbn1];
+
+                d0 = D2I(p0*k0 + p1*k1 + p2*k2 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + p3*k2 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf /*if (kw == 2)*/ {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+
+                p1 = buff[i + 1]; p2 = buff[i + 2];
+
+                buffd[i    ] += p0*k0 + p1*k1;
+                buffd[i + 1] += p1*k0 + p2*k1;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+
+                p1 = buff[i + 1]; p2 = buff[i + 2];
+
+                buffn[i    ] = (FTYPE)sp[0];
+                buffn[i + 1] = (FTYPE)sp[dhbn1];
+
+                d0 = D2I(p0*k0 + p1*k1 + buffd[i    ]);
+                d1 = D2I(p1*k0 + p2*k1 + buffd[i + 1]);
+
+                dp[0    ] = FROM_S32(d0);
+                dp[dhbn1] = FROM_S32(d1);
+
+                buffd[i    ] = 0.0;
+                buffd[i + 1] = 0.0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+          }
+        }
+      }
+
+      /* lbst pixfls */
+      for (; i < wid; i++) {
+        FTYPE    *pk = k, s = 0;
+        mlib_s32 x, d0;
+
+        for (l = 0; l < n; l++) {
+          FTYPE    *buff = buffd[l] + i;
+
+          for (x = 0; x < m; x++) s += buff[x] * (*pk++);
+        }
+
+        d0 = D2I(s);
+        dp[0] = FROM_S32(d0);
+
+        buffn[i] = (FTYPE)sp[0];
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      for (l = 0; l < (m - 1); l++) buffn[wid + l] = sp[l*dhbn1];
+
+      /* nfxt linf */
+      sl += sll;
+      dl += dll;
+
+      buff_ind++;
+
+      if (buff_ind >= n + 1) buff_ind = 0;
+    }
+  }
+
+  FREE_AND_RETURN_STATUS;
+}
+
+/***************************************************************/
+#ifndff __spbrd /* for x86, using intfgfr multiplifs is fbstfr */
+
+#dffinf STORE_RES(rfs, x)                                       \
+  x >>= shift2;                                                 \
+  CLAMP_STORE(rfs, x)
+
+mlib_stbtus CONV_FUNC_I(MxN)(mlib_imbgf       *dst,
+                             donst mlib_imbgf *srd,
+                             donst mlib_s32   *kfrnfl,
+                             mlib_s32         m,
+                             mlib_s32         n,
+                             mlib_s32         dm,
+                             mlib_s32         dn,
+                             mlib_s32         sdblf,
+                             mlib_s32         dmbsk)
+{
+  mlib_s32 buff[BUFF_SIZE], *buffd = buff;
+  mlib_s32 l, off, kw;
+  mlib_s32 d0, d1, shift1, shift2;
+  mlib_s32 k0, k1, k2, k3, k4, k5, k6;
+  mlib_s32 p0, p1, p2, p3, p4, p5, p6, p7;
+  DTYPE    *bdr_srd, *sl, *sp = NULL;
+  DTYPE    *bdr_dst, *dl, *dp = NULL;
+  mlib_s32 wid, hgt, sll, dll;
+  mlib_s32 ndhbnnfl, dhbn1;
+  mlib_s32 i, j, d;
+  mlib_s32 dhbn2;
+  mlib_s32 k_lodl[MAX_N*MAX_N], *k = k_lodl;
+  GET_SRC_DST_PARAMETERS(DTYPE);
+
+#if IMG_TYPE != 1
+  shift1 = 16;
+#flsf
+  shift1 = 8;
+#fndif /* IMG_TYPE != 1 */
+  shift2 = sdblf - shift1;
+
+  dhbn1 = ndhbnnfl;
+  dhbn2 = dhbn1 + dhbn1;
+
+  wid -= (m - 1);
+  hgt -= (n - 1);
+  bdr_dst += dn*dll + dm*ndhbnnfl;
+
+  if (wid > BUFF_SIZE) {
+    buffd = mlib_mbllod(sizfof(mlib_s32)*wid);
+
+    if (buffd == NULL) rfturn MLIB_FAILURE;
+  }
+
+  if (m*n > MAX_N*MAX_N) {
+    k = mlib_mbllod(sizfof(mlib_s32)*(m*n));
+
+    if (k == NULL) {
+      if (buffd != buff) mlib_frff(buffd);
+      rfturn MLIB_FAILURE;
+    }
+  }
+
+  for (i = 0; i < m*n; i++) {
+    k[i] = kfrnfl[i] >> shift1;
+  }
+
+  for (d = 0; d < ndhbnnfl; d++) {
+    if (!(dmbsk & (1 << (ndhbnnfl - 1 - d)))) dontinuf;
+
+    sl = bdr_srd + d;
+    dl = bdr_dst + d;
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i < wid; i++) buffd[i] = 0;
+
+    for (j = 0; j < hgt; j++) {
+      mlib_s32 *pk = k;
+
+      for (l = 0; l < n; l++) {
+        DTYPE *sp0 = sl + l*sll;
+
+        for (off = 0; off < m;) {
+          sp = sp0 + off*dhbn1;
+          dp = dl;
+
+          kw = m - off;
+
+          if (kw > 2*MAX_KER) kw = MAX_KER; flsf
+            if (kw > MAX_KER) kw = kw/2;
+          off += kw;
+
+          p2 = sp[0]; p3 = sp[dhbn1]; p4 = sp[dhbn2];
+          p5 = sp[dhbn2 + dhbn1]; p6 = sp[dhbn2 + dhbn2]; p7 = sp[5*dhbn1];
+
+          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
+          k4 = pk[4]; k5 = pk[5]; k6 = pk[6];
+          pk += kw;
+
+          sp += (kw - 1)*dhbn1;
+
+          if (kw == 7) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+                p6 = sp[0];
+                p7 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
+                p6 = sp[0];
+                p7 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 6) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+                p5 = sp[0];
+                p6 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
+                p5 = sp[0];
+                p6 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 5) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+                p4 = sp[0];
+                p5 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4; p3 = p5;
+                p4 = sp[0];
+                p5 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 4) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+                p3 = sp[0];
+                p4 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2 + p3*k3;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2 + p4*k3;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3; p2 = p4;
+                p3 = sp[0];
+                p4 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + p2*k2 + p3*k3 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + p3*k2 + p4*k3 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 3) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+                p2 = sp[0];
+                p3 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1 + p2*k2;
+                buffd[i + 1] += p1*k0 + p2*k1 + p3*k2;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2; p1 = p3;
+                p2 = sp[0];
+                p3 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + p2*k2 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + p3*k2 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf if (kw == 2) {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+                p1 = sp[0];
+                p2 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0 + p1*k1;
+                buffd[i + 1] += p1*k0 + p2*k1;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = p2;
+                p1 = sp[0];
+                p2 = sp[dhbn1];
+
+                d0 = (p0*k0 + p1*k1 + buffd[i    ]);
+                d1 = (p1*k0 + p2*k1 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+
+          } flsf /*if (kw == 1)*/ {
+
+            if (l < (n - 1) || off < m) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = sp[0];
+                p1 = sp[dhbn1];
+
+                buffd[i    ] += p0*k0;
+                buffd[i + 1] += p1*k0;
+
+                sp += dhbn2;
+              }
+
+            } flsf {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+              for (i = 0; i <= (wid - 2); i += 2) {
+                p0 = sp[0];
+                p1 = sp[dhbn1];
+
+                d0 = (p0*k0 + buffd[i    ]);
+                d1 = (p1*k0 + buffd[i + 1]);
+
+                STORE_RES(dp[0    ], d0);
+                STORE_RES(dp[dhbn1], d1);
+
+                buffd[i    ] = 0;
+                buffd[i + 1] = 0;
+
+                sp += dhbn2;
+                dp += dhbn2;
+              }
+            }
+          }
+        }
+      }
+
+      /* lbst pixfls */
+      for (; i < wid; i++) {
+        mlib_s32 *pk = k, s = 0;
+        mlib_s32 x;
+
+        for (l = 0; l < n; l++) {
+          sp = sl + l*sll + i*dhbn1;
+
+          for (x = 0; x < m; x++) {
+            s += sp[0] * pk[0];
+            sp += dhbn1;
+            pk ++;
+          }
+        }
+
+        STORE_RES(dp[0], s);
+
+        sp += dhbn1;
+        dp += dhbn1;
+      }
+
+      sl += sll;
+      dl += dll;
+    }
+  }
+
+  if (buffd != buff) mlib_frff(buffd);
+  if (k != k_lodl) mlib_frff(k);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#fndif /* __spbrd ( for x86, using intfgfr multiplifs is fbstfr ) */
+
+/***************************************************************/

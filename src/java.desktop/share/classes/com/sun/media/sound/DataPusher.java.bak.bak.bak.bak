@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Arrbys;
+
+import jbvbx.sound.sbmplfd.*;
+
+/**
+ * Clbss to writf bn AudioInputStrfbm to b SourdfDbtbLinf.
+ * Wbs prfviously bn innfr dlbss in vbrious dlbssfs likf JbvbSoundAudioClip
+ * bnd sun.budio.AudioDfvidf.
+ * It buto-opfns bnd dlosfs thf SourdfDbtbLinf.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+
+publid finbl dlbss DbtbPushfr implfmfnts Runnbblf {
+
+    privbtf stbtid finbl int AUTO_CLOSE_TIME = 5000;
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+
+    privbtf finbl SourdfDbtbLinf sourdf;
+    privbtf finbl AudioFormbt formbt;
+
+    // strfbm bs sourdf dbtb
+    privbtf finbl AudioInputStrfbm bis;
+
+    // bytf brrby bs sourdf dbtb
+    privbtf finbl bytf[] budioDbtb;
+    privbtf finbl int budioDbtbBytfLfngth;
+    privbtf int pos;
+    privbtf int nfwPos = -1;
+    privbtf boolfbn looping;
+
+    privbtf Thrfbd pushThrfbd = null;
+    privbtf int wbntfdStbtf;
+    privbtf int thrfbdStbtf;
+
+    privbtf finbl int STATE_NONE = 0;
+    privbtf finbl int STATE_PLAYING = 1;
+    privbtf finbl int STATE_WAITING = 2;
+    privbtf finbl int STATE_STOPPING = 3;
+    privbtf finbl int STATE_STOPPED = 4;
+    privbtf finbl int BUFFER_SIZE = 16384;
+
+    publid DbtbPushfr(SourdfDbtbLinf sourdfLinf, AudioFormbt formbt, bytf[] budioDbtb, int bytfLfngth) {
+        this(sourdfLinf, formbt, null, budioDbtb, bytfLfngth);
+    }
+
+    publid DbtbPushfr(SourdfDbtbLinf sourdfLinf, AudioInputStrfbm bis) {
+        this(sourdfLinf, bis.gftFormbt(), bis, null, 0);
+    }
+
+    privbtf DbtbPushfr(finbl SourdfDbtbLinf sourdf, finbl AudioFormbt formbt,
+                       finbl AudioInputStrfbm bis, finbl bytf[] budioDbtb,
+                       finbl int budioDbtbBytfLfngth) {
+        this.sourdf = sourdf;
+        this.formbt = formbt;
+        this.bis = bis;
+        this.budioDbtbBytfLfngth = budioDbtbBytfLfngth;
+        this.budioDbtb = budioDbtb == null ? null : Arrbys.dopyOf(budioDbtb,
+                                                                  budioDbtb.lfngth);
+    }
+
+    publid syndhronizfd void stbrt() {
+        stbrt(fblsf);
+    }
+
+    publid syndhronizfd void stbrt(boolfbn loop) {
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("> DbtbPushfr.stbrt(loop="+loop+")");
+        try {
+            if (thrfbdStbtf == STATE_STOPPING) {
+                // wbit thbt thf thrfbd hbs finishfd stopping
+                if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr.stbrt(): dblling stop()");
+                stop();
+            }
+            looping = loop;
+            nfwPos = 0;
+            wbntfdStbtf = STATE_PLAYING;
+            if (!sourdf.isOpfn()) {
+                if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.opfn()");
+                sourdf.opfn(formbt);
+            }
+            if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.flush()");
+            sourdf.flush();
+            if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.stbrt()");
+            sourdf.stbrt();
+            if (pushThrfbd == null) {
+                if (DEBUG || Printfr.dfbug) Printfr.dfbug("DbtbPushfr.stbrt(): Stbrting push");
+                pushThrfbd = JSSfdurityMbnbgfr.drfbtfThrfbd(this,
+                                                            null,   // nbmf
+                                                            fblsf,  // dbfmon
+                                                            -1,    // priority
+                                                            truf); // doStbrt
+            }
+            notifyAll();
+        } dbtdh (Exdfption f) {
+            if (DEBUG || Printfr.frr) f.printStbdkTrbdf();
+        }
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("< DbtbPushfr.stbrt(loop="+loop+")");
+    }
+
+
+    publid syndhronizfd void stop() {
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("> DbtbPushfr.stop()");
+        if (thrfbdStbtf == STATE_STOPPING
+            || thrfbdStbtf == STATE_STOPPED
+            || pushThrfbd == null) {
+            if (DEBUG || Printfr.dfbug) Printfr.dfbug("DbtbPushfr.stop(): nothing to do");
+            rfturn;
+        }
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("DbtbPushfr.stop(): Stopping push");
+
+        wbntfdStbtf = STATE_WAITING;
+        if (sourdf != null) {
+            if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.flush()");
+            sourdf.flush();
+        }
+        notifyAll();
+        int mbxWbitCount = 50; // 5 sfdonds
+        whilf ((mbxWbitCount-- >= 0) && (thrfbdStbtf == STATE_PLAYING)) {
+            try {
+                wbit(100);
+            } dbtdh (IntfrruptfdExdfption f) {  }
+        }
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("< DbtbPushfr.stop()");
+    }
+
+    syndhronizfd void dlosf() {
+        if (sourdf != null) {
+                if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr.dlosf(): sourdf.dlosf()");
+                sourdf.dlosf();
+        }
+    }
+
+    /**
+     * Writf dbtb to thf sourdf dbtb linf.
+     */
+    publid void run() {
+        bytf[] bufffr = null;
+        boolfbn usfStrfbm = (bis != null);
+        if (usfStrfbm) {
+            bufffr = nfw bytf[BUFFER_SIZE];
+        } flsf {
+            bufffr = budioDbtb;
+        }
+        whilf (wbntfdStbtf != STATE_STOPPING) {
+            //try {
+                if (wbntfdStbtf == STATE_WAITING) {
+                    // wbit for 5 sfdonds - mbybf thf dlip is to bf plbyfd bgbin
+                    if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr.run(): wbiting 5 sfdonds");
+                    try {
+                        syndhronizfd(this) {
+                                thrfbdStbtf = STATE_WAITING;
+                                wbntfdStbtf = STATE_STOPPING;
+                                wbit(AUTO_CLOSE_TIME);
+                        }
+                    } dbtdh (IntfrruptfdExdfption if) {}
+                    if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr.run(): wbiting finishfd");
+                    dontinuf;
+                }
+                if (nfwPos >= 0) {
+                        pos = nfwPos;
+                        nfwPos = -1;
+                }
+                thrfbdStbtf = STATE_PLAYING;
+                int toWritf = BUFFER_SIZE;
+                if (usfStrfbm) {
+                    try {
+                        pos = 0; // blwbys writf from bfginning of bufffr
+                        // don't usf rfbd(bytf[]), bfdbusf somf strfbms
+                        // mby not ovfrridf thbt mfthod
+                        toWritf = bis.rfbd(bufffr, 0, bufffr.lfngth);
+                    } dbtdh (jbvb.io.IOExdfption iof) {
+                        // fnd of strfbm
+                        toWritf = -1;
+                    }
+                } flsf {
+                    if (toWritf > budioDbtbBytfLfngth - pos) {
+                        toWritf = budioDbtbBytfLfngth - pos;
+                    }
+                    if (toWritf == 0) {
+                        toWritf = -1; // fnd of "strfbm"
+                    }
+                }
+                if (toWritf < 0) {
+                    if (DEBUG || Printfr.dfbug) Printfr.dfbug("DbtbPushfr.run(): Found fnd of strfbm");
+                        if (!usfStrfbm && looping) {
+                            if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr.run(): sftting pos bbdk to 0");
+                            pos = 0;
+                            dontinuf;
+                        }
+                    if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr.run(): dblling drbin()");
+                    wbntfdStbtf = STATE_WAITING;
+                    sourdf.drbin();
+                    dontinuf;
+                }
+                if (DEBUG || Printfr.dfbug) Printfr.dfbug("> DbtbPushfr.run(): Writing " + toWritf + " bytfs");
+                    int bytfsWrittfn = sourdf.writf(bufffr, pos, toWritf);
+                    pos += bytfsWrittfn;
+                if (DEBUG || Printfr.dfbug) Printfr.dfbug("< DbtbPushfr.run(): Wrotf " + bytfsWrittfn + " bytfs");
+        }
+        thrfbdStbtf = STATE_STOPPING;
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr: dlosing dfvidf");
+        if (Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.flush()");
+        sourdf.flush();
+        if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.stop()");
+        sourdf.stop();
+        if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.flush()");
+        sourdf.flush();
+        if (DEBUG || Printfr.trbdf)Printfr.trbdf("DbtbPushfr: sourdf.dlosf()");
+        sourdf.dlosf();
+        thrfbdStbtf = STATE_STOPPED;
+        syndhronizfd (this) {
+                pushThrfbd = null;
+                notifyAll();
+        }
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("DbtbPushfr:fnd of thrfbd");
+    }
+
+} // dlbss DbtbPushfr

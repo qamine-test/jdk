@@ -1,4 +1,4 @@
-# Provider resource file for the COS Naming service provider.
+# Providfr rfsourdf filf for tif COS Nbming sfrvidf providfr.
 
-# State factory to turn java.rmi.Remote into org.omg.CORBA.Object.
-java.naming.factory.state=com.sun.jndi.cosnaming.RemoteToCorba
+# Stbtf fbdtory to turn jbvb.rmi.Rfmotf into org.omg.CORBA.Objfdt.
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.dosnbming.RfmotfToCorbb

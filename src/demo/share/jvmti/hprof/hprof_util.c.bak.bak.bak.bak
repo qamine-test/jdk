@@ -1,0 +1,1738 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Gfnfrbl utility fundtions. */
+
+/*
+ * Wrbppfrs ovfr JVM, JNI, bnd JVMTI fundtions brf plbdfd hfrf.
+ *
+ * All mfmory bllodbtion bnd dfbllodbtion gofs through jvmtiAllodbtf()
+ *    bnd jvmtiDfbllodbtf().
+ *
+ */
+
+
+#indludf "hprof.h"
+
+/* Mbdro to gft JNI fundtion pointfr. */
+#dffinf JNI_FUNC_PTR(fnv,f) (*((*(fnv))->f))
+
+/* Mbdro to gft JVM fundtion pointfr. */
+#dffinf JVM_FUNC_PTR(fnv,f) (*((*(fnv))->f))
+
+/* Mbdro to gft JVMTI fundtion pointfr. */
+#dffinf JVMTI_FUNC_PTR(fnv,f) (*((*(fnv))->f))
+
+/* ------------------------------------------------------------------- */
+/* JVM fundtions */
+
+JNIEnv *
+gftEnv(void)
+{
+    JNIEnv *fnv;
+    jint    rfs;
+
+    rfs = JVM_FUNC_PTR(gdbtb->jvm,GftEnv)
+                     (gdbtb->jvm, (void **)&fnv, JNI_VERSION_1_2);
+    if (rfs != JNI_OK) {
+        dhbr buf[256];
+
+        (void)md_snprintf(buf, sizfof(buf),
+                "Unbblf to bddfss JNI Vfrsion 1.2 (0x%x),"
+                " is your JDK b 5.0 or nfwfr vfrsion?"
+                " JNIEnv's GftEnv() rfturnfd %d",
+               JNI_VERSION_1_2, rfs);
+        buf[sizfof(buf)-1] = 0;
+        HPROF_ERROR(JNI_FALSE, buf);
+        frror_fxit_prodfss(1); /* Kill fntirf prodfss, no dorf dump */
+    }
+    rfturn fnv;
+}
+
+/* ------------------------------------------------------------------- */
+/* Mfmory Allodbtion */
+
+void *
+jvmtiAllodbtf(int sizf)
+{
+    jvmtiError frror;
+    unsignfd dhbr *ptr;
+
+    HPROF_ASSERT(sizf>=0);
+    ptr = NULL;
+    if ( sizf == 0 ) {
+        rfturn ptr;
+    }
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,Allodbtf)
+                (gdbtb->jvmti, (jlong)sizf, &ptr);
+    if ( frror != JVMTI_ERROR_NONE || ptr == NULL ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot bllodbtf jvmti mfmory");
+    }
+    rfturn (void*)ptr;
+}
+
+void
+jvmtiDfbllodbtf(void *ptr)
+{
+    if ( ptr != NULL ) {
+        jvmtiError frror;
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,Dfbllodbtf)
+                    (gdbtb->jvmti, (unsignfd dhbr*)ptr);
+        if ( frror != JVMTI_ERROR_NONE ) {
+            HPROF_JVMTI_ERROR(frror, "Cbnnot dfbllodbtf jvmti mfmory");
+        }
+    }
+}
+
+#ifdff DEBUG
+
+void *
+hprof_dfbug_mbllod(int sizf, dhbr *filf, int linf)
+{
+    void *ptr;
+
+    HPROF_ASSERT(sizf>0);
+
+    rbwMonitorEntfr(gdbtb->dfbug_mbllod_lodk); {
+        ptr = dfbug_mbllod(sizf, filf, linf);
+    } rbwMonitorExit(gdbtb->dfbug_mbllod_lodk);
+
+    if ( ptr == NULL ) {
+        HPROF_ERROR(JNI_TRUE, "Cbnnot bllodbtf mbllod mfmory");
+    }
+    rfturn ptr;
+}
+
+void
+hprof_dfbug_frff(void *ptr, dhbr *filf, int linf)
+{
+    HPROF_ASSERT(ptr!=NULL);
+
+    rbwMonitorEntfr(gdbtb->dfbug_mbllod_lodk); {
+        (void)dfbug_frff(ptr, filf, linf);
+    } rbwMonitorExit(gdbtb->dfbug_mbllod_lodk);
+}
+
+#fndif
+
+void *
+hprof_mbllod(int sizf)
+{
+    void *ptr;
+
+    HPROF_ASSERT(sizf>0);
+    ptr = mbllod(sizf);
+    if ( ptr == NULL ) {
+        HPROF_ERROR(JNI_TRUE, "Cbnnot bllodbtf mbllod mfmory");
+    }
+    rfturn ptr;
+}
+
+void
+hprof_frff(void *ptr)
+{
+    HPROF_ASSERT(ptr!=NULL);
+    (void)frff(ptr);
+}
+
+/* ------------------------------------------------------------------- */
+/* JVMTI Vfrsion fundtions */
+
+jint
+jvmtiVfrsion(void)
+{
+    if (gdbtb->dbdhfdJvmtiVfrsion == 0) {
+        jvmtiError frror;
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftVfrsionNumbfr)
+                        (gdbtb->jvmti, &(gdbtb->dbdhfdJvmtiVfrsion));
+        if (frror != JVMTI_ERROR_NONE) {
+            HPROF_JVMTI_ERROR(frror, "Cbnnot gft jvmti vfrsion numbfr");
+        }
+    }
+    rfturn gdbtb->dbdhfdJvmtiVfrsion;
+}
+
+stbtid jint
+jvmtiMbjorVfrsion(void)
+{
+    rfturn (jvmtiVfrsion() & JVMTI_VERSION_MASK_MAJOR)
+                    >> JVMTI_VERSION_SHIFT_MAJOR;
+}
+
+stbtid jint
+jvmtiMinorVfrsion(void)
+{
+    rfturn (jvmtiVfrsion() & JVMTI_VERSION_MASK_MINOR)
+                    >> JVMTI_VERSION_SHIFT_MINOR;
+}
+
+stbtid jint
+jvmtiMidroVfrsion(void)
+{
+    rfturn (jvmtiVfrsion() & JVMTI_VERSION_MASK_MICRO)
+                    >> JVMTI_VERSION_SHIFT_MICRO;
+}
+
+/* Logid to dftfrminf JVMTI vfrsion dompbtibility */
+stbtid jboolfbn
+dompbtiblf_vfrsions(jint mbjor_runtimf,     jint minor_runtimf,
+                    jint mbjor_dompilftimf, jint minor_dompilftimf)
+{
+    /* Runtimf mbjor vfrsion must mbtdh. */
+    if ( mbjor_runtimf != mbjor_dompilftimf ) {
+        rfturn JNI_FALSE;
+    }
+    /* Runtimf minor vfrsion must bf >= thf vfrsion dompilfd with. */
+    if ( minor_runtimf < minor_dompilftimf ) {
+        rfturn JNI_FALSE;
+    }
+    /* Assumfd dompbtiblf */
+    rfturn JNI_TRUE;
+}
+
+/* ------------------------------------------------------------------- */
+/* JVMTI Rbw Monitor support fundtions */
+
+jrbwMonitorID
+drfbtfRbwMonitor(donst dhbr *str)
+{
+    jvmtiError frror;
+    jrbwMonitorID m;
+
+    m = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,CrfbtfRbwMonitor)
+                (gdbtb->jvmti, str, &m);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot drfbtf rbw monitor");
+    }
+    rfturn m;
+}
+
+void
+rbwMonitorEntfr(jrbwMonitorID m)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RbwMonitorEntfr)
+                (gdbtb->jvmti, m);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok, bftfr bgfnt shutdown CALLBACK dodf mby dbll this */
+        frror = JVMTI_ERROR_NONE;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot fntfr with rbw monitor");
+    }
+}
+
+void
+rbwMonitorWbit(jrbwMonitorID m, jlong pbusf_timf)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RbwMonitorWbit)
+                (gdbtb->jvmti, m, pbusf_timf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot wbit with rbw monitor");
+    }
+}
+
+void
+rbwMonitorNotifyAll(jrbwMonitorID m)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RbwMonitorNotifyAll)
+                (gdbtb->jvmti, m);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot notify bll with rbw monitor");
+    }
+}
+
+void
+rbwMonitorExit(jrbwMonitorID m)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RbwMonitorExit)
+                (gdbtb->jvmti, m);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok, bftfr bgfnt shutdown CALLBACK dodf mby dbll this */
+        frror = JVMTI_ERROR_NONE;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot fxit with rbw monitor");
+    }
+}
+
+void
+dfstroyRbwMonitor(jrbwMonitorID m)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,DfstroyRbwMonitor)
+                (gdbtb->jvmti, m);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok */
+        frror = JVMTI_ERROR_NONE;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot dfstroy rbw monitor");
+    }
+}
+
+/* ------------------------------------------------------------------- */
+/* JVMTI Evfnt fnbbling/disbbilin */
+
+void
+sftEvfntNotifidbtionModf(jvmtiEvfntModf modf, jvmtiEvfnt fvfnt, jthrfbd thrfbd)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+                (gdbtb->jvmti, modf, fvfnt, thrfbd);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot sft fvfnt notifidbtion");
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* JNI Support Fundtions */
+
+jobjfdt
+fxdfptionOddurrfd(JNIEnv *fnv)
+{
+    rfturn JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv);
+}
+
+void
+fxdfptionDfsdribf(JNIEnv *fnv)
+{
+    JNI_FUNC_PTR(fnv,ExdfptionDfsdribf)(fnv);
+}
+
+void
+fxdfptionClfbr(JNIEnv *fnv)
+{
+    JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+}
+
+jobjfdt
+nfwGlobblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    jobjfdt grff;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    grff = JNI_FUNC_PTR(fnv,NfwGlobblRff)(fnv, objfdt);
+    HPROF_ASSERT(grff!=NULL);
+    rfturn grff;
+}
+
+jobjfdt
+nfwWfbkGlobblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    jobjfdt grff;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    grff = JNI_FUNC_PTR(fnv,NfwWfbkGlobblRff)(fnv, objfdt);
+    HPROF_ASSERT(grff!=NULL);
+    rfturn grff;
+}
+
+void
+dflftfGlobblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    JNI_FUNC_PTR(fnv,DflftfGlobblRff)(fnv, objfdt);
+}
+
+jobjfdt
+nfwLodblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    jobjfdt lrff;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    lrff = JNI_FUNC_PTR(fnv,NfwLodblRff)(fnv, objfdt);
+    /* Possiblf for b non-null wfbk rfffrfndf to rfturn b NULL lodblrff */
+    rfturn lrff;
+}
+
+void
+dflftfLodblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    JNI_FUNC_PTR(fnv,DflftfLodblRff)(fnv, objfdt);
+}
+
+void
+dflftfWfbkGlobblRfffrfndf(JNIEnv *fnv, jobjfdt objfdt)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    JNI_FUNC_PTR(fnv,DflftfWfbkGlobblRff)(fnv, objfdt);
+}
+
+jdlbss
+gftObjfdtClbss(JNIEnv *fnv, jobjfdt objfdt)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jdlbss dlbzz;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    dlbzz = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, objfdt);
+    HPROF_ASSERT(dlbzz!=NULL);
+    rfturn dlbzz;
+}
+
+jdlbss
+gftSupfrdlbss(JNIEnv *fnv, jdlbss klbss)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jdlbss supfr_klbss;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
+    supfr_klbss = JNI_FUNC_PTR(fnv,GftSupfrdlbss)(fnv, klbss);
+    rfturn supfr_klbss;
+}
+
+jmfthodID
+gftStbtidMfthodID(JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig)
+{
+    jmfthodID mfthod;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(nbmf!=NULL);
+    HPROF_ASSERT(sig!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        mfthod = JNI_FUNC_PTR(fnv,GftStbtidMfthodID)(fnv, dlbzz, nbmf, sig);
+    } END_CHECK_EXCEPTIONS;
+    HPROF_ASSERT(mfthod!=NULL);
+    rfturn mfthod;
+}
+
+jmfthodID
+gftMfthodID(JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig)
+{
+    jmfthodID mfthod;
+    jobjfdt fxdfption;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(nbmf!=NULL);
+    HPROF_ASSERT(sig!=NULL);
+    mfthod = JNI_FUNC_PTR(fnv,GftMfthodID)(fnv, dlbzz, nbmf, sig);
+    /* Might bf b stbtid mfthod */
+    fxdfption = JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv);
+    if ( fxdfption != NULL ) {
+        JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+        mfthod = gftStbtidMfthodID(fnv, dlbzz, nbmf, sig);
+    }
+    HPROF_ASSERT(mfthod!=NULL);
+    rfturn mfthod;
+}
+
+jdlbss
+findClbss(JNIEnv *fnv, donst dhbr *nbmf)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jdlbss dlbzz;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(nbmf!=NULL);
+    LOG2("FindClbss", nbmf);
+    CHECK_EXCEPTIONS(fnv) {
+        dlbzz = JNI_FUNC_PTR(fnv,FindClbss)(fnv, nbmf);
+    } END_CHECK_EXCEPTIONS;
+    HPROF_ASSERT(dlbzz!=NULL);
+    rfturn dlbzz;
+}
+
+jfifldID
+gftStbtidFifldID(JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig)
+{
+    jfifldID fifld;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(nbmf!=NULL);
+    HPROF_ASSERT(sig!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        fifld = JNI_FUNC_PTR(fnv,GftStbtidFifldID)(fnv, dlbzz, nbmf, sig);
+    } END_CHECK_EXCEPTIONS;
+    rfturn fifld;
+}
+
+void
+sftStbtidIntFifld(JNIEnv *fnv, jdlbss dlbzz, jfifldID fifld, jint vbluf)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(fifld!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        JNI_FUNC_PTR(fnv,SftStbtidIntFifld)(fnv, dlbzz, fifld, vbluf);
+    } END_CHECK_EXCEPTIONS;
+}
+
+stbtid jobjfdt
+dbllStbtidObjfdtMfthod(JNIEnv *fnv, jdlbss klbss, jmfthodID mfthod)
+{
+    jobjfdt x;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
+    HPROF_ASSERT(mfthod!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        x = JNI_FUNC_PTR(fnv,CbllStbtidObjfdtMfthod)(fnv, klbss, mfthod);
+    } END_CHECK_EXCEPTIONS;
+    rfturn x;
+}
+
+stbtid jlong
+dbllLongMfthod(JNIEnv *fnv, jobjfdt objfdt, jmfthodID mfthod)
+{
+    jlong x;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    HPROF_ASSERT(mfthod!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        x = JNI_FUNC_PTR(fnv,CbllLongMfthod)(fnv, objfdt, mfthod);
+    } END_CHECK_EXCEPTIONS;
+    rfturn x;
+}
+
+stbtid void
+dbllVoidMfthod(JNIEnv *fnv, jobjfdt objfdt, jmfthodID mfthod, jboolfbn brg)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+    HPROF_ASSERT(mfthod!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        JNI_FUNC_PTR(fnv,CbllVoidMfthod)(fnv, objfdt, mfthod, brg);
+    } END_CHECK_EXCEPTIONS;
+}
+
+stbtid jstring
+nfwStringUTF(JNIEnv *fnv, donst dhbr *nbmf)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jstring string;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(nbmf!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        string = JNI_FUNC_PTR(fnv,NfwStringUTF)(fnv, nbmf);
+    } END_CHECK_EXCEPTIONS;
+    HPROF_ASSERT(string!=NULL);
+    rfturn string;
+}
+
+stbtid jobjfdt
+nfwThrfbdObjfdt(JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthod,
+                jthrfbdGroup group, jstring nbmf)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jthrfbd thrfbd;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(mfthod!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        thrfbd = JNI_FUNC_PTR(fnv,NfwObjfdt)(fnv, dlbzz, mfthod, group, nbmf);
+    } END_CHECK_EXCEPTIONS;
+    HPROF_ASSERT(thrfbd!=NULL);
+    rfturn thrfbd;
+}
+
+jboolfbn
+isSbmfObjfdt(JNIEnv *fnv, jobjfdt o1, jobjfdt o2)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    if ( o1 == o2  || JNI_FUNC_PTR(fnv,IsSbmfObjfdt)(fnv, o1, o2) ) {
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+
+void
+pushLodblFrbmf(JNIEnv *fnv, jint dbpbdity)
+{
+    HPROF_ASSERT(fnv!=NULL);
+    CHECK_EXCEPTIONS(fnv) {
+        jint rft;
+
+        rft = JNI_FUNC_PTR(fnv,PushLodblFrbmf)(fnv, dbpbdity);
+        if ( rft != 0 ) {
+            HPROF_ERROR(JNI_TRUE, "JNI PushLodblFrbmf rfturnfd non-zfro");
+        }
+    } END_CHECK_EXCEPTIONS;
+}
+
+void
+popLodblFrbmf(JNIEnv *fnv, jobjfdt rfsult)
+{
+    jobjfdt rft;
+
+    HPROF_ASSERT(fnv!=NULL);
+    rft = JNI_FUNC_PTR(fnv,PopLodblFrbmf)(fnv, rfsult);
+    if ( (rfsult != NULL && rft == NULL) || (rfsult == NULL && rft != NULL) ) {
+        HPROF_ERROR(JNI_TRUE, "JNI PopLodblFrbmf rfturnfd wrong objfdt");
+    }
+}
+
+void
+rfgistfrNbtivfs(JNIEnv *fnv, jdlbss dlbzz,
+                        JNINbtivfMfthod *mfthods, jint dount)
+{
+    jint rft;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(dlbzz!=NULL);
+    HPROF_ASSERT(mfthods!=NULL);
+    HPROF_ASSERT(dount>0);
+    rft = JNI_FUNC_PTR(fnv,RfgistfrNbtivfs)(fnv, dlbzz, mfthods, dount);
+    if ( rft != 0 ) {
+        HPROF_ERROR(JNI_TRUE, "JNI RfgistfrNbtivfs rfturnfd non-zfro");
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* JVMTI Support Fundtions */
+
+dhbr *
+gftErrorNbmf(jvmtiError frror_numbfr)
+{
+    dhbr *frror_nbmf;
+
+    frror_nbmf = NULL;
+    (void)JVMTI_FUNC_PTR(gdbtb->jvmti,GftErrorNbmf)
+                        (gdbtb->jvmti, frror_numbfr, &frror_nbmf);
+    rfturn frror_nbmf;
+}
+
+jvmtiPhbsf
+gftPhbsf(void)
+{
+    jvmtiPhbsf phbsf;
+
+    phbsf = 0;
+    (void)JVMTI_FUNC_PTR(gdbtb->jvmti,GftPhbsf)(gdbtb->jvmti, &phbsf);
+    rfturn phbsf;
+}
+
+dhbr *
+phbsfString(jvmtiPhbsf phbsf)
+{
+    switdh ( phbsf ) {
+        dbsf JVMTI_PHASE_ONLOAD:
+            rfturn "onlobd";
+        dbsf JVMTI_PHASE_PRIMORDIAL:
+            rfturn "primordibl";
+        dbsf JVMTI_PHASE_START:
+            rfturn "stbrt";
+        dbsf JVMTI_PHASE_LIVE:
+            rfturn "livf";
+        dbsf JVMTI_PHASE_DEAD:
+            rfturn "dfbd";
+    }
+    rfturn "unknown";
+}
+
+void
+disposfEnvironmfnt(void)
+{
+    (void)JVMTI_FUNC_PTR(gdbtb->jvmti,DisposfEnvironmfnt)
+                        (gdbtb->jvmti);
+}
+
+jlong
+gftObjfdtSizf(jobjfdt objfdt)
+{
+    jlong sizf;
+    jvmtiError frror;
+
+    HPROF_ASSERT(objfdt!=NULL);
+    sizf = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftObjfdtSizf)
+                        (gdbtb->jvmti, objfdt, &sizf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft objfdt sizf");
+    }
+    rfturn sizf;
+}
+
+stbtid jboolfbn
+isIntfrfbdf(jdlbss klbss)
+{
+    jvmtiError frror;
+    jboolfbn   bnswfr;
+
+    HPROF_ASSERT(klbss!=NULL);
+    bnswfr = JNI_FALSE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,IsIntfrfbdf)
+                        (gdbtb->jvmti, klbss, &bnswfr);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot dbll IsIntfrfbdf");
+    }
+    rfturn bnswfr;
+}
+
+jint
+gftClbssStbtus(jdlbss klbss)
+{
+    jvmtiError frror;
+    jint       stbtus;
+
+    HPROF_ASSERT(klbss!=NULL);
+    stbtus = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssStbtus)
+                        (gdbtb->jvmti, klbss, &stbtus);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok */
+        frror = JVMTI_ERROR_NONE;
+        stbtus = 0;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dlbss stbtus");
+    }
+    rfturn stbtus;
+}
+
+jobjfdt
+gftClbssLobdfr(jdlbss klbss)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+    jobjfdt    lobdfr;
+
+    HPROF_ASSERT(klbss!=NULL);
+    lobdfr = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssLobdfr)
+                        (gdbtb->jvmti, klbss, &lobdfr);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dlbss lobdfr");
+    }
+    rfturn lobdfr;
+}
+
+jlong
+gftTbg(jobjfdt objfdt)
+{
+    jlong tbg;
+    jvmtiError frror;
+
+    HPROF_ASSERT(objfdt!=NULL);
+    tbg = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftTbg)
+                        (gdbtb->jvmti, objfdt, &tbg);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft objfdt tbg");
+    }
+    rfturn tbg;
+}
+
+void
+sftTbg(jobjfdt objfdt, jlong tbg)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(objfdt!=NULL);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftTbg)
+                        (gdbtb->jvmti, objfdt, tbg);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot sft objfdt tbg");
+    }
+}
+
+void
+gftObjfdtMonitorUsbgf(jobjfdt objfdt, jvmtiMonitorUsbgf *uinfo)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(objfdt!=NULL);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftObjfdtMonitorUsbgf)
+                        (gdbtb->jvmti, objfdt, uinfo);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft monitor usbgf info");
+    }
+}
+
+void
+gftOwnfdMonitorInfo(jthrfbd thrfbd, jobjfdt **ppobjfdts, jint *pdount)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(ppobjfdts!=NULL);
+    HPROF_ASSERT(pdount!=NULL);
+    *pdount = 0;
+    *ppobjfdts = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftOwnfdMonitorInfo)
+                        (gdbtb->jvmti, thrfbd, pdount, ppobjfdts);
+    if ( frror == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
+        *pdount = 0;
+        frror = JVMTI_ERROR_NONE;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd ownfd monitor info");
+    }
+}
+
+void
+gftSystfmPropfrty(donst dhbr *nbmf, dhbr **vbluf)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(nbmf!=NULL);
+    *vbluf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftSystfmPropfrty)
+                        (gdbtb->jvmti, nbmf, vbluf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft systfm propfrty");
+    }
+}
+
+void
+gftClbssSignbturf(jdlbss klbss, dhbr** psignbturf, dhbr **pgfnfrid_signbturf)
+{
+    jvmtiError frror;
+    dhbr *gfnfrid_signbturf;
+
+    HPROF_ASSERT(klbss!=NULL);
+    *psignbturf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssSignbturf)
+                        (gdbtb->jvmti, klbss, psignbturf, &gfnfrid_signbturf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dlbss signbturf");
+    }
+    if ( pgfnfrid_signbturf != NULL ) {
+        *pgfnfrid_signbturf = gfnfrid_signbturf;
+    } flsf {
+        jvmtiDfbllodbtf(gfnfrid_signbturf);
+    }
+}
+
+void
+gftSourdfFilfNbmf(jdlbss klbss, dhbr** pnbmf)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(klbss!=NULL);
+    *pnbmf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftSourdfFilfNbmf)
+                        (gdbtb->jvmti, klbss, pnbmf);
+    if ( frror == JVMTI_ERROR_ABSENT_INFORMATION ) {
+        frror = JVMTI_ERROR_NONE;
+        *pnbmf = NULL;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft sourdf filf nbmf");
+    }
+}
+
+stbtid void
+gftClbssFiflds(jdlbss klbss, jint* pn_fiflds, jfifldID** pfiflds)
+{
+    jvmtiError frror;
+    jint       stbtus;
+
+    HPROF_ASSERT(klbss!=NULL);
+    *pn_fiflds = 0;
+    *pfiflds      = NULL;
+
+    /* Gft dlbss stbtus */
+    stbtus = gftClbssStbtus(klbss);
+
+    /* Arrbys hbvf no fiflds */
+    if ( stbtus & JVMTI_CLASS_STATUS_ARRAY ) {
+        rfturn;
+    }
+
+    /* Primitivfs hbvf no fiflds */
+    if ( stbtus & JVMTI_CLASS_STATUS_PRIMITIVE ) {
+        rfturn;
+    }
+
+    /* If thf dlbss is not prfpbrfd, wf hbvf b problfm? */
+    if ( !(stbtus & JVMTI_CLASS_STATUS_PREPARED) ) {
+        HPROF_ERROR(JNI_FALSE, "Clbss not prfpbrfd whfn nffding fiflds");
+        rfturn;
+    }
+
+    /* Now try bnd gft bll thf fiflds */
+    frror         = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssFiflds)
+                        (gdbtb->jvmti, klbss, pn_fiflds, pfiflds);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dlbss fifld list");
+    }
+}
+
+stbtid jint
+gftFifldModififrs(jdlbss klbss, jfifldID fifld)
+{
+    jvmtiError frror;
+    jint       modififrs;
+
+    HPROF_ASSERT(klbss!=NULL);
+    HPROF_ASSERT(fifld!=NULL);
+    modififrs = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFifldModififrs)
+            (gdbtb->jvmti, klbss, fifld, &modififrs);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft fifld modififrs");
+    }
+    rfturn modififrs;
+}
+
+stbtid void
+gftFifldNbmf(jdlbss klbss, jfifldID fifld, dhbr** pnbmf, dhbr** psignbturf,
+                        dhbr **pgfnfrid_signbturf)
+{
+    jvmtiError frror;
+    dhbr *gfnfrid_signbturf;
+
+    gfnfrid_signbturf = NULL;
+    *pnbmf = NULL;
+    *psignbturf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFifldNbmf)
+            (gdbtb->jvmti, klbss, fifld, pnbmf, psignbturf, &gfnfrid_signbturf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft fifld nbmf");
+    }
+    if ( pgfnfrid_signbturf != NULL ) {
+        *pgfnfrid_signbturf = gfnfrid_signbturf;
+    } flsf {
+        jvmtiDfbllodbtf(gfnfrid_signbturf);
+    }
+}
+
+stbtid void
+gftImplfmfntfdIntfrfbdfs(jdlbss klbss, jint* pn_intfrfbdfs,
+                        jdlbss** pintfrfbdfs)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    *pn_intfrfbdfs = 0;
+    *pintfrfbdfs   = NULL;
+    frror          = JVMTI_FUNC_PTR(gdbtb->jvmti,GftImplfmfntfdIntfrfbdfs)
+                        (gdbtb->jvmti, klbss, pn_intfrfbdfs, pintfrfbdfs);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dlbss intfrfbdf list");
+    }
+}
+
+stbtid ClbssIndfx
+gft_dnum(JNIEnv *fnv, jdlbss klbss)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    ClbssIndfx  dnum;
+    LobdfrIndfx lobdfr_indfx;
+    dhbr       *sig;
+    jobjfdt     lobdfr;
+
+    lobdfr       = gftClbssLobdfr(klbss);
+    lobdfr_indfx = lobdfr_find_or_drfbtf(fnv, lobdfr);
+    gftClbssSignbturf(klbss, &sig, NULL);
+    dnum = dlbss_find_or_drfbtf(sig, lobdfr_indfx);
+    jvmtiDfbllodbtf(sig);
+    (void)dlbss_nfw_dlbssrff(fnv, dnum, klbss);
+    rfturn dnum;
+}
+
+/* From primitivf typf, gft signbturf lfttfr */
+dhbr
+primTypfToSigChbr(jvmtiPrimitivfTypf primTypf)
+{
+    dhbr sig_dh;
+
+    sig_dh = 0;
+    switdh ( primTypf ) {
+        dbsf JVMTI_PRIMITIVE_TYPE_BYTE:
+            sig_dh = JVM_SIGNATURE_BYTE;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_CHAR:
+            sig_dh = JVM_SIGNATURE_CHAR;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_FLOAT:
+            sig_dh = JVM_SIGNATURE_FLOAT;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_DOUBLE:
+            sig_dh = JVM_SIGNATURE_DOUBLE;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_INT:
+            sig_dh = JVM_SIGNATURE_INT;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_LONG:
+            sig_dh = JVM_SIGNATURE_LONG;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_SHORT:
+            sig_dh = JVM_SIGNATURE_SHORT;
+            brfbk;
+        dbsf JVMTI_PRIMITIVE_TYPE_BOOLEAN:
+            sig_dh = JVM_SIGNATURE_BOOLEAN;
+            brfbk;
+        dffbult:
+            sig_dh = 0;
+            brfbk;
+    }
+    rfturn sig_dh;
+}
+
+/* From signbturf, gft primitivf typf */
+jvmtiPrimitivfTypf
+sigToPrimTypf(dhbr *sig)
+{
+    jvmtiPrimitivfTypf primTypf;
+
+    primTypf = 0;
+    if ( sig == NULL || sig[0] == 0 ) {
+        rfturn primTypf;
+    }
+    switdh ( sig[0] ) {
+        dbsf JVM_SIGNATURE_BYTE:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_BYTE;
+            brfbk;
+        dbsf JVM_SIGNATURE_CHAR:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_CHAR;
+            brfbk;
+        dbsf JVM_SIGNATURE_FLOAT:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_FLOAT;
+            brfbk;
+        dbsf JVM_SIGNATURE_DOUBLE:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_DOUBLE;
+            brfbk;
+        dbsf JVM_SIGNATURE_INT:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_INT;
+            brfbk;
+        dbsf JVM_SIGNATURE_LONG:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_LONG;
+            brfbk;
+        dbsf JVM_SIGNATURE_SHORT:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_SHORT;
+            brfbk;
+        dbsf JVM_SIGNATURE_BOOLEAN:
+            primTypf =  JVMTI_PRIMITIVE_TYPE_BOOLEAN;
+            brfbk;
+    }
+    rfturn primTypf;
+}
+
+/* From signbturf, gft primitivf sizf */
+int
+sigToPrimSizf(dhbr *sig)
+{
+    unsignfd sizf;
+
+    sizf = 0;
+    if ( sig == NULL || sig[0] == 0 ) {
+        rfturn sizf;
+    }
+    switdh ( sig[0] ) {
+        dbsf JVM_SIGNATURE_BYTE:
+        dbsf JVM_SIGNATURE_BOOLEAN:
+            sizf =  1;
+            brfbk;
+        dbsf JVM_SIGNATURE_CHAR:
+        dbsf JVM_SIGNATURE_SHORT:
+            sizf =  2;
+            brfbk;
+        dbsf JVM_SIGNATURE_FLOAT:
+        dbsf JVM_SIGNATURE_INT:
+            sizf =  4;
+            brfbk;
+        dbsf JVM_SIGNATURE_DOUBLE:
+        dbsf JVM_SIGNATURE_LONG:
+            sizf =  8;
+            brfbk;
+    }
+    rfturn sizf;
+}
+
+stbtid void
+bdd_dlbss_fiflds(JNIEnv *fnv, ClbssIndfx top_dnum, ClbssIndfx dnum,
+                jdlbss klbss, Stbdk *fifld_list, Stbdk *dlbss_list)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jdlbss     *intfrfbdfs;
+    jint        n_intfrfbdfs;
+    jfifldID   *idlist;
+    jint        n_fiflds;
+    int         i;
+    int         dfpth;
+    int         skip_stbtid_fifld_nbmfs;
+    jint        stbtus;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
+    HPROF_ASSERT(fifld_list!=NULL);
+    HPROF_ASSERT(dlbss_list!=NULL);
+
+    /* If not thf initibl dlbss, wf dbn skip thf stbtid fiflds (pfrf issuf) */
+    skip_stbtid_fifld_nbmfs = (dnum != top_dnum);
+
+    /* Gft dlbss stbtus */
+    stbtus = gftClbssStbtus(klbss);
+
+    /* Arrbys hbvf no fiflds */
+    if ( stbtus & JVMTI_CLASS_STATUS_ARRAY ) {
+        rfturn;
+    }
+
+    /* Primitivfs hbvf no fiflds */
+    if ( stbtus & JVMTI_CLASS_STATUS_PRIMITIVE ) {
+        rfturn;
+    }
+
+    /* If thf dlbss is not prfpbrfd, wf hbvf b problfm? */
+    if ( !(stbtus & JVMTI_CLASS_STATUS_PREPARED) ) {
+        dhbr *sig;
+
+        gftClbssSignbturf(klbss, &sig, NULL);
+        dfbug_mfssbgf("Clbss signbturf is: %s\n", sig);
+        HPROF_ERROR(JNI_FALSE, "Clbss not prfpbrfd whfn nffding bll fiflds");
+        jvmtiDfbllodbtf(sig);
+        rfturn;
+    }
+
+    /* Sff if dlbss blrfbdy prodfssfd */
+    dfpth = stbdk_dfpth(dlbss_list);
+    for ( i = dfpth-1 ; i >= 0 ; i-- ) {
+        if ( isSbmfObjfdt(fnv, klbss, *(jdlbss*)stbdk_flfmfnt(dlbss_list, i)) ) {
+            rfturn;
+        }
+    }
+
+    /* Clbss or Intfrfbdf, do implfmfntfd intfrfbdfs rfdursivfly */
+    gftImplfmfntfdIntfrfbdfs(klbss, &n_intfrfbdfs, &intfrfbdfs);
+    for ( i = 0 ; i < n_intfrfbdfs ; i++ ) {
+        bdd_dlbss_fiflds(fnv, top_dnum,
+                         gft_dnum(fnv, intfrfbdfs[i]), intfrfbdfs[i],
+                         fifld_list, dlbss_list);
+    }
+    jvmtiDfbllodbtf(intfrfbdfs);
+
+    /* Bfgin grbph trbvfrsbl, go up supfr dhbin rfdursivfly */
+    if ( !isIntfrfbdf(klbss) ) {
+        jdlbss supfr_klbss;
+
+        supfr_klbss = gftSupfrdlbss(fnv, klbss);
+        if ( supfr_klbss != NULL ) {
+            bdd_dlbss_fiflds(fnv, top_dnum,
+                             gft_dnum(fnv, supfr_klbss), supfr_klbss,
+                             fifld_list, dlbss_list);
+        }
+    }
+
+
+    /* Only now wf bdd klbss to list so wf don't rfpfbt it lbtfr */
+    stbdk_push(dlbss_list, &klbss);
+
+    /* Now bdtublly bdd thf fiflds for this klbss */
+    gftClbssFiflds(klbss, &n_fiflds, &idlist);
+    for ( i = 0 ; i < n_fiflds ; i++ ) {
+        FifldInfo        finfo;
+        stbtid FifldInfo fmpty_finfo;
+
+        finfo           = fmpty_finfo;
+        finfo.dnum      = dnum;
+        finfo.modififrs = (unsignfd short)gftFifldModififrs(klbss, idlist[i]);
+        if ( ( finfo.modififrs & JVM_ACC_STATIC ) == 0 ||
+             !skip_stbtid_fifld_nbmfs ) {
+            dhbr *fifld_nbmf;
+            dhbr *fifld_sig;
+
+            gftFifldNbmf(klbss, idlist[i], &fifld_nbmf, &fifld_sig, NULL);
+            finfo.nbmf_indfx = string_find_or_drfbtf(fifld_nbmf);
+            finfo.sig_indfx  = string_find_or_drfbtf(fifld_sig);
+            finfo.primTypf   = sigToPrimTypf(fifld_sig);
+            finfo.primSizf   = sigToPrimSizf(fifld_sig);
+            jvmtiDfbllodbtf(fifld_nbmf);
+            jvmtiDfbllodbtf(fifld_sig);
+        }
+        stbdk_push(fifld_list, &finfo);
+    }
+    jvmtiDfbllodbtf(idlist);
+}
+
+void
+gftAllClbssFifldInfo(JNIEnv *fnv, jdlbss klbss,
+                jint* pn_fiflds, FifldInfo** pfiflds)
+{
+    ClbssIndfx dnum;
+
+    *pfiflds      = NULL;
+    *pn_fiflds    = 0;
+
+    WITH_LOCAL_REFS(fnv, 1) {
+        Stbdk *dlbss_list;
+        Stbdk *fifld_list;
+        int    nbytfs;
+
+        dnum          = gft_dnum(fnv, klbss);
+        dlbss_list    = stbdk_init( 16,  16, (int)sizfof(jdlbss));
+        fifld_list    = stbdk_init(128, 128, (int)sizfof(FifldInfo));
+        bdd_dlbss_fiflds(fnv, dnum, dnum, klbss, fifld_list, dlbss_list);
+        *pn_fiflds    = stbdk_dfpth(fifld_list);
+        if ( (*pn_fiflds) > 0 ) {
+            nbytfs        = (*pn_fiflds) * (int)sizfof(FifldInfo);
+            *pfiflds      = (FifldInfo*)HPROF_MALLOC(nbytfs);
+            (void)mfmdpy(*pfiflds, stbdk_flfmfnt(fifld_list, 0), nbytfs);
+        }
+        stbdk_tfrm(fifld_list);
+        stbdk_tfrm(dlbss_list);
+    } END_WITH_LOCAL_REFS;
+}
+
+void
+gftMfthodClbss(jmfthodID mfthod, jdlbss *pdlbzz)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(mfthod!=NULL);
+    *pdlbzz = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftMfthodDfdlbringClbss)
+                (gdbtb->jvmti, mfthod, pdlbzz);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft mfthod dlbss");
+    }
+}
+
+jboolfbn
+isMfthodNbtivf(jmfthodID mfthod)
+{
+    jvmtiError frror;
+    jboolfbn   isNbtivf;
+
+    HPROF_ASSERT(mfthod!=NULL);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,IsMfthodNbtivf)
+                (gdbtb->jvmti, mfthod, &isNbtivf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot dhfdk is mfthod nbtivf");
+    }
+    rfturn isNbtivf;
+}
+
+void
+gftMfthodNbmf(jmfthodID mfthod, dhbr** pnbmf, dhbr** psignbturf)
+{
+    jvmtiError frror;
+    dhbr *gfnfrid_signbturf;
+
+    HPROF_ASSERT(mfthod!=NULL);
+    gfnfrid_signbturf = NULL;
+    *pnbmf = NULL;
+    *psignbturf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftMfthodNbmf)
+                (gdbtb->jvmti, mfthod, pnbmf, psignbturf, &gfnfrid_signbturf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft mfthod nbmf");
+    }
+    jvmtiDfbllodbtf(gfnfrid_signbturf);
+}
+
+void
+gftPotfntiblCbpbbilitifs(jvmtiCbpbbilitifs *pdbpbbilitifs)
+{
+    jvmtiError frror;
+
+    (void)mfmsft(pdbpbbilitifs,0,sizfof(jvmtiCbpbbilitifs));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftPotfntiblCbpbbilitifs)
+                (gdbtb->jvmti, pdbpbbilitifs);
+    if (frror != JVMTI_ERROR_NONE) {
+        HPROF_ERROR(JNI_FALSE, "Unbblf to gft potfntibl JVMTI dbpbbilitifs.");
+        frror_fxit_prodfss(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+}
+
+void
+bddCbpbbilitifs(jvmtiCbpbbilitifs *pdbpbbilitifs)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,AddCbpbbilitifs)
+                (gdbtb->jvmti, pdbpbbilitifs);
+    if (frror != JVMTI_ERROR_NONE) {
+        HPROF_ERROR(JNI_FALSE, "Unbblf to gft nfdfssbry JVMTI dbpbbilitifs.");
+        frror_fxit_prodfss(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+}
+
+void
+sftEvfntCbllbbdks(jvmtiEvfntCbllbbdks *pdbllbbdks)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntCbllbbdks)
+                (gdbtb->jvmti, pdbllbbdks, (int)sizfof(jvmtiEvfntCbllbbdks));
+    if (frror != JVMTI_ERROR_NONE) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot sft jvmti dbllbbdks");
+    }
+
+}
+
+void *
+gftThrfbdLodblStorbgf(jthrfbd thrfbd)
+{
+    jvmtiError frror;
+    void *ptr;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    ptr = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdLodblStorbgf)
+                (gdbtb->jvmti, thrfbd, &ptr);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok */
+        frror = JVMTI_ERROR_NONE;
+        ptr = NULL;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd lodbl storbgf");
+    }
+    rfturn ptr;
+}
+
+void
+sftThrfbdLodblStorbgf(jthrfbd thrfbd, void *ptr)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftThrfbdLodblStorbgf)
+                (gdbtb->jvmti, thrfbd, (donst void *)ptr);
+    if ( frror == JVMTI_ERROR_WRONG_PHASE ) {
+        /* Trfbt this bs ok */
+        frror = JVMTI_ERROR_NONE;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot sft thrfbd lodbl storbgf");
+    }
+}
+
+void
+gftThrfbdStbtf(jthrfbd thrfbd, jint *thrfbdStbtf)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(thrfbdStbtf!=NULL);
+    *thrfbdStbtf = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdStbtf)
+                (gdbtb->jvmti, thrfbd, thrfbdStbtf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd stbtf");
+    }
+}
+
+void
+gftThrfbdInfo(jthrfbd thrfbd, jvmtiThrfbdInfo *info)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(info!=NULL);
+    (void)mfmsft((void*)info, 0, sizfof(jvmtiThrfbdInfo));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdInfo)
+                (gdbtb->jvmti, thrfbd, info);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd info");
+    }
+}
+
+void
+gftThrfbdGroupInfo(jthrfbdGroup thrfbd_group, jvmtiThrfbdGroupInfo *info)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(info!=NULL);
+    (void)mfmsft((void*)info, 0, sizfof(jvmtiThrfbdGroupInfo));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdGroupInfo)
+                (gdbtb->jvmti, thrfbd_group, info);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd group info");
+    }
+}
+
+void
+gftLobdfdClbssfs(jdlbss **ppdlbssfs, jint *pdount)
+/* WARNING: Must bf dbllfd insidf WITH_LOCAL_REFS */
+{
+    jvmtiError frror;
+
+    *ppdlbssfs = NULL;
+    *pdount = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLobdfdClbssfs)
+                (gdbtb->jvmti, pdount, ppdlbssfs);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft bll lobdfd dlbss list");
+    }
+}
+
+stbtid void
+gftLinfNumbfrTbblf(jmfthodID mfthod, jvmtiLinfNumbfrEntry **ppfntrifs,
+                jint *pdount)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(mfthod!=NULL);
+    *ppfntrifs = NULL;
+    *pdount    = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLinfNumbfrTbblf)
+                (gdbtb->jvmti, mfthod, pdount, ppfntrifs);
+    if ( frror == JVMTI_ERROR_ABSENT_INFORMATION ) {
+        frror = JVMTI_ERROR_NONE;
+        *ppfntrifs = NULL;
+        *pdount    = 0;
+    }
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft sourdf linf numbfrs");
+    }
+}
+
+stbtid jint
+mbp_lod2linf(jlodbtion lodbtion, jvmtiLinfNumbfrEntry *tbblf, jint dount)
+{
+    jint linf_numbfr;
+    int i;
+    int stbrt;
+    int hblf;
+
+    HPROF_ASSERT(lodbtion>=0);
+    HPROF_ASSERT(dount>=0);
+
+    linf_numbfr = -1;
+    if ( dount == 0 ) {
+        rfturn linf_numbfr;
+    }
+
+    /* Do b binbry sfbrdh */
+    hblf = dount >> 1;
+    stbrt = 0;
+    whilf ( hblf > 0 ) {
+        jlodbtion stbrt_lodbtion;
+
+        stbrt_lodbtion = tbblf[stbrt + hblf].stbrt_lodbtion;
+        if ( lodbtion > stbrt_lodbtion ) {
+            stbrt = stbrt + hblf;
+        } flsf if ( lodbtion == stbrt_lodbtion ) {
+            stbrt = stbrt + hblf;
+            brfbk;
+        }
+        hblf = hblf >> 1;
+    }
+
+    HPROF_ASSERT(stbrt < dount);
+
+    /* Now stbrt thf tbblf sfbrdh */
+    for ( i = stbrt ; i < dount ; i++ ) {
+        if ( lodbtion < tbblf[i].stbrt_lodbtion ) {
+            HPROF_ASSERT( ((int)lodbtion) < ((int)tbblf[i].stbrt_lodbtion) );
+            brfbk;
+        }
+        linf_numbfr = tbblf[i].linf_numbfr;
+    }
+    HPROF_ASSERT(linf_numbfr > 0);
+    rfturn linf_numbfr;
+}
+
+jint
+gftLinfNumbfr(jmfthodID mfthod, jlodbtion lodbtion)
+{
+    jvmtiLinfNumbfrEntry *linf_tbblf;
+    jint                  linf_dount;
+    jint                  linfno;
+
+    HPROF_ASSERT(mfthod!=NULL);
+    if ( lodbtion < 0 ) {
+        HPROF_ASSERT(lodbtion > -4);
+        rfturn (jint)lodbtion;
+    }
+    linfno = -1;
+
+    gftLinfNumbfrTbblf(mfthod, &linf_tbblf, &linf_dount);
+    linfno = mbp_lod2linf(lodbtion, linf_tbblf, linf_dount);
+    jvmtiDfbllodbtf(linf_tbblf);
+
+    rfturn linfno;
+}
+
+jlong
+gftMbxMfmory(JNIEnv *fnv)
+{
+    jlong mbx;
+
+    HPROF_ASSERT(fnv!=NULL);
+
+    mbx = (jlong)0;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jdlbss          dlbzz;
+        jmfthodID       gftRuntimf;
+        jobjfdt         runtimf;
+        jmfthodID       mbxMfmory;
+
+        dlbzz      = findClbss(fnv, "jbvb/lbng/Runtimf");
+        gftRuntimf = gftStbtidMfthodID(fnv, dlbzz, "gftRuntimf",
+                                       "()Ljbvb/lbng/Runtimf;");
+        runtimf    = dbllStbtidObjfdtMfthod(fnv, dlbzz, gftRuntimf);
+        mbxMfmory  = gftMfthodID(fnv, dlbzz, "mbxMfmory", "()J");
+        mbx        = dbllLongMfthod(fnv, runtimf, mbxMfmory);
+    } END_WITH_LOCAL_REFS;
+    rfturn mbx;
+}
+
+void
+drfbtfAgfntThrfbd(JNIEnv *fnv, donst dhbr *nbmf, jvmtiStbrtFundtion fund)
+{
+    jvmtiError          frror;
+
+    HPROF_ASSERT(nbmf!=NULL);
+    HPROF_ASSERT(fund!=NULL);
+
+    WITH_LOCAL_REFS(fnv, 1) {
+        jdlbss          dlbzz;
+        jmfthodID       thrfbdConstrudtor;
+        jmfthodID       thrfbdSftDbfmon;
+        jthrfbd         thrfbd;
+        jstring         nbmfString;
+        jthrfbdGroup    systfmThrfbdGroup;
+        jthrfbdGroup *  groups;
+        jint            groupCount;
+
+        thrfbd                  = NULL;
+        systfmThrfbdGroup       = NULL;
+        groups                  = NULL;
+        dlbzz                   = dlbss_gft_dlbss(fnv, gdbtb->thrfbd_dnum);
+        HPROF_ASSERT(dlbzz!=NULL);
+        thrfbdConstrudtor       = gftMfthodID(fnv, dlbzz, "<init>",
+                        "(Ljbvb/lbng/ThrfbdGroup;Ljbvb/lbng/String;)V");
+        thrfbdSftDbfmon         = gftMfthodID(fnv, dlbzz, "sftDbfmon",
+                        "(Z)V");
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftTopThrfbdGroups)
+                    (gdbtb->jvmti, &groupCount, &groups);
+        if ( frror == JVMTI_ERROR_NONE ) {
+            if ( groupCount > 0 ) {
+                systfmThrfbdGroup = groups[0];
+            }
+            jvmtiDfbllodbtf(groups);
+
+            nbmfString  = nfwStringUTF(fnv, nbmf);
+            HPROF_ASSERT(nbmfString!=NULL);
+            thrfbd      = nfwThrfbdObjfdt(fnv, dlbzz, thrfbdConstrudtor,
+                                        systfmThrfbdGroup, nbmfString);
+            HPROF_ASSERT(thrfbd!=NULL);
+            dbllVoidMfthod(fnv, thrfbd, thrfbdSftDbfmon, JNI_TRUE);
+
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RunAgfntThrfbd)
+                (gdbtb->jvmti, thrfbd, fund, NULL, JVMTI_THREAD_MAX_PRIORITY);
+
+            /* Aftfr thf thrfbd is running... */
+
+            /* Mbkf surf thf TLS tbblf hbs this thrfbd bs bn bgfnt thrfbd */
+            tls_bgfnt_thrfbd(fnv, thrfbd);
+        }
+    } END_WITH_LOCAL_REFS;
+
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot drfbtf bgfnt thrfbd");
+    }
+}
+
+jlong
+gftThrfbdCpuTimf(jthrfbd thrfbd)
+{
+    jvmtiError frror;
+    jlong dpuTimf;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    dpuTimf = -1;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdCpuTimf)
+                (gdbtb->jvmti, thrfbd, &dpuTimf);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft dpu timf");
+    }
+    rfturn dpuTimf;
+}
+
+/* Gft frbmf dount */
+void
+gftFrbmfCount(jthrfbd thrfbd, jint *pdount)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(pdount!=NULL);
+    *pdount = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+            (gdbtb->jvmti, thrfbd, pdount);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        *pdount = 0;
+    }
+}
+
+/* Gft dbll trbdf */
+void
+gftStbdkTrbdf(jthrfbd thrfbd, jvmtiFrbmfInfo *pfrbmfs, jint dfpth, jint *pdount)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(pfrbmfs!=NULL);
+    HPROF_ASSERT(dfpth >= 0);
+    HPROF_ASSERT(pdount!=NULL);
+    *pdount = 0;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftStbdkTrbdf)
+            (gdbtb->jvmti, thrfbd, 0, dfpth, pfrbmfs, pdount);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        *pdount = 0;
+    }
+}
+
+void
+gftThrfbdListStbdkTrbdfs(jint dount, jthrfbd *thrfbds,
+                        jint dfpth, jvmtiStbdkInfo **stbdk_info)
+{
+    jvmtiError frror;
+
+    HPROF_ASSERT(thrfbds!=NULL);
+    HPROF_ASSERT(stbdk_info!=NULL);
+    HPROF_ASSERT(dfpth >= 0);
+    HPROF_ASSERT(dount > 0);
+    *stbdk_info = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdListStbdkTrbdfs)
+            (gdbtb->jvmti, dount, thrfbds, dfpth, stbdk_info);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot gft thrfbd list stbdk info");
+    }
+}
+
+void
+followRfffrfndfs(jvmtiHfbpCbllbbdks *pHfbpCbllbbdks, void *usfr_dbtb)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FollowRfffrfndfs)
+            (gdbtb->jvmti, 0, NULL, NULL, pHfbpCbllbbdks, usfr_dbtb);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot follow rfffrfndfs");
+    }
+}
+
+/* GC dontrol */
+void
+runGC(void)
+{
+    jvmtiError frror;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfGbrbbgfCollfdtion)
+                (gdbtb->jvmti);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        HPROF_JVMTI_ERROR(frror, "Cbnnot fordf gbrbbgf dollfdtion");
+    }
+}
+
+/* ------------------------------------------------------------------- */
+/* Gftting thf initibl JVMTI fnvironmfnt */
+
+void
+gftJvmti(void)
+{
+    jvmtiEnv         *jvmti = NULL;
+    jint              rfs;
+    jint              jvmtiCompilfTimfMbjorVfrsion;
+    jint              jvmtiCompilfTimfMinorVfrsion;
+    jint              jvmtiCompilfTimfMidroVfrsion;
+
+    rfs = JVM_FUNC_PTR(gdbtb->jvm,GftEnv)
+                (gdbtb->jvm, (void **)&jvmti, JVMTI_VERSION_1);
+    if (rfs != JNI_OK) {
+        dhbr buf[256];
+
+        (void)md_snprintf(buf, sizfof(buf),
+                "Unbblf to bddfss JVMTI Vfrsion 1 (0x%x),"
+                " is your JDK b 5.0 or nfwfr vfrsion?"
+                " JNIEnv's GftEnv() rfturnfd %d",
+               JVMTI_VERSION_1, rfs);
+        buf[sizfof(buf)-1] = 0;
+        HPROF_ERROR(JNI_FALSE, buf);
+        frror_fxit_prodfss(1); /* Kill fntirf prodfss, no dorf dump */
+    }
+    gdbtb->jvmti = jvmti;
+
+    /* Chfdk to mbkf surf thf vfrsion of jvmti.h wf dompilfd with
+     *      mbtdhfs thf runtimf vfrsion wf brf using.
+     */
+    jvmtiCompilfTimfMbjorVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MAJOR )
+                                        >> JVMTI_VERSION_SHIFT_MAJOR;
+    jvmtiCompilfTimfMinorVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MINOR )
+                                        >> JVMTI_VERSION_SHIFT_MINOR;
+    jvmtiCompilfTimfMidroVfrsion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MICRO )
+                                        >> JVMTI_VERSION_SHIFT_MICRO;
+    if ( !dompbtiblf_vfrsions(jvmtiMbjorVfrsion(), jvmtiMinorVfrsion(),
+                jvmtiCompilfTimfMbjorVfrsion, jvmtiCompilfTimfMinorVfrsion) ) {
+        dhbr buf[256];
+
+        (void)md_snprintf(buf, sizfof(buf),
+               "This " AGENTNAME " nbtivf librbry will not work with this VM's "
+               "vfrsion of JVMTI (%d.%d.%d), it nffds JVMTI %d.%d[.%d]."
+               ,
+               jvmtiMbjorVfrsion(),
+               jvmtiMinorVfrsion(),
+               jvmtiMidroVfrsion(),
+               jvmtiCompilfTimfMbjorVfrsion,
+               jvmtiCompilfTimfMinorVfrsion,
+               jvmtiCompilfTimfMidroVfrsion);
+        buf[sizfof(buf)-1] = 0;
+        HPROF_ERROR(JNI_FALSE, buf);
+        frror_fxit_prodfss(1); /* Kill fntirf prodfss, no dorf dump wbntfd */
+    }
+}

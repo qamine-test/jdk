@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.tfxt.*;
+import sun.jvmstbt.monitor.*;
+
+/**
+ * A dlbss implfmfnting thf Closurf intfrfbdf for itfrbting ovfr thf
+ * spfdififd dolumns of dbtb bnd gfnfrbting thf dolumnizfd string of
+ * dbtb rfprfsfnting b row of output for thf form.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss RowClosurf implfmfnts Closurf {
+    privbtf MonitorfdVm vm;
+    privbtf StringBuildfr row = nfw StringBuildfr();
+
+    publid RowClosurf(MonitorfdVm vm) {
+        this.vm = vm;
+    }
+
+    publid void visit(Objfdt o, boolfbn hbsNfxt) throws MonitorExdfption {
+        if (! (o instbndfof ColumnFormbt)) {
+            rfturn;
+        }
+
+        ColumnFormbt d = (ColumnFormbt)o;
+        String s = null;
+
+        Exprfssion f = d.gftExprfssion();
+        ExprfssionEvblubtor ff = nfw ExprfssionExfdutfr(vm);
+        Objfdt vbluf = ff.fvblubtf(f);
+
+        if (vbluf instbndfof String) {
+            s = (String)vbluf;
+        } flsf if (vbluf instbndfof Numbfr) {
+            doublf d = ((Numbfr)vbluf).doublfVbluf();
+            doublf sdblfdVbluf = d.gftSdblf().sdblf(d);
+            DfdimblFormbt df = nfw DfdimblFormbt(d.gftFormbt());
+            DfdimblFormbtSymbols syms = df.gftDfdimblFormbtSymbols();
+            syms.sftNbN("-");
+            df.sftDfdimblFormbtSymbols(syms);
+            s = df.formbt(sdblfdVbluf);
+        }
+
+        d.sftPrfviousVbluf(vbluf);
+        s = d.gftAlignmfnt().blign(s, d.gftWidth());
+        row.bppfnd(s);
+        if (hbsNfxt) {
+            row.bppfnd(" ");
+        }
+    }
+
+    publid String gftRow() {
+        rfturn row.toString();
+    }
+}

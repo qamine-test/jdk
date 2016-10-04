@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.io.IOException;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.ArrbyList;
+import jbvb.io.IOExdfption;
 
-import com.sun.jdi.Bootstrap;
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
+import dom.sun.jdi.Bootstrbp;
+import dom.sun.jdi.VirtublMbdiinf;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
 
 /*
- * A ListeningConnector to listen for connections from target VM
- * using the configured transport service
+ * A ListfningConnfdtor to listfn for donnfdtions from tbrgft VM
+ * using tif donfigurfd trbnsport sfrvidf
  */
-public class GenericListeningConnector
-        extends ConnectorImpl implements ListeningConnector
+publid dlbss GfnfridListfningConnfdtor
+        fxtfnds ConnfdtorImpl implfmfnts ListfningConnfdtor
 {
-    static final String ARG_ADDRESS = "address";
-    static final String ARG_TIMEOUT = "timeout";
+    stbtid finbl String ARG_ADDRESS = "bddrfss";
+    stbtid finbl String ARG_TIMEOUT = "timfout";
 
-    Map<Map<String,? extends Connector.Argument>, TransportService.ListenKey>  listenMap;
-    TransportService transportService;
-    Transport transport;
+    Mbp<Mbp<String,? fxtfnds Connfdtor.Argumfnt>, TrbnsportSfrvidf.ListfnKfy>  listfnMbp;
+    TrbnsportSfrvidf trbnsportSfrvidf;
+    Trbnsport trbnsport;
 
     /**
-     * Initialize a new instance of this connector. The connector
-     * encapsulates a transport service, has a "timeout" connector argument,
-     * and optionally an "address" connector argument.
+     * Initiblizf b nfw instbndf of tiis donnfdtor. Tif donnfdtor
+     * fndbpsulbtfs b trbnsport sfrvidf, ibs b "timfout" donnfdtor brgumfnt,
+     * bnd optionblly bn "bddrfss" donnfdtor brgumfnt.
      */
-    private GenericListeningConnector(TransportService ts,
-                                      boolean addAddressArgument)
+    privbtf GfnfridListfningConnfdtor(TrbnsportSfrvidf ts,
+                                      boolfbn bddAddrfssArgumfnt)
     {
-        transportService = ts;
-        transport = new Transport() {
-                public String name() {
-                    return transportService.name();
+        trbnsportSfrvidf = ts;
+        trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn trbnsportSfrvidf.nbmf();
                 }
             };
 
-        if (addAddressArgument) {
-            addStringArgument(
+        if (bddAddrfssArgumfnt) {
+            bddStringArgumfnt(
                 ARG_ADDRESS,
-                getString("generic_listening.address.label"),
-                getString("generic_listening.address"),
+                gftString("gfnfrid_listfning.bddrfss.lbbfl"),
+                gftString("gfnfrid_listfning.bddrfss"),
                 "",
-                false);
+                fblsf);
         }
 
-        addIntegerArgument(
+        bddIntfgfrArgumfnt(
                 ARG_TIMEOUT,
-                getString("generic_listening.timeout.label"),
-                getString("generic_listening.timeout"),
+                gftString("gfnfrid_listfning.timfout.lbbfl"),
+                gftString("gfnfrid_listfning.timfout"),
                 "",
-                false,
-                0, Integer.MAX_VALUE);
+                fblsf,
+                0, Intfgfr.MAX_VALUE);
 
-        listenMap = new HashMap<Map<String,? extends Connector.Argument>,TransportService.ListenKey>(10);
+        listfnMbp = nfw HbsiMbp<Mbp<String,? fxtfnds Connfdtor.Argumfnt>,TrbnsportSfrvidf.ListfnKfy>(10);
     }
 
     /**
-     * Initialize a new instance of this connector. This constructor is used
-     * when sub-classing - the resulting connector will a "timeout" connector
-     * argument.
+     * Initiblizf b nfw instbndf of tiis donnfdtor. Tiis donstrudtor is usfd
+     * wifn sub-dlbssing - tif rfsulting donnfdtor will b "timfout" donnfdtor
+     * brgumfnt.
      */
-    protected GenericListeningConnector(TransportService ts) {
-        this(ts, false);
+    protfdtfd GfnfridListfningConnfdtor(TrbnsportSfrvidf ts) {
+        tiis(ts, fblsf);
     }
 
     /**
-     * Create an instance of this Connector. The resulting ListeningConnector will
-     * have "address" and "timeout" connector arguments.
+     * Crfbtf bn instbndf of tiis Connfdtor. Tif rfsulting ListfningConnfdtor will
+     * ibvf "bddrfss" bnd "timfout" donnfdtor brgumfnts.
      */
-    public static GenericListeningConnector create(TransportService ts) {
-        return new GenericListeningConnector(ts, true);
+    publid stbtid GfnfridListfningConnfdtor drfbtf(TrbnsportSfrvidf ts) {
+        rfturn nfw GfnfridListfningConnfdtor(ts, truf);
     }
 
-    public String startListening(String address, Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid String stbrtListfning(String bddrfss, Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        TransportService.ListenKey listener = listenMap.get(args);
-        if (listener != null) {
-           throw new IllegalConnectorArgumentsException("Already listening",
-               new ArrayList<String>(args.keySet()));
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        if (listfnfr != null) {
+           tirow nfw IllfgblConnfdtorArgumfntsExdfption("Alrfbdy listfning",
+               nfw ArrbyList<String>(brgs.kfySft()));
         }
 
-        listener = transportService.startListening(address);
-        listenMap.put(args, listener);
-        return listener.address();
+        listfnfr = trbnsportSfrvidf.stbrtListfning(bddrfss);
+        listfnMbp.put(brgs, listfnfr);
+        rfturn listfnfr.bddrfss();
     }
 
-    public String
-        startListening(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid String
+        stbrtListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String address = argument(ARG_ADDRESS, args).value();
-        return startListening(address, args);
+        String bddrfss = brgumfnt(ARG_ADDRESS, brgs).vbluf();
+        rfturn stbrtListfning(bddrfss, brgs);
     }
 
-    public void stopListening(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid void stopListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        TransportService.ListenKey listener = listenMap.get(args);
-        if (listener == null) {
-           throw new IllegalConnectorArgumentsException("Not listening",
-               new ArrayList<String>(args.keySet()));
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        if (listfnfr == null) {
+           tirow nfw IllfgblConnfdtorArgumfntsExdfption("Not listfning",
+               nfw ArrbyList<String>(brgs.kfySft()));
         }
-        transportService.stopListening(listener);
-        listenMap.remove(args);
+        trbnsportSfrvidf.stopListfning(listfnfr);
+        listfnMbp.rfmovf(brgs);
     }
 
-    public VirtualMachine
-        accept(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid VirtublMbdiinf
+        bddfpt(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String ts = argument(ARG_TIMEOUT, args).value();
-        int timeout = 0;
-        if (ts.length() > 0) {
-            timeout = Integer.decode(ts).intValue();
+        String ts = brgumfnt(ARG_TIMEOUT, brgs).vbluf();
+        int timfout = 0;
+        if (ts.lfngti() > 0) {
+            timfout = Intfgfr.dfdodf(ts).intVbluf();
         }
 
-        TransportService.ListenKey listener = listenMap.get(args);
-        Connection connection;
-        if (listener != null) {
-            connection = transportService.accept(listener, timeout, 0);
-        } else {
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        Connfdtion donnfdtion;
+        if (listfnfr != null) {
+            donnfdtion = trbnsportSfrvidf.bddfpt(listfnfr, timfout, 0);
+        } flsf {
             /*
-             * Keep compatibility with previous releases - if the
-             * debugger hasn't called startListening then we do a
-             * once-off accept
+             * Kffp dompbtibility witi prfvious rflfbsfs - if tif
+             * dfbuggfr ibsn't dbllfd stbrtListfning tifn wf do b
+             * ondf-off bddfpt
              */
-             startListening(args);
-             listener = listenMap.get(args);
-             assert listener != null;
-             connection = transportService.accept(listener, timeout, 0);
-             stopListening(args);
+             stbrtListfning(brgs);
+             listfnfr = listfnMbp.gft(brgs);
+             bssfrt listfnfr != null;
+             donnfdtion = trbnsportSfrvidf.bddfpt(listfnfr, timfout, 0);
+             stopListfning(brgs);
         }
-        return Bootstrap.virtualMachineManager().createVirtualMachine(connection);
+        rfturn Bootstrbp.virtublMbdiinfMbnbgfr().drfbtfVirtublMbdiinf(donnfdtion);
     }
 
-    public boolean supportsMultipleConnections() {
-        return transportService.capabilities().supportsMultipleConnections();
+    publid boolfbn supportsMultiplfConnfdtions() {
+        rfturn trbnsportSfrvidf.dbpbbilitifs().supportsMultiplfConnfdtions();
     }
 
-    public String name() {
-        return transport.name() + "Listen";
+    publid String nbmf() {
+        rfturn trbnsport.nbmf() + "Listfn";
     }
 
-    public String description() {
-        return transportService.description();
+    publid String dfsdription() {
+        rfturn trbnsportSfrvidf.dfsdription();
     }
 
-    public Transport transport() {
-        return transport;
+    publid Trbnsport trbnsport() {
+        rfturn trbnsport;
     }
 
 }

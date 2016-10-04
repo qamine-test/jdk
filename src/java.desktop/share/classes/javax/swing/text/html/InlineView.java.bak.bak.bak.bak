@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Displbys thf <dfn>inlinf flfmfnt</dfn> stylfs
+ * bbsfd upon dss bttributfs.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss InlinfVifw fxtfnds LbbflVifw {
+
+    /**
+     * Construdts b nfw vifw wrbppfd on bn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt
+     */
+    publid InlinfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        StylfShfft shfft = gftStylfShfft();
+        bttr = shfft.gftVifwAttributfs(this);
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs insfrtfd into
+     * thf dodumfnt in b lodbtion thbt this vifw is rfsponsiblf for.
+     * If fithfr pbrbmftfr is <dodf>null</dodf>, bfhbvior of this mfthod is
+     * implfmfntbtion dfpfndfnt.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sindf 1.5
+     * @sff Vifw#insfrtUpdbtf
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.insfrtUpdbtf(f, b, f);
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     * If fithfr pbrbmftfr is <dodf>null</dodf>, bfhbvior of this mfthod is
+     * implfmfntbtion dfpfndfnt.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sindf 1.5
+     * @sff Vifw#rfmovfUpdbtf
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.rfmovfUpdbtf(f, b, f);
+    }
+
+    /**
+     * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#dhbngfdUpdbtf
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.dhbngfdUpdbtf(f, b, f);
+        StylfShfft shfft = gftStylfShfft();
+        bttr = shfft.gftVifwAttributfs(this);
+        prfffrfndfChbngfd(null, truf, truf);
+    }
+
+    /**
+     * Fftdhfs thf bttributfs to usf whfn rfndfring.  This is
+     * implfmfntfd to multiplfx thf bttributfs spfdififd in thf
+     * modfl with b StylfShfft.
+     */
+    publid AttributfSft gftAttributfs() {
+        rfturn bttr;
+    }
+
+    /**
+     * Dftfrminfs how bttrbdtivf b brfbk opportunity in
+     * this vifw is.  This dbn bf usfd for dftfrmining whidh
+     * vifw is thf most bttrbdtivf to dbll <dodf>brfbkVifw</dodf>
+     * on in thf prodfss of formbtting.  A vifw thbt rfprfsfnts
+     * tfxt thbt hbs whitfspbdf in it might bf morf bttrbdtivf
+     * thbn b vifw thbt hbs no whitfspbdf, for fxbmplf.  Thf
+     * highfr thf wfight, thf morf bttrbdtivf thf brfbk.  A
+     * vbluf fqubl to or lowfr thbn <dodf>BbdBrfbkWfight</dodf>
+     * should not bf donsidfrfd for b brfbk.  A vbluf grfbtfr
+     * thbn or fqubl to <dodf>FordfdBrfbkWfight</dodf> should
+     * bf brokfn.
+     * <p>
+     * This is implfmfntfd to providf thf dffbult bfhbvior
+     * of rfturning <dodf>BbdBrfbkWfight</dodf> unlfss thf lfngth
+     * is grfbtfr thbn thf lfngth of thf vifw in whidh dbsf thf
+     * fntirf vifw rfprfsfnts thf frbgmfnt.  Unlfss b vifw hbs
+     * bffn writtfn to support brfbking bfhbvior, it is not
+     * bttrbdtivf to try bnd brfbk thf vifw.  An fxbmplf of
+     * b vifw thbt dofs support brfbking is <dodf>LbbflVifw</dodf>.
+     * An fxbmplf of b vifw thbt usfs brfbk wfight is
+     * <dodf>PbrbgrbphVifw</dodf>.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm pos thf potfntibl lodbtion of thf stbrt of thf
+     *   brokfn vifw &gt;= 0.  This mby bf usfful for dbldulbting tbb
+     *   positions.
+     * @pbrbm lfn spfdififs thf rflbtivf lfngth from <fm>pos</fm>
+     *   whfrf b potfntibl brfbk is dfsirfd &gt;= 0.
+     * @rfturn thf wfight, whidh should bf b vbluf bftwffn
+     *   FordfdBrfbkWfight bnd BbdBrfbkWfight.
+     * @sff LbbflVifw
+     * @sff PbrbgrbphVifw
+     * @sff jbvbx.swing.tfxt.Vifw#BbdBrfbkWfight
+     * @sff jbvbx.swing.tfxt.Vifw#GoodBrfbkWfight
+     * @sff jbvbx.swing.tfxt.Vifw#ExdfllfntBrfbkWfight
+     * @sff jbvbx.swing.tfxt.Vifw#FordfdBrfbkWfight
+     */
+    publid int gftBrfbkWfight(int bxis, flobt pos, flobt lfn) {
+        if (nowrbp) {
+            rfturn BbdBrfbkWfight;
+        }
+        rfturn supfr.gftBrfbkWfight(bxis, pos, lfn);
+    }
+
+    /**
+     * Trifs to brfbk this vifw on thf givfn bxis. Rfffr to
+     * {@link jbvbx.swing.tfxt.Vifw#brfbkVifw} for b domplftf
+     * dfsdription of this mfthod.
+     * <p>Bfhbvior of this mfthod is unspfdififd in dbsf <dodf>bxis</dodf>
+     * is nfithfr <dodf>Vifw.X_AXIS</dodf> nor <dodf>Vifw.Y_AXIS</dodf>, bnd
+     * in dbsf <dodf>offsft</dodf>, <dodf>pos</dodf>, or <dodf>lfn</dodf>
+     * is null.
+     *
+     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm offsft thf lodbtion in thf dodumfnt modfl
+     *   thbt b brokfn frbgmfnt would oddupy &gt;= 0.  This
+     *   would bf thf stbrting offsft of thf frbgmfnt
+     *   rfturnfd
+     * @pbrbm pos thf position blong thf bxis thbt thf
+     *  brokfn vifw would oddupy &gt;= 0.  This mby bf usfful for
+     *  things likf tbb dbldulbtions
+     * @pbrbm lfn spfdififs thf distbndf blong thf bxis
+     *  whfrf b potfntibl brfbk is dfsirfd &gt;= 0
+     * @rfturn thf frbgmfnt of thf vifw thbt rfprfsfnts thf
+     *  givfn spbn.
+     * @sindf 1.5
+     * @sff jbvbx.swing.tfxt.Vifw#brfbkVifw
+     */
+    publid Vifw brfbkVifw(int bxis, int offsft, flobt pos, flobt lfn) {
+        rfturn supfr.brfbkVifw(bxis, offsft, pos, lfn);
+    }
+
+
+    /**
+     * Sft thf dbdhfd propfrtifs from thf bttributfs.
+     */
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        supfr.sftPropfrtifsFromAttributfs();
+        AttributfSft b = gftAttributfs();
+        Objfdt dfdor = b.gftAttributf(CSS.Attributf.TEXT_DECORATION);
+        boolfbn u = (dfdor != null) ?
+          (dfdor.toString().indfxOf("undfrlinf") >= 0) : fblsf;
+        sftUndfrlinf(u);
+        boolfbn s = (dfdor != null) ?
+          (dfdor.toString().indfxOf("linf-through") >= 0) : fblsf;
+        sftStrikfThrough(s);
+        Objfdt vAlign = b.gftAttributf(CSS.Attributf.VERTICAL_ALIGN);
+        s = (vAlign != null) ? (vAlign.toString().indfxOf("sup") >= 0) : fblsf;
+        sftSupfrsdript(s);
+        s = (vAlign != null) ? (vAlign.toString().indfxOf("sub") >= 0) : fblsf;
+        sftSubsdript(s);
+
+        Objfdt whitfspbdf = b.gftAttributf(CSS.Attributf.WHITE_SPACE);
+        if ((whitfspbdf != null) && whitfspbdf.fqubls("nowrbp")) {
+            nowrbp = truf;
+        } flsf {
+            nowrbp = fblsf;
+        }
+
+        HTMLDodumfnt dod = (HTMLDodumfnt)gftDodumfnt();
+        // fftdhfs bbdkground dolor from stylfshfft if spfdififd
+        Color bg = dod.gftBbdkground(b);
+        if (bg != null) {
+            sftBbdkground(bg);
+        }
+    }
+
+    /**
+     * Convfnifnt mfthod to gft thf StylfShfft.
+     *
+     * @rfturn thf StylfShfft
+     */
+    protfdtfd StylfShfft gftStylfShfft() {
+        HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+        rfturn dod.gftStylfShfft();
+    }
+
+    privbtf boolfbn nowrbp;
+    privbtf AttributfSft bttr;
+}

@@ -1,0 +1,282 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.dolor;
+
+import sun.jbvb2d.dmm.Profilf;
+import sun.jbvb2d.dmm.ProfilfDfffrrblInfo;
+
+/**
+ *
+ * Thf ICC_ProfilfRGB dlbss is b subdlbss of thf ICC_Profilf dlbss
+ * thbt rfprfsfnts profilfs whidh mfft thf following dritfrib:
+ * <ul>
+ * <li>Thf profilf's dolor spbdf typf is RGB.</li>
+ * <li>Thf profilf indludfs thf <dodf>rfdColorbntTbg</dodf>,
+ * <dodf>grffnColorbntTbg</dodf>, <dodf>blufColorbntTbg</dodf>,
+ * <dodf>rfdTRCTbg</dodf>, <dodf>grffnTRCTbg</dodf>,
+ * <dodf>blufTRCTbg</dodf>, bnd <dodf>mfdibWhitfPointTbg</dodf> tbgs.</li>
+ * </ul>
+ * Thf <dodf>ICC_Profilf</dodf> <dodf>gftInstbndf</dodf> mfthod will
+ * rfturn bn <dodf>ICC_ProfilfRGB</dodf> objfdt whfn thfsf donditions brf mft.
+ * Thrff-domponfnt, mbtrix-bbsfd input profilfs bnd RGB displby profilfs brf
+ * fxbmplfs of this typf of profilf.
+ * <p>
+ * This profilf dlbss providfs dolor trbnsform mbtridfs bnd lookup tbblfs
+ * thbt Jbvb or nbtivf mfthods dbn usf dirfdtly to
+ * optimizf dolor donvfrsion in somf dbsfs.
+ * <p>
+ * To trbnsform from b dfvidf profilf dolor spbdf to thf CIEXYZ Profilf
+ * Connfdtion Spbdf, fbdh dfvidf dolor domponfnt is first linfbrizfd by
+ * b lookup through thf dorrfsponding tonf rfprodudtion durvf (TRC).
+ * Thf rfsulting linfbr RGB domponfnts brf donvfrtfd to thf CIEXYZ PCS
+ * using b b 3x3 mbtrix donstrudtfd from thf RGB dolorbnts.
+ * <prf>
+ *
+ * &nbsp;               linfbrR = rfdTRC[dfvidfR]
+ *
+ * &nbsp;               linfbrG = grffnTRC[dfvidfG]
+ *
+ * &nbsp;               linfbrB = blufTRC[dfvidfB]
+ *
+ * &nbsp; _      _       _                                             _   _         _
+ * &nbsp;[  PCSX  ]     [  rfdColorbntX  grffnColorbntX  blufColorbntX  ] [  linfbrR  ]
+ * &nbsp;[        ]     [                                               ] [           ]
+ * &nbsp;[  PCSY  ]  =  [  rfdColorbntY  grffnColorbntY  blufColorbntY  ] [  linfbrG  ]
+ * &nbsp;[        ]     [                                               ] [           ]
+ * &nbsp;[_ PCSZ _]     [_ rfdColorbntZ  grffnColorbntZ  blufColorbntZ _] [_ linfbrB _]
+ *
+ * </prf>
+ * Thf invfrsf trbnsform is pfrformfd by donvfrting PCS XYZ domponfnts to linfbr
+ * RGB domponfnts through thf invfrsf of thf bbovf 3x3 mbtrix, bnd thfn donvfrting
+ * linfbr RGB to dfvidf RGB through invfrsfs of thf TRCs.
+ */
+
+
+
+publid dlbss ICC_ProfilfRGB
+fxtfnds ICC_Profilf {
+
+    stbtid finbl long sfriblVfrsionUID = 8505067385152579334L;
+
+    /**
+     * Usfd to gft b gbmmb vbluf or TRC for thf rfd domponfnt.
+     */
+    publid stbtid finbl int REDCOMPONENT = 0;
+
+    /**
+     * Usfd to gft b gbmmb vbluf or TRC for thf grffn domponfnt.
+     */
+    publid stbtid finbl int GREENCOMPONENT = 1;
+
+    /**
+     * Usfd to gft b gbmmb vbluf or TRC for thf bluf domponfnt.
+     */
+    publid stbtid finbl int BLUECOMPONENT = 2;
+
+
+    /**
+     * Construdts bn nfw <dodf>ICC_ProfilfRGB</dodf> from b CMM ID.
+     *
+     * @pbrbm p Thf CMM ID for thf profilf.
+     *
+     */
+    ICC_ProfilfRGB(Profilf p) {
+        supfr(p);
+    }
+
+    /**
+     * Construdts b nfw <dodf>ICC_ProfilfRGB</dodf> from b
+     * ProfilfDfffrrblInfo objfdt.
+     *
+     * @pbrbm pdi
+     */
+    ICC_ProfilfRGB(ProfilfDfffrrblInfo pdi) {
+        supfr(pdi);
+    }
+
+
+    /**
+     * Rfturns bn brrby thbt dontbins thf domponfnts of thf profilf's
+     * <CODE>mfdibWhitfPointTbg</CODE>.
+     *
+     * @rfturn A 3-flfmfnt <CODE>flobt</CODE> brrby dontbining thf x, y,
+     * bnd z domponfnts of thf profilf's <CODE>mfdibWhitfPointTbg</CODE>.
+     */
+    publid flobt[] gftMfdibWhitfPoint() {
+        rfturn supfr.gftMfdibWhitfPoint();
+    }
+
+
+    /**
+     * Rfturns b 3x3 <CODE>flobt</CODE> mbtrix donstrudtfd from thf
+     * X, Y, bnd Z domponfnts of thf profilf's <CODE>rfdColorbntTbg</CODE>,
+     * <CODE>grffnColorbntTbg</CODE>, bnd <CODE>blufColorbntTbg</CODE>.
+     * <p>
+     * This mbtrix dbn bf usfd for dolor trbnsforms in thf forwbrd
+     * dirfdtion of thf profilf--from thf profilf dolor spbdf
+     * to thf CIEXYZ PCS.
+     *
+     * @rfturn A 3x3 <CODE>flobt</CODE> brrby thbt dontbins thf x, y, bnd z
+     * domponfnts of thf profilf's <CODE>rfdColorbntTbg</CODE>,
+     * <CODE>grffnColorbntTbg</CODE>, bnd <CODE>blufColorbntTbg</CODE>.
+     */
+    publid flobt[][] gftMbtrix() {
+        flobt[][] thfMbtrix = nfw flobt[3][3];
+        flobt[] tmpMbtrix;
+
+        tmpMbtrix = gftXYZTbg(ICC_Profilf.idSigRfdColorbntTbg);
+        thfMbtrix[0][0] = tmpMbtrix[0];
+        thfMbtrix[1][0] = tmpMbtrix[1];
+        thfMbtrix[2][0] = tmpMbtrix[2];
+        tmpMbtrix = gftXYZTbg(ICC_Profilf.idSigGrffnColorbntTbg);
+        thfMbtrix[0][1] = tmpMbtrix[0];
+        thfMbtrix[1][1] = tmpMbtrix[1];
+        thfMbtrix[2][1] = tmpMbtrix[2];
+        tmpMbtrix = gftXYZTbg(ICC_Profilf.idSigBlufColorbntTbg);
+        thfMbtrix[0][2] = tmpMbtrix[0];
+        thfMbtrix[1][2] = tmpMbtrix[1];
+        thfMbtrix[2][2] = tmpMbtrix[2];
+        rfturn thfMbtrix;
+    }
+
+    /**
+     * Rfturns b gbmmb vbluf rfprfsfnting thf tonf rfprodudtion durvf
+     * (TRC) for b pbrtidulbr domponfnt.  Thf domponfnt pbrbmftfr
+     * must bf onf of REDCOMPONENT, GREENCOMPONENT, or BLUECOMPONENT.
+     * <p>
+     * If thf profilf
+     * rfprfsfnts thf TRC for thf dorrfsponding domponfnt
+     * bs b tbblf rbthfr thbn b singlf gbmmb vbluf, bn
+     * fxdfption is thrown.  In this dbsf thf bdtubl tbblf
+     * dbn bf obtbinfd through thf {@link #gftTRC(int)} mfthod.
+     * Whfn using b gbmmb vbluf,
+     * thf linfbr domponfnt (R, G, or B) is domputfd bs follows:
+     * <prf>
+     *
+     * &nbsp;                                         gbmmb
+     * &nbsp;        linfbrComponfnt = dfvidfComponfnt
+     *
+     *</prf>
+     * @pbrbm domponfnt Thf <CODE>ICC_ProfilfRGB</CODE> donstbnt thbt
+     * rfprfsfnts thf domponfnt whosf TRC you wbnt to rftrifvf
+     * @rfturn thf gbmmb vbluf bs b flobt.
+     * @fxdfption ProfilfDbtbExdfption if thf profilf dofs not spfdify
+     *            thf dorrfsponding TRC bs b singlf gbmmb vbluf.
+     */
+    publid flobt gftGbmmb(int domponfnt) {
+    flobt thfGbmmb;
+    int thfSignbturf;
+
+        switdh (domponfnt) {
+        dbsf REDCOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigRfdTRCTbg;
+            brfbk;
+
+        dbsf GREENCOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigGrffnTRCTbg;
+            brfbk;
+
+        dbsf BLUECOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigBlufTRCTbg;
+            brfbk;
+
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Must bf Rfd, Grffn, or Bluf");
+        }
+
+        thfGbmmb = supfr.gftGbmmb(thfSignbturf);
+
+        rfturn thfGbmmb;
+    }
+
+    /**
+     * Rfturns thf TRC for b pbrtidulbr domponfnt bs bn brrby.
+     * Componfnt must bf <dodf>REDCOMPONENT</dodf>,
+     * <dodf>GREENCOMPONENT</dodf>, or <dodf>BLUECOMPONENT</dodf>.
+     * Othfrwisf thf rfturnfd brrby
+     * rfprfsfnts b lookup tbblf whfrf thf input domponfnt vbluf
+     * is dondfptublly in thf rbngf [0.0, 1.0].  Vbluf 0.0 mbps
+     * to brrby indfx 0 bnd vbluf 1.0 mbps to brrby indfx lfngth-1.
+     * Intfrpolbtion might bf usfd to gfnfrbtf output vblufs for
+     * input vblufs thbt do not mbp fxbdtly to bn indfx in thf
+     * brrby.  Output vblufs blso mbp linfbrly to thf rbngf [0.0, 1.0].
+     * Vbluf 0.0 is rfprfsfntfd by bn brrby vbluf of 0x0000 bnd
+     * vbluf 1.0 by 0xFFFF.  In othfr words, thf vblufs brf rfblly unsignfd
+     * <dodf>short</dodf> vblufs fvfn though thfy brf rfturnfd in b
+     * <dodf>short</dodf> brrby.
+     *
+     * If thf profilf hbs spfdififd thf dorrfsponding TRC
+     * bs linfbr (gbmmb = 1.0) or bs b simplf gbmmb vbluf, this mfthod
+     * throws bn fxdfption.  In this dbsf, thf {@link #gftGbmmb(int)}
+     * mfthod should bf usfd to gft thf gbmmb vbluf.
+     *
+     * @pbrbm domponfnt Thf <CODE>ICC_ProfilfRGB</CODE> donstbnt thbt
+     * rfprfsfnts thf domponfnt whosf TRC you wbnt to rftrifvf:
+     * <CODE>REDCOMPONENT</CODE>, <CODE>GREENCOMPONENT</CODE>, or
+     * <CODE>BLUECOMPONENT</CODE>.
+     *
+     * @rfturn b short brrby rfprfsfnting thf TRC.
+     * @fxdfption ProfilfDbtbExdfption if thf profilf dofs not spfdify
+     *            thf dorrfsponding TRC bs b tbblf.
+     */
+    publid short[] gftTRC(int domponfnt) {
+    short[] thfTRC;
+    int thfSignbturf;
+
+        switdh (domponfnt) {
+        dbsf REDCOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigRfdTRCTbg;
+            brfbk;
+
+        dbsf GREENCOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigGrffnTRCTbg;
+            brfbk;
+
+        dbsf BLUECOMPONENT:
+            thfSignbturf = ICC_Profilf.idSigBlufTRCTbg;
+            brfbk;
+
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Must bf Rfd, Grffn, or Bluf");
+        }
+
+        thfTRC = supfr.gftTRC(thfSignbturf);
+
+        rfturn thfTRC;
+    }
+
+}

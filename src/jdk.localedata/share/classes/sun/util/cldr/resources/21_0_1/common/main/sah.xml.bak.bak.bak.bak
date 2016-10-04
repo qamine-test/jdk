@@ -1,0 +1,380 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
+		<lbngubgf typf="sbh"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb" drbft="undonfirmfd">Абхаастыы</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Аппырыкааныстыы</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Араабтыы</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Адьырбайдьаанныы</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Бөлөрүүстүү</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Булҕаардыы</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Бенгаллыы</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">Тибиэттии</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Босныйалыы</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Каталаанныы</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Чиэскэйдии</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Даатскайдыы</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Ниэмэстии</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Гириэктии</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Аҥылычаанныы</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Ыспаанныы</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Эстиэнийэлии</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Пиэрсийэлии</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Пииннии</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Пилипииннии</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Пырансуустуу</lbngubgf>
+			<lbngubgf typf="hu" drbft="undonfirmfd">Бэҥгиэрдии</lbngubgf>
+			<lbngubgf typf="hy" drbft="undonfirmfd">Эрмээннии</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Ытаалыйалыы</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Дьоппуоннуу</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Гурусууннуу</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">Хаһаахтыы</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">Кэриэйдии</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Кыргыстыы</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Латыынныы</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">Моҕуоллуу</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">Ньыпааллыы</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">Пандьаабтыы</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португааллыы</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Румыынныы</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Нууччалыы</lbngubgf>
+			<lbngubgf typf="sbh">саха тыла</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">Словаактыы</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">Албаанскайдыы</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">Тамыллыы</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Төлүгүлүү</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">Тадьыыктыы</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Уйгуурдуу</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Украйыыньыстыы</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Үзбиэктии</lbngubgf>
+			<lbngubgf typf="zh" drbft="undonfirmfd">Кытайдыы</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">Зуулулуу</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" drbft="undonfirmfd">Арааптыы</sdript>
+			<sdript typf="Armn" drbft="undonfirmfd">Эрмээннии</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">Нууччалыы</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">Кириэктии</sdript>
+			<sdript typf="Jpbn" drbft="undonfirmfd">Дьоппуоннуу</sdript>
+			<sdript typf="Korf" drbft="undonfirmfd">Кэриэйдии</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">Латыынныы</sdript>
+			<sdript typf="Thbi" drbft="undonfirmfd">Таайдыы</sdript>
+			<sdript typf="Zxxx" drbft="undonfirmfd">Сурулла илик</sdript>
+			<sdript typf="Zzzz" drbft="undonfirmfd">Биллибэт сурук</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001" drbft="undonfirmfd">Аан дойду</tfrritory>
+			<tfrritory typf="002" drbft="undonfirmfd">Аапырыка</tfrritory>
+			<tfrritory typf="003" drbft="undonfirmfd">Хотугу Эмиэрикэ</tfrritory>
+			<tfrritory typf="005" drbft="undonfirmfd">Соҕуруу Эмиэрикэ</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Кытай</tfrritory>
+		</tfrritorifs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="undonfirmfd">Мэтриичэскэй</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[а б г ҕ д {дь} и й к л м н {нь} ҥ о ө п р с т у ү х һ ч ы э]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[в е ё ж з ф ц ш щ ъ ь ю я]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[А Б Г Ҕ Д {Дь} И Й К Л М Н {Нь} Ҥ О Ө П Р С Т У Ү Х Һ Ч Ы Э]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\:]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1" drbft="undonfirmfd">Тохс</month>
+							<month typf="2" drbft="undonfirmfd">Олун</month>
+							<month typf="3" drbft="undonfirmfd">Клн_ттр</month>
+							<month typf="4" drbft="undonfirmfd">Мус_уст</month>
+							<month typf="5" drbft="undonfirmfd">Ыам_йн</month>
+							<month typf="6" drbft="undonfirmfd">Бэс_йн</month>
+							<month typf="7" drbft="undonfirmfd">От_йн</month>
+							<month typf="8" drbft="undonfirmfd">Атрдь_йн</month>
+							<month typf="9" drbft="undonfirmfd">Блҕн_йн</month>
+							<month typf="10" drbft="undonfirmfd">Алт</month>
+							<month typf="11" drbft="undonfirmfd">Сэт</month>
+							<month typf="12" drbft="undonfirmfd">Ахс</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1" drbft="undonfirmfd">Тохсунньу</month>
+							<month typf="2" drbft="undonfirmfd">Олунньу</month>
+							<month typf="3" drbft="undonfirmfd">Кулун тутар</month>
+							<month typf="4" drbft="undonfirmfd">Муус устар</month>
+							<month typf="5" drbft="undonfirmfd">Ыам ыйын</month>
+							<month typf="6" drbft="undonfirmfd">Бэс ыйын</month>
+							<month typf="7" drbft="undonfirmfd">От ыйын</month>
+							<month typf="8" drbft="undonfirmfd">Атырдьых ыйын</month>
+							<month typf="9" drbft="undonfirmfd">Балаҕан ыйын</month>
+							<month typf="10" drbft="undonfirmfd">Алтынньы</month>
+							<month typf="11" drbft="undonfirmfd">Сэтинньи</month>
+							<month typf="12" drbft="undonfirmfd">Ахсынньы</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1" drbft="undonfirmfd">Т</month>
+							<month typf="2" drbft="undonfirmfd">О</month>
+							<month typf="3" drbft="undonfirmfd">К</month>
+							<month typf="4" drbft="undonfirmfd">М</month>
+							<month typf="5" drbft="undonfirmfd">Ы</month>
+							<month typf="6" drbft="undonfirmfd">Б</month>
+							<month typf="7" drbft="undonfirmfd">О</month>
+							<month typf="8" drbft="undonfirmfd">А</month>
+							<month typf="9" drbft="undonfirmfd">Б</month>
+							<month typf="10" drbft="undonfirmfd">А</month>
+							<month typf="11" drbft="undonfirmfd">С</month>
+							<month typf="12" drbft="undonfirmfd">А</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Бс</dby>
+							<dby typf="mon" drbft="undonfirmfd">Бн</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Оп</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Сэ</dby>
+							<dby typf="thu" drbft="undonfirmfd">Чп</dby>
+							<dby typf="fri" drbft="undonfirmfd">Бэ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Сб</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun" drbft="undonfirmfd">Б</dby>
+							<dby typf="mon" drbft="undonfirmfd">Б</dby>
+							<dby typf="tuf" drbft="undonfirmfd">О</dby>
+							<dby typf="wfd" drbft="undonfirmfd">С</dby>
+							<dby typf="thu" drbft="undonfirmfd">Ч</dby>
+							<dby typf="fri" drbft="undonfirmfd">Б</dby>
+							<dby typf="sbt" drbft="undonfirmfd">С</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Баскыһыанньа</dby>
+							<dby typf="mon" drbft="undonfirmfd">Бэнидиэлинньик</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Оптуорунньук</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Сэрэдэ</dby>
+							<dby typf="thu" drbft="undonfirmfd">Чэппиэр</dby>
+							<dby typf="fri" drbft="undonfirmfd">Бээтиҥсэ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Субуота</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Бс</dby>
+							<dby typf="mon" drbft="undonfirmfd">Бн</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Оп</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Сэ</dby>
+							<dby typf="thu" drbft="undonfirmfd">Чп</dby>
+							<dby typf="fri" drbft="undonfirmfd">Бэ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Сб</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun" drbft="undonfirmfd">Б</dby>
+							<dby typf="mon" drbft="undonfirmfd">Б</dby>
+							<dby typf="tuf" drbft="undonfirmfd">О</dby>
+							<dby typf="wfd" drbft="undonfirmfd">С</dby>
+							<dby typf="thu" drbft="undonfirmfd">Ч</dby>
+							<dby typf="fri" drbft="undonfirmfd">Б</dby>
+							<dby typf="sbt" drbft="undonfirmfd">С</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Баскыһыанньа</dby>
+							<dby typf="mon" drbft="undonfirmfd">Бэнидиэлинньик</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Оптуорунньук</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Сэрэдэ</dby>
+							<dby typf="thu" drbft="undonfirmfd">Чэппиэр</dby>
+							<dby typf="fri" drbft="undonfirmfd">Бээтиҥсэ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Субуота</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">1-кы кб</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2-с кб</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3-с кб</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4-с кб</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1" drbft="undonfirmfd">1</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">1-кы кыбаартал</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2-с кыбаартал</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3-с кыбаартал</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4-с кыбаартал</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">1-кы кб</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2-с кб</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3-с кб</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4-с кб</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">1-кы кыбаартал</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2-с кыбаартал</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3-с кыбаартал</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4-с кыбаартал</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ЭИ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ЭК</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">б. э. и.</frb>
+						<frb typf="1" drbft="undonfirmfd">б. э</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y 'сыл' MMMM d 'күнэ', EEEE</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y, MMMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y, MMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/M/d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf drbft="undonfirmfd">Ээрэ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf drbft="undonfirmfd">Сыл</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf drbft="undonfirmfd">Ый</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf drbft="undonfirmfd">Нэдиэлэ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf drbft="undonfirmfd">Күн</displbyNbmf>
+						<rflbtivf typf="-2" drbft="undonfirmfd">Иллэрээ күн</rflbtivf>
+						<rflbtivf typf="-1" drbft="undonfirmfd">Бэҕэһээ</rflbtivf>
+						<rflbtivf typf="0" drbft="undonfirmfd">Бүгүн</rflbtivf>
+						<rflbtivf typf="1" drbft="undonfirmfd">Сарсын</rflbtivf>
+						<rflbtivf typf="2" drbft="undonfirmfd">Өйүүн</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="undonfirmfd">Нэдиэлэ күнэ</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf drbft="undonfirmfd">ЭИ/ЭК</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf drbft="undonfirmfd">Чаас</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf drbft="undonfirmfd">Мүнүүтэ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf drbft="undonfirmfd">Сөкүүндэ</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="undonfirmfd">Кэм балаһата</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} күн</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} күнүнэн</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} күн ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} чаас</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} чааһынан</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} чаас ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} мүнүүтэ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} мүнүүтэннэн</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} мүнүүтэ ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} ый</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} ыйынан</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} ый ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сөкүүндэ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сөкүүндэннэн</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сөкүүндэ ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} нэдиэлэ</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} нэдиэлэннэн</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} нэдиэлэ ынараа өттүгэр</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сыл</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сылынан</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="othfr" drbft="undonfirmfd">{0} сыл ынараа өттүгэр</unitPbttfrn>
+		</unit>
+	</units>
+</ldml>
+

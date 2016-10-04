@@ -1,418 +1,418 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss;
+pbdkbgf sun.sfdurity.jgss;
 
-import org.ietf.jgss.MessageProp;
-import java.util.LinkedList;
+import org.iftf.jgss.MfssbgfProp;
+import jbvb.util.LinkfdList;
 
 /**
- * A utility class that implements a number list that keeps track of which
- * tokens have arrived by storing their token numbers in the list. It helps
- * detect old tokens, out of sequence tokens, and duplicate tokens.
+ * A utility dlbss tibt implfmfnts b numbfr list tibt kffps trbdk of wiidi
+ * tokfns ibvf brrivfd by storing tifir tokfn numbfrs in tif list. It iflps
+ * dftfdt old tokfns, out of sfqufndf tokfns, bnd duplidbtf tokfns.
  *
- * Each element of the list is an interval [a, b]. Its existence in the
- * list implies that all token numbers in the range a, a+1, ..., b-1, b
- * have arrived. Gaps in arrived token numbers are represented by the
- * numbers that fall in between two elements of the list. eg. {[a,b],
- * [c,d]} indicates that the token numbers b+1, ..., c-1 have not arrived
- * yet.
+ * Ebdi flfmfnt of tif list is bn intfrvbl [b, b]. Its fxistfndf in tif
+ * list implifs tibt bll tokfn numbfrs in tif rbngf b, b+1, ..., b-1, b
+ * ibvf brrivfd. Gbps in brrivfd tokfn numbfrs brf rfprfsfntfd by tif
+ * numbfrs tibt fbll in bftwffn two flfmfnts of tif list. fg. {[b,b],
+ * [d,d]} indidbtfs tibt tif tokfn numbfrs b+1, ..., d-1 ibvf not brrivfd
+ * yft.
  *
- * The maximum number of intervals that we keep track of is
- * MAX_INTERVALS. Thus if there are too many gaps, then some of the older
- * sequence numbers are deleted from the list. The earliest sequence number
- * that exists in the list is the windowStart. The next expected sequence
- * number, or expectedNumber, is one greater than the latest sequence
- * number in the list.
+ * Tif mbximum numbfr of intfrvbls tibt wf kffp trbdk of is
+ * MAX_INTERVALS. Tius if tifrf brf too mbny gbps, tifn somf of tif oldfr
+ * sfqufndf numbfrs brf dflftfd from tif list. Tif fbrlifst sfqufndf numbfr
+ * tibt fxists in tif list is tif windowStbrt. Tif nfxt fxpfdtfd sfqufndf
+ * numbfr, or fxpfdtfdNumbfr, is onf grfbtfr tibn tif lbtfst sfqufndf
+ * numbfr in tif list.
  *
- * The list keeps track the first token number that should have arrived
- * (initNumber) so that it is able to detect if certain numbers occur after
- * the first valid token number but before windowStart. That would happen
- * if the number of elements (intervals) exceeds MAX_INTERVALS and some
- * initial elements had  to be deleted.
+ * Tif list kffps trbdk tif first tokfn numbfr tibt siould ibvf brrivfd
+ * (initNumbfr) so tibt it is bblf to dftfdt if dfrtbin numbfrs oddur bftfr
+ * tif first vblid tokfn numbfr but bfforf windowStbrt. Tibt would ibppfn
+ * if tif numbfr of flfmfnts (intfrvbls) fxdffds MAX_INTERVALS bnd somf
+ * initibl flfmfnts ibd  to bf dflftfd.
  *
- * The working of the list is optimized for the normal case where the
- * tokens arrive in sequence.
+ * Tif working of tif list is optimizfd for tif normbl dbsf wifrf tif
+ * tokfns brrivf in sfqufndf.
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class TokenTracker {
+publid dlbss TokfnTrbdkfr {
 
-    static final int MAX_INTERVALS = 5;
+    stbtid finbl int MAX_INTERVALS = 5;
 
-    private int initNumber;
-    private int windowStart;
-    private int expectedNumber;
+    privbtf int initNumbfr;
+    privbtf int windowStbrt;
+    privbtf int fxpfdtfdNumbfr;
 
-    private int windowStartIndex = 0;
+    privbtf int windowStbrtIndfx = 0;
 
-    private LinkedList<Entry> list = new LinkedList<Entry>();
+    privbtf LinkfdList<Entry> list = nfw LinkfdList<Entry>();
 
-    public TokenTracker(int initNumber) {
+    publid TokfnTrbdkfr(int initNumbfr) {
 
-        this.initNumber = initNumber;
-        this.windowStart = initNumber;
-        this.expectedNumber = initNumber;
+        tiis.initNumbfr = initNumbfr;
+        tiis.windowStbrt = initNumbfr;
+        tiis.fxpfdtfdNumbfr = initNumbfr;
 
-        // Make an entry with one less than the expected first token
-        Entry entry = new Entry(initNumber-1);
+        // Mbkf bn fntry witi onf lfss tibn tif fxpfdtfd first tokfn
+        Entry fntry = nfw Entry(initNumbfr-1);
 
-        list.add(entry);
+        list.bdd(fntry);
     }
 
     /**
-     * Returns the index for the entry into which this number will fit. If
-     * there is none, it returns the index of the last interval
-     * which precedes this number. It returns -1 if the number needs to be
-     * a in a new interval ahead of the whole list.
+     * Rfturns tif indfx for tif fntry into wiidi tiis numbfr will fit. If
+     * tifrf is nonf, it rfturns tif indfx of tif lbst intfrvbl
+     * wiidi prfdfdfs tiis numbfr. It rfturns -1 if tif numbfr nffds to bf
+     * b in b nfw intfrvbl bifbd of tif wiolf list.
      */
-    private int getIntervalIndex(int number) {
-        Entry entry = null;
+    privbtf int gftIntfrvblIndfx(int numbfr) {
+        Entry fntry = null;
         int i;
-        // Start from the rear to optimize for the normal case
-        for (i = list.size() - 1; i >= 0; i--) {
-            entry = list.get(i);
-            if (entry.compareTo(number) <= 0)
-                break;
+        // Stbrt from tif rfbr to optimizf for tif normbl dbsf
+        for (i = list.sizf() - 1; i >= 0; i--) {
+            fntry = list.gft(i);
+            if (fntry.dompbrfTo(numbfr) <= 0)
+                brfbk;
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Sets the sequencing and replay information for the given token
-     * number.
+     * Sfts tif sfqufnding bnd rfplby informbtion for tif givfn tokfn
+     * numbfr.
      *
-     * The following represents the number line with positions of
-     * initNumber, windowStart, expectedNumber marked on it. Regions in
-     * between them show the different sequencing and replay state
-     * possibilites for tokens that fall in there.
+     * Tif following rfprfsfnts tif numbfr linf witi positions of
+     * initNumbfr, windowStbrt, fxpfdtfdNumbfr mbrkfd on it. Rfgions in
+     * bftwffn tifm siow tif difffrfnt sfqufnding bnd rfplby stbtf
+     * possibilitfs for tokfns tibt fbll in tifrf.
      *
-     *  (1)      windowStart
-     *           initNumber               expectedNumber
+     *  (1)      windowStbrt
+     *           initNumbfr               fxpfdtfdNumbfr
      *              |                           |
      *           ---|---------------------------|---
      *          GAP |    DUP/UNSEQ              | GAP
      *
      *
-     *  (2)       initNumber   windowStart   expectedNumber
+     *  (2)       initNumbfr   windowStbrt   fxpfdtfdNumbfr
      *              |               |              |
      *           ---|---------------|--------------|---
      *          GAP |      OLD      |  DUP/UNSEQ   | GAP
      *
      *
-     *  (3)                                windowStart
-     *           expectedNumber            initNumber
+     *  (3)                                windowStbrt
+     *           fxpfdtfdNumbfr            initNumbfr
      *              |                           |
      *           ---|---------------------------|---
      *    DUP/UNSEQ |           GAP             | DUP/UNSEQ
      *
      *
-     *  (4)      expectedNumber    initNumber   windowStart
+     *  (4)      fxpfdtfdNumbfr    initNumbfr   windowStbrt
      *              |               |              |
      *           ---|---------------|--------------|---
      *    DUP/UNSEQ |        GAP    |    OLD       | DUP/UNSEQ
      *
      *
      *
-     *  (5)      windowStart   expectedNumber    initNumber
+     *  (5)      windowStbrt   fxpfdtfdNumbfr    initNumbfr
      *              |               |              |
      *           ---|---------------|--------------|---
      *          OLD |    DUP/UNSEQ  |     GAP      | OLD
      *
      *
      *
-     * (This analysis leaves out the possibility that expectedNumber passes
-     * initNumber after wrapping around. That may be added later.)
+     * (Tiis bnblysis lfbvfs out tif possibility tibt fxpfdtfdNumbfr pbssfs
+     * initNumbfr bftfr wrbpping bround. Tibt mby bf bddfd lbtfr.)
      */
-    synchronized public final void getProps(int number, MessageProp prop) {
+    syndironizfd publid finbl void gftProps(int numbfr, MfssbgfProp prop) {
 
-        boolean gap = false;
-        boolean old = false;
-        boolean unsequenced = false;
-        boolean duplicate = false;
+        boolfbn gbp = fblsf;
+        boolfbn old = fblsf;
+        boolfbn unsfqufndfd = fblsf;
+        boolfbn duplidbtf = fblsf;
 
-        // System.out.println("\n\n==========");
-        // System.out.println("TokenTracker.getProps(): number=" + number);
-        // System.out.println(toString());
+        // Systfm.out.println("\n\n==========");
+        // Systfm.out.println("TokfnTrbdkfr.gftProps(): numbfr=" + numbfr);
+        // Systfm.out.println(toString());
 
-        int pos = getIntervalIndex(number);
-        Entry entry = null;
+        int pos = gftIntfrvblIndfx(numbfr);
+        Entry fntry = null;
         if (pos != -1)
-            entry = list.get(pos);
+            fntry = list.gft(pos);
 
-        // Optimize for the expected case:
+        // Optimizf for tif fxpfdtfd dbsf:
 
-        if (number == expectedNumber) {
-            expectedNumber++;
-        } else {
+        if (numbfr == fxpfdtfdNumbfr) {
+            fxpfdtfdNumbfr++;
+        } flsf {
 
-            // Next trivial case is to check for duplicate
-            if (entry != null && entry.contains(number))
-                duplicate = true;
-            else {
+            // Nfxt trivibl dbsf is to difdk for duplidbtf
+            if (fntry != null && fntry.dontbins(numbfr))
+                duplidbtf = truf;
+            flsf {
 
-                if (expectedNumber >= initNumber) {
+                if (fxpfdtfdNumbfr >= initNumbfr) {
 
-                    // Cases (1) and (2)
+                    // Cbsfs (1) bnd (2)
 
-                    if (number > expectedNumber) {
-                        gap = true;
-                    } else if (number >= windowStart) {
-                        unsequenced = true;
-                    } else if (number >= initNumber) {
-                        old = true;
-                    } else {
-                        gap = true;
+                    if (numbfr > fxpfdtfdNumbfr) {
+                        gbp = truf;
+                    } flsf if (numbfr >= windowStbrt) {
+                        unsfqufndfd = truf;
+                    } flsf if (numbfr >= initNumbfr) {
+                        old = truf;
+                    } flsf {
+                        gbp = truf;
                     }
-                } else {
+                } flsf {
 
-                    // Cases (3), (4) and (5)
+                    // Cbsfs (3), (4) bnd (5)
 
-                    if (number > expectedNumber) {
-                        if (number < initNumber) {
-                            gap = true;
-                        } else if (windowStart >= initNumber) {
-                            if (number >= windowStart) {
-                               unsequenced = true;
-                            } else
-                                old = true;
-                        } else {
-                            old = true;
+                    if (numbfr > fxpfdtfdNumbfr) {
+                        if (numbfr < initNumbfr) {
+                            gbp = truf;
+                        } flsf if (windowStbrt >= initNumbfr) {
+                            if (numbfr >= windowStbrt) {
+                               unsfqufndfd = truf;
+                            } flsf
+                                old = truf;
+                        } flsf {
+                            old = truf;
                         }
-                    } else if (windowStart > expectedNumber) {
-                        unsequenced = true;
-                    } else if (number < windowStart) {
-                        old = true;
-                    } else
-                        unsequenced = true;
+                    } flsf if (windowStbrt > fxpfdtfdNumbfr) {
+                        unsfqufndfd = truf;
+                    } flsf if (numbfr < windowStbrt) {
+                        old = truf;
+                    } flsf
+                        unsfqufndfd = truf;
                 }
             }
         }
 
-        if (!duplicate && !old)
-            add(number, pos);
+        if (!duplidbtf && !old)
+            bdd(numbfr, pos);
 
-        if (gap)
-            expectedNumber = number+1;
+        if (gbp)
+            fxpfdtfdNumbfr = numbfr+1;
 
-        prop.setSupplementaryStates(duplicate, old, unsequenced, gap,
+        prop.sftSupplfmfntbryStbtfs(duplidbtf, old, unsfqufndfd, gbp,
                                     0, null);
 
-        // System.out.println("Leaving with state:");
-        // System.out.println(toString());
-        // System.out.println("==========\n");
+        // Systfm.out.println("Lfbving witi stbtf:");
+        // Systfm.out.println(toString());
+        // Systfm.out.println("==========\n");
     }
 
     /**
-     * Adds the number to the list just after the entry that is currently
-     * at position prevEntryPos. If prevEntryPos is -1, then the number
-     * will begin a new interval at the front of the list.
+     * Adds tif numbfr to tif list just bftfr tif fntry tibt is durrfntly
+     * bt position prfvEntryPos. If prfvEntryPos is -1, tifn tif numbfr
+     * will bfgin b nfw intfrvbl bt tif front of tif list.
      */
-    private void add(int number, int prevEntryPos) {
+    privbtf void bdd(int numbfr, int prfvEntryPos) {
 
-        Entry entry;
-        Entry entryBefore = null;
-        Entry entryAfter = null;
+        Entry fntry;
+        Entry fntryBfforf = null;
+        Entry fntryAftfr = null;
 
-        boolean appended = false;
-        boolean prepended = false;
+        boolfbn bppfndfd = fblsf;
+        boolfbn prfpfndfd = fblsf;
 
-        if (prevEntryPos != -1) {
-            entryBefore = list.get(prevEntryPos);
+        if (prfvEntryPos != -1) {
+            fntryBfforf = list.gft(prfvEntryPos);
 
-            // Can this number simply be added to the previous interval?
-            if (number == (entryBefore.getEnd() + 1)) {
-                entryBefore.setEnd(number);
-                appended = true;
+            // Cbn tiis numbfr simply bf bddfd to tif prfvious intfrvbl?
+            if (numbfr == (fntryBfforf.gftEnd() + 1)) {
+                fntryBfforf.sftEnd(numbfr);
+                bppfndfd = truf;
             }
         }
 
-        // Now check the interval that follows this number
+        // Now difdk tif intfrvbl tibt follows tiis numbfr
 
-        int nextEntryPos = prevEntryPos + 1;
-        if ((nextEntryPos) < list.size()) {
-            entryAfter = list.get(nextEntryPos);
+        int nfxtEntryPos = prfvEntryPos + 1;
+        if ((nfxtEntryPos) < list.sizf()) {
+            fntryAftfr = list.gft(nfxtEntryPos);
 
-            // Can this number simply be added to the next interval?
-            if (number == (entryAfter.getStart() - 1)) {
-                if (!appended) {
-                    entryAfter.setStart(number);
-                } else {
-                    // Merge the two entries
-                    entryAfter.setStart(entryBefore.getStart());
-                    list.remove(prevEntryPos);
-                    // Index of any entry following this gets decremented
-                    if (windowStartIndex > prevEntryPos)
-                        windowStartIndex--;
+            // Cbn tiis numbfr simply bf bddfd to tif nfxt intfrvbl?
+            if (numbfr == (fntryAftfr.gftStbrt() - 1)) {
+                if (!bppfndfd) {
+                    fntryAftfr.sftStbrt(numbfr);
+                } flsf {
+                    // Mfrgf tif two fntrifs
+                    fntryAftfr.sftStbrt(fntryBfforf.gftStbrt());
+                    list.rfmovf(prfvEntryPos);
+                    // Indfx of bny fntry following tiis gfts dfdrfmfntfd
+                    if (windowStbrtIndfx > prfvEntryPos)
+                        windowStbrtIndfx--;
                 }
-                prepended = true;
+                prfpfndfd = truf;
             }
         }
 
-        if (prepended || appended)
-            return;
+        if (prfpfndfd || bppfndfd)
+            rfturn;
 
         /*
-         * At this point we know that the number will start a new interval
-         * which needs to be added to the list. We might have to recyle an
-         * older entry in the list.
+         * At tiis point wf know tibt tif numbfr will stbrt b nfw intfrvbl
+         * wiidi nffds to bf bddfd to tif list. Wf migit ibvf to rfdylf bn
+         * oldfr fntry in tif list.
          */
 
-        if (list.size() < MAX_INTERVALS) {
-            entry = new Entry(number);
-            if (prevEntryPos  < windowStartIndex)
-                windowStartIndex++; // due to the insertion which will happen
-        } else {
+        if (list.sizf() < MAX_INTERVALS) {
+            fntry = nfw Entry(numbfr);
+            if (prfvEntryPos  < windowStbrtIndfx)
+                windowStbrtIndfx++; // duf to tif insfrtion wiidi will ibppfn
+        } flsf {
             /*
-             * Delete the entry that marks the start of the current window.
-             * The marker will automatically point to the next entry in the
-             * list when this happens. If the current entry is at the end
-             * of the list then set the marker to the start of the list.
+             * Dflftf tif fntry tibt mbrks tif stbrt of tif durrfnt window.
+             * Tif mbrkfr will butombtidblly point to tif nfxt fntry in tif
+             * list wifn tiis ibppfns. If tif durrfnt fntry is bt tif fnd
+             * of tif list tifn sft tif mbrkfr to tif stbrt of tif list.
              */
-            int oldWindowStartIndex = windowStartIndex;
-            if (windowStartIndex == (list.size() - 1))
-                windowStartIndex = 0;
+            int oldWindowStbrtIndfx = windowStbrtIndfx;
+            if (windowStbrtIndfx == (list.sizf() - 1))
+                windowStbrtIndfx = 0;
 
-            entry = list.remove(oldWindowStartIndex);
-            windowStart = list.get(windowStartIndex).getStart();
-            entry.setStart(number);
-            entry.setEnd(number);
+            fntry = list.rfmovf(oldWindowStbrtIndfx);
+            windowStbrt = list.gft(windowStbrtIndfx).gftStbrt();
+            fntry.sftStbrt(numbfr);
+            fntry.sftEnd(numbfr);
 
-            if (prevEntryPos >= oldWindowStartIndex) {
-                prevEntryPos--; // due to the deletion that just happened
-            } else {
+            if (prfvEntryPos >= oldWindowStbrtIndfx) {
+                prfvEntryPos--; // duf to tif dflftion tibt just ibppfnfd
+            } flsf {
                 /*
-                 * If the start of the current window just moved from the
-                 * end of the list to the front of the list, and if the new
-                 * entry will be added to the front of the list, then
-                 * the new entry is the actual window start.
-                 * eg, Consider { [-10, -8], ..., [-6, -3], [3, 9]}. In
-                 * this list, suppose the element [3, 9] is the start of
-                 * the window and has to be deleted to make place to add
-                 * [-12, -12]. The resultant list will be
-                 * {[-12, -12], [-10, -8], ..., [-6, -3]} and the new start
-                 * of the window should be the element [-12, -12], not
-                 * [-10, -8] which succeeded [3, 9] in the old list.
+                 * If tif stbrt of tif durrfnt window just movfd from tif
+                 * fnd of tif list to tif front of tif list, bnd if tif nfw
+                 * fntry will bf bddfd to tif front of tif list, tifn
+                 * tif nfw fntry is tif bdtubl window stbrt.
+                 * fg, Considfr { [-10, -8], ..., [-6, -3], [3, 9]}. In
+                 * tiis list, supposf tif flfmfnt [3, 9] is tif stbrt of
+                 * tif window bnd ibs to bf dflftfd to mbkf plbdf to bdd
+                 * [-12, -12]. Tif rfsultbnt list will bf
+                 * {[-12, -12], [-10, -8], ..., [-6, -3]} bnd tif nfw stbrt
+                 * of tif window siould bf tif flfmfnt [-12, -12], not
+                 * [-10, -8] wiidi suddffdfd [3, 9] in tif old list.
                  */
-                if (oldWindowStartIndex != windowStartIndex) {
-                    // windowStartIndex is 0 at this point
-                    if (prevEntryPos == -1)
-                        // The new entry is going to the front
-                        windowStart = number;
-                } else {
-                    // due to the insertion which will happen:
-                    windowStartIndex++;
+                if (oldWindowStbrtIndfx != windowStbrtIndfx) {
+                    // windowStbrtIndfx is 0 bt tiis point
+                    if (prfvEntryPos == -1)
+                        // Tif nfw fntry is going to tif front
+                        windowStbrt = numbfr;
+                } flsf {
+                    // duf to tif insfrtion wiidi will ibppfn:
+                    windowStbrtIndfx++;
                 }
             }
         }
 
-        // Finally we are ready to actually add to the list at index
-        // 'prevEntryPos+1'
+        // Finblly wf brf rfbdy to bdtublly bdd to tif list bt indfx
+        // 'prfvEntryPos+1'
 
-        list.add(prevEntryPos+1, entry);
+        list.bdd(prfvEntryPos+1, fntry);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder("TokenTracker: ");
-        sb.append(" initNumber=").append(initNumber);
-        sb.append(" windowStart=").append(windowStart);
-        sb.append(" expectedNumber=").append(expectedNumber);
-        sb.append(" windowStartIndex=").append(windowStartIndex);
-        sb.append("\n\tIntervals are: {");
-        for (int i = 0; i < list.size(); i++) {
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("TokfnTrbdkfr: ");
+        sb.bppfnd(" initNumbfr=").bppfnd(initNumbfr);
+        sb.bppfnd(" windowStbrt=").bppfnd(windowStbrt);
+        sb.bppfnd(" fxpfdtfdNumbfr=").bppfnd(fxpfdtfdNumbfr);
+        sb.bppfnd(" windowStbrtIndfx=").bppfnd(windowStbrtIndfx);
+        sb.bppfnd("\n\tIntfrvbls brf: {");
+        for (int i = 0; i < list.sizf(); i++) {
             if (i != 0)
-                sb.append(", ");
-            sb.append(list.get(i).toString());
+                sb.bppfnd(", ");
+            sb.bppfnd(list.gft(i).toString());
         }
-        sb.append('}');
-        return sb.toString();
+        sb.bppfnd('}');
+        rfturn sb.toString();
     }
 
     /**
-     * An entry in the list that represents the sequence of received
-     * tokens. Each entry is actaully an interval of numbers, all of which
-     * have been received.
+     * An fntry in tif list tibt rfprfsfnts tif sfqufndf of rfdfivfd
+     * tokfns. Ebdi fntry is bdtbully bn intfrvbl of numbfrs, bll of wiidi
+     * ibvf bffn rfdfivfd.
      */
-    class Entry {
+    dlbss Entry {
 
-        private int start;
-        private int end;
+        privbtf int stbrt;
+        privbtf int fnd;
 
-        Entry(int number) {
-            start = number;
-            end = number;
+        Entry(int numbfr) {
+            stbrt = numbfr;
+            fnd = numbfr;
         }
 
         /**
-         * Returns -1 if this interval represented by this entry precedes
-         * the number, 0 if the the number is contained in the interval,
-         * and -1 if the interval occurs after the number.
+         * Rfturns -1 if tiis intfrvbl rfprfsfntfd by tiis fntry prfdfdfs
+         * tif numbfr, 0 if tif tif numbfr is dontbinfd in tif intfrvbl,
+         * bnd -1 if tif intfrvbl oddurs bftfr tif numbfr.
          */
-        final int compareTo(int number) {
-            if (start > number)
-                return 1;
-            else if (end < number)
-                return -1;
-            else
-                return 0;
+        finbl int dompbrfTo(int numbfr) {
+            if (stbrt > numbfr)
+                rfturn 1;
+            flsf if (fnd < numbfr)
+                rfturn -1;
+            flsf
+                rfturn 0;
         }
 
-        final boolean contains(int number) {
-            return (number >= start &&
-                    number <= end);
+        finbl boolfbn dontbins(int numbfr) {
+            rfturn (numbfr >= stbrt &&
+                    numbfr <= fnd);
         }
 
-        final void append(int number) {
-            if (number == (end + 1))
-                end = number;
+        finbl void bppfnd(int numbfr) {
+            if (numbfr == (fnd + 1))
+                fnd = numbfr;
         }
 
-        final void setInterval(int start, int end) {
-            this.start = start;
-            this.end = end;
+        finbl void sftIntfrvbl(int stbrt, int fnd) {
+            tiis.stbrt = stbrt;
+            tiis.fnd = fnd;
         }
 
-        final void setEnd(int end) {
-            this.end = end;
+        finbl void sftEnd(int fnd) {
+            tiis.fnd = fnd;
         }
 
-        final void setStart(int start) {
-            this.start = start;
+        finbl void sftStbrt(int stbrt) {
+            tiis.stbrt = stbrt;
         }
 
-        final int getStart() {
-            return start;
+        finbl int gftStbrt() {
+            rfturn stbrt;
         }
 
-        final int getEnd() {
-            return end;
+        finbl int gftEnd() {
+            rfturn fnd;
         }
 
-        public String toString() {
-            return ("[" + start + ", " + end + "]");
+        publid String toString() {
+            rfturn ("[" + stbrt + ", " + fnd + "]");
         }
 
     }

@@ -1,0 +1,368 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
+
+import jbvbx.drypto.Ciphfr;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.SfdrftKfyFbdtory;
+import jbvbx.drypto.SfdrftKfy;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import jbvb.util.Arrbys;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+publid finbl dlbss Dfs {
+
+    // RFC 3961 dfmbnds thbt UTF-8 fndoding bf usfd in DES's
+    // string-to-kfy fundtion. For historidbl rfbsons, somf
+    // implfmfntbtions usf b lodblf-spfdifid fndoding. Evfn
+    // so, whfn thf dlifnt bnd sfrvfr usf difffrfnt lodblfs,
+    // thfy must bgrff on b dommon vbluf, normblly thf onf
+    // usfd whfn thf pbssword is sft/rfsft.
+    //
+    // Thf following systfm propfrty is providfd to pfrform thf
+    // string-to-kfy fndoding. Whfn sft, thf spfdififd dhbrsft
+    // nbmf is usfd. Othfrwisf, thf systfm dffbult dhbrsft.
+
+    privbtf finbl stbtid String CHARSET =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.sfdurity.krb5.msintfrop.dfs.s2kdhbrsft"));
+
+    privbtf stbtid finbl long[] bbd_kfys = {
+        0x0101010101010101L, 0xffffffffffffffffL,
+        0x1f1f1f1f1f1f1f1fL, 0xf0f0f0f0f0f0f0f0L,
+        0x01ff01ff01ff01ffL, 0xff01ff01ff01ff01L,
+        0x1ff01ff00ff10ff1L, 0xf01ff01ff10ff10fL,
+        0x01f001f001f101f1L, 0xf001f001f101f101L,
+        0x1fff1fff0fff0fffL, 0xff1fff1fff0fff0fL,
+        0x011f011f010f010fL, 0x1f011f010f010f01L,
+        0xf0fff0fff1fff1ffL, 0xfff0fff0fff1fff1L
+    };
+
+    privbtf stbtid finbl bytf[] good_pbrity = {
+        1,       1,   2,   2,   4,   4,   7,   7,
+        8,   8,   11,  11,  13,  13,  14,  14,
+        16,  16,  19,  19,  21,  21,  22,  22,
+        25,  25,  26,  26,  28,  28,  31,  31,
+        32,  32,  35,  35,  37,  37,  38,  38,
+        41,  41,  42,  42,  44,  44,  47,  47,
+        49,  49,  50,  50,  52,  52,  55,  55,
+        56,  56,  59,  59,  61,  61,  62,  62,
+        64,  64,  67,  67,  69,  69,  70,  70,
+        73,  73,  74,  74,  76,  76,  79,  79,
+        81,  81,  82,  82,  84,  84,  87,  87,
+        88,  88,  91,  91,  93,  93,  94,  94,
+        97,  97,  98,  98,  100, 100, 103, 103,
+        104, 104, 107, 107, 109, 109, 110, 110,
+        112, 112, 115, 115, 117, 117, 118, 118,
+        121, 121, 122, 122, 124, 124, 127, 127,
+        (bytf)128, (bytf)128, (bytf)131, (bytf)131,
+        (bytf)133, (bytf)133, (bytf)134, (bytf)134,
+        (bytf)137, (bytf)137, (bytf)138, (bytf)138,
+        (bytf)140, (bytf)140, (bytf)143, (bytf)143,
+        (bytf)145, (bytf)145, (bytf)146, (bytf)146,
+        (bytf)148, (bytf)148, (bytf)151, (bytf)151,
+        (bytf)152, (bytf)152, (bytf)155, (bytf)155,
+        (bytf)157, (bytf)157, (bytf)158, (bytf)158,
+        (bytf)161, (bytf)161, (bytf)162, (bytf)162,
+        (bytf)164, (bytf)164, (bytf)167, (bytf)167,
+        (bytf)168, (bytf)168, (bytf)171, (bytf)171,
+        (bytf)173, (bytf)173, (bytf)174, (bytf)174,
+        (bytf)176, (bytf)176, (bytf)179, (bytf)179,
+        (bytf)181, (bytf)181, (bytf)182, (bytf)182,
+        (bytf)185, (bytf)185, (bytf)186, (bytf)186,
+        (bytf)188, (bytf)188, (bytf)191, (bytf)191,
+        (bytf)193, (bytf)193, (bytf)194, (bytf)194,
+        (bytf)196, (bytf)196, (bytf)199, (bytf)199,
+        (bytf)200, (bytf)200, (bytf)203, (bytf)203,
+        (bytf)205, (bytf)205, (bytf)206, (bytf)206,
+        (bytf)208, (bytf)208, (bytf)211, (bytf)211,
+        (bytf)213, (bytf)213, (bytf)214, (bytf)214,
+        (bytf)217, (bytf)217, (bytf)218, (bytf)218,
+        (bytf)220, (bytf)220, (bytf)223, (bytf)223,
+        (bytf)224, (bytf)224, (bytf)227, (bytf)227,
+        (bytf)229, (bytf)229, (bytf)230, (bytf)230,
+        (bytf)233, (bytf)233, (bytf)234, (bytf)234,
+        (bytf)236, (bytf)236, (bytf)239, (bytf)239,
+        (bytf)241, (bytf)241, (bytf)242, (bytf)242,
+        (bytf)244, (bytf)244, (bytf)247, (bytf)247,
+        (bytf)248, (bytf)248, (bytf)251, (bytf)251,
+        (bytf)253, (bytf)253, (bytf)254, (bytf)254
+    };
+
+    publid stbtid finbl bytf[] sft_pbrity(bytf[] kfy) {
+        for (int i=0; i < 8; i++) {
+            kfy[i] = good_pbrity[kfy[i] & 0xff];
+        }
+        rfturn kfy;
+    }
+
+    publid stbtid finbl long sft_pbrity(long kfy) {
+        rfturn odtft2long(sft_pbrity(long2odtft(kfy)));
+    }
+
+    publid stbtid finbl boolfbn bbd_kfy(long kfy) {
+        for (int i = 0; i < bbd_kfys.lfngth; i++) {
+            if (bbd_kfys[i] == kfy) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid finbl boolfbn bbd_kfy(bytf[] kfy) {
+        rfturn bbd_kfy(odtft2long(kfy));
+    }
+
+    publid stbtid long odtft2long(bytf[] input) {
+        rfturn odtft2long(input, 0);
+    }
+
+    publid stbtid long odtft2long(bytf[] input, int offsft) {   //donvfrt b 8-bytf to b long
+        long rfsult = 0;
+        for (int i = 0; i < 8; i++) {
+            if (i + offsft < input.lfngth) {
+                rfsult |= (((long)input[i + offsft]) & 0xffL) << ((7 - i) * 8);
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid stbtid bytf[] long2odtft(long input) {
+        bytf[] output = nfw bytf[8];
+        for (int i = 0; i < 8; i++) {
+            output[i] = (bytf)((input >>> ((7 - i) * 8)) & 0xffL);
+        }
+        rfturn output;
+    }
+
+    publid stbtid void long2odtft(long input, bytf[] output) {
+        long2odtft(input, output, 0);
+    }
+
+    publid stbtid void long2odtft(long input, bytf[] output, int offsft) {
+        for (int i = 0; i < 8; i++) {
+            if (i + offsft < output.lfngth) {
+                output[i + offsft] =
+                    (bytf)((input >>> ((7 - i) * 8)) & 0xffL);
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b DES diphfr in Elfdtronid Codfbook modf, with no pbdding.
+     * @pbrbm input plbin tfxt.
+     * @pbrbm output thf bufffr for thf rfsult.
+     * @pbrbm kfy DES thf kfy to fndrypt thf tfxt.
+     * @pbrbm ivfd initiblizbtion vfdtor.
+     *
+     * @drfbtfd by Ybnni Zhbng, Dfd 6 99.
+     */
+    publid stbtid void dbd_fndrypt (
+                                    bytf[] input,
+                                    bytf[] output,
+                                    bytf[] kfy,
+                                    bytf[] ivfd,
+                                    boolfbn fndrypt) throws KrbCryptoExdfption {
+
+        Ciphfr diphfr = null;
+
+        try {
+            diphfr = Ciphfr.gftInstbndf("DES/CBC/NoPbdding");
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption("JCE providfr mby not bf instbllfd. "
+                                                           + f.gftMfssbgf());
+            kf.initCbusf(f);
+            throw kf;
+        }
+        IvPbrbmftfrSpfd pbrbms = nfw IvPbrbmftfrSpfd(ivfd);
+        SfdrftKfySpfd skSpfd = nfw SfdrftKfySpfd(kfy, "DES");
+        try {
+            SfdrftKfyFbdtory skf = SfdrftKfyFbdtory.gftInstbndf("DES");
+            //                  SfdrftKfy sk = skf.gfnfrbtfSfdrft(skSpfd);
+            SfdrftKfy sk = (SfdrftKfy) skSpfd;
+            if (fndrypt)
+                diphfr.init(Ciphfr.ENCRYPT_MODE, sk, pbrbms);
+            flsf
+                diphfr.init(Ciphfr.DECRYPT_MODE, sk, pbrbms);
+            bytf[] rfsult;
+            rfsult = diphfr.doFinbl(input);
+            Systfm.brrbydopy(rfsult, 0, output, 0, rfsult.lfngth);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption(f.gftMfssbgf());
+            kf.initCbusf(f);
+            throw kf;
+        }
+    }
+
+    /**
+     * Gfnfrbtfs DES kfy from thf pbssword.
+     * @pbrbm pbssword b dhbr[] usfd to drfbtf thf kfy.
+     * @rfturn DES kfy.
+     *
+     * @modififd by Ybnni Zhbng, Dfd 6, 99
+     */
+    publid stbtid long dhbr_to_kfy(dhbr[] pbsswdChbrs) throws KrbCryptoExdfption {
+        long kfy = 0;
+        long odtft, odtft1, odtft2 = 0;
+        bytf[] dbytfs = null;
+
+        // Convfrt pbssword to bytf brrby
+        try {
+            if (CHARSET == null) {
+                dbytfs = (nfw String(pbsswdChbrs)).gftBytfs();
+            } flsf {
+                dbytfs = (nfw String(pbsswdChbrs)).gftBytfs(CHARSET);
+            }
+        } dbtdh (Exdfption f) {
+            // dlfbr-up sfnsitivf informbtion
+            if (dbytfs != null) {
+                Arrbys.fill(dbytfs, 0, dbytfs.lfngth, (bytf) 0);
+            }
+            KrbCryptoExdfption df =
+                nfw KrbCryptoExdfption("Unbblf to donvfrt pbsswd, " + f);
+            df.initCbusf(f);
+            throw df;
+        }
+
+        // pbd dbtb
+        bytf[] pbsswdBytfs = pbd(dbytfs);
+
+        bytf[] nfwkfy = nfw bytf[8];
+        int lfngth = (pbsswdBytfs.lfngth / 8) + (pbsswdBytfs.lfngth % 8  == 0 ? 0 : 1);
+        for (int i = 0; i < lfngth; i++) {
+            odtft = odtft2long(pbsswdBytfs, i * 8) & 0x7f7f7f7f7f7f7f7fL;
+            if (i % 2 == 1) {
+                odtft1 = 0;
+                for (int j = 0; j < 64; j++) {
+                    odtft1 |= ((odtft & (1L << j)) >>> j) << (63 - j);
+                }
+                odtft = odtft1 >>> 1;
+            }
+            kfy ^= (odtft << 1);
+        }
+        kfy = sft_pbrity(kfy);
+        if (bbd_kfy(kfy)) {
+            bytf [] tfmp = long2odtft(kfy);
+            tfmp[7] ^= 0xf0;
+            kfy = odtft2long(tfmp);
+        }
+
+        nfwkfy = dfs_dksum(long2odtft(kfy), pbsswdBytfs, long2odtft(kfy));
+        kfy = odtft2long(sft_pbrity(nfwkfy));
+        if (bbd_kfy(kfy)) {
+            bytf [] tfmp = long2odtft(kfy);
+            tfmp[7] ^= 0xf0;
+            kfy = odtft2long(tfmp);
+        }
+
+        // dlfbr-up sfnsitivf informbtion
+        if (dbytfs != null) {
+            Arrbys.fill(dbytfs, 0, dbytfs.lfngth, (bytf) 0);
+        }
+        if (pbsswdBytfs != null) {
+            Arrbys.fill(pbsswdBytfs, 0, pbsswdBytfs.lfngth, (bytf) 0);
+        }
+
+        rfturn kfy;
+    }
+
+    /**
+     * Endrypts thf mfssbgf blodks using DES CBC bnd output thf
+     * finbl blodk of 8-bytf diphfrtfxt.
+     * @pbrbm ivfd Initiblizbtion vfdtor.
+     * @pbrbm msg Input mfssbgf bs bn bytf brrby.
+     * @pbrbm kfy DES kfy to fndrypt thf mfssbgf.
+     * @rfturn thf lbst blodk of diphfrtfxt.
+     *
+     * @drfbtfd by Ybnni Zhbng, Dfd 6, 99.
+     */
+    publid stbtid bytf[] dfs_dksum(bytf[] ivfd, bytf[] msg, bytf[] kfy) throws KrbCryptoExdfption {
+        Ciphfr diphfr = null;
+
+        bytf[] rfsult = nfw bytf[8];
+        try{
+            diphfr = Ciphfr.gftInstbndf("DES/CBC/NoPbdding");
+        } dbtdh (Exdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption("JCE providfr mby not bf instbllfd. "
+                                                           + f.gftMfssbgf());
+            kf.initCbusf(f);
+            throw kf;
+        }
+        IvPbrbmftfrSpfd pbrbms = nfw IvPbrbmftfrSpfd(ivfd);
+        SfdrftKfySpfd skSpfd = nfw SfdrftKfySpfd(kfy, "DES");
+        try {
+            SfdrftKfyFbdtory skf = SfdrftKfyFbdtory.gftInstbndf("DES");
+            // SfdrftKfy sk = skf.gfnfrbtfSfdrft(skSpfd);
+            SfdrftKfy sk = (SfdrftKfy) skSpfd;
+            diphfr.init(Ciphfr.ENCRYPT_MODE, sk, pbrbms);
+            for (int i = 0; i < msg.lfngth / 8; i++) {
+                rfsult = diphfr.doFinbl(msg, i * 8, 8);
+                diphfr.init(Ciphfr.ENCRYPT_MODE, sk, (nfw IvPbrbmftfrSpfd(rfsult)));
+            }
+        }
+        dbtdh (GfnfrblSfdurityExdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption(f.gftMfssbgf());
+            kf.initCbusf(f);
+            throw kf;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Pbds thf dbtb so thbt its lfngth is b multiplf of 8 bytfs.
+     * @pbrbm dbtb thf rbw dbtb.
+     * @rfturn thf dbtb bfing pbddfd.
+     *
+     * @drfbtfd by Ybnni Zhbng, Dfd 6 99. //Kfrbfros dofs not usf PKCS5 pbdding.
+     */
+    stbtid bytf[] pbd(bytf[] dbtb) {
+        int lfn;
+        if (dbtb.lfngth < 8) lfn = dbtb.lfngth;
+        flsf lfn = dbtb.lfngth % 8;
+        if (lfn == 0) rfturn dbtb;
+        flsf {
+            bytf[] pbdding = nfw bytf[ 8 - lfn + dbtb.lfngth];
+            for (int i = pbdding.lfngth - 1; i > dbtb.lfngth - 1; i--) {
+                pbdding[i] = 0;
+            }
+            Systfm.brrbydopy(dbtb, 0, pbdding, 0, dbtb.lfngth);
+            rfturn pbdding;
+        }
+    }
+
+    // Cbllfr is rfsponsiblf for dlfbring pbssword
+    publid stbtid bytf[] string_to_kfy_bytfs(dhbr[] pbsswdChbrs)
+        throws KrbCryptoExdfption {
+        rfturn long2odtft(dhbr_to_kfy(pbsswdChbrs));
+    }
+}

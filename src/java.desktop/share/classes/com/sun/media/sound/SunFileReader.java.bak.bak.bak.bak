@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.nft.URL;
+
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+import jbvbx.sound.sbmplfd.spi.AudioFilfRfbdfr;
+
+
+
+/**
+ * Abstrbdt Filf Rfbdfr dlbss.
+ *
+ * @buthor Jbn Borgfrsfn
+ */
+bbstrbdt dlbss SunFilfRfbdfr fxtfnds AudioFilfRfbdfr {
+
+    // bufffr sizf for tfmporbry input strfbms
+    protfdtfd stbtid finbl int bisBufffrSizf = 4096;
+
+    /**
+     * Construdts b nfw SunFilfRfbdfr objfdt.
+     */
+    SunFilfRfbdfr() {
+    }
+
+
+    // METHODS TO IMPLEMENT AudioFilfRfbdfr
+
+    /**
+     * Obtbins thf budio filf formbt of thf input strfbm providfd.  Thf strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy
+     * support it.  Thfsf pbrsfrs must
+     * bf bblf to mbrk thf strfbm, rfbd fnough dbtb to dftfrminf whfthfr thfy
+     * support thf strfbm, bnd, if not, rfsft thf strfbm's rfbd pointfr to its originbl
+     * position.  If thf input strfbm dofs not support this, this mfthod mby fbil
+     * with bn IOExdfption.
+     * @pbrbm strfbm thf input strfbm from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    bbstrbdt publid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    /**
+     * Obtbins thf budio filf formbt of thf URL providfd.  Thf URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url thf URL from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    bbstrbdt publid AudioFilfFormbt gftAudioFilfFormbt(URL url) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    /**
+     * Obtbins thf budio filf formbt of thf Filf providfd.  Thf Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf thf Filf from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    bbstrbdt publid AudioFilfFormbt gftAudioFilfFormbt(Filf filf) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    /**
+     * Obtbins bn budio strfbm from thf input strfbm providfd.  Thf strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy
+     * support it.  Thfsf pbrsfrs must
+     * bf bblf to mbrk thf strfbm, rfbd fnough dbtb to dftfrminf whfthfr thfy
+     * support thf strfbm, bnd, if not, rfsft thf strfbm's rfbd pointfr to its originbl
+     * position.  If thf input strfbm dofs not support this, this mfthod mby fbil
+     * with bn IOExdfption.
+     * @pbrbm strfbm thf input strfbm from whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb dontbinfd
+     * in thf input strfbm.
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    bbstrbdt publid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    /**
+     * Obtbins bn budio strfbm from thf URL providfd.  Thf URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url thf URL for whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb pointfd
+     * to by thf URL
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    bbstrbdt publid AudioInputStrfbm gftAudioInputStrfbm(URL url) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    /**
+     * Obtbins bn budio strfbm from thf Filf providfd.  Thf Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf thf Filf for whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb pointfd
+     * to by thf Filf
+     * @throws UnsupportfdAudioFilfExdfption if thf Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    bbstrbdt publid AudioInputStrfbm gftAudioInputStrfbm(Filf filf) throws UnsupportfdAudioFilfExdfption, IOExdfption;
+
+
+    // HELPER METHODS
+
+
+
+    /**
+     * rllong
+     * Protfdtfd hflpfr mfthod to rfbd 64 bits bnd dhbnging thf ordfr of
+     * fbdh bytfs.
+     * @pbrbm DbtbInputStrfbm
+     * @rfturn 32 bits swbppfd vbluf.
+     * @fxdfption IOExdfption
+     */
+    finbl int rllong(DbtbInputStrfbm dis) throws IOExdfption {
+
+        int b1, b2, b3, b4 ;
+        int i = 0;
+
+        i = dis.rfbdInt();
+
+        b1 = ( i & 0xFF ) << 24 ;
+        b2 = ( i & 0xFF00 ) << 8;
+        b3 = ( i & 0xFF0000 ) >> 8;
+        b4 = ( i & 0xFF000000 ) >>> 24;
+
+        i = ( b1 | b2 | b3 | b4 );
+
+        rfturn i;
+    }
+
+    /**
+     * big2littlf
+     * Protfdtfd hflpfr mfthod to swbp thf ordfr of bytfs in b 32 bit int
+     * @pbrbm int
+     * @rfturn 32 bits swbppfd vbluf
+     */
+    finbl int big2littlf(int i) {
+
+        int b1, b2, b3, b4 ;
+
+        b1 = ( i & 0xFF ) << 24 ;
+        b2 = ( i & 0xFF00 ) << 8;
+        b3 = ( i & 0xFF0000 ) >> 8;
+        b4 = ( i & 0xFF000000 ) >>> 24;
+
+        i = ( b1 | b2 | b3 | b4 );
+
+        rfturn i;
+    }
+
+    /**
+     * rlshort
+     * Protfdtfd hflpfr mfthod to rfbd 16 bits vbluf. Swbp high with low bytf.
+     * @pbrbm DbtbInputStrfbm
+     * @rfturn thf swbppfd vbluf.
+     * @fxdfption IOExdfption
+     */
+    finbl short rlshort(DbtbInputStrfbm dis)  throws IOExdfption {
+
+        short s=0;
+        short high, low;
+
+        s = dis.rfbdShort();
+
+        high = (short)(( s & 0xFF ) << 8) ;
+        low = (short)(( s & 0xFF00 ) >>> 8);
+
+        s = (short)( high | low );
+
+        rfturn s;
+    }
+
+    /**
+     * big2littlf
+     * Protfdtfd hflpfr mfthod to swbp thf ordfr of bytfs in b 16 bit short
+     * @pbrbm int
+     * @rfturn 16 bits swbppfd vbluf
+     */
+    finbl short big2littlfShort(short i) {
+
+        short high, low;
+
+        high = (short)(( i & 0xFF ) << 8) ;
+        low = (short)(( i & 0xFF00 ) >>> 8);
+
+        i = (short)( high | low );
+
+        rfturn i;
+    }
+
+    /** Cbldulbtfs thf frbmf sizf for PCM frbmfs.
+     * Notf thbt this mfthod is bppropribtf for non-pbdkfd sbmplfs.
+     * For instbndf, 12 bit, 2 dhbnnfls will rfturn 4 bytfs, not 3.
+     * @pbrbm sbmplfSizfInBits thf sizf of b singlf sbmplf in bits
+     * @pbrbm dhbnnfls thf numbfr of dhbnnfls
+     * @rfturn thf sizf of b PCM frbmf in bytfs.
+     */
+    stbtid finbl int dbldulbtfPCMFrbmfSizf(int sbmplfSizfInBits, int dhbnnfls) {
+        rfturn ((sbmplfSizfInBits + 7) / 8) * dhbnnfls;
+    }
+}

@@ -1,526 +1,526 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.Spliterator;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NbvigbblfMbp;
+import jbvb.util.NbvigbblfSft;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.Splitfrbtor;
 
 /**
- * A scalable concurrent {@link NavigableSet} implementation based on
- * a {@link ConcurrentSkipListMap}.  The elements of the set are kept
- * sorted according to their {@linkplain Comparable natural ordering},
- * or by a {@link Comparator} provided at set creation time, depending
- * on which constructor is used.
+ * A sdblbblf dondurrfnt {@link NbvigbblfSft} implfmfntbtion bbsfd on
+ * b {@link CondurrfntSkipListMbp}.  Tif flfmfnts of tif sft brf kfpt
+ * sortfd bddording to tifir {@linkplbin Compbrbblf nbturbl ordfring},
+ * or by b {@link Compbrbtor} providfd bt sft drfbtion timf, dfpfnding
+ * on wiidi donstrudtor is usfd.
  *
- * <p>This implementation provides expected average <i>log(n)</i> time
- * cost for the {@code contains}, {@code add}, and {@code remove}
- * operations and their variants.  Insertion, removal, and access
- * operations safely execute concurrently by multiple threads.
+ * <p>Tiis implfmfntbtion providfs fxpfdtfd bvfrbgf <i>log(n)</i> timf
+ * dost for tif {@dodf dontbins}, {@dodf bdd}, bnd {@dodf rfmovf}
+ * opfrbtions bnd tifir vbribnts.  Insfrtion, rfmovbl, bnd bddfss
+ * opfrbtions sbffly fxfdutf dondurrfntly by multiplf tirfbds.
  *
- * <p>Iterators and spliterators are
- * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+ * <p>Itfrbtors bnd splitfrbtors brf
+ * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
  *
- * <p>Ascending ordered views and their iterators are faster than
- * descending ones.
+ * <p>Asdfnding ordfrfd vifws bnd tifir itfrbtors brf fbstfr tibn
+ * dfsdfnding onfs.
  *
- * <p>Beware that, unlike in most collections, the {@code size}
- * method is <em>not</em> a constant-time operation. Because of the
- * asynchronous nature of these sets, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bfwbrf tibt, unlikf in most dollfdtions, tif {@dodf sizf}
+ * mftiod is <fm>not</fm> b donstbnt-timf opfrbtion. Bfdbusf of tif
+ * bsyndironous nbturf of tifsf sfts, dftfrmining tif durrfnt numbfr
+ * of flfmfnts rfquirfs b trbvfrsbl of tif flfmfnts, bnd so mby rfport
+ * inbddurbtf rfsults if tiis dollfdtion is modififd during trbvfrsbl.
+ * Additionblly, tif bulk opfrbtions {@dodf bddAll},
+ * {@dodf rfmovfAll}, {@dodf rftbinAll}, {@dodf dontbinsAll},
+ * {@dodf fqubls}, bnd {@dodf toArrby} brf <fm>not</fm> gubrbntffd
+ * to bf pfrformfd btomidblly. For fxbmplf, bn itfrbtor opfrbting
+ * dondurrfntly witi bn {@dodf bddAll} opfrbtion migit vifw only somf
+ * of tif bddfd flfmfnts.
  *
- * <p>This class and its iterators implement all of the
- * <em>optional</em> methods of the {@link Set} and {@link Iterator}
- * interfaces. Like most other concurrent collection implementations,
- * this class does not permit the use of {@code null} elements,
- * because {@code null} arguments and return values cannot be reliably
- * distinguished from the absence of elements.
+ * <p>Tiis dlbss bnd its itfrbtors implfmfnt bll of tif
+ * <fm>optionbl</fm> mftiods of tif {@link Sft} bnd {@link Itfrbtor}
+ * intfrfbdfs. Likf most otifr dondurrfnt dollfdtion implfmfntbtions,
+ * tiis dlbss dofs not pfrmit tif usf of {@dodf null} flfmfnts,
+ * bfdbusf {@dodf null} brgumfnts bnd rfturn vblufs dbnnot bf rflibbly
+ * distinguisifd from tif bbsfndf of flfmfnts.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author Doug Lea
- * @param <E> the type of elements maintained by this set
- * @since 1.6
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
+ * @sindf 1.6
  */
-public class ConcurrentSkipListSet<E>
-    extends AbstractSet<E>
-    implements NavigableSet<E>, Cloneable, java.io.Serializable {
+publid dlbss CondurrfntSkipListSft<E>
+    fxtfnds AbstrbdtSft<E>
+    implfmfnts NbvigbblfSft<E>, Clonfbblf, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -2479143111061671589L;
-
-    /**
-     * The underlying map. Uses Boolean.TRUE as value for each
-     * element.  This field is declared final for the sake of thread
-     * safety, which entails some ugliness in clone().
-     */
-    private final ConcurrentNavigableMap<E,Object> m;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2479143111061671589L;
 
     /**
-     * Constructs a new, empty set that orders its elements according to
-     * their {@linkplain Comparable natural ordering}.
+     * Tif undfrlying mbp. Usfs Boolfbn.TRUE bs vbluf for fbdi
+     * flfmfnt.  Tiis fifld is dfdlbrfd finbl for tif sbkf of tirfbd
+     * sbffty, wiidi fntbils somf uglinfss in dlonf().
      */
-    public ConcurrentSkipListSet() {
-        m = new ConcurrentSkipListMap<E,Object>();
+    privbtf finbl CondurrfntNbvigbblfMbp<E,Objfdt> m;
+
+    /**
+     * Construdts b nfw, fmpty sft tibt ordfrs its flfmfnts bddording to
+     * tifir {@linkplbin Compbrbblf nbturbl ordfring}.
+     */
+    publid CondurrfntSkipListSft() {
+        m = nfw CondurrfntSkipListMbp<E,Objfdt>();
     }
 
     /**
-     * Constructs a new, empty set that orders its elements according to
-     * the specified comparator.
+     * Construdts b nfw, fmpty sft tibt ordfrs its flfmfnts bddording to
+     * tif spfdififd dompbrbtor.
      *
-     * @param comparator the comparator that will be used to order this set.
-     *        If {@code null}, the {@linkplain Comparable natural
-     *        ordering} of the elements will be used.
+     * @pbrbm dompbrbtor tif dompbrbtor tibt will bf usfd to ordfr tiis sft.
+     *        If {@dodf null}, tif {@linkplbin Compbrbblf nbturbl
+     *        ordfring} of tif flfmfnts will bf usfd.
      */
-    public ConcurrentSkipListSet(Comparator<? super E> comparator) {
-        m = new ConcurrentSkipListMap<E,Object>(comparator);
+    publid CondurrfntSkipListSft(Compbrbtor<? supfr E> dompbrbtor) {
+        m = nfw CondurrfntSkipListMbp<E,Objfdt>(dompbrbtor);
     }
 
     /**
-     * Constructs a new set containing the elements in the specified
-     * collection, that orders its elements according to their
-     * {@linkplain Comparable natural ordering}.
+     * Construdts b nfw sft dontbining tif flfmfnts in tif spfdififd
+     * dollfdtion, tibt ordfrs its flfmfnts bddording to tifir
+     * {@linkplbin Compbrbblf nbturbl ordfring}.
      *
-     * @param c The elements that will comprise the new set
-     * @throws ClassCastException if the elements in {@code c} are
-     *         not {@link Comparable}, or are not mutually comparable
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm d Tif flfmfnts tibt will domprisf tif nfw sft
+     * @tirows ClbssCbstExdfption if tif flfmfnts in {@dodf d} brf
+     *         not {@link Compbrbblf}, or brf not mutublly dompbrbblf
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public ConcurrentSkipListSet(Collection<? extends E> c) {
-        m = new ConcurrentSkipListMap<E,Object>();
-        addAll(c);
+    publid CondurrfntSkipListSft(Collfdtion<? fxtfnds E> d) {
+        m = nfw CondurrfntSkipListMbp<E,Objfdt>();
+        bddAll(d);
     }
 
     /**
-     * Constructs a new set containing the same elements and using the
-     * same ordering as the specified sorted set.
+     * Construdts b nfw sft dontbining tif sbmf flfmfnts bnd using tif
+     * sbmf ordfring bs tif spfdififd sortfd sft.
      *
-     * @param s sorted set whose elements will comprise the new set
-     * @throws NullPointerException if the specified sorted set or any
-     *         of its elements are null
+     * @pbrbm s sortfd sft wiosf flfmfnts will domprisf tif nfw sft
+     * @tirows NullPointfrExdfption if tif spfdififd sortfd sft or bny
+     *         of its flfmfnts brf null
      */
-    public ConcurrentSkipListSet(SortedSet<E> s) {
-        m = new ConcurrentSkipListMap<E,Object>(s.comparator());
-        addAll(s);
+    publid CondurrfntSkipListSft(SortfdSft<E> s) {
+        m = nfw CondurrfntSkipListMbp<E,Objfdt>(s.dompbrbtor());
+        bddAll(s);
     }
 
     /**
-     * For use by submaps
+     * For usf by submbps
      */
-    ConcurrentSkipListSet(ConcurrentNavigableMap<E,Object> m) {
-        this.m = m;
+    CondurrfntSkipListSft(CondurrfntNbvigbblfMbp<E,Objfdt> m) {
+        tiis.m = m;
     }
 
     /**
-     * Returns a shallow copy of this {@code ConcurrentSkipListSet}
-     * instance. (The elements themselves are not cloned.)
+     * Rfturns b sibllow dopy of tiis {@dodf CondurrfntSkipListSft}
+     * instbndf. (Tif flfmfnts tifmsflvfs brf not dlonfd.)
      *
-     * @return a shallow copy of this set
+     * @rfturn b sibllow dopy of tiis sft
      */
-    public ConcurrentSkipListSet<E> clone() {
+    publid CondurrfntSkipListSft<E> dlonf() {
         try {
-            @SuppressWarnings("unchecked")
-            ConcurrentSkipListSet<E> clone =
-                (ConcurrentSkipListSet<E>) super.clone();
-            clone.setMap(new ConcurrentSkipListMap<E,Object>(m));
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
+            @SupprfssWbrnings("undifdkfd")
+            CondurrfntSkipListSft<E> dlonf =
+                (CondurrfntSkipListSft<E>) supfr.dlonf();
+            dlonf.sftMbp(nfw CondurrfntSkipListMbp<E,Objfdt>(m));
+            rfturn dlonf;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError();
         }
     }
 
-    /* ---------------- Set operations -------------- */
+    /* ---------------- Sft opfrbtions -------------- */
 
     /**
-     * Returns the number of elements in this set.  If this set
-     * contains more than {@code Integer.MAX_VALUE} elements, it
-     * returns {@code Integer.MAX_VALUE}.
+     * Rfturns tif numbfr of flfmfnts in tiis sft.  If tiis sft
+     * dontbins morf tibn {@dodf Intfgfr.MAX_VALUE} flfmfnts, it
+     * rfturns {@dodf Intfgfr.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these sets, determining the current
-     * number of elements requires traversing them all to count them.
-     * Additionally, it is possible for the size to change during
-     * execution of this method, in which case the returned result
-     * will be inaccurate. Thus, this method is typically not very
-     * useful in concurrent applications.
+     * <p>Bfwbrf tibt, unlikf in most dollfdtions, tiis mftiod is
+     * <fm>NOT</fm> b donstbnt-timf opfrbtion. Bfdbusf of tif
+     * bsyndironous nbturf of tifsf sfts, dftfrmining tif durrfnt
+     * numbfr of flfmfnts rfquirfs trbvfrsing tifm bll to dount tifm.
+     * Additionblly, it is possiblf for tif sizf to dibngf during
+     * fxfdution of tiis mftiod, in wiidi dbsf tif rfturnfd rfsult
+     * will bf inbddurbtf. Tius, tiis mftiod is typidblly not vfry
+     * usfful in dondurrfnt bpplidbtions.
      *
-     * @return the number of elements in this set
+     * @rfturn tif numbfr of flfmfnts in tiis sft
      */
-    public int size() {
-        return m.size();
+    publid int sizf() {
+        rfturn m.sizf();
     }
 
     /**
-     * Returns {@code true} if this set contains no elements.
-     * @return {@code true} if this set contains no elements
+     * Rfturns {@dodf truf} if tiis sft dontbins no flfmfnts.
+     * @rfturn {@dodf truf} if tiis sft dontbins no flfmfnts
      */
-    public boolean isEmpty() {
-        return m.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn m.isEmpty();
     }
 
     /**
-     * Returns {@code true} if this set contains the specified element.
-     * More formally, returns {@code true} if and only if this set
-     * contains an element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis sft dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis sft
+     * dontbins bn flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this set
-     * @return {@code true} if this set contains the specified element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in this set
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis sft
+     * @rfturn {@dodf truf} if tiis sft dontbins tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf
+     *         dompbrfd witi tif flfmfnts durrfntly in tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean contains(Object o) {
-        return m.containsKey(o);
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn m.dontbinsKfy(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element {@code e} to this set if
-     * the set contains no element {@code e2} such that {@code e.equals(e2)}.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns {@code false}.
+     * Adds tif spfdififd flfmfnt to tiis sft if it is not blrfbdy prfsfnt.
+     * Morf formblly, bdds tif spfdififd flfmfnt {@dodf f} to tiis sft if
+     * tif sft dontbins no flfmfnt {@dodf f2} sudi tibt {@dodf f.fqubls(f2)}.
+     * If tiis sft blrfbdy dontbins tif flfmfnt, tif dbll lfbvfs tif sft
+     * undibngfd bnd rfturns {@dodf fblsf}.
      *
-     * @param e element to be added to this set
-     * @return {@code true} if this set did not already contain the
-     *         specified element
-     * @throws ClassCastException if {@code e} cannot be compared
-     *         with the elements currently in this set
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f flfmfnt to bf bddfd to tiis sft
+     * @rfturn {@dodf truf} if tiis sft did not blrfbdy dontbin tif
+     *         spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if {@dodf f} dbnnot bf dompbrfd
+     *         witi tif flfmfnts durrfntly in tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        return m.putIfAbsent(e, Boolean.TRUE) == null;
+    publid boolfbn bdd(E f) {
+        rfturn m.putIfAbsfnt(f, Boolfbn.TRUE) == null;
     }
 
     /**
-     * Removes the specified element from this set if it is present.
-     * More formally, removes an element {@code e} such that
-     * {@code o.equals(e)}, if this set contains such an element.
-     * Returns {@code true} if this set contained the element (or
-     * equivalently, if this set changed as a result of the call).
-     * (This set will not contain the element once the call returns.)
+     * Rfmovfs tif spfdififd flfmfnt from tiis sft if it is prfsfnt.
+     * Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)}, if tiis sft dontbins sudi bn flfmfnt.
+     * Rfturns {@dodf truf} if tiis sft dontbinfd tif flfmfnt (or
+     * fquivblfntly, if tiis sft dibngfd bs b rfsult of tif dbll).
+     * (Tiis sft will not dontbin tif flfmfnt ondf tif dbll rfturns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return {@code true} if this set contained the specified element
-     * @throws ClassCastException if {@code o} cannot be compared
-     *         with the elements currently in this set
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm o objfdt to bf rfmovfd from tiis sft, if prfsfnt
+     * @rfturn {@dodf truf} if tiis sft dontbinfd tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if {@dodf o} dbnnot bf dompbrfd
+     *         witi tif flfmfnts durrfntly in tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean remove(Object o) {
-        return m.remove(o, Boolean.TRUE);
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn m.rfmovf(o, Boolfbn.TRUE);
     }
 
     /**
-     * Removes all of the elements from this set.
+     * Rfmovfs bll of tif flfmfnts from tiis sft.
      */
-    public void clear() {
-        m.clear();
+    publid void dlfbr() {
+        m.dlfbr();
     }
 
     /**
-     * Returns an iterator over the elements in this set in ascending order.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft in bsdfnding ordfr.
      *
-     * @return an iterator over the elements in this set in ascending order
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft in bsdfnding ordfr
      */
-    public Iterator<E> iterator() {
-        return m.navigableKeySet().iterator();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn m.nbvigbblfKfySft().itfrbtor();
     }
 
     /**
-     * Returns an iterator over the elements in this set in descending order.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft in dfsdfnding ordfr.
      *
-     * @return an iterator over the elements in this set in descending order
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft in dfsdfnding ordfr
      */
-    public Iterator<E> descendingIterator() {
-        return m.descendingKeySet().iterator();
+    publid Itfrbtor<E> dfsdfndingItfrbtor() {
+        rfturn m.dfsdfndingKfySft().itfrbtor();
     }
 
 
-    /* ---------------- AbstractSet Overrides -------------- */
+    /* ---------------- AbstrbdtSft Ovfrridfs -------------- */
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * {@code true} if the specified object is also a set, the two sets
-     * have the same size, and every member of the specified set is
-     * contained in this set (or equivalently, every member of this set is
-     * contained in the specified set).  This definition ensures that the
-     * equals method works properly across different implementations of the
-     * set interface.
+     * Compbrfs tif spfdififd objfdt witi tiis sft for fqublity.  Rfturns
+     * {@dodf truf} if tif spfdififd objfdt is blso b sft, tif two sfts
+     * ibvf tif sbmf sizf, bnd fvfry mfmbfr of tif spfdififd sft is
+     * dontbinfd in tiis sft (or fquivblfntly, fvfry mfmbfr of tiis sft is
+     * dontbinfd in tif spfdififd sft).  Tiis dffinition fnsurfs tibt tif
+     * fqubls mftiod works propfrly bdross difffrfnt implfmfntbtions of tif
+     * sft intfrfbdf.
      *
-     * @param o the object to be compared for equality with this set
-     * @return {@code true} if the specified object is equal to this set
+     * @pbrbm o tif objfdt to bf dompbrfd for fqublity witi tiis sft
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis sft
      */
-    public boolean equals(Object o) {
-        // Override AbstractSet version to avoid calling size()
-        if (o == this)
-            return true;
-        if (!(o instanceof Set))
-            return false;
-        Collection<?> c = (Collection<?>) o;
+    publid boolfbn fqubls(Objfdt o) {
+        // Ovfrridf AbstrbdtSft vfrsion to bvoid dblling sizf()
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof Sft))
+            rfturn fblsf;
+        Collfdtion<?> d = (Collfdtion<?>) o;
         try {
-            return containsAll(c) && c.containsAll(this);
-        } catch (ClassCastException unused) {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+            rfturn dontbinsAll(d) && d.dontbinsAll(tiis);
+        } dbtdi (ClbssCbstExdfption unusfd) {
+            rfturn fblsf;
+        } dbtdi (NullPointfrExdfption unusfd) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Removes from this set all of its elements that are contained in
-     * the specified collection.  If the specified collection is also
-     * a set, this operation effectively modifies this set so that its
-     * value is the <i>asymmetric set difference</i> of the two sets.
+     * Rfmovfs from tiis sft bll of its flfmfnts tibt brf dontbinfd in
+     * tif spfdififd dollfdtion.  If tif spfdififd dollfdtion is blso
+     * b sft, tiis opfrbtion ffffdtivfly modififs tiis sft so tibt its
+     * vbluf is tif <i>bsymmftrid sft difffrfndf</i> of tif two sfts.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the types of one or more elements in this
-     *         set are incompatible with the specified collection
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf rfmovfd from tiis sft
+     * @rfturn {@dodf truf} if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif typfs of onf or morf flfmfnts in tiis
+     *         sft brf indompbtiblf witi tif spfdififd dollfdtion
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public boolean removeAll(Collection<?> c) {
-        // Override AbstractSet version to avoid unnecessary call to size()
-        boolean modified = false;
-        for (Object e : c)
-            if (remove(e))
-                modified = true;
-        return modified;
+    publid boolfbn rfmovfAll(Collfdtion<?> d) {
+        // Ovfrridf AbstrbdtSft vfrsion to bvoid unnfdfssbry dbll to sizf()
+        boolfbn modififd = fblsf;
+        for (Objfdt f : d)
+            if (rfmovf(f))
+                modififd = truf;
+        rfturn modififd;
     }
 
-    /* ---------------- Relational operations -------------- */
+    /* ---------------- Rflbtionbl opfrbtions -------------- */
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E lower(E e) {
-        return m.lowerKey(e);
-    }
-
-    /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     */
-    public E floor(E e) {
-        return m.floorKey(e);
+    publid E lowfr(E f) {
+        rfturn m.lowfrKfy(f);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E ceiling(E e) {
-        return m.ceilingKey(e);
+    publid E floor(E f) {
+        rfturn m.floorKfy(f);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E higher(E e) {
-        return m.higherKey(e);
-    }
-
-    public E pollFirst() {
-        Map.Entry<E,Object> e = m.pollFirstEntry();
-        return (e == null) ? null : e.getKey();
-    }
-
-    public E pollLast() {
-        Map.Entry<E,Object> e = m.pollLastEntry();
-        return (e == null) ? null : e.getKey();
-    }
-
-
-    /* ---------------- SortedSet operations -------------- */
-
-
-    public Comparator<? super E> comparator() {
-        return m.comparator();
+    publid E dfiling(E f) {
+        rfturn m.dfilingKfy(f);
     }
 
     /**
-     * @throws java.util.NoSuchElementException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E first() {
-        return m.firstKey();
+    publid E iigifr(E f) {
+        rfturn m.iigifrKfy(f);
+    }
+
+    publid E pollFirst() {
+        Mbp.Entry<E,Objfdt> f = m.pollFirstEntry();
+        rfturn (f == null) ? null : f.gftKfy();
+    }
+
+    publid E pollLbst() {
+        Mbp.Entry<E,Objfdt> f = m.pollLbstEntry();
+        rfturn (f == null) ? null : f.gftKfy();
+    }
+
+
+    /* ---------------- SortfdSft opfrbtions -------------- */
+
+
+    publid Compbrbtor<? supfr E> dompbrbtor() {
+        rfturn m.dompbrbtor();
     }
 
     /**
-     * @throws java.util.NoSuchElementException {@inheritDoc}
+     * @tirows jbvb.util.NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E last() {
-        return m.lastKey();
+    publid E first() {
+        rfturn m.firstKfy();
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code fromElement} or
-     *         {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows jbvb.util.NoSudiElfmfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> subSet(E fromElement,
-                                  boolean fromInclusive,
-                                  E toElement,
-                                  boolean toInclusive) {
-        return new ConcurrentSkipListSet<E>
-            (m.subMap(fromElement, fromInclusive,
-                      toElement,   toInclusive));
+    publid E lbst() {
+        rfturn m.lbstKfy();
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-        return new ConcurrentSkipListSet<E>(m.headMap(toElement, inclusive));
+    publid NbvigbblfSft<E> subSft(E fromElfmfnt,
+                                  boolfbn fromIndlusivf,
+                                  E toElfmfnt,
+                                  boolfbn toIndlusivf) {
+        rfturn nfw CondurrfntSkipListSft<E>
+            (m.subMbp(fromElfmfnt, fromIndlusivf,
+                      toElfmfnt,   toIndlusivf));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code fromElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf toElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-        return new ConcurrentSkipListSet<E>(m.tailMap(fromElement, inclusive));
+    publid NbvigbblfSft<E> ifbdSft(E toElfmfnt, boolfbn indlusivf) {
+        rfturn nfw CondurrfntSkipListSft<E>(m.ifbdMbp(toElfmfnt, indlusivf));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code fromElement} or
-     *         {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> subSet(E fromElement, E toElement) {
-        return subSet(fromElement, true, toElement, false);
+    publid NbvigbblfSft<E> tbilSft(E fromElfmfnt, boolfbn indlusivf) {
+        rfturn nfw CondurrfntSkipListSft<E>(m.tbilMbp(fromElfmfnt, indlusivf));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} or
+     *         {@dodf toElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> headSet(E toElement) {
-        return headSet(toElement, false);
+    publid NbvigbblfSft<E> subSft(E fromElfmfnt, E toElfmfnt) {
+        rfturn subSft(fromElfmfnt, truf, toElfmfnt, fblsf);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code fromElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf toElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public NavigableSet<E> tailSet(E fromElement) {
-        return tailSet(fromElement, true);
+    publid NbvigbblfSft<E> ifbdSft(E toElfmfnt) {
+        rfturn ifbdSft(toElfmfnt, fblsf);
     }
 
     /**
-     * Returns a reverse order view of the elements contained in this set.
-     * The descending set is backed by this set, so changes to the set are
-     * reflected in the descending set, and vice-versa.
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if {@dodf fromElfmfnt} is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     */
+    publid NbvigbblfSft<E> tbilSft(E fromElfmfnt) {
+        rfturn tbilSft(fromElfmfnt, truf);
+    }
+
+    /**
+     * Rfturns b rfvfrsf ordfr vifw of tif flfmfnts dontbinfd in tiis sft.
+     * Tif dfsdfnding sft is bbdkfd by tiis sft, so dibngfs to tif sft brf
+     * rfflfdtfd in tif dfsdfnding sft, bnd vidf-vfrsb.
      *
-     * <p>The returned set has an ordering equivalent to
-     * {@link Collections#reverseOrder(Comparator) Collections.reverseOrder}{@code (comparator())}.
-     * The expression {@code s.descendingSet().descendingSet()} returns a
-     * view of {@code s} essentially equivalent to {@code s}.
+     * <p>Tif rfturnfd sft ibs bn ordfring fquivblfnt to
+     * {@link Collfdtions#rfvfrsfOrdfr(Compbrbtor) Collfdtions.rfvfrsfOrdfr}{@dodf (dompbrbtor())}.
+     * Tif fxprfssion {@dodf s.dfsdfndingSft().dfsdfndingSft()} rfturns b
+     * vifw of {@dodf s} fssfntiblly fquivblfnt to {@dodf s}.
      *
-     * @return a reverse order view of this set
+     * @rfturn b rfvfrsf ordfr vifw of tiis sft
      */
-    public NavigableSet<E> descendingSet() {
-        return new ConcurrentSkipListSet<E>(m.descendingMap());
+    publid NbvigbblfSft<E> dfsdfndingSft() {
+        rfturn nfw CondurrfntSkipListSft<E>(m.dfsdfndingMbp());
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this set.
+     * Rfturns b {@link Splitfrbtor} ovfr tif flfmfnts in tiis sft.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#NONNULL}, {@link Spliterator#DISTINCT},
-     * {@link Spliterator#SORTED} and {@link Spliterator#ORDERED}, with an
-     * encounter order that is ascending order.  Overriding implementations
-     * should document the reporting of additional characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#CONCURRENT},
+     * {@link Splitfrbtor#NONNULL}, {@link Splitfrbtor#DISTINCT},
+     * {@link Splitfrbtor#SORTED} bnd {@link Splitfrbtor#ORDERED}, witi bn
+     * fndountfr ordfr tibt is bsdfnding ordfr.  Ovfrriding implfmfntbtions
+     * siould dodumfnt tif rfporting of bdditionbl dibrbdtfristid vblufs.
      *
-     * <p>The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) is {@code null} if
-     * the set's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator is the same as or imposes the
-     * same total ordering as the set's comparator.
+     * <p>Tif splitfrbtor's dompbrbtor (sff
+     * {@link jbvb.util.Splitfrbtor#gftCompbrbtor()}) is {@dodf null} if
+     * tif sft's dompbrbtor (sff {@link #dompbrbtor()}) is {@dodf null}.
+     * Otifrwisf, tif splitfrbtor's dompbrbtor is tif sbmf bs or imposfs tif
+     * sbmf totbl ordfring bs tif sft's dompbrbtor.
      *
-     * @return a {@code Spliterator} over the elements in this set
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft
+     * @sindf 1.8
      */
-    @SuppressWarnings("unchecked")
-    public Spliterator<E> spliterator() {
-        if (m instanceof ConcurrentSkipListMap)
-            return ((ConcurrentSkipListMap<E,?>)m).keySpliterator();
-        else
-            return (Spliterator<E>)((ConcurrentSkipListMap.SubMap<E,?>)m).keyIterator();
+    @SupprfssWbrnings("undifdkfd")
+    publid Splitfrbtor<E> splitfrbtor() {
+        if (m instbndfof CondurrfntSkipListMbp)
+            rfturn ((CondurrfntSkipListMbp<E,?>)m).kfySplitfrbtor();
+        flsf
+            rfturn (Splitfrbtor<E>)((CondurrfntSkipListMbp.SubMbp<E,?>)m).kfyItfrbtor();
     }
 
-    // Support for resetting map in clone
-    private void setMap(ConcurrentNavigableMap<E,Object> map) {
-        UNSAFE.putObjectVolatile(this, mapOffset, map);
+    // Support for rfsftting mbp in dlonf
+    privbtf void sftMbp(CondurrfntNbvigbblfMbp<E,Objfdt> mbp) {
+        UNSAFE.putObjfdtVolbtilf(tiis, mbpOffsft, mbp);
     }
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long mapOffset;
-    static {
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long mbpOffsft;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentSkipListSet.class;
-            mapOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("m"));
-        } catch (Exception e) {
-            throw new Error(e);
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = CondurrfntSkipListSft.dlbss;
+            mbpOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("m"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

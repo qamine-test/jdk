@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.InvalidKeyException;
-import javax.crypto.*;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvbx.drypto.*;
 
 /**
- * This class represents a block cipher in one of its modes. It wraps
- * a SymmetricCipher maintaining the mode state and providing
- * the capability to encrypt amounts of data larger than a single block.
+ * Tiis dlbss rfprfsfnts b blodk dipifr in onf of its modfs. It wrbps
+ * b SymmftridCipifr mbintbining tif modf stbtf bnd providing
+ * tif dbpbbility to fndrypt bmounts of dbtb lbrgfr tibn b singlf blodk.
  *
- * @author Jan Luehe
- * @see ElectronicCodeBook
- * @see CipherBlockChaining
- * @see CipherFeedback
- * @see OutputFeedback
- * @see PCBC
+ * @butior Jbn Lufif
+ * @sff ElfdtronidCodfBook
+ * @sff CipifrBlodkCibining
+ * @sff CipifrFffdbbdk
+ * @sff OutputFffdbbdk
+ * @sff PCBC
  */
-abstract class FeedbackCipher {
+bbstrbdt dlbss FffdbbdkCipifr {
 
-    // the embedded block cipher
-    final SymmetricCipher embeddedCipher;
+    // tif fmbfddfd blodk dipifr
+    finbl SymmftridCipifr fmbfddfdCipifr;
 
-    // the block size of the embedded block cipher
-    final int blockSize;
+    // tif blodk sizf of tif fmbfddfd blodk dipifr
+    finbl int blodkSizf;
 
-    // the initialization vector
-    byte[] iv;
+    // tif initiblizbtion vfdtor
+    bytf[] iv;
 
-    FeedbackCipher(SymmetricCipher embeddedCipher) {
-        this.embeddedCipher = embeddedCipher;
-        blockSize = embeddedCipher.getBlockSize();
+    FffdbbdkCipifr(SymmftridCipifr fmbfddfdCipifr) {
+        tiis.fmbfddfdCipifr = fmbfddfdCipifr;
+        blodkSizf = fmbfddfdCipifr.gftBlodkSizf();
     }
 
-    final SymmetricCipher getEmbeddedCipher() {
-        return embeddedCipher;
-    }
-
-    /**
-     * Gets the block size of the embedded cipher.
-     *
-     * @return the block size of the embedded cipher
-     */
-    final int getBlockSize() {
-        return blockSize;
+    finbl SymmftridCipifr gftEmbfddfdCipifr() {
+        rfturn fmbfddfdCipifr;
     }
 
     /**
-     * Gets the name of the feedback mechanism
+     * Gfts tif blodk sizf of tif fmbfddfd dipifr.
      *
-     * @return the name of the feedback mechanism
+     * @rfturn tif blodk sizf of tif fmbfddfd dipifr
      */
-    abstract String getFeedback();
+    finbl int gftBlodkSizf() {
+        rfturn blodkSizf;
+    }
 
     /**
-     * Save the current content of this cipher.
+     * Gfts tif nbmf of tif fffdbbdk mfdibnism
+     *
+     * @rfturn tif nbmf of tif fffdbbdk mfdibnism
      */
-    abstract void save();
+    bbstrbdt String gftFffdbbdk();
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Sbvf tif durrfnt dontfnt of tiis dipifr.
      */
-    abstract void restore();
+    bbstrbdt void sbvf();
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
-     *
-     * @param decrypting flag indicating encryption or decryption mode
-     * @param algorithm the algorithm name (never null)
-     * @param key the key (never null)
-     * @param iv the iv (either null or blockSize bytes long)
-     *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * Rfstorfs tif dontfnt of tiis dipifr to tif prfvious sbvfd onf.
      */
-    abstract void init(boolean decrypting, String algorithm, byte[] key,
-                       byte[] iv) throws InvalidKeyException;
+    bbstrbdt void rfstorf();
+
+    /**
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption modf
+     * @pbrbm blgoritim tif blgoritim nbmf (nfvfr null)
+     * @pbrbm kfy tif kfy (nfvfr null)
+     * @pbrbm iv tif iv (fitifr null or blodkSizf bytfs long)
+     *
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
+     */
+    bbstrbdt void init(boolfbn dfdrypting, String blgoritim, bytf[] kfy,
+                       bytf[] iv) tirows InvblidKfyExdfption;
 
    /**
-     * Gets the initialization vector.
+     * Gfts tif initiblizbtion vfdtor.
      *
-     * @return the initialization vector
+     * @rfturn tif initiblizbtion vfdtor
      */
-    final byte[] getIV() {
-        return iv;
+    finbl bytf[] gftIV() {
+        rfturn iv;
     }
 
     /**
-     * Resets the iv to its original value.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original iv).
+     * Rfsfts tif iv to its originbl vbluf.
+     * Tiis is usfd wifn doFinbl is dbllfd in tif Cipifr dlbss, so tibt tif
+     * dipifr dbn bf rfusfd (witi its originbl iv).
      */
-    abstract void reset();
+    bbstrbdt void rfsft();
 
     /**
-     * Performs encryption operation.
+     * Pfrforms fndryption opfrbtion.
      *
-     * <p>The input <code>plain</code>, starting at <code>plainOffset</code>
-     * and ending at <code>(plainOffset+plainLen-1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
-     * <code>cipherOffset</code>.
+     * <p>Tif input <dodf>plbin</dodf>, stbrting bt <dodf>plbinOffsft</dodf>
+     * bnd fnding bt <dodf>(plbinOffsft+plbinLfn-1)</dodf>, is fndryptfd.
+     * Tif rfsult is storfd in <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>Tif subdlbss tibt implfmfnts Cipifr siould fnsurf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin tif input bufffr witi tif dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn tif lfngti of tif input dbtb
+     * @pbrbm dipifr tif bufffr for tif fndryption rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>dipifr</dodf>
      */
-    abstract int encrypt(byte[] plain, int plainOffset, int plainLen,
-                         byte[] cipher, int cipherOffset);
+    bbstrbdt int fndrypt(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                         bytf[] dipifr, int dipifrOffsft);
     /**
-     * Performs encryption operation for the last time.
+     * Pfrforms fndryption opfrbtion for tif lbst timf.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>encrypt(...)</code>.
+     * <p>NOTE: For dipifr fffdbbdk modfs wiidi dofs not pfrform
+     * spfdibl ibndling for tif lbst ffw blodks, tiis is fssfntiblly
+     * tif sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl ibndling, tif dffbult impl for tiis mftiod is
+     * to simply dbll <dodf>fndrypt(...)</dodf>.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin tif input bufffr witi tif dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn tif lfngti of tif input dbtb
+     * @pbrbm dipifr tif bufffr for tif fndryption rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>dipifr</dodf>
      */
-     int encryptFinal(byte[] plain, int plainOffset, int plainLen,
-                      byte[] cipher, int cipherOffset)
-         throws IllegalBlockSizeException, ShortBufferException {
-         return encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
+     int fndryptFinbl(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                      bytf[] dipifr, int dipifrOffsft)
+         tirows IllfgblBlodkSizfExdfption, SiortBufffrExdfption {
+         rfturn fndrypt(plbin, plbinOffsft, plbinLfn, dipifr, dipifrOffsft);
     }
     /**
-     * Performs decryption operation.
+     * Pfrforms dfdryption opfrbtion.
      *
-     * <p>The input <code>cipher</code>, starting at <code>cipherOffset</code>
-     * and ending at <code>(cipherOffset+cipherLen-1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>Tif input <dodf>dipifr</dodf>, stbrting bt <dodf>dipifrOffsft</dodf>
+     * bnd fnding bt <dodf>(dipifrOffsft+dipifrLfn-1)</dodf>, is dfdryptfd.
+     * Tif rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>Tif subdlbss tibt implfmfnts Cipifr siould fnsurf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm dipifr tif input bufffr witi tif dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @pbrbm dipifrLfn tif lfngti of tif input dbtb
+     * @pbrbm plbin tif bufffr for tif dfdryption rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>plbin</dodf>
      */
-    abstract int decrypt(byte[] cipher, int cipherOffset, int cipherLen,
-                         byte[] plain, int plainOffset);
+    bbstrbdt int dfdrypt(bytf[] dipifr, int dipifrOffsft, int dipifrLfn,
+                         bytf[] plbin, int plbinOffsft);
 
     /**
-     * Performs decryption operation for the last time.
+     * Pfrforms dfdryption opfrbtion for tif lbst timf.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>decrypt(...)</code>.
+     * <p>NOTE: For dipifr fffdbbdk modfs wiidi dofs not pfrform
+     * spfdibl ibndling for tif lbst ffw blodks, tiis is fssfntiblly
+     * tif sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl ibndling, tif dffbult impl for tiis mftiod is
+     * to simply dbll <dodf>dfdrypt(...)</dodf>.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm dipifr tif input bufffr witi tif dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @pbrbm dipifrLfn tif lfngti of tif input dbtb
+     * @pbrbm plbin tif bufffr for tif dfdryption rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>plbin</dodf>
      */
-     int decryptFinal(byte[] cipher, int cipherOffset, int cipherLen,
-                      byte[] plain, int plainOffset)
-         throws IllegalBlockSizeException, AEADBadTagException,
-         ShortBufferException {
-         return decrypt(cipher, cipherOffset, cipherLen, plain, plainOffset);
+     int dfdryptFinbl(bytf[] dipifr, int dipifrOffsft, int dipifrLfn,
+                      bytf[] plbin, int plbinOffsft)
+         tirows IllfgblBlodkSizfExdfption, AEADBbdTbgExdfption,
+         SiortBufffrExdfption {
+         rfturn dfdrypt(dipifr, dipifrOffsft, dipifrLfn, plbin, plbinOffsft);
      }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD), using a subset of the provided buffer. If this
-     * cipher is operating in either GCM or CCM mode, all AAD must be
-     * supplied before beginning operations on the ciphertext (via the
-     * {@code update} and {@code doFinal} methods).
+     * Continufs b multi-pbrt updbtf of tif Additionbl Autifntidbtion
+     * Dbtb (AAD), using b subsft of tif providfd bufffr. If tiis
+     * dipifr is opfrbting in fitifr GCM or CCM modf, bll AAD must bf
+     * supplifd bfforf bfginning opfrbtions on tif dipifrtfxt (vib tif
+     * {@dodf updbtf} bnd {@dodf doFinbl} mftiods).
      * <p>
-     * NOTE: Given most modes do not accept AAD, default impl for this
-     * method throws IllegalStateException.
+     * NOTE: Givfn most modfs do not bddfpt AAD, dffbult impl for tiis
+     * mftiod tirows IllfgblStbtfExdfption.
      *
-     * @param src the buffer containing the AAD
-     * @param offset the offset in {@code src} where the AAD input starts
-     * @param len the number of AAD bytes
+     * @pbrbm srd tif bufffr dontbining tif AAD
+     * @pbrbm offsft tif offsft in {@dodf srd} wifrf tif AAD input stbrts
+     * @pbrbm lfn tif numbfr of AAD bytfs
      *
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if this method
-     * has not been overridden by an implementation
+     * @tirows IllfgblStbtfExdfption if tiis dipifr is in b wrong stbtf
+     * (f.g., ibs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fitifr GCM or CCM modf bnd onf of tif {@dodf updbtf}
+     * mftiods ibs blrfbdy bffn dbllfd for tif bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod
+     * ibs not bffn ovfrriddfn by bn implfmfntbtion
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    void updateAAD(byte[] src, int offset, int len) {
-        throw new IllegalStateException("No AAD accepted");
+    void updbtfAAD(bytf[] srd, int offsft, int lfn) {
+        tirow nfw IllfgblStbtfExdfption("No AAD bddfptfd");
     }
 
     /**
-     * @return the number of bytes that are buffered internally inside
-     * this FeedbackCipher instance.
-     * @since 1.8
+     * @rfturn tif numbfr of bytfs tibt brf bufffrfd intfrnblly insidf
+     * tiis FffdbbdkCipifr instbndf.
+     * @sindf 1.8
      */
-    int getBufferedLength() {
-        // Currently only AEAD cipher impl, e.g. GCM, buffers data
-        // internally during decryption mode
-        return 0;
+    int gftBufffrfdLfngti() {
+        // Currfntly only AEAD dipifr impl, f.g. GCM, bufffrs dbtb
+        // intfrnblly during dfdryption modf
+        rfturn 0;
     }
 }

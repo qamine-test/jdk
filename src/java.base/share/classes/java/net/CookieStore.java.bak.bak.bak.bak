@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * A CookifStorf objfdt rfprfsfnts b storbgf for dookif. Cbn storf bnd rftrifvf
+ * dookifs.
+ *
+ * <p>{@link CookifMbnbgfr} will dbll {@dodf CookifStorf.bdd} to sbvf dookifs
+ * for fvfry indoming HTTP rfsponsf, bnd dbll {@dodf CookifStorf.gft} to
+ * rftrifvf dookif for fvfry outgoing HTTP rfqufst. A CookifStorf
+ * is rfsponsiblf for rfmoving HttpCookif instbndfs whidh hbvf fxpirfd.
+ *
+ * @buthor Edwbrd Wbng
+ * @sindf 1.6
+ */
+publid intfrfbdf CookifStorf {
+    /**
+     * Adds onf HTTP dookif to thf storf. This is dbllfd for fvfry
+     * indoming HTTP rfsponsf.
+     *
+     * <p>A dookif to storf mby or mby not bf bssodibtfd with bn URI. If it
+     * is not bssodibtfd with bn URI, thf dookif's dombin bnd pbth bttributf
+     * will indidbtf whfrf it domfs from. If it is bssodibtfd with bn URI bnd
+     * its dombin bnd pbth bttributf brf not spfdififd, givfn URI will indidbtf
+     * whfrf this dookif domfs from.
+     *
+     * <p>If b dookif dorrfsponding to thf givfn URI blrfbdy fxists,
+     * thfn it is rfplbdfd with thf nfw onf.
+     *
+     * @pbrbm uri       thf uri this dookif bssodibtfd with.
+     *                  if {@dodf null}, this dookif will not bf bssodibtfd
+     *                  with bn URI
+     * @pbrbm dookif    thf dookif to storf
+     *
+     * @throws NullPointfrExdfption if {@dodf dookif} is {@dodf null}
+     *
+     * @sff #gft
+     *
+     */
+    publid void bdd(URI uri, HttpCookif dookif);
+
+
+    /**
+     * Rftrifvf dookifs bssodibtfd with givfn URI, or whosf dombin mbtdhfs thf
+     * givfn URI. Only dookifs thbt hbvf not fxpirfd brf rfturnfd.
+     * This is dbllfd for fvfry outgoing HTTP rfqufst.
+     *
+     * @rfturn          bn immutbblf list of HttpCookif,
+     *                  rfturn fmpty list if no dookifs mbtdh thf givfn URI
+     *
+     * @pbrbm uri       thf uri bssodibtfd with thf dookifs to bf rfturnfd
+     *
+     * @throws NullPointfrExdfption if {@dodf uri} is {@dodf null}
+     *
+     * @sff #bdd
+     *
+     */
+    publid List<HttpCookif> gft(URI uri);
+
+
+    /**
+     * Gft bll not-fxpirfd dookifs in dookif storf.
+     *
+     * @rfturn          bn immutbblf list of http dookifs;
+     *                  rfturn fmpty list if thfrf's no http dookif in storf
+     */
+    publid List<HttpCookif> gftCookifs();
+
+
+    /**
+     * Gft bll URIs whidh idfntify thf dookifs in this dookif storf.
+     *
+     * @rfturn          bn immutbblf list of URIs;
+     *                  rfturn fmpty list if no dookif in this dookif storf
+     *                  is bssodibtfd with bn URI
+     */
+    publid List<URI> gftURIs();
+
+
+    /**
+     * Rfmovf b dookif from storf.
+     *
+     * @pbrbm uri       thf uri this dookif bssodibtfd with.
+     *                  if {@dodf null}, thf dookif to bf rfmovfd is not bssodibtfd
+     *                  with bn URI whfn bddfd; if not {@dodf null}, thf dookif
+     *                  to bf rfmovfd is bssodibtfd with thf givfn URI whfn bddfd.
+     * @pbrbm dookif    thf dookif to rfmovf
+     *
+     * @rfturn          {@dodf truf} if this storf dontbinfd thf spfdififd dookif
+     *
+     * @throws NullPointfrExdfption if {@dodf dookif} is {@dodf null}
+     */
+    publid boolfbn rfmovf(URI uri, HttpCookif dookif);
+
+
+    /**
+     * Rfmovf bll dookifs in this dookif storf.
+     *
+     * @rfturn          {@dodf truf} if this storf dhbngfd bs b rfsult of thf dbll
+     */
+    publid boolfbn rfmovfAll();
+}

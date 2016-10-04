@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.fvfnt;
+
+import dom.sun.jdi.*;
+
+/**
+ * Notifidbtion of b dlbss prfpbrf in thf tbrgft VM. Sff thf JVM
+ * spfdifidbtion for b dffinition of dlbss prfpbrbtion. Clbss prfpbrf
+ * fvfnts brf not gfnfrbtfd for primtiivf dlbssfs (for fxbmplf,
+ * jbvb.lbng.Intfgfr.TYPE).
+ *
+ * @sff EvfntQufuf
+ * @sff VirtublMbdhinf
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ClbssPrfpbrfEvfnt fxtfnds Evfnt {
+    /**
+     * Rfturns thf thrfbd in whidh this fvfnt hbs oddurrfd.
+     * <p>
+     * In rbrf dbsfs, this fvfnt mby oddur in b dfbuggfr systfm
+     * thrfbd within thf tbrgft VM. Dfbuggfr thrfbds tbkf prfdbutions
+     * to prfvfnt thfsf fvfnts, but thfy dbnnot bf bvoidfd undfr somf
+     * donditions, fspfdiblly for somf subdlbssfs of
+     * {@link jbvb.lbng.Error}.
+     * If thf fvfnt wbs gfnfrbtfd by b dfbuggfr systfm thrfbd, thf
+     * vbluf rfturnfd by this mfthod is null, bnd if thf rfqufstfd
+     * suspfnd polidy for thf fvfnt wbs
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_EVENT_THREAD},
+     * bll thrfbds will bf suspfndfd instfbd, bnd thf
+     * {@link EvfntSft#suspfndPolidy} will rfflfdt this dhbngf.
+     * <p>
+     * Notf thbt thf disdussion bbovf dofs not bpply to systfm thrfbds
+     * drfbtfd by thf tbrgft VM during its normbl (non-dfbug) opfrbtion.
+     *
+     * @rfturn b {@link ThrfbdRfffrfndf} whidh mirrors thf fvfnt's thrfbd in
+     * thf tbrgft VM, or null in thf rbrf dbsfs dfsdribfd bbovf.
+     */
+    publid ThrfbdRfffrfndf thrfbd();
+
+    /**
+     * Rfturns thf rfffrfndf typf for whidh this fvfnt wbs gfnfrbtfd.
+     *
+     * @rfturn b {@link RfffrfndfTypf} whidh mirrors thf dlbss, intfrfbdf, or
+     * brrby whidh hbs bffn linkfd.
+     */
+    publid RfffrfndfTypf rfffrfndfTypf();
+}

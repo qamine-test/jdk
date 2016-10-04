@@ -1,811 +1,811 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import javax.swing.event.TreeModelEvent;
-import java.awt.Rectangle;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.Stack;
+import jbvbx.swing.fvfnt.TrffModflEvfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Stbdk;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * NOTE: This will become more open in a future release.
+ * NOTE: Tiis will bfdomf morf opfn in b futurf rflfbsf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class FixedHeightLayoutCache extends AbstractLayoutCache {
-    /** Root node. */
-    private FHTreeStateNode    root;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss FixfdHfigitLbyoutCbdif fxtfnds AbstrbdtLbyoutCbdif {
+    /** Root nodf. */
+    privbtf FHTrffStbtfNodf    root;
 
-    /** Number of rows currently visible. */
-    private int                rowCount;
-
-    /**
-     * Used in getting sizes for nodes to avoid creating a new Rectangle
-     * every time a size is needed.
-     */
-    private Rectangle          boundsBuffer;
+    /** Numbfr of rows durrfntly visiblf. */
+    privbtf int                rowCount;
 
     /**
-     * Maps from TreePath to a FHTreeStateNode.
+     * Usfd in gftting sizfs for nodfs to bvoid drfbting b nfw Rfdtbnglf
+     * fvfry timf b sizf is nffdfd.
      */
-    private Hashtable<TreePath, FHTreeStateNode> treePathMapping;
+    privbtf Rfdtbnglf          boundsBufffr;
 
     /**
-     * Used for getting path/row information.
+     * Mbps from TrffPbti to b FHTrffStbtfNodf.
      */
-    private SearchInfo         info;
+    privbtf Hbsitbblf<TrffPbti, FHTrffStbtfNodf> trffPbtiMbpping;
 
-    private Stack<Stack<TreePath>> tempStacks;
+    /**
+     * Usfd for gftting pbti/row informbtion.
+     */
+    privbtf SfbrdiInfo         info;
+
+    privbtf Stbdk<Stbdk<TrffPbti>> tfmpStbdks;
 
 
-    public FixedHeightLayoutCache() {
-        super();
-        tempStacks = new Stack<Stack<TreePath>>();
-        boundsBuffer = new Rectangle();
-        treePathMapping = new Hashtable<TreePath, FHTreeStateNode>();
-        info = new SearchInfo();
-        setRowHeight(1);
+    publid FixfdHfigitLbyoutCbdif() {
+        supfr();
+        tfmpStbdks = nfw Stbdk<Stbdk<TrffPbti>>();
+        boundsBufffr = nfw Rfdtbnglf();
+        trffPbtiMbpping = nfw Hbsitbblf<TrffPbti, FHTrffStbtfNodf>();
+        info = nfw SfbrdiInfo();
+        sftRowHfigit(1);
     }
 
     /**
-     * Sets the TreeModel that will provide the data.
+     * Sfts tif TrffModfl tibt will providf tif dbtb.
      *
-     * @param newModel the TreeModel that is to provide the data
+     * @pbrbm nfwModfl tif TrffModfl tibt is to providf tif dbtb
      */
-    public void setModel(TreeModel newModel) {
-        super.setModel(newModel);
-        rebuild(false);
+    publid void sftModfl(TrffModfl nfwModfl) {
+        supfr.sftModfl(nfwModfl);
+        rfbuild(fblsf);
     }
 
     /**
-     * Determines whether or not the root node from
-     * the TreeModel is visible.
+     * Dftfrminfs wiftifr or not tif root nodf from
+     * tif TrffModfl is visiblf.
      *
-     * @param rootVisible true if the root node of the tree is to be displayed
-     * @see #rootVisible
+     * @pbrbm rootVisiblf truf if tif root nodf of tif trff is to bf displbyfd
+     * @sff #rootVisiblf
      */
-    public void setRootVisible(boolean rootVisible) {
-        if(isRootVisible() != rootVisible) {
-            super.setRootVisible(rootVisible);
+    publid void sftRootVisiblf(boolfbn rootVisiblf) {
+        if(isRootVisiblf() != rootVisiblf) {
+            supfr.sftRootVisiblf(rootVisiblf);
             if(root != null) {
-                if(rootVisible) {
+                if(rootVisiblf) {
                     rowCount++;
-                    root.adjustRowBy(1);
+                    root.bdjustRowBy(1);
                 }
-                else {
+                flsf {
                     rowCount--;
-                    root.adjustRowBy(-1);
+                    root.bdjustRowBy(-1);
                 }
-                visibleNodesChanged();
+                visiblfNodfsCibngfd();
             }
         }
     }
 
     /**
-     * Sets the height of each cell. If rowHeight is less than or equal to
-     * 0 this will throw an IllegalArgumentException.
+     * Sfts tif ifigit of fbdi dfll. If rowHfigit is lfss tibn or fqubl to
+     * 0 tiis will tirow bn IllfgblArgumfntExdfption.
      *
-     * @param rowHeight the height of each cell, in pixels
+     * @pbrbm rowHfigit tif ifigit of fbdi dfll, in pixfls
      */
-    public void setRowHeight(int rowHeight) {
-        if(rowHeight <= 0)
-            throw new IllegalArgumentException("FixedHeightLayoutCache only supports row heights greater than 0");
-        if(getRowHeight() != rowHeight) {
-            super.setRowHeight(rowHeight);
-            visibleNodesChanged();
+    publid void sftRowHfigit(int rowHfigit) {
+        if(rowHfigit <= 0)
+            tirow nfw IllfgblArgumfntExdfption("FixfdHfigitLbyoutCbdif only supports row ifigits grfbtfr tibn 0");
+        if(gftRowHfigit() != rowHfigit) {
+            supfr.sftRowHfigit(rowHfigit);
+            visiblfNodfsCibngfd();
         }
     }
 
     /**
-     * Returns the number of visible rows.
+     * Rfturns tif numbfr of visiblf rows.
      */
-    public int getRowCount() {
-        return rowCount;
+    publid int gftRowCount() {
+        rfturn rowCount;
     }
 
     /**
-     * Does nothing, FixedHeightLayoutCache doesn't cache width, and that
-     * is all that could change.
+     * Dofs notiing, FixfdHfigitLbyoutCbdif dofsn't dbdif widti, bnd tibt
+     * is bll tibt dould dibngf.
      */
-    public void invalidatePathBounds(TreePath path) {
+    publid void invblidbtfPbtiBounds(TrffPbti pbti) {
     }
 
 
     /**
-     * Informs the TreeState that it needs to recalculate all the sizes
-     * it is referencing.
+     * Informs tif TrffStbtf tibt it nffds to rfdbldulbtf bll tif sizfs
+     * it is rfffrfnding.
      */
-    public void invalidateSizes() {
-        // Nothing to do here, rowHeight still same, which is all
-        // this is interested in, visible region may have changed though.
-        visibleNodesChanged();
+    publid void invblidbtfSizfs() {
+        // Notiing to do ifrf, rowHfigit still sbmf, wiidi is bll
+        // tiis is intfrfstfd in, visiblf rfgion mby ibvf dibngfd tiougi.
+        visiblfNodfsCibngfd();
     }
 
     /**
-      * Returns true if the value identified by row is currently expanded.
+      * Rfturns truf if tif vbluf idfntififd by row is durrfntly fxpbndfd.
       */
-    public boolean isExpanded(TreePath path) {
-        if(path != null) {
-            FHTreeStateNode     lastNode = getNodeForPath(path, true, false);
+    publid boolfbn isExpbndfd(TrffPbti pbti) {
+        if(pbti != null) {
+            FHTrffStbtfNodf     lbstNodf = gftNodfForPbti(pbti, truf, fblsf);
 
-            return (lastNode != null && lastNode.isExpanded());
+            rfturn (lbstNodf != null && lbstNodf.isExpbndfd());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a rectangle giving the bounds needed to draw path.
+     * Rfturns b rfdtbnglf giving tif bounds nffdfd to drbw pbti.
      *
-     * @param path     a TreePath specifying a node
-     * @param placeIn  a Rectangle object giving the available space
-     * @return a Rectangle object specifying the space to be used
+     * @pbrbm pbti     b TrffPbti spfdifying b nodf
+     * @pbrbm plbdfIn  b Rfdtbnglf objfdt giving tif bvbilbblf spbdf
+     * @rfturn b Rfdtbnglf objfdt spfdifying tif spbdf to bf usfd
      */
-    public Rectangle getBounds(TreePath path, Rectangle placeIn) {
-        if(path == null)
-            return null;
+    publid Rfdtbnglf gftBounds(TrffPbti pbti, Rfdtbnglf plbdfIn) {
+        if(pbti == null)
+            rfturn null;
 
-        FHTreeStateNode      node = getNodeForPath(path, true, false);
+        FHTrffStbtfNodf      nodf = gftNodfForPbti(pbti, truf, fblsf);
 
-        if(node != null)
-            return getBounds(node, -1, placeIn);
+        if(nodf != null)
+            rfturn gftBounds(nodf, -1, plbdfIn);
 
-        // node hasn't been created yet.
-        TreePath       parentPath = path.getParentPath();
+        // nodf ibsn't bffn drfbtfd yft.
+        TrffPbti       pbrfntPbti = pbti.gftPbrfntPbti();
 
-        node = getNodeForPath(parentPath, true, false);
-        if (node != null && node.isExpanded()) {
-            int              childIndex = treeModel.getIndexOfChild
-                                 (parentPath.getLastPathComponent(),
-                                  path.getLastPathComponent());
+        nodf = gftNodfForPbti(pbrfntPbti, truf, fblsf);
+        if (nodf != null && nodf.isExpbndfd()) {
+            int              diildIndfx = trffModfl.gftIndfxOfCiild
+                                 (pbrfntPbti.gftLbstPbtiComponfnt(),
+                                  pbti.gftLbstPbtiComponfnt());
 
-            if(childIndex != -1)
-                return getBounds(node, childIndex, placeIn);
+            if(diildIndfx != -1)
+                rfturn gftBounds(nodf, diildIndfx, plbdfIn);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-      * Returns the path for passed in row.  If row is not visible
-      * null is returned.
+      * Rfturns tif pbti for pbssfd in row.  If row is not visiblf
+      * null is rfturnfd.
       */
-    public TreePath getPathForRow(int row) {
-        if(row >= 0 && row < getRowCount()) {
-            if(root.getPathForRow(row, getRowCount(), info)) {
-                return info.getPath();
+    publid TrffPbti gftPbtiForRow(int row) {
+        if(row >= 0 && row < gftRowCount()) {
+            if(root.gftPbtiForRow(row, gftRowCount(), info)) {
+                rfturn info.gftPbti();
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-      * Returns the row that the last item identified in path is visible
-      * at.  Will return -1 if any of the elements in path are not
-      * currently visible.
+      * Rfturns tif row tibt tif lbst itfm idfntififd in pbti is visiblf
+      * bt.  Will rfturn -1 if bny of tif flfmfnts in pbti brf not
+      * durrfntly visiblf.
       */
-    public int getRowForPath(TreePath path) {
-        if(path == null || root == null)
-            return -1;
+    publid int gftRowForPbti(TrffPbti pbti) {
+        if(pbti == null || root == null)
+            rfturn -1;
 
-        FHTreeStateNode         node = getNodeForPath(path, true, false);
+        FHTrffStbtfNodf         nodf = gftNodfForPbti(pbti, truf, fblsf);
 
-        if(node != null)
-            return node.getRow();
+        if(nodf != null)
+            rfturn nodf.gftRow();
 
-        TreePath       parentPath = path.getParentPath();
+        TrffPbti       pbrfntPbti = pbti.gftPbrfntPbti();
 
-        node = getNodeForPath(parentPath, true, false);
-        if(node != null && node.isExpanded()) {
-            return node.getRowToModelIndex(treeModel.getIndexOfChild
-                                           (parentPath.getLastPathComponent(),
-                                            path.getLastPathComponent()));
+        nodf = gftNodfForPbti(pbrfntPbti, truf, fblsf);
+        if(nodf != null && nodf.isExpbndfd()) {
+            rfturn nodf.gftRowToModflIndfx(trffModfl.gftIndfxOfCiild
+                                           (pbrfntPbti.gftLbstPbtiComponfnt(),
+                                            pbti.gftLbstPbtiComponfnt()));
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-      * Returns the path to the node that is closest to x,y.  If
-      * there is nothing currently visible this will return null, otherwise
-      * it'll always return a valid path.  If you need to test if the
-      * returned object is exactly at x, y you should get the bounds for
-      * the returned path and test x, y against that.
+      * Rfturns tif pbti to tif nodf tibt is dlosfst to x,y.  If
+      * tifrf is notiing durrfntly visiblf tiis will rfturn null, otifrwisf
+      * it'll blwbys rfturn b vblid pbti.  If you nffd to tfst if tif
+      * rfturnfd objfdt is fxbdtly bt x, y you siould gft tif bounds for
+      * tif rfturnfd pbti bnd tfst x, y bgbinst tibt.
       */
-    public TreePath getPathClosestTo(int x, int y) {
-        if(getRowCount() == 0)
-            return null;
+    publid TrffPbti gftPbtiClosfstTo(int x, int y) {
+        if(gftRowCount() == 0)
+            rfturn null;
 
-        int                row = getRowContainingYLocation(y);
+        int                row = gftRowContbiningYLodbtion(y);
 
-        return getPathForRow(row);
+        rfturn gftPbtiForRow(row);
     }
 
     /**
-     * Returns the number of visible children for row.
+     * Rfturns tif numbfr of visiblf diildrfn for row.
      */
-    public int getVisibleChildCount(TreePath path) {
-        FHTreeStateNode         node = getNodeForPath(path, true, false);
+    publid int gftVisiblfCiildCount(TrffPbti pbti) {
+        FHTrffStbtfNodf         nodf = gftNodfForPbti(pbti, truf, fblsf);
 
-        if(node == null)
-            return 0;
-        return node.getTotalChildCount();
+        if(nodf == null)
+            rfturn 0;
+        rfturn nodf.gftTotblCiildCount();
     }
 
     /**
-     * Returns an Enumerator that increments over the visible paths
-     * starting at the passed in location. The ordering of the enumeration
-     * is based on how the paths are displayed.
+     * Rfturns bn Enumfrbtor tibt indrfmfnts ovfr tif visiblf pbtis
+     * stbrting bt tif pbssfd in lodbtion. Tif ordfring of tif fnumfrbtion
+     * is bbsfd on iow tif pbtis brf displbyfd.
      */
-    public Enumeration<TreePath> getVisiblePathsFrom(TreePath path) {
-        if(path == null)
-            return null;
+    publid Enumfrbtion<TrffPbti> gftVisiblfPbtisFrom(TrffPbti pbti) {
+        if(pbti == null)
+            rfturn null;
 
-        FHTreeStateNode         node = getNodeForPath(path, true, false);
+        FHTrffStbtfNodf         nodf = gftNodfForPbti(pbti, truf, fblsf);
 
-        if(node != null) {
-            return new VisibleFHTreeStateNodeEnumeration(node);
+        if(nodf != null) {
+            rfturn nfw VisiblfFHTrffStbtfNodfEnumfrbtion(nodf);
         }
-        TreePath            parentPath = path.getParentPath();
+        TrffPbti            pbrfntPbti = pbti.gftPbrfntPbti();
 
-        node = getNodeForPath(parentPath, true, false);
-        if(node != null && node.isExpanded()) {
-            return new VisibleFHTreeStateNodeEnumeration(node,
-                  treeModel.getIndexOfChild(parentPath.getLastPathComponent(),
-                                            path.getLastPathComponent()));
+        nodf = gftNodfForPbti(pbrfntPbti, truf, fblsf);
+        if(nodf != null && nodf.isExpbndfd()) {
+            rfturn nfw VisiblfFHTrffStbtfNodfEnumfrbtion(nodf,
+                  trffModfl.gftIndfxOfCiild(pbrfntPbti.gftLbstPbtiComponfnt(),
+                                            pbti.gftLbstPbtiComponfnt()));
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Marks the path <code>path</code> expanded state to
-     * <code>isExpanded</code>.
+     * Mbrks tif pbti <dodf>pbti</dodf> fxpbndfd stbtf to
+     * <dodf>isExpbndfd</dodf>.
      */
-    public void setExpandedState(TreePath path, boolean isExpanded) {
-        if(isExpanded)
-            ensurePathIsExpanded(path, true);
-        else if(path != null) {
-            TreePath              parentPath = path.getParentPath();
+    publid void sftExpbndfdStbtf(TrffPbti pbti, boolfbn isExpbndfd) {
+        if(isExpbndfd)
+            fnsurfPbtiIsExpbndfd(pbti, truf);
+        flsf if(pbti != null) {
+            TrffPbti              pbrfntPbti = pbti.gftPbrfntPbti();
 
-            // YECK! Make the parent expanded.
-            if(parentPath != null) {
-                FHTreeStateNode     parentNode = getNodeForPath(parentPath,
-                                                                false, true);
-                if(parentNode != null)
-                    parentNode.makeVisible();
+            // YECK! Mbkf tif pbrfnt fxpbndfd.
+            if(pbrfntPbti != null) {
+                FHTrffStbtfNodf     pbrfntNodf = gftNodfForPbti(pbrfntPbti,
+                                                                fblsf, truf);
+                if(pbrfntNodf != null)
+                    pbrfntNodf.mbkfVisiblf();
             }
-            // And collapse the child.
-            FHTreeStateNode         childNode = getNodeForPath(path, true,
-                                                               false);
+            // And dollbpsf tif diild.
+            FHTrffStbtfNodf         diildNodf = gftNodfForPbti(pbti, truf,
+                                                               fblsf);
 
-            if(childNode != null)
-                childNode.collapse(true);
+            if(diildNodf != null)
+                diildNodf.dollbpsf(truf);
         }
     }
 
     /**
-     * Returns true if the path is expanded, and visible.
+     * Rfturns truf if tif pbti is fxpbndfd, bnd visiblf.
      */
-    public boolean getExpandedState(TreePath path) {
-        FHTreeStateNode       node = getNodeForPath(path, true, false);
+    publid boolfbn gftExpbndfdStbtf(TrffPbti pbti) {
+        FHTrffStbtfNodf       nodf = gftNodfForPbti(pbti, truf, fblsf);
 
-        return (node != null) ? (node.isVisible() && node.isExpanded()) :
-                                 false;
+        rfturn (nodf != null) ? (nodf.isVisiblf() && nodf.isExpbndfd()) :
+                                 fblsf;
     }
 
     //
-    // TreeModelListener methods
+    // TrffModflListfnfr mftiods
     //
 
     /**
-     * <p>Invoked after a node (or a set of siblings) has changed in some
-     * way. The node(s) have not changed locations in the tree or
-     * altered their children arrays, but other attributes have
-     * changed and may affect presentation. Example: the name of a
-     * file has changed, but it is in the same location in the file
-     * system.</p>
+     * <p>Invokfd bftfr b nodf (or b sft of siblings) ibs dibngfd in somf
+     * wby. Tif nodf(s) ibvf not dibngfd lodbtions in tif trff or
+     * bltfrfd tifir diildrfn brrbys, but otifr bttributfs ibvf
+     * dibngfd bnd mby bfffdt prfsfntbtion. Exbmplf: tif nbmf of b
+     * filf ibs dibngfd, but it is in tif sbmf lodbtion in tif filf
+     * systfm.</p>
      *
-     * <p>e.path() returns the path the parent of the changed node(s).</p>
+     * <p>f.pbti() rfturns tif pbti tif pbrfnt of tif dibngfd nodf(s).</p>
      *
-     * <p>e.childIndices() returns the index(es) of the changed node(s).</p>
+     * <p>f.diildIndidfs() rfturns tif indfx(fs) of tif dibngfd nodf(s).</p>
      */
-    public void treeNodesChanged(TreeModelEvent e) {
-        if(e != null) {
-            int                 changedIndexs[];
-            FHTreeStateNode     changedParent = getNodeForPath
-                                  (SwingUtilities2.getTreePath(e, getModel()), false, false);
-            int                 maxCounter;
+    publid void trffNodfsCibngfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int                 dibngfdIndfxs[];
+            FHTrffStbtfNodf     dibngfdPbrfnt = gftNodfForPbti
+                                  (SwingUtilitifs2.gftTrffPbti(f, gftModfl()), fblsf, fblsf);
+            int                 mbxCountfr;
 
-            changedIndexs = e.getChildIndices();
-            /* Only need to update the children if the node has been
-               expanded once. */
-            // PENDING(scott): make sure childIndexs is sorted!
-            if (changedParent != null) {
-                if (changedIndexs != null &&
-                    (maxCounter = changedIndexs.length) > 0) {
-                    Object       parentValue = changedParent.getUserObject();
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            /* Only nffd to updbtf tif diildrfn if tif nodf ibs bffn
+               fxpbndfd ondf. */
+            // PENDING(sdott): mbkf surf diildIndfxs is sortfd!
+            if (dibngfdPbrfnt != null) {
+                if (dibngfdIndfxs != null &&
+                    (mbxCountfr = dibngfdIndfxs.lfngti) > 0) {
+                    Objfdt       pbrfntVbluf = dibngfdPbrfnt.gftUsfrObjfdt();
 
-                    for(int counter = 0; counter < maxCounter; counter++) {
-                        FHTreeStateNode    child = changedParent.
-                                 getChildAtModelIndex(changedIndexs[counter]);
+                    for(int dountfr = 0; dountfr < mbxCountfr; dountfr++) {
+                        FHTrffStbtfNodf    diild = dibngfdPbrfnt.
+                                 gftCiildAtModflIndfx(dibngfdIndfxs[dountfr]);
 
-                        if(child != null) {
-                            child.setUserObject(treeModel.getChild(parentValue,
-                                                     changedIndexs[counter]));
+                        if(diild != null) {
+                            diild.sftUsfrObjfdt(trffModfl.gftCiild(pbrfntVbluf,
+                                                     dibngfdIndfxs[dountfr]));
                         }
                     }
-                    if(changedParent.isVisible() && changedParent.isExpanded())
-                        visibleNodesChanged();
+                    if(dibngfdPbrfnt.isVisiblf() && dibngfdPbrfnt.isExpbndfd())
+                        visiblfNodfsCibngfd();
                 }
-                // Null for root indicates it changed.
-                else if (changedParent == root && changedParent.isVisible() &&
-                         changedParent.isExpanded()) {
-                    visibleNodesChanged();
+                // Null for root indidbtfs it dibngfd.
+                flsf if (dibngfdPbrfnt == root && dibngfdPbrfnt.isVisiblf() &&
+                         dibngfdPbrfnt.isExpbndfd()) {
+                    visiblfNodfsCibngfd();
                 }
             }
         }
     }
 
     /**
-     * <p>Invoked after nodes have been inserted into the tree.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn insfrtfd into tif trff.</p>
      *
-     * <p>e.path() returns the parent of the new nodes
-     * <p>e.childIndices() returns the indices of the new nodes in
-     * ascending order.
+     * <p>f.pbti() rfturns tif pbrfnt of tif nfw nodfs
+     * <p>f.diildIndidfs() rfturns tif indidfs of tif nfw nodfs in
+     * bsdfnding ordfr.
      */
-    public void treeNodesInserted(TreeModelEvent e) {
-        if(e != null) {
-            int                 changedIndexs[];
-            FHTreeStateNode     changedParent = getNodeForPath
-                                  (SwingUtilities2.getTreePath(e, getModel()), false, false);
-            int                 maxCounter;
+    publid void trffNodfsInsfrtfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int                 dibngfdIndfxs[];
+            FHTrffStbtfNodf     dibngfdPbrfnt = gftNodfForPbti
+                                  (SwingUtilitifs2.gftTrffPbti(f, gftModfl()), fblsf, fblsf);
+            int                 mbxCountfr;
 
-            changedIndexs = e.getChildIndices();
-            /* Only need to update the children if the node has been
-               expanded once. */
-            // PENDING(scott): make sure childIndexs is sorted!
-            if(changedParent != null && changedIndexs != null &&
-               (maxCounter = changedIndexs.length) > 0) {
-                boolean          isVisible =
-                    (changedParent.isVisible() &&
-                     changedParent.isExpanded());
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            /* Only nffd to updbtf tif diildrfn if tif nodf ibs bffn
+               fxpbndfd ondf. */
+            // PENDING(sdott): mbkf surf diildIndfxs is sortfd!
+            if(dibngfdPbrfnt != null && dibngfdIndfxs != null &&
+               (mbxCountfr = dibngfdIndfxs.lfngti) > 0) {
+                boolfbn          isVisiblf =
+                    (dibngfdPbrfnt.isVisiblf() &&
+                     dibngfdPbrfnt.isExpbndfd());
 
-                for(int counter = 0; counter < maxCounter; counter++) {
-                    changedParent.childInsertedAtModelIndex
-                        (changedIndexs[counter], isVisible);
+                for(int dountfr = 0; dountfr < mbxCountfr; dountfr++) {
+                    dibngfdPbrfnt.diildInsfrtfdAtModflIndfx
+                        (dibngfdIndfxs[dountfr], isVisiblf);
                 }
-                if(isVisible && treeSelectionModel != null)
-                    treeSelectionModel.resetRowSelection();
-                if(changedParent.isVisible())
-                    this.visibleNodesChanged();
+                if(isVisiblf && trffSflfdtionModfl != null)
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
+                if(dibngfdPbrfnt.isVisiblf())
+                    tiis.visiblfNodfsCibngfd();
             }
         }
     }
 
     /**
-     * <p>Invoked after nodes have been removed from the tree.  Note that
-     * if a subtree is removed from the tree, this method may only be
-     * invoked once for the root of the removed subtree, not once for
-     * each individual set of siblings removed.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn rfmovfd from tif trff.  Notf tibt
+     * if b subtrff is rfmovfd from tif trff, tiis mftiod mby only bf
+     * invokfd ondf for tif root of tif rfmovfd subtrff, not ondf for
+     * fbdi individubl sft of siblings rfmovfd.</p>
      *
-     * <p>e.path() returns the former parent of the deleted nodes.</p>
+     * <p>f.pbti() rfturns tif formfr pbrfnt of tif dflftfd nodfs.</p>
      *
-     * <p>e.childIndices() returns the indices the nodes had before they were deleted in ascending order.</p>
+     * <p>f.diildIndidfs() rfturns tif indidfs tif nodfs ibd bfforf tify wfrf dflftfd in bsdfnding ordfr.</p>
      */
-    public void treeNodesRemoved(TreeModelEvent e) {
-        if(e != null) {
-            int                  changedIndexs[];
-            int                  maxCounter;
-            TreePath             parentPath = SwingUtilities2.getTreePath(e, getModel());
-            FHTreeStateNode      changedParentNode = getNodeForPath
-                                       (parentPath, false, false);
+    publid void trffNodfsRfmovfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int                  dibngfdIndfxs[];
+            int                  mbxCountfr;
+            TrffPbti             pbrfntPbti = SwingUtilitifs2.gftTrffPbti(f, gftModfl());
+            FHTrffStbtfNodf      dibngfdPbrfntNodf = gftNodfForPbti
+                                       (pbrfntPbti, fblsf, fblsf);
 
-            changedIndexs = e.getChildIndices();
-            // PENDING(scott): make sure that changedIndexs are sorted in
-            // ascending order.
-            if(changedParentNode != null && changedIndexs != null &&
-               (maxCounter = changedIndexs.length) > 0) {
-                Object[]           children = e.getChildren();
-                boolean            isVisible =
-                    (changedParentNode.isVisible() &&
-                     changedParentNode.isExpanded());
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            // PENDING(sdott): mbkf surf tibt dibngfdIndfxs brf sortfd in
+            // bsdfnding ordfr.
+            if(dibngfdPbrfntNodf != null && dibngfdIndfxs != null &&
+               (mbxCountfr = dibngfdIndfxs.lfngti) > 0) {
+                Objfdt[]           diildrfn = f.gftCiildrfn();
+                boolfbn            isVisiblf =
+                    (dibngfdPbrfntNodf.isVisiblf() &&
+                     dibngfdPbrfntNodf.isExpbndfd());
 
-                for(int counter = maxCounter - 1; counter >= 0; counter--) {
-                    changedParentNode.removeChildAtModelIndex
-                                     (changedIndexs[counter], isVisible);
+                for(int dountfr = mbxCountfr - 1; dountfr >= 0; dountfr--) {
+                    dibngfdPbrfntNodf.rfmovfCiildAtModflIndfx
+                                     (dibngfdIndfxs[dountfr], isVisiblf);
                 }
-                if(isVisible) {
-                    if(treeSelectionModel != null)
-                        treeSelectionModel.resetRowSelection();
-                    if (treeModel.getChildCount(changedParentNode.
-                                                getUserObject()) == 0 &&
-                                  changedParentNode.isLeaf()) {
-                        // Node has become a leaf, collapse it.
-                        changedParentNode.collapse(false);
+                if(isVisiblf) {
+                    if(trffSflfdtionModfl != null)
+                        trffSflfdtionModfl.rfsftRowSflfdtion();
+                    if (trffModfl.gftCiildCount(dibngfdPbrfntNodf.
+                                                gftUsfrObjfdt()) == 0 &&
+                                  dibngfdPbrfntNodf.isLfbf()) {
+                        // Nodf ibs bfdomf b lfbf, dollbpsf it.
+                        dibngfdPbrfntNodf.dollbpsf(fblsf);
                     }
-                    visibleNodesChanged();
+                    visiblfNodfsCibngfd();
                 }
-                else if(changedParentNode.isVisible())
-                    visibleNodesChanged();
+                flsf if(dibngfdPbrfntNodf.isVisiblf())
+                    visiblfNodfsCibngfd();
             }
         }
     }
 
     /**
-     * <p>Invoked after the tree has drastically changed structure from a
-     * given node down.  If the path returned by e.getPath() is of length
-     * one and the first element does not identify the current root node
-     * the first element should become the new root of the tree.
+     * <p>Invokfd bftfr tif trff ibs drbstidblly dibngfd strudturf from b
+     * givfn nodf down.  If tif pbti rfturnfd by f.gftPbti() is of lfngti
+     * onf bnd tif first flfmfnt dofs not idfntify tif durrfnt root nodf
+     * tif first flfmfnt siould bfdomf tif nfw root of tif trff.
      *
-     * <p>e.path() holds the path to the node.</p>
-     * <p>e.childIndices() returns null.</p>
+     * <p>f.pbti() iolds tif pbti to tif nodf.</p>
+     * <p>f.diildIndidfs() rfturns null.</p>
      */
-    public void treeStructureChanged(TreeModelEvent e) {
-        if(e != null) {
-            TreePath          changedPath = SwingUtilities2.getTreePath(e, getModel());
-            FHTreeStateNode   changedNode = getNodeForPath
-                                                (changedPath, false, false);
+    publid void trffStrudturfCibngfd(TrffModflEvfnt f) {
+        if(f != null) {
+            TrffPbti          dibngfdPbti = SwingUtilitifs2.gftTrffPbti(f, gftModfl());
+            FHTrffStbtfNodf   dibngfdNodf = gftNodfForPbti
+                                                (dibngfdPbti, fblsf, fblsf);
 
-            // Check if root has changed, either to a null root, or
-            // to an entirely new root.
-            if (changedNode == root ||
-                (changedNode == null &&
-                 ((changedPath == null && treeModel != null &&
-                   treeModel.getRoot() == null) ||
-                  (changedPath != null && changedPath.getPathCount() <= 1)))) {
-                rebuild(true);
+            // Cifdk if root ibs dibngfd, fitifr to b null root, or
+            // to bn fntirfly nfw root.
+            if (dibngfdNodf == root ||
+                (dibngfdNodf == null &&
+                 ((dibngfdPbti == null && trffModfl != null &&
+                   trffModfl.gftRoot() == null) ||
+                  (dibngfdPbti != null && dibngfdPbti.gftPbtiCount() <= 1)))) {
+                rfbuild(truf);
             }
-            else if(changedNode != null) {
-                boolean             wasExpanded, wasVisible;
-                FHTreeStateNode     parent = (FHTreeStateNode)
-                                              changedNode.getParent();
+            flsf if(dibngfdNodf != null) {
+                boolfbn             wbsExpbndfd, wbsVisiblf;
+                FHTrffStbtfNodf     pbrfnt = (FHTrffStbtfNodf)
+                                              dibngfdNodf.gftPbrfnt();
 
-                wasExpanded = changedNode.isExpanded();
-                wasVisible = changedNode.isVisible();
+                wbsExpbndfd = dibngfdNodf.isExpbndfd();
+                wbsVisiblf = dibngfdNodf.isVisiblf();
 
-                int index = parent.getIndex(changedNode);
-                changedNode.collapse(false);
-                parent.remove(index);
+                int indfx = pbrfnt.gftIndfx(dibngfdNodf);
+                dibngfdNodf.dollbpsf(fblsf);
+                pbrfnt.rfmovf(indfx);
 
-                if(wasVisible && wasExpanded) {
-                    int row = changedNode.getRow();
-                    parent.resetChildrenRowsFrom(row, index,
-                                                 changedNode.getChildIndex());
-                    changedNode = getNodeForPath(changedPath, false, true);
-                    changedNode.expand();
+                if(wbsVisiblf && wbsExpbndfd) {
+                    int row = dibngfdNodf.gftRow();
+                    pbrfnt.rfsftCiildrfnRowsFrom(row, indfx,
+                                                 dibngfdNodf.gftCiildIndfx());
+                    dibngfdNodf = gftNodfForPbti(dibngfdPbti, fblsf, truf);
+                    dibngfdNodf.fxpbnd();
                 }
-                if(treeSelectionModel != null && wasVisible && wasExpanded)
-                    treeSelectionModel.resetRowSelection();
-                if(wasVisible)
-                    this.visibleNodesChanged();
+                if(trffSflfdtionModfl != null && wbsVisiblf && wbsExpbndfd)
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
+                if(wbsVisiblf)
+                    tiis.visiblfNodfsCibngfd();
             }
         }
     }
 
 
     //
-    // Local methods
+    // Lodbl mftiods
     //
 
-    private void visibleNodesChanged() {
+    privbtf void visiblfNodfsCibngfd() {
     }
 
     /**
-     * Returns the bounds for the given node. If <code>childIndex</code>
-     * is -1, the bounds of <code>parent</code> are returned, otherwise
-     * the bounds of the node at <code>childIndex</code> are returned.
+     * Rfturns tif bounds for tif givfn nodf. If <dodf>diildIndfx</dodf>
+     * is -1, tif bounds of <dodf>pbrfnt</dodf> brf rfturnfd, otifrwisf
+     * tif bounds of tif nodf bt <dodf>diildIndfx</dodf> brf rfturnfd.
      */
-    private Rectangle getBounds(FHTreeStateNode parent, int childIndex,
-                                  Rectangle placeIn) {
-        boolean              expanded;
-        int                  level;
+    privbtf Rfdtbnglf gftBounds(FHTrffStbtfNodf pbrfnt, int diildIndfx,
+                                  Rfdtbnglf plbdfIn) {
+        boolfbn              fxpbndfd;
+        int                  lfvfl;
         int                  row;
-        Object               value;
+        Objfdt               vbluf;
 
-        if(childIndex == -1) {
-            // Getting bounds for parent
-            row = parent.getRow();
-            value = parent.getUserObject();
-            expanded = parent.isExpanded();
-            level = parent.getLevel();
+        if(diildIndfx == -1) {
+            // Gftting bounds for pbrfnt
+            row = pbrfnt.gftRow();
+            vbluf = pbrfnt.gftUsfrObjfdt();
+            fxpbndfd = pbrfnt.isExpbndfd();
+            lfvfl = pbrfnt.gftLfvfl();
         }
-        else {
-            row = parent.getRowToModelIndex(childIndex);
-            value = treeModel.getChild(parent.getUserObject(), childIndex);
-            expanded = false;
-            level = parent.getLevel() + 1;
+        flsf {
+            row = pbrfnt.gftRowToModflIndfx(diildIndfx);
+            vbluf = trffModfl.gftCiild(pbrfnt.gftUsfrObjfdt(), diildIndfx);
+            fxpbndfd = fblsf;
+            lfvfl = pbrfnt.gftLfvfl() + 1;
         }
 
-        Rectangle      bounds = getNodeDimensions(value, row, level,
-                                                  expanded, boundsBuffer);
-        // No node dimensions, bail.
+        Rfdtbnglf      bounds = gftNodfDimfnsions(vbluf, row, lfvfl,
+                                                  fxpbndfd, boundsBufffr);
+        // No nodf dimfnsions, bbil.
         if(bounds == null)
-            return null;
+            rfturn null;
 
-        if(placeIn == null)
-            placeIn = new Rectangle();
+        if(plbdfIn == null)
+            plbdfIn = nfw Rfdtbnglf();
 
-        placeIn.x = bounds.x;
-        placeIn.height = getRowHeight();
-        placeIn.y = row * placeIn.height;
-        placeIn.width = bounds.width;
-        return placeIn;
+        plbdfIn.x = bounds.x;
+        plbdfIn.ifigit = gftRowHfigit();
+        plbdfIn.y = row * plbdfIn.ifigit;
+        plbdfIn.widti = bounds.widti;
+        rfturn plbdfIn;
     }
 
     /**
-     * Adjust the large row count of the AbstractTreeUI the receiver was
-     * created with.
+     * Adjust tif lbrgf row dount of tif AbstrbdtTrffUI tif rfdfivfr wbs
+     * drfbtfd witi.
      */
-    private void adjustRowCountBy(int changeAmount) {
-        rowCount += changeAmount;
+    privbtf void bdjustRowCountBy(int dibngfAmount) {
+        rowCount += dibngfAmount;
     }
 
     /**
-     * Adds a mapping for node.
+     * Adds b mbpping for nodf.
      */
-    private void addMapping(FHTreeStateNode node) {
-        treePathMapping.put(node.getTreePath(), node);
+    privbtf void bddMbpping(FHTrffStbtfNodf nodf) {
+        trffPbtiMbpping.put(nodf.gftTrffPbti(), nodf);
     }
 
     /**
-     * Removes the mapping for a previously added node.
+     * Rfmovfs tif mbpping for b prfviously bddfd nodf.
      */
-    private void removeMapping(FHTreeStateNode node) {
-        treePathMapping.remove(node.getTreePath());
+    privbtf void rfmovfMbpping(FHTrffStbtfNodf nodf) {
+        trffPbtiMbpping.rfmovf(nodf.gftTrffPbti());
     }
 
     /**
-     * Returns the node previously added for <code>path</code>. This may
-     * return null, if you to create a node use getNodeForPath.
+     * Rfturns tif nodf prfviously bddfd for <dodf>pbti</dodf>. Tiis mby
+     * rfturn null, if you to drfbtf b nodf usf gftNodfForPbti.
      */
-    private FHTreeStateNode getMapping(TreePath path) {
-        return treePathMapping.get(path);
+    privbtf FHTrffStbtfNodf gftMbpping(TrffPbti pbti) {
+        rfturn trffPbtiMbpping.gft(pbti);
     }
 
     /**
-     * Sent to completely rebuild the visible tree. All nodes are collapsed.
+     * Sfnt to domplftfly rfbuild tif visiblf trff. All nodfs brf dollbpsfd.
      */
-    private void rebuild(boolean clearSelection) {
-        Object            rootUO;
+    privbtf void rfbuild(boolfbn dlfbrSflfdtion) {
+        Objfdt            rootUO;
 
-        treePathMapping.clear();
-        if(treeModel != null && (rootUO = treeModel.getRoot()) != null) {
-            root = createNodeForValue(rootUO, 0);
-            root.path = new TreePath(rootUO);
-            addMapping(root);
-            if(isRootVisible()) {
+        trffPbtiMbpping.dlfbr();
+        if(trffModfl != null && (rootUO = trffModfl.gftRoot()) != null) {
+            root = drfbtfNodfForVbluf(rootUO, 0);
+            root.pbti = nfw TrffPbti(rootUO);
+            bddMbpping(root);
+            if(isRootVisiblf()) {
                 rowCount = 1;
                 root.row = 0;
             }
-            else {
+            flsf {
                 rowCount = 0;
                 root.row = -1;
             }
-            root.expand();
+            root.fxpbnd();
         }
-        else {
+        flsf {
             root = null;
             rowCount = 0;
         }
-        if(clearSelection && treeSelectionModel != null) {
-            treeSelectionModel.clearSelection();
+        if(dlfbrSflfdtion && trffSflfdtionModfl != null) {
+            trffSflfdtionModfl.dlfbrSflfdtion();
         }
-        this.visibleNodesChanged();
+        tiis.visiblfNodfsCibngfd();
     }
 
     /**
-      * Returns the index of the row containing location.  If there
-      * are no rows, -1 is returned.  If location is beyond the last
-      * row index, the last row index is returned.
+      * Rfturns tif indfx of tif row dontbining lodbtion.  If tifrf
+      * brf no rows, -1 is rfturnfd.  If lodbtion is bfyond tif lbst
+      * row indfx, tif lbst row indfx is rfturnfd.
       */
-    private int getRowContainingYLocation(int location) {
-        if(getRowCount() == 0)
-            return -1;
-        return Math.max(0, Math.min(getRowCount() - 1,
-                                    location / getRowHeight()));
+    privbtf int gftRowContbiningYLodbtion(int lodbtion) {
+        if(gftRowCount() == 0)
+            rfturn -1;
+        rfturn Mbti.mbx(0, Mbti.min(gftRowCount() - 1,
+                                    lodbtion / gftRowHfigit()));
     }
 
     /**
-     * Ensures that all the path components in path are expanded, accept
-     * for the last component which will only be expanded if expandLast
-     * is true.
-     * Returns true if succesful in finding the path.
+     * Ensurfs tibt bll tif pbti domponfnts in pbti brf fxpbndfd, bddfpt
+     * for tif lbst domponfnt wiidi will only bf fxpbndfd if fxpbndLbst
+     * is truf.
+     * Rfturns truf if suddfsful in finding tif pbti.
      */
-    private boolean ensurePathIsExpanded(TreePath aPath,
-                                           boolean expandLast) {
-        if(aPath != null) {
-            // Make sure the last entry isn't a leaf.
-            if(treeModel.isLeaf(aPath.getLastPathComponent())) {
-                aPath = aPath.getParentPath();
-                expandLast = true;
+    privbtf boolfbn fnsurfPbtiIsExpbndfd(TrffPbti bPbti,
+                                           boolfbn fxpbndLbst) {
+        if(bPbti != null) {
+            // Mbkf surf tif lbst fntry isn't b lfbf.
+            if(trffModfl.isLfbf(bPbti.gftLbstPbtiComponfnt())) {
+                bPbti = bPbti.gftPbrfntPbti();
+                fxpbndLbst = truf;
             }
-            if(aPath != null) {
-                FHTreeStateNode     lastNode = getNodeForPath(aPath, false,
-                                                              true);
+            if(bPbti != null) {
+                FHTrffStbtfNodf     lbstNodf = gftNodfForPbti(bPbti, fblsf,
+                                                              truf);
 
-                if(lastNode != null) {
-                    lastNode.makeVisible();
-                    if(expandLast)
-                        lastNode.expand();
-                    return true;
+                if(lbstNodf != null) {
+                    lbstNodf.mbkfVisiblf();
+                    if(fxpbndLbst)
+                        lbstNodf.fxpbnd();
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Creates and returns an instance of FHTreeStateNode.
+     * Crfbtfs bnd rfturns bn instbndf of FHTrffStbtfNodf.
      */
-    private FHTreeStateNode createNodeForValue(Object value,int childIndex) {
-        return new FHTreeStateNode(value, childIndex, -1);
+    privbtf FHTrffStbtfNodf drfbtfNodfForVbluf(Objfdt vbluf,int diildIndfx) {
+        rfturn nfw FHTrffStbtfNodf(vbluf, diildIndfx, -1);
     }
 
     /**
-     * Messages getTreeNodeForPage(path, onlyIfVisible, shouldCreate,
-     * path.length) as long as path is non-null and the length is {@literal >} 0.
-     * Otherwise returns null.
+     * Mfssbgfs gftTrffNodfForPbgf(pbti, onlyIfVisiblf, siouldCrfbtf,
+     * pbti.lfngti) bs long bs pbti is non-null bnd tif lfngti is {@litfrbl >} 0.
+     * Otifrwisf rfturns null.
      */
-    private FHTreeStateNode getNodeForPath(TreePath path,
-                                             boolean onlyIfVisible,
-                                             boolean shouldCreate) {
-        if(path != null) {
-            FHTreeStateNode      node;
+    privbtf FHTrffStbtfNodf gftNodfForPbti(TrffPbti pbti,
+                                             boolfbn onlyIfVisiblf,
+                                             boolfbn siouldCrfbtf) {
+        if(pbti != null) {
+            FHTrffStbtfNodf      nodf;
 
-            node = getMapping(path);
-            if(node != null) {
-                if(onlyIfVisible && !node.isVisible())
-                    return null;
-                return node;
+            nodf = gftMbpping(pbti);
+            if(nodf != null) {
+                if(onlyIfVisiblf && !nodf.isVisiblf())
+                    rfturn null;
+                rfturn nodf;
             }
-            if(onlyIfVisible)
-                return null;
+            if(onlyIfVisiblf)
+                rfturn null;
 
-            // Check all the parent paths, until a match is found.
-            Stack<TreePath> paths;
+            // Cifdk bll tif pbrfnt pbtis, until b mbtdi is found.
+            Stbdk<TrffPbti> pbtis;
 
-            if(tempStacks.size() == 0) {
-                paths = new Stack<TreePath>();
+            if(tfmpStbdks.sizf() == 0) {
+                pbtis = nfw Stbdk<TrffPbti>();
             }
-            else {
-                paths = tempStacks.pop();
+            flsf {
+                pbtis = tfmpStbdks.pop();
             }
 
             try {
-                paths.push(path);
-                path = path.getParentPath();
-                node = null;
-                while(path != null) {
-                    node = getMapping(path);
-                    if(node != null) {
-                        // Found a match, create entries for all paths in
-                        // paths.
-                        while(node != null && paths.size() > 0) {
-                            path = paths.pop();
-                            node = node.createChildFor(path.
-                                                       getLastPathComponent());
+                pbtis.pusi(pbti);
+                pbti = pbti.gftPbrfntPbti();
+                nodf = null;
+                wiilf(pbti != null) {
+                    nodf = gftMbpping(pbti);
+                    if(nodf != null) {
+                        // Found b mbtdi, drfbtf fntrifs for bll pbtis in
+                        // pbtis.
+                        wiilf(nodf != null && pbtis.sizf() > 0) {
+                            pbti = pbtis.pop();
+                            nodf = nodf.drfbtfCiildFor(pbti.
+                                                       gftLbstPbtiComponfnt());
                         }
-                        return node;
+                        rfturn nodf;
                     }
-                    paths.push(path);
-                    path = path.getParentPath();
+                    pbtis.pusi(pbti);
+                    pbti = pbti.gftPbrfntPbti();
                 }
             }
-            finally {
-                paths.removeAllElements();
-                tempStacks.push(paths);
+            finblly {
+                pbtis.rfmovfAllElfmfnts();
+                tfmpStbdks.pusi(pbtis);
             }
-            // If we get here it means they share a different root!
-            return null;
+            // If wf gft ifrf it mfbns tify sibrf b difffrfnt root!
+            rfturn null;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * FHTreeStateNode is used to track what has been expanded.
-     * FHTreeStateNode differs from VariableHeightTreeState.TreeStateNode
-     * in that it is highly model intensive. That is almost all queries to a
-     * FHTreeStateNode result in the TreeModel being queried. And it
-     * obviously does not support variable sized row heights.
+     * FHTrffStbtfNodf is usfd to trbdk wibt ibs bffn fxpbndfd.
+     * FHTrffStbtfNodf difffrs from VbribblfHfigitTrffStbtf.TrffStbtfNodf
+     * in tibt it is iigily modfl intfnsivf. Tibt is blmost bll qufrifs to b
+     * FHTrffStbtfNodf rfsult in tif TrffModfl bfing qufrifd. And it
+     * obviously dofs not support vbribblf sizfd row ifigits.
      */
-    private class FHTreeStateNode extends DefaultMutableTreeNode {
-        /** Is this node expanded? */
-        protected boolean         isExpanded;
+    privbtf dlbss FHTrffStbtfNodf fxtfnds DffbultMutbblfTrffNodf {
+        /** Is tiis nodf fxpbndfd? */
+        protfdtfd boolfbn         isExpbndfd;
 
-        /** Index of this node from the model. */
-        protected int             childIndex;
+        /** Indfx of tiis nodf from tif modfl. */
+        protfdtfd int             diildIndfx;
 
-        /** Child count of the receiver. */
-        protected int             childCount;
+        /** Ciild dount of tif rfdfivfr. */
+        protfdtfd int             diildCount;
 
-        /** Row of the receiver. This is only valid if the row is expanded.
+        /** Row of tif rfdfivfr. Tiis is only vblid if tif row is fxpbndfd.
          */
-        protected int             row;
+        protfdtfd int             row;
 
-        /** Path of this node. */
-        protected TreePath        path;
+        /** Pbti of tiis nodf. */
+        protfdtfd TrffPbti        pbti;
 
 
-        public FHTreeStateNode(Object userObject, int childIndex, int row) {
-            super(userObject);
-            this.childIndex = childIndex;
-            this.row = row;
+        publid FHTrffStbtfNodf(Objfdt usfrObjfdt, int diildIndfx, int row) {
+            supfr(usfrObjfdt);
+            tiis.diildIndfx = diildIndfx;
+            tiis.row = row;
         }
 
         //
-        // Overriden DefaultMutableTreeNode methods
+        // Ovfrridfn DffbultMutbblfTrffNodf mftiods
         //
 
         /**
-         * Messaged when this node is added somewhere, resets the path
-         * and adds a mapping from path to this node.
+         * Mfssbgfd wifn tiis nodf is bddfd somfwifrf, rfsfts tif pbti
+         * bnd bdds b mbpping from pbti to tiis nodf.
          */
-        public void setParent(MutableTreeNode parent) {
-            super.setParent(parent);
-            if(parent != null) {
-                path = ((FHTreeStateNode)parent).getTreePath().
-                            pathByAddingChild(getUserObject());
-                addMapping(this);
+        publid void sftPbrfnt(MutbblfTrffNodf pbrfnt) {
+            supfr.sftPbrfnt(pbrfnt);
+            if(pbrfnt != null) {
+                pbti = ((FHTrffStbtfNodf)pbrfnt).gftTrffPbti().
+                            pbtiByAddingCiild(gftUsfrObjfdt());
+                bddMbpping(tiis);
             }
         }
 
         /**
-         * Messaged when this node is removed from its parent, this messages
-         * <code>removedFromMapping</code> to remove all the children.
+         * Mfssbgfd wifn tiis nodf is rfmovfd from its pbrfnt, tiis mfssbgfs
+         * <dodf>rfmovfdFromMbpping</dodf> to rfmovf bll tif diildrfn.
          */
-        public void remove(int childIndex) {
-            FHTreeStateNode     node = (FHTreeStateNode)getChildAt(childIndex);
+        publid void rfmovf(int diildIndfx) {
+            FHTrffStbtfNodf     nodf = (FHTrffStbtfNodf)gftCiildAt(diildIndfx);
 
-            node.removeFromMapping();
-            super.remove(childIndex);
+            nodf.rfmovfFromMbpping();
+            supfr.rfmovf(diildIndfx);
         }
 
         /**
-         * Messaged to set the user object. This resets the path.
+         * Mfssbgfd to sft tif usfr objfdt. Tiis rfsfts tif pbti.
          */
-        public void setUserObject(Object o) {
-            super.setUserObject(o);
-            if(path != null) {
-                FHTreeStateNode      parent = (FHTreeStateNode)getParent();
+        publid void sftUsfrObjfdt(Objfdt o) {
+            supfr.sftUsfrObjfdt(o);
+            if(pbti != null) {
+                FHTrffStbtfNodf      pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
 
-                if(parent != null)
-                    resetChildrenPaths(parent.getTreePath());
-                else
-                    resetChildrenPaths(null);
+                if(pbrfnt != null)
+                    rfsftCiildrfnPbtis(pbrfnt.gftTrffPbti());
+                flsf
+                    rfsftCiildrfnPbtis(null);
             }
         }
 
@@ -813,790 +813,790 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         //
 
         /**
-         * Returns the index of the receiver in the model.
+         * Rfturns tif indfx of tif rfdfivfr in tif modfl.
          */
-        public int getChildIndex() {
-            return childIndex;
+        publid int gftCiildIndfx() {
+            rfturn diildIndfx;
         }
 
         /**
-         * Returns the <code>TreePath</code> of the receiver.
+         * Rfturns tif <dodf>TrffPbti</dodf> of tif rfdfivfr.
          */
-        public TreePath getTreePath() {
-            return path;
+        publid TrffPbti gftTrffPbti() {
+            rfturn pbti;
         }
 
         /**
-         * Returns the child for the passed in model index, this will
-         * return <code>null</code> if the child for <code>index</code>
-         * has not yet been created (expanded).
+         * Rfturns tif diild for tif pbssfd in modfl indfx, tiis will
+         * rfturn <dodf>null</dodf> if tif diild for <dodf>indfx</dodf>
+         * ibs not yft bffn drfbtfd (fxpbndfd).
          */
-        public FHTreeStateNode getChildAtModelIndex(int index) {
-            // PENDING: Make this a binary search!
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
-                if(((FHTreeStateNode)getChildAt(counter)).childIndex == index)
-                    return (FHTreeStateNode)getChildAt(counter);
-            return null;
+        publid FHTrffStbtfNodf gftCiildAtModflIndfx(int indfx) {
+            // PENDING: Mbkf tiis b binbry sfbrdi!
+            for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                if(((FHTrffStbtfNodf)gftCiildAt(dountfr)).diildIndfx == indfx)
+                    rfturn (FHTrffStbtfNodf)gftCiildAt(dountfr);
+            rfturn null;
         }
 
         /**
-         * Returns true if this node is visible. This is determined by
-         * asking all the parents if they are expanded.
+         * Rfturns truf if tiis nodf is visiblf. Tiis is dftfrminfd by
+         * bsking bll tif pbrfnts if tify brf fxpbndfd.
          */
-        public boolean isVisible() {
-            FHTreeStateNode         parent = (FHTreeStateNode)getParent();
+        publid boolfbn isVisiblf() {
+            FHTrffStbtfNodf         pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
 
-            if(parent == null)
-                return true;
-            return (parent.isExpanded() && parent.isVisible());
+            if(pbrfnt == null)
+                rfturn truf;
+            rfturn (pbrfnt.isExpbndfd() && pbrfnt.isVisiblf());
         }
 
         /**
-         * Returns the row of the receiver.
+         * Rfturns tif row of tif rfdfivfr.
          */
-        public int getRow() {
-            return row;
+        publid int gftRow() {
+            rfturn row;
         }
 
         /**
-         * Returns the row of the child with a model index of
-         * <code>index</code>.
+         * Rfturns tif row of tif diild witi b modfl indfx of
+         * <dodf>indfx</dodf>.
          */
-        public int getRowToModelIndex(int index) {
-            FHTreeStateNode      child;
-            int                  lastRow = getRow() + 1;
-            int                  retValue = lastRow;
+        publid int gftRowToModflIndfx(int indfx) {
+            FHTrffStbtfNodf      diild;
+            int                  lbstRow = gftRow() + 1;
+            int                  rftVbluf = lbstRow;
 
-            // This too could be a binary search!
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                child = (FHTreeStateNode)getChildAt(counter);
-                if(child.childIndex >= index) {
-                    if(child.childIndex == index)
-                        return child.row;
-                    if(counter == 0)
-                        return getRow() + 1 + index;
-                    return child.row - (child.childIndex - index);
+            // Tiis too dould bf b binbry sfbrdi!
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                diild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(diild.diildIndfx >= indfx) {
+                    if(diild.diildIndfx == indfx)
+                        rfturn diild.row;
+                    if(dountfr == 0)
+                        rfturn gftRow() + 1 + indfx;
+                    rfturn diild.row - (diild.diildIndfx - indfx);
                 }
             }
             // YECK!
-            return getRow() + 1 + getTotalChildCount() -
-                             (childCount - index);
+            rfturn gftRow() + 1 + gftTotblCiildCount() -
+                             (diildCount - indfx);
         }
 
         /**
-         * Returns the number of children in the receiver by descending all
-         * expanded nodes and messaging them with getTotalChildCount.
+         * Rfturns tif numbfr of diildrfn in tif rfdfivfr by dfsdfnding bll
+         * fxpbndfd nodfs bnd mfssbging tifm witi gftTotblCiildCount.
          */
-        public int getTotalChildCount() {
-            if(isExpanded()) {
-                FHTreeStateNode      parent = (FHTreeStateNode)getParent();
-                int                  pIndex;
+        publid int gftTotblCiildCount() {
+            if(isExpbndfd()) {
+                FHTrffStbtfNodf      pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
+                int                  pIndfx;
 
-                if(parent != null && (pIndex = parent.getIndex(this)) + 1 <
-                   parent.getChildCount()) {
-                    // This node has a created sibling, to calc total
-                    // child count directly from that!
-                    FHTreeStateNode  nextSibling = (FHTreeStateNode)parent.
-                                           getChildAt(pIndex + 1);
+                if(pbrfnt != null && (pIndfx = pbrfnt.gftIndfx(tiis)) + 1 <
+                   pbrfnt.gftCiildCount()) {
+                    // Tiis nodf ibs b drfbtfd sibling, to dbld totbl
+                    // diild dount dirfdtly from tibt!
+                    FHTrffStbtfNodf  nfxtSibling = (FHTrffStbtfNodf)pbrfnt.
+                                           gftCiildAt(pIndfx + 1);
 
-                    return nextSibling.row - row -
-                           (nextSibling.childIndex - childIndex);
+                    rfturn nfxtSibling.row - row -
+                           (nfxtSibling.diildIndfx - diildIndfx);
                 }
-                else {
-                    int retCount = childCount;
+                flsf {
+                    int rftCount = diildCount;
 
-                    for(int counter = getChildCount() - 1; counter >= 0;
-                        counter--) {
-                        retCount += ((FHTreeStateNode)getChildAt(counter))
-                                                  .getTotalChildCount();
+                    for(int dountfr = gftCiildCount() - 1; dountfr >= 0;
+                        dountfr--) {
+                        rftCount += ((FHTrffStbtfNodf)gftCiildAt(dountfr))
+                                                  .gftTotblCiildCount();
                     }
-                    return retCount;
+                    rfturn rftCount;
                 }
             }
-            return 0;
+            rfturn 0;
         }
 
         /**
-         * Returns true if this node is expanded.
+         * Rfturns truf if tiis nodf is fxpbndfd.
          */
-        public boolean isExpanded() {
-            return isExpanded;
+        publid boolfbn isExpbndfd() {
+            rfturn isExpbndfd;
         }
 
         /**
-         * The highest visible nodes have a depth of 0.
+         * Tif iigifst visiblf nodfs ibvf b dfpti of 0.
          */
-        public int getVisibleLevel() {
-            if (isRootVisible()) {
-                return getLevel();
-            } else {
-                return getLevel() - 1;
+        publid int gftVisiblfLfvfl() {
+            if (isRootVisiblf()) {
+                rfturn gftLfvfl();
+            } flsf {
+                rfturn gftLfvfl() - 1;
             }
         }
 
         /**
-         * Recreates the receivers path, and all its children's paths.
+         * Rfdrfbtfs tif rfdfivfrs pbti, bnd bll its diildrfn's pbtis.
          */
-        protected void resetChildrenPaths(TreePath parentPath) {
-            removeMapping(this);
-            if(parentPath == null)
-                path = new TreePath(getUserObject());
-            else
-                path = parentPath.pathByAddingChild(getUserObject());
-            addMapping(this);
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
-                ((FHTreeStateNode)getChildAt(counter)).
-                               resetChildrenPaths(path);
+        protfdtfd void rfsftCiildrfnPbtis(TrffPbti pbrfntPbti) {
+            rfmovfMbpping(tiis);
+            if(pbrfntPbti == null)
+                pbti = nfw TrffPbti(gftUsfrObjfdt());
+            flsf
+                pbti = pbrfntPbti.pbtiByAddingCiild(gftUsfrObjfdt());
+            bddMbpping(tiis);
+            for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                ((FHTrffStbtfNodf)gftCiildAt(dountfr)).
+                               rfsftCiildrfnPbtis(pbti);
         }
 
         /**
-         * Removes the receiver, and all its children, from the mapping
-         * table.
+         * Rfmovfs tif rfdfivfr, bnd bll its diildrfn, from tif mbpping
+         * tbblf.
          */
-        protected void removeFromMapping() {
-            if(path != null) {
-                removeMapping(this);
-                for(int counter = getChildCount() - 1; counter >= 0; counter--)
-                    ((FHTreeStateNode)getChildAt(counter)).removeFromMapping();
+        protfdtfd void rfmovfFromMbpping() {
+            if(pbti != null) {
+                rfmovfMbpping(tiis);
+                for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                    ((FHTrffStbtfNodf)gftCiildAt(dountfr)).rfmovfFromMbpping();
             }
         }
 
         /**
-         * Creates a new node to represent <code>userObject</code>.
-         * This does NOT check to ensure there isn't already a child node
-         * to manage <code>userObject</code>.
+         * Crfbtfs b nfw nodf to rfprfsfnt <dodf>usfrObjfdt</dodf>.
+         * Tiis dofs NOT difdk to fnsurf tifrf isn't blrfbdy b diild nodf
+         * to mbnbgf <dodf>usfrObjfdt</dodf>.
          */
-        protected FHTreeStateNode createChildFor(Object userObject) {
-            int      newChildIndex = treeModel.getIndexOfChild
-                                     (getUserObject(), userObject);
+        protfdtfd FHTrffStbtfNodf drfbtfCiildFor(Objfdt usfrObjfdt) {
+            int      nfwCiildIndfx = trffModfl.gftIndfxOfCiild
+                                     (gftUsfrObjfdt(), usfrObjfdt);
 
-            if(newChildIndex < 0)
-                return null;
+            if(nfwCiildIndfx < 0)
+                rfturn null;
 
-            FHTreeStateNode     aNode;
-            FHTreeStateNode     child = createNodeForValue(userObject,
-                                                           newChildIndex);
-            int                 childRow;
+            FHTrffStbtfNodf     bNodf;
+            FHTrffStbtfNodf     diild = drfbtfNodfForVbluf(usfrObjfdt,
+                                                           nfwCiildIndfx);
+            int                 diildRow;
 
-            if(isVisible()) {
-                childRow = getRowToModelIndex(newChildIndex);
+            if(isVisiblf()) {
+                diildRow = gftRowToModflIndfx(nfwCiildIndfx);
             }
-            else {
-                childRow = -1;
+            flsf {
+                diildRow = -1;
             }
-            child.row = childRow;
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                aNode = (FHTreeStateNode)getChildAt(counter);
-                if(aNode.childIndex > newChildIndex) {
-                    insert(child, counter);
-                    return child;
+            diild.row = diildRow;
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                bNodf = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(bNodf.diildIndfx > nfwCiildIndfx) {
+                    insfrt(diild, dountfr);
+                    rfturn diild;
                 }
             }
-            add(child);
-            return child;
+            bdd(diild);
+            rfturn diild;
         }
 
         /**
-         * Adjusts the receiver, and all its children rows by
-         * <code>amount</code>.
+         * Adjusts tif rfdfivfr, bnd bll its diildrfn rows by
+         * <dodf>bmount</dodf>.
          */
-        protected void adjustRowBy(int amount) {
-            row += amount;
-            if(isExpanded) {
-                for(int counter = getChildCount() - 1; counter >= 0;
-                    counter--)
-                    ((FHTreeStateNode)getChildAt(counter)).adjustRowBy(amount);
+        protfdtfd void bdjustRowBy(int bmount) {
+            row += bmount;
+            if(isExpbndfd) {
+                for(int dountfr = gftCiildCount() - 1; dountfr >= 0;
+                    dountfr--)
+                    ((FHTrffStbtfNodf)gftCiildAt(dountfr)).bdjustRowBy(bmount);
             }
         }
 
         /**
-         * Adjusts this node, its child, and its parent starting at
-         * an index of <code>index</code> index is the index of the child
-         * to start adjusting from, which is not necessarily the model
-         * index.
+         * Adjusts tiis nodf, its diild, bnd its pbrfnt stbrting bt
+         * bn indfx of <dodf>indfx</dodf> indfx is tif indfx of tif diild
+         * to stbrt bdjusting from, wiidi is not nfdfssbrily tif modfl
+         * indfx.
          */
-        protected void adjustRowBy(int amount, int startIndex) {
-            // Could check isVisible, but probably isn't worth it.
-            if(isExpanded) {
-                // children following startIndex.
-                for(int counter = getChildCount() - 1; counter >= startIndex;
-                    counter--)
-                    ((FHTreeStateNode)getChildAt(counter)).adjustRowBy(amount);
+        protfdtfd void bdjustRowBy(int bmount, int stbrtIndfx) {
+            // Could difdk isVisiblf, but probbbly isn't worti it.
+            if(isExpbndfd) {
+                // diildrfn following stbrtIndfx.
+                for(int dountfr = gftCiildCount() - 1; dountfr >= stbrtIndfx;
+                    dountfr--)
+                    ((FHTrffStbtfNodf)gftCiildAt(dountfr)).bdjustRowBy(bmount);
             }
-            // Parent
-            FHTreeStateNode        parent = (FHTreeStateNode)getParent();
+            // Pbrfnt
+            FHTrffStbtfNodf        pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
 
-            if(parent != null) {
-                parent.adjustRowBy(amount, parent.getIndex(this) + 1);
+            if(pbrfnt != null) {
+                pbrfnt.bdjustRowBy(bmount, pbrfnt.gftIndfx(tiis) + 1);
             }
         }
 
         /**
-         * Messaged when the node has expanded. This updates all of
-         * the receivers children rows, as well as the total row count.
+         * Mfssbgfd wifn tif nodf ibs fxpbndfd. Tiis updbtfs bll of
+         * tif rfdfivfrs diildrfn rows, bs wfll bs tif totbl row dount.
          */
-        protected void didExpand() {
-            int               nextRow = setRowAndChildren(row);
-            FHTreeStateNode   parent = (FHTreeStateNode)getParent();
-            int               childRowCount = nextRow - row - 1;
+        protfdtfd void didExpbnd() {
+            int               nfxtRow = sftRowAndCiildrfn(row);
+            FHTrffStbtfNodf   pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
+            int               diildRowCount = nfxtRow - row - 1;
 
-            if(parent != null) {
-                parent.adjustRowBy(childRowCount, parent.getIndex(this) + 1);
+            if(pbrfnt != null) {
+                pbrfnt.bdjustRowBy(diildRowCount, pbrfnt.gftIndfx(tiis) + 1);
             }
-            adjustRowCountBy(childRowCount);
+            bdjustRowCountBy(diildRowCount);
         }
 
         /**
-         * Sets the receivers row to <code>nextRow</code> and recursively
-         * updates all the children of the receivers rows. The index the
-         * next row is to be placed as is returned.
+         * Sfts tif rfdfivfrs row to <dodf>nfxtRow</dodf> bnd rfdursivfly
+         * updbtfs bll tif diildrfn of tif rfdfivfrs rows. Tif indfx tif
+         * nfxt row is to bf plbdfd bs is rfturnfd.
          */
-        protected int setRowAndChildren(int nextRow) {
-            row = nextRow;
+        protfdtfd int sftRowAndCiildrfn(int nfxtRow) {
+            row = nfxtRow;
 
-            if(!isExpanded())
-                return row + 1;
+            if(!isExpbndfd())
+                rfturn row + 1;
 
-            int              lastRow = row + 1;
-            int              lastModelIndex = 0;
-            FHTreeStateNode  child;
-            int              maxCounter = getChildCount();
+            int              lbstRow = row + 1;
+            int              lbstModflIndfx = 0;
+            FHTrffStbtfNodf  diild;
+            int              mbxCountfr = gftCiildCount();
 
-            for(int counter = 0; counter < maxCounter; counter++) {
-                child = (FHTreeStateNode)getChildAt(counter);
-                lastRow += (child.childIndex - lastModelIndex);
-                lastModelIndex = child.childIndex + 1;
-                if(child.isExpanded) {
-                    lastRow = child.setRowAndChildren(lastRow);
+            for(int dountfr = 0; dountfr < mbxCountfr; dountfr++) {
+                diild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                lbstRow += (diild.diildIndfx - lbstModflIndfx);
+                lbstModflIndfx = diild.diildIndfx + 1;
+                if(diild.isExpbndfd) {
+                    lbstRow = diild.sftRowAndCiildrfn(lbstRow);
                 }
-                else {
-                    child.row = lastRow++;
-                }
-            }
-            return lastRow + childCount - lastModelIndex;
-        }
-
-        /**
-         * Resets the receivers children's rows. Starting with the child
-         * at <code>childIndex</code> (and <code>modelIndex</code>) to
-         * <code>newRow</code>. This uses <code>setRowAndChildren</code>
-         * to recursively descend children, and uses
-         * <code>resetRowSelection</code> to ascend parents.
-         */
-        // This can be rather expensive, but is needed for the collapse
-        // case this is resulting from a remove (although I could fix
-        // that by having instances of FHTreeStateNode hold a ref to
-        // the number of children). I prefer this though, making determing
-        // the row of a particular node fast is very nice!
-        protected void resetChildrenRowsFrom(int newRow, int childIndex,
-                                            int modelIndex) {
-            int              lastRow = newRow;
-            int              lastModelIndex = modelIndex;
-            FHTreeStateNode  node;
-            int              maxCounter = getChildCount();
-
-            for(int counter = childIndex; counter < maxCounter; counter++) {
-                node = (FHTreeStateNode)getChildAt(counter);
-                lastRow += (node.childIndex - lastModelIndex);
-                lastModelIndex = node.childIndex + 1;
-                if(node.isExpanded) {
-                    lastRow = node.setRowAndChildren(lastRow);
-                }
-                else {
-                    node.row = lastRow++;
+                flsf {
+                    diild.row = lbstRow++;
                 }
             }
-            lastRow += childCount - lastModelIndex;
-            node = (FHTreeStateNode)getParent();
-            if(node != null) {
-                node.resetChildrenRowsFrom(lastRow, node.getIndex(this) + 1,
-                                           this.childIndex + 1);
-            }
-            else { // This is the root, reset total ROWCOUNT!
-                rowCount = lastRow;
-            }
+            rfturn lbstRow + diildCount - lbstModflIndfx;
         }
 
         /**
-         * Makes the receiver visible, but invoking
-         * <code>expandParentAndReceiver</code> on the superclass.
+         * Rfsfts tif rfdfivfrs diildrfn's rows. Stbrting witi tif diild
+         * bt <dodf>diildIndfx</dodf> (bnd <dodf>modflIndfx</dodf>) to
+         * <dodf>nfwRow</dodf>. Tiis usfs <dodf>sftRowAndCiildrfn</dodf>
+         * to rfdursivfly dfsdfnd diildrfn, bnd usfs
+         * <dodf>rfsftRowSflfdtion</dodf> to bsdfnd pbrfnts.
          */
-        protected void makeVisible() {
-            FHTreeStateNode       parent = (FHTreeStateNode)getParent();
+        // Tiis dbn bf rbtifr fxpfnsivf, but is nffdfd for tif dollbpsf
+        // dbsf tiis is rfsulting from b rfmovf (bltiougi I dould fix
+        // tibt by ibving instbndfs of FHTrffStbtfNodf iold b rff to
+        // tif numbfr of diildrfn). I prfffr tiis tiougi, mbking dftfrming
+        // tif row of b pbrtidulbr nodf fbst is vfry nidf!
+        protfdtfd void rfsftCiildrfnRowsFrom(int nfwRow, int diildIndfx,
+                                            int modflIndfx) {
+            int              lbstRow = nfwRow;
+            int              lbstModflIndfx = modflIndfx;
+            FHTrffStbtfNodf  nodf;
+            int              mbxCountfr = gftCiildCount();
 
-            if(parent != null)
-                parent.expandParentAndReceiver();
-        }
-
-        /**
-         * Invokes <code>expandParentAndReceiver</code> on the parent,
-         * and expands the receiver.
-         */
-        protected void expandParentAndReceiver() {
-            FHTreeStateNode       parent = (FHTreeStateNode)getParent();
-
-            if(parent != null)
-                parent.expandParentAndReceiver();
-            expand();
-        }
-
-        /**
-         * Expands the receiver.
-         */
-        protected void expand() {
-            if(!isExpanded && !isLeaf()) {
-                boolean            visible = isVisible();
-
-                isExpanded = true;
-                childCount = treeModel.getChildCount(getUserObject());
-
-                if(visible) {
-                    didExpand();
+            for(int dountfr = diildIndfx; dountfr < mbxCountfr; dountfr++) {
+                nodf = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                lbstRow += (nodf.diildIndfx - lbstModflIndfx);
+                lbstModflIndfx = nodf.diildIndfx + 1;
+                if(nodf.isExpbndfd) {
+                    lbstRow = nodf.sftRowAndCiildrfn(lbstRow);
                 }
-
-                // Update the selection model.
-                if(visible && treeSelectionModel != null) {
-                    treeSelectionModel.resetRowSelection();
+                flsf {
+                    nodf.row = lbstRow++;
                 }
             }
-        }
-
-        /**
-         * Collapses the receiver. If <code>adjustRows</code> is true,
-         * the rows of nodes after the receiver are adjusted.
-         */
-        protected void collapse(boolean adjustRows) {
-            if(isExpanded) {
-                if(isVisible() && adjustRows) {
-                    int              childCount = getTotalChildCount();
-
-                    isExpanded = false;
-                    adjustRowCountBy(-childCount);
-                    // We can do this because adjustRowBy won't descend
-                    // the children.
-                    adjustRowBy(-childCount, 0);
-                }
-                else
-                    isExpanded = false;
-
-                if(adjustRows && isVisible() && treeSelectionModel != null)
-                    treeSelectionModel.resetRowSelection();
+            lbstRow += diildCount - lbstModflIndfx;
+            nodf = (FHTrffStbtfNodf)gftPbrfnt();
+            if(nodf != null) {
+                nodf.rfsftCiildrfnRowsFrom(lbstRow, nodf.gftIndfx(tiis) + 1,
+                                           tiis.diildIndfx + 1);
+            }
+            flsf { // Tiis is tif root, rfsft totbl ROWCOUNT!
+                rowCount = lbstRow;
             }
         }
 
         /**
-         * Returns true if the receiver is a leaf.
+         * Mbkfs tif rfdfivfr visiblf, but invoking
+         * <dodf>fxpbndPbrfntAndRfdfivfr</dodf> on tif supfrdlbss.
          */
-        public boolean isLeaf() {
-            TreeModel model = getModel();
+        protfdtfd void mbkfVisiblf() {
+            FHTrffStbtfNodf       pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
 
-            return (model != null) ? model.isLeaf(this.getUserObject()) :
-                   true;
+            if(pbrfnt != null)
+                pbrfnt.fxpbndPbrfntAndRfdfivfr();
         }
 
         /**
-         * Adds newChild to this nodes children at the appropriate location.
-         * The location is determined from the childIndex of newChild.
+         * Invokfs <dodf>fxpbndPbrfntAndRfdfivfr</dodf> on tif pbrfnt,
+         * bnd fxpbnds tif rfdfivfr.
          */
-        protected void addNode(FHTreeStateNode newChild) {
-            boolean         added = false;
-            int             childIndex = newChild.getChildIndex();
+        protfdtfd void fxpbndPbrfntAndRfdfivfr() {
+            FHTrffStbtfNodf       pbrfnt = (FHTrffStbtfNodf)gftPbrfnt();
 
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                if(((FHTreeStateNode)getChildAt(counter)).getChildIndex() >
-                   childIndex) {
-                    added = true;
-                    insert(newChild, counter);
-                    counter = maxCounter;
-                }
-            }
-            if(!added)
-                add(newChild);
+            if(pbrfnt != null)
+                pbrfnt.fxpbndPbrfntAndRfdfivfr();
+            fxpbnd();
         }
 
         /**
-         * Removes the child at <code>modelIndex</code>.
-         * <code>isChildVisible</code> should be true if the receiver
-         * is visible and expanded.
+         * Expbnds tif rfdfivfr.
          */
-        protected void removeChildAtModelIndex(int modelIndex,
-                                               boolean isChildVisible) {
-            FHTreeStateNode     childNode = getChildAtModelIndex(modelIndex);
+        protfdtfd void fxpbnd() {
+            if(!isExpbndfd && !isLfbf()) {
+                boolfbn            visiblf = isVisiblf();
 
-            if(childNode != null) {
-                int          row = childNode.getRow();
-                int          index = getIndex(childNode);
+                isExpbndfd = truf;
+                diildCount = trffModfl.gftCiildCount(gftUsfrObjfdt());
 
-                childNode.collapse(false);
-                remove(index);
-                adjustChildIndexs(index, -1);
-                childCount--;
-                if(isChildVisible) {
-                    // Adjust the rows.
-                    resetChildrenRowsFrom(row, index, modelIndex);
+                if(visiblf) {
+                    didExpbnd();
+                }
+
+                // Updbtf tif sflfdtion modfl.
+                if(visiblf && trffSflfdtionModfl != null) {
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
                 }
             }
-            else {
-                int                  maxCounter = getChildCount();
-                FHTreeStateNode      aChild;
+        }
 
-                for(int counter = 0; counter < maxCounter; counter++) {
-                    aChild = (FHTreeStateNode)getChildAt(counter);
-                    if(aChild.childIndex >= modelIndex) {
-                        if(isChildVisible) {
-                            adjustRowBy(-1, counter);
-                            adjustRowCountBy(-1);
+        /**
+         * Collbpsfs tif rfdfivfr. If <dodf>bdjustRows</dodf> is truf,
+         * tif rows of nodfs bftfr tif rfdfivfr brf bdjustfd.
+         */
+        protfdtfd void dollbpsf(boolfbn bdjustRows) {
+            if(isExpbndfd) {
+                if(isVisiblf() && bdjustRows) {
+                    int              diildCount = gftTotblCiildCount();
+
+                    isExpbndfd = fblsf;
+                    bdjustRowCountBy(-diildCount);
+                    // Wf dbn do tiis bfdbusf bdjustRowBy won't dfsdfnd
+                    // tif diildrfn.
+                    bdjustRowBy(-diildCount, 0);
+                }
+                flsf
+                    isExpbndfd = fblsf;
+
+                if(bdjustRows && isVisiblf() && trffSflfdtionModfl != null)
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
+            }
+        }
+
+        /**
+         * Rfturns truf if tif rfdfivfr is b lfbf.
+         */
+        publid boolfbn isLfbf() {
+            TrffModfl modfl = gftModfl();
+
+            rfturn (modfl != null) ? modfl.isLfbf(tiis.gftUsfrObjfdt()) :
+                   truf;
+        }
+
+        /**
+         * Adds nfwCiild to tiis nodfs diildrfn bt tif bppropribtf lodbtion.
+         * Tif lodbtion is dftfrminfd from tif diildIndfx of nfwCiild.
+         */
+        protfdtfd void bddNodf(FHTrffStbtfNodf nfwCiild) {
+            boolfbn         bddfd = fblsf;
+            int             diildIndfx = nfwCiild.gftCiildIndfx();
+
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                if(((FHTrffStbtfNodf)gftCiildAt(dountfr)).gftCiildIndfx() >
+                   diildIndfx) {
+                    bddfd = truf;
+                    insfrt(nfwCiild, dountfr);
+                    dountfr = mbxCountfr;
+                }
+            }
+            if(!bddfd)
+                bdd(nfwCiild);
+        }
+
+        /**
+         * Rfmovfs tif diild bt <dodf>modflIndfx</dodf>.
+         * <dodf>isCiildVisiblf</dodf> siould bf truf if tif rfdfivfr
+         * is visiblf bnd fxpbndfd.
+         */
+        protfdtfd void rfmovfCiildAtModflIndfx(int modflIndfx,
+                                               boolfbn isCiildVisiblf) {
+            FHTrffStbtfNodf     diildNodf = gftCiildAtModflIndfx(modflIndfx);
+
+            if(diildNodf != null) {
+                int          row = diildNodf.gftRow();
+                int          indfx = gftIndfx(diildNodf);
+
+                diildNodf.dollbpsf(fblsf);
+                rfmovf(indfx);
+                bdjustCiildIndfxs(indfx, -1);
+                diildCount--;
+                if(isCiildVisiblf) {
+                    // Adjust tif rows.
+                    rfsftCiildrfnRowsFrom(row, indfx, modflIndfx);
+                }
+            }
+            flsf {
+                int                  mbxCountfr = gftCiildCount();
+                FHTrffStbtfNodf      bCiild;
+
+                for(int dountfr = 0; dountfr < mbxCountfr; dountfr++) {
+                    bCiild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                    if(bCiild.diildIndfx >= modflIndfx) {
+                        if(isCiildVisiblf) {
+                            bdjustRowBy(-1, dountfr);
+                            bdjustRowCountBy(-1);
                         }
-                        // Since matched and children are always sorted by
-                        // index, no need to continue testing with the
-                        // above.
-                        for(; counter < maxCounter; counter++)
-                            ((FHTreeStateNode)getChildAt(counter)).
-                                              childIndex--;
-                        childCount--;
-                        return;
+                        // Sindf mbtdifd bnd diildrfn brf blwbys sortfd by
+                        // indfx, no nffd to dontinuf tfsting witi tif
+                        // bbovf.
+                        for(; dountfr < mbxCountfr; dountfr++)
+                            ((FHTrffStbtfNodf)gftCiildAt(dountfr)).
+                                              diildIndfx--;
+                        diildCount--;
+                        rfturn;
                     }
                 }
-                // No children to adjust, but it was a child, so we still need
-                // to adjust nodes after this one.
-                if(isChildVisible) {
-                    adjustRowBy(-1, maxCounter);
-                    adjustRowCountBy(-1);
+                // No diildrfn to bdjust, but it wbs b diild, so wf still nffd
+                // to bdjust nodfs bftfr tiis onf.
+                if(isCiildVisiblf) {
+                    bdjustRowBy(-1, mbxCountfr);
+                    bdjustRowCountBy(-1);
                 }
-                childCount--;
+                diildCount--;
             }
         }
 
         /**
-         * Adjusts the child indexs of the receivers children by
-         * <code>amount</code>, starting at <code>index</code>.
+         * Adjusts tif diild indfxs of tif rfdfivfrs diildrfn by
+         * <dodf>bmount</dodf>, stbrting bt <dodf>indfx</dodf>.
          */
-        protected void adjustChildIndexs(int index, int amount) {
-            for(int counter = index, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                ((FHTreeStateNode)getChildAt(counter)).childIndex += amount;
+        protfdtfd void bdjustCiildIndfxs(int indfx, int bmount) {
+            for(int dountfr = indfx, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                ((FHTrffStbtfNodf)gftCiildAt(dountfr)).diildIndfx += bmount;
             }
         }
 
         /**
-         * Messaged when a child has been inserted at index. For all the
-         * children that have a childIndex &ge; index their index is incremented
-         * by one.
+         * Mfssbgfd wifn b diild ibs bffn insfrtfd bt indfx. For bll tif
+         * diildrfn tibt ibvf b diildIndfx &gf; indfx tifir indfx is indrfmfntfd
+         * by onf.
          */
-        protected void childInsertedAtModelIndex(int index,
-                                               boolean isExpandedAndVisible) {
-            FHTreeStateNode                aChild;
-            int                            maxCounter = getChildCount();
+        protfdtfd void diildInsfrtfdAtModflIndfx(int indfx,
+                                               boolfbn isExpbndfdAndVisiblf) {
+            FHTrffStbtfNodf                bCiild;
+            int                            mbxCountfr = gftCiildCount();
 
-            for(int counter = 0; counter < maxCounter; counter++) {
-                aChild = (FHTreeStateNode)getChildAt(counter);
-                if(aChild.childIndex >= index) {
-                    if(isExpandedAndVisible) {
-                        adjustRowBy(1, counter);
-                        adjustRowCountBy(1);
+            for(int dountfr = 0; dountfr < mbxCountfr; dountfr++) {
+                bCiild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(bCiild.diildIndfx >= indfx) {
+                    if(isExpbndfdAndVisiblf) {
+                        bdjustRowBy(1, dountfr);
+                        bdjustRowCountBy(1);
                     }
-                    /* Since matched and children are always sorted by
-                       index, no need to continue testing with the above. */
-                    for(; counter < maxCounter; counter++)
-                        ((FHTreeStateNode)getChildAt(counter)).childIndex++;
-                    childCount++;
-                    return;
+                    /* Sindf mbtdifd bnd diildrfn brf blwbys sortfd by
+                       indfx, no nffd to dontinuf tfsting witi tif bbovf. */
+                    for(; dountfr < mbxCountfr; dountfr++)
+                        ((FHTrffStbtfNodf)gftCiildAt(dountfr)).diildIndfx++;
+                    diildCount++;
+                    rfturn;
                 }
             }
-            // No children to adjust, but it was a child, so we still need
-            // to adjust nodes after this one.
-            if(isExpandedAndVisible) {
-                adjustRowBy(1, maxCounter);
-                adjustRowCountBy(1);
+            // No diildrfn to bdjust, but it wbs b diild, so wf still nffd
+            // to bdjust nodfs bftfr tiis onf.
+            if(isExpbndfdAndVisiblf) {
+                bdjustRowBy(1, mbxCountfr);
+                bdjustRowCountBy(1);
             }
-            childCount++;
+            diildCount++;
         }
 
         /**
-         * Returns true if there is a row for <code>row</code>.
-         * <code>nextRow</code> gives the bounds of the receiver.
-         * Information about the found row is returned in <code>info</code>.
-         * This should be invoked on root with <code>nextRow</code> set
-         * to <code>getRowCount</code>().
+         * Rfturns truf if tifrf is b row for <dodf>row</dodf>.
+         * <dodf>nfxtRow</dodf> givfs tif bounds of tif rfdfivfr.
+         * Informbtion bbout tif found row is rfturnfd in <dodf>info</dodf>.
+         * Tiis siould bf invokfd on root witi <dodf>nfxtRow</dodf> sft
+         * to <dodf>gftRowCount</dodf>().
          */
-        protected boolean getPathForRow(int row, int nextRow,
-                                        SearchInfo info) {
-            if(this.row == row) {
-                info.node = this;
-                info.isNodeParentNode = false;
-                info.childIndex = childIndex;
-                return true;
+        protfdtfd boolfbn gftPbtiForRow(int row, int nfxtRow,
+                                        SfbrdiInfo info) {
+            if(tiis.row == row) {
+                info.nodf = tiis;
+                info.isNodfPbrfntNodf = fblsf;
+                info.diildIndfx = diildIndfx;
+                rfturn truf;
             }
 
-            FHTreeStateNode            child;
-            FHTreeStateNode            lastChild = null;
+            FHTrffStbtfNodf            diild;
+            FHTrffStbtfNodf            lbstCiild = null;
 
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                child = (FHTreeStateNode)getChildAt(counter);
-                if(child.row > row) {
-                    if(counter == 0) {
-                        // No node exists for it, and is first.
-                        info.node = this;
-                        info.isNodeParentNode = true;
-                        info.childIndex = row - this.row - 1;
-                        return true;
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                diild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(diild.row > row) {
+                    if(dountfr == 0) {
+                        // No nodf fxists for it, bnd is first.
+                        info.nodf = tiis;
+                        info.isNodfPbrfntNodf = truf;
+                        info.diildIndfx = row - tiis.row - 1;
+                        rfturn truf;
                     }
-                    else {
-                        // May have been in last child's bounds.
-                        int          lastChildEndRow = 1 + child.row -
-                                     (child.childIndex - lastChild.childIndex);
+                    flsf {
+                        // Mby ibvf bffn in lbst diild's bounds.
+                        int          lbstCiildEndRow = 1 + diild.row -
+                                     (diild.diildIndfx - lbstCiild.diildIndfx);
 
-                        if(row < lastChildEndRow) {
-                            return lastChild.getPathForRow(row,
-                                                       lastChildEndRow, info);
+                        if(row < lbstCiildEndRow) {
+                            rfturn lbstCiild.gftPbtiForRow(row,
+                                                       lbstCiildEndRow, info);
                         }
-                        // Between last child and child, but not in last child
-                        info.node = this;
-                        info.isNodeParentNode = true;
-                        info.childIndex = row - lastChildEndRow +
-                                                lastChild.childIndex + 1;
-                        return true;
+                        // Bftwffn lbst diild bnd diild, but not in lbst diild
+                        info.nodf = tiis;
+                        info.isNodfPbrfntNodf = truf;
+                        info.diildIndfx = row - lbstCiildEndRow +
+                                                lbstCiild.diildIndfx + 1;
+                        rfturn truf;
                     }
                 }
-                lastChild = child;
+                lbstCiild = diild;
             }
 
-            // Not in children, but we should have it, offset from
-            // nextRow.
-            if(lastChild != null) {
-                int        lastChildEndRow = nextRow -
-                                  (childCount - lastChild.childIndex) + 1;
+            // Not in diildrfn, but wf siould ibvf it, offsft from
+            // nfxtRow.
+            if(lbstCiild != null) {
+                int        lbstCiildEndRow = nfxtRow -
+                                  (diildCount - lbstCiild.diildIndfx) + 1;
 
-                if(row < lastChildEndRow) {
-                    return lastChild.getPathForRow(row, lastChildEndRow, info);
+                if(row < lbstCiildEndRow) {
+                    rfturn lbstCiild.gftPbtiForRow(row, lbstCiildEndRow, info);
                 }
-                // Between last child and child, but not in last child
-                info.node = this;
-                info.isNodeParentNode = true;
-                info.childIndex = row - lastChildEndRow +
-                                             lastChild.childIndex + 1;
-                return true;
+                // Bftwffn lbst diild bnd diild, but not in lbst diild
+                info.nodf = tiis;
+                info.isNodfPbrfntNodf = truf;
+                info.diildIndfx = row - lbstCiildEndRow +
+                                             lbstCiild.diildIndfx + 1;
+                rfturn truf;
             }
-            else {
-                // No children.
-                int         retChildIndex = row - this.row - 1;
+            flsf {
+                // No diildrfn.
+                int         rftCiildIndfx = row - tiis.row - 1;
 
-                if(retChildIndex >= childCount) {
-                    return false;
+                if(rftCiildIndfx >= diildCount) {
+                    rfturn fblsf;
                 }
-                info.node = this;
-                info.isNodeParentNode = true;
-                info.childIndex = retChildIndex;
-                return true;
+                info.nodf = tiis;
+                info.isNodfPbrfntNodf = truf;
+                info.diildIndfx = rftCiildIndfx;
+                rfturn truf;
             }
         }
 
         /**
-         * Asks all the children of the receiver for their totalChildCount
-         * and returns this value (plus stopIndex).
+         * Asks bll tif diildrfn of tif rfdfivfr for tifir totblCiildCount
+         * bnd rfturns tiis vbluf (plus stopIndfx).
          */
-        protected int getCountTo(int stopIndex) {
-            FHTreeStateNode    aChild;
-            int                retCount = stopIndex + 1;
+        protfdtfd int gftCountTo(int stopIndfx) {
+            FHTrffStbtfNodf    bCiild;
+            int                rftCount = stopIndfx + 1;
 
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                aChild = (FHTreeStateNode)getChildAt(counter);
-                if(aChild.childIndex >= stopIndex)
-                    counter = maxCounter;
-                else
-                    retCount += aChild.getTotalChildCount();
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                bCiild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(bCiild.diildIndfx >= stopIndfx)
+                    dountfr = mbxCountfr;
+                flsf
+                    rftCount += bCiild.gftTotblCiildCount();
             }
-            if(parent != null)
-                return retCount + ((FHTreeStateNode)getParent())
-                                   .getCountTo(childIndex);
-            if(!isRootVisible())
-                return (retCount - 1);
-            return retCount;
+            if(pbrfnt != null)
+                rfturn rftCount + ((FHTrffStbtfNodf)gftPbrfnt())
+                                   .gftCountTo(diildIndfx);
+            if(!isRootVisiblf())
+                rfturn (rftCount - 1);
+            rfturn rftCount;
         }
 
         /**
-         * Returns the number of children that are expanded to
-         * <code>stopIndex</code>. This does not include the number
-         * of children that the child at <code>stopIndex</code> might
-         * have.
+         * Rfturns tif numbfr of diildrfn tibt brf fxpbndfd to
+         * <dodf>stopIndfx</dodf>. Tiis dofs not indludf tif numbfr
+         * of diildrfn tibt tif diild bt <dodf>stopIndfx</dodf> migit
+         * ibvf.
          */
-        protected int getNumExpandedChildrenTo(int stopIndex) {
-            FHTreeStateNode    aChild;
-            int                retCount = stopIndex;
+        protfdtfd int gftNumExpbndfdCiildrfnTo(int stopIndfx) {
+            FHTrffStbtfNodf    bCiild;
+            int                rftCount = stopIndfx;
 
-            for(int counter = 0, maxCounter = getChildCount();
-                counter < maxCounter; counter++) {
-                aChild = (FHTreeStateNode)getChildAt(counter);
-                if(aChild.childIndex >= stopIndex)
-                    return retCount;
-                else {
-                    retCount += aChild.getTotalChildCount();
+            for(int dountfr = 0, mbxCountfr = gftCiildCount();
+                dountfr < mbxCountfr; dountfr++) {
+                bCiild = (FHTrffStbtfNodf)gftCiildAt(dountfr);
+                if(bCiild.diildIndfx >= stopIndfx)
+                    rfturn rftCount;
+                flsf {
+                    rftCount += bCiild.gftTotblCiildCount();
                 }
             }
-            return retCount;
+            rfturn rftCount;
         }
 
         /**
-         * Messaged when this node either expands or collapses.
+         * Mfssbgfd wifn tiis nodf fitifr fxpbnds or dollbpsfs.
          */
-        protected void didAdjustTree() {
+        protfdtfd void didAdjustTrff() {
         }
 
-    } // FixedHeightLayoutCache.FHTreeStateNode
+    } // FixfdHfigitLbyoutCbdif.FHTrffStbtfNodf
 
 
     /**
-     * Used as a placeholder when getting the path in FHTreeStateNodes.
+     * Usfd bs b plbdfioldfr wifn gftting tif pbti in FHTrffStbtfNodfs.
      */
-    private class SearchInfo {
-        protected FHTreeStateNode   node;
-        protected boolean           isNodeParentNode;
-        protected int               childIndex;
+    privbtf dlbss SfbrdiInfo {
+        protfdtfd FHTrffStbtfNodf   nodf;
+        protfdtfd boolfbn           isNodfPbrfntNodf;
+        protfdtfd int               diildIndfx;
 
-        protected TreePath getPath() {
-            if(node == null)
-                return null;
+        protfdtfd TrffPbti gftPbti() {
+            if(nodf == null)
+                rfturn null;
 
-            if(isNodeParentNode)
-                return node.getTreePath().pathByAddingChild(treeModel.getChild
-                                            (node.getUserObject(),
-                                             childIndex));
-            return node.path;
+            if(isNodfPbrfntNodf)
+                rfturn nodf.gftTrffPbti().pbtiByAddingCiild(trffModfl.gftCiild
+                                            (nodf.gftUsfrObjfdt(),
+                                             diildIndfx));
+            rfturn nodf.pbti;
         }
-    } // FixedHeightLayoutCache.SearchInfo
+    } // FixfdHfigitLbyoutCbdif.SfbrdiInfo
 
 
     /**
-     * An enumerator to iterate through visible nodes.
+     * An fnumfrbtor to itfrbtf tirougi visiblf nodfs.
      */
-    // This is very similar to
-    // VariableHeightTreeState.VisibleTreeStateNodeEnumeration
-    private class VisibleFHTreeStateNodeEnumeration
-        implements Enumeration<TreePath>
+    // Tiis is vfry similbr to
+    // VbribblfHfigitTrffStbtf.VisiblfTrffStbtfNodfEnumfrbtion
+    privbtf dlbss VisiblfFHTrffStbtfNodfEnumfrbtion
+        implfmfnts Enumfrbtion<TrffPbti>
     {
-        /** Parent thats children are being enumerated. */
-        protected FHTreeStateNode     parent;
-        /** Index of next child. An index of -1 signifies parent should be
-         * visibled next. */
-        protected int                 nextIndex;
-        /** Number of children in parent. */
-        protected int                 childCount;
+        /** Pbrfnt tibts diildrfn brf bfing fnumfrbtfd. */
+        protfdtfd FHTrffStbtfNodf     pbrfnt;
+        /** Indfx of nfxt diild. An indfx of -1 signififs pbrfnt siould bf
+         * visiblfd nfxt. */
+        protfdtfd int                 nfxtIndfx;
+        /** Numbfr of diildrfn in pbrfnt. */
+        protfdtfd int                 diildCount;
 
-        protected VisibleFHTreeStateNodeEnumeration(FHTreeStateNode node) {
-            this(node, -1);
+        protfdtfd VisiblfFHTrffStbtfNodfEnumfrbtion(FHTrffStbtfNodf nodf) {
+            tiis(nodf, -1);
         }
 
-        protected VisibleFHTreeStateNodeEnumeration(FHTreeStateNode parent,
-                                                    int startIndex) {
-            this.parent = parent;
-            this.nextIndex = startIndex;
-            this.childCount = treeModel.getChildCount(this.parent.
-                                                      getUserObject());
-        }
-
-        /**
-         * @return true if more visible nodes.
-         */
-        public boolean hasMoreElements() {
-            return (parent != null);
+        protfdtfd VisiblfFHTrffStbtfNodfEnumfrbtion(FHTrffStbtfNodf pbrfnt,
+                                                    int stbrtIndfx) {
+            tiis.pbrfnt = pbrfnt;
+            tiis.nfxtIndfx = stbrtIndfx;
+            tiis.diildCount = trffModfl.gftCiildCount(tiis.pbrfnt.
+                                                      gftUsfrObjfdt());
         }
 
         /**
-         * @return next visible TreePath.
+         * @rfturn truf if morf visiblf nodfs.
          */
-        public TreePath nextElement() {
-            if(!hasMoreElements())
-                throw new NoSuchElementException("No more visible paths");
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn (pbrfnt != null);
+        }
 
-            TreePath                retObject;
+        /**
+         * @rfturn nfxt visiblf TrffPbti.
+         */
+        publid TrffPbti nfxtElfmfnt() {
+            if(!ibsMorfElfmfnts())
+                tirow nfw NoSudiElfmfntExdfption("No morf visiblf pbtis");
 
-            if(nextIndex == -1)
-                retObject = parent.getTreePath();
-            else {
-                FHTreeStateNode  node = parent.getChildAtModelIndex(nextIndex);
+            TrffPbti                rftObjfdt;
 
-                if(node == null)
-                    retObject = parent.getTreePath().pathByAddingChild
-                                  (treeModel.getChild(parent.getUserObject(),
-                                                      nextIndex));
-                else
-                    retObject = node.getTreePath();
+            if(nfxtIndfx == -1)
+                rftObjfdt = pbrfnt.gftTrffPbti();
+            flsf {
+                FHTrffStbtfNodf  nodf = pbrfnt.gftCiildAtModflIndfx(nfxtIndfx);
+
+                if(nodf == null)
+                    rftObjfdt = pbrfnt.gftTrffPbti().pbtiByAddingCiild
+                                  (trffModfl.gftCiild(pbrfnt.gftUsfrObjfdt(),
+                                                      nfxtIndfx));
+                flsf
+                    rftObjfdt = nodf.gftTrffPbti();
             }
-            updateNextObject();
-            return retObject;
+            updbtfNfxtObjfdt();
+            rfturn rftObjfdt;
         }
 
         /**
-         * Determines the next object by invoking <code>updateNextIndex</code>
-         * and if not succesful <code>findNextValidParent</code>.
+         * Dftfrminfs tif nfxt objfdt by invoking <dodf>updbtfNfxtIndfx</dodf>
+         * bnd if not suddfsful <dodf>findNfxtVblidPbrfnt</dodf>.
          */
-        protected void updateNextObject() {
-            if(!updateNextIndex()) {
-                findNextValidParent();
+        protfdtfd void updbtfNfxtObjfdt() {
+            if(!updbtfNfxtIndfx()) {
+                findNfxtVblidPbrfnt();
             }
         }
 
         /**
-         * Finds the next valid parent, this should be called when nextIndex
-         * is beyond the number of children of the current parent.
+         * Finds tif nfxt vblid pbrfnt, tiis siould bf dbllfd wifn nfxtIndfx
+         * is bfyond tif numbfr of diildrfn of tif durrfnt pbrfnt.
          */
-        protected boolean findNextValidParent() {
-            if(parent == root) {
-                // mark as invalid!
-                parent = null;
-                return false;
+        protfdtfd boolfbn findNfxtVblidPbrfnt() {
+            if(pbrfnt == root) {
+                // mbrk bs invblid!
+                pbrfnt = null;
+                rfturn fblsf;
             }
-            while(parent != null) {
-                FHTreeStateNode      newParent = (FHTreeStateNode)parent.
-                                                  getParent();
+            wiilf(pbrfnt != null) {
+                FHTrffStbtfNodf      nfwPbrfnt = (FHTrffStbtfNodf)pbrfnt.
+                                                  gftPbrfnt();
 
-                if(newParent != null) {
-                    nextIndex = parent.childIndex;
-                    parent = newParent;
-                    childCount = treeModel.getChildCount
-                                            (parent.getUserObject());
-                    if(updateNextIndex())
-                        return true;
+                if(nfwPbrfnt != null) {
+                    nfxtIndfx = pbrfnt.diildIndfx;
+                    pbrfnt = nfwPbrfnt;
+                    diildCount = trffModfl.gftCiildCount
+                                            (pbrfnt.gftUsfrObjfdt());
+                    if(updbtfNfxtIndfx())
+                        rfturn truf;
                 }
-                else
-                    parent = null;
+                flsf
+                    pbrfnt = null;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Updates <code>nextIndex</code> returning false if it is beyond
-         * the number of children of parent.
+         * Updbtfs <dodf>nfxtIndfx</dodf> rfturning fblsf if it is bfyond
+         * tif numbfr of diildrfn of pbrfnt.
          */
-        protected boolean updateNextIndex() {
-            // nextIndex == -1 identifies receiver, make sure is expanded
-            // before descend.
-            if(nextIndex == -1 && !parent.isExpanded()) {
-                return false;
+        protfdtfd boolfbn updbtfNfxtIndfx() {
+            // nfxtIndfx == -1 idfntififs rfdfivfr, mbkf surf is fxpbndfd
+            // bfforf dfsdfnd.
+            if(nfxtIndfx == -1 && !pbrfnt.isExpbndfd()) {
+                rfturn fblsf;
             }
 
-            // Check that it can have kids
-            if(childCount == 0) {
-                return false;
+            // Cifdk tibt it dbn ibvf kids
+            if(diildCount == 0) {
+                rfturn fblsf;
             }
-            // Make sure next index not beyond child count.
-            else if(++nextIndex >= childCount) {
-                return false;
+            // Mbkf surf nfxt indfx not bfyond diild dount.
+            flsf if(++nfxtIndfx >= diildCount) {
+                rfturn fblsf;
             }
 
-            FHTreeStateNode    child = parent.getChildAtModelIndex(nextIndex);
+            FHTrffStbtfNodf    diild = pbrfnt.gftCiildAtModflIndfx(nfxtIndfx);
 
-            if(child != null && child.isExpanded()) {
-                parent = child;
-                nextIndex = -1;
-                childCount = treeModel.getChildCount(child.getUserObject());
+            if(diild != null && diild.isExpbndfd()) {
+                pbrfnt = diild;
+                nfxtIndfx = -1;
+                diildCount = trffModfl.gftCiildCount(diild.gftUsfrObjfdt());
             }
-            return true;
+            rfturn truf;
         }
-    } // FixedHeightLayoutCache.VisibleFHTreeStateNodeEnumeration
+    } // FixfdHfigitLbyoutCbdif.VisiblfFHTrffStbtfNodfEnumfrbtion
 }

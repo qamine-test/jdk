@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Base implementation of FileStore for Unix/like implementations.
+ * Bbsf implfmfntbtion of FilfStorf for Unix/likf implfmfntbtions.
  */
 
-abstract class UnixFileStore
-    extends FileStore
+bbstrbdt dlbss UnixFilfStorf
+    fxtfnds FilfStorf
 {
-    // original path of file that identified file system
-    private final UnixPath file;
+    // originbl pbti of filf tibt idfntififd filf systfm
+    privbtf finbl UnixPbti filf;
 
-    // device ID
-    private final long dev;
+    // dfvidf ID
+    privbtf finbl long dfv;
 
-    // entry in the mount tab
-    private final UnixMountEntry entry;
+    // fntry in tif mount tbb
+    privbtf finbl UnixMountEntry fntry;
 
-    // return the device ID where the given file resides
-    private static long devFor(UnixPath file) throws IOException {
+    // rfturn tif dfvidf ID wifrf tif givfn filf rfsidfs
+    privbtf stbtid long dfvFor(UnixPbti filf) tirows IOExdfption {
         try {
-            return UnixFileAttributes.get(file, true).dev();
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-            return 0L;  // keep compiler happy
+            rfturn UnixFilfAttributfs.gft(filf, truf).dfv();
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn 0L;  // kffp dompilfr ibppy
         }
     }
 
-    UnixFileStore(UnixPath file) throws IOException {
-        this.file = file;
-        this.dev = devFor(file);
-        this.entry = findMountEntry();
+    UnixFilfStorf(UnixPbti filf) tirows IOExdfption {
+        tiis.filf = filf;
+        tiis.dfv = dfvFor(filf);
+        tiis.fntry = findMountEntry();
     }
 
-    UnixFileStore(UnixFileSystem fs, UnixMountEntry entry) throws IOException {
-        this.file = new UnixPath(fs, entry.dir());
-        this.dev = (entry.dev() == 0L) ? devFor(this.file) : entry.dev();
-        this.entry = entry;
+    UnixFilfStorf(UnixFilfSystfm fs, UnixMountEntry fntry) tirows IOExdfption {
+        tiis.filf = nfw UnixPbti(fs, fntry.dir());
+        tiis.dfv = (fntry.dfv() == 0L) ? dfvFor(tiis.filf) : fntry.dfv();
+        tiis.fntry = fntry;
     }
 
     /**
-     * Find the mount entry for the file store
+     * Find tif mount fntry for tif filf storf
      */
-    abstract UnixMountEntry findMountEntry() throws IOException;
+    bbstrbdt UnixMountEntry findMountEntry() tirows IOExdfption;
 
-    UnixPath file() {
-        return file;
+    UnixPbti filf() {
+        rfturn filf;
     }
 
-    long dev() {
-        return dev;
+    long dfv() {
+        rfturn dfv;
     }
 
-    UnixMountEntry entry() {
-        return entry;
+    UnixMountEntry fntry() {
+        rfturn fntry;
     }
 
-    @Override
-    public String name() {
-        return entry.name();
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn fntry.nbmf();
     }
 
-    @Override
-    public String type() {
-        return entry.fstype();
+    @Ovfrridf
+    publid String typf() {
+        rfturn fntry.fstypf();
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return entry.isReadOnly();
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn fntry.isRfbdOnly();
     }
 
-    // uses statvfs to read the file system information
-    private UnixFileStoreAttributes readAttributes() throws IOException {
+    // usfs stbtvfs to rfbd tif filf systfm informbtion
+    privbtf UnixFilfStorfAttributfs rfbdAttributfs() tirows IOExdfption {
         try {
-            return UnixFileStoreAttributes.get(file);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-            return null;    // keep compile happy
+            rfturn UnixFilfStorfAttributfs.gft(filf);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;    // kffp dompilf ibppy
         }
     }
 
-    @Override
-    public long getTotalSpace() throws IOException {
-        UnixFileStoreAttributes attrs = readAttributes();
-        return attrs.blockSize() * attrs.totalBlocks();
+    @Ovfrridf
+    publid long gftTotblSpbdf() tirows IOExdfption {
+        UnixFilfStorfAttributfs bttrs = rfbdAttributfs();
+        rfturn bttrs.blodkSizf() * bttrs.totblBlodks();
     }
 
-    @Override
-    public long getUsableSpace() throws IOException {
-       UnixFileStoreAttributes attrs = readAttributes();
-       return attrs.blockSize() * attrs.availableBlocks();
+    @Ovfrridf
+    publid long gftUsbblfSpbdf() tirows IOExdfption {
+       UnixFilfStorfAttributfs bttrs = rfbdAttributfs();
+       rfturn bttrs.blodkSizf() * bttrs.bvbilbblfBlodks();
     }
 
-    @Override
-    public long getUnallocatedSpace() throws IOException {
-        UnixFileStoreAttributes attrs = readAttributes();
-        return attrs.blockSize() * attrs.freeBlocks();
+    @Ovfrridf
+    publid long gftUnbllodbtfdSpbdf() tirows IOExdfption {
+        UnixFilfStorfAttributfs bttrs = rfbdAttributfs();
+        rfturn bttrs.blodkSizf() * bttrs.frffBlodks();
     }
 
-    @Override
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> view)
+    @Ovfrridf
+    publid <V fxtfnds FilfStorfAttributfVifw> V gftFilfStorfAttributfVifw(Clbss<V> vifw)
     {
-        if (view == null)
-            throw new NullPointerException();
-        return (V) null;
+        if (vifw == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn (V) null;
     }
 
-    @Override
-    public Object getAttribute(String attribute) throws IOException {
-        if (attribute.equals("totalSpace"))
-            return getTotalSpace();
-        if (attribute.equals("usableSpace"))
-            return getUsableSpace();
-        if (attribute.equals("unallocatedSpace"))
-            return getUnallocatedSpace();
-        throw new UnsupportedOperationException("'" + attribute + "' not recognized");
+    @Ovfrridf
+    publid Objfdt gftAttributf(String bttributf) tirows IOExdfption {
+        if (bttributf.fqubls("totblSpbdf"))
+            rfturn gftTotblSpbdf();
+        if (bttributf.fqubls("usbblfSpbdf"))
+            rfturn gftUsbblfSpbdf();
+        if (bttributf.fqubls("unbllodbtfdSpbdf"))
+            rfturn gftUnbllodbtfdSpbdf();
+        tirow nfw UnsupportfdOpfrbtionExdfption("'" + bttributf + "' not rfdognizfd");
     }
 
-    @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        if (type == null)
-            throw new NullPointerException();
-        if (type == BasicFileAttributeView.class)
-            return true;
-        if (type == PosixFileAttributeView.class ||
-            type == FileOwnerAttributeView.class)
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        if (typf == BbsidFilfAttributfVifw.dlbss)
+            rfturn truf;
+        if (typf == PosixFilfAttributfVifw.dlbss ||
+            typf == FilfOwnfrAttributfVifw.dlbss)
         {
-            // lookup fstypes.properties
-            FeatureStatus status = checkIfFeaturePresent("posix");
-            // assume supported if UNKNOWN
-            return (status != FeatureStatus.NOT_PRESENT);
+            // lookup fstypfs.propfrtifs
+            FfbturfStbtus stbtus = difdkIfFfbturfPrfsfnt("posix");
+            // bssumf supportfd if UNKNOWN
+            rfturn (stbtus != FfbturfStbtus.NOT_PRESENT);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("basic") || name.equals("unix"))
-            return true;
-        if (name.equals("posix"))
-            return supportsFileAttributeView(PosixFileAttributeView.class);
-        if (name.equals("owner"))
-            return supportsFileAttributeView(FileOwnerAttributeView.class);
-        return false;
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        if (nbmf.fqubls("bbsid") || nbmf.fqubls("unix"))
+            rfturn truf;
+        if (nbmf.fqubls("posix"))
+            rfturn supportsFilfAttributfVifw(PosixFilfAttributfVifw.dlbss);
+        if (nbmf.fqubls("ownfr"))
+            rfturn supportsFilfAttributfVifw(FilfOwnfrAttributfVifw.dlbss);
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean equals(Object ob) {
-        if (ob == this)
-            return true;
-        if (!(ob instanceof UnixFileStore))
-            return false;
-        UnixFileStore other = (UnixFileStore)ob;
-        return (this.dev == other.dev) &&
-               Arrays.equals(this.entry.dir(), other.entry.dir());
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == tiis)
+            rfturn truf;
+        if (!(ob instbndfof UnixFilfStorf))
+            rfturn fblsf;
+        UnixFilfStorf otifr = (UnixFilfStorf)ob;
+        rfturn (tiis.dfv == otifr.dfv) &&
+               Arrbys.fqubls(tiis.fntry.dir(), otifr.fntry.dir());
     }
 
-    @Override
-    public int hashCode() {
-        return (int)(dev ^ (dev >>> 32)) ^ Arrays.hashCode(entry.dir());
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (int)(dfv ^ (dfv >>> 32)) ^ Arrbys.ibsiCodf(fntry.dir());
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(Util.toString(entry.dir()));
-        sb.append(" (");
-        sb.append(entry.name());
-        sb.append(")");
-        return sb.toString();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(Util.toString(fntry.dir()));
+        sb.bppfnd(" (");
+        sb.bppfnd(fntry.nbmf());
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 
-    // -- fstypes.properties --
+    // -- fstypfs.propfrtifs --
 
-    private static final Object loadLock = new Object();
-    private static volatile Properties props;
+    privbtf stbtid finbl Objfdt lobdLodk = nfw Objfdt();
+    privbtf stbtid volbtilf Propfrtifs props;
 
-    enum FeatureStatus {
+    fnum FfbturfStbtus {
         PRESENT,
         NOT_PRESENT,
         UNKNOWN;
     }
 
     /**
-     * Returns status to indicate if file system supports a given feature
+     * Rfturns stbtus to indidbtf if filf systfm supports b givfn ffbturf
      */
-    FeatureStatus checkIfFeaturePresent(String feature) {
+    FfbturfStbtus difdkIfFfbturfPrfsfnt(String ffbturf) {
         if (props == null) {
-            synchronized (loadLock) {
+            syndironizfd (lobdLodk) {
                 if (props == null) {
-                    props = AccessController.doPrivileged(
-                        new PrivilegedAction<Properties>() {
-                            @Override
-                            public Properties run() {
-                                return loadProperties();
+                    props = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<Propfrtifs>() {
+                            @Ovfrridf
+                            publid Propfrtifs run() {
+                                rfturn lobdPropfrtifs();
                             }});
                 }
             }
         }
 
-        String value = props.getProperty(type());
-        if (value != null) {
-            String[] values = value.split("\\s");
-            for (String s: values) {
-                s = s.trim().toLowerCase();
-                if (s.equals(feature)) {
-                    return FeatureStatus.PRESENT;
+        String vbluf = props.gftPropfrty(typf());
+        if (vbluf != null) {
+            String[] vblufs = vbluf.split("\\s");
+            for (String s: vblufs) {
+                s = s.trim().toLowfrCbsf();
+                if (s.fqubls(ffbturf)) {
+                    rfturn FfbturfStbtus.PRESENT;
                 }
-                if (s.startsWith("no")) {
+                if (s.stbrtsWiti("no")) {
                     s = s.substring(2);
-                    if (s.equals(feature)) {
-                        return FeatureStatus.NOT_PRESENT;
+                    if (s.fqubls(ffbturf)) {
+                        rfturn FfbturfStbtus.NOT_PRESENT;
                     }
                 }
             }
         }
-        return FeatureStatus.UNKNOWN;
+        rfturn FfbturfStbtus.UNKNOWN;
     }
 
-    private static Properties loadProperties() {
-        Properties result = new Properties();
-        String fstypes = System.getProperty("java.home") + "/lib/fstypes.properties";
-        Path file = Paths.get(fstypes);
+    privbtf stbtid Propfrtifs lobdPropfrtifs() {
+        Propfrtifs rfsult = nfw Propfrtifs();
+        String fstypfs = Systfm.gftPropfrty("jbvb.iomf") + "/lib/fstypfs.propfrtifs";
+        Pbti filf = Pbtis.gft(fstypfs);
         try {
-            try (ReadableByteChannel rbc = Files.newByteChannel(file)) {
-                result.load(Channels.newReader(rbc, "UTF-8"));
+            try (RfbdbblfBytfCibnnfl rbd = Filfs.nfwBytfCibnnfl(filf)) {
+                rfsult.lobd(Cibnnfls.nfwRfbdfr(rbd, "UTF-8"));
             }
-        } catch (IOException x) {
+        } dbtdi (IOExdfption x) {
         }
-        return result;
+        rfturn rfsult;
     }
 }

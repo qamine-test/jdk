@@ -1,714 +1,714 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import java.io.Serializable;
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.swing.event.TableModelEvent;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
 
 
 /**
- * This is an implementation of <code>TableModel</code> that
- * uses a <code>Vector</code> of <code>Vectors</code> to store the
- * cell value objects.
+ * Tiis is bn implfmfntbtion of <dodf>TbblfModfl</dodf> tibt
+ * usfs b <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf> to storf tif
+ * dfll vbluf objfdts.
  * <p>
- * <strong>Warning:</strong> <code>DefaultTableModel</code> returns a
- * column class of <code>Object</code>.  When
- * <code>DefaultTableModel</code> is used with a
- * <code>TableRowSorter</code> this will result in extensive use of
- * <code>toString</code>, which for non-<code>String</code> data types
- * is expensive.  If you use <code>DefaultTableModel</code> with a
- * <code>TableRowSorter</code> you are strongly encouraged to override
- * <code>getColumnClass</code> to return the appropriate type.
+ * <strong>Wbrning:</strong> <dodf>DffbultTbblfModfl</dodf> rfturns b
+ * dolumn dlbss of <dodf>Objfdt</dodf>.  Wifn
+ * <dodf>DffbultTbblfModfl</dodf> is usfd witi b
+ * <dodf>TbblfRowSortfr</dodf> tiis will rfsult in fxtfnsivf usf of
+ * <dodf>toString</dodf>, wiidi for non-<dodf>String</dodf> dbtb typfs
+ * is fxpfnsivf.  If you usf <dodf>DffbultTbblfModfl</dodf> witi b
+ * <dodf>TbblfRowSortfr</dodf> you brf strongly fndourbgfd to ovfrridf
+ * <dodf>gftColumnClbss</dodf> to rfturn tif bppropribtf typf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  *
- * @see TableModel
- * @see #getDataVector
+ * @sff TbblfModfl
+ * @sff #gftDbtbVfdtor
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableModel extends AbstractTableModel implements Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTbblfModfl fxtfnds AbstrbdtTbblfModfl implfmfnts Sfriblizbblf {
 
 //
-// Instance Variables
-//
-
-    /**
-     * The <code>Vector</code> of <code>Vectors</code> of
-     * <code>Object</code> values.
-     */
-    protected Vector<Vector<Object>>    dataVector;
-
-    /** The <code>Vector</code> of column identifiers. */
-    protected Vector<Object>    columnIdentifiers;
-
-//
-// Constructors
+// Instbndf Vbribblfs
 //
 
     /**
-     *  Constructs a default <code>DefaultTableModel</code>
-     *  which is a table of zero columns and zero rows.
+     * Tif <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf> of
+     * <dodf>Objfdt</dodf> vblufs.
      */
-    public DefaultTableModel() {
-        this(0, 0);
+    protfdtfd Vfdtor<Vfdtor<Objfdt>>    dbtbVfdtor;
+
+    /** Tif <dodf>Vfdtor</dodf> of dolumn idfntififrs. */
+    protfdtfd Vfdtor<Objfdt>    dolumnIdfntififrs;
+
+//
+// Construdtors
+//
+
+    /**
+     *  Construdts b dffbult <dodf>DffbultTbblfModfl</dodf>
+     *  wiidi is b tbblf of zfro dolumns bnd zfro rows.
+     */
+    publid DffbultTbblfModfl() {
+        tiis(0, 0);
     }
 
-    private static <E> Vector<E> newVector(int size) {
-        Vector<E> v = new Vector<>(size);
-        v.setSize(size);
-        return v;
+    privbtf stbtid <E> Vfdtor<E> nfwVfdtor(int sizf) {
+        Vfdtor<E> v = nfw Vfdtor<>(sizf);
+        v.sftSizf(sizf);
+        rfturn v;
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with
-     *  <code>rowCount</code> and <code>columnCount</code> of
-     *  <code>null</code> object values.
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> witi
+     *  <dodf>rowCount</dodf> bnd <dodf>dolumnCount</dodf> of
+     *  <dodf>null</dodf> objfdt vblufs.
      *
-     * @param rowCount           the number of rows the table holds
-     * @param columnCount        the number of columns the table holds
+     * @pbrbm rowCount           tif numbfr of rows tif tbblf iolds
+     * @pbrbm dolumnCount        tif numbfr of dolumns tif tbblf iolds
      *
-     * @see #setValueAt
+     * @sff #sftVblufAt
      */
-    public DefaultTableModel(int rowCount, int columnCount) {
-        this(newVector(columnCount), rowCount);
+    publid DffbultTbblfModfl(int rowCount, int dolumnCount) {
+        tiis(nfwVfdtor(dolumnCount), rowCount);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with as many columns
-     *  as there are elements in <code>columnNames</code>
-     *  and <code>rowCount</code> of <code>null</code>
-     *  object values.  Each column's name will be taken from
-     *  the <code>columnNames</code> vector.
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> witi bs mbny dolumns
+     *  bs tifrf brf flfmfnts in <dodf>dolumnNbmfs</dodf>
+     *  bnd <dodf>rowCount</dodf> of <dodf>null</dodf>
+     *  objfdt vblufs.  Ebdi dolumn's nbmf will bf tbkfn from
+     *  tif <dodf>dolumnNbmfs</dodf> vfdtor.
      *
-     * @param columnNames       <code>vector</code> containing the names
-     *                          of the new columns; if this is
-     *                          <code>null</code> then the model has no columns
-     * @param rowCount           the number of rows the table holds
-     * @see #setDataVector
-     * @see #setValueAt
+     * @pbrbm dolumnNbmfs       <dodf>vfdtor</dodf> dontbining tif nbmfs
+     *                          of tif nfw dolumns; if tiis is
+     *                          <dodf>null</dodf> tifn tif modfl ibs no dolumns
+     * @pbrbm rowCount           tif numbfr of rows tif tbblf iolds
+     * @sff #sftDbtbVfdtor
+     * @sff #sftVblufAt
      */
-    public DefaultTableModel(Vector<Object> columnNames, int rowCount) {
-        setDataVector(newVector(rowCount), columnNames);
+    publid DffbultTbblfModfl(Vfdtor<Objfdt> dolumnNbmfs, int rowCount) {
+        sftDbtbVfdtor(nfwVfdtor(rowCount), dolumnNbmfs);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with as many
-     *  columns as there are elements in <code>columnNames</code>
-     *  and <code>rowCount</code> of <code>null</code>
-     *  object values.  Each column's name will be taken from
-     *  the <code>columnNames</code> array.
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> witi bs mbny
+     *  dolumns bs tifrf brf flfmfnts in <dodf>dolumnNbmfs</dodf>
+     *  bnd <dodf>rowCount</dodf> of <dodf>null</dodf>
+     *  objfdt vblufs.  Ebdi dolumn's nbmf will bf tbkfn from
+     *  tif <dodf>dolumnNbmfs</dodf> brrby.
      *
-     * @param columnNames       <code>array</code> containing the names
-     *                          of the new columns; if this is
-     *                          <code>null</code> then the model has no columns
-     * @param rowCount           the number of rows the table holds
-     * @see #setDataVector
-     * @see #setValueAt
+     * @pbrbm dolumnNbmfs       <dodf>brrby</dodf> dontbining tif nbmfs
+     *                          of tif nfw dolumns; if tiis is
+     *                          <dodf>null</dodf> tifn tif modfl ibs no dolumns
+     * @pbrbm rowCount           tif numbfr of rows tif tbblf iolds
+     * @sff #sftDbtbVfdtor
+     * @sff #sftVblufAt
      */
-    public DefaultTableModel(Object[] columnNames, int rowCount) {
-        this(convertToVector(columnNames), rowCount);
+    publid DffbultTbblfModfl(Objfdt[] dolumnNbmfs, int rowCount) {
+        tiis(donvfrtToVfdtor(dolumnNbmfs), rowCount);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> and initializes the table
-     *  by passing <code>data</code> and <code>columnNames</code>
-     *  to the <code>setDataVector</code> method.
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> bnd initiblizfs tif tbblf
+     *  by pbssing <dodf>dbtb</dodf> bnd <dodf>dolumnNbmfs</dodf>
+     *  to tif <dodf>sftDbtbVfdtor</dodf> mftiod.
      *
-     * @param data              the data of the table, a <code>Vector</code>
-     *                          of <code>Vector</code>s of <code>Object</code>
-     *                          values
-     * @param columnNames       <code>vector</code> containing the names
-     *                          of the new columns
-     * @see #getDataVector
-     * @see #setDataVector
+     * @pbrbm dbtb              tif dbtb of tif tbblf, b <dodf>Vfdtor</dodf>
+     *                          of <dodf>Vfdtor</dodf>s of <dodf>Objfdt</dodf>
+     *                          vblufs
+     * @pbrbm dolumnNbmfs       <dodf>vfdtor</dodf> dontbining tif nbmfs
+     *                          of tif nfw dolumns
+     * @sff #gftDbtbVfdtor
+     * @sff #sftDbtbVfdtor
      */
-    public DefaultTableModel(Vector<Vector<Object>> data, Vector<Object> columnNames) {
-        setDataVector(data, columnNames);
+    publid DffbultTbblfModfl(Vfdtor<Vfdtor<Objfdt>> dbtb, Vfdtor<Objfdt> dolumnNbmfs) {
+        sftDbtbVfdtor(dbtb, dolumnNbmfs);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> and initializes the table
-     *  by passing <code>data</code> and <code>columnNames</code>
-     *  to the <code>setDataVector</code>
-     *  method. The first index in the <code>Object[][]</code> array is
-     *  the row index and the second is the column index.
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> bnd initiblizfs tif tbblf
+     *  by pbssing <dodf>dbtb</dodf> bnd <dodf>dolumnNbmfs</dodf>
+     *  to tif <dodf>sftDbtbVfdtor</dodf>
+     *  mftiod. Tif first indfx in tif <dodf>Objfdt[][]</dodf> brrby is
+     *  tif row indfx bnd tif sfdond is tif dolumn indfx.
      *
-     * @param data              the data of the table
-     * @param columnNames       the names of the columns
-     * @see #getDataVector
-     * @see #setDataVector
+     * @pbrbm dbtb              tif dbtb of tif tbblf
+     * @pbrbm dolumnNbmfs       tif nbmfs of tif dolumns
+     * @sff #gftDbtbVfdtor
+     * @sff #sftDbtbVfdtor
      */
-    public DefaultTableModel(Object[][] data, Object[] columnNames) {
-        setDataVector(data, columnNames);
+    publid DffbultTbblfModfl(Objfdt[][] dbtb, Objfdt[] dolumnNbmfs) {
+        sftDbtbVfdtor(dbtb, dolumnNbmfs);
     }
 
     /**
-     *  Returns the <code>Vector</code> of <code>Vectors</code>
-     *  that contains the table's
-     *  data values.  The vectors contained in the outer vector are
-     *  each a single row of values.  In other words, to get to the cell
-     *  at row 1, column 5: <p>
+     *  Rfturns tif <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf>
+     *  tibt dontbins tif tbblf's
+     *  dbtb vblufs.  Tif vfdtors dontbinfd in tif outfr vfdtor brf
+     *  fbdi b singlf row of vblufs.  In otifr words, to gft to tif dfll
+     *  bt row 1, dolumn 5: <p>
      *
-     *  <code>((Vector)getDataVector().elementAt(1)).elementAt(5);</code>
+     *  <dodf>((Vfdtor)gftDbtbVfdtor().flfmfntAt(1)).flfmfntAt(5);</dodf>
      *
-     * @return  the vector of vectors containing the tables data values
+     * @rfturn  tif vfdtor of vfdtors dontbining tif tbblfs dbtb vblufs
      *
-     * @see #newDataAvailable
-     * @see #newRowsAdded
-     * @see #setDataVector
+     * @sff #nfwDbtbAvbilbblf
+     * @sff #nfwRowsAddfd
+     * @sff #sftDbtbVfdtor
      */
-    public Vector<Vector<Object>> getDataVector() {
-        return dataVector;
+    publid Vfdtor<Vfdtor<Objfdt>> gftDbtbVfdtor() {
+        rfturn dbtbVfdtor;
     }
 
-    private static <E> Vector<E> nonNullVector(Vector<E> v) {
-        return (v != null) ? v : new Vector<>();
-    }
-
-    /**
-     *  Replaces the current <code>dataVector</code> instance variable
-     *  with the new <code>Vector</code> of rows, <code>dataVector</code>.
-     *  Each row is represented in <code>dataVector</code> as a
-     *  <code>Vector</code> of <code>Object</code> values.
-     *  <code>columnIdentifiers</code> are the names of the new
-     *  columns.  The first name in <code>columnIdentifiers</code> is
-     *  mapped to column 0 in <code>dataVector</code>. Each row in
-     *  <code>dataVector</code> is adjusted to match the number of
-     *  columns in <code>columnIdentifiers</code>
-     *  either by truncating the <code>Vector</code> if it is too long,
-     *  or adding <code>null</code> values if it is too short.
-     *  <p>Note that passing in a <code>null</code> value for
-     *  <code>dataVector</code> results in unspecified behavior,
-     *  an possibly an exception.
-     *
-     * @param   dataVector         the new data vector
-     * @param   columnIdentifiers     the names of the columns
-     * @see #getDataVector
-     */
-    public void setDataVector(Vector<Vector<Object>> dataVector,
-                              Vector<Object> columnIdentifiers) {
-        this.dataVector = nonNullVector(dataVector);
-        this.columnIdentifiers = nonNullVector(columnIdentifiers);
-        justifyRows(0, getRowCount());
-        fireTableStructureChanged();
+    privbtf stbtid <E> Vfdtor<E> nonNullVfdtor(Vfdtor<E> v) {
+        rfturn (v != null) ? v : nfw Vfdtor<>();
     }
 
     /**
-     *  Replaces the value in the <code>dataVector</code> instance
-     *  variable with the values in the array <code>dataVector</code>.
-     *  The first index in the <code>Object[][]</code>
-     *  array is the row index and the second is the column index.
-     *  <code>columnIdentifiers</code> are the names of the new columns.
+     *  Rfplbdfs tif durrfnt <dodf>dbtbVfdtor</dodf> instbndf vbribblf
+     *  witi tif nfw <dodf>Vfdtor</dodf> of rows, <dodf>dbtbVfdtor</dodf>.
+     *  Ebdi row is rfprfsfntfd in <dodf>dbtbVfdtor</dodf> bs b
+     *  <dodf>Vfdtor</dodf> of <dodf>Objfdt</dodf> vblufs.
+     *  <dodf>dolumnIdfntififrs</dodf> brf tif nbmfs of tif nfw
+     *  dolumns.  Tif first nbmf in <dodf>dolumnIdfntififrs</dodf> is
+     *  mbppfd to dolumn 0 in <dodf>dbtbVfdtor</dodf>. Ebdi row in
+     *  <dodf>dbtbVfdtor</dodf> is bdjustfd to mbtdi tif numbfr of
+     *  dolumns in <dodf>dolumnIdfntififrs</dodf>
+     *  fitifr by trundbting tif <dodf>Vfdtor</dodf> if it is too long,
+     *  or bdding <dodf>null</dodf> vblufs if it is too siort.
+     *  <p>Notf tibt pbssing in b <dodf>null</dodf> vbluf for
+     *  <dodf>dbtbVfdtor</dodf> rfsults in unspfdififd bfibvior,
+     *  bn possibly bn fxdfption.
      *
-     * @param dataVector                the new data vector
-     * @param columnIdentifiers the names of the columns
-     * @see #setDataVector(Vector, Vector)
+     * @pbrbm   dbtbVfdtor         tif nfw dbtb vfdtor
+     * @pbrbm   dolumnIdfntififrs     tif nbmfs of tif dolumns
+     * @sff #gftDbtbVfdtor
      */
-    public void setDataVector(Object[][] dataVector, Object[] columnIdentifiers) {
-        setDataVector(convertToVector(dataVector), convertToVector(columnIdentifiers));
+    publid void sftDbtbVfdtor(Vfdtor<Vfdtor<Objfdt>> dbtbVfdtor,
+                              Vfdtor<Objfdt> dolumnIdfntififrs) {
+        tiis.dbtbVfdtor = nonNullVfdtor(dbtbVfdtor);
+        tiis.dolumnIdfntififrs = nonNullVfdtor(dolumnIdfntififrs);
+        justifyRows(0, gftRowCount());
+        firfTbblfStrudturfCibngfd();
     }
 
     /**
-     *  Equivalent to <code>fireTableChanged</code>.
+     *  Rfplbdfs tif vbluf in tif <dodf>dbtbVfdtor</dodf> instbndf
+     *  vbribblf witi tif vblufs in tif brrby <dodf>dbtbVfdtor</dodf>.
+     *  Tif first indfx in tif <dodf>Objfdt[][]</dodf>
+     *  brrby is tif row indfx bnd tif sfdond is tif dolumn indfx.
+     *  <dodf>dolumnIdfntififrs</dodf> brf tif nbmfs of tif nfw dolumns.
      *
-     * @param event  the change event
+     * @pbrbm dbtbVfdtor                tif nfw dbtb vfdtor
+     * @pbrbm dolumnIdfntififrs tif nbmfs of tif dolumns
+     * @sff #sftDbtbVfdtor(Vfdtor, Vfdtor)
+     */
+    publid void sftDbtbVfdtor(Objfdt[][] dbtbVfdtor, Objfdt[] dolumnIdfntififrs) {
+        sftDbtbVfdtor(donvfrtToVfdtor(dbtbVfdtor), donvfrtToVfdtor(dolumnIdfntififrs));
+    }
+
+    /**
+     *  Equivblfnt to <dodf>firfTbblfCibngfd</dodf>.
+     *
+     * @pbrbm fvfnt  tif dibngf fvfnt
      *
      */
-    public void newDataAvailable(TableModelEvent event) {
-        fireTableChanged(event);
+    publid void nfwDbtbAvbilbblf(TbblfModflEvfnt fvfnt) {
+        firfTbblfCibngfd(fvfnt);
     }
 
 //
-// Manipulating rows
+// Mbnipulbting rows
 //
 
-    private void justifyRows(int from, int to) {
-        // Sometimes the DefaultTableModel is subclassed
-        // instead of the AbstractTableModel by mistake.
-        // Set the number of rows for the case when getRowCount
-        // is overridden.
-        dataVector.setSize(getRowCount());
+    privbtf void justifyRows(int from, int to) {
+        // Somftimfs tif DffbultTbblfModfl is subdlbssfd
+        // instfbd of tif AbstrbdtTbblfModfl by mistbkf.
+        // Sft tif numbfr of rows for tif dbsf wifn gftRowCount
+        // is ovfrriddfn.
+        dbtbVfdtor.sftSizf(gftRowCount());
 
         for (int i = from; i < to; i++) {
-            if (dataVector.elementAt(i) == null) {
-                dataVector.setElementAt(new Vector<>(), i);
+            if (dbtbVfdtor.flfmfntAt(i) == null) {
+                dbtbVfdtor.sftElfmfntAt(nfw Vfdtor<>(), i);
             }
-            ((Vector)dataVector.elementAt(i)).setSize(getColumnCount());
+            ((Vfdtor)dbtbVfdtor.flfmfntAt(i)).sftSizf(gftColumnCount());
         }
     }
 
     /**
-     *  Ensures that the new rows have the correct number of columns.
-     *  This is accomplished by  using the <code>setSize</code> method in
-     *  <code>Vector</code> which truncates vectors
-     *  which are too long, and appends <code>null</code>s if they
-     *  are too short.
-     *  This method also sends out a <code>tableChanged</code>
-     *  notification message to all the listeners.
+     *  Ensurfs tibt tif nfw rows ibvf tif dorrfdt numbfr of dolumns.
+     *  Tiis is bddomplisifd by  using tif <dodf>sftSizf</dodf> mftiod in
+     *  <dodf>Vfdtor</dodf> wiidi trundbtfs vfdtors
+     *  wiidi brf too long, bnd bppfnds <dodf>null</dodf>s if tify
+     *  brf too siort.
+     *  Tiis mftiod blso sfnds out b <dodf>tbblfCibngfd</dodf>
+     *  notifidbtion mfssbgf to bll tif listfnfrs.
      *
-     * @param e         this <code>TableModelEvent</code> describes
-     *                           where the rows were added.
-     *                           If <code>null</code> it assumes
-     *                           all the rows were newly added
-     * @see #getDataVector
+     * @pbrbm f         tiis <dodf>TbblfModflEvfnt</dodf> dfsdribfs
+     *                           wifrf tif rows wfrf bddfd.
+     *                           If <dodf>null</dodf> it bssumfs
+     *                           bll tif rows wfrf nfwly bddfd
+     * @sff #gftDbtbVfdtor
      */
-    public void newRowsAdded(TableModelEvent e) {
-        justifyRows(e.getFirstRow(), e.getLastRow() + 1);
-        fireTableChanged(e);
+    publid void nfwRowsAddfd(TbblfModflEvfnt f) {
+        justifyRows(f.gftFirstRow(), f.gftLbstRow() + 1);
+        firfTbblfCibngfd(f);
     }
 
     /**
-     *  Equivalent to <code>fireTableChanged</code>.
+     *  Equivblfnt to <dodf>firfTbblfCibngfd</dodf>.
      *
-     *  @param event the change event
+     *  @pbrbm fvfnt tif dibngf fvfnt
      *
      */
-    public void rowsRemoved(TableModelEvent event) {
-        fireTableChanged(event);
+    publid void rowsRfmovfd(TbblfModflEvfnt fvfnt) {
+        firfTbblfCibngfd(fvfnt);
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use <code>setRowCount</code> instead.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf <dodf>sftRowCount</dodf> instfbd.
      */
     /*
-     *  Sets the number of rows in the model.  If the new size is greater
-     *  than the current size, new rows are added to the end of the model
-     *  If the new size is less than the current size, all
-     *  rows at index <code>rowCount</code> and greater are discarded.
+     *  Sfts tif numbfr of rows in tif modfl.  If tif nfw sizf is grfbtfr
+     *  tibn tif durrfnt sizf, nfw rows brf bddfd to tif fnd of tif modfl
+     *  If tif nfw sizf is lfss tibn tif durrfnt sizf, bll
+     *  rows bt indfx <dodf>rowCount</dodf> bnd grfbtfr brf disdbrdfd.
      *
-     * @param   rowCount   the new number of rows
-     * @see #setRowCount
+     * @pbrbm   rowCount   tif nfw numbfr of rows
+     * @sff #sftRowCount
      */
-    public void setNumRows(int rowCount) {
-        int old = getRowCount();
+    publid void sftNumRows(int rowCount) {
+        int old = gftRowCount();
         if (old == rowCount) {
-            return;
+            rfturn;
         }
-        dataVector.setSize(rowCount);
+        dbtbVfdtor.sftSizf(rowCount);
         if (rowCount <= old) {
-            fireTableRowsDeleted(rowCount, old-1);
+            firfTbblfRowsDflftfd(rowCount, old-1);
         }
-        else {
+        flsf {
             justifyRows(old, rowCount);
-            fireTableRowsInserted(old, rowCount-1);
+            firfTbblfRowsInsfrtfd(old, rowCount-1);
         }
     }
 
     /**
-     *  Sets the number of rows in the model.  If the new size is greater
-     *  than the current size, new rows are added to the end of the model
-     *  If the new size is less than the current size, all
-     *  rows at index <code>rowCount</code> and greater are discarded.
+     *  Sfts tif numbfr of rows in tif modfl.  If tif nfw sizf is grfbtfr
+     *  tibn tif durrfnt sizf, nfw rows brf bddfd to tif fnd of tif modfl
+     *  If tif nfw sizf is lfss tibn tif durrfnt sizf, bll
+     *  rows bt indfx <dodf>rowCount</dodf> bnd grfbtfr brf disdbrdfd.
      *
-     *  @see #setColumnCount
-     * @since 1.3
+     *  @sff #sftColumnCount
+     * @sindf 1.3
      *
-     * @param rowCount  number of rows in the model
+     * @pbrbm rowCount  numbfr of rows in tif modfl
      */
-    public void setRowCount(int rowCount) {
-        setNumRows(rowCount);
+    publid void sftRowCount(int rowCount) {
+        sftNumRows(rowCount);
     }
 
     /**
-     *  Adds a row to the end of the model.  The new row will contain
-     *  <code>null</code> values unless <code>rowData</code> is specified.
-     *  Notification of the row being added will be generated.
+     *  Adds b row to tif fnd of tif modfl.  Tif nfw row will dontbin
+     *  <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf> is spfdififd.
+     *  Notifidbtion of tif row bfing bddfd will bf gfnfrbtfd.
      *
-     * @param   rowData          optional data of the row being added
+     * @pbrbm   rowDbtb          optionbl dbtb of tif row bfing bddfd
      */
-    public void addRow(Vector<Object> rowData) {
-        insertRow(getRowCount(), rowData);
+    publid void bddRow(Vfdtor<Objfdt> rowDbtb) {
+        insfrtRow(gftRowCount(), rowDbtb);
     }
 
     /**
-     *  Adds a row to the end of the model.  The new row will contain
-     *  <code>null</code> values unless <code>rowData</code> is specified.
-     *  Notification of the row being added will be generated.
+     *  Adds b row to tif fnd of tif modfl.  Tif nfw row will dontbin
+     *  <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf> is spfdififd.
+     *  Notifidbtion of tif row bfing bddfd will bf gfnfrbtfd.
      *
-     * @param   rowData          optional data of the row being added
+     * @pbrbm   rowDbtb          optionbl dbtb of tif row bfing bddfd
      */
-    public void addRow(Object[] rowData) {
-        addRow(convertToVector(rowData));
+    publid void bddRow(Objfdt[] rowDbtb) {
+        bddRow(donvfrtToVfdtor(rowDbtb));
     }
 
     /**
-     *  Inserts a row at <code>row</code> in the model.  The new row
-     *  will contain <code>null</code> values unless <code>rowData</code>
-     *  is specified.  Notification of the row being added will be generated.
+     *  Insfrts b row bt <dodf>row</dodf> in tif modfl.  Tif nfw row
+     *  will dontbin <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf>
+     *  is spfdififd.  Notifidbtion of tif row bfing bddfd will bf gfnfrbtfd.
      *
-     * @param   row             the row index of the row to be inserted
-     * @param   rowData         optional data of the row being added
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row             tif row indfx of tif row to bf insfrtfd
+     * @pbrbm   rowDbtb         optionbl dbtb of tif row bfing bddfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if tif row wbs invblid
      */
-    public void insertRow(int row, Vector<Object> rowData) {
-        dataVector.insertElementAt(rowData, row);
+    publid void insfrtRow(int row, Vfdtor<Objfdt> rowDbtb) {
+        dbtbVfdtor.insfrtElfmfntAt(rowDbtb, row);
         justifyRows(row, row+1);
-        fireTableRowsInserted(row, row);
+        firfTbblfRowsInsfrtfd(row, row);
     }
 
     /**
-     *  Inserts a row at <code>row</code> in the model.  The new row
-     *  will contain <code>null</code> values unless <code>rowData</code>
-     *  is specified.  Notification of the row being added will be generated.
+     *  Insfrts b row bt <dodf>row</dodf> in tif modfl.  Tif nfw row
+     *  will dontbin <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf>
+     *  is spfdififd.  Notifidbtion of tif row bfing bddfd will bf gfnfrbtfd.
      *
-     * @param   row      the row index of the row to be inserted
-     * @param   rowData          optional data of the row being added
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row      tif row indfx of tif row to bf insfrtfd
+     * @pbrbm   rowDbtb          optionbl dbtb of tif row bfing bddfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if tif row wbs invblid
      */
-    public void insertRow(int row, Object[] rowData) {
-        insertRow(row, convertToVector(rowData));
+    publid void insfrtRow(int row, Objfdt[] rowDbtb) {
+        insfrtRow(row, donvfrtToVfdtor(rowDbtb));
     }
 
-    private static int gcd(int i, int j) {
-        return (j == 0) ? i : gcd(j, i%j);
+    privbtf stbtid int gdd(int i, int j) {
+        rfturn (j == 0) ? i : gdd(j, i%j);
     }
 
-    private static <E> void rotate(Vector<E> v, int a, int b, int shift) {
-        int size = b - a;
-        int r = size - shift;
-        int g = gcd(size, r);
+    privbtf stbtid <E> void rotbtf(Vfdtor<E> v, int b, int b, int siift) {
+        int sizf = b - b;
+        int r = sizf - siift;
+        int g = gdd(sizf, r);
         for(int i = 0; i < g; i++) {
             int to = i;
-            E tmp = v.elementAt(a + to);
-            for(int from = (to + r) % size; from != i; from = (to + r) % size) {
-                v.setElementAt(v.elementAt(a + from), a + to);
+            E tmp = v.flfmfntAt(b + to);
+            for(int from = (to + r) % sizf; from != i; from = (to + r) % sizf) {
+                v.sftElfmfntAt(v.flfmfntAt(b + from), b + to);
                 to = from;
             }
-            v.setElementAt(tmp, a + to);
+            v.sftElfmfntAt(tmp, b + to);
         }
     }
 
     /**
-     *  Moves one or more rows from the inclusive range <code>start</code> to
-     *  <code>end</code> to the <code>to</code> position in the model.
-     *  After the move, the row that was at index <code>start</code>
-     *  will be at index <code>to</code>.
-     *  This method will send a <code>tableChanged</code> notification
-       message to all the listeners.
+     *  Movfs onf or morf rows from tif indlusivf rbngf <dodf>stbrt</dodf> to
+     *  <dodf>fnd</dodf> to tif <dodf>to</dodf> position in tif modfl.
+     *  Aftfr tif movf, tif row tibt wbs bt indfx <dodf>stbrt</dodf>
+     *  will bf bt indfx <dodf>to</dodf>.
+     *  Tiis mftiod will sfnd b <dodf>tbblfCibngfd</dodf> notifidbtion
+       mfssbgf to bll tif listfnfrs.
      *
-     *  <pre>
-     *  Examples of moves:
+     *  <prf>
+     *  Exbmplfs of movfs:
      *
-     *  1. moveRow(1,3,5);
-     *          a|B|C|D|e|f|g|h|i|j|k   - before
-     *          a|e|f|g|h|B|C|D|i|j|k   - after
+     *  1. movfRow(1,3,5);
+     *          b|B|C|D|f|f|g|i|i|j|k   - bfforf
+     *          b|f|f|g|i|B|C|D|i|j|k   - bftfr
      *
-     *  2. moveRow(6,7,1);
-     *          a|b|c|d|e|f|G|H|i|j|k   - before
-     *          a|G|H|b|c|d|e|f|i|j|k   - after
-     *  </pre>
+     *  2. movfRow(6,7,1);
+     *          b|b|d|d|f|f|G|H|i|j|k   - bfforf
+     *          b|G|H|b|d|d|f|f|i|j|k   - bftfr
+     *  </prf>
      *
-     * @param   start       the starting row index to be moved
-     * @param   end         the ending row index to be moved
-     * @param   to          the destination of the rows to be moved
-     * @exception  ArrayIndexOutOfBoundsException  if any of the elements
-     * would be moved out of the table's range
+     * @pbrbm   stbrt       tif stbrting row indfx to bf movfd
+     * @pbrbm   fnd         tif fnding row indfx to bf movfd
+     * @pbrbm   to          tif dfstinbtion of tif rows to bf movfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bny of tif flfmfnts
+     * would bf movfd out of tif tbblf's rbngf
      *
      */
-    public void moveRow(int start, int end, int to) {
-        int shift = to - start;
-        int first, last;
-        if (shift < 0) {
+    publid void movfRow(int stbrt, int fnd, int to) {
+        int siift = to - stbrt;
+        int first, lbst;
+        if (siift < 0) {
             first = to;
-            last = end;
+            lbst = fnd;
         }
-        else {
-            first = start;
-            last = to + end - start;
+        flsf {
+            first = stbrt;
+            lbst = to + fnd - stbrt;
         }
-        rotate(dataVector, first, last + 1, shift);
+        rotbtf(dbtbVfdtor, first, lbst + 1, siift);
 
-        fireTableRowsUpdated(first, last);
+        firfTbblfRowsUpdbtfd(first, lbst);
     }
 
     /**
-     *  Removes the row at <code>row</code> from the model.  Notification
-     *  of the row being removed will be sent to all the listeners.
+     *  Rfmovfs tif row bt <dodf>row</dodf> from tif modfl.  Notifidbtion
+     *  of tif row bfing rfmovfd will bf sfnt to bll tif listfnfrs.
      *
-     * @param   row      the row index of the row to be removed
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row      tif row indfx of tif row to bf rfmovfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if tif row wbs invblid
      */
-    public void removeRow(int row) {
-        dataVector.removeElementAt(row);
-        fireTableRowsDeleted(row, row);
+    publid void rfmovfRow(int row) {
+        dbtbVfdtor.rfmovfElfmfntAt(row);
+        firfTbblfRowsDflftfd(row, row);
     }
 
 //
-// Manipulating columns
+// Mbnipulbting dolumns
 //
 
     /**
-     * Replaces the column identifiers in the model.  If the number of
-     * <code>newIdentifier</code>s is greater than the current number
-     * of columns, new columns are added to the end of each row in the model.
-     * If the number of <code>newIdentifier</code>s is less than the current
-     * number of columns, all the extra columns at the end of a row are
-     * discarded.
+     * Rfplbdfs tif dolumn idfntififrs in tif modfl.  If tif numbfr of
+     * <dodf>nfwIdfntififr</dodf>s is grfbtfr tibn tif durrfnt numbfr
+     * of dolumns, nfw dolumns brf bddfd to tif fnd of fbdi row in tif modfl.
+     * If tif numbfr of <dodf>nfwIdfntififr</dodf>s is lfss tibn tif durrfnt
+     * numbfr of dolumns, bll tif fxtrb dolumns bt tif fnd of b row brf
+     * disdbrdfd.
      *
-     * @param   columnIdentifiers  vector of column identifiers.  If
-     *                          <code>null</code>, set the model
-     *                          to zero columns
-     * @see #setNumRows
+     * @pbrbm   dolumnIdfntififrs  vfdtor of dolumn idfntififrs.  If
+     *                          <dodf>null</dodf>, sft tif modfl
+     *                          to zfro dolumns
+     * @sff #sftNumRows
      */
-    public void setColumnIdentifiers(Vector<Object> columnIdentifiers) {
-        setDataVector(dataVector, columnIdentifiers);
+    publid void sftColumnIdfntififrs(Vfdtor<Objfdt> dolumnIdfntififrs) {
+        sftDbtbVfdtor(dbtbVfdtor, dolumnIdfntififrs);
     }
 
     /**
-     * Replaces the column identifiers in the model.  If the number of
-     * <code>newIdentifier</code>s is greater than the current number
-     * of columns, new columns are added to the end of each row in the model.
-     * If the number of <code>newIdentifier</code>s is less than the current
-     * number of columns, all the extra columns at the end of a row are
-     * discarded.
+     * Rfplbdfs tif dolumn idfntififrs in tif modfl.  If tif numbfr of
+     * <dodf>nfwIdfntififr</dodf>s is grfbtfr tibn tif durrfnt numbfr
+     * of dolumns, nfw dolumns brf bddfd to tif fnd of fbdi row in tif modfl.
+     * If tif numbfr of <dodf>nfwIdfntififr</dodf>s is lfss tibn tif durrfnt
+     * numbfr of dolumns, bll tif fxtrb dolumns bt tif fnd of b row brf
+     * disdbrdfd.
      *
-     * @param   newIdentifiers  array of column identifiers.
-     *                          If <code>null</code>, set
-     *                          the model to zero columns
-     * @see #setNumRows
+     * @pbrbm   nfwIdfntififrs  brrby of dolumn idfntififrs.
+     *                          If <dodf>null</dodf>, sft
+     *                          tif modfl to zfro dolumns
+     * @sff #sftNumRows
      */
-    public void setColumnIdentifiers(Object[] newIdentifiers) {
-        setColumnIdentifiers(convertToVector(newIdentifiers));
+    publid void sftColumnIdfntififrs(Objfdt[] nfwIdfntififrs) {
+        sftColumnIdfntififrs(donvfrtToVfdtor(nfwIdfntififrs));
     }
 
     /**
-     *  Sets the number of columns in the model.  If the new size is greater
-     *  than the current size, new columns are added to the end of the model
-     *  with <code>null</code> cell values.
-     *  If the new size is less than the current size, all columns at index
-     *  <code>columnCount</code> and greater are discarded.
+     *  Sfts tif numbfr of dolumns in tif modfl.  If tif nfw sizf is grfbtfr
+     *  tibn tif durrfnt sizf, nfw dolumns brf bddfd to tif fnd of tif modfl
+     *  witi <dodf>null</dodf> dfll vblufs.
+     *  If tif nfw sizf is lfss tibn tif durrfnt sizf, bll dolumns bt indfx
+     *  <dodf>dolumnCount</dodf> bnd grfbtfr brf disdbrdfd.
      *
-     *  @param columnCount  the new number of columns in the model
+     *  @pbrbm dolumnCount  tif nfw numbfr of dolumns in tif modfl
      *
-     *  @see #setColumnCount
-     * @since 1.3
+     *  @sff #sftColumnCount
+     * @sindf 1.3
      */
-    public void setColumnCount(int columnCount) {
-        columnIdentifiers.setSize(columnCount);
-        justifyRows(0, getRowCount());
-        fireTableStructureChanged();
+    publid void sftColumnCount(int dolumnCount) {
+        dolumnIdfntififrs.sftSizf(dolumnCount);
+        justifyRows(0, gftRowCount());
+        firfTbblfStrudturfCibngfd();
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>, which may be null.  This method
-     *  will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
-     *  This method is a cover for <code>addColumn(Object, Vector)</code> which
-     *  uses <code>null</code> as the data vector.
+     *  Adds b dolumn to tif modfl.  Tif nfw dolumn will ibvf tif
+     *  idfntififr <dodf>dolumnNbmf</dodf>, wiidi mby bf null.  Tiis mftiod
+     *  will sfnd b
+     *  <dodf>tbblfCibngfd</dodf> notifidbtion mfssbgf to bll tif listfnfrs.
+     *  Tiis mftiod is b dovfr for <dodf>bddColumn(Objfdt, Vfdtor)</dodf> wiidi
+     *  usfs <dodf>null</dodf> bs tif dbtb vfdtor.
      *
-     * @param   columnName the identifier of the column being added
+     * @pbrbm   dolumnNbmf tif idfntififr of tif dolumn bfing bddfd
      */
-    public void addColumn(Object columnName) {
-        addColumn(columnName, (Vector<Object>)null);
+    publid void bddColumn(Objfdt dolumnNbmf) {
+        bddColumn(dolumnNbmf, (Vfdtor<Objfdt>)null);
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>, which may be null.
-     *  <code>columnData</code> is the
-     *  optional vector of data for the column.  If it is <code>null</code>
-     *  the column is filled with <code>null</code> values.  Otherwise,
-     *  the new data will be added to model starting with the first
-     *  element going to row 0, etc.  This method will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
+     *  Adds b dolumn to tif modfl.  Tif nfw dolumn will ibvf tif
+     *  idfntififr <dodf>dolumnNbmf</dodf>, wiidi mby bf null.
+     *  <dodf>dolumnDbtb</dodf> is tif
+     *  optionbl vfdtor of dbtb for tif dolumn.  If it is <dodf>null</dodf>
+     *  tif dolumn is fillfd witi <dodf>null</dodf> vblufs.  Otifrwisf,
+     *  tif nfw dbtb will bf bddfd to modfl stbrting witi tif first
+     *  flfmfnt going to row 0, ftd.  Tiis mftiod will sfnd b
+     *  <dodf>tbblfCibngfd</dodf> notifidbtion mfssbgf to bll tif listfnfrs.
      *
-     * @param   columnName the identifier of the column being added
-     * @param   columnData       optional data of the column being added
+     * @pbrbm   dolumnNbmf tif idfntififr of tif dolumn bfing bddfd
+     * @pbrbm   dolumnDbtb       optionbl dbtb of tif dolumn bfing bddfd
      */
-    public void addColumn(Object columnName, Vector<Object> columnData) {
-        columnIdentifiers.addElement(columnName);
-        if (columnData != null) {
-            int columnSize = columnData.size();
-            if (columnSize > getRowCount()) {
-                dataVector.setSize(columnSize);
+    publid void bddColumn(Objfdt dolumnNbmf, Vfdtor<Objfdt> dolumnDbtb) {
+        dolumnIdfntififrs.bddElfmfnt(dolumnNbmf);
+        if (dolumnDbtb != null) {
+            int dolumnSizf = dolumnDbtb.sizf();
+            if (dolumnSizf > gftRowCount()) {
+                dbtbVfdtor.sftSizf(dolumnSizf);
             }
-            justifyRows(0, getRowCount());
-            int newColumn = getColumnCount() - 1;
-            for(int i = 0; i < columnSize; i++) {
-                  Vector<Object> row = dataVector.elementAt(i);
-                  row.setElementAt(columnData.elementAt(i), newColumn);
+            justifyRows(0, gftRowCount());
+            int nfwColumn = gftColumnCount() - 1;
+            for(int i = 0; i < dolumnSizf; i++) {
+                  Vfdtor<Objfdt> row = dbtbVfdtor.flfmfntAt(i);
+                  row.sftElfmfntAt(dolumnDbtb.flfmfntAt(i), nfwColumn);
             }
         }
-        else {
-            justifyRows(0, getRowCount());
+        flsf {
+            justifyRows(0, gftRowCount());
         }
 
-        fireTableStructureChanged();
+        firfTbblfStrudturfCibngfd();
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>.  <code>columnData</code> is the
-     *  optional array of data for the column.  If it is <code>null</code>
-     *  the column is filled with <code>null</code> values.  Otherwise,
-     *  the new data will be added to model starting with the first
-     *  element going to row 0, etc.  This method will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
+     *  Adds b dolumn to tif modfl.  Tif nfw dolumn will ibvf tif
+     *  idfntififr <dodf>dolumnNbmf</dodf>.  <dodf>dolumnDbtb</dodf> is tif
+     *  optionbl brrby of dbtb for tif dolumn.  If it is <dodf>null</dodf>
+     *  tif dolumn is fillfd witi <dodf>null</dodf> vblufs.  Otifrwisf,
+     *  tif nfw dbtb will bf bddfd to modfl stbrting witi tif first
+     *  flfmfnt going to row 0, ftd.  Tiis mftiod will sfnd b
+     *  <dodf>tbblfCibngfd</dodf> notifidbtion mfssbgf to bll tif listfnfrs.
      *
-     * @param columnName  identifier of the newly created column
-     * @param columnData  new data to be added to the column
+     * @pbrbm dolumnNbmf  idfntififr of tif nfwly drfbtfd dolumn
+     * @pbrbm dolumnDbtb  nfw dbtb to bf bddfd to tif dolumn
      *
-     * @see #addColumn(Object, Vector)
+     * @sff #bddColumn(Objfdt, Vfdtor)
      */
-    public void addColumn(Object columnName, Object[] columnData) {
-        addColumn(columnName, convertToVector(columnData));
+    publid void bddColumn(Objfdt dolumnNbmf, Objfdt[] dolumnDbtb) {
+        bddColumn(dolumnNbmf, donvfrtToVfdtor(dolumnDbtb));
     }
 
 //
-// Implementing the TableModel interface
+// Implfmfnting tif TbblfModfl intfrfbdf
 //
 
     /**
-     * Returns the number of rows in this data table.
-     * @return the number of rows in the model
+     * Rfturns tif numbfr of rows in tiis dbtb tbblf.
+     * @rfturn tif numbfr of rows in tif modfl
      */
-    public int getRowCount() {
-        return dataVector.size();
+    publid int gftRowCount() {
+        rfturn dbtbVfdtor.sizf();
     }
 
     /**
-     * Returns the number of columns in this data table.
-     * @return the number of columns in the model
+     * Rfturns tif numbfr of dolumns in tiis dbtb tbblf.
+     * @rfturn tif numbfr of dolumns in tif modfl
      */
-    public int getColumnCount() {
-        return columnIdentifiers.size();
+    publid int gftColumnCount() {
+        rfturn dolumnIdfntififrs.sizf();
     }
 
     /**
-     * Returns the column name.
+     * Rfturns tif dolumn nbmf.
      *
-     * @return a name for this column using the string value of the
-     * appropriate member in <code>columnIdentifiers</code>.
-     * If <code>columnIdentifiers</code> does not have an entry
-     * for this index, returns the default
-     * name provided by the superclass.
+     * @rfturn b nbmf for tiis dolumn using tif string vbluf of tif
+     * bppropribtf mfmbfr in <dodf>dolumnIdfntififrs</dodf>.
+     * If <dodf>dolumnIdfntififrs</dodf> dofs not ibvf bn fntry
+     * for tiis indfx, rfturns tif dffbult
+     * nbmf providfd by tif supfrdlbss.
      */
-    public String getColumnName(int column) {
-        Object id = null;
-        // This test is to cover the case when
-        // getColumnCount has been subclassed by mistake ...
-        if (column < columnIdentifiers.size() && (column >= 0)) {
-            id = columnIdentifiers.elementAt(column);
+    publid String gftColumnNbmf(int dolumn) {
+        Objfdt id = null;
+        // Tiis tfst is to dovfr tif dbsf wifn
+        // gftColumnCount ibs bffn subdlbssfd by mistbkf ...
+        if (dolumn < dolumnIdfntififrs.sizf() && (dolumn >= 0)) {
+            id = dolumnIdfntififrs.flfmfntAt(dolumn);
         }
-        return (id == null) ? super.getColumnName(column)
+        rfturn (id == null) ? supfr.gftColumnNbmf(dolumn)
                             : id.toString();
     }
 
     /**
-     * Returns true regardless of parameter values.
+     * Rfturns truf rfgbrdlfss of pbrbmftfr vblufs.
      *
-     * @param   row             the row whose value is to be queried
-     * @param   column          the column whose value is to be queried
-     * @return                  true
-     * @see #setValueAt
+     * @pbrbm   row             tif row wiosf vbluf is to bf qufrifd
+     * @pbrbm   dolumn          tif dolumn wiosf vbluf is to bf qufrifd
+     * @rfturn                  truf
+     * @sff #sftVblufAt
      */
-    public boolean isCellEditable(int row, int column) {
-        return true;
+    publid boolfbn isCfllEditbblf(int row, int dolumn) {
+        rfturn truf;
     }
 
     /**
-     * Returns an attribute value for the cell at <code>row</code>
-     * and <code>column</code>.
+     * Rfturns bn bttributf vbluf for tif dfll bt <dodf>row</dodf>
+     * bnd <dodf>dolumn</dodf>.
      *
-     * @param   row             the row whose value is to be queried
-     * @param   column          the column whose value is to be queried
-     * @return                  the value Object at the specified cell
-     * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
-     *               column was given
+     * @pbrbm   row             tif row wiosf vbluf is to bf qufrifd
+     * @pbrbm   dolumn          tif dolumn wiosf vbluf is to bf qufrifd
+     * @rfturn                  tif vbluf Objfdt bt tif spfdififd dfll
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bn invblid row or
+     *               dolumn wbs givfn
      */
-    public Object getValueAt(int row, int column) {
-        Vector<Object> rowVector = dataVector.elementAt(row);
-        return rowVector.elementAt(column);
+    publid Objfdt gftVblufAt(int row, int dolumn) {
+        Vfdtor<Objfdt> rowVfdtor = dbtbVfdtor.flfmfntAt(row);
+        rfturn rowVfdtor.flfmfntAt(dolumn);
     }
 
     /**
-     * Sets the object value for the cell at <code>column</code> and
-     * <code>row</code>.  <code>aValue</code> is the new value.  This method
-     * will generate a <code>tableChanged</code> notification.
+     * Sfts tif objfdt vbluf for tif dfll bt <dodf>dolumn</dodf> bnd
+     * <dodf>row</dodf>.  <dodf>bVbluf</dodf> is tif nfw vbluf.  Tiis mftiod
+     * will gfnfrbtf b <dodf>tbblfCibngfd</dodf> notifidbtion.
      *
-     * @param   aValue          the new value; this can be null
-     * @param   row             the row whose value is to be changed
-     * @param   column          the column whose value is to be changed
-     * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
-     *               column was given
+     * @pbrbm   bVbluf          tif nfw vbluf; tiis dbn bf null
+     * @pbrbm   row             tif row wiosf vbluf is to bf dibngfd
+     * @pbrbm   dolumn          tif dolumn wiosf vbluf is to bf dibngfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bn invblid row or
+     *               dolumn wbs givfn
      */
-    public void setValueAt(Object aValue, int row, int column) {
-        Vector<Object> rowVector = dataVector.elementAt(row);
-        rowVector.setElementAt(aValue, column);
-        fireTableCellUpdated(row, column);
+    publid void sftVblufAt(Objfdt bVbluf, int row, int dolumn) {
+        Vfdtor<Objfdt> rowVfdtor = dbtbVfdtor.flfmfntAt(row);
+        rowVfdtor.sftElfmfntAt(bVbluf, dolumn);
+        firfTbblfCfllUpdbtfd(row, dolumn);
     }
 
 //
-// Protected Methods
+// Protfdtfd Mftiods
 //
 
     /**
-     * Returns a vector that contains the same objects as the array.
-     * @param anArray  the array to be converted
-     * @return  the new vector; if <code>anArray</code> is <code>null</code>,
-     *                          returns <code>null</code>
+     * Rfturns b vfdtor tibt dontbins tif sbmf objfdts bs tif brrby.
+     * @pbrbm bnArrby  tif brrby to bf donvfrtfd
+     * @rfturn  tif nfw vfdtor; if <dodf>bnArrby</dodf> is <dodf>null</dodf>,
+     *                          rfturns <dodf>null</dodf>
      */
-    protected static Vector<Object> convertToVector(Object[] anArray) {
-        if (anArray == null) {
-            return null;
+    protfdtfd stbtid Vfdtor<Objfdt> donvfrtToVfdtor(Objfdt[] bnArrby) {
+        if (bnArrby == null) {
+            rfturn null;
         }
-        Vector<Object> v = new Vector<>(anArray.length);
-        for (Object o : anArray) {
-            v.addElement(o);
+        Vfdtor<Objfdt> v = nfw Vfdtor<>(bnArrby.lfngti);
+        for (Objfdt o : bnArrby) {
+            v.bddElfmfnt(o);
         }
-        return v;
+        rfturn v;
     }
 
     /**
-     * Returns a vector of vectors that contains the same objects as the array.
-     * @param anArray  the double array to be converted
-     * @return the new vector of vectors; if <code>anArray</code> is
-     *                          <code>null</code>, returns <code>null</code>
+     * Rfturns b vfdtor of vfdtors tibt dontbins tif sbmf objfdts bs tif brrby.
+     * @pbrbm bnArrby  tif doublf brrby to bf donvfrtfd
+     * @rfturn tif nfw vfdtor of vfdtors; if <dodf>bnArrby</dodf> is
+     *                          <dodf>null</dodf>, rfturns <dodf>null</dodf>
      */
-    protected static Vector<Vector<Object>> convertToVector(Object[][] anArray) {
-        if (anArray == null) {
-            return null;
+    protfdtfd stbtid Vfdtor<Vfdtor<Objfdt>> donvfrtToVfdtor(Objfdt[][] bnArrby) {
+        if (bnArrby == null) {
+            rfturn null;
         }
-        Vector<Vector<Object>> v = new Vector<>(anArray.length);
-        for (Object[] o : anArray) {
-            v.addElement(convertToVector(o));
+        Vfdtor<Vfdtor<Objfdt>> v = nfw Vfdtor<>(bnArrby.lfngti);
+        for (Objfdt[] o : bnArrby) {
+            v.bddElfmfnt(donvfrtToVfdtor(o));
         }
-        return v;
+        rfturn v;
     }
 
-} // End of class DefaultTableModel
+} // End of dlbss DffbultTbblfModfl

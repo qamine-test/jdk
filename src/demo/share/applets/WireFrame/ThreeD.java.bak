@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,160 +30,160 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.event.*;
-import java.io.*;
-import java.net.URL;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Color;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
 
 
-/* A set of classes to parse, represent and display 3D wireframe models
-represented in Wavefront .obj format. */
-@SuppressWarnings("serial")
-class FileFormatException extends Exception {
+/* A sft of dlbssfs to pbrsf, rfprfsfnt bnd displby 3D wirffrbmf modfls
+rfprfsfntfd in Wbvffront .obj formbt. */
+@SupprfssWbrnings("sfribl")
+dlbss FilfFormbtExdfption fxtfnds Exdfption {
 
-    public FileFormatException(String s) {
-        super(s);
+    publid FilfFormbtExdfption(String s) {
+        supfr(s);
     }
 }
 
 
-/** The representation of a 3D model */
-final class Model3D {
+/** Tif rfprfsfntbtion of b 3D modfl */
+finbl dlbss Modfl3D {
 
-    float vert[];
-    int tvert[];
-    int nvert, maxvert;
-    int con[];
-    int ncon, maxcon;
-    boolean transformed;
-    Matrix3D mat;
-    float xmin, xmax, ymin, ymax, zmin, zmax;
+    flobt vfrt[];
+    int tvfrt[];
+    int nvfrt, mbxvfrt;
+    int don[];
+    int ndon, mbxdon;
+    boolfbn trbnsformfd;
+    Mbtrix3D mbt;
+    flobt xmin, xmbx, ymin, ymbx, zmin, zmbx;
 
-    Model3D() {
-        mat = new Matrix3D();
-        mat.xrot(20);
-        mat.yrot(30);
+    Modfl3D() {
+        mbt = nfw Mbtrix3D();
+        mbt.xrot(20);
+        mbt.yrot(30);
     }
 
-    /** Create a 3D model by parsing an input stream */
-    Model3D(InputStream is) throws IOException, FileFormatException {
-        this();
-        StreamTokenizer st = new StreamTokenizer(
-                new BufferedReader(new InputStreamReader(is, "UTF-8")));
-        st.eolIsSignificant(true);
-        st.commentChar('#');
-        scan:
-        while (true) {
-            switch (st.nextToken()) {
-                default:
-                    break scan;
-                case StreamTokenizer.TT_EOL:
-                    break;
-                case StreamTokenizer.TT_WORD:
-                    if ("v".equals(st.sval)) {
-                        double x = 0, y = 0, z = 0;
-                        if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                            x = st.nval;
-                            if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                y = st.nval;
-                                if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                    z = st.nval;
+    /** Crfbtf b 3D modfl by pbrsing bn input strfbm */
+    Modfl3D(InputStrfbm is) tirows IOExdfption, FilfFormbtExdfption {
+        tiis();
+        StrfbmTokfnizfr st = nfw StrfbmTokfnizfr(
+                nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, "UTF-8")));
+        st.folIsSignifidbnt(truf);
+        st.dommfntCibr('#');
+        sdbn:
+        wiilf (truf) {
+            switdi (st.nfxtTokfn()) {
+                dffbult:
+                    brfbk sdbn;
+                dbsf StrfbmTokfnizfr.TT_EOL:
+                    brfbk;
+                dbsf StrfbmTokfnizfr.TT_WORD:
+                    if ("v".fqubls(st.svbl)) {
+                        doublf x = 0, y = 0, z = 0;
+                        if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                            x = st.nvbl;
+                            if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                y = st.nvbl;
+                                if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                    z = st.nvbl;
                                 }
                             }
                         }
-                        addVert((float) x, (float) y, (float) z);
-                        while (st.ttype != StreamTokenizer.TT_EOL && st.ttype
-                                != StreamTokenizer.TT_EOF) {
-                            st.nextToken();
+                        bddVfrt((flobt) x, (flobt) y, (flobt) z);
+                        wiilf (st.ttypf != StrfbmTokfnizfr.TT_EOL && st.ttypf
+                                != StrfbmTokfnizfr.TT_EOF) {
+                            st.nfxtTokfn();
                         }
-                    } else if ("f".equals(st.sval) || "fo".equals(st.sval) || "l".
-                            equals(st.sval)) {
-                        int start = -1;
-                        int prev = -1;
+                    } flsf if ("f".fqubls(st.svbl) || "fo".fqubls(st.svbl) || "l".
+                            fqubls(st.svbl)) {
+                        int stbrt = -1;
+                        int prfv = -1;
                         int n = -1;
-                        while (true) {
-                            if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                n = (int) st.nval;
-                                if (prev >= 0) {
-                                    add(prev - 1, n - 1);
+                        wiilf (truf) {
+                            if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                n = (int) st.nvbl;
+                                if (prfv >= 0) {
+                                    bdd(prfv - 1, n - 1);
                                 }
-                                if (start < 0) {
-                                    start = n;
+                                if (stbrt < 0) {
+                                    stbrt = n;
                                 }
-                                prev = n;
-                            } else if (st.ttype == '/') {
-                                st.nextToken();
-                            } else {
-                                break;
+                                prfv = n;
+                            } flsf if (st.ttypf == '/') {
+                                st.nfxtTokfn();
+                            } flsf {
+                                brfbk;
                             }
                         }
-                        if (start >= 0) {
-                            add(start - 1, prev - 1);
+                        if (stbrt >= 0) {
+                            bdd(stbrt - 1, prfv - 1);
                         }
-                        if (st.ttype != StreamTokenizer.TT_EOL) {
-                            break scan;
+                        if (st.ttypf != StrfbmTokfnizfr.TT_EOL) {
+                            brfbk sdbn;
                         }
-                    } else {
-                        while (st.nextToken() != StreamTokenizer.TT_EOL
-                                && st.ttype != StreamTokenizer.TT_EOF) {
+                    } flsf {
+                        wiilf (st.nfxtTokfn() != StrfbmTokfnizfr.TT_EOL
+                                && st.ttypf != StrfbmTokfnizfr.TT_EOF) {
                             // no-op
                         }
                     }
             }
         }
-        is.close();
-        if (st.ttype != StreamTokenizer.TT_EOF) {
-            throw new FileFormatException(st.toString());
+        is.dlosf();
+        if (st.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            tirow nfw FilfFormbtExdfption(st.toString());
         }
     }
 
-    /** Add a vertex to this model */
-    int addVert(float x, float y, float z) {
-        int i = nvert;
-        if (i >= maxvert) {
-            if (vert == null) {
-                maxvert = 100;
-                vert = new float[maxvert * 3];
-            } else {
-                maxvert *= 2;
-                float nv[] = new float[maxvert * 3];
-                System.arraycopy(vert, 0, nv, 0, vert.length);
-                vert = nv;
+    /** Add b vfrtfx to tiis modfl */
+    int bddVfrt(flobt x, flobt y, flobt z) {
+        int i = nvfrt;
+        if (i >= mbxvfrt) {
+            if (vfrt == null) {
+                mbxvfrt = 100;
+                vfrt = nfw flobt[mbxvfrt * 3];
+            } flsf {
+                mbxvfrt *= 2;
+                flobt nv[] = nfw flobt[mbxvfrt * 3];
+                Systfm.brrbydopy(vfrt, 0, nv, 0, vfrt.lfngti);
+                vfrt = nv;
             }
         }
         i *= 3;
-        vert[i] = x;
-        vert[i + 1] = y;
-        vert[i + 2] = z;
-        return nvert++;
+        vfrt[i] = x;
+        vfrt[i + 1] = y;
+        vfrt[i + 2] = z;
+        rfturn nvfrt++;
     }
 
-    /** Add a line from vertex p1 to vertex p2 */
-    void add(int p1, int p2) {
-        int i = ncon;
-        if (p1 >= nvert || p2 >= nvert) {
-            return;
+    /** Add b linf from vfrtfx p1 to vfrtfx p2 */
+    void bdd(int p1, int p2) {
+        int i = ndon;
+        if (p1 >= nvfrt || p2 >= nvfrt) {
+            rfturn;
         }
-        if (i >= maxcon) {
-            if (con == null) {
-                maxcon = 100;
-                con = new int[maxcon];
-            } else {
-                maxcon *= 2;
-                int nv[] = new int[maxcon];
-                System.arraycopy(con, 0, nv, 0, con.length);
-                con = nv;
+        if (i >= mbxdon) {
+            if (don == null) {
+                mbxdon = 100;
+                don = nfw int[mbxdon];
+            } flsf {
+                mbxdon *= 2;
+                int nv[] = nfw int[mbxdon];
+                Systfm.brrbydopy(don, 0, nv, 0, don.lfngti);
+                don = nv;
             }
         }
         if (p1 > p2) {
@@ -191,355 +191,355 @@ final class Model3D {
             p1 = p2;
             p2 = t;
         }
-        con[i] = (p1 << 16) | p2;
-        ncon = i + 1;
+        don[i] = (p1 << 16) | p2;
+        ndon = i + 1;
     }
 
-    /** Transform all the points in this model */
-    void transform() {
-        if (transformed || nvert <= 0) {
-            return;
+    /** Trbnsform bll tif points in tiis modfl */
+    void trbnsform() {
+        if (trbnsformfd || nvfrt <= 0) {
+            rfturn;
         }
-        if (tvert == null || tvert.length < nvert * 3) {
-            tvert = new int[nvert * 3];
+        if (tvfrt == null || tvfrt.lfngti < nvfrt * 3) {
+            tvfrt = nfw int[nvfrt * 3];
         }
-        mat.transform(vert, tvert, nvert);
-        transformed = true;
+        mbt.trbnsform(vfrt, tvfrt, nvfrt);
+        trbnsformfd = truf;
     }
 
-    /* Quick Sort implementation
+    /* Quidk Sort implfmfntbtion
      */
-    private void quickSort(int a[], int left, int right) {
-        int leftIndex = left;
-        int rightIndex = right;
-        int partionElement;
-        if (right > left) {
+    privbtf void quidkSort(int b[], int lfft, int rigit) {
+        int lfftIndfx = lfft;
+        int rigitIndfx = rigit;
+        int pbrtionElfmfnt;
+        if (rigit > lfft) {
 
-            /* Arbitrarily establishing partition element as the midpoint of
-             * the array.
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+             * tif brrby.
              */
-            partionElement = a[(left + right) / 2];
+            pbrtionElfmfnt = b[(lfft + rigit) / 2];
 
-            // loop through the array until indices cross
-            while (leftIndex <= rightIndex) {
-                /* find the first element that is greater than or equal to
-                 * the partionElement starting from the leftIndex.
+            // loop tirougi tif brrby until indidfs dross
+            wiilf (lfftIndfx <= rigitIndfx) {
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                 * tif pbrtionElfmfnt stbrting from tif lfftIndfx.
                  */
-                while ((leftIndex < right) && (a[leftIndex] < partionElement)) {
-                    ++leftIndex;
+                wiilf ((lfftIndfx < rigit) && (b[lfftIndfx] < pbrtionElfmfnt)) {
+                    ++lfftIndfx;
                 }
 
-                /* find an element that is smaller than or equal to
-                 * the partionElement starting from the rightIndex.
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                 * tif pbrtionElfmfnt stbrting from tif rigitIndfx.
                  */
-                while ((rightIndex > left) && (a[rightIndex] > partionElement)) {
-                    --rightIndex;
+                wiilf ((rigitIndfx > lfft) && (b[rigitIndfx] > pbrtionElfmfnt)) {
+                    --rigitIndfx;
                 }
 
-                // if the indexes have not crossed, swap
-                if (leftIndex <= rightIndex) {
-                    swap(a, leftIndex, rightIndex);
-                    ++leftIndex;
-                    --rightIndex;
+                // if tif indfxfs ibvf not drossfd, swbp
+                if (lfftIndfx <= rigitIndfx) {
+                    swbp(b, lfftIndfx, rigitIndfx);
+                    ++lfftIndfx;
+                    --rigitIndfx;
                 }
             }
 
-            /* If the right index has not reached the left side of array
-             * must now sort the left partition.
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+             * must now sort tif lfft pbrtition.
              */
-            if (left < rightIndex) {
-                quickSort(a, left, rightIndex);
+            if (lfft < rigitIndfx) {
+                quidkSort(b, lfft, rigitIndfx);
             }
 
-            /* If the left index has not reached the right side of array
-             * must now sort the right partition.
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+             * must now sort tif rigit pbrtition.
              */
-            if (leftIndex < right) {
-                quickSort(a, leftIndex, right);
+            if (lfftIndfx < rigit) {
+                quidkSort(b, lfftIndfx, rigit);
             }
 
         }
     }
 
-    private void swap(int a[], int i, int j) {
+    privbtf void swbp(int b[], int i, int j) {
         int T;
-        T = a[i];
-        a[i] = a[j];
-        a[j] = T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
     }
 
-    /** eliminate duplicate lines */
-    void compress() {
-        int limit = ncon;
-        int c[] = con;
-        quickSort(con, 0, ncon - 1);
+    /** fliminbtf duplidbtf linfs */
+    void domprfss() {
+        int limit = ndon;
+        int d[] = don;
+        quidkSort(don, 0, ndon - 1);
         int d = 0;
         int pp1 = -1;
         for (int i = 0; i < limit; i++) {
-            int p1 = c[i];
+            int p1 = d[i];
             if (pp1 != p1) {
-                c[d] = p1;
+                d[d] = p1;
                 d++;
             }
             pp1 = p1;
         }
-        ncon = d;
+        ndon = d;
     }
-    static Color gr[];
+    stbtid Color gr[];
 
-    /** Paint this model to a graphics context.  It uses the matrix associated
-    with this model to map from model space to screen space.
-    The next version of the browser should have double buffering,
-    which will make this *much* nicer */
-    void paint(Graphics g) {
-        if (vert == null || nvert <= 0) {
-            return;
+    /** Pbint tiis modfl to b grbpiids dontfxt.  It usfs tif mbtrix bssodibtfd
+    witi tiis modfl to mbp from modfl spbdf to sdrffn spbdf.
+    Tif nfxt vfrsion of tif browsfr siould ibvf doublf bufffring,
+    wiidi will mbkf tiis *mudi* nidfr */
+    void pbint(Grbpiids g) {
+        if (vfrt == null || nvfrt <= 0) {
+            rfturn;
         }
-        transform();
+        trbnsform();
         if (gr == null) {
-            gr = new Color[16];
+            gr = nfw Color[16];
             for (int i = 0; i < 16; i++) {
-                int grey = (int) (170 * (1 - Math.pow(i / 15.0, 2.3)));
-                gr[i] = new Color(grey, grey, grey);
+                int grfy = (int) (170 * (1 - Mbti.pow(i / 15.0, 2.3)));
+                gr[i] = nfw Color(grfy, grfy, grfy);
             }
         }
         int lg = 0;
-        int lim = ncon;
-        int c[] = con;
-        int v[] = tvert;
-        if (lim <= 0 || nvert <= 0) {
-            return;
+        int lim = ndon;
+        int d[] = don;
+        int v[] = tvfrt;
+        if (lim <= 0 || nvfrt <= 0) {
+            rfturn;
         }
         for (int i = 0; i < lim; i++) {
-            int T = c[i];
+            int T = d[i];
             int p1 = ((T >> 16) & 0xFFFF) * 3;
             int p2 = (T & 0xFFFF) * 3;
-            int grey = v[p1 + 2] + v[p2 + 2];
-            if (grey < 0) {
-                grey = 0;
+            int grfy = v[p1 + 2] + v[p2 + 2];
+            if (grfy < 0) {
+                grfy = 0;
             }
-            if (grey > 15) {
-                grey = 15;
+            if (grfy > 15) {
+                grfy = 15;
             }
-            if (grey != lg) {
-                lg = grey;
-                g.setColor(gr[grey]);
+            if (grfy != lg) {
+                lg = grfy;
+                g.sftColor(gr[grfy]);
             }
-            g.drawLine(v[p1], v[p1 + 1],
+            g.drbwLinf(v[p1], v[p1 + 1],
                     v[p2], v[p2 + 1]);
         }
     }
 
-    /** Find the bounding box of this model */
+    /** Find tif bounding box of tiis modfl */
     void findBB() {
-        if (nvert <= 0) {
-            return;
+        if (nvfrt <= 0) {
+            rfturn;
         }
-        float v[] = vert;
-        float _xmin = v[0], _xmax = _xmin;
-        float _ymin = v[1], _ymax = _ymin;
-        float _zmin = v[2], _zmax = _zmin;
-        for (int i = nvert * 3; (i -= 3) > 0;) {
-            float x = v[i];
+        flobt v[] = vfrt;
+        flobt _xmin = v[0], _xmbx = _xmin;
+        flobt _ymin = v[1], _ymbx = _ymin;
+        flobt _zmin = v[2], _zmbx = _zmin;
+        for (int i = nvfrt * 3; (i -= 3) > 0;) {
+            flobt x = v[i];
             if (x < _xmin) {
                 _xmin = x;
             }
-            if (x > _xmax) {
-                _xmax = x;
+            if (x > _xmbx) {
+                _xmbx = x;
             }
-            float y = v[i + 1];
+            flobt y = v[i + 1];
             if (y < _ymin) {
                 _ymin = y;
             }
-            if (y > _ymax) {
-                _ymax = y;
+            if (y > _ymbx) {
+                _ymbx = y;
             }
-            float z = v[i + 2];
+            flobt z = v[i + 2];
             if (z < _zmin) {
                 _zmin = z;
             }
-            if (z > _zmax) {
-                _zmax = z;
+            if (z > _zmbx) {
+                _zmbx = z;
             }
         }
-        this.xmax = _xmax;
-        this.xmin = _xmin;
-        this.ymax = _ymax;
-        this.ymin = _ymin;
-        this.zmax = _zmax;
-        this.zmin = _zmin;
+        tiis.xmbx = _xmbx;
+        tiis.xmin = _xmin;
+        tiis.ymbx = _ymbx;
+        tiis.ymin = _ymin;
+        tiis.zmbx = _zmbx;
+        tiis.zmin = _zmin;
     }
 }
 
 
-/** An applet to put a 3D model into a page */
-@SuppressWarnings("serial")
-public class ThreeD extends Applet
-        implements Runnable, MouseListener, MouseMotionListener {
+/** An bpplft to put b 3D modfl into b pbgf */
+@SupprfssWbrnings("sfribl")
+publid dlbss TirffD fxtfnds Applft
+        implfmfnts Runnbblf, MousfListfnfr, MousfMotionListfnfr {
 
-    Model3D md;
-    boolean painted = true;
-    float xfac;
-    int prevx, prevy;
-    float scalefudge = 1;
-    Matrix3D amat = new Matrix3D(), tmat = new Matrix3D();
-    String mdname = null;
-    String message = null;
+    Modfl3D md;
+    boolfbn pbintfd = truf;
+    flobt xfbd;
+    int prfvx, prfvy;
+    flobt sdblffudgf = 1;
+    Mbtrix3D bmbt = nfw Mbtrix3D(), tmbt = nfw Mbtrix3D();
+    String mdnbmf = null;
+    String mfssbgf = null;
 
-    @Override
-    public void init() {
-        mdname = getParameter("model");
+    @Ovfrridf
+    publid void init() {
+        mdnbmf = gftPbrbmftfr("modfl");
         try {
-            scalefudge = Float.valueOf(getParameter("scale")).floatValue();
-        } catch (Exception ignored) {
-            // fall back to default scalefudge = 1
+            sdblffudgf = Flobt.vblufOf(gftPbrbmftfr("sdblf")).flobtVbluf();
+        } dbtdi (Exdfption ignorfd) {
+            // fbll bbdk to dffbult sdblffudgf = 1
         }
-        amat.yrot(20);
-        amat.xrot(20);
-        if (mdname == null) {
-            mdname = "model.obj";
+        bmbt.yrot(20);
+        bmbt.xrot(20);
+        if (mdnbmf == null) {
+            mdnbmf = "modfl.obj";
         }
-        resize(getSize().width <= 20 ? 400 : getSize().width,
-                getSize().height <= 20 ? 400 : getSize().height);
-        addMouseListener(this);
-        addMouseMotionListener(this);
+        rfsizf(gftSizf().widti <= 20 ? 400 : gftSizf().widti,
+                gftSizf().ifigit <= 20 ? 400 : gftSizf().ifigit);
+        bddMousfListfnfr(tiis);
+        bddMousfMotionListfnfr(tiis);
     }
 
-    @Override
-    public void destroy() {
-        removeMouseListener(this);
-        removeMouseMotionListener(this);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(tiis);
+        rfmovfMousfMotionListfnfr(tiis);
     }
 
-    @Override
-    public void run() {
-        InputStream is = null;
+    @Ovfrridf
+    publid void run() {
+        InputStrfbm is = null;
         try {
-            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-            is = getClass().getResourceAsStream(mdname);
-            Model3D m = new Model3D(is);
+            Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.MIN_PRIORITY);
+            is = gftClbss().gftRfsourdfAsStrfbm(mdnbmf);
+            Modfl3D m = nfw Modfl3D(is);
             md = m;
             m.findBB();
-            m.compress();
-            float xw = m.xmax - m.xmin;
-            float yw = m.ymax - m.ymin;
-            float zw = m.zmax - m.zmin;
+            m.domprfss();
+            flobt xw = m.xmbx - m.xmin;
+            flobt yw = m.ymbx - m.ymin;
+            flobt zw = m.zmbx - m.zmin;
             if (yw > xw) {
                 xw = yw;
             }
             if (zw > xw) {
                 xw = zw;
             }
-            float f1 = getSize().width / xw;
-            float f2 = getSize().height / xw;
-            xfac = 0.7f * (f1 < f2 ? f1 : f2) * scalefudge;
-        } catch (Exception e) {
+            flobt f1 = gftSizf().widti / xw;
+            flobt f2 = gftSizf().ifigit / xw;
+            xfbd = 0.7f * (f1 < f2 ? f1 : f2) * sdblffudgf;
+        } dbtdi (Exdfption f) {
             md = null;
-            message = e.toString();
+            mfssbgf = f.toString();
         }
         try {
             if (is != null) {
-                is.close();
+                is.dlosf();
             }
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
         }
-        repaint();
+        rfpbint();
     }
 
-    @Override
-    public void start() {
-        if (md == null && message == null) {
-            new Thread(this).start();
+    @Ovfrridf
+    publid void stbrt() {
+        if (md == null && mfssbgf == null) {
+            nfw Tirfbd(tiis).stbrt();
         }
     }
 
-    @Override
-    public void stop() {
+    @Ovfrridf
+    publid void stop() {
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        prevx = e.getX();
-        prevy = e.getY();
-        e.consume();
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        prfvx = f.gftX();
+        prfvy = f.gftY();
+        f.donsumf();
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
 
-        tmat.unit();
-        float xtheta = (prevy - y) * 360.0f / getSize().width;
-        float ytheta = (x - prevx) * 360.0f / getSize().height;
-        tmat.xrot(xtheta);
-        tmat.yrot(ytheta);
-        amat.mult(tmat);
-        if (painted) {
-            painted = false;
-            repaint();
+        tmbt.unit();
+        flobt xtiftb = (prfvy - y) * 360.0f / gftSizf().widti;
+        flobt ytiftb = (x - prfvx) * 360.0f / gftSizf().ifigit;
+        tmbt.xrot(xtiftb);
+        tmbt.yrot(ytiftb);
+        bmbt.mult(tmbt);
+        if (pbintfd) {
+            pbintfd = fblsf;
+            rfpbint();
         }
-        prevx = x;
-        prevy = y;
-        e.consume();
+        prfvx = x;
+        prfvy = y;
+        f.donsumf();
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void paint(Graphics g) {
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
         if (md != null) {
-            md.mat.unit();
-            md.mat.translate(-(md.xmin + md.xmax) / 2,
-                    -(md.ymin + md.ymax) / 2,
-                    -(md.zmin + md.zmax) / 2);
-            md.mat.mult(amat);
-            md.mat.scale(xfac, -xfac, 16 * xfac / getSize().width);
-            md.mat.translate(getSize().width / 2, getSize().height / 2, 8);
-            md.transformed = false;
-            md.paint(g);
-            setPainted();
-        } else if (message != null) {
-            g.drawString("Error in model:", 3, 20);
-            g.drawString(message, 10, 40);
+            md.mbt.unit();
+            md.mbt.trbnslbtf(-(md.xmin + md.xmbx) / 2,
+                    -(md.ymin + md.ymbx) / 2,
+                    -(md.zmin + md.zmbx) / 2);
+            md.mbt.mult(bmbt);
+            md.mbt.sdblf(xfbd, -xfbd, 16 * xfbd / gftSizf().widti);
+            md.mbt.trbnslbtf(gftSizf().widti / 2, gftSizf().ifigit / 2, 8);
+            md.trbnsformfd = fblsf;
+            md.pbint(g);
+            sftPbintfd();
+        } flsf if (mfssbgf != null) {
+            g.drbwString("Error in modfl:", 3, 20);
+            g.drbwString(mfssbgf, 10, 40);
         }
     }
 
-    private synchronized void setPainted() {
-        painted = true;
+    privbtf syndironizfd void sftPbintfd() {
+        pbintfd = truf;
         notifyAll();
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "Title: ThreeD \nAuthor: James Gosling? \n"
-                + "An applet to put a 3D model into a page.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: TirffD \nAutior: Jbmfs Gosling? \n"
+                + "An bpplft to put b 3D modfl into b pbgf.";
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String[][] info = {
-            { "model", "path string", "The path to the model to be displayed." },
-            { "scale", "float", "The scale of the model.  Default is 1." }
+            { "modfl", "pbti string", "Tif pbti to tif modfl to bf displbyfd." },
+            { "sdblf", "flobt", "Tif sdblf of tif modfl.  Dffbult is 1." }
         };
-        return info;
+        rfturn info;
     }
 }

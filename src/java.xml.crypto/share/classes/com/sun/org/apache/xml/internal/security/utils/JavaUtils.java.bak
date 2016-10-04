@@ -1,115 +1,115 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
 /**
- * A collection of different, general-purpose methods for JAVA-specific things
- * @author Christian Geuer-Pollmann
+ * A dollfdtion of difffrfnt, gfnfrbl-purposf mftiods for JAVA-spfdifid tiings
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class JavaUtils {
+publid dlbss JbvbUtils {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(JavaUtils.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(JbvbUtils.dlbss.gftNbmf());
 
-    private JavaUtils() {
-        // we don't allow instantiation
+    privbtf JbvbUtils() {
+        // wf don't bllow instbntibtion
     }
 
     /**
-     * Method getBytesFromFile
+     * Mftiod gftBytfsFromFilf
      *
-     * @param fileName
-     * @return the bytes read from the file
+     * @pbrbm filfNbmf
+     * @rfturn tif bytfs rfbd from tif filf
      *
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @tirows FilfNotFoundExdfption
+     * @tirows IOExdfption
      */
-    public static byte[] getBytesFromFile(String fileName)
-        throws FileNotFoundException, IOException {
+    publid stbtid bytf[] gftBytfsFromFilf(String filfNbmf)
+        tirows FilfNotFoundExdfption, IOExdfption {
 
-        byte refBytes[] = null;
+        bytf rffBytfs[] = null;
 
-        FileInputStream fisRef = null;
-        UnsyncByteArrayOutputStream baos = null;
+        FilfInputStrfbm fisRff = null;
+        UnsyndBytfArrbyOutputStrfbm bbos = null;
         try {
-            fisRef = new FileInputStream(fileName);
-            baos = new UnsyncByteArrayOutputStream();
-            byte buf[] = new byte[1024];
-            int len;
+            fisRff = nfw FilfInputStrfbm(filfNbmf);
+            bbos = nfw UnsyndBytfArrbyOutputStrfbm();
+            bytf buf[] = nfw bytf[1024];
+            int lfn;
 
-            while ((len = fisRef.read(buf)) > 0) {
-                baos.write(buf, 0, len);
+            wiilf ((lfn = fisRff.rfbd(buf)) > 0) {
+                bbos.writf(buf, 0, lfn);
             }
 
-            refBytes = baos.toByteArray();
-        } finally {
-            if (baos != null) {
-                baos.close();
+            rffBytfs = bbos.toBytfArrby();
+        } finblly {
+            if (bbos != null) {
+                bbos.dlosf();
             }
-            if (fisRef != null) {
-                fisRef.close();
+            if (fisRff != null) {
+                fisRff.dlosf();
             }
         }
 
-        return refBytes;
+        rfturn rffBytfs;
     }
 
     /**
-     * Method writeBytesToFilename
+     * Mftiod writfBytfsToFilfnbmf
      *
-     * @param filename
-     * @param bytes
+     * @pbrbm filfnbmf
+     * @pbrbm bytfs
      */
-    public static void writeBytesToFilename(String filename, byte[] bytes) {
-        FileOutputStream fos = null;
+    publid stbtid void writfBytfsToFilfnbmf(String filfnbmf, bytf[] bytfs) {
+        FilfOutputStrfbm fos = null;
         try {
-            if (filename != null && bytes != null) {
-                File f = new File(filename);
+            if (filfnbmf != null && bytfs != null) {
+                Filf f = nfw Filf(filfnbmf);
 
-                fos = new FileOutputStream(f);
+                fos = nfw FilfOutputStrfbm(f);
 
-                fos.write(bytes);
-                fos.close();
-            } else {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "writeBytesToFilename got null byte[] pointed");
+                fos.writf(bytfs);
+                fos.dlosf();
+            } flsf {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "writfBytfsToFilfnbmf got null bytf[] pointfd");
                 }
             }
-        } catch (IOException ex) {
+        } dbtdi (IOExdfption fx) {
             if (fos != null) {
                 try {
-                    fos.close();
-                } catch (IOException ioe) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, ioe.getMessage(), ioe);
+                    fos.dlosf();
+                } dbtdi (IOExdfption iof) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, iof.gftMfssbgf(), iof);
                     }
                 }
             }
@@ -117,126 +117,126 @@ public class JavaUtils {
     }
 
     /**
-     * This method reads all bytes from the given InputStream till EOF and
-     * returns them as a byte array.
+     * Tiis mftiod rfbds bll bytfs from tif givfn InputStrfbm till EOF bnd
+     * rfturns tifm bs b bytf brrby.
      *
-     * @param inputStream
-     * @return the bytes read from the stream
+     * @pbrbm inputStrfbm
+     * @rfturn tif bytfs rfbd from tif strfbm
      *
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @tirows FilfNotFoundExdfption
+     * @tirows IOExdfption
      */
-    public static byte[] getBytesFromStream(InputStream inputStream) throws IOException {
-        UnsyncByteArrayOutputStream baos = null;
+    publid stbtid bytf[] gftBytfsFromStrfbm(InputStrfbm inputStrfbm) tirows IOExdfption {
+        UnsyndBytfArrbyOutputStrfbm bbos = null;
 
-        byte[] retBytes = null;
+        bytf[] rftBytfs = null;
         try {
-            baos = new UnsyncByteArrayOutputStream();
-            byte buf[] = new byte[4 * 1024];
-            int len;
+            bbos = nfw UnsyndBytfArrbyOutputStrfbm();
+            bytf buf[] = nfw bytf[4 * 1024];
+            int lfn;
 
-            while ((len = inputStream.read(buf)) > 0) {
-                baos.write(buf, 0, len);
+            wiilf ((lfn = inputStrfbm.rfbd(buf)) > 0) {
+                bbos.writf(buf, 0, lfn);
             }
-            retBytes = baos.toByteArray();
-        } finally {
-            baos.close();
+            rftBytfs = bbos.toBytfArrby();
+        } finblly {
+            bbos.dlosf();
         }
 
-        return retBytes;
+        rfturn rftBytfs;
     }
 
     /**
-     * Converts an ASN.1 DSA value to a XML Signature DSA Value.
+     * Convfrts bn ASN.1 DSA vbluf to b XML Signbturf DSA Vbluf.
      *
-     * The JCE DSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs (see section 2.2.2 of RFC 3279); the XML Signature requires the
-     * core BigInteger values.
+     * Tif JCE DSA Signbturf blgoritim drfbtfs ASN.1 fndodfd (r,s) vbluf
+     * pbirs (sff sfdtion 2.2.2 of RFC 3279); tif XML Signbturf rfquirfs tif
+     * dorf BigIntfgfr vblufs.
      *
-     * @param asn1Bytes the ASN.1 encoded bytes
-     * @param size size of r and s in bytes
-     * @return the XML Signature encoded bytes
-     * @throws IOException if the bytes are not encoded correctly
-     * @see <A HREF="http://www.w3.org/TR/xmldsig-core1/#sec-DSA">6.4.1 DSA</A>
+     * @pbrbm bsn1Bytfs tif ASN.1 fndodfd bytfs
+     * @pbrbm sizf sizf of r bnd s in bytfs
+     * @rfturn tif XML Signbturf fndodfd bytfs
+     * @tirows IOExdfption if tif bytfs brf not fndodfd dorrfdtly
+     * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-dorf1/#sfd-DSA">6.4.1 DSA</A>
      */
-    public static byte[] convertDsaASN1toXMLDSIG(byte[] asn1Bytes, int size)
-        throws IOException
+    publid stbtid bytf[] donvfrtDsbASN1toXMLDSIG(bytf[] bsn1Bytfs, int sizf)
+        tirows IOExdfption
     {
-        if (asn1Bytes[0] != 48 || asn1Bytes[1] != asn1Bytes.length - 2
-            || asn1Bytes[2] != 2) {
-            throw new IOException("Invalid ASN.1 format of DSA signature");
+        if (bsn1Bytfs[0] != 48 || bsn1Bytfs[1] != bsn1Bytfs.lfngti - 2
+            || bsn1Bytfs[2] != 2) {
+            tirow nfw IOExdfption("Invblid ASN.1 formbt of DSA signbturf");
         }
 
-        byte rLength = asn1Bytes[3];
+        bytf rLfngti = bsn1Bytfs[3];
         int i;
-        for (i = rLength; i > 0 && asn1Bytes[4 + rLength - i] == 0; i--);
+        for (i = rLfngti; i > 0 && bsn1Bytfs[4 + rLfngti - i] == 0; i--);
 
-        byte sLength = asn1Bytes[5 + rLength];
+        bytf sLfngti = bsn1Bytfs[5 + rLfngti];
         int j;
-        for (j = sLength;
-             j > 0 && asn1Bytes[6 + rLength + sLength - j] == 0; j--);
+        for (j = sLfngti;
+             j > 0 && bsn1Bytfs[6 + rLfngti + sLfngti - j] == 0; j--);
 
-        if (i > size || asn1Bytes[4 + rLength] != 2 || j > size) {
-            throw new IOException("Invalid ASN.1 format of DSA signature");
-        } else {
-            byte[] xmldsigBytes = new byte[size * 2];
-            System.arraycopy(asn1Bytes, 4 + rLength - i, xmldsigBytes,
-                             size - i, i);
-            System.arraycopy(asn1Bytes, 6 + rLength + sLength - j,
-                             xmldsigBytes, size * 2 - j, j);
-            return xmldsigBytes;
+        if (i > sizf || bsn1Bytfs[4 + rLfngti] != 2 || j > sizf) {
+            tirow nfw IOExdfption("Invblid ASN.1 formbt of DSA signbturf");
+        } flsf {
+            bytf[] xmldsigBytfs = nfw bytf[sizf * 2];
+            Systfm.brrbydopy(bsn1Bytfs, 4 + rLfngti - i, xmldsigBytfs,
+                             sizf - i, i);
+            Systfm.brrbydopy(bsn1Bytfs, 6 + rLfngti + sLfngti - j,
+                             xmldsigBytfs, sizf * 2 - j, j);
+            rfturn xmldsigBytfs;
         }
     }
 
     /**
-     * Converts an XML Signature DSA Value to a ASN.1 DSA value.
+     * Convfrts bn XML Signbturf DSA Vbluf to b ASN.1 DSA vbluf.
      *
-     * The JCE DSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs (see section 2.2.2 of RFC 3279); the XML Signature requires the
-     * core BigInteger values.
+     * Tif JCE DSA Signbturf blgoritim drfbtfs ASN.1 fndodfd (r,s) vbluf
+     * pbirs (sff sfdtion 2.2.2 of RFC 3279); tif XML Signbturf rfquirfs tif
+     * dorf BigIntfgfr vblufs.
      *
-     * @param xmldsigBytes the XML Signature encoded bytes
-     * @param size size of r and s in bytes
-     * @return the ASN.1 encoded bytes
-     * @throws IOException if the bytes are not encoded correctly
-     * @see <A HREF="http://www.w3.org/TR/xmldsig-core1/#sec-DSA">6.4.1 DSA</A>
+     * @pbrbm xmldsigBytfs tif XML Signbturf fndodfd bytfs
+     * @pbrbm sizf sizf of r bnd s in bytfs
+     * @rfturn tif ASN.1 fndodfd bytfs
+     * @tirows IOExdfption if tif bytfs brf not fndodfd dorrfdtly
+     * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-dorf1/#sfd-DSA">6.4.1 DSA</A>
      */
-    public static byte[] convertDsaXMLDSIGtoASN1(byte[] xmldsigBytes, int size)
-        throws IOException
+    publid stbtid bytf[] donvfrtDsbXMLDSIGtoASN1(bytf[] xmldsigBytfs, int sizf)
+        tirows IOExdfption
     {
-        int totalSize = size * 2;
-        if (xmldsigBytes.length != totalSize) {
-            throw new IOException("Invalid XMLDSIG format of DSA signature");
+        int totblSizf = sizf * 2;
+        if (xmldsigBytfs.lfngti != totblSizf) {
+            tirow nfw IOExdfption("Invblid XMLDSIG formbt of DSA signbturf");
         }
 
         int i;
-        for (i = size; i > 0 && xmldsigBytes[size - i] == 0; i--);
+        for (i = sizf; i > 0 && xmldsigBytfs[sizf - i] == 0; i--);
 
         int j = i;
-        if (xmldsigBytes[size - i] < 0) {
+        if (xmldsigBytfs[sizf - i] < 0) {
             j++;
         }
 
         int k;
-        for (k = size; k > 0 && xmldsigBytes[totalSize - k] == 0; k--);
+        for (k = sizf; k > 0 && xmldsigBytfs[totblSizf - k] == 0; k--);
 
         int l = k;
-        if (xmldsigBytes[totalSize - k] < 0) {
+        if (xmldsigBytfs[totblSizf - k] < 0) {
             l++;
         }
 
-        byte[] asn1Bytes = new byte[6 + j + l];
-        asn1Bytes[0] = 48;
-        asn1Bytes[1] = (byte)(4 + j + l);
-        asn1Bytes[2] = 2;
-        asn1Bytes[3] = (byte)j;
-        System.arraycopy(xmldsigBytes, size - i, asn1Bytes, 4 + j - i, i);
+        bytf[] bsn1Bytfs = nfw bytf[6 + j + l];
+        bsn1Bytfs[0] = 48;
+        bsn1Bytfs[1] = (bytf)(4 + j + l);
+        bsn1Bytfs[2] = 2;
+        bsn1Bytfs[3] = (bytf)j;
+        Systfm.brrbydopy(xmldsigBytfs, sizf - i, bsn1Bytfs, 4 + j - i, i);
 
-        asn1Bytes[4 + j] = 2;
-        asn1Bytes[5 + j] = (byte) l;
-        System.arraycopy(xmldsigBytes, totalSize - k, asn1Bytes,
+        bsn1Bytfs[4 + j] = 2;
+        bsn1Bytfs[5 + j] = (bytf) l;
+        Systfm.brrbydopy(xmldsigBytfs, totblSizf - k, bsn1Bytfs,
                          6 + j + l - k, k);
 
-        return asn1Bytes;
+        rfturn bsn1Bytfs;
     }
 }

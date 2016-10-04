@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+/**
+ * Thf AddfssiblfTbblfModflChbngf intfrfbdf dfsdribfs b dhbngf to
+ * thf tbblf modfl.  Thf bttributfs of thf modfl dhbngf dbn bf
+ * obtbinfd by thf following mfthods:
+ * <ul>
+ * <li> publid int gftTypf()
+ * <li> publid int gftFirstRow();
+ * <li> publid int gftLbstRow();
+ * <li> publid int gftFirstColumn();
+ * <li> publid int gftLbstColumn();
+ * </ul>
+ * Thf modfl dhbngf typf rfturnfd by gftTypf() will bf onf of:
+ * <ul>
+ * <li> INSERT - onf or morf rows bnd/or dolumns hbvf bffn insfrtfd
+ * <li> UPDATE - somf of thf tbblf dbtb hbs dhbngfd
+ * <li> DELETE - onf or morf rows bnd/or dolumns hbvf bffn dflftfd
+ * </ul>
+ * Thf bfffdtfd brfb of thf tbblf dbn bf dftfrminfd by thf othfr
+ * four mfthods whidh spfdify rbngfs of rows bnd dolumns
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTbblf
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.3
+ */
+publid intfrfbdf AddfssiblfTbblfModflChbngf {
+
+    /**
+     * Idfntififs thf insfrtion of nfw rows bnd/or dolumns.
+     */
+    publid stbtid finbl int INSERT =  1;
+
+    /**
+     * Idfntififs b dhbngf to fxisting dbtb.
+     */
+    publid stbtid finbl int UPDATE =  0;
+
+    /**
+     * Idfntififs thf dflftion of rows bnd/or dolumns.
+     */
+    publid stbtid finbl int DELETE = -1;
+
+    /**
+     *  Rfturns thf typf of fvfnt.
+     *  @rfturn thf typf of fvfnt
+     *  @sff #INSERT
+     *  @sff #UPDATE
+     *  @sff #DELETE
+     */
+    publid int gftTypf();
+
+    /**
+     * Rfturns thf first row thbt dhbngfd.
+     * @rfturn thf first row thbt dhbngfd
+     */
+    publid int gftFirstRow();
+
+    /**
+     * Rfturns thf lbst row thbt dhbngfd.
+     * @rfturn thf lbst row thbt dhbngfd
+     */
+    publid int gftLbstRow();
+
+    /**
+     * Rfturns thf first dolumn thbt dhbngfd.
+     * @rfturn thf first dolumn thbt dhbngfd
+     */
+    publid int gftFirstColumn();
+
+    /**
+     * Rfturns thf lbst dolumn thbt dhbngfd.
+     * @rfturn thf lbst dolumn thbt dhbngfd
+     */
+    publid int gftLbstColumn();
+}

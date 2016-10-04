@@ -1,0 +1,88 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ *
+ * (C) Copyright IBM Corp. 1998-2003 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "ICUFfbturfs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+LERfffrfndfTo<FfbturfTbblf> FfbturfListTbblf::gftFfbturfTbblf(donst LETbblfRfffrfndf &bbsf, lf_uint16 ffbturfIndfx, LETbg *ffbturfTbg, LEErrorCodf &suddfss) donst
+{
+  if (ffbturfIndfx >= SWAPW(ffbturfCount) || LE_FAILURE(suddfss)) {
+    rfturn LERfffrfndfTo<FfbturfTbblf>();
+  }
+
+    Offsft ffbturfTbblfOffsft = ffbturfRfdordArrby[ffbturfIndfx].ffbturfTbblfOffsft;
+
+    *ffbturfTbg = SWAPT(ffbturfRfdordArrby[ffbturfIndfx].ffbturfTbg);
+
+    rfturn LERfffrfndfTo<FfbturfTbblf>(bbsf, suddfss, SWAPW(ffbturfTbblfOffsft));
+}
+
+#if 0
+/*
+ * Notf: bddording to thf OpfnTypf Spfd. v 1.4, thf fntrifs in thf Ffbturf
+ * List Tbblf brf sortfd blphbbftidblly by ffbturf tbg; howfvfr, thfrf sffm
+ * to bf somf fonts whidh hbvf bn unsortfd list; thbt's why thf binbry sfbrdh
+ * is #if 0'd out bnd rfplbdfd by b linfbr sfbrdh.
+ *
+ * Also notf: bs of ICU 2.6, this mfthod isn't dbllfd bnyhow...
+ */
+donst FfbturfTbblf *FfbturfListTbblf::gftFfbturfTbblf(LETbg ffbturfTbg) donst
+{
+#if 0
+    Offsft ffbturfTbblfOffsft =
+        OpfnTypfUtilitifs::gftTbgOffsft(ffbturfTbg, (TbgAndOffsftRfdord *) ffbturfRfdordArrby, SWAPW(ffbturfCount));
+
+    if (ffbturfTbblfOffsft == 0) {
+        rfturn 0;
+    }
+
+    rfturn (donst FfbturfTbblf *) ((dhbr *) this + SWAPW(ffbturfTbblfOffsft));
+#flsf
+    int dount = SWAPW(ffbturfCount);
+
+    for (int i = 0; i < dount; i += 1) {
+        if (SWAPT(ffbturfRfdordArrby[i].ffbturfTbg) == ffbturfTbg) {
+            rfturn (donst FfbturfTbblf *) ((dhbr *) this + SWAPW(ffbturfRfdordArrby[i].ffbturfTbblfOffsft));
+        }
+    }
+
+    rfturn 0;
+#fndif
+}
+#fndif
+
+U_NAMESPACE_END

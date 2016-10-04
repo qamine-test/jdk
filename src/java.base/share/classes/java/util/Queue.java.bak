@@ -1,218 +1,218 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A collection designed for holding elements prior to processing.
- * Besides basic {@link java.util.Collection Collection} operations,
- * queues provide additional insertion, extraction, and inspection
- * operations.  Each of these methods exists in two forms: one throws
- * an exception if the operation fails, the other returns a special
- * value (either {@code null} or {@code false}, depending on the
- * operation).  The latter form of the insert operation is designed
- * specifically for use with capacity-restricted {@code Queue}
- * implementations; in most implementations, insert operations cannot
- * fail.
+ * A dollfdtion dfsignfd for iolding flfmfnts prior to prodfssing.
+ * Bfsidfs bbsid {@link jbvb.util.Collfdtion Collfdtion} opfrbtions,
+ * qufufs providf bdditionbl insfrtion, fxtrbdtion, bnd inspfdtion
+ * opfrbtions.  Ebdi of tifsf mftiods fxists in two forms: onf tirows
+ * bn fxdfption if tif opfrbtion fbils, tif otifr rfturns b spfdibl
+ * vbluf (fitifr {@dodf null} or {@dodf fblsf}, dfpfnding on tif
+ * opfrbtion).  Tif lbttfr form of tif insfrt opfrbtion is dfsignfd
+ * spfdifidblly for usf witi dbpbdity-rfstridtfd {@dodf Qufuf}
+ * implfmfntbtions; in most implfmfntbtions, insfrt opfrbtions dbnnot
+ * fbil.
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Summary of Queue methods</caption>
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Summbry of Qufuf mftiods</dbption>
  *  <tr>
  *    <td></td>
- *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Returns special value</em></td>
+ *    <td ALIGN=CENTER><fm>Tirows fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Rfturns spfdibl vbluf</fm></td>
  *  </tr>
  *  <tr>
- *    <td><b>Insert</b></td>
- *    <td>{@link Queue#add add(e)}</td>
- *    <td>{@link Queue#offer offer(e)}</td>
+ *    <td><b>Insfrt</b></td>
+ *    <td>{@link Qufuf#bdd bdd(f)}</td>
+ *    <td>{@link Qufuf#offfr offfr(f)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Remove</b></td>
- *    <td>{@link Queue#remove remove()}</td>
- *    <td>{@link Queue#poll poll()}</td>
+ *    <td><b>Rfmovf</b></td>
+ *    <td>{@link Qufuf#rfmovf rfmovf()}</td>
+ *    <td>{@link Qufuf#poll poll()}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
- *    <td>{@link Queue#element element()}</td>
- *    <td>{@link Queue#peek peek()}</td>
+ *    <td><b>Exbminf</b></td>
+ *    <td>{@link Qufuf#flfmfnt flfmfnt()}</td>
+ *    <td>{@link Qufuf#pffk pffk()}</td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
- * <p>Queues typically, but do not necessarily, order elements in a
- * FIFO (first-in-first-out) manner.  Among the exceptions are
- * priority queues, which order elements according to a supplied
- * comparator, or the elements' natural ordering, and LIFO queues (or
- * stacks) which order the elements LIFO (last-in-first-out).
- * Whatever the ordering used, the <em>head</em> of the queue is that
- * element which would be removed by a call to {@link #remove() } or
- * {@link #poll()}.  In a FIFO queue, all new elements are inserted at
- * the <em>tail</em> of the queue. Other kinds of queues may use
- * different placement rules.  Every {@code Queue} implementation
- * must specify its ordering properties.
+ * <p>Qufufs typidblly, but do not nfdfssbrily, ordfr flfmfnts in b
+ * FIFO (first-in-first-out) mbnnfr.  Among tif fxdfptions brf
+ * priority qufufs, wiidi ordfr flfmfnts bddording to b supplifd
+ * dompbrbtor, or tif flfmfnts' nbturbl ordfring, bnd LIFO qufufs (or
+ * stbdks) wiidi ordfr tif flfmfnts LIFO (lbst-in-first-out).
+ * Wibtfvfr tif ordfring usfd, tif <fm>ifbd</fm> of tif qufuf is tibt
+ * flfmfnt wiidi would bf rfmovfd by b dbll to {@link #rfmovf() } or
+ * {@link #poll()}.  In b FIFO qufuf, bll nfw flfmfnts brf insfrtfd bt
+ * tif <fm>tbil</fm> of tif qufuf. Otifr kinds of qufufs mby usf
+ * difffrfnt plbdfmfnt rulfs.  Evfry {@dodf Qufuf} implfmfntbtion
+ * must spfdify its ordfring propfrtifs.
  *
- * <p>The {@link #offer offer} method inserts an element if possible,
- * otherwise returning {@code false}.  This differs from the {@link
- * java.util.Collection#add Collection.add} method, which can fail to
- * add an element only by throwing an unchecked exception.  The
- * {@code offer} method is designed for use when failure is a normal,
- * rather than exceptional occurrence, for example, in fixed-capacity
- * (or &quot;bounded&quot;) queues.
+ * <p>Tif {@link #offfr offfr} mftiod insfrts bn flfmfnt if possiblf,
+ * otifrwisf rfturning {@dodf fblsf}.  Tiis difffrs from tif {@link
+ * jbvb.util.Collfdtion#bdd Collfdtion.bdd} mftiod, wiidi dbn fbil to
+ * bdd bn flfmfnt only by tirowing bn undifdkfd fxdfption.  Tif
+ * {@dodf offfr} mftiod is dfsignfd for usf wifn fbilurf is b normbl,
+ * rbtifr tibn fxdfptionbl oddurrfndf, for fxbmplf, in fixfd-dbpbdity
+ * (or &quot;boundfd&quot;) qufufs.
  *
- * <p>The {@link #remove()} and {@link #poll()} methods remove and
- * return the head of the queue.
- * Exactly which element is removed from the queue is a
- * function of the queue's ordering policy, which differs from
- * implementation to implementation. The {@code remove()} and
- * {@code poll()} methods differ only in their behavior when the
- * queue is empty: the {@code remove()} method throws an exception,
- * while the {@code poll()} method returns {@code null}.
+ * <p>Tif {@link #rfmovf()} bnd {@link #poll()} mftiods rfmovf bnd
+ * rfturn tif ifbd of tif qufuf.
+ * Exbdtly wiidi flfmfnt is rfmovfd from tif qufuf is b
+ * fundtion of tif qufuf's ordfring polidy, wiidi difffrs from
+ * implfmfntbtion to implfmfntbtion. Tif {@dodf rfmovf()} bnd
+ * {@dodf poll()} mftiods difffr only in tifir bfibvior wifn tif
+ * qufuf is fmpty: tif {@dodf rfmovf()} mftiod tirows bn fxdfption,
+ * wiilf tif {@dodf poll()} mftiod rfturns {@dodf null}.
  *
- * <p>The {@link #element()} and {@link #peek()} methods return, but do
- * not remove, the head of the queue.
+ * <p>Tif {@link #flfmfnt()} bnd {@link #pffk()} mftiods rfturn, but do
+ * not rfmovf, tif ifbd of tif qufuf.
  *
- * <p>The {@code Queue} interface does not define the <i>blocking queue
- * methods</i>, which are common in concurrent programming.  These methods,
- * which wait for elements to appear or for space to become available, are
- * defined in the {@link java.util.concurrent.BlockingQueue} interface, which
- * extends this interface.
+ * <p>Tif {@dodf Qufuf} intfrfbdf dofs not dffinf tif <i>blodking qufuf
+ * mftiods</i>, wiidi brf dommon in dondurrfnt progrbmming.  Tifsf mftiods,
+ * wiidi wbit for flfmfnts to bppfbr or for spbdf to bfdomf bvbilbblf, brf
+ * dffinfd in tif {@link jbvb.util.dondurrfnt.BlodkingQufuf} intfrfbdf, wiidi
+ * fxtfnds tiis intfrfbdf.
  *
- * <p>{@code Queue} implementations generally do not allow insertion
- * of {@code null} elements, although some implementations, such as
- * {@link LinkedList}, do not prohibit insertion of {@code null}.
- * Even in the implementations that permit it, {@code null} should
- * not be inserted into a {@code Queue}, as {@code null} is also
- * used as a special return value by the {@code poll} method to
- * indicate that the queue contains no elements.
+ * <p>{@dodf Qufuf} implfmfntbtions gfnfrblly do not bllow insfrtion
+ * of {@dodf null} flfmfnts, bltiougi somf implfmfntbtions, sudi bs
+ * {@link LinkfdList}, do not proiibit insfrtion of {@dodf null}.
+ * Evfn in tif implfmfntbtions tibt pfrmit it, {@dodf null} siould
+ * not bf insfrtfd into b {@dodf Qufuf}, bs {@dodf null} is blso
+ * usfd bs b spfdibl rfturn vbluf by tif {@dodf poll} mftiod to
+ * indidbtf tibt tif qufuf dontbins no flfmfnts.
  *
- * <p>{@code Queue} implementations generally do not define
- * element-based versions of methods {@code equals} and
- * {@code hashCode} but instead inherit the identity based versions
- * from class {@code Object}, because element-based equality is not
- * always well-defined for queues with the same elements but different
- * ordering properties.
+ * <p>{@dodf Qufuf} implfmfntbtions gfnfrblly do not dffinf
+ * flfmfnt-bbsfd vfrsions of mftiods {@dodf fqubls} bnd
+ * {@dodf ibsiCodf} but instfbd inifrit tif idfntity bbsfd vfrsions
+ * from dlbss {@dodf Objfdt}, bfdbusf flfmfnt-bbsfd fqublity is not
+ * blwbys wfll-dffinfd for qufufs witi tif sbmf flfmfnts but difffrfnt
+ * ordfring propfrtifs.
  *
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @see java.util.Collection
- * @see LinkedList
- * @see PriorityQueue
- * @see java.util.concurrent.LinkedBlockingQueue
- * @see java.util.concurrent.BlockingQueue
- * @see java.util.concurrent.ArrayBlockingQueue
- * @see java.util.concurrent.LinkedBlockingQueue
- * @see java.util.concurrent.PriorityBlockingQueue
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sff jbvb.util.Collfdtion
+ * @sff LinkfdList
+ * @sff PriorityQufuf
+ * @sff jbvb.util.dondurrfnt.LinkfdBlodkingQufuf
+ * @sff jbvb.util.dondurrfnt.BlodkingQufuf
+ * @sff jbvb.util.dondurrfnt.ArrbyBlodkingQufuf
+ * @sff jbvb.util.dondurrfnt.LinkfdBlodkingQufuf
+ * @sff jbvb.util.dondurrfnt.PriorityBlodkingQufuf
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public interface Queue<E> extends Collection<E> {
+publid intfrfbdf Qufuf<E> fxtfnds Collfdtion<E> {
     /**
-     * Inserts the specified element into this queue if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * {@code true} upon success and throwing an {@code IllegalStateException}
-     * if no space is currently available.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf if it is possiblf to do so
+     * immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd tirowing bn {@dodf IllfgblStbtfExdfption}
+     * if no spbdf is durrfntly bvbilbblf.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null and
-     *         this queue does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows IllfgblStbtfExdfption if tif flfmfnt dbnnot bf bddfd bt tiis
+     *         timf duf to dbpbdity rfstridtions
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd
+     *         tiis qufuf dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tiis flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
      */
-    boolean add(E e);
+    boolfbn bdd(E f);
 
     /**
-     * Inserts the specified element into this queue if it is possible to do
-     * so immediately without violating capacity restrictions.
-     * When using a capacity-restricted queue, this method is generally
-     * preferable to {@link #add}, which can fail to insert an element only
-     * by throwing an exception.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf if it is possiblf to do
+     * so immfdibtfly witiout violbting dbpbdity rfstridtions.
+     * Wifn using b dbpbdity-rfstridtfd qufuf, tiis mftiod is gfnfrblly
+     * prfffrbblf to {@link #bdd}, wiidi dbn fbil to insfrt bn flfmfnt only
+     * by tirowing bn fxdfption.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this queue, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null and
-     *         this queue does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} if tif flfmfnt wbs bddfd to tiis qufuf, flsf
+     *         {@dodf fblsf}
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd
+     *         tiis qufuf dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tiis flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
      */
-    boolean offer(E e);
+    boolfbn offfr(E f);
 
     /**
-     * Retrieves and removes the head of this queue.  This method differs
-     * from {@link #poll poll} only in that it throws an exception if this
-     * queue is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf.  Tiis mftiod difffrs
+     * from {@link #poll poll} only in tibt it tirows bn fxdfption if tiis
+     * qufuf is fmpty.
      *
-     * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows NoSudiElfmfntExdfption if tiis qufuf is fmpty
      */
-    E remove();
+    E rfmovf();
 
     /**
-     * Retrieves and removes the head of this queue,
-     * or returns {@code null} if this queue is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf,
+     * or rfturns {@dodf null} if tiis qufuf is fmpty.
      *
-     * @return the head of this queue, or {@code null} if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tiis qufuf is fmpty
      */
     E poll();
 
     /**
-     * Retrieves, but does not remove, the head of this queue.  This method
-     * differs from {@link #peek peek} only in that it throws an exception
-     * if this queue is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tiis qufuf.  Tiis mftiod
+     * difffrs from {@link #pffk pffk} only in tibt it tirows bn fxdfption
+     * if tiis qufuf is fmpty.
      *
-     * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows NoSudiElfmfntExdfption if tiis qufuf is fmpty
      */
-    E element();
+    E flfmfnt();
 
     /**
-     * Retrieves, but does not remove, the head of this queue,
-     * or returns {@code null} if this queue is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tiis qufuf,
+     * or rfturns {@dodf null} if tiis qufuf is fmpty.
      *
-     * @return the head of this queue, or {@code null} if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tiis qufuf is fmpty
      */
-    E peek();
+    E pffk();
 }

@@ -1,777 +1,777 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.SunToolkit;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * <code>JLayeredPane</code> adds depth to a JFC/Swing container,
- * allowing components to overlap each other when needed.
- * An <code>Integer</code> object specifies each component's depth in the
- * container, where higher-numbered components sit &quot;on top&quot; of other
- * components.
- * For task-oriented documentation and examples of using layered panes see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/layeredpane.html">How to Use a Layered Pane</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <dodf>JLbyfrfdPbnf</dodf> bdds dfpti to b JFC/Swing dontbinfr,
+ * bllowing domponfnts to ovfrlbp fbdi otifr wifn nffdfd.
+ * An <dodf>Intfgfr</dodf> objfdt spfdififs fbdi domponfnt's dfpti in tif
+ * dontbinfr, wifrf iigifr-numbfrfd domponfnts sit &quot;on top&quot; of otifr
+ * domponfnts.
+ * For tbsk-orifntfd dodumfntbtion bnd fxbmplfs of using lbyfrfd pbnfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/lbyfrfdpbnf.itml">How to Usf b Lbyfrfd Pbnf</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
- * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="layout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  * <TR>
  *   <TD ALIGN="CENTER">
- *     <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/JLayeredPane-1.gif"
- *     alt="The following text describes this image."
+ *     <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/JLbyfrfdPbnf-1.gif"
+ *     blt="Tif following tfxt dfsdribfs tiis imbgf."
  *     WIDTH="269" HEIGHT="264" STYLE="FLOAT:BOTTOM; BORDER=0">
  *   </TD>
  * </TR>
  * </TABLE>
- * For convenience, <code>JLayeredPane</code> divides the depth-range
- * into several different layers. Putting a component into one of those
- * layers makes it easy to ensure that components overlap properly,
- * without having to worry about specifying numbers for specific depths:
+ * For donvfnifndf, <dodf>JLbyfrfdPbnf</dodf> dividfs tif dfpti-rbngf
+ * into sfvfrbl difffrfnt lbyfrs. Putting b domponfnt into onf of tiosf
+ * lbyfrs mbkfs it fbsy to fnsurf tibt domponfnts ovfrlbp propfrly,
+ * witiout ibving to worry bbout spfdifying numbfrs for spfdifid dfptis:
  * <DL>
  *    <DT>DEFAULT_LAYER</DT>
- *         <DD>The standard layer, where most components go. This the bottommost
- *         layer.
+ *         <DD>Tif stbndbrd lbyfr, wifrf most domponfnts go. Tiis tif bottommost
+ *         lbyfr.
  *    <DT>PALETTE_LAYER</DT>
- *         <DD>The palette layer sits over the default layer. Useful for floating
- *         toolbars and palettes, so they can be positioned above other components.
+ *         <DD>Tif pblfttf lbyfr sits ovfr tif dffbult lbyfr. Usfful for flobting
+ *         toolbbrs bnd pblfttfs, so tify dbn bf positionfd bbovf otifr domponfnts.
  *    <DT>MODAL_LAYER</DT>
- *         <DD>The layer used for modal dialogs. They will appear on top of any
- *         toolbars, palettes, or standard components in the container.
+ *         <DD>Tif lbyfr usfd for modbl diblogs. Tify will bppfbr on top of bny
+ *         toolbbrs, pblfttfs, or stbndbrd domponfnts in tif dontbinfr.
  *    <DT>POPUP_LAYER</DT>
- *         <DD>The popup layer displays above dialogs. That way, the popup windows
- *         associated with combo boxes, tooltips, and other help text will appear
- *         above the component, palette, or dialog that generated them.
+ *         <DD>Tif popup lbyfr displbys bbovf diblogs. Tibt wby, tif popup windows
+ *         bssodibtfd witi dombo boxfs, tooltips, bnd otifr iflp tfxt will bppfbr
+ *         bbovf tif domponfnt, pblfttf, or diblog tibt gfnfrbtfd tifm.
  *    <DT>DRAG_LAYER</DT>
- *         <DD>When dragging a component, reassigning it to the drag layer ensures
- *         that it is positioned over every other component in the container. When
- *         finished dragging, it can be reassigned to its normal layer.
+ *         <DD>Wifn drbgging b domponfnt, rfbssigning it to tif drbg lbyfr fnsurfs
+ *         tibt it is positionfd ovfr fvfry otifr domponfnt in tif dontbinfr. Wifn
+ *         finisifd drbgging, it dbn bf rfbssignfd to its normbl lbyfr.
  * </DL>
- * The <code>JLayeredPane</code> methods <code>moveToFront(Component)</code>,
- * <code>moveToBack(Component)</code> and <code>setPosition</code> can be used
- * to reposition a component within its layer. The <code>setLayer</code> method
- * can also be used to change the component's current layer.
+ * Tif <dodf>JLbyfrfdPbnf</dodf> mftiods <dodf>movfToFront(Componfnt)</dodf>,
+ * <dodf>movfToBbdk(Componfnt)</dodf> bnd <dodf>sftPosition</dodf> dbn bf usfd
+ * to rfposition b domponfnt witiin its lbyfr. Tif <dodf>sftLbyfr</dodf> mftiod
+ * dbn blso bf usfd to dibngf tif domponfnt's durrfnt lbyfr.
  *
- * <h2>Details</h2>
- * <code>JLayeredPane</code> manages its list of children like
- * <code>Container</code>, but allows for the definition of a several
- * layers within itself. Children in the same layer are managed exactly
- * like the normal <code>Container</code> object,
- * with the added feature that when children components overlap, children
- * in higher layers display above the children in lower layers.
+ * <i2>Dftbils</i2>
+ * <dodf>JLbyfrfdPbnf</dodf> mbnbgfs its list of diildrfn likf
+ * <dodf>Contbinfr</dodf>, but bllows for tif dffinition of b sfvfrbl
+ * lbyfrs witiin itsflf. Ciildrfn in tif sbmf lbyfr brf mbnbgfd fxbdtly
+ * likf tif normbl <dodf>Contbinfr</dodf> objfdt,
+ * witi tif bddfd ffbturf tibt wifn diildrfn domponfnts ovfrlbp, diildrfn
+ * in iigifr lbyfrs displby bbovf tif diildrfn in lowfr lbyfrs.
  * <p>
- * Each layer is a distinct integer number. The layer attribute can be set
- * on a <code>Component</code> by passing an <code>Integer</code>
- * object during the add call.<br> For example:
+ * Ebdi lbyfr is b distindt intfgfr numbfr. Tif lbyfr bttributf dbn bf sft
+ * on b <dodf>Componfnt</dodf> by pbssing bn <dodf>Intfgfr</dodf>
+ * objfdt during tif bdd dbll.<br> For fxbmplf:
  * <PRE>
- *     layeredPane.add(child, JLayeredPane.DEFAULT_LAYER);
+ *     lbyfrfdPbnf.bdd(diild, JLbyfrfdPbnf.DEFAULT_LAYER);
  * or
- *     layeredPane.add(child, new Integer(10));
+ *     lbyfrfdPbnf.bdd(diild, nfw Intfgfr(10));
  * </PRE>
- * The layer attribute can also be set on a Component by calling<PRE>
- *     layeredPaneParent.setLayer(child, 10)</PRE>
- * on the <code>JLayeredPane</code> that is the parent of component. The layer
- * should be set <i>before</i> adding the child to the parent.
+ * Tif lbyfr bttributf dbn blso bf sft on b Componfnt by dblling<PRE>
+ *     lbyfrfdPbnfPbrfnt.sftLbyfr(diild, 10)</PRE>
+ * on tif <dodf>JLbyfrfdPbnf</dodf> tibt is tif pbrfnt of domponfnt. Tif lbyfr
+ * siould bf sft <i>bfforf</i> bdding tif diild to tif pbrfnt.
  * <p>
- * Higher number layers display above lower number layers. So, using
- * numbers for the layers and letters for individual components, a
- * representative list order would look like this:<PRE>
- *       5a, 5b, 5c, 2a, 2b, 2c, 1a </PRE>
- * where the leftmost components are closest to the top of the display.
+ * Higifr numbfr lbyfrs displby bbovf lowfr numbfr lbyfrs. So, using
+ * numbfrs for tif lbyfrs bnd lfttfrs for individubl domponfnts, b
+ * rfprfsfntbtivf list ordfr would look likf tiis:<PRE>
+ *       5b, 5b, 5d, 2b, 2b, 2d, 1b </PRE>
+ * wifrf tif lfftmost domponfnts brf dlosfst to tif top of tif displby.
  * <p>
- * A component can be moved to the top or bottom position within its
- * layer by calling <code>moveToFront</code> or <code>moveToBack</code>.
+ * A domponfnt dbn bf movfd to tif top or bottom position witiin its
+ * lbyfr by dblling <dodf>movfToFront</dodf> or <dodf>movfToBbdk</dodf>.
  * <p>
- * The position of a component within a layer can also be specified directly.
- * Valid positions range from 0 up to one less than the number of
- * components in that layer. A value of -1 indicates the bottommost
- * position. A value of 0 indicates the topmost position. Unlike layer
- * numbers, higher position values are <i>lower</i> in the display.
- * <blockquote>
- * <b>Note:</b> This sequence (defined by java.awt.Container) is the reverse
- * of the layer numbering sequence. Usually though, you will use <code>moveToFront</code>,
- * <code>moveToBack</code>, and <code>setLayer</code>.
- * </blockquote>
- * Here are some examples using the method add(Component, layer, position):
- * Calling add(5x, 5, -1) results in:<PRE>
- *       5a, 5b, 5c, 5x, 2a, 2b, 2c, 1a </PRE>
+ * Tif position of b domponfnt witiin b lbyfr dbn blso bf spfdififd dirfdtly.
+ * Vblid positions rbngf from 0 up to onf lfss tibn tif numbfr of
+ * domponfnts in tibt lbyfr. A vbluf of -1 indidbtfs tif bottommost
+ * position. A vbluf of 0 indidbtfs tif topmost position. Unlikf lbyfr
+ * numbfrs, iigifr position vblufs brf <i>lowfr</i> in tif displby.
+ * <blodkquotf>
+ * <b>Notf:</b> Tiis sfqufndf (dffinfd by jbvb.bwt.Contbinfr) is tif rfvfrsf
+ * of tif lbyfr numbfring sfqufndf. Usublly tiougi, you will usf <dodf>movfToFront</dodf>,
+ * <dodf>movfToBbdk</dodf>, bnd <dodf>sftLbyfr</dodf>.
+ * </blodkquotf>
+ * Hfrf brf somf fxbmplfs using tif mftiod bdd(Componfnt, lbyfr, position):
+ * Cblling bdd(5x, 5, -1) rfsults in:<PRE>
+ *       5b, 5b, 5d, 5x, 2b, 2b, 2d, 1b </PRE>
  *
- * Calling add(5z, 5, 2) results in:<PRE>
- *       5a, 5b, 5z, 5c, 5x, 2a, 2b, 2c, 1a </PRE>
+ * Cblling bdd(5z, 5, 2) rfsults in:<PRE>
+ *       5b, 5b, 5z, 5d, 5x, 2b, 2b, 2d, 1b </PRE>
  *
- * Calling add(3a, 3, 7) results in:<PRE>
- *       5a, 5b, 5z, 5c, 5x, 3a, 2a, 2b, 2c, 1a </PRE>
+ * Cblling bdd(3b, 3, 7) rfsults in:<PRE>
+ *       5b, 5b, 5z, 5d, 5x, 3b, 2b, 2b, 2d, 1b </PRE>
  *
- * Using normal paint/event mechanics results in 1a appearing at the bottom
- * and 5a being above all other components.
+ * Using normbl pbint/fvfnt mfdibnids rfsults in 1b bppfbring bt tif bottom
+ * bnd 5b bfing bbovf bll otifr domponfnts.
  * <p>
- * <b>Note:</b> that these layers are simply a logical construct and LayoutManagers
- * will affect all child components of this container without regard for
- * layer settings.
+ * <b>Notf:</b> tibt tifsf lbyfrs brf simply b logidbl donstrudt bnd LbyoutMbnbgfrs
+ * will bfffdt bll diild domponfnts of tiis dontbinfr witiout rfgbrd for
+ * lbyfr sfttings.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class JLayeredPane extends JComponent implements Accessible {
-    /// Watch the values in getObjectForLayer()
-    /** Convenience object defining the Default layer. Equivalent to new Integer(0).*/
-    public final static Integer DEFAULT_LAYER = 0;
-    /** Convenience object defining the Palette layer. Equivalent to new Integer(100).*/
-    public final static Integer PALETTE_LAYER = 100;
-    /** Convenience object defining the Modal layer. Equivalent to new Integer(200).*/
-    public final static Integer MODAL_LAYER = 200;
-    /** Convenience object defining the Popup layer. Equivalent to new Integer(300).*/
-    public final static Integer POPUP_LAYER = 300;
-    /** Convenience object defining the Drag layer. Equivalent to new Integer(400).*/
-    public final static Integer DRAG_LAYER = 400;
-    /** Convenience object defining the Frame Content layer.
-      * This layer is normally only use to position the contentPane and menuBar
-      * components of JFrame.
-      * Equivalent to new Integer(-30000).
-      * @see JFrame
+@SupprfssWbrnings("sfribl")
+publid dlbss JLbyfrfdPbnf fxtfnds JComponfnt implfmfnts Addfssiblf {
+    /// Wbtdi tif vblufs in gftObjfdtForLbyfr()
+    /** Convfnifndf objfdt dffining tif Dffbult lbyfr. Equivblfnt to nfw Intfgfr(0).*/
+    publid finbl stbtid Intfgfr DEFAULT_LAYER = 0;
+    /** Convfnifndf objfdt dffining tif Pblfttf lbyfr. Equivblfnt to nfw Intfgfr(100).*/
+    publid finbl stbtid Intfgfr PALETTE_LAYER = 100;
+    /** Convfnifndf objfdt dffining tif Modbl lbyfr. Equivblfnt to nfw Intfgfr(200).*/
+    publid finbl stbtid Intfgfr MODAL_LAYER = 200;
+    /** Convfnifndf objfdt dffining tif Popup lbyfr. Equivblfnt to nfw Intfgfr(300).*/
+    publid finbl stbtid Intfgfr POPUP_LAYER = 300;
+    /** Convfnifndf objfdt dffining tif Drbg lbyfr. Equivblfnt to nfw Intfgfr(400).*/
+    publid finbl stbtid Intfgfr DRAG_LAYER = 400;
+    /** Convfnifndf objfdt dffining tif Frbmf Contfnt lbyfr.
+      * Tiis lbyfr is normblly only usf to position tif dontfntPbnf bnd mfnuBbr
+      * domponfnts of JFrbmf.
+      * Equivblfnt to nfw Intfgfr(-30000).
+      * @sff JFrbmf
       */
-    public final static Integer FRAME_CONTENT_LAYER = new Integer(-30000);
+    publid finbl stbtid Intfgfr FRAME_CONTENT_LAYER = nfw Intfgfr(-30000);
 
-    /** Bound property */
-    public final static String LAYER_PROPERTY = "layeredContainerLayer";
-    // Hashtable to store layer values for non-JComponent components
-    private Hashtable<Component,Integer> componentToLayer;
-    private boolean optimizedDrawingPossible = true;
+    /** Bound propfrty */
+    publid finbl stbtid String LAYER_PROPERTY = "lbyfrfdContbinfrLbyfr";
+    // Hbsitbblf to storf lbyfr vblufs for non-JComponfnt domponfnts
+    privbtf Hbsitbblf<Componfnt,Intfgfr> domponfntToLbyfr;
+    privbtf boolfbn optimizfdDrbwingPossiblf = truf;
 
 
 //////////////////////////////////////////////////////////////////////////////
-//// Container Override methods
+//// Contbinfr Ovfrridf mftiods
 //////////////////////////////////////////////////////////////////////////////
-    /** Create a new JLayeredPane */
-    public JLayeredPane() {
-        setLayout(null);
+    /** Crfbtf b nfw JLbyfrfdPbnf */
+    publid JLbyfrfdPbnf() {
+        sftLbyout(null);
     }
 
-    private void validateOptimizedDrawing() {
-        boolean layeredComponentFound = false;
-        synchronized(getTreeLock()) {
-            Integer layer;
+    privbtf void vblidbtfOptimizfdDrbwing() {
+        boolfbn lbyfrfdComponfntFound = fblsf;
+        syndironizfd(gftTrffLodk()) {
+            Intfgfr lbyfr;
 
-            for (Component c : getComponents()) {
-                layer = null;
+            for (Componfnt d : gftComponfnts()) {
+                lbyfr = null;
 
-                if(SunToolkit.isInstanceOf(c, "javax.swing.JInternalFrame") ||
-                       (c instanceof JComponent &&
-                        (layer = (Integer)((JComponent)c).
-                                     getClientProperty(LAYER_PROPERTY)) != null))
+                if(SunToolkit.isInstbndfOf(d, "jbvbx.swing.JIntfrnblFrbmf") ||
+                       (d instbndfof JComponfnt &&
+                        (lbyfr = (Intfgfr)((JComponfnt)d).
+                                     gftClifntPropfrty(LAYER_PROPERTY)) != null))
                 {
-                    if(layer != null && layer.equals(FRAME_CONTENT_LAYER))
-                        continue;
-                    layeredComponentFound = true;
-                    break;
+                    if(lbyfr != null && lbyfr.fqubls(FRAME_CONTENT_LAYER))
+                        dontinuf;
+                    lbyfrfdComponfntFound = truf;
+                    brfbk;
                 }
             }
         }
 
-        if(layeredComponentFound)
-            optimizedDrawingPossible = false;
-        else
-            optimizedDrawingPossible = true;
+        if(lbyfrfdComponfntFound)
+            optimizfdDrbwingPossiblf = fblsf;
+        flsf
+            optimizfdDrbwingPossiblf = truf;
     }
 
-    protected void addImpl(Component comp, Object constraints, int index) {
-        int layer;
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        int lbyfr;
         int pos;
 
-        if(constraints instanceof Integer) {
-            layer = ((Integer)constraints).intValue();
-            setLayer(comp, layer);
-        } else
-            layer = getLayer(comp);
+        if(donstrbints instbndfof Intfgfr) {
+            lbyfr = ((Intfgfr)donstrbints).intVbluf();
+            sftLbyfr(domp, lbyfr);
+        } flsf
+            lbyfr = gftLbyfr(domp);
 
-        pos = insertIndexForLayer(layer, index);
-        super.addImpl(comp, constraints, pos);
-        comp.validate();
-        comp.repaint();
-        validateOptimizedDrawing();
+        pos = insfrtIndfxForLbyfr(lbyfr, indfx);
+        supfr.bddImpl(domp, donstrbints, pos);
+        domp.vblidbtf();
+        domp.rfpbint();
+        vblidbtfOptimizfdDrbwing();
     }
 
     /**
-     * Remove the indexed component from this pane.
-     * This is the absolute index, ignoring layers.
+     * Rfmovf tif indfxfd domponfnt from tiis pbnf.
+     * Tiis is tif bbsolutf indfx, ignoring lbyfrs.
      *
-     * @param index  an int specifying the component to remove
-     * @see #getIndexOf
+     * @pbrbm indfx  bn int spfdifying tif domponfnt to rfmovf
+     * @sff #gftIndfxOf
      */
-    public void remove(int index) {
-        Component c = getComponent(index);
-        super.remove(index);
-        if (c != null && !(c instanceof JComponent)) {
-            getComponentToLayer().remove(c);
+    publid void rfmovf(int indfx) {
+        Componfnt d = gftComponfnt(indfx);
+        supfr.rfmovf(indfx);
+        if (d != null && !(d instbndfof JComponfnt)) {
+            gftComponfntToLbyfr().rfmovf(d);
         }
-        validateOptimizedDrawing();
+        vblidbtfOptimizfdDrbwing();
     }
 
     /**
-     * Removes all the components from this container.
+     * Rfmovfs bll tif domponfnts from tiis dontbinfr.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void removeAll() {
-        Component[] children = getComponents();
-        Hashtable<Component, Integer> cToL = getComponentToLayer();
-        for (int counter = children.length - 1; counter >= 0; counter--) {
-            Component c = children[counter];
-            if (c != null && !(c instanceof JComponent)) {
-                cToL.remove(c);
+    publid void rfmovfAll() {
+        Componfnt[] diildrfn = gftComponfnts();
+        Hbsitbblf<Componfnt, Intfgfr> dToL = gftComponfntToLbyfr();
+        for (int dountfr = diildrfn.lfngti - 1; dountfr >= 0; dountfr--) {
+            Componfnt d = diildrfn[dountfr];
+            if (d != null && !(d instbndfof JComponfnt)) {
+                dToL.rfmovf(d);
             }
         }
-        super.removeAll();
+        supfr.rfmovfAll();
     }
 
     /**
-     * Returns false if components in the pane can overlap, which makes
-     * optimized drawing impossible. Otherwise, returns true.
+     * Rfturns fblsf if domponfnts in tif pbnf dbn ovfrlbp, wiidi mbkfs
+     * optimizfd drbwing impossiblf. Otifrwisf, rfturns truf.
      *
-     * @return false if components can overlap, else true
-     * @see JComponent#isOptimizedDrawingEnabled
+     * @rfturn fblsf if domponfnts dbn ovfrlbp, flsf truf
+     * @sff JComponfnt#isOptimizfdDrbwingEnbblfd
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return optimizedDrawingPossible;
+    publid boolfbn isOptimizfdDrbwingEnbblfd() {
+        rfturn optimizfdDrbwingPossiblf;
     }
 
 
 //////////////////////////////////////////////////////////////////////////////
-//// New methods for managing layers
+//// Nfw mftiods for mbnbging lbyfrs
 //////////////////////////////////////////////////////////////////////////////
-    /** Sets the layer property on a JComponent. This method does not cause
-      * any side effects like setLayer() (painting, add/remove, etc).
-      * Normally you should use the instance method setLayer(), in order to
-      * get the desired side-effects (like repainting).
+    /** Sfts tif lbyfr propfrty on b JComponfnt. Tiis mftiod dofs not dbusf
+      * bny sidf ffffdts likf sftLbyfr() (pbinting, bdd/rfmovf, ftd).
+      * Normblly you siould usf tif instbndf mftiod sftLbyfr(), in ordfr to
+      * gft tif dfsirfd sidf-ffffdts (likf rfpbinting).
       *
-      * @param c      the JComponent to move
-      * @param layer  an int specifying the layer to move it to
-      * @see #setLayer
+      * @pbrbm d      tif JComponfnt to movf
+      * @pbrbm lbyfr  bn int spfdifying tif lbyfr to movf it to
+      * @sff #sftLbyfr
       */
-    public static void putLayer(JComponent c, int layer) {
-        /// MAKE SURE THIS AND setLayer(Component c, int layer, int position)  are SYNCED
-        c.putClientProperty(LAYER_PROPERTY, layer);
+    publid stbtid void putLbyfr(JComponfnt d, int lbyfr) {
+        /// MAKE SURE THIS AND sftLbyfr(Componfnt d, int lbyfr, int position)  brf SYNCED
+        d.putClifntPropfrty(LAYER_PROPERTY, lbyfr);
     }
 
-    /** Gets the layer property for a JComponent, it
-      * does not cause any side effects like setLayer(). (painting, add/remove, etc)
-      * Normally you should use the instance method getLayer().
+    /** Gfts tif lbyfr propfrty for b JComponfnt, it
+      * dofs not dbusf bny sidf ffffdts likf sftLbyfr(). (pbinting, bdd/rfmovf, ftd)
+      * Normblly you siould usf tif instbndf mftiod gftLbyfr().
       *
-      * @param c  the JComponent to check
-      * @return   an int specifying the component's layer
+      * @pbrbm d  tif JComponfnt to difdk
+      * @rfturn   bn int spfdifying tif domponfnt's lbyfr
       */
-    public static int getLayer(JComponent c) {
-        Integer i;
-        if((i = (Integer)c.getClientProperty(LAYER_PROPERTY)) != null)
-            return i.intValue();
-        return DEFAULT_LAYER.intValue();
+    publid stbtid int gftLbyfr(JComponfnt d) {
+        Intfgfr i;
+        if((i = (Intfgfr)d.gftClifntPropfrty(LAYER_PROPERTY)) != null)
+            rfturn i.intVbluf();
+        rfturn DEFAULT_LAYER.intVbluf();
     }
 
-    /** Convenience method that returns the first JLayeredPane which
-      * contains the specified component. Note that all JFrames have a
-      * JLayeredPane at their root, so any component in a JFrame will
-      * have a JLayeredPane parent.
+    /** Convfnifndf mftiod tibt rfturns tif first JLbyfrfdPbnf wiidi
+      * dontbins tif spfdififd domponfnt. Notf tibt bll JFrbmfs ibvf b
+      * JLbyfrfdPbnf bt tifir root, so bny domponfnt in b JFrbmf will
+      * ibvf b JLbyfrfdPbnf pbrfnt.
       *
-      * @param c the Component to check
-      * @return the JLayeredPane that contains the component, or
-      *         null if no JLayeredPane is found in the component
-      *         hierarchy
-      * @see JFrame
-      * @see JRootPane
+      * @pbrbm d tif Componfnt to difdk
+      * @rfturn tif JLbyfrfdPbnf tibt dontbins tif domponfnt, or
+      *         null if no JLbyfrfdPbnf is found in tif domponfnt
+      *         iifrbrdiy
+      * @sff JFrbmf
+      * @sff JRootPbnf
       */
-    public static JLayeredPane getLayeredPaneAbove(Component c) {
-        if(c == null) return null;
+    publid stbtid JLbyfrfdPbnf gftLbyfrfdPbnfAbovf(Componfnt d) {
+        if(d == null) rfturn null;
 
-        Component parent = c.getParent();
-        while(parent != null && !(parent instanceof JLayeredPane))
-            parent = parent.getParent();
-        return (JLayeredPane)parent;
+        Componfnt pbrfnt = d.gftPbrfnt();
+        wiilf(pbrfnt != null && !(pbrfnt instbndfof JLbyfrfdPbnf))
+            pbrfnt = pbrfnt.gftPbrfnt();
+        rfturn (JLbyfrfdPbnf)pbrfnt;
     }
 
-    /** Sets the layer attribute on the specified component,
-      * making it the bottommost component in that layer.
-      * Should be called before adding to parent.
+    /** Sfts tif lbyfr bttributf on tif spfdififd domponfnt,
+      * mbking it tif bottommost domponfnt in tibt lbyfr.
+      * Siould bf dbllfd bfforf bdding to pbrfnt.
       *
-      * @param c     the Component to set the layer for
-      * @param layer an int specifying the layer to set, where
-      *              lower numbers are closer to the bottom
+      * @pbrbm d     tif Componfnt to sft tif lbyfr for
+      * @pbrbm lbyfr bn int spfdifying tif lbyfr to sft, wifrf
+      *              lowfr numbfrs brf dlosfr to tif bottom
       */
-    public void setLayer(Component c, int layer)  {
-        setLayer(c, layer, -1);
+    publid void sftLbyfr(Componfnt d, int lbyfr)  {
+        sftLbyfr(d, lbyfr, -1);
     }
 
-    /** Sets the layer attribute for the specified component and
-      * also sets its position within that layer.
+    /** Sfts tif lbyfr bttributf for tif spfdififd domponfnt bnd
+      * blso sfts its position witiin tibt lbyfr.
       *
-      * @param c         the Component to set the layer for
-      * @param layer     an int specifying the layer to set, where
-      *                  lower numbers are closer to the bottom
-      * @param position  an int specifying the position within the
-      *                  layer, where 0 is the topmost position and -1
-      *                  is the bottommost position
+      * @pbrbm d         tif Componfnt to sft tif lbyfr for
+      * @pbrbm lbyfr     bn int spfdifying tif lbyfr to sft, wifrf
+      *                  lowfr numbfrs brf dlosfr to tif bottom
+      * @pbrbm position  bn int spfdifying tif position witiin tif
+      *                  lbyfr, wifrf 0 is tif topmost position bnd -1
+      *                  is tif bottommost position
       */
-    public void setLayer(Component c, int layer, int position)  {
-        Integer layerObj;
-        layerObj = getObjectForLayer(layer);
+    publid void sftLbyfr(Componfnt d, int lbyfr, int position)  {
+        Intfgfr lbyfrObj;
+        lbyfrObj = gftObjfdtForLbyfr(lbyfr);
 
-        if(layer == getLayer(c) && position == getPosition(c)) {
-                repaint(c.getBounds());
-            return;
+        if(lbyfr == gftLbyfr(d) && position == gftPosition(d)) {
+                rfpbint(d.gftBounds());
+            rfturn;
         }
 
-        /// MAKE SURE THIS AND putLayer(JComponent c, int layer) are SYNCED
-        if(c instanceof JComponent)
-            ((JComponent)c).putClientProperty(LAYER_PROPERTY, layerObj);
-        else
-            getComponentToLayer().put(c, layerObj);
+        /// MAKE SURE THIS AND putLbyfr(JComponfnt d, int lbyfr) brf SYNCED
+        if(d instbndfof JComponfnt)
+            ((JComponfnt)d).putClifntPropfrty(LAYER_PROPERTY, lbyfrObj);
+        flsf
+            gftComponfntToLbyfr().put(d, lbyfrObj);
 
-        if(c.getParent() == null || c.getParent() != this) {
-            repaint(c.getBounds());
-            return;
+        if(d.gftPbrfnt() == null || d.gftPbrfnt() != tiis) {
+            rfpbint(d.gftBounds());
+            rfturn;
         }
 
-        int index = insertIndexForLayer(c, layer, position);
+        int indfx = insfrtIndfxForLbyfr(d, lbyfr, position);
 
-        setComponentZOrder(c, index);
-        repaint(c.getBounds());
+        sftComponfntZOrdfr(d, indfx);
+        rfpbint(d.gftBounds());
     }
 
     /**
-     * Returns the layer attribute for the specified Component.
+     * Rfturns tif lbyfr bttributf for tif spfdififd Componfnt.
      *
-     * @param c  the Component to check
-     * @return an int specifying the component's current layer
+     * @pbrbm d  tif Componfnt to difdk
+     * @rfturn bn int spfdifying tif domponfnt's durrfnt lbyfr
      */
-    public int getLayer(Component c) {
-        Integer i;
-        if(c instanceof JComponent)
-            i = (Integer)((JComponent)c).getClientProperty(LAYER_PROPERTY);
-        else
-            i = getComponentToLayer().get(c);
+    publid int gftLbyfr(Componfnt d) {
+        Intfgfr i;
+        if(d instbndfof JComponfnt)
+            i = (Intfgfr)((JComponfnt)d).gftClifntPropfrty(LAYER_PROPERTY);
+        flsf
+            i = gftComponfntToLbyfr().gft(d);
 
         if(i == null)
-            return DEFAULT_LAYER.intValue();
-        return i.intValue();
+            rfturn DEFAULT_LAYER.intVbluf();
+        rfturn i.intVbluf();
     }
 
     /**
-     * Returns the index of the specified Component.
-     * This is the absolute index, ignoring layers.
-     * Index numbers, like position numbers, have the topmost component
-     * at index zero. Larger numbers are closer to the bottom.
+     * Rfturns tif indfx of tif spfdififd Componfnt.
+     * Tiis is tif bbsolutf indfx, ignoring lbyfrs.
+     * Indfx numbfrs, likf position numbfrs, ibvf tif topmost domponfnt
+     * bt indfx zfro. Lbrgfr numbfrs brf dlosfr to tif bottom.
      *
-     * @param c  the Component to check
-     * @return an int specifying the component's index
+     * @pbrbm d  tif Componfnt to difdk
+     * @rfturn bn int spfdifying tif domponfnt's indfx
      */
-    public int getIndexOf(Component c) {
-        int i, count;
+    publid int gftIndfxOf(Componfnt d) {
+        int i, dount;
 
-        count = getComponentCount();
-        for(i = 0; i < count; i++) {
-            if(c == getComponent(i))
-                return i;
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            if(d == gftComponfnt(i))
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
     /**
-     * Moves the component to the top of the components in its current layer
+     * Movfs tif domponfnt to tif top of tif domponfnts in its durrfnt lbyfr
      * (position 0).
      *
-     * @param c the Component to move
-     * @see #setPosition(Component, int)
+     * @pbrbm d tif Componfnt to movf
+     * @sff #sftPosition(Componfnt, int)
      */
-    public void moveToFront(Component c) {
-        setPosition(c, 0);
+    publid void movfToFront(Componfnt d) {
+        sftPosition(d, 0);
     }
 
     /**
-     * Moves the component to the bottom of the components in its current layer
+     * Movfs tif domponfnt to tif bottom of tif domponfnts in its durrfnt lbyfr
      * (position -1).
      *
-     * @param c the Component to move
-     * @see #setPosition(Component, int)
+     * @pbrbm d tif Componfnt to movf
+     * @sff #sftPosition(Componfnt, int)
      */
-    public void moveToBack(Component c) {
-        setPosition(c, -1);
+    publid void movfToBbdk(Componfnt d) {
+        sftPosition(d, -1);
     }
 
     /**
-     * Moves the component to <code>position</code> within its current layer,
-     * where 0 is the topmost position within the layer and -1 is the bottommost
+     * Movfs tif domponfnt to <dodf>position</dodf> witiin its durrfnt lbyfr,
+     * wifrf 0 is tif topmost position witiin tif lbyfr bnd -1 is tif bottommost
      * position.
      * <p>
-     * <b>Note:</b> Position numbering is defined by java.awt.Container, and
-     * is the opposite of layer numbering. Lower position numbers are closer
-     * to the top (0 is topmost), and higher position numbers are closer to
-     * the bottom.
+     * <b>Notf:</b> Position numbfring is dffinfd by jbvb.bwt.Contbinfr, bnd
+     * is tif oppositf of lbyfr numbfring. Lowfr position numbfrs brf dlosfr
+     * to tif top (0 is topmost), bnd iigifr position numbfrs brf dlosfr to
+     * tif bottom.
      *
-     * @param c         the Component to move
-     * @param position  an int in the range -1..N-1, where N is the number of
-     *                  components in the component's current layer
+     * @pbrbm d         tif Componfnt to movf
+     * @pbrbm position  bn int in tif rbngf -1..N-1, wifrf N is tif numbfr of
+     *                  domponfnts in tif domponfnt's durrfnt lbyfr
      */
-    public void setPosition(Component c, int position) {
-        setLayer(c, getLayer(c), position);
+    publid void sftPosition(Componfnt d, int position) {
+        sftLbyfr(d, gftLbyfr(d), position);
     }
 
     /**
-     * Get the relative position of the component within its layer.
+     * Gft tif rflbtivf position of tif domponfnt witiin its lbyfr.
      *
-     * @param c  the Component to check
-     * @return an int giving the component's position, where 0 is the
-     *         topmost position and the highest index value = the count
-     *         count of components at that layer, minus 1
+     * @pbrbm d  tif Componfnt to difdk
+     * @rfturn bn int giving tif domponfnt's position, wifrf 0 is tif
+     *         topmost position bnd tif iigifst indfx vbluf = tif dount
+     *         dount of domponfnts bt tibt lbyfr, minus 1
      *
-     * @see #getComponentCountInLayer
+     * @sff #gftComponfntCountInLbyfr
      */
-    public int getPosition(Component c) {
-        int i, startLayer, curLayer, startLocation, pos = 0;
+    publid int gftPosition(Componfnt d) {
+        int i, stbrtLbyfr, durLbyfr, stbrtLodbtion, pos = 0;
 
-        getComponentCount();
-        startLocation = getIndexOf(c);
+        gftComponfntCount();
+        stbrtLodbtion = gftIndfxOf(d);
 
-        if(startLocation == -1)
-            return -1;
+        if(stbrtLodbtion == -1)
+            rfturn -1;
 
-        startLayer = getLayer(c);
-        for(i = startLocation - 1; i >= 0; i--) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == startLayer)
+        stbrtLbyfr = gftLbyfr(d);
+        for(i = stbrtLodbtion - 1; i >= 0; i--) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == stbrtLbyfr)
                 pos++;
-            else
-                return pos;
+            flsf
+                rfturn pos;
         }
-        return pos;
+        rfturn pos;
     }
 
-    /** Returns the highest layer value from all current children.
-      * Returns 0 if there are no children.
+    /** Rfturns tif iigifst lbyfr vbluf from bll durrfnt diildrfn.
+      * Rfturns 0 if tifrf brf no diildrfn.
       *
-      * @return an int indicating the layer of the topmost component in the
-      *         pane, or zero if there are no children
+      * @rfturn bn int indidbting tif lbyfr of tif topmost domponfnt in tif
+      *         pbnf, or zfro if tifrf brf no diildrfn
       */
-    public int highestLayer() {
-        if(getComponentCount() > 0)
-            return getLayer(getComponent(0));
-        return 0;
+    publid int iigifstLbyfr() {
+        if(gftComponfntCount() > 0)
+            rfturn gftLbyfr(gftComponfnt(0));
+        rfturn 0;
     }
 
-    /** Returns the lowest layer value from all current children.
-      * Returns 0 if there are no children.
+    /** Rfturns tif lowfst lbyfr vbluf from bll durrfnt diildrfn.
+      * Rfturns 0 if tifrf brf no diildrfn.
       *
-      * @return an int indicating the layer of the bottommost component in the
-      *         pane, or zero if there are no children
+      * @rfturn bn int indidbting tif lbyfr of tif bottommost domponfnt in tif
+      *         pbnf, or zfro if tifrf brf no diildrfn
       */
-    public int lowestLayer() {
-        int count = getComponentCount();
-        if(count > 0)
-            return getLayer(getComponent(count-1));
-        return 0;
+    publid int lowfstLbyfr() {
+        int dount = gftComponfntCount();
+        if(dount > 0)
+            rfturn gftLbyfr(gftComponfnt(dount-1));
+        rfturn 0;
     }
 
     /**
-     * Returns the number of children currently in the specified layer.
+     * Rfturns tif numbfr of diildrfn durrfntly in tif spfdififd lbyfr.
      *
-     * @param layer  an int specifying the layer to check
-     * @return an int specifying the number of components in that layer
+     * @pbrbm lbyfr  bn int spfdifying tif lbyfr to difdk
+     * @rfturn bn int spfdifying tif numbfr of domponfnts in tibt lbyfr
      */
-    public int getComponentCountInLayer(int layer) {
-        int i, count, curLayer;
-        int layerCount = 0;
+    publid int gftComponfntCountInLbyfr(int lbyfr) {
+        int i, dount, durLbyfr;
+        int lbyfrCount = 0;
 
-        count = getComponentCount();
-        for(i = 0; i < count; i++) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == layer) {
-                layerCount++;
-            /// Short circut the counting when we have them all
-            } else if(layerCount > 0 || curLayer < layer) {
-                break;
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == lbyfr) {
+                lbyfrCount++;
+            /// Siort dirdut tif dounting wifn wf ibvf tifm bll
+            } flsf if(lbyfrCount > 0 || durLbyfr < lbyfr) {
+                brfbk;
             }
         }
 
-        return layerCount;
+        rfturn lbyfrCount;
     }
 
     /**
-     * Returns an array of the components in the specified layer.
+     * Rfturns bn brrby of tif domponfnts in tif spfdififd lbyfr.
      *
-     * @param layer  an int specifying the layer to check
-     * @return an array of Components contained in that layer
+     * @pbrbm lbyfr  bn int spfdifying tif lbyfr to difdk
+     * @rfturn bn brrby of Componfnts dontbinfd in tibt lbyfr
      */
-    public Component[] getComponentsInLayer(int layer) {
-        int i, count, curLayer;
-        int layerCount = 0;
-        Component[] results;
+    publid Componfnt[] gftComponfntsInLbyfr(int lbyfr) {
+        int i, dount, durLbyfr;
+        int lbyfrCount = 0;
+        Componfnt[] rfsults;
 
-        results = new Component[getComponentCountInLayer(layer)];
-        count = getComponentCount();
-        for(i = 0; i < count; i++) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == layer) {
-                results[layerCount++] = getComponent(i);
-            /// Short circut the counting when we have them all
-            } else if(layerCount > 0 || curLayer < layer) {
-                break;
+        rfsults = nfw Componfnt[gftComponfntCountInLbyfr(lbyfr)];
+        dount = gftComponfntCount();
+        for(i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(gftComponfnt(i));
+            if(durLbyfr == lbyfr) {
+                rfsults[lbyfrCount++] = gftComponfnt(i);
+            /// Siort dirdut tif dounting wifn wf ibvf tifm bll
+            } flsf if(lbyfrCount > 0 || durLbyfr < lbyfr) {
+                brfbk;
             }
         }
 
-        return results;
+        rfturn rfsults;
     }
 
     /**
-     * Paints this JLayeredPane within the specified graphics context.
+     * Pbints tiis JLbyfrfdPbnf witiin tif spfdififd grbpiids dontfxt.
      *
-     * @param g  the Graphics context within which to paint
+     * @pbrbm g  tif Grbpiids dontfxt witiin wiidi to pbint
      */
-    public void paint(Graphics g) {
-        if(isOpaque()) {
-            Rectangle r = g.getClipBounds();
-            Color c = getBackground();
-            if(c == null)
-                c = Color.lightGray;
-            g.setColor(c);
+    publid void pbint(Grbpiids g) {
+        if(isOpbquf()) {
+            Rfdtbnglf r = g.gftClipBounds();
+            Color d = gftBbdkground();
+            if(d == null)
+                d = Color.ligitGrby;
+            g.sftColor(d);
             if (r != null) {
-                g.fillRect(r.x, r.y, r.width, r.height);
+                g.fillRfdt(r.x, r.y, r.widti, r.ifigit);
             }
-            else {
-                g.fillRect(0, 0, getWidth(), getHeight());
+            flsf {
+                g.fillRfdt(0, 0, gftWidti(), gftHfigit());
             }
         }
-        super.paint(g);
+        supfr.pbint(g);
     }
 
 //////////////////////////////////////////////////////////////////////////////
-//// Implementation Details
+//// Implfmfntbtion Dftbils
 //////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns the hashtable that maps components to layers.
+     * Rfturns tif ibsitbblf tibt mbps domponfnts to lbyfrs.
      *
-     * @return the Hashtable used to map components to their layers
+     * @rfturn tif Hbsitbblf usfd to mbp domponfnts to tifir lbyfrs
      */
-    protected Hashtable<Component,Integer> getComponentToLayer() {
-        if(componentToLayer == null)
-            componentToLayer = new Hashtable<Component,Integer>(4);
-        return componentToLayer;
+    protfdtfd Hbsitbblf<Componfnt,Intfgfr> gftComponfntToLbyfr() {
+        if(domponfntToLbyfr == null)
+            domponfntToLbyfr = nfw Hbsitbblf<Componfnt,Intfgfr>(4);
+        rfturn domponfntToLbyfr;
     }
 
     /**
-     * Returns the Integer object associated with a specified layer.
+     * Rfturns tif Intfgfr objfdt bssodibtfd witi b spfdififd lbyfr.
      *
-     * @param layer an int specifying the layer
-     * @return an Integer object for that layer
+     * @pbrbm lbyfr bn int spfdifying tif lbyfr
+     * @rfturn bn Intfgfr objfdt for tibt lbyfr
      */
-    protected Integer getObjectForLayer(int layer) {
-        switch(layer) {
-        case 0:
-            return DEFAULT_LAYER;
-        case 100:
-            return PALETTE_LAYER;
-        case 200:
-            return MODAL_LAYER;
-        case 300:
-            return POPUP_LAYER;
-        case 400:
-            return DRAG_LAYER;
-        default:
-            return layer;
+    protfdtfd Intfgfr gftObjfdtForLbyfr(int lbyfr) {
+        switdi(lbyfr) {
+        dbsf 0:
+            rfturn DEFAULT_LAYER;
+        dbsf 100:
+            rfturn PALETTE_LAYER;
+        dbsf 200:
+            rfturn MODAL_LAYER;
+        dbsf 300:
+            rfturn POPUP_LAYER;
+        dbsf 400:
+            rfturn DRAG_LAYER;
+        dffbult:
+            rfturn lbyfr;
         }
     }
 
     /**
-     * Primitive method that determines the proper location to
-     * insert a new child based on layer and position requests.
+     * Primitivf mftiod tibt dftfrminfs tif propfr lodbtion to
+     * insfrt b nfw diild bbsfd on lbyfr bnd position rfqufsts.
      *
-     * @param layer     an int specifying the layer
-     * @param position  an int specifying the position within the layer
-     * @return an int giving the (absolute) insertion-index
+     * @pbrbm lbyfr     bn int spfdifying tif lbyfr
+     * @pbrbm position  bn int spfdifying tif position witiin tif lbyfr
+     * @rfturn bn int giving tif (bbsolutf) insfrtion-indfx
      *
-     * @see #getIndexOf
+     * @sff #gftIndfxOf
      */
-    protected int insertIndexForLayer(int layer, int position) {
-        return insertIndexForLayer(null, layer, position);
+    protfdtfd int insfrtIndfxForLbyfr(int lbyfr, int position) {
+        rfturn insfrtIndfxForLbyfr(null, lbyfr, position);
     }
 
     /**
-     * This method is an extended version of insertIndexForLayer()
-     * to support setLayer which uses Container.setZOrder which does
-     * not remove the component from the containment hierarchy though
-     * we need to ignore it when calculating the insertion index.
+     * Tiis mftiod is bn fxtfndfd vfrsion of insfrtIndfxForLbyfr()
+     * to support sftLbyfr wiidi usfs Contbinfr.sftZOrdfr wiidi dofs
+     * not rfmovf tif domponfnt from tif dontbinmfnt iifrbrdiy tiougi
+     * wf nffd to ignorf it wifn dbldulbting tif insfrtion indfx.
      *
-     * @param comp      component to ignore when determining index
-     * @param layer     an int specifying the layer
-     * @param position  an int specifying the position within the layer
-     * @return an int giving the (absolute) insertion-index
+     * @pbrbm domp      domponfnt to ignorf wifn dftfrmining indfx
+     * @pbrbm lbyfr     bn int spfdifying tif lbyfr
+     * @pbrbm position  bn int spfdifying tif position witiin tif lbyfr
+     * @rfturn bn int giving tif (bbsolutf) insfrtion-indfx
      *
-     * @see #getIndexOf
+     * @sff #gftIndfxOf
      */
-    private int insertIndexForLayer(Component comp, int layer, int position) {
-        int i, count, curLayer;
-        int layerStart = -1;
-        int layerEnd = -1;
-        int componentCount = getComponentCount();
+    privbtf int insfrtIndfxForLbyfr(Componfnt domp, int lbyfr, int position) {
+        int i, dount, durLbyfr;
+        int lbyfrStbrt = -1;
+        int lbyfrEnd = -1;
+        int domponfntCount = gftComponfntCount();
 
-        ArrayList<Component> compList =
-            new ArrayList<Component>(componentCount);
-        for (int index = 0; index < componentCount; index++) {
-            if (getComponent(index) != comp) {
-                compList.add(getComponent(index));
+        ArrbyList<Componfnt> dompList =
+            nfw ArrbyList<Componfnt>(domponfntCount);
+        for (int indfx = 0; indfx < domponfntCount; indfx++) {
+            if (gftComponfnt(indfx) != domp) {
+                dompList.bdd(gftComponfnt(indfx));
             }
         }
 
-        count = compList.size();
-        for (i = 0; i < count; i++) {
-            curLayer = getLayer(compList.get(i));
-            if (layerStart == -1 && curLayer == layer) {
-                layerStart = i;
+        dount = dompList.sizf();
+        for (i = 0; i < dount; i++) {
+            durLbyfr = gftLbyfr(dompList.gft(i));
+            if (lbyfrStbrt == -1 && durLbyfr == lbyfr) {
+                lbyfrStbrt = i;
             }
-            if (curLayer < layer) {
+            if (durLbyfr < lbyfr) {
                 if (i == 0) {
-                    // layer is greater than any current layer
-                    // [ ASSERT(layer > highestLayer()) ]
-                    layerStart = 0;
-                    layerEnd = 0;
-                } else {
-                    layerEnd = i;
+                    // lbyfr is grfbtfr tibn bny durrfnt lbyfr
+                    // [ ASSERT(lbyfr > iigifstLbyfr()) ]
+                    lbyfrStbrt = 0;
+                    lbyfrEnd = 0;
+                } flsf {
+                    lbyfrEnd = i;
                 }
-                break;
+                brfbk;
             }
         }
 
-        // layer requested is lower than any current layer
-        // [ ASSERT(layer < lowestLayer()) ]
-        // put it on the bottom of the stack
-        if (layerStart == -1 && layerEnd == -1)
-            return count;
+        // lbyfr rfqufstfd is lowfr tibn bny durrfnt lbyfr
+        // [ ASSERT(lbyfr < lowfstLbyfr()) ]
+        // put it on tif bottom of tif stbdk
+        if (lbyfrStbrt == -1 && lbyfrEnd == -1)
+            rfturn dount;
 
-        // In the case of a single layer entry handle the degenerative cases
-        if (layerStart != -1 && layerEnd == -1)
-            layerEnd = count;
+        // In tif dbsf of b singlf lbyfr fntry ibndlf tif dfgfnfrbtivf dbsfs
+        if (lbyfrStbrt != -1 && lbyfrEnd == -1)
+            lbyfrEnd = dount;
 
-        if (layerEnd != -1 && layerStart == -1)
-            layerStart = layerEnd;
+        if (lbyfrEnd != -1 && lbyfrStbrt == -1)
+            lbyfrStbrt = lbyfrEnd;
 
-        // If we are adding to the bottom, return the last element
+        // If wf brf bdding to tif bottom, rfturn tif lbst flfmfnt
         if (position == -1)
-            return layerEnd;
+            rfturn lbyfrEnd;
 
-        // Otherwise make sure the requested position falls in the
-        // proper range
-        if (position > -1 && layerStart + position <= layerEnd)
-            return layerStart + position;
+        // Otifrwisf mbkf surf tif rfqufstfd position fblls in tif
+        // propfr rbngf
+        if (position > -1 && lbyfrStbrt + position <= lbyfrEnd)
+            rfturn lbyfrStbrt + position;
 
-        // Otherwise return the end of the layer
-        return layerEnd;
+        // Otifrwisf rfturn tif fnd of tif lbyfr
+        rfturn lbyfrEnd;
     }
 
     /**
-     * Returns a string representation of this JLayeredPane. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JLbyfrfdPbnf. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JLayeredPane.
+     * @rfturn  b string rfprfsfntbtion of tiis JLbyfrfdPbnf.
      */
-    protected String paramString() {
-        String optimizedDrawingPossibleString = (optimizedDrawingPossible ?
-                                                 "true" : "false");
+    protfdtfd String pbrbmString() {
+        String optimizfdDrbwingPossiblfString = (optimizfdDrbwingPossiblf ?
+                                                 "truf" : "fblsf");
 
-        return super.paramString() +
-        ",optimizedDrawingPossible=" + optimizedDrawingPossibleString;
+        rfturn supfr.pbrbmString() +
+        ",optimizfdDrbwingPossiblf=" + optimizfdDrbwingPossiblfString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JLayeredPane.
-     * For layered panes, the AccessibleContext takes the form of an
-     * AccessibleJLayeredPane.
-     * A new AccessibleJLayeredPane instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JLbyfrfdPbnf.
+     * For lbyfrfd pbnfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJLbyfrfdPbnf.
+     * A nfw AddfssiblfJLbyfrfdPbnf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJLayeredPane that serves as the
-     *         AccessibleContext of this JLayeredPane
+     * @rfturn bn AddfssiblfJLbyfrfdPbnf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JLbyfrfdPbnf
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJLayeredPane();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJLbyfrfdPbnf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JLayeredPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to layered pane user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JLbyfrfdPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to lbyfrfd pbnf usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJLayeredPane extends AccessibleJComponent {
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJLbyfrfdPbnf fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.LAYERED_PANE;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.LAYERED_PANE;
         }
     }
 }

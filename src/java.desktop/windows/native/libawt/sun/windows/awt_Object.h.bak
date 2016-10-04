@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_OBJECT_H
-#define AWT_OBJECT_H
+#ifndff AWT_OBJECT_H
+#dffinf AWT_OBJECT_H
 
-#include "awt.h"
-#include "awt_Toolkit.h"
+#indludf "bwt.i"
+#indludf "bwt_Toolkit.i"
 
-#include "java_awt_Event.h"
-#include "java_awt_AWTEvent.h"
-#include "sun_awt_windows_WObjectPeer.h"
+#indludf "jbvb_bwt_Evfnt.i"
+#indludf "jbvb_bwt_AWTEvfnt.i"
+#indludf "sun_bwt_windows_WObjfdtPffr.i"
 
 /************************************************************************
- * AwtObject class
+ * AwtObjfdt dlbss
  */
 
-class AwtObject {
-public:
-    class ExecuteArgs {
-        public:
-            UINT        cmdId;
-            LPARAM      param1;
-            LPARAM      param2;
-            LPARAM      param3;
-            LPARAM      param4;
+dlbss AwtObjfdt {
+publid:
+    dlbss ExfdutfArgs {
+        publid:
+            UINT        dmdId;
+            LPARAM      pbrbm1;
+            LPARAM      pbrbm2;
+            LPARAM      pbrbm3;
+            LPARAM      pbrbm4;
     };
 
 
-    /* sun.awt.windows.WObjectPeer field and method ids */
-    static jfieldID pDataID;
-    static jfieldID destroyedID;
-    static jfieldID targetID;
+    /* sun.bwt.windows.WObjfdtPffr fifld bnd mftiod ids */
+    stbtid jfifldID pDbtbID;
+    stbtid jfifldID dfstroyfdID;
+    stbtid jfifldID tbrgftID;
 
-    static jmethodID getPeerForTargetMID;
-    static jclass wObjectPeerClass;
+    stbtid jmftiodID gftPffrForTbrgftMID;
+    stbtid jdlbss wObjfdtPffrClbss;
 
-    static jfieldID createErrorID;
+    stbtid jfifldID drfbtfErrorID;
 
-    AwtObject();
-    virtual ~AwtObject();
+    AwtObjfdt();
+    virtubl ~AwtObjfdt();
 
-    // Frees all the resources used by this object and then sends a message to TT to delete it.
-    // After this method has been called, this object must not be used in any way.
-    virtual void Dispose();
+    // Frffs bll tif rfsourdfs usfd by tiis objfdt bnd tifn sfnds b mfssbgf to TT to dflftf it.
+    // Aftfr tiis mftiod ibs bffn dbllfd, tiis objfdt must not bf usfd in bny wby.
+    virtubl void Disposf();
 
-    // Static method to be called from JNI methods to dispose AwtObject
-    // specified by jobject
-    static void _Dispose(jobject self);
+    // Stbtid mftiod to bf dbllfd from JNI mftiods to disposf AwtObjfdt
+    // spfdififd by jobjfdt
+    stbtid void _Disposf(jobjfdt sflf);
 
-    // Static method to be called from JNI methods to dispose AwtObject
-    // specified by pData
-    static void _Dispose(PDATA pData);
+    // Stbtid mftiod to bf dbllfd from JNI mftiods to disposf AwtObjfdt
+    // spfdififd by pDbtb
+    stbtid void _Disposf(PDATA pDbtb);
 
-    INLINE CriticalSection& GetLock() { return m_Lock; }
+    INLINE CritidblSfdtion& GftLodk() { rfturn m_Lodk; }
 
-    // Return the associated AWT peer or target object.
-    INLINE jobject GetPeer(JNIEnv *env) {
-        return m_peerObject;
+    // Rfturn tif bssodibtfd AWT pffr or tbrgft objfdt.
+    INLINE jobjfdt GftPffr(JNIEnv *fnv) {
+        rfturn m_pffrObjfdt;
     }
 
-    INLINE jobject GetTarget(JNIEnv *env) {
-        jobject peer = GetPeer(env);
-        if (peer != NULL) {
-            return env->GetObjectField(peer, AwtObject::targetID);
-        } else {
-            return NULL;
+    INLINE jobjfdt GftTbrgft(JNIEnv *fnv) {
+        jobjfdt pffr = GftPffr(fnv);
+        if (pffr != NULL) {
+            rfturn fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        } flsf {
+            rfturn NULL;
         }
     }
 
-    INLINE jobject GetTargetAsGlobalRef(JNIEnv *env) {
-        jobject localRef = GetTarget(env);
-        if (localRef == NULL) {
-            return NULL;
+    INLINE jobjfdt GftTbrgftAsGlobblRff(JNIEnv *fnv) {
+        jobjfdt lodblRff = GftTbrgft(fnv);
+        if (lodblRff == NULL) {
+            rfturn NULL;
         }
 
-        jobject globalRef = env->NewGlobalRef(localRef);
-        env->DeleteLocalRef(localRef);
-        return globalRef;
+        jobjfdt globblRff = fnv->NfwGlobblRff(lodblRff);
+        fnv->DflftfLodblRff(lodblRff);
+        rfturn globblRff;
     }
 
-    // Return the peer associated with some target
-    static jobject GetPeerForTarget(JNIEnv *env, jobject target);
+    // Rfturn tif pffr bssodibtfd witi somf tbrgft
+    stbtid jobjfdt GftPffrForTbrgft(JNIEnv *fnv, jobjfdt tbrgft);
 
-    // Java callback routines
-    // Invoke a callback on the java peer object asynchronously
-    void DoCallback(const char* methodName, const char* methodSig, ...);
+    // Jbvb dbllbbdk routinfs
+    // Invokf b dbllbbdk on tif jbvb pffr objfdt bsyndironously
+    void DoCbllbbdk(donst dibr* mftiodNbmf, donst dibr* mftiodSig, ...);
 
-    // Allocate and initialize a new event, and post it to the peer's
-    // target object.  No response is expected from the target.
-    void SendEvent(jobject event);
+    // Allodbtf bnd initiblizf b nfw fvfnt, bnd post it to tif pffr's
+    // tbrgft objfdt.  No rfsponsf is fxpfdtfd from tif tbrgft.
+    void SfndEvfnt(jobjfdt fvfnt);
 
-    INLINE void EnableCallbacks(BOOL e) { m_callbacksEnabled = e; }
+    INLINE void EnbblfCbllbbdks(BOOL f) { m_dbllbbdksEnbblfd = f; }
 
-    // Execute any code associated with a command ID -- only classes with
-    // DoCommand() defined should associate their instances with cmdIDs.
-    virtual void DoCommand(void) {
+    // Exfdutf bny dodf bssodibtfd witi b dommbnd ID -- only dlbssfs witi
+    // DoCommbnd() dffinfd siould bssodibtf tifir instbndfs witi dmdIDs.
+    virtubl void DoCommbnd(void) {
         DASSERT(FALSE);
     }
 
-    // execute given code on Windows message-pump thread
-    static LRESULT WinThreadExec(jobject peerObject, UINT cmdId, LPARAM param1 = 0L, LPARAM param2 = 0L, LPARAM param3 = 0L, LPARAM param4 = 0L);
-    // callback function to execute code on Windows message-pump thread
-    virtual LRESULT WinThreadExecProc(AwtObject::ExecuteArgs * args);
+    // fxfdutf givfn dodf on Windows mfssbgf-pump tirfbd
+    stbtid LRESULT WinTirfbdExfd(jobjfdt pffrObjfdt, UINT dmdId, LPARAM pbrbm1 = 0L, LPARAM pbrbm2 = 0L, LPARAM pbrbm3 = 0L, LPARAM pbrbm4 = 0L);
+    // dbllbbdk fundtion to fxfdutf dodf on Windows mfssbgf-pump tirfbd
+    virtubl LRESULT WinTirfbdExfdProd(AwtObjfdt::ExfdutfArgs * brgs);
 
-    // overridden in AwtComponent to return FALSE if any messages
-    // are being processed by this component
-    virtual BOOL CanBeDeleted() {
-        return TRUE;
+    // ovfrriddfn in AwtComponfnt to rfturn FALSE if bny mfssbgfs
+    // brf bfing prodfssfd by tiis domponfnt
+    virtubl BOOL CbnBfDflftfd() {
+        rfturn TRUE;
     }
 
-protected:
-    jobject                       m_peerObject;
-    BOOL                          m_callbacksEnabled;
+protfdtfd:
+    jobjfdt                       m_pffrObjfdt;
+    BOOL                          m_dbllbbdksEnbblfd;
 
-private:
-    CriticalSection m_Lock;
+privbtf:
+    CritidblSfdtion m_Lodk;
 };
 
-#endif // AWT_OBJECT_H
+#fndif // AWT_OBJECT_H

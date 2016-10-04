@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * An <dodf>Exprfssion</dodf> objfdt rfprfsfnts b primitivf fxprfssion
+ * in whidh b singlf mfthod is bpplifd to b tbrgft bnd b sft of
+ * brgumfnts to rfturn b rfsult - bs in <dodf>"b.gftFoo()"</dodf>.
+ * <p>
+ * In bddition to thf propfrtifs of thf supfr dlbss, thf
+ * <dodf>Exprfssion</dodf> objfdt providfs b <fm>vbluf</fm> whidh
+ * is thf objfdt rfturnfd whfn this fxprfssion is fvblubtfd.
+ * Thf rfturn vbluf is typidblly not providfd by thf dbllfr bnd
+ * is instfbd domputfd by dynbmidblly finding thf mfthod bnd invoking
+ * it whfn thf first dbll to <dodf>gftVbluf</dodf> is mbdf.
+ *
+ * @sff #gftVbluf
+ * @sff #sftVbluf
+ *
+ * @sindf 1.4
+ *
+ * @buthor Philip Milnf
+ */
+publid dlbss Exprfssion fxtfnds Stbtfmfnt {
+
+    privbtf stbtid Objfdt unbound = nfw Objfdt();
+
+    privbtf Objfdt vbluf = unbound;
+
+    /**
+     * Crfbtfs b nfw {@link Exprfssion} objfdt
+     * for thf spfdififd tbrgft objfdt to invokf thf mfthod
+     * spfdififd by thf nbmf bnd by thf brrby of brgumfnts.
+     * <p>
+     * Thf {@dodf tbrgft} bnd thf {@dodf mfthodNbmf} vblufs should not bf {@dodf null}.
+     * Othfrwisf bn bttfmpt to fxfdutf this {@dodf Exprfssion}
+     * will rfsult in b {@dodf NullPointfrExdfption}.
+     * If thf {@dodf brgumfnts} vbluf is {@dodf null},
+     * bn fmpty brrby is usfd bs thf vbluf of thf {@dodf brgumfnts} propfrty.
+     *
+     * @pbrbm tbrgft  thf tbrgft objfdt of this fxprfssion
+     * @pbrbm mfthodNbmf  thf nbmf of thf mfthod to invokf on thf spfdififd tbrgft
+     * @pbrbm brgumfnts  thf brrby of brgumfnts to invokf thf spfdififd mfthod
+     *
+     * @sff #gftVbluf
+     */
+    @ConstrudtorPropfrtifs({"tbrgft", "mfthodNbmf", "brgumfnts"})
+    publid Exprfssion(Objfdt tbrgft, String mfthodNbmf, Objfdt[] brgumfnts) {
+        supfr(tbrgft, mfthodNbmf, brgumfnts);
+    }
+
+    /**
+     * Crfbtfs b nfw {@link Exprfssion} objfdt with thf spfdififd vbluf
+     * for thf spfdififd tbrgft objfdt to invokf thf  mfthod
+     * spfdififd by thf nbmf bnd by thf brrby of brgumfnts.
+     * Thf {@dodf vbluf} vbluf is usfd bs thf vbluf of thf {@dodf vbluf} propfrty,
+     * so thf {@link #gftVbluf} mfthod will rfturn it
+     * without fxfduting this {@dodf Exprfssion}.
+     * <p>
+     * Thf {@dodf tbrgft} bnd thf {@dodf mfthodNbmf} vblufs should not bf {@dodf null}.
+     * Othfrwisf bn bttfmpt to fxfdutf this {@dodf Exprfssion}
+     * will rfsult in b {@dodf NullPointfrExdfption}.
+     * If thf {@dodf brgumfnts} vbluf is {@dodf null},
+     * bn fmpty brrby is usfd bs thf vbluf of thf {@dodf brgumfnts} propfrty.
+     *
+     * @pbrbm vbluf  thf vbluf of this fxprfssion
+     * @pbrbm tbrgft  thf tbrgft objfdt of this fxprfssion
+     * @pbrbm mfthodNbmf  thf nbmf of thf mfthod to invokf on thf spfdififd tbrgft
+     * @pbrbm brgumfnts  thf brrby of brgumfnts to invokf thf spfdififd mfthod
+     *
+     * @sff #sftVbluf
+     */
+    publid Exprfssion(Objfdt vbluf, Objfdt tbrgft, String mfthodNbmf, Objfdt[] brgumfnts) {
+        this(tbrgft, mfthodNbmf, brgumfnts);
+        sftVbluf(vbluf);
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * If thf invokfd mfthod domplftfs normblly,
+     * thf vbluf it rfturns is dopifd in thf {@dodf vbluf} propfrty.
+     * Notf thbt thf {@dodf vbluf} propfrty is sft to {@dodf null},
+     * if thf rfturn typf of thf undfrlying mfthod is {@dodf void}.
+     *
+     * @throws NullPointfrExdfption if thf vbluf of thf {@dodf tbrgft} or
+     *                              {@dodf mfthodNbmf} propfrty is {@dodf null}
+     * @throws NoSudhMfthodExdfption if b mbtdhing mfthod is not found
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *                           it dfnifs thf mfthod invodbtion
+     * @throws Exdfption thbt is thrown by thf invokfd mfthod
+     *
+     * @sff jbvb.lbng.rfflfdt.Mfthod
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid void fxfdutf() throws Exdfption {
+        sftVbluf(invokf());
+    }
+
+    /**
+     * If thf vbluf propfrty of this instbndf is not blrfbdy sft,
+     * this mfthod dynbmidblly finds thf mfthod with thf spfdififd
+     * mfthodNbmf on this tbrgft with thfsf brgumfnts bnd dblls it.
+     * Thf rfsult of thf mfthod invodbtion is first dopifd
+     * into thf vbluf propfrty of this fxprfssion bnd thfn rfturnfd
+     * bs thf rfsult of <dodf>gftVbluf</dodf>. If thf vbluf propfrty
+     * wbs blrfbdy sft, fithfr by b dbll to <dodf>sftVbluf</dodf>
+     * or b prfvious dbll to <dodf>gftVbluf</dodf> thfn thf vbluf
+     * propfrty is rfturnfd without fithfr looking up or dblling thf mfthod.
+     * <p>
+     * Thf vbluf propfrty of bn <dodf>Exprfssion</dodf> is sft to
+     * b uniquf privbtf (non-<dodf>null</dodf>) vbluf by dffbult bnd
+     * this vbluf is usfd bs bn intfrnbl indidbtion thbt thf mfthod
+     * hbs not yft bffn dbllfd. A rfturn vbluf of <dodf>null</dodf>
+     * rfplbdfs this dffbult vbluf in thf sbmf wby thbt bny othfr vbluf
+     * would, fnsuring thbt fxprfssions brf nfvfr fvblubtfd morf thbn ondf.
+     * <p>
+     * Sff thf <dodf>fxfdutf</dodf> mfthod for dftbils on how
+     * mfthods brf dhosfn using thf dynbmid typfs of thf tbrgft
+     * bnd brgumfnts.
+     *
+     * @sff Stbtfmfnt#fxfdutf
+     * @sff #sftVbluf
+     *
+     * @rfturn Thf rfsult of bpplying this mfthod to thfsf brgumfnts.
+     * @throws Exdfption if thf mfthod with thf spfdififd mfthodNbmf
+     * throws bn fxdfption
+     */
+    publid Objfdt gftVbluf() throws Exdfption {
+        if (vbluf == unbound) {
+            sftVbluf(invokf());
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts thf vbluf of this fxprfssion to <dodf>vbluf</dodf>.
+     * This vbluf will bf rfturnfd by thf gftVbluf mfthod
+     * without dblling thf mfthod bssodibtfd with this
+     * fxprfssion.
+     *
+     * @pbrbm vbluf Thf vbluf of this fxprfssion.
+     *
+     * @sff #gftVbluf
+     */
+    publid void sftVbluf(Objfdt vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /*pp*/ String instbndfNbmf(Objfdt instbndf) {
+        rfturn instbndf == unbound ? "<unbound>" : supfr.instbndfNbmf(instbndf);
+    }
+
+    /**
+     * Prints thf vbluf of this fxprfssion using b Jbvb-stylf syntbx.
+     */
+    publid String toString() {
+        rfturn instbndfNbmf(vbluf) + "=" + supfr.toString();
+    }
+}

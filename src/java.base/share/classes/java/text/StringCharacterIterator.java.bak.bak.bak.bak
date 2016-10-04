@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+/**
+ * <dodf>StringChbrbdtfrItfrbtor</dodf> implfmfnts thf
+ * <dodf>ChbrbdtfrItfrbtor</dodf> protodol for b <dodf>String</dodf>.
+ * Thf <dodf>StringChbrbdtfrItfrbtor</dodf> dlbss itfrbtfs ovfr thf
+ * fntirf <dodf>String</dodf>.
+ *
+ * @sff ChbrbdtfrItfrbtor
+ */
+
+publid finbl dlbss StringChbrbdtfrItfrbtor implfmfnts ChbrbdtfrItfrbtor
+{
+    privbtf String tfxt;
+    privbtf int bfgin;
+    privbtf int fnd;
+    // invbribnt: bfgin <= pos <= fnd
+    privbtf int pos;
+
+    /**
+     * Construdts bn itfrbtor with bn initibl indfx of 0.
+     *
+     * @pbrbm tfxt thf {@dodf String} to bf itfrbtfd ovfr
+     */
+    publid StringChbrbdtfrItfrbtor(String tfxt)
+    {
+        this(tfxt, 0);
+    }
+
+    /**
+     * Construdts bn itfrbtor with thf spfdififd initibl indfx.
+     *
+     * @pbrbm  tfxt   Thf String to bf itfrbtfd ovfr
+     * @pbrbm  pos    Initibl itfrbtor position
+     */
+    publid StringChbrbdtfrItfrbtor(String tfxt, int pos)
+    {
+    this(tfxt, 0, tfxt.lfngth(), pos);
+    }
+
+    /**
+     * Construdts bn itfrbtor ovfr thf givfn rbngf of thf givfn string, with thf
+     * indfx sft bt thf spfdififd position.
+     *
+     * @pbrbm  tfxt   Thf String to bf itfrbtfd ovfr
+     * @pbrbm  bfgin  Indfx of thf first dhbrbdtfr
+     * @pbrbm  fnd    Indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr
+     * @pbrbm  pos    Initibl itfrbtor position
+     */
+    publid StringChbrbdtfrItfrbtor(String tfxt, int bfgin, int fnd, int pos) {
+        if (tfxt == null)
+            throw nfw NullPointfrExdfption();
+        this.tfxt = tfxt;
+
+        if (bfgin < 0 || bfgin > fnd || fnd > tfxt.lfngth())
+            throw nfw IllfgblArgumfntExdfption("Invblid substring rbngf");
+
+        if (pos < bfgin || pos > fnd)
+            throw nfw IllfgblArgumfntExdfption("Invblid position");
+
+        this.bfgin = bfgin;
+        this.fnd = fnd;
+        this.pos = pos;
+    }
+
+    /**
+     * Rfsft this itfrbtor to point to b nfw string.  This pbdkbgf-visiblf
+     * mfthod is usfd by othfr jbvb.tfxt dlbssfs thbt wbnt to bvoid bllodbting
+     * nfw StringChbrbdtfrItfrbtor objfdts fvfry timf thfir sftTfxt mfthod
+     * is dbllfd.
+     *
+     * @pbrbm  tfxt   Thf String to bf itfrbtfd ovfr
+     * @sindf 1.2
+     */
+    publid void sftTfxt(String tfxt) {
+        if (tfxt == null)
+            throw nfw NullPointfrExdfption();
+        this.tfxt = tfxt;
+        this.bfgin = 0;
+        this.fnd = tfxt.lfngth();
+        this.pos = 0;
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.first() for String.
+     * @sff ChbrbdtfrItfrbtor#first
+     */
+    publid dhbr first()
+    {
+        pos = bfgin;
+        rfturn durrfnt();
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.lbst() for String.
+     * @sff ChbrbdtfrItfrbtor#lbst
+     */
+    publid dhbr lbst()
+    {
+        if (fnd != bfgin) {
+            pos = fnd - 1;
+        } flsf {
+            pos = fnd;
+        }
+        rfturn durrfnt();
+     }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.sftIndfx() for String.
+     * @sff ChbrbdtfrItfrbtor#sftIndfx
+     */
+    publid dhbr sftIndfx(int p)
+    {
+    if (p < bfgin || p > fnd)
+            throw nfw IllfgblArgumfntExdfption("Invblid indfx");
+        pos = p;
+        rfturn durrfnt();
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.durrfnt() for String.
+     * @sff ChbrbdtfrItfrbtor#durrfnt
+     */
+    publid dhbr durrfnt()
+    {
+        if (pos >= bfgin && pos < fnd) {
+            rfturn tfxt.dhbrAt(pos);
+        }
+        flsf {
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.nfxt() for String.
+     * @sff ChbrbdtfrItfrbtor#nfxt
+     */
+    publid dhbr nfxt()
+    {
+        if (pos < fnd - 1) {
+            pos++;
+            rfturn tfxt.dhbrAt(pos);
+        }
+        flsf {
+            pos = fnd;
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.prfvious() for String.
+     * @sff ChbrbdtfrItfrbtor#prfvious
+     */
+    publid dhbr prfvious()
+    {
+        if (pos > bfgin) {
+            pos--;
+            rfturn tfxt.dhbrAt(pos);
+        }
+        flsf {
+            rfturn DONE;
+        }
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.gftBfginIndfx() for String.
+     * @sff ChbrbdtfrItfrbtor#gftBfginIndfx
+     */
+    publid int gftBfginIndfx()
+    {
+        rfturn bfgin;
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.gftEndIndfx() for String.
+     * @sff ChbrbdtfrItfrbtor#gftEndIndfx
+     */
+    publid int gftEndIndfx()
+    {
+        rfturn fnd;
+    }
+
+    /**
+     * Implfmfnts ChbrbdtfrItfrbtor.gftIndfx() for String.
+     * @sff ChbrbdtfrItfrbtor#gftIndfx
+     */
+    publid int gftIndfx()
+    {
+        rfturn pos;
+    }
+
+    /**
+     * Compbrfs thf fqublity of two StringChbrbdtfrItfrbtor objfdts.
+     * @pbrbm obj thf StringChbrbdtfrItfrbtor objfdt to bf dompbrfd with.
+     * @rfturn truf if thf givfn obj is thf sbmf bs this
+     * StringChbrbdtfrItfrbtor objfdt; fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj)
+    {
+        if (this == obj)
+            rfturn truf;
+        if (!(obj instbndfof StringChbrbdtfrItfrbtor))
+            rfturn fblsf;
+
+        StringChbrbdtfrItfrbtor thbt = (StringChbrbdtfrItfrbtor) obj;
+
+        if (hbshCodf() != thbt.hbshCodf())
+            rfturn fblsf;
+        if (!tfxt.fqubls(thbt.tfxt))
+            rfturn fblsf;
+        if (pos != thbt.pos || bfgin != thbt.bfgin || fnd != thbt.fnd)
+            rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * Computfs b hbshdodf for this itfrbtor.
+     * @rfturn A hbsh dodf
+     */
+    publid int hbshCodf()
+    {
+        rfturn tfxt.hbshCodf() ^ pos ^ bfgin ^ fnd;
+    }
+
+    /**
+     * Crfbtfs b dopy of this itfrbtor.
+     * @rfturn A dopy of this
+     */
+    publid Objfdt dlonf()
+    {
+        try {
+            StringChbrbdtfrItfrbtor othfr
+            = (StringChbrbdtfrItfrbtor) supfr.dlonf();
+            rfturn othfr;
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+}

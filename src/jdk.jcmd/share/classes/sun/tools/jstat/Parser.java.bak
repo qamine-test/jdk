@@ -1,585 +1,585 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * A class implementing a simple predictive parser for output format
- * specification language for the jstat command.
+ * A dlbss implfmfnting b simplf prfdidtivf pbrsfr for output formbt
+ * spfdifidbtion lbngubgf for tif jstbt dommbnd.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class Parser {
+publid dlbss Pbrsfr {
 
-    private static boolean pdebug = Boolean.getBoolean("jstat.parser.debug");
-    private static boolean ldebug = Boolean.getBoolean("jstat.lex.debug");
+    privbtf stbtid boolfbn pdfbug = Boolfbn.gftBoolfbn("jstbt.pbrsfr.dfbug");
+    privbtf stbtid boolfbn ldfbug = Boolfbn.gftBoolfbn("jstbt.lfx.dfbug");
 
-    private static final char OPENBLOCK = '{';
-    private static final char CLOSEBLOCK = '}';
-    private static final char DOUBLEQUOTE = '"';
-    private static final char PERCENT_CHAR = '%';
-    private static final char OPENPAREN = '(';
-    private static final char CLOSEPAREN = ')';
+    privbtf stbtid finbl dibr OPENBLOCK = '{';
+    privbtf stbtid finbl dibr CLOSEBLOCK = '}';
+    privbtf stbtid finbl dibr DOUBLEQUOTE = '"';
+    privbtf stbtid finbl dibr PERCENT_CHAR = '%';
+    privbtf stbtid finbl dibr OPENPAREN = '(';
+    privbtf stbtid finbl dibr CLOSEPAREN = ')';
 
-    private static final char OPERATOR_PLUS = '+';
-    private static final char OPERATOR_MINUS = '-';
-    private static final char OPERATOR_MULTIPLY = '*';
-    private static final char OPERATOR_DIVIDE = '/';
+    privbtf stbtid finbl dibr OPERATOR_PLUS = '+';
+    privbtf stbtid finbl dibr OPERATOR_MINUS = '-';
+    privbtf stbtid finbl dibr OPERATOR_MULTIPLY = '*';
+    privbtf stbtid finbl dibr OPERATOR_DIVIDE = '/';
 
-    private static final String OPTION = "option";
-    private static final String COLUMN = "column";
-    private static final String DATA = "data";
-    private static final String HEADER = "header";
-    private static final String WIDTH = "width";
-    private static final String FORMAT = "format";
-    private static final String ALIGN = "align";
-    private static final String SCALE = "scale";
+    privbtf stbtid finbl String OPTION = "option";
+    privbtf stbtid finbl String COLUMN = "dolumn";
+    privbtf stbtid finbl String DATA = "dbtb";
+    privbtf stbtid finbl String HEADER = "ifbdfr";
+    privbtf stbtid finbl String WIDTH = "widti";
+    privbtf stbtid finbl String FORMAT = "formbt";
+    privbtf stbtid finbl String ALIGN = "blign";
+    privbtf stbtid finbl String SCALE = "sdblf";
 
-    private static final String START = OPTION;
+    privbtf stbtid finbl String START = OPTION;
 
-    private static final Set<String> scaleKeyWords = Scale.keySet();
-    private static final Set<String> alignKeyWords = Alignment.keySet();
-    private static String[] otherKeyWords = {
+    privbtf stbtid finbl Sft<String> sdblfKfyWords = Sdblf.kfySft();
+    privbtf stbtid finbl Sft<String> blignKfyWords = Alignmfnt.kfySft();
+    privbtf stbtid String[] otifrKfyWords = {
         OPTION, COLUMN, DATA, HEADER, WIDTH, FORMAT, ALIGN, SCALE
     };
 
-    private static char[] infixOps = {
+    privbtf stbtid dibr[] infixOps = {
         OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_MULTIPLY, OPERATOR_DIVIDE
     };
 
-    private static char[] delimiters = {
+    privbtf stbtid dibr[] dflimitfrs = {
         OPENBLOCK, CLOSEBLOCK, PERCENT_CHAR, OPENPAREN, CLOSEPAREN
     };
 
 
-    private static Set<String> reservedWords;
+    privbtf stbtid Sft<String> rfsfrvfdWords;
 
-    private StreamTokenizer st;
-    private String filename;
-    private Token lookahead;
-    private Token previous;
-    private int columnCount;
-    private OptionFormat optionFormat;
+    privbtf StrfbmTokfnizfr st;
+    privbtf String filfnbmf;
+    privbtf Tokfn lookbifbd;
+    privbtf Tokfn prfvious;
+    privbtf int dolumnCount;
+    privbtf OptionFormbt optionFormbt;
 
-    public Parser(String filename) throws FileNotFoundException {
-        this.filename = filename;
-        Reader r = new BufferedReader(new FileReader(filename));
+    publid Pbrsfr(String filfnbmf) tirows FilfNotFoundExdfption {
+        tiis.filfnbmf = filfnbmf;
+        Rfbdfr r = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(filfnbmf));
     }
 
-    public Parser(Reader r) {
-        st = new StreamTokenizer(r);
+    publid Pbrsfr(Rfbdfr r) {
+        st = nfw StrfbmTokfnizfr(r);
 
-        // allow both c++ style comments
-        st.ordinaryChar('/');
-        st.wordChars('_','_');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
+        // bllow boti d++ stylf dommfnts
+        st.ordinbryCibr('/');
+        st.wordCibrs('_','_');
+        st.slbsiSlbsiCommfnts(truf);
+        st.slbsiStbrCommfnts(truf);
 
-        reservedWords = new HashSet<String>();
-        for (int i = 0; i < otherKeyWords.length; i++) {
-            reservedWords.add(otherKeyWords[i]);
+        rfsfrvfdWords = nfw HbsiSft<String>();
+        for (int i = 0; i < otifrKfyWords.lfngti; i++) {
+            rfsfrvfdWords.bdd(otifrKfyWords[i]);
         }
 
-        for (int i = 0; i < delimiters.length; i++ ) {
-            st.ordinaryChar(delimiters[i]);
+        for (int i = 0; i < dflimitfrs.lfngti; i++ ) {
+            st.ordinbryCibr(dflimitfrs[i]);
         }
 
-        for (int i = 0; i < infixOps.length; i++ ) {
-            st.ordinaryChar(infixOps[i]);
-        }
-    }
-
-    /**
-     * push back the lookahead token and restore the lookahead token
-     * to the previous token.
-     */
-    private void pushBack() {
-        lookahead = previous;
-        st.pushBack();
-    }
-
-    /**
-     * retrieve the next token, placing the token value in the lookahead
-     * member variable, storing its previous value in the previous member
-     * variable.
-     */
-    private void nextToken() throws ParserException, IOException {
-        int t = st.nextToken();
-        previous = lookahead;
-        lookahead = new Token(st.ttype, st.sval, st.nval);
-        log(ldebug, "lookahead = " + lookahead);
-    }
-
-    /**
-     * match one of the token values in the given set of key words
-     * token is assumed to be of type TT_WORD, and the set is assumed
-     * to contain String objects.
-     */
-    private Token matchOne(Set<String> keyWords) throws ParserException, IOException {
-        if ((lookahead.ttype == StreamTokenizer.TT_WORD)
-                && keyWords.contains(lookahead.sval)) {
-            Token t = lookahead;
-            nextToken();
-            return t;
-        }
-        throw new SyntaxException(st.lineno(), keyWords, lookahead);
-    }
-
-    /**
-     * match a token with TT_TYPE=type, and the token value is a given sequence
-     * of characters.
-     */
-    private void match(int ttype, String token)
-                 throws ParserException, IOException {
-        if (lookahead.ttype == ttype && lookahead.sval.compareTo(token) == 0) {
-            nextToken();
-        } else {
-           throw new SyntaxException(st.lineno(), new Token(ttype, token),
-                                     lookahead);
+        for (int i = 0; i < infixOps.lfngti; i++ ) {
+            st.ordinbryCibr(infixOps[i]);
         }
     }
 
     /**
-     * match a token with TT_TYPE=type
+     * pusi bbdk tif lookbifbd tokfn bnd rfstorf tif lookbifbd tokfn
+     * to tif prfvious tokfn.
      */
-    private void match(int ttype) throws ParserException, IOException {
-        if (lookahead.ttype == ttype) {
-            nextToken();
-        } else {
-           throw new SyntaxException(st.lineno(), new Token(ttype), lookahead);
+    privbtf void pusiBbdk() {
+        lookbifbd = prfvious;
+        st.pusiBbdk();
+    }
+
+    /**
+     * rftrifvf tif nfxt tokfn, plbding tif tokfn vbluf in tif lookbifbd
+     * mfmbfr vbribblf, storing its prfvious vbluf in tif prfvious mfmbfr
+     * vbribblf.
+     */
+    privbtf void nfxtTokfn() tirows PbrsfrExdfption, IOExdfption {
+        int t = st.nfxtTokfn();
+        prfvious = lookbifbd;
+        lookbifbd = nfw Tokfn(st.ttypf, st.svbl, st.nvbl);
+        log(ldfbug, "lookbifbd = " + lookbifbd);
+    }
+
+    /**
+     * mbtdi onf of tif tokfn vblufs in tif givfn sft of kfy words
+     * tokfn is bssumfd to bf of typf TT_WORD, bnd tif sft is bssumfd
+     * to dontbin String objfdts.
+     */
+    privbtf Tokfn mbtdiOnf(Sft<String> kfyWords) tirows PbrsfrExdfption, IOExdfption {
+        if ((lookbifbd.ttypf == StrfbmTokfnizfr.TT_WORD)
+                && kfyWords.dontbins(lookbifbd.svbl)) {
+            Tokfn t = lookbifbd;
+            nfxtTokfn();
+            rfturn t;
+        }
+        tirow nfw SyntbxExdfption(st.linfno(), kfyWords, lookbifbd);
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE=typf, bnd tif tokfn vbluf is b givfn sfqufndf
+     * of dibrbdtfrs.
+     */
+    privbtf void mbtdi(int ttypf, String tokfn)
+                 tirows PbrsfrExdfption, IOExdfption {
+        if (lookbifbd.ttypf == ttypf && lookbifbd.svbl.dompbrfTo(tokfn) == 0) {
+            nfxtTokfn();
+        } flsf {
+           tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn(ttypf, tokfn),
+                                     lookbifbd);
         }
     }
 
     /**
-     * match a token with TT_TYPE=char, where the token value is the given char.
+     * mbtdi b tokfn witi TT_TYPE=typf
      */
-    private void match(char ttype) throws ParserException, IOException {
-      if (lookahead.ttype == (int)ttype) {
-          nextToken();
+    privbtf void mbtdi(int ttypf) tirows PbrsfrExdfption, IOExdfption {
+        if (lookbifbd.ttypf == ttypf) {
+            nfxtTokfn();
+        } flsf {
+           tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn(ttypf), lookbifbd);
+        }
+    }
+
+    /**
+     * mbtdi b tokfn witi TT_TYPE=dibr, wifrf tif tokfn vbluf is tif givfn dibr.
+     */
+    privbtf void mbtdi(dibr ttypf) tirows PbrsfrExdfption, IOExdfption {
+      if (lookbifbd.ttypf == (int)ttypf) {
+          nfxtTokfn();
       }
-      else {
-          throw new SyntaxException(st.lineno(), new Token((int)ttype),
-                                    lookahead);
+      flsf {
+          tirow nfw SyntbxExdfption(st.linfno(), nfw Tokfn((int)ttypf),
+                                    lookbifbd);
       }
     }
 
     /**
-     * match a token with TT_TYPE='"', where the token value is a sequence
-     * of characters between matching quote characters.
+     * mbtdi b tokfn witi TT_TYPE='"', wifrf tif tokfn vbluf is b sfqufndf
+     * of dibrbdtfrs bftwffn mbtdiing quotf dibrbdtfrs.
      */
-    private void matchQuotedString() throws ParserException, IOException {
-        match(DOUBLEQUOTE);
+    privbtf void mbtdiQuotfdString() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(DOUBLEQUOTE);
     }
 
     /**
-     * match a TT_NUMBER token that matches a parsed number value
+     * mbtdi b TT_NUMBER tokfn tibt mbtdifs b pbrsfd numbfr vbluf
      */
-    private void matchNumber() throws ParserException, IOException {
-        match(StreamTokenizer.TT_NUMBER);
+    privbtf void mbtdiNumbfr() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_NUMBER);
     }
 
     /**
-     * match a TT_WORD token that matches an arbitrary, not quoted token.
+     * mbtdi b TT_WORD tokfn tibt mbtdifs bn brbitrbry, not quotfd tokfn.
      */
-    private void matchID() throws ParserException, IOException {
-        match(StreamTokenizer.TT_WORD);
+    privbtf void mbtdiID() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_WORD);
     }
 
     /**
-     * match a TT_WORD token that matches the given string
+     * mbtdi b TT_WORD tokfn tibt mbtdifs tif givfn string
      */
-    private void match(String token) throws ParserException, IOException {
-        match(StreamTokenizer.TT_WORD, token);
+    privbtf void mbtdi(String tokfn) tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_WORD, tokfn);
     }
 
     /**
-     * determine if the given word is a reserved key word
+     * dftfrminf if tif givfn word is b rfsfrvfd kfy word
      */
-    private boolean isReservedWord(String word) {
-        return reservedWords.contains(word);
+    privbtf boolfbn isRfsfrvfdWord(String word) {
+        rfturn rfsfrvfdWords.dontbins(word);
     }
 
     /**
-     * determine if the give work is a reserved key word
+     * dftfrminf if tif givf work is b rfsfrvfd kfy word
      */
-    private boolean isInfixOperator(char op) {
-        for (int i = 0; i < infixOps.length; i++) {
+    privbtf boolfbn isInfixOpfrbtor(dibr op) {
+        for (int i = 0; i < infixOps.lfngti; i++) {
             if (op == infixOps[i]) {
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * scalestmt -> 'scale' scalespec
-     * scalespec -> <see above scaleTerminals array>
+     * sdblfstmt -> 'sdblf' sdblfspfd
+     * sdblfspfd -> <sff bbovf sdblfTfrminbls brrby>
      */
-    private void scaleStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(SCALE);
-        Token t = matchOne(scaleKeyWords);
-        cf.setScale(Scale.toScale(t.sval));
-        String scaleString = t.sval;
-        log(pdebug, "Parsed: scale -> " + scaleString);
+    privbtf void sdblfStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(SCALE);
+        Tokfn t = mbtdiOnf(sdblfKfyWords);
+        df.sftSdblf(Sdblf.toSdblf(t.svbl));
+        String sdblfString = t.svbl;
+        log(pdfbug, "Pbrsfd: sdblf -> " + sdblfString);
     }
 
     /**
-     * alignstmt -> 'align' alignspec
-     * alignspec -> <see above alignTerminals array>
+     * blignstmt -> 'blign' blignspfd
+     * blignspfd -> <sff bbovf blignTfrminbls brrby>
      */
-    private void alignStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(ALIGN);
-        Token t = matchOne(alignKeyWords);
-        cf.setAlignment(Alignment.toAlignment(t.sval));
-        String alignString = t.sval;
-        log(pdebug, "Parsed: align -> " + alignString);
+    privbtf void blignStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(ALIGN);
+        Tokfn t = mbtdiOnf(blignKfyWords);
+        df.sftAlignmfnt(Alignmfnt.toAlignmfnt(t.svbl));
+        String blignString = t.svbl;
+        log(pdfbug, "Pbrsfd: blign -> " + blignString);
     }
 
     /**
-     * headerstmt -> 'header' quotedstring
+     * ifbdfrstmt -> 'ifbdfr' quotfdstring
      */
-    private void headerStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(HEADER);
-        String headerString = lookahead.sval;
-        matchQuotedString();
-        cf.setHeader(headerString);
-        log(pdebug, "Parsed: header -> " + headerString);
+    privbtf void ifbdfrStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(HEADER);
+        String ifbdfrString = lookbifbd.svbl;
+        mbtdiQuotfdString();
+        df.sftHfbdfr(ifbdfrString);
+        log(pdfbug, "Pbrsfd: ifbdfr -> " + ifbdfrString);
     }
 
     /**
-     * widthstmt -> 'width' integer
+     * widtistmt -> 'widti' intfgfr
      */
-    private void widthStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(WIDTH);
-        double width = lookahead.nval;
-        matchNumber();
-        cf.setWidth((int)width);
-        log(pdebug, "Parsed: width -> " + width );
+    privbtf void widtiStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(WIDTH);
+        doublf widti = lookbifbd.nvbl;
+        mbtdiNumbfr();
+        df.sftWidti((int)widti);
+        log(pdfbug, "Pbrsfd: widti -> " + widti );
     }
 
     /**
-     * formatstmt -> 'format' quotedstring
+     * formbtstmt -> 'formbt' quotfdstring
      */
-    private void formatStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(FORMAT);
-        String formatString = lookahead.sval;
-        matchQuotedString();
-        cf.setFormat(formatString);
-        log(pdebug, "Parsed: format -> " + formatString);
+    privbtf void formbtStmt(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(FORMAT);
+        String formbtString = lookbifbd.svbl;
+        mbtdiQuotfdString();
+        df.sftFormbt(formbtString);
+        log(pdfbug, "Pbrsfd: formbt -> " + formbtString);
     }
 
     /**
-     *  Primary -> Literal | Identifier | '(' Expression ')'
+     *  Primbry -> Litfrbl | Idfntififr | '(' Exprfssion ')'
      */
-    private Expression primary() throws ParserException, IOException {
-        Expression e = null;
+    privbtf Exprfssion primbry() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = null;
 
-        switch (lookahead.ttype) {
-        case OPENPAREN:
-            match(OPENPAREN);
-            e = expression();
-            match(CLOSEPAREN);
-            break;
-        case StreamTokenizer.TT_WORD:
-            String s = lookahead.sval;
-            if (isReservedWord(s)) {
-                throw new SyntaxException(st.lineno(), "IDENTIFIER",
-                                          "Reserved Word: " + lookahead.sval);
+        switdi (lookbifbd.ttypf) {
+        dbsf OPENPAREN:
+            mbtdi(OPENPAREN);
+            f = fxprfssion();
+            mbtdi(CLOSEPAREN);
+            brfbk;
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            String s = lookbifbd.svbl;
+            if (isRfsfrvfdWord(s)) {
+                tirow nfw SyntbxExdfption(st.linfno(), "IDENTIFIER",
+                                          "Rfsfrvfd Word: " + lookbifbd.svbl);
             }
-            matchID();
-            e = new Identifier(s);
-            log(pdebug, "Parsed: ID -> " + s);
-            break;
-        case StreamTokenizer.TT_NUMBER:
-            double literal = lookahead.nval;
-            matchNumber();
-            e = new Literal(new Double(literal));
-            log(pdebug, "Parsed: number -> " + literal);
-            break;
-        default:
-            throw new SyntaxException(st.lineno(), "IDENTIFIER", lookahead);
+            mbtdiID();
+            f = nfw Idfntififr(s);
+            log(pdfbug, "Pbrsfd: ID -> " + s);
+            brfbk;
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            doublf litfrbl = lookbifbd.nvbl;
+            mbtdiNumbfr();
+            f = nfw Litfrbl(nfw Doublf(litfrbl));
+            log(pdfbug, "Pbrsfd: numbfr -> " + litfrbl);
+            brfbk;
+        dffbult:
+            tirow nfw SyntbxExdfption(st.linfno(), "IDENTIFIER", lookbifbd);
         }
-        log(pdebug, "Parsed: primary -> " + e);
-        return e;
+        log(pdfbug, "Pbrsfd: primbry -> " + f);
+        rfturn f;
     }
 
     /**
-     * Unary -> ('+'|'-') Unary | Primary
+     * Unbry -> ('+'|'-') Unbry | Primbry
      */
-    private Expression unary() throws ParserException, IOException {
-        Expression e = null;
-        Operator op = null;
+    privbtf Exprfssion unbry() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = null;
+        Opfrbtor op = null;
 
-        while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_PLUS:
-                match(OPERATOR_PLUS);
-                op = Operator.PLUS;
-                break;
-            case OPERATOR_MINUS:
-                match(OPERATOR_MINUS);
-                op = Operator.MINUS;
-                break;
-            default:
-                e = primary();
-                log(pdebug, "Parsed: unary -> " + e);
-                return e;
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_PLUS:
+                mbtdi(OPERATOR_PLUS);
+                op = Opfrbtor.PLUS;
+                brfbk;
+            dbsf OPERATOR_MINUS:
+                mbtdi(OPERATOR_MINUS);
+                op = Opfrbtor.MINUS;
+                brfbk;
+            dffbult:
+                f = primbry();
+                log(pdfbug, "Pbrsfd: unbry -> " + f);
+                rfturn f;
             }
-            Expression e1 = new Expression();
-            e1.setOperator(op);
-            e1.setRight(e);
-            log(pdebug, "Parsed: unary -> " + e1);
-            e1.setLeft(new Literal(new Double(0)));
-            e = e1;
-        }
-    }
-
-    /**
-     *  MultExpression -> Unary (('*' | '/') Unary)*
-     */
-    private Expression multExpression() throws ParserException, IOException {
-        Expression e = unary();
-        Operator op = null;
-
-        while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_MULTIPLY:
-                match(OPERATOR_MULTIPLY);
-                op = Operator.MULTIPLY;
-                break;
-            case OPERATOR_DIVIDE:
-                match(OPERATOR_DIVIDE);
-                op = Operator.DIVIDE;
-                break;
-            default:
-                log(pdebug, "Parsed: multExpression -> " + e);
-                return e;
-            }
-            Expression e1 = new Expression();
-            e1.setOperator(op);
-            e1.setLeft(e);
-            e1.setRight(unary());
-            e = e1;
-            log(pdebug, "Parsed: multExpression -> " + e);
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftRigit(f);
+            log(pdfbug, "Pbrsfd: unbry -> " + f1);
+            f1.sftLfft(nfw Litfrbl(nfw Doublf(0)));
+            f = f1;
         }
     }
 
     /**
-     *  AddExpression -> MultExpression (('+' | '-') MultExpression)*
+     *  MultExprfssion -> Unbry (('*' | '/') Unbry)*
      */
-    private Expression addExpression() throws ParserException, IOException {
-        Expression e = multExpression();
-        Operator op = null;
+    privbtf Exprfssion multExprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = unbry();
+        Opfrbtor op = null;
 
-        while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_PLUS:
-                match(OPERATOR_PLUS);
-                op = Operator.PLUS;
-                break;
-            case OPERATOR_MINUS:
-                match(OPERATOR_MINUS);
-                op = Operator.MINUS;
-                break;
-            default:
-                log(pdebug, "Parsed: addExpression -> " + e);
-                return e;
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_MULTIPLY:
+                mbtdi(OPERATOR_MULTIPLY);
+                op = Opfrbtor.MULTIPLY;
+                brfbk;
+            dbsf OPERATOR_DIVIDE:
+                mbtdi(OPERATOR_DIVIDE);
+                op = Opfrbtor.DIVIDE;
+                brfbk;
+            dffbult:
+                log(pdfbug, "Pbrsfd: multExprfssion -> " + f);
+                rfturn f;
             }
-            Expression e1 = new Expression();
-            e1.setOperator(op);
-            e1.setLeft(e);
-            e1.setRight(multExpression());
-            e = e1;
-            log(pdebug, "Parsed: addExpression -> " + e);
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftLfft(f);
+            f1.sftRigit(unbry());
+            f = f1;
+            log(pdfbug, "Pbrsfd: multExprfssion -> " + f);
         }
     }
 
     /**
-     *  Expression -> AddExpression
+     *  AddExprfssion -> MultExprfssion (('+' | '-') MultExprfssion)*
      */
-    private Expression expression() throws ParserException, IOException {
-        Expression e = addExpression();
-        log(pdebug, "Parsed: expression -> " + e);
-        return e;
+    privbtf Exprfssion bddExprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = multExprfssion();
+        Opfrbtor op = null;
+
+        wiilf (truf) {
+            switdi (lookbifbd.ttypf) {
+            dbsf OPERATOR_PLUS:
+                mbtdi(OPERATOR_PLUS);
+                op = Opfrbtor.PLUS;
+                brfbk;
+            dbsf OPERATOR_MINUS:
+                mbtdi(OPERATOR_MINUS);
+                op = Opfrbtor.MINUS;
+                brfbk;
+            dffbult:
+                log(pdfbug, "Pbrsfd: bddExprfssion -> " + f);
+                rfturn f;
+            }
+            Exprfssion f1 = nfw Exprfssion();
+            f1.sftOpfrbtor(op);
+            f1.sftLfft(f);
+            f1.sftRigit(multExprfssion());
+            f = f1;
+            log(pdfbug, "Pbrsfd: bddExprfssion -> " + f);
+        }
     }
 
     /**
-     * datastmt -> 'data' expression
+     *  Exprfssion -> AddExprfssion
      */
-    private void dataStmt(ColumnFormat cf) throws ParserException, IOException {
-        match(DATA);
-        Expression e = expression();
-        cf.setExpression(e);
-        log(pdebug, "Parsed: data -> " + e);
+    privbtf Exprfssion fxprfssion() tirows PbrsfrExdfption, IOExdfption {
+        Exprfssion f = bddExprfssion();
+        log(pdfbug, "Pbrsfd: fxprfssion -> " + f);
+        rfturn f;
     }
 
     /**
-     * statementlist -> optionalstmt statementlist
-     * optionalstmt -> 'data' expression
-     *                 'header' quotedstring
-     *                 'width' integer
-     *                 'format' formatstring
-     *                 'align' alignspec
-     *                 'scale' scalespec
+     * dbtbstmt -> 'dbtb' fxprfssion
      */
-    private void statementList(ColumnFormat cf)
-                 throws ParserException, IOException {
-        while (true) {
-            if (lookahead.ttype != StreamTokenizer.TT_WORD) {
-                return;
+    privbtf void dbtbStmt(ColumnFormbt df) tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(DATA);
+        Exprfssion f = fxprfssion();
+        df.sftExprfssion(f);
+        log(pdfbug, "Pbrsfd: dbtb -> " + f);
+    }
+
+    /**
+     * stbtfmfntlist -> optionblstmt stbtfmfntlist
+     * optionblstmt -> 'dbtb' fxprfssion
+     *                 'ifbdfr' quotfdstring
+     *                 'widti' intfgfr
+     *                 'formbt' formbtstring
+     *                 'blign' blignspfd
+     *                 'sdblf' sdblfspfd
+     */
+    privbtf void stbtfmfntList(ColumnFormbt df)
+                 tirows PbrsfrExdfption, IOExdfption {
+        wiilf (truf) {
+            if (lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD) {
+                rfturn;
             }
 
-            if (lookahead.sval.compareTo(DATA) == 0) {
-                dataStmt(cf);
-            } else if (lookahead.sval.compareTo(HEADER) == 0) {
-                headerStmt(cf);
-            } else if (lookahead.sval.compareTo(WIDTH) == 0) {
-                widthStmt(cf);
-            } else if (lookahead.sval.compareTo(FORMAT) == 0) {
-                formatStmt(cf);
-            } else if (lookahead.sval.compareTo(ALIGN) == 0) {
-                alignStmt(cf);
-            } else if (lookahead.sval.compareTo(SCALE) == 0) {
-                scaleStmt(cf);
-            } else {
-                return;
+            if (lookbifbd.svbl.dompbrfTo(DATA) == 0) {
+                dbtbStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(HEADER) == 0) {
+                ifbdfrStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(WIDTH) == 0) {
+                widtiStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(FORMAT) == 0) {
+                formbtStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(ALIGN) == 0) {
+                blignStmt(df);
+            } flsf if (lookbifbd.svbl.dompbrfTo(SCALE) == 0) {
+                sdblfStmt(df);
+            } flsf {
+                rfturn;
             }
         }
     }
 
     /**
-     * optionlist -> columspec optionlist
+     * optionlist -> dolumspfd optionlist
      *               null
-     * columspec -> 'column' '{' statementlist '}'
+     * dolumspfd -> 'dolumn' '{' stbtfmfntlist '}'
      */
-    private void optionList(OptionFormat of)
-                 throws ParserException, IOException {
-        while (true) {
-            if (lookahead.ttype != StreamTokenizer.TT_WORD) {
-                return;
+    privbtf void optionList(OptionFormbt of)
+                 tirows PbrsfrExdfption, IOExdfption {
+        wiilf (truf) {
+            if (lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD) {
+                rfturn;
             }
 
-            match(COLUMN);
-            match(OPENBLOCK);
-            ColumnFormat cf = new ColumnFormat(columnCount++);
-            statementList(cf);
-              match(CLOSEBLOCK);
-            cf.validate();
-            of.addSubFormat(cf);
+            mbtdi(COLUMN);
+            mbtdi(OPENBLOCK);
+            ColumnFormbt df = nfw ColumnFormbt(dolumnCount++);
+            stbtfmfntList(df);
+              mbtdi(CLOSEBLOCK);
+            df.vblidbtf();
+            of.bddSubFormbt(df);
         }
     }
 
     /**
      * optionstmt -> 'option' ID '{' optionlist '}'
      */
-    private OptionFormat optionStmt() throws ParserException, IOException {
-        match(OPTION);
-        String optionName=lookahead.sval;
-        matchID();
-        match(OPENBLOCK);
-        OptionFormat of = new OptionFormat(optionName);
+    privbtf OptionFormbt optionStmt() tirows PbrsfrExdfption, IOExdfption {
+        mbtdi(OPTION);
+        String optionNbmf=lookbifbd.svbl;
+        mbtdiID();
+        mbtdi(OPENBLOCK);
+        OptionFormbt of = nfw OptionFormbt(optionNbmf);
         optionList(of);
-        match(CLOSEBLOCK);
-        return of;
+        mbtdi(CLOSEBLOCK);
+        rfturn of;
     }
 
     /**
-     * parse the specification for the given option identifier
+     * pbrsf tif spfdifidbtion for tif givfn option idfntififr
      */
-    public OptionFormat parse(String option)
-                        throws ParserException, IOException {
-        nextToken();
+    publid OptionFormbt pbrsf(String option)
+                        tirows PbrsfrExdfption, IOExdfption {
+        nfxtTokfn();
 
         /*
-         * this search stops on the first occurance of an option
-         * statement with a name matching the given option. Any
-         * duplicate options are ignored.
+         * tiis sfbrdi stops on tif first oddurbndf of bn option
+         * stbtfmfnt witi b nbmf mbtdiing tif givfn option. Any
+         * duplidbtf options brf ignorfd.
          */
-        while (lookahead.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((lookahead.ttype != StreamTokenizer.TT_WORD)
-                    || (lookahead.sval.compareTo(START) != 0)) {
-                // skip tokens until a start symbol is found
-                nextToken();
-                continue;
+        wiilf (lookbifbd.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            // look for tif stbrt symbol
+            if ((lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD)
+                    || (lookbifbd.svbl.dompbrfTo(START) != 0)) {
+                // skip tokfns until b stbrt symbol is found
+                nfxtTokfn();
+                dontinuf;
             }
 
-            // check if the option name is the one we are interested in
-            match(START);
+            // difdk if tif option nbmf is tif onf wf brf intfrfstfd in
+            mbtdi(START);
 
-            if ((lookahead.ttype == StreamTokenizer.TT_WORD)
-                    && (lookahead.sval.compareTo(option) == 0)) {
-                // this is the one we are looking for, parse it
-                pushBack();
-                return optionStmt();
-            } else {
-                // not what we are looking for, start skipping tokens
-                nextToken();
+            if ((lookbifbd.ttypf == StrfbmTokfnizfr.TT_WORD)
+                    && (lookbifbd.svbl.dompbrfTo(option) == 0)) {
+                // tiis is tif onf wf brf looking for, pbrsf it
+                pusiBbdk();
+                rfturn optionStmt();
+            } flsf {
+                // not wibt wf brf looking for, stbrt skipping tokfns
+                nfxtTokfn();
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public Set<OptionFormat> parseOptions() throws ParserException, IOException {
-        Set<OptionFormat> options = new HashSet<OptionFormat>();
+    publid Sft<OptionFormbt> pbrsfOptions() tirows PbrsfrExdfption, IOExdfption {
+        Sft<OptionFormbt> options = nfw HbsiSft<OptionFormbt>();
 
-        nextToken();
+        nfxtTokfn();
 
-        while (lookahead.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((lookahead.ttype != StreamTokenizer.TT_WORD)
-                    || (lookahead.sval.compareTo(START) != 0)) {
-                // skip tokens until a start symbol is found
-                nextToken();
-                continue;
+        wiilf (lookbifbd.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            // look for tif stbrt symbol
+            if ((lookbifbd.ttypf != StrfbmTokfnizfr.TT_WORD)
+                    || (lookbifbd.svbl.dompbrfTo(START) != 0)) {
+                // skip tokfns until b stbrt symbol is found
+                nfxtTokfn();
+                dontinuf;
             }
 
-            // note: if a duplicate option statement exists, then
-            // first one encountered is the chosen definition.
-            OptionFormat of = optionStmt();
-            options.add(of);
+            // notf: if b duplidbtf option stbtfmfnt fxists, tifn
+            // first onf fndountfrfd is tif diosfn dffinition.
+            OptionFormbt of = optionStmt();
+            options.bdd(of);
         }
-        return options;
+        rfturn options;
     }
 
-    OptionFormat getOptionFormat() {
-       return optionFormat;
+    OptionFormbt gftOptionFormbt() {
+       rfturn optionFormbt;
     }
 
-    private void log(boolean logging, String s) {
+    privbtf void log(boolfbn logging, String s) {
         if (logging) {
-            System.out.println(s);
+            Systfm.out.println(s);
         }
     }
 }

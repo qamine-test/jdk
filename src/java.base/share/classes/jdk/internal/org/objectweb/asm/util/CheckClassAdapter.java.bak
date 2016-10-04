@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,983 +56,983 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.analysis.Analyzer;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicValue;
-import jdk.internal.org.objectweb.asm.tree.analysis.Frame;
-import jdk.internal.org.objectweb.asm.tree.analysis.SimpleVerifier;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssRfbdfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfRfffrfndf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.ClbssNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.Anblyzfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.BbsidVbluf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.Frbmf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.SimplfVfrififr;
 
 /**
- * A {@link ClassVisitor} that checks that its methods are properly used. More
- * precisely this class adapter checks each method call individually, based
- * <i>only</i> on its arguments, but does <i>not</i> check the <i>sequence</i>
- * of method calls. For example, the invalid sequence
- * <tt>visitField(ACC_PUBLIC, "i", "I", null)</tt> <tt>visitField(ACC_PUBLIC,
- * "i", "D", null)</tt> will <i>not</i> be detected by this class adapter.
+ * A {@link ClbssVisitor} tibt difdks tibt its mftiods brf propfrly usfd. Morf
+ * prfdisfly tiis dlbss bdbptfr difdks fbdi mftiod dbll individublly, bbsfd
+ * <i>only</i> on its brgumfnts, but dofs <i>not</i> difdk tif <i>sfqufndf</i>
+ * of mftiod dblls. For fxbmplf, tif invblid sfqufndf
+ * <tt>visitFifld(ACC_PUBLIC, "i", "I", null)</tt> <tt>visitFifld(ACC_PUBLIC,
+ * "i", "D", null)</tt> will <i>not</i> bf dftfdtfd by tiis dlbss bdbptfr.
  *
  * <p>
- * <code>CheckClassAdapter</code> can be also used to verify bytecode
- * transformations in order to make sure transformed bytecode is sane. For
- * example:
+ * <dodf>CifdkClbssAdbptfr</dodf> dbn bf blso usfd to vfrify bytfdodf
+ * trbnsformbtions in ordfr to mbkf surf trbnsformfd bytfdodf is sbnf. For
+ * fxbmplf:
  *
- * <pre>
- *   InputStream is = ...; // get bytes for the source class
- *   ClassReader cr = new ClassReader(is);
- *   ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_MAXS);
- *   ClassVisitor cv = new <b>MyClassAdapter</b>(new CheckClassAdapter(cw));
- *   cr.accept(cv, 0);
+ * <prf>
+ *   InputStrfbm is = ...; // gft bytfs for tif sourdf dlbss
+ *   ClbssRfbdfr dr = nfw ClbssRfbdfr(is);
+ *   ClbssWritfr dw = nfw ClbssWritfr(dr, ClbssWritfr.COMPUTE_MAXS);
+ *   ClbssVisitor dv = nfw <b>MyClbssAdbptfr</b>(nfw CifdkClbssAdbptfr(dw));
+ *   dr.bddfpt(dv, 0);
  *
- *   StringWriter sw = new StringWriter();
- *   PrintWriter pw = new PrintWriter(sw);
- *   CheckClassAdapter.verify(new ClassReader(cw.toByteArray()), false, pw);
- *   assertTrue(sw.toString(), sw.toString().length()==0);
- * </pre>
+ *   StringWritfr sw = nfw StringWritfr();
+ *   PrintWritfr pw = nfw PrintWritfr(sw);
+ *   CifdkClbssAdbptfr.vfrify(nfw ClbssRfbdfr(dw.toBytfArrby()), fblsf, pw);
+ *   bssfrtTruf(sw.toString(), sw.toString().lfngti()==0);
+ * </prf>
  *
- * Above code runs transformed bytecode trough the
- * <code>CheckClassAdapter</code>. It won't be exactly the same verification as
- * JVM does, but it run data flow analysis for the code of each method and
- * checks that expectations are met for each method instruction.
+ * Abovf dodf runs trbnsformfd bytfdodf trougi tif
+ * <dodf>CifdkClbssAdbptfr</dodf>. It won't bf fxbdtly tif sbmf vfrifidbtion bs
+ * JVM dofs, but it run dbtb flow bnblysis for tif dodf of fbdi mftiod bnd
+ * difdks tibt fxpfdtbtions brf mft for fbdi mftiod instrudtion.
  *
  * <p>
- * If method bytecode has errors, assertion text will show the erroneous
- * instruction number and dump of the failed method with information about
- * locals and stack slot for each instruction. For example (format is -
- * insnNumber locals : stack):
+ * If mftiod bytfdodf ibs frrors, bssfrtion tfxt will siow tif frronfous
+ * instrudtion numbfr bnd dump of tif fbilfd mftiod witi informbtion bbout
+ * lodbls bnd stbdk slot for fbdi instrudtion. For fxbmplf (formbt is -
+ * insnNumbfr lodbls : stbdk):
  *
- * <pre>
- * jdk.internal.org.objectweb.asm.tree.analysis.AnalyzerException: Error at instruction 71: Expected I, but found .
- *   at jdk.internal.org.objectweb.asm.tree.analysis.Analyzer.analyze(Analyzer.java:289)
- *   at jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify(CheckClassAdapter.java:135)
+ * <prf>
+ * jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.AnblyzfrExdfption: Error bt instrudtion 71: Expfdtfd I, but found .
+ *   bt jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.Anblyzfr.bnblyzf(Anblyzfr.jbvb:289)
+ *   bt jdk.intfrnbl.org.objfdtwfb.bsm.util.CifdkClbssAdbptfr.vfrify(CifdkClbssAdbptfr.jbvb:135)
  * ...
- * remove()V
- * 00000 LinkedBlockingQueue$Itr . . . . . . . .  :
+ * rfmovf()V
+ * 00000 LinkfdBlodkingQufuf$Itr . . . . . . . .  :
  *   ICONST_0
- * 00001 LinkedBlockingQueue$Itr . . . . . . . .  : I
+ * 00001 LinkfdBlodkingQufuf$Itr . . . . . . . .  : I
  *   ISTORE 2
- * 00001 LinkedBlockingQueue$Itr <b>.</b> I . . . . . .  :
+ * 00001 LinkfdBlodkingQufuf$Itr <b>.</b> I . . . . . .  :
  * ...
  *
- * 00071 LinkedBlockingQueue$Itr <b>.</b> I . . . . . .  :
+ * 00071 LinkfdBlodkingQufuf$Itr <b>.</b> I . . . . . .  :
  *   ILOAD 1
  * 00072 <b>?</b>
- *   INVOKESPECIAL java/lang/Integer.&lt;init&gt; (I)V
+ *   INVOKESPECIAL jbvb/lbng/Intfgfr.&lt;init&gt; (I)V
  * ...
- * </pre>
+ * </prf>
  *
- * In the above output you can see that variable 1 loaded by
- * <code>ILOAD 1</code> instruction at position <code>00071</code> is not
- * initialized. You can also see that at the beginning of the method (code
- * inserted by the transformation) variable 2 is initialized.
+ * In tif bbovf output you dbn sff tibt vbribblf 1 lobdfd by
+ * <dodf>ILOAD 1</dodf> instrudtion bt position <dodf>00071</dodf> is not
+ * initiblizfd. You dbn blso sff tibt bt tif bfginning of tif mftiod (dodf
+ * insfrtfd by tif trbnsformbtion) vbribblf 2 is initiblizfd.
  *
  * <p>
- * Note that when used like that, <code>CheckClassAdapter.verify()</code> can
- * trigger additional class loading, because it is using
- * <code>SimpleVerifier</code>.
+ * Notf tibt wifn usfd likf tibt, <dodf>CifdkClbssAdbptfr.vfrify()</dodf> dbn
+ * triggfr bdditionbl dlbss lobding, bfdbusf it is using
+ * <dodf>SimplfVfrififr</dodf>.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class CheckClassAdapter extends ClassVisitor {
+publid dlbss CifdkClbssAdbptfr fxtfnds ClbssVisitor {
 
     /**
-     * The class version number.
+     * Tif dlbss vfrsion numbfr.
      */
-    private int version;
+    privbtf int vfrsion;
 
     /**
-     * <tt>true</tt> if the visit method has been called.
+     * <tt>truf</tt> if tif visit mftiod ibs bffn dbllfd.
      */
-    private boolean start;
+    privbtf boolfbn stbrt;
 
     /**
-     * <tt>true</tt> if the visitSource method has been called.
+     * <tt>truf</tt> if tif visitSourdf mftiod ibs bffn dbllfd.
      */
-    private boolean source;
+    privbtf boolfbn sourdf;
 
     /**
-     * <tt>true</tt> if the visitOuterClass method has been called.
+     * <tt>truf</tt> if tif visitOutfrClbss mftiod ibs bffn dbllfd.
      */
-    private boolean outer;
+    privbtf boolfbn outfr;
 
     /**
-     * <tt>true</tt> if the visitEnd method has been called.
+     * <tt>truf</tt> if tif visitEnd mftiod ibs bffn dbllfd.
      */
-    private boolean end;
+    privbtf boolfbn fnd;
 
     /**
-     * The already visited labels. This map associate Integer values to Label
-     * keys.
+     * Tif blrfbdy visitfd lbbfls. Tiis mbp bssodibtf Intfgfr vblufs to Lbbfl
+     * kfys.
      */
-    private Map<Label, Integer> labels;
+    privbtf Mbp<Lbbfl, Intfgfr> lbbfls;
 
     /**
-     * <tt>true</tt> if the method code must be checked with a BasicVerifier.
+     * <tt>truf</tt> if tif mftiod dodf must bf difdkfd witi b BbsidVfrififr.
      */
-    private boolean checkDataFlow;
+    privbtf boolfbn difdkDbtbFlow;
 
     /**
-     * Checks a given class.
+     * Cifdks b givfn dlbss.
      * <p>
-     * Usage: CheckClassAdapter &lt;binary class name or class file name&gt;
+     * Usbgf: CifdkClbssAdbptfr &lt;binbry dlbss nbmf or dlbss filf nbmf&gt;
      *
-     * @param args
-     *            the command line arguments.
+     * @pbrbm brgs
+     *            tif dommbnd linf brgumfnts.
      *
-     * @throws Exception
-     *             if the class cannot be found, or if an IO exception occurs.
+     * @tirows Exdfption
+     *             if tif dlbss dbnnot bf found, or if bn IO fxdfption oddurs.
      */
-    public static void main(final String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Verifies the given class.");
-            System.err.println("Usage: CheckClassAdapter "
-                    + "<fully qualified class name or class file name>");
-            return;
+    publid stbtid void mbin(finbl String[] brgs) tirows Exdfption {
+        if (brgs.lfngti != 1) {
+            Systfm.frr.println("Vfrififs tif givfn dlbss.");
+            Systfm.frr.println("Usbgf: CifdkClbssAdbptfr "
+                    + "<fully qublififd dlbss nbmf or dlbss filf nbmf>");
+            rfturn;
         }
-        ClassReader cr;
-        if (args[0].endsWith(".class")) {
-            cr = new ClassReader(new FileInputStream(args[0]));
-        } else {
-            cr = new ClassReader(args[0]);
+        ClbssRfbdfr dr;
+        if (brgs[0].fndsWiti(".dlbss")) {
+            dr = nfw ClbssRfbdfr(nfw FilfInputStrfbm(brgs[0]));
+        } flsf {
+            dr = nfw ClbssRfbdfr(brgs[0]);
         }
 
-        verify(cr, false, new PrintWriter(System.err));
+        vfrify(dr, fblsf, nfw PrintWritfr(Systfm.frr));
     }
 
     /**
-     * Checks a given class.
+     * Cifdks b givfn dlbss.
      *
-     * @param cr
-     *            a <code>ClassReader</code> that contains bytecode for the
-     *            analysis.
-     * @param loader
-     *            a <code>ClassLoader</code> which will be used to load
-     *            referenced classes. This is useful if you are verifiying
-     *            multiple interdependent classes.
-     * @param dump
-     *            true if bytecode should be printed out not only when errors
-     *            are found.
-     * @param pw
-     *            write where results going to be printed
+     * @pbrbm dr
+     *            b <dodf>ClbssRfbdfr</dodf> tibt dontbins bytfdodf for tif
+     *            bnblysis.
+     * @pbrbm lobdfr
+     *            b <dodf>ClbssLobdfr</dodf> wiidi will bf usfd to lobd
+     *            rfffrfndfd dlbssfs. Tiis is usfful if you brf vfrifiying
+     *            multiplf intfrdfpfndfnt dlbssfs.
+     * @pbrbm dump
+     *            truf if bytfdodf siould bf printfd out not only wifn frrors
+     *            brf found.
+     * @pbrbm pw
+     *            writf wifrf rfsults going to bf printfd
      */
-    public static void verify(final ClassReader cr, final ClassLoader loader,
-            final boolean dump, final PrintWriter pw) {
-        ClassNode cn = new ClassNode();
-        cr.accept(new CheckClassAdapter(cn, false), ClassReader.SKIP_DEBUG);
+    publid stbtid void vfrify(finbl ClbssRfbdfr dr, finbl ClbssLobdfr lobdfr,
+            finbl boolfbn dump, finbl PrintWritfr pw) {
+        ClbssNodf dn = nfw ClbssNodf();
+        dr.bddfpt(nfw CifdkClbssAdbptfr(dn, fblsf), ClbssRfbdfr.SKIP_DEBUG);
 
-        Type syperType = cn.superName == null ? null : Type
-                .getObjectType(cn.superName);
-        List<MethodNode> methods = cn.methods;
+        Typf sypfrTypf = dn.supfrNbmf == null ? null : Typf
+                .gftObjfdtTypf(dn.supfrNbmf);
+        List<MftiodNodf> mftiods = dn.mftiods;
 
-        List<Type> interfaces = new ArrayList<Type>();
-        for (Iterator<String> i = cn.interfaces.iterator(); i.hasNext();) {
-            interfaces.add(Type.getObjectType(i.next()));
+        List<Typf> intfrfbdfs = nfw ArrbyList<Typf>();
+        for (Itfrbtor<String> i = dn.intfrfbdfs.itfrbtor(); i.ibsNfxt();) {
+            intfrfbdfs.bdd(Typf.gftObjfdtTypf(i.nfxt()));
         }
 
-        for (int i = 0; i < methods.size(); ++i) {
-            MethodNode method = methods.get(i);
-            SimpleVerifier verifier = new SimpleVerifier(
-                    Type.getObjectType(cn.name), syperType, interfaces,
-                    (cn.access & Opcodes.ACC_INTERFACE) != 0);
-            Analyzer<BasicValue> a = new Analyzer<BasicValue>(verifier);
-            if (loader != null) {
-                verifier.setClassLoader(loader);
+        for (int i = 0; i < mftiods.sizf(); ++i) {
+            MftiodNodf mftiod = mftiods.gft(i);
+            SimplfVfrififr vfrififr = nfw SimplfVfrififr(
+                    Typf.gftObjfdtTypf(dn.nbmf), sypfrTypf, intfrfbdfs,
+                    (dn.bddfss & Opdodfs.ACC_INTERFACE) != 0);
+            Anblyzfr<BbsidVbluf> b = nfw Anblyzfr<BbsidVbluf>(vfrififr);
+            if (lobdfr != null) {
+                vfrififr.sftClbssLobdfr(lobdfr);
             }
             try {
-                a.analyze(cn.name, method);
+                b.bnblyzf(dn.nbmf, mftiod);
                 if (!dump) {
-                    continue;
+                    dontinuf;
                 }
-            } catch (Exception e) {
-                e.printStackTrace(pw);
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf(pw);
             }
-            printAnalyzerResult(method, a, pw);
+            printAnblyzfrRfsult(mftiod, b, pw);
         }
-        pw.flush();
+        pw.flusi();
     }
 
     /**
-     * Checks a given class
+     * Cifdks b givfn dlbss
      *
-     * @param cr
-     *            a <code>ClassReader</code> that contains bytecode for the
-     *            analysis.
-     * @param dump
-     *            true if bytecode should be printed out not only when errors
-     *            are found.
-     * @param pw
-     *            write where results going to be printed
+     * @pbrbm dr
+     *            b <dodf>ClbssRfbdfr</dodf> tibt dontbins bytfdodf for tif
+     *            bnblysis.
+     * @pbrbm dump
+     *            truf if bytfdodf siould bf printfd out not only wifn frrors
+     *            brf found.
+     * @pbrbm pw
+     *            writf wifrf rfsults going to bf printfd
      */
-    public static void verify(final ClassReader cr, final boolean dump,
-            final PrintWriter pw) {
-        verify(cr, null, dump, pw);
+    publid stbtid void vfrify(finbl ClbssRfbdfr dr, finbl boolfbn dump,
+            finbl PrintWritfr pw) {
+        vfrify(dr, null, dump, pw);
     }
 
-    static void printAnalyzerResult(MethodNode method, Analyzer<BasicValue> a,
-            final PrintWriter pw) {
-        Frame<BasicValue>[] frames = a.getFrames();
-        Textifier t = new Textifier();
-        TraceMethodVisitor mv = new TraceMethodVisitor(t);
+    stbtid void printAnblyzfrRfsult(MftiodNodf mftiod, Anblyzfr<BbsidVbluf> b,
+            finbl PrintWritfr pw) {
+        Frbmf<BbsidVbluf>[] frbmfs = b.gftFrbmfs();
+        Tfxtififr t = nfw Tfxtififr();
+        TrbdfMftiodVisitor mv = nfw TrbdfMftiodVisitor(t);
 
-        pw.println(method.name + method.desc);
-        for (int j = 0; j < method.instructions.size(); ++j) {
-            method.instructions.get(j).accept(mv);
+        pw.println(mftiod.nbmf + mftiod.dfsd);
+        for (int j = 0; j < mftiod.instrudtions.sizf(); ++j) {
+            mftiod.instrudtions.gft(j).bddfpt(mv);
 
-            StringBuilder sb = new StringBuilder();
-            Frame<BasicValue> f = frames[j];
+            StringBuildfr sb = nfw StringBuildfr();
+            Frbmf<BbsidVbluf> f = frbmfs[j];
             if (f == null) {
-                sb.append('?');
-            } else {
-                for (int k = 0; k < f.getLocals(); ++k) {
-                    sb.append(getShortName(f.getLocal(k).toString()))
-                            .append(' ');
+                sb.bppfnd('?');
+            } flsf {
+                for (int k = 0; k < f.gftLodbls(); ++k) {
+                    sb.bppfnd(gftSiortNbmf(f.gftLodbl(k).toString()))
+                            .bppfnd(' ');
                 }
-                sb.append(" : ");
-                for (int k = 0; k < f.getStackSize(); ++k) {
-                    sb.append(getShortName(f.getStack(k).toString()))
-                            .append(' ');
+                sb.bppfnd(" : ");
+                for (int k = 0; k < f.gftStbdkSizf(); ++k) {
+                    sb.bppfnd(gftSiortNbmf(f.gftStbdk(k).toString()))
+                            .bppfnd(' ');
                 }
             }
-            while (sb.length() < method.maxStack + method.maxLocals + 1) {
-                sb.append(' ');
+            wiilf (sb.lfngti() < mftiod.mbxStbdk + mftiod.mbxLodbls + 1) {
+                sb.bppfnd(' ');
             }
-            pw.print(Integer.toString(j + 100000).substring(1));
-            pw.print(" " + sb + " : " + t.text.get(t.text.size() - 1));
+            pw.print(Intfgfr.toString(j + 100000).substring(1));
+            pw.print(" " + sb + " : " + t.tfxt.gft(t.tfxt.sizf() - 1));
         }
-        for (int j = 0; j < method.tryCatchBlocks.size(); ++j) {
-            method.tryCatchBlocks.get(j).accept(mv);
-            pw.print(" " + t.text.get(t.text.size() - 1));
+        for (int j = 0; j < mftiod.tryCbtdiBlodks.sizf(); ++j) {
+            mftiod.tryCbtdiBlodks.gft(j).bddfpt(mv);
+            pw.print(" " + t.tfxt.gft(t.tfxt.sizf() - 1));
         }
         pw.println();
     }
 
-    private static String getShortName(final String name) {
-        int n = name.lastIndexOf('/');
-        int k = name.length();
-        if (name.charAt(k - 1) == ';') {
+    privbtf stbtid String gftSiortNbmf(finbl String nbmf) {
+        int n = nbmf.lbstIndfxOf('/');
+        int k = nbmf.lfngti();
+        if (nbmf.dibrAt(k - 1) == ';') {
             k--;
         }
-        return n == -1 ? name : name.substring(n + 1, k);
+        rfturn n == -1 ? nbmf : nbmf.substring(n + 1, k);
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #CheckClassAdapter(int, ClassVisitor, boolean)} version.
+     * Construdts b nfw {@link CifdkClbssAdbptfr}. <i>Subdlbssfs must not usf
+     * tiis donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #CifdkClbssAdbptfr(int, ClbssVisitor, boolfbn)} vfrsion.
      *
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
+     * @pbrbm dv
+     *            tif dlbss visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
      */
-    public CheckClassAdapter(final ClassVisitor cv) {
-        this(cv, true);
+    publid CifdkClbssAdbptfr(finbl ClbssVisitor dv) {
+        tiis(dv, truf);
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #CheckClassAdapter(int, ClassVisitor, boolean)} version.
+     * Construdts b nfw {@link CifdkClbssAdbptfr}. <i>Subdlbssfs must not usf
+     * tiis donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #CifdkClbssAdbptfr(int, ClbssVisitor, boolfbn)} vfrsion.
      *
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
-     * @param checkDataFlow
-     *            <tt>true</tt> to perform basic data flow checks, or
-     *            <tt>false</tt> to not perform any data flow check (see
-     *            {@link CheckMethodAdapter}). This option requires valid
-     *            maxLocals and maxStack values.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm dv
+     *            tif dlbss visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
+     * @pbrbm difdkDbtbFlow
+     *            <tt>truf</tt> to pfrform bbsid dbtb flow difdks, or
+     *            <tt>fblsf</tt> to not pfrform bny dbtb flow difdk (sff
+     *            {@link CifdkMftiodAdbptfr}). Tiis option rfquirfs vblid
+     *            mbxLodbls bnd mbxStbdk vblufs.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public CheckClassAdapter(final ClassVisitor cv, final boolean checkDataFlow) {
-        this(Opcodes.ASM5, cv, checkDataFlow);
-        if (getClass() != CheckClassAdapter.class) {
-            throw new IllegalStateException();
+    publid CifdkClbssAdbptfr(finbl ClbssVisitor dv, finbl boolfbn difdkDbtbFlow) {
+        tiis(Opdodfs.ASM5, dv, difdkDbtbFlow);
+        if (gftClbss() != CifdkClbssAdbptfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}.
+     * Construdts b nfw {@link CifdkClbssAdbptfr}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
-     * @param checkDataFlow
-     *            <tt>true</tt> to perform basic data flow checks, or
-     *            <tt>false</tt> to not perform any data flow check (see
-     *            {@link CheckMethodAdapter}). This option requires valid
-     *            maxLocals and maxStack values.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm dv
+     *            tif dlbss visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
+     * @pbrbm difdkDbtbFlow
+     *            <tt>truf</tt> to pfrform bbsid dbtb flow difdks, or
+     *            <tt>fblsf</tt> to not pfrform bny dbtb flow difdk (sff
+     *            {@link CifdkMftiodAdbptfr}). Tiis option rfquirfs vblid
+     *            mbxLodbls bnd mbxStbdk vblufs.
      */
-    protected CheckClassAdapter(final int api, final ClassVisitor cv,
-            final boolean checkDataFlow) {
-        super(api, cv);
-        this.labels = new HashMap<Label, Integer>();
-        this.checkDataFlow = checkDataFlow;
+    protfdtfd CifdkClbssAdbptfr(finbl int bpi, finbl ClbssVisitor dv,
+            finbl boolfbn difdkDbtbFlow) {
+        supfr(bpi, dv);
+        tiis.lbbfls = nfw HbsiMbp<Lbbfl, Intfgfr>();
+        tiis.difdkDbtbFlow = difdkDbtbFlow;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the ClassVisitor interface
+    // Implfmfntbtion of tif ClbssVisitor intfrfbdf
     // ------------------------------------------------------------------------
 
-    @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        if (start) {
-            throw new IllegalStateException("visit must be called only once");
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        if (stbrt) {
+            tirow nfw IllfgblStbtfExdfption("visit must bf dbllfd only ondf");
         }
-        start = true;
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
-                + Opcodes.ACC_SUPER + Opcodes.ACC_INTERFACE
-                + Opcodes.ACC_ABSTRACT + Opcodes.ACC_SYNTHETIC
-                + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ENUM
-                + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        if (name == null || !name.endsWith("package-info")) {
-            CheckMethodAdapter.checkInternalName(name, "class name");
+        stbrt = truf;
+        difdkStbtf();
+        difdkAddfss(bddfss, Opdodfs.ACC_PUBLIC + Opdodfs.ACC_FINAL
+                + Opdodfs.ACC_SUPER + Opdodfs.ACC_INTERFACE
+                + Opdodfs.ACC_ABSTRACT + Opdodfs.ACC_SYNTHETIC
+                + Opdodfs.ACC_ANNOTATION + Opdodfs.ACC_ENUM
+                + Opdodfs.ACC_DEPRECATED + 0x40000); // ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE
+        if (nbmf == null || !nbmf.fndsWiti("pbdkbgf-info")) {
+            CifdkMftiodAdbptfr.difdkIntfrnblNbmf(nbmf, "dlbss nbmf");
         }
-        if ("java/lang/Object".equals(name)) {
-            if (superName != null) {
-                throw new IllegalArgumentException(
-                        "The super class name of the Object class must be 'null'");
+        if ("jbvb/lbng/Objfdt".fqubls(nbmf)) {
+            if (supfrNbmf != null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Tif supfr dlbss nbmf of tif Objfdt dlbss must bf 'null'");
             }
-        } else {
-            CheckMethodAdapter.checkInternalName(superName, "super class name");
+        } flsf {
+            CifdkMftiodAdbptfr.difdkIntfrnblNbmf(supfrNbmf, "supfr dlbss nbmf");
         }
-        if (signature != null) {
-            checkClassSignature(signature);
+        if (signbturf != null) {
+            difdkClbssSignbturf(signbturf);
         }
-        if ((access & Opcodes.ACC_INTERFACE) != 0) {
-            if (!"java/lang/Object".equals(superName)) {
-                throw new IllegalArgumentException(
-                        "The super class name of interfaces must be 'java/lang/Object'");
-            }
-        }
-        if (interfaces != null) {
-            for (int i = 0; i < interfaces.length; ++i) {
-                CheckMethodAdapter.checkInternalName(interfaces[i],
-                        "interface name at index " + i);
+        if ((bddfss & Opdodfs.ACC_INTERFACE) != 0) {
+            if (!"jbvb/lbng/Objfdt".fqubls(supfrNbmf)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Tif supfr dlbss nbmf of intfrfbdfs must bf 'jbvb/lbng/Objfdt'");
             }
         }
-        this.version = version;
-        super.visit(version, access, name, signature, superName, interfaces);
-    }
-
-    @Override
-    public void visitSource(final String file, final String debug) {
-        checkState();
-        if (source) {
-            throw new IllegalStateException(
-                    "visitSource can be called only once.");
-        }
-        source = true;
-        super.visitSource(file, debug);
-    }
-
-    @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        checkState();
-        if (outer) {
-            throw new IllegalStateException(
-                    "visitOuterClass can be called only once.");
-        }
-        outer = true;
-        if (owner == null) {
-            throw new IllegalArgumentException("Illegal outer class owner");
-        }
-        if (desc != null) {
-            CheckMethodAdapter.checkMethodDesc(desc);
-        }
-        super.visitOuterClass(owner, name, desc);
-    }
-
-    @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        checkState();
-        CheckMethodAdapter.checkInternalName(name, "class name");
-        if (outerName != null) {
-            CheckMethodAdapter.checkInternalName(outerName, "outer class name");
-        }
-        if (innerName != null) {
-            int start = 0;
-            while (start < innerName.length()
-                    && Character.isDigit(innerName.charAt(start))) {
-                start++;
-            }
-            if (start == 0 || start < innerName.length()) {
-                CheckMethodAdapter.checkIdentifier(innerName, start, -1,
-                        "inner class name");
+        if (intfrfbdfs != null) {
+            for (int i = 0; i < intfrfbdfs.lfngti; ++i) {
+                CifdkMftiodAdbptfr.difdkIntfrnblNbmf(intfrfbdfs[i],
+                        "intfrfbdf nbmf bt indfx " + i);
             }
         }
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
-                + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
-                + Opcodes.ACC_FINAL + Opcodes.ACC_INTERFACE
-                + Opcodes.ACC_ABSTRACT + Opcodes.ACC_SYNTHETIC
-                + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ENUM);
-        super.visitInnerClass(name, outerName, innerName, access);
+        tiis.vfrsion = vfrsion;
+        supfr.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
     }
 
-    @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
-                + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
-                + Opcodes.ACC_FINAL + Opcodes.ACC_VOLATILE
-                + Opcodes.ACC_TRANSIENT + Opcodes.ACC_SYNTHETIC
-                + Opcodes.ACC_ENUM + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        CheckMethodAdapter.checkUnqualifiedName(version, name, "field name");
-        CheckMethodAdapter.checkDesc(desc, false);
-        if (signature != null) {
-            checkFieldSignature(signature);
+    @Ovfrridf
+    publid void visitSourdf(finbl String filf, finbl String dfbug) {
+        difdkStbtf();
+        if (sourdf) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "visitSourdf dbn bf dbllfd only ondf.");
         }
-        if (value != null) {
-            CheckMethodAdapter.checkConstant(value);
-        }
-        FieldVisitor av = super
-                .visitField(access, name, desc, signature, value);
-        return new CheckFieldAdapter(av);
+        sourdf = truf;
+        supfr.visitSourdf(filf, dfbug);
     }
 
-    @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
-                + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
-                + Opcodes.ACC_FINAL + Opcodes.ACC_SYNCHRONIZED
-                + Opcodes.ACC_BRIDGE + Opcodes.ACC_VARARGS + Opcodes.ACC_NATIVE
-                + Opcodes.ACC_ABSTRACT + Opcodes.ACC_STRICT
-                + Opcodes.ACC_SYNTHETIC + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        if (!"<init>".equals(name) && !"<clinit>".equals(name)) {
-            CheckMethodAdapter.checkMethodIdentifier(version, name,
-                    "method name");
+    @Ovfrridf
+    publid void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        difdkStbtf();
+        if (outfr) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "visitOutfrClbss dbn bf dbllfd only ondf.");
         }
-        CheckMethodAdapter.checkMethodDesc(desc);
-        if (signature != null) {
-            checkMethodSignature(signature);
+        outfr = truf;
+        if (ownfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl outfr dlbss ownfr");
         }
-        if (exceptions != null) {
-            for (int i = 0; i < exceptions.length; ++i) {
-                CheckMethodAdapter.checkInternalName(exceptions[i],
-                        "exception name at index " + i);
+        if (dfsd != null) {
+            CifdkMftiodAdbptfr.difdkMftiodDfsd(dfsd);
+        }
+        supfr.visitOutfrClbss(ownfr, nbmf, dfsd);
+    }
+
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String nbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bddfss) {
+        difdkStbtf();
+        CifdkMftiodAdbptfr.difdkIntfrnblNbmf(nbmf, "dlbss nbmf");
+        if (outfrNbmf != null) {
+            CifdkMftiodAdbptfr.difdkIntfrnblNbmf(outfrNbmf, "outfr dlbss nbmf");
+        }
+        if (innfrNbmf != null) {
+            int stbrt = 0;
+            wiilf (stbrt < innfrNbmf.lfngti()
+                    && Cibrbdtfr.isDigit(innfrNbmf.dibrAt(stbrt))) {
+                stbrt++;
+            }
+            if (stbrt == 0 || stbrt < innfrNbmf.lfngti()) {
+                CifdkMftiodAdbptfr.difdkIdfntififr(innfrNbmf, stbrt, -1,
+                        "innfr dlbss nbmf");
             }
         }
-        CheckMethodAdapter cma;
-        if (checkDataFlow) {
-            cma = new CheckMethodAdapter(access, name, desc, super.visitMethod(
-                    access, name, desc, signature, exceptions), labels);
-        } else {
-            cma = new CheckMethodAdapter(super.visitMethod(access, name, desc,
-                    signature, exceptions), labels);
+        difdkAddfss(bddfss, Opdodfs.ACC_PUBLIC + Opdodfs.ACC_PRIVATE
+                + Opdodfs.ACC_PROTECTED + Opdodfs.ACC_STATIC
+                + Opdodfs.ACC_FINAL + Opdodfs.ACC_INTERFACE
+                + Opdodfs.ACC_ABSTRACT + Opdodfs.ACC_SYNTHETIC
+                + Opdodfs.ACC_ANNOTATION + Opdodfs.ACC_ENUM);
+        supfr.visitInnfrClbss(nbmf, outfrNbmf, innfrNbmf, bddfss);
+    }
+
+    @Ovfrridf
+    publid FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        difdkStbtf();
+        difdkAddfss(bddfss, Opdodfs.ACC_PUBLIC + Opdodfs.ACC_PRIVATE
+                + Opdodfs.ACC_PROTECTED + Opdodfs.ACC_STATIC
+                + Opdodfs.ACC_FINAL + Opdodfs.ACC_VOLATILE
+                + Opdodfs.ACC_TRANSIENT + Opdodfs.ACC_SYNTHETIC
+                + Opdodfs.ACC_ENUM + Opdodfs.ACC_DEPRECATED + 0x40000); // ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE
+        CifdkMftiodAdbptfr.difdkUnqublififdNbmf(vfrsion, nbmf, "fifld nbmf");
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        if (signbturf != null) {
+            difdkFifldSignbturf(signbturf);
         }
-        cma.version = version;
-        return cma;
-    }
-
-    @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        checkState();
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
-    }
-
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkState();
-        int sort = typeRef >>> 24;
-        if (sort != TypeReference.CLASS_TYPE_PARAMETER
-                && sort != TypeReference.CLASS_TYPE_PARAMETER_BOUND
-                && sort != TypeReference.CLASS_EXTENDS) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(sort));
+        if (vbluf != null) {
+            CifdkMftiodAdbptfr.difdkConstbnt(vbluf);
         }
-        checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTypeAnnotation(typeRef,
-                typePath, desc, visible));
+        FifldVisitor bv = supfr
+                .visitFifld(bddfss, nbmf, dfsd, signbturf, vbluf);
+        rfturn nfw CifdkFifldAdbptfr(bv);
     }
 
-    @Override
-    public void visitAttribute(final Attribute attr) {
-        checkState();
-        if (attr == null) {
-            throw new IllegalArgumentException(
-                    "Invalid attribute (must not be null)");
+    @Ovfrridf
+    publid MftiodVisitor visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        difdkStbtf();
+        difdkAddfss(bddfss, Opdodfs.ACC_PUBLIC + Opdodfs.ACC_PRIVATE
+                + Opdodfs.ACC_PROTECTED + Opdodfs.ACC_STATIC
+                + Opdodfs.ACC_FINAL + Opdodfs.ACC_SYNCHRONIZED
+                + Opdodfs.ACC_BRIDGE + Opdodfs.ACC_VARARGS + Opdodfs.ACC_NATIVE
+                + Opdodfs.ACC_ABSTRACT + Opdodfs.ACC_STRICT
+                + Opdodfs.ACC_SYNTHETIC + Opdodfs.ACC_DEPRECATED + 0x40000); // ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE
+        if (!"<init>".fqubls(nbmf) && !"<dlinit>".fqubls(nbmf)) {
+            CifdkMftiodAdbptfr.difdkMftiodIdfntififr(vfrsion, nbmf,
+                    "mftiod nbmf");
         }
-        super.visitAttribute(attr);
+        CifdkMftiodAdbptfr.difdkMftiodDfsd(dfsd);
+        if (signbturf != null) {
+            difdkMftiodSignbturf(signbturf);
+        }
+        if (fxdfptions != null) {
+            for (int i = 0; i < fxdfptions.lfngti; ++i) {
+                CifdkMftiodAdbptfr.difdkIntfrnblNbmf(fxdfptions[i],
+                        "fxdfption nbmf bt indfx " + i);
+            }
+        }
+        CifdkMftiodAdbptfr dmb;
+        if (difdkDbtbFlow) {
+            dmb = nfw CifdkMftiodAdbptfr(bddfss, nbmf, dfsd, supfr.visitMftiod(
+                    bddfss, nbmf, dfsd, signbturf, fxdfptions), lbbfls);
+        } flsf {
+            dmb = nfw CifdkMftiodAdbptfr(supfr.visitMftiod(bddfss, nbmf, dfsd,
+                    signbturf, fxdfptions), lbbfls);
+        }
+        dmb.vfrsion = vfrsion;
+        rfturn dmb;
     }
 
-    @Override
-    public void visitEnd() {
-        checkState();
-        end = true;
-        super.visitEnd();
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        difdkStbtf();
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitAnnotbtion(dfsd, visiblf));
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        difdkStbtf();
+        int sort = typfRff >>> 24;
+        if (sort != TypfRfffrfndf.CLASS_TYPE_PARAMETER
+                && sort != TypfRfffrfndf.CLASS_TYPE_PARAMETER_BOUND
+                && sort != TypfRfffrfndf.CLASS_EXTENDS) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(sort));
+        }
+        difdkTypfRffAndPbti(typfRff, typfPbti);
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitTypfAnnotbtion(typfRff,
+                typfPbti, dfsd, visiblf));
+    }
+
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        difdkStbtf();
+        if (bttr == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid bttributf (must not bf null)");
+        }
+        supfr.visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+        difdkStbtf();
+        fnd = truf;
+        supfr.visitEnd();
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods
+    // Utility mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that the visit method has been called and that visitEnd has not
-     * been called.
+     * Cifdks tibt tif visit mftiod ibs bffn dbllfd bnd tibt visitEnd ibs not
+     * bffn dbllfd.
      */
-    private void checkState() {
-        if (!start) {
-            throw new IllegalStateException(
-                    "Cannot visit member before visit has been called.");
+    privbtf void difdkStbtf() {
+        if (!stbrt) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Cbnnot visit mfmbfr bfforf visit ibs bffn dbllfd.");
         }
-        if (end) {
-            throw new IllegalStateException(
-                    "Cannot visit member after visitEnd has been called.");
+        if (fnd) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Cbnnot visit mfmbfr bftfr visitEnd ibs bffn dbllfd.");
         }
     }
 
     /**
-     * Checks that the given access flags do not contain invalid flags. This
-     * method also checks that mutually incompatible flags are not set
-     * simultaneously.
+     * Cifdks tibt tif givfn bddfss flbgs do not dontbin invblid flbgs. Tiis
+     * mftiod blso difdks tibt mutublly indompbtiblf flbgs brf not sft
+     * simultbnfously.
      *
-     * @param access
-     *            the access flags to be checked
-     * @param possibleAccess
-     *            the valid access flags.
+     * @pbrbm bddfss
+     *            tif bddfss flbgs to bf difdkfd
+     * @pbrbm possiblfAddfss
+     *            tif vblid bddfss flbgs.
      */
-    static void checkAccess(final int access, final int possibleAccess) {
-        if ((access & ~possibleAccess) != 0) {
-            throw new IllegalArgumentException("Invalid access flags: "
-                    + access);
+    stbtid void difdkAddfss(finbl int bddfss, finbl int possiblfAddfss) {
+        if ((bddfss & ~possiblfAddfss) != 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid bddfss flbgs: "
+                    + bddfss);
         }
-        int pub = (access & Opcodes.ACC_PUBLIC) == 0 ? 0 : 1;
-        int pri = (access & Opcodes.ACC_PRIVATE) == 0 ? 0 : 1;
-        int pro = (access & Opcodes.ACC_PROTECTED) == 0 ? 0 : 1;
+        int pub = (bddfss & Opdodfs.ACC_PUBLIC) == 0 ? 0 : 1;
+        int pri = (bddfss & Opdodfs.ACC_PRIVATE) == 0 ? 0 : 1;
+        int pro = (bddfss & Opdodfs.ACC_PROTECTED) == 0 ? 0 : 1;
         if (pub + pri + pro > 1) {
-            throw new IllegalArgumentException(
-                    "public private and protected are mutually exclusive: "
-                            + access);
+            tirow nfw IllfgblArgumfntExdfption(
+                    "publid privbtf bnd protfdtfd brf mutublly fxdlusivf: "
+                            + bddfss);
         }
-        int fin = (access & Opcodes.ACC_FINAL) == 0 ? 0 : 1;
-        int abs = (access & Opcodes.ACC_ABSTRACT) == 0 ? 0 : 1;
-        if (fin + abs > 1) {
-            throw new IllegalArgumentException(
-                    "final and abstract are mutually exclusive: " + access);
+        int fin = (bddfss & Opdodfs.ACC_FINAL) == 0 ? 0 : 1;
+        int bbs = (bddfss & Opdodfs.ACC_ABSTRACT) == 0 ? 0 : 1;
+        if (fin + bbs > 1) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "finbl bnd bbstrbdt brf mutublly fxdlusivf: " + bddfss);
         }
     }
 
     /**
-     * Checks a class signature.
+     * Cifdks b dlbss signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
      */
-    public static void checkClassSignature(final String signature) {
-        // ClassSignature:
-        // FormalTypeParameters? ClassTypeSignature ClassTypeSignature*
+    publid stbtid void difdkClbssSignbturf(finbl String signbturf) {
+        // ClbssSignbturf:
+        // FormblTypfPbrbmftfrs? ClbssTypfSignbturf ClbssTypfSignbturf*
 
         int pos = 0;
-        if (getChar(signature, 0) == '<') {
-            pos = checkFormalTypeParameters(signature, pos);
+        if (gftCibr(signbturf, 0) == '<') {
+            pos = difdkFormblTypfPbrbmftfrs(signbturf, pos);
         }
-        pos = checkClassTypeSignature(signature, pos);
-        while (getChar(signature, pos) == 'L') {
-            pos = checkClassTypeSignature(signature, pos);
+        pos = difdkClbssTypfSignbturf(signbturf, pos);
+        wiilf (gftCibr(signbturf, pos) == 'L') {
+            pos = difdkClbssTypfSignbturf(signbturf, pos);
         }
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+        if (pos != signbturf.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption(signbturf + ": frror bt indfx "
                     + pos);
         }
     }
 
     /**
-     * Checks a method signature.
+     * Cifdks b mftiod signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
      */
-    public static void checkMethodSignature(final String signature) {
-        // MethodTypeSignature:
-        // FormalTypeParameters? ( TypeSignature* ) ( TypeSignature | V ) (
-        // ^ClassTypeSignature | ^TypeVariableSignature )*
+    publid stbtid void difdkMftiodSignbturf(finbl String signbturf) {
+        // MftiodTypfSignbturf:
+        // FormblTypfPbrbmftfrs? ( TypfSignbturf* ) ( TypfSignbturf | V ) (
+        // ^ClbssTypfSignbturf | ^TypfVbribblfSignbturf )*
 
         int pos = 0;
-        if (getChar(signature, 0) == '<') {
-            pos = checkFormalTypeParameters(signature, pos);
+        if (gftCibr(signbturf, 0) == '<') {
+            pos = difdkFormblTypfPbrbmftfrs(signbturf, pos);
         }
-        pos = checkChar('(', signature, pos);
-        while ("ZCBSIFJDL[T".indexOf(getChar(signature, pos)) != -1) {
-            pos = checkTypeSignature(signature, pos);
+        pos = difdkCibr('(', signbturf, pos);
+        wiilf ("ZCBSIFJDL[T".indfxOf(gftCibr(signbturf, pos)) != -1) {
+            pos = difdkTypfSignbturf(signbturf, pos);
         }
-        pos = checkChar(')', signature, pos);
-        if (getChar(signature, pos) == 'V') {
+        pos = difdkCibr(')', signbturf, pos);
+        if (gftCibr(signbturf, pos) == 'V') {
             ++pos;
-        } else {
-            pos = checkTypeSignature(signature, pos);
+        } flsf {
+            pos = difdkTypfSignbturf(signbturf, pos);
         }
-        while (getChar(signature, pos) == '^') {
+        wiilf (gftCibr(signbturf, pos) == '^') {
             ++pos;
-            if (getChar(signature, pos) == 'L') {
-                pos = checkClassTypeSignature(signature, pos);
-            } else {
-                pos = checkTypeVariableSignature(signature, pos);
+            if (gftCibr(signbturf, pos) == 'L') {
+                pos = difdkClbssTypfSignbturf(signbturf, pos);
+            } flsf {
+                pos = difdkTypfVbribblfSignbturf(signbturf, pos);
             }
         }
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+        if (pos != signbturf.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption(signbturf + ": frror bt indfx "
                     + pos);
         }
     }
 
     /**
-     * Checks a field signature.
+     * Cifdks b fifld signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
      */
-    public static void checkFieldSignature(final String signature) {
-        int pos = checkFieldTypeSignature(signature, 0);
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+    publid stbtid void difdkFifldSignbturf(finbl String signbturf) {
+        int pos = difdkFifldTypfSignbturf(signbturf, 0);
+        if (pos != signbturf.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption(signbturf + ": frror bt indfx "
                     + pos);
         }
     }
 
     /**
-     * Checks the reference to a type in a type annotation.
+     * Cifdks tif rfffrfndf to b typf in b typf bnnotbtion.
      *
-     * @param typeRef
-     *            a reference to an annotated type.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
+     * @pbrbm typfRff
+     *            b rfffrfndf to bn bnnotbtfd typf.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
      */
-    static void checkTypeRefAndPath(int typeRef, TypePath typePath) {
-        int mask = 0;
-        switch (typeRef >>> 24) {
-        case TypeReference.CLASS_TYPE_PARAMETER:
-        case TypeReference.METHOD_TYPE_PARAMETER:
-        case TypeReference.METHOD_FORMAL_PARAMETER:
-            mask = 0xFFFF0000;
-            break;
-        case TypeReference.FIELD:
-        case TypeReference.METHOD_RETURN:
-        case TypeReference.METHOD_RECEIVER:
-        case TypeReference.LOCAL_VARIABLE:
-        case TypeReference.RESOURCE_VARIABLE:
-        case TypeReference.INSTANCEOF:
-        case TypeReference.NEW:
-        case TypeReference.CONSTRUCTOR_REFERENCE:
-        case TypeReference.METHOD_REFERENCE:
-            mask = 0xFF000000;
-            break;
-        case TypeReference.CLASS_EXTENDS:
-        case TypeReference.CLASS_TYPE_PARAMETER_BOUND:
-        case TypeReference.METHOD_TYPE_PARAMETER_BOUND:
-        case TypeReference.THROWS:
-        case TypeReference.EXCEPTION_PARAMETER:
-            mask = 0xFFFFFF00;
-            break;
-        case TypeReference.CAST:
-        case TypeReference.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
-        case TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT:
-        case TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
-        case TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT:
-            mask = 0xFF0000FF;
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(typeRef >>> 24));
+    stbtid void difdkTypfRffAndPbti(int typfRff, TypfPbti typfPbti) {
+        int mbsk = 0;
+        switdi (typfRff >>> 24) {
+        dbsf TypfRfffrfndf.CLASS_TYPE_PARAMETER:
+        dbsf TypfRfffrfndf.METHOD_TYPE_PARAMETER:
+        dbsf TypfRfffrfndf.METHOD_FORMAL_PARAMETER:
+            mbsk = 0xFFFF0000;
+            brfbk;
+        dbsf TypfRfffrfndf.FIELD:
+        dbsf TypfRfffrfndf.METHOD_RETURN:
+        dbsf TypfRfffrfndf.METHOD_RECEIVER:
+        dbsf TypfRfffrfndf.LOCAL_VARIABLE:
+        dbsf TypfRfffrfndf.RESOURCE_VARIABLE:
+        dbsf TypfRfffrfndf.INSTANCEOF:
+        dbsf TypfRfffrfndf.NEW:
+        dbsf TypfRfffrfndf.CONSTRUCTOR_REFERENCE:
+        dbsf TypfRfffrfndf.METHOD_REFERENCE:
+            mbsk = 0xFF000000;
+            brfbk;
+        dbsf TypfRfffrfndf.CLASS_EXTENDS:
+        dbsf TypfRfffrfndf.CLASS_TYPE_PARAMETER_BOUND:
+        dbsf TypfRfffrfndf.METHOD_TYPE_PARAMETER_BOUND:
+        dbsf TypfRfffrfndf.THROWS:
+        dbsf TypfRfffrfndf.EXCEPTION_PARAMETER:
+            mbsk = 0xFFFFFF00;
+            brfbk;
+        dbsf TypfRfffrfndf.CAST:
+        dbsf TypfRfffrfndf.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
+        dbsf TypfRfffrfndf.METHOD_INVOCATION_TYPE_ARGUMENT:
+        dbsf TypfRfffrfndf.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
+        dbsf TypfRfffrfndf.METHOD_REFERENCE_TYPE_ARGUMENT:
+            mbsk = 0xFF0000FF;
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(typfRff >>> 24));
         }
-        if ((typeRef & ~mask) != 0) {
-            throw new IllegalArgumentException("Invalid type reference 0x"
-                    + Integer.toHexString(typeRef));
+        if ((typfRff & ~mbsk) != 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf 0x"
+                    + Intfgfr.toHfxString(typfRff));
         }
-        if (typePath != null) {
-            for (int i = 0; i < typePath.getLength(); ++i) {
-                int step = typePath.getStep(i);
-                if (step != TypePath.ARRAY_ELEMENT
-                        && step != TypePath.INNER_TYPE
-                        && step != TypePath.TYPE_ARGUMENT
-                        && step != TypePath.WILDCARD_BOUND) {
-                    throw new IllegalArgumentException(
-                            "Invalid type path step " + i + " in " + typePath);
+        if (typfPbti != null) {
+            for (int i = 0; i < typfPbti.gftLfngti(); ++i) {
+                int stfp = typfPbti.gftStfp(i);
+                if (stfp != TypfPbti.ARRAY_ELEMENT
+                        && stfp != TypfPbti.INNER_TYPE
+                        && stfp != TypfPbti.TYPE_ARGUMENT
+                        && stfp != TypfPbti.WILDCARD_BOUND) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Invblid typf pbti stfp " + i + " in " + typfPbti);
                 }
-                if (step != TypePath.TYPE_ARGUMENT
-                        && typePath.getStepArgument(i) != 0) {
-                    throw new IllegalArgumentException(
-                            "Invalid type path step argument for step " + i
-                                    + " in " + typePath);
+                if (stfp != TypfPbti.TYPE_ARGUMENT
+                        && typfPbti.gftStfpArgumfnt(i) != 0) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Invblid typf pbti stfp brgumfnt for stfp " + i
+                                    + " in " + typfPbti);
                 }
             }
         }
     }
 
     /**
-     * Checks the formal type parameters of a class or method signature.
+     * Cifdks tif formbl typf pbrbmftfrs of b dlbss or mftiod signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkFormalTypeParameters(final String signature, int pos) {
-        // FormalTypeParameters:
-        // < FormalTypeParameter+ >
+    privbtf stbtid int difdkFormblTypfPbrbmftfrs(finbl String signbturf, int pos) {
+        // FormblTypfPbrbmftfrs:
+        // < FormblTypfPbrbmftfr+ >
 
-        pos = checkChar('<', signature, pos);
-        pos = checkFormalTypeParameter(signature, pos);
-        while (getChar(signature, pos) != '>') {
-            pos = checkFormalTypeParameter(signature, pos);
+        pos = difdkCibr('<', signbturf, pos);
+        pos = difdkFormblTypfPbrbmftfr(signbturf, pos);
+        wiilf (gftCibr(signbturf, pos) != '>') {
+            pos = difdkFormblTypfPbrbmftfr(signbturf, pos);
         }
-        return pos + 1;
+        rfturn pos + 1;
     }
 
     /**
-     * Checks a formal type parameter of a class or method signature.
+     * Cifdks b formbl typf pbrbmftfr of b dlbss or mftiod signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkFormalTypeParameter(final String signature, int pos) {
-        // FormalTypeParameter:
-        // Identifier : FieldTypeSignature? (: FieldTypeSignature)*
+    privbtf stbtid int difdkFormblTypfPbrbmftfr(finbl String signbturf, int pos) {
+        // FormblTypfPbrbmftfr:
+        // Idfntififr : FifldTypfSignbturf? (: FifldTypfSignbturf)*
 
-        pos = checkIdentifier(signature, pos);
-        pos = checkChar(':', signature, pos);
-        if ("L[T".indexOf(getChar(signature, pos)) != -1) {
-            pos = checkFieldTypeSignature(signature, pos);
+        pos = difdkIdfntififr(signbturf, pos);
+        pos = difdkCibr(':', signbturf, pos);
+        if ("L[T".indfxOf(gftCibr(signbturf, pos)) != -1) {
+            pos = difdkFifldTypfSignbturf(signbturf, pos);
         }
-        while (getChar(signature, pos) == ':') {
-            pos = checkFieldTypeSignature(signature, pos + 1);
+        wiilf (gftCibr(signbturf, pos) == ':') {
+            pos = difdkFifldTypfSignbturf(signbturf, pos + 1);
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Checks a field type signature.
+     * Cifdks b fifld typf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkFieldTypeSignature(final String signature, int pos) {
-        // FieldTypeSignature:
-        // ClassTypeSignature | ArrayTypeSignature | TypeVariableSignature
+    privbtf stbtid int difdkFifldTypfSignbturf(finbl String signbturf, int pos) {
+        // FifldTypfSignbturf:
+        // ClbssTypfSignbturf | ArrbyTypfSignbturf | TypfVbribblfSignbturf
         //
-        // ArrayTypeSignature:
-        // [ TypeSignature
+        // ArrbyTypfSignbturf:
+        // [ TypfSignbturf
 
-        switch (getChar(signature, pos)) {
-        case 'L':
-            return checkClassTypeSignature(signature, pos);
-        case '[':
-            return checkTypeSignature(signature, pos + 1);
-        default:
-            return checkTypeVariableSignature(signature, pos);
+        switdi (gftCibr(signbturf, pos)) {
+        dbsf 'L':
+            rfturn difdkClbssTypfSignbturf(signbturf, pos);
+        dbsf '[':
+            rfturn difdkTypfSignbturf(signbturf, pos + 1);
+        dffbult:
+            rfturn difdkTypfVbribblfSignbturf(signbturf, pos);
         }
     }
 
     /**
-     * Checks a class type signature.
+     * Cifdks b dlbss typf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkClassTypeSignature(final String signature, int pos) {
-        // ClassTypeSignature:
-        // L Identifier ( / Identifier )* TypeArguments? ( . Identifier
-        // TypeArguments? )* ;
+    privbtf stbtid int difdkClbssTypfSignbturf(finbl String signbturf, int pos) {
+        // ClbssTypfSignbturf:
+        // L Idfntififr ( / Idfntififr )* TypfArgumfnts? ( . Idfntififr
+        // TypfArgumfnts? )* ;
 
-        pos = checkChar('L', signature, pos);
-        pos = checkIdentifier(signature, pos);
-        while (getChar(signature, pos) == '/') {
-            pos = checkIdentifier(signature, pos + 1);
+        pos = difdkCibr('L', signbturf, pos);
+        pos = difdkIdfntififr(signbturf, pos);
+        wiilf (gftCibr(signbturf, pos) == '/') {
+            pos = difdkIdfntififr(signbturf, pos + 1);
         }
-        if (getChar(signature, pos) == '<') {
-            pos = checkTypeArguments(signature, pos);
+        if (gftCibr(signbturf, pos) == '<') {
+            pos = difdkTypfArgumfnts(signbturf, pos);
         }
-        while (getChar(signature, pos) == '.') {
-            pos = checkIdentifier(signature, pos + 1);
-            if (getChar(signature, pos) == '<') {
-                pos = checkTypeArguments(signature, pos);
+        wiilf (gftCibr(signbturf, pos) == '.') {
+            pos = difdkIdfntififr(signbturf, pos + 1);
+            if (gftCibr(signbturf, pos) == '<') {
+                pos = difdkTypfArgumfnts(signbturf, pos);
             }
         }
-        return checkChar(';', signature, pos);
+        rfturn difdkCibr(';', signbturf, pos);
     }
 
     /**
-     * Checks the type arguments in a class type signature.
+     * Cifdks tif typf brgumfnts in b dlbss typf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkTypeArguments(final String signature, int pos) {
-        // TypeArguments:
-        // < TypeArgument+ >
+    privbtf stbtid int difdkTypfArgumfnts(finbl String signbturf, int pos) {
+        // TypfArgumfnts:
+        // < TypfArgumfnt+ >
 
-        pos = checkChar('<', signature, pos);
-        pos = checkTypeArgument(signature, pos);
-        while (getChar(signature, pos) != '>') {
-            pos = checkTypeArgument(signature, pos);
+        pos = difdkCibr('<', signbturf, pos);
+        pos = difdkTypfArgumfnt(signbturf, pos);
+        wiilf (gftCibr(signbturf, pos) != '>') {
+            pos = difdkTypfArgumfnt(signbturf, pos);
         }
-        return pos + 1;
+        rfturn pos + 1;
     }
 
     /**
-     * Checks a type argument in a class type signature.
+     * Cifdks b typf brgumfnt in b dlbss typf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkTypeArgument(final String signature, int pos) {
-        // TypeArgument:
-        // * | ( ( + | - )? FieldTypeSignature )
+    privbtf stbtid int difdkTypfArgumfnt(finbl String signbturf, int pos) {
+        // TypfArgumfnt:
+        // * | ( ( + | - )? FifldTypfSignbturf )
 
-        char c = getChar(signature, pos);
-        if (c == '*') {
-            return pos + 1;
-        } else if (c == '+' || c == '-') {
+        dibr d = gftCibr(signbturf, pos);
+        if (d == '*') {
+            rfturn pos + 1;
+        } flsf if (d == '+' || d == '-') {
             pos++;
         }
-        return checkFieldTypeSignature(signature, pos);
+        rfturn difdkFifldTypfSignbturf(signbturf, pos);
     }
 
     /**
-     * Checks a type variable signature.
+     * Cifdks b typf vbribblf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkTypeVariableSignature(final String signature,
+    privbtf stbtid int difdkTypfVbribblfSignbturf(finbl String signbturf,
             int pos) {
-        // TypeVariableSignature:
-        // T Identifier ;
+        // TypfVbribblfSignbturf:
+        // T Idfntififr ;
 
-        pos = checkChar('T', signature, pos);
-        pos = checkIdentifier(signature, pos);
-        return checkChar(';', signature, pos);
+        pos = difdkCibr('T', signbturf, pos);
+        pos = difdkIdfntififr(signbturf, pos);
+        rfturn difdkCibr(';', signbturf, pos);
     }
 
     /**
-     * Checks a type signature.
+     * Cifdks b typf signbturf.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkTypeSignature(final String signature, int pos) {
-        // TypeSignature:
-        // Z | C | B | S | I | F | J | D | FieldTypeSignature
+    privbtf stbtid int difdkTypfSignbturf(finbl String signbturf, int pos) {
+        // TypfSignbturf:
+        // Z | C | B | S | I | F | J | D | FifldTypfSignbturf
 
-        switch (getChar(signature, pos)) {
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-        case 'F':
-        case 'J':
-        case 'D':
-            return pos + 1;
-        default:
-            return checkFieldTypeSignature(signature, pos);
+        switdi (gftCibr(signbturf, pos)) {
+        dbsf 'Z':
+        dbsf 'C':
+        dbsf 'B':
+        dbsf 'S':
+        dbsf 'I':
+        dbsf 'F':
+        dbsf 'J':
+        dbsf 'D':
+            rfturn pos + 1;
+        dffbult:
+            rfturn difdkFifldTypfSignbturf(signbturf, pos);
         }
     }
 
     /**
-     * Checks an identifier.
+     * Cifdks bn idfntififr.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkIdentifier(final String signature, int pos) {
-        if (!Character.isJavaIdentifierStart(getChar(signature, pos))) {
-            throw new IllegalArgumentException(signature
-                    + ": identifier expected at index " + pos);
+    privbtf stbtid int difdkIdfntififr(finbl String signbturf, int pos) {
+        if (!Cibrbdtfr.isJbvbIdfntififrStbrt(gftCibr(signbturf, pos))) {
+            tirow nfw IllfgblArgumfntExdfption(signbturf
+                    + ": idfntififr fxpfdtfd bt indfx " + pos);
         }
         ++pos;
-        while (Character.isJavaIdentifierPart(getChar(signature, pos))) {
+        wiilf (Cibrbdtfr.isJbvbIdfntififrPbrt(gftCibr(signbturf, pos))) {
             ++pos;
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Checks a single character.
+     * Cifdks b singlf dibrbdtfr.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbturf
+     *            b string dontbining tif signbturf tibt must bf difdkfd.
+     * @pbrbm pos
+     *            indfx of first dibrbdtfr to bf difdkfd.
+     * @rfturn tif indfx of tif first dibrbdtfr bftfr tif difdkfd pbrt.
      */
-    private static int checkChar(final char c, final String signature, int pos) {
-        if (getChar(signature, pos) == c) {
-            return pos + 1;
+    privbtf stbtid int difdkCibr(finbl dibr d, finbl String signbturf, int pos) {
+        if (gftCibr(signbturf, pos) == d) {
+            rfturn pos + 1;
         }
-        throw new IllegalArgumentException(signature + ": '" + c
-                + "' expected at index " + pos);
+        tirow nfw IllfgblArgumfntExdfption(signbturf + ": '" + d
+                + "' fxpfdtfd bt indfx " + pos);
     }
 
     /**
-     * Returns the signature car at the given index.
+     * Rfturns tif signbturf dbr bt tif givfn indfx.
      *
-     * @param signature
-     *            a signature.
-     * @param pos
-     *            an index in signature.
-     * @return the character at the given index, or 0 if there is no such
-     *         character.
+     * @pbrbm signbturf
+     *            b signbturf.
+     * @pbrbm pos
+     *            bn indfx in signbturf.
+     * @rfturn tif dibrbdtfr bt tif givfn indfx, or 0 if tifrf is no sudi
+     *         dibrbdtfr.
      */
-    private static char getChar(final String signature, int pos) {
-        return pos < signature.length() ? signature.charAt(pos) : (char) 0;
+    privbtf stbtid dibr gftCibr(finbl String signbturf, int pos) {
+        rfturn pos < signbturf.lfngti() ? signbturf.dibrAt(pos) : (dibr) 0;
     }
 }

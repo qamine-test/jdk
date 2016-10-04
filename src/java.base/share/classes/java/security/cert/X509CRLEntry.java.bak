@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.math.BigInteger;
-import java.util.Date;
-import javax.security.auth.x500.X500Principal;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Dbtf;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.x509.X509CRLEntryImpl;
+import sun.sfdurity.x509.X509CRLEntryImpl;
 
 /**
- * <p>Abstract class for a revoked certificate in a CRL (Certificate
- * Revocation List).
+ * <p>Abstrbdt dlbss for b rfvokfd dfrtifidbtf in b CRL (Cfrtifidbtf
+ * Rfvodbtion List).
  *
- * The ASN.1 definition for <em>revokedCertificates</em> is:
- * <pre>
- * revokedCertificates    SEQUENCE OF SEQUENCE  {
- *     userCertificate    CertificateSerialNumber,
- *     revocationDate     ChoiceOfTime,
- *     crlEntryExtensions Extensions OPTIONAL
- *                        -- if present, must be v2
+ * Tif ASN.1 dffinition for <fm>rfvokfdCfrtifidbtfs</fm> is:
+ * <prf>
+ * rfvokfdCfrtifidbtfs    SEQUENCE OF SEQUENCE  {
+ *     usfrCfrtifidbtf    CfrtifidbtfSfriblNumbfr,
+ *     rfvodbtionDbtf     CioidfOfTimf,
+ *     drlEntryExtfnsions Extfnsions OPTIONAL
+ *                        -- if prfsfnt, must bf v2
  * }  OPTIONAL
  *
- * CertificateSerialNumber  ::=  INTEGER
+ * CfrtifidbtfSfriblNumbfr  ::=  INTEGER
  *
- * Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
+ * Extfnsions  ::=  SEQUENCE SIZE (1..MAX) OF Extfnsion
  *
- * Extension  ::=  SEQUENCE  {
- *     extnId        OBJECT IDENTIFIER,
- *     critical      BOOLEAN DEFAULT FALSE,
- *     extnValue     OCTET STRING
- *                   -- contains a DER encoding of a value
- *                   -- of the type registered for use with
- *                   -- the extnId object identifier value
+ * Extfnsion  ::=  SEQUENCE  {
+ *     fxtnId        OBJECT IDENTIFIER,
+ *     dritidbl      BOOLEAN DEFAULT FALSE,
+ *     fxtnVbluf     OCTET STRING
+ *                   -- dontbins b DER fndoding of b vbluf
+ *                   -- of tif typf rfgistfrfd for usf witi
+ *                   -- tif fxtnId objfdt idfntififr vbluf
  * }
- * </pre>
+ * </prf>
  *
- * @see X509CRL
- * @see X509Extension
+ * @sff X509CRL
+ * @sff X509Extfnsion
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
 
-public abstract class X509CRLEntry implements X509Extension {
+publid bbstrbdt dlbss X509CRLEntry implfmfnts X509Extfnsion {
 
     /**
-     * Compares this CRL entry for equality with the given
-     * object. If the {@code other} object is an
-     * {@code instanceof} {@code X509CRLEntry}, then
-     * its encoded form (the inner SEQUENCE) is retrieved and compared
-     * with the encoded form of this CRL entry.
+     * Compbrfs tiis CRL fntry for fqublity witi tif givfn
+     * objfdt. If tif {@dodf otifr} objfdt is bn
+     * {@dodf instbndfof} {@dodf X509CRLEntry}, tifn
+     * its fndodfd form (tif innfr SEQUENCE) is rftrifvfd bnd dompbrfd
+     * witi tif fndodfd form of tiis CRL fntry.
      *
-     * @param other the object to test for equality with this CRL entry.
-     * @return true iff the encoded forms of the two CRL entries
-     * match, false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis CRL fntry.
+     * @rfturn truf iff tif fndodfd forms of tif two CRL fntrifs
+     * mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof X509CRLEntry))
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof X509CRLEntry))
+            rfturn fblsf;
         try {
-            byte[] thisCRLEntry = this.getEncoded();
-            byte[] otherCRLEntry = ((X509CRLEntry)other).getEncoded();
+            bytf[] tiisCRLEntry = tiis.gftEndodfd();
+            bytf[] otifrCRLEntry = ((X509CRLEntry)otifr).gftEndodfd();
 
-            if (thisCRLEntry.length != otherCRLEntry.length)
-                return false;
-            for (int i = 0; i < thisCRLEntry.length; i++)
-                 if (thisCRLEntry[i] != otherCRLEntry[i])
-                     return false;
-        } catch (CRLException ce) {
-            return false;
+            if (tiisCRLEntry.lfngti != otifrCRLEntry.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < tiisCRLEntry.lfngti; i++)
+                 if (tiisCRLEntry[i] != otifrCRLEntry[i])
+                     rfturn fblsf;
+        } dbtdi (CRLExdfption df) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a hashcode value for this CRL entry from its
-     * encoded form.
+     * Rfturns b ibsidodf vbluf for tiis CRL fntry from its
+     * fndodfd form.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        int     retval = 0;
+    publid int ibsiCodf() {
+        int     rftvbl = 0;
         try {
-            byte[] entryData = this.getEncoded();
-            for (int i = 1; i < entryData.length; i++)
-                 retval += entryData[i] * i;
+            bytf[] fntryDbtb = tiis.gftEndodfd();
+            for (int i = 1; i < fntryDbtb.lfngti; i++)
+                 rftvbl += fntryDbtb[i] * i;
 
-        } catch (CRLException ce) {
-            return(retval);
+        } dbtdi (CRLExdfption df) {
+            rfturn(rftvbl);
         }
-        return(retval);
+        rfturn(rftvbl);
     }
 
     /**
-     * Returns the ASN.1 DER-encoded form of this CRL Entry,
-     * that is the inner SEQUENCE.
+     * Rfturns tif ASN.1 DER-fndodfd form of tiis CRL Entry,
+     * tibt is tif innfr SEQUENCE.
      *
-     * @return the encoded form of this certificate
-     * @exception CRLException if an encoding error occurs.
+     * @rfturn tif fndodfd form of tiis dfrtifidbtf
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
      */
-    public abstract byte[] getEncoded() throws CRLException;
+    publid bbstrbdt bytf[] gftEndodfd() tirows CRLExdfption;
 
     /**
-     * Gets the serial number from this X509CRLEntry,
-     * the <em>userCertificate</em>.
+     * Gfts tif sfribl numbfr from tiis X509CRLEntry,
+     * tif <fm>usfrCfrtifidbtf</fm>.
      *
-     * @return the serial number.
+     * @rfturn tif sfribl numbfr.
      */
-    public abstract BigInteger getSerialNumber();
+    publid bbstrbdt BigIntfgfr gftSfriblNumbfr();
 
     /**
-     * Get the issuer of the X509Certificate described by this entry. If
-     * the certificate issuer is also the CRL issuer, this method returns
+     * Gft tif issufr of tif X509Cfrtifidbtf dfsdribfd by tiis fntry. If
+     * tif dfrtifidbtf issufr is blso tif CRL issufr, tiis mftiod rfturns
      * null.
      *
-     * <p>This method is used with indirect CRLs. The default implementation
-     * always returns null. Subclasses that wish to support indirect CRLs
-     * should override it.
+     * <p>Tiis mftiod is usfd witi indirfdt CRLs. Tif dffbult implfmfntbtion
+     * blwbys rfturns null. Subdlbssfs tibt wisi to support indirfdt CRLs
+     * siould ovfrridf it.
      *
-     * @return the issuer of the X509Certificate described by this entry
-     * or null if it is issued by the CRL issuer.
+     * @rfturn tif issufr of tif X509Cfrtifidbtf dfsdribfd by tiis fntry
+     * or null if it is issufd by tif CRL issufr.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public X500Principal getCertificateIssuer() {
-        return null;
+    publid X500Prindipbl gftCfrtifidbtfIssufr() {
+        rfturn null;
     }
 
     /**
-     * Gets the revocation date from this X509CRLEntry,
-     * the <em>revocationDate</em>.
+     * Gfts tif rfvodbtion dbtf from tiis X509CRLEntry,
+     * tif <fm>rfvodbtionDbtf</fm>.
      *
-     * @return the revocation date.
+     * @rfturn tif rfvodbtion dbtf.
      */
-    public abstract Date getRevocationDate();
+    publid bbstrbdt Dbtf gftRfvodbtionDbtf();
 
     /**
-     * Returns true if this CRL entry has extensions.
+     * Rfturns truf if tiis CRL fntry ibs fxtfnsions.
      *
-     * @return true if this entry has extensions, false otherwise.
+     * @rfturn truf if tiis fntry ibs fxtfnsions, fblsf otifrwisf.
      */
-    public abstract boolean hasExtensions();
+    publid bbstrbdt boolfbn ibsExtfnsions();
 
     /**
-     * Returns a string representation of this CRL entry.
+     * Rfturns b string rfprfsfntbtion of tiis CRL fntry.
      *
-     * @return a string representation of this CRL entry.
+     * @rfturn b string rfprfsfntbtion of tiis CRL fntry.
      */
-    public abstract String toString();
+    publid bbstrbdt String toString();
 
     /**
-     * Returns the reason the certificate has been revoked, as specified
-     * in the Reason Code extension of this CRL entry.
+     * Rfturns tif rfbson tif dfrtifidbtf ibs bffn rfvokfd, bs spfdififd
+     * in tif Rfbson Codf fxtfnsion of tiis CRL fntry.
      *
-     * @return the reason the certificate has been revoked, or
-     *    {@code null} if this CRL entry does not have
-     *    a Reason Code extension
-     * @since 1.7
+     * @rfturn tif rfbson tif dfrtifidbtf ibs bffn rfvokfd, or
+     *    {@dodf null} if tiis CRL fntry dofs not ibvf
+     *    b Rfbson Codf fxtfnsion
+     * @sindf 1.7
      */
-    public CRLReason getRevocationReason() {
-        if (!hasExtensions()) {
-            return null;
+    publid CRLRfbson gftRfvodbtionRfbson() {
+        if (!ibsExtfnsions()) {
+            rfturn null;
         }
-        return X509CRLEntryImpl.getRevocationReason(this);
+        rfturn X509CRLEntryImpl.gftRfvodbtionRfbson(tiis);
     }
 }

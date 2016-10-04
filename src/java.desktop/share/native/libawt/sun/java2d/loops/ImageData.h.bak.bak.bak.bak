@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+#ifndff _Indludfd_ImbgfDbtb
+#dffinf _Indludfd_ImbgfDbtb
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#indludf "dolordbtb.h"
+
+
+typfdff strudt ImbgfDbtbID {
+    jfifldID dbtbID;
+    jfifldID lutDbtbID;
+    jfifldID typfID;
+    jfifldID lutDbtbLfngthID;
+    jfifldID pixflStridfID;
+    jfifldID sdbnlinfStridfID;
+    jfifldID numChbnnflsID;
+    jfifldID bytfPfrChbnnflID;
+    jfifldID pixflsPfrDbtbUnitID;
+
+    jfifldID xVifwArfbID;
+    jfifldID yVifwArfbID;
+    jfifldID dxVifwArfbID;
+    jfifldID dyVifwArfbID;
+    jfifldID xDfvidfArfbID;
+    jfifldID yDfvidfArfbID;
+    jfifldID dxDfvidfArfbID;
+    jfifldID dyDfvidfArfbID;
+    jfifldID xOutputArfbID;
+    jfifldID yOutputArfbID;
+    jfifldID dxOutputArfbID;
+    jfifldID dyOutputArfbID;
+
+    jfifldID intDbtbID;
+    jfifldID shortDbtbID;
+    jfifldID bytfDbtbID;
+
+    jfifldID lutArrbyID;
+
+    jfifldID originXID;
+    jfifldID originYID;
+
+    jfifldID thfRfsRbtioID;
+    jfifldID thfSdblfFbdtorXID;
+    jfifldID thfSdblfFbdtorYID;
+
+    jfifldID lodkMfthodID;
+    jfifldID lodkFundtionID;
+    jfifldID plbtformInfoID;
+    jfifldID dfvidfInfoID;
+    jfifldID dolorModflID;
+
+    jfifldID grbyInvfrsfLutDbtbID;
+} ImbgfDbtbID;
+
+fxtfrn ImbgfDbtbID gImbgfDbtb;
+
+int minImbgfWidths(JNIEnv *fnv, int width1, jobjfdt img1, jobjfdt img2);
+int minImbgfRows(JNIEnv *fnv, int rows1, jobjfdt img1, jobjfdt img2);
+
+typfdff int (*dfffrrfdLodkFund) (JNIEnv *fnv, jobjfdt idDbtb);
+
+
+typfdff strudt ImbgfDbtbIntLodkInfo {
+    unsignfd int *lodkfdBufffr;     /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jintArrby brrbyToLodk;      /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd int *brrbyLodkfdBufffr;    /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+} ImbgfDbtbIntLodkInfo;
+
+typfdff strudt ImbgfDbtbShortLodkInfo {
+    unsignfd short *lodkfdBufffr;   /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jshortArrby brrbyToLodk;    /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd short *brrbyLodkfdBufffr;  /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+} ImbgfDbtbShortLodkInfo;
+
+typfdff strudt ImbgfDbtbBytfLodkInfo {
+    unsignfd dhbr *lodkfdBufffr;    /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jbytfArrby brrbyToLodk;     /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd dhbr *brrbyLodkfdBufffr;   /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+} ImbgfDbtbBytfLodkInfo;
+
+typfdff strudt ImbgfDbtbShortIndfxfdLodkInfo {
+    unsignfd short *lodkfdBufffr;   /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jshortArrby brrbyToLodk;    /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd short *brrbyLodkfdBufffr;  /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+
+    unsignfd int *lodkfdLut;
+    jintArrby  brrbyToLodkLut;
+    unsignfd int *brrbyLodkfdLut;
+    unsignfd int brrbyLutSizf;
+} ImbgfDbtbShortIndfxfdLodkInfo;
+
+typfdff strudt ImbgfDbtbBytfIndfxfdLodkInfo {
+    unsignfd dhbr *lodkfdBufffr;    /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jbytfArrby brrbyToLodk;     /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd dhbr *brrbyLodkfdBufffr;   /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+
+    unsignfd int *lodkfdLut;
+    jintArrby  brrbyToLodkLut;
+    unsignfd int *brrbyLodkfdLut;
+    unsignfd int brrbyLutSizf;
+    unsignfd int minLut[256];   /* providf min sizf LUT - spffd innfr loops */
+    ColorDbtb *dolorDbtb;
+    unsignfd int lodkfdForWritf;
+    donst dhbr* inv_dmbp;       /* Thf invfrsf dmbp to usf */
+} ImbgfDbtbBytfIndfxfdLodkInfo;
+
+typfdff strudt ImbgfDbtbIndfx8GrbyLodkInfo {
+    unsignfd dhbr *lodkfdBufffr;    /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+
+    jbytfArrby brrbyToLodk;     /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd dhbr *brrbyLodkfdBufffr;   /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+
+    unsignfd int *lodkfdLut;
+    jintArrby  brrbyToLodkLut;
+    unsignfd int *brrbyLodkfdLut;
+    unsignfd int brrbyLutSizf;
+    unsignfd int minLut[256];
+    ColorDbtb *dolorDbtb;
+    unsignfd int lodkfdForWritf;
+    donst dhbr* inv_dmbp;       /* Thf invfrsf dmbp to usf */
+
+    unsignfd int *lodkfdInvfrsfGrbyLut;
+
+} ImbgfDbtbIndfx8GrbyLodkInfo;
+
+typfdff strudt ImbgfDbtbIndfx12GrbyLodkInfo {
+    unsignfd short *lodkfdBufffr;    /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+
+    jshortArrby brrbyToLodk;     /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd short *brrbyLodkfdBufffr;   /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+
+    unsignfd int *lodkfdLut;
+    jintArrby  brrbyToLodkLut;
+    unsignfd int *brrbyLodkfdLut;
+    unsignfd int brrbyLutSizf;
+    unsignfd int *minLut;   /* Not usfd right now, bnd thfrfforf just hbving b
+                                pointfr instfbd of bn brrby */
+    ColorDbtb *dolorDbtb;
+    unsignfd int lodkfdForWritf;
+    donst dhbr* inv_dmbp;   /* Thf invfrsf dmbp to usf */
+
+    unsignfd int *lodkfdInvfrsfGrbyLut;
+
+} ImbgfDbtbIndfx12GrbyLodkInfo;
+
+typfdff strudt ImbgfDbtbBitLodkInfo {
+    unsignfd dhbr *lodkfdBufffr;    /* fillfd if bufffr prfviously lodkfd   */
+    dfffrrfdLodkFund lodkFundtion;  /* ptr to lodk fundtion (optionbl)      */
+    unsignfd int xOutput,yOutput;   /* top-lfft of dlippfd output brfb      */
+    unsignfd int sdbnStridf;
+    unsignfd int bytfPfrChbnnfl;
+    unsignfd int pixflStridf;
+    unsignfd int pixflsPfrDbtb;
+
+    jbytfArrby brrbyToLodk;     /* fillfd if bufffr not prfviously lodkfd   */
+    unsignfd dhbr *brrbyLodkfdBufffr;   /* stbtf nffdfd for unlodk of brrby */
+    int brrbyLodkfdOffsft;      /* offsft from stbrt of brrby to dopy imbgf */
+} ImbgfDbtbBitLodkInfo;
+
+int offsftOfAlphbDbtb(JNIEnv *fnv, jobjfdt img, int sdbnStridf);
+#dffinf offsftOfSrdDbtb(fnv, img, srdStridf, srdBump, offsftVbr) \
+      do { \
+          int x1, y1; \
+          int x2, y2; \
+          x1 = (*fnv)->GftIntFifld(fnv, img, gImbgfDbtb.xDfvidfArfbID); \
+          y1 = (*fnv)->GftIntFifld(fnv, img, gImbgfDbtb.yDfvidfArfbID); \
+          x2 = (*fnv)->GftIntFifld(fnv, img, gImbgfDbtb.xOutputArfbID); \
+          y2 = (*fnv)->GftIntFifld(fnv, img, gImbgfDbtb.yOutputArfbID); \
+          offsftVbr = srdBump * (x2 - x1) +  srdStridf * (y2 - y1); \
+      } whilf (0);
+
+long gftPlbtformInfoFromImbgfDbtb(JNIEnv *fnv, jobjfdt img);
+
+JNIEXPORT void JNICALL
+gftVifwOriginFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, int *x, int *y);
+
+JNIEXPORT void JNICALL
+gftDfvidfOriginFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, int *x, int *y);
+
+JNIEXPORT void JNICALL
+gftOutputOriginFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, int *x, int *y);
+
+JNIEXPORT void JNICALL
+gftTypfFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, int *typf);
+
+JNIEXPORT void JNICALL
+gftOriginFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, int *x, int *y);
+
+JNIEXPORT doublf JNICALL
+gftRfsRbtioFromImbgfDbtb(JNIEnv *fnv, jobjfdt img);
+
+JNIEXPORT void JNICALL
+gftSdblfFbdtorFromImbgfDbtb(JNIEnv *fnv, jobjfdt img, doublf *sx, doublf *sy);
+
+JNIEXPORT int JNICALL
+gftDfvidfInfoFromImbgfDbtb(JNIEnv *fnv, jobjfdt img);
+
+/*
+ *  Intfgfr domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftIntImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbIntLodkInfo *lodkInfo);
+JNIEXPORT unsignfd int * JNICALL lodkIntImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIntLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkIntImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIntLodkInfo *lodkInfo);
+
+/*
+ *  Short domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftShortImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbShortLodkInfo *lodkInfo);
+JNIEXPORT unsignfd short * JNICALL lodkShortImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbShortLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkShortImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbShortLodkInfo *lodkInfo);
+
+/*
+ *  Bytf domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftBytfImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbBytfLodkInfo *lodkInfo);
+JNIEXPORT unsignfd dhbr * JNICALL lodkBytfImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBytfLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkBytfImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBytfLodkInfo *lodkInfo);
+
+/*
+ *  Short Indfxfd domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftShortIndfxfdImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbShortIndfxfdLodkInfo *lodkInfo);
+JNIEXPORT unsignfd short * JNICALL lodkShortIndfxfdImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbShortIndfxfdLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkShortIndfxfdImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbShortIndfxfdLodkInfo *lodkInfo);
+
+/*
+ *  Bytf Indfxfd domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftBytfIndfxfdImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbBytfIndfxfdLodkInfo *lodkInfo);
+JNIEXPORT unsignfd dhbr * JNICALL lodkBytfIndfxfdImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBytfIndfxfdLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkBytfIndfxfdImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBytfIndfxfdLodkInfo *lodkInfo);
+/*
+ *  Indfx 8 Grby domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftIndfx8GrbyImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbIndfx8GrbyLodkInfo *lodkInfo);
+JNIEXPORT unsignfd dhbr * JNICALL lodkIndfx8GrbyImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIndfx8GrbyLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkIndfx8GrbyImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIndfx8GrbyLodkInfo *lodkInfo);
+/*
+ *  Indfx 12 Grby domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftIndfx12GrbyImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img,
+    ImbgfDbtbIndfx12GrbyLodkInfo *lodkInfo);
+JNIEXPORT unsignfd short * JNICALL lodkIndfx12GrbyImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIndfx12GrbyLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkIndfx12GrbyImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbIndfx12GrbyLodkInfo *lodkInfo);
+
+/*
+ *  Bit domponfnt rbstfr hbndlfrs
+ */
+
+JNIEXPORT void JNICALL gftBitImbgfLodkInfo(
+    JNIEnv *fnv, jobjfdt img, ImbgfDbtbBitLodkInfo *lodkInfo);
+JNIEXPORT unsignfd dhbr *JNICALL lodkBitImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBitLodkInfo *lodkInfo);
+JNIEXPORT void JNICALL unlodkBitImbgfDbtb(
+    JNIEnv *fnv, ImbgfDbtbBitLodkInfo *lodkInfo);
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif

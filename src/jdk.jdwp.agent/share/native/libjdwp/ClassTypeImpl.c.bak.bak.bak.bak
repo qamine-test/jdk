@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "ClbssTypfImpl.h"
+#indludf "inStrfbm.h"
+#indludf "outStrfbm.h"
+
+stbtid jboolfbn
+supfrdlbss(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jdlbss dlbzz;
+
+    fnv = gftEnv();
+
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jdlbss supfrdlbss;
+
+        supfrdlbss = JNI_FUNC_PTR(fnv,GftSupfrdlbss)(fnv,dlbzz);
+        (void)outStrfbm_writfObjfdtRff(fnv, out, supfrdlbss);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jdwpError
+rfbdStbtidFifldVbluf(JNIEnv *fnv, PbdkftInputStrfbm *in, jdlbss dlbzz,
+                     jfifldID fifld, dhbr *signbturf)
+{
+    jvbluf vbluf;
+    jdwpError sfrror = JDWP_ERROR(NONE);
+
+    switdh (signbturf[0]) {
+        dbsf JDWP_TAG(ARRAY):
+        dbsf JDWP_TAG(OBJECT):
+            vbluf.l = inStrfbm_rfbdObjfdtRff(fnv, in);
+            JNI_FUNC_PTR(fnv,SftStbtidObjfdtFifld)(fnv, dlbzz, fifld, vbluf.l);
+            brfbk;
+
+        dbsf JDWP_TAG(BYTE):
+            vbluf.b = inStrfbm_rfbdBytf(in);
+            JNI_FUNC_PTR(fnv,SftStbtidBytfFifld)(fnv, dlbzz, fifld, vbluf.b);
+            brfbk;
+
+        dbsf JDWP_TAG(CHAR):
+            vbluf.d = inStrfbm_rfbdChbr(in);
+            JNI_FUNC_PTR(fnv,SftStbtidChbrFifld)(fnv, dlbzz, fifld, vbluf.d);
+            brfbk;
+
+        dbsf JDWP_TAG(FLOAT):
+            vbluf.f = inStrfbm_rfbdFlobt(in);
+            JNI_FUNC_PTR(fnv,SftStbtidFlobtFifld)(fnv, dlbzz, fifld, vbluf.f);
+            brfbk;
+
+        dbsf JDWP_TAG(DOUBLE):
+            vbluf.d = inStrfbm_rfbdDoublf(in);
+            JNI_FUNC_PTR(fnv,SftStbtidDoublfFifld)(fnv, dlbzz, fifld, vbluf.d);
+            brfbk;
+
+        dbsf JDWP_TAG(INT):
+            vbluf.i = inStrfbm_rfbdInt(in);
+            JNI_FUNC_PTR(fnv,SftStbtidIntFifld)(fnv, dlbzz, fifld, vbluf.i);
+            brfbk;
+
+        dbsf JDWP_TAG(LONG):
+            vbluf.j = inStrfbm_rfbdLong(in);
+            JNI_FUNC_PTR(fnv,SftStbtidLongFifld)(fnv, dlbzz, fifld, vbluf.j);
+            brfbk;
+
+        dbsf JDWP_TAG(SHORT):
+            vbluf.s = inStrfbm_rfbdShort(in);
+            JNI_FUNC_PTR(fnv,SftStbtidShortFifld)(fnv, dlbzz, fifld, vbluf.s);
+            brfbk;
+
+        dbsf JDWP_TAG(BOOLEAN):
+            vbluf.z = inStrfbm_rfbdBoolfbn(in);
+            JNI_FUNC_PTR(fnv,SftStbtidBoolfbnFifld)(fnv, dlbzz, fifld, vbluf.z);
+            brfbk;
+    }
+
+    if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
+        sfrror = JDWP_ERROR(INTERNAL);
+    }
+
+    rfturn sfrror;
+}
+
+stbtid jboolfbn
+sftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jint dount;
+    jdlbss dlbzz;
+
+    fnv = gftEnv();
+
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    dount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, dount) {
+
+        int i;
+
+        for (i = 0; i < dount; i++) {
+
+            jfifldID fifld;
+            dhbr *signbturf = NULL;
+            jvmtiError frror;
+            jdwpError sfrror;
+
+            fifld = inStrfbm_rfbdFifldID(in);
+            if (inStrfbm_frror(in)) {
+                brfbk;
+            }
+
+            frror = fifldSignbturf(dlbzz, fifld, NULL, &signbturf, NULL);
+            if (frror != JVMTI_ERROR_NONE) {
+                brfbk;
+            }
+
+            sfrror = rfbdStbtidFifldVbluf(fnv, in, dlbzz, fifld, signbturf);
+
+            jvmtiDfbllodbtf(signbturf);
+
+            if ( sfrror != JDWP_ERROR(NONE) ) {
+                brfbk;
+            }
+
+        }
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+invokfStbtid(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    rfturn shbrfdInvokf(in, out);
+}
+
+void *ClbssTypf_Cmds[] = { (void *)0x4
+    ,(void *)supfrdlbss
+    ,(void *)sftVblufs
+    ,(void *)invokfStbtid
+    ,(void *)invokfStbtid
+};

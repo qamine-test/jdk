@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * <em>Functional interfaces</em> provide target types for lambda expressions
- * and method references.  Each functional interface has a single abstract
- * method, called the <em>functional method</em> for that functional interface,
- * to which the lambda expression's parameter and return types are matched or
- * adapted.  Functional interfaces can provide a target type in multiple
- * contexts, such as assignment context, method invocation, or cast context:
+ * <fm>Fundtionbl intfrfbdfs</fm> providf tbrgft typfs for lbmbdb fxprfssions
+ * bnd mftiod rfffrfndfs.  Ebdi fundtionbl intfrfbdf ibs b singlf bbstrbdt
+ * mftiod, dbllfd tif <fm>fundtionbl mftiod</fm> for tibt fundtionbl intfrfbdf,
+ * to wiidi tif lbmbdb fxprfssion's pbrbmftfr bnd rfturn typfs brf mbtdifd or
+ * bdbptfd.  Fundtionbl intfrfbdfs dbn providf b tbrgft typf in multiplf
+ * dontfxts, sudi bs bssignmfnt dontfxt, mftiod invodbtion, or dbst dontfxt:
  *
- * <pre>{@code
- *     // Assignment context
- *     Predicate<String> p = String::isEmpty;
+ * <prf>{@dodf
+ *     // Assignmfnt dontfxt
+ *     Prfdidbtf<String> p = String::isEmpty;
  *
- *     // Method invocation context
- *     stream.filter(e -> e.getSize() > 10)...
+ *     // Mftiod invodbtion dontfxt
+ *     strfbm.filtfr(f -> f.gftSizf() > 10)...
  *
- *     // Cast context
- *     stream.map((ToIntFunction) e -> e.getSize())...
- * }</pre>
+ *     // Cbst dontfxt
+ *     strfbm.mbp((ToIntFundtion) f -> f.gftSizf())...
+ * }</prf>
  *
- * <p>The interfaces in this package are general purpose functional interfaces
- * used by the JDK, and are available to be used by user code as well.  While
- * they do not identify a complete set of function shapes to which lambda
- * expressions might be adapted, they provide enough to cover common
- * requirements. Other functional interfaces provided for specific purposes,
- * such as {@link java.io.FileFilter}, are defined in the packages where they
- * are used.
+ * <p>Tif intfrfbdfs in tiis pbdkbgf brf gfnfrbl purposf fundtionbl intfrfbdfs
+ * usfd by tif JDK, bnd brf bvbilbblf to bf usfd by usfr dodf bs wfll.  Wiilf
+ * tify do not idfntify b domplftf sft of fundtion sibpfs to wiidi lbmbdb
+ * fxprfssions migit bf bdbptfd, tify providf fnougi to dovfr dommon
+ * rfquirfmfnts. Otifr fundtionbl intfrfbdfs providfd for spfdifid purposfs,
+ * sudi bs {@link jbvb.io.FilfFiltfr}, brf dffinfd in tif pbdkbgfs wifrf tify
+ * brf usfd.
  *
- * <p>The interfaces in this package are annotated with
- * {@link java.lang.FunctionalInterface}. This annotation is not a requirement
- * for the compiler to recognize an interface as a functional interface, but
- * merely an aid to capture design intent and enlist the help of the compiler in
- * identifying accidental violations of design intent.
+ * <p>Tif intfrfbdfs in tiis pbdkbgf brf bnnotbtfd witi
+ * {@link jbvb.lbng.FundtionblIntfrfbdf}. Tiis bnnotbtion is not b rfquirfmfnt
+ * for tif dompilfr to rfdognizf bn intfrfbdf bs b fundtionbl intfrfbdf, but
+ * mfrfly bn bid to dbpturf dfsign intfnt bnd fnlist tif iflp of tif dompilfr in
+ * idfntifying bddidfntbl violbtions of dfsign intfnt.
  *
- * <p>Functional interfaces often represent abstract concepts like functions,
- * actions, or predicates.  In documenting functional interfaces, or referring
- * to variables typed as functional interfaces, it is common to refer directly
- * to those abstract concepts, for example using "this function" instead of
- * "the function represented by this object".  When an API method is said to
- * accept or return a functional interface in this manner, such as "applies the
- * provided function to...", this is understood to mean a <i>non-null</i>
- * reference to an object implementing the appropriate functional interface,
- * unless potential nullity is explicitly specified.
+ * <p>Fundtionbl intfrfbdfs oftfn rfprfsfnt bbstrbdt dondfpts likf fundtions,
+ * bdtions, or prfdidbtfs.  In dodumfnting fundtionbl intfrfbdfs, or rfffrring
+ * to vbribblfs typfd bs fundtionbl intfrfbdfs, it is dommon to rfffr dirfdtly
+ * to tiosf bbstrbdt dondfpts, for fxbmplf using "tiis fundtion" instfbd of
+ * "tif fundtion rfprfsfntfd by tiis objfdt".  Wifn bn API mftiod is sbid to
+ * bddfpt or rfturn b fundtionbl intfrfbdf in tiis mbnnfr, sudi bs "bpplifs tif
+ * providfd fundtion to...", tiis is undfrstood to mfbn b <i>non-null</i>
+ * rfffrfndf to bn objfdt implfmfnting tif bppropribtf fundtionbl intfrfbdf,
+ * unlfss potfntibl nullity is fxpliditly spfdififd.
  *
- * <p>The functional interfaces in this package follow an extensible naming
- * convention, as follows:
+ * <p>Tif fundtionbl intfrfbdfs in tiis pbdkbgf follow bn fxtfnsiblf nbming
+ * donvfntion, bs follows:
  *
  * <ul>
- *     <li>There are several basic function shapes, including
- *     {@link java.util.function.Function} (unary function from {@code T} to {@code R}),
- *     {@link java.util.function.Consumer} (unary function from {@code T} to {@code void}),
- *     {@link java.util.function.Predicate} (unary function from {@code T} to {@code boolean}),
- *     and {@link java.util.function.Supplier} (nilary function to {@code R}).
+ *     <li>Tifrf brf sfvfrbl bbsid fundtion sibpfs, indluding
+ *     {@link jbvb.util.fundtion.Fundtion} (unbry fundtion from {@dodf T} to {@dodf R}),
+ *     {@link jbvb.util.fundtion.Consumfr} (unbry fundtion from {@dodf T} to {@dodf void}),
+ *     {@link jbvb.util.fundtion.Prfdidbtf} (unbry fundtion from {@dodf T} to {@dodf boolfbn}),
+ *     bnd {@link jbvb.util.fundtion.Supplifr} (nilbry fundtion to {@dodf R}).
  *     </li>
  *
- *     <li>Function shapes have a natural arity based on how they are most
- *     commonly used.  The basic shapes can be modified by an arity prefix to
- *     indicate a different arity, such as
- *     {@link java.util.function.BiFunction} (binary function from {@code T} and
- *     {@code U} to {@code R}).
+ *     <li>Fundtion sibpfs ibvf b nbturbl brity bbsfd on iow tify brf most
+ *     dommonly usfd.  Tif bbsid sibpfs dbn bf modififd by bn brity prffix to
+ *     indidbtf b difffrfnt brity, sudi bs
+ *     {@link jbvb.util.fundtion.BiFundtion} (binbry fundtion from {@dodf T} bnd
+ *     {@dodf U} to {@dodf R}).
  *     </li>
  *
- *     <li>There are additional derived function shapes which extend the basic
- *     function shapes, including {@link java.util.function.UnaryOperator}
- *     (extends {@code Function}) and {@link java.util.function.BinaryOperator}
- *     (extends {@code BiFunction}).
+ *     <li>Tifrf brf bdditionbl dfrivfd fundtion sibpfs wiidi fxtfnd tif bbsid
+ *     fundtion sibpfs, indluding {@link jbvb.util.fundtion.UnbryOpfrbtor}
+ *     (fxtfnds {@dodf Fundtion}) bnd {@link jbvb.util.fundtion.BinbryOpfrbtor}
+ *     (fxtfnds {@dodf BiFundtion}).
  *     </li>
  *
- *     <li>Type parameters of functional interfaces can be specialized to
- *     primitives with additional type prefixes.  To specialize the return type
- *     for a type that has both generic return type and generic arguments, we
- *     prefix {@code ToXxx}, as in {@link java.util.function.ToIntFunction}.
- *     Otherwise, type arguments are specialized left-to-right, as in
- *     {@link java.util.function.DoubleConsumer}
- *     or {@link java.util.function.ObjIntConsumer}.
- *     (The type prefix {@code Obj} is used to indicate that we don't want to
- *     specialize this parameter, but want to move on to the next parameter,
- *     as in {@link java.util.function.ObjIntConsumer}.)
- *     These schemes can be combined, as in {@code IntToDoubleFunction}.
+ *     <li>Typf pbrbmftfrs of fundtionbl intfrfbdfs dbn bf spfdiblizfd to
+ *     primitivfs witi bdditionbl typf prffixfs.  To spfdiblizf tif rfturn typf
+ *     for b typf tibt ibs boti gfnfrid rfturn typf bnd gfnfrid brgumfnts, wf
+ *     prffix {@dodf ToXxx}, bs in {@link jbvb.util.fundtion.ToIntFundtion}.
+ *     Otifrwisf, typf brgumfnts brf spfdiblizfd lfft-to-rigit, bs in
+ *     {@link jbvb.util.fundtion.DoublfConsumfr}
+ *     or {@link jbvb.util.fundtion.ObjIntConsumfr}.
+ *     (Tif typf prffix {@dodf Obj} is usfd to indidbtf tibt wf don't wbnt to
+ *     spfdiblizf tiis pbrbmftfr, but wbnt to movf on to tif nfxt pbrbmftfr,
+ *     bs in {@link jbvb.util.fundtion.ObjIntConsumfr}.)
+ *     Tifsf sdifmfs dbn bf dombinfd, bs in {@dodf IntToDoublfFundtion}.
  *     </li>
  *
- *     <li>If there are specialization prefixes for all arguments, the arity
- *     prefix may be left out (as in {@link java.util.function.ObjIntConsumer}).
+ *     <li>If tifrf brf spfdiblizbtion prffixfs for bll brgumfnts, tif brity
+ *     prffix mby bf lfft out (bs in {@link jbvb.util.fundtion.ObjIntConsumfr}).
  *     </li>
  * </ul>
  *
- * @see java.lang.FunctionalInterface
- * @since 1.8
+ * @sff jbvb.lbng.FundtionblIntfrfbdf
+ * @sindf 1.8
  */
-package java.util.function;
+pbdkbgf jbvb.util.fundtion;

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
 
-import java.util.Base64;
+import jbvb.util.Bbsf64;
 
 /**
- * BasicAuthenticator provides an implementation of HTTP Basic
- * authentication. It is an abstract class and must be extended
- * to provide an implementation of {@link #checkCredentials(String,String)}
- * which is called to verify each incoming request.
+ * BbsidAutifntidbtor providfs bn implfmfntbtion of HTTP Bbsid
+ * butifntidbtion. It is bn bbstrbdt dlbss bnd must bf fxtfndfd
+ * to providf bn implfmfntbtion of {@link #difdkCrfdfntibls(String,String)}
+ * wiidi is dbllfd to vfrify fbdi indoming rfqufst.
  */
-@jdk.Exported
-public abstract class BasicAuthenticator extends Authenticator {
+@jdk.Exportfd
+publid bbstrbdt dlbss BbsidAutifntidbtor fxtfnds Autifntidbtor {
 
-    protected String realm;
+    protfdtfd String rfblm;
 
     /**
-     * Creates a BasicAuthenticator for the given HTTP realm
-     * @param realm The HTTP Basic authentication realm
-     * @throws NullPointerException if the realm is an empty string
+     * Crfbtfs b BbsidAutifntidbtor for tif givfn HTTP rfblm
+     * @pbrbm rfblm Tif HTTP Bbsid butifntidbtion rfblm
+     * @tirows NullPointfrExdfption if tif rfblm is bn fmpty string
      */
-    public BasicAuthenticator (String realm) {
-        this.realm = realm;
+    publid BbsidAutifntidbtor (String rfblm) {
+        tiis.rfblm = rfblm;
     }
 
     /**
-     * returns the realm this BasicAuthenticator was created with
-     * @return the authenticator's realm string.
+     * rfturns tif rfblm tiis BbsidAutifntidbtor wbs drfbtfd witi
+     * @rfturn tif butifntidbtor's rfblm string.
      */
-    public String getRealm () {
-        return realm;
+    publid String gftRfblm () {
+        rfturn rfblm;
     }
 
-    public Result authenticate (HttpExchange t)
+    publid Rfsult butifntidbtf (HttpExdibngf t)
     {
-        Headers rmap = t.getRequestHeaders();
+        Hfbdfrs rmbp = t.gftRfqufstHfbdfrs();
         /*
-         * look for auth token
+         * look for buti tokfn
          */
-        String auth = rmap.getFirst ("Authorization");
-        if (auth == null) {
-            Headers map = t.getResponseHeaders();
-            map.set ("WWW-Authenticate", "Basic realm=" + "\""+realm+"\"");
-            return new Authenticator.Retry (401);
+        String buti = rmbp.gftFirst ("Autiorizbtion");
+        if (buti == null) {
+            Hfbdfrs mbp = t.gftRfsponsfHfbdfrs();
+            mbp.sft ("WWW-Autifntidbtf", "Bbsid rfblm=" + "\""+rfblm+"\"");
+            rfturn nfw Autifntidbtor.Rftry (401);
         }
-        int sp = auth.indexOf (' ');
-        if (sp == -1 || !auth.substring(0, sp).equals ("Basic")) {
-            return new Authenticator.Failure (401);
+        int sp = buti.indfxOf (' ');
+        if (sp == -1 || !buti.substring(0, sp).fqubls ("Bbsid")) {
+            rfturn nfw Autifntidbtor.Fbilurf (401);
         }
-        byte[] b = Base64.getDecoder().decode(auth.substring(sp+1));
-        String userpass = new String (b);
-        int colon = userpass.indexOf (':');
-        String uname = userpass.substring (0, colon);
-        String pass = userpass.substring (colon+1);
+        bytf[] b = Bbsf64.gftDfdodfr().dfdodf(buti.substring(sp+1));
+        String usfrpbss = nfw String (b);
+        int dolon = usfrpbss.indfxOf (':');
+        String unbmf = usfrpbss.substring (0, dolon);
+        String pbss = usfrpbss.substring (dolon+1);
 
-        if (checkCredentials (uname, pass)) {
-            return new Authenticator.Success (
-                new HttpPrincipal (
-                    uname, realm
+        if (difdkCrfdfntibls (unbmf, pbss)) {
+            rfturn nfw Autifntidbtor.Suddfss (
+                nfw HttpPrindipbl (
+                    unbmf, rfblm
                 )
             );
-        } else {
-            /* reject the request again with 401 */
+        } flsf {
+            /* rfjfdt tif rfqufst bgbin witi 401 */
 
-            Headers map = t.getResponseHeaders();
-            map.set ("WWW-Authenticate", "Basic realm=" + "\""+realm+"\"");
-            return new Authenticator.Failure(401);
+            Hfbdfrs mbp = t.gftRfsponsfHfbdfrs();
+            mbp.sft ("WWW-Autifntidbtf", "Bbsid rfblm=" + "\""+rfblm+"\"");
+            rfturn nfw Autifntidbtor.Fbilurf(401);
         }
     }
 
     /**
-     * called for each incoming request to verify the
-     * given name and password in the context of this
-     * Authenticator's realm. Any caching of credentials
-     * must be done by the implementation of this method
-     * @param username the username from the request
-     * @param password the password from the request
-     * @return <code>true</code> if the credentials are valid,
-     *    <code>false</code> otherwise.
+     * dbllfd for fbdi indoming rfqufst to vfrify tif
+     * givfn nbmf bnd pbssword in tif dontfxt of tiis
+     * Autifntidbtor's rfblm. Any dbdiing of drfdfntibls
+     * must bf donf by tif implfmfntbtion of tiis mftiod
+     * @pbrbm usfrnbmf tif usfrnbmf from tif rfqufst
+     * @pbrbm pbssword tif pbssword from tif rfqufst
+     * @rfturn <dodf>truf</dodf> if tif drfdfntibls brf vblid,
+     *    <dodf>fblsf</dodf> otifrwisf.
      */
-    public abstract boolean checkCredentials (String username, String password);
+    publid bbstrbdt boolfbn difdkCrfdfntibls (String usfrnbmf, String pbssword);
 }
 

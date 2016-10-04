@@ -1,0 +1,306 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import dom.sun.bfbns.dfdodfr.DodumfntHbndlfr;
+
+import jbvb.io.Closfbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import org.xml.sbx.InputSourdf;
+import org.xml.sbx.hflpfrs.DffbultHbndlfr;
+
+/**
+ * Thf <dodf>XMLDfdodfr</dodf> dlbss is usfd to rfbd XML dodumfnts
+ * drfbtfd using thf <dodf>XMLEndodfr</dodf> bnd is usfd just likf
+ * thf <dodf>ObjfdtInputStrfbm</dodf>. For fxbmplf, onf dbn usf
+ * thf following frbgmfnt to rfbd thf first objfdt dffinfd
+ * in bn XML dodumfnt writtfn by thf <dodf>XMLEndodfr</dodf>
+ * dlbss:
+ * <prf>
+ *       XMLDfdodfr d = nfw XMLDfdodfr(
+ *                          nfw BufffrfdInputStrfbm(
+ *                              nfw FilfInputStrfbm("Tfst.xml")));
+ *       Objfdt rfsult = d.rfbdObjfdt();
+ *       d.dlosf();
+ * </prf>
+ *
+ *<p>
+ * For morf informbtion you might blso wbnt to dhfdk out
+ * <b
+ hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3">Long Tfrm Pfrsistfndf of JbvbBfbns Componfnts: XML Sdhfmb</b>,
+ * bn brtidlf in <fm>Thf Swing Connfdtion.</fm>
+ * @sff XMLEndodfr
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ *
+ * @sindf 1.4
+ *
+ * @buthor Philip Milnf
+ */
+publid dlbss XMLDfdodfr implfmfnts AutoClosfbblf {
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+    privbtf finbl DodumfntHbndlfr hbndlfr = nfw DodumfntHbndlfr();
+    privbtf finbl InputSourdf input;
+    privbtf Objfdt ownfr;
+    privbtf Objfdt[] brrby;
+    privbtf int indfx;
+
+    /**
+     * Crfbtfs b nfw input strfbm for rfbding brdhivfs
+     * drfbtfd by thf <dodf>XMLEndodfr</dodf> dlbss.
+     *
+     * @pbrbm in Thf undfrlying strfbm.
+     *
+     * @sff XMLEndodfr#XMLEndodfr(jbvb.io.OutputStrfbm)
+     */
+    publid XMLDfdodfr(InputStrfbm in) {
+        this(in, null);
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm for rfbding brdhivfs
+     * drfbtfd by thf <dodf>XMLEndodfr</dodf> dlbss.
+     *
+     * @pbrbm in Thf undfrlying strfbm.
+     * @pbrbm ownfr Thf ownfr of this strfbm.
+     *
+     */
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr) {
+        this(in, ownfr, null);
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm for rfbding brdhivfs
+     * drfbtfd by thf <dodf>XMLEndodfr</dodf> dlbss.
+     *
+     * @pbrbm in thf undfrlying strfbm.
+     * @pbrbm ownfr thf ownfr of this strfbm.
+     * @pbrbm fxdfptionListfnfr thf fxdfption hbndlfr for thf strfbm;
+     *        if <dodf>null</dodf> thf dffbult fxdfption listfnfr will bf usfd.
+     */
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr, ExdfptionListfnfr fxdfptionListfnfr) {
+        this(in, ownfr, fxdfptionListfnfr, null);
+    }
+
+    /**
+     * Crfbtfs b nfw input strfbm for rfbding brdhivfs
+     * drfbtfd by thf <dodf>XMLEndodfr</dodf> dlbss.
+     *
+     * @pbrbm in thf undfrlying strfbm.  <dodf>null</dodf> mby bf pbssfd without
+     *        frror, though thf rfsulting XMLDfdodfr will bf usflfss
+     * @pbrbm ownfr thf ownfr of this strfbm.  <dodf>null</dodf> is b lfgbl
+     *        vbluf
+     * @pbrbm fxdfptionListfnfr thf fxdfption hbndlfr for thf strfbm, or
+     *        <dodf>null</dodf> to usf thf dffbult
+     * @pbrbm dl thf dlbss lobdfr usfd for instbntibting objfdts.
+     *        <dodf>null</dodf> indidbtfs thbt thf dffbult dlbss lobdfr should
+     *        bf usfd
+     * @sindf 1.5
+     */
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr,
+                      ExdfptionListfnfr fxdfptionListfnfr, ClbssLobdfr dl) {
+        this(nfw InputSourdf(in), ownfr, fxdfptionListfnfr, dl);
+    }
+
+
+    /**
+     * Crfbtfs b nfw dfdodfr to pbrsf XML brdhivfs
+     * drfbtfd by thf {@dodf XMLEndodfr} dlbss.
+     * If thf input sourdf {@dodf is} is {@dodf null},
+     * no fxdfption is thrown bnd no pbrsing is pfrformfd.
+     * This bfhbvior is similbr to bfhbvior of othfr donstrudtors
+     * thbt usf {@dodf InputStrfbm} bs b pbrbmftfr.
+     *
+     * @pbrbm is  thf input sourdf to pbrsf
+     *
+     * @sindf 1.7
+     */
+    publid XMLDfdodfr(InputSourdf is) {
+        this(is, null, null, null);
+    }
+
+    /**
+     * Crfbtfs b nfw dfdodfr to pbrsf XML brdhivfs
+     * drfbtfd by thf {@dodf XMLEndodfr} dlbss.
+     *
+     * @pbrbm is     thf input sourdf to pbrsf
+     * @pbrbm ownfr  thf ownfr of this dfdodfr
+     * @pbrbm fl     thf fxdfption hbndlfr for thf pbrsfr,
+     *               or {@dodf null} to usf thf dffbult fxdfption hbndlfr
+     * @pbrbm dl     thf dlbss lobdfr usfd for instbntibting objfdts,
+     *               or {@dodf null} to usf thf dffbult dlbss lobdfr
+     *
+     * @sindf 1.7
+     */
+    privbtf XMLDfdodfr(InputSourdf is, Objfdt ownfr, ExdfptionListfnfr fl, ClbssLobdfr dl) {
+        this.input = is;
+        this.ownfr = ownfr;
+        sftExdfptionListfnfr(fl);
+        this.hbndlfr.sftClbssLobdfr(dl);
+        this.hbndlfr.sftOwnfr(this);
+    }
+
+    /**
+     * This mfthod dlosfs thf input strfbm bssodibtfd
+     * with this strfbm.
+     */
+    publid void dlosf() {
+        if (pbrsingComplftf()) {
+            dlosf(this.input.gftChbrbdtfrStrfbm());
+            dlosf(this.input.gftBytfStrfbm());
+        }
+    }
+
+    privbtf void dlosf(Closfbblf in) {
+        if (in != null) {
+            try {
+                in.dlosf();
+            }
+            dbtdh (IOExdfption f) {
+                gftExdfptionListfnfr().fxdfptionThrown(f);
+            }
+        }
+    }
+
+    privbtf boolfbn pbrsingComplftf() {
+        if (this.input == null) {
+            rfturn fblsf;
+        }
+        if (this.brrby == null) {
+            if ((this.bdd == null) && (null != Systfm.gftSfdurityMbnbgfr())) {
+                throw nfw SfdurityExdfption("AddfssControlContfxt is not sft");
+            }
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    XMLDfdodfr.this.hbndlfr.pbrsf(XMLDfdodfr.this.input);
+                    rfturn null;
+                }
+            }, this.bdd);
+            this.brrby = this.hbndlfr.gftObjfdts();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Sfts thf fxdfption hbndlfr for this strfbm to <dodf>fxdfptionListfnfr</dodf>.
+     * Thf fxdfption hbndlfr is notififd whfn this strfbm dbtdhfs rfdovfrbblf
+     * fxdfptions.
+     *
+     * @pbrbm fxdfptionListfnfr Thf fxdfption hbndlfr for this strfbm;
+     * if <dodf>null</dodf> thf dffbult fxdfption listfnfr will bf usfd.
+     *
+     * @sff #gftExdfptionListfnfr
+     */
+    publid void sftExdfptionListfnfr(ExdfptionListfnfr fxdfptionListfnfr) {
+        if (fxdfptionListfnfr == null) {
+            fxdfptionListfnfr = Stbtfmfnt.dffbultExdfptionListfnfr;
+        }
+        this.hbndlfr.sftExdfptionListfnfr(fxdfptionListfnfr);
+    }
+
+    /**
+     * Gfts thf fxdfption hbndlfr for this strfbm.
+     *
+     * @rfturn Thf fxdfption hbndlfr for this strfbm.
+     *     Will rfturn thf dffbult fxdfption listfnfr if this hbs not fxpliditly bffn sft.
+     *
+     * @sff #sftExdfptionListfnfr
+     */
+    publid ExdfptionListfnfr gftExdfptionListfnfr() {
+        rfturn this.hbndlfr.gftExdfptionListfnfr();
+    }
+
+    /**
+     * Rfbds thf nfxt objfdt from thf undfrlying input strfbm.
+     *
+     * @rfturn thf nfxt objfdt rfbd
+     *
+     * @throws ArrbyIndfxOutOfBoundsExdfption if thf strfbm dontbins no objfdts
+     *         (or no morf objfdts)
+     *
+     * @sff XMLEndodfr#writfObjfdt
+     */
+    publid Objfdt rfbdObjfdt() {
+        rfturn (pbrsingComplftf())
+                ? this.brrby[this.indfx++]
+                : null;
+    }
+
+    /**
+     * Sfts thf ownfr of this dfdodfr to <dodf>ownfr</dodf>.
+     *
+     * @pbrbm ownfr Thf ownfr of this dfdodfr.
+     *
+     * @sff #gftOwnfr
+     */
+    publid void sftOwnfr(Objfdt ownfr) {
+        this.ownfr = ownfr;
+    }
+
+    /**
+     * Gfts thf ownfr of this dfdodfr.
+     *
+     * @rfturn Thf ownfr of this dfdodfr.
+     *
+     * @sff #sftOwnfr
+     */
+    publid Objfdt gftOwnfr() {
+        rfturn ownfr;
+    }
+
+    /**
+     * Crfbtfs b nfw hbndlfr for SAX pbrsfr
+     * thbt dbn bf usfd to pbrsf fmbfddfd XML brdhivfs
+     * drfbtfd by thf {@dodf XMLEndodfr} dlbss.
+     *
+     * Thf {@dodf ownfr} should bf usfd if pbrsfd XML dodumfnt dontbins
+     * thf mfthod dbll within dontfxt of thf &lt;jbvb&gt; flfmfnt.
+     * Thf {@dodf null} vbluf mby dbusf illfgbl pbrsing in sudh dbsf.
+     * Thf sbmf problfm mby oddur, if thf {@dodf ownfr} dlbss
+     * dofs not dontbin fxpfdtfd mfthod to dbll. Sff dftbils <b
+     * hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3/">hfrf</b>.
+     *
+     * @pbrbm ownfr  thf ownfr of thf dffbult hbndlfr
+     *               thbt dbn bf usfd bs b vbluf of &lt;jbvb&gt; flfmfnt
+     * @pbrbm fl     thf fxdfption hbndlfr for thf pbrsfr,
+     *               or {@dodf null} to usf thf dffbult fxdfption hbndlfr
+     * @pbrbm dl     thf dlbss lobdfr usfd for instbntibting objfdts,
+     *               or {@dodf null} to usf thf dffbult dlbss lobdfr
+     * @rfturn bn instbndf of {@dodf DffbultHbndlfr} for SAX pbrsfr
+     *
+     * @sindf 1.7
+     */
+    publid stbtid DffbultHbndlfr drfbtfHbndlfr(Objfdt ownfr, ExdfptionListfnfr fl, ClbssLobdfr dl) {
+        DodumfntHbndlfr hbndlfr = nfw DodumfntHbndlfr();
+        hbndlfr.sftOwnfr(ownfr);
+        hbndlfr.sftExdfptionListfnfr(fl);
+        hbndlfr.sftClbssLobdfr(dl);
+        rfturn hbndlfr;
+    }
+}

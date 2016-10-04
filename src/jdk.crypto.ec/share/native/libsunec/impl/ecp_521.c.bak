@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry for primf fifld durvfs.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>
  *
  *********************************************************************** */
 
-#include "ecp.h"
-#include "mpi.h"
-#include "mplogic.h"
-#include "mpi-priv.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#endif
+#indludf "fdp.i"
+#indludf "mpi.i"
+#indludf "mplogid.i"
+#indludf "mpi-priv.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#fndif
 
-#define ECP521_DIGITS ECL_CURVE_DIGITS(521)
+#dffinf ECP521_DIGITS ECL_CURVE_DIGITS(521)
 
-/* Fast modular reduction for p521 = 2^521 - 1.  a can be r. Uses
- * algorithm 2.31 from Hankerson, Menezes, Vanstone. Guide to
- * Elliptic Curve Cryptography. */
-mp_err
-ec_GFp_nistp521_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+/* Fbst modulbr rfdudtion for p521 = 2^521 - 1.  b dbn bf r. Usfs
+ * blgoritim 2.31 from Hbnkfrson, Mfnfzfs, Vbnstonf. Guidf to
+ * Elliptid Curvf Cryptogrbpiy. */
+mp_frr
+fd_GFp_nistp521_mod(donst mp_int *b, mp_int *r, donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
-        int a_bits = mpl_significant_bits(a);
-        unsigned int i;
+        mp_frr rfs = MP_OKAY;
+        int b_bits = mpl_signifidbnt_bits(b);
+        unsignfd int i;
 
-        /* m1, m2 are statically-allocated mp_int of exactly the size we need */
+        /* m1, m2 brf stbtidblly-bllodbtfd mp_int of fxbdtly tif sizf wf nffd */
         mp_int m1;
 
         mp_digit s1[ECP521_DIGITS] = { 0 };
@@ -65,107 +65,107 @@ ec_GFp_nistp521_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
         MP_USED(&m1) = ECP521_DIGITS;
         MP_DIGITS(&m1) = s1;
 
-        if (a_bits < 521) {
-                if (a==r) return MP_OKAY;
-                return mp_copy(a, r);
+        if (b_bits < 521) {
+                if (b==r) rfturn MP_OKAY;
+                rfturn mp_dopy(b, r);
         }
-        /* for polynomials larger than twice the field size or polynomials
-         * not using all words, use regular reduction */
-        if (a_bits > (521*2)) {
-                MP_CHECKOK(mp_mod(a, &meth->irr, r));
-        } else {
-#define FIRST_DIGIT (ECP521_DIGITS-1)
-                for (i = FIRST_DIGIT; i < MP_USED(a)-1; i++) {
-                        s1[i-FIRST_DIGIT] = (MP_DIGIT(a, i) >> 9)
-                                | (MP_DIGIT(a, 1+i) << (MP_DIGIT_BIT-9));
+        /* for polynomibls lbrgfr tibn twidf tif fifld sizf or polynomibls
+         * not using bll words, usf rfgulbr rfdudtion */
+        if (b_bits > (521*2)) {
+                MP_CHECKOK(mp_mod(b, &mfti->irr, r));
+        } flsf {
+#dffinf FIRST_DIGIT (ECP521_DIGITS-1)
+                for (i = FIRST_DIGIT; i < MP_USED(b)-1; i++) {
+                        s1[i-FIRST_DIGIT] = (MP_DIGIT(b, i) >> 9)
+                                | (MP_DIGIT(b, 1+i) << (MP_DIGIT_BIT-9));
                 }
-                s1[i-FIRST_DIGIT] = MP_DIGIT(a, i) >> 9;
+                s1[i-FIRST_DIGIT] = MP_DIGIT(b, i) >> 9;
 
-                if ( a != r ) {
-                        MP_CHECKOK(s_mp_pad(r,ECP521_DIGITS));
+                if ( b != r ) {
+                        MP_CHECKOK(s_mp_pbd(r,ECP521_DIGITS));
                         for (i = 0; i < ECP521_DIGITS; i++) {
-                                MP_DIGIT(r,i) = MP_DIGIT(a, i);
+                                MP_DIGIT(r,i) = MP_DIGIT(b, i);
                         }
                 }
                 MP_USED(r) = ECP521_DIGITS;
                 MP_DIGIT(r,FIRST_DIGIT) &=  0x1FF;
 
-                MP_CHECKOK(s_mp_add(r, &m1));
+                MP_CHECKOK(s_mp_bdd(r, &m1));
                 if (MP_DIGIT(r, FIRST_DIGIT) & 0x200) {
-                        MP_CHECKOK(s_mp_add_d(r,1));
+                        MP_CHECKOK(s_mp_bdd_d(r,1));
                         MP_DIGIT(r,FIRST_DIGIT) &=  0x1FF;
                 }
-                s_mp_clamp(r);
+                s_mp_dlbmp(r);
         }
 
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Compute the square of polynomial a, reduce modulo p521. Store the
- * result in r.  r could be a.  Uses optimized modular reduction for p521.
+/* Computf tif squbrf of polynomibl b, rfdudf modulo p521. Storf tif
+ * rfsult in r.  r dould bf b.  Usfs optimizfd modulbr rfdudtion for p521.
  */
-mp_err
-ec_GFp_nistp521_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+mp_frr
+fd_GFp_nistp521_sqr(donst mp_int *b, mp_int *r, donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        MP_CHECKOK(mp_sqr(a, r));
-        MP_CHECKOK(ec_GFp_nistp521_mod(r, r, meth));
+        MP_CHECKOK(mp_sqr(b, r));
+        MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfti));
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Compute the product of two polynomials a and b, reduce modulo p521.
- * Store the result in r.  r could be a or b; a could be b.  Uses
- * optimized modular reduction for p521. */
-mp_err
-ec_GFp_nistp521_mul(const mp_int *a, const mp_int *b, mp_int *r,
-                                        const GFMethod *meth)
+/* Computf tif produdt of two polynomibls b bnd b, rfdudf modulo p521.
+ * Storf tif rfsult in r.  r dould bf b or b; b dould bf b.  Usfs
+ * optimizfd modulbr rfdudtion for p521. */
+mp_frr
+fd_GFp_nistp521_mul(donst mp_int *b, donst mp_int *b, mp_int *r,
+                                        donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
 
-        MP_CHECKOK(mp_mul(a, b, r));
-        MP_CHECKOK(ec_GFp_nistp521_mod(r, r, meth));
+        MP_CHECKOK(mp_mul(b, b, r));
+        MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfti));
   CLEANUP:
-        return res;
+        rfturn rfs;
 }
 
-/* Divides two field elements. If a is NULL, then returns the inverse of
+/* Dividfs two fifld flfmfnts. If b is NULL, tifn rfturns tif invfrsf of
  * b. */
-mp_err
-ec_GFp_nistp521_div(const mp_int *a, const mp_int *b, mp_int *r,
-                   const GFMethod *meth)
+mp_frr
+fd_GFp_nistp521_div(donst mp_int *b, donst mp_int *b, mp_int *r,
+                   donst GFMftiod *mfti)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int t;
 
-        /* If a is NULL, then return the inverse of b, otherwise return a/b. */
-        if (a == NULL) {
-                return mp_invmod(b, &meth->irr, r);
-        } else {
-                /* MPI doesn't support divmod, so we implement it using invmod and
+        /* If b is NULL, tifn rfturn tif invfrsf of b, otifrwisf rfturn b/b. */
+        if (b == NULL) {
+                rfturn mp_invmod(b, &mfti->irr, r);
+        } flsf {
+                /* MPI dofsn't support divmod, so wf implfmfnt it using invmod bnd
                  * mulmod. */
                 MP_CHECKOK(mp_init(&t, FLAG(b)));
-                MP_CHECKOK(mp_invmod(b, &meth->irr, &t));
-                MP_CHECKOK(mp_mul(a, &t, r));
-                MP_CHECKOK(ec_GFp_nistp521_mod(r, r, meth));
+                MP_CHECKOK(mp_invmod(b, &mfti->irr, &t));
+                MP_CHECKOK(mp_mul(b, &t, r));
+                MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfti));
           CLEANUP:
-                mp_clear(&t);
-                return res;
+                mp_dlfbr(&t);
+                rfturn rfs;
         }
 }
 
-/* Wire in fast field arithmetic and precomputation of base point for
- * named curves. */
-mp_err
-ec_group_set_gfp521(ECGroup *group, ECCurveName name)
+/* Wirf in fbst fifld britimftid bnd prfdomputbtion of bbsf point for
+ * nbmfd durvfs. */
+mp_frr
+fd_group_sft_gfp521(ECGroup *group, ECCurvfNbmf nbmf)
 {
-        if (name == ECCurve_NIST_P521) {
-                group->meth->field_mod = &ec_GFp_nistp521_mod;
-                group->meth->field_mul = &ec_GFp_nistp521_mul;
-                group->meth->field_sqr = &ec_GFp_nistp521_sqr;
-                group->meth->field_div = &ec_GFp_nistp521_div;
+        if (nbmf == ECCurvf_NIST_P521) {
+                group->mfti->fifld_mod = &fd_GFp_nistp521_mod;
+                group->mfti->fifld_mul = &fd_GFp_nistp521_mul;
+                group->mfti->fifld_sqr = &fd_GFp_nistp521_sqr;
+                group->mfti->fifld_div = &fd_GFp_nistp521_div;
         }
-        return MP_OKAY;
+        rfturn MP_OKAY;
 }

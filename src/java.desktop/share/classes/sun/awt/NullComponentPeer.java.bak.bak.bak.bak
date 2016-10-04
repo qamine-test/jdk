@@ -1,0 +1,308 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.MfnuBbr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.pffr.CbnvbsPffr;
+import jbvb.bwt.pffr.LightwfightPffr;
+import jbvb.bwt.pffr.PbnflPffr;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.ContbinfrPffr;
+import jbvb.bwt.Rfdtbnglf;
+import sun.jbvb2d.pipf.Rfgion;
+
+
+/**
+ * Implfmfnts thf LightwfightPffr intfrfbdf for usf in lightwfight domponfnts
+ * thbt hbvf no nbtivf window bssodibtfd with thfm.  This gfts drfbtfd by
+ * dffbult in Componfnt so thbt Componfnt bnd Contbinfr dbn bf dirfdtly
+ * fxtfndfd to drfbtf usfful domponfnts writtfn fntirfly in jbvb.  Thfsf
+ * domponfnts must bf hostfd somfwhfrf highfr up in thf domponfnt trff by b
+ * nbtivf dontbinfr (sudh bs b Frbmf).
+ *
+ * This implfmfntbtion providfs no usfful sfmbntids bnd sfrvfs only bs b
+ * mbrkfr.  Onf dould providf bltfrnbtivf implfmfntbtions in jbvb thbt do
+ * somfthing usfful for somf of thf othfr pffr intfrfbdfs to minimizf thf
+ * nbtivf dodf.
+ *
+ * This wbs rfnbmfd from jbvb.bwt.LightwfightPffr (b horriblf bnd donfusing
+ * nbmf) bnd movfd from jbvb.bwt.Toolkit into sun.bwt bs b publid dlbss in
+ * its own filf.
+ *
+ * @buthor Timothy Prinzing
+ * @buthor Midhbfl Mbrtbk
+ */
+
+publid dlbss NullComponfntPffr implfmfnts LightwfightPffr,
+    CbnvbsPffr, PbnflPffr {
+
+    publid boolfbn isObsdurfd() {
+        rfturn fblsf;
+    }
+
+    publid boolfbn dbnDftfrminfObsdurity() {
+        rfturn fblsf;
+    }
+
+    publid boolfbn isFodusbblf() {
+        rfturn fblsf;
+    }
+
+    publid void sftVisiblf(boolfbn b) {
+    }
+
+    publid void show() {
+    }
+
+    publid void hidf() {
+    }
+
+    publid void sftEnbblfd(boolfbn b) {
+    }
+
+    publid void fnbblf() {
+    }
+
+    publid void disbblf() {
+    }
+
+    publid void pbint(Grbphids g) {
+    }
+
+    publid void rfpbint(long tm, int x, int y, int width, int hfight) {
+    }
+
+    publid void print(Grbphids g) {
+    }
+
+    publid void sftBounds(int x, int y, int width, int hfight, int op) {
+    }
+
+    publid void rfshbpf(int x, int y, int width, int hfight) {
+    }
+
+    publid void doblfsdfPbintEvfnt(PbintEvfnt f) {
+    }
+
+    publid boolfbn hbndlfEvfnt(Evfnt f) {
+        rfturn fblsf;
+    }
+
+    publid void hbndlfEvfnt(jbvb.bwt.AWTEvfnt brg0) {
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(1,1);
+    }
+
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn nfw Dimfnsion(1,1);
+    }
+
+    publid ColorModfl gftColorModfl() {
+        rfturn null;
+    }
+
+    publid Grbphids gftGrbphids() {
+        rfturn null;
+    }
+
+    publid GrbphidsConfigurbtion gftGrbphidsConfigurbtion() {
+        rfturn null;
+    }
+
+    publid FontMftrids  gftFontMftrids(Font font) {
+        rfturn null;
+    }
+
+    publid void disposf() {
+    // no nbtivf dodf
+    }
+
+    publid void sftForfground(Color d) {
+    }
+
+    publid void sftBbdkground(Color d) {
+    }
+
+    publid void sftFont(Font f) {
+    }
+
+    publid void updbtfCursorImmfdibtfly() {
+    }
+
+    publid void sftCursor(Cursor dursor) {
+    }
+
+    publid boolfbn rfqufstFodus
+        (Componfnt lightwfightChild, boolfbn tfmporbry,
+         boolfbn fodusfdWindowChbngfAllowfd, long timf, CbusfdFodusEvfnt.Cbusf dbusf) {
+        rfturn fblsf;
+    }
+
+    publid Imbgf drfbtfImbgf(ImbgfProdudfr produdfr) {
+        rfturn null;
+    }
+
+    publid Imbgf drfbtfImbgf(int width, int hfight) {
+        rfturn null;
+    }
+
+    publid boolfbn prfpbrfImbgf(Imbgf img, int w, int h, ImbgfObsfrvfr o) {
+        rfturn fblsf;
+    }
+
+    publid int  dhfdkImbgf(Imbgf img, int w, int h, ImbgfObsfrvfr o) {
+        rfturn 0;
+    }
+
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn gftPrfffrrfdSizf();
+    }
+
+    publid Dimfnsion minimumSizf() {
+        rfturn gftMinimumSizf();
+    }
+
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn nfw Point(0,0);
+    }
+
+    publid Insfts gftInsfts() {
+        rfturn insfts();
+    }
+
+    publid void bfginVblidbtf() {
+    }
+
+    publid void fndVblidbtf() {
+    }
+
+    publid Insfts insfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
+    }
+
+    publid boolfbn isPbintPfnding() {
+        rfturn fblsf;
+    }
+
+    publid boolfbn hbndlfsWhfflSdrolling() {
+        rfturn fblsf;
+    }
+
+    publid VolbtilfImbgf drfbtfVolbtilfImbgf(int width, int hfight) {
+        rfturn null;
+    }
+
+    publid void bfginLbyout() {
+    }
+
+    publid void fndLbyout() {
+    }
+
+    publid void drfbtfBufffrs(int numBufffrs, BufffrCbpbbilitifs dbps)
+        throws AWTExdfption {
+        throw nfw AWTExdfption(
+            "Pbgf-flipping is not bllowfd on b lightwfight domponfnt");
+    }
+    publid Imbgf gftBbdkBufffr() {
+        throw nfw IllfgblStbtfExdfption(
+            "Pbgf-flipping is not bllowfd on b lightwfight domponfnt");
+    }
+    publid void flip(int x1, int y1, int x2, int y2,
+                     BufffrCbpbbilitifs.FlipContfnts flipAdtion)
+    {
+        throw nfw IllfgblStbtfExdfption(
+            "Pbgf-flipping is not bllowfd on b lightwfight domponfnt");
+    }
+    publid void dfstroyBufffrs() {
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.ComponfntPffr#isRfpbrfntSupportfd
+     */
+    publid boolfbn isRfpbrfntSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.ComponfntPffr#rfpbrfnt
+     */
+    publid void rfpbrfnt(ContbinfrPffr nfwNbtivfPbrfnt) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid void lbyout() {
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, 0, 0);
+    }
+
+
+    /**
+      * Applifs thf shbpf to thf nbtivf domponfnt window.
+      * @sindf 1.7
+      */
+    publid void bpplyShbpf(Rfgion shbpf) {
+    }
+
+    /**
+     * Lowfrs this domponfnt bt thf bottom of thf bbovf HW pffr. If thf bbovf pbrbmftfr
+     * is null thfn thf mfthod plbdfs this domponfnt bt thf top of thf Z-ordfr.
+     */
+    publid void sftZOrdfr(ComponfntPffr bbovf) {
+    }
+
+    publid boolfbn updbtfGrbphidsDbtb(GrbphidsConfigurbtion gd) {
+        rfturn fblsf;
+    }
+
+    publid GrbphidsConfigurbtion gftAppropribtfGrbphidsConfigurbtion(
+                        GrbphidsConfigurbtion gd)
+    {
+        rfturn gd;
+    }
+}

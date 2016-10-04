@@ -1,0 +1,1114 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "X11SurfbdfDbtb.h"
+#indludf <jni.h>
+#indludf <mbth.h>
+#indludf "Rfgion.h"
+#indludf "fontsdblfrdffs.h"
+
+#indludf <X11/fxtfnsions/Xrfndfr.h>
+
+#ifdff __linux__
+    #indludf <sys/utsnbmf.h>
+#fndif
+
+/* On Solbris 10 updbtfs 8, 9, thf rfndfr.h filf dffinfs thfsf
+ * protodol vblufs but dofs not dffinf thf strudts in Xrfndfr.h.
+ * Thus in ordfr to gft thfsf blwbys dffinfd on Solbris 10
+ * wf will undffinf thf symbols if wf hbvf dftfrminfd vib thf
+ * mbkffilfs thbt Xrfndfr.h is lbdking thf strudts. This will
+ * triggfr providing our own dffinitions bs on fbrlifr updbtfs.
+ * Wf dould bssumf thbt *bll* Solbris 10 updbtf vfrsions will lbdk thf updbtfd
+ * Xrfndfr.h bnd do this bbsfd solfly on O/S bfing bny 5.10 vfrsion, but this
+ * dould still dhbngf bnd wf'd bf brokfn bgbin bs wf'd bf rf-dffining thfm.
+ */
+#ifdff SOLARIS10_NO_XRENDER_STRUCTS
+#undff X_RfndfrCrfbtfLinfbrGrbdifnt
+#undff X_RfndfrCrfbtfRbdiblGrbdifnt
+#fndif
+
+#ifndff X_RfndfrCrfbtfLinfbrGrbdifnt
+typfdff strudt _XLinfbrGrbdifnt {
+    XPointFixfd p1;
+    XPointFixfd p2;
+} XLinfbrGrbdifnt;
+#fndif
+
+#ifndff X_RfndfrCrfbtfRbdiblGrbdifnt
+typfdff strudt _XCirdlf {
+    XFixfd x;
+    XFixfd y;
+    XFixfd rbdius;
+} XCirdlf;
+
+typfdff strudt _XRbdiblGrbdifnt {
+    XCirdlf innfr;
+    XCirdlf outfr;
+} XRbdiblGrbdifnt;
+#fndif
+
+#indludf <dlfdn.h>
+
+#if dffinfd(__solbris__) || dffinfd(_AIX)
+/* Solbris 10 bnd AIX will not hbvf thfsf symbols bt runtimf */
+
+typfdff Pidturf (*XRfndfrCrfbtfLinfbrGrbdifntFundTypf)
+                                     (Displby *dpy,
+                                     donst XLinfbrGrbdifnt *grbdifnt,
+                                     donst XFixfd *stops,
+                                     donst XRfndfrColor *dolors,
+                                     int nstops);
+
+typfdff Pidturf (*XRfndfrCrfbtfRbdiblGrbdifntFundTypf)
+                                     (Displby *dpy,
+                                     donst XRbdiblGrbdifnt *grbdifnt,
+                                     donst XFixfd *stops,
+                                     donst XRfndfrColor *dolors,
+                                     int nstops);
+
+stbtid
+XRfndfrCrfbtfLinfbrGrbdifntFundTypf XRfndfrCrfbtfLinfbrGrbdifntFund = NULL;
+stbtid
+ XRfndfrCrfbtfRbdiblGrbdifntFundTypf XRfndfrCrfbtfRbdiblGrbdifntFund = NULL;
+#fndif
+
+#dffinf BUILD_TRANSFORM_MATRIX(TRANSFORM, M00, M01, M02, M10, M11, M12)                        \
+    {                                                                                          \
+      TRANSFORM.mbtrix[0][0] = M00;                                                            \
+      TRANSFORM.mbtrix[0][1] = M01;                                                            \
+      TRANSFORM.mbtrix[0][2] = M02;                                                            \
+      TRANSFORM.mbtrix[1][0] = M10;                                                            \
+      TRANSFORM.mbtrix[1][1] = M11;                                                            \
+      TRANSFORM.mbtrix[1][2] = M12;                                                            \
+      TRANSFORM.mbtrix[2][0] = 0;                                                              \
+      TRANSFORM.mbtrix[2][1] = 0;                                                              \
+      TRANSFORM.mbtrix[2][2] = 1<<16;                                                          \
+    }
+
+/* Thf xrfndfr piplfinf rfquirfs libXrfndfr.so vfrsion 0.9.3 or lbtfr. */
+#dffinf REQUIRED_XRENDER_VER1 0
+#dffinf REQUIRED_XRENDER_VER2 9
+#dffinf REQUIRED_XRENDER_VER3 3
+
+#dffinf PKGINFO_LINE_LEN_MAX 256
+#dffinf PKGINFO_LINE_CNT_MAX 50
+
+/*
+ * X protodol usfs (u_int16)lfngth to spfdify thf lfngth in 4 bytfs qubntitifs
+ * of thf wholf rfqufst.  Both XRfndfrFillRfdtbnglfs() bnd XFillRfdtbnglfs()
+ * hbvf provisions to frbgmfnt into sfvfrbl rfqufsts if thf numbfr of rfdtbnglfs
+ * plus thf durrfnt x rfqufst dofs not fit into 65535*4 bytfs.  Whilf
+ * XRfndfrCrfbtfLinfbrGrbdifnt() bnd XRfndfrCrfbtfRbdiblGrbdifnt() hbvf
+ * provisions to grbdffully dfgrbdf if thf rfsulting rfqufst would fxdffd
+ * 65535*4 bytfs.
+ *
+ * Bflow, wf dffinf b dbp of 65535*4 bytfs for thf mbximum X rfqufst pbylobd
+ * bllowfd for Non-(XRfndfrFillRfdtbnglfs() or XFillRfdtbnglfs()) API dblls,
+ * just to bf donsfrvbtivf.  This is offsft by thf sizf of our mbximum x*Rfq
+ * typf in this dompilbtion unit, whidh is xRfndfrCrfbtfRbdibGrbdifntRfq.
+ *
+ * Notf thbt sizfof(xRfndfrCrfbtfRbdibGrbdifntRfq) = 36
+ */
+#dffinf MAX_PAYLOAD (262140u - 36u)
+#dffinf MAXUINT (0xffffffffu)
+
+stbtid jboolfbn IsXRfndfrAvbilbblf(jboolfbn vfrbosf, jboolfbn ignorfLinuxVfrsion) {
+
+    void *xrfndfrlib;
+
+    int mbjor_opdodf, first_fvfnt, first_frror;
+    jboolfbn bvbilbblf = JNI_TRUE;
+
+    if (!XQufryExtfnsion(bwt_displby, "RENDER",
+                         &mbjor_opdodf, &first_fvfnt, &first_frror)) {
+        rfturn JNI_FALSE;
+    }
+
+#if dffinfd(__solbris__) || dffinfd(_AIX)
+    xrfndfrlib = dlopfn("libXrfndfr.so",RTLD_GLOBAL|RTLD_LAZY);
+    if (xrfndfrlib != NULL) {
+
+      XRfndfrCrfbtfLinfbrGrbdifntFund =
+        (XRfndfrCrfbtfLinfbrGrbdifntFundTypf)
+        dlsym(xrfndfrlib, "XRfndfrCrfbtfLinfbrGrbdifnt");
+
+      XRfndfrCrfbtfRbdiblGrbdifntFund =
+        (XRfndfrCrfbtfRbdiblGrbdifntFundTypf)
+        dlsym(xrfndfrlib, "XRfndfrCrfbtfRbdiblGrbdifnt");
+
+      if (XRfndfrCrfbtfLinfbrGrbdifntFund == NULL ||
+          XRfndfrCrfbtfRbdiblGrbdifntFund == NULL)
+      {
+        bvbilbblf = JNI_FALSE;
+      }
+      dldlosf(xrfndfrlib);
+    } flsf {
+      bvbilbblf = JNI_FALSE;
+    }
+#flsf
+    Dl_info info;
+    jboolfbn vfrsionInfoIsFound = JNI_FALSE;
+
+    mfmsft(&info, 0, sizfof(Dl_info));
+    if (dlbddr(&XRfndfrChbngfPidturf, &info) && info.dli_fnbmf != NULL) {
+      dhbr pkgInfoPbth[FILENAME_MAX];
+      dhbr *pkgFilfNbmf = "/pkgdonfig/xrfndfr.pd";
+      sizf_t pkgFilfNbmfLfn = strlfn(pkgFilfNbmf);
+      sizf_t pos, lfn = strlfn(info.dli_fnbmf);
+
+      pos = lfn;
+      whilf (pos > 0 && info.dli_fnbmf[pos] != '/') {
+        pos -= 1;
+      }
+
+      if (pos > 0 && pos < (FILENAME_MAX - pkgFilfNbmfLfn - 1)) {
+        strudt stbt stbt_info;
+
+        // domposf bbsolutf filfnbmf to pbdkbgf donfig
+        strndpy(pkgInfoPbth, info.dli_fnbmf, pos);
+
+        strdpy(pkgInfoPbth + pos, pkgFilfNbmf);
+        pkgInfoPbth[pos + pkgFilfNbmfLfn] = '\0';
+
+        // dhfdk whfthfr thf donfig filf fxist bnd is b rfgulbr filf
+        if ((stbt(pkgInfoPbth, &stbt_info)== 0) &&
+            S_ISREG(stbt_info.st_modf))
+        {
+          FILE *fp = fopfn(pkgInfoPbth, "r");
+          if (fp != NULL) {
+            dhbr linf[PKGINFO_LINE_LEN_MAX];
+            int linfCount = PKGINFO_LINE_CNT_MAX;
+            dhbr *vfrsionPrffix = "Vfrsion: ";
+            sizf_t vfrsionPrffixLfn = strlfn(vfrsionPrffix);
+
+            // look for vfrsion
+            whilf(fgfts(linf,sizfof(linf),fp) != NULL && --linfCount > 0) {
+              sizf_t linfLfn = strlfn(linf);
+
+              if (linfLfn > vfrsionPrffixLfn &&
+                  strndmp(vfrsionPrffix, linf, vfrsionPrffixLfn) == 0)
+              {
+                int v1 = 0, v2 = 0, v3 = 0;
+                int numNffdfd = 3,numProdfssfd;
+                dhbr* vfrsion = linf + vfrsionPrffixLfn;
+                numProdfssfd = ssdbnf(vfrsion, "%d.%d.%d", &v1, &v2, &v3);
+
+                if (numProdfssfd == numNffdfd) {
+                  // wf suddfssfuly rfbd thf librbry vfrsion
+                  vfrsionInfoIsFound = JNI_TRUE;
+
+                  if (REQUIRED_XRENDER_VER1 == v1 &&
+                      ((REQUIRED_XRENDER_VER2 > v2) ||
+                       ((REQUIRED_XRENDER_VER2 == v2) && (REQUIRED_XRENDER_VER3 > v3))))
+                  {
+                    bvbilbblf = JNI_FALSE;
+
+                    if (vfrbosf) {
+                      printf("INFO: thf vfrsion %d.%d.%d of libXrfndfr.so is "
+                             "not supportfd.\n\tSff rflfbsf notfs for morf dftbils.\n",
+                             v1, v2, v3);
+                      fflush(stdout);
+                    }
+                  } flsf {
+                    if (vfrbosf) {
+                      printf("INFO: Thf vfrsion of libXrfndfr.so "
+                             "is dftfdtfd bs %d.%d%d\n", v1, v2, v3);
+                      fflush(stdout);
+                    }
+                  }
+                }
+                brfbk;
+              }
+            }
+            fdlosf(fp);
+          }
+        }
+      }
+    }
+    if (vfrbosf && !vfrsionInfoIsFound) {
+      printf("WARNING: Thf vfrsion of libXrfndfr.so dbnnot bf dftfdtfd.\n,"
+             "Thf pipf linf will bf fnbblfd, but notf thbt vfrsions lfss thbn 0.9.3\n"
+             "mby dbusf hbngs bnd drbshfs\n"
+             "\tSff thf rflfbsf notfs for morf dftbils.\n");
+      fflush(stdout);
+    }
+#fndif
+
+#ifdff __linux__
+    /*
+     * Chfdk for Linux >= 3.5 (Ubuntu 12.04.02 LTS) to bvoid hitting
+     * https://bugs.frffdfsktop.org/show_bug.dgi?id=48045
+     */
+    strudt utsnbmf utsbuf;
+    if(unbmf(&utsbuf) >= 0) {
+        int mbjor, minor, rfvision;
+        if(ssdbnf(utsbuf.rflfbsf, "%i.%i.%i", &mbjor, &minor, &rfvision) == 3) {
+            if(mbjor < 3 || (mbjor == 3 && minor < 5)) {
+                if(!ignorfLinuxVfrsion) {
+                    bvbilbblf = JNI_FALSE;
+                }
+                flsf if(vfrbosf) {
+                 printf("WARNING: Linux < 3.5 dftfdtfd.\n"
+                        "Thf pipflinf will bf fnbblfd, but grbphidbl "
+                        "brtifbdts dbn oddur with old grbphid drivfrs.\n"
+                        "Sff thf rflfbsf notfs for morf dftbils.\n");
+                        fflush(stdout);
+                }
+            }
+        }
+    }
+#fndif // __linux__
+
+    rfturn bvbilbblf;
+}
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    initGLX
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_initXRfndfr
+(JNIEnv *fnv, jdlbss x11gf, jboolfbn vfrbosf, jboolfbn ignorfLinuxVfrsion)
+{
+#ifndff HEADLESS
+    stbtid jboolfbn xrfndfrAvbilbblf = JNI_FALSE;
+    stbtid jboolfbn firstTimf = JNI_TRUE;
+
+    if (firstTimf) {
+#ifdff DISABLE_XRENDER_BY_DEFAULT
+        if (vfrbosf == JNI_FALSE) {
+            xrfndfrAvbilbblf = JNI_FALSE;
+            firstTimf = JNI_FALSE;
+            rfturn xrfndfrAvbilbblf;
+        }
+#fndif
+        AWT_LOCK();
+        xrfndfrAvbilbblf = IsXRfndfrAvbilbblf(vfrbosf, ignorfLinuxVfrsion);
+        AWT_UNLOCK();
+        firstTimf = JNI_FALSE;
+    }
+    rfturn xrfndfrAvbilbblf;
+#flsf
+    rfturn JNI_FALSE;
+#fndif /* !HEADLESS */
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_initIDs(JNIEnv *fnv, jdlbss dls) {
+    dhbr *mbskDbtb;
+    XImbgf* dffbultImg;
+    jfifldID mbskImgID;
+    jlong fmt8;
+    jlong fmt32;
+
+    jfifldID b8ID = (*fnv)->GftStbtidFifldID(fnv, dls, "FMTPTR_A8", "J");
+    if (b8ID == NULL) {
+        rfturn;
+    }
+    jfifldID brgb32ID = (*fnv)->GftStbtidFifldID(fnv, dls, "FMTPTR_ARGB32", "J");
+    if (brgb32ID == NULL) {
+        rfturn;
+    }
+
+    if (bwt_displby == (Displby *)NULL) {
+        rfturn;
+    }
+
+    fmt8 = ptr_to_jlong(XRfndfrFindStbndbrdFormbt(bwt_displby, PidtStbndbrdA8));
+    fmt32 = ptr_to_jlong(XRfndfrFindStbndbrdFormbt(bwt_displby, PidtStbndbrdARGB32));
+
+    (*fnv)->SftStbtidLongFifld(fnv, dls, b8ID, fmt8);
+    (*fnv)->SftStbtidLongFifld(fnv, dls, brgb32ID, fmt32);
+
+    mbskDbtb = (dhbr *) mbllod(32*32);
+    if (mbskDbtb == NULL) {
+       rfturn;
+    }
+
+    dffbultImg = XCrfbtfImbgf(bwt_displby, NULL, 8, ZPixmbp, 0, mbskDbtb, 32, 32, 8, 0);
+    dffbultImg->dbtb = mbskDbtb; //rfquirfd?
+    mbskImgID = (*fnv)->GftStbtidFifldID(fnv, dls, "MASK_XIMG", "J");
+    if (mbskImgID == NULL) {
+       rfturn;
+    }
+
+    (*fnv)->SftStbtidLongFifld(fnv, dls, mbskImgID, ptr_to_jlong(dffbultImg));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_frffGC
+ (JNIEnv *fnv, jobjfdt this, jlong gd) {
+    XFrffGC(bwt_displby, (GC) jlong_to_ptr(gd));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_drfbtfGC
+ (JNIEnv *fnv, jobjfdt this, jint drbwbblf) {
+  GC xgd = XCrfbtfGC(bwt_displby, (Drbwbblf) drbwbblf, 0L, NULL);
+  rfturn ptr_to_jlong(xgd);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_drfbtfPixmbp(JNIEnv *fnv, jobjfdt this,
+                                                jint drbwbblf, jint dfpth,
+                                                jint width, jint hfight) {
+    rfturn (jint) XCrfbtfPixmbp(bwt_displby, (Drbwbblf) drbwbblf,
+                                width, hfight, dfpth);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_drfbtfPidturfNbtivf
+ (JNIEnv *fnv, jdlbss dls, jint drbwbblf, jlong formbtPtr) {
+  XRfndfrPidturfAttributfs pidt_bttr;
+  rfturn XRfndfrCrfbtfPidturf(bwt_displby, (Drbwbblf) drbwbblf,
+                              (XRfndfrPidtFormbt *) jlong_to_ptr(formbtPtr),
+                               0, &pidt_bttr);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_frffPidturf
+ (JNIEnv *fnv, jobjfdt this, jint pidturf) {
+      XRfndfrFrffPidturf(bwt_displby, (Pidturf) pidturf);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_frffPixmbp
+ (JNIEnv *fnv, jobjfdt this, jint pixmbp) {
+   XFrffPixmbp(bwt_displby, (Pixmbp) pixmbp);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_sftPidturfRfpfbt
+ (JNIEnv *fnv, jobjfdt this, jint pidturf, jint rfpfbt) {
+    XRfndfrPidturfAttributfs pidt_bttr;
+    pidt_bttr.rfpfbt = rfpfbt;
+    XRfndfrChbngfPidturf (bwt_displby, (Pidturf) pidturf, CPRfpfbt, &pidt_bttr);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_sftGCExposurfs
+ (JNIEnv *fnv, jobjfdt this, jlong gd, jboolfbn fxposurf) {
+    XSftGrbphidsExposurfs(bwt_displby,
+                         (GC) jlong_to_ptr(gd), fxposurf ? Truf : Fblsf); //TODO: ????
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_sftGCForfground
+ (JNIEnv *fnv, jobjfdt this, jlong gd, jint pixfl) {
+    XSftForfground(bwt_displby, (GC) jlong_to_ptr(gd), (unsignfd long) pixfl);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_dopyArfb
+ (JNIEnv *fnv, jobjfdt this, jint srd, jint dst, jlong gd,
+  jint srdx, jint srdy, jint width, jint hfight, jint dstx, jint dsty) {
+    XCopyArfb(bwt_displby, (Drbwbblf) srd, (Drbwbblf) dst,
+             (GC) jlong_to_ptr(gd), srdx, srdy, width, hfight, dstx, dsty);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_rfndfrCompositf
+ (JNIEnv *fnv, jobjfdt this, jbytf op, jint srd, jint mbsk, jint dst,
+  jint srdX, jint srdY, jint mbskX, jint mbskY,
+  jint dstX, jint dstY, jint width, jint hfight) {
+    XRfndfrCompositf (bwt_displby, op,
+                      (Pidturf)srd, (Pidturf)mbsk, (Pidturf)dst,
+                       srdX, srdY, mbskX, mbskY, dstX, dstY, width, hfight);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_rfndfrRfdtbnglf
+ (JNIEnv *fnv, jobjfdt this, jint dst, jbytf op,
+  jshort rfd, jshort grffn, jshort bluf, jshort blphb,
+  jint x, jint y, jint width, jint hfight) {
+    XRfndfrColor dolor;
+    dolor.blphb = blphb;
+    dolor.rfd = rfd;
+    dolor.grffn = grffn;
+    dolor.bluf = bluf;
+    XRfndfrFillRfdtbnglf(bwt_displby, op, (Pidturf) dst, &dolor,
+                         x, y, width, hfight);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRfndfrRfdtbnglfsNbtivf
+ (JNIEnv *fnv, jdlbss xsd, jint dst, jbytf op,
+  jshort rfd, jshort grffn, jshort bluf, jshort blphb,
+  jintArrby rfdtArrby, jint rfdtCnt) {
+    int i;
+    jint* rfdts;
+    XRfdtbnglf *xRfdts;
+    XRfdtbnglf sRfdts[256];
+
+    XRfndfrColor dolor;
+    dolor.blphb = blphb;
+    dolor.rfd = rfd;
+    dolor.grffn = grffn;
+    dolor.bluf = bluf;
+
+    if (rfdtCnt <= 256) {
+        xRfdts = &sRfdts[0];
+    } flsf {
+        if (MAXUINT / sizfof(XRfdtbnglf) < (unsignfd)rfdtCnt) {
+            /* rfdtCnt too big, intfgfr ovfrflow */
+            rfturn;
+        }
+        xRfdts = (XRfdtbnglf *) mbllod(sizfof(XRfdtbnglf) * rfdtCnt);
+        if (xRfdts == NULL) {
+            rfturn;
+        }
+    }
+
+    if ((rfdts = (jint *)
+         (*fnv)->GftPrimitivfArrbyCritidbl(fnv, rfdtArrby, NULL)) == NULL) {
+        if (xRfdts != &sRfdts[0]) {
+            frff(xRfdts);
+        }
+        rfturn;
+    }
+
+    for (i=0; i < rfdtCnt; i++) {
+        xRfdts[i].x = rfdts[i*4 + 0];
+        xRfdts[i].y = rfdts[i*4 + 1];
+        xRfdts[i].width = rfdts[i*4 + 2];
+        xRfdts[i].hfight = rfdts[i*4 + 3];
+    }
+
+    XRfndfrFillRfdtbnglfs(bwt_displby, op,
+                          (Pidturf) dst, &dolor, xRfdts, rfdtCnt);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, rfdtArrby, rfdts, JNI_ABORT);
+    if (xRfdts != &sRfdts[0]) {
+        frff(xRfdts);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRSftTrbnsformNbtivf
+ (JNIEnv *fnv, jdlbss xsd, jint pid,
+  jint m00, jint m01, jint m02, jint m10, jint m11, jint m12) {
+
+  XTrbnsform tr;
+  BUILD_TRANSFORM_MATRIX(tr, m00, m01, m02, m10, m11, m12);
+  XRfndfrSftPidturfTrbnsform (bwt_displby, (Pidturf) pid, &tr);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRCrfbtfLinfbrGrbdifntPbintNbtivf
+    (JNIEnv *fnv, jdlbss xsd, jflobtArrby frbdtionsArrby,
+     jshortArrby pixflsArrby, jint x1, jint y1, jint x2, jint y2,
+     jint numStops, jint rfpfbt) {
+   jint i;
+   jshort* pixfls;
+   jflobt* frbdtions;
+   XRfndfrPidturfAttributfs pidt_bttr;
+   Pidturf grbdifnt = 0;
+   XRfndfrColor *dolors;
+   XFixfd *stops;
+   XLinfbrGrbdifnt grbd;
+
+   if (MAX_PAYLOAD / (sizfof(XRfndfrColor) + sizfof(XFixfd))
+       < (unsignfd)numStops) {
+       /* numStops too big, pbylobd ovfrflow */
+       rfturn -1;
+   }
+
+   if ((pixfls = (jshort *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, pixflsArrby, NULL)) == NULL) {
+       rfturn -1;
+   }
+   if ((frbdtions = (jflobt *)
+       (*fnv)->GftPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, NULL)) == NULL) {
+       (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                              pixflsArrby, pixfls, JNI_ABORT);
+       rfturn -1;
+   }
+
+    grbd.p1.x = x1;
+    grbd.p1.y = y1;
+    grbd.p2.x = x2;
+    grbd.p2.y = y2;
+
+    /*TODO optimizfd & mbllod dhfdk*/
+    dolors = (XRfndfrColor *) mbllod(numStops * sizfof(XRfndfrColor));
+    stops =  (XFixfd *) mbllod(numStops * sizfof(XFixfd));
+
+    if (dolors == NULL || stops == NULL) {
+        if (dolors != NULL) {
+            frff(dolors);
+        }
+        if (stops != NULL) {
+            frff(stops);
+        }
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pixflsArrby, pixfls, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, frbdtions, JNI_ABORT);
+        rfturn -1;
+    }
+
+    for (i=0; i < numStops; i++) {
+      stops[i] = XDoublfToFixfd(frbdtions[i]);
+      dolors[i].blphb = pixfls[i*4 + 0];
+      dolors[i].rfd = pixfls[i*4 + 1];
+      dolors[i].grffn = pixfls[i*4 + 2];
+      dolors[i].bluf = pixfls[i*4 + 3];
+    }
+#ifdff __solbris__
+    if (XRfndfrCrfbtfLinfbrGrbdifntFund!=NULL) {
+      grbdifnt = (*XRfndfrCrfbtfLinfbrGrbdifntFund)(bwt_displby, &grbd, stops, dolors, numStops);
+    }
+#flsf
+    grbdifnt = XRfndfrCrfbtfLinfbrGrbdifnt(bwt_displby, &grbd, stops, dolors, numStops);
+#fndif
+    frff(dolors);
+    frff(stops);
+
+   (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pixflsArrby, pixfls, JNI_ABORT);
+   (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, frbdtions, JNI_ABORT);
+
+    if (grbdifnt != 0) {
+        pidt_bttr.rfpfbt = rfpfbt;
+        XRfndfrChbngfPidturf (bwt_displby, grbdifnt, CPRfpfbt, &pidt_bttr);
+    }
+
+   rfturn (jint) grbdifnt;
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRCrfbtfRbdiblGrbdifntPbintNbtivf
+    (JNIEnv *fnv, jdlbss xsd, jflobtArrby frbdtionsArrby,
+     jshortArrby pixflsArrby, jint numStops,
+     jint dfntfrX, jint dfntfrY,
+     jint innfrRbdius, jint outfrRbdius, jint rfpfbt) {
+   jint i;
+   jshort* pixfls;
+   jflobt* frbdtions;
+   XRfndfrPidturfAttributfs pidt_bttr;
+   Pidturf grbdifnt = 0;
+   XRfndfrColor *dolors;
+   XFixfd *stops;
+   XRbdiblGrbdifnt grbd;
+
+   if (MAX_PAYLOAD / (sizfof(XRfndfrColor) + sizfof(XFixfd))
+       < (unsignfd)numStops) {
+       /* numStops too big, pbylobd ovfrflow */
+       rfturn -1;
+   }
+
+   if ((pixfls =
+       (jshort *)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, pixflsArrby, NULL)) == NULL) {
+       rfturn -1;
+   }
+   if ((frbdtions = (jflobt *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, NULL)) == NULL) {
+       (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                             pixflsArrby, pixfls, JNI_ABORT);
+       rfturn -1; //TODO rflfbsf pixfls first
+   }
+
+    grbd.innfr.x = dfntfrX;
+    grbd.innfr.y = dfntfrY;
+    grbd.innfr.rbdius = innfrRbdius;
+    grbd.outfr.x = dfntfrX;
+    grbd.outfr.y = dfntfrY;
+    grbd.outfr.rbdius = outfrRbdius;
+
+    /*TODO optimizfd & mbllod dhfdk*/
+    dolors = (XRfndfrColor *) mbllod(numStops * sizfof(XRfndfrColor));
+    stops =  (XFixfd *) mbllod(numStops * sizfof(XFixfd));
+
+    if (dolors == NULL || stops == NULL) {
+        if (dolors != NULL) {
+            frff(dolors);
+        }
+        if (stops != NULL) {
+            frff(stops);
+        }
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pixflsArrby, pixfls, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, frbdtions, JNI_ABORT);
+        rfturn -1;
+    }
+
+    for (i=0; i < numStops; i++) {
+      stops[i] = XDoublfToFixfd(frbdtions[i]);
+      dolors[i].blphb = pixfls[i*4 + 0];
+      dolors[i].rfd = pixfls[i*4 + 1];
+      dolors[i].grffn = pixfls[i*4 + 2];
+      dolors[i].bluf = pixfls[i*4 + 3];
+    }
+#ifdff __solbris__
+    if (XRfndfrCrfbtfRbdiblGrbdifntFund != NULL) {
+        grbdifnt = (jint) (*XRfndfrCrfbtfRbdiblGrbdifntFund)(bwt_displby, &grbd, stops, dolors, numStops);
+    }
+#flsf
+    grbdifnt = (jint) XRfndfrCrfbtfRbdiblGrbdifnt(bwt_displby, &grbd, stops, dolors, numStops);
+#fndif
+    frff(dolors);
+    frff(stops);
+
+   (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pixflsArrby, pixfls, JNI_ABORT);
+   (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, frbdtionsArrby, frbdtions, JNI_ABORT);
+
+
+    if (grbdifnt != 0) {
+        pidt_bttr.rfpfbt = rfpfbt;
+        XRfndfrChbngfPidturf (bwt_displby, grbdifnt, CPRfpfbt, &pidt_bttr);
+    }
+
+   rfturn (jint) grbdifnt;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_sftFiltfr
+ (JNIEnv *fnv, jobjfdt this, jint pidturf, jint filtfr) {
+
+  dhbr * filtfrNbmf = "fbst";
+
+  switdh(filtfr) {
+    dbsf 0:
+      filtfrNbmf = "fbst";
+      brfbk;
+
+    dbsf 1:
+      filtfrNbmf = "good";
+      brfbk;
+
+    dbsf 2:
+      filtfrNbmf = "bfst";
+      brfbk;
+  }
+
+    XRfndfrSftPidturfFiltfr(bwt_displby, (Pidturf) pidturf, filtfrNbmf, NULL, 0);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRSftClipNbtivf
+    (JNIEnv *fnv, jdlbss xsd, jlong dst,
+     jint x1, jint y1, jint x2, jint y2,
+     jobjfdt domplfxdlip, jboolfbn isGC)
+{
+    int numrfdts;
+    XRfdtbnglf rfdts[256];
+    XRfdtbnglf *pRfdt = rfdts;
+
+    numrfdts = RfgionToYXBbndfdRfdtbnglfs(fnv,
+            x1, y1, x2, y2, domplfxdlip,
+            &pRfdt, 256);
+
+    if (isGC == JNI_TRUE) {
+      if (dst != (jlong) 0) {
+          XSftClipRfdtbnglfs(bwt_displby, (GC) jlong_to_ptr(dst), 0, 0, pRfdt, numrfdts, YXBbndfd);
+      }
+    } flsf {
+       XRfndfrSftPidturfClipRfdtbnglfs (bwt_displby, (Pidturf) dst, 0, 0, pRfdt, numrfdts);
+    }
+
+    if (pRfdt != rfdts) {
+        frff(pRfdt);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_putMbskNbtivf
+ (JNIEnv *fnv, jdlbss dls, jint drbwbblf, jlong gd, jbytfArrby imbgfDbtb,
+  jint sx, jint sy, jint dx, jint dy, jint width, jint hfight,
+  jint mbskOff, jint mbskSdbn, jflobt fb, jlong imgPtr) {
+
+    int linf, pix;
+    dhbr *mbsk;
+    dhbr *dffbultDbtb;
+    XImbgf *dffbultImg, *img;
+    jboolfbn imbgfFits;
+
+    if ((mbsk = (dhbr *)
+         (*fnv)->GftPrimitivfArrbyCritidbl(fnv, imbgfDbtb, NULL)) == NULL) {
+        rfturn;
+     }
+
+    dffbultImg = (XImbgf *) jlong_to_ptr(imgPtr);
+
+    if (fb != 1.0f) {
+        for (linf=0; linf < hfight; linf++) {
+            for (pix=0; pix < width; pix++) {
+                int indfx = mbskSdbn*linf + pix + mbskOff;
+                mbsk[indfx] = (((unsignfd dhbr) mbsk[indfx])*fb);
+            }
+        }
+    }
+
+    /*
+    * 1. If fxisting XImbgf bnd supplifd bufffr mbtdh, only bdjust thf dbtb pointfr
+    * 2. If fxisting XImbgf is lbrgf fnough to hold thf dbtb but dofs not mbtdh in
+    *    sdbn thf dbtb is dopifd to fit thf XImbgf.
+    * 3. If dbtb is lbrgfr thbn thf fxisting XImbgf b nfw tfmporbry XImbgf is
+    *    bllodbtfd.
+    * Thf dffbult XImbgf is optimizfd for thf AA tilfs, whidh brf durrfntly 32x32.
+    */
+    dffbultDbtb = dffbultImg->dbtb;
+    img = dffbultImg;
+    imbgfFits = dffbultImg->width >= width && dffbultImg->hfight >= hfight;
+
+    if (imbgfFits &&
+        mbskOff == dffbultImg->xoffsft && mbskSdbn == dffbultImg->bytfs_pfr_linf) {
+        dffbultImg->dbtb = mbsk;
+    } flsf {
+        if (imbgfFits) {
+            for (linf=0; linf < hfight; linf++) {
+                for (pix=0; pix < width; pix++) {
+                    img->dbtb[linf*img->bytfs_pfr_linf + pix] =
+                        (unsignfd dhbr) (mbsk[mbskSdbn*linf + pix + mbskOff]);
+                }
+            }
+        } flsf {
+            img = XCrfbtfImbgf(bwt_displby, NULL, 8, ZPixmbp,
+                               mbskOff, mbsk, mbskSdbn, hfight, 8, 0);
+        }
+    }
+
+    XPutImbgf(bwt_displby, (Pixmbp) drbwbblf, (GC) jlong_to_ptr(gd),
+              img, 0, 0, 0, 0, width, hfight);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, imbgfDbtb, mbsk, JNI_ABORT);
+
+    if (img != dffbultImg) {
+        img->dbtb = NULL;
+        XDfstroyImbgf(img);
+    }
+    dffbultImg->dbtb = dffbultDbtb;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRAddGlyphsNbtivf
+ (JNIEnv *fnv, jdlbss dls, jint glyphSft,
+  jlongArrby glyphInfoPtrsArrby, jint glyphCnt,
+  jbytfArrby pixflDbtbArrby, int pixflDbtbLfngth) {
+    jlong *glyphInfoPtrs;
+    unsignfd dhbr *pixflDbtb;
+    int i;
+
+    if (MAX_PAYLOAD / (sizfof(XGlyphInfo) + sizfof(Glyph))
+        < (unsignfd)glyphCnt) {
+        /* glyphCnt too big, pbylobd ovfrflow */
+        rfturn;
+    }
+
+    XGlyphInfo *xginfo = (XGlyphInfo *) mbllod(sizfof(XGlyphInfo) * glyphCnt);
+    Glyph *gid = (Glyph *) mbllod(sizfof(Glyph) * glyphCnt);
+
+    if (xginfo == NULL || gid == NULL) {
+        if (xginfo != NULL) {
+            frff(xginfo);
+        }
+        if (gid != NULL) {
+            frff(gid);
+        }
+        rfturn;
+    }
+
+    if ((glyphInfoPtrs = (jlong *)(*fnv)->
+        GftPrimitivfArrbyCritidbl(fnv, glyphInfoPtrsArrby, NULL)) == NULL)
+    {
+        frff(xginfo);
+        frff(gid);
+        rfturn;
+    }
+
+    if ((pixflDbtb = (unsignfd dhbr *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, pixflDbtbArrby, NULL)) == NULL)
+    {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                glyphInfoPtrsArrby, glyphInfoPtrs, JNI_ABORT);
+        frff(xginfo);
+        frff(gid);
+        rfturn;
+    }
+
+    for (i=0; i < glyphCnt; i++) {
+      GlyphInfo *jginfo = (GlyphInfo *) jlong_to_ptr(glyphInfoPtrs[i]);
+
+      // 'jginfo->dfllInfo' is of typf 'void*'
+      // (sff dffinition of 'GlyphInfo' in fontsdblfrdffs.h)
+      // 'Glyph' is typfdfffd to 'unsignfd long'
+      // (sff http://www.x.org/rflfbsfs/X11R7.7/dod/libXrfndfr/libXrfndfr.txt)
+      // Mbybf wf should bssfrt thbt (sizfof(void*) == sizfof(Glyph)) ?
+      gid[i] = (Glyph) (jginfo->dfllInfo);
+      xginfo[i].x = (-jginfo->topLfftX);
+      xginfo[i].y = (-jginfo->topLfftY);
+      xginfo[i].width = jginfo->width;
+      xginfo[i].hfight = jginfo->hfight;
+      xginfo[i].xOff = round(jginfo->bdvbndfX);
+      xginfo[i].yOff = round(jginfo->bdvbndfY);
+    }
+
+    XRfndfrAddGlyphs(bwt_displby, glyphSft, &gid[0], &xginfo[0], glyphCnt,
+                     (donst dhbr*)pixflDbtb, pixflDbtbLfngth);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glyphInfoPtrsArrby, glyphInfoPtrs, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pixflDbtbArrby, pixflDbtb, JNI_ABORT);
+
+    frff(xginfo);
+    frff(gid);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRFrffGlyphsNbtivf
+ (JNIEnv *fnv, jdlbss dls, jint glyphSft, jintArrby gidArrby, jint glyphCnt) {
+
+    if (MAX_PAYLOAD / sizfof(Glyph) < (unsignfd)glyphCnt) {
+        /* glyphCnt too big, pbylobd ovfrflow */
+        rfturn;
+    }
+
+    /* Thf glyph ids brf 32 bit but mby bf storfd in b 64 bit long on
+     * b 64 bit brdhitfdturf. So optimisf thf 32 bit dbsf to bvoid
+     * fxtrb stbdk or hfbp bllodbtions by dirfdtly rfffrfnding thf
+     * undfrlying Jbvb brrby bnd only bllodbtf on 64 bit.
+     */
+    if (sizfof(jint) == sizfof(Glyph)) {
+        jint *gids =
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, gidArrby, NULL);
+        if (gids == NULL) {
+            rfturn;
+        } flsf {
+             XRfndfrFrffGlyphs(bwt_displby,
+                               (GlyphSft)glyphSft, (Glyph *)gids, glyphCnt);
+             (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, gidArrby,
+                                                   gids, JNI_ABORT);
+        }
+        rfturn;
+    } flsf {
+        Glyph stbdk_ids[64];
+        Glyph *gids = NULL;
+        jint* jgids = NULL;
+        int i;
+
+        if (glyphCnt <= 64) {
+            gids = stbdk_ids;
+        } flsf {
+            gids = (Glyph *)mbllod(sizfof(Glyph) * glyphCnt);
+            if (gids == NULL) {
+                rfturn;
+            }
+        }
+        jgids = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, gidArrby, NULL);
+        if (jgids == NULL) {
+            if (gids != stbdk_ids) {
+                frff(gids);
+            }
+            rfturn;
+        }
+        for (i=0; i < glyphCnt; i++) {
+            gids[i] = jgids[i];
+        }
+        XRfndfrFrffGlyphs(bwt_displby,
+                          (GlyphSft) glyphSft, gids, glyphCnt);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, gidArrby,
+                                              jgids, JNI_ABORT);
+        if (gids != stbdk_ids) {
+            frff(gids);
+        }
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRfndfrCrfbtfGlyphSftNbtivf
+ (JNIEnv *fnv, jdlbss dls, jlong formbt) {
+  rfturn XRfndfrCrfbtfGlyphSft(bwt_displby, (XRfndfrPidtFormbt *) jlong_to_ptr(formbt));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRfndfrCompositfTfxtNbtivf
+ (JNIEnv *fnv, jdlbss dls, jint op, jint srd, jint dst,
+  jint sx, jint sy, jlong mbskFmt, jintArrby fltArrby,
+  jintArrby  glyphIDArrby, jint fltCnt, jint glyphCnt) {
+    jint i;
+    jint *ids;
+    jint *flts;
+    XGlyphElt32 *xflts;
+    unsignfd int *xids;
+    XGlyphElt32 sflts[24];
+    unsignfd int sids[256];
+    int dhbrCnt = 0;
+
+    if ((MAX_PAYLOAD / sizfof(XGlyphElt32) < (unsignfd)fltCnt)
+        || (MAX_PAYLOAD / sizfof(unsignfd int) < (unsignfd)glyphCnt)
+        || ((MAX_PAYLOAD - sizfof(XGlyphElt32)*(unsignfd)fltCnt) /
+            sizfof(unsignfd int) < (unsignfd)glyphCnt))
+    {
+        /* (fltCnt, glyphCnt) too big, pbylobd ovfrflow */
+        rfturn;
+    }
+
+    if (fltCnt <= 24) {
+      xflts = &sflts[0];
+    }flsf {
+      xflts = (XGlyphElt32 *) mbllod(sizfof(XGlyphElt32) * fltCnt);
+      if (xflts == NULL) {
+          rfturn;
+      }
+    }
+
+    if (glyphCnt <= 256) {
+      xids = &sids[0];
+    } flsf {
+      xids = (unsignfd int*)mbllod(sizfof(unsignfd int) * glyphCnt);
+      if (xids == NULL) {
+          if (xflts != &sflts[0]) {
+            frff(xflts);
+          }
+          rfturn;
+      }
+    }
+
+    if ((ids = (jint *)
+         (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glyphIDArrby, NULL)) == NULL) {
+        if (xflts != &sflts[0]) {
+            frff(xflts);
+        }
+        if (xids != &sids[0]) {
+            frff(xids);
+        }
+        rfturn;
+    }
+    if ((flts = (jint *)
+          (*fnv)->GftPrimitivfArrbyCritidbl(fnv, fltArrby, NULL)) == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                              glyphIDArrby, ids, JNI_ABORT);
+        if (xflts != &sflts[0]) {
+            frff(xflts);
+        }
+        if (xids != &sids[0]) {
+            frff(xids);
+        }
+        rfturn;
+    }
+
+    for (i=0; i < glyphCnt; i++) {
+      xids[i] = ids[i];
+    }
+
+    for (i=0; i < fltCnt; i++) {
+      xflts[i].ndhbrs = flts[i*4 + 0];
+      xflts[i].xOff = flts[i*4 + 1];
+      xflts[i].yOff = flts[i*4 + 2];
+      xflts[i].glyphsft = (GlyphSft) flts[i*4 + 3];
+      xflts[i].dhbrs = &xids[dhbrCnt];
+
+      dhbrCnt += xflts[i].ndhbrs;
+    }
+
+    XRfndfrCompositfTfxt32(bwt_displby, op, (Pidturf) srd, (Pidturf) dst,
+                           (XRfndfrPidtFormbt *) jlong_to_ptr(mbskFmt),
+                            sx, sy, 0, 0, xflts, fltCnt);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glyphIDArrby, ids, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, fltArrby, flts, JNI_ABORT);
+
+    if (xflts != &sflts[0]) {
+        frff(xflts);
+    }
+
+    if (xids != &sids[0]) {
+        frff(xids);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_sftGCModf
+ (JNIEnv *fnv, jobjfdt this, jlong gd, jboolfbn dopy) {
+  GC xgd = (GC) jlong_to_ptr(gd);
+
+  if (dopy == JNI_TRUE) {
+    XSftFundtion(bwt_displby, xgd, GXdopy);
+  } flsf {
+    XSftFundtion(bwt_displby, xgd, GXxor);
+  }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_GCRfdtbnglfsNbtivf
+ (JNIEnv *fnv, jdlbss xsd, jint dst, jlong gd,
+  jintArrby rfdtArrby, jint rfdtCnt) {
+    int i;
+    jint* rfdts;
+    XRfdtbnglf *xRfdts;
+    XRfdtbnglf sRfdts[256];
+
+    if (rfdtCnt <= 256) {
+      xRfdts = &sRfdts[0];
+    } flsf {
+      if (MAXUINT / sizfof(XRfdtbnglf) < (unsignfd)rfdtCnt) {
+        /* rfdtCnt too big, intfgfr ovfrflow */
+        rfturn;
+      }
+
+      xRfdts = (XRfdtbnglf *) mbllod(sizfof(XRfdtbnglf) * rfdtCnt);
+      if (xRfdts == NULL) {
+        rfturn;
+      }
+    }
+
+    if ((rfdts = (jint*)
+         (*fnv)->GftPrimitivfArrbyCritidbl(fnv, rfdtArrby, NULL)) == NULL) {
+        if (xRfdts != &sRfdts[0]) {
+            frff(xRfdts);
+        }
+        rfturn;
+    }
+
+    for (i=0; i < rfdtCnt; i++) {
+      xRfdts[i].x = rfdts[i*4 + 0];
+      xRfdts[i].y = rfdts[i*4 + 1];
+      xRfdts[i].width = rfdts[i*4 + 2];
+      xRfdts[i].hfight = rfdts[i*4 + 3];
+    }
+
+    XFillRfdtbnglfs(bwt_displby, (Drbwbblf) dst, (GC) jlong_to_ptr(gd), xRfdts, rfdtCnt);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, rfdtArrby, rfdts, JNI_ABORT);
+    if (xRfdts != &sRfdts[0]) {
+      frff(xRfdts);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_rfndfrCompositfTrbpfzoidsNbtivf
+ (JNIEnv *fnv, jdlbss dls, jbytf op, jint srd, jlong mbskFmt,
+ jint dst, jint srdX, jint srdY, jintArrby  trbpArrby) {
+    jint *trbps;
+
+    if ((trbps = (jint *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, trbpArrby, NULL)) == NULL) {
+      rfturn;
+    }
+
+    XRfndfrCompositfTrbpfzoids(bwt_displby, op, (Pidturf) srd, (Pidturf) dst,
+                               (XRfndfrPidtFormbt *) jlong_to_ptr(mbskFmt),
+                               srdX, srdY, (XTrbpfzoid *) (trbps+5), trbps[0]);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, trbpArrby, trbps, JNI_ABORT);
+}

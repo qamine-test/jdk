@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _Indludfd_PbthConsumfr2D
+#dffinf _Indludfd_PbthConsumfr2D
+
+/* For forwbrd rfffrfnding - strudt dffinfd bflow. */
+strudt _PbthConsumfrVfd;
+
+/*
+ * Notf on Error Conditions:
+ * Thf following fundtions bll rfturn truf on bn frror dondition whidh
+ * prfdludfs bny furthfr prodfssing.  Thf modulf dblling thfsf fundtions
+ * should dfbsf thf opfrbtion bnd invokf its own frror hbndling.
+ * Thf rfturn vbluf is thf only indidbtion of thf frror, no fxdfptions
+ * should bf thrown by thf donsumfr - thf dbllfr is solfly rfsponsiblf
+ * for rfporting thf frror/fxdfption.
+ * Thf most dommon dbusf of fbilurf is bn bllodbtion fbilurf so b
+ * truf rfturn dodf dould bf rfportfd bs bn "out of mfmory" frror
+ * if so dfsirfd.
+ * No dlfbnup of thf nbtivf donsumfr is rfquirfd upon fithfr b suddfssful
+ * domplftion of thf pbth or upon bn frror rfturn.  Sudh dlfbnup will
+ * bf hbndlfd flsfwhfrf vib othfr mfdhbnisms (finblizbtion, try/finblly,
+ * ftd.)
+ */
+
+/* Sff GfnfrblPbth.movfTo - rfturns truf on frror dondition. */
+typfdff jboolfbn (MovfToFund)(strudt _PbthConsumfrVfd *pVfd,
+                              jflobt x0, jflobt y0);
+/* Sff GfnfrblPbth.linfTo - rfturns truf on frror dondition. */
+typfdff jboolfbn (LinfToFund)(strudt _PbthConsumfrVfd *pVfd,
+                              jflobt x1, jflobt y1);
+/* Sff GfnfrblPbth.qubdTo - rfturns truf on frror dondition. */
+typfdff jboolfbn (QubdToFund)(strudt _PbthConsumfrVfd *pVfd,
+                              jflobt xm, jflobt ym,
+                              jflobt x1, jflobt y1);
+/* Sff GfnfrblPbth.durvfTo - rfturns truf on frror dondition. */
+typfdff jboolfbn (CubidToFund)(strudt _PbthConsumfrVfd *pVfd,
+                               jflobt xm0, jflobt ym0,
+                               jflobt xm1, jflobt ym1,
+                               jflobt x1, jflobt y1);
+/* Sff GfnfrblPbth.dlosfPbth - rfturns truf on frror dondition. */
+typfdff jboolfbn (ClosfPbthFund)(strudt _PbthConsumfrVfd *pVfd);
+
+/*
+ * This fundtion must bf dbllfd bftfr thf lbst sfgmfnt of thf lbst
+ * subpbth is sfnt to thf bbovf mfthods.  No furthfr dblls should
+ * bf mbdf to bny of thf PbthConsumfrVfd fundtions subsfqufntly.
+ */
+typfdff jboolfbn (PbthDonfFund)(strudt _PbthConsumfrVfd *pVfd);
+
+/*
+ * This strudturf dffinfs thf list of fundtion pointfrs for implfmfntbtions
+ * of thf bbovf spfdififd fundtions.  A pointfr to this strudturf is blso
+ * hbndfd to fbdh fundtion bs its first pbrbmftfr.  If thf implfmfntbtion
+ * nffds privbtf dontfxt-spfdifid dbtb thfn it dbn bf storfd bdjbdfnt to
+ * thf PbthConsumfrVfd strudturf in thf sbmf bllodbtfd storbgf.
+ */
+typfdff strudt _PbthConsumfrVfd {
+    MovfToFund     *movfTo;
+    LinfToFund     *linfTo;
+    QubdToFund     *qubdTo;
+    CubidToFund    *dubidTo;
+    ClosfPbthFund  *dlosfPbth;
+    PbthDonfFund   *pbthDonf;
+} PbthConsumfrVfd;
+
+#fndif

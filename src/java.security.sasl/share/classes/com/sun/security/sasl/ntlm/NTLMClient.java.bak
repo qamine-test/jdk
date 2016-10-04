@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl.ntlm;
+pbdkbgf dom.sun.sfdurity.sbsl.ntlm;
 
-import com.sun.security.ntlm.Client;
-import com.sun.security.ntlm.NTLMException;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Map;
-import java.util.Random;
-import javax.security.auth.callback.Callback;
+import dom.sun.sfdurity.ntlm.Clifnt;
+import dom.sun.sfdurity.ntlm.NTLMExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.Rbndom;
+import jbvbx.sfdurity.buti.dbllbbdk.Cbllbbdk;
 
 
-import javax.security.sasl.*;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buti.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.UnsupportfdCbllbbdkExdfption;
 
 /**
-  * Required callbacks:
-  * - RealmCallback
-  *    handle can provide domain info for authentication, optional
-  * - NameCallback
-  *    handler must enter username to use for authentication
-  * - PasswordCallback
-  *    handler must enter password for username to use for authentication
+  * Rfquirfd dbllbbdks:
+  * - RfblmCbllbbdk
+  *    ibndlf dbn providf dombin info for butifntidbtion, optionbl
+  * - NbmfCbllbbdk
+  *    ibndlfr must fntfr usfrnbmf to usf for butifntidbtion
+  * - PbsswordCbllbbdk
+  *    ibndlfr must fntfr pbssword for usfrnbmf to usf for butifntidbtion
   *
-  * Environment properties that affect behavior of implementation:
+  * Environmfnt propfrtifs tibt bfffdt bfibvior of implfmfntbtion:
   *
-  * javax.security.sasl.qop
-  *    String, quality of protection; only "auth" is accepted, default "auth"
+  * jbvbx.sfdurity.sbsl.qop
+  *    String, qublity of protfdtion; only "buti" is bddfptfd, dffbult "buti"
   *
-  * com.sun.security.sasl.ntlm.version
-  *    String, name a specific version to use; can be:
-  *      LM/NTLM: Original NTLM v1
-  *      LM: Original NTLM v1, LM only
-  *      NTLM: Original NTLM v1, NTLM only
-  *      NTLM2: NTLM v1 with Client Challenge
+  * dom.sun.sfdurity.sbsl.ntlm.vfrsion
+  *    String, nbmf b spfdifid vfrsion to usf; dbn bf:
+  *      LM/NTLM: Originbl NTLM v1
+  *      LM: Originbl NTLM v1, LM only
+  *      NTLM: Originbl NTLM v1, NTLM only
+  *      NTLM2: NTLM v1 witi Clifnt Cibllfngf
   *      LMv2/NTLMv2: NTLM v2
   *      LMv2: NTLM v2, LM only
   *      NTLMv2: NTLM v2, NTLM only
-  *    If not specified, use system property "ntlm.version". If
-  *    still not specified, use default value "LMv2/NTLMv2".
+  *    If not spfdififd, usf systfm propfrty "ntlm.vfrsion". If
+  *    still not spfdififd, usf dffbult vbluf "LMv2/NTLMv2".
   *
-  * com.sun.security.sasl.ntlm.random
-  *    java.util.Random, the nonce source to be used in NTLM v2 or NTLM v1 with
-  *    Client Challenge. Default null, an internal java.util.Random object
-  *    will be used
+  * dom.sun.sfdurity.sbsl.ntlm.rbndom
+  *    jbvb.util.Rbndom, tif nondf sourdf to bf usfd in NTLM v2 or NTLM v1 witi
+  *    Clifnt Cibllfngf. Dffbult null, bn intfrnbl jbvb.util.Rbndom objfdt
+  *    will bf usfd
   *
-  * Negotiated Properties:
+  * Nfgotibtfd Propfrtifs:
   *
-  * javax.security.sasl.qop
-  *    Always "auth"
+  * jbvbx.sfdurity.sbsl.qop
+  *    Alwbys "buti"
   *
-  * com.sun.security.sasl.html.domain
-  *    The domain for the user, provided by the server
+  * dom.sun.sfdurity.sbsl.itml.dombin
+  *    Tif dombin for tif usfr, providfd by tif sfrvfr
   *
-  * @see <a href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>
-  * - Simple Authentication and Security Layer (SASL)
+  * @sff <b irff="ittp://www.iftf.org/rfd/rfd2222.txt">RFC 2222</b>
+  * - Simplf Autifntidbtion bnd Sfdurity Lbyfr (SASL)
   *
   */
-final class NTLMClient implements SaslClient {
+finbl dlbss NTLMClifnt implfmfnts SbslClifnt {
 
-    private static final String NTLM_VERSION =
-            "com.sun.security.sasl.ntlm.version";
-    private static final String NTLM_RANDOM =
-            "com.sun.security.sasl.ntlm.random";
-    private final static String NTLM_DOMAIN =
-            "com.sun.security.sasl.ntlm.domain";
-    private final static String NTLM_HOSTNAME =
-            "com.sun.security.sasl.ntlm.hostname";
+    privbtf stbtid finbl String NTLM_VERSION =
+            "dom.sun.sfdurity.sbsl.ntlm.vfrsion";
+    privbtf stbtid finbl String NTLM_RANDOM =
+            "dom.sun.sfdurity.sbsl.ntlm.rbndom";
+    privbtf finbl stbtid String NTLM_DOMAIN =
+            "dom.sun.sfdurity.sbsl.ntlm.dombin";
+    privbtf finbl stbtid String NTLM_HOSTNAME =
+            "dom.sun.sfdurity.sbsl.ntlm.iostnbmf";
 
-    private final Client client;
-    private final String mech;
-    private final Random random;
+    privbtf finbl Clifnt dlifnt;
+    privbtf finbl String mfdi;
+    privbtf finbl Rbndom rbndom;
 
-    private int step = 0;   // 0-start,1-nego,2-auth,3-done
+    privbtf int stfp = 0;   // 0-stbrt,1-nfgo,2-buti,3-donf
 
     /**
-     * @param mech non-null
-     * @param authorizationId can be null or empty and ignored
-     * @param protocol non-null for Sasl, useless for NTLM
-     * @param serverName non-null for Sasl, but can be null for NTLM
-     * @param props can be null
-     * @param cbh can be null for Sasl, already null-checked in factory
-     * @throws SaslException
+     * @pbrbm mfdi non-null
+     * @pbrbm butiorizbtionId dbn bf null or fmpty bnd ignorfd
+     * @pbrbm protodol non-null for Sbsl, usflfss for NTLM
+     * @pbrbm sfrvfrNbmf non-null for Sbsl, but dbn bf null for NTLM
+     * @pbrbm props dbn bf null
+     * @pbrbm dbi dbn bf null for Sbsl, blrfbdy null-difdkfd in fbdtory
+     * @tirows SbslExdfption
      */
-    NTLMClient(String mech, String authzid, String protocol, String serverName,
-            Map<String, ?> props, CallbackHandler cbh) throws SaslException {
+    NTLMClifnt(String mfdi, String butizid, String protodol, String sfrvfrNbmf,
+            Mbp<String, ?> props, CbllbbdkHbndlfr dbi) tirows SbslExdfption {
 
-        this.mech = mech;
-        String version = null;
-        Random rtmp = null;
-        String hostname = null;
+        tiis.mfdi = mfdi;
+        String vfrsion = null;
+        Rbndom rtmp = null;
+        String iostnbmf = null;
 
         if (props != null) {
-            String qop = (String)props.get(Sasl.QOP);
-            if (qop != null && !qop.equals("auth")) {
-                throw new SaslException("NTLM only support auth");
+            String qop = (String)props.gft(Sbsl.QOP);
+            if (qop != null && !qop.fqubls("buti")) {
+                tirow nfw SbslExdfption("NTLM only support buti");
             }
-            version = (String)props.get(NTLM_VERSION);
-            rtmp = (Random)props.get(NTLM_RANDOM);
-            hostname = (String)props.get(NTLM_HOSTNAME);
+            vfrsion = (String)props.gft(NTLM_VERSION);
+            rtmp = (Rbndom)props.gft(NTLM_RANDOM);
+            iostnbmf = (String)props.gft(NTLM_HOSTNAME);
         }
-        this.random = rtmp != null ? rtmp : new Random();
+        tiis.rbndom = rtmp != null ? rtmp : nfw Rbndom();
 
-        if (version == null) {
-            version = System.getProperty("ntlm.version");
+        if (vfrsion == null) {
+            vfrsion = Systfm.gftPropfrty("ntlm.vfrsion");
         }
 
-        RealmCallback dcb = (serverName != null && !serverName.isEmpty())?
-            new RealmCallback("Realm: ", serverName) :
-            new RealmCallback("Realm: ");
-        NameCallback ncb = (authzid != null && !authzid.isEmpty()) ?
-            new NameCallback("User name: ", authzid) :
-            new NameCallback("User name: ");
-        PasswordCallback pcb =
-            new PasswordCallback("Password: ", false);
+        RfblmCbllbbdk ddb = (sfrvfrNbmf != null && !sfrvfrNbmf.isEmpty())?
+            nfw RfblmCbllbbdk("Rfblm: ", sfrvfrNbmf) :
+            nfw RfblmCbllbbdk("Rfblm: ");
+        NbmfCbllbbdk ndb = (butizid != null && !butizid.isEmpty()) ?
+            nfw NbmfCbllbbdk("Usfr nbmf: ", butizid) :
+            nfw NbmfCbllbbdk("Usfr nbmf: ");
+        PbsswordCbllbbdk pdb =
+            nfw PbsswordCbllbbdk("Pbssword: ", fblsf);
 
         try {
-            cbh.handle(new Callback[] {dcb, ncb, pcb});
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("NTLM: Cannot perform callback to " +
-                "acquire realm, username or password", e);
-        } catch (IOException e) {
-            throw new SaslException(
-                "NTLM: Error acquiring realm, username or password", e);
+            dbi.ibndlf(nfw Cbllbbdk[] {ddb, ndb, pdb});
+        } dbtdi (UnsupportfdCbllbbdkExdfption f) {
+            tirow nfw SbslExdfption("NTLM: Cbnnot pfrform dbllbbdk to " +
+                "bdquirf rfblm, usfrnbmf or pbssword", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw SbslExdfption(
+                "NTLM: Error bdquiring rfblm, usfrnbmf or pbssword", f);
         }
 
-        if (hostname == null) {
+        if (iostnbmf == null) {
             try {
-                hostname = InetAddress.getLocalHost().getCanonicalHostName();
-            } catch (UnknownHostException e) {
-                hostname = "localhost";
+                iostnbmf = InftAddrfss.gftLodblHost().gftCbnonidblHostNbmf();
+            } dbtdi (UnknownHostExdfption f) {
+                iostnbmf = "lodbliost";
             }
         }
         try {
-            String name = ncb.getName();
-            if (name == null) {
-                name = authzid;
+            String nbmf = ndb.gftNbmf();
+            if (nbmf == null) {
+                nbmf = butizid;
             }
-            String domain = dcb.getText();
-            if (domain == null) {
-                domain = serverName;
+            String dombin = ddb.gftTfxt();
+            if (dombin == null) {
+                dombin = sfrvfrNbmf;
             }
-            client = new Client(version, hostname,
-                    name,
-                    domain,
-                    pcb.getPassword());
-        } catch (NTLMException ne) {
-            throw new SaslException(
-                    "NTLM: client creation failure", ne);
+            dlifnt = nfw Clifnt(vfrsion, iostnbmf,
+                    nbmf,
+                    dombin,
+                    pdb.gftPbssword());
+        } dbtdi (NTLMExdfption nf) {
+            tirow nfw SbslExdfption(
+                    "NTLM: dlifnt drfbtion fbilurf", nf);
         }
     }
 
-    @Override
-    public String getMechanismName() {
-        return mech;
+    @Ovfrridf
+    publid String gftMfdibnismNbmf() {
+        rfturn mfdi;
     }
 
-    @Override
-    public boolean isComplete() {
-        return step >= 2;
+    @Ovfrridf
+    publid boolfbn isComplftf() {
+        rfturn stfp >= 2;
     }
 
-    @Override
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-            throws SaslException {
-        throw new IllegalStateException("Not supported.");
+    @Ovfrridf
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+            tirows SbslExdfption {
+        tirow nfw IllfgblStbtfExdfption("Not supportfd.");
     }
 
-    @Override
-    public byte[] wrap(byte[] outgoing, int offset, int len)
-            throws SaslException {
-        throw new IllegalStateException("Not supported.");
+    @Ovfrridf
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+            tirows SbslExdfption {
+        tirow nfw IllfgblStbtfExdfption("Not supportfd.");
     }
 
-    @Override
-    public Object getNegotiatedProperty(String propName) {
-        if (!isComplete()) {
-            throw new IllegalStateException("authentication not complete");
+    @Ovfrridf
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!isComplftf()) {
+            tirow nfw IllfgblStbtfExdfption("butifntidbtion not domplftf");
         }
-        switch (propName) {
-            case Sasl.QOP:
-                return "auth";
-            case NTLM_DOMAIN:
-                return client.getDomain();
-            default:
-                return null;
+        switdi (propNbmf) {
+            dbsf Sbsl.QOP:
+                rfturn "buti";
+            dbsf NTLM_DOMAIN:
+                rfturn dlifnt.gftDombin();
+            dffbult:
+                rfturn null;
         }
     }
 
-    @Override
-    public void dispose() throws SaslException {
-        client.dispose();
+    @Ovfrridf
+    publid void disposf() tirows SbslExdfption {
+        dlifnt.disposf();
     }
 
-    @Override
-    public boolean hasInitialResponse() {
-        return true;
+    @Ovfrridf
+    publid boolfbn ibsInitiblRfsponsf() {
+        rfturn truf;
     }
 
-    @Override
-    public byte[] evaluateChallenge(byte[] challenge) throws SaslException {
-        step++;
-        if (step == 1) {
-            return client.type1();
-        } else {
+    @Ovfrridf
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngf) tirows SbslExdfption {
+        stfp++;
+        if (stfp == 1) {
+            rfturn dlifnt.typf1();
+        } flsf {
             try {
-                byte[] nonce = new byte[8];
-                random.nextBytes(nonce);
-                return client.type3(challenge, nonce);
-            } catch (NTLMException ex) {
-                throw new SaslException("Type3 creation failed", ex);
+                bytf[] nondf = nfw bytf[8];
+                rbndom.nfxtBytfs(nondf);
+                rfturn dlifnt.typf3(dibllfngf, nondf);
+            } dbtdi (NTLMExdfption fx) {
+                tirow nfw SbslExdfption("Typf3 drfbtion fbilfd", fx);
             }
         }
     }

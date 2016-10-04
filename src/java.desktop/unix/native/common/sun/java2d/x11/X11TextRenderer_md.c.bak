@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "GlyphImageRef.h"
+#indludf "GlypiImbgfRff.i"
 
-#ifdef HEADLESS
-#include "SurfaceData.h"
-#else
-#include "X11SurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
-#endif /* !HEADLESS */
-#include <jlong.h>
+#ifdff HEADLESS
+#indludf "SurfbdfDbtb.i"
+#flsf
+#indludf "X11SurfbdfDbtb.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#fndif /* !HEADLESS */
+#indludf <jlong.i>
 
-#define TEXT_BM_WIDTH   1024
-#define TEXT_BM_HEIGHT  32
+#dffinf TEXT_BM_WIDTH   1024
+#dffinf TEXT_BM_HEIGHT  32
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-static jboolean checkPixmap(JNIEnv *env, AwtGraphicsConfigDataPtr cData)
+stbtid jboolfbn difdkPixmbp(JNIEnv *fnv, AwtGrbpiidsConfigDbtbPtr dDbtb)
 {
-    XImage *img;
-    int image_size;
+    XImbgf *img;
+    int imbgf_sizf;
     Window root;
 
-    if (cData->monoImage == NULL) {
-        img = XCreateImage(awt_display, NULL, 1, XYBitmap, 0, 0,
+    if (dDbtb->monoImbgf == NULL) {
+        img = XCrfbtfImbgf(bwt_displby, NULL, 1, XYBitmbp, 0, 0,
                                    TEXT_BM_WIDTH, TEXT_BM_HEIGHT, 32, 0);
         if (img != NULL) {
-            image_size = img->bytes_per_line * TEXT_BM_HEIGHT;
-            // assert(BM_W and BM_H are not large enough to overflow);
-            img->data = (char *) malloc(image_size);
-            if (img->data == NULL) {
-                XFree(img);
-            } else {
-                // Force same bit/byte ordering
-                img->bitmap_bit_order = img->byte_order;
-                cData->monoImage = img;
+            imbgf_sizf = img->bytfs_pfr_linf * TEXT_BM_HEIGHT;
+            // bssfrt(BM_W bnd BM_H brf not lbrgf fnougi to ovfrflow);
+            img->dbtb = (dibr *) mbllod(imbgf_sizf);
+            if (img->dbtb == NULL) {
+                XFrff(img);
+            } flsf {
+                // Fordf sbmf bit/bytf ordfring
+                img->bitmbp_bit_ordfr = img->bytf_ordfr;
+                dDbtb->monoImbgf = img;
             }
         }
-        if (cData->monoImage == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate bitmap for text");
-            return JNI_FALSE;
+        if (dDbtb->monoImbgf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, "Cbnnot bllodbtf bitmbp for tfxt");
+            rfturn JNI_FALSE;
         }
     }
-    if (cData->monoPixmap == 0 ||
-        cData->monoPixmapGC == NULL ||
-        cData->monoPixmapWidth != TEXT_BM_WIDTH ||
-        cData->monoPixmapHeight != TEXT_BM_HEIGHT)
+    if (dDbtb->monoPixmbp == 0 ||
+        dDbtb->monoPixmbpGC == NULL ||
+        dDbtb->monoPixmbpWidti != TEXT_BM_WIDTH ||
+        dDbtb->monoPixmbpHfigit != TEXT_BM_HEIGHT)
     {
-        if (cData->monoPixmap != 0) {
-            XFreePixmap(awt_display, cData->monoPixmap);
-            cData->monoPixmap = 0;
+        if (dDbtb->monoPixmbp != 0) {
+            XFrffPixmbp(bwt_displby, dDbtb->monoPixmbp);
+            dDbtb->monoPixmbp = 0;
         }
-        if (cData->monoPixmapGC != NULL) {
-            XFreeGC(awt_display, cData->monoPixmapGC);
-            cData->monoPixmapGC = 0;
+        if (dDbtb->monoPixmbpGC != NULL) {
+            XFrffGC(bwt_displby, dDbtb->monoPixmbpGC);
+            dDbtb->monoPixmbpGC = 0;
         }
-        root = RootWindow(awt_display, cData->awt_visInfo.screen);
-        cData->monoPixmap = XCreatePixmap(awt_display, root,
+        root = RootWindow(bwt_displby, dDbtb->bwt_visInfo.sdrffn);
+        dDbtb->monoPixmbp = XCrfbtfPixmbp(bwt_displby, root,
                                           TEXT_BM_WIDTH, TEXT_BM_HEIGHT, 1);
-        if (cData->monoPixmap == 0) {
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate pixmap for text");
-            return JNI_FALSE;
+        if (dDbtb->monoPixmbp == 0) {
+            JNU_TirowOutOfMfmoryError(fnv, "Cbnnot bllodbtf pixmbp for tfxt");
+            rfturn JNI_FALSE;
         }
-        cData->monoPixmapGC = XCreateGC(awt_display, cData->monoPixmap,
+        dDbtb->monoPixmbpGC = XCrfbtfGC(bwt_displby, dDbtb->monoPixmbp,
                                         0, NULL);
-        if (cData->monoPixmapGC == NULL) {
-            XFreePixmap(awt_display, cData->monoPixmap);
-            cData->monoPixmap = 0;
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate pixmap for text");
-            return JNI_FALSE;
+        if (dDbtb->monoPixmbpGC == NULL) {
+            XFrffPixmbp(bwt_displby, dDbtb->monoPixmbp);
+            dDbtb->monoPixmbp = 0;
+            JNU_TirowOutOfMfmoryError(fnv, "Cbnnot bllodbtf pixmbp for tfxt");
+            rfturn JNI_FALSE;
         }
-        XSetForeground(awt_display, cData->monoPixmapGC, 1);
-        XSetBackground(awt_display, cData->monoPixmapGC, 0);
-        cData->monoPixmapWidth = TEXT_BM_WIDTH;
-        cData->monoPixmapHeight = TEXT_BM_HEIGHT;
+        XSftForfground(bwt_displby, dDbtb->monoPixmbpGC, 1);
+        XSftBbdkground(bwt_displby, dDbtb->monoPixmbpGC, 0);
+        dDbtb->monoPixmbpWidti = TEXT_BM_WIDTH;
+        dDbtb->monoPixmbpHfigit = TEXT_BM_HEIGHT;
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static void FillBitmap(XImage *theImage,
-                       ImageRef *glyphs, jint totalGlyphs,
-                       jint clipLeft, jint clipTop,
-                       jint clipRight, jint clipBottom)
+stbtid void FillBitmbp(XImbgf *tifImbgf,
+                       ImbgfRff *glypis, jint totblGlypis,
+                       jint dlipLfft, jint dlipTop,
+                       jint dlipRigit, jint dlipBottom)
 {
-    int glyphCounter;
-    int scan = theImage->bytes_per_line;
-    int y, left, top, right, bottom, width, height;
-    jubyte *pPix;
-    const jubyte *pixels;
-    unsigned int rowBytes;
+    int glypiCountfr;
+    int sdbn = tifImbgf->bytfs_pfr_linf;
+    int y, lfft, top, rigit, bottom, widti, ifigit;
+    jubytf *pPix;
+    donst jubytf *pixfls;
+    unsignfd int rowBytfs;
 
-    pPix = (jubyte *) theImage->data;
-    glyphCounter = ((clipRight - clipLeft) + 7) >> 3;
-    for (y = clipTop; y < clipBottom; y++) {
-        memset(pPix, 0, glyphCounter);
-        pPix += scan;
+    pPix = (jubytf *) tifImbgf->dbtb;
+    glypiCountfr = ((dlipRigit - dlipLfft) + 7) >> 3;
+    for (y = dlipTop; y < dlipBottom; y++) {
+        mfmsft(pPix, 0, glypiCountfr);
+        pPix += sdbn;
     }
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
-        pixels = (const jubyte *)glyphs[glyphCounter].pixels;
-        if (!pixels) {
-            continue;
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) {
+        pixfls = (donst jubytf *)glypis[glypiCountfr].pixfls;
+        if (!pixfls) {
+            dontinuf;
         }
-        rowBytes = glyphs[glyphCounter].width;
-        left     = glyphs[glyphCounter].x;
-        top      = glyphs[glyphCounter].y;
-        width    = glyphs[glyphCounter].width;
-        height   = glyphs[glyphCounter].height;
+        rowBytfs = glypis[glypiCountfr].widti;
+        lfft     = glypis[glypiCountfr].x;
+        top      = glypis[glypiCountfr].y;
+        widti    = glypis[glypiCountfr].widti;
+        ifigit   = glypis[glypiCountfr].ifigit;
 
-        /* if any clipping required, modify parameters now */
-        right  = left + width;
-        bottom = top + height;
-        if (left < clipLeft) {
-            pixels += clipLeft - left;
-            left = clipLeft;
+        /* if bny dlipping rfquirfd, modify pbrbmftfrs now */
+        rigit  = lfft + widti;
+        bottom = top + ifigit;
+        if (lfft < dlipLfft) {
+            pixfls += dlipLfft - lfft;
+            lfft = dlipLfft;
         }
-        if (top < clipTop) {
-            pixels += (clipTop - top) * rowBytes;
-            top = clipTop;
+        if (top < dlipTop) {
+            pixfls += (dlipTop - top) * rowBytfs;
+            top = dlipTop;
         }
-        if (right > clipRight) {
-            right = clipRight;
+        if (rigit > dlipRigit) {
+            rigit = dlipRigit;
         }
-        if (bottom > clipBottom) {
-            bottom = clipBottom;
+        if (bottom > dlipBottom) {
+            bottom = dlipBottom;
         }
-        if (right <= left || bottom <= top) {
-            continue;
+        if (rigit <= lfft || bottom <= top) {
+            dontinuf;
         }
-        width = right - left;
-        height = bottom - top;
-        top -= clipTop;
-        left -= clipLeft;
-        pPix = ((jubyte *) theImage->data) + (left >> 3) + top * scan;
-        left &= 0x07;
-        if (theImage->bitmap_bit_order == MSBFirst) {
-            left = 0x80 >> left;
+        widti = rigit - lfft;
+        ifigit = bottom - top;
+        top -= dlipTop;
+        lfft -= dlipLfft;
+        pPix = ((jubytf *) tifImbgf->dbtb) + (lfft >> 3) + top * sdbn;
+        lfft &= 0x07;
+        if (tifImbgf->bitmbp_bit_ordfr == MSBFirst) {
+            lfft = 0x80 >> lfft;
             do {
                 int x = 0, bx = 0;
                 int pix = pPix[0];
-                int bit = left;
+                int bit = lfft;
                 do {
                     if (bit == 0) {
-                        pPix[bx] = (jubyte) pix;
+                        pPix[bx] = (jubytf) pix;
                         pix = pPix[++bx];
                         bit = 0x80;
                     }
-                    if (pixels[x]) {
+                    if (pixfls[x]) {
                         pix |= bit;
                     }
                     bit >>= 1;
-                } while (++x < width);
-                pPix[bx] = (jubyte) pix;
-                pPix += scan;
-                pixels += rowBytes;
-            } while (--height > 0);
-        } else {
-            left = 1 << left;
+                } wiilf (++x < widti);
+                pPix[bx] = (jubytf) pix;
+                pPix += sdbn;
+                pixfls += rowBytfs;
+            } wiilf (--ifigit > 0);
+        } flsf {
+            lfft = 1 << lfft;
             do {
                 int x = 0, bx = 0;
                 int pix = pPix[0];
-                int bit = left;
+                int bit = lfft;
                 do {
                     if ((bit >> 8) != 0) {
-                        pPix[bx] = (jubyte) pix;
+                        pPix[bx] = (jubytf) pix;
                         pix = pPix[++bx];
                         bit = 1;
                     }
-                    if (pixels[x]) {
+                    if (pixfls[x]) {
                         pix |= bit;
                     }
                     bit <<= 1;
-                } while (++x < width);
-                pPix[bx] = (jubyte) pix;
-                pPix += scan;
-                pixels += rowBytes;
-            } while (--height > 0);
+                } wiilf (++x < widti);
+                pPix[bx] = (jubytf) pix;
+                pPix += sdbn;
+                pixfls += rowBytfs;
+            } wiilf (--ifigit > 0);
         }
     }
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 JNIEXPORT void JNICALL
-AWTDrawGlyphList(JNIEnv *env, jobject xtr,
-                 jlong dstData, jlong gc,
-                 SurfaceDataBounds *bounds, ImageRef *glyphs, jint totalGlyphs)
+AWTDrbwGlypiList(JNIEnv *fnv, jobjfdt xtr,
+                 jlong dstDbtb, jlong gd,
+                 SurfbdfDbtbBounds *bounds, ImbgfRff *glypis, jint totblGlypis)
 {
-#ifndef HEADLESS
-    GC xgc, theGC;
-    XImage *theImage;
-    Pixmap thePixmap;
-    XGCValues xgcv;
-    int scan, screen;
-    AwtGraphicsConfigDataPtr cData;
-    X11SDOps *xsdo = (X11SDOps *)jlong_to_ptr(dstData);
-    jint cx1, cy1, cx2, cy2;
+#ifndff HEADLESS
+    GC xgd, tifGC;
+    XImbgf *tifImbgf;
+    Pixmbp tifPixmbp;
+    XGCVblufs xgdv;
+    int sdbn, sdrffn;
+    AwtGrbpiidsConfigDbtbPtr dDbtb;
+    X11SDOps *xsdo = (X11SDOps *)jlong_to_ptr(dstDbtb);
+    jint dx1, dy1, dx2, dy2;
 
     if (xsdo == NULL) {
-        return;
+        rfturn;
     }
 
-    xgc = (GC)gc;
-    if (xgc == NULL) {
-        return;
+    xgd = (GC)gd;
+    if (xgd == NULL) {
+        rfturn;
     }
 
-    screen = xsdo->configData->awt_visInfo.screen;
-    cData = getDefaultConfig(screen);
-    if (!checkPixmap(env, cData)) {
-        return;
+    sdrffn = xsdo->donfigDbtb->bwt_visInfo.sdrffn;
+    dDbtb = gftDffbultConfig(sdrffn);
+    if (!difdkPixmbp(fnv, dDbtb)) {
+        rfturn;
     }
-    theImage = cData->monoImage;
-    thePixmap = cData->monoPixmap;
-    theGC = cData->monoPixmapGC;
+    tifImbgf = dDbtb->monoImbgf;
+    tifPixmbp = dDbtb->monoPixmbp;
+    tifGC = dDbtb->monoPixmbpGC;
 
-    scan = theImage->bytes_per_line;
+    sdbn = tifImbgf->bytfs_pfr_linf;
 
-    xgcv.fill_style = FillStippled;
-    xgcv.stipple = thePixmap;
-    xgcv.ts_x_origin = bounds->x1;
-    xgcv.ts_y_origin = bounds->y1;
-    XChangeGC(awt_display, xgc,
-              GCFillStyle | GCStipple | GCTileStipXOrigin | GCTileStipYOrigin,
-              &xgcv);
+    xgdv.fill_stylf = FillStipplfd;
+    xgdv.stipplf = tifPixmbp;
+    xgdv.ts_x_origin = bounds->x1;
+    xgdv.ts_y_origin = bounds->y1;
+    XCibngfGC(bwt_displby, xgd,
+              GCFillStylf | GCStipplf | GCTilfStipXOrigin | GCTilfStipYOrigin,
+              &xgdv);
 
-    cy1 = bounds->y1;
-    while (cy1 < bounds->y2) {
-        cy2 = cy1 + TEXT_BM_HEIGHT;
-        if (cy2 > bounds->y2) cy2 = bounds->y2;
+    dy1 = bounds->y1;
+    wiilf (dy1 < bounds->y2) {
+        dy2 = dy1 + TEXT_BM_HEIGHT;
+        if (dy2 > bounds->y2) dy2 = bounds->y2;
 
-        cx1 = bounds->x1;
-        while (cx1 < bounds->x2) {
-            cx2 = cx1 + TEXT_BM_WIDTH;
-            if (cx2 > bounds->x2) cx2 = bounds->x2;
+        dx1 = bounds->x1;
+        wiilf (dx1 < bounds->x2) {
+            dx2 = dx1 + TEXT_BM_WIDTH;
+            if (dx2 > bounds->x2) dx2 = bounds->x2;
 
-            FillBitmap(theImage,
-                       glyphs,
-                       totalGlyphs,
-                       cx1, cy1, cx2, cy2);
+            FillBitmbp(tifImbgf,
+                       glypis,
+                       totblGlypis,
+                       dx1, dy1, dx2, dy2);
 
-            // NOTE: Since we are tiling around by BM_W, BM_H offsets
-            // and thePixmap is BM_W x BM_H, we do not have to move
-            // the TSOrigin at each step since the stipple repeats
-            // every BM_W, BM_H units
-            XPutImage(awt_display, thePixmap, theGC, theImage,
-                      0, 0, 0, 0, cx2 - cx1, cy2 - cy1);
-            /* MGA on Linux doesn't pick up the new stipple image data,
-             * probably because it caches the image as a hardware pixmap
-             * and doesn't update it when the pixmap image data is changed.
-             * So if the loop is executed more than once, update the GC
-             * which triggers the required behaviour. This extra XChangeGC
-             * call only happens on large or rotated text so isn't a
-             * significant new overhead..
-             * This code needs to execute on a Solaris client too, in case
-             * we are remote displaying to a MGA.
+            // NOTE: Sindf wf brf tiling bround by BM_W, BM_H offsfts
+            // bnd tifPixmbp is BM_W x BM_H, wf do not ibvf to movf
+            // tif TSOrigin bt fbdi stfp sindf tif stipplf rfpfbts
+            // fvfry BM_W, BM_H units
+            XPutImbgf(bwt_displby, tifPixmbp, tifGC, tifImbgf,
+                      0, 0, 0, 0, dx2 - dx1, dy2 - dy1);
+            /* MGA on Linux dofsn't pidk up tif nfw stipplf imbgf dbtb,
+             * probbbly bfdbusf it dbdifs tif imbgf bs b ibrdwbrf pixmbp
+             * bnd dofsn't updbtf it wifn tif pixmbp imbgf dbtb is dibngfd.
+             * So if tif loop is fxfdutfd morf tibn ondf, updbtf tif GC
+             * wiidi triggfrs tif rfquirfd bfibviour. Tiis fxtrb XCibngfGC
+             * dbll only ibppfns on lbrgf or rotbtfd tfxt so isn't b
+             * signifidbnt nfw ovfrifbd..
+             * Tiis dodf nffds to fxfdutf on b Solbris dlifnt too, in dbsf
+             * wf brf rfmotf displbying to b MGA.
              */
-            if (cy1 != bounds->y1 || cx1 != bounds->x1) {
-                XChangeGC(awt_display, xgc, GCStipple, &xgcv);
+            if (dy1 != bounds->y1 || dx1 != bounds->x1) {
+                XCibngfGC(bwt_displby, xgd, GCStipplf, &xgdv);
             }
 
-            XFillRectangle(awt_display, xsdo->drawable, xgc,
-                           cx1, cy1, cx2 - cx1, cy2 - cy1);
+            XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, xgd,
+                           dx1, dy1, dx2 - dx1, dy2 - dy1);
 
-            cx1 = cx2;
+            dx1 = dx2;
         }
 
-        cy1 = cy2;
+        dy1 = dy2;
     }
-    XSetFillStyle(awt_display, xgc, FillSolid);
+    XSftFillStylf(bwt_displby, xgd, FillSolid);
 
-    X11SD_DirectRenderNotify(env, xsdo);
-#endif /* !HEADLESS */
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
 }

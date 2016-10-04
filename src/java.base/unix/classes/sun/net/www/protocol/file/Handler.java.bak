@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.file;
+pbdkbgf sun.nft.www.protodol.filf;
 
-import java.net.InetAddress;
-import java.net.URLConnection;
-import java.net.URL;
-import java.net.Proxy;
-import java.net.MalformedURLException;
-import java.net.URLStreamHandler;
-import java.io.InputStream;
-import java.io.IOException;
-import sun.net.www.ParseUtil;
-import java.io.File;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.nft.www.PbrsfUtil;
+import jbvb.io.Filf;
 
 /**
- * Open an file input stream given a URL.
- * @author      James Gosling
+ * Opfn bn filf input strfbm givfn b URL.
+ * @butior      Jbmfs Gosling
  */
-public class Handler extends URLStreamHandler {
+publid dlbss Hbndlfr fxtfnds URLStrfbmHbndlfr {
 
-    private String getHost(URL url) {
-        String host = url.getHost();
-        if (host == null)
-            host = "";
-        return host;
+    privbtf String gftHost(URL url) {
+        String iost = url.gftHost();
+        if (iost == null)
+            iost = "";
+        rfturn iost;
     }
 
 
-    protected void parseURL(URL u, String spec, int start, int limit) {
+    protfdtfd void pbrsfURL(URL u, String spfd, int stbrt, int limit) {
         /*
-         * Ugly backwards compatibility. Flip any file separator
-         * characters to be forward slashes. This is a nop on Unix
-         * and "fixes" win32 file paths. According to RFC 2396,
-         * only forward slashes may be used to represent hierarchy
-         * separation in a URL but previous releases unfortunately
-         * performed this "fixup" behavior in the file URL parsing code
-         * rather than forcing this to be fixed in the caller of the URL
-         * class where it belongs. Since backslash is an "unwise"
-         * character that would normally be encoded if literally intended
-         * as a non-seperator character the damage of veering away from the
-         * specification is presumably limited.
+         * Ugly bbdkwbrds dompbtibility. Flip bny filf sfpbrbtor
+         * dibrbdtfrs to bf forwbrd slbsifs. Tiis is b nop on Unix
+         * bnd "fixfs" win32 filf pbtis. Addording to RFC 2396,
+         * only forwbrd slbsifs mby bf usfd to rfprfsfnt iifrbrdiy
+         * sfpbrbtion in b URL but prfvious rflfbsfs unfortunbtfly
+         * pfrformfd tiis "fixup" bfibvior in tif filf URL pbrsing dodf
+         * rbtifr tibn fording tiis to bf fixfd in tif dbllfr of tif URL
+         * dlbss wifrf it bflongs. Sindf bbdkslbsi is bn "unwisf"
+         * dibrbdtfr tibt would normblly bf fndodfd if litfrblly intfndfd
+         * bs b non-sfpfrbtor dibrbdtfr tif dbmbgf of vffring bwby from tif
+         * spfdifidbtion is prfsumbbly limitfd.
          */
-        super.parseURL(u, spec.replace(File.separatorChar, '/'), start, limit);
+        supfr.pbrsfURL(u, spfd.rfplbdf(Filf.sfpbrbtorCibr, '/'), stbrt, limit);
     }
 
-    public synchronized URLConnection openConnection(URL u)
-        throws IOException {
-        return openConnection(u, null);
+    publid syndironizfd URLConnfdtion opfnConnfdtion(URL u)
+        tirows IOExdfption {
+        rfturn opfnConnfdtion(u, null);
     }
 
-    public synchronized URLConnection openConnection(URL u, Proxy p)
-           throws IOException {
-        String host = u.getHost();
-        if (host == null || host.equals("") || host.equals("~") ||
-            host.equalsIgnoreCase("localhost")) {
-            File file = new File(ParseUtil.decode(u.getPath()));
-            return createFileURLConnection(u, file);
+    publid syndironizfd URLConnfdtion opfnConnfdtion(URL u, Proxy p)
+           tirows IOExdfption {
+        String iost = u.gftHost();
+        if (iost == null || iost.fqubls("") || iost.fqubls("~") ||
+            iost.fqublsIgnorfCbsf("lodbliost")) {
+            Filf filf = nfw Filf(PbrsfUtil.dfdodf(u.gftPbti()));
+            rfturn drfbtfFilfURLConnfdtion(u, filf);
         }
 
-        /* If you reach here, it implies that you have a hostname
-           so attempt an ftp connection.
+        /* If you rfbdi ifrf, it implifs tibt you ibvf b iostnbmf
+           so bttfmpt bn ftp donnfdtion.
          */
-        URLConnection uc;
+        URLConnfdtion ud;
         URL ru;
 
         try {
-            ru = new URL("ftp", host, u.getFile() +
-                             (u.getRef() == null ? "": "#" + u.getRef()));
+            ru = nfw URL("ftp", iost, u.gftFilf() +
+                             (u.gftRff() == null ? "": "#" + u.gftRff()));
             if (p != null) {
-                uc = ru.openConnection(p);
-            } else {
-                uc = ru.openConnection();
+                ud = ru.opfnConnfdtion(p);
+            } flsf {
+                ud = ru.opfnConnfdtion();
             }
-        } catch (IOException e) {
-            uc = null;
+        } dbtdi (IOExdfption f) {
+            ud = null;
         }
-        if (uc == null) {
-            throw new IOException("Unable to connect to: " +
-                                                       u.toExternalForm());
+        if (ud == null) {
+            tirow nfw IOExdfption("Unbblf to donnfdt to: " +
+                                                       u.toExtfrnblForm());
         }
-        return uc;
+        rfturn ud;
     }
 
-    // Template method to be overriden by Java Plug-in. [stanleyh]
+    // Tfmplbtf mftiod to bf ovfrridfn by Jbvb Plug-in. [stbnlfyi]
     //
-    protected URLConnection createFileURLConnection(URL u, File file)
+    protfdtfd URLConnfdtion drfbtfFilfURLConnfdtion(URL u, Filf filf)
     {
-        return new FileURLConnection(u, file);
+        rfturn nfw FilfURLConnfdtion(u, filf);
     }
 
     /**
-     * Compares the host components of two URLs.
-     * @param u1 the URL of the first host to compare
-     * @param u2 the URL of the second host to compare
-     * @return  <tt>true</tt> if and only if they
-     * are equal, <tt>false</tt> otherwise.
+     * Compbrfs tif iost domponfnts of two URLs.
+     * @pbrbm u1 tif URL of tif first iost to dompbrf
+     * @pbrbm u2 tif URL of tif sfdond iost to dompbrf
+     * @rfturn  <tt>truf</tt> if bnd only if tify
+     * brf fqubl, <tt>fblsf</tt> otifrwisf.
      */
-    protected boolean hostsEqual(URL u1, URL u2) {
+    protfdtfd boolfbn iostsEqubl(URL u1, URL u2) {
         /*
-         * Special case for file: URLs
-         * per RFC 1738 no hostname is equivalent to 'localhost'
-         * i.e. file:///path is equal to file://localhost/path
+         * Spfdibl dbsf for filf: URLs
+         * pfr RFC 1738 no iostnbmf is fquivblfnt to 'lodbliost'
+         * i.f. filf:///pbti is fqubl to filf://lodbliost/pbti
          */
-        String s1 = u1.getHost();
-        String s2 = u2.getHost();
-        if ("localhost".equalsIgnoreCase(s1) && ( s2 == null || "".equals(s2)))
-            return true;
-        if ("localhost".equalsIgnoreCase(s2) && ( s1 == null || "".equals(s1)))
-            return true;
-        return super.hostsEqual(u1, u2);
+        String s1 = u1.gftHost();
+        String s2 = u2.gftHost();
+        if ("lodbliost".fqublsIgnorfCbsf(s1) && ( s2 == null || "".fqubls(s2)))
+            rfturn truf;
+        if ("lodbliost".fqublsIgnorfCbsf(s2) && ( s1 == null || "".fqubls(s1)))
+            rfturn truf;
+        rfturn supfr.iostsEqubl(u1, u2);
     }
 }

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Point;
-import java.awt.Window;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.peer.MouseInfoPeer;
+import jbvb.bwt.Point;
+import jbvb.bwt.Window;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.pffr.MousfInfoPffr;
 
-public class XMouseInfoPeer implements MouseInfoPeer {
+publid dlbss XMousfInfoPffr implfmfnts MousfInfoPffr {
 
     /**
-     * Package-private constructor to prevent instantiation.
+     * Pbdkbgf-privbtf donstrudtor to prfvfnt instbntibtion.
      */
-    XMouseInfoPeer() {
+    XMousfInfoPffr() {
     }
 
-    public int fillPointWithCoords(Point point) {
-        long display = XToolkit.getDisplay();
-        GraphicsEnvironment ge = GraphicsEnvironment.
-                                     getLocalGraphicsEnvironment();
-        GraphicsDevice[] gds = ge.getScreenDevices();
-        int gdslen = gds.length;
+    publid int fillPointWitiCoords(Point point) {
+        long displby = XToolkit.gftDisplby();
+        GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+                                     gftLodblGrbpiidsEnvironmfnt();
+        GrbpiidsDfvidf[] gds = gf.gftSdrffnDfvidfs();
+        int gdslfn = gds.lfngti;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            for (int i = 0; i < gdslen; i++) {
-                long screenRoot = XlibWrapper.RootWindow(display, i);
-                boolean pointerFound = XlibWrapper.XQueryPointer(
-                                           display, screenRoot,
-                                           XlibWrapper.larg1,  // root_return
-                                           XlibWrapper.larg2,  // child_return
-                                           XlibWrapper.larg3,  // xr_return
-                                           XlibWrapper.larg4,  // yr_return
-                                           XlibWrapper.larg5,  // xw_return
-                                           XlibWrapper.larg6,  // yw_return
-                                           XlibWrapper.larg7); // mask_return
-                if (pointerFound) {
-                    point.x = Native.getInt(XlibWrapper.larg3);
-                    point.y = Native.getInt(XlibWrapper.larg4);
-                    return i;
+            for (int i = 0; i < gdslfn; i++) {
+                long sdrffnRoot = XlibWrbppfr.RootWindow(displby, i);
+                boolfbn pointfrFound = XlibWrbppfr.XQufryPointfr(
+                                           displby, sdrffnRoot,
+                                           XlibWrbppfr.lbrg1,  // root_rfturn
+                                           XlibWrbppfr.lbrg2,  // diild_rfturn
+                                           XlibWrbppfr.lbrg3,  // xr_rfturn
+                                           XlibWrbppfr.lbrg4,  // yr_rfturn
+                                           XlibWrbppfr.lbrg5,  // xw_rfturn
+                                           XlibWrbppfr.lbrg6,  // yw_rfturn
+                                           XlibWrbppfr.lbrg7); // mbsk_rfturn
+                if (pointfrFound) {
+                    point.x = Nbtivf.gftInt(XlibWrbppfr.lbrg3);
+                    point.y = Nbtivf.gftInt(XlibWrbppfr.lbrg4);
+                    rfturn i;
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        // this should never happen
-        assert false : "No pointer found in the system.";
-        return 0;
+        // tiis siould nfvfr ibppfn
+        bssfrt fblsf : "No pointfr found in tif systfm.";
+        rfturn 0;
     }
 
-    public boolean isWindowUnderMouse(Window w) {
+    publid boolfbn isWindowUndfrMousf(Window w) {
 
-        long display = XToolkit.getDisplay();
+        long displby = XToolkit.gftDisplby();
 
-        // java.awt.Component.findUnderMouseInWindow checks that
-        // the peer is non-null by checking that the component
-        // is showing.
+        // jbvb.bwt.Componfnt.findUndfrMousfInWindow difdks tibt
+        // tif pffr is non-null by difdking tibt tif domponfnt
+        // is siowing.
 
-        long contentWindow = ((XWindow)w.getPeer()).getContentWindow();
-        long parent = XlibUtil.getParentWindow(contentWindow);
+        long dontfntWindow = ((XWindow)w.gftPffr()).gftContfntWindow();
+        long pbrfnt = XlibUtil.gftPbrfntWindow(dontfntWindow);
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            boolean windowOnTheSameScreen = XlibWrapper.XQueryPointer(display, parent,
-                                  XlibWrapper.larg1, // root_return
-                                  XlibWrapper.larg8, // child_return
-                                  XlibWrapper.larg3, // root_x_return
-                                  XlibWrapper.larg4, // root_y_return
-                                  XlibWrapper.larg5, // win_x_return
-                                  XlibWrapper.larg6, // win_y_return
-                                  XlibWrapper.larg7); //  mask_return
-            long siblingWindow = Native.getWindow(XlibWrapper.larg8);
-            return (siblingWindow == contentWindow && windowOnTheSameScreen);
+            boolfbn windowOnTifSbmfSdrffn = XlibWrbppfr.XQufryPointfr(displby, pbrfnt,
+                                  XlibWrbppfr.lbrg1, // root_rfturn
+                                  XlibWrbppfr.lbrg8, // diild_rfturn
+                                  XlibWrbppfr.lbrg3, // root_x_rfturn
+                                  XlibWrbppfr.lbrg4, // root_y_rfturn
+                                  XlibWrbppfr.lbrg5, // win_x_rfturn
+                                  XlibWrbppfr.lbrg6, // win_y_rfturn
+                                  XlibWrbppfr.lbrg7); //  mbsk_rfturn
+            long siblingWindow = Nbtivf.gftWindow(XlibWrbppfr.lbrg8);
+            rfturn (siblingWindow == dontfntWindow && windowOnTifSbmfSdrffn);
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 }

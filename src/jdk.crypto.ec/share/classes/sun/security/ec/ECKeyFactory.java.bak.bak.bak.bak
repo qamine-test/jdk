@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.fd;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * KfyFbdtory for EC kfys. Kfys must bf instbndfs of PublidKfy or PrivbtfKfy
+ * bnd gftAlgorithm() must rfturn "EC". For sudh kfys, it supports donvfrsion
+ * bftwffn thf following:
+ *
+ * For publid kfys:
+ *  . PublidKfy with bn X.509 fndoding
+ *  . ECPublidKfy
+ *  . ECPublidKfySpfd
+ *  . X509EndodfdKfySpfd
+ *
+ * For privbtf kfys:
+ *  . PrivbtfKfy with b PKCS#8 fndoding
+ *  . ECPrivbtfKfy
+ *  . ECPrivbtfKfySpfd
+ *  . PKCS8EndodfdKfySpfd
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss ECKfyFbdtory fxtfnds KfyFbdtorySpi {
+
+    // Usfd by trbnslbtfKfy()
+    privbtf stbtid KfyFbdtory instbndf;
+
+    privbtf stbtid KfyFbdtory gftInstbndf() {
+        if (instbndf == null) {
+            try {
+                instbndf = KfyFbdtory.gftInstbndf("EC", "SunEC");
+            } dbtdh (NoSudhProvidfrExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh (NoSudhAlgorithmExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            }
+        }
+
+        rfturn instbndf;
+    }
+
+    publid ECKfyFbdtory() {
+        // fmpty
+    }
+
+    /**
+     * Stbtid mfthod to donvfrt Kfy into b usfbblf instbndf of
+     * ECPublidKfy or ECPrivbtfKfy. Chfdk thf kfy bnd donvfrt it
+     * to b Sun kfy if nfdfssbry. If thf kfy is not bn EC kfy
+     * or dbnnot bf usfd, throw bn InvblidKfyExdfption.
+     *
+     * Thf difffrfndf bftwffn this mfthod bnd fnginfTrbnslbtfKfy() is thbt
+     * wf do not donvfrt kfys of othfr providfrs thbt brf blrfbdy bn
+     * instbndf of ECPublidKfy or ECPrivbtfKfy.
+     *
+     * To bf usfd by futurf Jbvb ECDSA bnd ECDH implfmfntbtions.
+     */
+    publid stbtid ECKfy toECKfy(Kfy kfy) throws InvblidKfyExdfption {
+        if (kfy instbndfof ECKfy) {
+            ECKfy fdKfy = (ECKfy)kfy;
+            dhfdkKfy(fdKfy);
+            rfturn fdKfy;
+        } flsf {
+            /*
+             * Wf don't dbll thf fnginfTrbnslbtfKfy mfthod dirfdtly
+             * bfdbusf KfyFbdtory.trbnslbtfKfy bdds dodf to loop through
+             * bll kfy fbdtorifs.
+             */
+            rfturn (ECKfy)gftInstbndf().trbnslbtfKfy(kfy);
+        }
+    }
+
+    /**
+     * Chfdk thbt thf givfn EC kfy is vblid.
+     */
+    privbtf stbtid void dhfdkKfy(ECKfy kfy) throws InvblidKfyExdfption {
+        // dhfdk for subintfrfbdfs, omit bdditionbl dhfdks for our kfys
+        if (kfy instbndfof ECPublidKfy) {
+            if (kfy instbndfof ECPublidKfyImpl) {
+                rfturn;
+            }
+        } flsf if (kfy instbndfof ECPrivbtfKfy) {
+            if (kfy instbndfof ECPrivbtfKfyImpl) {
+                rfturn;
+            }
+        } flsf {
+            throw nfw InvblidKfyExdfption("Nfithfr b publid nor b privbtf kfy");
+        }
+        // ECKfy dofs not fxtfnd Kfy, so wf nffd to do b dbst
+        String kfyAlg = ((Kfy)kfy).gftAlgorithm();
+        if (kfyAlg.fqubls("EC") == fblsf) {
+            throw nfw InvblidKfyExdfption("Not bn EC kfy: " + kfyAlg);
+        }
+        // XXX furthfr sbnity dhfdks bbout whfthfr this kfy usfs supportfd
+        // fiflds, point formbts, ftd. would go hfrf
+    }
+
+    /**
+     * Trbnslbtf bn EC kfy into b Sun EC kfy. If donvfrsion is
+     * not possiblf, throw bn InvblidKfyExdfption.
+     * Sff blso JCA dod.
+     */
+    protfdtfd Kfy fnginfTrbnslbtfKfy(Kfy kfy) throws InvblidKfyExdfption {
+        if (kfy == null) {
+            throw nfw InvblidKfyExdfption("Kfy must not bf null");
+        }
+        String kfyAlg = kfy.gftAlgorithm();
+        if (kfyAlg.fqubls("EC") == fblsf) {
+            throw nfw InvblidKfyExdfption("Not bn EC kfy: " + kfyAlg);
+        }
+        if (kfy instbndfof PublidKfy) {
+            rfturn implTrbnslbtfPublidKfy((PublidKfy)kfy);
+        } flsf if (kfy instbndfof PrivbtfKfy) {
+            rfturn implTrbnslbtfPrivbtfKfy((PrivbtfKfy)kfy);
+        } flsf {
+            throw nfw InvblidKfyExdfption("Nfithfr b publid nor b privbtf kfy");
+        }
+    }
+
+    // sff JCA dod
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        try {
+            rfturn implGfnfrbtfPublid(kfySpfd);
+        } dbtdh (InvblidKfySpfdExdfption f) {
+            throw f;
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw InvblidKfySpfdExdfption(f);
+        }
+    }
+
+    // sff JCA dod
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        try {
+            rfturn implGfnfrbtfPrivbtf(kfySpfd);
+        } dbtdh (InvblidKfySpfdExdfption f) {
+            throw f;
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw InvblidKfySpfdExdfption(f);
+        }
+    }
+
+    // intfrnbl implfmfntbtion of trbnslbtfKfy() for publid kfys. Sff JCA dod
+    privbtf PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy)
+            throws InvblidKfyExdfption {
+        if (kfy instbndfof ECPublidKfy) {
+            if (kfy instbndfof ECPublidKfyImpl) {
+                rfturn kfy;
+            }
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            rfturn nfw ECPublidKfyImpl(
+                fdKfy.gftW(),
+                fdKfy.gftPbrbms()
+            );
+        } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+            bytf[] fndodfd = kfy.gftEndodfd();
+            rfturn nfw ECPublidKfyImpl(fndodfd);
+        } flsf {
+            throw nfw InvblidKfyExdfption("Publid kfys must bf instbndf "
+                + "of ECPublidKfy or hbvf X.509 fndoding");
+        }
+    }
+
+    // intfrnbl implfmfntbtion of trbnslbtfKfy() for privbtf kfys. Sff JCA dod
+    privbtf PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            throws InvblidKfyExdfption {
+        if (kfy instbndfof ECPrivbtfKfy) {
+            if (kfy instbndfof ECPrivbtfKfyImpl) {
+                rfturn kfy;
+            }
+            ECPrivbtfKfy fdKfy = (ECPrivbtfKfy)kfy;
+            rfturn nfw ECPrivbtfKfyImpl(
+                fdKfy.gftS(),
+                fdKfy.gftPbrbms()
+            );
+        } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+            rfturn nfw ECPrivbtfKfyImpl(kfy.gftEndodfd());
+        } flsf {
+            throw nfw InvblidKfyExdfption("Privbtf kfys must bf instbndf "
+                + "of ECPrivbtfKfy or hbvf PKCS#8 fndoding");
+        }
+    }
+
+    // intfrnbl implfmfntbtion of gfnfrbtfPublid. Sff JCA dod
+    privbtf PublidKfy implGfnfrbtfPublid(KfySpfd kfySpfd)
+            throws GfnfrblSfdurityExdfption {
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
+            X509EndodfdKfySpfd x509Spfd = (X509EndodfdKfySpfd)kfySpfd;
+            rfturn nfw ECPublidKfyImpl(x509Spfd.gftEndodfd());
+        } flsf if (kfySpfd instbndfof ECPublidKfySpfd) {
+            ECPublidKfySpfd fdSpfd = (ECPublidKfySpfd)kfySpfd;
+            rfturn nfw ECPublidKfyImpl(
+                fdSpfd.gftW(),
+                fdSpfd.gftPbrbms()
+            );
+        } flsf {
+            throw nfw InvblidKfySpfdExdfption("Only ECPublidKfySpfd "
+                + "bnd X509EndodfdKfySpfd supportfd for EC publid kfys");
+        }
+    }
+
+    // intfrnbl implfmfntbtion of gfnfrbtfPrivbtf. Sff JCA dod
+    privbtf PrivbtfKfy implGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            throws GfnfrblSfdurityExdfption {
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+            PKCS8EndodfdKfySpfd pkdsSpfd = (PKCS8EndodfdKfySpfd)kfySpfd;
+            rfturn nfw ECPrivbtfKfyImpl(pkdsSpfd.gftEndodfd());
+        } flsf if (kfySpfd instbndfof ECPrivbtfKfySpfd) {
+            ECPrivbtfKfySpfd fdSpfd = (ECPrivbtfKfySpfd)kfySpfd;
+            rfturn nfw ECPrivbtfKfyImpl(fdSpfd.gftS(), fdSpfd.gftPbrbms());
+        } flsf {
+            throw nfw InvblidKfySpfdExdfption("Only ECPrivbtfKfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for EC privbtf kfys");
+        }
+    }
+
+    protfdtfd <T fxtfnds KfySpfd> T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        try {
+            // donvfrt kfy to onf of our kfys
+            // this blso vfrififs thbt thf kfy is b vblid EC kfy bnd fnsurfs
+            // thbt thf fndoding is X.509/PKCS#8 for publid/privbtf kfys
+            kfy = fnginfTrbnslbtfKfy(kfy);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidKfySpfdExdfption(f);
+        }
+        if (kfy instbndfof ECPublidKfy) {
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            if (ECPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw ECPublidKfySpfd(
+                    fdKfy.gftW(),
+                    fdKfy.gftPbrbms()
+                ));
+            } flsf if (X509EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw X509EndodfdKfySpfd(kfy.gftEndodfd()));
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                        ("KfySpfd must bf ECPublidKfySpfd or "
+                        + "X509EndodfdKfySpfd for EC publid kfys");
+            }
+        } flsf if (kfy instbndfof ECPrivbtfKfy) {
+            if (PKCS8EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw PKCS8EndodfdKfySpfd(kfy.gftEndodfd()));
+            } flsf if (ECPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                ECPrivbtfKfy fdKfy = (ECPrivbtfKfy)kfy;
+                rfturn kfySpfd.dbst(nfw ECPrivbtfKfySpfd(
+                    fdKfy.gftS(),
+                    fdKfy.gftPbrbms()
+                ));
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                        ("KfySpfd must bf ECPrivbtfKfySpfd or "
+                        + "PKCS8EndodfdKfySpfd for EC privbtf kfys");
+            }
+        } flsf {
+            // should not oddur, dbught in fnginfTrbnslbtfKfy()
+            throw nfw InvblidKfySpfdExdfption("Nfithfr publid nor privbtf kfy");
+        }
+    }
+}

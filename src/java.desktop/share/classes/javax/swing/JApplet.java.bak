@@ -1,577 +1,577 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.Applet;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.Applft;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.bddfssibility.*;
 
 /**
- * An extended version of <code>java.applet.Applet</code> that adds support for
- * the JFC/Swing component architecture.
- * You can find task-oriented documentation about using <code>JApplet</code>
- * in <em>The Java Tutorial</em>,
- * in the section
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/applet.html">How to Make Applets</a>.
+ * An fxtfndfd vfrsion of <dodf>jbvb.bpplft.Applft</dodf> tibt bdds support for
+ * tif JFC/Swing domponfnt brdiitfdturf.
+ * You dbn find tbsk-orifntfd dodumfntbtion bbout using <dodf>JApplft</dodf>
+ * in <fm>Tif Jbvb Tutoribl</fm>,
+ * in tif sfdtion
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bpplft.itml">How to Mbkf Applfts</b>.
  * <p>
- * The <code>JApplet</code> class is slightly incompatible with
- * <code>java.applet.Applet</code>.  <code>JApplet</code> contains a
- * <code>JRootPane</code> as its only child.  The <code>contentPane</code>
- * should be the parent of any children of the <code>JApplet</code>.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to an applet as follows:
- * <pre>
- *       applet.add(child);
- * </pre>
+ * Tif <dodf>JApplft</dodf> dlbss is sligitly indompbtiblf witi
+ * <dodf>jbvb.bpplft.Applft</dodf>.  <dodf>JApplft</dodf> dontbins b
+ * <dodf>JRootPbnf</dodf> bs its only diild.  Tif <dodf>dontfntPbnf</dodf>
+ * siould bf tif pbrfnt of bny diildrfn of tif <dodf>JApplft</dodf>.
+ * As b donvfnifndf, tif {@dodf bdd}, {@dodf rfmovf}, bnd {@dodf sftLbyout}
+ * mftiods of tiis dlbss brf ovfrriddfn, so tibt tify dflfgbtf dblls
+ * to tif dorrfsponding mftiods of tif {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b diild domponfnt to bn bpplft bs follows:
+ * <prf>
+ *       bpplft.bdd(diild);
+ * </prf>
  *
- * And the child will be added to the <code>contentPane</code>.
- * The <code>contentPane</code> will always be non-<code>null</code>.
- * Attempting to set it to <code>null</code> will cause the
- * <code>JApplet</code> to throw an exception. The default
- * <code>contentPane</code> will have a <code>BorderLayout</code>
- * manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JApplet</code>.
+ * And tif diild will bf bddfd to tif <dodf>dontfntPbnf</dodf>.
+ * Tif <dodf>dontfntPbnf</dodf> will blwbys bf non-<dodf>null</dodf>.
+ * Attfmpting to sft it to <dodf>null</dodf> will dbusf tif
+ * <dodf>JApplft</dodf> to tirow bn fxdfption. Tif dffbult
+ * <dodf>dontfntPbnf</dodf> will ibvf b <dodf>BordfrLbyout</dodf>
+ * mbnbgfr sft on it.
+ * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr}
+ * for dftbils on bdding, rfmoving bnd sftting tif <dodf>LbyoutMbnbgfr</dodf>
+ * of b <dodf>JApplft</dodf>.
  * <p>
- * Please see the <code>JRootPane</code> documentation for a
- * complete description of the <code>contentPane</code>, <code>glassPane</code>,
- * and <code>layeredPane</code> properties.
+ * Plfbsf sff tif <dodf>JRootPbnf</dodf> dodumfntbtion for b
+ * domplftf dfsdription of tif <dodf>dontfntPbnf</dodf>, <dodf>glbssPbnf</dodf>,
+ * bnd <dodf>lbyfrfdPbnf</dodf> propfrtifs.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see javax.swing.RootPaneContainer
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: Swing's Applet subclass.
+ * @sff jbvbx.swing.RootPbnfContbinfr
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *      bttributf: dontbinfrDflfgbtf gftContfntPbnf
+ *    dfsdription: Swing's Applft subdlbss.
  *
- * @author Arnaud Weber
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JApplet extends Applet implements Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JApplft fxtfnds Applft implfmfnts Addfssiblf,
+                                               RootPbnfContbinfr,
+                               TrbnsffrHbndlfr.HbsGftTrbnsffrHbndlfr
 {
     /**
-     * @see #getRootPane
-     * @see #setRootPane
+     * @sff #gftRootPbnf
+     * @sff #sftRootPbnf
      */
-    protected JRootPane rootPane;
+    protfdtfd JRootPbnf rootPbnf;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JApplet</code> is constructed.
+     * If truf tifn dblls to <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     * will bf forwbrdfd to tif <dodf>dontfntPbnf</dodf>. Tiis is initiblly
+     * fblsf, but is sft to truf wifn tif <dodf>JApplft</dodf> is donstrudtfd.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protfdtfd boolfbn rootPbnfCifdkingEnbblfd = fblsf;
 
     /**
-     * The <code>TransferHandler</code> for this applet.
+     * Tif <dodf>TrbnsffrHbndlfr</dodf> for tiis bpplft.
      */
-    private TransferHandler transferHandler;
+    privbtf TrbnsffrHbndlfr trbnsffrHbndlfr;
 
     /**
-     * Creates a swing applet instance.
+     * Crfbtfs b swing bpplft instbndf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by <dodf>JComponfnt.gftDffbultLodblf</dodf>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JApplet() throws HeadlessException {
-        super();
-        // Check the timerQ and restart if necessary.
-        TimerQueue q = TimerQueue.sharedInstance();
+    publid JApplft() tirows HfbdlfssExdfption {
+        supfr();
+        // Cifdk tif timfrQ bnd rfstbrt if nfdfssbry.
+        TimfrQufuf q = TimfrQufuf.sibrfdInstbndf();
         if(q != null) {
-            q.startIfNeeded();
+            q.stbrtIfNffdfd();
         }
 
-        /* Workaround for bug 4155072.  The shared double buffer image
-         * may hang on to a reference to this applet; unfortunately
-         * Image.getGraphics() will continue to call JApplet.getForeground()
-         * and getBackground() even after this applet has been destroyed.
-         * So we ensure that these properties are non-null here.
+        /* Workbround for bug 4155072.  Tif sibrfd doublf bufffr imbgf
+         * mby ibng on to b rfffrfndf to tiis bpplft; unfortunbtfly
+         * Imbgf.gftGrbpiids() will dontinuf to dbll JApplft.gftForfground()
+         * bnd gftBbdkground() fvfn bftfr tiis bpplft ibs bffn dfstroyfd.
+         * So wf fnsurf tibt tifsf propfrtifs brf non-null ifrf.
          */
-        setForeground(Color.black);
-        setBackground(Color.white);
+        sftForfground(Color.blbdk);
+        sftBbdkground(Color.wiitf);
 
-        setLocale( JComponent.getDefaultLocale() );
-        setLayout(new BorderLayout());
-        setRootPane(createRootPane());
-        setRootPaneCheckingEnabled(true);
+        sftLodblf( JComponfnt.gftDffbultLodblf() );
+        sftLbyout(nfw BordfrLbyout());
+        sftRootPbnf(drfbtfRootPbnf());
+        sftRootPbnfCifdkingEnbblfd(truf);
 
-        setFocusTraversalPolicyProvider(true);
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        sftFodusTrbvfrsblPolidyProvidfr(truf);
+        sun.bwt.SunToolkit.difdkAndSftPolidy(tiis);
 
-        enableEvents(AWTEvent.KEY_EVENT_MASK);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK);
     }
 
     /**
-     * Called by the constructor methods to create the default rootPane.
+     * Cbllfd by tif donstrudtor mftiods to drfbtf tif dffbult rootPbnf.
      *
-     * @return  a new {@code JRootPane}
+     * @rfturn  b nfw {@dodf JRootPbnf}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
-        return rp;
+    protfdtfd JRootPbnf drfbtfRootPbnf() {
+        JRootPbnf rp = nfw JRootPbnf();
+        // NOTE: tiis usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs tifrf
+        // is NO rfbson for tif RootPbnf not to bf opbquf. For pbinting to
+        // work tif dontfntPbnf must bf opbquf, tifrffor tif RootPbnf dbn
+        // blso bf opbquf.
+        rp.sftOpbquf(truf);
+        rfturn rp;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sfts tif {@dodf trbnsffrHbndlfr} propfrty, wiidi is b mfdibnism to
+     * support trbnsffr of dbtb into tiis domponfnt. Usf {@dodf null}
+     * if tif domponfnt dofs not support dbtb trbnsffr opfrbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If tif systfm propfrty {@dodf supprfssSwingDropSupport} is {@dodf fblsf}
+     * (tif dffbult) bnd tif durrfnt drop tbrgft on tiis domponfnt is fitifr
+     * {@dodf null} or not b usfr-sft drop tbrgft, tiis mftiod will dibngf tif
+     * drop tbrgft bs follows: If {@dodf nfwHbndlfr} is {@dodf null} it will
+     * dlfbr tif drop tbrgft. If not {@dodf null} it will instbll b nfw
+     * {@dodf DropTbrgft}.
      * <p>
-     * Note: When used with {@code JApplet}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Notf: Wifn usfd witi {@dodf JApplft}, {@dodf TrbnsffrHbndlfr} only
+     * providfs dbtb import dbpbbility, bs tif dbtb fxport rflbtfd mftiods
+     * brf durrfntly typfd to {@dodf JComponfnt}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plfbsf sff
+     * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+     * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>, b sfdtion in
+     * <fm>Tif Jbvb Tutoribl</fm>, for morf informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm nfwHbndlfr tif nfw {@dodf TrbnsffrHbndlfr}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #gftTrbnsffrHbndlfr
+     * @sff jbvb.bwt.Componfnt#sftDropTbrgft
+     * @sindf 1.6
      *
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *  dfsdription: Mfdibnism for trbnsffr of dbtb into tif domponfnt
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+        TrbnsffrHbndlfr oldHbndlfr = trbnsffrHbndlfr;
+        trbnsffrHbndlfr = nfwHbndlfr;
+        SwingUtilitifs.instbllSwingDropTbrgftAsNfdfssbry(tiis, trbnsffrHbndlfr);
+        firfPropfrtyCibngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
     }
 
     /**
-     * Gets the <code>transferHandler</code> property.
+     * Gfts tif <dodf>trbnsffrHbndlfr</dodf> propfrty.
      *
-     * @return the value of the <code>transferHandler</code> property
+     * @rfturn tif vbluf of tif <dodf>trbnsffrHbndlfr</dodf> propfrty
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #sftTrbnsffrHbndlfr
+     * @sindf 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    publid TrbnsffrHbndlfr gftTrbnsffrHbndlfr() {
+        rfturn trbnsffrHbndlfr;
     }
 
     /**
-     * Just calls <code>paint(g)</code>.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Just dblls <dodf>pbint(g)</dodf>.  Tiis mftiod wbs ovfrriddfn to
+     * prfvfnt bn unnfdfssbry dbll to dlfbr tif bbdkground.
      */
-    public void update(Graphics g) {
-        paint(g);
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
     }
 
    /**
-    * Sets the menubar for this applet.
-    * @param menuBar the menubar being placed in the applet
+    * Sfts tif mfnubbr for tiis bpplft.
+    * @pbrbm mfnuBbr tif mfnubbr bfing plbdfd in tif bpplft
     *
-    * @see #getJMenuBar
+    * @sff #gftJMfnuBbr
     *
-    * @beaninfo
-    *      hidden: true
-    * description: The menubar for accessing pulldown menus from this applet.
+    * @bfbninfo
+    *      iiddfn: truf
+    * dfsdription: Tif mfnubbr for bddfssing pulldown mfnus from tiis bpplft.
     */
-    public void setJMenuBar(JMenuBar menuBar) {
-        getRootPane().setMenuBar(menuBar);
+    publid void sftJMfnuBbr(JMfnuBbr mfnuBbr) {
+        gftRootPbnf().sftMfnuBbr(mfnuBbr);
     }
 
    /**
-    * Returns the menubar set on this applet.
+    * Rfturns tif mfnubbr sft on tiis bpplft.
     *
-    * @return the menubar set on this applet
-    * @see #setJMenuBar
+    * @rfturn tif mfnubbr sft on tiis bpplft
+    * @sff #sftJMfnuBbr
     */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getMenuBar();
+    publid JMfnuBbr gftJMfnuBbr() {
+        rfturn gftRootPbnf().gftMfnuBbr();
     }
 
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Rfturns wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @rfturn truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *         brf forwbrdfd; fblsf otifrwisf
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protfdtfd boolfbn isRootPbnfCifdkingEnbblfd() {
+        rfturn rootPbnfCifdkingEnbblfd;
     }
 
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sfts wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
-     *        <code>JApplet</code>.
+     * @pbrbm fnbblfd  truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *        brf forwbrdfd, fblsf if tify siould opfrbtf dirfdtly on tif
+     *        <dodf>JApplft</dodf>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
-     *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     * @bfbninfo
+     *      iiddfn: truf
+     * dfsdription: Wiftifr tif bdd bnd sftLbyout mftiods brf forwbrdfd
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protfdtfd void sftRootPbnfCifdkingEnbblfd(boolfbn fnbblfd) {
+        rootPbnfCifdkingEnbblfd = fnbblfd;
     }
 
 
     /**
-     * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * Adds tif spfdififd diild <dodf>Componfnt</dodf>.
+     * Tiis mftiod is ovfrriddfn to donditionblly forwbrd dblls to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * By dffbult, diildrfn brf bddfd to tif <dodf>dontfntPbnf</dodf> instfbd
+     * of tif frbmf, rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * dftbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
-     *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @pbrbm domp tif domponfnt to bf fnibndfd
+     * @pbrbm donstrbints tif donstrbints to bf rfspfdtfd
+     * @pbrbm indfx tif indfx
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>indfx</dodf> is invblid
+     * @fxdfption IllfgblArgumfntExdfption if bdding tif dontbinfr's pbrfnt
+     *                  to itsflf
+     * @fxdfption IllfgblArgumfntExdfption if bdding b window to b dontbinfr
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().bdd(domp, donstrbints, indfx);
         }
-        else {
-            super.addImpl(comp, constraints, index);
+        flsf {
+            supfr.bddImpl(domp, donstrbints, indfx);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not the <code>rootPane</code>, this will forward
-     * the call to the <code>contentPane</code>. This will do nothing if
-     * <code>comp</code> is not a child of the <code>JFrame</code> or
-     * <code>contentPane</code>.
+     * Rfmovfs tif spfdififd domponfnt from tif dontbinfr. If
+     * <dodf>domp</dodf> is not tif <dodf>rootPbnf</dodf>, tiis will forwbrd
+     * tif dbll to tif <dodf>dontfntPbnf</dodf>. Tiis will do notiing if
+     * <dodf>domp</dodf> is not b diild of tif <dodf>JFrbmf</dodf> or
+     * <dodf>dontfntPbnf</dodf>.
      *
-     * @param comp the component to be removed
-     * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm domp tif domponfnt to bf rfmovfd
+     * @tirows NullPointfrExdfption if <dodf>domp</dodf> is null
+     * @sff #bdd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public void remove(Component comp) {
-        if (comp == rootPane) {
-            super.remove(comp);
-        } else {
-            getContentPane().remove(comp);
-        }
-    }
-
-
-    /**
-     * Sets the <code>LayoutManager</code>.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
-     *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
-        }
-        else {
-            super.setLayout(manager);
+    publid void rfmovf(Componfnt domp) {
+        if (domp == rootPbnf) {
+            supfr.rfmovf(domp);
+        } flsf {
+            gftContfntPbnf().rfmovf(domp);
         }
     }
 
 
     /**
-     * Returns the rootPane object for this applet.
+     * Sfts tif <dodf>LbyoutMbnbgfr</dodf>.
+     * Ovfrriddfn to donditionblly forwbrd tif dbll to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * morf informbtion.
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @pbrbm mbnbgfr tif <dodf>LbyoutMbnbgfr</dodf>
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    publid void sftLbyout(LbyoutMbnbgfr mbnbgfr) {
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().sftLbyout(mbnbgfr);
+        }
+        flsf {
+            supfr.sftLbyout(mbnbgfr);
+        }
     }
 
 
     /**
-     * Sets the rootPane property.  This method is called by the constructor.
-     * @param root the rootPane object for this applet
+     * Rfturns tif rootPbnf objfdt for tiis bpplft.
      *
-     * @see #getRootPane
-     *
-     * @beaninfo
-     *   hidden: true
-     * description: the RootPane object for this applet.
+     * @sff #sftRootPbnf
+     * @sff RootPbnfContbinfr#gftRootPbnf
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
+    }
+
+
+    /**
+     * Sfts tif rootPbnf propfrty.  Tiis mftiod is dbllfd by tif donstrudtor.
+     * @pbrbm root tif rootPbnf objfdt for tiis bpplft
+     *
+     * @sff #gftRootPbnf
+     *
+     * @bfbninfo
+     *   iiddfn: truf
+     * dfsdription: tif RootPbnf objfdt for tiis bpplft.
+     */
+    protfdtfd void sftRootPbnf(JRootPbnf root) {
+        if(rootPbnf != null) {
+            rfmovf(rootPbnf);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbnf = root;
+        if(rootPbnf != null) {
+            boolfbn difdkingEnbblfd = isRootPbnfCifdkingEnbblfd();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                sftRootPbnfCifdkingEnbblfd(fblsf);
+                bdd(rootPbnf, BordfrLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                sftRootPbnfCifdkingEnbblfd(difdkingEnbblfd);
             }
         }
     }
 
 
     /**
-     * Returns the contentPane object for this applet.
+     * Rfturns tif dontfntPbnf objfdt for tiis bpplft.
      *
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @sff #sftContfntPbnf
+     * @sff RootPbnfContbinfr#gftContfntPbnf
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    publid Contbinfr gftContfntPbnf() {
+        rfturn gftRootPbnf().gftContfntPbnf();
     }
 
    /**
-     * Sets the contentPane property.  This method is called by the constructor.
-     * @param contentPane the contentPane object for this applet
+     * Sfts tif dontfntPbnf propfrty.  Tiis mftiod is dbllfd by tif donstrudtor.
+     * @pbrbm dontfntPbnf tif dontfntPbnf objfdt for tiis bpplft
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is null
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif dontfnt pbnf pbrbmftfr is null
+     * @sff #gftContfntPbnf
+     * @sff RootPbnfContbinfr#sftContfntPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The client area of the applet where child
-     *                  components are normally inserted.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif dlifnt brfb of tif bpplft wifrf diild
+     *                  domponfnts brf normblly insfrtfd.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    publid void sftContfntPbnf(Contbinfr dontfntPbnf) {
+        gftRootPbnf().sftContfntPbnf(dontfntPbnf);
     }
 
     /**
-     * Returns the layeredPane object for this applet.
+     * Rfturns tif lbyfrfdPbnf objfdt for tiis bpplft.
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is null
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif lbyfrfd pbnf pbrbmftfr is null
+     * @sff #sftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#gftLbyfrfdPbnf
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    publid JLbyfrfdPbnf gftLbyfrfdPbnf() {
+        rfturn gftRootPbnf().gftLbyfrfdPbnf();
     }
 
     /**
-     * Sets the layeredPane property.  This method is called by the constructor.
-     * @param layeredPane the layeredPane object for this applet
+     * Sfts tif lbyfrfdPbnf propfrty.  Tiis mftiod is dbllfd by tif donstrudtor.
+     * @pbrbm lbyfrfdPbnf tif lbyfrfdPbnf objfdt for tiis bpplft
      *
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @sff #gftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The pane which holds the various applet layers.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif pbnf wiidi iolds tif vbrious bpplft lbyfrs.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    publid void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf) {
+        gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);
     }
 
     /**
-     * Returns the glassPane object for this applet.
+     * Rfturns tif glbssPbnf objfdt for tiis bpplft.
      *
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @sff #sftGlbssPbnf
+     * @sff RootPbnfContbinfr#gftGlbssPbnf
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    publid Componfnt gftGlbssPbnf() {
+        rfturn gftRootPbnf().gftGlbssPbnf();
     }
 
     /**
-     * Sets the glassPane property.
-     * This method is called by the constructor.
-     * @param glassPane the glassPane object for this applet
+     * Sfts tif glbssPbnf propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
+     * @pbrbm glbssPbnf tif glbssPbnf objfdt for tiis bpplft
      *
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @sff #gftGlbssPbnf
+     * @sff RootPbnfContbinfr#sftGlbssPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: A trbnspbrfnt pbnf usfd for mfnu rfndfring.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    publid void sftGlbssPbnf(Componfnt glbssPbnf) {
+        gftRootPbnf().sftGlbssPbnf(glbssPbnf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        JComponfnt.gftGrbpiidsInvokfd(tiis);
+        rfturn supfr.gftGrbpiids();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * <code>time</code> milliseconds.  Refer to <code>RepaintManager</code>
-     * for details on how the repaint is handled.
+     * Rfpbints tif spfdififd rfdtbnglf of tiis domponfnt witiin
+     * <dodf>timf</dodf> millisfdonds.  Rfffr to <dodf>RfpbintMbnbgfr</dodf>
+     * for dftbils on iow tif rfpbint is ibndlfd.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
-     * @since     1.6
+     * @pbrbm     timf   mbximum timf in millisfdonds bfforf updbtf
+     * @pbrbm     x    tif <i>x</i> doordinbtf
+     * @pbrbm     y    tif <i>y</i> doordinbtf
+     * @pbrbm     widti    tif widti
+     * @pbrbm     ifigit   tif ifigit
+     * @sff       RfpbintMbnbgfr
+     * @sindf     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
-                              this, x, y, width, height);
+    publid void rfpbint(long timf, int x, int y, int widti, int ifigit) {
+        if (RfpbintMbnbgfr.HANDLE_TOP_LEVEL_PAINT) {
+            RfpbintMbnbgfr.durrfntMbnbgfr(tiis).bddDirtyRfgion(
+                              tiis, x, y, widti, ifigit);
         }
-        else {
-            super.repaint(time, x, y, width, height);
+        flsf {
+            supfr.rfpbint(timf, x, y, widti, ifigit);
         }
     }
 
     /**
-     * Returns a string representation of this JApplet. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JApplft. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JApplet.
+     * @rfturn  b string rfprfsfntbtion of tiis JApplft.
      */
-    protected String paramString() {
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protfdtfd String pbrbmString() {
+        String rootPbnfString = (rootPbnf != null ?
+                                 rootPbnf.toString() : "");
+        String rootPbnfCifdkingEnbblfdString = (rootPbnfCifdkingEnbblfd ?
+                                                "truf" : "fblsf");
 
-        return super.paramString() +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        rfturn supfr.pbrbmString() +
+        ",rootPbnf=" + rootPbnfString +
+        ",rootPbnfCifdkingEnbblfd=" + rootPbnfCifdkingEnbblfdString;
     }
 
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JApplet}
+     * {@dodf AddfssiblfContfxt} bssodibtfd witi tiis {@dodf JApplft}
      */
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this JApplet.
-     * For JApplets, the AccessibleContext takes the form of an
-     * AccessibleJApplet.
-     * A new AccessibleJApplet instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JApplft.
+     * For JApplfts, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJApplft.
+     * A nfw AddfssiblfJApplft instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJApplet that serves as the
-     *         AccessibleContext of this JApplet
+     * @rfturn bn AddfssiblfJApplft tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JApplft
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJApplet();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJApplft();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JApplet</code> class.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JApplft</dodf> dlbss.
      */
-    protected class AccessibleJApplet extends AccessibleApplet {
-        // everything moved to new parent, AccessibleApplet
+    protfdtfd dlbss AddfssiblfJApplft fxtfnds AddfssiblfApplft {
+        // fvfrytiing movfd to nfw pbrfnt, AddfssiblfApplft
     }
 }

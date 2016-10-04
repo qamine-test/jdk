@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+
+/**
+ * <dodf>RMIClbssLobdfrSpi</dodf> is thf sfrvidf providfr intfrfbdf for
+ * <dodf>RMIClbssLobdfr</dodf>.
+ *
+ * In pbrtidulbr, bn <dodf>RMIClbssLobdfrSpi</dodf> instbndf providfs bn
+ * implfmfntbtion of thf following stbtid mfthods of
+ * <dodf>RMIClbssLobdfr</dodf>:
+ *
+ * <ul>
+ *
+ * <li>{@link RMIClbssLobdfr#lobdClbss(URL,String)}
+ * <li>{@link RMIClbssLobdfr#lobdClbss(String,String)}
+ * <li>{@link RMIClbssLobdfr#lobdClbss(String,String,ClbssLobdfr)}
+ * <li>{@link RMIClbssLobdfr#lobdProxyClbss(String,String[],ClbssLobdfr)}
+ * <li>{@link RMIClbssLobdfr#gftClbssLobdfr(String)}
+ * <li>{@link RMIClbssLobdfr#gftClbssAnnotbtion(Clbss)}
+ *
+ * </ul>
+ *
+ * Whfn onf of thosf mfthods is invokfd, its bfhbvior is to dflfgbtf
+ * to b dorrfsponding mfthod on bn instbndf of this dlbss.
+ * Thf dftbils of how fbdh mfthod dflfgbtfs to thf providfr instbndf is
+ * dfsdribfd in thf dodumfntbtion for fbdh pbrtidulbr mfthod.
+ * Sff thf dodumfntbtion for {@link RMIClbssLobdfr} for b dfsdription
+ * of how b providfr instbndf is dhosfn.
+ *
+ * @buthor      Pftfr Jonfs
+ * @buthor      Lbird Dornin
+ * @sff         RMIClbssLobdfr
+ * @sindf       1.4
+ */
+publid bbstrbdt dlbss RMIClbssLobdfrSpi {
+
+    /**
+     * Providfs thf implfmfntbtion for
+     * {@link RMIClbssLobdfr#lobdClbss(URL,String)},
+     * {@link RMIClbssLobdfr#lobdClbss(String,String)}, bnd
+     * {@link RMIClbssLobdfr#lobdClbss(String,String,ClbssLobdfr)}.
+     *
+     * Lobds b dlbss from b dodfbbsf URL pbth, optionblly using thf
+     * supplifd lobdfr.
+     *
+     * Typidblly, b providfr implfmfntbtion will bttfmpt to
+     * rfsolvf thf nbmfd dlbss using thf givfn <dodf>dffbultLobdfr</dodf>,
+     * if spfdififd, bfforf bttfmpting to rfsolvf thf dlbss from thf
+     * dodfbbsf URL pbth.
+     *
+     * <p>An implfmfntbtion of this mfthod must fithfr rfturn b dlbss
+     * with thf givfn nbmf or throw bn fxdfption.
+     *
+     * @pbrbm   dodfbbsf thf list of URLs (sfpbrbtfd by spbdfs) to lobd
+     * thf dlbss from, or <dodf>null</dodf>
+     *
+     * @pbrbm   nbmf thf nbmf of thf dlbss to lobd
+     *
+     * @pbrbm   dffbultLobdfr bdditionbl dontfxtubl dlbss lobdfr
+     * to usf, or <dodf>null</dodf>
+     *
+     * @rfturn  thf <dodf>Clbss</dodf> objfdt rfprfsfnting thf lobdfd dlbss
+     *
+     * @throws  MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or
+     * if <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to lobd dlbssfs is invblid
+     *
+     * @throws  ClbssNotFoundExdfption if b dffinition for thf dlbss
+     * dould not bf found bt thf spfdififd lodbtion
+     */
+    publid bbstrbdt Clbss<?> lobdClbss(String dodfbbsf, String nbmf,
+                                       ClbssLobdfr dffbultLobdfr)
+        throws MblformfdURLExdfption, ClbssNotFoundExdfption;
+
+    /**
+     * Providfs thf implfmfntbtion for
+     * {@link RMIClbssLobdfr#lobdProxyClbss(String,String[],ClbssLobdfr)}.
+     *
+     * Lobds b dynbmid proxy dlbss (sff {@link jbvb.lbng.rfflfdt.Proxy}
+     * thbt implfmfnts b sft of intfrfbdfs with thf givfn nbmfs
+     * from b dodfbbsf URL pbth, optionblly using thf supplifd lobdfr.
+     *
+     * <p>An implfmfntbtion of this mfthod must fithfr rfturn b proxy
+     * dlbss thbt implfmfnts thf nbmfd intfrfbdfs or throw bn fxdfption.
+     *
+     * @pbrbm   dodfbbsf thf list of URLs (spbdf-sfpbrbtfd) to lobd
+     * dlbssfs from, or <dodf>null</dodf>
+     *
+     * @pbrbm   intfrfbdfs thf nbmfs of thf intfrfbdfs for thf proxy dlbss
+     * to implfmfnt
+     *
+     * @rfturn  b dynbmid proxy dlbss thbt implfmfnts thf nbmfd intfrfbdfs
+     *
+     * @pbrbm   dffbultLobdfr bdditionbl dontfxtubl dlbss lobdfr
+     * to usf, or <dodf>null</dodf>
+     *
+     * @throws  MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or
+     * if <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to lobd dlbssfs is invblid
+     *
+     * @throws  ClbssNotFoundExdfption if b dffinition for onf of
+     * thf nbmfd intfrfbdfs dould not bf found bt thf spfdififd lodbtion,
+     * or if drfbtion of thf dynbmid proxy dlbss fbilfd (sudh bs if
+     * {@link jbvb.lbng.rfflfdt.Proxy#gftProxyClbss(ClbssLobdfr,Clbss[])}
+     * would throw bn <dodf>IllfgblArgumfntExdfption</dodf> for thf givfn
+     * intfrfbdf list)
+     */
+    publid bbstrbdt Clbss<?> lobdProxyClbss(String dodfbbsf,
+                                            String[] intfrfbdfs,
+                                            ClbssLobdfr dffbultLobdfr)
+        throws MblformfdURLExdfption, ClbssNotFoundExdfption;
+
+    /**
+     * Providfs thf implfmfntbtion for
+     * {@link RMIClbssLobdfr#gftClbssLobdfr(String)}.
+     *
+     * Rfturns b dlbss lobdfr thbt lobds dlbssfs from thf givfn dodfbbsf
+     * URL pbth.
+     *
+     * <p>If thfrf is b sfdurity mbngfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod will bf invokfd with b
+     * <dodf>RuntimfPfrmission("gftClbssLobdfr")</dodf> pfrmission;
+     * this dould rfsult in b <dodf>SfdurityExdfption</dodf>.
+     * Thf implfmfntbtion of this mfthod mby blso pfrform furthfr sfdurity
+     * dhfdks to vfrify thbt thf dblling dontfxt hbs pfrmission to donnfdt
+     * to bll of thf URLs in thf dodfbbsf URL pbth.
+     *
+     * @pbrbm   dodfbbsf thf list of URLs (spbdf-sfpbrbtfd) from whidh
+     * thf rfturnfd dlbss lobdfr will lobd dlbssfs from, or <dodf>null</dodf>
+     *
+     * @rfturn b dlbss lobdfr thbt lobds dlbssfs from thf givfn dodfbbsf URL
+     * pbth
+     *
+     * @throws  MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or
+     * if <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to idfntify thf dlbss lobdfr is invblid
+     *
+     * @throws  SfdurityExdfption if thfrf is b sfdurity mbnbgfr bnd thf
+     * invodbtion of its <dodf>dhfdkPfrmission</dodf> mfthod fbils, or
+     * if thf dbllfr dofs not hbvf pfrmission to donnfdt to bll of thf
+     * URLs in thf dodfbbsf URL pbth
+     */
+    publid bbstrbdt ClbssLobdfr gftClbssLobdfr(String dodfbbsf)
+        throws MblformfdURLExdfption; // SfdurityExdfption
+
+    /**
+     * Providfs thf implfmfntbtion for
+     * {@link RMIClbssLobdfr#gftClbssAnnotbtion(Clbss)}.
+     *
+     * Rfturns thf bnnotbtion string (rfprfsfnting b lodbtion for
+     * thf dlbss dffinition) thbt RMI will usf to bnnotbtf thf dlbss
+     * dfsdriptor whfn mbrshblling objfdts of thf givfn dlbss.
+     *
+     * @pbrbm   dl thf dlbss to obtbin thf bnnotbtion for
+     *
+     * @rfturn  b string to bf usfd to bnnotbtf thf givfn dlbss whfn
+     * it gfts mbrshbllfd, or <dodf>null</dodf>
+     *
+     * @throws  NullPointfrExdfption if <dodf>dl</dodf> is <dodf>null</dodf>
+     */
+    publid bbstrbdt String gftClbssAnnotbtion(Clbss<?> dl);
+}

@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Point;
+
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
+
+publid bbstrbdt dlbss LWCursorMbnbgfr {
+
+    /**
+     * A flbg to indidbtf if thf updbtf is sdhfdulfd, so wf don't prodfss it
+     * twidf.
+     */
+    privbtf finbl AtomidBoolfbn updbtfPfnding = nfw AtomidBoolfbn(fblsf);
+
+    protfdtfd LWCursorMbnbgfr() {
+    }
+
+    /**
+     * Sfts thf dursor to dorrfspond thf domponfnt durrfntly undfr mousf.
+     *
+     * This mfthod should not bf fxfdutfd on thf toolkit thrfbd bs it
+     * dblls to usfr dodf (f.g. Contbinfr.findComponfntAt).
+     */
+    publid finbl void updbtfCursor() {
+        updbtfPfnding.sft(fblsf);
+        updbtfCursorImpl();
+    }
+
+    /**
+     * Sdhfdulfs updbting thf dursor on thf dorrfsponding fvfnt dispbtdh
+     * thrfbd for thf givfn window.
+     *
+     * This mfthod is dbllfd on thf toolkit thrfbd bs b rfsult of b
+     * nbtivf updbtf dursor rfqufst (f.g. WM_SETCURSOR on Windows).
+     */
+    publid finbl void updbtfCursorLbtfr(finbl LWWindowPffr window) {
+        if (updbtfPfnding.dompbrfAndSft(fblsf, truf)) {
+            Runnbblf r = nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    updbtfCursor();
+                }
+            };
+            SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(window.gftTbrgft(), r);
+        }
+    }
+
+    privbtf void updbtfCursorImpl() {
+        finbl Point dursorPos = gftCursorPosition();
+        finbl Componfnt d = findComponfnt(dursorPos);
+        finbl Cursor dursor;
+        finbl Objfdt pffr = LWToolkit.tbrgftToPffr(d);
+        if (pffr instbndfof LWComponfntPffr) {
+            finbl LWComponfntPffr<?, ?> lwpffr = (LWComponfntPffr<?, ?>) pffr;
+            finbl Point p = lwpffr.gftLodbtionOnSdrffn();
+            dursor = lwpffr.gftCursor(nfw Point(dursorPos.x - p.x,
+                                                dursorPos.y - p.y));
+        } flsf {
+            dursor = (d != null) ? d.gftCursor() : null;
+        }
+        sftCursor(dursor);
+    }
+
+    /**
+     * Rfturns thf first visiblf, fnbblfd bnd showing domponfnt undfr dursor.
+     * Rfturns null for modbl blodkfd windows.
+     *
+     * @pbrbm dursorPos Currfnt dursor position.
+     * @rfturn Componfnt or null.
+     */
+    privbtf stbtid finbl Componfnt findComponfnt(finbl Point dursorPos) {
+        finbl LWComponfntPffr<?, ?> pffr = LWWindowPffr.gftPffrUndfrCursor();
+        Componfnt d = null;
+        if (pffr != null && pffr.gftWindowPffrOrSflf().gftBlodkfr() == null) {
+            d = pffr.gftTbrgft();
+            if (d instbndfof Contbinfr) {
+                finbl Point p = pffr.gftLodbtionOnSdrffn();
+                d = AWTAddfssor.gftContbinfrAddfssor().findComponfntAt(
+                    (Contbinfr) d, dursorPos.x - p.x, dursorPos.y - p.y, fblsf);
+
+            }
+            whilf (d != null) {
+                finbl Objfdt p = AWTAddfssor.gftComponfntAddfssor().gftPffr(d);
+                if (d.isVisiblf() && d.isEnbblfd() && p != null) {
+                    brfbk;
+                }
+                d = d.gftPbrfnt();
+            }
+        }
+        rfturn d;
+    }
+
+    /**
+     * Rfturns thf durrfnt dursor position.
+     */
+    // TODO: mbkf it publid to rfusf for MousfInfo
+    protfdtfd bbstrbdt Point gftCursorPosition();
+
+    /**
+     * Sfts b dursor. Thf dursor dbn bf null if thf mousf is not ovfr b Jbvb
+     * window.
+     * @pbrbm dursor thf nfw {@dodf Cursor}.
+     */
+    protfdtfd bbstrbdt void sftCursor(Cursor dursor);
+}

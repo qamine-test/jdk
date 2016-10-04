@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tfxt;
+
+import sun.tfxt.normblizfr.NormblizfrBbsf;
+import sun.tfxt.normblizfr.NormblizfrImpl;
+
+/**
+ * This Normblizfr is for Unidodf 3.2 support for IDNA only.
+ * Dfvflopfrs should not usf this dlbss.
+ *
+ * @ sindf 1.6
+ */
+publid finbl dlbss Normblizfr {
+
+    privbtf Normblizfr() {};
+
+    /**
+     * Option to sflfdt Unidodf 3.2 (without dorrigfndum 4 dorrfdtions) for
+     * normblizbtion.
+     */
+    publid stbtid finbl int UNICODE_3_2 = NormblizfrBbsf.UNICODE_3_2_0_ORIGINAL;
+
+    /**
+     * Normblizf b sfqufndf of dhbr vblufs.
+     * Thf sfqufndf will bf normblizfd bddording to thf spfdififd normblizbtion
+     * from.
+     * @pbrbm srd        Thf sfqufndf of dhbr vblufs to normblizf.
+     * @pbrbm form       Thf normblizbtion form; onf of
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFD},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKD}
+     * @pbrbm option     Thf normblizbtion option;
+     *                   {@link sun.tfxt.Normblizfr#UNICODE_3_2}
+     * @rfturn Thf normblizfd String
+     * @throws NullPointfrExdfption If <dodf>srd</dodf> or <dodf>form</dodf>
+     * is null.
+     */
+    publid stbtid String normblizf(ChbrSfqufndf srd,
+                                   jbvb.tfxt.Normblizfr.Form form,
+                                   int option) {
+        rfturn NormblizfrBbsf.normblizf(srd.toString(), form, option);
+    };
+
+    /**
+     * Dftfrminfs if thf givfn sfqufndf of dhbr vblufs is normblizfd.
+     * @pbrbm srd        Thf sfqufndf of dhbr vblufs to bf dhfdkfd.
+     * @pbrbm form       Thf normblizbtion form; onf of
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFD},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKD}
+     * @pbrbm option     Thf normblizbtion option;
+     *                   {@link sun.tfxt.Normblizfr#UNICODE_3_2}
+     * @rfturn truf if thf sfqufndf of dhbr vblufs is normblizfd;
+     * fblsf othfrwisf.
+     * @throws NullPointfrExdfption If <dodf>srd</dodf> or <dodf>form</dodf>
+     * is null.
+     */
+    publid stbtid boolfbn isNormblizfd(ChbrSfqufndf srd,
+                                       jbvb.tfxt.Normblizfr.Form form,
+                                       int option) {
+        rfturn NormblizfrBbsf.isNormblizfd(srd.toString(), form, option);
+    }
+
+    /**
+     * Rfturns thf dombining dlbss of thf givfn dhbrbdtfr
+     * @pbrbm dh dhbrbdtfr to rftrifvf dombining dlbss of
+     * @rfturn dombining dlbss of thf givfn dhbrbdtfr
+     */
+    publid stbtid finbl int gftCombiningClbss(int dh) {
+        rfturn NormblizfrImpl.gftCombiningClbss(dh);
+    }
+}

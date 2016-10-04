@@ -1,507 +1,507 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.dc;
+pbdkbgf sun.dd;
 
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.Pbti2D;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
 
-import sun.awt.geom.PathConsumer2D;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.AATileGenerator;
-import sun.java2d.pipe.RenderingEngine;
+import sun.bwt.gfom.PbtiConsumfr2D;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.AATilfGfnfrbtor;
+import sun.jbvb2d.pipf.RfndfringEnginf;
 
-import sun.dc.pr.Rasterizer;
-import sun.dc.pr.PathStroker;
-import sun.dc.pr.PathDasher;
-import sun.dc.pr.PRException;
-import sun.dc.path.PathConsumer;
-import sun.dc.path.PathException;
-import sun.dc.path.FastPathProducer;
+import sun.dd.pr.Rbstfrizfr;
+import sun.dd.pr.PbtiStrokfr;
+import sun.dd.pr.PbtiDbsifr;
+import sun.dd.pr.PRExdfption;
+import sun.dd.pbti.PbtiConsumfr;
+import sun.dd.pbti.PbtiExdfption;
+import sun.dd.pbti.FbstPbtiProdudfr;
 
-public class DuctusRenderingEngine extends RenderingEngine {
-    static final float PenUnits = 0.01f;
-    static final int MinPenUnits = 100;
-    static final int MinPenUnitsAA = 20;
-    static final float MinPenSizeAA = PenUnits * MinPenUnitsAA;
+publid dlbss DudtusRfndfringEnginf fxtfnds RfndfringEnginf {
+    stbtid finbl flobt PfnUnits = 0.01f;
+    stbtid finbl int MinPfnUnits = 100;
+    stbtid finbl int MinPfnUnitsAA = 20;
+    stbtid finbl flobt MinPfnSizfAA = PfnUnits * MinPfnUnitsAA;
 
-    static final float UPPER_BND = Float.MAX_VALUE / 2.0f;
-    static final float LOWER_BND = -UPPER_BND;
+    stbtid finbl flobt UPPER_BND = Flobt.MAX_VALUE / 2.0f;
+    stbtid finbl flobt LOWER_BND = -UPPER_BND;
 
-    private static final int RasterizerCaps[] = {
-        Rasterizer.BUTT, Rasterizer.ROUND, Rasterizer.SQUARE
+    privbtf stbtid finbl int RbstfrizfrCbps[] = {
+        Rbstfrizfr.BUTT, Rbstfrizfr.ROUND, Rbstfrizfr.SQUARE
     };
 
-    private static final int RasterizerCorners[] = {
-        Rasterizer.MITER, Rasterizer.ROUND, Rasterizer.BEVEL
+    privbtf stbtid finbl int RbstfrizfrCornfrs[] = {
+        Rbstfrizfr.MITER, Rbstfrizfr.ROUND, Rbstfrizfr.BEVEL
     };
 
-    static float[] getTransformMatrix(AffineTransform transform) {
-        float matrix[] = new float[4];
-        double dmatrix[] = new double[6];
-        transform.getMatrix(dmatrix);
+    stbtid flobt[] gftTrbnsformMbtrix(AffinfTrbnsform trbnsform) {
+        flobt mbtrix[] = nfw flobt[4];
+        doublf dmbtrix[] = nfw doublf[6];
+        trbnsform.gftMbtrix(dmbtrix);
         for (int i = 0; i < 4; i++) {
-            matrix[i] = (float) dmatrix[i];
+            mbtrix[i] = (flobt) dmbtrix[i];
         }
-        return matrix;
+        rfturn mbtrix;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Shape createStrokedShape(Shape src,
-                                    float width,
-                                    int caps,
+    @Ovfrridf
+    publid Sibpf drfbtfStrokfdSibpf(Sibpf srd,
+                                    flobt widti,
+                                    int dbps,
                                     int join,
-                                    float miterlimit,
-                                    float dashes[],
-                                    float dashphase)
+                                    flobt mitfrlimit,
+                                    flobt dbsifs[],
+                                    flobt dbsipibsf)
     {
-        FillAdapter filler = new FillAdapter();
-        PathStroker stroker = new PathStroker(filler);
-        PathDasher dasher = null;
+        FillAdbptfr fillfr = nfw FillAdbptfr();
+        PbtiStrokfr strokfr = nfw PbtiStrokfr(fillfr);
+        PbtiDbsifr dbsifr = null;
 
         try {
-            PathConsumer consumer;
+            PbtiConsumfr donsumfr;
 
-            stroker.setPenDiameter(width);
-            stroker.setPenT4(null);
-            stroker.setCaps(RasterizerCaps[caps]);
-            stroker.setCorners(RasterizerCorners[join], miterlimit);
-            if (dashes != null) {
-                dasher = new PathDasher(stroker);
-                dasher.setDash(dashes, dashphase);
-                dasher.setDashT4(null);
-                consumer = dasher;
-            } else {
-                consumer = stroker;
+            strokfr.sftPfnDibmftfr(widti);
+            strokfr.sftPfnT4(null);
+            strokfr.sftCbps(RbstfrizfrCbps[dbps]);
+            strokfr.sftCornfrs(RbstfrizfrCornfrs[join], mitfrlimit);
+            if (dbsifs != null) {
+                dbsifr = nfw PbtiDbsifr(strokfr);
+                dbsifr.sftDbsi(dbsifs, dbsipibsf);
+                dbsifr.sftDbsiT4(null);
+                donsumfr = dbsifr;
+            } flsf {
+                donsumfr = strokfr;
             }
 
-            feedConsumer(consumer, src.getPathIterator(null));
-        } finally {
-            stroker.dispose();
-            if (dasher != null) {
-                dasher.dispose();
+            fffdConsumfr(donsumfr, srd.gftPbtiItfrbtor(null));
+        } finblly {
+            strokfr.disposf();
+            if (dbsifr != null) {
+                dbsifr.disposf();
             }
         }
 
-        return filler.getShape();
+        rfturn fillfr.gftSibpf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void strokeTo(Shape src,
-                         AffineTransform transform,
-                         BasicStroke bs,
-                         boolean thin,
-                         boolean normalize,
-                         boolean antialias,
-                         PathConsumer2D sr)
+    @Ovfrridf
+    publid void strokfTo(Sibpf srd,
+                         AffinfTrbnsform trbnsform,
+                         BbsidStrokf bs,
+                         boolfbn tiin,
+                         boolfbn normblizf,
+                         boolfbn bntiblibs,
+                         PbtiConsumfr2D sr)
     {
-        PathStroker stroker = new PathStroker(sr);
-        PathConsumer consumer = stroker;
+        PbtiStrokfr strokfr = nfw PbtiStrokfr(sr);
+        PbtiConsumfr donsumfr = strokfr;
 
-        float matrix[] = null;
-        if (!thin) {
-            stroker.setPenDiameter(bs.getLineWidth());
-            if (transform != null) {
-                matrix = getTransformMatrix(transform);
+        flobt mbtrix[] = null;
+        if (!tiin) {
+            strokfr.sftPfnDibmftfr(bs.gftLinfWidti());
+            if (trbnsform != null) {
+                mbtrix = gftTrbnsformMbtrix(trbnsform);
             }
-            stroker.setPenT4(matrix);
-            stroker.setPenFitting(PenUnits, MinPenUnits);
+            strokfr.sftPfnT4(mbtrix);
+            strokfr.sftPfnFitting(PfnUnits, MinPfnUnits);
         }
-        stroker.setCaps(RasterizerCaps[bs.getEndCap()]);
-        stroker.setCorners(RasterizerCorners[bs.getLineJoin()],
-                           bs.getMiterLimit());
-        float[] dashes = bs.getDashArray();
-        if (dashes != null) {
-            PathDasher dasher = new PathDasher(stroker);
-            dasher.setDash(dashes, bs.getDashPhase());
-            if (transform != null && matrix == null) {
-                matrix = getTransformMatrix(transform);
+        strokfr.sftCbps(RbstfrizfrCbps[bs.gftEndCbp()]);
+        strokfr.sftCornfrs(RbstfrizfrCornfrs[bs.gftLinfJoin()],
+                           bs.gftMitfrLimit());
+        flobt[] dbsifs = bs.gftDbsiArrby();
+        if (dbsifs != null) {
+            PbtiDbsifr dbsifr = nfw PbtiDbsifr(strokfr);
+            dbsifr.sftDbsi(dbsifs, bs.gftDbsiPibsf());
+            if (trbnsform != null && mbtrix == null) {
+                mbtrix = gftTrbnsformMbtrix(trbnsform);
             }
-            dasher.setDashT4(matrix);
-            consumer = dasher;
+            dbsifr.sftDbsiT4(mbtrix);
+            donsumfr = dbsifr;
         }
 
         try {
-            PathIterator pi = src.getPathIterator(transform);
+            PbtiItfrbtor pi = srd.gftPbtiItfrbtor(trbnsform);
 
-            feedConsumer(pi, consumer, normalize, 0.25f);
-        } catch (PathException e) {
-            throw new InternalError("Unable to Stroke shape ("+
-                                    e.getMessage()+")", e);
-        } finally {
-            while (consumer != null && consumer != sr) {
-                PathConsumer next = consumer.getConsumer();
-                consumer.dispose();
-                consumer = next;
+            fffdConsumfr(pi, donsumfr, normblizf, 0.25f);
+        } dbtdi (PbtiExdfption f) {
+            tirow nfw IntfrnblError("Unbblf to Strokf sibpf ("+
+                                    f.gftMfssbgf()+")", f);
+        } finblly {
+            wiilf (donsumfr != null && donsumfr != sr) {
+                PbtiConsumfr nfxt = donsumfr.gftConsumfr();
+                donsumfr.disposf();
+                donsumfr = nfxt;
             }
         }
     }
 
     /*
-     * Feed a path from a PathIterator to a Ductus PathConsumer.
+     * Fffd b pbti from b PbtiItfrbtor to b Dudtus PbtiConsumfr.
      */
-    public static void feedConsumer(PathIterator pi, PathConsumer consumer,
-                                    boolean normalize, float norm)
-        throws PathException
+    publid stbtid void fffdConsumfr(PbtiItfrbtor pi, PbtiConsumfr donsumfr,
+                                    boolfbn normblizf, flobt norm)
+        tirows PbtiExdfption
     {
-        consumer.beginPath();
-        boolean pathClosed = false;
-        boolean skip = false;
-        boolean subpathStarted = false;
-        float mx = 0.0f;
-        float my = 0.0f;
-        float point[]  = new float[6];
-        float rnd = (0.5f - norm);
-        float ax = 0.0f;
-        float ay = 0.0f;
+        donsumfr.bfginPbti();
+        boolfbn pbtiClosfd = fblsf;
+        boolfbn skip = fblsf;
+        boolfbn subpbtiStbrtfd = fblsf;
+        flobt mx = 0.0f;
+        flobt my = 0.0f;
+        flobt point[]  = nfw flobt[6];
+        flobt rnd = (0.5f - norm);
+        flobt bx = 0.0f;
+        flobt by = 0.0f;
 
-        while (!pi.isDone()) {
-            int type = pi.currentSegment(point);
-            if (pathClosed == true) {
-                pathClosed = false;
-                if (type != PathIterator.SEG_MOVETO) {
-                    // Force current point back to last moveto point
-                    consumer.beginSubpath(mx, my);
-                    subpathStarted = true;
+        wiilf (!pi.isDonf()) {
+            int typf = pi.durrfntSfgmfnt(point);
+            if (pbtiClosfd == truf) {
+                pbtiClosfd = fblsf;
+                if (typf != PbtiItfrbtor.SEG_MOVETO) {
+                    // Fordf durrfnt point bbdk to lbst movfto point
+                    donsumfr.bfginSubpbti(mx, my);
+                    subpbtiStbrtfd = truf;
                 }
             }
-            if (normalize) {
-                int index;
-                switch (type) {
-                case PathIterator.SEG_CUBICTO:
-                    index = 4;
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    index = 2;
-                    break;
-                case PathIterator.SEG_MOVETO:
-                case PathIterator.SEG_LINETO:
-                    index = 0;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                default:
-                    index = -1;
-                    break;
+            if (normblizf) {
+                int indfx;
+                switdi (typf) {
+                dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    indfx = 4;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    indfx = 2;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_MOVETO:
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    indfx = 0;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                dffbult:
+                    indfx = -1;
+                    brfbk;
                 }
-                if (index >= 0) {
-                    float ox = point[index];
-                    float oy = point[index+1];
-                    float newax = (float) Math.floor(ox + rnd) + norm;
-                    float neway = (float) Math.floor(oy + rnd) + norm;
-                    point[index] = newax;
-                    point[index+1] = neway;
-                    newax -= ox;
-                    neway -= oy;
-                    switch (type) {
-                    case PathIterator.SEG_CUBICTO:
-                        point[0] += ax;
-                        point[1] += ay;
-                        point[2] += newax;
-                        point[3] += neway;
-                        break;
-                    case PathIterator.SEG_QUADTO:
-                        point[0] += (newax + ax) / 2;
-                        point[1] += (neway + ay) / 2;
-                        break;
-                    case PathIterator.SEG_MOVETO:
-                    case PathIterator.SEG_LINETO:
-                    case PathIterator.SEG_CLOSE:
-                        break;
+                if (indfx >= 0) {
+                    flobt ox = point[indfx];
+                    flobt oy = point[indfx+1];
+                    flobt nfwbx = (flobt) Mbti.floor(ox + rnd) + norm;
+                    flobt nfwby = (flobt) Mbti.floor(oy + rnd) + norm;
+                    point[indfx] = nfwbx;
+                    point[indfx+1] = nfwby;
+                    nfwbx -= ox;
+                    nfwby -= oy;
+                    switdi (typf) {
+                    dbsf PbtiItfrbtor.SEG_CUBICTO:
+                        point[0] += bx;
+                        point[1] += by;
+                        point[2] += nfwbx;
+                        point[3] += nfwby;
+                        brfbk;
+                    dbsf PbtiItfrbtor.SEG_QUADTO:
+                        point[0] += (nfwbx + bx) / 2;
+                        point[1] += (nfwby + by) / 2;
+                        brfbk;
+                    dbsf PbtiItfrbtor.SEG_MOVETO:
+                    dbsf PbtiItfrbtor.SEG_LINETO:
+                    dbsf PbtiItfrbtor.SEG_CLOSE:
+                        brfbk;
                     }
-                    ax = newax;
-                    ay = neway;
+                    bx = nfwbx;
+                    by = nfwby;
                 }
             }
-            switch (type) {
-            case PathIterator.SEG_MOVETO:
+            switdi (typf) {
+            dbsf PbtiItfrbtor.SEG_MOVETO:
 
-                /* Checking SEG_MOVETO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Skipping next path segment in case of
-                 * invalid data.
+                /* Cifdking SEG_MOVETO doordinbtfs if tify brf out of tif
+                 * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs NbN
+                 * bnd Infinity vblufs. Skipping nfxt pbti sfgmfnt in dbsf of
+                 * invblid dbtb.
                  */
                 if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                     point[1] < UPPER_BND && point[1] > LOWER_BND)
                 {
                     mx = point[0];
                     my = point[1];
-                    consumer.beginSubpath(mx, my);
-                    subpathStarted = true;
-                    skip = false;
-                } else {
-                    skip = true;
+                    donsumfr.bfginSubpbti(mx, my);
+                    subpbtiStbrtfd = truf;
+                    skip = fblsf;
+                } flsf {
+                    skip = truf;
                 }
-                break;
-            case PathIterator.SEG_LINETO:
-                /* Checking SEG_LINETO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid data. If segment is skipped its endpoint
-                 * (if valid) is used to begin new subpath.
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_LINETO:
+                /* Cifdking SEG_LINETO doordinbtfs if tify brf out of tif
+                 * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbti sfgmfnt in dbsf
+                 * of invblid dbtb. If sfgmfnt is skippfd its fndpoint
+                 * (if vblid) is usfd to bfgin nfw subpbti.
                  */
                 if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                     point[1] < UPPER_BND && point[1] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[0], point[1]);
-                        subpathStarted = true;
-                        skip = false;
-                    } else {
-                        consumer.appendLine(point[0], point[1]);
+                        donsumfr.bfginSubpbti(point[0], point[1]);
+                        subpbtiStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        donsumfr.bppfndLinf(point[0], point[1]);
                     }
                 }
-                break;
-            case PathIterator.SEG_QUADTO:
-                // Quadratic curves take two points
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_QUADTO:
+                // Qubdrbtid durvfs tbkf two points
 
-                /* Checking SEG_QUADTO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid endpoints's data. Equivalent to the SEG_LINETO
-                 * if endpoint coordinates are valid but there are invalid data
-                 * among other coordinates
+                /* Cifdking SEG_QUADTO doordinbtfs if tify brf out of tif
+                 * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbti sfgmfnt in dbsf
+                 * of invblid fndpoints's dbtb. Equivblfnt to tif SEG_LINETO
+                 * if fndpoint doordinbtfs brf vblid but tifrf brf invblid dbtb
+                 * bmong otifr doordinbtfs
                  */
                 if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
                     point[3] < UPPER_BND && point[3] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[2], point[3]);
-                        subpathStarted = true;
-                        skip = false;
-                    } else {
+                        donsumfr.bfginSubpbti(point[2], point[3]);
+                        subpbtiStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
                         if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                             point[1] < UPPER_BND && point[1] > LOWER_BND)
                         {
-                            consumer.appendQuadratic(point[0], point[1],
+                            donsumfr.bppfndQubdrbtid(point[0], point[1],
                                                      point[2], point[3]);
-                        } else {
-                            consumer.appendLine(point[2], point[3]);
+                        } flsf {
+                            donsumfr.bppfndLinf(point[2], point[3]);
                         }
                     }
                 }
-                break;
-            case PathIterator.SEG_CUBICTO:
-                // Cubic curves take three points
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_CUBICTO:
+                // Cubid durvfs tbkf tirff points
 
-                /* Checking SEG_CUBICTO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid endpoints's data. Equivalent to the SEG_LINETO
-                 * if endpoint coordinates are valid but there are invalid data
-                 * among other coordinates
+                /* Cifdking SEG_CUBICTO doordinbtfs if tify brf out of tif
+                 * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbti sfgmfnt in dbsf
+                 * of invblid fndpoints's dbtb. Equivblfnt to tif SEG_LINETO
+                 * if fndpoint doordinbtfs brf vblid but tifrf brf invblid dbtb
+                 * bmong otifr doordinbtfs
                  */
                 if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
                     point[5] < UPPER_BND && point[5] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[4], point[5]);
-                        subpathStarted = true;
-                        skip = false;
-                    } else {
+                        donsumfr.bfginSubpbti(point[4], point[5]);
+                        subpbtiStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
                         if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                             point[1] < UPPER_BND && point[1] > LOWER_BND &&
                             point[2] < UPPER_BND && point[2] > LOWER_BND &&
                             point[3] < UPPER_BND && point[3] > LOWER_BND)
                         {
-                            consumer.appendCubic(point[0], point[1],
+                            donsumfr.bppfndCubid(point[0], point[1],
                                                  point[2], point[3],
                                                  point[4], point[5]);
-                        } else {
-                            consumer.appendLine(point[4], point[5]);
+                        } flsf {
+                            donsumfr.bppfndLinf(point[4], point[5]);
                         }
                     }
                 }
-                break;
-            case PathIterator.SEG_CLOSE:
-                if (subpathStarted) {
-                    consumer.closedSubpath();
-                    subpathStarted = false;
-                    pathClosed = true;
+                brfbk;
+            dbsf PbtiItfrbtor.SEG_CLOSE:
+                if (subpbtiStbrtfd) {
+                    donsumfr.dlosfdSubpbti();
+                    subpbtiStbrtfd = fblsf;
+                    pbtiClosfd = truf;
                 }
-                break;
+                brfbk;
             }
-            pi.next();
+            pi.nfxt();
         }
 
-        consumer.endPath();
+        donsumfr.fndPbti();
     }
 
-    private static Rasterizer theRasterizer;
+    privbtf stbtid Rbstfrizfr tifRbstfrizfr;
 
-    public synchronized static Rasterizer getRasterizer() {
-        Rasterizer r = theRasterizer;
+    publid syndironizfd stbtid Rbstfrizfr gftRbstfrizfr() {
+        Rbstfrizfr r = tifRbstfrizfr;
         if (r == null) {
-            r = new Rasterizer();
-        } else {
-            theRasterizer = null;
+            r = nfw Rbstfrizfr();
+        } flsf {
+            tifRbstfrizfr = null;
         }
-        return r;
+        rfturn r;
     }
 
-    public synchronized static void dropRasterizer(Rasterizer r) {
-        r.reset();
-        theRasterizer = r;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public float getMinimumAAPenSize() {
-        return MinPenSizeAA;
+    publid syndironizfd stbtid void dropRbstfrizfr(Rbstfrizfr r) {
+        r.rfsft();
+        tifRbstfrizfr = r;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public AATileGenerator getAATileGenerator(Shape s,
-                                              AffineTransform at,
-                                              Region clip,
-                                              BasicStroke bs,
-                                              boolean thin,
-                                              boolean normalize,
+    @Ovfrridf
+    publid flobt gftMinimumAAPfnSizf() {
+        rfturn MinPfnSizfAA;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid AATilfGfnfrbtor gftAATilfGfnfrbtor(Sibpf s,
+                                              AffinfTrbnsform bt,
+                                              Rfgion dlip,
+                                              BbsidStrokf bs,
+                                              boolfbn tiin,
+                                              boolfbn normblizf,
                                               int bbox[])
     {
-        Rasterizer r = getRasterizer();
-        PathIterator pi = s.getPathIterator(at);
+        Rbstfrizfr r = gftRbstfrizfr();
+        PbtiItfrbtor pi = s.gftPbtiItfrbtor(bt);
 
         if (bs != null) {
-            float matrix[] = null;
-            r.setUsage(Rasterizer.STROKE);
-            if (thin) {
-                r.setPenDiameter(MinPenSizeAA);
-            } else {
-                r.setPenDiameter(bs.getLineWidth());
-                if (at != null) {
-                    matrix = getTransformMatrix(at);
-                    r.setPenT4(matrix);
+            flobt mbtrix[] = null;
+            r.sftUsbgf(Rbstfrizfr.STROKE);
+            if (tiin) {
+                r.sftPfnDibmftfr(MinPfnSizfAA);
+            } flsf {
+                r.sftPfnDibmftfr(bs.gftLinfWidti());
+                if (bt != null) {
+                    mbtrix = gftTrbnsformMbtrix(bt);
+                    r.sftPfnT4(mbtrix);
                 }
-                r.setPenFitting(PenUnits, MinPenUnitsAA);
+                r.sftPfnFitting(PfnUnits, MinPfnUnitsAA);
             }
-            r.setCaps(RasterizerCaps[bs.getEndCap()]);
-            r.setCorners(RasterizerCorners[bs.getLineJoin()],
-                         bs.getMiterLimit());
-            float[] dashes = bs.getDashArray();
-            if (dashes != null) {
-                r.setDash(dashes, bs.getDashPhase());
-                if (at != null && matrix == null) {
-                    matrix = getTransformMatrix(at);
+            r.sftCbps(RbstfrizfrCbps[bs.gftEndCbp()]);
+            r.sftCornfrs(RbstfrizfrCornfrs[bs.gftLinfJoin()],
+                         bs.gftMitfrLimit());
+            flobt[] dbsifs = bs.gftDbsiArrby();
+            if (dbsifs != null) {
+                r.sftDbsi(dbsifs, bs.gftDbsiPibsf());
+                if (bt != null && mbtrix == null) {
+                    mbtrix = gftTrbnsformMbtrix(bt);
                 }
-                r.setDashT4(matrix);
+                r.sftDbsiT4(mbtrix);
             }
-        } else {
-            r.setUsage(pi.getWindingRule() == PathIterator.WIND_EVEN_ODD
-                       ? Rasterizer.EOFILL
-                       : Rasterizer.NZFILL);
+        } flsf {
+            r.sftUsbgf(pi.gftWindingRulf() == PbtiItfrbtor.WIND_EVEN_ODD
+                       ? Rbstfrizfr.EOFILL
+                       : Rbstfrizfr.NZFILL);
         }
 
-        r.beginPath();
+        r.bfginPbti();
         {
-            boolean pathClosed = false;
-            boolean skip = false;
-            boolean subpathStarted = false;
-            float mx = 0.0f;
-            float my = 0.0f;
-            float point[]  = new float[6];
-            float ax = 0.0f;
-            float ay = 0.0f;
+            boolfbn pbtiClosfd = fblsf;
+            boolfbn skip = fblsf;
+            boolfbn subpbtiStbrtfd = fblsf;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = nfw flobt[6];
+            flobt bx = 0.0f;
+            flobt by = 0.0f;
 
-            while (!pi.isDone()) {
-                int type = pi.currentSegment(point);
-                if (pathClosed == true) {
-                    pathClosed = false;
-                    if (type != PathIterator.SEG_MOVETO) {
-                        // Force current point back to last moveto point
-                        r.beginSubpath(mx, my);
-                        subpathStarted = true;
+            wiilf (!pi.isDonf()) {
+                int typf = pi.durrfntSfgmfnt(point);
+                if (pbtiClosfd == truf) {
+                    pbtiClosfd = fblsf;
+                    if (typf != PbtiItfrbtor.SEG_MOVETO) {
+                        // Fordf durrfnt point bbdk to lbst movfto point
+                        r.bfginSubpbti(mx, my);
+                        subpbtiStbrtfd = truf;
                     }
                 }
-                if (normalize) {
-                    int index;
-                    switch (type) {
-                    case PathIterator.SEG_CUBICTO:
-                        index = 4;
-                        break;
-                    case PathIterator.SEG_QUADTO:
-                        index = 2;
-                        break;
-                    case PathIterator.SEG_MOVETO:
-                    case PathIterator.SEG_LINETO:
-                        index = 0;
-                        break;
-                    case PathIterator.SEG_CLOSE:
-                    default:
-                        index = -1;
-                        break;
+                if (normblizf) {
+                    int indfx;
+                    switdi (typf) {
+                    dbsf PbtiItfrbtor.SEG_CUBICTO:
+                        indfx = 4;
+                        brfbk;
+                    dbsf PbtiItfrbtor.SEG_QUADTO:
+                        indfx = 2;
+                        brfbk;
+                    dbsf PbtiItfrbtor.SEG_MOVETO:
+                    dbsf PbtiItfrbtor.SEG_LINETO:
+                        indfx = 0;
+                        brfbk;
+                    dbsf PbtiItfrbtor.SEG_CLOSE:
+                    dffbult:
+                        indfx = -1;
+                        brfbk;
                     }
-                    if (index >= 0) {
-                        float ox = point[index];
-                        float oy = point[index+1];
-                        float newax = (float) Math.floor(ox) + 0.5f;
-                        float neway = (float) Math.floor(oy) + 0.5f;
-                        point[index] = newax;
-                        point[index+1] = neway;
-                        newax -= ox;
-                        neway -= oy;
-                        switch (type) {
-                        case PathIterator.SEG_CUBICTO:
-                            point[0] += ax;
-                            point[1] += ay;
-                            point[2] += newax;
-                            point[3] += neway;
-                            break;
-                        case PathIterator.SEG_QUADTO:
-                            point[0] += (newax + ax) / 2;
-                            point[1] += (neway + ay) / 2;
-                            break;
-                        case PathIterator.SEG_MOVETO:
-                        case PathIterator.SEG_LINETO:
-                        case PathIterator.SEG_CLOSE:
-                            break;
+                    if (indfx >= 0) {
+                        flobt ox = point[indfx];
+                        flobt oy = point[indfx+1];
+                        flobt nfwbx = (flobt) Mbti.floor(ox) + 0.5f;
+                        flobt nfwby = (flobt) Mbti.floor(oy) + 0.5f;
+                        point[indfx] = nfwbx;
+                        point[indfx+1] = nfwby;
+                        nfwbx -= ox;
+                        nfwby -= oy;
+                        switdi (typf) {
+                        dbsf PbtiItfrbtor.SEG_CUBICTO:
+                            point[0] += bx;
+                            point[1] += by;
+                            point[2] += nfwbx;
+                            point[3] += nfwby;
+                            brfbk;
+                        dbsf PbtiItfrbtor.SEG_QUADTO:
+                            point[0] += (nfwbx + bx) / 2;
+                            point[1] += (nfwby + by) / 2;
+                            brfbk;
+                        dbsf PbtiItfrbtor.SEG_MOVETO:
+                        dbsf PbtiItfrbtor.SEG_LINETO:
+                        dbsf PbtiItfrbtor.SEG_CLOSE:
+                            brfbk;
                         }
-                        ax = newax;
-                        ay = neway;
+                        bx = nfwbx;
+                        by = nfwby;
                     }
                 }
-                switch (type) {
-                case PathIterator.SEG_MOVETO:
+                switdi (typf) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
 
-                   /* Checking SEG_MOVETO coordinates if they are out of the
-                    * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                    * and Infinity values. Skipping next path segment in case
-                    * of invalid data.
+                   /* Cifdking SEG_MOVETO doordinbtfs if tify brf out of tif
+                    * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs NbN
+                    * bnd Infinity vblufs. Skipping nfxt pbti sfgmfnt in dbsf
+                    * of invblid dbtb.
                     */
 
                     if (point[0] < UPPER_BND &&  point[0] > LOWER_BND &&
@@ -509,148 +509,148 @@ public class DuctusRenderingEngine extends RenderingEngine {
                     {
                         mx = point[0];
                         my = point[1];
-                        r.beginSubpath(mx, my);
-                        subpathStarted = true;
-                        skip = false;
-                    } else {
-                        skip = true;
+                        r.bfginSubpbti(mx, my);
+                        subpbtiStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        skip = truf;
                     }
-                    break;
+                    brfbk;
 
-                case PathIterator.SEG_LINETO:
-                    /* Checking SEG_LINETO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring current path segment
-                     * in case of invalid data. If segment is skipped its
-                     * endpoint (if valid) is used to begin new subpath.
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    /* Cifdking SEG_LINETO doordinbtfs if tify brf out of tif
+                     * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbti sfgmfnt
+                     * in dbsf of invblid dbtb. If sfgmfnt is skippfd its
+                     * fndpoint (if vblid) is usfd to bfgin nfw subpbti.
                      */
                     if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                         point[1] < UPPER_BND && point[1] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[0], point[1]);
-                            subpathStarted = true;
-                            skip = false;
-                        } else {
-                            r.appendLine(point[0], point[1]);
+                            r.bfginSubpbti(point[0], point[1]);
+                            subpbtiStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
+                            r.bppfndLinf(point[0], point[1]);
                         }
                     }
-                    break;
+                    brfbk;
 
-                case PathIterator.SEG_QUADTO:
-                    // Quadratic curves take two points
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    // Qubdrbtid durvfs tbkf two points
 
-                    /* Checking SEG_QUADTO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring current path segment
-                     * in case of invalid endpoints's data. Equivalent to the
-                     * SEG_LINETO if endpoint coordinates are valid but there
-                     * are invalid data among other coordinates
+                    /* Cifdking SEG_QUADTO doordinbtfs if tify brf out of tif
+                     * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbti sfgmfnt
+                     * in dbsf of invblid fndpoints's dbtb. Equivblfnt to tif
+                     * SEG_LINETO if fndpoint doordinbtfs brf vblid but tifrf
+                     * brf invblid dbtb bmong otifr doordinbtfs
                      */
                     if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
                         point[3] < UPPER_BND && point[3] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[2], point[3]);
-                            subpathStarted = true;
-                            skip = false;
-                        } else {
+                            r.bfginSubpbti(point[2], point[3]);
+                            subpbtiStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
                             if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                                 point[1] < UPPER_BND && point[1] > LOWER_BND)
                             {
-                                r.appendQuadratic(point[0], point[1],
+                                r.bppfndQubdrbtid(point[0], point[1],
                                                   point[2], point[3]);
-                            } else {
-                                r.appendLine(point[2], point[3]);
+                            } flsf {
+                                r.bppfndLinf(point[2], point[3]);
                             }
                         }
                     }
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    // Cubic curves take three points
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    // Cubid durvfs tbkf tirff points
 
-                    /* Checking SEG_CUBICTO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring  current path segment
-                     * in case of invalid endpoints's data. Equivalent to the
-                     * SEG_LINETO if endpoint coordinates are valid but there
-                     * are invalid data among other coordinates
+                    /* Cifdking SEG_CUBICTO doordinbtfs if tify brf out of tif
+                     * [LOWER_BND, UPPER_BND] rbngf. Tiis difdk blso ibndlfs
+                     * NbN bnd Infinity vblufs. Ignoring  durrfnt pbti sfgmfnt
+                     * in dbsf of invblid fndpoints's dbtb. Equivblfnt to tif
+                     * SEG_LINETO if fndpoint doordinbtfs brf vblid but tifrf
+                     * brf invblid dbtb bmong otifr doordinbtfs
                      */
 
                     if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
                         point[5] < UPPER_BND && point[5] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[4], point[5]);
-                            subpathStarted = true;
-                            skip = false;
-                        } else {
+                            r.bfginSubpbti(point[4], point[5]);
+                            subpbtiStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
                             if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                                 point[1] < UPPER_BND && point[1] > LOWER_BND &&
                                 point[2] < UPPER_BND && point[2] > LOWER_BND &&
                                 point[3] < UPPER_BND && point[3] > LOWER_BND)
                             {
-                                r.appendCubic(point[0], point[1],
+                                r.bppfndCubid(point[0], point[1],
                                               point[2], point[3],
                                               point[4], point[5]);
-                            } else {
-                                r.appendLine(point[4], point[5]);
+                            } flsf {
+                                r.bppfndLinf(point[4], point[5]);
                             }
                         }
                     }
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (subpathStarted) {
-                        r.closedSubpath();
-                        subpathStarted = false;
-                        pathClosed = true;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    if (subpbtiStbrtfd) {
+                        r.dlosfdSubpbti();
+                        subpbtiStbrtfd = fblsf;
+                        pbtiClosfd = truf;
                     }
-                    break;
+                    brfbk;
                 }
-                pi.next();
+                pi.nfxt();
             }
         }
 
         try {
-            r.endPath();
-            r.getAlphaBox(bbox);
-            clip.clipBoxToBounds(bbox);
+            r.fndPbti();
+            r.gftAlpibBox(bbox);
+            dlip.dlipBoxToBounds(bbox);
             if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
-                dropRasterizer(r);
-                return null;
+                dropRbstfrizfr(r);
+                rfturn null;
             }
-            r.setOutputArea(bbox[0], bbox[1],
+            r.sftOutputArfb(bbox[0], bbox[1],
                             bbox[2] - bbox[0],
                             bbox[3] - bbox[1]);
-        } catch (PRException e) {
+        } dbtdi (PRExdfption f) {
             /*
-             * This exeption is thrown from the native part of the Ductus
-             * (only in case of a debug build) to indicate that some
-             * segments of the path have very large coordinates.
-             * See 4485298 for more info.
+             * Tiis fxfption is tirown from tif nbtivf pbrt of tif Dudtus
+             * (only in dbsf of b dfbug build) to indidbtf tibt somf
+             * sfgmfnts of tif pbti ibvf vfry lbrgf doordinbtfs.
+             * Sff 4485298 for morf info.
              */
-            System.err.println("DuctusRenderingEngine.getAATileGenerator: "+e);
+            Systfm.frr.println("DudtusRfndfringEnginf.gftAATilfGfnfrbtor: "+f);
         }
 
-        return r;
+        rfturn r;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public AATileGenerator getAATileGenerator(double x, double y,
-                                              double dx1, double dy1,
-                                              double dx2, double dy2,
-                                              double lw1, double lw2,
-                                              Region clip,
+    @Ovfrridf
+    publid AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                              doublf dx1, doublf dy1,
+                                              doublf dx2, doublf dy2,
+                                              doublf lw1, doublf lw2,
+                                              Rfgion dlip,
                                               int bbox[])
     {
-        // REMIND: Deal with large coordinates!
-        double ldx1, ldy1, ldx2, ldy2;
-        boolean innerpgram = (lw1 > 0 && lw2 > 0);
+        // REMIND: Dfbl witi lbrgf doordinbtfs!
+        doublf ldx1, ldy1, ldx2, ldy2;
+        boolfbn innfrpgrbm = (lw1 > 0 && lw2 > 0);
 
-        if (innerpgram) {
+        if (innfrpgrbm) {
             ldx1 = dx1 * lw1;
             ldy1 = dy1 * lw1;
             ldx2 = dx2 * lw2;
@@ -662,175 +662,175 @@ public class DuctusRenderingEngine extends RenderingEngine {
             dx2 += ldx2;
             dy2 += ldy2;
             if (lw1 > 1 && lw2 > 1) {
-                // Inner parallelogram was entirely consumed by stroke...
-                innerpgram = false;
+                // Innfr pbrbllflogrbm wbs fntirfly donsumfd by strokf...
+                innfrpgrbm = fblsf;
             }
-        } else {
+        } flsf {
             ldx1 = ldy1 = ldx2 = ldy2 = 0;
         }
 
-        Rasterizer r = getRasterizer();
+        Rbstfrizfr r = gftRbstfrizfr();
 
-        r.setUsage(Rasterizer.EOFILL);
+        r.sftUsbgf(Rbstfrizfr.EOFILL);
 
-        r.beginPath();
-        r.beginSubpath((float) x, (float) y);
-        r.appendLine((float) (x+dx1), (float) (y+dy1));
-        r.appendLine((float) (x+dx1+dx2), (float) (y+dy1+dy2));
-        r.appendLine((float) (x+dx2), (float) (y+dy2));
-        r.closedSubpath();
-        if (innerpgram) {
+        r.bfginPbti();
+        r.bfginSubpbti((flobt) x, (flobt) y);
+        r.bppfndLinf((flobt) (x+dx1), (flobt) (y+dy1));
+        r.bppfndLinf((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+        r.bppfndLinf((flobt) (x+dx2), (flobt) (y+dy2));
+        r.dlosfdSubpbti();
+        if (innfrpgrbm) {
             x += ldx1 + ldx2;
             y += ldy1 + ldy2;
             dx1 -= 2.0 * ldx1;
             dy1 -= 2.0 * ldy1;
             dx2 -= 2.0 * ldx2;
             dy2 -= 2.0 * ldy2;
-            r.beginSubpath((float) x, (float) y);
-            r.appendLine((float) (x+dx1), (float) (y+dy1));
-            r.appendLine((float) (x+dx1+dx2), (float) (y+dy1+dy2));
-            r.appendLine((float) (x+dx2), (float) (y+dy2));
-            r.closedSubpath();
+            r.bfginSubpbti((flobt) x, (flobt) y);
+            r.bppfndLinf((flobt) (x+dx1), (flobt) (y+dy1));
+            r.bppfndLinf((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+            r.bppfndLinf((flobt) (x+dx2), (flobt) (y+dy2));
+            r.dlosfdSubpbti();
         }
 
         try {
-            r.endPath();
-            r.getAlphaBox(bbox);
-            clip.clipBoxToBounds(bbox);
+            r.fndPbti();
+            r.gftAlpibBox(bbox);
+            dlip.dlipBoxToBounds(bbox);
             if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
-                dropRasterizer(r);
-                return null;
+                dropRbstfrizfr(r);
+                rfturn null;
             }
-            r.setOutputArea(bbox[0], bbox[1],
+            r.sftOutputArfb(bbox[0], bbox[1],
                             bbox[2] - bbox[0],
                             bbox[3] - bbox[1]);
-        } catch (PRException e) {
+        } dbtdi (PRExdfption f) {
             /*
-             * This exeption is thrown from the native part of the Ductus
-             * (only in case of a debug build) to indicate that some
-             * segments of the path have very large coordinates.
-             * See 4485298 for more info.
+             * Tiis fxfption is tirown from tif nbtivf pbrt of tif Dudtus
+             * (only in dbsf of b dfbug build) to indidbtf tibt somf
+             * sfgmfnts of tif pbti ibvf vfry lbrgf doordinbtfs.
+             * Sff 4485298 for morf info.
              */
-            System.err.println("DuctusRenderingEngine.getAATileGenerator: "+e);
+            Systfm.frr.println("DudtusRfndfringEnginf.gftAATilfGfnfrbtor: "+f);
         }
 
-        return r;
+        rfturn r;
     }
 
-    private void feedConsumer(PathConsumer consumer, PathIterator pi) {
+    privbtf void fffdConsumfr(PbtiConsumfr donsumfr, PbtiItfrbtor pi) {
         try {
-            consumer.beginPath();
-            boolean pathClosed = false;
-            float mx = 0.0f;
-            float my = 0.0f;
-            float point[]  = new float[6];
+            donsumfr.bfginPbti();
+            boolfbn pbtiClosfd = fblsf;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = nfw flobt[6];
 
-            while (!pi.isDone()) {
-                int type = pi.currentSegment(point);
-                if (pathClosed == true) {
-                    pathClosed = false;
-                    if (type != PathIterator.SEG_MOVETO) {
-                        // Force current point back to last moveto point
-                        consumer.beginSubpath(mx, my);
+            wiilf (!pi.isDonf()) {
+                int typf = pi.durrfntSfgmfnt(point);
+                if (pbtiClosfd == truf) {
+                    pbtiClosfd = fblsf;
+                    if (typf != PbtiItfrbtor.SEG_MOVETO) {
+                        // Fordf durrfnt point bbdk to lbst movfto point
+                        donsumfr.bfginSubpbti(mx, my);
                     }
                 }
-                switch (type) {
-                case PathIterator.SEG_MOVETO:
+                switdi (typf) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
                     mx = point[0];
                     my = point[1];
-                    consumer.beginSubpath(point[0], point[1]);
-                    break;
-                case PathIterator.SEG_LINETO:
-                    consumer.appendLine(point[0], point[1]);
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    consumer.appendQuadratic(point[0], point[1],
+                    donsumfr.bfginSubpbti(point[0], point[1]);
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    donsumfr.bppfndLinf(point[0], point[1]);
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    donsumfr.bppfndQubdrbtid(point[0], point[1],
                                              point[2], point[3]);
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    consumer.appendCubic(point[0], point[1],
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    donsumfr.bppfndCubid(point[0], point[1],
                                          point[2], point[3],
                                          point[4], point[5]);
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    consumer.closedSubpath();
-                    pathClosed = true;
-                    break;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    donsumfr.dlosfdSubpbti();
+                    pbtiClosfd = truf;
+                    brfbk;
                 }
-                pi.next();
+                pi.nfxt();
             }
 
-            consumer.endPath();
-        } catch (PathException e) {
-            throw new InternalError("Unable to Stroke shape ("+
-                                    e.getMessage()+")", e);
+            donsumfr.fndPbti();
+        } dbtdi (PbtiExdfption f) {
+            tirow nfw IntfrnblError("Unbblf to Strokf sibpf ("+
+                                    f.gftMfssbgf()+")", f);
         }
     }
 
-    private class FillAdapter implements PathConsumer {
-        boolean closed;
-        Path2D.Float path;
+    privbtf dlbss FillAdbptfr implfmfnts PbtiConsumfr {
+        boolfbn dlosfd;
+        Pbti2D.Flobt pbti;
 
-        public FillAdapter() {
-            // Ductus only supplies float coordinates so
-            // Path2D.Double is not necessary here.
-            path = new Path2D.Float(Path2D.WIND_NON_ZERO);
+        publid FillAdbptfr() {
+            // Dudtus only supplifs flobt doordinbtfs so
+            // Pbti2D.Doublf is not nfdfssbry ifrf.
+            pbti = nfw Pbti2D.Flobt(Pbti2D.WIND_NON_ZERO);
         }
 
-        public Shape getShape() {
-            return path;
+        publid Sibpf gftSibpf() {
+            rfturn pbti;
         }
 
-        public void dispose() {
+        publid void disposf() {
         }
 
-        public PathConsumer getConsumer() {
-            return null;
+        publid PbtiConsumfr gftConsumfr() {
+            rfturn null;
         }
 
-        public void beginPath() {}
+        publid void bfginPbti() {}
 
-        public void beginSubpath(float x0, float y0) {
-            if (closed) {
-                path.closePath();
-                closed = false;
+        publid void bfginSubpbti(flobt x0, flobt y0) {
+            if (dlosfd) {
+                pbti.dlosfPbti();
+                dlosfd = fblsf;
             }
-            path.moveTo(x0, y0);
+            pbti.movfTo(x0, y0);
         }
 
-        public void appendLine(float x1, float y1) {
-            path.lineTo(x1, y1);
+        publid void bppfndLinf(flobt x1, flobt y1) {
+            pbti.linfTo(x1, y1);
         }
 
-        public void appendQuadratic(float xm, float ym, float x1, float y1) {
-            path.quadTo(xm, ym, x1, y1);
+        publid void bppfndQubdrbtid(flobt xm, flobt ym, flobt x1, flobt y1) {
+            pbti.qubdTo(xm, ym, x1, y1);
         }
 
-        public void appendCubic(float xm, float ym,
-                                float xn, float yn,
-                                float x1, float y1) {
-            path.curveTo(xm, ym, xn, yn, x1, y1);
+        publid void bppfndCubid(flobt xm, flobt ym,
+                                flobt xn, flobt yn,
+                                flobt x1, flobt y1) {
+            pbti.durvfTo(xm, ym, xn, yn, x1, y1);
         }
 
-        public void closedSubpath() {
-            closed = true;
+        publid void dlosfdSubpbti() {
+            dlosfd = truf;
         }
 
-        public void endPath() {
-            if (closed) {
-                path.closePath();
-                closed = false;
+        publid void fndPbti() {
+            if (dlosfd) {
+                pbti.dlosfPbti();
+                dlosfd = fblsf;
             }
         }
 
-        public void useProxy(FastPathProducer proxy)
-            throws PathException
+        publid void usfProxy(FbstPbtiProdudfr proxy)
+            tirows PbtiExdfption
         {
-            proxy.sendTo(this);
+            proxy.sfndTo(tiis);
         }
 
-        public long getCPathConsumer() {
-            return 0;
+        publid long gftCPbtiConsumfr() {
+            rfturn 0;
         }
     }
 }

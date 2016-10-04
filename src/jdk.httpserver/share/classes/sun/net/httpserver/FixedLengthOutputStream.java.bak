@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import java.net.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
 /**
- * a class which allows the caller to write up to a defined
- * number of bytes to an underlying stream. The caller *must*
- * write the pre-defined number or else an exception will be thrown
- * and the whole request aborted.
- * normal close() does not close the underlying stream
+ * b dlbss wiidi bllows tif dbllfr to writf up to b dffinfd
+ * numbfr of bytfs to bn undfrlying strfbm. Tif dbllfr *must*
+ * writf tif prf-dffinfd numbfr or flsf bn fxdfption will bf tirown
+ * bnd tif wiolf rfqufst bbortfd.
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
  */
 
-class FixedLengthOutputStream extends FilterOutputStream
+dlbss FixfdLfngtiOutputStrfbm fxtfnds FiltfrOutputStrfbm
 {
-    private long remaining;
-    private boolean eof = false;
-    private boolean closed = false;
-    ExchangeImpl t;
+    privbtf long rfmbining;
+    privbtf boolfbn fof = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    ExdibngfImpl t;
 
-    FixedLengthOutputStream (ExchangeImpl t, OutputStream src, long len) {
-        super (src);
-        this.t = t;
-        this.remaining = len;
+    FixfdLfngtiOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd, long lfn) {
+        supfr (srd);
+        tiis.t = t;
+        tiis.rfmbining = lfn;
     }
 
-    public void write (int b) throws IOException {
-        if (closed) {
-            throw new IOException ("stream closed");
+    publid void writf (int b) tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption ("strfbm dlosfd");
         }
-        eof = (remaining == 0);
-        if (eof) {
-            throw new StreamClosedException();
+        fof = (rfmbining == 0);
+        if (fof) {
+            tirow nfw StrfbmClosfdExdfption();
         }
-        out.write(b);
-        remaining --;
+        out.writf(b);
+        rfmbining --;
     }
 
-    public void write (byte[]b, int off, int len) throws IOException {
-        if (closed) {
-            throw new IOException ("stream closed");
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption ("strfbm dlosfd");
         }
-        eof = (remaining == 0);
-        if (eof) {
-            throw new StreamClosedException();
+        fof = (rfmbining == 0);
+        if (fof) {
+            tirow nfw StrfbmClosfdExdfption();
         }
-        if (len > remaining) {
-            // stream is still open, caller can retry
-            throw new IOException ("too many bytes to write to stream");
+        if (lfn > rfmbining) {
+            // strfbm is still opfn, dbllfr dbn rftry
+            tirow nfw IOExdfption ("too mbny bytfs to writf to strfbm");
         }
-        out.write(b, off, len);
-        remaining -= len;
+        out.writf(b, off, lfn);
+        rfmbining -= lfn;
     }
 
-    public void close () throws IOException {
-        if (closed) {
-            return;
+    publid void dlosf () tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
-        closed = true;
-        if (remaining > 0) {
-            t.close();
-            throw new IOException ("insufficient bytes written to stream");
+        dlosfd = truf;
+        if (rfmbining > 0) {
+            t.dlosf();
+            tirow nfw IOExdfption ("insuffidifnt bytfs writtfn to strfbm");
         }
-        flush();
-        eof = true;
-        LeftOverInputStream is = t.getOriginalInputStream();
-        if (!is.isClosed()) {
+        flusi();
+        fof = truf;
+        LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+        if (!is.isClosfd()) {
             try {
-                is.close();
-            } catch (IOException e) {}
+                is.dlosf();
+            } dbtdi (IOExdfption f) {}
         }
-        WriteFinishedEvent e = new WriteFinishedEvent (t);
-        t.getHttpContext().getServerImpl().addEvent (e);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
     }
 
-    // flush is a pass-through
+    // flusi is b pbss-tirougi
 }

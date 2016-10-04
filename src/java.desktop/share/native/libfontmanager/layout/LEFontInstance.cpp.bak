@@ -1,173 +1,173 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *******************************************************************************
  *
- *   Copyright (C) 1999-2007, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyrigit (C) 1999-2007, Intfrnbtionbl Businfss Mbdiinfs
+ *   Corporbtion bnd otifrs.  All Rigits Rfsfrvfd.
  *
  *******************************************************************************
- *   file name:  LEFontInstance.cpp
+ *   filf nbmf:  LEFontInstbndf.dpp
  *
- *   created on: 02/06/2003
- *   created by: Eric R. Mader
+ *   drfbtfd on: 02/06/2003
+ *   drfbtfd by: Erid R. Mbdfr
  */
 
-#include "LETypes.h"
-#include "LEScripts.h"
-#include "LEFontInstance.h"
-#include "LEGlyphStorage.h"
+#indludf "LETypfs.i"
+#indludf "LESdripts.i"
+#indludf "LEFontInstbndf.i"
+#indludf "LEGlypiStorbgf.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEFontInstance)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEFontInstbndf)
 
-LECharMapper::~LECharMapper()
+LECibrMbppfr::~LECibrMbppfr()
 {
-    // nothing to do.
+    // notiing to do.
 }
 
-LEFontInstance::~LEFontInstance()
+LEFontInstbndf::~LEFontInstbndf()
 {
-    // nothing to do
+    // notiing to do
 }
 
-const LEFontInstance *LEFontInstance::getSubFont(const LEUnicode chars[], le_int32 *offset, le_int32 limit,
-                                                       le_int32 script, LEErrorCode &success) const
+donst LEFontInstbndf *LEFontInstbndf::gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit,
+                                                       lf_int32 sdript, LEErrorCodf &suddfss) donst
 {
-    if (LE_FAILURE(success)) {
-        return NULL;
+    if (LE_FAILURE(suddfss)) {
+        rfturn NULL;
     }
 
-    if (chars == NULL || *offset < 0 || limit < 0 || *offset >= limit || script < 0 || script >= scriptCodeCount) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return NULL;
+    if (dibrs == NULL || *offsft < 0 || limit < 0 || *offsft >= limit || sdript < 0 || sdript >= sdriptCodfCount) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn NULL;
     }
 
-    *offset = limit;
-    return this;
+    *offsft = limit;
+    rfturn tiis;
 }
 
-void LEFontInstance::mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count,
-                                      le_bool reverse, const LECharMapper *mapper, le_bool filterZeroWidth, LEGlyphStorage &glyphStorage) const
+void LEFontInstbndf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount,
+                                      lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst
 {
-    le_int32 i, out = 0, dir = 1;
+    lf_int32 i, out = 0, dir = 1;
 
-    if (reverse) {
-        out = count - 1;
+    if (rfvfrsf) {
+        out = dount - 1;
         dir = -1;
     }
 
-    for (i = offset; i < offset + count; i += 1, out += dir) {
-        LEUnicode16 high = chars[i];
-        LEUnicode32 code = high;
+    for (i = offsft; i < offsft + dount; i += 1, out += dir) {
+        LEUnidodf16 iigi = dibrs[i];
+        LEUnidodf32 dodf = iigi;
 
-        if (i < offset + count - 1 && high >= 0xD800 && high <= 0xDBFF) {
-            LEUnicode16 low = chars[i + 1];
+        if (i < offsft + dount - 1 && iigi >= 0xD800 && iigi <= 0xDBFF) {
+            LEUnidodf16 low = dibrs[i + 1];
 
             if (low >= 0xDC00 && low <= 0xDFFF) {
-                code = (high - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
+                dodf = (iigi - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
             }
         }
 
-        glyphStorage[out] = mapCharToGlyph(code, mapper, filterZeroWidth);
+        glypiStorbgf[out] = mbpCibrToGlypi(dodf, mbppfr, filtfrZfroWidti);
 
-        if (code >= 0x10000) {
+        if (dodf >= 0x10000) {
             i += 1;
-            glyphStorage[out += dir] = 0xFFFF;
+            glypiStorbgf[out += dir] = 0xFFFF;
         }
     }
 }
 
-LEGlyphID LEFontInstance::mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const
+LEGlypiID LEFontInstbndf::mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst
 {
-    return mapCharToGlyph(ch, mapper, TRUE);
+    rfturn mbpCibrToGlypi(di, mbppfr, TRUE);
 }
 
-LEGlyphID LEFontInstance::mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper, le_bool filterZeroWidth) const
+LEGlypiID LEFontInstbndf::mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst
 {
-    LEUnicode32 mappedChar = mapper->mapChar(ch);
+    LEUnidodf32 mbppfdCibr = mbppfr->mbpCibr(di);
 
-    if (mappedChar == 0xFFFE || mappedChar == 0xFFFF) {
-        return 0xFFFF;
+    if (mbppfdCibr == 0xFFFE || mbppfdCibr == 0xFFFF) {
+        rfturn 0xFFFF;
     }
 
-    if (filterZeroWidth && (mappedChar == 0x200C || mappedChar == 0x200D)) {
-        return canDisplay(mappedChar)? 0x0001 : 0xFFFF;
+    if (filtfrZfroWidti && (mbppfdCibr == 0x200C || mbppfdCibr == 0x200D)) {
+        rfturn dbnDisplby(mbppfdCibr)? 0x0001 : 0xFFFF;
     }
 
-    return mapCharToGlyph(mappedChar);
+    rfturn mbpCibrToGlypi(mbppfdCibr);
 }
 
-le_bool LEFontInstance::canDisplay(LEUnicode32 ch) const
+lf_bool LEFontInstbndf::dbnDisplby(LEUnidodf32 di) donst
 {
-    return LE_GET_GLYPH(mapCharToGlyph(ch)) != 0;
+    rfturn LE_GET_GLYPH(mbpCibrToGlypi(di)) != 0;
 }
 
-float LEFontInstance::xUnitsToPoints(float xUnits) const
+flobt LEFontInstbndf::xUnitsToPoints(flobt xUnits) donst
 {
-    return (xUnits * getXPixelsPerEm()) / (float) getUnitsPerEM();
+    rfturn (xUnits * gftXPixflsPfrEm()) / (flobt) gftUnitsPfrEM();
 }
 
-float LEFontInstance::yUnitsToPoints(float yUnits) const
+flobt LEFontInstbndf::yUnitsToPoints(flobt yUnits) donst
 {
-    return (yUnits * getYPixelsPerEm()) / (float) getUnitsPerEM();
+    rfturn (yUnits * gftYPixflsPfrEm()) / (flobt) gftUnitsPfrEM();
 }
 
-void LEFontInstance::unitsToPoints(LEPoint &units, LEPoint &points) const
+void LEFontInstbndf::unitsToPoints(LEPoint &units, LEPoint &points) donst
 {
     points.fX = xUnitsToPoints(units.fX);
     points.fY = yUnitsToPoints(units.fY);
 }
 
-float LEFontInstance::xPixelsToUnits(float xPixels) const
+flobt LEFontInstbndf::xPixflsToUnits(flobt xPixfls) donst
 {
-    return (xPixels * getUnitsPerEM()) / (float) getXPixelsPerEm();
+    rfturn (xPixfls * gftUnitsPfrEM()) / (flobt) gftXPixflsPfrEm();
 }
 
-float LEFontInstance::yPixelsToUnits(float yPixels) const
+flobt LEFontInstbndf::yPixflsToUnits(flobt yPixfls) donst
 {
-    return (yPixels * getUnitsPerEM()) / (float) getYPixelsPerEm();
+    rfturn (yPixfls * gftUnitsPfrEM()) / (flobt) gftYPixflsPfrEm();
 }
 
-void LEFontInstance::pixelsToUnits(LEPoint &pixels, LEPoint &units) const
+void LEFontInstbndf::pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst
 {
-    units.fX = xPixelsToUnits(pixels.fX);
-    units.fY = yPixelsToUnits(pixels.fY);
+    units.fX = xPixflsToUnits(pixfls.fX);
+    units.fY = yPixflsToUnits(pixfls.fY);
 }
 
-void LEFontInstance::transformFunits(float xFunits, float yFunits, LEPoint &pixels) const
+void LEFontInstbndf::trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst
 {
-    pixels.fX = xUnitsToPoints(xFunits) * getScaleFactorX();
-    pixels.fY = yUnitsToPoints(yFunits) * getScaleFactorY();
+    pixfls.fX = xUnitsToPoints(xFunits) * gftSdblfFbdtorX();
+    pixfls.fY = yUnitsToPoints(yFunits) * gftSdblfFbdtorY();
 }
 
-le_int32 LEFontInstance::getLineHeight() const
+lf_int32 LEFontInstbndf::gftLinfHfigit() donst
 {
-    return getAscent() + getDescent() + getLeading();
+    rfturn gftAsdfnt() + gftDfsdfnt() + gftLfbding();
 }
 
 U_NAMESPACE_END

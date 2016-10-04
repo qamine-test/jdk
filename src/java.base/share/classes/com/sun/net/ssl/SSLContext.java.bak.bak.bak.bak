@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE:  this filf wbs dopifd from jbvbx.nft.ssl.SSLContfxt
+ */
+
+pbdkbgf dom.sun.nft.ssl;
+
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.ssl.SSLSodkftFbdtoryImpl;
+import sun.sfdurity.ssl.SSLSfrvfrSodkftFbdtoryImpl;
+
+/**
+ * Instbndfs of this dlbss rfprfsfnt b sfdurf sodkft protodol
+ * implfmfntbtion whidh bdts bs b fbdtory for sfdurf sodkft
+ * fbdtorifs. This dlbss is initiblizfd with bn optionbl sft of
+ * kfy bnd trust mbnbgfrs bnd sourdf of sfdurf rbndom bytfs.
+ *
+ * @dfprfdbtfd As of JDK 1.4, this implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.SSLContfxt}.
+ */
+@Dfprfdbtfd
+publid dlbss SSLContfxt {
+    privbtf Providfr providfr;
+
+    privbtf SSLContfxtSpi dontfxtSpi;
+
+    privbtf String protodol;
+
+    /**
+     * Crfbtfs bn SSLContfxt objfdt.
+     *
+     * @pbrbm dontfxtSpi thf dflfgbtf
+     * @pbrbm providfr thf providfr
+     * @pbrbm blgorithm thf blgorithm
+     */
+    protfdtfd SSLContfxt(SSLContfxtSpi dontfxtSpi, Providfr providfr,
+        String protodol) {
+        this.dontfxtSpi = dontfxtSpi;
+        this.providfr = providfr;
+        this.protodol = protodol;
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SSLContfxt</dodf> objfdt thbt implfmfnts thf
+     * spfdififd sfdurf sodkft protodol.
+     *
+     * @pbrbm protodol thf stbndbrd nbmf of thf rfqufstfd protodol.
+     *
+     * @rfturn thf nfw <dodf>SSLContfxt</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd protodol is not
+     * bvbilbblf in thf dffbult providfr pbdkbgf or bny of thf othfr providfr
+     * pbdkbgfs thbt wfrf sfbrdhfd.
+     */
+    publid stbtid SSLContfxt gftInstbndf(String protodol)
+        throws NoSudhAlgorithmExdfption
+    {
+        try {
+            Objfdt[] objs = SSLSfdurity.gftImpl(protodol, "SSLContfxt",
+                                                (String) null);
+            rfturn nfw SSLContfxt((SSLContfxtSpi)objs[0], (Providfr)objs[1],
+                protodol);
+        } dbtdh (NoSudhProvidfrExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption(protodol + " not found");
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SSLContfxt</dodf> objfdt thbt implfmfnts thf
+     * spfdififd sfdurf sodkft protodol.
+     *
+     * @pbrbm protodol thf stbndbrd nbmf of thf rfqufstfd protodol.
+     * @pbrbm providfr thf nbmf of thf providfr
+     *
+     * @rfturn thf nfw <dodf>SSLContfxt</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd protodol is not
+     * bvbilbblf from thf spfdififd providfr.
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr hbs not
+     * bffn donfigurfd.
+     */
+    publid stbtid SSLContfxt gftInstbndf(String protodol, String providfr)
+        throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption
+    {
+        if (providfr == null || providfr.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(protodol, "SSLContfxt",
+                                            providfr);
+        rfturn nfw SSLContfxt((SSLContfxtSpi)objs[0], (Providfr)objs[1],
+            protodol);
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SSLContfxt</dodf> objfdt thbt implfmfnts thf
+     * spfdififd sfdurf sodkft protodol.
+     *
+     * @pbrbm protodol thf stbndbrd nbmf of thf rfqufstfd protodol.
+     * @pbrbm providfr bn instbndf of thf providfr
+     *
+     * @rfturn thf nfw <dodf>SSLContfxt</dodf> objfdt
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd protodol is not
+     * bvbilbblf from thf spfdififd providfr.
+     */
+    publid stbtid SSLContfxt gftInstbndf(String protodol, Providfr providfr)
+        throws NoSudhAlgorithmExdfption
+    {
+        if (providfr == null)
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(protodol, "SSLContfxt",
+                                            providfr);
+        rfturn nfw SSLContfxt((SSLContfxtSpi)objs[0], (Providfr)objs[1],
+            protodol);
+    }
+
+    /**
+     * Rfturns thf protodol nbmf of this <dodf>SSLContfxt</dodf> objfdt.
+     *
+     * <p>This is thf sbmf nbmf thbt wbs spfdififd in onf of thf
+     * <dodf>gftInstbndf</dodf> dblls thbt drfbtfd this
+     * <dodf>SSLContfxt</dodf> objfdt.
+     *
+     * @rfturn thf protodol nbmf of this <dodf>SSLContfxt</dodf> objfdt.
+     */
+    publid finbl String gftProtodol() {
+        rfturn this.protodol;
+    }
+
+    /**
+     * Rfturns thf providfr of this <dodf>SSLContfxt</dodf> objfdt.
+     *
+     * @rfturn thf providfr of this <dodf>SSLContfxt</dodf> objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn this.providfr;
+    }
+
+    /**
+     * Initiblizfs this dontfxt. Eithfr of thf first two pbrbmftfrs
+     * mby bf null in whidh dbsf thf instbllfd sfdurity providfrs will
+     * bf sfbrdhfd for thf highfst priority implfmfntbtion of thf
+     * bppropribtf fbdtory. Likfwisf, thf sfdurf rbndom pbrbmftfr mby
+     * bf null in whidh dbsf thf dffbult implfmfntbtion will bf usfd.
+     *
+     * @pbrbm km thf sourdfs of buthfntidbtion kfys or null
+     * @pbrbm tm thf sourdfs of pffr buthfntidbtion trust dfdisions or null
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor or null
+     */
+    publid finbl void init(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+                                SfdurfRbndom rbndom)
+        throws KfyMbnbgfmfntExdfption {
+        dontfxtSpi.fnginfInit(km, tm, rbndom);
+    }
+
+    /**
+     * Rfturns b <dodf>SodkftFbdtory</dodf> objfdt for this
+     * dontfxt.
+     *
+     * @rfturn thf fbdtory
+     */
+    publid finbl SSLSodkftFbdtory gftSodkftFbdtory() {
+        rfturn dontfxtSpi.fnginfGftSodkftFbdtory();
+    }
+
+    /**
+     * Rfturns b <dodf>SfrvfrSodkftFbdtory</dodf> objfdt for
+     * this dontfxt.
+     *
+     * @rfturn thf fbdtory
+     */
+    publid finbl SSLSfrvfrSodkftFbdtory gftSfrvfrSodkftFbdtory() {
+        rfturn dontfxtSpi.fnginfGftSfrvfrSodkftFbdtory();
+    }
+}

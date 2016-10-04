@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import com.sun.beans.util.Cache;
+import dom.sun.bfbns.util.Cbdif;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Modififr;
 
-import static com.sun.beans.util.Cache.Kind.SOFT;
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtid dom.sun.bfbns.util.Cbdif.Kind.SOFT;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
 
 /**
- * This utility class provides {@code static} methods
- * to find a public constructor with specified parameter types
- * in specified class.
+ * Tiis utility dlbss providfs {@dodf stbtid} mftiods
+ * to find b publid donstrudtor witi spfdififd pbrbmftfr typfs
+ * in spfdififd dlbss.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class ConstructorFinder extends AbstractFinder<Constructor<?>> {
-    private static final Cache<Signature, Constructor<?>> CACHE = new Cache<Signature, Constructor<?>>(SOFT, SOFT) {
-        @Override
-        public Constructor<?> create(Signature signature) {
+publid finbl dlbss ConstrudtorFindfr fxtfnds AbstrbdtFindfr<Construdtor<?>> {
+    privbtf stbtid finbl Cbdif<Signbturf, Construdtor<?>> CACHE = nfw Cbdif<Signbturf, Construdtor<?>>(SOFT, SOFT) {
+        @Ovfrridf
+        publid Construdtor<?> drfbtf(Signbturf signbturf) {
             try {
-                ConstructorFinder finder = new ConstructorFinder(signature.getArgs());
-                return finder.find(signature.getType().getConstructors());
+                ConstrudtorFindfr findfr = nfw ConstrudtorFindfr(signbturf.gftArgs());
+                rfturn findfr.find(signbturf.gftTypf().gftConstrudtors());
             }
-            catch (Exception exception) {
-                throw new SignatureException(exception);
+            dbtdi (Exdfption fxdfption) {
+                tirow nfw SignbturfExdfption(fxdfption);
             }
         }
     };
 
     /**
-     * Finds public constructor
-     * that is declared in public class.
+     * Finds publid donstrudtor
+     * tibt is dfdlbrfd in publid dlbss.
      *
-     * @param type  the class that can have constructor
-     * @param args  parameter types that is used to find constructor
-     * @return object that represents found constructor
-     * @throws NoSuchMethodException if constructor could not be found
-     *                               or some constructors are found
+     * @pbrbm typf  tif dlbss tibt dbn ibvf donstrudtor
+     * @pbrbm brgs  pbrbmftfr typfs tibt is usfd to find donstrudtor
+     * @rfturn objfdt tibt rfprfsfnts found donstrudtor
+     * @tirows NoSudiMftiodExdfption if donstrudtor dould not bf found
+     *                               or somf donstrudtors brf found
      */
-    public static Constructor<?> findConstructor(Class<?> type, Class<?>...args) throws NoSuchMethodException {
-        if (type.isPrimitive()) {
-            throw new NoSuchMethodException("Primitive wrapper does not contain constructors");
+    publid stbtid Construdtor<?> findConstrudtor(Clbss<?> typf, Clbss<?>...brgs) tirows NoSudiMftiodExdfption {
+        if (typf.isPrimitivf()) {
+            tirow nfw NoSudiMftiodExdfption("Primitivf wrbppfr dofs not dontbin donstrudtors");
         }
-        if (type.isInterface()) {
-            throw new NoSuchMethodException("Interface does not contain constructors");
+        if (typf.isIntfrfbdf()) {
+            tirow nfw NoSudiMftiodExdfption("Intfrfbdf dofs not dontbin donstrudtors");
         }
-        if (Modifier.isAbstract(type.getModifiers())) {
-            throw new NoSuchMethodException("Abstract class cannot be instantiated");
+        if (Modififr.isAbstrbdt(typf.gftModififrs())) {
+            tirow nfw NoSudiMftiodExdfption("Abstrbdt dlbss dbnnot bf instbntibtfd");
         }
-        if (!Modifier.isPublic(type.getModifiers()) || !isPackageAccessible(type)) {
-            throw new NoSuchMethodException("Class is not accessible");
+        if (!Modififr.isPublid(typf.gftModififrs()) || !isPbdkbgfAddfssiblf(typf)) {
+            tirow nfw NoSudiMftiodExdfption("Clbss is not bddfssiblf");
         }
-        PrimitiveWrapperMap.replacePrimitivesWithWrappers(args);
-        Signature signature = new Signature(type, args);
+        PrimitivfWrbppfrMbp.rfplbdfPrimitivfsWitiWrbppfrs(brgs);
+        Signbturf signbturf = nfw Signbturf(typf, brgs);
 
         try {
-            return CACHE.get(signature);
+            rfturn CACHE.gft(signbturf);
         }
-        catch (SignatureException exception) {
-            throw exception.toNoSuchMethodException("Constructor is not found");
+        dbtdi (SignbturfExdfption fxdfption) {
+            tirow fxdfption.toNoSudiMftiodExdfption("Construdtor is not found");
         }
     }
 
     /**
-     * Creates constructor finder with specified array of parameter types.
+     * Crfbtfs donstrudtor findfr witi spfdififd brrby of pbrbmftfr typfs.
      *
-     * @param args  the array of parameter types
+     * @pbrbm brgs  tif brrby of pbrbmftfr typfs
      */
-    private ConstructorFinder(Class<?>[] args) {
-        super(args);
+    privbtf ConstrudtorFindfr(Clbss<?>[] brgs) {
+        supfr(brgs);
     }
 }

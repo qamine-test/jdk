@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * An iterator over a collection.  {@code Iterator} takes the place of
- * {@link Enumeration} in the Java Collections Framework.  Iterators
- * differ from enumerations in two ways:
+ * An itfrbtor ovfr b dollfdtion.  {@dodf Itfrbtor} tbkfs tif plbdf of
+ * {@link Enumfrbtion} in tif Jbvb Collfdtions Frbmfwork.  Itfrbtors
+ * difffr from fnumfrbtions in two wbys:
  *
  * <ul>
- *      <li> Iterators allow the caller to remove elements from the
- *           underlying collection during the iteration with well-defined
- *           semantics.
- *      <li> Method names have been improved.
+ *      <li> Itfrbtors bllow tif dbllfr to rfmovf flfmfnts from tif
+ *           undfrlying dollfdtion during tif itfrbtion witi wfll-dffinfd
+ *           sfmbntids.
+ *      <li> Mftiod nbmfs ibvf bffn improvfd.
  * </ul>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements returned by this iterator
+ * @pbrbm <E> tif typf of flfmfnts rfturnfd by tiis itfrbtor
  *
- * @author  Josh Bloch
- * @see Collection
- * @see ListIterator
- * @see Iterable
- * @since 1.2
+ * @butior  Josi Blodi
+ * @sff Collfdtion
+ * @sff ListItfrbtor
+ * @sff Itfrbblf
+ * @sindf 1.2
  */
-public interface Iterator<E> {
+publid intfrfbdf Itfrbtor<E> {
     /**
-     * Returns {@code true} if the iteration has more elements.
-     * (In other words, returns {@code true} if {@link #next} would
-     * return an element rather than throwing an exception.)
+     * Rfturns {@dodf truf} if tif itfrbtion ibs morf flfmfnts.
+     * (In otifr words, rfturns {@dodf truf} if {@link #nfxt} would
+     * rfturn bn flfmfnt rbtifr tibn tirowing bn fxdfption.)
      *
-     * @return {@code true} if the iteration has more elements
+     * @rfturn {@dodf truf} if tif itfrbtion ibs morf flfmfnts
      */
-    boolean hasNext();
+    boolfbn ibsNfxt();
 
     /**
-     * Returns the next element in the iteration.
+     * Rfturns tif nfxt flfmfnt in tif itfrbtion.
      *
-     * @return the next element in the iteration
-     * @throws NoSuchElementException if the iteration has no more elements
+     * @rfturn tif nfxt flfmfnt in tif itfrbtion
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
      */
-    E next();
+    E nfxt();
 
     /**
-     * Removes from the underlying collection the last element returned
-     * by this iterator (optional operation).  This method can be called
-     * only once per call to {@link #next}.  The behavior of an iterator
-     * is unspecified if the underlying collection is modified while the
-     * iteration is in progress in any way other than by calling this
-     * method.
+     * Rfmovfs from tif undfrlying dollfdtion tif lbst flfmfnt rfturnfd
+     * by tiis itfrbtor (optionbl opfrbtion).  Tiis mftiod dbn bf dbllfd
+     * only ondf pfr dbll to {@link #nfxt}.  Tif bfibvior of bn itfrbtor
+     * is unspfdififd if tif undfrlying dollfdtion is modififd wiilf tif
+     * itfrbtion is in progrfss in bny wby otifr tibn by dblling tiis
+     * mftiod.
      *
-     * @implSpec
-     * The default implementation throws an instance of
-     * {@link UnsupportedOperationException} and performs no other action.
+     * @implSpfd
+     * Tif dffbult implfmfntbtion tirows bn instbndf of
+     * {@link UnsupportfdOpfrbtionExdfption} bnd pfrforms no otifr bdtion.
      *
-     * @throws UnsupportedOperationException if the {@code remove}
-     *         operation is not supported by this iterator
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     *         opfrbtion is not supportfd by tiis itfrbtor
      *
-     * @throws IllegalStateException if the {@code next} method has not
-     *         yet been called, or the {@code remove} method has already
-     *         been called after the last call to the {@code next}
-     *         method
+     * @tirows IllfgblStbtfExdfption if tif {@dodf nfxt} mftiod ibs not
+     *         yft bffn dbllfd, or tif {@dodf rfmovf} mftiod ibs blrfbdy
+     *         bffn dbllfd bftfr tif lbst dbll to tif {@dodf nfxt}
+     *         mftiod
      */
-    default void remove() {
-        throw new UnsupportedOperationException("remove");
+    dffbult void rfmovf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption("rfmovf");
     }
 
     /**
-     * Performs the given action for each remaining element until all elements
-     * have been processed or the action throws an exception.  Actions are
-     * performed in the order of iteration, if that order is specified.
-     * Exceptions thrown by the action are relayed to the caller.
+     * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+     * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+     * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+     * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
      *
-     * @implSpec
-     * <p>The default implementation behaves as if:
-     * <pre>{@code
-     *     while (hasNext())
-     *         action.accept(next());
-     * }</pre>
+     * @implSpfd
+     * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+     * <prf>{@dodf
+     *     wiilf (ibsNfxt())
+     *         bdtion.bddfpt(nfxt());
+     * }</prf>
      *
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified action is null
-     * @since 1.8
+     * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+     * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
+     * @sindf 1.8
      */
-    default void forEachRemaining(Consumer<? super E> action) {
-        Objects.requireNonNull(action);
-        while (hasNext())
-            action.accept(next());
+    dffbult void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        wiilf (ibsNfxt())
+            bdtion.bddfpt(nfxt());
     }
 }

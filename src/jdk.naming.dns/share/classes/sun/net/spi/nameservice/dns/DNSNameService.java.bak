@@ -1,501 +1,501 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.spi.nameservice.dns;
+pbdkbgf sun.nft.spi.nbmfsfrvidf.dns;
 
-import java.lang.ref.SoftReference;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.NamingManager;
-import java.util.*;
-import sun.net.util.IPAddressUtil;
-import sun.net.dns.ResolverConfiguration;
-import sun.net.spi.nameservice.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvb.util.*;
+import sun.nft.util.IPAddrfssUtil;
+import sun.nft.dns.RfsolvfrConfigurbtion;
+import sun.nft.spi.nbmfsfrvidf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /*
- * A name service provider based on JNDI-DNS.
+ * A nbmf sfrvidf providfr bbsfd on JNDI-DNS.
  */
 
-public final class DNSNameService implements NameService {
+publid finbl dlbss DNSNbmfSfrvidf implfmfnts NbmfSfrvidf {
 
-    // List of domains specified by property
-    private LinkedList<String> domainList = null;
+    // List of dombins spfdififd by propfrty
+    privbtf LinkfdList<String> dombinList = null;
 
-    // JNDI-DNS URL for name servers specified via property
-    private String nameProviderUrl = null;
+    // JNDI-DNS URL for nbmf sfrvfrs spfdififd vib propfrty
+    privbtf String nbmfProvidfrUrl = null;
 
-    // Per-thread soft cache of the last temporary context
-    private static ThreadLocal<SoftReference<ThreadContext>> contextRef =
-            new ThreadLocal<>();
+    // Pfr-tirfbd soft dbdif of tif lbst tfmporbry dontfxt
+    privbtf stbtid TirfbdLodbl<SoftRfffrfndf<TirfbdContfxt>> dontfxtRff =
+            nfw TirfbdLodbl<>();
 
-    // Simple class to encapsulate the temporary context
-    private static class ThreadContext {
-        private DirContext dirCtxt;
-        private List<String> nsList;
+    // Simplf dlbss to fndbpsulbtf tif tfmporbry dontfxt
+    privbtf stbtid dlbss TirfbdContfxt {
+        privbtf DirContfxt dirCtxt;
+        privbtf List<String> nsList;
 
-        public ThreadContext(DirContext dirCtxt, List<String> nsList) {
-            this.dirCtxt = dirCtxt;
-            this.nsList = nsList;
+        publid TirfbdContfxt(DirContfxt dirCtxt, List<String> nsList) {
+            tiis.dirCtxt = dirCtxt;
+            tiis.nsList = nsList;
         }
 
-        public DirContext dirContext() {
-            return dirCtxt;
+        publid DirContfxt dirContfxt() {
+            rfturn dirCtxt;
         }
 
-        public List<String> nameservers() {
-            return nsList;
+        publid List<String> nbmfsfrvfrs() {
+            rfturn nsList;
         }
     }
 
-    // Returns a per-thread DirContext
-    private DirContext getTemporaryContext() throws NamingException {
-        SoftReference<ThreadContext> ref = contextRef.get();
-        ThreadContext thrCtxt = null;
+    // Rfturns b pfr-tirfbd DirContfxt
+    privbtf DirContfxt gftTfmporbryContfxt() tirows NbmingExdfption {
+        SoftRfffrfndf<TirfbdContfxt> rff = dontfxtRff.gft();
+        TirfbdContfxt tirCtxt = null;
         List<String> nsList = null;
 
-        // if no property specified we need to obtain the list of servers
+        // if no propfrty spfdififd wf nffd to obtbin tif list of sfrvfrs
         //
-        if (nameProviderUrl == null)
-            nsList = ResolverConfiguration.open().nameservers();
+        if (nbmfProvidfrUrl == null)
+            nsList = RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs();
 
-        // if soft reference hasn't been gc'ed no property has been
-        // specified then we need to check if the DNS configuration
-        // has changed.
+        // if soft rfffrfndf ibsn't bffn gd'fd no propfrty ibs bffn
+        // spfdififd tifn wf nffd to difdk if tif DNS donfigurbtion
+        // ibs dibngfd.
         //
-        if ((ref != null) && ((thrCtxt = ref.get()) != null)) {
-            if (nameProviderUrl == null) {
-                if (!thrCtxt.nameservers().equals(nsList)) {
-                    // DNS configuration has changed
-                    thrCtxt = null;
+        if ((rff != null) && ((tirCtxt = rff.gft()) != null)) {
+            if (nbmfProvidfrUrl == null) {
+                if (!tirCtxt.nbmfsfrvfrs().fqubls(nsList)) {
+                    // DNS donfigurbtion ibs dibngfd
+                    tirCtxt = null;
                 }
             }
         }
 
-        // new thread context needs to be created
-        if (thrCtxt == null) {
-            final Hashtable<String,Object> env = new Hashtable<>();
-            env.put("java.naming.factory.initial",
-                    "com.sun.jndi.dns.DnsContextFactory");
+        // nfw tirfbd dontfxt nffds to bf drfbtfd
+        if (tirCtxt == null) {
+            finbl Hbsitbblf<String,Objfdt> fnv = nfw Hbsitbblf<>();
+            fnv.put("jbvb.nbming.fbdtory.initibl",
+                    "dom.sun.jndi.dns.DnsContfxtFbdtory");
 
-            // If no nameservers property specified we create provider URL
-            // based on system configured name servers
+            // If no nbmfsfrvfrs propfrty spfdififd wf drfbtf providfr URL
+            // bbsfd on systfm donfigurfd nbmf sfrvfrs
             //
-            String provUrl = nameProviderUrl;
+            String provUrl = nbmfProvidfrUrl;
             if (provUrl == null) {
-                provUrl = createProviderURL(nsList);
-                if (provUrl.length() == 0) {
-                    throw new RuntimeException("bad nameserver configuration");
+                provUrl = drfbtfProvidfrURL(nsList);
+                if (provUrl.lfngti() == 0) {
+                    tirow nfw RuntimfExdfption("bbd nbmfsfrvfr donfigurbtion");
                 }
             }
-            env.put("java.naming.provider.url", provUrl);
+            fnv.put("jbvb.nbming.providfr.url", provUrl);
 
-            // Need to create directory context in privileged block
-            // as JNDI-DNS needs to resolve the name servers.
+            // Nffd to drfbtf dirfdtory dontfxt in privilfgfd blodk
+            // bs JNDI-DNS nffds to rfsolvf tif nbmf sfrvfrs.
             //
-            DirContext dirCtxt;
+            DirContfxt dirCtxt;
             try {
-                dirCtxt = java.security.AccessController.doPrivileged(
-                        new java.security.PrivilegedExceptionAction<DirContext>() {
-                            public DirContext run() throws NamingException {
-                                // Create the DNS context using NamingManager rather than using
-                                // the initial context constructor. This avoids having the initial
-                                // context constructor call itself.
-                                Context ctx = NamingManager.getInitialContext(env);
-                                if (!(ctx instanceof DirContext)) {
-                                    return null; // cannot create a DNS context
+                dirCtxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<DirContfxt>() {
+                            publid DirContfxt run() tirows NbmingExdfption {
+                                // Crfbtf tif DNS dontfxt using NbmingMbnbgfr rbtifr tibn using
+                                // tif initibl dontfxt donstrudtor. Tiis bvoids ibving tif initibl
+                                // dontfxt donstrudtor dbll itsflf.
+                                Contfxt dtx = NbmingMbnbgfr.gftInitiblContfxt(fnv);
+                                if (!(dtx instbndfof DirContfxt)) {
+                                    rfturn null; // dbnnot drfbtf b DNS dontfxt
                                 }
-                                return (DirContext)ctx;
+                                rfturn (DirContfxt)dtx;
                             }
                     });
-            } catch (java.security.PrivilegedActionException pae) {
-                throw (NamingException)pae.getException();
+            } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                tirow (NbmingExdfption)pbf.gftExdfption();
             }
 
-            // create new soft reference to our thread context
+            // drfbtf nfw soft rfffrfndf to our tirfbd dontfxt
             //
-            thrCtxt = new ThreadContext(dirCtxt, nsList);
-            contextRef.set(new SoftReference<ThreadContext>(thrCtxt));
+            tirCtxt = nfw TirfbdContfxt(dirCtxt, nsList);
+            dontfxtRff.sft(nfw SoftRfffrfndf<TirfbdContfxt>(tirCtxt));
         }
 
-        return thrCtxt.dirContext();
+        rfturn tirCtxt.dirContfxt();
     }
 
     /**
-     * Resolves the specified entry in DNS.
+     * Rfsolvfs tif spfdififd fntry in DNS.
      *
-     * Canonical name records are recursively resolved (to a maximum
-     * of 5 to avoid performance hit and potential CNAME loops).
+     * Cbnonidbl nbmf rfdords brf rfdursivfly rfsolvfd (to b mbximum
+     * of 5 to bvoid pfrformbndf iit bnd potfntibl CNAME loops).
      *
-     * @param   ctx     JNDI directory context
-     * @param   name    name to resolve
-     * @param   ids     record types to search
-     * @param   depth   call depth - pass as 0.
+     * @pbrbm   dtx     JNDI dirfdtory dontfxt
+     * @pbrbm   nbmf    nbmf to rfsolvf
+     * @pbrbm   ids     rfdord typfs to sfbrdi
+     * @pbrbm   dfpti   dbll dfpti - pbss bs 0.
      *
-     * @return  array list with results (will have at least on entry)
+     * @rfturn  brrby list witi rfsults (will ibvf bt lfbst on fntry)
      *
-     * @throws  UnknownHostException if lookup fails or other error.
+     * @tirows  UnknownHostExdfption if lookup fbils or otifr frror.
      */
-    private ArrayList<String> resolve(final DirContext ctx, final String name,
-                                      final String[] ids, int depth)
-            throws UnknownHostException
+    privbtf ArrbyList<String> rfsolvf(finbl DirContfxt dtx, finbl String nbmf,
+                                      finbl String[] ids, int dfpti)
+            tirows UnknownHostExdfption
     {
-        ArrayList<String> results = new ArrayList<>();
-        Attributes attrs;
+        ArrbyList<String> rfsults = nfw ArrbyList<>();
+        Attributfs bttrs;
 
-        // do the query
+        // do tif qufry
         try {
-            attrs = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedExceptionAction<Attributes>() {
-                        public Attributes run() throws NamingException {
-                            return ctx.getAttributes(name, ids);
+            bttrs = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Attributfs>() {
+                        publid Attributfs run() tirows NbmingExdfption {
+                            rfturn dtx.gftAttributfs(nbmf, ids);
                         }
                 });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw new UnknownHostException(pae.getException().getMessage());
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            tirow nfw UnknownHostExdfption(pbf.gftExdfption().gftMfssbgf());
         }
 
-        // non-requested type returned so enumeration is empty
-        NamingEnumeration<? extends Attribute> ne = attrs.getAll();
-        if (!ne.hasMoreElements()) {
-            throw new UnknownHostException("DNS record not found");
+        // non-rfqufstfd typf rfturnfd so fnumfrbtion is fmpty
+        NbmingEnumfrbtion<? fxtfnds Attributf> nf = bttrs.gftAll();
+        if (!nf.ibsMorfElfmfnts()) {
+            tirow nfw UnknownHostExdfption("DNS rfdord not found");
         }
 
-        // iterate through the returned attributes
-        UnknownHostException uhe = null;
+        // itfrbtf tirougi tif rfturnfd bttributfs
+        UnknownHostExdfption uif = null;
         try {
-            while (ne.hasMoreElements()) {
-                Attribute attr = ne.next();
-                String attrID = attr.getID();
+            wiilf (nf.ibsMorfElfmfnts()) {
+                Attributf bttr = nf.nfxt();
+                String bttrID = bttr.gftID();
 
-                for (NamingEnumeration<?> e = attr.getAll(); e.hasMoreElements();) {
-                    String addr = (String)e.next();
+                for (NbmingEnumfrbtion<?> f = bttr.gftAll(); f.ibsMorfElfmfnts();) {
+                    String bddr = (String)f.nfxt();
 
-                    // for canoncical name records do recursive lookup
-                    // - also check for CNAME loops to avoid stack overflow
+                    // for dbnondidbl nbmf rfdords do rfdursivf lookup
+                    // - blso difdk for CNAME loops to bvoid stbdk ovfrflow
 
-                    if (attrID.equals("CNAME")) {
-                        if (depth > 4) {
-                            throw new UnknownHostException(name + ": possible CNAME loop");
+                    if (bttrID.fqubls("CNAME")) {
+                        if (dfpti > 4) {
+                            tirow nfw UnknownHostExdfption(nbmf + ": possiblf CNAME loop");
                         }
                         try {
-                            results.addAll(resolve(ctx, addr, ids, depth+1));
-                        } catch (UnknownHostException x) {
-                            // canonical name can't be resolved.
-                            if (uhe == null)
-                                uhe = x;
+                            rfsults.bddAll(rfsolvf(dtx, bddr, ids, dfpti+1));
+                        } dbtdi (UnknownHostExdfption x) {
+                            // dbnonidbl nbmf dbn't bf rfsolvfd.
+                            if (uif == null)
+                                uif = x;
                         }
-                    } else {
-                        results.add(addr);
+                    } flsf {
+                        rfsults.bdd(bddr);
                     }
                 }
             }
-        } catch (NamingException nx) {
-            throw new UnknownHostException(nx.getMessage());
+        } dbtdi (NbmingExdfption nx) {
+            tirow nfw UnknownHostExdfption(nx.gftMfssbgf());
         }
 
-        // pending exception as canonical name could not be resolved.
-        if (results.isEmpty() && uhe != null) {
-            throw uhe;
+        // pfnding fxdfption bs dbnonidbl nbmf dould not bf rfsolvfd.
+        if (rfsults.isEmpty() && uif != null) {
+            tirow uif;
         }
 
-        return results;
+        rfturn rfsults;
     }
 
-    public DNSNameService() throws Exception {
+    publid DNSNbmfSfrvidf() tirows Exdfption {
 
-        // default domain
-        String domain = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.net.spi.nameservice.domain"));
-        if (domain != null && domain.length() > 0) {
-            domainList = new LinkedList<String>();
-            domainList.add(domain);
+        // dffbult dombin
+        String dombin = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.nft.spi.nbmfsfrvidf.dombin"));
+        if (dombin != null && dombin.lfngti() > 0) {
+            dombinList = nfw LinkfdList<String>();
+            dombinList.bdd(dombin);
         }
 
-        // name servers
-        String nameservers = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.net.spi.nameservice.nameservers"));
-        if (nameservers != null && nameservers.length() > 0) {
-            nameProviderUrl = createProviderURL(nameservers);
-            if (nameProviderUrl.length() == 0) {
-                throw new RuntimeException("malformed nameservers property");
+        // nbmf sfrvfrs
+        String nbmfsfrvfrs = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.nft.spi.nbmfsfrvidf.nbmfsfrvfrs"));
+        if (nbmfsfrvfrs != null && nbmfsfrvfrs.lfngti() > 0) {
+            nbmfProvidfrUrl = drfbtfProvidfrURL(nbmfsfrvfrs);
+            if (nbmfProvidfrUrl.lfngti() == 0) {
+                tirow nfw RuntimfExdfption("mblformfd nbmfsfrvfrs propfrty");
             }
 
-        } else {
+        } flsf {
 
-            // no property specified so check host DNS resolver configured
-            // with at least one nameserver in dotted notation.
+            // no propfrty spfdififd so difdk iost DNS rfsolvfr donfigurfd
+            // witi bt lfbst onf nbmfsfrvfr in dottfd notbtion.
             //
-            List<String> nsList = ResolverConfiguration.open().nameservers();
+            List<String> nsList = RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs();
             if (nsList.isEmpty()) {
-                throw new RuntimeException("no nameservers provided");
+                tirow nfw RuntimfExdfption("no nbmfsfrvfrs providfd");
             }
-            boolean found = false;
-            for (String addr: nsList) {
-                if (IPAddressUtil.isIPv4LiteralAddress(addr) ||
-                    IPAddressUtil.isIPv6LiteralAddress(addr)) {
-                    found = true;
-                    break;
+            boolfbn found = fblsf;
+            for (String bddr: nsList) {
+                if (IPAddrfssUtil.isIPv4LitfrblAddrfss(bddr) ||
+                    IPAddrfssUtil.isIPv6LitfrblAddrfss(bddr)) {
+                    found = truf;
+                    brfbk;
                 }
             }
             if (!found) {
-                throw new RuntimeException("bad nameserver configuration");
+                tirow nfw RuntimfExdfption("bbd nbmfsfrvfr donfigurbtion");
             }
         }
     }
 
-    public InetAddress[] lookupAllHostAddr(String host) throws UnknownHostException {
+    publid InftAddrfss[] lookupAllHostAddr(String iost) tirows UnknownHostExdfption {
 
-        // DNS records that we search for
+        // DNS rfdords tibt wf sfbrdi for
         String[] ids = {"A", "AAAA", "CNAME"};
 
-        // first get directory context
-        DirContext ctx;
+        // first gft dirfdtory dontfxt
+        DirContfxt dtx;
         try {
-            ctx = getTemporaryContext();
-        } catch (NamingException nx) {
-            throw new Error(nx);
+            dtx = gftTfmporbryContfxt();
+        } dbtdi (NbmingExdfption nx) {
+            tirow nfw Error(nx);
         }
 
-        ArrayList<String> results = null;
-        UnknownHostException uhe = null;
+        ArrbyList<String> rfsults = null;
+        UnknownHostExdfption uif = null;
 
-        // If host already contains a domain name then just look it up
-        if (host.indexOf('.') >= 0) {
+        // If iost blrfbdy dontbins b dombin nbmf tifn just look it up
+        if (iost.indfxOf('.') >= 0) {
             try {
-                results = resolve(ctx, host, ids, 0);
-            } catch (UnknownHostException x) {
-                uhe = x;
+                rfsults = rfsolvf(dtx, iost, ids, 0);
+            } dbtdi (UnknownHostExdfption x) {
+                uif = x;
             }
         }
 
-        // Here we try to resolve the host using the domain suffix or
-        // the domain suffix search list. If the host cannot be resolved
-        // using the domain suffix then we attempt devolution of
-        // the suffix - eg: if we are searching for "foo" and our
-        // domain suffix is "eng.sun.com" we will try to resolve
-        // "foo.eng.sun.com" and "foo.sun.com".
-        // It's not normal to attempt devolation with domains on the
-        // domain suffix search list - however as ResolverConfiguration
-        // doesn't distinguish domain or search list in the list it
-        // returns we approximate by doing devolution on the domain
-        // suffix if the list has one entry.
+        // Hfrf wf try to rfsolvf tif iost using tif dombin suffix or
+        // tif dombin suffix sfbrdi list. If tif iost dbnnot bf rfsolvfd
+        // using tif dombin suffix tifn wf bttfmpt dfvolution of
+        // tif suffix - fg: if wf brf sfbrdiing for "foo" bnd our
+        // dombin suffix is "fng.sun.dom" wf will try to rfsolvf
+        // "foo.fng.sun.dom" bnd "foo.sun.dom".
+        // It's not normbl to bttfmpt dfvolbtion witi dombins on tif
+        // dombin suffix sfbrdi list - iowfvfr bs RfsolvfrConfigurbtion
+        // dofsn't distinguisi dombin or sfbrdi list in tif list it
+        // rfturns wf bpproximbtf by doing dfvolution on tif dombin
+        // suffix if tif list ibs onf fntry.
 
-        if (results == null) {
-            List<String> searchList = null;
-            Iterator<String> i;
-            boolean usingSearchList = false;
+        if (rfsults == null) {
+            List<String> sfbrdiList = null;
+            Itfrbtor<String> i;
+            boolfbn usingSfbrdiList = fblsf;
 
-            if (domainList != null) {
-                i = domainList.iterator();
-            } else {
-                searchList = ResolverConfiguration.open().searchlist();
-                if (searchList.size() > 1) {
-                    usingSearchList = true;
+            if (dombinList != null) {
+                i = dombinList.itfrbtor();
+            } flsf {
+                sfbrdiList = RfsolvfrConfigurbtion.opfn().sfbrdilist();
+                if (sfbrdiList.sizf() > 1) {
+                    usingSfbrdiList = truf;
                 }
-                i = searchList.iterator();
+                i = sfbrdiList.itfrbtor();
             }
 
-            // iterator through each domain suffix
-            while (i.hasNext()) {
-                String parentDomain = i.next();
-                int start = 0;
-                while ((start = parentDomain.indexOf('.')) != -1
-                       && start < parentDomain.length() -1) {
+            // itfrbtor tirougi fbdi dombin suffix
+            wiilf (i.ibsNfxt()) {
+                String pbrfntDombin = i.nfxt();
+                int stbrt = 0;
+                wiilf ((stbrt = pbrfntDombin.indfxOf('.')) != -1
+                       && stbrt < pbrfntDombin.lfngti() -1) {
                     try {
-                        results = resolve(ctx, host+"."+parentDomain, ids, 0);
-                        break;
-                    } catch (UnknownHostException x) {
-                        uhe = x;
-                        if (usingSearchList) {
-                            break;
+                        rfsults = rfsolvf(dtx, iost+"."+pbrfntDombin, ids, 0);
+                        brfbk;
+                    } dbtdi (UnknownHostExdfption x) {
+                        uif = x;
+                        if (usingSfbrdiList) {
+                            brfbk;
                         }
 
-                        // devolve
-                        parentDomain = parentDomain.substring(start+1);
+                        // dfvolvf
+                        pbrfntDombin = pbrfntDombin.substring(stbrt+1);
                     }
                 }
-                if (results != null) {
-                    break;
+                if (rfsults != null) {
+                    brfbk;
                 }
             }
         }
 
-        // finally try the host if it doesn't have a domain name
-        if (results == null && (host.indexOf('.') < 0)) {
-            results = resolve(ctx, host, ids, 0);
+        // finblly try tif iost if it dofsn't ibvf b dombin nbmf
+        if (rfsults == null && (iost.indfxOf('.') < 0)) {
+            rfsults = rfsolvf(dtx, iost, ids, 0);
         }
 
-        // if not found then throw the (last) exception thrown.
-        if (results == null) {
-            assert uhe != null;
-            throw uhe;
-        }
-
-        /**
-         * Convert the array list into a byte aray list - this
-         * filters out any invalid IPv4/IPv6 addresses.
-         */
-        assert results.size() > 0;
-        InetAddress[] addrs = new InetAddress[results.size()];
-        int count = 0;
-        for (int i=0; i<results.size(); i++) {
-            String addrString = results.get(i);
-            byte addr[] = IPAddressUtil.textToNumericFormatV4(addrString);
-            if (addr == null) {
-                addr = IPAddressUtil.textToNumericFormatV6(addrString);
-            }
-            if (addr != null) {
-                addrs[count++] = InetAddress.getByAddress(host, addr);
-            }
+        // if not found tifn tirow tif (lbst) fxdfption tirown.
+        if (rfsults == null) {
+            bssfrt uif != null;
+            tirow uif;
         }
 
         /**
-         * If addresses are filtered then we need to resize the
-         * array. Additionally if all addresses are filtered then
-         * we throw an exception.
+         * Convfrt tif brrby list into b bytf brby list - tiis
+         * filtfrs out bny invblid IPv4/IPv6 bddrfssfs.
          */
-        if (count == 0) {
-            throw new UnknownHostException(host + ": no valid DNS records");
-        }
-        if (count < results.size()) {
-            InetAddress[] tmp = new InetAddress[count];
-            for (int i=0; i<count; i++) {
-                tmp[i] = addrs[i];
+        bssfrt rfsults.sizf() > 0;
+        InftAddrfss[] bddrs = nfw InftAddrfss[rfsults.sizf()];
+        int dount = 0;
+        for (int i=0; i<rfsults.sizf(); i++) {
+            String bddrString = rfsults.gft(i);
+            bytf bddr[] = IPAddrfssUtil.tfxtToNumfridFormbtV4(bddrString);
+            if (bddr == null) {
+                bddr = IPAddrfssUtil.tfxtToNumfridFormbtV6(bddrString);
             }
-            addrs = tmp;
+            if (bddr != null) {
+                bddrs[dount++] = InftAddrfss.gftByAddrfss(iost, bddr);
+            }
         }
 
-        return addrs;
+        /**
+         * If bddrfssfs brf filtfrfd tifn wf nffd to rfsizf tif
+         * brrby. Additionblly if bll bddrfssfs brf filtfrfd tifn
+         * wf tirow bn fxdfption.
+         */
+        if (dount == 0) {
+            tirow nfw UnknownHostExdfption(iost + ": no vblid DNS rfdords");
+        }
+        if (dount < rfsults.sizf()) {
+            InftAddrfss[] tmp = nfw InftAddrfss[dount];
+            for (int i=0; i<dount; i++) {
+                tmp[i] = bddrs[i];
+            }
+            bddrs = tmp;
+        }
+
+        rfturn bddrs;
     }
 
     /**
-     * Reverse lookup code. I.E: find a host name from an IP address.
-     * IPv4 addresses are mapped in the IN-ADDR.ARPA. top domain, while
-     * IPv6 addresses can be in IP6.ARPA or IP6.INT.
-     * In both cases the address has to be converted into a dotted form.
+     * Rfvfrsf lookup dodf. I.E: find b iost nbmf from bn IP bddrfss.
+     * IPv4 bddrfssfs brf mbppfd in tif IN-ADDR.ARPA. top dombin, wiilf
+     * IPv6 bddrfssfs dbn bf in IP6.ARPA or IP6.INT.
+     * In boti dbsfs tif bddrfss ibs to bf donvfrtfd into b dottfd form.
      */
-    public String getHostByAddr(byte[] addr) throws UnknownHostException {
-        String host = null;
+    publid String gftHostByAddr(bytf[] bddr) tirows UnknownHostExdfption {
+        String iost = null;
         try {
-            String literalip = "";
+            String litfrblip = "";
             String[] ids = { "PTR" };
-            DirContext ctx;
-            ArrayList<String> results = null;
+            DirContfxt dtx;
+            ArrbyList<String> rfsults = null;
             try {
-                ctx = getTemporaryContext();
-            } catch (NamingException nx) {
-                throw new Error(nx);
+                dtx = gftTfmporbryContfxt();
+            } dbtdi (NbmingExdfption nx) {
+                tirow nfw Error(nx);
             }
-            if (addr.length == 4) { // IPv4 Address
-                for (int i = addr.length-1; i >= 0; i--) {
-                    literalip += (addr[i] & 0xff) +".";
+            if (bddr.lfngti == 4) { // IPv4 Addrfss
+                for (int i = bddr.lfngti-1; i >= 0; i--) {
+                    litfrblip += (bddr[i] & 0xff) +".";
                 }
-                literalip += "IN-ADDR.ARPA.";
+                litfrblip += "IN-ADDR.ARPA.";
 
-                results = resolve(ctx, literalip, ids, 0);
-                host = results.get(0);
-            } else if (addr.length == 16) { // IPv6 Address
+                rfsults = rfsolvf(dtx, litfrblip, ids, 0);
+                iost = rfsults.gft(0);
+            } flsf if (bddr.lfngti == 16) { // IPv6 Addrfss
                 /**
-                 * Because RFC 3152 changed the root domain name for reverse
-                 * lookups from IP6.INT. to IP6.ARPA., we need to check
-                 * both. I.E. first the new one, IP6.ARPA, then if it fails
-                 * the older one, IP6.INT
+                 * Bfdbusf RFC 3152 dibngfd tif root dombin nbmf for rfvfrsf
+                 * lookups from IP6.INT. to IP6.ARPA., wf nffd to difdk
+                 * boti. I.E. first tif nfw onf, IP6.ARPA, tifn if it fbils
+                 * tif oldfr onf, IP6.INT
                  */
 
-                for (int i = addr.length-1; i >= 0; i--) {
-                    literalip += Integer.toHexString((addr[i] & 0x0f)) +"."
-                        +Integer.toHexString((addr[i] & 0xf0) >> 4) +".";
+                for (int i = bddr.lfngti-1; i >= 0; i--) {
+                    litfrblip += Intfgfr.toHfxString((bddr[i] & 0x0f)) +"."
+                        +Intfgfr.toHfxString((bddr[i] & 0xf0) >> 4) +".";
                 }
-                String ip6lit = literalip + "IP6.ARPA.";
+                String ip6lit = litfrblip + "IP6.ARPA.";
 
                 try {
-                    results = resolve(ctx, ip6lit, ids, 0);
-                    host = results.get(0);
-                } catch (UnknownHostException e) {
-                    host = null;
+                    rfsults = rfsolvf(dtx, ip6lit, ids, 0);
+                    iost = rfsults.gft(0);
+                } dbtdi (UnknownHostExdfption f) {
+                    iost = null;
                 }
-                if (host == null) {
-                    // IP6.ARPA lookup failed, let's try the older IP6.INT
-                    ip6lit = literalip + "IP6.INT.";
-                    results = resolve(ctx, ip6lit, ids, 0);
-                    host = results.get(0);
+                if (iost == null) {
+                    // IP6.ARPA lookup fbilfd, lft's try tif oldfr IP6.INT
+                    ip6lit = litfrblip + "IP6.INT.";
+                    rfsults = rfsolvf(dtx, ip6lit, ids, 0);
+                    iost = rfsults.gft(0);
                 }
             }
-        } catch (Exception e) {
-            throw new UnknownHostException(e.getMessage());
+        } dbtdi (Exdfption f) {
+            tirow nfw UnknownHostExdfption(f.gftMfssbgf());
         }
-        // Either we couldn't find it or the address was neither IPv4 or IPv6
-        if (host == null)
-            throw new UnknownHostException();
-        // remove trailing dot
-        if (host.endsWith(".")) {
-            host = host.substring(0, host.length() - 1);
+        // Eitifr wf douldn't find it or tif bddrfss wbs nfitifr IPv4 or IPv6
+        if (iost == null)
+            tirow nfw UnknownHostExdfption();
+        // rfmovf trbiling dot
+        if (iost.fndsWiti(".")) {
+            iost = iost.substring(0, iost.lfngti() - 1);
         }
-        return host;
+        rfturn iost;
     }
 
 
     // ---------
 
-    private static void appendIfLiteralAddress(String addr, StringBuffer sb) {
-        if (IPAddressUtil.isIPv4LiteralAddress(addr)) {
-            sb.append("dns://" + addr + " ");
-        } else {
-            if (IPAddressUtil.isIPv6LiteralAddress(addr)) {
-                sb.append("dns://[" + addr + "] ");
+    privbtf stbtid void bppfndIfLitfrblAddrfss(String bddr, StringBufffr sb) {
+        if (IPAddrfssUtil.isIPv4LitfrblAddrfss(bddr)) {
+            sb.bppfnd("dns://" + bddr + " ");
+        } flsf {
+            if (IPAddrfssUtil.isIPv6LitfrblAddrfss(bddr)) {
+                sb.bppfnd("dns://[" + bddr + "] ");
             }
         }
     }
 
     /*
-     * @return String containing the JNDI-DNS provider URL
-     *         corresponding to the supplied List of nameservers.
+     * @rfturn String dontbining tif JNDI-DNS providfr URL
+     *         dorrfsponding to tif supplifd List of nbmfsfrvfrs.
      */
-    private static String createProviderURL(List<String> nsList) {
-        StringBuffer sb = new StringBuffer();
+    privbtf stbtid String drfbtfProvidfrURL(List<String> nsList) {
+        StringBufffr sb = nfw StringBufffr();
         for (String s: nsList) {
-            appendIfLiteralAddress(s, sb);
+            bppfndIfLitfrblAddrfss(s, sb);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /*
-     * @return String containing the JNDI-DNS provider URL
-     *         corresponding to the list of nameservers
-     *         contained in the provided str.
+     * @rfturn String dontbining tif JNDI-DNS providfr URL
+     *         dorrfsponding to tif list of nbmfsfrvfrs
+     *         dontbinfd in tif providfd str.
      */
-    private static String createProviderURL(String str) {
-        StringBuffer sb = new StringBuffer();
-        StringTokenizer st = new StringTokenizer(str, ",");
-        while (st.hasMoreTokens()) {
-            appendIfLiteralAddress(st.nextToken(), sb);
+    privbtf stbtid String drfbtfProvidfrURL(String str) {
+        StringBufffr sb = nfw StringBufffr();
+        StringTokfnizfr st = nfw StringTokfnizfr(str, ",");
+        wiilf (st.ibsMorfTokfns()) {
+            bppfndIfLitfrblAddrfss(st.nfxtTokfn(), sb);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

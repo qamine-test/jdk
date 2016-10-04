@@ -1,2491 +1,2491 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.font.TextAttribute;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.ColorModel;
-import java.awt.peer.*;
-import java.beans.PropertyChangeListener;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
-import sun.awt.*;
-import sun.awt.datatransfer.DataTransferer;
-import sun.font.FontConfigManager;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.misc.*;
-import sun.awt.util.ThreadGroupUtils;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.pffr.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import jbvbx.swing.LookAndFffl;
+import jbvbx.swing.UIDffbults;
+import sun.bwt.*;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.font.FontConfigMbnbgfr;
+import sun.jbvb2d.SunGrbpiidsEnvironmfnt;
+import sun.misd.*;
+import sun.bwt.util.TirfbdGroupUtils;
 import sun.print.PrintJob2D;
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetBooleanAction;
-import sun.util.logging.PlatformLogger;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.util.logging.PlbtformLoggfr;
 
-public final class XToolkit extends UNIXToolkit implements Runnable {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XToolkit");
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("sun.awt.X11.event.XToolkit");
-    private static final PlatformLogger timeoutTaskLog = PlatformLogger.getLogger("sun.awt.X11.timeoutTask.XToolkit");
-    private static final PlatformLogger keyEventLog = PlatformLogger.getLogger("sun.awt.X11.kye.XToolkit");
-    private static final PlatformLogger backingStoreLog = PlatformLogger.getLogger("sun.awt.X11.backingStore.XToolkit");
+publid finbl dlbss XToolkit fxtfnds UNIXToolkit implfmfnts Runnbblf {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XToolkit");
+    privbtf stbtid finbl PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fvfnt.XToolkit");
+    privbtf stbtid finbl PlbtformLoggfr timfoutTbskLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.timfoutTbsk.XToolkit");
+    privbtf stbtid finbl PlbtformLoggfr kfyEvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.kyf.XToolkit");
+    privbtf stbtid finbl PlbtformLoggfr bbdkingStorfLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.bbdkingStorf.XToolkit");
 
-    //There is 400 ms is set by default on Windows and 500 by default on KDE and GNOME.
-    //We use the same hardcoded constant.
-    private final static int AWT_MULTICLICK_DEFAULT_TIME = 500;
+    //Tifrf is 400 ms is sft by dffbult on Windows bnd 500 by dffbult on KDE bnd GNOME.
+    //Wf usf tif sbmf ibrddodfd donstbnt.
+    privbtf finbl stbtid int AWT_MULTICLICK_DEFAULT_TIME = 500;
 
-    static final boolean PRIMARY_LOOP = false;
-    static final boolean SECONDARY_LOOP = true;
+    stbtid finbl boolfbn PRIMARY_LOOP = fblsf;
+    stbtid finbl boolfbn SECONDARY_LOOP = truf;
 
-    private static String awtAppClassName = null;
+    privbtf stbtid String bwtAppClbssNbmf = null;
 
-    // the system clipboard - CLIPBOARD selection
-    XClipboard clipboard;
-    // the system selection - PRIMARY selection
-    XClipboard selection;
+    // tif systfm dlipbobrd - CLIPBOARD sflfdtion
+    XClipbobrd dlipbobrd;
+    // tif systfm sflfdtion - PRIMARY sflfdtion
+    XClipbobrd sflfdtion;
 
-    // Dynamic Layout Resize client code setting
-    protected static boolean dynamicLayoutSetting = false;
+    // Dynbmid Lbyout Rfsizf dlifnt dodf sftting
+    protfdtfd stbtid boolfbn dynbmidLbyoutSftting = fblsf;
 
-    //Is it allowed to generate events assigned to extra mouse buttons.
-    //Set to true by default.
-    private static boolean areExtraMouseButtonsEnabled = true;
+    //Is it bllowfd to gfnfrbtf fvfnts bssignfd to fxtrb mousf buttons.
+    //Sft to truf by dffbult.
+    privbtf stbtid boolfbn brfExtrbMousfButtonsEnbblfd = truf;
 
     /**
-     * True when the x settings have been loaded.
+     * Truf wifn tif x sfttings ibvf bffn lobdfd.
      */
-    private boolean loadedXSettings;
+    privbtf boolfbn lobdfdXSfttings;
 
     /**
-    * XSETTINGS for the default screen.
+    * XSETTINGS for tif dffbult sdrffn.
      * <p>
      */
-    private XSettings xs;
+    privbtf XSfttings xs;
 
-    private FontConfigManager fcManager = new FontConfigManager();
+    privbtf FontConfigMbnbgfr fdMbnbgfr = nfw FontConfigMbnbgfr();
 
-    static int arrowCursor;
-    static TreeMap<Long, XBaseWindow> winMap = new TreeMap<>();
-    static HashMap<Object, Object> specialPeerMap = new HashMap<>();
-    static HashMap<Long, Collection<XEventDispatcher>> winToDispatcher = new HashMap<>();
-    private static long _display;
-    static UIDefaults uidefaults;
-    static X11GraphicsEnvironment localEnv;
-    static X11GraphicsDevice device;
-    static final X11GraphicsConfig config;
-    static int awt_multiclick_time;
-    static boolean securityWarningEnabled;
+    stbtid int brrowCursor;
+    stbtid TrffMbp<Long, XBbsfWindow> winMbp = nfw TrffMbp<>();
+    stbtid HbsiMbp<Objfdt, Objfdt> spfdiblPffrMbp = nfw HbsiMbp<>();
+    stbtid HbsiMbp<Long, Collfdtion<XEvfntDispbtdifr>> winToDispbtdifr = nfw HbsiMbp<>();
+    privbtf stbtid long _displby;
+    stbtid UIDffbults uidffbults;
+    stbtid X11GrbpiidsEnvironmfnt lodblEnv;
+    stbtid X11GrbpiidsDfvidf dfvidf;
+    stbtid finbl X11GrbpiidsConfig donfig;
+    stbtid int bwt_multidlidk_timf;
+    stbtid boolfbn sfdurityWbrningEnbblfd;
 
-    private static volatile int screenWidth = -1, screenHeight = -1; // Dimensions of default screen
-    static long awt_defaultFg; // Pixel
-    private static XMouseInfoPeer xPeer;
+    privbtf stbtid volbtilf int sdrffnWidti = -1, sdrffnHfigit = -1; // Dimfnsions of dffbult sdrffn
+    stbtid long bwt_dffbultFg; // Pixfl
+    privbtf stbtid XMousfInfoPffr xPffr;
 
-    static {
-        initSecurityWarning();
-        if (GraphicsEnvironment.isHeadless()) {
-            config = null;
-        } else {
-            localEnv = (X11GraphicsEnvironment) GraphicsEnvironment
-                .getLocalGraphicsEnvironment();
-            device = (X11GraphicsDevice) localEnv.getDefaultScreenDevice();
-            config = (X11GraphicsConfig) (device.getDefaultConfiguration());
-            if (device != null) {
-                _display = device.getDisplay();
+    stbtid {
+        initSfdurityWbrning();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            donfig = null;
+        } flsf {
+            lodblEnv = (X11GrbpiidsEnvironmfnt) GrbpiidsEnvironmfnt
+                .gftLodblGrbpiidsEnvironmfnt();
+            dfvidf = (X11GrbpiidsDfvidf) lodblEnv.gftDffbultSdrffnDfvidf();
+            donfig = (X11GrbpiidsConfig) (dfvidf.gftDffbultConfigurbtion());
+            if (dfvidf != null) {
+                _displby = dfvidf.gftDisplby();
             }
-            setupModifierMap();
+            sftupModififrMbp();
             initIDs();
-            setBackingStoreType();
+            sftBbdkingStorfTypf();
         }
     }
 
     /*
-     * Return (potentially) platform specific display timeout for the
-     * tray icon
+     * Rfturn (potfntiblly) plbtform spfdifid displby timfout for tif
+     * trby idon
      */
-    static native long getTrayIconDisplayTimeout();
+    stbtid nbtivf long gftTrbyIdonDisplbyTimfout();
 
-    private native static void initIDs();
-    native static void waitForEvents(long nextTaskTime);
-    static Thread toolkitThread;
-    static boolean isToolkitThread() {
-        return Thread.currentThread() == toolkitThread;
+    privbtf nbtivf stbtid void initIDs();
+    nbtivf stbtid void wbitForEvfnts(long nfxtTbskTimf);
+    stbtid Tirfbd toolkitTirfbd;
+    stbtid boolfbn isToolkitTirfbd() {
+        rfturn Tirfbd.durrfntTirfbd() == toolkitTirfbd;
     }
 
-    static void initSecurityWarning() {
-        // Enable warning only for internal builds
-        String runtime = AccessController.doPrivileged(
-                             new GetPropertyAction("java.runtime.version"));
-        securityWarningEnabled = (runtime != null && runtime.contains("internal"));
+    stbtid void initSfdurityWbrning() {
+        // Enbblf wbrning only for intfrnbl builds
+        String runtimf = AddfssControllfr.doPrivilfgfd(
+                             nfw GftPropfrtyAdtion("jbvb.runtimf.vfrsion"));
+        sfdurityWbrningEnbblfd = (runtimf != null && runtimf.dontbins("intfrnbl"));
     }
 
-    static boolean isSecurityWarningEnabled() {
-        return securityWarningEnabled;
+    stbtid boolfbn isSfdurityWbrningEnbblfd() {
+        rfturn sfdurityWbrningEnbblfd;
     }
 
-    static native void awt_output_flush();
+    stbtid nbtivf void bwt_output_flusi();
 
-    static final void  awtFUnlock() {
-        awtUnlock();
-        awt_output_flush();
+    stbtid finbl void  bwtFUnlodk() {
+        bwtUnlodk();
+        bwt_output_flusi();
     }
 
 
-    public native void nativeLoadSystemColors(int[] systemColors);
+    publid nbtivf void nbtivfLobdSystfmColors(int[] systfmColors);
 
-    static UIDefaults getUIDefaults() {
-        if (uidefaults == null) {
-            initUIDefaults();
+    stbtid UIDffbults gftUIDffbults() {
+        if (uidffbults == null) {
+            initUIDffbults();
         }
-        return uidefaults;
+        rfturn uidffbults;
     }
 
-    public void loadSystemColors(int[] systemColors) {
-        nativeLoadSystemColors(systemColors);
-        MotifColorUtilities.loadSystemColors(systemColors);
+    publid void lobdSystfmColors(int[] systfmColors) {
+        nbtivfLobdSystfmColors(systfmColors);
+        MotifColorUtilitifs.lobdSystfmColors(systfmColors);
     }
 
 
 
-    static void initUIDefaults() {
+    stbtid void initUIDffbults() {
         try {
-            // Load Defaults from MotifLookAndFeel
+            // Lobd Dffbults from MotifLookAndFffl
 
-            // This dummy load is necessary to get SystemColor initialized. !!!!!!
-            Color c = SystemColor.text;
+            // Tiis dummy lobd is nfdfssbry to gft SystfmColor initiblizfd. !!!!!!
+            Color d = SystfmColor.tfxt;
 
-            LookAndFeel lnf = new XAWTLookAndFeel();
-            uidefaults = lnf.getDefaults();
+            LookAndFffl lnf = nfw XAWTLookAndFffl();
+            uidffbults = lnf.gftDffbults();
         }
-        catch (Exception e)
+        dbtdi (Exdfption f)
         {
-            e.printStackTrace();
+            f.printStbdkTrbdf();
         }
     }
 
-    static Object displayLock = new Object();
+    stbtid Objfdt displbyLodk = nfw Objfdt();
 
-    public static long getDisplay() {
-        return _display;
+    publid stbtid long gftDisplby() {
+        rfturn _displby;
     }
 
-    public static long getDefaultRootWindow() {
-        awtLock();
+    publid stbtid long gftDffbultRootWindow() {
+        bwtLodk();
         try {
-            long res = XlibWrapper.RootWindow(XToolkit.getDisplay(),
-                XlibWrapper.DefaultScreen(XToolkit.getDisplay()));
+            long rfs = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(),
+                XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby()));
 
-            if (res == 0) {
-               throw new IllegalStateException("Root window must not be null");
+            if (rfs == 0) {
+               tirow nfw IllfgblStbtfExdfption("Root window must not bf null");
             }
-            return res;
-        } finally {
-            awtUnlock();
+            rfturn rfs;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
     void init() {
-        awtLock();
+        bwtLodk();
         try {
-            XlibWrapper.XSupportsLocale();
-            if (XlibWrapper.XSetLocaleModifiers("") == null) {
-                log.finer("X locale modifiers are not supported, using default");
+            XlibWrbppfr.XSupportsLodblf();
+            if (XlibWrbppfr.XSftLodblfModififrs("") == null) {
+                log.finfr("X lodblf modififrs brf not supportfd, using dffbult");
             }
             tryXKB();
 
-            AwtScreenData defaultScreen = new AwtScreenData(XToolkit.getDefaultScreenData());
-            awt_defaultFg = defaultScreen.get_blackpixel();
+            AwtSdrffnDbtb dffbultSdrffn = nfw AwtSdrffnDbtb(XToolkit.gftDffbultSdrffnDbtb());
+            bwt_dffbultFg = dffbultSdrffn.gft_blbdkpixfl();
 
-            arrowCursor = XlibWrapper.XCreateFontCursor(XToolkit.getDisplay(),
-                XCursorFontConstants.XC_arrow);
-            areExtraMouseButtonsEnabled = Boolean.parseBoolean(System.getProperty("sun.awt.enableExtraMouseButtons", "true"));
-            //set system property if not yet assigned
-            System.setProperty("sun.awt.enableExtraMouseButtons", ""+areExtraMouseButtonsEnabled);
+            brrowCursor = XlibWrbppfr.XCrfbtfFontCursor(XToolkit.gftDisplby(),
+                XCursorFontConstbnts.XC_brrow);
+            brfExtrbMousfButtonsEnbblfd = Boolfbn.pbrsfBoolfbn(Systfm.gftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", "truf"));
+            //sft systfm propfrty if not yft bssignfd
+            Systfm.sftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", ""+brfExtrbMousfButtonsEnbblfd);
 
-            // Detect display mode changes
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(), XConstants.StructureNotifyMask);
-            XToolkit.addEventDispatcher(XToolkit.getDefaultRootWindow(), new XEventDispatcher() {
-                @Override
-                public void dispatchEvent(XEvent ev) {
-                    if (ev.get_type() == XConstants.ConfigureNotify) {
-                        awtUnlock();
+            // Dftfdt displby modf dibngfs
+            XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(), XConstbnts.StrudturfNotifyMbsk);
+            XToolkit.bddEvfntDispbtdifr(XToolkit.gftDffbultRootWindow(), nfw XEvfntDispbtdifr() {
+                @Ovfrridf
+                publid void dispbtdiEvfnt(XEvfnt fv) {
+                    if (fv.gft_typf() == XConstbnts.ConfigurfNotify) {
+                        bwtUnlodk();
                         try {
-                            ((X11GraphicsEnvironment)GraphicsEnvironment.
-                             getLocalGraphicsEnvironment()).
-                                displayChanged();
-                        } finally {
-                            awtLock();
+                            ((X11GrbpiidsEnvironmfnt)GrbpiidsEnvironmfnt.
+                             gftLodblGrbpiidsEnvironmfnt()).
+                                displbyCibngfd();
+                        } finblly {
+                            bwtLodk();
                         }
                     }
                 }
             });
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
-        PrivilegedAction<Void> a = () -> {
-            Thread shutdownThread = new Thread(ThreadGroupUtils.getRootThreadGroup(), "XToolkt-Shutdown-Thread") {
-                    public void run() {
-                        XSystemTrayPeer peer = XSystemTrayPeer.getPeerInstance();
-                        if (peer != null) {
-                            peer.dispose();
+        PrivilfgfdAdtion<Void> b = () -> {
+            Tirfbd siutdownTirfbd = nfw Tirfbd(TirfbdGroupUtils.gftRootTirfbdGroup(), "XToolkt-Siutdown-Tirfbd") {
+                    publid void run() {
+                        XSystfmTrbyPffr pffr = XSystfmTrbyPffr.gftPffrInstbndf();
+                        if (pffr != null) {
+                            pffr.disposf();
                         }
                         if (xs != null) {
-                            ((XAWTXSettings)xs).dispose();
+                            ((XAWTXSfttings)xs).disposf();
                         }
-                        freeXKB();
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                            dumpPeers();
+                        frffXKB();
+                        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dumpPffrs();
                         }
                     }
                 };
-            shutdownThread.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(shutdownThread);
-            return null;
+            siutdownTirfbd.sftContfxtClbssLobdfr(null);
+            Runtimf.gftRuntimf().bddSiutdownHook(siutdownTirfbd);
+            rfturn null;
         };
-        AccessController.doPrivileged(a);
+        AddfssControllfr.doPrivilfgfd(b);
     }
 
-    static String getCorrectXIDString(String val) {
-        if (val != null) {
-            return val.replace('.', '-');
-        } else {
-            return val;
+    stbtid String gftCorrfdtXIDString(String vbl) {
+        if (vbl != null) {
+            rfturn vbl.rfplbdf('.', '-');
+        } flsf {
+            rfturn vbl;
         }
     }
 
-    static native String getEnv(String key);
+    stbtid nbtivf String gftEnv(String kfy);
 
 
-    static String getAWTAppClassName() {
-        return awtAppClassName;
+    stbtid String gftAWTAppClbssNbmf() {
+        rfturn bwtAppClbssNbmf;
     }
 
-    public XToolkit() {
-        super();
-        if (PerformanceLogger.loggingEnabled()) {
-            PerformanceLogger.setTime("XToolkit construction");
+    publid XToolkit() {
+        supfr();
+        if (PfrformbndfLoggfr.loggingEnbblfd()) {
+            PfrformbndfLoggfr.sftTimf("XToolkit donstrudtion");
         }
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            String mainClassName = null;
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            String mbinClbssNbmf = null;
 
-            StackTraceElement trace[] = (new Throwable()).getStackTrace();
-            int bottom = trace.length - 1;
+            StbdkTrbdfElfmfnt trbdf[] = (nfw Tirowbblf()).gftStbdkTrbdf();
+            int bottom = trbdf.lfngti - 1;
             if (bottom >= 0) {
-                mainClassName = trace[bottom].getClassName();
+                mbinClbssNbmf = trbdf[bottom].gftClbssNbmf();
             }
-            if (mainClassName == null || mainClassName.equals("")) {
-                mainClassName = "AWT";
+            if (mbinClbssNbmf == null || mbinClbssNbmf.fqubls("")) {
+                mbinClbssNbmf = "AWT";
             }
-            awtAppClassName = getCorrectXIDString(mainClassName);
+            bwtAppClbssNbmf = gftCorrfdtXIDString(mbinClbssNbmf);
 
             init();
             XWM.init();
 
-            toolkitThread = AccessController.doPrivileged((PrivilegedAction<Thread>) () -> {
-                Thread thread = new Thread(ThreadGroupUtils.getRootThreadGroup(), XToolkit.this, "AWT-XAWT");
-                thread.setContextClassLoader(null);
-                thread.setPriority(Thread.NORM_PRIORITY + 1);
-                thread.setDaemon(true);
-                return thread;
+            toolkitTirfbd = AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Tirfbd>) () -> {
+                Tirfbd tirfbd = nfw Tirfbd(TirfbdGroupUtils.gftRootTirfbdGroup(), XToolkit.tiis, "AWT-XAWT");
+                tirfbd.sftContfxtClbssLobdfr(null);
+                tirfbd.sftPriority(Tirfbd.NORM_PRIORITY + 1);
+                tirfbd.sftDbfmon(truf);
+                rfturn tirfbd;
             });
-            toolkitThread.start();
+            toolkitTirfbd.stbrt();
         }
     }
 
-    public ButtonPeer createButton(Button target) {
-        ButtonPeer peer = new XButtonPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid ButtonPffr drfbtfButton(Button tbrgft) {
+        ButtonPffr pffr = nfw XButtonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public FramePeer createLightweightFrame(LightweightFrame target) {
-        FramePeer peer = new XLightweightFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid FrbmfPffr drfbtfLigitwfigitFrbmf(LigitwfigitFrbmf tbrgft) {
+        FrbmfPffr pffr = nfw XLigitwfigitFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public FramePeer createFrame(Frame target) {
-        FramePeer peer = new XFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid FrbmfPffr drfbtfFrbmf(Frbmf tbrgft) {
+        FrbmfPffr pffr = nfw XFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    static void addToWinMap(long window, XBaseWindow xwin)
+    stbtid void bddToWinMbp(long window, XBbsfWindow xwin)
     {
-        synchronized(winMap) {
-            winMap.put(Long.valueOf(window),xwin);
+        syndironizfd(winMbp) {
+            winMbp.put(Long.vblufOf(window),xwin);
         }
     }
 
-    static void removeFromWinMap(long window, XBaseWindow xwin) {
-        synchronized(winMap) {
-            winMap.remove(Long.valueOf(window));
+    stbtid void rfmovfFromWinMbp(long window, XBbsfWindow xwin) {
+        syndironizfd(winMbp) {
+            winMbp.rfmovf(Long.vblufOf(window));
         }
     }
-    static XBaseWindow windowToXWindow(long window) {
-        synchronized(winMap) {
-            return winMap.get(Long.valueOf(window));
+    stbtid XBbsfWindow windowToXWindow(long window) {
+        syndironizfd(winMbp) {
+            rfturn winMbp.gft(Long.vblufOf(window));
         }
     }
 
-    static void addEventDispatcher(long window, XEventDispatcher dispatcher) {
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(window);
-            Collection<XEventDispatcher> dispatchers = winToDispatcher.get(key);
-            if (dispatchers == null) {
-                dispatchers = new Vector<>();
-                winToDispatcher.put(key, dispatchers);
+    stbtid void bddEvfntDispbtdifr(long window, XEvfntDispbtdifr dispbtdifr) {
+        syndironizfd(winToDispbtdifr) {
+            Long kfy = Long.vblufOf(window);
+            Collfdtion<XEvfntDispbtdifr> dispbtdifrs = winToDispbtdifr.gft(kfy);
+            if (dispbtdifrs == null) {
+                dispbtdifrs = nfw Vfdtor<>();
+                winToDispbtdifr.put(kfy, dispbtdifrs);
             }
-            dispatchers.add(dispatcher);
+            dispbtdifrs.bdd(dispbtdifr);
         }
     }
-    static void removeEventDispatcher(long window, XEventDispatcher dispatcher) {
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(window);
-            Collection<XEventDispatcher> dispatchers = winToDispatcher.get(key);
-            if (dispatchers != null) {
-                dispatchers.remove(dispatcher);
+    stbtid void rfmovfEvfntDispbtdifr(long window, XEvfntDispbtdifr dispbtdifr) {
+        syndironizfd(winToDispbtdifr) {
+            Long kfy = Long.vblufOf(window);
+            Collfdtion<XEvfntDispbtdifr> dispbtdifrs = winToDispbtdifr.gft(kfy);
+            if (dispbtdifrs != null) {
+                dispbtdifrs.rfmovf(dispbtdifr);
             }
         }
     }
 
-    private Point lastCursorPos;
+    privbtf Point lbstCursorPos;
 
     /**
-     * Returns whether there is last remembered cursor position.  The
-     * position is remembered from X mouse events on our peers.  The
-     * position is stored in <code>p</code>.
-     * @return true, if there is remembered last cursor position,
-     * false otherwise
+     * Rfturns wiftifr tifrf is lbst rfmfmbfrfd dursor position.  Tif
+     * position is rfmfmbfrfd from X mousf fvfnts on our pffrs.  Tif
+     * position is storfd in <dodf>p</dodf>.
+     * @rfturn truf, if tifrf is rfmfmbfrfd lbst dursor position,
+     * fblsf otifrwisf
      */
-    boolean getLastCursorPos(Point p) {
-        awtLock();
+    boolfbn gftLbstCursorPos(Point p) {
+        bwtLodk();
         try {
-            if (lastCursorPos == null) {
-                return false;
+            if (lbstCursorPos == null) {
+                rfturn fblsf;
             }
-            p.setLocation(lastCursorPos);
-            return true;
-        } finally {
-            awtUnlock();
+            p.sftLodbtion(lbstCursorPos);
+            rfturn truf;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    private void processGlobalMotionEvent(XEvent e) {
-        // Only our windows guaranteely generate MotionNotify, so we
-        // should track enter/leave, to catch the moment when to
-        // switch to XQueryPointer
-        if (e.get_type() == XConstants.MotionNotify) {
-            XMotionEvent ev = e.get_xmotion();
-            awtLock();
+    privbtf void prodfssGlobblMotionEvfnt(XEvfnt f) {
+        // Only our windows gubrbntffly gfnfrbtf MotionNotify, so wf
+        // siould trbdk fntfr/lfbvf, to dbtdi tif momfnt wifn to
+        // switdi to XQufryPointfr
+        if (f.gft_typf() == XConstbnts.MotionNotify) {
+            XMotionEvfnt fv = f.gft_xmotion();
+            bwtLodk();
             try {
-                if (lastCursorPos == null) {
-                    lastCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
-                } else {
-                    lastCursorPos.setLocation(ev.get_x_root(), ev.get_y_root());
+                if (lbstCursorPos == null) {
+                    lbstCursorPos = nfw Point(fv.gft_x_root(), fv.gft_y_root());
+                } flsf {
+                    lbstCursorPos.sftLodbtion(fv.gft_x_root(), fv.gft_y_root());
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlodk();
             }
-        } else if (e.get_type() == XConstants.LeaveNotify) {
-            // Leave from our window
-            awtLock();
+        } flsf if (f.gft_typf() == XConstbnts.LfbvfNotify) {
+            // Lfbvf from our window
+            bwtLodk();
             try {
-                lastCursorPos = null;
-            } finally {
-                awtUnlock();
+                lbstCursorPos = null;
+            } finblly {
+                bwtUnlodk();
             }
-        } else if (e.get_type() == XConstants.EnterNotify) {
-            // Entrance into our window
-            XCrossingEvent ev = e.get_xcrossing();
-            awtLock();
+        } flsf if (f.gft_typf() == XConstbnts.EntfrNotify) {
+            // Entrbndf into our window
+            XCrossingEvfnt fv = f.gft_xdrossing();
+            bwtLodk();
             try {
-                if (lastCursorPos == null) {
-                    lastCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
-                } else {
-                    lastCursorPos.setLocation(ev.get_x_root(), ev.get_y_root());
+                if (lbstCursorPos == null) {
+                    lbstCursorPos = nfw Point(fv.gft_x_root(), fv.gft_y_root());
+                } flsf {
+                    lbstCursorPos.sftLodbtion(fv.gft_x_root(), fv.gft_y_root());
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlodk();
             }
         }
     }
 
-    public interface XEventListener {
-        public void eventProcessed(XEvent e);
+    publid intfrfbdf XEvfntListfnfr {
+        publid void fvfntProdfssfd(XEvfnt f);
     }
 
-    private Collection<XEventListener> listeners = new LinkedList<XEventListener>();
+    privbtf Collfdtion<XEvfntListfnfr> listfnfrs = nfw LinkfdList<XEvfntListfnfr>();
 
-    public void addXEventListener(XEventListener listener) {
-        synchronized (listeners) {
-            listeners.add(listener);
+    publid void bddXEvfntListfnfr(XEvfntListfnfr listfnfr) {
+        syndironizfd (listfnfrs) {
+            listfnfrs.bdd(listfnfr);
         }
     }
 
-    private void notifyListeners(XEvent xev) {
-        synchronized (listeners) {
-            if (listeners.size() == 0) return;
+    privbtf void notifyListfnfrs(XEvfnt xfv) {
+        syndironizfd (listfnfrs) {
+            if (listfnfrs.sizf() == 0) rfturn;
 
-            XEvent copy = xev.clone();
+            XEvfnt dopy = xfv.dlonf();
             try {
-                for (XEventListener listener : listeners) {
-                    listener.eventProcessed(copy);
+                for (XEvfntListfnfr listfnfr : listfnfrs) {
+                    listfnfr.fvfntProdfssfd(dopy);
                 }
-            } finally {
-                copy.dispose();
+            } finblly {
+                dopy.disposf();
             }
         }
     }
 
-    private void dispatchEvent(XEvent ev) {
-        final XAnyEvent xany = ev.get_xany();
+    privbtf void dispbtdiEvfnt(XEvfnt fv) {
+        finbl XAnyEvfnt xbny = fv.gft_xbny();
 
-        if (windowToXWindow(xany.get_window()) != null &&
-             (ev.get_type() == XConstants.MotionNotify || ev.get_type() == XConstants.EnterNotify || ev.get_type() == XConstants.LeaveNotify))
+        if (windowToXWindow(xbny.gft_window()) != null &&
+             (fv.gft_typf() == XConstbnts.MotionNotify || fv.gft_typf() == XConstbnts.EntfrNotify || fv.gft_typf() == XConstbnts.LfbvfNotify))
         {
-            processGlobalMotionEvent(ev);
+            prodfssGlobblMotionEvfnt(fv);
         }
 
-        if( ev.get_type() == XConstants.MappingNotify ) {
-            // The 'window' field in this event is unused.
-            // This application itself does nothing to initiate such an event
-            // (no calls of XChangeKeyboardMapping etc.).
-            // SunRay server sends this event to the application once on every
-            // keyboard (not just layout) change which means, quite seldom.
-            XlibWrapper.XRefreshKeyboardMapping(ev.pData);
-            resetKeyboardSniffer();
-            setupModifierMap();
+        if( fv.gft_typf() == XConstbnts.MbppingNotify ) {
+            // Tif 'window' fifld in tiis fvfnt is unusfd.
+            // Tiis bpplidbtion itsflf dofs notiing to initibtf sudi bn fvfnt
+            // (no dblls of XCibngfKfybobrdMbpping ftd.).
+            // SunRby sfrvfr sfnds tiis fvfnt to tif bpplidbtion ondf on fvfry
+            // kfybobrd (not just lbyout) dibngf wiidi mfbns, quitf sfldom.
+            XlibWrbppfr.XRffrfsiKfybobrdMbpping(fv.pDbtb);
+            rfsftKfybobrdSnifffr();
+            sftupModififrMbp();
         }
-        XBaseWindow.dispatchToWindow(ev);
+        XBbsfWindow.dispbtdiToWindow(fv);
 
-        Collection<XEventDispatcher> dispatchers = null;
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(xany.get_window());
-            dispatchers = winToDispatcher.get(key);
-            if (dispatchers != null) { // Clone it to avoid synchronization during dispatching
-                dispatchers = new Vector<>(dispatchers);
+        Collfdtion<XEvfntDispbtdifr> dispbtdifrs = null;
+        syndironizfd(winToDispbtdifr) {
+            Long kfy = Long.vblufOf(xbny.gft_window());
+            dispbtdifrs = winToDispbtdifr.gft(kfy);
+            if (dispbtdifrs != null) { // Clonf it to bvoid syndironizbtion during dispbtdiing
+                dispbtdifrs = nfw Vfdtor<>(dispbtdifrs);
             }
         }
-        if (dispatchers != null) {
-            Iterator<XEventDispatcher> iter = dispatchers.iterator();
-            while (iter.hasNext()) {
-                XEventDispatcher disp = iter.next();
-                disp.dispatchEvent(ev);
+        if (dispbtdifrs != null) {
+            Itfrbtor<XEvfntDispbtdifr> itfr = dispbtdifrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                XEvfntDispbtdifr disp = itfr.nfxt();
+                disp.dispbtdiEvfnt(fv);
             }
         }
-        notifyListeners(ev);
+        notifyListfnfrs(fv);
     }
 
-    static void processException(Throwable thr) {
-        if (log.isLoggable(PlatformLogger.Level.WARNING)) {
-            log.warning("Exception on Toolkit thread", thr);
+    stbtid void prodfssExdfption(Tirowbblf tir) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.WARNING)) {
+            log.wbrning("Exdfption on Toolkit tirfbd", tir);
         }
     }
 
-    static native void awt_toolkit_init();
+    stbtid nbtivf void bwt_toolkit_init();
 
-    public void run() {
-        awt_toolkit_init();
+    publid void run() {
+        bwt_toolkit_init();
         run(PRIMARY_LOOP);
     }
 
-    public void run(boolean loop)
+    publid void run(boolfbn loop)
     {
-        XEvent ev = new XEvent();
-        while(true) {
-            // Fix for 6829923: we should gracefully handle toolkit thread interruption
-            if (Thread.currentThread().isInterrupted()) {
-                // We expect interruption from the AppContext.dispose() method only.
-                // If the thread is interrupted from another place, let's skip it
-                // for compatibility reasons. Probably some time later we'll remove
-                // the check for AppContext.isDisposed() and will unconditionally
-                // break the loop here.
-                if (AppContext.getAppContext().isDisposed()) {
-                    break;
+        XEvfnt fv = nfw XEvfnt();
+        wiilf(truf) {
+            // Fix for 6829923: wf siould grbdffully ibndlf toolkit tirfbd intfrruption
+            if (Tirfbd.durrfntTirfbd().isIntfrruptfd()) {
+                // Wf fxpfdt intfrruption from tif AppContfxt.disposf() mftiod only.
+                // If tif tirfbd is intfrruptfd from bnotifr plbdf, lft's skip it
+                // for dompbtibility rfbsons. Probbbly somf timf lbtfr wf'll rfmovf
+                // tif difdk for AppContfxt.isDisposfd() bnd will undonditionblly
+                // brfbk tif loop ifrf.
+                if (AppContfxt.gftAppContfxt().isDisposfd()) {
+                    brfbk;
                 }
             }
-            awtLock();
+            bwtLodk();
             try {
                 if (loop == SECONDARY_LOOP) {
-                    // In the secondary loop we may have already acquired awt_lock
-                    // several times, so waitForEvents() might be unable to release
-                    // the awt_lock and this causes lock up.
-                    // For now, we just avoid waitForEvents in the secondary loop.
-                    if (!XlibWrapper.XNextSecondaryLoopEvent(getDisplay(),ev.pData)) {
-                        break;
+                    // In tif sfdondbry loop wf mby ibvf blrfbdy bdquirfd bwt_lodk
+                    // sfvfrbl timfs, so wbitForEvfnts() migit bf unbblf to rflfbsf
+                    // tif bwt_lodk bnd tiis dbusfs lodk up.
+                    // For now, wf just bvoid wbitForEvfnts in tif sfdondbry loop.
+                    if (!XlibWrbppfr.XNfxtSfdondbryLoopEvfnt(gftDisplby(),fv.pDbtb)) {
+                        brfbk;
                     }
-                } else {
-                    callTimeoutTasks();
-                    // If no events are queued, waitForEvents() causes calls to
-                    // awtUnlock(), awtJNI_ThreadYield, poll, awtLock(),
-                    // so it spends most of its time in poll, without holding the lock.
-                    while ((XlibWrapper.XEventsQueued(getDisplay(), XConstants.QueuedAfterReading) == 0) &&
-                           (XlibWrapper.XEventsQueued(getDisplay(), XConstants.QueuedAfterFlush) == 0)) {
-                        callTimeoutTasks();
-                        waitForEvents(getNextTaskTime());
+                } flsf {
+                    dbllTimfoutTbsks();
+                    // If no fvfnts brf qufufd, wbitForEvfnts() dbusfs dblls to
+                    // bwtUnlodk(), bwtJNI_TirfbdYifld, poll, bwtLodk(),
+                    // so it spfnds most of its timf in poll, witiout iolding tif lodk.
+                    wiilf ((XlibWrbppfr.XEvfntsQufufd(gftDisplby(), XConstbnts.QufufdAftfrRfbding) == 0) &&
+                           (XlibWrbppfr.XEvfntsQufufd(gftDisplby(), XConstbnts.QufufdAftfrFlusi) == 0)) {
+                        dbllTimfoutTbsks();
+                        wbitForEvfnts(gftNfxtTbskTimf());
                     }
-                    XlibWrapper.XNextEvent(getDisplay(),ev.pData);
+                    XlibWrbppfr.XNfxtEvfnt(gftDisplby(),fv.pDbtb);
                 }
 
-                if (ev.get_type() != XConstants.NoExpose) {
-                    eventNumber++;
+                if (fv.gft_typf() != XConstbnts.NoExposf) {
+                    fvfntNumbfr++;
                 }
-                if (awt_UseXKB_Calls && ev.get_type() ==  awt_XKBBaseEventCode) {
-                    processXkbChanges(ev);
-                }
-
-                if (XDropTargetEventProcessor.processEvent(ev) ||
-                    XDragSourceContextPeer.processEvent(ev)) {
-                    continue;
+                if (bwt_UsfXKB_Cblls && fv.gft_typf() ==  bwt_XKBBbsfEvfntCodf) {
+                    prodfssXkbCibngfs(fv);
                 }
 
-                if (eventLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    eventLog.finer("{0}", ev);
+                if (XDropTbrgftEvfntProdfssor.prodfssEvfnt(fv) ||
+                    XDrbgSourdfContfxtPffr.prodfssEvfnt(fv)) {
+                    dontinuf;
                 }
 
-                // Check if input method consumes the event
+                if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    fvfntLog.finfr("{0}", fv);
+                }
+
+                // Cifdk if input mftiod donsumfs tif fvfnt
                 long w = 0;
-                if (windowToXWindow(ev.get_xany().get_window()) != null) {
-                    Component owner =
-                        XKeyboardFocusManagerPeer.getInstance().getCurrentFocusOwner();
-                    if (owner != null) {
-                        XWindow ownerWindow = (XWindow) AWTAccessor.getComponentAccessor().getPeer(owner);
-                        if (ownerWindow != null) {
-                            w = ownerWindow.getContentWindow();
+                if (windowToXWindow(fv.gft_xbny().gft_window()) != null) {
+                    Componfnt ownfr =
+                        XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusOwnfr();
+                    if (ownfr != null) {
+                        XWindow ownfrWindow = (XWindow) AWTAddfssor.gftComponfntAddfssor().gftPffr(ownfr);
+                        if (ownfrWindow != null) {
+                            w = ownfrWindow.gftContfntWindow();
                         }
                     }
                 }
-                if( keyEventLog.isLoggable(PlatformLogger.Level.FINE) && (ev.get_type() == XConstants.KeyPress || ev.get_type() == XConstants.KeyRelease) ) {
-                    keyEventLog.fine("before XFilterEvent:"+ev);
+                if( kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE) && (fv.gft_typf() == XConstbnts.KfyPrfss || fv.gft_typf() == XConstbnts.KfyRflfbsf) ) {
+                    kfyEvfntLog.finf("bfforf XFiltfrEvfnt:"+fv);
                 }
-                if (XlibWrapper.XFilterEvent(ev.getPData(), w)) {
-                    continue;
+                if (XlibWrbppfr.XFiltfrEvfnt(fv.gftPDbtb(), w)) {
+                    dontinuf;
                 }
-                if( keyEventLog.isLoggable(PlatformLogger.Level.FINE) && (ev.get_type() == XConstants.KeyPress || ev.get_type() == XConstants.KeyRelease) ) {
-                    keyEventLog.fine("after XFilterEvent:"+ev); // IS THIS CORRECT?
+                if( kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE) && (fv.gft_typf() == XConstbnts.KfyPrfss || fv.gft_typf() == XConstbnts.KfyRflfbsf) ) {
+                    kfyEvfntLog.finf("bftfr XFiltfrEvfnt:"+fv); // IS THIS CORRECT?
                 }
 
-                dispatchEvent(ev);
-            } catch (ThreadDeath td) {
-                XBaseWindow.ungrabInput();
-                return;
-            } catch (Throwable thr) {
-                XBaseWindow.ungrabInput();
-                processException(thr);
-            } finally {
-                awtUnlock();
+                dispbtdiEvfnt(fv);
+            } dbtdi (TirfbdDfbti td) {
+                XBbsfWindow.ungrbbInput();
+                rfturn;
+            } dbtdi (Tirowbblf tir) {
+                XBbsfWindow.ungrbbInput();
+                prodfssExdfption(tir);
+            } finblly {
+                bwtUnlodk();
             }
         }
     }
 
-    static {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(
-                new DisplayChangedListener() {
-                    @Override
-                    public void displayChanged() {
-                        // 7045370: Reset the cached values
-                        XToolkit.screenWidth = -1;
-                        XToolkit.screenHeight = -1;
+    stbtid {
+        GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        if (gf instbndfof SunGrbpiidsEnvironmfnt) {
+            ((SunGrbpiidsEnvironmfnt)gf).bddDisplbyCibngfdListfnfr(
+                nfw DisplbyCibngfdListfnfr() {
+                    @Ovfrridf
+                    publid void displbyCibngfd() {
+                        // 7045370: Rfsft tif dbdifd vblufs
+                        XToolkit.sdrffnWidti = -1;
+                        XToolkit.sdrffnHfigit = -1;
                     }
 
-                    @Override
-                    public void paletteChanged() {}
+                    @Ovfrridf
+                    publid void pblfttfCibngfd() {}
             });
         }
     }
 
-    private static void initScreenSize() {
-        if (screenWidth == -1 || screenHeight == -1) {
-            awtLock();
+    privbtf stbtid void initSdrffnSizf() {
+        if (sdrffnWidti == -1 || sdrffnHfigit == -1) {
+            bwtLodk();
             try {
-                XWindowAttributes pattr = new XWindowAttributes();
+                XWindowAttributfs pbttr = nfw XWindowAttributfs();
                 try {
-                    XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(), pattr.pData);
-                    screenWidth  = pattr.get_width();
-                    screenHeight = pattr.get_height();
-                } finally {
-                    pattr.dispose();
+                    XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(), pbttr.pDbtb);
+                    sdrffnWidti  = pbttr.gft_widti();
+                    sdrffnHfigit = pbttr.gft_ifigit();
+                } finblly {
+                    pbttr.disposf();
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlodk();
             }
         }
     }
 
-    static int getDefaultScreenWidth() {
-        initScreenSize();
-        return screenWidth;
+    stbtid int gftDffbultSdrffnWidti() {
+        initSdrffnSizf();
+        rfturn sdrffnWidti;
     }
 
-    static int getDefaultScreenHeight() {
-        initScreenSize();
-        return screenHeight;
+    stbtid int gftDffbultSdrffnHfigit() {
+        initSdrffnSizf();
+        rfturn sdrffnHfigit;
     }
 
-    protected int getScreenWidth() {
-        return getDefaultScreenWidth();
+    protfdtfd int gftSdrffnWidti() {
+        rfturn gftDffbultSdrffnWidti();
     }
 
-    protected int getScreenHeight() {
-        return getDefaultScreenHeight();
+    protfdtfd int gftSdrffnHfigit() {
+        rfturn gftDffbultSdrffnHfigit();
     }
 
-    private static Rectangle getWorkArea(long root)
+    privbtf stbtid Rfdtbnglf gftWorkArfb(long root)
     {
-        XAtom XA_NET_WORKAREA = XAtom.get("_NET_WORKAREA");
+        XAtom XA_NET_WORKAREA = XAtom.gft("_NET_WORKAREA");
 
-        long native_ptr = Native.allocateLongArray(4);
+        long nbtivf_ptr = Nbtivf.bllodbtfLongArrby(4);
         try
         {
-            boolean workareaPresent = XA_NET_WORKAREA.getAtomData(root,
-                XAtom.XA_CARDINAL, native_ptr, 4);
-            if (workareaPresent)
+            boolfbn workbrfbPrfsfnt = XA_NET_WORKAREA.gftAtomDbtb(root,
+                XAtom.XA_CARDINAL, nbtivf_ptr, 4);
+            if (workbrfbPrfsfnt)
             {
-                int rootX = (int)Native.getLong(native_ptr, 0);
-                int rootY = (int)Native.getLong(native_ptr, 1);
-                int rootWidth = (int)Native.getLong(native_ptr, 2);
-                int rootHeight = (int)Native.getLong(native_ptr, 3);
+                int rootX = (int)Nbtivf.gftLong(nbtivf_ptr, 0);
+                int rootY = (int)Nbtivf.gftLong(nbtivf_ptr, 1);
+                int rootWidti = (int)Nbtivf.gftLong(nbtivf_ptr, 2);
+                int rootHfigit = (int)Nbtivf.gftLong(nbtivf_ptr, 3);
 
-                return new Rectangle(rootX, rootY, rootWidth, rootHeight);
+                rfturn nfw Rfdtbnglf(rootX, rootY, rootWidti, rootHfigit);
             }
         }
-        finally
+        finblly
         {
-            XlibWrapper.unsafe.freeMemory(native_ptr);
+            XlibWrbppfr.unsbff.frffMfmory(nbtivf_ptr);
         }
 
-        return null;
+        rfturn null;
     }
 
     /*
-     * If we're running in non-Xinerama environment and the current
-     * window manager supports _NET protocol then the screen insets
-     * are calculated using _NET_WM_WORKAREA property of the root
+     * If wf'rf running in non-Xinfrbmb fnvironmfnt bnd tif durrfnt
+     * window mbnbgfr supports _NET protodol tifn tif sdrffn insfts
+     * brf dbldulbtfd using _NET_WM_WORKAREA propfrty of tif root
      * window.
-     * Otherwise, i. e. if Xinerama is on or _NET_WM_WORKAREA is
-     * not set, we try to calculate the insets ourselves using
-     * getScreenInsetsManually method.
+     * Otifrwisf, i. f. if Xinfrbmb is on or _NET_WM_WORKAREA is
+     * not sft, wf try to dbldulbtf tif insfts oursflvfs using
+     * gftSdrffnInsftsMbnublly mftiod.
      */
-    public Insets getScreenInsets(GraphicsConfiguration gc)
+    publid Insfts gftSdrffnInsfts(GrbpiidsConfigurbtion gd)
     {
-        XNETProtocol netProto = XWM.getWM().getNETProtocol();
-        if ((netProto == null) || !netProto.active())
+        XNETProtodol nftProto = XWM.gftWM().gftNETProtodol();
+        if ((nftProto == null) || !nftProto.bdtivf())
         {
-            return super.getScreenInsets(gc);
+            rfturn supfr.gftSdrffnInsfts(gd);
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try
         {
-            X11GraphicsConfig x11gc = (X11GraphicsConfig)gc;
-            X11GraphicsDevice x11gd = (X11GraphicsDevice)x11gc.getDevice();
-            long root = XlibUtil.getRootWindow(x11gd.getScreen());
-            Rectangle rootBounds = XlibUtil.getWindowGeometry(root);
+            X11GrbpiidsConfig x11gd = (X11GrbpiidsConfig)gd;
+            X11GrbpiidsDfvidf x11gd = (X11GrbpiidsDfvidf)x11gd.gftDfvidf();
+            long root = XlibUtil.gftRootWindow(x11gd.gftSdrffn());
+            Rfdtbnglf rootBounds = XlibUtil.gftWindowGfomftry(root);
 
-            X11GraphicsEnvironment x11ge = (X11GraphicsEnvironment)
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            if (!x11ge.runningXinerama())
+            X11GrbpiidsEnvironmfnt x11gf = (X11GrbpiidsEnvironmfnt)
+                GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+            if (!x11gf.runningXinfrbmb())
             {
-                Rectangle workArea = XToolkit.getWorkArea(root);
-                if (workArea != null)
+                Rfdtbnglf workArfb = XToolkit.gftWorkArfb(root);
+                if (workArfb != null)
                 {
-                    return new Insets(workArea.y,
-                                      workArea.x,
-                                      rootBounds.height - workArea.height - workArea.y,
-                                      rootBounds.width - workArea.width - workArea.x);
+                    rfturn nfw Insfts(workArfb.y,
+                                      workArfb.x,
+                                      rootBounds.ifigit - workArfb.ifigit - workArfb.y,
+                                      rootBounds.widti - workArfb.widti - workArfb.x);
                 }
             }
 
-            return getScreenInsetsManually(root, rootBounds, gc.getBounds());
+            rfturn gftSdrffnInsftsMbnublly(root, rootBounds, gd.gftBounds());
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * Manual calculation of screen insets: get all the windows with
-     * _NET_WM_STRUT/_NET_WM_STRUT_PARTIAL hints and add these
-     * hints' values to screen insets.
+     * Mbnubl dbldulbtion of sdrffn insfts: gft bll tif windows witi
+     * _NET_WM_STRUT/_NET_WM_STRUT_PARTIAL iints bnd bdd tifsf
+     * iints' vblufs to sdrffn insfts.
      *
-     * This method should be called under XToolkit.awtLock()
+     * Tiis mftiod siould bf dbllfd undfr XToolkit.bwtLodk()
      */
-    private Insets getScreenInsetsManually(long root, Rectangle rootBounds, Rectangle screenBounds)
+    privbtf Insfts gftSdrffnInsftsMbnublly(long root, Rfdtbnglf rootBounds, Rfdtbnglf sdrffnBounds)
     {
         /*
-         * During the manual calculation of screen insets we iterate
-         * all the X windows hierarchy starting from root window. This
-         * constant is the max level inspected in this hierarchy.
-         * 3 is a heuristic value: I suppose any the toolbar-like
-         * window is a child of either root or desktop window.
+         * During tif mbnubl dbldulbtion of sdrffn insfts wf itfrbtf
+         * bll tif X windows iifrbrdiy stbrting from root window. Tiis
+         * donstbnt is tif mbx lfvfl inspfdtfd in tiis iifrbrdiy.
+         * 3 is b ifuristid vbluf: I supposf bny tif toolbbr-likf
+         * window is b diild of fitifr root or dfsktop window.
          */
-        final int MAX_NESTED_LEVEL = 3;
+        finbl int MAX_NESTED_LEVEL = 3;
 
-        XAtom XA_NET_WM_STRUT = XAtom.get("_NET_WM_STRUT");
-        XAtom XA_NET_WM_STRUT_PARTIAL = XAtom.get("_NET_WM_STRUT_PARTIAL");
+        XAtom XA_NET_WM_STRUT = XAtom.gft("_NET_WM_STRUT");
+        XAtom XA_NET_WM_STRUT_PARTIAL = XAtom.gft("_NET_WM_STRUT_PARTIAL");
 
-        Insets insets = new Insets(0, 0, 0, 0);
+        Insfts insfts = nfw Insfts(0, 0, 0, 0);
 
-        java.util.List<Object> search = new LinkedList<>();
-        search.add(root);
-        search.add(0);
-        while (!search.isEmpty())
+        jbvb.util.List<Objfdt> sfbrdi = nfw LinkfdList<>();
+        sfbrdi.bdd(root);
+        sfbrdi.bdd(0);
+        wiilf (!sfbrdi.isEmpty())
         {
-            long window = (Long)search.remove(0);
-            int windowLevel = (Integer)search.remove(0);
+            long window = (Long)sfbrdi.rfmovf(0);
+            int windowLfvfl = (Intfgfr)sfbrdi.rfmovf(0);
 
             /*
-             * Note that most of the modern window managers unmap
-             * application window if it is iconified. Thus, any
-             * _NET_WM_STRUT[_PARTIAL] hints for iconified windows
-             * are not included to the screen insets.
+             * Notf tibt most of tif modfrn window mbnbgfrs unmbp
+             * bpplidbtion window if it is idonififd. Tius, bny
+             * _NET_WM_STRUT[_PARTIAL] iints for idonififd windows
+             * brf not indludfd to tif sdrffn insfts.
              */
-            if (XlibUtil.getWindowMapState(window) == XConstants.IsUnmapped)
+            if (XlibUtil.gftWindowMbpStbtf(window) == XConstbnts.IsUnmbppfd)
             {
-                continue;
+                dontinuf;
             }
 
-            long native_ptr = Native.allocateLongArray(4);
+            long nbtivf_ptr = Nbtivf.bllodbtfLongArrby(4);
             try
             {
-                // first, check if _NET_WM_STRUT or _NET_WM_STRUT_PARTIAL are present
-                // if both are set on the window, _NET_WM_STRUT_PARTIAL is used (see _NET spec)
-                boolean strutPresent = XA_NET_WM_STRUT_PARTIAL.getAtomData(window, XAtom.XA_CARDINAL, native_ptr, 4);
-                if (!strutPresent)
+                // first, difdk if _NET_WM_STRUT or _NET_WM_STRUT_PARTIAL brf prfsfnt
+                // if boti brf sft on tif window, _NET_WM_STRUT_PARTIAL is usfd (sff _NET spfd)
+                boolfbn strutPrfsfnt = XA_NET_WM_STRUT_PARTIAL.gftAtomDbtb(window, XAtom.XA_CARDINAL, nbtivf_ptr, 4);
+                if (!strutPrfsfnt)
                 {
-                    strutPresent = XA_NET_WM_STRUT.getAtomData(window, XAtom.XA_CARDINAL, native_ptr, 4);
+                    strutPrfsfnt = XA_NET_WM_STRUT.gftAtomDbtb(window, XAtom.XA_CARDINAL, nbtivf_ptr, 4);
                 }
-                if (strutPresent)
+                if (strutPrfsfnt)
                 {
-                    // second, verify that window is located on the proper screen
-                    Rectangle windowBounds = XlibUtil.getWindowGeometry(window);
-                    if (windowLevel > 1)
+                    // sfdond, vfrify tibt window is lodbtfd on tif propfr sdrffn
+                    Rfdtbnglf windowBounds = XlibUtil.gftWindowGfomftry(window);
+                    if (windowLfvfl > 1)
                     {
-                        windowBounds = XlibUtil.translateCoordinates(window, root, windowBounds);
+                        windowBounds = XlibUtil.trbnslbtfCoordinbtfs(window, root, windowBounds);
                     }
-                    // if _NET_WM_STRUT_PARTIAL is present, we should use its values to detect
-                    // if the struts area intersects with screenBounds, however some window
-                    // managers don't set this hint correctly, so we just get intersection with windowBounds
-                    if (windowBounds != null && windowBounds.intersects(screenBounds))
+                    // if _NET_WM_STRUT_PARTIAL is prfsfnt, wf siould usf its vblufs to dftfdt
+                    // if tif struts brfb intfrsfdts witi sdrffnBounds, iowfvfr somf window
+                    // mbnbgfrs don't sft tiis iint dorrfdtly, so wf just gft intfrsfdtion witi windowBounds
+                    if (windowBounds != null && windowBounds.intfrsfdts(sdrffnBounds))
                     {
-                        int left = (int)Native.getLong(native_ptr, 0);
-                        int right = (int)Native.getLong(native_ptr, 1);
-                        int top = (int)Native.getLong(native_ptr, 2);
-                        int bottom = (int)Native.getLong(native_ptr, 3);
+                        int lfft = (int)Nbtivf.gftLong(nbtivf_ptr, 0);
+                        int rigit = (int)Nbtivf.gftLong(nbtivf_ptr, 1);
+                        int top = (int)Nbtivf.gftLong(nbtivf_ptr, 2);
+                        int bottom = (int)Nbtivf.gftLong(nbtivf_ptr, 3);
 
                         /*
-                         * struts could be relative to root window bounds, so
-                         * make them relative to the screen bounds in this case
+                         * struts dould bf rflbtivf to root window bounds, so
+                         * mbkf tifm rflbtivf to tif sdrffn bounds in tiis dbsf
                          */
-                        left = rootBounds.x + left > screenBounds.x ?
-                                rootBounds.x + left - screenBounds.x : 0;
-                        right = rootBounds.x + rootBounds.width - right <
-                                screenBounds.x + screenBounds.width ?
-                                screenBounds.x + screenBounds.width -
-                                (rootBounds.x + rootBounds.width - right) : 0;
-                        top = rootBounds.y + top > screenBounds.y ?
-                                rootBounds.y + top - screenBounds.y : 0;
-                        bottom = rootBounds.y + rootBounds.height - bottom <
-                                screenBounds.y + screenBounds.height ?
-                                screenBounds.y + screenBounds.height -
-                                (rootBounds.y + rootBounds.height - bottom) : 0;
+                        lfft = rootBounds.x + lfft > sdrffnBounds.x ?
+                                rootBounds.x + lfft - sdrffnBounds.x : 0;
+                        rigit = rootBounds.x + rootBounds.widti - rigit <
+                                sdrffnBounds.x + sdrffnBounds.widti ?
+                                sdrffnBounds.x + sdrffnBounds.widti -
+                                (rootBounds.x + rootBounds.widti - rigit) : 0;
+                        top = rootBounds.y + top > sdrffnBounds.y ?
+                                rootBounds.y + top - sdrffnBounds.y : 0;
+                        bottom = rootBounds.y + rootBounds.ifigit - bottom <
+                                sdrffnBounds.y + sdrffnBounds.ifigit ?
+                                sdrffnBounds.y + sdrffnBounds.ifigit -
+                                (rootBounds.y + rootBounds.ifigit - bottom) : 0;
 
-                        insets.left = Math.max(left, insets.left);
-                        insets.right = Math.max(right, insets.right);
-                        insets.top = Math.max(top, insets.top);
-                        insets.bottom = Math.max(bottom, insets.bottom);
+                        insfts.lfft = Mbti.mbx(lfft, insfts.lfft);
+                        insfts.rigit = Mbti.mbx(rigit, insfts.rigit);
+                        insfts.top = Mbti.mbx(top, insfts.top);
+                        insfts.bottom = Mbti.mbx(bottom, insfts.bottom);
                     }
                 }
             }
-            finally
+            finblly
             {
-                XlibWrapper.unsafe.freeMemory(native_ptr);
+                XlibWrbppfr.unsbff.frffMfmory(nbtivf_ptr);
             }
 
-            if (windowLevel < MAX_NESTED_LEVEL)
+            if (windowLfvfl < MAX_NESTED_LEVEL)
             {
-                Set<Long> children = XlibUtil.getChildWindows(window);
-                for (long child : children)
+                Sft<Long> diildrfn = XlibUtil.gftCiildWindows(window);
+                for (long diild : diildrfn)
                 {
-                    search.add(child);
-                    search.add(windowLevel + 1);
+                    sfbrdi.bdd(diild);
+                    sfbrdi.bdd(windowLfvfl + 1);
                 }
             }
         }
 
-        return insets;
+        rfturn insfts;
     }
 
     /*
-     * The current implementation of disabling background erasing for
-     * canvases is that we don't set any native background color
-     * (with XSetWindowBackground) for the canvas window. However,
-     * this color is set in the peer constructor - see
-     * XWindow.postInit() for details. That's why this method from
-     * SunToolkit is not overridden in XToolkit: it's too late to
-     * disable background erasing :(
+     * Tif durrfnt implfmfntbtion of disbbling bbdkground frbsing for
+     * dbnvbsfs is tibt wf don't sft bny nbtivf bbdkground dolor
+     * (witi XSftWindowBbdkground) for tif dbnvbs window. Howfvfr,
+     * tiis dolor is sft in tif pffr donstrudtor - sff
+     * XWindow.postInit() for dftbils. Tibt's wiy tiis mftiod from
+     * SunToolkit is not ovfrriddfn in XToolkit: it's too lbtf to
+     * disbblf bbdkground frbsing :(
      */
     /*
-    @Override
-    public void disableBackgroundErase(Canvas canvas) {
-        XCanvasPeer peer = (XCanvasPeer)canvas.getPeer();
-        if (peer == null) {
-            throw new IllegalStateException("Canvas must have a valid peer");
+    @Ovfrridf
+    publid void disbblfBbdkgroundErbsf(Cbnvbs dbnvbs) {
+        XCbnvbsPffr pffr = (XCbnvbsPffr)dbnvbs.gftPffr();
+        if (pffr == null) {
+            tirow nfw IllfgblStbtfExdfption("Cbnvbs must ibvf b vblid pffr");
         }
-        peer.disableBackgroundErase();
+        pffr.disbblfBbdkgroundErbsf();
     }
     */
 
-    // Need this for XMenuItemPeer.
-    protected static final Object targetToPeer(Object target) {
-        Object p=null;
-        if (target != null && !GraphicsEnvironment.isHeadless()) {
-            p = specialPeerMap.get(target);
+    // Nffd tiis for XMfnuItfmPffr.
+    protfdtfd stbtid finbl Objfdt tbrgftToPffr(Objfdt tbrgft) {
+        Objfdt p=null;
+        if (tbrgft != null && !GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            p = spfdiblPffrMbp.gft(tbrgft);
         }
-        if (p != null) return p;
-        else
-            return SunToolkit.targetToPeer(target);
+        if (p != null) rfturn p;
+        flsf
+            rfturn SunToolkit.tbrgftToPffr(tbrgft);
     }
 
-    // Need this for XMenuItemPeer.
-    protected static final void targetDisposedPeer(Object target, Object peer) {
-        SunToolkit.targetDisposedPeer(target, peer);
+    // Nffd tiis for XMfnuItfmPffr.
+    protfdtfd stbtid finbl void tbrgftDisposfdPffr(Objfdt tbrgft, Objfdt pffr) {
+        SunToolkit.tbrgftDisposfdPffr(tbrgft, pffr);
     }
 
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen) {
-        return new XRobotPeer(screen.getDefaultConfiguration());
+    publid RobotPffr drfbtfRobot(Robot tbrgft, GrbpiidsDfvidf sdrffn) {
+        rfturn nfw XRobotPffr(sdrffn.gftDffbultConfigurbtion());
     }
 
 
   /*
-     * On X, support for dynamic layout on resizing is governed by the
-     * window manager.  If the window manager supports it, it happens
-     * automatically.  The setter method for this property is
-     * irrelevant on X.
+     * On X, support for dynbmid lbyout on rfsizing is govfrnfd by tif
+     * window mbnbgfr.  If tif window mbnbgfr supports it, it ibppfns
+     * butombtidblly.  Tif sfttfr mftiod for tiis propfrty is
+     * irrflfvbnt on X.
      */
-    public void setDynamicLayout(boolean b) {
-        dynamicLayoutSetting = b;
+    publid void sftDynbmidLbyout(boolfbn b) {
+        dynbmidLbyoutSftting = b;
     }
 
-    protected boolean isDynamicLayoutSet() {
-        return dynamicLayoutSetting;
+    protfdtfd boolfbn isDynbmidLbyoutSft() {
+        rfturn dynbmidLbyoutSftting;
     }
 
-    /* Called from isDynamicLayoutActive() and from
-     * lazilyLoadDynamicLayoutSupportedProperty()
+    /* Cbllfd from isDynbmidLbyoutAdtivf() bnd from
+     * lbzilyLobdDynbmidLbyoutSupportfdPropfrty()
      */
-    protected boolean isDynamicLayoutSupported() {
-        return XWM.getWM().supportsDynamicLayout();
+    protfdtfd boolfbn isDynbmidLbyoutSupportfd() {
+        rfturn XWM.gftWM().supportsDynbmidLbyout();
     }
 
-    public boolean isDynamicLayoutActive() {
-        return isDynamicLayoutSupported();
+    publid boolfbn isDynbmidLbyoutAdtivf() {
+        rfturn isDynbmidLbyoutSupportfd();
     }
 
 
-    public FontPeer getFontPeer(String name, int style){
-        return new XFontPeer(name, style);
+    publid FontPffr gftFontPffr(String nbmf, int stylf){
+        rfturn nfw XFontPffr(nbmf, stylf);
     }
 
-    public DragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        return XDragSourceContextPeer.createDragSourceContextPeer(dge);
+    publid DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) tirows InvblidDnDOpfrbtionExdfption {
+        rfturn XDrbgSourdfContfxtPffr.drfbtfDrbgSourdfContfxtPffr(dgf);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends DragGestureRecognizer> T
-    createDragGestureRecognizer(Class<T> recognizerClass,
-                    DragSource ds,
-                    Component c,
-                    int srcActions,
-                    DragGestureListener dgl)
+    @SupprfssWbrnings("undifdkfd")
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+    drfbtfDrbgGfsturfRfdognizfr(Clbss<T> rfdognizfrClbss,
+                    DrbgSourdf ds,
+                    Componfnt d,
+                    int srdAdtions,
+                    DrbgGfsturfListfnfr dgl)
     {
-        if (MouseDragGestureRecognizer.class.equals(recognizerClass))
-            return (T)new XMouseDragGestureRecognizer(ds, c, srcActions, dgl);
-        else
-            return null;
+        if (MousfDrbgGfsturfRfdognizfr.dlbss.fqubls(rfdognizfrClbss))
+            rfturn (T)nfw XMousfDrbgGfsturfRfdognizfr(ds, d, srdAdtions, dgl);
+        flsf
+            rfturn null;
     }
 
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target) {
-        XCheckboxMenuItemPeer peer = new XCheckboxMenuItemPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
-        return peer;
+    publid CifdkboxMfnuItfmPffr drfbtfCifdkboxMfnuItfm(CifdkboxMfnuItfm tbrgft) {
+        XCifdkboxMfnuItfmPffr pffr = nfw XCifdkboxMfnuItfmPffr(tbrgft);
+        //vb157120: looks likf wf don't nffd to mbp mfnu itfms
+        //in nfw mfnus implfmfntbtion
+        //tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public MenuItemPeer createMenuItem(MenuItem target) {
-        XMenuItemPeer peer = new XMenuItemPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
-        return peer;
+    publid MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft) {
+        XMfnuItfmPffr pffr = nfw XMfnuItfmPffr(tbrgft);
+        //vb157120: looks likf wf don't nffd to mbp mfnu itfms
+        //in nfw mfnus implfmfntbtion
+        //tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public TextFieldPeer createTextField(TextField target) {
-        TextFieldPeer  peer = new XTextFieldPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft) {
+        TfxtFifldPffr  pffr = nfw XTfxtFifldPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public LabelPeer createLabel(Label target) {
-        LabelPeer  peer = new XLabelPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid LbbflPffr drfbtfLbbfl(Lbbfl tbrgft) {
+        LbbflPffr  pffr = nfw XLbbflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public ListPeer createList(java.awt.List target) {
-        ListPeer peer = new XListPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid ListPffr drfbtfList(jbvb.bwt.List tbrgft) {
+        ListPffr pffr = nfw XListPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public CheckboxPeer createCheckbox(Checkbox target) {
-        CheckboxPeer peer = new XCheckboxPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid CifdkboxPffr drfbtfCifdkbox(Cifdkbox tbrgft) {
+        CifdkboxPffr pffr = nfw XCifdkboxPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public ScrollbarPeer createScrollbar(Scrollbar target) {
-        XScrollbarPeer peer = new XScrollbarPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft) {
+        XSdrollbbrPffr pffr = nfw XSdrollbbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public ScrollPanePeer createScrollPane(ScrollPane target) {
-        XScrollPanePeer peer = new XScrollPanePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft) {
+        XSdrollPbnfPffr pffr = nfw XSdrollPbnfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public TextAreaPeer createTextArea(TextArea target) {
-        TextAreaPeer peer = new XTextAreaPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft) {
+        TfxtArfbPffr pffr = nfw XTfxtArfbPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public ChoicePeer createChoice(Choice target) {
-        XChoicePeer peer = new XChoicePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid CioidfPffr drfbtfCioidf(Cioidf tbrgft) {
+        XCioidfPffr pffr = nfw XCioidfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public CanvasPeer createCanvas(Canvas target) {
-        XCanvasPeer peer = (isXEmbedServerRequested() ? new XEmbedCanvasPeer(target) : new XCanvasPeer(target));
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) {
+        XCbnvbsPffr pffr = (isXEmbfdSfrvfrRfqufstfd() ? nfw XEmbfdCbnvbsPffr(tbrgft) : nfw XCbnvbsPffr(tbrgft));
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public PanelPeer createPanel(Panel target) {
-        PanelPeer peer = new XPanelPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) {
+        PbnflPffr pffr = nfw XPbnflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public WindowPeer createWindow(Window target) {
-        WindowPeer peer = new XWindowPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid WindowPffr drfbtfWindow(Window tbrgft) {
+        WindowPffr pffr = nfw XWindowPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public DialogPeer createDialog(Dialog target) {
-        DialogPeer peer = new XDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft) {
+        DiblogPffr pffr = nfw XDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    private static Boolean sunAwtDisableGtkFileDialogs = null;
+    privbtf stbtid Boolfbn sunAwtDisbblfGtkFilfDiblogs = null;
 
     /**
-     * Returns the value of "sun.awt.disableGtkFileDialogs" property. Default
-     * value is {@code false}.
+     * Rfturns tif vbluf of "sun.bwt.disbblfGtkFilfDiblogs" propfrty. Dffbult
+     * vbluf is {@dodf fblsf}.
      */
-    public synchronized static boolean getSunAwtDisableGtkFileDialogs() {
-        if (sunAwtDisableGtkFileDialogs == null) {
-            sunAwtDisableGtkFileDialogs = AccessController.doPrivileged(
-                                              new GetBooleanAction("sun.awt.disableGtkFileDialogs"));
+    publid syndironizfd stbtid boolfbn gftSunAwtDisbblfGtkFilfDiblogs() {
+        if (sunAwtDisbblfGtkFilfDiblogs == null) {
+            sunAwtDisbblfGtkFilfDiblogs = AddfssControllfr.doPrivilfgfd(
+                                              nfw GftBoolfbnAdtion("sun.bwt.disbblfGtkFilfDiblogs"));
         }
-        return sunAwtDisableGtkFileDialogs.booleanValue();
+        rfturn sunAwtDisbblfGtkFilfDiblogs.boolfbnVbluf();
     }
 
-    public FileDialogPeer createFileDialog(FileDialog target) {
-        FileDialogPeer peer = null;
-        // The current GtkFileChooser is available from GTK+ 2.4
-        if (!getSunAwtDisableGtkFileDialogs() && checkGtkVersion(2, 4, 0)) {
-            peer = new GtkFileDialogPeer(target);
-        } else {
-            peer = new XFileDialogPeer(target);
+    publid FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft) {
+        FilfDiblogPffr pffr = null;
+        // Tif durrfnt GtkFilfCioosfr is bvbilbblf from GTK+ 2.4
+        if (!gftSunAwtDisbblfGtkFilfDiblogs() && difdkGtkVfrsion(2, 4, 0)) {
+            pffr = nfw GtkFilfDiblogPffr(tbrgft);
+        } flsf {
+            pffr = nfw XFilfDiblogPffr(tbrgft);
         }
-        targetCreatedPeer(target, peer);
-        return peer;
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public MenuBarPeer createMenuBar(MenuBar target) {
-        XMenuBarPeer peer = new XMenuBarPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft) {
+        XMfnuBbrPffr pffr = nfw XMfnuBbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public MenuPeer createMenu(Menu target) {
-        XMenuPeer peer = new XMenuPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
-        return peer;
+    publid MfnuPffr drfbtfMfnu(Mfnu tbrgft) {
+        XMfnuPffr pffr = nfw XMfnuPffr(tbrgft);
+        //vb157120: looks likf wf don't nffd to mbp mfnu itfms
+        //in nfw mfnus implfmfntbtion
+        //tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public PopupMenuPeer createPopupMenu(PopupMenu target) {
-        XPopupMenuPeer peer = new XPopupMenuPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft) {
+        XPopupMfnuPffr pffr = nfw XPopupMfnuPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public synchronized MouseInfoPeer getMouseInfoPeer() {
-        if (xPeer == null) {
-            xPeer = new XMouseInfoPeer();
+    publid syndironizfd MousfInfoPffr gftMousfInfoPffr() {
+        if (xPffr == null) {
+            xPffr = nfw XMousfInfoPffr();
         }
-        return xPeer;
+        rfturn xPffr;
     }
 
-    public XEmbeddedFramePeer createEmbeddedFrame(XEmbeddedFrame target)
+    publid XEmbfddfdFrbmfPffr drfbtfEmbfddfdFrbmf(XEmbfddfdFrbmf tbrgft)
     {
-        XEmbeddedFramePeer peer = new XEmbeddedFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+        XEmbfddfdFrbmfPffr pffr = nfw XEmbfddfdFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    XEmbedChildProxyPeer createEmbedProxy(XEmbedChildProxy target) {
-        XEmbedChildProxyPeer peer = new XEmbedChildProxyPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    XEmbfdCiildProxyPffr drfbtfEmbfdProxy(XEmbfdCiildProxy tbrgft) {
+        XEmbfdCiildProxyPffr pffr = nfw XEmbfdCiildProxyPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer() throws HeadlessException {
-        return XKeyboardFocusManagerPeer.getInstance();
-    }
-
-    /**
-     * Returns a new custom cursor.
-     */
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
-      throws IndexOutOfBoundsException {
-        return new XCustomCursor(cursor, hotSpot, name);
-    }
-
-    public TrayIconPeer createTrayIcon(TrayIcon target)
-      throws HeadlessException, AWTException
-    {
-        TrayIconPeer peer = new XTrayIconPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
-    }
-
-    public SystemTrayPeer createSystemTray(SystemTray target) throws HeadlessException {
-        SystemTrayPeer peer = new XSystemTrayPeer(target);
-        return peer;
-    }
-
-    public boolean isTraySupported() {
-        XSystemTrayPeer peer = XSystemTrayPeer.getPeerInstance();
-        if (peer != null) {
-            return peer.isAvailable();
-        }
-        return false;
-    }
-
-    @Override
-    public DataTransferer getDataTransferer() {
-        return XDataTransferer.getInstanceImpl();
+    publid KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr() tirows HfbdlfssExdfption {
+        rfturn XKfybobrdFodusMbnbgfrPffr.gftInstbndf();
     }
 
     /**
-     * Returns the supported cursor size
+     * Rfturns b nfw dustom dursor.
      */
-    public Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
-        return XCustomCursor.getBestCursorSize(
-                                               java.lang.Math.max(1,preferredWidth), java.lang.Math.max(1,preferredHeight));
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+      tirows IndfxOutOfBoundsExdfption {
+        rfturn nfw XCustomCursor(dursor, iotSpot, nbmf);
     }
 
-
-    public int getMaximumCursorColors() {
-        return 2;  // Black and white.
+    publid TrbyIdonPffr drfbtfTrbyIdon(TrbyIdon tbrgft)
+      tirows HfbdlfssExdfption, AWTExdfption
+    {
+        TrbyIdonPffr pffr = nfw XTrbyIdonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    public Map<TextAttribute, ?> mapInputMethodHighlight( InputMethodHighlight highlight) {
-        return XInputMethod.mapInputMethodHighlight(highlight);
+    publid SystfmTrbyPffr drfbtfSystfmTrby(SystfmTrby tbrgft) tirows HfbdlfssExdfption {
+        SystfmTrbyPffr pffr = nfw XSystfmTrbyPffr(tbrgft);
+        rfturn pffr;
     }
-    @Override
-    public boolean getLockingKeyState(int key) {
-        if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
-               key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+
+    publid boolfbn isTrbySupportfd() {
+        XSystfmTrbyPffr pffr = XSystfmTrbyPffr.gftPffrInstbndf();
+        if (pffr != null) {
+            rfturn pffr.isAvbilbblf();
         }
-        awtLock();
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid DbtbTrbnsffrfr gftDbtbTrbnsffrfr() {
+        rfturn XDbtbTrbnsffrfr.gftInstbndfImpl();
+    }
+
+    /**
+     * Rfturns tif supportfd dursor sizf
+     */
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidti, int prfffrrfdHfigit) {
+        rfturn XCustomCursor.gftBfstCursorSizf(
+                                               jbvb.lbng.Mbti.mbx(1,prfffrrfdWidti), jbvb.lbng.Mbti.mbx(1,prfffrrfdHfigit));
+    }
+
+
+    publid int gftMbximumCursorColors() {
+        rfturn 2;  // Blbdk bnd wiitf.
+    }
+
+    publid Mbp<TfxtAttributf, ?> mbpInputMftiodHigiligit( InputMftiodHigiligit iigiligit) {
+        rfturn XInputMftiod.mbpInputMftiodHigiligit(iigiligit);
+    }
+    @Ovfrridf
+    publid boolfbn gftLodkingKfyStbtf(int kfy) {
+        if (! (kfy == KfyEvfnt.VK_CAPS_LOCK || kfy == KfyEvfnt.VK_NUM_LOCK ||
+               kfy == KfyEvfnt.VK_SCROLL_LOCK || kfy == KfyEvfnt.VK_KANA_LOCK)) {
+            tirow nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.gftLodkingKfyStbtf");
+        }
+        bwtLodk();
         try {
-            return getModifierState( key );
-        } finally {
-            awtUnlock();
+            rfturn gftModififrStbtf( kfy );
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    public  Clipboard getSystemClipboard() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
+    publid  Clipbobrd gftSystfmClipbobrd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
         }
-        synchronized (this) {
-            if (clipboard == null) {
-                clipboard = new XClipboard("System", "CLIPBOARD");
+        syndironizfd (tiis) {
+            if (dlipbobrd == null) {
+                dlipbobrd = nfw XClipbobrd("Systfm", "CLIPBOARD");
             }
         }
-        return clipboard;
+        rfturn dlipbobrd;
     }
 
-    public Clipboard getSystemSelection() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
+    publid Clipbobrd gftSystfmSflfdtion() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
         }
-        synchronized (this) {
-            if (selection == null) {
-                selection = new XClipboard("Selection", "PRIMARY");
+        syndironizfd (tiis) {
+            if (sflfdtion == null) {
+                sflfdtion = nfw XClipbobrd("Sflfdtion", "PRIMARY");
             }
         }
-        return selection;
+        rfturn sflfdtion;
     }
 
-    public void beep() {
-        awtLock();
+    publid void bffp() {
+        bwtLodk();
         try {
-            XlibWrapper.XBell(getDisplay(), 0);
-            XlibWrapper.XFlush(getDisplay());
-        } finally {
-            awtUnlock();
+            XlibWrbppfr.XBfll(gftDisplby(), 0);
+            XlibWrbppfr.XFlusi(gftDisplby());
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    public PrintJob getPrintJob(final Frame frame, final String doctitle,
-                                final Properties props) {
+    publid PrintJob gftPrintJob(finbl Frbmf frbmf, finbl String dodtitlf,
+                                finbl Propfrtifs props) {
 
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbmf == null) {
+            tirow nfw NullPointfrExdfption("frbmf must not bf null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle, props);
+        PrintJob2D printJob = nfw PrintJob2D(frbmf, dodtitlf, props);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblsf) {
             printJob = null;
         }
-        return printJob;
+        rfturn printJob;
     }
 
-    public PrintJob getPrintJob(final Frame frame, final String doctitle,
-                final JobAttributes jobAttributes,
-                final PageAttributes pageAttributes)
+    publid PrintJob gftPrintJob(finbl Frbmf frbmf, finbl String dodtitlf,
+                finbl JobAttributfs jobAttributfs,
+                finbl PbgfAttributfs pbgfAttributfs)
     {
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbmf == null) {
+            tirow nfw NullPointfrExdfption("frbmf must not bf null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle,
-                                             jobAttributes, pageAttributes);
+        PrintJob2D printJob = nfw PrintJob2D(frbmf, dodtitlf,
+                                             jobAttributfs, pbgfAttributfs);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblsf) {
             printJob = null;
         }
 
-        return printJob;
+        rfturn printJob;
     }
 
-    static void XSync() {
-        awtLock();
+    stbtid void XSynd() {
+        bwtLodk();
         try {
-            XlibWrapper.XSync(getDisplay(),0);
-        } finally {
-            awtUnlock();
+            XlibWrbppfr.XSynd(gftDisplby(),0);
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    public int getScreenResolution() {
-        long display = getDisplay();
-        awtLock();
+    publid int gftSdrffnRfsolution() {
+        long displby = gftDisplby();
+        bwtLodk();
         try {
-            return (int) ((XlibWrapper.DisplayWidth(display,
-                XlibWrapper.DefaultScreen(display)) * 25.4) /
-                    XlibWrapper.DisplayWidthMM(display,
-                XlibWrapper.DefaultScreen(display)));
-        } finally {
-            awtUnlock();
+            rfturn (int) ((XlibWrbppfr.DisplbyWidti(displby,
+                XlibWrbppfr.DffbultSdrffn(displby)) * 25.4) /
+                    XlibWrbppfr.DisplbyWidtiMM(displby,
+                XlibWrbppfr.DffbultSdrffn(displby)));
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    static native long getDefaultXColormap();
-    static native long getDefaultScreenData();
+    stbtid nbtivf long gftDffbultXColormbp();
+    stbtid nbtivf long gftDffbultSdrffnDbtb();
 
-    static ColorModel screenmodel;
+    stbtid ColorModfl sdrffnmodfl;
 
-    static ColorModel getStaticColorModel() {
-        if (screenmodel == null) {
-            screenmodel = config.getColorModel ();
+    stbtid ColorModfl gftStbtidColorModfl() {
+        if (sdrffnmodfl == null) {
+            sdrffnmodfl = donfig.gftColorModfl ();
         }
-        return screenmodel;
+        rfturn sdrffnmodfl;
     }
 
-    public ColorModel getColorModel() {
-        return getStaticColorModel();
+    publid ColorModfl gftColorModfl() {
+        rfturn gftStbtidColorModfl();
     }
 
     /**
-     * Returns a new input method adapter descriptor for native input methods.
+     * Rfturns b nfw input mftiod bdbptfr dfsdriptor for nbtivf input mftiods.
      */
-    public InputMethodDescriptor getInputMethodAdapterDescriptor() throws AWTException {
-        return new XInputMethodDescriptor();
+    publid InputMftiodDfsdriptor gftInputMftiodAdbptfrDfsdriptor() tirows AWTExdfption {
+        rfturn nfw XInputMftiodDfsdriptor();
     }
 
     /**
-     * Returns whether enableInputMethods should be set to true for peered
-     * TextComponent instances on this platform. True by default.
+     * Rfturns wiftifr fnbblfInputMftiods siould bf sft to truf for pffrfd
+     * TfxtComponfnt instbndfs on tiis plbtform. Truf by dffbult.
      */
-    @Override
-    public boolean enableInputMethodsForTextComponent() {
-        return true;
+    @Ovfrridf
+    publid boolfbn fnbblfInputMftiodsForTfxtComponfnt() {
+        rfturn truf;
     }
 
-    static int getMultiClickTime() {
-        if (awt_multiclick_time == 0) {
-            initializeMultiClickTime();
+    stbtid int gftMultiClidkTimf() {
+        if (bwt_multidlidk_timf == 0) {
+            initiblizfMultiClidkTimf();
         }
-        return awt_multiclick_time;
+        rfturn bwt_multidlidk_timf;
     }
-    static void initializeMultiClickTime() {
-        awtLock();
+    stbtid void initiblizfMultiClidkTimf() {
+        bwtLodk();
         try {
             try {
-                String multiclick_time_query = XlibWrapper.XGetDefault(XToolkit.getDisplay(), "*", "multiClickTime");
-                if (multiclick_time_query != null) {
-                    awt_multiclick_time = (int)Long.parseLong(multiclick_time_query);
-                } else {
-                    multiclick_time_query = XlibWrapper.XGetDefault(XToolkit.getDisplay(),
-                                                                    "OpenWindows", "MultiClickTimeout");
-                    if (multiclick_time_query != null) {
-                        /* Note: OpenWindows.MultiClickTimeout is in tenths of
-                           a second, so we need to multiply by 100 to convert to
-                           milliseconds */
-                        awt_multiclick_time = (int)Long.parseLong(multiclick_time_query) * 100;
-                    } else {
-                        awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+                String multidlidk_timf_qufry = XlibWrbppfr.XGftDffbult(XToolkit.gftDisplby(), "*", "multiClidkTimf");
+                if (multidlidk_timf_qufry != null) {
+                    bwt_multidlidk_timf = (int)Long.pbrsfLong(multidlidk_timf_qufry);
+                } flsf {
+                    multidlidk_timf_qufry = XlibWrbppfr.XGftDffbult(XToolkit.gftDisplby(),
+                                                                    "OpfnWindows", "MultiClidkTimfout");
+                    if (multidlidk_timf_qufry != null) {
+                        /* Notf: OpfnWindows.MultiClidkTimfout is in tfntis of
+                           b sfdond, so wf nffd to multiply by 100 to donvfrt to
+                           millisfdonds */
+                        bwt_multidlidk_timf = (int)Long.pbrsfLong(multidlidk_timf_qufry) * 100;
+                    } flsf {
+                        bwt_multidlidk_timf = AWT_MULTICLICK_DEFAULT_TIME;
                     }
                 }
-            } catch (NumberFormatException nf) {
-                awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
-            } catch (NullPointerException npe) {
-                awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+            } dbtdi (NumbfrFormbtExdfption nf) {
+                bwt_multidlidk_timf = AWT_MULTICLICK_DEFAULT_TIME;
+            } dbtdi (NullPointfrExdfption npf) {
+                bwt_multidlidk_timf = AWT_MULTICLICK_DEFAULT_TIME;
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
-        if (awt_multiclick_time == 0) {
-            awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+        if (bwt_multidlidk_timf == 0) {
+            bwt_multidlidk_timf = AWT_MULTICLICK_DEFAULT_TIME;
         }
     }
 
-    public boolean isFrameStateSupported(int state)
-      throws HeadlessException
+    publid boolfbn isFrbmfStbtfSupportfd(int stbtf)
+      tirows HfbdlfssExdfption
     {
-        if (state == Frame.NORMAL || state == Frame.ICONIFIED) {
-            return true;
-        } else {
-            return XWM.getWM().supportsExtendedState(state);
+        if (stbtf == Frbmf.NORMAL || stbtf == Frbmf.ICONIFIED) {
+            rfturn truf;
+        } flsf {
+            rfturn XWM.gftWM().supportsExtfndfdStbtf(stbtf);
         }
     }
 
-    static void dumpPeers() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Mapped windows:");
-            winMap.forEach((k, v) -> {
-                log.fine(k + "->" + v);
-                if (v instanceof XComponentPeer) {
-                    Component target = (Component)((XComponentPeer)v).getTarget();
-                    log.fine("\ttarget: " + target);
+    stbtid void dumpPffrs() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Mbppfd windows:");
+            winMbp.forEbdi((k, v) -> {
+                log.finf(k + "->" + v);
+                if (v instbndfof XComponfntPffr) {
+                    Componfnt tbrgft = (Componfnt)((XComponfntPffr)v).gftTbrgft();
+                    log.finf("\ttbrgft: " + tbrgft);
                 }
             });
 
-            SunToolkit.dumpPeers(log);
+            SunToolkit.dumpPffrs(log);
 
-            log.fine("Mapped special peers:");
-            specialPeerMap.forEach((k, v) -> {
-                log.fine(k + "->" + v);
+            log.finf("Mbppfd spfdibl pffrs:");
+            spfdiblPffrMbp.forEbdi((k, v) -> {
+                log.finf(k + "->" + v);
             });
 
-            log.fine("Mapped dispatchers:");
-            winToDispatcher.forEach((k, v) -> {
-                log.fine(k + "->" + v);
+            log.finf("Mbppfd dispbtdifrs:");
+            winToDispbtdifr.forEbdi((k, v) -> {
+                log.finf(k + "->" + v);
             });
         }
     }
 
-    /* Protected with awt_lock. */
-    private static boolean initialized;
-    private static boolean timeStampUpdated;
-    private static long timeStamp;
+    /* Protfdtfd witi bwt_lodk. */
+    privbtf stbtid boolfbn initiblizfd;
+    privbtf stbtid boolfbn timfStbmpUpdbtfd;
+    privbtf stbtid long timfStbmp;
 
-    private static final XEventDispatcher timeFetcher =
-    new XEventDispatcher() {
-            public void dispatchEvent(XEvent ev) {
-                switch (ev.get_type()) {
-                  case XConstants.PropertyNotify:
-                      XPropertyEvent xpe = ev.get_xproperty();
+    privbtf stbtid finbl XEvfntDispbtdifr timfFftdifr =
+    nfw XEvfntDispbtdifr() {
+            publid void dispbtdiEvfnt(XEvfnt fv) {
+                switdi (fv.gft_typf()) {
+                  dbsf XConstbnts.PropfrtyNotify:
+                      XPropfrtyEvfnt xpf = fv.gft_xpropfrty();
 
-                      awtLock();
+                      bwtLodk();
                       try {
-                          timeStamp = xpe.get_time();
-                          timeStampUpdated = true;
-                          awtLockNotifyAll();
-                      } finally {
-                          awtUnlock();
+                          timfStbmp = xpf.gft_timf();
+                          timfStbmpUpdbtfd = truf;
+                          bwtLodkNotifyAll();
+                      } finblly {
+                          bwtUnlodk();
                       }
 
-                      break;
+                      brfbk;
                 }
             }
         };
 
-    private static XAtom _XA_JAVA_TIME_PROPERTY_ATOM;
+    privbtf stbtid XAtom _XA_JAVA_TIME_PROPERTY_ATOM;
 
-    static long getCurrentServerTime() {
-        awtLock();
+    stbtid long gftCurrfntSfrvfrTimf() {
+        bwtLodk();
         try {
             try {
-                if (!initialized) {
-                    XToolkit.addEventDispatcher(XBaseWindow.getXAWTRootWindow().getWindow(),
-                                                timeFetcher);
-                    _XA_JAVA_TIME_PROPERTY_ATOM = XAtom.get("_SUNW_JAVA_AWT_TIME");
-                    initialized = true;
+                if (!initiblizfd) {
+                    XToolkit.bddEvfntDispbtdifr(XBbsfWindow.gftXAWTRootWindow().gftWindow(),
+                                                timfFftdifr);
+                    _XA_JAVA_TIME_PROPERTY_ATOM = XAtom.gft("_SUNW_JAVA_AWT_TIME");
+                    initiblizfd = truf;
                 }
-                timeStampUpdated = false;
-                XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
-                                            XBaseWindow.getXAWTRootWindow().getWindow(),
-                                            _XA_JAVA_TIME_PROPERTY_ATOM.getAtom(), XAtom.XA_ATOM, 32,
-                                            XConstants.PropModeAppend,
+                timfStbmpUpdbtfd = fblsf;
+                XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(),
+                                            XBbsfWindow.gftXAWTRootWindow().gftWindow(),
+                                            _XA_JAVA_TIME_PROPERTY_ATOM.gftAtom(), XAtom.XA_ATOM, 32,
+                                            XConstbnts.PropModfAppfnd,
                                             0, 0);
-                XlibWrapper.XFlush(XToolkit.getDisplay());
+                XlibWrbppfr.XFlusi(XToolkit.gftDisplby());
 
-                if (isToolkitThread()) {
-                    XEvent event = new XEvent();
+                if (isToolkitTirfbd()) {
+                    XEvfnt fvfnt = nfw XEvfnt();
                     try {
-                        XlibWrapper.XWindowEvent(XToolkit.getDisplay(),
-                                                 XBaseWindow.getXAWTRootWindow().getWindow(),
-                                                 XConstants.PropertyChangeMask,
-                                                 event.pData);
-                        timeFetcher.dispatchEvent(event);
+                        XlibWrbppfr.XWindowEvfnt(XToolkit.gftDisplby(),
+                                                 XBbsfWindow.gftXAWTRootWindow().gftWindow(),
+                                                 XConstbnts.PropfrtyCibngfMbsk,
+                                                 fvfnt.pDbtb);
+                        timfFftdifr.dispbtdiEvfnt(fvfnt);
                     }
-                    finally {
-                        event.dispose();
-                    }
-                }
-                else {
-                    while (!timeStampUpdated) {
-                        awtLockWait();
+                    finblly {
+                        fvfnt.disposf();
                     }
                 }
-            } catch (InterruptedException ie) {
-            // Note: the returned timeStamp can be incorrect in this case.
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Catched exception, timeStamp may not be correct (ie = " + ie + ")");
+                flsf {
+                    wiilf (!timfStbmpUpdbtfd) {
+                        bwtLodkWbit();
+                    }
+                }
+            } dbtdi (IntfrruptfdExdfption if) {
+            // Notf: tif rfturnfd timfStbmp dbn bf indorrfdt in tiis dbsf.
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Cbtdifd fxdfption, timfStbmp mby not bf dorrfdt (if = " + if + ")");
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
-        return timeStamp;
+        rfturn timfStbmp;
     }
-    protected void initializeDesktopProperties() {
-        desktopProperties.put("DnD.Autoscroll.initialDelay",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.Autoscroll.interval",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.Autoscroll.cursorHysteresis",
-                              Integer.valueOf(5));
-        desktopProperties.put("Shell.shellFolderManager",
-                              "sun.awt.shell.ShellFolderManager");
-        // Don't want to call getMultiClickTime() if we are headless
-        if (!GraphicsEnvironment.isHeadless()) {
-            desktopProperties.put("awt.multiClickInterval",
-                                  Integer.valueOf(getMultiClickTime()));
-            desktopProperties.put("awt.mouse.numButtons",
-                                  Integer.valueOf(getNumberOfButtons()));
+    protfdtfd void initiblizfDfsktopPropfrtifs() {
+        dfsktopPropfrtifs.put("DnD.Autosdroll.initiblDflby",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.Autosdroll.intfrvbl",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.Autosdroll.dursorHystfrfsis",
+                              Intfgfr.vblufOf(5));
+        dfsktopPropfrtifs.put("Sifll.sifllFoldfrMbnbgfr",
+                              "sun.bwt.sifll.SifllFoldfrMbnbgfr");
+        // Don't wbnt to dbll gftMultiClidkTimf() if wf brf ifbdlfss
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            dfsktopPropfrtifs.put("bwt.multiClidkIntfrvbl",
+                                  Intfgfr.vblufOf(gftMultiClidkTimf()));
+            dfsktopPropfrtifs.put("bwt.mousf.numButtons",
+                                  Intfgfr.vblufOf(gftNumbfrOfButtons()));
         }
     }
 
     /**
-     * This method runs through the XPointer and XExtendedPointer array.
-     * XExtendedPointer has priority because on some systems XPointer
-     * (which is assigned to the virtual pointer) reports the maximum
-     * capabilities of the mouse pointer (i.e. 32 physical buttons).
+     * Tiis mftiod runs tirougi tif XPointfr bnd XExtfndfdPointfr brrby.
+     * XExtfndfdPointfr ibs priority bfdbusf on somf systfms XPointfr
+     * (wiidi is bssignfd to tif virtubl pointfr) rfports tif mbximum
+     * dbpbbilitifs of tif mousf pointfr (i.f. 32 piysidbl buttons).
      */
-    private native int getNumberOfButtonsImpl();
+    privbtf nbtivf int gftNumbfrOfButtonsImpl();
 
-    @Override
-    public int getNumberOfButtons(){
-        awtLock();
+    @Ovfrridf
+    publid int gftNumbfrOfButtons(){
+        bwtLodk();
         try {
-            if (numberOfButtons == 0) {
-                numberOfButtons = getNumberOfButtonsImpl();
-                numberOfButtons = (numberOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numberOfButtons;
-                //4th and 5th buttons are for wheel and shouldn't be reported as buttons.
-                //If we have more than 3 physical buttons and a wheel, we report N-2 buttons.
-                //If we have 3 physical buttons and a wheel, we report 3 buttons.
-                //If we have 1,2,3 physical buttons, we report it as is i.e. 1,2 or 3 respectively.
-                if (numberOfButtons >=5) {
-                    numberOfButtons -= 2;
-                } else if (numberOfButtons == 4 || numberOfButtons ==5){
-                    numberOfButtons = 3;
+            if (numbfrOfButtons == 0) {
+                numbfrOfButtons = gftNumbfrOfButtonsImpl();
+                numbfrOfButtons = (numbfrOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numbfrOfButtons;
+                //4ti bnd 5ti buttons brf for wiffl bnd siouldn't bf rfportfd bs buttons.
+                //If wf ibvf morf tibn 3 piysidbl buttons bnd b wiffl, wf rfport N-2 buttons.
+                //If wf ibvf 3 piysidbl buttons bnd b wiffl, wf rfport 3 buttons.
+                //If wf ibvf 1,2,3 piysidbl buttons, wf rfport it bs is i.f. 1,2 or 3 rfspfdtivfly.
+                if (numbfrOfButtons >=5) {
+                    numbfrOfButtons -= 2;
+                } flsf if (numbfrOfButtons == 4 || numbfrOfButtons ==5){
+                    numbfrOfButtons = 3;
                 }
             }
-            //Assume don't have to re-query the number again and again.
-            return numberOfButtons;
-        } finally {
-            awtUnlock();
+            //Assumf don't ibvf to rf-qufry tif numbfr bgbin bnd bgbin.
+            rfturn numbfrOfButtons;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    static int getNumberOfButtonsForMask() {
-        return Math.min(XConstants.MAX_BUTTONS, ((SunToolkit) (Toolkit.getDefaultToolkit())).getNumberOfButtons());
+    stbtid int gftNumbfrOfButtonsForMbsk() {
+        rfturn Mbti.min(XConstbnts.MAX_BUTTONS, ((SunToolkit) (Toolkit.gftDffbultToolkit())).gftNumbfrOfButtons());
     }
 
-    private final static String prefix  = "DnD.Cursor.";
-    private final static String postfix = ".32x32";
-    private static final String dndPrefix  = "DnD.";
+    privbtf finbl stbtid String prffix  = "DnD.Cursor.";
+    privbtf finbl stbtid String postfix = ".32x32";
+    privbtf stbtid finbl String dndPrffix  = "DnD.";
 
-    protected Object lazilyLoadDesktopProperty(String name) {
-        if (name.startsWith(prefix)) {
-            String cursorName = name.substring(prefix.length(), name.length()) + postfix;
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        if (nbmf.stbrtsWiti(prffix)) {
+            String dursorNbmf = nbmf.substring(prffix.lfngti(), nbmf.lfngti()) + postfix;
 
             try {
-                return Cursor.getSystemCustomCursor(cursorName);
-            } catch (AWTException awte) {
-                throw new RuntimeException("cannot load system cursor: " + cursorName, awte);
+                rfturn Cursor.gftSystfmCustomCursor(dursorNbmf);
+            } dbtdi (AWTExdfption bwtf) {
+                tirow nfw RuntimfExdfption("dbnnot lobd systfm dursor: " + dursorNbmf, bwtf);
             }
         }
 
-        if (name.equals("awt.dynamicLayoutSupported")) {
-            return  Boolean.valueOf(isDynamicLayoutSupported());
+        if (nbmf.fqubls("bwt.dynbmidLbyoutSupportfd")) {
+            rfturn  Boolfbn.vblufOf(isDynbmidLbyoutSupportfd());
         }
 
-        if (initXSettingsIfNeeded(name)) {
-            return desktopProperties.get(name);
+        if (initXSfttingsIfNffdfd(nbmf)) {
+            rfturn dfsktopPropfrtifs.gft(nbmf);
         }
 
-        return super.lazilyLoadDesktopProperty(name);
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
     }
 
-    public synchronized void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        if (name == null) {
-            // See JavaDoc for the Toolkit.addPropertyChangeListener() method
-            return;
+    publid syndironizfd void bddPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl) {
+        if (nbmf == null) {
+            // Sff JbvbDod for tif Toolkit.bddPropfrtyCibngfListfnfr() mftiod
+            rfturn;
         }
-        initXSettingsIfNeeded(name);
-        super.addPropertyChangeListener(name, pcl);
+        initXSfttingsIfNffdfd(nbmf);
+        supfr.bddPropfrtyCibngfListfnfr(nbmf, pdl);
     }
 
     /**
-     * Initializes XAWTXSettings if a property for a given property name is provided by
-     * XSettings and they are not initialized yet.
+     * Initiblizfs XAWTXSfttings if b propfrty for b givfn propfrty nbmf is providfd by
+     * XSfttings bnd tify brf not initiblizfd yft.
      *
-     * @return true if the method has initialized XAWTXSettings.
+     * @rfturn truf if tif mftiod ibs initiblizfd XAWTXSfttings.
      */
-    private boolean initXSettingsIfNeeded(final String propName) {
-        if (!loadedXSettings &&
-            (propName.startsWith("gnome.") ||
-             propName.equals(SunToolkit.DESKTOPFONTHINTS) ||
-             propName.startsWith(dndPrefix)))
+    privbtf boolfbn initXSfttingsIfNffdfd(finbl String propNbmf) {
+        if (!lobdfdXSfttings &&
+            (propNbmf.stbrtsWiti("gnomf.") ||
+             propNbmf.fqubls(SunToolkit.DESKTOPFONTHINTS) ||
+             propNbmf.stbrtsWiti(dndPrffix)))
         {
-            loadedXSettings = true;
-            if (!GraphicsEnvironment.isHeadless()) {
-                loadXSettings();
-                /* If no desktop font hint could be retrieved, check for
-                 * KDE running KWin and retrieve settings from fontconfig.
-                 * If that isn't found let SunToolkit will see if there's a
-                 * system property set by a user.
+            lobdfdXSfttings = truf;
+            if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+                lobdXSfttings();
+                /* If no dfsktop font iint dould bf rftrifvfd, difdk for
+                 * KDE running KWin bnd rftrifvf sfttings from fontdonfig.
+                 * If tibt isn't found lft SunToolkit will sff if tifrf's b
+                 * systfm propfrty sft by b usfr.
                  */
-                if (desktopProperties.get(SunToolkit.DESKTOPFONTHINTS) == null) {
+                if (dfsktopPropfrtifs.gft(SunToolkit.DESKTOPFONTHINTS) == null) {
                     if (XWM.isKDE2()) {
-                        Object hint = FontConfigManager.getFontConfigAAHint();
-                        if (hint != null) {
-                            /* set the fontconfig/KDE property so that
-                             * getDesktopHints() below will see it
-                             * and set the public property.
+                        Objfdt iint = FontConfigMbnbgfr.gftFontConfigAAHint();
+                        if (iint != null) {
+                            /* sft tif fontdonfig/KDE propfrty so tibt
+                             * gftDfsktopHints() bflow will sff it
+                             * bnd sft tif publid propfrty.
                              */
-                            desktopProperties.put(UNIXToolkit.FONTCONFIGAAHINT,
-                                                  hint);
+                            dfsktopPropfrtifs.put(UNIXToolkit.FONTCONFIGAAHINT,
+                                                  iint);
                         }
                     }
-                    desktopProperties.put(SunToolkit.DESKTOPFONTHINTS,
-                                          SunToolkit.getDesktopFontHints());
+                    dfsktopPropfrtifs.put(SunToolkit.DESKTOPFONTHINTS,
+                                          SunToolkit.gftDfsktopFontHints());
                 }
 
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private void loadXSettings() {
-       xs = new XAWTXSettings();
+    privbtf void lobdXSfttings() {
+       xs = nfw XAWTXSfttings();
     }
 
     /**
-     * Callback from the native side indicating some, or all, of the
-     * desktop properties have changed and need to be reloaded.
-     * <code>data</code> is the byte array directly from the x server and
-     * may be in little endian format.
+     * Cbllbbdk from tif nbtivf sidf indidbting somf, or bll, of tif
+     * dfsktop propfrtifs ibvf dibngfd bnd nffd to bf rflobdfd.
+     * <dodf>dbtb</dodf> is tif bytf brrby dirfdtly from tif x sfrvfr bnd
+     * mby bf in littlf fndibn formbt.
      * <p>
-     * NB: This could be called from any thread if triggered by
-     * <code>loadXSettings</code>.  It is called from the System EDT
-     * if triggered by an XSETTINGS change.
+     * NB: Tiis dould bf dbllfd from bny tirfbd if triggfrfd by
+     * <dodf>lobdXSfttings</dodf>.  It is dbllfd from tif Systfm EDT
+     * if triggfrfd by bn XSETTINGS dibngf.
      */
-    void parseXSettings(int screen_XXX_ignored,Map<String, Object> updatedSettings) {
+    void pbrsfXSfttings(int sdrffn_XXX_ignorfd,Mbp<String, Objfdt> updbtfdSfttings) {
 
-        if (updatedSettings == null || updatedSettings.isEmpty()) {
-            return;
+        if (updbtfdSfttings == null || updbtfdSfttings.isEmpty()) {
+            rfturn;
         }
 
-        Iterator<Map.Entry<String, Object>> i = updatedSettings.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry<String, Object> e = i.next();
-            String name = e.getKey();
+        Itfrbtor<Mbp.Entry<String, Objfdt>> i = updbtfdSfttings.fntrySft().itfrbtor();
+        wiilf (i.ibsNfxt()) {
+            Mbp.Entry<String, Objfdt> f = i.nfxt();
+            String nbmf = f.gftKfy();
 
-            name = "gnome." + name;
-            setDesktopProperty(name, e.getValue());
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("name = " + name + " value = " + e.getValue());
+            nbmf = "gnomf." + nbmf;
+            sftDfsktopPropfrty(nbmf, f.gftVbluf());
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("nbmf = " + nbmf + " vbluf = " + f.gftVbluf());
             }
 
-            // XXX: we probably want to do something smarter.  In
-            // particular, "Net" properties are of interest to the
-            // "core" AWT itself.  E.g.
+            // XXX: wf probbbly wbnt to do somftiing smbrtfr.  In
+            // pbrtidulbr, "Nft" propfrtifs brf of intfrfst to tif
+            // "dorf" AWT itsflf.  E.g.
             //
-            // Net/DndDragThreshold -> ???
-            // Net/DoubleClickTime  -> awt.multiClickInterval
+            // Nft/DndDrbgTirfsiold -> ???
+            // Nft/DoublfClidkTimf  -> bwt.multiClidkIntfrvbl
         }
 
-        setDesktopProperty(SunToolkit.DESKTOPFONTHINTS,
-                           SunToolkit.getDesktopFontHints());
+        sftDfsktopPropfrty(SunToolkit.DESKTOPFONTHINTS,
+                           SunToolkit.gftDfsktopFontHints());
 
-        Integer dragThreshold = null;
-        synchronized (this) {
-            dragThreshold = (Integer)desktopProperties.get("gnome.Net/DndDragThreshold");
+        Intfgfr drbgTirfsiold = null;
+        syndironizfd (tiis) {
+            drbgTirfsiold = (Intfgfr)dfsktopPropfrtifs.gft("gnomf.Nft/DndDrbgTirfsiold");
         }
-        if (dragThreshold != null) {
-            setDesktopProperty("DnD.gestureMotionThreshold", dragThreshold);
+        if (drbgTirfsiold != null) {
+            sftDfsktopPropfrty("DnD.gfsturfMotionTirfsiold", drbgTirfsiold);
         }
 
     }
 
 
 
-    static int altMask;
-    static int metaMask;
-    static int numLockMask;
-    static int modeSwitchMask;
-    static int modLockIsShiftLock;
+    stbtid int bltMbsk;
+    stbtid int mftbMbsk;
+    stbtid int numLodkMbsk;
+    stbtid int modfSwitdiMbsk;
+    stbtid int modLodkIsSiiftLodk;
 
-    /* Like XKeysymToKeycode, but ensures that keysym is the primary
-    * symbol on the keycode returned.  Returns zero otherwise.
+    /* Likf XKfysymToKfydodf, but fnsurfs tibt kfysym is tif primbry
+    * symbol on tif kfydodf rfturnfd.  Rfturns zfro otifrwisf.
     */
-    static int keysymToPrimaryKeycode(long sym) {
-        awtLock();
+    stbtid int kfysymToPrimbryKfydodf(long sym) {
+        bwtLodk();
         try {
-            int code = XlibWrapper.XKeysymToKeycode(getDisplay(), sym);
-            if (code == 0) {
-                return 0;
+            int dodf = XlibWrbppfr.XKfysymToKfydodf(gftDisplby(), sym);
+            if (dodf == 0) {
+                rfturn 0;
             }
-            long primary = XlibWrapper.XKeycodeToKeysym(getDisplay(), code, 0);
-            if (sym != primary) {
-                return 0;
+            long primbry = XlibWrbppfr.XKfydodfToKfysym(gftDisplby(), dodf, 0);
+            if (sym != primbry) {
+                rfturn 0;
             }
-            return code;
-        } finally {
-            awtUnlock();
+            rfturn dodf;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    static boolean getModifierState( int jkc ) {
-        int iKeyMask = 0;
-        long ks = XKeysym.javaKeycode2Keysym( jkc );
-        int  kc = XlibWrapper.XKeysymToKeycode(getDisplay(), ks);
-        if (kc == 0) {
-            return false;
+    stbtid boolfbn gftModififrStbtf( int jkd ) {
+        int iKfyMbsk = 0;
+        long ks = XKfysym.jbvbKfydodf2Kfysym( jkd );
+        int  kd = XlibWrbppfr.XKfysymToKfydodf(gftDisplby(), ks);
+        if (kd == 0) {
+            rfturn fblsf;
         }
-        awtLock();
+        bwtLodk();
         try {
-            XModifierKeymap modmap = new XModifierKeymap(
-                 XlibWrapper.XGetModifierMapping(getDisplay()));
+            XModififrKfymbp modmbp = nfw XModififrKfymbp(
+                 XlibWrbppfr.XGftModififrMbpping(gftDisplby()));
 
-            int nkeys = modmap.get_max_keypermod();
+            int nkfys = modmbp.gft_mbx_kfypfrmod();
 
-            long map_ptr = modmap.get_modifiermap();
+            long mbp_ptr = modmbp.gft_modififrmbp();
             for( int k = 0; k < 8; k++ ) {
-                for (int i = 0; i < nkeys; ++i) {
-                    int keycode = Native.getUByte(map_ptr, k * nkeys + i);
-                    if (keycode == 0) {
-                        continue; // ignore zero keycode
+                for (int i = 0; i < nkfys; ++i) {
+                    int kfydodf = Nbtivf.gftUBytf(mbp_ptr, k * nkfys + i);
+                    if (kfydodf == 0) {
+                        dontinuf; // ignorf zfro kfydodf
                     }
-                    if (kc == keycode) {
-                        iKeyMask = 1 << k;
-                        break;
+                    if (kd == kfydodf) {
+                        iKfyMbsk = 1 << k;
+                        brfbk;
                     }
                 }
-                if( iKeyMask != 0 ) {
-                    break;
+                if( iKfyMbsk != 0 ) {
+                    brfbk;
                 }
             }
-            XlibWrapper.XFreeModifiermap(modmap.pData);
-            if (iKeyMask == 0 ) {
-                return false;
+            XlibWrbppfr.XFrffModififrmbp(modmbp.pDbtb);
+            if (iKfyMbsk == 0 ) {
+                rfturn fblsf;
             }
-            // Now we know to which modifier is assigned the keycode
-            // correspondent to the keysym correspondent to the java
-            // keycode. We are going to check a state of this modifier.
-            // If a modifier is a weird one, we cannot help it.
+            // Now wf know to wiidi modififr is bssignfd tif kfydodf
+            // dorrfspondfnt to tif kfysym dorrfspondfnt to tif jbvb
+            // kfydodf. Wf brf going to difdk b stbtf of tiis modififr.
+            // If b modififr is b wfird onf, wf dbnnot iflp it.
             long window = 0;
             try{
-                // get any application window
-                window = winMap.firstKey().longValue();
-            }catch(NoSuchElementException nex) {
-                // get root window
-                window = getDefaultRootWindow();
+                // gft bny bpplidbtion window
+                window = winMbp.firstKfy().longVbluf();
+            }dbtdi(NoSudiElfmfntExdfption nfx) {
+                // gft root window
+                window = gftDffbultRootWindow();
             }
-            boolean res = XlibWrapper.XQueryPointer(getDisplay(), window,
-                                            XlibWrapper.larg1, //root
-                                            XlibWrapper.larg2, //child
-                                            XlibWrapper.larg3, //root_x
-                                            XlibWrapper.larg4, //root_y
-                                            XlibWrapper.larg5, //child_x
-                                            XlibWrapper.larg6, //child_y
-                                            XlibWrapper.larg7);//mask
-            int mask = Native.getInt(XlibWrapper.larg7);
-            return ((mask & iKeyMask) != 0);
-        } finally {
-            awtUnlock();
+            boolfbn rfs = XlibWrbppfr.XQufryPointfr(gftDisplby(), window,
+                                            XlibWrbppfr.lbrg1, //root
+                                            XlibWrbppfr.lbrg2, //diild
+                                            XlibWrbppfr.lbrg3, //root_x
+                                            XlibWrbppfr.lbrg4, //root_y
+                                            XlibWrbppfr.lbrg5, //diild_x
+                                            XlibWrbppfr.lbrg6, //diild_y
+                                            XlibWrbppfr.lbrg7);//mbsk
+            int mbsk = Nbtivf.gftInt(XlibWrbppfr.lbrg7);
+            rfturn ((mbsk & iKfyMbsk) != 0);
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    /* Assign meaning - alt, meta, etc. - to X modifiers mod1 ... mod5.
-     * Only consider primary symbols on keycodes attached to modifiers.
+    /* Assign mfbning - blt, mftb, ftd. - to X modififrs mod1 ... mod5.
+     * Only donsidfr primbry symbols on kfydodfs bttbdifd to modififrs.
      */
-    static void setupModifierMap() {
-        final int metaL = keysymToPrimaryKeycode(XKeySymConstants.XK_Meta_L);
-        final int metaR = keysymToPrimaryKeycode(XKeySymConstants.XK_Meta_R);
-        final int altL = keysymToPrimaryKeycode(XKeySymConstants.XK_Alt_L);
-        final int altR = keysymToPrimaryKeycode(XKeySymConstants.XK_Alt_R);
-        final int numLock = keysymToPrimaryKeycode(XKeySymConstants.XK_Num_Lock);
-        final int modeSwitch = keysymToPrimaryKeycode(XKeySymConstants.XK_Mode_switch);
-        final int shiftLock = keysymToPrimaryKeycode(XKeySymConstants.XK_Shift_Lock);
-        final int capsLock  = keysymToPrimaryKeycode(XKeySymConstants.XK_Caps_Lock);
+    stbtid void sftupModififrMbp() {
+        finbl int mftbL = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Mftb_L);
+        finbl int mftbR = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Mftb_R);
+        finbl int bltL = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Alt_L);
+        finbl int bltR = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Alt_R);
+        finbl int numLodk = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Num_Lodk);
+        finbl int modfSwitdi = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Modf_switdi);
+        finbl int siiftLodk = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Siift_Lodk);
+        finbl int dbpsLodk  = kfysymToPrimbryKfydodf(XKfySymConstbnts.XK_Cbps_Lodk);
 
-        final int modmask[] = { XConstants.ShiftMask, XConstants.LockMask, XConstants.ControlMask, XConstants.Mod1Mask,
-            XConstants.Mod2Mask, XConstants.Mod3Mask, XConstants.Mod4Mask, XConstants.Mod5Mask };
+        finbl int modmbsk[] = { XConstbnts.SiiftMbsk, XConstbnts.LodkMbsk, XConstbnts.ControlMbsk, XConstbnts.Mod1Mbsk,
+            XConstbnts.Mod2Mbsk, XConstbnts.Mod3Mbsk, XConstbnts.Mod4Mbsk, XConstbnts.Mod5Mbsk };
 
-        log.fine("In setupModifierMap");
-        awtLock();
+        log.finf("In sftupModififrMbp");
+        bwtLodk();
         try {
-            XModifierKeymap modmap = new XModifierKeymap(
-                 XlibWrapper.XGetModifierMapping(getDisplay()));
+            XModififrKfymbp modmbp = nfw XModififrKfymbp(
+                 XlibWrbppfr.XGftModififrMbpping(gftDisplby()));
 
-            int nkeys = modmap.get_max_keypermod();
+            int nkfys = modmbp.gft_mbx_kfypfrmod();
 
-            long map_ptr = modmap.get_modifiermap();
+            long mbp_ptr = modmbp.gft_modififrmbp();
 
-            for (int modn = XConstants.Mod1MapIndex;
-                 modn <= XConstants.Mod5MapIndex;
+            for (int modn = XConstbnts.Mod1MbpIndfx;
+                 modn <= XConstbnts.Mod5MbpIndfx;
                  ++modn)
             {
-                for (int i = 0; i < nkeys; ++i) {
-                    /* for each keycode attached to this modifier */
-                    int keycode = Native.getUByte(map_ptr, modn * nkeys + i);
+                for (int i = 0; i < nkfys; ++i) {
+                    /* for fbdi kfydodf bttbdifd to tiis modififr */
+                    int kfydodf = Nbtivf.gftUBytf(mbp_ptr, modn * nkfys + i);
 
-                    if (keycode == 0) {
-                        break;
+                    if (kfydodf == 0) {
+                        brfbk;
                     }
-                    if (metaMask == 0 &&
-                        (keycode == metaL || keycode == metaR))
+                    if (mftbMbsk == 0 &&
+                        (kfydodf == mftbL || kfydodf == mftbR))
                     {
-                        metaMask = modmask[modn];
-                        break;
+                        mftbMbsk = modmbsk[modn];
+                        brfbk;
                     }
-                    if (altMask == 0 && (keycode == altL || keycode == altR)) {
-                        altMask = modmask[modn];
-                        break;
+                    if (bltMbsk == 0 && (kfydodf == bltL || kfydodf == bltR)) {
+                        bltMbsk = modmbsk[modn];
+                        brfbk;
                     }
-                    if (numLockMask == 0 && keycode == numLock) {
-                        numLockMask = modmask[modn];
-                        break;
+                    if (numLodkMbsk == 0 && kfydodf == numLodk) {
+                        numLodkMbsk = modmbsk[modn];
+                        brfbk;
                     }
-                    if (modeSwitchMask == 0 && keycode == modeSwitch) {
-                        modeSwitchMask = modmask[modn];
-                        break;
+                    if (modfSwitdiMbsk == 0 && kfydodf == modfSwitdi) {
+                        modfSwitdiMbsk = modmbsk[modn];
+                        brfbk;
                     }
-                    continue;
+                    dontinuf;
                 }
             }
-            modLockIsShiftLock = 0;
-            for (int j = 0; j < nkeys; ++j) {
-                int keycode = Native.getUByte(map_ptr, XConstants.LockMapIndex * nkeys + j);
-                if (keycode == 0) {
-                    break;
+            modLodkIsSiiftLodk = 0;
+            for (int j = 0; j < nkfys; ++j) {
+                int kfydodf = Nbtivf.gftUBytf(mbp_ptr, XConstbnts.LodkMbpIndfx * nkfys + j);
+                if (kfydodf == 0) {
+                    brfbk;
                 }
-                if (keycode == shiftLock) {
-                    modLockIsShiftLock = 1;
-                    break;
+                if (kfydodf == siiftLodk) {
+                    modLodkIsSiiftLodk = 1;
+                    brfbk;
                 }
-                if (keycode == capsLock) {
-                    break;
+                if (kfydodf == dbpsLodk) {
+                    brfbk;
                 }
             }
-            XlibWrapper.XFreeModifiermap(modmap.pData);
-        } finally {
-            awtUnlock();
+            XlibWrbppfr.XFrffModififrmbp(modmbp.pDbtb);
+        } finblly {
+            bwtUnlodk();
         }
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("metaMask = " + metaMask);
-            log.fine("altMask = " + altMask);
-            log.fine("numLockMask = " + numLockMask);
-            log.fine("modeSwitchMask = " + modeSwitchMask);
-            log.fine("modLockIsShiftLock = " + modLockIsShiftLock);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("mftbMbsk = " + mftbMbsk);
+            log.finf("bltMbsk = " + bltMbsk);
+            log.finf("numLodkMbsk = " + numLodkMbsk);
+            log.finf("modfSwitdiMbsk = " + modfSwitdiMbsk);
+            log.finf("modLodkIsSiiftLodk = " + modLodkIsSiiftLodk);
         }
     }
 
 
-    private static SortedMap<Long, java.util.List<Runnable>> timeoutTasks;
+    privbtf stbtid SortfdMbp<Long, jbvb.util.List<Runnbblf>> timfoutTbsks;
 
     /**
-     * Removed the task from the list of waiting-to-be called tasks.
-     * If the task has been scheduled several times removes only first one.
+     * Rfmovfd tif tbsk from tif list of wbiting-to-bf dbllfd tbsks.
+     * If tif tbsk ibs bffn sdifdulfd sfvfrbl timfs rfmovfs only first onf.
      */
-    static void remove(Runnable task) {
-        if (task == null) {
-            throw new NullPointerException("task is null");
+    stbtid void rfmovf(Runnbblf tbsk) {
+        if (tbsk == null) {
+            tirow nfw NullPointfrExdfption("tbsk is null");
         }
-        awtLock();
+        bwtLodk();
         try {
-            if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                timeoutTaskLog.finer("Removing task " + task);
+            if (timfoutTbskLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                timfoutTbskLog.finfr("Rfmoving tbsk " + tbsk);
             }
-            if (timeoutTasks == null) {
-                if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    timeoutTaskLog.finer("Task is not scheduled");
+            if (timfoutTbsks == null) {
+                if (timfoutTbskLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    timfoutTbskLog.finfr("Tbsk is not sdifdulfd");
                 }
-                return;
+                rfturn;
             }
-            Collection<java.util.List<Runnable>> values = timeoutTasks.values();
-            Iterator<java.util.List<Runnable>> iter = values.iterator();
-            while (iter.hasNext()) {
-                java.util.List<Runnable> list = iter.next();
-                boolean removed = false;
-                if (list.contains(task)) {
-                    list.remove(task);
+            Collfdtion<jbvb.util.List<Runnbblf>> vblufs = timfoutTbsks.vblufs();
+            Itfrbtor<jbvb.util.List<Runnbblf>> itfr = vblufs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                jbvb.util.List<Runnbblf> list = itfr.nfxt();
+                boolfbn rfmovfd = fblsf;
+                if (list.dontbins(tbsk)) {
+                    list.rfmovf(tbsk);
                     if (list.isEmpty()) {
-                        iter.remove();
+                        itfr.rfmovf();
                     }
-                    break;
+                    brfbk;
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    static native void wakeup_poll();
+    stbtid nbtivf void wbkfup_poll();
 
     /**
-     * Registers a Runnable which <code>run()</code> method will be called
-     * once on the toolkit thread when a specified interval of time elapses.
+     * Rfgistfrs b Runnbblf wiidi <dodf>run()</dodf> mftiod will bf dbllfd
+     * ondf on tif toolkit tirfbd wifn b spfdififd intfrvbl of timf flbpsfs.
      *
-     * @param task a Runnable which <code>run</code> method will be called
-     *        on the toolkit thread when <code>interval</code> milliseconds
-     *        elapse
-     * @param interval an interal in milliseconds
+     * @pbrbm tbsk b Runnbblf wiidi <dodf>run</dodf> mftiod will bf dbllfd
+     *        on tif toolkit tirfbd wifn <dodf>intfrvbl</dodf> millisfdonds
+     *        flbpsf
+     * @pbrbm intfrvbl bn intfrbl in millisfdonds
      *
-     * @throws NullPointerException if <code>task</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>interval</code> is not positive
+     * @tirows NullPointfrExdfption if <dodf>tbsk</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>intfrvbl</dodf> is not positivf
      */
-    static void schedule(Runnable task, long interval) {
-        if (task == null) {
-            throw new NullPointerException("task is null");
+    stbtid void sdifdulf(Runnbblf tbsk, long intfrvbl) {
+        if (tbsk == null) {
+            tirow nfw NullPointfrExdfption("tbsk is null");
         }
-        if (interval <= 0) {
-            throw new IllegalArgumentException("interval " + interval + " is not positive");
+        if (intfrvbl <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("intfrvbl " + intfrvbl + " is not positivf");
         }
 
-        awtLock();
+        bwtLodk();
         try {
-            if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                timeoutTaskLog.finer("XToolkit.schedule(): current time={0}" +
-                                     ";  interval={1}" +
-                                     ";  task being added={2}" + ";  tasks before addition={3}",
-                                     Long.valueOf(System.currentTimeMillis()), Long.valueOf(interval), task, timeoutTasks);
+            if (timfoutTbskLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                timfoutTbskLog.finfr("XToolkit.sdifdulf(): durrfnt timf={0}" +
+                                     ";  intfrvbl={1}" +
+                                     ";  tbsk bfing bddfd={2}" + ";  tbsks bfforf bddition={3}",
+                                     Long.vblufOf(Systfm.durrfntTimfMillis()), Long.vblufOf(intfrvbl), tbsk, timfoutTbsks);
             }
 
-            if (timeoutTasks == null) {
-                timeoutTasks = new TreeMap<>();
+            if (timfoutTbsks == null) {
+                timfoutTbsks = nfw TrffMbp<>();
             }
 
-            Long time = Long.valueOf(System.currentTimeMillis() + interval);
-            java.util.List<Runnable> tasks = timeoutTasks.get(time);
-            if (tasks == null) {
-                tasks = new ArrayList<>(1);
-                timeoutTasks.put(time, tasks);
+            Long timf = Long.vblufOf(Systfm.durrfntTimfMillis() + intfrvbl);
+            jbvb.util.List<Runnbblf> tbsks = timfoutTbsks.gft(timf);
+            if (tbsks == null) {
+                tbsks = nfw ArrbyList<>(1);
+                timfoutTbsks.put(timf, tbsks);
             }
-            tasks.add(task);
+            tbsks.bdd(tbsk);
 
 
-            if (timeoutTasks.get(timeoutTasks.firstKey()) == tasks && tasks.size() == 1) {
-                // Added task became first task - poll won't know
-                // about it so we need to wake it up
-                wakeup_poll();
+            if (timfoutTbsks.gft(timfoutTbsks.firstKfy()) == tbsks && tbsks.sizf() == 1) {
+                // Addfd tbsk bfdbmf first tbsk - poll won't know
+                // bbout it so wf nffd to wbkf it up
+                wbkfup_poll();
             }
-        }  finally {
-            awtUnlock();
+        }  finblly {
+            bwtUnlodk();
         }
     }
 
-    private long getNextTaskTime() {
-        awtLock();
+    privbtf long gftNfxtTbskTimf() {
+        bwtLodk();
         try {
-            if (timeoutTasks == null || timeoutTasks.isEmpty()) {
-                return -1L;
+            if (timfoutTbsks == null || timfoutTbsks.isEmpty()) {
+                rfturn -1L;
             }
-            return timeoutTasks.firstKey();
-        } finally {
-            awtUnlock();
+            rfturn timfoutTbsks.firstKfy();
+        } finblly {
+            bwtUnlodk();
         }
     }
 
     /**
-     * Executes mature timeout tasks registered with schedule().
-     * Called from run() under awtLock.
+     * Exfdutfs mbturf timfout tbsks rfgistfrfd witi sdifdulf().
+     * Cbllfd from run() undfr bwtLodk.
      */
-    private static void callTimeoutTasks() {
-        if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-            timeoutTaskLog.finer("XToolkit.callTimeoutTasks(): current time={0}" +
-                                 ";  tasks={1}", Long.valueOf(System.currentTimeMillis()), timeoutTasks);
+    privbtf stbtid void dbllTimfoutTbsks() {
+        if (timfoutTbskLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            timfoutTbskLog.finfr("XToolkit.dbllTimfoutTbsks(): durrfnt timf={0}" +
+                                 ";  tbsks={1}", Long.vblufOf(Systfm.durrfntTimfMillis()), timfoutTbsks);
         }
 
-        if (timeoutTasks == null || timeoutTasks.isEmpty()) {
-            return;
+        if (timfoutTbsks == null || timfoutTbsks.isEmpty()) {
+            rfturn;
         }
 
-        Long currentTime = Long.valueOf(System.currentTimeMillis());
-        Long time = timeoutTasks.firstKey();
+        Long durrfntTimf = Long.vblufOf(Systfm.durrfntTimfMillis());
+        Long timf = timfoutTbsks.firstKfy();
 
-        while (time.compareTo(currentTime) <= 0) {
-            java.util.List<Runnable> tasks = timeoutTasks.remove(time);
+        wiilf (timf.dompbrfTo(durrfntTimf) <= 0) {
+            jbvb.util.List<Runnbblf> tbsks = timfoutTbsks.rfmovf(timf);
 
-            for (Iterator<Runnable> iter = tasks.iterator(); iter.hasNext();) {
-                Runnable task = iter.next();
+            for (Itfrbtor<Runnbblf> itfr = tbsks.itfrbtor(); itfr.ibsNfxt();) {
+                Runnbblf tbsk = itfr.nfxt();
 
-                if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    timeoutTaskLog.finer("XToolkit.callTimeoutTasks(): current time={0}" +
-                                         ";  about to run task={1}", Long.valueOf(currentTime), task);
+                if (timfoutTbskLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    timfoutTbskLog.finfr("XToolkit.dbllTimfoutTbsks(): durrfnt timf={0}" +
+                                         ";  bbout to run tbsk={1}", Long.vblufOf(durrfntTimf), tbsk);
                 }
 
                 try {
-                    task.run();
-                } catch (ThreadDeath td) {
-                    throw td;
-                } catch (Throwable thr) {
-                    processException(thr);
+                    tbsk.run();
+                } dbtdi (TirfbdDfbti td) {
+                    tirow td;
+                } dbtdi (Tirowbblf tir) {
+                    prodfssExdfption(tir);
                 }
             }
 
-            if (timeoutTasks.isEmpty()) {
-                break;
+            if (timfoutTbsks.isEmpty()) {
+                brfbk;
             }
-            time = timeoutTasks.firstKey();
+            timf = timfoutTbsks.firstKfy();
         }
     }
 
-    static long getAwtDefaultFg() {
-        return awt_defaultFg;
+    stbtid long gftAwtDffbultFg() {
+        rfturn bwt_dffbultFg;
     }
 
-    static boolean isLeftMouseButton(MouseEvent me) {
-        switch (me.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-              return (me.getButton() == MouseEvent.BUTTON1);
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_CLICKED:
-          case MouseEvent.MOUSE_DRAGGED:
-              return ((me.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0);
+    stbtid boolfbn isLfftMousfButton(MousfEvfnt mf) {
+        switdi (mf.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              rfturn (mf.gftButton() == MousfEvfnt.BUTTON1);
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+          dbsf MousfEvfnt.MOUSE_EXITED:
+          dbsf MousfEvfnt.MOUSE_CLICKED:
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              rfturn ((mf.gftModififrsEx() & InputEvfnt.BUTTON1_DOWN_MASK) != 0);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static boolean isRightMouseButton(MouseEvent me) {
-        int numButtons = ((Integer)getDefaultToolkit().getDesktopProperty("awt.mouse.numButtons")).intValue();
-        switch (me.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-              return ((numButtons == 2 && me.getButton() == MouseEvent.BUTTON2) ||
-                       (numButtons > 2 && me.getButton() == MouseEvent.BUTTON3));
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_CLICKED:
-          case MouseEvent.MOUSE_DRAGGED:
-              return ((numButtons == 2 && (me.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0) ||
-                      (numButtons > 2 && (me.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0));
+    stbtid boolfbn isRigitMousfButton(MousfEvfnt mf) {
+        int numButtons = ((Intfgfr)gftDffbultToolkit().gftDfsktopPropfrty("bwt.mousf.numButtons")).intVbluf();
+        switdi (mf.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              rfturn ((numButtons == 2 && mf.gftButton() == MousfEvfnt.BUTTON2) ||
+                       (numButtons > 2 && mf.gftButton() == MousfEvfnt.BUTTON3));
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+          dbsf MousfEvfnt.MOUSE_EXITED:
+          dbsf MousfEvfnt.MOUSE_CLICKED:
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              rfturn ((numButtons == 2 && (mf.gftModififrsEx() & InputEvfnt.BUTTON2_DOWN_MASK) != 0) ||
+                      (numButtons > 2 && (mf.gftModififrsEx() & InputEvfnt.BUTTON3_DOWN_MASK) != 0));
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static long reset_time_utc;
-    static final long WRAP_TIME_MILLIS = 0x00000000FFFFFFFFL;
+    stbtid long rfsft_timf_utd;
+    stbtid finbl long WRAP_TIME_MILLIS = 0x00000000FFFFFFFFL;
 
     /*
-     * This function converts between the X server time (number of milliseconds
-     * since the last server reset) and the UTC time for the 'when' field of an
-     * InputEvent (or another event type with a timestamp).
+     * Tiis fundtion donvfrts bftwffn tif X sfrvfr timf (numbfr of millisfdonds
+     * sindf tif lbst sfrvfr rfsft) bnd tif UTC timf for tif 'wifn' fifld of bn
+     * InputEvfnt (or bnotifr fvfnt typf witi b timfstbmp).
      */
-    static long nowMillisUTC_offset(long server_offset) {
-        // ported from awt_util.c
+    stbtid long nowMillisUTC_offsft(long sfrvfr_offsft) {
+        // portfd from bwt_util.d
         /*
-         * Because Time is of type 'unsigned long', it is possible that Time will
-         * never wrap when using 64-bit Xlib. However, if a 64-bit client
-         * connects to a 32-bit server, I suspect the values will still wrap. So
-         * we should not attempt to remove the wrap checking even if _LP64 is
-         * true.
+         * Bfdbusf Timf is of typf 'unsignfd long', it is possiblf tibt Timf will
+         * nfvfr wrbp wifn using 64-bit Xlib. Howfvfr, if b 64-bit dlifnt
+         * donnfdts to b 32-bit sfrvfr, I suspfdt tif vblufs will still wrbp. So
+         * wf siould not bttfmpt to rfmovf tif wrbp difdking fvfn if _LP64 is
+         * truf.
          */
 
-        long current_time_utc = System.currentTimeMillis();
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("reset_time=" + reset_time_utc + ", current_time=" + current_time_utc
-                      + ", server_offset=" + server_offset + ", wrap_time=" + WRAP_TIME_MILLIS);
+        long durrfnt_timf_utd = Systfm.durrfntTimfMillis();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("rfsft_timf=" + rfsft_timf_utd + ", durrfnt_timf=" + durrfnt_timf_utd
+                      + ", sfrvfr_offsft=" + sfrvfr_offsft + ", wrbp_timf=" + WRAP_TIME_MILLIS);
         }
 
-        if ((current_time_utc - reset_time_utc) > WRAP_TIME_MILLIS) {
-            reset_time_utc = System.currentTimeMillis() - getCurrentServerTime();
+        if ((durrfnt_timf_utd - rfsft_timf_utd) > WRAP_TIME_MILLIS) {
+            rfsft_timf_utd = Systfm.durrfntTimfMillis() - gftCurrfntSfrvfrTimf();
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("result = " + (reset_time_utc + server_offset));
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("rfsult = " + (rfsft_timf_utd + sfrvfr_offsft));
         }
-        return reset_time_utc + server_offset;
+        rfturn rfsft_timf_utd + sfrvfr_offsft;
     }
 
     /**
-     * @see sun.awt.SunToolkit#needsXEmbedImpl
+     * @sff sun.bwt.SunToolkit#nffdsXEmbfdImpl
      */
-    protected boolean needsXEmbedImpl() {
-        // XToolkit implements supports for XEmbed-client protocol and
-        // requires the supports from the embedding host for it to work.
-        return true;
+    protfdtfd boolfbn nffdsXEmbfdImpl() {
+        // XToolkit implfmfnts supports for XEmbfd-dlifnt protodol bnd
+        // rfquirfs tif supports from tif fmbfdding iost for it to work.
+        rfturn truf;
     }
 
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return (modalityType == null) ||
-               (modalityType == Dialog.ModalityType.MODELESS) ||
-               (modalityType == Dialog.ModalityType.DOCUMENT_MODAL) ||
-               (modalityType == Dialog.ModalityType.APPLICATION_MODAL) ||
-               (modalityType == Dialog.ModalityType.TOOLKIT_MODAL);
+    publid boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf) {
+        rfturn (modblityTypf == null) ||
+               (modblityTypf == Diblog.ModblityTypf.MODELESS) ||
+               (modblityTypf == Diblog.ModblityTypf.DOCUMENT_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.APPLICATION_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.TOOLKIT_MODAL);
     }
 
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
-        return (exclusionType == null) ||
-               (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+    publid boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf fxdlusionTypf) {
+        rfturn (fxdlusionTypf == null) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.NO_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.APPLICATION_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE);
     }
 
-    static EventQueue getEventQueue(Object target) {
-        AppContext appContext = targetToAppContext(target);
-        if (appContext != null) {
-            return (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
+    stbtid EvfntQufuf gftEvfntQufuf(Objfdt tbrgft) {
+        AppContfxt bppContfxt = tbrgftToAppContfxt(tbrgft);
+        if (bppContfxt != null) {
+            rfturn (EvfntQufuf)bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY);
         }
-        return null;
+        rfturn null;
     }
 
-    static void removeSourceEvents(EventQueue queue,
-                                   Object source,
-                                   boolean removeAllEvents) {
-        AWTAccessor.getEventQueueAccessor()
-            .removeSourceEvents(queue, source, removeAllEvents);
+    stbtid void rfmovfSourdfEvfnts(EvfntQufuf qufuf,
+                                   Objfdt sourdf,
+                                   boolfbn rfmovfAllEvfnts) {
+        AWTAddfssor.gftEvfntQufufAddfssor()
+            .rfmovfSourdfEvfnts(qufuf, sourdf, rfmovfAllEvfnts);
     }
 
-    public boolean isAlwaysOnTopSupported() {
-        for (XLayerProtocol proto : XWM.getWM().getProtocols(XLayerProtocol.class)) {
-            if (proto.supportsLayer(XLayerProtocol.LAYER_ALWAYS_ON_TOP)) {
-                return true;
+    publid boolfbn isAlwbysOnTopSupportfd() {
+        for (XLbyfrProtodol proto : XWM.gftWM().gftProtodols(XLbyfrProtodol.dlbss)) {
+            if (proto.supportsLbyfr(XLbyfrProtodol.LAYER_ALWAYS_ON_TOP)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public boolean useBufferPerWindow() {
-        return XToolkit.getBackingStoreType() == XConstants.NotUseful;
+    publid boolfbn usfBufffrPfrWindow() {
+        rfturn XToolkit.gftBbdkingStorfTypf() == XConstbnts.NotUsfful;
     }
 
     /**
-     * Returns one of XConstants: NotUseful, WhenMapped or Always.
-     * If backing store is not available on at least one screen, or
-     * java2d uses DGA(which conflicts with backing store) on at least one screen,
-     * or the string system property "sun.awt.backingStore" is neither "Always"
-     * nor "WhenMapped", then the method returns XConstants.NotUseful.
-     * Otherwise, if the system property "sun.awt.backingStore" is "WhenMapped",
-     * then the method returns XConstants.WhenMapped.
-     * Otherwise (i.e., if the system property "sun.awt.backingStore" is "Always"),
-     * the method returns XConstants.Always.
+     * Rfturns onf of XConstbnts: NotUsfful, WifnMbppfd or Alwbys.
+     * If bbdking storf is not bvbilbblf on bt lfbst onf sdrffn, or
+     * jbvb2d usfs DGA(wiidi donflidts witi bbdking storf) on bt lfbst onf sdrffn,
+     * or tif string systfm propfrty "sun.bwt.bbdkingStorf" is nfitifr "Alwbys"
+     * nor "WifnMbppfd", tifn tif mftiod rfturns XConstbnts.NotUsfful.
+     * Otifrwisf, if tif systfm propfrty "sun.bwt.bbdkingStorf" is "WifnMbppfd",
+     * tifn tif mftiod rfturns XConstbnts.WifnMbppfd.
+     * Otifrwisf (i.f., if tif systfm propfrty "sun.bwt.bbdkingStorf" is "Alwbys"),
+     * tif mftiod rfturns XConstbnts.Alwbys.
      */
-    static int getBackingStoreType() {
-        return backingStoreType;
+    stbtid int gftBbdkingStorfTypf() {
+        rfturn bbdkingStorfTypf;
     }
 
-    private static void setBackingStoreType() {
-        String prop = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.awt.backingStore"));
+    privbtf stbtid void sftBbdkingStorfTypf() {
+        String prop = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.bwt.bbdkingStorf"));
 
         if (prop == null) {
-            backingStoreType = XConstants.NotUseful;
-            if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                backingStoreLog.config("The system property sun.awt.backingStore is not set" +
-                                       ", by default backingStore=NotUseful");
+            bbdkingStorfTypf = XConstbnts.NotUsfful;
+            if (bbdkingStorfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+                bbdkingStorfLog.donfig("Tif systfm propfrty sun.bwt.bbdkingStorf is not sft" +
+                                       ", by dffbult bbdkingStorf=NotUsfful");
             }
-            return;
+            rfturn;
         }
 
-        if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-            backingStoreLog.config("The system property sun.awt.backingStore is " + prop);
+        if (bbdkingStorfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+            bbdkingStorfLog.donfig("Tif systfm propfrty sun.bwt.bbdkingStorf is " + prop);
         }
-        prop = prop.toLowerCase();
-        if (prop.equals("always")) {
-            backingStoreType = XConstants.Always;
-        } else if (prop.equals("whenmapped")) {
-            backingStoreType = XConstants.WhenMapped;
-        } else {
-            backingStoreType = XConstants.NotUseful;
-        }
-
-        if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-            backingStoreLog.config("backingStore(as provided by the system property)=" +
-                                   ( backingStoreType == XConstants.NotUseful ? "NotUseful"
-                                     : backingStoreType == XConstants.WhenMapped ?
-                                     "WhenMapped" : "Always") );
+        prop = prop.toLowfrCbsf();
+        if (prop.fqubls("blwbys")) {
+            bbdkingStorfTypf = XConstbnts.Alwbys;
+        } flsf if (prop.fqubls("wifnmbppfd")) {
+            bbdkingStorfTypf = XConstbnts.WifnMbppfd;
+        } flsf {
+            bbdkingStorfTypf = XConstbnts.NotUsfful;
         }
 
-        if (sun.java2d.x11.X11SurfaceData.isDgaAvailable()) {
-            backingStoreType = XConstants.NotUseful;
+        if (bbdkingStorfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+            bbdkingStorfLog.donfig("bbdkingStorf(bs providfd by tif systfm propfrty)=" +
+                                   ( bbdkingStorfTypf == XConstbnts.NotUsfful ? "NotUsfful"
+                                     : bbdkingStorfTypf == XConstbnts.WifnMbppfd ?
+                                     "WifnMbppfd" : "Alwbys") );
+        }
 
-            if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                backingStoreLog.config("DGA is available, backingStore=NotUseful");
+        if (sun.jbvb2d.x11.X11SurfbdfDbtb.isDgbAvbilbblf()) {
+            bbdkingStorfTypf = XConstbnts.NotUsfful;
+
+            if (bbdkingStorfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+                bbdkingStorfLog.donfig("DGA is bvbilbblf, bbdkingStorf=NotUsfful");
             }
 
-            return;
+            rfturn;
         }
 
-        awtLock();
+        bwtLodk();
         try {
-            int screenCount = XlibWrapper.ScreenCount(getDisplay());
-            for (int i = 0; i < screenCount; i++) {
-                if (XlibWrapper.DoesBackingStore(XlibWrapper.ScreenOfDisplay(getDisplay(), i))
-                        == XConstants.NotUseful) {
-                    backingStoreType = XConstants.NotUseful;
+            int sdrffnCount = XlibWrbppfr.SdrffnCount(gftDisplby());
+            for (int i = 0; i < sdrffnCount; i++) {
+                if (XlibWrbppfr.DofsBbdkingStorf(XlibWrbppfr.SdrffnOfDisplby(gftDisplby(), i))
+                        == XConstbnts.NotUsfful) {
+                    bbdkingStorfTypf = XConstbnts.NotUsfful;
 
-                    if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                        backingStoreLog.config("Backing store is not available on the screen " +
-                                               i + ", backingStore=NotUseful");
+                    if (bbdkingStorfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+                        bbdkingStorfLog.donfig("Bbdking storf is not bvbilbblf on tif sdrffn " +
+                                               i + ", bbdkingStorf=NotUsfful");
                     }
 
-                    return;
+                    rfturn;
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
     }
 
     /**
-     * One of XConstants: NotUseful, WhenMapped or Always.
+     * Onf of XConstbnts: NotUsfful, WifnMbppfd or Alwbys.
      */
-    private static int backingStoreType;
+    privbtf stbtid int bbdkingStorfTypf;
 
-    static final int XSUN_KP_BEHAVIOR = 1;
-    static final int XORG_KP_BEHAVIOR = 2;
-    static final int    IS_SUN_KEYBOARD = 1;
-    static final int IS_NONSUN_KEYBOARD = 2;
-    static final int    IS_KANA_KEYBOARD = 1;
-    static final int IS_NONKANA_KEYBOARD = 2;
+    stbtid finbl int XSUN_KP_BEHAVIOR = 1;
+    stbtid finbl int XORG_KP_BEHAVIOR = 2;
+    stbtid finbl int    IS_SUN_KEYBOARD = 1;
+    stbtid finbl int IS_NONSUN_KEYBOARD = 2;
+    stbtid finbl int    IS_KANA_KEYBOARD = 1;
+    stbtid finbl int IS_NONKANA_KEYBOARD = 2;
 
 
-    static int     awt_IsXsunKPBehavior = 0;
-    static boolean awt_UseXKB         = false;
-    static boolean awt_UseXKB_Calls   = false;
-    static int     awt_XKBBaseEventCode = 0;
-    static int     awt_XKBEffectiveGroup = 0; // so far, I don't use it leaving all calculations
-                                              // to XkbTranslateKeyCode
-    static long    awt_XKBDescPtr     = 0;
+    stbtid int     bwt_IsXsunKPBfibvior = 0;
+    stbtid boolfbn bwt_UsfXKB         = fblsf;
+    stbtid boolfbn bwt_UsfXKB_Cblls   = fblsf;
+    stbtid int     bwt_XKBBbsfEvfntCodf = 0;
+    stbtid int     bwt_XKBEfffdtivfGroup = 0; // so fbr, I don't usf it lfbving bll dbldulbtions
+                                              // to XkbTrbnslbtfKfyCodf
+    stbtid long    bwt_XKBDfsdPtr     = 0;
 
     /**
-     * Check for Xsun convention regarding numpad keys.
-     * Xsun and some other servers (i.e. derived from Xsun)
-     * under certain conditions process numpad keys unlike Xorg.
+     * Cifdk for Xsun donvfntion rfgbrding numpbd kfys.
+     * Xsun bnd somf otifr sfrvfrs (i.f. dfrivfd from Xsun)
+     * undfr dfrtbin donditions prodfss numpbd kfys unlikf Xorg.
      */
-    static boolean isXsunKPBehavior() {
-        awtLock();
+    stbtid boolfbn isXsunKPBfibvior() {
+        bwtLodk();
         try {
-            if( awt_IsXsunKPBehavior == 0 ) {
-                if( XlibWrapper.IsXsunKPBehavior(getDisplay()) ) {
-                    awt_IsXsunKPBehavior = XSUN_KP_BEHAVIOR;
-                }else{
-                    awt_IsXsunKPBehavior = XORG_KP_BEHAVIOR;
+            if( bwt_IsXsunKPBfibvior == 0 ) {
+                if( XlibWrbppfr.IsXsunKPBfibvior(gftDisplby()) ) {
+                    bwt_IsXsunKPBfibvior = XSUN_KP_BEHAVIOR;
+                }flsf{
+                    bwt_IsXsunKPBfibvior = XORG_KP_BEHAVIOR;
                 }
             }
-            return awt_IsXsunKPBehavior == XSUN_KP_BEHAVIOR ? true : false;
-        } finally {
-            awtUnlock();
+            rfturn bwt_IsXsunKPBfibvior == XSUN_KP_BEHAVIOR ? truf : fblsf;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    static int  sunOrNotKeyboard = 0;
-    static int kanaOrNotKeyboard = 0;
-    static void resetKeyboardSniffer() {
-        sunOrNotKeyboard  = 0;
-        kanaOrNotKeyboard = 0;
+    stbtid int  sunOrNotKfybobrd = 0;
+    stbtid int kbnbOrNotKfybobrd = 0;
+    stbtid void rfsftKfybobrdSnifffr() {
+        sunOrNotKfybobrd  = 0;
+        kbnbOrNotKfybobrd = 0;
     }
-    static boolean isSunKeyboard() {
-        if( sunOrNotKeyboard == 0 ) {
-            if( XlibWrapper.IsSunKeyboard( getDisplay() )) {
-                sunOrNotKeyboard = IS_SUN_KEYBOARD;
-            }else{
-                sunOrNotKeyboard = IS_NONSUN_KEYBOARD;
+    stbtid boolfbn isSunKfybobrd() {
+        if( sunOrNotKfybobrd == 0 ) {
+            if( XlibWrbppfr.IsSunKfybobrd( gftDisplby() )) {
+                sunOrNotKfybobrd = IS_SUN_KEYBOARD;
+            }flsf{
+                sunOrNotKfybobrd = IS_NONSUN_KEYBOARD;
             }
         }
-        return (sunOrNotKeyboard == IS_SUN_KEYBOARD);
+        rfturn (sunOrNotKfybobrd == IS_SUN_KEYBOARD);
     }
-    static boolean isKanaKeyboard() {
-        if( kanaOrNotKeyboard == 0 ) {
-            if( XlibWrapper.IsKanaKeyboard( getDisplay() )) {
-                kanaOrNotKeyboard = IS_KANA_KEYBOARD;
-            }else{
-                kanaOrNotKeyboard = IS_NONKANA_KEYBOARD;
+    stbtid boolfbn isKbnbKfybobrd() {
+        if( kbnbOrNotKfybobrd == 0 ) {
+            if( XlibWrbppfr.IsKbnbKfybobrd( gftDisplby() )) {
+                kbnbOrNotKfybobrd = IS_KANA_KEYBOARD;
+            }flsf{
+                kbnbOrNotKfybobrd = IS_NONKANA_KEYBOARD;
             }
         }
-        return (kanaOrNotKeyboard == IS_KANA_KEYBOARD);
+        rfturn (kbnbOrNotKfybobrd == IS_KANA_KEYBOARD);
     }
-    static boolean isXKBenabled() {
-        awtLock();
+    stbtid boolfbn isXKBfnbblfd() {
+        bwtLodk();
         try {
-            return awt_UseXKB;
-        } finally {
-            awtUnlock();
+            rfturn bwt_UsfXKB;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
     /**
-      Query XKEYBOARD extension.
-      If possible, initialize xkb library.
+      Qufry XKEYBOARD fxtfnsion.
+      If possiblf, initiblizf xkb librbry.
     */
-    static boolean tryXKB() {
-        awtLock();
+    stbtid boolfbn tryXKB() {
+        bwtLodk();
         try {
-            String name = "XKEYBOARD";
-            // First, if there is extension at all.
-            awt_UseXKB = XlibWrapper.XQueryExtension( getDisplay(), name, XlibWrapper.larg1, XlibWrapper.larg2, XlibWrapper.larg3);
-            if( awt_UseXKB ) {
-                // There is a keyboard extension. Check if a client library is compatible.
-                // If not, don't use xkb calls.
-                // In this case we still may be Xkb-capable application.
-                awt_UseXKB_Calls = XlibWrapper.XkbLibraryVersion( XlibWrapper.larg1, XlibWrapper.larg2);
-                if( awt_UseXKB_Calls ) {
-                    awt_UseXKB_Calls = XlibWrapper.XkbQueryExtension( getDisplay(),  XlibWrapper.larg1, XlibWrapper.larg2,
-                                     XlibWrapper.larg3, XlibWrapper.larg4, XlibWrapper.larg5);
-                    if( awt_UseXKB_Calls ) {
-                        awt_XKBBaseEventCode = Native.getInt(XlibWrapper.larg2);
-                        XlibWrapper.XkbSelectEvents (getDisplay(),
-                                         XConstants.XkbUseCoreKbd,
-                                         XConstants.XkbNewKeyboardNotifyMask |
-                                                 XConstants.XkbMapNotifyMask ,//|
-                                                 //XConstants.XkbStateNotifyMask,
-                                         XConstants.XkbNewKeyboardNotifyMask |
-                                                 XConstants.XkbMapNotifyMask );//|
-                                                 //XConstants.XkbStateNotifyMask);
+            String nbmf = "XKEYBOARD";
+            // First, if tifrf is fxtfnsion bt bll.
+            bwt_UsfXKB = XlibWrbppfr.XQufryExtfnsion( gftDisplby(), nbmf, XlibWrbppfr.lbrg1, XlibWrbppfr.lbrg2, XlibWrbppfr.lbrg3);
+            if( bwt_UsfXKB ) {
+                // Tifrf is b kfybobrd fxtfnsion. Cifdk if b dlifnt librbry is dompbtiblf.
+                // If not, don't usf xkb dblls.
+                // In tiis dbsf wf still mby bf Xkb-dbpbblf bpplidbtion.
+                bwt_UsfXKB_Cblls = XlibWrbppfr.XkbLibrbryVfrsion( XlibWrbppfr.lbrg1, XlibWrbppfr.lbrg2);
+                if( bwt_UsfXKB_Cblls ) {
+                    bwt_UsfXKB_Cblls = XlibWrbppfr.XkbQufryExtfnsion( gftDisplby(),  XlibWrbppfr.lbrg1, XlibWrbppfr.lbrg2,
+                                     XlibWrbppfr.lbrg3, XlibWrbppfr.lbrg4, XlibWrbppfr.lbrg5);
+                    if( bwt_UsfXKB_Cblls ) {
+                        bwt_XKBBbsfEvfntCodf = Nbtivf.gftInt(XlibWrbppfr.lbrg2);
+                        XlibWrbppfr.XkbSflfdtEvfnts (gftDisplby(),
+                                         XConstbnts.XkbUsfCorfKbd,
+                                         XConstbnts.XkbNfwKfybobrdNotifyMbsk |
+                                                 XConstbnts.XkbMbpNotifyMbsk ,//|
+                                                 //XConstbnts.XkbStbtfNotifyMbsk,
+                                         XConstbnts.XkbNfwKfybobrdNotifyMbsk |
+                                                 XConstbnts.XkbMbpNotifyMbsk );//|
+                                                 //XConstbnts.XkbStbtfNotifyMbsk);
 
-                        XlibWrapper.XkbSelectEventDetails(getDisplay(), XConstants.XkbUseCoreKbd,
-                                                     XConstants.XkbStateNotify,
-                                                     XConstants.XkbGroupStateMask,
-                                                     XConstants.XkbGroupStateMask);
-                                                     //XXX ? XkbGroupLockMask last, XkbAllStateComponentsMask before last?
-                        awt_XKBDescPtr = XlibWrapper.XkbGetMap(getDisplay(),
-                                                     XConstants.XkbKeyTypesMask    |
-                                                     XConstants.XkbKeySymsMask     |
-                                                     XConstants.XkbModifierMapMask |
-                                                     XConstants.XkbVirtualModsMask,
-                                                     XConstants.XkbUseCoreKbd);
+                        XlibWrbppfr.XkbSflfdtEvfntDftbils(gftDisplby(), XConstbnts.XkbUsfCorfKbd,
+                                                     XConstbnts.XkbStbtfNotify,
+                                                     XConstbnts.XkbGroupStbtfMbsk,
+                                                     XConstbnts.XkbGroupStbtfMbsk);
+                                                     //XXX ? XkbGroupLodkMbsk lbst, XkbAllStbtfComponfntsMbsk bfforf lbst?
+                        bwt_XKBDfsdPtr = XlibWrbppfr.XkbGftMbp(gftDisplby(),
+                                                     XConstbnts.XkbKfyTypfsMbsk    |
+                                                     XConstbnts.XkbKfySymsMbsk     |
+                                                     XConstbnts.XkbModififrMbpMbsk |
+                                                     XConstbnts.XkbVirtublModsMbsk,
+                                                     XConstbnts.XkbUsfCorfKbd);
 
-                        XlibWrapper.XkbSetDetectableAutoRepeat(getDisplay(), true);
+                        XlibWrbppfr.XkbSftDftfdtbblfAutoRfpfbt(gftDisplby(), truf);
                     }
                 }
             }
-            return awt_UseXKB;
-        } finally {
-            awtUnlock();
+            rfturn bwt_UsfXKB;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    static boolean canUseXKBCalls() {
-        awtLock();
+    stbtid boolfbn dbnUsfXKBCblls() {
+        bwtLodk();
         try {
-            return awt_UseXKB_Calls;
-        } finally {
-            awtUnlock();
+            rfturn bwt_UsfXKB_Cblls;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    static int getXKBEffectiveGroup() {
-        awtLock();
+    stbtid int gftXKBEfffdtivfGroup() {
+        bwtLodk();
         try {
-            return awt_XKBEffectiveGroup;
-        } finally {
-            awtUnlock();
+            rfturn bwt_XKBEfffdtivfGroup;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    static int getXKBBaseEventCode() {
-        awtLock();
+    stbtid int gftXKBBbsfEvfntCodf() {
+        bwtLodk();
         try {
-            return awt_XKBBaseEventCode;
-        } finally {
-            awtUnlock();
+            rfturn bwt_XKBBbsfEvfntCodf;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    static long getXKBKbdDesc() {
-        awtLock();
+    stbtid long gftXKBKbdDfsd() {
+        bwtLodk();
         try {
-            return awt_XKBDescPtr;
-        } finally {
-            awtUnlock();
+            rfturn bwt_XKBDfsdPtr;
+        } finblly {
+            bwtUnlodk();
         }
     }
-    void freeXKB() {
-        awtLock();
+    void frffXKB() {
+        bwtLodk();
         try {
-            if (awt_UseXKB_Calls && awt_XKBDescPtr != 0) {
-                XlibWrapper.XkbFreeKeyboard(awt_XKBDescPtr, 0xFF, true);
-                awt_XKBDescPtr = 0;
+            if (bwt_UsfXKB_Cblls && bwt_XKBDfsdPtr != 0) {
+                XlibWrbppfr.XkbFrffKfybobrd(bwt_XKBDfsdPtr, 0xFF, truf);
+                bwt_XKBDfsdPtr = 0;
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlodk();
         }
     }
-    private void processXkbChanges(XEvent ev) {
-        // mapping change --> refresh kbd map
-        // state change --> get a new effective group; do I really need it
-        //  or that should be left for XkbTranslateKeyCode?
-        XkbEvent xke = new XkbEvent( ev.getPData() );
-        int xkb_type = xke.get_any().get_xkb_type();
-        switch( xkb_type ) {
-            case XConstants.XkbNewKeyboardNotify :
-                 if( awt_XKBDescPtr != 0 ) {
-                     freeXKB();
+    privbtf void prodfssXkbCibngfs(XEvfnt fv) {
+        // mbpping dibngf --> rffrfsi kbd mbp
+        // stbtf dibngf --> gft b nfw ffffdtivf group; do I rfblly nffd it
+        //  or tibt siould bf lfft for XkbTrbnslbtfKfyCodf?
+        XkbEvfnt xkf = nfw XkbEvfnt( fv.gftPDbtb() );
+        int xkb_typf = xkf.gft_bny().gft_xkb_typf();
+        switdi( xkb_typf ) {
+            dbsf XConstbnts.XkbNfwKfybobrdNotify :
+                 if( bwt_XKBDfsdPtr != 0 ) {
+                     frffXKB();
                  }
-                 awt_XKBDescPtr = XlibWrapper.XkbGetMap(getDisplay(),
-                                              XConstants.XkbKeyTypesMask    |
-                                              XConstants.XkbKeySymsMask     |
-                                              XConstants.XkbModifierMapMask |
-                                              XConstants.XkbVirtualModsMask,
-                                              XConstants.XkbUseCoreKbd);
-                 //System.out.println("XkbNewKeyboard:"+(xke.get_new_kbd()));
-                 break;
-            case XConstants.XkbMapNotify :
-                 //TODO: provide a simple unit test.
-                 XlibWrapper.XkbGetUpdatedMap(getDisplay(),
-                                              XConstants.XkbKeyTypesMask    |
-                                              XConstants.XkbKeySymsMask     |
-                                              XConstants.XkbModifierMapMask |
-                                              XConstants.XkbVirtualModsMask,
-                                              awt_XKBDescPtr);
-                 //System.out.println("XkbMap:"+(xke.get_map()));
-                 break;
-            case XConstants.XkbStateNotify :
-                 // May use it later e.g. to obtain an effective group etc.
-                 //System.out.println("XkbState:"+(xke.get_state()));
-                 break;
-            default:
-                 //System.out.println("XkbEvent of xkb_type "+xkb_type);
-                 break;
+                 bwt_XKBDfsdPtr = XlibWrbppfr.XkbGftMbp(gftDisplby(),
+                                              XConstbnts.XkbKfyTypfsMbsk    |
+                                              XConstbnts.XkbKfySymsMbsk     |
+                                              XConstbnts.XkbModififrMbpMbsk |
+                                              XConstbnts.XkbVirtublModsMbsk,
+                                              XConstbnts.XkbUsfCorfKbd);
+                 //Systfm.out.println("XkbNfwKfybobrd:"+(xkf.gft_nfw_kbd()));
+                 brfbk;
+            dbsf XConstbnts.XkbMbpNotify :
+                 //TODO: providf b simplf unit tfst.
+                 XlibWrbppfr.XkbGftUpdbtfdMbp(gftDisplby(),
+                                              XConstbnts.XkbKfyTypfsMbsk    |
+                                              XConstbnts.XkbKfySymsMbsk     |
+                                              XConstbnts.XkbModififrMbpMbsk |
+                                              XConstbnts.XkbVirtublModsMbsk,
+                                              bwt_XKBDfsdPtr);
+                 //Systfm.out.println("XkbMbp:"+(xkf.gft_mbp()));
+                 brfbk;
+            dbsf XConstbnts.XkbStbtfNotify :
+                 // Mby usf it lbtfr f.g. to obtbin bn ffffdtivf group ftd.
+                 //Systfm.out.println("XkbStbtf:"+(xkf.gft_stbtf()));
+                 brfbk;
+            dffbult:
+                 //Systfm.out.println("XkbEvfnt of xkb_typf "+xkb_typf);
+                 brfbk;
         }
     }
 
-    private static long eventNumber;
-    public static long getEventNumber() {
-        awtLock();
+    privbtf stbtid long fvfntNumbfr;
+    publid stbtid long gftEvfntNumbfr() {
+        bwtLodk();
         try {
-            return eventNumber;
-        } finally {
-            awtUnlock();
+            rfturn fvfntNumbfr;
+        } finblly {
+            bwtUnlodk();
         }
     }
 
-    private static XEventDispatcher oops_waiter;
-    private static boolean oops_updated;
-    private static boolean oops_move;
+    privbtf stbtid XEvfntDispbtdifr oops_wbitfr;
+    privbtf stbtid boolfbn oops_updbtfd;
+    privbtf stbtid boolfbn oops_movf;
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    protected boolean syncNativeQueue(final long timeout) {
-        XBaseWindow win = XBaseWindow.getXAWTRootWindow();
+    protfdtfd boolfbn syndNbtivfQufuf(finbl long timfout) {
+        XBbsfWindow win = XBbsfWindow.gftXAWTRootWindow();
 
-        if (oops_waiter == null) {
-            oops_waiter = new XEventDispatcher() {
-                    public void dispatchEvent(XEvent e) {
-                        if (e.get_type() == XConstants.ConfigureNotify) {
-                            // OOPS ConfigureNotify event catched
-                            oops_updated = true;
-                            awtLockNotifyAll();
+        if (oops_wbitfr == null) {
+            oops_wbitfr = nfw XEvfntDispbtdifr() {
+                    publid void dispbtdiEvfnt(XEvfnt f) {
+                        if (f.gft_typf() == XConstbnts.ConfigurfNotify) {
+                            // OOPS ConfigurfNotify fvfnt dbtdifd
+                            oops_updbtfd = truf;
+                            bwtLodkNotifyAll();
                         }
                     }
                 };
         }
 
-        awtLock();
+        bwtLodk();
         try {
-            addEventDispatcher(win.getWindow(), oops_waiter);
+            bddEvfntDispbtdifr(win.gftWindow(), oops_wbitfr);
 
-            oops_updated = false;
-            long event_number = getEventNumber();
-            // Generate OOPS ConfigureNotify event
-            XlibWrapper.XMoveWindow(getDisplay(), win.getWindow(), oops_move ? 0 : 1, 0);
-            // Change win position each time to avoid system optimization
-            oops_move = !oops_move;
-            XSync();
+            oops_updbtfd = fblsf;
+            long fvfnt_numbfr = gftEvfntNumbfr();
+            // Gfnfrbtf OOPS ConfigurfNotify fvfnt
+            XlibWrbppfr.XMovfWindow(gftDisplby(), win.gftWindow(), oops_movf ? 0 : 1, 0);
+            // Cibngf win position fbdi timf to bvoid systfm optimizbtion
+            oops_movf = !oops_movf;
+            XSynd();
 
-            eventLog.finer("Generated OOPS ConfigureNotify event");
+            fvfntLog.finfr("Gfnfrbtfd OOPS ConfigurfNotify fvfnt");
 
-            long start = System.currentTimeMillis();
-            while (!oops_updated) {
+            long stbrt = Systfm.durrfntTimfMillis();
+            wiilf (!oops_updbtfd) {
                 try {
-                    // Wait for OOPS ConfigureNotify event
-                    awtLockWait(timeout);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    // Wbit for OOPS ConfigurfNotify fvfnt
+                    bwtLodkWbit(timfout);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    tirow nfw RuntimfExdfption(f);
                 }
-                // This "while" is a protection from spurious
-                // wake-ups.  However, we shouldn't wait for too long
-                if ((System.currentTimeMillis() - start > timeout) && timeout >= 0) {
-                    throw new OperationTimedOut(Long.toString(System.currentTimeMillis() - start));
+                // Tiis "wiilf" is b protfdtion from spurious
+                // wbkf-ups.  Howfvfr, wf siouldn't wbit for too long
+                if ((Systfm.durrfntTimfMillis() - stbrt > timfout) && timfout >= 0) {
+                    tirow nfw OpfrbtionTimfdOut(Long.toString(Systfm.durrfntTimfMillis() - stbrt));
                 }
             }
-            // Don't take into account OOPS ConfigureNotify event
-            return getEventNumber() - event_number > 1;
-        } finally {
-            removeEventDispatcher(win.getWindow(), oops_waiter);
-            eventLog.finer("Exiting syncNativeQueue");
-            awtUnlock();
+            // Don't tbkf into bddount OOPS ConfigurfNotify fvfnt
+            rfturn gftEvfntNumbfr() - fvfnt_numbfr > 1;
+        } finblly {
+            rfmovfEvfntDispbtdifr(win.gftWindow(), oops_wbitfr);
+            fvfntLog.finfr("Exiting syndNbtivfQufuf");
+            bwtUnlodk();
         }
     }
-    public void grab(Window w) {
-        if (w.getPeer() != null) {
-            ((XWindowPeer)w.getPeer()).setGrab(true);
+    publid void grbb(Window w) {
+        if (w.gftPffr() != null) {
+            ((XWindowPffr)w.gftPffr()).sftGrbb(truf);
         }
     }
 
-    public void ungrab(Window w) {
-        if (w.getPeer() != null) {
-           ((XWindowPeer)w.getPeer()).setGrab(false);
+    publid void ungrbb(Window w) {
+        if (w.gftPffr() != null) {
+           ((XWindowPffr)w.gftPffr()).sftGrbb(fblsf);
         }
     }
     /**
-     * Returns if the java.awt.Desktop class is supported on the current
-     * desktop.
+     * Rfturns if tif jbvb.bwt.Dfsktop dlbss is supportfd on tif durrfnt
+     * dfsktop.
      * <p>
-     * The methods of java.awt.Desktop class are supported on the Gnome desktop.
-     * Check if the running desktop is Gnome by checking the window manager.
+     * Tif mftiods of jbvb.bwt.Dfsktop dlbss brf supportfd on tif Gnomf dfsktop.
+     * Cifdk if tif running dfsktop is Gnomf by difdking tif window mbnbgfr.
      */
-    public boolean isDesktopSupported(){
-        return XDesktopPeer.isDesktopSupported();
+    publid boolfbn isDfsktopSupportfd(){
+        rfturn XDfsktopPffr.isDfsktopSupportfd();
     }
 
-    public DesktopPeer createDesktopPeer(Desktop target){
-        return new XDesktopPeer();
+    publid DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft){
+        rfturn nfw XDfsktopPffr();
     }
 
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        return areExtraMouseButtonsEnabled;
+    publid boolfbn brfExtrbMousfButtonsEnbblfd() tirows HfbdlfssExdfption {
+        rfturn brfExtrbMousfButtonsEnbblfd;
     }
 
-    @Override
-    public boolean isWindowOpacitySupported() {
-        XNETProtocol net_protocol = XWM.getWM().getNETProtocol();
+    @Ovfrridf
+    publid boolfbn isWindowOpbditySupportfd() {
+        XNETProtodol nft_protodol = XWM.gftWM().gftNETProtodol();
 
-        if (net_protocol == null) {
-            return false;
+        if (nft_protodol == null) {
+            rfturn fblsf;
         }
 
-        return net_protocol.doOpacityProtocol();
+        rfturn nft_protodol.doOpbdityProtodol();
     }
 
-    @Override
-    public boolean isWindowShapingSupported() {
-        return XlibUtil.isShapingSupported();
+    @Ovfrridf
+    publid boolfbn isWindowSibpingSupportfd() {
+        rfturn XlibUtil.isSibpingSupportfd();
     }
 
-    @Override
-    public boolean isWindowTranslucencySupported() {
-        //NOTE: it may not be supported. The actual check is being performed
-        //      at com.sun.awt.AWTUtilities(). In X11 we need to check
-        //      whether there's any translucency-capable GC available.
-        return true;
+    @Ovfrridf
+    publid boolfbn isWindowTrbnsludfndySupportfd() {
+        //NOTE: it mby not bf supportfd. Tif bdtubl difdk is bfing pfrformfd
+        //      bt dom.sun.bwt.AWTUtilitifs(). In X11 wf nffd to difdk
+        //      wiftifr tifrf's bny trbnsludfndy-dbpbblf GC bvbilbblf.
+        rfturn truf;
     }
 
-    @Override
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        if (!(gc instanceof X11GraphicsConfig)) {
-            return false;
+    @Ovfrridf
+    publid boolfbn isTrbnsludfndyCbpbblf(GrbpiidsConfigurbtion gd) {
+        if (!(gd instbndfof X11GrbpiidsConfig)) {
+            rfturn fblsf;
         }
-        return ((X11GraphicsConfig)gc).isTranslucencyCapable();
+        rfturn ((X11GrbpiidsConfig)gd).isTrbnsludfndyCbpbblf();
     }
 
     /**
-     * Returns the value of "sun.awt.disablegrab" property. Default
-     * value is {@code false}.
+     * Rfturns tif vbluf of "sun.bwt.disbblfgrbb" propfrty. Dffbult
+     * vbluf is {@dodf fblsf}.
      */
-    public static boolean getSunAwtDisableGrab() {
-        return AccessController.doPrivileged(new GetBooleanAction("sun.awt.disablegrab"));
+    publid stbtid boolfbn gftSunAwtDisbblfGrbb() {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion("sun.bwt.disbblfgrbb"));
     }
 }

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Multi-precision Binary Polynomial Arithmetic Library.
+ * Tif Originbl Codf is tif Multi-prfdision Binbry Polynomibl Aritimftid Librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Sheueling Chang Shantz <sheueling.chang@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca> of Sun Laboratories.
+ *   Sifufling Cibng Sibntz <sifufling.dibng@sun.dom> bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db> of Sun Lbborbtorifs.
  *
  *********************************************************************** */
 
-#ifndef _MP_GF2M_H_
-#define _MP_GF2M_H_
+#ifndff _MP_GF2M_H_
+#dffinf _MP_GF2M_H_
 
-#include "mpi.h"
+#indludf "mpi.i"
 
-mp_err mp_badd(const mp_int *a, const mp_int *b, mp_int *c);
-mp_err mp_bmul(const mp_int *a, const mp_int *b, mp_int *c);
+mp_frr mp_bbdd(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr mp_bmul(donst mp_int *b, donst mp_int *b, mp_int *d);
 
-/* For modular arithmetic, the irreducible polynomial f(t) is represented
- * as an array of int[], where f(t) is of the form:
+/* For modulbr britimftid, tif irrfdudiblf polynomibl f(t) is rfprfsfntfd
+ * bs bn brrby of int[], wifrf f(t) is of tif form:
  *     f(t) = t^p[0] + t^p[1] + ... + t^p[k]
- * where m = p[0] > p[1] > ... > p[k] = 0.
+ * wifrf m = p[0] > p[1] > ... > p[k] = 0.
  */
-mp_err mp_bmod(const mp_int *a, const unsigned int p[], mp_int *r);
-mp_err mp_bmulmod(const mp_int *a, const mp_int *b, const unsigned int p[],
+mp_frr mp_bmod(donst mp_int *b, donst unsignfd int p[], mp_int *r);
+mp_frr mp_bmulmod(donst mp_int *b, donst mp_int *b, donst unsignfd int p[],
     mp_int *r);
-mp_err mp_bsqrmod(const mp_int *a, const unsigned int p[], mp_int *r);
-mp_err mp_bdivmod(const mp_int *y, const mp_int *x, const mp_int *pp,
-    const unsigned int p[], mp_int *r);
+mp_frr mp_bsqrmod(donst mp_int *b, donst unsignfd int p[], mp_int *r);
+mp_frr mp_bdivmod(donst mp_int *y, donst mp_int *x, donst mp_int *pp,
+    donst unsignfd int p[], mp_int *r);
 
-int mp_bpoly2arr(const mp_int *a, unsigned int p[], int max);
-mp_err mp_barr2poly(const unsigned int p[], mp_int *a);
+int mp_bpoly2brr(donst mp_int *b, unsignfd int p[], int mbx);
+mp_frr mp_bbrr2poly(donst unsignfd int p[], mp_int *b);
 
-#endif /* _MP_GF2M_H_ */
+#fndif /* _MP_GF2M_H_ */

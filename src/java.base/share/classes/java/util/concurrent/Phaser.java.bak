@@ -1,1161 +1,1161 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfoutExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
 
 /**
- * A reusable synchronization barrier, similar in functionality to
- * {@link java.util.concurrent.CyclicBarrier CyclicBarrier} and
- * {@link java.util.concurrent.CountDownLatch CountDownLatch}
- * but supporting more flexible usage.
+ * A rfusbblf syndironizbtion bbrrifr, similbr in fundtionblity to
+ * {@link jbvb.util.dondurrfnt.CydlidBbrrifr CydlidBbrrifr} bnd
+ * {@link jbvb.util.dondurrfnt.CountDownLbtdi CountDownLbtdi}
+ * but supporting morf flfxiblf usbgf.
  *
- * <p><b>Registration.</b> Unlike the case for other barriers, the
- * number of parties <em>registered</em> to synchronize on a phaser
- * may vary over time.  Tasks may be registered at any time (using
- * methods {@link #register}, {@link #bulkRegister}, or forms of
- * constructors establishing initial numbers of parties), and
- * optionally deregistered upon any arrival (using {@link
- * #arriveAndDeregister}).  As is the case with most basic
- * synchronization constructs, registration and deregistration affect
- * only internal counts; they do not establish any further internal
- * bookkeeping, so tasks cannot query whether they are registered.
- * (However, you can introduce such bookkeeping by subclassing this
- * class.)
+ * <p><b>Rfgistrbtion.</b> Unlikf tif dbsf for otifr bbrrifrs, tif
+ * numbfr of pbrtifs <fm>rfgistfrfd</fm> to syndironizf on b pibsfr
+ * mby vbry ovfr timf.  Tbsks mby bf rfgistfrfd bt bny timf (using
+ * mftiods {@link #rfgistfr}, {@link #bulkRfgistfr}, or forms of
+ * donstrudtors fstbblisiing initibl numbfrs of pbrtifs), bnd
+ * optionblly dfrfgistfrfd upon bny brrivbl (using {@link
+ * #brrivfAndDfrfgistfr}).  As is tif dbsf witi most bbsid
+ * syndironizbtion donstrudts, rfgistrbtion bnd dfrfgistrbtion bfffdt
+ * only intfrnbl dounts; tify do not fstbblisi bny furtifr intfrnbl
+ * bookkffping, so tbsks dbnnot qufry wiftifr tify brf rfgistfrfd.
+ * (Howfvfr, you dbn introdudf sudi bookkffping by subdlbssing tiis
+ * dlbss.)
  *
- * <p><b>Synchronization.</b> Like a {@code CyclicBarrier}, a {@code
- * Phaser} may be repeatedly awaited.  Method {@link
- * #arriveAndAwaitAdvance} has effect analogous to {@link
- * java.util.concurrent.CyclicBarrier#await CyclicBarrier.await}. Each
- * generation of a phaser has an associated phase number. The phase
- * number starts at zero, and advances when all parties arrive at the
- * phaser, wrapping around to zero after reaching {@code
- * Integer.MAX_VALUE}. The use of phase numbers enables independent
- * control of actions upon arrival at a phaser and upon awaiting
- * others, via two kinds of methods that may be invoked by any
- * registered party:
+ * <p><b>Syndironizbtion.</b> Likf b {@dodf CydlidBbrrifr}, b {@dodf
+ * Pibsfr} mby bf rfpfbtfdly bwbitfd.  Mftiod {@link
+ * #brrivfAndAwbitAdvbndf} ibs ffffdt bnblogous to {@link
+ * jbvb.util.dondurrfnt.CydlidBbrrifr#bwbit CydlidBbrrifr.bwbit}. Ebdi
+ * gfnfrbtion of b pibsfr ibs bn bssodibtfd pibsf numbfr. Tif pibsf
+ * numbfr stbrts bt zfro, bnd bdvbndfs wifn bll pbrtifs brrivf bt tif
+ * pibsfr, wrbpping bround to zfro bftfr rfbdiing {@dodf
+ * Intfgfr.MAX_VALUE}. Tif usf of pibsf numbfrs fnbblfs indfpfndfnt
+ * dontrol of bdtions upon brrivbl bt b pibsfr bnd upon bwbiting
+ * otifrs, vib two kinds of mftiods tibt mby bf invokfd by bny
+ * rfgistfrfd pbrty:
  *
  * <ul>
  *
- *   <li> <b>Arrival.</b> Methods {@link #arrive} and
- *       {@link #arriveAndDeregister} record arrival.  These methods
- *       do not block, but return an associated <em>arrival phase
- *       number</em>; that is, the phase number of the phaser to which
- *       the arrival applied. When the final party for a given phase
- *       arrives, an optional action is performed and the phase
- *       advances.  These actions are performed by the party
- *       triggering a phase advance, and are arranged by overriding
- *       method {@link #onAdvance(int, int)}, which also controls
- *       termination. Overriding this method is similar to, but more
- *       flexible than, providing a barrier action to a {@code
- *       CyclicBarrier}.
+ *   <li> <b>Arrivbl.</b> Mftiods {@link #brrivf} bnd
+ *       {@link #brrivfAndDfrfgistfr} rfdord brrivbl.  Tifsf mftiods
+ *       do not blodk, but rfturn bn bssodibtfd <fm>brrivbl pibsf
+ *       numbfr</fm>; tibt is, tif pibsf numbfr of tif pibsfr to wiidi
+ *       tif brrivbl bpplifd. Wifn tif finbl pbrty for b givfn pibsf
+ *       brrivfs, bn optionbl bdtion is pfrformfd bnd tif pibsf
+ *       bdvbndfs.  Tifsf bdtions brf pfrformfd by tif pbrty
+ *       triggfring b pibsf bdvbndf, bnd brf brrbngfd by ovfrriding
+ *       mftiod {@link #onAdvbndf(int, int)}, wiidi blso dontrols
+ *       tfrminbtion. Ovfrriding tiis mftiod is similbr to, but morf
+ *       flfxiblf tibn, providing b bbrrifr bdtion to b {@dodf
+ *       CydlidBbrrifr}.
  *
- *   <li> <b>Waiting.</b> Method {@link #awaitAdvance} requires an
- *       argument indicating an arrival phase number, and returns when
- *       the phaser advances to (or is already at) a different phase.
- *       Unlike similar constructions using {@code CyclicBarrier},
- *       method {@code awaitAdvance} continues to wait even if the
- *       waiting thread is interrupted. Interruptible and timeout
- *       versions are also available, but exceptions encountered while
- *       tasks wait interruptibly or with timeout do not change the
- *       state of the phaser. If necessary, you can perform any
- *       associated recovery within handlers of those exceptions,
- *       often after invoking {@code forceTermination}.  Phasers may
- *       also be used by tasks executing in a {@link ForkJoinPool},
- *       which will ensure sufficient parallelism to execute tasks
- *       when others are blocked waiting for a phase to advance.
+ *   <li> <b>Wbiting.</b> Mftiod {@link #bwbitAdvbndf} rfquirfs bn
+ *       brgumfnt indidbting bn brrivbl pibsf numbfr, bnd rfturns wifn
+ *       tif pibsfr bdvbndfs to (or is blrfbdy bt) b difffrfnt pibsf.
+ *       Unlikf similbr donstrudtions using {@dodf CydlidBbrrifr},
+ *       mftiod {@dodf bwbitAdvbndf} dontinufs to wbit fvfn if tif
+ *       wbiting tirfbd is intfrruptfd. Intfrruptiblf bnd timfout
+ *       vfrsions brf blso bvbilbblf, but fxdfptions fndountfrfd wiilf
+ *       tbsks wbit intfrruptibly or witi timfout do not dibngf tif
+ *       stbtf of tif pibsfr. If nfdfssbry, you dbn pfrform bny
+ *       bssodibtfd rfdovfry witiin ibndlfrs of tiosf fxdfptions,
+ *       oftfn bftfr invoking {@dodf fordfTfrminbtion}.  Pibsfrs mby
+ *       blso bf usfd by tbsks fxfduting in b {@link ForkJoinPool},
+ *       wiidi will fnsurf suffidifnt pbrbllflism to fxfdutf tbsks
+ *       wifn otifrs brf blodkfd wbiting for b pibsf to bdvbndf.
  *
  * </ul>
  *
- * <p><b>Termination.</b> A phaser may enter a <em>termination</em>
- * state, that may be checked using method {@link #isTerminated}. Upon
- * termination, all synchronization methods immediately return without
- * waiting for advance, as indicated by a negative return value.
- * Similarly, attempts to register upon termination have no effect.
- * Termination is triggered when an invocation of {@code onAdvance}
- * returns {@code true}. The default implementation returns {@code
- * true} if a deregistration has caused the number of registered
- * parties to become zero.  As illustrated below, when phasers control
- * actions with a fixed number of iterations, it is often convenient
- * to override this method to cause termination when the current phase
- * number reaches a threshold. Method {@link #forceTermination} is
- * also available to abruptly release waiting threads and allow them
- * to terminate.
+ * <p><b>Tfrminbtion.</b> A pibsfr mby fntfr b <fm>tfrminbtion</fm>
+ * stbtf, tibt mby bf difdkfd using mftiod {@link #isTfrminbtfd}. Upon
+ * tfrminbtion, bll syndironizbtion mftiods immfdibtfly rfturn witiout
+ * wbiting for bdvbndf, bs indidbtfd by b nfgbtivf rfturn vbluf.
+ * Similbrly, bttfmpts to rfgistfr upon tfrminbtion ibvf no ffffdt.
+ * Tfrminbtion is triggfrfd wifn bn invodbtion of {@dodf onAdvbndf}
+ * rfturns {@dodf truf}. Tif dffbult implfmfntbtion rfturns {@dodf
+ * truf} if b dfrfgistrbtion ibs dbusfd tif numbfr of rfgistfrfd
+ * pbrtifs to bfdomf zfro.  As illustrbtfd bflow, wifn pibsfrs dontrol
+ * bdtions witi b fixfd numbfr of itfrbtions, it is oftfn donvfnifnt
+ * to ovfrridf tiis mftiod to dbusf tfrminbtion wifn tif durrfnt pibsf
+ * numbfr rfbdifs b tirfsiold. Mftiod {@link #fordfTfrminbtion} is
+ * blso bvbilbblf to bbruptly rflfbsf wbiting tirfbds bnd bllow tifm
+ * to tfrminbtf.
  *
- * <p><b>Tiering.</b> Phasers may be <em>tiered</em> (i.e.,
- * constructed in tree structures) to reduce contention. Phasers with
- * large numbers of parties that would otherwise experience heavy
- * synchronization contention costs may instead be set up so that
- * groups of sub-phasers share a common parent.  This may greatly
- * increase throughput even though it incurs greater per-operation
- * overhead.
+ * <p><b>Tifring.</b> Pibsfrs mby bf <fm>tifrfd</fm> (i.f.,
+ * donstrudtfd in trff strudturfs) to rfdudf dontfntion. Pibsfrs witi
+ * lbrgf numbfrs of pbrtifs tibt would otifrwisf fxpfrifndf ifbvy
+ * syndironizbtion dontfntion dosts mby instfbd bf sft up so tibt
+ * groups of sub-pibsfrs sibrf b dommon pbrfnt.  Tiis mby grfbtly
+ * indrfbsf tirougiput fvfn tiougi it indurs grfbtfr pfr-opfrbtion
+ * ovfrifbd.
  *
- * <p>In a tree of tiered phasers, registration and deregistration of
- * child phasers with their parent are managed automatically.
- * Whenever the number of registered parties of a child phaser becomes
- * non-zero (as established in the {@link #Phaser(Phaser,int)}
- * constructor, {@link #register}, or {@link #bulkRegister}), the
- * child phaser is registered with its parent.  Whenever the number of
- * registered parties becomes zero as the result of an invocation of
- * {@link #arriveAndDeregister}, the child phaser is deregistered
- * from its parent.
+ * <p>In b trff of tifrfd pibsfrs, rfgistrbtion bnd dfrfgistrbtion of
+ * diild pibsfrs witi tifir pbrfnt brf mbnbgfd butombtidblly.
+ * Wifnfvfr tif numbfr of rfgistfrfd pbrtifs of b diild pibsfr bfdomfs
+ * non-zfro (bs fstbblisifd in tif {@link #Pibsfr(Pibsfr,int)}
+ * donstrudtor, {@link #rfgistfr}, or {@link #bulkRfgistfr}), tif
+ * diild pibsfr is rfgistfrfd witi its pbrfnt.  Wifnfvfr tif numbfr of
+ * rfgistfrfd pbrtifs bfdomfs zfro bs tif rfsult of bn invodbtion of
+ * {@link #brrivfAndDfrfgistfr}, tif diild pibsfr is dfrfgistfrfd
+ * from its pbrfnt.
  *
- * <p><b>Monitoring.</b> While synchronization methods may be invoked
- * only by registered parties, the current state of a phaser may be
- * monitored by any caller.  At any given moment there are {@link
- * #getRegisteredParties} parties in total, of which {@link
- * #getArrivedParties} have arrived at the current phase ({@link
- * #getPhase}).  When the remaining ({@link #getUnarrivedParties})
- * parties arrive, the phase advances.  The values returned by these
- * methods may reflect transient states and so are not in general
- * useful for synchronization control.  Method {@link #toString}
- * returns snapshots of these state queries in a form convenient for
- * informal monitoring.
+ * <p><b>Monitoring.</b> Wiilf syndironizbtion mftiods mby bf invokfd
+ * only by rfgistfrfd pbrtifs, tif durrfnt stbtf of b pibsfr mby bf
+ * monitorfd by bny dbllfr.  At bny givfn momfnt tifrf brf {@link
+ * #gftRfgistfrfdPbrtifs} pbrtifs in totbl, of wiidi {@link
+ * #gftArrivfdPbrtifs} ibvf brrivfd bt tif durrfnt pibsf ({@link
+ * #gftPibsf}).  Wifn tif rfmbining ({@link #gftUnbrrivfdPbrtifs})
+ * pbrtifs brrivf, tif pibsf bdvbndfs.  Tif vblufs rfturnfd by tifsf
+ * mftiods mby rfflfdt trbnsifnt stbtfs bnd so brf not in gfnfrbl
+ * usfful for syndironizbtion dontrol.  Mftiod {@link #toString}
+ * rfturns snbpsiots of tifsf stbtf qufrifs in b form donvfnifnt for
+ * informbl monitoring.
  *
- * <p><b>Sample usages:</b>
+ * <p><b>Sbmplf usbgfs:</b>
  *
- * <p>A {@code Phaser} may be used instead of a {@code CountDownLatch}
- * to control a one-shot action serving a variable number of parties.
- * The typical idiom is for the method setting this up to first
- * register, then start the actions, then deregister, as in:
+ * <p>A {@dodf Pibsfr} mby bf usfd instfbd of b {@dodf CountDownLbtdi}
+ * to dontrol b onf-siot bdtion sfrving b vbribblf numbfr of pbrtifs.
+ * Tif typidbl idiom is for tif mftiod sftting tiis up to first
+ * rfgistfr, tifn stbrt tif bdtions, tifn dfrfgistfr, bs in:
  *
- *  <pre> {@code
- * void runTasks(List<Runnable> tasks) {
- *   final Phaser phaser = new Phaser(1); // "1" to register self
- *   // create and start threads
- *   for (final Runnable task : tasks) {
- *     phaser.register();
- *     new Thread() {
- *       public void run() {
- *         phaser.arriveAndAwaitAdvance(); // await all creation
- *         task.run();
+ *  <prf> {@dodf
+ * void runTbsks(List<Runnbblf> tbsks) {
+ *   finbl Pibsfr pibsfr = nfw Pibsfr(1); // "1" to rfgistfr sflf
+ *   // drfbtf bnd stbrt tirfbds
+ *   for (finbl Runnbblf tbsk : tbsks) {
+ *     pibsfr.rfgistfr();
+ *     nfw Tirfbd() {
+ *       publid void run() {
+ *         pibsfr.brrivfAndAwbitAdvbndf(); // bwbit bll drfbtion
+ *         tbsk.run();
  *       }
- *     }.start();
+ *     }.stbrt();
  *   }
  *
- *   // allow threads to start and deregister self
- *   phaser.arriveAndDeregister();
- * }}</pre>
+ *   // bllow tirfbds to stbrt bnd dfrfgistfr sflf
+ *   pibsfr.brrivfAndDfrfgistfr();
+ * }}</prf>
  *
- * <p>One way to cause a set of threads to repeatedly perform actions
- * for a given number of iterations is to override {@code onAdvance}:
+ * <p>Onf wby to dbusf b sft of tirfbds to rfpfbtfdly pfrform bdtions
+ * for b givfn numbfr of itfrbtions is to ovfrridf {@dodf onAdvbndf}:
  *
- *  <pre> {@code
- * void startTasks(List<Runnable> tasks, final int iterations) {
- *   final Phaser phaser = new Phaser() {
- *     protected boolean onAdvance(int phase, int registeredParties) {
- *       return phase >= iterations || registeredParties == 0;
+ *  <prf> {@dodf
+ * void stbrtTbsks(List<Runnbblf> tbsks, finbl int itfrbtions) {
+ *   finbl Pibsfr pibsfr = nfw Pibsfr() {
+ *     protfdtfd boolfbn onAdvbndf(int pibsf, int rfgistfrfdPbrtifs) {
+ *       rfturn pibsf >= itfrbtions || rfgistfrfdPbrtifs == 0;
  *     }
  *   };
- *   phaser.register();
- *   for (final Runnable task : tasks) {
- *     phaser.register();
- *     new Thread() {
- *       public void run() {
+ *   pibsfr.rfgistfr();
+ *   for (finbl Runnbblf tbsk : tbsks) {
+ *     pibsfr.rfgistfr();
+ *     nfw Tirfbd() {
+ *       publid void run() {
  *         do {
- *           task.run();
- *           phaser.arriveAndAwaitAdvance();
- *         } while (!phaser.isTerminated());
+ *           tbsk.run();
+ *           pibsfr.brrivfAndAwbitAdvbndf();
+ *         } wiilf (!pibsfr.isTfrminbtfd());
  *       }
- *     }.start();
+ *     }.stbrt();
  *   }
- *   phaser.arriveAndDeregister(); // deregister self, don't wait
- * }}</pre>
+ *   pibsfr.brrivfAndDfrfgistfr(); // dfrfgistfr sflf, don't wbit
+ * }}</prf>
  *
- * If the main task must later await termination, it
- * may re-register and then execute a similar loop:
- *  <pre> {@code
+ * If tif mbin tbsk must lbtfr bwbit tfrminbtion, it
+ * mby rf-rfgistfr bnd tifn fxfdutf b similbr loop:
+ *  <prf> {@dodf
  *   // ...
- *   phaser.register();
- *   while (!phaser.isTerminated())
- *     phaser.arriveAndAwaitAdvance();}</pre>
+ *   pibsfr.rfgistfr();
+ *   wiilf (!pibsfr.isTfrminbtfd())
+ *     pibsfr.brrivfAndAwbitAdvbndf();}</prf>
  *
- * <p>Related constructions may be used to await particular phase numbers
- * in contexts where you are sure that the phase will never wrap around
- * {@code Integer.MAX_VALUE}. For example:
+ * <p>Rflbtfd donstrudtions mby bf usfd to bwbit pbrtidulbr pibsf numbfrs
+ * in dontfxts wifrf you brf surf tibt tif pibsf will nfvfr wrbp bround
+ * {@dodf Intfgfr.MAX_VALUE}. For fxbmplf:
  *
- *  <pre> {@code
- * void awaitPhase(Phaser phaser, int phase) {
- *   int p = phaser.register(); // assumes caller not already registered
- *   while (p < phase) {
- *     if (phaser.isTerminated())
- *       // ... deal with unexpected termination
- *     else
- *       p = phaser.arriveAndAwaitAdvance();
+ *  <prf> {@dodf
+ * void bwbitPibsf(Pibsfr pibsfr, int pibsf) {
+ *   int p = pibsfr.rfgistfr(); // bssumfs dbllfr not blrfbdy rfgistfrfd
+ *   wiilf (p < pibsf) {
+ *     if (pibsfr.isTfrminbtfd())
+ *       // ... dfbl witi unfxpfdtfd tfrminbtion
+ *     flsf
+ *       p = pibsfr.brrivfAndAwbitAdvbndf();
  *   }
- *   phaser.arriveAndDeregister();
- * }}</pre>
+ *   pibsfr.brrivfAndDfrfgistfr();
+ * }}</prf>
  *
  *
- * <p>To create a set of {@code n} tasks using a tree of phasers, you
- * could use code of the following form, assuming a Task class with a
- * constructor accepting a {@code Phaser} that it registers with upon
- * construction. After invocation of {@code build(new Task[n], 0, n,
- * new Phaser())}, these tasks could then be started, for example by
- * submitting to a pool:
+ * <p>To drfbtf b sft of {@dodf n} tbsks using b trff of pibsfrs, you
+ * dould usf dodf of tif following form, bssuming b Tbsk dlbss witi b
+ * donstrudtor bddfpting b {@dodf Pibsfr} tibt it rfgistfrs witi upon
+ * donstrudtion. Aftfr invodbtion of {@dodf build(nfw Tbsk[n], 0, n,
+ * nfw Pibsfr())}, tifsf tbsks dould tifn bf stbrtfd, for fxbmplf by
+ * submitting to b pool:
  *
- *  <pre> {@code
- * void build(Task[] tasks, int lo, int hi, Phaser ph) {
- *   if (hi - lo > TASKS_PER_PHASER) {
- *     for (int i = lo; i < hi; i += TASKS_PER_PHASER) {
- *       int j = Math.min(i + TASKS_PER_PHASER, hi);
- *       build(tasks, i, j, new Phaser(ph));
+ *  <prf> {@dodf
+ * void build(Tbsk[] tbsks, int lo, int ii, Pibsfr pi) {
+ *   if (ii - lo > TASKS_PER_PHASER) {
+ *     for (int i = lo; i < ii; i += TASKS_PER_PHASER) {
+ *       int j = Mbti.min(i + TASKS_PER_PHASER, ii);
+ *       build(tbsks, i, j, nfw Pibsfr(pi));
  *     }
- *   } else {
- *     for (int i = lo; i < hi; ++i)
- *       tasks[i] = new Task(ph);
- *       // assumes new Task(ph) performs ph.register()
+ *   } flsf {
+ *     for (int i = lo; i < ii; ++i)
+ *       tbsks[i] = nfw Tbsk(pi);
+ *       // bssumfs nfw Tbsk(pi) pfrforms pi.rfgistfr()
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * The best value of {@code TASKS_PER_PHASER} depends mainly on
- * expected synchronization rates. A value as low as four may
- * be appropriate for extremely small per-phase task bodies (thus
- * high rates), or up to hundreds for extremely large ones.
+ * Tif bfst vbluf of {@dodf TASKS_PER_PHASER} dfpfnds mbinly on
+ * fxpfdtfd syndironizbtion rbtfs. A vbluf bs low bs four mby
+ * bf bppropribtf for fxtrfmfly smbll pfr-pibsf tbsk bodifs (tius
+ * iigi rbtfs), or up to iundrfds for fxtrfmfly lbrgf onfs.
  *
- * <p><b>Implementation notes</b>: This implementation restricts the
- * maximum number of parties to 65535. Attempts to register additional
- * parties result in {@code IllegalStateException}. However, you can and
- * should create tiered phasers to accommodate arbitrarily large sets
- * of participants.
+ * <p><b>Implfmfntbtion notfs</b>: Tiis implfmfntbtion rfstridts tif
+ * mbximum numbfr of pbrtifs to 65535. Attfmpts to rfgistfr bdditionbl
+ * pbrtifs rfsult in {@dodf IllfgblStbtfExdfption}. Howfvfr, you dbn bnd
+ * siould drfbtf tifrfd pibsfrs to bddommodbtf brbitrbrily lbrgf sfts
+ * of pbrtidipbnts.
  *
- * @since 1.7
- * @author Doug Lea
+ * @sindf 1.7
+ * @butior Doug Lfb
  */
-public class Phaser {
+publid dlbss Pibsfr {
     /*
-     * This class implements an extension of X10 "clocks".  Thanks to
-     * Vijay Saraswat for the idea, and to Vivek Sarkar for
-     * enhancements to extend functionality.
+     * Tiis dlbss implfmfnts bn fxtfnsion of X10 "dlodks".  Tibnks to
+     * Vijby Sbrbswbt for tif idfb, bnd to Vivfk Sbrkbr for
+     * fnibndfmfnts to fxtfnd fundtionblity.
      */
 
     /**
-     * Primary state representation, holding four bit-fields:
+     * Primbry stbtf rfprfsfntbtion, iolding four bit-fiflds:
      *
-     * unarrived  -- the number of parties yet to hit barrier (bits  0-15)
-     * parties    -- the number of parties to wait            (bits 16-31)
-     * phase      -- the generation of the barrier            (bits 32-62)
-     * terminated -- set if barrier is terminated             (bit  63 / sign)
+     * unbrrivfd  -- tif numbfr of pbrtifs yft to iit bbrrifr (bits  0-15)
+     * pbrtifs    -- tif numbfr of pbrtifs to wbit            (bits 16-31)
+     * pibsf      -- tif gfnfrbtion of tif bbrrifr            (bits 32-62)
+     * tfrminbtfd -- sft if bbrrifr is tfrminbtfd             (bit  63 / sign)
      *
-     * Except that a phaser with no registered parties is
-     * distinguished by the otherwise illegal state of having zero
-     * parties and one unarrived parties (encoded as EMPTY below).
+     * Exdfpt tibt b pibsfr witi no rfgistfrfd pbrtifs is
+     * distinguisifd by tif otifrwisf illfgbl stbtf of ibving zfro
+     * pbrtifs bnd onf unbrrivfd pbrtifs (fndodfd bs EMPTY bflow).
      *
-     * To efficiently maintain atomicity, these values are packed into
-     * a single (atomic) long. Good performance relies on keeping
-     * state decoding and encoding simple, and keeping race windows
-     * short.
+     * To fffidifntly mbintbin btomidity, tifsf vblufs brf pbdkfd into
+     * b singlf (btomid) long. Good pfrformbndf rflifs on kffping
+     * stbtf dfdoding bnd fndoding simplf, bnd kffping rbdf windows
+     * siort.
      *
-     * All state updates are performed via CAS except initial
-     * registration of a sub-phaser (i.e., one with a non-null
-     * parent).  In this (relatively rare) case, we use built-in
-     * synchronization to lock while first registering with its
-     * parent.
+     * All stbtf updbtfs brf pfrformfd vib CAS fxdfpt initibl
+     * rfgistrbtion of b sub-pibsfr (i.f., onf witi b non-null
+     * pbrfnt).  In tiis (rflbtivfly rbrf) dbsf, wf usf built-in
+     * syndironizbtion to lodk wiilf first rfgistfring witi its
+     * pbrfnt.
      *
-     * The phase of a subphaser is allowed to lag that of its
-     * ancestors until it is actually accessed -- see method
-     * reconcileState.
+     * Tif pibsf of b subpibsfr is bllowfd to lbg tibt of its
+     * bndfstors until it is bdtublly bddfssfd -- sff mftiod
+     * rfdondilfStbtf.
      */
-    private volatile long state;
+    privbtf volbtilf long stbtf;
 
-    private static final int  MAX_PARTIES     = 0xffff;
-    private static final int  MAX_PHASE       = Integer.MAX_VALUE;
-    private static final int  PARTIES_SHIFT   = 16;
-    private static final int  PHASE_SHIFT     = 32;
-    private static final int  UNARRIVED_MASK  = 0xffff;      // to mask ints
-    private static final long PARTIES_MASK    = 0xffff0000L; // to mask longs
-    private static final long COUNTS_MASK     = 0xffffffffL;
-    private static final long TERMINATION_BIT = 1L << 63;
+    privbtf stbtid finbl int  MAX_PARTIES     = 0xffff;
+    privbtf stbtid finbl int  MAX_PHASE       = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int  PARTIES_SHIFT   = 16;
+    privbtf stbtid finbl int  PHASE_SHIFT     = 32;
+    privbtf stbtid finbl int  UNARRIVED_MASK  = 0xffff;      // to mbsk ints
+    privbtf stbtid finbl long PARTIES_MASK    = 0xffff0000L; // to mbsk longs
+    privbtf stbtid finbl long COUNTS_MASK     = 0xffffffffL;
+    privbtf stbtid finbl long TERMINATION_BIT = 1L << 63;
 
-    // some special values
-    private static final int  ONE_ARRIVAL     = 1;
-    private static final int  ONE_PARTY       = 1 << PARTIES_SHIFT;
-    private static final int  ONE_DEREGISTER  = ONE_ARRIVAL|ONE_PARTY;
-    private static final int  EMPTY           = 1;
+    // somf spfdibl vblufs
+    privbtf stbtid finbl int  ONE_ARRIVAL     = 1;
+    privbtf stbtid finbl int  ONE_PARTY       = 1 << PARTIES_SHIFT;
+    privbtf stbtid finbl int  ONE_DEREGISTER  = ONE_ARRIVAL|ONE_PARTY;
+    privbtf stbtid finbl int  EMPTY           = 1;
 
-    // The following unpacking methods are usually manually inlined
+    // Tif following unpbdking mftiods brf usublly mbnublly inlinfd
 
-    private static int unarrivedOf(long s) {
-        int counts = (int)s;
-        return (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
+    privbtf stbtid int unbrrivfdOf(long s) {
+        int dounts = (int)s;
+        rfturn (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
     }
 
-    private static int partiesOf(long s) {
-        return (int)s >>> PARTIES_SHIFT;
+    privbtf stbtid int pbrtifsOf(long s) {
+        rfturn (int)s >>> PARTIES_SHIFT;
     }
 
-    private static int phaseOf(long s) {
-        return (int)(s >>> PHASE_SHIFT);
+    privbtf stbtid int pibsfOf(long s) {
+        rfturn (int)(s >>> PHASE_SHIFT);
     }
 
-    private static int arrivedOf(long s) {
-        int counts = (int)s;
-        return (counts == EMPTY) ? 0 :
-            (counts >>> PARTIES_SHIFT) - (counts & UNARRIVED_MASK);
+    privbtf stbtid int brrivfdOf(long s) {
+        int dounts = (int)s;
+        rfturn (dounts == EMPTY) ? 0 :
+            (dounts >>> PARTIES_SHIFT) - (dounts & UNARRIVED_MASK);
     }
 
     /**
-     * The parent of this phaser, or null if none
+     * Tif pbrfnt of tiis pibsfr, or null if nonf
      */
-    private final Phaser parent;
+    privbtf finbl Pibsfr pbrfnt;
 
     /**
-     * The root of phaser tree. Equals this if not in a tree.
+     * Tif root of pibsfr trff. Equbls tiis if not in b trff.
      */
-    private final Phaser root;
+    privbtf finbl Pibsfr root;
 
     /**
-     * Heads of Treiber stacks for waiting threads. To eliminate
-     * contention when releasing some threads while adding others, we
-     * use two of them, alternating across even and odd phases.
-     * Subphasers share queues with root to speed up releases.
+     * Hfbds of Trfibfr stbdks for wbiting tirfbds. To fliminbtf
+     * dontfntion wifn rflfbsing somf tirfbds wiilf bdding otifrs, wf
+     * usf two of tifm, bltfrnbting bdross fvfn bnd odd pibsfs.
+     * Subpibsfrs sibrf qufufs witi root to spffd up rflfbsfs.
      */
-    private final AtomicReference<QNode> evenQ;
-    private final AtomicReference<QNode> oddQ;
+    privbtf finbl AtomidRfffrfndf<QNodf> fvfnQ;
+    privbtf finbl AtomidRfffrfndf<QNodf> oddQ;
 
-    private AtomicReference<QNode> queueFor(int phase) {
-        return ((phase & 1) == 0) ? evenQ : oddQ;
+    privbtf AtomidRfffrfndf<QNodf> qufufFor(int pibsf) {
+        rfturn ((pibsf & 1) == 0) ? fvfnQ : oddQ;
     }
 
     /**
-     * Returns message string for bounds exceptions on arrival.
+     * Rfturns mfssbgf string for bounds fxdfptions on brrivbl.
      */
-    private String badArrive(long s) {
-        return "Attempted arrival of unregistered party for " +
-            stateToString(s);
+    privbtf String bbdArrivf(long s) {
+        rfturn "Attfmptfd brrivbl of unrfgistfrfd pbrty for " +
+            stbtfToString(s);
     }
 
     /**
-     * Returns message string for bounds exceptions on registration.
+     * Rfturns mfssbgf string for bounds fxdfptions on rfgistrbtion.
      */
-    private String badRegister(long s) {
-        return "Attempt to register more than " +
-            MAX_PARTIES + " parties for " + stateToString(s);
+    privbtf String bbdRfgistfr(long s) {
+        rfturn "Attfmpt to rfgistfr morf tibn " +
+            MAX_PARTIES + " pbrtifs for " + stbtfToString(s);
     }
 
     /**
-     * Main implementation for methods arrive and arriveAndDeregister.
-     * Manually tuned to speed up and minimize race windows for the
-     * common case of just decrementing unarrived field.
+     * Mbin implfmfntbtion for mftiods brrivf bnd brrivfAndDfrfgistfr.
+     * Mbnublly tunfd to spffd up bnd minimizf rbdf windows for tif
+     * dommon dbsf of just dfdrfmfnting unbrrivfd fifld.
      *
-     * @param adjust value to subtract from state;
-     *               ONE_ARRIVAL for arrive,
-     *               ONE_DEREGISTER for arriveAndDeregister
+     * @pbrbm bdjust vbluf to subtrbdt from stbtf;
+     *               ONE_ARRIVAL for brrivf,
+     *               ONE_DEREGISTER for brrivfAndDfrfgistfr
      */
-    private int doArrive(int adjust) {
-        final Phaser root = this.root;
+    privbtf int doArrivf(int bdjust) {
+        finbl Pibsfr root = tiis.root;
         for (;;) {
-            long s = (root == this) ? state : reconcileState();
-            int phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                return phase;
-            int counts = (int)s;
-            int unarrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
-            if (unarrived <= 0)
-                throw new IllegalStateException(badArrive(s));
-            if (UNSAFE.compareAndSwapLong(this, stateOffset, s, s-=adjust)) {
-                if (unarrived == 1) {
-                    long n = s & PARTIES_MASK;  // base of next state
-                    int nextUnarrived = (int)n >>> PARTIES_SHIFT;
-                    if (root == this) {
-                        if (onAdvance(phase, nextUnarrived))
+            long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+            int pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                rfturn pibsf;
+            int dounts = (int)s;
+            int unbrrivfd = (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
+            if (unbrrivfd <= 0)
+                tirow nfw IllfgblStbtfExdfption(bbdArrivf(s));
+            if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, s-=bdjust)) {
+                if (unbrrivfd == 1) {
+                    long n = s & PARTIES_MASK;  // bbsf of nfxt stbtf
+                    int nfxtUnbrrivfd = (int)n >>> PARTIES_SHIFT;
+                    if (root == tiis) {
+                        if (onAdvbndf(pibsf, nfxtUnbrrivfd))
                             n |= TERMINATION_BIT;
-                        else if (nextUnarrived == 0)
+                        flsf if (nfxtUnbrrivfd == 0)
                             n |= EMPTY;
-                        else
-                            n |= nextUnarrived;
-                        int nextPhase = (phase + 1) & MAX_PHASE;
-                        n |= (long)nextPhase << PHASE_SHIFT;
-                        UNSAFE.compareAndSwapLong(this, stateOffset, s, n);
-                        releaseWaiters(phase);
+                        flsf
+                            n |= nfxtUnbrrivfd;
+                        int nfxtPibsf = (pibsf + 1) & MAX_PHASE;
+                        n |= (long)nfxtPibsf << PHASE_SHIFT;
+                        UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, n);
+                        rflfbsfWbitfrs(pibsf);
                     }
-                    else if (nextUnarrived == 0) { // propagate deregistration
-                        phase = parent.doArrive(ONE_DEREGISTER);
-                        UNSAFE.compareAndSwapLong(this, stateOffset,
+                    flsf if (nfxtUnbrrivfd == 0) { // propbgbtf dfrfgistrbtion
+                        pibsf = pbrfnt.doArrivf(ONE_DEREGISTER);
+                        UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft,
                                                   s, s | EMPTY);
                     }
-                    else
-                        phase = parent.doArrive(ONE_ARRIVAL);
+                    flsf
+                        pibsf = pbrfnt.doArrivf(ONE_ARRIVAL);
                 }
-                return phase;
+                rfturn pibsf;
             }
         }
     }
 
     /**
-     * Implementation of register, bulkRegister
+     * Implfmfntbtion of rfgistfr, bulkRfgistfr
      *
-     * @param registrations number to add to both parties and
-     * unarrived fields. Must be greater than zero.
+     * @pbrbm rfgistrbtions numbfr to bdd to boti pbrtifs bnd
+     * unbrrivfd fiflds. Must bf grfbtfr tibn zfro.
      */
-    private int doRegister(int registrations) {
-        // adjustment to state
-        long adjust = ((long)registrations << PARTIES_SHIFT) | registrations;
-        final Phaser parent = this.parent;
-        int phase;
+    privbtf int doRfgistfr(int rfgistrbtions) {
+        // bdjustmfnt to stbtf
+        long bdjust = ((long)rfgistrbtions << PARTIES_SHIFT) | rfgistrbtions;
+        finbl Pibsfr pbrfnt = tiis.pbrfnt;
+        int pibsf;
         for (;;) {
-            long s = (parent == null) ? state : reconcileState();
-            int counts = (int)s;
-            int parties = counts >>> PARTIES_SHIFT;
-            int unarrived = counts & UNARRIVED_MASK;
-            if (registrations > MAX_PARTIES - parties)
-                throw new IllegalStateException(badRegister(s));
-            phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                break;
-            if (counts != EMPTY) {                  // not 1st registration
-                if (parent == null || reconcileState() == s) {
-                    if (unarrived == 0)             // wait out advance
-                        root.internalAwaitAdvance(phase, null);
-                    else if (UNSAFE.compareAndSwapLong(this, stateOffset,
-                                                       s, s + adjust))
-                        break;
+            long s = (pbrfnt == null) ? stbtf : rfdondilfStbtf();
+            int dounts = (int)s;
+            int pbrtifs = dounts >>> PARTIES_SHIFT;
+            int unbrrivfd = dounts & UNARRIVED_MASK;
+            if (rfgistrbtions > MAX_PARTIES - pbrtifs)
+                tirow nfw IllfgblStbtfExdfption(bbdRfgistfr(s));
+            pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                brfbk;
+            if (dounts != EMPTY) {                  // not 1st rfgistrbtion
+                if (pbrfnt == null || rfdondilfStbtf() == s) {
+                    if (unbrrivfd == 0)             // wbit out bdvbndf
+                        root.intfrnblAwbitAdvbndf(pibsf, null);
+                    flsf if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft,
+                                                       s, s + bdjust))
+                        brfbk;
                 }
             }
-            else if (parent == null) {              // 1st root registration
-                long next = ((long)phase << PHASE_SHIFT) | adjust;
-                if (UNSAFE.compareAndSwapLong(this, stateOffset, s, next))
-                    break;
+            flsf if (pbrfnt == null) {              // 1st root rfgistrbtion
+                long nfxt = ((long)pibsf << PHASE_SHIFT) | bdjust;
+                if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, nfxt))
+                    brfbk;
             }
-            else {
-                synchronized (this) {               // 1st sub registration
-                    if (state == s) {               // recheck under lock
-                        phase = parent.doRegister(1);
-                        if (phase < 0)
-                            break;
-                        // finish registration whenever parent registration
-                        // succeeded, even when racing with termination,
-                        // since these are part of the same "transaction".
-                        while (!UNSAFE.compareAndSwapLong
-                               (this, stateOffset, s,
-                                ((long)phase << PHASE_SHIFT) | adjust)) {
-                            s = state;
-                            phase = (int)(root.state >>> PHASE_SHIFT);
-                            // assert (int)s == EMPTY;
+            flsf {
+                syndironizfd (tiis) {               // 1st sub rfgistrbtion
+                    if (stbtf == s) {               // rfdifdk undfr lodk
+                        pibsf = pbrfnt.doRfgistfr(1);
+                        if (pibsf < 0)
+                            brfbk;
+                        // finisi rfgistrbtion wifnfvfr pbrfnt rfgistrbtion
+                        // suddffdfd, fvfn wifn rbding witi tfrminbtion,
+                        // sindf tifsf brf pbrt of tif sbmf "trbnsbdtion".
+                        wiilf (!UNSAFE.dompbrfAndSwbpLong
+                               (tiis, stbtfOffsft, s,
+                                ((long)pibsf << PHASE_SHIFT) | bdjust)) {
+                            s = stbtf;
+                            pibsf = (int)(root.stbtf >>> PHASE_SHIFT);
+                            // bssfrt (int)s == EMPTY;
                         }
-                        break;
+                        brfbk;
                     }
                 }
             }
         }
-        return phase;
+        rfturn pibsf;
     }
 
     /**
-     * Resolves lagged phase propagation from root if necessary.
-     * Reconciliation normally occurs when root has advanced but
-     * subphasers have not yet done so, in which case they must finish
-     * their own advance by setting unarrived to parties (or if
-     * parties is zero, resetting to unregistered EMPTY state).
+     * Rfsolvfs lbggfd pibsf propbgbtion from root if nfdfssbry.
+     * Rfdondilibtion normblly oddurs wifn root ibs bdvbndfd but
+     * subpibsfrs ibvf not yft donf so, in wiidi dbsf tify must finisi
+     * tifir own bdvbndf by sftting unbrrivfd to pbrtifs (or if
+     * pbrtifs is zfro, rfsftting to unrfgistfrfd EMPTY stbtf).
      *
-     * @return reconciled state
+     * @rfturn rfdondilfd stbtf
      */
-    private long reconcileState() {
-        final Phaser root = this.root;
-        long s = state;
-        if (root != this) {
-            int phase, p;
-            // CAS to root phase with current parties, tripping unarrived
-            while ((phase = (int)(root.state >>> PHASE_SHIFT)) !=
+    privbtf long rfdondilfStbtf() {
+        finbl Pibsfr root = tiis.root;
+        long s = stbtf;
+        if (root != tiis) {
+            int pibsf, p;
+            // CAS to root pibsf witi durrfnt pbrtifs, tripping unbrrivfd
+            wiilf ((pibsf = (int)(root.stbtf >>> PHASE_SHIFT)) !=
                    (int)(s >>> PHASE_SHIFT) &&
-                   !UNSAFE.compareAndSwapLong
-                   (this, stateOffset, s,
-                    s = (((long)phase << PHASE_SHIFT) |
-                         ((phase < 0) ? (s & COUNTS_MASK) :
+                   !UNSAFE.dompbrfAndSwbpLong
+                   (tiis, stbtfOffsft, s,
+                    s = (((long)pibsf << PHASE_SHIFT) |
+                         ((pibsf < 0) ? (s & COUNTS_MASK) :
                           (((p = (int)s >>> PARTIES_SHIFT) == 0) ? EMPTY :
                            ((s & PARTIES_MASK) | p))))))
-                s = state;
+                s = stbtf;
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Creates a new phaser with no initially registered parties, no
-     * parent, and initial phase number 0. Any thread using this
-     * phaser will need to first register for it.
+     * Crfbtfs b nfw pibsfr witi no initiblly rfgistfrfd pbrtifs, no
+     * pbrfnt, bnd initibl pibsf numbfr 0. Any tirfbd using tiis
+     * pibsfr will nffd to first rfgistfr for it.
      */
-    public Phaser() {
-        this(null, 0);
+    publid Pibsfr() {
+        tiis(null, 0);
     }
 
     /**
-     * Creates a new phaser with the given number of registered
-     * unarrived parties, no parent, and initial phase number 0.
+     * Crfbtfs b nfw pibsfr witi tif givfn numbfr of rfgistfrfd
+     * unbrrivfd pbrtifs, no pbrfnt, bnd initibl pibsf numbfr 0.
      *
-     * @param parties the number of parties required to advance to the
-     * next phase
-     * @throws IllegalArgumentException if parties less than zero
-     * or greater than the maximum number of parties supported
+     * @pbrbm pbrtifs tif numbfr of pbrtifs rfquirfd to bdvbndf to tif
+     * nfxt pibsf
+     * @tirows IllfgblArgumfntExdfption if pbrtifs lfss tibn zfro
+     * or grfbtfr tibn tif mbximum numbfr of pbrtifs supportfd
      */
-    public Phaser(int parties) {
-        this(null, parties);
+    publid Pibsfr(int pbrtifs) {
+        tiis(null, pbrtifs);
     }
 
     /**
-     * Equivalent to {@link #Phaser(Phaser, int) Phaser(parent, 0)}.
+     * Equivblfnt to {@link #Pibsfr(Pibsfr, int) Pibsfr(pbrfnt, 0)}.
      *
-     * @param parent the parent phaser
+     * @pbrbm pbrfnt tif pbrfnt pibsfr
      */
-    public Phaser(Phaser parent) {
-        this(parent, 0);
+    publid Pibsfr(Pibsfr pbrfnt) {
+        tiis(pbrfnt, 0);
     }
 
     /**
-     * Creates a new phaser with the given parent and number of
-     * registered unarrived parties.  When the given parent is non-null
-     * and the given number of parties is greater than zero, this
-     * child phaser is registered with its parent.
+     * Crfbtfs b nfw pibsfr witi tif givfn pbrfnt bnd numbfr of
+     * rfgistfrfd unbrrivfd pbrtifs.  Wifn tif givfn pbrfnt is non-null
+     * bnd tif givfn numbfr of pbrtifs is grfbtfr tibn zfro, tiis
+     * diild pibsfr is rfgistfrfd witi its pbrfnt.
      *
-     * @param parent the parent phaser
-     * @param parties the number of parties required to advance to the
-     * next phase
-     * @throws IllegalArgumentException if parties less than zero
-     * or greater than the maximum number of parties supported
+     * @pbrbm pbrfnt tif pbrfnt pibsfr
+     * @pbrbm pbrtifs tif numbfr of pbrtifs rfquirfd to bdvbndf to tif
+     * nfxt pibsf
+     * @tirows IllfgblArgumfntExdfption if pbrtifs lfss tibn zfro
+     * or grfbtfr tibn tif mbximum numbfr of pbrtifs supportfd
      */
-    public Phaser(Phaser parent, int parties) {
-        if (parties >>> PARTIES_SHIFT != 0)
-            throw new IllegalArgumentException("Illegal number of parties");
-        int phase = 0;
-        this.parent = parent;
-        if (parent != null) {
-            final Phaser root = parent.root;
-            this.root = root;
-            this.evenQ = root.evenQ;
-            this.oddQ = root.oddQ;
-            if (parties != 0)
-                phase = parent.doRegister(1);
+    publid Pibsfr(Pibsfr pbrfnt, int pbrtifs) {
+        if (pbrtifs >>> PARTIES_SHIFT != 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl numbfr of pbrtifs");
+        int pibsf = 0;
+        tiis.pbrfnt = pbrfnt;
+        if (pbrfnt != null) {
+            finbl Pibsfr root = pbrfnt.root;
+            tiis.root = root;
+            tiis.fvfnQ = root.fvfnQ;
+            tiis.oddQ = root.oddQ;
+            if (pbrtifs != 0)
+                pibsf = pbrfnt.doRfgistfr(1);
         }
-        else {
-            this.root = this;
-            this.evenQ = new AtomicReference<QNode>();
-            this.oddQ = new AtomicReference<QNode>();
+        flsf {
+            tiis.root = tiis;
+            tiis.fvfnQ = nfw AtomidRfffrfndf<QNodf>();
+            tiis.oddQ = nfw AtomidRfffrfndf<QNodf>();
         }
-        this.state = (parties == 0) ? (long)EMPTY :
-            ((long)phase << PHASE_SHIFT) |
-            ((long)parties << PARTIES_SHIFT) |
-            ((long)parties);
+        tiis.stbtf = (pbrtifs == 0) ? (long)EMPTY :
+            ((long)pibsf << PHASE_SHIFT) |
+            ((long)pbrtifs << PARTIES_SHIFT) |
+            ((long)pbrtifs);
     }
 
     /**
-     * Adds a new unarrived party to this phaser.  If an ongoing
-     * invocation of {@link #onAdvance} is in progress, this method
-     * may await its completion before returning.  If this phaser has
-     * a parent, and this phaser previously had no registered parties,
-     * this child phaser is also registered with its parent. If
-     * this phaser is terminated, the attempt to register has
-     * no effect, and a negative value is returned.
+     * Adds b nfw unbrrivfd pbrty to tiis pibsfr.  If bn ongoing
+     * invodbtion of {@link #onAdvbndf} is in progrfss, tiis mftiod
+     * mby bwbit its domplftion bfforf rfturning.  If tiis pibsfr ibs
+     * b pbrfnt, bnd tiis pibsfr prfviously ibd no rfgistfrfd pbrtifs,
+     * tiis diild pibsfr is blso rfgistfrfd witi its pbrfnt. If
+     * tiis pibsfr is tfrminbtfd, tif bttfmpt to rfgistfr ibs
+     * no ffffdt, bnd b nfgbtivf vbluf is rfturnfd.
      *
-     * @return the arrival phase number to which this registration
-     * applied.  If this value is negative, then this phaser has
-     * terminated, in which case registration has no effect.
-     * @throws IllegalStateException if attempting to register more
-     * than the maximum supported number of parties
+     * @rfturn tif brrivbl pibsf numbfr to wiidi tiis rfgistrbtion
+     * bpplifd.  If tiis vbluf is nfgbtivf, tifn tiis pibsfr ibs
+     * tfrminbtfd, in wiidi dbsf rfgistrbtion ibs no ffffdt.
+     * @tirows IllfgblStbtfExdfption if bttfmpting to rfgistfr morf
+     * tibn tif mbximum supportfd numbfr of pbrtifs
      */
-    public int register() {
-        return doRegister(1);
+    publid int rfgistfr() {
+        rfturn doRfgistfr(1);
     }
 
     /**
-     * Adds the given number of new unarrived parties to this phaser.
-     * If an ongoing invocation of {@link #onAdvance} is in progress,
-     * this method may await its completion before returning.  If this
-     * phaser has a parent, and the given number of parties is greater
-     * than zero, and this phaser previously had no registered
-     * parties, this child phaser is also registered with its parent.
-     * If this phaser is terminated, the attempt to register has no
-     * effect, and a negative value is returned.
+     * Adds tif givfn numbfr of nfw unbrrivfd pbrtifs to tiis pibsfr.
+     * If bn ongoing invodbtion of {@link #onAdvbndf} is in progrfss,
+     * tiis mftiod mby bwbit its domplftion bfforf rfturning.  If tiis
+     * pibsfr ibs b pbrfnt, bnd tif givfn numbfr of pbrtifs is grfbtfr
+     * tibn zfro, bnd tiis pibsfr prfviously ibd no rfgistfrfd
+     * pbrtifs, tiis diild pibsfr is blso rfgistfrfd witi its pbrfnt.
+     * If tiis pibsfr is tfrminbtfd, tif bttfmpt to rfgistfr ibs no
+     * ffffdt, bnd b nfgbtivf vbluf is rfturnfd.
      *
-     * @param parties the number of additional parties required to
-     * advance to the next phase
-     * @return the arrival phase number to which this registration
-     * applied.  If this value is negative, then this phaser has
-     * terminated, in which case registration has no effect.
-     * @throws IllegalStateException if attempting to register more
-     * than the maximum supported number of parties
-     * @throws IllegalArgumentException if {@code parties < 0}
+     * @pbrbm pbrtifs tif numbfr of bdditionbl pbrtifs rfquirfd to
+     * bdvbndf to tif nfxt pibsf
+     * @rfturn tif brrivbl pibsf numbfr to wiidi tiis rfgistrbtion
+     * bpplifd.  If tiis vbluf is nfgbtivf, tifn tiis pibsfr ibs
+     * tfrminbtfd, in wiidi dbsf rfgistrbtion ibs no ffffdt.
+     * @tirows IllfgblStbtfExdfption if bttfmpting to rfgistfr morf
+     * tibn tif mbximum supportfd numbfr of pbrtifs
+     * @tirows IllfgblArgumfntExdfption if {@dodf pbrtifs < 0}
      */
-    public int bulkRegister(int parties) {
-        if (parties < 0)
-            throw new IllegalArgumentException();
-        if (parties == 0)
-            return getPhase();
-        return doRegister(parties);
+    publid int bulkRfgistfr(int pbrtifs) {
+        if (pbrtifs < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (pbrtifs == 0)
+            rfturn gftPibsf();
+        rfturn doRfgistfr(pbrtifs);
     }
 
     /**
-     * Arrives at this phaser, without waiting for others to arrive.
+     * Arrivfs bt tiis pibsfr, witiout wbiting for otifrs to brrivf.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
      *
-     * @return the arrival phase number, or a negative value if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of unarrived parties would become negative
+     * @rfturn tif brrivbl pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of unbrrivfd pbrtifs would bfdomf nfgbtivf
      */
-    public int arrive() {
-        return doArrive(ONE_ARRIVAL);
+    publid int brrivf() {
+        rfturn doArrivf(ONE_ARRIVAL);
     }
 
     /**
-     * Arrives at this phaser and deregisters from it without waiting
-     * for others to arrive. Deregistration reduces the number of
-     * parties required to advance in future phases.  If this phaser
-     * has a parent, and deregistration causes this phaser to have
-     * zero parties, this phaser is also deregistered from its parent.
+     * Arrivfs bt tiis pibsfr bnd dfrfgistfrs from it witiout wbiting
+     * for otifrs to brrivf. Dfrfgistrbtion rfdudfs tif numbfr of
+     * pbrtifs rfquirfd to bdvbndf in futurf pibsfs.  If tiis pibsfr
+     * ibs b pbrfnt, bnd dfrfgistrbtion dbusfs tiis pibsfr to ibvf
+     * zfro pbrtifs, tiis pibsfr is blso dfrfgistfrfd from its pbrfnt.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
      *
-     * @return the arrival phase number, or a negative value if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of registered or unarrived parties would become negative
+     * @rfturn tif brrivbl pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of rfgistfrfd or unbrrivfd pbrtifs would bfdomf nfgbtivf
      */
-    public int arriveAndDeregister() {
-        return doArrive(ONE_DEREGISTER);
+    publid int brrivfAndDfrfgistfr() {
+        rfturn doArrivf(ONE_DEREGISTER);
     }
 
     /**
-     * Arrives at this phaser and awaits others. Equivalent in effect
-     * to {@code awaitAdvance(arrive())}.  If you need to await with
-     * interruption or timeout, you can arrange this with an analogous
-     * construction using one of the other forms of the {@code
-     * awaitAdvance} method.  If instead you need to deregister upon
-     * arrival, use {@code awaitAdvance(arriveAndDeregister())}.
+     * Arrivfs bt tiis pibsfr bnd bwbits otifrs. Equivblfnt in ffffdt
+     * to {@dodf bwbitAdvbndf(brrivf())}.  If you nffd to bwbit witi
+     * intfrruption or timfout, you dbn brrbngf tiis witi bn bnblogous
+     * donstrudtion using onf of tif otifr forms of tif {@dodf
+     * bwbitAdvbndf} mftiod.  If instfbd you nffd to dfrfgistfr upon
+     * brrivbl, usf {@dodf bwbitAdvbndf(brrivfAndDfrfgistfr())}.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
      *
-     * @return the arrival phase number, or the (negative)
-     * {@linkplain #getPhase() current phase} if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of unarrived parties would become negative
+     * @rfturn tif brrivbl pibsf numbfr, or tif (nfgbtivf)
+     * {@linkplbin #gftPibsf() durrfnt pibsf} if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of unbrrivfd pbrtifs would bfdomf nfgbtivf
      */
-    public int arriveAndAwaitAdvance() {
-        // Specialization of doArrive+awaitAdvance eliminating some reads/paths
-        final Phaser root = this.root;
+    publid int brrivfAndAwbitAdvbndf() {
+        // Spfdiblizbtion of doArrivf+bwbitAdvbndf fliminbting somf rfbds/pbtis
+        finbl Pibsfr root = tiis.root;
         for (;;) {
-            long s = (root == this) ? state : reconcileState();
-            int phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                return phase;
-            int counts = (int)s;
-            int unarrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
-            if (unarrived <= 0)
-                throw new IllegalStateException(badArrive(s));
-            if (UNSAFE.compareAndSwapLong(this, stateOffset, s,
+            long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+            int pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                rfturn pibsf;
+            int dounts = (int)s;
+            int unbrrivfd = (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
+            if (unbrrivfd <= 0)
+                tirow nfw IllfgblStbtfExdfption(bbdArrivf(s));
+            if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s,
                                           s -= ONE_ARRIVAL)) {
-                if (unarrived > 1)
-                    return root.internalAwaitAdvance(phase, null);
-                if (root != this)
-                    return parent.arriveAndAwaitAdvance();
-                long n = s & PARTIES_MASK;  // base of next state
-                int nextUnarrived = (int)n >>> PARTIES_SHIFT;
-                if (onAdvance(phase, nextUnarrived))
+                if (unbrrivfd > 1)
+                    rfturn root.intfrnblAwbitAdvbndf(pibsf, null);
+                if (root != tiis)
+                    rfturn pbrfnt.brrivfAndAwbitAdvbndf();
+                long n = s & PARTIES_MASK;  // bbsf of nfxt stbtf
+                int nfxtUnbrrivfd = (int)n >>> PARTIES_SHIFT;
+                if (onAdvbndf(pibsf, nfxtUnbrrivfd))
                     n |= TERMINATION_BIT;
-                else if (nextUnarrived == 0)
+                flsf if (nfxtUnbrrivfd == 0)
                     n |= EMPTY;
-                else
-                    n |= nextUnarrived;
-                int nextPhase = (phase + 1) & MAX_PHASE;
-                n |= (long)nextPhase << PHASE_SHIFT;
-                if (!UNSAFE.compareAndSwapLong(this, stateOffset, s, n))
-                    return (int)(state >>> PHASE_SHIFT); // terminated
-                releaseWaiters(phase);
-                return nextPhase;
+                flsf
+                    n |= nfxtUnbrrivfd;
+                int nfxtPibsf = (pibsf + 1) & MAX_PHASE;
+                n |= (long)nfxtPibsf << PHASE_SHIFT;
+                if (!UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, n))
+                    rfturn (int)(stbtf >>> PHASE_SHIFT); // tfrminbtfd
+                rflfbsfWbitfrs(pibsf);
+                rfturn nfxtPibsf;
             }
         }
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value, returning immediately if the current phase is not equal
-     * to the given phase value or this phaser is terminated.
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf, rfturning immfdibtfly if tif durrfnt pibsf is not fqubl
+     * to tif givfn pibsf vbluf or tiis pibsfr is tfrminbtfd.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
      */
-    public int awaitAdvance(int phase) {
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+    publid int bwbitAdvbndf(int pibsf) {
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase)
-            return root.internalAwaitAdvance(phase, null);
-        return p;
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf)
+            rfturn root.intfrnblAwbitAdvbndf(pibsf, null);
+        rfturn p;
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value, throwing {@code InterruptedException} if interrupted
-     * while waiting, or returning immediately if the current phase is
-     * not equal to the given phase value or this phaser is
-     * terminated.
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf, tirowing {@dodf IntfrruptfdExdfption} if intfrruptfd
+     * wiilf wbiting, or rfturning immfdibtfly if tif durrfnt pibsf is
+     * not fqubl to tif givfn pibsf vbluf or tiis pibsfr is
+     * tfrminbtfd.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
-     * @throws InterruptedException if thread interrupted while waiting
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
+     * @tirows IntfrruptfdExdfption if tirfbd intfrruptfd wiilf wbiting
      */
-    public int awaitAdvanceInterruptibly(int phase)
-        throws InterruptedException {
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+    publid int bwbitAdvbndfIntfrruptibly(int pibsf)
+        tirows IntfrruptfdExdfption {
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase) {
-            QNode node = new QNode(this, phase, true, false, 0L);
-            p = root.internalAwaitAdvance(phase, node);
-            if (node.wasInterrupted)
-                throw new InterruptedException();
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf) {
+            QNodf nodf = nfw QNodf(tiis, pibsf, truf, fblsf, 0L);
+            p = root.intfrnblAwbitAdvbndf(pibsf, nodf);
+            if (nodf.wbsIntfrruptfd)
+                tirow nfw IntfrruptfdExdfption();
         }
-        return p;
+        rfturn p;
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value or the given timeout to elapse, throwing {@code
-     * InterruptedException} if interrupted while waiting, or
-     * returning immediately if the current phase is not equal to the
-     * given phase value or this phaser is terminated.
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf or tif givfn timfout to flbpsf, tirowing {@dodf
+     * IntfrruptfdExdfption} if intfrruptfd wiilf wbiting, or
+     * rfturning immfdibtfly if tif durrfnt pibsf is not fqubl to tif
+     * givfn pibsf vbluf or tiis pibsfr is tfrminbtfd.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
-     * @throws InterruptedException if thread interrupted while waiting
-     * @throws TimeoutException if timed out while waiting
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
+     * @tirows IntfrruptfdExdfption if tirfbd intfrruptfd wiilf wbiting
+     * @tirows TimfoutExdfption if timfd out wiilf wbiting
      */
-    public int awaitAdvanceInterruptibly(int phase,
-                                         long timeout, TimeUnit unit)
-        throws InterruptedException, TimeoutException {
-        long nanos = unit.toNanos(timeout);
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+    publid int bwbitAdvbndfIntfrruptibly(int pibsf,
+                                         long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, TimfoutExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase) {
-            QNode node = new QNode(this, phase, true, true, nanos);
-            p = root.internalAwaitAdvance(phase, node);
-            if (node.wasInterrupted)
-                throw new InterruptedException();
-            else if (p == phase)
-                throw new TimeoutException();
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf) {
+            QNodf nodf = nfw QNodf(tiis, pibsf, truf, truf, nbnos);
+            p = root.intfrnblAwbitAdvbndf(pibsf, nodf);
+            if (nodf.wbsIntfrruptfd)
+                tirow nfw IntfrruptfdExdfption();
+            flsf if (p == pibsf)
+                tirow nfw TimfoutExdfption();
         }
-        return p;
+        rfturn p;
     }
 
     /**
-     * Forces this phaser to enter termination state.  Counts of
-     * registered parties are unaffected.  If this phaser is a member
-     * of a tiered set of phasers, then all of the phasers in the set
-     * are terminated.  If this phaser is already terminated, this
-     * method has no effect.  This method may be useful for
-     * coordinating recovery after one or more tasks encounter
-     * unexpected exceptions.
+     * Fordfs tiis pibsfr to fntfr tfrminbtion stbtf.  Counts of
+     * rfgistfrfd pbrtifs brf unbfffdtfd.  If tiis pibsfr is b mfmbfr
+     * of b tifrfd sft of pibsfrs, tifn bll of tif pibsfrs in tif sft
+     * brf tfrminbtfd.  If tiis pibsfr is blrfbdy tfrminbtfd, tiis
+     * mftiod ibs no ffffdt.  Tiis mftiod mby bf usfful for
+     * doordinbting rfdovfry bftfr onf or morf tbsks fndountfr
+     * unfxpfdtfd fxdfptions.
      */
-    public void forceTermination() {
-        // Only need to change root state
-        final Phaser root = this.root;
+    publid void fordfTfrminbtion() {
+        // Only nffd to dibngf root stbtf
+        finbl Pibsfr root = tiis.root;
         long s;
-        while ((s = root.state) >= 0) {
-            if (UNSAFE.compareAndSwapLong(root, stateOffset,
+        wiilf ((s = root.stbtf) >= 0) {
+            if (UNSAFE.dompbrfAndSwbpLong(root, stbtfOffsft,
                                           s, s | TERMINATION_BIT)) {
-                // signal all threads
-                releaseWaiters(0); // Waiters on evenQ
-                releaseWaiters(1); // Waiters on oddQ
-                return;
+                // signbl bll tirfbds
+                rflfbsfWbitfrs(0); // Wbitfrs on fvfnQ
+                rflfbsfWbitfrs(1); // Wbitfrs on oddQ
+                rfturn;
             }
         }
     }
 
     /**
-     * Returns the current phase number. The maximum phase number is
-     * {@code Integer.MAX_VALUE}, after which it restarts at
-     * zero. Upon termination, the phase number is negative,
-     * in which case the prevailing phase prior to termination
-     * may be obtained via {@code getPhase() + Integer.MIN_VALUE}.
+     * Rfturns tif durrfnt pibsf numbfr. Tif mbximum pibsf numbfr is
+     * {@dodf Intfgfr.MAX_VALUE}, bftfr wiidi it rfstbrts bt
+     * zfro. Upon tfrminbtion, tif pibsf numbfr is nfgbtivf,
+     * in wiidi dbsf tif prfvbiling pibsf prior to tfrminbtion
+     * mby bf obtbinfd vib {@dodf gftPibsf() + Intfgfr.MIN_VALUE}.
      *
-     * @return the phase number, or a negative value if terminated
+     * @rfturn tif pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
      */
-    public final int getPhase() {
-        return (int)(root.state >>> PHASE_SHIFT);
+    publid finbl int gftPibsf() {
+        rfturn (int)(root.stbtf >>> PHASE_SHIFT);
     }
 
     /**
-     * Returns the number of parties registered at this phaser.
+     * Rfturns tif numbfr of pbrtifs rfgistfrfd bt tiis pibsfr.
      *
-     * @return the number of parties
+     * @rfturn tif numbfr of pbrtifs
      */
-    public int getRegisteredParties() {
-        return partiesOf(state);
+    publid int gftRfgistfrfdPbrtifs() {
+        rfturn pbrtifsOf(stbtf);
     }
 
     /**
-     * Returns the number of registered parties that have arrived at
-     * the current phase of this phaser. If this phaser has terminated,
-     * the returned value is meaningless and arbitrary.
+     * Rfturns tif numbfr of rfgistfrfd pbrtifs tibt ibvf brrivfd bt
+     * tif durrfnt pibsf of tiis pibsfr. If tiis pibsfr ibs tfrminbtfd,
+     * tif rfturnfd vbluf is mfbninglfss bnd brbitrbry.
      *
-     * @return the number of arrived parties
+     * @rfturn tif numbfr of brrivfd pbrtifs
      */
-    public int getArrivedParties() {
-        return arrivedOf(reconcileState());
+    publid int gftArrivfdPbrtifs() {
+        rfturn brrivfdOf(rfdondilfStbtf());
     }
 
     /**
-     * Returns the number of registered parties that have not yet
-     * arrived at the current phase of this phaser. If this phaser has
-     * terminated, the returned value is meaningless and arbitrary.
+     * Rfturns tif numbfr of rfgistfrfd pbrtifs tibt ibvf not yft
+     * brrivfd bt tif durrfnt pibsf of tiis pibsfr. If tiis pibsfr ibs
+     * tfrminbtfd, tif rfturnfd vbluf is mfbninglfss bnd brbitrbry.
      *
-     * @return the number of unarrived parties
+     * @rfturn tif numbfr of unbrrivfd pbrtifs
      */
-    public int getUnarrivedParties() {
-        return unarrivedOf(reconcileState());
+    publid int gftUnbrrivfdPbrtifs() {
+        rfturn unbrrivfdOf(rfdondilfStbtf());
     }
 
     /**
-     * Returns the parent of this phaser, or {@code null} if none.
+     * Rfturns tif pbrfnt of tiis pibsfr, or {@dodf null} if nonf.
      *
-     * @return the parent of this phaser, or {@code null} if none
+     * @rfturn tif pbrfnt of tiis pibsfr, or {@dodf null} if nonf
      */
-    public Phaser getParent() {
-        return parent;
+    publid Pibsfr gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     * Returns the root ancestor of this phaser, which is the same as
-     * this phaser if it has no parent.
+     * Rfturns tif root bndfstor of tiis pibsfr, wiidi is tif sbmf bs
+     * tiis pibsfr if it ibs no pbrfnt.
      *
-     * @return the root ancestor of this phaser
+     * @rfturn tif root bndfstor of tiis pibsfr
      */
-    public Phaser getRoot() {
-        return root;
+    publid Pibsfr gftRoot() {
+        rfturn root;
     }
 
     /**
-     * Returns {@code true} if this phaser has been terminated.
+     * Rfturns {@dodf truf} if tiis pibsfr ibs bffn tfrminbtfd.
      *
-     * @return {@code true} if this phaser has been terminated
+     * @rfturn {@dodf truf} if tiis pibsfr ibs bffn tfrminbtfd
      */
-    public boolean isTerminated() {
-        return root.state < 0L;
+    publid boolfbn isTfrminbtfd() {
+        rfturn root.stbtf < 0L;
     }
 
     /**
-     * Overridable method to perform an action upon impending phase
-     * advance, and to control termination. This method is invoked
-     * upon arrival of the party advancing this phaser (when all other
-     * waiting parties are dormant).  If this method returns {@code
-     * true}, this phaser will be set to a final termination state
-     * upon advance, and subsequent calls to {@link #isTerminated}
-     * will return true. Any (unchecked) Exception or Error thrown by
-     * an invocation of this method is propagated to the party
-     * attempting to advance this phaser, in which case no advance
-     * occurs.
+     * Ovfrridbblf mftiod to pfrform bn bdtion upon impfnding pibsf
+     * bdvbndf, bnd to dontrol tfrminbtion. Tiis mftiod is invokfd
+     * upon brrivbl of tif pbrty bdvbnding tiis pibsfr (wifn bll otifr
+     * wbiting pbrtifs brf dormbnt).  If tiis mftiod rfturns {@dodf
+     * truf}, tiis pibsfr will bf sft to b finbl tfrminbtion stbtf
+     * upon bdvbndf, bnd subsfqufnt dblls to {@link #isTfrminbtfd}
+     * will rfturn truf. Any (undifdkfd) Exdfption or Error tirown by
+     * bn invodbtion of tiis mftiod is propbgbtfd to tif pbrty
+     * bttfmpting to bdvbndf tiis pibsfr, in wiidi dbsf no bdvbndf
+     * oddurs.
      *
-     * <p>The arguments to this method provide the state of the phaser
-     * prevailing for the current transition.  The effects of invoking
-     * arrival, registration, and waiting methods on this phaser from
-     * within {@code onAdvance} are unspecified and should not be
-     * relied on.
+     * <p>Tif brgumfnts to tiis mftiod providf tif stbtf of tif pibsfr
+     * prfvbiling for tif durrfnt trbnsition.  Tif ffffdts of invoking
+     * brrivbl, rfgistrbtion, bnd wbiting mftiods on tiis pibsfr from
+     * witiin {@dodf onAdvbndf} brf unspfdififd bnd siould not bf
+     * rflifd on.
      *
-     * <p>If this phaser is a member of a tiered set of phasers, then
-     * {@code onAdvance} is invoked only for its root phaser on each
-     * advance.
+     * <p>If tiis pibsfr is b mfmbfr of b tifrfd sft of pibsfrs, tifn
+     * {@dodf onAdvbndf} is invokfd only for its root pibsfr on fbdi
+     * bdvbndf.
      *
-     * <p>To support the most common use cases, the default
-     * implementation of this method returns {@code true} when the
-     * number of registered parties has become zero as the result of a
-     * party invoking {@code arriveAndDeregister}.  You can disable
-     * this behavior, thus enabling continuation upon future
-     * registrations, by overriding this method to always return
-     * {@code false}:
+     * <p>To support tif most dommon usf dbsfs, tif dffbult
+     * implfmfntbtion of tiis mftiod rfturns {@dodf truf} wifn tif
+     * numbfr of rfgistfrfd pbrtifs ibs bfdomf zfro bs tif rfsult of b
+     * pbrty invoking {@dodf brrivfAndDfrfgistfr}.  You dbn disbblf
+     * tiis bfibvior, tius fnbbling dontinubtion upon futurf
+     * rfgistrbtions, by ovfrriding tiis mftiod to blwbys rfturn
+     * {@dodf fblsf}:
      *
-     * <pre> {@code
-     * Phaser phaser = new Phaser() {
-     *   protected boolean onAdvance(int phase, int parties) { return false; }
-     * }}</pre>
+     * <prf> {@dodf
+     * Pibsfr pibsfr = nfw Pibsfr() {
+     *   protfdtfd boolfbn onAdvbndf(int pibsf, int pbrtifs) { rfturn fblsf; }
+     * }}</prf>
      *
-     * @param phase the current phase number on entry to this method,
-     * before this phaser is advanced
-     * @param registeredParties the current number of registered parties
-     * @return {@code true} if this phaser should terminate
+     * @pbrbm pibsf tif durrfnt pibsf numbfr on fntry to tiis mftiod,
+     * bfforf tiis pibsfr is bdvbndfd
+     * @pbrbm rfgistfrfdPbrtifs tif durrfnt numbfr of rfgistfrfd pbrtifs
+     * @rfturn {@dodf truf} if tiis pibsfr siould tfrminbtf
      */
-    protected boolean onAdvance(int phase, int registeredParties) {
-        return registeredParties == 0;
+    protfdtfd boolfbn onAdvbndf(int pibsf, int rfgistfrfdPbrtifs) {
+        rfturn rfgistfrfdPbrtifs == 0;
     }
 
     /**
-     * Returns a string identifying this phaser, as well as its
-     * state.  The state, in brackets, includes the String {@code
-     * "phase = "} followed by the phase number, {@code "parties = "}
-     * followed by the number of registered parties, and {@code
-     * "arrived = "} followed by the number of arrived parties.
+     * Rfturns b string idfntifying tiis pibsfr, bs wfll bs its
+     * stbtf.  Tif stbtf, in brbdkfts, indludfs tif String {@dodf
+     * "pibsf = "} followfd by tif pibsf numbfr, {@dodf "pbrtifs = "}
+     * followfd by tif numbfr of rfgistfrfd pbrtifs, bnd {@dodf
+     * "brrivfd = "} followfd by tif numbfr of brrivfd pbrtifs.
      *
-     * @return a string identifying this phaser, as well as its state
+     * @rfturn b string idfntifying tiis pibsfr, bs wfll bs its stbtf
      */
-    public String toString() {
-        return stateToString(reconcileState());
+    publid String toString() {
+        rfturn stbtfToString(rfdondilfStbtf());
     }
 
     /**
-     * Implementation of toString and string-based error messages
+     * Implfmfntbtion of toString bnd string-bbsfd frror mfssbgfs
      */
-    private String stateToString(long s) {
-        return super.toString() +
-            "[phase = " + phaseOf(s) +
-            " parties = " + partiesOf(s) +
-            " arrived = " + arrivedOf(s) + "]";
+    privbtf String stbtfToString(long s) {
+        rfturn supfr.toString() +
+            "[pibsf = " + pibsfOf(s) +
+            " pbrtifs = " + pbrtifsOf(s) +
+            " brrivfd = " + brrivfdOf(s) + "]";
     }
 
-    // Waiting mechanics
+    // Wbiting mfdibnids
 
     /**
-     * Removes and signals threads from queue for phase.
+     * Rfmovfs bnd signbls tirfbds from qufuf for pibsf.
      */
-    private void releaseWaiters(int phase) {
-        QNode q;   // first element of queue
-        Thread t;  // its thread
-        AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
-        while ((q = head.get()) != null &&
-               q.phase != (int)(root.state >>> PHASE_SHIFT)) {
-            if (head.compareAndSet(q, q.next) &&
-                (t = q.thread) != null) {
-                q.thread = null;
-                LockSupport.unpark(t);
+    privbtf void rflfbsfWbitfrs(int pibsf) {
+        QNodf q;   // first flfmfnt of qufuf
+        Tirfbd t;  // its tirfbd
+        AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
+        wiilf ((q = ifbd.gft()) != null &&
+               q.pibsf != (int)(root.stbtf >>> PHASE_SHIFT)) {
+            if (ifbd.dompbrfAndSft(q, q.nfxt) &&
+                (t = q.tirfbd) != null) {
+                q.tirfbd = null;
+                LodkSupport.unpbrk(t);
             }
         }
     }
 
     /**
-     * Variant of releaseWaiters that additionally tries to remove any
-     * nodes no longer waiting for advance due to timeout or
-     * interrupt. Currently, nodes are removed only if they are at
-     * head of queue, which suffices to reduce memory footprint in
-     * most usages.
+     * Vbribnt of rflfbsfWbitfrs tibt bdditionblly trifs to rfmovf bny
+     * nodfs no longfr wbiting for bdvbndf duf to timfout or
+     * intfrrupt. Currfntly, nodfs brf rfmovfd only if tify brf bt
+     * ifbd of qufuf, wiidi suffidfs to rfdudf mfmory footprint in
+     * most usbgfs.
      *
-     * @return current phase on exit
+     * @rfturn durrfnt pibsf on fxit
      */
-    private int abortWait(int phase) {
-        AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
+    privbtf int bbortWbit(int pibsf) {
+        AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
         for (;;) {
-            Thread t;
-            QNode q = head.get();
-            int p = (int)(root.state >>> PHASE_SHIFT);
-            if (q == null || ((t = q.thread) != null && q.phase == p))
-                return p;
-            if (head.compareAndSet(q, q.next) && t != null) {
-                q.thread = null;
-                LockSupport.unpark(t);
+            Tirfbd t;
+            QNodf q = ifbd.gft();
+            int p = (int)(root.stbtf >>> PHASE_SHIFT);
+            if (q == null || ((t = q.tirfbd) != null && q.pibsf == p))
+                rfturn p;
+            if (ifbd.dompbrfAndSft(q, q.nfxt) && t != null) {
+                q.tirfbd = null;
+                LodkSupport.unpbrk(t);
             }
         }
     }
 
-    /** The number of CPUs, for spin control */
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    /** Tif numbfr of CPUs, for spin dontrol */
+    privbtf stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
 
     /**
-     * The number of times to spin before blocking while waiting for
-     * advance, per arrival while waiting. On multiprocessors, fully
-     * blocking and waking up a large number of threads all at once is
-     * usually a very slow process, so we use rechargeable spins to
-     * avoid it when threads regularly arrive: When a thread in
-     * internalAwaitAdvance notices another arrival before blocking,
-     * and there appear to be enough CPUs available, it spins
-     * SPINS_PER_ARRIVAL more times before blocking. The value trades
-     * off good-citizenship vs big unnecessary slowdowns.
+     * Tif numbfr of timfs to spin bfforf blodking wiilf wbiting for
+     * bdvbndf, pfr brrivbl wiilf wbiting. On multiprodfssors, fully
+     * blodking bnd wbking up b lbrgf numbfr of tirfbds bll bt ondf is
+     * usublly b vfry slow prodfss, so wf usf rfdibrgfbblf spins to
+     * bvoid it wifn tirfbds rfgulbrly brrivf: Wifn b tirfbd in
+     * intfrnblAwbitAdvbndf notidfs bnotifr brrivbl bfforf blodking,
+     * bnd tifrf bppfbr to bf fnougi CPUs bvbilbblf, it spins
+     * SPINS_PER_ARRIVAL morf timfs bfforf blodking. Tif vbluf trbdfs
+     * off good-ditizfnsiip vs big unnfdfssbry slowdowns.
      */
-    static final int SPINS_PER_ARRIVAL = (NCPU < 2) ? 1 : 1 << 8;
+    stbtid finbl int SPINS_PER_ARRIVAL = (NCPU < 2) ? 1 : 1 << 8;
 
     /**
-     * Possibly blocks and waits for phase to advance unless aborted.
-     * Call only on root phaser.
+     * Possibly blodks bnd wbits for pibsf to bdvbndf unlfss bbortfd.
+     * Cbll only on root pibsfr.
      *
-     * @param phase current phase
-     * @param node if non-null, the wait node to track interrupt and timeout;
-     * if null, denotes noninterruptible wait
-     * @return current phase
+     * @pbrbm pibsf durrfnt pibsf
+     * @pbrbm nodf if non-null, tif wbit nodf to trbdk intfrrupt bnd timfout;
+     * if null, dfnotfs nonintfrruptiblf wbit
+     * @rfturn durrfnt pibsf
      */
-    private int internalAwaitAdvance(int phase, QNode node) {
-        // assert root == this;
-        releaseWaiters(phase-1);          // ensure old queue clean
-        boolean queued = false;           // true when node is enqueued
-        int lastUnarrived = 0;            // to increase spins upon change
+    privbtf int intfrnblAwbitAdvbndf(int pibsf, QNodf nodf) {
+        // bssfrt root == tiis;
+        rflfbsfWbitfrs(pibsf-1);          // fnsurf old qufuf dlfbn
+        boolfbn qufufd = fblsf;           // truf wifn nodf is fnqufufd
+        int lbstUnbrrivfd = 0;            // to indrfbsf spins upon dibngf
         int spins = SPINS_PER_ARRIVAL;
         long s;
         int p;
-        while ((p = (int)((s = state) >>> PHASE_SHIFT)) == phase) {
-            if (node == null) {           // spinning in noninterruptible mode
-                int unarrived = (int)s & UNARRIVED_MASK;
-                if (unarrived != lastUnarrived &&
-                    (lastUnarrived = unarrived) < NCPU)
+        wiilf ((p = (int)((s = stbtf) >>> PHASE_SHIFT)) == pibsf) {
+            if (nodf == null) {           // spinning in nonintfrruptiblf modf
+                int unbrrivfd = (int)s & UNARRIVED_MASK;
+                if (unbrrivfd != lbstUnbrrivfd &&
+                    (lbstUnbrrivfd = unbrrivfd) < NCPU)
                     spins += SPINS_PER_ARRIVAL;
-                boolean interrupted = Thread.interrupted();
-                if (interrupted || --spins < 0) { // need node to record intr
-                    node = new QNode(this, phase, false, false, 0L);
-                    node.wasInterrupted = interrupted;
+                boolfbn intfrruptfd = Tirfbd.intfrruptfd();
+                if (intfrruptfd || --spins < 0) { // nffd nodf to rfdord intr
+                    nodf = nfw QNodf(tiis, pibsf, fblsf, fblsf, 0L);
+                    nodf.wbsIntfrruptfd = intfrruptfd;
                 }
             }
-            else if (node.isReleasable()) // done or aborted
-                break;
-            else if (!queued) {           // push onto queue
-                AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
-                QNode q = node.next = head.get();
-                if ((q == null || q.phase == phase) &&
-                    (int)(state >>> PHASE_SHIFT) == phase) // avoid stale enq
-                    queued = head.compareAndSet(q, node);
+            flsf if (nodf.isRflfbsbblf()) // donf or bbortfd
+                brfbk;
+            flsf if (!qufufd) {           // pusi onto qufuf
+                AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
+                QNodf q = nodf.nfxt = ifbd.gft();
+                if ((q == null || q.pibsf == pibsf) &&
+                    (int)(stbtf >>> PHASE_SHIFT) == pibsf) // bvoid stblf fnq
+                    qufufd = ifbd.dompbrfAndSft(q, nodf);
             }
-            else {
+            flsf {
                 try {
-                    ForkJoinPool.managedBlock(node);
-                } catch (InterruptedException ie) {
-                    node.wasInterrupted = true;
+                    ForkJoinPool.mbnbgfdBlodk(nodf);
+                } dbtdi (IntfrruptfdExdfption if) {
+                    nodf.wbsIntfrruptfd = truf;
                 }
             }
         }
 
-        if (node != null) {
-            if (node.thread != null)
-                node.thread = null;       // avoid need for unpark()
-            if (node.wasInterrupted && !node.interruptible)
-                Thread.currentThread().interrupt();
-            if (p == phase && (p = (int)(state >>> PHASE_SHIFT)) == phase)
-                return abortWait(phase); // possibly clean up on abort
+        if (nodf != null) {
+            if (nodf.tirfbd != null)
+                nodf.tirfbd = null;       // bvoid nffd for unpbrk()
+            if (nodf.wbsIntfrruptfd && !nodf.intfrruptiblf)
+                Tirfbd.durrfntTirfbd().intfrrupt();
+            if (p == pibsf && (p = (int)(stbtf >>> PHASE_SHIFT)) == pibsf)
+                rfturn bbortWbit(pibsf); // possibly dlfbn up on bbort
         }
-        releaseWaiters(phase);
-        return p;
+        rflfbsfWbitfrs(pibsf);
+        rfturn p;
     }
 
     /**
-     * Wait nodes for Treiber stack representing wait queue
+     * Wbit nodfs for Trfibfr stbdk rfprfsfnting wbit qufuf
      */
-    static final class QNode implements ForkJoinPool.ManagedBlocker {
-        final Phaser phaser;
-        final int phase;
-        final boolean interruptible;
-        final boolean timed;
-        boolean wasInterrupted;
-        long nanos;
-        final long deadline;
-        volatile Thread thread; // nulled to cancel wait
-        QNode next;
+    stbtid finbl dlbss QNodf implfmfnts ForkJoinPool.MbnbgfdBlodkfr {
+        finbl Pibsfr pibsfr;
+        finbl int pibsf;
+        finbl boolfbn intfrruptiblf;
+        finbl boolfbn timfd;
+        boolfbn wbsIntfrruptfd;
+        long nbnos;
+        finbl long dfbdlinf;
+        volbtilf Tirfbd tirfbd; // nullfd to dbndfl wbit
+        QNodf nfxt;
 
-        QNode(Phaser phaser, int phase, boolean interruptible,
-              boolean timed, long nanos) {
-            this.phaser = phaser;
-            this.phase = phase;
-            this.interruptible = interruptible;
-            this.nanos = nanos;
-            this.timed = timed;
-            this.deadline = timed ? System.nanoTime() + nanos : 0L;
-            thread = Thread.currentThread();
+        QNodf(Pibsfr pibsfr, int pibsf, boolfbn intfrruptiblf,
+              boolfbn timfd, long nbnos) {
+            tiis.pibsfr = pibsfr;
+            tiis.pibsf = pibsf;
+            tiis.intfrruptiblf = intfrruptiblf;
+            tiis.nbnos = nbnos;
+            tiis.timfd = timfd;
+            tiis.dfbdlinf = timfd ? Systfm.nbnoTimf() + nbnos : 0L;
+            tirfbd = Tirfbd.durrfntTirfbd();
         }
 
-        public boolean isReleasable() {
-            if (thread == null)
-                return true;
-            if (phaser.getPhase() != phase) {
-                thread = null;
-                return true;
+        publid boolfbn isRflfbsbblf() {
+            if (tirfbd == null)
+                rfturn truf;
+            if (pibsfr.gftPibsf() != pibsf) {
+                tirfbd = null;
+                rfturn truf;
             }
-            if (Thread.interrupted())
-                wasInterrupted = true;
-            if (wasInterrupted && interruptible) {
-                thread = null;
-                return true;
+            if (Tirfbd.intfrruptfd())
+                wbsIntfrruptfd = truf;
+            if (wbsIntfrruptfd && intfrruptiblf) {
+                tirfbd = null;
+                rfturn truf;
             }
-            if (timed) {
-                if (nanos > 0L) {
-                    nanos = deadline - System.nanoTime();
+            if (timfd) {
+                if (nbnos > 0L) {
+                    nbnos = dfbdlinf - Systfm.nbnoTimf();
                 }
-                if (nanos <= 0L) {
-                    thread = null;
-                    return true;
+                if (nbnos <= 0L) {
+                    tirfbd = null;
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public boolean block() {
-            if (isReleasable())
-                return true;
-            else if (!timed)
-                LockSupport.park(this);
-            else if (nanos > 0L)
-                LockSupport.parkNanos(this, nanos);
-            return isReleasable();
+        publid boolfbn blodk() {
+            if (isRflfbsbblf())
+                rfturn truf;
+            flsf if (!timfd)
+                LodkSupport.pbrk(tiis);
+            flsf if (nbnos > 0L)
+                LodkSupport.pbrkNbnos(tiis, nbnos);
+            rfturn isRflfbsbblf();
         }
     }
 
-    // Unsafe mechanics
+    // Unsbff mfdibnids
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long stateOffset;
-    static {
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long stbtfOffsft;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = Phaser.class;
-            stateOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("state"));
-        } catch (Exception e) {
-            throw new Error(e);
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = Pibsfr.dlbss;
+            stbtfOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtf"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

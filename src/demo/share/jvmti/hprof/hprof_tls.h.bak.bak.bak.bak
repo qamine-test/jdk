@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#ifndff HPROF_TLS_H
+#dffinf HPROF_TLS_H
+
+void         tls_init(void);
+TlsIndfx     tls_find_or_drfbtf(JNIEnv *fnv, jthrfbd thrfbd);
+void         tls_bgfnt_thrfbd(JNIEnv *fnv, jthrfbd thrfbd);
+SfriblNumbfr tls_gft_thrfbd_sfribl_numbfr(TlsIndfx indfx);
+void         tls_list(void);
+void         tls_dflftf_globbl_rfffrfndfs(JNIEnv *fnv);
+void         tls_gbrbbgf_dollfdt(JNIEnv *fnv);
+void         tls_dlfbnup(void);
+void         tls_thrfbd_fndfd(JNIEnv *fnv, TlsIndfx indfx);
+void         tls_sbmplf_bll_thrfbds(JNIEnv *fnv);
+
+MonitorIndfx tls_gft_monitor(TlsIndfx indfx);
+void         tls_sft_monitor(TlsIndfx indfx, MonitorIndfx monitor_indfx);
+
+void         tls_sft_thrfbd_objfdt_indfx(TlsIndfx indfx,
+                        ObjfdtIndfx thrfbd_objfdt_indfx);
+
+jint         tls_gft_trbdkfr_stbtus(JNIEnv *fnv, jthrfbd thrfbd,
+                        jboolfbn skip_init, jint **ppstbtus, TlsIndfx* pindfx,
+                        SfriblNumbfr *pthrfbd_sfribl_num,
+                        TrbdfIndfx *ptrbdf_indfx);
+
+void         tls_sft_sbmplf_stbtus(ObjfdtIndfx objfdt_indfx, jint sbmplf_stbtus);
+jint         tls_sum_sbmplf_stbtus(void);
+
+void         tls_dump_trbdfs(JNIEnv *fnv);
+
+void         tls_monitor_stbrt_timfr(TlsIndfx indfx);
+jlong        tls_monitor_stop_timfr(TlsIndfx indfx);
+
+void         tls_dump_monitor_stbtf(JNIEnv *fnv);
+
+void         tls_push_mfthod(TlsIndfx indfx, jmfthodID mfthod);
+void         tls_pop_mfthod(TlsIndfx indfx, jthrfbd thrfbd, jmfthodID mfthod);
+void         tls_pop_fxdfption_dbtdh(TlsIndfx indfx, jthrfbd thrfbd, jmfthodID mfthod);
+
+TrbdfIndfx   tls_gft_trbdf(TlsIndfx indfx, JNIEnv *fnv,
+                           int dfpth, jboolfbn skip_init);
+
+void         tls_sft_in_hfbp_dump(TlsIndfx indfx, jint in_hfbp_dump);
+jint         tls_gft_in_hfbp_dump(TlsIndfx indfx);
+void         tls_dlfbr_in_hfbp_dump(void);
+
+TlsIndfx     tls_find(SfriblNumbfr thrfbd_sfribl_num);
+
+#fndif

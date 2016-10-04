@@ -1,906 +1,906 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.javac;
+pbdkbgf sun.tools.jbvbd;
 
-import sun.tools.java.*;
-import sun.tools.tree.*;
-import sun.tools.asm.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.io.PrintStream;
+import sun.tools.jbvb.*;
+import sun.tools.trff.*;
+import sun.tools.bsm.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.PrintStrfbm;
 
 /**
- * A Source Member
+ * A Sourdf Mfmbfr
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-@Deprecated
-public
-class SourceMember extends MemberDefinition implements Constants {
+@Dfprfdbtfd
+publid
+dlbss SourdfMfmbfr fxtfnds MfmbfrDffinition implfmfnts Constbnts {
     /**
-     * The argument names (if it is a method)
+     * Tif brgumfnt nbmfs (if it is b mftiod)
      */
-    Vector<MemberDefinition> args;
+    Vfdtor<MfmbfrDffinition> brgs;
 
-    // set to the MemberDefinition in the interface if we have this field because
-    // it has been forced on us
-    MemberDefinition abstractSource;
+    // sft to tif MfmbfrDffinition in tif intfrfbdf if wf ibvf tiis fifld bfdbusf
+    // it ibs bffn fordfd on us
+    MfmbfrDffinition bbstrbdtSourdf;
 
     /**
-     * The status of the field
+     * Tif stbtus of tif fifld
      */
-    int status;
+    int stbtus;
 
-    static final int PARSED     = 0;
-    static final int CHECKING   = 1;
-    static final int CHECKED    = 2;
-    static final int INLINING   = 3;
-    static final int INLINED    = 4;
-    static final int ERROR      = 5;
+    stbtid finbl int PARSED     = 0;
+    stbtid finbl int CHECKING   = 1;
+    stbtid finbl int CHECKED    = 2;
+    stbtid finbl int INLINING   = 3;
+    stbtid finbl int INLINED    = 4;
+    stbtid finbl int ERROR      = 5;
 
-    public Vector<MemberDefinition> getArguments() {
-        return args;
+    publid Vfdtor<MfmbfrDffinition> gftArgumfnts() {
+        rfturn brgs;
     }
 
     /**
-     * Constructor
-     * @param argNames a vector of IdentifierToken
+     * Construdtor
+     * @pbrbm brgNbmfs b vfdtor of IdfntififrTokfn
      */
-    public SourceMember(long where, ClassDefinition clazz,
-                       String doc, int modifiers, Type type,
-                       Identifier name, Vector<MemberDefinition> argNames,
-                       IdentifierToken exp[], Node value) {
-        super(where, clazz, modifiers, type, name, exp, value);
-        this.documentation = doc;
-        this.args = argNames;   // for the moment
-        // not until type names are resolved: createArgumentFields(argNames);
+    publid SourdfMfmbfr(long wifrf, ClbssDffinition dlbzz,
+                       String dod, int modififrs, Typf typf,
+                       Idfntififr nbmf, Vfdtor<MfmbfrDffinition> brgNbmfs,
+                       IdfntififrTokfn fxp[], Nodf vbluf) {
+        supfr(wifrf, dlbzz, modififrs, typf, nbmf, fxp, vbluf);
+        tiis.dodumfntbtion = dod;
+        tiis.brgs = brgNbmfs;   // for tif momfnt
+        // not until typf nbmfs brf rfsolvfd: drfbtfArgumfntFiflds(brgNbmfs);
 
-        if (ClassDefinition.containsDeprecated(documentation)) {
-            this.modifiers |= M_DEPRECATED;
+        if (ClbssDffinition.dontbinsDfprfdbtfd(dodumfntbtion)) {
+            tiis.modififrs |= M_DEPRECATED;
         }
     }
 
-    void createArgumentFields(Vector<MemberDefinition> argNames) {
-        // Create a list of arguments
-        if (isMethod()) {
-            args = new Vector<>();
+    void drfbtfArgumfntFiflds(Vfdtor<MfmbfrDffinition> brgNbmfs) {
+        // Crfbtf b list of brgumfnts
+        if (isMftiod()) {
+            brgs = nfw Vfdtor<>();
 
-            if (isConstructor() || !(isStatic() || isInitializer())) {
-                args.addElement(((SourceClass)clazz).getThisArgument());
+            if (isConstrudtor() || !(isStbtid() || isInitiblizfr())) {
+                brgs.bddElfmfnt(((SourdfClbss)dlbzz).gftTiisArgumfnt());
             }
 
-            if (argNames != null) {
-                Enumeration<MemberDefinition> e = argNames.elements();
-                Type argTypes[] = getType().getArgumentTypes();
-                for (int i = 0 ; i < argTypes.length ; i++) {
-                    Object x = e.nextElement();
-                    if (x instanceof LocalMember) {
-                        // This should not happen, but it does
-                        // in cases of vicious cyclic inheritance.
-                        args = argNames;
-                        return;
+            if (brgNbmfs != null) {
+                Enumfrbtion<MfmbfrDffinition> f = brgNbmfs.flfmfnts();
+                Typf brgTypfs[] = gftTypf().gftArgumfntTypfs();
+                for (int i = 0 ; i < brgTypfs.lfngti ; i++) {
+                    Objfdt x = f.nfxtElfmfnt();
+                    if (x instbndfof LodblMfmbfr) {
+                        // Tiis siould not ibppfn, but it dofs
+                        // in dbsfs of vidious dydlid inifritbndf.
+                        brgs = brgNbmfs;
+                        rfturn;
                     }
-                    Identifier id;
+                    Idfntififr id;
                     int mod;
-                    long where;
-                    if (x instanceof Identifier) {
-                        // allow argNames to be simple Identifiers (deprecated!)
-                        id = (Identifier)x;
+                    long wifrf;
+                    if (x instbndfof Idfntififr) {
+                        // bllow brgNbmfs to bf simplf Idfntififrs (dfprfdbtfd!)
+                        id = (Idfntififr)x;
                         mod = 0;
-                        where = getWhere();
-                    } else {
-                        IdentifierToken token = (IdentifierToken)x;
-                        id = token.getName();
-                        mod = token.getModifiers();
-                        where = token.getWhere();
+                        wifrf = gftWifrf();
+                    } flsf {
+                        IdfntififrTokfn tokfn = (IdfntififrTokfn)x;
+                        id = tokfn.gftNbmf();
+                        mod = tokfn.gftModififrs();
+                        wifrf = tokfn.gftWifrf();
                     }
-                    args.addElement(new LocalMember(where, clazz, mod,
-                                                   argTypes[i], id));
+                    brgs.bddElfmfnt(nfw LodblMfmbfr(wifrf, dlbzz, mod,
+                                                   brgTypfs[i], id));
                 }
             }
         }
     }
 
-    // The methods addOuterThis() and addUplevelArguments() were
-    // both originally part of a single method called addUplevelArguments()
-    // which took a single boolean parameter describing which of the
-    // two behaviors it wanted.
+    // Tif mftiods bddOutfrTiis() bnd bddUplfvflArgumfnts() wfrf
+    // boti originblly pbrt of b singlf mftiod dbllfd bddUplfvflArgumfnts()
+    // wiidi took b singlf boolfbn pbrbmftfr dfsdribing wiidi of tif
+    // two bfibviors it wbntfd.
     //
-    // The original addUplevelArguments() claimed to keep the arguments in
-    // the following order:
+    // Tif originbl bddUplfvflArgumfnts() dlbimfd to kffp tif brgumfnts in
+    // tif following ordfr:
     //
-    // (1) <this> <early outer this> <uplevel arguments...> <true arguments...>
+    // (1) <tiis> <fbrly outfr tiis> <uplfvfl brgumfnts...> <truf brgumfnts...>
     //
-    // (By <early outer this> I am referring to the clientOuterField added
-    // to some constructors when they are created.  If an outer this is
-    // added later, on demand, then this is mixed in with the rest of the
-    // uplevel arguments and is added by addUplevelArguments.)
+    // (By <fbrly outfr tiis> I bm rfffrring to tif dlifntOutfrFifld bddfd
+    // to somf donstrudtors wifn tify brf drfbtfd.  If bn outfr tiis is
+    // bddfd lbtfr, on dfmbnd, tifn tiis is mixfd in witi tif rfst of tif
+    // uplfvfl brgumfnts bnd is bddfd by bddUplfvflArgumfnts.)
     //
-    // In reality, the `args' Vector was generated in this order, but the
-    // Type array `argTypes' was generated as:
+    // In rfblity, tif `brgs' Vfdtor wbs gfnfrbtfd in tiis ordfr, but tif
+    // Typf brrby `brgTypfs' wbs gfnfrbtfd bs:
     //
-    // (2) <this> <uplevel arguments...> <early outer this> <true arguments...>
+    // (2) <tiis> <uplfvfl brgumfnts...> <fbrly outfr tiis> <truf brgumfnts...>
     //
-    // This didn't make a difference in the common case -- that is, when
-    // a class had an <outer.this> or <uplevel arguments...> but not both.
-    // Both can happen in the case that a member class is declared inside
-    // of a local class.  It seems that the calling sequences, generated
-    // in places like NewInstanceExpression.codeCommon(), use order (2),
-    // so I have changed the code below to stick with that order.  Since
-    // the only time this happens is in classes which are insideLocal, no
-    // one should be able to tell the difference between these orders.
-    // (bug number 4085633)
+    // Tiis didn't mbkf b difffrfndf in tif dommon dbsf -- tibt is, wifn
+    // b dlbss ibd bn <outfr.tiis> or <uplfvfl brgumfnts...> but not boti.
+    // Boti dbn ibppfn in tif dbsf tibt b mfmbfr dlbss is dfdlbrfd insidf
+    // of b lodbl dlbss.  It sffms tibt tif dblling sfqufndfs, gfnfrbtfd
+    // in plbdfs likf NfwInstbndfExprfssion.dodfCommon(), usf ordfr (2),
+    // so I ibvf dibngfd tif dodf bflow to stidk witi tibt ordfr.  Sindf
+    // tif only timf tiis ibppfns is in dlbssfs wiidi brf insidfLodbl, no
+    // onf siould bf bblf to tfll tif difffrfndf bftwffn tifsf ordfrs.
+    // (bug numbfr 4085633)
 
-    LocalMember outerThisArg = null;
+    LodblMfmbfr outfrTiisArg = null;
 
     /**
-     * Get outer instance link, or null if none.
+     * Gft outfr instbndf link, or null if nonf.
      */
 
-    public LocalMember getOuterThisArg() {
-        return outerThisArg;
+    publid LodblMfmbfr gftOutfrTiisArg() {
+        rfturn outfrTiisArg;
     }
 
     /**
-     * Add the outer.this argument to the list of arguments for this
-     * constructor.  This is called from resolveTypeStructure.  Any
-     * additional uplevel arguments get added later by addUplevelArguments().
+     * Add tif outfr.tiis brgumfnt to tif list of brgumfnts for tiis
+     * donstrudtor.  Tiis is dbllfd from rfsolvfTypfStrudturf.  Any
+     * bdditionbl uplfvfl brgumfnts gft bddfd lbtfr by bddUplfvflArgumfnts().
      */
 
-    void addOuterThis() {
-        UplevelReference refs = clazz.getReferences();
+    void bddOutfrTiis() {
+        UplfvflRfffrfndf rffs = dlbzz.gftRfffrfndfs();
 
-        // See if we have a client outer field.
-        while (refs != null &&
-               !refs.isClientOuterField()) {
-            refs = refs.getNext();
+        // Sff if wf ibvf b dlifnt outfr fifld.
+        wiilf (rffs != null &&
+               !rffs.isClifntOutfrFifld()) {
+            rffs = rffs.gftNfxt();
         }
 
-        // There is no outer this argument.  Quit.
-        if (refs == null) {
-            return;
+        // Tifrf is no outfr tiis brgumfnt.  Quit.
+        if (rffs == null) {
+            rfturn;
         }
 
-        // Get the old arg types.
-        Type oldArgTypes[] = type.getArgumentTypes();
+        // Gft tif old brg typfs.
+        Typf oldArgTypfs[] = typf.gftArgumfntTypfs();
 
-        // And make an array for the new ones with space for one more.
-        Type argTypes[] = new Type[oldArgTypes.length + 1];
+        // And mbkf bn brrby for tif nfw onfs witi spbdf for onf morf.
+        Typf brgTypfs[] = nfw Typf[oldArgTypfs.lfngti + 1];
 
-        LocalMember arg = refs.getLocalArgument();
-        outerThisArg = arg;
+        LodblMfmbfr brg = rffs.gftLodblArgumfnt();
+        outfrTiisArg = brg;
 
-        // args is our list of arguments.  It contains a `this', so
-        // we insert at position 1.  The list of types does not have a
-        // this, so we insert at position 0.
-        args.insertElementAt(arg, 1);
-        argTypes[0] = arg.getType();
+        // brgs is our list of brgumfnts.  It dontbins b `tiis', so
+        // wf insfrt bt position 1.  Tif list of typfs dofs not ibvf b
+        // tiis, so wf insfrt bt position 0.
+        brgs.insfrtElfmfntAt(brg, 1);
+        brgTypfs[0] = brg.gftTypf();
 
-        // Add on the rest of the constructor arguments.
-        for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[i + 1] = oldArgTypes[i];
+        // Add on tif rfst of tif donstrudtor brgumfnts.
+        for (int i = 0; i < oldArgTypfs.lfngti; i++) {
+            brgTypfs[i + 1] = oldArgTypfs[i];
         }
 
-        type = Type.tMethod(type.getReturnType(), argTypes);
+        typf = Typf.tMftiod(typf.gftRfturnTypf(), brgTypfs);
     }
 
     /**
-     * Prepend argument names and argument types for local variable references.
-     * This information is never seen by the type-check phase,
-     * but it affects code generation, which is the earliest moment
-     * we have comprehensive information on uplevel references.
-     * The code() methods tweaks the constructor calls, prepending
-     * the proper values to the argument list.
+     * Prfpfnd brgumfnt nbmfs bnd brgumfnt typfs for lodbl vbribblf rfffrfndfs.
+     * Tiis informbtion is nfvfr sffn by tif typf-difdk pibsf,
+     * but it bfffdts dodf gfnfrbtion, wiidi is tif fbrlifst momfnt
+     * wf ibvf domprfifnsivf informbtion on uplfvfl rfffrfndfs.
+     * Tif dodf() mftiods twfbks tif donstrudtor dblls, prfpfnding
+     * tif propfr vblufs to tif brgumfnt list.
      */
-    void addUplevelArguments() {
-        UplevelReference refs = clazz.getReferences();
-        clazz.getReferencesFrozen();
+    void bddUplfvflArgumfnts() {
+        UplfvflRfffrfndf rffs = dlbzz.gftRfffrfndfs();
+        dlbzz.gftRfffrfndfsFrozfn();
 
-        // Count how many uplevels we have to add.
-        int count = 0;
-        for (UplevelReference r = refs; r != null; r = r.getNext()) {
-            if (!r.isClientOuterField()) {
-                count += 1;
+        // Count iow mbny uplfvfls wf ibvf to bdd.
+        int dount = 0;
+        for (UplfvflRfffrfndf r = rffs; r != null; r = r.gftNfxt()) {
+            if (!r.isClifntOutfrFifld()) {
+                dount += 1;
             }
         }
 
-        if (count == 0) {
-            // None to add, quit.
-            return;
+        if (dount == 0) {
+            // Nonf to bdd, quit.
+            rfturn;
         }
 
-        // Get the old argument types.
-        Type oldArgTypes[] = type.getArgumentTypes();
+        // Gft tif old brgumfnt typfs.
+        Typf oldArgTypfs[] = typf.gftArgumfntTypfs();
 
-        // Make an array with enough room for the new.
-        Type argTypes[] = new Type[oldArgTypes.length + count];
+        // Mbkf bn brrby witi fnougi room for tif nfw.
+        Typf brgTypfs[] = nfw Typf[oldArgTypfs.lfngti + dount];
 
-        // Add all of the late uplevel references to args and argTypes.
-        // Note that they are `off-by-one' because of the `this'.
+        // Add bll of tif lbtf uplfvfl rfffrfndfs to brgs bnd brgTypfs.
+        // Notf tibt tify brf `off-by-onf' bfdbusf of tif `tiis'.
         int ins = 0;
-        for (UplevelReference r = refs; r != null; r = r.getNext()) {
-            if (!r.isClientOuterField()) {
-                LocalMember arg = r.getLocalArgument();
+        for (UplfvflRfffrfndf r = rffs; r != null; r = r.gftNfxt()) {
+            if (!r.isClifntOutfrFifld()) {
+                LodblMfmbfr brg = r.gftLodblArgumfnt();
 
-                args.insertElementAt(arg, 1 + ins);
-                argTypes[ins] = arg.getType();
+                brgs.insfrtElfmfntAt(brg, 1 + ins);
+                brgTypfs[ins] = brg.gftTypf();
 
                 ins++;
             }
         }
 
-        // Add the rest of the old arguments.
-        for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[ins + i] = oldArgTypes[i];
+        // Add tif rfst of tif old brgumfnts.
+        for (int i = 0; i < oldArgTypfs.lfngti; i++) {
+            brgTypfs[ins + i] = oldArgTypfs[i];
         }
 
-        type = Type.tMethod(type.getReturnType(), argTypes);
+        typf = Typf.tMftiod(typf.gftRfturnTypf(), brgTypfs);
     }
 
     /**
-     * Constructor for an inner class.
+     * Construdtor for bn innfr dlbss.
      */
-    public SourceMember(ClassDefinition innerClass) {
-        super(innerClass);
+    publid SourdfMfmbfr(ClbssDffinition innfrClbss) {
+        supfr(innfrClbss);
     }
 
     /**
-     * Constructor.
-     * Used only to generate an abstract copy of a method that a class
-     * inherits from an interface
+     * Construdtor.
+     * Usfd only to gfnfrbtf bn bbstrbdt dopy of b mftiod tibt b dlbss
+     * inifrits from bn intfrfbdf
      */
-    public SourceMember(MemberDefinition f, ClassDefinition c, Environment env) {
-        this(f.getWhere(), c, f.getDocumentation(),
-             f.getModifiers() | M_ABSTRACT, f.getType(), f.getName(), null,
-             f.getExceptionIds(), null);
-        this.args = f.getArguments();
-        this.abstractSource = f;
-        this.exp = f.getExceptions(env);
+    publid SourdfMfmbfr(MfmbfrDffinition f, ClbssDffinition d, Environmfnt fnv) {
+        tiis(f.gftWifrf(), d, f.gftDodumfntbtion(),
+             f.gftModififrs() | M_ABSTRACT, f.gftTypf(), f.gftNbmf(), null,
+             f.gftExdfptionIds(), null);
+        tiis.brgs = f.gftArgumfnts();
+        tiis.bbstrbdtSourdf = f;
+        tiis.fxp = f.gftExdfptions(fnv);
     }
 
     /**
-     * Get exceptions
+     * Gft fxdfptions
      */
-    public ClassDeclaration[] getExceptions(Environment env) {
-        if ((!isMethod()) || (exp != null)) {
-            return exp;
+    publid ClbssDfdlbrbtion[] gftExdfptions(Environmfnt fnv) {
+        if ((!isMftiod()) || (fxp != null)) {
+            rfturn fxp;
         }
-        if (expIds == null) {
-            // (should not happen)
-            exp = new ClassDeclaration[0];
-            return exp;
+        if (fxpIds == null) {
+            // (siould not ibppfn)
+            fxp = nfw ClbssDfdlbrbtion[0];
+            rfturn fxp;
         }
-        // be sure to get the imports right:
-        env = ((SourceClass)getClassDefinition()).setupEnv(env);
-        exp = new ClassDeclaration[expIds.length];
-        for (int i = 0; i < exp.length; i++) {
-            Identifier e = expIds[i].getName();
-            Identifier rexp = getClassDefinition().resolveName(env, e);
-            exp[i] = env.getClassDeclaration(rexp);
+        // bf surf to gft tif imports rigit:
+        fnv = ((SourdfClbss)gftClbssDffinition()).sftupEnv(fnv);
+        fxp = nfw ClbssDfdlbrbtion[fxpIds.lfngti];
+        for (int i = 0; i < fxp.lfngti; i++) {
+            Idfntififr f = fxpIds[i].gftNbmf();
+            Idfntififr rfxp = gftClbssDffinition().rfsolvfNbmf(fnv, f);
+            fxp[i] = fnv.gftClbssDfdlbrbtion(rfxp);
         }
-        return exp;
+        rfturn fxp;
     }
 
     /**
-     * Set array of name-resolved exceptions directly, e.g., for access methods.
+     * Sft brrby of nbmf-rfsolvfd fxdfptions dirfdtly, f.g., for bddfss mftiods.
      */
-    public void setExceptions(ClassDeclaration[] exp) {
-        this.exp = exp;
+    publid void sftExdfptions(ClbssDfdlbrbtion[] fxp) {
+        tiis.fxp = fxp;
     }
 
     /**
-     * Resolve types in a field, after parsing.
-     * @see ClassDefinition.resolveTypeStructure
+     * Rfsolvf typfs in b fifld, bftfr pbrsing.
+     * @sff ClbssDffinition.rfsolvfTypfStrudturf
      */
 
-    public boolean resolved = false;
+    publid boolfbn rfsolvfd = fblsf;
 
-    public void resolveTypeStructure(Environment env) {
-        if (tracing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
+    publid void rfsolvfTypfStrudturf(Environmfnt fnv) {
+        if (trbding) fnv.dtEntfr("SourdfMfmbfr.rfsolvfTypfStrudturf: " + tiis);
 
-        // A member should only be resolved once.  For a constructor, it is imperative
-        // that 'addOuterThis' be called only once, else the outer instance argument may
-        // be inserted into the argument list multiple times.
+        // A mfmbfr siould only bf rfsolvfd ondf.  For b donstrudtor, it is impfrbtivf
+        // tibt 'bddOutfrTiis' bf dbllfd only ondf, flsf tif outfr instbndf brgumfnt mby
+        // bf insfrtfd into tif brgumfnt list multiplf timfs.
 
-        if (resolved) {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
-            // This case shouldn't be happening.  It is the responsibility
-            // of our callers to avoid attempting multiple resolutions of a member.
+        if (rfsolvfd) {
+            if (trbding) fnv.dtEvfnt("SourdfMfmbfr.rfsolvfTypfStrudturf: OK " + tiis);
+            // Tiis dbsf siouldn't bf ibppfning.  It is tif rfsponsibility
+            // of our dbllfrs to bvoid bttfmpting multiplf rfsolutions of b mfmbfr.
             // *** REMOVE FOR SHIPMENT? ***
-            throw new CompilerError("multiple member type resolution");
-            //return;
-        } else {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
-            resolved = true;
+            tirow nfw CompilfrError("multiplf mfmbfr typf rfsolution");
+            //rfturn;
+        } flsf {
+            if (trbding) fnv.dtEvfnt("SourdfMfmbfr.rfsolvfTypfStrudturf: RESOLVING " + tiis);
+            rfsolvfd = truf;
         }
 
-        super.resolveTypeStructure(env);
-        if (isInnerClass()) {
-            ClassDefinition nc = getInnerClass();
-            if (nc instanceof SourceClass && !nc.isLocal()) {
-                ((SourceClass)nc).resolveTypeStructure(env);
+        supfr.rfsolvfTypfStrudturf(fnv);
+        if (isInnfrClbss()) {
+            ClbssDffinition nd = gftInnfrClbss();
+            if (nd instbndfof SourdfClbss && !nd.isLodbl()) {
+                ((SourdfClbss)nd).rfsolvfTypfStrudturf(fnv);
             }
-            type = innerClass.getType();
-        } else {
-            // Expand all class names in 'type', including those that are not
-            // fully-qualified or refer to inner classes, into fully-qualified
-            // names.  Local and anonymous classes get synthesized names here,
-            // corresponding to the class files that will be generated.  This is
-            // currently the only place where 'resolveNames' is used.
-            type = env.resolveNames(getClassDefinition(), type, isSynthetic());
+            typf = innfrClbss.gftTypf();
+        } flsf {
+            // Expbnd bll dlbss nbmfs in 'typf', indluding tiosf tibt brf not
+            // fully-qublififd or rfffr to innfr dlbssfs, into fully-qublififd
+            // nbmfs.  Lodbl bnd bnonymous dlbssfs gft syntifsizfd nbmfs ifrf,
+            // dorrfsponding to tif dlbss filfs tibt will bf gfnfrbtfd.  Tiis is
+            // durrfntly tif only plbdf wifrf 'rfsolvfNbmfs' is usfd.
+            typf = fnv.rfsolvfNbmfs(gftClbssDffinition(), typf, isSyntiftid());
 
-            // do the throws also:
-            getExceptions(env);
+            // do tif tirows blso:
+            gftExdfptions(fnv);
 
-            if (isMethod()) {
-                Vector<MemberDefinition> argNames = args; args = null;
-                createArgumentFields(argNames);
-                // Add outer instance argument for constructors.
-                if (isConstructor()) {
-                    addOuterThis();
+            if (isMftiod()) {
+                Vfdtor<MfmbfrDffinition> brgNbmfs = brgs; brgs = null;
+                drfbtfArgumfntFiflds(brgNbmfs);
+                // Add outfr instbndf brgumfnt for donstrudtors.
+                if (isConstrudtor()) {
+                    bddOutfrTiis();
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.resolveTypeStructure: " + this);
+        if (trbding) fnv.dtExit("SourdfMfmbfr.rfsolvfTypfStrudturf: " + tiis);
     }
 
     /**
-     * Get the class declaration in which the field is actually defined
+     * Gft tif dlbss dfdlbrbtion in wiidi tif fifld is bdtublly dffinfd
      */
-    public ClassDeclaration getDefiningClassDeclaration() {
-        if (abstractSource == null)
-            return super.getDefiningClassDeclaration();
-        else
-            return abstractSource.getDefiningClassDeclaration();
+    publid ClbssDfdlbrbtion gftDffiningClbssDfdlbrbtion() {
+        if (bbstrbdtSourdf == null)
+            rfturn supfr.gftDffiningClbssDfdlbrbtion();
+        flsf
+            rfturn bbstrbdtSourdf.gftDffiningClbssDfdlbrbtion();
     }
 
     /**
-     * A source field never reports deprecation, since the compiler
-     * allows access to deprecated features that are being compiled
-     * in the same job.
+     * A sourdf fifld nfvfr rfports dfprfdbtion, sindf tif dompilfr
+     * bllows bddfss to dfprfdbtfd ffbturfs tibt brf bfing dompilfd
+     * in tif sbmf job.
      */
-    public boolean reportDeprecated(Environment env) {
-        return false;
+    publid boolfbn rfportDfprfdbtfd(Environmfnt fnv) {
+        rfturn fblsf;
     }
 
     /**
-     * Check this field.
+     * Cifdk tiis fifld.
      * <p>
-     * This is the method which requests checking.
-     * The real work is done by
-     * <tt>Vset check(Environment, Context, Vset)</tt>.
+     * Tiis is tif mftiod wiidi rfqufsts difdking.
+     * Tif rfbl work is donf by
+     * <tt>Vsft difdk(Environmfnt, Contfxt, Vsft)</tt>.
      */
-    public void check(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("SourceMember.check: " +
-                                 getName() + ", status = " + status);
-        // rely on the class to check all fields in the proper order
-        if (status == PARSED) {
-            if (isSynthetic() && getValue() == null) {
-                // break a big cycle for small synthetic variables
-                status = CHECKED;
-                if (tracing)
-                    env.dtExit("SourceMember.check: BREAKING CYCLE");
-                return;
+    publid void difdk(Environmfnt fnv) tirows ClbssNotFound {
+        if (trbding) fnv.dtEntfr("SourdfMfmbfr.difdk: " +
+                                 gftNbmf() + ", stbtus = " + stbtus);
+        // rfly on tif dlbss to difdk bll fiflds in tif propfr ordfr
+        if (stbtus == PARSED) {
+            if (isSyntiftid() && gftVbluf() == null) {
+                // brfbk b big dydlf for smbll syntiftid vbribblfs
+                stbtus = CHECKED;
+                if (trbding)
+                    fnv.dtExit("SourdfMfmbfr.difdk: BREAKING CYCLE");
+                rfturn;
             }
-            if (tracing) env.dtEvent("SourceMember.check: CHECKING CLASS");
-            clazz.check(env);
-            if (status == PARSED) {
-                if (getClassDefinition().getError()) {
-                    status = ERROR;
-                } else {
-                    if (tracing)
-                        env.dtExit("SourceMember.check: CHECK FAILED");
-                    throw new CompilerError("check failed");
+            if (trbding) fnv.dtEvfnt("SourdfMfmbfr.difdk: CHECKING CLASS");
+            dlbzz.difdk(fnv);
+            if (stbtus == PARSED) {
+                if (gftClbssDffinition().gftError()) {
+                    stbtus = ERROR;
+                } flsf {
+                    if (trbding)
+                        fnv.dtExit("SourdfMfmbfr.difdk: CHECK FAILED");
+                    tirow nfw CompilfrError("difdk fbilfd");
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.check: DONE " +
-                                getName() + ", status = " + status);
+        if (trbding) fnv.dtExit("SourdfMfmbfr.difdk: DONE " +
+                                gftNbmf() + ", stbtus = " + stbtus);
     }
 
     /**
-     * Check a field.
-     * @param vset tells which uplevel variables are definitely assigned
-     * The vset is also used to track the initialization of blank finals
-     * by whichever fields which are relevant to them.
+     * Cifdk b fifld.
+     * @pbrbm vsft tflls wiidi uplfvfl vbribblfs brf dffinitfly bssignfd
+     * Tif vsft is blso usfd to trbdk tif initiblizbtion of blbnk finbls
+     * by wiidifvfr fiflds wiidi brf rflfvbnt to tifm.
      */
-    public Vset check(Environment env, Context ctx, Vset vset) throws ClassNotFound {
-        if (tracing) env.dtEvent("SourceMember.check: MEMBER " +
-                                 getName() + ", status = " + status);
-        if (status == PARSED) {
-            if (isInnerClass()) {
-                // some classes are checked separately
-                ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
-                    status = CHECKING;
-                    vset = ((SourceClass)nc).checkInsideClass(env, ctx, vset);
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft) tirows ClbssNotFound {
+        if (trbding) fnv.dtEvfnt("SourdfMfmbfr.difdk: MEMBER " +
+                                 gftNbmf() + ", stbtus = " + stbtus);
+        if (stbtus == PARSED) {
+            if (isInnfrClbss()) {
+                // somf dlbssfs brf difdkfd sfpbrbtfly
+                ClbssDffinition nd = gftInnfrClbss();
+                if (nd instbndfof SourdfClbss && !nd.isLodbl()
+                    && nd.isInsidfLodbl()) {
+                    stbtus = CHECKING;
+                    vsft = ((SourdfClbss)nd).difdkInsidfClbss(fnv, dtx, vsft);
                 }
-                status = CHECKED;
-                return vset;
+                stbtus = CHECKED;
+                rfturn vsft;
             }
-            if (env.dump()) {
-                System.out.println("[check field " + getClassDeclaration().getName() + "." + getName() + "]");
-                if (getValue() != null) {
-                    getValue().print(System.out);
-                    System.out.println();
+            if (fnv.dump()) {
+                Systfm.out.println("[difdk fifld " + gftClbssDfdlbrbtion().gftNbmf() + "." + gftNbmf() + "]");
+                if (gftVbluf() != null) {
+                    gftVbluf().print(Systfm.out);
+                    Systfm.out.println();
                 }
             }
-            env = new Environment(env, this);
+            fnv = nfw Environmfnt(fnv, tiis);
 
-            // This is where all checking of names appearing within the type
-            // of the member is done.  Includes return type and argument types.
-            // Since only one location ('where') for error messages is provided,
-            // localization of errors is poor.  Throws clauses are handled below.
-            env.resolve(where, getClassDefinition(), getType());
+            // Tiis is wifrf bll difdking of nbmfs bppfbring witiin tif typf
+            // of tif mfmbfr is donf.  Indludfs rfturn typf bnd brgumfnt typfs.
+            // Sindf only onf lodbtion ('wifrf') for frror mfssbgfs is providfd,
+            // lodblizbtion of frrors is poor.  Tirows dlbusfs brf ibndlfd bflow.
+            fnv.rfsolvf(wifrf, gftClbssDffinition(), gftTypf());
 
-            // Make sure that all the classes that we claim to throw really
-            // are subclasses of Throwable, and are classes that we can reach
-            if (isMethod()) {
-                ClassDeclaration throwable =
-                    env.getClassDeclaration(idJavaLangThrowable);
-                ClassDeclaration exp[] = getExceptions(env);
-                for (int i = 0 ; i < exp.length ; i++) {
-                    ClassDefinition def;
-                    long where = getWhere();
-                    if (expIds != null && i < expIds.length) {
-                        where = IdentifierToken.getWhere(expIds[i], where);
+            // Mbkf surf tibt bll tif dlbssfs tibt wf dlbim to tirow rfblly
+            // brf subdlbssfs of Tirowbblf, bnd brf dlbssfs tibt wf dbn rfbdi
+            if (isMftiod()) {
+                ClbssDfdlbrbtion tirowbblf =
+                    fnv.gftClbssDfdlbrbtion(idJbvbLbngTirowbblf);
+                ClbssDfdlbrbtion fxp[] = gftExdfptions(fnv);
+                for (int i = 0 ; i < fxp.lfngti ; i++) {
+                    ClbssDffinition dff;
+                    long wifrf = gftWifrf();
+                    if (fxpIds != null && i < fxpIds.lfngti) {
+                        wifrf = IdfntififrTokfn.gftWifrf(fxpIds[i], wifrf);
                     }
                     try {
-                        def = exp[i].getClassDefinition(env);
+                        dff = fxp[i].gftClbssDffinition(fnv);
 
-                        // Validate access for all inner-class components
-                        // of a qualified name, not just the last one, which
-                        // is checked below.  Yes, this is a dirty hack...
-                        // Part of fix for 4094658.
-                        env.resolveByName(where, getClassDefinition(), def.getName());
+                        // Vblidbtf bddfss for bll innfr-dlbss domponfnts
+                        // of b qublififd nbmf, not just tif lbst onf, wiidi
+                        // is difdkfd bflow.  Yfs, tiis is b dirty ibdk...
+                        // Pbrt of fix for 4094658.
+                        fnv.rfsolvfByNbmf(wifrf, gftClbssDffinition(), dff.gftNbmf());
 
-                    } catch (ClassNotFound e) {
-                        env.error(where, "class.not.found", e.name, "throws");
-                        break;
+                    } dbtdi (ClbssNotFound f) {
+                        fnv.frror(wifrf, "dlbss.not.found", f.nbmf, "tirows");
+                        brfbk;
                     }
-                    def.noteUsedBy(getClassDefinition(), where, env);
-                    if (!getClassDefinition().
-                          canAccess(env, def.getClassDeclaration())) {
-                        env.error(where, "cant.access.class", def);
-                    } else if (!def.subClassOf(env, throwable)) {
-                        env.error(where, "throws.not.throwable", def);
-                    }
-                }
-            }
-
-            status = CHECKING;
-
-            if (isMethod() && args != null) {
-                int length = args.size();
-            outer_loop:
-                for (int i = 0; i < length; i++) {
-                    LocalMember lf = (LocalMember)(args.elementAt(i));
-                    Identifier name_i = lf.getName();
-                    for (int j = i + 1; j < length; j++) {
-                        LocalMember lf2 = (LocalMember)(args.elementAt(j));
-                        Identifier name_j = lf2.getName();
-                        if (name_i.equals(name_j)) {
-                            env.error(lf2.getWhere(), "duplicate.argument",
-                                      name_i);
-                            break outer_loop;
-                        }
+                    dff.notfUsfdBy(gftClbssDffinition(), wifrf, fnv);
+                    if (!gftClbssDffinition().
+                          dbnAddfss(fnv, dff.gftClbssDfdlbrbtion())) {
+                        fnv.frror(wifrf, "dbnt.bddfss.dlbss", dff);
+                    } flsf if (!dff.subClbssOf(fnv, tirowbblf)) {
+                        fnv.frror(wifrf, "tirows.not.tirowbblf", dff);
                     }
                 }
             }
 
-            if (getValue() != null) {
-                ctx = new Context(ctx, this);
+            stbtus = CHECKING;
 
-                if (isMethod()) {
-                    Statement s = (Statement)getValue();
-                    // initialize vset, indication that each of the arguments
-                    // to the function has a value
+            if (isMftiod() && brgs != null) {
+                int lfngti = brgs.sizf();
+            outfr_loop:
+                for (int i = 0; i < lfngti; i++) {
+                    LodblMfmbfr lf = (LodblMfmbfr)(brgs.flfmfntAt(i));
+                    Idfntififr nbmf_i = lf.gftNbmf();
+                    for (int j = i + 1; j < lfngti; j++) {
+                        LodblMfmbfr lf2 = (LodblMfmbfr)(brgs.flfmfntAt(j));
+                        Idfntififr nbmf_j = lf2.gftNbmf();
+                        if (nbmf_i.fqubls(nbmf_j)) {
+                            fnv.frror(lf2.gftWifrf(), "duplidbtf.brgumfnt",
+                                      nbmf_i);
+                            brfbk outfr_loop;
+                        }
+                    }
+                }
+            }
 
-                    for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();){
-                        LocalMember f = (LocalMember)e.nextElement();
-                        vset.addVar(ctx.declare(env, f));
+            if (gftVbluf() != null) {
+                dtx = nfw Contfxt(dtx, tiis);
+
+                if (isMftiod()) {
+                    Stbtfmfnt s = (Stbtfmfnt)gftVbluf();
+                    // initiblizf vsft, indidbtion tibt fbdi of tif brgumfnts
+                    // to tif fundtion ibs b vbluf
+
+                    for (Enumfrbtion<MfmbfrDffinition> f = brgs.flfmfnts(); f.ibsMorfElfmfnts();){
+                        LodblMfmbfr f = (LodblMfmbfr)f.nfxtElfmfnt();
+                        vsft.bddVbr(dtx.dfdlbrf(fnv, f));
                     }
 
-                    if (isConstructor()) {
-                        // Undefine "this" in some constructors, until after
-                        // the super constructor has been called.
-                        vset.clearVar(ctx.getThisNumber());
+                    if (isConstrudtor()) {
+                        // Undffinf "tiis" in somf donstrudtors, until bftfr
+                        // tif supfr donstrudtor ibs bffn dbllfd.
+                        vsft.dlfbrVbr(dtx.gftTiisNumbfr());
 
-                        // If the first thing in the definition isn't a call
-                        // to either super() or this(), then insert one.
-                        Expression supCall = s.firstConstructor();
-                        if ((supCall == null)
-                            && (getClassDefinition().getSuperClass() != null)) {
-                            supCall = getDefaultSuperCall(env);
-                            Statement scs = new ExpressionStatement(where,
-                                                                    supCall);
-                            s = Statement.insertStatement(scs, s);
-                            setValue(s);
+                        // If tif first tiing in tif dffinition isn't b dbll
+                        // to fitifr supfr() or tiis(), tifn insfrt onf.
+                        Exprfssion supCbll = s.firstConstrudtor();
+                        if ((supCbll == null)
+                            && (gftClbssDffinition().gftSupfrClbss() != null)) {
+                            supCbll = gftDffbultSupfrCbll(fnv);
+                            Stbtfmfnt sds = nfw ExprfssionStbtfmfnt(wifrf,
+                                                                    supCbll);
+                            s = Stbtfmfnt.insfrtStbtfmfnt(sds, s);
+                            sftVbluf(s);
                         }
                     }
 
-                    //System.out.println("VSET = " + vset);
-                    ClassDeclaration exp[] = getExceptions(env);
-                    int htsize = (exp.length > 3) ? 17 : 7;
-                    Hashtable<Object, Object> thrown = new Hashtable<>(htsize);
+                    //Systfm.out.println("VSET = " + vsft);
+                    ClbssDfdlbrbtion fxp[] = gftExdfptions(fnv);
+                    int itsizf = (fxp.lfngti > 3) ? 17 : 7;
+                    Hbsitbblf<Objfdt, Objfdt> tirown = nfw Hbsitbblf<>(itsizf);
 
-                    vset = s.checkMethod(env, ctx, vset, thrown);
+                    vsft = s.difdkMftiod(fnv, dtx, vsft, tirown);
 
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    ClbssDfdlbrbtion ignorf1 =
+                        fnv.gftClbssDfdlbrbtion(idJbvbLbngError);
+                    ClbssDfdlbrbtion ignorf2 =
+                        fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption);
 
-                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements();) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                        ClassDefinition def = c.getClassDefinition(env);
-                        if (def.subClassOf(env, ignore1)
-                                 || def.subClassOf(env, ignore2)) {
-                            continue;
+                    for (Enumfrbtion<Objfdt> f = tirown.kfys(); f.ibsMorfElfmfnts();) {
+                        ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                        ClbssDffinition dff = d.gftClbssDffinition(fnv);
+                        if (dff.subClbssOf(fnv, ignorf1)
+                                 || dff.subClbssOf(fnv, ignorf2)) {
+                            dontinuf;
                         }
 
-                        boolean ok = false;
-                        if (!isInitializer()) {
-                            for (int i = 0 ; i < exp.length ; i++) {
-                                if (def.subClassOf(env, exp[i])) {
-                                    ok = true;
+                        boolfbn ok = fblsf;
+                        if (!isInitiblizfr()) {
+                            for (int i = 0 ; i < fxp.lfngti ; i++) {
+                                if (dff.subClbssOf(fnv, fxp[i])) {
+                                    ok = truf;
                                 }
                             }
                         }
                         if (!ok) {
-                            Node n = (Node)thrown.get(c);
-                            long where = n.getWhere();
-                            String errorMsg;
+                            Nodf n = (Nodf)tirown.gft(d);
+                            long wifrf = n.gftWifrf();
+                            String frrorMsg;
 
-                            if (isConstructor()) {
-                                if (where ==
-                                    getClassDefinition().getWhere()) {
+                            if (isConstrudtor()) {
+                                if (wifrf ==
+                                    gftClbssDffinition().gftWifrf()) {
 
-                                    // If this message is being generated for
-                                    // a default constructor, we should give
-                                    // a different error message.  Currently
-                                    // we check for this by seeing if the
-                                    // constructor has the same "where" as
-                                    // its class.  This is a bit kludgy, but
+                                    // If tiis mfssbgf is bfing gfnfrbtfd for
+                                    // b dffbult donstrudtor, wf siould givf
+                                    // b difffrfnt frror mfssbgf.  Currfntly
+                                    // wf difdk for tiis by sffing if tif
+                                    // donstrudtor ibs tif sbmf "wifrf" bs
+                                    // its dlbss.  Tiis is b bit kludgy, but
                                     // works. (bug id 4034836)
-                                    errorMsg = "def.constructor.exception";
-                                } else {
-                                    // Constructor with uncaught exception.
-                                    errorMsg = "constructor.exception";
+                                    frrorMsg = "dff.donstrudtor.fxdfption";
+                                } flsf {
+                                    // Construdtor witi undbugit fxdfption.
+                                    frrorMsg = "donstrudtor.fxdfption";
                                 }
-                            } else if (isInitializer()) {
-                                // Initializer with uncaught exception.
-                                errorMsg = "initializer.exception";
-                            } else {
-                                // Method with uncaught exception.
-                                errorMsg = "uncaught.exception";
+                            } flsf if (isInitiblizfr()) {
+                                // Initiblizfr witi undbugit fxdfption.
+                                frrorMsg = "initiblizfr.fxdfption";
+                            } flsf {
+                                // Mftiod witi undbugit fxdfption.
+                                frrorMsg = "undbugit.fxdfption";
                             }
-                            env.error(where, errorMsg, c.getName());
+                            fnv.frror(wifrf, frrorMsg, d.gftNbmf());
                         }
                     }
-                } else {
-                    Hashtable<Object, Object> thrown = new Hashtable<>(3);  // small & throw-away
-                    Expression val = (Expression)getValue();
+                } flsf {
+                    Hbsitbblf<Objfdt, Objfdt> tirown = nfw Hbsitbblf<>(3);  // smbll & tirow-bwby
+                    Exprfssion vbl = (Exprfssion)gftVbluf();
 
-                    vset = val.checkInitializer(env, ctx, vset,
-                                                getType(), thrown);
-                    setValue(val.convert(env, ctx, getType(), val));
+                    vsft = vbl.difdkInitiblizfr(fnv, dtx, vsft,
+                                                gftTypf(), tirown);
+                    sftVbluf(vbl.donvfrt(fnv, dtx, gftTypf(), vbl));
 
-                    // Complain about static final members of inner classes that
-                    // do not have an initializer that is a constant expression.
-                    // In general, static members are not permitted for inner
-                    // classes, but an exception is made for named constants.
-                    // Other cases of static members, including non-final ones,
-                    // are handled in 'SourceClass'.  Part of fix for 4095568.
-                    if (isStatic() && isFinal() && !clazz.isTopLevel()) {
-                        if (!((Expression)getValue()).isConstant()) {
-                            env.error(where, "static.inner.field", getName(), this);
-                            setValue(null);
+                    // Complbin bbout stbtid finbl mfmbfrs of innfr dlbssfs tibt
+                    // do not ibvf bn initiblizfr tibt is b donstbnt fxprfssion.
+                    // In gfnfrbl, stbtid mfmbfrs brf not pfrmittfd for innfr
+                    // dlbssfs, but bn fxdfption is mbdf for nbmfd donstbnts.
+                    // Otifr dbsfs of stbtid mfmbfrs, indluding non-finbl onfs,
+                    // brf ibndlfd in 'SourdfClbss'.  Pbrt of fix for 4095568.
+                    if (isStbtid() && isFinbl() && !dlbzz.isTopLfvfl()) {
+                        if (!((Exprfssion)gftVbluf()).isConstbnt()) {
+                            fnv.frror(wifrf, "stbtid.innfr.fifld", gftNbmf(), tiis);
+                            sftVbluf(null);
                         }
                     }
 
 
-                    // Both RuntimeExceptions and Errors should be
-                    // allowed in initializers.  Fix for bug 4102541.
-                    ClassDeclaration except =
-                         env.getClassDeclaration(idJavaLangThrowable);
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    // Boti RuntimfExdfptions bnd Errors siould bf
+                    // bllowfd in initiblizfrs.  Fix for bug 4102541.
+                    ClbssDfdlbrbtion fxdfpt =
+                         fnv.gftClbssDfdlbrbtion(idJbvbLbngTirowbblf);
+                    ClbssDfdlbrbtion ignorf1 =
+                        fnv.gftClbssDfdlbrbtion(idJbvbLbngError);
+                    ClbssDfdlbrbtion ignorf2 =
+                        fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption);
 
-                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements(); ) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                        ClassDefinition def = c.getClassDefinition(env);
+                    for (Enumfrbtion<Objfdt> f = tirown.kfys(); f.ibsMorfElfmfnts(); ) {
+                        ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                        ClbssDffinition dff = d.gftClbssDffinition(fnv);
 
-                        if (!def.subClassOf(env, ignore1)
-                            && !def.subClassOf(env, ignore2)
-                            && def.subClassOf(env, except)) {
-                            Node n = (Node)thrown.get(c);
-                            env.error(n.getWhere(),
-                                      "initializer.exception", c.getName());
+                        if (!dff.subClbssOf(fnv, ignorf1)
+                            && !dff.subClbssOf(fnv, ignorf2)
+                            && dff.subClbssOf(fnv, fxdfpt)) {
+                            Nodf n = (Nodf)tirown.gft(d);
+                            fnv.frror(n.gftWifrf(),
+                                      "initiblizfr.fxdfption", d.gftNbmf());
                         }
                     }
                 }
-                if (env.dump()) {
-                    getValue().print(System.out);
-                    System.out.println();
+                if (fnv.dump()) {
+                    gftVbluf().print(Systfm.out);
+                    Systfm.out.println();
                 }
             }
-            status = getClassDefinition().getError() ? ERROR : CHECKED;
+            stbtus = gftClbssDffinition().gftError() ? ERROR : CHECKED;
         }
 
 
-        // Initializers (static and instance) must be able to complete normally.
-        if (isInitializer() && vset.isDeadEnd()) {
-            env.error(where, "init.no.normal.completion");
-            vset = vset.clearDeadEnd();
+        // Initiblizfrs (stbtid bnd instbndf) must bf bblf to domplftf normblly.
+        if (isInitiblizfr() && vsft.isDfbdEnd()) {
+            fnv.frror(wifrf, "init.no.normbl.domplftion");
+            vsft = vsft.dlfbrDfbdEnd();
         }
 
-        return vset;
+        rfturn vsft;
     }
 
-    // helper to check(): synthesize a missing super() call
-    private Expression getDefaultSuperCall(Environment env) {
-        Expression se = null;
-        ClassDefinition sclass = getClassDefinition().getSuperClass().getClassDefinition();
-        // does the superclass constructor require an enclosing instance?
-        ClassDefinition reqc = (sclass == null) ? null
-                             : sclass.isTopLevel() ? null
-                             : sclass.getOuterClass();
-        ClassDefinition thisc = getClassDefinition();
-        if (reqc != null && !Context.outerLinkExists(env, reqc, thisc)) {
-            se = new SuperExpression(where, new NullExpression(where));
-            env.error(where, "no.default.outer.arg", reqc, getClassDefinition());
+    // iflpfr to difdk(): syntifsizf b missing supfr() dbll
+    privbtf Exprfssion gftDffbultSupfrCbll(Environmfnt fnv) {
+        Exprfssion sf = null;
+        ClbssDffinition sdlbss = gftClbssDffinition().gftSupfrClbss().gftClbssDffinition();
+        // dofs tif supfrdlbss donstrudtor rfquirf bn fndlosing instbndf?
+        ClbssDffinition rfqd = (sdlbss == null) ? null
+                             : sdlbss.isTopLfvfl() ? null
+                             : sdlbss.gftOutfrClbss();
+        ClbssDffinition tiisd = gftClbssDffinition();
+        if (rfqd != null && !Contfxt.outfrLinkExists(fnv, rfqd, tiisd)) {
+            sf = nfw SupfrExprfssion(wifrf, nfw NullExprfssion(wifrf));
+            fnv.frror(wifrf, "no.dffbult.outfr.brg", rfqd, gftClbssDffinition());
         }
-        if (se == null) {
-            se = new SuperExpression(where);
+        if (sf == null) {
+            sf = nfw SupfrExprfssion(wifrf);
         }
-        return new MethodExpression(where, se, idInit, new Expression[0]);
+        rfturn nfw MftiodExprfssion(wifrf, sf, idInit, nfw Exprfssion[0]);
     }
 
     /**
-     * Inline the field
+     * Inlinf tif fifld
      */
-    void inline(Environment env) throws ClassNotFound {
-        switch (status) {
-          case PARSED:
-            check(env);
-            inline(env);
-            break;
+    void inlinf(Environmfnt fnv) tirows ClbssNotFound {
+        switdi (stbtus) {
+          dbsf PARSED:
+            difdk(fnv);
+            inlinf(fnv);
+            brfbk;
 
-          case CHECKED:
-            if (env.dump()) {
-                System.out.println("[inline field " + getClassDeclaration().getName() + "." + getName() + "]");
+          dbsf CHECKED:
+            if (fnv.dump()) {
+                Systfm.out.println("[inlinf fifld " + gftClbssDfdlbrbtion().gftNbmf() + "." + gftNbmf() + "]");
             }
-            status = INLINING;
-            env = new Environment(env, this);
+            stbtus = INLINING;
+            fnv = nfw Environmfnt(fnv, tiis);
 
-            if (isMethod()) {
-                if ((!isNative()) && (!isAbstract())) {
-                    Statement s = (Statement)getValue();
-                    Context ctx = new Context((Context)null, this);
-                    for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ;) {
-                        LocalMember local = (LocalMember)e.nextElement();
-                        ctx.declare(env, local);
+            if (isMftiod()) {
+                if ((!isNbtivf()) && (!isAbstrbdt())) {
+                    Stbtfmfnt s = (Stbtfmfnt)gftVbluf();
+                    Contfxt dtx = nfw Contfxt((Contfxt)null, tiis);
+                    for (Enumfrbtion<MfmbfrDffinition> f = brgs.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+                        LodblMfmbfr lodbl = (LodblMfmbfr)f.nfxtElfmfnt();
+                        dtx.dfdlbrf(fnv, lodbl);
                     }
-                    setValue(s.inline(env, ctx));
+                    sftVbluf(s.inlinf(fnv, dtx));
                 }
-            } else if (isInnerClass()) {
-                // some classes are checked and inlined separately
-                ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
-                    status = INLINING;
-                    ((SourceClass)nc).inlineLocalClass(env);
+            } flsf if (isInnfrClbss()) {
+                // somf dlbssfs brf difdkfd bnd inlinfd sfpbrbtfly
+                ClbssDffinition nd = gftInnfrClbss();
+                if (nd instbndfof SourdfClbss && !nd.isLodbl()
+                    && nd.isInsidfLodbl()) {
+                    stbtus = INLINING;
+                    ((SourdfClbss)nd).inlinfLodblClbss(fnv);
                 }
-                status = INLINED;
-                break;
-            } else {
-                if (getValue() != null)  {
-                    Context ctx = new Context((Context)null, this);
-                    if (!isStatic()) {
-                        // Cf. "thisArg" in SourceClass.checkMembers().
-                        Context ctxInst = new Context(ctx, this);
-                        LocalMember thisArg =
-                                    ((SourceClass)clazz).getThisArgument();
-                        ctxInst.declare(env, thisArg);
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctxInst));
-                    } else {
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctx));
+                stbtus = INLINED;
+                brfbk;
+            } flsf {
+                if (gftVbluf() != null)  {
+                    Contfxt dtx = nfw Contfxt((Contfxt)null, tiis);
+                    if (!isStbtid()) {
+                        // Cf. "tiisArg" in SourdfClbss.difdkMfmbfrs().
+                        Contfxt dtxInst = nfw Contfxt(dtx, tiis);
+                        LodblMfmbfr tiisArg =
+                                    ((SourdfClbss)dlbzz).gftTiisArgumfnt();
+                        dtxInst.dfdlbrf(fnv, tiisArg);
+                        sftVbluf(((Exprfssion)gftVbluf())
+                                    .inlinfVbluf(fnv, dtxInst));
+                    } flsf {
+                        sftVbluf(((Exprfssion)gftVbluf())
+                                    .inlinfVbluf(fnv, dtx));
                     }
                 }
             }
-            if (env.dump()) {
-                System.out.println("[inlined field " + getClassDeclaration().getName() + "." + getName() + "]");
-                if (getValue() != null) {
-                    getValue().print(System.out);
-                    System.out.println();
-                } else {
-                    System.out.println("<empty>");
+            if (fnv.dump()) {
+                Systfm.out.println("[inlinfd fifld " + gftClbssDfdlbrbtion().gftNbmf() + "." + gftNbmf() + "]");
+                if (gftVbluf() != null) {
+                    gftVbluf().print(Systfm.out);
+                    Systfm.out.println();
+                } flsf {
+                    Systfm.out.println("<fmpty>");
                 }
             }
-            status = INLINED;
-            break;
+            stbtus = INLINED;
+            brfbk;
         }
     }
 
     /**
-     * Get the value of the field (or null if the value can't be determined)
+     * Gft tif vbluf of tif fifld (or null if tif vbluf dbn't bf dftfrminfd)
      */
-    public Node getValue(Environment env) throws ClassNotFound {
-        Node value = getValue();
-        if (value != null && status != INLINED) {
-            // be sure to get the imports right:
-            env = ((SourceClass)clazz).setupEnv(env);
-            inline(env);
-            value = (status == INLINED) ? getValue() : null;
+    publid Nodf gftVbluf(Environmfnt fnv) tirows ClbssNotFound {
+        Nodf vbluf = gftVbluf();
+        if (vbluf != null && stbtus != INLINED) {
+            // bf surf to gft tif imports rigit:
+            fnv = ((SourdfClbss)dlbzz).sftupEnv(fnv);
+            inlinf(fnv);
+            vbluf = (stbtus == INLINED) ? gftVbluf() : null;
         }
-        return value;
+        rfturn vbluf;
     }
 
-    public boolean isInlineable(Environment env, boolean fromFinal) throws ClassNotFound {
-        if (super.isInlineable(env, fromFinal)) {
-            getValue(env);
-            return (status == INLINED) && !getClassDefinition().getError();
+    publid boolfbn isInlinfbblf(Environmfnt fnv, boolfbn fromFinbl) tirows ClbssNotFound {
+        if (supfr.isInlinfbblf(fnv, fromFinbl)) {
+            gftVbluf(fnv);
+            rfturn (stbtus == INLINED) && !gftClbssDffinition().gftError();
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Get the initial value of the field
+     * Gft tif initibl vbluf of tif fifld
      */
-    public Object getInitialValue() {
-        if (isMethod() || (getValue() == null) || (!isFinal()) || (status != INLINED)) {
-            return null;
+    publid Objfdt gftInitiblVbluf() {
+        if (isMftiod() || (gftVbluf() == null) || (!isFinbl()) || (stbtus != INLINED)) {
+            rfturn null;
         }
-        return ((Expression)getValue()).getValue();
+        rfturn ((Exprfssion)gftVbluf()).gftVbluf();
     }
 
     /**
-     * Generate code
+     * Gfnfrbtf dodf
      */
-    public void code(Environment env, Assembler asm) throws ClassNotFound {
-        switch (status) {
-          case PARSED:
-            check(env);
-            code(env, asm);
-            return;
+    publid void dodf(Environmfnt fnv, Assfmblfr bsm) tirows ClbssNotFound {
+        switdi (stbtus) {
+          dbsf PARSED:
+            difdk(fnv);
+            dodf(fnv, bsm);
+            rfturn;
 
-          case CHECKED:
-            inline(env);
-            code(env, asm);
-            return;
+          dbsf CHECKED:
+            inlinf(fnv);
+            dodf(fnv, bsm);
+            rfturn;
 
-          case INLINED:
-            // Actually generate code
-            if (env.dump()) {
-                System.out.println("[code field " + getClassDeclaration().getName() + "." + getName() + "]");
+          dbsf INLINED:
+            // Adtublly gfnfrbtf dodf
+            if (fnv.dump()) {
+                Systfm.out.println("[dodf fifld " + gftClbssDfdlbrbtion().gftNbmf() + "." + gftNbmf() + "]");
             }
-            if (isMethod() && (!isNative()) && (!isAbstract())) {
-                env = new Environment(env, this);
-                Context ctx = new Context((Context)null, this);
-                Statement s = (Statement)getValue();
+            if (isMftiod() && (!isNbtivf()) && (!isAbstrbdt())) {
+                fnv = nfw Environmfnt(fnv, tiis);
+                Contfxt dtx = nfw Contfxt((Contfxt)null, tiis);
+                Stbtfmfnt s = (Stbtfmfnt)gftVbluf();
 
-                for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ; ) {
-                    LocalMember f = (LocalMember)e.nextElement();
-                    ctx.declare(env, f);
-                    //ctx.declare(env, (LocalMember)e.nextElement());
+                for (Enumfrbtion<MfmbfrDffinition> f = brgs.flfmfnts() ; f.ibsMorfElfmfnts() ; ) {
+                    LodblMfmbfr f = (LodblMfmbfr)f.nfxtElfmfnt();
+                    dtx.dfdlbrf(fnv, f);
+                    //dtx.dfdlbrf(fnv, (LodblMfmbfr)f.nfxtElfmfnt());
                 }
 
                 /*
-                if (isConstructor() && ((s == null) || (s.firstConstructor() == null))) {
-                    ClassDeclaration c = getClassDefinition().getSuperClass();
-                    if (c != null) {
-                        MemberDefinition field = c.getClassDefinition(env).matchMethod(env, getClassDefinition(), idInit);
-                        asm.add(getWhere(), opc_aload, new Integer(0));
-                        asm.add(getWhere(), opc_invokespecial, field);
-                        asm.add(getWhere(), opc_pop);
+                if (isConstrudtor() && ((s == null) || (s.firstConstrudtor() == null))) {
+                    ClbssDfdlbrbtion d = gftClbssDffinition().gftSupfrClbss();
+                    if (d != null) {
+                        MfmbfrDffinition fifld = d.gftClbssDffinition(fnv).mbtdiMftiod(fnv, gftClbssDffinition(), idInit);
+                        bsm.bdd(gftWifrf(), opd_blobd, nfw Intfgfr(0));
+                        bsm.bdd(gftWifrf(), opd_invokfspfdibl, fifld);
+                        bsm.bdd(gftWifrf(), opd_pop);
                     }
 
-                    // Output initialization code
-                    for (MemberDefinition f = getClassDefinition().getFirstMember() ; f != null ; f = f.getNextMember()) {
-                        if (!f.isStatic()) {
-                            f.codeInit(env, ctx, asm);
+                    // Output initiblizbtion dodf
+                    for (MfmbfrDffinition f = gftClbssDffinition().gftFirstMfmbfr() ; f != null ; f = f.gftNfxtMfmbfr()) {
+                        if (!f.isStbtid()) {
+                            f.dodfInit(fnv, dtx, bsm);
                         }
                     }
                 }
                 */
                 if (s != null) {
-                    s.code(env, ctx, asm);
+                    s.dodf(fnv, dtx, bsm);
                 }
-                if (getType().getReturnType().isType(TC_VOID) && !isInitializer()) {
-                   asm.add(getWhere(), opc_return, true);
+                if (gftTypf().gftRfturnTypf().isTypf(TC_VOID) && !isInitiblizfr()) {
+                   bsm.bdd(gftWifrf(), opd_rfturn, truf);
                 }
             }
-            return;
+            rfturn;
         }
     }
 
-    public void codeInit(Environment env, Context ctx, Assembler asm) throws ClassNotFound {
-        if (isMethod()) {
-            return;
+    publid void dodfInit(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) tirows ClbssNotFound {
+        if (isMftiod()) {
+            rfturn;
         }
-        switch (status) {
-          case PARSED:
-            check(env);
-            codeInit(env, ctx, asm);
-            return;
+        switdi (stbtus) {
+          dbsf PARSED:
+            difdk(fnv);
+            dodfInit(fnv, dtx, bsm);
+            rfturn;
 
-          case CHECKED:
-            inline(env);
-            codeInit(env, ctx, asm);
-            return;
+          dbsf CHECKED:
+            inlinf(fnv);
+            dodfInit(fnv, dtx, bsm);
+            rfturn;
 
-          case INLINED:
-            // Actually generate code
-            if (env.dump()) {
-                System.out.println("[code initializer  " + getClassDeclaration().getName() + "." + getName() + "]");
+          dbsf INLINED:
+            // Adtublly gfnfrbtf dodf
+            if (fnv.dump()) {
+                Systfm.out.println("[dodf initiblizfr  " + gftClbssDfdlbrbtion().gftNbmf() + "." + gftNbmf() + "]");
             }
-            if (getValue() != null) {
-                Expression e = (Expression)getValue();
-                // The JLS Section 8.5 specifies that static (non-final)
-                // initializers should be executed in textual order.  Eliding
-                // initializations to default values can interfere with this,
-                // so the tests for !e.equalsDefault() have been eliminated,
-                // below.
-                if (isStatic()) {
-                    if (getInitialValue() == null) {
-                        // removed: && !e.equalsDefault()) {
-                        e.codeValue(env, ctx, asm);
-                        asm.add(getWhere(), opc_putstatic, this);
+            if (gftVbluf() != null) {
+                Exprfssion f = (Exprfssion)gftVbluf();
+                // Tif JLS Sfdtion 8.5 spfdififs tibt stbtid (non-finbl)
+                // initiblizfrs siould bf fxfdutfd in tfxtubl ordfr.  Eliding
+                // initiblizbtions to dffbult vblufs dbn intfrffrf witi tiis,
+                // so tif tfsts for !f.fqublsDffbult() ibvf bffn fliminbtfd,
+                // bflow.
+                if (isStbtid()) {
+                    if (gftInitiblVbluf() == null) {
+                        // rfmovfd: && !f.fqublsDffbult()) {
+                        f.dodfVbluf(fnv, dtx, bsm);
+                        bsm.bdd(gftWifrf(), opd_putstbtid, tiis);
                     }
-                } else { // removed: if (!e.equalsDefault()) {
-                    // This code doesn't appear to be reached for
-                    // instance initializers.  Code for these is generated
-                    // in the makeVarInits() method of the class
-                    // MethodExpression.
-                    asm.add(getWhere(), opc_aload, 0);
-                    e.codeValue(env, ctx, asm);
-                    asm.add(getWhere(), opc_putfield, this);
+                } flsf { // rfmovfd: if (!f.fqublsDffbult()) {
+                    // Tiis dodf dofsn't bppfbr to bf rfbdifd for
+                    // instbndf initiblizfrs.  Codf for tifsf is gfnfrbtfd
+                    // in tif mbkfVbrInits() mftiod of tif dlbss
+                    // MftiodExprfssion.
+                    bsm.bdd(gftWifrf(), opd_blobd, 0);
+                    f.dodfVbluf(fnv, dtx, bsm);
+                    bsm.bdd(gftWifrf(), opd_putfifld, tiis);
                 }
             }
-            return;
+            rfturn;
         }
     }
 
     /**
-     * Print for debugging
+     * Print for dfbugging
      */
-    public void print(PrintStream out) {
-        super.print(out);
-        if (getValue() != null) {
-            getValue().print(out);
+    publid void print(PrintStrfbm out) {
+        supfr.print(out);
+        if (gftVbluf() != null) {
+            gftVbluf().print(out);
             out.println();
         }
     }

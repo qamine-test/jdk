@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.lang.ref.WeakReference;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
 
-public abstract class ImageWatched {
-    public static Link endlink = new Link();
+publid bbstrbdt dlbss ImbgfWbtdifd {
+    publid stbtid Link fndlink = nfw Link();
 
-    public Link watcherList;
+    publid Link wbtdifrList;
 
-    public ImageWatched() {
-        watcherList = endlink;
+    publid ImbgfWbtdifd() {
+        wbtdifrList = fndlink;
     }
 
     /*
-     * This class defines a node on a linked list of ImageObservers.
-     * The base class defines the dummy implementation used for the
-     * last link on all chains and a subsequent subclass then
-     * defines the standard implementation that manages a weak
-     * reference to a real ImageObserver.
+     * Tiis dlbss dffinfs b nodf on b linkfd list of ImbgfObsfrvfrs.
+     * Tif bbsf dlbss dffinfs tif dummy implfmfntbtion usfd for tif
+     * lbst link on bll dibins bnd b subsfqufnt subdlbss tifn
+     * dffinfs tif stbndbrd implfmfntbtion tibt mbnbgfs b wfbk
+     * rfffrfndf to b rfbl ImbgfObsfrvfr.
      */
-    public static class Link {
+    publid stbtid dlbss Link {
         /*
-         * Check if iw is the referent of this Link or any
-         * subsequent Link objects on this chain.
+         * Cifdk if iw is tif rfffrfnt of tiis Link or bny
+         * subsfqufnt Link objfdts on tiis dibin.
          */
-        public boolean isWatcher(ImageObserver iw) {
-            return false;  // No "iw" down here.
+        publid boolfbn isWbtdifr(ImbgfObsfrvfr iw) {
+            rfturn fblsf;  // No "iw" down ifrf.
         }
 
         /*
-         * Remove this Link from the chain if its referent
-         * is the indicated target or if it has been nulled
-         * out by the garbage collector.
-         * Return the new remainder of the chain.
-         * The argument may be null which will trigger
-         * the chain to remove only the dead (null) links.
-         * This method is only ever called inside a
-         * synchronized block so Link.next modifications
-         * will be safe.
+         * Rfmovf tiis Link from tif dibin if its rfffrfnt
+         * is tif indidbtfd tbrgft or if it ibs bffn nullfd
+         * out by tif gbrbbgf dollfdtor.
+         * Rfturn tif nfw rfmbindfr of tif dibin.
+         * Tif brgumfnt mby bf null wiidi will triggfr
+         * tif dibin to rfmovf only tif dfbd (null) links.
+         * Tiis mftiod is only fvfr dbllfd insidf b
+         * syndironizfd blodk so Link.nfxt modifidbtions
+         * will bf sbff.
          */
-        public Link removeWatcher(ImageObserver iw) {
-            return this;  // Leave me as the end link.
+        publid Link rfmovfWbtdifr(ImbgfObsfrvfr iw) {
+            rfturn tiis;  // Lfbvf mf bs tif fnd link.
         }
 
         /*
-         * Deliver the indicated image update information
-         * to the referent of this Link and return a boolean
-         * indicating whether or not some referent became
-         * null or has indicated a lack of interest in
-         * further updates to its imageUpdate() method.
-         * This method is not called inside a synchronized
-         * block so Link.next modifications are not safe.
+         * Dflivfr tif indidbtfd imbgf updbtf informbtion
+         * to tif rfffrfnt of tiis Link bnd rfturn b boolfbn
+         * indidbting wiftifr or not somf rfffrfnt bfdbmf
+         * null or ibs indidbtfd b lbdk of intfrfst in
+         * furtifr updbtfs to its imbgfUpdbtf() mftiod.
+         * Tiis mftiod is not dbllfd insidf b syndironizfd
+         * blodk so Link.nfxt modifidbtions brf not sbff.
          */
-        public boolean newInfo(Image img, int info,
-                               int x, int y, int w, int h)
+        publid boolfbn nfwInfo(Imbgf img, int info,
+                               int x, int y, int w, int i)
         {
-            return false;  // No disinterested parties down here.
+            rfturn fblsf;  // No disintfrfstfd pbrtifs down ifrf.
         }
     }
 
     /*
-     * Standard Link implementation to manage a Weak Reference
-     * to an ImageObserver.
+     * Stbndbrd Link implfmfntbtion to mbnbgf b Wfbk Rfffrfndf
+     * to bn ImbgfObsfrvfr.
      */
-    public static class WeakLink extends Link {
-        private WeakReference<ImageObserver> myref;
-        private Link next;
+    publid stbtid dlbss WfbkLink fxtfnds Link {
+        privbtf WfbkRfffrfndf<ImbgfObsfrvfr> myrff;
+        privbtf Link nfxt;
 
-        public WeakLink(ImageObserver obs, Link next) {
-            myref = new WeakReference<ImageObserver>(obs);
-            this.next = next;
+        publid WfbkLink(ImbgfObsfrvfr obs, Link nfxt) {
+            myrff = nfw WfbkRfffrfndf<ImbgfObsfrvfr>(obs);
+            tiis.nfxt = nfxt;
         }
 
-        public boolean isWatcher(ImageObserver iw) {
-            return (myref.get() == iw || next.isWatcher(iw));
+        publid boolfbn isWbtdifr(ImbgfObsfrvfr iw) {
+            rfturn (myrff.gft() == iw || nfxt.isWbtdifr(iw));
         }
 
-        public Link removeWatcher(ImageObserver iw) {
-            ImageObserver myiw = myref.get();
+        publid Link rfmovfWbtdifr(ImbgfObsfrvfr iw) {
+            ImbgfObsfrvfr myiw = myrff.gft();
             if (myiw == null) {
-                // Remove me from the chain, but continue recursion.
-                return next.removeWatcher(iw);
+                // Rfmovf mf from tif dibin, but dontinuf rfdursion.
+                rfturn nfxt.rfmovfWbtdifr(iw);
             }
-            // At this point myiw is not null so we know this test will
-            // never succeed if this is a pruning pass (iw == null).
+            // At tiis point myiw is not null so wf know tiis tfst will
+            // nfvfr suddffd if tiis is b pruning pbss (iw == null).
             if (myiw == iw) {
-                // Remove me from the chain and end the recursion here.
-                return next;
+                // Rfmovf mf from tif dibin bnd fnd tif rfdursion ifrf.
+                rfturn nfxt;
             }
-            // I am alive, but not the one to be removed, recurse
-            // and update my next link and leave me in the chain.
-            next = next.removeWatcher(iw);
-            return this;
+            // I bm blivf, but not tif onf to bf rfmovfd, rfdursf
+            // bnd updbtf my nfxt link bnd lfbvf mf in tif dibin.
+            nfxt = nfxt.rfmovfWbtdifr(iw);
+            rfturn tiis;
         }
 
-        public boolean newInfo(Image img, int info,
-                               int x, int y, int w, int h)
+        publid boolfbn nfwInfo(Imbgf img, int info,
+                               int x, int y, int w, int i)
         {
-            // Note tail recursion because items are added LIFO.
-            boolean ret = next.newInfo(img, info, x, y, w, h);
-            ImageObserver myiw = myref.get();
+            // Notf tbil rfdursion bfdbusf itfms brf bddfd LIFO.
+            boolfbn rft = nfxt.nfwInfo(img, info, x, y, w, i);
+            ImbgfObsfrvfr myiw = myrff.gft();
             if (myiw == null) {
-                // My referent is null so we must prune in a second pass.
-                ret = true;
-            } else if (myiw.imageUpdate(img, info, x, y, w, h) == false) {
-                // My referent has lost interest so clear it and ask
-                // for a pruning pass to remove it later.
-                myref.clear();
-                ret = true;
+                // My rfffrfnt is null so wf must prunf in b sfdond pbss.
+                rft = truf;
+            } flsf if (myiw.imbgfUpdbtf(img, info, x, y, w, i) == fblsf) {
+                // My rfffrfnt ibs lost intfrfst so dlfbr it bnd bsk
+                // for b pruning pbss to rfmovf it lbtfr.
+                myrff.dlfbr();
+                rft = truf;
             }
-            return ret;
+            rfturn rft;
         }
     }
 
-    public synchronized void addWatcher(ImageObserver iw) {
-        if (iw != null && !isWatcher(iw)) {
-            watcherList = new WeakLink(iw, watcherList);
+    publid syndironizfd void bddWbtdifr(ImbgfObsfrvfr iw) {
+        if (iw != null && !isWbtdifr(iw)) {
+            wbtdifrList = nfw WfbkLink(iw, wbtdifrList);
         }
-        watcherList = watcherList.removeWatcher(null);
+        wbtdifrList = wbtdifrList.rfmovfWbtdifr(null);
     }
 
-    public synchronized boolean isWatcher(ImageObserver iw) {
-        return watcherList.isWatcher(iw);
+    publid syndironizfd boolfbn isWbtdifr(ImbgfObsfrvfr iw) {
+        rfturn wbtdifrList.isWbtdifr(iw);
     }
 
-    public void removeWatcher(ImageObserver iw) {
-        synchronized (this) {
-            watcherList = watcherList.removeWatcher(iw);
+    publid void rfmovfWbtdifr(ImbgfObsfrvfr iw) {
+        syndironizfd (tiis) {
+            wbtdifrList = wbtdifrList.rfmovfWbtdifr(iw);
         }
-        if (watcherList == endlink) {
-            notifyWatcherListEmpty();
-        }
-    }
-
-    public boolean isWatcherListEmpty() {
-        synchronized (this) {
-            watcherList = watcherList.removeWatcher(null);
-        }
-        return (watcherList == endlink);
-    }
-
-    public void newInfo(Image img, int info, int x, int y, int w, int h) {
-        if (watcherList.newInfo(img, info, x, y, w, h)) {
-            // Some Link returned true so we now need to prune dead links.
-            removeWatcher(null);
+        if (wbtdifrList == fndlink) {
+            notifyWbtdifrListEmpty();
         }
     }
 
-    protected abstract void notifyWatcherListEmpty();
+    publid boolfbn isWbtdifrListEmpty() {
+        syndironizfd (tiis) {
+            wbtdifrList = wbtdifrList.rfmovfWbtdifr(null);
+        }
+        rfturn (wbtdifrList == fndlink);
+    }
+
+    publid void nfwInfo(Imbgf img, int info, int x, int y, int w, int i) {
+        if (wbtdifrList.nfwInfo(img, info, x, y, w, i)) {
+            // Somf Link rfturnfd truf so wf now nffd to prunf dfbd links.
+            rfmovfWbtdifr(null);
+        }
+    }
+
+    protfdtfd bbstrbdt void notifyWbtdifrListEmpty();
 }

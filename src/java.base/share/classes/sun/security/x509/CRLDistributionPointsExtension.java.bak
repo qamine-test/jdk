@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
-import sun.security.util.ObjectIdentifier;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
 /**
- * Represent the CRL Distribution Points Extension (OID = 2.5.29.31).
+ * Rfprfsfnt tif CRL Distribution Points Extfnsion (OID = 2.5.29.31).
  * <p>
- * The CRL distribution points extension identifies how CRL information
- * is obtained.  The extension SHOULD be non-critical, but the PKIX profile
- * recommends support for this extension by CAs and applications.
+ * Tif CRL distribution points fxtfnsion idfntififs iow CRL informbtion
+ * is obtbinfd.  Tif fxtfnsion SHOULD bf non-dritidbl, but tif PKIX profilf
+ * rfdommfnds support for tiis fxtfnsion by CAs bnd bpplidbtions.
  * <p>
- * For PKIX, if the cRLDistributionPoints extension contains a
- * DistributionPointName of type URI, the following semantics MUST be
- * assumed: the URI is a pointer to the current CRL for the associated
- * reasons and will be issued by the associated cRLIssuer.  The
- * expected values for the URI conform to the following rules.  The
- * name MUST be a non-relative URL, and MUST follow the URL syntax and
- * encoding rules specified in [RFC 1738].  The name must include both
- * a scheme (e.g., "http" or "ftp") and a scheme-specific-part.  The
- * scheme- specific-part must include a fully qualified domain name or
- * IP address as the host.  As specified in [RFC 1738], the scheme
- * name is not case-sensitive (e.g., "http" is equivalent to "HTTP").
- * The host part is also not case-sensitive, but other components of
- * the scheme-specific-part may be case-sensitive. When comparing
- * URIs, conforming implementations MUST compare the scheme and host
- * without regard to case, but assume the remainder of the
- * scheme-specific-part is case sensitive.  Processing rules for other
- * values are not defined by this specification.  If the
- * distributionPoint omits reasons, the CRL MUST include revocations
- * for all reasons. If the distributionPoint omits cRLIssuer, the CRL
- * MUST be issued by the CA that issued the certificate.
+ * For PKIX, if tif dRLDistributionPoints fxtfnsion dontbins b
+ * DistributionPointNbmf of typf URI, tif following sfmbntids MUST bf
+ * bssumfd: tif URI is b pointfr to tif durrfnt CRL for tif bssodibtfd
+ * rfbsons bnd will bf issufd by tif bssodibtfd dRLIssufr.  Tif
+ * fxpfdtfd vblufs for tif URI donform to tif following rulfs.  Tif
+ * nbmf MUST bf b non-rflbtivf URL, bnd MUST follow tif URL syntbx bnd
+ * fndoding rulfs spfdififd in [RFC 1738].  Tif nbmf must indludf boti
+ * b sdifmf (f.g., "ittp" or "ftp") bnd b sdifmf-spfdifid-pbrt.  Tif
+ * sdifmf- spfdifid-pbrt must indludf b fully qublififd dombin nbmf or
+ * IP bddrfss bs tif iost.  As spfdififd in [RFC 1738], tif sdifmf
+ * nbmf is not dbsf-sfnsitivf (f.g., "ittp" is fquivblfnt to "HTTP").
+ * Tif iost pbrt is blso not dbsf-sfnsitivf, but otifr domponfnts of
+ * tif sdifmf-spfdifid-pbrt mby bf dbsf-sfnsitivf. Wifn dompbring
+ * URIs, donforming implfmfntbtions MUST dompbrf tif sdifmf bnd iost
+ * witiout rfgbrd to dbsf, but bssumf tif rfmbindfr of tif
+ * sdifmf-spfdifid-pbrt is dbsf sfnsitivf.  Prodfssing rulfs for otifr
+ * vblufs brf not dffinfd by tiis spfdifidbtion.  If tif
+ * distributionPoint omits rfbsons, tif CRL MUST indludf rfvodbtions
+ * for bll rfbsons. If tif distributionPoint omits dRLIssufr, tif CRL
+ * MUST bf issufd by tif CA tibt issufd tif dfrtifidbtf.
  * <p>
- * The ASN.1 definition for this is:
- * <pre>
- * id-ce-cRLDistributionPoints OBJECT IDENTIFIER ::=  { id-ce 31 }
+ * Tif ASN.1 dffinition for tiis is:
+ * <prf>
+ * id-df-dRLDistributionPoints OBJECT IDENTIFIER ::=  { id-df 31 }
  *
- * cRLDistributionPoints ::= {
- *      CRLDistPointsSyntax }
+ * dRLDistributionPoints ::= {
+ *      CRLDistPointsSyntbx }
  *
- * CRLDistPointsSyntax ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint
- * </pre>
+ * CRLDistPointsSyntbx ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint
+ * </prf>
  * <p>
- * @author Anne Anderson
- * @author Andreas Sterbenz
- * @since 1.4.2
- * @see DistributionPoint
- * @see Extension
- * @see CertAttrSet
+ * @butior Annf Andfrson
+ * @butior Andrfbs Stfrbfnz
+ * @sindf 1.4.2
+ * @sff DistributionPoint
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
-public class CRLDistributionPointsExtension extends Extension
-        implements CertAttrSet<String> {
+publid dlbss CRLDistributionPointsExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT =
-                                "x509.info.extensions.CRLDistributionPoints";
+    publid stbtid finbl String IDENT =
+                                "x509.info.fxtfnsions.CRLDistributionPoints";
 
     /**
-     * Attribute name.
+     * Attributf nbmf.
      */
-    public static final String NAME = "CRLDistributionPoints";
-    public static final String POINTS = "points";
+    publid stbtid finbl String NAME = "CRLDistributionPoints";
+    publid stbtid finbl String POINTS = "points";
 
     /**
-     * The List of DistributionPoint objects.
+     * Tif List of DistributionPoint objfdts.
      */
-    private List<DistributionPoint> distributionPoints;
+    privbtf List<DistributionPoint> distributionPoints;
 
-    private String extensionName;
+    privbtf String fxtfnsionNbmf;
 
     /**
-     * Create a CRLDistributionPointsExtension from a List of
-     * DistributionPoint; the criticality is set to false.
+     * Crfbtf b CRLDistributionPointsExtfnsion from b List of
+     * DistributionPoint; tif dritidblity is sft to fblsf.
      *
-     * @param distributionPoints the list of distribution points
-     * @throws IOException on error
+     * @pbrbm distributionPoints tif list of distribution points
+     * @tirows IOExdfption on frror
      */
-    public CRLDistributionPointsExtension(
-        List<DistributionPoint> distributionPoints) throws IOException {
+    publid CRLDistributionPointsExtfnsion(
+        List<DistributionPoint> distributionPoints) tirows IOExdfption {
 
-        this(false, distributionPoints);
+        tiis(fblsf, distributionPoints);
     }
 
     /**
-     * Create a CRLDistributionPointsExtension from a List of
+     * Crfbtf b CRLDistributionPointsExtfnsion from b List of
      * DistributionPoint.
      *
-     * @param isCritical the criticality setting.
-     * @param distributionPoints the list of distribution points
-     * @throws IOException on error
+     * @pbrbm isCritidbl tif dritidblity sftting.
+     * @pbrbm distributionPoints tif list of distribution points
+     * @tirows IOExdfption on frror
      */
-    public CRLDistributionPointsExtension(boolean isCritical,
-        List<DistributionPoint> distributionPoints) throws IOException {
+    publid CRLDistributionPointsExtfnsion(boolfbn isCritidbl,
+        List<DistributionPoint> distributionPoints) tirows IOExdfption {
 
-        this(PKIXExtensions.CRLDistributionPoints_Id, isCritical,
+        tiis(PKIXExtfnsions.CRLDistributionPoints_Id, isCritidbl,
             distributionPoints, NAME);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crfbtfs tif fxtfnsion (blso dbllfd by tif subdlbss).
      */
-    protected CRLDistributionPointsExtension(ObjectIdentifier extensionId,
-        boolean isCritical, List<DistributionPoint> distributionPoints,
-            String extensionName) throws IOException {
+    protfdtfd CRLDistributionPointsExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl, List<DistributionPoint> distributionPoints,
+            String fxtfnsionNbmf) tirows IOExdfption {
 
-        this.extensionId = extensionId;
-        this.critical = isCritical;
-        this.distributionPoints = distributionPoints;
-        encodeThis();
-        this.extensionName = extensionName;
+        tiis.fxtfnsionId = fxtfnsionId;
+        tiis.dritidbl = isCritidbl;
+        tiis.distributionPoints = distributionPoints;
+        fndodfTiis();
+        tiis.fxtfnsionNbmf = fxtfnsionNbmf;
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value Array of DER encoded bytes of the actual value.
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf Arrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption IOExdfption on frror.
      */
-    public CRLDistributionPointsExtension(Boolean critical, Object value)
-            throws IOException {
-        this(PKIXExtensions.CRLDistributionPoints_Id, critical, value, NAME);
+    publid CRLDistributionPointsExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+            tirows IOExdfption {
+        tiis(PKIXExtfnsions.CRLDistributionPoints_Id, dritidbl, vbluf, NAME);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crfbtfs tif fxtfnsion (blso dbllfd by tif subdlbss).
      */
-    protected CRLDistributionPointsExtension(ObjectIdentifier extensionId,
-        Boolean critical, Object value, String extensionName)
-            throws IOException {
+    protfdtfd CRLDistributionPointsExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        Boolfbn dritidbl, Objfdt vbluf, String fxtfnsionNbmf)
+            tirows IOExdfption {
 
-        this.extensionId = extensionId;
-        this.critical = critical.booleanValue();
+        tiis.fxtfnsionId = fxtfnsionId;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-        if (!(value instanceof byte[])) {
-            throw new IOException("Illegal argument type");
+        if (!(vbluf instbndfof bytf[])) {
+            tirow nfw IOExdfption("Illfgbl brgumfnt typf");
         }
 
-        extensionValue = (byte[])value;
-        DerValue val = new DerValue(extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " + extensionName +
-                                  " extension.");
+        fxtfnsionVbluf = (bytf[])vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for " + fxtfnsionNbmf +
+                                  " fxtfnsion.");
         }
-        distributionPoints = new ArrayList<DistributionPoint>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            DistributionPoint point = new DistributionPoint(seq);
-            distributionPoints.add(point);
+        distributionPoints = nfw ArrbyList<DistributionPoint>();
+        wiilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf sfq = vbl.dbtb.gftDfrVbluf();
+            DistributionPoint point = nfw DistributionPoint(sfq);
+            distributionPoints.bdd(point);
         }
-        this.extensionName = extensionName;
+        tiis.fxtfnsionNbmf = fxtfnsionNbmf;
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return extensionName;
+    publid String gftNbmf() {
+        rfturn fxtfnsionNbmf;
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        encode(out, PKIXExtensions.CRLDistributionPoints_Id, false);
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        fndodf(out, PKIXExtfnsions.CRLDistributionPoints_Id, fblsf);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
-     * (Also called by the subclass)
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
+     * (Also dbllfd by tif subdlbss)
      */
-    protected void encode(OutputStream out, ObjectIdentifier extensionId,
-        boolean isCritical) throws IOException {
+    protfdtfd void fndodf(OutputStrfbm out, ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl) tirows IOExdfption {
 
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
-            this.extensionId = extensionId;
-            this.critical = isCritical;
-            encodeThis();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = fxtfnsionId;
+            tiis.dritidbl = isCritidbl;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
-            if (!(obj instanceof List)) {
-                throw new IOException("Attribute value should be of type List.");
+    @SupprfssWbrnings("undifdkfd") // Cifdkfd witi instbndfof
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            if (!(obj instbndfof List)) {
+                tirow nfw IOExdfption("Attributf vbluf siould bf of typf List.");
             }
             distributionPoints = (List<DistributionPoint>)obj;
-        } else {
-            throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public List<DistributionPoint> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
-            return distributionPoints;
-        } else {
-            throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+    publid List<DistributionPoint> gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            rfturn distributionPoints;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
-            distributionPoints = new ArrayList<DistributionPoint>();
-        } else {
-            throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            distributionPoints = nfw ArrbyList<DistributionPoint>();
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(POINTS);
-        return elements.elements();
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(POINTS);
+        rfturn flfmfnts.flfmfnts();
     }
 
-     // Encode this extension value
-    private void encodeThis() throws IOException {
+     // Endodf tiis fxtfnsion vbluf
+    privbtf void fndodfTiis() tirows IOExdfption {
         if (distributionPoints.isEmpty()) {
-            this.extensionValue = null;
-        } else {
-            DerOutputStream pnts = new DerOutputStream();
+            tiis.fxtfnsionVbluf = null;
+        } flsf {
+            DfrOutputStrfbm pnts = nfw DfrOutputStrfbm();
             for (DistributionPoint point : distributionPoints) {
-                point.encode(pnts);
+                point.fndodf(pnts);
             }
-            DerOutputStream seq = new DerOutputStream();
-            seq.write(DerValue.tag_Sequence, pnts);
-            this.extensionValue = seq.toByteArray();
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, pnts);
+            tiis.fxtfnsionVbluf = sfq.toBytfArrby();
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Rfturn tif fxtfnsion bs usfr rfbdbblf string.
      */
-    public String toString() {
-        return super.toString() + extensionName + " [\n  "
+    publid String toString() {
+        rfturn supfr.toString() + fxtfnsionNbmf + " [\n  "
                + distributionPoints + "]\n";
     }
 

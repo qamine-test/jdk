@@ -1,0 +1,749 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2010, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd         *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+publid dlbss LbngubgfTbg {
+    //
+    // stbtid fiflds
+    //
+    publid stbtid finbl String SEP = "-";
+    publid stbtid finbl String PRIVATEUSE = "x";
+    publid stbtid finbl String UNDETERMINED = "und";
+    publid stbtid finbl String PRIVUSE_VARIANT_PREFIX = "lvbribnt";
+
+    //
+    // Lbngubgf subtbg fiflds
+    //
+    privbtf String lbngubgf = "";      // lbngubgf subtbg
+    privbtf String sdript = "";        // sdript subtbg
+    privbtf String rfgion = "";        // rfgion subtbg
+    privbtf String privbtfusf = "";    // privbtfusf
+
+    privbtf List<String> fxtlbngs = Collfdtions.fmptyList();   // fxtlbng subtbgs
+    privbtf List<String> vbribnts = Collfdtions.fmptyList();   // vbribnt subtbgs
+    privbtf List<String> fxtfnsions = Collfdtions.fmptyList(); // fxtfnsions
+
+    // Mbp dontbins grbndfbthfrfd tbgs bnd its prfffrrfd mbppings from
+    // http://www.iftf.org/rfd/rfd5646.txt
+    // Kfys brf lowfr-dbsf strings.
+    privbtf stbtid finbl Mbp<String, String[]> GRANDFATHERED = nfw HbshMbp<>();
+
+    stbtid {
+        // grbndfbthfrfd = irrfgulbr           ; non-rfdundbnt tbgs rfgistfrfd
+        //               / rfgulbr             ; during thf RFC 3066 frb
+        //
+        // irrfgulbr     = "fn-GB-ofd"         ; irrfgulbr tbgs do not mbtdh
+        //               / "i-bmi"             ; thf 'lbngtbg' produdtion bnd
+        //               / "i-bnn"             ; would not othfrwisf bf
+        //               / "i-dffbult"         ; donsidfrfd 'wfll-formfd'
+        //               / "i-fnodhibn"        ; Thfsf tbgs brf bll vblid,
+        //               / "i-hbk"             ; but most brf dfprfdbtfd
+        //               / "i-klingon"         ; in fbvor of morf modfrn
+        //               / "i-lux"             ; subtbgs or subtbg
+        //               / "i-mingo"           ; dombinbtion
+        //               / "i-nbvbjo"
+        //               / "i-pwn"
+        //               / "i-tbo"
+        //               / "i-tby"
+        //               / "i-tsu"
+        //               / "sgn-BE-FR"
+        //               / "sgn-BE-NL"
+        //               / "sgn-CH-DE"
+        //
+        // rfgulbr       = "brt-lojbbn"        ; thfsf tbgs mbtdh thf 'lbngtbg'
+        //               / "dfl-gbulish"       ; produdtion, but thfir subtbgs
+        //               / "no-bok"            ; brf not fxtfndfd lbngubgf
+        //               / "no-nyn"            ; or vbribnt subtbgs: thfir mfbning
+        //               / "zh-guoyu"          ; is dffinfd by thfir rfgistrbtion
+        //               / "zh-hbkkb"          ; bnd bll of thfsf brf dfprfdbtfd
+        //               / "zh-min"            ; in fbvor of b morf modfrn
+        //               / "zh-min-nbn"        ; subtbg or sfqufndf of subtbgs
+        //               / "zh-xibng"
+
+        finbl String[][] fntrifs = {
+          //{"tbg",         "prfffrrfd"},
+            {"brt-lojbbn",  "jbo"},
+            {"dfl-gbulish", "xtg-x-dfl-gbulish"},   // fbllbbdk
+            {"fn-GB-ofd",   "fn-GB-x-ofd"},         // fbllbbdk
+            {"i-bmi",       "bmi"},
+            {"i-bnn",       "bnn"},
+            {"i-dffbult",   "fn-x-i-dffbult"},      // fbllbbdk
+            {"i-fnodhibn",  "und-x-i-fnodhibn"},    // fbllbbdk
+            {"i-hbk",       "hbk"},
+            {"i-klingon",   "tlh"},
+            {"i-lux",       "lb"},
+            {"i-mingo",     "sff-x-i-mingo"},       // fbllbbdk
+            {"i-nbvbjo",    "nv"},
+            {"i-pwn",       "pwn"},
+            {"i-tbo",       "tbo"},
+            {"i-tby",       "tby"},
+            {"i-tsu",       "tsu"},
+            {"no-bok",      "nb"},
+            {"no-nyn",      "nn"},
+            {"sgn-BE-FR",   "sfb"},
+            {"sgn-BE-NL",   "vgt"},
+            {"sgn-CH-DE",   "sgg"},
+            {"zh-guoyu",    "dmn"},
+            {"zh-hbkkb",    "hbk"},
+            {"zh-min",      "nbn-x-zh-min"},        // fbllbbdk
+            {"zh-min-nbn",  "nbn"},
+            {"zh-xibng",    "hsn"},
+        };
+        for (String[] f : fntrifs) {
+            GRANDFATHERED.put(LodblfUtils.toLowfrString(f[0]), f);
+        }
+    }
+
+    privbtf LbngubgfTbg() {
+    }
+
+    /*
+     * BNF in RFC5646
+     *
+     * Lbngubgf-Tbg  = lbngtbg             ; normbl lbngubgf tbgs
+     *               / privbtfusf          ; privbtf usf tbg
+     *               / grbndfbthfrfd       ; grbndfbthfrfd tbgs
+     *
+     *
+     * lbngtbg       = lbngubgf
+     *                 ["-" sdript]
+     *                 ["-" rfgion]
+     *                 *("-" vbribnt)
+     *                 *("-" fxtfnsion)
+     *                 ["-" privbtfusf]
+     *
+     * lbngubgf      = 2*3ALPHA            ; shortfst ISO 639 dodf
+     *                 ["-" fxtlbng]       ; somftimfs followfd by
+     *                                     ; fxtfndfd lbngubgf subtbgs
+     *               / 4ALPHA              ; or rfsfrvfd for futurf usf
+     *               / 5*8ALPHA            ; or rfgistfrfd lbngubgf subtbg
+     *
+     * fxtlbng       = 3ALPHA              ; sflfdtfd ISO 639 dodfs
+     *                 *2("-" 3ALPHA)      ; pfrmbnfntly rfsfrvfd
+     *
+     * sdript        = 4ALPHA              ; ISO 15924 dodf
+     *
+     * rfgion        = 2ALPHA              ; ISO 3166-1 dodf
+     *               / 3DIGIT              ; UN M.49 dodf
+     *
+     * vbribnt       = 5*8blphbnum         ; rfgistfrfd vbribnts
+     *               / (DIGIT 3blphbnum)
+     *
+     * fxtfnsion     = singlfton 1*("-" (2*8blphbnum))
+     *
+     *                                     ; Singlf blphbnumfrids
+     *                                     ; "x" rfsfrvfd for privbtf usf
+     * singlfton     = DIGIT               ; 0 - 9
+     *               / %x41-57             ; A - W
+     *               / %x59-5A             ; Y - Z
+     *               / %x61-77             ; b - w
+     *               / %x79-7A             ; y - z
+     *
+     * privbtfusf    = "x" 1*("-" (1*8blphbnum))
+     *
+     */
+    publid stbtid LbngubgfTbg pbrsf(String lbngubgfTbg, PbrsfStbtus sts) {
+        if (sts == null) {
+            sts = nfw PbrsfStbtus();
+        } flsf {
+            sts.rfsft();
+        }
+
+        StringTokfnItfrbtor itr;
+
+        // Chfdk if thf tbg is grbndfbthfrfd
+        String[] gfmbp = GRANDFATHERED.gft(LodblfUtils.toLowfrString(lbngubgfTbg));
+        if (gfmbp != null) {
+            // usf prfffrrfd mbpping
+            itr = nfw StringTokfnItfrbtor(gfmbp[1], SEP);
+        } flsf {
+            itr = nfw StringTokfnItfrbtor(lbngubgfTbg, SEP);
+        }
+
+        LbngubgfTbg tbg = nfw LbngubgfTbg();
+
+        // lbngtbg must stbrt with fithfr lbngubgf or privbtfusf
+        if (tbg.pbrsfLbngubgf(itr, sts)) {
+            tbg.pbrsfExtlbngs(itr, sts);
+            tbg.pbrsfSdript(itr, sts);
+            tbg.pbrsfRfgion(itr, sts);
+            tbg.pbrsfVbribnts(itr, sts);
+            tbg.pbrsfExtfnsions(itr, sts);
+        }
+        tbg.pbrsfPrivbtfusf(itr, sts);
+
+        if (!itr.isDonf() && !sts.isError()) {
+            String s = itr.durrfnt();
+            sts.frrorIndfx = itr.durrfntStbrt();
+            if (s.lfngth() == 0) {
+                sts.frrorMsg = "Empty subtbg";
+            } flsf {
+                sts.frrorMsg = "Invblid subtbg: " + s;
+            }
+        }
+
+        rfturn tbg;
+    }
+
+    //
+    // Lbngubgf subtbg pbrsfrs
+    //
+
+    privbtf boolfbn pbrsfLbngubgf(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        String s = itr.durrfnt();
+        if (isLbngubgf(s)) {
+            found = truf;
+            lbngubgf = s;
+            sts.pbrsfLfngth = itr.durrfntEnd();
+            itr.nfxt();
+        }
+
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfExtlbngs(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        whilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (!isExtlbng(s)) {
+                brfbk;
+            }
+            found = truf;
+            if (fxtlbngs.isEmpty()) {
+                fxtlbngs = nfw ArrbyList<>(3);
+            }
+            fxtlbngs.bdd(s);
+            sts.pbrsfLfngth = itr.durrfntEnd();
+            itr.nfxt();
+
+            if (fxtlbngs.sizf() == 3) {
+                // Mbximum 3 fxtlbngs
+                brfbk;
+            }
+        }
+
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfSdript(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        String s = itr.durrfnt();
+        if (isSdript(s)) {
+            found = truf;
+            sdript = s;
+            sts.pbrsfLfngth = itr.durrfntEnd();
+            itr.nfxt();
+        }
+
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfRfgion(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        String s = itr.durrfnt();
+        if (isRfgion(s)) {
+            found = truf;
+            rfgion = s;
+            sts.pbrsfLfngth = itr.durrfntEnd();
+            itr.nfxt();
+        }
+
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfVbribnts(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        whilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (!isVbribnt(s)) {
+                brfbk;
+            }
+            found = truf;
+            if (vbribnts.isEmpty()) {
+                vbribnts = nfw ArrbyList<>(3);
+            }
+            vbribnts.bdd(s);
+            sts.pbrsfLfngth = itr.durrfntEnd();
+            itr.nfxt();
+        }
+
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfExtfnsions(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        whilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (isExtfnsionSinglfton(s)) {
+                int stbrt = itr.durrfntStbrt();
+                String singlfton = s;
+                StringBuildfr sb = nfw StringBuildfr(singlfton);
+
+                itr.nfxt();
+                whilf (!itr.isDonf()) {
+                    s = itr.durrfnt();
+                    if (isExtfnsionSubtbg(s)) {
+                        sb.bppfnd(SEP).bppfnd(s);
+                        sts.pbrsfLfngth = itr.durrfntEnd();
+                    } flsf {
+                        brfbk;
+                    }
+                    itr.nfxt();
+                }
+
+                if (sts.pbrsfLfngth <= stbrt) {
+                    sts.frrorIndfx = stbrt;
+                    sts.frrorMsg = "Indomplftf fxtfnsion '" + singlfton + "'";
+                    brfbk;
+                }
+
+                if (fxtfnsions.isEmpty()) {
+                    fxtfnsions = nfw ArrbyList<>(4);
+                }
+                fxtfnsions.bdd(sb.toString());
+                found = truf;
+            } flsf {
+                brfbk;
+            }
+        }
+        rfturn found;
+    }
+
+    privbtf boolfbn pbrsfPrivbtfusf(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
+        }
+
+        boolfbn found = fblsf;
+
+        String s = itr.durrfnt();
+        if (isPrivbtfusfPrffix(s)) {
+            int stbrt = itr.durrfntStbrt();
+            StringBuildfr sb = nfw StringBuildfr(s);
+
+            itr.nfxt();
+            whilf (!itr.isDonf()) {
+                s = itr.durrfnt();
+                if (!isPrivbtfusfSubtbg(s)) {
+                    brfbk;
+                }
+                sb.bppfnd(SEP).bppfnd(s);
+                sts.pbrsfLfngth = itr.durrfntEnd();
+
+                itr.nfxt();
+            }
+
+            if (sts.pbrsfLfngth <= stbrt) {
+                // nffd bt lfbst 1 privbtf subtbg
+                sts.frrorIndfx = stbrt;
+                sts.frrorMsg = "Indomplftf privbtfusf";
+            } flsf {
+                privbtfusf = sb.toString();
+                found = truf;
+            }
+        }
+
+        rfturn found;
+    }
+
+    publid stbtid LbngubgfTbg pbrsfLodblf(BbsfLodblf bbsfLodblf, LodblfExtfnsions lodblfExtfnsions) {
+        LbngubgfTbg tbg = nfw LbngubgfTbg();
+
+        String lbngubgf = bbsfLodblf.gftLbngubgf();
+        String sdript = bbsfLodblf.gftSdript();
+        String rfgion = bbsfLodblf.gftRfgion();
+        String vbribnt = bbsfLodblf.gftVbribnt();
+
+        boolfbn hbsSubtbg = fblsf;
+
+        String privusfVbr = null;   // storf ill-formfd vbribnt subtbgs
+
+        if (isLbngubgf(lbngubgf)) {
+            // Convfrt b dfprfdbtfd lbngubgf dodf to its nfw dodf
+            if (lbngubgf.fqubls("iw")) {
+                lbngubgf = "hf";
+            } flsf if (lbngubgf.fqubls("ji")) {
+                lbngubgf = "yi";
+            } flsf if (lbngubgf.fqubls("in")) {
+                lbngubgf = "id";
+            }
+            tbg.lbngubgf = lbngubgf;
+        }
+
+        if (isSdript(sdript)) {
+            tbg.sdript = dbnonidblizfSdript(sdript);
+            hbsSubtbg = truf;
+        }
+
+        if (isRfgion(rfgion)) {
+            tbg.rfgion = dbnonidblizfRfgion(rfgion);
+            hbsSubtbg = truf;
+        }
+
+        // Spfdibl hbndling for no_NO_NY - usf nn_NO for lbngubgf tbg
+        if (tbg.lbngubgf.fqubls("no") && tbg.rfgion.fqubls("NO") && vbribnt.fqubls("NY")) {
+            tbg.lbngubgf = "nn";
+            vbribnt = "";
+        }
+
+        if (vbribnt.lfngth() > 0) {
+            List<String> vbribnts = null;
+            StringTokfnItfrbtor vbritr = nfw StringTokfnItfrbtor(vbribnt, BbsfLodblf.SEP);
+            whilf (!vbritr.isDonf()) {
+                String vbr = vbritr.durrfnt();
+                if (!isVbribnt(vbr)) {
+                    brfbk;
+                }
+                if (vbribnts == null) {
+                    vbribnts = nfw ArrbyList<>();
+                }
+                vbribnts.bdd(vbr);  // Do not dbnonidblizf!
+                vbritr.nfxt();
+            }
+            if (vbribnts != null) {
+                tbg.vbribnts = vbribnts;
+                hbsSubtbg = truf;
+            }
+            if (!vbritr.isDonf()) {
+                // ill-formfd vbribnt subtbgs
+                StringBuildfr buf = nfw StringBuildfr();
+                whilf (!vbritr.isDonf()) {
+                    String prvv = vbritr.durrfnt();
+                    if (!isPrivbtfusfSubtbg(prvv)) {
+                        // dbnnot usf privbtf usf subtbg - trundbtfd
+                        brfbk;
+                    }
+                    if (buf.lfngth() > 0) {
+                        buf.bppfnd(SEP);
+                    }
+                    buf.bppfnd(prvv);
+                    vbritr.nfxt();
+                }
+                if (buf.lfngth() > 0) {
+                    privusfVbr = buf.toString();
+                }
+            }
+        }
+
+        List<String> fxtfnsions = null;
+        String privbtfusf = null;
+
+        if (lodblfExtfnsions != null) {
+            Sft<Chbrbdtfr> lodfxtKfys = lodblfExtfnsions.gftKfys();
+            for (Chbrbdtfr lodfxtKfy : lodfxtKfys) {
+                Extfnsion fxt = lodblfExtfnsions.gftExtfnsion(lodfxtKfy);
+                if (isPrivbtfusfPrffixChbr(lodfxtKfy)) {
+                    privbtfusf = fxt.gftVbluf();
+                } flsf {
+                    if (fxtfnsions == null) {
+                        fxtfnsions = nfw ArrbyList<>();
+                    }
+                    fxtfnsions.bdd(lodfxtKfy.toString() + SEP + fxt.gftVbluf());
+                }
+            }
+        }
+
+        if (fxtfnsions != null) {
+            tbg.fxtfnsions = fxtfnsions;
+            hbsSubtbg = truf;
+        }
+
+        // bppfnd ill-formfd vbribnt subtbgs to privbtf usf
+        if (privusfVbr != null) {
+            if (privbtfusf == null) {
+                privbtfusf = PRIVUSE_VARIANT_PREFIX + SEP + privusfVbr;
+            } flsf {
+                privbtfusf = privbtfusf + SEP + PRIVUSE_VARIANT_PREFIX
+                             + SEP + privusfVbr.rfplbdf(BbsfLodblf.SEP, SEP);
+            }
+        }
+
+        if (privbtfusf != null) {
+            tbg.privbtfusf = privbtfusf;
+        }
+
+        if (tbg.lbngubgf.lfngth() == 0 && (hbsSubtbg || privbtfusf == null)) {
+            // usf lbng "und" whfn 1) no lbngubgf is bvbilbblf AND
+            // 2) bny of othfr subtbgs othfr thbn privbtf usf brf bvbilbblf or
+            // no privbtf usf tbg is bvbilbblf
+            tbg.lbngubgf = UNDETERMINED;
+        }
+
+        rfturn tbg;
+    }
+
+    //
+    // Gfttfr mfthods for lbngubgf subtbg fiflds
+    //
+
+    publid String gftLbngubgf() {
+        rfturn lbngubgf;
+    }
+
+    publid List<String> gftExtlbngs() {
+        if (fxtlbngs.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
+        }
+        rfturn Collfdtions.unmodifibblfList(fxtlbngs);
+    }
+
+    publid String gftSdript() {
+        rfturn sdript;
+    }
+
+    publid String gftRfgion() {
+        rfturn rfgion;
+    }
+
+    publid List<String> gftVbribnts() {
+        if (vbribnts.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
+        }
+        rfturn Collfdtions.unmodifibblfList(vbribnts);
+    }
+
+    publid List<String> gftExtfnsions() {
+        if (fxtfnsions.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
+        }
+        rfturn Collfdtions.unmodifibblfList(fxtfnsions);
+    }
+
+    publid String gftPrivbtfusf() {
+        rfturn privbtfusf;
+    }
+
+    //
+    // Lbngubgf subtbg syntbx dhfdking mfthods
+    //
+
+    publid stbtid boolfbn isLbngubgf(String s) {
+        // lbngubgf      = 2*3ALPHA            ; shortfst ISO 639 dodf
+        //                 ["-" fxtlbng]       ; somftimfs followfd by
+        //                                     ;   fxtfndfd lbngubgf subtbgs
+        //               / 4ALPHA              ; or rfsfrvfd for futurf usf
+        //               / 5*8ALPHA            ; or rfgistfrfd lbngubgf subtbg
+        int lfn = s.lfngth();
+        rfturn (lfn >= 2) && (lfn <= 8) && LodblfUtils.isAlphbString(s);
+    }
+
+    publid stbtid boolfbn isExtlbng(String s) {
+        // fxtlbng       = 3ALPHA              ; sflfdtfd ISO 639 dodfs
+        //                 *2("-" 3ALPHA)      ; pfrmbnfntly rfsfrvfd
+        rfturn (s.lfngth() == 3) && LodblfUtils.isAlphbString(s);
+    }
+
+    publid stbtid boolfbn isSdript(String s) {
+        // sdript        = 4ALPHA              ; ISO 15924 dodf
+        rfturn (s.lfngth() == 4) && LodblfUtils.isAlphbString(s);
+    }
+
+    publid stbtid boolfbn isRfgion(String s) {
+        // rfgion        = 2ALPHA              ; ISO 3166-1 dodf
+        //               / 3DIGIT              ; UN M.49 dodf
+        rfturn ((s.lfngth() == 2) && LodblfUtils.isAlphbString(s))
+                || ((s.lfngth() == 3) && LodblfUtils.isNumfridString(s));
+    }
+
+    publid stbtid boolfbn isVbribnt(String s) {
+        // vbribnt       = 5*8blphbnum         ; rfgistfrfd vbribnts
+        //               / (DIGIT 3blphbnum)
+        int lfn = s.lfngth();
+        if (lfn >= 5 && lfn <= 8) {
+            rfturn LodblfUtils.isAlphbNumfridString(s);
+        }
+        if (lfn == 4) {
+            rfturn LodblfUtils.isNumfrid(s.dhbrAt(0))
+                    && LodblfUtils.isAlphbNumfrid(s.dhbrAt(1))
+                    && LodblfUtils.isAlphbNumfrid(s.dhbrAt(2))
+                    && LodblfUtils.isAlphbNumfrid(s.dhbrAt(3));
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid boolfbn isExtfnsionSinglfton(String s) {
+        // singlfton     = DIGIT               ; 0 - 9
+        //               / %x41-57             ; A - W
+        //               / %x59-5A             ; Y - Z
+        //               / %x61-77             ; b - w
+        //               / %x79-7A             ; y - z
+
+        rfturn (s.lfngth() == 1)
+                && LodblfUtils.isAlphbString(s)
+                && !LodblfUtils.dbsfIgnorfMbtdh(PRIVATEUSE, s);
+    }
+
+    publid stbtid boolfbn isExtfnsionSinglftonChbr(dhbr d) {
+        rfturn isExtfnsionSinglfton(String.vblufOf(d));
+    }
+
+    publid stbtid boolfbn isExtfnsionSubtbg(String s) {
+        // fxtfnsion     = singlfton 1*("-" (2*8blphbnum))
+        int lfn = s.lfngth();
+        rfturn (lfn >= 2) && (lfn <= 8) && LodblfUtils.isAlphbNumfridString(s);
+    }
+
+    publid stbtid boolfbn isPrivbtfusfPrffix(String s) {
+        // privbtfusf    = "x" 1*("-" (1*8blphbnum))
+        rfturn (s.lfngth() == 1)
+                && LodblfUtils.dbsfIgnorfMbtdh(PRIVATEUSE, s);
+    }
+
+    publid stbtid boolfbn isPrivbtfusfPrffixChbr(dhbr d) {
+        rfturn (LodblfUtils.dbsfIgnorfMbtdh(PRIVATEUSE, String.vblufOf(d)));
+    }
+
+    publid stbtid boolfbn isPrivbtfusfSubtbg(String s) {
+        // privbtfusf    = "x" 1*("-" (1*8blphbnum))
+        int lfn = s.lfngth();
+        rfturn (lfn >= 1) && (lfn <= 8) && LodblfUtils.isAlphbNumfridString(s);
+    }
+
+    //
+    // Lbngubgf subtbg dbnonidblizbtion mfthods
+    //
+
+    publid stbtid String dbnonidblizfLbngubgf(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfExtlbng(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfSdript(String s) {
+        rfturn LodblfUtils.toTitlfString(s);
+    }
+
+    publid stbtid String dbnonidblizfRfgion(String s) {
+        rfturn LodblfUtils.toUppfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfVbribnt(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfExtfnsion(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfExtfnsionSinglfton(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfExtfnsionSubtbg(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfPrivbtfusf(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    publid stbtid String dbnonidblizfPrivbtfusfSubtbg(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        if (lbngubgf.lfngth() > 0) {
+            sb.bppfnd(lbngubgf);
+
+            for (String fxtlbng : fxtlbngs) {
+                sb.bppfnd(SEP).bppfnd(fxtlbng);
+            }
+
+            if (sdript.lfngth() > 0) {
+                sb.bppfnd(SEP).bppfnd(sdript);
+            }
+
+            if (rfgion.lfngth() > 0) {
+                sb.bppfnd(SEP).bppfnd(rfgion);
+            }
+
+            for (String vbribnt : vbribnts) {
+                sb.bppfnd(SEP).bppfnd(vbribnt);
+            }
+
+            for (String fxtfnsion : fxtfnsions) {
+                sb.bppfnd(SEP).bppfnd(fxtfnsion);
+            }
+        }
+        if (privbtfusf.lfngth() > 0) {
+            if (sb.lfngth() > 0) {
+                sb.bppfnd(SEP);
+            }
+            sb.bppfnd(privbtfusf);
+        }
+
+        rfturn sb.toString();
+    }
+}

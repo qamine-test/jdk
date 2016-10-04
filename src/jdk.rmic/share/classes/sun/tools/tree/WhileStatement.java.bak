@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class WhileStatement extends Statement {
-    Expression cond;
-    Statement body;
+publid
+dlbss WiilfStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion dond;
+    Stbtfmfnt body;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public WhileStatement(long where, Expression cond, Statement body) {
-        super(WHILE, where);
-        this.cond = cond;
-        this.body = body;
+    publid WiilfStbtfmfnt(long wifrf, Exprfssion dond, Stbtfmfnt body) {
+        supfr(WHILE, wifrf);
+        tiis.dond = dond;
+        tiis.body = body;
     }
 
     /**
-     * Check a while statement
+     * Cifdk b wiilf stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
-        CheckContext newctx = new CheckContext(ctx, this);
-        // remember what was unassigned on entry
-        Vset vsEntry = vset.copy();
-        // check the condition.  Determine which variables have values if
-        // it returns true or false.
-        ConditionVars cvars =
-              cond.checkCondition(env, newctx, reach(env, vset), exp);
-        cond = convert(env, newctx, Type.tBoolean, cond);
-        // check the body, given that the condition returned true.
-        vset = body.check(env, newctx, cvars.vsTrue, exp);
-        vset = vset.join(newctx.vsContinue);
-        // make sure the back-branch fits the entry of the loop
-        ctx.checkBackBranch(env, this, vsEntry, vset);
-        // Exit the while loop by testing false or getting a break statement
-        vset = newctx.vsBreak.join(cvars.vsFalse);
-        return ctx.removeAdditionalVars(vset);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
+        CifdkContfxt nfwdtx = nfw CifdkContfxt(dtx, tiis);
+        // rfmfmbfr wibt wbs unbssignfd on fntry
+        Vsft vsEntry = vsft.dopy();
+        // difdk tif dondition.  Dftfrminf wiidi vbribblfs ibvf vblufs if
+        // it rfturns truf or fblsf.
+        ConditionVbrs dvbrs =
+              dond.difdkCondition(fnv, nfwdtx, rfbdi(fnv, vsft), fxp);
+        dond = donvfrt(fnv, nfwdtx, Typf.tBoolfbn, dond);
+        // difdk tif body, givfn tibt tif dondition rfturnfd truf.
+        vsft = body.difdk(fnv, nfwdtx, dvbrs.vsTruf, fxp);
+        vsft = vsft.join(nfwdtx.vsContinuf);
+        // mbkf surf tif bbdk-brbndi fits tif fntry of tif loop
+        dtx.difdkBbdkBrbndi(fnv, tiis, vsEntry, vsft);
+        // Exit tif wiilf loop by tfsting fblsf or gftting b brfbk stbtfmfnt
+        vsft = nfwdtx.vsBrfbk.join(dvbrs.vsFblsf);
+        rfturn dtx.rfmovfAdditionblVbrs(vsft);
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        ctx = new Context(ctx, this);
-        cond = cond.inlineValue(env, ctx);
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, tiis);
+        dond = dond.inlinfVbluf(fnv, dtx);
         if (body != null) {
-            body = body.inline(env, ctx);
+            body = body.inlinf(fnv, dtx);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + cond.costInline(thresh, env, ctx)
-                 + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1 + dond.dostInlinf(tirfsi, fnv, dtx)
+                 + ((body != null) ? body.dostInlinf(tirfsi, fnv, dtx) : 0);
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        WhileStatement s = (WhileStatement)clone();
-        s.cond = cond.copyInline(ctx);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        WiilfStbtfmfnt s = (WiilfStbtfmfnt)dlonf();
+        s.dond = dond.dopyInlinf(dtx);
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext newctx = new CodeContext(ctx, this);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, tiis);
 
-        asm.add(where, opc_goto, newctx.contLabel);
+        bsm.bdd(wifrf, opd_goto, nfwdtx.dontLbbfl);
 
-        Label l1 = new Label();
-        asm.add(l1);
+        Lbbfl l1 = nfw Lbbfl();
+        bsm.bdd(l1);
 
         if (body != null) {
-            body.code(env, newctx, asm);
+            body.dodf(fnv, nfwdtx, bsm);
         }
 
-        asm.add(newctx.contLabel);
-        cond.codeBranch(env, newctx, asm, l1, true);
-        asm.add(newctx.breakLabel);
+        bsm.bdd(nfwdtx.dontLbbfl);
+        dond.dodfBrbndi(fnv, nfwdtx, bsm, l1, truf);
+        bsm.bdd(nfwdtx.brfbkLbbfl);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
-        out.print("while ");
-        cond.print(out);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("wiilf ");
+        dond.print(out);
         if (body != null) {
             out.print(" ");
-            body.print(out, indent);
-        } else {
+            body.print(out, indfnt);
+        } flsf {
             out.print(";");
         }
     }

@@ -1,604 +1,604 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.serial;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
 
-import java.sql.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.Arrbys;
 
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * <code>BLOB</code> value.
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>BLOB</dodf> vbluf.
  * <P>
- * The <code>SerialBlob</code> class provides a constructor for creating
- * an instance from a <code>Blob</code> object.  Note that the
- * <code>Blob</code>
- * object should have brought the SQL <code>BLOB</code> value's data over
- * to the client before a <code>SerialBlob</code> object
- * is constructed from it.  The data of an SQL <code>BLOB</code> value can
- * be materialized on the client as an array of bytes (using the method
- * <code>Blob.getBytes</code>) or as a stream of uninterpreted bytes
- * (using the method <code>Blob.getBinaryStream</code>).
+ * Tif <dodf>SfriblBlob</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Blob</dodf> objfdt.  Notf tibt tif
+ * <dodf>Blob</dodf>
+ * objfdt siould ibvf brougit tif SQL <dodf>BLOB</dodf> vbluf's dbtb ovfr
+ * to tif dlifnt bfforf b <dodf>SfriblBlob</dodf> objfdt
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>BLOB</dodf> vbluf dbn
+ * bf mbtfriblizfd on tif dlifnt bs bn brrby of bytfs (using tif mftiod
+ * <dodf>Blob.gftBytfs</dodf>) or bs b strfbm of unintfrprftfd bytfs
+ * (using tif mftiod <dodf>Blob.gftBinbryStrfbm</dodf>).
  * <P>
- * <code>SerialBlob</code> methods make it possible to make a copy of a
- * <code>SerialBlob</code> object as an array of bytes or as a stream.
- * They also make it possible to locate a given pattern of bytes or a
- * <code>Blob</code> object within a <code>SerialBlob</code> object
- * and to update or truncate a <code>Blob</code> object.
+ * <dodf>SfriblBlob</dodf> mftiods mbkf it possiblf to mbkf b dopy of b
+ * <dodf>SfriblBlob</dodf> objfdt bs bn brrby of bytfs or bs b strfbm.
+ * Tify blso mbkf it possiblf to lodbtf b givfn pbttfrn of bytfs or b
+ * <dodf>Blob</dodf> objfdt witiin b <dodf>SfriblBlob</dodf> objfdt
+ * bnd to updbtf or trundbtf b <dodf>Blob</dodf> objfdt.
  *
- * <h3> Thread safety </h3>
+ * <i3> Tirfbd sbffty </i3>
  *
- * <p> A SerialBlob is not safe for use by multiple concurrent threads.  If a
- * SerialBlob is to be used by more than one thread then access to the SerialBlob
- * should be controlled by appropriate synchronization.
+ * <p> A SfriblBlob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblBlob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblBlob
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @author Jonathan Bruce
- * @since 1.5
+ * @butior Jonbtibn Brudf
+ * @sindf 1.5
  */
-public class SerialBlob implements Blob, Serializable, Cloneable {
+publid dlbss SfriblBlob implfmfnts Blob, Sfriblizbblf, Clonfbblf {
 
     /**
-     * A serialized array of uninterpreted bytes representing the
-     * value of this <code>SerialBlob</code> object.
-     * @serial
+     * A sfriblizfd brrby of unintfrprftfd bytfs rfprfsfnting tif
+     * vbluf of tiis <dodf>SfriblBlob</dodf> objfdt.
+     * @sfribl
      */
-    private byte buf[];
+    privbtf bytf buf[];
 
     /**
-     * The internal representation of the <code>Blob</code> object on which this
-     * <code>SerialBlob</code> object is based.
+     * Tif intfrnbl rfprfsfntbtion of tif <dodf>Blob</dodf> objfdt on wiidi tiis
+     * <dodf>SfriblBlob</dodf> objfdt is bbsfd.
      */
-    private Blob blob;
+    privbtf Blob blob;
 
     /**
-     * The number of bytes in this <code>SerialBlob</code> object's
-     * array of bytes.
-     * @serial
+     * Tif numbfr of bytfs in tiis <dodf>SfriblBlob</dodf> objfdt's
+     * brrby of bytfs.
+     * @sfribl
      */
-    private long len;
+    privbtf long lfn;
 
     /**
-     * The original number of bytes in this <code>SerialBlob</code> object's
-     * array of bytes when it was first established.
-     * @serial
+     * Tif originbl numbfr of bytfs in tiis <dodf>SfriblBlob</dodf> objfdt's
+     * brrby of bytfs wifn it wbs first fstbblisifd.
+     * @sfribl
      */
-    private long origLen;
+    privbtf long origLfn;
 
     /**
-     * Constructs a <code>SerialBlob</code> object that is a serialized version of
-     * the given <code>byte</code> array.
+     * Construdts b <dodf>SfriblBlob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * tif givfn <dodf>bytf</dodf> brrby.
      * <p>
-     * The new <code>SerialBlob</code> object is initialized with the data from the
-     * <code>byte</code> array, thus allowing disconnected <code>RowSet</code>
-     * objects to establish serialized <code>Blob</code> objects without
-     * touching the data source.
+     * Tif nfw <dodf>SfriblBlob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * <dodf>bytf</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * objfdts to fstbblisi sfriblizfd <dodf>Blob</dodf> objfdts witiout
+     * toudiing tif dbtb sourdf.
      *
-     * @param b the <code>byte</code> array containing the data for the
-     *        <code>Blob</code> object to be serialized
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL errors occurs
+     * @pbrbm b tif <dodf>bytf</dodf> brrby dontbining tif dbtb for tif
+     *        <dodf>Blob</dodf> objfdt to bf sfriblizfd
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if b SQL frrors oddurs
      */
-    public SerialBlob(byte[] b) throws SerialException, SQLException {
+    publid SfriblBlob(bytf[] b) tirows SfriblExdfption, SQLExdfption {
 
-        len = b.length;
-        buf = new byte[(int)len];
-        for(int i = 0; i < len; i++) {
+        lfn = b.lfngti;
+        buf = nfw bytf[(int)lfn];
+        for(int i = 0; i < lfn; i++) {
            buf[i] = b[i];
         }
-        origLen = len;
+        origLfn = lfn;
     }
 
 
     /**
-     * Constructs a <code>SerialBlob</code> object that is a serialized
-     * version of the given <code>Blob</code> object.
+     * Construdts b <dodf>SfriblBlob</dodf> objfdt tibt is b sfriblizfd
+     * vfrsion of tif givfn <dodf>Blob</dodf> objfdt.
      * <P>
-     * The new <code>SerialBlob</code> object is initialized with the
-     * data from the <code>Blob</code> object; therefore, the
-     * <code>Blob</code> object should have previously brought the
-     * SQL <code>BLOB</code> value's data over to the client from
-     * the database. Otherwise, the new <code>SerialBlob</code> object
-     * will contain no data.
+     * Tif nfw <dodf>SfriblBlob</dodf> objfdt is initiblizfd witi tif
+     * dbtb from tif <dodf>Blob</dodf> objfdt; tifrfforf, tif
+     * <dodf>Blob</dodf> objfdt siould ibvf prfviously brougit tif
+     * SQL <dodf>BLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblBlob</dodf> objfdt
+     * will dontbin no dbtb.
      *
-     * @param blob the <code>Blob</code> object from which this
-     *     <code>SerialBlob</code> object is to be constructed;
-     *     cannot be null.
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if the <code>Blob</code> passed to this
-     *     to this constructor is a <code>null</code>.
-     * @see java.sql.Blob
+     * @pbrbm blob tif <dodf>Blob</dodf> objfdt from wiidi tiis
+     *     <dodf>SfriblBlob</dodf> objfdt is to bf donstrudtfd;
+     *     dbnnot bf null.
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if tif <dodf>Blob</dodf> pbssfd to tiis
+     *     to tiis donstrudtor is b <dodf>null</dodf>.
+     * @sff jbvb.sql.Blob
      */
-    public SerialBlob (Blob blob) throws SerialException, SQLException {
+    publid SfriblBlob (Blob blob) tirows SfriblExdfption, SQLExdfption {
 
         if (blob == null) {
-            throw new SQLException("Cannot instantiate a SerialBlob " +
-                 "object with a null Blob object");
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblBlob " +
+                 "objfdt witi b null Blob objfdt");
         }
 
-        len = blob.length();
-        buf = blob.getBytes(1, (int)len );
-        this.blob = blob;
+        lfn = blob.lfngti();
+        buf = blob.gftBytfs(1, (int)lfn );
+        tiis.blob = blob;
 
-         //if ( len < 10240000)
-         // len = 10240000;
-        origLen = len;
+         //if ( lfn < 10240000)
+         // lfn = 10240000;
+        origLfn = lfn;
     }
 
     /**
-     * Copies the specified number of bytes, starting at the given
-     * position, from this <code>SerialBlob</code> object to
-     * another array of bytes.
+     * Copifs tif spfdififd numbfr of bytfs, stbrting bt tif givfn
+     * position, from tiis <dodf>SfriblBlob</dodf> objfdt to
+     * bnotifr brrby of bytfs.
      * <P>
-     * Note that if the given number of bytes to be copied is larger than
-     * the length of this <code>SerialBlob</code> object's array of
-     * bytes, the given number will be shortened to the array's length.
+     * Notf tibt if tif givfn numbfr of bytfs to bf dopifd is lbrgfr tibn
+     * tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt's brrby of
+     * bytfs, tif givfn numbfr will bf siortfnfd to tif brrby's lfngti.
      *
-     * @param pos the ordinal position of the first byte in this
-     *            <code>SerialBlob</code> object to be copied;
-     *            numbering starts at <code>1</code>; must not be less
-     *            than <code>1</code> and must be less than or equal
-     *            to the length of this <code>SerialBlob</code> object
-     * @param length the number of bytes to be copied
-     * @return an array of bytes that is a copy of a region of this
-     *         <code>SerialBlob</code> object, starting at the given
-     *         position and containing the given number of consecutive bytes
-     * @throws SerialException if the given starting position is out of bounds;
-     * if {@code free} had previously been called on this object
+     * @pbrbm pos tif ordinbl position of tif first bytf in tiis
+     *            <dodf>SfriblBlob</dodf> objfdt to bf dopifd;
+     *            numbfring stbrts bt <dodf>1</dodf>; must not bf lfss
+     *            tibn <dodf>1</dodf> bnd must bf lfss tibn or fqubl
+     *            to tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt
+     * @pbrbm lfngti tif numbfr of bytfs to bf dopifd
+     * @rfturn bn brrby of bytfs tibt is b dopy of b rfgion of tiis
+     *         <dodf>SfriblBlob</dodf> objfdt, stbrting bt tif givfn
+     *         position bnd dontbining tif givfn numbfr of donsfdutivf bytfs
+     * @tirows SfriblExdfption if tif givfn stbrting position is out of bounds;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public byte[] getBytes(long pos, int length) throws SerialException {
-        isValid();
-        if (length > len) {
-            length = (int)len;
+    publid bytf[] gftBytfs(long pos, int lfngti) tirows SfriblExdfption {
+        isVblid();
+        if (lfngti > lfn) {
+            lfngti = (int)lfn;
         }
 
-        if (pos < 1 || len - pos < 0 ) {
-            throw new SerialException("Invalid arguments: position cannot be "
-                    + "less than 1 or greater than the length of the SerialBlob");
+        if (pos < 1 || lfn - pos < 0 ) {
+            tirow nfw SfriblExdfption("Invblid brgumfnts: position dbnnot bf "
+                    + "lfss tibn 1 or grfbtfr tibn tif lfngti of tif SfriblBlob");
         }
 
-        pos--; // correct pos to array index
+        pos--; // dorrfdt pos to brrby indfx
 
-        byte[] b = new byte[length];
+        bytf[] b = nfw bytf[lfngti];
 
-        for (int i = 0; i < length; i++) {
-            b[i] = this.buf[(int)pos];
+        for (int i = 0; i < lfngti; i++) {
+            b[i] = tiis.buf[(int)pos];
             pos++;
         }
-        return b;
+        rfturn b;
     }
 
     /**
-     * Retrieves the number of bytes in this <code>SerialBlob</code>
-     * object's array of bytes.
+     * Rftrifvfs tif numbfr of bytfs in tiis <dodf>SfriblBlob</dodf>
+     * objfdt's brrby of bytfs.
      *
-     * @return a <code>long</code> indicating the length in bytes of this
-     *         <code>SerialBlob</code> object's array of bytes
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in bytfs of tiis
+     *         <dodf>SfriblBlob</dodf> objfdt's brrby of bytfs
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public long length() throws SerialException {
-        isValid();
-        return len;
+    publid long lfngti() tirows SfriblExdfption {
+        isVblid();
+        rfturn lfn;
     }
 
     /**
-     * Returns this <code>SerialBlob</code> object as an input stream.
-     * Unlike the related method, <code>setBinaryStream</code>,
-     * a stream is produced regardless of whether the <code>SerialBlob</code>
-     * was created with a <code>Blob</code> object or a <code>byte</code> array.
+     * Rfturns tiis <dodf>SfriblBlob</dodf> objfdt bs bn input strfbm.
+     * Unlikf tif rflbtfd mftiod, <dodf>sftBinbryStrfbm</dodf>,
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblBlob</dodf>
+     * wbs drfbtfd witi b <dodf>Blob</dodf> objfdt or b <dodf>bytf</dodf> brrby.
      *
-     * @return a <code>java.io.InputStream</code> object that contains
-     *         this <code>SerialBlob</code> object's array of bytes
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
-     * @see #setBinaryStream
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt tibt dontbins
+     *         tiis <dodf>SfriblBlob</dodf> objfdt's brrby of bytfs
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @sff #sftBinbryStrfbm
      */
-    public java.io.InputStream getBinaryStream() throws SerialException {
-        isValid();
-        InputStream stream = new ByteArrayInputStream(buf);
-        return stream;
+    publid jbvb.io.InputStrfbm gftBinbryStrfbm() tirows SfriblExdfption {
+        isVblid();
+        InputStrfbm strfbm = nfw BytfArrbyInputStrfbm(buf);
+        rfturn strfbm;
     }
 
     /**
-     * Returns the position in this <code>SerialBlob</code> object where
-     * the given pattern of bytes begins, starting the search at the
-     * specified position.
+     * Rfturns tif position in tiis <dodf>SfriblBlob</dodf> objfdt wifrf
+     * tif givfn pbttfrn of bytfs bfgins, stbrting tif sfbrdi bt tif
+     * spfdififd position.
      *
-     * @param pattern the pattern of bytes for which to search
-     * @param start the position of the byte in this
-     *              <code>SerialBlob</code> object from which to begin
-     *              the search; the first position is <code>1</code>;
-     *              must not be less than <code>1</code> nor greater than
-     *              the length of this <code>SerialBlob</code> object
-     * @return the position in this <code>SerialBlob</code> object
-     *         where the given pattern begins, starting at the specified
-     *         position; <code>-1</code> if the pattern is not found
-     *         or the given starting position is out of bounds; position
-     *         numbering for the return value starts at <code>1</code>
-     * @throws SerialException if an error occurs when serializing the blob;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
+     * @pbrbm pbttfrn tif pbttfrn of bytfs for wiidi to sfbrdi
+     * @pbrbm stbrt tif position of tif bytf in tiis
+     *              <dodf>SfriblBlob</dodf> objfdt from wiidi to bfgin
+     *              tif sfbrdi; tif first position is <dodf>1</dodf>;
+     *              must not bf lfss tibn <dodf>1</dodf> nor grfbtfr tibn
+     *              tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt
+     * @rfturn tif position in tiis <dodf>SfriblBlob</dodf> objfdt
+     *         wifrf tif givfn pbttfrn bfgins, stbrting bt tif spfdififd
+     *         position; <dodf>-1</dodf> if tif pbttfrn is not found
+     *         or tif givfn stbrting position is out of bounds; position
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @tirows SfriblExdfption if bn frror oddurs wifn sfriblizing tif blob;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif <dodf>BLOB</dodf>
+     *         vbluf from tif dbtbbbsf
      */
-    public long position(byte[] pattern, long start)
-                throws SerialException, SQLException {
-        isValid();
-        if (start < 1 || start > len) {
-            return -1;
+    publid long position(bytf[] pbttfrn, long stbrt)
+                tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (stbrt < 1 || stbrt > lfn) {
+            rfturn -1;
         }
 
-        int pos = (int)start-1; // internally Blobs are stored as arrays.
+        int pos = (int)stbrt-1; // intfrnblly Blobs brf storfd bs brrbys.
         int i = 0;
-        long patlen = pattern.length;
+        long pbtlfn = pbttfrn.lfngti;
 
-        while (pos < len) {
-            if (pattern[i] == buf[pos]) {
-                if (i + 1 == patlen) {
-                    return (pos + 1) - (patlen - 1);
+        wiilf (pos < lfn) {
+            if (pbttfrn[i] == buf[pos]) {
+                if (i + 1 == pbtlfn) {
+                    rfturn (pos + 1) - (pbtlfn - 1);
                 }
-                i++; pos++; // increment pos, and i
-            } else if (pattern[i] != buf[pos]) {
-                pos++; // increment pos only
+                i++; pos++; // indrfmfnt pos, bnd i
+            } flsf if (pbttfrn[i] != buf[pos]) {
+                pos++; // indrfmfnt pos only
             }
         }
-        return -1; // not found
+        rfturn -1; // not found
     }
 
     /**
-     * Returns the position in this <code>SerialBlob</code> object where
-     * the given <code>Blob</code> object begins, starting the search at the
-     * specified position.
+     * Rfturns tif position in tiis <dodf>SfriblBlob</dodf> objfdt wifrf
+     * tif givfn <dodf>Blob</dodf> objfdt bfgins, stbrting tif sfbrdi bt tif
+     * spfdififd position.
      *
-     * @param pattern the <code>Blob</code> object for which to search;
-     * @param start the position of the byte in this
-     *              <code>SerialBlob</code> object from which to begin
-     *              the search; the first position is <code>1</code>;
-     *              must not be less than <code>1</code> nor greater than
-     *              the length of this <code>SerialBlob</code> object
-     * @return the position in this <code>SerialBlob</code> object
-     *         where the given <code>Blob</code> object begins, starting
-     *         at the specified position; <code>-1</code> if the pattern is
-     *         not found or the given starting position is out of bounds;
-     *         position numbering for the return value starts at <code>1</code>
-     * @throws SerialException if an error occurs when serializing the blob;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
+     * @pbrbm pbttfrn tif <dodf>Blob</dodf> objfdt for wiidi to sfbrdi;
+     * @pbrbm stbrt tif position of tif bytf in tiis
+     *              <dodf>SfriblBlob</dodf> objfdt from wiidi to bfgin
+     *              tif sfbrdi; tif first position is <dodf>1</dodf>;
+     *              must not bf lfss tibn <dodf>1</dodf> nor grfbtfr tibn
+     *              tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt
+     * @rfturn tif position in tiis <dodf>SfriblBlob</dodf> objfdt
+     *         wifrf tif givfn <dodf>Blob</dodf> objfdt bfgins, stbrting
+     *         bt tif spfdififd position; <dodf>-1</dodf> if tif pbttfrn is
+     *         not found or tif givfn stbrting position is out of bounds;
+     *         position numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @tirows SfriblExdfption if bn frror oddurs wifn sfriblizing tif blob;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif <dodf>BLOB</dodf>
+     *         vbluf from tif dbtbbbsf
      */
-    public long position(Blob pattern, long start)
-       throws SerialException, SQLException {
-        isValid();
-        return position(pattern.getBytes(1, (int)(pattern.length())), start);
+    publid long position(Blob pbttfrn, long stbrt)
+       tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        rfturn position(pbttfrn.gftBytfs(1, (int)(pbttfrn.lfngti())), stbrt);
     }
 
     /**
-     * Writes the given array of bytes to the <code>BLOB</code> value that
-     * this <code>Blob</code> object represents, starting at position
-     * <code>pos</code>, and returns the number of bytes written.
+     * Writfs tif givfn brrby of bytfs to tif <dodf>BLOB</dodf> vbluf tibt
+     * tiis <dodf>Blob</dodf> objfdt rfprfsfnts, stbrting bt position
+     * <dodf>pos</dodf>, bnd rfturns tif numbfr of bytfs writtfn.
      *
-     * @param pos the position in the SQL <code>BLOB</code> value at which
-     *     to start writing. The first position is <code>1</code>;
-     *     must not be less than <code>1</code> nor greater than
-     *     the length of this <code>SerialBlob</code> object.
-     * @param bytes the array of bytes to be written to the <code>BLOB</code>
-     *        value that this <code>Blob</code> object represents
-     * @return the number of bytes written
-     * @throws SerialException if there is an error accessing the
-     *     <code>BLOB</code> value; or if an invalid position is set; if an
-     *     invalid offset value is set;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
-     * @see #getBytes
+     * @pbrbm pos tif position in tif SQL <dodf>BLOB</dodf> vbluf bt wiidi
+     *     to stbrt writing. Tif first position is <dodf>1</dodf>;
+     *     must not bf lfss tibn <dodf>1</dodf> nor grfbtfr tibn
+     *     tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt.
+     * @pbrbm bytfs tif brrby of bytfs to bf writtfn to tif <dodf>BLOB</dodf>
+     *        vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts
+     * @rfturn tif numbfr of bytfs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>BLOB</dodf> vbluf; or if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif <dodf>BLOB</dodf>
+     *         vbluf from tif dbtbbbsf
+     * @sff #gftBytfs
      */
-    public int setBytes(long pos, byte[] bytes)
-        throws SerialException, SQLException {
-        return (setBytes(pos, bytes, 0, bytes.length));
+    publid int sftBytfs(long pos, bytf[] bytfs)
+        tirows SfriblExdfption, SQLExdfption {
+        rfturn (sftBytfs(pos, bytfs, 0, bytfs.lfngti));
     }
 
     /**
-     * Writes all or part of the given <code>byte</code> array to the
-     * <code>BLOB</code> value that this <code>Blob</code> object represents
-     * and returns the number of bytes written.
-     * Writing starts at position <code>pos</code> in the <code>BLOB</code>
-     * value; <i>len</i> bytes from the given byte array are written.
+     * Writfs bll or pbrt of tif givfn <dodf>bytf</dodf> brrby to tif
+     * <dodf>BLOB</dodf> vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts
+     * bnd rfturns tif numbfr of bytfs writtfn.
+     * Writing stbrts bt position <dodf>pos</dodf> in tif <dodf>BLOB</dodf>
+     * vbluf; <i>lfn</i> bytfs from tif givfn bytf brrby brf writtfn.
      *
-     * @param pos the position in the <code>BLOB</code> object at which
-     *     to start writing. The first position is <code>1</code>;
-     *     must not be less than <code>1</code> nor greater than
-     *     the length of this <code>SerialBlob</code> object.
-     * @param bytes the array of bytes to be written to the <code>BLOB</code>
-     *     value
-     * @param offset the offset in the <code>byte</code> array at which
-     *     to start reading the bytes. The first offset position is
-     *     <code>0</code>; must not be less than <code>0</code> nor greater
-     *     than the length of the <code>byte</code> array
-     * @param length the number of bytes to be written to the
-     *     <code>BLOB</code> value from the array of bytes <i>bytes</i>.
+     * @pbrbm pos tif position in tif <dodf>BLOB</dodf> objfdt bt wiidi
+     *     to stbrt writing. Tif first position is <dodf>1</dodf>;
+     *     must not bf lfss tibn <dodf>1</dodf> nor grfbtfr tibn
+     *     tif lfngti of tiis <dodf>SfriblBlob</dodf> objfdt.
+     * @pbrbm bytfs tif brrby of bytfs to bf writtfn to tif <dodf>BLOB</dodf>
+     *     vbluf
+     * @pbrbm offsft tif offsft in tif <dodf>bytf</dodf> brrby bt wiidi
+     *     to stbrt rfbding tif bytfs. Tif first offsft position is
+     *     <dodf>0</dodf>; must not bf lfss tibn <dodf>0</dodf> nor grfbtfr
+     *     tibn tif lfngti of tif <dodf>bytf</dodf> brrby
+     * @pbrbm lfngti tif numbfr of bytfs to bf writtfn to tif
+     *     <dodf>BLOB</dodf> vbluf from tif brrby of bytfs <i>bytfs</i>.
      *
-     * @return the number of bytes written
-     * @throws SerialException if there is an error accessing the
-     *     <code>BLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialBlob</code> length; or the combined
-     *     values of the length and offset is greater than the Blob buffer;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database.
-     * @see #getBytes
+     * @rfturn tif numbfr of bytfs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>BLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr tibn tif <dodf>SfriblBlob</dodf> lfngti; or tif dombinfd
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Blob bufffr;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif <dodf>BLOB</dodf>
+     *         vbluf from tif dbtbbbsf.
+     * @sff #gftBytfs
      */
-    public int setBytes(long pos, byte[] bytes, int offset, int length)
-        throws SerialException, SQLException {
+    publid int sftBytfs(long pos, bytf[] bytfs, int offsft, int lfngti)
+        tirows SfriblExdfption, SQLExdfption {
 
-        isValid();
-        if (offset < 0 || offset > bytes.length) {
-            throw new SerialException("Invalid offset in byte array set");
+        isVblid();
+        if (offsft < 0 || offsft > bytfs.lfngti) {
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
         }
 
-        if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in BLOB object set");
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in BLOB objfdt sft");
         }
 
-        if ((long)(length) > origLen) {
-            throw new SerialException("Buffer is not sufficient to hold the value");
+        if ((long)(lfngti) > origLfn) {
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
         }
 
-        if ((length + offset) > bytes.length) {
-            throw new SerialException("Invalid OffSet. Cannot have combined offset " +
-                "and length that is greater that the Blob buffer");
+        if ((lfngti + offsft) > bytfs.lfngti) {
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+                "bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
         }
 
         int i = 0;
-        pos--; // correct to array indexing
-        while ( i < length || (offset + i +1) < (bytes.length-offset) ) {
-            this.buf[(int)pos + i] = bytes[offset + i ];
+        pos--; // dorrfdt to brrby indfxing
+        wiilf ( i < lfngti || (offsft + i +1) < (bytfs.lfngti-offsft) ) {
+            tiis.buf[(int)pos + i] = bytfs[offsft + i ];
             i++;
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Retrieves a stream that can be used to write to the <code>BLOB</code>
-     * value that this <code>Blob</code> object represents.  The stream begins
-     * at position <code>pos</code>. This method forwards the
-     * <code>setBinaryStream()</code> call to the underlying <code>Blob</code> in
-     * the event that this <code>SerialBlob</code> object is instantiated with a
-     * <code>Blob</code>. If this <code>SerialBlob</code> is instantiated with
-     * a <code>byte</code> array, a <code>SerialException</code> is thrown.
+     * Rftrifvfs b strfbm tibt dbn bf usfd to writf to tif <dodf>BLOB</dodf>
+     * vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts.  Tif strfbm bfgins
+     * bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * <dodf>sftBinbryStrfbm()</dodf> dbll to tif undfrlying <dodf>Blob</dodf> in
+     * tif fvfnt tibt tiis <dodf>SfriblBlob</dodf> objfdt is instbntibtfd witi b
+     * <dodf>Blob</dodf>. If tiis <dodf>SfriblBlob</dodf> is instbntibtfd witi
+     * b <dodf>bytf</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
      *
-     * @param pos the position in the <code>BLOB</code> value at which
-     *        to start writing
-     * @return a <code>java.io.OutputStream</code> object to which data can
-     *         be written
-     * @throws SQLException if there is an error accessing the
-     *            <code>BLOB</code> value
-     * @throws SerialException if the SerialBlob in not instantiated with a
-     *     <code>Blob</code> object that supports <code>setBinaryStream()</code>;
-     * if {@code free} had previously been called on this object
-     * @see #getBinaryStream
+     * @pbrbm pos tif position in tif <dodf>BLOB</dodf> vbluf bt wiidi
+     *        to stbrt writing
+     * @rfturn b <dodf>jbvb.io.OutputStrfbm</dodf> objfdt to wiidi dbtb dbn
+     *         bf writtfn
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>BLOB</dodf> vbluf
+     * @tirows SfriblExdfption if tif SfriblBlob in not instbntibtfd witi b
+     *     <dodf>Blob</dodf> objfdt tibt supports <dodf>sftBinbryStrfbm()</dodf>;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @sff #gftBinbryStrfbm
      */
-    public java.io.OutputStream setBinaryStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
-        if (this.blob != null) {
-            return this.blob.setBinaryStream(pos);
-        } else {
-            throw new SerialException("Unsupported operation. SerialBlob cannot " +
-                "return a writable binary stream, unless instantiated with a Blob object " +
-                "that provides a setBinaryStream() implementation");
+    publid jbvb.io.OutputStrfbm sftBinbryStrfbm(long pos)
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (tiis.blob != null) {
+            rfturn tiis.blob.sftBinbryStrfbm(pos);
+        } flsf {
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblBlob dbnnot " +
+                "rfturn b writbblf binbry strfbm, unlfss instbntibtfd witi b Blob objfdt " +
+                "tibt providfs b sftBinbryStrfbm() implfmfntbtion");
         }
     }
 
     /**
-     * Truncates the <code>BLOB</code> value that this <code>Blob</code>
-     * object represents to be <code>len</code> bytes in length.
+     * Trundbtfs tif <dodf>BLOB</dodf> vbluf tibt tiis <dodf>Blob</dodf>
+     * objfdt rfprfsfnts to bf <dodf>lfn</dodf> bytfs in lfngti.
      *
-     * @param length the length, in bytes, to which the <code>BLOB</code>
-     *        value that this <code>Blob</code> object represents should be
-     *        truncated
-     * @throws SerialException if there is an error accessing the Blob value;
-     *     or the length to truncate is greater that the SerialBlob length;
-     * if {@code free} had previously been called on this object
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>BLOB</dodf>
+     *        vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts siould bf
+     *        trundbtfd
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif Blob vbluf;
+     *     or tif lfngti to trundbtf is grfbtfr tibt tif SfriblBlob lfngti;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public void truncate(long length) throws SerialException {
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
 
-        isValid();
-        if (length > len) {
-           throw new SerialException
-              ("Length more than what can be truncated");
-        } else if((int)length == 0) {
-             buf = new byte[0];
-             len = length;
-        } else {
-             len = length;
-             buf = this.getBytes(1, (int)len);
+        isVblid();
+        if (lfngti > lfn) {
+           tirow nfw SfriblExdfption
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+        } flsf if((int)lfngti == 0) {
+             buf = nfw bytf[0];
+             lfn = lfngti;
+        } flsf {
+             lfn = lfngti;
+             buf = tiis.gftBytfs(1, (int)lfn);
         }
     }
 
 
     /**
-     * Returns an
-     * <code>InputStream</code> object that contains a partial
-     * {@code Blob} value, starting with the byte specified by pos, which is
-     * length bytes in length.
+     * Rfturns bn
+     * <dodf>InputStrfbm</dodf> objfdt tibt dontbins b pbrtibl
+     * {@dodf Blob} vbluf, stbrting witi tif bytf spfdififd by pos, wiidi is
+     * lfngti bytfs in lfngti.
      *
-     * @param pos the offset to the first byte of the partial value to be
-     * retrieved. The first byte in the {@code Blob} is at position 1
-     * @param length the length in bytes of the partial value to be retrieved
-     * @return
-     * <code>InputStream</code> through which the partial {@code Blob} value can
-     * be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the
-     * number of bytes in the {@code Blob} or if pos + length is greater than
-     * the number of bytes in the {@code Blob}
-     * @throws SerialException if the {@code free} method had been previously
-     * called on this object
+     * @pbrbm pos tif offsft to tif first bytf of tif pbrtibl vbluf to bf
+     * rftrifvfd. Tif first bytf in tif {@dodf Blob} is bt position 1
+     * @pbrbm lfngti tif lfngti in bytfs of tif pbrtibl vbluf to bf rftrifvfd
+     * @rfturn
+     * <dodf>InputStrfbm</dodf> tirougi wiidi tif pbrtibl {@dodf Blob} vbluf dbn
+     * bf rfbd.
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * numbfr of bytfs in tif {@dodf Blob} or if pos + lfngti is grfbtfr tibn
+     * tif numbfr of bytfs in tif {@dodf Blob}
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * dbllfd on tiis objfdt
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public InputStream getBinaryStream(long pos, long length) throws SQLException {
-        isValid();
-        if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in BLOB object set");
+    publid InputStrfbm gftBinbryStrfbm(long pos, long lfngti) tirows SQLExdfption {
+        isVblid();
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in BLOB objfdt sft");
         }
-        if (length < 1 || length > len - pos + 1) {
-            throw new SerialException("length is < 1 or pos + length >"
-                    + "total number of bytes");
+        if (lfngti < 1 || lfngti > lfn - pos + 1) {
+            tirow nfw SfriblExdfption("lfngti is < 1 or pos + lfngti >"
+                    + "totbl numbfr of bytfs");
         }
-        return new ByteArrayInputStream(buf, (int) pos - 1, (int) length);
+        rfturn nfw BytfArrbyInputStrfbm(buf, (int) pos - 1, (int) lfngti);
     }
 
 
     /**
-     * This method frees the {@code SeriableBlob} object and releases the
-     * resources that it holds. The object is invalid once the {@code free}
-     * method is called. <p> If {@code free} is called multiple times, the
-     * subsequent calls to {@code free} are treated as a no-op. </P>
+     * Tiis mftiod frffs tif {@dodf SfribblfBlob} objfdt bnd rflfbsfs tif
+     * rfsourdfs tibt it iolds. Tif objfdt is invblid ondf tif {@dodf frff}
+     * mftiod is dbllfd. <p> If {@dodf frff} is dbllfd multiplf timfs, tif
+     * subsfqufnt dblls to {@dodf frff} brf trfbtfd bs b no-op. </P>
      *
-     * @throws SQLException if an error occurs releasing the Blob's resources
-     * @since 1.6
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing tif Blob's rfsourdfs
+     * @sindf 1.6
      */
-    public void free() throws SQLException {
+    publid void frff() tirows SQLExdfption {
         if (buf != null) {
             buf = null;
             if (blob != null) {
-                blob.free();
+                blob.frff();
             }
             blob = null;
         }
     }
 
     /**
-     * Compares this SerialBlob to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialBlob} object that represents the same sequence of bytes as this
-     * object.
+     * Compbrfs tiis SfriblBlob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblBlob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of bytfs bs tiis
+     * objfdt.
      *
-     * @param  obj The object to compare this {@code SerialBlob} against
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblBlob} bgbinst
      *
-     * @return {@code true} if the given object represents a {@code SerialBlob}
-     *          equivalent to this SerialBlob, {@code false} otherwise
+     * @rfturn {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblBlob}
+     *          fquivblfnt to tiis SfriblBlob, {@dodf fblsf} otifrwisf
      *
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof SerialBlob) {
-            SerialBlob sb = (SerialBlob)obj;
-            if (this.len == sb.len) {
-                return Arrays.equals(buf, sb.buf);
+        if (obj instbndfof SfriblBlob) {
+            SfriblBlob sb = (SfriblBlob)obj;
+            if (tiis.lfn == sb.lfn) {
+                rfturn Arrbys.fqubls(buf, sb.buf);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this {@code SerialBlob}.
-     * @return  a hash code value for this object.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblBlob}.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-       return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
+    publid int ibsiCodf() {
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
     }
 
     /**
-     * Returns a clone of this {@code SerialBlob}. The copy will contain a
-     * reference to a clone of the internal byte array, not a reference
-     * to the original internal byte array of this {@code SerialBlob} object.
-     * The underlying {@code Blob} object will be set to null.
+     * Rfturns b dlonf of tiis {@dodf SfriblBlob}. Tif dopy will dontbin b
+     * rfffrfndf to b dlonf of tif intfrnbl bytf brrby, not b rfffrfndf
+     * to tif originbl intfrnbl bytf brrby of tiis {@dodf SfriblBlob} objfdt.
+     * Tif undfrlying {@dodf Blob} objfdt will bf sft to null.
      *
-     * @return  a clone of this SerialBlob
+     * @rfturn  b dlonf of tiis SfriblBlob
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            SerialBlob sb = (SerialBlob) super.clone();
-            sb.buf =  (buf != null) ? Arrays.copyOf(buf, (int)len) : null;
+            SfriblBlob sb = (SfriblBlob) supfr.dlonf();
+            sb.buf =  (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
             sb.blob = null;
-            return sb;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            rfturn sb;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the SerialBlob from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblBlob from
+     * b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectInputStream.GetField fields = s.readFields();
-       byte[] tmp = (byte[])fields.get("buf", null);
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       bytf[] tmp = (bytf[])fiflds.gft("buf", null);
        if (tmp == null)
-           throw new InvalidObjectException("buf is null and should not be!");
-       buf = tmp.clone();
-       len = fields.get("len", 0L);
-       if (buf.length != len)
-           throw new InvalidObjectException("buf is not the expected size");
-       origLen = fields.get("origLen", 0L);
-       blob = (Blob) fields.get("blob", null);
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+       buf = tmp.dlonf();
+       lfn = fiflds.gft("lfn", 0L);
+       if (buf.lfngti != lfn)
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+       origLfn = fiflds.gft("origLfn", 0L);
+       blob = (Blob) fiflds.gft("blob", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialBlob
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblBlob
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("buf", buf);
-        fields.put("len", len);
-        fields.put("origLen", origLen);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("blob", blob instanceof Serializable ? blob : null);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("buf", buf);
+        fiflds.put("lfn", lfn);
+        fiflds.put("origLfn", origLfn);
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        fiflds.put("blob", blob instbndfof Sfriblizbblf ? blob : null);
+        s.writfFiflds();
     }
 
     /**
-     * Check to see if this object had previously had its {@code free} method
-     * called
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * dbllfd
      *
-     * @throws SerialException
+     * @tirows SfriblExdfption
      */
-    private void isValid() throws SerialException {
+    privbtf void isVblid() tirows SfriblExdfption {
         if (buf == null) {
-            throw new SerialException("Error: You cannot call a method on a "
-                    + "SerialBlob instance once free() has been called.");
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+                    + "SfriblBlob instbndf ondf frff() ibs bffn dbllfd.");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * {@code SerialBlob} object.
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis
+     * {@dodf SfriblBlob} objfdt.
      */
-    static final long serialVersionUID = -8144641928112860441L;
+    stbtid finbl long sfriblVfrsionUID = -8144641928112860441L;
 }

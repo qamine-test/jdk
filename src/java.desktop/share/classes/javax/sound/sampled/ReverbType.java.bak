@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * The {@code ReverbType} class provides methods for accessing various
- * reverberation settings to be applied to an audio signal.
+ * Tif {@dodf RfvfrbTypf} dlbss providfs mftiods for bddfssing vbrious
+ * rfvfrbfrbtion sfttings to bf bpplifd to bn budio signbl.
  * <p>
- * Reverberation simulates the reflection of sound off of the walls, ceiling,
- * and floor of a room. Depending on the size of the room, and how absorbent or
- * reflective the materials in the room's surfaces are, the sound might bounce
- * around for a long time before dying away.
+ * Rfvfrbfrbtion simulbtfs tif rfflfdtion of sound off of tif wblls, dfiling,
+ * bnd floor of b room. Dfpfnding on tif sizf of tif room, bnd iow bbsorbfnt or
+ * rfflfdtivf tif mbtfribls in tif room's surfbdfs brf, tif sound migit boundf
+ * bround for b long timf bfforf dying bwby.
  * <p>
- * The reverberation parameters provided by {@code ReverbType} consist of the
- * delay time and intensity of early reflections, the delay time and intensity
- * of late reflections, and an overall decay time. Early reflections are the
- * initial individual low-order reflections of the direct signal off the
- * surfaces in the room. The late Reflections are the dense, high-order
- * reflections that characterize the room's reverberation. The delay times for
- * the start of these two reflection types give the listener a sense of the
- * overall size and complexity of the room's shape and contents. The larger the
- * room, the longer the reflection delay times. The early and late reflections'
- * intensities define the gain (in decibels) of the reflected signals as
- * compared to the direct signal. These intensities give the listener an
- * impression of the absorptive nature of the surfaces and objects in the room.
- * The decay time defines how long the reverberation takes to exponentially
- * decay until it is no longer perceptible ("effective zero"). The larger and
- * less absorbent the surfaces, the longer the decay time.
+ * Tif rfvfrbfrbtion pbrbmftfrs providfd by {@dodf RfvfrbTypf} donsist of tif
+ * dflby timf bnd intfnsity of fbrly rfflfdtions, tif dflby timf bnd intfnsity
+ * of lbtf rfflfdtions, bnd bn ovfrbll dfdby timf. Ebrly rfflfdtions brf tif
+ * initibl individubl low-ordfr rfflfdtions of tif dirfdt signbl off tif
+ * surfbdfs in tif room. Tif lbtf Rfflfdtions brf tif dfnsf, iigi-ordfr
+ * rfflfdtions tibt dibrbdtfrizf tif room's rfvfrbfrbtion. Tif dflby timfs for
+ * tif stbrt of tifsf two rfflfdtion typfs givf tif listfnfr b sfnsf of tif
+ * ovfrbll sizf bnd domplfxity of tif room's sibpf bnd dontfnts. Tif lbrgfr tif
+ * room, tif longfr tif rfflfdtion dflby timfs. Tif fbrly bnd lbtf rfflfdtions'
+ * intfnsitifs dffinf tif gbin (in dfdibfls) of tif rfflfdtfd signbls bs
+ * dompbrfd to tif dirfdt signbl. Tifsf intfnsitifs givf tif listfnfr bn
+ * imprfssion of tif bbsorptivf nbturf of tif surfbdfs bnd objfdts in tif room.
+ * Tif dfdby timf dffinfs iow long tif rfvfrbfrbtion tbkfs to fxponfntiblly
+ * dfdby until it is no longfr pfrdfptiblf ("ffffdtivf zfro"). Tif lbrgfr bnd
+ * lfss bbsorbfnt tif surfbdfs, tif longfr tif dfdby timf.
  * <p>
- * The set of parameters defined here may not include all aspects of
- * reverberation as specified by some systems. For example, the Midi
- * Manufacturer's Association (MMA) has an Interactive Audio Special Interest
- * Group (IASIG), which has a 3-D Working Group that has defined a Level 2 Spec
- * (I3DL2). I3DL2 supports filtering of reverberation and control of reverb
- * density. These properties are not included in the JavaSound 1.0 definition of
- * a reverb control. In such a case, the implementing system should either
- * extend the defined reverb control to include additional parameters, or else
- * interpret the system's additional capabilities in a way that fits the model
- * described here.
+ * Tif sft of pbrbmftfrs dffinfd ifrf mby not indludf bll bspfdts of
+ * rfvfrbfrbtion bs spfdififd by somf systfms. For fxbmplf, tif Midi
+ * Mbnufbdturfr's Assodibtion (MMA) ibs bn Intfrbdtivf Audio Spfdibl Intfrfst
+ * Group (IASIG), wiidi ibs b 3-D Working Group tibt ibs dffinfd b Lfvfl 2 Spfd
+ * (I3DL2). I3DL2 supports filtfring of rfvfrbfrbtion bnd dontrol of rfvfrb
+ * dfnsity. Tifsf propfrtifs brf not indludfd in tif JbvbSound 1.0 dffinition of
+ * b rfvfrb dontrol. In sudi b dbsf, tif implfmfnting systfm siould fitifr
+ * fxtfnd tif dffinfd rfvfrb dontrol to indludf bdditionbl pbrbmftfrs, or flsf
+ * intfrprft tif systfm's bdditionbl dbpbbilitifs in b wby tibt fits tif modfl
+ * dfsdribfd ifrf.
  * <p>
- * If implementing JavaSound on a I3DL2-compliant device:
+ * If implfmfnting JbvbSound on b I3DL2-domplibnt dfvidf:
  * <ul>
- * <li>Filtering is disabled (high-frequency attenuations are set to 0.0 dB)
- * <li>Density parameters are set to midway between minimum and maximum
+ * <li>Filtfring is disbblfd (iigi-frfqufndy bttfnubtions brf sft to 0.0 dB)
+ * <li>Dfnsity pbrbmftfrs brf sft to midwby bftwffn minimum bnd mbximum
  * </ul>
  * <p>
- * The following table shows what parameter values an implementation might use
- * for a representative set of reverberation settings.
+ * Tif following tbblf siows wibt pbrbmftfr vblufs bn implfmfntbtion migit usf
+ * for b rfprfsfntbtivf sft of rfvfrbfrbtion sfttings.
  * <p>
  *
- * <b>Reverberation Types and Parameters</b>
+ * <b>Rfvfrbfrbtion Typfs bnd Pbrbmftfrs</b>
  *
- * <table border=1 cellpadding=5 summary="reverb types and params: decay time, late intensity, late delay, early intensity, and early delay">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="rfvfrb typfs bnd pbrbms: dfdby timf, lbtf intfnsity, lbtf dflby, fbrly intfnsity, bnd fbrly dflby">
  *
  * <tr>
- *  <th>Type</th>
- *  <th>Decay Time (ms)</th>
- *  <th>Late Intensity (dB)</th>
- *  <th>Late Delay (ms)</th>
- *  <th>Early Intensity (dB)</th>
- *  <th>Early Delay(ms)</th>
+ *  <ti>Typf</ti>
+ *  <ti>Dfdby Timf (ms)</ti>
+ *  <ti>Lbtf Intfnsity (dB)</ti>
+ *  <ti>Lbtf Dflby (ms)</ti>
+ *  <ti>Ebrly Intfnsity (dB)</ti>
+ *  <ti>Ebrly Dflby(ms)</ti>
  * </tr>
  *
  * <tr>
- *  <td>Cavern</td>
+ *  <td>Cbvfrn</td>
  *  <td>2250</td>
  *  <td>-2.0</td>
  *  <td>41.3</td>
@@ -94,7 +94,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Dungeon</td>
+ *  <td>Dungfon</td>
  *  <td>1600</td>
  *  <td>-1.0</td>
  *  <td>10.3</td>
@@ -103,7 +103,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Garage</td>
+ *  <td>Gbrbgf</td>
  *  <td>900</td>
  *  <td>-6.0</td>
  *  <td>14.7</td>
@@ -112,7 +112,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Acoustic Lab</td>
+ *  <td>Adoustid Lbb</td>
  *  <td>280</td>
  *  <td>-3.0</td>
  *  <td>8.0</td>
@@ -121,7 +121,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Closet</td>
+ *  <td>Closft</td>
  *  <td>150</td>
  *  <td>-10.0</td>
  *  <td>2.5</td>
@@ -129,169 +129,169 @@ package javax.sound.sampled;
  *  <td>0.6</td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public class ReverbType {
+publid dlbss RfvfrbTypf {
 
     /**
-     * Descriptive name of the reverb type.
+     * Dfsdriptivf nbmf of tif rfvfrb typf.
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * Early reflection delay in microseconds.
+     * Ebrly rfflfdtion dflby in midrosfdonds.
      */
-    private int earlyReflectionDelay;
+    privbtf int fbrlyRfflfdtionDflby;
 
     /**
-     * Early reflection intensity.
+     * Ebrly rfflfdtion intfnsity.
      */
-    private float earlyReflectionIntensity;
+    privbtf flobt fbrlyRfflfdtionIntfnsity;
 
     /**
-     * Late reflection delay in microseconds.
+     * Lbtf rfflfdtion dflby in midrosfdonds.
      */
-    private int lateReflectionDelay;
+    privbtf int lbtfRfflfdtionDflby;
 
     /**
-     * Late reflection intensity.
+     * Lbtf rfflfdtion intfnsity.
      */
-    private float lateReflectionIntensity;
+    privbtf flobt lbtfRfflfdtionIntfnsity;
 
     /**
-     * Total decay time.
+     * Totbl dfdby timf.
      */
-    private int decayTime;
+    privbtf int dfdbyTimf;
 
     /**
-     * Constructs a new reverb type that has the specified reverberation
-     * parameter values.
+     * Construdts b nfw rfvfrb typf tibt ibs tif spfdififd rfvfrbfrbtion
+     * pbrbmftfr vblufs.
      *
-     * @param  name the name of the new reverb type, or a zero-length
-     *         {@code String}
-     * @param  earlyReflectionDelay the new type's early reflection delay time
-     *         in microseconds
-     * @param  earlyReflectionIntensity the new type's early reflection
-     *         intensity in dB
-     * @param  lateReflectionDelay the new type's late reflection delay time in
-     *         microseconds
-     * @param  lateReflectionIntensity the new type's late reflection intensity
+     * @pbrbm  nbmf tif nbmf of tif nfw rfvfrb typf, or b zfro-lfngti
+     *         {@dodf String}
+     * @pbrbm  fbrlyRfflfdtionDflby tif nfw typf's fbrly rfflfdtion dflby timf
+     *         in midrosfdonds
+     * @pbrbm  fbrlyRfflfdtionIntfnsity tif nfw typf's fbrly rfflfdtion
+     *         intfnsity in dB
+     * @pbrbm  lbtfRfflfdtionDflby tif nfw typf's lbtf rfflfdtion dflby timf in
+     *         midrosfdonds
+     * @pbrbm  lbtfRfflfdtionIntfnsity tif nfw typf's lbtf rfflfdtion intfnsity
      *         in dB
-     * @param  decayTime the new type's decay time in microseconds
+     * @pbrbm  dfdbyTimf tif nfw typf's dfdby timf in midrosfdonds
      */
-    protected ReverbType(String name, int earlyReflectionDelay, float earlyReflectionIntensity, int lateReflectionDelay, float lateReflectionIntensity, int decayTime) {
+    protfdtfd RfvfrbTypf(String nbmf, int fbrlyRfflfdtionDflby, flobt fbrlyRfflfdtionIntfnsity, int lbtfRfflfdtionDflby, flobt lbtfRfflfdtionIntfnsity, int dfdbyTimf) {
 
-        this.name = name;
-        this.earlyReflectionDelay = earlyReflectionDelay;
-        this.earlyReflectionIntensity = earlyReflectionIntensity;
-        this.lateReflectionDelay = lateReflectionDelay;
-        this.lateReflectionIntensity = lateReflectionIntensity;
-        this.decayTime = decayTime;
+        tiis.nbmf = nbmf;
+        tiis.fbrlyRfflfdtionDflby = fbrlyRfflfdtionDflby;
+        tiis.fbrlyRfflfdtionIntfnsity = fbrlyRfflfdtionIntfnsity;
+        tiis.lbtfRfflfdtionDflby = lbtfRfflfdtionDflby;
+        tiis.lbtfRfflfdtionIntfnsity = lbtfRfflfdtionIntfnsity;
+        tiis.dfdbyTimf = dfdbyTimf;
     }
 
     /**
-     * Obtains the name of this reverb type.
+     * Obtbins tif nbmf of tiis rfvfrb typf.
      *
-     * @return the name of this reverb type
-     * @since 1.5
+     * @rfturn tif nbmf of tiis rfvfrb typf
+     * @sindf 1.5
      */
-    public String getName() {
-            return name;
+    publid String gftNbmf() {
+            rfturn nbmf;
     }
 
     /**
-     * Returns the early reflection delay time in microseconds. This is the
-     * amount of time between when the direct signal is heard and when the first
-     * early reflections are heard.
+     * Rfturns tif fbrly rfflfdtion dflby timf in midrosfdonds. Tiis is tif
+     * bmount of timf bftwffn wifn tif dirfdt signbl is ifbrd bnd wifn tif first
+     * fbrly rfflfdtions brf ifbrd.
      *
-     * @return early reflection delay time for this reverb type, in microseconds
+     * @rfturn fbrly rfflfdtion dflby timf for tiis rfvfrb typf, in midrosfdonds
      */
-    public final int getEarlyReflectionDelay() {
-        return earlyReflectionDelay;
+    publid finbl int gftEbrlyRfflfdtionDflby() {
+        rfturn fbrlyRfflfdtionDflby;
     }
 
     /**
-     * Returns the early reflection intensity in decibels. This is the amplitude
-     * attenuation of the first early reflections relative to the direct signal.
+     * Rfturns tif fbrly rfflfdtion intfnsity in dfdibfls. Tiis is tif bmplitudf
+     * bttfnubtion of tif first fbrly rfflfdtions rflbtivf to tif dirfdt signbl.
      *
-     * @return early reflection intensity for this reverb type, in dB
+     * @rfturn fbrly rfflfdtion intfnsity for tiis rfvfrb typf, in dB
      */
-    public final float getEarlyReflectionIntensity() {
-        return earlyReflectionIntensity;
+    publid finbl flobt gftEbrlyRfflfdtionIntfnsity() {
+        rfturn fbrlyRfflfdtionIntfnsity;
     }
 
     /**
-     * Returns the late reflection delay time in microseconds. This is the
-     * amount of time between when the first early reflections are heard and
-     * when the first late reflections are heard.
+     * Rfturns tif lbtf rfflfdtion dflby timf in midrosfdonds. Tiis is tif
+     * bmount of timf bftwffn wifn tif first fbrly rfflfdtions brf ifbrd bnd
+     * wifn tif first lbtf rfflfdtions brf ifbrd.
      *
-     * @return late reflection delay time for this reverb type, in microseconds
+     * @rfturn lbtf rfflfdtion dflby timf for tiis rfvfrb typf, in midrosfdonds
      */
-    public final int getLateReflectionDelay() {
-        return lateReflectionDelay;
+    publid finbl int gftLbtfRfflfdtionDflby() {
+        rfturn lbtfRfflfdtionDflby;
     }
 
     /**
-     * Returns the late reflection intensity in decibels. This is the amplitude
-     * attenuation of the first late reflections relative to the direct signal.
+     * Rfturns tif lbtf rfflfdtion intfnsity in dfdibfls. Tiis is tif bmplitudf
+     * bttfnubtion of tif first lbtf rfflfdtions rflbtivf to tif dirfdt signbl.
      *
-     * @return late reflection intensity for this reverb type, in dB
+     * @rfturn lbtf rfflfdtion intfnsity for tiis rfvfrb typf, in dB
      */
-    public final float getLateReflectionIntensity() {
-        return lateReflectionIntensity;
+    publid finbl flobt gftLbtfRfflfdtionIntfnsity() {
+        rfturn lbtfRfflfdtionIntfnsity;
     }
 
     /**
-     * Obtains the decay time, which is the amount of time over which the late
-     * reflections attenuate to effective zero. The effective zero value is
-     * implementation-dependent.
+     * Obtbins tif dfdby timf, wiidi is tif bmount of timf ovfr wiidi tif lbtf
+     * rfflfdtions bttfnubtf to ffffdtivf zfro. Tif ffffdtivf zfro vbluf is
+     * implfmfntbtion-dfpfndfnt.
      *
-     * @return the decay time of the late reflections, in microseconds
+     * @rfturn tif dfdby timf of tif lbtf rfflfdtions, in midrosfdonds
      */
-    public final int getDecayTime() {
-        return decayTime;
+    publid finbl int gftDfdbyTimf() {
+        rfturn dfdbyTimf;
     }
 
     /**
-     * Indicates whether the specified object is equal to this reverb type,
-     * returning {@code true} if the objects are identical.
+     * Indidbtfs wiftifr tif spfdififd objfdt is fqubl to tiis rfvfrb typf,
+     * rfturning {@dodf truf} if tif objfdts brf idfntidbl.
      *
-     * @param  obj the reference object with which to compare
-     * @return {@code true} if this reverb type is the same as {@code obj};
-     *         {@code false} otherwise
+     * @pbrbm  obj tif rfffrfndf objfdt witi wiidi to dompbrf
+     * @rfturn {@dodf truf} if tiis rfvfrb typf is tif sbmf bs {@dodf obj};
+     *         {@dodf fblsf} otifrwisf
      */
-    @Override
-    public final boolean equals(Object obj) {
-        return super.equals(obj);
+    @Ovfrridf
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        rfturn supfr.fqubls(obj);
     }
 
     /**
-     * Finalizes the hashcode method.
+     * Finblizfs tif ibsidodf mftiod.
      */
-    @Override
-    public final int hashCode() {
-        return super.hashCode();
+    @Ovfrridf
+    publid finbl int ibsiCodf() {
+        rfturn supfr.ibsiCodf();
     }
 
     /**
-     * Provides a {@code String} representation of the reverb type, including
-     * its name and its parameter settings. The exact contents of the string may
-     * vary between implementations of Java Sound.
+     * Providfs b {@dodf String} rfprfsfntbtion of tif rfvfrb typf, indluding
+     * its nbmf bnd its pbrbmftfr sfttings. Tif fxbdt dontfnts of tif string mby
+     * vbry bftwffn implfmfntbtions of Jbvb Sound.
      *
-     * @return reverberation type name and description
+     * @rfturn rfvfrbfrbtion typf nbmf bnd dfsdription
      */
-    @Override
-    public final String toString() {
+    @Ovfrridf
+    publid finbl String toString() {
 
-        //$$fb2001-07-20: fix for bug 4385060: The "name" attribute of class "ReverbType" is not accessible.
-        //return (super.toString() + ", early reflection delay " + earlyReflectionDelay +
-        return (name + ", early reflection delay " + earlyReflectionDelay +
-                " ns, early reflection intensity " + earlyReflectionIntensity +
-                " dB, late deflection delay " + lateReflectionDelay +
-                " ns, late reflection intensity " + lateReflectionIntensity +
-                " dB, decay time " +  decayTime);
+        //$$fb2001-07-20: fix for bug 4385060: Tif "nbmf" bttributf of dlbss "RfvfrbTypf" is not bddfssiblf.
+        //rfturn (supfr.toString() + ", fbrly rfflfdtion dflby " + fbrlyRfflfdtionDflby +
+        rfturn (nbmf + ", fbrly rfflfdtion dflby " + fbrlyRfflfdtionDflby +
+                " ns, fbrly rfflfdtion intfnsity " + fbrlyRfflfdtionIntfnsity +
+                " dB, lbtf dfflfdtion dflby " + lbtfRfflfdtionDflby +
+                " ns, lbtf rfflfdtion intfnsity " + lbtfRfflfdtionIntfnsity +
+                " dB, dfdby timf " +  dfdbyTimf);
     }
 }

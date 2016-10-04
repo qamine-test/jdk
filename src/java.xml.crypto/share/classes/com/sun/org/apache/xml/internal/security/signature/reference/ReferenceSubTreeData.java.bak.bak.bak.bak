@@ -1,0 +1,181 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id$
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.rfffrfndf;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+
+/**
+ * A rfprfsfntbtion of b <dodf>RfffrfndfNodfSftDbtb</dodf> typf dontbining b nodf-sft.
+ * This is b subtypf of NodfSftDbtb thbt rfprfsfnts b dfrfffrfndfd
+ * sbmf-dodumfnt URI bs thf root of b subdodumfnt. Thf mbin rfbson is
+ * for fffidifndy bnd pfrformbndf, bs somf trbnsforms dbn opfrbtf
+ * dirfdtly on thf subdodumfnt bnd thfrf is no nffd to donvfrt it
+ * first to bn XPbth nodf-sft.
+ */
+publid dlbss RfffrfndfSubTrffDbtb implfmfnts RfffrfndfNodfSftDbtb {
+
+    privbtf boolfbn fxdludfCommfnts;
+    privbtf Nodf root;
+
+    publid RfffrfndfSubTrffDbtb(Nodf root, boolfbn fxdludfCommfnts) {
+        this.root = root;
+        this.fxdludfCommfnts = fxdludfCommfnts;
+    }
+
+    publid Itfrbtor<Nodf> itfrbtor() {
+        rfturn nfw DflbyfdNodfItfrbtor(root, fxdludfCommfnts);
+    }
+
+    publid Nodf gftRoot() {
+        rfturn root;
+    }
+
+    publid boolfbn fxdludfCommfnts() {
+        rfturn fxdludfCommfnts;
+    }
+
+    /**
+     * This is bn Itfrbtor thbt dontbins b bbdking nodf-sft thbt is
+     * not populbtfd until thf dbllfr first bttfmpts to bdvbndf thf itfrbtor.
+     */
+    stbtid dlbss DflbyfdNodfItfrbtor implfmfnts Itfrbtor<Nodf> {
+        privbtf Nodf root;
+        privbtf List<Nodf> nodfSft;
+        privbtf ListItfrbtor<Nodf> li;
+        privbtf boolfbn withCommfnts;
+
+        DflbyfdNodfItfrbtor(Nodf root, boolfbn fxdludfCommfnts) {
+            this.root = root;
+            this.withCommfnts = !fxdludfCommfnts;
+        }
+
+        publid boolfbn hbsNfxt() {
+            if (nodfSft == null) {
+                nodfSft = dfrfffrfndfSbmfDodumfntURI(root);
+                li = nodfSft.listItfrbtor();
+            }
+            rfturn li.hbsNfxt();
+        }
+
+        publid Nodf nfxt() {
+            if (nodfSft == null) {
+                nodfSft = dfrfffrfndfSbmfDodumfntURI(root);
+                li = nodfSft.listItfrbtor();
+            }
+            if (li.hbsNfxt()) {
+                rfturn li.nfxt();
+            } flsf {
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        }
+
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+
+        /**
+         * Dfrfffrfndfs b sbmf-dodumfnt URI frbgmfnt.
+         *
+         * @pbrbm nodf thf nodf (dodumfnt or flfmfnt) rfffrfndfd by thf
+         *        URI frbgmfnt. If null, rfturns bn fmpty sft.
+         * @rfturn b sft of nodfs (minus bny dommfnt nodfs)
+         */
+        privbtf List<Nodf> dfrfffrfndfSbmfDodumfntURI(Nodf nodf) {
+            List<Nodf> nodfSft = nfw ArrbyList<Nodf>();
+            if (nodf != null) {
+                nodfSftMinusCommfntNodfs(nodf, nodfSft, null);
+            }
+            rfturn nodfSft;
+        }
+
+        /**
+         * Rfdursivfly trbvfrsfs thf subtrff, bnd rfturns bn XPbth-fquivblfnt
+         * nodf-sft of bll nodfs trbvfrsfd, fxdluding bny dommfnt nodfs,
+         * if spfdififd.
+         *
+         * @pbrbm nodf thf nodf to trbvfrsf
+         * @pbrbm nodfSft thf sft of nodfs trbvfrsfd so fbr
+         * @pbrbm thf prfvious sibling nodf
+         */
+        @SupprfssWbrnings("fbllthrough")
+        privbtf void nodfSftMinusCommfntNodfs(Nodf nodf, List<Nodf> nodfSft,
+                                              Nodf prfvSibling)
+        {
+            switdh (nodf.gftNodfTypf()) {
+                dbsf Nodf.ELEMENT_NODE :
+                    nodfSft.bdd(nodf);
+                    NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                    if (bttrs != null) {
+                        for (int i = 0, lfn = bttrs.gftLfngth(); i < lfn; i++) {
+                            nodfSft.bdd(bttrs.itfm(i));
+                        }
+                    }
+                    Nodf pSibling = null;
+                    for (Nodf dhild = nodf.gftFirstChild(); dhild != null;
+                        dhild = dhild.gftNfxtSibling()) {
+                        nodfSftMinusCommfntNodfs(dhild, nodfSft, pSibling);
+                        pSibling = dhild;
+                    }
+                    brfbk;
+                dbsf Nodf.DOCUMENT_NODE :
+                    pSibling = null;
+                    for (Nodf dhild = nodf.gftFirstChild(); dhild != null;
+                        dhild = dhild.gftNfxtSibling()) {
+                        nodfSftMinusCommfntNodfs(dhild, nodfSft, pSibling);
+                        pSibling = dhild;
+                    }
+                    brfbk;
+                dbsf Nodf.TEXT_NODE :
+                dbsf Nodf.CDATA_SECTION_NODE:
+                    // fmulbtf XPbth whidh only rfturns thf first nodf in
+                    // dontiguous tfxt/ddbtb nodfs
+                    if (prfvSibling != null &&
+                        (prfvSibling.gftNodfTypf() == Nodf.TEXT_NODE ||
+                         prfvSibling.gftNodfTypf() == Nodf.CDATA_SECTION_NODE)) {
+                        rfturn;
+                    }
+                    nodfSft.bdd(nodf);
+                    brfbk;
+                dbsf Nodf.PROCESSING_INSTRUCTION_NODE :
+                    nodfSft.bdd(nodf);
+                    brfbk;
+                dbsf Nodf.COMMENT_NODE:
+                    if (withCommfnts) {
+                        nodfSft.bdd(nodf);
+                    }
+            }
+        }
+    }
+}

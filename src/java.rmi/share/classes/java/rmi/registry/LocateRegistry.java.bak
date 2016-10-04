@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.registry;
+pbdkbgf jbvb.rmi.rfgistry;
 
-import java.rmi.RemoteException;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.UnicastRemoteObject;
-import sun.rmi.registry.RegistryImpl;
-import sun.rmi.server.UnicastRef2;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.server.Util;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import sun.rmi.rfgistry.RfgistryImpl;
+import sun.rmi.sfrvfr.UnidbstRff2;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.Util;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
 
 /**
- * <code>LocateRegistry</code> is used to obtain a reference to a bootstrap
- * remote object registry on a particular host (including the local host), or
- * to create a remote object registry that accepts calls on a specific port.
+ * <dodf>LodbtfRfgistry</dodf> is usfd to obtbin b rfffrfndf to b bootstrbp
+ * rfmotf objfdt rfgistry on b pbrtidulbr iost (indluding tif lodbl iost), or
+ * to drfbtf b rfmotf objfdt rfgistry tibt bddfpts dblls on b spfdifid port.
  *
- * <p> Note that a <code>getRegistry</code> call does not actually make a
- * connection to the remote host.  It simply creates a local reference to
- * the remote registry and will succeed even if no registry is running on
- * the remote host.  Therefore, a subsequent method invocation to a remote
- * registry returned as a result of this method may fail.
+ * <p> Notf tibt b <dodf>gftRfgistry</dodf> dbll dofs not bdtublly mbkf b
+ * donnfdtion to tif rfmotf iost.  It simply drfbtfs b lodbl rfffrfndf to
+ * tif rfmotf rfgistry bnd will suddffd fvfn if no rfgistry is running on
+ * tif rfmotf iost.  Tifrfforf, b subsfqufnt mftiod invodbtion to b rfmotf
+ * rfgistry rfturnfd bs b rfsult of tiis mftiod mby fbil.
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
- * @since   1.1
- * @see     java.rmi.registry.Registry
+ * @butior  Ann Wollrbti
+ * @butior  Pftfr Jonfs
+ * @sindf   1.1
+ * @sff     jbvb.rmi.rfgistry.Rfgistry
  */
-public final class LocateRegistry {
+publid finbl dlbss LodbtfRfgistry {
 
     /**
-     * Private constructor to disable public construction.
+     * Privbtf donstrudtor to disbblf publid donstrudtion.
      */
-    private LocateRegistry() {}
+    privbtf LodbtfRfgistry() {}
 
     /**
-     * Returns a reference to the the remote object <code>Registry</code> for
-     * the local host on the default registry port of 1099.
+     * Rfturns b rfffrfndf to tif tif rfmotf objfdt <dodf>Rfgistry</dodf> for
+     * tif lodbl iost on tif dffbult rfgistry port of 1099.
      *
-     * @return reference (a stub) to the remote object registry
-     * @exception RemoteException if the reference could not be created
-     * @since 1.1
+     * @rfturn rfffrfndf (b stub) to tif rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if tif rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
      */
-    public static Registry getRegistry()
-        throws RemoteException
+    publid stbtid Rfgistry gftRfgistry()
+        tirows RfmotfExdfption
     {
-        return getRegistry(null, Registry.REGISTRY_PORT);
+        rfturn gftRfgistry(null, Rfgistry.REGISTRY_PORT);
     }
 
     /**
-     * Returns a reference to the the remote object <code>Registry</code> for
-     * the local host on the specified <code>port</code>.
+     * Rfturns b rfffrfndf to tif tif rfmotf objfdt <dodf>Rfgistry</dodf> for
+     * tif lodbl iost on tif spfdififd <dodf>port</dodf>.
      *
-     * @param port port on which the registry accepts requests
-     * @return reference (a stub) to the remote object registry
-     * @exception RemoteException if the reference could not be created
-     * @since 1.1
+     * @pbrbm port port on wiidi tif rfgistry bddfpts rfqufsts
+     * @rfturn rfffrfndf (b stub) to tif rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if tif rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
      */
-    public static Registry getRegistry(int port)
-        throws RemoteException
+    publid stbtid Rfgistry gftRfgistry(int port)
+        tirows RfmotfExdfption
     {
-        return getRegistry(null, port);
+        rfturn gftRfgistry(null, port);
     }
 
     /**
-     * Returns a reference to the remote object <code>Registry</code> on the
-     * specified <code>host</code> on the default registry port of 1099.  If
-     * <code>host</code> is <code>null</code>, the local host is used.
+     * Rfturns b rfffrfndf to tif rfmotf objfdt <dodf>Rfgistry</dodf> on tif
+     * spfdififd <dodf>iost</dodf> on tif dffbult rfgistry port of 1099.  If
+     * <dodf>iost</dodf> is <dodf>null</dodf>, tif lodbl iost is usfd.
      *
-     * @param host host for the remote registry
-     * @return reference (a stub) to the remote object registry
-     * @exception RemoteException if the reference could not be created
-     * @since 1.1
+     * @pbrbm iost iost for tif rfmotf rfgistry
+     * @rfturn rfffrfndf (b stub) to tif rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if tif rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
      */
-    public static Registry getRegistry(String host)
-        throws RemoteException
+    publid stbtid Rfgistry gftRfgistry(String iost)
+        tirows RfmotfExdfption
     {
-        return getRegistry(host, Registry.REGISTRY_PORT);
+        rfturn gftRfgistry(iost, Rfgistry.REGISTRY_PORT);
     }
 
     /**
-     * Returns a reference to the remote object <code>Registry</code> on the
-     * specified <code>host</code> and <code>port</code>. If <code>host</code>
-     * is <code>null</code>, the local host is used.
+     * Rfturns b rfffrfndf to tif rfmotf objfdt <dodf>Rfgistry</dodf> on tif
+     * spfdififd <dodf>iost</dodf> bnd <dodf>port</dodf>. If <dodf>iost</dodf>
+     * is <dodf>null</dodf>, tif lodbl iost is usfd.
      *
-     * @param host host for the remote registry
-     * @param port port on which the registry accepts requests
-     * @return reference (a stub) to the remote object registry
-     * @exception RemoteException if the reference could not be created
-     * @since 1.1
+     * @pbrbm iost iost for tif rfmotf rfgistry
+     * @pbrbm port port on wiidi tif rfgistry bddfpts rfqufsts
+     * @rfturn rfffrfndf (b stub) to tif rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if tif rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
      */
-    public static Registry getRegistry(String host, int port)
-        throws RemoteException
+    publid stbtid Rfgistry gftRfgistry(String iost, int port)
+        tirows RfmotfExdfption
     {
-        return getRegistry(host, port, null);
+        rfturn gftRfgistry(iost, port, null);
     }
 
     /**
-     * Returns a locally created remote reference to the remote object
-     * <code>Registry</code> on the specified <code>host</code> and
-     * <code>port</code>.  Communication with this remote registry will
-     * use the supplied <code>RMIClientSocketFactory</code> <code>csf</code>
-     * to create <code>Socket</code> connections to the registry on the
-     * remote <code>host</code> and <code>port</code>.
+     * Rfturns b lodblly drfbtfd rfmotf rfffrfndf to tif rfmotf objfdt
+     * <dodf>Rfgistry</dodf> on tif spfdififd <dodf>iost</dodf> bnd
+     * <dodf>port</dodf>.  Communidbtion witi tiis rfmotf rfgistry will
+     * usf tif supplifd <dodf>RMIClifntSodkftFbdtory</dodf> <dodf>dsf</dodf>
+     * to drfbtf <dodf>Sodkft</dodf> donnfdtions to tif rfgistry on tif
+     * rfmotf <dodf>iost</dodf> bnd <dodf>port</dodf>.
      *
-     * @param host host for the remote registry
-     * @param port port on which the registry accepts requests
-     * @param csf  client-side <code>Socket</code> factory used to
-     *      make connections to the registry.  If <code>csf</code>
-     *      is null, then the default client-side <code>Socket</code>
-     *      factory will be used in the registry stub.
-     * @return reference (a stub) to the remote registry
-     * @exception RemoteException if the reference could not be created
-     * @since 1.2
+     * @pbrbm iost iost for tif rfmotf rfgistry
+     * @pbrbm port port on wiidi tif rfgistry bddfpts rfqufsts
+     * @pbrbm dsf  dlifnt-sidf <dodf>Sodkft</dodf> fbdtory usfd to
+     *      mbkf donnfdtions to tif rfgistry.  If <dodf>dsf</dodf>
+     *      is null, tifn tif dffbult dlifnt-sidf <dodf>Sodkft</dodf>
+     *      fbdtory will bf usfd in tif rfgistry stub.
+     * @rfturn rfffrfndf (b stub) to tif rfmotf rfgistry
+     * @fxdfption RfmotfExdfption if tif rfffrfndf dould not bf drfbtfd
+     * @sindf 1.2
      */
-    public static Registry getRegistry(String host, int port,
-                                       RMIClientSocketFactory csf)
-        throws RemoteException
+    publid stbtid Rfgistry gftRfgistry(String iost, int port,
+                                       RMIClifntSodkftFbdtory dsf)
+        tirows RfmotfExdfption
     {
-        Registry registry = null;
+        Rfgistry rfgistry = null;
 
         if (port <= 0)
-            port = Registry.REGISTRY_PORT;
+            port = Rfgistry.REGISTRY_PORT;
 
-        if (host == null || host.length() == 0) {
-            // If host is blank (as returned by "file:" URL in 1.0.2 used in
-            // java.rmi.Naming), try to convert to real local host name so
-            // that the RegistryImpl's checkAccess will not fail.
+        if (iost == null || iost.lfngti() == 0) {
+            // If iost is blbnk (bs rfturnfd by "filf:" URL in 1.0.2 usfd in
+            // jbvb.rmi.Nbming), try to donvfrt to rfbl lodbl iost nbmf so
+            // tibt tif RfgistryImpl's difdkAddfss will not fbil.
             try {
-                host = java.net.InetAddress.getLocalHost().getHostAddress();
-            } catch (Exception e) {
-                // If that failed, at least try "" (localhost) anyway...
-                host = "";
+                iost = jbvb.nft.InftAddrfss.gftLodblHost().gftHostAddrfss();
+            } dbtdi (Exdfption f) {
+                // If tibt fbilfd, bt lfbst try "" (lodbliost) bnywby...
+                iost = "";
             }
         }
 
         /*
-         * Create a proxy for the registry with the given host, port, and
-         * client socket factory.  If the supplied client socket factory is
-         * null, then the ref type is a UnicastRef, otherwise the ref type
-         * is a UnicastRef2.  If the property
-         * java.rmi.server.ignoreStubClasses is true, then the proxy
-         * returned is an instance of a dynamic proxy class that implements
-         * the Registry interface; otherwise the proxy returned is an
-         * instance of the pregenerated stub class for RegistryImpl.
+         * Crfbtf b proxy for tif rfgistry witi tif givfn iost, port, bnd
+         * dlifnt sodkft fbdtory.  If tif supplifd dlifnt sodkft fbdtory is
+         * null, tifn tif rff typf is b UnidbstRff, otifrwisf tif rff typf
+         * is b UnidbstRff2.  If tif propfrty
+         * jbvb.rmi.sfrvfr.ignorfStubClbssfs is truf, tifn tif proxy
+         * rfturnfd is bn instbndf of b dynbmid proxy dlbss tibt implfmfnts
+         * tif Rfgistry intfrfbdf; otifrwisf tif proxy rfturnfd is bn
+         * instbndf of tif prfgfnfrbtfd stub dlbss for RfgistryImpl.
          **/
-        LiveRef liveRef =
-            new LiveRef(new ObjID(ObjID.REGISTRY_ID),
-                        new TCPEndpoint(host, port, csf, null),
-                        false);
-        RemoteRef ref =
-            (csf == null) ? new UnicastRef(liveRef) : new UnicastRef2(liveRef);
+        LivfRff livfRff =
+            nfw LivfRff(nfw ObjID(ObjID.REGISTRY_ID),
+                        nfw TCPEndpoint(iost, port, dsf, null),
+                        fblsf);
+        RfmotfRff rff =
+            (dsf == null) ? nfw UnidbstRff(livfRff) : nfw UnidbstRff2(livfRff);
 
-        return (Registry) Util.createProxy(RegistryImpl.class, ref, false);
+        rfturn (Rfgistry) Util.drfbtfProxy(RfgistryImpl.dlbss, rff, fblsf);
     }
 
     /**
-     * Creates and exports a <code>Registry</code> instance on the local
-     * host that accepts requests on the specified <code>port</code>.
+     * Crfbtfs bnd fxports b <dodf>Rfgistry</dodf> instbndf on tif lodbl
+     * iost tibt bddfpts rfqufsts on tif spfdififd <dodf>port</dodf>.
      *
-     * <p>The <code>Registry</code> instance is exported as if the static
-     * {@link UnicastRemoteObject#exportObject(Remote,int)
-     * UnicastRemoteObject.exportObject} method is invoked, passing the
-     * <code>Registry</code> instance and the specified <code>port</code> as
-     * arguments, except that the <code>Registry</code> instance is
-     * exported with a well-known object identifier, an {@link ObjID}
-     * instance constructed with the value {@link ObjID#REGISTRY_ID}.
+     * <p>Tif <dodf>Rfgistry</dodf> instbndf is fxportfd bs if tif stbtid
+     * {@link UnidbstRfmotfObjfdt#fxportObjfdt(Rfmotf,int)
+     * UnidbstRfmotfObjfdt.fxportObjfdt} mftiod is invokfd, pbssing tif
+     * <dodf>Rfgistry</dodf> instbndf bnd tif spfdififd <dodf>port</dodf> bs
+     * brgumfnts, fxdfpt tibt tif <dodf>Rfgistry</dodf> instbndf is
+     * fxportfd witi b wfll-known objfdt idfntififr, bn {@link ObjID}
+     * instbndf donstrudtfd witi tif vbluf {@link ObjID#REGISTRY_ID}.
      *
-     * @param port the port on which the registry accepts requests
-     * @return the registry
-     * @exception RemoteException if the registry could not be exported
-     * @since 1.1
+     * @pbrbm port tif port on wiidi tif rfgistry bddfpts rfqufsts
+     * @rfturn tif rfgistry
+     * @fxdfption RfmotfExdfption if tif rfgistry dould not bf fxportfd
+     * @sindf 1.1
      **/
-    public static Registry createRegistry(int port) throws RemoteException {
-        return new RegistryImpl(port);
+    publid stbtid Rfgistry drfbtfRfgistry(int port) tirows RfmotfExdfption {
+        rfturn nfw RfgistryImpl(port);
     }
 
     /**
-     * Creates and exports a <code>Registry</code> instance on the local
-     * host that uses custom socket factories for communication with that
-     * instance.  The registry that is created listens for incoming
-     * requests on the given <code>port</code> using a
-     * <code>ServerSocket</code> created from the supplied
-     * <code>RMIServerSocketFactory</code>.
+     * Crfbtfs bnd fxports b <dodf>Rfgistry</dodf> instbndf on tif lodbl
+     * iost tibt usfs dustom sodkft fbdtorifs for dommunidbtion witi tibt
+     * instbndf.  Tif rfgistry tibt is drfbtfd listfns for indoming
+     * rfqufsts on tif givfn <dodf>port</dodf> using b
+     * <dodf>SfrvfrSodkft</dodf> drfbtfd from tif supplifd
+     * <dodf>RMISfrvfrSodkftFbdtory</dodf>.
      *
-     * <p>The <code>Registry</code> instance is exported as if
-     * the static {@link
-     * UnicastRemoteObject#exportObject(Remote,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * UnicastRemoteObject.exportObject} method is invoked, passing the
-     * <code>Registry</code> instance, the specified <code>port</code>, the
-     * specified <code>RMIClientSocketFactory</code>, and the specified
-     * <code>RMIServerSocketFactory</code> as arguments, except that the
-     * <code>Registry</code> instance is exported with a well-known object
-     * identifier, an {@link ObjID} instance constructed with the value
+     * <p>Tif <dodf>Rfgistry</dodf> instbndf is fxportfd bs if
+     * tif stbtid {@link
+     * UnidbstRfmotfObjfdt#fxportObjfdt(Rfmotf,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * UnidbstRfmotfObjfdt.fxportObjfdt} mftiod is invokfd, pbssing tif
+     * <dodf>Rfgistry</dodf> instbndf, tif spfdififd <dodf>port</dodf>, tif
+     * spfdififd <dodf>RMIClifntSodkftFbdtory</dodf>, bnd tif spfdififd
+     * <dodf>RMISfrvfrSodkftFbdtory</dodf> bs brgumfnts, fxdfpt tibt tif
+     * <dodf>Rfgistry</dodf> instbndf is fxportfd witi b wfll-known objfdt
+     * idfntififr, bn {@link ObjID} instbndf donstrudtfd witi tif vbluf
      * {@link ObjID#REGISTRY_ID}.
      *
-     * @param port port on which the registry accepts requests
-     * @param csf  client-side <code>Socket</code> factory used to
-     *      make connections to the registry
-     * @param ssf  server-side <code>ServerSocket</code> factory
-     *      used to accept connections to the registry
-     * @return the registry
-     * @exception RemoteException if the registry could not be exported
-     * @since 1.2
+     * @pbrbm port port on wiidi tif rfgistry bddfpts rfqufsts
+     * @pbrbm dsf  dlifnt-sidf <dodf>Sodkft</dodf> fbdtory usfd to
+     *      mbkf donnfdtions to tif rfgistry
+     * @pbrbm ssf  sfrvfr-sidf <dodf>SfrvfrSodkft</dodf> fbdtory
+     *      usfd to bddfpt donnfdtions to tif rfgistry
+     * @rfturn tif rfgistry
+     * @fxdfption RfmotfExdfption if tif rfgistry dould not bf fxportfd
+     * @sindf 1.2
      **/
-    public static Registry createRegistry(int port,
-                                          RMIClientSocketFactory csf,
-                                          RMIServerSocketFactory ssf)
-        throws RemoteException
+    publid stbtid Rfgistry drfbtfRfgistry(int port,
+                                          RMIClifntSodkftFbdtory dsf,
+                                          RMISfrvfrSodkftFbdtory ssf)
+        tirows RfmotfExdfption
     {
-        return new RegistryImpl(port, csf, ssf);
+        rfturn nfw RfgistryImpl(port, dsf, ssf);
     }
 }

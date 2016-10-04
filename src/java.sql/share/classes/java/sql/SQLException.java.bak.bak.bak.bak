@@ -1,0 +1,375 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfFifldUpdbtfr;
+
+/**
+ * <P>An fxdfption thbt providfs informbtion on b dbtbbbsf bddfss
+ * frror or othfr frrors.
+ *
+ * <P>Ebdh <dodf>SQLExdfption</dodf> providfs sfvfrbl kinds of informbtion:
+ * <UL>
+ *   <LI> b string dfsdribing thf frror.  This is usfd bs thf Jbvb Exdfption
+ *       mfssbgf, bvbilbblf vib thf mfthod <dodf>gftMfsbsgf</dodf>.
+ *   <LI> b "SQLstbtf" string, whidh follows fithfr thf XOPEN SQLstbtf donvfntions
+ *        or thf SQL:2003 donvfntions.
+ *       Thf vblufs of thf SQLStbtf string brf dfsdribfd in thf bppropribtf spfd.
+ *       Thf <dodf>DbtbbbsfMftbDbtb</dodf> mfthod <dodf>gftSQLStbtfTypf</dodf>
+ *       dbn bf usfd to disdovfr whfthfr thf drivfr rfturns thf XOPEN typf or
+ *       thf SQL:2003 typf.
+ *   <LI> bn intfgfr frror dodf thbt is spfdifid to fbdh vfndor.  Normblly this will
+ *       bf thf bdtubl frror dodf rfturnfd by thf undfrlying dbtbbbsf.
+ *   <LI> b dhbin to b nfxt Exdfption.  This dbn bf usfd to providf bdditionbl
+ *       frror informbtion.
+ *   <LI> thf dbusbl rflbtionship, if bny for this <dodf>SQLExdfption</dodf>.
+ * </UL>
+ */
+publid dlbss SQLExdfption fxtfnds jbvb.lbng.Exdfption
+                          implfmfnts Itfrbblf<Throwbblf> {
+
+    /**
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+     * <dodf>vfndorCodf</dodf>.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     */
+    publid SQLExdfption(String rfbson, String SQLStbtf, int vfndorCodf) {
+        supfr(rfbson);
+        this.SQLStbtf = SQLStbtf;
+        this.vfndorCodf = vfndorCodf;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf +
+                                                ") vfndor dodf(" + vfndorCodf + ")");
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+
+    /**
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf vfndor dodf
+     * is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     */
+    publid SQLExdfption(String rfbson, String SQLStbtf) {
+        supfr(rfbson);
+        this.SQLStbtf = SQLStbtf;
+        this.vfndorCodf = 0;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+                DrivfrMbnbgfr.println("SQLExdfption: SQLStbtf(" + SQLStbtf + ")");
+            }
+        }
+    }
+
+    /**
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf>. Thf  <dodf>SQLStbtf</dodf>  is initiblizfd to
+     * <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption
+     */
+    publid SQLExdfption(String rfbson) {
+        supfr(rfbson);
+        this.SQLStbtf = null;
+        this.vfndorCodf = 0;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+    /**
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt.
+     * Thf <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     */
+    publid SQLExdfption() {
+        supfr();
+        this.SQLStbtf = null;
+        this.vfndorCodf = 0;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+    /**
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
+     *
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+     * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+    /**
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption.
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+     * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLExdfption(String rfbson, Throwbblf dbusf) {
+        supfr(rfbson,dbusf);
+
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                    printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+    /**
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption.
+     * @pbrbm sqlStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf
+     * <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLExdfption(String rfbson, String sqlStbtf, Throwbblf dbusf) {
+        supfr(rfbson,dbusf);
+
+        this.SQLStbtf = sqlStbtf;
+        this.vfndorCodf = 0;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf + ")");
+            }
+        }
+    }
+
+    /**
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption
+     * @pbrbm sqlStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+     * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLExdfption(String rfbson, String sqlStbtf, int vfndorCodf, Throwbblf dbusf) {
+        supfr(rfbson,dbusf);
+
+        this.SQLStbtf = sqlStbtf;
+        this.vfndorCodf = vfndorCodf;
+        if (!(this instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf +
+                                                ") vfndor dodf(" + vfndorCodf + ")");
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+            }
+        }
+    }
+
+    /**
+     * Rftrifvfs thf SQLStbtf for this <dodf>SQLExdfption</dodf> objfdt.
+     *
+     * @rfturn thf SQLStbtf vbluf
+     */
+    publid String gftSQLStbtf() {
+        rfturn (SQLStbtf);
+    }
+
+    /**
+     * Rftrifvfs thf vfndor-spfdifid fxdfption dodf
+     * for this <dodf>SQLExdfption</dodf> objfdt.
+     *
+     * @rfturn thf vfndor's frror dodf
+     */
+    publid int gftErrorCodf() {
+        rfturn (vfndorCodf);
+    }
+
+    /**
+     * Rftrifvfs thf fxdfption dhbinfd to this
+     * <dodf>SQLExdfption</dodf> objfdt by sftNfxtExdfption(SQLExdfption fx).
+     *
+     * @rfturn thf nfxt <dodf>SQLExdfption</dodf> objfdt in thf dhbin;
+     *         <dodf>null</dodf> if thfrf brf nonf
+     * @sff #sftNfxtExdfption
+     */
+    publid SQLExdfption gftNfxtExdfption() {
+        rfturn (nfxt);
+    }
+
+    /**
+     * Adds bn <dodf>SQLExdfption</dodf> objfdt to thf fnd of thf dhbin.
+     *
+     * @pbrbm fx thf nfw fxdfption thbt will bf bddfd to thf fnd of
+     *            thf <dodf>SQLExdfption</dodf> dhbin
+     * @sff #gftNfxtExdfption
+     */
+    publid void sftNfxtExdfption(SQLExdfption fx) {
+
+        SQLExdfption durrfnt = this;
+        for(;;) {
+            SQLExdfption nfxt=durrfnt.nfxt;
+            if (nfxt != null) {
+                durrfnt = nfxt;
+                dontinuf;
+            }
+
+            if (nfxtUpdbtfr.dompbrfAndSft(durrfnt,null,fx)) {
+                rfturn;
+            }
+            durrfnt=durrfnt.nfxt;
+        }
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf dhbinfd SQLExdfptions.  Thf itfrbtor will
+     * bf usfd to itfrbtf ovfr fbdh SQLExdfption bnd its undfrlying dbusf
+     * (if bny).
+     *
+     * @rfturn bn itfrbtor ovfr thf dhbinfd SQLExdfptions bnd dbusfs in thf propfr
+     * ordfr
+     *
+     * @sindf 1.6
+     */
+    publid Itfrbtor<Throwbblf> itfrbtor() {
+
+       rfturn nfw Itfrbtor<Throwbblf>() {
+
+           SQLExdfption firstExdfption = SQLExdfption.this;
+           SQLExdfption nfxtExdfption = firstExdfption.gftNfxtExdfption();
+           Throwbblf dbusf = firstExdfption.gftCbusf();
+
+           publid boolfbn hbsNfxt() {
+               if(firstExdfption != null || nfxtExdfption != null || dbusf != null)
+                   rfturn truf;
+               rfturn fblsf;
+           }
+
+           publid Throwbblf nfxt() {
+               Throwbblf throwbblf = null;
+               if(firstExdfption != null){
+                   throwbblf = firstExdfption;
+                   firstExdfption = null;
+               }
+               flsf if(dbusf != null){
+                   throwbblf = dbusf;
+                   dbusf = dbusf.gftCbusf();
+               }
+               flsf if(nfxtExdfption != null){
+                   throwbblf = nfxtExdfption;
+                   dbusf = nfxtExdfption.gftCbusf();
+                   nfxtExdfption = nfxtExdfption.gftNfxtExdfption();
+               }
+               flsf
+                   throw nfw NoSudhElfmfntExdfption();
+               rfturn throwbblf;
+           }
+
+           publid void rfmovf() {
+               throw nfw UnsupportfdOpfrbtionExdfption();
+           }
+
+       };
+
+    }
+
+    /**
+         * @sfribl
+         */
+    privbtf String SQLStbtf;
+
+        /**
+         * @sfribl
+         */
+    privbtf int vfndorCodf;
+
+        /**
+         * @sfribl
+         */
+    privbtf volbtilf SQLExdfption nfxt;
+
+    privbtf stbtid finbl AtomidRfffrfndfFifldUpdbtfr<SQLExdfption,SQLExdfption> nfxtUpdbtfr =
+            AtomidRfffrfndfFifldUpdbtfr.nfwUpdbtfr(SQLExdfption.dlbss,SQLExdfption.dlbss,"nfxt");
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2135244094396331484L;
+}

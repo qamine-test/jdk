@@ -1,696 +1,696 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.serial;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * <code>CLOB</code> value.
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>CLOB</dodf> vbluf.
  * <P>
- * The <code>SerialClob</code> class provides a constructor for creating
- * an instance from a <code>Clob</code> object.  Note that the <code>Clob</code>
- * object should have brought the SQL <code>CLOB</code> value's data over
- * to the client before a <code>SerialClob</code> object
- * is constructed from it.  The data of an SQL <code>CLOB</code> value can
- * be materialized on the client as a stream of Unicode characters.
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
  * <P>
- * <code>SerialClob</code> methods make it possible to get a substring
- * from a <code>SerialClob</code> object or to locate the start of
- * a pattern of characters.
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * b pbttfrn of dibrbdtfrs.
  *
- * <h3> Thread safety </h3>
+ * <i3> Tirfbd sbffty </i3>
  *
- * <p> A SerialClob is not safe for use by multiple concurrent threads.  If a
- * SerialClob is to be used by more than one thread then access to the SerialClob
- * should be controlled by appropriate synchronization.
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @author Jonathan Bruce
- * @since 1.5
+ * @butior Jonbtibn Brudf
+ * @sindf 1.5
  */
-public class SerialClob implements Clob, Serializable, Cloneable {
+publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
 
     /**
-     * A serialized array of characters containing the data of the SQL
-     * <code>CLOB</code> value that this <code>SerialClob</code> object
-     * represents.
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * rfprfsfnts.
      *
-     * @serial
+     * @sfribl
      */
-    private char buf[];
+    privbtf dibr buf[];
 
     /**
-     * Internal Clob representation if SerialClob is initialized with a
-     * Clob. Null if SerialClob is initialized with a char[].
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
      */
-    private Clob clob;
+    privbtf Clob dlob;
 
     /**
-     * The length in characters of this <code>SerialClob</code> object's
-     * internal array of characters.
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * intfrnbl brrby of dibrbdtfrs.
      *
-     * @serial
+     * @sfribl
      */
-    private long len;
+    privbtf long lfn;
 
     /**
-     * The original length in characters of this <code>SerialClob</code>
-     * object's internal array of characters.
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
      *
-     * @serial
+     * @sfribl
      */
-    private long origLen;
+    privbtf long origLfn;
 
     /**
-     * Constructs a <code>SerialClob</code> object that is a serialized version of
-     * the given <code>char</code> array.
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * tif givfn <dodf>dibr</dodf> brrby.
      * <p>
-     * The new <code>SerialClob</code> object is initialized with the data from the
-     * <code>char</code> array, thus allowing disconnected <code>RowSet</code>
-     * objects to establish a serialized <code>Clob</code> object without touching
-     * the data source.
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * tif dbtb sourdf.
      *
-     * @param ch the char array representing the <code>Clob</code> object to be
-     *         serialized
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL error occurs
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
+     *         sfriblizfd
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if b SQL frror oddurs
      */
-    public SerialClob(char ch[]) throws SerialException, SQLException {
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
 
-        // %%% JMB. Agreed. Add code here to throw a SQLException if no
-        // support is available for locatorsUpdateCopy=false
-        // Serializing locators is not supported.
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
+        // Sfriblizing lodbtors is not supportfd.
 
-        len = ch.length;
-        buf = new char[(int)len];
-        for (int i = 0; i < len ; i++){
-           buf[i] = ch[i];
+        lfn = di.lfngti;
+        buf = nfw dibr[(int)lfn];
+        for (int i = 0; i < lfn ; i++){
+           buf[i] = di[i];
         }
-        origLen = len;
-        clob = null;
+        origLfn = lfn;
+        dlob = null;
     }
 
     /**
-     * Constructs a <code>SerialClob</code> object that is a serialized
-     * version of the given <code>Clob</code> object.
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
      * <P>
-     * The new <code>SerialClob</code> object is initialized with the
-     * data from the <code>Clob</code> object; therefore, the
-     * <code>Clob</code> object should have previously brought the
-     * SQL <code>CLOB</code> value's data over to the client from
-     * the database. Otherwise, the new <code>SerialClob</code> object
-     * object will contain no data.
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * objfdt will dontbin no dbtb.
      * <p>
-     * Note: The <code>Clob</code> object supplied to this constructor must
-     * return non-null for both the <code>Clob.getCharacterStream()</code>
-     * and <code>Clob.getAsciiStream</code> methods. This <code>SerialClob</code>
-     * constructor cannot serialize a <code>Clob</code> object in this instance
-     * and will throw an <code>SQLException</code> object.
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
      *
-     * @param  clob the <code>Clob</code> object from which this
-     *     <code>SerialClob</code> object is to be constructed; cannot be null
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL error occurs in capturing the CLOB;
-     *     if the <code>Clob</code> object is a null; or if either of the
-     *     <code>Clob.getCharacterStream()</code> and <code>Clob.getAsciiStream()</code>
-     *     methods on the <code>Clob</code> returns a null
-     * @see java.sql.Clob
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
+     *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     * @sff jbvb.sql.Clob
      */
-    public SerialClob(Clob clob) throws SerialException, SQLException {
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
 
-        if (clob == null) {
-            throw new SQLException("Cannot instantiate a SerialClob " +
-                "object with a null Clob object");
+        if (dlob == null) {
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+                "objfdt witi b null Clob objfdt");
         }
-        len = clob.length();
-        this.clob = clob;
-        buf = new char[(int)len];
-        int read = 0;
-        int offset = 0;
+        lfn = dlob.lfngti();
+        tiis.dlob = dlob;
+        buf = nfw dibr[(int)lfn];
+        int rfbd = 0;
+        int offsft = 0;
 
-        try (Reader charStream = clob.getCharacterStream()) {
-            if (charStream == null) {
-                throw new SQLException("Invalid Clob object. The call to getCharacterStream " +
-                    "returned null which cannot be serialized.");
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+            if (dibrStrfbm == null) {
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
             }
 
-            // Note: get an ASCII stream in order to null-check it,
-            // even though we don't do anything with it.
-            try (InputStream asciiStream = clob.getAsciiStream()) {
-                if (asciiStream == null) {
-                    throw new SQLException("Invalid Clob object. The call to getAsciiStream " +
-                        "returned null which cannot be serialized.");
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // fvfn tiougi wf don't do bnytiing witi it.
+            try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
+                if (bsdiiStrfbm == null) {
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
                 }
             }
 
-            try (Reader reader = new BufferedReader(charStream)) {
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
                 do {
-                    read = reader.read(buf, offset, (int)(len - offset));
-                    offset += read;
-                } while (read > 0);
+                    rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
+                    offsft += rfbd;
+                } wiilf (rfbd > 0);
             }
-        } catch (java.io.IOException ex) {
-            throw new SerialException("SerialClob: " + ex.getMessage());
+        } dbtdi (jbvb.io.IOExdfption fx) {
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
         }
 
-        origLen = len;
+        origLfn = lfn;
     }
 
     /**
-     * Retrieves the number of characters in this <code>SerialClob</code>
-     * object's array of characters.
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * objfdt's brrby of dibrbdtfrs.
      *
-     * @return a <code>long</code> indicating the length in characters of this
-     *         <code>SerialClob</code> object's array of character
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public long length() throws SerialException {
-        isValid();
-        return len;
+    publid long lfngti() tirows SfriblExdfption {
+        isVblid();
+        rfturn lfn;
     }
 
     /**
-     * Returns this <code>SerialClob</code> object's data as a stream
-     * of Unicode characters. Unlike the related method, <code>getAsciiStream</code>,
-     * a stream is produced regardless of whether the <code>SerialClob</code> object
-     * was created with a <code>Clob</code> object or a <code>char</code> array.
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
      *
-     * @return a <code>java.io.Reader</code> object containing this
-     *         <code>SerialClob</code> object's data
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
+     *         <dodf>SfriblClob</dodf> objfdt's dbtb
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public java.io.Reader getCharacterStream() throws SerialException {
-        isValid();
-        return (java.io.Reader) new CharArrayReader(buf);
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
+        isVblid();
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
     }
 
     /**
-     * Retrieves the <code>CLOB</code> value designated by this <code>SerialClob</code>
-     * object as an ascii stream. This method forwards the <code>getAsciiStream</code>
-     * call to the underlying <code>Clob</code> object in the event that this
-     * <code>SerialClob</code> object is instantiated with a <code>Clob</code>
-     * object. If this <code>SerialClob</code> object is instantiated with
-     * a <code>char</code> array, a <code>SerialException</code> object is thrown.
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
      *
-     * @return a <code>java.io.InputStream</code> object containing
-     *     this <code>SerialClob</code> object's data
-     * @throws SerialException if this {@code SerialClob} object was not
-     * instantiated with a <code>Clob</code> object;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the
-     *     <code>CLOB</code> value represented by the <code>Clob</code> object
-     * that was used to create this <code>SerialClob</code> object
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
      */
-    public java.io.InputStream getAsciiStream() throws SerialException, SQLException {
-        isValid();
-        if (this.clob != null) {
-            return this.clob.getAsciiStream();
-        } else {
-            throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a the CLOB value as an ascii stream, unless instantiated " +
-                "with a fully implemented Clob object.");
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (tiis.dlob != null) {
+            rfturn tiis.dlob.gftAsdiiStrfbm();
+        } flsf {
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "witi b fully implfmfntfd Clob objfdt.");
         }
     }
 
     /**
-     * Returns a copy of the substring contained in this
-     * <code>SerialClob</code> object, starting at the given position
-     * and continuing for the specified number or characters.
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
      *
-     * @param pos the position of the first character in the substring
-     *            to be copied; the first character of the
-     *            <code>SerialClob</code> object is at position
-     *            <code>1</code>; must not be less than <code>1</code>,
-     *            and the sum of the starting position and the length
-     *            of the substring must be less than the length of this
-     *            <code>SerialClob</code> object
-     * @param length the number of characters in the substring to be
-     *               returned; must not be greater than the length of
-     *               this <code>SerialClob</code> object, and the
-     *               sum of the starting position and the length
-     *               of the substring must be less than the length of this
-     *               <code>SerialClob</code> object
-     * @return a <code>String</code> object containing a substring of
-     *         this <code>SerialClob</code> object beginning at the
-     *         given position and containing the specified number of
-     *         consecutive characters
-     * @throws SerialException if either of the arguments is out of bounds;
-     * if {@code free} had previously been called on this object
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     *            to bf dopifd; tif first dibrbdtfr of tif
+     *            <dodf>SfriblClob</dodf> objfdt is bt position
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
+     *            <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               sum of tif stbrting position bnd tif lfngti
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               <dodf>SfriblClob</dodf> objfdt
+     * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         donsfdutivf dibrbdtfrs
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    public String getSubString(long pos, int length) throws SerialException {
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
 
-        isValid();
-        if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in SerialClob object set");
+        isVblid();
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
         }
 
-        if ((pos-1) + length > this.length()) {
-            throw new SerialException("Invalid position and substring length");
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
         }
 
         try {
-            return new String(buf, (int)pos - 1, length);
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
 
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new SerialException("StringIndexOutOfBoundsException: " +
-                e.getMessage());
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+                f.gftMfssbgf());
         }
 
     }
 
     /**
-     * Returns the position in this <code>SerialClob</code> object
-     * where the given <code>String</code> object begins, starting
-     * the search at the specified position. This method returns
-     * <code>-1</code> if the pattern is not found.
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
      *
-     * @param searchStr the <code>String</code> object for which to
-     *                  search
-     * @param start the position in this <code>SerialClob</code> object
-     *         at which to start the search; the first position is
-     *         <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @return the position at which the given <code>String</code> object
-     *         begins, starting the search at the specified position;
-     *         <code>-1</code> if the given <code>String</code> object is
-     *         not found or the starting position is out of bounds; position
-     *         numbering for the return value starts at <code>1</code>
-     * @throws SerialException  if the {@code free} method had been
-     * previously called on this object
-     * @throws SQLException if there is an error accessing the Clob value
-     *         from the database.
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     *                  sfbrdi
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         not found or tif stbrting position is out of bounds; position
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     *         from tif dbtbbbsf.
      */
-    public long position(String searchStr, long start)
-        throws SerialException, SQLException {
-        isValid();
-        if (start < 1 || start > len) {
-            return -1;
+    publid long position(String sfbrdiStr, long stbrt)
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (stbrt < 1 || stbrt > lfn) {
+            rfturn -1;
         }
 
-        char pattern[] = searchStr.toCharArray();
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
 
-        int pos = (int)start-1;
+        int pos = (int)stbrt-1;
         int i = 0;
-        long patlen = pattern.length;
+        long pbtlfn = pbttfrn.lfngti;
 
-        while (pos < len) {
-            if (pattern[i] == buf[pos]) {
-                if (i + 1 == patlen) {
-                    return (pos + 1) - (patlen - 1);
+        wiilf (pos < lfn) {
+            if (pbttfrn[i] == buf[pos]) {
+                if (i + 1 == pbtlfn) {
+                    rfturn (pos + 1) - (pbtlfn - 1);
                 }
-                i++; pos++; // increment pos, and i
+                i++; pos++; // indrfmfnt pos, bnd i
 
-            } else if (pattern[i] != buf[pos]) {
-                pos++; // increment pos only
+            } flsf if (pbttfrn[i] != buf[pos]) {
+                pos++; // indrfmfnt pos only
             }
         }
-        return -1; // not found
+        rfturn -1; // not found
     }
 
     /**
-     * Returns the position in this <code>SerialClob</code> object
-     * where the given <code>Clob</code> signature begins, starting
-     * the search at the specified position. This method returns
-     * <code>-1</code> if the pattern is not found.
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
      *
-     * @param searchStr the <code>Clob</code> object for which to search
-     * @param start the position in this <code>SerialClob</code> object
-     *        at which to begin the search; the first position is
-     *         <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @return the position at which the given <code>Clob</code>
-     *         object begins in this <code>SerialClob</code> object,
-     *         at or after the specified starting position
-     * @throws SerialException if an error occurs locating the Clob signature;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the Clob value
-     *         from the database
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         bt or bftfr tif spfdififd stbrting position
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     *         from tif dbtbbbsf
      */
-    public long position(Clob searchStr, long start)
-        throws SerialException, SQLException {
-        isValid();
-        return position(searchStr.getSubString(1,(int)searchStr.length()), start);
+    publid long position(Clob sfbrdiStr, long stbrt)
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
     }
 
     /**
-     * Writes the given Java <code>String</code> to the <code>CLOB</code>
-     * value that this <code>SerialClob</code> object represents, at the position
-     * <code>pos</code>.
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * <dodf>pos</dodf>.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>SerialClob</code> object represents; the first
-     *         position is <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>SerialClob</code> object represents
-     * @return the number of characters written
-     * @throws SerialException if there is an error accessing the
-     *     <code>CLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialClob</code> length; or the combined
-     *     values of the length and offset is greater than the Clob buffer;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    public int setString(long pos, String str) throws SerialException {
-        return (setString(pos, str, 0, str.length()));
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+        rfturn (sftString(pos, str, 0, str.lfngti()));
     }
 
     /**
-     * Writes <code>len</code> characters of <code>str</code>, starting
-     * at character <code>offset</code>, to the <code>CLOB</code> value
-     * that this <code>Clob</code> represents.
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>SerialClob</code> object represents; the first
-     *         position is <code>1</code>; must not be less than <code>1</code> nor
-     *         greater than the length of this <code>SerialClob</code> object
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> object represents
-     * @param offset the offset into <code>str</code> to start reading
-     *        the characters to be written
-     * @param length the number of characters to be written
-     * @return the number of characters written
-     * @throws SerialException if there is an error accessing the
-     *     <code>CLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialClob</code> length; or the combined
-     *     values of the length and offset is greater than the Clob buffer;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     *        tif dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    public int setString(long pos, String str, int offset, int length)
-        throws SerialException {
-        isValid();
-        String temp = str.substring(offset);
-        char cPattern[] = temp.toCharArray();
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+        tirows SfriblExdfption {
+        isVblid();
+        String tfmp = str.substring(offsft);
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
 
-        if (offset < 0 || offset > str.length()) {
-            throw new SerialException("Invalid offset in byte array set");
+        if (offsft < 0 || offsft > str.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
         }
 
-        if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in Clob object set");
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
         }
 
-        if ((long)(length) > origLen) {
-            throw new SerialException("Buffer is not sufficient to hold the value");
+        if ((long)(lfngti) > origLfn) {
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
         }
 
-        if ((length + offset) > str.length()) {
-            // need check to ensure length + offset !> bytes.length
-            throw new SerialException("Invalid OffSet. Cannot have combined offset " +
-                " and length that is greater that the Blob buffer");
+        if ((lfngti + offsft) > str.lfngti()) {
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
         }
 
         int i = 0;
-        pos--;  //values in the array are at position one less
-        while ( i < length || (offset + i +1) < (str.length() - offset ) ) {
-            this.buf[(int)pos + i ] = cPattern[offset + i ];
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
             i++;
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Retrieves a stream to be used to write Ascii characters to the
-     * <code>CLOB</code> value that this <code>SerialClob</code> object represents,
-     * starting at position <code>pos</code>. This method forwards the
-     * <code>setAsciiStream()</code> call to the underlying <code>Clob</code> object in
-     * the event that this <code>SerialClob</code> object is instantiated with a
-     * <code>Clob</code> object. If this <code>SerialClob</code> object is instantiated
-     *  with a <code>char</code> array, a <code>SerialException</code> object is thrown.
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
      *
-     * @param pos the position at which to start writing to the
-     *        <code>CLOB</code> object
-     * @return the stream to which ASCII encoded characters can be written
-     * @throws SerialException if SerialClob is not instantiated with a
-     *     Clob object;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the
-     *     <code>CLOB</code> value
-     * @see #getAsciiStream
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
+     *        <dodf>CLOB</dodf> objfdt
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
+     *     Clob objfdt;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf
+     * @sff #gftAsdiiStrfbm
      */
-    public java.io.OutputStream setAsciiStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
-         if (this.clob != null) {
-             return this.clob.setAsciiStream(pos);
-         } else {
-             throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a writable ascii stream\n unless instantiated with a Clob object " +
-                "that has a setAsciiStream() implementation");
+    publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+         if (tiis.dlob != null) {
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
+         } flsf {
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
          }
     }
 
     /**
-     * Retrieves a stream to be used to write a stream of Unicode characters
-     * to the <code>CLOB</code> value that this <code>SerialClob</code> object
-     * represents, at position <code>pos</code>. This method forwards the
-     * <code>setCharacterStream()</code> call to the underlying <code>Clob</code>
-     * object in the event that this <code>SerialClob</code> object is instantiated with a
-     * <code>Clob</code> object. If this <code>SerialClob</code> object is instantiated with
-     * a <code>char</code> array, a <code>SerialException</code> is thrown.
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
      *
-     * @param  pos the position at which to start writing to the
-     *        <code>CLOB</code> value
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     *        <dodf>CLOB</dodf> vbluf
      *
-     * @return a stream to which Unicode encoded characters can be written
-     * @throws SerialException if the SerialClob is not instantiated with
-     *     a Clob object;
-     * if the {@code free} method had been previously called on this object
-     * @throws SQLException if there is an error accessing the
-     *            <code>CLOB</code> value
-     * @see #getCharacterStream
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
+     *     b Clob objfdt;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf
+     * @sff #gftCibrbdtfrStrfbm
      */
-    public java.io.Writer setCharacterStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
-        if (this.clob != null) {
-            return this.clob.setCharacterStream(pos);
-        } else {
-            throw new SerialException("Unsupported operation. SerialClob cannot " +
-                "return a writable character stream\n unless instantiated with a Clob object " +
-                "that has a setCharacterStream implementation");
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (tiis.dlob != null) {
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
+        } flsf {
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
         }
     }
 
     /**
-     * Truncates the <code>CLOB</code> value that this <code>SerialClob</code>
-     * object represents so that it has a length of <code>len</code>
-     * characters.
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * dibrbdtfrs.
      * <p>
-     * Truncating a <code>SerialClob</code> object to length 0 has the effect of
-     * clearing its contents.
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * dlfbring its dontfnts.
      *
-     * @param length the length, in bytes, to which the <code>CLOB</code>
-     *        value should be truncated
-     * @throws SerialException if there is an error accessing the
-     *        <code>CLOB</code> value;
-     * if the {@code free} method had been previously called on this object
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     *        vbluf siould bf trundbtfd
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *        <dodf>CLOB</dodf> vbluf;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    public void truncate(long length) throws SerialException {
-        isValid();
-        if (length > len) {
-           throw new SerialException
-              ("Length more than what can be truncated");
-        } else {
-             len = length;
-             // re-size the buffer
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
+        isVblid();
+        if (lfngti > lfn) {
+           tirow nfw SfriblExdfption
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+        } flsf {
+             lfn = lfngti;
+             // rf-sizf tif bufffr
 
-             if (len == 0) {
-                buf = new char[] {};
-             } else {
-                buf = (this.getSubString(1, (int)len)).toCharArray();
+             if (lfn == 0) {
+                buf = nfw dibr[] {};
+             } flsf {
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
              }
         }
     }
 
 
     /**
-     * Returns a {@code Reader} object that contains a partial
-     * {@code SerialClob} value, starting
-     * with the character specified by pos, which is length characters in length.
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
+     * {@dodf SfriblClob} vbluf, stbrting
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
      *
-     * @param pos the offset to the first character of the partial value to
-     * be retrieved.  The first character in the {@code SerialClob} is at position 1.
-     * @param length the length in characters of the partial value to be retrieved.
-     * @return {@code Reader} through which the partial {@code SerialClob}
-     * value can be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the
-     * number of characters in the {@code SerialClob} or if pos + length
-     * is greater than the number of characters in the {@code SerialClob};
-     * @throws SerialException if the {@code free} method had been previously
-     * called on this object
-     * @since 1.6
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
+     * vbluf dbn bf rfbd.
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * dbllfd on tiis objfdt
+     * @sindf 1.6
      */
-    public Reader getCharacterStream(long pos, long length) throws SQLException {
-        isValid();
-        if (pos < 1 || pos > len) {
-            throw new SerialException("Invalid position in Clob object set");
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+        isVblid();
+        if (pos < 1 || pos > lfn) {
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
         }
 
-        if ((pos-1) + length > len) {
-            throw new SerialException("Invalid position and substring length");
+        if ((pos-1) + lfngti > lfn) {
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
         }
-        if (length <= 0) {
-            throw new SerialException("Invalid length specified");
+        if (lfngti <= 0) {
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
         }
-        return new CharArrayReader(buf, (int)pos, (int)length);
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
     }
 
     /**
-     * This method frees the {@code SeriableClob} object and releases the
-     * resources that it holds.
-     * The object is invalid once the {@code free} method is called.
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * rfsourdfs tibt it iolds.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
      * <p>
-     * If {@code free} is called multiple times, the subsequent
-     * calls to {@code free} are treated as a no-op.
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * dblls to {@dodf frff} brf trfbtfd bs b no-op.
      * </P>
-     * @throws SQLException if an error occurs releasing
-     * the Clob's resources
-     * @since 1.6
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * tif Clob's rfsourdfs
+     * @sindf 1.6
      */
-    public void free() throws SQLException {
+    publid void frff() tirows SQLExdfption {
         if (buf != null) {
             buf = null;
-            if (clob != null) {
-                clob.free();
+            if (dlob != null) {
+                dlob.frff();
             }
-            clob = null;
+            dlob = null;
         }
     }
 
     /**
-     * Compares this SerialClob to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialClob} object that represents the same sequence of characters as this
-     * object.
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * objfdt.
      *
-     * @param  obj The object to compare this {@code SerialClob} against
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialClob}
-     *          equivalent to this SerialClob, {@code false} otherwise
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
      *
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof SerialClob) {
-            SerialClob sc = (SerialClob)obj;
-            if (this.len == sc.len) {
-                return Arrays.equals(buf, sc.buf);
+        if (obj instbndfof SfriblClob) {
+            SfriblClob sd = (SfriblClob)obj;
+            if (tiis.lfn == sd.lfn) {
+                rfturn Arrbys.fqubls(buf, sd.buf);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this {@code SerialClob}.
-     * @return  a hash code value for this object.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-       return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
+    publid int ibsiCodf() {
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
     }
 
     /**
-     * Returns a clone of this {@code SerialClob}. The copy will contain a
-     * reference to a clone of the internal character array, not a reference
-     * to the original internal character array of this {@code SerialClob} object.
-     * The underlying {@code Clob} object will be set to null.
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
      *
-     * @return  a clone of this SerialClob
+     * @rfturn  b dlonf of tiis SfriblClob
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            SerialClob sc = (SerialClob) super.clone();
-            sc.buf = (buf != null) ? Arrays.copyOf(buf, (int)len) : null;
-            sc.clob = null;
-            return sc;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            SfriblClob sd = (SfriblClob) supfr.dlonf();
+            sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
+            sd.dlob = null;
+            rfturn sd;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
         }
     }
 
     /**
-     * readObject is called to restore the state of the SerialClob from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectInputStream.GetField fields = s.readFields();
-       char[] tmp = (char[])fields.get("buf", null);
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
        if (tmp == null)
-           throw new InvalidObjectException("buf is null and should not be!");
-       buf = tmp.clone();
-       len = fields.get("len", 0L);
-       if (buf.length != len)
-           throw new InvalidObjectException("buf is not the expected size");
-       origLen = fields.get("origLen", 0L);
-       clob = (Clob) fields.get("clob", null);
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+       buf = tmp.dlonf();
+       lfn = fiflds.gft("lfn", 0L);
+       if (buf.lfngti != lfn)
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+       origLfn = fiflds.gft("origLfn", 0L);
+       dlob = (Clob) fiflds.gft("dlob", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialClob
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("buf", buf);
-        fields.put("len", len);
-        fields.put("origLen", origLen);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("clob", clob instanceof Serializable ? clob : null);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("buf", buf);
+        fiflds.put("lfn", lfn);
+        fiflds.put("origLfn", origLfn);
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        s.writfFiflds();
     }
 
     /**
-     * Check to see if this object had previously had its {@code free} method
-     * called
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * dbllfd
      *
-     * @throws SerialException
+     * @tirows SfriblExdfption
      */
-    private void isValid() throws SerialException {
+    privbtf void isVblid() tirows SfriblExdfption {
         if (buf == null) {
-            throw new SerialException("Error: You cannot call a method on a "
-                    + "SerialClob instance once free() has been called.");
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this {@code SerialClob}
-     * object.
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * objfdt.
      */
-    static final long serialVersionUID = -1662519690087375313L;
+    stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
 }

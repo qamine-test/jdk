@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
 /**
- * This class implements the ShapeIterator interface for a Region.
- * This is useful as the source iterator of a device clip region
- * (in its native guise), and also as the result of clipping a
- * Region to a rectangle.
+ * Tiis dlbss implfmfnts tif SibpfItfrbtor intfrfbdf for b Rfgion.
+ * Tiis is usfful bs tif sourdf itfrbtor of b dfvidf dlip rfgion
+ * (in its nbtivf guisf), bnd blso bs tif rfsult of dlipping b
+ * Rfgion to b rfdtbnglf.
  */
-public class RegionSpanIterator implements SpanIterator {
-    // The RegionIterator that we use to do the work
-    RegionIterator ri;
+publid dlbss RfgionSpbnItfrbtor implfmfnts SpbnItfrbtor {
+    // Tif RfgionItfrbtor tibt wf usf to do tif work
+    RfgionItfrbtor ri;
 
     // Clipping bounds
-    int lox, loy, hix, hiy;
+    int lox, loy, iix, iiy;
 
-    // Current Y band limits
-    int curloy, curhiy;
+    // Currfnt Y bbnd limits
+    int durloy, duriiy;
 
-    // Are we done?
-    boolean done = false;
+    // Arf wf donf?
+    boolfbn donf = fblsf;
 
-    // Is the associated Region rectangular?
-    boolean isrect;
+    // Is tif bssodibtfd Rfgion rfdtbngulbr?
+    boolfbn isrfdt;
 
 /*
-    REMIND: For native implementation
-    long pData;     // Private storage of rect info
+    REMIND: For nbtivf implfmfntbtion
+    long pDbtb;     // Privbtf storbgf of rfdt info
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    public static native void initIDs();
+    publid stbtid nbtivf void initIDs();
 */
 
     /**
-     * Constructs an instance based on the given Region
+     * Construdts bn instbndf bbsfd on tif givfn Rfgion
      */
-    public RegionSpanIterator(Region r) {
-        int[] bounds = new int[4];
+    publid RfgionSpbnItfrbtor(Rfgion r) {
+        int[] bounds = nfw int[4];
 
-        r.getBounds(bounds);
+        r.gftBounds(bounds);
         lox = bounds[0];
         loy = bounds[1];
-        hix = bounds[2];
-        hiy = bounds[3];
-        isrect = r.isRectangular();
+        iix = bounds[2];
+        iiy = bounds[3];
+        isrfdt = r.isRfdtbngulbr();
 
-        ri = r.getIterator();
+        ri = r.gftItfrbtor();
     }
 
     /**
-     * Gets the bbox of the available region spans.
+     * Gfts tif bbox of tif bvbilbblf rfgion spbns.
      */
-    public void getPathBox(int pathbox[]) {
-        pathbox[0] = lox;
-        pathbox[1] = loy;
-        pathbox[2] = hix;
-        pathbox[3] = hiy;
+    publid void gftPbtiBox(int pbtibox[]) {
+        pbtibox[0] = lox;
+        pbtibox[1] = loy;
+        pbtibox[2] = iix;
+        pbtibox[3] = iiy;
     }
 
     /**
-     * Intersect the box used for clipping the output spans with the
-     * given box.
+     * Intfrsfdt tif box usfd for dlipping tif output spbns witi tif
+     * givfn box.
      */
-    public void intersectClipBox(int clox, int cloy, int chix, int chiy) {
-        if (clox > lox) {
-            lox = clox;
+    publid void intfrsfdtClipBox(int dlox, int dloy, int diix, int diiy) {
+        if (dlox > lox) {
+            lox = dlox;
         }
-        if (cloy > loy) {
-            loy = cloy;
+        if (dloy > loy) {
+            loy = dloy;
         }
-        if (chix < hix) {
-            hix = chix;
+        if (diix < iix) {
+            iix = diix;
         }
-        if (chiy < hiy) {
-            hiy = chiy;
+        if (diiy < iiy) {
+            iiy = diiy;
         }
-        done = lox >= hix || loy >= hiy;
+        donf = lox >= iix || loy >= iiy;
     }
 
     /**
-     * Fetches the next span that needs to be operated on.
-     * If the return value is false then there are no more spans.
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
      */
-    public boolean nextSpan(int spanbox[]) {
+    publid boolfbn nfxtSpbn(int spbnbox[]) {
 
-        // Quick test for end conditions
-        if (done) {
-            return false;
+        // Quidk tfst for fnd donditions
+        if (donf) {
+            rfturn fblsf;
         }
 
-        // If the Region is rectangular, we store our bounds (possibly
-        // clipped via intersectClipBox()) in spanbox and return true
-        // so that the caller will process the single span.  We set done
-        // to true to ensure that this will be the last span processed.
-        if (isrect) {
-            getPathBox(spanbox);
-            done = true;
-            return true;
+        // If tif Rfgion is rfdtbngulbr, wf storf our bounds (possibly
+        // dlippfd vib intfrsfdtClipBox()) in spbnbox bnd rfturn truf
+        // so tibt tif dbllfr will prodfss tif singlf spbn.  Wf sft donf
+        // to truf to fnsurf tibt tiis will bf tif lbst spbn prodfssfd.
+        if (isrfdt) {
+            gftPbtiBox(spbnbox);
+            donf = truf;
+            rfturn truf;
         }
 
-        // Local cache of current span's bounds
-        int curlox, curhix;
-        int curloy = this.curloy;
-        int curhiy = this.curhiy;
+        // Lodbl dbdif of durrfnt spbn's bounds
+        int durlox, duriix;
+        int durloy = tiis.durloy;
+        int duriiy = tiis.duriiy;
 
-        while (true) {
-            if (!ri.nextXBand(spanbox)) {
-                if (!ri.nextYRange(spanbox)) {
-                    done = true;
-                    return false;
+        wiilf (truf) {
+            if (!ri.nfxtXBbnd(spbnbox)) {
+                if (!ri.nfxtYRbngf(spbnbox)) {
+                    donf = truf;
+                    rfturn fblsf;
                 }
-                // Update the current y band and clip it
-                curloy = spanbox[1];
-                curhiy = spanbox[3];
-                if (curloy < loy) {
-                    curloy = loy;
+                // Updbtf tif durrfnt y bbnd bnd dlip it
+                durloy = spbnbox[1];
+                duriiy = spbnbox[3];
+                if (durloy < loy) {
+                    durloy = loy;
                 }
-                if (curhiy > hiy) {
-                    curhiy = hiy;
+                if (duriiy > iiy) {
+                    duriiy = iiy;
                 }
-                // Check for moving below the clip rect
-                if (curloy >= hiy) {
-                    done = true;
-                    return false;
+                // Cifdk for moving bflow tif dlip rfdt
+                if (durloy >= iiy) {
+                    donf = truf;
+                    rfturn fblsf;
                 }
-                continue;
+                dontinuf;
             }
-            // Clip the x box
-            curlox = spanbox[0];
-            curhix = spanbox[2];
-            if (curlox < lox) {
-                curlox = lox;
+            // Clip tif x box
+            durlox = spbnbox[0];
+            duriix = spbnbox[2];
+            if (durlox < lox) {
+                durlox = lox;
             }
-            if (curhix > hix) {
-                curhix = hix;
+            if (duriix > iix) {
+                duriix = iix;
             }
-            // If it's non- box, we're done
-            if (curlox < curhix && curloy < curhiy) {
-                break;
+            // If it's non- box, wf'rf donf
+            if (durlox < duriix && durloy < duriiy) {
+                brfbk;
             }
         }
 
-        // Update the result and the store y range
-        spanbox[0] = curlox;
-        spanbox[1] = this.curloy = curloy;
-        spanbox[2] = curhix;
-        spanbox[3] = this.curhiy = curhiy;
-        return true;
+        // Updbtf tif rfsult bnd tif storf y rbngf
+        spbnbox[0] = durlox;
+        spbnbox[1] = tiis.durloy = durloy;
+        spbnbox[2] = duriix;
+        spbnbox[3] = tiis.duriiy = duriiy;
+        rfturn truf;
     }
 
     /**
-     * This method tells the iterator that it may skip all spans
-     * whose Y range is completely above the indicated Y coordinate.
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
      */
-    public void skipDownTo(int y) {
+    publid void skipDownTo(int y) {
         loy = y;
     }
 
     /**
-     * This method returns a native pointer to a function block that
-     * can be used by a native method to perform the same iteration
-     * cycle that the above methods provide while avoiding upcalls to
-     * the Java object.
-     * The definition of the structure whose pointer is returned by
-     * this method is defined in:
-     * <pre>
-     *     src/share/native/sun/java2d/pipe/SpanIterator.h
-     * </pre>
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * tif Jbvb objfdt.
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * tiis mftiod is dffinfd in:
+     * <prf>
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     * </prf>
      */
-    public long getNativeIterator() {
-        return 0;
+    publid long gftNbtivfItfrbtor() {
+        rfturn 0;
     }
 
     /*
-     * Cleans out all internal data structures.
-     * REMIND: Native implementation
-    public native void dispose();
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     * REMIND: Nbtivf implfmfntbtion
+    publid nbtivf void disposf();
 
-    protected void finalize() {
-        dispose();
+    protfdtfd void finblizf() {
+        disposf();
     }
      */
 }

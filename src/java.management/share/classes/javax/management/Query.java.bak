@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * <p>Constructs query object constraints.</p>
+ * <p>Construdts qufry objfdt donstrbints.</p>
  *
- * <p>The MBean Server can be queried for MBeans that meet a particular
- * condition, using its {@link MBeanServer#queryNames queryNames} or
- * {@link MBeanServer#queryMBeans queryMBeans} method.  The {@link QueryExp}
- * parameter to the method can be any implementation of the interface
- * {@code QueryExp}, but it is usually best to obtain the {@code QueryExp}
- * value by calling the static methods in this class.  This is particularly
- * true when querying a remote MBean Server: a custom implementation of the
- * {@code QueryExp} interface might not be present in the remote MBean Server,
- * but the methods in this class return only standard classes that are
- * part of the JMX implementation.</p>
+ * <p>Tif MBfbn Sfrvfr dbn bf qufrifd for MBfbns tibt mfft b pbrtidulbr
+ * dondition, using its {@link MBfbnSfrvfr#qufryNbmfs qufryNbmfs} or
+ * {@link MBfbnSfrvfr#qufryMBfbns qufryMBfbns} mftiod.  Tif {@link QufryExp}
+ * pbrbmftfr to tif mftiod dbn bf bny implfmfntbtion of tif intfrfbdf
+ * {@dodf QufryExp}, but it is usublly bfst to obtbin tif {@dodf QufryExp}
+ * vbluf by dblling tif stbtid mftiods in tiis dlbss.  Tiis is pbrtidulbrly
+ * truf wifn qufrying b rfmotf MBfbn Sfrvfr: b dustom implfmfntbtion of tif
+ * {@dodf QufryExp} intfrfbdf migit not bf prfsfnt in tif rfmotf MBfbn Sfrvfr,
+ * but tif mftiods in tiis dlbss rfturn only stbndbrd dlbssfs tibt brf
+ * pbrt of tif JMX implfmfntbtion.</p>
  *
- * <p>As an example, suppose you wanted to find all MBeans where the {@code
- * Enabled} attribute is {@code true} and the {@code Owner} attribute is {@code
- * "Duke"}. Here is how you could construct the appropriate {@code QueryExp} by
- * chaining together method calls:</p>
+ * <p>As bn fxbmplf, supposf you wbntfd to find bll MBfbns wifrf tif {@dodf
+ * Enbblfd} bttributf is {@dodf truf} bnd tif {@dodf Ownfr} bttributf is {@dodf
+ * "Dukf"}. Hfrf is iow you dould donstrudt tif bppropribtf {@dodf QufryExp} by
+ * dibining togftifr mftiod dblls:</p>
  *
- * <pre>
- * QueryExp query =
- *     Query.and(Query.eq(Query.attr("Enabled"), Query.value(true)),
- *               Query.eq(Query.attr("Owner"), Query.value("Duke")));
- * </pre>
+ * <prf>
+ * QufryExp qufry =
+ *     Qufry.bnd(Qufry.fq(Qufry.bttr("Enbblfd"), Qufry.vbluf(truf)),
+ *               Qufry.fq(Qufry.bttr("Ownfr"), Qufry.vbluf("Dukf")));
+ * </prf>
  *
- * @since 1.5
+ * @sindf 1.5
  */
- public class Query extends Object   {
+ publid dlbss Qufry fxtfnds Objfdt   {
 
 
      /**
-      * A code representing the {@link Query#gt} query.  This is chiefly
-      * of interest for the serialized form of queries.
+      * A dodf rfprfsfnting tif {@link Qufry#gt} qufry.  Tiis is diiffly
+      * of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public static final int GT  = 0;
+     publid stbtid finbl int GT  = 0;
 
      /**
-      * A code representing the {@link Query#lt} query.  This is chiefly
-      * of interest for the serialized form of queries.
+      * A dodf rfprfsfnting tif {@link Qufry#lt} qufry.  Tiis is diiffly
+      * of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public static final int LT  = 1;
+     publid stbtid finbl int LT  = 1;
 
      /**
-      * A code representing the {@link Query#geq} query.  This is chiefly
-      * of interest for the serialized form of queries.
+      * A dodf rfprfsfnting tif {@link Qufry#gfq} qufry.  Tiis is diiffly
+      * of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public static final int GE  = 2;
+     publid stbtid finbl int GE  = 2;
 
      /**
-      * A code representing the {@link Query#leq} query.  This is chiefly
-      * of interest for the serialized form of queries.
+      * A dodf rfprfsfnting tif {@link Qufry#lfq} qufry.  Tiis is diiffly
+      * of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public static final int LE  = 3;
+     publid stbtid finbl int LE  = 3;
 
      /**
-      * A code representing the {@link Query#eq} query.  This is chiefly
-      * of interest for the serialized form of queries.
+      * A dodf rfprfsfnting tif {@link Qufry#fq} qufry.  Tiis is diiffly
+      * of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public static final int EQ  = 4;
-
-
-     /**
-      * A code representing the {@link Query#plus} expression.  This
-      * is chiefly of interest for the serialized form of queries.
-      */
-     public static final int PLUS  = 0;
-
-     /**
-      * A code representing the {@link Query#minus} expression.  This
-      * is chiefly of interest for the serialized form of queries.
-      */
-     public static final int MINUS = 1;
-
-     /**
-      * A code representing the {@link Query#times} expression.  This
-      * is chiefly of interest for the serialized form of queries.
-      */
-     public static final int TIMES = 2;
-
-     /**
-      * A code representing the {@link Query#div} expression.  This is
-      * chiefly of interest for the serialized form of queries.
-      */
-     public static final int DIV   = 3;
+     publid stbtid finbl int EQ  = 4;
 
 
      /**
-      * Basic constructor.
+      * A dodf rfprfsfnting tif {@link Qufry#plus} fxprfssion.  Tiis
+      * is diiffly of intfrfst for tif sfriblizfd form of qufrifs.
       */
-     public Query() {
+     publid stbtid finbl int PLUS  = 0;
+
+     /**
+      * A dodf rfprfsfnting tif {@link Qufry#minus} fxprfssion.  Tiis
+      * is diiffly of intfrfst for tif sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int MINUS = 1;
+
+     /**
+      * A dodf rfprfsfnting tif {@link Qufry#timfs} fxprfssion.  Tiis
+      * is diiffly of intfrfst for tif sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int TIMES = 2;
+
+     /**
+      * A dodf rfprfsfnting tif {@link Qufry#div} fxprfssion.  Tiis is
+      * diiffly of intfrfst for tif sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int DIV   = 3;
+
+
+     /**
+      * Bbsid donstrudtor.
+      */
+     publid Qufry() {
      }
 
 
      /**
-      * Returns a query expression that is the conjunction of two other query
-      * expressions.
+      * Rfturns b qufry fxprfssion tibt is tif donjundtion of two otifr qufry
+      * fxprfssions.
       *
-      * @param q1 A query expression.
-      * @param q2 Another query expression.
+      * @pbrbm q1 A qufry fxprfssion.
+      * @pbrbm q2 Anotifr qufry fxprfssion.
       *
-      * @return  The conjunction of the two arguments.  The returned object
-      * will be serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.AndQueryExp">
-      * javax.management.AndQueryExp</a>.
+      * @rfturn  Tif donjundtion of tif two brgumfnts.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.AndQufryExp">
+      * jbvbx.mbnbgfmfnt.AndQufryExp</b>.
       */
-     public static QueryExp and(QueryExp q1, QueryExp q2)  {
-         return new AndQueryExp(q1, q2);
+     publid stbtid QufryExp bnd(QufryExp q1, QufryExp q2)  {
+         rfturn nfw AndQufryExp(q1, q2);
      }
 
      /**
-      * Returns a query expression that is the disjunction of two other query
-      * expressions.
+      * Rfturns b qufry fxprfssion tibt is tif disjundtion of two otifr qufry
+      * fxprfssions.
       *
-      * @param q1 A query expression.
-      * @param q2 Another query expression.
+      * @pbrbm q1 A qufry fxprfssion.
+      * @pbrbm q2 Anotifr qufry fxprfssion.
       *
-      * @return  The disjunction of the two arguments.  The returned object
-      * will be serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.OrQueryExp">
-      * javax.management.OrQueryExp</a>.
+      * @rfturn  Tif disjundtion of tif two brgumfnts.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.OrQufryExp">
+      * jbvbx.mbnbgfmfnt.OrQufryExp</b>.
       */
-     public static QueryExp or(QueryExp q1, QueryExp q2)  {
-         return new OrQueryExp(q1, q2);
+     publid stbtid QufryExp or(QufryExp q1, QufryExp q2)  {
+         rfturn nfw OrQufryExp(q1, q2);
      }
 
      /**
-      * Returns a query expression that represents a "greater than" constraint on
-      * two values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b "grfbtfr tibn" donstrbint on
+      * two vblufs.
       *
-      * @param v1 A value expression.
-      * @param v2 Another value expression.
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anotifr vbluf fxprfssion.
       *
-      * @return A "greater than" constraint on the arguments.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryRelQueryExp">
-      * javax.management.BinaryRelQueryExp</a> with a {@code relOp} equal
+      * @rfturn A "grfbtfr tibn" donstrbint on tif brgumfnts.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> witi b {@dodf rflOp} fqubl
       * to {@link #GT}.
       */
-     public static QueryExp gt(ValueExp v1, ValueExp v2)  {
-         return new BinaryRelQueryExp(GT, v1, v2);
+     publid stbtid QufryExp gt(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(GT, v1, v2);
      }
 
      /**
-      * Returns a query expression that represents a "greater than or equal
-      * to" constraint on two values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b "grfbtfr tibn or fqubl
+      * to" donstrbint on two vblufs.
       *
-      * @param v1 A value expression.
-      * @param v2 Another value expression.
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anotifr vbluf fxprfssion.
       *
-      * @return A "greater than or equal to" constraint on the
-      * arguments.  The returned object will be serialized as an
-      * instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryRelQueryExp">
-      * javax.management.BinaryRelQueryExp</a> with a {@code relOp} equal
+      * @rfturn A "grfbtfr tibn or fqubl to" donstrbint on tif
+      * brgumfnts.  Tif rfturnfd objfdt will bf sfriblizfd bs bn
+      * instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> witi b {@dodf rflOp} fqubl
       * to {@link #GE}.
       */
-     public static QueryExp geq(ValueExp v1, ValueExp v2)  {
-         return new BinaryRelQueryExp(GE, v1, v2);
+     publid stbtid QufryExp gfq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(GE, v1, v2);
      }
 
      /**
-      * Returns a query expression that represents a "less than or equal to"
-      * constraint on two values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b "lfss tibn or fqubl to"
+      * donstrbint on two vblufs.
       *
-      * @param v1 A value expression.
-      * @param v2 Another value expression.
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anotifr vbluf fxprfssion.
       *
-      * @return A "less than or equal to" constraint on the arguments.
-      * The returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryRelQueryExp">
-      * javax.management.BinaryRelQueryExp</a> with a {@code relOp} equal
+      * @rfturn A "lfss tibn or fqubl to" donstrbint on tif brgumfnts.
+      * Tif rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> witi b {@dodf rflOp} fqubl
       * to {@link #LE}.
       */
-     public static QueryExp leq(ValueExp v1, ValueExp v2)  {
-         return new BinaryRelQueryExp(LE, v1, v2);
+     publid stbtid QufryExp lfq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(LE, v1, v2);
      }
 
      /**
-      * Returns a query expression that represents a "less than" constraint on
-      * two values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b "lfss tibn" donstrbint on
+      * two vblufs.
       *
-      * @param v1 A value expression.
-      * @param v2 Another value expression.
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anotifr vbluf fxprfssion.
       *
-      * @return A "less than" constraint on the arguments.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryRelQueryExp">
-      * javax.management.BinaryRelQueryExp</a> with a {@code relOp} equal
+      * @rfturn A "lfss tibn" donstrbint on tif brgumfnts.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> witi b {@dodf rflOp} fqubl
       * to {@link #LT}.
       */
-     public static QueryExp lt(ValueExp v1, ValueExp v2)  {
-         return new BinaryRelQueryExp(LT, v1, v2);
+     publid stbtid QufryExp lt(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(LT, v1, v2);
      }
 
      /**
-      * Returns a query expression that represents an equality constraint on
-      * two values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts bn fqublity donstrbint on
+      * two vblufs.
       *
-      * @param v1 A value expression.
-      * @param v2 Another value expression.
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anotifr vbluf fxprfssion.
       *
-      * @return A "equal to" constraint on the arguments.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryRelQueryExp">
-      * javax.management.BinaryRelQueryExp</a> with a {@code relOp} equal
+      * @rfturn A "fqubl to" donstrbint on tif brgumfnts.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> witi b {@dodf rflOp} fqubl
       * to {@link #EQ}.
       */
-     public static QueryExp eq(ValueExp v1, ValueExp v2)  {
-         return new BinaryRelQueryExp(EQ, v1, v2);
+     publid stbtid QufryExp fq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(EQ, v1, v2);
      }
 
      /**
-      * Returns a query expression that represents the constraint that one
-      * value is between two other values.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts tif donstrbint tibt onf
+      * vbluf is bftwffn two otifr vblufs.
       *
-      * @param v1 A value expression that is "between" v2 and v3.
-      * @param v2 Value expression that represents a boundary of the constraint.
-      * @param v3 Value expression that represents a boundary of the constraint.
+      * @pbrbm v1 A vbluf fxprfssion tibt is "bftwffn" v2 bnd v3.
+      * @pbrbm v2 Vbluf fxprfssion tibt rfprfsfnts b boundbry of tif donstrbint.
+      * @pbrbm v3 Vbluf fxprfssion tibt rfprfsfnts b boundbry of tif donstrbint.
       *
-      * @return The constraint that v1 lies between v2 and v3.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BetweenQueryExp">
-      * javax.management.BetweenQueryExp</a>.
+      * @rfturn Tif donstrbint tibt v1 lifs bftwffn v2 bnd v3.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BftwffnQufryExp">
+      * jbvbx.mbnbgfmfnt.BftwffnQufryExp</b>.
       */
-     public static QueryExp between(ValueExp v1, ValueExp v2, ValueExp v3) {
-         return new BetweenQueryExp(v1, v2, v3);
+     publid stbtid QufryExp bftwffn(VblufExp v1, VblufExp v2, VblufExp v3) {
+         rfturn nfw BftwffnQufryExp(v1, v2, v3);
      }
 
      /**
-      * Returns a query expression that represents a matching constraint on
-      * a string argument. The matching syntax is consistent with file globbing:
-      * supports "<code>?</code>", "<code>*</code>", "<code>[</code>",
-      * each of which may be escaped with "<code>\</code>";
-      * character classes may use "<code>!</code>" for negation and
-      * "<code>-</code>" for range.
-      * (<code>*</code> for any character sequence,
-      * <code>?</code> for a single arbitrary character,
-      * <code>[...]</code> for a character sequence).
-      * For example: <code>a*b?c</code> would match a string starting
-      * with the character <code>a</code>, followed
-      * by any number of characters, followed by a <code>b</code>,
-      * any single character, and a <code>c</code>.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b mbtdiing donstrbint on
+      * b string brgumfnt. Tif mbtdiing syntbx is donsistfnt witi filf globbing:
+      * supports "<dodf>?</dodf>", "<dodf>*</dodf>", "<dodf>[</dodf>",
+      * fbdi of wiidi mby bf fsdbpfd witi "<dodf>\</dodf>";
+      * dibrbdtfr dlbssfs mby usf "<dodf>!</dodf>" for nfgbtion bnd
+      * "<dodf>-</dodf>" for rbngf.
+      * (<dodf>*</dodf> for bny dibrbdtfr sfqufndf,
+      * <dodf>?</dodf> for b singlf brbitrbry dibrbdtfr,
+      * <dodf>[...]</dodf> for b dibrbdtfr sfqufndf).
+      * For fxbmplf: <dodf>b*b?d</dodf> would mbtdi b string stbrting
+      * witi tif dibrbdtfr <dodf>b</dodf>, followfd
+      * by bny numbfr of dibrbdtfrs, followfd by b <dodf>b</dodf>,
+      * bny singlf dibrbdtfr, bnd b <dodf>d</dodf>.
       *
-      * @param a An attribute expression
-      * @param s A string value expression representing a matching constraint
+      * @pbrbm b An bttributf fxprfssion
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting b mbtdiing donstrbint
       *
-      * @return A query expression that represents the matching
-      * constraint on the string argument.  The returned object will
-      * be serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.MatchQueryExp">
-      * javax.management.MatchQueryExp</a>.
+      * @rfturn A qufry fxprfssion tibt rfprfsfnts tif mbtdiing
+      * donstrbint on tif string brgumfnt.  Tif rfturnfd objfdt will
+      * bf sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.MbtdiQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdiQufryExp</b>.
       */
-     public static QueryExp match(AttributeValueExp a, StringValueExp s)  {
-         return new MatchQueryExp(a, s);
+     publid stbtid QufryExp mbtdi(AttributfVblufExp b, StringVblufExp s)  {
+         rfturn nfw MbtdiQufryExp(b, s);
      }
 
      /**
-      * <p>Returns a new attribute expression.  See {@link AttributeValueExp}
-      * for a detailed description of the semantics of the expression.</p>
+      * <p>Rfturns b nfw bttributf fxprfssion.  Sff {@link AttributfVblufExp}
+      * for b dftbilfd dfsdription of tif sfmbntids of tif fxprfssion.</p>
       *
-      * <p>Evaluating this expression for a given
-      * <code>objectName</code> includes performing {@link
-      * MBeanServer#getAttribute MBeanServer.getAttribute(objectName,
-      * name)}.</p>
+      * <p>Evblubting tiis fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftAttributf MBfbnSfrvfr.gftAttributf(objfdtNbmf,
+      * nbmf)}.</p>
       *
-      * @param name The name of the attribute.
+      * @pbrbm nbmf Tif nbmf of tif bttributf.
       *
-      * @return An attribute expression for the attribute named {@code name}.
+      * @rfturn An bttributf fxprfssion for tif bttributf nbmfd {@dodf nbmf}.
       */
-     public static AttributeValueExp attr(String name)  {
-         return new AttributeValueExp(name);
+     publid stbtid AttributfVblufExp bttr(String nbmf)  {
+         rfturn nfw AttributfVblufExp(nbmf);
      }
 
      /**
-      * <p>Returns a new qualified attribute expression.</p>
+      * <p>Rfturns b nfw qublififd bttributf fxprfssion.</p>
       *
-      * <p>Evaluating this expression for a given
-      * <code>objectName</code> includes performing {@link
-      * MBeanServer#getObjectInstance
-      * MBeanServer.getObjectInstance(objectName)} and {@link
-      * MBeanServer#getAttribute MBeanServer.getAttribute(objectName,
-      * name)}.</p>
+      * <p>Evblubting tiis fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftObjfdtInstbndf
+      * MBfbnSfrvfr.gftObjfdtInstbndf(objfdtNbmf)} bnd {@link
+      * MBfbnSfrvfr#gftAttributf MBfbnSfrvfr.gftAttributf(objfdtNbmf,
+      * nbmf)}.</p>
       *
-      * @param className The name of the class possessing the attribute.
-      * @param name The name of the attribute.
+      * @pbrbm dlbssNbmf Tif nbmf of tif dlbss possfssing tif bttributf.
+      * @pbrbm nbmf Tif nbmf of tif bttributf.
       *
-      * @return An attribute expression for the attribute named name.
-      * The returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.QualifiedAttributeValueExp">
-      * javax.management.QualifiedAttributeValueExp</a>.
+      * @rfturn An bttributf fxprfssion for tif bttributf nbmfd nbmf.
+      * Tif rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.QublififdAttributfVblufExp">
+      * jbvbx.mbnbgfmfnt.QublififdAttributfVblufExp</b>.
       */
-     public static AttributeValueExp attr(String className, String name)  {
-         return new QualifiedAttributeValueExp(className, name);
+     publid stbtid AttributfVblufExp bttr(String dlbssNbmf, String nbmf)  {
+         rfturn nfw QublififdAttributfVblufExp(dlbssNbmf, nbmf);
      }
 
      /**
-      * <p>Returns a new class attribute expression which can be used in any
-      * Query call that expects a ValueExp.</p>
+      * <p>Rfturns b nfw dlbss bttributf fxprfssion wiidi dbn bf usfd in bny
+      * Qufry dbll tibt fxpfdts b VblufExp.</p>
       *
-      * <p>Evaluating this expression for a given
-      * <code>objectName</code> includes performing {@link
-      * MBeanServer#getObjectInstance
-      * MBeanServer.getObjectInstance(objectName)}.</p>
+      * <p>Evblubting tiis fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftObjfdtInstbndf
+      * MBfbnSfrvfr.gftObjfdtInstbndf(objfdtNbmf)}.</p>
       *
-      * @return A class attribute expression.  The returned object
-      * will be serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.ClassAttributeValueExp">
-      * javax.management.ClassAttributeValueExp</a>.
+      * @rfturn A dlbss bttributf fxprfssion.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.ClbssAttributfVblufExp">
+      * jbvbx.mbnbgfmfnt.ClbssAttributfVblufExp</b>.
       */
-     public static AttributeValueExp classattr()  {
-         return new ClassAttributeValueExp();
+     publid stbtid AttributfVblufExp dlbssbttr()  {
+         rfturn nfw ClbssAttributfVblufExp();
      }
 
      /**
-      * Returns a constraint that is the negation of its argument.
+      * Rfturns b donstrbint tibt is tif nfgbtion of its brgumfnt.
       *
-      * @param queryExp The constraint to negate.
+      * @pbrbm qufryExp Tif donstrbint to nfgbtf.
       *
-      * @return A negated constraint.  The returned object will be
-      * serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.NotQueryExp">
-      * javax.management.NotQueryExp</a>.
+      * @rfturn A nfgbtfd donstrbint.  Tif rfturnfd objfdt will bf
+      * sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NotQufryExp">
+      * jbvbx.mbnbgfmfnt.NotQufryExp</b>.
       */
-     public static QueryExp not(QueryExp queryExp)  {
-         return new NotQueryExp(queryExp);
+     publid stbtid QufryExp not(QufryExp qufryExp)  {
+         rfturn nfw NotQufryExp(qufryExp);
      }
 
      /**
-      * Returns an expression constraining a value to be one of an explicit list.
+      * Rfturns bn fxprfssion donstrbining b vbluf to bf onf of bn fxplidit list.
       *
-      * @param val A value to be constrained.
-      * @param valueList An array of ValueExps.
+      * @pbrbm vbl A vbluf to bf donstrbinfd.
+      * @pbrbm vblufList An brrby of VblufExps.
       *
-      * @return A QueryExp that represents the constraint.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.InQueryExp">
-      * javax.management.InQueryExp</a>.
+      * @rfturn A QufryExp tibt rfprfsfnts tif donstrbint.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.InQufryExp">
+      * jbvbx.mbnbgfmfnt.InQufryExp</b>.
       */
-     public static QueryExp in(ValueExp val, ValueExp valueList[])  {
-         return new InQueryExp(val, valueList);
+     publid stbtid QufryExp in(VblufExp vbl, VblufExp vblufList[])  {
+         rfturn nfw InQufryExp(vbl, vblufList);
      }
 
      /**
-      * Returns a new string expression.
+      * Rfturns b nfw string fxprfssion.
       *
-      * @param val The string value.
+      * @pbrbm vbl Tif string vbluf.
       *
-      * @return  A ValueExp object containing the string argument.
+      * @rfturn  A VblufExp objfdt dontbining tif string brgumfnt.
       */
-     public static StringValueExp value(String val)  {
-         return new StringValueExp(val);
+     publid stbtid StringVblufExp vbluf(String vbl)  {
+         rfturn nfw StringVblufExp(vbl);
      }
 
      /**
-      * Returns a numeric value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b numfrid vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val An instance of Number.
+      * @pbrbm vbl An instbndf of Numbfr.
       *
-      * @return A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.NumericValueExp">
-      * javax.management.NumericValueExp</a>.
+      * @rfturn A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
       */
-     public static ValueExp value(Number val)  {
-         return new NumericValueExp(val);
+     publid stbtid VblufExp vbluf(Numbfr vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
      }
 
      /**
-      * Returns a numeric value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b numfrid vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val An int value.
+      * @pbrbm vbl An int vbluf.
       *
-      * @return A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.NumericValueExp">
-      * javax.management.NumericValueExp</a>.
+      * @rfturn A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
       */
-     public static ValueExp value(int val)  {
-         return new NumericValueExp((long) val);
+     publid stbtid VblufExp vbluf(int vbl)  {
+         rfturn nfw NumfridVblufExp((long) vbl);
      }
 
      /**
-      * Returns a numeric value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b numfrid vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val A long value.
+      * @pbrbm vbl A long vbluf.
       *
-      * @return A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.NumericValueExp">
-      * javax.management.NumericValueExp</a>.
+      * @rfturn A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
       */
-     public static ValueExp value(long val)  {
-         return new NumericValueExp(val);
+     publid stbtid VblufExp vbluf(long vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
      }
 
      /**
-      * Returns a numeric value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b numfrid vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val A float value.
+      * @pbrbm vbl A flobt vbluf.
       *
-      * @return A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.NumericValueExp">
-      * javax.management.NumericValueExp</a>.
+      * @rfturn A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
       */
-     public static ValueExp value(float val)  {
-         return new NumericValueExp((double) val);
+     publid stbtid VblufExp vbluf(flobt vbl)  {
+         rfturn nfw NumfridVblufExp((doublf) vbl);
      }
 
      /**
-      * Returns a numeric value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b numfrid vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val A double value.
+      * @pbrbm vbl A doublf vbluf.
       *
-      * @return  A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.NumericValueExp">
-      * javax.management.NumericValueExp</a>.
+      * @rfturn  A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
       */
-     public static ValueExp value(double val)  {
-         return new NumericValueExp(val);
+     publid stbtid VblufExp vbluf(doublf vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
      }
 
      /**
-      * Returns a boolean value expression that can be used in any Query call
-      * that expects a ValueExp.
+      * Rfturns b boolfbn vbluf fxprfssion tibt dbn bf usfd in bny Qufry dbll
+      * tibt fxpfdts b VblufExp.
       *
-      * @param val A boolean value.
+      * @pbrbm vbl A boolfbn vbluf.
       *
-      * @return A ValueExp object containing the argument.  The
-      * returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BooleanValueExp">
-      * javax.management.BooleanValueExp</a>.
+      * @rfturn A VblufExp objfdt dontbining tif brgumfnt.  Tif
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BoolfbnVblufExp">
+      * jbvbx.mbnbgfmfnt.BoolfbnVblufExp</b>.
       */
-     public static ValueExp value(boolean val)  {
-         return new BooleanValueExp(val);
+     publid stbtid VblufExp vbluf(boolfbn vbl)  {
+         rfturn nfw BoolfbnVblufExp(vbl);
      }
 
      /**
-      * Returns a binary expression representing the sum of two numeric values,
-      * or the concatenation of two string values.
+      * Rfturns b binbry fxprfssion rfprfsfnting tif sum of two numfrid vblufs,
+      * or tif dondbtfnbtion of two string vblufs.
       *
-      * @param value1 The first '+' operand.
-      * @param value2 The second '+' operand.
+      * @pbrbm vbluf1 Tif first '+' opfrbnd.
+      * @pbrbm vbluf2 Tif sfdond '+' opfrbnd.
       *
-      * @return A ValueExp representing the sum or concatenation of
-      * the two arguments.  The returned object will be serialized as
-      * an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryOpValueExp">
-      * javax.management.BinaryOpValueExp</a> with an {@code op} equal to
+      * @rfturn A VblufExp rfprfsfnting tif sum or dondbtfnbtion of
+      * tif two brgumfnts.  Tif rfturnfd objfdt will bf sfriblizfd bs
+      * bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> witi bn {@dodf op} fqubl to
       * {@link #PLUS}.
       */
-     public static ValueExp plus(ValueExp value1, ValueExp value2) {
-         return new BinaryOpValueExp(PLUS, value1, value2);
+     publid stbtid VblufExp plus(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(PLUS, vbluf1, vbluf2);
      }
 
      /**
-      * Returns a binary expression representing the product of two numeric values.
+      * Rfturns b binbry fxprfssion rfprfsfnting tif produdt of two numfrid vblufs.
       *
       *
-      * @param value1 The first '*' operand.
-      * @param value2 The second '*' operand.
+      * @pbrbm vbluf1 Tif first '*' opfrbnd.
+      * @pbrbm vbluf2 Tif sfdond '*' opfrbnd.
       *
-      * @return A ValueExp representing the product.  The returned
-      * object will be serialized as an instance of the non-public
-      * class
-      * <a href="../../serialized-form.html#javax.management.BinaryOpValueExp">
-      * javax.management.BinaryOpValueExp</a> with an {@code op} equal to
+      * @rfturn A VblufExp rfprfsfnting tif produdt.  Tif rfturnfd
+      * objfdt will bf sfriblizfd bs bn instbndf of tif non-publid
+      * dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> witi bn {@dodf op} fqubl to
       * {@link #TIMES}.
       */
-     public static ValueExp times(ValueExp value1,ValueExp value2) {
-         return new BinaryOpValueExp(TIMES, value1, value2);
+     publid stbtid VblufExp timfs(VblufExp vbluf1,VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(TIMES, vbluf1, vbluf2);
      }
 
      /**
-      * Returns a binary expression representing the difference between two numeric
-      * values.
+      * Rfturns b binbry fxprfssion rfprfsfnting tif difffrfndf bftwffn two numfrid
+      * vblufs.
       *
-      * @param value1 The first '-' operand.
-      * @param value2 The second '-' operand.
+      * @pbrbm vbluf1 Tif first '-' opfrbnd.
+      * @pbrbm vbluf2 Tif sfdond '-' opfrbnd.
       *
-      * @return A ValueExp representing the difference between two
-      * arguments.  The returned object will be serialized as an
-      * instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryOpValueExp">
-      * javax.management.BinaryOpValueExp</a> with an {@code op} equal to
+      * @rfturn A VblufExp rfprfsfnting tif difffrfndf bftwffn two
+      * brgumfnts.  Tif rfturnfd objfdt will bf sfriblizfd bs bn
+      * instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> witi bn {@dodf op} fqubl to
       * {@link #MINUS}.
       */
-     public static ValueExp minus(ValueExp value1, ValueExp value2) {
-         return new BinaryOpValueExp(MINUS, value1, value2);
+     publid stbtid VblufExp minus(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(MINUS, vbluf1, vbluf2);
      }
 
      /**
-      * Returns a binary expression representing the quotient of two numeric
-      * values.
+      * Rfturns b binbry fxprfssion rfprfsfnting tif quotifnt of two numfrid
+      * vblufs.
       *
-      * @param value1 The first '/' operand.
-      * @param value2 The second '/' operand.
+      * @pbrbm vbluf1 Tif first '/' opfrbnd.
+      * @pbrbm vbluf2 Tif sfdond '/' opfrbnd.
       *
-      * @return A ValueExp representing the quotient of two arguments.
-      * The returned object will be serialized as an instance of the
-      * non-public class
-      * <a href="../../serialized-form.html#javax.management.BinaryOpValueExp">
-      * javax.management.BinaryOpValueExp</a> with an {@code op} equal to
+      * @rfturn A VblufExp rfprfsfnting tif quotifnt of two brgumfnts.
+      * Tif rfturnfd objfdt will bf sfriblizfd bs bn instbndf of tif
+      * non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> witi bn {@dodf op} fqubl to
       * {@link #DIV}.
       */
-     public static ValueExp div(ValueExp value1, ValueExp value2) {
-         return new BinaryOpValueExp(DIV, value1, value2);
+     publid stbtid VblufExp div(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(DIV, vbluf1, vbluf2);
      }
 
      /**
-      * Returns a query expression that represents a matching constraint on
-      * a string argument. The value must start with the given literal string
-      * value.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b mbtdiing donstrbint on
+      * b string brgumfnt. Tif vbluf must stbrt witi tif givfn litfrbl string
+      * vbluf.
       *
-      * @param a An attribute expression.
-      * @param s A string value expression representing the beginning of the
-      * string value.
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting tif bfginning of tif
+      * string vbluf.
       *
-      * @return The constraint that a matches s.  The returned object
-      * will be serialized as an instance of the non-public class
+      * @rfturn Tif donstrbint tibt b mbtdifs s.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
       *
-      * <a href="../../serialized-form.html#javax.management.MatchQueryExp">
-      * javax.management.MatchQueryExp</a>.
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.MbtdiQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdiQufryExp</b>.
       */
-     public static QueryExp initialSubString(AttributeValueExp a, StringValueExp s)  {
-         return new MatchQueryExp(a,
-             new StringValueExp(escapeString(s.getValue()) + "*"));
+     publid stbtid QufryExp initiblSubString(AttributfVblufExp b, StringVblufExp s)  {
+         rfturn nfw MbtdiQufryExp(b,
+             nfw StringVblufExp(fsdbpfString(s.gftVbluf()) + "*"));
      }
 
      /**
-      * Returns a query expression that represents a matching constraint on
-      * a string argument. The value must contain the given literal string
-      * value.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b mbtdiing donstrbint on
+      * b string brgumfnt. Tif vbluf must dontbin tif givfn litfrbl string
+      * vbluf.
       *
-      * @param a An attribute expression.
-      * @param s A string value expression representing the substring.
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting tif substring.
       *
-      * @return The constraint that a matches s.  The returned object
-      * will be serialized as an instance of the non-public class
+      * @rfturn Tif donstrbint tibt b mbtdifs s.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
       *
-      * <a href="../../serialized-form.html#javax.management.MatchQueryExp">
-      * javax.management.MatchQueryExp</a>.
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.MbtdiQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdiQufryExp</b>.
       */
-     public static QueryExp anySubString(AttributeValueExp a, StringValueExp s) {
-         return new MatchQueryExp(a,
-             new StringValueExp("*" + escapeString(s.getValue()) + "*"));
+     publid stbtid QufryExp bnySubString(AttributfVblufExp b, StringVblufExp s) {
+         rfturn nfw MbtdiQufryExp(b,
+             nfw StringVblufExp("*" + fsdbpfString(s.gftVbluf()) + "*"));
      }
 
      /**
-      * Returns a query expression that represents a matching constraint on
-      * a string argument. The value must end with the given literal string
-      * value.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts b mbtdiing donstrbint on
+      * b string brgumfnt. Tif vbluf must fnd witi tif givfn litfrbl string
+      * vbluf.
       *
-      * @param a An attribute expression.
-      * @param s A string value expression representing the end of the string
-      * value.
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting tif fnd of tif string
+      * vbluf.
       *
-      * @return The constraint that a matches s.  The returned object
-      * will be serialized as an instance of the non-public class
+      * @rfturn Tif donstrbint tibt b mbtdifs s.  Tif rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of tif non-publid dlbss
       *
-      * <a href="../../serialized-form.html#javax.management.MatchQueryExp">
-      * javax.management.MatchQueryExp</a>.
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.MbtdiQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdiQufryExp</b>.
       */
-     public static QueryExp finalSubString(AttributeValueExp a, StringValueExp s) {
-         return new MatchQueryExp(a,
-             new StringValueExp("*" + escapeString(s.getValue())));
+     publid stbtid QufryExp finblSubString(AttributfVblufExp b, StringVblufExp s) {
+         rfturn nfw MbtdiQufryExp(b,
+             nfw StringVblufExp("*" + fsdbpfString(s.gftVbluf())));
      }
 
      /**
-      * Returns a query expression that represents an inheritance constraint
-      * on an MBean class.
-      * <p>Example: to find MBeans that are instances of
-      * {@link NotificationBroadcaster}, use
-      * {@code Query.isInstanceOf(Query.value(NotificationBroadcaster.class.getName()))}.
+      * Rfturns b qufry fxprfssion tibt rfprfsfnts bn inifritbndf donstrbint
+      * on bn MBfbn dlbss.
+      * <p>Exbmplf: to find MBfbns tibt brf instbndfs of
+      * {@link NotifidbtionBrobddbstfr}, usf
+      * {@dodf Qufry.isInstbndfOf(Qufry.vbluf(NotifidbtionBrobddbstfr.dlbss.gftNbmf()))}.
       * </p>
-      * <p>Evaluating this expression for a given
-      * <code>objectName</code> includes performing {@link
-      * MBeanServer#isInstanceOf MBeanServer.isInstanceOf(objectName,
-      * ((StringValueExp)classNameValue.apply(objectName)).getValue()}.</p>
+      * <p>Evblubting tiis fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#isInstbndfOf MBfbnSfrvfr.isInstbndfOf(objfdtNbmf,
+      * ((StringVblufExp)dlbssNbmfVbluf.bpply(objfdtNbmf)).gftVbluf()}.</p>
       *
-      * @param classNameValue The {@link StringValueExp} returning the name
-      *        of the class of which selected MBeans should be instances.
-      * @return a query expression that represents an inheritance
-      * constraint on an MBean class.  The returned object will be
-      * serialized as an instance of the non-public class
-      * <a href="../../serialized-form.html#javax.management.InstanceOfQueryExp">
-      * javax.management.InstanceOfQueryExp</a>.
-      * @since 1.6
+      * @pbrbm dlbssNbmfVbluf Tif {@link StringVblufExp} rfturning tif nbmf
+      *        of tif dlbss of wiidi sflfdtfd MBfbns siould bf instbndfs.
+      * @rfturn b qufry fxprfssion tibt rfprfsfnts bn inifritbndf
+      * donstrbint on bn MBfbn dlbss.  Tif rfturnfd objfdt will bf
+      * sfriblizfd bs bn instbndf of tif non-publid dlbss
+      * <b irff="../../sfriblizfd-form.itml#jbvbx.mbnbgfmfnt.InstbndfOfQufryExp">
+      * jbvbx.mbnbgfmfnt.InstbndfOfQufryExp</b>.
+      * @sindf 1.6
       */
-     public static QueryExp isInstanceOf(StringValueExp classNameValue) {
-        return new InstanceOfQueryExp(classNameValue);
+     publid stbtid QufryExp isInstbndfOf(StringVblufExp dlbssNbmfVbluf) {
+        rfturn nfw InstbndfOfQufryExp(dlbssNbmfVbluf);
      }
 
      /**
-      * Utility method to escape strings used with
-      * Query.{initial|any|final}SubString() methods.
+      * Utility mftiod to fsdbpf strings usfd witi
+      * Qufry.{initibl|bny|finbl}SubString() mftiods.
       */
-     private static String escapeString(String s) {
+     privbtf stbtid String fsdbpfString(String s) {
          if (s == null)
-             return null;
-         s = s.replace("\\", "\\\\");
-         s = s.replace("*", "\\*");
-         s = s.replace("?", "\\?");
-         s = s.replace("[", "\\[");
-         return s;
+             rfturn null;
+         s = s.rfplbdf("\\", "\\\\");
+         s = s.rfplbdf("*", "\\*");
+         s = s.rfplbdf("?", "\\?");
+         s = s.rfplbdf("[", "\\[");
+         rfturn s;
      }
  }

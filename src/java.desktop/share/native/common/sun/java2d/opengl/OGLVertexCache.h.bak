@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef OGLVertexCache_h_Included
-#define OGLVertexCache_h_Included
+#ifndff OGLVfrtfxCbdif_i_Indludfd
+#dffinf OGLVfrtfxCbdif_i_Indludfd
 
-#include "j2d_md.h"
-#include "OGLContext.h"
+#indludf "j2d_md.i"
+#indludf "OGLContfxt.i"
 
 /**
- * Constants that control the size of the vertex cache.
+ * Constbnts tibt dontrol tif sizf of tif vfrtfx dbdif.
  */
-#define OGLVC_MAX_INDEX         1024
+#dffinf OGLVC_MAX_INDEX         1024
 
 /**
- * Constants that control the size of the texture tile cache used for
- * mask operations.
+ * Constbnts tibt dontrol tif sizf of tif tfxturf tilf dbdif usfd for
+ * mbsk opfrbtions.
  */
-#define OGLVC_MASK_CACHE_TILE_WIDTH       32
-#define OGLVC_MASK_CACHE_TILE_HEIGHT      32
-#define OGLVC_MASK_CACHE_TILE_SIZE \
+#dffinf OGLVC_MASK_CACHE_TILE_WIDTH       32
+#dffinf OGLVC_MASK_CACHE_TILE_HEIGHT      32
+#dffinf OGLVC_MASK_CACHE_TILE_SIZE \
    (OGLVC_MASK_CACHE_TILE_WIDTH * OGLVC_MASK_CACHE_TILE_HEIGHT)
 
-#define OGLVC_MASK_CACHE_WIDTH_IN_TILES   8
-#define OGLVC_MASK_CACHE_HEIGHT_IN_TILES  4
+#dffinf OGLVC_MASK_CACHE_WIDTH_IN_TILES   8
+#dffinf OGLVC_MASK_CACHE_HEIGHT_IN_TILES  4
 
-#define OGLVC_MASK_CACHE_WIDTH_IN_TEXELS \
+#dffinf OGLVC_MASK_CACHE_WIDTH_IN_TEXELS \
    (OGLVC_MASK_CACHE_TILE_WIDTH * OGLVC_MASK_CACHE_WIDTH_IN_TILES)
-#define OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS \
+#dffinf OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS \
    (OGLVC_MASK_CACHE_TILE_HEIGHT * OGLVC_MASK_CACHE_HEIGHT_IN_TILES)
 
 /*
- * We reserve one (fully opaque) tile in the upper-right corner for
- * operations where the mask is null.
+ * Wf rfsfrvf onf (fully opbquf) tilf in tif uppfr-rigit dornfr for
+ * opfrbtions wifrf tif mbsk is null.
  */
-#define OGLVC_MASK_CACHE_MAX_INDEX \
+#dffinf OGLVC_MASK_CACHE_MAX_INDEX \
    ((OGLVC_MASK_CACHE_WIDTH_IN_TILES * OGLVC_MASK_CACHE_HEIGHT_IN_TILES) - 1)
-#define OGLVC_MASK_CACHE_SPECIAL_TILE_X \
+#dffinf OGLVC_MASK_CACHE_SPECIAL_TILE_X \
    (OGLVC_MASK_CACHE_WIDTH_IN_TEXELS - OGLVC_MASK_CACHE_TILE_WIDTH)
-#define OGLVC_MASK_CACHE_SPECIAL_TILE_Y \
+#dffinf OGLVC_MASK_CACHE_SPECIAL_TILE_Y \
    (OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS - OGLVC_MASK_CACHE_TILE_HEIGHT)
 
 /**
- * Exported methods.
+ * Exportfd mftiods.
  */
-jboolean OGLVertexCache_InitVertexCache(OGLContext *oglc);
-void OGLVertexCache_FlushVertexCache();
-void OGLVertexCache_RestoreColorState(OGLContext *oglc);
+jboolfbn OGLVfrtfxCbdif_InitVfrtfxCbdif(OGLContfxt *ogld);
+void OGLVfrtfxCbdif_FlusiVfrtfxCbdif();
+void OGLVfrtfxCbdif_RfstorfColorStbtf(OGLContfxt *ogld);
 
-void OGLVertexCache_EnableMaskCache(OGLContext *oglc);
-void OGLVertexCache_DisableMaskCache(OGLContext *oglc);
-void OGLVertexCache_AddMaskQuad(OGLContext *oglc,
-                                jint srcx, jint srcy,
+void OGLVfrtfxCbdif_EnbblfMbskCbdif(OGLContfxt *ogld);
+void OGLVfrtfxCbdif_DisbblfMbskCbdif(OGLContfxt *ogld);
+void OGLVfrtfxCbdif_AddMbskQubd(OGLContfxt *ogld,
+                                jint srdx, jint srdy,
                                 jint dstx, jint dsty,
-                                jint width, jint height,
-                                jint maskscan, void *mask);
+                                jint widti, jint ifigit,
+                                jint mbsksdbn, void *mbsk);
 
-void OGLVertexCache_AddGlyphQuad(OGLContext *oglc,
-                                 jfloat tx1, jfloat ty1,
-                                 jfloat tx2, jfloat ty2,
-                                 jfloat dx1, jfloat dy1,
-                                 jfloat dx2, jfloat dy2);
+void OGLVfrtfxCbdif_AddGlypiQubd(OGLContfxt *ogld,
+                                 jflobt tx1, jflobt ty1,
+                                 jflobt tx2, jflobt ty2,
+                                 jflobt dx1, jflobt dy1,
+                                 jflobt dx2, jflobt dy2);
 
-#endif /* OGLVertexCache_h_Included */
+#fndif /* OGLVfrtfxCbdif_i_Indludfd */

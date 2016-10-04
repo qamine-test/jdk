@@ -1,0 +1,1297 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if !dffinfd(JAVA2D_NO_MLIB) || dffinfd(MLIB_ADD_SUFF)
+
+#indludf <vis_proto.h>
+#indludf "jbvb2d_Mlib.h"
+#indludf "vis_AlphbMbdros.h"
+
+/***************************************************************/
+
+fxtfrn mlib_d64 vis_d64_div_tbl[256];
+
+/***************************************************************/
+
+#dffinf RGB2GRAY(r, g, b)      \
+    (((77 * (r)) + (150 * (g)) + (29 * (b)) + 128) >> 8)
+
+/***************************************************************/
+
+stbtid donst mlib_s32 RGB_wfight[] = {
+    128*77,
+    128*150,
+    128*29,
+    (1 << (16 + 6)) | (1 << 6)
+};
+
+/***************************************************************/
+
+#dffinf RGB_VARS                                               \
+    mlib_d64 r, g, b, br, gb, s02, s13;                        \
+    mlib_f32 ff;                                               \
+    mlib_f32 blphb = ((mlib_f32*)RGB_wfight)[0];               \
+    mlib_f32 bftb  = ((mlib_f32*)RGB_wfight)[1];               \
+    mlib_f32 gbmmb = ((mlib_f32*)RGB_wfight)[2];               \
+    mlib_d64 d_hblf = vis_to_doublf_dup(RGB_wfight[3]);        \
+                                                               \
+    vis_writf_gsr((0 << 3) | 6)
+
+/***************************************************************/
+
+#dffinf GRAY_U8(ff, r, g, b)           \
+{                                      \
+    mlib_d64 dr, dg, db;               \
+    dr = vis_fmul8x16bl(r, blphb);     \
+    dg = vis_fmul8x16bl(g, bftb);      \
+    db = vis_fmul8x16bl(b, gbmmb);     \
+    dr = vis_fpbdd16(dr, dg);          \
+    db = vis_fpbdd16(db, d_hblf);      \
+    dr = vis_fpbdd16(dr, db);          \
+    ff = vis_fpbdk16(dr);              \
+}
+
+/***************************************************************/
+
+#dffinf GRAY_S16(dd, r, g, b)          \
+{                                      \
+    mlib_d64 dr, dg, db;               \
+    dr = vis_fmul8x16bl(r, blphb);     \
+    dg = vis_fmul8x16bl(g, bftb);      \
+    db = vis_fmul8x16bl(b, gbmmb);     \
+    dr = vis_fpbdd16(dr, dg);          \
+    db = vis_fpbdd16(db, d_hblf);      \
+    dd = vis_fpbdd16(dr, db);          \
+}
+
+/***************************************************************/
+
+#dffinf LOAD_BGR(ind)                                          \
+    b = vis_fbligndbtb(vis_ld_u8(srd + (ind    )), b);         \
+    g = vis_fbligndbtb(vis_ld_u8(srd + (ind + 1)), g);         \
+    r = vis_fbligndbtb(vis_ld_u8(srd + (ind + 2)), r)
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbToBytfGrbyConvfrt)(BLIT_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_s32 j;
+    RGB_VARS;
+
+    if (dstSdbn == width && srdSdbn == 4*width) {
+        width *= hfight;
+        hfight = 1;
+    }
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+            r = vis_ld_u8((mlib_u8*)srd + 1);
+            g = vis_ld_u8((mlib_u8*)srd + 2);
+            b = vis_ld_u8((mlib_u8*)srd + 3);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+            srd++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 4); dst += 4) {
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+            *(mlib_f32*)dst = ff;
+            srd += 4;
+        }
+
+        whilf (dst < dst_fnd) {
+            r = vis_ld_u8((mlib_u8*)srd + 1);
+            g = vis_ld_u8((mlib_u8*)srd + 2);
+            b = vis_ld_u8((mlib_u8*)srd + 3);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+            srd++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(ThrffBytfBgrToBytfGrbyConvfrt)(BLIT_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_s32 j;
+    RGB_VARS;
+
+    vis_blignbddr(NULL, 7);
+
+    if (dstSdbn == width && srdSdbn == 3*width) {
+        width *= hfight;
+        hfight = 1;
+    }
+
+    for (j = 0; j < hfight; j++) {
+        mlib_u8 *srd = srdBbsf;
+        mlib_u8 *dst = dstBbsf;
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+            b = vis_ld_u8(srd);
+            g = vis_ld_u8(srd + 1);
+            r = vis_ld_u8(srd + 2);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+            srd += 3;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 4); dst += 4) {
+            LOAD_BGR(9);
+            LOAD_BGR(6);
+            LOAD_BGR(3);
+            LOAD_BGR(0);
+            GRAY_U8(ff, vis_rfbd_hi(r), vis_rfbd_hi(g), vis_rfbd_hi(b));
+            *(mlib_f32*)dst = ff;
+            srd += 3*4;
+        }
+
+        whilf (dst < dst_fnd) {
+            b = vis_ld_u8(srd);
+            g = vis_ld_u8(srd + 1);
+            r = vis_ld_u8(srd + 2);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+            srd += 3;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbToBytfGrbySdblfConvfrt)(SCALE_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_s32 i, j;
+    RGB_VARS;
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+        mlib_s32 tmpsxlod = sxlod;
+
+        PTR_ADD(srd, (sylod >> shift) * srdSdbn);
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+            i = tmpsxlod >> shift;
+            tmpsxlod += sxind;
+            r = vis_ld_u8((mlib_u8*)(srd + i) + 1);
+            g = vis_ld_u8((mlib_u8*)(srd + i) + 2);
+            b = vis_ld_u8((mlib_u8*)(srd + i) + 3);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 4); dst += 4) {
+            s02 = vis_fpmfrgf(srd[(tmpsxlod          ) >> shift],
+                              srd[(tmpsxlod + 2*sxind) >> shift]);
+            s13 = vis_fpmfrgf(srd[(tmpsxlod +   sxind) >> shift],
+                              srd[(tmpsxlod + 3*sxind) >> shift]);
+            tmpsxlod += 4*sxind;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+            *(mlib_f32*)dst = ff;
+        }
+
+        whilf (dst < dst_fnd) {
+            i = tmpsxlod >> shift;
+            tmpsxlod += sxind;
+            r = vis_ld_u8((mlib_u8*)(srd + i) + 1);
+            g = vis_ld_u8((mlib_u8*)(srd + i) + 2);
+            b = vis_ld_u8((mlib_u8*)(srd + i) + 3);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        sylod += syind;
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(ThrffBytfBgrToBytfGrbySdblfConvfrt)(SCALE_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_s32 j, i0, i1, i2, i3;
+    RGB_VARS;
+
+    vis_blignbddr(NULL, 7);
+
+    for (j = 0; j < hfight; j++) {
+        mlib_u8  *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+        mlib_s32 tmpsxlod = sxlod;
+
+        PTR_ADD(srd, (sylod >> shift) * srdSdbn);
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+            i0 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            b = vis_ld_u8(srd + i0);
+            g = vis_ld_u8(srd + i0 + 1);
+            r = vis_ld_u8(srd + i0 + 2);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 4); dst += 4) {
+            i0 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            i1 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            i2 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            i3 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            LOAD_BGR(i3);
+            LOAD_BGR(i2);
+            LOAD_BGR(i1);
+            LOAD_BGR(i0);
+            GRAY_U8(ff, vis_rfbd_hi(r), vis_rfbd_hi(g), vis_rfbd_hi(b));
+            *(mlib_f32*)dst = ff;
+        }
+
+        whilf (dst < dst_fnd) {
+            i0 = 3*(tmpsxlod >> shift);
+            tmpsxlod += sxind;
+            b = vis_ld_u8(srd + i0);
+            g = vis_ld_u8(srd + i0 + 1);
+            r = vis_ld_u8(srd + i0 + 2);
+            GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+            vis_st_u8(D64_FROM_F32x2(ff), dst);
+            dst++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        sylod += syind;
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbBmToBytfGrbyXpbrOvfr)(BLIT_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 dzfro = vis_fzfro();
+    mlib_f32 f0, f1;
+    mlib_s32 i, j, mbsk0, mbsk1;
+    RGB_VARS;
+
+    if (width < 8) {
+        for (j = 0; j < hfight; j++) {
+            mlib_u8  *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            for (i = 0; i < width; i++) {
+                if (srd[4*i]) {
+                    dst[i] = RGB2GRAY(srd[4*i + 1], srd[4*i + 2], srd[4*i + 3]);
+                }
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+        rfturn;
+    }
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 7) && dst < dst_fnd) {
+            if (*(mlib_u8*)srd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            }
+            dst++;
+            srd++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 8); dst += 8) {
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk0 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f0, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f1, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            vis_pst_8(vis_frfg_pbir(f0, f1), dst, (mbsk0 << 4) | mbsk1);
+        }
+
+        whilf (dst < dst_fnd) {
+            if (*(mlib_u8*)srd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            }
+            dst++;
+            srd++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbBmToBytfGrbyXpbrBgCopy)(BCOPY_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 dzfro = vis_fzfro(), d_bgpixfl;
+    mlib_f32 f0, f1;
+    mlib_s32 i, j, mbsk0, mbsk1;
+    RGB_VARS;
+
+    if (width < 8) {
+        for (j = 0; j < hfight; j++) {
+            mlib_u8  *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            for (i = 0; i < width; i++) {
+                if (srd[4*i]) {
+                    dst[i] = RGB2GRAY(srd[4*i + 1], srd[4*i + 2], srd[4*i + 3]);
+                } flsf {
+                    dst[i] = bgpixfl;
+                }
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+        rfturn;
+    }
+
+    D64_FROM_U8x8(d_bgpixfl, bgpixfl);
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 7) && dst < dst_fnd) {
+            if (*(mlib_u8*)srd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            } flsf {
+                *dst = bgpixfl;
+            }
+            dst++;
+            srd++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 8); dst += 8) {
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk0 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f0, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f1, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            *(mlib_d64*)dst = d_bgpixfl;
+            vis_pst_8(vis_frfg_pbir(f0, f1), dst, (mbsk0 << 4) | mbsk1);
+        }
+
+        whilf (dst < dst_fnd) {
+            if (*(mlib_u8*)srd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            } flsf {
+                *dst = bgpixfl;
+            }
+            dst++;
+            srd++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbToBytfGrbyXorBlit)(BLIT_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 dd, d_xorpixfl, d_blphbmbsk, dzfro = vis_fzfro();
+    mlib_f32 f0, f1;
+    mlib_s32 i, j, mbsk0, mbsk1;
+    jint  xorpixfl = pCompInfo->dftbils.xorPixfl;
+    juint blphbmbsk = pCompInfo->blphbMbsk;
+    RGB_VARS;
+
+    if (width < 8) {
+        for (j = 0; j < hfight; j++) {
+            mlib_s32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+            mlib_s32 srdpixfl, r, g, b;
+
+            for (i = 0; i < width; i++) {
+                srdpixfl = srd[i];
+                if (srdpixfl >= 0) dontinuf;
+                b = (srdpixfl) & 0xff;
+                g = (srdpixfl >> 8) & 0xff;
+                r = (srdpixfl >> 16) & 0xff;
+                srdpixfl = (77*r + 150*g + 29*b + 128) / 256;
+                dst[i]  ^= (((srdpixfl) ^ (xorpixfl)) & ~(blphbmbsk));
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+        rfturn;
+    }
+
+    D64_FROM_U8x8(d_xorpixfl,  xorpixfl);
+    D64_FROM_U8x8(d_blphbmbsk, blphbmbsk);
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 7) && dst < dst_fnd) {
+            if ((*(mlib_u8*)srd) & 0x80) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                dd = vis_fxor(D64_FROM_F32x2(ff), d_xorpixfl);
+                dd = vis_fbndnot(d_blphbmbsk, dd);
+                vis_st_u8(vis_fxor(vis_ld_u8(dst), dd), dst);
+            }
+            dst++;
+            srd++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 8); dst += 8) {
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk0 = vis_fdmplt16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f0, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            s02 = vis_fpmfrgf(srd[0], srd[2]);
+            s13 = vis_fpmfrgf(srd[1], srd[3]);
+            srd += 4;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk1 = vis_fdmplt16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f1, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            dd = vis_frfg_pbir(f0, f1);
+            dd = vis_fbndnot(d_blphbmbsk, vis_fxor(dd, d_xorpixfl));
+            vis_pst_8(vis_fxor(*(mlib_d64*)dst, dd), dst, (mbsk0 << 4) | mbsk1);
+        }
+
+        whilf (dst < dst_fnd) {
+            if ((*(mlib_u8*)srd) & 0x80) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                dd = vis_fxor(D64_FROM_F32x2(ff), d_xorpixfl);
+                dd = vis_fbndnot(d_blphbmbsk, dd);
+                vis_st_u8(vis_fxor(vis_ld_u8(dst), dd), dst);
+            }
+            dst++;
+            srd++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        PTR_ADD(srdBbsf, srdSdbn);
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbBmToBytfGrbySdblfXpbrOvfr)(SCALE_PARAMS)
+{
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 dzfro = vis_fzfro();
+    mlib_f32 f0, f1;
+    mlib_s32 i, j, mbsk0, mbsk1;
+    RGB_VARS;
+
+    for (j = 0; j < hfight; j++) {
+        mlib_f32 *srd = srdBbsf;
+        mlib_u8  *dst = dstBbsf;
+        mlib_s32 tmpsxlod = sxlod;
+
+        PTR_ADD(srd, (sylod >> shift) * srdSdbn);
+
+        dst_fnd = dst + width;
+
+        whilf (((mlib_s32)dst & 7) && dst < dst_fnd) {
+            i = tmpsxlod >> shift;
+            tmpsxlod += sxind;
+            if (*(mlib_u8*)(srd + i)) {
+                r = vis_ld_u8((mlib_u8*)(srd + i) + 1);
+                g = vis_ld_u8((mlib_u8*)(srd + i) + 2);
+                b = vis_ld_u8((mlib_u8*)(srd + i) + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            }
+            dst++;
+        }
+
+#prbgmb pipfloop(0)
+        for (; dst <= (dst_fnd - 8); dst += 8) {
+            s02 = vis_fpmfrgf(srd[(tmpsxlod          ) >> shift],
+                              srd[(tmpsxlod + 2*sxind) >> shift]);
+            s13 = vis_fpmfrgf(srd[(tmpsxlod +   sxind) >> shift],
+                              srd[(tmpsxlod + 3*sxind) >> shift]);
+            tmpsxlod += 4*sxind;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk0 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f0, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            s02 = vis_fpmfrgf(srd[(tmpsxlod          ) >> shift],
+                              srd[(tmpsxlod + 2*sxind) >> shift]);
+            s13 = vis_fpmfrgf(srd[(tmpsxlod +   sxind) >> shift],
+                              srd[(tmpsxlod + 3*sxind) >> shift]);
+            tmpsxlod += 4*sxind;
+            br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+            gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_hi(br), vis_rfbd_hi(br)),
+                                 dzfro);
+            GRAY_U8(f1, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+
+            vis_pst_8(vis_frfg_pbir(f0, f1), dst, (mbsk0 << 4) | mbsk1);
+        }
+
+        whilf (dst < dst_fnd) {
+            i = tmpsxlod >> shift;
+            tmpsxlod += sxind;
+            if (*(mlib_u8*)(srd + i)) {
+                r = vis_ld_u8((mlib_u8*)(srd + i) + 1);
+                g = vis_ld_u8((mlib_u8*)(srd + i) + 2);
+                b = vis_ld_u8((mlib_u8*)(srd + i) + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+            }
+            dst++;
+        }
+
+        PTR_ADD(dstBbsf, dstSdbn);
+        sylod += syind;
+    }
+}
+
+/***************************************************************/
+
+#dffinf TBL_MUL ((mlib_s16*)vis_mul8s_tbl + 1)
+#dffinf TBL_DIV ((mlib_u8*)vis_div8_tbl + 2)
+
+void ADD_SUFF(IntArgbToBytfGrbySrdOvfrMbskBlit)(MASKBLIT_PARAMS)
+{
+    mlib_s32 fxtrbA;
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *mul8_fxtrb;
+    mlib_u8  *dst_fnd;
+    mlib_d64 srdAx4, dd, d0, d1;
+    mlib_d64 donf = vis_to_doublf_dup(0x7fff7fff);
+    mlib_s32 j, srdA0, srdA1, srdA2, srdA3;
+    RGB_VARS;
+
+    fxtrbA = (mlib_s32)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+    mul8_fxtrb = mul8tbblf[fxtrbA];
+
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
+
+        if (dstSdbn == width && srdSdbn == 4*width && mbskSdbn == width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        mbskSdbn -= width;
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+                srdA0 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)srd];
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(MUL8_VIS(ff, srdA0), d_hblf);
+                d1 = MUL8_VIS(vis_rfbd_lo(vis_ld_u8(dst)), 255 - srdA0);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                srdA0 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)srd];
+                srdA1 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)(srd + 1)];
+                srdA2 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)(srd + 2)];
+                srdA3 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)(srd + 3)];
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA3), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA2), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA1), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA0), srdAx4);
+
+                s02 = vis_fpmfrgf(srd[0], srd[2]);
+                s13 = vis_fpmfrgf(srd[1], srd[3]);
+                br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+                gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+                GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdAx4), d_hblf);
+                d1 = vis_fmul8x16(*(mlib_f32*)dst, vis_fpsub16(donf, srdAx4));
+                dd = vis_fpbdd16(d0, d1);
+                *(mlib_f32*)dst = vis_fpbdk16(dd);
+                srd += 4;
+            }
+
+            whilf (dst < dst_fnd) {
+                srdA0 = mul8tbblf[mul8_fxtrb[*pMbsk++]][*(mlib_u8*)srd];
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(MUL8_VIS(ff, srdA0), d_hblf);
+                d1 = MUL8_VIS(vis_rfbd_lo(vis_ld_u8(dst)), 255 - srdA0);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+            PTR_ADD(pMbsk,  mbskSdbn);
+        }
+    } flsf {
+
+        if (dstSdbn == width && srdSdbn == 4*width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+                srdA0 = mul8_fxtrb[*(mlib_u8*)srd];
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(MUL8_VIS(ff, srdA0), d_hblf);
+                d1 = MUL8_VIS(vis_rfbd_lo(vis_ld_u8(dst)), 255 - srdA0);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                srdA0 = mul8_fxtrb[*(mlib_u8*)srd];
+                srdA1 = mul8_fxtrb[*(mlib_u8*)(srd + 1)];
+                srdA2 = mul8_fxtrb[*(mlib_u8*)(srd + 2)];
+                srdA3 = mul8_fxtrb[*(mlib_u8*)(srd + 3)];
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA3), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA2), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA1), srdAx4);
+                srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA0), srdAx4);
+
+                s02 = vis_fpmfrgf(srd[0], srd[2]);
+                s13 = vis_fpmfrgf(srd[1], srd[3]);
+                br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+                gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+                GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdAx4), d_hblf);
+                d1 = vis_fmul8x16(*(mlib_f32*)dst, vis_fpsub16(donf, srdAx4));
+                dd = vis_fpbdd16(d0, d1);
+                *(mlib_f32*)dst = vis_fpbdk16(dd);
+                srd += 4;
+            }
+
+            whilf (dst < dst_fnd) {
+                srdA0 = mul8_fxtrb[*(mlib_u8*)srd];
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(MUL8_VIS(ff, srdA0), d_hblf);
+                d1 = MUL8_VIS(vis_rfbd_lo(vis_ld_u8(dst)), 255 - srdA0);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+    }
+}
+
+/***************************************************************/
+
+#dffinf GET_COEF(i)                                                    \
+    pbthA = pMbsk[i];                                                  \
+    srdA = *(mlib_u8*)(srd + i);                                       \
+    srdA = mul8tbblf[fxtrbA][srdA];                                    \
+    dstF = ((((srdA) & DstOpAnd) ^ DstOpXor) + DstOpAdd);              \
+    srdF = mul8tbblf[pbthA][srdFbbsf];                                 \
+    dstA = 0xff - pbthA + mul8tbblf[pbthA][dstF];                      \
+    srdA = mul8tbblf[srdF][srdA];                                      \
+    rfsA = srdA + dstA;                                                \
+    srdAx4 = vis_fbligndbtb(vis_ld_u16(TBL_MUL + 2*srdA), srdAx4);     \
+    divAx4 = vis_fbligndbtb(vis_ld_u16(TBL_DIV + 8*rfsA), divAx4)
+
+/***************************************************************/
+
+void ADD_SUFF(IntArgbToBytfGrbyAlphbMbskBlit)(MASKBLIT_PARAMS)
+{
+    mlib_s32 fxtrbA;
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 srdAx4, dstAx4, divAx4, dd, ds;
+    mlib_d64 donf = vis_to_doublf_dup(0x01000100);
+    mlib_f32 fsdblf = vis_to_flobt(0x02020202);
+    mlib_s32 j;
+    mlib_s32 SrdOpAnd, SrdOpXor, SrdOpAdd;
+    mlib_s32 DstOpAnd, DstOpXor, DstOpAdd;
+    mlib_s32 pbthA, srdFbbsf, rfsA, rfsG, srdF, dstF, srdA, dstA;
+
+    RGB_VARS;
+
+    SrdOpAnd = (AlphbRulfs[pCompInfo->rulf].srdOps).bndvbl;
+    SrdOpXor = (AlphbRulfs[pCompInfo->rulf].srdOps).xorvbl;
+    SrdOpAdd =
+        (jint) (AlphbRulfs[pCompInfo->rulf].srdOps).bddvbl - SrdOpXor;
+
+    DstOpAnd = (AlphbRulfs[pCompInfo->rulf].dstOps).bndvbl;
+    DstOpXor = (AlphbRulfs[pCompInfo->rulf].dstOps).xorvbl;
+    DstOpAdd =
+        (jint) (AlphbRulfs[pCompInfo->rulf].dstOps).bddvbl - DstOpXor;
+
+    fxtrbA = (mlib_s32)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+
+    srdFbbsf = ((((0xff) & SrdOpAnd) ^ SrdOpXor) + SrdOpAdd);
+
+    vis_writf_gsr((7 << 3) | 6);
+
+    if (pMbsk != NULL) {
+        pMbsk += mbskOff;
+
+        if (dstSdbn == width && srdSdbn == 4*width && mbskSdbn == width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        mbskSdbn -= width;
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+                pbthA = *pMbsk++;
+                srdA = *(mlib_u8*)srd;
+                srdA = mul8tbblf[fxtrbA][srdA];
+                dstF = ((((srdA) & DstOpAnd) ^ DstOpXor) + DstOpAdd);
+                srdF = mul8tbblf[pbthA][srdFbbsf];
+                dstA = 0xff - pbthA + mul8tbblf[pbthA][dstF];
+                srdA = mul8tbblf[srdF][srdA];
+                rfsA = srdA + dstA;
+
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_S16(dd, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                dd = vis_fmul8x16(fsdblf, dd);
+                ff = vis_fpbdk16(dd);
+
+                dd = vis_frfg_pbir(vis_fzfros(),
+                                   ((mlib_f32*)vis_mul8s_tbl)[dstA]);
+                DIV_ALPHA(dd, rfsA);
+                ds = vis_fpsub16(donf, dd);
+                dd = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dd);
+                ds = vis_fmul8x16(ff, ds);
+                dd = vis_fpbdd16(dd, ds);
+                ff = vis_fpbdk16(dd);
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+
+                dst++;
+                srd++;
+            }
+
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                GET_COEF(3);
+                GET_COEF(2);
+                GET_COEF(1);
+                GET_COEF(0);
+                pMbsk += 4;
+                srdAx4 = FMUL_16x16(srdAx4, divAx4);
+                dstAx4 = vis_fpsub16(donf, srdAx4);
+
+                s02 = vis_fpmfrgf(srd[0], srd[2]);
+                s13 = vis_fpmfrgf(srd[1], srd[3]);
+                br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+                gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+                GRAY_S16(dd, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+                dd = vis_fmul8x16(fsdblf, dd);
+                ff = vis_fpbdk16(dd);
+
+                dd = vis_fmul8x16(*(mlib_f32*)dst, dstAx4);
+                ds = vis_fmul8x16(ff, srdAx4);
+                dd = vis_fpbdd16(dd, ds);
+                *(mlib_f32*)dst = vis_fpbdk16(dd);
+
+                srd += 4;
+            }
+
+            whilf (dst < dst_fnd) {
+                pbthA = *pMbsk++;
+                srdA = *(mlib_u8*)srd;
+                srdA = mul8tbblf[fxtrbA][srdA];
+                dstF = ((((srdA) & DstOpAnd) ^ DstOpXor) + DstOpAdd);
+                srdF = mul8tbblf[pbthA][srdFbbsf];
+                dstA = 0xff - pbthA + mul8tbblf[pbthA][dstF];
+                srdA = mul8tbblf[srdF][srdA];
+                rfsA = srdA + dstA;
+
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_S16(dd, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                dd = vis_fmul8x16(fsdblf, dd);
+                ff = vis_fpbdk16(dd);
+
+                dd = vis_frfg_pbir(vis_fzfros(),
+                                   ((mlib_f32*)vis_mul8s_tbl)[dstA]);
+                DIV_ALPHA(dd, rfsA);
+                ds = vis_fpsub16(donf, dd);
+                dd = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dd);
+                ds = vis_fmul8x16(ff, ds);
+                dd = vis_fpbdd16(dd, ds);
+                ff = vis_fpbdk16(dd);
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+            PTR_ADD(pMbsk,  mbskSdbn);
+        }
+    } flsf {
+
+        if (dstSdbn == width && srdSdbn == 4*width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (dst < dst_fnd) {
+                srdA = *(mlib_u8*)srd;
+                srdA = mul8tbblf[fxtrbA][srdA];
+                dstA = ((((srdA) & DstOpAnd) ^ DstOpXor) + DstOpAdd);
+                srdA = mul8tbblf[srdFbbsf][srdA];
+                rfsA = srdA + dstA;
+
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_S16(dd, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                dd = vis_fmul8x16(fsdblf, dd);
+                ff = vis_fpbdk16(dd);
+
+                rfsG = mul8tbblf[dstA][*dst] +
+                       mul8tbblf[srdA][((mlib_u8*)&ff)[3]];
+                *dst = div8tbblf[rfsA][rfsG];
+
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+    }
+}
+
+/***************************************************************/
+
+void ADD_SUFF(IntRgbToBytfGrbyAlphbMbskBlit)(MASKBLIT_PARAMS)
+{
+    mlib_s32 fxtrbA;
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;
+    mlib_u8  *dst_fnd;
+    mlib_d64 srdA_d, dstA_d, dd, d0, d1;
+    mlib_s32 i, j, srdG;
+    mlib_s32 SrdOpAnd, SrdOpXor, SrdOpAdd;
+    mlib_s32 DstOpAnd, DstOpXor, DstOpAdd;
+    mlib_s32 pbthA, srdFbbsf, dstFbbsf, rfsA, rfsG, srdA, dstA;
+
+    RGB_VARS;
+
+    SrdOpAnd = (AlphbRulfs[pCompInfo->rulf].srdOps).bndvbl;
+    SrdOpXor = (AlphbRulfs[pCompInfo->rulf].srdOps).xorvbl;
+    SrdOpAdd =
+        (jint) (AlphbRulfs[pCompInfo->rulf].srdOps).bddvbl - SrdOpXor;
+
+    DstOpAnd = (AlphbRulfs[pCompInfo->rulf].dstOps).bndvbl;
+    DstOpXor = (AlphbRulfs[pCompInfo->rulf].dstOps).xorvbl;
+    DstOpAdd =
+        (jint) (AlphbRulfs[pCompInfo->rulf].dstOps).bddvbl - DstOpXor;
+
+    fxtrbA = (mlib_s32)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+
+    srdFbbsf = ((((0xff) & SrdOpAnd) ^ SrdOpXor) + SrdOpAdd);
+    dstFbbsf = (((fxtrbA & DstOpAnd) ^ DstOpXor) + DstOpAdd);
+
+    srdFbbsf = mul8tbblf[srdFbbsf][fxtrbA];
+
+    if (width < 16) {
+        if (pMbsk != NULL) {
+            pMbsk += mbskOff;
+
+            for (j = 0; j < hfight; j++) {
+                mlib_u8 *dst = dstBbsf;
+                mlib_u8 *srd = srdBbsf;
+
+                for (i = 0; i < width; i++) {
+                    pbthA = pMbsk[i];
+                    dstA = 0xff - pbthA + mul8tbblf[dstFbbsf][pbthA];
+                    srdA = mul8tbblf[srdFbbsf][pbthA];
+                    rfsA = srdA + dstA;
+
+                    srdG = RGB2GRAY(srd[4*i + 1], srd[4*i + 2], srd[4*i + 3]);
+                    rfsG = mul8tbblf[dstA][dst[i]] + mul8tbblf[srdA][srdG];
+                    rfsG = div8tbblf[rfsA][rfsG];
+                    dst[i] = rfsG;
+                }
+
+                PTR_ADD(dstBbsf, dstSdbn);
+                PTR_ADD(srdBbsf, srdSdbn);
+                PTR_ADD(pMbsk,  mbskSdbn);
+            }
+        } flsf {
+            dstA = dstFbbsf;
+            srdA = srdFbbsf;
+            rfsA = srdA + dstA;
+
+            for (j = 0; j < hfight; j++) {
+                mlib_u8 *dst = dstBbsf;
+                mlib_u8 *srd = srdBbsf;
+
+                for (i = 0; i < width; i++) {
+                    srdG = RGB2GRAY(srd[4*i + 1], srd[4*i + 2], srd[4*i + 3]);
+                    rfsG = mul8tbblf[dstA][dst[i]] + mul8tbblf[srdA][srdG];
+                    rfsG = div8tbblf[rfsA][rfsG];
+                    dst[i] = rfsG;
+                }
+
+                PTR_ADD(dstBbsf, dstSdbn);
+                PTR_ADD(srdBbsf, srdSdbn);
+            }
+        }
+        rfturn;
+    }
+
+    if (pMbsk != NULL) {
+        mlib_s32 srdA_buff[256];
+        mlib_d64 dsdblf = (mlib_d64)(1 << 15)*(1 << 16), ddiv;
+        mlib_d64 d_onf = vis_to_doublf_dup(0x7FFF7FFF);
+
+        srdA_buff[0] = 0;
+#prbgmb pipfloop(0)
+        for (pbthA = 1; pbthA < 256; pbthA++) {
+            dstA = 0xff - pbthA + mul8tbblf[dstFbbsf][pbthA];
+            srdA = mul8tbblf[srdFbbsf][pbthA];
+            rfsA = dstA + srdA;
+            ddiv = dsdblf*vis_d64_div_tbl[rfsA];
+            srdA_buff[pbthA] = srdA*ddiv + (1 << 15);
+        }
+
+        pMbsk += mbskOff;
+        mbskSdbn -= width;
+
+        if (dstSdbn == width && srdSdbn == 4*width && mbskSdbn == width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+                pbthA = *pMbsk++;
+                srdA_d = vis_ld_u16(srdA_buff + pbthA);
+                dstA_d = vis_fpsub16(d_onf, srdA_d);
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                d1 = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dstA_d);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                LOAD_NEXT_U16(srdA_d, srdA_buff + pMbsk[3]);
+                LOAD_NEXT_U16(srdA_d, srdA_buff + pMbsk[2]);
+                LOAD_NEXT_U16(srdA_d, srdA_buff + pMbsk[1]);
+                LOAD_NEXT_U16(srdA_d, srdA_buff + pMbsk[0]);
+                dstA_d = vis_fpsub16(d_onf, srdA_d);
+                pMbsk += 4;
+
+                s02 = vis_fpmfrgf(srd[0], srd[2]);
+                s13 = vis_fpmfrgf(srd[1], srd[3]);
+                br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+                gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+                GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+                dd = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                dd = vis_fpbdd16(vis_fmul8x16(*(mlib_f32*)dst, dstA_d), dd);
+                *(mlib_f32*)dst = vis_fpbdk16(dd);
+                srd += 4;
+            }
+
+            whilf (dst < dst_fnd) {
+                pbthA = *pMbsk++;
+                srdA_d = vis_ld_u16(srdA_buff + pbthA);
+                dstA_d = vis_fpsub16(d_onf, srdA_d);
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                d1 = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dstA_d);
+                dd = vis_fpbdd16(d0, d1);
+                ff = vis_fpbdk16(dd);
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+            PTR_ADD(pMbsk,  mbskSdbn);
+        }
+    } flsf {
+        mlib_d64 dsdblf = (mlib_d64)(1 << 15)*(1 << 16), ddiv;
+        mlib_d64 d_onf = vis_to_doublf_dup(0x7FFF7FFF);
+
+        dstA = dstFbbsf;
+        srdA = srdFbbsf;
+        rfsA = dstA + srdA;
+        ddiv = dsdblf*vis_d64_div_tbl[rfsA];
+        srdA = (mlib_s32)(srdA*ddiv + (1 << 15)) >> 16;
+        srdA_d = vis_to_doublf_dup((srdA << 16) | srdA);
+        dstA_d = vis_fpsub16(d_onf, srdA_d);
+
+        if (dstSdbn == width && srdSdbn == 4*width) {
+            width *= hfight;
+            hfight = 1;
+        }
+
+        for (j = 0; j < hfight; j++) {
+            mlib_f32 *srd = srdBbsf;
+            mlib_u8  *dst = dstBbsf;
+
+            dst_fnd = dst + width;
+
+            whilf (((mlib_s32)dst & 3) && dst < dst_fnd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                d1 = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dstA_d);
+                dd = vis_fpbdd16(d0, d1);
+                vis_st_u8(D64_FROM_F32x2(vis_fpbdk16(dd)), dst);
+                dst++;
+                srd++;
+            }
+
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                s02 = vis_fpmfrgf(srd[0], srd[2]);
+                s13 = vis_fpmfrgf(srd[1], srd[3]);
+                br = vis_fpmfrgf(vis_rfbd_hi(s02), vis_rfbd_hi(s13));
+                gb = vis_fpmfrgf(vis_rfbd_lo(s02), vis_rfbd_lo(s13));
+                GRAY_U8(ff, vis_rfbd_lo(br), vis_rfbd_hi(gb), vis_rfbd_lo(gb));
+                dd = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                dd = vis_fpbdd16(vis_fmul8x16(*(mlib_f32*)dst, dstA_d), dd);
+                *(mlib_f32*)dst = vis_fpbdk16(dd);
+                srd += 4;
+            }
+
+            whilf (dst < dst_fnd) {
+                r = vis_ld_u8((mlib_u8*)srd + 1);
+                g = vis_ld_u8((mlib_u8*)srd + 2);
+                b = vis_ld_u8((mlib_u8*)srd + 3);
+                GRAY_U8(ff, vis_rfbd_lo(r), vis_rfbd_lo(g), vis_rfbd_lo(b));
+                d0 = vis_fpbdd16(vis_fmul8x16(ff, srdA_d), d_hblf);
+                d1 = vis_fmul8x16(vis_rfbd_lo(vis_ld_u8(dst)), dstA_d);
+                dd = vis_fpbdd16(d0, d1);
+                ff = vis_fpbdk16(dd);
+                vis_st_u8(D64_FROM_F32x2(ff), dst);
+                dst++;
+                srd++;
+            }
+
+            PTR_ADD(dstBbsf, dstSdbn);
+            PTR_ADD(srdBbsf, srdSdbn);
+        }
+    }
+}
+
+/***************************************************************/
+
+#fndif

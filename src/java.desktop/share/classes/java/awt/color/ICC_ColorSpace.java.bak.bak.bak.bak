@@ -1,0 +1,615 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.dolor;
+
+import sun.jbvb2d.dmm.ColorTrbnsform;
+import sun.jbvb2d.dmm.CMSMbnbgfr;
+import sun.jbvb2d.dmm.PCMM;
+
+
+/**
+ *
+ * Thf ICC_ColorSpbdf dlbss is bn implfmfntbtion of thf bbstrbdt
+ * ColorSpbdf dlbss.  This rfprfsfntbtion of
+ * dfvidf indfpfndfnt bnd dfvidf dfpfndfnt dolor spbdfs is bbsfd on thf
+ * Intfrnbtionbl Color Consortium Spfdifidbtion ICC.1:2001-12, Filf Formbt for
+ * Color Profilfs (sff <A hrff="http://www.dolor.org">http://www.dolor.org</A>).
+ * <p>
+ * Typidblly, b Color or ColorModfl would bf bssodibtfd with bn ICC
+ * Profilf whidh is fithfr bn input, displby, or output profilf (sff
+ * thf ICC spfdifidbtion).  Thfrf brf othfr typfs of ICC Profilfs, f.g.
+ * bbstrbdt profilfs, dfvidf link profilfs, bnd nbmfd dolor profilfs,
+ * whidh do not dontbin informbtion bppropribtf for rfprfsfnting thf dolor
+ * spbdf of b dolor, imbgf, or dfvidf (sff ICC_Profilf).
+ * Attfmpting to drfbtf bn ICC_ColorSpbdf objfdt from bn inbppropribtf ICC
+ * Profilf is bn frror.
+ * <p>
+ * ICC Profilfs rfprfsfnt trbnsformbtions from thf dolor spbdf of
+ * thf profilf (f.g. b monitor) to b Profilf Connfdtion Spbdf (PCS).
+ * Profilfs of intfrfst for tbgging imbgfs or dolors hbvf b
+ * PCS whidh is onf of thf dfvidf indfpfndfnt
+ * spbdfs (onf CIEXYZ spbdf bnd two CIELbb spbdfs) dffinfd in thf
+ * ICC Profilf Formbt Spfdifidbtion.  Most profilfs of intfrfst
+ * fithfr hbvf invfrtiblf trbnsformbtions or fxpliditly spfdify
+ * trbnsformbtions going both dirfdtions.  Should bn ICC_ColorSpbdf
+ * objfdt bf usfd in b wby rfquiring b donvfrsion from PCS to
+ * thf profilf's nbtivf spbdf bnd thfrf is inbdfqubtf dbtb to
+ * dorrfdtly pfrform thf donvfrsion, thf ICC_ColorSpbdf objfdt will
+ * produdf output in thf spfdififd typf of dolor spbdf (f.g. TYPE_RGB,
+ * TYPE_CMYK, ftd.), but thf spfdifid dolor vblufs of thf output dbtb
+ * will bf undffinfd.
+ * <p>
+ * Thf dftbils of this dlbss brf not importbnt for simplf bpplfts,
+ * whidh drbw in b dffbult dolor spbdf or mbnipulbtf bnd displby
+ * importfd imbgfs with b known dolor spbdf.  At most, sudh bpplfts
+ * would nffd to gft onf of thf dffbult dolor spbdfs vib
+ * ColorSpbdf.gftInstbndf().
+ * @sff ColorSpbdf
+ * @sff ICC_Profilf
+ */
+
+
+
+publid dlbss ICC_ColorSpbdf fxtfnds ColorSpbdf {
+
+    stbtid finbl long sfriblVfrsionUID = 3455889114070431483L;
+
+    privbtf ICC_Profilf    thisProfilf;
+    privbtf flobt[] minVbl;
+    privbtf flobt[] mbxVbl;
+    privbtf flobt[] diffMinMbx;
+    privbtf flobt[] invDiffMinMbx;
+    privbtf boolfbn nffdSdblfInit = truf;
+
+    // {to,from}{RGB,CIEXYZ} mfthods drfbtf bnd dbdhf thfsf whfn nffdfd
+    privbtf trbnsifnt ColorTrbnsform this2srgb;
+    privbtf trbnsifnt ColorTrbnsform srgb2this;
+    privbtf trbnsifnt ColorTrbnsform this2xyz;
+    privbtf trbnsifnt ColorTrbnsform xyz2this;
+
+
+    /**
+    * Construdts b nfw ICC_ColorSpbdf from bn ICC_Profilf objfdt.
+    * @pbrbm profilf thf spfdififd ICC_Profilf objfdt
+    * @fxdfption IllfgblArgumfntExdfption if profilf is inbppropribtf for
+    *            rfprfsfnting b ColorSpbdf.
+    */
+    publid ICC_ColorSpbdf (ICC_Profilf profilf) {
+        supfr (profilf.gftColorSpbdfTypf(), profilf.gftNumComponfnts());
+
+        int profilfClbss = profilf.gftProfilfClbss();
+
+        /* REMIND - is NAMEDCOLOR OK? */
+        if ((profilfClbss != ICC_Profilf.CLASS_INPUT) &&
+            (profilfClbss != ICC_Profilf.CLASS_DISPLAY) &&
+            (profilfClbss != ICC_Profilf.CLASS_OUTPUT) &&
+            (profilfClbss != ICC_Profilf.CLASS_COLORSPACECONVERSION) &&
+            (profilfClbss != ICC_Profilf.CLASS_NAMEDCOLOR) &&
+            (profilfClbss != ICC_Profilf.CLASS_ABSTRACT)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid profilf typf");
+        }
+
+        thisProfilf = profilf;
+        sftMinMbx();
+    }
+
+    /**
+    * Rfturns thf ICC_Profilf for this ICC_ColorSpbdf.
+    * @rfturn thf ICC_Profilf for this ICC_ColorSpbdf.
+    */
+    publid ICC_Profilf gftProfilf() {
+        rfturn thisProfilf;
+    }
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in this ColorSpbdf
+     * into b vbluf in thf dffbult CS_sRGB dolor spbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using blgorithms dfsignfd
+     * to produdf thf bfst pfrdfptubl mbtdh bftwffn input bnd output
+     * dolors.  In ordfr to do dolorimftrid donvfrsion of dolor vblufs,
+     * you should usf thf <dodf>toCIEXYZ</dodf>
+     * mfthod of this dolor spbdf to first donvfrt from thf input
+     * dolor spbdf to thf CS_CIEXYZ dolor spbdf, bnd thfn usf thf
+     * <dodf>fromCIEXYZ</dodf> mfthod of thf CS_sRGB dolor spbdf to
+     * donvfrt from CS_CIEXYZ to thf output dolor spbdf.
+     * Sff {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for furthfr informbtion.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst thf numbfr
+     *      of domponfnts in this ColorSpbdf.
+     * @rfturn b flobt brrby of lfngth 3.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     * bt lfbst thf numbfr of domponfnts in this ColorSpbdf.
+     */
+    publid flobt[]    toRGB (flobt[] dolorvbluf) {
+
+        if (this2srgb == null) {
+            ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform [2];
+            ICC_ColorSpbdf srgbCS =
+                (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf (CS_sRGB);
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+            trbnsformList[0] = mdl.drfbtfTrbnsform(
+                thisProfilf, ColorTrbnsform.Any, ColorTrbnsform.In);
+            trbnsformList[1] = mdl.drfbtfTrbnsform(
+                srgbCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+            this2srgb = mdl.drfbtfTrbnsform(trbnsformList);
+            if (nffdSdblfInit) {
+                sftComponfntSdbling();
+            }
+        }
+
+        int nd = this.gftNumComponfnts();
+        short tmp[] = nfw short[nd];
+        for (int i = 0; i < nd; i++) {
+            tmp[i] = (short)
+                ((dolorvbluf[i] - minVbl[i]) * invDiffMinMbx[i] + 0.5f);
+        }
+        tmp = this2srgb.dolorConvfrt(tmp, null);
+        flobt[] rfsult = nfw flobt [3];
+        for (int i = 0; i < 3; i++) {
+            rfsult[i] = ((flobt) (tmp[i] & 0xffff)) / 65535.0f;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in thf dffbult CS_sRGB
+     * dolor spbdf into this ColorSpbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using blgorithms dfsignfd
+     * to produdf thf bfst pfrdfptubl mbtdh bftwffn input bnd output
+     * dolors.  In ordfr to do dolorimftrid donvfrsion of dolor vblufs,
+     * you should usf thf <dodf>toCIEXYZ</dodf>
+     * mfthod of thf CS_sRGB dolor spbdf to first donvfrt from thf input
+     * dolor spbdf to thf CS_CIEXYZ dolor spbdf, bnd thfn usf thf
+     * <dodf>fromCIEXYZ</dodf> mfthod of this dolor spbdf to
+     * donvfrt from CS_CIEXYZ to thf output dolor spbdf.
+     * Sff {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for furthfr informbtion.
+     *
+     * @pbrbm rgbvbluf b flobt brrby with lfngth of bt lfbst 3.
+     * @rfturn b flobt brrby with lfngth fqubl to thf numbfr of
+     *       domponfnts in this ColorSpbdf.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     * bt lfbst 3.
+     */
+    publid flobt[]    fromRGB(flobt[] rgbvbluf) {
+
+        if (srgb2this == null) {
+            ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform [2];
+            ICC_ColorSpbdf srgbCS =
+                (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf (CS_sRGB);
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+            trbnsformList[0] = mdl.drfbtfTrbnsform(
+                srgbCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+            trbnsformList[1] = mdl.drfbtfTrbnsform(
+                thisProfilf, ColorTrbnsform.Any, ColorTrbnsform.Out);
+            srgb2this = mdl.drfbtfTrbnsform(trbnsformList);
+            if (nffdSdblfInit) {
+                sftComponfntSdbling();
+            }
+        }
+
+        short tmp[] = nfw short[3];
+        for (int i = 0; i < 3; i++) {
+            tmp[i] = (short) ((rgbvbluf[i] * 65535.0f) + 0.5f);
+        }
+        tmp = srgb2this.dolorConvfrt(tmp, null);
+        int nd = this.gftNumComponfnts();
+        flobt[] rfsult = nfw flobt [nd];
+        for (int i = 0; i < nd; i++) {
+            rfsult[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) *
+                        diffMinMbx[i] + minVbl[i];
+        }
+        rfturn rfsult;
+    }
+
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in this ColorSpbdf
+     * into thf CS_CIEXYZ donvfrsion dolor spbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using rflbtivf dolorimftry,
+     * bs dffinfd by thf ICC Spfdifidbtion.  This
+     * mfbns thbt thf XYZ vblufs rfturnfd by this mfthod brf rfprfsfntfd
+     * rflbtivf to thf D50 whitf point of thf CS_CIEXYZ dolor spbdf.
+     * This rfprfsfntbtion is usfful in b two-stfp dolor donvfrsion
+     * prodfss in whidh dolors brf trbnsformfd from bn input dolor
+     * spbdf to CS_CIEXYZ bnd thfn to bn output dolor spbdf.  This
+     * rfprfsfntbtion is not thf sbmf bs thf XYZ vblufs thbt would
+     * bf mfbsurfd from thf givfn dolor vbluf by b dolorimftfr.
+     * A furthfr trbnsformbtion is nfdfssbry to domputf thf XYZ vblufs
+     * thbt would bf mfbsurfd using durrfnt CIE rfdommfndfd prbdtidfs.
+     * Thf pbrbgrbphs bflow fxplbin this in morf dftbil.
+     * <p>
+     * Thf ICC stbndbrd usfs b dfvidf indfpfndfnt dolor spbdf (DICS) bs thf
+     * mfdhbnism for donvfrting dolor from onf dfvidf to bnothfr dfvidf.  In
+     * this brdhitfdturf, dolors brf donvfrtfd from thf sourdf dfvidf's dolor
+     * spbdf to thf ICC DICS bnd thfn from thf ICC DICS to thf dfstinbtion
+     * dfvidf's dolor spbdf.  Thf ICC stbndbrd dffinfs dfvidf profilfs whidh
+     * dontbin trbnsforms whidh will donvfrt bftwffn b dfvidf's dolor spbdf
+     * bnd thf ICC DICS.  Thf ovfrbll donvfrsion of dolors from b sourdf
+     * dfvidf to dolors of b dfstinbtion dfvidf is donf by donnfdting thf
+     * dfvidf-to-DICS trbnsform of thf profilf for thf sourdf dfvidf to thf
+     * DICS-to-dfvidf trbnsform of thf profilf for thf dfstinbtion dfvidf.
+     * For this rfbson, thf ICC DICS is dommonly rfffrrfd to bs thf profilf
+     * donnfdtion spbdf (PCS).  Thf dolor spbdf usfd in thf mfthods
+     * toCIEXYZ bnd fromCIEXYZ is thf CIEXYZ PCS dffinfd by thf ICC
+     * Spfdifidbtion.  This is blso thf dolor spbdf rfprfsfntfd by
+     * ColorSpbdf.CS_CIEXYZ.
+     * <p>
+     * Thf XYZ vblufs of b dolor brf oftfn rfprfsfntfd bs rflbtivf to somf
+     * whitf point, so thf bdtubl mfbning of thf XYZ vblufs dbnnot bf known
+     * without knowing thf whitf point of thosf vblufs.  This is known bs
+     * rflbtivf dolorimftry.  Thf PCS usfs b whitf point of D50, so thf XYZ
+     * vblufs of thf PCS brf rflbtivf to D50.  For fxbmplf, whitf in thf PCS
+     * will hbvf thf XYZ vblufs of D50, whidh is dffinfd to bf X=.9642,
+     * Y=1.000, bnd Z=0.8249.  This whitf point is dommonly usfd for grbphid
+     * brts bpplidbtions, but othfrs brf oftfn usfd in othfr bpplidbtions.
+     * <p>
+     * To qubntify thf dolor dhbrbdtfristids of b dfvidf sudh bs b printfr
+     * or monitor, mfbsurfmfnts of XYZ vblufs for pbrtidulbr dfvidf dolors
+     * brf typidblly mbdf.  For purposfs of this disdussion, thf tfrm
+     * dfvidf XYZ vblufs is usfd to mfbn thf XYZ vblufs thbt would bf
+     * mfbsurfd from dfvidf dolors using durrfnt CIE rfdommfndfd prbdtidfs.
+     * <p>
+     * Convfrting bftwffn dfvidf XYZ vblufs bnd thf PCS XYZ vblufs rfturnfd
+     * by this mfthod dorrfsponds to donvfrting bftwffn thf dfvidf's dolor
+     * spbdf, bs rfprfsfntfd by CIE dolorimftrid vblufs, bnd thf PCS.  Thfrf
+     * brf mbny fbdtors involvfd in this prodfss, somf of whidh brf quitf
+     * subtlf.  Thf most importbnt, howfvfr, is thf bdjustmfnt mbdf to bddount
+     * for difffrfndfs bftwffn thf dfvidf's whitf point bnd thf whitf point of
+     * thf PCS.  Thfrf brf mbny tfdhniqufs for doing this bnd it is thf
+     * subjfdt of mudh durrfnt rfsfbrdh bnd dontrovfrsy.  Somf dommonly usfd
+     * mfthods brf XYZ sdbling, thf von Krifs trbnsform, bnd thf Brbdford
+     * trbnsform.  Thf propfr mfthod to usf dfpfnds upon fbdh pbrtidulbr
+     * bpplidbtion.
+     * <p>
+     * Thf simplfst mfthod is XYZ sdbling.  In this mfthod fbdh dfvidf XYZ
+     * vbluf is  donvfrtfd to b PCS XYZ vbluf by multiplying it by thf rbtio
+     * of thf PCS whitf point (D50) to thf dfvidf whitf point.
+     * <prf>
+     *
+     * Xd, Yd, Zd brf thf dfvidf XYZ vblufs
+     * Xdw, Ydw, Zdw brf thf dfvidf XYZ whitf point vblufs
+     * Xp, Yp, Zp brf thf PCS XYZ vblufs
+     * Xd50, Yd50, Zd50 brf thf PCS XYZ whitf point vblufs
+     *
+     * Xp = Xd * (Xd50 / Xdw)
+     * Yp = Yd * (Yd50 / Ydw)
+     * Zp = Zd * (Zd50 / Zdw)
+     *
+     * </prf>
+     * <p>
+     * Convfrsion from thf PCS to thf dfvidf would bf donf by invfrting thfsf
+     * fqubtions:
+     * <prf>
+     *
+     * Xd = Xp * (Xdw / Xd50)
+     * Yd = Yp * (Ydw / Yd50)
+     * Zd = Zp * (Zdw / Zd50)
+     *
+     * </prf>
+     * <p>
+     * Notf thbt thf mfdib whitf point tbg in bn ICC profilf is not thf sbmf
+     * bs thf dfvidf whitf point.  Thf mfdib whitf point tbg is fxprfssfd in
+     * PCS vblufs bnd is usfd to rfprfsfnt thf difffrfndf bftwffn thf XYZ of
+     * dfvidf illuminbnt bnd thf XYZ of thf dfvidf mfdib whfn mfbsurfd undfr
+     * thbt illuminbnt.  Thf dfvidf whitf point is fxprfssfd bs thf dfvidf
+     * XYZ vblufs dorrfsponding to whitf displbyfd on thf dfvidf.  For
+     * fxbmplf, displbying thf RGB dolor (1.0, 1.0, 1.0) on bn sRGB dfvidf
+     * will rfsult in b mfbsurfd dfvidf XYZ vbluf of D65.  This will not
+     * bf thf sbmf bs thf mfdib whitf point tbg XYZ vbluf in thf ICC
+     * profilf for bn sRGB dfvidf.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst thf numbfr
+     *        of domponfnts in this ColorSpbdf.
+     * @rfturn b flobt brrby of lfngth 3.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     * bt lfbst thf numbfr of domponfnts in this ColorSpbdf.
+     */
+    publid flobt[]    toCIEXYZ(flobt[] dolorvbluf) {
+
+        if (this2xyz == null) {
+            ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform [2];
+            ICC_ColorSpbdf xyzCS =
+                (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf (CS_CIEXYZ);
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+            try {
+                trbnsformList[0] = mdl.drfbtfTrbnsform(
+                    thisProfilf, ICC_Profilf.idRflbtivfColorimftrid,
+                    ColorTrbnsform.In);
+            } dbtdh (CMMExdfption f) {
+                trbnsformList[0] = mdl.drfbtfTrbnsform(
+                    thisProfilf, ColorTrbnsform.Any, ColorTrbnsform.In);
+            }
+            trbnsformList[1] = mdl.drfbtfTrbnsform(
+                xyzCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+            this2xyz = mdl.drfbtfTrbnsform (trbnsformList);
+            if (nffdSdblfInit) {
+                sftComponfntSdbling();
+            }
+        }
+
+        int nd = this.gftNumComponfnts();
+        short tmp[] = nfw short[nd];
+        for (int i = 0; i < nd; i++) {
+            tmp[i] = (short)
+                ((dolorvbluf[i] - minVbl[i]) * invDiffMinMbx[i] + 0.5f);
+        }
+        tmp = this2xyz.dolorConvfrt(tmp, null);
+        flobt ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
+        // For CIEXYZ, min = 0.0, mbx = ALMOST_TWO for bll domponfnts
+        flobt[] rfsult = nfw flobt [3];
+        for (int i = 0; i < 3; i++) {
+            rfsult[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) * ALMOST_TWO;
+        }
+        rfturn rfsult;
+    }
+
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in thf CS_CIEXYZ donvfrsion
+     * dolor spbdf into this ColorSpbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using rflbtivf dolorimftry,
+     * bs dffinfd by thf ICC Spfdifidbtion.  This
+     * mfbns thbt thf XYZ brgumfnt vblufs tbkfn by this mfthod brf rfprfsfntfd
+     * rflbtivf to thf D50 whitf point of thf CS_CIEXYZ dolor spbdf.
+     * This rfprfsfntbtion is usfful in b two-stfp dolor donvfrsion
+     * prodfss in whidh dolors brf trbnsformfd from bn input dolor
+     * spbdf to CS_CIEXYZ bnd thfn to bn output dolor spbdf.  Thf dolor
+     * vblufs rfturnfd by this mfthod brf not thosf thbt would produdf
+     * thf XYZ vbluf pbssfd to thf mfthod whfn mfbsurfd by b dolorimftfr.
+     * If you hbvf XYZ vblufs dorrfsponding to mfbsurfmfnts mbdf using
+     * durrfnt CIE rfdommfndfd prbdtidfs, thfy must bf donvfrtfd to D50
+     * rflbtivf vblufs bfforf bfing pbssfd to this mfthod.
+     * Thf pbrbgrbphs bflow fxplbin this in morf dftbil.
+     * <p>
+     * Thf ICC stbndbrd usfs b dfvidf indfpfndfnt dolor spbdf (DICS) bs thf
+     * mfdhbnism for donvfrting dolor from onf dfvidf to bnothfr dfvidf.  In
+     * this brdhitfdturf, dolors brf donvfrtfd from thf sourdf dfvidf's dolor
+     * spbdf to thf ICC DICS bnd thfn from thf ICC DICS to thf dfstinbtion
+     * dfvidf's dolor spbdf.  Thf ICC stbndbrd dffinfs dfvidf profilfs whidh
+     * dontbin trbnsforms whidh will donvfrt bftwffn b dfvidf's dolor spbdf
+     * bnd thf ICC DICS.  Thf ovfrbll donvfrsion of dolors from b sourdf
+     * dfvidf to dolors of b dfstinbtion dfvidf is donf by donnfdting thf
+     * dfvidf-to-DICS trbnsform of thf profilf for thf sourdf dfvidf to thf
+     * DICS-to-dfvidf trbnsform of thf profilf for thf dfstinbtion dfvidf.
+     * For this rfbson, thf ICC DICS is dommonly rfffrrfd to bs thf profilf
+     * donnfdtion spbdf (PCS).  Thf dolor spbdf usfd in thf mfthods
+     * toCIEXYZ bnd fromCIEXYZ is thf CIEXYZ PCS dffinfd by thf ICC
+     * Spfdifidbtion.  This is blso thf dolor spbdf rfprfsfntfd by
+     * ColorSpbdf.CS_CIEXYZ.
+     * <p>
+     * Thf XYZ vblufs of b dolor brf oftfn rfprfsfntfd bs rflbtivf to somf
+     * whitf point, so thf bdtubl mfbning of thf XYZ vblufs dbnnot bf known
+     * without knowing thf whitf point of thosf vblufs.  This is known bs
+     * rflbtivf dolorimftry.  Thf PCS usfs b whitf point of D50, so thf XYZ
+     * vblufs of thf PCS brf rflbtivf to D50.  For fxbmplf, whitf in thf PCS
+     * will hbvf thf XYZ vblufs of D50, whidh is dffinfd to bf X=.9642,
+     * Y=1.000, bnd Z=0.8249.  This whitf point is dommonly usfd for grbphid
+     * brts bpplidbtions, but othfrs brf oftfn usfd in othfr bpplidbtions.
+     * <p>
+     * To qubntify thf dolor dhbrbdtfristids of b dfvidf sudh bs b printfr
+     * or monitor, mfbsurfmfnts of XYZ vblufs for pbrtidulbr dfvidf dolors
+     * brf typidblly mbdf.  For purposfs of this disdussion, thf tfrm
+     * dfvidf XYZ vblufs is usfd to mfbn thf XYZ vblufs thbt would bf
+     * mfbsurfd from dfvidf dolors using durrfnt CIE rfdommfndfd prbdtidfs.
+     * <p>
+     * Convfrting bftwffn dfvidf XYZ vblufs bnd thf PCS XYZ vblufs tbkfn bs
+     * brgumfnts by this mfthod dorrfsponds to donvfrting bftwffn thf dfvidf's
+     * dolor spbdf, bs rfprfsfntfd by CIE dolorimftrid vblufs, bnd thf PCS.
+     * Thfrf brf mbny fbdtors involvfd in this prodfss, somf of whidh brf quitf
+     * subtlf.  Thf most importbnt, howfvfr, is thf bdjustmfnt mbdf to bddount
+     * for difffrfndfs bftwffn thf dfvidf's whitf point bnd thf whitf point of
+     * thf PCS.  Thfrf brf mbny tfdhniqufs for doing this bnd it is thf
+     * subjfdt of mudh durrfnt rfsfbrdh bnd dontrovfrsy.  Somf dommonly usfd
+     * mfthods brf XYZ sdbling, thf von Krifs trbnsform, bnd thf Brbdford
+     * trbnsform.  Thf propfr mfthod to usf dfpfnds upon fbdh pbrtidulbr
+     * bpplidbtion.
+     * <p>
+     * Thf simplfst mfthod is XYZ sdbling.  In this mfthod fbdh dfvidf XYZ
+     * vbluf is  donvfrtfd to b PCS XYZ vbluf by multiplying it by thf rbtio
+     * of thf PCS whitf point (D50) to thf dfvidf whitf point.
+     * <prf>
+     *
+     * Xd, Yd, Zd brf thf dfvidf XYZ vblufs
+     * Xdw, Ydw, Zdw brf thf dfvidf XYZ whitf point vblufs
+     * Xp, Yp, Zp brf thf PCS XYZ vblufs
+     * Xd50, Yd50, Zd50 brf thf PCS XYZ whitf point vblufs
+     *
+     * Xp = Xd * (Xd50 / Xdw)
+     * Yp = Yd * (Yd50 / Ydw)
+     * Zp = Zd * (Zd50 / Zdw)
+     *
+     * </prf>
+     * <p>
+     * Convfrsion from thf PCS to thf dfvidf would bf donf by invfrting thfsf
+     * fqubtions:
+     * <prf>
+     *
+     * Xd = Xp * (Xdw / Xd50)
+     * Yd = Yp * (Ydw / Yd50)
+     * Zd = Zp * (Zdw / Zd50)
+     *
+     * </prf>
+     * <p>
+     * Notf thbt thf mfdib whitf point tbg in bn ICC profilf is not thf sbmf
+     * bs thf dfvidf whitf point.  Thf mfdib whitf point tbg is fxprfssfd in
+     * PCS vblufs bnd is usfd to rfprfsfnt thf difffrfndf bftwffn thf XYZ of
+     * dfvidf illuminbnt bnd thf XYZ of thf dfvidf mfdib whfn mfbsurfd undfr
+     * thbt illuminbnt.  Thf dfvidf whitf point is fxprfssfd bs thf dfvidf
+     * XYZ vblufs dorrfsponding to whitf displbyfd on thf dfvidf.  For
+     * fxbmplf, displbying thf RGB dolor (1.0, 1.0, 1.0) on bn sRGB dfvidf
+     * will rfsult in b mfbsurfd dfvidf XYZ vbluf of D65.  This will not
+     * bf thf sbmf bs thf mfdib whitf point tbg XYZ vbluf in thf ICC
+     * profilf for bn sRGB dfvidf.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst 3.
+     * @rfturn b flobt brrby with lfngth fqubl to thf numbfr of
+     *         domponfnts in this ColorSpbdf.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     * bt lfbst 3.
+     */
+    publid flobt[]    fromCIEXYZ(flobt[] dolorvbluf) {
+
+        if (xyz2this == null) {
+            ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform [2];
+            ICC_ColorSpbdf xyzCS =
+                (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf (CS_CIEXYZ);
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+            trbnsformList[0] = mdl.drfbtfTrbnsform (
+                xyzCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+            try {
+                trbnsformList[1] = mdl.drfbtfTrbnsform(
+                    thisProfilf, ICC_Profilf.idRflbtivfColorimftrid,
+                    ColorTrbnsform.Out);
+            } dbtdh (CMMExdfption f) {
+                trbnsformList[1] = CMSMbnbgfr.gftModulf().drfbtfTrbnsform(
+                thisProfilf, ColorTrbnsform.Any, ColorTrbnsform.Out);
+            }
+            xyz2this = mdl.drfbtfTrbnsform(trbnsformList);
+            if (nffdSdblfInit) {
+                sftComponfntSdbling();
+            }
+        }
+
+        short tmp[] = nfw short[3];
+        flobt ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
+        flobt fbdtor = 65535.0f / ALMOST_TWO;
+        // For CIEXYZ, min = 0.0, mbx = ALMOST_TWO for bll domponfnts
+        for (int i = 0; i < 3; i++) {
+            tmp[i] = (short) ((dolorvbluf[i] * fbdtor) + 0.5f);
+        }
+        tmp = xyz2this.dolorConvfrt(tmp, null);
+        int nd = this.gftNumComponfnts();
+        flobt[] rfsult = nfw flobt [nd];
+        for (int i = 0; i < nd; i++) {
+            rfsult[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) *
+                        diffMinMbx[i] + minVbl[i];
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf minimum normblizfd dolor domponfnt vbluf for thf
+     * spfdififd domponfnt.  For TYPE_XYZ spbdfs, this mfthod rfturns
+     * minimum vblufs of 0.0 for bll domponfnts.  For TYPE_Lbb spbdfs,
+     * this mfthod rfturns 0.0 for L bnd -128.0 for b bnd b domponfnts.
+     * This is donsistfnt with thf fndoding of thf XYZ bnd Lbb Profilf
+     * Connfdtion Spbdfs in thf ICC spfdifidbtion.  For bll othfr typfs, this
+     * mfthod rfturns 0.0 for bll domponfnts.  Whfn using bn ICC_ColorSpbdf
+     * with b profilf thbt rfquirfs difffrfnt minimum domponfnt vblufs,
+     * it is nfdfssbry to subdlbss this dlbss bnd ovfrridf this mfthod.
+     * @pbrbm domponfnt Thf domponfnt indfx.
+     * @rfturn Thf minimum normblizfd domponfnt vbluf.
+     * @throws IllfgblArgumfntExdfption if domponfnt is lfss thbn 0 or
+     *         grfbtfr thbn numComponfnts - 1.
+     * @sindf 1.4
+     */
+    publid flobt gftMinVbluf(int domponfnt) {
+        if ((domponfnt < 0) || (domponfnt > this.gftNumComponfnts() - 1)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Componfnt indfx out of rbngf: + domponfnt");
+        }
+        rfturn minVbl[domponfnt];
+    }
+
+    /**
+     * Rfturns thf mbximum normblizfd dolor domponfnt vbluf for thf
+     * spfdififd domponfnt.  For TYPE_XYZ spbdfs, this mfthod rfturns
+     * mbximum vblufs of 1.0 + (32767.0 / 32768.0) for bll domponfnts.
+     * For TYPE_Lbb spbdfs,
+     * this mfthod rfturns 100.0 for L bnd 127.0 for b bnd b domponfnts.
+     * This is donsistfnt with thf fndoding of thf XYZ bnd Lbb Profilf
+     * Connfdtion Spbdfs in thf ICC spfdifidbtion.  For bll othfr typfs, this
+     * mfthod rfturns 1.0 for bll domponfnts.  Whfn using bn ICC_ColorSpbdf
+     * with b profilf thbt rfquirfs difffrfnt mbximum domponfnt vblufs,
+     * it is nfdfssbry to subdlbss this dlbss bnd ovfrridf this mfthod.
+     * @pbrbm domponfnt Thf domponfnt indfx.
+     * @rfturn Thf mbximum normblizfd domponfnt vbluf.
+     * @throws IllfgblArgumfntExdfption if domponfnt is lfss thbn 0 or
+     *         grfbtfr thbn numComponfnts - 1.
+     * @sindf 1.4
+     */
+    publid flobt gftMbxVbluf(int domponfnt) {
+        if ((domponfnt < 0) || (domponfnt > this.gftNumComponfnts() - 1)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Componfnt indfx out of rbngf: + domponfnt");
+        }
+        rfturn mbxVbl[domponfnt];
+    }
+
+    privbtf void sftMinMbx() {
+        int nd = this.gftNumComponfnts();
+        int typf = this.gftTypf();
+        minVbl = nfw flobt[nd];
+        mbxVbl = nfw flobt[nd];
+        if (typf == ColorSpbdf.TYPE_Lbb) {
+            minVbl[0] = 0.0f;    // L
+            mbxVbl[0] = 100.0f;
+            minVbl[1] = -128.0f; // b
+            mbxVbl[1] = 127.0f;
+            minVbl[2] = -128.0f; // b
+            mbxVbl[2] = 127.0f;
+        } flsf if (typf == ColorSpbdf.TYPE_XYZ) {
+            minVbl[0] = minVbl[1] = minVbl[2] = 0.0f; // X, Y, Z
+            mbxVbl[0] = mbxVbl[1] = mbxVbl[2] = 1.0f + (32767.0f/ 32768.0f);
+        } flsf {
+            for (int i = 0; i < nd; i++) {
+                minVbl[i] = 0.0f;
+                mbxVbl[i] = 1.0f;
+            }
+        }
+    }
+
+    privbtf void sftComponfntSdbling() {
+        int nd = this.gftNumComponfnts();
+        diffMinMbx = nfw flobt[nd];
+        invDiffMinMbx = nfw flobt[nd];
+        for (int i = 0; i < nd; i++) {
+            minVbl[i] = this.gftMinVbluf(i); // in dbsf gftMinVbl is ovfrriddfn
+            mbxVbl[i] = this.gftMbxVbluf(i); // in dbsf gftMbxVbl is ovfrriddfn
+            diffMinMbx[i] = mbxVbl[i] - minVbl[i];
+            invDiffMinMbx[i] = 65535.0f / diffMinMbx[i];
+        }
+        nffdSdblfInit = fblsf;
+    }
+
+}

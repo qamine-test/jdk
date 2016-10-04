@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
+
+
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+import jbvb.util.Arrbys;
+
+
+/**
+ * Implfmfntbtion of WilddbrdTypf intfrfbdf for dorf rfflfdtion.
+ */
+publid dlbss WilddbrdTypfImpl fxtfnds LbzyRfflfdtivfObjfdtGfnfrbtor
+    implfmfnts WilddbrdTypf {
+    // uppfr bounds - fvblubtfd lbzily
+    privbtf Typf[] uppfrBounds;
+    // lowfr bounds - fvblubtfd lbzily
+    privbtf Typf[] lowfrBounds;
+    // Thf ASTs for thf bounds. Wf brf rfquirfd to fvblubtf thf bounds
+    // lbzily, so wf storf thfsf bt lfbst until wf brf first bskfd
+    // for thf bounds. This blso nfbtly solvfs thf
+    // problfm with F-bounds - you dbn't rfify thfm bfforf thf formbl
+    // is dffinfd.
+    privbtf FifldTypfSignbturf[] uppfrBoundASTs;
+    privbtf FifldTypfSignbturf[] lowfrBoundASTs;
+
+    // donstrudtor is privbtf to fnfordf bddfss through stbtid fbdtory
+    privbtf WilddbrdTypfImpl(FifldTypfSignbturf[] ubs,
+                             FifldTypfSignbturf[] lbs,
+                             GfnfridsFbdtory f) {
+        supfr(f);
+        uppfrBoundASTs = ubs;
+        lowfrBoundASTs = lbs;
+    }
+
+    /**
+     * Fbdtory mfthod.
+     * @pbrbm ubs - bn brrby of ASTs rfprfsfnting thf uppfr bounds for thf typf
+     * vbribblf to bf drfbtfd
+     * @pbrbm lbs - bn brrby of ASTs rfprfsfnting thf lowfr bounds for thf typf
+     * vbribblf to bf drfbtfd
+     * @pbrbm f - b fbdtory thbt dbn bf usfd to mbnufbdturf rfflfdtivf
+     * objfdts thbt rfprfsfnt thf bounds of this wilddbrd typf
+     * @rfturn b wild dbrd typf with thf rfqufstfd bounds bnd fbdtory
+     */
+    publid stbtid WilddbrdTypfImpl mbkf(FifldTypfSignbturf[] ubs,
+                                        FifldTypfSignbturf[] lbs,
+                                        GfnfridsFbdtory f) {
+        rfturn nfw WilddbrdTypfImpl(ubs, lbs, f);
+    }
+
+    // Addfssors
+
+    // bddfssor for ASTs for uppfr bounds. Must not bf dbllfd bftfr uppfr
+    // bounds hbvf bffn fvblubtfd, bfdbusf wf might throw thf ASTs
+    // bwby (but thbt is not thrfbd-sbff, is it?)
+    privbtf FifldTypfSignbturf[] gftUppfrBoundASTs() {
+        // dhfdk thbt uppfr bounds wfrf not fvblubtfd yft
+        bssfrt(uppfrBounds == null);
+        rfturn uppfrBoundASTs;
+    }
+    // bddfssor for ASTs for lowfr bounds. Must not bf dbllfd bftfr lowfr
+    // bounds hbvf bffn fvblubtfd, bfdbusf wf might throw thf ASTs
+    // bwby (but thbt is not thrfbd-sbff, is it?)
+    privbtf FifldTypfSignbturf[] gftLowfrBoundASTs() {
+        // dhfdk thbt lowfr bounds wfrf not fvblubtfd yft
+        bssfrt(lowfrBounds == null);
+        rfturn lowfrBoundASTs;
+    }
+
+    /**
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting thf  uppfr
+     * bound(s) of this typf vbribblf.  Notf thbt if no uppfr bound is
+     * fxpliditly dfdlbrfd, thf uppfr bound is <tt>Objfdt</tt>.
+     *
+     * <p>For fbdh uppfr bound B :
+     * <ul>
+     *  <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *  (sff {@link #PbrbmftfrizfdTypf} for thf dftbils of thf drfbtion
+     *  prodfss for pbrbmftfrizfd typfs).
+     *  <li>Othfrwisf, B is rfsolvfd.
+     * </ul>
+     *
+     * @rfturn bn brrby of Typfs rfprfsfnting thf uppfr bound(s) of this
+     *     typf vbribblf
+     * @throws <tt>TypfNotPrfsfntExdfption</tt> if bny of thf
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of thf
+     *     bounds rfffr to b pbrbmftfrizfd typf thbt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     */
+    publid Typf[] gftUppfrBounds() {
+        // lbzily initiblizf bounds if nfdfssbry
+        if (uppfrBounds == null) {
+            FifldTypfSignbturf[] fts = gftUppfrBoundASTs(); // gft AST
+
+            // bllodbtf rfsult brrby; notf thbt
+            // kffping ts bnd bounds sfpbrbtf hflps with thrfbds
+            Typf[] ts = nfw Typf[fts.lfngth];
+            // itfrbtf ovfr bound trffs, rfifying fbdh in turn
+            for ( int j = 0; j  < fts.lfngth; j++) {
+                Rfififr r = gftRfififr();
+                fts[j].bddfpt(r);
+                ts[j] = r.gftRfsult();
+            }
+            // dbdhf rfsult
+            uppfrBounds = ts;
+            // dould throw bwby uppfr bound ASTs hfrf; thrfbd sbffty?
+        }
+        rfturn uppfrBounds.dlonf(); // rfturn dbdhfd bounds
+    }
+
+    /**
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting thf
+     * lowfr bound(s) of this typf vbribblf.  Notf thbt if no lowfr bound is
+     * fxpliditly dfdlbrfd, thf lowfr bound is thf typf of <tt>null</tt>.
+     * In this dbsf, b zfro lfngth brrby is rfturnfd.
+     *
+     * <p>For fbdh lowfr bound B :
+     * <ul>
+     *   <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *   (sff {@link #PbrbmftfrizfdTypf} for thf dftbils of thf drfbtion
+     *   prodfss for pbrbmftfrizfd typfs).
+     *   <li>Othfrwisf, B is rfsolvfd.
+     * </ul>
+     *
+     * @rfturn bn brrby of Typfs rfprfsfnting thf lowfr bound(s) of this
+     *     typf vbribblf
+     * @throws <tt>TypfNotPrfsfntExdfption</tt> if bny of thf
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of thf
+     *     bounds rfffr to b pbrbmftfrizfd typf thbt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     */
+    publid Typf[] gftLowfrBounds() {
+        // lbzily initiblizf bounds if nfdfssbry
+        if (lowfrBounds == null) {
+            FifldTypfSignbturf[] fts = gftLowfrBoundASTs(); // gft AST
+            // bllodbtf rfsult brrby; notf thbt
+            // kffping ts bnd bounds sfpbrbtf hflps with thrfbds
+            Typf[] ts = nfw Typf[fts.lfngth];
+            // itfrbtf ovfr bound trffs, rfifying fbdh in turn
+            for ( int j = 0; j  < fts.lfngth; j++) {
+                Rfififr r = gftRfififr();
+                fts[j].bddfpt(r);
+                ts[j] = r.gftRfsult();
+            }
+            // dbdhf rfsult
+            lowfrBounds = ts;
+            // dould throw bwby lowfr bound ASTs hfrf; thrfbd sbffty?
+        }
+        rfturn lowfrBounds.dlonf(); // rfturn dbdhfd bounds
+    }
+
+    publid String toString() {
+        Typf[] lowfrBounds = gftLowfrBounds();
+        Typf[] bounds = lowfrBounds;
+        StringBuildfr sb = nfw StringBuildfr();
+
+        if (lowfrBounds.lfngth > 0)
+            sb.bppfnd("? supfr ");
+        flsf {
+            Typf[] uppfrBounds = gftUppfrBounds();
+            if (uppfrBounds.lfngth > 0 && !uppfrBounds[0].fqubls(Objfdt.dlbss) ) {
+                bounds = uppfrBounds;
+                sb.bppfnd("? fxtfnds ");
+            } flsf
+                rfturn "?";
+        }
+
+        bssfrt bounds.lfngth > 0;
+
+        boolfbn first = truf;
+        for(Typf bound: bounds) {
+            if (!first)
+                sb.bppfnd(" & ");
+
+            first = fblsf;
+            sb.bppfnd(bound.gftTypfNbmf());
+        }
+        rfturn sb.toString();
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof WilddbrdTypf) {
+            WilddbrdTypf thbt = (WilddbrdTypf) o;
+            rfturn
+                Arrbys.fqubls(this.gftLowfrBounds(),
+                              thbt.gftLowfrBounds()) &&
+                Arrbys.fqubls(this.gftUppfrBounds(),
+                              thbt.gftUppfrBounds());
+        } flsf
+            rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        Typf [] lowfrBounds = gftLowfrBounds();
+        Typf [] uppfrBounds = gftUppfrBounds();
+
+        rfturn Arrbys.hbshCodf(lowfrBounds) ^ Arrbys.hbshCodf(uppfrBounds);
+    }
+}

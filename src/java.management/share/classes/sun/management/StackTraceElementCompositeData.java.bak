@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * A CompositeData for StackTraceElement for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for StbdkTrbdfElfmfnt for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class StackTraceElementCompositeData extends LazyCompositeData {
-    private final StackTraceElement ste;
+publid dlbss StbdkTrbdfElfmfntCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl StbdkTrbdfElfmfnt stf;
 
-    private StackTraceElementCompositeData(StackTraceElement ste) {
-        this.ste = ste;
+    privbtf StbdkTrbdfElfmfntCompositfDbtb(StbdkTrbdfElfmfnt stf) {
+        tiis.stf = stf;
     }
 
-    public StackTraceElement getStackTraceElement() {
-        return ste;
+    publid StbdkTrbdfElfmfnt gftStbdkTrbdfElfmfnt() {
+        rfturn stf;
     }
 
-    public static StackTraceElement from(CompositeData cd) {
-        validateCompositeData(cd);
+    publid stbtid StbdkTrbdfElfmfnt from(CompositfDbtb dd) {
+        vblidbtfCompositfDbtb(dd);
 
-        return new StackTraceElement(getString(cd, CLASS_NAME),
-                                     getString(cd, METHOD_NAME),
-                                     getString(cd, FILE_NAME),
-                                     getInt(cd, LINE_NUMBER));
+        rfturn nfw StbdkTrbdfElfmfnt(gftString(dd, CLASS_NAME),
+                                     gftString(dd, METHOD_NAME),
+                                     gftString(dd, FILE_NAME),
+                                     gftInt(dd, LINE_NUMBER));
     }
 
-    public static CompositeData toCompositeData(StackTraceElement ste) {
-        StackTraceElementCompositeData cd = new StackTraceElementCompositeData(ste);
-        return cd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(StbdkTrbdfElfmfnt stf) {
+        StbdkTrbdfElfmfntCompositfDbtb dd = nfw StbdkTrbdfElfmfntCompositfDbtb(stf);
+        rfturn dd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // stackTraceElementItemNames!
-        final Object[] stackTraceElementItemValues = {
-            ste.getClassName(),
-            ste.getMethodName(),
-            ste.getFileName(),
-            ste.getLineNumber(),
-            ste.isNativeMethod(),
+        // stbdkTrbdfElfmfntItfmNbmfs!
+        finbl Objfdt[] stbdkTrbdfElfmfntItfmVblufs = {
+            stf.gftClbssNbmf(),
+            stf.gftMftiodNbmf(),
+            stf.gftFilfNbmf(),
+            stf.gftLinfNumbfr(),
+            stf.isNbtivfMftiod(),
         };
         try {
-            return new CompositeDataSupport(stackTraceElementCompositeType,
-                                            stackTraceElementItemNames,
-                                            stackTraceElementItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(stbdkTrbdfElfmfntCompositfTypf,
+                                            stbdkTrbdfElfmfntItfmNbmfs,
+                                            stbdkTrbdfElfmfntItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final CompositeType stackTraceElementCompositeType;
-    static {
+    privbtf stbtid finbl CompositfTypf stbdkTrbdfElfmfntCompositfTypf;
+    stbtid {
         try {
-            stackTraceElementCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(StackTraceElement.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            stbdkTrbdfElfmfntCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(StbdkTrbdfElfmfnt.dlbss);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    // Attribute names
-    private static final String CLASS_NAME      = "className";
-    private static final String METHOD_NAME     = "methodName";
-    private static final String FILE_NAME       = "fileName";
-    private static final String LINE_NUMBER     = "lineNumber";
-    private static final String NATIVE_METHOD   = "nativeMethod";
+    // Attributf nbmfs
+    privbtf stbtid finbl String CLASS_NAME      = "dlbssNbmf";
+    privbtf stbtid finbl String METHOD_NAME     = "mftiodNbmf";
+    privbtf stbtid finbl String FILE_NAME       = "filfNbmf";
+    privbtf stbtid finbl String LINE_NUMBER     = "linfNumbfr";
+    privbtf stbtid finbl String NATIVE_METHOD   = "nbtivfMftiod";
 
-    private static final String[] stackTraceElementItemNames = {
+    privbtf stbtid finbl String[] stbdkTrbdfElfmfntItfmNbmfs = {
         CLASS_NAME,
         METHOD_NAME,
         FILE_NAME,
@@ -106,20 +106,20 @@ public class StackTraceElementCompositeData extends LazyCompositeData {
         NATIVE_METHOD,
     };
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(stackTraceElementCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for StackTraceElement");
+        if (!isTypfMbtdifd(stbdkTrbdfElfmfntCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for StbdkTrbdfElfmfnt");
         }
     }
 
-    private static final long serialVersionUID = -2704607706598396827L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2704607706598396827L;
 }

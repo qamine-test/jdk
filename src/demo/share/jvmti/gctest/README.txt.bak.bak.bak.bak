@@ -1,0 +1,54 @@
+#
+# Copyright (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+# Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+# modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+# brf mft:
+#
+#   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+#     notidf, this list of donditions bnd thf following disdlbimfr.
+#
+#   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+#     notidf, this list of donditions bnd thf following disdlbimfr in thf
+#     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+#
+#   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from this softwbrf without spfdifid prior writtfn pfrmission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+# IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+gdtfst
+
+This bgfnt librbry dbn bf usfd to trbdk gbrbbgf dollfdtion fvfnts.
+
+You dbn usf this bgfnt librbry bs follows:
+
+    jbvb -bgfntlib:gdtfst ...  
+	  
+To gft hflp on thf bvbilbblf options try:
+
+    jbvb -bgfntlib:gdtfst=hflp
+
+Sff ${JAVA_HOME}/dfmo/jvmti/indfx.html for hflp running bnd building bgfnts.
+
+Thf Evfnts JVMTI_EVENT_GARBAGE_COLLECTION_START,
+JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, bnd JVMTI_EVENT_OBJECT_FREE 
+bll hbvf limitbtions bs to whbt dbn bf dbllfd dirfdtly insidf thf 
+bgfnt dbllbbdk fundtions (f.g. no JNI dblls brf bllowfd, bnd limitfd 
+intfrfbdf dblls dbn bf mbdf). Howfvfr, by using rbw monitors bnd b sfpbrbtf 
+wbtdhfr thrfbd, this bgfnt dfmonstrbtfs how thfsf limitbtions dbn bf 
+fbsily bvoidfd, bllowing thf wbtdhfr thrfbd to do just bbout bnything
+bftfr thf JVMTI_EVENT_GARBAGE_COLLECTION_FINISH fvfnt.
+

@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.util.StringTokenizer;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.text.MessageFormat;
-import java.lang.Character.*;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.lbng.Cibrbdtfr.*;
 
 
 /**
- * This class holds all necessary information to install or
- * upgrade a extension on the user's disk
+ * Tiis dlbss iolds bll nfdfssbry informbtion to instbll or
+ * upgrbdf b fxtfnsion on tif usfr's disk
  *
- * @author  Jerome Dochez
+ * @butior  Jfromf Dodifz
  */
-public class ExtensionInfo {
+publid dlbss ExtfnsionInfo {
 
     /**
      * <p>
-     * public static values returned by the isCompatible method
+     * publid stbtid vblufs rfturnfd by tif isCompbtiblf mftiod
      * </p>
      */
-    public static final int COMPATIBLE = 0;
-    public static final int REQUIRE_SPECIFICATION_UPGRADE = 1;
-    public static final int REQUIRE_IMPLEMENTATION_UPGRADE = 2;
-    public static final int REQUIRE_VENDOR_SWITCH = 3;
-    public static final int INCOMPATIBLE = 4;
+    publid stbtid finbl int COMPATIBLE = 0;
+    publid stbtid finbl int REQUIRE_SPECIFICATION_UPGRADE = 1;
+    publid stbtid finbl int REQUIRE_IMPLEMENTATION_UPGRADE = 2;
+    publid stbtid finbl int REQUIRE_VENDOR_SWITCH = 3;
+    publid stbtid finbl int INCOMPATIBLE = 4;
 
     /**
      * <p>
-     * attributes fully describer an extension. The underlying described
-     * extension may be installed and requested.
+     * bttributfs fully dfsdribfr bn fxtfnsion. Tif undfrlying dfsdribfd
+     * fxtfnsion mby bf instbllfd bnd rfqufstfd.
      * <p>
      */
-    public String title;
-    public String name;
-    public String specVersion;
-    public String specVendor;
-    public String implementationVersion;
-    public String vendor;
-    public String vendorId;
-    public String url;
+    publid String titlf;
+    publid String nbmf;
+    publid String spfdVfrsion;
+    publid String spfdVfndor;
+    publid String implfmfntbtionVfrsion;
+    publid String vfndor;
+    publid String vfndorId;
+    publid String url;
 
     // For I18N support
-    private static final ResourceBundle rb =
-        ResourceBundle.getBundle("sun.misc.resources.Messages");
+    privbtf stbtid finbl RfsourdfBundlf rb =
+        RfsourdfBundlf.gftBundlf("sun.misd.rfsourdfs.Mfssbgfs");
 
 
     /**
      * <p>
-     * Create a new uninitialized extension information object
+     * Crfbtf b nfw uninitiblizfd fxtfnsion informbtion objfdt
      * </p>
      */
-    public ExtensionInfo() {
+    publid ExtfnsionInfo() {
     }
 
     /**
      * <p>
-     * Create and initialize an extension information object.
-     * The initialization uses the attributes passed as being
-     * the content of a manifest file to load the extension
-     * information from.
-     * Since manifest file may contain information on several
-     * extension they may depend on, the extension key parameter
-     * is prepanded to the attribute name to make the key used
-     * to retrieve the attribute from the manifest file
+     * Crfbtf bnd initiblizf bn fxtfnsion informbtion objfdt.
+     * Tif initiblizbtion usfs tif bttributfs pbssfd bs bfing
+     * tif dontfnt of b mbniffst filf to lobd tif fxtfnsion
+     * informbtion from.
+     * Sindf mbniffst filf mby dontbin informbtion on sfvfrbl
+     * fxtfnsion tify mby dfpfnd on, tif fxtfnsion kfy pbrbmftfr
+     * is prfpbndfd to tif bttributf nbmf to mbkf tif kfy usfd
+     * to rftrifvf tif bttributf from tif mbniffst filf
      * <p>
-     * @param extensionKey unique extension key in the manifest
-     * @param attr Attributes of a manifest file
+     * @pbrbm fxtfnsionKfy uniquf fxtfnsion kfy in tif mbniffst
+     * @pbrbm bttr Attributfs of b mbniffst filf
      */
-    public ExtensionInfo(String extensionKey, Attributes attr)
-        throws NullPointerException
+    publid ExtfnsionInfo(String fxtfnsionKfy, Attributfs bttr)
+        tirows NullPointfrExdfption
     {
         String s;
-        if (extensionKey!=null) {
-            s = extensionKey + "-";
-        } else {
+        if (fxtfnsionKfy!=null) {
+            s = fxtfnsionKfy + "-";
+        } flsf {
             s ="";
         }
 
-        String attrKey = s + Name.EXTENSION_NAME.toString();
-        name = attr.getValue(attrKey);
-        if (name != null)
-            name = name.trim();
+        String bttrKfy = s + Nbmf.EXTENSION_NAME.toString();
+        nbmf = bttr.gftVbluf(bttrKfy);
+        if (nbmf != null)
+            nbmf = nbmf.trim();
 
-        attrKey = s + Name.SPECIFICATION_TITLE.toString();
-        title = attr.getValue(attrKey);
-        if (title != null)
-            title = title.trim();
+        bttrKfy = s + Nbmf.SPECIFICATION_TITLE.toString();
+        titlf = bttr.gftVbluf(bttrKfy);
+        if (titlf != null)
+            titlf = titlf.trim();
 
-        attrKey = s + Name.SPECIFICATION_VERSION.toString();
-        specVersion = attr.getValue(attrKey);
-        if (specVersion != null)
-            specVersion = specVersion.trim();
+        bttrKfy = s + Nbmf.SPECIFICATION_VERSION.toString();
+        spfdVfrsion = bttr.gftVbluf(bttrKfy);
+        if (spfdVfrsion != null)
+            spfdVfrsion = spfdVfrsion.trim();
 
-        attrKey = s + Name.SPECIFICATION_VENDOR.toString();
-        specVendor = attr.getValue(attrKey);
-        if (specVendor != null)
-            specVendor = specVendor.trim();
+        bttrKfy = s + Nbmf.SPECIFICATION_VENDOR.toString();
+        spfdVfndor = bttr.gftVbluf(bttrKfy);
+        if (spfdVfndor != null)
+            spfdVfndor = spfdVfndor.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VERSION.toString();
-        implementationVersion = attr.getValue(attrKey);
-        if (implementationVersion != null)
-            implementationVersion = implementationVersion.trim();
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VERSION.toString();
+        implfmfntbtionVfrsion = bttr.gftVbluf(bttrKfy);
+        if (implfmfntbtionVfrsion != null)
+            implfmfntbtionVfrsion = implfmfntbtionVfrsion.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VENDOR.toString();
-        vendor = attr.getValue(attrKey);
-        if (vendor != null)
-            vendor = vendor.trim();
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VENDOR.toString();
+        vfndor = bttr.gftVbluf(bttrKfy);
+        if (vfndor != null)
+            vfndor = vfndor.trim();
 
-        attrKey = s + Name.IMPLEMENTATION_VENDOR_ID.toString();
-        vendorId = attr.getValue(attrKey);
-        if (vendorId != null)
-            vendorId = vendorId.trim();
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VENDOR_ID.toString();
+        vfndorId = bttr.gftVbluf(bttrKfy);
+        if (vfndorId != null)
+            vfndorId = vfndorId.trim();
 
-        attrKey =s + Name.IMPLEMENTATION_URL.toString();
-        url = attr.getValue(attrKey);
+        bttrKfy =s + Nbmf.IMPLEMENTATION_URL.toString();
+        url = bttr.gftVbluf(bttrKfy);
         if (url != null)
             url = url.trim();
     }
 
     /**
      * <p>
-     * @return true if the extension described by this extension information
-     * is compatible with the extension described by the extension
-     * information passed as a parameter
+     * @rfturn truf if tif fxtfnsion dfsdribfd by tiis fxtfnsion informbtion
+     * is dompbtiblf witi tif fxtfnsion dfsdribfd by tif fxtfnsion
+     * informbtion pbssfd bs b pbrbmftfr
      * </p>
      *
-     * @param the requested extension information to compare to
+     * @pbrbm tif rfqufstfd fxtfnsion informbtion to dompbrf to
      */
-    public int isCompatibleWith(ExtensionInfo ei) {
+    publid int isCompbtiblfWiti(ExtfnsionInfo fi) {
 
-        if (name == null || ei.name == null)
-            return INCOMPATIBLE;
-        if (name.compareTo(ei.name)==0) {
-            // is this true, if not spec version is specified, we consider
-            // the value as being "any".
-            if (specVersion == null || ei.specVersion == null)
-                return COMPATIBLE;
+        if (nbmf == null || fi.nbmf == null)
+            rfturn INCOMPATIBLE;
+        if (nbmf.dompbrfTo(fi.nbmf)==0) {
+            // is tiis truf, if not spfd vfrsion is spfdififd, wf donsidfr
+            // tif vbluf bs bfing "bny".
+            if (spfdVfrsion == null || fi.spfdVfrsion == null)
+                rfturn COMPATIBLE;
 
-            int version = compareExtensionVersion(specVersion, ei.specVersion);
-            if (version<0) {
-                // this extension specification is "older"
-                if (vendorId != null && ei.vendorId !=null) {
-                    if (vendorId.compareTo(ei.vendorId)!=0) {
-                        return REQUIRE_VENDOR_SWITCH;
+            int vfrsion = dompbrfExtfnsionVfrsion(spfdVfrsion, fi.spfdVfrsion);
+            if (vfrsion<0) {
+                // tiis fxtfnsion spfdifidbtion is "oldfr"
+                if (vfndorId != null && fi.vfndorId !=null) {
+                    if (vfndorId.dompbrfTo(fi.vfndorId)!=0) {
+                        rfturn REQUIRE_VENDOR_SWITCH;
                     }
                 }
-                return REQUIRE_SPECIFICATION_UPGRADE;
-            } else {
-                // the extension spec is compatible, let's look at the
-                // implementation attributes
-                if (vendorId != null && ei.vendorId != null) {
-                    // They care who provides the extension
-                    if (vendorId.compareTo(ei.vendorId)!=0) {
-                        // They want to use another vendor implementation
-                        return REQUIRE_VENDOR_SWITCH;
-                    } else {
-                        // Vendor matches, let's see the implementation version
-                        if (implementationVersion != null && ei.implementationVersion != null) {
-                            // they care about the implementation version
-                            version = compareExtensionVersion(implementationVersion, ei.implementationVersion);
-                            if (version<0) {
-                                // This extension is an older implementation
-                                return REQUIRE_IMPLEMENTATION_UPGRADE;
+                rfturn REQUIRE_SPECIFICATION_UPGRADE;
+            } flsf {
+                // tif fxtfnsion spfd is dompbtiblf, lft's look bt tif
+                // implfmfntbtion bttributfs
+                if (vfndorId != null && fi.vfndorId != null) {
+                    // Tify dbrf wio providfs tif fxtfnsion
+                    if (vfndorId.dompbrfTo(fi.vfndorId)!=0) {
+                        // Tify wbnt to usf bnotifr vfndor implfmfntbtion
+                        rfturn REQUIRE_VENDOR_SWITCH;
+                    } flsf {
+                        // Vfndor mbtdifs, lft's sff tif implfmfntbtion vfrsion
+                        if (implfmfntbtionVfrsion != null && fi.implfmfntbtionVfrsion != null) {
+                            // tify dbrf bbout tif implfmfntbtion vfrsion
+                            vfrsion = dompbrfExtfnsionVfrsion(implfmfntbtionVfrsion, fi.implfmfntbtionVfrsion);
+                            if (vfrsion<0) {
+                                // Tiis fxtfnsion is bn oldfr implfmfntbtion
+                                rfturn REQUIRE_IMPLEMENTATION_UPGRADE;
                             }
                         }
                     }
                 }
-                // All othe cases, we consider the extensions to be compatible
-                return COMPATIBLE;
+                // All otif dbsfs, wf donsidfr tif fxtfnsions to bf dompbtiblf
+                rfturn COMPATIBLE;
             }
         }
-        return INCOMPATIBLE;
+        rfturn INCOMPATIBLE;
     }
 
     /**
      * <p>
-     * helper method to print sensible information on the undelying described
-     * extension
+     * iflpfr mftiod to print sfnsiblf informbtion on tif undflying dfsdribfd
+     * fxtfnsion
      * </p>
      */
-    public String toString() {
-        return "Extension : title(" + title + "), name(" + name + "), spec vendor(" +
-            specVendor + "), spec version(" + specVersion + "), impl vendor(" +
-            vendor + "), impl vendor id(" + vendorId + "), impl version(" +
-            implementationVersion + "), impl url(" + url + ")";
+    publid String toString() {
+        rfturn "Extfnsion : titlf(" + titlf + "), nbmf(" + nbmf + "), spfd vfndor(" +
+            spfdVfndor + "), spfd vfrsion(" + spfdVfrsion + "), impl vfndor(" +
+            vfndor + "), impl vfndor id(" + vfndorId + "), impl vfrsion(" +
+            implfmfntbtionVfrsion + "), impl url(" + url + ")";
     }
 
     /*
      * <p>
-     * helper method to compare two versions.
-     * version are in the x.y.z.t pattern.
+     * iflpfr mftiod to dompbrf two vfrsions.
+     * vfrsion brf in tif x.y.z.t pbttfrn.
      * </p>
-     * @param source version to compare to
-     * @param target version used to compare against
-     * @return < 0 if source < version
-     *         > 0 if source > version
-     *         = 0 if source = version
+     * @pbrbm sourdf vfrsion to dompbrf to
+     * @pbrbm tbrgft vfrsion usfd to dompbrf bgbinst
+     * @rfturn < 0 if sourdf < vfrsion
+     *         > 0 if sourdf > vfrsion
+     *         = 0 if sourdf = vfrsion
      */
-    private int compareExtensionVersion(String source, String target)
-        throws NumberFormatException
+    privbtf int dompbrfExtfnsionVfrsion(String sourdf, String tbrgft)
+        tirows NumbfrFormbtExdfption
     {
-        source = source.toLowerCase();
-        target = target.toLowerCase();
+        sourdf = sourdf.toLowfrCbsf();
+        tbrgft = tbrgft.toLowfrCbsf();
 
-        return strictCompareExtensionVersion(source, target);
+        rfturn stridtCompbrfExtfnsionVfrsion(sourdf, tbrgft);
     }
 
 
     /*
      * <p>
-     * helper method to compare two versions.
-     * version are in the x.y.z.t pattern.
+     * iflpfr mftiod to dompbrf two vfrsions.
+     * vfrsion brf in tif x.y.z.t pbttfrn.
      * </p>
-     * @param source version to compare to
-     * @param target version used to compare against
-     * @return < 0 if source < version
-     *         > 0 if source > version
-     *         = 0 if source = version
+     * @pbrbm sourdf vfrsion to dompbrf to
+     * @pbrbm tbrgft vfrsion usfd to dompbrf bgbinst
+     * @rfturn < 0 if sourdf < vfrsion
+     *         > 0 if sourdf > vfrsion
+     *         = 0 if sourdf = vfrsion
      */
-    private int strictCompareExtensionVersion(String source, String target)
-        throws NumberFormatException
+    privbtf int stridtCompbrfExtfnsionVfrsion(String sourdf, String tbrgft)
+        tirows NumbfrFormbtExdfption
     {
-        if (source.equals(target))
-            return 0;
+        if (sourdf.fqubls(tbrgft))
+            rfturn 0;
 
-        StringTokenizer stk = new StringTokenizer(source, ".,");
-        StringTokenizer ttk = new StringTokenizer(target, ".,");
+        StringTokfnizfr stk = nfw StringTokfnizfr(sourdf, ".,");
+        StringTokfnizfr ttk = nfw StringTokfnizfr(tbrgft, ".,");
 
-        // Compare number
-        int n = 0, m = 0, result = 0;
+        // Compbrf numbfr
+        int n = 0, m = 0, rfsult = 0;
 
-        // Convert token into meaning number for comparision
-        if (stk.hasMoreTokens())
-            n = convertToken(stk.nextToken().toString());
+        // Convfrt tokfn into mfbning numbfr for dompbrision
+        if (stk.ibsMorfTokfns())
+            n = donvfrtTokfn(stk.nfxtTokfn().toString());
 
-        // Convert token into meaning number for comparision
-        if (ttk.hasMoreTokens())
-            m = convertToken(ttk.nextToken().toString());
+        // Convfrt tokfn into mfbning numbfr for dompbrision
+        if (ttk.ibsMorfTokfns())
+            m = donvfrtTokfn(ttk.nfxtTokfn().toString());
 
         if (n > m)
-            return 1;
-        else if (m > n)
-            return -1;
-        else
+            rfturn 1;
+        flsf if (m > n)
+            rfturn -1;
+        flsf
         {
-            // Look for index of "." in the string
-            int sIdx = source.indexOf('.');
-            int tIdx = target.indexOf('.');
+            // Look for indfx of "." in tif string
+            int sIdx = sourdf.indfxOf('.');
+            int tIdx = tbrgft.indfxOf('.');
 
             if (sIdx == -1)
-                sIdx = source.length() - 1;
+                sIdx = sourdf.lfngti() - 1;
 
             if (tIdx == -1)
-                tIdx = target.length() - 1;
+                tIdx = tbrgft.lfngti() - 1;
 
-            return strictCompareExtensionVersion(source.substring(sIdx + 1),
-                                                 target.substring(tIdx + 1));
+            rfturn stridtCompbrfExtfnsionVfrsion(sourdf.substring(sIdx + 1),
+                                                 tbrgft.substring(tIdx + 1));
         }
     }
 
-    private int convertToken(String token)
+    privbtf int donvfrtTokfn(String tokfn)
     {
-        if (token == null || token.equals(""))
-            return 0;
+        if (tokfn == null || tokfn.fqubls(""))
+            rfturn 0;
 
-        int charValue = 0;
-        int charVersion = 0;
-        int patchVersion = 0;
-        int strLength = token.length();
-        int endIndex = strLength;
-        char lastChar;
+        int dibrVbluf = 0;
+        int dibrVfrsion = 0;
+        int pbtdiVfrsion = 0;
+        int strLfngti = tokfn.lfngti();
+        int fndIndfx = strLfngti;
+        dibr lbstCibr;
 
-        Object[] args = {name};
-        MessageFormat mf = new MessageFormat(rb.getString("optpkg.versionerror"));
-        String versionError = mf.format(args);
+        Objfdt[] brgs = {nbmf};
+        MfssbgfFormbt mf = nfw MfssbgfFormbt(rb.gftString("optpkg.vfrsionfrror"));
+        String vfrsionError = mf.formbt(brgs);
 
-        // Look for "-" for pre-release
-        int prIndex = token.indexOf('-');
+        // Look for "-" for prf-rflfbsf
+        int prIndfx = tokfn.indfxOf('-');
 
-        // Look for "_" for patch release
-        int patchIndex = token.indexOf('_');
+        // Look for "_" for pbtdi rflfbsf
+        int pbtdiIndfx = tokfn.indfxOf('_');
 
-        if (prIndex == -1 && patchIndex == -1)
+        if (prIndfx == -1 && pbtdiIndfx == -1)
         {
-            // This is a FCS release
+            // Tiis is b FCS rflfbsf
             try {
-                return Integer.parseInt(token) * 100;
-            } catch (NumberFormatException e) {
-                System.out.println(versionError);
-                return 0;
+                rfturn Intfgfr.pbrsfInt(tokfn) * 100;
+            } dbtdi (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
             }
         }
-        else if (patchIndex != -1)
+        flsf if (pbtdiIndfx != -1)
         {
-            // This is a patch (update) release
-            int prversion;
+            // Tiis is b pbtdi (updbtf) rflfbsf
+            int prvfrsion;
             try {
-                // Obtain the version
-                prversion = Integer.parseInt(token.substring(0, patchIndex));
+                // Obtbin tif vfrsion
+                prvfrsion = Intfgfr.pbrsfInt(tokfn.substring(0, pbtdiIndfx));
 
-                // Check to see if the patch version is in the n.n.n_nnl format (special release)
-                lastChar = token.charAt(strLength-1);
-                if (Character.isLetter(lastChar)) {
-                    // letters a-z have values from 10-35
-                    charValue = Character.getNumericValue(lastChar);
-                    endIndex = strLength-1;
+                // Cifdk to sff if tif pbtdi vfrsion is in tif n.n.n_nnl formbt (spfdibl rflfbsf)
+                lbstCibr = tokfn.dibrAt(strLfngti-1);
+                if (Cibrbdtfr.isLfttfr(lbstCibr)) {
+                    // lfttfrs b-z ibvf vblufs from 10-35
+                    dibrVbluf = Cibrbdtfr.gftNumfridVbluf(lbstCibr);
+                    fndIndfx = strLfngti-1;
 
-                    // Obtain the patch version id
-                    patchVersion = Integer.parseInt(token.substring(patchIndex+1, endIndex));
+                    // Obtbin tif pbtdi vfrsion id
+                    pbtdiVfrsion = Intfgfr.pbrsfInt(tokfn.substring(pbtdiIndfx+1, fndIndfx));
 
-                    if (charValue >= Character.getNumericValue('a') && charValue <= Character.getNumericValue('z')) {
-                        // This is a special release
-                        charVersion = (patchVersion * 100) + charValue;
-                    } else {
-                        // character is not a a-z letter, ignore
-                        charVersion = 0;
-                        System.out.println(versionError);
+                    if (dibrVbluf >= Cibrbdtfr.gftNumfridVbluf('b') && dibrVbluf <= Cibrbdtfr.gftNumfridVbluf('z')) {
+                        // Tiis is b spfdibl rflfbsf
+                        dibrVfrsion = (pbtdiVfrsion * 100) + dibrVbluf;
+                    } flsf {
+                        // dibrbdtfr is not b b-z lfttfr, ignorf
+                        dibrVfrsion = 0;
+                        Systfm.out.println(vfrsionError);
                     }
-                } else {
-                    // This is a regular update release. Obtain the patch version id
-                    patchVersion = Integer.parseInt(token.substring(patchIndex+1, endIndex));
+                } flsf {
+                    // Tiis is b rfgulbr updbtf rflfbsf. Obtbin tif pbtdi vfrsion id
+                    pbtdiVfrsion = Intfgfr.pbrsfInt(tokfn.substring(pbtdiIndfx+1, fndIndfx));
                 }
-            } catch (NumberFormatException e) {
-                System.out.println(versionError);
-                return 0;
+            } dbtdi (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
             }
-            return prversion * 100 + (patchVersion + charVersion);
+            rfturn prvfrsion * 100 + (pbtdiVfrsion + dibrVfrsion);
         }
-        else
+        flsf
         {
-            //This is a milestone release, either a early access, alpha, beta, or RC
+            //Tiis is b milfstonf rflfbsf, fitifr b fbrly bddfss, blpib, bftb, or RC
 
-            // Obtain the version
-            int mrversion;
+            // Obtbin tif vfrsion
+            int mrvfrsion;
             try {
-                mrversion = Integer.parseInt(token.substring(0, prIndex));
-            } catch (NumberFormatException e) {
-                System.out.println(versionError);
-                return 0;
+                mrvfrsion = Intfgfr.pbrsfInt(tokfn.substring(0, prIndfx));
+            } dbtdi (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
             }
 
-            // Obtain the patch version string, including the milestone + version
-            String prString = token.substring(prIndex + 1);
+            // Obtbin tif pbtdi vfrsion string, indluding tif milfstonf + vfrsion
+            String prString = tokfn.substring(prIndfx + 1);
 
-            // Milestone version
-            String msVersion = "";
-            int delta = 0;
+            // Milfstonf vfrsion
+            String msVfrsion = "";
+            int dfltb = 0;
 
-            if (prString.indexOf("ea") != -1)
+            if (prString.indfxOf("fb") != -1)
             {
-                msVersion = prString.substring(2);
-                delta = 50;
+                msVfrsion = prString.substring(2);
+                dfltb = 50;
             }
-            else if (prString.indexOf("alpha") != -1)
+            flsf if (prString.indfxOf("blpib") != -1)
             {
-                msVersion = prString.substring(5);
-                delta = 40;
+                msVfrsion = prString.substring(5);
+                dfltb = 40;
             }
-            else if (prString.indexOf("beta") != -1)
+            flsf if (prString.indfxOf("bftb") != -1)
             {
-                msVersion = prString.substring(4);
-                delta = 30;
+                msVfrsion = prString.substring(4);
+                dfltb = 30;
             }
-            else if (prString.indexOf("rc") != -1)
+            flsf if (prString.indfxOf("rd") != -1)
             {
-                msVersion = prString.substring(2);
-                delta = 20;
+                msVfrsion = prString.substring(2);
+                dfltb = 20;
             }
 
-            if (msVersion == null || msVersion.equals(""))
+            if (msVfrsion == null || msVfrsion.fqubls(""))
             {
-                // No version after the milestone, assume 0
-                return mrversion * 100 - delta ;
+                // No vfrsion bftfr tif milfstonf, bssumf 0
+                rfturn mrvfrsion * 100 - dfltb ;
             }
-            else
+            flsf
             {
-                // Convert the milestone version
+                // Convfrt tif milfstonf vfrsion
                 try {
-                    return mrversion * 100 - delta + Integer.parseInt(msVersion);
-                } catch (NumberFormatException e) {
-                    System.out.println(versionError);
-                    return 0;
+                    rfturn mrvfrsion * 100 - dfltb + Intfgfr.pbrsfInt(msVfrsion);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    Systfm.out.println(vfrsionError);
+                    rfturn 0;
                 }
             }
         }

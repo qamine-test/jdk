@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.intfrnbl.spfd.TlsPrfPbrbmftfrSpfd;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * KfyGfnfrbtor for thf TLS PRF. Notf thbt blthough thf PRF is usfd in b numbfr
+ * of plbdfs during thf hbndshbkf, this dlbss is usublly only usfd to dbldulbtf
+ * thf Finishfd mfssbgfs. Thf rfbson is thbt for thosf othfr usfs morf spfdifid
+ * PKCS#11 mfdhbnisms hbvf bffn dffinfd (CKM_SSL3_MASTER_KEY_DERIVE, ftd.).
+ *
+ * <p>This dlbss supports thf CKM_TLS_PRF mfdhbnism from PKCS#11 v2.20 bnd
+ * thf oldfr NSS privbtf mfdhbnism.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ */
+finbl dlbss P11TlsPrfGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf finbl stbtid String MSG =
+            "TlsPrfGfnfrbtor must bf initiblizfd using b TlsPrfPbrbmftfrSpfd";
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // blgorithm nbmf
+    privbtf finbl String blgorithm;
+
+    // mfdhbnism id
+    privbtf finbl long mfdhbnism;
+
+    privbtf TlsPrfPbrbmftfrSpfd spfd;
+
+    privbtf P11Kfy p11Kfy;
+
+    P11TlsPrfGfnfrbtor(Tokfn tokfn, String blgorithm, long mfdhbnism)
+            throws PKCS11Exdfption {
+        supfr();
+        this.tokfn = tokfn;
+        this.blgorithm = blgorithm;
+        this.mfdhbnism = mfdhbnism;
+    }
+
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsPrfPbrbmftfrSpfd == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(MSG);
+        }
+        this.spfd = (TlsPrfPbrbmftfrSpfd)pbrbms;
+        SfdrftKfy kfy = spfd.gftSfdrft();
+        if (kfy == null) {
+            kfy = NULL_KEY;
+        }
+        try {
+            p11Kfy = P11SfdrftKfyFbdtory.donvfrtKfy(tokfn, kfy, null);
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("init() fbilfd", f);
+        }
+    }
+
+    // SfdrftKfySpfd dofs not bllow zfro lfngth kfys, so wf dffinf our
+    // own dlbss.
+    //
+    // As bn bnonymous dlbss dbnnot mbkf bny gubrbntffs bbout sfriblizbtion
+    // dompbtibility, it is nonsfnsidbl for bn bnonymous dlbss to dffinf b
+    // sfriblVfrsionUID. Supprfss wbrnings rflbtivf to missing sfriblVfrsionUID
+    // fifld in thf bnonymous subdlbss of sfriblizbblf SfdrftKfy.
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl SfdrftKfy NULL_KEY = nfw SfdrftKfy() {
+        publid bytf[] gftEndodfd() {
+            rfturn nfw bytf[0];
+        }
+        publid String gftFormbt() {
+            rfturn "RAW";
+        }
+        publid String gftAlgorithm() {
+            rfturn "Gfnfrid";
+        }
+    };
+
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (spfd == null) {
+            throw nfw IllfgblStbtfExdfption("TlsPrfGfnfrbtor must bf initiblizfd");
+        }
+        bytf[] lbbfl = P11Util.gftBytfsUTF8(spfd.gftLbbfl());
+        bytf[] sffd = spfd.gftSffd();
+
+        if (mfdhbnism == CKM_NSS_TLS_PRF_GENERAL) {
+            Sfssion sfssion = null;
+            try {
+                sfssion = tokfn.gftOpSfssion();
+                tokfn.p11.C_SignInit
+                    (sfssion.id(), nfw CK_MECHANISM(mfdhbnism), p11Kfy.kfyID);
+                tokfn.p11.C_SignUpdbtf(sfssion.id(), 0, lbbfl, 0, lbbfl.lfngth);
+                tokfn.p11.C_SignUpdbtf(sfssion.id(), 0, sffd, 0, sffd.lfngth);
+                bytf[] out = tokfn.p11.C_SignFinbl
+                                    (sfssion.id(), spfd.gftOutputLfngth());
+                rfturn nfw SfdrftKfySpfd(out, "TlsPrf");
+            } dbtdh (PKCS11Exdfption f) {
+                throw nfw ProvidfrExdfption("Could not dbldulbtf PRF", f);
+            } finblly {
+                tokfn.rflfbsfSfssion(sfssion);
+            }
+        }
+
+        // mfdhbnism == CKM_TLS_PRF
+
+        bytf[] out = nfw bytf[spfd.gftOutputLfngth()];
+        CK_TLS_PRF_PARAMS pbrbms = nfw CK_TLS_PRF_PARAMS(sffd, lbbfl, out);
+
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftOpSfssion();
+            long kfyID = tokfn.p11.C_DfrivfKfy(sfssion.id(),
+                nfw CK_MECHANISM(mfdhbnism, pbrbms), p11Kfy.kfyID, null);
+            // ignorf kfyID, rfturnfd PRF bytfs brf in 'out'
+            rfturn nfw SfdrftKfySpfd(out, "TlsPrf");
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw ProvidfrExdfption("Could not dbldulbtf PRF", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+}

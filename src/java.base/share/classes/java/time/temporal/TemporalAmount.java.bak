@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, 2013 Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, 2013 Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,161 +59,161 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Period;
-import java.util.List;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Pfriod;
+import jbvb.util.List;
 
 /**
- * Framework-level interface defining an amount of time, such as
- * "6 hours", "8 days" or "2 years and 3 months".
+ * Frbmfwork-lfvfl intfrfbdf dffining bn bmount of timf, sudi bs
+ * "6 iours", "8 dbys" or "2 yfbrs bnd 3 montis".
  * <p>
- * This is the base interface type for amounts of time.
- * An amount is distinct from a date or time-of-day in that it is not tied
- * to any specific point on the time-line.
+ * Tiis is tif bbsf intfrfbdf typf for bmounts of timf.
+ * An bmount is distindt from b dbtf or timf-of-dby in tibt it is not tifd
+ * to bny spfdifid point on tif timf-linf.
  * <p>
- * The amount can be thought of as a {@code Map} of {@link TemporalUnit} to
- * {@code long}, exposed via {@link #getUnits()} and {@link #get(TemporalUnit)}.
- * A simple case might have a single unit-value pair, such as "6 hours".
- * A more complex case may have multiple unit-value pairs, such as
- * "7 years, 3 months and 5 days".
+ * Tif bmount dbn bf tiougit of bs b {@dodf Mbp} of {@link TfmporblUnit} to
+ * {@dodf long}, fxposfd vib {@link #gftUnits()} bnd {@link #gft(TfmporblUnit)}.
+ * A simplf dbsf migit ibvf b singlf unit-vbluf pbir, sudi bs "6 iours".
+ * A morf domplfx dbsf mby ibvf multiplf unit-vbluf pbirs, sudi bs
+ * "7 yfbrs, 3 montis bnd 5 dbys".
  * <p>
- * There are two common implementations.
- * {@link Period} is a date-based implementation, storing years, months and days.
- * {@link Duration} is a time-based implementation, storing seconds and nanoseconds,
- * but providing some access using other duration based units such as minutes,
- * hours and fixed 24-hour days.
+ * Tifrf brf two dommon implfmfntbtions.
+ * {@link Pfriod} is b dbtf-bbsfd implfmfntbtion, storing yfbrs, montis bnd dbys.
+ * {@link Durbtion} is b timf-bbsfd implfmfntbtion, storing sfdonds bnd nbnosfdonds,
+ * but providing somf bddfss using otifr durbtion bbsfd units sudi bs minutfs,
+ * iours bnd fixfd 24-iour dbys.
  * <p>
- * This interface is a framework-level interface that should not be widely
- * used in application code. Instead, applications should create and pass
- * around instances of concrete types, such as {@code Period} and {@code Duration}.
+ * Tiis intfrfbdf is b frbmfwork-lfvfl intfrfbdf tibt siould not bf widfly
+ * usfd in bpplidbtion dodf. Instfbd, bpplidbtions siould drfbtf bnd pbss
+ * bround instbndfs of dondrftf typfs, sudi bs {@dodf Pfriod} bnd {@dodf Durbtion}.
  *
- * @implSpec
- * This interface places no restrictions on the mutability of implementations,
- * however immutability is strongly recommended.
+ * @implSpfd
+ * Tiis intfrfbdf plbdfs no rfstridtions on tif mutbbility of implfmfntbtions,
+ * iowfvfr immutbbility is strongly rfdommfndfd.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface TemporalAmount {
+publid intfrfbdf TfmporblAmount {
 
     /**
-     * Returns the value of the requested unit.
-     * The units returned from {@link #getUnits()} uniquely define the
-     * value of the {@code TemporalAmount}.  A value must be returned
-     * for each unit listed in {@code getUnits}.
+     * Rfturns tif vbluf of tif rfqufstfd unit.
+     * Tif units rfturnfd from {@link #gftUnits()} uniqufly dffinf tif
+     * vbluf of tif {@dodf TfmporblAmount}.  A vbluf must bf rfturnfd
+     * for fbdi unit listfd in {@dodf gftUnits}.
      *
-     * @implSpec
-     * Implementations may declare support for units not listed by {@link #getUnits()}.
-     * Typically, the implementation would define additional units
-     * as conversions for the convenience of developers.
+     * @implSpfd
+     * Implfmfntbtions mby dfdlbrf support for units not listfd by {@link #gftUnits()}.
+     * Typidblly, tif implfmfntbtion would dffinf bdditionbl units
+     * bs donvfrsions for tif donvfnifndf of dfvflopfrs.
      *
-     * @param unit the {@code TemporalUnit} for which to return the value
-     * @return the long value of the unit
-     * @throws DateTimeException if a value for the unit cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the {@code unit} is not supported
+     * @pbrbm unit tif {@dodf TfmporblUnit} for wiidi to rfturn tif vbluf
+     * @rfturn tif long vbluf of tif unit
+     * @tirows DbtfTimfExdfption if b vbluf for tif unit dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif {@dodf unit} is not supportfd
      */
-    long get(TemporalUnit unit);
+    long gft(TfmporblUnit unit);
 
     /**
-     * Returns the list of units uniquely defining the value of this TemporalAmount.
-     * The list of {@code TemporalUnits} is defined by the implementation class.
-     * The list is a snapshot of the units at the time {@code getUnits}
-     * is called and is not mutable.
-     * The units are ordered from longest duration to the shortest duration
-     * of the unit.
+     * Rfturns tif list of units uniqufly dffining tif vbluf of tiis TfmporblAmount.
+     * Tif list of {@dodf TfmporblUnits} is dffinfd by tif implfmfntbtion dlbss.
+     * Tif list is b snbpsiot of tif units bt tif timf {@dodf gftUnits}
+     * is dbllfd bnd is not mutbblf.
+     * Tif units brf ordfrfd from longfst durbtion to tif siortfst durbtion
+     * of tif unit.
      *
-     * @implSpec
-     * The list of units completely and uniquely represents the
-     * state of the object without omissions, overlaps or duplication.
-     * The units are in order from longest duration to shortest.
+     * @implSpfd
+     * Tif list of units domplftfly bnd uniqufly rfprfsfnts tif
+     * stbtf of tif objfdt witiout omissions, ovfrlbps or duplidbtion.
+     * Tif units brf in ordfr from longfst durbtion to siortfst.
      *
-     * @return the List of {@code TemporalUnits}; not null
+     * @rfturn tif List of {@dodf TfmporblUnits}; not null
      */
-    List<TemporalUnit> getUnits();
+    List<TfmporblUnit> gftUnits();
 
     /**
-     * Adds to the specified temporal object.
+     * Adds to tif spfdififd tfmporbl objfdt.
      * <p>
-     * Adds the amount to the specified temporal object using the logic
-     * encapsulated in the implementing class.
+     * Adds tif bmount to tif spfdififd tfmporbl objfdt using tif logid
+     * fndbpsulbtfd in tif implfmfnting dlbss.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#plus(TemporalAmount)}:
-     * <pre>
-     *   // These two lines are equivalent, but the second approach is recommended
-     *   dateTime = amount.addTo(dateTime);
-     *   dateTime = dateTime.plus(adder);
-     * </pre>
-     * It is recommended to use the second approach, {@code plus(TemporalAmount)},
-     * as it is a lot clearer to read in code.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link Tfmporbl#plus(TfmporblAmount)}:
+     * <prf>
+     *   // Tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   dbtfTimf = bmount.bddTo(dbtfTimf);
+     *   dbtfTimf = dbtfTimf.plus(bddfr);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblAmount)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      *
-     * @implSpec
-     * The implementation must take the input object and add to it.
-     * The implementation defines the logic of the addition and is responsible for
-     * documenting that logic. It may use any method on {@code Temporal} to
-     * query the temporal object and perform the addition.
-     * The returned object must have the same observable type as the input object
+     * @implSpfd
+     * Tif implfmfntbtion must tbkf tif input objfdt bnd bdd to it.
+     * Tif implfmfntbtion dffinfs tif logid of tif bddition bnd is rfsponsiblf for
+     * dodumfnting tibt logid. It mby usf bny mftiod on {@dodf Tfmporbl} to
+     * qufry tif tfmporbl objfdt bnd pfrform tif bddition.
+     * Tif rfturnfd objfdt must ibvf tif sbmf obsfrvbblf typf bs tif input objfdt
      * <p>
-     * The input object must not be altered.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable temporal objects.
+     * Tif input objfdt must not bf bltfrfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf tfmporbl objfdts.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * Tif input tfmporbl objfdt mby bf in b dblfndbr systfm otifr tibn ISO.
+     * Implfmfntbtions mby dioosf to dodumfnt dompbtibility witi otifr dblfndbr systfms,
+     * or rfjfdt non-ISO tfmporbl objfdts by {@link TfmporblQufrifs#dironology() qufrying tif dironology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * Tiis mftiod mby bf dbllfd from multiplf tirfbds in pbrbllfl.
+     * It must bf tirfbd-sbff wifn invokfd.
      *
-     * @param temporal  the temporal object to add the amount to, not null
-     * @return an object of the same observable type with the addition made, not null
-     * @throws DateTimeException if unable to add
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdd tif bmount to, not null
+     * @rfturn bn objfdt of tif sbmf obsfrvbblf typf witi tif bddition mbdf, not null
+     * @tirows DbtfTimfExdfption if unbblf to bdd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    Temporal addTo(Temporal temporal);
+    Tfmporbl bddTo(Tfmporbl tfmporbl);
 
     /**
-     * Subtracts this object from the specified temporal object.
+     * Subtrbdts tiis objfdt from tif spfdififd tfmporbl objfdt.
      * <p>
-     * Subtracts the amount from the specified temporal object using the logic
-     * encapsulated in the implementing class.
+     * Subtrbdts tif bmount from tif spfdififd tfmporbl objfdt using tif logid
+     * fndbpsulbtfd in tif implfmfnting dlbss.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#minus(TemporalAmount)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = amount.subtractFrom(dateTime);
-     *   dateTime = dateTime.minus(amount);
-     * </pre>
-     * It is recommended to use the second approach, {@code minus(TemporalAmount)},
-     * as it is a lot clearer to read in code.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link Tfmporbl#minus(TfmporblAmount)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   dbtfTimf = bmount.subtrbdtFrom(dbtfTimf);
+     *   dbtfTimf = dbtfTimf.minus(bmount);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf minus(TfmporblAmount)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      *
-     * @implSpec
-     * The implementation must take the input object and subtract from it.
-     * The implementation defines the logic of the subtraction and is responsible for
-     * documenting that logic. It may use any method on {@code Temporal} to
-     * query the temporal object and perform the subtraction.
-     * The returned object must have the same observable type as the input object
+     * @implSpfd
+     * Tif implfmfntbtion must tbkf tif input objfdt bnd subtrbdt from it.
+     * Tif implfmfntbtion dffinfs tif logid of tif subtrbdtion bnd is rfsponsiblf for
+     * dodumfnting tibt logid. It mby usf bny mftiod on {@dodf Tfmporbl} to
+     * qufry tif tfmporbl objfdt bnd pfrform tif subtrbdtion.
+     * Tif rfturnfd objfdt must ibvf tif sbmf obsfrvbblf typf bs tif input objfdt
      * <p>
-     * The input object must not be altered.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable temporal objects.
+     * Tif input objfdt must not bf bltfrfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf tfmporbl objfdts.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * Tif input tfmporbl objfdt mby bf in b dblfndbr systfm otifr tibn ISO.
+     * Implfmfntbtions mby dioosf to dodumfnt dompbtibility witi otifr dblfndbr systfms,
+     * or rfjfdt non-ISO tfmporbl objfdts by {@link TfmporblQufrifs#dironology() qufrying tif dironology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * Tiis mftiod mby bf dbllfd from multiplf tirfbds in pbrbllfl.
+     * It must bf tirfbd-sbff wifn invokfd.
      *
-     * @param temporal  the temporal object to subtract the amount from, not null
-     * @return an object of the same observable type with the subtraction made, not null
-     * @throws DateTimeException if unable to subtract
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to subtrbdt tif bmount from, not null
+     * @rfturn bn objfdt of tif sbmf obsfrvbblf typf witi tif subtrbdtion mbdf, not null
+     * @tirows DbtfTimfExdfption if unbblf to subtrbdt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    Temporal subtractFrom(Temporal temporal);
+    Tfmporbl subtrbdtFrom(Tfmporbl tfmporbl);
 }

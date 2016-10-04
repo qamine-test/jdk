@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 
 /**
- * An object that encapsulates the parameter list of a MimeType
- * as defined in RFC 2045 and 2046.
+ * An objfdt tibt fndbpsulbtfs tif pbrbmftfr list of b MimfTypf
+ * bs dffinfd in RFC 2045 bnd 2046.
  *
- * @author jeff.dunn@eng.sun.com
+ * @butior jfff.dunn@fng.sun.dom
  */
-class MimeTypeParameterList implements Cloneable {
+dlbss MimfTypfPbrbmftfrList implfmfnts Clonfbblf {
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public MimeTypeParameterList() {
-        parameters = new Hashtable<>();
+    publid MimfTypfPbrbmftfrList() {
+        pbrbmftfrs = nfw Hbsitbblf<>();
     }
 
-    public MimeTypeParameterList(String rawdata)
-        throws MimeTypeParseException
+    publid MimfTypfPbrbmftfrList(String rbwdbtb)
+        tirows MimfTypfPbrsfExdfption
     {
-        parameters = new Hashtable<>();
+        pbrbmftfrs = nfw Hbsitbblf<>();
 
-        //    now parse rawdata
-        parse(rawdata);
+        //    now pbrsf rbwdbtb
+        pbrsf(rbwdbtb);
     }
 
-    public int hashCode() {
-        int code = Integer.MAX_VALUE/45; // "random" value for empty lists
-        String paramName = null;
-        Enumeration<String> enum_ = this.getNames();
+    publid int ibsiCodf() {
+        int dodf = Intfgfr.MAX_VALUE/45; // "rbndom" vbluf for fmpty lists
+        String pbrbmNbmf = null;
+        Enumfrbtion<String> fnum_ = tiis.gftNbmfs();
 
-        while (enum_.hasMoreElements()) {
-            paramName = enum_.nextElement();
-            code += paramName.hashCode();
-            code += this.get(paramName).hashCode();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            pbrbmNbmf = fnum_.nfxtElfmfnt();
+            dodf += pbrbmNbmf.ibsiCodf();
+            dodf += tiis.gft(pbrbmNbmf).ibsiCodf();
         }
 
-        return code;
-    } // hashCode()
+        rfturn dodf;
+    } // ibsiCodf()
 
     /**
-     * Two parameter lists are considered equal if they have exactly
-     * the same set of parameter names and associated values. The
-     * order of the parameters is not considered.
+     * Two pbrbmftfr lists brf donsidfrfd fqubl if tify ibvf fxbdtly
+     * tif sbmf sft of pbrbmftfr nbmfs bnd bssodibtfd vblufs. Tif
+     * ordfr of tif pbrbmftfrs is not donsidfrfd.
      */
-    public boolean equals(Object thatObject) {
-        //System.out.println("MimeTypeParameterList.equals("+this+","+thatObject+")");
-        if (!(thatObject instanceof MimeTypeParameterList)) {
-            return false;
+    publid boolfbn fqubls(Objfdt tibtObjfdt) {
+        //Systfm.out.println("MimfTypfPbrbmftfrList.fqubls("+tiis+","+tibtObjfdt+")");
+        if (!(tibtObjfdt instbndfof MimfTypfPbrbmftfrList)) {
+            rfturn fblsf;
         }
-        MimeTypeParameterList that = (MimeTypeParameterList)thatObject;
-        if (this.size() != that.size()) {
-            return false;
+        MimfTypfPbrbmftfrList tibt = (MimfTypfPbrbmftfrList)tibtObjfdt;
+        if (tiis.sizf() != tibt.sizf()) {
+            rfturn fblsf;
         }
-        String name = null;
-        String thisValue = null;
-        String thatValue = null;
-        Set<Map.Entry<String, String>> entries = parameters.entrySet();
-        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
-        Map.Entry<String, String> entry = null;
-        while (iterator.hasNext()) {
-            entry = iterator.next();
-            name = entry.getKey();
-            thisValue = entry.getValue();
-            thatValue = that.parameters.get(name);
-            if ((thisValue == null) || (thatValue == null)) {
-                // both null -> equal, only one null -> not equal
-                if (thisValue != thatValue) {
-                    return false;
+        String nbmf = null;
+        String tiisVbluf = null;
+        String tibtVbluf = null;
+        Sft<Mbp.Entry<String, String>> fntrifs = pbrbmftfrs.fntrySft();
+        Itfrbtor<Mbp.Entry<String, String>> itfrbtor = fntrifs.itfrbtor();
+        Mbp.Entry<String, String> fntry = null;
+        wiilf (itfrbtor.ibsNfxt()) {
+            fntry = itfrbtor.nfxt();
+            nbmf = fntry.gftKfy();
+            tiisVbluf = fntry.gftVbluf();
+            tibtVbluf = tibt.pbrbmftfrs.gft(nbmf);
+            if ((tiisVbluf == null) || (tibtVbluf == null)) {
+                // boti null -> fqubl, only onf null -> not fqubl
+                if (tiisVbluf != tibtVbluf) {
+                    rfturn fblsf;
                 }
-            } else if (!thisValue.equals(thatValue)) {
-                return false;
+            } flsf if (!tiisVbluf.fqubls(tibtVbluf)) {
+                rfturn fblsf;
             }
-        } // while iterator
+        } // wiilf itfrbtor
 
-        return true;
-    } // equals()
+        rfturn truf;
+    } // fqubls()
 
     /**
-     * A routine for parsing the parameter list out of a String.
+     * A routinf for pbrsing tif pbrbmftfr list out of b String.
      */
-    protected void parse(String rawdata) throws MimeTypeParseException {
-        int length = rawdata.length();
-        if(length > 0) {
-            int currentIndex = skipWhiteSpace(rawdata, 0);
-            int lastIndex = 0;
+    protfdtfd void pbrsf(String rbwdbtb) tirows MimfTypfPbrsfExdfption {
+        int lfngti = rbwdbtb.lfngti();
+        if(lfngti > 0) {
+            int durrfntIndfx = skipWiitfSpbdf(rbwdbtb, 0);
+            int lbstIndfx = 0;
 
-            if(currentIndex < length) {
-                char currentChar = rawdata.charAt(currentIndex);
-                while ((currentIndex < length) && (currentChar == ';')) {
-                    String name;
-                    String value;
-                    boolean foundit;
+            if(durrfntIndfx < lfngti) {
+                dibr durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
+                wiilf ((durrfntIndfx < lfngti) && (durrfntCibr == ';')) {
+                    String nbmf;
+                    String vbluf;
+                    boolfbn foundit;
 
-                    //    eat the ';'
-                    ++currentIndex;
+                    //    fbt tif ';'
+                    ++durrfntIndfx;
 
-                    //    now parse the parameter name
+                    //    now pbrsf tif pbrbmftfr nbmf
 
-                    //    skip whitespace
-                    currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                    //    skip wiitfspbdf
+                    durrfntIndfx = skipWiitfSpbdf(rbwdbtb, durrfntIndfx);
 
-                    if(currentIndex < length) {
-                        //    find the end of the token char run
-                        lastIndex = currentIndex;
-                        currentChar = rawdata.charAt(currentIndex);
-                        while((currentIndex < length) && isTokenChar(currentChar)) {
-                            ++currentIndex;
-                            currentChar = rawdata.charAt(currentIndex);
+                    if(durrfntIndfx < lfngti) {
+                        //    find tif fnd of tif tokfn dibr run
+                        lbstIndfx = durrfntIndfx;
+                        durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
+                        wiilf((durrfntIndfx < lfngti) && isTokfnCibr(durrfntCibr)) {
+                            ++durrfntIndfx;
+                            durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
                         }
-                        name = rawdata.substring(lastIndex, currentIndex).toLowerCase();
+                        nbmf = rbwdbtb.substring(lbstIndfx, durrfntIndfx).toLowfrCbsf();
 
-                        //    now parse the '=' that separates the name from the value
+                        //    now pbrsf tif '=' tibt sfpbrbtfs tif nbmf from tif vbluf
 
-                        //    skip whitespace
-                        currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                        //    skip wiitfspbdf
+                        durrfntIndfx = skipWiitfSpbdf(rbwdbtb, durrfntIndfx);
 
-                        if((currentIndex < length) && (rawdata.charAt(currentIndex) == '='))  {
-                            //    eat it and parse the parameter value
-                            ++currentIndex;
+                        if((durrfntIndfx < lfngti) && (rbwdbtb.dibrAt(durrfntIndfx) == '='))  {
+                            //    fbt it bnd pbrsf tif pbrbmftfr vbluf
+                            ++durrfntIndfx;
 
-                            //    skip whitespace
-                            currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                            //    skip wiitfspbdf
+                            durrfntIndfx = skipWiitfSpbdf(rbwdbtb, durrfntIndfx);
 
-                            if(currentIndex < length) {
-                                //    now find out whether or not we have a quoted value
-                                currentChar = rawdata.charAt(currentIndex);
-                                if(currentChar == '"') {
-                                    //    yup it's quoted so eat it and capture the quoted string
-                                    ++currentIndex;
-                                    lastIndex = currentIndex;
+                            if(durrfntIndfx < lfngti) {
+                                //    now find out wiftifr or not wf ibvf b quotfd vbluf
+                                durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
+                                if(durrfntCibr == '"') {
+                                    //    yup it's quotfd so fbt it bnd dbpturf tif quotfd string
+                                    ++durrfntIndfx;
+                                    lbstIndfx = durrfntIndfx;
 
-                                    if(currentIndex < length) {
-                                        //    find the next unescqped quote
-                                        foundit = false;
-                                        while((currentIndex < length) && !foundit) {
-                                            currentChar = rawdata.charAt(currentIndex);
-                                            if(currentChar == '\\') {
-                                                //    found an escape sequence so pass this and the next character
-                                                currentIndex += 2;
-                                            } else if(currentChar == '"') {
+                                    if(durrfntIndfx < lfngti) {
+                                        //    find tif nfxt unfsdqpfd quotf
+                                        foundit = fblsf;
+                                        wiilf((durrfntIndfx < lfngti) && !foundit) {
+                                            durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
+                                            if(durrfntCibr == '\\') {
+                                                //    found bn fsdbpf sfqufndf so pbss tiis bnd tif nfxt dibrbdtfr
+                                                durrfntIndfx += 2;
+                                            } flsf if(durrfntCibr == '"') {
                                                 //    foundit!
-                                                foundit = true;
-                                            } else {
-                                                ++currentIndex;
+                                                foundit = truf;
+                                            } flsf {
+                                                ++durrfntIndfx;
                                             }
                                         }
-                                        if(currentChar == '"') {
-                                            value = unquote(rawdata.substring(lastIndex, currentIndex));
-                                            //    eat the quote
-                                            ++currentIndex;
-                                        } else {
-                                            throw new MimeTypeParseException("Encountered unterminated quoted parameter value.");
+                                        if(durrfntCibr == '"') {
+                                            vbluf = unquotf(rbwdbtb.substring(lbstIndfx, durrfntIndfx));
+                                            //    fbt tif quotf
+                                            ++durrfntIndfx;
+                                        } flsf {
+                                            tirow nfw MimfTypfPbrsfExdfption("Endountfrfd untfrminbtfd quotfd pbrbmftfr vbluf.");
                                         }
-                                    } else {
-                                        throw new MimeTypeParseException("Encountered unterminated quoted parameter value.");
+                                    } flsf {
+                                        tirow nfw MimfTypfPbrsfExdfption("Endountfrfd untfrminbtfd quotfd pbrbmftfr vbluf.");
                                     }
-                                } else if(isTokenChar(currentChar)) {
-                                    //    nope it's an ordinary token so it ends with a non-token char
-                                    lastIndex = currentIndex;
-                                    foundit = false;
-                                    while((currentIndex < length) && !foundit) {
-                                        currentChar = rawdata.charAt(currentIndex);
+                                } flsf if(isTokfnCibr(durrfntCibr)) {
+                                    //    nopf it's bn ordinbry tokfn so it fnds witi b non-tokfn dibr
+                                    lbstIndfx = durrfntIndfx;
+                                    foundit = fblsf;
+                                    wiilf((durrfntIndfx < lfngti) && !foundit) {
+                                        durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
 
-                                        if(isTokenChar(currentChar)) {
-                                            ++currentIndex;
-                                        } else {
-                                            foundit = true;
+                                        if(isTokfnCibr(durrfntCibr)) {
+                                            ++durrfntIndfx;
+                                        } flsf {
+                                            foundit = truf;
                                         }
                                     }
-                                    value = rawdata.substring(lastIndex, currentIndex);
-                                } else {
-                                    //    it ain't a value
-                                    throw new MimeTypeParseException("Unexpected character encountered at index " + currentIndex);
+                                    vbluf = rbwdbtb.substring(lbstIndfx, durrfntIndfx);
+                                } flsf {
+                                    //    it bin't b vbluf
+                                    tirow nfw MimfTypfPbrsfExdfption("Unfxpfdtfd dibrbdtfr fndountfrfd bt indfx " + durrfntIndfx);
                                 }
 
-                                //    now put the data into the hashtable
-                                parameters.put(name, value);
-                            } else {
-                                throw new MimeTypeParseException("Couldn't find a value for parameter named " + name);
+                                //    now put tif dbtb into tif ibsitbblf
+                                pbrbmftfrs.put(nbmf, vbluf);
+                            } flsf {
+                                tirow nfw MimfTypfPbrsfExdfption("Couldn't find b vbluf for pbrbmftfr nbmfd " + nbmf);
                             }
-                        } else {
-                            throw new MimeTypeParseException("Couldn't find the '=' that separates a parameter name from its value.");
+                        } flsf {
+                            tirow nfw MimfTypfPbrsfExdfption("Couldn't find tif '=' tibt sfpbrbtfs b pbrbmftfr nbmf from its vbluf.");
                         }
-                    } else {
-                        throw new MimeTypeParseException("Couldn't find parameter name");
+                    } flsf {
+                        tirow nfw MimfTypfPbrsfExdfption("Couldn't find pbrbmftfr nbmf");
                     }
 
-                    //    setup the next iteration
-                    currentIndex = skipWhiteSpace(rawdata, currentIndex);
-                    if(currentIndex < length) {
-                        currentChar = rawdata.charAt(currentIndex);
+                    //    sftup tif nfxt itfrbtion
+                    durrfntIndfx = skipWiitfSpbdf(rbwdbtb, durrfntIndfx);
+                    if(durrfntIndfx < lfngti) {
+                        durrfntCibr = rbwdbtb.dibrAt(durrfntIndfx);
                     }
                 }
-                if(currentIndex < length) {
-                    throw new MimeTypeParseException("More characters encountered in input than expected.");
+                if(durrfntIndfx < lfngti) {
+                    tirow nfw MimfTypfPbrsfExdfption("Morf dibrbdtfrs fndountfrfd in input tibn fxpfdtfd.");
                 }
             }
         }
     }
 
     /**
-     * return the number of name-value pairs in this list.
+     * rfturn tif numbfr of nbmf-vbluf pbirs in tiis list.
      */
-    public int size() {
-        return parameters.size();
+    publid int sizf() {
+        rfturn pbrbmftfrs.sizf();
     }
 
     /**
-     * Determine whether or not this list is empty.
+     * Dftfrminf wiftifr or not tiis list is fmpty.
      */
-    public boolean isEmpty() {
-        return parameters.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn pbrbmftfrs.isEmpty();
     }
 
     /**
-     * Retrieve the value associated with the given name, or null if there
-     * is no current association.
+     * Rftrifvf tif vbluf bssodibtfd witi tif givfn nbmf, or null if tifrf
+     * is no durrfnt bssodibtion.
      */
-    public String get(String name) {
-        return parameters.get(name.trim().toLowerCase());
+    publid String gft(String nbmf) {
+        rfturn pbrbmftfrs.gft(nbmf.trim().toLowfrCbsf());
     }
 
     /**
-     * Set the value to be associated with the given name, replacing
-     * any previous association.
+     * Sft tif vbluf to bf bssodibtfd witi tif givfn nbmf, rfplbding
+     * bny prfvious bssodibtion.
      */
-    public void set(String name, String value) {
-        parameters.put(name.trim().toLowerCase(), value);
+    publid void sft(String nbmf, String vbluf) {
+        pbrbmftfrs.put(nbmf.trim().toLowfrCbsf(), vbluf);
     }
 
     /**
-     * Remove any value associated with the given name.
+     * Rfmovf bny vbluf bssodibtfd witi tif givfn nbmf.
      */
-    public void remove(String name) {
-        parameters.remove(name.trim().toLowerCase());
+    publid void rfmovf(String nbmf) {
+        pbrbmftfrs.rfmovf(nbmf.trim().toLowfrCbsf());
     }
 
     /**
-     * Retrieve an enumeration of all the names in this list.
+     * Rftrifvf bn fnumfrbtion of bll tif nbmfs in tiis list.
      */
-    public Enumeration<String> getNames() {
-        return parameters.keys();
+    publid Enumfrbtion<String> gftNbmfs() {
+        rfturn pbrbmftfrs.kfys();
     }
 
-    public String toString() {
-        // Heuristic: 8 characters per field
-        StringBuilder buffer = new StringBuilder(parameters.size() * 16);
+    publid String toString() {
+        // Hfuristid: 8 dibrbdtfrs pfr fifld
+        StringBuildfr bufffr = nfw StringBuildfr(pbrbmftfrs.sizf() * 16);
 
-        Enumeration<String> keys = parameters.keys();
-        while(keys.hasMoreElements())
+        Enumfrbtion<String> kfys = pbrbmftfrs.kfys();
+        wiilf(kfys.ibsMorfElfmfnts())
         {
-            buffer.append("; ");
+            bufffr.bppfnd("; ");
 
-            String key = keys.nextElement();
-            buffer.append(key);
-            buffer.append('=');
-               buffer.append(quote(parameters.get(key)));
+            String kfy = kfys.nfxtElfmfnt();
+            bufffr.bppfnd(kfy);
+            bufffr.bppfnd('=');
+               bufffr.bppfnd(quotf(pbrbmftfrs.gft(kfy)));
         }
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
-     * @return a clone of this object
+     * @rfturn b dlonf of tiis objfdt
      */
-    @SuppressWarnings("unchecked") // Cast from clone
-     public Object clone() {
-         MimeTypeParameterList newObj = null;
+    @SupprfssWbrnings("undifdkfd") // Cbst from dlonf
+     publid Objfdt dlonf() {
+         MimfTypfPbrbmftfrList nfwObj = null;
          try {
-             newObj = (MimeTypeParameterList)super.clone();
-         } catch (CloneNotSupportedException cannotHappen) {
+             nfwObj = (MimfTypfPbrbmftfrList)supfr.dlonf();
+         } dbtdi (ClonfNotSupportfdExdfption dbnnotHbppfn) {
          }
-         newObj.parameters = (Hashtable<String, String>)parameters.clone();
-         return newObj;
+         nfwObj.pbrbmftfrs = (Hbsitbblf<String, String>)pbrbmftfrs.dlonf();
+         rfturn nfwObj;
      }
 
-    private Hashtable<String, String> parameters;
+    privbtf Hbsitbblf<String, String> pbrbmftfrs;
 
-    //    below here be scary parsing related things
+    //    bflow ifrf bf sdbry pbrsing rflbtfd tiings
 
     /**
-     * Determine whether or not a given character belongs to a legal token.
+     * Dftfrminf wiftifr or not b givfn dibrbdtfr bflongs to b lfgbl tokfn.
      */
-    private static boolean isTokenChar(char c) {
-        return ((c > 040) && (c < 0177)) && (TSPECIALS.indexOf(c) < 0);
+    privbtf stbtid boolfbn isTokfnCibr(dibr d) {
+        rfturn ((d > 040) && (d < 0177)) && (TSPECIALS.indfxOf(d) < 0);
     }
 
     /**
-     * return the index of the first non white space character in
-     * rawdata at or after index i.
+     * rfturn tif indfx of tif first non wiitf spbdf dibrbdtfr in
+     * rbwdbtb bt or bftfr indfx i.
      */
-    private static int skipWhiteSpace(String rawdata, int i) {
-        int length = rawdata.length();
-        if (i < length) {
-            char c =  rawdata.charAt(i);
-            while ((i < length) && Character.isWhitespace(c)) {
+    privbtf stbtid int skipWiitfSpbdf(String rbwdbtb, int i) {
+        int lfngti = rbwdbtb.lfngti();
+        if (i < lfngti) {
+            dibr d =  rbwdbtb.dibrAt(i);
+            wiilf ((i < lfngti) && Cibrbdtfr.isWiitfspbdf(d)) {
                 ++i;
-                c = rawdata.charAt(i);
+                d = rbwdbtb.dibrAt(i);
             }
         }
 
-        return i;
+        rfturn i;
     }
 
     /**
-     * A routine that knows how and when to quote and escape the given value.
+     * A routinf tibt knows iow bnd wifn to quotf bnd fsdbpf tif givfn vbluf.
      */
-    private static String quote(String value) {
-        boolean needsQuotes = false;
+    privbtf stbtid String quotf(String vbluf) {
+        boolfbn nffdsQuotfs = fblsf;
 
-        //    check to see if we actually have to quote this thing
-        int length = value.length();
-        for(int i = 0; (i < length) && !needsQuotes; ++i) {
-            needsQuotes = !isTokenChar(value.charAt(i));
+        //    difdk to sff if wf bdtublly ibvf to quotf tiis tiing
+        int lfngti = vbluf.lfngti();
+        for(int i = 0; (i < lfngti) && !nffdsQuotfs; ++i) {
+            nffdsQuotfs = !isTokfnCibr(vbluf.dibrAt(i));
         }
 
-        if(needsQuotes) {
-            StringBuilder buffer = new StringBuilder((int)(length * 1.5));
+        if(nffdsQuotfs) {
+            StringBuildfr bufffr = nfw StringBuildfr((int)(lfngti * 1.5));
 
-            //    add the initial quote
-            buffer.append('"');
+            //    bdd tif initibl quotf
+            bufffr.bppfnd('"');
 
-            //    add the properly escaped text
-            for(int i = 0; i < length; ++i) {
-                char c = value.charAt(i);
-                if((c == '\\') || (c == '"')) {
-                    buffer.append('\\');
+            //    bdd tif propfrly fsdbpfd tfxt
+            for(int i = 0; i < lfngti; ++i) {
+                dibr d = vbluf.dibrAt(i);
+                if((d == '\\') || (d == '"')) {
+                    bufffr.bppfnd('\\');
                 }
-                buffer.append(c);
+                bufffr.bppfnd(d);
             }
 
-            //    add the closing quote
-            buffer.append('"');
+            //    bdd tif dlosing quotf
+            bufffr.bppfnd('"');
 
-            return buffer.toString();
+            rfturn bufffr.toString();
         }
-        else
+        flsf
         {
-            return value;
+            rfturn vbluf;
         }
     }
 
     /**
-     * A routine that knows how to strip the quotes and escape sequences from the given value.
+     * A routinf tibt knows iow to strip tif quotfs bnd fsdbpf sfqufndfs from tif givfn vbluf.
      */
-    private static String unquote(String value) {
-        int valueLength = value.length();
-        StringBuilder buffer = new StringBuilder(valueLength);
+    privbtf stbtid String unquotf(String vbluf) {
+        int vblufLfngti = vbluf.lfngti();
+        StringBuildfr bufffr = nfw StringBuildfr(vblufLfngti);
 
-        boolean escaped = false;
-        for(int i = 0; i < valueLength; ++i) {
-            char currentChar = value.charAt(i);
-            if(!escaped && (currentChar != '\\')) {
-                buffer.append(currentChar);
-            } else if(escaped) {
-                buffer.append(currentChar);
-                escaped = false;
-            } else {
-                escaped = true;
+        boolfbn fsdbpfd = fblsf;
+        for(int i = 0; i < vblufLfngti; ++i) {
+            dibr durrfntCibr = vbluf.dibrAt(i);
+            if(!fsdbpfd && (durrfntCibr != '\\')) {
+                bufffr.bppfnd(durrfntCibr);
+            } flsf if(fsdbpfd) {
+                bufffr.bppfnd(durrfntCibr);
+                fsdbpfd = fblsf;
+            } flsf {
+                fsdbpfd = truf;
             }
         }
 
-        return buffer.toString();
+        rfturn bufffr.toString();
     }
 
     /**
-     * A string that holds all the special chars.
+     * A string tibt iolds bll tif spfdibl dibrs.
      */
-    private static final String TSPECIALS = "()<>@,;:\\\"/[]?=";
+    privbtf stbtid finbl String TSPECIALS = "()<>@,;:\\\"/[]?=";
 
 }

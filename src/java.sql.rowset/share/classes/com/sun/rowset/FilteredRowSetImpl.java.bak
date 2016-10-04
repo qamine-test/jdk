@@ -1,1769 +1,1769 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset;
+pbdkbgf dom.sun.rowsft;
 
-import java.io.*;
-import java.util.*;
-import java.sql.*;
-import javax.sql.*;
-import java.math.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.mbti.*;
 
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
-import javax.sql.rowset.serial.*;
-import com.sun.rowset.providers.*;
-import com.sun.rowset.internal.*;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
+import jbvbx.sql.rowsft.sfribl.*;
+import dom.sun.rowsft.providfrs.*;
+import dom.sun.rowsft.intfrnbl.*;
 
 /**
- * The standard implementation of the <code>FilteredRowSet</code> interface. See the interface
- * definition for full behavior and implementation requirements.
+ * Tif stbndbrd implfmfntbtion of tif <dodf>FiltfrfdRowSft</dodf> intfrfbdf. Sff tif intfrfbdf
+ * dffinition for full bfibvior bnd implfmfntbtion rfquirfmfnts.
  *
- * @see javax.sql.rowset.Predicate
- * @author Jonathan Bruce, Amit Handa
+ * @sff jbvbx.sql.rowsft.Prfdidbtf
+ * @butior Jonbtibn Brudf, Amit Hbndb
  */
 
-public class FilteredRowSetImpl extends WebRowSetImpl implements Serializable, Cloneable, FilteredRowSet {
+publid dlbss FiltfrfdRowSftImpl fxtfnds WfbRowSftImpl implfmfnts Sfriblizbblf, Clonfbblf, FiltfrfdRowSft {
 
-    private Predicate p;
+    privbtf Prfdidbtf p;
 
-    private boolean onInsertRow = false;
+    privbtf boolfbn onInsfrtRow = fblsf;
 
 
     /**
-     * Construct a <code>FilteredRowSet</code>
+     * Construdt b <dodf>FiltfrfdRowSft</dodf>
      */
-    public FilteredRowSetImpl() throws SQLException {
-        super();
+    publid FiltfrfdRowSftImpl() tirows SQLExdfption {
+        supfr();
     }
 
     /**
-     * Construct a <code>FilteredRowSet</code> with a specified synchronization
-     * provider.
+     * Construdt b <dodf>FiltfrfdRowSft</dodf> witi b spfdififd syndironizbtion
+     * providfr.
      *
-     * @param env a Hashtable containing a desired synchconizatation provider
-     * name-value pair.
+     * @pbrbm fnv b Hbsitbblf dontbining b dfsirfd syndidonizbtbtion providfr
+     * nbmf-vbluf pbir.
      */
-    @SuppressWarnings("rawtypes")
-    public FilteredRowSetImpl(Hashtable env) throws SQLException {
-        super(env);
+    @SupprfssWbrnings("rbwtypfs")
+    publid FiltfrfdRowSftImpl(Hbsitbblf fnv) tirows SQLExdfption {
+        supfr(fnv);
     }
 
     /**
-     * Apply the predicate for this filter
+     * Apply tif prfdidbtf for tiis filtfr
      *
-     * @param p an implementation of the predicate interface
+     * @pbrbm p bn implfmfntbtion of tif prfdidbtf intfrfbdf
      */
-    public void setFilter(Predicate p) throws SQLException {
-        this.p = p;
+    publid void sftFiltfr(Prfdidbtf p) tirows SQLExdfption {
+        tiis.p = p;
     }
 
     /**
-     * Retrieve the filter active for this <code>FilteredRowSet</code>
+     * Rftrifvf tif filtfr bdtivf for tiis <dodf>FiltfrfdRowSft</dodf>
      *
-     * @return a <code>Predicate</code> object instance
+     * @rfturn b <dodf>Prfdidbtf</dodf> objfdt instbndf
      */
-    public Predicate getFilter() {
-        return this.p;
+    publid Prfdidbtf gftFiltfr() {
+        rfturn tiis.p;
     }
 
     /**
-     * Over-riding <code>internalNext()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is advanced or
-     * manipulated. It moves the cursor to the next row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Ovfr-riding <dodf>intfrnblNfxt()</dodf> implfmfntbtion. Tiis mftiod
+     * bpplifs tif filtfr on tif <dodf>RowSft</dodf> fbdi timf tif dursor is bdvbndfd or
+     * mbnipulbtfd. It movfs tif dursor to tif nfxt row bddording to tif sft
+     * prfdidbtf bnd rfturns <dodf>truf</dodf> if tif dursor is still witiin tif rowsft or
+     * <dodf>fblsf</dodf> if tif dursor position is ovfr tif lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @rfturn truf if ovfr tif vblid row in tif rowsft; fblsf if ovfr tif lbst
      * row
      */
-    protected boolean internalNext() throws SQLException {
-        // CachedRowSetImpl.next() internally calls
-        // this(crs).internalNext() NOTE: this holds crs object
-        // So when frs.next() is called,
-        // internally this(frs).internalNext() will be called
-        // which will be nothing but this method.
-        // because this holds frs object
+    protfdtfd boolfbn intfrnblNfxt() tirows SQLExdfption {
+        // CbdifdRowSftImpl.nfxt() intfrnblly dblls
+        // tiis(drs).intfrnblNfxt() NOTE: tiis iolds drs objfdt
+        // So wifn frs.nfxt() is dbllfd,
+        // intfrnblly tiis(frs).intfrnblNfxt() will bf dbllfd
+        // wiidi will bf notiing but tiis mftiod.
+        // bfdbusf tiis iolds frs objfdt
 
-        // keep on doing super.internalNext()
-        // rather than doing it once.
-
-
-         // p.evaluate will help us in changing the cursor
-         // and checking the next value by returning true or false.
-         // to fit the filter
-
-         // So while() loop will have a "random combination" of
-         // true and false returned depending upon the records
-         // are in or out of filter.
-         // We need to traverse from present cursorPos till end,
-         // whether true or false and check each row for "filter"
-         // "till we get a "true"
+        // kffp on doing supfr.intfrnblNfxt()
+        // rbtifr tibn doing it ondf.
 
 
-         boolean bool = false;
+         // p.fvblubtf will iflp us in dibnging tif dursor
+         // bnd difdking tif nfxt vbluf by rfturning truf or fblsf.
+         // to fit tif filtfr
 
-         for(int rows=this.getRow(); rows<=this.size();rows++) {
-             bool = super.internalNext();
+         // So wiilf() loop will ibvf b "rbndom dombinbtion" of
+         // truf bnd fblsf rfturnfd dfpfnding upon tif rfdords
+         // brf in or out of filtfr.
+         // Wf nffd to trbvfrsf from prfsfnt dursorPos till fnd,
+         // wiftifr truf or fblsf bnd difdk fbdi row for "filtfr"
+         // "till wf gft b "truf"
+
+
+         boolfbn bool = fblsf;
+
+         for(int rows=tiis.gftRow(); rows<=tiis.sizf();rows++) {
+             bool = supfr.intfrnblNfxt();
 
              if( !bool || p == null) {
-               return bool;
+               rfturn bool;
              }
-             if(p.evaluate(this)){
-                   break;
+             if(p.fvblubtf(tiis)){
+                   brfbk;
              }
 
          }
 
-       return bool;
+       rfturn bool;
     }
 
 
     /**
-     * Over-riding <code>internalPrevious()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved backward or
-     * manipulated. It moves the cursor to the previous row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Ovfr-riding <dodf>intfrnblPrfvious()</dodf> implfmfntbtion. Tiis mftiod
+     * bpplifs tif filtfr on tif <dodf>RowSft</dodf> fbdi timf tif dursor is movfd bbdkwbrd or
+     * mbnipulbtfd. It movfs tif dursor to tif prfvious row bddording to tif sft
+     * prfdidbtf bnd rfturns <dodf>truf</dodf> if tif dursor is still witiin tif rowsft or
+     * <dodf>fblsf</dodf> if tif dursor position is ovfr tif lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @rfturn truf if ovfr tif vblid row in tif rowsft; fblsf if ovfr tif lbst
      * row
      */
-    protected boolean internalPrevious() throws SQLException {
-         boolean bool = false;
-         // with previous move backwards,
-         // i.e. from any record towards first record
+    protfdtfd boolfbn intfrnblPrfvious() tirows SQLExdfption {
+         boolfbn bool = fblsf;
+         // witi prfvious movf bbdkwbrds,
+         // i.f. from bny rfdord towbrds first rfdord
 
-         for(int rows=this.getRow(); rows>0;rows--) {
+         for(int rows=tiis.gftRow(); rows>0;rows--) {
 
-             bool = super.internalPrevious();
+             bool = supfr.intfrnblPrfvious();
 
              if( p == null) {
-               return bool;
+               rfturn bool;
              }
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.fvblubtf(tiis)){
+                   brfbk;
              }
 
          }
 
-       return bool;
+       rfturn bool;
     }
 
 
     /**
-     * Over-riding <code>internalFirst()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved to first
-     * row. It moves the cursor to the first row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Ovfr-riding <dodf>intfrnblFirst()</dodf> implfmfntbtion. Tiis mftiod
+     * bpplifs tif filtfr on tif <dodf>RowSft</dodf> fbdi timf tif dursor is movfd to first
+     * row. It movfs tif dursor to tif first row bddording to tif sft
+     * prfdidbtf bnd rfturns <dodf>truf</dodf> if tif dursor is still witiin tif rowsft or
+     * <dodf>fblsf</dodf> if tif dursor position is ovfr tif lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @rfturn truf if ovfr tif vblid row in tif rowsft; fblsf if ovfr tif lbst
      * row
      */
-    protected boolean internalFirst() throws SQLException {
+    protfdtfd boolfbn intfrnblFirst() tirows SQLExdfption {
 
-        // from first till present cursor position(go forward),
-        // find the actual first which matches the filter.
+        // from first till prfsfnt dursor position(go forwbrd),
+        // find tif bdtubl first wiidi mbtdifs tif filtfr.
 
-         boolean bool = super.internalFirst();
+         boolfbn bool = supfr.intfrnblFirst();
 
          if( p == null) {
-               return bool;
+               rfturn bool;
              }
 
-         while(bool) {
+         wiilf(bool) {
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.fvblubtf(tiis)){
+                   brfbk;
              }
-        bool = super.internalNext();
+        bool = supfr.intfrnblNfxt();
         }
-     return bool;
+     rfturn bool;
     }
 
 
     /**
-     * Over-riding <code>internalLast()</code> implementation. This method
-     * applies the filter on the <code>RowSet</code> each time the cursor is moved to
-     * last row. It moves the cursor to the last row according to the set
-     * predicate and returns <code>true</code> if the cursor is still within the rowset or
-     * <code>false</code> if the cursor position is over the last row
+     * Ovfr-riding <dodf>intfrnblLbst()</dodf> implfmfntbtion. Tiis mftiod
+     * bpplifs tif filtfr on tif <dodf>RowSft</dodf> fbdi timf tif dursor is movfd to
+     * lbst row. It movfs tif dursor to tif lbst row bddording to tif sft
+     * prfdidbtf bnd rfturns <dodf>truf</dodf> if tif dursor is still witiin tif rowsft or
+     * <dodf>fblsf</dodf> if tif dursor position is ovfr tif lbst row
      *
-     * @return true if over the valid row in the rowset; false if over the last
+     * @rfturn truf if ovfr tif vblid row in tif rowsft; fblsf if ovfr tif lbst
      * row
      */
-    protected boolean internalLast() throws SQLException {
-        // from last to the present cursor position(go backward),
-        // find the actual last which matches the filter.
+    protfdtfd boolfbn intfrnblLbst() tirows SQLExdfption {
+        // from lbst to tif prfsfnt dursor position(go bbdkwbrd),
+        // find tif bdtubl lbst wiidi mbtdifs tif filtfr.
 
-         boolean bool = super.internalLast();
+         boolfbn bool = supfr.intfrnblLbst();
 
          if( p == null) {
-               return bool;
+               rfturn bool;
              }
 
-         while(bool) {
+         wiilf(bool) {
 
-             if(p.evaluate(this)){
-                   break;
+             if(p.fvblubtf(tiis)){
+                   brfbk;
              }
 
-        bool = super.internalPrevious();
+        bool = supfr.intfrnblPrfvious();
 
         }
-     return bool;
+     rfturn bool;
 
-   } // end internalLast()
+   } // fnd intfrnblLbst()
    /**
-     * Moves the cursor the specified number of rows from the current
-     * position, with a positive number moving it forward and a
-     * negative number moving it backward.
+     * Movfs tif dursor tif spfdififd numbfr of rows from tif durrfnt
+     * position, witi b positivf numbfr moving it forwbrd bnd b
+     * nfgbtivf numbfr moving it bbdkwbrd.
      * <P>
-     * If the number is positive, the cursor moves the specified number of
-     * rows toward the end of the rowset, starting at the current row.
-     * For example, the following command, in which
-     * <code>crs</code> is a <code>CachedRowSetImpl</code> object with 100 rows,
-     * moves the cursor forward four rows from the current row.  If the
-     * current row is 50, the cursor would move to row 54.
-     * <PRE><code>
+     * If tif numbfr is positivf, tif dursor movfs tif spfdififd numbfr of
+     * rows towbrd tif fnd of tif rowsft, stbrting bt tif durrfnt row.
+     * For fxbmplf, tif following dommbnd, in wiidi
+     * <dodf>drs</dodf> is b <dodf>CbdifdRowSftImpl</dodf> objfdt witi 100 rows,
+     * movfs tif dursor forwbrd four rows from tif durrfnt row.  If tif
+     * durrfnt row is 50, tif dursor would movf to row 54.
+     * <PRE><dodf>
      *
-     *    crs.relative(4);
+     *    drs.rflbtivf(4);
      *
-     * </code> </PRE>
+     * </dodf> </PRE>
      * <P>
-     * If the number is negative, the cursor moves back toward the beginning
-     * the specified number of rows, starting at the current row.
-     * For example, calling the method
-     * <code>absolute(-1)</code> positions the cursor on the last row,
-     * <code>absolute(-2)</code> moves it on the next-to-last row, and so on.
-     * If the <code>CachedRowSetImpl</code> object <code>crs</code> has five rows,
-     * the following command moves the cursor to the fourth-to-last row, which
-     * in the case of a  rowset with five rows, is also the second row
-     * from the beginning.
-     * <PRE><code>
+     * If tif numbfr is nfgbtivf, tif dursor movfs bbdk towbrd tif bfginning
+     * tif spfdififd numbfr of rows, stbrting bt tif durrfnt row.
+     * For fxbmplf, dblling tif mftiod
+     * <dodf>bbsolutf(-1)</dodf> positions tif dursor on tif lbst row,
+     * <dodf>bbsolutf(-2)</dodf> movfs it on tif nfxt-to-lbst row, bnd so on.
+     * If tif <dodf>CbdifdRowSftImpl</dodf> objfdt <dodf>drs</dodf> ibs fivf rows,
+     * tif following dommbnd movfs tif dursor to tif fourti-to-lbst row, wiidi
+     * in tif dbsf of b  rowsft witi fivf rows, is blso tif sfdond row
+     * from tif bfginning.
+     * <PRE><dodf>
      *
-     *    crs.absolute(-4);
+     *    drs.bbsolutf(-4);
      *
-     * </code> </PRE>
+     * </dodf> </PRE>
      *
-     * If the number specified is larger than the number of rows, the cursor
-     * will move to the position after the last row. If the number specified
-     * would move the cursor one or more rows before the first row, the cursor
-     * moves to the position before the first row. In both cases, this method
-     * throws an <code>SQLException</code>.
+     * If tif numbfr spfdififd is lbrgfr tibn tif numbfr of rows, tif dursor
+     * will movf to tif position bftfr tif lbst row. If tif numbfr spfdififd
+     * would movf tif dursor onf or morf rows bfforf tif first row, tif dursor
+     * movfs to tif position bfforf tif first row. In boti dbsfs, tiis mftiod
+     * tirows bn <dodf>SQLExdfption</dodf>.
      * <P>
-     * Note: Calling <code>absolute(1)</code> is the same as calling the
-     * method <code>first()</code>.  Calling <code>absolute(-1)</code> is the
-     * same as calling <code>last()</code>.  Calling <code>relative(0)</code>
-     * is valid, but it does not change the cursor position.
+     * Notf: Cblling <dodf>bbsolutf(1)</dodf> is tif sbmf bs dblling tif
+     * mftiod <dodf>first()</dodf>.  Cblling <dodf>bbsolutf(-1)</dodf> is tif
+     * sbmf bs dblling <dodf>lbst()</dodf>.  Cblling <dodf>rflbtivf(0)</dodf>
+     * is vblid, but it dofs not dibngf tif dursor position.
      *
-     * @param rows an <code>int</code> indicating the number of rows to move
-     *             the cursor, starting at the current row; a positive number
-     *             moves the cursor forward; a negative number moves the cursor
-     *             backward; must not move the cursor past the valid
+     * @pbrbm rows bn <dodf>int</dodf> indidbting tif numbfr of rows to movf
+     *             tif dursor, stbrting bt tif durrfnt row; b positivf numbfr
+     *             movfs tif dursor forwbrd; b nfgbtivf numbfr movfs tif dursor
+     *             bbdkwbrd; must not movf tif dursor pbst tif vblid
      *             rows
-     * @return <code>true</code> if the cursor is on a row in this
-     *         <code>CachedRowSetImpl</code> object; <code>false</code>
-     *         otherwise
-     * @throws SQLException if the rowset is type <code>ResultSet.TYPE_FORWARD_ONLY</code>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b row in tiis
+     *         <dodf>CbdifdRowSftImpl</dodf> objfdt; <dodf>fblsf</dodf>
+     *         otifrwisf
+     * @tirows SQLExdfption if tif rowsft is typf <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>
      */
-   public boolean relative(int rows) throws SQLException {
+   publid boolfbn rflbtivf(int rows) tirows SQLExdfption {
 
-      boolean retval;
-      boolean bool = false;
-      boolean boolval = false;
+      boolfbn rftvbl;
+      boolfbn bool = fblsf;
+      boolfbn boolvbl = fblsf;
 
-      if(getType() == ResultSet.TYPE_FORWARD_ONLY) {
-         throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.relative").toString());
+      if(gftTypf() == RfsultSft.TYPE_FORWARD_ONLY) {
+         tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.rflbtivf").toString());
       }
 
       if( rows > 0 ) {
 
          int i = 0;
-         while( i < (rows)) {
+         wiilf( i < (rows)) {
 
-            if( isAfterLast() ) {
-               return false;
+            if( isAftfrLbst() ) {
+               rfturn fblsf;
             }
-            bool = internalNext();
+            bool = intfrnblNfxt();
             i++;
          }
 
-         retval = bool;
-      } else {
+         rftvbl = bool;
+      } flsf {
          int j = rows;
-         while( (j) < 0 ) {
+         wiilf( (j) < 0 ) {
 
-           if( isBeforeFirst() ) {
-              return false;
+           if( isBfforfFirst() ) {
+              rfturn fblsf;
            }
-           boolval = internalPrevious();
+           boolvbl = intfrnblPrfvious();
            j++;
          }
-         retval = boolval;
+         rftvbl = boolvbl;
       }
       if(rows != 0)
-          notifyCursorMoved();
-      return retval;
+          notifyCursorMovfd();
+      rfturn rftvbl;
    }
 
    /**
-     * Moves this <code>CachedRowSetImpl</code> object's cursor to the row number
-     * specified.
+     * Movfs tiis <dodf>CbdifdRowSftImpl</dodf> objfdt's dursor to tif row numbfr
+     * spfdififd.
      *
-     * <p>If the number is positive, the cursor moves to an absolute row with
-     * respect to the beginning of the rowset.  The first row is row 1, the second
-     * is row 2, and so on.  For example, the following command, in which
-     * <code>crs</code> is a <code>CachedRowSetImpl</code> object, moves the cursor
-     * to the fourth row, starting from the beginning of the rowset.
-     * <PRE><code>
+     * <p>If tif numbfr is positivf, tif dursor movfs to bn bbsolutf row witi
+     * rfspfdt to tif bfginning of tif rowsft.  Tif first row is row 1, tif sfdond
+     * is row 2, bnd so on.  For fxbmplf, tif following dommbnd, in wiidi
+     * <dodf>drs</dodf> is b <dodf>CbdifdRowSftImpl</dodf> objfdt, movfs tif dursor
+     * to tif fourti row, stbrting from tif bfginning of tif rowsft.
+     * <PRE><dodf>
      *
-     *    crs.absolute(4);
+     *    drs.bbsolutf(4);
      *
-     * </code> </PRE>
+     * </dodf> </PRE>
      * <P>
-     * If the number is negative, the cursor moves to an absolute row position
-     * with respect to the end of the rowset.  For example, calling
-     * <code>absolute(-1)</code> positions the cursor on the last row,
-     * <code>absolute(-2)</code> moves it on the next-to-last row, and so on.
-     * If the <code>CachedRowSetImpl</code> object <code>crs</code> has five rows,
-     * the following command moves the cursor to the fourth-to-last row, which
-     * in the case of a  rowset with five rows, is also the second row, counting
-     * from the beginning.
-     * <PRE><code>
+     * If tif numbfr is nfgbtivf, tif dursor movfs to bn bbsolutf row position
+     * witi rfspfdt to tif fnd of tif rowsft.  For fxbmplf, dblling
+     * <dodf>bbsolutf(-1)</dodf> positions tif dursor on tif lbst row,
+     * <dodf>bbsolutf(-2)</dodf> movfs it on tif nfxt-to-lbst row, bnd so on.
+     * If tif <dodf>CbdifdRowSftImpl</dodf> objfdt <dodf>drs</dodf> ibs fivf rows,
+     * tif following dommbnd movfs tif dursor to tif fourti-to-lbst row, wiidi
+     * in tif dbsf of b  rowsft witi fivf rows, is blso tif sfdond row, dounting
+     * from tif bfginning.
+     * <PRE><dodf>
      *
-     *    crs.absolute(-4);
+     *    drs.bbsolutf(-4);
      *
-     * </code> </PRE>
+     * </dodf> </PRE>
      *
-     * If the number specified is larger than the number of rows, the cursor
-     * will move to the position after the last row. If the number specified
-     * would move the cursor one or more rows before the first row, the cursor
-     * moves to the position before the first row.
+     * If tif numbfr spfdififd is lbrgfr tibn tif numbfr of rows, tif dursor
+     * will movf to tif position bftfr tif lbst row. If tif numbfr spfdififd
+     * would movf tif dursor onf or morf rows bfforf tif first row, tif dursor
+     * movfs to tif position bfforf tif first row.
      * <P>
-     * Note: Calling <code>absolute(1)</code> is the same as calling the
-     * method <code>first()</code>.  Calling <code>absolute(-1)</code> is the
-     * same as calling <code>last()</code>.
+     * Notf: Cblling <dodf>bbsolutf(1)</dodf> is tif sbmf bs dblling tif
+     * mftiod <dodf>first()</dodf>.  Cblling <dodf>bbsolutf(-1)</dodf> is tif
+     * sbmf bs dblling <dodf>lbst()</dodf>.
      *
-     * @param rows a positive number to indicate the row, starting row numbering from
-     *        the first row, which is <code>1</code>; a negative number to indicate
-     *        the row, starting row numbering from the last row, which is
-     *        <code>-1</code>; it must not be <code>0</code>
-     * @return <code>true</code> if the cursor is on the rowset; <code>false</code>
-     *         otherwise
-     * @throws SQLException if the given cursor position is <code>0</code> or the
-     *            type of this rowset is <code>ResultSet.TYPE_FORWARD_ONLY</code>
+     * @pbrbm rows b positivf numbfr to indidbtf tif row, stbrting row numbfring from
+     *        tif first row, wiidi is <dodf>1</dodf>; b nfgbtivf numbfr to indidbtf
+     *        tif row, stbrting row numbfring from tif lbst row, wiidi is
+     *        <dodf>-1</dodf>; it must not bf <dodf>0</dodf>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on tif rowsft; <dodf>fblsf</dodf>
+     *         otifrwisf
+     * @tirows SQLExdfption if tif givfn dursor position is <dodf>0</dodf> or tif
+     *            typf of tiis rowsft is <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>
      */
-    public boolean absolute(int rows) throws SQLException {
+    publid boolfbn bbsolutf(int rows) tirows SQLExdfption {
 
-      boolean retval;
-      boolean bool = false;
+      boolfbn rftvbl;
+      boolfbn bool = fblsf;
 
-      if(rows == 0 || getType() == ResultSet.TYPE_FORWARD_ONLY) {
-         throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.absolute").toString());
+      if(rows == 0 || gftTypf() == RfsultSft.TYPE_FORWARD_ONLY) {
+         tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.bbsolutf").toString());
       }
 
       if (rows > 0) {
-         bool = internalFirst();
+         bool = intfrnblFirst();
 
          int i = 0;
-         while(i < (rows-1)) {
-            if( isAfterLast() ) {
-               return false;
+         wiilf(i < (rows-1)) {
+            if( isAftfrLbst() ) {
+               rfturn fblsf;
             }
-            bool = internalNext();
+            bool = intfrnblNfxt();
             i++;
          }
-         retval = bool;
-      } else {
-         bool = internalLast();
+         rftvbl = bool;
+      } flsf {
+         bool = intfrnblLbst();
 
          int j = rows;
-         while((j+1) < 0 ) {
-            if( isBeforeFirst() ) {
-               return false;
+         wiilf((j+1) < 0 ) {
+            if( isBfforfFirst() ) {
+               rfturn fblsf;
             }
-            bool = internalPrevious();
+            bool = intfrnblPrfvious();
             j++;
          }
-         retval = bool;
+         rftvbl = bool;
       }
-      notifyCursorMoved();
-      return retval;
+      notifyCursorMovfd();
+      rfturn rftvbl;
    }
 
    /**
-     * Moves the cursor for this <code>CachedRowSetImpl</code> object
-     * to the insert row.  The current row in the rowset is remembered
-     * while the cursor is on the insert row.
+     * Movfs tif dursor for tiis <dodf>CbdifdRowSftImpl</dodf> objfdt
+     * to tif insfrt row.  Tif durrfnt row in tif rowsft is rfmfmbfrfd
+     * wiilf tif dursor is on tif insfrt row.
      * <P>
-     * The insert row is a special row associated with an updatable
-     * rowset.  It is essentially a buffer where a new row may
-     * be constructed by calling the appropriate <code>updateXXX</code>
-     * methods to assign a value to each column in the row.  A complete
-     * row must be constructed; that is, every column that is not nullable
-     * must be assigned a value.  In order for the new row to become part
-     * of this rowset, the method <code>insertRow</code> must be called
-     * before the cursor is moved back to the rowset.
+     * Tif insfrt row is b spfdibl row bssodibtfd witi bn updbtbblf
+     * rowsft.  It is fssfntiblly b bufffr wifrf b nfw row mby
+     * bf donstrudtfd by dblling tif bppropribtf <dodf>updbtfXXX</dodf>
+     * mftiods to bssign b vbluf to fbdi dolumn in tif row.  A domplftf
+     * row must bf donstrudtfd; tibt is, fvfry dolumn tibt is not nullbblf
+     * must bf bssignfd b vbluf.  In ordfr for tif nfw row to bfdomf pbrt
+     * of tiis rowsft, tif mftiod <dodf>insfrtRow</dodf> must bf dbllfd
+     * bfforf tif dursor is movfd bbdk to tif rowsft.
      * <P>
-     * Only certain methods may be invoked while the cursor is on the insert
-     * row; many methods throw an exception if they are called while the
-     * cursor is there.  In addition to the <code>updateXXX</code>
-     * and <code>insertRow</code> methods, only the <code>getXXX</code> methods
-     * may be called when the cursor is on the insert row.  A <code>getXXX</code>
-     * method should be called on a column only after an <code>updateXXX</code>
-     * method has been called on that column; otherwise, the value returned is
-     * undetermined.
+     * Only dfrtbin mftiods mby bf invokfd wiilf tif dursor is on tif insfrt
+     * row; mbny mftiods tirow bn fxdfption if tify brf dbllfd wiilf tif
+     * dursor is tifrf.  In bddition to tif <dodf>updbtfXXX</dodf>
+     * bnd <dodf>insfrtRow</dodf> mftiods, only tif <dodf>gftXXX</dodf> mftiods
+     * mby bf dbllfd wifn tif dursor is on tif insfrt row.  A <dodf>gftXXX</dodf>
+     * mftiod siould bf dbllfd on b dolumn only bftfr bn <dodf>updbtfXXX</dodf>
+     * mftiod ibs bffn dbllfd on tibt dolumn; otifrwisf, tif vbluf rfturnfd is
+     * undftfrminfd.
      *
-     * @throws SQLException if this <code>CachedRowSetImpl</code> object is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @tirows SQLExdfption if tiis <dodf>CbdifdRowSftImpl</dodf> objfdt is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void moveToInsertRow() throws SQLException {
+   publid void movfToInsfrtRow() tirows SQLExdfption {
 
-      onInsertRow = true;
-      super.moveToInsertRow();
+      onInsfrtRow = truf;
+      supfr.movfToInsfrtRow();
    }
 
    /**
-     * This is explanation for the overriding of the updateXXX functions.
-     * These functions have been overriden to ensure that only correct
-     * values that pass the criteria for the filter are actaully inserted.
-     * The evaluation of whether a particular value passes the criteria
-     * of the filter is done using the evaluate function in the Predicate
-     * interface.
+     * Tiis is fxplbnbtion for tif ovfrriding of tif updbtfXXX fundtions.
+     * Tifsf fundtions ibvf bffn ovfrridfn to fnsurf tibt only dorrfdt
+     * vblufs tibt pbss tif dritfrib for tif filtfr brf bdtbully insfrtfd.
+     * Tif fvblubtion of wiftifr b pbrtidulbr vbluf pbssfs tif dritfrib
+     * of tif filtfr is donf using tif fvblubtf fundtion in tif Prfdidbtf
+     * intfrfbdf.
      *
-     * The checking can will done in the evaluate function which is implemented
-     * in the class that implements the Predicate interface. So the checking
-     * can vary from one implementation to another.
+     * Tif difdking dbn will donf in tif fvblubtf fundtion wiidi is implfmfntfd
+     * in tif dlbss tibt implfmfnts tif Prfdidbtf intfrfbdf. So tif difdking
+     * dbn vbry from onf implfmfntbtion to bnotifr.
      *
-     * Some additional points here on the following:
-     * 1. updateBytes()     - since the evaluate function takes Object as parameter
-     *                        a String is constructed from the byte array and would
-     *                        passed to the evaluate function.
-     * 2. updateXXXstream() - here it would suffice to pass the stream handle
-     *                        to the evaluate function and the implementation
-     *                        of the evaluate function can do the comparision
-     *                        based on the stream and also type of data.
+     * Somf bdditionbl points ifrf on tif following:
+     * 1. updbtfBytfs()     - sindf tif fvblubtf fundtion tbkfs Objfdt bs pbrbmftfr
+     *                        b String is donstrudtfd from tif bytf brrby bnd would
+     *                        pbssfd to tif fvblubtf fundtion.
+     * 2. updbtfXXXstrfbm() - ifrf it would suffidf to pbss tif strfbm ibndlf
+     *                        to tif fvblubtf fundtion bnd tif implfmfntbtion
+     *                        of tif fvblubtf fundtion dbn do tif dompbrision
+     *                        bbsfd on tif strfbm bnd blso typf of dbtb.
      */
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>int</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>int</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateInt(int columnIndex , int x) throws SQLException {
+   publid void updbtfInt(int dolumnIndfx , int x) tirows SQLExdfption {
 
-     boolean bool;
+     boolfbn bool;
 
-     if(onInsertRow) {
+     if(onInsfrtRow) {
         if(p != null) {
-           bool = p.evaluate(Integer.valueOf(x),columnIndex);
+           bool = p.fvblubtf(Intfgfr.vblufOf(x),dolumnIndfx);
 
            if(!bool) {
-              throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
            }
         }
      }
 
-     super.updateInt(columnIndex,x);
+     supfr.updbtfInt(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>int</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>int</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateInt(String columnName , int x) throws SQLException {
+   publid void updbtfInt(String dolumnNbmf , int x) tirows SQLExdfption {
 
-       this.updateInt(findColumn(columnName), x);
+       tiis.updbtfInt(findColumn(dolumnNbmf), x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>boolean</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>boolfbn</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBoolean(int columnIndex, boolean x) throws SQLException {
+   publid void updbtfBoolfbn(int dolumnIndfx, boolfbn x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Boolean.valueOf(x) , columnIndex);
+            bool = p.fvblubtf(Boolfbn.vblufOf(x) , dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
          }
       }
 
-      super.updateBoolean(columnIndex,x);
+      supfr.updbtfBoolfbn(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>boolean</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>boolfbn</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBoolean(String columnName , boolean x) throws SQLException {
+   publid void updbtfBoolfbn(String dolumnNbmf , boolfbn x) tirows SQLExdfption {
 
-      this.updateBoolean(findColumn(columnName),x);
+      tiis.updbtfBoolfbn(findColumn(dolumnNbmf),x);
    }
 
 
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>bytf</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateByte(int columnIndex , byte x) throws SQLException {
-      boolean bool;
+   publid void updbtfBytf(int dolumnIndfx , bytf x) tirows SQLExdfption {
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Byte.valueOf(x),columnIndex);
+            bool = p.fvblubtf(Bytf.vblufOf(x),dolumnIndfx);
 
             if(!bool) {
-                throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateByte(columnIndex,x);
+      supfr.updbtfBytf(dolumnIndfx,x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>bytf</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateByte(String columnName , byte x) throws SQLException {
+   publid void updbtfBytf(String dolumnNbmf , bytf x) tirows SQLExdfption {
 
-      this.updateByte(findColumn(columnName),x);
+      tiis.updbtfBytf(findColumn(dolumnNbmf),x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>short</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>siort</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateShort( int columnIndex , short x) throws SQLException {
+   publid void updbtfSiort( int dolumnIndfx , siort x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Short.valueOf(x), columnIndex);
+            bool = p.fvblubtf(Siort.vblufOf(x), dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateShort(columnIndex,x);
+      supfr.updbtfSiort(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>short</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>siort</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateShort( String columnName , short x) throws SQLException {
+   publid void updbtfSiort( String dolumnNbmf , siort x) tirows SQLExdfption {
 
-      this.updateShort(findColumn(columnName),x);
+      tiis.updbtfSiort(findColumn(dolumnNbmf),x);
    }
 
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>long</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>long</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateLong(int columnIndex , long x) throws SQLException {
+   publid void updbtfLong(int dolumnIndfx , long x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Long.valueOf(x), columnIndex);
+            bool = p.fvblubtf(Long.vblufOf(x), dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateLong(columnIndex,x);
+      supfr.updbtfLong(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>long</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>long</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateLong( String columnName , long x) throws SQLException {
+   publid void updbtfLong( String dolumnNbmf , long x) tirows SQLExdfption {
 
-      this.updateLong(findColumn(columnName) , x);
+      tiis.updbtfLong(findColumn(dolumnNbmf) , x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>float</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>flobt</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateFloat(int columnIndex , float x) throws SQLException {
+   publid void updbtfFlobt(int dolumnIndfx , flobt x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Float.valueOf(x), columnIndex);
+            bool = p.fvblubtf(Flobt.vblufOf(x), dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateFloat(columnIndex,x);
+      supfr.updbtfFlobt(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>float</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>flobt</dodf> vbluf.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateFloat(String columnName , float x) throws SQLException {
+   publid void updbtfFlobt(String dolumnNbmf , flobt x) tirows SQLExdfption {
 
-      this.updateFloat(findColumn(columnName),x);
+      tiis.updbtfFlobt(findColumn(dolumnNbmf),x);
    }
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>doublf</dodf> vbluf.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateDouble(int columnIndex , double x) throws SQLException {
+   publid void updbtfDoublf(int dolumnIndfx , doublf x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(Double.valueOf(x) , columnIndex);
+            bool = p.fvblubtf(Doublf.vblufOf(x) , dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateDouble(columnIndex,x);
+      supfr.updbtfDoublf(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>doublf</dodf> vbluf.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateDouble(String columnName , double x) throws SQLException {
+   publid void updbtfDoublf(String dolumnNbmf , doublf x) tirows SQLExdfption {
 
-      this.updateDouble(findColumn(columnName),x);
+      tiis.updbtfDoublf(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.math.BigDecimal</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.mbti.BigDfdimbl</dodf> objfdt.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBigDecimal(int columnIndex , BigDecimal x) throws SQLException {
+   publid void updbtfBigDfdimbl(int dolumnIndfx , BigDfdimbl x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-            bool = p.evaluate(x,columnIndex);
+            bool = p.fvblubtf(x,dolumnIndfx);
 
             if(!bool) {
-               throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+               tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
             }
           }
       }
 
-      super.updateBigDecimal(columnIndex,x);
+      supfr.updbtfBigDfdimbl(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.math.BigDecimal</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.mbti.BigDfdimbl</dodf> objfdt.
      * <P>
-     * This method updates a column value in the current row or the insert
-     * row of this rowset, but it does not update the database.
-     * If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in tif durrfnt row or tif insfrt
+     * row of tiis rowsft, but it dofs not updbtf tif dbtbbbsf.
+     * If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBigDecimal(String columnName , BigDecimal x) throws SQLException {
+   publid void updbtfBigDfdimbl(String dolumnNbmf , BigDfdimbl x) tirows SQLExdfption {
 
-      this.updateBigDecimal(findColumn(columnName),x);
+      tiis.updbtfBigDfdimbl(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>String</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>String</dodf> objfdt.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to mark the row as updated.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called to insert the new row into this rowset and mark it
-     * as inserted. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to mbrk tif row bs updbtfd.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd to insfrt tif nfw row into tiis rowsft bnd mbrk it
+     * bs insfrtfd. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      * <P>
-     * The method <code>acceptChanges</code> must be called if the
-     * updated values are to be written back to the underlying database.
+     * Tif mftiod <dodf>bddfptCibngfs</dodf> must bf dbllfd if tif
+     * updbtfd vblufs brf to bf writtfn bbdk to tif undfrlying dbtbbbsf.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateString(int columnIndex , String x) throws SQLException {
+   publid void updbtfString(int dolumnIndfx , String x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-           bool = p.evaluate(x,columnIndex);
+           bool = p.fvblubtf(x,dolumnIndfx);
 
            if(!bool) {
-              throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
            }
          }
       }
 
-      super.updateString(columnIndex,x);
+      supfr.updbtfString(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>String</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>String</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateString(String columnName , String x) throws SQLException {
+   publid void updbtfString(String dolumnNbmf , String x) tirows SQLExdfption {
 
-      this.updateString(findColumn(columnName),x);
+      tiis.updbtfString(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> array.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>bytf</dodf> brrby.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBytes(int columnIndex , byte []x) throws SQLException {
+   publid void updbtfBytfs(int dolumnIndfx , bytf []x) tirows SQLExdfption {
 
-      boolean bool;
-      String val = "";
+      boolfbn bool;
+      String vbl = "";
 
-      Byte [] obj_arr = new Byte[x.length];
+      Bytf [] obj_brr = nfw Bytf[x.lfngti];
 
-      for(int i = 0; i < x.length; i++) {
-         obj_arr[i] = Byte.valueOf(x[i]);
-         val = val.concat(obj_arr[i].toString());
+      for(int i = 0; i < x.lfngti; i++) {
+         obj_brr[i] = Bytf.vblufOf(x[i]);
+         vbl = vbl.dondbt(obj_brr[i].toString());
      }
 
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(val,columnIndex);
+             bool = p.fvblubtf(vbl,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateBytes(columnIndex,x);
+      supfr.updbtfBytfs(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>byte</code> array.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>bytf</dodf> brrby.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBytes(String columnName , byte []x) throws SQLException {
+   publid void updbtfBytfs(String dolumnNbmf , bytf []x) tirows SQLExdfption {
 
-      this.updateBytes(findColumn(columnName),x);
+      tiis.updbtfBytfs(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Date</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Dbtf</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>DATE</code> or <code>TIMESTAMP</code>, or
-     *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, (3) tif typf of tif dfsignbtfd dolumn is not
+     *            bn SQL <dodf>DATE</dodf> or <dodf>TIMESTAMP</dodf>, or
+     *            (4) tiis rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateDate(int columnIndex , java.sql.Date x) throws SQLException {
+   publid void updbtfDbtf(int dolumnIndfx , jbvb.sql.Dbtf x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateDate(columnIndex,x);
+      supfr.updbtfDbtf(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Date</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Dbtf</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>DATE</code> or
-     *            <code>TIMESTAMP</code>, or (4) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, (3) tif typf
+     *            of tif dfsignbtfd dolumn is not bn SQL <dodf>DATE</dodf> or
+     *            <dodf>TIMESTAMP</dodf>, or (4) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateDate(String columnName , java.sql.Date x) throws SQLException {
+   publid void updbtfDbtf(String dolumnNbmf , jbvb.sql.Dbtf x) tirows SQLExdfption {
 
-      this.updateDate(findColumn(columnName),x);
+      tiis.updbtfDbtf(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Time</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Timf</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>TIME</code> or <code>TIMESTAMP</code>, or
-     *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, (3) tif typf of tif dfsignbtfd dolumn is not
+     *            bn SQL <dodf>TIME</dodf> or <dodf>TIMESTAMP</dodf>, or
+     *            (4) tiis rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateTime(int columnIndex , Time x) throws SQLException {
+   publid void updbtfTimf(int dolumnIndfx , Timf x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x, columnIndex);
+             bool = p.fvblubtf(x, dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateTime(columnIndex,x);
+      supfr.updbtfTimf(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Time</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Timf</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>TIME</code> or
-     *            <code>TIMESTAMP</code>, or (4) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, (3) tif typf
+     *            of tif dfsignbtfd dolumn is not bn SQL <dodf>TIME</dodf> or
+     *            <dodf>TIMESTAMP</dodf>, or (4) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateTime(String columnName , Time x) throws SQLException {
+   publid void updbtfTimf(String dolumnNbmf , Timf x) tirows SQLExdfption {
 
-      this.updateTime(findColumn(columnName),x);
+      tiis.updbtfTimf(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Timestamp</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Timfstbmp</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the type of the designated column is not
-     *            an SQL <code>DATE</code>, <code>TIME</code>, or
-     *            <code>TIMESTAMP</code>, or (4) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, (3) tif typf of tif dfsignbtfd dolumn is not
+     *            bn SQL <dodf>DATE</dodf>, <dodf>TIME</dodf>, or
+     *            <dodf>TIMESTAMP</dodf>, or (4) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateTimestamp(int columnIndex , Timestamp x) throws SQLException {
+   publid void updbtfTimfstbmp(int dolumnIndfx , Timfstbmp x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateTimestamp(columnIndex,x);
+      supfr.updbtfTimfstbmp(dolumnIndfx,x);
    }
 
     /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Timestamp</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Timfstbmp</dodf> objfdt.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if the given column index is out of bounds or
-     *            the cursor is not on one of this rowset's rows or its
-     *            insert row
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the type
-     *            of the designated column is not an SQL <code>DATE</code>,
-     *            <code>TIME</code>, or <code>TIMESTAMP</code>, or (4) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if tif givfn dolumn indfx is out of bounds or
+     *            tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, (3) tif typf
+     *            of tif dfsignbtfd dolumn is not bn SQL <dodf>DATE</dodf>,
+     *            <dodf>TIME</dodf>, or <dodf>TIMESTAMP</dodf>, or (4) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateTimestamp(String columnName , Timestamp x) throws SQLException {
+   publid void updbtfTimfstbmp(String dolumnNbmf , Timfstbmp x) tirows SQLExdfption {
 
-      this.updateTimestamp(findColumn(columnName),x);
+      tiis.updbtfTimfstbmp(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * ASCII stream value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * ASCII strfbm vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @param length the number of one-byte ASCII characters in the stream
-     * @throws SQLException if this method is invoked
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @pbrbm lfngti tif numbfr of onf-bytf ASCII dibrbdtfrs in tif strfbm
+     * @tirows SQLExdfption if tiis mftiod is invokfd
      */
-   public void updateAsciiStream(int columnIndex , java.io.InputStream x ,int length) throws SQLException {
+   publid void updbtfAsdiiStrfbm(int dolumnIndfx , jbvb.io.InputStrfbm x ,int lfngti) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateAsciiStream(columnIndex,x,length);
+      supfr.updbtfAsdiiStrfbm(dolumnIndfx,x,lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * ASCII stream value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * ASCII strfbm vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @param length the number of one-byte ASCII characters in the stream
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @pbrbm lfngti tif numbfr of onf-bytf ASCII dibrbdtfrs in tif strfbm
      */
-   public void updateAsciiStream(String columnName , java.io.InputStream x , int length) throws SQLException {
+   publid void updbtfAsdiiStrfbm(String dolumnNbmf , jbvb.io.InputStrfbm x , int lfngti) tirows SQLExdfption {
 
-      this.updateAsciiStream(findColumn(columnName),x,length);
+      tiis.updbtfAsdiiStrfbm(findColumn(dolumnNbmf),x,lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.Reader</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value; must be a <code>java.io.Reader</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>,
-     *          <code>LONGVARBINARY</code>, <code>CHAR</code>, <code>VARCHAR</code>,
-     *          or <code>LONGVARCHAR</code> data
-     * @param length the length of the stream in characters
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the data in the stream is not a binary or
-     *            character type, or (4) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf; must bf b <dodf>jbvb.io.Rfbdfr</dodf>
+     *          dontbining <dodf>BINARY</dodf>, <dodf>VARBINARY</dodf>,
+     *          <dodf>LONGVARBINARY</dodf>, <dodf>CHAR</dodf>, <dodf>VARCHAR</dodf>,
+     *          or <dodf>LONGVARCHAR</dodf> dbtb
+     * @pbrbm lfngti tif lfngti of tif strfbm in dibrbdtfrs
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, (3) tif dbtb in tif strfbm is not b binbry or
+     *            dibrbdtfr typf, or (4) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateCharacterStream(int columnIndex , java.io.Reader x , int length) throws SQLException {
+   publid void updbtfCibrbdtfrStrfbm(int dolumnIndfx , jbvb.io.Rfbdfr x , int lfngti) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateCharacterStream(columnIndex,x,length);
+      supfr.updbtfCibrbdtfrStrfbm(dolumnIndfx,x,lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.Reader</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param reader the new column value; must be a
-     * <code>java.io.Reader</code> containing <code>BINARY</code>,
-     * <code>VARBINARY</code>, <code>LONGVARBINARY</code>, <code>CHAR</code>,
-     * <code>VARCHAR</code>, or <code>LONGVARCHAR</code> data
-     * @param length the length of the stream in characters
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the data
-     *            in the stream is not a binary or character type, or (4) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm rfbdfr tif nfw dolumn vbluf; must bf b
+     * <dodf>jbvb.io.Rfbdfr</dodf> dontbining <dodf>BINARY</dodf>,
+     * <dodf>VARBINARY</dodf>, <dodf>LONGVARBINARY</dodf>, <dodf>CHAR</dodf>,
+     * <dodf>VARCHAR</dodf>, or <dodf>LONGVARCHAR</dodf> dbtb
+     * @pbrbm lfngti tif lfngti of tif strfbm in dibrbdtfrs
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, (3) tif dbtb
+     *            in tif strfbm is not b binbry or dibrbdtfr typf, or (4) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateCharacterStream(String columnName , java.io.Reader reader, int length) throws SQLException {
-      this.updateCharacterStream(findColumn(columnName), reader, length);
+   publid void updbtfCibrbdtfrStrfbm(String dolumnNbmf , jbvb.io.Rfbdfr rfbdfr, int lfngti) tirows SQLExdfption {
+      tiis.updbtfCibrbdtfrStrfbm(findColumn(dolumnNbmf), rfbdfr, lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.InputStream</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value; must be a <code>java.io.InputStream</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>, or
-     *          <code>LONGVARBINARY</code> data
-     * @param length the length of the stream in bytes
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, (3) the data in the stream is not binary, or
-     *            (4) this rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf; must bf b <dodf>jbvb.io.InputStrfbm</dodf>
+     *          dontbining <dodf>BINARY</dodf>, <dodf>VARBINARY</dodf>, or
+     *          <dodf>LONGVARBINARY</dodf> dbtb
+     * @pbrbm lfngti tif lfngti of tif strfbm in bytfs
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, (3) tif dbtb in tif strfbm is not binbry, or
+     *            (4) tiis rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBinaryStream(int columnIndex , java.io.InputStream x , int length) throws SQLException {
+   publid void updbtfBinbryStrfbm(int dolumnIndfx , jbvb.io.InputStrfbm x , int lfngti) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateBinaryStream(columnIndex,x,length);
+      supfr.updbtfBinbryStrfbm(dolumnIndfx,x,lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>java.io.InputStream</code> object.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value; must be a <code>java.io.InputStream</code>
-     *          containing <code>BINARY</code>, <code>VARBINARY</code>, or
-     *          <code>LONGVARBINARY</code> data
-     * @param length the length of the stream in bytes
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, (3) the data
-     *            in the stream is not binary, or (4) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf; must bf b <dodf>jbvb.io.InputStrfbm</dodf>
+     *          dontbining <dodf>BINARY</dodf>, <dodf>VARBINARY</dodf>, or
+     *          <dodf>LONGVARBINARY</dodf> dbtb
+     * @pbrbm lfngti tif lfngti of tif strfbm in bytfs
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, (3) tif dbtb
+     *            in tif strfbm is not binbry, or (4) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateBinaryStream(String columnName , java.io.InputStream x, int length) throws SQLException {
+   publid void updbtfBinbryStrfbm(String dolumnNbmf , jbvb.io.InputStrfbm x, int lfngti) tirows SQLExdfption {
 
-      this.updateBinaryStream(findColumn(columnName),x,length);
+      tiis.updbtfBinbryStrfbm(findColumn(dolumnNbmf),x,lfngti);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Objfdt</dodf> vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateObject(int columnIndex , Object x) throws SQLException {
+   publid void updbtfObjfdt(int dolumnIndfx , Objfdt x) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateObject(columnIndex,x);
+      supfr.updbtfObjfdt(dolumnIndfx,x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Objfdt</dodf> vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateObject(String columnName , Object x) throws SQLException {
+   publid void updbtfObjfdt(String dolumnNbmf , Objfdt x) tirows SQLExdfption {
 
-      this.updateObject(findColumn(columnName),x);
+      tiis.updbtfObjfdt(findColumn(dolumnNbmf),x);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.  The <code>scale</code> parameter indicates
-     * the number of digits to the right of the decimal point and is ignored
-     * if the new column value is not a type that will be mapped to an SQL
-     * <code>DECIMAL</code> or <code>NUMERIC</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Objfdt</dodf> vbluf.  Tif <dodf>sdblf</dodf> pbrbmftfr indidbtfs
+     * tif numbfr of digits to tif rigit of tif dfdimbl point bnd is ignorfd
+     * if tif nfw dolumn vbluf is not b typf tibt will bf mbppfd to bn SQL
+     * <dodf>DECIMAL</dodf> or <dodf>NUMERIC</dodf> vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param x the new column value
-     * @param scale the number of digits to the right of the decimal point (for
-     *              <code>DECIMAL</code> and <code>NUMERIC</code> types only)
-     * @throws SQLException if (1) the given column index is out of bounds,
-     *            (2) the cursor is not on one of this rowset's rows or its
-     *            insert row, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnIndfx tif first dolumn is <dodf>1</dodf>, tif sfdond
+     *        is <dodf>2</dodf>, bnd so on; must bf <dodf>1</dodf> or lbrgfr
+     *        bnd fqubl to or lfss tibn tif numbfr of dolumns in tiis rowsft
+     * @pbrbm x tif nfw dolumn vbluf
+     * @pbrbm sdblf tif numbfr of digits to tif rigit of tif dfdimbl point (for
+     *              <dodf>DECIMAL</dodf> bnd <dodf>NUMERIC</dodf> typfs only)
+     * @tirows SQLExdfption if (1) tif givfn dolumn indfx is out of bounds,
+     *            (2) tif dursor is not on onf of tiis rowsft's rows or its
+     *            insfrt row, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateObject(int columnIndex , Object x , int scale) throws SQLException {
+   publid void updbtfObjfdt(int dolumnIndfx , Objfdt x , int sdblf) tirows SQLExdfption {
 
-      boolean bool;
+      boolfbn bool;
 
-      if(onInsertRow) {
+      if(onInsfrtRow) {
          if(p != null) {
-             bool = p.evaluate(x,columnIndex);
+             bool = p.fvblubtf(x,dolumnIndfx);
 
              if(!bool) {
-                 throw new SQLException(resBundle.handleGetObject("filteredrowsetimpl.notallowed").toString());
+                 tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("filtfrfdrowsftimpl.notbllowfd").toString());
              }
          }
       }
 
-      super.updateObject(columnIndex,x,scale);
+      supfr.updbtfObjfdt(dolumnIndfx,x,sdblf);
    }
 
    /**
-     * Sets the designated column in either the current row or the insert
-     * row of this <code>CachedRowSetImpl</code> object with the given
-     * <code>Object</code> value.  The <code>scale</code> parameter
-     * indicates the number of digits to the right of the decimal point
-     * and is ignored if the new column value is not a type that will be
-     *  mapped to an SQL <code>DECIMAL</code> or <code>NUMERIC</code> value.
+     * Sfts tif dfsignbtfd dolumn in fitifr tif durrfnt row or tif insfrt
+     * row of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt witi tif givfn
+     * <dodf>Objfdt</dodf> vbluf.  Tif <dodf>sdblf</dodf> pbrbmftfr
+     * indidbtfs tif numbfr of digits to tif rigit of tif dfdimbl point
+     * bnd is ignorfd if tif nfw dolumn vbluf is not b typf tibt will bf
+     *  mbppfd to bn SQL <dodf>DECIMAL</dodf> or <dodf>NUMERIC</dodf> vbluf.
      * <P>
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
-     * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * Tiis mftiod updbtfs b dolumn vbluf in fitifr tif durrfnt row or
+     * tif insfrt row of tiis rowsft, but it dofs not updbtf tif
+     * dbtbbbsf.  If tif dursor is on b row in tif rowsft, tif
+     * mftiod {@link #updbtfRow} must bf dbllfd to updbtf tif dbtbbbsf.
+     * If tif dursor is on tif insfrt row, tif mftiod {@link #insfrtRow}
+     * must bf dbllfd, wiidi will insfrt tif nfw row into boti tiis rowsft
+     * bnd tif dbtbbbsf. Boti of tifsf mftiods must bf dbllfd bfforf tif
+     * dursor movfs to bnotifr row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param x the new column value
-     * @param scale the number of digits to the right of the decimal point (for
-     *              <code>DECIMAL</code> and <code>NUMERIC</code> types only)
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
-     *            one of this rowset's rows or its insert row, or (3) this
-     *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis rowsft, ignoring dbsf
+     * @pbrbm x tif nfw dolumn vbluf
+     * @pbrbm sdblf tif numbfr of digits to tif rigit of tif dfdimbl point (for
+     *              <dodf>DECIMAL</dodf> bnd <dodf>NUMERIC</dodf> typfs only)
+     * @tirows SQLExdfption if (1) tif givfn dolumn nbmf dofs not mbtdi tif
+     *            nbmf of b dolumn in tiis rowsft, (2) tif dursor is not on
+     *            onf of tiis rowsft's rows or its insfrt row, or (3) tiis
+     *            rowsft is <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void updateObject(String columnName , Object x, int scale) throws SQLException {
+   publid void updbtfObjfdt(String dolumnNbmf , Objfdt x, int sdblf) tirows SQLExdfption {
 
-      this.updateObject(findColumn(columnName),x,scale);
+      tiis.updbtfObjfdt(findColumn(dolumnNbmf),x,sdblf);
    }
 
    /**
-     * Inserts the contents of this <code>CachedRowSetImpl</code> object's insert
-     * row into this rowset immediately following the current row.
-     * If the current row is the
-     * position after the last row or before the first row, the new row will
-     * be inserted at the end of the rowset.  This method also notifies
-     * listeners registered with this rowset that the row has changed.
+     * Insfrts tif dontfnts of tiis <dodf>CbdifdRowSftImpl</dodf> objfdt's insfrt
+     * row into tiis rowsft immfdibtfly following tif durrfnt row.
+     * If tif durrfnt row is tif
+     * position bftfr tif lbst row or bfforf tif first row, tif nfw row will
+     * bf insfrtfd bt tif fnd of tif rowsft.  Tiis mftiod blso notififs
+     * listfnfrs rfgistfrfd witi tiis rowsft tibt tif row ibs dibngfd.
      * <P>
-     * The cursor must be on the insert row when this method is called.
+     * Tif dursor must bf on tif insfrt row wifn tiis mftiod is dbllfd.
      *
-     * @throws SQLException if (1) the cursor is not on the insert row,
-     *            (2) one or more of the non-nullable columns in the insert
-     *            row has not been given a value, or (3) this rowset is
-     *            <code>ResultSet.CONCUR_READ_ONLY</code>
+     * @tirows SQLExdfption if (1) tif dursor is not on tif insfrt row,
+     *            (2) onf or morf of tif non-nullbblf dolumns in tif insfrt
+     *            row ibs not bffn givfn b vbluf, or (3) tiis rowsft is
+     *            <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
      */
-   public void insertRow() throws SQLException {
+   publid void insfrtRow() tirows SQLExdfption {
 
-      onInsertRow = false;
-      super.insertRow();
+      onInsfrtRow = fblsf;
+      supfr.insfrtRow();
    }
 
    /**
-    * This method re populates the resBundle
-    * during the deserialization process
+    * Tiis mftiod rf populbtfs tif rfsBundlf
+    * during tif dfsfriblizbtion prodfss
     *
     */
-   private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-       // Default state initialization happens here
-       ois.defaultReadObject();
-       // Initialization of transient Res Bundle happens here .
+   privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+       // Dffbult stbtf initiblizbtion ibppfns ifrf
+       ois.dffbultRfbdObjfdt();
+       // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
        try {
-          resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-       } catch(IOException ioe) {
-           throw new RuntimeException(ioe);
+          rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+       } dbtdi(IOExdfption iof) {
+           tirow nfw RuntimfExdfption(iof);
        }
 
    }
 
-   static final long serialVersionUID = 6178454588413509360L;
-} // end FilteredRowSetImpl class
+   stbtid finbl long sfriblVfrsionUID = 6178454588413509360L;
+} // fnd FiltfrfdRowSftImpl dlbss

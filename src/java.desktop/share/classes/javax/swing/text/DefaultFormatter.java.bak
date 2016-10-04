@@ -1,766 +1,766 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import sun.reflect.misc.ReflectUtil;
-import sun.swing.SwingUtilities2;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.swing.SwingUtilitifs2;
 
-import java.io.Serializable;
-import java.lang.reflect.*;
-import java.text.ParseException;
-import javax.swing.*;
-import javax.swing.text.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
 
 /**
- * <code>DefaultFormatter</code> formats arbitrary objects. Formatting is done
- * by invoking the <code>toString</code> method. In order to convert the
- * value back to a String, your class must provide a constructor that
- * takes a String argument. If no single argument constructor that takes a
- * String is found, the returned value will be the String passed into
- * <code>stringToValue</code>.
+ * <dodf>DffbultFormbttfr</dodf> formbts brbitrbry objfdts. Formbtting is donf
+ * by invoking tif <dodf>toString</dodf> mftiod. In ordfr to donvfrt tif
+ * vbluf bbdk to b String, your dlbss must providf b donstrudtor tibt
+ * tbkfs b String brgumfnt. If no singlf brgumfnt donstrudtor tibt tbkfs b
+ * String is found, tif rfturnfd vbluf will bf tif String pbssfd into
+ * <dodf>stringToVbluf</dodf>.
  * <p>
- * Instances of <code>DefaultFormatter</code> can not be used in multiple
- * instances of <code>JFormattedTextField</code>. To obtain a copy of
- * an already configured <code>DefaultFormatter</code>, use the
- * <code>clone</code> method.
+ * Instbndfs of <dodf>DffbultFormbttfr</dodf> dbn not bf usfd in multiplf
+ * instbndfs of <dodf>JFormbttfdTfxtFifld</dodf>. To obtbin b dopy of
+ * bn blrfbdy donfigurfd <dodf>DffbultFormbttfr</dodf>, usf tif
+ * <dodf>dlonf</dodf> mftiod.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see javax.swing.JFormattedTextField.AbstractFormatter
+ * @sff jbvbx.swing.JFormbttfdTfxtFifld.AbstrbdtFormbttfr
  *
- * @since 1.4
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
-                    implements Cloneable, Serializable {
-    /** Indicates if the value being edited must match the mask. */
-    private boolean allowsInvalid;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultFormbttfr fxtfnds JFormbttfdTfxtFifld.AbstrbdtFormbttfr
+                    implfmfnts Clonfbblf, Sfriblizbblf {
+    /** Indidbtfs if tif vbluf bfing fditfd must mbtdi tif mbsk. */
+    privbtf boolfbn bllowsInvblid;
 
-    /** If true, editing mode is in overwrite (or strikethough). */
-    private boolean overwriteMode;
+    /** If truf, fditing modf is in ovfrwritf (or strikftiougi). */
+    privbtf boolfbn ovfrwritfModf;
 
-    /** If true, any time a valid edit happens commitEdit is invoked. */
-    private boolean commitOnEdit;
+    /** If truf, bny timf b vblid fdit ibppfns dommitEdit is invokfd. */
+    privbtf boolfbn dommitOnEdit;
 
-    /** Class used to create new instances. */
-    private Class<?> valueClass;
+    /** Clbss usfd to drfbtf nfw instbndfs. */
+    privbtf Clbss<?> vblufClbss;
 
-    /** NavigationFilter that forwards calls back to DefaultFormatter. */
-    private NavigationFilter navigationFilter;
+    /** NbvigbtionFiltfr tibt forwbrds dblls bbdk to DffbultFormbttfr. */
+    privbtf NbvigbtionFiltfr nbvigbtionFiltfr;
 
-    /** DocumentFilter that forwards calls back to DefaultFormatter. */
-    private DocumentFilter documentFilter;
+    /** DodumfntFiltfr tibt forwbrds dblls bbdk to DffbultFormbttfr. */
+    privbtf DodumfntFiltfr dodumfntFiltfr;
 
-    /** Used during replace to track the region to replace. */
-    transient ReplaceHolder replaceHolder;
+    /** Usfd during rfplbdf to trbdk tif rfgion to rfplbdf. */
+    trbnsifnt RfplbdfHoldfr rfplbdfHoldfr;
 
 
     /**
-     * Creates a DefaultFormatter.
+     * Crfbtfs b DffbultFormbttfr.
      */
-    public DefaultFormatter() {
-        overwriteMode = true;
-        allowsInvalid = true;
+    publid DffbultFormbttfr() {
+        ovfrwritfModf = truf;
+        bllowsInvblid = truf;
     }
 
     /**
-     * Installs the <code>DefaultFormatter</code> onto a particular
-     * <code>JFormattedTextField</code>.
-     * This will invoke <code>valueToString</code> to convert the
-     * current value from the <code>JFormattedTextField</code> to
-     * a String. This will then install the <code>Action</code>s from
-     * <code>getActions</code>, the <code>DocumentFilter</code>
-     * returned from <code>getDocumentFilter</code> and the
-     * <code>NavigationFilter</code> returned from
-     * <code>getNavigationFilter</code> onto the
-     * <code>JFormattedTextField</code>.
+     * Instblls tif <dodf>DffbultFormbttfr</dodf> onto b pbrtidulbr
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * Tiis will invokf <dodf>vblufToString</dodf> to donvfrt tif
+     * durrfnt vbluf from tif <dodf>JFormbttfdTfxtFifld</dodf> to
+     * b String. Tiis will tifn instbll tif <dodf>Adtion</dodf>s from
+     * <dodf>gftAdtions</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+     * rfturnfd from <dodf>gftDodumfntFiltfr</dodf> bnd tif
+     * <dodf>NbvigbtionFiltfr</dodf> rfturnfd from
+     * <dodf>gftNbvigbtionFiltfr</dodf> onto tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      * <p>
-     * Subclasses will typically only need to override this if they
-     * wish to install additional listeners on the
-     * <code>JFormattedTextField</code>.
+     * Subdlbssfs will typidblly only nffd to ovfrridf tiis if tify
+     * wisi to instbll bdditionbl listfnfrs on tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      * <p>
-     * If there is a <code>ParseException</code> in converting the
-     * current value to a String, this will set the text to an empty
-     * String, and mark the <code>JFormattedTextField</code> as being
-     * in an invalid state.
+     * If tifrf is b <dodf>PbrsfExdfption</dodf> in donvfrting tif
+     * durrfnt vbluf to b String, tiis will sft tif tfxt to bn fmpty
+     * String, bnd mbrk tif <dodf>JFormbttfdTfxtFifld</dodf> bs bfing
+     * in bn invblid stbtf.
      * <p>
-     * While this is a public method, this is typically only useful
-     * for subclassers of <code>JFormattedTextField</code>.
-     * <code>JFormattedTextField</code> will invoke this method at
-     * the appropriate times when the value changes, or its internal
-     * state changes.
+     * Wiilf tiis is b publid mftiod, tiis is typidblly only usfful
+     * for subdlbssfrs of <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <dodf>JFormbttfdTfxtFifld</dodf> will invokf tiis mftiod bt
+     * tif bppropribtf timfs wifn tif vbluf dibngfs, or its intfrnbl
+     * stbtf dibngfs.
      *
-     * @param ftf JFormattedTextField to format for, may be null indicating
-     *            uninstall from current JFormattedTextField.
+     * @pbrbm ftf JFormbttfdTfxtFifld to formbt for, mby bf null indidbting
+     *            uninstbll from durrfnt JFormbttfdTfxtFifld.
      */
-    public void install(JFormattedTextField ftf) {
-        super.install(ftf);
-        positionCursorAtInitialLocation();
+    publid void instbll(JFormbttfdTfxtFifld ftf) {
+        supfr.instbll(ftf);
+        positionCursorAtInitiblLodbtion();
     }
 
     /**
-     * Sets when edits are published back to the
-     * <code>JFormattedTextField</code>. If true, <code>commitEdit</code>
-     * is invoked after every valid edit (any time the text is edited). On
-     * the other hand, if this is false than the <code>DefaultFormatter</code>
-     * does not publish edits back to the <code>JFormattedTextField</code>.
-     * As such, the only time the value of the <code>JFormattedTextField</code>
-     * will change is when <code>commitEdit</code> is invoked on
-     * <code>JFormattedTextField</code>, typically when enter is pressed
-     * or focus leaves the <code>JFormattedTextField</code>.
+     * Sfts wifn fdits brf publisifd bbdk to tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>. If truf, <dodf>dommitEdit</dodf>
+     * is invokfd bftfr fvfry vblid fdit (bny timf tif tfxt is fditfd). On
+     * tif otifr ibnd, if tiis is fblsf tibn tif <dodf>DffbultFormbttfr</dodf>
+     * dofs not publisi fdits bbdk to tif <dodf>JFormbttfdTfxtFifld</dodf>.
+     * As sudi, tif only timf tif vbluf of tif <dodf>JFormbttfdTfxtFifld</dodf>
+     * will dibngf is wifn <dodf>dommitEdit</dodf> is invokfd on
+     * <dodf>JFormbttfdTfxtFifld</dodf>, typidblly wifn fntfr is prfssfd
+     * or fodus lfbvfs tif <dodf>JFormbttfdTfxtFifld</dodf>.
      *
-     * @param commit Used to indicate when edits are committed back to the
-     *               JTextComponent
+     * @pbrbm dommit Usfd to indidbtf wifn fdits brf dommittfd bbdk to tif
+     *               JTfxtComponfnt
      */
-    public void setCommitsOnValidEdit(boolean commit) {
-        commitOnEdit = commit;
+    publid void sftCommitsOnVblidEdit(boolfbn dommit) {
+        dommitOnEdit = dommit;
     }
 
     /**
-     * Returns when edits are published back to the
-     * <code>JFormattedTextField</code>.
+     * Rfturns wifn fdits brf publisifd bbdk to tif
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
      *
-     * @return true if edits are committed after every valid edit
+     * @rfturn truf if fdits brf dommittfd bftfr fvfry vblid fdit
      */
-    public boolean getCommitsOnValidEdit() {
-        return commitOnEdit;
+    publid boolfbn gftCommitsOnVblidEdit() {
+        rfturn dommitOnEdit;
     }
 
     /**
-     * Configures the behavior when inserting characters. If
-     * <code>overwriteMode</code> is true (the default), new characters
-     * overwrite existing characters in the model.
+     * Configurfs tif bfibvior wifn insfrting dibrbdtfrs. If
+     * <dodf>ovfrwritfModf</dodf> is truf (tif dffbult), nfw dibrbdtfrs
+     * ovfrwritf fxisting dibrbdtfrs in tif modfl.
      *
-     * @param overwriteMode Indicates if overwrite or overstrike mode is used
+     * @pbrbm ovfrwritfModf Indidbtfs if ovfrwritf or ovfrstrikf modf is usfd
      */
-    public void setOverwriteMode(boolean overwriteMode) {
-        this.overwriteMode = overwriteMode;
+    publid void sftOvfrwritfModf(boolfbn ovfrwritfModf) {
+        tiis.ovfrwritfModf = ovfrwritfModf;
     }
 
     /**
-     * Returns the behavior when inserting characters.
+     * Rfturns tif bfibvior wifn insfrting dibrbdtfrs.
      *
-     * @return true if newly inserted characters overwrite existing characters
+     * @rfturn truf if nfwly insfrtfd dibrbdtfrs ovfrwritf fxisting dibrbdtfrs
      */
-    public boolean getOverwriteMode() {
-        return overwriteMode;
+    publid boolfbn gftOvfrwritfModf() {
+        rfturn ovfrwritfModf;
     }
 
     /**
-     * Sets whether or not the value being edited is allowed to be invalid
-     * for a length of time (that is, <code>stringToValue</code> throws
-     * a <code>ParseException</code>).
-     * It is often convenient to allow the user to temporarily input an
-     * invalid value.
+     * Sfts wiftifr or not tif vbluf bfing fditfd is bllowfd to bf invblid
+     * for b lfngti of timf (tibt is, <dodf>stringToVbluf</dodf> tirows
+     * b <dodf>PbrsfExdfption</dodf>).
+     * It is oftfn donvfnifnt to bllow tif usfr to tfmporbrily input bn
+     * invblid vbluf.
      *
-     * @param allowsInvalid Used to indicate if the edited value must always
-     *        be valid
+     * @pbrbm bllowsInvblid Usfd to indidbtf if tif fditfd vbluf must blwbys
+     *        bf vblid
      */
-    public void setAllowsInvalid(boolean allowsInvalid) {
-        this.allowsInvalid = allowsInvalid;
+    publid void sftAllowsInvblid(boolfbn bllowsInvblid) {
+        tiis.bllowsInvblid = bllowsInvblid;
     }
 
     /**
-     * Returns whether or not the value being edited is allowed to be invalid
-     * for a length of time.
+     * Rfturns wiftifr or not tif vbluf bfing fditfd is bllowfd to bf invblid
+     * for b lfngti of timf.
      *
-     * @return false if the edited value must always be valid
+     * @rfturn fblsf if tif fditfd vbluf must blwbys bf vblid
      */
-    public boolean getAllowsInvalid() {
-        return allowsInvalid;
+    publid boolfbn gftAllowsInvblid() {
+        rfturn bllowsInvblid;
     }
 
     /**
-     * Sets that class that is used to create new Objects. If the
-     * passed in class does not have a single argument constructor that
-     * takes a String, String values will be used.
+     * Sfts tibt dlbss tibt is usfd to drfbtf nfw Objfdts. If tif
+     * pbssfd in dlbss dofs not ibvf b singlf brgumfnt donstrudtor tibt
+     * tbkfs b String, String vblufs will bf usfd.
      *
-     * @param valueClass Class used to construct return value from
-     *        stringToValue
+     * @pbrbm vblufClbss Clbss usfd to donstrudt rfturn vbluf from
+     *        stringToVbluf
      */
-    public void setValueClass(Class<?> valueClass) {
-        this.valueClass = valueClass;
+    publid void sftVblufClbss(Clbss<?> vblufClbss) {
+        tiis.vblufClbss = vblufClbss;
     }
 
     /**
-     * Returns that class that is used to create new Objects.
+     * Rfturns tibt dlbss tibt is usfd to drfbtf nfw Objfdts.
      *
-     * @return Class used to construct return value from stringToValue
+     * @rfturn Clbss usfd to donstrudt rfturn vbluf from stringToVbluf
      */
-    public Class<?> getValueClass() {
-        return valueClass;
+    publid Clbss<?> gftVblufClbss() {
+        rfturn vblufClbss;
     }
 
     /**
-     * Converts the passed in String into an instance of
-     * <code>getValueClass</code> by way of the constructor that
-     * takes a String argument. If <code>getValueClass</code>
-     * returns null, the Class of the current value in the
-     * <code>JFormattedTextField</code> will be used. If this is null, a
-     * String will be returned. If the constructor throws an exception, a
-     * <code>ParseException</code> will be thrown. If there is no single
-     * argument String constructor, <code>string</code> will be returned.
+     * Convfrts tif pbssfd in String into bn instbndf of
+     * <dodf>gftVblufClbss</dodf> by wby of tif donstrudtor tibt
+     * tbkfs b String brgumfnt. If <dodf>gftVblufClbss</dodf>
+     * rfturns null, tif Clbss of tif durrfnt vbluf in tif
+     * <dodf>JFormbttfdTfxtFifld</dodf> will bf usfd. If tiis is null, b
+     * String will bf rfturnfd. If tif donstrudtor tirows bn fxdfption, b
+     * <dodf>PbrsfExdfption</dodf> will bf tirown. If tifrf is no singlf
+     * brgumfnt String donstrudtor, <dodf>string</dodf> will bf rfturnfd.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param string String to convert
-     * @return Object representation of text
+     * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
+     * @pbrbm string String to donvfrt
+     * @rfturn Objfdt rfprfsfntbtion of tfxt
      */
-    public Object stringToValue(String string) throws ParseException {
-        Class<?> vc = getValueClass();
-        JFormattedTextField ftf = getFormattedTextField();
+    publid Objfdt stringToVbluf(String string) tirows PbrsfExdfption {
+        Clbss<?> vd = gftVblufClbss();
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
 
-        if (vc == null && ftf != null) {
-            Object value = ftf.getValue();
+        if (vd == null && ftf != null) {
+            Objfdt vbluf = ftf.gftVbluf();
 
-            if (value != null) {
-                vc = value.getClass();
+            if (vbluf != null) {
+                vd = vbluf.gftClbss();
             }
         }
-        if (vc != null) {
-            Constructor<?> cons;
+        if (vd != null) {
+            Construdtor<?> dons;
 
             try {
-                ReflectUtil.checkPackageAccess(vc);
-                SwingUtilities2.checkAccess(vc.getModifiers());
-                cons = vc.getConstructor(new Class<?>[]{String.class});
+                RfflfdtUtil.difdkPbdkbgfAddfss(vd);
+                SwingUtilitifs2.difdkAddfss(vd.gftModififrs());
+                dons = vd.gftConstrudtor(nfw Clbss<?>[]{String.dlbss});
 
-            } catch (NoSuchMethodException nsme) {
-                cons = null;
+            } dbtdi (NoSudiMftiodExdfption nsmf) {
+                dons = null;
             }
 
-            if (cons != null) {
+            if (dons != null) {
                 try {
-                    SwingUtilities2.checkAccess(cons.getModifiers());
-                    return cons.newInstance(new Object[] { string });
-                } catch (Throwable ex) {
-                    throw new ParseException("Error creating instance", 0);
+                    SwingUtilitifs2.difdkAddfss(dons.gftModififrs());
+                    rfturn dons.nfwInstbndf(nfw Objfdt[] { string });
+                } dbtdi (Tirowbblf fx) {
+                    tirow nfw PbrsfExdfption("Error drfbting instbndf", 0);
                 }
             }
         }
-        return string;
+        rfturn string;
     }
 
     /**
-     * Converts the passed in Object into a String by way of the
-     * <code>toString</code> method.
+     * Convfrts tif pbssfd in Objfdt into b String by wby of tif
+     * <dodf>toString</dodf> mftiod.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param value Value to convert
-     * @return String representation of value
+     * @tirows PbrsfExdfption if tifrf is bn frror in tif donvfrsion
+     * @pbrbm vbluf Vbluf to donvfrt
+     * @rfturn String rfprfsfntbtion of vbluf
      */
-    public String valueToString(Object value) throws ParseException {
-        if (value == null) {
-            return "";
+    publid String vblufToString(Objfdt vbluf) tirows PbrsfExdfption {
+        if (vbluf == null) {
+            rfturn "";
         }
-        return value.toString();
+        rfturn vbluf.toString();
     }
 
     /**
-     * Returns the <code>DocumentFilter</code> used to restrict the characters
-     * that can be input into the <code>JFormattedTextField</code>.
+     * Rfturns tif <dodf>DodumfntFiltfr</dodf> usfd to rfstridt tif dibrbdtfrs
+     * tibt dbn bf input into tif <dodf>JFormbttfdTfxtFifld</dodf>.
      *
-     * @return DocumentFilter to restrict edits
+     * @rfturn DodumfntFiltfr to rfstridt fdits
      */
-    protected DocumentFilter getDocumentFilter() {
-        if (documentFilter == null) {
-            documentFilter = new DefaultDocumentFilter();
+    protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+        if (dodumfntFiltfr == null) {
+            dodumfntFiltfr = nfw DffbultDodumfntFiltfr();
         }
-        return documentFilter;
+        rfturn dodumfntFiltfr;
     }
 
     /**
-     * Returns the <code>NavigationFilter</code> used to restrict where the
-     * cursor can be placed.
+     * Rfturns tif <dodf>NbvigbtionFiltfr</dodf> usfd to rfstridt wifrf tif
+     * dursor dbn bf plbdfd.
      *
-     * @return NavigationFilter to restrict navigation
+     * @rfturn NbvigbtionFiltfr to rfstridt nbvigbtion
      */
-    protected NavigationFilter getNavigationFilter() {
-        if (navigationFilter == null) {
-            navigationFilter = new DefaultNavigationFilter();
+    protfdtfd NbvigbtionFiltfr gftNbvigbtionFiltfr() {
+        if (nbvigbtionFiltfr == null) {
+            nbvigbtionFiltfr = nfw DffbultNbvigbtionFiltfr();
         }
-        return navigationFilter;
+        rfturn nbvigbtionFiltfr;
     }
 
     /**
-     * Creates a copy of the DefaultFormatter.
+     * Crfbtfs b dopy of tif DffbultFormbttfr.
      *
-     * @return copy of the DefaultFormatter
+     * @rfturn dopy of tif DffbultFormbttfr
      */
-    public Object clone() throws CloneNotSupportedException {
-        DefaultFormatter formatter = (DefaultFormatter)super.clone();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        DffbultFormbttfr formbttfr = (DffbultFormbttfr)supfr.dlonf();
 
-        formatter.navigationFilter = null;
-        formatter.documentFilter = null;
-        formatter.replaceHolder = null;
-        return formatter;
+        formbttfr.nbvigbtionFiltfr = null;
+        formbttfr.dodumfntFiltfr = null;
+        formbttfr.rfplbdfHoldfr = null;
+        rfturn formbttfr;
     }
 
 
     /**
-     * Positions the cursor at the initial location.
+     * Positions tif dursor bt tif initibl lodbtion.
      */
-    void positionCursorAtInitialLocation() {
-        JFormattedTextField ftf = getFormattedTextField();
+    void positionCursorAtInitiblLodbtion() {
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
         if (ftf != null) {
-            ftf.setCaretPosition(getInitialVisualPosition());
+            ftf.sftCbrftPosition(gftInitiblVisublPosition());
         }
     }
 
     /**
-     * Returns the initial location to position the cursor at. This forwards
-     * the call to <code>getNextNavigatableChar</code>.
+     * Rfturns tif initibl lodbtion to position tif dursor bt. Tiis forwbrds
+     * tif dbll to <dodf>gftNfxtNbvigbtbblfCibr</dodf>.
      */
-    int getInitialVisualPosition() {
-        return getNextNavigatableChar(0, 1);
+    int gftInitiblVisublPosition() {
+        rfturn gftNfxtNbvigbtbblfCibr(0, 1);
     }
 
     /**
-     * Subclasses should override this if they want cursor navigation
-     * to skip certain characters. A return value of false indicates
-     * the character at <code>offset</code> should be skipped when
-     * navigating throught the field.
+     * Subdlbssfs siould ovfrridf tiis if tify wbnt dursor nbvigbtion
+     * to skip dfrtbin dibrbdtfrs. A rfturn vbluf of fblsf indidbtfs
+     * tif dibrbdtfr bt <dodf>offsft</dodf> siould bf skippfd wifn
+     * nbvigbting tirougit tif fifld.
      */
-    boolean isNavigatable(int offset) {
-        return true;
+    boolfbn isNbvigbtbblf(int offsft) {
+        rfturn truf;
     }
 
     /**
-     * Returns true if the text in <code>text</code> can be inserted.  This
-     * does not mean the text will ultimately be inserted, it is used if
-     * text can trivially reject certain characters.
+     * Rfturns truf if tif tfxt in <dodf>tfxt</dodf> dbn bf insfrtfd.  Tiis
+     * dofs not mfbn tif tfxt will ultimbtfly bf insfrtfd, it is usfd if
+     * tfxt dbn triviblly rfjfdt dfrtbin dibrbdtfrs.
      */
-    boolean isLegalInsertText(String text) {
-        return true;
+    boolfbn isLfgblInsfrtTfxt(String tfxt) {
+        rfturn truf;
     }
 
     /**
-     * Returns the next editable character starting at offset incrementing
-     * the offset by <code>direction</code>.
+     * Rfturns tif nfxt fditbblf dibrbdtfr stbrting bt offsft indrfmfnting
+     * tif offsft by <dodf>dirfdtion</dodf>.
      */
-    private int getNextNavigatableChar(int offset, int direction) {
-        int max = getFormattedTextField().getDocument().getLength();
+    privbtf int gftNfxtNbvigbtbblfCibr(int offsft, int dirfdtion) {
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngti();
 
-        while (offset >= 0 && offset < max) {
-            if (isNavigatable(offset)) {
-                return offset;
+        wiilf (offsft >= 0 && offsft < mbx) {
+            if (isNbvigbtbblf(offsft)) {
+                rfturn offsft;
             }
-            offset += direction;
+            offsft += dirfdtion;
         }
-        return offset;
+        rfturn offsft;
     }
 
     /**
-     * A convenience methods to return the result of deleting
-     * <code>deleteLength</code> characters at <code>offset</code>
-     * and inserting <code>replaceString</code> at <code>offset</code>
-     * in the current text field.
+     * A donvfnifndf mftiods to rfturn tif rfsult of dflfting
+     * <dodf>dflftfLfngti</dodf> dibrbdtfrs bt <dodf>offsft</dodf>
+     * bnd insfrting <dodf>rfplbdfString</dodf> bt <dodf>offsft</dodf>
+     * in tif durrfnt tfxt fifld.
      */
-    String getReplaceString(int offset, int deleteLength,
-                            String replaceString) {
-        String string = getFormattedTextField().getText();
-        String result;
+    String gftRfplbdfString(int offsft, int dflftfLfngti,
+                            String rfplbdfString) {
+        String string = gftFormbttfdTfxtFifld().gftTfxt();
+        String rfsult;
 
-        result = string.substring(0, offset);
-        if (replaceString != null) {
-            result += replaceString;
+        rfsult = string.substring(0, offsft);
+        if (rfplbdfString != null) {
+            rfsult += rfplbdfString;
         }
-        if (offset + deleteLength < string.length()) {
-            result += string.substring(offset + deleteLength);
+        if (offsft + dflftfLfngti < string.lfngti()) {
+            rfsult += string.substring(offsft + dflftfLfngti);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /*
-     * Returns true if the operation described by <code>rh</code> will
-     * result in a legal edit.  This may set the <code>value</code>
-     * field of <code>rh</code>.
+     * Rfturns truf if tif opfrbtion dfsdribfd by <dodf>ri</dodf> will
+     * rfsult in b lfgbl fdit.  Tiis mby sft tif <dodf>vbluf</dodf>
+     * fifld of <dodf>ri</dodf>.
      */
-    boolean isValidEdit(ReplaceHolder rh) {
-        if (!getAllowsInvalid()) {
-            String newString = getReplaceString(rh.offset, rh.length, rh.text);
+    boolfbn isVblidEdit(RfplbdfHoldfr ri) {
+        if (!gftAllowsInvblid()) {
+            String nfwString = gftRfplbdfString(ri.offsft, ri.lfngti, ri.tfxt);
 
             try {
-                rh.value = stringToValue(newString);
+                ri.vbluf = stringToVbluf(nfwString);
 
-                return true;
-            } catch (ParseException pe) {
-                return false;
+                rfturn truf;
+            } dbtdi (PbrsfExdfption pf) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Invokes <code>commitEdit</code> on the JFormattedTextField.
+     * Invokfs <dodf>dommitEdit</dodf> on tif JFormbttfdTfxtFifld.
      */
-    void commitEdit() throws ParseException {
-        JFormattedTextField ftf = getFormattedTextField();
+    void dommitEdit() tirows PbrsfExdfption {
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
 
         if (ftf != null) {
-            ftf.commitEdit();
+            ftf.dommitEdit();
         }
     }
 
     /**
-     * Pushes the value to the JFormattedTextField if the current value
-     * is valid and invokes <code>setEditValid</code> based on the
-     * validity of the value.
+     * Pusifs tif vbluf to tif JFormbttfdTfxtFifld if tif durrfnt vbluf
+     * is vblid bnd invokfs <dodf>sftEditVblid</dodf> bbsfd on tif
+     * vblidity of tif vbluf.
      */
-    void updateValue() {
-        updateValue(null);
+    void updbtfVbluf() {
+        updbtfVbluf(null);
     }
 
     /**
-     * Pushes the <code>value</code> to the editor if we are to
-     * commit on edits. If <code>value</code> is null, the current value
-     * will be obtained from the text component.
+     * Pusifs tif <dodf>vbluf</dodf> to tif fditor if wf brf to
+     * dommit on fdits. If <dodf>vbluf</dodf> is null, tif durrfnt vbluf
+     * will bf obtbinfd from tif tfxt domponfnt.
      */
-    void updateValue(Object value) {
+    void updbtfVbluf(Objfdt vbluf) {
         try {
-            if (value == null) {
-                String string = getFormattedTextField().getText();
+            if (vbluf == null) {
+                String string = gftFormbttfdTfxtFifld().gftTfxt();
 
-                value = stringToValue(string);
+                vbluf = stringToVbluf(string);
             }
 
-            if (getCommitsOnValidEdit()) {
-                commitEdit();
+            if (gftCommitsOnVblidEdit()) {
+                dommitEdit();
             }
-            setEditValid(true);
-        } catch (ParseException pe) {
-            setEditValid(false);
+            sftEditVblid(truf);
+        } dbtdi (PbrsfExdfption pf) {
+            sftEditVblid(fblsf);
         }
     }
 
     /**
-     * Returns the next cursor position from offset by incrementing
-     * <code>direction</code>. This uses
-     * <code>getNextNavigatableChar</code>
-     * as well as constraining the location to the max position.
+     * Rfturns tif nfxt dursor position from offsft by indrfmfnting
+     * <dodf>dirfdtion</dodf>. Tiis usfs
+     * <dodf>gftNfxtNbvigbtbblfCibr</dodf>
+     * bs wfll bs donstrbining tif lodbtion to tif mbx position.
      */
-    int getNextCursorPosition(int offset, int direction) {
-        int newOffset = getNextNavigatableChar(offset, direction);
-        int max = getFormattedTextField().getDocument().getLength();
+    int gftNfxtCursorPosition(int offsft, int dirfdtion) {
+        int nfwOffsft = gftNfxtNbvigbtbblfCibr(offsft, dirfdtion);
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngti();
 
-        if (!getAllowsInvalid()) {
-            if (direction == -1 && offset == newOffset) {
-                // Case where hit backspace and only characters before
-                // offset are fixed.
-                newOffset = getNextNavigatableChar(newOffset, 1);
-                if (newOffset >= max) {
-                    newOffset = offset;
+        if (!gftAllowsInvblid()) {
+            if (dirfdtion == -1 && offsft == nfwOffsft) {
+                // Cbsf wifrf iit bbdkspbdf bnd only dibrbdtfrs bfforf
+                // offsft brf fixfd.
+                nfwOffsft = gftNfxtNbvigbtbblfCibr(nfwOffsft, 1);
+                if (nfwOffsft >= mbx) {
+                    nfwOffsft = offsft;
                 }
             }
-            else if (direction == 1 && newOffset >= max) {
-                // Don't go beyond last editable character.
-                newOffset = getNextNavigatableChar(max - 1, -1);
-                if (newOffset < max) {
-                    newOffset++;
-                }
-            }
-        }
-        return newOffset;
-    }
-
-    /**
-     * Resets the cursor by using getNextCursorPosition.
-     */
-    void repositionCursor(int offset, int direction) {
-        getFormattedTextField().getCaret().setDot(getNextCursorPosition
-                                                  (offset, direction));
-    }
-
-
-    /**
-     * Finds the next navigable character.
-     */
-    int getNextVisualPositionFrom(JTextComponent text, int pos,
-                                  Position.Bias bias, int direction,
-                                  Position.Bias[] biasRet)
-                                           throws BadLocationException {
-        int value = text.getUI().getNextVisualPositionFrom(text, pos, bias,
-                                                           direction, biasRet);
-
-        if (value == -1) {
-            return -1;
-        }
-        if (!getAllowsInvalid() && (direction == SwingConstants.EAST ||
-                                    direction == SwingConstants.WEST)) {
-            int last = -1;
-
-            while (!isNavigatable(value) && value != last) {
-                last = value;
-                value = text.getUI().getNextVisualPositionFrom(
-                              text, value, bias, direction,biasRet);
-            }
-            int max = getFormattedTextField().getDocument().getLength();
-            if (last == value || value == max) {
-                if (value == 0) {
-                    biasRet[0] = Position.Bias.Forward;
-                    value = getInitialVisualPosition();
-                }
-                if (value >= max && max > 0) {
-                    // Pending: should not assume forward!
-                    biasRet[0] = Position.Bias.Forward;
-                    value = getNextNavigatableChar(max - 1, -1) + 1;
+            flsf if (dirfdtion == 1 && nfwOffsft >= mbx) {
+                // Don't go bfyond lbst fditbblf dibrbdtfr.
+                nfwOffsft = gftNfxtNbvigbtbblfCibr(mbx - 1, -1);
+                if (nfwOffsft < mbx) {
+                    nfwOffsft++;
                 }
             }
         }
-        return value;
+        rfturn nfwOffsft;
     }
 
     /**
-     * Returns true if the edit described by <code>rh</code> will result
-     * in a legal value.
+     * Rfsfts tif dursor by using gftNfxtCursorPosition.
      */
-    boolean canReplace(ReplaceHolder rh) {
-        return isValidEdit(rh);
+    void rfpositionCursor(int offsft, int dirfdtion) {
+        gftFormbttfdTfxtFifld().gftCbrft().sftDot(gftNfxtCursorPosition
+                                                  (offsft, dirfdtion));
     }
 
+
     /**
-     * DocumentFilter method, funnels into <code>replace</code>.
+     * Finds tif nfxt nbvigbblf dibrbdtfr.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset,
-                     int length, String text,
-                     AttributeSet attrs) throws BadLocationException {
-        ReplaceHolder rh = getReplaceHolder(fb, offset, length, text, attrs);
+    int gftNfxtVisublPositionFrom(JTfxtComponfnt tfxt, int pos,
+                                  Position.Bibs bibs, int dirfdtion,
+                                  Position.Bibs[] bibsRft)
+                                           tirows BbdLodbtionExdfption {
+        int vbluf = tfxt.gftUI().gftNfxtVisublPositionFrom(tfxt, pos, bibs,
+                                                           dirfdtion, bibsRft);
 
-        replace(rh);
+        if (vbluf == -1) {
+            rfturn -1;
+        }
+        if (!gftAllowsInvblid() && (dirfdtion == SwingConstbnts.EAST ||
+                                    dirfdtion == SwingConstbnts.WEST)) {
+            int lbst = -1;
+
+            wiilf (!isNbvigbtbblf(vbluf) && vbluf != lbst) {
+                lbst = vbluf;
+                vbluf = tfxt.gftUI().gftNfxtVisublPositionFrom(
+                              tfxt, vbluf, bibs, dirfdtion,bibsRft);
+            }
+            int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngti();
+            if (lbst == vbluf || vbluf == mbx) {
+                if (vbluf == 0) {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                    vbluf = gftInitiblVisublPosition();
+                }
+                if (vbluf >= mbx && mbx > 0) {
+                    // Pfnding: siould not bssumf forwbrd!
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                    vbluf = gftNfxtNbvigbtbblfCibr(mbx - 1, -1) + 1;
+                }
+            }
+        }
+        rfturn vbluf;
     }
 
     /**
-     * If the edit described by <code>rh</code> is legal, this will
-     * return true, commit the edit (if necessary) and update the cursor
-     * position.  This forwards to <code>canReplace</code> and
-     * <code>isLegalInsertText</code> as necessary to determine if
-     * the edit is in fact legal.
+     * Rfturns truf if tif fdit dfsdribfd by <dodf>ri</dodf> will rfsult
+     * in b lfgbl vbluf.
+     */
+    boolfbn dbnRfplbdf(RfplbdfHoldfr ri) {
+        rfturn isVblidEdit(ri);
+    }
+
+    /**
+     * DodumfntFiltfr mftiod, funnfls into <dodf>rfplbdf</dodf>.
+     */
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                     int lfngti, String tfxt,
+                     AttributfSft bttrs) tirows BbdLodbtionExdfption {
+        RfplbdfHoldfr ri = gftRfplbdfHoldfr(fb, offsft, lfngti, tfxt, bttrs);
+
+        rfplbdf(ri);
+    }
+
+    /**
+     * If tif fdit dfsdribfd by <dodf>ri</dodf> is lfgbl, tiis will
+     * rfturn truf, dommit tif fdit (if nfdfssbry) bnd updbtf tif dursor
+     * position.  Tiis forwbrds to <dodf>dbnRfplbdf</dodf> bnd
+     * <dodf>isLfgblInsfrtTfxt</dodf> bs nfdfssbry to dftfrminf if
+     * tif fdit is in fbdt lfgbl.
      * <p>
-     * All of the DocumentFilter methods funnel into here, you should
-     * generally only have to override this.
+     * All of tif DodumfntFiltfr mftiods funnfl into ifrf, you siould
+     * gfnfrblly only ibvf to ovfrridf tiis.
      */
-    boolean replace(ReplaceHolder rh) throws BadLocationException {
-        boolean valid = true;
-        int direction = 1;
+    boolfbn rfplbdf(RfplbdfHoldfr ri) tirows BbdLodbtionExdfption {
+        boolfbn vblid = truf;
+        int dirfdtion = 1;
 
-        if (rh.length > 0 && (rh.text == null || rh.text.length() == 0) &&
-               (getFormattedTextField().getSelectionStart() != rh.offset ||
-                   rh.length > 1)) {
-            direction = -1;
+        if (ri.lfngti > 0 && (ri.tfxt == null || ri.tfxt.lfngti() == 0) &&
+               (gftFormbttfdTfxtFifld().gftSflfdtionStbrt() != ri.offsft ||
+                   ri.lfngti > 1)) {
+            dirfdtion = -1;
         }
 
-        if (getOverwriteMode() && rh.text != null &&
-            getFormattedTextField().getSelectedText() == null)
+        if (gftOvfrwritfModf() && ri.tfxt != null &&
+            gftFormbttfdTfxtFifld().gftSflfdtfdTfxt() == null)
         {
-            rh.length = Math.min(Math.max(rh.length, rh.text.length()),
-                                 rh.fb.getDocument().getLength() - rh.offset);
+            ri.lfngti = Mbti.min(Mbti.mbx(ri.lfngti, ri.tfxt.lfngti()),
+                                 ri.fb.gftDodumfnt().gftLfngti() - ri.offsft);
         }
-        if ((rh.text != null && !isLegalInsertText(rh.text)) ||
-            !canReplace(rh) ||
-            (rh.length == 0 && (rh.text == null || rh.text.length() == 0))) {
-            valid = false;
+        if ((ri.tfxt != null && !isLfgblInsfrtTfxt(ri.tfxt)) ||
+            !dbnRfplbdf(ri) ||
+            (ri.lfngti == 0 && (ri.tfxt == null || ri.tfxt.lfngti() == 0))) {
+            vblid = fblsf;
         }
-        if (valid) {
-            int cursor = rh.cursorPosition;
+        if (vblid) {
+            int dursor = ri.dursorPosition;
 
-            rh.fb.replace(rh.offset, rh.length, rh.text, rh.attrs);
-            if (cursor == -1) {
-                cursor = rh.offset;
-                if (direction == 1 && rh.text != null) {
-                    cursor = rh.offset + rh.text.length();
+            ri.fb.rfplbdf(ri.offsft, ri.lfngti, ri.tfxt, ri.bttrs);
+            if (dursor == -1) {
+                dursor = ri.offsft;
+                if (dirfdtion == 1 && ri.tfxt != null) {
+                    dursor = ri.offsft + ri.tfxt.lfngti();
                 }
             }
-            updateValue(rh.value);
-            repositionCursor(cursor, direction);
-            return true;
+            updbtfVbluf(ri.vbluf);
+            rfpositionCursor(dursor, dirfdtion);
+            rfturn truf;
         }
-        else {
-            invalidEdit();
+        flsf {
+            invblidEdit();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * NavigationFilter method, subclasses that wish finer control should
-     * override this.
+     * NbvigbtionFiltfr mftiod, subdlbssfs tibt wisi finfr dontrol siould
+     * ovfrridf tiis.
      */
-    void setDot(NavigationFilter.FilterBypass fb, int dot, Position.Bias bias){
-        fb.setDot(dot, bias);
+    void sftDot(NbvigbtionFiltfr.FiltfrBypbss fb, int dot, Position.Bibs bibs){
+        fb.sftDot(dot, bibs);
     }
 
     /**
-     * NavigationFilter method, subclasses that wish finer control should
-     * override this.
+     * NbvigbtionFiltfr mftiod, subdlbssfs tibt wisi finfr dontrol siould
+     * ovfrridf tiis.
      */
-    void moveDot(NavigationFilter.FilterBypass fb, int dot,
-                 Position.Bias bias) {
-        fb.moveDot(dot, bias);
+    void movfDot(NbvigbtionFiltfr.FiltfrBypbss fb, int dot,
+                 Position.Bibs bibs) {
+        fb.movfDot(dot, bibs);
     }
 
 
     /**
-     * Returns the ReplaceHolder to track the replace of the specified
-     * text.
+     * Rfturns tif RfplbdfHoldfr to trbdk tif rfplbdf of tif spfdififd
+     * tfxt.
      */
-    ReplaceHolder getReplaceHolder(DocumentFilter.FilterBypass fb, int offset,
-                                   int length, String text,
-                                   AttributeSet attrs) {
-        if (replaceHolder == null) {
-            replaceHolder = new ReplaceHolder();
+    RfplbdfHoldfr gftRfplbdfHoldfr(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                                   int lfngti, String tfxt,
+                                   AttributfSft bttrs) {
+        if (rfplbdfHoldfr == null) {
+            rfplbdfHoldfr = nfw RfplbdfHoldfr();
         }
-        replaceHolder.reset(fb, offset, length, text, attrs);
-        return replaceHolder;
+        rfplbdfHoldfr.rfsft(fb, offsft, lfngti, tfxt, bttrs);
+        rfturn rfplbdfHoldfr;
     }
 
 
     /**
-     * ReplaceHolder is used to track where insert/remove/replace is
-     * going to happen.
+     * RfplbdfHoldfr is usfd to trbdk wifrf insfrt/rfmovf/rfplbdf is
+     * going to ibppfn.
      */
-    static class ReplaceHolder {
-        /** The FilterBypass that was passed to the DocumentFilter method. */
-        DocumentFilter.FilterBypass fb;
-        /** Offset where the remove/insert is going to occur. */
-        int offset;
-        /** Length of text to remove. */
-        int length;
-        /** The text to insert, may be null. */
-        String text;
-        /** AttributeSet to attach to text, may be null. */
-        AttributeSet attrs;
-        /** The resulting value, this may never be set. */
-        Object value;
-        /** Position the cursor should be adjusted from.  If this is -1
-         * the cursor position will be adjusted based on the direction of
-         * the replace (-1: offset, 1: offset + text.length()), otherwise
-         * the cursor position is adusted from this position.
+    stbtid dlbss RfplbdfHoldfr {
+        /** Tif FiltfrBypbss tibt wbs pbssfd to tif DodumfntFiltfr mftiod. */
+        DodumfntFiltfr.FiltfrBypbss fb;
+        /** Offsft wifrf tif rfmovf/insfrt is going to oddur. */
+        int offsft;
+        /** Lfngti of tfxt to rfmovf. */
+        int lfngti;
+        /** Tif tfxt to insfrt, mby bf null. */
+        String tfxt;
+        /** AttributfSft to bttbdi to tfxt, mby bf null. */
+        AttributfSft bttrs;
+        /** Tif rfsulting vbluf, tiis mby nfvfr bf sft. */
+        Objfdt vbluf;
+        /** Position tif dursor siould bf bdjustfd from.  If tiis is -1
+         * tif dursor position will bf bdjustfd bbsfd on tif dirfdtion of
+         * tif rfplbdf (-1: offsft, 1: offsft + tfxt.lfngti()), otifrwisf
+         * tif dursor position is bdustfd from tiis position.
          */
-        int cursorPosition;
+        int dursorPosition;
 
-        void reset(DocumentFilter.FilterBypass fb, int offset, int length,
-                   String text, AttributeSet attrs) {
-            this.fb = fb;
-            this.offset = offset;
-            this.length = length;
-            this.text = text;
-            this.attrs = attrs;
-            this.value = null;
-            cursorPosition = -1;
+        void rfsft(DodumfntFiltfr.FiltfrBypbss fb, int offsft, int lfngti,
+                   String tfxt, AttributfSft bttrs) {
+            tiis.fb = fb;
+            tiis.offsft = offsft;
+            tiis.lfngti = lfngti;
+            tiis.tfxt = tfxt;
+            tiis.bttrs = bttrs;
+            tiis.vbluf = null;
+            dursorPosition = -1;
         }
     }
 
 
     /**
-     * NavigationFilter implementation that calls back to methods with
-     * same name in DefaultFormatter.
+     * NbvigbtionFiltfr implfmfntbtion tibt dblls bbdk to mftiods witi
+     * sbmf nbmf in DffbultFormbttfr.
      */
-    private class DefaultNavigationFilter extends NavigationFilter
-                             implements Serializable {
-        public void setDot(FilterBypass fb, int dot, Position.Bias bias) {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
-            if (tc.composedTextExists()) {
-                // bypass the filter
-                fb.setDot(dot, bias);
-            } else {
-                DefaultFormatter.this.setDot(fb, dot, bias);
+    privbtf dlbss DffbultNbvigbtionFiltfr fxtfnds NbvigbtionFiltfr
+                             implfmfnts Sfriblizbblf {
+        publid void sftDot(FiltfrBypbss fb, int dot, Position.Bibs bibs) {
+            JTfxtComponfnt td = DffbultFormbttfr.tiis.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss tif filtfr
+                fb.sftDot(dot, bibs);
+            } flsf {
+                DffbultFormbttfr.tiis.sftDot(fb, dot, bibs);
             }
         }
 
-        public void moveDot(FilterBypass fb, int dot, Position.Bias bias) {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
-            if (tc.composedTextExists()) {
-                // bypass the filter
-                fb.moveDot(dot, bias);
-            } else {
-                DefaultFormatter.this.moveDot(fb, dot, bias);
+        publid void movfDot(FiltfrBypbss fb, int dot, Position.Bibs bibs) {
+            JTfxtComponfnt td = DffbultFormbttfr.tiis.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss tif filtfr
+                fb.movfDot(dot, bibs);
+            } flsf {
+                DffbultFormbttfr.tiis.movfDot(fb, dot, bibs);
             }
         }
 
-        public int getNextVisualPositionFrom(JTextComponent text, int pos,
-                                             Position.Bias bias,
-                                             int direction,
-                                             Position.Bias[] biasRet)
-                                           throws BadLocationException {
-            if (text.composedTextExists()) {
-                // forward the call to the UI directly
-                return text.getUI().getNextVisualPositionFrom(
-                        text, pos, bias, direction, biasRet);
-            } else {
-                return DefaultFormatter.this.getNextVisualPositionFrom(
-                        text, pos, bias, direction, biasRet);
+        publid int gftNfxtVisublPositionFrom(JTfxtComponfnt tfxt, int pos,
+                                             Position.Bibs bibs,
+                                             int dirfdtion,
+                                             Position.Bibs[] bibsRft)
+                                           tirows BbdLodbtionExdfption {
+            if (tfxt.domposfdTfxtExists()) {
+                // forwbrd tif dbll to tif UI dirfdtly
+                rfturn tfxt.gftUI().gftNfxtVisublPositionFrom(
+                        tfxt, pos, bibs, dirfdtion, bibsRft);
+            } flsf {
+                rfturn DffbultFormbttfr.tiis.gftNfxtVisublPositionFrom(
+                        tfxt, pos, bibs, dirfdtion, bibsRft);
             }
         }
     }
 
 
     /**
-     * DocumentFilter implementation that calls back to the replace
-     * method of DefaultFormatter.
+     * DodumfntFiltfr implfmfntbtion tibt dblls bbdk to tif rfplbdf
+     * mftiod of DffbultFormbttfr.
      */
-    private class DefaultDocumentFilter extends DocumentFilter implements
-                             Serializable {
-        public void remove(FilterBypass fb, int offset, int length) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
-            if (tc.composedTextExists()) {
-                // bypass the filter
-                fb.remove(offset, length);
-            } else {
-                DefaultFormatter.this.replace(fb, offset, length, null, null);
+    privbtf dlbss DffbultDodumfntFiltfr fxtfnds DodumfntFiltfr implfmfnts
+                             Sfriblizbblf {
+        publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.tiis.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss tif filtfr
+                fb.rfmovf(offsft, lfngti);
+            } flsf {
+                DffbultFormbttfr.tiis.rfplbdf(fb, offsft, lfngti, null, null);
             }
         }
 
-        public void insertString(FilterBypass fb, int offset,
-                                 String string, AttributeSet attr) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
-            if (tc.composedTextExists() ||
-                Utilities.isComposedTextAttributeDefined(attr)) {
-                // bypass the filter
-                fb.insertString(offset, string, attr);
-            } else {
-                DefaultFormatter.this.replace(fb, offset, 0, string, attr);
+        publid void insfrtString(FiltfrBypbss fb, int offsft,
+                                 String string, AttributfSft bttr) tirows
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.tiis.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists() ||
+                Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                // bypbss tif filtfr
+                fb.insfrtString(offsft, string, bttr);
+            } flsf {
+                DffbultFormbttfr.tiis.rfplbdf(fb, offsft, 0, string, bttr);
             }
         }
 
-        public void replace(FilterBypass fb, int offset, int length,
-                                 String text, AttributeSet attr) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
-            if (tc.composedTextExists() ||
-                Utilities.isComposedTextAttributeDefined(attr)) {
-                // bypass the filter
-                fb.replace(offset, length, text, attr);
-            } else {
-                DefaultFormatter.this.replace(fb, offset, length, text, attr);
+        publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti,
+                                 String tfxt, AttributfSft bttr) tirows
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.tiis.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists() ||
+                Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                // bypbss tif filtfr
+                fb.rfplbdf(offsft, lfngti, tfxt, bttr);
+            } flsf {
+                DffbultFormbttfr.tiis.rfplbdf(fb, offsft, lfngti, tfxt, bttr);
             }
         }
     }

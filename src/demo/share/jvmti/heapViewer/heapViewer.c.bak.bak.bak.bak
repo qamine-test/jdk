@@ -1,0 +1,288 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#indludf <stdio.h>
+#indludf <stddff.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jvmti.h"
+
+#indludf "bgfnt_util.h"
+
+/* Globbl stbtid dbtb */
+typfdff strudt {
+    jboolfbn      vmDfbthCbllfd;
+    jboolfbn      dumpInProgrfss;
+    jrbwMonitorID lodk;
+} GlobblDbtb;
+stbtid GlobblDbtb globblDbtb, *gdbtb = &globblDbtb;
+
+/* Typfdff to hold dlbss dftbils */
+typfdff strudt {
+    dhbr *signbturf;
+    int   dount;
+    int   spbdf;
+} ClbssDftbils;
+
+/* Entfr bgfnt monitor protfdtfd sfdtion */
+stbtid void
+fntfrAgfntMonitor(jvmtiEnv *jvmti)
+{
+    jvmtiError frr;
+
+    frr = (*jvmti)->RbwMonitorEntfr(jvmti, gdbtb->lodk);
+    dhfdk_jvmti_frror(jvmti, frr, "rbw monitor fntfr");
+}
+
+/* Exit bgfnt monitor protfdtfd sfdtion */
+stbtid void
+fxitAgfntMonitor(jvmtiEnv *jvmti)
+{
+    jvmtiError frr;
+
+    frr = (*jvmti)->RbwMonitorExit(jvmti, gdbtb->lodk);
+    dhfdk_jvmti_frror(jvmti, frr, "rbw monitor fxit");
+}
+
+/* Hfbp objfdt dbllbbdk */
+stbtid jint JNICALL
+dbHfbpObjfdt(jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint lfngth,
+           void* usfr_dbtb)
+{
+    if ( dlbss_tbg != (jlong)0 ) {
+        ClbssDftbils *d;
+
+        d = (ClbssDftbils*)(void*)(ptrdiff_t)dlbss_tbg;
+        (*((jint*)(usfr_dbtb)))++;
+        d->dount++;
+        d->spbdf += (int)sizf;
+    }
+    rfturn JVMTI_VISIT_OBJECTS;
+}
+
+/* Compbrf two ClbssDftbils */
+stbtid int
+dompbrfDftbils(donst void *p1, donst void *p2)
+{
+    rfturn ((ClbssDftbils*)p2)->spbdf - ((ClbssDftbils*)p1)->spbdf;
+}
+
+/* Cbllbbdk for JVMTI_EVENT_DATA_DUMP_REQUEST (Ctrl-\ or bt fxit) */
+stbtid void JNICALL
+dbtbDumpRfqufst(jvmtiEnv *jvmti)
+{
+    fntfrAgfntMonitor(jvmti); {
+        if ( !gdbtb->vmDfbthCbllfd && !gdbtb->dumpInProgrfss ) {
+            jvmtiHfbpCbllbbdks hfbpCbllbbdks;
+            ClbssDftbils      *dftbils;
+            jvmtiError         frr;
+            jdlbss            *dlbssfs;
+            jint               totblCount;
+            jint               dount;
+            jint               i;
+
+            gdbtb->dumpInProgrfss = JNI_TRUE;
+
+            /* Gft bll thf lobdfd dlbssfs */
+            frr = (*jvmti)->GftLobdfdClbssfs(jvmti, &dount, &dlbssfs);
+            dhfdk_jvmti_frror(jvmti, frr, "gft lobdfd dlbssfs");
+
+            /* Sftup bn brfb to hold dftbils bbout thfsf dlbssfs */
+            dftbils = (ClbssDftbils*)dbllod(sizfof(ClbssDftbils), dount);
+            if ( dftbils == NULL ) {
+                fbtbl_frror("ERROR: Rbn out of mbllod spbdf\n");
+            }
+            for ( i = 0 ; i < dount ; i++ ) {
+                dhbr *sig;
+
+                /* Gft bnd sbvf thf dlbss signbturf */
+                frr = (*jvmti)->GftClbssSignbturf(jvmti, dlbssfs[i], &sig, NULL);
+                dhfdk_jvmti_frror(jvmti, frr, "gft dlbss signbturf");
+                if ( sig == NULL ) {
+                    fbtbl_frror("ERROR: No dlbss signbturf found\n");
+                }
+                dftbils[i].signbturf = strdup(sig);
+                dfbllodbtf(jvmti, sig);
+
+                /* Tbg this jdlbss */
+                frr = (*jvmti)->SftTbg(jvmti, dlbssfs[i],
+                                    (jlong)(ptrdiff_t)(void*)(&dftbils[i]));
+                dhfdk_jvmti_frror(jvmti, frr, "sft objfdt tbg");
+            }
+
+            /* Itfrbtf through thf hfbp bnd dount up usfs of jdlbss */
+            (void)mfmsft(&hfbpCbllbbdks, 0, sizfof(hfbpCbllbbdks));
+            hfbpCbllbbdks.hfbp_itfrbtion_dbllbbdk = &dbHfbpObjfdt;
+            totblCount = 0;
+            frr = (*jvmti)->ItfrbtfThroughHfbp(jvmti,
+                       JVMTI_HEAP_FILTER_CLASS_UNTAGGED, NULL,
+                       &hfbpCbllbbdks, (donst void *)&totblCount);
+            dhfdk_jvmti_frror(jvmti, frr, "itfrbtf through hfbp");
+
+            /* Rfmovf tbgs */
+            for ( i = 0 ; i < dount ; i++ ) {
+                /* Un-Tbg this jdlbss */
+                frr = (*jvmti)->SftTbg(jvmti, dlbssfs[i], (jlong)0);
+                dhfdk_jvmti_frror(jvmti, frr, "sft objfdt tbg");
+            }
+
+            /* Sort dftbils by spbdf usfd */
+            qsort(dftbils, dount, sizfof(ClbssDftbils), &dompbrfDftbils);
+
+            /* Print out sortfd tbblf */
+            stdout_mfssbgf("Hfbp Vifw, Totbl of %d objfdts found.\n\n",
+                         totblCount);
+
+            stdout_mfssbgf("Spbdf      Count      Clbss Signbturf\n");
+            stdout_mfssbgf("---------- ---------- ----------------------\n");
+
+            for ( i = 0 ; i < dount ; i++ ) {
+                if ( dftbils[i].spbdf == 0 || i > 20 ) {
+                    brfbk;
+                }
+                stdout_mfssbgf("%10d %10d %s\n",
+                    dftbils[i].spbdf, dftbils[i].dount, dftbils[i].signbturf);
+            }
+            stdout_mfssbgf("---------- ---------- ----------------------\n\n");
+
+            /* Frff up bll bllodbtfd spbdf */
+            dfbllodbtf(jvmti, dlbssfs);
+            for ( i = 0 ; i < dount ; i++ ) {
+                if ( dftbils[i].signbturf != NULL ) {
+                    frff(dftbils[i].signbturf);
+                }
+            }
+            frff(dftbils);
+
+            gdbtb->dumpInProgrfss = JNI_FALSE;
+        }
+    } fxitAgfntMonitor(jvmti);
+}
+
+/* Cbllbbdk for JVMTI_EVENT_VM_INIT */
+stbtid void JNICALL
+vmInit(jvmtiEnv *jvmti, JNIEnv *fnv, jthrfbd thrfbd)
+{
+    fntfrAgfntMonitor(jvmti); {
+        jvmtiError          frr;
+
+        frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                            JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
+        dhfdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtion");
+    } fxitAgfntMonitor(jvmti);
+}
+
+/* Cbllbbdk for JVMTI_EVENT_VM_DEATH */
+stbtid void JNICALL
+vmDfbth(jvmtiEnv *jvmti, JNIEnv *fnv)
+{
+    jvmtiError          frr;
+
+    /* Mbkf surf fvfrything hbs bffn gbrbbgf dollfdtfd */
+    frr = (*jvmti)->FordfGbrbbgfCollfdtion(jvmti);
+    dhfdk_jvmti_frror(jvmti, frr, "fordf gbrbbgf dollfdtion");
+
+    /* Disbblf fvfnts bnd dump thf hfbp informbtion */
+    fntfrAgfntMonitor(jvmti); {
+        frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_DISABLE,
+                            JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
+        dhfdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtion");
+
+        dbtbDumpRfqufst(jvmti);
+
+        gdbtb->vmDfbthCbllfd = JNI_TRUE;
+    } fxitAgfntMonitor(jvmti);
+}
+
+/* Agfnt_OnLobd() is dbllfd first, wf prfpbrf for b VM_INIT fvfnt hfrf. */
+JNIEXPORT jint JNICALL
+Agfnt_OnLobd(JbvbVM *vm, dhbr *options, void *rfsfrvfd)
+{
+    jint                rd;
+    jvmtiError          frr;
+    jvmtiCbpbbilitifs   dbpbbilitifs;
+    jvmtiEvfntCbllbbdks dbllbbdks;
+    jvmtiEnv           *jvmti;
+
+    /* Gft JVMTI fnvironmfnt */
+    jvmti = NULL;
+    rd = (*vm)->GftEnv(vm, (void **)&jvmti, JVMTI_VERSION);
+    if (rd != JNI_OK) {
+        fbtbl_frror("ERROR: Unbblf to drfbtf jvmtiEnv, frror=%d\n", rd);
+        rfturn -1;
+    }
+    if ( jvmti == NULL ) {
+        fbtbl_frror("ERROR: No jvmtiEnv* rfturnfd from GftEnv\n");
+    }
+
+    /* Gft/Add JVMTI dbpbbilitifs */
+    (void)mfmsft(&dbpbbilitifs, 0, sizfof(dbpbbilitifs));
+    dbpbbilitifs.dbn_tbg_objfdts = 1;
+    dbpbbilitifs.dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts = 1;
+    frr = (*jvmti)->AddCbpbbilitifs(jvmti, &dbpbbilitifs);
+    dhfdk_jvmti_frror(jvmti, frr, "bdd dbpbbilitifs");
+
+    /* Crfbtf thf rbw monitor */
+    frr = (*jvmti)->CrfbtfRbwMonitor(jvmti, "bgfnt lodk", &(gdbtb->lodk));
+    dhfdk_jvmti_frror(jvmti, frr, "drfbtf rbw monitor");
+
+    /* Sft dbllbbdks bnd fnbblf fvfnt notifidbtions */
+    mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+    dbllbbdks.VMInit                  = &vmInit;
+    dbllbbdks.VMDfbth                 = &vmDfbth;
+    dbllbbdks.DbtbDumpRfqufst         = &dbtbDumpRfqufst;
+    frr = (*jvmti)->SftEvfntCbllbbdks(jvmti, &dbllbbdks, sizfof(dbllbbdks));
+    dhfdk_jvmti_frror(jvmti, frr, "sft fvfnt dbllbbdks");
+    frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                        JVMTI_EVENT_VM_INIT, NULL);
+    dhfdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtions");
+    frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
+                        JVMTI_EVENT_VM_DEATH, NULL);
+    dhfdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtions");
+    rfturn 0;
+}
+
+/* Agfnt_OnUnlobd() is dbllfd lbst */
+JNIEXPORT void JNICALL
+Agfnt_OnUnlobd(JbvbVM *vm)
+{
+}

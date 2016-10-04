@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.awt.image.BufferedImage;
-import java.awt.geom.Point2D;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.gfom.Point2D;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
 
-public class XMenuWindow extends XBaseMenuWindow {
-
-    /************************************************
-     *
-     * Data members
-     *
-     ************************************************/
-
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuWindow");
-
-    /*
-     * Primary members
-     */
-    private XMenuPeer menuPeer;
-
-    /*
-     * dimension constants
-     */
-    private final static int WINDOW_SPACING_LEFT = 2;
-    private final static int WINDOW_SPACING_RIGHT = 2;
-    private final static int WINDOW_SPACING_TOP = 2;
-    private final static int WINDOW_SPACING_BOTTOM = 2;
-    private final static int WINDOW_ITEM_INDENT = 15;
-    private final static int WINDOW_ITEM_MARGIN_LEFT = 2;
-    private final static int WINDOW_ITEM_MARGIN_RIGHT = 2;
-    private final static int WINDOW_ITEM_MARGIN_TOP = 2;
-    private final static int WINDOW_ITEM_MARGIN_BOTTOM = 2;
-    private final static int WINDOW_SHORTCUT_SPACING = 10;
-
-    /*
-     * Checkmark
-     */
-    private static final int CHECKMARK_SIZE = 128;
-    private static final int[] CHECKMARK_X = new int[] {1, 25,56,124,124,85, 64};  // X-coords
-    private static final int[] CHECKMARK_Y = new int[] {59,35,67,  0, 12,66,123};  // Y-coords
+publid dlbss XMfnuWindow fxtfnds XBbsfMfnuWindow {
 
     /************************************************
      *
-     * Mapping data
+     * Dbtb mfmbfrs
      *
      ************************************************/
 
-    static class MappingData extends XBaseMenuWindow.MappingData {
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMfnuWindow");
+
+    /*
+     * Primbry mfmbfrs
+     */
+    privbtf XMfnuPffr mfnuPffr;
+
+    /*
+     * dimfnsion donstbnts
+     */
+    privbtf finbl stbtid int WINDOW_SPACING_LEFT = 2;
+    privbtf finbl stbtid int WINDOW_SPACING_RIGHT = 2;
+    privbtf finbl stbtid int WINDOW_SPACING_TOP = 2;
+    privbtf finbl stbtid int WINDOW_SPACING_BOTTOM = 2;
+    privbtf finbl stbtid int WINDOW_ITEM_INDENT = 15;
+    privbtf finbl stbtid int WINDOW_ITEM_MARGIN_LEFT = 2;
+    privbtf finbl stbtid int WINDOW_ITEM_MARGIN_RIGHT = 2;
+    privbtf finbl stbtid int WINDOW_ITEM_MARGIN_TOP = 2;
+    privbtf finbl stbtid int WINDOW_ITEM_MARGIN_BOTTOM = 2;
+    privbtf finbl stbtid int WINDOW_SHORTCUT_SPACING = 10;
+
+    /*
+     * Cifdkmbrk
+     */
+    privbtf stbtid finbl int CHECKMARK_SIZE = 128;
+    privbtf stbtid finbl int[] CHECKMARK_X = nfw int[] {1, 25,56,124,124,85, 64};  // X-doords
+    privbtf stbtid finbl int[] CHECKMARK_Y = nfw int[] {59,35,67,  0, 12,66,123};  // Y-doords
+
+    /************************************************
+     *
+     * Mbpping dbtb
+     *
+     ************************************************/
+
+    stbtid dlbss MbppingDbtb fxtfnds XBbsfMfnuWindow.MbppingDbtb {
         /**
-         * Rectangle for the caption
-         * Necessary to fix 6267144: PIT: Popup menu label is not shown, XToolkit
+         * Rfdtbnglf for tif dbption
+         * Nfdfssbry to fix 6267144: PIT: Popup mfnu lbbfl is not siown, XToolkit
          */
-        private Rectangle captionRect;
+        privbtf Rfdtbnglf dbptionRfdt;
 
         /**
-         * Desired size of menu window
+         * Dfsirfd sizf of mfnu window
          */
-        private Dimension desiredSize;
+        privbtf Dimfnsion dfsirfdSizf;
 
         /**
-         * Width of largest checkmark
-         * At the same time the left origin
-         * of all item's text
+         * Widti of lbrgfst difdkmbrk
+         * At tif sbmf timf tif lfft origin
+         * of bll itfm's tfxt
          */
-        private int leftMarkWidth;
+        privbtf int lfftMbrkWidti;
 
         /**
-         * Left origin of all shortcut labels
+         * Lfft origin of bll siortdut lbbfls
          */
-        private int shortcutOrigin;
+        privbtf int siortdutOrigin;
 
         /**
-         * The origin of right mark
-         * (submenu's arrow)
+         * Tif origin of rigit mbrk
+         * (submfnu's brrow)
          */
-        private int rightMarkOrigin;
+        privbtf int rigitMbrkOrigin;
 
-        MappingData(XMenuItemPeer[] items, Rectangle captionRect, Dimension desiredSize, int leftMarkWidth, int shortcutOrigin, int rightMarkOrigin) {
-            super(items);
-            this.captionRect = captionRect;
-            this.desiredSize = desiredSize;
-            this.leftMarkWidth = leftMarkWidth;
-            this.shortcutOrigin = shortcutOrigin;
-            this.rightMarkOrigin = rightMarkOrigin;
+        MbppingDbtb(XMfnuItfmPffr[] itfms, Rfdtbnglf dbptionRfdt, Dimfnsion dfsirfdSizf, int lfftMbrkWidti, int siortdutOrigin, int rigitMbrkOrigin) {
+            supfr(itfms);
+            tiis.dbptionRfdt = dbptionRfdt;
+            tiis.dfsirfdSizf = dfsirfdSizf;
+            tiis.lfftMbrkWidti = lfftMbrkWidti;
+            tiis.siortdutOrigin = siortdutOrigin;
+            tiis.rigitMbrkOrigin = rigitMbrkOrigin;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Construdts MbppingDbtb witiout itfms
+         * Tiis donstrudtor siould bf usfd in dbsf of frrors
          */
-        MappingData() {
-            this.desiredSize = new Dimension(0, 0);
-            this.leftMarkWidth = 0;
-            this.shortcutOrigin = 0;
-            this.rightMarkOrigin = 0;
+        MbppingDbtb() {
+            tiis.dfsirfdSizf = nfw Dimfnsion(0, 0);
+            tiis.lfftMbrkWidti = 0;
+            tiis.siortdutOrigin = 0;
+            tiis.rigitMbrkOrigin = 0;
         }
 
-        public Rectangle getCaptionRect() {
-            return this.captionRect;
+        publid Rfdtbnglf gftCbptionRfdt() {
+            rfturn tiis.dbptionRfdt;
         }
 
-        public Dimension getDesiredSize() {
-            return this.desiredSize;
+        publid Dimfnsion gftDfsirfdSizf() {
+            rfturn tiis.dfsirfdSizf;
         }
 
-        public int getShortcutOrigin() {
-            return this.shortcutOrigin;
+        publid int gftSiortdutOrigin() {
+            rfturn tiis.siortdutOrigin;
         }
 
-        public int getLeftMarkWidth() {
-            return this.leftMarkWidth;
+        publid int gftLfftMbrkWidti() {
+            rfturn tiis.lfftMbrkWidti;
         }
 
-        public int getRightMarkOrigin() {
-            return this.rightMarkOrigin;
+        publid int gftRigitMbrkOrigin() {
+            rfturn tiis.rigitMbrkOrigin;
         }
 
     }
@@ -151,165 +151,165 @@ public class XMenuWindow extends XBaseMenuWindow {
 
     /************************************************
      *
-     * Construction
+     * Construdtion
      *
      ************************************************/
 
     /**
-     * Constructs XMenuWindow for specified XMenuPeer
-     * null for XPopupMenuWindow
+     * Construdts XMfnuWindow for spfdififd XMfnuPffr
+     * null for XPopupMfnuWindow
      */
-    XMenuWindow(XMenuPeer menuPeer) {
-        if (menuPeer != null) {
-            this.menuPeer = menuPeer;
-            this.target = menuPeer.getContainer().target;
-            // Get menus from the target.
-            Vector<MenuItem> targetItemVector = null;
-            targetItemVector = getMenuTargetItems();
-            reloadItems(targetItemVector);
+    XMfnuWindow(XMfnuPffr mfnuPffr) {
+        if (mfnuPffr != null) {
+            tiis.mfnuPffr = mfnuPffr;
+            tiis.tbrgft = mfnuPffr.gftContbinfr().tbrgft;
+            // Gft mfnus from tif tbrgft.
+            Vfdtor<MfnuItfm> tbrgftItfmVfdtor = null;
+            tbrgftItfmVfdtor = gftMfnuTbrgftItfms();
+            rflobdItfms(tbrgftItfmVfdtor);
         }
     }
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
     /*
-     * Overriden initialization
+     * Ovfrridfn initiblizbtion
      */
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        //Fixed 6267182: PIT: Menu is not visible after
-        //showing and disposing a file dialog, XToolkit
-        //toFront() is called on every show
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        //Fixfd 6267182: PIT: Mfnu is not visiblf bftfr
+        //siowing bnd disposing b filf diblog, XToolkit
+        //toFront() is dbllfd on fvfry siow
     }
 
     /************************************************
      *
-     * Implementation of abstract methods
+     * Implfmfntbtion of bbstrbdt mftiods
      *
      ************************************************/
 
     /**
-     * @see XBaseMenuWindow.getParentMenuWindow()
+     * @sff XBbsfMfnuWindow.gftPbrfntMfnuWindow()
      */
-    protected XBaseMenuWindow getParentMenuWindow() {
-        return (menuPeer != null) ? menuPeer.getContainer() : null;
+    protfdtfd XBbsfMfnuWindow gftPbrfntMfnuWindow() {
+        rfturn (mfnuPffr != null) ? mfnuPffr.gftContbinfr() : null;
     }
 
     /**
-     * @see XBaseMenuWindow.map()
+     * @sff XBbsfMfnuWindow.mbp()
      */
-    protected MappingData map() {
-        //TODO:Implement popup-menu caption mapping and painting and tear-off
-        int itemCnt;
-        if (!isCreated()) {
-            MappingData mappingData = new MappingData(new XMenuItemPeer[0], new Rectangle(0, 0, 0, 0), new Dimension(0, 0), 0, 0, 0);
-            return mappingData;
+    protfdtfd MbppingDbtb mbp() {
+        //TODO:Implfmfnt popup-mfnu dbption mbpping bnd pbinting bnd tfbr-off
+        int itfmCnt;
+        if (!isCrfbtfd()) {
+            MbppingDbtb mbppingDbtb = nfw MbppingDbtb(nfw XMfnuItfmPffr[0], nfw Rfdtbnglf(0, 0, 0, 0), nfw Dimfnsion(0, 0), 0, 0, 0);
+            rfturn mbppingDbtb;
         }
-        XMenuItemPeer[] itemVector = copyItems();
-        itemCnt = itemVector.length;
-        //We need maximum width of components before calculating item's bounds
-        Dimension captionSize = getCaptionSize();
-        int maxWidth = (captionSize != null) ? captionSize.width : 0;
-        int maxLeftIndent = 0;
-        int maxRightIndent = 0;
-        int maxShortcutWidth = 0;
-        XMenuItemPeer.TextMetrics[] itemMetrics = new XMenuItemPeer.TextMetrics[itemCnt];
-        for (int i = 0; i < itemCnt; i++) {
-            XMenuItemPeer item = itemVector[i];
-            itemMetrics[i] = itemVector[i].getTextMetrics();
-            Dimension dim = itemMetrics[i].getTextDimension();
+        XMfnuItfmPffr[] itfmVfdtor = dopyItfms();
+        itfmCnt = itfmVfdtor.lfngti;
+        //Wf nffd mbximum widti of domponfnts bfforf dbldulbting itfm's bounds
+        Dimfnsion dbptionSizf = gftCbptionSizf();
+        int mbxWidti = (dbptionSizf != null) ? dbptionSizf.widti : 0;
+        int mbxLfftIndfnt = 0;
+        int mbxRigitIndfnt = 0;
+        int mbxSiortdutWidti = 0;
+        XMfnuItfmPffr.TfxtMftrids[] itfmMftrids = nfw XMfnuItfmPffr.TfxtMftrids[itfmCnt];
+        for (int i = 0; i < itfmCnt; i++) {
+            XMfnuItfmPffr itfm = itfmVfdtor[i];
+            itfmMftrids[i] = itfmVfdtor[i].gftTfxtMftrids();
+            Dimfnsion dim = itfmMftrids[i].gftTfxtDimfnsion();
             if (dim != null) {
-                if (itemVector[i] instanceof XCheckboxMenuItemPeer) {
-                    maxLeftIndent = Math.max(maxLeftIndent, dim.height);
-                } else if (itemVector[i] instanceof XMenuPeer) {
-                    maxRightIndent = Math.max(maxRightIndent, dim.height);
+                if (itfmVfdtor[i] instbndfof XCifdkboxMfnuItfmPffr) {
+                    mbxLfftIndfnt = Mbti.mbx(mbxLfftIndfnt, dim.ifigit);
+                } flsf if (itfmVfdtor[i] instbndfof XMfnuPffr) {
+                    mbxRigitIndfnt = Mbti.mbx(mbxRigitIndfnt, dim.ifigit);
                 }
-                maxWidth = Math.max(maxWidth, dim.width);
-                maxShortcutWidth = Math.max(maxShortcutWidth, itemMetrics[i].getShortcutWidth());
+                mbxWidti = Mbti.mbx(mbxWidti, dim.widti);
+                mbxSiortdutWidti = Mbti.mbx(mbxSiortdutWidti, itfmMftrids[i].gftSiortdutWidti());
             }
         }
-        //Calculate bounds
-        int nextOffset = WINDOW_SPACING_TOP;
-        int shortcutOrigin = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent + maxWidth;
-        if (maxShortcutWidth > 0) {
-            shortcutOrigin = shortcutOrigin + WINDOW_SHORTCUT_SPACING;
+        //Cbldulbtf bounds
+        int nfxtOffsft = WINDOW_SPACING_TOP;
+        int siortdutOrigin = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLfftIndfnt + mbxWidti;
+        if (mbxSiortdutWidti > 0) {
+            siortdutOrigin = siortdutOrigin + WINDOW_SHORTCUT_SPACING;
         }
-        int rightMarkOrigin = shortcutOrigin + maxShortcutWidth;
-        int itemWidth = rightMarkOrigin + maxRightIndent + WINDOW_ITEM_MARGIN_RIGHT;
-        int width = WINDOW_SPACING_LEFT + itemWidth + WINDOW_SPACING_RIGHT;
-        //Caption rectangle
-        Rectangle captionRect = null;
-        if (captionSize != null) {
-            captionRect = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, captionSize.height);
-            nextOffset += captionSize.height;
-        } else {
-            captionRect = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, maxWidth, 0);
+        int rigitMbrkOrigin = siortdutOrigin + mbxSiortdutWidti;
+        int itfmWidti = rigitMbrkOrigin + mbxRigitIndfnt + WINDOW_ITEM_MARGIN_RIGHT;
+        int widti = WINDOW_SPACING_LEFT + itfmWidti + WINDOW_SPACING_RIGHT;
+        //Cbption rfdtbnglf
+        Rfdtbnglf dbptionRfdt = null;
+        if (dbptionSizf != null) {
+            dbptionRfdt = nfw Rfdtbnglf(WINDOW_SPACING_LEFT, nfxtOffsft, itfmWidti, dbptionSizf.ifigit);
+            nfxtOffsft += dbptionSizf.ifigit;
+        } flsf {
+            dbptionRfdt = nfw Rfdtbnglf(WINDOW_SPACING_LEFT, nfxtOffsft, mbxWidti, 0);
         }
-        //Item rectangles
-        for (int i = 0; i < itemCnt; i++) {
-            XMenuItemPeer item = itemVector[i];
-            XMenuItemPeer.TextMetrics metrics = itemMetrics[i];
-            Dimension dim = metrics.getTextDimension();
+        //Itfm rfdtbnglfs
+        for (int i = 0; i < itfmCnt; i++) {
+            XMfnuItfmPffr itfm = itfmVfdtor[i];
+            XMfnuItfmPffr.TfxtMftrids mftrids = itfmMftrids[i];
+            Dimfnsion dim = mftrids.gftTfxtDimfnsion();
             if (dim != null) {
-                int itemHeight = WINDOW_ITEM_MARGIN_TOP + dim.height + WINDOW_ITEM_MARGIN_BOTTOM;
-                Rectangle bounds = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, itemHeight);
-                int y = (itemHeight + dim.height) / 2  - metrics.getTextBaseline();
-                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent, nextOffset + y);
-                nextOffset += itemHeight;
-                item.map(bounds, textOrigin);
-            } else {
-                //Text metrics could not be determined because of errors
-                //Map item with empty rectangle
-                Rectangle bounds = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, 0, 0);
-                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent, nextOffset);
-                item.map(bounds, textOrigin);
+                int itfmHfigit = WINDOW_ITEM_MARGIN_TOP + dim.ifigit + WINDOW_ITEM_MARGIN_BOTTOM;
+                Rfdtbnglf bounds = nfw Rfdtbnglf(WINDOW_SPACING_LEFT, nfxtOffsft, itfmWidti, itfmHfigit);
+                int y = (itfmHfigit + dim.ifigit) / 2  - mftrids.gftTfxtBbsflinf();
+                Point tfxtOrigin = nfw Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLfftIndfnt, nfxtOffsft + y);
+                nfxtOffsft += itfmHfigit;
+                itfm.mbp(bounds, tfxtOrigin);
+            } flsf {
+                //Tfxt mftrids dould not bf dftfrminfd bfdbusf of frrors
+                //Mbp itfm witi fmpty rfdtbnglf
+                Rfdtbnglf bounds = nfw Rfdtbnglf(WINDOW_SPACING_LEFT, nfxtOffsft, 0, 0);
+                Point tfxtOrigin = nfw Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLfftIndfnt, nfxtOffsft);
+                itfm.mbp(bounds, tfxtOrigin);
             }
         }
-        int height = nextOffset + WINDOW_SPACING_BOTTOM;
-        MappingData mappingData = new MappingData(itemVector, captionRect, new Dimension(width, height), maxLeftIndent, shortcutOrigin, rightMarkOrigin);
-        return mappingData;
+        int ifigit = nfxtOffsft + WINDOW_SPACING_BOTTOM;
+        MbppingDbtb mbppingDbtb = nfw MbppingDbtb(itfmVfdtor, dbptionRfdt, nfw Dimfnsion(widti, ifigit), mbxLfftIndfnt, siortdutOrigin, rigitMbrkOrigin);
+        rfturn mbppingDbtb;
     }
 
     /**
-     * @see XBaseMenuWindow.getSubmenuBounds()
+     * @sff XBbsfMfnuWindow.gftSubmfnuBounds()
      */
-    protected Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize) {
-        Rectangle globalBounds = toGlobal(itemBounds);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle res;
-        res = fitWindowRight(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+    protfdtfd Rfdtbnglf gftSubmfnuBounds(Rfdtbnglf itfmBounds, Dimfnsion windowSizf) {
+        Rfdtbnglf globblBounds = toGlobbl(itfmBounds);
+        Dimfnsion sdrffnSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+        Rfdtbnglf rfs;
+        rfs = fitWindowRigit(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowBelow(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowBflow(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowAbove(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowAbovf(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        res = fitWindowLeft(globalBounds, windowSize, screenSize);
-        if (res != null) {
-            return res;
+        rfs = fitWindowLfft(globblBounds, windowSizf, sdrffnSizf);
+        if (rfs != null) {
+            rfturn rfs;
         }
-        return fitWindowToScreen(windowSize, screenSize);
+        rfturn fitWindowToSdrffn(windowSizf, sdrffnSizf);
    }
 
     /**
-     * It's likely that size of items was changed
-     * invoke resizing of window on eventHandlerThread
+     * It's likfly tibt sizf of itfms wbs dibngfd
+     * invokf rfsizing of window on fvfntHbndlfrTirfbd
      */
-    protected void updateSize() {
-        resetMapping();
-        if (isShowing()) {
-            XToolkit.executeOnEventHandlerThread(target, new Runnable() {
-                    public void run() {
-                        Dimension dim = getDesiredSize();
-                        reshape(x, y, dim.width, dim.height);
+    protfdtfd void updbtfSizf() {
+        rfsftMbpping();
+        if (isSiowing()) {
+            XToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        Dimfnsion dim = gftDfsirfdSizf();
+                        rfsibpf(x, y, dim.widti, dim.ifigit);
                     }
                 });
         }
@@ -317,206 +317,206 @@ public class XMenuWindow extends XBaseMenuWindow {
 
     /************************************************
      *
-     * Overridable caption-painting functions
-     * Necessary to fix 6267144: PIT: Popup menu label is not shown, XToolkit
+     * Ovfrridbblf dbption-pbinting fundtions
+     * Nfdfssbry to fix 6267144: PIT: Popup mfnu lbbfl is not siown, XToolkit
      *
      ************************************************/
 
     /**
-     * Returns size of menu window's caption or null
-     * if window has no caption.
-     * Can be overriden for popup menus and tear-off menus
+     * Rfturns sizf of mfnu window's dbption or null
+     * if window ibs no dbption.
+     * Cbn bf ovfrridfn for popup mfnus bnd tfbr-off mfnus
      */
-    protected Dimension getCaptionSize() {
-        return null;
+    protfdtfd Dimfnsion gftCbptionSizf() {
+        rfturn null;
     }
 
     /**
-     * Paints menu window's caption.
-     * Can be overriden for popup menus and tear-off menus.
-     * Default implementation does nothing
+     * Pbints mfnu window's dbption.
+     * Cbn bf ovfrridfn for popup mfnus bnd tfbr-off mfnus.
+     * Dffbult implfmfntbtion dofs notiing
      */
-    protected void paintCaption(Graphics g, Rectangle rect) {
+    protfdtfd void pbintCbption(Grbpiids g, Rfdtbnglf rfdt) {
     }
 
     /************************************************
      *
-     * General-purpose utility functions
+     * Gfnfrbl-purposf utility fundtions
      *
      ************************************************/
 
     /**
-     * Returns corresponding menu peer
+     * Rfturns dorrfsponding mfnu pffr
      */
-    XMenuPeer getMenuPeer() {
-        return menuPeer;
+    XMfnuPffr gftMfnuPffr() {
+        rfturn mfnuPffr;
     }
 
     /**
-     * Reads vector of items from target
-     * This function is overriden in XPopupMenuPeer
+     * Rfbds vfdtor of itfms from tbrgft
+     * Tiis fundtion is ovfrridfn in XPopupMfnuPffr
      */
-    Vector<MenuItem> getMenuTargetItems() {
-        return menuPeer.getTargetItems();
+    Vfdtor<MfnuItfm> gftMfnuTbrgftItfms() {
+        rfturn mfnuPffr.gftTbrgftItfms();
     }
 
     /**
-     * Returns desired size calculated while mapping
+     * Rfturns dfsirfd sizf dbldulbtfd wiilf mbpping
      */
-    Dimension getDesiredSize() {
-        MappingData mappingData = (MappingData)getMappingData();
-        return mappingData.getDesiredSize();
+    Dimfnsion gftDfsirfdSizf() {
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)gftMbppingDbtb();
+        rfturn mbppingDbtb.gftDfsirfdSizf();
     }
 
     /**
-     * Checks if menu window is created
+     * Cifdks if mfnu window is drfbtfd
      */
-    boolean isCreated() {
-        return getWindow() != 0;
+    boolfbn isCrfbtfd() {
+        rfturn gftWindow() != 0;
     }
 
     /**
-     * Performs delayed creation of menu window if necessary
+     * Pfrforms dflbyfd drfbtion of mfnu window if nfdfssbry
      */
-    boolean ensureCreated() {
-        if (!isCreated()) {
-            XCreateWindowParams params = getDelayedParams();
-            params.remove(DELAYED);
-            params.add(OVERRIDE_REDIRECT, Boolean.TRUE);
-            params.add(XWindow.TARGET, target);
-            init(params);
+    boolfbn fnsurfCrfbtfd() {
+        if (!isCrfbtfd()) {
+            XCrfbtfWindowPbrbms pbrbms = gftDflbyfdPbrbms();
+            pbrbms.rfmovf(DELAYED);
+            pbrbms.bdd(OVERRIDE_REDIRECT, Boolfbn.TRUE);
+            pbrbms.bdd(XWindow.TARGET, tbrgft);
+            init(pbrbms);
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Init window if it's not inited yet
-     * and show it at specified coordinates
-     * @param bounds bounding rectangle of window
-     * in global coordinates
+     * Init window if it's not initfd yft
+     * bnd siow it bt spfdififd doordinbtfs
+     * @pbrbm bounds bounding rfdtbnglf of window
+     * in globbl doordinbtfs
      */
-    void show(Rectangle bounds) {
-        if (!isCreated()) {
-            return;
+    void siow(Rfdtbnglf bounds) {
+        if (!isCrfbtfd()) {
+            rfturn;
         }
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("showing menu window + " + getWindow() + " at " + bounds);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("siowing mfnu window + " + gftWindow() + " bt " + bounds);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            reshape(bounds.x, bounds.y, bounds.width, bounds.height);
-            xSetVisible(true);
-            //Fixed 6267182: PIT: Menu is not visible after
-            //showing and disposing a file dialog, XToolkit
+            rfsibpf(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+            xSftVisiblf(truf);
+            //Fixfd 6267182: PIT: Mfnu is not visiblf bftfr
+            //siowing bnd disposing b filf diblog, XToolkit
             toFront();
-            selectItem(getFirstSelectableItem(), false);
-        } finally {
-            XToolkit.awtUnlock();
+            sflfdtItfm(gftFirstSflfdtbblfItfm(), fblsf);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Hides menu window
+     * Hidfs mfnu window
      */
-    void hide() {
-        selectItem(null, false);
-        xSetVisible(false);
+    void iidf() {
+        sflfdtItfm(null, fblsf);
+        xSftVisiblf(fblsf);
     }
 
     /************************************************
      *
-     * Painting
+     * Pbinting
      *
      ************************************************/
 
     /**
-     * Paints menu window
+     * Pbints mfnu window
      */
-    @Override
-    public void paintPeer(Graphics g) {
-        resetColors();
-        int width = getWidth();
-        int height = getHeight();
+    @Ovfrridf
+    publid void pbintPffr(Grbpiids g) {
+        rfsftColors();
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
 
-        flush();
-        //Fill background of rectangle
-        g.setColor(getBackgroundColor());
-        g.fillRect(1, 1, width - 2, height - 2);
-        draw3DRect(g, 0, 0, width, height, true);
+        flusi();
+        //Fill bbdkground of rfdtbnglf
+        g.sftColor(gftBbdkgroundColor());
+        g.fillRfdt(1, 1, widti - 2, ifigit - 2);
+        drbw3DRfdt(g, 0, 0, widti, ifigit, truf);
 
-        //Mapping data
-        MappingData mappingData = (MappingData)getMappingData();
+        //Mbpping dbtb
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)gftMbppingDbtb();
 
-        //Paint caption
-        paintCaption(g, mappingData.getCaptionRect());
+        //Pbint dbption
+        pbintCbption(g, mbppingDbtb.gftCbptionRfdt());
 
-        //Paint menus
-        XMenuItemPeer[] itemVector = mappingData.getItems();
-        Dimension windowSize =  mappingData.getDesiredSize();
-        XMenuItemPeer selectedItem = getSelectedItem();
-        for (int i = 0; i < itemVector.length; i++) {
-            XMenuItemPeer item = itemVector[i];
-            XMenuItemPeer.TextMetrics metrics = item.getTextMetrics();
-            Rectangle bounds = item.getBounds();
-            if (item.isSeparator()) {
-                draw3DRect(g, bounds.x, bounds.y + bounds.height / 2,  bounds.width, 2, false);
-            } else {
-                //paint item
-                g.setFont(item.getTargetFont());
-                Point textOrigin = item.getTextOrigin();
-                Dimension textDim = metrics.getTextDimension();
-                if (item == selectedItem) {
-                    g.setColor(getSelectedColor());
-                    g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-                    draw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, false);
+        //Pbint mfnus
+        XMfnuItfmPffr[] itfmVfdtor = mbppingDbtb.gftItfms();
+        Dimfnsion windowSizf =  mbppingDbtb.gftDfsirfdSizf();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        for (int i = 0; i < itfmVfdtor.lfngti; i++) {
+            XMfnuItfmPffr itfm = itfmVfdtor[i];
+            XMfnuItfmPffr.TfxtMftrids mftrids = itfm.gftTfxtMftrids();
+            Rfdtbnglf bounds = itfm.gftBounds();
+            if (itfm.isSfpbrbtor()) {
+                drbw3DRfdt(g, bounds.x, bounds.y + bounds.ifigit / 2,  bounds.widti, 2, fblsf);
+            } flsf {
+                //pbint itfm
+                g.sftFont(itfm.gftTbrgftFont());
+                Point tfxtOrigin = itfm.gftTfxtOrigin();
+                Dimfnsion tfxtDim = mftrids.gftTfxtDimfnsion();
+                if (itfm == sflfdtfdItfm) {
+                    g.sftColor(gftSflfdtfdColor());
+                    g.fillRfdt(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
+                    drbw3DRfdt(g, bounds.x, bounds.y, bounds.widti, bounds.ifigit, fblsf);
                 }
-                g.setColor(item.isTargetItemEnabled() ? getForegroundColor() : getDisabledColor());
-                g.drawString(item.getTargetLabel(), textOrigin.x, textOrigin.y);
-                String shortcutText = item.getShortcutText();
-                if (shortcutText != null) {
-                    g.drawString(shortcutText, mappingData.getShortcutOrigin(), textOrigin.y);
+                g.sftColor(itfm.isTbrgftItfmEnbblfd() ? gftForfgroundColor() : gftDisbblfdColor());
+                g.drbwString(itfm.gftTbrgftLbbfl(), tfxtOrigin.x, tfxtOrigin.y);
+                String siortdutTfxt = itfm.gftSiortdutTfxt();
+                if (siortdutTfxt != null) {
+                    g.drbwString(siortdutTfxt, mbppingDbtb.gftSiortdutOrigin(), tfxtOrigin.y);
                 }
-                if (item instanceof XMenuPeer) {
-                    //calculate arrow coordinates
-                    int markWidth = textDim.height * 4 / 5;
-                    int markHeight = textDim.height * 4 / 5;
-                    int markX = bounds.x + bounds.width - markWidth - WINDOW_SPACING_RIGHT - WINDOW_ITEM_MARGIN_RIGHT;
-                    int markY = bounds.y + (bounds.height - markHeight) / 2;
-                    //draw arrow
-                    g.setColor(item.isTargetItemEnabled() ? getDarkShadowColor() : getDisabledColor());
-                    g.drawLine(markX, markY + markHeight, markX + markWidth, markY + markHeight / 2);
-                    g.setColor(item.isTargetItemEnabled() ? getLightShadowColor() : getDisabledColor());
-                    g.drawLine(markX, markY, markX + markWidth, markY + markHeight / 2);
-                    g.drawLine(markX, markY, markX, markY + markHeight);
-                } else if (item instanceof XCheckboxMenuItemPeer) {
-                    //calculate checkmark coordinates
-                    int markWidth = textDim.height * 4 / 5;
-                    int markHeight = textDim.height * 4 / 5;
-                    int markX = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT;
-                    int markY = bounds.y + (bounds.height - markHeight) / 2;
-                    boolean checkState = ((XCheckboxMenuItemPeer)item).getTargetState();
-                    //draw checkmark
-                    if (checkState) {
-                        g.setColor(getSelectedColor());
-                        g.fillRect(markX, markY, markWidth, markHeight);
-                        draw3DRect(g, markX, markY, markWidth, markHeight, false);
-                        int[] px = new int[CHECKMARK_X.length];
-                        int[] py = new int[CHECKMARK_X.length];
-                        for (int j = 0; j < CHECKMARK_X.length; j++) {
-                            px[j] = markX + CHECKMARK_X[j] * markWidth / CHECKMARK_SIZE;
-                            py[j] = markY + CHECKMARK_Y[j] * markHeight / CHECKMARK_SIZE;
+                if (itfm instbndfof XMfnuPffr) {
+                    //dbldulbtf brrow doordinbtfs
+                    int mbrkWidti = tfxtDim.ifigit * 4 / 5;
+                    int mbrkHfigit = tfxtDim.ifigit * 4 / 5;
+                    int mbrkX = bounds.x + bounds.widti - mbrkWidti - WINDOW_SPACING_RIGHT - WINDOW_ITEM_MARGIN_RIGHT;
+                    int mbrkY = bounds.y + (bounds.ifigit - mbrkHfigit) / 2;
+                    //drbw brrow
+                    g.sftColor(itfm.isTbrgftItfmEnbblfd() ? gftDbrkSibdowColor() : gftDisbblfdColor());
+                    g.drbwLinf(mbrkX, mbrkY + mbrkHfigit, mbrkX + mbrkWidti, mbrkY + mbrkHfigit / 2);
+                    g.sftColor(itfm.isTbrgftItfmEnbblfd() ? gftLigitSibdowColor() : gftDisbblfdColor());
+                    g.drbwLinf(mbrkX, mbrkY, mbrkX + mbrkWidti, mbrkY + mbrkHfigit / 2);
+                    g.drbwLinf(mbrkX, mbrkY, mbrkX, mbrkY + mbrkHfigit);
+                } flsf if (itfm instbndfof XCifdkboxMfnuItfmPffr) {
+                    //dbldulbtf difdkmbrk doordinbtfs
+                    int mbrkWidti = tfxtDim.ifigit * 4 / 5;
+                    int mbrkHfigit = tfxtDim.ifigit * 4 / 5;
+                    int mbrkX = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT;
+                    int mbrkY = bounds.y + (bounds.ifigit - mbrkHfigit) / 2;
+                    boolfbn difdkStbtf = ((XCifdkboxMfnuItfmPffr)itfm).gftTbrgftStbtf();
+                    //drbw difdkmbrk
+                    if (difdkStbtf) {
+                        g.sftColor(gftSflfdtfdColor());
+                        g.fillRfdt(mbrkX, mbrkY, mbrkWidti, mbrkHfigit);
+                        drbw3DRfdt(g, mbrkX, mbrkY, mbrkWidti, mbrkHfigit, fblsf);
+                        int[] px = nfw int[CHECKMARK_X.lfngti];
+                        int[] py = nfw int[CHECKMARK_X.lfngti];
+                        for (int j = 0; j < CHECKMARK_X.lfngti; j++) {
+                            px[j] = mbrkX + CHECKMARK_X[j] * mbrkWidti / CHECKMARK_SIZE;
+                            py[j] = mbrkY + CHECKMARK_Y[j] * mbrkHfigit / CHECKMARK_SIZE;
                         }
-                        g.setColor(item.isTargetItemEnabled() ? getForegroundColor() : getDisabledColor());
-                        g.fillPolygon(px, py, CHECKMARK_X.length);
-                    } else {
-                        g.setColor(getBackgroundColor());
-                        g.fillRect(markX, markY, markWidth, markHeight);
-                        draw3DRect(g, markX, markY, markWidth, markHeight, true);
+                        g.sftColor(itfm.isTbrgftItfmEnbblfd() ? gftForfgroundColor() : gftDisbblfdColor());
+                        g.fillPolygon(px, py, CHECKMARK_X.lfngti);
+                    } flsf {
+                        g.sftColor(gftBbdkgroundColor());
+                        g.fillRfdt(mbrkX, mbrkY, mbrkWidti, mbrkHfigit);
+                        drbw3DRfdt(g, mbrkX, mbrkY, mbrkWidti, mbrkHfigit, truf);
                     }
                 }
             }
         }
-        flush();
+        flusi();
     }
 
 }

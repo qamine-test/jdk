@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+
+/**
+ * Condrftf implfmfntbtion of thf
+ * {@link jbvb.util.spi.CurrfndyNbmfProvidfr CurrfndyNbmfProvidfr} dlbss
+ * for thf JRE LodblfProvidfrAdbptfr.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid dlbss CurrfndyNbmfProvidfrImpl fxtfnds CurrfndyNbmfProvidfr
+                                      implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
+
+    publid CurrfndyNbmfProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        this.typf = typf;
+        this.lbngtbgs = lbngtbgs;
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     *
+     * @rfturn An brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
+    }
+
+    /**
+     * Gfts thf symbol of thf givfn durrfndy dodf for thf spfdififd lodblf.
+     * For fxbmplf, for "USD" (US Dollbr), thf symbol is "$" if thf spfdififd
+     * lodblf is thf US, whilf for othfr lodblfs it mby bf "US$". If no
+     * symbol dbn bf dftfrminfd, null should bf rfturnfd.
+     *
+     * @pbrbm durrfndyCodf thf ISO 4217 durrfndy dodf, whidh
+     *     donsists of thrff uppfr-dbsf lfttfrs bftwffn 'A' (U+0041) bnd
+     *     'Z' (U+005A)
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf symbol of thf givfn durrfndy dodf for thf spfdififd lodblf, or null if
+     *     thf symbol is not bvbilbblf for thf lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndyCodf</dodf> or
+     *     <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>durrfndyCodf</dodf> is not in
+     *     thf form of thrff uppfr-dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Currfndy#gftSymbol(jbvb.util.Lodblf)
+     */
+    @Ovfrridf
+    publid String gftSymbol(String durrfndyCodf, Lodblf lodblf) {
+        rfturn gftString(durrfndyCodf.toUppfrCbsf(Lodblf.ROOT), lodblf);
+    }
+
+    /**
+     * Rfturns b nbmf for thf durrfndy thbt is bppropribtf for displby to thf
+     * usfr.  Thf dffbult implfmfntbtion rfturns null.
+     *
+     * @pbrbm durrfndyCodf thf ISO 4217 durrfndy dodf, whidh
+     *     donsists of thrff uppfr-dbsf lfttfrs bftwffn 'A' (U+0041) bnd
+     *     'Z' (U+005A)
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn thf nbmf for thf durrfndy thbt is bppropribtf for displby to thf
+     *     usfr, or null if thf nbmf is not bvbilbblf for thf lodblf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>durrfndyCodf</dodf> is not in
+     *     thf form of thrff uppfr-dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of thf lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndyCodf</dodf> or
+     *     <dodf>lodblf</dodf> is <dodf>null</dodf>
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid String gftDisplbyNbmf(String durrfndyCodf, Lodblf lodblf) {
+        rfturn gftString(durrfndyCodf.toLowfrCbsf(Lodblf.ROOT), lodblf);
+    }
+
+    privbtf String gftString(String kfy, Lodblf lodblf) {
+        if (lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftCurrfndyNbmf(kfy);
+    }
+}

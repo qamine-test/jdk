@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor.remote;
+pbdkbgf sun.jvmstbt.monitor.rfmotf;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
 
 /**
- * Interface for accessing the instrumentation exported by a
- * Java Virtual Machine running on a remote host.
+ * Intfrfbdf for bddfssing tif instrumfntbtion fxportfd by b
+ * Jbvb Virtubl Mbdiinf running on b rfmotf iost.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public interface RemoteVm extends Remote {
+publid intfrfbdf RfmotfVm fxtfnds Rfmotf {
 
     /**
-     * Interface to get the bytes associated with the instrumentation
-     * for the remote Java Virtual Machine.
+     * Intfrfbdf to gft tif bytfs bssodibtfd witi tif instrumfntbtion
+     * for tif rfmotf Jbvb Virtubl Mbdiinf.
      *
-     * @return byte[] - a byte array containing the current bytes
-     *                  for the instrumentation exported by the
-     *                  remote Java Virtual Machine.
-     * @throws RemoteException Thrown on any communication error
+     * @rfturn bytf[] - b bytf brrby dontbining tif durrfnt bytfs
+     *                  for tif instrumfntbtion fxportfd by tif
+     *                  rfmotf Jbvb Virtubl Mbdiinf.
+     * @tirows RfmotfExdfption Tirown on bny dommunidbtion frror
      */
-    byte[] getBytes() throws RemoteException;
+    bytf[] gftBytfs() tirows RfmotfExdfption;
 
     /**
-     * Interface to get the the size of the instrumentation buffer
-     * for the target Java Virtual Machine.
+     * Intfrfbdf to gft tif tif sizf of tif instrumfntbtion bufffr
+     * for tif tbrgft Jbvb Virtubl Mbdiinf.
      *
-     * @return int - the size of the instrumentation buffer for the
-     *               remote Java Virtual Machine.
-     * @throws RemoteException Thrown on any communication error
+     * @rfturn int - tif sizf of tif instrumfntbtion bufffr for tif
+     *               rfmotf Jbvb Virtubl Mbdiinf.
+     * @tirows RfmotfExdfption Tirown on bny dommunidbtion frror
      */
-    int getCapacity() throws RemoteException;
+    int gftCbpbdity() tirows RfmotfExdfption;
 
     /**
-     * Interface to return the Local Virtual Machine Identifier for
-     * the remote Java Virtual Machine. The Local Virtual Machine
-     * Identifier is also know as the <em>lvmid</em>.
+     * Intfrfbdf to rfturn tif Lodbl Virtubl Mbdiinf Idfntififr for
+     * tif rfmotf Jbvb Virtubl Mbdiinf. Tif Lodbl Virtubl Mbdiinf
+     * Idfntififr is blso know bs tif <fm>lvmid</fm>.
      *
-     * @throws RemoteException Thrown on any communication error
+     * @tirows RfmotfExdfption Tirown on bny dommunidbtion frror
      */
-    int getLocalVmId() throws RemoteException;
+    int gftLodblVmId() tirows RfmotfExdfption;
 
     /**
-     * Interface to detach from the remote Java Virtual Machine.
+     * Intfrfbdf to dftbdi from tif rfmotf Jbvb Virtubl Mbdiinf.
      *
-     * @throws RemoteException Thrown on any communication error
+     * @tirows RfmotfExdfption Tirown on bny dommunidbtion frror
      */
-    void detach() throws RemoteException;
+    void dftbdi() tirows RfmotfExdfption;
 }

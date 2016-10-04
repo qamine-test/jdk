@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.undo;
+pbdkbgf jbvbx.swing.undo;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
 
 /**
- * StateEditable defines the interface for objects that can have
- * their state undone/redone by a StateEdit.
+ * StbtfEditbblf dffinfs tif intfrfbdf for objfdts tibt dbn ibvf
+ * tifir stbtf undonf/rfdonf by b StbtfEdit.
  *
- * @see StateEdit
+ * @sff StbtfEdit
  */
 
-public interface StateEditable {
+publid intfrfbdf StbtfEditbblf {
 
-    /** Resource ID for this class. */
-    public static final String RCSID = "$Id: StateEditable.java,v 1.2 1997/09/08 19:39:08 marklin Exp $";
-
-    /**
-     * Upon receiving this message the receiver should place any relevant
-     * state into <EM>state</EM>.
-     *
-     * @param state Hashtable object to store the state
-     */
-    public void storeState(Hashtable<Object,Object> state);
+    /** Rfsourdf ID for tiis dlbss. */
+    publid stbtid finbl String RCSID = "$Id: StbtfEditbblf.jbvb,v 1.2 1997/09/08 19:39:08 mbrklin Exp $";
 
     /**
-     * Upon receiving this message the receiver should extract any relevant
-     * state out of <EM>state</EM>.
+     * Upon rfdfiving tiis mfssbgf tif rfdfivfr siould plbdf bny rflfvbnt
+     * stbtf into <EM>stbtf</EM>.
      *
-     * @param state Hashtable object to restore the state from it
+     * @pbrbm stbtf Hbsitbblf objfdt to storf tif stbtf
      */
-    public void restoreState(Hashtable<?,?> state);
-} // End of interface StateEditable
+    publid void storfStbtf(Hbsitbblf<Objfdt,Objfdt> stbtf);
+
+    /**
+     * Upon rfdfiving tiis mfssbgf tif rfdfivfr siould fxtrbdt bny rflfvbnt
+     * stbtf out of <EM>stbtf</EM>.
+     *
+     * @pbrbm stbtf Hbsitbblf objfdt to rfstorf tif stbtf from it
+     */
+    publid void rfstorfStbtf(Hbsitbblf<?,?> stbtf);
+} // End of intfrfbdf StbtfEditbblf

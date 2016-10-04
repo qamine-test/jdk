@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+
+/**
+ * A bytf dhbnnfl thbt mbintbins b durrfnt <i>position</i> bnd bllows thf
+ * position to bf dhbngfd.
+ *
+ * <p> A sffkbblf bytf dhbnnfl is donnfdtfd to bn fntity, typidblly b filf,
+ * thbt dontbins b vbribblf-lfngth sfqufndf of bytfs thbt dbn bf rfbd bnd
+ * writtfn. Thf durrfnt position dbn bf {@link #position() <i>qufrifd</i>} bnd
+ * {@link #position(long) <i>modififd</i>}. Thf dhbnnfl blso providfs bddfss to
+ * thf durrfnt <i>sizf</i> of thf fntity to whidh thf dhbnnfl is donnfdtfd. Thf
+ * sizf indrfbsfs whfn bytfs brf writtfn bfyond its durrfnt sizf; thf sizf
+ * dfdrfbsfs whfn it is {@link #trundbtf <i>trundbtfd</i>}.
+ *
+ * <p> Thf {@link #position(long) position} bnd {@link #trundbtf trundbtf} mfthods
+ * whidh do not othfrwisf hbvf b vbluf to rfturn brf spfdififd to rfturn thf
+ * dhbnnfl upon whidh thfy brf invokfd. This bllows mfthod invodbtions to bf
+ * dhbinfd. Implfmfntbtions of this intfrfbdf should spfdiblizf thf rfturn typf
+ * so thbt mfthod invodbtions on thf implfmfntbtion dlbss dbn bf dhbinfd.
+ *
+ * @sindf 1.7
+ * @sff jbvb.nio.filf.Filfs#nfwBytfChbnnfl
+ */
+
+publid intfrfbdf SffkbblfBytfChbnnfl
+    fxtfnds BytfChbnnfl
+{
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr.
+     *
+     * <p> Bytfs brf rfbd stbrting bt this dhbnnfl's durrfnt position, bnd
+     * thfn thf position is updbtfd with thf numbfr of bytfs bdtublly rfbd.
+     * Othfrwisf this mfthod bfhbvfs fxbdtly bs spfdififd in thf {@link
+     * RfbdbblfBytfChbnnfl} intfrfbdf.
+     */
+    @Ovfrridf
+    int rfbd(BytfBufffr dst) throws IOExdfption;
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr.
+     *
+     * <p> Bytfs brf writtfn stbrting bt this dhbnnfl's durrfnt position, unlfss
+     * thf dhbnnfl is donnfdtfd to bn fntity sudh bs b filf thbt is opfnfd with
+     * thf {@link jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option, in
+     * whidh dbsf thf position is first bdvbndfd to thf fnd. Thf fntity to whidh
+     * thf dhbnnfl is donnfdtfd is grown, if nfdfssbry, to bddommodbtf thf
+     * writtfn bytfs, bnd thfn thf position is updbtfd with thf numbfr of bytfs
+     * bdtublly writtfn. Othfrwisf this mfthod bfhbvfs fxbdtly bs spfdififd by
+     * thf {@link WritbblfBytfChbnnfl} intfrfbdf.
+     */
+    @Ovfrridf
+    int writf(BytfBufffr srd) throws IOExdfption;
+
+    /**
+     * Rfturns this dhbnnfl's position.
+     *
+     * @rfturn  This dhbnnfl's position,
+     *          b non-nfgbtivf intfgfr dounting thf numbfr of bytfs
+     *          from thf bfginning of thf fntity to thf durrfnt position
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    long position() throws IOExdfption;
+
+    /**
+     * Sfts this dhbnnfl's position.
+     *
+     * <p> Sftting thf position to b vbluf thbt is grfbtfr thbn thf durrfnt sizf
+     * is lfgbl but dofs not dhbngf thf sizf of thf fntity.  A lbtfr bttfmpt to
+     * rfbd bytfs bt sudh b position will immfdibtfly rfturn bn fnd-of-filf
+     * indidbtion.  A lbtfr bttfmpt to writf bytfs bt sudh b position will dbusf
+     * thf fntity to grow to bddommodbtf thf nfw bytfs; thf vblufs of bny bytfs
+     * bftwffn thf prfvious fnd-of-filf bnd thf nfwly-writtfn bytfs brf
+     * unspfdififd.
+     *
+     * <p> Sftting thf dhbnnfl's position is not rfdommfndfd whfn donnfdtfd to
+     * bn fntity, typidblly b filf, thbt is opfnfd with thf {@link
+     * jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option. Whfn opfnfd for
+     * bppfnd, thf position is first bdvbndfd to thf fnd bfforf writing.
+     *
+     * @pbrbm  nfwPosition
+     *         Thf nfw position, b non-nfgbtivf intfgfr dounting
+     *         thf numbfr of bytfs from thf bfginning of thf fntity
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf nfw position is nfgbtivf
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    SffkbblfBytfChbnnfl position(long nfwPosition) throws IOExdfption;
+
+    /**
+     * Rfturns thf durrfnt sizf of fntity to whidh this dhbnnfl is donnfdtfd.
+     *
+     * @rfturn  Thf durrfnt sizf, mfbsurfd in bytfs
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    long sizf() throws IOExdfption;
+
+    /**
+     * Trundbtfs thf fntity, to whidh this dhbnnfl is donnfdtfd, to thf givfn
+     * sizf.
+     *
+     * <p> If thf givfn sizf is lfss thbn thf durrfnt sizf thfn thf fntity is
+     * trundbtfd, disdbrding bny bytfs bfyond thf nfw fnd. If thf givfn sizf is
+     * grfbtfr thbn or fqubl to thf durrfnt sizf thfn thf fntity is not modififd.
+     * In fithfr dbsf, if thf durrfnt position is grfbtfr thbn thf givfn sizf
+     * thfn it is sft to thbt sizf.
+     *
+     * <p> An implfmfntbtion of this intfrfbdf mby prohibit trundbtion whfn
+     * donnfdtfd to bn fntity, typidblly b filf, opfnfd with thf {@link
+     * jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option.
+     *
+     * @pbrbm  sizf
+     *         Thf nfw sizf, b non-nfgbtivf bytf dount
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf nfw sizf is nfgbtivf
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    SffkbblfBytfChbnnfl trundbtf(long sizf) throws IOExdfption;
+}

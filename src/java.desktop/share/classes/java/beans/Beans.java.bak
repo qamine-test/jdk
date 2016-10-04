@@ -1,648 +1,648 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.finder.ClassFinder;
+import dom.sun.bfbns.findfr.ClbssFindfr;
 
-import java.applet.Applet;
-import java.applet.AppletContext;
-import java.applet.AppletStub;
-import java.applet.AudioClip;
+import jbvb.bpplft.Applft;
+import jbvb.bpplft.ApplftContfxt;
+import jbvb.bpplft.ApplftStub;
+import jbvb.bpplft.AudioClip;
 
-import java.awt.Image;
+import jbvb.bwt.Imbgf;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.io.StreamCorruptedException;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.StrfbmCorruptfdExdfption;
 
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Modififr;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Vector;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Vfdtor;
 
 /**
- * This class provides some general purpose beans control methods.
+ * Tiis dlbss providfs somf gfnfrbl purposf bfbns dontrol mftiods.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class Beans {
+publid dlbss Bfbns {
 
     /**
      * <p>
-     * Instantiate a JavaBean.
+     * Instbntibtf b JbvbBfbn.
      * </p>
-     * @return a JavaBean
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
+     * @rfturn b JbvbBfbn
+     * @pbrbm     dls         tif dlbss-lobdfr from wiidi wf siould drfbtf
+     *                        tif bfbn.  If tiis is null, tifn tif systfm
+     *                        dlbss-lobdfr is usfd.
+     * @pbrbm     bfbnNbmf    tif nbmf of tif bfbn witiin tif dlbss-lobdfr.
+     *                        For fxbmplf "sun.bfbnbox.foobbi"
      *
-     * @exception ClassNotFoundException if the class of a serialized
-     *              object could not be found.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss of b sfriblizfd
+     *              objfdt dould not bf found.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName) throws IOException, ClassNotFoundException {
-        return Beans.instantiate(cls, beanName, null, null);
+    publid stbtid Objfdt instbntibtf(ClbssLobdfr dls, String bfbnNbmf) tirows IOExdfption, ClbssNotFoundExdfption {
+        rfturn Bfbns.instbntibtf(dls, bfbnNbmf, null, null);
     }
 
     /**
      * <p>
-     * Instantiate a JavaBean.
+     * Instbntibtf b JbvbBfbn.
      * </p>
-     * @return a JavaBean
+     * @rfturn b JbvbBfbn
      *
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
-     * @param     beanContext The BeanContext in which to nest the new bean
+     * @pbrbm     dls         tif dlbss-lobdfr from wiidi wf siould drfbtf
+     *                        tif bfbn.  If tiis is null, tifn tif systfm
+     *                        dlbss-lobdfr is usfd.
+     * @pbrbm     bfbnNbmf    tif nbmf of tif bfbn witiin tif dlbss-lobdfr.
+     *                        For fxbmplf "sun.bfbnbox.foobbi"
+     * @pbrbm     bfbnContfxt Tif BfbnContfxt in wiidi to nfst tif nfw bfbn
      *
-     * @exception ClassNotFoundException if the class of a serialized
-     *              object could not be found.
-     * @exception IOException if an I/O error occurs.
-     * @since 1.2
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss of b sfriblizfd
+     *              objfdt dould not bf found.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.2
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName, BeanContext beanContext) throws IOException, ClassNotFoundException {
-        return Beans.instantiate(cls, beanName, beanContext, null);
+    publid stbtid Objfdt instbntibtf(ClbssLobdfr dls, String bfbnNbmf, BfbnContfxt bfbnContfxt) tirows IOExdfption, ClbssNotFoundExdfption {
+        rfturn Bfbns.instbntibtf(dls, bfbnNbmf, bfbnContfxt, null);
     }
 
     /**
-     * Instantiate a bean.
+     * Instbntibtf b bfbn.
      * <p>
-     * The bean is created based on a name relative to a class-loader.
-     * This name should be a dot-separated name such as "a.b.c".
+     * Tif bfbn is drfbtfd bbsfd on b nbmf rflbtivf to b dlbss-lobdfr.
+     * Tiis nbmf siould bf b dot-sfpbrbtfd nbmf sudi bs "b.b.d".
      * <p>
-     * In Beans 1.0 the given name can indicate either a serialized object
-     * or a class.  Other mechanisms may be added in the future.  In
-     * beans 1.0 we first try to treat the beanName as a serialized object
-     * name then as a class name.
+     * In Bfbns 1.0 tif givfn nbmf dbn indidbtf fitifr b sfriblizfd objfdt
+     * or b dlbss.  Otifr mfdibnisms mby bf bddfd in tif futurf.  In
+     * bfbns 1.0 wf first try to trfbt tif bfbnNbmf bs b sfriblizfd objfdt
+     * nbmf tifn bs b dlbss nbmf.
      * <p>
-     * When using the beanName as a serialized object name we convert the
-     * given beanName to a resource pathname and add a trailing ".ser" suffix.
-     * We then try to load a serialized object from that resource.
+     * Wifn using tif bfbnNbmf bs b sfriblizfd objfdt nbmf wf donvfrt tif
+     * givfn bfbnNbmf to b rfsourdf pbtinbmf bnd bdd b trbiling ".sfr" suffix.
+     * Wf tifn try to lobd b sfriblizfd objfdt from tibt rfsourdf.
      * <p>
-     * For example, given a beanName of "x.y", Beans.instantiate would first
-     * try to read a serialized object from the resource "x/y.ser" and if
-     * that failed it would try to load the class "x.y" and create an
-     * instance of that class.
+     * For fxbmplf, givfn b bfbnNbmf of "x.y", Bfbns.instbntibtf would first
+     * try to rfbd b sfriblizfd objfdt from tif rfsourdf "x/y.sfr" bnd if
+     * tibt fbilfd it would try to lobd tif dlbss "x.y" bnd drfbtf bn
+     * instbndf of tibt dlbss.
      * <p>
-     * If the bean is a subtype of java.applet.Applet, then it is given
-     * some special initialization.  First, it is supplied with a default
-     * AppletStub and AppletContext.  Second, if it was instantiated from
-     * a classname the applet's "init" method is called.  (If the bean was
-     * deserialized this step is skipped.)
+     * If tif bfbn is b subtypf of jbvb.bpplft.Applft, tifn it is givfn
+     * somf spfdibl initiblizbtion.  First, it is supplifd witi b dffbult
+     * ApplftStub bnd ApplftContfxt.  Sfdond, if it wbs instbntibtfd from
+     * b dlbssnbmf tif bpplft's "init" mftiod is dbllfd.  (If tif bfbn wbs
+     * dfsfriblizfd tiis stfp is skippfd.)
      * <p>
-     * Note that for beans which are applets, it is the caller's responsiblity
-     * to call "start" on the applet.  For correct behaviour, this should be done
-     * after the applet has been added into a visible AWT container.
+     * Notf tibt for bfbns wiidi brf bpplfts, it is tif dbllfr's rfsponsiblity
+     * to dbll "stbrt" on tif bpplft.  For dorrfdt bfibviour, tiis siould bf donf
+     * bftfr tif bpplft ibs bffn bddfd into b visiblf AWT dontbinfr.
      * <p>
-     * Note that applets created via beans.instantiate run in a slightly
-     * different environment than applets running inside browsers.  In
-     * particular, bean applets have no access to "parameters", so they may
-     * wish to provide property get/set methods to set parameter values.  We
-     * advise bean-applet developers to test their bean-applets against both
-     * the JDK appletviewer (for a reference browser environment) and the
-     * BDK BeanBox (for a reference bean container).
+     * Notf tibt bpplfts drfbtfd vib bfbns.instbntibtf run in b sligitly
+     * difffrfnt fnvironmfnt tibn bpplfts running insidf browsfrs.  In
+     * pbrtidulbr, bfbn bpplfts ibvf no bddfss to "pbrbmftfrs", so tify mby
+     * wisi to providf propfrty gft/sft mftiods to sft pbrbmftfr vblufs.  Wf
+     * bdvisf bfbn-bpplft dfvflopfrs to tfst tifir bfbn-bpplfts bgbinst boti
+     * tif JDK bpplftvifwfr (for b rfffrfndf browsfr fnvironmfnt) bnd tif
+     * BDK BfbnBox (for b rfffrfndf bfbn dontbinfr).
      *
-     * @return a JavaBean
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
-     * @param     beanContext The BeanContext in which to nest the new bean
-     * @param     initializer The AppletInitializer for the new bean
+     * @rfturn b JbvbBfbn
+     * @pbrbm     dls         tif dlbss-lobdfr from wiidi wf siould drfbtf
+     *                        tif bfbn.  If tiis is null, tifn tif systfm
+     *                        dlbss-lobdfr is usfd.
+     * @pbrbm     bfbnNbmf    tif nbmf of tif bfbn witiin tif dlbss-lobdfr.
+     *                        For fxbmplf "sun.bfbnbox.foobbi"
+     * @pbrbm     bfbnContfxt Tif BfbnContfxt in wiidi to nfst tif nfw bfbn
+     * @pbrbm     initiblizfr Tif ApplftInitiblizfr for tif nfw bfbn
      *
-     * @exception ClassNotFoundException if the class of a serialized
-     *              object could not be found.
-     * @exception IOException if an I/O error occurs.
-     * @since 1.2
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss of b sfriblizfd
+     *              objfdt dould not bf found.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.2
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName, BeanContext beanContext, AppletInitializer initializer)
-                        throws IOException, ClassNotFoundException {
+    publid stbtid Objfdt instbntibtf(ClbssLobdfr dls, String bfbnNbmf, BfbnContfxt bfbnContfxt, ApplftInitiblizfr initiblizfr)
+                        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        InputStream ins;
-        ObjectInputStream oins = null;
-        Object result = null;
-        boolean serialized = false;
-        IOException serex = null;
+        InputStrfbm ins;
+        ObjfdtInputStrfbm oins = null;
+        Objfdt rfsult = null;
+        boolfbn sfriblizfd = fblsf;
+        IOExdfption sfrfx = null;
 
-        // If the given classloader is null, we check if an
-        // system classloader is available and (if so)
-        // use that instead.
-        // Note that calls on the system class loader will
-        // look in the bootstrap class loader first.
-        if (cls == null) {
+        // If tif givfn dlbsslobdfr is null, wf difdk if bn
+        // systfm dlbsslobdfr is bvbilbblf bnd (if so)
+        // usf tibt instfbd.
+        // Notf tibt dblls on tif systfm dlbss lobdfr will
+        // look in tif bootstrbp dlbss lobdfr first.
+        if (dls == null) {
             try {
-                cls = ClassLoader.getSystemClassLoader();
-            } catch (SecurityException ex) {
-                // We're not allowed to access the system class loader.
-                // Drop through.
+                dls = ClbssLobdfr.gftSystfmClbssLobdfr();
+            } dbtdi (SfdurityExdfption fx) {
+                // Wf'rf not bllowfd to bddfss tif systfm dlbss lobdfr.
+                // Drop tirougi.
             }
         }
 
-        // Try to find a serialized object with this name
-        final String serName = beanName.replace('.','/').concat(".ser");
-        final ClassLoader loader = cls;
-        ins = AccessController.doPrivileged
-            (new PrivilegedAction<InputStream>() {
-                public InputStream run() {
-                    if (loader == null)
-                        return ClassLoader.getSystemResourceAsStream(serName);
-                    else
-                        return loader.getResourceAsStream(serName);
+        // Try to find b sfriblizfd objfdt witi tiis nbmf
+        finbl String sfrNbmf = bfbnNbmf.rfplbdf('.','/').dondbt(".sfr");
+        finbl ClbssLobdfr lobdfr = dls;
+        ins = AddfssControllfr.doPrivilfgfd
+            (nfw PrivilfgfdAdtion<InputStrfbm>() {
+                publid InputStrfbm run() {
+                    if (lobdfr == null)
+                        rfturn ClbssLobdfr.gftSystfmRfsourdfAsStrfbm(sfrNbmf);
+                    flsf
+                        rfturn lobdfr.gftRfsourdfAsStrfbm(sfrNbmf);
                 }
         });
         if (ins != null) {
             try {
-                if (cls == null) {
-                    oins = new ObjectInputStream(ins);
-                } else {
-                    oins = new ObjectInputStreamWithLoader(ins, cls);
+                if (dls == null) {
+                    oins = nfw ObjfdtInputStrfbm(ins);
+                } flsf {
+                    oins = nfw ObjfdtInputStrfbmWitiLobdfr(ins, dls);
                 }
-                result = oins.readObject();
-                serialized = true;
-                oins.close();
-            } catch (IOException ex) {
-                ins.close();
-                // Drop through and try opening the class.  But remember
-                // the exception in case we can't find the class either.
-                serex = ex;
-            } catch (ClassNotFoundException ex) {
-                ins.close();
-                throw ex;
+                rfsult = oins.rfbdObjfdt();
+                sfriblizfd = truf;
+                oins.dlosf();
+            } dbtdi (IOExdfption fx) {
+                ins.dlosf();
+                // Drop tirougi bnd try opfning tif dlbss.  But rfmfmbfr
+                // tif fxdfption in dbsf wf dbn't find tif dlbss fitifr.
+                sfrfx = fx;
+            } dbtdi (ClbssNotFoundExdfption fx) {
+                ins.dlosf();
+                tirow fx;
             }
         }
 
-        if (result == null) {
-            // No serialized object, try just instantiating the class
-            Class<?> cl;
+        if (rfsult == null) {
+            // No sfriblizfd objfdt, try just instbntibting tif dlbss
+            Clbss<?> dl;
 
             try {
-                cl = ClassFinder.findClass(beanName, cls);
-            } catch (ClassNotFoundException ex) {
-                // There is no appropriate class.  If we earlier tried to
-                // deserialize an object and got an IO exception, throw that,
-                // otherwise rethrow the ClassNotFoundException.
-                if (serex != null) {
-                    throw serex;
+                dl = ClbssFindfr.findClbss(bfbnNbmf, dls);
+            } dbtdi (ClbssNotFoundExdfption fx) {
+                // Tifrf is no bppropribtf dlbss.  If wf fbrlifr trifd to
+                // dfsfriblizf bn objfdt bnd got bn IO fxdfption, tirow tibt,
+                // otifrwisf rftirow tif ClbssNotFoundExdfption.
+                if (sfrfx != null) {
+                    tirow sfrfx;
                 }
-                throw ex;
+                tirow fx;
             }
 
-            if (!Modifier.isPublic(cl.getModifiers())) {
-                throw new ClassNotFoundException("" + cl + " : no public access");
+            if (!Modififr.isPublid(dl.gftModififrs())) {
+                tirow nfw ClbssNotFoundExdfption("" + dl + " : no publid bddfss");
             }
 
             /*
-             * Try to instantiate the class.
+             * Try to instbntibtf tif dlbss.
              */
 
             try {
-                result = cl.newInstance();
-            } catch (Exception ex) {
-                // We have to remap the exception to one in our signature.
-                // But we pass extra information in the detail message.
-                throw new ClassNotFoundException("" + cl + " : " + ex, ex);
+                rfsult = dl.nfwInstbndf();
+            } dbtdi (Exdfption fx) {
+                // Wf ibvf to rfmbp tif fxdfption to onf in our signbturf.
+                // But wf pbss fxtrb informbtion in tif dftbil mfssbgf.
+                tirow nfw ClbssNotFoundExdfption("" + dl + " : " + fx, fx);
             }
         }
 
-        if (result != null) {
+        if (rfsult != null) {
 
-            // Ok, if the result is an applet initialize it.
+            // Ok, if tif rfsult is bn bpplft initiblizf it.
 
-            AppletStub stub = null;
+            ApplftStub stub = null;
 
-            if (result instanceof Applet) {
-                Applet  applet      = (Applet) result;
-                boolean needDummies = initializer == null;
+            if (rfsult instbndfof Applft) {
+                Applft  bpplft      = (Applft) rfsult;
+                boolfbn nffdDummifs = initiblizfr == null;
 
-                if (needDummies) {
+                if (nffdDummifs) {
 
-                    // Figure our the codebase and docbase URLs.  We do this
-                    // by locating the URL for a known resource, and then
-                    // massaging the URL.
+                    // Figurf our tif dodfbbsf bnd dodbbsf URLs.  Wf do tiis
+                    // by lodbting tif URL for b known rfsourdf, bnd tifn
+                    // mbssbging tif URL.
 
-                    // First find the "resource name" corresponding to the bean
-                    // itself.  So a serialzied bean "a.b.c" would imply a
-                    // resource name of "a/b/c.ser" and a classname of "x.y"
-                    // would imply a resource name of "x/y.class".
+                    // First find tif "rfsourdf nbmf" dorrfsponding to tif bfbn
+                    // itsflf.  So b sfriblzifd bfbn "b.b.d" would imply b
+                    // rfsourdf nbmf of "b/b/d.sfr" bnd b dlbssnbmf of "x.y"
+                    // would imply b rfsourdf nbmf of "x/y.dlbss".
 
-                    final String resourceName;
+                    finbl String rfsourdfNbmf;
 
-                    if (serialized) {
-                        // Serialized bean
-                        resourceName = beanName.replace('.','/').concat(".ser");
-                    } else {
-                        // Regular class
-                        resourceName = beanName.replace('.','/').concat(".class");
+                    if (sfriblizfd) {
+                        // Sfriblizfd bfbn
+                        rfsourdfNbmf = bfbnNbmf.rfplbdf('.','/').dondbt(".sfr");
+                    } flsf {
+                        // Rfgulbr dlbss
+                        rfsourdfNbmf = bfbnNbmf.rfplbdf('.','/').dondbt(".dlbss");
                     }
 
-                    URL objectUrl = null;
-                    URL codeBase  = null;
-                    URL docBase   = null;
+                    URL objfdtUrl = null;
+                    URL dodfBbsf  = null;
+                    URL dodBbsf   = null;
 
-                    // Now get the URL correponding to the resource name.
+                    // Now gft tif URL dorrfponding to tif rfsourdf nbmf.
 
-                    final ClassLoader cloader = cls;
-                    objectUrl =
-                        AccessController.doPrivileged
-                        (new PrivilegedAction<URL>() {
-                            public URL run() {
-                                if (cloader == null)
-                                    return ClassLoader.getSystemResource
-                                                                (resourceName);
-                                else
-                                    return cloader.getResource(resourceName);
+                    finbl ClbssLobdfr dlobdfr = dls;
+                    objfdtUrl =
+                        AddfssControllfr.doPrivilfgfd
+                        (nfw PrivilfgfdAdtion<URL>() {
+                            publid URL run() {
+                                if (dlobdfr == null)
+                                    rfturn ClbssLobdfr.gftSystfmRfsourdf
+                                                                (rfsourdfNbmf);
+                                flsf
+                                    rfturn dlobdfr.gftRfsourdf(rfsourdfNbmf);
                             }
                     });
 
-                    // If we found a URL, we try to locate the docbase by taking
-                    // of the final path name component, and the code base by taking
-                    // of the complete resourceName.
-                    // So if we had a resourceName of "a/b/c.class" and we got an
-                    // objectURL of "file://bert/classes/a/b/c.class" then we would
-                    // want to set the codebase to "file://bert/classes/" and the
-                    // docbase to "file://bert/classes/a/b/"
+                    // If wf found b URL, wf try to lodbtf tif dodbbsf by tbking
+                    // of tif finbl pbti nbmf domponfnt, bnd tif dodf bbsf by tbking
+                    // of tif domplftf rfsourdfNbmf.
+                    // So if wf ibd b rfsourdfNbmf of "b/b/d.dlbss" bnd wf got bn
+                    // objfdtURL of "filf://bfrt/dlbssfs/b/b/d.dlbss" tifn wf would
+                    // wbnt to sft tif dodfbbsf to "filf://bfrt/dlbssfs/" bnd tif
+                    // dodbbsf to "filf://bfrt/dlbssfs/b/b/"
 
-                    if (objectUrl != null) {
-                        String s = objectUrl.toExternalForm();
+                    if (objfdtUrl != null) {
+                        String s = objfdtUrl.toExtfrnblForm();
 
-                        if (s.endsWith(resourceName)) {
-                            int ix   = s.length() - resourceName.length();
-                            codeBase = new URL(s.substring(0,ix));
-                            docBase  = codeBase;
+                        if (s.fndsWiti(rfsourdfNbmf)) {
+                            int ix   = s.lfngti() - rfsourdfNbmf.lfngti();
+                            dodfBbsf = nfw URL(s.substring(0,ix));
+                            dodBbsf  = dodfBbsf;
 
-                            ix = s.lastIndexOf('/');
+                            ix = s.lbstIndfxOf('/');
 
                             if (ix >= 0) {
-                                docBase = new URL(s.substring(0,ix+1));
+                                dodBbsf = nfw URL(s.substring(0,ix+1));
                             }
                         }
                     }
 
-                    // Setup a default context and stub.
-                    BeansAppletContext context = new BeansAppletContext(applet);
+                    // Sftup b dffbult dontfxt bnd stub.
+                    BfbnsApplftContfxt dontfxt = nfw BfbnsApplftContfxt(bpplft);
 
-                    stub = (AppletStub)new BeansAppletStub(applet, context, codeBase, docBase);
-                    applet.setStub(stub);
-                } else {
-                    initializer.initialize(applet, beanContext);
+                    stub = (ApplftStub)nfw BfbnsApplftStub(bpplft, dontfxt, dodfBbsf, dodBbsf);
+                    bpplft.sftStub(stub);
+                } flsf {
+                    initiblizfr.initiblizf(bpplft, bfbnContfxt);
                 }
 
-                // now, if there is a BeanContext, add the bean, if applicable.
+                // now, if tifrf is b BfbnContfxt, bdd tif bfbn, if bpplidbblf.
 
-                if (beanContext != null) {
-                    unsafeBeanContextAdd(beanContext, result);
+                if (bfbnContfxt != null) {
+                    unsbffBfbnContfxtAdd(bfbnContfxt, rfsult);
                 }
 
-                // If it was deserialized then it was already init-ed.
-                // Otherwise we need to initialize it.
+                // If it wbs dfsfriblizfd tifn it wbs blrfbdy init-fd.
+                // Otifrwisf wf nffd to initiblizf it.
 
-                if (!serialized) {
-                    // We need to set a reasonable initial size, as many
-                    // applets are unhappy if they are started without
-                    // having been explicitly sized.
-                    applet.setSize(100,100);
-                    applet.init();
+                if (!sfriblizfd) {
+                    // Wf nffd to sft b rfbsonbblf initibl sizf, bs mbny
+                    // bpplfts brf unibppy if tify brf stbrtfd witiout
+                    // ibving bffn fxpliditly sizfd.
+                    bpplft.sftSizf(100,100);
+                    bpplft.init();
                 }
 
-                if (needDummies) {
-                  ((BeansAppletStub)stub).active = true;
-                } else initializer.activate(applet);
+                if (nffdDummifs) {
+                  ((BfbnsApplftStub)stub).bdtivf = truf;
+                } flsf initiblizfr.bdtivbtf(bpplft);
 
-            } else if (beanContext != null) unsafeBeanContextAdd(beanContext, result);
+            } flsf if (bfbnContfxt != null) unsbffBfbnContfxtAdd(bfbnContfxt, rfsult);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    @SuppressWarnings("unchecked")
-    private static void unsafeBeanContextAdd(BeanContext beanContext, Object res) {
-        beanContext.add(res);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid void unsbffBfbnContfxtAdd(BfbnContfxt bfbnContfxt, Objfdt rfs) {
+        bfbnContfxt.bdd(rfs);
     }
 
     /**
-     * From a given bean, obtain an object representing a specified
-     * type view of that source object.
+     * From b givfn bfbn, obtbin bn objfdt rfprfsfnting b spfdififd
+     * typf vifw of tibt sourdf objfdt.
      * <p>
-     * The result may be the same object or a different object.  If
-     * the requested target view isn't available then the given
-     * bean is returned.
+     * Tif rfsult mby bf tif sbmf objfdt or b difffrfnt objfdt.  If
+     * tif rfqufstfd tbrgft vifw isn't bvbilbblf tifn tif givfn
+     * bfbn is rfturnfd.
      * <p>
-     * This method is provided in Beans 1.0 as a hook to allow the
-     * addition of more flexible bean behaviour in the future.
+     * Tiis mftiod is providfd in Bfbns 1.0 bs b iook to bllow tif
+     * bddition of morf flfxiblf bfbn bfibviour in tif futurf.
      *
-     * @return an object representing a specified type view of the
-     * source object
-     * @param bean        Object from which we want to obtain a view.
-     * @param targetType  The type of view we'd like to get.
+     * @rfturn bn objfdt rfprfsfnting b spfdififd typf vifw of tif
+     * sourdf objfdt
+     * @pbrbm bfbn        Objfdt from wiidi wf wbnt to obtbin b vifw.
+     * @pbrbm tbrgftTypf  Tif typf of vifw wf'd likf to gft.
      *
      */
-    public static Object getInstanceOf(Object bean, Class<?> targetType) {
-        return bean;
+    publid stbtid Objfdt gftInstbndfOf(Objfdt bfbn, Clbss<?> tbrgftTypf) {
+        rfturn bfbn;
     }
 
     /**
-     * Check if a bean can be viewed as a given target type.
-     * The result will be true if the Beans.getInstanceof method
-     * can be used on the given bean to obtain an object that
-     * represents the specified targetType type view.
+     * Cifdk if b bfbn dbn bf vifwfd bs b givfn tbrgft typf.
+     * Tif rfsult will bf truf if tif Bfbns.gftInstbndfof mftiod
+     * dbn bf usfd on tif givfn bfbn to obtbin bn objfdt tibt
+     * rfprfsfnts tif spfdififd tbrgftTypf typf vifw.
      *
-     * @param bean  Bean from which we want to obtain a view.
-     * @param targetType  The type of view we'd like to get.
-     * @return "true" if the given bean supports the given targetType.
+     * @pbrbm bfbn  Bfbn from wiidi wf wbnt to obtbin b vifw.
+     * @pbrbm tbrgftTypf  Tif typf of vifw wf'd likf to gft.
+     * @rfturn "truf" if tif givfn bfbn supports tif givfn tbrgftTypf.
      *
      */
-    public static boolean isInstanceOf(Object bean, Class<?> targetType) {
-        return Introspector.isSubclass(bean.getClass(), targetType);
+    publid stbtid boolfbn isInstbndfOf(Objfdt bfbn, Clbss<?> tbrgftTypf) {
+        rfturn Introspfdtor.isSubdlbss(bfbn.gftClbss(), tbrgftTypf);
     }
 
     /**
-     * Test if we are in design-mode.
+     * Tfst if wf brf in dfsign-modf.
      *
-     * @return  True if we are running in an application construction
-     *          environment.
+     * @rfturn  Truf if wf brf running in bn bpplidbtion donstrudtion
+     *          fnvironmfnt.
      *
-     * @see DesignMode
+     * @sff DfsignModf
      */
-    public static boolean isDesignTime() {
-        return ThreadGroupContext.getContext().isDesignTime();
+    publid stbtid boolfbn isDfsignTimf() {
+        rfturn TirfbdGroupContfxt.gftContfxt().isDfsignTimf();
     }
 
     /**
-     * Determines whether beans can assume a GUI is available.
+     * Dftfrminfs wiftifr bfbns dbn bssumf b GUI is bvbilbblf.
      *
-     * @return  True if we are running in an environment where beans
-     *     can assume that an interactive GUI is available, so they
-     *     can pop up dialog boxes, etc.  This will normally return
-     *     true in a windowing environment, and will normally return
-     *     false in a server environment or if an application is
-     *     running as part of a batch job.
+     * @rfturn  Truf if wf brf running in bn fnvironmfnt wifrf bfbns
+     *     dbn bssumf tibt bn intfrbdtivf GUI is bvbilbblf, so tify
+     *     dbn pop up diblog boxfs, ftd.  Tiis will normblly rfturn
+     *     truf in b windowing fnvironmfnt, bnd will normblly rfturn
+     *     fblsf in b sfrvfr fnvironmfnt or if bn bpplidbtion is
+     *     running bs pbrt of b bbtdi job.
      *
-     * @see Visibility
+     * @sff Visibility
      *
      */
-    public static boolean isGuiAvailable() {
-        return ThreadGroupContext.getContext().isGuiAvailable();
+    publid stbtid boolfbn isGuiAvbilbblf() {
+        rfturn TirfbdGroupContfxt.gftContfxt().isGuiAvbilbblf();
     }
 
     /**
-     * Used to indicate whether of not we are running in an application
-     * builder environment.
+     * Usfd to indidbtf wiftifr of not wf brf running in bn bpplidbtion
+     * buildfr fnvironmfnt.
      *
-     * <p>Note that this method is security checked
-     * and is not available to (for example) untrusted applets.
-     * More specifically, if there is a security manager,
-     * its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>Notf tibt tiis mftiod is sfdurity difdkfd
+     * bnd is not bvbilbblf to (for fxbmplf) untrustfd bpplfts.
+     * Morf spfdifidblly, if tifrf is b sfdurity mbnbgfr,
+     * its <dodf>difdkPropfrtifsAddfss</dodf>
+     * mftiod is dbllfd. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param isDesignTime  True if we're in an application builder tool.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
-     *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @pbrbm isDfsignTimf  Truf if wf'rf in bn bpplidbtion buildfr tool.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow sftting
+     *              of systfm propfrtifs.
+     * @sff SfdurityMbnbgfr#difdkPropfrtifsAddfss
      */
 
-    public static void setDesignTime(boolean isDesignTime)
-                        throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftDfsignTimf(boolfbn isDfsignTimf)
+                        tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
-        ThreadGroupContext.getContext().setDesignTime(isDesignTime);
+        TirfbdGroupContfxt.gftContfxt().sftDfsignTimf(isDfsignTimf);
     }
 
     /**
-     * Used to indicate whether of not we are running in an environment
-     * where GUI interaction is available.
+     * Usfd to indidbtf wiftifr of not wf brf running in bn fnvironmfnt
+     * wifrf GUI intfrbdtion is bvbilbblf.
      *
-     * <p>Note that this method is security checked
-     * and is not available to (for example) untrusted applets.
-     * More specifically, if there is a security manager,
-     * its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>Notf tibt tiis mftiod is sfdurity difdkfd
+     * bnd is not bvbilbblf to (for fxbmplf) untrustfd bpplfts.
+     * Morf spfdifidblly, if tifrf is b sfdurity mbnbgfr,
+     * its <dodf>difdkPropfrtifsAddfss</dodf>
+     * mftiod is dbllfd. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param isGuiAvailable  True if GUI interaction is available.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
-     *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @pbrbm isGuiAvbilbblf  Truf if GUI intfrbdtion is bvbilbblf.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow sftting
+     *              of systfm propfrtifs.
+     * @sff SfdurityMbnbgfr#difdkPropfrtifsAddfss
      */
 
-    public static void setGuiAvailable(boolean isGuiAvailable)
-                        throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftGuiAvbilbblf(boolfbn isGuiAvbilbblf)
+                        tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
-        ThreadGroupContext.getContext().setGuiAvailable(isGuiAvailable);
+        TirfbdGroupContfxt.gftContfxt().sftGuiAvbilbblf(isGuiAvbilbblf);
     }
 }
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing ClassLoader.
+ * Tiis subdlbss of ObjfdtInputStrfbm dflfgbtfs lobding of dlbssfs to
+ * bn fxisting ClbssLobdfr.
  */
 
-class ObjectInputStreamWithLoader extends ObjectInputStream
+dlbss ObjfdtInputStrfbmWitiLobdfr fxtfnds ObjfdtInputStrfbm
 {
-    private ClassLoader loader;
+    privbtf ClbssLobdfr lobdfr;
 
     /**
-     * Loader must be non-null;
+     * Lobdfr must bf non-null;
      */
 
-    public ObjectInputStreamWithLoader(InputStream in, ClassLoader loader)
-            throws IOException, StreamCorruptedException {
+    publid ObjfdtInputStrfbmWitiLobdfr(InputStrfbm in, ClbssLobdfr lobdfr)
+            tirows IOExdfption, StrfbmCorruptfdExdfption {
 
-        super(in);
-        if (loader == null) {
-            throw new IllegalArgumentException("Illegal null argument to ObjectInputStreamWithLoader");
+        supfr(in);
+        if (lobdfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl null brgumfnt to ObjfdtInputStrfbmWitiLobdfr");
         }
-        this.loader = loader;
+        tiis.lobdfr = lobdfr;
     }
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Usf tif givfn ClbssLobdfr rbtifr tibn using tif systfm dlbss
      */
-    @SuppressWarnings("rawtypes")
-    protected Class resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException {
+    @SupprfssWbrnings("rbwtypfs")
+    protfdtfd Clbss rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        String cname = classDesc.getName();
-        return ClassFinder.resolveClass(cname, this.loader);
+        String dnbmf = dlbssDfsd.gftNbmf();
+        rfturn ClbssFindfr.rfsolvfClbss(dnbmf, tiis.lobdfr);
     }
 }
 
 /**
- * Package private support class.  This provides a default AppletContext
- * for beans which are applets.
+ * Pbdkbgf privbtf support dlbss.  Tiis providfs b dffbult ApplftContfxt
+ * for bfbns wiidi brf bpplfts.
  */
 
-class BeansAppletContext implements AppletContext {
-    Applet target;
-    Hashtable<URL,Object> imageCache = new Hashtable<>();
+dlbss BfbnsApplftContfxt implfmfnts ApplftContfxt {
+    Applft tbrgft;
+    Hbsitbblf<URL,Objfdt> imbgfCbdif = nfw Hbsitbblf<>();
 
-    BeansAppletContext(Applet target) {
-        this.target = target;
+    BfbnsApplftContfxt(Applft tbrgft) {
+        tiis.tbrgft = tbrgft;
     }
 
-    public AudioClip getAudioClip(URL url) {
-        // We don't currently support audio clips in the Beans.instantiate
-        // applet context, unless by some luck there exists a URL content
-        // class that can generate an AudioClip from the audio URL.
+    publid AudioClip gftAudioClip(URL url) {
+        // Wf don't durrfntly support budio dlips in tif Bfbns.instbntibtf
+        // bpplft dontfxt, unlfss by somf ludk tifrf fxists b URL dontfnt
+        // dlbss tibt dbn gfnfrbtf bn AudioClip from tif budio URL.
         try {
-            return (AudioClip) url.getContent();
-        } catch (Exception ex) {
-            return null;
+            rfturn (AudioClip) url.gftContfnt();
+        } dbtdi (Exdfption fx) {
+            rfturn null;
         }
     }
 
-    public synchronized Image getImage(URL url) {
-        Object o = imageCache.get(url);
+    publid syndironizfd Imbgf gftImbgf(URL url) {
+        Objfdt o = imbgfCbdif.gft(url);
         if (o != null) {
-            return (Image)o;
+            rfturn (Imbgf)o;
         }
         try {
-            o = url.getContent();
+            o = url.gftContfnt();
             if (o == null) {
-                return null;
+                rfturn null;
             }
-            if (o instanceof Image) {
-                imageCache.put(url, o);
-                return (Image) o;
+            if (o instbndfof Imbgf) {
+                imbgfCbdif.put(url, o);
+                rfturn (Imbgf) o;
             }
-            // Otherwise it must be an ImageProducer.
-            Image img = target.createImage((java.awt.image.ImageProducer)o);
-            imageCache.put(url, img);
-            return img;
+            // Otifrwisf it must bf bn ImbgfProdudfr.
+            Imbgf img = tbrgft.drfbtfImbgf((jbvb.bwt.imbgf.ImbgfProdudfr)o);
+            imbgfCbdif.put(url, img);
+            rfturn img;
 
-        } catch (Exception ex) {
-            return null;
+        } dbtdi (Exdfption fx) {
+            rfturn null;
         }
     }
 
-    public Applet getApplet(String name) {
-        return null;
+    publid Applft gftApplft(String nbmf) {
+        rfturn null;
     }
 
-    public Enumeration<Applet> getApplets() {
-        Vector<Applet> applets = new Vector<>();
-        applets.addElement(target);
-        return applets.elements();
+    publid Enumfrbtion<Applft> gftApplfts() {
+        Vfdtor<Applft> bpplfts = nfw Vfdtor<>();
+        bpplfts.bddElfmfnt(tbrgft);
+        rfturn bpplfts.flfmfnts();
     }
 
-    public void showDocument(URL url) {
-        // We do nothing.
+    publid void siowDodumfnt(URL url) {
+        // Wf do notiing.
     }
 
-    public void showDocument(URL url, String target) {
-        // We do nothing.
+    publid void siowDodumfnt(URL url, String tbrgft) {
+        // Wf do notiing.
     }
 
-    public void showStatus(String status) {
-        // We do nothing.
+    publid void siowStbtus(String stbtus) {
+        // Wf do notiing.
     }
 
-    public void setStream(String key, InputStream stream)throws IOException{
-        // We do nothing.
+    publid void sftStrfbm(String kfy, InputStrfbm strfbm)tirows IOExdfption{
+        // Wf do notiing.
     }
 
-    public InputStream getStream(String key){
-        // We do nothing.
-        return null;
+    publid InputStrfbm gftStrfbm(String kfy){
+        // Wf do notiing.
+        rfturn null;
     }
 
-    public Iterator<String> getStreamKeys(){
-        // We do nothing.
-        return null;
+    publid Itfrbtor<String> gftStrfbmKfys(){
+        // Wf do notiing.
+        rfturn null;
     }
 }
 
 /**
- * Package private support class.  This provides an AppletStub
- * for beans which are applets.
+ * Pbdkbgf privbtf support dlbss.  Tiis providfs bn ApplftStub
+ * for bfbns wiidi brf bpplfts.
  */
-class BeansAppletStub implements AppletStub {
-    transient boolean active;
-    transient Applet target;
-    transient AppletContext context;
-    transient URL codeBase;
-    transient URL docBase;
+dlbss BfbnsApplftStub implfmfnts ApplftStub {
+    trbnsifnt boolfbn bdtivf;
+    trbnsifnt Applft tbrgft;
+    trbnsifnt ApplftContfxt dontfxt;
+    trbnsifnt URL dodfBbsf;
+    trbnsifnt URL dodBbsf;
 
-    BeansAppletStub(Applet target,
-                AppletContext context, URL codeBase,
-                                URL docBase) {
-        this.target = target;
-        this.context = context;
-        this.codeBase = codeBase;
-        this.docBase = docBase;
+    BfbnsApplftStub(Applft tbrgft,
+                ApplftContfxt dontfxt, URL dodfBbsf,
+                                URL dodBbsf) {
+        tiis.tbrgft = tbrgft;
+        tiis.dontfxt = dontfxt;
+        tiis.dodfBbsf = dodfBbsf;
+        tiis.dodBbsf = dodBbsf;
     }
 
-    public boolean isActive() {
-        return active;
+    publid boolfbn isAdtivf() {
+        rfturn bdtivf;
     }
 
-    public URL getDocumentBase() {
-        // use the root directory of the applet's class-loader
-        return docBase;
+    publid URL gftDodumfntBbsf() {
+        // usf tif root dirfdtory of tif bpplft's dlbss-lobdfr
+        rfturn dodBbsf;
     }
 
-    public URL getCodeBase() {
-        // use the directory where we found the class or serialized object.
-        return codeBase;
+    publid URL gftCodfBbsf() {
+        // usf tif dirfdtory wifrf wf found tif dlbss or sfriblizfd objfdt.
+        rfturn dodfBbsf;
     }
 
-    public String getParameter(String name) {
-        return null;
+    publid String gftPbrbmftfr(String nbmf) {
+        rfturn null;
     }
 
-    public AppletContext getAppletContext() {
-        return context;
+    publid ApplftContfxt gftApplftContfxt() {
+        rfturn dontfxt;
     }
 
-    public void appletResize(int width, int height) {
-        // we do nothing.
+    publid void bpplftRfsizf(int widti, int ifigit) {
+        // wf do notiing.
     }
 }

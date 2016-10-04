@@ -1,533 +1,533 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Locale;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.Lodblf;
 
-public abstract class Font2D {
+publid bbstrbdt dlbss Font2D {
 
-    /* Note: JRE and FONT_CONFIG ranks are identical. I don't know of a reason
-     * to distingish these. Possibly if a user adds fonts to the JRE font
-     * directory that are the same font as the ones specified in the font
-     * configuration but that is more likely to be the legitimate intention
-     * than a problem. One reason why these should be the same is that on
-     * Linux the JRE fonts ARE the font configuration fonts, and although I
-     * believe all are assigned FONT_CONFIG rank, it is conceivable that if
-     * this were not so, that some JRE font would not be allowed to joint the
-     * family of its siblings which were assigned FONT_CONFIG rank. Giving
-     * them the same rank is the easy solution for now at least.
+    /* Notf: JRE bnd FONT_CONFIG rbnks brf idfntidbl. I don't know of b rfbson
+     * to distingisi tifsf. Possibly if b usfr bdds fonts to tif JRE font
+     * dirfdtory tibt brf tif sbmf font bs tif onfs spfdififd in tif font
+     * donfigurbtion but tibt is morf likfly to bf tif lfgitimbtf intfntion
+     * tibn b problfm. Onf rfbson wiy tifsf siould bf tif sbmf is tibt on
+     * Linux tif JRE fonts ARE tif font donfigurbtion fonts, bnd bltiougi I
+     * bflifvf bll brf bssignfd FONT_CONFIG rbnk, it is dondfivbblf tibt if
+     * tiis wfrf not so, tibt somf JRE font would not bf bllowfd to joint tif
+     * fbmily of its siblings wiidi wfrf bssignfd FONT_CONFIG rbnk. Giving
+     * tifm tif sbmf rbnk is tif fbsy solution for now bt lfbst.
      */
-    public static final int FONT_CONFIG_RANK   = 2;
-    public static final int JRE_RANK     = 2;
-    public static final int TTF_RANK     = 3;
-    public static final int TYPE1_RANK   = 4;
-    public static final int NATIVE_RANK  = 5;
-    public static final int UNKNOWN_RANK = 6;
-    public static final int DEFAULT_RANK = 4;
+    publid stbtid finbl int FONT_CONFIG_RANK   = 2;
+    publid stbtid finbl int JRE_RANK     = 2;
+    publid stbtid finbl int TTF_RANK     = 3;
+    publid stbtid finbl int TYPE1_RANK   = 4;
+    publid stbtid finbl int NATIVE_RANK  = 5;
+    publid stbtid finbl int UNKNOWN_RANK = 6;
+    publid stbtid finbl int DEFAULT_RANK = 4;
 
-    private static final String[] boldNames = {
-        "bold", "demibold", "demi-bold", "demi bold", "negreta", "demi", };
+    privbtf stbtid finbl String[] boldNbmfs = {
+        "bold", "dfmibold", "dfmi-bold", "dfmi bold", "nfgrftb", "dfmi", };
 
-    private static final String[] italicNames = {
-        "italic", "cursiva", "oblique", "inclined", };
+    privbtf stbtid finbl String[] itblidNbmfs = {
+        "itblid", "dursivb", "obliquf", "indlinfd", };
 
-    private static final String[] boldItalicNames = {
-          "bolditalic", "bold-italic", "bold italic",
-          "boldoblique", "bold-oblique", "bold oblique",
-          "demibold italic", "negreta cursiva","demi oblique", };
+    privbtf stbtid finbl String[] boldItblidNbmfs = {
+          "bolditblid", "bold-itblid", "bold itblid",
+          "boldobliquf", "bold-obliquf", "bold obliquf",
+          "dfmibold itblid", "nfgrftb dursivb","dfmi obliquf", };
 
-    private static final FontRenderContext DEFAULT_FRC =
-        new FontRenderContext(null, false, false);
+    privbtf stbtid finbl FontRfndfrContfxt DEFAULT_FRC =
+        nfw FontRfndfrContfxt(null, fblsf, fblsf);
 
-    public Font2DHandle handle;
-    protected String familyName;           /* Family font name (english) */
-    protected String fullName;             /* Full font name (english)   */
-    protected int style = Font.PLAIN;
-    protected FontFamily family;
-    protected int fontRank = DEFAULT_RANK;
+    publid Font2DHbndlf ibndlf;
+    protfdtfd String fbmilyNbmf;           /* Fbmily font nbmf (fnglisi) */
+    protfdtfd String fullNbmf;             /* Full font nbmf (fnglisi)   */
+    protfdtfd int stylf = Font.PLAIN;
+    protfdtfd FontFbmily fbmily;
+    protfdtfd int fontRbnk = DEFAULT_RANK;
 
     /*
-     * A mapper can be independent of the strike.
-     * Perhaps the reference to the mapper ought to be held on the
-     * scaler, as it may be implemented via scaler functionality anyway
-     * and so the mapper would be useless if its native portion was
-     * freed when the scaler was GC'd.
+     * A mbppfr dbn bf indfpfndfnt of tif strikf.
+     * Pfribps tif rfffrfndf to tif mbppfr ougit to bf ifld on tif
+     * sdblfr, bs it mby bf implfmfntfd vib sdblfr fundtionblity bnywby
+     * bnd so tif mbppfr would bf usflfss if its nbtivf portion wbs
+     * frffd wifn tif sdblfr wbs GC'd.
      */
-    protected CharToGlyphMapper mapper;
+    protfdtfd CibrToGlypiMbppfr mbppfr;
 
     /*
-     * The strike cache is maintained per "Font2D" as that is the
-     * principal object by which you look up fonts.
-     * It means more Hashmaps, but look ups can be quicker because
-     * the map will have fewer entries, and there's no need to try to
-     * make the Font2D part of the key.
+     * Tif strikf dbdif is mbintbinfd pfr "Font2D" bs tibt is tif
+     * prindipbl objfdt by wiidi you look up fonts.
+     * It mfbns morf Hbsimbps, but look ups dbn bf quidkfr bfdbusf
+     * tif mbp will ibvf ffwfr fntrifs, bnd tifrf's no nffd to try to
+     * mbkf tif Font2D pbrt of tif kfy.
      */
-    protected ConcurrentHashMap<FontStrikeDesc, Reference<FontStrike>>
-        strikeCache = new ConcurrentHashMap<>();
+    protfdtfd CondurrfntHbsiMbp<FontStrikfDfsd, Rfffrfndf<FontStrikf>>
+        strikfCbdif = nfw CondurrfntHbsiMbp<>();
 
-    /* Store the last Strike in a Reference object.
-     * Similarly to the strike that was stored on a C++ font object,
-     * this is an optimisation which helps if multiple clients (ie
-     * typically SunGraphics2D instances) are using the same font, then
-     * as may be typical of many UIs, they are probably using it in the
-     * same style, so it can be a win to first quickly check if the last
-     * strike obtained from this Font2D satifies the needs of the next
-     * client too.
-     * This pre-supposes that a FontStrike is a shareable object, which
-     * it should.
+    /* Storf tif lbst Strikf in b Rfffrfndf objfdt.
+     * Similbrly to tif strikf tibt wbs storfd on b C++ font objfdt,
+     * tiis is bn optimisbtion wiidi iflps if multiplf dlifnts (if
+     * typidblly SunGrbpiids2D instbndfs) brf using tif sbmf font, tifn
+     * bs mby bf typidbl of mbny UIs, tify brf probbbly using it in tif
+     * sbmf stylf, so it dbn bf b win to first quidkly difdk if tif lbst
+     * strikf obtbinfd from tiis Font2D sbtififs tif nffds of tif nfxt
+     * dlifnt too.
+     * Tiis prf-supposfs tibt b FontStrikf is b sibrfbblf objfdt, wiidi
+     * it siould.
      */
-    protected Reference<FontStrike> lastFontStrike = new SoftReference<>(null);
+    protfdtfd Rfffrfndf<FontStrikf> lbstFontStrikf = nfw SoftRfffrfndf<>(null);
 
     /*
      * POSSIBLE OPTIMISATION:
-     * Array of length 1024 elements of 64 bits indicating if a font
-     * contains these. This kind of information can be shared between
-     * all point sizes.
-     * if corresponding bit in knownBitmaskMap is set then canDisplayBitmaskMap
-     * is valid. This is 16Kbytes of data per composite font style.
-     * What about UTF-32 and surrogates?
-     * REMIND: This is too much storage. Probably can only cache this
-     * information for latin range, although possibly OK to store all
-     * for just the "logical" fonts.
-     * Or instead store arrays of subranges of 1024 bits (128 bytes) in
-     * the range below surrogate pairs.
+     * Arrby of lfngti 1024 flfmfnts of 64 bits indidbting if b font
+     * dontbins tifsf. Tiis kind of informbtion dbn bf sibrfd bftwffn
+     * bll point sizfs.
+     * if dorrfsponding bit in knownBitmbskMbp is sft tifn dbnDisplbyBitmbskMbp
+     * is vblid. Tiis is 16Kbytfs of dbtb pfr dompositf font stylf.
+     * Wibt bbout UTF-32 bnd surrogbtfs?
+     * REMIND: Tiis is too mudi storbgf. Probbbly dbn only dbdif tiis
+     * informbtion for lbtin rbngf, bltiougi possibly OK to storf bll
+     * for just tif "logidbl" fonts.
+     * Or instfbd storf brrbys of subrbngfs of 1024 bits (128 bytfs) in
+     * tif rbngf bflow surrogbtf pbirs.
      */
-//     protected long[] knownBitmaskMap;
-//     protected long[] canDisplayBitmaskMap;
+//     protfdtfd long[] knownBitmbskMbp;
+//     protfdtfd long[] dbnDisplbyBitmbskMbp;
 
-    /* Returns the "real" style of this Font2D. Eg the font face
-     * Lucida Sans Bold" has a real style of Font.BOLD, even though
-     * it may be able to used to simulate bold italic
+    /* Rfturns tif "rfbl" stylf of tiis Font2D. Eg tif font fbdf
+     * Ludidb Sbns Bold" ibs b rfbl stylf of Font.BOLD, fvfn tiougi
+     * it mby bf bblf to usfd to simulbtf bold itblid
      */
-    public int getStyle() {
-        return style;
+    publid int gftStylf() {
+        rfturn stylf;
     }
-    protected void setStyle() {
+    protfdtfd void sftStylf() {
 
-        String fName = fullName.toLowerCase();
+        String fNbmf = fullNbmf.toLowfrCbsf();
 
-        for (int i=0; i < boldItalicNames.length; i++) {
-            if (fName.indexOf(boldItalicNames[i]) != -1) {
-                style = Font.BOLD|Font.ITALIC;
-                return;
+        for (int i=0; i < boldItblidNbmfs.lfngti; i++) {
+            if (fNbmf.indfxOf(boldItblidNbmfs[i]) != -1) {
+                stylf = Font.BOLD|Font.ITALIC;
+                rfturn;
             }
         }
 
-        for (int i=0; i < italicNames.length; i++) {
-            if (fName.indexOf(italicNames[i]) != -1) {
-                style = Font.ITALIC;
-                return;
+        for (int i=0; i < itblidNbmfs.lfngti; i++) {
+            if (fNbmf.indfxOf(itblidNbmfs[i]) != -1) {
+                stylf = Font.ITALIC;
+                rfturn;
             }
         }
 
-        for (int i=0; i < boldNames.length; i++) {
-            if (fName.indexOf(boldNames[i]) != -1 ) {
-                style = Font.BOLD;
-                return;
+        for (int i=0; i < boldNbmfs.lfngti; i++) {
+            if (fNbmf.indfxOf(boldNbmfs[i]) != -1 ) {
+                stylf = Font.BOLD;
+                rfturn;
             }
         }
     }
 
 
-    int getRank() {
-        return fontRank;
+    int gftRbnk() {
+        rfturn fontRbnk;
     }
 
-    void setRank(int rank) {
-        fontRank = rank;
+    void sftRbnk(int rbnk) {
+        fontRbnk = rbnk;
     }
 
-    abstract CharToGlyphMapper getMapper();
+    bbstrbdt CibrToGlypiMbppfr gftMbppfr();
 
 
 
-    /* This isn't very efficient but its infrequently used.
-     * StandardGlyphVector uses it when the client assigns the glyph codes.
-     * These may not be valid. This validates them substituting the missing
-     * glyph elsewhere.
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * glypi flsfwifrf.
      */
-    protected int getValidatedGlyphCode(int glyphCode) {
-        if (glyphCode < 0 || glyphCode >= getMapper().getNumGlyphs()) {
-            glyphCode = getMapper().getMissingGlyphCode();
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+        if (glypiCodf < 0 || glypiCodf >= gftMbppfr().gftNumGlypis()) {
+            glypiCodf = gftMbppfr().gftMissingGlypiCodf();
         }
-        return glyphCode;
+        rfturn glypiCodf;
     }
 
     /*
-     * Creates an appropriate strike for the Font2D subclass
+     * Crfbtfs bn bppropribtf strikf for tif Font2D subdlbss
      */
-    abstract FontStrike createStrike(FontStrikeDesc desc);
+    bbstrbdt FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd);
 
-    /* this may be useful for APIs like canDisplay where the answer
-     * is dependent on the font and its scaler, but not the strike.
-     * If no strike has ever been returned, then create a one that matches
-     * this font with the default FRC. It will become the lastStrike and
-     * there's a good chance that the next call will be to get exactly that
-     * strike.
+    /* tiis mby bf usfful for APIs likf dbnDisplby wifrf tif bnswfr
+     * is dfpfndfnt on tif font bnd its sdblfr, but not tif strikf.
+     * If no strikf ibs fvfr bffn rfturnfd, tifn drfbtf b onf tibt mbtdifs
+     * tiis font witi tif dffbult FRC. It will bfdomf tif lbstStrikf bnd
+     * tifrf's b good dibndf tibt tif nfxt dbll will bf to gft fxbdtly tibt
+     * strikf.
      */
-    public FontStrike getStrike(Font font) {
-        FontStrike strike = lastFontStrike.get();
-        if (strike != null) {
-            return strike;
-        } else {
-            return getStrike(font, DEFAULT_FRC);
+    publid FontStrikf gftStrikf(Font font) {
+        FontStrikf strikf = lbstFontStrikf.gft();
+        if (strikf != null) {
+            rfturn strikf;
+        } flsf {
+            rfturn gftStrikf(font, DEFAULT_FRC);
         }
     }
 
-    /* SunGraphics2D has font, tx, aa and fm. From this info
-     * can get a Strike object from the cache, creating it if necessary.
-     * This code is designed for multi-threaded access.
-     * For that reason it creates a local FontStrikeDesc rather than filling
-     * in a shared one. Up to two AffineTransforms and one FontStrikeDesc will
-     * be created by every lookup. This appears to perform more than
-     * adequately. But it may make sense to expose FontStrikeDesc
-     * as a parameter so a caller can use its own.
-     * In such a case if a FontStrikeDesc is stored as a key then
-     * we would need to use a private copy.
+    /* SunGrbpiids2D ibs font, tx, bb bnd fm. From tiis info
+     * dbn gft b Strikf objfdt from tif dbdif, drfbting it if nfdfssbry.
+     * Tiis dodf is dfsignfd for multi-tirfbdfd bddfss.
+     * For tibt rfbson it drfbtfs b lodbl FontStrikfDfsd rbtifr tibn filling
+     * in b sibrfd onf. Up to two AffinfTrbnsforms bnd onf FontStrikfDfsd will
+     * bf drfbtfd by fvfry lookup. Tiis bppfbrs to pfrform morf tibn
+     * bdfqubtfly. But it mby mbkf sfnsf to fxposf FontStrikfDfsd
+     * bs b pbrbmftfr so b dbllfr dbn usf its own.
+     * In sudi b dbsf if b FontStrikfDfsd is storfd bs b kfy tifn
+     * wf would nffd to usf b privbtf dopy.
      *
-     * Note that this code doesn't prevent two threads from creating
-     * two different FontStrike instances and having one of the threads
-     * overwrite the other in the map. This is likely to be a rare
-     * occurrence and the only consequence is that these callers will have
-     * different instances of the strike, and there'd be some duplication of
-     * population of the strikes. However since users of these strikes are
-     * transient, then the one that was overwritten would soon be freed.
-     * If there is any problem then a small synchronized block would be
-     * required with its attendant consequences for MP scaleability.
+     * Notf tibt tiis dodf dofsn't prfvfnt two tirfbds from drfbting
+     * two difffrfnt FontStrikf instbndfs bnd ibving onf of tif tirfbds
+     * ovfrwritf tif otifr in tif mbp. Tiis is likfly to bf b rbrf
+     * oddurrfndf bnd tif only donsfqufndf is tibt tifsf dbllfrs will ibvf
+     * difffrfnt instbndfs of tif strikf, bnd tifrf'd bf somf duplidbtion of
+     * populbtion of tif strikfs. Howfvfr sindf usfrs of tifsf strikfs brf
+     * trbnsifnt, tifn tif onf tibt wbs ovfrwrittfn would soon bf frffd.
+     * If tifrf is bny problfm tifn b smbll syndironizfd blodk would bf
+     * rfquirfd witi its bttfndbnt donsfqufndfs for MP sdblfbbility.
      */
-    public FontStrike getStrike(Font font, AffineTransform devTx,
-                                int aa, int fm) {
+    publid FontStrikf gftStrikf(Font font, AffinfTrbnsform dfvTx,
+                                int bb, int fm) {
 
-        /* Create the descriptor which is used to identify a strike
-         * in the strike cache/map. A strike is fully described by
-         * the attributes of this descriptor.
+        /* Crfbtf tif dfsdriptor wiidi is usfd to idfntify b strikf
+         * in tif strikf dbdif/mbp. A strikf is fully dfsdribfd by
+         * tif bttributfs of tiis dfsdriptor.
          */
-        /* REMIND: generating garbage and doing computation here in order
-         * to include pt size in the tx just for a lookup! Figure out a
-         * better way.
+        /* REMIND: gfnfrbting gbrbbgf bnd doing domputbtion ifrf in ordfr
+         * to indludf pt sizf in tif tx just for b lookup! Figurf out b
+         * bfttfr wby.
          */
-        double ptSize = font.getSize2D();
-        AffineTransform glyphTx = (AffineTransform)devTx.clone();
-        glyphTx.scale(ptSize, ptSize);
-        if (font.isTransformed()) {
-            glyphTx.concatenate(font.getTransform());
+        doublf ptSizf = font.gftSizf2D();
+        AffinfTrbnsform glypiTx = (AffinfTrbnsform)dfvTx.dlonf();
+        glypiTx.sdblf(ptSizf, ptSizf);
+        if (font.isTrbnsformfd()) {
+            glypiTx.dondbtfnbtf(font.gftTrbnsform());
         }
-        if (glyphTx.getTranslateX() != 0 || glyphTx.getTranslateY() != 0) {
-            glyphTx.setTransform(glyphTx.getScaleX(),
-                                 glyphTx.getShearY(),
-                                 glyphTx.getShearX(),
-                                 glyphTx.getScaleY(),
+        if (glypiTx.gftTrbnslbtfX() != 0 || glypiTx.gftTrbnslbtfY() != 0) {
+            glypiTx.sftTrbnsform(glypiTx.gftSdblfX(),
+                                 glypiTx.gftSifbrY(),
+                                 glypiTx.gftSifbrX(),
+                                 glypiTx.gftSdblfY(),
                                  0.0, 0.0);
         }
-        FontStrikeDesc desc = new FontStrikeDesc(devTx, glyphTx,
-                                                 font.getStyle(), aa, fm);
-        return getStrike(desc, false);
+        FontStrikfDfsd dfsd = nfw FontStrikfDfsd(dfvTx, glypiTx,
+                                                 font.gftStylf(), bb, fm);
+        rfturn gftStrikf(dfsd, fblsf);
     }
 
-    public FontStrike getStrike(Font font, AffineTransform devTx,
-                                AffineTransform glyphTx,
-                                int aa, int fm) {
+    publid FontStrikf gftStrikf(Font font, AffinfTrbnsform dfvTx,
+                                AffinfTrbnsform glypiTx,
+                                int bb, int fm) {
 
-        /* Create the descriptor which is used to identify a strike
-         * in the strike cache/map. A strike is fully described by
-         * the attributes of this descriptor.
+        /* Crfbtf tif dfsdriptor wiidi is usfd to idfntify b strikf
+         * in tif strikf dbdif/mbp. A strikf is fully dfsdribfd by
+         * tif bttributfs of tiis dfsdriptor.
          */
-        FontStrikeDesc desc = new FontStrikeDesc(devTx, glyphTx,
-                                                 font.getStyle(), aa, fm);
-        return getStrike(desc, false);
+        FontStrikfDfsd dfsd = nfw FontStrikfDfsd(dfvTx, glypiTx,
+                                                 font.gftStylf(), bb, fm);
+        rfturn gftStrikf(dfsd, fblsf);
     }
 
-    public FontStrike getStrike(Font font, FontRenderContext frc) {
+    publid FontStrikf gftStrikf(Font font, FontRfndfrContfxt frd) {
 
-        AffineTransform at = frc.getTransform();
-        double ptSize = font.getSize2D();
-        at.scale(ptSize, ptSize);
-        if (font.isTransformed()) {
-            at.concatenate(font.getTransform());
-            if (at.getTranslateX() != 0 || at.getTranslateY() != 0) {
-                at.setTransform(at.getScaleX(),
-                                at.getShearY(),
-                                at.getShearX(),
-                                at.getScaleY(),
+        AffinfTrbnsform bt = frd.gftTrbnsform();
+        doublf ptSizf = font.gftSizf2D();
+        bt.sdblf(ptSizf, ptSizf);
+        if (font.isTrbnsformfd()) {
+            bt.dondbtfnbtf(font.gftTrbnsform());
+            if (bt.gftTrbnslbtfX() != 0 || bt.gftTrbnslbtfY() != 0) {
+                bt.sftTrbnsform(bt.gftSdblfX(),
+                                bt.gftSifbrY(),
+                                bt.gftSifbrX(),
+                                bt.gftSdblfY(),
                                 0.0, 0.0);
             }
         }
-        int aa = FontStrikeDesc.getAAHintIntVal(this, font, frc);
-        int fm = FontStrikeDesc.getFMHintIntVal(frc.getFractionalMetricsHint());
-        FontStrikeDesc desc = new FontStrikeDesc(frc.getTransform(),
-                                                 at, font.getStyle(),
-                                                 aa, fm);
-        return getStrike(desc, false);
+        int bb = FontStrikfDfsd.gftAAHintIntVbl(tiis, font, frd);
+        int fm = FontStrikfDfsd.gftFMHintIntVbl(frd.gftFrbdtionblMftridsHint());
+        FontStrikfDfsd dfsd = nfw FontStrikfDfsd(frd.gftTrbnsform(),
+                                                 bt, font.gftStylf(),
+                                                 bb, fm);
+        rfturn gftStrikf(dfsd, fblsf);
     }
 
-    FontStrike getStrike(FontStrikeDesc desc) {
-        return getStrike(desc, true);
+    FontStrikf gftStrikf(FontStrikfDfsd dfsd) {
+        rfturn gftStrikf(dfsd, truf);
     }
 
-    private FontStrike getStrike(FontStrikeDesc desc, boolean copy) {
-        /* Before looking in the map, see if the descriptor matches the
-         * last strike returned from this Font2D. This should often be a win
-         * since its common for the same font, in the same size to be
-         * used frequently, for example in many parts of a UI.
+    privbtf FontStrikf gftStrikf(FontStrikfDfsd dfsd, boolfbn dopy) {
+        /* Bfforf looking in tif mbp, sff if tif dfsdriptor mbtdifs tif
+         * lbst strikf rfturnfd from tiis Font2D. Tiis siould oftfn bf b win
+         * sindf its dommon for tif sbmf font, in tif sbmf sizf to bf
+         * usfd frfqufntly, for fxbmplf in mbny pbrts of b UI.
          *
-         * If its not the same then we use the descriptor to locate a
-         * Reference to the strike. If it exists and points to a strike,
-         * then we update the last strike to refer to that and return it.
+         * If its not tif sbmf tifn wf usf tif dfsdriptor to lodbtf b
+         * Rfffrfndf to tif strikf. If it fxists bnd points to b strikf,
+         * tifn wf updbtf tif lbst strikf to rfffr to tibt bnd rfturn it.
          *
-         * If the key isn't in the map, or its reference object has been
-         * collected, then we create a new strike, put it in the map and
-         * set it to be the last strike.
+         * If tif kfy isn't in tif mbp, or its rfffrfndf objfdt ibs bffn
+         * dollfdtfd, tifn wf drfbtf b nfw strikf, put it in tif mbp bnd
+         * sft it to bf tif lbst strikf.
          */
-        FontStrike strike = lastFontStrike.get();
-        if (strike != null && desc.equals(strike.desc)) {
-            //strike.lastlookupTime = System.currentTimeMillis();
-            return strike;
-        } else {
-            Reference<FontStrike> strikeRef = strikeCache.get(desc);
-            if (strikeRef != null) {
-                strike = strikeRef.get();
-                if (strike != null) {
-                    //strike.lastlookupTime = System.currentTimeMillis();
-                    lastFontStrike = new SoftReference<>(strike);
-                    StrikeCache.refStrike(strike);
-                    return strike;
+        FontStrikf strikf = lbstFontStrikf.gft();
+        if (strikf != null && dfsd.fqubls(strikf.dfsd)) {
+            //strikf.lbstlookupTimf = Systfm.durrfntTimfMillis();
+            rfturn strikf;
+        } flsf {
+            Rfffrfndf<FontStrikf> strikfRff = strikfCbdif.gft(dfsd);
+            if (strikfRff != null) {
+                strikf = strikfRff.gft();
+                if (strikf != null) {
+                    //strikf.lbstlookupTimf = Systfm.durrfntTimfMillis();
+                    lbstFontStrikf = nfw SoftRfffrfndf<>(strikf);
+                    StrikfCbdif.rffStrikf(strikf);
+                    rfturn strikf;
                 }
             }
-            /* When we create a new FontStrike instance, we *must*
-             * ask the StrikeCache for a reference. We must then ensure
-             * this reference remains reachable, by storing it in the
-             * Font2D's strikeCache map.
-             * So long as the Reference is there (reachable) then if the
-             * reference is cleared, it will be enqueued for disposal.
-             * If for some reason we explicitly remove this reference, it
-             * must only be done when holding a strong reference to the
-             * referent (the FontStrike), or if the reference is cleared,
-             * then we must explicitly "dispose" of the native resources.
-             * The only place this currently happens is in this same method,
-             * where we find a cleared reference and need to overwrite it
-             * here with a new reference.
-             * Clearing the whilst holding a strong reference, should only
-             * be done if the
+            /* Wifn wf drfbtf b nfw FontStrikf instbndf, wf *must*
+             * bsk tif StrikfCbdif for b rfffrfndf. Wf must tifn fnsurf
+             * tiis rfffrfndf rfmbins rfbdibblf, by storing it in tif
+             * Font2D's strikfCbdif mbp.
+             * So long bs tif Rfffrfndf is tifrf (rfbdibblf) tifn if tif
+             * rfffrfndf is dlfbrfd, it will bf fnqufufd for disposbl.
+             * If for somf rfbson wf fxpliditly rfmovf tiis rfffrfndf, it
+             * must only bf donf wifn iolding b strong rfffrfndf to tif
+             * rfffrfnt (tif FontStrikf), or if tif rfffrfndf is dlfbrfd,
+             * tifn wf must fxpliditly "disposf" of tif nbtivf rfsourdfs.
+             * Tif only plbdf tiis durrfntly ibppfns is in tiis sbmf mftiod,
+             * wifrf wf find b dlfbrfd rfffrfndf bnd nffd to ovfrwritf it
+             * ifrf witi b nfw rfffrfndf.
+             * Clfbring tif wiilst iolding b strong rfffrfndf, siould only
+             * bf donf if tif
              */
-            if (copy) {
-                desc = new FontStrikeDesc(desc);
+            if (dopy) {
+                dfsd = nfw FontStrikfDfsd(dfsd);
             }
-            strike = createStrike(desc);
-            //StrikeCache.addStrike();
-            /* If we are creating many strikes on this font which
-             * involve non-quadrant rotations, or more general
-             * transforms which include shears, then force the use
-             * of weak references rather than soft references.
-             * This means that it won't live much beyond the next GC,
-             * which is what we want for what is likely a transient strike.
+            strikf = drfbtfStrikf(dfsd);
+            //StrikfCbdif.bddStrikf();
+            /* If wf brf drfbting mbny strikfs on tiis font wiidi
+             * involvf non-qubdrbnt rotbtions, or morf gfnfrbl
+             * trbnsforms wiidi indludf sifbrs, tifn fordf tif usf
+             * of wfbk rfffrfndfs rbtifr tibn soft rfffrfndfs.
+             * Tiis mfbns tibt it won't livf mudi bfyond tif nfxt GC,
+             * wiidi is wibt wf wbnt for wibt is likfly b trbnsifnt strikf.
              */
-            int txType = desc.glyphTx.getType();
-            if (txType == AffineTransform.TYPE_GENERAL_TRANSFORM ||
-                (txType & AffineTransform.TYPE_GENERAL_ROTATION) != 0 &&
-                strikeCache.size() > 10) {
-                strikeRef = StrikeCache.getStrikeRef(strike, true);
-            } else {
-                strikeRef = StrikeCache.getStrikeRef(strike);
+            int txTypf = dfsd.glypiTx.gftTypf();
+            if (txTypf == AffinfTrbnsform.TYPE_GENERAL_TRANSFORM ||
+                (txTypf & AffinfTrbnsform.TYPE_GENERAL_ROTATION) != 0 &&
+                strikfCbdif.sizf() > 10) {
+                strikfRff = StrikfCbdif.gftStrikfRff(strikf, truf);
+            } flsf {
+                strikfRff = StrikfCbdif.gftStrikfRff(strikf);
             }
-            strikeCache.put(desc, strikeRef);
-            //strike.lastlookupTime = System.currentTimeMillis();
-            lastFontStrike = new SoftReference<>(strike);
-            StrikeCache.refStrike(strike);
-            return strike;
+            strikfCbdif.put(dfsd, strikfRff);
+            //strikf.lbstlookupTimf = Systfm.durrfntTimfMillis();
+            lbstFontStrikf = nfw SoftRfffrfndf<>(strikf);
+            StrikfCbdif.rffStrikf(strikf);
+            rfturn strikf;
         }
     }
 
-    void removeFromCache(FontStrikeDesc desc) {
-        Reference<FontStrike> ref = strikeCache.get(desc);
-        if (ref != null) {
-            Object o = ref.get();
+    void rfmovfFromCbdif(FontStrikfDfsd dfsd) {
+        Rfffrfndf<FontStrikf> rff = strikfCbdif.gft(dfsd);
+        if (rff != null) {
+            Objfdt o = rff.gft();
             if (o == null) {
-                strikeCache.remove(desc);
+                strikfCbdif.rfmovf(dfsd);
             }
         }
     }
 
     /**
-     * The length of the metrics array must be >= 8.  This method will
-     * store the following elements in that array before returning:
-     *    metrics[0]: ascent
-     *    metrics[1]: descent
-     *    metrics[2]: leading
-     *    metrics[3]: max advance
-     *    metrics[4]: strikethrough offset
-     *    metrics[5]: strikethrough thickness
-     *    metrics[6]: underline offset
-     *    metrics[7]: underline thickness
+     * Tif lfngti of tif mftrids brrby must bf >= 8.  Tiis mftiod will
+     * storf tif following flfmfnts in tibt brrby bfforf rfturning:
+     *    mftrids[0]: bsdfnt
+     *    mftrids[1]: dfsdfnt
+     *    mftrids[2]: lfbding
+     *    mftrids[3]: mbx bdvbndf
+     *    mftrids[4]: strikftirougi offsft
+     *    mftrids[5]: strikftirougi tiidknfss
+     *    mftrids[6]: undfrlinf offsft
+     *    mftrids[7]: undfrlinf tiidknfss
      */
-    public void getFontMetrics(Font font, AffineTransform at,
-                               Object aaHint, Object fmHint,
-                               float metrics[]) {
-        /* This is called in just one place in Font with "at" == identity.
-         * Perhaps this can be eliminated.
+    publid void gftFontMftrids(Font font, AffinfTrbnsform bt,
+                               Objfdt bbHint, Objfdt fmHint,
+                               flobt mftrids[]) {
+        /* Tiis is dbllfd in just onf plbdf in Font witi "bt" == idfntity.
+         * Pfribps tiis dbn bf fliminbtfd.
          */
-        int aa = FontStrikeDesc.getAAHintIntVal(aaHint, this, font.getSize());
-        int fm = FontStrikeDesc.getFMHintIntVal(fmHint);
-        FontStrike strike = getStrike(font, at, aa, fm);
-        StrikeMetrics strikeMetrics = strike.getFontMetrics();
-        metrics[0] = strikeMetrics.getAscent();
-        metrics[1] = strikeMetrics.getDescent();
-        metrics[2] = strikeMetrics.getLeading();
-        metrics[3] = strikeMetrics.getMaxAdvance();
+        int bb = FontStrikfDfsd.gftAAHintIntVbl(bbHint, tiis, font.gftSizf());
+        int fm = FontStrikfDfsd.gftFMHintIntVbl(fmHint);
+        FontStrikf strikf = gftStrikf(font, bt, bb, fm);
+        StrikfMftrids strikfMftrids = strikf.gftFontMftrids();
+        mftrids[0] = strikfMftrids.gftAsdfnt();
+        mftrids[1] = strikfMftrids.gftDfsdfnt();
+        mftrids[2] = strikfMftrids.gftLfbding();
+        mftrids[3] = strikfMftrids.gftMbxAdvbndf();
 
-        getStyleMetrics(font.getSize2D(), metrics, 4);
+        gftStylfMftrids(font.gftSizf2D(), mftrids, 4);
     }
 
     /**
-     * The length of the metrics array must be >= offset+4, and offset must be
-     * >= 0.  Typically offset is 4.  This method will
-     * store the following elements in that array before returning:
-     *    metrics[off+0]: strikethrough offset
-     *    metrics[off+1]: strikethrough thickness
-     *    metrics[off+2]: underline offset
-     *    metrics[off+3]: underline thickness
+     * Tif lfngti of tif mftrids brrby must bf >= offsft+4, bnd offsft must bf
+     * >= 0.  Typidblly offsft is 4.  Tiis mftiod will
+     * storf tif following flfmfnts in tibt brrby bfforf rfturning:
+     *    mftrids[off+0]: strikftirougi offsft
+     *    mftrids[off+1]: strikftirougi tiidknfss
+     *    mftrids[off+2]: undfrlinf offsft
+     *    mftrids[off+3]: undfrlinf tiidknfss
      *
-     * Note that this implementation simply returns default values;
-     * subclasses can override this method to provide more accurate values.
+     * Notf tibt tiis implfmfntbtion simply rfturns dffbult vblufs;
+     * subdlbssfs dbn ovfrridf tiis mftiod to providf morf bddurbtf vblufs.
      */
-    public void getStyleMetrics(float pointSize, float[] metrics, int offset) {
-        metrics[offset] = -metrics[0] / 2.5f;
-        metrics[offset+1] = pointSize / 12;
-        metrics[offset+2] = metrics[offset+1] / 1.5f;
-        metrics[offset+3] = metrics[offset+1];
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+        mftrids[offsft] = -mftrids[0] / 2.5f;
+        mftrids[offsft+1] = pointSizf / 12;
+        mftrids[offsft+2] = mftrids[offsft+1] / 1.5f;
+        mftrids[offsft+3] = mftrids[offsft+1];
     }
 
     /**
-     * The length of the metrics array must be >= 4.  This method will
-     * store the following elements in that array before returning:
-     *    metrics[0]: ascent
-     *    metrics[1]: descent
-     *    metrics[2]: leading
-     *    metrics[3]: max advance
+     * Tif lfngti of tif mftrids brrby must bf >= 4.  Tiis mftiod will
+     * storf tif following flfmfnts in tibt brrby bfforf rfturning:
+     *    mftrids[0]: bsdfnt
+     *    mftrids[1]: dfsdfnt
+     *    mftrids[2]: lfbding
+     *    mftrids[3]: mbx bdvbndf
      */
-    public void getFontMetrics(Font font, FontRenderContext frc,
-                               float metrics[]) {
-        StrikeMetrics strikeMetrics = getStrike(font, frc).getFontMetrics();
-        metrics[0] = strikeMetrics.getAscent();
-        metrics[1] = strikeMetrics.getDescent();
-        metrics[2] = strikeMetrics.getLeading();
-        metrics[3] = strikeMetrics.getMaxAdvance();
+    publid void gftFontMftrids(Font font, FontRfndfrContfxt frd,
+                               flobt mftrids[]) {
+        StrikfMftrids strikfMftrids = gftStrikf(font, frd).gftFontMftrids();
+        mftrids[0] = strikfMftrids.gftAsdfnt();
+        mftrids[1] = strikfMftrids.gftDfsdfnt();
+        mftrids[2] = strikfMftrids.gftLfbding();
+        mftrids[3] = strikfMftrids.gftMbxAdvbndf();
     }
 
-    /* Currently the layout code calls this. May be better for layout code
-     * to check the font class before attempting to run, rather than needing
-     * to promote this method up from TrueTypeFont
+    /* Currfntly tif lbyout dodf dblls tiis. Mby bf bfttfr for lbyout dodf
+     * to difdk tif font dlbss bfforf bttfmpting to run, rbtifr tibn nffding
+     * to promotf tiis mftiod up from TrufTypfFont
      */
-    byte[] getTableBytes(int tag) {
-        return null;
+    bytf[] gftTbblfBytfs(int tbg) {
+        rfturn null;
     }
 
-    /* for layout code */
-    protected long getUnitsPerEm() {
-        return 2048;
+    /* for lbyout dodf */
+    protfdtfd long gftUnitsPfrEm() {
+        rfturn 2048;
     }
 
-    boolean supportsEncoding(String encoding) {
-        return false;
+    boolfbn supportsEndoding(String fndoding) {
+        rfturn fblsf;
     }
 
-    public boolean canDoStyle(int style) {
-        return (style == this.style);
+    publid boolfbn dbnDoStylf(int stylf) {
+        rfturn (stylf == tiis.stylf);
     }
 
     /*
-     * All the important subclasses override this which is principally for
-     * the TrueType 'gasp' table.
+     * All tif importbnt subdlbssfs ovfrridf tiis wiidi is prindipblly for
+     * tif TrufTypf 'gbsp' tbblf.
      */
-    public boolean useAAForPtSize(int ptsize) {
-        return true;
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+        rfturn truf;
     }
 
-    public boolean hasSupplementaryChars() {
-        return false;
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+        rfturn fblsf;
     }
 
-    /* The following methods implement public methods on java.awt.Font */
-    public String getPostscriptName() {
-        return fullName;
+    /* Tif following mftiods implfmfnt publid mftiods on jbvb.bwt.Font */
+    publid String gftPostsdriptNbmf() {
+        rfturn fullNbmf;
     }
 
-    public String getFontName(Locale l) {
-        return fullName;
+    publid String gftFontNbmf(Lodblf l) {
+        rfturn fullNbmf;
     }
 
-    public String getFamilyName(Locale l) {
-        return familyName;
+    publid String gftFbmilyNbmf(Lodblf l) {
+        rfturn fbmilyNbmf;
     }
 
-    public int getNumGlyphs() {
-        return getMapper().getNumGlyphs();
+    publid int gftNumGlypis() {
+        rfturn gftMbppfr().gftNumGlypis();
     }
 
-    public int charToGlyph(int wchar) {
-        return getMapper().charToGlyph(wchar);
+    publid int dibrToGlypi(int wdibr) {
+        rfturn gftMbppfr().dibrToGlypi(wdibr);
     }
 
-    public int getMissingGlyphCode() {
-        return getMapper().getMissingGlyphCode();
+    publid int gftMissingGlypiCodf() {
+        rfturn gftMbppfr().gftMissingGlypiCodf();
     }
 
-    public boolean canDisplay(char c) {
-        return getMapper().canDisplay(c);
+    publid boolfbn dbnDisplby(dibr d) {
+        rfturn gftMbppfr().dbnDisplby(d);
     }
 
-    public boolean canDisplay(int cp) {
-        return getMapper().canDisplay(cp);
+    publid boolfbn dbnDisplby(int dp) {
+        rfturn gftMbppfr().dbnDisplby(dp);
     }
 
-    public byte getBaselineFor(char c) {
-        return Font.ROMAN_BASELINE;
+    publid bytf gftBbsflinfFor(dibr d) {
+        rfturn Font.ROMAN_BASELINE;
     }
 
-    public float getItalicAngle(Font font, AffineTransform at,
-                                Object aaHint, Object fmHint) {
-        /* hardwire psz=12 as that's typical and AA vs non-AA for 'gasp' mode
-         * isn't important for the caret slope of this rarely used API.
+    publid flobt gftItblidAnglf(Font font, AffinfTrbnsform bt,
+                                Objfdt bbHint, Objfdt fmHint) {
+        /* ibrdwirf psz=12 bs tibt's typidbl bnd AA vs non-AA for 'gbsp' modf
+         * isn't importbnt for tif dbrft slopf of tiis rbrfly usfd API.
          */
-        int aa = FontStrikeDesc.getAAHintIntVal(aaHint, this, 12);
-        int fm = FontStrikeDesc.getFMHintIntVal(fmHint);
-        FontStrike strike = getStrike(font, at, aa, fm);
-        StrikeMetrics metrics = strike.getFontMetrics();
-        if (metrics.ascentY == 0 || metrics.ascentX == 0) {
-            return 0f;
-        } else {
-            /* ascent is "up" from the baseline so its typically
-             * a negative value, so we need to compensate
+        int bb = FontStrikfDfsd.gftAAHintIntVbl(bbHint, tiis, 12);
+        int fm = FontStrikfDfsd.gftFMHintIntVbl(fmHint);
+        FontStrikf strikf = gftStrikf(font, bt, bb, fm);
+        StrikfMftrids mftrids = strikf.gftFontMftrids();
+        if (mftrids.bsdfntY == 0 || mftrids.bsdfntX == 0) {
+            rfturn 0f;
+        } flsf {
+            /* bsdfnt is "up" from tif bbsflinf so its typidblly
+             * b nfgbtivf vbluf, so wf nffd to dompfnsbtf
              */
-            return metrics.ascentX/-metrics.ascentY;
+            rfturn mftrids.bsdfntX/-mftrids.bsdfntY;
         }
     }
 

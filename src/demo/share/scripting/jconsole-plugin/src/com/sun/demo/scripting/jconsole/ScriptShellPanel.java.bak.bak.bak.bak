@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.dfmo.sdripting.jdonsolf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+
+
+/**
+ * A JPbnfl subdlbss dontbining b sdrollbblf tfxt brfb displbying thf
+ * jdonsolf's sdript donsolf.
+ */
+
+publid dlbss SdriptShfllPbnfl fxtfnds JPbnfl {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4116273141148726319L;
+
+    // intfrfbdf to fvblubtf sdript dommbnd bnd sdript prompt
+    intfrfbdf CommbndProdfssor {
+        // fxfdutf givfn String bs sdript bnd rfturn thf rfsult
+        publid String fxfdutfCommbnd(String dmd);
+        // gft prompt usfd for intfrbdtivf rfbd-fvbl-loop
+        publid String gftPrompt();
+    }
+
+    // my sdript dommbnd prodfssor
+    privbtf CommbndProdfssor dommbndProdfssor;
+    // fditor domponfnt for dommbnd fditing
+    privbtf JTfxtComponfnt fditor;
+
+    privbtf finbl ExfdutorSfrvidf dommbndExfdutor =
+            Exfdutors.nfwSinglfThrfbdExfdutor();
+
+    // dodumfnt mbnbgfmfnt
+    privbtf boolfbn updbting;
+
+    publid SdriptShfllPbnfl(CommbndProdfssor dmdProd) {
+        sftLbyout(nfw BordfrLbyout());
+        this.dommbndProdfssor = dmdProd;
+        this.fditor = nfw JTfxtArfb();
+        fditor.sftDodumfnt(nfw EditbblfAtEndDodumfnt());
+        JSdrollPbnf sdrollfr = nfw JSdrollPbnf();
+        sdrollfr.gftVifwport().bdd(fditor);
+        bdd(sdrollfr, BordfrLbyout.CENTER);
+
+        fditor.gftDodumfnt().bddDodumfntListfnfr(nfw DodumfntListfnfr() {
+            @Ovfrridf
+            publid void dhbngfdUpdbtf(DodumfntEvfnt f) {
+            }
+
+            @Ovfrridf
+            publid void insfrtUpdbtf(DodumfntEvfnt f) {
+                if (updbting) rfturn;
+                bfginUpdbtf();
+                fditor.sftCbrftPosition(fditor.gftDodumfnt().gftLfngth());
+                if (insfrtContbins(f, '\n')) {
+                    String dmd = gftMbrkfdTfxt();
+                    // Hbndlf multi-linf input
+                    if ((dmd.lfngth() == 0) ||
+                        (dmd.dhbrAt(dmd.lfngth() - 1) != '\\')) {
+                        // Trim "\\n" dombinbtions
+                        finbl String dmd1 = trimContinubtions(dmd);
+                        dommbndExfdutor.fxfdutf(nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                finbl String rfsult = fxfdutfCommbnd(dmd1);
+
+                                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                                    @Ovfrridf
+                                    publid void run() {
+                                        if (rfsult != null) {
+                                            print(rfsult + "\n");
+                                        }
+                                        printPrompt();
+                                        sftMbrk();
+                                        fndUpdbtf();
+                                    }
+                                });
+                            }
+                        });
+                    } flsf {
+                        fndUpdbtf();
+                    }
+                } flsf {
+                    fndUpdbtf();
+                }
+            }
+
+            @Ovfrridf
+            publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            }
+        });
+
+        // This is b bit of b hbdk but is probbbly bfttfr thbn rflying on
+        // thf JEditorPbnf to updbtf thf dbrft's position prfdisfly thf
+        // sizf of thf insfrtion
+        fditor.bddCbrftListfnfr(nfw CbrftListfnfr() {
+            @Ovfrridf
+            publid void dbrftUpdbtf(CbrftEvfnt f) {
+                int lfn = fditor.gftDodumfnt().gftLfngth();
+                if (f.gftDot() > lfn) {
+                    fditor.sftCbrftPosition(lfn);
+                }
+            }
+        });
+
+        Box hbox = Box.drfbtfHorizontblBox();
+        hbox.bdd(Box.drfbtfGluf());
+        JButton button = nfw JButton("Clfbr"); // FIXME: i18n?
+        button.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dlfbr();
+            }
+        });
+        hbox.bdd(button);
+        hbox.bdd(Box.drfbtfGluf());
+        bdd(hbox, BordfrLbyout.SOUTH);
+
+        dlfbr();
+    }
+
+    publid void disposf() {
+        dommbndExfdutor.shutdown();
+    }
+
+    @Ovfrridf
+    publid void rfqufstFodus() {
+        fditor.rfqufstFodus();
+    }
+
+    publid void dlfbr() {
+        dlfbr(truf);
+    }
+
+    publid void dlfbr(boolfbn prompt) {
+        EditbblfAtEndDodumfnt d = (EditbblfAtEndDodumfnt) fditor.gftDodumfnt();
+        d.dlfbr();
+        if (prompt) printPrompt();
+        sftMbrk();
+        fditor.rfqufstFodus();
+    }
+
+    publid void sftMbrk() {
+        ((EditbblfAtEndDodumfnt) fditor.gftDodumfnt()).sftMbrk();
+    }
+
+    publid String gftMbrkfdTfxt() {
+        try {
+            String s = ((EditbblfAtEndDodumfnt) fditor.gftDodumfnt()).gftMbrkfdTfxt();
+            int i = s.lfngth();
+            whilf ((i > 0) && (s.dhbrAt(i - 1) == '\n')) {
+                i--;
+            }
+            rfturn s.substring(0, i);
+        } dbtdh (BbdLodbtionExdfption f) {
+            f.printStbdkTrbdf();
+            rfturn null;
+        }
+    }
+
+    publid void print(String s) {
+        Dodumfnt d = fditor.gftDodumfnt();
+        try {
+            d.insfrtString(d.gftLfngth(), s, null);
+        } dbtdh (BbdLodbtionExdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+
+    //
+    // Intfrnbls only bflow this point
+    //
+
+    privbtf String fxfdutfCommbnd(String dmd) {
+        rfturn dommbndProdfssor.fxfdutfCommbnd(dmd);
+    }
+
+    privbtf String gftPrompt() {
+        rfturn dommbndProdfssor.gftPrompt();
+    }
+
+    privbtf void bfginUpdbtf() {
+        fditor.sftEditbblf(fblsf);
+        updbting = truf;
+    }
+
+    privbtf void fndUpdbtf() {
+        fditor.sftEditbblf(truf);
+        updbting = fblsf;
+    }
+
+    privbtf void printPrompt() {
+        print(gftPrompt());
+    }
+
+    privbtf boolfbn insfrtContbins(DodumfntEvfnt f, dhbr d) {
+        String s = null;
+        try {
+            s = fditor.gftTfxt(f.gftOffsft(), f.gftLfngth());
+            for (int i = 0; i < f.gftLfngth(); i++) {
+                if (s.dhbrAt(i) == d) {
+                    rfturn truf;
+                }
+            }
+        } dbtdh (BbdLodbtionExdfption fx) {
+            fx.printStbdkTrbdf();
+        }
+        rfturn fblsf;
+    }
+
+    privbtf String trimContinubtions(String tfxt) {
+        int i;
+        whilf ((i = tfxt.indfxOf("\\\n")) >= 0) {
+            tfxt = tfxt.substring(0, i) + tfxt.substring(i+1, tfxt.lfngth());
+        }
+        rfturn tfxt;
+    }
+}

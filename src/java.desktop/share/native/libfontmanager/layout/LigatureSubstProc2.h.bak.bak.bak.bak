@@ -1,0 +1,97 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __LIGATURESUBSTITUTIONPROCESSOR2_H
+#dffinf __LIGATURESUBSTITUTIONPROCESSOR2_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "SubtbblfProdfssor2.h"
+#indludf "StbtfTbblfProdfssor2.h"
+#indludf "LigbturfSubstitution.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+#dffinf nComponfnts 16
+
+dlbss LigbturfSubstitutionProdfssor2 : publid StbtfTbblfProdfssor2
+{
+publid:
+    virtubl void bfginStbtfTbblf();
+
+    virtubl lf_uint16 prodfssStbtfEntry(LEGlyphStorbgf &glyphStorbgf, lf_int32 &durrGlyph,
+                                        EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss);
+
+    virtubl void fndStbtfTbblf();
+
+    LigbturfSubstitutionProdfssor2(donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss);
+    virtubl ~LigbturfSubstitutionProdfssor2();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+privbtf:
+    LigbturfSubstitutionProdfssor2();
+
+protfdtfd:
+    lf_uint32 ligAdtionOffsft;
+    lf_uint32 domponfntOffsft;
+    lf_uint32 ligbturfOffsft;
+
+    LERfffrfndfToArrbyOf<LigbturfSubstitutionStbtfEntry2> fntryTbblf;
+
+    lf_int32 domponfntStbdk[nComponfnts];
+    lf_int16 m;
+
+    donst LERfffrfndfTo<LigbturfSubstitutionHfbdfr2> ligbturfSubstitutionHfbdfr;
+
+};
+
+U_NAMESPACE_END
+#fndif

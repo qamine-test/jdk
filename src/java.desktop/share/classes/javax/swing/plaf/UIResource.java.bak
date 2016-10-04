@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf;
+pbdkbgf jbvbx.swing.plbf;
 
 
 /**
- * This interface is used to mark objects created by ComponentUI delegates.
- * The <code>ComponentUI.installUI()</code> and
- * <code>ComponentUI.uninstallUI()</code> methods can use this interface
- * to decide if a properties value has been overridden.  For example, the
- * JList cellRenderer property is initialized by BasicListUI.installUI(),
- * only if it's initial value is null:
- * <pre>
- * if (list.getCellRenderer() == null) {
- *     list.setCellRenderer((ListCellRenderer)(UIManager.get("List.cellRenderer")));
+ * Tiis intfrfbdf is usfd to mbrk objfdts drfbtfd by ComponfntUI dflfgbtfs.
+ * Tif <dodf>ComponfntUI.instbllUI()</dodf> bnd
+ * <dodf>ComponfntUI.uninstbllUI()</dodf> mftiods dbn usf tiis intfrfbdf
+ * to dfdidf if b propfrtifs vbluf ibs bffn ovfrriddfn.  For fxbmplf, tif
+ * JList dfllRfndfrfr propfrty is initiblizfd by BbsidListUI.instbllUI(),
+ * only if it's initibl vbluf is null:
+ * <prf>
+ * if (list.gftCfllRfndfrfr() == null) {
+ *     list.sftCfllRfndfrfr((ListCfllRfndfrfr)(UIMbnbgfr.gft("List.dfllRfndfrfr")));
  * }
- * </pre>
- * At uninstallUI() time we reset the property to null if its value
- * is an instance of UIResource:
- * <pre>
- * if (list.getCellRenderer() instanceof UIResource) {
- *     list.setCellRenderer(null);
+ * </prf>
+ * At uninstbllUI() timf wf rfsft tif propfrty to null if its vbluf
+ * is bn instbndf of UIRfsourdf:
+ * <prf>
+ * if (list.gftCfllRfndfrfr() instbndfof UIRfsourdf) {
+ *     list.sftCfllRfndfrfr(null);
  * }
- *</pre>
- * This pattern applies to all properties except the java.awt.Component
- * properties font, foreground, and background.  If one of these
- * properties isn't initialized, or is explicitly set to null,
- * its container provides the value.  For this reason the
- * <code>"== null"</code> is unreliable when installUI() is called
- * to dynamically change a components look and feel.  So at installUI()
- * time we check to see if the current value is a UIResource:
- *<pre>
- * if (!(list.getFont() instanceof UIResource)) {
- *     list.setFont(UIManager.getFont("List.font"));
+ *</prf>
+ * Tiis pbttfrn bpplifs to bll propfrtifs fxdfpt tif jbvb.bwt.Componfnt
+ * propfrtifs font, forfground, bnd bbdkground.  If onf of tifsf
+ * propfrtifs isn't initiblizfd, or is fxpliditly sft to null,
+ * its dontbinfr providfs tif vbluf.  For tiis rfbson tif
+ * <dodf>"== null"</dodf> is unrflibblf wifn instbllUI() is dbllfd
+ * to dynbmidblly dibngf b domponfnts look bnd fffl.  So bt instbllUI()
+ * timf wf difdk to sff if tif durrfnt vbluf is b UIRfsourdf:
+ *<prf>
+ * if (!(list.gftFont() instbndfof UIRfsourdf)) {
+ *     list.sftFont(UIMbnbgfr.gftFont("List.font"));
  * }
- * </pre>
+ * </prf>
  *
- * @see ComponentUI
- * @author Hans Muller
+ * @sff ComponfntUI
+ * @butior Hbns Mullfr
  *
  */
 
-public interface UIResource {
+publid intfrfbdf UIRfsourdf {
 }

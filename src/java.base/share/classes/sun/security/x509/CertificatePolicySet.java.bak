@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.util.Vector;
-import java.util.List;
-import java.util.Collections;
+import jbvb.io.IOExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the certificate policy set ASN.1 object.
+ * Tiis dlbss dffinfs tif dfrtifidbtf polidy sft ASN.1 objfdt.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class CertificatePolicySet {
+publid dlbss CfrtifidbtfPolidySft {
 
-    private final Vector<CertificatePolicyId> ids;
+    privbtf finbl Vfdtor<CfrtifidbtfPolidyId> ids;
 
     /**
-     * The default constructor for this class.
+     * Tif dffbult donstrudtor for tiis dlbss.
      *
-     * @param ids the sequence of CertificatePolicyId's.
+     * @pbrbm ids tif sfqufndf of CfrtifidbtfPolidyId's.
      */
-    public CertificatePolicySet(Vector<CertificatePolicyId> ids) {
-        this.ids = ids;
+    publid CfrtifidbtfPolidySft(Vfdtor<CfrtifidbtfPolidyId> ids) {
+        tiis.ids = ids;
     }
 
     /**
-     * Create the object from the DerValue.
+     * Crfbtf tif objfdt from tif DfrVbluf.
      *
-     * @param in the passed DerInputStream.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif pbssfd DfrInputStrfbm.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificatePolicySet(DerInputStream in) throws IOException {
-        ids = new Vector<CertificatePolicyId>();
-        DerValue[] seq = in.getSequence(5);
+    publid CfrtifidbtfPolidySft(DfrInputStrfbm in) tirows IOExdfption {
+        ids = nfw Vfdtor<CfrtifidbtfPolidyId>();
+        DfrVbluf[] sfq = in.gftSfqufndf(5);
 
-        for (int i = 0; i < seq.length; i++) {
-            CertificatePolicyId id = new CertificatePolicyId(seq[i]);
-            ids.addElement(id);
+        for (int i = 0; i < sfq.lfngti; i++) {
+            CfrtifidbtfPolidyId id = nfw CfrtifidbtfPolidyId(sfq[i]);
+            ids.bddElfmfnt(id);
         }
     }
 
     /**
-     * Return printable form of the object.
+     * Rfturn printbblf form of tif objfdt.
      */
-    public String toString() {
-        String s = "CertificatePolicySet:[\n"
+    publid String toString() {
+        String s = "CfrtifidbtfPolidySft:[\n"
                  + ids.toString()
                  + "]\n";
 
-        return (s);
+        rfturn (s);
     }
 
     /**
-     * Encode the policy set to the output stream.
+     * Endodf tif polidy sft to tif output strfbm.
      *
-     * @param out the DerOutputStream to encode the data to.
+     * @pbrbm out tif DfrOutputStrfbm to fndodf tif dbtb to.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        for (int i = 0; i < ids.size(); i++) {
-            ids.elementAt(i).encode(tmp);
+        for (int i = 0; i < ids.sizf(); i++) {
+            ids.flfmfntAt(i).fndodf(tmp);
         }
-        out.write(DerValue.tag_Sequence,tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf,tmp);
     }
 
     /**
-     * Return the sequence of CertificatePolicyIds.
+     * Rfturn tif sfqufndf of CfrtifidbtfPolidyIds.
      *
-     * @return A List containing the CertificatePolicyId objects.
+     * @rfturn A List dontbining tif CfrtifidbtfPolidyId objfdts.
      *
      */
-    public List<CertificatePolicyId> getCertPolicyIds() {
-        return Collections.unmodifiableList(ids);
+    publid List<CfrtifidbtfPolidyId> gftCfrtPolidyIds() {
+        rfturn Collfdtions.unmodifibblfList(ids);
     }
 }

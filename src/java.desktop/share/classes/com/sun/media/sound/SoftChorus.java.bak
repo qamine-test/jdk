@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * A chorus effect made using LFO and variable delay. One for each channel
- * (left,right), with different starting phase for stereo effect.
+ * A diorus ffffdt mbdf using LFO bnd vbribblf dflby. Onf for fbdi dibnnfl
+ * (lfft,rigit), witi difffrfnt stbrting pibsf for stfrfo ffffdt.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftChorus implements SoftAudioProcessor {
+publid finbl dlbss SoftCiorus implfmfnts SoftAudioProdfssor {
 
-    private static class VariableDelay {
+    privbtf stbtid dlbss VbribblfDflby {
 
-        private final float[] delaybuffer;
-        private int rovepos = 0;
-        private float gain = 1;
-        private float rgain = 0;
-        private float delay = 0;
-        private float lastdelay = 0;
-        private float feedback = 0;
+        privbtf finbl flobt[] dflbybufffr;
+        privbtf int rovfpos = 0;
+        privbtf flobt gbin = 1;
+        privbtf flobt rgbin = 0;
+        privbtf flobt dflby = 0;
+        privbtf flobt lbstdflby = 0;
+        privbtf flobt fffdbbdk = 0;
 
-        VariableDelay(int maxbuffersize) {
-            delaybuffer = new float[maxbuffersize];
+        VbribblfDflby(int mbxbufffrsizf) {
+            dflbybufffr = nfw flobt[mbxbufffrsizf];
         }
 
-        public void setDelay(float delay) {
-            this.delay = delay;
+        publid void sftDflby(flobt dflby) {
+            tiis.dflby = dflby;
         }
 
-        public void setFeedBack(float feedback) {
-            this.feedback = feedback;
+        publid void sftFffdBbdk(flobt fffdbbdk) {
+            tiis.fffdbbdk = fffdbbdk;
         }
 
-        public void setGain(float gain) {
-            this.gain = gain;
+        publid void sftGbin(flobt gbin) {
+            tiis.gbin = gbin;
         }
 
-        public void setReverbSendGain(float rgain) {
-            this.rgain = rgain;
+        publid void sftRfvfrbSfndGbin(flobt rgbin) {
+            tiis.rgbin = rgbin;
         }
 
-        public void processMix(float[] in, float[] out, float[] rout) {
-            float gain = this.gain;
-            float delay = this.delay;
-            float feedback = this.feedback;
+        publid void prodfssMix(flobt[] in, flobt[] out, flobt[] rout) {
+            flobt gbin = tiis.gbin;
+            flobt dflby = tiis.dflby;
+            flobt fffdbbdk = tiis.fffdbbdk;
 
-            float[] delaybuffer = this.delaybuffer;
-            int len = in.length;
-            float delaydelta = (delay - lastdelay) / len;
-            int rnlen = delaybuffer.length;
-            int rovepos = this.rovepos;
+            flobt[] dflbybufffr = tiis.dflbybufffr;
+            int lfn = in.lfngti;
+            flobt dflbydfltb = (dflby - lbstdflby) / lfn;
+            int rnlfn = dflbybufffr.lfngti;
+            int rovfpos = tiis.rovfpos;
 
             if (rout == null)
-                for (int i = 0; i < len; i++) {
-                    float r = rovepos - (lastdelay + 2) + rnlen;
+                for (int i = 0; i < lfn; i++) {
+                    flobt r = rovfpos - (lbstdflby + 2) + rnlfn;
                     int ri = (int) r;
-                    float s = r - ri;
-                    float a = delaybuffer[ri % rnlen];
-                    float b = delaybuffer[(ri + 1) % rnlen];
-                    float o = a * (1 - s) + b * (s);
-                    out[i] += o * gain;
-                    delaybuffer[rovepos] = in[i] + o * feedback;
-                    rovepos = (rovepos + 1) % rnlen;
-                    lastdelay += delaydelta;
+                    flobt s = r - ri;
+                    flobt b = dflbybufffr[ri % rnlfn];
+                    flobt b = dflbybufffr[(ri + 1) % rnlfn];
+                    flobt o = b * (1 - s) + b * (s);
+                    out[i] += o * gbin;
+                    dflbybufffr[rovfpos] = in[i] + o * fffdbbdk;
+                    rovfpos = (rovfpos + 1) % rnlfn;
+                    lbstdflby += dflbydfltb;
                 }
-            else
-                for (int i = 0; i < len; i++) {
-                    float r = rovepos - (lastdelay + 2) + rnlen;
+            flsf
+                for (int i = 0; i < lfn; i++) {
+                    flobt r = rovfpos - (lbstdflby + 2) + rnlfn;
                     int ri = (int) r;
-                    float s = r - ri;
-                    float a = delaybuffer[ri % rnlen];
-                    float b = delaybuffer[(ri + 1) % rnlen];
-                    float o = a * (1 - s) + b * (s);
-                    out[i] += o * gain;
-                    rout[i] += o * rgain;
-                    delaybuffer[rovepos] = in[i] + o * feedback;
-                    rovepos = (rovepos + 1) % rnlen;
-                    lastdelay += delaydelta;
+                    flobt s = r - ri;
+                    flobt b = dflbybufffr[ri % rnlfn];
+                    flobt b = dflbybufffr[(ri + 1) % rnlfn];
+                    flobt o = b * (1 - s) + b * (s);
+                    out[i] += o * gbin;
+                    rout[i] += o * rgbin;
+                    dflbybufffr[rovfpos] = in[i] + o * fffdbbdk;
+                    rovfpos = (rovfpos + 1) % rnlfn;
+                    lbstdflby += dflbydfltb;
                 }
-            this.rovepos = rovepos;
-            lastdelay = delay;
+            tiis.rovfpos = rovfpos;
+            lbstdflby = dflby;
         }
 
-        public void processReplace(float[] in, float[] out, float[] rout) {
-            Arrays.fill(out, 0);
-            Arrays.fill(rout, 0);
-            processMix(in, out, rout);
-        }
-    }
-
-    private static class LFODelay {
-
-        private double phase = 1;
-        private double phase_step = 0;
-        private double depth = 0;
-        private VariableDelay vdelay;
-        private final double samplerate;
-        private final double controlrate;
-
-        LFODelay(double samplerate, double controlrate) {
-            this.samplerate = samplerate;
-            this.controlrate = controlrate;
-            // vdelay = new VariableDelay((int)(samplerate*4));
-            vdelay = new VariableDelay((int) ((this.depth + 10) * 2));
-
-        }
-
-        public void setDepth(double depth) {
-            this.depth = depth * samplerate;
-            vdelay = new VariableDelay((int) ((this.depth + 10) * 2));
-        }
-
-        public void setRate(double rate) {
-            double g = (Math.PI * 2) * (rate / controlrate);
-            phase_step = g;
-        }
-
-        public void setPhase(double phase) {
-            this.phase = phase;
-        }
-
-        public void setFeedBack(float feedback) {
-            vdelay.setFeedBack(feedback);
-        }
-
-        public void setGain(float gain) {
-            vdelay.setGain(gain);
-        }
-
-        public void setReverbSendGain(float rgain) {
-            vdelay.setReverbSendGain(rgain);
-        }
-
-        public void processMix(float[] in, float[] out, float[] rout) {
-            phase += phase_step;
-            while(phase > (Math.PI * 2)) phase -= (Math.PI * 2);
-            vdelay.setDelay((float) (depth * 0.5 * (Math.cos(phase) + 2)));
-            vdelay.processMix(in, out, rout);
-        }
-
-        public void processReplace(float[] in, float[] out, float[] rout) {
-            phase += phase_step;
-            while(phase > (Math.PI * 2)) phase -= (Math.PI * 2);
-            vdelay.setDelay((float) (depth * 0.5 * (Math.cos(phase) + 2)));
-            vdelay.processReplace(in, out, rout);
-
+        publid void prodfssRfplbdf(flobt[] in, flobt[] out, flobt[] rout) {
+            Arrbys.fill(out, 0);
+            Arrbys.fill(rout, 0);
+            prodfssMix(in, out, rout);
         }
     }
-    private boolean mix = true;
-    private SoftAudioBuffer inputA;
-    private SoftAudioBuffer left;
-    private SoftAudioBuffer right;
-    private SoftAudioBuffer reverb;
-    private LFODelay vdelay1L;
-    private LFODelay vdelay1R;
-    private float rgain = 0;
-    private boolean dirty = true;
-    private double dirty_vdelay1L_rate;
-    private double dirty_vdelay1R_rate;
-    private double dirty_vdelay1L_depth;
-    private double dirty_vdelay1R_depth;
-    private float dirty_vdelay1L_feedback;
-    private float dirty_vdelay1R_feedback;
-    private float dirty_vdelay1L_reverbsendgain;
-    private float dirty_vdelay1R_reverbsendgain;
-    private float controlrate;
 
-    public void init(float samplerate, float controlrate) {
-        this.controlrate = controlrate;
-        vdelay1L = new LFODelay(samplerate, controlrate);
-        vdelay1R = new LFODelay(samplerate, controlrate);
-        vdelay1L.setGain(1.0f); // %
-        vdelay1R.setGain(1.0f); // %
-        vdelay1L.setPhase(0.5 * Math.PI);
-        vdelay1R.setPhase(0);
+    privbtf stbtid dlbss LFODflby {
 
-        globalParameterControlChange(new int[]{0x01 * 128 + 0x02}, 0, 2);
+        privbtf doublf pibsf = 1;
+        privbtf doublf pibsf_stfp = 0;
+        privbtf doublf dfpti = 0;
+        privbtf VbribblfDflby vdflby;
+        privbtf finbl doublf sbmplfrbtf;
+        privbtf finbl doublf dontrolrbtf;
+
+        LFODflby(doublf sbmplfrbtf, doublf dontrolrbtf) {
+            tiis.sbmplfrbtf = sbmplfrbtf;
+            tiis.dontrolrbtf = dontrolrbtf;
+            // vdflby = nfw VbribblfDflby((int)(sbmplfrbtf*4));
+            vdflby = nfw VbribblfDflby((int) ((tiis.dfpti + 10) * 2));
+
+        }
+
+        publid void sftDfpti(doublf dfpti) {
+            tiis.dfpti = dfpti * sbmplfrbtf;
+            vdflby = nfw VbribblfDflby((int) ((tiis.dfpti + 10) * 2));
+        }
+
+        publid void sftRbtf(doublf rbtf) {
+            doublf g = (Mbti.PI * 2) * (rbtf / dontrolrbtf);
+            pibsf_stfp = g;
+        }
+
+        publid void sftPibsf(doublf pibsf) {
+            tiis.pibsf = pibsf;
+        }
+
+        publid void sftFffdBbdk(flobt fffdbbdk) {
+            vdflby.sftFffdBbdk(fffdbbdk);
+        }
+
+        publid void sftGbin(flobt gbin) {
+            vdflby.sftGbin(gbin);
+        }
+
+        publid void sftRfvfrbSfndGbin(flobt rgbin) {
+            vdflby.sftRfvfrbSfndGbin(rgbin);
+        }
+
+        publid void prodfssMix(flobt[] in, flobt[] out, flobt[] rout) {
+            pibsf += pibsf_stfp;
+            wiilf(pibsf > (Mbti.PI * 2)) pibsf -= (Mbti.PI * 2);
+            vdflby.sftDflby((flobt) (dfpti * 0.5 * (Mbti.dos(pibsf) + 2)));
+            vdflby.prodfssMix(in, out, rout);
+        }
+
+        publid void prodfssRfplbdf(flobt[] in, flobt[] out, flobt[] rout) {
+            pibsf += pibsf_stfp;
+            wiilf(pibsf > (Mbti.PI * 2)) pibsf -= (Mbti.PI * 2);
+            vdflby.sftDflby((flobt) (dfpti * 0.5 * (Mbti.dos(pibsf) + 2)));
+            vdflby.prodfssRfplbdf(in, out, rout);
+
+        }
+    }
+    privbtf boolfbn mix = truf;
+    privbtf SoftAudioBufffr inputA;
+    privbtf SoftAudioBufffr lfft;
+    privbtf SoftAudioBufffr rigit;
+    privbtf SoftAudioBufffr rfvfrb;
+    privbtf LFODflby vdflby1L;
+    privbtf LFODflby vdflby1R;
+    privbtf flobt rgbin = 0;
+    privbtf boolfbn dirty = truf;
+    privbtf doublf dirty_vdflby1L_rbtf;
+    privbtf doublf dirty_vdflby1R_rbtf;
+    privbtf doublf dirty_vdflby1L_dfpti;
+    privbtf doublf dirty_vdflby1R_dfpti;
+    privbtf flobt dirty_vdflby1L_fffdbbdk;
+    privbtf flobt dirty_vdflby1R_fffdbbdk;
+    privbtf flobt dirty_vdflby1L_rfvfrbsfndgbin;
+    privbtf flobt dirty_vdflby1R_rfvfrbsfndgbin;
+    privbtf flobt dontrolrbtf;
+
+    publid void init(flobt sbmplfrbtf, flobt dontrolrbtf) {
+        tiis.dontrolrbtf = dontrolrbtf;
+        vdflby1L = nfw LFODflby(sbmplfrbtf, dontrolrbtf);
+        vdflby1R = nfw LFODflby(sbmplfrbtf, dontrolrbtf);
+        vdflby1L.sftGbin(1.0f); // %
+        vdflby1R.sftGbin(1.0f); // %
+        vdflby1L.sftPibsf(0.5 * Mbti.PI);
+        vdflby1R.sftPibsf(0);
+
+        globblPbrbmftfrControlCibngf(nfw int[]{0x01 * 128 + 0x02}, 0, 2);
     }
 
-    public void globalParameterControlChange(int[] slothpath, long param,
-            long value) {
-        if (slothpath.length == 1) {
-            if (slothpath[0] == 0x01 * 128 + 0x02) {
-                if (param == 0) { // Chorus Type
-                    switch ((int)value) {
-                    case 0: // Chorus 1 0 (0%) 3 (0.4Hz) 5 (1.9ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 0);
-                        globalParameterControlChange(slothpath, 1, 3);
-                        globalParameterControlChange(slothpath, 2, 5);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    case 1: // Chorus 2 5 (4%) 9 (1.1Hz) 19 (6.3ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 5);
-                        globalParameterControlChange(slothpath, 1, 9);
-                        globalParameterControlChange(slothpath, 2, 19);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    case 2: // Chorus 3 8 (6%) 3 (0.4Hz) 19 (6.3ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 8);
-                        globalParameterControlChange(slothpath, 1, 3);
-                        globalParameterControlChange(slothpath, 2, 19);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    case 3: // Chorus 4 16 (12%) 9 (1.1Hz) 16 (5.3ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 16);
-                        globalParameterControlChange(slothpath, 1, 9);
-                        globalParameterControlChange(slothpath, 2, 16);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    case 4: // FB Chorus 64 (49%) 2 (0.2Hz) 24 (7.8ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 64);
-                        globalParameterControlChange(slothpath, 1, 2);
-                        globalParameterControlChange(slothpath, 2, 24);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    case 5: // Flanger 112 (86%) 1 (0.1Hz) 5 (1.9ms) 0 (0%)
-                        globalParameterControlChange(slothpath, 3, 112);
-                        globalParameterControlChange(slothpath, 1, 1);
-                        globalParameterControlChange(slothpath, 2, 5);
-                        globalParameterControlChange(slothpath, 4, 0);
-                        break;
-                    default:
-                        break;
+    publid void globblPbrbmftfrControlCibngf(int[] slotipbti, long pbrbm,
+            long vbluf) {
+        if (slotipbti.lfngti == 1) {
+            if (slotipbti[0] == 0x01 * 128 + 0x02) {
+                if (pbrbm == 0) { // Ciorus Typf
+                    switdi ((int)vbluf) {
+                    dbsf 0: // Ciorus 1 0 (0%) 3 (0.4Hz) 5 (1.9ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 0);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 3);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 5);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dbsf 1: // Ciorus 2 5 (4%) 9 (1.1Hz) 19 (6.3ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 5);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 9);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 19);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dbsf 2: // Ciorus 3 8 (6%) 3 (0.4Hz) 19 (6.3ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 8);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 3);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 19);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dbsf 3: // Ciorus 4 16 (12%) 9 (1.1Hz) 16 (5.3ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 16);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 9);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 16);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dbsf 4: // FB Ciorus 64 (49%) 2 (0.2Hz) 24 (7.8ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 64);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 2);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 24);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dbsf 5: // Flbngfr 112 (86%) 1 (0.1Hz) 5 (1.9ms) 0 (0%)
+                        globblPbrbmftfrControlCibngf(slotipbti, 3, 112);
+                        globblPbrbmftfrControlCibngf(slotipbti, 1, 1);
+                        globblPbrbmftfrControlCibngf(slotipbti, 2, 5);
+                        globblPbrbmftfrControlCibngf(slotipbti, 4, 0);
+                        brfbk;
+                    dffbult:
+                        brfbk;
                     }
-                } else if (param == 1) { // Mod Rate
-                    dirty_vdelay1L_rate = (value * 0.122);
-                    dirty_vdelay1R_rate = (value * 0.122);
-                    dirty = true;
-                } else if (param == 2) { // Mod Depth
-                    dirty_vdelay1L_depth = ((value + 1) / 3200.0);
-                    dirty_vdelay1R_depth = ((value + 1) / 3200.0);
-                    dirty = true;
-                } else if (param == 3) { // Feedback
-                    dirty_vdelay1L_feedback = (value * 0.00763f);
-                    dirty_vdelay1R_feedback = (value * 0.00763f);
-                    dirty = true;
+                } flsf if (pbrbm == 1) { // Mod Rbtf
+                    dirty_vdflby1L_rbtf = (vbluf * 0.122);
+                    dirty_vdflby1R_rbtf = (vbluf * 0.122);
+                    dirty = truf;
+                } flsf if (pbrbm == 2) { // Mod Dfpti
+                    dirty_vdflby1L_dfpti = ((vbluf + 1) / 3200.0);
+                    dirty_vdflby1R_dfpti = ((vbluf + 1) / 3200.0);
+                    dirty = truf;
+                } flsf if (pbrbm == 3) { // Fffdbbdk
+                    dirty_vdflby1L_fffdbbdk = (vbluf * 0.00763f);
+                    dirty_vdflby1R_fffdbbdk = (vbluf * 0.00763f);
+                    dirty = truf;
                 }
-                if (param == 4) { // Send to Reverb
-                    rgain = value * 0.00787f;
-                    dirty_vdelay1L_reverbsendgain = (value * 0.00787f);
-                    dirty_vdelay1R_reverbsendgain = (value * 0.00787f);
-                    dirty = true;
+                if (pbrbm == 4) { // Sfnd to Rfvfrb
+                    rgbin = vbluf * 0.00787f;
+                    dirty_vdflby1L_rfvfrbsfndgbin = (vbluf * 0.00787f);
+                    dirty_vdflby1R_rfvfrbsfndgbin = (vbluf * 0.00787f);
+                    dirty = truf;
                 }
 
             }
         }
     }
 
-    public void processControlLogic() {
+    publid void prodfssControlLogid() {
         if (dirty) {
-            dirty = false;
-            vdelay1L.setRate(dirty_vdelay1L_rate);
-            vdelay1R.setRate(dirty_vdelay1R_rate);
-            vdelay1L.setDepth(dirty_vdelay1L_depth);
-            vdelay1R.setDepth(dirty_vdelay1R_depth);
-            vdelay1L.setFeedBack(dirty_vdelay1L_feedback);
-            vdelay1R.setFeedBack(dirty_vdelay1R_feedback);
-            vdelay1L.setReverbSendGain(dirty_vdelay1L_reverbsendgain);
-            vdelay1R.setReverbSendGain(dirty_vdelay1R_reverbsendgain);
+            dirty = fblsf;
+            vdflby1L.sftRbtf(dirty_vdflby1L_rbtf);
+            vdflby1R.sftRbtf(dirty_vdflby1R_rbtf);
+            vdflby1L.sftDfpti(dirty_vdflby1L_dfpti);
+            vdflby1R.sftDfpti(dirty_vdflby1R_dfpti);
+            vdflby1L.sftFffdBbdk(dirty_vdflby1L_fffdbbdk);
+            vdflby1R.sftFffdBbdk(dirty_vdflby1R_fffdbbdk);
+            vdflby1L.sftRfvfrbSfndGbin(dirty_vdflby1L_rfvfrbsfndgbin);
+            vdflby1R.sftRfvfrbSfndGbin(dirty_vdflby1R_rfvfrbsfndgbin);
         }
     }
-    double silentcounter = 1000;
+    doublf silfntdountfr = 1000;
 
-    public void processAudio() {
+    publid void prodfssAudio() {
 
-        if (inputA.isSilent()) {
-            silentcounter += 1 / controlrate;
+        if (inputA.isSilfnt()) {
+            silfntdountfr += 1 / dontrolrbtf;
 
-            if (silentcounter > 1) {
+            if (silfntdountfr > 1) {
                 if (!mix) {
-                    left.clear();
-                    right.clear();
+                    lfft.dlfbr();
+                    rigit.dlfbr();
                 }
-                return;
+                rfturn;
             }
-        } else
-            silentcounter = 0;
+        } flsf
+            silfntdountfr = 0;
 
-        float[] inputA = this.inputA.array();
-        float[] left = this.left.array();
-        float[] right = this.right == null ? null : this.right.array();
-        float[] reverb = rgain != 0 ? this.reverb.array() : null;
+        flobt[] inputA = tiis.inputA.brrby();
+        flobt[] lfft = tiis.lfft.brrby();
+        flobt[] rigit = tiis.rigit == null ? null : tiis.rigit.brrby();
+        flobt[] rfvfrb = rgbin != 0 ? tiis.rfvfrb.brrby() : null;
 
         if (mix) {
-            vdelay1L.processMix(inputA, left, reverb);
-            if (right != null)
-                vdelay1R.processMix(inputA, right, reverb);
-        } else {
-            vdelay1L.processReplace(inputA, left, reverb);
-            if (right != null)
-                vdelay1R.processReplace(inputA, right, reverb);
+            vdflby1L.prodfssMix(inputA, lfft, rfvfrb);
+            if (rigit != null)
+                vdflby1R.prodfssMix(inputA, rigit, rfvfrb);
+        } flsf {
+            vdflby1L.prodfssRfplbdf(inputA, lfft, rfvfrb);
+            if (rigit != null)
+                vdflby1R.prodfssRfplbdf(inputA, rigit, rfvfrb);
         }
     }
 
-    public void setInput(int pin, SoftAudioBuffer input) {
+    publid void sftInput(int pin, SoftAudioBufffr input) {
         if (pin == 0)
             inputA = input;
     }
 
-    public void setMixMode(boolean mix) {
-        this.mix = mix;
+    publid void sftMixModf(boolfbn mix) {
+        tiis.mix = mix;
     }
 
-    public void setOutput(int pin, SoftAudioBuffer output) {
+    publid void sftOutput(int pin, SoftAudioBufffr output) {
         if (pin == 0)
-            left = output;
+            lfft = output;
         if (pin == 1)
-            right = output;
+            rigit = output;
         if (pin == 2)
-            reverb = output;
+            rfvfrb = output;
     }
 }

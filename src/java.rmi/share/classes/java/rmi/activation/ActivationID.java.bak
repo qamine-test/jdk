@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.activation;
+pbdkbgf jbvb.rmi.bdtivbtion;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.rmi.MarshalledObject;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.UID;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfObjfdtInvodbtionHbndlfr;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.UID;
 
 /**
- * Activation makes use of special identifiers to denote remote
- * objects that can be activated over time. An activation identifier
- * (an instance of the class <code>ActivationID</code>) contains several
- * pieces of information needed for activating an object:
+ * Adtivbtion mbkfs usf of spfdibl idfntififrs to dfnotf rfmotf
+ * objfdts tibt dbn bf bdtivbtfd ovfr timf. An bdtivbtion idfntififr
+ * (bn instbndf of tif dlbss <dodf>AdtivbtionID</dodf>) dontbins sfvfrbl
+ * pifdfs of informbtion nffdfd for bdtivbting bn objfdt:
  * <ul>
- * <li> a remote reference to the object's activator (a {@link
- * java.rmi.server.RemoteRef RemoteRef}
- * instance), and
- * <li> a unique identifier (a {@link java.rmi.server.UID UID}
- * instance) for the object. </ul> <p>
+ * <li> b rfmotf rfffrfndf to tif objfdt's bdtivbtor (b {@link
+ * jbvb.rmi.sfrvfr.RfmotfRff RfmotfRff}
+ * instbndf), bnd
+ * <li> b uniquf idfntififr (b {@link jbvb.rmi.sfrvfr.UID UID}
+ * instbndf) for tif objfdt. </ul> <p>
  *
- * An activation identifier for an object can be obtained by registering
- * an object with the activation system. Registration is accomplished
- * in a few ways: <ul>
- * <li>via the <code>Activatable.register</code> method
- * <li>via the first <code>Activatable</code> constructor (that takes
- * three arguments and both registers and exports the object, and
- * <li>via the first <code>Activatable.exportObject</code> method
- * that takes the activation descriptor, object and port as arguments;
- * this method both registers and exports the object. </ul>
+ * An bdtivbtion idfntififr for bn objfdt dbn bf obtbinfd by rfgistfring
+ * bn objfdt witi tif bdtivbtion systfm. Rfgistrbtion is bddomplisifd
+ * in b ffw wbys: <ul>
+ * <li>vib tif <dodf>Adtivbtbblf.rfgistfr</dodf> mftiod
+ * <li>vib tif first <dodf>Adtivbtbblf</dodf> donstrudtor (tibt tbkfs
+ * tirff brgumfnts bnd boti rfgistfrs bnd fxports tif objfdt, bnd
+ * <li>vib tif first <dodf>Adtivbtbblf.fxportObjfdt</dodf> mftiod
+ * tibt tbkfs tif bdtivbtion dfsdriptor, objfdt bnd port bs brgumfnts;
+ * tiis mftiod boti rfgistfrs bnd fxports tif objfdt. </ul>
  *
- * @author      Ann Wollrath
- * @see         Activatable
- * @since       1.2
+ * @butior      Ann Wollrbti
+ * @sff         Adtivbtbblf
+ * @sindf       1.2
  */
-public class ActivationID implements Serializable {
+publid dlbss AdtivbtionID implfmfnts Sfriblizbblf {
     /**
-     * the object's activator
+     * tif objfdt's bdtivbtor
      */
-    private transient Activator activator;
+    privbtf trbnsifnt Adtivbtor bdtivbtor;
 
     /**
-     * the object's unique id
+     * tif objfdt's uniquf id
      */
-    private transient UID uid = new UID();
+    privbtf trbnsifnt UID uid = nfw UID();
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = -4608673054848209235L;
+    /** indidbtf dompbtibility witi tif Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4608673054848209235L;
 
     /**
-     * The constructor for <code>ActivationID</code> takes a single
-     * argument, activator, that specifies a remote reference to the
-     * activator responsible for activating the object associated with
-     * this identifier. An instance of <code>ActivationID</code> is globally
-     * unique.
+     * Tif donstrudtor for <dodf>AdtivbtionID</dodf> tbkfs b singlf
+     * brgumfnt, bdtivbtor, tibt spfdififs b rfmotf rfffrfndf to tif
+     * bdtivbtor rfsponsiblf for bdtivbting tif objfdt bssodibtfd witi
+     * tiis idfntififr. An instbndf of <dodf>AdtivbtionID</dodf> is globblly
+     * uniquf.
      *
-     * @param activator reference to the activator responsible for
-     * activating the object
-     * @throws UnsupportedOperationException if and only if activation is
-     *         not supported by this implementation
-     * @since 1.2
+     * @pbrbm bdtivbtor rfffrfndf to tif bdtivbtor rfsponsiblf for
+     * bdtivbting tif objfdt
+     * @tirows UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     *         not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationID(Activator activator) {
-        this.activator = activator;
+    publid AdtivbtionID(Adtivbtor bdtivbtor) {
+        tiis.bdtivbtor = bdtivbtor;
     }
 
     /**
-     * Activate the object for this id.
+     * Adtivbtf tif objfdt for tiis id.
      *
-     * @param force if true, forces the activator to contact the group
-     * when activating the object (instead of returning a cached reference);
-     * if false, returning a cached value is acceptable.
-     * @return the reference to the active remote object
-     * @exception ActivationException if activation fails
-     * @exception UnknownObjectException if the object is unknown
-     * @exception RemoteException if remote call fails
-     * @since 1.2
+     * @pbrbm fordf if truf, fordfs tif bdtivbtor to dontbdt tif group
+     * wifn bdtivbting tif objfdt (instfbd of rfturning b dbdifd rfffrfndf);
+     * if fblsf, rfturning b dbdifd vbluf is bddfptbblf.
+     * @rfturn tif rfffrfndf to tif bdtivf rfmotf objfdt
+     * @fxdfption AdtivbtionExdfption if bdtivbtion fbils
+     * @fxdfption UnknownObjfdtExdfption if tif objfdt is unknown
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
      */
-    public Remote activate(boolean force)
-        throws ActivationException, UnknownObjectException, RemoteException
+    publid Rfmotf bdtivbtf(boolfbn fordf)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
     {
         try {
-            MarshalledObject<? extends Remote> mobj =
-                activator.activate(this, force);
-            return mobj.get();
-        } catch (RemoteException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new UnmarshalException("activation failed", e);
-        } catch (ClassNotFoundException e) {
-            throw new UnmarshalException("activation failed", e);
+            MbrsibllfdObjfdt<? fxtfnds Rfmotf> mobj =
+                bdtivbtor.bdtivbtf(tiis, fordf);
+            rfturn mobj.gft();
+        } dbtdi (RfmotfExdfption f) {
+            tirow f;
+        } dbtdi (IOExdfption f) {
+            tirow nfw UnmbrsiblExdfption("bdtivbtion fbilfd", f);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw UnmbrsiblExdfption("bdtivbtion fbilfd", f);
         }
 
     }
 
     /**
-     * Returns a hashcode for the activation id.  Two identifiers that
-     * refer to the same remote object will have the same hash code.
+     * Rfturns b ibsidodf for tif bdtivbtion id.  Two idfntififrs tibt
+     * rfffr to tif sbmf rfmotf objfdt will ibvf tif sbmf ibsi dodf.
      *
-     * @see java.util.Hashtable
-     * @since 1.2
+     * @sff jbvb.util.Hbsitbblf
+     * @sindf 1.2
      */
-    public int hashCode() {
-        return uid.hashCode();
+    publid int ibsiCodf() {
+        rfturn uid.ibsiCodf();
     }
 
     /**
-     * Compares two activation ids for content equality.
-     * Returns true if both of the following conditions are true:
-     * 1) the unique identifiers equivalent (by content), and
-     * 2) the activator specified in each identifier
-     *    refers to the same remote object.
+     * Compbrfs two bdtivbtion ids for dontfnt fqublity.
+     * Rfturns truf if boti of tif following donditions brf truf:
+     * 1) tif uniquf idfntififrs fquivblfnt (by dontfnt), bnd
+     * 2) tif bdtivbtor spfdififd in fbdi idfntififr
+     *    rfffrs to tif sbmf rfmotf objfdt.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
-     * @since 1.2
+     * @pbrbm   obj     tif Objfdt to dompbrf witi
+     * @rfturn  truf if tifsf Objfdts brf fqubl; fblsf otifrwisf.
+     * @sff             jbvb.util.Hbsitbblf
+     * @sindf 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ActivationID) {
-            ActivationID id = (ActivationID) obj;
-            return (uid.equals(id.uid) && activator.equals(id.activator));
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof AdtivbtionID) {
+            AdtivbtionID id = (AdtivbtionID) obj;
+            rfturn (uid.fqubls(id.uid) && bdtivbtor.fqubls(id.bdtivbtor));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * <code>writeObject</code> for custom serialization.
+     * <dodf>writfObjfdt</dodf> for dustom sfriblizbtion.
      *
-     * <p>This method writes this object's serialized form for
-     * this class as follows:
+     * <p>Tiis mftiod writfs tiis objfdt's sfriblizfd form for
+     * tiis dlbss bs follows:
      *
-     * <p>The <code>writeObject</code> method is invoked on
-     * <code>out</code> passing this object's unique identifier
-     * (a {@link java.rmi.server.UID UID} instance) as the argument.
+     * <p>Tif <dodf>writfObjfdt</dodf> mftiod is invokfd on
+     * <dodf>out</dodf> pbssing tiis objfdt's uniquf idfntififr
+     * (b {@link jbvb.rmi.sfrvfr.UID UID} instbndf) bs tif brgumfnt.
      *
-     * <p>Next, the {@link
-     * java.rmi.server.RemoteRef#getRefClass(java.io.ObjectOutput)
-     * getRefClass} method is invoked on the activator's
-     * <code>RemoteRef</code> instance to obtain its external ref
-     * type name.  Next, the <code>writeUTF</code> method is
-     * invoked on <code>out</code> with the value returned by
-     * <code>getRefClass</code>, and then the
-     * <code>writeExternal</code> method is invoked on the
-     * <code>RemoteRef</code> instance passing <code>out</code>
-     * as the argument.
+     * <p>Nfxt, tif {@link
+     * jbvb.rmi.sfrvfr.RfmotfRff#gftRffClbss(jbvb.io.ObjfdtOutput)
+     * gftRffClbss} mftiod is invokfd on tif bdtivbtor's
+     * <dodf>RfmotfRff</dodf> instbndf to obtbin its fxtfrnbl rff
+     * typf nbmf.  Nfxt, tif <dodf>writfUTF</dodf> mftiod is
+     * invokfd on <dodf>out</dodf> witi tif vbluf rfturnfd by
+     * <dodf>gftRffClbss</dodf>, bnd tifn tif
+     * <dodf>writfExtfrnbl</dodf> mftiod is invokfd on tif
+     * <dodf>RfmotfRff</dodf> instbndf pbssing <dodf>out</dodf>
+     * bs tif brgumfnt.
      *
-     * @serialData The serialized data for this class comprises a
-     * <code>java.rmi.server.UID</code> (written with
-     * <code>ObjectOutput.writeObject</code>) followed by the
-     * external ref type name of the activator's
-     * <code>RemoteRef</code> instance (a string written with
-     * <code>ObjectOutput.writeUTF</code>), followed by the
-     * external form of the <code>RemoteRef</code> instance as
-     * written by its <code>writeExternal</code> method.
+     * @sfriblDbtb Tif sfriblizfd dbtb for tiis dlbss domprisfs b
+     * <dodf>jbvb.rmi.sfrvfr.UID</dodf> (writtfn witi
+     * <dodf>ObjfdtOutput.writfObjfdt</dodf>) followfd by tif
+     * fxtfrnbl rff typf nbmf of tif bdtivbtor's
+     * <dodf>RfmotfRff</dodf> instbndf (b string writtfn witi
+     * <dodf>ObjfdtOutput.writfUTF</dodf>), followfd by tif
+     * fxtfrnbl form of tif <dodf>RfmotfRff</dodf> instbndf bs
+     * writtfn by its <dodf>writfExtfrnbl</dodf> mftiod.
      *
-     * <p>The external ref type name of the
-     * <code>RemoteRef</Code> instance is
-     * determined using the definitions of external ref type
-     * names specified in the {@link java.rmi.server.RemoteObject
-     * RemoteObject} <code>writeObject</code> method
-     * <b>serialData</b> specification.  Similarly, the data
-     * written by the <code>writeExternal</code> method and read
-     * by the <code>readExternal</code> method of
-     * <code>RemoteRef</code> implementation classes
-     * corresponding to each of the defined external ref type
-     * names is specified in the {@link
-     * java.rmi.server.RemoteObject RemoteObject}
-     * <code>writeObject</code> method <b>serialData</b>
-     * specification.
+     * <p>Tif fxtfrnbl rff typf nbmf of tif
+     * <dodf>RfmotfRff</Codf> instbndf is
+     * dftfrminfd using tif dffinitions of fxtfrnbl rff typf
+     * nbmfs spfdififd in tif {@link jbvb.rmi.sfrvfr.RfmotfObjfdt
+     * RfmotfObjfdt} <dodf>writfObjfdt</dodf> mftiod
+     * <b>sfriblDbtb</b> spfdifidbtion.  Similbrly, tif dbtb
+     * writtfn by tif <dodf>writfExtfrnbl</dodf> mftiod bnd rfbd
+     * by tif <dodf>rfbdExtfrnbl</dodf> mftiod of
+     * <dodf>RfmotfRff</dodf> implfmfntbtion dlbssfs
+     * dorrfsponding to fbdi of tif dffinfd fxtfrnbl rff typf
+     * nbmfs is spfdififd in tif {@link
+     * jbvb.rmi.sfrvfr.RfmotfObjfdt RfmotfObjfdt}
+     * <dodf>writfObjfdt</dodf> mftiod <b>sfriblDbtb</b>
+     * spfdifidbtion.
      **/
-    private void writeObject(ObjectOutputStream out)
-        throws IOException, ClassNotFoundException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        out.writeObject(uid);
+        out.writfObjfdt(uid);
 
-        RemoteRef ref;
-        if (activator instanceof RemoteObject) {
-            ref = ((RemoteObject) activator).getRef();
-        } else if (Proxy.isProxyClass(activator.getClass())) {
-            InvocationHandler handler = Proxy.getInvocationHandler(activator);
-            if (!(handler instanceof RemoteObjectInvocationHandler)) {
-                throw new InvalidObjectException(
-                    "unexpected invocation handler");
+        RfmotfRff rff;
+        if (bdtivbtor instbndfof RfmotfObjfdt) {
+            rff = ((RfmotfObjfdt) bdtivbtor).gftRff();
+        } flsf if (Proxy.isProxyClbss(bdtivbtor.gftClbss())) {
+            InvodbtionHbndlfr ibndlfr = Proxy.gftInvodbtionHbndlfr(bdtivbtor);
+            if (!(ibndlfr instbndfof RfmotfObjfdtInvodbtionHbndlfr)) {
+                tirow nfw InvblidObjfdtExdfption(
+                    "unfxpfdtfd invodbtion ibndlfr");
             }
-            ref = ((RemoteObjectInvocationHandler) handler).getRef();
+            rff = ((RfmotfObjfdtInvodbtionHbndlfr) ibndlfr).gftRff();
 
-        } else {
-            throw new InvalidObjectException("unexpected activator type");
+        } flsf {
+            tirow nfw InvblidObjfdtExdfption("unfxpfdtfd bdtivbtor typf");
         }
-        out.writeUTF(ref.getRefClass(out));
-        ref.writeExternal(out);
+        out.writfUTF(rff.gftRffClbss(out));
+        rff.writfExtfrnbl(out);
     }
 
     /**
-     * <code>readObject</code> for custom serialization.
+     * <dodf>rfbdObjfdt</dodf> for dustom sfriblizbtion.
      *
-     * <p>This method reads this object's serialized form for this
-     * class as follows:
+     * <p>Tiis mftiod rfbds tiis objfdt's sfriblizfd form for tiis
+     * dlbss bs follows:
      *
-     * <p>The <code>readObject</code> method is invoked on
-     * <code>in</code> to read this object's unique identifier
-     * (a {@link java.rmi.server.UID UID} instance).
+     * <p>Tif <dodf>rfbdObjfdt</dodf> mftiod is invokfd on
+     * <dodf>in</dodf> to rfbd tiis objfdt's uniquf idfntififr
+     * (b {@link jbvb.rmi.sfrvfr.UID UID} instbndf).
      *
-     * <p>Next, the <code>readUTF</code> method is invoked on
-     * <code>in</code> to read the external ref type name of the
-     * <code>RemoteRef</code> instance for this object's
-     * activator.  Next, the <code>RemoteRef</code>
-     * instance is created of an implementation-specific class
-     * corresponding to the external ref type name (returned by
-     * <code>readUTF</code>), and the <code>readExternal</code>
-     * method is invoked on that <code>RemoteRef</code> instance
-     * to read the external form corresponding to the external
-     * ref type name.
+     * <p>Nfxt, tif <dodf>rfbdUTF</dodf> mftiod is invokfd on
+     * <dodf>in</dodf> to rfbd tif fxtfrnbl rff typf nbmf of tif
+     * <dodf>RfmotfRff</dodf> instbndf for tiis objfdt's
+     * bdtivbtor.  Nfxt, tif <dodf>RfmotfRff</dodf>
+     * instbndf is drfbtfd of bn implfmfntbtion-spfdifid dlbss
+     * dorrfsponding to tif fxtfrnbl rff typf nbmf (rfturnfd by
+     * <dodf>rfbdUTF</dodf>), bnd tif <dodf>rfbdExtfrnbl</dodf>
+     * mftiod is invokfd on tibt <dodf>RfmotfRff</dodf> instbndf
+     * to rfbd tif fxtfrnbl form dorrfsponding to tif fxtfrnbl
+     * rff typf nbmf.
      *
-     * <p>Note: If the external ref type name is
-     * <code>"UnicastRef"</code>, <code>"UnicastServerRef"</code>,
-     * <code>"UnicastRef2"</code>, <code>"UnicastServerRef2"</code>,
-     * or <code>"ActivatableRef"</code>, a corresponding
-     * implementation-specific class must be found, and its
-     * <code>readExternal</code> method must read the serial data
-     * for that external ref type name as specified to be written
-     * in the <b>serialData</b> documentation for this class.
-     * If the external ref type name is any other string (of non-zero
-     * length), a <code>ClassNotFoundException</code> will be thrown,
-     * unless the implementation provides an implementation-specific
-     * class corresponding to that external ref type name, in which
-     * case the <code>RemoteRef</code> will be an instance of
-     * that implementation-specific class.
+     * <p>Notf: If tif fxtfrnbl rff typf nbmf is
+     * <dodf>"UnidbstRff"</dodf>, <dodf>"UnidbstSfrvfrRff"</dodf>,
+     * <dodf>"UnidbstRff2"</dodf>, <dodf>"UnidbstSfrvfrRff2"</dodf>,
+     * or <dodf>"AdtivbtbblfRff"</dodf>, b dorrfsponding
+     * implfmfntbtion-spfdifid dlbss must bf found, bnd its
+     * <dodf>rfbdExtfrnbl</dodf> mftiod must rfbd tif sfribl dbtb
+     * for tibt fxtfrnbl rff typf nbmf bs spfdififd to bf writtfn
+     * in tif <b>sfriblDbtb</b> dodumfntbtion for tiis dlbss.
+     * If tif fxtfrnbl rff typf nbmf is bny otifr string (of non-zfro
+     * lfngti), b <dodf>ClbssNotFoundExdfption</dodf> will bf tirown,
+     * unlfss tif implfmfntbtion providfs bn implfmfntbtion-spfdifid
+     * dlbss dorrfsponding to tibt fxtfrnbl rff typf nbmf, in wiidi
+     * dbsf tif <dodf>RfmotfRff</dodf> will bf bn instbndf of
+     * tibt implfmfntbtion-spfdifid dlbss.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        uid = (UID)in.readObject();
+        uid = (UID)in.rfbdObjfdt();
 
         try {
-            Class<? extends RemoteRef> refClass =
-                Class.forName(RemoteRef.packagePrefix + "." + in.readUTF())
-                .asSubclass(RemoteRef.class);
-            RemoteRef ref = refClass.newInstance();
-            ref.readExternal(in);
-            activator = (Activator)
-                Proxy.newProxyInstance(null,
-                                       new Class<?>[] { Activator.class },
-                                       new RemoteObjectInvocationHandler(ref));
+            Clbss<? fxtfnds RfmotfRff> rffClbss =
+                Clbss.forNbmf(RfmotfRff.pbdkbgfPrffix + "." + in.rfbdUTF())
+                .bsSubdlbss(RfmotfRff.dlbss);
+            RfmotfRff rff = rffClbss.nfwInstbndf();
+            rff.rfbdExtfrnbl(in);
+            bdtivbtor = (Adtivbtor)
+                Proxy.nfwProxyInstbndf(null,
+                                       nfw Clbss<?>[] { Adtivbtor.dlbss },
+                                       nfw RfmotfObjfdtInvodbtionHbndlfr(rff));
 
-        } catch (InstantiationException e) {
-            throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
-        } catch (IllegalAccessException e) {
-            throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow (IOExdfption)
+                nfw InvblidObjfdtExdfption(
+                    "Unbblf to drfbtf rfmotf rfffrfndf").initCbusf(f);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow (IOExdfption)
+                nfw InvblidObjfdtExdfption(
+                    "Unbblf to drfbtf rfmotf rfffrfndf").initCbusf(f);
         }
     }
 }

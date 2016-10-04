@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import sun.bwt.AppContfxt;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+
+import jbvb.bwt.*;
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsRbdioButtonUI fxtfnds BbsidRbdioButtonUI
+{
+    privbtf stbtid finbl Objfdt WINDOWS_RADIO_BUTTON_UI_KEY = nfw Objfdt();
+
+    protfdtfd int dbshfdRfdtGbpX;
+    protfdtfd int dbshfdRfdtGbpY;
+    protfdtfd int dbshfdRfdtGbpWidth;
+    protfdtfd int dbshfdRfdtGbpHfight;
+
+    protfdtfd Color fodusColor;
+
+    privbtf boolfbn initiblizfd = fblsf;
+
+    // ********************************
+    //          Crfbtf PLAF
+    // ********************************
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        WindowsRbdioButtonUI windowsRbdioButtonUI =
+                (WindowsRbdioButtonUI) bppContfxt.gft(WINDOWS_RADIO_BUTTON_UI_KEY);
+        if (windowsRbdioButtonUI == null) {
+            windowsRbdioButtonUI = nfw WindowsRbdioButtonUI();
+            bppContfxt.put(WINDOWS_RADIO_BUTTON_UI_KEY, windowsRbdioButtonUI);
+        }
+        rfturn windowsRbdioButtonUI;
+    }
+
+    // ********************************
+    //           Dffbults
+    // ********************************
+    publid void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
+        if(!initiblizfd) {
+            dbshfdRfdtGbpX = ((Intfgfr)UIMbnbgfr.gft("Button.dbshfdRfdtGbpX")).intVbluf();
+            dbshfdRfdtGbpY = ((Intfgfr)UIMbnbgfr.gft("Button.dbshfdRfdtGbpY")).intVbluf();
+            dbshfdRfdtGbpWidth = ((Intfgfr)UIMbnbgfr.gft("Button.dbshfdRfdtGbpWidth")).intVbluf();
+            dbshfdRfdtGbpHfight = ((Intfgfr)UIMbnbgfr.gft("Button.dbshfdRfdtGbpHfight")).intVbluf();
+            fodusColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "fodus");
+            initiblizfd = truf;
+        }
+        if (XPStylf.gftXP() != null) {
+            LookAndFffl.instbllPropfrty(b, "rollovfrEnbblfd", Boolfbn.TRUE);
+        }
+    }
+
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
+        initiblizfd = fblsf;
+    }
+
+    protfdtfd Color gftFodusColor() {
+        rfturn fodusColor;
+    }
+
+    // ********************************
+    //          Pbint Mfthods
+    // ********************************
+
+    /**
+     * Ovfrriddfn mfthod to rfndfr thf tfxt without thf mnfmonid
+     */
+    protfdtfd void pbintTfxt(Grbphids g, AbstrbdtButton b, Rfdtbnglf tfxtRfdt, String tfxt) {
+        WindowsGrbphidsUtils.pbintTfxt(g, b, tfxtRfdt, tfxt, gftTfxtShiftOffsft());
+    }
+
+
+    protfdtfd void pbintFodus(Grbphids g, Rfdtbnglf tfxtRfdt, Dimfnsion d){
+        g.sftColor(gftFodusColor());
+        BbsidGrbphidsUtils.drbwDbshfdRfdt(g, tfxtRfdt.x, tfxtRfdt.y, tfxtRfdt.width, tfxtRfdt.hfight);
+    }
+
+    // ********************************
+    //          Lbyout Mfthods
+    // ********************************
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf(d);
+
+        /* Ensurf thbt thf width bnd hfight of thf button is odd,
+         * to bllow for thf fodus linf if fodus is pbintfd
+         */
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        if (d != null && b.isFodusPbintfd()) {
+            if(d.width % 2 == 0) { d.width += 1; }
+            if(d.hfight % 2 == 0) { d.hfight += 1; }
+        }
+        rfturn d;
+    }
+
+}

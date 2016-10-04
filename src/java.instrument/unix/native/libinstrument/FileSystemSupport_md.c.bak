@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "FileSystemSupport_md.h"
+#indludf "FilfSystfmSupport_md.i"
 
 /*
- * Solaris/Linux implementation of the file system support functions.
+ * Solbris/Linux implfmfntbtion of tif filf systfm support fundtions.
  */
 
-#define slash           '/'
+#dffinf slbsi           '/'
 
-char pathSeparator() {
-    return ':';
+dibr pbtiSfpbrbtor() {
+    rfturn ':';
 }
 
-/* Filenames are case senstitive */
-int filenameStrcmp(const char* s1, const char* s2) {
-  return strcmp(s1, s2);
+/* Filfnbmfs brf dbsf sfnstitivf */
+int filfnbmfStrdmp(donst dibr* s1, donst dibr* s2) {
+  rfturn strdmp(s1, s2);
 }
 
-char* basePath(const char* path) {
-    char* last = strrchr(path, slash);
-    if (last == NULL) {
-        return (char*)path;
-    } else {
-        int len = last - path;
-        char* str = (char*)malloc(len+1);
-        if (len > 0) {
-            memcpy(str, path, len);
+dibr* bbsfPbti(donst dibr* pbti) {
+    dibr* lbst = strrdir(pbti, slbsi);
+    if (lbst == NULL) {
+        rfturn (dibr*)pbti;
+    } flsf {
+        int lfn = lbst - pbti;
+        dibr* str = (dibr*)mbllod(lfn+1);
+        if (lfn > 0) {
+            mfmdpy(str, pbti, lfn);
         }
-        str[len] = '\0';
-        return str;
+        str[lfn] = '\0';
+        rfturn str;
     }
 }
 
-int isAbsolute(const char* path) {
-    return (path[0] == slash) ? 1 : 0;
+int isAbsolutf(donst dibr* pbti) {
+    rfturn (pbti[0] == slbsi) ? 1 : 0;
 }
 
-/* Ported from src/solaris/classes/java/io/UnixFileSystem.java */
+/* Portfd from srd/solbris/dlbssfs/jbvb/io/UnixFilfSystfm.jbvb */
 
-/* A normal Unix pathname contains no duplicate slashes and does not end
-   with a slash.  It may be the empty string. */
+/* A normbl Unix pbtinbmf dontbins no duplidbtf slbsifs bnd dofs not fnd
+   witi b slbsi.  It mby bf tif fmpty string. */
 
-/* Normalize the given pathname, whose length is len, starting at the given
-   offset; everything before this offset is already normal. */
-static char* normalizePath(const char* pathname, int len, int off) {
-    char* sb;
-    int sbLen, i, n;
-    char prevChar;
+/* Normblizf tif givfn pbtinbmf, wiosf lfngti is lfn, stbrting bt tif givfn
+   offsft; fvfrytiing bfforf tiis offsft is blrfbdy normbl. */
+stbtid dibr* normblizfPbti(donst dibr* pbtinbmf, int lfn, int off) {
+    dibr* sb;
+    int sbLfn, i, n;
+    dibr prfvCibr;
 
-    if (len == 0) return (char*)pathname;
-    n = len;
-    while ((n > 0) && (pathname[n - 1] == slash)) n--;
-    if (n == 0) return strdup("/");
+    if (lfn == 0) rfturn (dibr*)pbtinbmf;
+    n = lfn;
+    wiilf ((n > 0) && (pbtinbmf[n - 1] == slbsi)) n--;
+    if (n == 0) rfturn strdup("/");
 
-    sb = (char*)malloc(strlen(pathname)+1);
-    sbLen = 0;
+    sb = (dibr*)mbllod(strlfn(pbtinbmf)+1);
+    sbLfn = 0;
 
     if (off > 0) {
-        memcpy(sb, pathname, off);
-        sbLen = off;
+        mfmdpy(sb, pbtinbmf, off);
+        sbLfn = off;
     }
 
-    prevChar = 0;
+    prfvCibr = 0;
     for (i = off; i < n; i++) {
-        char c = pathname[i];
-        if ((prevChar == slash) && (c == slash)) continue;
-        sb[sbLen++] = c;
-        prevChar = c;
+        dibr d = pbtinbmf[i];
+        if ((prfvCibr == slbsi) && (d == slbsi)) dontinuf;
+        sb[sbLfn++] = d;
+        prfvCibr = d;
     }
-    return sb;
+    rfturn sb;
 }
 
-/* Check that the given pathname is normal.  If not, invoke the real
-   normalizer on the part of the pathname that requires normalization.
-   This way we iterate through the whole pathname string only once. */
-char* normalize(const char* pathname) {
+/* Cifdk tibt tif givfn pbtinbmf is normbl.  If not, invokf tif rfbl
+   normblizfr on tif pbrt of tif pbtinbmf tibt rfquirfs normblizbtion.
+   Tiis wby wf itfrbtf tirougi tif wiolf pbtinbmf string only ondf. */
+dibr* normblizf(donst dibr* pbtinbmf) {
     int i;
-    int n = strlen(pathname);
-    char prevChar = 0;
+    int n = strlfn(pbtinbmf);
+    dibr prfvCibr = 0;
     for (i = 0; i < n; i++) {
-        char c = pathname[i];
-        if ((prevChar == slash) && (c == slash))
-            return normalizePath(pathname, n, i - 1);
-        prevChar = c;
+        dibr d = pbtinbmf[i];
+        if ((prfvCibr == slbsi) && (d == slbsi))
+            rfturn normblizfPbti(pbtinbmf, n, i - 1);
+        prfvCibr = d;
     }
-    if (prevChar == slash) return normalizePath(pathname, n, n - 1);
-    return (char*)pathname;
+    if (prfvCibr == slbsi) rfturn normblizfPbti(pbtinbmf, n, n - 1);
+    rfturn (dibr*)pbtinbmf;
 }
 
-char* resolve(const char* parent, const char* child) {
-    int len;
-    char* theChars;
-    int pn = strlen(parent);
-    int cn = strlen(child);
-    int childStart = 0;
-    int parentEnd = pn;
+dibr* rfsolvf(donst dibr* pbrfnt, donst dibr* diild) {
+    int lfn;
+    dibr* tifCibrs;
+    int pn = strlfn(pbrfnt);
+    int dn = strlfn(diild);
+    int diildStbrt = 0;
+    int pbrfntEnd = pn;
 
-    if (pn > 0 && parent[pn-1] == slash) {
-        parentEnd--;
+    if (pn > 0 && pbrfnt[pn-1] == slbsi) {
+        pbrfntEnd--;
     }
-    len = parentEnd + cn - childStart;
-    if (child[0] == slash) {
-        theChars = (char*)malloc(len+1);
-        if (parentEnd > 0)
-            memcpy(theChars, parent, parentEnd);
-        if (cn > 0)
-            memcpy(theChars+parentEnd, child, cn);
-        theChars[len] = '\0';
-    } else {
-        theChars = (char*)malloc(len+2);
-        if (parentEnd > 0)
-            memcpy(theChars, parent, parentEnd);
-        theChars[parentEnd] = slash;
-        if (cn > 0)
-            memcpy(theChars+parentEnd+1, child, cn);
-        theChars[len+1] = '\0';
+    lfn = pbrfntEnd + dn - diildStbrt;
+    if (diild[0] == slbsi) {
+        tifCibrs = (dibr*)mbllod(lfn+1);
+        if (pbrfntEnd > 0)
+            mfmdpy(tifCibrs, pbrfnt, pbrfntEnd);
+        if (dn > 0)
+            mfmdpy(tifCibrs+pbrfntEnd, diild, dn);
+        tifCibrs[lfn] = '\0';
+    } flsf {
+        tifCibrs = (dibr*)mbllod(lfn+2);
+        if (pbrfntEnd > 0)
+            mfmdpy(tifCibrs, pbrfnt, pbrfntEnd);
+        tifCibrs[pbrfntEnd] = slbsi;
+        if (dn > 0)
+            mfmdpy(tifCibrs+pbrfntEnd+1, diild, dn);
+        tifCibrs[lfn+1] = '\0';
     }
-    return theChars;
+    rfturn tifCibrs;
 }
 
-char* fromURIPath(const char* path) {
-    int len = strlen(path);
-    if (len > 1 && path[len-1] == slash) {
+dibr* fromURIPbti(donst dibr* pbti) {
+    int lfn = strlfn(pbti);
+    if (lfn > 1 && pbti[lfn-1] == slbsi) {
         // "/foo/" --> "/foo", but "/" --> "/"
-        char* str = (char*)malloc(len);
+        dibr* str = (dibr*)mbllod(lfn);
         if (str != NULL) {
-            memcpy(str, path, len-1);
-            str[len-1] = '\0';
+            mfmdpy(str, pbti, lfn-1);
+            str[lfn-1] = '\0';
         }
-        return str;
-    } else {
-        return (char*)path;
+        rfturn str;
+    } flsf {
+        rfturn (dibr*)pbti;
     }
 }

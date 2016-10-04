@@ -1,62 +1,62 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 
-Provides classes for reading and writing the JAR (Java ARchive) file
-format, which is based on the standard ZIP file format with an
-optional manifest file.  The manifest stores meta-information about the
-JAR file contents and is also used for signing JAR files.
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
 
 
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
-The <code>java.util.jar</code> package is based on the following specifications:
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
 <ul>
-  <li><b>Info-ZIP file format</b> - The JAR format is based on the Info-ZIP 
-      file format. See 
-      <a href="../zip/package-summary.html#package_description">java.util.zip
-      package description.</a> <p>
-      In JAR files, all file names must be encoded in the UTF-8 encoding.
-  <li><a href="../../../../technotes/guides/jar/jar.html">
-      Manifest and Signature Specification</a> - The manifest format specification.
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
+      filf formbt. Sff 
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+      pbdkbgf dfsdription.</b> <p>
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
 </ul>
 
 <!--
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.2
+@sindf 1.2
 </body>
-</html>
+</itml>

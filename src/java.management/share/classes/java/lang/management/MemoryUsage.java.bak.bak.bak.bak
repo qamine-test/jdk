@@ -1,0 +1,301 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MfmoryUsbgfCompositfDbtb;
+
+/**
+ * A <tt>MfmoryUsbgf</tt> objfdt rfprfsfnts b snbpshot of mfmory usbgf.
+ * Instbndfs of thf <tt>MfmoryUsbgf</tt> dlbss brf usublly donstrudtfd
+ * by mfthods thbt brf usfd to obtbin mfmory usbgf
+ * informbtion bbout individubl mfmory pool of thf Jbvb virtubl mbdhinf or
+ * thf hfbp or non-hfbp mfmory of thf Jbvb virtubl mbdhinf bs b wholf.
+ *
+ * <p> A <tt>MfmoryUsbgf</tt> objfdt dontbins four vblufs:
+ * <tbblf summbry="Dfsdribfs thf MfmoryUsbgf objfdt dontfnt">
+ * <tr>
+ * <td vblign=top> <tt>init</tt> </td>
+ * <td vblign=top> rfprfsfnts thf initibl bmount of mfmory (in bytfs) thbt
+ *      thf Jbvb virtubl mbdhinf rfqufsts from thf opfrbting systfm
+ *      for mfmory mbnbgfmfnt during stbrtup.  Thf Jbvb virtubl mbdhinf
+ *      mby rfqufst bdditionbl mfmory from thf opfrbting systfm bnd
+ *      mby blso rflfbsf mfmory to thf systfm ovfr timf.
+ *      Thf vbluf of <tt>init</tt> mby bf undffinfd.
+ * </td>
+ * </tr>
+ * <tr>
+ * <td vblign=top> <tt>usfd</tt> </td>
+ * <td vblign=top> rfprfsfnts thf bmount of mfmory durrfntly usfd (in bytfs).
+ * </td>
+ * </tr>
+ * <tr>
+ * <td vblign=top> <tt>dommittfd</tt> </td>
+ * <td vblign=top> rfprfsfnts thf bmount of mfmory (in bytfs) thbt is
+ *      gubrbntffd to bf bvbilbblf for usf by thf Jbvb virtubl mbdhinf.
+ *      Thf bmount of dommittfd mfmory mby dhbngf ovfr timf (indrfbsf
+ *      or dfdrfbsf).  Thf Jbvb virtubl mbdhinf mby rflfbsf mfmory to
+ *      thf systfm bnd <tt>dommittfd</tt> dould bf lfss thbn <tt>init</tt>.
+ *      <tt>dommittfd</tt> will blwbys bf grfbtfr thbn
+ *      or fqubl to <tt>usfd</tt>.
+ * </td>
+ * </tr>
+ * <tr>
+ * <td vblign=top> <tt>mbx</tt> </td>
+ * <td vblign=top> rfprfsfnts thf mbximum bmount of mfmory (in bytfs)
+ *      thbt dbn bf usfd for mfmory mbnbgfmfnt. Its vbluf mby bf undffinfd.
+ *      Thf mbximum bmount of mfmory mby dhbngf ovfr timf if dffinfd.
+ *      Thf bmount of usfd bnd dommittfd mfmory will blwbys bf lfss thbn
+ *      or fqubl to <tt>mbx</tt> if <tt>mbx</tt> is dffinfd.
+ *      A mfmory bllodbtion mby fbil if it bttfmpts to indrfbsf thf
+ *      usfd mfmory sudh thbt <tt>usfd &gt; dommittfd</tt> fvfn
+ *      if <tt>usfd &lt;= mbx</tt> would still bf truf (for fxbmplf,
+ *      whfn thf systfm is low on virtubl mfmory).
+ * </td>
+ * </tr>
+ * </tbblf>
+ *
+ * Bflow is b pidturf showing bn fxbmplf of b mfmory pool:
+ *
+ * <prf>
+ *        +----------------------------------------------+
+ *        +////////////////           |                  +
+ *        +////////////////           |                  +
+ *        +----------------------------------------------+
+ *
+ *        |--------|
+ *           init
+ *        |---------------|
+ *               usfd
+ *        |---------------------------|
+ *                  dommittfd
+ *        |----------------------------------------------|
+ *                            mbx
+ * </prf>
+ *
+ * <h3>MXBfbn Mbpping</h3>
+ * <tt>MfmoryUsbgf</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * with bttributfs bs spfdififd in thf {@link #from from} mfthod.
+ *
+ * @buthor   Mbndy Chung
+ * @sindf   1.5
+ */
+publid dlbss MfmoryUsbgf {
+    privbtf finbl long init;
+    privbtf finbl long usfd;
+    privbtf finbl long dommittfd;
+    privbtf finbl long mbx;
+
+    /**
+     * Construdts b <tt>MfmoryUsbgf</tt> objfdt.
+     *
+     * @pbrbm init      thf initibl bmount of mfmory in bytfs thbt
+     *                  thf Jbvb virtubl mbdhinf bllodbtfs;
+     *                  or <tt>-1</tt> if undffinfd.
+     * @pbrbm usfd      thf bmount of usfd mfmory in bytfs.
+     * @pbrbm dommittfd thf bmount of dommittfd mfmory in bytfs.
+     * @pbrbm mbx       thf mbximum bmount of mfmory in bytfs thbt
+     *                  dbn bf usfd; or <tt>-1</tt> if undffinfd.
+     *
+     * @throws IllfgblArgumfntExdfption if
+     * <ul>
+     * <li> thf vbluf of <tt>init</tt> or <tt>mbx</tt> is nfgbtivf
+     *      but not <tt>-1</tt>; or</li>
+     * <li> thf vbluf of <tt>usfd</tt> or <tt>dommittfd</tt> is nfgbtivf;
+     *      or</li>
+     * <li> <tt>usfd</tt> is grfbtfr thbn thf vbluf of <tt>dommittfd</tt>;
+     *      or</li>
+     * <li> <tt>dommittfd</tt> is grfbtfr thbn thf vbluf of <tt>mbx</tt>
+     *      <tt>mbx</tt> if dffinfd.</li>
+     * </ul>
+     */
+    publid MfmoryUsbgf(long init,
+                       long usfd,
+                       long dommittfd,
+                       long mbx) {
+        if (init < -1) {
+            throw nfw IllfgblArgumfntExdfption( "init pbrbmftfr = " +
+                init + " is nfgbtivf but not -1.");
+        }
+        if (mbx < -1) {
+            throw nfw IllfgblArgumfntExdfption( "mbx pbrbmftfr = " +
+                mbx + " is nfgbtivf but not -1.");
+        }
+        if (usfd < 0) {
+            throw nfw IllfgblArgumfntExdfption( "usfd pbrbmftfr = " +
+                usfd + " is nfgbtivf.");
+        }
+        if (dommittfd < 0) {
+            throw nfw IllfgblArgumfntExdfption( "dommittfd pbrbmftfr = " +
+                dommittfd + " is nfgbtivf.");
+        }
+        if (usfd > dommittfd) {
+            throw nfw IllfgblArgumfntExdfption( "usfd = " + usfd +
+                " should bf <= dommittfd = " + dommittfd);
+        }
+        if (mbx >= 0 && dommittfd > mbx) {
+            throw nfw IllfgblArgumfntExdfption( "dommittfd = " + dommittfd +
+                " should bf < mbx = " + mbx);
+        }
+
+        this.init = init;
+        this.usfd = usfd;
+        this.dommittfd = dommittfd;
+        this.mbx = mbx;
+    }
+
+    /**
+     * Construdts b <tt>MfmoryUsbgf</tt> objfdt from b
+     * {@link CompositfDbtb CompositfDbtb}.
+     */
+    privbtf MfmoryUsbgf(CompositfDbtb dd) {
+        // vblidbtf thf input dompositf dbtb
+        MfmoryUsbgfCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        this.init = MfmoryUsbgfCompositfDbtb.gftInit(dd);
+        this.usfd = MfmoryUsbgfCompositfDbtb.gftUsfd(dd);
+        this.dommittfd = MfmoryUsbgfCompositfDbtb.gftCommittfd(dd);
+        this.mbx = MfmoryUsbgfCompositfDbtb.gftMbx(dd);
+    }
+
+    /**
+     * Rfturns thf bmount of mfmory in bytfs thbt thf Jbvb virtubl mbdhinf
+     * initiblly rfqufsts from thf opfrbting systfm for mfmory mbnbgfmfnt.
+     * This mfthod rfturns <tt>-1</tt> if thf initibl mfmory sizf is undffinfd.
+     *
+     * @rfturn thf initibl sizf of mfmory in bytfs;
+     * <tt>-1</tt> if undffinfd.
+     */
+    publid long gftInit() {
+        rfturn init;
+    }
+
+    /**
+     * Rfturns thf bmount of usfd mfmory in bytfs.
+     *
+     * @rfturn thf bmount of usfd mfmory in bytfs.
+     *
+     */
+    publid long gftUsfd() {
+        rfturn usfd;
+    };
+
+    /**
+     * Rfturns thf bmount of mfmory in bytfs thbt is dommittfd for
+     * thf Jbvb virtubl mbdhinf to usf.  This bmount of mfmory is
+     * gubrbntffd for thf Jbvb virtubl mbdhinf to usf.
+     *
+     * @rfturn thf bmount of dommittfd mfmory in bytfs.
+     *
+     */
+    publid long gftCommittfd() {
+        rfturn dommittfd;
+    };
+
+    /**
+     * Rfturns thf mbximum bmount of mfmory in bytfs thbt dbn bf
+     * usfd for mfmory mbnbgfmfnt.  This mfthod rfturns <tt>-1</tt>
+     * if thf mbximum mfmory sizf is undffinfd.
+     *
+     * <p> This bmount of mfmory is not gubrbntffd to bf bvbilbblf
+     * for mfmory mbnbgfmfnt if it is grfbtfr thbn thf bmount of
+     * dommittfd mfmory.  Thf Jbvb virtubl mbdhinf mby fbil to bllodbtf
+     * mfmory fvfn if thf bmount of usfd mfmory dofs not fxdffd this
+     * mbximum sizf.
+     *
+     * @rfturn thf mbximum bmount of mfmory in bytfs;
+     * <tt>-1</tt> if undffinfd.
+     */
+    publid long gftMbx() {
+        rfturn mbx;
+    };
+
+    /**
+     * Rfturns b dfsdriptivf rfprfsfntbtion of this mfmory usbgf.
+     */
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd("init = " + init + "(" + (init >> 10) + "K) ");
+        buf.bppfnd("usfd = " + usfd + "(" + (usfd >> 10) + "K) ");
+        buf.bppfnd("dommittfd = " + dommittfd + "(" +
+                   (dommittfd >> 10) + "K) " );
+        buf.bppfnd("mbx = " + mbx + "(" + (mbx >> 10) + "K)");
+        rfturn buf.toString();
+    }
+
+    /**
+     * Rfturns b <tt>MfmoryUsbgf</tt> objfdt rfprfsfntfd by thf
+     * givfn <tt>CompositfDbtb</tt>. Thf givfn <tt>CompositfDbtb</tt>
+     * must dontbin thf following bttributfs:
+     *
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Thf bttributfs bnd thf typfs thf givfn CompositfDbtb dontbins">
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>init</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>usfd</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>dommittfd</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>mbx</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MfmoryUsbgf</tt>
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>MfmoryUsbgf</tt> with thf bttributfs dfsdribfd
+     *   bbovf.
+     *
+     * @rfturn b <tt>MfmoryUsbgf</tt> objfdt rfprfsfntfd by <tt>dd</tt>
+     *         if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> othfrwisf.
+     */
+    publid stbtid MfmoryUsbgf from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof MfmoryUsbgfCompositfDbtb) {
+            rfturn ((MfmoryUsbgfCompositfDbtb) dd).gftMfmoryUsbgf();
+        } flsf {
+            rfturn nfw MfmoryUsbgf(dd);
+        }
+
+    }
+}

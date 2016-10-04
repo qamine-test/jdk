@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+/*
+ * FUNCTION
+ *      mlib_ImbgfConvVfrsion - Gft Conv* funtions vfrsion
+ *      0  - "C" vfrsion
+ *      1  - "VIS" vfrsion
+ *      2  - "i386" vfrsion
+ *      3  - "MMX" vfrsion
+ *
+ * SYNOPSIS
+ *      mlib_s32 mlib_ImbgfConvVfrsion(mlib_s32  m,
+ *                                     mlib_s32  n,
+ *                                     mlib_s32  sdblf,
+ *                                     mlib_typf typf)
+ *
+ */
+
+#indludf "mlib_imbgf.h"
+
+/***************************************************************/
+#dffinf MAX_U8   8
+#dffinf MAX_S16 32
+
+/***************************************************************/
+mlib_s32 mlib_ImbgfConvVfrsion(mlib_s32  m,
+                               mlib_s32  n,
+                               mlib_s32  sdblf,
+                               mlib_typf typf)
+{
+  mlib_d64 dsdblf = 1.0 / (1 << sdblf); /* 16 < sdblf <= 31 */
+
+  if (typf == MLIB_BYTE) {
+    if ((m * n * dsdblf * 32768.0 * 512.0) > MAX_U8)
+      rfturn 0;
+    rfturn 1;
+  }
+  flsf if ((typf == MLIB_USHORT) || (typf == MLIB_SHORT)) {
+
+    if ((m != 2) || (n != 2))
+      rfturn 0;
+
+    if ((m * n * dsdblf * 32768.0 * 32768.0) > MAX_S16)
+      rfturn 0;
+    rfturn 1;
+  }
+  flsf
+    rfturn 0;
+}
+
+/***************************************************************/

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*-
- *      Reads xbitmap format images into a DIBitmap structure.
+ *      Rfbds xbitmbp formbt imbgfs into b DIBitmbp strudturf.
  */
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.io.*;
-import java.awt.image.*;
+import jbvb.io.*;
+import jbvb.bwt.imbgf.*;
 
 /**
- * Parse files of the form:
+ * Pbrsf filfs of tif form:
  *
- * #define foo_width w
- * #define foo_height h
- * static char foo_bits[] = {
+ * #dffinf foo_widti w
+ * #dffinf foo_ifigit i
+ * stbtid dibr foo_bits[] = {
  * 0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,
  * 0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,
  * 0xnn,0xnn,0xnn,0xnn};
  *
- * @author James Gosling
+ * @butior Jbmfs Gosling
  */
-public class XbmImageDecoder extends ImageDecoder {
-    private static byte XbmColormap[] = {(byte) 255, (byte) 255, (byte) 255,
+publid dlbss XbmImbgfDfdodfr fxtfnds ImbgfDfdodfr {
+    privbtf stbtid bytf XbmColormbp[] = {(bytf) 255, (bytf) 255, (bytf) 255,
                                          0, 0, 0};
-    private static int XbmHints = (ImageConsumer.TOPDOWNLEFTRIGHT |
-                                   ImageConsumer.COMPLETESCANLINES |
-                                   ImageConsumer.SINGLEPASS |
-                                   ImageConsumer.SINGLEFRAME);
+    privbtf stbtid int XbmHints = (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                                   ImbgfConsumfr.COMPLETESCANLINES |
+                                   ImbgfConsumfr.SINGLEPASS |
+                                   ImbgfConsumfr.SINGLEFRAME);
 
-    public XbmImageDecoder(InputStreamImageSource src, InputStream is) {
-        super(src, is);
-        if (!(input instanceof BufferedInputStream)) {
-            // If the topmost stream is a metered stream,
-            // we take forever to decode the image...
-            input = new BufferedInputStream(input, 80);
+    publid XbmImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        supfr(srd, is);
+        if (!(input instbndfof BufffrfdInputStrfbm)) {
+            // If tif topmost strfbm is b mftfrfd strfbm,
+            // wf tbkf forfvfr to dfdodf tif imbgf...
+            input = nfw BufffrfdInputStrfbm(input, 80);
         }
     }
 
 
     /**
-     * An error has occurred. Throw an exception.
+     * An frror ibs oddurrfd. Tirow bn fxdfption.
      */
-    private static void error(String s1) throws ImageFormatException {
-        throw new ImageFormatException(s1);
+    privbtf stbtid void frror(String s1) tirows ImbgfFormbtExdfption {
+        tirow nfw ImbgfFormbtExdfption(s1);
     }
 
     /**
-     * produce an image from the stream.
+     * produdf bn imbgf from tif strfbm.
      */
-    public void produceImage() throws IOException, ImageFormatException {
-        char nm[] = new char[80];
-        int c;
+    publid void produdfImbgf() tirows IOExdfption, ImbgfFormbtExdfption {
+        dibr nm[] = nfw dibr[80];
+        int d;
         int i = 0;
-        int state = 0;
+        int stbtf = 0;
         int H = 0;
         int W = 0;
         int x = 0;
         int y = 0;
-        boolean start = true;
-        byte raster[] = null;
-        IndexColorModel model = null;
-        while (!aborted && (c = input.read()) != -1) {
-            if ('a' <= c && c <= 'z' ||
-                    'A' <= c && c <= 'Z' ||
-                    '0' <= c && c <= '9' || c == '#' || c == '_') {
+        boolfbn stbrt = truf;
+        bytf rbstfr[] = null;
+        IndfxColorModfl modfl = null;
+        wiilf (!bbortfd && (d = input.rfbd()) != -1) {
+            if ('b' <= d && d <= 'z' ||
+                    'A' <= d && d <= 'Z' ||
+                    '0' <= d && d <= '9' || d == '#' || d == '_') {
                 if (i < 78)
-                    nm[i++] = (char) c;
-            } else if (i > 0) {
-                int nc = i;
+                    nm[i++] = (dibr) d;
+            } flsf if (i > 0) {
+                int nd = i;
                 i = 0;
-                if (start) {
-                    if (nc != 7 ||
+                if (stbrt) {
+                    if (nd != 7 ||
                         nm[0] != '#' ||
                         nm[1] != 'd' ||
-                        nm[2] != 'e' ||
+                        nm[2] != 'f' ||
                         nm[3] != 'f' ||
                         nm[4] != 'i' ||
                         nm[5] != 'n' ||
-                        nm[6] != 'e')
+                        nm[6] != 'f')
                     {
-                        error("Not an XBM file");
+                        frror("Not bn XBM filf");
                     }
-                    start = false;
+                    stbrt = fblsf;
                 }
-                if (nm[nc - 1] == 'h')
-                    state = 1;  /* expecting width */
-                else if (nm[nc - 1] == 't' && nc > 1 && nm[nc - 2] == 'h')
-                    state = 2;  /* expecting height */
-                else if (nc > 2 && state < 0 && nm[0] == '0' && nm[1] == 'x') {
+                if (nm[nd - 1] == 'i')
+                    stbtf = 1;  /* fxpfdting widti */
+                flsf if (nm[nd - 1] == 't' && nd > 1 && nm[nd - 2] == 'i')
+                    stbtf = 2;  /* fxpfdting ifigit */
+                flsf if (nd > 2 && stbtf < 0 && nm[0] == '0' && nm[1] == 'x') {
                     int n = 0;
-                    for (int p = 2; p < nc; p++) {
-                        c = nm[p];
-                        if ('0' <= c && c <= '9')
-                            c = c - '0';
-                        else if ('A' <= c && c <= 'Z')
-                            c = c - 'A' + 10;
-                        else if ('a' <= c && c <= 'z')
-                            c = c - 'a' + 10;
-                        else
-                            c = 0;
-                        n = n * 16 + c;
+                    for (int p = 2; p < nd; p++) {
+                        d = nm[p];
+                        if ('0' <= d && d <= '9')
+                            d = d - '0';
+                        flsf if ('A' <= d && d <= 'Z')
+                            d = d - 'A' + 10;
+                        flsf if ('b' <= d && d <= 'z')
+                            d = d - 'b' + 10;
+                        flsf
+                            d = 0;
+                        n = n * 16 + d;
                     }
-                    for (int mask = 1; mask <= 0x80; mask <<= 1) {
+                    for (int mbsk = 1; mbsk <= 0x80; mbsk <<= 1) {
                         if (x < W) {
-                            if ((n & mask) != 0)
-                                raster[x] = 1;
-                            else
-                                raster[x] = 0;
+                            if ((n & mbsk) != 0)
+                                rbstfr[x] = 1;
+                            flsf
+                                rbstfr[x] = 0;
                         }
                         x++;
                     }
                     if (x >= W) {
-                        if (setPixels(0, y, W, 1, model, raster, 0, W) <= 0) {
-                            return;
+                        if (sftPixfls(0, y, W, 1, modfl, rbstfr, 0, W) <= 0) {
+                            rfturn;
                         }
                         x = 0;
                         if (y++ >= H) {
-                            break;
+                            brfbk;
                         }
                     }
-                } else {
+                } flsf {
                     int n = 0;
-                    for (int p = 0; p < nc; p++)
-                        if ('0' <= (c = nm[p]) && c <= '9')
-                            n = n * 10 + c - '0';
-                        else {
+                    for (int p = 0; p < nd; p++)
+                        if ('0' <= (d = nm[p]) && d <= '9')
+                            n = n * 10 + d - '0';
+                        flsf {
                             n = -1;
-                            break;
+                            brfbk;
                         }
-                    if (n > 0 && state > 0) {
-                        if (state == 1)
+                    if (n > 0 && stbtf > 0) {
+                        if (stbtf == 1)
                             W = n;
-                        else
+                        flsf
                             H = n;
                         if (W == 0 || H == 0)
-                            state = 0;
-                        else {
-                            model = new IndexColorModel(8, 2, XbmColormap,
-                                                        0, false, 0);
-                            setDimensions(W, H);
-                            setColorModel(model);
-                            setHints(XbmHints);
-                            headerComplete();
-                            raster = new byte[W];
-                            state = -1;
+                            stbtf = 0;
+                        flsf {
+                            modfl = nfw IndfxColorModfl(8, 2, XbmColormbp,
+                                                        0, fblsf, 0);
+                            sftDimfnsions(W, H);
+                            sftColorModfl(modfl);
+                            sftHints(XbmHints);
+                            ifbdfrComplftf();
+                            rbstfr = nfw bytf[W];
+                            stbtf = -1;
                         }
                     }
                 }
             }
         }
-        input.close();
-        imageComplete(ImageConsumer.STATICIMAGEDONE, true);
+        input.dlosf();
+        imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE, truf);
     }
 }

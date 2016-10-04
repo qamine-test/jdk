@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.text.AttributedCharacterIterator;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
 
 /**
- * Graphics subclass supporting graphics debugging. Overrides most methods
- * from Graphics.  DebugGraphics objects are rarely created by hand.  They
- * are most frequently created automatically when a JComponent's
- * debugGraphicsOptions are changed using the setDebugGraphicsOptions()
- * method.
+ * Grbpiids subdlbss supporting grbpiids dfbugging. Ovfrridfs most mftiods
+ * from Grbpiids.  DfbugGrbpiids objfdts brf rbrfly drfbtfd by ibnd.  Tify
+ * brf most frfqufntly drfbtfd butombtidblly wifn b JComponfnt's
+ * dfbugGrbpiidsOptions brf dibngfd using tif sftDfbugGrbpiidsOptions()
+ * mftiod.
  * <p>
- * NOTE: You must turn off double buffering to use DebugGraphics:
- *       RepaintManager repaintManager = RepaintManager.currentManager(component);
- *       repaintManager.setDoubleBufferingEnabled(false);
+ * NOTE: You must turn off doublf bufffring to usf DfbugGrbpiids:
+ *       RfpbintMbnbgfr rfpbintMbnbgfr = RfpbintMbnbgfr.durrfntMbnbgfr(domponfnt);
+ *       rfpbintMbnbgfr.sftDoublfBufffringEnbblfd(fblsf);
  *
- * @see JComponent#setDebugGraphicsOptions
- * @see RepaintManager#currentManager
- * @see RepaintManager#setDoubleBufferingEnabled
+ * @sff JComponfnt#sftDfbugGrbpiidsOptions
+ * @sff RfpbintMbnbgfr#durrfntMbnbgfr
+ * @sff RfpbintMbnbgfr#sftDoublfBufffringEnbblfd
  *
- * @author Dave Karlton
- * @since 1.2
+ * @butior Dbvf Kbrlton
+ * @sindf 1.2
  */
-public class DebugGraphics extends Graphics {
-    Graphics                    graphics;
-    Image                       buffer;
-    int                         debugOptions;
-    int                         graphicsID = graphicsCount++;
-    int                         xOffset, yOffset;
-    private static int          graphicsCount = 0;
-    private static ImageIcon    imageLoadingIcon = new ImageIcon();
+publid dlbss DfbugGrbpiids fxtfnds Grbpiids {
+    Grbpiids                    grbpiids;
+    Imbgf                       bufffr;
+    int                         dfbugOptions;
+    int                         grbpiidsID = grbpiidsCount++;
+    int                         xOffsft, yOffsft;
+    privbtf stbtid int          grbpiidsCount = 0;
+    privbtf stbtid ImbgfIdon    imbgfLobdingIdon = nfw ImbgfIdon();
 
-    /** Log graphics operations. */
-    public static final int     LOG_OPTION   = 1 << 0;
-    /** Flash graphics operations. */
-    public static final int     FLASH_OPTION = 1 << 1;
-    /** Show buffered operations in a separate <code>Frame</code>. */
-    public static final int     BUFFERED_OPTION = 1 << 2;
-    /** Don't debug graphics operations. */
-    public static final int     NONE_OPTION = -1;
+    /** Log grbpiids opfrbtions. */
+    publid stbtid finbl int     LOG_OPTION   = 1 << 0;
+    /** Flbsi grbpiids opfrbtions. */
+    publid stbtid finbl int     FLASH_OPTION = 1 << 1;
+    /** Siow bufffrfd opfrbtions in b sfpbrbtf <dodf>Frbmf</dodf>. */
+    publid stbtid finbl int     BUFFERED_OPTION = 1 << 2;
+    /** Don't dfbug grbpiids opfrbtions. */
+    publid stbtid finbl int     NONE_OPTION = -1;
 
-    static {
-        JComponent.DEBUG_GRAPHICS_LOADED = true;
+    stbtid {
+        JComponfnt.DEBUG_GRAPHICS_LOADED = truf;
     }
 
     /**
-     * Constructs a new debug graphics context that supports slowed
-     * down drawing.
+     * Construdts b nfw dfbug grbpiids dontfxt tibt supports slowfd
+     * down drbwing.
      */
-    public DebugGraphics() {
-        super();
-        buffer = null;
-        xOffset = yOffset = 0;
+    publid DfbugGrbpiids() {
+        supfr();
+        bufffr = null;
+        xOffsft = yOffsft = 0;
     }
 
     /**
-     * Constructs a debug graphics context from an existing graphics
-     * context that slows down drawing for the specified component.
+     * Construdts b dfbug grbpiids dontfxt from bn fxisting grbpiids
+     * dontfxt tibt slows down drbwing for tif spfdififd domponfnt.
      *
-     * @param graphics  the Graphics context to slow down
-     * @param component the JComponent to draw slowly
+     * @pbrbm grbpiids  tif Grbpiids dontfxt to slow down
+     * @pbrbm domponfnt tif JComponfnt to drbw slowly
      */
-    public DebugGraphics(Graphics graphics, JComponent component) {
-        this(graphics);
-        setDebugOptions(component.shouldDebugGraphics());
+    publid DfbugGrbpiids(Grbpiids grbpiids, JComponfnt domponfnt) {
+        tiis(grbpiids);
+        sftDfbugOptions(domponfnt.siouldDfbugGrbpiids());
     }
 
     /**
-     * Constructs a debug graphics context from an existing graphics
-     * context that supports slowed down drawing.
+     * Construdts b dfbug grbpiids dontfxt from bn fxisting grbpiids
+     * dontfxt tibt supports slowfd down drbwing.
      *
-     * @param graphics  the Graphics context to slow down
+     * @pbrbm grbpiids  tif Grbpiids dontfxt to slow down
      */
-    public DebugGraphics(Graphics graphics) {
-        this();
-        this.graphics = graphics;
+    publid DfbugGrbpiids(Grbpiids grbpiids) {
+        tiis();
+        tiis.grbpiids = grbpiids;
     }
 
     /**
-     * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
+     * Ovfrridfs <dodf>Grbpiids.drfbtf</dodf> to rfturn b DfbugGrbpiids objfdt.
      */
-    public Graphics create() {
-        DebugGraphics debugGraphics;
+    publid Grbpiids drfbtf() {
+        DfbugGrbpiids dfbugGrbpiids;
 
-        debugGraphics = new DebugGraphics();
-        debugGraphics.graphics = graphics.create();
-        debugGraphics.debugOptions = debugOptions;
-        debugGraphics.buffer = buffer;
+        dfbugGrbpiids = nfw DfbugGrbpiids();
+        dfbugGrbpiids.grbpiids = grbpiids.drfbtf();
+        dfbugGrbpiids.dfbugOptions = dfbugOptions;
+        dfbugGrbpiids.bufffr = bufffr;
 
-        return debugGraphics;
+        rfturn dfbugGrbpiids;
     }
 
     /**
-     * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
+     * Ovfrridfs <dodf>Grbpiids.drfbtf</dodf> to rfturn b DfbugGrbpiids objfdt.
      */
-    public Graphics create(int x, int y, int width, int height) {
-        DebugGraphics debugGraphics;
+    publid Grbpiids drfbtf(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiids dfbugGrbpiids;
 
-        debugGraphics = new DebugGraphics();
-        debugGraphics.graphics = graphics.create(x, y, width, height);
-        debugGraphics.debugOptions = debugOptions;
-        debugGraphics.buffer = buffer;
-        debugGraphics.xOffset = xOffset + x;
-        debugGraphics.yOffset = yOffset + y;
+        dfbugGrbpiids = nfw DfbugGrbpiids();
+        dfbugGrbpiids.grbpiids = grbpiids.drfbtf(x, y, widti, ifigit);
+        dfbugGrbpiids.dfbugOptions = dfbugOptions;
+        dfbugGrbpiids.bufffr = bufffr;
+        dfbugGrbpiids.xOffsft = xOffsft + x;
+        dfbugGrbpiids.yOffsft = yOffsft + y;
 
-        return debugGraphics;
+        rfturn dfbugGrbpiids;
     }
 
 
@@ -138,111 +138,111 @@ public class DebugGraphics extends Graphics {
     //------------------------------------------------
 
     /**
-     * Sets the Color used to flash drawing operations.
+     * Sfts tif Color usfd to flbsi drbwing opfrbtions.
      *
-     * @param flashColor the Color used to flash drawing operations
+     * @pbrbm flbsiColor tif Color usfd to flbsi drbwing opfrbtions
      */
-    public static void setFlashColor(Color flashColor) {
-        info().flashColor = flashColor;
+    publid stbtid void sftFlbsiColor(Color flbsiColor) {
+        info().flbsiColor = flbsiColor;
     }
 
     /**
-     * Returns the Color used to flash drawing operations.
+     * Rfturns tif Color usfd to flbsi drbwing opfrbtions.
      *
-     * @return the Color used to flash drawing operations
-     * @see #setFlashColor
+     * @rfturn tif Color usfd to flbsi drbwing opfrbtions
+     * @sff #sftFlbsiColor
      */
-    public static Color flashColor() {
-        return info().flashColor;
+    publid stbtid Color flbsiColor() {
+        rfturn info().flbsiColor;
     }
 
     /**
-     * Sets the time delay of drawing operation flashing.
+     * Sfts tif timf dflby of drbwing opfrbtion flbsiing.
      *
-     * @param flashTime the time delay of drawing operation flashing
+     * @pbrbm flbsiTimf tif timf dflby of drbwing opfrbtion flbsiing
      */
-    public static void setFlashTime(int flashTime) {
-        info().flashTime = flashTime;
+    publid stbtid void sftFlbsiTimf(int flbsiTimf) {
+        info().flbsiTimf = flbsiTimf;
     }
 
     /**
-     * Returns the time delay of drawing operation flashing.
+     * Rfturns tif timf dflby of drbwing opfrbtion flbsiing.
      *
-     * @return the time delay of drawing operation flashing
-     * @see #setFlashTime
+     * @rfturn tif timf dflby of drbwing opfrbtion flbsiing
+     * @sff #sftFlbsiTimf
      */
-    public static int flashTime() {
-        return info().flashTime;
+    publid stbtid int flbsiTimf() {
+        rfturn info().flbsiTimf;
     }
 
     /**
-     * Sets the number of times that drawing operations will flash.
+     * Sfts tif numbfr of timfs tibt drbwing opfrbtions will flbsi.
      *
-     * @param flashCount number of times that drawing operations will flash
+     * @pbrbm flbsiCount numbfr of timfs tibt drbwing opfrbtions will flbsi
      */
-    public static void setFlashCount(int flashCount) {
-        info().flashCount = flashCount;
+    publid stbtid void sftFlbsiCount(int flbsiCount) {
+        info().flbsiCount = flbsiCount;
     }
 
     /**
-     * Returns the number of times that drawing operations will flash.
+     * Rfturns tif numbfr of timfs tibt drbwing opfrbtions will flbsi.
      *
-     * @return the number of times that drawing operations will flash
-     * @see #setFlashCount
+     * @rfturn tif numbfr of timfs tibt drbwing opfrbtions will flbsi
+     * @sff #sftFlbsiCount
      */
-    public static int flashCount() {
-        return info().flashCount;
+    publid stbtid int flbsiCount() {
+        rfturn info().flbsiCount;
     }
 
     /**
-     * Sets the stream to which the DebugGraphics logs drawing operations.
+     * Sfts tif strfbm to wiidi tif DfbugGrbpiids logs drbwing opfrbtions.
      *
-     * @param stream the stream to which the DebugGraphics logs drawing operations
+     * @pbrbm strfbm tif strfbm to wiidi tif DfbugGrbpiids logs drbwing opfrbtions
      */
-    public static void setLogStream(java.io.PrintStream stream) {
-        info().stream = stream;
+    publid stbtid void sftLogStrfbm(jbvb.io.PrintStrfbm strfbm) {
+        info().strfbm = strfbm;
     }
 
     /**
-     * Returns the stream to which the DebugGraphics logs drawing operations.
+     * Rfturns tif strfbm to wiidi tif DfbugGrbpiids logs drbwing opfrbtions.
      *
-     * @return the stream to which the DebugGraphics logs drawing operations
-     * @see #setLogStream
+     * @rfturn tif strfbm to wiidi tif DfbugGrbpiids logs drbwing opfrbtions
+     * @sff #sftLogStrfbm
      */
-    public static java.io.PrintStream logStream() {
-        return info().stream;
+    publid stbtid jbvb.io.PrintStrfbm logStrfbm() {
+        rfturn info().strfbm;
     }
 
-    /** Sets the Font used for text drawing operations.
+    /** Sfts tif Font usfd for tfxt drbwing opfrbtions.
       */
-    public void setFont(Font aFont) {
-        if (debugLog()) {
-            info().log(toShortString() + " Setting font: " + aFont);
+    publid void sftFont(Font bFont) {
+        if (dfbugLog()) {
+            info().log(toSiortString() + " Sftting font: " + bFont);
         }
-        graphics.setFont(aFont);
+        grbpiids.sftFont(bFont);
     }
 
-    /** Returns the Font used for text drawing operations.
-      * @see #setFont
+    /** Rfturns tif Font usfd for tfxt drbwing opfrbtions.
+      * @sff #sftFont
       */
-    public Font getFont() {
-        return graphics.getFont();
+    publid Font gftFont() {
+        rfturn grbpiids.gftFont();
     }
 
-    /** Sets the color to be used for drawing and filling lines and shapes.
+    /** Sfts tif dolor to bf usfd for drbwing bnd filling linfs bnd sibpfs.
       */
-    public void setColor(Color aColor) {
-        if (debugLog()) {
-            info().log(toShortString() + " Setting color: " + aColor);
+    publid void sftColor(Color bColor) {
+        if (dfbugLog()) {
+            info().log(toSiortString() + " Sftting dolor: " + bColor);
         }
-        graphics.setColor(aColor);
+        grbpiids.sftColor(bColor);
     }
 
-    /** Returns the Color used for text drawing operations.
-      * @see #setColor
+    /** Rfturns tif Color usfd for tfxt drbwing opfrbtions.
+      * @sff #sftColor
       */
-    public Color getColor() {
-        return graphics.getColor();
+    publid Color gftColor() {
+        rfturn grbpiids.gftColor();
     }
 
 
@@ -251,1126 +251,1126 @@ public class DebugGraphics extends Graphics {
     //------------------------------------------------
 
     /**
-     * Overrides <code>Graphics.getFontMetrics</code>.
+     * Ovfrridfs <dodf>Grbpiids.gftFontMftrids</dodf>.
      */
-    public FontMetrics getFontMetrics() {
-        return graphics.getFontMetrics();
+    publid FontMftrids gftFontMftrids() {
+        rfturn grbpiids.gftFontMftrids();
     }
 
     /**
-     * Overrides <code>Graphics.getFontMetrics</code>.
+     * Ovfrridfs <dodf>Grbpiids.gftFontMftrids</dodf>.
      */
-    public FontMetrics getFontMetrics(Font f) {
-        return graphics.getFontMetrics(f);
+    publid FontMftrids gftFontMftrids(Font f) {
+        rfturn grbpiids.gftFontMftrids(f);
     }
 
     /**
-     * Overrides <code>Graphics.translate</code>.
+     * Ovfrridfs <dodf>Grbpiids.trbnslbtf</dodf>.
      */
-    public void translate(int x, int y) {
-        if (debugLog()) {
-            info().log(toShortString() +
-                " Translating by: " + new Point(x, y));
+    publid void trbnslbtf(int x, int y) {
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                " Trbnslbting by: " + nfw Point(x, y));
         }
-        xOffset += x;
-        yOffset += y;
-        graphics.translate(x, y);
+        xOffsft += x;
+        yOffsft += y;
+        grbpiids.trbnslbtf(x, y);
     }
 
     /**
-     * Overrides <code>Graphics.setPaintMode</code>.
+     * Ovfrridfs <dodf>Grbpiids.sftPbintModf</dodf>.
      */
-    public void setPaintMode() {
-        if (debugLog()) {
-            info().log(toShortString() + " Setting paint mode");
+    publid void sftPbintModf() {
+        if (dfbugLog()) {
+            info().log(toSiortString() + " Sftting pbint modf");
         }
-        graphics.setPaintMode();
+        grbpiids.sftPbintModf();
     }
 
     /**
-     * Overrides <code>Graphics.setXORMode</code>.
+     * Ovfrridfs <dodf>Grbpiids.sftXORModf</dodf>.
      */
-    public void setXORMode(Color aColor) {
-        if (debugLog()) {
-            info().log(toShortString() + " Setting XOR mode: " + aColor);
+    publid void sftXORModf(Color bColor) {
+        if (dfbugLog()) {
+            info().log(toSiortString() + " Sftting XOR modf: " + bColor);
         }
-        graphics.setXORMode(aColor);
+        grbpiids.sftXORModf(bColor);
     }
 
     /**
-     * Overrides <code>Graphics.getClipBounds</code>.
+     * Ovfrridfs <dodf>Grbpiids.gftClipBounds</dodf>.
      */
-    public Rectangle getClipBounds() {
-        return graphics.getClipBounds();
+    publid Rfdtbnglf gftClipBounds() {
+        rfturn grbpiids.gftClipBounds();
     }
 
     /**
-     * Overrides <code>Graphics.clipRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.dlipRfdt</dodf>.
      */
-    public void clipRect(int x, int y, int width, int height) {
-        graphics.clipRect(x, y, width, height);
-        if (debugLog()) {
-            info().log(toShortString() +
-                " Setting clipRect: " + (new Rectangle(x, y, width, height)) +
-                " New clipRect: " + graphics.getClip());
-        }
-    }
-
-    /**
-     * Overrides <code>Graphics.setClip</code>.
-     */
-    public void setClip(int x, int y, int width, int height) {
-        graphics.setClip(x, y, width, height);
-        if (debugLog()) {
-            info().log(toShortString() +
-                        " Setting new clipRect: " + graphics.getClip());
+    publid void dlipRfdt(int x, int y, int widti, int ifigit) {
+        grbpiids.dlipRfdt(x, y, widti, ifigit);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                " Sftting dlipRfdt: " + (nfw Rfdtbnglf(x, y, widti, ifigit)) +
+                " Nfw dlipRfdt: " + grbpiids.gftClip());
         }
     }
 
     /**
-     * Overrides <code>Graphics.getClip</code>.
+     * Ovfrridfs <dodf>Grbpiids.sftClip</dodf>.
      */
-    public Shape getClip() {
-        return graphics.getClip();
-    }
-
-    /**
-     * Overrides <code>Graphics.setClip</code>.
-     */
-    public void setClip(Shape clip) {
-        graphics.setClip(clip);
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Setting new clipRect: " +  graphics.getClip());
+    publid void sftClip(int x, int y, int widti, int ifigit) {
+        grbpiids.sftClip(x, y, widti, ifigit);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                        " Sftting nfw dlipRfdt: " + grbpiids.gftClip());
         }
     }
 
     /**
-     * Overrides <code>Graphics.drawRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.gftClip</dodf>.
      */
-    public void drawRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    publid Sibpf gftClip() {
+        rfturn grbpiids.gftClip();
+    }
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing rect: " +
-                      new Rectangle(x, y, width, height));
+    /**
+     * Ovfrridfs <dodf>Grbpiids.sftClip</dodf>.
+     */
+    publid void sftClip(Sibpf dlip) {
+        grbpiids.sftClip(dlip);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Sftting nfw dlipRfdt: " +  grbpiids.gftClip());
+        }
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbpiids.drbwRfdt</dodf>.
+     */
+    publid void drbwRfdt(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing rfdt: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawRect(x, y, width, height);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwRfdt(x, y, widti, ifigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwRfdt(x, y, widti, ifigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawRect(x, y, width, height);
+        grbpiids.drbwRfdt(x, y, widti, ifigit);
     }
 
     /**
-     * Overrides <code>Graphics.fillRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.fillRfdt</dodf>.
      */
-    public void fillRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    publid void fillRfdt(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Filling rect: " +
-                      new Rectangle(x, y, width, height));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Filling rfdt: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fillRect(x, y, width, height);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fillRfdt(x, y, widti, ifigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fillRfdt(x, y, widti, ifigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fillRect(x, y, width, height);
+        grbpiids.fillRfdt(x, y, widti, ifigit);
     }
 
     /**
-     * Overrides <code>Graphics.clearRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.dlfbrRfdt</dodf>.
      */
-    public void clearRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    publid void dlfbrRfdt(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Clearing rect: " +
-                      new Rectangle(x, y, width, height));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Clfbring rfdt: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.clearRect(x, y, width, height);
-                debugGraphics.dispose();
+                dfbugGrbpiids.dlfbrRfdt(x, y, widti, ifigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.clearRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.dlfbrRfdt(x, y, widti, ifigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.clearRect(x, y, width, height);
+        grbpiids.dlfbrRfdt(x, y, widti, ifigit);
     }
 
     /**
-     * Overrides <code>Graphics.drawRoundRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwRoundRfdt</dodf>.
      */
-    public void drawRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        DebugGraphicsInfo info = info();
+    publid void drbwRoundRfdt(int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing round rect: " +
-                      new Rectangle(x, y, width, height) +
-                      " arcWidth: " + arcWidth +
-                      " archHeight: " + arcHeight);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing round rfdt: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit) +
+                      " brdWidti: " + brdWidti +
+                      " brdiHfigit: " + brdHfigit);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawRoundRect(x, y, width, height,
-                                            arcWidth, arcHeight);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwRoundRfdt(x, y, widti, ifigit,
+                                            brdWidti, brdHfigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawRoundRect(x, y, width, height,
-                                       arcWidth, arcHeight);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwRoundRfdt(x, y, widti, ifigit,
+                                       brdWidti, brdHfigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+        grbpiids.drbwRoundRfdt(x, y, widti, ifigit, brdWidti, brdHfigit);
     }
 
     /**
-     * Overrides <code>Graphics.fillRoundRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.fillRoundRfdt</dodf>.
      */
-    public void fillRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        DebugGraphicsInfo info = info();
+    publid void fillRoundRfdt(int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Filling round rect: " +
-                      new Rectangle(x, y, width, height) +
-                      " arcWidth: " + arcWidth +
-                      " archHeight: " + arcHeight);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Filling round rfdt: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit) +
+                      " brdWidti: " + brdWidti +
+                      " brdiHfigit: " + brdHfigit);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fillRoundRect(x, y, width, height,
-                                            arcWidth, arcHeight);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fillRoundRfdt(x, y, widti, ifigit,
+                                            brdWidti, brdHfigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillRoundRect(x, y, width, height,
-                                       arcWidth, arcHeight);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fillRoundRfdt(x, y, widti, ifigit,
+                                       brdWidti, brdHfigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+        grbpiids.fillRoundRfdt(x, y, widti, ifigit, brdWidti, brdHfigit);
     }
 
     /**
-     * Overrides <code>Graphics.drawLine</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwLinf</dodf>.
      */
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        DebugGraphicsInfo info = info();
+    publid void drbwLinf(int x1, int y1, int x2, int y2) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing line: from " + pointToString(x1, y1) +
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing linf: from " + pointToString(x1, y1) +
                        " to " +  pointToString(x2, y2));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawLine(x1, y1, x2, y2);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwLinf(x1, y1, x2, y2);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawLine(x1, y1, x2, y2);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwLinf(x1, y1, x2, y2);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawLine(x1, y1, x2, y2);
+        grbpiids.drbwLinf(x1, y1, x2, y2);
     }
 
     /**
-     * Overrides <code>Graphics.draw3DRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbw3DRfdt</dodf>.
      */
-    public void draw3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        DebugGraphicsInfo info = info();
+    publid void drbw3DRfdt(int x, int y, int widti, int ifigit,
+                           boolfbn rbisfd) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing 3D rect: " +
-                       new Rectangle(x, y, width, height) +
-                       " Raised bezel: " + raised);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing 3D rfdt: " +
+                       nfw Rfdtbnglf(x, y, widti, ifigit) +
+                       " Rbisfd bfzfl: " + rbisfd);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.draw3DRect(x, y, width, height, raised);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbw3DRfdt(x, y, widti, ifigit, rbisfd);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.draw3DRect(x, y, width, height, raised);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbw3DRfdt(x, y, widti, ifigit, rbisfd);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.draw3DRect(x, y, width, height, raised);
+        grbpiids.drbw3DRfdt(x, y, widti, ifigit, rbisfd);
     }
 
     /**
-     * Overrides <code>Graphics.fill3DRect</code>.
+     * Ovfrridfs <dodf>Grbpiids.fill3DRfdt</dodf>.
      */
-    public void fill3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        DebugGraphicsInfo info = info();
+    publid void fill3DRfdt(int x, int y, int widti, int ifigit,
+                           boolfbn rbisfd) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Filling 3D rect: " +
-                       new Rectangle(x, y, width, height) +
-                       " Raised bezel: " + raised);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Filling 3D rfdt: " +
+                       nfw Rfdtbnglf(x, y, widti, ifigit) +
+                       " Rbisfd bfzfl: " + rbisfd);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fill3DRect(x, y, width, height, raised);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fill3DRfdt(x, y, widti, ifigit, rbisfd);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fill3DRect(x, y, width, height, raised);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fill3DRfdt(x, y, widti, ifigit, rbisfd);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fill3DRect(x, y, width, height, raised);
+        grbpiids.fill3DRfdt(x, y, widti, ifigit, rbisfd);
     }
 
     /**
-     * Overrides <code>Graphics.drawOval</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwOvbl</dodf>.
      */
-    public void drawOval(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    publid void drbwOvbl(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing oval: " +
-                      new Rectangle(x, y, width, height));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing ovbl: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit));
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawOval(x, y, width, height);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwOvbl(x, y, widti, ifigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawOval(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwOvbl(x, y, widti, ifigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawOval(x, y, width, height);
+        grbpiids.drbwOvbl(x, y, widti, ifigit);
     }
 
     /**
-     * Overrides <code>Graphics.fillOval</code>.
+     * Ovfrridfs <dodf>Grbpiids.fillOvbl</dodf>.
      */
-    public void fillOval(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    publid void fillOvbl(int x, int y, int widti, int ifigit) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Filling oval: " +
-                      new Rectangle(x, y, width, height));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Filling ovbl: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit));
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fillOval(x, y, width, height);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fillOvbl(x, y, widti, ifigit);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillOval(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fillOvbl(x, y, widti, ifigit);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fillOval(x, y, width, height);
+        grbpiids.fillOvbl(x, y, widti, ifigit);
     }
 
     /**
-     * Overrides <code>Graphics.drawArc</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwArd</dodf>.
      */
-    public void drawArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        DebugGraphicsInfo info = info();
+    publid void drbwArd(int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing arc: " +
-                      new Rectangle(x, y, width, height) +
-                      " startAngle: " + startAngle +
-                      " arcAngle: " + arcAngle);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing brd: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit) +
+                      " stbrtAnglf: " + stbrtAnglf +
+                      " brdAnglf: " + brdAnglf);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawArc(x, y, width, height,
-                                      startAngle, arcAngle);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwArd(x, y, widti, ifigit,
+                                      stbrtAnglf, brdAnglf);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawArc(x, y, width, height, startAngle, arcAngle);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawArc(x, y, width, height, startAngle, arcAngle);
+        grbpiids.drbwArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf);
     }
 
     /**
-     * Overrides <code>Graphics.fillArc</code>.
+     * Ovfrridfs <dodf>Grbpiids.fillArd</dodf>.
      */
-    public void fillArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        DebugGraphicsInfo info = info();
+    publid void fillArd(int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Filling arc: " +
-                      new Rectangle(x, y, width, height) +
-                      " startAngle: " + startAngle +
-                      " arcAngle: " + arcAngle);
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Filling brd: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit) +
+                      " stbrtAnglf: " + stbrtAnglf +
+                      " brdAnglf: " + brdAnglf);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fillArc(x, y, width, height,
-                                      startAngle, arcAngle);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fillArd(x, y, widti, ifigit,
+                                      stbrtAnglf, brdAnglf);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillArc(x, y, width, height, startAngle, arcAngle);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fillArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fillArc(x, y, width, height, startAngle, arcAngle);
+        grbpiids.fillArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf);
     }
 
     /**
-     * Overrides <code>Graphics.drawPolyline</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwPolylinf</dodf>.
      */
-    public void drawPolyline(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+    publid void drbwPolylinf(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing polyline: " +
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing polylinf: " +
                       " nPoints: " + nPoints +
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawPolyline(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwPolylinf(xPoints, yPoints, nPoints);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawPolyline(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwPolylinf(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawPolyline(xPoints, yPoints, nPoints);
+        grbpiids.drbwPolylinf(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.drawPolygon</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwPolygon</dodf>.
      */
-    public void drawPolygon(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+    publid void drbwPolygon(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Drawing polygon: " +
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Drbwing polygon: " +
                       " nPoints: " + nPoints +
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawPolygon(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwPolygon(xPoints, yPoints, nPoints);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawPolygon(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.drbwPolygon(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawPolygon(xPoints, yPoints, nPoints);
+        grbpiids.drbwPolygon(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.fillPolygon</code>.
+     * Ovfrridfs <dodf>Grbpiids.fillPolygon</dodf>.
      */
-    public void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+    publid void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
+        if (dfbugLog()) {
+            info().log(toSiortString() +
                       " Filling polygon: " +
                       " nPoints: " + nPoints +
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.fillPolygon(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                dfbugGrbpiids.fillPolygon(xPoints, yPoints, nPoints);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillPolygon(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor : oldColor);
+                grbpiids.fillPolygon(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.fillPolygon(xPoints, yPoints, nPoints);
+        grbpiids.fillPolygon(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.drawString</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwString</dodf>.
      */
-    public void drawString(String aString, int x, int y) {
-        DebugGraphicsInfo info = info();
+    publid void drbwString(String bString, int x, int y) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing string: \"" + aString +
-                       "\" at: " + new Point(x, y));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing string: \"" + bString +
+                       "\" bt: " + nfw Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawString(aString, x, y);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwString(bString, x, y);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor
                                   : oldColor);
-                graphics.drawString(aString, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbpiids.drbwString(bString, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawString(aString, x, y);
+        grbpiids.drbwString(bString, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawString</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwString</dodf>.
      */
-    public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-        DebugGraphicsInfo info = info();
+    publid void drbwString(AttributfdCibrbdtfrItfrbtor itfrbtor, int x, int y) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing text: \"" + iterator +
-                       "\" at: " + new Point(x, y));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing tfxt: \"" + itfrbtor +
+                       "\" bt: " + nfw Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawString(iterator, x, y);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwString(itfrbtor, x, y);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor
                                   : oldColor);
-                graphics.drawString(iterator, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbpiids.drbwString(itfrbtor, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawString(iterator, x, y);
+        grbpiids.drbwString(itfrbtor, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawBytes</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwBytfs</dodf>.
      */
-    public void drawBytes(byte data[], int offset, int length, int x, int y) {
-        DebugGraphicsInfo info = info();
+    publid void drbwBytfs(bytf dbtb[], int offsft, int lfngti, int x, int y) {
+        DfbugGrbpiidsInfo info = info();
 
-        Font font = graphics.getFont();
+        Font font = grbpiids.gftFont();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing bytes at: " + new Point(x, y));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing bytfs bt: " + nfw Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawBytes(data, offset, length, x, y);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwBytfs(dbtb, offsft, lfngti, x, y);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor
                                   : oldColor);
-                graphics.drawBytes(data, offset, length, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbpiids.drbwBytfs(dbtb, offsft, lfngti, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawBytes(data, offset, length, x, y);
+        grbpiids.drbwBytfs(dbtb, offsft, lfngti, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawChars</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwCibrs</dodf>.
      */
-    public void drawChars(char data[], int offset, int length, int x, int y) {
-        DebugGraphicsInfo info = info();
+    publid void drbwCibrs(dibr dbtb[], int offsft, int lfngti, int x, int y) {
+        DfbugGrbpiidsInfo info = info();
 
-        Font font = graphics.getFont();
+        Font font = grbpiids.gftFont();
 
-        if (debugLog()) {
-            info().log(toShortString() +
-                       " Drawing chars at " +  new Point(x, y));
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                       " Drbwing dibrs bt " +  nfw Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawChars(data, offset, length, x, y);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwCibrs(dbtb, offsft, lfngti, x, y);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+        } flsf if (dfbugFlbsi()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbsiCount * 2) - 1;
 
-            for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+            for (i = 0; i < dount; i++) {
+                grbpiids.sftColor((i % 2) == 0 ? info.flbsiColor
                                   : oldColor);
-                graphics.drawChars(data, offset, length, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbpiids.drbwCibrs(dbtb, offsft, lfngti, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
-            graphics.setColor(oldColor);
+            grbpiids.sftColor(oldColor);
         }
-        graphics.drawChars(data, offset, length, x, y);
+        grbpiids.drbwCibrs(dbtb, offsft, lfngti, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img, int x, int y,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Point(x, y));
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, x, y, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, x, y, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw, x, y,
+                                   imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, x, y, observer);
+        rfturn grbpiids.drbwImbgf(img, x, y, obsfrvfr);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img, int x, int y, int width, int height,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y, int widti, int ifigit,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Rectangle(x, y, width, height));
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Rfdtbnglf(x, y, widti, ifigit));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, x, y, width, height, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, x, y, widti, ifigit, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   width, height, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw, x, y,
+                                   widti, ifigit, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, x, y, width, height, observer);
+        rfturn grbpiids.drbwImbgf(img, x, y, widti, ifigit, obsfrvfr);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img, int x, int y,
-                             Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Point(x, y) +
-                     ", bgcolor: " + bgcolor);
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Point(x, y) +
+                     ", bgdolor: " + bgdolor);
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, x, y, bgcolor, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, x, y, bgdolor, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw, x, y,
+                                   bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, x, y, bgcolor, observer);
+        rfturn grbpiids.drbwImbgf(img, x, y, bgdolor, obsfrvfr);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img, int x, int y,int width, int height,
-                             Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,int widti, int ifigit,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Rectangle(x, y, width, height) +
-                     ", bgcolor: " + bgcolor);
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Rfdtbnglf(x, y, widti, ifigit) +
+                     ", bgdolor: " + bgdolor);
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, x, y, width, height,
-                                        bgcolor, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, x, y, widti, ifigit,
+                                        bgdolor, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   width, height, bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw, x, y,
+                                   widti, ifigit, bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, x, y, width, height, bgcolor, observer);
+        rfturn grbpiids.drbwImbgf(img, x, y, widti, ifigit, bgdolor, obsfrvfr);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img,
+    publid boolfbn drbwImbgf(Imbgf img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " destination: " + new Rectangle(dx1, dy1, dx2, dy2) +
-                     " source: " + new Rectangle(sx1, sy1, sx2, sy2));
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " dfstinbtion: " + nfw Rfdtbnglf(dx1, dy1, dx2, dy2) +
+                     " sourdf: " + nfw Rfdtbnglf(sx1, sy1, sx2, sy2));
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, dx1, dy1, dx2, dy2,
-                                        sx1, sy1, sx2, sy2, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                                        sx1, sy1, sx2, sy2, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw,
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw,
                                    dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                   imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                                   imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                  observer);
+        rfturn grbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                  obsfrvfr);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Ovfrridfs <dodf>Grbpiids.drbwImbgf</dodf>.
      */
-    public boolean drawImage(Image img,
+    publid boolfbn drbwImbgf(Imbgf img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbpiidsInfo info = info();
 
-        if (debugLog()) {
-            info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " destination: " + new Rectangle(dx1, dy1, dx2, dy2) +
-                     " source: " + new Rectangle(sx1, sy1, sx2, sy2) +
-                     ", bgcolor: " + bgcolor);
+        if (dfbugLog()) {
+            info.log(toSiortString() +
+                     " Drbwing imbgf: " + img +
+                     " dfstinbtion: " + nfw Rfdtbnglf(dx1, dy1, dx2, dy2) +
+                     " sourdf: " + nfw Rfdtbnglf(sx1, sy1, sx2, sy2) +
+                     ", bgdolor: " + bgdolor);
         }
 
-        if (isDrawingBuffer()) {
-            if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbpiids dfbugGrbpiids = dfbugGrbpiids();
 
-                debugGraphics.drawImage(img, dx1, dy1, dx2, dy2,
-                                        sx1, sy1, sx2, sy2, bgcolor, observer);
-                debugGraphics.dispose();
+                dfbugGrbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                                        sx1, sy1, sx2, sy2, bgdolor, obsfrvfr);
+                dfbugGrbpiids.disposf();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } flsf if (dfbugFlbsi()) {
+            int i, dount = (info.flbsiCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbpiidsFiltfr(info.flbsiColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbpiidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbpiidsObsfrvfr();
 
-            Image imageToDraw;
-            for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw,
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbpiids.drbwImbgf(imbgfToDrbw,
                                    dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                   bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                                   bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbsiTimf);
             }
         }
-        return graphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                  bgcolor, observer);
+        rfturn grbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                  bgdolor, obsfrvfr);
     }
 
-    static void loadImage(Image img) {
-        imageLoadingIcon.loadImage(img);
+    stbtid void lobdImbgf(Imbgf img) {
+        imbgfLobdingIdon.lobdImbgf(img);
     }
 
 
     /**
-     * Overrides <code>Graphics.copyArea</code>.
+     * Ovfrridfs <dodf>Grbpiids.dopyArfb</dodf>.
      */
-    public void copyArea(int x, int y, int width, int height,
-                         int destX, int destY) {
-        if (debugLog()) {
-            info().log(toShortString() +
-                      " Copying area from: " +
-                      new Rectangle(x, y, width, height) +
-                      " to: " + new Point(destX, destY));
+    publid void dopyArfb(int x, int y, int widti, int ifigit,
+                         int dfstX, int dfstY) {
+        if (dfbugLog()) {
+            info().log(toSiortString() +
+                      " Copying brfb from: " +
+                      nfw Rfdtbnglf(x, y, widti, ifigit) +
+                      " to: " + nfw Point(dfstX, dfstY));
         }
-        graphics.copyArea(x, y, width, height, destX, destY);
+        grbpiids.dopyArfb(x, y, widti, ifigit, dfstX, dfstY);
     }
 
-    final void sleep(int mSecs) {
+    finbl void slffp(int mSfds) {
         try {
-            Thread.sleep(mSecs);
-        } catch (Exception e) {
+            Tirfbd.slffp(mSfds);
+        } dbtdi (Exdfption f) {
         }
     }
 
     /**
-     * Overrides <code>Graphics.dispose</code>.
+     * Ovfrridfs <dodf>Grbpiids.disposf</dodf>.
      */
-    public void dispose() {
-        graphics.dispose();
-        graphics = null;
+    publid void disposf() {
+        grbpiids.disposf();
+        grbpiids = null;
     }
 
     // ALERT!
     /**
-     * Returns the drawingBuffer value.
+     * Rfturns tif drbwingBufffr vbluf.
      *
-     * @return true if this object is drawing from a Buffer
+     * @rfturn truf if tiis objfdt is drbwing from b Bufffr
      */
-    public boolean isDrawingBuffer() {
-        return buffer != null;
+    publid boolfbn isDrbwingBufffr() {
+        rfturn bufffr != null;
     }
 
-    String toShortString() {
-        return "Graphics" + (isDrawingBuffer() ? "<B>" : "") + "(" + graphicsID + "-" + debugOptions + ")";
+    String toSiortString() {
+        rfturn "Grbpiids" + (isDrbwingBufffr() ? "<B>" : "") + "(" + grbpiidsID + "-" + dfbugOptions + ")";
     }
 
     String pointToString(int x, int y) {
-        return "(" + x + ", " + y + ")";
+        rfturn "(" + x + ", " + y + ")";
     }
 
-    /** Enables/disables diagnostic information about every graphics
-      * operation. The value of <b>options</b> indicates how this information
-      * should be displayed. LOG_OPTION causes a text message to be printed.
-      * FLASH_OPTION causes the drawing to flash several times. BUFFERED_OPTION
-      * creates a new Frame that shows each operation on an
-      * offscreen buffer. The value of <b>options</b> is bitwise OR'd into
-      * the current value. To disable debugging use NONE_OPTION.
+    /** Enbblfs/disbblfs dibgnostid informbtion bbout fvfry grbpiids
+      * opfrbtion. Tif vbluf of <b>options</b> indidbtfs iow tiis informbtion
+      * siould bf displbyfd. LOG_OPTION dbusfs b tfxt mfssbgf to bf printfd.
+      * FLASH_OPTION dbusfs tif drbwing to flbsi sfvfrbl timfs. BUFFERED_OPTION
+      * drfbtfs b nfw Frbmf tibt siows fbdi opfrbtion on bn
+      * offsdrffn bufffr. Tif vbluf of <b>options</b> is bitwisf OR'd into
+      * tif durrfnt vbluf. To disbblf dfbugging usf NONE_OPTION.
       *
-      * @param options indicates how diagnostic information should be displayed
+      * @pbrbm options indidbtfs iow dibgnostid informbtion siould bf displbyfd
       */
-    public void setDebugOptions(int options) {
+    publid void sftDfbugOptions(int options) {
         if (options != 0) {
             if (options == NONE_OPTION) {
-                if (debugOptions != 0) {
-                    System.err.println(toShortString() + " Disabling debug");
-                    debugOptions = 0;
+                if (dfbugOptions != 0) {
+                    Systfm.frr.println(toSiortString() + " Disbbling dfbug");
+                    dfbugOptions = 0;
                 }
-            } else {
-                if (debugOptions != options) {
-                    debugOptions |= options;
-                    if (debugLog()) {
-                        System.err.println(toShortString() + " Enabling debug");
+            } flsf {
+                if (dfbugOptions != options) {
+                    dfbugOptions |= options;
+                    if (dfbugLog()) {
+                        Systfm.frr.println(toSiortString() + " Enbbling dfbug");
                     }
                 }
             }
@@ -1378,114 +1378,114 @@ public class DebugGraphics extends Graphics {
     }
 
     /**
-     * Returns the current debugging options for this DebugGraphics.
+     * Rfturns tif durrfnt dfbugging options for tiis DfbugGrbpiids.
      *
-     * @return the current debugging options for this DebugGraphics
-     * @see #setDebugOptions
+     * @rfturn tif durrfnt dfbugging options for tiis DfbugGrbpiids
+     * @sff #sftDfbugOptions
      */
-    public int getDebugOptions() {
-        return debugOptions;
+    publid int gftDfbugOptions() {
+        rfturn dfbugOptions;
     }
 
-    /** Static wrapper method for DebugGraphicsInfo.setDebugOptions(). Stores
-      * options on a per component basis.
+    /** Stbtid wrbppfr mftiod for DfbugGrbpiidsInfo.sftDfbugOptions(). Storfs
+      * options on b pfr domponfnt bbsis.
       */
-    static void setDebugOptions(JComponent component, int options) {
-        info().setDebugOptions(component, options);
+    stbtid void sftDfbugOptions(JComponfnt domponfnt, int options) {
+        info().sftDfbugOptions(domponfnt, options);
     }
 
-    /** Static wrapper method for DebugGraphicsInfo.getDebugOptions().
+    /** Stbtid wrbppfr mftiod for DfbugGrbpiidsInfo.gftDfbugOptions().
       */
-    static int getDebugOptions(JComponent component) {
-        DebugGraphicsInfo debugGraphicsInfo = info();
-        if (debugGraphicsInfo == null) {
-            return 0;
-        } else {
-            return debugGraphicsInfo.getDebugOptions(component);
+    stbtid int gftDfbugOptions(JComponfnt domponfnt) {
+        DfbugGrbpiidsInfo dfbugGrbpiidsInfo = info();
+        if (dfbugGrbpiidsInfo == null) {
+            rfturn 0;
+        } flsf {
+            rfturn dfbugGrbpiidsInfo.gftDfbugOptions(domponfnt);
         }
     }
 
-    /** Returns non-zero if <b>component</b> should display with DebugGraphics,
-      * zero otherwise. Walks the JComponent's parent tree to determine if
-      * any debugging options have been set.
+    /** Rfturns non-zfro if <b>domponfnt</b> siould displby witi DfbugGrbpiids,
+      * zfro otifrwisf. Wblks tif JComponfnt's pbrfnt trff to dftfrminf if
+      * bny dfbugging options ibvf bffn sft.
       */
-    static int shouldComponentDebug(JComponent component) {
-        DebugGraphicsInfo info = info();
+    stbtid int siouldComponfntDfbug(JComponfnt domponfnt) {
+        DfbugGrbpiidsInfo info = info();
         if (info == null) {
-            return 0;
-        } else {
-            Container container = (Container)component;
-            int debugOptions = 0;
+            rfturn 0;
+        } flsf {
+            Contbinfr dontbinfr = (Contbinfr)domponfnt;
+            int dfbugOptions = 0;
 
-            while (container != null && (container instanceof JComponent)) {
-                debugOptions |= info.getDebugOptions((JComponent)container);
-                container = container.getParent();
+            wiilf (dontbinfr != null && (dontbinfr instbndfof JComponfnt)) {
+                dfbugOptions |= info.gftDfbugOptions((JComponfnt)dontbinfr);
+                dontbinfr = dontbinfr.gftPbrfnt();
             }
 
-            return debugOptions;
+            rfturn dfbugOptions;
         }
     }
 
-    /** Returns the number of JComponents that have debugging options turned
+    /** Rfturns tif numbfr of JComponfnts tibt ibvf dfbugging options turnfd
       * on.
       */
-    static int debugComponentCount() {
-        DebugGraphicsInfo debugGraphicsInfo = info();
-        if (debugGraphicsInfo != null &&
-                    debugGraphicsInfo.componentToDebug != null) {
-            return debugGraphicsInfo.componentToDebug.size();
-        } else {
-            return 0;
+    stbtid int dfbugComponfntCount() {
+        DfbugGrbpiidsInfo dfbugGrbpiidsInfo = info();
+        if (dfbugGrbpiidsInfo != null &&
+                    dfbugGrbpiidsInfo.domponfntToDfbug != null) {
+            rfturn dfbugGrbpiidsInfo.domponfntToDfbug.sizf();
+        } flsf {
+            rfturn 0;
         }
     }
 
-    boolean debugLog() {
-        return (debugOptions & LOG_OPTION) == LOG_OPTION;
+    boolfbn dfbugLog() {
+        rfturn (dfbugOptions & LOG_OPTION) == LOG_OPTION;
     }
 
-    boolean debugFlash() {
-        return (debugOptions & FLASH_OPTION) == FLASH_OPTION;
+    boolfbn dfbugFlbsi() {
+        rfturn (dfbugOptions & FLASH_OPTION) == FLASH_OPTION;
     }
 
-    boolean debugBuffered() {
-        return (debugOptions & BUFFERED_OPTION) == BUFFERED_OPTION;
+    boolfbn dfbugBufffrfd() {
+        rfturn (dfbugOptions & BUFFERED_OPTION) == BUFFERED_OPTION;
     }
 
-    /** Returns a DebugGraphics for use in buffering window.
+    /** Rfturns b DfbugGrbpiids for usf in bufffring window.
       */
-    private Graphics debugGraphics() {
-        DebugGraphics        debugGraphics;
-        DebugGraphicsInfo    info = info();
-        JFrame               debugFrame;
+    privbtf Grbpiids dfbugGrbpiids() {
+        DfbugGrbpiids        dfbugGrbpiids;
+        DfbugGrbpiidsInfo    info = info();
+        JFrbmf               dfbugFrbmf;
 
-        if (info.debugFrame == null) {
-            info.debugFrame = new JFrame();
-            info.debugFrame.setSize(500, 500);
+        if (info.dfbugFrbmf == null) {
+            info.dfbugFrbmf = nfw JFrbmf();
+            info.dfbugFrbmf.sftSizf(500, 500);
         }
-        debugFrame = info.debugFrame;
-        debugFrame.show();
-        debugGraphics = new DebugGraphics(debugFrame.getGraphics());
-        debugGraphics.setFont(getFont());
-        debugGraphics.setColor(getColor());
-        debugGraphics.translate(xOffset, yOffset);
-        debugGraphics.setClip(getClipBounds());
-        if (debugFlash()) {
-            debugGraphics.setDebugOptions(FLASH_OPTION);
+        dfbugFrbmf = info.dfbugFrbmf;
+        dfbugFrbmf.siow();
+        dfbugGrbpiids = nfw DfbugGrbpiids(dfbugFrbmf.gftGrbpiids());
+        dfbugGrbpiids.sftFont(gftFont());
+        dfbugGrbpiids.sftColor(gftColor());
+        dfbugGrbpiids.trbnslbtf(xOffsft, yOffsft);
+        dfbugGrbpiids.sftClip(gftClipBounds());
+        if (dfbugFlbsi()) {
+            dfbugGrbpiids.sftDfbugOptions(FLASH_OPTION);
         }
-        return debugGraphics;
+        rfturn dfbugGrbpiids;
     }
 
-    /** Returns DebugGraphicsInfo, or creates one if none exists.
+    /** Rfturns DfbugGrbpiidsInfo, or drfbtfs onf if nonf fxists.
       */
-    static DebugGraphicsInfo info() {
-        DebugGraphicsInfo debugGraphicsInfo = (DebugGraphicsInfo)
-            SwingUtilities.appContextGet(debugGraphicsInfoKey);
-        if (debugGraphicsInfo == null) {
-            debugGraphicsInfo = new DebugGraphicsInfo();
-            SwingUtilities.appContextPut(debugGraphicsInfoKey,
-                                         debugGraphicsInfo);
+    stbtid DfbugGrbpiidsInfo info() {
+        DfbugGrbpiidsInfo dfbugGrbpiidsInfo = (DfbugGrbpiidsInfo)
+            SwingUtilitifs.bppContfxtGft(dfbugGrbpiidsInfoKfy);
+        if (dfbugGrbpiidsInfo == null) {
+            dfbugGrbpiidsInfo = nfw DfbugGrbpiidsInfo();
+            SwingUtilitifs.bppContfxtPut(dfbugGrbpiidsInfoKfy,
+                                         dfbugGrbpiidsInfo);
         }
-        return debugGraphicsInfo;
+        rfturn dfbugGrbpiidsInfo;
     }
-    private static final Class<DebugGraphicsInfo> debugGraphicsInfoKey = DebugGraphicsInfo.class;
+    privbtf stbtid finbl Clbss<DfbugGrbpiidsInfo> dfbugGrbpiidsInfoKfy = DfbugGrbpiidsInfo.dlbss;
 }

@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+import sun.nio.dh.FilfChbnnflImpl;
+
+
+/**
+ * A <dodf>FilfInputStrfbm</dodf> obtbins input bytfs
+ * from b filf in b filf systfm. Whbt filfs
+ * brf  bvbilbblf dfpfnds on thf host fnvironmfnt.
+ *
+ * <p><dodf>FilfInputStrfbm</dodf> is mfbnt for rfbding strfbms of rbw bytfs
+ * sudh bs imbgf dbtb. For rfbding strfbms of dhbrbdtfrs, donsidfr using
+ * <dodf>FilfRfbdfr</dodf>.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sff     jbvb.io.Filf
+ * @sff     jbvb.io.FilfDfsdriptor
+ * @sff     jbvb.io.FilfOutputStrfbm
+ * @sff     jbvb.nio.filf.Filfs#nfwInputStrfbm
+ * @sindf   1.0
+ */
+publid
+dlbss FilfInputStrfbm fxtfnds InputStrfbm
+{
+    /* Filf Dfsdriptor - hbndlf to thf opfn filf */
+    privbtf finbl FilfDfsdriptor fd;
+
+    /**
+     * Thf pbth of thf rfffrfndfd filf
+     * (null if thf strfbm is drfbtfd with b filf dfsdriptor)
+     */
+    privbtf finbl String pbth;
+
+    privbtf FilfChbnnfl dhbnnfl = null;
+
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+    privbtf volbtilf boolfbn dlosfd = fblsf;
+
+    /**
+     * Crfbtfs b <dodf>FilfInputStrfbm</dodf> by
+     * opfning b donnfdtion to bn bdtubl filf,
+     * thf filf nbmfd by thf pbth nbmf <dodf>nbmf</dodf>
+     * in thf filf systfm.  A nfw <dodf>FilfDfsdriptor</dodf>
+     * objfdt is drfbtfd to rfprfsfnt this filf
+     * donnfdtion.
+     * <p>
+     * First, if thfrf is b sfdurity
+     * mbnbgfr, its <dodf>dhfdkRfbd</dodf> mfthod
+     * is dbllfd with thf <dodf>nbmf</dodf> brgumfnt
+     * bs its brgumfnt.
+     * <p>
+     * If thf nbmfd filf dofs not fxist, is b dirfdtory rbthfr thbn b rfgulbr
+     * filf, or for somf othfr rfbson dbnnot bf opfnfd for rfbding thfn b
+     * <dodf>FilfNotFoundExdfption</dodf> is thrown.
+     *
+     * @pbrbm      nbmf   thf systfm-dfpfndfnt filf nbmf.
+     * @fxdfption  FilfNotFoundExdfption  if thf filf dofs not fxist,
+     *                   is b dirfdtory rbthfr thbn b rfgulbr filf,
+     *                   or for somf othfr rfbson dbnnot bf opfnfd for
+     *                   rfbding.
+     * @fxdfption  SfdurityExdfption      if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>dhfdkRfbd</dodf> mfthod dfnifs rfbd bddfss
+     *               to thf filf.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkRfbd(jbvb.lbng.String)
+     */
+    publid FilfInputStrfbm(String nbmf) throws FilfNotFoundExdfption {
+        this(nbmf != null ? nfw Filf(nbmf) : null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>FilfInputStrfbm</dodf> by
+     * opfning b donnfdtion to bn bdtubl filf,
+     * thf filf nbmfd by thf <dodf>Filf</dodf>
+     * objfdt <dodf>filf</dodf> in thf filf systfm.
+     * A nfw <dodf>FilfDfsdriptor</dodf> objfdt
+     * is drfbtfd to rfprfsfnt this filf donnfdtion.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr,
+     * its <dodf>dhfdkRfbd</dodf> mfthod  is dbllfd
+     * with thf pbth rfprfsfntfd by thf <dodf>filf</dodf>
+     * brgumfnt bs its brgumfnt.
+     * <p>
+     * If thf nbmfd filf dofs not fxist, is b dirfdtory rbthfr thbn b rfgulbr
+     * filf, or for somf othfr rfbson dbnnot bf opfnfd for rfbding thfn b
+     * <dodf>FilfNotFoundExdfption</dodf> is thrown.
+     *
+     * @pbrbm      filf   thf filf to bf opfnfd for rfbding.
+     * @fxdfption  FilfNotFoundExdfption  if thf filf dofs not fxist,
+     *                   is b dirfdtory rbthfr thbn b rfgulbr filf,
+     *                   or for somf othfr rfbson dbnnot bf opfnfd for
+     *                   rfbding.
+     * @fxdfption  SfdurityExdfption      if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>dhfdkRfbd</dodf> mfthod dfnifs rfbd bddfss to thf filf.
+     * @sff        jbvb.io.Filf#gftPbth()
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkRfbd(jbvb.lbng.String)
+     */
+    publid FilfInputStrfbm(Filf filf) throws FilfNotFoundExdfption {
+        String nbmf = (filf != null ? filf.gftPbth() : null);
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkRfbd(nbmf);
+        }
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (filf.isInvblid()) {
+            throw nfw FilfNotFoundExdfption("Invblid filf pbth");
+        }
+        fd = nfw FilfDfsdriptor();
+        fd.bttbdh(this);
+        pbth = nbmf;
+        opfn(nbmf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>FilfInputStrfbm</dodf> by using thf filf dfsdriptor
+     * <dodf>fdObj</dodf>, whidh rfprfsfnts bn fxisting donnfdtion to bn
+     * bdtubl filf in thf filf systfm.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkRfbd</dodf> mfthod is
+     * dbllfd with thf filf dfsdriptor <dodf>fdObj</dodf> bs its brgumfnt to
+     * sff if it's ok to rfbd thf filf dfsdriptor. If rfbd bddfss is dfnifd
+     * to thf filf dfsdriptor b <dodf>SfdurityExdfption</dodf> is thrown.
+     * <p>
+     * If <dodf>fdObj</dodf> is null thfn b <dodf>NullPointfrExdfption</dodf>
+     * is thrown.
+     * <p>
+     * This donstrudtor dofs not throw bn fxdfption if <dodf>fdObj</dodf>
+     * is {@link jbvb.io.FilfDfsdriptor#vblid() invblid}.
+     * Howfvfr, if thf mfthods brf invokfd on thf rfsulting strfbm to bttfmpt
+     * I/O on thf strfbm, bn <dodf>IOExdfption</dodf> is thrown.
+     *
+     * @pbrbm      fdObj   thf filf dfsdriptor to bf opfnfd for rfbding.
+     * @throws     SfdurityExdfption      if b sfdurity mbnbgfr fxists bnd its
+     *                 <dodf>dhfdkRfbd</dodf> mfthod dfnifs rfbd bddfss to thf
+     *                 filf dfsdriptor.
+     * @sff        SfdurityMbnbgfr#dhfdkRfbd(jbvb.io.FilfDfsdriptor)
+     */
+    publid FilfInputStrfbm(FilfDfsdriptor fdObj) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (fdObj == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (sfdurity != null) {
+            sfdurity.dhfdkRfbd(fdObj);
+        }
+        fd = fdObj;
+        pbth = null;
+
+        /*
+         * FilfDfsdriptor is bfing shbrfd by strfbms.
+         * Rfgistfr this strfbm with FilfDfsdriptor trbdkfr.
+         */
+        fd.bttbdh(this);
+    }
+
+    /**
+     * Opfns thf spfdififd filf for rfbding.
+     * @pbrbm nbmf thf nbmf of thf filf
+     */
+    privbtf nbtivf void opfn(String nbmf) throws FilfNotFoundExdfption;
+
+    /**
+     * Rfbds b bytf of dbtb from this input strfbm. This mfthod blodks
+     * if no input is yft bvbilbblf.
+     *
+     * @rfturn     thf nfxt bytf of dbtb, or <dodf>-1</dodf> if thf fnd of thf
+     *             filf is rfbdhfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid int rfbd() throws IOExdfption {
+        rfturn rfbd0();
+    }
+
+    privbtf nbtivf int rfbd0() throws IOExdfption;
+
+    /**
+     * Rfbds b subbrrby bs b sfqufndf of bytfs.
+     * @pbrbm b thf dbtb to bf writtfn
+     * @pbrbm off thf stbrt offsft in thf dbtb
+     * @pbrbm lfn thf numbfr of bytfs thbt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    privbtf nbtivf int rfbdBytfs(bytf b[], int off, int lfn) throws IOExdfption;
+
+    /**
+     * Rfbds up to <dodf>b.lfngth</dodf> bytfs of dbtb from this input
+     * strfbm into bn brrby of bytfs. This mfthod blodks until somf input
+     * is bvbilbblf.
+     *
+     * @pbrbm      b   thf bufffr into whidh thf dbtb is rfbd.
+     * @rfturn     thf totbl numbfr of bytfs rfbd into thf bufffr, or
+     *             <dodf>-1</dodf> if thfrf is no morf dbtb bfdbusf thf fnd of
+     *             thf filf hbs bffn rfbdhfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid int rfbd(bytf b[]) throws IOExdfption {
+        rfturn rfbdBytfs(b, 0, b.lfngth);
+    }
+
+    /**
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb from this input strfbm
+     * into bn brrby of bytfs. If <dodf>lfn</dodf> is not zfro, thf mfthod
+     * blodks until somf input is bvbilbblf; othfrwisf, no
+     * bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     *
+     * @pbrbm      b     thf bufffr into whidh thf dbtb is rfbd.
+     * @pbrbm      off   thf stbrt offsft in thf dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm      lfn   thf mbximum numbfr of bytfs rfbd.
+     * @rfturn     thf totbl numbfr of bytfs rfbd into thf bufffr, or
+     *             <dodf>-1</dodf> if thfrf is no morf dbtb bfdbusf thf fnd of
+     *             thf filf hbs bffn rfbdhfd.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr thbn
+     * <dodf>b.lfngth - off</dodf>
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+        rfturn rfbdBytfs(b, off, lfn);
+    }
+
+    /**
+     * Skips ovfr bnd disdbrds <dodf>n</dodf> bytfs of dbtb from thf
+     * input strfbm.
+     *
+     * <p>Thf <dodf>skip</dodf> mfthod mby, for b vbrifty of
+     * rfbsons, fnd up skipping ovfr somf smbllfr numbfr of bytfs,
+     * possibly <dodf>0</dodf>. If <dodf>n</dodf> is nfgbtivf, thf mfthod
+     * will try to skip bbdkwbrds. In dbsf thf bbdking filf dofs not support
+     * bbdkwbrd skip bt its durrfnt position, bn <dodf>IOExdfption</dodf> is
+     * thrown. Thf bdtubl numbfr of bytfs skippfd is rfturnfd. If it skips
+     * forwbrds, it rfturns b positivf vbluf. If it skips bbdkwbrds, it
+     * rfturns b nfgbtivf vbluf.
+     *
+     * <p>This mfthod mby skip morf bytfs thbn whbt brf rfmbining in thf
+     * bbdking filf. This produdfs no fxdfption bnd thf numbfr of bytfs skippfd
+     * mby indludf somf numbfr of bytfs thbt wfrf bfyond thf EOF of thf
+     * bbdking filf. Attfmpting to rfbd from thf strfbm bftfr skipping pbst
+     * thf fnd will rfsult in -1 indidbting thf fnd of thf filf.
+     *
+     * @pbrbm      n   thf numbfr of bytfs to bf skippfd.
+     * @rfturn     thf bdtubl numbfr of bytfs skippfd.
+     * @fxdfption  IOExdfption  if n is nfgbtivf, if thf strfbm dofs not
+     *             support sffk, or if bn I/O frror oddurs.
+     */
+    publid nbtivf long skip(long n) throws IOExdfption;
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of rfmbining bytfs thbt dbn bf rfbd (or
+     * skippfd ovfr) from this input strfbm without blodking by thf nfxt
+     * invodbtion of b mfthod for this input strfbm. Rfturns 0 whfn thf filf
+     * position is bfyond EOF. Thf nfxt invodbtion might bf thf sbmf thrfbd
+     * or bnothfr thrfbd. A singlf rfbd or skip of this mbny bytfs will not
+     * blodk, but mby rfbd or skip ffwfr bytfs.
+     *
+     * <p> In somf dbsfs, b non-blodking rfbd (or skip) mby bppfbr to bf
+     * blodkfd whfn it is mfrfly slow, for fxbmplf whfn rfbding lbrgf
+     * filfs ovfr slow nftworks.
+     *
+     * @rfturn     bn fstimbtf of thf numbfr of rfmbining bytfs thbt dbn bf rfbd
+     *             (or skippfd ovfr) from this input strfbm without blodking.
+     * @fxdfption  IOExdfption  if this filf input strfbm hbs bffn dlosfd by dblling
+     *             {@dodf dlosf} or bn I/O frror oddurs.
+     */
+    publid nbtivf int bvbilbblf() throws IOExdfption;
+
+    /**
+     * Closfs this filf input strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd with thf strfbm.
+     *
+     * <p> If this strfbm hbs bn bssodibtfd dhbnnfl thfn thf dhbnnfl is dlosfd
+     * bs wfll.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     *
+     * @rfvisfd 1.4
+     * @spfd JSR-51
+     */
+    publid void dlosf() throws IOExdfption {
+        syndhronizfd (dlosfLodk) {
+            if (dlosfd) {
+                rfturn;
+            }
+            dlosfd = truf;
+        }
+        if (dhbnnfl != null) {
+           dhbnnfl.dlosf();
+        }
+
+        fd.dlosfAll(nfw Closfbblf() {
+            publid void dlosf() throws IOExdfption {
+               dlosf0();
+           }
+        });
+    }
+
+    /**
+     * Rfturns thf <dodf>FilfDfsdriptor</dodf>
+     * objfdt  thbt rfprfsfnts thf donnfdtion to
+     * thf bdtubl filf in thf filf systfm bfing
+     * usfd by this <dodf>FilfInputStrfbm</dodf>.
+     *
+     * @rfturn     thf filf dfsdriptor objfdt bssodibtfd with this strfbm.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FilfDfsdriptor
+     */
+    publid finbl FilfDfsdriptor gftFD() throws IOExdfption {
+        if (fd != null) {
+            rfturn fd;
+        }
+        throw nfw IOExdfption();
+    }
+
+    /**
+     * Rfturns thf uniquf {@link jbvb.nio.dhbnnfls.FilfChbnnfl FilfChbnnfl}
+     * objfdt bssodibtfd with this filf input strfbm.
+     *
+     * <p> Thf initibl {@link jbvb.nio.dhbnnfls.FilfChbnnfl#position()
+     * position} of thf rfturnfd dhbnnfl will bf fqubl to thf
+     * numbfr of bytfs rfbd from thf filf so fbr.  Rfbding bytfs from this
+     * strfbm will indrfmfnt thf dhbnnfl's position.  Chbnging thf dhbnnfl's
+     * position, fithfr fxpliditly or by rfbding, will dhbngf this strfbm's
+     * filf position.
+     *
+     * @rfturn  thf filf dhbnnfl bssodibtfd with this filf input strfbm
+     *
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid FilfChbnnfl gftChbnnfl() {
+        syndhronizfd (this) {
+            if (dhbnnfl == null) {
+                dhbnnfl = FilfChbnnflImpl.opfn(fd, pbth, truf, fblsf, this);
+            }
+            rfturn dhbnnfl;
+        }
+    }
+
+    privbtf stbtid nbtivf void initIDs();
+
+    privbtf nbtivf void dlosf0() throws IOExdfption;
+
+    stbtid {
+        initIDs();
+    }
+
+    /**
+     * Ensurfs thbt thf <dodf>dlosf</dodf> mfthod of this filf input strfbm is
+     * dbllfd whfn thfrf brf no morf rfffrfndfs to it.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FilfInputStrfbm#dlosf()
+     */
+    protfdtfd void finblizf() throws IOExdfption {
+        if ((fd != null) &&  (fd != FilfDfsdriptor.in)) {
+            /* if fd is shbrfd, thf rfffrfndfs in FilfDfsdriptor
+             * will fnsurf thbt finblizfr is only dbllfd whfn
+             * sbff to do so. All rfffrfndfs using thf fd hbvf
+             * bfdomf unrfbdhbblf. Wf dbn dbll dlosf()
+             */
+            dlosf();
+        }
+    }
+}

@@ -1,1094 +1,1094 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.PrintStream;
-import java.util.Arrays;
-import sun.misc.VM;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Arrbys;
+import sun.misd.VM;
 
 /**
- * A thread group represents a set of threads. In addition, a thread
- * group can also include other thread groups. The thread groups form
- * a tree in which every thread group except the initial thread group
- * has a parent.
+ * A tirfbd group rfprfsfnts b sft of tirfbds. In bddition, b tirfbd
+ * group dbn blso indludf otifr tirfbd groups. Tif tirfbd groups form
+ * b trff in wiidi fvfry tirfbd group fxdfpt tif initibl tirfbd group
+ * ibs b pbrfnt.
  * <p>
- * A thread is allowed to access information about its own thread
- * group, but not to access information about its thread group's
- * parent thread group or any other thread groups.
+ * A tirfbd is bllowfd to bddfss informbtion bbout its own tirfbd
+ * group, but not to bddfss informbtion bbout its tirfbd group's
+ * pbrfnt tirfbd group or bny otifr tirfbd groups.
  *
- * @author  unascribed
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sindf   1.0
  */
-/* The locking strategy for this code is to try to lock only one level of the
- * tree wherever possible, but otherwise to lock from the bottom up.
- * That is, from child thread groups to parents.
- * This has the advantage of limiting the number of locks that need to be held
- * and in particular avoids having to grab the lock for the root thread group,
- * (or a global lock) which would be a source of contention on a
- * multi-processor system with many thread groups.
- * This policy often leads to taking a snapshot of the state of a thread group
- * and working off of that snapshot, rather than holding the thread group locked
- * while we work on the children.
+/* Tif lodking strbtfgy for tiis dodf is to try to lodk only onf lfvfl of tif
+ * trff wifrfvfr possiblf, but otifrwisf to lodk from tif bottom up.
+ * Tibt is, from diild tirfbd groups to pbrfnts.
+ * Tiis ibs tif bdvbntbgf of limiting tif numbfr of lodks tibt nffd to bf ifld
+ * bnd in pbrtidulbr bvoids ibving to grbb tif lodk for tif root tirfbd group,
+ * (or b globbl lodk) wiidi would bf b sourdf of dontfntion on b
+ * multi-prodfssor systfm witi mbny tirfbd groups.
+ * Tiis polidy oftfn lfbds to tbking b snbpsiot of tif stbtf of b tirfbd group
+ * bnd working off of tibt snbpsiot, rbtifr tibn iolding tif tirfbd group lodkfd
+ * wiilf wf work on tif diildrfn.
  */
-public
-class ThreadGroup implements Thread.UncaughtExceptionHandler {
-    private final ThreadGroup parent;
-    String name;
-    int maxPriority;
-    boolean destroyed;
-    boolean daemon;
-    boolean vmAllowSuspension;
+publid
+dlbss TirfbdGroup implfmfnts Tirfbd.UndbugitExdfptionHbndlfr {
+    privbtf finbl TirfbdGroup pbrfnt;
+    String nbmf;
+    int mbxPriority;
+    boolfbn dfstroyfd;
+    boolfbn dbfmon;
+    boolfbn vmAllowSuspfnsion;
 
-    int nUnstartedThreads = 0;
-    int nthreads;
-    Thread threads[];
+    int nUnstbrtfdTirfbds = 0;
+    int ntirfbds;
+    Tirfbd tirfbds[];
 
     int ngroups;
-    ThreadGroup groups[];
+    TirfbdGroup groups[];
 
     /**
-     * Creates an empty Thread group that is not in any Thread group.
-     * This method is used to create the system Thread group.
+     * Crfbtfs bn fmpty Tirfbd group tibt is not in bny Tirfbd group.
+     * Tiis mftiod is usfd to drfbtf tif systfm Tirfbd group.
      */
-    private ThreadGroup() {     // called from C code
-        this.name = "system";
-        this.maxPriority = Thread.MAX_PRIORITY;
-        this.parent = null;
+    privbtf TirfbdGroup() {     // dbllfd from C dodf
+        tiis.nbmf = "systfm";
+        tiis.mbxPriority = Tirfbd.MAX_PRIORITY;
+        tiis.pbrfnt = null;
     }
 
     /**
-     * Constructs a new thread group. The parent of this new group is
-     * the thread group of the currently running thread.
+     * Construdts b nfw tirfbd group. Tif pbrfnt of tiis nfw group is
+     * tif tirfbd group of tif durrfntly running tirfbd.
      * <p>
-     * The <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * Tif <dodf>difdkAddfss</dodf> mftiod of tif pbrfnt tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      *
-     * @param   name   the name of the new thread group.
-     * @exception  SecurityException  if the current thread cannot create a
-     *               thread in the specified thread group.
-     * @see     java.lang.ThreadGroup#checkAccess()
-     * @since   1.0
+     * @pbrbm   nbmf   tif nbmf of tif nfw tirfbd group.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot drfbtf b
+     *               tirfbd in tif spfdififd tirfbd group.
+     * @sff     jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf   1.0
      */
-    public ThreadGroup(String name) {
-        this(Thread.currentThread().getThreadGroup(), name);
+    publid TirfbdGroup(String nbmf) {
+        tiis(Tirfbd.durrfntTirfbd().gftTirfbdGroup(), nbmf);
     }
 
     /**
-     * Creates a new thread group. The parent of this new group is the
-     * specified thread group.
+     * Crfbtfs b nfw tirfbd group. Tif pbrfnt of tiis nfw group is tif
+     * spfdififd tirfbd group.
      * <p>
-     * The <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * Tif <dodf>difdkAddfss</dodf> mftiod of tif pbrfnt tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      *
-     * @param     parent   the parent thread group.
-     * @param     name     the name of the new thread group.
-     * @exception  NullPointerException  if the thread group argument is
-     *               <code>null</code>.
-     * @exception  SecurityException  if the current thread cannot create a
-     *               thread in the specified thread group.
-     * @see     java.lang.SecurityException
-     * @see     java.lang.ThreadGroup#checkAccess()
-     * @since   1.0
+     * @pbrbm     pbrfnt   tif pbrfnt tirfbd group.
+     * @pbrbm     nbmf     tif nbmf of tif nfw tirfbd group.
+     * @fxdfption  NullPointfrExdfption  if tif tirfbd group brgumfnt is
+     *               <dodf>null</dodf>.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot drfbtf b
+     *               tirfbd in tif spfdififd tirfbd group.
+     * @sff     jbvb.lbng.SfdurityExdfption
+     * @sff     jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf   1.0
      */
-    public ThreadGroup(ThreadGroup parent, String name) {
-        this(checkParentAccess(parent), parent, name);
+    publid TirfbdGroup(TirfbdGroup pbrfnt, String nbmf) {
+        tiis(difdkPbrfntAddfss(pbrfnt), pbrfnt, nbmf);
     }
 
-    private ThreadGroup(Void unused, ThreadGroup parent, String name) {
-        this.name = name;
-        this.maxPriority = parent.maxPriority;
-        this.daemon = parent.daemon;
-        this.vmAllowSuspension = parent.vmAllowSuspension;
-        this.parent = parent;
-        parent.add(this);
+    privbtf TirfbdGroup(Void unusfd, TirfbdGroup pbrfnt, String nbmf) {
+        tiis.nbmf = nbmf;
+        tiis.mbxPriority = pbrfnt.mbxPriority;
+        tiis.dbfmon = pbrfnt.dbfmon;
+        tiis.vmAllowSuspfnsion = pbrfnt.vmAllowSuspfnsion;
+        tiis.pbrfnt = pbrfnt;
+        pbrfnt.bdd(tiis);
     }
 
     /*
-     * @throws  NullPointerException  if the parent argument is {@code null}
-     * @throws  SecurityException     if the current thread cannot create a
-     *                                thread in the specified thread group.
+     * @tirows  NullPointfrExdfption  if tif pbrfnt brgumfnt is {@dodf null}
+     * @tirows  SfdurityExdfption     if tif durrfnt tirfbd dbnnot drfbtf b
+     *                                tirfbd in tif spfdififd tirfbd group.
      */
-    private static Void checkParentAccess(ThreadGroup parent) {
-        parent.checkAccess();
-        return null;
+    privbtf stbtid Void difdkPbrfntAddfss(TirfbdGroup pbrfnt) {
+        pbrfnt.difdkAddfss();
+        rfturn null;
     }
 
     /**
-     * Returns the name of this thread group.
+     * Rfturns tif nbmf of tiis tirfbd group.
      *
-     * @return  the name of this thread group.
-     * @since   1.0
+     * @rfturn  tif nbmf of tiis tirfbd group.
+     * @sindf   1.0
      */
-    public final String getName() {
-        return name;
+    publid finbl String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the parent of this thread group.
+     * Rfturns tif pbrfnt of tiis tirfbd group.
      * <p>
-     * First, if the parent is not <code>null</code>, the
-     * <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, if tif pbrfnt is not <dodf>null</dodf>, tif
+     * <dodf>difdkAddfss</dodf> mftiod of tif pbrfnt tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      *
-     * @return  the parent of this thread group. The top-level thread group
-     *          is the only thread group whose parent is <code>null</code>.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.RuntimePermission
-     * @since   1.0
+     * @rfturn  tif pbrfnt of tiis tirfbd group. Tif top-lfvfl tirfbd group
+     *          is tif only tirfbd group wiosf pbrfnt is <dodf>null</dodf>.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot modify
+     *               tiis tirfbd group.
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.RuntimfPfrmission
+     * @sindf   1.0
      */
-    public final ThreadGroup getParent() {
-        if (parent != null)
-            parent.checkAccess();
-        return parent;
+    publid finbl TirfbdGroup gftPbrfnt() {
+        if (pbrfnt != null)
+            pbrfnt.difdkAddfss();
+        rfturn pbrfnt;
     }
 
     /**
-     * Returns the maximum priority of this thread group. Threads that are
-     * part of this group cannot have a higher priority than the maximum
+     * Rfturns tif mbximum priority of tiis tirfbd group. Tirfbds tibt brf
+     * pbrt of tiis group dbnnot ibvf b iigifr priority tibn tif mbximum
      * priority.
      *
-     * @return  the maximum priority that a thread in this thread group
-     *          can have.
-     * @see     #setMaxPriority
-     * @since   1.0
+     * @rfturn  tif mbximum priority tibt b tirfbd in tiis tirfbd group
+     *          dbn ibvf.
+     * @sff     #sftMbxPriority
+     * @sindf   1.0
      */
-    public final int getMaxPriority() {
-        return maxPriority;
+    publid finbl int gftMbxPriority() {
+        rfturn mbxPriority;
     }
 
     /**
-     * Tests if this thread group is a daemon thread group. A
-     * daemon thread group is automatically destroyed when its last
-     * thread is stopped or its last thread group is destroyed.
+     * Tfsts if tiis tirfbd group is b dbfmon tirfbd group. A
+     * dbfmon tirfbd group is butombtidblly dfstroyfd wifn its lbst
+     * tirfbd is stoppfd or its lbst tirfbd group is dfstroyfd.
      *
-     * @return  <code>true</code> if this thread group is a daemon thread group;
-     *          <code>false</code> otherwise.
-     * @since   1.0
+     * @rfturn  <dodf>truf</dodf> if tiis tirfbd group is b dbfmon tirfbd group;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sindf   1.0
      */
-    public final boolean isDaemon() {
-        return daemon;
+    publid finbl boolfbn isDbfmon() {
+        rfturn dbfmon;
     }
 
     /**
-     * Tests if this thread group has been destroyed.
+     * Tfsts if tiis tirfbd group ibs bffn dfstroyfd.
      *
-     * @return  true if this object is destroyed
-     * @since   1.1
+     * @rfturn  truf if tiis objfdt is dfstroyfd
+     * @sindf   1.1
      */
-    public synchronized boolean isDestroyed() {
-        return destroyed;
+    publid syndironizfd boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
     /**
-     * Changes the daemon status of this thread group.
+     * Cibngfs tif dbfmon stbtus of tiis tirfbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * A daemon thread group is automatically destroyed when its last
-     * thread is stopped or its last thread group is destroyed.
+     * A dbfmon tirfbd group is butombtidblly dfstroyfd wifn its lbst
+     * tirfbd is stoppfd or its lbst tirfbd group is dfstroyfd.
      *
-     * @param      daemon   if <code>true</code>, marks this thread group as
-     *                      a daemon thread group; otherwise, marks this
-     *                      thread group as normal.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
+     * @pbrbm      dbfmon   if <dodf>truf</dodf>, mbrks tiis tirfbd group bs
+     *                      b dbfmon tirfbd group; otifrwisf, mbrks tiis
+     *                      tirfbd group bs normbl.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot modify
+     *               tiis tirfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
      */
-    public final void setDaemon(boolean daemon) {
-        checkAccess();
-        this.daemon = daemon;
+    publid finbl void sftDbfmon(boolfbn dbfmon) {
+        difdkAddfss();
+        tiis.dbfmon = dbfmon;
     }
 
     /**
-     * Sets the maximum priority of the group. Threads in the thread
-     * group that already have a higher priority are not affected.
+     * Sfts tif mbximum priority of tif group. Tirfbds in tif tirfbd
+     * group tibt blrfbdy ibvf b iigifr priority brf not bfffdtfd.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * If the <code>pri</code> argument is less than
-     * {@link Thread#MIN_PRIORITY} or greater than
-     * {@link Thread#MAX_PRIORITY}, the maximum priority of the group
-     * remains unchanged.
+     * If tif <dodf>pri</dodf> brgumfnt is lfss tibn
+     * {@link Tirfbd#MIN_PRIORITY} or grfbtfr tibn
+     * {@link Tirfbd#MAX_PRIORITY}, tif mbximum priority of tif group
+     * rfmbins undibngfd.
      * <p>
-     * Otherwise, the priority of this ThreadGroup object is set to the
-     * smaller of the specified <code>pri</code> and the maximum permitted
-     * priority of the parent of this thread group. (If this thread group
-     * is the system thread group, which has no parent, then its maximum
-     * priority is simply set to <code>pri</code>.) Then this method is
-     * called recursively, with <code>pri</code> as its argument, for
-     * every thread group that belongs to this thread group.
+     * Otifrwisf, tif priority of tiis TirfbdGroup objfdt is sft to tif
+     * smbllfr of tif spfdififd <dodf>pri</dodf> bnd tif mbximum pfrmittfd
+     * priority of tif pbrfnt of tiis tirfbd group. (If tiis tirfbd group
+     * is tif systfm tirfbd group, wiidi ibs no pbrfnt, tifn its mbximum
+     * priority is simply sft to <dodf>pri</dodf>.) Tifn tiis mftiod is
+     * dbllfd rfdursivfly, witi <dodf>pri</dodf> bs its brgumfnt, for
+     * fvfry tirfbd group tibt bflongs to tiis tirfbd group.
      *
-     * @param      pri   the new priority of the thread group.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        #getMaxPriority
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
+     * @pbrbm      pri   tif nfw priority of tif tirfbd group.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot modify
+     *               tiis tirfbd group.
+     * @sff        #gftMbxPriority
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
      */
-    public final void setMaxPriority(int pri) {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            checkAccess();
-            if (pri < Thread.MIN_PRIORITY || pri > Thread.MAX_PRIORITY) {
-                return;
+    publid finbl void sftMbxPriority(int pri) {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            difdkAddfss();
+            if (pri < Tirfbd.MIN_PRIORITY || pri > Tirfbd.MAX_PRIORITY) {
+                rfturn;
             }
-            maxPriority = (parent != null) ? Math.min(pri, parent.maxPriority) : pri;
-            ngroupsSnapshot = ngroups;
+            mbxPriority = (pbrfnt != null) ? Mbti.min(pri, pbrfnt.mbxPriority) : pri;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].setMaxPriority(pri);
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            groupsSnbpsiot[i].sftMbxPriority(pri);
         }
     }
 
     /**
-     * Tests if this thread group is either the thread group
-     * argument or one of its ancestor thread groups.
+     * Tfsts if tiis tirfbd group is fitifr tif tirfbd group
+     * brgumfnt or onf of its bndfstor tirfbd groups.
      *
-     * @param   g   a thread group.
-     * @return  <code>true</code> if this thread group is the thread group
-     *          argument or one of its ancestor thread groups;
-     *          <code>false</code> otherwise.
-     * @since   1.0
+     * @pbrbm   g   b tirfbd group.
+     * @rfturn  <dodf>truf</dodf> if tiis tirfbd group is tif tirfbd group
+     *          brgumfnt or onf of its bndfstor tirfbd groups;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sindf   1.0
      */
-    public final boolean parentOf(ThreadGroup g) {
-        for (; g != null ; g = g.parent) {
-            if (g == this) {
-                return true;
+    publid finbl boolfbn pbrfntOf(TirfbdGroup g) {
+        for (; g != null ; g = g.pbrfnt) {
+            if (g == tiis) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Determines if the currently running thread has permission to
-     * modify this thread group.
+     * Dftfrminfs if tif durrfntly running tirfbd ibs pfrmission to
+     * modify tiis tirfbd group.
      * <p>
-     * If there is a security manager, its <code>checkAccess</code> method
-     * is called with this thread group as its argument. This may result
-     * in throwing a <code>SecurityException</code>.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkAddfss</dodf> mftiod
+     * is dbllfd witi tiis tirfbd group bs its brgumfnt. Tiis mby rfsult
+     * in tirowing b <dodf>SfdurityExdfption</dodf>.
      *
-     * @exception  SecurityException  if the current thread is not allowed to
-     *               access this thread group.
-     * @see        java.lang.SecurityManager#checkAccess(java.lang.ThreadGroup)
-     * @since      1.0
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd is not bllowfd to
+     *               bddfss tiis tirfbd group.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkAddfss(jbvb.lbng.TirfbdGroup)
+     * @sindf      1.0
      */
-    public final void checkAccess() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkAccess(this);
+    publid finbl void difdkAddfss() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkAddfss(tiis);
         }
     }
 
     /**
-     * Returns an estimate of the number of active threads in this thread
-     * group and its subgroups. Recursively iterates over all subgroups in
-     * this thread group.
+     * Rfturns bn fstimbtf of tif numbfr of bdtivf tirfbds in tiis tirfbd
+     * group bnd its subgroups. Rfdursivfly itfrbtfs ovfr bll subgroups in
+     * tiis tirfbd group.
      *
-     * <p> The value returned is only an estimate because the number of
-     * threads may change dynamically while this method traverses internal
-     * data structures, and might be affected by the presence of certain
-     * system threads. This method is intended primarily for debugging
-     * and monitoring purposes.
+     * <p> Tif vbluf rfturnfd is only bn fstimbtf bfdbusf tif numbfr of
+     * tirfbds mby dibngf dynbmidblly wiilf tiis mftiod trbvfrsfs intfrnbl
+     * dbtb strudturfs, bnd migit bf bfffdtfd by tif prfsfndf of dfrtbin
+     * systfm tirfbds. Tiis mftiod is intfndfd primbrily for dfbugging
+     * bnd monitoring purposfs.
      *
-     * @return  an estimate of the number of active threads in this thread
-     *          group and in any other thread group that has this thread
-     *          group as an ancestor
+     * @rfturn  bn fstimbtf of tif numbfr of bdtivf tirfbds in tiis tirfbd
+     *          group bnd in bny otifr tirfbd group tibt ibs tiis tirfbd
+     *          group bs bn bndfstor
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int activeCount() {
-        int result;
-        // Snapshot sub-group data so we don't hold this lock
-        // while our children are computing.
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            if (destroyed) {
-                return 0;
+    publid int bdtivfCount() {
+        int rfsult;
+        // Snbpsiot sub-group dbtb so wf don't iold tiis lodk
+        // wiilf our diildrfn brf domputing.
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn 0;
             }
-            result = nthreads;
-            ngroupsSnapshot = ngroups;
+            rfsult = ntirfbds;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            result += groupsSnapshot[i].activeCount();
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            rfsult += groupsSnbpsiot[i].bdtivfCount();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Copies into the specified array every active thread in this
-     * thread group and its subgroups.
+     * Copifs into tif spfdififd brrby fvfry bdtivf tirfbd in tiis
+     * tirfbd group bnd its subgroups.
      *
-     * <p> An invocation of this method behaves in exactly the same
-     * way as the invocation
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf
+     * wby bs tif invodbtion
      *
-     * <blockquote>
-     * {@linkplain #enumerate(Thread[], boolean) enumerate}{@code (list, true)}
-     * </blockquote>
+     * <blodkquotf>
+     * {@linkplbin #fnumfrbtf(Tirfbd[], boolfbn) fnumfrbtf}{@dodf (list, truf)}
+     * </blodkquotf>
      *
-     * @param  list
-     *         an array into which to put the list of threads
+     * @pbrbm  list
+     *         bn brrby into wiidi to put tif list of tirfbds
      *
-     * @return  the number of threads put into the array
+     * @rfturn  tif numbfr of tirfbds put into tif brrby
      *
-     * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     * @tirows  SfdurityExdfption
+     *          if {@linkplbin #difdkAddfss difdkAddfss} dftfrminfs tibt
+     *          tif durrfnt tirfbd dbnnot bddfss tiis tirfbd group
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int enumerate(Thread list[]) {
-        checkAccess();
-        return enumerate(list, 0, true);
+    publid int fnumfrbtf(Tirfbd list[]) {
+        difdkAddfss();
+        rfturn fnumfrbtf(list, 0, truf);
     }
 
     /**
-     * Copies into the specified array every active thread in this
-     * thread group. If {@code recurse} is {@code true},
-     * this method recursively enumerates all subgroups of this
-     * thread group and references to every active thread in these
-     * subgroups are also included. If the array is too short to
-     * hold all the threads, the extra threads are silently ignored.
+     * Copifs into tif spfdififd brrby fvfry bdtivf tirfbd in tiis
+     * tirfbd group. If {@dodf rfdursf} is {@dodf truf},
+     * tiis mftiod rfdursivfly fnumfrbtfs bll subgroups of tiis
+     * tirfbd group bnd rfffrfndfs to fvfry bdtivf tirfbd in tifsf
+     * subgroups brf blso indludfd. If tif brrby is too siort to
+     * iold bll tif tirfbds, tif fxtrb tirfbds brf silfntly ignorfd.
      *
-     * <p> An application might use the {@linkplain #activeCount activeCount}
-     * method to get an estimate of how big the array should be, however
-     * <i>if the array is too short to hold all the threads, the extra threads
-     * are silently ignored.</i>  If it is critical to obtain every active
-     * thread in this thread group, the caller should verify that the returned
-     * int value is strictly less than the length of {@code list}.
+     * <p> An bpplidbtion migit usf tif {@linkplbin #bdtivfCount bdtivfCount}
+     * mftiod to gft bn fstimbtf of iow big tif brrby siould bf, iowfvfr
+     * <i>if tif brrby is too siort to iold bll tif tirfbds, tif fxtrb tirfbds
+     * brf silfntly ignorfd.</i>  If it is dritidbl to obtbin fvfry bdtivf
+     * tirfbd in tiis tirfbd group, tif dbllfr siould vfrify tibt tif rfturnfd
+     * int vbluf is stridtly lfss tibn tif lfngti of {@dodf list}.
      *
-     * <p> Due to the inherent race condition in this method, it is recommended
-     * that the method only be used for debugging and monitoring purposes.
+     * <p> Duf to tif inifrfnt rbdf dondition in tiis mftiod, it is rfdommfndfd
+     * tibt tif mftiod only bf usfd for dfbugging bnd monitoring purposfs.
      *
-     * @param  list
-     *         an array into which to put the list of threads
+     * @pbrbm  list
+     *         bn brrby into wiidi to put tif list of tirfbds
      *
-     * @param  recurse
-     *         if {@code true}, recursively enumerate all subgroups of this
-     *         thread group
+     * @pbrbm  rfdursf
+     *         if {@dodf truf}, rfdursivfly fnumfrbtf bll subgroups of tiis
+     *         tirfbd group
      *
-     * @return  the number of threads put into the array
+     * @rfturn  tif numbfr of tirfbds put into tif brrby
      *
-     * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     * @tirows  SfdurityExdfption
+     *          if {@linkplbin #difdkAddfss difdkAddfss} dftfrminfs tibt
+     *          tif durrfnt tirfbd dbnnot bddfss tiis tirfbd group
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int enumerate(Thread list[], boolean recurse) {
-        checkAccess();
-        return enumerate(list, 0, recurse);
+    publid int fnumfrbtf(Tirfbd list[], boolfbn rfdursf) {
+        difdkAddfss();
+        rfturn fnumfrbtf(list, 0, rfdursf);
     }
 
-    private int enumerate(Thread list[], int n, boolean recurse) {
-        int ngroupsSnapshot = 0;
-        ThreadGroup[] groupsSnapshot = null;
-        synchronized (this) {
-            if (destroyed) {
-                return 0;
+    privbtf int fnumfrbtf(Tirfbd list[], int n, boolfbn rfdursf) {
+        int ngroupsSnbpsiot = 0;
+        TirfbdGroup[] groupsSnbpsiot = null;
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn 0;
             }
-            int nt = nthreads;
-            if (nt > list.length - n) {
-                nt = list.length - n;
+            int nt = ntirfbds;
+            if (nt > list.lfngti - n) {
+                nt = list.lfngti - n;
             }
             for (int i = 0; i < nt; i++) {
-                if (threads[i].isAlive()) {
-                    list[n++] = threads[i];
+                if (tirfbds[i].isAlivf()) {
+                    list[n++] = tirfbds[i];
                 }
             }
-            if (recurse) {
-                ngroupsSnapshot = ngroups;
+            if (rfdursf) {
+                ngroupsSnbpsiot = ngroups;
                 if (groups != null) {
-                    groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-                } else {
-                    groupsSnapshot = null;
+                    groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+                } flsf {
+                    groupsSnbpsiot = null;
                 }
             }
         }
-        if (recurse) {
-            for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-                n = groupsSnapshot[i].enumerate(list, n, true);
+        if (rfdursf) {
+            for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+                n = groupsSnbpsiot[i].fnumfrbtf(list, n, truf);
             }
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Returns an estimate of the number of active groups in this
-     * thread group and its subgroups. Recursively iterates over
-     * all subgroups in this thread group.
+     * Rfturns bn fstimbtf of tif numbfr of bdtivf groups in tiis
+     * tirfbd group bnd its subgroups. Rfdursivfly itfrbtfs ovfr
+     * bll subgroups in tiis tirfbd group.
      *
-     * <p> The value returned is only an estimate because the number of
-     * thread groups may change dynamically while this method traverses
-     * internal data structures. This method is intended primarily for
-     * debugging and monitoring purposes.
+     * <p> Tif vbluf rfturnfd is only bn fstimbtf bfdbusf tif numbfr of
+     * tirfbd groups mby dibngf dynbmidblly wiilf tiis mftiod trbvfrsfs
+     * intfrnbl dbtb strudturfs. Tiis mftiod is intfndfd primbrily for
+     * dfbugging bnd monitoring purposfs.
      *
-     * @return  the number of active thread groups with this thread group as
-     *          an ancestor
+     * @rfturn  tif numbfr of bdtivf tirfbd groups witi tiis tirfbd group bs
+     *          bn bndfstor
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int activeGroupCount() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            if (destroyed) {
-                return 0;
+    publid int bdtivfGroupCount() {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn 0;
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        int n = ngroupsSnapshot;
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            n += groupsSnapshot[i].activeGroupCount();
+        int n = ngroupsSnbpsiot;
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            n += groupsSnbpsiot[i].bdtivfGroupCount();
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Copies into the specified array references to every active
-     * subgroup in this thread group and its subgroups.
+     * Copifs into tif spfdififd brrby rfffrfndfs to fvfry bdtivf
+     * subgroup in tiis tirfbd group bnd its subgroups.
      *
-     * <p> An invocation of this method behaves in exactly the same
-     * way as the invocation
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf
+     * wby bs tif invodbtion
      *
-     * <blockquote>
-     * {@linkplain #enumerate(ThreadGroup[], boolean) enumerate}{@code (list, true)}
-     * </blockquote>
+     * <blodkquotf>
+     * {@linkplbin #fnumfrbtf(TirfbdGroup[], boolfbn) fnumfrbtf}{@dodf (list, truf)}
+     * </blodkquotf>
      *
-     * @param  list
-     *         an array into which to put the list of thread groups
+     * @pbrbm  list
+     *         bn brrby into wiidi to put tif list of tirfbd groups
      *
-     * @return  the number of thread groups put into the array
+     * @rfturn  tif numbfr of tirfbd groups put into tif brrby
      *
-     * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     * @tirows  SfdurityExdfption
+     *          if {@linkplbin #difdkAddfss difdkAddfss} dftfrminfs tibt
+     *          tif durrfnt tirfbd dbnnot bddfss tiis tirfbd group
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int enumerate(ThreadGroup list[]) {
-        checkAccess();
-        return enumerate(list, 0, true);
+    publid int fnumfrbtf(TirfbdGroup list[]) {
+        difdkAddfss();
+        rfturn fnumfrbtf(list, 0, truf);
     }
 
     /**
-     * Copies into the specified array references to every active
-     * subgroup in this thread group. If {@code recurse} is
-     * {@code true}, this method recursively enumerates all subgroups of this
-     * thread group and references to every active thread group in these
-     * subgroups are also included.
+     * Copifs into tif spfdififd brrby rfffrfndfs to fvfry bdtivf
+     * subgroup in tiis tirfbd group. If {@dodf rfdursf} is
+     * {@dodf truf}, tiis mftiod rfdursivfly fnumfrbtfs bll subgroups of tiis
+     * tirfbd group bnd rfffrfndfs to fvfry bdtivf tirfbd group in tifsf
+     * subgroups brf blso indludfd.
      *
-     * <p> An application might use the
-     * {@linkplain #activeGroupCount activeGroupCount} method to
-     * get an estimate of how big the array should be, however <i>if the
-     * array is too short to hold all the thread groups, the extra thread
-     * groups are silently ignored.</i>  If it is critical to obtain every
-     * active subgroup in this thread group, the caller should verify that
-     * the returned int value is strictly less than the length of
-     * {@code list}.
+     * <p> An bpplidbtion migit usf tif
+     * {@linkplbin #bdtivfGroupCount bdtivfGroupCount} mftiod to
+     * gft bn fstimbtf of iow big tif brrby siould bf, iowfvfr <i>if tif
+     * brrby is too siort to iold bll tif tirfbd groups, tif fxtrb tirfbd
+     * groups brf silfntly ignorfd.</i>  If it is dritidbl to obtbin fvfry
+     * bdtivf subgroup in tiis tirfbd group, tif dbllfr siould vfrify tibt
+     * tif rfturnfd int vbluf is stridtly lfss tibn tif lfngti of
+     * {@dodf list}.
      *
-     * <p> Due to the inherent race condition in this method, it is recommended
-     * that the method only be used for debugging and monitoring purposes.
+     * <p> Duf to tif inifrfnt rbdf dondition in tiis mftiod, it is rfdommfndfd
+     * tibt tif mftiod only bf usfd for dfbugging bnd monitoring purposfs.
      *
-     * @param  list
-     *         an array into which to put the list of thread groups
+     * @pbrbm  list
+     *         bn brrby into wiidi to put tif list of tirfbd groups
      *
-     * @param  recurse
-     *         if {@code true}, recursively enumerate all subgroups
+     * @pbrbm  rfdursf
+     *         if {@dodf truf}, rfdursivfly fnumfrbtf bll subgroups
      *
-     * @return  the number of thread groups put into the array
+     * @rfturn  tif numbfr of tirfbd groups put into tif brrby
      *
-     * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     * @tirows  SfdurityExdfption
+     *          if {@linkplbin #difdkAddfss difdkAddfss} dftfrminfs tibt
+     *          tif durrfnt tirfbd dbnnot bddfss tiis tirfbd group
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public int enumerate(ThreadGroup list[], boolean recurse) {
-        checkAccess();
-        return enumerate(list, 0, recurse);
+    publid int fnumfrbtf(TirfbdGroup list[], boolfbn rfdursf) {
+        difdkAddfss();
+        rfturn fnumfrbtf(list, 0, rfdursf);
     }
 
-    private int enumerate(ThreadGroup list[], int n, boolean recurse) {
-        int ngroupsSnapshot = 0;
-        ThreadGroup[] groupsSnapshot = null;
-        synchronized (this) {
-            if (destroyed) {
-                return 0;
+    privbtf int fnumfrbtf(TirfbdGroup list[], int n, boolfbn rfdursf) {
+        int ngroupsSnbpsiot = 0;
+        TirfbdGroup[] groupsSnbpsiot = null;
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn 0;
             }
             int ng = ngroups;
-            if (ng > list.length - n) {
-                ng = list.length - n;
+            if (ng > list.lfngti - n) {
+                ng = list.lfngti - n;
             }
             if (ng > 0) {
-                System.arraycopy(groups, 0, list, n, ng);
+                Systfm.brrbydopy(groups, 0, list, n, ng);
                 n += ng;
             }
-            if (recurse) {
-                ngroupsSnapshot = ngroups;
+            if (rfdursf) {
+                ngroupsSnbpsiot = ngroups;
                 if (groups != null) {
-                    groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-                } else {
-                    groupsSnapshot = null;
+                    groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+                } flsf {
+                    groupsSnbpsiot = null;
                 }
             }
         }
-        if (recurse) {
-            for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-                n = groupsSnapshot[i].enumerate(list, n, true);
+        if (rfdursf) {
+            for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+                n = groupsSnbpsiot[i].fnumfrbtf(list, n, truf);
             }
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Stops all threads in this thread group.
+     * Stops bll tirfbds in tiis tirfbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * This method then calls the <code>stop</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * Tiis mftiod tifn dblls tif <dodf>stop</dodf> mftiod on bll tif
+     * tirfbds in tiis tirfbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.Thread#stop()
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
-     * @deprecated    This method is inherently unsafe.  See
-     *     {@link Thread#stop} for details.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd is not bllowfd
+     *               to bddfss tiis tirfbd group or bny of tif tirfbds in
+     *               tif tirfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.Tirfbd#stop()
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    Tiis mftiod is inifrfntly unsbff.  Sff
+     *     {@link Tirfbd#stop} for dftbils.
      */
-    @Deprecated
-    public final void stop() {
-        if (stopOrSuspend(false))
-            Thread.currentThread().stop();
+    @Dfprfdbtfd
+    publid finbl void stop() {
+        if (stopOrSuspfnd(fblsf))
+            Tirfbd.durrfntTirfbd().stop();
     }
 
     /**
-     * Interrupts all threads in this thread group.
+     * Intfrrupts bll tirfbds in tiis tirfbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * This method then calls the <code>interrupt</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * Tiis mftiod tifn dblls tif <dodf>intfrrupt</dodf> mftiod on bll tif
+     * tirfbds in tiis tirfbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.Thread#interrupt()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.2
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd is not bllowfd
+     *               to bddfss tiis tirfbd group or bny of tif tirfbds in
+     *               tif tirfbd group.
+     * @sff        jbvb.lbng.Tirfbd#intfrrupt()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.2
      */
-    public final void interrupt() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                threads[i].interrupt();
+    publid finbl void intfrrupt() {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            difdkAddfss();
+            for (int i = 0 ; i < ntirfbds ; i++) {
+                tirfbds[i].intfrrupt();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].interrupt();
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            groupsSnbpsiot[i].intfrrupt();
         }
     }
 
     /**
-     * Suspends all threads in this thread group.
+     * Suspfnds bll tirfbds in tiis tirfbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * This method then calls the <code>suspend</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * Tiis mftiod tifn dblls tif <dodf>suspfnd</dodf> mftiod on bll tif
+     * tirfbds in tiis tirfbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.Thread#suspend()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
-     * @deprecated    This method is inherently deadlock-prone.  See
-     *     {@link Thread#suspend} for details.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd is not bllowfd
+     *               to bddfss tiis tirfbd group or bny of tif tirfbds in
+     *               tif tirfbd group.
+     * @sff        jbvb.lbng.Tirfbd#suspfnd()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    Tiis mftiod is inifrfntly dfbdlodk-pronf.  Sff
+     *     {@link Tirfbd#suspfnd} for dftbils.
      */
-    @Deprecated
-    @SuppressWarnings("deprecation")
-    public final void suspend() {
-        if (stopOrSuspend(true))
-            Thread.currentThread().suspend();
+    @Dfprfdbtfd
+    @SupprfssWbrnings("dfprfdbtion")
+    publid finbl void suspfnd() {
+        if (stopOrSuspfnd(truf))
+            Tirfbd.durrfntTirfbd().suspfnd();
     }
 
     /**
-     * Helper method: recursively stops or suspends (as directed by the
-     * boolean argument) all of the threads in this thread group and its
-     * subgroups, except the current thread.  This method returns true
-     * if (and only if) the current thread is found to be in this thread
-     * group or one of its subgroups.
+     * Hflpfr mftiod: rfdursivfly stops or suspfnds (bs dirfdtfd by tif
+     * boolfbn brgumfnt) bll of tif tirfbds in tiis tirfbd group bnd its
+     * subgroups, fxdfpt tif durrfnt tirfbd.  Tiis mftiod rfturns truf
+     * if (bnd only if) tif durrfnt tirfbd is found to bf in tiis tirfbd
+     * group or onf of its subgroups.
      */
-    @SuppressWarnings("deprecation")
-    private boolean stopOrSuspend(boolean suspend) {
-        boolean suicide = false;
-        Thread us = Thread.currentThread();
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot = null;
-        synchronized (this) {
-            checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                if (threads[i]==us)
-                    suicide = true;
-                else if (suspend)
-                    threads[i].suspend();
-                else
-                    threads[i].stop();
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf boolfbn stopOrSuspfnd(boolfbn suspfnd) {
+        boolfbn suididf = fblsf;
+        Tirfbd us = Tirfbd.durrfntTirfbd();
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot = null;
+        syndironizfd (tiis) {
+            difdkAddfss();
+            for (int i = 0 ; i < ntirfbds ; i++) {
+                if (tirfbds[i]==us)
+                    suididf = truf;
+                flsf if (suspfnd)
+                    tirfbds[i].suspfnd();
+                flsf
+                    tirfbds[i].stop();
             }
 
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++)
-            suicide = groupsSnapshot[i].stopOrSuspend(suspend) || suicide;
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++)
+            suididf = groupsSnbpsiot[i].stopOrSuspfnd(suspfnd) || suididf;
 
-        return suicide;
+        rfturn suididf;
     }
 
     /**
-     * Resumes all threads in this thread group.
+     * Rfsumfs bll tirfbds in tiis tirfbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * This method then calls the <code>resume</code> method on all the
-     * threads in this thread group and in all of its sub groups.
+     * Tiis mftiod tifn dblls tif <dodf>rfsumf</dodf> mftiod on bll tif
+     * tirfbds in tiis tirfbd group bnd in bll of its sub groups.
      *
-     * @exception  SecurityException  if the current thread is not allowed to
-     *               access this thread group or any of the threads in the
-     *               thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.Thread#resume()
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
-     * @deprecated    This method is used solely in conjunction with
-     *      <tt>Thread.suspend</tt> and <tt>ThreadGroup.suspend</tt>,
-     *       both of which have been deprecated, as they are inherently
-     *       deadlock-prone.  See {@link Thread#suspend} for details.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd is not bllowfd to
+     *               bddfss tiis tirfbd group or bny of tif tirfbds in tif
+     *               tirfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.Tirfbd#rfsumf()
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    Tiis mftiod is usfd solfly in donjundtion witi
+     *      <tt>Tirfbd.suspfnd</tt> bnd <tt>TirfbdGroup.suspfnd</tt>,
+     *       boti of wiidi ibvf bffn dfprfdbtfd, bs tify brf inifrfntly
+     *       dfbdlodk-pronf.  Sff {@link Tirfbd#suspfnd} for dftbils.
      */
-    @Deprecated
-    @SuppressWarnings("deprecation")
-    public final void resume() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                threads[i].resume();
+    @Dfprfdbtfd
+    @SupprfssWbrnings("dfprfdbtion")
+    publid finbl void rfsumf() {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            difdkAddfss();
+            for (int i = 0 ; i < ntirfbds ; i++) {
+                tirfbds[i].rfsumf();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].resume();
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            groupsSnbpsiot[i].rfsumf();
         }
     }
 
     /**
-     * Destroys this thread group and all of its subgroups. This thread
-     * group must be empty, indicating that all threads that had been in
-     * this thread group have since stopped.
+     * Dfstroys tiis tirfbd group bnd bll of its subgroups. Tiis tirfbd
+     * group must bf fmpty, indidbting tibt bll tirfbds tibt ibd bffn in
+     * tiis tirfbd group ibvf sindf stoppfd.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, tif <dodf>difdkAddfss</dodf> mftiod of tiis tirfbd group is
+     * dbllfd witi no brgumfnts; tiis mby rfsult in b sfdurity fxdfption.
      *
-     * @exception  IllegalThreadStateException  if the thread group is not
-     *               empty or if the thread group has already been destroyed.
-     * @exception  SecurityException  if the current thread cannot modify this
-     *               thread group.
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @since      1.0
+     * @fxdfption  IllfgblTirfbdStbtfExdfption  if tif tirfbd group is not
+     *               fmpty or if tif tirfbd group ibs blrfbdy bffn dfstroyfd.
+     * @fxdfption  SfdurityExdfption  if tif durrfnt tirfbd dbnnot modify tiis
+     *               tirfbd group.
+     * @sff        jbvb.lbng.TirfbdGroup#difdkAddfss()
+     * @sindf      1.0
      */
-    public final void destroy() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            checkAccess();
-            if (destroyed || (nthreads > 0)) {
-                throw new IllegalThreadStateException();
+    publid finbl void dfstroy() {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            difdkAddfss();
+            if (dfstroyfd || (ntirfbds > 0)) {
+                tirow nfw IllfgblTirfbdStbtfExdfption();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
-            if (parent != null) {
-                destroyed = true;
+            if (pbrfnt != null) {
+                dfstroyfd = truf;
                 ngroups = 0;
                 groups = null;
-                nthreads = 0;
-                threads = null;
+                ntirfbds = 0;
+                tirfbds = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i += 1) {
-            groupsSnapshot[i].destroy();
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i += 1) {
+            groupsSnbpsiot[i].dfstroy();
         }
-        if (parent != null) {
-            parent.remove(this);
+        if (pbrfnt != null) {
+            pbrfnt.rfmovf(tiis);
         }
     }
 
     /**
-     * Adds the specified Thread group to this group.
-     * @param g the specified Thread group to be added
-     * @exception IllegalThreadStateException If the Thread group has been destroyed.
+     * Adds tif spfdififd Tirfbd group to tiis group.
+     * @pbrbm g tif spfdififd Tirfbd group to bf bddfd
+     * @fxdfption IllfgblTirfbdStbtfExdfption If tif Tirfbd group ibs bffn dfstroyfd.
      */
-    private final void add(ThreadGroup g){
-        synchronized (this) {
-            if (destroyed) {
-                throw new IllegalThreadStateException();
+    privbtf finbl void bdd(TirfbdGroup g){
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                tirow nfw IllfgblTirfbdStbtfExdfption();
             }
             if (groups == null) {
-                groups = new ThreadGroup[4];
-            } else if (ngroups == groups.length) {
-                groups = Arrays.copyOf(groups, ngroups * 2);
+                groups = nfw TirfbdGroup[4];
+            } flsf if (ngroups == groups.lfngti) {
+                groups = Arrbys.dopyOf(groups, ngroups * 2);
             }
             groups[ngroups] = g;
 
-            // This is done last so it doesn't matter in case the
-            // thread is killed
+            // Tiis is donf lbst so it dofsn't mbttfr in dbsf tif
+            // tirfbd is killfd
             ngroups++;
         }
     }
 
     /**
-     * Removes the specified Thread group from this group.
-     * @param g the Thread group to be removed
-     * @return if this Thread has already been destroyed.
+     * Rfmovfs tif spfdififd Tirfbd group from tiis group.
+     * @pbrbm g tif Tirfbd group to bf rfmovfd
+     * @rfturn if tiis Tirfbd ibs blrfbdy bffn dfstroyfd.
      */
-    private void remove(ThreadGroup g) {
-        synchronized (this) {
-            if (destroyed) {
-                return;
+    privbtf void rfmovf(TirfbdGroup g) {
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn;
             }
             for (int i = 0 ; i < ngroups ; i++) {
                 if (groups[i] == g) {
                     ngroups -= 1;
-                    System.arraycopy(groups, i + 1, groups, i, ngroups - i);
-                    // Zap dangling reference to the dead group so that
-                    // the garbage collector will collect it.
+                    Systfm.brrbydopy(groups, i + 1, groups, i, ngroups - i);
+                    // Zbp dbngling rfffrfndf to tif dfbd group so tibt
+                    // tif gbrbbgf dollfdtor will dollfdt it.
                     groups[ngroups] = null;
-                    break;
+                    brfbk;
                 }
             }
-            if (nthreads == 0) {
+            if (ntirfbds == 0) {
                 notifyAll();
             }
-            if (daemon && (nthreads == 0) &&
-                (nUnstartedThreads == 0) && (ngroups == 0))
+            if (dbfmon && (ntirfbds == 0) &&
+                (nUnstbrtfdTirfbds == 0) && (ngroups == 0))
             {
-                destroy();
+                dfstroy();
             }
         }
     }
 
 
     /**
-     * Increments the count of unstarted threads in the thread group.
-     * Unstarted threads are not added to the thread group so that they
-     * can be collected if they are never started, but they must be
-     * counted so that daemon thread groups with unstarted threads in
-     * them are not destroyed.
+     * Indrfmfnts tif dount of unstbrtfd tirfbds in tif tirfbd group.
+     * Unstbrtfd tirfbds brf not bddfd to tif tirfbd group so tibt tify
+     * dbn bf dollfdtfd if tify brf nfvfr stbrtfd, but tify must bf
+     * dountfd so tibt dbfmon tirfbd groups witi unstbrtfd tirfbds in
+     * tifm brf not dfstroyfd.
      */
-    void addUnstarted() {
-        synchronized(this) {
-            if (destroyed) {
-                throw new IllegalThreadStateException();
+    void bddUnstbrtfd() {
+        syndironizfd(tiis) {
+            if (dfstroyfd) {
+                tirow nfw IllfgblTirfbdStbtfExdfption();
             }
-            nUnstartedThreads++;
+            nUnstbrtfdTirfbds++;
         }
     }
 
     /**
-     * Adds the specified thread to this thread group.
+     * Adds tif spfdififd tirfbd to tiis tirfbd group.
      *
-     * <p> Note: This method is called from both library code
-     * and the Virtual Machine. It is called from VM to add
-     * certain system threads to the system thread group.
+     * <p> Notf: Tiis mftiod is dbllfd from boti librbry dodf
+     * bnd tif Virtubl Mbdiinf. It is dbllfd from VM to bdd
+     * dfrtbin systfm tirfbds to tif systfm tirfbd group.
      *
-     * @param  t
-     *         the Thread to be added
+     * @pbrbm  t
+     *         tif Tirfbd to bf bddfd
      *
-     * @throws  IllegalThreadStateException
-     *          if the Thread group has been destroyed
+     * @tirows  IllfgblTirfbdStbtfExdfption
+     *          if tif Tirfbd group ibs bffn dfstroyfd
      */
-    void add(Thread t) {
-        synchronized (this) {
-            if (destroyed) {
-                throw new IllegalThreadStateException();
+    void bdd(Tirfbd t) {
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                tirow nfw IllfgblTirfbdStbtfExdfption();
             }
-            if (threads == null) {
-                threads = new Thread[4];
-            } else if (nthreads == threads.length) {
-                threads = Arrays.copyOf(threads, nthreads * 2);
+            if (tirfbds == null) {
+                tirfbds = nfw Tirfbd[4];
+            } flsf if (ntirfbds == tirfbds.lfngti) {
+                tirfbds = Arrbys.dopyOf(tirfbds, ntirfbds * 2);
             }
-            threads[nthreads] = t;
+            tirfbds[ntirfbds] = t;
 
-            // This is done last so it doesn't matter in case the
-            // thread is killed
-            nthreads++;
+            // Tiis is donf lbst so it dofsn't mbttfr in dbsf tif
+            // tirfbd is killfd
+            ntirfbds++;
 
-            // The thread is now a fully fledged member of the group, even
-            // though it may, or may not, have been started yet. It will prevent
-            // the group from being destroyed so the unstarted Threads count is
-            // decremented.
-            nUnstartedThreads--;
+            // Tif tirfbd is now b fully flfdgfd mfmbfr of tif group, fvfn
+            // tiougi it mby, or mby not, ibvf bffn stbrtfd yft. It will prfvfnt
+            // tif group from bfing dfstroyfd so tif unstbrtfd Tirfbds dount is
+            // dfdrfmfntfd.
+            nUnstbrtfdTirfbds--;
         }
     }
 
     /**
-     * Notifies the group that the thread {@code t} has failed
-     * an attempt to start.
+     * Notififs tif group tibt tif tirfbd {@dodf t} ibs fbilfd
+     * bn bttfmpt to stbrt.
      *
-     * <p> The state of this thread group is rolled back as if the
-     * attempt to start the thread has never occurred. The thread is again
-     * considered an unstarted member of the thread group, and a subsequent
-     * attempt to start the thread is permitted.
+     * <p> Tif stbtf of tiis tirfbd group is rollfd bbdk bs if tif
+     * bttfmpt to stbrt tif tirfbd ibs nfvfr oddurrfd. Tif tirfbd is bgbin
+     * donsidfrfd bn unstbrtfd mfmbfr of tif tirfbd group, bnd b subsfqufnt
+     * bttfmpt to stbrt tif tirfbd is pfrmittfd.
      *
-     * @param  t
-     *         the Thread whose start method was invoked
+     * @pbrbm  t
+     *         tif Tirfbd wiosf stbrt mftiod wbs invokfd
      */
-    void threadStartFailed(Thread t) {
-        synchronized(this) {
-            remove(t);
-            nUnstartedThreads++;
+    void tirfbdStbrtFbilfd(Tirfbd t) {
+        syndironizfd(tiis) {
+            rfmovf(t);
+            nUnstbrtfdTirfbds++;
         }
     }
 
     /**
-     * Notifies the group that the thread {@code t} has terminated.
+     * Notififs tif group tibt tif tirfbd {@dodf t} ibs tfrminbtfd.
      *
-     * <p> Destroy the group if all of the following conditions are
-     * true: this is a daemon thread group; there are no more alive
-     * or unstarted threads in the group; there are no subgroups in
-     * this thread group.
+     * <p> Dfstroy tif group if bll of tif following donditions brf
+     * truf: tiis is b dbfmon tirfbd group; tifrf brf no morf blivf
+     * or unstbrtfd tirfbds in tif group; tifrf brf no subgroups in
+     * tiis tirfbd group.
      *
-     * @param  t
-     *         the Thread that has terminated
+     * @pbrbm  t
+     *         tif Tirfbd tibt ibs tfrminbtfd
      */
-    void threadTerminated(Thread t) {
-        synchronized (this) {
-            remove(t);
+    void tirfbdTfrminbtfd(Tirfbd t) {
+        syndironizfd (tiis) {
+            rfmovf(t);
 
-            if (nthreads == 0) {
+            if (ntirfbds == 0) {
                 notifyAll();
             }
-            if (daemon && (nthreads == 0) &&
-                (nUnstartedThreads == 0) && (ngroups == 0))
+            if (dbfmon && (ntirfbds == 0) &&
+                (nUnstbrtfdTirfbds == 0) && (ngroups == 0))
             {
-                destroy();
+                dfstroy();
             }
         }
     }
 
     /**
-     * Removes the specified Thread from this group. Invoking this method
-     * on a thread group that has been destroyed has no effect.
+     * Rfmovfs tif spfdififd Tirfbd from tiis group. Invoking tiis mftiod
+     * on b tirfbd group tibt ibs bffn dfstroyfd ibs no ffffdt.
      *
-     * @param  t
-     *         the Thread to be removed
+     * @pbrbm  t
+     *         tif Tirfbd to bf rfmovfd
      */
-    private void remove(Thread t) {
-        synchronized (this) {
-            if (destroyed) {
-                return;
+    privbtf void rfmovf(Tirfbd t) {
+        syndironizfd (tiis) {
+            if (dfstroyfd) {
+                rfturn;
             }
-            for (int i = 0 ; i < nthreads ; i++) {
-                if (threads[i] == t) {
-                    System.arraycopy(threads, i + 1, threads, i, --nthreads - i);
-                    // Zap dangling reference to the dead thread so that
-                    // the garbage collector will collect it.
-                    threads[nthreads] = null;
-                    break;
+            for (int i = 0 ; i < ntirfbds ; i++) {
+                if (tirfbds[i] == t) {
+                    Systfm.brrbydopy(tirfbds, i + 1, tirfbds, i, --ntirfbds - i);
+                    // Zbp dbngling rfffrfndf to tif dfbd tirfbd so tibt
+                    // tif gbrbbgf dollfdtor will dollfdt it.
+                    tirfbds[ntirfbds] = null;
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Prints information about this thread group to the standard
-     * output. This method is useful only for debugging.
+     * Prints informbtion bbout tiis tirfbd group to tif stbndbrd
+     * output. Tiis mftiod is usfful only for dfbugging.
      *
-     * @since   1.0
+     * @sindf   1.0
      */
-    public void list() {
-        list(System.out, 0);
+    publid void list() {
+        list(Systfm.out, 0);
     }
-    void list(PrintStream out, int indent) {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
-        synchronized (this) {
-            for (int j = 0 ; j < indent ; j++) {
+    void list(PrintStrfbm out, int indfnt) {
+        int ngroupsSnbpsiot;
+        TirfbdGroup[] groupsSnbpsiot;
+        syndironizfd (tiis) {
+            for (int j = 0 ; j < indfnt ; j++) {
                 out.print(" ");
             }
-            out.println(this);
-            indent += 4;
-            for (int i = 0 ; i < nthreads ; i++) {
-                for (int j = 0 ; j < indent ; j++) {
+            out.println(tiis);
+            indfnt += 4;
+            for (int i = 0 ; i < ntirfbds ; i++) {
+                for (int j = 0 ; j < indfnt ; j++) {
                     out.print(" ");
                 }
-                out.println(threads[i]);
+                out.println(tirfbds[i]);
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpsiot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
-            } else {
-                groupsSnapshot = null;
+                groupsSnbpsiot = Arrbys.dopyOf(groups, ngroupsSnbpsiot);
+            } flsf {
+                groupsSnbpsiot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].list(out, indent);
+        for (int i = 0 ; i < ngroupsSnbpsiot ; i++) {
+            groupsSnbpsiot[i].list(out, indfnt);
         }
     }
 
     /**
-     * Called by the Java Virtual Machine when a thread in this
-     * thread group stops because of an uncaught exception, and the thread
-     * does not have a specific {@link Thread.UncaughtExceptionHandler}
-     * installed.
+     * Cbllfd by tif Jbvb Virtubl Mbdiinf wifn b tirfbd in tiis
+     * tirfbd group stops bfdbusf of bn undbugit fxdfption, bnd tif tirfbd
+     * dofs not ibvf b spfdifid {@link Tirfbd.UndbugitExdfptionHbndlfr}
+     * instbllfd.
      * <p>
-     * The <code>uncaughtException</code> method of
-     * <code>ThreadGroup</code> does the following:
+     * Tif <dodf>undbugitExdfption</dodf> mftiod of
+     * <dodf>TirfbdGroup</dodf> dofs tif following:
      * <ul>
-     * <li>If this thread group has a parent thread group, the
-     *     <code>uncaughtException</code> method of that parent is called
-     *     with the same two arguments.
-     * <li>Otherwise, this method checks to see if there is a
-     *     {@linkplain Thread#getDefaultUncaughtExceptionHandler default
-     *     uncaught exception handler} installed, and if so, its
-     *     <code>uncaughtException</code> method is called with the same
-     *     two arguments.
-     * <li>Otherwise, this method determines if the <code>Throwable</code>
-     *     argument is an instance of {@link ThreadDeath}. If so, nothing
-     *     special is done. Otherwise, a message containing the
-     *     thread's name, as returned from the thread's {@link
-     *     Thread#getName getName} method, and a stack backtrace,
-     *     using the <code>Throwable</code>'s {@link
-     *     Throwable#printStackTrace printStackTrace} method, is
-     *     printed to the {@linkplain System#err standard error stream}.
+     * <li>If tiis tirfbd group ibs b pbrfnt tirfbd group, tif
+     *     <dodf>undbugitExdfption</dodf> mftiod of tibt pbrfnt is dbllfd
+     *     witi tif sbmf two brgumfnts.
+     * <li>Otifrwisf, tiis mftiod difdks to sff if tifrf is b
+     *     {@linkplbin Tirfbd#gftDffbultUndbugitExdfptionHbndlfr dffbult
+     *     undbugit fxdfption ibndlfr} instbllfd, bnd if so, its
+     *     <dodf>undbugitExdfption</dodf> mftiod is dbllfd witi tif sbmf
+     *     two brgumfnts.
+     * <li>Otifrwisf, tiis mftiod dftfrminfs if tif <dodf>Tirowbblf</dodf>
+     *     brgumfnt is bn instbndf of {@link TirfbdDfbti}. If so, notiing
+     *     spfdibl is donf. Otifrwisf, b mfssbgf dontbining tif
+     *     tirfbd's nbmf, bs rfturnfd from tif tirfbd's {@link
+     *     Tirfbd#gftNbmf gftNbmf} mftiod, bnd b stbdk bbdktrbdf,
+     *     using tif <dodf>Tirowbblf</dodf>'s {@link
+     *     Tirowbblf#printStbdkTrbdf printStbdkTrbdf} mftiod, is
+     *     printfd to tif {@linkplbin Systfm#frr stbndbrd frror strfbm}.
      * </ul>
      * <p>
-     * Applications can override this method in subclasses of
-     * <code>ThreadGroup</code> to provide alternative handling of
-     * uncaught exceptions.
+     * Applidbtions dbn ovfrridf tiis mftiod in subdlbssfs of
+     * <dodf>TirfbdGroup</dodf> to providf bltfrnbtivf ibndling of
+     * undbugit fxdfptions.
      *
-     * @param   t   the thread that is about to exit.
-     * @param   e   the uncaught exception.
-     * @since   1.0
+     * @pbrbm   t   tif tirfbd tibt is bbout to fxit.
+     * @pbrbm   f   tif undbugit fxdfption.
+     * @sindf   1.0
      */
-    public void uncaughtException(Thread t, Throwable e) {
-        if (parent != null) {
-            parent.uncaughtException(t, e);
-        } else {
-            Thread.UncaughtExceptionHandler ueh =
-                Thread.getDefaultUncaughtExceptionHandler();
-            if (ueh != null) {
-                ueh.uncaughtException(t, e);
-            } else if (!(e instanceof ThreadDeath)) {
-                System.err.print("Exception in thread \""
-                                 + t.getName() + "\" ");
-                e.printStackTrace(System.err);
+    publid void undbugitExdfption(Tirfbd t, Tirowbblf f) {
+        if (pbrfnt != null) {
+            pbrfnt.undbugitExdfption(t, f);
+        } flsf {
+            Tirfbd.UndbugitExdfptionHbndlfr ufi =
+                Tirfbd.gftDffbultUndbugitExdfptionHbndlfr();
+            if (ufi != null) {
+                ufi.undbugitExdfption(t, f);
+            } flsf if (!(f instbndfof TirfbdDfbti)) {
+                Systfm.frr.print("Exdfption in tirfbd \""
+                                 + t.gftNbmf() + "\" ");
+                f.printStbdkTrbdf(Systfm.frr);
             }
         }
     }
 
     /**
-     * Used by VM to control lowmem implicit suspension.
+     * Usfd by VM to dontrol lowmfm implidit suspfnsion.
      *
-     * @param b boolean to allow or disallow suspension
-     * @return true on success
-     * @since   1.1
-     * @deprecated The definition of this call depends on {@link #suspend},
-     *             which is deprecated.  Further, the behavior of this call
-     *             was never specified.
+     * @pbrbm b boolfbn to bllow or disbllow suspfnsion
+     * @rfturn truf on suddfss
+     * @sindf   1.1
+     * @dfprfdbtfd Tif dffinition of tiis dbll dfpfnds on {@link #suspfnd},
+     *             wiidi is dfprfdbtfd.  Furtifr, tif bfibvior of tiis dbll
+     *             wbs nfvfr spfdififd.
      */
-    @Deprecated
-    public boolean allowThreadSuspension(boolean b) {
-        this.vmAllowSuspension = b;
+    @Dfprfdbtfd
+    publid boolfbn bllowTirfbdSuspfnsion(boolfbn b) {
+        tiis.vmAllowSuspfnsion = b;
         if (!b) {
-            VM.unsuspendSomeThreads();
+            VM.unsuspfndSomfTirfbds();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a string representation of this Thread group.
+     * Rfturns b string rfprfsfntbtion of tiis Tirfbd group.
      *
-     * @return  a string representation of this thread group.
-     * @since   1.0
+     * @rfturn  b string rfprfsfntbtion of tiis tirfbd group.
+     * @sindf   1.0
      */
-    public String toString() {
-        return getClass().getName() + "[name=" + getName() + ",maxpri=" + maxPriority + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[nbmf=" + gftNbmf() + ",mbxpri=" + mbxPriority + "]";
     }
 }

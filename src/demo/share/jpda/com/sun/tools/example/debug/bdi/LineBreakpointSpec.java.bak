@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
 
-import com.sun.jdi.*;
-import java.util.List;
+import dom.sun.jdi.*;
+import jbvb.util.List;
 
-public class LineBreakpointSpec extends BreakpointSpec {
-    int lineNumber;
+publid dlbss LinfBrfbkpointSpfd fxtfnds BrfbkpointSpfd {
+    int linfNumbfr;
 
-    LineBreakpointSpec(EventRequestSpecList specs,
-                       ReferenceTypeSpec refSpec, int lineNumber) {
-        super(specs, refSpec);
-        this.lineNumber = lineNumber;
+    LinfBrfbkpointSpfd(EvfntRfqufstSpfdList spfds,
+                       RfffrfndfTypfSpfd rffSpfd, int linfNumbfr) {
+        supfr(spfds, rffSpfd);
+        tiis.linfNumbfr = linfNumbfr;
     }
 
     /**
-     * The 'refType' is known to match.
+     * Tif 'rffTypf' is known to mbtdi.
      */
-    @Override
-    void resolve(ReferenceType refType) throws InvalidTypeException,
-                                             LineNotFoundException {
-        if (!(refType instanceof ClassType)) {
-            throw new InvalidTypeException();
+    @Ovfrridf
+    void rfsolvf(RfffrfndfTypf rffTypf) tirows InvblidTypfExdfption,
+                                             LinfNotFoundExdfption {
+        if (!(rffTypf instbndfof ClbssTypf)) {
+            tirow nfw InvblidTypfExdfption();
         }
-        Location location = location((ClassType)refType);
-        setRequest(refType.virtualMachine().eventRequestManager()
-                   .createBreakpointRequest(location));
+        Lodbtion lodbtion = lodbtion((ClbssTypf)rffTypf);
+        sftRfqufst(rffTypf.virtublMbdiinf().fvfntRfqufstMbnbgfr()
+                   .drfbtfBrfbkpointRfqufst(lodbtion));
     }
 
-    private Location location(ClassType clazz) throws
-                                            LineNotFoundException {
-        Location location = null;
+    privbtf Lodbtion lodbtion(ClbssTypf dlbzz) tirows
+                                            LinfNotFoundExdfption {
+        Lodbtion lodbtion = null;
         try {
-            List<Location> locs = clazz.locationsOfLine(lineNumber());
-            if (locs.size() == 0) {
-                throw new LineNotFoundException();
+            List<Lodbtion> lods = dlbzz.lodbtionsOfLinf(linfNumbfr());
+            if (lods.sizf() == 0) {
+                tirow nfw LinfNotFoundExdfption();
             }
-            // TODO handle multiple locations
-            location = locs.get(0);
-            if (location.method() == null) {
-                throw new LineNotFoundException();
+            // TODO ibndlf multiplf lodbtions
+            lodbtion = lods.gft(0);
+            if (lodbtion.mftiod() == null) {
+                tirow nfw LinfNotFoundExdfption();
             }
-        } catch (AbsentInformationException e) {
+        } dbtdi (AbsfntInformbtionExdfption f) {
             /*
-             * TO DO: throw something more specific, or allow
-             * AbsentInfo exception to pass through.
+             * TO DO: tirow somftiing morf spfdifid, or bllow
+             * AbsfntInfo fxdfption to pbss tirougi.
              */
-            throw new LineNotFoundException();
+            tirow nfw LinfNotFoundExdfption();
         }
-        return location;
+        rfturn lodbtion;
     }
 
-    public int lineNumber() {
-        return lineNumber;
+    publid int linfNumbfr() {
+        rfturn linfNumbfr;
     }
 
-    @Override
-    public int hashCode() {
-        return refSpec.hashCode() + lineNumber;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn rffSpfd.ibsiCodf() + linfNumbfr;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof LineBreakpointSpec) {
-            LineBreakpointSpec breakpoint = (LineBreakpointSpec)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof LinfBrfbkpointSpfd) {
+            LinfBrfbkpointSpfd brfbkpoint = (LinfBrfbkpointSpfd)obj;
 
-            return refSpec.equals(breakpoint.refSpec) &&
-                   (lineNumber == breakpoint.lineNumber);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String errorMessageFor(Exception e) {
-        if (e instanceof LineNotFoundException) {
-            return ("No code at line " + lineNumber() + " in " + refSpec);
-        } else if (e instanceof InvalidTypeException) {
-            return ("Breakpoints can be located only in classes. " +
-                        refSpec + " is an interface or array");
-        } else {
-            return super.errorMessageFor( e);
+            rfturn rffSpfd.fqubls(brfbkpoint.rffSpfd) &&
+                   (linfNumbfr == brfbkpoint.linfNumbfr);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("breakpoint ");
-        sb.append(refSpec.toString());
-        sb.append(':');
-        sb.append(lineNumber);
-        sb.append(" (");
-        sb.append(getStatusString());
-        sb.append(')');
-        return sb.toString();
+    @Ovfrridf
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof LinfNotFoundExdfption) {
+            rfturn ("No dodf bt linf " + linfNumbfr() + " in " + rffSpfd);
+        } flsf if (f instbndfof InvblidTypfExdfption) {
+            rfturn ("Brfbkpoints dbn bf lodbtfd only in dlbssfs. " +
+                        rffSpfd + " is bn intfrfbdf or brrby");
+        } flsf {
+            rfturn supfr.frrorMfssbgfFor( f);
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("brfbkpoint ");
+        sb.bppfnd(rffSpfd.toString());
+        sb.bppfnd(':');
+        sb.bppfnd(linfNumbfr);
+        sb.bppfnd(" (");
+        sb.bppfnd(gftStbtusString());
+        sb.bppfnd(')');
+        rfturn sb.toString();
     }
 }

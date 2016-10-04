@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#include <stdlib.h>
+#indludf <stdlib.i>
 
-#include "sun_java2d_opengl_OGLSurfaceData.h"
+#indludf "sun_jbvb2d_opfngl_OGLSurfbdfDbtb.i"
 
-#include "jlong.h"
-#include "jni_util.h"
-#include "OGLSurfaceData.h"
+#indludf "jlong.i"
+#indludf "jni_util.i"
+#indludf "OGLSurfbdfDbtb.i"
 
 /**
- * The following methods are implemented in the windowing system (i.e. GLX
- * and WGL) source files.
+ * Tif following mftiods brf implfmfntfd in tif windowing systfm (i.f. GLX
+ * bnd WGL) sourdf filfs.
  */
-extern jlong OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo);
-extern jboolean OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo);
-extern void OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo);
+fxtfrn jlong OGLSD_GftNbtivfConfigInfo(OGLSDOps *oglsdo);
+fxtfrn jboolfbn OGLSD_InitOGLWindow(JNIEnv *fnv, OGLSDOps *oglsdo);
+fxtfrn void OGLSD_DfstroyOGLSurfbdf(JNIEnv *fnv, OGLSDOps *oglsdo);
 
-void OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
+void OGLSD_SftNbtivfDimfnsions(JNIEnv *fnv, OGLSDOps *oglsdo, jint w, jint i);
 
 /**
- * This table contains the "pixel formats" for all system memory surfaces
- * that OpenGL is capable of handling, indexed by the "PF_" constants defined
- * in OGLSurfaceData.java.  These pixel formats contain information that is
- * passed to OpenGL when copying from a system memory ("Sw") surface to
- * an OpenGL "Surface" (via glDrawPixels()) or "Texture" (via glTexImage2D()).
+ * Tiis tbblf dontbins tif "pixfl formbts" for bll systfm mfmory surfbdfs
+ * tibt OpfnGL is dbpbblf of ibndling, indfxfd by tif "PF_" donstbnts dffinfd
+ * in OGLSurfbdfDbtb.jbvb.  Tifsf pixfl formbts dontbin informbtion tibt is
+ * pbssfd to OpfnGL wifn dopying from b systfm mfmory ("Sw") surfbdf to
+ * bn OpfnGL "Surfbdf" (vib glDrbwPixfls()) or "Tfxturf" (vib glTfxImbgf2D()).
  */
-OGLPixelFormat PixelFormats[] = {
+OGLPixflFormbt PixflFormbts[] = {
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
       4, 1, 0,                                     }, /* 0 - IntArgb      */
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
-      4, 1, 1,                                     }, /* 1 - IntArgbPre   */
+      4, 1, 1,                                     }, /* 1 - IntArgbPrf   */
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
       4, 0, 1,                                     }, /* 2 - IntRgb       */
     { GL_RGBA, GL_UNSIGNED_INT_8_8_8_8,
@@ -64,578 +64,578 @@ OGLPixelFormat PixelFormats[] = {
     { GL_BGRA, GL_UNSIGNED_INT_8_8_8_8,
       4, 0, 1,                                     }, /* 5 - IntBgrx      */
     { GL_RGB,  GL_UNSIGNED_SHORT_5_6_5,
-      2, 0, 1,                                     }, /* 6 - Ushort565Rgb */
+      2, 0, 1,                                     }, /* 6 - Usiort565Rgb */
     { GL_BGRA, GL_UNSIGNED_SHORT_1_5_5_5_REV,
-      2, 0, 1,                                     }, /* 7 - Ushort555Rgb */
+      2, 0, 1,                                     }, /* 7 - Usiort555Rgb */
     { GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
-      2, 0, 1,                                     }, /* 8 - Ushort555Rgbx*/
+      2, 0, 1,                                     }, /* 8 - Usiort555Rgbx*/
     { GL_LUMINANCE, GL_UNSIGNED_BYTE,
-      1, 0, 1,                                     }, /* 9 - ByteGray     */
+      1, 0, 1,                                     }, /* 9 - BytfGrby     */
     { GL_LUMINANCE, GL_UNSIGNED_SHORT,
-      2, 0, 1,                                     }, /*10 - UshortGray   */
+      2, 0, 1,                                     }, /*10 - UsiortGrby   */
     { GL_BGR,  GL_UNSIGNED_BYTE,
-      1, 0, 1,                                     }, /*11 - ThreeByteBgr */};
+      1, 0, 1,                                     }, /*11 - TirffBytfBgr */};
 
 /**
- * Given a starting value and a maximum limit, returns the first power-of-two
- * greater than the starting value.  If the resulting value is greater than
- * the maximum limit, zero is returned.
+ * Givfn b stbrting vbluf bnd b mbximum limit, rfturns tif first powfr-of-two
+ * grfbtfr tibn tif stbrting vbluf.  If tif rfsulting vbluf is grfbtfr tibn
+ * tif mbximum limit, zfro is rfturnfd.
  */
 jint
-OGLSD_NextPowerOfTwo(jint val, jint max)
+OGLSD_NfxtPowfrOfTwo(jint vbl, jint mbx)
 {
     jint i;
 
-    if (val > max) {
-        return 0;
+    if (vbl > mbx) {
+        rfturn 0;
     }
 
-    for (i = 1; i < val; i *= 2);
+    for (i = 1; i < vbl; i *= 2);
 
-    return i;
+    rfturn i;
 }
 
 /**
- * Returns true if both given dimensions are a power of two.
+ * Rfturns truf if boti givfn dimfnsions brf b powfr of two.
  */
-static jboolean
-OGLSD_IsPowerOfTwo(jint width, jint height)
+stbtid jboolfbn
+OGLSD_IsPowfrOfTwo(jint widti, jint ifigit)
 {
-    return (((width & (width-1)) | (height & (height-1))) == 0);
+    rfturn (((widti & (widti-1)) | (ifigit & (ifigit-1))) == 0);
 }
 
 /**
- * Initializes an OpenGL texture object.
+ * Initiblizfs bn OpfnGL tfxturf objfdt.
  *
- * If the isOpaque parameter is JNI_FALSE, then the texture will have a
- * full alpha channel; otherwise, the texture will be opaque (this can
- * help save VRAM when translucency is not needed).
+ * If tif isOpbquf pbrbmftfr is JNI_FALSE, tifn tif tfxturf will ibvf b
+ * full blpib dibnnfl; otifrwisf, tif tfxturf will bf opbquf (tiis dbn
+ * iflp sbvf VRAM wifn trbnsludfndy is not nffdfd).
  *
- * If the GL_ARB_texture_non_power_of_two extension is present (texNonPow2
- * is JNI_TRUE), the actual texture is allowed to have non-power-of-two
- * dimensions, and therefore width==textureWidth and height==textureHeight.
+ * If tif GL_ARB_tfxturf_non_powfr_of_two fxtfnsion is prfsfnt (tfxNonPow2
+ * is JNI_TRUE), tif bdtubl tfxturf is bllowfd to ibvf non-powfr-of-two
+ * dimfnsions, bnd tifrfforf widti==tfxturfWidti bnd ifigit==tfxturfHfigit.
  *
- * Failing that, if the GL_ARB_texture_rectangle extension is present
- * (texRect is JNI_TRUE), the actual texture is allowed to have
- * non-power-of-two dimensions, except that instead of using the usual
- * GL_TEXTURE_2D target, we need to use the GL_TEXTURE_RECTANGLE_ARB target.
- * Note that the GL_REPEAT wrapping mode is not allowed with this target,
- * so if that mode is needed (e.g. as is the case in the TexturePaint code)
- * one should pass JNI_FALSE to avoid using this extension.  Also note that
- * when the texture target is GL_TEXTURE_RECTANGLE_ARB, texture coordinates
- * must be specified in the range [0,width] and [0,height] rather than
- * [0,1] as is the case with the usual GL_TEXTURE_2D target (so take care)!
+ * Fbiling tibt, if tif GL_ARB_tfxturf_rfdtbnglf fxtfnsion is prfsfnt
+ * (tfxRfdt is JNI_TRUE), tif bdtubl tfxturf is bllowfd to ibvf
+ * non-powfr-of-two dimfnsions, fxdfpt tibt instfbd of using tif usubl
+ * GL_TEXTURE_2D tbrgft, wf nffd to usf tif GL_TEXTURE_RECTANGLE_ARB tbrgft.
+ * Notf tibt tif GL_REPEAT wrbpping modf is not bllowfd witi tiis tbrgft,
+ * so if tibt modf is nffdfd (f.g. bs is tif dbsf in tif TfxturfPbint dodf)
+ * onf siould pbss JNI_FALSE to bvoid using tiis fxtfnsion.  Also notf tibt
+ * wifn tif tfxturf tbrgft is GL_TEXTURE_RECTANGLE_ARB, tfxturf doordinbtfs
+ * must bf spfdififd in tif rbngf [0,widti] bnd [0,ifigit] rbtifr tibn
+ * [0,1] bs is tif dbsf witi tif usubl GL_TEXTURE_2D tbrgft (so tbkf dbrf)!
  *
- * Otherwise, the actual texture must have power-of-two dimensions, and
- * therefore the textureWidth and textureHeight will be the next
- * power-of-two greater than (or equal to) the requested width and height.
+ * Otifrwisf, tif bdtubl tfxturf must ibvf powfr-of-two dimfnsions, bnd
+ * tifrfforf tif tfxturfWidti bnd tfxturfHfigit will bf tif nfxt
+ * powfr-of-two grfbtfr tibn (or fqubl to) tif rfqufstfd widti bnd ifigit.
  */
-static jboolean
-OGLSD_InitTextureObject(OGLSDOps *oglsdo,
-                        jboolean isOpaque,
-                        jboolean texNonPow2, jboolean texRect,
-                        jint width, jint height)
+stbtid jboolfbn
+OGLSD_InitTfxturfObjfdt(OGLSDOps *oglsdo,
+                        jboolfbn isOpbquf,
+                        jboolfbn tfxNonPow2, jboolfbn tfxRfdt,
+                        jint widti, jint ifigit)
 {
-    GLenum texTarget, texProxyTarget;
-    GLint format = GL_RGBA;
-    GLint size = GL_UNSIGNED_INT_8_8_8_8;
-    GLuint texID;
-    GLsizei texWidth, texHeight, realWidth, realHeight;
-    GLint texMax;
+    GLfnum tfxTbrgft, tfxProxyTbrgft;
+    GLint formbt = GL_RGBA;
+    GLint sizf = GL_UNSIGNED_INT_8_8_8_8;
+    GLuint tfxID;
+    GLsizfi tfxWidti, tfxHfigit, rfblWidti, rfblHfigit;
+    GLint tfxMbx;
 
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "OGLSD_InitTextureObject: w=%d h=%d opq=%d nonpow2=%d",
-                width, height, isOpaque, texNonPow2);
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "OGLSD_InitTfxturfObjfdt: w=%d i=%d opq=%d nonpow2=%d",
+                widti, ifigit, isOpbquf, tfxNonPow2);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitTextureObject: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitTfxturfObjfdt: ops brf null");
+        rfturn JNI_FALSE;
     }
 
-    if (texNonPow2) {
-        // use non-pow2 dimensions with GL_TEXTURE_2D target
-        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMax);
-        texWidth = (width <= texMax) ? width : 0;
-        texHeight = (height <= texMax) ? height : 0;
-        texTarget = GL_TEXTURE_2D;
-        texProxyTarget = GL_PROXY_TEXTURE_2D;
-    } else if (texRect) {
-        // use non-pow2 dimensions with GL_TEXTURE_RECTANGLE_ARB target
-        j2d_glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB, &texMax);
-        texWidth = (width <= texMax) ? width : 0;
-        texHeight = (height <= texMax) ? height : 0;
-        texTarget = GL_TEXTURE_RECTANGLE_ARB;
-        texProxyTarget = GL_PROXY_TEXTURE_RECTANGLE_ARB;
-    } else {
-        // find the appropriate power-of-two dimensions
-        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texMax);
-        texWidth = OGLSD_NextPowerOfTwo(width, texMax);
-        texHeight = OGLSD_NextPowerOfTwo(height, texMax);
-        texTarget = GL_TEXTURE_2D;
-        texProxyTarget = GL_PROXY_TEXTURE_2D;
+    if (tfxNonPow2) {
+        // usf non-pow2 dimfnsions witi GL_TEXTURE_2D tbrgft
+        j2d_glGftIntfgfrv(GL_MAX_TEXTURE_SIZE, &tfxMbx);
+        tfxWidti = (widti <= tfxMbx) ? widti : 0;
+        tfxHfigit = (ifigit <= tfxMbx) ? ifigit : 0;
+        tfxTbrgft = GL_TEXTURE_2D;
+        tfxProxyTbrgft = GL_PROXY_TEXTURE_2D;
+    } flsf if (tfxRfdt) {
+        // usf non-pow2 dimfnsions witi GL_TEXTURE_RECTANGLE_ARB tbrgft
+        j2d_glGftIntfgfrv(GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB, &tfxMbx);
+        tfxWidti = (widti <= tfxMbx) ? widti : 0;
+        tfxHfigit = (ifigit <= tfxMbx) ? ifigit : 0;
+        tfxTbrgft = GL_TEXTURE_RECTANGLE_ARB;
+        tfxProxyTbrgft = GL_PROXY_TEXTURE_RECTANGLE_ARB;
+    } flsf {
+        // find tif bppropribtf powfr-of-two dimfnsions
+        j2d_glGftIntfgfrv(GL_MAX_TEXTURE_SIZE, &tfxMbx);
+        tfxWidti = OGLSD_NfxtPowfrOfTwo(widti, tfxMbx);
+        tfxHfigit = OGLSD_NfxtPowfrOfTwo(ifigit, tfxMbx);
+        tfxTbrgft = GL_TEXTURE_2D;
+        tfxProxyTbrgft = GL_PROXY_TEXTURE_2D;
     }
 
-    J2dTraceLn3(J2D_TRACE_VERBOSE,
-                "  desired texture dimensions: w=%d h=%d max=%d",
-                texWidth, texHeight, texMax);
+    J2dTrbdfLn3(J2D_TRACE_VERBOSE,
+                "  dfsirfd tfxturf dimfnsions: w=%d i=%d mbx=%d",
+                tfxWidti, tfxHfigit, tfxMbx);
 
-    // if either dimension is 0, we cannot allocate a texture with the
-    // requested dimensions
-    if ((texWidth == 0) || (texHeight == 0)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSD_InitTextureObject: texture dimensions too large");
-        return JNI_FALSE;
+    // if fitifr dimfnsion is 0, wf dbnnot bllodbtf b tfxturf witi tif
+    // rfqufstfd dimfnsions
+    if ((tfxWidti == 0) || (tfxHfigit == 0)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSD_InitTfxturfObjfdt: tfxturf dimfnsions too lbrgf");
+        rfturn JNI_FALSE;
     }
 
-    // now use a proxy to determine whether we can create a texture with
-    // the calculated power-of-two dimensions and the given internal format
-    j2d_glTexImage2D(texProxyTarget, 0, format,
-                     texWidth, texHeight, 0,
-                     format, size, NULL);
-    j2d_glGetTexLevelParameteriv(texProxyTarget, 0,
-                                 GL_TEXTURE_WIDTH, &realWidth);
-    j2d_glGetTexLevelParameteriv(texProxyTarget, 0,
-                                 GL_TEXTURE_HEIGHT, &realHeight);
+    // now usf b proxy to dftfrminf wiftifr wf dbn drfbtf b tfxturf witi
+    // tif dbldulbtfd powfr-of-two dimfnsions bnd tif givfn intfrnbl formbt
+    j2d_glTfxImbgf2D(tfxProxyTbrgft, 0, formbt,
+                     tfxWidti, tfxHfigit, 0,
+                     formbt, sizf, NULL);
+    j2d_glGftTfxLfvflPbrbmftfriv(tfxProxyTbrgft, 0,
+                                 GL_TEXTURE_WIDTH, &rfblWidti);
+    j2d_glGftTfxLfvflPbrbmftfriv(tfxProxyTbrgft, 0,
+                                 GL_TEXTURE_HEIGHT, &rfblHfigit);
 
-    // if the requested dimensions and proxy dimensions don't match,
-    // we shouldn't attempt to create the texture
-    if ((realWidth != texWidth) || (realHeight != texHeight)) {
-        J2dRlsTraceLn2(J2D_TRACE_ERROR,
-            "OGLSD_InitTextureObject: actual (w=%d h=%d) != requested",
-                       realWidth, realHeight);
-        return JNI_FALSE;
+    // if tif rfqufstfd dimfnsions bnd proxy dimfnsions don't mbtdi,
+    // wf siouldn't bttfmpt to drfbtf tif tfxturf
+    if ((rfblWidti != tfxWidti) || (rfblHfigit != tfxHfigit)) {
+        J2dRlsTrbdfLn2(J2D_TRACE_ERROR,
+            "OGLSD_InitTfxturfObjfdt: bdtubl (w=%d i=%d) != rfqufstfd",
+                       rfblWidti, rfblHfigit);
+        rfturn JNI_FALSE;
     }
 
-    // initialize the texture with some dummy data (this allows us to create
-    // a texture object once with 2^n dimensions, and then use
-    // glTexSubImage2D() to provide further updates)
-    j2d_glGenTextures(1, &texID);
-    j2d_glBindTexture(texTarget, texID);
-    j2d_glTexImage2D(texTarget, 0, format,
-                     texWidth, texHeight, 0,
-                     format, size, NULL);
+    // initiblizf tif tfxturf witi somf dummy dbtb (tiis bllows us to drfbtf
+    // b tfxturf objfdt ondf witi 2^n dimfnsions, bnd tifn usf
+    // glTfxSubImbgf2D() to providf furtifr updbtfs)
+    j2d_glGfnTfxturfs(1, &tfxID);
+    j2d_glBindTfxturf(tfxTbrgft, tfxID);
+    j2d_glTfxImbgf2D(tfxTbrgft, 0, formbt,
+                     tfxWidti, tfxHfigit, 0,
+                     formbt, sizf, NULL);
 
-    oglsdo->isOpaque = isOpaque;
-    oglsdo->xOffset = 0;
-    oglsdo->yOffset = 0;
-    oglsdo->width = width;
-    oglsdo->height = height;
-    oglsdo->textureID = texID;
-    oglsdo->textureWidth = texWidth;
-    oglsdo->textureHeight = texHeight;
-    oglsdo->textureTarget = texTarget;
+    oglsdo->isOpbquf = isOpbquf;
+    oglsdo->xOffsft = 0;
+    oglsdo->yOffsft = 0;
+    oglsdo->widti = widti;
+    oglsdo->ifigit = ifigit;
+    oglsdo->tfxturfID = tfxID;
+    oglsdo->tfxturfWidti = tfxWidti;
+    oglsdo->tfxturfHfigit = tfxHfigit;
+    oglsdo->tfxturfTbrgft = tfxTbrgft;
     OGLSD_INIT_TEXTURE_FILTER(oglsdo, GL_NEAREST);
-    OGLSD_RESET_TEXTURE_WRAP(texTarget);
+    OGLSD_RESET_TEXTURE_WRAP(tfxTbrgft);
 
-    J2dTraceLn3(J2D_TRACE_VERBOSE, "  created texture: w=%d h=%d id=%d",
-                width, height, texID);
+    J2dTrbdfLn3(J2D_TRACE_VERBOSE, "  drfbtfd tfxturf: w=%d i=%d id=%d",
+                widti, ifigit, tfxID);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Initializes an OpenGL texture, using the given width and height as
- * a guide.  See OGLSD_InitTextureObject() for more information.
+ * Initiblizfs bn OpfnGL tfxturf, using tif givfn widti bnd ifigit bs
+ * b guidf.  Sff OGLSD_InitTfxturfObjfdt() for morf informbtion.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initTexture
-    (JNIEnv *env, jobject oglsd,
-     jlong pData, jboolean isOpaque,
-     jboolean texNonPow2, jboolean texRect,
-     jint width, jint height)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_OGLSurfbdfDbtb_initTfxturf
+    (JNIEnv *fnv, jobjfdt oglsd,
+     jlong pDbtb, jboolfbn isOpbquf,
+     jboolfbn tfxNonPow2, jboolfbn tfxRfdt,
+     jint widti, jint ifigit)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn2(J2D_TRACE_INFO, "OGLSurfaceData_initTexture: w=%d h=%d",
-                width, height);
+    J2dTrbdfLn2(J2D_TRACE_INFO, "OGLSurfbdfDbtb_initTfxturf: w=%d i=%d",
+                widti, ifigit);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initTexture: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initTfxturf: ops brf null");
+        rfturn JNI_FALSE;
     }
 
     /*
-     * We only use the GL_ARB_texture_rectangle extension if it is available
-     * and the requested bounds are not pow2 (it is probably faster to use
-     * GL_TEXTURE_2D for pow2 textures, and besides, our TexturePaint
-     * code relies on GL_REPEAT, which is not allowed for
-     * GL_TEXTURE_RECTANGLE_ARB targets).
+     * Wf only usf tif GL_ARB_tfxturf_rfdtbnglf fxtfnsion if it is bvbilbblf
+     * bnd tif rfqufstfd bounds brf not pow2 (it is probbbly fbstfr to usf
+     * GL_TEXTURE_2D for pow2 tfxturfs, bnd bfsidfs, our TfxturfPbint
+     * dodf rflifs on GL_REPEAT, wiidi is not bllowfd for
+     * GL_TEXTURE_RECTANGLE_ARB tbrgfts).
      */
-    texRect = texRect && !OGLSD_IsPowerOfTwo(width, height);
+    tfxRfdt = tfxRfdt && !OGLSD_IsPowfrOfTwo(widti, ifigit);
 
-    if (!OGLSD_InitTextureObject(oglsdo, isOpaque, texNonPow2, texRect,
-                                 width, height))
+    if (!OGLSD_InitTfxturfObjfdt(oglsdo, isOpbquf, tfxNonPow2, tfxRfdt,
+                                 widti, ifigit))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initTexture: could not init texture object");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initTfxturf: dould not init tfxturf objfdt");
+        rfturn JNI_FALSE;
     }
 
-    OGLSD_SetNativeDimensions(env, oglsdo,
-                              oglsdo->textureWidth, oglsdo->textureHeight);
+    OGLSD_SftNbtivfDimfnsions(fnv, oglsdo,
+                              oglsdo->tfxturfWidti, oglsdo->tfxturfHfigit);
 
-    oglsdo->drawableType = OGLSD_TEXTURE;
-    // other fields (e.g. width, height) are set in OGLSD_InitTextureObject()
+    oglsdo->drbwbblfTypf = OGLSD_TEXTURE;
+    // otifr fiflds (f.g. widti, ifigit) brf sft in OGLSD_InitTfxturfObjfdt()
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Initializes a framebuffer object based on the given textureID and its
- * width/height.  This method will iterate through all possible depth formats
- * to find one that is supported by the drivers/hardware.  (Since our use of
- * the depth buffer is fairly simplistic, we hope to find a depth format that
- * uses as little VRAM as possible.)  If an appropriate depth buffer is found
- * and all attachments are successful (i.e. the framebuffer object is
- * "complete"), then this method will return JNI_TRUE and will initialize
- * the values of fbobjectID and depthID using the IDs created by this method.
- * Otherwise, this method returns JNI_FALSE.  Note that the caller is only
- * responsible for deleting the allocated fbobject and depth renderbuffer
- * resources if this method returned JNI_TRUE.
+ * Initiblizfs b frbmfbufffr objfdt bbsfd on tif givfn tfxturfID bnd its
+ * widti/ifigit.  Tiis mftiod will itfrbtf tirougi bll possiblf dfpti formbts
+ * to find onf tibt is supportfd by tif drivfrs/ibrdwbrf.  (Sindf our usf of
+ * tif dfpti bufffr is fbirly simplistid, wf iopf to find b dfpti formbt tibt
+ * usfs bs littlf VRAM bs possiblf.)  If bn bppropribtf dfpti bufffr is found
+ * bnd bll bttbdimfnts brf suddfssful (i.f. tif frbmfbufffr objfdt is
+ * "domplftf"), tifn tiis mftiod will rfturn JNI_TRUE bnd will initiblizf
+ * tif vblufs of fbobjfdtID bnd dfptiID using tif IDs drfbtfd by tiis mftiod.
+ * Otifrwisf, tiis mftiod rfturns JNI_FALSE.  Notf tibt tif dbllfr is only
+ * rfsponsiblf for dflfting tif bllodbtfd fbobjfdt bnd dfpti rfndfrbufffr
+ * rfsourdfs if tiis mftiod rfturnfd JNI_TRUE.
  */
-jboolean
-OGLSD_InitFBObject(GLuint *fbobjectID, GLuint *depthID,
-                   GLuint textureID, GLenum textureTarget,
-                   jint textureWidth, jint textureHeight)
+jboolfbn
+OGLSD_InitFBObjfdt(GLuint *fbobjfdtID, GLuint *dfptiID,
+                   GLuint tfxturfID, GLfnum tfxturfTbrgft,
+                   jint tfxturfWidti, jint tfxturfHfigit)
 {
-    GLenum depthFormats[] = {
+    GLfnum dfptiFormbts[] = {
         GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT24, GL_DEPTH_COMPONENT32
     };
-    GLuint fboTmpID, depthTmpID;
-    jboolean foundDepth = JNI_FALSE;
+    GLuint fboTmpID, dfptiTmpID;
+    jboolfbn foundDfpti = JNI_FALSE;
     int i;
 
-    J2dTraceLn3(J2D_TRACE_INFO, "OGLSD_InitFBObject: w=%d h=%d texid=%d",
-                textureWidth, textureHeight, textureID);
+    J2dTrbdfLn3(J2D_TRACE_INFO, "OGLSD_InitFBObjfdt: w=%d i=%d tfxid=%d",
+                tfxturfWidti, tfxturfHfigit, tfxturfID);
 
-    // initialize framebuffer object
-    j2d_glGenFramebuffersEXT(1, &fboTmpID);
-    j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fboTmpID);
+    // initiblizf frbmfbufffr objfdt
+    j2d_glGfnFrbmfbufffrsEXT(1, &fboTmpID);
+    j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, fboTmpID);
 
-    // attach color texture to framebuffer object
-    j2d_glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
+    // bttbdi dolor tfxturf to frbmfbufffr objfdt
+    j2d_glFrbmfbufffrTfxturf2DEXT(GL_FRAMEBUFFER_EXT,
                                   GL_COLOR_ATTACHMENT0_EXT,
-                                  textureTarget, textureID, 0);
+                                  tfxturfTbrgft, tfxturfID, 0);
 
-    // attempt to create a depth renderbuffer of a particular format; we
-    // will start with the smallest size and then work our way up
+    // bttfmpt to drfbtf b dfpti rfndfrbufffr of b pbrtidulbr formbt; wf
+    // will stbrt witi tif smbllfst sizf bnd tifn work our wby up
     for (i = 0; i < 3; i++) {
-        GLenum error, status;
-        GLenum depthFormat = depthFormats[i];
-        int depthSize = 16 + (i * 8);
+        GLfnum frror, stbtus;
+        GLfnum dfptiFormbt = dfptiFormbts[i];
+        int dfptiSizf = 16 + (i * 8);
 
-        // initialize depth renderbuffer
-        j2d_glGenRenderbuffersEXT(1, &depthTmpID);
-        j2d_glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthTmpID);
-        j2d_glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthFormat,
-                                     textureWidth, textureHeight);
+        // initiblizf dfpti rfndfrbufffr
+        j2d_glGfnRfndfrbufffrsEXT(1, &dfptiTmpID);
+        j2d_glBindRfndfrbufffrEXT(GL_RENDERBUFFER_EXT, dfptiTmpID);
+        j2d_glRfndfrbufffrStorbgfEXT(GL_RENDERBUFFER_EXT, dfptiFormbt,
+                                     tfxturfWidti, tfxturfHfigit);
 
-        // creation of depth buffer could potentially fail, so check for error
-        error = j2d_glGetError();
-        if (error != GL_NO_ERROR) {
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
-                "OGLSD_InitFBObject: could not create depth buffer: depth=%d error=%x",
-                           depthSize, error);
-            j2d_glDeleteRenderbuffersEXT(1, &depthTmpID);
-            continue;
+        // drfbtion of dfpti bufffr dould potfntiblly fbil, so difdk for frror
+        frror = j2d_glGftError();
+        if (frror != GL_NO_ERROR) {
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                "OGLSD_InitFBObjfdt: dould not drfbtf dfpti bufffr: dfpti=%d frror=%x",
+                           dfptiSizf, frror);
+            j2d_glDflftfRfndfrbufffrsEXT(1, &dfptiTmpID);
+            dontinuf;
         }
 
-        // attach depth renderbuffer to framebuffer object
-        j2d_glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,
+        // bttbdi dfpti rfndfrbufffr to frbmfbufffr objfdt
+        j2d_glFrbmfbufffrRfndfrbufffrEXT(GL_FRAMEBUFFER_EXT,
                                          GL_DEPTH_ATTACHMENT_EXT,
-                                         GL_RENDERBUFFER_EXT, depthTmpID);
+                                         GL_RENDERBUFFER_EXT, dfptiTmpID);
 
-        // now check for framebuffer "completeness"
-        status = j2d_glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        // now difdk for frbmfbufffr "domplftfnfss"
+        stbtus = j2d_glCifdkFrbmfbufffrStbtusEXT(GL_FRAMEBUFFER_EXT);
 
-        if (status == GL_FRAMEBUFFER_COMPLETE_EXT) {
-            // we found a valid format, so break out of the loop
-            J2dTraceLn1(J2D_TRACE_VERBOSE,
-                        "  framebuffer is complete: depth=%d", depthSize);
-            foundDepth = JNI_TRUE;
-            break;
-        } else {
-            // this depth format didn't work, so delete and try another format
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
-                        "  framebuffer is incomplete: depth=%d status=%x",
-                        depthSize, status);
-            j2d_glDeleteRenderbuffersEXT(1, &depthTmpID);
+        if (stbtus == GL_FRAMEBUFFER_COMPLETE_EXT) {
+            // wf found b vblid formbt, so brfbk out of tif loop
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                        "  frbmfbufffr is domplftf: dfpti=%d", dfptiSizf);
+            foundDfpti = JNI_TRUE;
+            brfbk;
+        } flsf {
+            // tiis dfpti formbt didn't work, so dflftf bnd try bnotifr formbt
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                        "  frbmfbufffr is indomplftf: dfpti=%d stbtus=%x",
+                        dfptiSizf, stbtus);
+            j2d_glDflftfRfndfrbufffrsEXT(1, &dfptiTmpID);
         }
     }
 
-    // unbind the texture and framebuffer objects (they will be bound again
-    // later as needed)
-    j2d_glBindTexture(textureTarget, 0);
-    j2d_glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-    j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    // unbind tif tfxturf bnd frbmfbufffr objfdts (tify will bf bound bgbin
+    // lbtfr bs nffdfd)
+    j2d_glBindTfxturf(tfxturfTbrgft, 0);
+    j2d_glBindRfndfrbufffrEXT(GL_RENDERBUFFER_EXT, 0);
+    j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, 0);
 
-    if (!foundDepth) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSD_InitFBObject: could not find valid depth format");
-        j2d_glDeleteFramebuffersEXT(1, &fboTmpID);
-        return JNI_FALSE;
+    if (!foundDfpti) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSD_InitFBObjfdt: dould not find vblid dfpti formbt");
+        j2d_glDflftfFrbmfbufffrsEXT(1, &fboTmpID);
+        rfturn JNI_FALSE;
     }
 
-    *fbobjectID = fboTmpID;
-    *depthID = depthTmpID;
+    *fbobjfdtID = fboTmpID;
+    *dfptiID = dfptiTmpID;
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Initializes a framebuffer object, using the given width and height as
- * a guide.  See OGLSD_InitTextureObject() and OGLSD_InitFBObject()
- * for more information.
+ * Initiblizfs b frbmfbufffr objfdt, using tif givfn widti bnd ifigit bs
+ * b guidf.  Sff OGLSD_InitTfxturfObjfdt() bnd OGLSD_InitFBObjfdt()
+ * for morf informbtion.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initFBObject
-    (JNIEnv *env, jobject oglsd,
-     jlong pData, jboolean isOpaque,
-     jboolean texNonPow2, jboolean texRect,
-     jint width, jint height)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_OGLSurfbdfDbtb_initFBObjfdt
+    (JNIEnv *fnv, jobjfdt oglsd,
+     jlong pDbtb, jboolfbn isOpbquf,
+     jboolfbn tfxNonPow2, jboolfbn tfxRfdt,
+     jint widti, jint ifigit)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    GLuint fbobjectID, depthID;
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    GLuint fbobjfdtID, dfptiID;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "OGLSurfaceData_initFBObject: w=%d h=%d",
-                width, height);
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "OGLSurfbdfDbtb_initFBObjfdt: w=%d i=%d",
+                widti, ifigit);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initFBObjfdt: ops brf null");
+        rfturn JNI_FALSE;
     }
 
-    // initialize color texture object
-    if (!OGLSD_InitTextureObject(oglsdo, isOpaque, texNonPow2, texRect,
-                                 width, height))
+    // initiblizf dolor tfxturf objfdt
+    if (!OGLSD_InitTfxturfObjfdt(oglsdo, isOpbquf, tfxNonPow2, tfxRfdt,
+                                 widti, ifigit))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: could not init texture object");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initFBObjfdt: dould not init tfxturf objfdt");
+        rfturn JNI_FALSE;
     }
 
-    // initialize framebuffer object using color texture created above
-    if (!OGLSD_InitFBObject(&fbobjectID, &depthID,
-                            oglsdo->textureID, oglsdo->textureTarget,
-                            oglsdo->textureWidth, oglsdo->textureHeight))
+    // initiblizf frbmfbufffr objfdt using dolor tfxturf drfbtfd bbovf
+    if (!OGLSD_InitFBObjfdt(&fbobjfdtID, &dfptiID,
+                            oglsdo->tfxturfID, oglsdo->tfxturfTbrgft,
+                            oglsdo->tfxturfWidti, oglsdo->tfxturfHfigit))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFBObject: could not init fbobject");
-        j2d_glDeleteTextures(1, &oglsdo->textureID);
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initFBObjfdt: dould not init fbobjfdt");
+        j2d_glDflftfTfxturfs(1, &oglsdo->tfxturfID);
+        rfturn JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_FBOBJECT;
-    // other fields (e.g. width, height) are set in OGLSD_InitTextureObject()
-    oglsdo->fbobjectID = fbobjectID;
-    oglsdo->depthID = depthID;
+    oglsdo->drbwbblfTypf = OGLSD_FBOBJECT;
+    // otifr fiflds (f.g. widti, ifigit) brf sft in OGLSD_InitTfxturfObjfdt()
+    oglsdo->fbobjfdtID = fbobjfdtID;
+    oglsdo->dfptiID = dfptiID;
 
-    OGLSD_SetNativeDimensions(env, oglsdo,
-                              oglsdo->textureWidth, oglsdo->textureHeight);
+    OGLSD_SftNbtivfDimfnsions(fnv, oglsdo,
+                              oglsdo->tfxturfWidti, oglsdo->tfxturfHfigit);
 
-    // framebuffer objects differ from other OpenGL surfaces in that the
-    // value passed to glRead/DrawBuffer() must be GL_COLOR_ATTACHMENTn_EXT,
-    // rather than GL_FRONT (or GL_BACK)
-    oglsdo->activeBuffer = GL_COLOR_ATTACHMENT0_EXT;
+    // frbmfbufffr objfdts difffr from otifr OpfnGL surfbdfs in tibt tif
+    // vbluf pbssfd to glRfbd/DrbwBufffr() must bf GL_COLOR_ATTACHMENTn_EXT,
+    // rbtifr tibn GL_FRONT (or GL_BACK)
+    oglsdo->bdtivfBufffr = GL_COLOR_ATTACHMENT0_EXT;
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Initializes a surface in the backbuffer of a given double-buffered
- * onscreen window for use in a BufferStrategy.Flip situation.  The bounds of
- * the backbuffer surface should always be kept in sync with the bounds of
- * the underlying native window.
+ * Initiblizfs b surfbdf in tif bbdkbufffr of b givfn doublf-bufffrfd
+ * onsdrffn window for usf in b BufffrStrbtfgy.Flip situbtion.  Tif bounds of
+ * tif bbdkbufffr surfbdf siould blwbys bf kfpt in synd witi tif bounds of
+ * tif undfrlying nbtivf window.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_initFlipBackbuffer
-    (JNIEnv *env, jobject oglsd,
-     jlong pData)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_OGLSurfbdfDbtb_initFlipBbdkbufffr
+    (JNIEnv *fnv, jobjfdt oglsd,
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_initFlipBackbuffer");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSurfbdfDbtb_initFlipBbdkbufffr");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFlipBackbuffer: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initFlipBbdkbufffr: ops brf null");
+        rfturn JNI_FALSE;
     }
 
-    if (oglsdo->drawableType == OGLSD_UNDEFINED) {
-        if (!OGLSD_InitOGLWindow(env, oglsdo)) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "OGLSurfaceData_initFlipBackbuffer: could not init window");
-            return JNI_FALSE;
+    if (oglsdo->drbwbblfTypf == OGLSD_UNDEFINED) {
+        if (!OGLSD_InitOGLWindow(fnv, oglsdo)) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "OGLSurfbdfDbtb_initFlipBbdkbufffr: dould not init window");
+            rfturn JNI_FALSE;
         }
     }
 
-    if (oglsdo->drawableType != OGLSD_WINDOW) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_initFlipBackbuffer: drawable is not a window");
-        return JNI_FALSE;
+    if (oglsdo->drbwbblfTypf != OGLSD_WINDOW) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_initFlipBbdkbufffr: drbwbblf is not b window");
+        rfturn JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_FLIP_BACKBUFFER;
-    // x/yOffset have already been set in OGLSD_InitOGLWindow()...
-    // REMIND: for some reason, flipping won't work properly on IFB unless we
-    //         explicitly use BACK_LEFT rather than BACK...
-    oglsdo->activeBuffer = GL_BACK_LEFT;
+    oglsdo->drbwbblfTypf = OGLSD_FLIP_BACKBUFFER;
+    // x/yOffsft ibvf blrfbdy bffn sft in OGLSD_InitOGLWindow()...
+    // REMIND: for somf rfbson, flipping won't work propfrly on IFB unlfss wf
+    //         fxpliditly usf BACK_LEFT rbtifr tibn BACK...
+    oglsdo->bdtivfBufffr = GL_BACK_LEFT;
 
-    OGLSD_SetNativeDimensions(env, oglsdo, oglsdo->width, oglsdo->height);
+    OGLSD_SftNbtivfDimfnsions(fnv, oglsdo, oglsdo->widti, oglsdo->ifigit);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_getTextureTarget
-    (JNIEnv *env, jobject oglsd,
-     jlong pData)
+Jbvb_sun_jbvb2d_opfngl_OGLSurfbdfDbtb_gftTfxturfTbrgft
+    (JNIEnv *fnv, jobjfdt oglsd,
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_getTextureTarget");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSurfbdfDbtb_gftTfxturfTbrgft");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_getTextureTarget: ops are null");
-        return 0;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_gftTfxturfTbrgft: ops brf null");
+        rfturn 0;
     }
 
-    return (jint)oglsdo->textureTarget;
+    rfturn (jint)oglsdo->tfxturfTbrgft;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_OGLSurfaceData_getTextureID
-    (JNIEnv *env, jobject oglsd,
-     jlong pData)
+Jbvb_sun_jbvb2d_opfngl_OGLSurfbdfDbtb_gftTfxturfID
+    (JNIEnv *fnv, jobjfdt oglsd,
+     jlong pDbtb)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSurfaceData_getTextureID");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSurfbdfDbtb_gftTfxturfID");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLSurfaceData_getTextureID: ops are null");
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLSurfbdfDbtb_gftTfxturfID: ops brf null");
+        rfturn 0L;
     }
 
-    return (jint)oglsdo->textureID;
+    rfturn (jint)oglsdo->tfxturfID;
 }
 
 /**
- * Initializes nativeWidth/Height fields of the surfaceData object with
- * passed arguments.
+ * Initiblizfs nbtivfWidti/Hfigit fiflds of tif surfbdfDbtb objfdt witi
+ * pbssfd brgumfnts.
  */
 void
-OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo,
-                          jint width, jint height)
+OGLSD_SftNbtivfDimfnsions(JNIEnv *fnv, OGLSDOps *oglsdo,
+                          jint widti, jint ifigit)
 {
-    jobject sdObject;
+    jobjfdt sdObjfdt;
 
-    sdObject = (*env)->NewLocalRef(env, oglsdo->sdOps.sdObject);
-    if (sdObject == NULL) {
-        return;
+    sdObjfdt = (*fnv)->NfwLodblRff(fnv, oglsdo->sdOps.sdObjfdt);
+    if (sdObjfdt == NULL) {
+        rfturn;
     }
 
-    JNU_SetFieldByName(env, NULL, sdObject, "nativeWidth", "I", width);
-    if (!((*env)->ExceptionOccurred(env))) {
-        JNU_SetFieldByName(env, NULL, sdObject, "nativeHeight", "I", height);
+    JNU_SftFifldByNbmf(fnv, NULL, sdObjfdt, "nbtivfWidti", "I", widti);
+    if (!((*fnv)->ExdfptionOddurrfd(fnv))) {
+        JNU_SftFifldByNbmf(fnv, NULL, sdObjfdt, "nbtivfHfigit", "I", ifigit);
     }
 
-    (*env)->DeleteLocalRef(env, sdObject);
+    (*fnv)->DflftfLodblRff(fnv, sdObjfdt);
 }
 
 /**
- * Deletes native OpenGL resources associated with this surface.
+ * Dflftfs nbtivf OpfnGL rfsourdfs bssodibtfd witi tiis surfbdf.
  */
 void
-OGLSD_Delete(JNIEnv *env, OGLSDOps *oglsdo)
+OGLSD_Dflftf(JNIEnv *fnv, OGLSDOps *oglsdo)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "OGLSD_Delete: type=%d",
-                oglsdo->drawableType);
+    J2dTrbdfLn1(J2D_TRACE_INFO, "OGLSD_Dflftf: typf=%d",
+                oglsdo->drbwbblfTypf);
 
-    if (oglsdo->drawableType == OGLSD_TEXTURE) {
-        if (oglsdo->textureID != 0) {
-            j2d_glDeleteTextures(1, &oglsdo->textureID);
-            oglsdo->textureID = 0;
+    if (oglsdo->drbwbblfTypf == OGLSD_TEXTURE) {
+        if (oglsdo->tfxturfID != 0) {
+            j2d_glDflftfTfxturfs(1, &oglsdo->tfxturfID);
+            oglsdo->tfxturfID = 0;
         }
-    } else if (oglsdo->drawableType == OGLSD_FBOBJECT) {
-        if (oglsdo->textureID != 0) {
-            j2d_glDeleteTextures(1, &oglsdo->textureID);
-            oglsdo->textureID = 0;
+    } flsf if (oglsdo->drbwbblfTypf == OGLSD_FBOBJECT) {
+        if (oglsdo->tfxturfID != 0) {
+            j2d_glDflftfTfxturfs(1, &oglsdo->tfxturfID);
+            oglsdo->tfxturfID = 0;
         }
-        if (oglsdo->depthID != 0) {
-            j2d_glDeleteRenderbuffersEXT(1, &oglsdo->depthID);
-            oglsdo->depthID = 0;
+        if (oglsdo->dfptiID != 0) {
+            j2d_glDflftfRfndfrbufffrsEXT(1, &oglsdo->dfptiID);
+            oglsdo->dfptiID = 0;
         }
-        if (oglsdo->fbobjectID != 0) {
-            j2d_glDeleteFramebuffersEXT(1, &oglsdo->fbobjectID);
-            oglsdo->fbobjectID = 0;
+        if (oglsdo->fbobjfdtID != 0) {
+            j2d_glDflftfFrbmfbufffrsEXT(1, &oglsdo->fbobjfdtID);
+            oglsdo->fbobjfdtID = 0;
         }
-    } else {
-        // dispose windowing system resources (pbuffer, pixmap, etc)
-        OGLSD_DestroyOGLSurface(env, oglsdo);
+    } flsf {
+        // disposf windowing systfm rfsourdfs (pbufffr, pixmbp, ftd)
+        OGLSD_DfstroyOGLSurfbdf(fnv, oglsdo);
     }
 }
 
 /**
- * This is the implementation of the general DisposeFunc defined in
- * SurfaceData.h and used by the Disposer mechanism.  It first flushes all
- * native OpenGL resources and then frees any memory allocated within the
- * native OGLSDOps structure.
+ * Tiis is tif implfmfntbtion of tif gfnfrbl DisposfFund dffinfd in
+ * SurfbdfDbtb.i bnd usfd by tif Disposfr mfdibnism.  It first flusifs bll
+ * nbtivf OpfnGL rfsourdfs bnd tifn frffs bny mfmory bllodbtfd witiin tif
+ * nbtivf OGLSDOps strudturf.
  */
 void
-OGLSD_Dispose(JNIEnv *env, SurfaceDataOps *ops)
+OGLSD_Disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops)
 {
     OGLSDOps *oglsdo = (OGLSDOps *)ops;
-    jlong pConfigInfo = OGLSD_GetNativeConfigInfo(oglsdo);
+    jlong pConfigInfo = OGLSD_GftNbtivfConfigInfo(oglsdo);
 
-    JNU_CallStaticMethodByName(env, NULL, "sun/java2d/opengl/OGLSurfaceData",
-                               "dispose", "(JJ)V",
+    JNU_CbllStbtidMftiodByNbmf(fnv, NULL, "sun/jbvb2d/opfngl/OGLSurfbdfDbtb",
+                               "disposf", "(JJ)V",
                                ptr_to_jlong(ops), pConfigInfo);
 }
 
 /**
- * This is the implementation of the general surface LockFunc defined in
- * SurfaceData.h.
+ * Tiis is tif implfmfntbtion of tif gfnfrbl surfbdf LodkFund dffinfd in
+ * SurfbdfDbtb.i.
  */
 jint
-OGLSD_Lock(JNIEnv *env,
-           SurfaceDataOps *ops,
-           SurfaceDataRasInfo *pRasInfo,
-           jint lockflags)
+OGLSD_Lodk(JNIEnv *fnv,
+           SurfbdfDbtbOps *ops,
+           SurfbdfDbtbRbsInfo *pRbsInfo,
+           jint lodkflbgs)
 {
-    JNU_ThrowInternalError(env, "OGLSD_Lock not implemented!");
-    return SD_FAILURE;
+    JNU_TirowIntfrnblError(fnv, "OGLSD_Lodk not implfmfntfd!");
+    rfturn SD_FAILURE;
 }
 
 /**
- * This is the implementation of the general GetRasInfoFunc defined in
- * SurfaceData.h.
+ * Tiis is tif implfmfntbtion of tif gfnfrbl GftRbsInfoFund dffinfd in
+ * SurfbdfDbtb.i.
  */
 void
-OGLSD_GetRasInfo(JNIEnv *env,
-                 SurfaceDataOps *ops,
-                 SurfaceDataRasInfo *pRasInfo)
+OGLSD_GftRbsInfo(JNIEnv *fnv,
+                 SurfbdfDbtbOps *ops,
+                 SurfbdfDbtbRbsInfo *pRbsInfo)
 {
-    JNU_ThrowInternalError(env, "OGLSD_GetRasInfo not implemented!");
+    JNU_TirowIntfrnblError(fnv, "OGLSD_GftRbsInfo not implfmfntfd!");
 }
 
 /**
- * This is the implementation of the general surface UnlockFunc defined in
- * SurfaceData.h.
+ * Tiis is tif implfmfntbtion of tif gfnfrbl surfbdf UnlodkFund dffinfd in
+ * SurfbdfDbtb.i.
  */
 void
-OGLSD_Unlock(JNIEnv *env,
-             SurfaceDataOps *ops,
-             SurfaceDataRasInfo *pRasInfo)
+OGLSD_Unlodk(JNIEnv *fnv,
+             SurfbdfDbtbOps *ops,
+             SurfbdfDbtbRbsInfo *pRbsInfo)
 {
-    JNU_ThrowInternalError(env, "OGLSD_Unlock not implemented!");
+    JNU_TirowIntfrnblError(fnv, "OGLSD_Unlodk not implfmfntfd!");
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */

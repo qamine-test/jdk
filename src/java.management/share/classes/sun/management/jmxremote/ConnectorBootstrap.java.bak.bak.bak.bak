@@ -1,0 +1,816 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.jmxrfmotf;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXAuthfntidbtor;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+import jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr;
+import jbvbx.nft.ssl.KfyMbnbgfrFbdtory;
+import jbvbx.nft.ssl.SSLContfxt;
+import jbvbx.nft.ssl.TrustMbnbgfrFbdtory;
+import jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory;
+import jbvbx.rmi.ssl.SslRMISfrvfrSodkftFbdtory;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+import dom.sun.jmx.rfmotf.intfrnbl.RMIExportfr;
+import dom.sun.jmx.rfmotf.sfdurity.JMXPluggbblfAuthfntidbtor;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+
+import sun.mbnbgfmfnt.Agfnt;
+import sun.mbnbgfmfnt.AgfntConfigurbtionError;
+import stbtid sun.mbnbgfmfnt.AgfntConfigurbtionError.*;
+import sun.mbnbgfmfnt.ConnfdtorAddrfssLink;
+import sun.mbnbgfmfnt.FilfSystfm;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff2;
+
+/**
+ * This dlbss initiblizfs bnd stbrts thf RMIConnfdtorSfrvfr for JSR 163
+ * JMX Monitoring.
+ **/
+publid finbl dlbss ConnfdtorBootstrbp {
+
+    /**
+     * Dffbult vblufs for JMX donfigurbtion propfrtifs.
+     **/
+    publid stbtid intfrfbdf DffbultVblufs {
+
+        publid stbtid finbl String PORT = "0";
+        publid stbtid finbl String CONFIG_FILE_NAME = "mbnbgfmfnt.propfrtifs";
+        publid stbtid finbl String USE_SSL = "truf";
+        publid stbtid finbl String USE_LOCAL_ONLY = "truf";
+        publid stbtid finbl String USE_REGISTRY_SSL = "fblsf";
+        publid stbtid finbl String USE_AUTHENTICATION = "truf";
+        publid stbtid finbl String PASSWORD_FILE_NAME = "jmxrfmotf.pbssword";
+        publid stbtid finbl String ACCESS_FILE_NAME = "jmxrfmotf.bddfss";
+        publid stbtid finbl String SSL_NEED_CLIENT_AUTH = "fblsf";
+    }
+
+    /**
+     * Nbmfs of JMX donfigurbtion propfrtifs.
+     **/
+    publid stbtid intfrfbdf PropfrtyNbmfs {
+
+        publid stbtid finbl String PORT =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.port";
+        publid stbtid finbl String RMI_PORT =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port";
+        publid stbtid finbl String CONFIG_FILE_NAME =
+                "dom.sun.mbnbgfmfnt.donfig.filf";
+        publid stbtid finbl String USE_LOCAL_ONLY =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only";
+        publid stbtid finbl String USE_SSL =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl";
+        publid stbtid finbl String USE_REGISTRY_SSL =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl";
+        publid stbtid finbl String USE_AUTHENTICATION =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf";
+        publid stbtid finbl String PASSWORD_FILE_NAME =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf";
+        publid stbtid finbl String ACCESS_FILE_NAME =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf";
+        publid stbtid finbl String LOGIN_CONFIG_NAME =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig";
+        publid stbtid finbl String SSL_ENABLED_CIPHER_SUITES =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.diphfr.suitfs";
+        publid stbtid finbl String SSL_ENABLED_PROTOCOLS =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols";
+        publid stbtid finbl String SSL_NEED_CLIENT_AUTH =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buth";
+        publid stbtid finbl String SSL_CONFIG_FILE_NAME =
+                "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf";
+    }
+
+    /**
+     * JMXConnfdtorSfrvfr bssodibtfd dbtb.
+     */
+    privbtf stbtid dlbss JMXConnfdtorSfrvfrDbtb {
+
+        publid JMXConnfdtorSfrvfrDbtb(
+                JMXConnfdtorSfrvfr jmxConnfdtorSfrvfr,
+                JMXSfrvidfURL jmxRfmotfURL) {
+            this.jmxConnfdtorSfrvfr = jmxConnfdtorSfrvfr;
+            this.jmxRfmotfURL = jmxRfmotfURL;
+        }
+        JMXConnfdtorSfrvfr jmxConnfdtorSfrvfr;
+        JMXSfrvidfURL jmxRfmotfURL;
+    }
+
+    /**
+     * <p>Prfvfnts our RMI sfrvfr objfdts from kffping thf JVM blivf.</p>
+     *
+     * <p>Wf usf b privbtf intfrfbdf in Sun's JMX Rfmotf API implfmfntbtion
+     * thbt bllows us to spfdify how to fxport RMI objfdts.  Wf do so using
+     * UnidbstSfrvfrRff, b dlbss in Sun's RMI implfmfntbtion.  This is bll
+     * non-portbblf, of doursf, so this is only vblid bfdbusf wf brf insidf
+     * Sun's JRE.</p>
+     *
+     * <p>Objfdts brf fxportfd using {@link
+     * UnidbstSfrvfrRff#fxportObjfdt(Rfmotf, Objfdt, boolfbn)}.  Thf
+     * boolfbn pbrbmftfr is dbllfd <dodf>pfrmbnfnt</dodf> bnd mfbns
+     * both thbt thf objfdt is not fligiblf for Distributfd Gbrbbgf
+     * Collfdtion, bnd thbt its dontinufd fxistfndf will not prfvfnt
+     * thf JVM from fxiting.  It is thf lbttfr sfmbntids wf wbnt (wf
+     * blrfbdy hbvf thf formfr bfdbusf of thf wby thf JMX Rfmotf API
+     * works).  Hfndf thf somfwhbt mislfbding nbmf of this dlbss.</p>
+     */
+    privbtf stbtid dlbss PfrmbnfntExportfr implfmfnts RMIExportfr {
+
+        publid Rfmotf fxportObjfdt(Rfmotf obj,
+                int port,
+                RMIClifntSodkftFbdtory dsf,
+                RMISfrvfrSodkftFbdtory ssf)
+                throws RfmotfExdfption {
+
+            syndhronizfd (this) {
+                if (firstExportfd == null) {
+                    firstExportfd = obj;
+                }
+            }
+
+            finbl UnidbstSfrvfrRff rff;
+            if (dsf == null && ssf == null) {
+                rff = nfw UnidbstSfrvfrRff(port);
+            } flsf {
+                rff = nfw UnidbstSfrvfrRff2(port, dsf, ssf);
+            }
+            rfturn rff.fxportObjfdt(obj, null, truf);
+        }
+
+        // Nothing spfdibl to bf donf for this dbsf
+        publid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+                throws NoSudhObjfdtExdfption {
+            rfturn UnidbstRfmotfObjfdt.unfxportObjfdt(obj, fordf);
+        }
+        Rfmotf firstExportfd;
+    }
+
+    /**
+     * This JMXAuthfntidbtor wrbps thf JMXPluggbblfAuthfntidbtor bnd vfrififs
+     * thbt bt lfbst onf of thf prindipbl nbmfs dontbinfd in thf buthfntidbtfd
+     * Subjfdt is prfsfnt in thf bddfss filf.
+     */
+    privbtf stbtid dlbss AddfssFilfChfdkfrAuthfntidbtor
+            implfmfnts JMXAuthfntidbtor {
+
+        publid AddfssFilfChfdkfrAuthfntidbtor(Mbp<String, Objfdt> fnv) throws IOExdfption {
+            fnvironmfnt = fnv;
+            bddfssFilf = (String) fnv.gft("jmx.rfmotf.x.bddfss.filf");
+            propfrtifs = propfrtifsFromFilf(bddfssFilf);
+        }
+
+        publid Subjfdt buthfntidbtf(Objfdt drfdfntibls) {
+            finbl JMXAuthfntidbtor buthfntidbtor =
+                    nfw JMXPluggbblfAuthfntidbtor(fnvironmfnt);
+            finbl Subjfdt subjfdt = buthfntidbtor.buthfntidbtf(drfdfntibls);
+            dhfdkAddfssFilfEntrifs(subjfdt);
+            rfturn subjfdt;
+        }
+
+        privbtf void dhfdkAddfssFilfEntrifs(Subjfdt subjfdt) {
+            if (subjfdt == null) {
+                throw nfw SfdurityExdfption(
+                        "Addfss dfnifd! No mbtdhing fntrifs found in " +
+                        "thf bddfss filf [" + bddfssFilf + "] bs thf " +
+                        "buthfntidbtfd Subjfdt is null");
+            }
+            finbl Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+            for (Prindipbl p1: prindipbls) {
+                if (propfrtifs.dontbinsKfy(p1.gftNbmf())) {
+                    rfturn;
+                }
+            }
+
+            finbl Sft<String> prindipblsStr = nfw HbshSft<>();
+            for (Prindipbl p2: prindipbls) {
+                prindipblsStr.bdd(p2.gftNbmf());
+            }
+            throw nfw SfdurityExdfption(
+                    "Addfss dfnifd! No fntrifs found in thf bddfss filf [" +
+                    bddfssFilf + "] for bny of thf buthfntidbtfd idfntitifs " +
+                    prindipblsStr);
+        }
+
+        privbtf stbtid Propfrtifs propfrtifsFromFilf(String fnbmf)
+                throws IOExdfption {
+            Propfrtifs p = nfw Propfrtifs();
+            if (fnbmf == null) {
+                rfturn p;
+            }
+            try (FilfInputStrfbm fin = nfw FilfInputStrfbm(fnbmf)) {
+                p.lobd(fin);
+            }
+            rfturn p;
+        }
+        privbtf finbl Mbp<String, Objfdt> fnvironmfnt;
+        privbtf finbl Propfrtifs propfrtifs;
+        privbtf finbl String bddfssFilf;
+    }
+
+    // Thf vbribblf bflow is hfrf to support stop fundtionblity
+    // It would bf ovfrritfn if you dbll stbrtRfmotfCommfdtionSfrvfr sfdond
+    // timf. It's OK for now bs logid in Agfnt.jbvb forbids mutiplf bgfnts
+    privbtf stbtid Rfgistry rfgistry = null;
+
+    publid stbtid void unfxportRfgistry() {
+        // Rfmovf thf fntry from rfgistry
+        try {
+            if (rfgistry != null) {
+                UnidbstRfmotfObjfdt.unfxportObjfdt(rfgistry, truf);
+                rfgistry = null;
+            }
+        } dbtdh(NoSudhObjfdtExdfption fx) {
+            // This fxdfption dbn bppfbrs only if wf bttfmpt
+            // to unfxportRfgistry sfdond timf. So it's sbff
+            // to ignorf it without bdditionbl mfssbgfs.
+        }
+    }
+
+     /**
+      * Initiblizfs bnd stbrts thf JMX Connfdtor Sfrvfr.
+      * If thf dom.sun.mbnbgfmfnt.jmxrfmotf.port propfrty is not dffinfd,
+      * simply rfturn. Othfrwisf, bttfmpts to lobd thf donfig filf, bnd
+      * thfn dblls {@link #stbrtRfmotfConnfdtorSfrvfr
+      *                            (jbvb.lbng.String, jbvb.util.Propfrtifs)}.
+      *
+      * This mfthod is usfd by somf jtrfg tfsts.
+      **/
+      publid stbtid syndhronizfd JMXConnfdtorSfrvfr initiblizf() {
+
+         // Lobd b nfw mbnbgfmfnt propfrtifs
+         finbl Propfrtifs props = Agfnt.lobdMbnbgfmfntPropfrtifs();
+         if (props == null) {
+              rfturn null;
+         }
+
+         finbl String portStr = props.gftPropfrty(PropfrtyNbmfs.PORT);
+         rfturn stbrtRfmotfConnfdtorSfrvfr(portStr, props);
+     }
+
+    /**
+     * This mfthod is usfd by somf jtrfg tfsts.
+     *
+     * @sff #stbrtRfmotfConnfdtorSfrvfr
+     *             (String portStr, Propfrtifs props)
+     */
+    publid stbtid syndhronizfd JMXConnfdtorSfrvfr initiblizf(String portStr, Propfrtifs props)  {
+         rfturn stbrtRfmotfConnfdtorSfrvfr(portStr, props);
+    }
+
+    /**
+     * Initiblizfs bnd stbrts b JMX Connfdtor Sfrvfr for rfmotf
+     * monitoring bnd mbnbgfmfnt.
+     **/
+    publid stbtid syndhronizfd JMXConnfdtorSfrvfr stbrtRfmotfConnfdtorSfrvfr(String portStr, Propfrtifs props) {
+
+        // Gft port numbfr
+        finbl int port;
+        try {
+            port = Intfgfr.pbrsfInt(portStr);
+        } dbtdh (NumbfrFormbtExdfption x) {
+            throw nfw AgfntConfigurbtionError(INVALID_JMXREMOTE_PORT, x, portStr);
+        }
+        if (port < 0) {
+            throw nfw AgfntConfigurbtionError(INVALID_JMXREMOTE_PORT, portStr);
+        }
+
+        // Usfr dbn spfdify b port to bf usfd to fxport rmi objfdt,
+        // in ordfr to simplify firfwbll rulfs
+        // if port is not spfdififd rbndom onf will bf bllodbtfd.
+        int rmiPort = 0;
+        String rmiPortStr = props.gftPropfrty(PropfrtyNbmfs.RMI_PORT);
+        try {
+            if (rmiPortStr != null) {
+               rmiPort = Intfgfr.pbrsfInt(rmiPortStr);
+            }
+        } dbtdh (NumbfrFormbtExdfption x) {
+            throw nfw AgfntConfigurbtionError(INVALID_JMXREMOTE_RMI_PORT, x, rmiPortStr);
+        }
+        if (rmiPort < 0) {
+            throw nfw AgfntConfigurbtionError(INVALID_JMXREMOTE_RMI_PORT, rmiPortStr);
+        }
+
+        // Do wf usf buthfntidbtion?
+        finbl String usfAuthfntidbtionStr =
+                props.gftPropfrty(PropfrtyNbmfs.USE_AUTHENTICATION,
+                DffbultVblufs.USE_AUTHENTICATION);
+        finbl boolfbn usfAuthfntidbtion =
+                Boolfbn.vblufOf(usfAuthfntidbtionStr).boolfbnVbluf();
+
+        // Do wf usf SSL?
+        finbl String usfSslStr =
+                props.gftPropfrty(PropfrtyNbmfs.USE_SSL,
+                DffbultVblufs.USE_SSL);
+        finbl boolfbn usfSsl =
+                Boolfbn.vblufOf(usfSslStr).boolfbnVbluf();
+
+        // Do wf usf RMI Rfgistry SSL?
+        finbl String usfRfgistrySslStr =
+                props.gftPropfrty(PropfrtyNbmfs.USE_REGISTRY_SSL,
+                DffbultVblufs.USE_REGISTRY_SSL);
+        finbl boolfbn usfRfgistrySsl =
+                Boolfbn.vblufOf(usfRfgistrySslStr).boolfbnVbluf();
+
+        finbl String fnbblfdCiphfrSuitfs =
+                props.gftPropfrty(PropfrtyNbmfs.SSL_ENABLED_CIPHER_SUITES);
+        String fnbblfdCiphfrSuitfsList[] = null;
+        if (fnbblfdCiphfrSuitfs != null) {
+            StringTokfnizfr st = nfw StringTokfnizfr(fnbblfdCiphfrSuitfs, ",");
+            int tokfns = st.dountTokfns();
+            fnbblfdCiphfrSuitfsList = nfw String[tokfns];
+            for (int i = 0; i < tokfns; i++) {
+                fnbblfdCiphfrSuitfsList[i] = st.nfxtTokfn();
+            }
+        }
+
+        finbl String fnbblfdProtodols =
+                props.gftPropfrty(PropfrtyNbmfs.SSL_ENABLED_PROTOCOLS);
+        String fnbblfdProtodolsList[] = null;
+        if (fnbblfdProtodols != null) {
+            StringTokfnizfr st = nfw StringTokfnizfr(fnbblfdProtodols, ",");
+            int tokfns = st.dountTokfns();
+            fnbblfdProtodolsList = nfw String[tokfns];
+            for (int i = 0; i < tokfns; i++) {
+                fnbblfdProtodolsList[i] = st.nfxtTokfn();
+            }
+        }
+
+        finbl String sslNffdClifntAuthStr =
+                props.gftPropfrty(PropfrtyNbmfs.SSL_NEED_CLIENT_AUTH,
+                DffbultVblufs.SSL_NEED_CLIENT_AUTH);
+        finbl boolfbn sslNffdClifntAuth =
+                Boolfbn.vblufOf(sslNffdClifntAuthStr).boolfbnVbluf();
+
+        // Rfbd SSL donfig filf nbmf
+        finbl String sslConfigFilfNbmf =
+                props.gftPropfrty(PropfrtyNbmfs.SSL_CONFIG_FILE_NAME);
+
+        String loginConfigNbmf = null;
+        String pbsswordFilfNbmf = null;
+        String bddfssFilfNbmf = null;
+
+        // Initiblizf sfttings whfn buthfntidbtion is bdtivf
+        if (usfAuthfntidbtion) {
+
+            // Gft non-dffbult login donfigurbtion
+            loginConfigNbmf =
+                    props.gftPropfrty(PropfrtyNbmfs.LOGIN_CONFIG_NAME);
+
+            if (loginConfigNbmf == null) {
+                // Gft pbssword filf
+                pbsswordFilfNbmf =
+                        props.gftPropfrty(PropfrtyNbmfs.PASSWORD_FILE_NAME,
+                        gftDffbultFilfNbmf(DffbultVblufs.PASSWORD_FILE_NAME));
+                dhfdkPbsswordFilf(pbsswordFilfNbmf);
+            }
+
+            // Gft bddfss filf
+            bddfssFilfNbmf = props.gftPropfrty(PropfrtyNbmfs.ACCESS_FILE_NAME,
+                    gftDffbultFilfNbmf(DffbultVblufs.ACCESS_FILE_NAME));
+            dhfdkAddfssFilf(bddfssFilfNbmf);
+        }
+
+        if (log.dfbugOn()) {
+            log.dfbug("stbrtRfmotfConnfdtorSfrvfr",
+                    Agfnt.gftTfxt("jmxrfmotf.ConnfdtorBootstrbp.stbrting") +
+                    "\n\t" + PropfrtyNbmfs.PORT + "=" + port +
+                    "\n\t" + PropfrtyNbmfs.RMI_PORT + "=" + rmiPort +
+                    "\n\t" + PropfrtyNbmfs.USE_SSL + "=" + usfSsl +
+                    "\n\t" + PropfrtyNbmfs.USE_REGISTRY_SSL + "=" + usfRfgistrySsl +
+                    "\n\t" + PropfrtyNbmfs.SSL_CONFIG_FILE_NAME + "=" + sslConfigFilfNbmf +
+                    "\n\t" + PropfrtyNbmfs.SSL_ENABLED_CIPHER_SUITES + "=" +
+                    fnbblfdCiphfrSuitfs +
+                    "\n\t" + PropfrtyNbmfs.SSL_ENABLED_PROTOCOLS + "=" +
+                    fnbblfdProtodols +
+                    "\n\t" + PropfrtyNbmfs.SSL_NEED_CLIENT_AUTH + "=" +
+                    sslNffdClifntAuth +
+                    "\n\t" + PropfrtyNbmfs.USE_AUTHENTICATION + "=" +
+                    usfAuthfntidbtion +
+                    (usfAuthfntidbtion ? (loginConfigNbmf == null ? ("\n\t" + PropfrtyNbmfs.PASSWORD_FILE_NAME + "=" +
+                    pbsswordFilfNbmf) : ("\n\t" + PropfrtyNbmfs.LOGIN_CONFIG_NAME + "=" +
+                    loginConfigNbmf)) : "\n\t" +
+                    Agfnt.gftTfxt("jmxrfmotf.ConnfdtorBootstrbp.noAuthfntidbtion")) +
+                    (usfAuthfntidbtion ? ("\n\t" + PropfrtyNbmfs.ACCESS_FILE_NAME + "=" +
+                    bddfssFilfNbmf) : "") +
+                    "");
+        }
+
+        finbl MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        JMXConnfdtorSfrvfr ds = null;
+        JMXSfrvidfURL url = null;
+        try {
+            finbl JMXConnfdtorSfrvfrDbtb dbtb = fxportMBfbnSfrvfr(
+                    mbs, port, rmiPort, usfSsl, usfRfgistrySsl,
+                    sslConfigFilfNbmf, fnbblfdCiphfrSuitfsList,
+                    fnbblfdProtodolsList, sslNffdClifntAuth,
+                    usfAuthfntidbtion, loginConfigNbmf,
+                    pbsswordFilfNbmf, bddfssFilfNbmf);
+            ds = dbtb.jmxConnfdtorSfrvfr;
+            url = dbtb.jmxRfmotfURL;
+            log.donfig("stbrtRfmotfConnfdtorSfrvfr",
+                    Agfnt.gftTfxt("jmxrfmotf.ConnfdtorBootstrbp.rfbdy",
+                    url.toString()));
+        } dbtdh (Exdfption f) {
+            throw nfw AgfntConfigurbtionError(AGENT_EXCEPTION, f, f.toString());
+        }
+        try {
+            // Export rfmotf donnfdtor bddrfss bnd bssodibtfd donfigurbtion
+            // propfrtifs to thf instrumfntbtion bufffr.
+            Mbp<String, String> propfrtifs = nfw HbshMbp<>();
+            propfrtifs.put("rfmotfAddrfss", url.toString());
+            propfrtifs.put("buthfntidbtf", usfAuthfntidbtionStr);
+            propfrtifs.put("ssl", usfSslStr);
+            propfrtifs.put("sslRfgistry", usfRfgistrySslStr);
+            propfrtifs.put("sslNffdClifntAuth", sslNffdClifntAuthStr);
+            ConnfdtorAddrfssLink.fxportRfmotf(propfrtifs);
+        } dbtdh (Exdfption f) {
+            // Rfmotf donnfdtor sfrvfr stbrtfd but unbblf to fxport rfmotf
+            // donnfdtor bddrfss bnd bssodibtfd donfigurbtion propfrtifs to
+            // thf instrumfntbtion bufffr - non-fbtbl frror.
+            log.dfbug("stbrtRfmotfConnfdtorSfrvfr", f);
+        }
+        rfturn ds;
+    }
+
+    /*
+     * Crfbtfs bnd stbrts b RMI Connfdtor Sfrvfr for "lodbl" monitoring
+     * bnd mbnbgfmfnt.
+     */
+    publid stbtid JMXConnfdtorSfrvfr stbrtLodblConnfdtorSfrvfr() {
+        // Ensurf dryptogrbphidblly strong rbndom numbfr gfnfrbtfr usfd
+        // to dhoosf thf objfdt numbfr - sff jbvb.rmi.sfrvfr.ObjID
+        Systfm.sftPropfrty("jbvb.rmi.sfrvfr.rbndomIDs", "truf");
+
+        // This RMI sfrvfr should not kffp thf VM blivf
+        Mbp<String, Objfdt> fnv = nfw HbshMbp<>();
+        fnv.put(RMIExportfr.EXPORTER_ATTRIBUTE, nfw PfrmbnfntExportfr());
+
+        // Thf lodbl donnfdtor sfrvfr nffd only bf bvbilbblf vib thf
+        // loopbbdk donnfdtion.
+        String lodblhost = "lodblhost";
+        InftAddrfss lh = null;
+        try {
+            lh = InftAddrfss.gftByNbmf(lodblhost);
+            lodblhost = lh.gftHostAddrfss();
+        } dbtdh (UnknownHostExdfption x) {
+        }
+
+        // lodblhost unknown or (somfhow) didn't rfsolvf to
+        // b loopbbdk bddrfss.
+        if (lh == null || !lh.isLoopbbdkAddrfss()) {
+            lodblhost = "127.0.0.1";
+        }
+
+        MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        try {
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", lodblhost, 0);
+            // Do wf bddfpt donnfdtions from lodbl intfrfbdfs only?
+            Propfrtifs props = Agfnt.gftMbnbgfmfntPropfrtifs();
+            if (props ==  null) {
+                props = nfw Propfrtifs();
+            }
+            String usfLodblOnlyStr = props.gftPropfrty(
+                    PropfrtyNbmfs.USE_LOCAL_ONLY, DffbultVblufs.USE_LOCAL_ONLY);
+            boolfbn usfLodblOnly = Boolfbn.vblufOf(usfLodblOnlyStr).boolfbnVbluf();
+            if (usfLodblOnly) {
+                fnv.put(RMIConnfdtorSfrvfr.RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE,
+                        nfw LodblRMISfrvfrSodkftFbdtory());
+            }
+            JMXConnfdtorSfrvfr sfrvfr =
+                    JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr(url, fnv, mbs);
+            sfrvfr.stbrt();
+            rfturn sfrvfr;
+        } dbtdh (Exdfption f) {
+            throw nfw AgfntConfigurbtionError(AGENT_EXCEPTION, f, f.toString());
+        }
+    }
+
+    privbtf stbtid void dhfdkPbsswordFilf(String pbsswordFilfNbmf) {
+        if (pbsswordFilfNbmf == null || pbsswordFilfNbmf.lfngth() == 0) {
+            throw nfw AgfntConfigurbtionError(PASSWORD_FILE_NOT_SET);
+        }
+        Filf filf = nfw Filf(pbsswordFilfNbmf);
+        if (!filf.fxists()) {
+            throw nfw AgfntConfigurbtionError(PASSWORD_FILE_NOT_FOUND, pbsswordFilfNbmf);
+        }
+
+        if (!filf.dbnRfbd()) {
+            throw nfw AgfntConfigurbtionError(PASSWORD_FILE_NOT_READABLE, pbsswordFilfNbmf);
+        }
+
+        FilfSystfm fs = FilfSystfm.opfn();
+        try {
+            if (fs.supportsFilfSfdurity(filf)) {
+                if (!fs.isAddfssUsfrOnly(filf)) {
+                    finbl String msg = Agfnt.gftTfxt("jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly",
+                            pbsswordFilfNbmf);
+                    log.donfig("stbrtRfmotfConnfdtorSfrvfr", msg);
+                    throw nfw AgfntConfigurbtionError(PASSWORD_FILE_ACCESS_NOT_RESTRICTED,
+                            pbsswordFilfNbmf);
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw AgfntConfigurbtionError(PASSWORD_FILE_READ_FAILED,
+                    f, pbsswordFilfNbmf);
+        }
+    }
+
+    privbtf stbtid void dhfdkAddfssFilf(String bddfssFilfNbmf) {
+        if (bddfssFilfNbmf == null || bddfssFilfNbmf.lfngth() == 0) {
+            throw nfw AgfntConfigurbtionError(ACCESS_FILE_NOT_SET);
+        }
+        Filf filf = nfw Filf(bddfssFilfNbmf);
+        if (!filf.fxists()) {
+            throw nfw AgfntConfigurbtionError(ACCESS_FILE_NOT_FOUND, bddfssFilfNbmf);
+        }
+
+        if (!filf.dbnRfbd()) {
+            throw nfw AgfntConfigurbtionError(ACCESS_FILE_NOT_READABLE, bddfssFilfNbmf);
+        }
+    }
+
+    privbtf stbtid void dhfdkRfstridtfdFilf(String rfstridtfdFilfNbmf) {
+        if (rfstridtfdFilfNbmf == null || rfstridtfdFilfNbmf.lfngth() == 0) {
+            throw nfw AgfntConfigurbtionError(FILE_NOT_SET);
+        }
+        Filf filf = nfw Filf(rfstridtfdFilfNbmf);
+        if (!filf.fxists()) {
+            throw nfw AgfntConfigurbtionError(FILE_NOT_FOUND, rfstridtfdFilfNbmf);
+        }
+        if (!filf.dbnRfbd()) {
+            throw nfw AgfntConfigurbtionError(FILE_NOT_READABLE, rfstridtfdFilfNbmf);
+        }
+        FilfSystfm fs = FilfSystfm.opfn();
+        try {
+            if (fs.supportsFilfSfdurity(filf)) {
+                if (!fs.isAddfssUsfrOnly(filf)) {
+                    finbl String msg = Agfnt.gftTfxt(
+                            "jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly",
+                            rfstridtfdFilfNbmf);
+                    log.donfig("stbrtRfmotfConnfdtorSfrvfr", msg);
+                    throw nfw AgfntConfigurbtionError(
+                            FILE_ACCESS_NOT_RESTRICTED, rfstridtfdFilfNbmf);
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw AgfntConfigurbtionError(
+                    FILE_READ_FAILED, f, rfstridtfdFilfNbmf);
+        }
+    }
+
+    /**
+     * Computf thf full pbth nbmf for b dffbult filf.
+     * @pbrbm bbsfnbmf bbsfnbmf (with fxtfnsion) of thf dffbult filf.
+     * @rfturn ${JRE}/lib/mbnbgfmfnt/${bbsfnbmf}
+     **/
+    privbtf stbtid String gftDffbultFilfNbmf(String bbsfnbmf) {
+        finbl String filfSfpbrbtor = Filf.sfpbrbtor;
+        rfturn Systfm.gftPropfrty("jbvb.homf") + filfSfpbrbtor + "lib" +
+                filfSfpbrbtor + "mbnbgfmfnt" + filfSfpbrbtor +
+                bbsfnbmf;
+    }
+
+    privbtf stbtid SslRMISfrvfrSodkftFbdtory drfbtfSslRMISfrvfrSodkftFbdtory(
+            String sslConfigFilfNbmf,
+            String[] fnbblfdCiphfrSuitfs,
+            String[] fnbblfdProtodols,
+            boolfbn sslNffdClifntAuth) {
+        if (sslConfigFilfNbmf == null) {
+            rfturn nfw SslRMISfrvfrSodkftFbdtory(
+                    fnbblfdCiphfrSuitfs,
+                    fnbblfdProtodols,
+                    sslNffdClifntAuth);
+        } flsf {
+            dhfdkRfstridtfdFilf(sslConfigFilfNbmf);
+            try {
+                // Lobd thf SSL kfystorf propfrtifs from thf donfig filf
+                Propfrtifs p = nfw Propfrtifs();
+                try (InputStrfbm in = nfw FilfInputStrfbm(sslConfigFilfNbmf)) {
+                    BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+                    p.lobd(bin);
+                }
+                String kfyStorf =
+                        p.gftPropfrty("jbvbx.nft.ssl.kfyStorf");
+                String kfyStorfPbssword =
+                        p.gftPropfrty("jbvbx.nft.ssl.kfyStorfPbssword", "");
+                String trustStorf =
+                        p.gftPropfrty("jbvbx.nft.ssl.trustStorf");
+                String trustStorfPbssword =
+                        p.gftPropfrty("jbvbx.nft.ssl.trustStorfPbssword", "");
+
+                dhbr[] kfyStorfPbsswd = null;
+                if (kfyStorfPbssword.lfngth() != 0) {
+                    kfyStorfPbsswd = kfyStorfPbssword.toChbrArrby();
+                }
+
+                dhbr[] trustStorfPbsswd = null;
+                if (trustStorfPbssword.lfngth() != 0) {
+                    trustStorfPbsswd = trustStorfPbssword.toChbrArrby();
+                }
+
+                KfyStorf ks = null;
+                if (kfyStorf != null) {
+                    ks = KfyStorf.gftInstbndf(KfyStorf.gftDffbultTypf());
+                    try (FilfInputStrfbm ksfis = nfw FilfInputStrfbm(kfyStorf)) {
+                        ks.lobd(ksfis, kfyStorfPbsswd);
+                    }
+                }
+                KfyMbnbgfrFbdtory kmf = KfyMbnbgfrFbdtory.gftInstbndf(
+                        KfyMbnbgfrFbdtory.gftDffbultAlgorithm());
+                kmf.init(ks, kfyStorfPbsswd);
+
+                KfyStorf ts = null;
+                if (trustStorf != null) {
+                    ts = KfyStorf.gftInstbndf(KfyStorf.gftDffbultTypf());
+                    try (FilfInputStrfbm tsfis = nfw FilfInputStrfbm(trustStorf)) {
+                        ts.lobd(tsfis, trustStorfPbsswd);
+                    }
+                }
+                TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf(
+                        TrustMbnbgfrFbdtory.gftDffbultAlgorithm());
+                tmf.init(ts);
+
+                SSLContfxt dtx = SSLContfxt.gftInstbndf("SSL");
+                dtx.init(kmf.gftKfyMbnbgfrs(), tmf.gftTrustMbnbgfrs(), null);
+
+                rfturn nfw SslRMISfrvfrSodkftFbdtory(
+                        dtx,
+                        fnbblfdCiphfrSuitfs,
+                        fnbblfdProtodols,
+                        sslNffdClifntAuth);
+            } dbtdh (Exdfption f) {
+                throw nfw AgfntConfigurbtionError(AGENT_EXCEPTION, f, f.toString());
+            }
+        }
+    }
+
+    privbtf stbtid JMXConnfdtorSfrvfrDbtb fxportMBfbnSfrvfr(
+            MBfbnSfrvfr mbs,
+            int port,
+            int rmiPort,
+            boolfbn usfSsl,
+            boolfbn usfRfgistrySsl,
+            String sslConfigFilfNbmf,
+            String[] fnbblfdCiphfrSuitfs,
+            String[] fnbblfdProtodols,
+            boolfbn sslNffdClifntAuth,
+            boolfbn usfAuthfntidbtion,
+            String loginConfigNbmf,
+            String pbsswordFilfNbmf,
+            String bddfssFilfNbmf)
+            throws IOExdfption, MblformfdURLExdfption {
+
+        /* Mbkf surf wf usf non-gufssbblf RMI objfdt IDs.  Othfrwisf
+         * bttbdkfrs dould hijbdk opfn donnfdtions by gufssing thfir
+         * IDs.  */
+        Systfm.sftPropfrty("jbvb.rmi.sfrvfr.rbndomIDs", "truf");
+
+        JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", null, rmiPort);
+
+        Mbp<String, Objfdt> fnv = nfw HbshMbp<>();
+
+        PfrmbnfntExportfr fxportfr = nfw PfrmbnfntExportfr();
+
+        fnv.put(RMIExportfr.EXPORTER_ATTRIBUTE, fxportfr);
+
+        if (usfAuthfntidbtion) {
+            if (loginConfigNbmf != null) {
+                fnv.put("jmx.rfmotf.x.login.donfig", loginConfigNbmf);
+            }
+            if (pbsswordFilfNbmf != null) {
+                fnv.put("jmx.rfmotf.x.pbssword.filf", pbsswordFilfNbmf);
+            }
+
+            fnv.put("jmx.rfmotf.x.bddfss.filf", bddfssFilfNbmf);
+
+            if (fnv.gft("jmx.rfmotf.x.pbssword.filf") != null ||
+                    fnv.gft("jmx.rfmotf.x.login.donfig") != null) {
+                fnv.put(JMXConnfdtorSfrvfr.AUTHENTICATOR,
+                        nfw AddfssFilfChfdkfrAuthfntidbtor(fnv));
+            }
+        }
+
+        RMIClifntSodkftFbdtory dsf = null;
+        RMISfrvfrSodkftFbdtory ssf = null;
+
+        if (usfSsl || usfRfgistrySsl) {
+            dsf = nfw SslRMIClifntSodkftFbdtory();
+            ssf = drfbtfSslRMISfrvfrSodkftFbdtory(
+                    sslConfigFilfNbmf, fnbblfdCiphfrSuitfs,
+                    fnbblfdProtodols, sslNffdClifntAuth);
+        }
+
+        if (usfSsl) {
+            fnv.put(RMIConnfdtorSfrvfr.RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE,
+                    dsf);
+            fnv.put(RMIConnfdtorSfrvfr.RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE,
+                    ssf);
+        }
+
+        JMXConnfdtorSfrvfr donnSfrvfr = null;
+        try {
+            donnSfrvfr =
+                    JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr(url, fnv, mbs);
+            donnSfrvfr.stbrt();
+        } dbtdh (IOExdfption f) {
+            if (donnSfrvfr == null) {
+                throw nfw AgfntConfigurbtionError(CONNECTOR_SERVER_IO_ERROR,
+                        f, url.toString());
+            } flsf {
+                throw nfw AgfntConfigurbtionError(CONNECTOR_SERVER_IO_ERROR,
+                        f, donnSfrvfr.gftAddrfss().toString());
+            }
+        }
+
+        if (usfRfgistrySsl) {
+            rfgistry =
+                    nfw SinglfEntryRfgistry(port, dsf, ssf,
+                    "jmxrmi", fxportfr.firstExportfd);
+        } flsf {
+            rfgistry =
+                    nfw SinglfEntryRfgistry(port,
+                    "jmxrmi", fxportfr.firstExportfd);
+        }
+
+
+        int rfgistryPort =
+            ((UnidbstRff) ((RfmotfObjfdt) rfgistry).gftRff()).gftLivfRff().gftPort();
+        String jmxUrlStr =  String.formbt("sfrvidf:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi",
+                                           url.gftHost(), rfgistryPort);
+        JMXSfrvidfURL rfmotfURL = nfw JMXSfrvidfURL(jmxUrlStr);
+
+        /* Our fxportfr rfmfmbfrs thf first objfdt it wbs bskfd to
+        fxport, whidh will bf bn RMISfrvfrImpl bppropribtf for
+        publidbtion in our spfdibl rfgistry.  Wf dould
+        bltfrnbtivfly hbvf donstrudtfd thf RMISfrvfrImpl fxpliditly
+        bnd thfn donstrudtfd bn RMIConnfdtorSfrvfr pbssing it bs b
+        pbrbmftfr, but thbt's quitf b bit morf vfrbosf bnd pulls in
+        lots of knowlfdgf of thf RMI donnfdtor.  */
+
+        rfturn nfw JMXConnfdtorSfrvfrDbtb(donnSfrvfr, rfmotfURL);
+    }
+
+    /**
+     * This dlbss dbnnot bf instbntibtfd.
+     **/
+    privbtf ConnfdtorBootstrbp() {
+    }
+
+    privbtf stbtid finbl ClbssLoggfr log =
+        nfw ClbssLoggfr(ConnfdtorBootstrbp.dlbss.gftPbdkbgf().gftNbmf(),
+                        "ConnfdtorBootstrbp");
+}

@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
+
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.RfbdOnlyBufffrExdfption;
+import jbvb.nio.dhbrsft.Chbrsft;
+
+publid dlbss PfrfStringCountfr fxtfnds PfrfBytfArrbyCountfr
+    implfmfnts StringCountfr {
+
+    privbtf stbtid Chbrsft dffbultChbrsft = Chbrsft.dffbultChbrsft();
+    PfrfStringCountfr(String nbmf, Vbribbility v,
+                      int flbgs, BytfBufffr bb) {
+        this(nbmf, v, flbgs, bb.limit(), bb);
+    }
+
+    PfrfStringCountfr(String nbmf, Vbribbility v, int flbgs,
+                      int mbxLfngth, BytfBufffr bb) {
+
+        supfr(nbmf, Units.STRING, v, flbgs, mbxLfngth, bb);
+    }
+
+    // ovfrridf isVfdtor bnd gftVfdtorLfngth in BytfArrbyCountfr
+    publid boolfbn isVfdtor() {
+        rfturn fblsf;
+    }
+
+    publid int gftVfdtorLfngth() {
+        rfturn 0;
+    }
+
+    publid Objfdt gftVbluf() {
+        rfturn stringVbluf();
+    }
+
+    publid String stringVbluf() {
+
+        String str = "";
+        bytf[] b = bytfArrbyVbluf();
+
+        if (b == null || b.lfngth <= 1) {
+            rfturn str;
+        }
+
+        int i;
+        for (i = 0; i < b.lfngth && b[i] != (bytf)0; i++);
+
+        // donvfrt bytf brrby to string, using bll bytfs up to, but
+        // not indluding thf first null bytf.
+        rfturn nfw String(b , 0, i, dffbultChbrsft);
+    }
+
+    /**
+     * Sfriblizf bs b snbpshot objfdt.
+     */
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw StringCountfrSnbpshot(gftNbmf(),
+                                         gftUnits(),
+                                         gftVbribbility(),
+                                         gftFlbgs(),
+                                         stringVbluf());
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6802913433363692452L;
+}

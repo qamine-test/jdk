@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This intfrfbdf is usfd for rfprfsfnting thf rfmotf mbnbgfmfnt intfrfbdf for thf "JvmThrfbdInstbndfEntry" MBfbn.
+ */
+publid intfrfbdf JvmThrfbdInstbndfEntryMBfbn {
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstNbmf" vbribblf.
+     */
+    publid String gftJvmThrfbdInstNbmf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstCpuTimfNs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstCpuTimfNs() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstWbitTimfMs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstWbitTimfMs() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstWbitCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstWbitCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstBlodkTimfMs" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstBlodkTimfMs() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstBlodkCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstBlodkCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstStbtf" vbribblf.
+     */
+    publid Bytf[] gftJvmThrfbdInstStbtf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstLodkOwnfrPtr" vbribblf.
+     */
+    publid String gftJvmThrfbdInstLodkOwnfrPtr() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstId" vbribblf.
+     */
+    publid Long gftJvmThrfbdInstId() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstLodkNbmf" vbribblf.
+     */
+    publid String gftJvmThrfbdInstLodkNbmf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdInstIndfx" vbribblf.
+     */
+    publid Bytf[] gftJvmThrfbdInstIndfx() throws SnmpStbtusExdfption;
+
+}

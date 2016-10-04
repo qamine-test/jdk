@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2011 Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.StbndbrdSodkftOptions;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+/**
+ * Implfmfnts b dhbt sfrvfr, this dlbss holds thf list of {@dodf dlifnts} donnfdtfd to thf sfrvfr.
+ * It sfts up b sfrvfr sodkft using AsyndhronousSfrvfrSodkftChbnnfl listfning to b spfdififd port.
+ */
+publid dlbss ChbtSfrvfr implfmfnts Runnbblf {
+    privbtf finbl List<Clifnt> donnfdtions = Collfdtions.syndhronizfdList(nfw ArrbyList<Clifnt>());
+    privbtf int port;
+    privbtf finbl AsyndhronousSfrvfrSodkftChbnnfl listfnfr;
+    privbtf finbl AsyndhronousChbnnflGroup dhbnnflGroup;
+
+    /**
+     *
+     * @pbrbm port to listfn to
+     * @throws jbvb.io.IOExdfption whfn fbiling to stbrt thf sfrvfr
+     */
+    publid ChbtSfrvfr(int port) throws IOExdfption {
+        dhbnnflGroup = AsyndhronousChbnnflGroup.withFixfdThrfbdPool(Runtimf.gftRuntimf().bvbilbblfProdfssors(),
+                Exfdutors.dffbultThrfbdFbdtory());
+        this.port = port;
+        listfnfr = drfbtfListfnfr(dhbnnflGroup);
+    }
+
+    /**
+     *
+     * @rfturn Thf sodkft bddrfss thbt thf sfrvfr is bound to
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     */
+    publid SodkftAddrfss gftSodkftAddrfss() throws IOExdfption {
+        rfturn listfnfr.gftLodblAddrfss();
+    }
+
+    /**
+     * Stbrt bddfpting donnfdtions
+     */
+    publid void run() {
+
+        // dbll bddfpt to wbit for donnfdtions, tfll it to dbll our ComplftionHbndlfr whfn thfrf
+        // is b nfw indoming donnfdtion
+        listfnfr.bddfpt(null, nfw ComplftionHbndlfr<AsyndhronousSodkftChbnnfl, Void>() {
+            @Ovfrridf
+            publid void domplftfd(AsyndhronousSodkftChbnnfl rfsult, Void bttbdhmfnt) {
+                // rfqufst b nfw bddfpt bnd hbndlf thf indoming donnfdtion
+                listfnfr.bddfpt(null, this);
+                hbndlfNfwConnfdtion(rfsult);
+            }
+
+            @Ovfrridf
+            publid void fbilfd(Throwbblf fxd, Void bttbdhmfnt) {
+            }
+        });
+    }
+
+    /**
+     * Shuts down thf sfrvfr
+     * @throws IntfrruptfdExdfption if tfrminbtfd whilf wbiting for shutdown
+     * @throws IOExdfption if fbiling to shutdown thf dhbnnfl group
+     */
+    publid void shutdown() throws IntfrruptfdExdfption, IOExdfption {
+        dhbnnflGroup.shutdownNow();
+        dhbnnflGroup.bwbitTfrminbtion(1, TimfUnit.SECONDS);
+    }
+
+    /*
+    * Crfbtfs b listfnfr bnd stbrts bddfpting donnfdtions
+    */
+    privbtf AsyndhronousSfrvfrSodkftChbnnfl drfbtfListfnfr(AsyndhronousChbnnflGroup dhbnnflGroup) throws IOExdfption {
+        finbl AsyndhronousSfrvfrSodkftChbnnfl listfnfr = opfnChbnnfl(dhbnnflGroup);
+        listfnfr.sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, truf);
+        listfnfr.bind(nfw InftSodkftAddrfss(port));
+        rfturn listfnfr;
+    }
+
+    privbtf AsyndhronousSfrvfrSodkftChbnnfl opfnChbnnfl(AsyndhronousChbnnflGroup dhbnnflGroup) throws IOExdfption {
+        rfturn AsyndhronousSfrvfrSodkftChbnnfl.opfn(dhbnnflGroup);
+    }
+
+    /**
+     * Crfbtfs b nfw dlifnt bnd bdds it to thf list of donnfdtions.
+     * Sfts thf dlifnts hbndlfr to thf initibl stbtf of NbmfRfbdfr
+     *
+     * @pbrbm dhbnnfl thf nfwly bddfptfd dhbnnfl
+     */
+    privbtf void hbndlfNfwConnfdtion(AsyndhronousSodkftChbnnfl dhbnnfl) {
+        Clifnt dlifnt = nfw Clifnt(dhbnnfl, nfw ClifntRfbdfr(this, nfw NbmfRfbdfr(this)));
+        try {
+            dhbnnfl.sftOption(StbndbrdSodkftOptions.TCP_NODELAY, truf);
+        } dbtdh (IOExdfption f) {
+            // ignorf
+        }
+        donnfdtions.bdd(dlifnt);
+        dlifnt.run();
+    }
+
+    /**
+     * Sfnds b mfssbgf to bll dlifnts fxdfpt thf sourdf.
+     * Thf mfthod is syndhronizfd bs it is dfsirfd thbt mfssbgfs brf sfnt to
+     * bll dlifnts in thf sbmf ordfr bs rfdfivfd.
+     *
+     * @pbrbm dlifnt thf mfssbgf sourdf
+     * @pbrbm mfssbgf thf mfssbgf to bf sfnt
+     */
+    publid void writfMfssbgfToClifnts(Clifnt dlifnt, String mfssbgf) {
+        syndhronizfd (donnfdtions) {
+            for (Clifnt dlifntConnfdtion : donnfdtions) {
+                if (dlifntConnfdtion != dlifnt) {
+                    dlifntConnfdtion.writfMfssbgfFrom(dlifnt, mfssbgf);
+                }
+            }
+        }
+    }
+
+    publid void rfmovfClifnt(Clifnt dlifnt) {
+        donnfdtions.rfmovf(dlifnt);
+    }
+
+    privbtf stbtid void usbgf() {
+        Systfm.frr.println("ChbtSfrvfr [-port <port numbfr>]");
+        Systfm.fxit(1);
+    }
+
+    publid stbtid void mbin(String[] brgs) throws IOExdfption {
+        int port = 5000;
+        if (brgs.lfngth != 0 && brgs.lfngth != 2) {
+            usbgf();
+        } flsf if (brgs.lfngth == 2) {
+            try {
+                if (brgs[0].fqubls("-port")) {
+                    port = Intfgfr.pbrsfInt(brgs[1]);
+                } flsf {
+                    usbgf();
+                }
+            } dbtdh (NumbfrFormbtExdfption f) {
+                usbgf();
+            }
+        }
+        Systfm.out.println("Running on port " + port);
+        nfw ChbtSfrvfr(port).run();
+    }
+}

@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.Control;
+import jbvbx.nbming.spi.*;
+
+import dom.sun.jndi.toolkit.dtx.Continubtion;
+
+finbl dlbss LdbpBindingEnumfrbtion
+        fxtfnds AbstrbdtLdbpNbmingEnumfrbtion<Binding> {
+
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+
+    LdbpBindingEnumfrbtion(LdbpCtx homfCtx, LdbpRfsult bnswfr, Nbmf rfmbin,
+        Continubtion dont) throws NbmingExdfption
+    {
+        supfr(homfCtx, bnswfr, rfmbin, dont);
+    }
+
+    @Ovfrridf
+    protfdtfd Binding
+      drfbtfItfm(String dn, Attributfs bttrs, Vfdtor<Control> rfspCtls)
+        throws NbmingExdfption {
+
+        Objfdt obj = null;
+        String btom = gftAtom(dn);
+
+        if (bttrs.gft(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
+            // sfriblizfd objfdt or objfdt rfffrfndf
+            try {
+                obj = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    @Ovfrridf
+                    publid Objfdt run() throws NbmingExdfption {
+                        rfturn Obj.dfdodfObjfdt(bttrs);
+                    }
+                }, bdd);
+            } dbtdh (PrivilfgfdAdtionExdfption f) {
+                throw (NbmingExdfption)f.gftExdfption();
+            }
+        }
+        if (obj == null) {
+            // DirContfxt objfdt
+            obj = nfw LdbpCtx(homfCtx, dn);
+        }
+
+        CompositfNbmf dn = nfw CompositfNbmf();
+        dn.bdd(btom);
+
+        try {
+            obj = DirfdtoryMbnbgfr.gftObjfdtInstbndf(obj, dn, homfCtx,
+                homfCtx.fnvprops, bttrs);
+
+        } dbtdh (NbmingExdfption f) {
+            throw f;
+
+        } dbtdh (Exdfption f) {
+            NbmingExdfption nf =
+                nfw NbmingExdfption(
+                        "problfm gfnfrbting objfdt using objfdt fbdtory");
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+
+        Binding binding;
+        if (rfspCtls != null) {
+           binding = nfw BindingWithControls(dn.toString(), obj,
+                                homfCtx.donvfrtControls(rfspCtls));
+        } flsf {
+            binding = nfw Binding(dn.toString(), obj);
+        }
+        binding.sftNbmfInNbmfspbdf(dn);
+        rfturn binding;
+    }
+
+    @Ovfrridf
+    protfdtfd LdbpBindingEnumfrbtion gftRfffrrfdRfsults(
+            LdbpRfffrrblContfxt rffCtx) throws NbmingExdfption{
+        // rfpfbt thf originbl opfrbtion bt thf nfw dontfxt
+        rfturn (LdbpBindingEnumfrbtion)rffCtx.listBindings(listArg);
+    }
+}

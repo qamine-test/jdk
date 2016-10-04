@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.math.BigInteger;
-import java.security.AlgorithmParameterGeneratorSpi;
-import java.security.AlgorithmParameters;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.InvalidParameterException;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.DSAGenParameterSpec;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.AlgoritimPbrbmftfrGfnfrbtorSpi;
+import jbvb.sfdurity.AlgoritimPbrbmftfrs;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.DSAGfnPbrbmftfrSpfd;
 
 /**
- * This class generates parameters for the DSA algorithm. It uses a default
- * prime modulus size of 1024 bits, which can be overwritten during
- * initialization.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif DSA blgoritim. It usfs b dffbult
+ * primf modulus sizf of 1024 bits, wiidi dbn bf ovfrwrittfn during
+ * initiblizbtion.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
- * @see DSAParameters
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff DSAPbrbmftfrs
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DSAParameterGenerator extends AlgorithmParameterGeneratorSpi {
+publid dlbss DSAPbrbmftfrGfnfrbtor fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
 
-    // the default parameters
-    private static final DSAGenParameterSpec DEFAULTS =
-        new DSAGenParameterSpec(1024, 160, 160);
+    // tif dffbult pbrbmftfrs
+    privbtf stbtid finbl DSAGfnPbrbmftfrSpfd DEFAULTS =
+        nfw DSAGfnPbrbmftfrSpfd(1024, 160, 160);
 
-    // the length of prime P, subPrime Q, and seed in bits
-    private int valueL = -1;
-    private int valueN = -1;
-    private int seedLen = -1;
+    // tif lfngti of primf P, subPrimf Q, bnd sffd in bits
+    privbtf int vblufL = -1;
+    privbtf int vblufN = -1;
+    privbtf int sffdLfn = -1;
 
-    // the source of randomness
-    private SecureRandom random;
+    // tif sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom;
 
-    // useful constants
-    private static final BigInteger ZERO = BigInteger.valueOf(0);
-    private static final BigInteger ONE = BigInteger.valueOf(1);
-    private static final BigInteger TWO = BigInteger.valueOf(2);
+    // usfful donstbnts
+    privbtf stbtid finbl BigIntfgfr ZERO = BigIntfgfr.vblufOf(0);
+    privbtf stbtid finbl BigIntfgfr ONE = BigIntfgfr.vblufOf(1);
+    privbtf stbtid finbl BigIntfgfr TWO = BigIntfgfr.vblufOf(2);
 
-    public DSAParameterGenerator() {
+    publid DSAPbrbmftfrGfnfrbtor() {
     }
 
     /**
-     * Initializes this parameter generator for a certain strength
-     * and source of randomness.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin strfngti
+     * bnd sourdf of rbndomnfss.
      *
-     * @param strength the strength (size of prime) in bits
-     * @param random the source of randomness
+     * @pbrbm strfngti tif strfngti (sizf of primf) in bits
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      */
-    protected void engineInit(int strength, SecureRandom random) {
-        if ((strength >= 512) && (strength <= 1024) && (strength % 64 == 0)) {
-            this.valueN = 160;
-        } else if (strength == 2048) {
-            this.valueN = 224;
-//      } else if (strength == 3072) {
-//          this.valueN = 256;
-        } else {
-            throw new InvalidParameterException
-                ("Prime size should be 512 - 1024, or 2048");
+    protfdtfd void fnginfInit(int strfngti, SfdurfRbndom rbndom) {
+        if ((strfngti >= 512) && (strfngti <= 1024) && (strfngti % 64 == 0)) {
+            tiis.vblufN = 160;
+        } flsf if (strfngti == 2048) {
+            tiis.vblufN = 224;
+//      } flsf if (strfngti == 3072) {
+//          tiis.vblufN = 256;
+        } flsf {
+            tirow nfw InvblidPbrbmftfrExdfption
+                ("Primf sizf siould bf 512 - 1024, or 2048");
         }
-        this.valueL = strength;
-        this.seedLen = valueN;
-        this.random = random;
+        tiis.vblufL = strfngti;
+        tiis.sffdLfn = vblufN;
+        tiis.rbndom = rbndom;
     }
 
     /**
-     * Initializes this parameter generator with a set of
-     * algorithm-specific parameter generation values.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of
+     * blgoritim-spfdifid pbrbmftfr gfnfrbtion vblufs.
      *
-     * @param genParamSpec the set of algorithm-specific parameter generation values
-     * @param random the source of randomness
+     * @pbrbm gfnPbrbmSpfd tif sft of blgoritim-spfdifid pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
      */
-    protected void engineInit(AlgorithmParameterSpec genParamSpec,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-        if (!(genParamSpec instanceof DSAGenParameterSpec)) {
-            throw new InvalidAlgorithmParameterException("Invalid parameter");
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+                              SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (!(gfnPbrbmSpfd instbndfof DSAGfnPbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("Invblid pbrbmftfr");
         }
-        DSAGenParameterSpec dsaGenParams = (DSAGenParameterSpec) genParamSpec;
-        int primePLen = dsaGenParams.getPrimePLength();
-        if (primePLen > 2048) {
-            throw new InvalidParameterException
-                ("No support for prime size " + primePLen);
+        DSAGfnPbrbmftfrSpfd dsbGfnPbrbms = (DSAGfnPbrbmftfrSpfd) gfnPbrbmSpfd;
+        int primfPLfn = dsbGfnPbrbms.gftPrimfPLfngti();
+        if (primfPLfn > 2048) {
+            tirow nfw InvblidPbrbmftfrExdfption
+                ("No support for primf sizf " + primfPLfn);
         }
-        // directly initialize using the already validated values
-        this.valueL = primePLen;
-        this.valueN = dsaGenParams.getSubprimeQLength();
-        this.seedLen = dsaGenParams.getSeedLength();
-        this.random = random;
+        // dirfdtly initiblizf using tif blrfbdy vblidbtfd vblufs
+        tiis.vblufL = primfPLfn;
+        tiis.vblufN = dsbGfnPbrbms.gftSubprimfQLfngti();
+        tiis.sffdLfn = dsbGfnPbrbms.gftSffdLfngti();
+        tiis.rbndom = rbndom;
     }
 
     /**
-     * Generates the parameters.
+     * Gfnfrbtfs tif pbrbmftfrs.
      *
-     * @return the new AlgorithmParameters object
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
      */
-    protected AlgorithmParameters engineGenerateParameters() {
-        AlgorithmParameters algParams = null;
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+        AlgoritimPbrbmftfrs blgPbrbms = null;
         try {
-            if (this.random == null) {
-                this.random = new SecureRandom();
+            if (tiis.rbndom == null) {
+                tiis.rbndom = nfw SfdurfRbndom();
             }
-            if (valueL == -1) {
+            if (vblufL == -1) {
                 try {
-                    engineInit(DEFAULTS, this.random);
-                } catch (InvalidAlgorithmParameterException iape) {
-                    // should never happen
+                    fnginfInit(DEFAULTS, tiis.rbndom);
+                } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+                    // siould nfvfr ibppfn
                 }
             }
-            BigInteger[] pAndQ = generatePandQ(this.random, valueL,
-                                               valueN, seedLen);
-            BigInteger paramP = pAndQ[0];
-            BigInteger paramQ = pAndQ[1];
-            BigInteger paramG = generateG(paramP, paramQ);
+            BigIntfgfr[] pAndQ = gfnfrbtfPbndQ(tiis.rbndom, vblufL,
+                                               vblufN, sffdLfn);
+            BigIntfgfr pbrbmP = pAndQ[0];
+            BigIntfgfr pbrbmQ = pAndQ[1];
+            BigIntfgfr pbrbmG = gfnfrbtfG(pbrbmP, pbrbmQ);
 
-            DSAParameterSpec dsaParamSpec =
-                new DSAParameterSpec(paramP, paramQ, paramG);
-            algParams = AlgorithmParameters.getInstance("DSA", "SUN");
-            algParams.init(dsaParamSpec);
-        } catch (InvalidParameterSpecException e) {
-            // this should never happen
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            // this should never happen, because we provide it
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchProviderException e) {
-            // this should never happen, because we provide it
-            throw new RuntimeException(e.getMessage());
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd =
+                nfw DSAPbrbmftfrSpfd(pbrbmP, pbrbmQ, pbrbmG);
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DSA", "SUN");
+            blgPbrbms.init(dsbPbrbmSpfd);
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            // tiis siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdi (NoSudiProvidfrExdfption f) {
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
         }
 
-        return algParams;
+        rfturn blgPbrbms;
     }
 
     /*
-     * Generates the prime and subprime parameters for DSA,
-     * using the provided source of randomness.
-     * This method will generate new seeds until a suitable
-     * seed has been found.
+     * Gfnfrbtfs tif primf bnd subprimf pbrbmftfrs for DSA,
+     * using tif providfd sourdf of rbndomnfss.
+     * Tiis mftiod will gfnfrbtf nfw sffds until b suitbblf
+     * sffd ibs bffn found.
      *
-     * @param random the source of randomness to generate the
-     * seed
-     * @param valueL the size of <code>p</code>, in bits.
-     * @param valueN the size of <code>q</code>, in bits.
-     * @param seedLen the length of <code>seed</code>, in bits.
+     * @pbrbm rbndom tif sourdf of rbndomnfss to gfnfrbtf tif
+     * sffd
+     * @pbrbm vblufL tif sizf of <dodf>p</dodf>, in bits.
+     * @pbrbm vblufN tif sizf of <dodf>q</dodf>, in bits.
+     * @pbrbm sffdLfn tif lfngti of <dodf>sffd</dodf>, in bits.
      *
-     * @return an array of BigInteger, with <code>p</code> at index 0 and
-     * <code>q</code> at index 1, the seed at index 2, and the counter value
-     * at index 3.
+     * @rfturn bn brrby of BigIntfgfr, witi <dodf>p</dodf> bt indfx 0 bnd
+     * <dodf>q</dodf> bt indfx 1, tif sffd bt indfx 2, bnd tif dountfr vbluf
+     * bt indfx 3.
      */
-    private static BigInteger[] generatePandQ(SecureRandom random, int valueL,
-                                              int valueN, int seedLen) {
-        String hashAlg = null;
-        if (valueN == 160) {
-            hashAlg = "SHA";
-        } else if (valueN == 224) {
-            hashAlg = "SHA-224";
-        } else if (valueN == 256) {
-            hashAlg = "SHA-256";
+    privbtf stbtid BigIntfgfr[] gfnfrbtfPbndQ(SfdurfRbndom rbndom, int vblufL,
+                                              int vblufN, int sffdLfn) {
+        String ibsiAlg = null;
+        if (vblufN == 160) {
+            ibsiAlg = "SHA";
+        } flsf if (vblufN == 224) {
+            ibsiAlg = "SHA-224";
+        } flsf if (vblufN == 256) {
+            ibsiAlg = "SHA-256";
         }
-        MessageDigest hashObj = null;
+        MfssbgfDigfst ibsiObj = null;
         try {
-            hashObj = MessageDigest.getInstance(hashAlg);
-        } catch (NoSuchAlgorithmException nsae) {
-            // should never happen
-            nsae.printStackTrace();
+            ibsiObj = MfssbgfDigfst.gftInstbndf(ibsiAlg);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // siould nfvfr ibppfn
+            nsbf.printStbdkTrbdf();
         }
 
-        /* Step 3, 4: Useful variables */
-        int outLen = hashObj.getDigestLength()*8;
-        int n = (valueL - 1) / outLen;
-        int b = (valueL - 1) % outLen;
-        byte[] seedBytes = new byte[seedLen/8];
-        BigInteger twoSl = TWO.pow(seedLen);
-        int primeCertainty = 80; // for 1024-bit prime P
-        if (valueL == 2048) {
-            primeCertainty = 112;
-            //} else if (valueL == 3072) {
-            //    primeCertainty = 128;
+        /* Stfp 3, 4: Usfful vbribblfs */
+        int outLfn = ibsiObj.gftDigfstLfngti()*8;
+        int n = (vblufL - 1) / outLfn;
+        int b = (vblufL - 1) % outLfn;
+        bytf[] sffdBytfs = nfw bytf[sffdLfn/8];
+        BigIntfgfr twoSl = TWO.pow(sffdLfn);
+        int primfCfrtbinty = 80; // for 1024-bit primf P
+        if (vblufL == 2048) {
+            primfCfrtbinty = 112;
+            //} flsf if (vblufL == 3072) {
+            //    primfCfrtbinty = 128;
         }
 
-        BigInteger resultP, resultQ, seed = null;
-        int counter;
-        while (true) {
+        BigIntfgfr rfsultP, rfsultQ, sffd = null;
+        int dountfr;
+        wiilf (truf) {
             do {
-                /* Step 5 */
-                random.nextBytes(seedBytes);
-                seed = new BigInteger(1, seedBytes);
+                /* Stfp 5 */
+                rbndom.nfxtBytfs(sffdBytfs);
+                sffd = nfw BigIntfgfr(1, sffdBytfs);
 
-                /* Step 6 */
-                BigInteger U = new BigInteger(1, hashObj.digest(seedBytes)).
-                    mod(TWO.pow(valueN - 1));
+                /* Stfp 6 */
+                BigIntfgfr U = nfw BigIntfgfr(1, ibsiObj.digfst(sffdBytfs)).
+                    mod(TWO.pow(vblufN - 1));
 
-                /* Step 7 */
-                resultQ = TWO.pow(valueN - 1).add(U).add(ONE). subtract(U.mod(TWO));
-            } while (!resultQ.isProbablePrime(primeCertainty));
+                /* Stfp 7 */
+                rfsultQ = TWO.pow(vblufN - 1).bdd(U).bdd(ONE). subtrbdt(U.mod(TWO));
+            } wiilf (!rfsultQ.isProbbblfPrimf(primfCfrtbinty));
 
-            /* Step 10 */
-            BigInteger offset = ONE;
-            /* Step 11 */
-            for (counter = 0; counter < 4*valueL; counter++) {
-                BigInteger V[] = new BigInteger[n + 1];
-                /* Step 11.1 */
+            /* Stfp 10 */
+            BigIntfgfr offsft = ONE;
+            /* Stfp 11 */
+            for (dountfr = 0; dountfr < 4*vblufL; dountfr++) {
+                BigIntfgfr V[] = nfw BigIntfgfr[n + 1];
+                /* Stfp 11.1 */
                 for (int j = 0; j <= n; j++) {
-                    BigInteger J = BigInteger.valueOf(j);
-                    BigInteger tmp = (seed.add(offset).add(J)).mod(twoSl);
-                    byte[] vjBytes = hashObj.digest(toByteArray(tmp));
-                    V[j] = new BigInteger(1, vjBytes);
+                    BigIntfgfr J = BigIntfgfr.vblufOf(j);
+                    BigIntfgfr tmp = (sffd.bdd(offsft).bdd(J)).mod(twoSl);
+                    bytf[] vjBytfs = ibsiObj.digfst(toBytfArrby(tmp));
+                    V[j] = nfw BigIntfgfr(1, vjBytfs);
                 }
-                /* Step 11.2 */
-                BigInteger W = V[0];
+                /* Stfp 11.2 */
+                BigIntfgfr W = V[0];
                 for (int i = 1; i < n; i++) {
-                    W = W.add(V[i].multiply(TWO.pow(i * outLen)));
+                    W = W.bdd(V[i].multiply(TWO.pow(i * outLfn)));
                 }
-                W = W.add((V[n].mod(TWO.pow(b))).multiply(TWO.pow(n * outLen)));
-                /* Step 11.3 */
-                BigInteger twoLm1 = TWO.pow(valueL - 1);
-                BigInteger X = W.add(twoLm1);
-                /* Step 11.4, 11.5 */
-                BigInteger c = X.mod(resultQ.multiply(TWO));
-                resultP = X.subtract(c.subtract(ONE));
-                /* Step 11.6, 11.7 */
-                if (resultP.compareTo(twoLm1) > -1
-                    && resultP.isProbablePrime(primeCertainty)) {
-                    /* Step 11.8 */
-                    BigInteger[] result = {resultP, resultQ, seed,
-                                           BigInteger.valueOf(counter)};
-                    return result;
+                W = W.bdd((V[n].mod(TWO.pow(b))).multiply(TWO.pow(n * outLfn)));
+                /* Stfp 11.3 */
+                BigIntfgfr twoLm1 = TWO.pow(vblufL - 1);
+                BigIntfgfr X = W.bdd(twoLm1);
+                /* Stfp 11.4, 11.5 */
+                BigIntfgfr d = X.mod(rfsultQ.multiply(TWO));
+                rfsultP = X.subtrbdt(d.subtrbdt(ONE));
+                /* Stfp 11.6, 11.7 */
+                if (rfsultP.dompbrfTo(twoLm1) > -1
+                    && rfsultP.isProbbblfPrimf(primfCfrtbinty)) {
+                    /* Stfp 11.8 */
+                    BigIntfgfr[] rfsult = {rfsultP, rfsultQ, sffd,
+                                           BigIntfgfr.vblufOf(dountfr)};
+                    rfturn rfsult;
                 }
-                /* Step 11.9 */
-                offset = offset.add(BigInteger.valueOf(n)).add(ONE);
+                /* Stfp 11.9 */
+                offsft = offsft.bdd(BigIntfgfr.vblufOf(n)).bdd(ONE);
              }
         }
 
     }
 
     /*
-     * Generates the <code>g</code> parameter for DSA.
+     * Gfnfrbtfs tif <dodf>g</dodf> pbrbmftfr for DSA.
      *
-     * @param p the prime, <code>p</code>.
-     * @param q the subprime, <code>q</code>.
+     * @pbrbm p tif primf, <dodf>p</dodf>.
+     * @pbrbm q tif subprimf, <dodf>q</dodf>.
      *
-     * @param the <code>g</code>
+     * @pbrbm tif <dodf>g</dodf>
      */
-    private static BigInteger generateG(BigInteger p, BigInteger q) {
-        BigInteger h = ONE;
-        /* Step 1 */
-        BigInteger pMinusOneOverQ = (p.subtract(ONE)).divide(q);
-        BigInteger resultG = ONE;
-        while (resultG.compareTo(TWO) < 0) {
-            /* Step 3 */
-            resultG = h.modPow(pMinusOneOverQ, p);
-            h = h.add(ONE);
+    privbtf stbtid BigIntfgfr gfnfrbtfG(BigIntfgfr p, BigIntfgfr q) {
+        BigIntfgfr i = ONE;
+        /* Stfp 1 */
+        BigIntfgfr pMinusOnfOvfrQ = (p.subtrbdt(ONE)).dividf(q);
+        BigIntfgfr rfsultG = ONE;
+        wiilf (rfsultG.dompbrfTo(TWO) < 0) {
+            /* Stfp 3 */
+            rfsultG = i.modPow(pMinusOnfOvfrQ, p);
+            i = i.bdd(ONE);
         }
-        return resultG;
+        rfturn rfsultG;
     }
 
     /*
-     * Converts the result of a BigInteger.toByteArray call to an exact
-     * signed magnitude representation for any positive number.
+     * Convfrts tif rfsult of b BigIntfgfr.toBytfArrby dbll to bn fxbdt
+     * signfd mbgnitudf rfprfsfntbtion for bny positivf numbfr.
      */
-    private static byte[] toByteArray(BigInteger bigInt) {
-        byte[] result = bigInt.toByteArray();
-        if (result[0] == 0) {
-            byte[] tmp = new byte[result.length - 1];
-            System.arraycopy(result, 1, tmp, 0, tmp.length);
-            result = tmp;
+    privbtf stbtid bytf[] toBytfArrby(BigIntfgfr bigInt) {
+        bytf[] rfsult = bigInt.toBytfArrby();
+        if (rfsult[0] == 0) {
+            bytf[] tmp = nfw bytf[rfsult.lfngti - 1];
+            Systfm.brrbydopy(rfsult, 1, tmp, 0, tmp.lfngti);
+            rfsult = tmp;
         }
-        return result;
+        rfturn rfsult;
     }
 }

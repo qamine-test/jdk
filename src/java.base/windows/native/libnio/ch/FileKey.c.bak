@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "nio.h"
-#include "nio_util.h"
-#include "sun_nio_ch_FileKey.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "sun_nio_di_FilfKfy.i"
 
-static jfieldID key_volumeSN;    /* id for FileKey.dwVolumeSerialNumber */
-static jfieldID key_indexHigh;   /* id for FileKey.nFileIndexHigh */
-static jfieldID key_indexLow;    /* id for FileKey.nFileIndexLow */
+stbtid jfifldID kfy_volumfSN;    /* id for FilfKfy.dwVolumfSfriblNumbfr */
+stbtid jfifldID kfy_indfxHigi;   /* id for FilfKfy.nFilfIndfxHigi */
+stbtid jfifldID kfy_indfxLow;    /* id for FilfKfy.nFilfIndfxLow */
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileKey_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_FilfKfy_initIDs(JNIEnv *fnv, jdlbss dlbzz)
 {
-    CHECK_NULL(key_volumeSN = (*env)->GetFieldID(env, clazz, "dwVolumeSerialNumber", "J"));
-    CHECK_NULL(key_indexHigh = (*env)->GetFieldID(env, clazz, "nFileIndexHigh", "J"));
-    CHECK_NULL(key_indexLow = (*env)->GetFieldID(env, clazz, "nFileIndexLow", "J"));
+    CHECK_NULL(kfy_volumfSN = (*fnv)->GftFifldID(fnv, dlbzz, "dwVolumfSfriblNumbfr", "J"));
+    CHECK_NULL(kfy_indfxHigi = (*fnv)->GftFifldID(fnv, dlbzz, "nFilfIndfxHigi", "J"));
+    CHECK_NULL(kfy_indfxLow = (*fnv)->GftFifldID(fnv, dlbzz, "nFilfIndfxLow", "J"));
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileKey_init(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_FilfKfy_init(JNIEnv *fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    HANDLE fileHandle = (HANDLE)(handleval(env, fdo));
-    BOOL result;
-    BY_HANDLE_FILE_INFORMATION fileInfo;
+    HANDLE filfHbndlf = (HANDLE)(ibndlfvbl(fnv, fdo));
+    BOOL rfsult;
+    BY_HANDLE_FILE_INFORMATION filfInfo;
 
-    result = GetFileInformationByHandle(fileHandle, &fileInfo);
-    if (result) {
-        (*env)->SetLongField(env, this, key_volumeSN, fileInfo.dwVolumeSerialNumber);
-        (*env)->SetLongField(env, this, key_indexHigh, fileInfo.nFileIndexHigh);
-        (*env)->SetLongField(env, this, key_indexLow, fileInfo.nFileIndexLow);
-    } else {
-        JNU_ThrowIOExceptionWithLastError(env, "GetFileInformationByHandle failed");
+    rfsult = GftFilfInformbtionByHbndlf(filfHbndlf, &filfInfo);
+    if (rfsult) {
+        (*fnv)->SftLongFifld(fnv, tiis, kfy_volumfSN, filfInfo.dwVolumfSfriblNumbfr);
+        (*fnv)->SftLongFifld(fnv, tiis, kfy_indfxHigi, filfInfo.nFilfIndfxHigi);
+        (*fnv)->SftLongFifld(fnv, tiis, kfy_indfxLow, filfInfo.nFilfIndfxLow);
+    } flsf {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftFilfInformbtionByHbndlf fbilfd");
     }
 }

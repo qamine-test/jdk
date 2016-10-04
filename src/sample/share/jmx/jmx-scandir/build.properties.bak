@@ -1,58 +1,58 @@
 # IMPORTANT NOTE
 #
-# If you made a private copy of this project you may have to update the
-# nbjdk.home variable at the end of this file.
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
 #  
-# To be able to run the test-suite, you will also have to set the
-# variable:
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# vbribblf:
 #
-# libs.junit.classpath=<junit.jar> 
+# libs.junit.dlbsspbti=<junit.jbr> 
 #
 
-main.dir=.
+mbin.dir=.
 
-src.dir=${main.dir}/src
-test.src.dir=${main.dir}/test
+srd.dir=${mbin.dir}/srd
+tfst.srd.dir=${mbin.dir}/tfst
 
 build.dir=build
-classes.dir=${build.dir}/classes
+dlbssfs.dir=${build.dir}/dlbssfs
 
 dist.dir=dist
-jar=${dist.dir}/jmx-scandir.jar
-javadoc.dir=${dist.dir}/javadoc
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbvbdod.dir=${dist.dir}/jbvbdod
 
-build.test.classes.dir=${build.dir}/test/classes
-build.test.results.dir=${build.dir}/test/results
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
 
-build.sysclasspath=ignore
-# E.g.: cp=lib/x.jar:lib/y.jar
-cp=
-extra.run.cp=
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=
+fxtrb.run.dp=
 
-# To be able to run the test-suite, set the following property:
-# libs.junit.classpath=...
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# libs.junit.dlbsspbti=...
 
-javac.test.classpath=\
-    ${classes.dir}:\
-    ${libs.junit.classpath}
+jbvbd.tfst.dlbsspbti=\
+    ${dlbssfs.dir}:\
+    ${libs.junit.dlbsspbti}
 
-main.agent.class=com.sun.jmx.examples.scandir.ScanDirAgent
-main.client.class=com.sun.jmx.examples.scandir.ScanDirClient
-main.class=${main.client.class}
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
+mbin.dlbss=${mbin.dlifnt.dlbss}
 
-run.jvmargs=-Djava.util.logging.config.file=logging.properties
-common.jvmargs=${run.jvmargs} -Djavax.net.ssl.keyStore=keystore -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore=truststore -Djavax.net.ssl.trustStorePassword=trustword
-client.jvmargs=${common.jvmargs}
-agent.jvmargs=${common.jvmargs} -Dcom.sun.management.config.file=src/etc/management.properties -Dscandir.config.file=src/etc/testconfig.xml
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
 
-client.args=localhost 4545
+dlifnt.brgs=lodbliost 4545
 
-run.cp=${cp}:${classes.dir}:${extra.run.cp}
-run.test.classpath=${run.cp}:${build.test.classes.dir}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
 
-debug=true
-deprecation=false
+dfbug=truf
+dfprfdbtion=fblsf
 
-# Update this variable if need be to point to the JDK 6 location.
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
 # 
-nbjdk.home=${basedir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..

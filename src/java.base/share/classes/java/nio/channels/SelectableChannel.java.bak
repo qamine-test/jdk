@@ -1,344 +1,344 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
-import java.nio.channels.spi.SelectorProvider;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.spi.AbstrbdtIntfrruptiblfCibnnfl;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
 
 
 /**
- * A channel that can be multiplexed via a {@link Selector}.
+ * A dibnnfl tibt dbn bf multiplfxfd vib b {@link Sflfdtor}.
  *
- * <p> In order to be used with a selector, an instance of this class must
- * first be <i>registered</i> via the {@link #register(Selector,int,Object)
- * register} method.  This method returns a new {@link SelectionKey} object
- * that represents the channel's registration with the selector.
+ * <p> In ordfr to bf usfd witi b sflfdtor, bn instbndf of tiis dlbss must
+ * first bf <i>rfgistfrfd</i> vib tif {@link #rfgistfr(Sflfdtor,int,Objfdt)
+ * rfgistfr} mftiod.  Tiis mftiod rfturns b nfw {@link SflfdtionKfy} objfdt
+ * tibt rfprfsfnts tif dibnnfl's rfgistrbtion witi tif sflfdtor.
  *
- * <p> Once registered with a selector, a channel remains registered until it
- * is <i>deregistered</i>.  This involves deallocating whatever resources were
- * allocated to the channel by the selector.
+ * <p> Ondf rfgistfrfd witi b sflfdtor, b dibnnfl rfmbins rfgistfrfd until it
+ * is <i>dfrfgistfrfd</i>.  Tiis involvfs dfbllodbting wibtfvfr rfsourdfs wfrf
+ * bllodbtfd to tif dibnnfl by tif sflfdtor.
  *
- * <p> A channel cannot be deregistered directly; instead, the key representing
- * its registration must be <i>cancelled</i>.  Cancelling a key requests that
- * the channel be deregistered during the selector's next selection operation.
- * A key may be cancelled explicitly by invoking its {@link
- * SelectionKey#cancel() cancel} method.  All of a channel's keys are cancelled
- * implicitly when the channel is closed, whether by invoking its {@link
- * Channel#close close} method or by interrupting a thread blocked in an I/O
- * operation upon the channel.
+ * <p> A dibnnfl dbnnot bf dfrfgistfrfd dirfdtly; instfbd, tif kfy rfprfsfnting
+ * its rfgistrbtion must bf <i>dbndfllfd</i>.  Cbndflling b kfy rfqufsts tibt
+ * tif dibnnfl bf dfrfgistfrfd during tif sflfdtor's nfxt sflfdtion opfrbtion.
+ * A kfy mby bf dbndfllfd fxpliditly by invoking its {@link
+ * SflfdtionKfy#dbndfl() dbndfl} mftiod.  All of b dibnnfl's kfys brf dbndfllfd
+ * impliditly wifn tif dibnnfl is dlosfd, wiftifr by invoking its {@link
+ * Cibnnfl#dlosf dlosf} mftiod or by intfrrupting b tirfbd blodkfd in bn I/O
+ * opfrbtion upon tif dibnnfl.
  *
- * <p> If the selector itself is closed then the channel will be deregistered,
- * and the key representing its registration will be invalidated, without
- * further delay.
+ * <p> If tif sflfdtor itsflf is dlosfd tifn tif dibnnfl will bf dfrfgistfrfd,
+ * bnd tif kfy rfprfsfnting its rfgistrbtion will bf invblidbtfd, witiout
+ * furtifr dflby.
  *
- * <p> A channel may be registered at most once with any particular selector.
+ * <p> A dibnnfl mby bf rfgistfrfd bt most ondf witi bny pbrtidulbr sflfdtor.
  *
- * <p> Whether or not a channel is registered with one or more selectors may be
- * determined by invoking the {@link #isRegistered isRegistered} method.
+ * <p> Wiftifr or not b dibnnfl is rfgistfrfd witi onf or morf sflfdtors mby bf
+ * dftfrminfd by invoking tif {@link #isRfgistfrfd isRfgistfrfd} mftiod.
  *
- * <p> Selectable channels are safe for use by multiple concurrent
- * threads. </p>
- *
- *
- * <a name="bm"></a>
- * <h2>Blocking mode</h2>
- *
- * A selectable channel is either in <i>blocking</i> mode or in
- * <i>non-blocking</i> mode.  In blocking mode, every I/O operation invoked
- * upon the channel will block until it completes.  In non-blocking mode an I/O
- * operation will never block and may transfer fewer bytes than were requested
- * or possibly no bytes at all.  The blocking mode of a selectable channel may
- * be determined by invoking its {@link #isBlocking isBlocking} method.
- *
- * <p> Newly-created selectable channels are always in blocking mode.
- * Non-blocking mode is most useful in conjunction with selector-based
- * multiplexing.  A channel must be placed into non-blocking mode before being
- * registered with a selector, and may not be returned to blocking mode until
- * it has been deregistered.
+ * <p> Sflfdtbblf dibnnfls brf sbff for usf by multiplf dondurrfnt
+ * tirfbds. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * <b nbmf="bm"></b>
+ * <i2>Blodking modf</i2>
  *
- * @see SelectionKey
- * @see Selector
+ * A sflfdtbblf dibnnfl is fitifr in <i>blodking</i> modf or in
+ * <i>non-blodking</i> modf.  In blodking modf, fvfry I/O opfrbtion invokfd
+ * upon tif dibnnfl will blodk until it domplftfs.  In non-blodking modf bn I/O
+ * opfrbtion will nfvfr blodk bnd mby trbnsffr ffwfr bytfs tibn wfrf rfqufstfd
+ * or possibly no bytfs bt bll.  Tif blodking modf of b sflfdtbblf dibnnfl mby
+ * bf dftfrminfd by invoking its {@link #isBlodking isBlodking} mftiod.
+ *
+ * <p> Nfwly-drfbtfd sflfdtbblf dibnnfls brf blwbys in blodking modf.
+ * Non-blodking modf is most usfful in donjundtion witi sflfdtor-bbsfd
+ * multiplfxing.  A dibnnfl must bf plbdfd into non-blodking modf bfforf bfing
+ * rfgistfrfd witi b sflfdtor, bnd mby not bf rfturnfd to blodking modf until
+ * it ibs bffn dfrfgistfrfd.
+ *
+ *
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff SflfdtionKfy
+ * @sff Sflfdtor
  */
 
-public abstract class SelectableChannel
-    extends AbstractInterruptibleChannel
-    implements Channel
+publid bbstrbdt dlbss SflfdtbblfCibnnfl
+    fxtfnds AbstrbdtIntfrruptiblfCibnnfl
+    implfmfnts Cibnnfl
 {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected SelectableChannel() { }
+    protfdtfd SflfdtbblfCibnnfl() { }
 
     /**
-     * Returns the provider that created this channel.
+     * Rfturns tif providfr tibt drfbtfd tiis dibnnfl.
      *
-     * @return  The provider that created this channel
+     * @rfturn  Tif providfr tibt drfbtfd tiis dibnnfl
      */
-    public abstract SelectorProvider provider();
+    publid bbstrbdt SflfdtorProvidfr providfr();
 
     /**
-     * Returns an <a href="SelectionKey.html#opsets">operation set</a>
-     * identifying this channel's supported operations.  The bits that are set
-     * in this integer value denote exactly the operations that are valid for
-     * this channel.  This method always returns the same value for a given
-     * concrete channel class.
+     * Rfturns bn <b irff="SflfdtionKfy.itml#opsfts">opfrbtion sft</b>
+     * idfntifying tiis dibnnfl's supportfd opfrbtions.  Tif bits tibt brf sft
+     * in tiis intfgfr vbluf dfnotf fxbdtly tif opfrbtions tibt brf vblid for
+     * tiis dibnnfl.  Tiis mftiod blwbys rfturns tif sbmf vbluf for b givfn
+     * dondrftf dibnnfl dlbss.
      *
-     * @return  The valid-operation set
+     * @rfturn  Tif vblid-opfrbtion sft
      */
-    public abstract int validOps();
+    publid bbstrbdt int vblidOps();
 
-    // Internal state:
-    //   keySet, may be empty but is never null, typ. a tiny array
-    //   boolean isRegistered, protected by key set
-    //   regLock, lock object to prevent duplicate registrations
-    //   boolean isBlocking, protected by regLock
+    // Intfrnbl stbtf:
+    //   kfySft, mby bf fmpty but is nfvfr null, typ. b tiny brrby
+    //   boolfbn isRfgistfrfd, protfdtfd by kfy sft
+    //   rfgLodk, lodk objfdt to prfvfnt duplidbtf rfgistrbtions
+    //   boolfbn isBlodking, protfdtfd by rfgLodk
 
     /**
-     * Tells whether or not this channel is currently registered with any
-     * selectors.  A newly-created channel is not registered.
+     * Tflls wiftifr or not tiis dibnnfl is durrfntly rfgistfrfd witi bny
+     * sflfdtors.  A nfwly-drfbtfd dibnnfl is not rfgistfrfd.
      *
-     * <p> Due to the inherent delay between key cancellation and channel
-     * deregistration, a channel may remain registered for some time after all
-     * of its keys have been cancelled.  A channel may also remain registered
-     * for some time after it is closed.  </p>
+     * <p> Duf to tif inifrfnt dflby bftwffn kfy dbndfllbtion bnd dibnnfl
+     * dfrfgistrbtion, b dibnnfl mby rfmbin rfgistfrfd for somf timf bftfr bll
+     * of its kfys ibvf bffn dbndfllfd.  A dibnnfl mby blso rfmbin rfgistfrfd
+     * for somf timf bftfr it is dlosfd.  </p>
      *
-     * @return <tt>true</tt> if, and only if, this channel is registered
+     * @rfturn <tt>truf</tt> if, bnd only if, tiis dibnnfl is rfgistfrfd
      */
-    public abstract boolean isRegistered();
+    publid bbstrbdt boolfbn isRfgistfrfd();
     //
-    // sync(keySet) { return isRegistered; }
+    // synd(kfySft) { rfturn isRfgistfrfd; }
 
     /**
-     * Retrieves the key representing the channel's registration with the given
-     * selector.
+     * Rftrifvfs tif kfy rfprfsfnting tif dibnnfl's rfgistrbtion witi tif givfn
+     * sflfdtor.
      *
-     * @param   sel
-     *          The selector
+     * @pbrbm   sfl
+     *          Tif sflfdtor
      *
-     * @return  The key returned when this channel was last registered with the
-     *          given selector, or <tt>null</tt> if this channel is not
-     *          currently registered with that selector
+     * @rfturn  Tif kfy rfturnfd wifn tiis dibnnfl wbs lbst rfgistfrfd witi tif
+     *          givfn sflfdtor, or <tt>null</tt> if tiis dibnnfl is not
+     *          durrfntly rfgistfrfd witi tibt sflfdtor
      */
-    public abstract SelectionKey keyFor(Selector sel);
+    publid bbstrbdt SflfdtionKfy kfyFor(Sflfdtor sfl);
     //
-    // sync(keySet) { return findKey(sel); }
+    // synd(kfySft) { rfturn findKfy(sfl); }
 
     /**
-     * Registers this channel with the given selector, returning a selection
-     * key.
+     * Rfgistfrs tiis dibnnfl witi tif givfn sflfdtor, rfturning b sflfdtion
+     * kfy.
      *
-     * <p> If this channel is currently registered with the given selector then
-     * the selection key representing that registration is returned.  The key's
-     * interest set will have been changed to <tt>ops</tt>, as if by invoking
-     * the {@link SelectionKey#interestOps(int) interestOps(int)} method.  If
-     * the <tt>att</tt> argument is not <tt>null</tt> then the key's attachment
-     * will have been set to that value.  A {@link CancelledKeyException} will
-     * be thrown if the key has already been cancelled.
+     * <p> If tiis dibnnfl is durrfntly rfgistfrfd witi tif givfn sflfdtor tifn
+     * tif sflfdtion kfy rfprfsfnting tibt rfgistrbtion is rfturnfd.  Tif kfy's
+     * intfrfst sft will ibvf bffn dibngfd to <tt>ops</tt>, bs if by invoking
+     * tif {@link SflfdtionKfy#intfrfstOps(int) intfrfstOps(int)} mftiod.  If
+     * tif <tt>btt</tt> brgumfnt is not <tt>null</tt> tifn tif kfy's bttbdimfnt
+     * will ibvf bffn sft to tibt vbluf.  A {@link CbndfllfdKfyExdfption} will
+     * bf tirown if tif kfy ibs blrfbdy bffn dbndfllfd.
      *
-     * <p> Otherwise this channel has not yet been registered with the given
-     * selector, so it is registered and the resulting new key is returned.
-     * The key's initial interest set will be <tt>ops</tt> and its attachment
-     * will be <tt>att</tt>.
+     * <p> Otifrwisf tiis dibnnfl ibs not yft bffn rfgistfrfd witi tif givfn
+     * sflfdtor, so it is rfgistfrfd bnd tif rfsulting nfw kfy is rfturnfd.
+     * Tif kfy's initibl intfrfst sft will bf <tt>ops</tt> bnd its bttbdimfnt
+     * will bf <tt>btt</tt>.
      *
-     * <p> This method may be invoked at any time.  If this method is invoked
-     * while another invocation of this method or of the {@link
-     * #configureBlocking(boolean) configureBlocking} method is in progress
-     * then it will first block until the other operation is complete.  This
-     * method will then synchronize on the selector's key set and therefore may
-     * block if invoked concurrently with another registration or selection
-     * operation involving the same selector. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If tiis mftiod is invokfd
+     * wiilf bnotifr invodbtion of tiis mftiod or of tif {@link
+     * #donfigurfBlodking(boolfbn) donfigurfBlodking} mftiod is in progrfss
+     * tifn it will first blodk until tif otifr opfrbtion is domplftf.  Tiis
+     * mftiod will tifn syndironizf on tif sflfdtor's kfy sft bnd tifrfforf mby
+     * blodk if invokfd dondurrfntly witi bnotifr rfgistrbtion or sflfdtion
+     * opfrbtion involving tif sbmf sflfdtor. </p>
      *
-     * <p> If this channel is closed while this operation is in progress then
-     * the key returned by this method will have been cancelled and will
-     * therefore be invalid. </p>
+     * <p> If tiis dibnnfl is dlosfd wiilf tiis opfrbtion is in progrfss tifn
+     * tif kfy rfturnfd by tiis mftiod will ibvf bffn dbndfllfd bnd will
+     * tifrfforf bf invblid. </p>
      *
-     * @param  sel
-     *         The selector with which this channel is to be registered
+     * @pbrbm  sfl
+     *         Tif sflfdtor witi wiidi tiis dibnnfl is to bf rfgistfrfd
      *
-     * @param  ops
-     *         The interest set for the resulting key
+     * @pbrbm  ops
+     *         Tif intfrfst sft for tif rfsulting kfy
      *
-     * @param  att
-     *         The attachment for the resulting key; may be <tt>null</tt>
+     * @pbrbm  btt
+     *         Tif bttbdimfnt for tif rfsulting kfy; mby bf <tt>null</tt>
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  ClosedSelectorException
-     *          If the selector is closed
+     * @tirows  ClosfdSflfdtorExdfption
+     *          If tif sflfdtor is dlosfd
      *
-     * @throws  IllegalBlockingModeException
-     *          If this channel is in blocking mode
+     * @tirows  IllfgblBlodkingModfExdfption
+     *          If tiis dibnnfl is in blodking modf
      *
-     * @throws  IllegalSelectorException
-     *          If this channel was not created by the same provider
-     *          as the given selector
+     * @tirows  IllfgblSflfdtorExdfption
+     *          If tiis dibnnfl wbs not drfbtfd by tif sbmf providfr
+     *          bs tif givfn sflfdtor
      *
-     * @throws  CancelledKeyException
-     *          If this channel is currently registered with the given selector
-     *          but the corresponding key has already been cancelled
+     * @tirows  CbndfllfdKfyExdfption
+     *          If tiis dibnnfl is durrfntly rfgistfrfd witi tif givfn sflfdtor
+     *          but tif dorrfsponding kfy ibs blrfbdy bffn dbndfllfd
      *
-     * @throws  IllegalArgumentException
-     *          If a bit in the <tt>ops</tt> set does not correspond to an
-     *          operation that is supported by this channel, that is, if
-     *          {@code set & ~validOps() != 0}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If b bit in tif <tt>ops</tt> sft dofs not dorrfspond to bn
+     *          opfrbtion tibt is supportfd by tiis dibnnfl, tibt is, if
+     *          {@dodf sft & ~vblidOps() != 0}
      *
-     * @return  A key representing the registration of this channel with
-     *          the given selector
+     * @rfturn  A kfy rfprfsfnting tif rfgistrbtion of tiis dibnnfl witi
+     *          tif givfn sflfdtor
      */
-    public abstract SelectionKey register(Selector sel, int ops, Object att)
-        throws ClosedChannelException;
+    publid bbstrbdt SflfdtionKfy rfgistfr(Sflfdtor sfl, int ops, Objfdt btt)
+        tirows ClosfdCibnnflExdfption;
     //
-    // sync(regLock) {
-    //   sync(keySet) { look for selector }
-    //   if (channel found) { set interest ops -- may block in selector;
-    //                        return key; }
-    //   create new key -- may block somewhere in selector;
-    //   sync(keySet) { add key; }
-    //   attach(attachment);
-    //   return key;
+    // synd(rfgLodk) {
+    //   synd(kfySft) { look for sflfdtor }
+    //   if (dibnnfl found) { sft intfrfst ops -- mby blodk in sflfdtor;
+    //                        rfturn kfy; }
+    //   drfbtf nfw kfy -- mby blodk somfwifrf in sflfdtor;
+    //   synd(kfySft) { bdd kfy; }
+    //   bttbdi(bttbdimfnt);
+    //   rfturn kfy;
     // }
 
     /**
-     * Registers this channel with the given selector, returning a selection
-     * key.
+     * Rfgistfrs tiis dibnnfl witi tif givfn sflfdtor, rfturning b sflfdtion
+     * kfy.
      *
-     * <p> An invocation of this convenience method of the form
+     * <p> An invodbtion of tiis donvfnifndf mftiod of tif form
      *
-     * <blockquote><tt>sc.register(sel, ops)</tt></blockquote>
+     * <blodkquotf><tt>sd.rfgistfr(sfl, ops)</tt></blodkquotf>
      *
-     * behaves in exactly the same way as the invocation
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <blockquote><tt>sc.{@link
-     * #register(java.nio.channels.Selector,int,java.lang.Object)
-     * register}(sel, ops, null)</tt></blockquote>
+     * <blodkquotf><tt>sd.{@link
+     * #rfgistfr(jbvb.nio.dibnnfls.Sflfdtor,int,jbvb.lbng.Objfdt)
+     * rfgistfr}(sfl, ops, null)</tt></blodkquotf>
      *
-     * @param  sel
-     *         The selector with which this channel is to be registered
+     * @pbrbm  sfl
+     *         Tif sflfdtor witi wiidi tiis dibnnfl is to bf rfgistfrfd
      *
-     * @param  ops
-     *         The interest set for the resulting key
+     * @pbrbm  ops
+     *         Tif intfrfst sft for tif rfsulting kfy
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  ClosedSelectorException
-     *          If the selector is closed
+     * @tirows  ClosfdSflfdtorExdfption
+     *          If tif sflfdtor is dlosfd
      *
-     * @throws  IllegalBlockingModeException
-     *          If this channel is in blocking mode
+     * @tirows  IllfgblBlodkingModfExdfption
+     *          If tiis dibnnfl is in blodking modf
      *
-     * @throws  IllegalSelectorException
-     *          If this channel was not created by the same provider
-     *          as the given selector
+     * @tirows  IllfgblSflfdtorExdfption
+     *          If tiis dibnnfl wbs not drfbtfd by tif sbmf providfr
+     *          bs tif givfn sflfdtor
      *
-     * @throws  CancelledKeyException
-     *          If this channel is currently registered with the given selector
-     *          but the corresponding key has already been cancelled
+     * @tirows  CbndfllfdKfyExdfption
+     *          If tiis dibnnfl is durrfntly rfgistfrfd witi tif givfn sflfdtor
+     *          but tif dorrfsponding kfy ibs blrfbdy bffn dbndfllfd
      *
-     * @throws  IllegalArgumentException
-     *          If a bit in <tt>ops</tt> does not correspond to an operation
-     *          that is supported by this channel, that is, if {@code set &
-     *          ~validOps() != 0}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If b bit in <tt>ops</tt> dofs not dorrfspond to bn opfrbtion
+     *          tibt is supportfd by tiis dibnnfl, tibt is, if {@dodf sft &
+     *          ~vblidOps() != 0}
      *
-     * @return  A key representing the registration of this channel with
-     *          the given selector
+     * @rfturn  A kfy rfprfsfnting tif rfgistrbtion of tiis dibnnfl witi
+     *          tif givfn sflfdtor
      */
-    public final SelectionKey register(Selector sel, int ops)
-        throws ClosedChannelException
+    publid finbl SflfdtionKfy rfgistfr(Sflfdtor sfl, int ops)
+        tirows ClosfdCibnnflExdfption
     {
-        return register(sel, ops, null);
+        rfturn rfgistfr(sfl, ops, null);
     }
 
     /**
-     * Adjusts this channel's blocking mode.
+     * Adjusts tiis dibnnfl's blodking modf.
      *
-     * <p> If this channel is registered with one or more selectors then an
-     * attempt to place it into blocking mode will cause an {@link
-     * IllegalBlockingModeException} to be thrown.
+     * <p> If tiis dibnnfl is rfgistfrfd witi onf or morf sflfdtors tifn bn
+     * bttfmpt to plbdf it into blodking modf will dbusf bn {@link
+     * IllfgblBlodkingModfExdfption} to bf tirown.
      *
-     * <p> This method may be invoked at any time.  The new blocking mode will
-     * only affect I/O operations that are initiated after this method returns.
-     * For some implementations this may require blocking until all pending I/O
-     * operations are complete.
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  Tif nfw blodking modf will
+     * only bfffdt I/O opfrbtions tibt brf initibtfd bftfr tiis mftiod rfturns.
+     * For somf implfmfntbtions tiis mby rfquirf blodking until bll pfnding I/O
+     * opfrbtions brf domplftf.
      *
-     * <p> If this method is invoked while another invocation of this method or
-     * of the {@link #register(Selector, int) register} method is in progress
-     * then it will first block until the other operation is complete. </p>
+     * <p> If tiis mftiod is invokfd wiilf bnotifr invodbtion of tiis mftiod or
+     * of tif {@link #rfgistfr(Sflfdtor, int) rfgistfr} mftiod is in progrfss
+     * tifn it will first blodk until tif otifr opfrbtion is domplftf. </p>
      *
-     * @param  block  If <tt>true</tt> then this channel will be placed in
-     *                blocking mode; if <tt>false</tt> then it will be placed
-     *                non-blocking mode
+     * @pbrbm  blodk  If <tt>truf</tt> tifn tiis dibnnfl will bf plbdfd in
+     *                blodking modf; if <tt>fblsf</tt> tifn it will bf plbdfd
+     *                non-blodking modf
      *
-     * @return  This selectable channel
+     * @rfturn  Tiis sflfdtbblf dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IllegalBlockingModeException
-     *          If <tt>block</tt> is <tt>true</tt> and this channel is
-     *          registered with one or more selectors
+     * @tirows  IllfgblBlodkingModfExdfption
+     *          If <tt>blodk</tt> is <tt>truf</tt> bnd tiis dibnnfl is
+     *          rfgistfrfd witi onf or morf sflfdtors
      *
-     * @throws IOException
-     *         If an I/O error occurs
+     * @tirows IOExdfption
+     *         If bn I/O frror oddurs
      */
-    public abstract SelectableChannel configureBlocking(boolean block)
-        throws IOException;
+    publid bbstrbdt SflfdtbblfCibnnfl donfigurfBlodking(boolfbn blodk)
+        tirows IOExdfption;
     //
-    // sync(regLock) {
-    //   sync(keySet) { throw IBME if block && isRegistered; }
-    //   change mode;
+    // synd(rfgLodk) {
+    //   synd(kfySft) { tirow IBME if blodk && isRfgistfrfd; }
+    //   dibngf modf;
     // }
 
     /**
-     * Tells whether or not every I/O operation on this channel will block
-     * until it completes.  A newly-created channel is always in blocking mode.
+     * Tflls wiftifr or not fvfry I/O opfrbtion on tiis dibnnfl will blodk
+     * until it domplftfs.  A nfwly-drfbtfd dibnnfl is blwbys in blodking modf.
      *
-     * <p> If this channel is closed then the value returned by this method is
-     * not specified. </p>
+     * <p> If tiis dibnnfl is dlosfd tifn tif vbluf rfturnfd by tiis mftiod is
+     * not spfdififd. </p>
      *
-     * @return <tt>true</tt> if, and only if, this channel is in blocking mode
+     * @rfturn <tt>truf</tt> if, bnd only if, tiis dibnnfl is in blodking modf
      */
-    public abstract boolean isBlocking();
+    publid bbstrbdt boolfbn isBlodking();
 
     /**
-     * Retrieves the object upon which the {@link #configureBlocking
-     * configureBlocking} and {@link #register register} methods synchronize.
-     * This is often useful in the implementation of adaptors that require a
-     * specific blocking mode to be maintained for a short period of time.
+     * Rftrifvfs tif objfdt upon wiidi tif {@link #donfigurfBlodking
+     * donfigurfBlodking} bnd {@link #rfgistfr rfgistfr} mftiods syndironizf.
+     * Tiis is oftfn usfful in tif implfmfntbtion of bdbptors tibt rfquirf b
+     * spfdifid blodking modf to bf mbintbinfd for b siort pfriod of timf.
      *
-     * @return  The blocking-mode lock object
+     * @rfturn  Tif blodking-modf lodk objfdt
      */
-    public abstract Object blockingLock();
+    publid bbstrbdt Objfdt blodkingLodk();
 
 }

@@ -1,0 +1,2277 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+
+import jbvb.bwt.print.Pbgfbblf;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Pbpfr;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrIOExdfption;
+import jbvb.bwt.print.PrintfrJob;
+
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.StrfbmPrintSfrvidf;
+import jbvbx.print.bttributf.HbshPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.Chrombtidity;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.DiblogTypfSflfdtion;
+import jbvbx.print.bttributf.stbndbrd.JobNbmf;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.ChbrConvfrsionExdfption;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.StringWritfr;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Lodblf;
+import jbvb.util.Propfrtifs;
+
+import sun.bwt.ChbrsftString;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.FontDfsdriptor;
+import sun.bwt.PlbtformFont;
+import sun.bwt.SunToolkit;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontUtilitifs;
+
+import jbvb.nio.dhbrsft.*;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.filf.Filfs;
+
+//REMIND: Rfmovf usf of this dlbss whfn IPPPrintSfrvidf is movfd to shbrf dirfdtory.
+import jbvb.lbng.rfflfdt.Mfthod;
+
+/**
+ * A dlbss whidh initibtfs bnd fxfdutfs b PostSdript printfr job.
+ *
+ * @buthor Ridhbrd Blbndhbrd
+ */
+publid dlbss PSPrintfrJob fxtfnds RbstfrPrintfrJob {
+
+ /* Clbss Constbnts */
+
+    /**
+     * Pbssfd to thf <dodf>sftFillModf</dodf>
+     * mfthod this vbluf fordfs fills to bf
+     * donf using thf fvfn-odd fill rulf.
+     */
+    protfdtfd stbtid finbl int FILL_EVEN_ODD = 1;
+
+    /**
+     * Pbssfd to thf <dodf>sftFillModf</dodf>
+     * mfthod this vbluf fordfs fills to bf
+     * donf using thf non-zfro winding rulf.
+     */
+    protfdtfd stbtid finbl int FILL_WINDING = 2;
+
+    /* PostSdript hbs b 64K mbximum on its strings.
+     */
+    privbtf stbtid finbl int MAX_PSSTR = (1024 * 64 - 1);
+
+    privbtf stbtid finbl int RED_MASK = 0x00ff0000;
+    privbtf stbtid finbl int GREEN_MASK = 0x0000ff00;
+    privbtf stbtid finbl int BLUE_MASK = 0x000000ff;
+
+    privbtf stbtid finbl int RED_SHIFT = 16;
+    privbtf stbtid finbl int GREEN_SHIFT = 8;
+    privbtf stbtid finbl int BLUE_SHIFT = 0;
+
+    privbtf stbtid finbl int LOWNIBBLE_MASK = 0x0000000f;
+    privbtf stbtid finbl int HINIBBLE_MASK =  0x000000f0;
+    privbtf stbtid finbl int HINIBBLE_SHIFT = 4;
+    privbtf stbtid finbl bytf hfxDigits[] = {
+        (bytf)'0', (bytf)'1', (bytf)'2', (bytf)'3',
+        (bytf)'4', (bytf)'5', (bytf)'6', (bytf)'7',
+        (bytf)'8', (bytf)'9', (bytf)'A', (bytf)'B',
+        (bytf)'C', (bytf)'D', (bytf)'E', (bytf)'F'
+    };
+
+    privbtf stbtid finbl int PS_XRES = 300;
+    privbtf stbtid finbl int PS_YRES = 300;
+
+    privbtf stbtid finbl String ADOBE_PS_STR =  "%!PS-Adobf-3.0";
+    privbtf stbtid finbl String EOF_COMMENT =   "%%EOF";
+    privbtf stbtid finbl String PAGE_COMMENT =  "%%Pbgf: ";
+
+    privbtf stbtid finbl String READIMAGEPROC = "/imStr 0 dff /imbgfSrd " +
+        "{durrfntfilf /ASCII85Dfdodf filtfr /RunLfngthDfdodf filtfr " +
+        " imStr rfbdstring pop } dff";
+
+    privbtf stbtid finbl String COPIES =        "/#dopifs fxdh dff";
+    privbtf stbtid finbl String PAGE_SAVE =     "/pgSbvf sbvf dff";
+    privbtf stbtid finbl String PAGE_RESTORE =  "pgSbvf rfstorf";
+    privbtf stbtid finbl String SHOWPAGE =      "showpbgf";
+    privbtf stbtid finbl String IMAGE_SAVE =    "/imSbvf sbvf dff";
+    privbtf stbtid finbl String IMAGE_STR =     " string /imStr fxdh dff";
+    privbtf stbtid finbl String IMAGE_RESTORE = "imSbvf rfstorf";
+
+    privbtf stbtid finbl String SftFontNbmf = "F";
+
+    privbtf stbtid finbl String DrbwStringNbmf = "S";
+
+    /**
+     * Thf PostSdript invodbtion to fill b pbth using thf
+     * fvfn-odd rulf. (fofill)
+     */
+    privbtf stbtid finbl String EVEN_ODD_FILL_STR = "EF";
+
+    /**
+     * Thf PostSdript invodbtion to fill b pbth using thf
+     * non-zfro winding rulf. (fill)
+     */
+    privbtf stbtid finbl String WINDING_FILL_STR = "WF";
+
+    /**
+     * Thf PostSdript to sft thf dlip to bf thf durrfnt pbth
+     * using thf fvfn odd rulf. (fodlip)
+     */
+    privbtf stbtid finbl String EVEN_ODD_CLIP_STR = "EC";
+
+    /**
+     * Thf PostSdript to sft thf dlip to bf thf durrfnt pbth
+     * using thf non-zfro winding rulf. (dlip)
+     */
+    privbtf stbtid finbl String WINDING_CLIP_STR = "WC";
+
+    /**
+     * Expfdting two numbfrs on thf PostSdript stbdk, this
+     * invodbtion movfs thf durrfnt pfn position. (movfto)
+     */
+    privbtf stbtid finbl String MOVETO_STR = " M";
+    /**
+     * Expfdting two numbfrs on thf PostSdript stbdk, this
+     * invodbtion drbws b PS linf from thf durrfnt pfn
+     * position to thf point on thf stbdk. (linfto)
+     */
+    privbtf stbtid finbl String LINETO_STR = " L";
+
+    /**
+     * This PostSdript opfrbtor tbkfs two dontrol points
+     * bnd bn fnding point bnd using thf durrfnt pfn
+     * position bs b stbrting point bdds b bfzifr
+     * durvf to thf durrfnt pbth. (durvfto)
+     */
+    privbtf stbtid finbl String CURVETO_STR = " C";
+
+    /**
+     * Thf PostSdript to pop b stbtf off of thf printfr's
+     * gstbtf stbdk. (grfstorf)
+     */
+    privbtf stbtid finbl String GRESTORE_STR = "R";
+    /**
+     * Thf PostSdript to push b stbtf on to thf printfr's
+     * gstbtf stbdk. (gsbvf)
+     */
+    privbtf stbtid finbl String GSAVE_STR = "G";
+
+    /**
+     * Mbkf thf durrfnt PostSdript pbth bn fmpty pbth. (nfwpbth)
+     */
+    privbtf stbtid finbl String NEWPATH_STR = "N";
+
+    /**
+     * Closf thf durrfnt subpbth by gfnfrbting b linf sfgmfnt
+     * from thf durrfnt position to thf stbrt of thf subpbth. (dlosfpbth)
+     */
+    privbtf stbtid finbl String CLOSEPATH_STR = "P";
+
+    /**
+     * Usf thf thrff numbfrs on top of thf PS opfrbtor
+     * stbdk to sft thf rgb dolor. (sftrgbdolor)
+     */
+    privbtf stbtid finbl String SETRGBCOLOR_STR = " SC";
+
+    /**
+     * Usf thf top numbfr on thf stbdk to sft thf printfr's
+     * durrfnt grby vbluf. (sftgrby)
+     */
+    privbtf stbtid finbl String SETGRAY_STR = " SG";
+
+ /* Instbndf Vbribblfs */
+
+   privbtf int mDfstTypf;
+
+   privbtf String mDfstinbtion = "lp";
+
+   privbtf boolfbn mNoJobShfft = fblsf;
+
+   privbtf String mOptions;
+
+   privbtf Font mLbstFont;
+
+   privbtf Color mLbstColor;
+
+   privbtf Shbpf mLbstClip;
+
+   privbtf AffinfTrbnsform mLbstTrbnsform;
+
+   privbtf doublf xrfs = PS_XRES;
+   privbtf doublf yrfs = PS_XRES;
+
+   /* non-null if printing EPS for Jbvb Plugin */
+   privbtf EPSPrintfr fpsPrintfr = null;
+
+   /**
+    * Thf mftrids for thf font durrfntly sft.
+    */
+   FontMftrids mCurMftrids;
+
+   /**
+    * Thf output strfbm to whidh thf gfnfrbtfd PostSdript
+    * is writtfn.
+    */
+   PrintStrfbm mPSStrfbm;
+
+   /* Thf tfmporbry filf to whidh wf spool bfforf sfnding to thf printfr  */
+
+   Filf spoolFilf;
+
+   /**
+    * This string holds thf PostSdript opfrbtor to
+    * bf usfd to fill b pbth. It dbn bf dhbngfd
+    * by thf <dodf>sftFillModf</dodf> mfthod.
+    */
+    privbtf String mFillOpStr = WINDING_FILL_STR;
+
+   /**
+    * This string holds thf PostSdript opfrbtor to
+    * bf usfd to dlip to b pbth. It dbn bf dhbngfd
+    * by thf <dodf>sftFillModf</dodf> mfthod.
+    */
+    privbtf String mClipOpStr = WINDING_CLIP_STR;
+
+   /**
+    * A stbdk thbt rfprfsfnts thf PostSdript gstbtf stbdk.
+    */
+   ArrbyList<GStbtf> mGStbtfStbdk = nfw ArrbyList<>();
+
+   /**
+    * Thf x doordinbtf of thf durrfnt pfn position.
+    */
+   privbtf flobt mPfnX;
+
+   /**
+    * Thf y doordinbtf of thf durrfnt pfn position.
+    */
+   privbtf flobt mPfnY;
+
+   /**
+    * Thf x doordinbtf of thf stbrting point of
+    * thf durrfnt subpbth.
+    */
+   privbtf flobt mStbrtPbthX;
+
+   /**
+    * Thf y doordinbtf of thf stbrting point of
+    * thf durrfnt subpbth.
+    */
+   privbtf flobt mStbrtPbthY;
+
+   /**
+    * An optionbl mbpping of fonts to PostSdript nbmfs.
+    */
+   privbtf stbtid Propfrtifs mFontProps = null;
+
+   privbtf stbtid boolfbn isMbd;
+
+    /* Clbss stbtid initiblisfr blodk */
+    stbtid {
+       //fnbblf privilfdgfs so initProps dbn bddfss systfm propfrtifs,
+        // opfn thf propfrty filf, ftd.
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                mFontProps = initProps();
+                String osNbmf = Systfm.gftPropfrty("os.nbmf");
+                isMbd = osNbmf.stbrtsWith("Mbd");
+                rfturn null;
+            }
+        });
+    }
+
+    /*
+     * Initiblizf PostSdript font propfrtifs.
+     * Copifd from PSPrintStrfbm
+     */
+    privbtf stbtid Propfrtifs initProps() {
+        // sfbrdh psfont.propfrtifs for fonts
+        // bnd drfbtf bnd initiblizf fontProps if it fxist.
+
+        String jhomf = Systfm.gftPropfrty("jbvb.homf");
+
+        if (jhomf != null){
+            String ulodblf = SunToolkit.gftStbrtupLodblf().gftLbngubgf();
+            try {
+
+                Filf f = nfw Filf(jhomf + Filf.sfpbrbtor +
+                                  "lib" + Filf.sfpbrbtor +
+                                  "psfontj2d.propfrtifs." + ulodblf);
+
+                if (!f.dbnRfbd()){
+
+                    f = nfw Filf(jhomf + Filf.sfpbrbtor +
+                                      "lib" + Filf.sfpbrbtor +
+                                      "psfont.propfrtifs." + ulodblf);
+                    if (!f.dbnRfbd()){
+
+                        f = nfw Filf(jhomf + Filf.sfpbrbtor + "lib" +
+                                     Filf.sfpbrbtor + "psfontj2d.propfrtifs");
+
+                        if (!f.dbnRfbd()){
+
+                            f = nfw Filf(jhomf + Filf.sfpbrbtor + "lib" +
+                                         Filf.sfpbrbtor + "psfont.propfrtifs");
+
+                            if (!f.dbnRfbd()){
+                                rfturn (Propfrtifs)null;
+                            }
+                        }
+                    }
+                }
+
+                // Lobd propfrty filf
+                InputStrfbm in =
+                    nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(f.gftPbth()));
+                Propfrtifs props = nfw Propfrtifs();
+                props.lobd(in);
+                in.dlosf();
+                rfturn props;
+            } dbtdh (Exdfption f){
+                rfturn (Propfrtifs)null;
+            }
+        }
+        rfturn (Propfrtifs)null;
+    }
+
+ /* Construdtors */
+
+    publid PSPrintfrJob()
+    {
+    }
+
+ /* Instbndf Mfthods */
+
+   /**
+     * Prfsfnts thf usfr b diblog for dhbnging propfrtifs of thf
+     * print job intfrbdtivfly.
+     * @rfturns fblsf if thf usfr dbndfls thf diblog bnd
+     *          truf othfrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid boolfbn printDiblog() throws HfbdlfssExdfption {
+
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+
+        if (bttributfs == null) {
+            bttributfs = nfw HbshPrintRfqufstAttributfSft();
+        }
+        bttributfs.bdd(nfw Copifs(gftCopifs()));
+        bttributfs.bdd(nfw JobNbmf(gftJobNbmf(), null));
+
+        boolfbn doPrint = fblsf;
+        DiblogTypfSflfdtion dts =
+            (DiblogTypfSflfdtion)bttributfs.gft(DiblogTypfSflfdtion.dlbss);
+        if (dts == DiblogTypfSflfdtion.NATIVE) {
+            // Rfmovf DiblogTypfSflfdtion.NATIVE to prfvfnt infinitf loop in
+            // RbstfrPrintfrJob.
+            bttributfs.rfmovf(DiblogTypfSflfdtion.dlbss);
+            doPrint = printDiblog(bttributfs);
+            // rfstorf bttributf
+            bttributfs.bdd(DiblogTypfSflfdtion.NATIVE);
+        } flsf {
+            doPrint = printDiblog(bttributfs);
+        }
+
+        if (doPrint) {
+            JobNbmf jobNbmf = (JobNbmf)bttributfs.gft(JobNbmf.dlbss);
+            if (jobNbmf != null) {
+                sftJobNbmf(jobNbmf.gftVbluf());
+            }
+            Copifs dopifs = (Copifs)bttributfs.gft(Copifs.dlbss);
+            if (dopifs != null) {
+                sftCopifs(dopifs.gftVbluf());
+            }
+
+            Dfstinbtion dfst = (Dfstinbtion)bttributfs.gft(Dfstinbtion.dlbss);
+
+            if (dfst != null) {
+                try {
+                    mDfstTypf = RbstfrPrintfrJob.FILE;
+                    mDfstinbtion = (nfw Filf(dfst.gftURI())).gftPbth();
+                } dbtdh (Exdfption f) {
+                    mDfstinbtion = "out.ps";
+                }
+            } flsf {
+                mDfstTypf = RbstfrPrintfrJob.PRINTER;
+                PrintSfrvidf pSfrv = gftPrintSfrvidf();
+                if (pSfrv != null) {
+                    mDfstinbtion = pSfrv.gftNbmf();
+                   if (isMbd) {
+                        PrintSfrvidfAttributfSft psbSft = pSfrv.gftAttributfs() ;
+                        if (psbSft != null) {
+                            mDfstinbtion = psbSft.gft(PrintfrNbmf.dlbss).toString();
+                        }
+                    }
+                }
+            }
+        }
+
+        rfturn doPrint;
+    }
+
+    /**
+     * Invokfd by thf RbstfrPrintfrJob supfr dlbss
+     * this mfthod is dbllfd to mbrk thf stbrt of b
+     * dodumfnt.
+     */
+    protfdtfd void stbrtDod() throws PrintfrExdfption {
+
+        // A sfdurity dhfdk hbs bffn pfrformfd in thf
+        // jbvb.bwt.print.printfrJob.gftPrintfrJob mfthod.
+        // Wf usf bn innfr dlbss to fxfdutf thf privilgfd opfn opfrbtions.
+        // Notf thbt wf only opfn b filf if it hbs bffn nominbtfd by
+        // thf fnd-usfr in b diblog thbt wf ousflvfs put up.
+
+        OutputStrfbm output;
+
+        if (fpsPrintfr == null) {
+            if (gftPrintSfrvidf() instbndfof PSStrfbmPrintSfrvidf) {
+                StrfbmPrintSfrvidf sps = (StrfbmPrintSfrvidf)gftPrintSfrvidf();
+                mDfstTypf = RbstfrPrintfrJob.STREAM;
+                if (sps.isDisposfd()) {
+                    throw nfw PrintfrExdfption("sfrvidf is disposfd");
+                }
+                output = sps.gftOutputStrfbm();
+                if (output == null) {
+                    throw nfw PrintfrExdfption("Null output strfbm");
+                }
+            } flsf {
+                /* REMIND: This nffds to bf morf mbintbinbblf */
+                mNoJobShfft = supfr.noJobShfft;
+                if (supfr.dfstinbtionAttr != null) {
+                    mDfstTypf = RbstfrPrintfrJob.FILE;
+                    mDfstinbtion = supfr.dfstinbtionAttr;
+                }
+                if (mDfstTypf == RbstfrPrintfrJob.FILE) {
+                    try {
+                        spoolFilf = nfw Filf(mDfstinbtion);
+                        output =  nfw FilfOutputStrfbm(spoolFilf);
+                    } dbtdh (IOExdfption fx) {
+                        throw nfw PrintfrIOExdfption(fx);
+                    }
+                } flsf {
+                    PrintfrOpfnfr po = nfw PrintfrOpfnfr();
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(po);
+                    if (po.pfx != null) {
+                        throw po.pfx;
+                    }
+                    output = po.rfsult;
+                }
+            }
+
+            mPSStrfbm = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(output));
+            mPSStrfbm.println(ADOBE_PS_STR);
+        }
+
+        mPSStrfbm.println("%%BfginProlog");
+        mPSStrfbm.println(READIMAGEPROC);
+        mPSStrfbm.println("/BD {bind dff} bind dff");
+        mPSStrfbm.println("/D {dff} BD");
+        mPSStrfbm.println("/C {durvfto} BD");
+        mPSStrfbm.println("/L {linfto} BD");
+        mPSStrfbm.println("/M {movfto} BD");
+        mPSStrfbm.println("/R {grfstorf} BD");
+        mPSStrfbm.println("/G {gsbvf} BD");
+        mPSStrfbm.println("/N {nfwpbth} BD");
+        mPSStrfbm.println("/P {dlosfpbth} BD");
+        mPSStrfbm.println("/EC {fodlip} BD");
+        mPSStrfbm.println("/WC {dlip} BD");
+        mPSStrfbm.println("/EF {fofill} BD");
+        mPSStrfbm.println("/WF {fill} BD");
+        mPSStrfbm.println("/SG {sftgrby} BD");
+        mPSStrfbm.println("/SC {sftrgbdolor} BD");
+        mPSStrfbm.println("/ISOF {");
+        mPSStrfbm.println("     dup findfont dup lfngth 1 bdd didt bfgin {");
+        mPSStrfbm.println("             1 indfx /FID fq {pop pop} {D} ifflsf");
+        mPSStrfbm.println("     } forbll /Endoding ISOLbtin1Endoding D");
+        mPSStrfbm.println("     durrfntdidt fnd dffinffont");
+        mPSStrfbm.println("} BD");
+        mPSStrfbm.println("/NZ {dup 1 lt {pop 1} if} BD");
+        /* Thf following prodfdurf tbkfs brgs: string, x, y, dfsirfdWidth.
+         * It dbldulbtfs using stringwidth thf width of thf string in thf
+         * durrfnt font bnd subtrbdts it from thf dfsirfdWidth bnd dividfs
+         * this by stringLfn-1. This givfs us b pfr-glyph bdjustmfnt in
+         * thf spbding nffdfd (fithfr +vf or -vf) to mbkf thf string
+         * print bt thf dfsirfdWidth. Thf bshow prodfdurf dbll tbkfs this
+         * pfr-glyph bdjustmfnt bs bn brgumfnt. This is nfdfssbry for WYSIWYG
+         */
+        mPSStrfbm.println("/"+DrbwStringNbmf +" {");
+        mPSStrfbm.println("     movfto 1 indfx stringwidth pop NZ sub");
+        mPSStrfbm.println("     1 indfx lfngth 1 sub NZ div 0");
+        mPSStrfbm.println("     3 2 roll bshow nfwpbth} BD");
+        mPSStrfbm.println("/FL [");
+        if (mFontProps == null){
+            mPSStrfbm.println(" /Hflvftidb ISOF");
+            mPSStrfbm.println(" /Hflvftidb-Bold ISOF");
+            mPSStrfbm.println(" /Hflvftidb-Obliquf ISOF");
+            mPSStrfbm.println(" /Hflvftidb-BoldObliquf ISOF");
+            mPSStrfbm.println(" /Timfs-Rombn ISOF");
+            mPSStrfbm.println(" /Timfs-Bold ISOF");
+            mPSStrfbm.println(" /Timfs-Itblid ISOF");
+            mPSStrfbm.println(" /Timfs-BoldItblid ISOF");
+            mPSStrfbm.println(" /Courifr ISOF");
+            mPSStrfbm.println(" /Courifr-Bold ISOF");
+            mPSStrfbm.println(" /Courifr-Obliquf ISOF");
+            mPSStrfbm.println(" /Courifr-BoldObliquf ISOF");
+        } flsf {
+            int dnt = Intfgfr.pbrsfInt(mFontProps.gftPropfrty("font.num", "9"));
+            for (int i = 0; i < dnt; i++){
+                mPSStrfbm.println("    /" + mFontProps.gftPropfrty
+                           ("font." + String.vblufOf(i), "Courifr ISOF"));
+            }
+        }
+        mPSStrfbm.println("] D");
+
+        mPSStrfbm.println("/"+SftFontNbmf +" {");
+        mPSStrfbm.println("     FL fxdh gft fxdh sdblffont");
+        mPSStrfbm.println("     [1 0 0 -1 0 0] mbkffont sftfont} BD");
+
+        mPSStrfbm.println("%%EndProlog");
+
+        mPSStrfbm.println("%%BfginSftup");
+        if (fpsPrintfr == null) {
+            // Sft Pbgf Sizf using first pbgf's formbt.
+            PbgfFormbt pbgfFormbt = gftPbgfbblf().gftPbgfFormbt(0);
+            doublf pbpfrHfight = pbgfFormbt.gftPbpfr().gftHfight();
+            doublf pbpfrWidth = pbgfFormbt.gftPbpfr().gftWidth();
+
+            /* PostSdript printfrs dbn blwbys gfnfrbtf undollbtfd dopifs.
+             */
+            mPSStrfbm.print("<< /PbgfSizf [" +
+                                           pbpfrWidth + " "+ pbpfrHfight+"]");
+
+            finbl PrintSfrvidf psfrvidf = gftPrintSfrvidf();
+            Boolfbn isPS = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
+                       try {
+                           Clbss<?> psClbss = Clbss.forNbmf("sun.print.IPPPrintSfrvidf");
+                           if (psClbss.isInstbndf(psfrvidf)) {
+                               Mfthod isPSMfthod = psClbss.gftMfthod("isPostsdript",
+                                                                     (Clbss[])null);
+                               rfturn (Boolfbn)isPSMfthod.invokf(psfrvidf, (Objfdt[])null);
+                           }
+                       } dbtdh (Throwbblf t) {
+                       }
+                       rfturn Boolfbn.TRUE;
+                    }
+                }
+            );
+            if (isPS) {
+                mPSStrfbm.print(" /DfffrrfdMfdibSflfdtion truf");
+            }
+
+            mPSStrfbm.print(" /ImbgingBBox null /MbnublFffd fblsf");
+            mPSStrfbm.print(isCollbtfd() ? " /Collbtf truf":"");
+            mPSStrfbm.print(" /NumCopifs " +gftCopifsInt());
+
+            if (sidfsAttr != Sidfs.ONE_SIDED) {
+                if (sidfsAttr == Sidfs.TWO_SIDED_LONG_EDGE) {
+                    mPSStrfbm.print(" /Duplfx truf ");
+                } flsf if (sidfsAttr == Sidfs.TWO_SIDED_SHORT_EDGE) {
+                    mPSStrfbm.print(" /Duplfx truf /Tumblf truf ");
+                }
+            }
+            mPSStrfbm.println(" >> sftpbgfdfvidf ");
+        }
+        mPSStrfbm.println("%%EndSftup");
+    }
+
+    // Innfr dlbss to run "privilfgfd" to opfn thf printfr output strfbm.
+
+    privbtf dlbss PrintfrOpfnfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<OutputStrfbm> {
+        PrintfrExdfption pfx;
+        OutputStrfbm rfsult;
+
+        publid OutputStrfbm run() {
+            try {
+
+                    /* Writf to b tfmporbry filf whidh will bf spoolfd to
+                     * thf printfr thfn dflftfd. In thf dbsf thbt thf filf
+                     * is not rfmovfd for somf rfbson, rfqufst thbt it is
+                     * rfmovfd whfn thf VM fxits.
+                     */
+                    spoolFilf = Filfs.drfbtfTfmpFilf("jbvbprint", ".ps").toFilf();
+                    spoolFilf.dflftfOnExit();
+
+                rfsult = nfw FilfOutputStrfbm(spoolFilf);
+                rfturn rfsult;
+            } dbtdh (IOExdfption fx) {
+                // If thfrf is bn IOError wf subvfrt it to b PrintfrExdfption.
+                pfx = nfw PrintfrIOExdfption(fx);
+            }
+            rfturn null;
+        }
+    }
+
+    // Innfr dlbss to run "privilfgfd" to invokf thf systfm print dommbnd
+
+    privbtf dlbss PrintfrSpoolfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Objfdt> {
+        PrintfrExdfption pfx;
+
+        privbtf void hbndlfProdfssFbilurf(finbl Prodfss fbilfdProdfss,
+                finbl String[] fxfdCmd, finbl int rfsult) throws IOExdfption {
+            try (StringWritfr sw = nfw StringWritfr();
+                    PrintWritfr pw = nfw PrintWritfr(sw)) {
+                pw.bppfnd("frror=").bppfnd(Intfgfr.toString(rfsult));
+                pw.bppfnd(" running:");
+                for (String brg: fxfdCmd) {
+                    pw.bppfnd(" '").bppfnd(brg).bppfnd("'");
+                }
+                try (InputStrfbm is = fbilfdProdfss.gftErrorStrfbm();
+                        InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(is);
+                        BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr)) {
+                    whilf (br.rfbdy()) {
+                        pw.println();
+                        pw.bppfnd("\t\t").bppfnd(br.rfbdLinf());
+                    }
+                } finblly {
+                    pw.flush();
+                }
+                throw nfw IOExdfption(sw.toString());
+            }
+        }
+
+        publid Objfdt run() {
+            if (spoolFilf == null || !spoolFilf.fxists()) {
+               pfx = nfw PrintfrExdfption("No spool filf");
+               rfturn null;
+            }
+            try {
+                /**
+                 * Spool to thf printfr.
+                 */
+                String filfNbmf = spoolFilf.gftAbsolutfPbth();
+                String fxfdCmd[] = printExfdCmd(mDfstinbtion, mOptions,
+                               mNoJobShfft, gftJobNbmfInt(),
+                                                1, filfNbmf);
+
+                Prodfss prodfss = Runtimf.gftRuntimf().fxfd(fxfdCmd);
+                prodfss.wbitFor();
+                finbl int rfsult = prodfss.fxitVbluf();
+                if (0 != rfsult) {
+                    hbndlfProdfssFbilurf(prodfss, fxfdCmd, rfsult);
+                }
+            } dbtdh (IOExdfption fx) {
+                pfx = nfw PrintfrIOExdfption(fx);
+            } dbtdh (IntfrruptfdExdfption if) {
+                pfx = nfw PrintfrExdfption(if.toString());
+            } finblly {
+                spoolFilf.dflftf();
+            }
+            rfturn null;
+        }
+    }
+
+
+    /**
+     * Invokfd if thf bpplidbtion dbndfllfd thf printjob.
+     */
+    protfdtfd void bbortDod() {
+        if (mPSStrfbm != null && mDfstTypf != RbstfrPrintfrJob.STREAM) {
+            mPSStrfbm.dlosf();
+        }
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+
+            publid Objfdt run() {
+               if (spoolFilf != null && spoolFilf.fxists()) {
+                   spoolFilf.dflftf();
+               }
+               rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Invokfd by thf RbstfrPrintJob supfr dlbss
+     * this mfthod is dbllfd bftfr thbt lbst pbgf
+     * hbs bffn imbgfd.
+     */
+    protfdtfd void fndDod() throws PrintfrExdfption {
+        if (mPSStrfbm != null) {
+            mPSStrfbm.println(EOF_COMMENT);
+            mPSStrfbm.flush();
+            if (mDfstTypf != RbstfrPrintfrJob.STREAM) {
+                mPSStrfbm.dlosf();
+            }
+        }
+        if (mDfstTypf == RbstfrPrintfrJob.PRINTER) {
+            PrintSfrvidf pSfrv = gftPrintSfrvidf();
+            if (pSfrv != null) {
+                mDfstinbtion = pSfrv.gftNbmf();
+               if (isMbd) {
+                    PrintSfrvidfAttributfSft psbSft = pSfrv.gftAttributfs();
+                    if (psbSft != null) {
+                        mDfstinbtion = psbSft.gft(PrintfrNbmf.dlbss).toString() ;
+                    }
+                }
+            }
+            PrintfrSpoolfr spoolfr = nfw PrintfrSpoolfr();
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(spoolfr);
+            if (spoolfr.pfx != null) {
+                throw spoolfr.pfx;
+            }
+        }
+    }
+
+    privbtf String gftCoordPrfp() {
+        rfturn " 0 fxdh trbnslbtf "
+             + "1 -1 sdblf"
+             + "[72 " + gftXRfs() + " div "
+             + "0 0 "
+             + "72 " + gftYRfs() + " div "
+             + "0 0]dondbt";
+    }
+
+    /**
+     * Thf RbstfrPrintJob supfr dlbss dblls this mfthod
+     * bt thf stbrt of fbdh pbgf.
+     */
+    protfdtfd void stbrtPbgf(PbgfFormbt pbgfFormbt, Printbblf pbintfr,
+                             int indfx, boolfbn pbpfrChbngfd)
+        throws PrintfrExdfption
+    {
+        doublf pbpfrHfight = pbgfFormbt.gftPbpfr().gftHfight();
+        doublf pbpfrWidth = pbgfFormbt.gftPbpfr().gftWidth();
+        int pbgfNumbfr = indfx + 1;
+
+        /* Plbdf bn initibl gstbtf on to our gstbtf stbdk.
+         * It will hbvf thf dffbult PostSdript gstbtf
+         * bttributfs.
+         */
+        mGStbtfStbdk = nfw ArrbyList<>();
+        mGStbtfStbdk.bdd(nfw GStbtf());
+
+        mPSStrfbm.println(PAGE_COMMENT + pbgfNumbfr + " " + pbgfNumbfr);
+
+        /* Chfdk durrfnt pbgf's pbgfFormbt bgbinst thf prfvious pbgfFormbt,
+         */
+        if (indfx > 0 && pbpfrChbngfd) {
+
+            mPSStrfbm.print("<< /PbgfSizf [" +
+                            pbpfrWidth + " " + pbpfrHfight + "]");
+
+            finbl PrintSfrvidf psfrvidf = gftPrintSfrvidf();
+            Boolfbn isPS = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
+                        try {
+                            Clbss<?> psClbss =
+                                Clbss.forNbmf("sun.print.IPPPrintSfrvidf");
+                            if (psClbss.isInstbndf(psfrvidf)) {
+                                Mfthod isPSMfthod =
+                                    psClbss.gftMfthod("isPostsdript",
+                                                      (Clbss[])null);
+                                rfturn (Boolfbn)
+                                    isPSMfthod.invokf(psfrvidf,
+                                                      (Objfdt[])null);
+                            }
+                        } dbtdh (Throwbblf t) {
+                        }
+                        rfturn Boolfbn.TRUE;
+                    }
+                    }
+                );
+
+            if (isPS) {
+                mPSStrfbm.print(" /DfffrrfdMfdibSflfdtion truf");
+            }
+            mPSStrfbm.println(" >> sftpbgfdfvidf");
+        }
+        mPSStrfbm.println(PAGE_SAVE);
+        mPSStrfbm.println(pbpfrHfight + gftCoordPrfp());
+    }
+
+    /**
+     * Thf RbstfPrintJob supfr dlbss dblls this mfthod
+     * bt thf fnd of fbdh pbgf.
+     */
+    protfdtfd void fndPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                           int indfx)
+        throws PrintfrExdfption
+    {
+        mPSStrfbm.println(PAGE_RESTORE);
+        mPSStrfbm.println(SHOWPAGE);
+    }
+
+   /**
+     * Convfrt thf 24 bit BGR imbgf bufffr rfprfsfntfd by
+     * <dodf>imbgf</dodf> to PostSdript. Thf imbgf is drbwn bt
+     * <dodf>(dfstX, dfstY)</dodf> in dfvidf doordinbtfs.
+     * Thf imbgf is sdblfd into b squbrf of sizf
+     * spfdififd by <dodf>dfstWidth</dodf> bnd
+     * <dodf>dfstHfight</dodf>. Thf portion of thf
+     * sourdf imbgf dopifd into thbt squbrf is spfdififd
+     * by <dodf>srdX</dodf>, <dodf>srdY</dodf>,
+     * <dodf>srdWidth</dodf>, bnd srdHfight.
+     */
+    protfdtfd void drbwImbgfBGR(bytf[] bgrDbtb,
+                                   flobt dfstX, flobt dfstY,
+                                   flobt dfstWidth, flobt dfstHfight,
+                                   flobt srdX, flobt srdY,
+                                   flobt srdWidth, flobt srdHfight,
+                                   int srdBitMbpWidth, int srdBitMbpHfight) {
+
+        /* Wf drbw imbgfs bt dfvidf rfsolution so wf probbbly nffd
+         * to dhbngf thf durrfnt PostSdript trbnsform.
+         */
+        sftTrbnsform(nfw AffinfTrbnsform());
+        prfpDrbwing();
+
+        int intSrdWidth = (int) srdWidth;
+        int intSrdHfight = (int) srdHfight;
+
+        mPSStrfbm.println(IMAGE_SAVE);
+
+        /* Crfbtf b PS string big fnough to hold b row of pixfls.
+         */
+        int psBytfsPfrRow = 3 * intSrdWidth;
+        whilf (psBytfsPfrRow > MAX_PSSTR) {
+            psBytfsPfrRow /= 2;
+        }
+
+        mPSStrfbm.println(psBytfsPfrRow + IMAGE_STR);
+
+        /* Sdblf bnd trbnslbtf thf unit imbgf.
+         */
+        mPSStrfbm.println("[" + dfstWidth + " 0 "
+                          + "0 " + dfstHfight
+                          + " " + dfstX + " " + dfstY
+                          +"]dondbt");
+
+        /* Color Imbgf invodbtion.
+         */
+        mPSStrfbm.println(intSrdWidth + " " + intSrdHfight + " " + 8 + "["
+                          + intSrdWidth + " 0 "
+                          + "0 " + intSrdHfight
+                          + " 0 " + 0 + "]"
+                          + "/imbgfSrd lobd fblsf 3 dolorimbgf");
+
+        /* Imbgf dbtb.
+         */
+        int indfx = 0;
+        bytf[] rgbDbtb = nfw bytf[intSrdWidth * 3];
+
+        try {
+            /* Skip thf pbrts of thf imbgf thbt brf not pbrt
+             * of thf sourdf rfdtbnglf.
+             */
+            indfx = (int) srdY * srdBitMbpWidth;
+
+            for(int i = 0; i < intSrdHfight; i++) {
+
+                /* Skip thf lfft pbrt of thf imbgf thbt is not
+                 * pbrt of thf sourdf rfdtbnglf.
+                 */
+                indfx += (int) srdX;
+
+                indfx = swbpBGRtoRGB(bgrDbtb, indfx, rgbDbtb);
+                bytf[] fndodfdDbtb = rlEndodf(rgbDbtb);
+                bytf[] bsdiiDbtb = bsdii85Endodf(fndodfdDbtb);
+                mPSStrfbm.writf(bsdiiDbtb);
+                mPSStrfbm.println("");
+            }
+
+            /*
+             * If thfrf is bn IOError wf subvfrt it to b PrintfrExdfption.
+             * Fix: Thfrf hbs got to bf b bfttfr wby, mbybf dffinf
+             * b PrintfrIOExdfption bnd thfn throw thbt?
+             */
+        } dbtdh (IOExdfption f) {
+            //throw nfw PrintfrExdfption(f.toString());
+        }
+
+        mPSStrfbm.println(IMAGE_RESTORE);
+    }
+
+    /**
+     * Prints thf dontfnts of thf brrby of ints, 'dbtb'
+     * to thf durrfnt pbgf. Thf bbnd is plbdfd bt thf
+     * lodbtion (x, y) in dfvidf doordinbtfs on thf
+     * pbgf. Thf width bnd hfight of thf bbnd is
+     * spfdififd by thf dbllfr. Currfntly thf dbtb
+     * is 24 bits pfr pixfl in BGR formbt.
+     */
+    protfdtfd void printBbnd(bytf[] bgrDbtb, int x, int y,
+                             int width, int hfight)
+        throws PrintfrExdfption
+    {
+
+        mPSStrfbm.println(IMAGE_SAVE);
+
+        /* Crfbtf b PS string big fnough to hold b row of pixfls.
+         */
+        int psBytfsPfrRow = 3 * width;
+        whilf (psBytfsPfrRow > MAX_PSSTR) {
+            psBytfsPfrRow /= 2;
+        }
+
+        mPSStrfbm.println(psBytfsPfrRow + IMAGE_STR);
+
+        /* Sdblf bnd trbnslbtf thf unit imbgf.
+         */
+        mPSStrfbm.println("[" + width + " 0 "
+                          + "0 " + hfight
+                          + " " + x + " " + y
+                          +"]dondbt");
+
+        /* Color Imbgf invodbtion.
+         */
+        mPSStrfbm.println(width + " " + hfight + " " + 8 + "["
+                          + width + " 0 "
+                          + "0 " + -hfight
+                          + " 0 " + hfight + "]"
+                          + "/imbgfSrd lobd fblsf 3 dolorimbgf");
+
+        /* Imbgf dbtb.
+         */
+        int indfx = 0;
+        bytf[] rgbDbtb = nfw bytf[width*3];
+
+        try {
+            for(int i = 0; i < hfight; i++) {
+                indfx = swbpBGRtoRGB(bgrDbtb, indfx, rgbDbtb);
+                bytf[] fndodfdDbtb = rlEndodf(rgbDbtb);
+                bytf[] bsdiiDbtb = bsdii85Endodf(fndodfdDbtb);
+                mPSStrfbm.writf(bsdiiDbtb);
+                mPSStrfbm.println("");
+            }
+
+        } dbtdh (IOExdfption f) {
+            throw nfw PrintfrIOExdfption(f);
+        }
+
+        mPSStrfbm.println(IMAGE_RESTORE);
+    }
+
+    /**
+     * Exbminf thf mftrids dbpturfd by thf
+     * <dodf>PffkGrbphids</dodf> instbndf bnd
+     * if dbpbblf of dirfdtly donvfrting this
+     * print job to thf printfr's dontrol lbngubgf
+     * or thf nbtivf OS's grbphids primitivfs, thfn
+     * rfturn b <dodf>PSPbthGrbphids</dodf> to pfrform
+     * thbt donvfrsion. If thfrf is not bn objfdt
+     * dbpbblf of thf donvfrsion thfn rfturn
+     * <dodf>null</dodf>. Rfturning <dodf>null</dodf>
+     * dbusfs thf print job to bf rbstfrizfd.
+     */
+
+    protfdtfd Grbphids2D drfbtfPbthGrbphids(PffkGrbphids pffkGrbphids,
+                                            PrintfrJob printfrJob,
+                                            Printbblf pbintfr,
+                                            PbgfFormbt pbgfFormbt,
+                                            int pbgfIndfx) {
+
+        PSPbthGrbphids pbthGrbphids;
+        PffkMftrids mftrids = pffkGrbphids.gftMftrids();
+
+        /* If thf bpplidbtion hbs drbwn bnything thbt
+         * out PbthGrbphids dlbss dbn not hbndlf thfn
+         * rfturn b null PbthGrbphids.
+         */
+        if (fordfPDL == fblsf && (fordfRbstfr == truf
+                        || mftrids.hbsNonSolidColors()
+                        || mftrids.hbsCompositing())) {
+
+            pbthGrbphids = null;
+        } flsf {
+
+            BufffrfdImbgf bufffrfdImbgf = nfw BufffrfdImbgf(8, 8,
+                                            BufffrfdImbgf.TYPE_INT_RGB);
+            Grbphids2D bufffrfdGrbphids = bufffrfdImbgf.drfbtfGrbphids();
+            boolfbn dbnRfdrbw = pffkGrbphids.gftAWTDrbwingOnly() == fblsf;
+
+            pbthGrbphids =  nfw PSPbthGrbphids(bufffrfdGrbphids, printfrJob,
+                                               pbintfr, pbgfFormbt, pbgfIndfx,
+                                               dbnRfdrbw);
+        }
+
+        rfturn pbthGrbphids;
+    }
+
+    /**
+     * Intfrsfdt thf gstbtf's durrfnt pbth with thf
+     * durrfnt dlip bnd mbkf thf rfsult thf nfw dlip.
+     */
+    protfdtfd void sflfdtClipPbth() {
+
+        mPSStrfbm.println(mClipOpStr);
+    }
+
+    protfdtfd void sftClip(Shbpf dlip) {
+
+        mLbstClip = dlip;
+    }
+
+    protfdtfd void sftTrbnsform(AffinfTrbnsform trbnsform) {
+        mLbstTrbnsform = trbnsform;
+    }
+
+    /**
+     * Sft thf durrfnt PostSdript font.
+     * Tbkfn from outFont in PSPrintStrfbm.
+     */
+     protfdtfd boolfbn sftFont(Font font) {
+        mLbstFont = font;
+        rfturn truf;
+    }
+
+    /**
+     * Givfn bn brrby of ChbrsftStrings thbt mbkf up b run
+     * of tfxt, this routinf donvfrts fbdh ChbrsftString to
+     * bn indfx into our PostSdript font list. If onf or morf
+     * ChbrsftStrings dbn not bf rfprfsfntfd by b PostSdript
+     * font, thfn this routinf will rfturn b null brrby.
+     */
+     privbtf int[] gftPSFontIndfxArrby(Font font, ChbrsftString[] dhbrSft) {
+        int[] psFont = null;
+
+        if (mFontProps != null) {
+            psFont = nfw int[dhbrSft.lfngth];
+        }
+
+        for (int i = 0; i < dhbrSft.lfngth && psFont != null; i++){
+
+            /* Gft thf fndoding of thf run of tfxt.
+             */
+            ChbrsftString ds = dhbrSft[i];
+
+            ChbrsftEndodfr fontCS = ds.fontDfsdriptor.fndodfr;
+            String dhbrsftNbmf = ds.fontDfsdriptor.gftFontChbrsftNbmf();
+            /*
+             * sun.bwt.Symbol pfrhbps should rfturn "symbol" for fndoding.
+             * Similbrly X11Dingbbts should rfturn "dingbbts"
+             * Fordfd to dhfdk for win32 & x/unix nbmfs for thfsf donvfrtfrs.
+             */
+
+            if ("Symbol".fqubls(dhbrsftNbmf)) {
+                dhbrsftNbmf = "symbol";
+            } flsf if ("WingDings".fqubls(dhbrsftNbmf) ||
+                       "X11Dingbbts".fqubls(dhbrsftNbmf)) {
+                dhbrsftNbmf = "dingbbts";
+            } flsf {
+                dhbrsftNbmf = mbkfChbrsftNbmf(dhbrsftNbmf, ds.dhbrsftChbrs);
+            }
+
+            int stylfMbsk = font.gftStylf() |
+                FontUtilitifs.gftFont2D(font).gftStylf();
+
+            String stylf = FontConfigurbtion.gftStylfString(stylfMbsk);
+
+            /* First wf mbp thf font nbmf through thf propfrtifs filf.
+             * This mbpping providfs blibs nbmfs for fonts, for fxbmplf,
+             * "timfsrombn" is mbppfd to "sfrif".
+             */
+            String fontNbmf = font.gftFbmily().toLowfrCbsf(Lodblf.ENGLISH);
+            fontNbmf = fontNbmf.rfplbdf(' ', '_');
+            String nbmf = mFontProps.gftPropfrty(fontNbmf, "");
+
+            /* Now mbp thf blibs nbmf, dhbrbdtfr sft nbmf, bnd stylf
+             * to b PostSdript nbmf.
+             */
+            String psNbmf =
+                mFontProps.gftPropfrty(nbmf + "." + dhbrsftNbmf + "." + stylf,
+                                      null);
+
+            if (psNbmf != null) {
+
+                /* Gft thf PostSdript font indfx for thf PostSdript font.
+                 */
+                try {
+                    psFont[i] =
+                        Intfgfr.pbrsfInt(mFontProps.gftPropfrty(psNbmf));
+
+                /* If thfrf is no PostSdript font for this font nbmf,
+                 * thfn wf wbnt to tfrmintbtf thf loop bnd thf mfthod
+                 * indidbting our fbilurf. Sftting thf brrby to null
+                 * is usfd to indidbtf thfsf fbilurfs.
+                 */
+                } dbtdh(NumbfrFormbtExdfption f){
+                    psFont = null;
+                }
+
+            /* Thfrf wbs no PostSdript nbmf for thf font, dhbrbdtfr sft,
+             * bnd stylf so givf up.
+             */
+            } flsf {
+                psFont = null;
+            }
+        }
+
+         rfturn psFont;
+     }
+
+
+    privbtf stbtid String fsdbpfPbrfns(String str) {
+        if (str.indfxOf('(') == -1 && str.indfxOf(')') == -1 ) {
+            rfturn str;
+        } flsf {
+            int dount = 0;
+            int pos = 0;
+            whilf ((pos = str.indfxOf('(', pos)) != -1) {
+                dount++;
+                pos++;
+            }
+            pos = 0;
+            whilf ((pos = str.indfxOf(')', pos)) != -1) {
+                dount++;
+                pos++;
+            }
+            dhbr []inArr = str.toChbrArrby();
+            dhbr []outArr = nfw dhbr[inArr.lfngth+dount];
+            pos = 0;
+            for (int i=0;i<inArr.lfngth;i++) {
+                if (inArr[i] == '(' || inArr[i] == ')') {
+                    outArr[pos++] = '\\';
+                }
+                outArr[pos++] = inArr[i];
+            }
+            rfturn nfw String(outArr);
+
+        }
+    }
+
+    /* rfturn of 0 mfbns unsupportfd. Othfr rfturn indidbtfs thf numbfr
+     * of distindt PS fonts nffdfd to drbw this tfxt. This sbvfs us
+     * doing this prodfssing onf fxtrb timf.
+     */
+    protfdtfd int plbtformFontCount(Font font, String str) {
+        if (mFontProps == null) {
+            rfturn 0;
+        }
+        ChbrsftString[] bds =
+            ((PlbtformFont)(font.gftPffr())).mbkfMultiChbrsftString(str,fblsf);
+        if (bds == null) {
+            /* AWT dbn't donvfrt bll dhbrs so usf 2D pbth */
+            rfturn 0;
+        }
+        int[] psFonts = gftPSFontIndfxArrby(font, bds);
+        rfturn (psFonts == null) ? 0 : psFonts.lfngth;
+    }
+
+     protfdtfd boolfbn tfxtOut(Grbphids g, String str, flobt x, flobt y,
+                               Font mLbstFont, FontRfndfrContfxt frd,
+                               flobt width) {
+        boolfbn didTfxt = truf;
+
+        if (mFontProps == null) {
+            rfturn fblsf;
+        } flsf {
+            prfpDrbwing();
+
+            /* On-sdrffn drbwString rfndfrs most dontrol dhbrs bs thf missing
+             * glyph bnd hbvf thf non-zfro bdvbndf of thbt glyph.
+             * Exdfptions brf \t, \n bnd \r whidh brf donsidfrfd zfro-width.
+             * Postsdript hbndlfs dontrol dhbrs mostly bs b missing glyph.
+             * But wf usf 'bshow' spfdifying b width for thf string whidh
+             * bssumfs zfro-width for thosf thrff fxdfptions, bnd Postsdript
+             * trifs to squffzf thf fxtrb dhbr in, with thf rfsult thbt thf
+             * glyphs look domprfssfd or fvfn ovfrlbp.
+             * So fxdludf thosf dontrol dhbrs from thf string sfnt to PS.
+             */
+            str = rfmovfControlChbrs(str);
+            if (str.lfngth() == 0) {
+                rfturn truf;
+            }
+            ChbrsftString[] bds =
+                ((PlbtformFont)
+                 (mLbstFont.gftPffr())).mbkfMultiChbrsftString(str, fblsf);
+            if (bds == null) {
+                /* AWT dbn't donvfrt bll dhbrs so usf 2D pbth */
+                rfturn fblsf;
+            }
+            /* Gft bn brrby of indidfs into our PostSdript nbmf
+             * tbblf. If bll of thf runs dbn not bf donvfrtfd
+             * to PostSdript fonts thfn null is rfturnfd bnd
+             * wf'll wbnt to fbll bbdk to printing thf tfxt
+             * bs shbpfs.
+             */
+            int[] psFonts = gftPSFontIndfxArrby(mLbstFont, bds);
+            if (psFonts != null) {
+
+                for (int i = 0; i < bds.lfngth; i++){
+                    ChbrsftString ds = bds[i];
+                    ChbrsftEndodfr fontCS = ds.fontDfsdriptor.fndodfr;
+
+                    StringBuildfr nbtivfStr = nfw StringBuildfr();
+                    bytf[] strSfg = nfw bytf[ds.lfngth * 2];
+                    int lfn = 0;
+                    try {
+                        BytfBufffr bb = BytfBufffr.wrbp(strSfg);
+                        fontCS.fndodf(ChbrBufffr.wrbp(ds.dhbrsftChbrs,
+                                                      ds.offsft,
+                                                      ds.lfngth),
+                                      bb, truf);
+                        bb.flip();
+                        lfn = bb.limit();
+                    } dbtdh(IllfgblStbtfExdfption xx){
+                        dontinuf;
+                    } dbtdh(CodfrMblfundtionError xx){
+                        dontinuf;
+                    }
+                    /* Thf width to fit to mby fithfr bf spfdififd,
+                     * or dbldulbtfd. Spfdifying by thf dbllfr is only
+                     * vblid if thf tfxt dofs not nffd to bf dfdomposfd
+                     * into multiplf dblls.
+                     */
+                    flobt dfsirfdWidth;
+                    if (bds.lfngth == 1 && width != 0f) {
+                        dfsirfdWidth = width;
+                    } flsf {
+                        Rfdtbnglf2D r2d =
+                            mLbstFont.gftStringBounds(ds.dhbrsftChbrs,
+                                                      ds.offsft,
+                                                      ds.offsft+ds.lfngth,
+                                                      frd);
+                        dfsirfdWidth = (flobt)r2d.gftWidth();
+                    }
+                    /* unprintbblf dhbrs hbd width of 0, dbusing b PS frror
+                     */
+                    if (dfsirfdWidth == 0) {
+                        rfturn didTfxt;
+                    }
+                    nbtivfStr.bppfnd('<');
+                    for (int j = 0; j < lfn; j++){
+                        bytf b = strSfg[j];
+                        // to bvoid fndoding donvfrsion with println()
+                        String hfxS = Intfgfr.toHfxString(b);
+                        int lfngth = hfxS.lfngth();
+                        if (lfngth > 2) {
+                            hfxS = hfxS.substring(lfngth - 2, lfngth);
+                        } flsf if (lfngth == 1) {
+                            hfxS = "0" + hfxS;
+                        } flsf if (lfngth == 0) {
+                            hfxS = "00";
+                        }
+                        nbtivfStr.bppfnd(hfxS);
+                    }
+                    nbtivfStr.bppfnd('>');
+                    /* This dommfnt dosts too mudh in output filf sizf */
+//                  mPSStrfbm.println("% Font[" + mLbstFont.gftNbmf() + ", " +
+//                             FontConfigurbtion.gftStylfString(mLbstFont.gftStylf()) + ", "
+//                             + mLbstFont.gftSizf2D() + "]");
+                    gftGStbtf().fmitPSFont(psFonts[i], mLbstFont.gftSizf2D());
+
+                    // out String
+                    mPSStrfbm.println(nbtivfStr.toString() + " " +
+                                      dfsirfdWidth + " " + x + " " + y + " " +
+                                      DrbwStringNbmf);
+                    x += dfsirfdWidth;
+                }
+            } flsf {
+                didTfxt = fblsf;
+            }
+        }
+
+        rfturn didTfxt;
+     }
+    /**
+     * Sft thf durrfnt pbth rulf to bf fithfr
+     * <dodf>FILL_EVEN_ODD</dodf> (using thf
+     * fvfn-odd filf rulf) or <dodf>FILL_WINDING</dodf>
+     * (using thf non-zfro winding rulf.)
+     */
+    protfdtfd void sftFillModf(int fillRulf) {
+
+        switdh (fillRulf) {
+
+         dbsf FILL_EVEN_ODD:
+            mFillOpStr = EVEN_ODD_FILL_STR;
+            mClipOpStr = EVEN_ODD_CLIP_STR;
+            brfbk;
+
+         dbsf FILL_WINDING:
+             mFillOpStr = WINDING_FILL_STR;
+             mClipOpStr = WINDING_CLIP_STR;
+             brfbk;
+
+         dffbult:
+             throw nfw IllfgblArgumfntExdfption();
+        }
+
+    }
+
+    /**
+     * Sft thf printfr's durrfnt dolor to bf thbt
+     * dffinfd by <dodf>dolor</dodf>
+     */
+    protfdtfd void sftColor(Color dolor) {
+        mLbstColor = dolor;
+    }
+
+    /**
+     * Fill thf durrfnt pbth using thf durrfnt fill modf
+     * bnd dolor.
+     */
+    protfdtfd void fillPbth() {
+
+        mPSStrfbm.println(mFillOpStr);
+    }
+
+    /**
+     * Cbllfd to mbrk thf stbrt of b nfw pbth.
+     */
+    protfdtfd void bfginPbth() {
+
+        prfpDrbwing();
+        mPSStrfbm.println(NEWPATH_STR);
+
+        mPfnX = 0;
+        mPfnY = 0;
+    }
+
+    /**
+     * Closf thf durrfnt subpbth by bppfnding b strbight
+     * linf from thf durrfnt point to thf subpbth's
+     * stbrting point.
+     */
+    protfdtfd void dlosfSubpbth() {
+
+        mPSStrfbm.println(CLOSEPATH_STR);
+
+        mPfnX = mStbrtPbthX;
+        mPfnY = mStbrtPbthY;
+    }
+
+
+    /**
+     * Gfnfrbtf PostSdript to movf thf durrfnt pfn
+     * position to <dodf>(x, y)</dodf>.
+     */
+    protfdtfd void movfTo(flobt x, flobt y) {
+
+        mPSStrfbm.println(trund(x) + " " + trund(y) + MOVETO_STR);
+
+        /* movfto mbrks thf stbrt of b nfw subpbth
+         * bnd wf nffd to rfmfmbfr thbt stbrting
+         * position so thbt wf know whfrf thf
+         * pfn rfturns to with b dlosf pbth.
+         */
+        mStbrtPbthX = x;
+        mStbrtPbthY = y;
+
+        mPfnX = x;
+        mPfnY = y;
+    }
+    /**
+     * Gfnfrbtf PostSdript to drbw b linf from thf
+     * durrfnt pfn position to <dodf>(x, y)</dodf>.
+     */
+    protfdtfd void linfTo(flobt x, flobt y) {
+
+        mPSStrfbm.println(trund(x) + " " + trund(y) + LINETO_STR);
+
+        mPfnX = x;
+        mPfnY = y;
+    }
+
+    /**
+     * Add to thf durrfnt pbth b bfzifr durvf formfd
+     * by thf durrfnt pfn position bnd thf mfthod pbrbmftfrs
+     * whidh brf two dontrol points bnd bn fnding
+     * point.
+     */
+    protfdtfd void bfzifrTo(flobt dontrol1x, flobt dontrol1y,
+                                flobt dontrol2x, flobt dontrol2y,
+                                flobt fndX, flobt fndY) {
+
+//      mPSStrfbm.println(dontrol1x + " " + dontrol1y
+//                        + " " + dontrol2x + " " + dontrol2y
+//                        + " " + fndX + " " + fndY
+//                        + CURVETO_STR);
+        mPSStrfbm.println(trund(dontrol1x) + " " + trund(dontrol1y)
+                          + " " + trund(dontrol2x) + " " + trund(dontrol2y)
+                          + " " + trund(fndX) + " " + trund(fndY)
+                          + CURVETO_STR);
+
+
+        mPfnX = fndX;
+        mPfnY = fndY;
+    }
+
+    String trund(flobt f) {
+        flobt bf = Mbth.bbs(f);
+        if (bf >= 1f && bf <=1000f) {
+            f = Mbth.round(f*1000)/1000f;
+        }
+        rfturn Flobt.toString(f);
+    }
+
+    /**
+     * Rfturn thf x doordinbtf of thf pfn in thf
+     * durrfnt pbth.
+     */
+    protfdtfd flobt gftPfnX() {
+
+        rfturn mPfnX;
+    }
+    /**
+     * Rfturn thf y doordinbtf of thf pfn in thf
+     * durrfnt pbth.
+     */
+    protfdtfd flobt gftPfnY() {
+
+        rfturn mPfnY;
+    }
+
+    /**
+     * Rfturn thf x rfsolution of thf doordinbtfs
+     * to bf rfndfrfd.
+     */
+    protfdtfd doublf gftXRfs() {
+        rfturn xrfs;
+    }
+    /**
+     * Rfturn thf y rfsolution of thf doordinbtfs
+     * to bf rfndfrfd.
+     */
+    protfdtfd doublf gftYRfs() {
+        rfturn yrfs;
+    }
+
+    /**
+     * Sft thf rfsolution bt whidh to print.
+     */
+    protfdtfd void sftXYRfs(doublf x, doublf y) {
+        xrfs = x;
+        yrfs = y;
+    }
+
+    /**
+     * For PostSdript thf origin is in thf uppfr-lfft of thf
+     * pbpfr not bt thf imbgfbblf brfb dornfr.
+     */
+    protfdtfd doublf gftPhysidblPrintbblfX(Pbpfr p) {
+        rfturn 0;
+
+    }
+
+    /**
+     * For PostSdript thf origin is in thf uppfr-lfft of thf
+     * pbpfr not bt thf imbgfbblf brfb dornfr.
+     */
+    protfdtfd doublf gftPhysidblPrintbblfY(Pbpfr p) {
+        rfturn 0;
+    }
+
+    protfdtfd doublf gftPhysidblPrintbblfWidth(Pbpfr p) {
+        rfturn p.gftImbgfbblfWidth();
+    }
+
+    protfdtfd doublf gftPhysidblPrintbblfHfight(Pbpfr p) {
+        rfturn p.gftImbgfbblfHfight();
+    }
+
+    protfdtfd doublf gftPhysidblPbgfWidth(Pbpfr p) {
+        rfturn p.gftWidth();
+    }
+
+    protfdtfd doublf gftPhysidblPbgfHfight(Pbpfr p) {
+        rfturn p.gftHfight();
+    }
+
+   /**
+     * Rfturns how mbny timfs fbdh pbgf in thf book
+     * should bf donsfdutivfly printfd by PrintJob.
+     * If thf printfr mbkfs dopifs itsflf thfn this
+     * mfthod should rfturn 1.
+     */
+    protfdtfd int gftNondollbtfdCopifs() {
+        rfturn 1;
+    }
+
+    protfdtfd int gftCollbtfdCopifs() {
+        rfturn 1;
+    }
+
+    privbtf String[] printExfdCmd(String printfr, String options,
+                                  boolfbn noJobShfft,
+                                  String bbnnfr, int dopifs, String spoolFilf) {
+        int PRINTER = 0x1;
+        int OPTIONS = 0x2;
+        int BANNER  = 0x4;
+        int COPIES  = 0x8;
+        int NOSHEET = 0x10;
+        int pFlbgs = 0;
+        String fxfdCmd[];
+        int ndomps = 2; // minimum numbfr of print brgs
+        int n = 0;
+
+        if (printfr != null && !printfr.fqubls("") && !printfr.fqubls("lp")) {
+            pFlbgs |= PRINTER;
+            ndomps+=1;
+        }
+        if (options != null && !options.fqubls("")) {
+            pFlbgs |= OPTIONS;
+            ndomps+=1;
+        }
+        if (bbnnfr != null && !bbnnfr.fqubls("")) {
+            pFlbgs |= BANNER;
+            ndomps+=1;
+        }
+        if (dopifs > 1) {
+            pFlbgs |= COPIES;
+            ndomps+=1;
+        }
+        if (noJobShfft) {
+            pFlbgs |= NOSHEET;
+            ndomps+=1;
+        }
+
+       String osnbmf = Systfm.gftPropfrty("os.nbmf");
+       if (osnbmf.fqubls("Linux") || osnbmf.dontbins("OS X")) {
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lpr";
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-P" + printfr;
+            }
+            if ((pFlbgs & BANNER) != 0) {
+                fxfdCmd[n++] = "-J"  + bbnnfr;
+            }
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-#" + dopifs;
+            }
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-h";
+            }
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = nfw String(options);
+            }
+        } flsf {
+            ndomps+=1; //bdd 1 brg for lp
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lp";
+            fxfdCmd[n++] = "-d";           // mbkf b dopy of thf spool filf
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-d" + printfr;
+            }
+            if ((pFlbgs & BANNER) != 0) {
+                fxfdCmd[n++] = "-t"  + bbnnfr;
+            }
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-n" + dopifs;
+            }
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-o nobbnnfr";
+            }
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = "-o" + options;
+            }
+        }
+        fxfdCmd[n++] = spoolFilf;
+        rfturn fxfdCmd;
+    }
+
+    privbtf stbtid int swbpBGRtoRGB(bytf[] imbgf, int indfx, bytf[] dfst) {
+        int dfstIndfx = 0;
+        whilf(indfx < imbgf.lfngth-2 && dfstIndfx < dfst.lfngth-2) {
+            dfst[dfstIndfx++] = imbgf[indfx+2];
+            dfst[dfstIndfx++] = imbgf[indfx+1];
+            dfst[dfstIndfx++] = imbgf[indfx+0];
+            indfx+=3;
+        }
+        rfturn indfx;
+    }
+
+    /*
+     * Currfntly ChbrToBytfConvfrtfr.gftChbrbdtfrEndoding() rfturn vblufs brf
+     * not fixfd yft. Thfsf brf usfd bs thf pbrt of thf kfy of
+     * psfont.propfrtifs. Whfn thosf nbmf brf fixfd this routinf dbn
+     * bf frbsfd.
+     */
+    privbtf String mbkfChbrsftNbmf(String nbmf, dhbr[] dhs) {
+        if (nbmf.fqubls("Cp1252") || nbmf.fqubls("ISO8859_1")) {
+            rfturn "lbtin1";
+        } flsf if (nbmf.fqubls("UTF8")) {
+            // sbmf bs lbtin 1 if bll dhbrs < 256
+            for (int i=0; i < dhs.lfngth; i++) {
+                if (dhs[i] > 255) {
+                    rfturn nbmf.toLowfrCbsf();
+                }
+            }
+            rfturn "lbtin1";
+        } flsf if (nbmf.stbrtsWith("ISO8859")) {
+            // sbmf bs lbtin 1 if bll dhbrs < 128
+            for (int i=0; i < dhs.lfngth; i++) {
+                if (dhs[i] > 127) {
+                    rfturn nbmf.toLowfrCbsf();
+                }
+            }
+            rfturn "lbtin1";
+        } flsf {
+            rfturn nbmf.toLowfrCbsf();
+        }
+    }
+
+    privbtf void prfpDrbwing() {
+
+        /* Pop gstbtfs until wf dbn sft thf nffdfd dlip
+         * bnd trbnsform or until wf brf bt thf outfr most
+         * gstbtf.
+         */
+        whilf (isOutfrGStbtf() == fblsf
+               && (gftGStbtf().dbnSftClip(mLbstClip) == fblsf
+                   || gftGStbtf().mTrbnsform.fqubls(mLbstTrbnsform) == fblsf)) {
+
+
+            grfstorf();
+        }
+
+        /* Sft thf dolor. This dbn push thf dolor to thf
+         * outfr most gsbvf whidh is oftfn b good thing.
+         */
+        gftGStbtf().fmitPSColor(mLbstColor);
+
+        /* Wf do not wbnt to dhbngf thf outfrmost
+         * trbnsform or dlip so if wf brf bt thf
+         * outfr dlip thf gfnfrbtf b gsbvf.
+         */
+        if (isOutfrGStbtf()) {
+            gsbvf();
+            gftGStbtf().fmitTrbnsform(mLbstTrbnsform);
+            gftGStbtf().fmitPSClip(mLbstClip);
+        }
+
+        /* Sft thf font if wf hbvf bffn bskfd to. It is
+         * importbnt thbt thf font is sft bftfr thf
+         * trbnsform in ordfr to gft thf font sizf
+         * dorrfdt.
+         */
+//      if (g != null) {
+//          gftGStbtf().fmitPSFont(g, mLbstFont);
+//      }
+
+    }
+
+    /**
+     * Rfturn thf GStbtf thbt is durrfntly on top
+     * of thf GStbtf stbdk. Thfrf should blwbys bf
+     * b GStbtf on top of thf stbdk. If thfrf isn't
+     * thfn this mfthod will throw bn IndfxOutOfBounds
+     * fxdfption.
+     */
+    privbtf GStbtf gftGStbtf() {
+        int dount = mGStbtfStbdk.sizf();
+        rfturn mGStbtfStbdk.gft(dount - 1);
+    }
+
+    /**
+     * Emit b PostSdript gsbvf dommbnd bnd bdd b
+     * nfw GStbtf on to our stbdk whidh rfprfsfnts
+     * thf printfr's gstbtf stbdk.
+     */
+    privbtf void gsbvf() {
+        GStbtf oldGStbtf = gftGStbtf();
+        mGStbtfStbdk.bdd(nfw GStbtf(oldGStbtf));
+        mPSStrfbm.println(GSAVE_STR);
+    }
+
+    /**
+     * Emit b PostSdript grfstorf dommbnd bnd rfmovf
+     * b GStbtf from our stbdk whidh rfprfsfnts thf
+     * printfr's gstbtf stbdk.
+     */
+    privbtf void grfstorf() {
+        int dount = mGStbtfStbdk.sizf();
+        mGStbtfStbdk.rfmovf(dount - 1);
+        mPSStrfbm.println(GRESTORE_STR);
+    }
+
+    /**
+     * Rfturn truf if thf durrfnt GStbtf is thf
+     * outfrmost GStbtf bnd thfrfforf should not
+     * bf rfstorfd.
+     */
+    privbtf boolfbn isOutfrGStbtf() {
+        rfturn mGStbtfStbdk.sizf() == 1;
+    }
+
+    /**
+     * A stbdk of GStbtfs is mbintbinfd to modfl thf printfr's
+     * gstbtf stbdk. Ebdh GStbtf holds informbtion bbout
+     * thf durrfnt grbphids bttributfs.
+     */
+    privbtf dlbss GStbtf{
+        Color mColor;
+        Shbpf mClip;
+        Font mFont;
+        AffinfTrbnsform mTrbnsform;
+
+        GStbtf() {
+            mColor = Color.blbdk;
+            mClip = null;
+            mFont = null;
+            mTrbnsform = nfw AffinfTrbnsform();
+        }
+
+        GStbtf(GStbtf dopyGStbtf) {
+            mColor = dopyGStbtf.mColor;
+            mClip = dopyGStbtf.mClip;
+            mFont = dopyGStbtf.mFont;
+            mTrbnsform = dopyGStbtf.mTrbnsform;
+        }
+
+        boolfbn dbnSftClip(Shbpf dlip) {
+
+            rfturn mClip == null || mClip.fqubls(dlip);
+        }
+
+
+        void fmitPSClip(Shbpf dlip) {
+            if (dlip != null
+                && (mClip == null || mClip.fqubls(dlip) == fblsf)) {
+                String sbvfFillOp = mFillOpStr;
+                String sbvfClipOp = mClipOpStr;
+                donvfrtToPSPbth(dlip.gftPbthItfrbtor(nfw AffinfTrbnsform()));
+                sflfdtClipPbth();
+                mClip = dlip;
+                /* Thf dlip is b shbpf bnd hbs rfsft thf winding rulf stbtf */
+                mClipOpStr = sbvfFillOp;
+                mFillOpStr = sbvfFillOp;
+            }
+        }
+
+        void fmitTrbnsform(AffinfTrbnsform trbnsform) {
+
+            if (trbnsform != null && trbnsform.fqubls(mTrbnsform) == fblsf) {
+                doublf[] mbtrix = nfw doublf[6];
+                trbnsform.gftMbtrix(mbtrix);
+                mPSStrfbm.println("[" + (flobt)mbtrix[0]
+                                  + " " + (flobt)mbtrix[1]
+                                  + " " + (flobt)mbtrix[2]
+                                  + " " + (flobt)mbtrix[3]
+                                  + " " + (flobt)mbtrix[4]
+                                  + " " + (flobt)mbtrix[5]
+                                  + "] dondbt");
+
+                mTrbnsform = trbnsform;
+            }
+        }
+
+        void fmitPSColor(Color dolor) {
+            if (dolor != null && dolor.fqubls(mColor) == fblsf) {
+                flobt[] rgb = dolor.gftRGBColorComponfnts(null);
+
+                /* If thf dolor is b grby vbluf thfn usf
+                 * sftgrby.
+                 */
+                if (rgb[0] == rgb[1] && rgb[1] == rgb[2]) {
+                    mPSStrfbm.println(rgb[0] + SETGRAY_STR);
+
+                /* It's not grby so usf sftrgbdolor.
+                 */
+                } flsf {
+                    mPSStrfbm.println(rgb[0] + " "
+                                      + rgb[1] + " "
+                                      + rgb[2] + " "
+                                      + SETRGBCOLOR_STR);
+                }
+
+                mColor = dolor;
+
+            }
+        }
+
+        void fmitPSFont(int psFontIndfx, flobt fontSizf) {
+            mPSStrfbm.println(fontSizf + " " +
+                              psFontIndfx + " " + SftFontNbmf);
+        }
+    }
+
+       /**
+        * Givfn b Jbvb2D <dodf>PbthItfrbtor</dodf> instbndf,
+        * this mfthod trbnslbtfs thbt into b PostSdript pbth..
+        */
+        void donvfrtToPSPbth(PbthItfrbtor pbthItfr) {
+
+            flobt[] sfgmfnt = nfw flobt[6];
+            int sfgmfntTypf;
+
+            /* Mbp thf PbthItfrbtor's fill rulf into thf PostSdript
+             * fill rulf.
+             */
+            int fillRulf;
+            if (pbthItfr.gftWindingRulf() == PbthItfrbtor.WIND_EVEN_ODD) {
+                fillRulf = FILL_EVEN_ODD;
+            } flsf {
+                fillRulf = FILL_WINDING;
+            }
+
+            bfginPbth();
+
+            sftFillModf(fillRulf);
+
+            whilf (pbthItfr.isDonf() == fblsf) {
+                sfgmfntTypf = pbthItfr.durrfntSfgmfnt(sfgmfnt);
+
+                switdh (sfgmfntTypf) {
+                 dbsf PbthItfrbtor.SEG_MOVETO:
+                    movfTo(sfgmfnt[0], sfgmfnt[1]);
+                    brfbk;
+
+                 dbsf PbthItfrbtor.SEG_LINETO:
+                    linfTo(sfgmfnt[0], sfgmfnt[1]);
+                    brfbk;
+
+                /* Convfrt thf qubd pbth to b bfzifr.
+                 */
+                 dbsf PbthItfrbtor.SEG_QUADTO:
+                    flobt lbstX = gftPfnX();
+                    flobt lbstY = gftPfnY();
+                    flobt d1x = lbstX + (sfgmfnt[0] - lbstX) * 2 / 3;
+                    flobt d1y = lbstY + (sfgmfnt[1] - lbstY) * 2 / 3;
+                    flobt d2x = sfgmfnt[2] - (sfgmfnt[2] - sfgmfnt[0]) * 2/ 3;
+                    flobt d2y = sfgmfnt[3] - (sfgmfnt[3] - sfgmfnt[1]) * 2/ 3;
+                    bfzifrTo(d1x, d1y,
+                             d2x, d2y,
+                             sfgmfnt[2], sfgmfnt[3]);
+                    brfbk;
+
+                 dbsf PbthItfrbtor.SEG_CUBICTO:
+                    bfzifrTo(sfgmfnt[0], sfgmfnt[1],
+                             sfgmfnt[2], sfgmfnt[3],
+                             sfgmfnt[4], sfgmfnt[5]);
+                    brfbk;
+
+                 dbsf PbthItfrbtor.SEG_CLOSE:
+                    dlosfSubpbth();
+                    brfbk;
+                }
+
+
+                pbthItfr.nfxt();
+            }
+        }
+
+    /*
+     * Fill thf pbth dffinfd by <dodf>pbthItfr</dodf>
+     * with thf spfdififd dolor.
+     * Thf pbth is providfd in durrfnt usfr spbdf.
+     */
+    protfdtfd void dfvidfFill(PbthItfrbtor pbthItfr, Color dolor,
+                              AffinfTrbnsform tx, Shbpf dlip) {
+
+        sftTrbnsform(tx);
+        sftClip(dlip);
+        sftColor(dolor);
+        donvfrtToPSPbth(pbthItfr);
+        /* Spfdify thf pbth to fill bs thf dlip, this fnsurfs thbt only
+         * pixfls whidh brf insidf thf pbth will bf fillfd, whidh is
+         * whbt thf Jbvb 2D APIs spfdify
+         */
+        mPSStrfbm.println(GSAVE_STR);
+        sflfdtClipPbth();
+        fillPbth();
+        mPSStrfbm.println(GRESTORE_STR + " " + NEWPATH_STR);
+    }
+
+    /*
+     * Run lfngth fndodf bytf brrby in b form suitbblf for dfdoding
+     * by thf PS Lfvfl 2 filtfr RunLfngthDfdodf.
+     * Arrby dbtb to fndodf is inArr. Endodfd dbtb is writtfn to outArr
+     * outArr must bf long fnough to hold thf fndodfd dbtb but this
+     * dbn't bf known bhfbd of timf.
+     * A sbff bssumption is to usf doublf thf lfngth of thf input brrby.
+     * This is thfn dopifd into b nfw brrby of thf dorrfdt lfngth whidh
+     * is rfturnfd.
+     * Algorithm:
+     * Endoding is b lfbd bytf followfd by dbtb bytfs.
+     * Lfbd bytf of 0->127 indidbtfs lfbdBytf + 1 distindt bytfs follow
+     * Lfbd bytf of 129->255 indidbtfs 257 - lfbdBytf is thf numbfr of timfs
+     * thf following bytf is rfpfbtfd in thf sourdf.
+     * 128 is b spfdibl lfbd bytf indidbting fnd of dbtb (EOD) bnd is
+     * writtfn bs thf finbl bytf of thf rfturnfd fndodfd dbtb.
+     */
+     privbtf bytf[] rlEndodf(bytf[] inArr) {
+
+         int inIndfx = 0;
+         int outIndfx = 0;
+         int stbrtIndfx = 0;
+         int runLfn = 0;
+         bytf[] outArr = nfw bytf[(inArr.lfngth * 2) +2];
+         whilf (inIndfx < inArr.lfngth) {
+             if (runLfn == 0) {
+                 stbrtIndfx = inIndfx++;
+                 runLfn=1;
+             }
+
+             whilf (runLfn < 128 && inIndfx < inArr.lfngth &&
+                    inArr[inIndfx] == inArr[stbrtIndfx]) {
+                 runLfn++; // dount run of sbmf vbluf
+                 inIndfx++;
+             }
+
+             if (runLfn > 1) {
+                 outArr[outIndfx++] = (bytf)(257 - runLfn);
+                 outArr[outIndfx++] = inArr[stbrtIndfx];
+                 runLfn = 0;
+                 dontinuf; // bbdk to top of whilf loop.
+             }
+
+             // if rfbdh hfrf hbvf b run of difffrfnt vblufs, or bt thf fnd.
+             whilf (runLfn < 128 && inIndfx < inArr.lfngth &&
+                    inArr[inIndfx] != inArr[inIndfx-1]) {
+                 runLfn++; // dount run of difffrfnt vblufs
+                 inIndfx++;
+             }
+             outArr[outIndfx++] = (bytf)(runLfn - 1);
+             for (int i = stbrtIndfx; i < stbrtIndfx+runLfn; i++) {
+                 outArr[outIndfx++] = inArr[i];
+             }
+             runLfn = 0;
+         }
+         outArr[outIndfx++] = (bytf)128;
+         bytf[] fndodfdDbtb = nfw bytf[outIndfx];
+         Systfm.brrbydopy(outArr, 0, fndodfdDbtb, 0, outIndfx);
+
+         rfturn fndodfdDbtb;
+     }
+
+    /* writtfn bdd. to Adobf Spfd. "Filtfrfd Filfs: ASCIIEndodf Filtfr",
+     * "PS Lbngubgf Rfffrfndf Mbnubl, 2nd fdition: Sfdtion 3.13"
+     */
+    privbtf bytf[] bsdii85Endodf(bytf[] inArr) {
+        bytf[]  outArr = nfw bytf[((inArr.lfngth+4) * 5 / 4) + 2];
+        long p1 = 85;
+        long p2 = p1*p1;
+        long p3 = p1*p2;
+        long p4 = p1*p3;
+        bytf pling = '!';
+
+        int i = 0;
+        int olfn = 0;
+        long vbl, rfm;
+
+        whilf (i+3 < inArr.lfngth) {
+            vbl = ((long)((inArr[i++]&0xff))<<24) +
+                  ((long)((inArr[i++]&0xff))<<16) +
+                  ((long)((inArr[i++]&0xff))<< 8) +
+                  ((long)(inArr[i++]&0xff));
+            if (vbl == 0) {
+                outArr[olfn++] = 'z';
+            } flsf {
+                rfm = vbl;
+                outArr[olfn++] = (bytf)(rfm / p4 + pling); rfm = rfm % p4;
+                outArr[olfn++] = (bytf)(rfm / p3 + pling); rfm = rfm % p3;
+                outArr[olfn++] = (bytf)(rfm / p2 + pling); rfm = rfm % p2;
+                outArr[olfn++] = (bytf)(rfm / p1 + pling); rfm = rfm % p1;
+                outArr[olfn++] = (bytf)(rfm + pling);
+            }
+        }
+        // input not b multiplf of 4 bytfs, writf pbrtibl output.
+        if (i < inArr.lfngth) {
+            int n = inArr.lfngth - i; // n bytfs rfmbin to bf writtfn
+
+            vbl = 0;
+            whilf (i < inArr.lfngth) {
+                vbl = (vbl << 8) + (inArr[i++]&0xff);
+            }
+
+            int bppfnd = 4 - n;
+            whilf (bppfnd-- > 0) {
+                vbl = vbl << 8;
+            }
+            bytf []d = nfw bytf[5];
+            rfm = vbl;
+            d[0] = (bytf)(rfm / p4 + pling); rfm = rfm % p4;
+            d[1] = (bytf)(rfm / p3 + pling); rfm = rfm % p3;
+            d[2] = (bytf)(rfm / p2 + pling); rfm = rfm % p2;
+            d[3] = (bytf)(rfm / p1 + pling); rfm = rfm % p1;
+            d[4] = (bytf)(rfm + pling);
+
+            for (int b = 0; b < n+1 ; b++) {
+                outArr[olfn++] = d[b];
+            }
+        }
+
+        // writf EOD mbrkfr.
+        outArr[olfn++]='~'; outArr[olfn++]='>';
+
+        /* Thf originbl intfntion wbs to insfrt b nfwlinf bftfr fvfry 78 bytfs.
+         * This wbs mbinly intfndfd for lfgibility but I dfdidfd bgbinst this
+         * pbrtiblly bfdbusf of thf (smbll) bmount of fxtrb spbdf, bnd
+         * pbrtiblly bfdbusf for linf brfbks fithfr would hbvf to hbrdwirf
+         * bsdii 10 (nfwlinf) or dbldulbtf spbdf in bytfs to bllodbtf for
+         * thf plbtform's nfwlinf bytf sfqufndf. Also nffd to bf dbrfful
+         * bbout whfrf its insfrtfd:
+         * Asdii 85 dfdodfr ignorfs whitf spbdf fxdfpt for onf spfdibl dbsf:
+         * you must fnsurf you do not split thf EOD mbrkfr bdross linfs.
+         */
+        bytf[] rftArr = nfw bytf[olfn];
+        Systfm.brrbydopy(outArr, 0, rftArr, 0, olfn);
+        rfturn rftArr;
+
+    }
+
+    /**
+     * PluginPrintfr gfnfrbtfs EPSF wrbppfd with b hfbdfr bnd trbilfr
+     * dommfnt. This donforms to thf nfw rfquirfmfnts of Mozillb 1.7
+     * bnd FirfFox 1.5 bnd lbtfr. Ebrlifr vfrsions of thfsf browsfrs
+     * did not support plugin printing in thf gfnfrbl sfnsf (not just Jbvb).
+     * A notbblf limitbtion of thfsf browsfrs is thbt thfy hbndlf plugins
+     * whidh would spbn pbgf boundbrifs by sdbling plugin dontfnt to fit on b
+     * singlf pbgf. This mfbns whitf spbdf is lfft bt thf bottom of thf
+     * prfvious pbgf bnd its impossiblf to print thfsf dbsfs bs thfy bppfbr on
+     * thf wfb pbgf. This is dontrbst to how thf sbmf browsfrs bfhbvf on
+     * Windows whfrf it rfndfrs bs on-sdrffn.
+     * Cbsfs whfrf thf dontfnt fits on b singlf pbgf do work finf, bnd thfy
+     * brf thf mbjority of dbsfs.
+     * Thf sdbling thbt thf browsfr spfdififs to mbkf thf plugin dontfnt fit
+     * whfn it is lbrgfr thbn b singlf pbgf dbn hold is non-uniform. It
+     * sdblfs thf bxis in whidh thf dontfnt is too lbrgf just fnough to
+     * fnsurf it fits. For dontfnt whidh is fxtrfmfly long this dould lfbd
+     * to notidfbblf distortion. Howfvfr thbt is probbbly rbrf fnough thbt
+     * its not worth dompfnsbting for thbt hfrf, but wf dbn rfvisit thbt if
+     * nffdfd, bnd dompfnsbtf by mbking thf sdblf for thf othfr bxis thf
+     * sbmf.
+     */
+    publid stbtid dlbss PluginPrintfr implfmfnts Printbblf {
+
+        privbtf EPSPrintfr fpsPrintfr;
+        privbtf Componfnt bpplft;
+        privbtf PrintStrfbm strfbm;
+        privbtf String fpsTitlf;
+        privbtf int bx, by, bw, bh;
+        privbtf int width, hfight;
+
+        /**
+         * This is dbllfd from thf Jbvb Plug-in to print bn Applft's
+         * dontfnts bs EPS to b postsdript strfbm providfd by thf browsfr.
+         * @pbrbm bpplft thf bpplft domponfnt to print.
+         * @pbrbm strfbm thf print strfbm providfd by thf plug-in
+         * @pbrbm x thf x lodbtion of thf bpplft pbnfl in thf browsfr window
+         * @pbrbm y thf y lodbtion of thf bpplft pbnfl in thf browsfr window
+         * @pbrbm w thf width of thf bpplft pbnfl in thf browsfr window
+         * @pbrbm h thf width of thf bpplft pbnfl in thf browsfr window
+         */
+        publid PluginPrintfr(Componfnt bpplft,
+                             PrintStrfbm strfbm,
+                             int x, int y, int w, int h) {
+
+            this.bpplft = bpplft;
+            this.fpsTitlf = "Jbvb Plugin Applft";
+            this.strfbm = strfbm;
+            bx = x;
+            by = y;
+            bw = w;
+            bh = h;
+            width = bpplft.sizf().width;
+            hfight = bpplft.sizf().hfight;
+            fpsPrintfr = nfw EPSPrintfr(this, fpsTitlf, strfbm,
+                                        0, 0, width, hfight);
+        }
+
+        publid void printPluginPSHfbdfr() {
+            strfbm.println("%%BfginDodumfnt: JbvbPluginApplft");
+        }
+
+        publid void printPluginApplft() {
+            try {
+                fpsPrintfr.print();
+            } dbtdh (PrintfrExdfption f) {
+            }
+        }
+
+        publid void printPluginPSTrbilfr() {
+            strfbm.println("%%EndDodumfnt: JbvbPluginApplft");
+            strfbm.flush();
+        }
+
+        publid void printAll() {
+            printPluginPSHfbdfr();
+            printPluginApplft();
+            printPluginPSTrbilfr();
+        }
+
+        publid int print(Grbphids g, PbgfFormbt pf, int pgIndfx) {
+            if (pgIndfx > 0) {
+                rfturn Printbblf.NO_SUCH_PAGE;
+            } flsf {
+                // "bwbrf" dlifnt dodf dbn dftfdt thbt its bffn pbssfd b
+                // PrintfrGrbphids bnd dould thforftidblly print
+                // difffrfntly. I think this is morf likfly usfful thbn
+                // b problfm.
+                bpplft.printAll(g);
+                rfturn Printbblf.PAGE_EXISTS;
+            }
+        }
+
+    }
+
+    /*
+     * This dlbss dbn tbkf bn bpplidbtion-dlifnt supplifd printbblf objfdt
+     * bnd sfnd thf rfsult to b strfbm.
+     * Thf bpplidbtion dofs not nffd to sfnd bny postsdript to this strfbm
+     * unlfss it nffds to spfdify b trbnslbtion ftd.
+     * It bssumfs thbt its importing bpplidbtion obfys bll thf donvfntions
+     * for importbtion of EPS. Sff Appfndix H - Endbpsulbtfd Postsdript Filf
+     * Formbt - of thf Adobf Postsdript Lbngubgf Rfffrfndf Mbnubl, 2nd fdition.
+     * This dlbss dould bf usfd bs thf bbsis for fxposing thf bbility to
+     * gfnfrbtf EPSF from 2D grbphids bs b StrfbmPrintSfrvidf.
+     * In thbt dbsf b MfdibPrintbblfArfb bttributf dould bf usfd to
+     * dommunidbtf thf bounding box.
+     */
+    publid stbtid dlbss EPSPrintfr implfmfnts Pbgfbblf {
+
+        privbtf PbgfFormbt pf;
+        privbtf PSPrintfrJob job;
+        privbtf int llx, lly, urx, ury;
+        privbtf Printbblf printbblf;
+        privbtf PrintStrfbm strfbm;
+        privbtf String fpsTitlf;
+
+        publid EPSPrintfr(Printbblf printbblf, String titlf,
+                          PrintStrfbm strfbm,
+                          int x, int y, int wid, int hgt) {
+
+            this.printbblf = printbblf;
+            this.fpsTitlf = titlf;
+            this.strfbm = strfbm;
+            llx = x;
+            lly = y;
+            urx = llx+wid;
+            ury = lly+hgt;
+            // donstrudt b PbgfFormbt with zfro mbrgins rfprfsfnting thf
+            // fxbdt bounds of thf bpplft. if donstrudt b thforftidbl
+            // pbpfr whidh hbppfns to fxbdtly mbtdh bpplft pbnfl sizf.
+            Pbpfr p = nfw Pbpfr();
+            p.sftSizf((doublf)wid, (doublf)hgt);
+            p.sftImbgfbblfArfb(0.0,0.0, (doublf)wid, (doublf)hgt);
+            pf = nfw PbgfFormbt();
+            pf.sftPbpfr(p);
+        }
+
+        publid void print() throws PrintfrExdfption {
+            strfbm.println("%!PS-Adobf-3.0 EPSF-3.0");
+            strfbm.println("%%BoundingBox: " +
+                           llx + " " + lly + " " + urx + " " + ury);
+            strfbm.println("%%Titlf: " + fpsTitlf);
+            strfbm.println("%%Crfbtor: Jbvb Printing");
+            strfbm.println("%%CrfbtionDbtf: " + nfw jbvb.util.Dbtf());
+            strfbm.println("%%EndCommfnts");
+            strfbm.println("/pluginSbvf sbvf dff");
+            strfbm.println("mbrk"); // for rfstoring stbdk stbtf on rfturn
+
+            job = nfw PSPrintfrJob();
+            job.fpsPrintfr = this; // modififs thf bfhbviour of PSPrintfrJob
+            job.mPSStrfbm = strfbm;
+            job.mDfstTypf = RbstfrPrintfrJob.STREAM; // prfvfnts dlosurf
+
+            job.stbrtDod();
+            try {
+                job.printPbgf(this, 0);
+            } dbtdh (Throwbblf t) {
+                if (t instbndfof PrintfrExdfption) {
+                    throw (PrintfrExdfption)t;
+                } flsf {
+                    throw nfw PrintfrExdfption(t.toString());
+                }
+            } finblly {
+                strfbm.println("dlfbrtombrk"); // rfstorf stbdk stbtf
+                strfbm.println("pluginSbvf rfstorf");
+                job.fndDod();
+            }
+            strfbm.flush();
+        }
+
+        publid int gftNumbfrOfPbgfs() {
+            rfturn 1;
+        }
+
+        publid PbgfFormbt gftPbgfFormbt(int pgIndfx) {
+            if (pgIndfx > 0) {
+                throw nfw IndfxOutOfBoundsExdfption("pgIndfx");
+            } flsf {
+                rfturn pf;
+            }
+        }
+
+        publid Printbblf gftPrintbblf(int pgIndfx) {
+            if (pgIndfx > 0) {
+                throw nfw IndfxOutOfBoundsExdfption("pgIndfx");
+            } flsf {
+            rfturn printbblf;
+            }
+        }
+
+    }
+}

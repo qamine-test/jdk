@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.util.List;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * Selects the proxy server to use, if any, when connecting to the
- * network resource referenced by a URL. A proxy selector is a
- * concrete sub-class of this class and is registered by invoking the
- * {@link java.net.ProxySelector#setDefault setDefault} method. The
- * currently registered proxy selector can be retrieved by calling
- * {@link java.net.ProxySelector#getDefault getDefault} method.
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
  *
- * <p> When a proxy selector is registered, for instance, a subclass
- * of URLConnection class should call the {@link #select select}
- * method for each URL request so that the proxy selector can decide
- * if a direct, or proxied connection should be used. The {@link
- * #select select} method returns an iterator over a collection with
- * the preferred connection approach.
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * tif prfffrrfd donnfdtion bpprobdi.
  *
- * <p> If a connection cannot be established to a proxy (PROXY or
- * SOCKS) servers then the caller should call the proxy selector's
- * {@link #connectFailed connectFailed} method to notify the proxy
- * selector that the proxy server is unavailable. </p>
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
  *
- * <P>The default proxy selector does enforce a
- * <a href="doc-files/net-properties.html#Proxies">set of System Properties</a>
- * related to proxy settings.</P>
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * rflbtfd to proxy sfttings.</P>
  *
- * @author Yingxian Wang
- * @author Jean-Christophe Collet
- * @since 1.5
+ * @butior Yingxibn Wbng
+ * @butior Jfbn-Ciristopif Collft
+ * @sindf 1.5
  */
-public abstract class ProxySelector {
+publid bbstrbdt dlbss ProxySflfdtor {
     /**
-     * The system wide proxy selector that selects the proxy server to
-     * use, if any, when connecting to a remote object referenced by
-     * an URL.
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * bn URL.
      *
-     * @see #setDefault(ProxySelector)
+     * @sff #sftDffbult(ProxySflfdtor)
      */
-    private static ProxySelector theProxySelector;
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
 
-    static {
+    stbtid {
         try {
-            Class<?> c = Class.forName("sun.net.spi.DefaultProxySelector");
-            if (c != null && ProxySelector.class.isAssignableFrom(c)) {
-                theProxySelector = (ProxySelector) c.newInstance();
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
             }
-        } catch (Exception e) {
-            theProxySelector = null;
+        } dbtdi (Exdfption f) {
+            tifProxySflfdtor = null;
         }
     }
 
     /**
-     * Gets the system-wide proxy selector.
+     * Gfts tif systfm-widf proxy sflfdtor.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("getProxySelector")}
-     * @see #setDefault(ProxySelector)
-     * @return the system-wide {@code ProxySelector}
-     * @since 1.5
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
+     * @sindf 1.5
      */
-    public static ProxySelector getDefault() {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid ProxySflfdtor gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
         }
-        return theProxySelector;
+        rfturn tifProxySflfdtor;
     }
 
     /**
-     * Sets (or unsets) the system-wide proxy selector.
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
      *
-     * Note: non-standard protocol handlers may ignore this setting.
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
      *
-     * @param ps The HTTP proxy selector, or
-     *          {@code null} to unset the proxy selector.
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     *          {@dodf null} to unsft tif proxy sflfdtor.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("setProxySelector")}
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
      *
-     * @see #getDefault()
-     * @since 1.5
+     * @sff #gftDffbult()
+     * @sindf 1.5
      */
-    public static void setDefault(ProxySelector ps) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.SET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
         }
-        theProxySelector = ps;
+        tifProxySflfdtor = ps;
     }
 
     /**
-     * Selects all the applicable proxies based on the protocol to
-     * access the resource with and a destination address to access
-     * the resource at.
-     * The format of the URI is defined as follow:
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * tif rfsourdf bt.
+     * Tif formbt of tif URI is dffinfd bs follow:
      * <UL>
-     * <LI>http URI for http connections</LI>
-     * <LI>https URI for https connections
-     * <LI>{@code socket://host:port}<br>
-     *     for tcp client sockets connections</LI>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>{@dodf sodkft://iost:port}<br>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
      * </UL>
      *
-     * @param   uri
-     *          The URI that a connection is required to
+     * @pbrbm   uri
+     *          Tif URI tibt b donnfdtion is rfquirfd to
      *
-     * @return  a List of Proxies. Each element in the
-     *          the List is of type
-     *          {@link java.net.Proxy Proxy};
-     *          when no proxy is available, the list will
-     *          contain one element of type
-     *          {@link java.net.Proxy Proxy}
-     *          that represents a direct connection.
-     * @throws IllegalArgumentException if the argument is null
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     *          tif List is of typf
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          dontbin onf flfmfnt of typf
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
      */
-    public abstract List<Proxy> select(URI uri);
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
 
     /**
-     * Called to indicate that a connection could not be established
-     * to a proxy/socks server. An implementation of this method can
-     * temporarily remove the proxies or reorder the sequence of
-     * proxies returned by {@link #select(URI)}, using the address
-     * and the IOException caught when trying to connect.
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
      *
-     * @param   uri
-     *          The URI that the proxy at sa failed to serve.
-     * @param   sa
-     *          The socket address of the proxy/SOCKS server
+     * @pbrbm   uri
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
+     * @pbrbm   sb
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
      *
-     * @param   ioe
-     *          The I/O exception thrown when the connect failed.
-     * @throws IllegalArgumentException if either argument is null
+     * @pbrbm   iof
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
      */
-    public abstract void connectFailed(URI uri, SocketAddress sa, IOException ioe);
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
 }

@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
+
+import jbvb.util.Hbshtbblf;
+import org.iftf.jgss.Oid;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.ChbnnflBinding;
+import org.iftf.jgss.MfssbgfProp;
+import org.iftf.jgss.GSSExdfption;
+import sun.sfdurity.jgss.GSSUtil;
+
+/**
+ * This dlbss is fssfntiblly b JNI dblling stub for bll wrbppfr dlbssfs.
+ *
+ * @buthor Vblfrif Pfng
+ * @sindf 1.6
+ */
+
+dlbss GSSLibStub {
+
+    privbtf Oid mfdh;
+    privbtf long pMfdh;
+
+    /**
+     * Initiblizbtion routinf to dynbmidblly lobd fundtion pointfrs.
+     *
+     * @pbrbm lib librbry nbmf to dlopfn
+     * @pbrbm dfbug sft to truf for rfporting nbtivf dfbugging info
+     * @rfturn truf if suddffdfd, fblsf othfrwisf.
+     */
+    stbtid nbtivf boolfbn init(String lib, boolfbn dfbug);
+    privbtf stbtid nbtivf long gftMfdhPtr(bytf[] oidDfrEndoding);
+
+    // Misdfllbnfous routinfs
+    stbtid nbtivf Oid[] indidbtfMfdhs();
+    nbtivf Oid[] inquirfNbmfsForMfdh() throws GSSExdfption;
+
+    // Nbmf rflbtfd routinfs
+    nbtivf void rflfbsfNbmf(long pNbmf);
+    nbtivf long importNbmf(bytf[] nbmf, Oid typf);
+    nbtivf boolfbn dompbrfNbmf(long pNbmf1, long pNbmf2);
+    nbtivf long dbnonidblizfNbmf(long pNbmf);
+    nbtivf bytf[] fxportNbmf(long pNbmf) throws GSSExdfption;
+    nbtivf Objfdt[] displbyNbmf(long pNbmf) throws GSSExdfption;
+
+    // Crfdfntibl rflbtfd routinfs
+    nbtivf long bdquirfCrfd(long pNbmf, int lifftimf, int usbgf)
+                                        throws GSSExdfption;
+    nbtivf long rflfbsfCrfd(long pCrfd);
+    nbtivf long gftCrfdNbmf(long pCrfd);
+    nbtivf int gftCrfdTimf(long pCrfd);
+    nbtivf int gftCrfdUsbgf(long pCrfd);
+
+    // Contfxt rflbtfd routinfs
+    nbtivf NbtivfGSSContfxt importContfxt(bytf[] intfrProdTokfn);
+    nbtivf bytf[] initContfxt(long pCrfd, long tbrgftNbmf, ChbnnflBinding db,
+                              bytf[] inTokfn, NbtivfGSSContfxt dontfxt);
+    nbtivf bytf[] bddfptContfxt(long pCrfd, ChbnnflBinding db,
+                                bytf[] inTokfn, NbtivfGSSContfxt dontfxt);
+    nbtivf long[] inquirfContfxt(long pContfxt);
+    nbtivf Oid gftContfxtMfdh(long pContfxt);
+    nbtivf long gftContfxtNbmf(long pContfxt, boolfbn isSrd);
+    nbtivf int gftContfxtTimf(long pContfxt);
+    nbtivf long dflftfContfxt(long pContfxt);
+    nbtivf int wrbpSizfLimit(long pContfxt, int flbgs, int qop, int outSizf);
+    nbtivf bytf[] fxportContfxt(long pContfxt);
+    nbtivf bytf[] gftMid(long pContfxt, int qop, bytf[] msg);
+    nbtivf void vfrifyMid(long pContfxt, bytf[] tokfn, bytf[] msg,
+                          MfssbgfProp prop) ;
+    nbtivf bytf[] wrbp(long pContfxt, bytf[] msg, MfssbgfProp prop);
+    nbtivf bytf[] unwrbp(long pContfxt, bytf[] msgTokfn, MfssbgfProp prop);
+
+    privbtf stbtid Hbshtbblf<Oid, GSSLibStub>
+        tbblf = nfw Hbshtbblf<Oid, GSSLibStub>(5);
+
+    stbtid GSSLibStub gftInstbndf(Oid mfdh) throws GSSExdfption {
+        GSSLibStub s = tbblf.gft(mfdh);
+        if (s == null) {
+            s = nfw GSSLibStub(mfdh);
+            tbblf.put(mfdh, s);
+        }
+        rfturn s;
+    }
+    privbtf GSSLibStub(Oid mfdh) throws GSSExdfption {
+        SunNbtivfProvidfr.dfbug("Crfbtfd GSSLibStub for mfdh " + mfdh);
+        this.mfdh = mfdh;
+        this.pMfdh = gftMfdhPtr(mfdh.gftDER());
+    }
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) rfturn truf;
+        if (!(obj instbndfof GSSLibStub)) {
+            rfturn fblsf;
+        }
+        rfturn (mfdh.fqubls(((GSSLibStub) obj).gftMfdh()));
+    }
+    publid int hbshCodf() {
+        rfturn mfdh.hbshCodf();
+    }
+    Oid gftMfdh() {
+        rfturn mfdh;
+    }
+}

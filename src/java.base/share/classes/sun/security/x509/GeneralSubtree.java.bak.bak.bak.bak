@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.*;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf GfnfrblSubtrff ASN.1 objfdt, whosf syntbx is:
+ * <prf>
+ * GfnfrblSubtrff ::= SEQUENCE {
+ *    bbsf             GfnfrblNbmf,
+ *    minimum  [0]     BbsfDistbndf DEFAULT 0,
+ *    mbximum  [1]     BbsfDistbndf OPTIONAL
+ * }
+ * BbsfDistbndf ::= INTEGER (0..MAX)
+ * </prf>
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss GfnfrblSubtrff {
+    privbtf stbtid finbl bytf TAG_MIN = 0;
+    privbtf stbtid finbl bytf TAG_MAX = 1;
+    privbtf stbtid finbl int  MIN_DEFAULT = 0;
+
+    privbtf GfnfrblNbmf nbmf;
+    privbtf int         minimum = MIN_DEFAULT;
+    privbtf int         mbximum = -1;
+
+    privbtf int myhbsh = -1;
+
+    /**
+     * Thf dffbult donstrudtor for thf dlbss.
+     *
+     * @pbrbms nbmf thf GfnfrblNbmf
+     * @pbrbms min thf minimum BbsfDistbndf
+     * @pbrbms mbx thf mbximum BbsfDistbndf
+     */
+    publid GfnfrblSubtrff(GfnfrblNbmf nbmf, int min, int mbx) {
+        this.nbmf = nbmf;
+        this.minimum = min;
+        this.mbximum = mbx;
+    }
+
+    /**
+     * Crfbtf thf objfdt from its DER fndodfd form.
+     *
+     * @pbrbm vbl thf DER fndodfd from of thf sbmf.
+     */
+    publid GfnfrblSubtrff(DfrVbluf vbl) throws IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for GfnfrblSubtrff.");
+        }
+        nbmf = nfw GfnfrblNbmf(vbl.dbtb.gftDfrVbluf(), truf);
+
+        // NB. this is blwbys fndodfd with thf IMPLICIT tbg
+        // Thf dhfdks only mbkf sfnsf if wf bssumf implidit tbgging,
+        // with fxplidit tbgging thf form is blwbys donstrudtfd.
+        whilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+
+            if (opt.isContfxtSpfdifid(TAG_MIN) && !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Intfgfr);
+                minimum = opt.gftIntfgfr();
+
+            } flsf if (opt.isContfxtSpfdifid(TAG_MAX) && !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Intfgfr);
+                mbximum = opt.gftIntfgfr();
+            } flsf
+                throw nfw IOExdfption("Invblid fndoding of GfnfrblSubtrff.");
+        }
+    }
+
+    /**
+     * Rfturn thf GfnfrblNbmf.
+     *
+     * @rfturn thf GfnfrblNbmf
+     */
+    publid GfnfrblNbmf gftNbmf() {
+        //XXXX Mby wbnt to donsidfr dloning this
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturn thf minimum BbsfDistbndf.
+     *
+     * @rfturn thf minimum BbsfDistbndf. Dffbult is 0 if not sft.
+     */
+    publid int gftMinimum() {
+        rfturn minimum;
+    }
+
+    /**
+     * Rfturn thf mbximum BbsfDistbndf.
+     *
+     * @rfturn thf mbximum BbsfDistbndf, or -1 if not sft.
+     */
+    publid int gftMbximum() {
+        rfturn mbximum;
+    }
+
+    /**
+     * Rfturn b printbblf string of thf GfnfrblSubtrff.
+     */
+    publid String toString() {
+        String s = "\n   GfnfrblSubtrff: [\n" +
+            "    GfnfrblNbmf: " + ((nbmf == null) ? "" : nbmf.toString()) +
+            "\n    Minimum: " + minimum;
+            if (mbximum == -1) {
+                s += "\t    Mbximum: undffinfd";
+            } flsf
+                s += "\t    Mbximum: " + mbximum;
+            s += "    ]\n";
+        rfturn (s);
+    }
+
+    /**
+     * Compbrf this GfnfrblSubtrff with bnothfr
+     *
+     * @pbrbm othfr GfnfrblSubtrff to dompbrf to this
+     * @rfturns truf if mbtdh
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (!(othfr instbndfof GfnfrblSubtrff))
+            rfturn fblsf;
+        GfnfrblSubtrff othfrGS = (GfnfrblSubtrff)othfr;
+        if (this.nbmf == null) {
+            if (othfrGS.nbmf != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!((this.nbmf).fqubls(othfrGS.nbmf)))
+                rfturn fblsf;
+        }
+        if (this.minimum != othfrGS.minimum)
+            rfturn fblsf;
+        if (this.mbximum != othfrGS.mbximum)
+            rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this GfnfrblSubtrff.
+     *
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        if (myhbsh == -1) {
+            myhbsh = 17;
+            if (nbmf != null) {
+                myhbsh = 37 * myhbsh + nbmf.hbshCodf();
+            }
+            if (minimum != MIN_DEFAULT) {
+                myhbsh = 37 * myhbsh + minimum;
+            }
+            if (mbximum != -1) {
+                myhbsh = 37 * myhbsh + mbximum;
+            }
+        }
+        rfturn myhbsh;
+    }
+
+    /**
+     * Endodf thf GfnfrblSubtrff.
+     *
+     * @pbrbms out thf DfrOutputStrfbm to fndodf this objfdt to.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+
+        nbmf.fndodf(sfq);
+
+        if (minimum != MIN_DEFAULT) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putIntfgfr(minimum);
+            sfq.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              fblsf, TAG_MIN), tmp);
+        }
+        if (mbximum != -1) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putIntfgfr(mbximum);
+            sfq.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              fblsf, TAG_MAX), tmp);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf, sfq);
+    }
+}

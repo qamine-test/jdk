@@ -1,0 +1,254 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.ChbrArrbyRfbdfr;
+import jbvb.io.StringRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Rfbdfr;
+import jbvbx.print.bttributf.AttributfSftUtilitifs;
+import jbvbx.print.bttributf.DodAttributfSft;
+
+/**
+ * This dlbss is bn implfmfntbtion of intfrfbdf <dodf>Dod</dodf> thbt dbn
+ * bf usfd in mbny dommon printing rfqufsts.
+ * It dbn hbndlf bll of thf prfsfntly dffinfd "prf-dffinfd" dod flbvors
+ * dffinfd bs stbtid vbribblfs in thf DodFlbvor dlbss.
+ * <p>
+ * In pbrtidulbr this dlbss implfmfnts dfrtbin rfquirfd sfmbntids of thf
+ * Dod spfdifidbtion bs follows:
+ * <ul>
+ * <li>donstrudts b strfbm for thf sfrvidf if rfqufstfd bnd bppropribtf.
+ * <li>fnsurfs thf sbmf objfdt is rfturnfd for fbdh dbll on b mfthod.
+ * <li>fnsurfs multiplf thrfbds dbn bddfss thf Dod
+ * <li>pfrforms somf vblidbtion of thbt thf dbtb mbtdhfs thf dod flbvor.
+ * </ul>
+ * Clifnts who wbnt to rf-usf thf dod objfdt in othfr jobs,
+ * or nffd b MultiDod will not wbnt to usf this dlbss.
+ * <p>
+ * If thf print dbtb is b strfbm, or b print job rfqufsts dbtb bs b
+ * strfbm, thfn <dodf>SimplfDod</dodf> dofs not monitor if thf sfrvidf
+ * propfrly dlosfs thf strfbm bftfr dbtb trbnsffr domplftion or job
+ * tfrminbtion.
+ * Clifnts mby prfffr to usf providf thfir own implfmfntbtion of dod thbt
+ * bdds b listfnfr to monitor job domplftion bnd to vblidbtf thbt
+ * rfsourdfs sudh bs strfbms brf frffd (if dlosfd).
+ */
+
+publid finbl dlbss SimplfDod implfmfnts Dod {
+
+    privbtf DodFlbvor flbvor;
+    privbtf DodAttributfSft bttributfs;
+    privbtf Objfdt printDbtb;
+    privbtf Rfbdfr rfbdfr;
+    privbtf InputStrfbm inStrfbm;
+
+    /**
+     * Construdts b <dodf>SimplfDod</dodf> with thf spfdififd
+     * print dbtb, dod flbvor bnd dod bttributf sft.
+     * @pbrbm printDbtb thf print dbtb objfdt
+     * @pbrbm flbvor thf <dodf>DodFlbvor</dodf> objfdt
+     * @pbrbm bttributfs b <dodf>DodAttributfSft</dodf>, whidh dbn
+     *                   bf <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>flbvor</dodf> or
+     *         <dodf>printDbtb</dodf> is <dodf>null</dodf>, or thf
+     *         <dodf>printDbtb</dodf> dofs not dorrfspond
+     *         to thf spfdififd dod flbvor--for fxbmplf, thf dbtb is
+     *         not of thf typf spfdififd bs thf rfprfsfntbtion in thf
+     *         <dodf>DodFlbvor</dodf>.
+     */
+    publid SimplfDod(Objfdt printDbtb,
+                     DodFlbvor flbvor, DodAttributfSft bttributfs) {
+
+       if (flbvor == null || printDbtb == null) {
+           throw nfw IllfgblArgumfntExdfption("null brgumfnt(s)");
+       }
+
+       Clbss<?> rfpClbss = null;
+       try {
+            String dlbssNbmf = flbvor.gftRfprfsfntbtionClbssNbmf();
+            sun.rfflfdt.misd.RfflfdtUtil.dhfdkPbdkbgfAddfss(dlbssNbmf);
+            rfpClbss = Clbss.forNbmf(dlbssNbmf, fblsf,
+                              Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr());
+       } dbtdh (Throwbblf f) {
+           throw nfw IllfgblArgumfntExdfption("unknown rfprfsfntbtion dlbss");
+       }
+
+       if (!rfpClbss.isInstbndf(printDbtb)) {
+           throw nfw IllfgblArgumfntExdfption("dbtb is not of dfdlbrfd typf");
+       }
+
+       this.flbvor = flbvor;
+       if (bttributfs != null) {
+           this.bttributfs = AttributfSftUtilitifs.unmodifibblfVifw(bttributfs);
+       }
+       this.printDbtb = printDbtb;
+    }
+
+   /**
+     * Dftfrminfs thf dod flbvor in whidh this dod objfdt will supply its
+     * pifdf of print dbtb.
+     *
+     * @rfturn  Dod flbvor.
+     */
+    publid DodFlbvor gftDodFlbvor() {
+        rfturn flbvor;
+    }
+
+    /**
+     * Obtbins thf sft of printing bttributfs for this dod objfdt. If thf
+     * rfturnfd bttributf sft indludfs bn instbndf of b pbrtidulbr bttributf
+     * <I>X,</I> thf printfr must usf thbt bttributf vbluf for this dod,
+     * ovfrriding bny vbluf of bttributf <I>X</I> in thf job's bttributf sft.
+     * If thf rfturnfd bttributf sft dofs not indludf bn instbndf
+     * of b pbrtidulbr bttributf <I>X</I> or if null is rfturnfd, thf printfr
+     * must donsult thf job's bttributf sft to obtbin thf vbluf for
+     * bttributf <I>X,</I> bnd if not found thfrf, thf printfr must usf bn
+     * implfmfntbtion-dfpfndfnt dffbult vbluf. Thf rfturnfd bttributf sft is
+     * unmodifibblf.
+     *
+     * @rfturn  Unmodifibblf sft of printing bttributfs for this dod, or null
+     *          to obtbin bll bttributf vblufs from thf job's bttributf
+     *          sft.
+     */
+    publid DodAttributfSft gftAttributfs() {
+        rfturn bttributfs;
+    }
+
+    /*
+     * Obtbins thf print dbtb rfprfsfntbtion objfdt thbt dontbins this dod
+     * objfdt's pifdf of print dbtb in thf formbt dorrfsponding to thf
+     * supportfd dod flbvor.
+     * Thf <CODE>gftPrintDbtb()</CODE> mfthod rfturns bn instbndf of
+     * thf rfprfsfntbtion dlbss whosf nbmf is givfn by
+     * {@link DodFlbvor#gftRfprfsfntbtionClbssNbmf() gftRfprfsfntbtionClbssNbmf},
+     * bnd thf rfturn vbluf dbn bf dbst
+     * from dlbss Objfdt to thbt rfprfsfntbtion dlbss.
+     *
+     * @rfturn  Print dbtb rfprfsfntbtion objfdt.
+     *
+     * @fxdfption  IOExdfption if thf rfprfsfntbtion dlbss is b strfbm bnd
+     *     thfrf wbs bn I/O frror whilf donstrudting thf strfbm.
+     */
+    publid Objfdt gftPrintDbtb() throws IOExdfption {
+        rfturn printDbtb;
+    }
+
+    /**
+     * Obtbins b rfbdfr for fxtrbdting dhbrbdtfr print dbtb from this dod.
+     * Thf <dodf>Dod</dodf> implfmfntbtion is rfquirfd to support this
+     * mfthod if thf <dodf>DodFlbvor</dodf> hbs onf of thf following print
+     * dbtb rfprfsfntbtion dlbssfs, bnd rfturn <dodf>null</dodf>
+     * othfrwisf:
+     * <UL>
+     * <LI> <dodf>dhbr[]</dodf>
+     * <LI> <dodf>jbvb.lbng.String</dodf>
+     * <LI> <dodf>jbvb.io.Rfbdfr</dodf>
+     * </UL>
+     * Thf dod's print dbtb rfprfsfntbtion objfdt is usfd to donstrudt bnd
+     * rfturn b <dodf>Rfbdfr</dodf> for rfbding thf print dbtb bs b strfbm
+     * of dhbrbdtfrs from thf print dbtb rfprfsfntbtion objfdt.
+     * Howfvfr, if thf print dbtb rfprfsfntbtion objfdt is itsflf b
+     * <dodf>Rfbdfr</dodf> thfn thf print dbtb rfprfsfntbtion objfdt is
+     * simply rfturnfd.
+     *
+     * @rfturn  b <dodf>Rfbdfr</dodf> for rfbding thf print dbtb
+     *          dhbrbdtfrs from this dod.
+     *          If b rfbdfr dbnnot bf providfd bfdbusf this dod dofs not mfft
+     *          thf dritfrib stbtfd bbovf, <dodf>null</dodf> is rfturnfd.
+     *
+     * @fxdfption  IOExdfption if thfrf wbs bn I/O frror whilf drfbting
+     *             thf rfbdfr.
+     */
+    publid Rfbdfr gftRfbdfrForTfxt() throws IOExdfption {
+
+        if (printDbtb instbndfof Rfbdfr) {
+            rfturn (Rfbdfr)printDbtb;
+        }
+
+        syndhronizfd (this) {
+            if (rfbdfr != null) {
+                rfturn rfbdfr;
+            }
+
+            if (printDbtb instbndfof dhbr[]) {
+               rfbdfr = nfw ChbrArrbyRfbdfr((dhbr[])printDbtb);
+            }
+            flsf if (printDbtb instbndfof String) {
+                rfbdfr = nfw StringRfbdfr((String)printDbtb);
+            }
+        }
+        rfturn rfbdfr;
+    }
+
+    /**
+     * Obtbins bn input strfbm for fxtrbdting bytf print dbtb from
+     * this dod.
+     * Thf <dodf>Dod</dodf> implfmfntbtion is rfquirfd to support this
+     * mfthod if thf <dodf>DodFlbvor</dodf> hbs onf of thf following print
+     * dbtb rfprfsfntbtion dlbssfs; othfrwisf this mfthod
+     * rfturns <dodf>null</dodf>:
+     * <UL>
+     * <LI> <dodf>bytf[]</dodf>
+     * <LI> <dodf>jbvb.io.InputStrfbm</dodf>
+     * </UL>
+     * Thf dod's print dbtb rfprfsfntbtion objfdt is obtbinfd.  Thfn, bn
+     * input strfbm for rfbding thf print dbtb
+     * from thf print dbtb rfprfsfntbtion objfdt bs b strfbm of bytfs is
+     * drfbtfd bnd rfturnfd.
+     * Howfvfr, if thf print dbtb rfprfsfntbtion objfdt is itsflf bn
+     * input strfbm thfn thf print dbtb rfprfsfntbtion objfdt is simply
+     * rfturnfd.
+     *
+     * @rfturn  bn <dodf>InputStrfbm</dodf> for rfbding thf print dbtb
+     *          bytfs from this dod.  If bn input strfbm dbnnot bf
+     *          providfd bfdbusf this dod dofs not mfft
+     *          thf dritfrib stbtfd bbovf, <dodf>null</dodf> is rfturnfd.
+     *
+     * @fxdfption  IOExdfption
+     *     if thfrf wbs bn I/O frror whilf drfbting thf input strfbm.
+     */
+    publid InputStrfbm gftStrfbmForBytfs() throws IOExdfption {
+
+        if (printDbtb instbndfof InputStrfbm) {
+            rfturn (InputStrfbm)printDbtb;
+        }
+
+        syndhronizfd (this) {
+            if (inStrfbm != null) {
+                rfturn inStrfbm;
+            }
+
+            if (printDbtb instbndfof bytf[]) {
+               inStrfbm = nfw BytfArrbyInputStrfbm((bytf[])printDbtb);
+            }
+        }
+        rfturn inStrfbm;
+    }
+
+}

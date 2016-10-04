@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,297 +30,297 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-import java.awt.Canvas;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Dimension;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.util.Hashtable;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Toolkit;
+import jbvb.util.Hbsitbblf;
 
-import j2dbench.tests.GraphicsTests;
+import j2dbfndi.tfsts.GrbpiidsTfsts;
 
-public class TestEnvironment implements Node.Visitor {
-    static Group globaloptroot;
-    static Group envroot;
+publid dlbss TfstEnvironmfnt implfmfnts Nodf.Visitor {
+    stbtid Group globbloptroot;
+    stbtid Group fnvroot;
 
-    static Option.Int outputWidth;
-    static Option.Int outputHeight;
+    stbtid Option.Int outputWidti;
+    stbtid Option.Int outputHfigit;
 
-    static Option.Int runCount;
-    static Option.Int repCount;
-    static Option.Int testTime;
+    stbtid Option.Int runCount;
+    stbtid Option.Int rfpCount;
+    stbtid Option.Int tfstTimf;
 
-    public static void init() {
-        globaloptroot = new Group("global", "Global Options");
-        envroot = new Group(globaloptroot, "env", "Test Environment Options");
+    publid stbtid void init() {
+        globbloptroot = nfw Group("globbl", "Globbl Options");
+        fnvroot = nfw Group(globbloptroot, "fnv", "Tfst Environmfnt Options");
 
-        outputWidth =
-            new Option.Int(envroot, "outputwidth",
-                           "Width of Output Window or Image",
-                           1, Integer.MAX_VALUE, 640);
-        outputHeight =
-            new Option.Int(envroot, "outputheight",
-                           "Height of Output Window or Image",
-                           1, Integer.MAX_VALUE, 480);
+        outputWidti =
+            nfw Option.Int(fnvroot, "outputwidti",
+                           "Widti of Output Window or Imbgf",
+                           1, Intfgfr.MAX_VALUE, 640);
+        outputHfigit =
+            nfw Option.Int(fnvroot, "outputifigit",
+                           "Hfigit of Output Window or Imbgf",
+                           1, Intfgfr.MAX_VALUE, 480);
 
         runCount =
-            new Option.Int(envroot, "runcount",
-                           "Fixed Number of Test Runs per Benchmark",
-                           1, Integer.MAX_VALUE, 5);
-        repCount =
-            new Option.Int(envroot, "repcount",
-                           "Fixed Number of Reps (0 means calibrate)",
-                           0, Integer.MAX_VALUE, 0);
-        testTime =
-            new Option.Int(envroot, "testtime",
-                           "Target test time to calibrate for",
-                           1, Integer.MAX_VALUE, 2500);
+            nfw Option.Int(fnvroot, "rundount",
+                           "Fixfd Numbfr of Tfst Runs pfr Bfndimbrk",
+                           1, Intfgfr.MAX_VALUE, 5);
+        rfpCount =
+            nfw Option.Int(fnvroot, "rfpdount",
+                           "Fixfd Numbfr of Rfps (0 mfbns dblibrbtf)",
+                           0, Intfgfr.MAX_VALUE, 0);
+        tfstTimf =
+            nfw Option.Int(fnvroot, "tfsttimf",
+                           "Tbrgft tfst timf to dblibrbtf for",
+                           1, Intfgfr.MAX_VALUE, 2500);
     }
 
-    public void visit(Node node) {
-        if (node instanceof Test) {
-            ((Test) node).runTest(this);
+    publid void visit(Nodf nodf) {
+        if (nodf instbndfof Tfst) {
+            ((Tfst) nodf).runTfst(tiis);
         }
     }
 
-    public void runAllTests() {
-        Group.root.traverse(this);
+    publid void runAllTfsts() {
+        Group.root.trbvfrsf(tiis);
     }
 
-    Canvas comp;
-    Image testImage;
-    Image srcImage;
-    boolean stopped;
-    ResultSet results;
-    Hashtable modifiers;
-    Timer timer;
+    Cbnvbs domp;
+    Imbgf tfstImbgf;
+    Imbgf srdImbgf;
+    boolfbn stoppfd;
+    RfsultSft rfsults;
+    Hbsitbblf modififrs;
+    Timfr timfr;
 
-    public TestEnvironment() {
-        results = new ResultSet();
-        modifiers = new Hashtable();
-        timer = Timer.getImpl();
+    publid TfstEnvironmfnt() {
+        rfsults = nfw RfsultSft();
+        modififrs = nfw Hbsitbblf();
+        timfr = Timfr.gftImpl();
     }
 
-    public void startTiming() {
-        timer.start();
+    publid void stbrtTiming() {
+        timfr.stbrt();
     }
 
-    public void stopTiming() {
-        timer.stop();
+    publid void stopTiming() {
+        timfr.stop();
     }
 
-    public long getTimeMillis() {
-        return timer.getTimeMillis();
+    publid long gftTimfMillis() {
+        rfturn timfr.gftTimfMillis();
     }
 
-    public long getTimeNanos() {
-        return timer.getTimeNanos();
+    publid long gftTimfNbnos() {
+        rfturn timfr.gftTimfNbnos();
     }
 
-    public Canvas getCanvas() {
-        if (comp == null) {
-            final int w = getWidth();
-            final int h = getHeight();
-            comp = new Canvas() {
-                public Dimension getPreferredSize() {
-                    return new Dimension(w, h);
+    publid Cbnvbs gftCbnvbs() {
+        if (domp == null) {
+            finbl int w = gftWidti();
+            finbl int i = gftHfigit();
+            domp = nfw Cbnvbs() {
+                publid Dimfnsion gftPrfffrrfdSizf() {
+                    rfturn nfw Dimfnsion(w, i);
                 }
             };
         }
-        return comp;
+        rfturn domp;
     }
 
-    public Image getSrcImage() {
-        return srcImage;
+    publid Imbgf gftSrdImbgf() {
+        rfturn srdImbgf;
     }
 
-    public void stop() {
-        stopped = true;
+    publid void stop() {
+        stoppfd = truf;
     }
 
-    public boolean isStopped() {
-        return stopped;
+    publid boolfbn isStoppfd() {
+        rfturn stoppfd;
     }
 
-    public void setTestImage(Image img) {
-        this.testImage = img;
+    publid void sftTfstImbgf(Imbgf img) {
+        tiis.tfstImbgf = img;
     }
 
-    public void setSrcImage(Image img) {
-        this.srcImage = img;
+    publid void sftSrdImbgf(Imbgf img) {
+        tiis.srdImbgf = img;
     }
 
-    public void erase() {
-        Graphics g = getGraphics();
+    publid void frbsf() {
+        Grbpiids g = gftGrbpiids();
         if (g != null) {
-            g.setColor(Color.white);
-            g.fillRect(0, 0, getWidth(), getHeight());
-            g.dispose();
+            g.sftColor(Color.wiitf);
+            g.fillRfdt(0, 0, gftWidti(), gftHfigit());
+            g.disposf();
         }
     }
 
-    public Graphics getGraphics() {
-        if (testImage != null) {
-            return testImage.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        if (tfstImbgf != null) {
+            rfturn tfstImbgf.gftGrbpiids();
         }
-        if (comp != null) {
-            return comp.getGraphics();
+        if (domp != null) {
+            rfturn domp.gftGrbpiids();
         }
-        return null;
+        rfturn null;
     }
 
-    public int getWidth() {
-        return outputWidth.getIntValue();
+    publid int gftWidti() {
+        rfturn outputWidti.gftIntVbluf();
     }
 
-    public int getHeight() {
-        return outputHeight.getIntValue();
+    publid int gftHfigit() {
+        rfturn outputHfigit.gftIntVbluf();
     }
 
-    public int getRunCount() {
-        return runCount.getIntValue();
+    publid int gftRunCount() {
+        rfturn runCount.gftIntVbluf();
     }
 
-    public int getRepCount() {
-        return repCount.getIntValue();
+    publid int gftRfpCount() {
+        rfturn rfpCount.gftIntVbluf();
     }
 
-    public long getTestTime() {
-        return testTime.getIntValue();
+    publid long gftTfstTimf() {
+        rfturn tfstTimf.gftIntVbluf();
     }
 
-    public void sync() {
-        if (comp == null) {
-            Toolkit.getDefaultToolkit().sync();
-        } else {
-            comp.getToolkit().sync();
+    publid void synd() {
+        if (domp == null) {
+            Toolkit.gftDffbultToolkit().synd();
+        } flsf {
+            domp.gftToolkit().synd();
         }
     }
 
-    public boolean idle() {
-        if (!stopped) {
-            sync();
-            System.gc();
-            System.runFinalization();
-            System.gc();
-            sync();
+    publid boolfbn idlf() {
+        if (!stoppfd) {
+            synd();
+            Systfm.gd();
+            Systfm.runFinblizbtion();
+            Systfm.gd();
+            synd();
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
+                Tirfbd.slffp(50);
+            } dbtdi (IntfrruptfdExdfption f) {
                 stop();
             }
         }
-        return stopped;
+        rfturn stoppfd;
     }
 
-    public void setModifier(Modifier o, Object v) {
-        modifiers.put(o, v);
+    publid void sftModififr(Modififr o, Objfdt v) {
+        modififrs.put(o, v);
     }
 
-    public Object getModifier(Modifier o) {
-        return modifiers.get(o);
+    publid Objfdt gftModififr(Modififr o) {
+        rfturn modififrs.gft(o);
     }
 
-    public boolean isEnabled(Modifier o) {
-        return ((Boolean) modifiers.get(o)).booleanValue();
+    publid boolfbn isEnbblfd(Modififr o) {
+        rfturn ((Boolfbn) modififrs.gft(o)).boolfbnVbluf();
     }
 
-    public int getIntValue(Modifier o) {
-        return ((Integer) modifiers.get(o)).intValue();
+    publid int gftIntVbluf(Modififr o) {
+        rfturn ((Intfgfr) modififrs.gft(o)).intVbluf();
     }
 
-    public void removeModifier(Modifier o) {
-        modifiers.remove(o);
+    publid void rfmovfModififr(Modififr o) {
+        modififrs.rfmovf(o);
     }
 
-    public Hashtable getModifiers() {
-        return (Hashtable) modifiers.clone();
+    publid Hbsitbblf gftModififrs() {
+        rfturn (Hbsitbblf) modififrs.dlonf();
     }
 
-    public void record(Result result) {
-        results.record(result);
+    publid void rfdord(Rfsult rfsult) {
+        rfsults.rfdord(rfsult);
     }
 
-    public void flushToScreen() {
-        if (testImage != null && comp != null) {
-            Graphics g = comp.getGraphics();
-            if (GraphicsTests.hasGraphics2D) {
-                ((Graphics2D) g).setComposite(AlphaComposite.Src);
+    publid void flusiToSdrffn() {
+        if (tfstImbgf != null && domp != null) {
+            Grbpiids g = domp.gftGrbpiids();
+            if (GrbpiidsTfsts.ibsGrbpiids2D) {
+                ((Grbpiids2D) g).sftCompositf(AlpibCompositf.Srd);
             }
-            g.drawImage(testImage, 0, 0, null);
-            g.dispose();
+            g.drbwImbgf(tfstImbgf, 0, 0, null);
+            g.disposf();
         }
     }
 
-    public void summarize() {
-        results.summarize();
+    publid void summbrizf() {
+        rfsults.summbrizf();
     }
 
-    private abstract static class Timer {
-        public static Timer getImpl() {
+    privbtf bbstrbdt stbtid dlbss Timfr {
+        publid stbtid Timfr gftImpl() {
             try {
-                System.nanoTime();
-                return new Nanos();
-            } catch (NoSuchMethodError e) {
-                return new Millis();
+                Systfm.nbnoTimf();
+                rfturn nfw Nbnos();
+            } dbtdi (NoSudiMftiodError f) {
+                rfturn nfw Millis();
             }
         }
 
-        public abstract void start();
-        public abstract void stop();
-        public abstract long getTimeMillis();
-        public abstract long getTimeNanos();
+        publid bbstrbdt void stbrt();
+        publid bbstrbdt void stop();
+        publid bbstrbdt long gftTimfMillis();
+        publid bbstrbdt long gftTimfNbnos();
 
-        private static class Millis extends Timer {
-            private long millis;
+        privbtf stbtid dlbss Millis fxtfnds Timfr {
+            privbtf long millis;
 
-            public void start() {
-                millis = System.currentTimeMillis();
+            publid void stbrt() {
+                millis = Systfm.durrfntTimfMillis();
             }
 
-            public void stop() {
-                millis = System.currentTimeMillis() - millis;
+            publid void stop() {
+                millis = Systfm.durrfntTimfMillis() - millis;
             }
 
-            public long getTimeMillis() {
-                return millis;
+            publid long gftTimfMillis() {
+                rfturn millis;
             }
 
-            public long getTimeNanos() {
-                return millis * 1000 * 1000;
+            publid long gftTimfNbnos() {
+                rfturn millis * 1000 * 1000;
             }
         }
 
-        private static class Nanos extends Timer {
-            private long nanos;
+        privbtf stbtid dlbss Nbnos fxtfnds Timfr {
+            privbtf long nbnos;
 
-            public void start() {
-                nanos = System.nanoTime();
+            publid void stbrt() {
+                nbnos = Systfm.nbnoTimf();
             }
 
-            public void stop() {
-                nanos = System.nanoTime() - nanos;
+            publid void stop() {
+                nbnos = Systfm.nbnoTimf() - nbnos;
             }
 
-            public long getTimeMillis() {
-                return (nanos + (500 * 1000)) / (1000 * 1000);
+            publid long gftTimfMillis() {
+                rfturn (nbnos + (500 * 1000)) / (1000 * 1000);
             }
 
-            public long getTimeNanos() {
-                return nanos;
+            publid long gftTimfNbnos() {
+                rfturn nbnos;
             }
         }
     }

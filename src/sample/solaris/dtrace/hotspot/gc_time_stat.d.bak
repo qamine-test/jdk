@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbdf -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,39 +34,39 @@
 */
 
 /*
- * Usage:
- *    1. gc_time_stat.d -c "java ..." INTERVAL_SECS
- *    2. gc_time_stat.d -p JAVA_PID INTERVAL_SECS
+ * Usbgf:
+ *    1. gd_timf_stbt.d -d "jbvb ..." INTERVAL_SECS
+ *    2. gd_timf_stbt.d -p JAVA_PID INTERVAL_SECS
  *
- * This script measures the duration of a time spent in GC.  The duration is
- * measured for every memory pool every INTERVAL_SECS seconds.  If
- * INTERVAL_SECS is not set then 10 seconds interval is used.
+ * Tiis sdript mfbsurfs tif durbtion of b timf spfnt in GC.  Tif durbtion is
+ * mfbsurfd for fvfry mfmory pool fvfry INTERVAL_SECS sfdonds.  If
+ * INTERVAL_SECS is not sft tifn 10 sfdonds intfrvbl is usfd.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bggrbtf=100ms
 
 
 string TEST_NAME;
-self char *str_ptr;
-self string mgr_name;
-self string pool_name;
+sflf dibr *str_ptr;
+sflf string mgr_nbmf;
+sflf string pool_nbmf;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot GC tracing";
+    SAMPLE_NAME = "iotspot GC trbding";
 
-    START_TIME = timestamp;
-    gc_total_time = 0;
-    gc_total_count = 0;
+    START_TIME = timfstbmp;
+    gd_totbl_timf = 0;
+    gd_totbl_dount = 0;
 
     INTERVAL_SECS = $1 ? $1 : 10;
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 
     LINE_SEP = "--------------------------------------------------------";
 
@@ -75,129 +75,129 @@ int INTERVAL_SECS;
 
 
 /*
- * hotspot:::gc-begin
- *  arg0: uintptr_t,    boolean value which indicates
- *                      if this is to be a full GC or not
+ * iotspot:::gd-bfgin
+ *  brg0: uintptr_t,    boolfbn vbluf wiidi indidbtfs
+ *                      if tiis is to bf b full GC or not
  */
-hotspot$target:::gc-begin
+iotspot$tbrgft:::gd-bfgin
 {
-    self->gc_ts = timestamp;
-    printf("\nGC started: %Y\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "time (ms)");
+    sflf->gd_ts = timfstbmp;
+    printf("\nGC stbrtfd: %Y\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "timf (ms)");
     printf(" %s\n", LINE_SEP);
 }
 
-hotspot$target:::gc-end
-/self->gc_ts/
+iotspot$tbrgft:::gd-fnd
+/sflf->gd_ts/
 {
-    self->time = (timestamp - self->gc_ts) / 1000;
+    sflf->timf = (timfstbmp - sflf->gd_ts) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "GC total", self->time);
+    printf("   %40s | %10d\n", "GC totbl", sflf->timf);
 
-    gc_total_time += self->time;
-    gc_total_count ++;
-    self->gc_ts = 0;
+    gd_totbl_timf += sflf->timf;
+    gd_totbl_dount ++;
+    sflf->gd_ts = 0;
 }
 
 /*
- * hotspot:::mem-pool-gc-begin, hotspot:::mem-pool-gc-end
- *  arg0: char*,        a pointer to mUTF-8 string data which contains the name
- *                          of the manager which manages this memory pool
- *  arg1: uintptr_t,    the length of the manager name (in bytes
- *  arg2: char*,        a pointer to mUTF-8 string data which contains the name
- *                          of the memory pool
- *  arg3: uintptr_t,    the length of the memory pool name (in bytes)
- *  arg4: uintptr_t,    the initial size of the memory pool (in bytes)
- *  arg5: uintptr_t,    the amount of memory in use in the memory pool
- *                          (in bytes)
- *  arg6: uintptr_t,    the the number of committed pages in the memory pool
- *  arg7: uintptr_t,    the the maximum size of the memory pool
+ * iotspot:::mfm-pool-gd-bfgin, iotspot:::mfm-pool-gd-fnd
+ *  brg0: dibr*,        b pointfr to mUTF-8 string dbtb wiidi dontbins tif nbmf
+ *                          of tif mbnbgfr wiidi mbnbgfs tiis mfmory pool
+ *  brg1: uintptr_t,    tif lfngti of tif mbnbgfr nbmf (in bytfs
+ *  brg2: dibr*,        b pointfr to mUTF-8 string dbtb wiidi dontbins tif nbmf
+ *                          of tif mfmory pool
+ *  brg3: uintptr_t,    tif lfngti of tif mfmory pool nbmf (in bytfs)
+ *  brg4: uintptr_t,    tif initibl sizf of tif mfmory pool (in bytfs)
+ *  brg5: uintptr_t,    tif bmount of mfmory in usf in tif mfmory pool
+ *                          (in bytfs)
+ *  brg6: uintptr_t,    tif tif numbfr of dommittfd pbgfs in tif mfmory pool
+ *  brg7: uintptr_t,    tif tif mbximum sizf of tif mfmory pool
  */
-hotspot$target:::mem-pool-gc-begin
+iotspot$tbrgft:::mfm-pool-gd-bfgin
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->mgr_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->mgr_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->pool_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->pool_nbmf = (string) sflf->str_ptr;
 
-    self->mem_pool_ts[self->mgr_name, self->pool_name] = timestamp;
+    sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf] = timfstbmp;
 }
 
-hotspot$target:::mem-pool-gc-end
+iotspot$tbrgft:::mfm-pool-gd-fnd
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->mgr_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->mgr_nbmf = (string) sflf->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->pool_name = (string) self->str_ptr;
+    sflf->str_ptr = (dibr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->pool_nbmf = (string) sflf->str_ptr;
 
-    self->time =
-        (timestamp - self->mem_pool_ts[self->mgr_name, self->pool_name]) / 1000;
+    sflf->timf =
+        (timfstbmp - sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf]) / 1000;
 
     printf(
-        "%20s | %-20s | %10d\n", self->mgr_name, self->pool_name, self->time);
+        "%20s | %-20s | %10d\n", sflf->mgr_nbmf, sflf->pool_nbmf, sflf->timf);
 
-    @mem_pool_total_time[self->mgr_name, self->pool_name] = sum(self->time);
-    self->mem_pool_ts[self->mgr_name, self->pool_name] = 0;
+    @mfm_pool_totbl_timf[sflf->mgr_nbmf, sflf->pool_nbmf] = sum(sflf->timf);
+    sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf] = 0;
 
-    @mem_pool_count[self->mgr_name, self->pool_name] = count();
+    @mfm_pool_dount[sflf->mgr_nbmf, sflf->pool_nbmf] = dount();
 }
 
-tick-1sec
-/timestamp > SAMPLING_TIME/
+tidk-1sfd
+/timfstbmp > SAMPLING_TIME/
 {
-    trace_time = (timestamp - START_TIME) / 1000;
+    trbdf_timf = (timfstbmp - START_TIME) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("\nGC statistics, time: %Y\n\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "total time");
+    printf("\nGC stbtistids, timf: %Y\n\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "totbl timf");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_total_time);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_totbl_timf);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_time);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_timf);
 
     printf("\n");
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "# of calls");
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "# of dblls");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_count);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_dount);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_count);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_dount);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 :::END
 {
-    trace_time = (timestamp - START_TIME) / 1000;
+    trbdf_timf = (timfstbmp - START_TIME) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("\nGC statistics, time: %Y\n\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "total time");
+    printf("\nGC stbtistids, timf: %Y\n\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "totbl timf");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_total_time);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_totbl_timf);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_time);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_timf);
 
     printf("\n");
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "# of calls");
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "# of dblls");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_count);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_dount);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_count);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_dount);
 
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
 {
-   exit(0);
+   fxit(0);
 }

@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
 
-import sun.management.snmp.jvmmib.JvmMemoryMeta;
-import sun.management.snmp.jvmmib.JvmMemManagerTableMeta;
-import sun.management.snmp.jvmmib.JvmMemGCTableMeta;
-import sun.management.snmp.jvmmib.JvmMemPoolTableMeta;
-import sun.management.snmp.jvmmib.JvmMemMgrPoolRelTableMeta;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmoryMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmGCTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmPoolTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMgrPoolRflTbblfMftb;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
 
 /**
- * The class is used for representing SNMP metadata for the "JvmMemory" group.
+ * Tif dlbss is usfd for rfprfsfnting SNMP mftbdbtb for tif "JvmMfmory" group.
  */
-public class JvmMemoryMetaImpl extends JvmMemoryMeta {
+publid dlbss JvmMfmoryMftbImpl fxtfnds JvmMfmoryMftb {
 
-    static final long serialVersionUID = -6500448253825893071L;
+    stbtid finbl long sfriblVfrsionUID = -6500448253825893071L;
     /**
-     * Constructor for the metadata associated to "JvmMemory".
+     * Construdtor for tif mftbdbtb bssodibtfd to "JvmMfmory".
      */
-    public JvmMemoryMetaImpl(SnmpMib myMib, SnmpStandardObjectServer objserv) {
-        super(myMib,objserv);
+    publid JvmMfmoryMftbImpl(SnmpMib myMib, SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib,objsfrv);
     }
 
     /**
-     * Factory method for "JvmMemManagerTable" table metadata class.
+     * Fbdtory mftiod for "JvmMfmMbnbgfrTbblf" tbblf mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param tableName Name of the table object ("JvmMemManagerTable")
-     * @param groupName Name of the group to which this table belong
-     *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm tbblfNbmf Nbmf of tif tbblf objfdt ("JvmMfmMbnbgfrTbblf")
+     * @pbrbm groupNbmf Nbmf of tif group to wiidi tiis tbblf bflong
+     *        ("JvmMfmory")
+     * @pbrbm mib Tif SnmpMib objfdt in wiidi tiis tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for tiis tbblf fntrifs (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemManagerTable" table (JvmMemManagerTableMeta)
-     *
-     **/
-    protected JvmMemManagerTableMeta createJvmMemManagerTableMetaNode(
-        String tableName, String groupName, SnmpMib mib, MBeanServer server)  {
-        return new JvmMemManagerTableMetaImpl(mib, objectserver);
-    }
-
-
-    /**
-     * Factory method for "JvmMemGCTable" table metadata class.
-     *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
-     *
-     * @param tableName Name of the table object ("JvmMemGCTable")
-     * @param groupName Name of the group to which this table belong
-     *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
-     *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemGCTable" table (JvmMemGCTableMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmMbnbgfrTbblf" tbblf (JvmMfmMbnbgfrTbblfMftb)
      *
      **/
-    protected JvmMemGCTableMeta createJvmMemGCTableMetaNode(String tableName,
-                      String groupName, SnmpMib mib, MBeanServer server)  {
-        return new JvmMemGCTableMetaImpl(mib, objectserver);
+    protfdtfd JvmMfmMbnbgfrTbblfMftb drfbtfJvmMfmMbnbgfrTbblfMftbNodf(
+        String tbblfNbmf, String groupNbmf, SnmpMib mib, MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmMfmMbnbgfrTbblfMftbImpl(mib, objfdtsfrvfr);
     }
 
 
     /**
-     * Factory method for "JvmMemPoolTable" table metadata class.
+     * Fbdtory mftiod for "JvmMfmGCTbblf" tbblf mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param tableName Name of the table object ("JvmMemPoolTable")
-     * @param groupName Name of the group to which this table belong
-     *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm tbblfNbmf Nbmf of tif tbblf objfdt ("JvmMfmGCTbblf")
+     * @pbrbm groupNbmf Nbmf of tif group to wiidi tiis tbblf bflong
+     *        ("JvmMfmory")
+     * @pbrbm mib Tif SnmpMib objfdt in wiidi tiis tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for tiis tbblf fntrifs (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemPoolTable" table (JvmMemPoolTableMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmGCTbblf" tbblf (JvmMfmGCTbblfMftb)
      *
      **/
-    protected JvmMemPoolTableMeta
-        createJvmMemPoolTableMetaNode(String tableName, String groupName,
-                                      SnmpMib mib, MBeanServer server)  {
-        return new JvmMemPoolTableMetaImpl(mib, objectserver);
+    protfdtfd JvmMfmGCTbblfMftb drfbtfJvmMfmGCTbblfMftbNodf(String tbblfNbmf,
+                      String groupNbmf, SnmpMib mib, MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmMfmGCTbblfMftbImpl(mib, objfdtsfrvfr);
+    }
+
+
+    /**
+     * Fbdtory mftiod for "JvmMfmPoolTbblf" tbblf mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
+     *
+     * @pbrbm tbblfNbmf Nbmf of tif tbblf objfdt ("JvmMfmPoolTbblf")
+     * @pbrbm groupNbmf Nbmf of tif group to wiidi tiis tbblf bflong
+     *        ("JvmMfmory")
+     * @pbrbm mib Tif SnmpMib objfdt in wiidi tiis tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for tiis tbblf fntrifs (mby bf null)
+     *
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmPoolTbblf" tbblf (JvmMfmPoolTbblfMftb)
+     *
+     **/
+    protfdtfd JvmMfmPoolTbblfMftb
+        drfbtfJvmMfmPoolTbblfMftbNodf(String tbblfNbmf, String groupNbmf,
+                                      SnmpMib mib, MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmMfmPoolTbblfMftbImpl(mib, objfdtsfrvfr);
     }
 
     /**
-     * Factory method for "JvmMemMgrPoolRelTable" table metadata class.
+     * Fbdtory mftiod for "JvmMfmMgrPoolRflTbblf" tbblf mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param tableName Name of the table object ("JvmMemMgrPoolRelTable")
-     * @param groupName Name of the group to which this table belong
-     *        ("JvmMemory")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm tbblfNbmf Nbmf of tif tbblf objfdt ("JvmMfmMgrPoolRflTbblf")
+     * @pbrbm groupNbmf Nbmf of tif group to wiidi tiis tbblf bflong
+     *        ("JvmMfmory")
+     * @pbrbm mib Tif SnmpMib objfdt in wiidi tiis tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for tiis tbblf fntrifs (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemMgrPoolRelTable" table (JvmMemMgrPoolRelTableMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmMgrPoolRflTbblf" tbblf (JvmMfmMgrPoolRflTbblfMftb)
      *
      **/
-    protected JvmMemMgrPoolRelTableMeta
-        createJvmMemMgrPoolRelTableMetaNode(String tableName,
-                                            String groupName,
-                                            SnmpMib mib, MBeanServer server) {
-        return new JvmMemMgrPoolRelTableMetaImpl(mib, objectserver);
+    protfdtfd JvmMfmMgrPoolRflTbblfMftb
+        drfbtfJvmMfmMgrPoolRflTbblfMftbNodf(String tbblfNbmf,
+                                            String groupNbmf,
+                                            SnmpMib mib, MBfbnSfrvfr sfrvfr) {
+        rfturn nfw JvmMfmMgrPoolRflTbblfMftbImpl(mib, objfdtsfrvfr);
     }
 
 }

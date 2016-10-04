@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.spi;
+pbdkbgf jbvb.util.spi;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
 /**
- * An abstract class for service providers that
- * provide localized names for the
- * {@link java.util.Locale Locale} class.
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * providf lodblizfd nbmfs for tif
+ * {@link jbvb.util.Lodblf Lodblf} dlbss.
  *
- * @since        1.6
+ * @sindf        1.6
  */
-public abstract class LocaleNameProvider extends LocaleServiceProvider {
+publid bbstrbdt dlbss LodblfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected LocaleNameProvider() {
+    protfdtfd LodblfNbmfProvidfr() {
     }
 
     /**
-     * Returns a localized name for the given <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">
-     * IETF BCP47</a> language code and the given locale that is appropriate for
-     * display to the user.
-     * For example, if <code>languageCode</code> is "fr" and <code>locale</code>
-     * is en_US, getDisplayLanguage() will return "French"; if <code>languageCode</code>
-     * is "en" and <code>locale</code> is fr_FR, getDisplayLanguage() will return "anglais".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Croatian),
-     * this method returns null.
-     * @param languageCode the language code string in the form of two to eight
-     *     lower-case letters between 'a' (U+0061) and 'z' (U+007A)
-     * @param locale the desired locale
-     * @return the name of the given language code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>languageCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>languageCode</code> is not in the form of
-     *     two or three lower-case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayLanguage(java.util.Locale)
+     * Rfturns b lodblizfd nbmf for tif givfn <b irff="ittp://www.rfd-fditor.org/rfd/bdp/bdp47.txt">
+     * IETF BCP47</b> lbngubgf dodf bnd tif givfn lodblf tibt is bppropribtf for
+     * displby to tif usfr.
+     * For fxbmplf, if <dodf>lbngubgfCodf</dodf> is "fr" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbyLbngubgf() will rfturn "Frfndi"; if <dodf>lbngubgfCodf</dodf>
+     * is "fn" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbyLbngubgf() will rfturn "bnglbis".
+     * If tif nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, tif providfr dofs not ibvf b Jbpbnfsf nbmf for Crobtibn),
+     * tiis mftiod rfturns null.
+     * @pbrbm lbngubgfCodf tif lbngubgf dodf string in tif form of two to figit
+     *     lowfr-dbsf lfttfrs bftwffn 'b' (U+0061) bnd 'z' (U+007A)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif nbmf of tif givfn lbngubgf dodf for tif spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lbngubgfCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lbngubgfCodf</dodf> is not in tif form of
+     *     two or tirff lowfr-dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyLbngubgf(jbvb.util.Lodblf)
      */
-    public abstract String getDisplayLanguage(String languageCode, Locale locale);
+    publid bbstrbdt String gftDisplbyLbngubgf(String lbngubgfCodf, Lodblf lodblf);
 
     /**
-     * Returns a localized name for the given <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">
-     * IETF BCP47</a> script code and the given locale that is appropriate for
-     * display to the user.
-     * For example, if <code>scriptCode</code> is "Latn" and <code>locale</code>
-     * is en_US, getDisplayScript() will return "Latin"; if <code>scriptCode</code>
-     * is "Cyrl" and <code>locale</code> is fr_FR, getDisplayScript() will return "cyrillique".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Cyrillic),
-     * this method returns null. The default implementation returns null.
-     * @param scriptCode the four letter script code string in the form of title-case
-     *     letters (the first letter is upper-case character between 'A' (U+0041) and
-     *     'Z' (U+005A) followed by three lower-case character between 'a' (U+0061)
-     *     and 'z' (U+007A)).
-     * @param locale the desired locale
-     * @return the name of the given script code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>scriptCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>scriptCode</code> is not in the form of
-     *     four title case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayScript(java.util.Locale)
-     * @since 1.7
+     * Rfturns b lodblizfd nbmf for tif givfn <b irff="ittp://www.rfd-fditor.org/rfd/bdp/bdp47.txt">
+     * IETF BCP47</b> sdript dodf bnd tif givfn lodblf tibt is bppropribtf for
+     * displby to tif usfr.
+     * For fxbmplf, if <dodf>sdriptCodf</dodf> is "Lbtn" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbySdript() will rfturn "Lbtin"; if <dodf>sdriptCodf</dodf>
+     * is "Cyrl" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbySdript() will rfturn "dyrilliquf".
+     * If tif nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, tif providfr dofs not ibvf b Jbpbnfsf nbmf for Cyrillid),
+     * tiis mftiod rfturns null. Tif dffbult implfmfntbtion rfturns null.
+     * @pbrbm sdriptCodf tif four lfttfr sdript dodf string in tif form of titlf-dbsf
+     *     lfttfrs (tif first lfttfr is uppfr-dbsf dibrbdtfr bftwffn 'A' (U+0041) bnd
+     *     'Z' (U+005A) followfd by tirff lowfr-dbsf dibrbdtfr bftwffn 'b' (U+0061)
+     *     bnd 'z' (U+007A)).
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif nbmf of tif givfn sdript dodf for tif spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>sdriptCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sdriptCodf</dodf> is not in tif form of
+     *     four titlf dbsf lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbySdript(jbvb.util.Lodblf)
+     * @sindf 1.7
      */
-    public String getDisplayScript(String scriptCode, Locale locale) {
-        return null;
+    publid String gftDisplbySdript(String sdriptCodf, Lodblf lodblf) {
+        rfturn null;
     }
 
     /**
-     * Returns a localized name for the given <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">
-     * IETF BCP47</a> region code (either ISO 3166 country code or UN M.49 area
-     * codes) and the given locale that is appropriate for display to the user.
-     * For example, if <code>countryCode</code> is "FR" and <code>locale</code>
-     * is en_US, getDisplayCountry() will return "France"; if <code>countryCode</code>
-     * is "US" and <code>locale</code> is fr_FR, getDisplayCountry() will return "Etats-Unis".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Croatia),
-     * this method returns null.
-     * @param countryCode the country(region) code string in the form of two
-     *     upper-case letters between 'A' (U+0041) and 'Z' (U+005A) or the UN M.49 area code
-     *     in the form of three digit letters between '0' (U+0030) and '9' (U+0039).
-     * @param locale the desired locale
-     * @return the name of the given country code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>countryCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>countryCode</code> is not in the form of
-     *     two upper-case letters or three digit letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayCountry(java.util.Locale)
+     * Rfturns b lodblizfd nbmf for tif givfn <b irff="ittp://www.rfd-fditor.org/rfd/bdp/bdp47.txt">
+     * IETF BCP47</b> rfgion dodf (fitifr ISO 3166 dountry dodf or UN M.49 brfb
+     * dodfs) bnd tif givfn lodblf tibt is bppropribtf for displby to tif usfr.
+     * For fxbmplf, if <dodf>dountryCodf</dodf> is "FR" bnd <dodf>lodblf</dodf>
+     * is fn_US, gftDisplbyCountry() will rfturn "Frbndf"; if <dodf>dountryCodf</dodf>
+     * is "US" bnd <dodf>lodblf</dodf> is fr_FR, gftDisplbyCountry() will rfturn "Etbts-Unis".
+     * If tif nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * (sby, tif providfr dofs not ibvf b Jbpbnfsf nbmf for Crobtib),
+     * tiis mftiod rfturns null.
+     * @pbrbm dountryCodf tif dountry(rfgion) dodf string in tif form of two
+     *     uppfr-dbsf lfttfrs bftwffn 'A' (U+0041) bnd 'Z' (U+005A) or tif UN M.49 brfb dodf
+     *     in tif form of tirff digit lfttfrs bftwffn '0' (U+0030) bnd '9' (U+0039).
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif nbmf of tif givfn dountry dodf for tif spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>dountryCodf</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dountryCodf</dodf> is not in tif form of
+     *     two uppfr-dbsf lfttfrs or tirff digit lfttfrs, or <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyCountry(jbvb.util.Lodblf)
      */
-    public abstract String getDisplayCountry(String countryCode, Locale locale);
+    publid bbstrbdt String gftDisplbyCountry(String dountryCodf, Lodblf lodblf);
 
     /**
-     * Returns a localized name for the given variant code and the given locale that
-     * is appropriate for display to the user.
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * this method returns null.
-     * @param variant the variant string
-     * @param locale the desired locale
-     * @return the name of the given variant string for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>variant</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayVariant(java.util.Locale)
+     * Rfturns b lodblizfd nbmf for tif givfn vbribnt dodf bnd tif givfn lodblf tibt
+     * is bppropribtf for displby to tif usfr.
+     * If tif nbmf rfturnfd dbnnot bf lodblizfd bddording to <dodf>lodblf</dodf>,
+     * tiis mftiod rfturns null.
+     * @pbrbm vbribnt tif vbribnt string
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif nbmf of tif givfn vbribnt string for tif spfdififd lodblf, or null if it's not
+     *     bvbilbblf.
+     * @fxdfption NullPointfrExdfption if <dodf>vbribnt</dodf> or <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @sff jbvb.util.Lodblf#gftDisplbyVbribnt(jbvb.util.Lodblf)
      */
-    public abstract String getDisplayVariant(String variant, Locale locale);
+    publid bbstrbdt String gftDisplbyVbribnt(String vbribnt, Lodblf lodblf);
 }

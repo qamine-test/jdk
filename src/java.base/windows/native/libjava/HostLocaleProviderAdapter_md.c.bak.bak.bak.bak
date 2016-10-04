@@ -1,0 +1,926 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl.h"
+#indludf "jni_util.h"
+#indludf <windows.h>
+#indludf <gdffs.h>
+#indludf <stdlib.h>
+
+#dffinf BUFLEN 256
+
+// globbl vbribblfs
+typfdff int (WINAPI *PGLIE)(donst jdhbr *, LCTYPE, LPWSTR, int);
+typfdff int (WINAPI *PGCIE)(donst jdhbr *, CALID, LPCWSTR, CALTYPE, LPWSTR, int, LPDWORD);
+PGLIE pGftLodblfInfoEx;
+PGCIE pGftCblfndbrInfoEx;
+BOOL initiblizfd = FALSE;
+
+// prototypfs
+int gftLodblfInfoWrbppfr(donst jdhbr *lbngtbg, LCTYPE typf, LPWSTR dbtb, int buflfn);
+int gftCblfndbrInfoWrbppfr(donst jdhbr *lbngtbg, CALID id, LPCWSTR rfsfrvfd, CALTYPE typf, LPWSTR dbtb, int buflfn, LPDWORD vbl);
+jint gftCblfndbrID(donst jdhbr *lbngtbg);
+void rfplbdfCblfndbrArrbyElfms(JNIEnv *fnv, jstring jlbngtbg, jobjfdtArrby jbrrby,
+                       CALTYPE* pCblTypfs, int offsft, int lfngth);
+WCHAR * gftNumbfrPbttfrn(donst jdhbr * lbngtbg, donst jint numbfrStylf);
+void gftNumbfrPbrt(donst jdhbr * lbngtbg, donst jint numbfrStylf, WCHAR * numbfr);
+void gftFixPbrt(donst jdhbr * lbngtbg, donst jint numbfrStylf, BOOL positivf, BOOL prffix, WCHAR * rft);
+
+// from jbvb_props_md.d
+fxtfrn __dfdlspfd(dllfxport) donst dhbr * gftJbvbIDFromLbngID(LANGID lbngID);
+
+CALTYPE monthsTypf[] = {
+    CAL_SMONTHNAME1,
+    CAL_SMONTHNAME2,
+    CAL_SMONTHNAME3,
+    CAL_SMONTHNAME4,
+    CAL_SMONTHNAME5,
+    CAL_SMONTHNAME6,
+    CAL_SMONTHNAME7,
+    CAL_SMONTHNAME8,
+    CAL_SMONTHNAME9,
+    CAL_SMONTHNAME10,
+    CAL_SMONTHNAME11,
+    CAL_SMONTHNAME12,
+    CAL_SMONTHNAME13,
+};
+
+CALTYPE sMonthsTypf[] = {
+    CAL_SABBREVMONTHNAME1,
+    CAL_SABBREVMONTHNAME2,
+    CAL_SABBREVMONTHNAME3,
+    CAL_SABBREVMONTHNAME4,
+    CAL_SABBREVMONTHNAME5,
+    CAL_SABBREVMONTHNAME6,
+    CAL_SABBREVMONTHNAME7,
+    CAL_SABBREVMONTHNAME8,
+    CAL_SABBREVMONTHNAME9,
+    CAL_SABBREVMONTHNAME10,
+    CAL_SABBREVMONTHNAME11,
+    CAL_SABBREVMONTHNAME12,
+    CAL_SABBREVMONTHNAME13,
+};
+
+CALTYPE wDbysTypf[] = {
+    CAL_SDAYNAME7,
+    CAL_SDAYNAME1,
+    CAL_SDAYNAME2,
+    CAL_SDAYNAME3,
+    CAL_SDAYNAME4,
+    CAL_SDAYNAME5,
+    CAL_SDAYNAME6,
+};
+
+CALTYPE sWDbysTypf[] = {
+    CAL_SABBREVDAYNAME7,
+    CAL_SABBREVDAYNAME1,
+    CAL_SABBREVDAYNAME2,
+    CAL_SABBREVDAYNAME3,
+    CAL_SABBREVDAYNAME4,
+    CAL_SABBREVDAYNAME5,
+    CAL_SABBREVDAYNAME6,
+};
+
+WCHAR * fixfs[2][2][3][16] =
+{
+    { //prffix
+        { //positivf
+            { // numbfr
+                L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            },
+            { // durrfndy
+                L"\xA4", L"", L"\xA4 ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            },
+            { // pfrdfnt
+                L"", L"", L"%", L"% ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            }
+        },
+        { // nfgbtivf
+            { // numbfr
+                L"(", L"-", L"- ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            },
+            { //durrfndy
+                L"(\xA4", L"-\xA4", L"\xA4-", L"\xA4", L"(", L"-", L"", L"", L"-", L"-\xA4 ", L"", L"\xA4 ", L"\xA4 -", L"", L"(\xA4 ", L"("
+            },
+            { // pfrdfnt
+                L"-", L"-", L"-%", L"%-", L"%", L"", L"", L"-% ", L"", L"% ", L"% -", L"", L"", L"", L"", L"",
+            }
+        }
+    },
+    { // suffix
+        { //positivf
+            { // numbfr
+                L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L""
+            },
+            { // durrfndy
+                L"", L"\xA4 ", L"", L" \xA4", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            },
+            { // pfrdfnt
+                L" %", L"%", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            }
+        },
+        { // nfgbtivf
+            { // numbfr
+                L")", L"", L" ", L"-", L" -", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
+            },
+            { //durrfndy
+                L")", L"", L"", L"-", L"\xA4)", L"\xA4", L"-\xA4", L"\xA4-", L" \xA4", L"", L" \xA4-", L"-", L"", L"- \xA4", L")", L" \xA4)"
+            },
+            { // pfrdfnt
+                L" %", L"%", L"", L"", L"-", L"-%", L"%-", L"", L" %-", L"-", L"", L"- %", L"", L"", L"", L"",
+            }
+        }
+    }
+};
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    initiblizf
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_initiblizf
+  (JNIEnv *fnv, jdlbss dls) {
+    if (!initiblizfd) {
+        pGftLodblfInfoEx = (PGLIE)GftProdAddrfss(
+            GftModulfHbndlf("kfrnfl32.dll"),
+            "GftLodblfInfoEx");
+        pGftCblfndbrInfoEx = (PGCIE)GftProdAddrfss(
+            GftModulfHbndlf("kfrnfl32.dll"),
+            "GftCblfndbrInfoEx");
+        initiblizfd =TRUE;
+    }
+
+    rfturn pGftLodblfInfoEx != NULL &&
+           pGftCblfndbrInfoEx != NULL;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftDffbultLodblf
+ * Signbturf: (I)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDffbultLodblf
+  (JNIEnv *fnv, jdlbss dls, jint dbt) {
+    dhbr * lodblfString = NULL;
+    LANGID lbngid;
+    jstring rft;
+
+    switdh (dbt) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CAT_DISPLAY:
+            lbngid = LANGIDFROMLCID(GftUsfrDffbultUILbngubgf());
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CAT_FORMAT:
+        dffbult:
+            lbngid = LANGIDFROMLCID(GftUsfrDffbultLCID());
+            brfbk;
+    }
+
+    lodblfString = (dhbr *)gftJbvbIDFromLbngID(lbngid);
+    if (lodblfString != NULL) {
+        rft = (*fnv)->NfwStringUTF(fnv, lodblfString);
+        frff(lodblfString);
+    } flsf {
+        JNU_ThrowOutOfMfmoryError(fnv, "mfmory bllodbtion frror");
+        rft = NULL;
+    }
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftDbtfTimfPbttfrn
+ * Signbturf: (IILjbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDbtfTimfPbttfrn
+  (JNIEnv *fnv, jdlbss dls, jint dbtfStylf, jint timfStylf, jstring jlbngtbg) {
+    WCHAR pbttfrn[BUFLEN];
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
+
+    pbttfrn[0] = L'\0';
+
+    if (dbtfStylf == 0 || dbtfStylf == 1) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SLONGDATE, pbttfrn, BUFLEN);
+    } flsf if (dbtfStylf == 2 || dbtfStylf == 3) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SSHORTDATE, pbttfrn, BUFLEN);
+    }
+
+    if (timfStylf == 0 || timfStylf == 1) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_STIMEFORMAT, pbttfrn, BUFLEN);
+    } flsf if (timfStylf == 2 || timfStylf == 3) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SSHORTTIME, pbttfrn, BUFLEN);
+    }
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    rfturn (*fnv)->NfwString(fnv, pbttfrn, (jsizf)wdslfn(pbttfrn));
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftCblfndbrID
+ * Signbturf: (Ljbvb/lbng/String;)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCblfndbrID
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg) {
+    donst jdhbr *lbngtbg;
+    jint rft;
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, 0);
+    rft = gftCblfndbrID(lbngtbg);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftAmPmStrings
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftAmPmStrings
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby bmpms) {
+    WCHAR buf[BUFLEN];
+    donst jdhbr *lbngtbg;
+    jstring tmp_string;
+
+    // AM
+    int got;
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_S1159, buf, BUFLEN);
+    if (got) {
+        tmp_string = (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+        if (tmp_string != NULL) {
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bmpms, 0, tmp_string);
+        }
+    }
+
+    if (!(*fnv)->ExdfptionChfdk(fnv)){
+        // PM
+        got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_S2359, buf, BUFLEN);
+        if (got) {
+            tmp_string = (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+            if (tmp_string != NULL) {
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bmpms, 1, tmp_string);
+            }
+        }
+    }
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    rfturn bmpms;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftErbs
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftErbs
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby frbs) {
+    WCHAR bd[BUFLEN];
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    jstring tmp_string;
+    CHECK_NULL_RETURN(lbngtbg, frbs);
+
+    gftCblfndbrInfoWrbppfr(lbngtbg, gftCblfndbrID(lbngtbg), NULL,
+                      CAL_SERASTRING, bd, BUFLEN, NULL);
+
+    // Windows dofs not providf B.C. frb.
+    tmp_string = (*fnv)->NfwString(fnv, bd, (jsizf)wdslfn(bd));
+    if (tmp_string != NULL) {
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, frbs, 1, tmp_string);
+    }
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    rfturn frbs;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftMonths
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMonths
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby months) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, months, monthsTypf,
+                      0, sizfof(monthsTypf)/sizfof(CALTYPE));
+    rfturn months;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftShortMonths
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftShortMonths
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby smonths) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, smonths, sMonthsTypf,
+                      0, sizfof(sMonthsTypf)/sizfof(CALTYPE));
+    rfturn smonths;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftWffkdbys
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftWffkdbys
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby wdbys) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, wdbys, wDbysTypf,
+                      1, sizfof(wDbysTypf)/sizfof(CALTYPE));
+    rfturn wdbys;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftShortWffkdbys
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftShortWffkdbys
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby swdbys) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, swdbys, sWDbysTypf,
+                      1, sizfof(sWDbysTypf)/sizfof(CALTYPE));
+    rfturn swdbys;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftNumbfrPbttfrn
+ * Signbturf: (ILjbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftNumbfrPbttfrn
+  (JNIEnv *fnv, jdlbss dls, jint numbfrStylf, jstring jlbngtbg) {
+    donst jdhbr *lbngtbg;
+    jstring rft;
+    WCHAR * pbttfrn;
+
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
+    pbttfrn = gftNumbfrPbttfrn(lbngtbg, numbfrStylf);
+    CHECK_NULL_RETURN(pbttfrn, NULL);
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+    rft = (*fnv)->NfwString(fnv, pbttfrn, (jsizf)wdslfn(pbttfrn));
+    frff(pbttfrn);
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    isNbtivfDigit
+ * Signbturf: (Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_isNbtivfDigit
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg) {
+    DWORD num;
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, JNI_FALSE);
+    got = gftLodblfInfoWrbppfr(lbngtbg,
+        LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER,
+        (LPWSTR)&num, sizfof(num));
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    rfturn got && num == 2; // 2: nbtivf digit substitution
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftCurrfndySymbol
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCurrfndySymbol
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring durrfndySymbol) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, durrfndySymbol);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SCURRENCY, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn durrfndySymbol;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftDfdimblSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDfdimblSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr dfdimblSfpbrbtor) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, dfdimblSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SDECIMAL, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn dfdimblSfpbrbtor;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftGroupingSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftGroupingSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr groupingSfpbrbtor) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, groupingSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_STHOUSAND, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn groupingSfpbrbtor;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftInfinity
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftInfinity
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring infinity) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, infinity);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPOSINFINITY, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn infinity;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftIntfrnbtionblCurrfndySymbol
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftIntfrnbtionblCurrfndySymbol
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring intfrnbtionblCurrfndySymbol) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, intfrnbtionblCurrfndySymbol);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SINTLSYMBOL, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn intfrnbtionblCurrfndySymbol;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftMinusSign
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMinusSign
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr minusSign) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, minusSign);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNEGATIVESIGN, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn minusSign;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftMonftbryDfdimblSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMonftbryDfdimblSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr monftbryDfdimblSfpbrbtor) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, monftbryDfdimblSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SMONDECIMALSEP, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn monftbryDfdimblSfpbrbtor;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftNbN
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftNbN
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring nbn) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, nbn);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNAN, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn nbn;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftPfrdfnt
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftPfrdfnt
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr pfrdfnt) {
+    WCHAR buf[BUFLEN];
+    int got;
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, pfrdfnt);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPERCENT, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn pfrdfnt;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftPfrMill
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftPfrMill
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr pfrMill) {
+    WCHAR buf[BUFLEN];
+    donst jdhbr *lbngtbg;
+    int got;
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, pfrMill);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPERMILLE, buf, BUFLEN);
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn pfrMill;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftZfroDigit
+ * Signbturf: (Ljbvb/lbng/String;C)C
+ */
+JNIEXPORT jdhbr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftZfroDigit
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdhbr zfroDigit) {
+    WCHAR buf[BUFLEN];
+    donst jdhbr *lbngtbg;
+    int got;
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, zfroDigit);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNATIVEDIGITS, buf, BUFLEN);
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn buf[0];
+    } flsf {
+        rfturn zfroDigit;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftCblfndbrDbtbVbluf
+ * Signbturf: (Ljbvb/lbng/String;I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCblfndbrDbtbVbluf
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jint typf) {
+    DWORD num;
+    donst jdhbr *lbngtbg;
+    int got = 0;
+
+    lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, -1);
+    switdh (typf) {
+    dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CD_FIRSTDAYOFWEEK:
+        got = gftLodblfInfoWrbppfr(lbngtbg,
+            LOCALE_IFIRSTDAYOFWEEK | LOCALE_RETURN_NUMBER,
+            (LPWSTR)&num, sizfof(num));
+        brfbk;
+    }
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+
+    if (got) {
+        rfturn num;
+    } flsf {
+        rfturn -1;
+    }
+}
+
+/*
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mfthod:    gftDisplbyString
+ * Signbturf: (Ljbvb/lbng/String;ILjbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDisplbyString
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jint typf, jstring jvbluf) {
+    LCTYPE ldTypf;
+    jstring jStr;
+    donst jdhbr * pjChbr;
+    WCHAR buf[BUFLEN];
+    int got = 0;
+
+    switdh (typf) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_CURRENCY_NAME:
+            ldTypf = LOCALE_SNATIVECURRNAME;
+            jStr = jlbngtbg;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_CURRENCY_SYMBOL:
+            ldTypf = LOCALE_SCURRENCY;
+            jStr = jlbngtbg;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_LOCALE_LANGUAGE:
+            ldTypf = LOCALE_SLOCALIZEDLANGUAGENAME;
+            jStr = jvbluf;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_LOCALE_REGION:
+            ldTypf = LOCALE_SLOCALIZEDCOUNTRYNAME;
+            jStr = jvbluf;
+            brfbk;
+        dffbult:
+            rfturn NULL;
+    }
+
+    pjChbr = (*fnv)->GftStringChbrs(fnv, jStr, JNI_FALSE);
+    CHECK_NULL_RETURN(pjChbr, NULL);
+    got = gftLodblfInfoWrbppfr(pjChbr, ldTypf, buf, BUFLEN);
+    (*fnv)->RflfbsfStringChbrs(fnv, jStr, pjChbr);
+
+    if (got) {
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+int gftLodblfInfoWrbppfr(donst jdhbr *lbngtbg, LCTYPE typf, LPWSTR dbtb, int buflfn) {
+    if (pGftLodblfInfoEx) {
+        if (wdsdmp(L"und", (LPWSTR)lbngtbg) == 0) {
+            // dffbults to "fn"
+            rfturn pGftLodblfInfoEx(L"fn", typf, dbtb, buflfn);
+        } flsf {
+            rfturn pGftLodblfInfoEx((LPWSTR)lbngtbg, typf, dbtb, buflfn);
+        }
+    } flsf {
+        // If wf fvfr wbntfd to support WinXP, wf will nffd fxtrb modulf from
+        // MS...
+        // rfturn GftLodblfInfo(DownlfvflLodblfNbmfToLCID(lbngtbg, 0), typf, dbtb, buflfn);
+        rfturn 0;
+    }
+}
+
+int gftCblfndbrInfoWrbppfr(donst jdhbr *lbngtbg, CALID id, LPCWSTR rfsfrvfd, CALTYPE typf, LPWSTR dbtb, int buflfn, LPDWORD vbl) {
+    if (pGftCblfndbrInfoEx) {
+        if (wdsdmp(L"und", (LPWSTR)lbngtbg) == 0) {
+            // dffbults to "fn"
+            rfturn pGftCblfndbrInfoEx(L"fn", id, rfsfrvfd, typf, dbtb, buflfn, vbl);
+        } flsf {
+            rfturn pGftCblfndbrInfoEx((LPWSTR)lbngtbg, id, rfsfrvfd, typf, dbtb, buflfn, vbl);
+        }
+    } flsf {
+        // If wf fvfr wbntfd to support WinXP, wf will nffd fxtrb modulf from
+        // MS...
+        // rfturn GftCblfndbrInfo(DownlfvflLodblfNbmfToLCID(lbngtbg, 0), ...);
+        rfturn 0;
+    }
+}
+
+jint gftCblfndbrID(donst jdhbr *lbngtbg) {
+    DWORD typf;
+    int got = gftLodblfInfoWrbppfr(lbngtbg,
+        LOCALE_ICALENDARTYPE | LOCALE_RETURN_NUMBER,
+        (LPWSTR)&typf, sizfof(typf));
+
+    if (got) {
+        rfturn typf;
+    } flsf {
+        rfturn 0;
+    }
+}
+
+void rfplbdfCblfndbrArrbyElfms(JNIEnv *fnv, jstring jlbngtbg, jobjfdtArrby jbrrby, CALTYPE* pCblTypfs, int offsft, int lfngth) {
+    WCHAR nbmf[BUFLEN];
+    donst jdhbr *lbngtbg = (*fnv)->GftStringChbrs(fnv, jlbngtbg, JNI_FALSE);
+    int dblid;
+    jstring tmp_string;
+
+    CHECK_NULL(lbngtbg);
+    dblid = gftCblfndbrID(lbngtbg);
+
+    if (dblid != -1) {
+        int i;
+        for (i = 0; i < lfngth; i++) {
+            gftCblfndbrInfoWrbppfr(lbngtbg, dblid, NULL,
+                              pCblTypfs[i], nbmf, BUFLEN, NULL);
+            tmp_string = (*fnv)->NfwString(fnv, nbmf, (jsizf)wdslfn(nbmf));
+            if (tmp_string != NULL) {
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jbrrby, i + offsft, tmp_string);
+            }
+        }
+    }
+
+    (*fnv)->RflfbsfStringChbrs(fnv, jlbngtbg, lbngtbg);
+}
+
+WCHAR * gftNumbfrPbttfrn(donst jdhbr * lbngtbg, donst jint numbfrStylf) {
+    WCHAR rft[BUFLEN];
+    WCHAR numbfr[BUFLEN];
+    WCHAR fix[BUFLEN];
+
+    gftFixPbrt(lbngtbg, numbfrStylf, TRUE, TRUE, rft); // "+"
+    gftNumbfrPbrt(lbngtbg, numbfrStylf, numbfr);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), numbfr);      // "+12.34"
+    gftFixPbrt(lbngtbg, numbfrStylf, TRUE, FALSE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$"
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), L";");        // "+12.34$;"
+    gftFixPbrt(lbngtbg, numbfrStylf, FALSE, TRUE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$;("
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), numbfr);      // "+12.34$;(12.34"
+    gftFixPbrt(lbngtbg, numbfrStylf, FALSE, FALSE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$;(12.34$)"
+
+    rfturn _wdsdup(rft);
+}
+
+void gftNumbfrPbrt(donst jdhbr * lbngtbg, donst jint numbfrStylf, WCHAR * numbfr) {
+    DWORD digits = 0;
+    DWORD lfbdingZfro = 0;
+    WCHAR grouping[BUFLEN];
+    int groupingLfn;
+    WCHAR frbdtionPbttfrn[BUFLEN];
+    WCHAR * intfgfrPbttfrn = numbfr;
+    WCHAR * pDfst;
+
+    // Gft info from Windows
+    switdh (numbfrStylf) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY:
+            gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&digits, sizfof(digits));
+            brfbk;
+
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_INTEGER:
+            brfbk;
+
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_NUMBER:
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT:
+        dffbult:
+            gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_IDIGITS | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&digits, sizfof(digits));
+            brfbk;
+    }
+
+    gftLodblfInfoWrbppfr(lbngtbg,
+        LOCALE_ILZERO | LOCALE_RETURN_NUMBER,
+        (LPWSTR)&lfbdingZfro, sizfof(lfbdingZfro));
+    groupingLfn = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SGROUPING, grouping, BUFLEN);
+
+    // frbdtion pbttfrn
+    if (digits > 0) {
+        int i;
+        for(i = digits;  i > 0; i--) {
+            frbdtionPbttfrn[i] = L'0';
+        }
+        frbdtionPbttfrn[0] = L'.';
+        frbdtionPbttfrn[digits+1] = L'\0';
+    } flsf {
+        frbdtionPbttfrn[0] = L'\0';
+    }
+
+    // intfgfr pbttfrn
+    pDfst = intfgfrPbttfrn;
+    if (groupingLfn > 0) {
+        int dur = groupingLfn - 1;// subtrbdting null tfrminbtor
+        whilf (--dur >= 0) {
+            int rfpnum;
+
+            if (grouping[dur] == L';') {
+                dontinuf;
+            }
+
+            rfpnum = grouping[dur] - 0x30;
+            if (rfpnum > 0) {
+                *pDfst++ = L'#';
+                *pDfst++ = L',';
+                whilf(--rfpnum > 0) {
+                    *pDfst++ = L'#';
+                }
+            }
+        }
+    }
+
+    if (lfbdingZfro != 0) {
+        *pDfst++ = L'0';
+    } flsf {
+        *pDfst++ = L'#';
+    }
+    *pDfst = L'\0';
+
+    wdsdbt_s(intfgfrPbttfrn, BUFLEN, frbdtionPbttfrn);
+}
+
+void gftFixPbrt(donst jdhbr * lbngtbg, donst jint numbfrStylf, BOOL positivf, BOOL prffix, WCHAR * rft) {
+    DWORD pbttfrn = 0;
+    int stylf = numbfrStylf;
+    int got = 0;
+
+    if (positivf) {
+        if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        }
+    } flsf {
+        if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_INEGCURR | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
+                LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        }
+    }
+
+    if (numbfrStylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_INTEGER) {
+        stylf = sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_NUMBER;
+    }
+
+    wdsdpy(rft, fixfs[!prffix][!positivf][stylf][pbttfrn]);
+}

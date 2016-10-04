@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import jbvb.bwt.GrbdifntPbint;
+import jbvb.bwt.LinfbrGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMfthod;
+import jbvb.bwt.RbdiblGrbdifntPbint;
+import jbvb.bwt.TfxturfPbint;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdPbints.*;
+import stbtid sun.jbvb2d.opfngl.OGLContfxt.OGLContfxtCbps.*;
+
+bbstrbdt dlbss OGLPbints {
+
+    /**
+     * Holds bll rfgistfrfd implfmfntbtions, using thf dorrfsponding
+     * SunGrbphids2D.PAINT_* donstbnt bs thf hbsh kfy.
+     */
+    privbtf stbtid Mbp<Intfgfr, OGLPbints> impls =
+        nfw HbshMbp<Intfgfr, OGLPbints>(4, 1.0f);
+
+    stbtid {
+        impls.put(SunGrbphids2D.PAINT_GRADIENT, nfw Grbdifnt());
+        impls.put(SunGrbphids2D.PAINT_LIN_GRADIENT, nfw LinfbrGrbdifnt());
+        impls.put(SunGrbphids2D.PAINT_RAD_GRADIENT, nfw RbdiblGrbdifnt());
+        impls.put(SunGrbphids2D.PAINT_TEXTURE, nfw Tfxturf());
+    }
+
+    /**
+     * Attfmpts to lodbtf bn implfmfntbtion dorrfsponding to thf pbint stbtf
+     * of thf providfd SunGrbphids2D objfdt.  If no implfmfntbtion dbn bf
+     * found, or if thf pbint dbnnot bf bddflfrbtfd undfr thf donditions
+     * of thf SunGrbphids2D, this mfthod rfturns fblsf; othfrwisf, rfturns
+     * truf.
+     */
+    stbtid boolfbn isVblid(SunGrbphids2D sg2d) {
+        OGLPbints impl = impls.gft(sg2d.pbintStbtf);
+        rfturn (impl != null && impl.isPbintVblid(sg2d));
+    }
+
+    /**
+     * Rfturns truf if this implfmfntbtion is bblf to bddflfrbtf thf
+     * Pbint objfdt bssodibtfd with, bnd undfr thf donditions of, thf
+     * providfd SunGrbphids2D instbndf; othfrwisf rfturns fblsf.
+     */
+    bbstrbdt boolfbn isPbintVblid(SunGrbphids2D sg2d);
+
+/************************* GrbdifntPbint support ****************************/
+
+    privbtf stbtid dlbss Grbdifnt fxtfnds OGLPbints {
+        privbtf Grbdifnt() {}
+
+        /**
+         * Thfrf brf no rfstridtions for bddflfrbting GrbdifntPbint, so
+         * this mfthod blwbys rfturns truf.
+         */
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            rfturn truf;
+        }
+    }
+
+/************************** TfxturfPbint support ****************************/
+
+    privbtf stbtid dlbss Tfxturf fxtfnds OGLPbints {
+        privbtf Tfxturf() {}
+
+        /**
+         * Rfturns truf if thf givfn TfxturfPbint instbndf dbn bf usfd by thf
+         * bddflfrbtfd OGLPbints.Tfxturf implfmfntbtion.  A TfxturfPbint is
+         * donsidfrfd vblid if thf following donditions brf mft:
+         *   - thf tfxturf imbgf dimfnsions brf powfr-of-two (or thf
+         *     GL_ARB_tfxturf_non_powfr_of_two fxtfnsion is prfsfnt)
+         *   - thf tfxturf imbgf dbn bf (or is blrfbdy) dbdhfd in bn OpfnGL
+         *     tfxturf objfdt
+         */
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            TfxturfPbint pbint = (TfxturfPbint)sg2d.pbint;
+            OGLSurfbdfDbtb dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+            BufffrfdImbgf bi = pbint.gftImbgf();
+
+            // sff if tfxturf-non-pow2 fxtfnsion is bvbilbblf
+            if (!dstDbtb.isTfxNonPow2Avbilbblf()) {
+                int imgw = bi.gftWidth();
+                int imgh = bi.gftHfight();
+
+                // vfrify thbt thf tfxturf imbgf dimfnsions brf pow2
+                if ((imgw & (imgw - 1)) != 0 || (imgh & (imgh - 1)) != 0) {
+                    rfturn fblsf;
+                }
+            }
+
+            SurfbdfDbtb srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(bi,
+                                             SunGrbphids2D.TRANSFORM_ISIDENT,
+                                             CompositfTypf.SrdOvfr, null);
+            if (!(srdDbtb instbndfof OGLSurfbdfDbtb)) {
+                // REMIND: this is b hbdk thbt bttfmpts to dbdhf thf systfm
+                //         mfmory imbgf from thf TfxturfPbint instbndf into bn
+                //         OpfnGL tfxturf...
+                srdDbtb =
+                    dstDbtb.gftSourdfSurfbdfDbtb(bi,
+                                                 SunGrbphids2D.TRANSFORM_ISIDENT,
+                                                 CompositfTypf.SrdOvfr, null);
+                if (!(srdDbtb instbndfof OGLSurfbdfDbtb)) {
+                    rfturn fblsf;
+                }
+            }
+
+            // vfrify thbt thf sourdf surfbdf is bdtublly b tfxturf
+            OGLSurfbdfDbtb oglDbtb = (OGLSurfbdfDbtb)srdDbtb;
+            if (oglDbtb.gftTypf() != OGLSurfbdfDbtb.TEXTURE) {
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+    }
+
+/****************** Shbrfd MultiplfGrbdifntPbint support ********************/
+
+    privbtf stbtid bbstrbdt dlbss MultiGrbdifnt fxtfnds OGLPbints {
+        protfdtfd MultiGrbdifnt() {}
+
+        /**
+         * Rfturns truf if thf givfn MultiplfGrbdifntPbint instbndf dbn bf
+         * usfd by thf bddflfrbtfd OGLPbints.MultiGrbdifnt implfmfntbtion.
+         * A MultiplfGrbdifntPbint is donsidfrfd vblid if thf following
+         * donditions brf mft:
+         *   - thf numbfr of grbdifnt "stops" is <= MAX_FRACTIONS
+         *   - thf dfstinbtion hbs support for frbgmfnt shbdfrs
+         */
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            MultiplfGrbdifntPbint pbint = (MultiplfGrbdifntPbint)sg2d.pbint;
+            // REMIND: ugh, this drfbtfs gbrbbgf; would bf nidfr if
+            // wf hbd b MultiplfGrbdifntPbint.gftNumStops() mfthod...
+            if (pbint.gftFrbdtions().lfngth > MULTI_MAX_FRACTIONS) {
+                rfturn fblsf;
+            }
+
+            OGLSurfbdfDbtb dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+            OGLGrbphidsConfig gd = dstDbtb.gftOGLGrbphidsConfig();
+            if (!gd.isCbpPrfsfnt(CAPS_EXT_GRAD_SHADER)) {
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+    }
+
+/********************** LinfbrGrbdifntPbint support *************************/
+
+    privbtf stbtid dlbss LinfbrGrbdifnt fxtfnds MultiGrbdifnt {
+        privbtf LinfbrGrbdifnt() {}
+
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            LinfbrGrbdifntPbint pbint = (LinfbrGrbdifntPbint)sg2d.pbint;
+
+            if (pbint.gftFrbdtions().lfngth == 2 &&
+                pbint.gftCydlfMfthod() != CydlfMfthod.REPEAT &&
+                pbint.gftColorSpbdf() != ColorSpbdfTypf.LINEAR_RGB)
+            {
+                // wf dbn dflfgbtf to thf optimizfd two-dolor grbdifnt
+                // dodfpbth, whidh dofs not rfquirf frbgmfnt shbdfr support
+                rfturn truf;
+            }
+
+            rfturn supfr.isPbintVblid(sg2d);
+        }
+    }
+
+/********************** RbdiblGrbdifntPbint support *************************/
+
+    privbtf stbtid dlbss RbdiblGrbdifnt fxtfnds MultiGrbdifnt {
+        privbtf RbdiblGrbdifnt() {}
+    }
+}

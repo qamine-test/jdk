@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * An X.509 publid kfy for thf Digitbl Signbturf Algorithm.
+ *
+ * Thf difffrfndf bftwffn DSAPublidKfyImpl bnd DSAPublidKfy is thbt
+ * DSAPublidKfyImpl dblls writfRfplbdf with KfyRfp, bnd DSAPublidKfy
+ * dblls writfObjfdt.
+ *
+ * Sff thf dommfnts in DSAKfyFbdtory, 4532506, bnd 6232513.
+ *
+ */
+
+publid finbl dlbss DSAPublidKfyImpl fxtfnds DSAPublidKfy {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7819830118247182730L;
+
+    /**
+     * Mbkf b DSA publid kfy out of b publid kfy bnd thrff pbrbmftfrs.
+     * Thf p, q, bnd g pbrbmftfrs mby bf null, but if so, pbrbmftfrs will nffd
+     * to bf supplifd from somf othfr sourdf bfforf this kfy dbn bf usfd in
+     * dryptogrbphid opfrbtions.  PKIX RFC2459bis fxpliditly bllows DSA publid
+     * kfys without pbrbmftfrs, whfrf thf pbrbmftfrs brf providfd in thf
+     * issufr's DSA publid kfy.
+     *
+     * @pbrbm y thf bdtubl kfy bits
+     * @pbrbm p DSA pbrbmftfr p, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm q DSA pbrbmftfr q, mby bf null if bll of p, q, bnd g brf null.
+     * @pbrbm g DSA pbrbmftfr g, mby bf null if bll of p, q, bnd g brf null.
+     */
+    publid DSAPublidKfyImpl(BigIntfgfr y, BigIntfgfr p, BigIntfgfr q,
+                        BigIntfgfr g)
+                throws InvblidKfyExdfption {
+        supfr(y, p, q, g);
+    }
+
+    /**
+     * Mbkf b DSA publid kfy from its DER fndoding (X.509).
+     */
+    publid DSAPublidKfyImpl(bytf[] fndodfd) throws InvblidKfyExdfption {
+        supfr(fndodfd);
+    }
+
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+}

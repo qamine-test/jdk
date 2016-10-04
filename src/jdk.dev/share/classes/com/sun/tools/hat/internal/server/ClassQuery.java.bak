@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.ibt.intfrnbl.util.Compbrfr;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
-class ClassQuery extends QueryHandler {
+dlbss ClbssQufry fxtfnds QufryHbndlfr {
 
 
-    public ClassQuery() {
+    publid ClbssQufry() {
     }
 
-    public void run() {
-        startHtml("Class " + query);
-        JavaClass clazz = snapshot.findClass(query);
-        if (clazz == null) {
-            error("class not found: " + query);
-        } else {
-            printFullClass(clazz);
+    publid void run() {
+        stbrtHtml("Clbss " + qufry);
+        JbvbClbss dlbzz = snbpsiot.findClbss(qufry);
+        if (dlbzz == null) {
+            frror("dlbss not found: " + qufry);
+        } flsf {
+            printFullClbss(dlbzz);
         }
-        endHtml();
+        fndHtml();
     }
 
-    protected void printFullClass(JavaClass clazz) {
-        out.print("<h1>");
-        print(clazz.toString());
-        out.println("</h1>");
+    protfdtfd void printFullClbss(JbvbClbss dlbzz) {
+        out.print("<i1>");
+        print(dlbzz.toString());
+        out.println("</i1>");
 
-        out.println("<h2>Superclass:</h2>");
-        printClass(clazz.getSuperclass());
+        out.println("<i2>Supfrdlbss:</i2>");
+        printClbss(dlbzz.gftSupfrdlbss());
 
-        out.println("<h2>Loader Details</h2>");
-        out.println("<h3>ClassLoader:</h3>");
-        printThing(clazz.getLoader());
+        out.println("<i2>Lobdfr Dftbils</i2>");
+        out.println("<i3>ClbssLobdfr:</i3>");
+        printTiing(dlbzz.gftLobdfr());
 
-        out.println("<h3>Signers:</h3>");
-        printThing(clazz.getSigners());
+        out.println("<i3>Signfrs:</i3>");
+        printTiing(dlbzz.gftSignfrs());
 
-        out.println("<h3>Protection Domain:</h3>");
-        printThing(clazz.getProtectionDomain());
+        out.println("<i3>Protfdtion Dombin:</i3>");
+        printTiing(dlbzz.gftProtfdtionDombin());
 
-        out.println("<h2>Subclasses:</h2>");
-        JavaClass[] sc = clazz.getSubclasses();
-        for (int i = 0; i < sc.length; i++) {
+        out.println("<i2>Subdlbssfs:</i2>");
+        JbvbClbss[] sd = dlbzz.gftSubdlbssfs();
+        for (int i = 0; i < sd.lfngti; i++) {
             out.print("    ");
-            printClass(sc[i]);
+            printClbss(sd[i]);
             out.println("<br>");
         }
 
-        out.println("<h2>Instance Data Members:</h2>");
-        JavaField[] ff = clazz.getFields().clone();
-        ArraySorter.sort(ff, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                JavaField left = (JavaField) lhs;
-                JavaField right = (JavaField) rhs;
-                return left.getName().compareTo(right.getName());
+        out.println("<i2>Instbndf Dbtb Mfmbfrs:</i2>");
+        JbvbFifld[] ff = dlbzz.gftFiflds().dlonf();
+        ArrbySortfr.sort(ff, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                JbvbFifld lfft = (JbvbFifld) lis;
+                JbvbFifld rigit = (JbvbFifld) ris;
+                rfturn lfft.gftNbmf().dompbrfTo(rigit.gftNbmf());
             }
         });
-        for (int i = 0; i < ff.length; i++) {
+        for (int i = 0; i < ff.lfngti; i++) {
             out.print("    ");
-            printField(ff[i]);
+            printFifld(ff[i]);
             out.println("<br>");
         }
 
-        out.println("<h2>Static Data Members:</h2>");
-        JavaStatic[] ss = clazz.getStatics();
-        for (int i = 0; i < ss.length; i++) {
-            printStatic(ss[i]);
+        out.println("<i2>Stbtid Dbtb Mfmbfrs:</i2>");
+        JbvbStbtid[] ss = dlbzz.gftStbtids();
+        for (int i = 0; i < ss.lfngti; i++) {
+            printStbtid(ss[i]);
             out.println("<br>");
         }
 
-        out.println("<h2>Instances</h2>");
+        out.println("<i2>Instbndfs</i2>");
 
-        printAnchorStart();
-        print("instances/" + encodeForURL(clazz));
+        printAndiorStbrt();
+        print("instbndfs/" + fndodfForURL(dlbzz));
         out.print("\">");
-        out.println("Exclude subclasses</a><br>");
+        out.println("Exdludf subdlbssfs</b><br>");
 
-        printAnchorStart();
-        print("allInstances/" + encodeForURL(clazz));
+        printAndiorStbrt();
+        print("bllInstbndfs/" + fndodfForURL(dlbzz));
         out.print("\">");
-        out.println("Include subclasses</a><br>");
+        out.println("Indludf subdlbssfs</b><br>");
 
 
-        if (snapshot.getHasNewSet()) {
-            out.println("<h2>New Instances</h2>");
+        if (snbpsiot.gftHbsNfwSft()) {
+            out.println("<i2>Nfw Instbndfs</i2>");
 
-            printAnchorStart();
-            print("newInstances/" + encodeForURL(clazz));
+            printAndiorStbrt();
+            print("nfwInstbndfs/" + fndodfForURL(dlbzz));
             out.print("\">");
-            out.println("Exclude subclasses</a><br>");
+            out.println("Exdludf subdlbssfs</b><br>");
 
-            printAnchorStart();
-            print("allNewInstances/" + encodeForURL(clazz));
+            printAndiorStbrt();
+            print("bllNfwInstbndfs/" + fndodfForURL(dlbzz));
             out.print("\">");
-            out.println("Include subclasses</a><br>");
+            out.println("Indludf subdlbssfs</b><br>");
         }
 
-        out.println("<h2>References summary by Type</h2>");
-        printAnchorStart();
-        print("refsByType/" + encodeForURL(clazz));
+        out.println("<i2>Rfffrfndfs summbry by Typf</i2>");
+        printAndiorStbrt();
+        print("rffsByTypf/" + fndodfForURL(dlbzz));
         out.print("\">");
-        out.println("References summary by type</a>");
+        out.println("Rfffrfndfs summbry by typf</b>");
 
-        printReferencesTo(clazz);
+        printRfffrfndfsTo(dlbzz);
     }
 
-    protected void printReferencesTo(JavaHeapObject obj) {
-        if (obj.getId() == -1) {
-            return;
+    protfdtfd void printRfffrfndfsTo(JbvbHfbpObjfdt obj) {
+        if (obj.gftId() == -1) {
+            rfturn;
         }
-        out.println("<h2>References to this object:</h2>");
-        out.flush();
-        Enumeration<JavaThing> referers = obj.getReferers();
-        while (referers.hasMoreElements()) {
-            JavaHeapObject ref = (JavaHeapObject) referers.nextElement();
-            printThing(ref);
-            print (" : " + ref.describeReferenceTo(obj, snapshot));
-            // If there are more than one references, this only gets the
-            // first one.
+        out.println("<i2>Rfffrfndfs to tiis objfdt:</i2>");
+        out.flusi();
+        Enumfrbtion<JbvbTiing> rfffrfrs = obj.gftRfffrfrs();
+        wiilf (rfffrfrs.ibsMorfElfmfnts()) {
+            JbvbHfbpObjfdt rff = (JbvbHfbpObjfdt) rfffrfrs.nfxtElfmfnt();
+            printTiing(rff);
+            print (" : " + rff.dfsdribfRfffrfndfTo(obj, snbpsiot));
+            // If tifrf brf morf tibn onf rfffrfndfs, tiis only gfts tif
+            // first onf.
             out.println("<br>");
         }
 
-        out.println("<h2>Other Queries</h2>");
-        out.println("Reference Chains from Rootset");
-        long id = obj.getId();
+        out.println("<i2>Otifr Qufrifs</i2>");
+        out.println("Rfffrfndf Cibins from Rootsft");
+        long id = obj.gftId();
 
         out.print("<ul><li>");
-        printAnchorStart();
+        printAndiorStbrt();
         out.print("roots/");
-        printHex(id);
+        printHfx(id);
         out.print("\">");
-        out.println("Exclude weak refs</a>");
+        out.println("Exdludf wfbk rffs</b>");
 
         out.print("<li>");
-        printAnchorStart();
-        out.print("allRoots/");
-        printHex(id);
+        printAndiorStbrt();
+        out.print("bllRoots/");
+        printHfx(id);
         out.print("\">");
-        out.println("Include weak refs</a></ul>");
+        out.println("Indludf wfbk rffs</b></ul>");
 
-        printAnchorStart();
-        out.print("reachableFrom/");
-        printHex(id);
+        printAndiorStbrt();
+        out.print("rfbdibblfFrom/");
+        printHfx(id);
         out.print("\">");
-        out.println("Objects reachable from here</a><br>");
+        out.println("Objfdts rfbdibblf from ifrf</b><br>");
     }
 
 

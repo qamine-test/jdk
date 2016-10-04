@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A thread group object from the target VM.
- * A ThreadGroupReference is an {@link ObjectReference} with additional
- * access to threadgroup-specific information from the target VM.
+ * A tirfbd group objfdt from tif tbrgft VM.
+ * A TirfbdGroupRfffrfndf is bn {@link ObjfdtRfffrfndf} witi bdditionbl
+ * bddfss to tirfbdgroup-spfdifid informbtion from tif tbrgft VM.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ThreadGroupReference extends ObjectReference {
+@jdk.Exportfd
+publid intfrfbdf TirfbdGroupRfffrfndf fxtfnds ObjfdtRfffrfndf {
 
     /**
-     * Returns the name of this thread group.
+     * Rfturns tif nbmf of tiis tirfbd group.
      *
-     * @return the string containing the thread group name.
+     * @rfturn tif string dontbining tif tirfbd group nbmf.
      */
-    String name();
+    String nbmf();
 
     /**
-     * Returns the parent of this thread group.
+     * Rfturns tif pbrfnt of tiis tirfbd group.
      *
-     * @return a {@link ThreadGroupReference} mirroring the parent of this
-     * thread group in the target VM, or null if this is a top-level
-     * thread group.
+     * @rfturn b {@link TirfbdGroupRfffrfndf} mirroring tif pbrfnt of tiis
+     * tirfbd group in tif tbrgft VM, or null if tiis is b top-lfvfl
+     * tirfbd group.
      */
-    ThreadGroupReference parent();
+    TirfbdGroupRfffrfndf pbrfnt();
 
     /**
-     * Suspends all threads in this thread group. Each thread
-     * in this group and in all of its subgroups will be
-     * suspended as described in {@link ThreadReference#suspend}.
-     * This is not guaranteed to be an atomic
-     * operation; if the target VM is not interrupted at the time
-     * this method is
-     * called, it is possible that new threads will be created
-     * between the time that threads are enumerated and all of them
-     * have been suspended.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Suspfnds bll tirfbds in tiis tirfbd group. Ebdi tirfbd
+     * in tiis group bnd in bll of its subgroups will bf
+     * suspfndfd bs dfsdribfd in {@link TirfbdRfffrfndf#suspfnd}.
+     * Tiis is not gubrbntffd to bf bn btomid
+     * opfrbtion; if tif tbrgft VM is not intfrruptfd bt tif timf
+     * tiis mftiod is
+     * dbllfd, it is possiblf tibt nfw tirfbds will bf drfbtfd
+     * bftwffn tif timf tibt tirfbds brf fnumfrbtfd bnd bll of tifm
+     * ibvf bffn suspfndfd.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void suspend();
+    void suspfnd();
 
     /**
-     * Resumes all threads in this thread group. Each thread
-     * in this group and in all of its subgroups will be
-     * resumed as described in {@link ThreadReference#resume}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Rfsumfs bll tirfbds in tiis tirfbd group. Ebdi tirfbd
+     * in tiis group bnd in bll of its subgroups will bf
+     * rfsumfd bs dfsdribfd in {@link TirfbdRfffrfndf#rfsumf}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void resume();
+    void rfsumf();
 
     /**
-     * Returns a List containing a {@link ThreadReference} for each live thread
-     * in this thread group. Only the live threads in this immediate thread group
-     * (and not its subgroups) are returned.  A thread is alive if it
-     * has been started and has not yet been stopped.
+     * Rfturns b List dontbining b {@link TirfbdRfffrfndf} for fbdi livf tirfbd
+     * in tiis tirfbd group. Only tif livf tirfbds in tiis immfdibtf tirfbd group
+     * (bnd not its subgroups) brf rfturnfd.  A tirfbd is blivf if it
+     * ibs bffn stbrtfd bnd ibs not yft bffn stoppfd.
      *
-     * @return a List of {@link ThreadReference} objects mirroring the
-     * live threads from this thread group in the target VM.
+     * @rfturn b List of {@link TirfbdRfffrfndf} objfdts mirroring tif
+     * livf tirfbds from tiis tirfbd group in tif tbrgft VM.
      */
-    List<ThreadReference> threads();
+    List<TirfbdRfffrfndf> tirfbds();
 
     /**
-     * Returns a List containing each active {@link ThreadGroupReference} in this
-     * thread group. Only the active thread groups in this immediate thread group
-     * (and not its subgroups) are returned.
-     * See <a href="{@docRoot}/../../../../api/java/lang/ThreadGroup.html">java.lang.ThreadGroup</a>
-     * for information about 'active' ThreadGroups.
-     * @return a List of {@link ThreadGroupReference} objects mirroring the
-     * active thread groups from this thread group in the target VM.
+     * Rfturns b List dontbining fbdi bdtivf {@link TirfbdGroupRfffrfndf} in tiis
+     * tirfbd group. Only tif bdtivf tirfbd groups in tiis immfdibtf tirfbd group
+     * (bnd not its subgroups) brf rfturnfd.
+     * Sff <b irff="{@dodRoot}/../../../../bpi/jbvb/lbng/TirfbdGroup.itml">jbvb.lbng.TirfbdGroup</b>
+     * for informbtion bbout 'bdtivf' TirfbdGroups.
+     * @rfturn b List of {@link TirfbdGroupRfffrfndf} objfdts mirroring tif
+     * bdtivf tirfbd groups from tiis tirfbd group in tif tbrgft VM.
      */
-    List<ThreadGroupReference> threadGroups();
+    List<TirfbdGroupRfffrfndf> tirfbdGroups();
 }

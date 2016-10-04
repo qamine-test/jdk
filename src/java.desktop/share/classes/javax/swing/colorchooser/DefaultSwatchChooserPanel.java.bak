@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.bddfssibility.*;
 
 
 /**
- * The standard color swatch chooser.
+ * Tif stbndbrd dolor swbtdi dioosfr.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss DffbultSwbtdiCioosfrPbnfl fxtfnds AbstrbdtColorCioosfrPbnfl {
 
-    SwatchPanel swatchPanel;
-    RecentSwatchPanel recentSwatchPanel;
-    MouseListener mainSwatchListener;
-    MouseListener recentSwatchListener;
-    private KeyListener mainSwatchKeyListener;
-    private KeyListener recentSwatchKeyListener;
+    SwbtdiPbnfl swbtdiPbnfl;
+    RfdfntSwbtdiPbnfl rfdfntSwbtdiPbnfl;
+    MousfListfnfr mbinSwbtdiListfnfr;
+    MousfListfnfr rfdfntSwbtdiListfnfr;
+    privbtf KfyListfnfr mbinSwbtdiKfyListfnfr;
+    privbtf KfyListfnfr rfdfntSwbtdiKfyListfnfr;
 
-    public DefaultSwatchChooserPanel() {
-        super();
-        setInheritsPopupMenu(true);
+    publid DffbultSwbtdiCioosfrPbnfl() {
+        supfr();
+        sftInifritsPopupMfnu(truf);
     }
 
-    public String getDisplayName() {
-        return UIManager.getString("ColorChooser.swatchesNameText", getLocale());
+    publid String gftDisplbyNbmf() {
+        rfturn UIMbnbgfr.gftString("ColorCioosfr.swbtdifsNbmfTfxt", gftLodblf());
     }
 
     /**
-     * Provides a hint to the look and feel as to the
-     * <code>KeyEvent.VK</code> constant that can be used as a mnemonic to
-     * access the panel. A return value <= 0 indicates there is no mnemonic.
+     * Providfs b iint to tif look bnd fffl bs to tif
+     * <dodf>KfyEvfnt.VK</dodf> donstbnt tibt dbn bf usfd bs b mnfmonid to
+     * bddfss tif pbnfl. A rfturn vbluf <= 0 indidbtfs tifrf is no mnfmonid.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way.
+     * Tif rfturn vbluf ifrf is b iint, it is ultimbtfly up to tif look
+     * bnd fffl to ionor tif rfturn vbluf in somf mfbningful wby.
      * <p>
-     * This implementation looks up the value from the default
-     * <code>ColorChooser.swatchesMnemonic</code>, or if it
-     * isn't available (or not an <code>Integer</code>) returns -1.
-     * The lookup for the default is done through the <code>UIManager</code>:
-     * <code>UIManager.get("ColorChooser.swatchesMnemonic");</code>.
+     * Tiis implfmfntbtion looks up tif vbluf from tif dffbult
+     * <dodf>ColorCioosfr.swbtdifsMnfmonid</dodf>, or if it
+     * isn't bvbilbblf (or not bn <dodf>Intfgfr</dodf>) rfturns -1.
+     * Tif lookup for tif dffbult is donf tirougi tif <dodf>UIMbnbgfr</dodf>:
+     * <dodf>UIMbnbgfr.gft("ColorCioosfr.swbtdifsMnfmonid");</dodf>.
      *
-     * @return KeyEvent.VK constant identifying the mnemonic; <= 0 for no
-     *         mnemonic
-     * @see #getDisplayedMnemonicIndex
-     * @since 1.4
+     * @rfturn KfyEvfnt.VK donstbnt idfntifying tif mnfmonid; <= 0 for no
+     *         mnfmonid
+     * @sff #gftDisplbyfdMnfmonidIndfx
+     * @sindf 1.4
      */
-    public int getMnemonic() {
-        return getInt("ColorChooser.swatchesMnemonic", -1);
+    publid int gftMnfmonid() {
+        rfturn gftInt("ColorCioosfr.swbtdifsMnfmonid", -1);
     }
 
     /**
-     * Provides a hint to the look and feel as to the index of the character in
-     * <code>getDisplayName</code> that should be visually identified as the
-     * mnemonic. The look and feel should only use this if
-     * <code>getMnemonic</code> returns a value > 0.
+     * Providfs b iint to tif look bnd fffl bs to tif indfx of tif dibrbdtfr in
+     * <dodf>gftDisplbyNbmf</dodf> tibt siould bf visublly idfntififd bs tif
+     * mnfmonid. Tif look bnd fffl siould only usf tiis if
+     * <dodf>gftMnfmonid</dodf> rfturns b vbluf > 0.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way. For example,
-     * a look and feel may wish to render each
-     * <code>AbstractColorChooserPanel</code> in a <code>JTabbedPane</code>,
-     * and further use this return value to underline a character in
-     * the <code>getDisplayName</code>.
+     * Tif rfturn vbluf ifrf is b iint, it is ultimbtfly up to tif look
+     * bnd fffl to ionor tif rfturn vbluf in somf mfbningful wby. For fxbmplf,
+     * b look bnd fffl mby wisi to rfndfr fbdi
+     * <dodf>AbstrbdtColorCioosfrPbnfl</dodf> in b <dodf>JTbbbfdPbnf</dodf>,
+     * bnd furtifr usf tiis rfturn vbluf to undfrlinf b dibrbdtfr in
+     * tif <dodf>gftDisplbyNbmf</dodf>.
      * <p>
-     * This implementation looks up the value from the default
-     * <code>ColorChooser.rgbDisplayedMnemonicIndex</code>, or if it
-     * isn't available (or not an <code>Integer</code>) returns -1.
-     * The lookup for the default is done through the <code>UIManager</code>:
-     * <code>UIManager.get("ColorChooser.swatchesDisplayedMnemonicIndex");</code>.
+     * Tiis implfmfntbtion looks up tif vbluf from tif dffbult
+     * <dodf>ColorCioosfr.rgbDisplbyfdMnfmonidIndfx</dodf>, or if it
+     * isn't bvbilbblf (or not bn <dodf>Intfgfr</dodf>) rfturns -1.
+     * Tif lookup for tif dffbult is donf tirougi tif <dodf>UIMbnbgfr</dodf>:
+     * <dodf>UIMbnbgfr.gft("ColorCioosfr.swbtdifsDisplbyfdMnfmonidIndfx");</dodf>.
      *
-     * @return Character index to render mnemonic for; -1 to provide no
-     *                   visual identifier for this panel.
-     * @see #getMnemonic
-     * @since 1.4
+     * @rfturn Cibrbdtfr indfx to rfndfr mnfmonid for; -1 to providf no
+     *                   visubl idfntififr for tiis pbnfl.
+     * @sff #gftMnfmonid
+     * @sindf 1.4
      */
-    public int getDisplayedMnemonicIndex() {
-        return getInt("ColorChooser.swatchesDisplayedMnemonicIndex", -1);
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        rfturn gftInt("ColorCioosfr.swbtdifsDisplbyfdMnfmonidIndfx", -1);
     }
 
-    public Icon getSmallDisplayIcon() {
-        return null;
+    publid Idon gftSmbllDisplbyIdon() {
+        rfturn null;
     }
 
-    public Icon getLargeDisplayIcon() {
-        return null;
+    publid Idon gftLbrgfDisplbyIdon() {
+        rfturn null;
     }
 
     /**
-     * The background color, foreground color, and font are already set to the
-     * defaults from the defaults table before this method is called.
+     * Tif bbdkground dolor, forfground dolor, bnd font brf blrfbdy sft to tif
+     * dffbults from tif dffbults tbblf bfforf tiis mftiod is dbllfd.
      */
-    public void installChooserPanel(JColorChooser enclosingChooser) {
-        super.installChooserPanel(enclosingChooser);
+    publid void instbllCioosfrPbnfl(JColorCioosfr fndlosingCioosfr) {
+        supfr.instbllCioosfrPbnfl(fndlosingCioosfr);
     }
 
-    protected void buildChooser() {
+    protfdtfd void buildCioosfr() {
 
-        String recentStr = UIManager.getString("ColorChooser.swatchesRecentText", getLocale());
+        String rfdfntStr = UIMbnbgfr.gftString("ColorCioosfr.swbtdifsRfdfntTfxt", gftLodblf());
 
-        GridBagLayout gb = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        JPanel superHolder = new JPanel(gb);
+        GridBbgLbyout gb = nfw GridBbgLbyout();
+        GridBbgConstrbints gbd = nfw GridBbgConstrbints();
+        JPbnfl supfrHoldfr = nfw JPbnfl(gb);
 
-        swatchPanel =  new MainSwatchPanel();
-        swatchPanel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                      getDisplayName());
-        swatchPanel.setInheritsPopupMenu(true);
+        swbtdiPbnfl =  nfw MbinSwbtdiPbnfl();
+        swbtdiPbnfl.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+                                      gftDisplbyNbmf());
+        swbtdiPbnfl.sftInifritsPopupMfnu(truf);
 
-        recentSwatchPanel = new RecentSwatchPanel();
-        recentSwatchPanel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                            recentStr);
+        rfdfntSwbtdiPbnfl = nfw RfdfntSwbtdiPbnfl();
+        rfdfntSwbtdiPbnfl.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+                                            rfdfntStr);
 
-        mainSwatchKeyListener = new MainSwatchKeyListener();
-        mainSwatchListener = new MainSwatchListener();
-        swatchPanel.addMouseListener(mainSwatchListener);
-        swatchPanel.addKeyListener(mainSwatchKeyListener);
-        recentSwatchListener = new RecentSwatchListener();
-        recentSwatchKeyListener = new RecentSwatchKeyListener();
-        recentSwatchPanel.addMouseListener(recentSwatchListener);
-        recentSwatchPanel.addKeyListener(recentSwatchKeyListener);
+        mbinSwbtdiKfyListfnfr = nfw MbinSwbtdiKfyListfnfr();
+        mbinSwbtdiListfnfr = nfw MbinSwbtdiListfnfr();
+        swbtdiPbnfl.bddMousfListfnfr(mbinSwbtdiListfnfr);
+        swbtdiPbnfl.bddKfyListfnfr(mbinSwbtdiKfyListfnfr);
+        rfdfntSwbtdiListfnfr = nfw RfdfntSwbtdiListfnfr();
+        rfdfntSwbtdiKfyListfnfr = nfw RfdfntSwbtdiKfyListfnfr();
+        rfdfntSwbtdiPbnfl.bddMousfListfnfr(rfdfntSwbtdiListfnfr);
+        rfdfntSwbtdiPbnfl.bddKfyListfnfr(rfdfntSwbtdiKfyListfnfr);
 
-        JPanel mainHolder = new JPanel(new BorderLayout());
-        Border border = new CompoundBorder( new LineBorder(Color.black),
-                                            new LineBorder(Color.white) );
-        mainHolder.setBorder(border);
-        mainHolder.add(swatchPanel, BorderLayout.CENTER);
+        JPbnfl mbinHoldfr = nfw JPbnfl(nfw BordfrLbyout());
+        Bordfr bordfr = nfw CompoundBordfr( nfw LinfBordfr(Color.blbdk),
+                                            nfw LinfBordfr(Color.wiitf) );
+        mbinHoldfr.sftBordfr(bordfr);
+        mbinHoldfr.bdd(swbtdiPbnfl, BordfrLbyout.CENTER);
 
-        gbc.anchor = GridBagConstraints.LAST_LINE_START;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 2;
-        Insets oldInsets = gbc.insets;
-        gbc.insets = new Insets(0, 0, 0, 10);
-        superHolder.add(mainHolder, gbc);
-        gbc.insets = oldInsets;
+        gbd.bndior = GridBbgConstrbints.LAST_LINE_START;
+        gbd.gridwidti = 1;
+        gbd.gridifigit = 2;
+        Insfts oldInsfts = gbd.insfts;
+        gbd.insfts = nfw Insfts(0, 0, 0, 10);
+        supfrHoldfr.bdd(mbinHoldfr, gbd);
+        gbd.insfts = oldInsfts;
 
-        recentSwatchPanel.setInheritsPopupMenu(true);
-        JPanel recentHolder = new JPanel( new BorderLayout() );
-        recentHolder.setBorder(border);
-        recentHolder.setInheritsPopupMenu(true);
-        recentHolder.add(recentSwatchPanel, BorderLayout.CENTER);
+        rfdfntSwbtdiPbnfl.sftInifritsPopupMfnu(truf);
+        JPbnfl rfdfntHoldfr = nfw JPbnfl( nfw BordfrLbyout() );
+        rfdfntHoldfr.sftBordfr(bordfr);
+        rfdfntHoldfr.sftInifritsPopupMfnu(truf);
+        rfdfntHoldfr.bdd(rfdfntSwbtdiPbnfl, BordfrLbyout.CENTER);
 
-        JLabel l = new JLabel(recentStr);
-        l.setLabelFor(recentSwatchPanel);
+        JLbbfl l = nfw JLbbfl(rfdfntStr);
+        l.sftLbbflFor(rfdfntSwbtdiPbnfl);
 
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridheight = 1;
-        gbc.weighty = 1.0;
-        superHolder.add(l, gbc);
+        gbd.gridwidti = GridBbgConstrbints.REMAINDER;
+        gbd.gridifigit = 1;
+        gbd.wfigity = 1.0;
+        supfrHoldfr.bdd(l, gbd);
 
-        gbc.weighty = 0;
-        gbc.gridheight = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(0, 0, 0, 2);
-        superHolder.add(recentHolder, gbc);
-        superHolder.setInheritsPopupMenu(true);
+        gbd.wfigity = 0;
+        gbd.gridifigit = GridBbgConstrbints.REMAINDER;
+        gbd.insfts = nfw Insfts(0, 0, 0, 2);
+        supfrHoldfr.bdd(rfdfntHoldfr, gbd);
+        supfrHoldfr.sftInifritsPopupMfnu(truf);
 
-        add(superHolder);
+        bdd(supfrHoldfr);
     }
 
-    public void uninstallChooserPanel(JColorChooser enclosingChooser) {
-        super.uninstallChooserPanel(enclosingChooser);
-        swatchPanel.removeMouseListener(mainSwatchListener);
-        swatchPanel.removeKeyListener(mainSwatchKeyListener);
-        recentSwatchPanel.removeMouseListener(recentSwatchListener);
-        recentSwatchPanel.removeKeyListener(recentSwatchKeyListener);
+    publid void uninstbllCioosfrPbnfl(JColorCioosfr fndlosingCioosfr) {
+        supfr.uninstbllCioosfrPbnfl(fndlosingCioosfr);
+        swbtdiPbnfl.rfmovfMousfListfnfr(mbinSwbtdiListfnfr);
+        swbtdiPbnfl.rfmovfKfyListfnfr(mbinSwbtdiKfyListfnfr);
+        rfdfntSwbtdiPbnfl.rfmovfMousfListfnfr(rfdfntSwbtdiListfnfr);
+        rfdfntSwbtdiPbnfl.rfmovfKfyListfnfr(rfdfntSwbtdiKfyListfnfr);
 
-        swatchPanel = null;
-        recentSwatchPanel = null;
-        mainSwatchListener = null;
-        mainSwatchKeyListener = null;
-        recentSwatchListener = null;
-        recentSwatchKeyListener = null;
+        swbtdiPbnfl = null;
+        rfdfntSwbtdiPbnfl = null;
+        mbinSwbtdiListfnfr = null;
+        mbinSwbtdiKfyListfnfr = null;
+        rfdfntSwbtdiListfnfr = null;
+        rfdfntSwbtdiKfyListfnfr = null;
 
-        removeAll();  // strip out all the sub-components
+        rfmovfAll();  // strip out bll tif sub-domponfnts
     }
 
-    public void updateChooser() {
+    publid void updbtfCioosfr() {
 
     }
 
 
-    private class RecentSwatchKeyListener extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            if (KeyEvent.VK_SPACE == e.getKeyCode()) {
-                Color color = recentSwatchPanel.getSelectedColor();
-                setSelectedColor(color);
+    privbtf dlbss RfdfntSwbtdiKfyListfnfr fxtfnds KfyAdbptfr {
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            if (KfyEvfnt.VK_SPACE == f.gftKfyCodf()) {
+                Color dolor = rfdfntSwbtdiPbnfl.gftSflfdtfdColor();
+                sftSflfdtfdColor(dolor);
             }
         }
     }
 
-    private class MainSwatchKeyListener extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            if (KeyEvent.VK_SPACE == e.getKeyCode()) {
-                Color color = swatchPanel.getSelectedColor();
-                setSelectedColor(color);
-                recentSwatchPanel.setMostRecentColor(color);
+    privbtf dlbss MbinSwbtdiKfyListfnfr fxtfnds KfyAdbptfr {
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            if (KfyEvfnt.VK_SPACE == f.gftKfyCodf()) {
+                Color dolor = swbtdiPbnfl.gftSflfdtfdColor();
+                sftSflfdtfdColor(dolor);
+                rfdfntSwbtdiPbnfl.sftMostRfdfntColor(dolor);
             }
         }
     }
 
-    class RecentSwatchListener extends MouseAdapter implements Serializable {
-        public void mousePressed(MouseEvent e) {
-            if (isEnabled()) {
-                Color color = recentSwatchPanel.getColorForLocation(e.getX(), e.getY());
-                recentSwatchPanel.setSelectedColorFromLocation(e.getX(), e.getY());
-                setSelectedColor(color);
-                recentSwatchPanel.requestFocusInWindow();
+    dlbss RfdfntSwbtdiListfnfr fxtfnds MousfAdbptfr implfmfnts Sfriblizbblf {
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (isEnbblfd()) {
+                Color dolor = rfdfntSwbtdiPbnfl.gftColorForLodbtion(f.gftX(), f.gftY());
+                rfdfntSwbtdiPbnfl.sftSflfdtfdColorFromLodbtion(f.gftX(), f.gftY());
+                sftSflfdtfdColor(dolor);
+                rfdfntSwbtdiPbnfl.rfqufstFodusInWindow();
             }
         }
     }
 
-    class MainSwatchListener extends MouseAdapter implements Serializable {
-        public void mousePressed(MouseEvent e) {
-            if (isEnabled()) {
-                Color color = swatchPanel.getColorForLocation(e.getX(), e.getY());
-                setSelectedColor(color);
-                swatchPanel.setSelectedColorFromLocation(e.getX(), e.getY());
-                recentSwatchPanel.setMostRecentColor(color);
-                swatchPanel.requestFocusInWindow();
+    dlbss MbinSwbtdiListfnfr fxtfnds MousfAdbptfr implfmfnts Sfriblizbblf {
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (isEnbblfd()) {
+                Color dolor = swbtdiPbnfl.gftColorForLodbtion(f.gftX(), f.gftY());
+                sftSflfdtfdColor(dolor);
+                swbtdiPbnfl.sftSflfdtfdColorFromLodbtion(f.gftX(), f.gftY());
+                rfdfntSwbtdiPbnfl.sftMostRfdfntColor(dolor);
+                swbtdiPbnfl.rfqufstFodusInWindow();
             }
         }
     }
 
 }
 
-@SuppressWarnings("serial") // Same-version serialization only
-class SwatchPanel extends JPanel {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss SwbtdiPbnfl fxtfnds JPbnfl {
 
-    protected Color[] colors;
-    protected Dimension swatchSize;
-    protected Dimension numSwatches;
-    protected Dimension gap;
+    protfdtfd Color[] dolors;
+    protfdtfd Dimfnsion swbtdiSizf;
+    protfdtfd Dimfnsion numSwbtdifs;
+    protfdtfd Dimfnsion gbp;
 
-    private int selRow;
-    private int selCol;
+    privbtf int sflRow;
+    privbtf int sflCol;
 
-    public SwatchPanel() {
-        initValues();
+    publid SwbtdiPbnfl() {
+        initVblufs();
         initColors();
-        setToolTipText(""); // register for events
-        setOpaque(true);
-        setBackground(Color.white);
-        setFocusable(true);
-        setInheritsPopupMenu(true);
+        sftToolTipTfxt(""); // rfgistfr for fvfnts
+        sftOpbquf(truf);
+        sftBbdkground(Color.wiitf);
+        sftFodusbblf(truf);
+        sftInifritsPopupMfnu(truf);
 
-        addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                repaint();
+        bddFodusListfnfr(nfw FodusAdbptfr() {
+            publid void fodusGbinfd(FodusEvfnt f) {
+                rfpbint();
             }
 
-            public void focusLost(FocusEvent e) {
-                repaint();
+            publid void fodusLost(FodusEvfnt f) {
+                rfpbint();
             }
         });
 
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int typed = e.getKeyCode();
-                switch (typed) {
-                    case KeyEvent.VK_UP:
-                        if (selRow > 0) {
-                            selRow--;
-                            repaint();
+        bddKfyListfnfr(nfw KfyAdbptfr() {
+            publid void kfyPrfssfd(KfyEvfnt f) {
+                int typfd = f.gftKfyCodf();
+                switdi (typfd) {
+                    dbsf KfyEvfnt.VK_UP:
+                        if (sflRow > 0) {
+                            sflRow--;
+                            rfpbint();
                         }
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (selRow < numSwatches.height - 1) {
-                            selRow++;
-                            repaint();
+                        brfbk;
+                    dbsf KfyEvfnt.VK_DOWN:
+                        if (sflRow < numSwbtdifs.ifigit - 1) {
+                            sflRow++;
+                            rfpbint();
                         }
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (selCol > 0 && SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
-                            selCol--;
-                            repaint();
-                        } else if (selCol < numSwatches.width - 1
-                                && !SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
-                            selCol++;
-                            repaint();
+                        brfbk;
+                    dbsf KfyEvfnt.VK_LEFT:
+                        if (sflCol > 0 && SwbtdiPbnfl.tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+                            sflCol--;
+                            rfpbint();
+                        } flsf if (sflCol < numSwbtdifs.widti - 1
+                                && !SwbtdiPbnfl.tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+                            sflCol++;
+                            rfpbint();
                         }
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (selCol < numSwatches.width - 1
-                                && SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
-                            selCol++;
-                            repaint();
-                        } else if (selCol > 0 && !SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
-                            selCol--;
-                            repaint();
+                        brfbk;
+                    dbsf KfyEvfnt.VK_RIGHT:
+                        if (sflCol < numSwbtdifs.widti - 1
+                                && SwbtdiPbnfl.tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+                            sflCol++;
+                            rfpbint();
+                        } flsf if (sflCol > 0 && !SwbtdiPbnfl.tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+                            sflCol--;
+                            rfpbint();
                         }
-                        break;
-                    case KeyEvent.VK_HOME:
-                        selCol = 0;
-                        selRow = 0;
-                        repaint();
-                        break;
-                    case KeyEvent.VK_END:
-                        selCol = numSwatches.width - 1;
-                        selRow = numSwatches.height - 1;
-                        repaint();
-                        break;
+                        brfbk;
+                    dbsf KfyEvfnt.VK_HOME:
+                        sflCol = 0;
+                        sflRow = 0;
+                        rfpbint();
+                        brfbk;
+                    dbsf KfyEvfnt.VK_END:
+                        sflCol = numSwbtdifs.widti - 1;
+                        sflRow = numSwbtdifs.ifigit - 1;
+                        rfpbint();
+                        brfbk;
                 }
             }
         });
     }
 
-    public Color getSelectedColor() {
-        return getColorForCell(selCol, selRow);
+    publid Color gftSflfdtfdColor() {
+        rfturn gftColorForCfll(sflCol, sflRow);
     }
 
-    protected void initValues() {
+    protfdtfd void initVblufs() {
 
     }
 
-    public void paintComponent(Graphics g) {
-         g.setColor(getBackground());
-         g.fillRect(0,0,getWidth(), getHeight());
-         for (int row = 0; row < numSwatches.height; row++) {
-            int y = row * (swatchSize.height + gap.height);
-            for (int column = 0; column < numSwatches.width; column++) {
-                Color c = getColorForCell(column, row);
-                g.setColor(c);
+    publid void pbintComponfnt(Grbpiids g) {
+         g.sftColor(gftBbdkground());
+         g.fillRfdt(0,0,gftWidti(), gftHfigit());
+         for (int row = 0; row < numSwbtdifs.ifigit; row++) {
+            int y = row * (swbtdiSizf.ifigit + gbp.ifigit);
+            for (int dolumn = 0; dolumn < numSwbtdifs.widti; dolumn++) {
+                Color d = gftColorForCfll(dolumn, row);
+                g.sftColor(d);
                 int x;
-                if (!this.getComponentOrientation().isLeftToRight()) {
-                    x = (numSwatches.width - column - 1) * (swatchSize.width + gap.width);
-                } else {
-                    x = column * (swatchSize.width + gap.width);
+                if (!tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    x = (numSwbtdifs.widti - dolumn - 1) * (swbtdiSizf.widti + gbp.widti);
+                } flsf {
+                    x = dolumn * (swbtdiSizf.widti + gbp.widti);
                 }
-                g.fillRect( x, y, swatchSize.width, swatchSize.height);
-                g.setColor(Color.black);
-                g.drawLine( x+swatchSize.width-1, y, x+swatchSize.width-1, y+swatchSize.height-1);
-                g.drawLine( x, y+swatchSize.height-1, x+swatchSize.width-1, y+swatchSize.height-1);
+                g.fillRfdt( x, y, swbtdiSizf.widti, swbtdiSizf.ifigit);
+                g.sftColor(Color.blbdk);
+                g.drbwLinf( x+swbtdiSizf.widti-1, y, x+swbtdiSizf.widti-1, y+swbtdiSizf.ifigit-1);
+                g.drbwLinf( x, y+swbtdiSizf.ifigit-1, x+swbtdiSizf.widti-1, y+swbtdiSizf.ifigit-1);
 
-                if (selRow == row && selCol == column && this.isFocusOwner()) {
-                    Color c2 = new Color(c.getRed() < 125 ? 255 : 0,
-                            c.getGreen() < 125 ? 255 : 0,
-                            c.getBlue() < 125 ? 255 : 0);
-                    g.setColor(c2);
+                if (sflRow == row && sflCol == dolumn && tiis.isFodusOwnfr()) {
+                    Color d2 = nfw Color(d.gftRfd() < 125 ? 255 : 0,
+                            d.gftGrffn() < 125 ? 255 : 0,
+                            d.gftBluf() < 125 ? 255 : 0);
+                    g.sftColor(d2);
 
-                    g.drawLine(x, y, x + swatchSize.width - 1, y);
-                    g.drawLine(x, y, x, y + swatchSize.height - 1);
-                    g.drawLine(x + swatchSize.width - 1, y, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y + swatchSize.height - 1, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y + swatchSize.height - 1, x + swatchSize.width - 1, y);
+                    g.drbwLinf(x, y, x + swbtdiSizf.widti - 1, y);
+                    g.drbwLinf(x, y, x, y + swbtdiSizf.ifigit - 1);
+                    g.drbwLinf(x + swbtdiSizf.widti - 1, y, x + swbtdiSizf.widti - 1, y + swbtdiSizf.ifigit - 1);
+                    g.drbwLinf(x, y + swbtdiSizf.ifigit - 1, x + swbtdiSizf.widti - 1, y + swbtdiSizf.ifigit - 1);
+                    g.drbwLinf(x, y, x + swbtdiSizf.widti - 1, y + swbtdiSizf.ifigit - 1);
+                    g.drbwLinf(x, y + swbtdiSizf.ifigit - 1, x + swbtdiSizf.widti - 1, y);
                 }
             }
          }
     }
 
-    public Dimension getPreferredSize() {
-        int x = numSwatches.width * (swatchSize.width + gap.width) - 1;
-        int y = numSwatches.height * (swatchSize.height + gap.height) - 1;
-        return new Dimension( x, y );
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        int x = numSwbtdifs.widti * (swbtdiSizf.widti + gbp.widti) - 1;
+        int y = numSwbtdifs.ifigit * (swbtdiSizf.ifigit + gbp.ifigit) - 1;
+        rfturn nfw Dimfnsion( x, y );
     }
 
-    protected void initColors() {
+    protfdtfd void initColors() {
 
 
     }
 
-    public String getToolTipText(MouseEvent e) {
-        Color color = getColorForLocation(e.getX(), e.getY());
-        return color.getRed()+", "+ color.getGreen() + ", " + color.getBlue();
+    publid String gftToolTipTfxt(MousfEvfnt f) {
+        Color dolor = gftColorForLodbtion(f.gftX(), f.gftY());
+        rfturn dolor.gftRfd()+", "+ dolor.gftGrffn() + ", " + dolor.gftBluf();
     }
 
-    public void setSelectedColorFromLocation(int x, int y) {
-        if (!this.getComponentOrientation().isLeftToRight()) {
-            selCol = numSwatches.width - x / (swatchSize.width + gap.width) - 1;
-        } else {
-            selCol = x / (swatchSize.width + gap.width);
+    publid void sftSflfdtfdColorFromLodbtion(int x, int y) {
+        if (!tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+            sflCol = numSwbtdifs.widti - x / (swbtdiSizf.widti + gbp.widti) - 1;
+        } flsf {
+            sflCol = x / (swbtdiSizf.widti + gbp.widti);
         }
-        selRow = y / (swatchSize.height + gap.height);
-        repaint();
+        sflRow = y / (swbtdiSizf.ifigit + gbp.ifigit);
+        rfpbint();
     }
 
-    public Color getColorForLocation( int x, int y ) {
-        int column;
-        if (!this.getComponentOrientation().isLeftToRight()) {
-            column = numSwatches.width - x / (swatchSize.width + gap.width) - 1;
-        } else {
-            column = x / (swatchSize.width + gap.width);
+    publid Color gftColorForLodbtion( int x, int y ) {
+        int dolumn;
+        if (!tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+            dolumn = numSwbtdifs.widti - x / (swbtdiSizf.widti + gbp.widti) - 1;
+        } flsf {
+            dolumn = x / (swbtdiSizf.widti + gbp.widti);
         }
-        int row = y / (swatchSize.height + gap.height);
-        return getColorForCell(column, row);
+        int row = y / (swbtdiSizf.ifigit + gbp.ifigit);
+        rfturn gftColorForCfll(dolumn, row);
     }
 
-    private Color getColorForCell( int column, int row) {
-        return colors[ (row * numSwatches.width) + column ]; // (STEVE) - change data orientation here
+    privbtf Color gftColorForCfll( int dolumn, int row) {
+        rfturn dolors[ (row * numSwbtdifs.widti) + dolumn ]; // (STEVE) - dibngf dbtb orifntbtion ifrf
     }
 
 
@@ -437,57 +437,57 @@ class SwatchPanel extends JPanel {
 
 }
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class RecentSwatchPanel extends SwatchPanel {
-    protected void initValues() {
-        swatchSize = UIManager.getDimension("ColorChooser.swatchesRecentSwatchSize", getLocale());
-        numSwatches = new Dimension( 5, 7 );
-        gap = new Dimension(1, 1);
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss RfdfntSwbtdiPbnfl fxtfnds SwbtdiPbnfl {
+    protfdtfd void initVblufs() {
+        swbtdiSizf = UIMbnbgfr.gftDimfnsion("ColorCioosfr.swbtdifsRfdfntSwbtdiSizf", gftLodblf());
+        numSwbtdifs = nfw Dimfnsion( 5, 7 );
+        gbp = nfw Dimfnsion(1, 1);
     }
 
 
-    protected void initColors() {
-        Color defaultRecentColor = UIManager.getColor("ColorChooser.swatchesDefaultRecentColor", getLocale());
-        int numColors = numSwatches.width * numSwatches.height;
+    protfdtfd void initColors() {
+        Color dffbultRfdfntColor = UIMbnbgfr.gftColor("ColorCioosfr.swbtdifsDffbultRfdfntColor", gftLodblf());
+        int numColors = numSwbtdifs.widti * numSwbtdifs.ifigit;
 
-        colors = new Color[numColors];
+        dolors = nfw Color[numColors];
         for (int i = 0; i < numColors ; i++) {
-            colors[i] = defaultRecentColor;
+            dolors[i] = dffbultRfdfntColor;
         }
     }
 
-    public void setMostRecentColor(Color c) {
+    publid void sftMostRfdfntColor(Color d) {
 
-        System.arraycopy( colors, 0, colors, 1, colors.length-1);
-        colors[0] = c;
-        repaint();
+        Systfm.brrbydopy( dolors, 0, dolors, 1, dolors.lfngti-1);
+        dolors[0] = d;
+        rfpbint();
     }
 
 }
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MainSwatchPanel extends SwatchPanel {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss MbinSwbtdiPbnfl fxtfnds SwbtdiPbnfl {
 
 
-    protected void initValues() {
-        swatchSize = UIManager.getDimension("ColorChooser.swatchesSwatchSize", getLocale());
-        numSwatches = new Dimension( 31, 9 );
-        gap = new Dimension(1, 1);
+    protfdtfd void initVblufs() {
+        swbtdiSizf = UIMbnbgfr.gftDimfnsion("ColorCioosfr.swbtdifsSwbtdiSizf", gftLodblf());
+        numSwbtdifs = nfw Dimfnsion( 31, 9 );
+        gbp = nfw Dimfnsion(1, 1);
     }
 
-    protected void initColors() {
-        int[] rawValues = initRawValues();
-        int numColors = rawValues.length / 3;
+    protfdtfd void initColors() {
+        int[] rbwVblufs = initRbwVblufs();
+        int numColors = rbwVblufs.lfngti / 3;
 
-        colors = new Color[numColors];
+        dolors = nfw Color[numColors];
         for (int i = 0; i < numColors ; i++) {
-            colors[i] = new Color( rawValues[(i*3)], rawValues[(i*3)+1], rawValues[(i*3)+2] );
+            dolors[i] = nfw Color( rbwVblufs[(i*3)], rbwVblufs[(i*3)+1], rbwVblufs[(i*3)+2] );
         }
     }
 
-    private int[] initRawValues() {
+    privbtf int[] initRbwVblufs() {
 
-        int[] rawValues = {
+        int[] rbwVblufs = {
 255, 255, 255, // first row.
 204, 255, 255,
 204, 204, 255,
@@ -519,7 +519,7 @@ class MainSwatchPanel extends SwatchPanel {
 204, 255, 204,
 204, 255, 204,
 204, 255, 204,
-204, 204, 204,  // second row.
+204, 204, 204,  // sfdond row.
 153, 255, 255,
 153, 204, 255,
 153, 153, 255,
@@ -550,7 +550,7 @@ class MainSwatchPanel extends SwatchPanel {
 153, 255, 153,
 153, 255, 153,
 153, 255, 204,
-204, 204, 204,  // third row
+204, 204, 204,  // tiird row
 102, 255, 255,
 102, 204, 255,
 102, 153, 255,
@@ -581,7 +581,7 @@ class MainSwatchPanel extends SwatchPanel {
 102, 255, 102,
 102, 255, 153,
 102, 255, 204,
-153, 153, 153, // fourth row
+153, 153, 153, // fourti row
 51, 255, 255,
 51, 204, 255,
 51, 153, 255,
@@ -612,7 +612,7 @@ class MainSwatchPanel extends SwatchPanel {
 51, 255, 102,
 51, 255, 153,
 51, 255, 204,
-153, 153, 153, // Fifth row
+153, 153, 153, // Fifti row
 0, 255, 255,
 0, 204, 255,
 0, 153, 255,
@@ -643,7 +643,7 @@ class MainSwatchPanel extends SwatchPanel {
 0, 255, 102,
 0, 255, 153,
 0, 255, 204,
-102, 102, 102, // sixth row
+102, 102, 102, // sixti row
 0, 204, 204,
 0, 204, 204,
 0, 153, 204,
@@ -674,7 +674,7 @@ class MainSwatchPanel extends SwatchPanel {
 0, 204, 102,
 0, 204, 153,
 0, 204, 204,
-102, 102, 102, // seventh row
+102, 102, 102, // sfvfnti row
 0, 153, 153,
 0, 153, 153,
 0, 153, 153,
@@ -705,7 +705,7 @@ class MainSwatchPanel extends SwatchPanel {
 0, 153, 102,
 0, 153, 153,
 0, 153, 153,
-51, 51, 51, // eigth row
+51, 51, 51, // figti row
 0, 102, 102,
 0, 102, 102,
 0, 102, 102,
@@ -736,7 +736,7 @@ class MainSwatchPanel extends SwatchPanel {
 0, 102, 102,
 0, 102, 102,
 0, 102, 102,
-0, 0, 0, // ninth row
+0, 0, 0, // ninti row
 0, 51, 51,
 0, 51, 51,
 0, 51, 51,
@@ -767,6 +767,6 @@ class MainSwatchPanel extends SwatchPanel {
 0, 51, 51,
 0, 51, 51,
 51, 51, 51 };
-        return rawValues;
+        rfturn rbwVblufs;
     }
 }

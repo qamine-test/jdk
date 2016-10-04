@@ -1,0 +1,4863 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="th"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfPbttfrn>{0} ({1})</lodblfPbttfrn>
+			<lodblfSfpbrbtor>, </lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">อะฟาร์</lbngubgf>
+			<lbngubgf typf="bb">อับคาซ</lbngubgf>
+			<lbngubgf typf="bdf">อาเจะห์</lbngubgf>
+			<lbngubgf typf="bdh">อาโคลิ</lbngubgf>
+			<lbngubgf typf="bdb">อาแดงมี</lbngubgf>
+			<lbngubgf typf="bdy">อะดืยเก</lbngubgf>
+			<lbngubgf typf="bf">อเวสตะ</lbngubgf>
+			<lbngubgf typf="bf">แอฟริกานส์</lbngubgf>
+			<lbngubgf typf="bfb">ภาษาแอฟโร-เอเชียติก</lbngubgf>
+			<lbngubgf typf="bfh">แอฟริฮีลี</lbngubgf>
+			<lbngubgf typf="bin">ไอนุ</lbngubgf>
+			<lbngubgf typf="bk">อาคัน</lbngubgf>
+			<lbngubgf typf="bkk">อักกาด</lbngubgf>
+			<lbngubgf typf="blf">อาลิวต์</lbngubgf>
+			<lbngubgf typf="blg">ภาษาอัลกองเควียน</lbngubgf>
+			<lbngubgf typf="blt">อัลไตใต้</lbngubgf>
+			<lbngubgf typf="bm">อัมฮารา</lbngubgf>
+			<lbngubgf typf="bn">อารากอน</lbngubgf>
+			<lbngubgf typf="bng">อังกฤษโบราณ</lbngubgf>
+			<lbngubgf typf="bnp">อังคิกา</lbngubgf>
+			<lbngubgf typf="bpb">ภาษาอาปาเช่</lbngubgf>
+			<lbngubgf typf="br">อาหรับ</lbngubgf>
+			<lbngubgf typf="brd">อราเมอิก</lbngubgf>
+			<lbngubgf typf="brn">อาเราคาเนียน</lbngubgf>
+			<lbngubgf typf="brp">อาราปาโฮ</lbngubgf>
+			<lbngubgf typf="brt">ภาษาประดิษฐ์</lbngubgf>
+			<lbngubgf typf="brw">อาราวัก</lbngubgf>
+			<lbngubgf typf="bs">อัสสัม</lbngubgf>
+			<lbngubgf typf="bst">อัสตูเรียส</lbngubgf>
+			<lbngubgf typf="bth">ภาษาอาทาพาสกาน</lbngubgf>
+			<lbngubgf typf="bus">ภาษาออสเตรเลีย</lbngubgf>
+			<lbngubgf typf="bv">อาวาร์</lbngubgf>
+			<lbngubgf typf="bwb">อวธี</lbngubgf>
+			<lbngubgf typf="by">ไอย์มารา</lbngubgf>
+			<lbngubgf typf="bz">อาเซอร์ไบจาน</lbngubgf>
+			<lbngubgf typf="bz" blt="short" drbft="dontributfd">อะเซอรี</lbngubgf>
+			<lbngubgf typf="bb">บัชคีร์</lbngubgf>
+			<lbngubgf typf="bbd">บันดา</lbngubgf>
+			<lbngubgf typf="bbi">ภาษาบามีเลก์</lbngubgf>
+			<lbngubgf typf="bbl">บาลูชิ</lbngubgf>
+			<lbngubgf typf="bbn">บาหลี</lbngubgf>
+			<lbngubgf typf="bbs">บาสา</lbngubgf>
+			<lbngubgf typf="bbt">ภาษาบอลติก</lbngubgf>
+			<lbngubgf typf="bf">เบลารุส</lbngubgf>
+			<lbngubgf typf="bfj">เบจา</lbngubgf>
+			<lbngubgf typf="bfm">เบมบา</lbngubgf>
+			<lbngubgf typf="bfr">เบอร์เบอร์</lbngubgf>
+			<lbngubgf typf="bg">บัลแกเรีย</lbngubgf>
+			<lbngubgf typf="bh">พิหาร</lbngubgf>
+			<lbngubgf typf="bho">โภชปุรี</lbngubgf>
+			<lbngubgf typf="bi">บิสลามา</lbngubgf>
+			<lbngubgf typf="bik">บิกอล</lbngubgf>
+			<lbngubgf typf="bin">บินี</lbngubgf>
+			<lbngubgf typf="blb">สิกสิกา</lbngubgf>
+			<lbngubgf typf="bm">บัมบารา</lbngubgf>
+			<lbngubgf typf="bn">เบงกาลี</lbngubgf>
+			<lbngubgf typf="bnt">บันตู</lbngubgf>
+			<lbngubgf typf="bo">ทิเบต</lbngubgf>
+			<lbngubgf typf="br">เบรตัน</lbngubgf>
+			<lbngubgf typf="brb">พัรช</lbngubgf>
+			<lbngubgf typf="bs">บอสเนีย</lbngubgf>
+			<lbngubgf typf="btk">บาตัก</lbngubgf>
+			<lbngubgf typf="bub">บูเรียต</lbngubgf>
+			<lbngubgf typf="bug">บูกิส</lbngubgf>
+			<lbngubgf typf="byn">บลิน</lbngubgf>
+			<lbngubgf typf="db">กาตาลัง</lbngubgf>
+			<lbngubgf typf="dbd">คัดโด</lbngubgf>
+			<lbngubgf typf="dbi">ภาษาอเมริกันอินเดียนกลาง</lbngubgf>
+			<lbngubgf typf="dbr">คาริบ</lbngubgf>
+			<lbngubgf typf="dbu">ภาษาคอเคเซียน</lbngubgf>
+			<lbngubgf typf="ddh">แอตแซม</lbngubgf>
+			<lbngubgf typf="df">เชเชน</lbngubgf>
+			<lbngubgf typf="dfb">เซบู</lbngubgf>
+			<lbngubgf typf="dfl">ภาษาเซลติก</lbngubgf>
+			<lbngubgf typf="dh">ชามอร์โร</lbngubgf>
+			<lbngubgf typf="dhb">ชิบชา</lbngubgf>
+			<lbngubgf typf="dhg">ชะกะไต</lbngubgf>
+			<lbngubgf typf="dhk">ชูก</lbngubgf>
+			<lbngubgf typf="dhm">มารี</lbngubgf>
+			<lbngubgf typf="dhn">ชินุกจาร์กอน</lbngubgf>
+			<lbngubgf typf="dho">ช็อกทอว์</lbngubgf>
+			<lbngubgf typf="dhp">ชิพิวยัน</lbngubgf>
+			<lbngubgf typf="dhr">เชอโรกี</lbngubgf>
+			<lbngubgf typf="dhy">เชเยนเน</lbngubgf>
+			<lbngubgf typf="dmd">ภาษาชามิก</lbngubgf>
+			<lbngubgf typf="do">คอร์ซิกา</lbngubgf>
+			<lbngubgf typf="dop">คอปติก</lbngubgf>
+			<lbngubgf typf="dpf">ครีโอลหรือพิดจิ้นที่มาจากภาษาอังกฤษ</lbngubgf>
+			<lbngubgf typf="dpf">ครีโอลหรือพิดจิ้นที่มาจากภาษาฝรั่งเศส</lbngubgf>
+			<lbngubgf typf="dpp">ครีโอลหรือพิดจิ้นที่มาจากภาษาโปรตุเกส</lbngubgf>
+			<lbngubgf typf="dr">ครี</lbngubgf>
+			<lbngubgf typf="drh">ตุรกีไครเมีย</lbngubgf>
+			<lbngubgf typf="drp">ครีโอลหรือพิดจิ้น</lbngubgf>
+			<lbngubgf typf="ds">เช็ก</lbngubgf>
+			<lbngubgf typf="dsb">คาซูเบียน</lbngubgf>
+			<lbngubgf typf="du">เชอร์ชสลาวิก</lbngubgf>
+			<lbngubgf typf="dus">ภาษาคูชิทิก</lbngubgf>
+			<lbngubgf typf="dv">ชูวัช</lbngubgf>
+			<lbngubgf typf="dy">เวลส์</lbngubgf>
+			<lbngubgf typf="db">เดนมาร์ก</lbngubgf>
+			<lbngubgf typf="dbk">ดาโกทา</lbngubgf>
+			<lbngubgf typf="dbr">ดาร์กิน</lbngubgf>
+			<lbngubgf typf="dby">ดายัก</lbngubgf>
+			<lbngubgf typf="df">เยอรมัน</lbngubgf>
+			<lbngubgf typf="df_AT">เยอรมัน - ออสเตรีย</lbngubgf>
+			<lbngubgf typf="df_CH">เยอรมันสูง (สวิส)</lbngubgf>
+			<lbngubgf typf="dfl">เดลาแวร์</lbngubgf>
+			<lbngubgf typf="dfn">สเลวี</lbngubgf>
+			<lbngubgf typf="dgr">โดกริบ</lbngubgf>
+			<lbngubgf typf="din">ดิงกา</lbngubgf>
+			<lbngubgf typf="doi">โฑครี</lbngubgf>
+			<lbngubgf typf="drb">ภาษาดราวิเดียน</lbngubgf>
+			<lbngubgf typf="dsb">ซอร์บส์ตอนล่าง</lbngubgf>
+			<lbngubgf typf="dub">ดัวลา</lbngubgf>
+			<lbngubgf typf="dum">ดัตช์กลาง</lbngubgf>
+			<lbngubgf typf="dv">ธิเวหิ</lbngubgf>
+			<lbngubgf typf="dyu">ดิวลา</lbngubgf>
+			<lbngubgf typf="dz">ซองคา</lbngubgf>
+			<lbngubgf typf="ff">เอเว</lbngubgf>
+			<lbngubgf typf="ffi">อีฟิก</lbngubgf>
+			<lbngubgf typf="fgy">อียิปต์โบราณ</lbngubgf>
+			<lbngubgf typf="fkb">อีกาจุก</lbngubgf>
+			<lbngubgf typf="fl">กรีก</lbngubgf>
+			<lbngubgf typf="flx">อีลาไมต์</lbngubgf>
+			<lbngubgf typf="fn">อังกฤษ</lbngubgf>
+			<lbngubgf typf="fn_AU">อังกฤษ - ออสเตรเลีย</lbngubgf>
+			<lbngubgf typf="fn_CA">อังกฤษ - แคนาดา</lbngubgf>
+			<lbngubgf typf="fn_GB">อังกฤษ - สหราชอาณาจักร</lbngubgf>
+			<lbngubgf typf="fn_US">อังกฤษ - อเมริกัน</lbngubgf>
+			<lbngubgf typf="fnm">อังกฤษกลาง</lbngubgf>
+			<lbngubgf typf="fo">เอสเปอรันโต</lbngubgf>
+			<lbngubgf typf="fs">สเปน</lbngubgf>
+			<lbngubgf typf="fs_419">สเปน (ละตินอเมริกา)</lbngubgf>
+			<lbngubgf typf="fs_ES">สเปน (ไอบีเรีย)</lbngubgf>
+			<lbngubgf typf="ft">เอสโตเนีย</lbngubgf>
+			<lbngubgf typf="fu">บัสเก</lbngubgf>
+			<lbngubgf typf="fwo">อีวันโด</lbngubgf>
+			<lbngubgf typf="fb">เปอร์เซีย</lbngubgf>
+			<lbngubgf typf="fbn">ฟอง</lbngubgf>
+			<lbngubgf typf="fbt">ฟันติ</lbngubgf>
+			<lbngubgf typf="ff">ฟูลาฮ์</lbngubgf>
+			<lbngubgf typf="fi">ฟินแลนด์</lbngubgf>
+			<lbngubgf typf="fil">ฟิลิปปินส์</lbngubgf>
+			<lbngubgf typf="fiu">ภาษาฟินโน-อูกริก</lbngubgf>
+			<lbngubgf typf="fj">ฟิจิ</lbngubgf>
+			<lbngubgf typf="fo">แฟโร</lbngubgf>
+			<lbngubgf typf="fon">ฟอน</lbngubgf>
+			<lbngubgf typf="fr">ฝรั่งเศส</lbngubgf>
+			<lbngubgf typf="fr_CH">ฝรั่งเศส (สวิส)</lbngubgf>
+			<lbngubgf typf="frm">ฝรั่งเศสกลาง</lbngubgf>
+			<lbngubgf typf="fro">ฝรั่งเศสโบราณ</lbngubgf>
+			<lbngubgf typf="frr">ฟริเซียนเหนือ</lbngubgf>
+			<lbngubgf typf="frs">ฟริเซียนตะวันออก</lbngubgf>
+			<lbngubgf typf="fur">ฟรูลี</lbngubgf>
+			<lbngubgf typf="fy">ฟริเซียนตะวันตก</lbngubgf>
+			<lbngubgf typf="gb">ไอริช</lbngubgf>
+			<lbngubgf typf="gbb">กา</lbngubgf>
+			<lbngubgf typf="gby">กาโย</lbngubgf>
+			<lbngubgf typf="gbb">กบายา</lbngubgf>
+			<lbngubgf typf="gd">สกอตส์กาลิก</lbngubgf>
+			<lbngubgf typf="gfm">ภาษาเจอร์เมนิก</lbngubgf>
+			<lbngubgf typf="gfz">กีซ</lbngubgf>
+			<lbngubgf typf="gil">กิลเบอร์ต</lbngubgf>
+			<lbngubgf typf="gl">กาลิเซีย</lbngubgf>
+			<lbngubgf typf="gmh">เยอรมันสูงกลาง</lbngubgf>
+			<lbngubgf typf="gn">กวารานี</lbngubgf>
+			<lbngubgf typf="goh">เยอรมันสูงโบราณ</lbngubgf>
+			<lbngubgf typf="gon">กอนดิ</lbngubgf>
+			<lbngubgf typf="gor">กอรอนทาโล</lbngubgf>
+			<lbngubgf typf="got">โกธิก</lbngubgf>
+			<lbngubgf typf="grb">เกรโบ</lbngubgf>
+			<lbngubgf typf="grd">กรีกโบราณ</lbngubgf>
+			<lbngubgf typf="gsw">เยอรมันสวิส</lbngubgf>
+			<lbngubgf typf="gu">คุชราต</lbngubgf>
+			<lbngubgf typf="gv">มานซ์</lbngubgf>
+			<lbngubgf typf="gwi">กวิชอิน</lbngubgf>
+			<lbngubgf typf="hb">เฮาชา</lbngubgf>
+			<lbngubgf typf="hbi">ไฮดา</lbngubgf>
+			<lbngubgf typf="hbw">ฮาวาย</lbngubgf>
+			<lbngubgf typf="hf">ฮิบรู</lbngubgf>
+			<lbngubgf typf="hi">ฮินดี</lbngubgf>
+			<lbngubgf typf="hil">ฮีลีกัยนน</lbngubgf>
+			<lbngubgf typf="him">หิมาจัล</lbngubgf>
+			<lbngubgf typf="hit">ฮิตไตต์</lbngubgf>
+			<lbngubgf typf="hmn">ม้ง</lbngubgf>
+			<lbngubgf typf="ho">ฮีรีโมตู</lbngubgf>
+			<lbngubgf typf="hr">โครเอเชีย</lbngubgf>
+			<lbngubgf typf="hsb">ซอร์บส์ตอนบน</lbngubgf>
+			<lbngubgf typf="ht">เฮติ</lbngubgf>
+			<lbngubgf typf="hu">ฮังการี</lbngubgf>
+			<lbngubgf typf="hup">ฮูปา</lbngubgf>
+			<lbngubgf typf="hy">อาร์เมเนีย</lbngubgf>
+			<lbngubgf typf="hz">เฮเรโร</lbngubgf>
+			<lbngubgf typf="ib">อินเตอร์ลิงกัว</lbngubgf>
+			<lbngubgf typf="ibb">อิบาน</lbngubgf>
+			<lbngubgf typf="id">อินโดนีเชีย</lbngubgf>
+			<lbngubgf typf="if">อินเตอร์ลิงกิว</lbngubgf>
+			<lbngubgf typf="ig">อิกโบ</lbngubgf>
+			<lbngubgf typf="ii">เสฉวนยิ</lbngubgf>
+			<lbngubgf typf="ijo">อิโจ</lbngubgf>
+			<lbngubgf typf="ik">อีนูเปียก</lbngubgf>
+			<lbngubgf typf="ilo">อีโลโก</lbngubgf>
+			<lbngubgf typf="ind">ภาษาอินดิก</lbngubgf>
+			<lbngubgf typf="inf">ภาษาอินโด-ยุโรป</lbngubgf>
+			<lbngubgf typf="inh">อินกุช</lbngubgf>
+			<lbngubgf typf="io">อีโด</lbngubgf>
+			<lbngubgf typf="irb">ภาษาอิหร่าน</lbngubgf>
+			<lbngubgf typf="iro">ภาษาอีโรกัวส์</lbngubgf>
+			<lbngubgf typf="is">ไอซ์แลนด์</lbngubgf>
+			<lbngubgf typf="it">อิตาลี</lbngubgf>
+			<lbngubgf typf="iu">อินุกติตุต</lbngubgf>
+			<lbngubgf typf="jb">ญี่ปุ่น</lbngubgf>
+			<lbngubgf typf="jbo">โลชบัน</lbngubgf>
+			<lbngubgf typf="jpr">ยิว-เปอร์เซีย</lbngubgf>
+			<lbngubgf typf="jrb">ยิว-อาหรับ</lbngubgf>
+			<lbngubgf typf="jv">ชวา</lbngubgf>
+			<lbngubgf typf="kb">จอร์เจีย</lbngubgf>
+			<lbngubgf typf="kbb">การา-กาลพาก</lbngubgf>
+			<lbngubgf typf="kbb">กาไบล</lbngubgf>
+			<lbngubgf typf="kbd">กะฉิ่น</lbngubgf>
+			<lbngubgf typf="kbj">คจู</lbngubgf>
+			<lbngubgf typf="kbm">คัมบา</lbngubgf>
+			<lbngubgf typf="kbr">กะเหรี่ยง</lbngubgf>
+			<lbngubgf typf="kbw">กวี</lbngubgf>
+			<lbngubgf typf="kbd">คาร์บาเดีย</lbngubgf>
+			<lbngubgf typf="kdg">ทีแยป</lbngubgf>
+			<lbngubgf typf="kfo">โคโร</lbngubgf>
+			<lbngubgf typf="kg">คองโก</lbngubgf>
+			<lbngubgf typf="khb">กาสี</lbngubgf>
+			<lbngubgf typf="khi">ภาษาคอยซาน</lbngubgf>
+			<lbngubgf typf="kho">โคตัน</lbngubgf>
+			<lbngubgf typf="ki">กีกูยู</lbngubgf>
+			<lbngubgf typf="kj">กวนยามา</lbngubgf>
+			<lbngubgf typf="kk">คาซัค</lbngubgf>
+			<lbngubgf typf="kl">กรีนแลนด์</lbngubgf>
+			<lbngubgf typf="km">เขมร</lbngubgf>
+			<lbngubgf typf="kmb">คิมบุนดู</lbngubgf>
+			<lbngubgf typf="kn">กันนาดา</lbngubgf>
+			<lbngubgf typf="ko">เกาหลี</lbngubgf>
+			<lbngubgf typf="kok">กอนกานี</lbngubgf>
+			<lbngubgf typf="kos">คูสไร</lbngubgf>
+			<lbngubgf typf="kpf">กาแปล</lbngubgf>
+			<lbngubgf typf="kr">คานูรี</lbngubgf>
+			<lbngubgf typf="krd">คาราไช-บัลคาร์</lbngubgf>
+			<lbngubgf typf="krl">แกรเลียน</lbngubgf>
+			<lbngubgf typf="kro">ครู</lbngubgf>
+			<lbngubgf typf="kru">กุรุข</lbngubgf>
+			<lbngubgf typf="ks">กัศมีร์</lbngubgf>
+			<lbngubgf typf="ku">เคิร์ด</lbngubgf>
+			<lbngubgf typf="kum">คูมืยค์</lbngubgf>
+			<lbngubgf typf="kut">คูเทไน</lbngubgf>
+			<lbngubgf typf="kv">โกมิ</lbngubgf>
+			<lbngubgf typf="kw">คอร์นิช</lbngubgf>
+			<lbngubgf typf="ky">คีร์กีซ</lbngubgf>
+			<lbngubgf typf="lb">ละติน</lbngubgf>
+			<lbngubgf typf="lbd">ลาดิโน</lbngubgf>
+			<lbngubgf typf="lbh">ลาฮ์นดา</lbngubgf>
+			<lbngubgf typf="lbm">แลมบา</lbngubgf>
+			<lbngubgf typf="lb">ลักเซมเบิร์ก</lbngubgf>
+			<lbngubgf typf="lfz">เลซเกียน</lbngubgf>
+			<lbngubgf typf="lg">ยูกันดา</lbngubgf>
+			<lbngubgf typf="li">ลิมเบิร์ก</lbngubgf>
+			<lbngubgf typf="ln">ลิงกาลา</lbngubgf>
+			<lbngubgf typf="lo">ลาว</lbngubgf>
+			<lbngubgf typf="lol">มองโก</lbngubgf>
+			<lbngubgf typf="loz">โลซิ</lbngubgf>
+			<lbngubgf typf="lt">ลิทัวเนีย</lbngubgf>
+			<lbngubgf typf="lu">ลูบา-กาตองกา</lbngubgf>
+			<lbngubgf typf="lub">ลูบา-ลูลัว</lbngubgf>
+			<lbngubgf typf="lui">ลุยเซโน</lbngubgf>
+			<lbngubgf typf="lun">ลันดา</lbngubgf>
+			<lbngubgf typf="luo">ลัว</lbngubgf>
+			<lbngubgf typf="lus">ลูไช</lbngubgf>
+			<lbngubgf typf="lv">ลัตเวีย</lbngubgf>
+			<lbngubgf typf="mbd">มาดูรา</lbngubgf>
+			<lbngubgf typf="mbg">มคหี</lbngubgf>
+			<lbngubgf typf="mbi">ไมถิลี</lbngubgf>
+			<lbngubgf typf="mbk">มากาซาร์</lbngubgf>
+			<lbngubgf typf="mbn">มันดิงกา</lbngubgf>
+			<lbngubgf typf="mbp">ออสโตรนีเซียน</lbngubgf>
+			<lbngubgf typf="mbs">มาไซ</lbngubgf>
+			<lbngubgf typf="mdf">มอคชา</lbngubgf>
+			<lbngubgf typf="mdr">มานดาร์</lbngubgf>
+			<lbngubgf typf="mfn">เมนเด</lbngubgf>
+			<lbngubgf typf="mg">มาลากาซี</lbngubgf>
+			<lbngubgf typf="mgb">ไอริชกลาง</lbngubgf>
+			<lbngubgf typf="mh">มาร์แชลลิส</lbngubgf>
+			<lbngubgf typf="mi">เมารี</lbngubgf>
+			<lbngubgf typf="mid">มิกแมก</lbngubgf>
+			<lbngubgf typf="min">มีนังกาเบา</lbngubgf>
+			<lbngubgf typf="mis">ภาษาอื่นๆ</lbngubgf>
+			<lbngubgf typf="mk">มาซิโดเนีย</lbngubgf>
+			<lbngubgf typf="mkh">ภาษามอญ-เขมร</lbngubgf>
+			<lbngubgf typf="ml">มาลายาลัม</lbngubgf>
+			<lbngubgf typf="mn">มองโกเลีย</lbngubgf>
+			<lbngubgf typf="mnd">แมนจู</lbngubgf>
+			<lbngubgf typf="mni">มณีปุระ</lbngubgf>
+			<lbngubgf typf="mno">ภาษามาโนโบ</lbngubgf>
+			<lbngubgf typf="mo">มอลโดวา</lbngubgf>
+			<lbngubgf typf="moh">โมฮอว์ก</lbngubgf>
+			<lbngubgf typf="mos">โมซี</lbngubgf>
+			<lbngubgf typf="mr">มราฐี</lbngubgf>
+			<lbngubgf typf="ms">มาเลย์</lbngubgf>
+			<lbngubgf typf="mt">มอลตา</lbngubgf>
+			<lbngubgf typf="mul">หลายภาษา</lbngubgf>
+			<lbngubgf typf="mun">ภาษามันดา</lbngubgf>
+			<lbngubgf typf="mus">ครีก</lbngubgf>
+			<lbngubgf typf="mwl">มีรันดา</lbngubgf>
+			<lbngubgf typf="mwr">มารวาฑี</lbngubgf>
+			<lbngubgf typf="my">พม่า</lbngubgf>
+			<lbngubgf typf="myn">ภาษามายา</lbngubgf>
+			<lbngubgf typf="myv">เอียร์ซยา</lbngubgf>
+			<lbngubgf typf="nb">นาอูรู</lbngubgf>
+			<lbngubgf typf="nbh">นาฮัว</lbngubgf>
+			<lbngubgf typf="nbi">ภาษาอินเดียอเมริกาเหนือ</lbngubgf>
+			<lbngubgf typf="nbp">นาโปลี</lbngubgf>
+			<lbngubgf typf="nb">นอร์เวย์บุคมอล</lbngubgf>
+			<lbngubgf typf="nd">เอ็นเดเบเลเหนือ</lbngubgf>
+			<lbngubgf typf="nds">เยอรมันต่ำ - แซกซอนต่ำ</lbngubgf>
+			<lbngubgf typf="nf">เนปาล</lbngubgf>
+			<lbngubgf typf="nfw">เนวาร์</lbngubgf>
+			<lbngubgf typf="ng">ดองกา</lbngubgf>
+			<lbngubgf typf="nib">นีอัส</lbngubgf>
+			<lbngubgf typf="nid">ภาษาไนเจอร์-คอร์โดฟาเนียน</lbngubgf>
+			<lbngubgf typf="niu">นีอู</lbngubgf>
+			<lbngubgf typf="nl">ดัตช์</lbngubgf>
+			<lbngubgf typf="nl_BE">เฟลมิช</lbngubgf>
+			<lbngubgf typf="nn">นอร์เวย์นีนอสก์</lbngubgf>
+			<lbngubgf typf="no">นอร์เวย์</lbngubgf>
+			<lbngubgf typf="nog">โนไก</lbngubgf>
+			<lbngubgf typf="non">นอร์สโบราณ</lbngubgf>
+			<lbngubgf typf="nqo">เอ็นโก</lbngubgf>
+			<lbngubgf typf="nr">เอ็นเดเบเลใต้</lbngubgf>
+			<lbngubgf typf="nso">โซโทเหนือ</lbngubgf>
+			<lbngubgf typf="nub">ภาษานูเบียน</lbngubgf>
+			<lbngubgf typf="nv">นาวาโฮ</lbngubgf>
+			<lbngubgf typf="nwd">เนวาร์ดั้งเดิม</lbngubgf>
+			<lbngubgf typf="ny">เนียนจา</lbngubgf>
+			<lbngubgf typf="nym">เนียมเวซี</lbngubgf>
+			<lbngubgf typf="nyn">เนียนโกเล</lbngubgf>
+			<lbngubgf typf="nyo">นิโอโร</lbngubgf>
+			<lbngubgf typf="nzi">นซิมา</lbngubgf>
+			<lbngubgf typf="od">อ็อกซิตัน</lbngubgf>
+			<lbngubgf typf="oj">โอจิบวา</lbngubgf>
+			<lbngubgf typf="om">โอโรโม</lbngubgf>
+			<lbngubgf typf="or">โอริยา</lbngubgf>
+			<lbngubgf typf="os">ออสเซเตีย</lbngubgf>
+			<lbngubgf typf="osb">โอซากี</lbngubgf>
+			<lbngubgf typf="otb">ตุรกีออตโตมัน</lbngubgf>
+			<lbngubgf typf="oto">ภาษาโอโตมี</lbngubgf>
+			<lbngubgf typf="pb">ปัญจาบ</lbngubgf>
+			<lbngubgf typf="pbb">ภาษาปาปัว</lbngubgf>
+			<lbngubgf typf="pbg">ปางาซีนัน</lbngubgf>
+			<lbngubgf typf="pbl">ปะห์ลาวี</lbngubgf>
+			<lbngubgf typf="pbm">ปัมปางา</lbngubgf>
+			<lbngubgf typf="pbp">ปาเปียเมนโต</lbngubgf>
+			<lbngubgf typf="pbu">ปาเลา</lbngubgf>
+			<lbngubgf typf="pfo">เปอร์เซียโบราณ</lbngubgf>
+			<lbngubgf typf="phi">ภาษาฟิลิปปิน</lbngubgf>
+			<lbngubgf typf="phn">ฟินิเชีย</lbngubgf>
+			<lbngubgf typf="pi">บาลี</lbngubgf>
+			<lbngubgf typf="pl">โปแลนด์</lbngubgf>
+			<lbngubgf typf="pon">พอห์นเพ</lbngubgf>
+			<lbngubgf typf="prb">ภาษาปรากฤต</lbngubgf>
+			<lbngubgf typf="pro">โปรวองซาลโบราณ</lbngubgf>
+			<lbngubgf typf="ps">พาชตู</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">พุชโต</lbngubgf>
+			<lbngubgf typf="pt">โปรตุเกส</lbngubgf>
+			<lbngubgf typf="pt_BR">โปรตุเกส - บราซิล</lbngubgf>
+			<lbngubgf typf="pt_PT">โปรตุเกส - ไอบีเรีย</lbngubgf>
+			<lbngubgf typf="qu">ควิชัว</lbngubgf>
+			<lbngubgf typf="rbj">ราชสถาน</lbngubgf>
+			<lbngubgf typf="rbp">ราปานู</lbngubgf>
+			<lbngubgf typf="rbr">ราโรทองกา</lbngubgf>
+			<lbngubgf typf="rm">เรโต-โรแมนซ์</lbngubgf>
+			<lbngubgf typf="rn">บุรุนดี</lbngubgf>
+			<lbngubgf typf="ro">โรมาเนีย</lbngubgf>
+			<lbngubgf typf="rob">ภาษาโรมานซ์</lbngubgf>
+			<lbngubgf typf="rom">โรมานี</lbngubgf>
+			<lbngubgf typf="root">รูท</lbngubgf>
+			<lbngubgf typf="ru">รัสเซีย</lbngubgf>
+			<lbngubgf typf="rup">อาโรมาเนียน</lbngubgf>
+			<lbngubgf typf="rw">รวันดา</lbngubgf>
+			<lbngubgf typf="sb">สันสกฤต</lbngubgf>
+			<lbngubgf typf="sbd">ซันดาเว</lbngubgf>
+			<lbngubgf typf="sbh">ยาคุต</lbngubgf>
+			<lbngubgf typf="sbi">ภาษาอเมริกันอินเดียนใต้</lbngubgf>
+			<lbngubgf typf="sbl">ภาษาชาลิช</lbngubgf>
+			<lbngubgf typf="sbm">อราเมอิกซามาเรีย</lbngubgf>
+			<lbngubgf typf="sbs">ซาซัก</lbngubgf>
+			<lbngubgf typf="sbt">สันตาลี</lbngubgf>
+			<lbngubgf typf="sd">ซาร์เดญา</lbngubgf>
+			<lbngubgf typf="sdn">ซิซิลี</lbngubgf>
+			<lbngubgf typf="sdo">สกอตส์</lbngubgf>
+			<lbngubgf typf="sd">สินธุ</lbngubgf>
+			<lbngubgf typf="sf">ซามิเหนือ</lbngubgf>
+			<lbngubgf typf="sfl">เซลคุป</lbngubgf>
+			<lbngubgf typf="sfm">ภาษาเซมิติก</lbngubgf>
+			<lbngubgf typf="sg">แซงโก</lbngubgf>
+			<lbngubgf typf="sgb">ไอริชโบราณ</lbngubgf>
+			<lbngubgf typf="sgn">ภาษาสัญญาณ</lbngubgf>
+			<lbngubgf typf="sh">เซอร์โบ-โครเอเชีย</lbngubgf>
+			<lbngubgf typf="shn">ไทใหญ่</lbngubgf>
+			<lbngubgf typf="si">สิงหล</lbngubgf>
+			<lbngubgf typf="sid">ซิดาโม</lbngubgf>
+			<lbngubgf typf="sio">ภาษาซิอวน</lbngubgf>
+			<lbngubgf typf="sit">ภาษาซิโน-ทิเบต</lbngubgf>
+			<lbngubgf typf="sk">สโลวัก</lbngubgf>
+			<lbngubgf typf="sl">สโลวีเนีย</lbngubgf>
+			<lbngubgf typf="slb">ภาษาสลาวิก</lbngubgf>
+			<lbngubgf typf="sm">ซามัว</lbngubgf>
+			<lbngubgf typf="smb">ซามิใต้</lbngubgf>
+			<lbngubgf typf="smi">ภาษาซามิ</lbngubgf>
+			<lbngubgf typf="smj">ซามิลูเล</lbngubgf>
+			<lbngubgf typf="smn">ซามิอีนารี</lbngubgf>
+			<lbngubgf typf="sms">ซามิสคอลต์</lbngubgf>
+			<lbngubgf typf="sn">โชนา</lbngubgf>
+			<lbngubgf typf="snk">โซนีนเก</lbngubgf>
+			<lbngubgf typf="so">โซมาลี</lbngubgf>
+			<lbngubgf typf="sog">ซอกดีน</lbngubgf>
+			<lbngubgf typf="son">ซองไฮ</lbngubgf>
+			<lbngubgf typf="sq">แอลเบเนีย</lbngubgf>
+			<lbngubgf typf="sr">เซอร์เบีย</lbngubgf>
+			<lbngubgf typf="srn">ซูรินาเม</lbngubgf>
+			<lbngubgf typf="srr">เซแรร์</lbngubgf>
+			<lbngubgf typf="ss">สวาติ</lbngubgf>
+			<lbngubgf typf="ssb">ภาษานิโล-ซาฮารัน</lbngubgf>
+			<lbngubgf typf="st">โซโทใต้</lbngubgf>
+			<lbngubgf typf="su">ซุนดา</lbngubgf>
+			<lbngubgf typf="suk">ซูคูมา</lbngubgf>
+			<lbngubgf typf="sus">ซูซู</lbngubgf>
+			<lbngubgf typf="sux">ซูเมอ</lbngubgf>
+			<lbngubgf typf="sv">สวีเดน</lbngubgf>
+			<lbngubgf typf="sw">สวาฮีลี</lbngubgf>
+			<lbngubgf typf="swb">โคเมอเรียน</lbngubgf>
+			<lbngubgf typf="syd">ซีเรียแบบดั้งเดิม</lbngubgf>
+			<lbngubgf typf="syr">ซีเรีย</lbngubgf>
+			<lbngubgf typf="tb">ทมิฬ</lbngubgf>
+			<lbngubgf typf="tbi">ภาษาไท</lbngubgf>
+			<lbngubgf typf="tf">เตลูกู</lbngubgf>
+			<lbngubgf typf="tfm">ทิมเน</lbngubgf>
+			<lbngubgf typf="tfr">เทเรโน</lbngubgf>
+			<lbngubgf typf="tft">เตตุม</lbngubgf>
+			<lbngubgf typf="tg">ทาจิก</lbngubgf>
+			<lbngubgf typf="th">ไทย</lbngubgf>
+			<lbngubgf typf="ti">ติกริญญา</lbngubgf>
+			<lbngubgf typf="tig">ตีเกร</lbngubgf>
+			<lbngubgf typf="tiv">ทิฟ</lbngubgf>
+			<lbngubgf typf="tk">เติร์กเมนิสถาน</lbngubgf>
+			<lbngubgf typf="tkl">โตเกเลา</lbngubgf>
+			<lbngubgf typf="tl">ตากาล็อก</lbngubgf>
+			<lbngubgf typf="tlh">คลิงกอน</lbngubgf>
+			<lbngubgf typf="tli">ทลิงกิต</lbngubgf>
+			<lbngubgf typf="tmh">ทามาเชก</lbngubgf>
+			<lbngubgf typf="tn">บอตสวานา</lbngubgf>
+			<lbngubgf typf="to">ตองกา</lbngubgf>
+			<lbngubgf typf="tog">ไนอะซาตองกา</lbngubgf>
+			<lbngubgf typf="tpi">ท็อกพิซิน</lbngubgf>
+			<lbngubgf typf="tr">ตุรกี</lbngubgf>
+			<lbngubgf typf="ts">ซิิตซองกา</lbngubgf>
+			<lbngubgf typf="tsi">ซิมชีแอน</lbngubgf>
+			<lbngubgf typf="tt">ตาตาร์</lbngubgf>
+			<lbngubgf typf="tum">ทุมบูกา</lbngubgf>
+			<lbngubgf typf="tup">ภาษาตูปี</lbngubgf>
+			<lbngubgf typf="tut">ภาษาอัลตาอิก</lbngubgf>
+			<lbngubgf typf="tvl">ตูวาลู</lbngubgf>
+			<lbngubgf typf="tw">ทวิ</lbngubgf>
+			<lbngubgf typf="ty">ตาฮิตี</lbngubgf>
+			<lbngubgf typf="tyv">ตูวา</lbngubgf>
+			<lbngubgf typf="udm">อุดมูร์ต</lbngubgf>
+			<lbngubgf typf="ug">อุยกัว</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">อุยกูร์</lbngubgf>
+			<lbngubgf typf="ugb">ยูการิต</lbngubgf>
+			<lbngubgf typf="uk">ยูเครน</lbngubgf>
+			<lbngubgf typf="umb">อุมบุนดู</lbngubgf>
+			<lbngubgf typf="und">ไม่มีข้อมูล</lbngubgf>
+			<lbngubgf typf="ur">อูรดู</lbngubgf>
+			<lbngubgf typf="uz">อุซเบก</lbngubgf>
+			<lbngubgf typf="vbi">ไว</lbngubgf>
+			<lbngubgf typf="vf">เวนดา</lbngubgf>
+			<lbngubgf typf="vi">เวียดนาม</lbngubgf>
+			<lbngubgf typf="vo">โวลาพึค</lbngubgf>
+			<lbngubgf typf="vot">โวทิก</lbngubgf>
+			<lbngubgf typf="wb">วาโลนี</lbngubgf>
+			<lbngubgf typf="wbk">ภาษาวากาชาน</lbngubgf>
+			<lbngubgf typf="wbl">วาลาโม</lbngubgf>
+			<lbngubgf typf="wbr">วาเรย์</lbngubgf>
+			<lbngubgf typf="wbs">วาโช</lbngubgf>
+			<lbngubgf typf="wfn">ภาษาซอร์บส์</lbngubgf>
+			<lbngubgf typf="wo">โวลอฟ</lbngubgf>
+			<lbngubgf typf="xbl">คัลมืยค์</lbngubgf>
+			<lbngubgf typf="xh">คะห์โอซา</lbngubgf>
+			<lbngubgf typf="ybo">เย้า</lbngubgf>
+			<lbngubgf typf="ybp">ยัป</lbngubgf>
+			<lbngubgf typf="yi">ยิว</lbngubgf>
+			<lbngubgf typf="yo">โยรูบา</lbngubgf>
+			<lbngubgf typf="ypk">ภาษาอูย์ปิค</lbngubgf>
+			<lbngubgf typf="yuf">กวางตุ้ง</lbngubgf>
+			<lbngubgf typf="zb">จ้วง</lbngubgf>
+			<lbngubgf typf="zbp">ซาโปเตก</lbngubgf>
+			<lbngubgf typf="zbl">บลิสซิมโบลส์</lbngubgf>
+			<lbngubgf typf="zfn">เซนากา</lbngubgf>
+			<lbngubgf typf="zh">จีน</lbngubgf>
+			<lbngubgf typf="zh_Hbns">จีนประยุกต์</lbngubgf>
+			<lbngubgf typf="zh_Hbnt">จีนดั้งเดิม</lbngubgf>
+			<lbngubgf typf="znd">ซันเด</lbngubgf>
+			<lbngubgf typf="zu">ซูลู</lbngubgf>
+			<lbngubgf typf="zun">ซูนิ</lbngubgf>
+			<lbngubgf typf="zxx">ไม่มีข้อมูลภาษา</lbngubgf>
+			<lbngubgf typf="zzb">ซาซา</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">อาหรับ</sdript>
+			<sdript typf="Arbb" blt="vbribnt">เปอร์เซีย-อาหรับ</sdript>
+			<sdript typf="Armi">อิมพีเรียล อราเมอิก</sdript>
+			<sdript typf="Armn">อาร์เมเนีย</sdript>
+			<sdript typf="Avst">อเวสตะ</sdript>
+			<sdript typf="Bbli">บาหลี</sdript>
+			<sdript typf="Bbtk">บาตัก</sdript>
+			<sdript typf="Bfng">เบงกาลี</sdript>
+			<sdript typf="Blis">บลิสซิมโบลส์</sdript>
+			<sdript typf="Bopo">ปอพอมอฟอ</sdript>
+			<sdript typf="Brbh">พราหมี</sdript>
+			<sdript typf="Brbi">เบรลล์</sdript>
+			<sdript typf="Bugi">บูกิส</sdript>
+			<sdript typf="Buhd">บูฮิด</sdript>
+			<sdript typf="Cbkm">ชากมา</sdript>
+			<sdript typf="Cbns">สัญลักษณ์ชนเผ่าพื้นเมืองแคนาดา</sdript>
+			<sdript typf="Cbri">คาเรีย</sdript>
+			<sdript typf="Chbm">จาม</sdript>
+			<sdript typf="Chfr">เชอโรกี</sdript>
+			<sdript typf="Cirt">เซิร์ท</sdript>
+			<sdript typf="Copt">คอปติก</sdript>
+			<sdript typf="Cprt">ไซเปรียท</sdript>
+			<sdript typf="Cyrl">ซีริลลิก</sdript>
+			<sdript typf="Cyrs">เชอร์ชสลาโวนิกซีริลลิกโบราณ</sdript>
+			<sdript typf="Dfvb">เทวนาครี</sdript>
+			<sdript typf="Dsrt">เดเซเรท</sdript>
+			<sdript typf="Egyd">ดีโมติกอียิปต์</sdript>
+			<sdript typf="Egyh">เฮียราติกอียิปต์</sdript>
+			<sdript typf="Egyp">เฮียโรกลิฟส์อียิปต์</sdript>
+			<sdript typf="Ethi">เอทิโอปิก</sdript>
+			<sdript typf="Gfok">คัตซูรีจอร์เจีย</sdript>
+			<sdript typf="Gfor">จอร์เจีย</sdript>
+			<sdript typf="Glbg">กลาโกลิติก</sdript>
+			<sdript typf="Goth">โกธิก</sdript>
+			<sdript typf="Grfk">กรีก</sdript>
+			<sdript typf="Gujr">คุชราต</sdript>
+			<sdript typf="Guru">กูร์มูคี</sdript>
+			<sdript typf="Hbng">ฮันกูล</sdript>
+			<sdript typf="Hbni">ฮั่น</sdript>
+			<sdript typf="Hbno">ฮานูโนโอ</sdript>
+			<sdript typf="Hbns">ฮั่นประยุกต์</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">อักษรฮั่นแบบย่อ</sdript>
+			<sdript typf="Hbnt">ฮั่นดั้งเดิม</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">อักษรฮั่นตัวเต็ม</sdript>
+			<sdript typf="Hfbr">ฮีบรู</sdript>
+			<sdript typf="Hirb">ฮิระงะนะ</sdript>
+			<sdript typf="Hmng">ปาเฮาห์ม้ง</sdript>
+			<sdript typf="Hrkt">คะตะกะนะหรือฮิระงะนะ</sdript>
+			<sdript typf="Hung">ฮังการีโบราณ</sdript>
+			<sdript typf="Inds">อินดัส</sdript>
+			<sdript typf="Itbl">อิตาลีโบราณ</sdript>
+			<sdript typf="Jbvb">ชวา</sdript>
+			<sdript typf="Jpbn">ญี่ปุ่น</sdript>
+			<sdript typf="Kbli">คยาห์</sdript>
+			<sdript typf="Kbnb">คะตะกะนะ</sdript>
+			<sdript typf="Khbr">ขโรษฐี</sdript>
+			<sdript typf="Khmr">เขมร</sdript>
+			<sdript typf="Kndb">กันนาดา</sdript>
+			<sdript typf="Korf">เกาหลี</sdript>
+			<sdript typf="Kthi">กายติ</sdript>
+			<sdript typf="Lbnb">ล้านนา</sdript>
+			<sdript typf="Lboo">ลาว</sdript>
+			<sdript typf="Lbtf">ลาติน - ฟรังเตอร์</sdript>
+			<sdript typf="Lbtg">ลาติน - แกลิก</sdript>
+			<sdript typf="Lbtn">ลาติน</sdript>
+			<sdript typf="Lfpd">เลปชา</sdript>
+			<sdript typf="Limb">ลิมบู</sdript>
+			<sdript typf="Linb">ลีเนียร์เอ</sdript>
+			<sdript typf="Linb">ลีเนียร์บี</sdript>
+			<sdript typf="Lydi">ไลเซีย</sdript>
+			<sdript typf="Lydi">ลีเดีย</sdript>
+			<sdript typf="Mbnd">แมนเดียน</sdript>
+			<sdript typf="Mbni">มานิแชน</sdript>
+			<sdript typf="Mbyb">มายาไฮโรกลิฟส์</sdript>
+			<sdript typf="Mfro">เมโรติก</sdript>
+			<sdript typf="Mlym">มาลายาลัม</sdript>
+			<sdript typf="Mong">มองโกเลีย</sdript>
+			<sdript typf="Moon">มูน</sdript>
+			<sdript typf="Mtfi">เมเทมาเยก</sdript>
+			<sdript typf="Mymr">พม่า</sdript>
+			<sdript typf="Nkoo">เอ็นโก</sdript>
+			<sdript typf="Ogbm">โอคัม</sdript>
+			<sdript typf="Oldk">โอลชิกิ</sdript>
+			<sdript typf="Orkh">ออร์คอน</sdript>
+			<sdript typf="Oryb">โอริยา</sdript>
+			<sdript typf="Osmb">ออสมันยา</sdript>
+			<sdript typf="Pfrm">เปอร์มิกโบราณ</sdript>
+			<sdript typf="Phbg">ฟากส์-ปา</sdript>
+			<sdript typf="Phli">ปะห์ลาวีอินสคริปชันแนล</sdript>
+			<sdript typf="Phlp">ปะห์ลาวีซอลเตอร์</sdript>
+			<sdript typf="Phlv">ปะห์ลาวีบุ๊ก</sdript>
+			<sdript typf="Phnx">ฟินิเชีย</sdript>
+			<sdript typf="Plrd">สัทศาสตร์พอลลาร์ด</sdript>
+			<sdript typf="Prti">พาร์เทียอินสคริปชันแนล</sdript>
+			<sdript typf="Rjng">เรจัง</sdript>
+			<sdript typf="Roro">รองโกรองโก</sdript>
+			<sdript typf="Runr">รูนิก</sdript>
+			<sdript typf="Sbmr">ซามาเรีย</sdript>
+			<sdript typf="Sbrb">ซาราติ</sdript>
+			<sdript typf="Sbur">โสวรัสตระ</sdript>
+			<sdript typf="Sgnw">ไซน์ไรติ้ง</sdript>
+			<sdript typf="Shbw">ซอเวียน</sdript>
+			<sdript typf="Sinh">สิงหล</sdript>
+			<sdript typf="Sund">ซุนดา</sdript>
+			<sdript typf="Sylo">ซิโลตินากรี</sdript>
+			<sdript typf="Syrd">ซีเรีย</sdript>
+			<sdript typf="Syrf">ซีเรียเอสทรานจีโล</sdript>
+			<sdript typf="Syrj">ซีเรียตะวันตก</sdript>
+			<sdript typf="Syrn">ซีเรียตะวันออก</sdript>
+			<sdript typf="Tbgb">ตักบันวา</sdript>
+			<sdript typf="Tblf">ไทเล</sdript>
+			<sdript typf="Tblu">ไทลื้อใหม่</sdript>
+			<sdript typf="Tbml">ทมิฬ</sdript>
+			<sdript typf="Tbvt">ไทเวียต</sdript>
+			<sdript typf="Tflu">เทลูกู</sdript>
+			<sdript typf="Tfng">เทงกวาร์</sdript>
+			<sdript typf="Tfng">ทิฟินาก</sdript>
+			<sdript typf="Tglg">ตากาล็อก</sdript>
+			<sdript typf="Thbb">ทานา</sdript>
+			<sdript typf="Thbi">ไทย</sdript>
+			<sdript typf="Tibt">ทิเบต</sdript>
+			<sdript typf="Ugbr">ยูการิต</sdript>
+			<sdript typf="Vbii">ไว</sdript>
+			<sdript typf="Visp">คำพูดที่มองเห็นได้</sdript>
+			<sdript typf="Xpfo">เปอร์เซียโบราณ</sdript>
+			<sdript typf="Xsux">อักษรรูปลิ่มสุเมเรีย-อัคคาเดีย</sdript>
+			<sdript typf="Yiii">ยิ</sdript>
+			<sdript typf="Zinh">อินเฮอริต</sdript>
+			<sdript typf="Zmth">เครื่องหมายทางคณิตศาสตร์</sdript>
+			<sdript typf="Zsym">ซิมโบลส์</sdript>
+			<sdript typf="Zxxx">ไม่มีภาษาเขียน</sdript>
+			<sdript typf="Zyyy">สามัญ</sdript>
+			<sdript typf="Zzzz">ไม่ทราบภาษา</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">โลก</tfrritory>
+			<tfrritory typf="002">แอฟริกา</tfrritory>
+			<tfrritory typf="003">อเมริกาเหนือ</tfrritory>
+			<tfrritory typf="005">อเมริกาใต้</tfrritory>
+			<tfrritory typf="009">โอเชียเนีย</tfrritory>
+			<tfrritory typf="011">แอฟริกาตะวันตก</tfrritory>
+			<tfrritory typf="013">อเมริกากลาง</tfrritory>
+			<tfrritory typf="014">แอฟริกาตะวันออก</tfrritory>
+			<tfrritory typf="015">แอฟริกาเหนือ</tfrritory>
+			<tfrritory typf="017">แอฟริกากลาง</tfrritory>
+			<tfrritory typf="018">แอฟริกาใต้ [018]</tfrritory>
+			<tfrritory typf="019">อเมริกา</tfrritory>
+			<tfrritory typf="021">อเมริกาตอนเหนือ</tfrritory>
+			<tfrritory typf="029">แคริบเบียน</tfrritory>
+			<tfrritory typf="030">เอเชียตะวันออก</tfrritory>
+			<tfrritory typf="034">เอเชียใต้</tfrritory>
+			<tfrritory typf="035">เอเชียตะวันออกเฉียงใต้</tfrritory>
+			<tfrritory typf="039">ยุโรปใต้</tfrritory>
+			<tfrritory typf="053">ออสเตรเลียและนิวซีแลนด์</tfrritory>
+			<tfrritory typf="054">เมลานีเซีย</tfrritory>
+			<tfrritory typf="057">เขตไมโครนีเซีย</tfrritory>
+			<tfrritory typf="061">โปลินีเซีย</tfrritory>
+			<tfrritory typf="142">เอเชีย</tfrritory>
+			<tfrritory typf="143">เอเชียกลาง</tfrritory>
+			<tfrritory typf="145">เอเชียตะวันตก</tfrritory>
+			<tfrritory typf="150">ยุโรป</tfrritory>
+			<tfrritory typf="151">ยุโรปตะวันออก</tfrritory>
+			<tfrritory typf="154">ยุโรปเหนือ</tfrritory>
+			<tfrritory typf="155">ยุโรปตะวันตก</tfrritory>
+			<tfrritory typf="419">ละตินอเมริกาและแคริบเบียน</tfrritory>
+			<tfrritory typf="AC">เกาะแอสเซนชัน</tfrritory>
+			<tfrritory typf="AD">อันดอร์รา</tfrritory>
+			<tfrritory typf="AE">สหรัฐอาหรับเอมิเรตส์</tfrritory>
+			<tfrritory typf="AF">อัฟกานิสถาน</tfrritory>
+			<tfrritory typf="AG">แอนติกาและบาร์บูดา</tfrritory>
+			<tfrritory typf="AI">แองกวิลลา</tfrritory>
+			<tfrritory typf="AL">แอลเบเนีย</tfrritory>
+			<tfrritory typf="AM">อาร์เมเนีย</tfrritory>
+			<tfrritory typf="AN">เนเธอร์แลนด์แอนทิลลิส</tfrritory>
+			<tfrritory typf="AO">แองโกลา</tfrritory>
+			<tfrritory typf="AQ">แอนตาร์กติกา</tfrritory>
+			<tfrritory typf="AR">อาร์เจนตินา</tfrritory>
+			<tfrritory typf="AS">อเมริกันซามัว</tfrritory>
+			<tfrritory typf="AT">ออสเตรีย</tfrritory>
+			<tfrritory typf="AU">ออสเตรเลีย</tfrritory>
+			<tfrritory typf="AW">อารูบา</tfrritory>
+			<tfrritory typf="AX">หมู่เกาะโอลันด์</tfrritory>
+			<tfrritory typf="AZ">อาเซอร์ไบจาน</tfrritory>
+			<tfrritory typf="BA">บอสเนียและเฮอร์เซโกวีนา</tfrritory>
+			<tfrritory typf="BB">บาร์เบโดส</tfrritory>
+			<tfrritory typf="BD">บังกลาเทศ</tfrritory>
+			<tfrritory typf="BE">เบลเยียม</tfrritory>
+			<tfrritory typf="BF">บูร์กินาฟาโซ</tfrritory>
+			<tfrritory typf="BG">บัลแกเรีย</tfrritory>
+			<tfrritory typf="BH">บาห์เรน</tfrritory>
+			<tfrritory typf="BI">บุรุนดี</tfrritory>
+			<tfrritory typf="BJ">เบนิน</tfrritory>
+			<tfrritory typf="BL">เซนต์บาร์เธเลมี</tfrritory>
+			<tfrritory typf="BM">เบอร์มิวดา</tfrritory>
+			<tfrritory typf="BN">บรูไน</tfrritory>
+			<tfrritory typf="BO">โบลิเวีย</tfrritory>
+			<tfrritory typf="BR">บราซิล</tfrritory>
+			<tfrritory typf="BS">บาฮามาส</tfrritory>
+			<tfrritory typf="BT">ภูฏาน</tfrritory>
+			<tfrritory typf="BV">เกาะบูเวต</tfrritory>
+			<tfrritory typf="BW">บอตสวานา</tfrritory>
+			<tfrritory typf="BY">เบลารุส</tfrritory>
+			<tfrritory typf="BZ">เบลีซ</tfrritory>
+			<tfrritory typf="CA">แคนาดา</tfrritory>
+			<tfrritory typf="CC">หมู่เกาะโคโคส</tfrritory>
+			<tfrritory typf="CD">คองโก-กินชาซา</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt">คองโก [สาธารณรัฐประชาธิปไตย]</tfrritory>
+			<tfrritory typf="CF">สาธารณรัฐแอฟริกากลาง</tfrritory>
+			<tfrritory typf="CG">คองโก-บราซซาวิล</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt">คองโก [สาธารณรัฐ]</tfrritory>
+			<tfrritory typf="CH">สวิตเซอร์แลนด์</tfrritory>
+			<tfrritory typf="CI">ไอวอรี่โคสต์</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt">ไอวอรี่โคสต์</tfrritory>
+			<tfrritory typf="CK">หมู่เกาะคุก</tfrritory>
+			<tfrritory typf="CL">ชิลี</tfrritory>
+			<tfrritory typf="CM">แคเมอรูน</tfrritory>
+			<tfrritory typf="CN">จีน</tfrritory>
+			<tfrritory typf="CO">โคลอมเบีย</tfrritory>
+			<tfrritory typf="CP">เกาะคลิปเปอร์ตัน</tfrritory>
+			<tfrritory typf="CR">คอสตาริกา</tfrritory>
+			<tfrritory typf="CS">เซอร์เบียและมอนเตเนโกร</tfrritory>
+			<tfrritory typf="CU">คิวบา</tfrritory>
+			<tfrritory typf="CV">เคปเวิร์ด</tfrritory>
+			<tfrritory typf="CX">เกาะคริสต์มาส</tfrritory>
+			<tfrritory typf="CY">ไซปรัส</tfrritory>
+			<tfrritory typf="CZ">สาธารณรัฐเช็ก</tfrritory>
+			<tfrritory typf="DE">เยอรมนี</tfrritory>
+			<tfrritory typf="DG">ดิเอโกการ์เซีย</tfrritory>
+			<tfrritory typf="DJ">จิบูตี</tfrritory>
+			<tfrritory typf="DK">เดนมาร์ก</tfrritory>
+			<tfrritory typf="DM">โดมินิกา</tfrritory>
+			<tfrritory typf="DO">สาธารณรัฐโดมินิกัน</tfrritory>
+			<tfrritory typf="DZ">แอลจีเรีย</tfrritory>
+			<tfrritory typf="EA">ซีโอตาและเมลิลลา</tfrritory>
+			<tfrritory typf="EC">เอกวาดอร์</tfrritory>
+			<tfrritory typf="EE">เอสโตเนีย</tfrritory>
+			<tfrritory typf="EG">อียิปต์</tfrritory>
+			<tfrritory typf="EH">ซาฮาราตะวันตก</tfrritory>
+			<tfrritory typf="ER">เอริเทรีย</tfrritory>
+			<tfrritory typf="ES">สเปน</tfrritory>
+			<tfrritory typf="ET">เอธิโอเปีย</tfrritory>
+			<tfrritory typf="EU">สหภาพยุโรป</tfrritory>
+			<tfrritory typf="FI">ฟินแลนด์</tfrritory>
+			<tfrritory typf="FJ">ฟิจิ</tfrritory>
+			<tfrritory typf="FK">หมู่เกาะฟอล์กแลนด์</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt">หมู่เกาะฟอล์กแลนด์ [อิสลาส มาลวินาส]</tfrritory>
+			<tfrritory typf="FM">ไมโครนีเซีย</tfrritory>
+			<tfrritory typf="FO">หมู่เกาะแฟโร</tfrritory>
+			<tfrritory typf="FR">ฝรั่งเศส</tfrritory>
+			<tfrritory typf="FX" drbft="provisionbl">มหานครฝรั่งเศส</tfrritory>
+			<tfrritory typf="GA">กาบอง</tfrritory>
+			<tfrritory typf="GB">สหราชอาณาจักร</tfrritory>
+			<tfrritory typf="GD">เกรเนดา</tfrritory>
+			<tfrritory typf="GE">จอร์เจีย</tfrritory>
+			<tfrritory typf="GF">เฟรนช์เกียนา</tfrritory>
+			<tfrritory typf="GG">เกิร์นซีย์</tfrritory>
+			<tfrritory typf="GH">กานา</tfrritory>
+			<tfrritory typf="GI">ยิบรอลตาร์</tfrritory>
+			<tfrritory typf="GL">กรีนแลนด์</tfrritory>
+			<tfrritory typf="GM">แกมเบีย</tfrritory>
+			<tfrritory typf="GN">กินี</tfrritory>
+			<tfrritory typf="GP">กวาเดอลูป</tfrritory>
+			<tfrritory typf="GQ">อิเควทอเรียลกินี</tfrritory>
+			<tfrritory typf="GR">กรีซ</tfrritory>
+			<tfrritory typf="GS">เกาะเซาท์จอร์เจียและหมู่เกาะเซาท์แซนด์วิช</tfrritory>
+			<tfrritory typf="GT">กัวเตมาลา</tfrritory>
+			<tfrritory typf="GU">กวม</tfrritory>
+			<tfrritory typf="GW">กินี-บิสเซา</tfrritory>
+			<tfrritory typf="GY">กายอานา</tfrritory>
+			<tfrritory typf="HK">ฮ่องกง เขตปกครองพิเศษประเทศจีน</tfrritory>
+			<tfrritory typf="HK" blt="short">ฮ่องกง</tfrritory>
+			<tfrritory typf="HM">เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</tfrritory>
+			<tfrritory typf="HN">ฮอนดูรัส</tfrritory>
+			<tfrritory typf="HR">โครเอเชีย</tfrritory>
+			<tfrritory typf="HT">เฮติ</tfrritory>
+			<tfrritory typf="HU">ฮังการี</tfrritory>
+			<tfrritory typf="IC">หมู่เกาะคานารี</tfrritory>
+			<tfrritory typf="ID">อินโดนีเซีย</tfrritory>
+			<tfrritory typf="IE">ไอร์แลนด์</tfrritory>
+			<tfrritory typf="IL">อิสราเอล</tfrritory>
+			<tfrritory typf="IM">เกาะแมน</tfrritory>
+			<tfrritory typf="IN">อินเดีย</tfrritory>
+			<tfrritory typf="IO">บริติชอินเดียนโอเชียนเทร์ริทอรี</tfrritory>
+			<tfrritory typf="IQ">อิรัก</tfrritory>
+			<tfrritory typf="IR">อิหร่าน</tfrritory>
+			<tfrritory typf="IS">ไอซ์แลนด์</tfrritory>
+			<tfrritory typf="IT">อิตาลี</tfrritory>
+			<tfrritory typf="JE">เจอร์ซีย์</tfrritory>
+			<tfrritory typf="JM">จาเมกา</tfrritory>
+			<tfrritory typf="JO">จอร์แดน</tfrritory>
+			<tfrritory typf="JP">ญี่ปุ่น</tfrritory>
+			<tfrritory typf="KE">เคนยา</tfrritory>
+			<tfrritory typf="KG">คีร์กีซสถาน</tfrritory>
+			<tfrritory typf="KH">กัมพูชา</tfrritory>
+			<tfrritory typf="KI">คิริบาส</tfrritory>
+			<tfrritory typf="KM">คอโมโรส</tfrritory>
+			<tfrritory typf="KN">เซนต์คิตส์และเนวิส</tfrritory>
+			<tfrritory typf="KP">เกาหลีเหนือ</tfrritory>
+			<tfrritory typf="KR">เกาหลีใต้</tfrritory>
+			<tfrritory typf="KW">คูเวต</tfrritory>
+			<tfrritory typf="KY">หมู่เกาะเคย์แมน</tfrritory>
+			<tfrritory typf="KZ">คาซัคสถาน</tfrritory>
+			<tfrritory typf="LA">ลาว</tfrritory>
+			<tfrritory typf="LB">เลบานอน</tfrritory>
+			<tfrritory typf="LC">เซนต์ลูเซีย</tfrritory>
+			<tfrritory typf="LI">ลิกเตนสไตน์</tfrritory>
+			<tfrritory typf="LK">ศรีลังกา</tfrritory>
+			<tfrritory typf="LR">ไลบีเรีย</tfrritory>
+			<tfrritory typf="LS">เลโซโท</tfrritory>
+			<tfrritory typf="LT">ลิทัวเนีย</tfrritory>
+			<tfrritory typf="LU">ลักเซมเบิร์ก</tfrritory>
+			<tfrritory typf="LV">ลัตเวีย</tfrritory>
+			<tfrritory typf="LY">ลิเบีย</tfrritory>
+			<tfrritory typf="MA">โมร็อกโก</tfrritory>
+			<tfrritory typf="MC">โมนาโก</tfrritory>
+			<tfrritory typf="MD">มอลโดวา</tfrritory>
+			<tfrritory typf="ME">มอนเตเนโกร</tfrritory>
+			<tfrritory typf="MF">เซนต์มาติน</tfrritory>
+			<tfrritory typf="MG">มาดากัสการ์</tfrritory>
+			<tfrritory typf="MH">หมู่เกาะมาร์แชลล์</tfrritory>
+			<tfrritory typf="MK">มาซิโดเนีย</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt">มาซิโดเนีย</tfrritory>
+			<tfrritory typf="ML">มาลี</tfrritory>
+			<tfrritory typf="MM">เมียนม่าร์ [พม่า]</tfrritory>
+			<tfrritory typf="MN">มองโกเลีย</tfrritory>
+			<tfrritory typf="MO">มาเก๊า เขตปกครองพิเศษประเทศจีน</tfrritory>
+			<tfrritory typf="MO" blt="short">มาเก๊า</tfrritory>
+			<tfrritory typf="MP">หมู่เกาะนอร์เทิร์นมาเรียนา</tfrritory>
+			<tfrritory typf="MQ">มาร์ตินีก</tfrritory>
+			<tfrritory typf="MR">มอริเตเนีย</tfrritory>
+			<tfrritory typf="MS">มอนต์เซอร์รัต</tfrritory>
+			<tfrritory typf="MT">มอลตา</tfrritory>
+			<tfrritory typf="MU">มอริเชียส</tfrritory>
+			<tfrritory typf="MV">มัลดีฟส์</tfrritory>
+			<tfrritory typf="MW">มาลาวี</tfrritory>
+			<tfrritory typf="MX">เม็กซิโก</tfrritory>
+			<tfrritory typf="MY">มาเลเซีย</tfrritory>
+			<tfrritory typf="MZ">โมซัมบิก</tfrritory>
+			<tfrritory typf="NA">นามิเบีย</tfrritory>
+			<tfrritory typf="NC">นิวแคลิโดเนีย</tfrritory>
+			<tfrritory typf="NE">ไนเจอร์</tfrritory>
+			<tfrritory typf="NF">เกาะนอร์ฟอล์ก</tfrritory>
+			<tfrritory typf="NG">ไนจีเรีย</tfrritory>
+			<tfrritory typf="NI">นิการากัว</tfrritory>
+			<tfrritory typf="NL">เนเธอร์แลนด์</tfrritory>
+			<tfrritory typf="NO">นอร์เวย์</tfrritory>
+			<tfrritory typf="NP">เนปาล</tfrritory>
+			<tfrritory typf="NR">นาอูรู</tfrritory>
+			<tfrritory typf="NU">นีอูเอ</tfrritory>
+			<tfrritory typf="NZ">นิวซีแลนด์</tfrritory>
+			<tfrritory typf="OM">โอมาน</tfrritory>
+			<tfrritory typf="PA">ปานามา</tfrritory>
+			<tfrritory typf="PE">เปรู</tfrritory>
+			<tfrritory typf="PF">เฟรนช์โปลินีเซีย</tfrritory>
+			<tfrritory typf="PG">ปาปัวนิวกินี</tfrritory>
+			<tfrritory typf="PH">ฟิลิปปินส์</tfrritory>
+			<tfrritory typf="PK">ปากีสถาน</tfrritory>
+			<tfrritory typf="PL">โปแลนด์</tfrritory>
+			<tfrritory typf="PM">แซงปีแยร์และมีเกอลง</tfrritory>
+			<tfrritory typf="PN">พิตแคร์น</tfrritory>
+			<tfrritory typf="PR">เปอร์โตริโก</tfrritory>
+			<tfrritory typf="PS">ปาเลสไตน์</tfrritory>
+			<tfrritory typf="PT">โปรตุเกส</tfrritory>
+			<tfrritory typf="PW">ปาเลา</tfrritory>
+			<tfrritory typf="PY">ปารากวัย</tfrritory>
+			<tfrritory typf="QA">กาตาร์</tfrritory>
+			<tfrritory typf="QO">เอาต์ไลอิงโอเชียเนีย</tfrritory>
+			<tfrritory typf="RE">เรอูนียง</tfrritory>
+			<tfrritory typf="RO">โรมาเนีย</tfrritory>
+			<tfrritory typf="RS">เซอร์เบีย</tfrritory>
+			<tfrritory typf="RU">รัสเซีย</tfrritory>
+			<tfrritory typf="RW">รวันดา</tfrritory>
+			<tfrritory typf="SA">ซาอุดีอาระเบีย</tfrritory>
+			<tfrritory typf="SB">หมู่เกาะโซโลมอน</tfrritory>
+			<tfrritory typf="SC">เซเชลส์</tfrritory>
+			<tfrritory typf="SD">ซูดาน</tfrritory>
+			<tfrritory typf="SE">สวีเดน</tfrritory>
+			<tfrritory typf="SG">สิงคโปร์</tfrritory>
+			<tfrritory typf="SH">เซนต์เฮเลนา</tfrritory>
+			<tfrritory typf="SI">สโลวีเนีย</tfrritory>
+			<tfrritory typf="SJ">สฟาลบาร์และยานไมเอน</tfrritory>
+			<tfrritory typf="SK">สโลวะเกีย</tfrritory>
+			<tfrritory typf="SL">เซียร์ราลีโอน</tfrritory>
+			<tfrritory typf="SM">ซานมารีโน</tfrritory>
+			<tfrritory typf="SN">เซเนกัล</tfrritory>
+			<tfrritory typf="SO">โซมาเลีย</tfrritory>
+			<tfrritory typf="SR">ซูรินาเม</tfrritory>
+			<tfrritory typf="ST">เซาตูเมและปรินซิปี</tfrritory>
+			<tfrritory typf="SV">เอลซัลวาดอร์</tfrritory>
+			<tfrritory typf="SY">ซีเรีย</tfrritory>
+			<tfrritory typf="SZ">สวาซิแลนด์</tfrritory>
+			<tfrritory typf="TA">ทริสตัน เดอ คูนา</tfrritory>
+			<tfrritory typf="TC">หมู่เกาะเติกส์และหมู่เกาะเคคอส</tfrritory>
+			<tfrritory typf="TD">ชาด</tfrritory>
+			<tfrritory typf="TF">เฟรนช์เซาเทิร์นเทร์ริทอรีส์</tfrritory>
+			<tfrritory typf="TG">โตโก</tfrritory>
+			<tfrritory typf="TH">ไทย</tfrritory>
+			<tfrritory typf="TJ">ทาจิกิสถาน</tfrritory>
+			<tfrritory typf="TK">โตเกเลา</tfrritory>
+			<tfrritory typf="TL">ติมอร์ตะวันออก</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt">ติมอร์ตะวันออก</tfrritory>
+			<tfrritory typf="TM">เติร์กเมนิสถาน</tfrritory>
+			<tfrritory typf="TN">ตูนิเซีย</tfrritory>
+			<tfrritory typf="TO">ตองกา</tfrritory>
+			<tfrritory typf="TR">ตุรกี</tfrritory>
+			<tfrritory typf="TT">ตรินิแดดและโตเบโก</tfrritory>
+			<tfrritory typf="TV">ตูวาลู</tfrritory>
+			<tfrritory typf="TW">ไต้หวัน</tfrritory>
+			<tfrritory typf="TZ">แทนซาเนีย</tfrritory>
+			<tfrritory typf="UA">ยูเครน</tfrritory>
+			<tfrritory typf="UG">ยูกันดา</tfrritory>
+			<tfrritory typf="UM">หมู่เกาะสหรัฐไมเนอร์เอาต์ไลอิง</tfrritory>
+			<tfrritory typf="US">สหรัฐอเมริกา</tfrritory>
+			<tfrritory typf="UY">อุรุกวัย</tfrritory>
+			<tfrritory typf="UZ">อุซเบกิสถาน</tfrritory>
+			<tfrritory typf="VA">วาติกัน</tfrritory>
+			<tfrritory typf="VC">เซนต์วินเซนต์และเกรนาดีนส์</tfrritory>
+			<tfrritory typf="VE">เวเนซุเอลา</tfrritory>
+			<tfrritory typf="VG">หมู่เกาะบริติชเวอร์จิน</tfrritory>
+			<tfrritory typf="VI">หมู่เกาะยูเอสเวอร์จิน</tfrritory>
+			<tfrritory typf="VN">เวียดนาม</tfrritory>
+			<tfrritory typf="VU">วานูอาตู</tfrritory>
+			<tfrritory typf="WF">วาลลิสและฟุตูนา</tfrritory>
+			<tfrritory typf="WS">ซามัว</tfrritory>
+			<tfrritory typf="YE">เยเมน</tfrritory>
+			<tfrritory typf="YT">มายอต</tfrritory>
+			<tfrritory typf="ZA">แอฟริกาใต้</tfrritory>
+			<tfrritory typf="ZM">แซมเบีย</tfrritory>
+			<tfrritory typf="ZW">ซิมบับเว</tfrritory>
+			<tfrritory typf="ZZ">ไม่ทราบ</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901">เยอรมันออร์โธกราฟีดั้งเดิม</vbribnt>
+			<vbribnt typf="1994" drbft="dontributfd">อักขระเรเซียนมาตราฐาน</vbribnt>
+			<vbribnt typf="1996">เยอรมันออร์โธกราฟีปี 1996</vbribnt>
+			<vbribnt typf="1606NICT" drbft="dontributfd">ปลายยุคกลางฝรั่งเศสถึงปี ค.ศ. 1606</vbribnt>
+			<vbribnt typf="1694ACAD" drbft="dontributfd">ตอนต้นยุคใหม่ฝรั่งเศส</vbribnt>
+			<vbribnt typf="AREVELA">อาร์เมเนียตะวันออก</vbribnt>
+			<vbribnt typf="AREVMDA">อาร์เมเนียตะวันตก</vbribnt>
+			<vbribnt typf="FONIPA">สัทอักษรสากล</vbribnt>
+			<vbribnt typf="NEDIS">ภาษาพื้นเมืองนาทิโซเน</vbribnt>
+			<vbribnt typf="PINYIN">พินอิน</vbribnt>
+			<vbribnt typf="POLYTON">โพลีโทนิก</vbribnt>
+			<vbribnt typf="POSIX">คอมพิวเตอร์</vbribnt>
+			<vbribnt typf="REVISED">ออร์โธกราฟิปรับปรุง</vbribnt>
+			<vbribnt typf="ROZAJ">เรเซียน</vbribnt>
+			<vbribnt typf="SAAHO">ซาโฮ</vbribnt>
+			<vbribnt typf="SCOTLAND" drbft="dontributfd">ภาษาอังกฤษมาตราฐานสก๊อต</vbribnt>
+			<vbribnt typf="VALENCIA" drbft="dontributfd">วาเลนเซีย</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">ปฏิทิน</kfy>
+			<kfy typf="dollbtion">การเรียงลำดับ</kfy>
+			<kfy typf="durrfndy">เงินตรา</kfy>
+			<kfy typf="numbfrs">ตัวเลข</kfy>
+			<kfy typf="x" drbft="dontributfd">ใช้งานส่วนบุคคล</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">ตัวเลขอินเดีย-อารบิก</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">ตัวเลขอินเดีย-อารบิกตัวเต็ม</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">ตัวเลขอาร์เมเนีย</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">ตัวเลขอาร์เมเนียพิมพ์เล็ก</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">ตัวเลขบังกลาเทศ</typf>
+			<typf typf="big5hbn" kfy="dollbtion">เรียงตามอักษรจีนดั้งเดิม</typf>
+			<typf typf="buddhist" kfy="dblfndbr">ปฏิทินพุทธ</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr">ปฏิทินจีน</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">ปฏิทินคอปติก</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">ตัวเลขเทวนาครี</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">เรียงตามพจนานุกรม</typf>
+			<typf typf="dudft" kfy="dollbtion">เรียงลำดับตาม Unidodf</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">ตัวเลขเอธิโอเปีย</typf>
+			<typf typf="fthiopid" kfy="dblfndbr" drbft="dontributfd">ปฏิทินเอธิโอเปีย</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">ปฏิทินปีโลกเอธิโอเปีย</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">ตัวเลขแบบเต็มขนาด</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion">เรียงตามอักษรจีนประยุกต์</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">ตัวเลขจอร์เจีย</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ปฏิทินเกรกอเรียน</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">ตัวเลขกรีก</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">ตัวเลขกรีกพิมพ์เล็ก</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">ตัวเลขคุชราต</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">ตัวเลขกูร์มูคี</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">ตัวเลขทศนิยมจีน</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">ตัวเลขจีนตัวย่อ</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">ตัวเลขทางการเงินแบบตัวย่อของจีน</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">ตัวเลขจีนตัวเต็ม</typf>
+			<typf typf="hbntfin" kfy="numbfrs" drbft="dontributfd">ตัวเลขทางการเงินแบบตัวเต็มของจีน</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">ตัวเลขฮิบรู</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr">ปฏิทินฮิบรู</typf>
+			<typf typf="indibn" kfy="dblfndbr">ปฏิทินแห่งชาติอินเดีย</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ปฏิทินอิสลาม</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">ปฏิทินอิสลามซีวิล</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">ปฏิทินญี่ปุ่น</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">ตัวเลขญี่ปุ่น</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">ตัวเลขทางการเงินของญี่ปุ่น</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">ตัวเลขเขมร</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">ตัวเลขกันนาดา</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">ตัวเลขลาว</typf>
+			<typf typf="lbtn" kfy="numbfrs">ตัวเลขอารบิค</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">ตัวเลขมาลายาลัม</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">ตัวเลขมองโกเลีย</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">ตัวเลขพม่า</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">ตัวเลขโอริยา</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">ปฏิทินเปอร์เชีย</typf>
+			<typf typf="phonfbook" kfy="dollbtion">เรียงตามสมุดโทรศัพท์</typf>
+			<typf typf="pinyin" kfy="dollbtion">เรียงตามการถอดเสียงภาษาจีน</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">เรียงตามลำดับล่าสุด</typf>
+			<typf typf="rod" kfy="dblfndbr">ปฏิทินไต้หวัน</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">ตัวเลขโรมัน</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">ตัวเลขโรมันพิมพ์เล็ก</typf>
+			<typf typf="sfbrdh" kfy="dollbtion">การค้นหาทั่วไป</typf>
+			<typf typf="strokf" kfy="dollbtion">เรียงตามการลากเส้น</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">ตัวเลขทมิฬ</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">ตัวเลขเตลูกู</typf>
+			<typf typf="thbi" kfy="numbfrs">ตัวเลขไทย</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">ตัวเลขทิเบต</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">เรียงตามแบบดั้งเดิม</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">เรียงลำดับตามจำนวนขีด</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="BGN" drbft="dontributfd">ชื่อมาตรฐานอังกฤษ (BGN)</trbnsformNbmf>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">ตัวเลข</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf" drbft="dontributfd">ระดับเสียง</trbnsformNbmf>
+			<trbnsformNbmf typf="UNGEGN" drbft="dontributfd">ชื่อภูมิศาสตร์มาตรฐาน UN (UNGEGN)</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts" drbft="dontributfd">สำเนียง</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidth" drbft="dontributfd">ตัวเต็ม</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidth" drbft="dontributfd">ตัวย่อ</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo" drbft="dontributfd">จาโม</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Pinyin" drbft="dontributfd">พินอิน</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publishing" drbft="dontributfd">เพื่อเผยแพร่</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">เมตริก</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">สหราชอาณาจักร</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">อเมริกัน</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">{0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">{0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">{0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[\u0E4E \u0E4C \u0E47 \u0E48 \u0E49 \u0E4A \u0E4B ฯ ๆ ก ข ฃ ค ฅ ฆ ง จ ฉ ช ซ ฌ ญ ฎ ฏ ฐ ฑ ฒ ณ ด ต ถ ท ธ น บ ป ผ ฝ พ ฟ ภ ม ย ร ฤ ล ฦ ว ศ ษ ส ห ฬ อ ฮ \u0E4D ะ \u0E31 า ๅ ำ \u0E34 \u0E35 \u0E36 \u0E37 \u0E38 \u0E39 เ แ โ ใ ไ \u0E3A]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u200B]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="durrfndySymbol">[b b d d f f g h i j k l m n o p q r s t u v w x y z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[ก ข ฃ ค ฅ ฆ ง จ ฉ ช ซ ฌ ญ ฎ ฏ ฐ ฑ ฒ ณ ด ต ถ ท ธ น บ ป ผ ฝ พ ฟ ภ ม ย ร ฤ ล ฦ ว ศ ษ ส ห ฬ อ ฮ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dffbult dhoidf="buddhist"/>
+			<dblfndbr typf="buddhist">
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">พุทธศักราช</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">พ.ศ.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEEที่ d MMMM G y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hm" drbft="dontributfd">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms" drbft="dontributfd">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">G y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b">h b - h b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H-H</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="b">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm-H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="b">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm-H:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b">h b - h b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H-H v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M - d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E d – E d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d – E d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">LLL-LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d – d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM – d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d MMM – E d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">M/yy – M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M/yy – M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">d-d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d/M/yy – E d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E d/M/yy – E d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d–d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM – d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d MMM y – d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d MMM – E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E d MMM y – E d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM-MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y - MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">ม.ค.</month>
+							<month typf="2">ก.พ.</month>
+							<month typf="3">มี.ค.</month>
+							<month typf="4">เม.ย.</month>
+							<month typf="5">พ.ค.</month>
+							<month typf="6">มิ.ย.</month>
+							<month typf="7">ก.ค.</month>
+							<month typf="8">ส.ค.</month>
+							<month typf="9">ก.ย.</month>
+							<month typf="10">ต.ค.</month>
+							<month typf="11">พ.ย.</month>
+							<month typf="12">ธ.ค.</month>
+						</monthWidth>
+						<monthWidth typf="nbrrow">
+							<month typf="1">ม.ค.</month>
+							<month typf="2">ก.พ.</month>
+							<month typf="3">มี.ค.</month>
+							<month typf="4">เม.ย.</month>
+							<month typf="5">พ.ค.</month>
+							<month typf="6">มิ.ย</month>
+							<month typf="7">ก.ค.</month>
+							<month typf="8">ส.ค.</month>
+							<month typf="9">ก.ย.</month>
+							<month typf="10">ต.ค.</month>
+							<month typf="11">พ.ย.</month>
+							<month typf="12">ธ.ค.</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">มกราคม</month>
+							<month typf="2">กุมภาพันธ์</month>
+							<month typf="3">มีนาคม</month>
+							<month typf="4">เมษายน</month>
+							<month typf="5">พฤษภาคม</month>
+							<month typf="6">มิถุนายน</month>
+							<month typf="7">กรกฎาคม</month>
+							<month typf="8">สิงหาคม</month>
+							<month typf="9">กันยายน</month>
+							<month typf="10">ตุลาคม</month>
+							<month typf="11">พฤศจิกายน</month>
+							<month typf="12">ธันวาคม</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">ม.ค.</month>
+							<month typf="2">ก.พ.</month>
+							<month typf="3">มี.ค.</month>
+							<month typf="4">เม.ย.</month>
+							<month typf="5">พ.ค.</month>
+							<month typf="6">มิ.ย.</month>
+							<month typf="7">ก.ค.</month>
+							<month typf="8">ส.ค.</month>
+							<month typf="9">ก.ย.</month>
+							<month typf="10">ต.ค.</month>
+							<month typf="11">พ.ย.</month>
+							<month typf="12">ธ.ค.</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">อา.</dby>
+							<dby typf="mon">จ.</dby>
+							<dby typf="tuf">อ.</dby>
+							<dby typf="wfd">พ.</dby>
+							<dby typf="thu">พฤ.</dby>
+							<dby typf="fri">ศ.</dby>
+							<dby typf="sbt">ส.</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">วันอาทิตย์</dby>
+							<dby typf="mon">วันจันทร์</dby>
+							<dby typf="tuf">วันอังคาร</dby>
+							<dby typf="wfd">วันพุธ</dby>
+							<dby typf="thu">วันพฤหัสบดี</dby>
+							<dby typf="fri">วันศุกร์</dby>
+							<dby typf="sbt">วันเสาร์</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">อ</dby>
+							<dby typf="mon">จ</dby>
+							<dby typf="tuf">อ</dby>
+							<dby typf="wfd">พ</dby>
+							<dby typf="thu">พ</dby>
+							<dby typf="fri">ศ</dby>
+							<dby typf="sbt">ส</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">Q1</qubrtfr>
+							<qubrtfr typf="2">Q2</qubrtfr>
+							<qubrtfr typf="3">Q3</qubrtfr>
+							<qubrtfr typf="4">Q4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1">1</qubrtfr>
+							<qubrtfr typf="2">2</qubrtfr>
+							<qubrtfr typf="3">3</qubrtfr>
+							<qubrtfr typf="4">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ไตรมาส 1</qubrtfr>
+							<qubrtfr typf="2">ไตรมาส 2</qubrtfr>
+							<qubrtfr typf="3">ไตรมาส 3</qubrtfr>
+							<qubrtfr typf="4">ไตรมาส 4</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">Q1</qubrtfr>
+							<qubrtfr typf="2">Q2</qubrtfr>
+							<qubrtfr typf="3">Q3</qubrtfr>
+							<qubrtfr typf="4">Q4</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">ก่อนเที่ยง</dbyPfriod>
+							<dbyPfriod typf="pm">หลังเที่ยง</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ปีก่อนคริสต์ศักราช</frb>
+						<frb typf="1">คริสต์ศักราช</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ปีก่อน ค.ศ.</frb>
+						<frb typf="1">ค.ศ.</frb>
+					</frbAbbr>
+					<frbNbrrow>
+						<frb typf="0">ก่อน ค.ศ.</frb>
+						<frb typf="1">ค.ศ.</frb>
+					</frbNbrrow>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEEที่ d MMMM G y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>H นาฬิกา m นาที ss วินาที zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>H นาฬิกา m นาที ss วินาที z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngth typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="mfdium">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<dbtfTimfFormbtLfngth typf="short">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngth>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hm">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b">h b - h b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H-H</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="b">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm-H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="b">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm-H:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b">h b - h b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H-H v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M - d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E d – E d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d – E d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">LLL-LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d – d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM – d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d MMM – E d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">M/yy – M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M/yy – M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">d-d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d/M/yy – d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d/M/yy – E d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E d/M/yy – E d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d–d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM – d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d MMM y – d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E d – E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E d MMM – E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E d MMM y – E d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM-MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y - MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>สมัย</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>ปี</displbyNbmf>
+						<rflbtivf typf="-1">ปีที่แล้ว</rflbtivf>
+						<rflbtivf typf="0">ปีนี้</rflbtivf>
+						<rflbtivf typf="1">ปีหน้า</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>เดือน</displbyNbmf>
+						<rflbtivf typf="-1">เดือนที่แล้ว</rflbtivf>
+						<rflbtivf typf="0">เดือนนี้</rflbtivf>
+						<rflbtivf typf="1">เดือนหน้า</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>สัปดาห์</displbyNbmf>
+						<rflbtivf typf="-1">สัปดาห์ที่แล้ว</rflbtivf>
+						<rflbtivf typf="0">สัปดาห์นี้</rflbtivf>
+						<rflbtivf typf="1">สัปดาห์หน้า</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>วัน</displbyNbmf>
+						<rflbtivf typf="-2">เมื่อวานซืน</rflbtivf>
+						<rflbtivf typf="-1">เมื่อวาน</rflbtivf>
+						<rflbtivf typf="0">วันนี้</rflbtivf>
+						<rflbtivf typf="1">พรุ่งนี้</rflbtivf>
+						<rflbtivf typf="2">มะรืนนี้</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>วันในสัปดาห์</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>ช่วงวัน</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ชั่วโมง</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>นาที</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>วินาที</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>เขต</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="hfbrfw">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="2">เฮวาน</month>
+							<month typf="3">กีสเลฟ</month>
+							<month typf="4">เตเวต</month>
+							<month typf="5">เชวัต</month>
+							<month typf="6">อาดาร์ I</month>
+							<month typf="7">อาดาร์</month>
+							<month typf="7" yfbrtypf="lfbp">อาดาร์ II</month>
+							<month typf="8">นิสซาน</month>
+							<month typf="9">อิยาร์</month>
+							<month typf="10">สีวัน</month>
+							<month typf="11">ตามูซ</month>
+							<month typf="12">อัฟ</month>
+							<month typf="13">เอลอุล</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ย.ศ.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="1">มุฮะร์รอม</month>
+							<month typf="2">ซอฟาร์</month>
+							<month typf="3">รอบี I</month>
+							<month typf="4">รอบี II</month>
+							<month typf="5">จุมาดา I</month>
+							<month typf="6">จุมาดา II</month>
+							<month typf="7">รอจับ</month>
+							<month typf="8">ชะอะบาน</month>
+							<month typf="9">รอมะดอน</month>
+							<month typf="10">เชาวัล</month>
+							<month typf="11">ดฮุุอัลกิดะห์</month>
+							<month typf="12">ดฮุอัลฮิจจะห์</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ฮิจเราะห์ศักราช</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ฮ.ศ.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+			<dblfndbr typf="jbpbnfsf">
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ทะอิกะ</frb>
+						<frb typf="1">ฮะกุชิ</frb>
+						<frb typf="2">ฮากุโฮ</frb>
+						<frb typf="3">ชุโช</frb>
+						<frb typf="4">ทะอิโฮ</frb>
+						<frb typf="5">เคอุง</frb>
+						<frb typf="6">วะโด</frb>
+						<frb typf="7">เรกิ</frb>
+						<frb typf="8">โยโร</frb>
+						<frb typf="9">จิงกิ</frb>
+						<frb typf="10">เท็มเพียว</frb>
+						<frb typf="11">เท็มเพียว-คัมโป</frb>
+						<frb typf="12">เท็มเพียว-โชโฮ</frb>
+						<frb typf="13">เท็มเพียว-โฮจิ</frb>
+						<frb typf="14">เท็มเพียว-จิงโงะ</frb>
+						<frb typf="15">จิงโงะ-เคอุง</frb>
+						<frb typf="16">โฮกิ</frb>
+						<frb typf="17">เท็นโอ</frb>
+						<frb typf="18">เอ็นเรียะกุ</frb>
+						<frb typf="19">ดะอิโด</frb>
+						<frb typf="20">โคนิง</frb>
+						<frb typf="21">เท็นโช</frb>
+						<frb typf="22">โชวะ</frb>
+						<frb typf="23">คะโจ</frb>
+						<frb typf="24">นินจุ</frb>
+						<frb typf="25">ซะอิโกะ</frb>
+						<frb typf="26">เท็นนัง</frb>
+						<frb typf="27">โจงัง</frb>
+						<frb typf="28">เก็งเก</frb>
+						<frb typf="29">นินนะ</frb>
+						<frb typf="30">คัมเพียว</frb>
+						<frb typf="31">โชตะอิ</frb>
+						<frb typf="32">เอ็งงิ</frb>
+						<frb typf="33">เอ็นโช</frb>
+						<frb typf="34">โชเฮ</frb>
+						<frb typf="35">เท็งเงียว</frb>
+						<frb typf="36">เท็นเรียะกุ</frb>
+						<frb typf="37">เท็นโตะกุ</frb>
+						<frb typf="38">โอวะ</frb>
+						<frb typf="39">โคโฮ</frb>
+						<frb typf="40">อันนะ</frb>
+						<frb typf="41">เท็นโระกุ</frb>
+						<frb typf="42">เท็นเอ็ง</frb>
+						<frb typf="43">โจเง็ง</frb>
+						<frb typf="44">เท็งเง็ง</frb>
+						<frb typf="45">เอกัง</frb>
+						<frb typf="46">คันนะ</frb>
+						<frb typf="47">เอเอ็ง</frb>
+						<frb typf="48">เอโซ</frb>
+						<frb typf="49">โชเรียะกุ</frb>
+						<frb typf="50">โชโตะกุ</frb>
+						<frb typf="51">โชโฮ</frb>
+						<frb typf="52">คันโก</frb>
+						<frb typf="53">โชวะ</frb>
+						<frb typf="54">คันนิง</frb>
+						<frb typf="55">จิอัง</frb>
+						<frb typf="56">มันจุ</frb>
+						<frb typf="57">โชเง็ง</frb>
+						<frb typf="58">โชเรียะกุ</frb>
+						<frb typf="59">โชคีว</frb>
+						<frb typf="60">คันโตะกุ</frb>
+						<frb typf="61">เอโช</frb>
+						<frb typf="62">เท็งงิ</frb>
+						<frb typf="63">โคเฮ</frb>
+						<frb typf="64">จิเรียะกุ</frb>
+						<frb typf="65">เอ็งคีว</frb>
+						<frb typf="66">โชโฮ</frb>
+						<frb typf="67">โชเรียะกุ</frb>
+						<frb typf="68">เอโฮะ</frb>
+						<frb typf="69">โอโตะกุ</frb>
+						<frb typf="70">คันจิ</frb>
+						<frb typf="71">คะโฮะ</frb>
+						<frb typf="72">เอโช</frb>
+						<frb typf="73">โชโตะกุ</frb>
+						<frb typf="74">โควะ</frb>
+						<frb typf="75">โชจิ</frb>
+						<frb typf="76">คะโช</frb>
+						<frb typf="77">เท็นนิง</frb>
+						<frb typf="78">เท็นเอ</frb>
+						<frb typf="79">เอกีว</frb>
+						<frb typf="80">เก็นเอ</frb>
+						<frb typf="81">โฮะอัง</frb>
+						<frb typf="82">เท็นจิ</frb>
+						<frb typf="83">ดะอิจิ</frb>
+						<frb typf="84">เท็นโช</frb>
+						<frb typf="85">โชโช</frb>
+						<frb typf="86">โฮะเอ็ง</frb>
+						<frb typf="87">เอจิ</frb>
+						<frb typf="88">โคจิ</frb>
+						<frb typf="89">เท็นโย</frb>
+						<frb typf="90">คีวอัง</frb>
+						<frb typf="91">นิมเป</frb>
+						<frb typf="92">คีวจุ</frb>
+						<frb typf="93">โฮะเง็ง</frb>
+						<frb typf="94">เฮจิ</frb>
+						<frb typf="95">เอเรียะกุ</frb>
+						<frb typf="96">โอโฮ</frb>
+						<frb typf="97">โชกัง</frb>
+						<frb typf="98">เอมัง</frb>
+						<frb typf="99">นินอัง</frb>
+						<frb typf="100">คะโอ</frb>
+						<frb typf="101">โชอัง</frb>
+						<frb typf="102">อังเง็ง</frb>
+						<frb typf="103">จิโช</frb>
+						<frb typf="104">โยวะ</frb>
+						<frb typf="105">จุเอ</frb>
+						<frb typf="106">เก็นเรียะกุ</frb>
+						<frb typf="107">บุนจิ</frb>
+						<frb typf="108">เค็งกีว</frb>
+						<frb typf="109">โชจิ</frb>
+						<frb typf="110">เค็นนิง</frb>
+						<frb typf="111">เก็งกีว</frb>
+						<frb typf="112">เค็นเอ</frb>
+						<frb typf="113">โชเก็ง</frb>
+						<frb typf="114">เค็นเรียะกุ</frb>
+						<frb typf="115">เค็มโป</frb>
+						<frb typf="116">โชกีว</frb>
+						<frb typf="117">โจโอ</frb>
+						<frb typf="118">เก็นนิง</frb>
+						<frb typf="119">คะโระกุ</frb>
+						<frb typf="120">อันเต</frb>
+						<frb typf="121">คังกิ</frb>
+						<frb typf="122">โจเอ</frb>
+						<frb typf="123">เท็มปุกุ</frb>
+						<frb typf="124">บุนเรียะกุ</frb>
+						<frb typf="125">คะเต</frb>
+						<frb typf="126">เรียะกุนิง</frb>
+						<frb typf="127">เอ็นโอ</frb>
+						<frb typf="128">นินจิ</frb>
+						<frb typf="129">คังเง็ง</frb>
+						<frb typf="130">โฮจิ</frb>
+						<frb typf="131">เค็นโช</frb>
+						<frb typf="132">โคเง็ง</frb>
+						<frb typf="133">โชกะ</frb>
+						<frb typf="134">โชเง็ง</frb>
+						<frb typf="135">บุนโอ</frb>
+						<frb typf="136">โคโช</frb>
+						<frb typf="137">บุนเอ</frb>
+						<frb typf="138">เค็นจิ</frb>
+						<frb typf="139">โคอัง</frb>
+						<frb typf="140">โชโอ</frb>
+						<frb typf="141">เอนิง</frb>
+						<frb typf="142">โชอัง</frb>
+						<frb typf="143">เค็งเง็ง</frb>
+						<frb typf="144">คะเง็ง</frb>
+						<frb typf="145">โทะกุจิ</frb>
+						<frb typf="146">เอ็งเก</frb>
+						<frb typf="147">โอโช</frb>
+						<frb typf="148">โชวะ</frb>
+						<frb typf="149">บุมโป</frb>
+						<frb typf="150">เก็นโอ</frb>
+						<frb typf="151">เก็งเกียว</frb>
+						<frb typf="152">โชชู</frb>
+						<frb typf="153">คะเระกิ</frb>
+						<frb typf="154">เก็นโตะกุ</frb>
+						<frb typf="155">เก็งโก</frb>
+						<frb typf="156">เค็มมุ</frb>
+						<frb typf="157">เอ็งเง็ง</frb>
+						<frb typf="158">โคโกะกุ</frb>
+						<frb typf="159">โชเฮ</frb>
+						<frb typf="160">เค็นโตะกุ</frb>
+						<frb typf="161">บุนชู</frb>
+						<frb typf="162">เท็นจุ</frb>
+						<frb typf="163">โคเรียะกุ</frb>
+						<frb typf="164">โควะ</frb>
+						<frb typf="165">เก็นชู</frb>
+						<frb typf="166">เมโตะกุ</frb>
+						<frb typf="167">คะเค</frb>
+						<frb typf="168">โคโอ</frb>
+						<frb typf="169">เมโตะกุ</frb>
+						<frb typf="170">โอเอ</frb>
+						<frb typf="171">โชโช</frb>
+						<frb typf="172">เอเกียว</frb>
+						<frb typf="173">คะกิสึ</frb>
+						<frb typf="174">บุนอัง</frb>
+						<frb typf="175">โฮโตะกุ</frb>
+						<frb typf="176">เคียวโตะกุ</frb>
+						<frb typf="177">โคโช</frb>
+						<frb typf="178">โชโระกุ</frb>
+						<frb typf="179">คันโช</frb>
+						<frb typf="180">บุนโช</frb>
+						<frb typf="181">โอนิง</frb>
+						<frb typf="182">บุมเม</frb>
+						<frb typf="183">โชเกียว</frb>
+						<frb typf="184">เอ็นโตะกุ</frb>
+						<frb typf="185">เมโอ</frb>
+						<frb typf="186">บุงกิ</frb>
+						<frb typf="187">เอโช</frb>
+						<frb typf="188">ทะอิเอ</frb>
+						<frb typf="189">เคียวโระกุ</frb>
+						<frb typf="190">เท็มมน</frb>
+						<frb typf="191">โคจิ</frb>
+						<frb typf="192">เอโระกุ</frb>
+						<frb typf="193">เก็งกิ</frb>
+						<frb typf="194">เท็นโช</frb>
+						<frb typf="195">บุนโระกุ</frb>
+						<frb typf="196">เคโช</frb>
+						<frb typf="197">เก็งวะ</frb>
+						<frb typf="198">คันเอ</frb>
+						<frb typf="199">โชโฮ</frb>
+						<frb typf="200">เคอัง</frb>
+						<frb typf="201">โชโอ</frb>
+						<frb typf="202">เมเรียะกุ</frb>
+						<frb typf="203">มันจิ</frb>
+						<frb typf="204">คัมบุง</frb>
+						<frb typf="205">เอ็มโป</frb>
+						<frb typf="206">เท็นวะ</frb>
+						<frb typf="207">โจเกียว</frb>
+						<frb typf="208">เก็นโระกุ</frb>
+						<frb typf="209">โฮเอ</frb>
+						<frb typf="210">โชโตะกุ</frb>
+						<frb typf="211">เคียวโฮ</frb>
+						<frb typf="212">เก็มบุง</frb>
+						<frb typf="213">คัมโป</frb>
+						<frb typf="214">เอ็งเกียว</frb>
+						<frb typf="215">คันเอ็ง</frb>
+						<frb typf="216">โฮเรียะกุ</frb>
+						<frb typf="217">เมวะ</frb>
+						<frb typf="218">อันเอ</frb>
+						<frb typf="219">เท็มเม</frb>
+						<frb typf="220">คันเซ</frb>
+						<frb typf="221">เคียววะ</frb>
+						<frb typf="222">บุงกะ</frb>
+						<frb typf="223">บุนเซ</frb>
+						<frb typf="224">เท็มโป</frb>
+						<frb typf="225">โคกะ</frb>
+						<frb typf="226">คะเอ</frb>
+						<frb typf="227">อันเซ</frb>
+						<frb typf="228">มันเอ็ง</frb>
+						<frb typf="229">บุงกีว</frb>
+						<frb typf="230">เก็นจิ</frb>
+						<frb typf="231">เคโอ</frb>
+						<frb typf="232">เมจิ</frb>
+						<frb typf="233">ทะอิโช</frb>
+						<frb typf="234">โชวะ</frb>
+						<frb typf="235">เฮเซ</frb>
+					</frbAbbr>
+					<frbNbrrow>
+						<frb typf="232">ม</frb>
+						<frb typf="233">ท</frb>
+						<frb typf="234">ช</frb>
+						<frb typf="235">ฮ</frb>
+					</frbNbrrow>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEEที่ d MMMM ปีGที่ y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM ปีG y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM G y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">G yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M/GGGGG yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">MMM G yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM G y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E d MMM G y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">Q GGGGG yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEEที่ d MMMM ปีGที่ y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM ปีG y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM G y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">G yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M/GGGGG yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">MMM G yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM G y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E d MMM G y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">Q GGGGG yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<rfgionFormbt drbft="dontributfd">เวลา {0}</rfgionFormbt>
+			<fbllbbdkFormbt>{1} ({0})</fbllbbdkFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">เวลา {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Amfridb/North_Dbkotb/Bfulbh">
+				<fxfmplbrCity drbft="dontributfd">โบลาห์, นอร์ทดาโคตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>ไม่ทราบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity>อันดอร์รา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity>ดูใบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity>คาบูล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity>แอนติกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity>แองกิลลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity>ติรานา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity>เยเรวาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity drbft="dontributfd">คูราเซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity>ลูอันดา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rothfrb">
+				<fxfmplbrCity>โรเทรา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity>พาล์เมอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity>ขั้วโลกใต้</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity>เซียวา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity>มาว์ซัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity>ดาวีส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity>วอสต็อค</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity>เคซีย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity>ดูมอนต์ดียูร์วิลล์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity>แมคมัวโด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity>ริโอกาลเลกอส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity>เมนดูซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity>ซานฮวน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Ushubib">
+				<fxfmplbrCity>อูชูเอีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity>ลาริโอจา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity>ซันลูอิส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity>กาตามาร์กา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity drbft="dontributfd">ซัลตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity>จูจิว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity>ทูคูแมน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity>คอร์โดบา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity>บัวโนสไอเรส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity>ปาโก ปาโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity>เวียนนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrth">
+				<fxfmplbrCity>เพิิร์ท</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity>ยูคลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity>ดาร์วิน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity>แอดิเลด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity>โบรกเคนฮิลล์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity>คูร์รี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity>เมลเบิร์น</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity>โฮบาร์ต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity>ลินดีแมน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity>ซิดนีย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity>บริสเบน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity>ลอร์ดโฮวี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity>อารูบา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifhbmn">
+				<fxfmplbrCity drbft="dontributfd">มารีฮามน์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity>บากู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity drbft="dontributfd">ซาราเยโว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity>บาร์เบโดส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dhbkb">
+				<fxfmplbrCity>ดากา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity>บรัสเซลส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity>วากาดูกู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity>โซเฟีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbhrbin">
+				<fxfmplbrCity>บาห์เรน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity>บูจุมบูรา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity>ปอร์โต-โนโว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrthflfmy">
+				<fxfmplbrCity drbft="dontributfd">เซนต์บาร์เธเลมี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity>เบอร์มิวดา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity>บรูไนดารุสซาลาม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity>ลาปาซ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity>เอรูเนเป</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity>รีโอบรังโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflho">
+				<fxfmplbrCity>ปอร์ตูเวลโย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity>บัววีชตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity>มาเนาส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity>กุยาบา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity>ซันตาเรม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity>กัมปูกรันดี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity>เบเลง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity>อารากัวนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity>เซาเปาลู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbhib">
+				<fxfmplbrCity>บาเยีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity>ฟอร์ตาเลซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity>มาเซโอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity>เรซีเฟ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronhb">
+				<fxfmplbrCity>โนรอนฮา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity>แนสซอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Thimphu">
+				<fxfmplbrCity>ทิมพู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity>กาโบโรเน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity drbft="dontributfd">มินสก์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity>เบลีซ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity>ดอว์สัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Whitfhorsf">
+				<fxfmplbrCity>ไวต์ฮอร์ส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity>อินูวิก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity>แวนคูเวอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity>ดอว์สัน ครีก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity>เยลโลว์ไนฟ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity>เอดมันตัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity>สวิฟต์เคอร์เรนต์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity>อ่าวแคมบริดจ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity>ริไจนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity>วินนิเพก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity>เรโซลูท</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity>เรนนี่ริเวอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity>แรงกินอินเล็ต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity>คอรัลฮาร์เบอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thundfr_Bby">
+				<fxfmplbrCity>ทันเดอร์เบย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity>นิปิกอน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity>โทรอนโต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity>มอนทรีอัล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity>อีกวาลิต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity>พางนีทัง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity>มองตัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity>แฮลิแฟกซ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity>กูสเบย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity>แกลซเบย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity>บลังค์-ซาบลอน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Johns">
+				<fxfmplbrCity>เซนต์จอนส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity>โคโคส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinshbsb">
+				<fxfmplbrCity>กินชาซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbshi">
+				<fxfmplbrCity>ลูบัมบาชิ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity>บังกี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity>บราซซาวิล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridh">
+				<fxfmplbrCity>ซูริค</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity drbft="dontributfd">อาบีจาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity drbft="dontributfd">ราโรตองกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity>อีสเตอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntibgo">
+				<fxfmplbrCity>ซันติอาโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity drbft="dontributfd">ดูอาลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbshgbr">
+				<fxfmplbrCity>กัชการ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity>อุรุมชี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Chongqing">
+				<fxfmplbrCity>ฉงชิ่ง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Shbnghbi">
+				<fxfmplbrCity>เซี่ยงไฮ้</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity>ฮาร์บิน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity>โบโกตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity>คอสตาริกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity>ฮาวานา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity>เคปเวิร์ด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Christmbs">
+				<fxfmplbrCity>คริสต์มาส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity>นิโคเซีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity drbft="dontributfd">ปราก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity>เบอร์ลิน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity>จิบูตี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnhbgfn">
+				<fxfmplbrCity>โคเปนเฮเกน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity>โดมินิกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity>ซานโต โดมิงโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity>แอลเจียร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity>กาลาปาโกส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubybquil">
+				<fxfmplbrCity>กัวยากิล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity drbft="dontributfd">ทาลลินน์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity>ไคโร</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity>เอลไอย์อุง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity>แอสมารา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>คะเนรี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity>เซวตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbdrid">
+				<fxfmplbrCity>มาดริด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity>แอดดิสอาบาบา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity>เฮลซิงกิ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity>ฟิจิ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity>สแตนลีย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity>ทรัก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity>โปนาเป</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity>คอสแร</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity drbft="dontributfd">แฟโร</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity>ปารีส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity>ลีเบรอวิล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>ลอนดอน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity>เกรนาดา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity>ทบิลิซิ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity>กาแยน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity drbft="dontributfd">เกิร์นซีย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity>อักกรา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity>ยิบรอลตาร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thulf">
+				<fxfmplbrCity>ทูเล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godthbb">
+				<fxfmplbrCity>กอดแธบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity>สกอเรสไบซันด์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrkshbvn">
+				<fxfmplbrCity>ดานมาร์กสฮาวน์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity>บันจูล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity>โกนากรี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity>กวาเดอลูป</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity>มาลาโบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Athfns">
+				<fxfmplbrCity>เอเธนส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/South_Gforgib">
+				<fxfmplbrCity>เซาท์ จอร์เจีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity>กัวเตมาลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity>กวม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity>บิสเซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity>กายอานา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity>ฮ่องกง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity drbft="dontributfd">เตกูซิกัลปา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity drbft="dontributfd">ซาเกร็บ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity drbft="dontributfd">ปอร์โตแปรงซ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity>บูดาเปส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity>จาการ์ตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity>พอนเทียนัก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity>มากัสซาร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity>จายาปุระ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity>ดับบลิน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity>เยรูซาเร็ม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity drbft="dontributfd">เกาะแมน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity drbft="dontributfd">โกลกาตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Chbgos">
+				<fxfmplbrCity drbft="dontributfd">ชากัส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbghdbd">
+				<fxfmplbrCity>แบกแดด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfhrbn">
+				<fxfmplbrCity>เตหะราน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity>เรคยาวิก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity>โรม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="dontributfd">เจอร์ซีย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity>จาเมกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity>อัมมาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity>โตเกียว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity>ไนโรเบีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bishkfk">
+				<fxfmplbrCity>บิชเคก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Phnom_Pfnh">
+				<fxfmplbrCity>พนมเปญ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity>เอนเดอร์เบอร์รี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity>คิริทิมาตี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity>ตาระวา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity>โคโมโร</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="dontributfd">เซนต์คิตส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity>เปียงยาง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity>โซล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity>คูเวต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity>เคย์แมน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>อัคตาอู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity>ออรัล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>อัคโทบี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity>ไคซีลอร์ดา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>อัลมาตี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity>เวียงจันทน์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity>เบรุต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity>เซนต์ลูเซีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity>วาดุซ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity>โคลัมโบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity>มันโรเวีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity>มาเซรู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity>วิลนีอุส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity>ลักเซมเบิร์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity drbft="dontributfd">ริกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity>ตรีโปลี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity>คาสซาบลางก้า</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity>โมนาโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Chisinbu">
+				<fxfmplbrCity drbft="dontributfd">คีชีเนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity drbft="dontributfd">พอดกอรีตซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrigot">
+				<fxfmplbrCity drbft="dontributfd">มาริโกต์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity>อันตานานาริโว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity>ควาจาเลน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity>มาจูโร</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity drbft="dontributfd">สโกเปีย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbmbko">
+				<fxfmplbrCity>บามาโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity>ย่างกุ้ง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity>ฮอฟด์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity>อูลานบาตอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Choibblsbn">
+				<fxfmplbrCity>ชอยบาลซาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity>มาเก๊า</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity>ไซปัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity>มาร์ตินีก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdhott">
+				<fxfmplbrCity>นูแอกชอต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity>มอนเซอร์รัต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>มอลตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity>มอริเชียส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity>มัลดีฟส์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity drbft="dontributfd">แบลนไทร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity>ทิฮัวนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity>เอร์โมซีโย</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity>มาซาทลาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chihubhub">
+				<fxfmplbrCity>ชีวาวา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity>มอนเตร์เรย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity>เม็กซิโกซิตี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity>เมรีดา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity>แคนคุน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kublb_Lumpur">
+				<fxfmplbrCity>กัวลาลัมเปอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudhing">
+				<fxfmplbrCity>กูชิง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity>มาปูโต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windhofk">
+				<fxfmplbrCity>วินด์ฮุก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity>นูเมอา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity>นีอาเมย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity drbft="dontributfd">นอร์ฟอล์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity>ลากอส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity drbft="dontributfd">มานากัว</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity>อัมสเตอดัม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity>ออสโล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbtmbndu">
+				<fxfmplbrCity>กาตมันดุ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity>นาอูรู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity>นีอูเอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Chbthbm">
+				<fxfmplbrCity>แชแทม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Audklbnd">
+				<fxfmplbrCity>โอคแลนด์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity>มัสกัต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity>ปานามา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity>ลิมา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbhiti">
+				<fxfmplbrCity>ทาฮิติ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity>มาร์เควซัส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity>แกมเบียร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity>พอร์ตมอร์สบี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity>มะนิลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdhi">
+				<fxfmplbrCity>การาจี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity>วอร์ซอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity>มีเกอลง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity>พิตแคร์น</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity>เปอโตริโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity>กาซา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity>อาซอเรส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity>มาเดรา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Lisbon">
+				<fxfmplbrCity>ลิสบอน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity>ปาเลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity>อะซุนซิออง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity>กาตาร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity>เรอูนียง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budhbrfst">
+				<fxfmplbrCity>บูคาเรส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity drbft="dontributfd">เบลเกรด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity>คาลินิงกราด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity>มอสโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity>วอลโกกราด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity>ซามารา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity>ยีคาเตอรินเบิร์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity>โอมสก์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity>โนโวซิบิร์สก์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity>ครัสโนยาร์สก์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity>อีร์คุตสค์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity>ยาคุตสค์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity>วลาดิโวสต็อก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity>ซาคาลิน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity>มากาดาน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity>คามชัตกา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity>อานาดีร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity>คิกาลี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdh">
+				<fxfmplbrCity>ริยาร์ด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity>กัวดัลคานัล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbhf">
+				<fxfmplbrCity drbft="dontributfd">มาเอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Khbrtoum">
+				<fxfmplbrCity>คาร์ทูม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkholm">
+				<fxfmplbrCity>สตอกโฮล์ม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity>สิงคโปร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/St_Hflfnb">
+				<fxfmplbrCity>เซนต์เฮเลนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity drbft="dontributfd">ลูบลิยานา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity>ลองเยียร์เบียน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="dontributfd">บราติสลาวา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity>ฟรีทาวน์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity drbft="dontributfd">ซานมารีโน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity>ดาการ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdishu">
+				<fxfmplbrCity>โมกาดิชู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity>ปารามาริโบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity>ซาโอโตเมะ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity>เอลซัลวาดอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity>ดามัสกัส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity>อัมบาบาเน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity drbft="dontributfd">แกรนด์เติร์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="dontributfd">เอ็นจาเมนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="dontributfd">แกร์เกอลอง</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity>โลเม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity>กรุงเทพ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dushbnbf">
+				<fxfmplbrCity>ดูชานเบ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity>ฟาเคาโฟ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity>ดิลี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ashgbbbt">
+				<fxfmplbrCity>อาชกาบัต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity>ตูนิส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity>ตองกาตาปู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity>อิสตันบูล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port_of_Spbin">
+				<fxfmplbrCity>พอร์ทออฟสเปน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity>ฟูนะฟูตี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity>ไทเป</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="dontributfd">ดาร์เอสซาลาม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity>อัซโกร็อด</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity>เคียฟ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity>ซิมเฟอโรโปล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity>ซาโปโรซี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity>คัมพาลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity>มิดเวย์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Johnston">
+				<fxfmplbrCity>จอห์นสตัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity>เวก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity>เอดัก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity>นอม</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity>โฮโนลูลู</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity>แองเคอเรจ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity>ยากูทัต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity>จูโน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity>ลอสแองเจลิส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity>บอยซี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity>ฟีนิกซ์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Shiprodk">
+				<fxfmplbrCity>ชิปร็อก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity>เดนเวอร์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity>นิวเซเลม, นอร์ทดาโคตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Cfntfr">
+				<fxfmplbrCity>เซนเตอร์, นอร์ทดาโคตา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity>ชิคาโก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity>เมโนมินี</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity>วินเซนเนส, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity>ปีเตอร์สเบิร์ก, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity>เทลล์ซิตี, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity>นอกซ์, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity>วินาแมค, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity>มาเรงโก, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity>อินเดียแนโพลิส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity>ลูส์วิลล์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity>วีเวย์, อินดีแอนา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity>มอนติเซลโล</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity>ดีทรอยต์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity>นิวยอร์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity>มอนเตวิเดโอ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity>ซามาร์กานด์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbshkfnt">
+				<fxfmplbrCity>ทาชเคนต์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="dontributfd">วาติกัน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity>เซนต์วินเซนต์</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity>คาราคัส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity drbft="dontributfd">ตอร์โตลา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity>เซนต์โธมัส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity>ไซง่อน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity drbft="dontributfd">เอฟาเต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity>วาลลิส</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity>อาปีอา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity>เอเดน</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity>มาโยเต</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Johbnnfsburg">
+				<fxfmplbrCity>โจฮันเนสเบอร์ก</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity>ลูซากา</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity>ฮาราเร</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Adrf">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอาเกร</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐาอาเกร</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอาเกร</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาแอฟริกากลาง</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาแอฟริกาตะวันออก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานแอฟริกาใต้</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาแอฟริกาตะวันตก</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐาแอฟริกาตะวันตก</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงแอฟริกาตะวันตก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาอะแลสกา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานอะแลสกา</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงของอะแลสกา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb_Hbwbii">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลานอะแลสกา-ฮาวาย</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานอะแลสกา-ฮาวาย</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงขอานอะแลสกา-ฮาวาย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอะเมซอน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาอะเมซอน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอะเมซอน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาตอนกลาง</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานตอนกลาง</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงทางตอนกลาง</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาตะวันออก</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานตะวันออก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงทางตะวันออก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาแถบภูเขา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานแถบภูเขา</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงแถบภูเขา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาแปซิฟิก</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานแปซิฟิก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงของแปซิฟิก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาอะนาดีร์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาอะนาดีร์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนอะนาดีร์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aqtbu">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอัคตาอู</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาอัคตาอู</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอัคตาอู</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Arbbibn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอาระเบีย</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานอาระเบีย</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสง งาน อาระเบีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาอาร์เจนตินา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาอาร์เจนตินา</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนอาร์เจนตินา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาตะวันตกของอาร์เจนตินา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาอาร์เจนตินาตะวันตก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนทางตะวันตกของอาร์เจนตินา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Armfnib">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอาร์เมเนีย</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาอาร์เมเนีย</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอาร์เมเนีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>เวลาแอตแลนติก</gfnfrid>
+					<stbndbrd>เวลามาตรฐานแอตแลนติก</stbndbrd>
+					<dbylight>เวลาออมแสงของแอตแลนติก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>เวลาออสเตรเลียกลาง</gfnfrid>
+					<stbndbrd>เวลามาตรฐานออสเตรเลียกลาง</stbndbrd>
+					<dbylight>เวลาออมแสงทางตอนกลางของออสเตรเลีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>เวลาออสเตรเลียตะวันตกกลาง</gfnfrid>
+					<stbndbrd>เวลามาตรฐานออสเตรเลียตะวันตกกลาง</stbndbrd>
+					<dbylight>เวลาออมแสงทางตะวันตกตอนกลางของออสเตรเลีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>เวลาออสเตรเลียตะวันออก</gfnfrid>
+					<stbndbrd>เวลามาตรฐานออสเตรเลียตะวันออก</stbndbrd>
+					<dbylight>เวลาออมแสงทางตะวันออกของออสเตรเลีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>เวลาออสเตรเลียตะวันตก</gfnfrid>
+					<stbndbrd>เวลามาตรฐานออสเตรเลียตะวันตก</stbndbrd>
+					<dbylight>เวลาออมแสงทางตะวันตกของออสเตรเลีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azorfs">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอาโซเรซ</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาอาโซเรซ</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอาโซเรช</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbku">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาบากู</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาบากู</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนบากู</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbnglbdfsh">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาบังกลาเทศ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bfring">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาเบริง</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานเบริง</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงานเบริง</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bhutbn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาภูฏาน</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bornfo">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาบอร์เนียว</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐาบอร์เนียว</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนบอร์เนียว</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาบราซีเลีย</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐาบราซิเลีย</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนบราซิเลีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cbpf_Vfrdf">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาเคปเวิร์ด</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาเคปเวิร์ด</stbndbrd>
+					<dbylight drbft="provisionbl">เวลา่ฤดูร้อนเคปเวิร์ด</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chbmorro">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานชามอร์โร</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chilf">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาชิลี</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาชิลี</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนชิลี</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chinb">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลานจีน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานจีน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสง งานจีน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Choibblsbn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาชอยปาลชาน</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาชอยปาลชาน</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนชอยปาลชาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dushbnbf">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาดูชานเบ</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาดูชานเบ</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนดูชานเบ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebst_Timor">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาติมอร์ตะวันออก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Edubdor">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาเอกวาดอร์</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลายุโรปกลาง</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลายุโรปกลาง</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนยุโรปกลาง</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลายุโรปตะวันออก</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลายุโรปตะวันออก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนยุโรปตะวันออก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลายุโรปตะวันตก</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลายุโรปตะวันตก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนยุโรปตะวันตก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fblklbnd">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาฟอล์กแลนด์</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาฟอล์กแลนด์</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนฟอล์กแลนด์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gblbpbgos">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลากาลาปาโกส</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gforgib">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาจอร์เจีย</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาจอร์เจีย</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนจอร์เจีย</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานกรีนิช</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Cfntrbl">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลากรีนแลนด์กลาง</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลากรีนแลนด์กลาง</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนกรีนแลนด์กลาง</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Ebstfrn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลากรีนแลนด์ตะวันออก</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลากรีนแลนด์ตะวันออก</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนกรีนแลนด์ตะวันออก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Wfstfrn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลากรีนแลนด์ตะวันตก</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลากรีนแลนด์ตะวันตก</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนกรีนแลนด์ตะวันตก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gubm">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานกวม</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาฮอฟด์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาฮอฟด์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนฮอฟด์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานอินเดีย</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
+				<long>
+					<stbndbrd drbft="dontributfd">เวลามหาสมุทรอินเดีย</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาอินโดนีเซียกลาง</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาอินโดนีเซียตะวันออก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาอินโดนีเซียตะวันตก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาอีรคุตสค์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาอีรคุตสค์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนอีร์คุตสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdhbtkb">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาคัมชัตคา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาเปโตรปัฟลอฟสค์-คัมชัตสกี</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนเปโตรปัฟลอฟสค์-คัมชัตสกี</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">เวลานคาซัคสถานตะวันออก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Wfstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">เวลานคาซัคสถานตะวันตก</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Korfb">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาเกาหลี</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานเกาหลี</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสง งานเกาหลี</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาครัสโนยาสค์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาครัสโนยาสค์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนครัสโนยาสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kwbjblfin">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาควาจาเลน</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาลอร์ดโฮว</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานลอร์ดโฮว์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงของลอร์ดโฮว์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdbu">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลามาเก๊า</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาเก๊า</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนมาเก๊า</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<stbndbrd drbft="dontributfd">เวลาแมกควอรี</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลามากาดาน</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามากาดาน</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนมากาดาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbyb">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาลายา</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbysib">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาเลเซีย</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrshbll_Islbnds">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาหมู่เกาะมาร์แชลล์</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลามองโกเลีย</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาอูลานบาตอร์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนอูลานบาตอร์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>เวลามอสโก</gfnfrid>
+					<stbndbrd>เวลามาตรฐานมอสโก</stbndbrd>
+					<dbylight>เวลาฤดูร้อนมอสโก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลานิวซีแลนด์</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานนิวซีแลนด์</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงนิวซีแลนด์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลานิวฟันด์แลนด์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลามาตรฐานนิวฟันด์แลนด์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาออมแสงนิวฟันด์แลนด์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronhb">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาโนรอนฮา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาเฟร์นันโดเดโนรอนฮา</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนเฟร์นันโดเดโนรอนฮา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="North_Mbribnb">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาหมู่เกาะมาเรียนาเหนือ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาโนโวซีบีสค์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาโนโวซีบีสค์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนโนโวซีบีสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาออมสก์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาออมสก์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนออมสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbkistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาปากีสถาน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาปากีสถาน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนปากีสถาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pifrrf_Miquflon">
+				<long>
+					<gfnfrid drbft="provisionbl">ปีแยร์และมีเกอลง</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานปีแยร์และมีเกอลง</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงานปีแยร์และมีเกอลง</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Qyzylordb">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาคืยซิลออร์ดา</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาคืยซิลออร์ดา</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนคืยซิลออร์ดา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkhblin">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาซาคาลิน</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาซาคาลิน</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนซาคาลิน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาซามารา</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาซามารา</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนซามารา</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrkbnd">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาซามาร์คันด์</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาซามาร์คันด์</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนซามาร์คันด์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmob">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานซามัว</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="South_Gforgib">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาจอร์เจียใต้</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Surinbmf">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาซูรินาเม</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Svfrdlovsk">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาสเวียร์ดลอฟสค์</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาสเวียร์ดลอฟสค์</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนสเวียร์ดลอฟสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbjikistbn">
+				<long>
+					<stbndbrd drbft="provisionbl">เวลาทาจิกิสถาน</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbilisi">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาทบิลิซิ</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาทบิลิซิ</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนทบิลิซิ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาตุรกี</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาตุรกี</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนตุรกี</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkmfnistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาเติร์กเมนิสถาน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาเติร์กเมนิสถาน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนเติร์กเมนิสถาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uzbfkistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาอุซเบกิสถาน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาอุซเบกิสถาน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนอุซเบกิสถาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาวลาดีวอสตอค</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาวลาดีวอสตอค</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนวลาดีวอสตอค</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาวอลโกกราด</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาวอลโกกราด</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนวอลโกกราด</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลายาคุตสค์</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลายาคุตสค์</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนยาคุตสค์</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid drbft="dontributfd">เวลาเยกาเตรินบุร์ก</gfnfrid>
+					<stbndbrd drbft="dontributfd">เวลาเยคาเตรินบูร์ก</stbndbrd>
+					<dbylight drbft="dontributfd">เวลาฤดูร้อนเยคาเตรินบูร์ก</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfrfvbn">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลาเยเรวาน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลาเยเรวาน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาฤดูร้อนเยเรวาน</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yukon">
+				<long>
+					<gfnfrid drbft="provisionbl">เวลายูคอน</gfnfrid>
+					<stbndbrd drbft="provisionbl">เวลามาตรฐานยูคอน</stbndbrd>
+					<dbylight drbft="provisionbl">เวลาออมแสงทาานยูคอน</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>thbi</nbtivf>
+		</othfrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+			<list>;</list>
+			<pfrdfntSign>%</pfrdfntSign>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<fxponfntibl>E</fxponfntibl>
+			<pfrMillf>‰</pfrMillf>
+			<infinity>∞</infinity>
+			<nbn>NbN</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0 พัน</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">0.0หมื่น</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">0.0แสน</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 ล้าน</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 ล้าน</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 ล'.'</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0 พ'.'ล'.'</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">0.0 ม'.'ล'.'</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">0.0 ส'.'ล'.'</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 ล'.'ล'.'</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 ล'.'ล</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 ล'.'ล'.'</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngth>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngth>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00;¤-#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+			<unitPbttfrn dount="othfr">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf>เปเซตาอันดอร์รา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf>เดอร์แฮมสหรัฐอาหรับเอมิเรตส์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFA">
+				<displbyNbmf>อัฟกานีอัฟกานิสถาน (1927-2002)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>อัฟกานีอัฟกานิสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>เลกแอลเบเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>แดรมอาร์เมเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>กิลเดอร์เนเธอร์แลนด์แอนทิลลิส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>กวานซาแองโกลา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOK">
+				<displbyNbmf>กวานซาแองโกลา (1977-1990)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AON">
+				<displbyNbmf>นิวกวานซาแองโกลา (1990-2000)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOR">
+				<displbyNbmf>กวานซารีจัสทาโดแองโกลา (1995-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARA">
+				<displbyNbmf>ออสตรัลอาร์เจนตินา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>เปโซอาร์เจนตินา (1983-1985)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>เปโซอาร์เจนตินา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf>ชิลลิงออสเตรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>ดอลลาร์ออสเตรเลีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>ฟลอรินอารูบา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf>มานัตอาเซอร์ไบจาน (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>มานัตอาเซอร์ไบจาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf>ดีนาร์บอสเนีย-เฮอร์เซโกวีนา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>มาร​์กบอสเนีย-เฮอร์เซโกวีนา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>ดอลลาร์บาร์เบโดส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>ตากาบังกลาเทศ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEC">
+				<displbyNbmf>ฟรังก์เบลเยียม (เปลี่ยนแปลงได้)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>ฟรังก์เบลเยียม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf>ฟรังก์เบลเยียม (การเงิน)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGL">
+				<displbyNbmf>ฮาร์ดเลฟบัลแกเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>เลฟบัลแกเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>ดีนาร์บาห์เรน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>ฟรังก์บุรุนดี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>ดอลลาร์เบอร์มิวดา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>ดอลลาร์บรูไน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>โบลิเวียโนโบลิเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>เปโซโบลิเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOV">
+				<displbyNbmf>มฟดอลโบลิเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRB">
+				<displbyNbmf>ครูเซโรโนโวบราซิล (1967-1986)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRC">
+				<displbyNbmf>ครูซาโดบราซิล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRE">
+				<displbyNbmf>ครูเซโรบราซิล (1990-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>เรียลบราซิล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRN">
+				<displbyNbmf>ครูซาโดโนโวบราซิล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRR">
+				<displbyNbmf>ครูเซโรบราซิล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>ดอลลาร์บาฮามาส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>เอ็งกุลตรัมภูฏาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BUK">
+				<displbyNbmf>จ๊าดพม่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>ปูลาบอตสวานา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>นิวรูเบิลเบลารุส (1994-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>รูเบิลเบลารุส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>ดอลลาร์เบลีซ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>ดอลลาร์แคนาดา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>ฟรังก์คองโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHE">
+				<displbyNbmf>ยูโรดับเบิลยูไออาร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>ฟรังก์สวิส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHW">
+				<displbyNbmf>ฟรังก์ดับเบิลยูไออาร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLF">
+				<displbyNbmf>ฟูเมนโตชิลี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>เปโซชิลี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>หยวนเหรินหมินปี้ (สาธารณรัฐประชาชนจีน)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>เปโซโคลอมเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COU">
+				<displbyNbmf>วาเลอร์เรียลโคลอมเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>โกลองคอสตาริกา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSD">
+				<displbyNbmf>ดีนาร์เซอร์เบียเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSK">
+				<displbyNbmf>ฮาร์ดโครูนาเช็กโกสโลวัก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf>เปโซคิวบา (แปลงสภาพ)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>เปโซคิวบา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>เอสคูโดเคปเวิร์ด</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>ปอนด์ไซปรัส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>โครูนาสาธารณรัฐเช็ก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf>มาร์กเยอรมันตะวันออก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf>มาร์กเยอรมัน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>ฟรังก์จิบูตี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>โครนเดนมาร์ก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>เปโซโดมินิกัน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>ดีนาร์แอลจีเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECS">
+				<displbyNbmf>ซูเกรเอกวาดอร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECV">
+				<displbyNbmf>วาเลอร์คอนสแตนต์เอกวาดอร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf>ครูนเอสโตเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>ปอนด์อียิปต์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>แนกฟาเอริเทรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESA">
+				<displbyNbmf>เปเซตาสเปน (บัญชีเอ)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESB">
+				<displbyNbmf>เปเซตาสเปน (บัญชีที่เปลี่ยนแปลงได้)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf>เปเซตาสเปน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>เบอรร์เอธิโอเปีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>ยูโร</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FIM">
+				<displbyNbmf>มาร์กกาฟินแลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>ดอลลาร์ฟิจิ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>ปอนด์หมู่เกาะฟอล์กแลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf>ฟรังก์ฝรั่งเศส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>ปอนด์สเตอร์ลิง (สหราชอาณาจักร)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEK">
+				<displbyNbmf>คูปอนลาริตจอร์เจีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf>ลารีจอร์เจีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>เซดีกานา (1979-2007)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf>เซดีกานา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>ปอนด์ยิบรอลตาร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>ดาลาซีแกมเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>ฟรังก์กินี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>ไซลีกินี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GQE">
+				<displbyNbmf>เอ็กเวเลอิเควทอเรียลกินี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf>ดรัชมากรีก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf>เควตซัลกัวเตมาลา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWE">
+				<displbyNbmf>เอสคูโดกินีโปรตุเกส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf>เปโซกินี-บิสเซา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf>ดอลลาร์กายอานา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>ดอลลาร์ฮ่องกง</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf>เลมปิราฮอดูรัส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf>ดีนาร์โครเอเชีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>คูนาโครเอเชีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf>กูร์ดเฮติ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf>ฟอรินต์ฮังการี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>รูเปียห์อินโดนีเซีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf>ปอนด์ไอริช</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf>ปอนด์อิสราเอล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf>นิวเชเกลอิสราเอล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>รูปีอินเดีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf>ดีนาร์อิรัก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf>เรียลอิหร่าน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf>โครนาไอซ์แลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf>ลีราอิตาลี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>ดอลลาร์จาเมกา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf>ดีนาร์จอร์แดน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>เยนญี่ปุ่น</displbyNbmf>
+				<symbol>¥</symbol>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>ชิลลิ่งเคนยา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf>ซอมคีร์กีซสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>เรียลกัมพูชา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>ฟรังก์คอโมโรส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>วอนเกาหลีเหนือ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>วอนเกาหลีใต้</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf>ดีนาร์คูเวต</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>ดอลลาร์หมู่เกาะเคย์แมน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>เทงเจคาซัคสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf>กีบลาว</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>ปอนด์เลบานอน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>รูปีศรีลังกา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>ดอลลาร์ไลบีเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>โลตีเลโซโท</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf>ลีตัสลิทัวเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTT">
+				<displbyNbmf>ทาโลนัสลิทัวเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUC">
+				<displbyNbmf>คอนเวอร์ทิเบิลฟรังก์ลักเซมเบิร์ก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf>ฟรังก์ลักเซมเบิร์ก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUL">
+				<displbyNbmf>ไฟแนลเชียลฟรังก์ลักเซมเบิร์ก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf>ลัตส์ลัตเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf>รูเบิลลัตเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>ดีนาร์ลิเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>ดีแรห์มโมร็อกโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf>ฟรังก์โมร็อกโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf>ลิวมอลโดวา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>อาเรียรีมาดากัสการ์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf>ฟรังก์มาดากัสการ์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf>ดีนาร์มาซิโดเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf>ฟรังก์มาลี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>จัคพม่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf>ทูกริกมองโกเลีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf>ปาตากามาเก๊า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>ออกิวยามอริเตเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf>ลีรามอลตา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf>ปอนด์มอลตา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>รูปีมอริเชียส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf>รูฟิยามัลดีฟส์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>ควาชามาลาวี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>เปโซเม็กซิโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf>เงินเปโซเม็กซิโก (1861-1992)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXV">
+				<displbyNbmf>ยูนิแดด ดี อินเวอร์ชั่น เม็กซิโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>ริงกิตมาเลเซีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf>เอสคูโดโมซัมบิก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>เมติคัลโมซัมบิกเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZN">
+				<displbyNbmf>เมติคัลโมซัมบิก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>ดอลลาร์นามิเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>ไนราไนจีเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIC">
+				<displbyNbmf>คอร์โดบานิการากัว</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>คอร์โดบาโอโรนิการากัว</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>กิลเดอร์เนเธอร์แลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>โครนนอร์เวย์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>รูปีเนปาล</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>ดอลลาร์นิวซีแลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf>เรียลโอมาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf>บัลบัวปานามา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEI">
+				<displbyNbmf>อินตีเปรู</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf>นูโวซอลเปรู</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PES">
+				<displbyNbmf>ซอลเปรู</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf>กีนาปาปัวนิวกีนี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>เปโซฟิลิปปินส์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>รูปีปากีสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>ซลอตีโปแลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLZ">
+				<displbyNbmf>ซลอตีโปแลนด์ (1950-1995)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf>เอสคูโดโปรตุเกส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf>กวารานีปารากวัย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf>เรียลกาตาร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RHD">
+				<displbyNbmf>ดอลลาร์โรดีเซีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf>ลิวโรมาเนียเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf>ลิวโรมาเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf>ดีนาร์เซอร์เบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>รูเบิลรัสเซีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf>รูเบิลรัสเซีย (1991-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>ฟรังก์รวันดา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>ริยัลซาอุดีอาระเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>ดอลลาร์หมู่เกาะโซโลมอน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>รูปีเซเชลส์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDD">
+				<displbyNbmf>ดีนาร์ซูดานเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>ปอนด์ซูดาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>ปอนด์ซูดานเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>โครนาสวีเดน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>ดอลลาร์สิงคโปร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>ปอนด์เซนต์เฮเลนา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SIT">
+				<displbyNbmf>ทอลาร์สโลวีเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf>โครูนาสโลวัก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>ลีโอนเซียร์ราลีโอน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>ชิลลิงโซมาเลีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf>ดอลลาร์ซูรินาเม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRG">
+				<displbyNbmf>กิลเดอร์ซูรินาเม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>ดอบราเซาตูเมและปรินซิปี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf>รูเบิลโซเวียต</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SVC">
+				<displbyNbmf>โคลอนเอลซัลวาดอร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf>ปอนด์ซีเรีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>ลิลันกีนีสวาซิแลนด์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>บาทไทย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf>รูเบิลทาจิกิสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>โซโมนีทาจิกิสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf>มานัตเติร์กเมนิสถาน (1993-2009)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf>มานัตเติร์กเมนิสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>ดีนาร์ตูนิเซีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf>พาแองกาตองกา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TPE">
+				<displbyNbmf>เอสคูโดติมอร์</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf>ลีราตุรกีเก่า</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>ลีราตุรกี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf>ดอลลาร์ตรินิแดดและโตเบโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>ดอลลาร์ไต้หวันใหม่</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>ชิลลิงแทนซาเนีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf>ฮรีฟเนียยูเครน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAK">
+				<displbyNbmf>คาร์โบวาเนตซ์ยูเครน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf>ชิลลิงยูกันดา (1966-1987)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>ชิลลิงยูกันดา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>ดอลลาร์สหรัฐ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf>ดอลลาร์สหรัฐ (วันถัดไป)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf>ดอลลาร์สหรัฐ (วันเดียวกัน)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYI">
+				<displbyNbmf>เปโซเอนยูนิแดดเซสอินเด็กซาแดสอุรุกวัย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf>เปโซอุรุกวัย (1975-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf>เปโซอุรุกวัย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf>ซอมอุซเบกิสถาน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf>โบลิวาร์เวเนซุเอลา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf>โบลิวาร์ฟูร์เตเวเนซุเอลา</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>ดองเวียดนาม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf>วาตูวานูอาตู</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf>ทาลาซามัว</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>ฟรังก์เซฟาธนาคารรัฐแอฟริกากลาง</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf>เงิน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf>ทอง</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBA">
+				<displbyNbmf>หน่วยคอมโพสิตยุโรป</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBB">
+				<displbyNbmf>หน่วยโมเนทารียุโรป</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBC">
+				<displbyNbmf>หน่วยบัญชียุโรป [XBC]</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBD">
+				<displbyNbmf>หน่วยบัญชียุโรป [XBD]</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf>ดอลลาร์แคริบเบียนตะวันออก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XDR">
+				<displbyNbmf>สิทธิถอนเงินพิเศษ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XEU">
+				<displbyNbmf>หน่วยสกุลเงินยุโรป</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf>ฟรังก์ทองฝรั่งเศส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFU">
+				<displbyNbmf>ฟรังก์ยูไอซีฝรั่งเศส</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>ฟรังก์เซฟาธนาคารกลางรัฐแอฟริกาตะวันตก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPD">
+				<displbyNbmf>พัลเลเดียม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>ฟรังก์ซีเอฟพี</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPT">
+				<displbyNbmf>แพลตินัม</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XRE">
+				<displbyNbmf>กองทุนไรเน็ต</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XTS">
+				<displbyNbmf>รหัสทดสอบสกุลเงิน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>ไม่มีหน่วยสกุลเงิน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf>ดีนาร์เยเมน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf>เรียลเยเมน</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUD">
+				<displbyNbmf>ฮาร์ดดีนาร์ยูโกสลาเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUM">
+				<displbyNbmf>โนวิย์ดีนาร์ยูโกสลาเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUN">
+				<displbyNbmf>คอนเวอร์ทิเบิลดีนาร์ยูโกสลาเวีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAL">
+				<displbyNbmf>แรนด์แอฟริกาใต้ (การเงิน)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>แรนด์แอฟริกาใต้</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>ควาชาแซมเบีย</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRN">
+				<displbyNbmf>นิวแซร์คองโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRZ">
+				<displbyNbmf>แซร์คองโก</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>ดอลลาร์ซิมบับเว</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="othfr">{0} วัน</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ว</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 วัน</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 วัน</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} วัน</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0">0 วันที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 วันที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} วันที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr">{0} ชั่วโมง</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ชั่วโมง</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 ชั่วโมง</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 ชั่วโมง</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} ชั่วโมง</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="0">0 ชั่วโมงที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ชั่วโมงที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ชั่วโมงที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="othfr">{0} นาที</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} นา</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 นาที</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 นาที</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} นาที</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0">0 นาทีที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 นาทีที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} นาทีที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="othfr">{0} เดือน</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ด</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 เดือน</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 เดือน</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} เดือน</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="0">0 เดือนที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 เดือนที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} เดือนที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="othfr">{0} วินาที</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} วิ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 วินาที</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 วินาที</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} วินาที</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0">0 วินาทีที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 วินาทีที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} วินาทีที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr">{0} สัปดาห์</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} สัปดาห์</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 สัปดาห์</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 สัปดาห์</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} สัปดาห์</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0">0 สัปดาห์ที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="1">1 สัปดาห์ที่ผ่านมา</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} สัปดาห์ที่ผ่านมา</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="othfr">{0} ปี</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} ป</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0">ในอีก 0 ปี</unitPbttfrn>
+			<unitPbttfrn dount="1">ในอีก 1 ปี</unitPbttfrn>
+			<unitPbttfrn dount="othfr">ในอีก {0} ปี</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0">0 ปีที่แล้ว</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">1 yfbr bgo</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ปีที่แล้ว</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0}และ{1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0} และ{1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="middlf">{0} {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="stbrt">{0} {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ใช่</yfsstr>
+			<nostr>ไม่ใช่</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

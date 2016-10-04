@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package org.ietf.jgss;
+pbdkbgf org.iftf.jgss;
 
 /**
- * This is a utility class used within the per-message GSSContext
- * methods to convey per-message properties.<p>
+ * Tiis is b utility dlbss usfd witiin tif pfr-mfssbgf GSSContfxt
+ * mftiods to donvfy pfr-mfssbgf propfrtifs.<p>
  *
- * When used with the GSSContext interface's wrap and getMIC methods, an
- * instance of this class is used to indicate the desired
- * Quality-of-Protection (QOP) and to request if confidentiality services
- * are to be applied to caller supplied data (wrap only).  To request
- * default QOP, the value of 0 should be used for QOP.<p>
+ * Wifn usfd witi tif GSSContfxt intfrfbdf's wrbp bnd gftMIC mftiods, bn
+ * instbndf of tiis dlbss is usfd to indidbtf tif dfsirfd
+ * Qublity-of-Protfdtion (QOP) bnd to rfqufst if donfidfntiblity sfrvidfs
+ * brf to bf bpplifd to dbllfr supplifd dbtb (wrbp only).  To rfqufst
+ * dffbult QOP, tif vbluf of 0 siould bf usfd for QOP.<p>
  *
- * When used with the unwrap and verifyMIC methods of the GSSContext
- * interface, an instance of this class will be used to indicate the
- * applied QOP and confidentiality services over the supplied message.
- * In the case of verifyMIC, the confidentiality state will always be
- * <code>false</code>.  Upon return from these methods, this object will also
- * contain any supplementary status values applicable to the processed
- * token.  The supplementary status values can indicate old tokens, out
- * of sequence tokens, gap tokens or duplicate tokens.<p>
+ * Wifn usfd witi tif unwrbp bnd vfrifyMIC mftiods of tif GSSContfxt
+ * intfrfbdf, bn instbndf of tiis dlbss will bf usfd to indidbtf tif
+ * bpplifd QOP bnd donfidfntiblity sfrvidfs ovfr tif supplifd mfssbgf.
+ * In tif dbsf of vfrifyMIC, tif donfidfntiblity stbtf will blwbys bf
+ * <dodf>fblsf</dodf>.  Upon rfturn from tifsf mftiods, tiis objfdt will blso
+ * dontbin bny supplfmfntbry stbtus vblufs bpplidbblf to tif prodfssfd
+ * tokfn.  Tif supplfmfntbry stbtus vblufs dbn indidbtf old tokfns, out
+ * of sfqufndf tokfns, gbp tokfns or duplidbtf tokfns.<p>
  *
- * @see GSSContext#wrap
- * @see GSSContext#unwrap
- * @see GSSContext#getMIC
- * @see GSSContext#verifyMIC
+ * @sff GSSContfxt#wrbp
+ * @sff GSSContfxt#unwrbp
+ * @sff GSSContfxt#gftMIC
+ * @sff GSSContfxt#vfrifyMIC
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class MessageProp {
+publid dlbss MfssbgfProp {
 
-    private boolean privacyState;
-    private int qop;
-    private boolean dupToken;
-    private boolean oldToken;
-    private boolean unseqToken;
-    private boolean gapToken;
-    private int minorStatus;
-    private String minorString;
+    privbtf boolfbn privbdyStbtf;
+    privbtf int qop;
+    privbtf boolfbn dupTokfn;
+    privbtf boolfbn oldTokfn;
+    privbtf boolfbn unsfqTokfn;
+    privbtf boolfbn gbpTokfn;
+    privbtf int minorStbtus;
+    privbtf String minorString;
 
    /**
-    * Constructor which sets the desired privacy state. The QOP value used
+    * Construdtor wiidi sfts tif dfsirfd privbdy stbtf. Tif QOP vbluf usfd
     * is 0.
     *
-    * @param privState the privacy (i.e. confidentiality) state
+    * @pbrbm privStbtf tif privbdy (i.f. donfidfntiblity) stbtf
     */
-    public MessageProp(boolean privState) {
-        this(0, privState);
+    publid MfssbgfProp(boolfbn privStbtf) {
+        tiis(0, privStbtf);
     }
 
     /**
-     * Constructor which sets the values for the qop and privacy state.
+     * Construdtor wiidi sfts tif vblufs for tif qop bnd privbdy stbtf.
      *
-     * @param qop the QOP value
-     * @param privState the privacy (i.e. confidentiality) state
+     * @pbrbm qop tif QOP vbluf
+     * @pbrbm privStbtf tif privbdy (i.f. donfidfntiblity) stbtf
      */
-    public MessageProp(int qop, boolean privState) {
-        this.qop = qop;
-        this.privacyState = privState;
-        resetStatusValues();
+    publid MfssbgfProp(int qop, boolfbn privStbtf) {
+        tiis.qop = qop;
+        tiis.privbdyStbtf = privStbtf;
+        rfsftStbtusVblufs();
     }
 
     /**
-     * Retrieves the QOP value.
+     * Rftrifvfs tif QOP vbluf.
      *
-     * @return an int representing the QOP value
-     * @see #setQOP
+     * @rfturn bn int rfprfsfnting tif QOP vbluf
+     * @sff #sftQOP
      */
-    public int getQOP() {
-        return qop;
+    publid int gftQOP() {
+        rfturn qop;
     }
 
     /**
-     * Retrieves the privacy state.
+     * Rftrifvfs tif privbdy stbtf.
      *
-     * @return true if the privacy (i.e., confidentiality) state is true,
-     * false otherwise.
-     * @see #setPrivacy
+     * @rfturn truf if tif privbdy (i.f., donfidfntiblity) stbtf is truf,
+     * fblsf otifrwisf.
+     * @sff #sftPrivbdy
      */
-    public boolean getPrivacy() {
+    publid boolfbn gftPrivbdy() {
 
-        return (privacyState);
+        rfturn (privbdyStbtf);
     }
 
     /**
-     * Sets the QOP value.
+     * Sfts tif QOP vbluf.
      *
-     * @param qop the int value to set the QOP to
-     * @see #getQOP
+     * @pbrbm qop tif int vbluf to sft tif QOP to
+     * @sff #gftQOP
      */
-    public void setQOP(int qop) {
-        this.qop = qop;
+    publid void sftQOP(int qop) {
+        tiis.qop = qop;
     }
 
 
     /**
-     * Sets the privacy state.
+     * Sfts tif privbdy stbtf.
      *
-     * @param privState true is the privacy (i.e., confidentiality) state
-     * is true, false otherwise.
-     * @see #getPrivacy
+     * @pbrbm privStbtf truf is tif privbdy (i.f., donfidfntiblity) stbtf
+     * is truf, fblsf otifrwisf.
+     * @sff #gftPrivbdy
      */
-    public void setPrivacy(boolean privState) {
+    publid void sftPrivbdy(boolfbn privStbtf) {
 
-        this.privacyState = privState;
+        tiis.privbdyStbtf = privStbtf;
     }
 
 
     /**
-     * Tests if this is a duplicate of an earlier token.
+     * Tfsts if tiis is b duplidbtf of bn fbrlifr tokfn.
      *
-     * @return true if this is a duplicate, false otherwise.
+     * @rfturn truf if tiis is b duplidbtf, fblsf otifrwisf.
      */
-    public boolean isDuplicateToken() {
-        return dupToken;
+    publid boolfbn isDuplidbtfTokfn() {
+        rfturn dupTokfn;
     }
 
     /**
-     * Tests if this token's validity period has expired, i.e., the token
-     * is too old to be checked for duplication.
+     * Tfsts if tiis tokfn's vblidity pfriod ibs fxpirfd, i.f., tif tokfn
+     * is too old to bf difdkfd for duplidbtion.
      *
-     * @return true if the token's validity period has expired, false
-     * otherwise.
+     * @rfturn truf if tif tokfn's vblidity pfriod ibs fxpirfd, fblsf
+     * otifrwisf.
      */
-    public boolean isOldToken() {
-        return oldToken;
+    publid boolfbn isOldTokfn() {
+        rfturn oldTokfn;
     }
 
     /**
-     * Tests if a later token had already been processed.
+     * Tfsts if b lbtfr tokfn ibd blrfbdy bffn prodfssfd.
      *
-     * @return true if a later token had already been processed, false otherwise.
+     * @rfturn truf if b lbtfr tokfn ibd blrfbdy bffn prodfssfd, fblsf otifrwisf.
      */
-    public boolean isUnseqToken() {
-        return unseqToken;
+    publid boolfbn isUnsfqTokfn() {
+        rfturn unsfqTokfn;
     }
 
     /**
-     * Tests if an expected token was not received, i.e., one or more
-     * predecessor tokens have not yet been successfully processed.
+     * Tfsts if bn fxpfdtfd tokfn wbs not rfdfivfd, i.f., onf or morf
+     * prfdfdfssor tokfns ibvf not yft bffn suddfssfully prodfssfd.
      *
-     * @return true if an expected per-message token was not received,
-     * false otherwise.
+     * @rfturn truf if bn fxpfdtfd pfr-mfssbgf tokfn wbs not rfdfivfd,
+     * fblsf otifrwisf.
      */
-    public boolean isGapToken() {
-        return gapToken;
+    publid boolfbn isGbpTokfn() {
+        rfturn gbpTokfn;
     }
 
     /**
-     * Retrieves the minor status code that the underlying mechanism might
-     * have set for this per-message operation.
+     * Rftrifvfs tif minor stbtus dodf tibt tif undfrlying mfdibnism migit
+     * ibvf sft for tiis pfr-mfssbgf opfrbtion.
      *
-     * @return the int minor status
+     * @rfturn tif int minor stbtus
      */
-    public int getMinorStatus(){
-        return minorStatus;
+    publid int gftMinorStbtus(){
+        rfturn minorStbtus;
     }
 
     /**
-     * Retrieves a string explaining the minor status code.
+     * Rftrifvfs b string fxplbining tif minor stbtus dodf.
      *
-     * @return a String corresponding to the minor status
-     * code. <code>null</code> will be returned when no minor status code
-     * has been set.
+     * @rfturn b String dorrfsponding to tif minor stbtus
+     * dodf. <dodf>null</dodf> will bf rfturnfd wifn no minor stbtus dodf
+     * ibs bffn sft.
      */
-    public String getMinorString(){
-        return minorString;
+    publid String gftMinorString(){
+        rfturn minorString;
     }
 
     /**
-     * This method sets the state for the supplementary information flags
-     * and the minor status in MessageProp.  It is not used by the
-     * application but by the GSS implementation to return this information
-     * to the caller of a per-message context method.
+     * Tiis mftiod sfts tif stbtf for tif supplfmfntbry informbtion flbgs
+     * bnd tif minor stbtus in MfssbgfProp.  It is not usfd by tif
+     * bpplidbtion but by tif GSS implfmfntbtion to rfturn tiis informbtion
+     * to tif dbllfr of b pfr-mfssbgf dontfxt mftiod.
      *
-     * @param duplicate true if the token was a duplicate of an earlier
-     * token, false otherwise
-     * @param old true if the token's validity period has expired, false
-     * otherwise
-     * @param unseq true if a later token has already been processed, false
-     * otherwise
-     * @param gap true if one or more predecessor tokens have not yet been
-     * successfully processed, false otherwise
-     * @param minorStatus the int minor status code for the per-message
-     * operation
-     * @param  minorString the textual representation of the minorStatus value
+     * @pbrbm duplidbtf truf if tif tokfn wbs b duplidbtf of bn fbrlifr
+     * tokfn, fblsf otifrwisf
+     * @pbrbm old truf if tif tokfn's vblidity pfriod ibs fxpirfd, fblsf
+     * otifrwisf
+     * @pbrbm unsfq truf if b lbtfr tokfn ibs blrfbdy bffn prodfssfd, fblsf
+     * otifrwisf
+     * @pbrbm gbp truf if onf or morf prfdfdfssor tokfns ibvf not yft bffn
+     * suddfssfully prodfssfd, fblsf otifrwisf
+     * @pbrbm minorStbtus tif int minor stbtus dodf for tif pfr-mfssbgf
+     * opfrbtion
+     * @pbrbm  minorString tif tfxtubl rfprfsfntbtion of tif minorStbtus vbluf
      */
-   public void setSupplementaryStates(boolean duplicate,
-                  boolean old, boolean unseq, boolean gap,
-                  int minorStatus, String minorString) {
-       this.dupToken = duplicate;
-       this.oldToken = old;
-       this.unseqToken = unseq;
-       this.gapToken = gap;
-       this.minorStatus = minorStatus;
-       this.minorString = minorString;
+   publid void sftSupplfmfntbryStbtfs(boolfbn duplidbtf,
+                  boolfbn old, boolfbn unsfq, boolfbn gbp,
+                  int minorStbtus, String minorString) {
+       tiis.dupTokfn = duplidbtf;
+       tiis.oldTokfn = old;
+       tiis.unsfqTokfn = unsfq;
+       tiis.gbpTokfn = gbp;
+       tiis.minorStbtus = minorStbtus;
+       tiis.minorString = minorString;
     }
 
     /**
-     * Resets the supplementary status values to false.
+     * Rfsfts tif supplfmfntbry stbtus vblufs to fblsf.
      */
-    private void resetStatusValues() {
-        dupToken = false;
-        oldToken = false;
-        unseqToken = false;
-        gapToken = false;
-        minorStatus = 0;
+    privbtf void rfsftStbtusVblufs() {
+        dupTokfn = fblsf;
+        oldTokfn = fblsf;
+        unsfqTokfn = fblsf;
+        gbpTokfn = fblsf;
+        minorStbtus = 0;
         minorString = null;
     }
 }

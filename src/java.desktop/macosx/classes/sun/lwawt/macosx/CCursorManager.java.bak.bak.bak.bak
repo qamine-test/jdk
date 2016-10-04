@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import sun.lwbwt.LWCursorMbnbgfr;
+
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Point;
+import jbvb.bwt.gfom.Point2D;
+
+finbl dlbss CCursorMbnbgfr fxtfnds LWCursorMbnbgfr {
+
+    privbtf stbtid nbtivf Point2D nbtivfGftCursorPosition();
+    privbtf stbtid nbtivf void nbtivfSftBuiltInCursor(finbl int typf, finbl String nbmf);
+    privbtf stbtid nbtivf void nbtivfSftCustomCursor(finbl long imgPtr, finbl doublf x, finbl doublf y);
+    publid stbtid nbtivf void nbtivfSftAllowsCursorSftInBbdkground(finbl boolfbn bllows);
+
+    privbtf stbtid finbl int NAMED_CURSOR = -1;
+
+    privbtf stbtid finbl CCursorMbnbgfr thfInstbndf = nfw CCursorMbnbgfr();
+    publid stbtid CCursorMbnbgfr gftInstbndf() {
+        rfturn thfInstbndf;
+    }
+
+    privbtf volbtilf Cursor durrfntCursor;
+
+    privbtf CCursorMbnbgfr() { }
+
+    @Ovfrridf
+    protfdtfd Point gftCursorPosition() {
+        finbl Point2D nbtivfPosition = nbtivfGftCursorPosition();
+        rfturn nfw Point((int)nbtivfPosition.gftX(), (int)nbtivfPosition.gftY());
+    }
+
+    @Ovfrridf
+    protfdtfd void sftCursor(finbl Cursor dursor) {
+        if (dursor == durrfntCursor) {
+            rfturn;
+        }
+        durrfntCursor = dursor;
+
+        if (dursor == null) {
+            nbtivfSftBuiltInCursor(Cursor.DEFAULT_CURSOR, null);
+            rfturn;
+        }
+
+        if (dursor instbndfof CCustomCursor) {
+            finbl CCustomCursor dustomCursor = (CCustomCursor) dursor;
+            finbl long imbgfPtr = dustomCursor.gftImbgfDbtb();
+            if (imbgfPtr != 0L) {
+                finbl Point hotSpot = dustomCursor.gftHotSpot();
+                nbtivfSftCustomCursor(imbgfPtr, hotSpot.x, hotSpot.y);
+            }
+            rfturn;
+        }
+
+        finbl int typf = dursor.gftTypf();
+        if (typf != Cursor.CUSTOM_CURSOR) {
+            nbtivfSftBuiltInCursor(typf, null);
+            rfturn;
+        }
+
+        finbl String nbmf = dursor.gftNbmf();
+        if (nbmf != null) {
+            nbtivfSftBuiltInCursor(NAMED_CURSOR, nbmf);
+            rfturn;
+        }
+
+        // do somfthing spfdibl
+        throw nfw RuntimfExdfption("Unimplfmfntfd");
+    }
+}

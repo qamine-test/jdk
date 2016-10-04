@@ -1,0 +1,105 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ *
+ * (C) Copyright IBM Corp. 1998-2006 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "LigbturfSubstSubtbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 LigbturfSubstitutionSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, GlyphItfrbtor *glyphItfrbtor, LEErrorCodf &suddfss, donst LEGlyphFiltfr *filtfr) donst
+{
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, glyph, suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+      rfturn 0;
+    }
+
+    LERfffrfndfToArrbyOf<Offsft> ligSftTbblfOffsftArrbyRff(bbsf, suddfss, ligSftTbblfOffsftArrby, SWAPW(ligSftCount));
+
+    if (dovfrbgfIndfx >= 0 && LE_SUCCESS(suddfss) && (lf_uint32)dovfrbgfIndfx < ligSftTbblfOffsftArrbyRff.gftCount()) {
+        Offsft ligSftTbblfOffsft = SWAPW(ligSftTbblfOffsftArrby[dovfrbgfIndfx]);
+        LERfffrfndfTo<LigbturfSftTbblf>   ligSftTbblf(bbsf, suddfss, ligSftTbblfOffsft);
+
+        if( LE_FAILURE(suddfss) ) { rfturn 0; }
+        lf_uint16 ligCount = SWAPW(ligSftTbblf->ligbturfCount);
+
+        LERfffrfndfTo<Offsft> ligbturfTbblfOffsftArrby(bbsf, suddfss, ligSftTbblf->ligbturfTbblfOffsftArrby, ligCount);
+        for (lf_uint16 lig = 0; LE_SUCCESS(suddfss) && lig < ligCount; lig += 1) {
+            Offsft ligTbblfOffsft = SWAPW(ligSftTbblf->ligbturfTbblfOffsftArrby[lig]);
+            LERfffrfndfTo<LigbturfTbblf>   ligTbblf(ligSftTbblf, suddfss, ligTbblfOffsft);
+            if(LE_FAILURE(suddfss)) { rfturn 0; }
+            lf_uint16 dompCount = SWAPW(ligTbblf->dompCount) - 1;
+            lf_int32 stbrtPosition = glyphItfrbtor->gftCurrStrfbmPosition();
+            TTGlyphID ligGlyph = SWAPW(ligTbblf->ligGlyph);
+            lf_uint16 domp;
+
+            for (domp = 0; domp < dompCount; domp += 1) {
+                if (! glyphItfrbtor->nfxt()) {
+                    brfbk;
+                }
+
+                if (LE_GET_GLYPH(glyphItfrbtor->gftCurrGlyphID()) != SWAPW(ligTbblf->domponfntArrby[domp])) {
+                    brfbk;
+                }
+            }
+
+            if (domp == dompCount && (filtfr == NULL || filtfr->bddfpt(LE_SET_GLYPH(glyph, ligGlyph), suddfss))) {
+                GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor);
+                TTGlyphID dflftfdGlyph = tfmpItfrbtor.ignorfsMbrks()? 0xFFFE : 0xFFFF;
+
+                whilf (domp > 0) {
+                    tfmpItfrbtor.sftCurrGlyphID(dflftfdGlyph);
+                    tfmpItfrbtor.prfv();
+
+                    domp -= 1;
+                }
+
+                tfmpItfrbtor.sftCurrGlyphID(ligGlyph);
+
+                rfturn dompCount + 1;
+            }
+
+            glyphItfrbtor->sftCurrStrfbmPosition(stbrtPosition);
+        }
+
+    }
+
+    rfturn 0;
+}
+
+U_NAMESPACE_END

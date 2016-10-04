@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Filf typf dftfdtor thbt dofs lookup of filf fxtfnsion using Windows Rfgistry.
+ */
+
+publid dlbss RfgistryFilfTypfDftfdtor
+    fxtfnds AbstrbdtFilfTypfDftfdtor
+{
+    publid RfgistryFilfTypfDftfdtor() {
+        supfr();
+    }
+
+    @Ovfrridf
+    publid String implProbfContfntTypf(Pbth filf) throws IOExdfption {
+        if (!(filf instbndfof Pbth))
+            rfturn null;
+
+        // gft filf fxtfnsion
+        Pbth nbmf = filf.gftFilfNbmf();
+        if (nbmf == null)
+            rfturn null;
+        String filfnbmf = nbmf.toString();
+        int dot = filfnbmf.lbstIndfxOf('.');
+        if ((dot < 0) || (dot == (filfnbmf.lfngth()-1)))
+            rfturn null;
+
+        // qufry HKEY_CLASSES_ROOT\<fxt>
+        String kfy = filfnbmf.substring(dot);
+        NbtivfBufffr kfyBufffr = WindowsNbtivfDispbtdhfr.bsNbtivfBufffr(kfy);
+        NbtivfBufffr nbmfBufffr = WindowsNbtivfDispbtdhfr.bsNbtivfBufffr("Contfnt Typf");
+        try {
+            rfturn qufryStringVbluf(kfyBufffr.bddrfss(), nbmfBufffr.bddrfss());
+        } finblly {
+            nbmfBufffr.rflfbsf();
+            kfyBufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid nbtivf String qufryStringVbluf(long subKfy, long nbmf);
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                // nio.dll hbs dfpfndfndy on nft.dll
+                Systfm.lobdLibrbry("nft");
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+        }});
+    }
+}

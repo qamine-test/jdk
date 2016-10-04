@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.io.InterruptedIOException;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.nft.DbtbgrbmSodkft;
+import jbvb.nft.DbtbgrbmPbdkft;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
 
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistration;
-import javax.management.ObjectName;
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpIpAddress;
-import com.sun.jmx.snmp.SnmpMessage;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpPduPacket;
-import com.sun.jmx.snmp.SnmpPduRequest;
-import com.sun.jmx.snmp.SnmpPduTrap;
-import com.sun.jmx.snmp.SnmpTimeticks;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpVarBindList;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.InetAddressAcl;
-import com.sun.jmx.snmp.SnmpPeer;
-import com.sun.jmx.snmp.SnmpParameters;
-// SNMP Runtime imports
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpMfssbgf;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduRfqufst;
+import dom.sun.jmx.snmp.SnmpPduTrbp;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPbrbmftfrs;
+// SNMP Runtimf imports
 //
-import com.sun.jmx.snmp.SnmpPduFactoryBER;
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibHandler;
-import com.sun.jmx.snmp.agent.SnmpUserDataFactory;
-import com.sun.jmx.snmp.agent.SnmpErrorHandlerAgent;
+import dom.sun.jmx.snmp.SnmpPduFbdtoryBER;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+import dom.sun.jmx.snmp.bgfnt.SnmpErrorHbndlfrAgfnt;
 
-import com.sun.jmx.snmp.IPAcl.SnmpAcl;
+import dom.sun.jmx.snmp.IPAdl.SnmpAdl;
 
-import com.sun.jmx.snmp.tasks.ThreadService;
+import dom.sun.jmx.snmp.tbsks.TirfbdSfrvidf;
 
 /**
- * Implements an adaptor on top of the SNMP protocol.
+ * Implfmfnts bn bdbptor on top of tif SNMP protodol.
  * <P>
- * When this SNMP protocol adaptor is started it creates a datagram socket
- * and is able to receive requests and send traps or inform requests.
- * When it is stopped, the socket is closed and neither requests
- * and nor traps/inform request are processed.
+ * Wifn tiis SNMP protodol bdbptor is stbrtfd it drfbtfs b dbtbgrbm sodkft
+ * bnd is bblf to rfdfivf rfqufsts bnd sfnd trbps or inform rfqufsts.
+ * Wifn it is stoppfd, tif sodkft is dlosfd bnd nfitifr rfqufsts
+ * bnd nor trbps/inform rfqufst brf prodfssfd.
  * <P>
- * The default port number of the socket is 161. This default value can be
- * changed by specifying a port number:
+ * Tif dffbult port numbfr of tif sodkft is 161. Tiis dffbult vbluf dbn bf
+ * dibngfd by spfdifying b port numbfr:
  * <UL>
- * <LI>in the object constructor</LI>
- * <LI>using the {@link com.sun.jmx.snmp.daemon.CommunicatorServer#setPort
- *     setPort} method before starting the adaptor</LI>
+ * <LI>in tif objfdt donstrudtor</LI>
+ * <LI>using tif {@link dom.sun.jmx.snmp.dbfmon.CommunidbtorSfrvfr#sftPort
+ *     sftPort} mftiod bfforf stbrting tif bdbptor</LI>
  * </UL>
- * The default object name is defined by {@link
- * com.sun.jmx.snmp.ServiceName#DOMAIN com.sun.jmx.snmp.ServiceName.DOMAIN}
- * and {@link com.sun.jmx.snmp.ServiceName#SNMP_ADAPTOR_SERVER
- * com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_SERVER}.
+ * Tif dffbult objfdt nbmf is dffinfd by {@link
+ * dom.sun.jmx.snmp.SfrvidfNbmf#DOMAIN dom.sun.jmx.snmp.SfrvidfNbmf.DOMAIN}
+ * bnd {@link dom.sun.jmx.snmp.SfrvidfNbmf#SNMP_ADAPTOR_SERVER
+ * dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_SERVER}.
  * <P>
- * The SNMP protocol adaptor supports versions 1 and 2 of the SNMP protocol
- * in a stateless way: when it receives a v1 request, it replies with a v1
- * response, when it receives a v2 request it replies with a v2 response.
- * <BR>The method {@link #snmpV1Trap snmpV1Trap} sends traps using SNMP v1
- * format.
- * The method {@link #snmpV2Trap snmpV2Trap} sends traps using SNMP v2 format.
- * The method {@link #snmpInformRequest snmpInformRequest} sends inform
- * requests using SNMP v2 format.
+ * Tif SNMP protodol bdbptor supports vfrsions 1 bnd 2 of tif SNMP protodol
+ * in b stbtflfss wby: wifn it rfdfivfs b v1 rfqufst, it rfplifs witi b v1
+ * rfsponsf, wifn it rfdfivfs b v2 rfqufst it rfplifs witi b v2 rfsponsf.
+ * <BR>Tif mftiod {@link #snmpV1Trbp snmpV1Trbp} sfnds trbps using SNMP v1
+ * formbt.
+ * Tif mftiod {@link #snmpV2Trbp snmpV2Trbp} sfnds trbps using SNMP v2 formbt.
+ * Tif mftiod {@link #snmpInformRfqufst snmpInformRfqufst} sfnds inform
+ * rfqufsts using SNMP v2 formbt.
  * <P>
- * To receive data packets, the SNMP protocol adaptor uses a buffer
- * which size can be configured using the property <CODE>bufferSize</CODE>
- * (default value is 1024).
- * Packets which do not fit into the buffer are rejected.
- * Increasing <CODE>bufferSize</CODE> allows the exchange of bigger packets.
- * However, the underlying networking system may impose a limit on the size
- * of UDP packets.
- * Packets which size exceed this limit will be rejected, no matter what
- * the value of <CODE>bufferSize</CODE> actually is.
+ * To rfdfivf dbtb pbdkfts, tif SNMP protodol bdbptor usfs b bufffr
+ * wiidi sizf dbn bf donfigurfd using tif propfrty <CODE>bufffrSizf</CODE>
+ * (dffbult vbluf is 1024).
+ * Pbdkfts wiidi do not fit into tif bufffr brf rfjfdtfd.
+ * Indrfbsing <CODE>bufffrSizf</CODE> bllows tif fxdibngf of biggfr pbdkfts.
+ * Howfvfr, tif undfrlying nftworking systfm mby imposf b limit on tif sizf
+ * of UDP pbdkfts.
+ * Pbdkfts wiidi sizf fxdffd tiis limit will bf rfjfdtfd, no mbttfr wibt
+ * tif vbluf of <CODE>bufffrSizf</CODE> bdtublly is.
  * <P>
- * An SNMP protocol adaptor may serve several managers concurrently. The
- * number of concurrent managers can be limited using the property
- * <CODE>maxActiveClientCount</CODE>.
+ * An SNMP protodol bdbptor mby sfrvf sfvfrbl mbnbgfrs dondurrfntly. Tif
+ * numbfr of dondurrfnt mbnbgfrs dbn bf limitfd using tif propfrty
+ * <CODE>mbxAdtivfClifntCount</CODE>.
  * <p>
- * The SNMP protocol adaptor specifies a default value (10) for the
- * <CODE>maxActiveClientCount</CODE> property. When the adaptor is stopped,
- * the active requests are interrupted and an error result is sent to
- * the managers.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Tif SNMP protodol bdbptor spfdififs b dffbult vbluf (10) for tif
+ * <CODE>mbxAdtivfClifntCount</CODE> propfrty. Wifn tif bdbptor is stoppfd,
+ * tif bdtivf rfqufsts brf intfrruptfd bnd bn frror rfsult is sfnt to
+ * tif mbnbgfrs.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpAdaptorServer extends CommunicatorServer
-    implements SnmpAdaptorServerMBean, MBeanRegistration, SnmpDefinitions,
-               SnmpMibHandler {
+publid dlbss SnmpAdbptorSfrvfr fxtfnds CommunidbtorSfrvfr
+    implfmfnts SnmpAdbptorSfrvfrMBfbn, MBfbnRfgistrbtion, SnmpDffinitions,
+               SnmpMibHbndlfr {
 
     // PRIVATE VARIABLES
     //------------------
 
     /**
-     * Port number for sending SNMP traps.
-     * <BR>The default value is 162.
+     * Port numbfr for sfnding SNMP trbps.
+     * <BR>Tif dffbult vbluf is 162.
      */
-    private int                 trapPort = 162;
+    privbtf int                 trbpPort = 162;
 
     /**
-     * Port number for sending SNMP inform requests.
-     * <BR>The default value is 162.
+     * Port numbfr for sfnding SNMP inform rfqufsts.
+     * <BR>Tif dffbult vbluf is 162.
      */
-    private int                 informPort = 162;
+    privbtf int                 informPort = 162;
 
     /**
-     * The <CODE>InetAddress</CODE> used when creating the datagram socket.
-     * <BR>It is specified when creating the SNMP protocol adaptor.
-     * If not specified, the local host machine is used.
+     * Tif <CODE>InftAddrfss</CODE> usfd wifn drfbting tif dbtbgrbm sodkft.
+     * <BR>It is spfdififd wifn drfbting tif SNMP protodol bdbptor.
+     * If not spfdififd, tif lodbl iost mbdiinf is usfd.
      */
-    InetAddress address = null;
+    InftAddrfss bddrfss = null;
 
     /**
-     * The IP address based ACL used by this SNMP protocol adaptor.
+     * Tif IP bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
      */
-    private InetAddressAcl ipacl = null;
+    privbtf InftAddrfssAdl ipbdl = null;
 
     /**
-     * The factory object.
+     * Tif fbdtory objfdt.
      */
-    private SnmpPduFactory pduFactory = null;
+    privbtf SnmpPduFbdtory pduFbdtory = null;
 
     /**
-     * The user-data factory object.
+     * Tif usfr-dbtb fbdtory objfdt.
      */
-    private SnmpUserDataFactory userDataFactory = null;
+    privbtf SnmpUsfrDbtbFbdtory usfrDbtbFbdtory = null;
 
     /**
-     * Indicates if the SNMP protocol adaptor sends a response in case
-     * of authentication failure
+     * Indidbtfs if tif SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * of butifntidbtion fbilurf
      */
-    private boolean authRespEnabled = true;
+    privbtf boolfbn butiRfspEnbblfd = truf;
 
     /**
-     * Indicates if authentication traps are enabled.
+     * Indidbtfs if butifntidbtion trbps brf fnbblfd.
      */
-    private boolean authTrapEnabled = true;
+    privbtf boolfbn butiTrbpEnbblfd = truf;
 
     /**
-     * The enterprise OID.
-     * <BR>The default value is "1.3.6.1.4.1.42".
+     * Tif fntfrprisf OID.
+     * <BR>Tif dffbult vbluf is "1.3.6.1.4.1.42".
      */
-    private SnmpOid enterpriseOid = new SnmpOid("1.3.6.1.4.1.42");
+    privbtf SnmpOid fntfrprisfOid = nfw SnmpOid("1.3.6.1.4.1.42");
 
     /**
-     * The buffer size of the SNMP protocol adaptor.
-     * This buffer size is used for both incoming request and outgoing
-     * inform requests.
-     * <BR>The default value is 1024.
+     * Tif bufffr sizf of tif SNMP protodol bdbptor.
+     * Tiis bufffr sizf is usfd for boti indoming rfqufst bnd outgoing
+     * inform rfqufsts.
+     * <BR>Tif dffbult vbluf is 1024.
      */
-    int bufferSize = 1024;
+    int bufffrSizf = 1024;
 
-    private transient long            startUpTime     = 0;
-    private transient DatagramSocket  socket          = null;
-    transient DatagramSocket          trapSocket      = null;
-    private transient SnmpSession     informSession   = null;
-    private transient DatagramPacket  packet          = null;
-    transient Vector<SnmpMibAgent>    mibs            = new Vector<>();
-    private transient SnmpMibTree     root;
+    privbtf trbnsifnt long            stbrtUpTimf     = 0;
+    privbtf trbnsifnt DbtbgrbmSodkft  sodkft          = null;
+    trbnsifnt DbtbgrbmSodkft          trbpSodkft      = null;
+    privbtf trbnsifnt SnmpSfssion     informSfssion   = null;
+    privbtf trbnsifnt DbtbgrbmPbdkft  pbdkft          = null;
+    trbnsifnt Vfdtor<SnmpMibAgfnt>    mibs            = nfw Vfdtor<>();
+    privbtf trbnsifnt SnmpMibTrff     root;
 
     /**
-     * Whether ACL must be used.
+     * Wiftifr ACL must bf usfd.
      */
-    private transient boolean         useAcl = true;
+    privbtf trbnsifnt boolfbn         usfAdl = truf;
 
 
     // SENDING SNMP INFORMS STUFF
     //---------------------------
 
     /**
-     * Number of times to try an inform request before giving up.
-     * The default number is 3.
+     * Numbfr of timfs to try bn inform rfqufst bfforf giving up.
+     * Tif dffbult numbfr is 3.
      */
-    private int maxTries = 3 ;
+    privbtf int mbxTrifs = 3 ;
 
     /**
-     * The amount of time to wait for an inform response from the manager.
-     * The default amount of time is 3000 millisec.
+     * Tif bmount of timf to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Tif dffbult bmount of timf is 3000 millisfd.
      */
-    private int timeout = 3 * 1000 ;
+    privbtf int timfout = 3 * 1000 ;
 
     // VARIABLES REQUIRED FOR IMPLEMENTING SNMP GROUP (MIBII)
     //-------------------------------------------------------
 
     /**
-     * The <CODE>snmpOutTraps</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
      */
-    int snmpOutTraps=0;
+    int snmpOutTrbps=0;
 
     /**
-     * The <CODE>snmpOutGetResponses</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpOutGetResponses=0;
+    privbtf int snmpOutGftRfsponsfs=0;
 
     /**
-     * The <CODE>snmpOutGenErrs</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpOutGenErrs=0;
+    privbtf int snmpOutGfnErrs=0;
 
     /**
-     * The <CODE>snmpOutBadValues</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpOutBadValues=0;
+    privbtf int snmpOutBbdVblufs=0;
 
     /**
-     * The <CODE>snmpOutNoSuchNames</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpOutNoSuchNames=0;
+    privbtf int snmpOutNoSudiNbmfs=0;
 
     /**
-     * The <CODE>snmpOutTooBigs</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpOutTooBigs=0;
+    privbtf int snmpOutTooBigs=0;
 
     /**
-     * The <CODE>snmpOutPkts</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
      */
     int snmpOutPkts=0;
 
     /**
-     * The <CODE>snmpInASNParseErrs</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInASNParseErrs=0;
+    privbtf int snmpInASNPbrsfErrs=0;
 
     /**
-     * The <CODE>snmpInBadCommunityUses</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInBadCommunityUses=0;
+    privbtf int snmpInBbdCommunityUsfs=0;
 
     /**
-     * The <CODE>snmpInBadCommunityNames</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInBadCommunityNames=0;
+    privbtf int snmpInBbdCommunityNbmfs=0;
 
     /**
-     * The <CODE>snmpInBadVersions</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInBadVersions=0;
+    privbtf int snmpInBbdVfrsions=0;
 
     /**
-     * The <CODE>snmpInGetRequests</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInGetRequests=0;
+    privbtf int snmpInGftRfqufsts=0;
 
     /**
-     * The <CODE>snmpInGetNexts</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInGetNexts=0;
+    privbtf int snmpInGftNfxts=0;
 
     /**
-     * The <CODE>snmpInSetRequests</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInSetRequests=0;
+    privbtf int snmpInSftRfqufsts=0;
 
     /**
-     * The <CODE>snmpInPkts</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInPkts=0;
+    privbtf int snmpInPkts=0;
 
     /**
-     * The <CODE>snmpInTotalReqVars</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInTotalReqVars=0;
+    privbtf int snmpInTotblRfqVbrs=0;
 
     /**
-     * The <CODE>snmpInTotalSetVars</CODE> value defined in MIB-II.
+     * Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
      */
-    private int snmpInTotalSetVars=0;
+    privbtf int snmpInTotblSftVbrs=0;
 
     /**
-     * The <CODE>snmpInTotalSetVars</CODE> value defined in rfc 1907 MIB-II.
+     * Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in rfd 1907 MIB-II.
      */
-    private int snmpSilentDrops=0;
+    privbtf int snmpSilfntDrops=0;
 
-    private static final String InterruptSysCallMsg =
-        "Interrupted system call";
-    static final SnmpOid sysUpTimeOid = new SnmpOid("1.3.6.1.2.1.1.3.0") ;
-    static final SnmpOid snmpTrapOidOid = new SnmpOid("1.3.6.1.6.3.1.1.4.1.0");
+    privbtf stbtid finbl String IntfrruptSysCbllMsg =
+        "Intfrruptfd systfm dbll";
+    stbtid finbl SnmpOid sysUpTimfOid = nfw SnmpOid("1.3.6.1.2.1.1.3.0") ;
+    stbtid finbl SnmpOid snmpTrbpOidOid = nfw SnmpOid("1.3.6.1.6.3.1.1.4.1.0");
 
-    private ThreadService threadService;
+    privbtf TirfbdSfrvidf tirfbdSfrvidf;
 
-    private static int threadNumber = 6;
+    privbtf stbtid int tirfbdNumbfr = 6;
 
-    static {
-        String s = System.getProperty("com.sun.jmx.snmp.threadnumber");
+    stbtid {
+        String s = Systfm.gftPropfrty("dom.sun.jmx.snmp.tirfbdnumbfr");
 
         if (s != null) {
             try {
-                threadNumber = Integer.parseInt(System.getProperty(s));
-            } catch (Exception e) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER,
-                        SnmpAdaptorServer.class.getName(),
-                        "<static init>",
-                        "Got wrong value for com.sun.jmx.snmp.threadnumber: " +
-                        s + ". Use the default value: " + threadNumber);
+                tirfbdNumbfr = Intfgfr.pbrsfInt(Systfm.gftPropfrty(s));
+            } dbtdi (Exdfption f) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER,
+                        SnmpAdbptorSfrvfr.dlbss.gftNbmf(),
+                        "<stbtid init>",
+                        "Got wrong vbluf for dom.sun.jmx.snmp.tirfbdnumbfr: " +
+                        s + ". Usf tif dffbult vbluf: " + tirfbdNumbfr);
             }
         }
     }
@@ -344,708 +344,708 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //--------------------
 
     /**
-     * Initializes this SNMP protocol adaptor using the default port (161).
-     * Use the {@link com.sun.jmx.snmp.IPAcl.SnmpAcl} default
-     * implementation of the <CODE>InetAddressAcl</CODE> interface.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif dffbult port (161).
+     * Usf tif {@link dom.sun.jmx.snmp.IPAdl.SnmpAdl} dffbult
+     * implfmfntbtion of tif <CODE>InftAddrfssAdl</CODE> intfrfbdf.
      */
-    public SnmpAdaptorServer() {
-        this(true, null, com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_PORT,
+    publid SnmpAdbptorSfrvfr() {
+        tiis(truf, null, dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_PORT,
              null) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified port.
-     * Use the {@link com.sun.jmx.snmp.IPAcl.SnmpAcl} default
-     * implementation of the <CODE>InetAddressAcl</CODE> interface.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd port.
+     * Usf tif {@link dom.sun.jmx.snmp.IPAdl.SnmpAdl} dffbult
+     * implfmfntbtion of tif <CODE>InftAddrfssAdl</CODE> intfrfbdf.
      *
-     * @param port The port number for sending SNMP responses.
+     * @pbrbm port Tif port numbfr for sfnding SNMP rfsponsfs.
      */
-    public SnmpAdaptorServer(int port) {
-        this(true, null, port, null) ;
+    publid SnmpAdbptorSfrvfr(int port) {
+        tiis(truf, null, port, null) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the default port (161)
-     * and the specified IP address based ACL implementation.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif dffbult port (161)
+     * bnd tif spfdififd IP bddrfss bbsfd ACL implfmfntbtion.
      *
-     * @param acl The <CODE>InetAddressAcl</CODE> implementation.
-     *        <code>null</code> means no ACL - everybody is authorized.
+     * @pbrbm bdl Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     *        <dodf>null</dodf> mfbns no ACL - fvfrybody is butiorizfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpAdaptorServer(InetAddressAcl acl) {
-        this(false, acl, com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_PORT,
+    publid SnmpAdbptorSfrvfr(InftAddrfssAdl bdl) {
+        tiis(fblsf, bdl, dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_PORT,
              null) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the default port (161)
-     * and the
-     * specified <CODE>InetAddress</CODE>.
-     * Use the {@link com.sun.jmx.snmp.IPAcl.SnmpAcl} default
-     * implementation of the <CODE>InetAddressAcl</CODE> interface.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif dffbult port (161)
+     * bnd tif
+     * spfdififd <CODE>InftAddrfss</CODE>.
+     * Usf tif {@link dom.sun.jmx.snmp.IPAdl.SnmpAdl} dffbult
+     * implfmfntbtion of tif <CODE>InftAddrfssAdl</CODE> intfrfbdf.
      *
-     * @param addr The IP address to bind.
+     * @pbrbm bddr Tif IP bddrfss to bind.
      */
-    public SnmpAdaptorServer(InetAddress addr) {
-        this(true, null, com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_PORT,
-             addr) ;
+    publid SnmpAdbptorSfrvfr(InftAddrfss bddr) {
+        tiis(truf, null, dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_PORT,
+             bddr) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified port and the
-     * specified IP address based ACL implementation.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd port bnd tif
+     * spfdififd IP bddrfss bbsfd ACL implfmfntbtion.
      *
-     * @param acl The <CODE>InetAddressAcl</CODE> implementation.
-     *        <code>null</code> means no ACL - everybody is authorized.
-     * @param port The port number for sending SNMP responses.
+     * @pbrbm bdl Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     *        <dodf>null</dodf> mfbns no ACL - fvfrybody is butiorizfd.
+     * @pbrbm port Tif port numbfr for sfnding SNMP rfsponsfs.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpAdaptorServer(InetAddressAcl acl, int port) {
-        this(false, acl, port, null) ;
+    publid SnmpAdbptorSfrvfr(InftAddrfssAdl bdl, int port) {
+        tiis(fblsf, bdl, port, null) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified port and the
-     * specified <CODE>InetAddress</CODE>.
-     * Use the {@link com.sun.jmx.snmp.IPAcl.SnmpAcl} default
-     * implementation of the <CODE>InetAddressAcl</CODE> interface.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd port bnd tif
+     * spfdififd <CODE>InftAddrfss</CODE>.
+     * Usf tif {@link dom.sun.jmx.snmp.IPAdl.SnmpAdl} dffbult
+     * implfmfntbtion of tif <CODE>InftAddrfssAdl</CODE> intfrfbdf.
      *
-     * @param port The port number for sending SNMP responses.
-     * @param addr The IP address to bind.
+     * @pbrbm port Tif port numbfr for sfnding SNMP rfsponsfs.
+     * @pbrbm bddr Tif IP bddrfss to bind.
      */
-    public SnmpAdaptorServer(int port, InetAddress addr) {
-        this(true, null, port, addr) ;
+    publid SnmpAdbptorSfrvfr(int port, InftAddrfss bddr) {
+        tiis(truf, null, port, bddr) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified IP
-     * address based ACL implementation and the specified
-     * <CODE>InetAddress</CODE>.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd IP
+     * bddrfss bbsfd ACL implfmfntbtion bnd tif spfdififd
+     * <CODE>InftAddrfss</CODE>.
      *
-     * @param acl The <CODE>InetAddressAcl</CODE> implementation.
-     * @param addr The IP address to bind.
+     * @pbrbm bdl Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @pbrbm bddr Tif IP bddrfss to bind.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpAdaptorServer(InetAddressAcl acl, InetAddress addr) {
-        this(false, acl, com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_PORT,
-             addr) ;
+    publid SnmpAdbptorSfrvfr(InftAddrfssAdl bdl, InftAddrfss bddr) {
+        tiis(fblsf, bdl, dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_PORT,
+             bddr) ;
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified port, the
-     * specified  address based ACL implementation and the specified
-     * <CODE>InetAddress</CODE>.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd port, tif
+     * spfdififd  bddrfss bbsfd ACL implfmfntbtion bnd tif spfdififd
+     * <CODE>InftAddrfss</CODE>.
      *
-     * @param acl The <CODE>InetAddressAcl</CODE> implementation.
-     * @param port The port number for sending SNMP responses.
-     * @param addr The IP address to bind.
+     * @pbrbm bdl Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @pbrbm port Tif port numbfr for sfnding SNMP rfsponsfs.
+     * @pbrbm bddr Tif IP bddrfss to bind.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpAdaptorServer(InetAddressAcl acl, int port, InetAddress addr) {
-        this(false, acl, port, addr);
+    publid SnmpAdbptorSfrvfr(InftAddrfssAdl bdl, int port, InftAddrfss bddr) {
+        tiis(fblsf, bdl, port, bddr);
     }
 
     /**
-     * Initializes this SNMP protocol adaptor using the specified port and the
-     * specified <CODE>InetAddress</CODE>.
-     * This constructor allows to initialize an SNMP adaptor without using
-     * the ACL mechanism (by setting the <CODE>useAcl</CODE> parameter to
-     * false).
-     * <br>This constructor must be used in particular with a platform that
-     * does not support the <CODE>java.security.acl</CODE> package like pJava.
+     * Initiblizfs tiis SNMP protodol bdbptor using tif spfdififd port bnd tif
+     * spfdififd <CODE>InftAddrfss</CODE>.
+     * Tiis donstrudtor bllows to initiblizf bn SNMP bdbptor witiout using
+     * tif ACL mfdibnism (by sftting tif <CODE>usfAdl</CODE> pbrbmftfr to
+     * fblsf).
+     * <br>Tiis donstrudtor must bf usfd in pbrtidulbr witi b plbtform tibt
+     * dofs not support tif <CODE>jbvb.sfdurity.bdl</CODE> pbdkbgf likf pJbvb.
      *
-     * @param useAcl Specifies if this new SNMP adaptor uses the ACL mechanism.
-     * If the specified parameter is set to <CODE>true</CODE>, this
-     * constructor is equivalent to
-     * <CODE>SnmpAdaptorServer((int)port,(InetAddress)addr)</CODE>.
-     * @param port The port number for sending SNMP responses.
-     * @param addr The IP address to bind.
+     * @pbrbm usfAdl Spfdififs if tiis nfw SNMP bdbptor usfs tif ACL mfdibnism.
+     * If tif spfdififd pbrbmftfr is sft to <CODE>truf</CODE>, tiis
+     * donstrudtor is fquivblfnt to
+     * <CODE>SnmpAdbptorSfrvfr((int)port,(InftAddrfss)bddr)</CODE>.
+     * @pbrbm port Tif port numbfr for sfnding SNMP rfsponsfs.
+     * @pbrbm bddr Tif IP bddrfss to bind.
      */
-    public SnmpAdaptorServer(boolean useAcl, int port, InetAddress addr) {
-        this(useAcl,null,port,addr);
+    publid SnmpAdbptorSfrvfr(boolfbn usfAdl, int port, InftAddrfss bddr) {
+        tiis(usfAdl,null,port,bddr);
     }
 
-    // If forceAcl is `true' and InetAddressAcl is null, then a default
-    // SnmpAcl object is created.
+    // If fordfAdl is `truf' bnd InftAddrfssAdl is null, tifn b dffbult
+    // SnmpAdl objfdt is drfbtfd.
     //
-    private SnmpAdaptorServer(boolean forceAcl, InetAddressAcl acl,
-                              int port, InetAddress addr) {
-        super(CommunicatorServer.SNMP_TYPE) ;
+    privbtf SnmpAdbptorSfrvfr(boolfbn fordfAdl, InftAddrfssAdl bdl,
+                              int port, InftAddrfss bddr) {
+        supfr(CommunidbtorSfrvfr.SNMP_TYPE) ;
 
 
-        // Initialize the ACL implementation.
+        // Initiblizf tif ACL implfmfntbtion.
         //
-        if (acl == null && forceAcl) {
+        if (bdl == null && fordfAdl) {
             try {
-                acl = new SnmpAcl("SNMP protocol adaptor IP ACL");
-            } catch (UnknownHostException e) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "constructor", "UnknowHostException when creating ACL",e);
+                bdl = nfw SnmpAdl("SNMP protodol bdbptor IP ACL");
+            } dbtdi (UnknownHostExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "donstrudtor", "UnknowHostExdfption wifn drfbting ACL",f);
                 }
             }
-        } else {
-            this.useAcl = (acl!=null) || forceAcl;
+        } flsf {
+            tiis.usfAdl = (bdl!=null) || fordfAdl;
         }
 
-        init(acl, port, addr) ;
+        init(bdl, port, bddr) ;
     }
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the number of managers that have been processed by this
-     * SNMP protocol adaptor  since its creation.
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis
+     * SNMP protodol bdbptor  sindf its drfbtion.
      *
-     * @return The number of managers handled by this SNMP protocol adaptor
-     * since its creation. This counter is not reset by the <CODE>stop</CODE>
-     * method.
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE>
+     * mftiod.
      */
-    @Override
-    public int getServedClientCount() {
-        return super.getServedClientCount();
+    @Ovfrridf
+    publid int gftSfrvfdClifntCount() {
+        rfturn supfr.gftSfrvfdClifntCount();
     }
 
     /**
-     * Gets the number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * SNMP protodol bdbptor.
      *
-     * @return The number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * SNMP protodol bdbptor.
      */
-    @Override
-    public int getActiveClientCount() {
-        return super.getActiveClientCount();
+    @Ovfrridf
+    publid int gftAdtivfClifntCount() {
+        rfturn supfr.gftAdtivfClifntCount();
     }
 
     /**
-     * Gets the maximum number of managers that this SNMP protocol adaptor can
-     * process concurrently.
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
      *
-     * @return The maximum number of managers that this SNMP protocol adaptor
-     *         can process concurrently.
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor
+     *         dbn prodfss dondurrfntly.
      */
-    @Override
-    public int getMaxActiveClientCount() {
-        return super.getMaxActiveClientCount();
+    @Ovfrridf
+    publid int gftMbxAdtivfClifntCount() {
+        rfturn supfr.gftMbxAdtivfClifntCount();
     }
 
     /**
-     * Sets the maximum number of managers this SNMP protocol adaptor can
-     * process concurrently.
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
      *
-     * @param c The number of managers.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    @Override
-    public void setMaxActiveClientCount(int c)
-        throws java.lang.IllegalStateException {
-        super.setMaxActiveClientCount(c);
+    @Ovfrridf
+    publid void sftMbxAdtivfClifntCount(int d)
+        tirows jbvb.lbng.IllfgblStbtfExdfption {
+        supfr.sftMbxAdtivfClifntCount(d);
     }
 
     /**
-     * Returns the Ip address based ACL used by this SNMP protocol adaptor.
-     * @return The <CODE>InetAddressAcl</CODE> implementation.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public InetAddressAcl getInetAddressAcl() {
-        return ipacl;
+    @Ovfrridf
+    publid InftAddrfssAdl gftInftAddrfssAdl() {
+        rfturn ipbdl;
     }
 
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending traps.
-     * By default, port 162 is used.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * By dffbult, port 162 is usfd.
      *
-     * @return The port number for sending SNMP traps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
      */
-    @Override
-    public Integer getTrapPort() {
-        return trapPort;
+    @Ovfrridf
+    publid Intfgfr gftTrbpPort() {
+        rfturn trbpPort;
     }
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending traps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
      *
-     * @param port The port number for sending SNMP traps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
      */
-    @Override
-    public void setTrapPort(Integer port) {
-        setTrapPort(port.intValue());
+    @Ovfrridf
+    publid void sftTrbpPort(Intfgfr port) {
+        sftTrbpPort(port.intVbluf());
     }
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending traps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
      *
-     * @param port The port number for sending SNMP traps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
      */
-    public void setTrapPort(int port) {
-        int val= port ;
-        if (val < 0) throw new
-            IllegalArgumentException("Trap port cannot be a negative value");
-        trapPort= val ;
+    publid void sftTrbpPort(int port) {
+        int vbl= port ;
+        if (vbl < 0) tirow nfw
+            IllfgblArgumfntExdfption("Trbp port dbnnot bf b nfgbtivf vbluf");
+        trbpPort= vbl ;
     }
 
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending
-     * inform requests. By default, port 162 is used.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding
+     * inform rfqufsts. By dffbult, port 162 is usfd.
      *
-     * @return The port number for sending SNMP inform requests.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
      */
-    @Override
-    public int getInformPort() {
-        return informPort;
+    @Ovfrridf
+    publid int gftInformPort() {
+        rfturn informPort;
     }
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending
-     * inform requests.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding
+     * inform rfqufsts.
      *
-     * @param port The port number for sending SNMP inform requests.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
      */
-    @Override
-    public void setInformPort(int port) {
+    @Ovfrridf
+    publid void sftInformPort(int port) {
         if (port < 0)
-            throw new IllegalArgumentException("Inform request port "+
-                                               "cannot be a negative value");
+            tirow nfw IllfgblArgumfntExdfption("Inform rfqufst port "+
+                                               "dbnnot bf b nfgbtivf vbluf");
         informPort= port ;
     }
 
     /**
-     * Returns the protocol of this SNMP protocol adaptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
      *
-     * @return The string "snmp".
+     * @rfturn Tif string "snmp".
      */
-    @Override
-    public String getProtocol() {
-        return "snmp";
+    @Ovfrridf
+    publid String gftProtodol() {
+        rfturn "snmp";
     }
 
     /**
-     * Returns the buffer size of this SNMP protocol adaptor.
-     * This buffer size is used for both incoming request and outgoing
-     * inform requests.
-     * By default, buffer size 1024 is used.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Tiis bufffr sizf is usfd for boti indoming rfqufst bnd outgoing
+     * inform rfqufsts.
+     * By dffbult, bufffr sizf 1024 is usfd.
      *
-     * @return The buffer size.
+     * @rfturn Tif bufffr sizf.
      */
-    @Override
-    public Integer getBufferSize() {
-        return bufferSize;
+    @Ovfrridf
+    publid Intfgfr gftBufffrSizf() {
+        rfturn bufffrSizf;
     }
 
     /**
-     * Sets the buffer size of this SNMP protocol adaptor.
-     * This buffer size is used for both incoming request and outgoing
-     * inform requests.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Tiis bufffr sizf is usfd for boti indoming rfqufst bnd outgoing
+     * inform rfqufsts.
      *
-     * @param s The buffer size.
+     * @pbrbm s Tif bufffr sizf.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    @Override
-    public void setBufferSize(Integer s)
-        throws java.lang.IllegalStateException {
-        if ((state == ONLINE) || (state == STARTING)) {
-            throw new IllegalStateException("Stop server before carrying out"+
-                                            " this operation");
+    @Ovfrridf
+    publid void sftBufffrSizf(Intfgfr s)
+        tirows jbvb.lbng.IllfgblStbtfExdfption {
+        if ((stbtf == ONLINE) || (stbtf == STARTING)) {
+            tirow nfw IllfgblStbtfExdfption("Stop sfrvfr bfforf dbrrying out"+
+                                            " tiis opfrbtion");
         }
-        bufferSize = s.intValue() ;
+        bufffrSizf = s.intVbluf() ;
     }
 
     /**
-     * Gets the number of times to try sending an inform request before
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf
      * giving up.
-     * By default, a maximum of 3 tries is used.
-     * @return The maximun number of tries.
+     * By dffbult, b mbximum of 3 trifs is usfd.
+     * @rfturn Tif mbximun numbfr of trifs.
      */
-    @Override
-    final public int getMaxTries() {
-        return maxTries;
+    @Ovfrridf
+    finbl publid int gftMbxTrifs() {
+        rfturn mbxTrifs;
     }
 
     /**
-     * Changes the maximun number of times to try sending an inform
-     * request before giving up.
-     * @param newMaxTries The maximun number of tries.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform
+     * rfqufst bfforf giving up.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
      */
-    @Override
-    final public synchronized void setMaxTries(int newMaxTries) {
-        if (newMaxTries < 0)
-            throw new IllegalArgumentException();
-        maxTries = newMaxTries;
+    @Ovfrridf
+    finbl publid syndironizfd void sftMbxTrifs(int nfwMbxTrifs) {
+        if (nfwMbxTrifs < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        mbxTrifs = nfwMbxTrifs;
     }
 
     /**
-     * Gets the timeout to wait for an inform response from the manager.
-     * By default, a timeout of 3 seconds is used.
-     * @return The value of the timeout property.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * By dffbult, b timfout of 3 sfdonds is usfd.
+     * @rfturn Tif vbluf of tif timfout propfrty.
      */
-    @Override
-    final public int getTimeout() {
-        return timeout;
+    @Ovfrridf
+    finbl publid int gftTimfout() {
+        rfturn timfout;
     }
 
     /**
-     * Changes the timeout to wait for an inform response from the manager.
-     * @param newTimeout The timeout (in milliseconds).
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
      */
-    @Override
-    final public synchronized void setTimeout(int newTimeout) {
-        if (newTimeout < 0)
-            throw new IllegalArgumentException();
-        timeout= newTimeout;
+    @Ovfrridf
+    finbl publid syndironizfd void sftTimfout(int nfwTimfout) {
+        if (nfwTimfout < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        timfout= nfwTimfout;
     }
 
     /**
-     * Returns the message factory of this SNMP protocol adaptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @return The factory object.
+     * @rfturn Tif fbdtory objfdt.
      */
-    @Override
-    public SnmpPduFactory getPduFactory() {
-        return pduFactory ;
+    @Ovfrridf
+    publid SnmpPduFbdtory gftPduFbdtory() {
+        rfturn pduFbdtory ;
     }
 
     /**
-     * Sets the message factory of this SNMP protocol adaptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @param factory The factory object (null means the default factory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
      */
-    @Override
-    public void setPduFactory(SnmpPduFactory factory) {
-        if (factory == null)
-            pduFactory = new SnmpPduFactoryBER() ;
-        else
-            pduFactory = factory ;
+    @Ovfrridf
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory) {
+        if (fbdtory == null)
+            pduFbdtory = nfw SnmpPduFbdtoryBER() ;
+        flsf
+            pduFbdtory = fbdtory ;
     }
 
     /**
-     * Set the user-data factory of this SNMP protocol adaptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @param factory The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      */
-    @Override
-    public void setUserDataFactory(SnmpUserDataFactory factory) {
-        userDataFactory = factory ;
+    @Ovfrridf
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory) {
+        usfrDbtbFbdtory = fbdtory ;
     }
 
     /**
-     * Get the user-data factory associated with this SNMP protocol adaptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
      *
-     * @return The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      */
-    @Override
-    public SnmpUserDataFactory getUserDataFactory() {
-        return userDataFactory;
+    @Ovfrridf
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory() {
+        rfturn usfrDbtbFbdtory;
     }
 
     /**
-     * Returns <CODE>true</CODE> if authentication traps are enabled.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends
-     * an <CODE>authenticationFailure</CODE> trap each time an
-     * authentication fails.
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn
+     * butifntidbtion fbils.
      * <P>
-     * The default behaviour is to send authentication traps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
      *
-     * @return <CODE>true</CODE> if authentication traps are enabled,
-     *         <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd,
+     *         <CODE>fblsf</CODE> otifrwisf.
      */
-    @Override
-    public boolean getAuthTrapEnabled() {
-        return authTrapEnabled ;
+    @Ovfrridf
+    publid boolfbn gftAutiTrbpEnbblfd() {
+        rfturn butiTrbpEnbblfd ;
     }
 
     /**
-     * Sets the flag indicating if traps need to be sent in case of
-     * authentication failure.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of
+     * butifntidbtion fbilurf.
      *
-     * @param enabled Flag indicating if traps need to be sent.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
      */
-    @Override
-    public void setAuthTrapEnabled(boolean enabled) {
-        authTrapEnabled = enabled ;
+    @Ovfrridf
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd) {
+        butiTrbpEnbblfd = fnbblfd ;
     }
 
     /**
-     * Returns <code>true</code> if this SNMP protocol adaptor sends a
-     * response in case of authentication failure.
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b
+     * rfsponsf in dbsf of butifntidbtion fbilurf.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends a
-     * response with <CODE>noSuchName</CODE> or <CODE>readOnly</CODE> when
-     * the authentication failed. If the flag is disabled, the
-     * SNMP protocol adaptor trashes the PDU silently.
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b
+     * rfsponsf witi <CODE>noSudiNbmf</CODE> or <CODE>rfbdOnly</CODE> wifn
+     * tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
      * <P>
-     * The default behavior is to send responses.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
      *
-     * @return <CODE>true</CODE> if responses are sent.
+     * @rfturn <CODE>truf</CODE> if rfsponsfs brf sfnt.
      */
-    @Override
-    public boolean getAuthRespEnabled() {
-        return authRespEnabled ;
+    @Ovfrridf
+    publid boolfbn gftAutiRfspEnbblfd() {
+        rfturn butiRfspEnbblfd ;
     }
 
     /**
-     * Sets the flag indicating if responses need to be sent in case of
-     * authentication failure.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of
+     * butifntidbtion fbilurf.
      *
-     * @param enabled Flag indicating if responses need to be sent.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
      */
-    @Override
-    public void setAuthRespEnabled(boolean enabled) {
-        authRespEnabled = enabled ;
+    @Ovfrridf
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd) {
+        butiRfspEnbblfd = fnbblfd ;
     }
 
     /**
-     * Returns the enterprise OID. It is used by
-     * {@link #snmpV1Trap snmpV1Trap} to fill the 'enterprise' field of the
-     * trap request.
+     * Rfturns tif fntfrprisf OID. It is usfd by
+     * {@link #snmpV1Trbp snmpV1Trbp} to fill tif 'fntfrprisf' fifld of tif
+     * trbp rfqufst.
      *
-     * @return The OID in string format "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
      */
-    @Override
-    public String getEnterpriseOid() {
-        return enterpriseOid.toString() ;
+    @Ovfrridf
+    publid String gftEntfrprisfOid() {
+        rfturn fntfrprisfOid.toString() ;
     }
 
     /**
-     * Sets the enterprise OID.
+     * Sfts tif fntfrprisf OID.
      *
-     * @param oid The OID in string format "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
      *
-     * @exception IllegalArgumentException The string format is incorrect
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
      */
-    @Override
-    public void setEnterpriseOid(String oid) throws IllegalArgumentException {
-        enterpriseOid = new SnmpOid(oid) ;
+    @Ovfrridf
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption {
+        fntfrprisfOid = nfw SnmpOid(oid) ;
     }
 
     /**
-     * Returns the names of the MIBs available in this SNMP protocol adaptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
      *
-     * @return An array of MIB names.
+     * @rfturn An brrby of MIB nbmfs.
      */
-    @Override
-    public String[] getMibs() {
-        String[] result = new String[mibs.size()] ;
+    @Ovfrridf
+    publid String[] gftMibs() {
+        String[] rfsult = nfw String[mibs.sizf()] ;
         int i = 0 ;
-        for (Enumeration<SnmpMibAgent> e = mibs.elements() ; e.hasMoreElements() ;) {
-            SnmpMibAgent mib = e.nextElement() ;
-            result[i++] = mib.getMibName();
+        for (Enumfrbtion<SnmpMibAgfnt> f = mibs.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            SnmpMibAgfnt mib = f.nfxtElfmfnt() ;
+            rfsult[i++] = mib.gftMibNbmf();
         }
-        return result ;
+        rfturn rfsult ;
     }
 
     // GETTERS FOR SNMP GROUP (MIBII)
     //-------------------------------
 
     /**
-     * Returns the <CODE>snmpOutTraps</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutTraps</CODE> value.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutTraps() {
-        return (long)snmpOutTraps;
+    @Ovfrridf
+    publid Long gftSnmpOutTrbps() {
+        rfturn (long)snmpOutTrbps;
     }
 
     /**
-     * Returns the <CODE>snmpOutGetResponses</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutGetResponses</CODE> value.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutGetResponses() {
-        return (long)snmpOutGetResponses;
+    @Ovfrridf
+    publid Long gftSnmpOutGftRfsponsfs() {
+        rfturn (long)snmpOutGftRfsponsfs;
     }
 
     /**
-     * Returns the <CODE>snmpOutGenErrs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutGenErrs</CODE> value.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutGenErrs() {
-        return (long)snmpOutGenErrs;
+    @Ovfrridf
+    publid Long gftSnmpOutGfnErrs() {
+        rfturn (long)snmpOutGfnErrs;
     }
 
     /**
-     * Returns the <CODE>snmpOutBadValues</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutBadValues</CODE> value.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutBadValues() {
-        return (long)snmpOutBadValues;
+    @Ovfrridf
+    publid Long gftSnmpOutBbdVblufs() {
+        rfturn (long)snmpOutBbdVblufs;
     }
 
     /**
-     * Returns the <CODE>snmpOutNoSuchNames</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutNoSuchNames</CODE> value.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutNoSuchNames() {
-        return (long)snmpOutNoSuchNames;
+    @Ovfrridf
+    publid Long gftSnmpOutNoSudiNbmfs() {
+        rfturn (long)snmpOutNoSudiNbmfs;
     }
 
     /**
-     * Returns the <CODE>snmpOutTooBigs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutTooBigs</CODE> value.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutTooBigs() {
-        return (long)snmpOutTooBigs;
+    @Ovfrridf
+    publid Long gftSnmpOutTooBigs() {
+        rfturn (long)snmpOutTooBigs;
     }
 
     /**
-     * Returns the <CODE>snmpInASNParseErrs</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInASNParseErrs</CODE> value.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInASNParseErrs() {
-        return (long)snmpInASNParseErrs;
+    @Ovfrridf
+    publid Long gftSnmpInASNPbrsfErrs() {
+        rfturn (long)snmpInASNPbrsfErrs;
     }
 
     /**
-     * Returns the <CODE>snmpInBadCommunityUses</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityUses</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInBadCommunityUses() {
-        return (long)snmpInBadCommunityUses;
+    @Ovfrridf
+    publid Long gftSnmpInBbdCommunityUsfs() {
+        rfturn (long)snmpInBbdCommunityUsfs;
     }
 
     /**
-     * Returns the <CODE>snmpInBadCommunityNames</CODE> value defined in
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in
      * MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityNames</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInBadCommunityNames() {
-        return (long)snmpInBadCommunityNames;
+    @Ovfrridf
+    publid Long gftSnmpInBbdCommunityNbmfs() {
+        rfturn (long)snmpInBbdCommunityNbmfs;
     }
 
     /**
-     * Returns the <CODE>snmpInBadVersions</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInBadVersions</CODE> value.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInBadVersions() {
-        return (long)snmpInBadVersions;
+    @Ovfrridf
+    publid Long gftSnmpInBbdVfrsions() {
+        rfturn (long)snmpInBbdVfrsions;
     }
 
     /**
-     * Returns the <CODE>snmpOutPkts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpOutPkts</CODE> value.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpOutPkts() {
-        return (long)snmpOutPkts;
+    @Ovfrridf
+    publid Long gftSnmpOutPkts() {
+        rfturn (long)snmpOutPkts;
     }
 
     /**
-     * Returns the <CODE>snmpInPkts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInPkts</CODE> value.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInPkts() {
-        return (long)snmpInPkts;
+    @Ovfrridf
+    publid Long gftSnmpInPkts() {
+        rfturn (long)snmpInPkts;
     }
 
     /**
-     * Returns the <CODE>snmpInGetRequests</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInGetRequests</CODE> value.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInGetRequests() {
-        return (long)snmpInGetRequests;
+    @Ovfrridf
+    publid Long gftSnmpInGftRfqufsts() {
+        rfturn (long)snmpInGftRfqufsts;
     }
 
     /**
-     * Returns the <CODE>snmpInGetNexts</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInGetNexts</CODE> value.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInGetNexts() {
-        return (long)snmpInGetNexts;
+    @Ovfrridf
+    publid Long gftSnmpInGftNfxts() {
+        rfturn (long)snmpInGftNfxts;
     }
 
     /**
-     * Returns the <CODE>snmpInSetRequests</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInSetRequests</CODE> value.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInSetRequests() {
-        return (long)snmpInSetRequests;
+    @Ovfrridf
+    publid Long gftSnmpInSftRfqufsts() {
+        rfturn (long)snmpInSftRfqufsts;
     }
 
     /**
-     * Returns the <CODE>snmpInTotalSetVars</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInTotalSetVars</CODE> value.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInTotalSetVars() {
-        return (long)snmpInTotalSetVars;
+    @Ovfrridf
+    publid Long gftSnmpInTotblSftVbrs() {
+        rfturn (long)snmpInTotblSftVbrs;
     }
 
     /**
-     * Returns the <CODE>snmpInTotalReqVars</CODE> value defined in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @return The <CODE>snmpInTotalReqVars</CODE> value.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
      */
-    @Override
-    public Long getSnmpInTotalReqVars() {
-        return (long)snmpInTotalReqVars;
+    @Ovfrridf
+    publid Long gftSnmpInTotblRfqVbrs() {
+        rfturn (long)snmpInTotblRfqVbrs;
     }
 
     /**
-     * Returns the <CODE>snmpSilentDrops</CODE> value defined in RFC
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in RFC
      * 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpSilentDrops</CODE> value.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public Long getSnmpSilentDrops() {
-        return (long)snmpSilentDrops;
+    @Ovfrridf
+    publid Long gftSnmpSilfntDrops() {
+        rfturn (long)snmpSilfntDrops;
     }
 
     /**
-     * Returns the <CODE>snmpProxyDrops</CODE> value defined in RFC
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in RFC
      * 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpProxyDrops</CODE> value.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public Long getSnmpProxyDrops() {
-        return 0L;
+    @Ovfrridf
+    publid Long gftSnmpProxyDrops() {
+        rfturn 0L;
     }
 
 
@@ -1053,423 +1053,423 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //---------------
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * registered in the MBean server.
-     * If the name of the SNMP protocol adaptor MBean is not specified,
-     * it is initialized with the default value:
-     * {@link com.sun.jmx.snmp.ServiceName#DOMAIN
-     *   com.sun.jmx.snmp.ServiceName.DOMAIN}:{@link
-     * com.sun.jmx.snmp.ServiceName#SNMP_ADAPTOR_SERVER
-     * com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_SERVER}.
-     * If any exception is raised, the SNMP protocol adaptor MBean will
-     * not be registered in the MBean server.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * If tif nbmf of tif SNMP protodol bdbptor MBfbn is not spfdififd,
+     * it is initiblizfd witi tif dffbult vbluf:
+     * {@link dom.sun.jmx.snmp.SfrvidfNbmf#DOMAIN
+     *   dom.sun.jmx.snmp.SfrvidfNbmf.DOMAIN}:{@link
+     * dom.sun.jmx.snmp.SfrvidfNbmf#SNMP_ADAPTOR_SERVER
+     * dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_SERVER}.
+     * If bny fxdfption is rbisfd, tif SNMP protodol bdbptor MBfbn will
+     * not bf rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @param server The MBean server to register the service with.
-     * @param name The object name.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr to rfgistfr tif sfrvidf witi.
+     * @pbrbm nbmf Tif objfdt nbmf.
      *
-     * @return The name of the SNMP protocol adaptor registered.
+     * @rfturn Tif nbmf of tif SNMP protodol bdbptor rfgistfrfd.
      *
-     * @exception java.lang.Exception
+     * @fxdfption jbvb.lbng.Exdfption
      */
-    @Override
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-        throws java.lang.Exception {
+    @Ovfrridf
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        tirows jbvb.lbng.Exdfption {
 
-        if (name == null) {
-            name = new ObjectName(server.getDefaultDomain() + ":" +
-                             com.sun.jmx.snmp.ServiceName.SNMP_ADAPTOR_SERVER);
+        if (nbmf == null) {
+            nbmf = nfw ObjfdtNbmf(sfrvfr.gftDffbultDombin() + ":" +
+                             dom.sun.jmx.snmp.SfrvidfNbmf.SNMP_ADAPTOR_SERVER);
         }
-        return (super.preRegister(server, name));
+        rfturn (supfr.prfRfgistfr(sfrvfr, nbmf));
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void postRegister (Boolean registrationDone) {
-        super.postRegister(registrationDone);
+    @Ovfrridf
+    publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
+        supfr.postRfgistfr(rfgistrbtionDonf);
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void preDeregister() throws java.lang.Exception {
-        super.preDeregister();
+    @Ovfrridf
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption {
+        supfr.prfDfrfgistfr();
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void postDeregister() {
-        super.postDeregister();
+    @Ovfrridf
+    publid void postDfrfgistfr() {
+        supfr.postDfrfgistfr();
     }
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
      *
-     * @param mib The MIB to add.
+     * @pbrbm mib Tif MIB to bdd.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      */
-    @Override
-    public SnmpMibHandler addMib(SnmpMibAgent mib)
-        throws IllegalArgumentException {
+    @Ovfrridf
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib)
+        tirows IllfgblArgumfntExdfption {
         if (mib == null) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
 
-        if(!mibs.contains(mib))
-            mibs.addElement(mib);
+        if(!mibs.dontbins(mib))
+            mibs.bddElfmfnt(mib);
 
-        root.register(mib);
+        root.rfgistfr(mib);
 
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
-     * This method is to be called to set a specific agent to a specific OID.
-     * This can be useful when dealing with MIB overlapping.
-     * Some OID can be implemented in more than one MIB. In this case,
-     * the OID nearer agent will be used on SNMP operations.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Tiis mftiod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID.
+     * Tiis dbn bf usfful wifn dfbling witi MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf tibn onf MIB. In tiis dbsf,
+     * tif OID nfbrfr bgfnt will bf usfd on SNMP opfrbtions.
      *
-     * @param mib The MIB to add.
-     * @param oids The set of OIDs this agent implements.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public SnmpMibHandler addMib(SnmpMibAgent mib, SnmpOid[] oids)
-        throws IllegalArgumentException {
+    @Ovfrridf
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids)
+        tirows IllfgblArgumfntExdfption {
         if (mib == null) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
 
-        //If null oid array, just add it to the mib.
+        //If null oid brrby, just bdd it to tif mib.
         if(oids == null)
-            return addMib(mib);
+            rfturn bddMib(mib);
 
-        if(!mibs.contains(mib))
-            mibs.addElement(mib);
+        if(!mibs.dontbins(mib))
+            mibs.bddElfmfnt(mib);
 
-        for (int i = 0; i < oids.length; i++) {
-            root.register(mib, oids[i].longValue());
+        for (int i = 0; i < oids.lfngti; i++) {
+            root.rfgistfr(mib, oids[i].longVbluf());
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Adds a new MIB in the SNMP MIB handler. In SNMP V1 and V2 the
-     * <CODE>contextName</CODE> is useless and this method
-     * is equivalent to <CODE>addMib(SnmpMibAgent mib)</CODE>.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr. In SNMP V1 bnd V2 tif
+     * <CODE>dontfxtNbmf</CODE> is usflfss bnd tiis mftiod
+     * is fquivblfnt to <CODE>bddMib(SnmpMibAgfnt mib)</CODE>.
      *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context name.
-     * @return A reference on the SNMP MIB handler.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf.
+     * @rfturn A rfffrfndf on tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public SnmpMibHandler addMib(SnmpMibAgent mib, String contextName)
-        throws IllegalArgumentException {
-        return addMib(mib);
+    @Ovfrridf
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, String dontfxtNbmf)
+        tirows IllfgblArgumfntExdfption {
+        rfturn bddMib(mib);
     }
 
     /**
-     * Adds a new MIB in the SNMP MIB handler. In SNMP V1 and V2 the
-     * <CODE>contextName</CODE> is useless and this method
-     * is equivalent to <CODE>addMib(SnmpMibAgent mib, SnmpOid[] oids)</CODE>.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr. In SNMP V1 bnd V2 tif
+     * <CODE>dontfxtNbmf</CODE> is usflfss bnd tiis mftiod
+     * is fquivblfnt to <CODE>bddMib(SnmpMibAgfnt mib, SnmpOid[] oids)</CODE>.
      *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context. If null is passed, will be
-     *        registered in the default context.
-     * @param oids The set of OIDs this agent implements.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt. If null is pbssfd, will bf
+     *        rfgistfrfd in tif dffbult dontfxt.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public SnmpMibHandler addMib(SnmpMibAgent mib,
-                                 String contextName,
+    @Ovfrridf
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib,
+                                 String dontfxtNbmf,
                                  SnmpOid[] oids)
-        throws IllegalArgumentException {
+        tirows IllfgblArgumfntExdfption {
 
-        return addMib(mib, oids);
+        rfturn bddMib(mib, oids);
     }
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * In SNMP V1 and V2 the <CODE>contextName</CODE> is useless and this
-     * method is equivalent to <CODE>removeMib(SnmpMibAgent mib)</CODE>.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * In SNMP V1 bnd V2 tif <CODE>dontfxtNbmf</CODE> is usflfss bnd tiis
+     * mftiod is fquivblfnt to <CODE>rfmovfMib(SnmpMibAgfnt mib)</CODE>.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf usfd bt rfgistrbtion timf.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was
-     * a MIB included in the SNMP MIB handler, <CODE>false</CODE>
-     * otherwise.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs
+     * b MIB indludfd in tif SNMP MIB ibndlfr, <CODE>fblsf</CODE>
+     * otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public boolean removeMib(SnmpMibAgent mib, String contextName) {
-        return removeMib(mib);
+    @Ovfrridf
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib, String dontfxtNbmf) {
+        rfturn rfmovfMib(mib);
     }
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
      *
-     * @param mib The MIB to be removed.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB
-     *         included in the SNMP MIB handler, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs b MIB
+     *         indludfd in tif SNMP MIB ibndlfr, <CODE>fblsf</CODE> otifrwisf.
      */
-    @Override
-    public boolean removeMib(SnmpMibAgent mib) {
-        root.unregister(mib);
-        return (mibs.removeElement(mib)) ;
+    @Ovfrridf
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib) {
+        root.unrfgistfr(mib);
+        rfturn (mibs.rfmovfElfmfnt(mib)) ;
     }
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was
-     * a MIB included in the SNMP MIB handler, <CODE>false</CODE>
-     * otherwise.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm oids Tif oid tif MIB wbs prfviously rfgistfrfd for.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs
+     * b MIB indludfd in tif SNMP MIB ibndlfr, <CODE>fblsf</CODE>
+     * otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public boolean removeMib(SnmpMibAgent mib, SnmpOid[] oids) {
-        root.unregister(mib, oids);
-        return (mibs.removeElement(mib)) ;
+    @Ovfrridf
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib, SnmpOid[] oids) {
+        root.unrfgistfr(mib, oids);
+        rfturn (mibs.rfmovfElfmfnt(mib)) ;
     }
 
      /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was
-     * a MIB included in the SNMP MIB handler, <CODE>false</CODE>
-     * otherwise.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf usfd bt rfgistrbtion timf.
+     * @pbrbm oids Tif oid tif MIB wbs prfviously rfgistfrfd for.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs
+     * b MIB indludfd in tif SNMP MIB ibndlfr, <CODE>fblsf</CODE>
+     * otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public boolean removeMib(SnmpMibAgent mib,
-                             String contextName,
+    @Ovfrridf
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib,
+                             String dontfxtNbmf,
                              SnmpOid[] oids) {
-        return removeMib(mib, oids);
+        rfturn rfmovfMib(mib, oids);
     }
 
     // SUBCLASSING OF COMMUNICATOR SERVER
     //-----------------------------------
 
     /**
-     * Creates the datagram socket.
+     * Crfbtfs tif dbtbgrbm sodkft.
      */
-    @Override
-    protected void doBind()
-        throws CommunicationException, InterruptedException {
+    @Ovfrridf
+    protfdtfd void doBind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
 
         try {
-            synchronized (this) {
-                socket = new DatagramSocket(port, address) ;
+            syndironizfd (tiis) {
+                sodkft = nfw DbtbgrbmSodkft(port, bddrfss) ;
             }
-            dbgTag = makeDebugTag();
-        } catch (SocketException e) {
-            if (e.getMessage().equals(InterruptSysCallMsg))
-                throw new InterruptedException(e.toString()) ;
-            else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "doBind", "cannot bind on port " + port);
+            dbgTbg = mbkfDfbugTbg();
+        } dbtdi (SodkftExdfption f) {
+            if (f.gftMfssbgf().fqubls(IntfrruptSysCbllMsg))
+                tirow nfw IntfrruptfdExdfption(f.toString()) ;
+            flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "doBind", "dbnnot bind on port " + port);
                 }
-                throw new CommunicationException(e) ;
+                tirow nfw CommunidbtionExdfption(f) ;
             }
         }
     }
 
     /**
-     * Return the actual port to which the adaptor is bound.
-     * Can be different from the port given at construction time if
-     * that port number was 0.
-     * @return the actual port to which the adaptor is bound.
+     * Rfturn tif bdtubl port to wiidi tif bdbptor is bound.
+     * Cbn bf difffrfnt from tif port givfn bt donstrudtion timf if
+     * tibt port numbfr wbs 0.
+     * @rfturn tif bdtubl port to wiidi tif bdbptor is bound.
      **/
-    @Override
-    public int getPort() {
-        synchronized (this) {
-            if (socket != null) return socket.getLocalPort();
+    @Ovfrridf
+    publid int gftPort() {
+        syndironizfd (tiis) {
+            if (sodkft != null) rfturn sodkft.gftLodblPort();
         }
-        return super.getPort();
+        rfturn supfr.gftPort();
     }
 
     /**
-     * Closes the datagram socket.
+     * Closfs tif dbtbgrbm sodkft.
      */
-    @Override
-    protected void doUnbind()
-        throws CommunicationException, InterruptedException {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "doUnbind","Finally close the socket");
+    @Ovfrridf
+    protfdtfd void doUnbind()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "doUnbind","Finblly dlosf tif sodkft");
         }
-        synchronized (this) {
-            if (socket != null) {
-                socket.close() ;
-                socket = null ;
-                // Important to inform finalize() that the socket is closed...
+        syndironizfd (tiis) {
+            if (sodkft != null) {
+                sodkft.dlosf() ;
+                sodkft = null ;
+                // Importbnt to inform finblizf() tibt tif sodkft is dlosfd...
             }
         }
-        closeTrapSocketIfNeeded() ;
-        closeInformSocketIfNeeded() ;
+        dlosfTrbpSodkftIfNffdfd() ;
+        dlosfInformSodkftIfNffdfd() ;
     }
 
-    private void createSnmpRequestHandler(SnmpAdaptorServer server,
+    privbtf void drfbtfSnmpRfqufstHbndlfr(SnmpAdbptorSfrvfr sfrvfr,
                                           int id,
-                                          DatagramSocket s,
-                                          DatagramPacket p,
-                                          SnmpMibTree tree,
-                                          Vector<SnmpMibAgent> m,
-                                          InetAddressAcl a,
-                                          SnmpPduFactory factory,
-                                          SnmpUserDataFactory dataFactory,
-                                          MBeanServer f,
-                                          ObjectName n) {
-        final SnmpRequestHandler handler =
-            new SnmpRequestHandler(this, id, s, p, tree, m, a, factory,
-                                   dataFactory, f, n);
-        threadService.submitTask(handler);
+                                          DbtbgrbmSodkft s,
+                                          DbtbgrbmPbdkft p,
+                                          SnmpMibTrff trff,
+                                          Vfdtor<SnmpMibAgfnt> m,
+                                          InftAddrfssAdl b,
+                                          SnmpPduFbdtory fbdtory,
+                                          SnmpUsfrDbtbFbdtory dbtbFbdtory,
+                                          MBfbnSfrvfr f,
+                                          ObjfdtNbmf n) {
+        finbl SnmpRfqufstHbndlfr ibndlfr =
+            nfw SnmpRfqufstHbndlfr(tiis, id, s, p, trff, m, b, fbdtory,
+                                   dbtbFbdtory, f, n);
+        tirfbdSfrvidf.submitTbsk(ibndlfr);
     }
 
     /**
-     * Reads a packet from the datagram socket and creates a request
-     * handler which decodes and processes the request.
+     * Rfbds b pbdkft from tif dbtbgrbm sodkft bnd drfbtfs b rfqufst
+     * ibndlfr wiidi dfdodfs bnd prodfssfs tif rfqufst.
      */
-    @Override
-    protected void doReceive()
-        throws CommunicationException, InterruptedException {
+    @Ovfrridf
+    protfdtfd void doRfdfivf()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
 
-        // Let's wait for something to be received.
+        // Lft's wbit for somftiing to bf rfdfivfd.
         //
         try {
-            packet = new DatagramPacket(new byte[bufferSize], bufferSize) ;
-            socket.receive(packet);
-            int state = getState();
+            pbdkft = nfw DbtbgrbmPbdkft(nfw bytf[bufffrSizf], bufffrSizf) ;
+            sodkft.rfdfivf(pbdkft);
+            int stbtf = gftStbtf();
 
-            if(state != ONLINE) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                        "doReceive","received a message but state not online, returning.");
+            if(stbtf != ONLINE) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                        "doRfdfivf","rfdfivfd b mfssbgf but stbtf not onlinf, rfturning.");
                 }
-                return;
+                rfturn;
             }
 
-            createSnmpRequestHandler(this, servedClientCount, socket,
-                                     packet, root, mibs, ipacl, pduFactory,
-                                     userDataFactory, topMBS, objectName);
-        } catch (SocketException e) {
-            // Let's check if we have been interrupted by stop().
+            drfbtfSnmpRfqufstHbndlfr(tiis, sfrvfdClifntCount, sodkft,
+                                     pbdkft, root, mibs, ipbdl, pduFbdtory,
+                                     usfrDbtbFbdtory, topMBS, objfdtNbmf);
+        } dbtdi (SodkftExdfption f) {
+            // Lft's difdk if wf ibvf bffn intfrruptfd by stop().
             //
-            if (e.getMessage().equals(InterruptSysCallMsg))
-                throw new InterruptedException(e.toString()) ;
-            else
-                throw new CommunicationException(e) ;
-        } catch (InterruptedIOException e) {
-            throw new InterruptedException(e.toString()) ;
-        } catch (CommunicationException e) {
-            throw e ;
-        } catch (Exception e) {
-            throw new CommunicationException(e) ;
+            if (f.gftMfssbgf().fqubls(IntfrruptSysCbllMsg))
+                tirow nfw IntfrruptfdExdfption(f.toString()) ;
+            flsf
+                tirow nfw CommunidbtionExdfption(f) ;
+        } dbtdi (IntfrruptfdIOExdfption f) {
+            tirow nfw IntfrruptfdExdfption(f.toString()) ;
+        } dbtdi (CommunidbtionExdfption f) {
+            tirow f ;
+        } dbtdi (Exdfption f) {
+            tirow nfw CommunidbtionExdfption(f) ;
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "doReceive", "received a message");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "doRfdfivf", "rfdfivfd b mfssbgf");
         }
     }
 
-    @Override
-    protected void doError(Exception e) throws CommunicationException {
+    @Ovfrridf
+    protfdtfd void doError(Exdfption f) tirows CommunidbtionExdfption {
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    protected void doProcess()
-        throws CommunicationException, InterruptedException {
+    @Ovfrridf
+    protfdtfd void doProdfss()
+        tirows CommunidbtionExdfption, IntfrruptfdExdfption {
     }
 
 
     /**
-     * The number of times the communicator server will attempt
-     * to bind before giving up.
-     * We attempt only once...
-     * @return 1
+     * Tif numbfr of timfs tif dommunidbtor sfrvfr will bttfmpt
+     * to bind bfforf giving up.
+     * Wf bttfmpt only ondf...
+     * @rfturn 1
      **/
-    @Override
-    protected int getBindTries() {
-        return 1;
+    @Ovfrridf
+    protfdtfd int gftBindTrifs() {
+        rfturn 1;
     }
 
     /**
-     * Stops this SNMP protocol adaptor.
-     * Closes the datagram socket.
+     * Stops tiis SNMP protodol bdbptor.
+     * Closfs tif dbtbgrbm sodkft.
      * <p>
-     * Has no effect if this SNMP protocol adaptor is <CODE>OFFLINE</CODE> or
+     * Hbs no ffffdt if tiis SNMP protodol bdbptor is <CODE>OFFLINE</CODE> or
      * <CODE>STOPPING</CODE>.
      */
-    @Override
-    public void stop(){
+    @Ovfrridf
+    publid void stop(){
 
-        final int port = getPort();
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
+        finbl int port = gftPort();
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
                 "stop", "Stopping: using port " + port);
         }
-        if ((state == ONLINE) || (state == STARTING)){
-            super.stop();
+        if ((stbtf == ONLINE) || (stbtf == STARTING)){
+            supfr.stop();
             try {
-                DatagramSocket sn = new DatagramSocket(0);
+                DbtbgrbmSodkft sn = nfw DbtbgrbmSodkft(0);
                 try {
-                    byte[] ob = new byte[1];
+                    bytf[] ob = nfw bytf[1];
 
-                    DatagramPacket pk;
-                    if (address != null)
-                        pk = new DatagramPacket(ob , 1, address, port);
-                    else
-                        pk = new DatagramPacket(ob , 1,
-                                 java.net.InetAddress.getLocalHost(), port);
+                    DbtbgrbmPbdkft pk;
+                    if (bddrfss != null)
+                        pk = nfw DbtbgrbmPbdkft(ob , 1, bddrfss, port);
+                    flsf
+                        pk = nfw DbtbgrbmPbdkft(ob , 1,
+                                 jbvb.nft.InftAddrfss.gftLodblHost(), port);
 
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                            "stop", "Sending: using port " + port);
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                            "stop", "Sfnding: using port " + port);
                     }
-                    sn.send(pk);
-                } finally {
-                    sn.close();
+                    sn.sfnd(pk);
+                } finblly {
+                    sn.dlosf();
                 }
-            } catch (Throwable e){
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "stop", "Got unexpected Throwable", e);
+            } dbtdi (Tirowbblf f){
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "stop", "Got unfxpfdtfd Tirowbblf", f);
                 }
             }
         }
@@ -1479,812 +1479,812 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //-------------------------
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file
-     * (if available).
-     * If no ACL file or no destinations are available, the trap is sent
-     * to the local host.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf
+     * (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt
+     * to tif lodbl iost.
      *
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined
-     *            by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd
+     *            by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public void snmpV1Trap(int generic, int specific,
-                           SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid,
+                           SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV1Trap", "generic=" + generic +
-                  ", specific=" + specific);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV1Trbp", "gfnfrid=" + gfnfrid +
+                  ", spfdifid=" + spfdifid);
         }
 
-        // First, make an SNMP V1 trap pdu
+        // First, mbkf bn SNMP V1 trbp pdu
         //
-        SnmpPduTrap pdu = new SnmpPduTrap() ;
-        pdu.address = null ;
-        pdu.port = trapPort ;
-        pdu.type = pduV1TrapPdu ;
-        pdu.version = snmpVersionOne ;
-        pdu.community = null ;
-        pdu.enterprise = enterpriseOid ;
-        pdu.genericTrap = generic ;
-        pdu.specificTrap = specific ;
-        pdu.timeStamp = getSysUpTime();
+        SnmpPduTrbp pdu = nfw SnmpPduTrbp() ;
+        pdu.bddrfss = null ;
+        pdu.port = trbpPort ;
+        pdu.typf = pduV1TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionOnf ;
+        pdu.dommunity = null ;
+        pdu.fntfrprisf = fntfrprisfOid ;
+        pdu.gfnfridTrbp = gfnfrid ;
+        pdu.spfdifidTrbp = spfdifid ;
+        pdu.timfStbmp = gftSysUpTimf();
 
-        if (varBindList != null) {
-            pdu.varBindList = new SnmpVarBind[varBindList.size()] ;
-            varBindList.copyInto(pdu.varBindList);
+        if (vbrBindList != null) {
+            pdu.vbrBindList = nfw SnmpVbrBind[vbrBindList.sizf()] ;
+            vbrBindList.dopyInto(pdu.vbrBindList);
         }
-        else
-            pdu.varBindList = null ;
+        flsf
+            pdu.vbrBindList = null ;
 
-        // If the local host cannot be determined, we put 0.0.0.0 in agentAddr
+        // If tif lodbl iost dbnnot bf dftfrminfd, wf put 0.0.0.0 in bgfntAddr
         try {
-            if (address != null)
-                pdu.agentAddr = handleMultipleIpVersion(address.getAddress());
-            else pdu.agentAddr =
-              handleMultipleIpVersion(InetAddress.getLocalHost().getAddress());
-        } catch (UnknownHostException e) {
-            byte[] zeroedAddr = new byte[4];
-            pdu.agentAddr = handleMultipleIpVersion(zeroedAddr) ;
+            if (bddrfss != null)
+                pdu.bgfntAddr = ibndlfMultiplfIpVfrsion(bddrfss.gftAddrfss());
+            flsf pdu.bgfntAddr =
+              ibndlfMultiplfIpVfrsion(InftAddrfss.gftLodblHost().gftAddrfss());
+        } dbtdi (UnknownHostExdfption f) {
+            bytf[] zfrofdAddr = nfw bytf[4];
+            pdu.bgfntAddr = ibndlfMultiplfIpVfrsion(zfrofdAddr) ;
         }
 
-        // Next, send the pdu to all destinations defined in ACL
+        // Nfxt, sfnd tif pdu to bll dfstinbtions dffinfd in ACL
         //
-        sendTrapPdu(pdu) ;
+        sfndTrbpPdu(pdu) ;
     }
 
-    private SnmpIpAddress handleMultipleIpVersion(byte[] address) {
-        if(address.length == 4)
-          return new SnmpIpAddress(address);
-        else {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "handleMultipleIPVersion",
-                      "Not an IPv4 address, return null");
+    privbtf SnmpIpAddrfss ibndlfMultiplfIpVfrsion(bytf[] bddrfss) {
+        if(bddrfss.lfngti == 4)
+          rfturn nfw SnmpIpAddrfss(bddrfss);
+        flsf {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "ibndlfMultiplfIPVfrsion",
+                      "Not bn IPv4 bddrfss, rfturn null");
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE>
-     * destination using the specified community string (and the ACL file
-     * is not used).
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE>
+     * dfstinbtion using tif spfdififd dommunity string (bnd tif ACL filf
+     * is not usfd).
      *
-     * @param addr The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddr Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined
-     *            by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd
+     *            by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public void snmpV1Trap(InetAddress addr, String cs, int generic,
-                           int specific, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV1Trbp(InftAddrfss bddr, String ds, int gfnfrid,
+                           int spfdifid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV1Trap", "generic=" + generic + ", specific=" +
-                  specific);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV1Trbp", "gfnfrid=" + gfnfrid + ", spfdifid=" +
+                  spfdifid);
         }
 
-        // First, make an SNMP V1 trap pdu
+        // First, mbkf bn SNMP V1 trbp pdu
         //
-        SnmpPduTrap pdu = new SnmpPduTrap() ;
-        pdu.address = null ;
-        pdu.port = trapPort ;
-        pdu.type = pduV1TrapPdu ;
-        pdu.version = snmpVersionOne ;
+        SnmpPduTrbp pdu = nfw SnmpPduTrbp() ;
+        pdu.bddrfss = null ;
+        pdu.port = trbpPort ;
+        pdu.typf = pduV1TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionOnf ;
 
-        if(cs != null)
-            pdu.community = cs.getBytes();
-        else
-            pdu.community = null ;
+        if(ds != null)
+            pdu.dommunity = ds.gftBytfs();
+        flsf
+            pdu.dommunity = null ;
 
-        pdu.enterprise = enterpriseOid ;
-        pdu.genericTrap = generic ;
-        pdu.specificTrap = specific ;
-        pdu.timeStamp = getSysUpTime();
+        pdu.fntfrprisf = fntfrprisfOid ;
+        pdu.gfnfridTrbp = gfnfrid ;
+        pdu.spfdifidTrbp = spfdifid ;
+        pdu.timfStbmp = gftSysUpTimf();
 
-        if (varBindList != null) {
-            pdu.varBindList = new SnmpVarBind[varBindList.size()] ;
-            varBindList.copyInto(pdu.varBindList);
+        if (vbrBindList != null) {
+            pdu.vbrBindList = nfw SnmpVbrBind[vbrBindList.sizf()] ;
+            vbrBindList.dopyInto(pdu.vbrBindList);
         }
-        else
-            pdu.varBindList = null ;
+        flsf
+            pdu.vbrBindList = null ;
 
-        // If the local host cannot be determined, we put 0.0.0.0 in agentAddr
+        // If tif lodbl iost dbnnot bf dftfrminfd, wf put 0.0.0.0 in bgfntAddr
         try {
-            if (address != null)
-                pdu.agentAddr = handleMultipleIpVersion(address.getAddress());
-            else pdu.agentAddr =
-              handleMultipleIpVersion(InetAddress.getLocalHost().getAddress());
-        } catch (UnknownHostException e) {
-            byte[] zeroedAddr = new byte[4];
-            pdu.agentAddr = handleMultipleIpVersion(zeroedAddr) ;
+            if (bddrfss != null)
+                pdu.bgfntAddr = ibndlfMultiplfIpVfrsion(bddrfss.gftAddrfss());
+            flsf pdu.bgfntAddr =
+              ibndlfMultiplfIpVfrsion(InftAddrfss.gftLodblHost().gftAddrfss());
+        } dbtdi (UnknownHostExdfption f) {
+            bytf[] zfrofdAddr = nfw bytf[4];
+            pdu.bgfntAddr = ibndlfMultiplfIpVfrsion(zfrofdAddr) ;
         }
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        if(addr != null)
-            sendTrapPdu(addr, pdu) ;
-        else
-            sendTrapPdu(pdu);
+        if(bddr != null)
+            sfndTrbpPdu(bddr, pdu) ;
+        flsf
+            sfndTrbpPdu(pdu);
     }
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE>
-     * destination using the specified parameters (and the ACL file is not
-     * used).
-     * Note that if the specified <CODE>InetAddress</CODE> destination is null,
-     * then the ACL file mechanism is used.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE>
+     * dfstinbtion using tif spfdififd pbrbmftfrs (bnd tif ACL filf is not
+     * usfd).
+     * Notf tibt if tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion is null,
+     * tifn tif ACL filf mfdibnism is usfd.
      *
-     * @param addr The <CODE>InetAddress</CODE> destination of the trap.
-     * @param agentAddr The agent address to be used for the trap.
-     * @param cs The community string to be used for the trap.
-     * @param enterpOid The enterprise OID to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm bddr Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined
-     *            by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd
+     *            by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void snmpV1Trap(InetAddress addr,
-                           SnmpIpAddress agentAddr,
-                           String cs,
-                           SnmpOid enterpOid,
-                           int generic,
-                           int specific,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
-        snmpV1Trap(addr,
-                   trapPort,
-                   agentAddr,
-                   cs,
-                   enterpOid,
-                   generic,
-                   specific,
-                   varBindList,
-                   time);
+    publid void snmpV1Trbp(InftAddrfss bddr,
+                           SnmpIpAddrfss bgfntAddr,
+                           String ds,
+                           SnmpOid fntfrpOid,
+                           int gfnfrid,
+                           int spfdifid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
+        snmpV1Trbp(bddr,
+                   trbpPort,
+                   bgfntAddr,
+                   ds,
+                   fntfrpOid,
+                   gfnfrid,
+                   spfdifid,
+                   vbrBindList,
+                   timf);
     }
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * The community string used is the one located in the
-     * <CODE>SnmpPeer</CODE> parameters
-     * (<CODE>SnmpParameters.getRdCommunity() </CODE>).
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * Tif dommunity string usfd is tif onf lodbtfd in tif
+     * <CODE>SnmpPffr</CODE> pbrbmftfrs
+     * (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param agentAddr The agent address to be used for the trap.
-     * @param enterpOid The enterprise OID to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit
-     * defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit
+     * dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void snmpV1Trap(SnmpPeer peer,
-                           SnmpIpAddress agentAddr,
-                           SnmpOid enterpOid,
-                           int generic,
-                           int specific,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV1Trbp(SnmpPffr pffr,
+                           SnmpIpAddrfss bgfntAddr,
+                           SnmpOid fntfrpOid,
+                           int gfnfrid,
+                           int spfdifid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        SnmpParameters p = (SnmpParameters) peer.getParams();
-        snmpV1Trap(peer.getDestAddr(),
-                   peer.getDestPort(),
-                   agentAddr,
-                   p.getRdCommunity(),
-                   enterpOid,
-                   generic,
-                   specific,
-                   varBindList,
-                   time);
+        SnmpPbrbmftfrs p = (SnmpPbrbmftfrs) pffr.gftPbrbms();
+        snmpV1Trbp(pffr.gftDfstAddr(),
+                   pffr.gftDfstPort(),
+                   bgfntAddr,
+                   p.gftRdCommunity(),
+                   fntfrpOid,
+                   gfnfrid,
+                   spfdifid,
+                   vbrBindList,
+                   timf);
     }
 
-    private void snmpV1Trap(InetAddress addr,
+    privbtf void snmpV1Trbp(InftAddrfss bddr,
                             int port,
-                            SnmpIpAddress agentAddr,
-                            String cs,
-                            SnmpOid enterpOid,
-                            int generic,
-                            int specific,
-                            SnmpVarBindList varBindList,
-                            SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
+                            SnmpIpAddrfss bgfntAddr,
+                            String ds,
+                            SnmpOid fntfrpOid,
+                            int gfnfrid,
+                            int spfdifid,
+                            SnmpVbrBindList vbrBindList,
+                            SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV1Trap", "generic=" + generic + ", specific=" +
-                  specific);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV1Trbp", "gfnfrid=" + gfnfrid + ", spfdifid=" +
+                  spfdifid);
         }
 
-        // First, make an SNMP V1 trap pdu
+        // First, mbkf bn SNMP V1 trbp pdu
         //
-        SnmpPduTrap pdu = new SnmpPduTrap() ;
-        pdu.address = null ;
+        SnmpPduTrbp pdu = nfw SnmpPduTrbp() ;
+        pdu.bddrfss = null ;
         pdu.port = port ;
-        pdu.type = pduV1TrapPdu ;
-        pdu.version = snmpVersionOne ;
+        pdu.typf = pduV1TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionOnf ;
 
-        //Diff start
-        if(cs != null)
-            pdu.community = cs.getBytes();
-        else
-            pdu.community = null ;
-        //Diff end
+        //Diff stbrt
+        if(ds != null)
+            pdu.dommunity = ds.gftBytfs();
+        flsf
+            pdu.dommunity = null ;
+        //Diff fnd
 
-        // Diff start
-        if(enterpOid != null)
-            pdu.enterprise = enterpOid;
-        else
-            pdu.enterprise = enterpriseOid ;
-        //Diff end
-        pdu.genericTrap = generic ;
-        pdu.specificTrap = specific ;
-        //Diff start
-        if(time != null)
-            pdu.timeStamp = time.longValue();
-        else
-            pdu.timeStamp = getSysUpTime();
-        //Diff end
+        // Diff stbrt
+        if(fntfrpOid != null)
+            pdu.fntfrprisf = fntfrpOid;
+        flsf
+            pdu.fntfrprisf = fntfrprisfOid ;
+        //Diff fnd
+        pdu.gfnfridTrbp = gfnfrid ;
+        pdu.spfdifidTrbp = spfdifid ;
+        //Diff stbrt
+        if(timf != null)
+            pdu.timfStbmp = timf.longVbluf();
+        flsf
+            pdu.timfStbmp = gftSysUpTimf();
+        //Diff fnd
 
-        if (varBindList != null) {
-            pdu.varBindList = new SnmpVarBind[varBindList.size()] ;
-            varBindList.copyInto(pdu.varBindList);
+        if (vbrBindList != null) {
+            pdu.vbrBindList = nfw SnmpVbrBind[vbrBindList.sizf()] ;
+            vbrBindList.dopyInto(pdu.vbrBindList);
         }
-        else
-            pdu.varBindList = null ;
+        flsf
+            pdu.vbrBindList = null ;
 
-        if (agentAddr == null) {
-            // If the local host cannot be determined,
-            // we put 0.0.0.0 in agentAddr
+        if (bgfntAddr == null) {
+            // If tif lodbl iost dbnnot bf dftfrminfd,
+            // wf put 0.0.0.0 in bgfntAddr
             try {
-                final InetAddress inetAddr =
-                    (address!=null)?address:InetAddress.getLocalHost();
-                agentAddr = handleMultipleIpVersion(inetAddr.getAddress());
-            }  catch (UnknownHostException e) {
-                byte[] zeroedAddr = new byte[4];
-                agentAddr = handleMultipleIpVersion(zeroedAddr);
+                finbl InftAddrfss inftAddr =
+                    (bddrfss!=null)?bddrfss:InftAddrfss.gftLodblHost();
+                bgfntAddr = ibndlfMultiplfIpVfrsion(inftAddr.gftAddrfss());
+            }  dbtdi (UnknownHostExdfption f) {
+                bytf[] zfrofdAddr = nfw bytf[4];
+                bgfntAddr = ibndlfMultiplfIpVfrsion(zfrofdAddr);
             }
         }
 
-        pdu.agentAddr = agentAddr;
+        pdu.bgfntAddr = bgfntAddr;
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        // Diff start
-        if(addr != null)
-            sendTrapPdu(addr, pdu) ;
-        else
-            sendTrapPdu(pdu);
+        // Diff stbrt
+        if(bddr != null)
+            sfndTrbpPdu(bddr, pdu) ;
+        flsf
+            sfndTrbpPdu(pdu);
 
         //End diff
     }
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * <BR>The community string used is the one located in the
-     * <CODE>SnmpPeer</CODE> parameters
-     * (<CODE>SnmpParameters.getRdCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing trap is composed of
-     * the following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif
+     * <CODE>SnmpPffr</CODE> pbrbmftfrs
+     * (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of
+     * tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with the value specified by
-     *     <CODE>time</CODE></LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>timf</CODE></LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit
-     * defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit
+     * dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void snmpV2Trap(SnmpPeer peer,
-                           SnmpOid trapOid,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV2Trbp(SnmpPffr pffr,
+                           SnmpOid trbpOid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        SnmpParameters p = (SnmpParameters) peer.getParams();
-        snmpV2Trap(peer.getDestAddr(),
-                   peer.getDestPort(),
-                   p.getRdCommunity(),
-                   trapOid,
-                   varBindList,
-                   time);
+        SnmpPbrbmftfrs p = (SnmpPbrbmftfrs) pffr.gftPbrbms();
+        snmpV2Trbp(pffr.gftDfstAddr(),
+                   pffr.gftDfstPort(),
+                   p.gftRdCommunity(),
+                   trbpOid,
+                   vbrBindList,
+                   timf);
     }
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file
-     * (if available). If no ACL file or no destinations are available,
-     * the trap is sent to the local host.
-     * <BR>The variable list included in the outgoing trap is composed of
-     * the following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf
+     * (if bvbilbblf). If no ACL filf or no dfstinbtions brf bvbilbblf,
+     * tif trbp is sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of
+     * tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value</LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf</LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
      *
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined
-     *            by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd
+     *            by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public void snmpV2Trap(SnmpOid trapOid, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV2Trap", "trapOid=" + trapOid);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV2Trbp", "trbpOid=" + trbpOid);
         }
 
-        // First, make an SNMP V2 trap pdu
-        // We clone varBindList and insert sysUpTime and snmpTrapOid
+        // First, mbkf bn SNMP V2 trbp pdu
+        // Wf dlonf vbrBindList bnd insfrt sysUpTimf bnd snmpTrbpOid
         //
-        SnmpPduRequest pdu = new SnmpPduRequest() ;
-        pdu.address = null ;
-        pdu.port = trapPort ;
-        pdu.type = pduV2TrapPdu ;
-        pdu.version = snmpVersionTwo ;
-        pdu.community = null ;
+        SnmpPduRfqufst pdu = nfw SnmpPduRfqufst() ;
+        pdu.bddrfss = null ;
+        pdu.port = trbpPort ;
+        pdu.typf = pduV2TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionTwo ;
+        pdu.dommunity = null ;
 
-        SnmpVarBindList fullVbl ;
-        if (varBindList != null)
-            fullVbl = varBindList.clone() ;
-        else
-            fullVbl = new SnmpVarBindList(2) ;
-        SnmpTimeticks sysUpTimeValue = new SnmpTimeticks(getSysUpTime()) ;
-        fullVbl.insertElementAt(new SnmpVarBind(snmpTrapOidOid, trapOid), 0) ;
-        fullVbl.insertElementAt(new SnmpVarBind(sysUpTimeOid, sysUpTimeValue),
+        SnmpVbrBindList fullVbl ;
+        if (vbrBindList != null)
+            fullVbl = vbrBindList.dlonf() ;
+        flsf
+            fullVbl = nfw SnmpVbrBindList(2) ;
+        SnmpTimftidks sysUpTimfVbluf = nfw SnmpTimftidks(gftSysUpTimf()) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(snmpTrbpOidOid, trbpOid), 0) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(sysUpTimfOid, sysUpTimfVbluf),
                                 0);
-        pdu.varBindList = new SnmpVarBind[fullVbl.size()] ;
-        fullVbl.copyInto(pdu.varBindList) ;
+        pdu.vbrBindList = nfw SnmpVbrBind[fullVbl.sizf()] ;
+        fullVbl.dopyInto(pdu.vbrBindList) ;
 
-        // Next, send the pdu to all destinations defined in ACL
+        // Nfxt, sfnd tif pdu to bll dfstinbtions dffinfd in ACL
         //
-        sendTrapPdu(pdu) ;
+        sfndTrbpPdu(pdu) ;
     }
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE>
-     * destination using the specified community string (and the ACL file
-     * is not used).
-     * <BR>The variable list included in the outgoing trap is composed of
-     * the following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE>
+     * dfstinbtion using tif spfdififd dommunity string (bnd tif ACL filf
+     * is not usfd).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of
+     * tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value</LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf</LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
      *
-     * @param addr The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddr Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit
-     *            defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit
+     *            dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public void snmpV2Trap(InetAddress addr, String cs, SnmpOid trapOid,
-                           SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpV2Trbp(InftAddrfss bddr, String ds, SnmpOid trbpOid,
+                           SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV2Trap", "trapOid=" + trapOid);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV2Trbp", "trbpOid=" + trbpOid);
         }
 
-        // First, make an SNMP V2 trap pdu
-        // We clone varBindList and insert sysUpTime and snmpTrapOid
+        // First, mbkf bn SNMP V2 trbp pdu
+        // Wf dlonf vbrBindList bnd insfrt sysUpTimf bnd snmpTrbpOid
         //
-        SnmpPduRequest pdu = new SnmpPduRequest() ;
-        pdu.address = null ;
-        pdu.port = trapPort ;
-        pdu.type = pduV2TrapPdu ;
-        pdu.version = snmpVersionTwo ;
+        SnmpPduRfqufst pdu = nfw SnmpPduRfqufst() ;
+        pdu.bddrfss = null ;
+        pdu.port = trbpPort ;
+        pdu.typf = pduV2TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionTwo ;
 
-        if(cs != null)
-            pdu.community = cs.getBytes();
-        else
-            pdu.community = null;
+        if(ds != null)
+            pdu.dommunity = ds.gftBytfs();
+        flsf
+            pdu.dommunity = null;
 
-        SnmpVarBindList fullVbl ;
-        if (varBindList != null)
-            fullVbl = varBindList.clone() ;
-        else
-            fullVbl = new SnmpVarBindList(2) ;
-        SnmpTimeticks sysUpTimeValue = new SnmpTimeticks(getSysUpTime()) ;
-        fullVbl.insertElementAt(new SnmpVarBind(snmpTrapOidOid, trapOid), 0) ;
-        fullVbl.insertElementAt(new SnmpVarBind(sysUpTimeOid, sysUpTimeValue),
+        SnmpVbrBindList fullVbl ;
+        if (vbrBindList != null)
+            fullVbl = vbrBindList.dlonf() ;
+        flsf
+            fullVbl = nfw SnmpVbrBindList(2) ;
+        SnmpTimftidks sysUpTimfVbluf = nfw SnmpTimftidks(gftSysUpTimf()) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(snmpTrbpOidOid, trbpOid), 0) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(sysUpTimfOid, sysUpTimfVbluf),
                                 0);
-        pdu.varBindList = new SnmpVarBind[fullVbl.size()] ;
-        fullVbl.copyInto(pdu.varBindList) ;
+        pdu.vbrBindList = nfw SnmpVbrBind[fullVbl.sizf()] ;
+        fullVbl.dopyInto(pdu.vbrBindList) ;
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        if(addr != null)
-            sendTrapPdu(addr, pdu);
-        else
-            sendTrapPdu(pdu);
+        if(bddr != null)
+            sfndTrbpPdu(bddr, pdu);
+        flsf
+            sfndTrbpPdu(pdu);
     }
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE>
-     * destination using the specified parameters (and the ACL file is not
-     * used).
-     * Note that if the specified <CODE>InetAddress</CODE> destination is null,
-     * then the ACL file mechanism is used.
-     * <BR>The variable list included in the outgoing trap is composed of the
-     * following items:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE>
+     * dfstinbtion using tif spfdififd pbrbmftfrs (bnd tif ACL filf is not
+     * usfd).
+     * Notf tibt if tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion is null,
+     * tifn tif ACL filf mfdibnism is usfd.
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif
+     * following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with the value specified by
-     *     <CODE>time</CODE></LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>timf</CODE></LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
      *
-     * @param addr The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm bddr Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit
-     * defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit
+     * dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void snmpV2Trap(InetAddress addr,
-                           String cs,
-                           SnmpOid trapOid,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
+    publid void snmpV2Trbp(InftAddrfss bddr,
+                           String ds,
+                           SnmpOid trbpOid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        snmpV2Trap(addr,
-                   trapPort,
-                   cs,
-                   trapOid,
-                   varBindList,
-                   time);
+        snmpV2Trbp(bddr,
+                   trbpPort,
+                   ds,
+                   trbpOid,
+                   vbrBindList,
+                   timf);
     }
 
-    private void snmpV2Trap(InetAddress addr,
+    privbtf void snmpV2Trbp(InftAddrfss bddr,
                             int port,
-                            String cs,
-                            SnmpOid trapOid,
-                            SnmpVarBindList varBindList,
-                            SnmpTimeticks time)
-        throws IOException, SnmpStatusException {
+                            String ds,
+                            SnmpOid trbpOid,
+                            SnmpVbrBindList vbrBindList,
+                            SnmpTimftidks timf)
+        tirows IOExdfption, SnmpStbtusExdfption {
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            final StringBuilder strb = new StringBuilder()
-                .append("trapOid=").append(trapOid)
-                .append("\ncommunity=").append(cs)
-                .append("\naddr=").append(addr)
-                .append("\nvarBindList=").append(varBindList)
-                .append("\ntime=").append(time)
-                .append("\ntrapPort=").append(port);
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpV2Trap", strb.toString());
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            finbl StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("trbpOid=").bppfnd(trbpOid)
+                .bppfnd("\ndommunity=").bppfnd(ds)
+                .bppfnd("\nbddr=").bppfnd(bddr)
+                .bppfnd("\nvbrBindList=").bppfnd(vbrBindList)
+                .bppfnd("\ntimf=").bppfnd(timf)
+                .bppfnd("\ntrbpPort=").bppfnd(port);
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpV2Trbp", strb.toString());
         }
 
-        // First, make an SNMP V2 trap pdu
-        // We clone varBindList and insert sysUpTime and snmpTrapOid
+        // First, mbkf bn SNMP V2 trbp pdu
+        // Wf dlonf vbrBindList bnd insfrt sysUpTimf bnd snmpTrbpOid
         //
-        SnmpPduRequest pdu = new SnmpPduRequest() ;
-        pdu.address = null ;
+        SnmpPduRfqufst pdu = nfw SnmpPduRfqufst() ;
+        pdu.bddrfss = null ;
         pdu.port = port ;
-        pdu.type = pduV2TrapPdu ;
-        pdu.version = snmpVersionTwo ;
+        pdu.typf = pduV2TrbpPdu ;
+        pdu.vfrsion = snmpVfrsionTwo ;
 
-        if(cs != null)
-            pdu.community = cs.getBytes();
-        else
-            pdu.community = null;
+        if(ds != null)
+            pdu.dommunity = ds.gftBytfs();
+        flsf
+            pdu.dommunity = null;
 
-        SnmpVarBindList fullVbl ;
-        if (varBindList != null)
-            fullVbl = varBindList.clone() ;
-        else
-            fullVbl = new SnmpVarBindList(2) ;
+        SnmpVbrBindList fullVbl ;
+        if (vbrBindList != null)
+            fullVbl = vbrBindList.dlonf() ;
+        flsf
+            fullVbl = nfw SnmpVbrBindList(2) ;
 
-        // Only difference with other
-        SnmpTimeticks sysUpTimeValue;
-        if(time != null)
-            sysUpTimeValue = time;
-        else
-            sysUpTimeValue = new SnmpTimeticks(getSysUpTime()) ;
+        // Only difffrfndf witi otifr
+        SnmpTimftidks sysUpTimfVbluf;
+        if(timf != null)
+            sysUpTimfVbluf = timf;
+        flsf
+            sysUpTimfVbluf = nfw SnmpTimftidks(gftSysUpTimf()) ;
         //End of diff
 
-        fullVbl.insertElementAt(new SnmpVarBind(snmpTrapOidOid, trapOid), 0) ;
-        fullVbl.insertElementAt(new SnmpVarBind(sysUpTimeOid, sysUpTimeValue),
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(snmpTrbpOidOid, trbpOid), 0) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(sysUpTimfOid, sysUpTimfVbluf),
                                 0);
-        pdu.varBindList = new SnmpVarBind[fullVbl.size()] ;
-        fullVbl.copyInto(pdu.varBindList) ;
+        pdu.vbrBindList = nfw SnmpVbrBind[fullVbl.sizf()] ;
+        fullVbl.dopyInto(pdu.vbrBindList) ;
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        // Diff start
-        if(addr != null)
-            sendTrapPdu(addr, pdu) ;
-        else
-            sendTrapPdu(pdu);
+        // Diff stbrt
+        if(bddr != null)
+            sfndTrbpPdu(bddr, pdu) ;
+        flsf
+            sfndTrbpPdu(pdu);
         //End diff
     }
 
     /**
-     * Send the specified trap PDU to the passed <CODE>InetAddress</CODE>.
-     * @param address The destination address.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit
-     * defined by <CODE>bufferSize</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit
+     * dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void snmpPduTrap(InetAddress address, SnmpPduPacket pdu)
-            throws IOException, SnmpStatusException {
+    @Ovfrridf
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+            tirows IOExdfption, SnmpStbtusExdfption {
 
-        if(address != null)
-            sendTrapPdu(address, pdu);
-        else
-            sendTrapPdu(pdu);
+        if(bddrfss != null)
+            sfndTrbpPdu(bddrfss, pdu);
+        flsf
+            sfndTrbpPdu(pdu);
     }
 
     /**
-     * Send the specified trap PDU to the passed <CODE>SnmpPeer</CODE>.
-     * @param peer The destination peer. The Read community string is used of
-     * <CODE>SnmpParameters</CODE> is used as the trap community string.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined
-     * by <CODE>bufferSize</CODE>.
-     * @since 1.5
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of
+     * <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd
+     * by <CODE>bufffrSizf</CODE>.
+     * @sindf 1.5
      */
-    @Override
-    public void snmpPduTrap(SnmpPeer peer,
-                            SnmpPduPacket pdu)
-        throws IOException, SnmpStatusException {
-        if(peer != null) {
-            pdu.port = peer.getDestPort();
-            sendTrapPdu(peer.getDestAddr(), pdu);
+    @Ovfrridf
+    publid void snmpPduTrbp(SnmpPffr pffr,
+                            SnmpPduPbdkft pdu)
+        tirows IOExdfption, SnmpStbtusExdfption {
+        if(pffr != null) {
+            pdu.port = pffr.gftDfstPort();
+            sfndTrbpPdu(pffr.gftDfstAddr(), pdu);
         }
-        else {
-            pdu.port = getTrapPort().intValue();
-            sendTrapPdu(pdu);
+        flsf {
+            pdu.port = gftTrbpPort().intVbluf();
+            sfndTrbpPdu(pdu);
         }
     }
 
     /**
-     * Send the specified trap PDU to every destinations from the ACL file.
+     * Sfnd tif spfdififd trbp PDU to fvfry dfstinbtions from tif ACL filf.
      */
-    private void sendTrapPdu(SnmpPduPacket pdu)
-     throws SnmpStatusException, IOException {
+    privbtf void sfndTrbpPdu(SnmpPduPbdkft pdu)
+     tirows SnmpStbtusExdfption, IOExdfption {
 
-        // Make an SNMP message from the pdu
+        // Mbkf bn SNMP mfssbgf from tif pdu
         //
-        SnmpMessage msg = null ;
+        SnmpMfssbgf msg = null ;
         try {
-            msg = (SnmpMessage)pduFactory.encodeSnmpPdu(pdu, bufferSize) ;
+            msg = (SnmpMfssbgf)pduFbdtory.fndodfSnmpPdu(pdu, bufffrSizf) ;
             if (msg == null) {
-                throw new SnmpStatusException(
-                          SnmpDefinitions.snmpRspAuthorizationError) ;
+                tirow nfw SnmpStbtusExdfption(
+                          SnmpDffinitions.snmpRspAutiorizbtionError) ;
             }
         }
-        catch (SnmpTooBigException x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "sendTrapPdu", "Trap pdu is too big. " +
-                     "Trap hasn't been sent to anyone" );
+        dbtdi (SnmpTooBigExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "sfndTrbpPdu", "Trbp pdu is too big. " +
+                     "Trbp ibsn't bffn sfnt to bnyonf" );
             }
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspTooBig) ;
-            // FIXME: is the right exception to throw ?
-            // We could simply forward SnmpTooBigException ?
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspTooBig) ;
+            // FIXME: is tif rigit fxdfption to tirow ?
+            // Wf dould simply forwbrd SnmpTooBigExdfption ?
         }
 
-        // Now send the SNMP message to each destination
+        // Now sfnd tif SNMP mfssbgf to fbdi dfstinbtion
         //
-        int sendingCount = 0 ;
-        openTrapSocketIfNeeded() ;
-        if (ipacl != null) {
-            Enumeration<InetAddress> ed = ipacl.getTrapDestinations() ;
-            while (ed.hasMoreElements()) {
-                msg.address = ed.nextElement() ;
-                Enumeration<String> ec = ipacl.getTrapCommunities(msg.address) ;
-                while (ec.hasMoreElements()) {
-                    msg.community = ec.nextElement().getBytes() ;
+        int sfndingCount = 0 ;
+        opfnTrbpSodkftIfNffdfd() ;
+        if (ipbdl != null) {
+            Enumfrbtion<InftAddrfss> fd = ipbdl.gftTrbpDfstinbtions() ;
+            wiilf (fd.ibsMorfElfmfnts()) {
+                msg.bddrfss = fd.nfxtElfmfnt() ;
+                Enumfrbtion<String> fd = ipbdl.gftTrbpCommunitifs(msg.bddrfss) ;
+                wiilf (fd.ibsMorfElfmfnts()) {
+                    msg.dommunity = fd.nfxtElfmfnt().gftBytfs() ;
                     try {
-                        sendTrapMessage(msg) ;
-                        sendingCount++ ;
+                        sfndTrbpMfssbgf(msg) ;
+                        sfndingCount++ ;
                     }
-                    catch (SnmpTooBigException x) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                                "sendTrapPdu", "Trap pdu is too big. " +
-                                 "Trap hasn't been sent to "+msg.address);
+                    dbtdi (SnmpTooBigExdfption x) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                                "sfndTrbpPdu", "Trbp pdu is too big. " +
+                                 "Trbp ibsn't bffn sfnt to "+msg.bddrfss);
                         }
                     }
                 }
             }
         }
 
-        // If there is no destination defined or if everything has failed
-        // we tried to send the trap to the local host (as suggested by
-        // mister Olivier Reisacher).
+        // If tifrf is no dfstinbtion dffinfd or if fvfrytiing ibs fbilfd
+        // wf trifd to sfnd tif trbp to tif lodbl iost (bs suggfstfd by
+        // mistfr Olivifr Rfisbdifr).
         //
-        if (sendingCount == 0) {
+        if (sfndingCount == 0) {
             try {
-                msg.address = InetAddress.getLocalHost() ;
-                sendTrapMessage(msg) ;
-            } catch (SnmpTooBigException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "sendTrapPdu", "Trap pdu is too big. " +
-                         "Trap hasn't been sent.");
+                msg.bddrfss = InftAddrfss.gftLodblHost() ;
+                sfndTrbpMfssbgf(msg) ;
+            } dbtdi (SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "sfndTrbpPdu", "Trbp pdu is too big. " +
+                         "Trbp ibsn't bffn sfnt.");
                 }
-            } catch (UnknownHostException e) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "sendTrapPdu", "Trap pdu is too big. " +
-                         "Trap hasn't been sent.");
+            } dbtdi (UnknownHostExdfption f) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "sfndTrbpPdu", "Trbp pdu is too big. " +
+                         "Trbp ibsn't bffn sfnt.");
                 }
             }
         }
 
-        closeTrapSocketIfNeeded() ;
+        dlosfTrbpSodkftIfNffdfd() ;
     }
 
     /**
-     * Send the specified trap PDU to the specified destination.
+     * Sfnd tif spfdififd trbp PDU to tif spfdififd dfstinbtion.
      */
-    private void sendTrapPdu(InetAddress addr, SnmpPduPacket pdu)
-        throws SnmpStatusException, IOException {
+    privbtf void sfndTrbpPdu(InftAddrfss bddr, SnmpPduPbdkft pdu)
+        tirows SnmpStbtusExdfption, IOExdfption {
 
-        // Make an SNMP message from the pdu
+        // Mbkf bn SNMP mfssbgf from tif pdu
         //
-        SnmpMessage msg = null ;
+        SnmpMfssbgf msg = null ;
         try {
-            msg = (SnmpMessage)pduFactory.encodeSnmpPdu(pdu, bufferSize) ;
+            msg = (SnmpMfssbgf)pduFbdtory.fndodfSnmpPdu(pdu, bufffrSizf) ;
             if (msg == null) {
-                throw new SnmpStatusException(
-                          SnmpDefinitions.snmpRspAuthorizationError) ;
+                tirow nfw SnmpStbtusExdfption(
+                          SnmpDffinitions.snmpRspAutiorizbtionError) ;
             }
-        } catch (SnmpTooBigException x) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                    "sendTrapPdu", "Trap pdu is too big. " +
-                     "Trap hasn't been sent to the specified host.");
+        } dbtdi (SnmpTooBigExdfption x) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                    "sfndTrbpPdu", "Trbp pdu is too big. " +
+                     "Trbp ibsn't bffn sfnt to tif spfdififd iost.");
             }
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspTooBig) ;
-            // FIXME: is the right exception to throw ?
-            // We could simply forward SnmpTooBigException ?
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspTooBig) ;
+            // FIXME: is tif rigit fxdfption to tirow ?
+            // Wf dould simply forwbrd SnmpTooBigExdfption ?
         }
 
-        // Now send the SNMP message to specified destination
+        // Now sfnd tif SNMP mfssbgf to spfdififd dfstinbtion
         //
-        openTrapSocketIfNeeded() ;
-        if (addr != null) {
-            msg.address = addr;
+        opfnTrbpSodkftIfNffdfd() ;
+        if (bddr != null) {
+            msg.bddrfss = bddr;
             try {
-                sendTrapMessage(msg) ;
-            } catch (SnmpTooBigException x) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, dbgTag,
-                        "sendTrapPdu", "Trap pdu is too big. " +
-                         "Trap hasn't been sent to " +  msg.address);
+                sfndTrbpMfssbgf(msg) ;
+            } dbtdi (SnmpTooBigExdfption x) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, dbgTbg,
+                        "sfndTrbpPdu", "Trbp pdu is too big. " +
+                         "Trbp ibsn't bffn sfnt to " +  msg.bddrfss);
                 }
             }
         }
 
-        closeTrapSocketIfNeeded() ;
+        dlosfTrbpSodkftIfNffdfd() ;
     }
 
     /**
-     * Send the specified message on trapSocket.
+     * Sfnd tif spfdififd mfssbgf on trbpSodkft.
      */
-    private void sendTrapMessage(SnmpMessage msg)
-        throws IOException, SnmpTooBigException {
+    privbtf void sfndTrbpMfssbgf(SnmpMfssbgf msg)
+        tirows IOExdfption, SnmpTooBigExdfption {
 
-        byte[] buffer = new byte[bufferSize] ;
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length) ;
-        int encodingLength = msg.encodeMessage(buffer) ;
-        packet.setLength(encodingLength) ;
-        packet.setAddress(msg.address) ;
-        packet.setPort(msg.port) ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "sendTrapMessage", "sending trap to " + msg.address + ":" +
+        bytf[] bufffr = nfw bytf[bufffrSizf] ;
+        DbtbgrbmPbdkft pbdkft = nfw DbtbgrbmPbdkft(bufffr, bufffr.lfngti) ;
+        int fndodingLfngti = msg.fndodfMfssbgf(bufffr) ;
+        pbdkft.sftLfngti(fndodingLfngti) ;
+        pbdkft.sftAddrfss(msg.bddrfss) ;
+        pbdkft.sftPort(msg.port) ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "sfndTrbpMfssbgf", "sfnding trbp to " + msg.bddrfss + ":" +
                   msg.port);
         }
-        trapSocket.send(packet) ;
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "sendTrapMessage", "sent to " + msg.address + ":" +
+        trbpSodkft.sfnd(pbdkft) ;
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "sfndTrbpMfssbgf", "sfnt to " + msg.bddrfss + ":" +
                   msg.port);
         }
-        snmpOutTraps++;
+        snmpOutTrbps++;
         snmpOutPkts++;
     }
 
     /**
-     * Open trapSocket if it's not already done.
+     * Opfn trbpSodkft if it's not blrfbdy donf.
      */
-    synchronized void openTrapSocketIfNeeded() throws SocketException {
-        if (trapSocket == null) {
-            trapSocket = new DatagramSocket(0, address) ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                    "openTrapSocketIfNeeded", "using port " +
-                      trapSocket.getLocalPort() + " to send traps");
+    syndironizfd void opfnTrbpSodkftIfNffdfd() tirows SodkftExdfption {
+        if (trbpSodkft == null) {
+            trbpSodkft = nfw DbtbgrbmSodkft(0, bddrfss) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                    "opfnTrbpSodkftIfNffdfd", "using port " +
+                      trbpSodkft.gftLodblPort() + " to sfnd trbps");
             }
         }
     }
 
     /**
-     * Close trapSocket if the SNMP protocol adaptor is not ONLINE.
+     * Closf trbpSodkft if tif SNMP protodol bdbptor is not ONLINE.
      */
-    synchronized void closeTrapSocketIfNeeded() {
-        if ((trapSocket != null) && (state != ONLINE)) {
-            trapSocket.close() ;
-            trapSocket = null ;
+    syndironizfd void dlosfTrbpSodkftIfNffdfd() {
+        if ((trbpSodkft != null) && (stbtf != ONLINE)) {
+            trbpSodkft.dlosf() ;
+            trbpSodkft = null ;
         }
     }
 
@@ -2292,274 +2292,274 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //---------------------------
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform request is sent to each destination defined in the ACL
-     * file (if available).
-     * If no ACL file or no destinations are available, the inform request is
-     * sent to the local host.
-     * <BR>The variable list included in the outgoing inform is composed of
-     * the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL
+     * filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is
+     * sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of
+     * tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value</LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf</LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return A vector of {@link com.sun.jmx.snmp.daemon.SnmpInformRequest}
-     *         objects.
-     *         <P>If there is no destination host for this inform request,
-     *         the returned vector will be empty.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst}
+     *         objfdts.
+     *         <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst,
+     *         tif rfturnfd vfdtor will bf fmpty.
      *
-     * @exception IllegalStateException  This method has been invoked while
-     *            the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the
-     *            inform request.
-     * @exception SnmpStatusException If the inform request exceeds the
-     *            limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf
+     *            tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif
+     *            inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif
+     *            limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public Vector<SnmpInformRequest> snmpInformRequest(SnmpInformHandler cb,
-                                                       SnmpOid trapOid,
-                                                       SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException {
+    @Ovfrridf
+    publid Vfdtor<SnmpInformRfqufst> snmpInformRfqufst(SnmpInformHbndlfr db,
+                                                       SnmpOid trbpOid,
+                                                       SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption {
 
-        if (!isActive()) {
-            throw new IllegalStateException(
-               "Start SNMP adaptor server before carrying out this operation");
+        if (!isAdtivf()) {
+            tirow nfw IllfgblStbtfExdfption(
+               "Stbrt SNMP bdbptor sfrvfr bfforf dbrrying out tiis opfrbtion");
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpInformRequest", "trapOid=" + trapOid);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpInformRfqufst", "trbpOid=" + trbpOid);
         }
 
-        // First, make an SNMP inform pdu:
-        // We clone varBindList and insert sysUpTime and snmpTrapOid variables.
+        // First, mbkf bn SNMP inform pdu:
+        // Wf dlonf vbrBindList bnd insfrt sysUpTimf bnd snmpTrbpOid vbribblfs.
         //
-        SnmpVarBindList fullVbl ;
-        if (varBindList != null)
-            fullVbl = varBindList.clone() ;
-        else
-            fullVbl = new SnmpVarBindList(2) ;
-        SnmpTimeticks sysUpTimeValue = new SnmpTimeticks(getSysUpTime()) ;
-        fullVbl.insertElementAt(new SnmpVarBind(snmpTrapOidOid, trapOid), 0) ;
-        fullVbl.insertElementAt(new SnmpVarBind(sysUpTimeOid, sysUpTimeValue),
+        SnmpVbrBindList fullVbl ;
+        if (vbrBindList != null)
+            fullVbl = vbrBindList.dlonf() ;
+        flsf
+            fullVbl = nfw SnmpVbrBindList(2) ;
+        SnmpTimftidks sysUpTimfVbluf = nfw SnmpTimftidks(gftSysUpTimf()) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(snmpTrbpOidOid, trbpOid), 0) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(sysUpTimfOid, sysUpTimfVbluf),
                                 0);
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        openInformSocketIfNeeded() ;
+        opfnInformSodkftIfNffdfd() ;
 
-        // Now send the SNMP message to each destination
+        // Now sfnd tif SNMP mfssbgf to fbdi dfstinbtion
         //
-        Vector<SnmpInformRequest> informReqList = new Vector<>();
-        InetAddress addr;
-        String cs;
-        if (ipacl != null) {
-            Enumeration<InetAddress> ed = ipacl.getInformDestinations() ;
-            while (ed.hasMoreElements()) {
-                addr = ed.nextElement() ;
-                Enumeration<String> ec = ipacl.getInformCommunities(addr) ;
-                while (ec.hasMoreElements()) {
-                    cs = ec.nextElement() ;
-                    informReqList.addElement(
-                       informSession.makeAsyncRequest(addr, cs, cb,
-                                              fullVbl,getInformPort())) ;
+        Vfdtor<SnmpInformRfqufst> informRfqList = nfw Vfdtor<>();
+        InftAddrfss bddr;
+        String ds;
+        if (ipbdl != null) {
+            Enumfrbtion<InftAddrfss> fd = ipbdl.gftInformDfstinbtions() ;
+            wiilf (fd.ibsMorfElfmfnts()) {
+                bddr = fd.nfxtElfmfnt() ;
+                Enumfrbtion<String> fd = ipbdl.gftInformCommunitifs(bddr) ;
+                wiilf (fd.ibsMorfElfmfnts()) {
+                    ds = fd.nfxtElfmfnt() ;
+                    informRfqList.bddElfmfnt(
+                       informSfssion.mbkfAsyndRfqufst(bddr, ds, db,
+                                              fullVbl,gftInformPort())) ;
                 }
             }
         }
 
-        return informReqList ;
+        rfturn informRfqList ;
     }
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>InetAddress</CODE>
-     * destination
-     * using the specified community string.
-     * <BR>The variable list included in the outgoing inform is composed
-     *     of the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE>
+     * dfstinbtion
+     * using tif spfdififd dommunity string.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd
+     *     of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value</LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *      <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf</LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *      <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param addr The <CODE>InetAddress</CODE> destination for this inform
-     *             request.
-     * @param cs The community string to be used for the inform request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddr Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform
+     *             rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return The inform request object.
+     * @rfturn Tif inform rfqufst objfdt.
      *
-     * @exception IllegalStateException  This method has been invoked
-     *            while the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the
-     *            inform request.
-     * @exception SnmpStatusException If the inform request exceeds the
-     *            limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd
+     *            wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif
+     *            inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif
+     *            limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    @Override
-    public SnmpInformRequest snmpInformRequest(InetAddress addr,
-                                               String cs,
-                                               SnmpInformHandler cb,
-                                               SnmpOid trapOid,
-                                               SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException {
+    @Ovfrridf
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddr,
+                                               String ds,
+                                               SnmpInformHbndlfr db,
+                                               SnmpOid trbpOid,
+                                               SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption {
 
-        return snmpInformRequest(addr,
-                                 getInformPort(),
-                                 cs,
-                                 cb,
-                                 trapOid,
-                                 varBindList);
+        rfturn snmpInformRfqufst(bddr,
+                                 gftInformPort(),
+                                 ds,
+                                 db,
+                                 trbpOid,
+                                 vbrBindList);
     }
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>SnmpPeer</CODE>
-     *     destination.
-     * <BR>The community string used is the one located in the
-     *     <CODE>SnmpPeer</CODE> parameters
-     *     (<CODE>SnmpParameters.getInformCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing inform is composed
-     *     of the following items:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE>
+     *     dfstinbtion.
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif
+     *     <CODE>SnmpPffr</CODE> pbrbmftfrs
+     *     (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd
+     *     of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value</LI>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by
-     *     <CODE>trapOid</CODE></LI>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified
-     *     <CODE>varBindList</CODE></LI>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf</LI>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by
+     *     <CODE>trbpOid</CODE></LI>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd
+     *     <CODE>vbrBindList</CODE></LI>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination for this inform
-     *             request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform
+     *             rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @return The inform request object.
+     * @rfturn Tif inform rfqufst objfdt.
      *
-     * @exception IllegalStateException  This method has been invoked while
-     *            the SNMP adaptor server was not active.
-     * @exception IOException An I/O error occurred while sending the
-     *            inform request.
-     * @exception SnmpStatusException If the inform request exceeds the
-     *            limit defined by <CODE>bufferSize</CODE>.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf
+     *            tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif
+     *            inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif
+     *            limit dffinfd by <CODE>bufffrSizf</CODE>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public SnmpInformRequest snmpInformRequest(SnmpPeer peer,
-                                               SnmpInformHandler cb,
-                                               SnmpOid trapOid,
-                                               SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException {
+    @Ovfrridf
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+                                               SnmpInformHbndlfr db,
+                                               SnmpOid trbpOid,
+                                               SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption {
 
-        SnmpParameters p = (SnmpParameters) peer.getParams();
-        return snmpInformRequest(peer.getDestAddr(),
-                                 peer.getDestPort(),
-                                 p.getInformCommunity(),
-                                 cb,
-                                 trapOid,
-                                 varBindList);
+        SnmpPbrbmftfrs p = (SnmpPbrbmftfrs) pffr.gftPbrbms();
+        rfturn snmpInformRfqufst(pffr.gftDfstAddr(),
+                                 pffr.gftDfstPort(),
+                                 p.gftInformCommunity(),
+                                 db,
+                                 trbpOid,
+                                 vbrBindList);
     }
 
     /**
-     * Method that maps an SNMP error status in the passed protocolVersion
-     * according to the provided pdu type.
-     * @param errorStatus The error status to convert.
-     * @param protocolVersion The protocol version.
-     * @param reqPduType The pdu type.
+     * Mftiod tibt mbps bn SNMP frror stbtus in tif pbssfd protodolVfrsion
+     * bddording to tif providfd pdu typf.
+     * @pbrbm frrorStbtus Tif frror stbtus to donvfrt.
+     * @pbrbm protodolVfrsion Tif protodol vfrsion.
+     * @pbrbm rfqPduTypf Tif pdu typf.
      */
-    public static int mapErrorStatus(int errorStatus,
-                                     int protocolVersion,
-                                     int reqPduType) {
-        return SnmpSubRequestHandler.mapErrorStatus(errorStatus,
-                                                    protocolVersion,
-                                                    reqPduType);
+    publid stbtid int mbpErrorStbtus(int frrorStbtus,
+                                     int protodolVfrsion,
+                                     int rfqPduTypf) {
+        rfturn SnmpSubRfqufstHbndlfr.mbpErrorStbtus(frrorStbtus,
+                                                    protodolVfrsion,
+                                                    rfqPduTypf);
     }
 
-    private SnmpInformRequest snmpInformRequest(InetAddress addr,
+    privbtf SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddr,
                                                 int port,
-                                                String cs,
-                                                SnmpInformHandler cb,
-                                                SnmpOid trapOid,
-                                                SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException {
+                                                String ds,
+                                                SnmpInformHbndlfr db,
+                                                SnmpOid trbpOid,
+                                                SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption {
 
-        if (!isActive()) {
-            throw new IllegalStateException(
-              "Start SNMP adaptor server before carrying out this operation");
+        if (!isAdtivf()) {
+            tirow nfw IllfgblStbtfExdfption(
+              "Stbrt SNMP bdbptor sfrvfr bfforf dbrrying out tiis opfrbtion");
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                "snmpInformRequest", "trapOid=" + trapOid);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                "snmpInformRfqufst", "trbpOid=" + trbpOid);
         }
 
-        // First, make an SNMP inform pdu:
-        // We clone varBindList and insert sysUpTime and snmpTrapOid variables.
+        // First, mbkf bn SNMP inform pdu:
+        // Wf dlonf vbrBindList bnd insfrt sysUpTimf bnd snmpTrbpOid vbribblfs.
         //
-        SnmpVarBindList fullVbl ;
-        if (varBindList != null)
-            fullVbl = varBindList.clone() ;
-        else
-            fullVbl = new SnmpVarBindList(2) ;
-        SnmpTimeticks sysUpTimeValue = new SnmpTimeticks(getSysUpTime()) ;
-        fullVbl.insertElementAt(new SnmpVarBind(snmpTrapOidOid, trapOid), 0) ;
-        fullVbl.insertElementAt(new SnmpVarBind(sysUpTimeOid, sysUpTimeValue),
+        SnmpVbrBindList fullVbl ;
+        if (vbrBindList != null)
+            fullVbl = vbrBindList.dlonf() ;
+        flsf
+            fullVbl = nfw SnmpVbrBindList(2) ;
+        SnmpTimftidks sysUpTimfVbluf = nfw SnmpTimftidks(gftSysUpTimf()) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(snmpTrbpOidOid, trbpOid), 0) ;
+        fullVbl.insfrtElfmfntAt(nfw SnmpVbrBind(sysUpTimfOid, sysUpTimfVbluf),
                                 0);
 
-        // Next, send the pdu to the specified destination
+        // Nfxt, sfnd tif pdu to tif spfdififd dfstinbtion
         //
-        openInformSocketIfNeeded() ;
-        return informSession.makeAsyncRequest(addr, cs, cb, fullVbl, port) ;
+        opfnInformSodkftIfNffdfd() ;
+        rfturn informSfssion.mbkfAsyndRfqufst(bddr, ds, db, fullVbl, port) ;
     }
 
 
     /**
-     * Open informSocket if it's not already done.
+     * Opfn informSodkft if it's not blrfbdy donf.
      */
-    synchronized void openInformSocketIfNeeded() throws SocketException {
-        if (informSession == null) {
-            informSession = new SnmpSession(this) ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                   "openInformSocketIfNeeded",
-                      "to send inform requests and receive inform responses");
+    syndironizfd void opfnInformSodkftIfNffdfd() tirows SodkftExdfption {
+        if (informSfssion == null) {
+            informSfssion = nfw SnmpSfssion(tiis) ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                   "opfnInformSodkftIfNffdfd",
+                      "to sfnd inform rfqufsts bnd rfdfivf inform rfsponsfs");
             }
         }
     }
 
     /**
-     * Close informSocket if the SNMP protocol adaptor is not ONLINE.
+     * Closf informSodkft if tif SNMP protodol bdbptor is not ONLINE.
      */
-    synchronized void closeInformSocketIfNeeded() {
-        if ((informSession != null) && (state != ONLINE)) {
-            informSession.destroySession() ;
-            informSession = null ;
+    syndironizfd void dlosfInformSodkftIfNffdfd() {
+        if ((informSfssion != null) && (stbtf != ONLINE)) {
+            informSfssion.dfstroySfssion() ;
+            informSfssion = null ;
         }
     }
 
     /**
-     * Gets the IP address to bind.
-     * This getter is used to initialize the DatagramSocket in the
-     * SnmpSocket object created for the inform request stuff.
+     * Gfts tif IP bddrfss to bind.
+     * Tiis gfttfr is usfd to initiblizf tif DbtbgrbmSodkft in tif
+     * SnmpSodkft objfdt drfbtfd for tif inform rfqufst stuff.
      */
-    InetAddress getAddress() {
-        return address;
+    InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
     }
 
 
@@ -2567,25 +2567,25 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //------------------
 
     /**
-     * Finalizer of the SNMP protocol adaptor objects.
-     * This method is called by the garbage collector on an object
-     * when garbage collection determines that there are no more
-     * references to the object.
-     * <P>Closes the datagram socket associated to this SNMP protocol adaptor.
+     * Finblizfr of tif SNMP protodol bdbptor objfdts.
+     * Tiis mftiod is dbllfd by tif gbrbbgf dollfdtor on bn objfdt
+     * wifn gbrbbgf dollfdtion dftfrminfs tibt tifrf brf no morf
+     * rfffrfndfs to tif objfdt.
+     * <P>Closfs tif dbtbgrbm sodkft bssodibtfd to tiis SNMP protodol bdbptor.
      */
-    @Override
-    protected void finalize() {
+    @Ovfrridf
+    protfdtfd void finblizf() {
         try {
-            if (socket != null) {
-                socket.close() ;
-                socket = null ;
+            if (sodkft != null) {
+                sodkft.dlosf() ;
+                sodkft = null ;
             }
 
-            threadService.terminate();
-        } catch (Exception e) {
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, dbgTag,
-                   "finalize", "Exception in finalizer", e);
+            tirfbdSfrvidf.tfrminbtf();
+        } dbtdi (Exdfption f) {
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, dbgTbg,
+                   "finblizf", "Exdfption in finblizfr", f);
             }
         }
     }
@@ -2594,153 +2594,153 @@ public class SnmpAdaptorServer extends CommunicatorServer
     //----------------
 
     /**
-     * Returns the string used in debug traces.
+     * Rfturns tif string usfd in dfbug trbdfs.
      */
-    @Override
-    String makeDebugTag() {
-        return "SnmpAdaptorServer["+ getProtocol() + ":" + getPort() + "]";
+    @Ovfrridf
+    String mbkfDfbugTbg() {
+        rfturn "SnmpAdbptorSfrvfr["+ gftProtodol() + ":" + gftPort() + "]";
     }
 
-    void updateRequestCounters(int pduType) {
-        switch(pduType)  {
+    void updbtfRfqufstCountfrs(int pduTypf) {
+        switdi(pduTypf)  {
 
-        case pduGetRequestPdu:
-            snmpInGetRequests++;
-            break;
-        case pduGetNextRequestPdu:
-            snmpInGetNexts++;
-            break;
-        case pduSetRequestPdu:
-            snmpInSetRequests++;
-            break;
-        default:
-            break;
+        dbsf pduGftRfqufstPdu:
+            snmpInGftRfqufsts++;
+            brfbk;
+        dbsf pduGftNfxtRfqufstPdu:
+            snmpInGftNfxts++;
+            brfbk;
+        dbsf pduSftRfqufstPdu:
+            snmpInSftRfqufsts++;
+            brfbk;
+        dffbult:
+            brfbk;
         }
         snmpInPkts++ ;
     }
 
-    void updateErrorCounters(int errorStatus) {
-        switch(errorStatus) {
+    void updbtfErrorCountfrs(int frrorStbtus) {
+        switdi(frrorStbtus) {
 
-        case snmpRspNoError:
-            snmpOutGetResponses++;
-            break;
-        case snmpRspGenErr:
-            snmpOutGenErrs++;
-            break;
-        case snmpRspBadValue:
-            snmpOutBadValues++;
-            break;
-        case snmpRspNoSuchName:
-            snmpOutNoSuchNames++;
-            break;
-        case snmpRspTooBig:
+        dbsf snmpRspNoError:
+            snmpOutGftRfsponsfs++;
+            brfbk;
+        dbsf snmpRspGfnErr:
+            snmpOutGfnErrs++;
+            brfbk;
+        dbsf snmpRspBbdVbluf:
+            snmpOutBbdVblufs++;
+            brfbk;
+        dbsf snmpRspNoSudiNbmf:
+            snmpOutNoSudiNbmfs++;
+            brfbk;
+        dbsf snmpRspTooBig:
             snmpOutTooBigs++;
-            break;
-        default:
-            break;
+            brfbk;
+        dffbult:
+            brfbk;
         }
         snmpOutPkts++ ;
     }
 
-    void updateVarCounters(int pduType, int n) {
-        switch(pduType) {
+    void updbtfVbrCountfrs(int pduTypf, int n) {
+        switdi(pduTypf) {
 
-        case pduGetRequestPdu:
-        case pduGetNextRequestPdu:
-        case pduGetBulkRequestPdu:
-            snmpInTotalReqVars += n ;
-            break ;
-        case pduSetRequestPdu:
-            snmpInTotalSetVars += n ;
-            break ;
+        dbsf pduGftRfqufstPdu:
+        dbsf pduGftNfxtRfqufstPdu:
+        dbsf pduGftBulkRfqufstPdu:
+            snmpInTotblRfqVbrs += n ;
+            brfbk ;
+        dbsf pduSftRfqufstPdu:
+            snmpInTotblSftVbrs += n ;
+            brfbk ;
         }
     }
 
-    void incSnmpInASNParseErrs(int n) {
-        snmpInASNParseErrs += n ;
+    void indSnmpInASNPbrsfErrs(int n) {
+        snmpInASNPbrsfErrs += n ;
     }
 
-    void incSnmpInBadVersions(int n) {
-        snmpInBadVersions += n ;
+    void indSnmpInBbdVfrsions(int n) {
+        snmpInBbdVfrsions += n ;
     }
 
-    void incSnmpInBadCommunityUses(int n) {
-        snmpInBadCommunityUses += n ;
+    void indSnmpInBbdCommunityUsfs(int n) {
+        snmpInBbdCommunityUsfs += n ;
     }
 
-    void incSnmpInBadCommunityNames(int n) {
-        snmpInBadCommunityNames += n ;
+    void indSnmpInBbdCommunityNbmfs(int n) {
+        snmpInBbdCommunityNbmfs += n ;
     }
 
-    void incSnmpSilentDrops(int n) {
-        snmpSilentDrops += n ;
+    void indSnmpSilfntDrops(int n) {
+        snmpSilfntDrops += n ;
     }
     // PRIVATE METHODS
     //----------------
 
     /**
-     * Returns the time (in hundreths of second) elapsed since the SNMP
-     * protocol adaptor startup.
+     * Rfturns tif timf (in iundrftis of sfdond) flbpsfd sindf tif SNMP
+     * protodol bdbptor stbrtup.
      */
-    long getSysUpTime() {
-        return (System.currentTimeMillis() - startUpTime) / 10 ;
+    long gftSysUpTimf() {
+        rfturn (Systfm.durrfntTimfMillis() - stbrtUpTimf) / 10 ;
     }
 
     /**
-     * Control the way the SnmpAdaptorServer service is deserialized.
+     * Control tif wby tif SnmpAdbptorSfrvfr sfrvidf is dfsfriblizfd.
      */
-    private void readObject(ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        // Call the default deserialization of the object.
+        // Cbll tif dffbult dfsfriblizbtion of tif objfdt.
         //
-        stream.defaultReadObject();
+        strfbm.dffbultRfbdObjfdt();
 
-        // Call the specific initialization for the SnmpAdaptorServer service.
-        // This is for transient structures to be initialized to specific
-        // default values.
+        // Cbll tif spfdifid initiblizbtion for tif SnmpAdbptorSfrvfr sfrvidf.
+        // Tiis is for trbnsifnt strudturfs to bf initiblizfd to spfdifid
+        // dffbult vblufs.
         //
-        mibs      = new Vector<>() ;
+        mibs      = nfw Vfdtor<>() ;
     }
 
     /**
-     * Common initializations.
+     * Common initiblizbtions.
      */
-    private void init(InetAddressAcl acl, int p, InetAddress a) {
+    privbtf void init(InftAddrfssAdl bdl, int p, InftAddrfss b) {
 
-        root= new SnmpMibTree();
+        root= nfw SnmpMibTrff();
 
-        // The default Agent is initialized with a SnmpErrorHandlerAgent agent.
-        root.setDefaultAgent(new SnmpErrorHandlerAgent());
+        // Tif dffbult Agfnt is initiblizfd witi b SnmpErrorHbndlfrAgfnt bgfnt.
+        root.sftDffbultAgfnt(nfw SnmpErrorHbndlfrAgfnt());
 
-        // For the trap time, use the time the agent started ...
+        // For tif trbp timf, usf tif timf tif bgfnt stbrtfd ...
         //
-        startUpTime= java.lang.System.currentTimeMillis();
-        maxActiveClientCount = 10;
+        stbrtUpTimf= jbvb.lbng.Systfm.durrfntTimfMillis();
+        mbxAdtivfClifntCount = 10;
 
-        // Create the default message factory
-        pduFactory = new SnmpPduFactoryBER() ;
+        // Crfbtf tif dffbult mfssbgf fbdtory
+        pduFbdtory = nfw SnmpPduFbdtoryBER() ;
 
         port = p ;
-        ipacl = acl ;
-        address = a ;
+        ipbdl = bdl ;
+        bddrfss = b ;
 
-        if ((ipacl == null) && (useAcl == true))
-            throw new IllegalArgumentException("ACL object cannot be null") ;
+        if ((ipbdl == null) && (usfAdl == truf))
+            tirow nfw IllfgblArgumfntExdfption("ACL objfdt dbnnot bf null") ;
 
-        threadService = new ThreadService(threadNumber);
+        tirfbdSfrvidf = nfw TirfbdSfrvidf(tirfbdNumbfr);
     }
 
-    SnmpMibAgent getAgentMib(SnmpOid oid) {
-        return root.getAgentMib(oid);
+    SnmpMibAgfnt gftAgfntMib(SnmpOid oid) {
+        rfturn root.gftAgfntMib(oid);
     }
 
-    @Override
-    protected Thread createMainThread() {
-        final Thread t = super.createMainThread();
-        t.setDaemon(true);
-        return t;
+    @Ovfrridf
+    protfdtfd Tirfbd drfbtfMbinTirfbd() {
+        finbl Tirfbd t = supfr.drfbtfMbinTirfbd();
+        t.sftDbfmon(truf);
+        rfturn t;
     }
 
 }

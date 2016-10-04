@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+
+/**
+ * A nodf in b dirfdtfd grbph.  In bddition to bn brbitrbry
+ * <dodf>Objfdt</dodf> dontbining usfr dbtb bssodibtfd with thf nodf,
+ * fbdh nodf mbintbins b <dodf>Sft</dodf>s of nodfs whidh brf pointfd
+ * to by thf durrfnt nodf (bvbilbblf from <dodf>gftOutNodfs</dodf>).
+ * Thf in-dfgrff of thf nodf (thbt is, numbfr of nodfs thbt point to
+ * thf durrfnt nodf) mby bf qufrifd.
+ *
+ */
+dlbss DigrbphNodf<E> implfmfnts Clonfbblf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5308261378582246841L;
+
+    /** Thf dbtb bssodibtfd with this nodf. */
+    protfdtfd E dbtb;
+
+    /**
+     * A <dodf>Sft</dodf> of nfighboring nodfs pointfd to by this
+     * nodf.
+     */
+    protfdtfd Sft<DigrbphNodf<E>> outNodfs = nfw HbshSft<>();
+
+    /** Thf in-dfgrff of thf nodf. */
+    protfdtfd int inDfgrff = 0;
+
+    /**
+     * A <dodf>Sft</dodf> of nfighboring nodfs thbt point to this
+     * nodf.
+     */
+    privbtf Sft<DigrbphNodf<E>> inNodfs = nfw HbshSft<>();
+
+    publid DigrbphNodf(E dbtb) {
+        this.dbtb = dbtb;
+    }
+
+    /** Rfturns thf <dodf>Objfdt</dodf> rfffrfndfd by this nodf. */
+    publid E gftDbtb() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining thf nodfs pointfd
+     * to by this nodf.
+     */
+    publid Itfrbtor<DigrbphNodf<E>> gftOutNodfs() {
+        rfturn outNodfs.itfrbtor();
+    }
+
+    /**
+     * Adds b dirfdtfd fdgf to thf grbph.  Thf outNodfs list of this
+     * nodf is updbtfd bnd thf in-dfgrff of thf othfr nodf is indrfmfntfd.
+     *
+     * @pbrbm nodf b <dodf>DigrbphNodf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf nodf wbs not prfviously thf
+     * tbrgft of bn fdgf.
+     */
+    publid boolfbn bddEdgf(DigrbphNodf<E> nodf) {
+        if (outNodfs.dontbins(nodf)) {
+            rfturn fblsf;
+        }
+
+        outNodfs.bdd(nodf);
+        nodf.inNodfs.bdd(this);
+        nodf.indrfmfntInDfgrff();
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if bn fdgf fxists bftwffn this nodf
+     * bnd thf givfn nodf.
+     *
+     * @pbrbm nodf b <dodf>DigrbphNodf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf nodf is thf tbrgft of bn fdgf.
+     */
+    publid boolfbn hbsEdgf(DigrbphNodf<E> nodf) {
+        rfturn outNodfs.dontbins(nodf);
+    }
+
+    /**
+     * Rfmovfs b dirfdtfd fdgf from thf grbph.  Thf outNodfs list of this
+     * nodf is updbtfd bnd thf in-dfgrff of thf othfr nodf is dfdrfmfntfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf nodf wbs prfviously thf tbrgft
+     * of bn fdgf.
+     */
+    publid boolfbn rfmovfEdgf(DigrbphNodf<E> nodf) {
+        if (!outNodfs.dontbins(nodf)) {
+            rfturn fblsf;
+        }
+
+        outNodfs.rfmovf(nodf);
+        nodf.inNodfs.rfmovf(this);
+        nodf.dfdrfmfntInDfgrff();
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovfs this nodf from thf grbph, updbting nfighboring nodfs
+     * bppropribtfly.
+     */
+    publid void disposf() {
+        Objfdt[] inNodfsArrby = inNodfs.toArrby();
+        for(int i=0; i<inNodfsArrby.lfngth; i++) {
+            @SupprfssWbrnings("undhfdkfd")
+            DigrbphNodf<E> nodf = (DigrbphNodf<E>)inNodfsArrby[i];
+            nodf.rfmovfEdgf(this);
+        }
+
+        Objfdt[] outNodfsArrby = outNodfs.toArrby();
+        for(int i=0; i<outNodfsArrby.lfngth; i++) {
+            @SupprfssWbrnings("undhfdkfd")
+            DigrbphNodf<E> nodf = (DigrbphNodf<E>)outNodfsArrby[i];
+            rfmovfEdgf(nodf);
+        }
+    }
+
+    /** Rfturns thf in-dfgrff of this nodf. */
+    publid int gftInDfgrff() {
+        rfturn inDfgrff;
+    }
+
+    /** Indrfmfnts thf in-dfgrff of this nodf. */
+    privbtf void indrfmfntInDfgrff() {
+        ++inDfgrff;
+    }
+
+    /** Dfdrfmfnts thf in-dfgrff of this nodf. */
+    privbtf void dfdrfmfntInDfgrff() {
+        --inDfgrff;
+    }
+}

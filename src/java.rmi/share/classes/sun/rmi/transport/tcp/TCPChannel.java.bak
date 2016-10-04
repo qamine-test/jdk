@@ -1,534 +1,534 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.net.Socket;
-import java.rmi.ConnectIOException;
-import java.rmi.RemoteException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.WeakHashMap;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.runtime.RuntimeUtil;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.TransportConstants;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.ConnfdtIOExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.runtimf.RuntimfUtil;
+import sun.rmi.trbnsport.Cibnnfl;
+import sun.rmi.trbnsport.Connfdtion;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.TrbnsportConstbnts;
 
 /**
- * TCPChannel is the socket-based implementation of the RMI Channel
- * abstraction.
+ * TCPCibnnfl is tif sodkft-bbsfd implfmfntbtion of tif RMI Cibnnfl
+ * bbstrbdtion.
  *
- * @author Ann Wollrath
+ * @butior Ann Wollrbti
  */
-public class TCPChannel implements Channel {
-    /** endpoint for this channel */
-    private final TCPEndpoint ep;
-    /** transport for this channel */
-    private final TCPTransport tr;
-    /** list of cached connections */
-    private final List<TCPConnection> freeList =
-        new ArrayList<>();
-    /** frees cached connections that have expired (guarded by freeList) */
-    private Future<?> reaper = null;
+publid dlbss TCPCibnnfl implfmfnts Cibnnfl {
+    /** fndpoint for tiis dibnnfl */
+    privbtf finbl TCPEndpoint fp;
+    /** trbnsport for tiis dibnnfl */
+    privbtf finbl TCPTrbnsport tr;
+    /** list of dbdifd donnfdtions */
+    privbtf finbl List<TCPConnfdtion> frffList =
+        nfw ArrbyList<>();
+    /** frffs dbdifd donnfdtions tibt ibvf fxpirfd (gubrdfd by frffList) */
+    privbtf Futurf<?> rfbpfr = null;
 
-    /** using multiplexer (for bi-directional applet communication */
-    private boolean usingMultiplexer = false;
-    /** connection multiplexer, if used */
-    private ConnectionMultiplexer multiplexer = null;
-    /** connection acceptor (should be in TCPTransport) */
-    private ConnectionAcceptor acceptor;
+    /** using multiplfxfr (for bi-dirfdtionbl bpplft dommunidbtion */
+    privbtf boolfbn usingMultiplfxfr = fblsf;
+    /** donnfdtion multiplfxfr, if usfd */
+    privbtf ConnfdtionMultiplfxfr multiplfxfr = null;
+    /** donnfdtion bddfptor (siould bf in TCPTrbnsport) */
+    privbtf ConnfdtionAddfptor bddfptor;
 
-    /** most recently authorized AccessControlContext */
-    private AccessControlContext okContext;
+    /** most rfdfntly butiorizfd AddfssControlContfxt */
+    privbtf AddfssControlContfxt okContfxt;
 
-    /** cache of authorized AccessControlContexts */
-    private WeakHashMap<AccessControlContext,
-                        Reference<AccessControlContext>> authcache;
+    /** dbdif of butiorizfd AddfssControlContfxts */
+    privbtf WfbkHbsiMbp<AddfssControlContfxt,
+                        Rfffrfndf<AddfssControlContfxt>> butidbdif;
 
-    /** the SecurityManager which authorized okContext and authcache */
-    private SecurityManager cacheSecurityManager = null;
+    /** tif SfdurityMbnbgfr wiidi butiorizfd okContfxt bnd butidbdif */
+    privbtf SfdurityMbnbgfr dbdifSfdurityMbnbgfr = null;
 
-    /** client-side connection idle usage timeout */
-    private static final long idleTimeout =             // default 15 seconds
-        AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.transport.connectionTimeout", 15000));
+    /** dlifnt-sidf donnfdtion idlf usbgf timfout */
+    privbtf stbtid finbl long idlfTimfout =             // dffbult 15 sfdonds
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.trbnsport.donnfdtionTimfout", 15000));
 
-    /** client-side connection handshake read timeout */
-    private static final int handshakeTimeout =         // default 1 minute
-        AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.handshakeTimeout", 60000));
+    /** dlifnt-sidf donnfdtion ibndsibkf rfbd timfout */
+    privbtf stbtid finbl int ibndsibkfTimfout =         // dffbult 1 minutf
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.ibndsibkfTimfout", 60000));
 
-    /** client-side connection response read timeout (after handshake) */
-    private static final int responseTimeout =          // default infinity
-        AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.responseTimeout", 0));
+    /** dlifnt-sidf donnfdtion rfsponsf rfbd timfout (bftfr ibndsibkf) */
+    privbtf stbtid finbl int rfsponsfTimfout =          // dffbult infinity
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.rfsponsfTimfout", 0));
 
-    /** thread pool for scheduling delayed tasks */
-    private static final ScheduledExecutorService scheduler =
-        AccessController.doPrivileged(
-            new RuntimeUtil.GetInstanceAction()).getScheduler();
+    /** tirfbd pool for sdifduling dflbyfd tbsks */
+    privbtf stbtid finbl SdifdulfdExfdutorSfrvidf sdifdulfr =
+        AddfssControllfr.doPrivilfgfd(
+            nfw RuntimfUtil.GftInstbndfAdtion()).gftSdifdulfr();
 
     /**
-     * Create channel for endpoint.
+     * Crfbtf dibnnfl for fndpoint.
      */
-    TCPChannel(TCPTransport tr, TCPEndpoint ep) {
-        this.tr = tr;
-        this.ep = ep;
+    TCPCibnnfl(TCPTrbnsport tr, TCPEndpoint fp) {
+        tiis.tr = tr;
+        tiis.fp = fp;
     }
 
     /**
-     * Return the endpoint for this channel.
+     * Rfturn tif fndpoint for tiis dibnnfl.
      */
-    public Endpoint getEndpoint() {
-        return ep;
+    publid Endpoint gftEndpoint() {
+        rfturn fp;
     }
 
     /**
-     * Checks if the current caller has sufficient privilege to make
-     * a connection to the remote endpoint.
-     * @exception SecurityException if caller is not allowed to use this
-     * Channel.
+     * Cifdks if tif durrfnt dbllfr ibs suffidifnt privilfgf to mbkf
+     * b donnfdtion to tif rfmotf fndpoint.
+     * @fxdfption SfdurityExdfption if dbllfr is not bllowfd to usf tiis
+     * Cibnnfl.
      */
-    private void checkConnectPermission() throws SecurityException {
-        SecurityManager security = System.getSecurityManager();
-        if (security == null)
-            return;
+    privbtf void difdkConnfdtPfrmission() tirows SfdurityExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity == null)
+            rfturn;
 
-        if (security != cacheSecurityManager) {
-            // The security manager changed: flush the cache
-            okContext = null;
-            authcache = new WeakHashMap<AccessControlContext,
-                                        Reference<AccessControlContext>>();
-            cacheSecurityManager = security;
+        if (sfdurity != dbdifSfdurityMbnbgfr) {
+            // Tif sfdurity mbnbgfr dibngfd: flusi tif dbdif
+            okContfxt = null;
+            butidbdif = nfw WfbkHbsiMbp<AddfssControlContfxt,
+                                        Rfffrfndf<AddfssControlContfxt>>();
+            dbdifSfdurityMbnbgfr = sfdurity;
         }
 
-        AccessControlContext ctx = AccessController.getContext();
+        AddfssControlContfxt dtx = AddfssControllfr.gftContfxt();
 
-        // If ctx is the same context as last time, or if it
-        // appears in the cache, bypass the checkConnect.
-        if (okContext == null ||
-            !(okContext.equals(ctx) || authcache.containsKey(ctx)))
+        // If dtx is tif sbmf dontfxt bs lbst timf, or if it
+        // bppfbrs in tif dbdif, bypbss tif difdkConnfdt.
+        if (okContfxt == null ||
+            !(okContfxt.fqubls(dtx) || butidbdif.dontbinsKfy(dtx)))
         {
-            security.checkConnect(ep.getHost(), ep.getPort());
-            authcache.put(ctx, new SoftReference<AccessControlContext>(ctx));
-            // A WeakHashMap is transformed into a SoftHashSet by making
-            // each value softly refer to its own key (Peter's idea).
+            sfdurity.difdkConnfdt(fp.gftHost(), fp.gftPort());
+            butidbdif.put(dtx, nfw SoftRfffrfndf<AddfssControlContfxt>(dtx));
+            // A WfbkHbsiMbp is trbnsformfd into b SoftHbsiSft by mbking
+            // fbdi vbluf softly rfffr to its own kfy (Pftfr's idfb).
         }
-        okContext = ctx;
+        okContfxt = dtx;
     }
 
     /**
-     * Supplies a connection to the endpoint of the address space
-     * for which this is a channel.  The returned connection may
-     * be one retrieved from a cache of idle connections.
+     * Supplifs b donnfdtion to tif fndpoint of tif bddrfss spbdf
+     * for wiidi tiis is b dibnnfl.  Tif rfturnfd donnfdtion mby
+     * bf onf rftrifvfd from b dbdif of idlf donnfdtions.
      */
-    public Connection newConnection() throws RemoteException {
-        TCPConnection conn;
+    publid Connfdtion nfwConnfdtion() tirows RfmotfExdfption {
+        TCPConnfdtion donn;
 
-        // loop until we find a free live connection (in which case
-        // we return) or until we run out of freelist (in which case
-        // the loop exits)
+        // loop until wf find b frff livf donnfdtion (in wiidi dbsf
+        // wf rfturn) or until wf run out of frfflist (in wiidi dbsf
+        // tif loop fxits)
         do {
-            conn = null;
-            // try to get a free connection
-            synchronized (freeList) {
-                int elementPos = freeList.size()-1;
+            donn = null;
+            // try to gft b frff donnfdtion
+            syndironizfd (frffList) {
+                int flfmfntPos = frffList.sizf()-1;
 
-                if (elementPos >= 0) {
-                    // If there is a security manager, make sure
-                    // the caller is allowed to connect to the
-                    // requested endpoint.
-                    checkConnectPermission();
-                    conn = freeList.get(elementPos);
-                    freeList.remove(elementPos);
+                if (flfmfntPos >= 0) {
+                    // If tifrf is b sfdurity mbnbgfr, mbkf surf
+                    // tif dbllfr is bllowfd to donnfdt to tif
+                    // rfqufstfd fndpoint.
+                    difdkConnfdtPfrmission();
+                    donn = frffList.gft(flfmfntPos);
+                    frffList.rfmovf(flfmfntPos);
                 }
             }
 
-            // at this point, conn is null iff the freelist is empty,
-            // and nonnull if a free connection of uncertain vitality
-            // has been found.
+            // bt tiis point, donn is null iff tif frfflist is fmpty,
+            // bnd nonnull if b frff donnfdtion of undfrtbin vitblity
+            // ibs bffn found.
 
-            if (conn != null) {
-                // check to see if the connection has closed since last use
-                if (!conn.isDead()) {
-                    TCPTransport.tcpLog.log(Log.BRIEF, "reuse connection");
-                    return conn;
+            if (donn != null) {
+                // difdk to sff if tif donnfdtion ibs dlosfd sindf lbst usf
+                if (!donn.isDfbd()) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF, "rfusf donnfdtion");
+                    rfturn donn;
                 }
 
-                // conn is dead, and cannot be reused (reuse => false)
-                this.free(conn, false);
+                // donn is dfbd, bnd dbnnot bf rfusfd (rfusf => fblsf)
+                tiis.frff(donn, fblsf);
             }
-        } while (conn != null);
+        } wiilf (donn != null);
 
-        // none free, so create a new connection
-        return (createConnection());
+        // nonf frff, so drfbtf b nfw donnfdtion
+        rfturn (drfbtfConnfdtion());
     }
 
     /**
-     * Create a new connection to the remote endpoint of this channel.
-     * The returned connection is new.  The caller must already have
-     * passed a security checkConnect or equivalent.
+     * Crfbtf b nfw donnfdtion to tif rfmotf fndpoint of tiis dibnnfl.
+     * Tif rfturnfd donnfdtion is nfw.  Tif dbllfr must blrfbdy ibvf
+     * pbssfd b sfdurity difdkConnfdt or fquivblfnt.
      */
-    private Connection createConnection() throws RemoteException {
-        Connection conn;
+    privbtf Connfdtion drfbtfConnfdtion() tirows RfmotfExdfption {
+        Connfdtion donn;
 
-        TCPTransport.tcpLog.log(Log.BRIEF, "create connection");
+        TCPTrbnsport.tdpLog.log(Log.BRIEF, "drfbtf donnfdtion");
 
-        if (!usingMultiplexer) {
-            Socket sock = ep.newSocket();
-            conn = new TCPConnection(this, sock);
+        if (!usingMultiplfxfr) {
+            Sodkft sodk = fp.nfwSodkft();
+            donn = nfw TCPConnfdtion(tiis, sodk);
 
             try {
-                DataOutputStream out =
-                    new DataOutputStream(conn.getOutputStream());
-                writeTransportHeader(out);
+                DbtbOutputStrfbm out =
+                    nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+                writfTrbnsportHfbdfr(out);
 
-                // choose protocol (single op if not reusable socket)
-                if (!conn.isReusable()) {
-                    out.writeByte(TransportConstants.SingleOpProtocol);
-                } else {
-                    out.writeByte(TransportConstants.StreamProtocol);
-                    out.flush();
+                // dioosf protodol (singlf op if not rfusbblf sodkft)
+                if (!donn.isRfusbblf()) {
+                    out.writfBytf(TrbnsportConstbnts.SinglfOpProtodol);
+                } flsf {
+                    out.writfBytf(TrbnsportConstbnts.StrfbmProtodol);
+                    out.flusi();
 
                     /*
-                     * Set socket read timeout to configured value for JRMP
-                     * connection handshake; this also serves to guard against
-                     * non-JRMP servers that do not respond (see 4322806).
+                     * Sft sodkft rfbd timfout to donfigurfd vbluf for JRMP
+                     * donnfdtion ibndsibkf; tiis blso sfrvfs to gubrd bgbinst
+                     * non-JRMP sfrvfrs tibt do not rfspond (sff 4322806).
                      */
-                    int originalSoTimeout = 0;
+                    int originblSoTimfout = 0;
                     try {
-                        originalSoTimeout = sock.getSoTimeout();
-                        sock.setSoTimeout(handshakeTimeout);
-                    } catch (Exception e) {
-                        // if we fail to set this, ignore and proceed anyway
+                        originblSoTimfout = sodk.gftSoTimfout();
+                        sodk.sftSoTimfout(ibndsibkfTimfout);
+                    } dbtdi (Exdfption f) {
+                        // if wf fbil to sft tiis, ignorf bnd prodffd bnywby
                     }
 
-                    DataInputStream in =
-                        new DataInputStream(conn.getInputStream());
-                    byte ack = in.readByte();
-                    if (ack != TransportConstants.ProtocolAck) {
-                        throw new ConnectIOException(
-                            ack == TransportConstants.ProtocolNack ?
-                            "JRMP StreamProtocol not supported by server" :
-                            "non-JRMP server at remote endpoint");
+                    DbtbInputStrfbm in =
+                        nfw DbtbInputStrfbm(donn.gftInputStrfbm());
+                    bytf bdk = in.rfbdBytf();
+                    if (bdk != TrbnsportConstbnts.ProtodolAdk) {
+                        tirow nfw ConnfdtIOExdfption(
+                            bdk == TrbnsportConstbnts.ProtodolNbdk ?
+                            "JRMP StrfbmProtodol not supportfd by sfrvfr" :
+                            "non-JRMP sfrvfr bt rfmotf fndpoint");
                     }
 
-                    String suggestedHost = in.readUTF();
-                    int    suggestedPort = in.readInt();
-                    if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE,
-                            "server suggested " + suggestedHost + ":" +
-                            suggestedPort);
+                    String suggfstfdHost = in.rfbdUTF();
+                    int    suggfstfdPort = in.rfbdInt();
+                    if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                            "sfrvfr suggfstfd " + suggfstfdHost + ":" +
+                            suggfstfdPort);
                     }
 
-                    // set local host name, if unknown
-                    TCPEndpoint.setLocalHost(suggestedHost);
-                    // do NOT set the default port, because we don't
-                    // know if we can't listen YET...
+                    // sft lodbl iost nbmf, if unknown
+                    TCPEndpoint.sftLodblHost(suggfstfdHost);
+                    // do NOT sft tif dffbult port, bfdbusf wf don't
+                    // know if wf dbn't listfn YET...
 
-                    // write out default endpoint to match protocol
-                    // (but it serves no purpose)
-                    TCPEndpoint localEp =
-                        TCPEndpoint.getLocalEndpoint(0, null, null);
-                    out.writeUTF(localEp.getHost());
-                    out.writeInt(localEp.getPort());
-                    if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE, "using " +
-                            localEp.getHost() + ":" + localEp.getPort());
+                    // writf out dffbult fndpoint to mbtdi protodol
+                    // (but it sfrvfs no purposf)
+                    TCPEndpoint lodblEp =
+                        TCPEndpoint.gftLodblEndpoint(0, null, null);
+                    out.writfUTF(lodblEp.gftHost());
+                    out.writfInt(lodblEp.gftPort());
+                    if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        TCPTrbnsport.tdpLog.log(Log.VERBOSE, "using " +
+                            lodblEp.gftHost() + ":" + lodblEp.gftPort());
                     }
 
                     /*
-                     * After JRMP handshake, set socket read timeout to value
-                     * configured for the rest of the lifetime of the
-                     * connection.  NOTE: this timeout, if configured to a
-                     * finite duration, places an upper bound on the time
-                     * that a remote method call is permitted to execute.
+                     * Aftfr JRMP ibndsibkf, sft sodkft rfbd timfout to vbluf
+                     * donfigurfd for tif rfst of tif lifftimf of tif
+                     * donnfdtion.  NOTE: tiis timfout, if donfigurfd to b
+                     * finitf durbtion, plbdfs bn uppfr bound on tif timf
+                     * tibt b rfmotf mftiod dbll is pfrmittfd to fxfdutf.
                      */
                     try {
                         /*
-                         * If socket factory had set a non-zero timeout on its
-                         * own, then restore it instead of using the property-
-                         * configured value.
+                         * If sodkft fbdtory ibd sft b non-zfro timfout on its
+                         * own, tifn rfstorf it instfbd of using tif propfrty-
+                         * donfigurfd vbluf.
                          */
-                        sock.setSoTimeout((originalSoTimeout != 0 ?
-                                           originalSoTimeout :
-                                           responseTimeout));
-                    } catch (Exception e) {
-                        // if we fail to set this, ignore and proceed anyway
+                        sodk.sftSoTimfout((originblSoTimfout != 0 ?
+                                           originblSoTimfout :
+                                           rfsponsfTimfout));
+                    } dbtdi (Exdfption f) {
+                        // if wf fbil to sft tiis, ignorf bnd prodffd bnywby
                     }
 
-                    out.flush();
+                    out.flusi();
                 }
-            } catch (IOException e) {
-                if (e instanceof RemoteException)
-                    throw (RemoteException) e;
-                else
-                    throw new ConnectIOException(
-                        "error during JRMP connection establishment", e);
+            } dbtdi (IOExdfption f) {
+                if (f instbndfof RfmotfExdfption)
+                    tirow (RfmotfExdfption) f;
+                flsf
+                    tirow nfw ConnfdtIOExdfption(
+                        "frror during JRMP donnfdtion fstbblisimfnt", f);
             }
-        } else {
+        } flsf {
             try {
-                conn = multiplexer.openConnection();
-            } catch (IOException e) {
-                synchronized (this) {
-                    usingMultiplexer = false;
-                    multiplexer = null;
+                donn = multiplfxfr.opfnConnfdtion();
+            } dbtdi (IOExdfption f) {
+                syndironizfd (tiis) {
+                    usingMultiplfxfr = fblsf;
+                    multiplfxfr = null;
                 }
-                throw new ConnectIOException(
-                    "error opening virtual connection " +
-                    "over multiplexed connection", e);
+                tirow nfw ConnfdtIOExdfption(
+                    "frror opfning virtubl donnfdtion " +
+                    "ovfr multiplfxfd donnfdtion", f);
             }
         }
-        return conn;
+        rfturn donn;
     }
 
     /**
-     * Free the connection generated by this channel.
-     * @param conn The connection
-     * @param reuse If true, the connection is in a state in which it
-     *        can be reused for another method call.
+     * Frff tif donnfdtion gfnfrbtfd by tiis dibnnfl.
+     * @pbrbm donn Tif donnfdtion
+     * @pbrbm rfusf If truf, tif donnfdtion is in b stbtf in wiidi it
+     *        dbn bf rfusfd for bnotifr mftiod dbll.
      */
-    public void free(Connection conn, boolean reuse) {
-        if (conn == null) return;
+    publid void frff(Connfdtion donn, boolfbn rfusf) {
+        if (donn == null) rfturn;
 
-        if (reuse && conn.isReusable()) {
-            long lastuse = System.currentTimeMillis();
-            TCPConnection tcpConnection = (TCPConnection) conn;
+        if (rfusf && donn.isRfusbblf()) {
+            long lbstusf = Systfm.durrfntTimfMillis();
+            TCPConnfdtion tdpConnfdtion = (TCPConnfdtion) donn;
 
-            TCPTransport.tcpLog.log(Log.BRIEF, "reuse connection");
+            TCPTrbnsport.tdpLog.log(Log.BRIEF, "rfusf donnfdtion");
 
             /*
-             * Cache connection; if reaper task for expired
-             * connections isn't scheduled, then schedule it.
+             * Cbdif donnfdtion; if rfbpfr tbsk for fxpirfd
+             * donnfdtions isn't sdifdulfd, tifn sdifdulf it.
              */
-            synchronized (freeList) {
-                freeList.add(tcpConnection);
-                if (reaper == null) {
-                    TCPTransport.tcpLog.log(Log.BRIEF, "create reaper");
+            syndironizfd (frffList) {
+                frffList.bdd(tdpConnfdtion);
+                if (rfbpfr == null) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF, "drfbtf rfbpfr");
 
-                    reaper = scheduler.scheduleWithFixedDelay(
-                        new Runnable() {
-                            public void run() {
-                                TCPTransport.tcpLog.log(Log.VERBOSE,
-                                                        "wake up");
-                                freeCachedConnections();
+                    rfbpfr = sdifdulfr.sdifdulfWitiFixfdDflby(
+                        nfw Runnbblf() {
+                            publid void run() {
+                                TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                                                        "wbkf up");
+                                frffCbdifdConnfdtions();
                             }
-                        }, idleTimeout, idleTimeout, TimeUnit.MILLISECONDS);
+                        }, idlfTimfout, idlfTimfout, TimfUnit.MILLISECONDS);
                 }
             }
 
-            tcpConnection.setLastUseTime(lastuse);
-            tcpConnection.setExpiration(lastuse + idleTimeout);
-        } else {
-            TCPTransport.tcpLog.log(Log.BRIEF, "close connection");
+            tdpConnfdtion.sftLbstUsfTimf(lbstusf);
+            tdpConnfdtion.sftExpirbtion(lbstusf + idlfTimfout);
+        } flsf {
+            TCPTrbnsport.tdpLog.log(Log.BRIEF, "dlosf donnfdtion");
 
             try {
-                conn.close();
-            } catch (IOException ignored) {
+                donn.dlosf();
+            } dbtdi (IOExdfption ignorfd) {
             }
         }
     }
 
     /**
-     * Send transport header over stream.
+     * Sfnd trbnsport ifbdfr ovfr strfbm.
      */
-    private void writeTransportHeader(DataOutputStream out)
-        throws RemoteException
+    privbtf void writfTrbnsportHfbdfr(DbtbOutputStrfbm out)
+        tirows RfmotfExdfption
     {
         try {
-            // write out transport header
-            DataOutputStream dataOut =
-                new DataOutputStream(out);
-            dataOut.writeInt(TransportConstants.Magic);
-            dataOut.writeShort(TransportConstants.Version);
-        } catch (IOException e) {
-            throw new ConnectIOException(
-                "error writing JRMP transport header", e);
+            // writf out trbnsport ifbdfr
+            DbtbOutputStrfbm dbtbOut =
+                nfw DbtbOutputStrfbm(out);
+            dbtbOut.writfInt(TrbnsportConstbnts.Mbgid);
+            dbtbOut.writfSiort(TrbnsportConstbnts.Vfrsion);
+        } dbtdi (IOExdfption f) {
+            tirow nfw ConnfdtIOExdfption(
+                "frror writing JRMP trbnsport ifbdfr", f);
         }
     }
 
     /**
-     * Use given connection multiplexer object to obtain new connections
-     * through this channel.
+     * Usf givfn donnfdtion multiplfxfr objfdt to obtbin nfw donnfdtions
+     * tirougi tiis dibnnfl.
      */
-    synchronized void useMultiplexer(ConnectionMultiplexer newMultiplexer) {
-        // for now, always just use the last one given
-        multiplexer = newMultiplexer;
+    syndironizfd void usfMultiplfxfr(ConnfdtionMultiplfxfr nfwMultiplfxfr) {
+        // for now, blwbys just usf tif lbst onf givfn
+        multiplfxfr = nfwMultiplfxfr;
 
-        usingMultiplexer = true;
+        usingMultiplfxfr = truf;
     }
 
     /**
-     * Accept a connection provided over a multiplexed channel.
+     * Addfpt b donnfdtion providfd ovfr b multiplfxfd dibnnfl.
      */
-    void acceptMultiplexConnection(Connection conn) {
-        if (acceptor == null) {
-            acceptor = new ConnectionAcceptor(tr);
-            acceptor.startNewAcceptor();
+    void bddfptMultiplfxConnfdtion(Connfdtion donn) {
+        if (bddfptor == null) {
+            bddfptor = nfw ConnfdtionAddfptor(tr);
+            bddfptor.stbrtNfwAddfptor();
         }
-        acceptor.accept(conn);
+        bddfptor.bddfpt(donn);
     }
 
     /**
-     * Closes all the connections in the cache, whether timed out or not.
+     * Closfs bll tif donnfdtions in tif dbdif, wiftifr timfd out or not.
      */
-    public void shedCache() {
-        // Build a list of connections, to avoid holding the freeList
-        // lock during (potentially long-running) close() calls.
-        Connection[] conn;
-        synchronized (freeList) {
-            conn = freeList.toArray(new Connection[freeList.size()]);
-            freeList.clear();
+    publid void sifdCbdif() {
+        // Build b list of donnfdtions, to bvoid iolding tif frffList
+        // lodk during (potfntiblly long-running) dlosf() dblls.
+        Connfdtion[] donn;
+        syndironizfd (frffList) {
+            donn = frffList.toArrby(nfw Connfdtion[frffList.sizf()]);
+            frffList.dlfbr();
         }
 
-        // Close all the connections that were free
-        for (int i = conn.length; --i >= 0; ) {
-            Connection c = conn[i];
-            conn[i] = null; // help gc
+        // Closf bll tif donnfdtions tibt wfrf frff
+        for (int i = donn.lfngti; --i >= 0; ) {
+            Connfdtion d = donn[i];
+            donn[i] = null; // iflp gd
             try {
-                c.close();
-            } catch (java.io.IOException e) {
-                // eat exception
+                d.dlosf();
+            } dbtdi (jbvb.io.IOExdfption f) {
+                // fbt fxdfption
             }
         }
     }
 
-    private void freeCachedConnections() {
+    privbtf void frffCbdifdConnfdtions() {
         /*
-         * Remove each connection whose time out has expired.
+         * Rfmovf fbdi donnfdtion wiosf timf out ibs fxpirfd.
          */
-        synchronized (freeList) {
-            int size = freeList.size();
+        syndironizfd (frffList) {
+            int sizf = frffList.sizf();
 
-            if (size > 0) {
-                long time = System.currentTimeMillis();
-                ListIterator<TCPConnection> iter = freeList.listIterator(size);
+            if (sizf > 0) {
+                long timf = Systfm.durrfntTimfMillis();
+                ListItfrbtor<TCPConnfdtion> itfr = frffList.listItfrbtor(sizf);
 
-                while (iter.hasPrevious()) {
-                    TCPConnection conn = iter.previous();
-                    if (conn.expired(time)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE,
-                            "connection timeout expired");
+                wiilf (itfr.ibsPrfvious()) {
+                    TCPConnfdtion donn = itfr.prfvious();
+                    if (donn.fxpirfd(timf)) {
+                        TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                            "donnfdtion timfout fxpirfd");
 
                         try {
-                            conn.close();
-                        } catch (java.io.IOException e) {
-                            // eat exception
+                            donn.dlosf();
+                        } dbtdi (jbvb.io.IOExdfption f) {
+                            // fbt fxdfption
                         }
-                        iter.remove();
+                        itfr.rfmovf();
                     }
                 }
             }
 
-            if (freeList.isEmpty()) {
-                reaper.cancel(false);
-                reaper = null;
+            if (frffList.isEmpty()) {
+                rfbpfr.dbndfl(fblsf);
+                rfbpfr = null;
             }
         }
     }
 }
 
 /**
- * ConnectionAcceptor manages accepting new connections and giving them
- * to TCPTransport's message handler on new threads.
+ * ConnfdtionAddfptor mbnbgfs bddfpting nfw donnfdtions bnd giving tifm
+ * to TCPTrbnsport's mfssbgf ibndlfr on nfw tirfbds.
  *
- * Since this object only needs to know which transport to give new
- * connections to, it doesn't need to be per-channel as currently
- * implemented.
+ * Sindf tiis objfdt only nffds to know wiidi trbnsport to givf nfw
+ * donnfdtions to, it dofsn't nffd to bf pfr-dibnnfl bs durrfntly
+ * implfmfntfd.
  */
-class ConnectionAcceptor implements Runnable {
+dlbss ConnfdtionAddfptor implfmfnts Runnbblf {
 
-    /** transport that will handle message on accepted connections */
-    private TCPTransport transport;
+    /** trbnsport tibt will ibndlf mfssbgf on bddfptfd donnfdtions */
+    privbtf TCPTrbnsport trbnsport;
 
-    /** queue of connections to be accepted */
-    private List<Connection> queue = new ArrayList<>();
+    /** qufuf of donnfdtions to bf bddfptfd */
+    privbtf List<Connfdtion> qufuf = nfw ArrbyList<>();
 
-    /** thread ID counter */
-    private static int threadNum = 0;
+    /** tirfbd ID dountfr */
+    privbtf stbtid int tirfbdNum = 0;
 
     /**
-     * Create a new ConnectionAcceptor that will give connections
-     * to the specified transport on a new thread.
+     * Crfbtf b nfw ConnfdtionAddfptor tibt will givf donnfdtions
+     * to tif spfdififd trbnsport on b nfw tirfbd.
      */
-    public ConnectionAcceptor(TCPTransport transport) {
-        this.transport = transport;
+    publid ConnfdtionAddfptor(TCPTrbnsport trbnsport) {
+        tiis.trbnsport = trbnsport;
     }
 
     /**
-     * Start a new thread to accept connections.
+     * Stbrt b nfw tirfbd to bddfpt donnfdtions.
      */
-    public void startNewAcceptor() {
-        Thread t = AccessController.doPrivileged(
-            new NewThreadAction(ConnectionAcceptor.this,
-                                "Multiplex Accept-" + ++ threadNum,
-                                true));
-        t.start();
+    publid void stbrtNfwAddfptor() {
+        Tirfbd t = AddfssControllfr.doPrivilfgfd(
+            nfw NfwTirfbdAdtion(ConnfdtionAddfptor.tiis,
+                                "Multiplfx Addfpt-" + ++ tirfbdNum,
+                                truf));
+        t.stbrt();
     }
 
     /**
-     * Add connection to queue of connections to be accepted.
+     * Add donnfdtion to qufuf of donnfdtions to bf bddfptfd.
      */
-    public void accept(Connection conn) {
-        synchronized (queue) {
-            queue.add(conn);
-            queue.notify();
+    publid void bddfpt(Connfdtion donn) {
+        syndironizfd (qufuf) {
+            qufuf.bdd(donn);
+            qufuf.notify();
         }
     }
 
     /**
-     * Give transport next accepted connection, when available.
+     * Givf trbnsport nfxt bddfptfd donnfdtion, wifn bvbilbblf.
      */
-    public void run() {
-        Connection conn;
+    publid void run() {
+        Connfdtion donn;
 
-        synchronized (queue) {
-            while (queue.size() == 0) {
+        syndironizfd (qufuf) {
+            wiilf (qufuf.sizf() == 0) {
                 try {
-                    queue.wait();
-                } catch (InterruptedException e) {
+                    qufuf.wbit();
+                } dbtdi (IntfrruptfdExdfption f) {
                 }
             }
-            startNewAcceptor();
-            conn = queue.remove(0);
+            stbrtNfwAddfptor();
+            donn = qufuf.rfmovf(0);
         }
 
-        transport.handleMessages(conn, true);
+        trbnsport.ibndlfMfssbgfs(donn, truf);
     }
 }

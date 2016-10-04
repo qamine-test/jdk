@@ -1,138 +1,138 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import org.w3c.dom.Attr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import org.w3d.dom.Attr;
 
 /**
- * This Exception is thrown if something related to the
- * {@link com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver} goes wrong.
+ * Tiis Exdfption is tirown if somftiing rflbtfd to tif
+ * {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr} gofs wrong.
  *
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class ResourceResolverException extends XMLSecurityException {
+publid dlbss RfsourdfRfsolvfrExdfption fxtfnds XMLSfdurityExdfption {
 
-    private static final long serialVersionUID = 1L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
 
-    private Attr uri = null;
+    privbtf Attr uri = null;
 
-    private String baseURI = null;
+    privbtf String bbsfURI = null;
 
     /**
-     * Constructor ResourceResolverException
+     * Construdtor RfsourdfRfsolvfrExdfption
      *
-     * @param msgID
-     * @param uri
-     * @param baseURI
+     * @pbrbm msgID
+     * @pbrbm uri
+     * @pbrbm bbsfURI
      */
-    public ResourceResolverException(String msgID, Attr uri, String baseURI) {
-        super(msgID);
+    publid RfsourdfRfsolvfrExdfption(String msgID, Attr uri, String bbsfURI) {
+        supfr(msgID);
 
-        this.uri = uri;
-        this.baseURI = baseURI;
+        tiis.uri = uri;
+        tiis.bbsfURI = bbsfURI;
     }
 
     /**
-     * Constructor ResourceResolverException
+     * Construdtor RfsourdfRfsolvfrExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param uri
-     * @param baseURI
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm uri
+     * @pbrbm bbsfURI
      */
-    public ResourceResolverException(String msgID, Object exArgs[], Attr uri,
-                                     String baseURI) {
-        super(msgID, exArgs);
+    publid RfsourdfRfsolvfrExdfption(String msgID, Objfdt fxArgs[], Attr uri,
+                                     String bbsfURI) {
+        supfr(msgID, fxArgs);
 
-        this.uri = uri;
-        this.baseURI = baseURI;
+        tiis.uri = uri;
+        tiis.bbsfURI = bbsfURI;
     }
 
     /**
-     * Constructor ResourceResolverException
+     * Construdtor RfsourdfRfsolvfrExdfption
      *
-     * @param msgID
-     * @param originalException
-     * @param uri
-     * @param baseURI
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
+     * @pbrbm uri
+     * @pbrbm bbsfURI
      */
-    public ResourceResolverException(String msgID, Exception originalException,
-                                     Attr uri, String baseURI) {
-        super(msgID, originalException);
+    publid RfsourdfRfsolvfrExdfption(String msgID, Exdfption originblExdfption,
+                                     Attr uri, String bbsfURI) {
+        supfr(msgID, originblExdfption);
 
-        this.uri = uri;
-        this.baseURI = baseURI;
+        tiis.uri = uri;
+        tiis.bbsfURI = bbsfURI;
     }
 
     /**
-     * Constructor ResourceResolverException
+     * Construdtor RfsourdfRfsolvfrExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
-     * @param uri
-     * @param baseURI
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
+     * @pbrbm uri
+     * @pbrbm bbsfURI
      */
-    public ResourceResolverException(String msgID, Object exArgs[],
-                                     Exception originalException, Attr uri,
-                                     String baseURI) {
-        super(msgID, exArgs, originalException);
+    publid RfsourdfRfsolvfrExdfption(String msgID, Objfdt fxArgs[],
+                                     Exdfption originblExdfption, Attr uri,
+                                     String bbsfURI) {
+        supfr(msgID, fxArgs, originblExdfption);
 
-        this.uri = uri;
-        this.baseURI = baseURI;
-    }
-
-    /**
-     *
-     * @param uri
-     */
-    public void setURI(Attr uri) {
-        this.uri = uri;
+        tiis.uri = uri;
+        tiis.bbsfURI = bbsfURI;
     }
 
     /**
      *
-     * @return the uri
+     * @pbrbm uri
      */
-    public Attr getURI() {
-        return this.uri;
+    publid void sftURI(Attr uri) {
+        tiis.uri = uri;
     }
 
     /**
      *
-     * @param baseURI
+     * @rfturn tif uri
      */
-    public void setbaseURI(String baseURI) {
-        this.baseURI = baseURI;
+    publid Attr gftURI() {
+        rfturn tiis.uri;
     }
 
     /**
      *
-     * @return the baseURI
+     * @pbrbm bbsfURI
      */
-    public String getbaseURI() {
-        return this.baseURI;
+    publid void sftbbsfURI(String bbsfURI) {
+        tiis.bbsfURI = bbsfURI;
+    }
+
+    /**
+     *
+     * @rfturn tif bbsfURI
+     */
+    publid String gftbbsfURI() {
+        rfturn tiis.bbsfURI;
     }
 
 }

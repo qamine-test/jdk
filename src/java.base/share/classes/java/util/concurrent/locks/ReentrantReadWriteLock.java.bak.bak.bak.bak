@@ -1,0 +1,1509 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.Collfdtion;
+
+/**
+ * An implfmfntbtion of {@link RfbdWritfLodk} supporting similbr
+ * sfmbntids to {@link RffntrbntLodk}.
+ * <p>This dlbss hbs thf following propfrtifs:
+ *
+ * <ul>
+ * <li><b>Adquisition ordfr</b>
+ *
+ * <p>This dlbss dofs not imposf b rfbdfr or writfr prfffrfndf
+ * ordfring for lodk bddfss.  Howfvfr, it dofs support bn optionbl
+ * <fm>fbirnfss</fm> polidy.
+ *
+ * <dl>
+ * <dt><b><i>Non-fbir modf (dffbult)</i></b>
+ * <dd>Whfn donstrudtfd bs non-fbir (thf dffbult), thf ordfr of fntry
+ * to thf rfbd bnd writf lodk is unspfdififd, subjfdt to rffntrbndy
+ * donstrbints.  A nonfbir lodk thbt is dontinuously dontfndfd mby
+ * indffinitfly postponf onf or morf rfbdfr or writfr thrfbds, but
+ * will normblly hbvf highfr throughput thbn b fbir lodk.
+ *
+ * <dt><b><i>Fbir modf</i></b>
+ * <dd>Whfn donstrudtfd bs fbir, thrfbds dontfnd for fntry using bn
+ * bpproximbtfly brrivbl-ordfr polidy. Whfn thf durrfntly hfld lodk
+ * is rflfbsfd, fithfr thf longfst-wbiting singlf writfr thrfbd will
+ * bf bssignfd thf writf lodk, or if thfrf is b group of rfbdfr thrfbds
+ * wbiting longfr thbn bll wbiting writfr thrfbds, thbt group will bf
+ * bssignfd thf rfbd lodk.
+ *
+ * <p>A thrfbd thbt trifs to bdquirf b fbir rfbd lodk (non-rffntrbntly)
+ * will blodk if fithfr thf writf lodk is hfld, or thfrf is b wbiting
+ * writfr thrfbd. Thf thrfbd will not bdquirf thf rfbd lodk until
+ * bftfr thf oldfst durrfntly wbiting writfr thrfbd hbs bdquirfd bnd
+ * rflfbsfd thf writf lodk. Of doursf, if b wbiting writfr bbbndons
+ * its wbit, lfbving onf or morf rfbdfr thrfbds bs thf longfst wbitfrs
+ * in thf qufuf with thf writf lodk frff, thfn thosf rfbdfrs will bf
+ * bssignfd thf rfbd lodk.
+ *
+ * <p>A thrfbd thbt trifs to bdquirf b fbir writf lodk (non-rffntrbntly)
+ * will blodk unlfss both thf rfbd lodk bnd writf lodk brf frff (whidh
+ * implifs thfrf brf no wbiting thrfbds).  (Notf thbt thf non-blodking
+ * {@link RfbdLodk#tryLodk()} bnd {@link WritfLodk#tryLodk()} mfthods
+ * do not honor this fbir sftting bnd will immfdibtfly bdquirf thf lodk
+ * if it is possiblf, rfgbrdlfss of wbiting thrfbds.)
+ * </dl>
+ *
+ * <li><b>Rffntrbndy</b>
+ *
+ * <p>This lodk bllows both rfbdfrs bnd writfrs to rfbdquirf rfbd or
+ * writf lodks in thf stylf of b {@link RffntrbntLodk}. Non-rffntrbnt
+ * rfbdfrs brf not bllowfd until bll writf lodks hfld by thf writing
+ * thrfbd hbvf bffn rflfbsfd.
+ *
+ * <p>Additionblly, b writfr dbn bdquirf thf rfbd lodk, but not
+ * vidf-vfrsb.  Among othfr bpplidbtions, rffntrbndy dbn bf usfful
+ * whfn writf lodks brf hfld during dblls or dbllbbdks to mfthods thbt
+ * pfrform rfbds undfr rfbd lodks.  If b rfbdfr trifs to bdquirf thf
+ * writf lodk it will nfvfr suddffd.
+ *
+ * <li><b>Lodk downgrbding</b>
+ * <p>Rffntrbndy blso bllows downgrbding from thf writf lodk to b rfbd lodk,
+ * by bdquiring thf writf lodk, thfn thf rfbd lodk bnd thfn rflfbsing thf
+ * writf lodk. Howfvfr, upgrbding from b rfbd lodk to thf writf lodk is
+ * <b>not</b> possiblf.
+ *
+ * <li><b>Intfrruption of lodk bdquisition</b>
+ * <p>Thf rfbd lodk bnd writf lodk both support intfrruption during lodk
+ * bdquisition.
+ *
+ * <li><b>{@link Condition} support</b>
+ * <p>Thf writf lodk providfs b {@link Condition} implfmfntbtion thbt
+ * bfhbvfs in thf sbmf wby, with rfspfdt to thf writf lodk, bs thf
+ * {@link Condition} implfmfntbtion providfd by
+ * {@link RffntrbntLodk#nfwCondition} dofs for {@link RffntrbntLodk}.
+ * This {@link Condition} dbn, of doursf, only bf usfd with thf writf lodk.
+ *
+ * <p>Thf rfbd lodk dofs not support b {@link Condition} bnd
+ * {@dodf rfbdLodk().nfwCondition()} throws
+ * {@dodf UnsupportfdOpfrbtionExdfption}.
+ *
+ * <li><b>Instrumfntbtion</b>
+ * <p>This dlbss supports mfthods to dftfrminf whfthfr lodks
+ * brf hfld or dontfndfd. Thfsf mfthods brf dfsignfd for monitoring
+ * systfm stbtf, not for syndhronizbtion dontrol.
+ * </ul>
+ *
+ * <p>Sfriblizbtion of this dlbss bfhbvfs in thf sbmf wby bs built-in
+ * lodks: b dfsfriblizfd lodk is in thf unlodkfd stbtf, rfgbrdlfss of
+ * its stbtf whfn sfriblizfd.
+ *
+ * <p><b>Sbmplf usbgfs</b>. Hfrf is b dodf skftdh showing how to pfrform
+ * lodk downgrbding bftfr updbting b dbdhf (fxdfption hbndling is
+ * pbrtidulbrly tridky whfn hbndling multiplf lodks in b non-nfstfd
+ * fbshion):
+ *
+ * <prf> {@dodf
+ * dlbss CbdhfdDbtb {
+ *   Objfdt dbtb;
+ *   volbtilf boolfbn dbdhfVblid;
+ *   finbl RffntrbntRfbdWritfLodk rwl = nfw RffntrbntRfbdWritfLodk();
+ *
+ *   void prodfssCbdhfdDbtb() {
+ *     rwl.rfbdLodk().lodk();
+ *     if (!dbdhfVblid) {
+ *       // Must rflfbsf rfbd lodk bfforf bdquiring writf lodk
+ *       rwl.rfbdLodk().unlodk();
+ *       rwl.writfLodk().lodk();
+ *       try {
+ *         // Rfdhfdk stbtf bfdbusf bnothfr thrfbd might hbvf
+ *         // bdquirfd writf lodk bnd dhbngfd stbtf bfforf wf did.
+ *         if (!dbdhfVblid) {
+ *           dbtb = ...
+ *           dbdhfVblid = truf;
+ *         }
+ *         // Downgrbdf by bdquiring rfbd lodk bfforf rflfbsing writf lodk
+ *         rwl.rfbdLodk().lodk();
+ *       } finblly {
+ *         rwl.writfLodk().unlodk(); // Unlodk writf, still hold rfbd
+ *       }
+ *     }
+ *
+ *     try {
+ *       usf(dbtb);
+ *     } finblly {
+ *       rwl.rfbdLodk().unlodk();
+ *     }
+ *   }
+ * }}</prf>
+ *
+ * RffntrbntRfbdWritfLodks dbn bf usfd to improvf dondurrfndy in somf
+ * usfs of somf kinds of Collfdtions. This is typidblly worthwhilf
+ * only whfn thf dollfdtions brf fxpfdtfd to bf lbrgf, bddfssfd by
+ * morf rfbdfr thrfbds thbn writfr thrfbds, bnd fntbil opfrbtions with
+ * ovfrhfbd thbt outwfighs syndhronizbtion ovfrhfbd. For fxbmplf, hfrf
+ * is b dlbss using b TrffMbp thbt is fxpfdtfd to bf lbrgf bnd
+ * dondurrfntly bddfssfd.
+ *
+ *  <prf> {@dodf
+ * dlbss RWDidtionbry {
+ *   privbtf finbl Mbp<String, Dbtb> m = nfw TrffMbp<String, Dbtb>();
+ *   privbtf finbl RffntrbntRfbdWritfLodk rwl = nfw RffntrbntRfbdWritfLodk();
+ *   privbtf finbl Lodk r = rwl.rfbdLodk();
+ *   privbtf finbl Lodk w = rwl.writfLodk();
+ *
+ *   publid Dbtb gft(String kfy) {
+ *     r.lodk();
+ *     try { rfturn m.gft(kfy); }
+ *     finblly { r.unlodk(); }
+ *   }
+ *   publid String[] bllKfys() {
+ *     r.lodk();
+ *     try { rfturn m.kfySft().toArrby(); }
+ *     finblly { r.unlodk(); }
+ *   }
+ *   publid Dbtb put(String kfy, Dbtb vbluf) {
+ *     w.lodk();
+ *     try { rfturn m.put(kfy, vbluf); }
+ *     finblly { w.unlodk(); }
+ *   }
+ *   publid void dlfbr() {
+ *     w.lodk();
+ *     try { m.dlfbr(); }
+ *     finblly { w.unlodk(); }
+ *   }
+ * }}</prf>
+ *
+ * <h3>Implfmfntbtion Notfs</h3>
+ *
+ * <p>This lodk supports b mbximum of 65535 rfdursivf writf lodks
+ * bnd 65535 rfbd lodks. Attfmpts to fxdffd thfsf limits rfsult in
+ * {@link Error} throws from lodking mfthods.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid dlbss RffntrbntRfbdWritfLodk
+        implfmfnts RfbdWritfLodk, jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6992448646407690164L;
+    /** Innfr dlbss providing rfbdlodk */
+    privbtf finbl RffntrbntRfbdWritfLodk.RfbdLodk rfbdfrLodk;
+    /** Innfr dlbss providing writflodk */
+    privbtf finbl RffntrbntRfbdWritfLodk.WritfLodk writfrLodk;
+    /** Pfrforms bll syndhronizbtion mfdhbnids */
+    finbl Synd synd;
+
+    /**
+     * Crfbtfs b nfw {@dodf RffntrbntRfbdWritfLodk} with
+     * dffbult (nonfbir) ordfring propfrtifs.
+     */
+    publid RffntrbntRfbdWritfLodk() {
+        this(fblsf);
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf RffntrbntRfbdWritfLodk} with
+     * thf givfn fbirnfss polidy.
+     *
+     * @pbrbm fbir {@dodf truf} if this lodk should usf b fbir ordfring polidy
+     */
+    publid RffntrbntRfbdWritfLodk(boolfbn fbir) {
+        synd = fbir ? nfw FbirSynd() : nfw NonfbirSynd();
+        rfbdfrLodk = nfw RfbdLodk(this);
+        writfrLodk = nfw WritfLodk(this);
+    }
+
+    publid RffntrbntRfbdWritfLodk.WritfLodk writfLodk() { rfturn writfrLodk; }
+    publid RffntrbntRfbdWritfLodk.RfbdLodk  rfbdLodk()  { rfturn rfbdfrLodk; }
+
+    /**
+     * Syndhronizbtion implfmfntbtion for RffntrbntRfbdWritfLodk.
+     * Subdlbssfd into fbir bnd nonfbir vfrsions.
+     */
+    bbstrbdt stbtid dlbss Synd fxtfnds AbstrbdtQufufdSyndhronizfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6317671515068378041L;
+
+        /*
+         * Rfbd vs writf dount fxtrbdtion donstbnts bnd fundtions.
+         * Lodk stbtf is logidblly dividfd into two unsignfd shorts:
+         * Thf lowfr onf rfprfsfnting thf fxdlusivf (writfr) lodk hold dount,
+         * bnd thf uppfr thf shbrfd (rfbdfr) hold dount.
+         */
+
+        stbtid finbl int SHARED_SHIFT   = 16;
+        stbtid finbl int SHARED_UNIT    = (1 << SHARED_SHIFT);
+        stbtid finbl int MAX_COUNT      = (1 << SHARED_SHIFT) - 1;
+        stbtid finbl int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;
+
+        /** Rfturns thf numbfr of shbrfd holds rfprfsfntfd in dount  */
+        stbtid int shbrfdCount(int d)    { rfturn d >>> SHARED_SHIFT; }
+        /** Rfturns thf numbfr of fxdlusivf holds rfprfsfntfd in dount  */
+        stbtid int fxdlusivfCount(int d) { rfturn d & EXCLUSIVE_MASK; }
+
+        /**
+         * A dountfr for pfr-thrfbd rfbd hold dounts.
+         * Mbintbinfd bs b ThrfbdLodbl; dbdhfd in dbdhfdHoldCountfr
+         */
+        stbtid finbl dlbss HoldCountfr {
+            int dount = 0;
+            // Usf id, not rfffrfndf, to bvoid gbrbbgf rftfntion
+            finbl long tid = gftThrfbdId(Thrfbd.durrfntThrfbd());
+        }
+
+        /**
+         * ThrfbdLodbl subdlbss. Ebsifst to fxpliditly dffinf for sbkf
+         * of dfsfriblizbtion mfdhbnids.
+         */
+        stbtid finbl dlbss ThrfbdLodblHoldCountfr
+            fxtfnds ThrfbdLodbl<HoldCountfr> {
+            publid HoldCountfr initiblVbluf() {
+                rfturn nfw HoldCountfr();
+            }
+        }
+
+        /**
+         * Thf numbfr of rffntrbnt rfbd lodks hfld by durrfnt thrfbd.
+         * Initiblizfd only in donstrudtor bnd rfbdObjfdt.
+         * Rfmovfd whfnfvfr b thrfbd's rfbd hold dount drops to 0.
+         */
+        privbtf trbnsifnt ThrfbdLodblHoldCountfr rfbdHolds;
+
+        /**
+         * Thf hold dount of thf lbst thrfbd to suddfssfully bdquirf
+         * rfbdLodk. This sbvfs ThrfbdLodbl lookup in thf dommon dbsf
+         * whfrf thf nfxt thrfbd to rflfbsf is thf lbst onf to
+         * bdquirf. This is non-volbtilf sindf it is just usfd
+         * bs b hfuristid, bnd would bf grfbt for thrfbds to dbdhf.
+         *
+         * <p>Cbn outlivf thf Thrfbd for whidh it is dbdhing thf rfbd
+         * hold dount, but bvoids gbrbbgf rftfntion by not rftbining b
+         * rfffrfndf to thf Thrfbd.
+         *
+         * <p>Addfssfd vib b bfnign dbtb rbdf; rflifs on thf mfmory
+         * modfl's finbl fifld bnd out-of-thin-bir gubrbntffs.
+         */
+        privbtf trbnsifnt HoldCountfr dbdhfdHoldCountfr;
+
+        /**
+         * firstRfbdfr is thf first thrfbd to hbvf bdquirfd thf rfbd lodk.
+         * firstRfbdfrHoldCount is firstRfbdfr's hold dount.
+         *
+         * <p>Morf prfdisfly, firstRfbdfr is thf uniquf thrfbd thbt lbst
+         * dhbngfd thf shbrfd dount from 0 to 1, bnd hbs not rflfbsfd thf
+         * rfbd lodk sindf thfn; null if thfrf is no sudh thrfbd.
+         *
+         * <p>Cbnnot dbusf gbrbbgf rftfntion unlfss thf thrfbd tfrminbtfd
+         * without rflinquishing its rfbd lodks, sindf tryRflfbsfShbrfd
+         * sfts it to null.
+         *
+         * <p>Addfssfd vib b bfnign dbtb rbdf; rflifs on thf mfmory
+         * modfl's out-of-thin-bir gubrbntffs for rfffrfndfs.
+         *
+         * <p>This bllows trbdking of rfbd holds for undontfndfd rfbd
+         * lodks to bf vfry dhfbp.
+         */
+        privbtf trbnsifnt Thrfbd firstRfbdfr = null;
+        privbtf trbnsifnt int firstRfbdfrHoldCount;
+
+        Synd() {
+            rfbdHolds = nfw ThrfbdLodblHoldCountfr();
+            sftStbtf(gftStbtf()); // fnsurfs visibility of rfbdHolds
+        }
+
+        /*
+         * Adquirfs bnd rflfbsfs usf thf sbmf dodf for fbir bnd
+         * nonfbir lodks, but difffr in whfthfr/how thfy bllow bbrging
+         * whfn qufufs brf non-fmpty.
+         */
+
+        /**
+         * Rfturns truf if thf durrfnt thrfbd, whfn trying to bdquirf
+         * thf rfbd lodk, bnd othfrwisf fligiblf to do so, should blodk
+         * bfdbusf of polidy for ovfrtbking othfr wbiting thrfbds.
+         */
+        bbstrbdt boolfbn rfbdfrShouldBlodk();
+
+        /**
+         * Rfturns truf if thf durrfnt thrfbd, whfn trying to bdquirf
+         * thf writf lodk, bnd othfrwisf fligiblf to do so, should blodk
+         * bfdbusf of polidy for ovfrtbking othfr wbiting thrfbds.
+         */
+        bbstrbdt boolfbn writfrShouldBlodk();
+
+        /*
+         * Notf thbt tryRflfbsf bnd tryAdquirf dbn bf dbllfd by
+         * Conditions. So it is possiblf thbt thfir brgumfnts dontbin
+         * both rfbd bnd writf holds thbt brf bll rflfbsfd during b
+         * dondition wbit bnd rf-fstbblishfd in tryAdquirf.
+         */
+
+        protfdtfd finbl boolfbn tryRflfbsf(int rflfbsfs) {
+            if (!isHfldExdlusivfly())
+                throw nfw IllfgblMonitorStbtfExdfption();
+            int nfxtd = gftStbtf() - rflfbsfs;
+            boolfbn frff = fxdlusivfCount(nfxtd) == 0;
+            if (frff)
+                sftExdlusivfOwnfrThrfbd(null);
+            sftStbtf(nfxtd);
+            rfturn frff;
+        }
+
+        protfdtfd finbl boolfbn tryAdquirf(int bdquirfs) {
+            /*
+             * Wblkthrough:
+             * 1. If rfbd dount nonzfro or writf dount nonzfro
+             *    bnd ownfr is b difffrfnt thrfbd, fbil.
+             * 2. If dount would sbturbtf, fbil. (This dbn only
+             *    hbppfn if dount is blrfbdy nonzfro.)
+             * 3. Othfrwisf, this thrfbd is fligiblf for lodk if
+             *    it is fithfr b rffntrbnt bdquirf or
+             *    qufuf polidy bllows it. If so, updbtf stbtf
+             *    bnd sft ownfr.
+             */
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            int d = gftStbtf();
+            int w = fxdlusivfCount(d);
+            if (d != 0) {
+                // (Notf: if d != 0 bnd w == 0 thfn shbrfd dount != 0)
+                if (w == 0 || durrfnt != gftExdlusivfOwnfrThrfbd())
+                    rfturn fblsf;
+                if (w + fxdlusivfCount(bdquirfs) > MAX_COUNT)
+                    throw nfw Error("Mbximum lodk dount fxdffdfd");
+                // Rffntrbnt bdquirf
+                sftStbtf(d + bdquirfs);
+                rfturn truf;
+            }
+            if (writfrShouldBlodk() ||
+                !dompbrfAndSftStbtf(d, d + bdquirfs))
+                rfturn fblsf;
+            sftExdlusivfOwnfrThrfbd(durrfnt);
+            rfturn truf;
+        }
+
+        protfdtfd finbl boolfbn tryRflfbsfShbrfd(int unusfd) {
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            if (firstRfbdfr == durrfnt) {
+                // bssfrt firstRfbdfrHoldCount > 0;
+                if (firstRfbdfrHoldCount == 1)
+                    firstRfbdfr = null;
+                flsf
+                    firstRfbdfrHoldCount--;
+            } flsf {
+                HoldCountfr rh = dbdhfdHoldCountfr;
+                if (rh == null || rh.tid != gftThrfbdId(durrfnt))
+                    rh = rfbdHolds.gft();
+                int dount = rh.dount;
+                if (dount <= 1) {
+                    rfbdHolds.rfmovf();
+                    if (dount <= 0)
+                        throw unmbtdhfdUnlodkExdfption();
+                }
+                --rh.dount;
+            }
+            for (;;) {
+                int d = gftStbtf();
+                int nfxtd = d - SHARED_UNIT;
+                if (dompbrfAndSftStbtf(d, nfxtd))
+                    // Rflfbsing thf rfbd lodk hbs no ffffdt on rfbdfrs,
+                    // but it mby bllow wbiting writfrs to prodffd if
+                    // both rfbd bnd writf lodks brf now frff.
+                    rfturn nfxtd == 0;
+            }
+        }
+
+        privbtf IllfgblMonitorStbtfExdfption unmbtdhfdUnlodkExdfption() {
+            rfturn nfw IllfgblMonitorStbtfExdfption(
+                "bttfmpt to unlodk rfbd lodk, not lodkfd by durrfnt thrfbd");
+        }
+
+        protfdtfd finbl int tryAdquirfShbrfd(int unusfd) {
+            /*
+             * Wblkthrough:
+             * 1. If writf lodk hfld by bnothfr thrfbd, fbil.
+             * 2. Othfrwisf, this thrfbd is fligiblf for
+             *    lodk wrt stbtf, so bsk if it should blodk
+             *    bfdbusf of qufuf polidy. If not, try
+             *    to grbnt by CASing stbtf bnd updbting dount.
+             *    Notf thbt stfp dofs not dhfdk for rffntrbnt
+             *    bdquirfs, whidh is postponfd to full vfrsion
+             *    to bvoid hbving to dhfdk hold dount in
+             *    thf morf typidbl non-rffntrbnt dbsf.
+             * 3. If stfp 2 fbils fithfr bfdbusf thrfbd
+             *    bppbrfntly not fligiblf or CAS fbils or dount
+             *    sbturbtfd, dhbin to vfrsion with full rftry loop.
+             */
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            int d = gftStbtf();
+            if (fxdlusivfCount(d) != 0 &&
+                gftExdlusivfOwnfrThrfbd() != durrfnt)
+                rfturn -1;
+            int r = shbrfdCount(d);
+            if (!rfbdfrShouldBlodk() &&
+                r < MAX_COUNT &&
+                dompbrfAndSftStbtf(d, d + SHARED_UNIT)) {
+                if (r == 0) {
+                    firstRfbdfr = durrfnt;
+                    firstRfbdfrHoldCount = 1;
+                } flsf if (firstRfbdfr == durrfnt) {
+                    firstRfbdfrHoldCount++;
+                } flsf {
+                    HoldCountfr rh = dbdhfdHoldCountfr;
+                    if (rh == null || rh.tid != gftThrfbdId(durrfnt))
+                        dbdhfdHoldCountfr = rh = rfbdHolds.gft();
+                    flsf if (rh.dount == 0)
+                        rfbdHolds.sft(rh);
+                    rh.dount++;
+                }
+                rfturn 1;
+            }
+            rfturn fullTryAdquirfShbrfd(durrfnt);
+        }
+
+        /**
+         * Full vfrsion of bdquirf for rfbds, thbt hbndlfs CAS missfs
+         * bnd rffntrbnt rfbds not dfblt with in tryAdquirfShbrfd.
+         */
+        finbl int fullTryAdquirfShbrfd(Thrfbd durrfnt) {
+            /*
+             * This dodf is in pbrt rfdundbnt with thbt in
+             * tryAdquirfShbrfd but is simplfr ovfrbll by not
+             * domplidbting tryAdquirfShbrfd with intfrbdtions bftwffn
+             * rftrifs bnd lbzily rfbding hold dounts.
+             */
+            HoldCountfr rh = null;
+            for (;;) {
+                int d = gftStbtf();
+                if (fxdlusivfCount(d) != 0) {
+                    if (gftExdlusivfOwnfrThrfbd() != durrfnt)
+                        rfturn -1;
+                    // flsf wf hold thf fxdlusivf lodk; blodking hfrf
+                    // would dbusf dfbdlodk.
+                } flsf if (rfbdfrShouldBlodk()) {
+                    // Mbkf surf wf'rf not bdquiring rfbd lodk rffntrbntly
+                    if (firstRfbdfr == durrfnt) {
+                        // bssfrt firstRfbdfrHoldCount > 0;
+                    } flsf {
+                        if (rh == null) {
+                            rh = dbdhfdHoldCountfr;
+                            if (rh == null || rh.tid != gftThrfbdId(durrfnt)) {
+                                rh = rfbdHolds.gft();
+                                if (rh.dount == 0)
+                                    rfbdHolds.rfmovf();
+                            }
+                        }
+                        if (rh.dount == 0)
+                            rfturn -1;
+                    }
+                }
+                if (shbrfdCount(d) == MAX_COUNT)
+                    throw nfw Error("Mbximum lodk dount fxdffdfd");
+                if (dompbrfAndSftStbtf(d, d + SHARED_UNIT)) {
+                    if (shbrfdCount(d) == 0) {
+                        firstRfbdfr = durrfnt;
+                        firstRfbdfrHoldCount = 1;
+                    } flsf if (firstRfbdfr == durrfnt) {
+                        firstRfbdfrHoldCount++;
+                    } flsf {
+                        if (rh == null)
+                            rh = dbdhfdHoldCountfr;
+                        if (rh == null || rh.tid != gftThrfbdId(durrfnt))
+                            rh = rfbdHolds.gft();
+                        flsf if (rh.dount == 0)
+                            rfbdHolds.sft(rh);
+                        rh.dount++;
+                        dbdhfdHoldCountfr = rh; // dbdhf for rflfbsf
+                    }
+                    rfturn 1;
+                }
+            }
+        }
+
+        /**
+         * Pfrforms tryLodk for writf, fnbbling bbrging in both modfs.
+         * This is idfntidbl in ffffdt to tryAdquirf fxdfpt for lbdk
+         * of dblls to writfrShouldBlodk.
+         */
+        finbl boolfbn tryWritfLodk() {
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            int d = gftStbtf();
+            if (d != 0) {
+                int w = fxdlusivfCount(d);
+                if (w == 0 || durrfnt != gftExdlusivfOwnfrThrfbd())
+                    rfturn fblsf;
+                if (w == MAX_COUNT)
+                    throw nfw Error("Mbximum lodk dount fxdffdfd");
+            }
+            if (!dompbrfAndSftStbtf(d, d + 1))
+                rfturn fblsf;
+            sftExdlusivfOwnfrThrfbd(durrfnt);
+            rfturn truf;
+        }
+
+        /**
+         * Pfrforms tryLodk for rfbd, fnbbling bbrging in both modfs.
+         * This is idfntidbl in ffffdt to tryAdquirfShbrfd fxdfpt for
+         * lbdk of dblls to rfbdfrShouldBlodk.
+         */
+        finbl boolfbn tryRfbdLodk() {
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            for (;;) {
+                int d = gftStbtf();
+                if (fxdlusivfCount(d) != 0 &&
+                    gftExdlusivfOwnfrThrfbd() != durrfnt)
+                    rfturn fblsf;
+                int r = shbrfdCount(d);
+                if (r == MAX_COUNT)
+                    throw nfw Error("Mbximum lodk dount fxdffdfd");
+                if (dompbrfAndSftStbtf(d, d + SHARED_UNIT)) {
+                    if (r == 0) {
+                        firstRfbdfr = durrfnt;
+                        firstRfbdfrHoldCount = 1;
+                    } flsf if (firstRfbdfr == durrfnt) {
+                        firstRfbdfrHoldCount++;
+                    } flsf {
+                        HoldCountfr rh = dbdhfdHoldCountfr;
+                        if (rh == null || rh.tid != gftThrfbdId(durrfnt))
+                            dbdhfdHoldCountfr = rh = rfbdHolds.gft();
+                        flsf if (rh.dount == 0)
+                            rfbdHolds.sft(rh);
+                        rh.dount++;
+                    }
+                    rfturn truf;
+                }
+            }
+        }
+
+        protfdtfd finbl boolfbn isHfldExdlusivfly() {
+            // Whilf wf must in gfnfrbl rfbd stbtf bfforf ownfr,
+            // wf don't nffd to do so to dhfdk if durrfnt thrfbd is ownfr
+            rfturn gftExdlusivfOwnfrThrfbd() == Thrfbd.durrfntThrfbd();
+        }
+
+        // Mfthods rflbyfd to outfr dlbss
+
+        finbl ConditionObjfdt nfwCondition() {
+            rfturn nfw ConditionObjfdt();
+        }
+
+        finbl Thrfbd gftOwnfr() {
+            // Must rfbd stbtf bfforf ownfr to fnsurf mfmory donsistfndy
+            rfturn ((fxdlusivfCount(gftStbtf()) == 0) ?
+                    null :
+                    gftExdlusivfOwnfrThrfbd());
+        }
+
+        finbl int gftRfbdLodkCount() {
+            rfturn shbrfdCount(gftStbtf());
+        }
+
+        finbl boolfbn isWritfLodkfd() {
+            rfturn fxdlusivfCount(gftStbtf()) != 0;
+        }
+
+        finbl int gftWritfHoldCount() {
+            rfturn isHfldExdlusivfly() ? fxdlusivfCount(gftStbtf()) : 0;
+        }
+
+        finbl int gftRfbdHoldCount() {
+            if (gftRfbdLodkCount() == 0)
+                rfturn 0;
+
+            Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+            if (firstRfbdfr == durrfnt)
+                rfturn firstRfbdfrHoldCount;
+
+            HoldCountfr rh = dbdhfdHoldCountfr;
+            if (rh != null && rh.tid == gftThrfbdId(durrfnt))
+                rfturn rh.dount;
+
+            int dount = rfbdHolds.gft().dount;
+            if (dount == 0) rfbdHolds.rfmovf();
+            rfturn dount;
+        }
+
+        /**
+         * Rfdonstitutfs thf instbndf from b strfbm (thbt is, dfsfriblizfs it).
+         */
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+            s.dffbultRfbdObjfdt();
+            rfbdHolds = nfw ThrfbdLodblHoldCountfr();
+            sftStbtf(0); // rfsft to unlodkfd stbtf
+        }
+
+        finbl int gftCount() { rfturn gftStbtf(); }
+    }
+
+    /**
+     * Nonfbir vfrsion of Synd
+     */
+    stbtid finbl dlbss NonfbirSynd fxtfnds Synd {
+        privbtf stbtid finbl long sfriblVfrsionUID = -8159625535654395037L;
+        finbl boolfbn writfrShouldBlodk() {
+            rfturn fblsf; // writfrs dbn blwbys bbrgf
+        }
+        finbl boolfbn rfbdfrShouldBlodk() {
+            /* As b hfuristid to bvoid indffinitf writfr stbrvbtion,
+             * blodk if thf thrfbd thbt momfntbrily bppfbrs to bf hfbd
+             * of qufuf, if onf fxists, is b wbiting writfr.  This is
+             * only b probbbilistid ffffdt sindf b nfw rfbdfr will not
+             * blodk if thfrf is b wbiting writfr bfhind othfr fnbblfd
+             * rfbdfrs thbt hbvf not yft drbinfd from thf qufuf.
+             */
+            rfturn bppbrfntlyFirstQufufdIsExdlusivf();
+        }
+    }
+
+    /**
+     * Fbir vfrsion of Synd
+     */
+    stbtid finbl dlbss FbirSynd fxtfnds Synd {
+        privbtf stbtid finbl long sfriblVfrsionUID = -2274990926593161451L;
+        finbl boolfbn writfrShouldBlodk() {
+            rfturn hbsQufufdPrfdfdfssors();
+        }
+        finbl boolfbn rfbdfrShouldBlodk() {
+            rfturn hbsQufufdPrfdfdfssors();
+        }
+    }
+
+    /**
+     * Thf lodk rfturnfd by mfthod {@link RffntrbntRfbdWritfLodk#rfbdLodk}.
+     */
+    publid stbtid dlbss RfbdLodk implfmfnts Lodk, jbvb.io.Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -5992448646407690164L;
+        privbtf finbl Synd synd;
+
+        /**
+         * Construdtor for usf by subdlbssfs
+         *
+         * @pbrbm lodk thf outfr lodk objfdt
+         * @throws NullPointfrExdfption if thf lodk is null
+         */
+        protfdtfd RfbdLodk(RffntrbntRfbdWritfLodk lodk) {
+            synd = lodk.synd;
+        }
+
+        /**
+         * Adquirfs thf rfbd lodk.
+         *
+         * <p>Adquirfs thf rfbd lodk if thf writf lodk is not hfld by
+         * bnothfr thrfbd bnd rfturns immfdibtfly.
+         *
+         * <p>If thf writf lodk is hfld by bnothfr thrfbd thfn
+         * thf durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+         * purposfs bnd lifs dormbnt until thf rfbd lodk hbs bffn bdquirfd.
+         */
+        publid void lodk() {
+            synd.bdquirfShbrfd(1);
+        }
+
+        /**
+         * Adquirfs thf rfbd lodk unlfss thf durrfnt thrfbd is
+         * {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+         *
+         * <p>Adquirfs thf rfbd lodk if thf writf lodk is not hfld
+         * by bnothfr thrfbd bnd rfturns immfdibtfly.
+         *
+         * <p>If thf writf lodk is hfld by bnothfr thrfbd thfn thf
+         * durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+         * purposfs bnd lifs dormbnt until onf of two things hbppfns:
+         *
+         * <ul>
+         *
+         * <li>Thf rfbd lodk is bdquirfd by thf durrfnt thrfbd; or
+         *
+         * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+         * thf durrfnt thrfbd.
+         *
+         * </ul>
+         *
+         * <p>If thf durrfnt thrfbd:
+         *
+         * <ul>
+         *
+         * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+         *
+         * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf
+         * bdquiring thf rfbd lodk,
+         *
+         * </ul>
+         *
+         * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt
+         * thrfbd's intfrruptfd stbtus is dlfbrfd.
+         *
+         * <p>In this implfmfntbtion, bs this mfthod is bn fxplidit
+         * intfrruption point, prfffrfndf is givfn to rfsponding to
+         * thf intfrrupt ovfr normbl or rffntrbnt bdquisition of thf
+         * lodk.
+         *
+         * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+         */
+        publid void lodkIntfrruptibly() throws IntfrruptfdExdfption {
+            synd.bdquirfShbrfdIntfrruptibly(1);
+        }
+
+        /**
+         * Adquirfs thf rfbd lodk only if thf writf lodk is not hfld by
+         * bnothfr thrfbd bt thf timf of invodbtion.
+         *
+         * <p>Adquirfs thf rfbd lodk if thf writf lodk is not hfld by
+         * bnothfr thrfbd bnd rfturns immfdibtfly with thf vbluf
+         * {@dodf truf}. Evfn whfn this lodk hbs bffn sft to usf b
+         * fbir ordfring polidy, b dbll to {@dodf tryLodk()}
+         * <fm>will</fm> immfdibtfly bdquirf thf rfbd lodk if it is
+         * bvbilbblf, whfthfr or not othfr thrfbds brf durrfntly
+         * wbiting for thf rfbd lodk.  This &quot;bbrging&quot; bfhbvior
+         * dbn bf usfful in dfrtbin dirdumstbndfs, fvfn though it
+         * brfbks fbirnfss. If you wbnt to honor thf fbirnfss sftting
+         * for this lodk, thfn usf {@link #tryLodk(long, TimfUnit)
+         * tryLodk(0, TimfUnit.SECONDS) } whidh is blmost fquivblfnt
+         * (it blso dftfdts intfrruption).
+         *
+         * <p>If thf writf lodk is hfld by bnothfr thrfbd thfn
+         * this mfthod will rfturn immfdibtfly with thf vbluf
+         * {@dodf fblsf}.
+         *
+         * @rfturn {@dodf truf} if thf rfbd lodk wbs bdquirfd
+         */
+        publid boolfbn tryLodk() {
+            rfturn synd.tryRfbdLodk();
+        }
+
+        /**
+         * Adquirfs thf rfbd lodk if thf writf lodk is not hfld by
+         * bnothfr thrfbd within thf givfn wbiting timf bnd thf
+         * durrfnt thrfbd hbs not bffn {@linkplbin Thrfbd#intfrrupt
+         * intfrruptfd}.
+         *
+         * <p>Adquirfs thf rfbd lodk if thf writf lodk is not hfld by
+         * bnothfr thrfbd bnd rfturns immfdibtfly with thf vbluf
+         * {@dodf truf}. If this lodk hbs bffn sft to usf b fbir
+         * ordfring polidy thfn bn bvbilbblf lodk <fm>will not</fm> bf
+         * bdquirfd if bny othfr thrfbds brf wbiting for thf
+         * lodk. This is in dontrbst to thf {@link #tryLodk()}
+         * mfthod. If you wbnt b timfd {@dodf tryLodk} thbt dofs
+         * pfrmit bbrging on b fbir lodk thfn dombinf thf timfd bnd
+         * un-timfd forms togfthfr:
+         *
+         *  <prf> {@dodf
+         * if (lodk.tryLodk() ||
+         *     lodk.tryLodk(timfout, unit)) {
+         *   ...
+         * }}</prf>
+         *
+         * <p>If thf writf lodk is hfld by bnothfr thrfbd thfn thf
+         * durrfnt thrfbd bfdomfs disbblfd for thrfbd sdhfduling
+         * purposfs bnd lifs dormbnt until onf of thrff things hbppfns:
+         *
+         * <ul>
+         *
+         * <li>Thf rfbd lodk is bdquirfd by thf durrfnt thrfbd; or
+         *
+         * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+         * thf durrfnt thrfbd; or
+         *
+         * <li>Thf spfdififd wbiting timf flbpsfs.
+         *
+         * </ul>
+         *
+         * <p>If thf rfbd lodk is bdquirfd thfn thf vbluf {@dodf truf} is
+         * rfturnfd.
+         *
+         * <p>If thf durrfnt thrfbd:
+         *
+         * <ul>
+         *
+         * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod; or
+         *
+         * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf
+         * bdquiring thf rfbd lodk,
+         *
+         * </ul> thfn {@link IntfrruptfdExdfption} is thrown bnd thf
+         * durrfnt thrfbd's intfrruptfd stbtus is dlfbrfd.
+         *
+         * <p>If thf spfdififd wbiting timf flbpsfs thfn thf vbluf
+         * {@dodf fblsf} is rfturnfd.  If thf timf is lfss thbn or
+         * fqubl to zfro, thf mfthod will not wbit bt bll.
+         *
+         * <p>In this implfmfntbtion, bs this mfthod is bn fxplidit
+         * intfrruption point, prfffrfndf is givfn to rfsponding to
+         * thf intfrrupt ovfr normbl or rffntrbnt bdquisition of thf
+         * lodk, bnd ovfr rfporting thf flbpsf of thf wbiting timf.
+         *
+         * @pbrbm timfout thf timf to wbit for thf rfbd lodk
+         * @pbrbm unit thf timf unit of thf timfout brgumfnt
+         * @rfturn {@dodf truf} if thf rfbd lodk wbs bdquirfd
+         * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+         * @throws NullPointfrExdfption if thf timf unit is null
+         */
+        publid boolfbn tryLodk(long timfout, TimfUnit unit)
+                throws IntfrruptfdExdfption {
+            rfturn synd.tryAdquirfShbrfdNbnos(1, unit.toNbnos(timfout));
+        }
+
+        /**
+         * Attfmpts to rflfbsf this lodk.
+         *
+         * <p>If thf numbfr of rfbdfrs is now zfro thfn thf lodk
+         * is mbdf bvbilbblf for writf lodk bttfmpts.
+         */
+        publid void unlodk() {
+            synd.rflfbsfShbrfd(1);
+        }
+
+        /**
+         * Throws {@dodf UnsupportfdOpfrbtionExdfption} bfdbusf
+         * {@dodf RfbdLodks} do not support donditions.
+         *
+         * @throws UnsupportfdOpfrbtionExdfption blwbys
+         */
+        publid Condition nfwCondition() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+
+        /**
+         * Rfturns b string idfntifying this lodk, bs wfll bs its lodk stbtf.
+         * Thf stbtf, in brbdkfts, indludfs thf String {@dodf "Rfbd lodks ="}
+         * followfd by thf numbfr of hfld rfbd lodks.
+         *
+         * @rfturn b string idfntifying this lodk, bs wfll bs its lodk stbtf
+         */
+        publid String toString() {
+            int r = synd.gftRfbdLodkCount();
+            rfturn supfr.toString() +
+                "[Rfbd lodks = " + r + "]";
+        }
+    }
+
+    /**
+     * Thf lodk rfturnfd by mfthod {@link RffntrbntRfbdWritfLodk#writfLodk}.
+     */
+    publid stbtid dlbss WritfLodk implfmfnts Lodk, jbvb.io.Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -4992448646407690164L;
+        privbtf finbl Synd synd;
+
+        /**
+         * Construdtor for usf by subdlbssfs
+         *
+         * @pbrbm lodk thf outfr lodk objfdt
+         * @throws NullPointfrExdfption if thf lodk is null
+         */
+        protfdtfd WritfLodk(RffntrbntRfbdWritfLodk lodk) {
+            synd = lodk.synd;
+        }
+
+        /**
+         * Adquirfs thf writf lodk.
+         *
+         * <p>Adquirfs thf writf lodk if nfithfr thf rfbd nor writf lodk
+         * brf hfld by bnothfr thrfbd
+         * bnd rfturns immfdibtfly, sftting thf writf lodk hold dount to
+         * onf.
+         *
+         * <p>If thf durrfnt thrfbd blrfbdy holds thf writf lodk thfn thf
+         * hold dount is indrfmfntfd by onf bnd thf mfthod rfturns
+         * immfdibtfly.
+         *
+         * <p>If thf lodk is hfld by bnothfr thrfbd thfn thf durrfnt
+         * thrfbd bfdomfs disbblfd for thrfbd sdhfduling purposfs bnd
+         * lifs dormbnt until thf writf lodk hbs bffn bdquirfd, bt whidh
+         * timf thf writf lodk hold dount is sft to onf.
+         */
+        publid void lodk() {
+            synd.bdquirf(1);
+        }
+
+        /**
+         * Adquirfs thf writf lodk unlfss thf durrfnt thrfbd is
+         * {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+         *
+         * <p>Adquirfs thf writf lodk if nfithfr thf rfbd nor writf lodk
+         * brf hfld by bnothfr thrfbd
+         * bnd rfturns immfdibtfly, sftting thf writf lodk hold dount to
+         * onf.
+         *
+         * <p>If thf durrfnt thrfbd blrfbdy holds this lodk thfn thf
+         * hold dount is indrfmfntfd by onf bnd thf mfthod rfturns
+         * immfdibtfly.
+         *
+         * <p>If thf lodk is hfld by bnothfr thrfbd thfn thf durrfnt
+         * thrfbd bfdomfs disbblfd for thrfbd sdhfduling purposfs bnd
+         * lifs dormbnt until onf of two things hbppfns:
+         *
+         * <ul>
+         *
+         * <li>Thf writf lodk is bdquirfd by thf durrfnt thrfbd; or
+         *
+         * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+         * thf durrfnt thrfbd.
+         *
+         * </ul>
+         *
+         * <p>If thf writf lodk is bdquirfd by thf durrfnt thrfbd thfn thf
+         * lodk hold dount is sft to onf.
+         *
+         * <p>If thf durrfnt thrfbd:
+         *
+         * <ul>
+         *
+         * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod;
+         * or
+         *
+         * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf
+         * bdquiring thf writf lodk,
+         *
+         * </ul>
+         *
+         * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt
+         * thrfbd's intfrruptfd stbtus is dlfbrfd.
+         *
+         * <p>In this implfmfntbtion, bs this mfthod is bn fxplidit
+         * intfrruption point, prfffrfndf is givfn to rfsponding to
+         * thf intfrrupt ovfr normbl or rffntrbnt bdquisition of thf
+         * lodk.
+         *
+         * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+         */
+        publid void lodkIntfrruptibly() throws IntfrruptfdExdfption {
+            synd.bdquirfIntfrruptibly(1);
+        }
+
+        /**
+         * Adquirfs thf writf lodk only if it is not hfld by bnothfr thrfbd
+         * bt thf timf of invodbtion.
+         *
+         * <p>Adquirfs thf writf lodk if nfithfr thf rfbd nor writf lodk
+         * brf hfld by bnothfr thrfbd
+         * bnd rfturns immfdibtfly with thf vbluf {@dodf truf},
+         * sftting thf writf lodk hold dount to onf. Evfn whfn this lodk hbs
+         * bffn sft to usf b fbir ordfring polidy, b dbll to
+         * {@dodf tryLodk()} <fm>will</fm> immfdibtfly bdquirf thf
+         * lodk if it is bvbilbblf, whfthfr or not othfr thrfbds brf
+         * durrfntly wbiting for thf writf lodk.  This &quot;bbrging&quot;
+         * bfhbvior dbn bf usfful in dfrtbin dirdumstbndfs, fvfn
+         * though it brfbks fbirnfss. If you wbnt to honor thf
+         * fbirnfss sftting for this lodk, thfn usf {@link
+         * #tryLodk(long, TimfUnit) tryLodk(0, TimfUnit.SECONDS) }
+         * whidh is blmost fquivblfnt (it blso dftfdts intfrruption).
+         *
+         * <p>If thf durrfnt thrfbd blrfbdy holds this lodk thfn thf
+         * hold dount is indrfmfntfd by onf bnd thf mfthod rfturns
+         * {@dodf truf}.
+         *
+         * <p>If thf lodk is hfld by bnothfr thrfbd thfn this mfthod
+         * will rfturn immfdibtfly with thf vbluf {@dodf fblsf}.
+         *
+         * @rfturn {@dodf truf} if thf lodk wbs frff bnd wbs bdquirfd
+         * by thf durrfnt thrfbd, or thf writf lodk wbs blrfbdy hfld
+         * by thf durrfnt thrfbd; bnd {@dodf fblsf} othfrwisf.
+         */
+        publid boolfbn tryLodk( ) {
+            rfturn synd.tryWritfLodk();
+        }
+
+        /**
+         * Adquirfs thf writf lodk if it is not hfld by bnothfr thrfbd
+         * within thf givfn wbiting timf bnd thf durrfnt thrfbd hbs
+         * not bffn {@linkplbin Thrfbd#intfrrupt intfrruptfd}.
+         *
+         * <p>Adquirfs thf writf lodk if nfithfr thf rfbd nor writf lodk
+         * brf hfld by bnothfr thrfbd
+         * bnd rfturns immfdibtfly with thf vbluf {@dodf truf},
+         * sftting thf writf lodk hold dount to onf. If this lodk hbs bffn
+         * sft to usf b fbir ordfring polidy thfn bn bvbilbblf lodk
+         * <fm>will not</fm> bf bdquirfd if bny othfr thrfbds brf
+         * wbiting for thf writf lodk. This is in dontrbst to thf {@link
+         * #tryLodk()} mfthod. If you wbnt b timfd {@dodf tryLodk}
+         * thbt dofs pfrmit bbrging on b fbir lodk thfn dombinf thf
+         * timfd bnd un-timfd forms togfthfr:
+         *
+         *  <prf> {@dodf
+         * if (lodk.tryLodk() ||
+         *     lodk.tryLodk(timfout, unit)) {
+         *   ...
+         * }}</prf>
+         *
+         * <p>If thf durrfnt thrfbd blrfbdy holds this lodk thfn thf
+         * hold dount is indrfmfntfd by onf bnd thf mfthod rfturns
+         * {@dodf truf}.
+         *
+         * <p>If thf lodk is hfld by bnothfr thrfbd thfn thf durrfnt
+         * thrfbd bfdomfs disbblfd for thrfbd sdhfduling purposfs bnd
+         * lifs dormbnt until onf of thrff things hbppfns:
+         *
+         * <ul>
+         *
+         * <li>Thf writf lodk is bdquirfd by thf durrfnt thrfbd; or
+         *
+         * <li>Somf othfr thrfbd {@linkplbin Thrfbd#intfrrupt intfrrupts}
+         * thf durrfnt thrfbd; or
+         *
+         * <li>Thf spfdififd wbiting timf flbpsfs
+         *
+         * </ul>
+         *
+         * <p>If thf writf lodk is bdquirfd thfn thf vbluf {@dodf truf} is
+         * rfturnfd bnd thf writf lodk hold dount is sft to onf.
+         *
+         * <p>If thf durrfnt thrfbd:
+         *
+         * <ul>
+         *
+         * <li>hbs its intfrruptfd stbtus sft on fntry to this mfthod;
+         * or
+         *
+         * <li>is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf
+         * bdquiring thf writf lodk,
+         *
+         * </ul>
+         *
+         * thfn {@link IntfrruptfdExdfption} is thrown bnd thf durrfnt
+         * thrfbd's intfrruptfd stbtus is dlfbrfd.
+         *
+         * <p>If thf spfdififd wbiting timf flbpsfs thfn thf vbluf
+         * {@dodf fblsf} is rfturnfd.  If thf timf is lfss thbn or
+         * fqubl to zfro, thf mfthod will not wbit bt bll.
+         *
+         * <p>In this implfmfntbtion, bs this mfthod is bn fxplidit
+         * intfrruption point, prfffrfndf is givfn to rfsponding to
+         * thf intfrrupt ovfr normbl or rffntrbnt bdquisition of thf
+         * lodk, bnd ovfr rfporting thf flbpsf of thf wbiting timf.
+         *
+         * @pbrbm timfout thf timf to wbit for thf writf lodk
+         * @pbrbm unit thf timf unit of thf timfout brgumfnt
+         *
+         * @rfturn {@dodf truf} if thf lodk wbs frff bnd wbs bdquirfd
+         * by thf durrfnt thrfbd, or thf writf lodk wbs blrfbdy hfld by thf
+         * durrfnt thrfbd; bnd {@dodf fblsf} if thf wbiting timf
+         * flbpsfd bfforf thf lodk dould bf bdquirfd.
+         *
+         * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+         * @throws NullPointfrExdfption if thf timf unit is null
+         */
+        publid boolfbn tryLodk(long timfout, TimfUnit unit)
+                throws IntfrruptfdExdfption {
+            rfturn synd.tryAdquirfNbnos(1, unit.toNbnos(timfout));
+        }
+
+        /**
+         * Attfmpts to rflfbsf this lodk.
+         *
+         * <p>If thf durrfnt thrfbd is thf holdfr of this lodk thfn
+         * thf hold dount is dfdrfmfntfd. If thf hold dount is now
+         * zfro thfn thf lodk is rflfbsfd.  If thf durrfnt thrfbd is
+         * not thf holdfr of this lodk thfn {@link
+         * IllfgblMonitorStbtfExdfption} is thrown.
+         *
+         * @throws IllfgblMonitorStbtfExdfption if thf durrfnt thrfbd dofs not
+         * hold this lodk
+         */
+        publid void unlodk() {
+            synd.rflfbsf(1);
+        }
+
+        /**
+         * Rfturns b {@link Condition} instbndf for usf with this
+         * {@link Lodk} instbndf.
+         * <p>Thf rfturnfd {@link Condition} instbndf supports thf sbmf
+         * usbgfs bs do thf {@link Objfdt} monitor mfthods ({@link
+         * Objfdt#wbit() wbit}, {@link Objfdt#notify notify}, bnd {@link
+         * Objfdt#notifyAll notifyAll}) whfn usfd with thf built-in
+         * monitor lodk.
+         *
+         * <ul>
+         *
+         * <li>If this writf lodk is not hfld whfn bny {@link
+         * Condition} mfthod is dbllfd thfn bn {@link
+         * IllfgblMonitorStbtfExdfption} is thrown.  (Rfbd lodks brf
+         * hfld indfpfndfntly of writf lodks, so brf not dhfdkfd or
+         * bfffdtfd. Howfvfr it is fssfntiblly blwbys bn frror to
+         * invokf b dondition wbiting mfthod whfn thf durrfnt thrfbd
+         * hbs blso bdquirfd rfbd lodks, sindf othfr thrfbds thbt
+         * dould unblodk it will not bf bblf to bdquirf thf writf
+         * lodk.)
+         *
+         * <li>Whfn thf dondition {@linkplbin Condition#bwbit() wbiting}
+         * mfthods brf dbllfd thf writf lodk is rflfbsfd bnd, bfforf
+         * thfy rfturn, thf writf lodk is rfbdquirfd bnd thf lodk hold
+         * dount rfstorfd to whbt it wbs whfn thf mfthod wbs dbllfd.
+         *
+         * <li>If b thrfbd is {@linkplbin Thrfbd#intfrrupt intfrruptfd} whilf
+         * wbiting thfn thf wbit will tfrminbtf, bn {@link
+         * IntfrruptfdExdfption} will bf thrown, bnd thf thrfbd's
+         * intfrruptfd stbtus will bf dlfbrfd.
+         *
+         * <li> Wbiting thrfbds brf signbllfd in FIFO ordfr.
+         *
+         * <li>Thf ordfring of lodk rfbdquisition for thrfbds rfturning
+         * from wbiting mfthods is thf sbmf bs for thrfbds initiblly
+         * bdquiring thf lodk, whidh is in thf dffbult dbsf not spfdififd,
+         * but for <fm>fbir</fm> lodks fbvors thosf thrfbds thbt hbvf bffn
+         * wbiting thf longfst.
+         *
+         * </ul>
+         *
+         * @rfturn thf Condition objfdt
+         */
+        publid Condition nfwCondition() {
+            rfturn synd.nfwCondition();
+        }
+
+        /**
+         * Rfturns b string idfntifying this lodk, bs wfll bs its lodk
+         * stbtf.  Thf stbtf, in brbdkfts indludfs fithfr thf String
+         * {@dodf "Unlodkfd"} or thf String {@dodf "Lodkfd by"}
+         * followfd by thf {@linkplbin Thrfbd#gftNbmf nbmf} of thf owning thrfbd.
+         *
+         * @rfturn b string idfntifying this lodk, bs wfll bs its lodk stbtf
+         */
+        publid String toString() {
+            Thrfbd o = synd.gftOwnfr();
+            rfturn supfr.toString() + ((o == null) ?
+                                       "[Unlodkfd]" :
+                                       "[Lodkfd by thrfbd " + o.gftNbmf() + "]");
+        }
+
+        /**
+         * Qufrifs if this writf lodk is hfld by thf durrfnt thrfbd.
+         * Idfntidbl in ffffdt to {@link
+         * RffntrbntRfbdWritfLodk#isWritfLodkfdByCurrfntThrfbd}.
+         *
+         * @rfturn {@dodf truf} if thf durrfnt thrfbd holds this lodk bnd
+         *         {@dodf fblsf} othfrwisf
+         * @sindf 1.6
+         */
+        publid boolfbn isHfldByCurrfntThrfbd() {
+            rfturn synd.isHfldExdlusivfly();
+        }
+
+        /**
+         * Qufrifs thf numbfr of holds on this writf lodk by thf durrfnt
+         * thrfbd.  A thrfbd hbs b hold on b lodk for fbdh lodk bdtion
+         * thbt is not mbtdhfd by bn unlodk bdtion.  Idfntidbl in ffffdt
+         * to {@link RffntrbntRfbdWritfLodk#gftWritfHoldCount}.
+         *
+         * @rfturn thf numbfr of holds on this lodk by thf durrfnt thrfbd,
+         *         or zfro if this lodk is not hfld by thf durrfnt thrfbd
+         * @sindf 1.6
+         */
+        publid int gftHoldCount() {
+            rfturn synd.gftWritfHoldCount();
+        }
+    }
+
+    // Instrumfntbtion bnd stbtus
+
+    /**
+     * Rfturns {@dodf truf} if this lodk hbs fbirnfss sft truf.
+     *
+     * @rfturn {@dodf truf} if this lodk hbs fbirnfss sft truf
+     */
+    publid finbl boolfbn isFbir() {
+        rfturn synd instbndfof FbirSynd;
+    }
+
+    /**
+     * Rfturns thf thrfbd thbt durrfntly owns thf writf lodk, or
+     * {@dodf null} if not ownfd. Whfn this mfthod is dbllfd by b
+     * thrfbd thbt is not thf ownfr, thf rfturn vbluf rfflfdts b
+     * bfst-fffort bpproximbtion of durrfnt lodk stbtus. For fxbmplf,
+     * thf ownfr mby bf momfntbrily {@dodf null} fvfn if thfrf brf
+     * thrfbds trying to bdquirf thf lodk but hbvf not yft donf so.
+     * This mfthod is dfsignfd to fbdilitbtf donstrudtion of
+     * subdlbssfs thbt providf morf fxtfnsivf lodk monitoring
+     * fbdilitifs.
+     *
+     * @rfturn thf ownfr, or {@dodf null} if not ownfd
+     */
+    protfdtfd Thrfbd gftOwnfr() {
+        rfturn synd.gftOwnfr();
+    }
+
+    /**
+     * Qufrifs thf numbfr of rfbd lodks hfld for this lodk. This
+     * mfthod is dfsignfd for usf in monitoring systfm stbtf, not for
+     * syndhronizbtion dontrol.
+     * @rfturn thf numbfr of rfbd lodks hfld
+     */
+    publid int gftRfbdLodkCount() {
+        rfturn synd.gftRfbdLodkCount();
+    }
+
+    /**
+     * Qufrifs if thf writf lodk is hfld by bny thrfbd. This mfthod is
+     * dfsignfd for usf in monitoring systfm stbtf, not for
+     * syndhronizbtion dontrol.
+     *
+     * @rfturn {@dodf truf} if bny thrfbd holds thf writf lodk bnd
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isWritfLodkfd() {
+        rfturn synd.isWritfLodkfd();
+    }
+
+    /**
+     * Qufrifs if thf writf lodk is hfld by thf durrfnt thrfbd.
+     *
+     * @rfturn {@dodf truf} if thf durrfnt thrfbd holds thf writf lodk bnd
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isWritfLodkfdByCurrfntThrfbd() {
+        rfturn synd.isHfldExdlusivfly();
+    }
+
+    /**
+     * Qufrifs thf numbfr of rffntrbnt writf holds on this lodk by thf
+     * durrfnt thrfbd.  A writfr thrfbd hbs b hold on b lodk for
+     * fbdh lodk bdtion thbt is not mbtdhfd by bn unlodk bdtion.
+     *
+     * @rfturn thf numbfr of holds on thf writf lodk by thf durrfnt thrfbd,
+     *         or zfro if thf writf lodk is not hfld by thf durrfnt thrfbd
+     */
+    publid int gftWritfHoldCount() {
+        rfturn synd.gftWritfHoldCount();
+    }
+
+    /**
+     * Qufrifs thf numbfr of rffntrbnt rfbd holds on this lodk by thf
+     * durrfnt thrfbd.  A rfbdfr thrfbd hbs b hold on b lodk for
+     * fbdh lodk bdtion thbt is not mbtdhfd by bn unlodk bdtion.
+     *
+     * @rfturn thf numbfr of holds on thf rfbd lodk by thf durrfnt thrfbd,
+     *         or zfro if thf rfbd lodk is not hfld by thf durrfnt thrfbd
+     * @sindf 1.6
+     */
+    publid int gftRfbdHoldCount() {
+        rfturn synd.gftRfbdHoldCount();
+    }
+
+    /**
+     * Rfturns b dollfdtion dontbining thrfbds thbt mby bf wbiting to
+     * bdquirf thf writf lodk.  Bfdbusf thf bdtubl sft of thrfbds mby
+     * dhbngf dynbmidblly whilf donstrudting this rfsult, thf rfturnfd
+     * dollfdtion is only b bfst-fffort fstimbtf.  Thf flfmfnts of thf
+     * rfturnfd dollfdtion brf in no pbrtidulbr ordfr.  This mfthod is
+     * dfsignfd to fbdilitbtf donstrudtion of subdlbssfs thbt providf
+     * morf fxtfnsivf lodk monitoring fbdilitifs.
+     *
+     * @rfturn thf dollfdtion of thrfbds
+     */
+    protfdtfd Collfdtion<Thrfbd> gftQufufdWritfrThrfbds() {
+        rfturn synd.gftExdlusivfQufufdThrfbds();
+    }
+
+    /**
+     * Rfturns b dollfdtion dontbining thrfbds thbt mby bf wbiting to
+     * bdquirf thf rfbd lodk.  Bfdbusf thf bdtubl sft of thrfbds mby
+     * dhbngf dynbmidblly whilf donstrudting this rfsult, thf rfturnfd
+     * dollfdtion is only b bfst-fffort fstimbtf.  Thf flfmfnts of thf
+     * rfturnfd dollfdtion brf in no pbrtidulbr ordfr.  This mfthod is
+     * dfsignfd to fbdilitbtf donstrudtion of subdlbssfs thbt providf
+     * morf fxtfnsivf lodk monitoring fbdilitifs.
+     *
+     * @rfturn thf dollfdtion of thrfbds
+     */
+    protfdtfd Collfdtion<Thrfbd> gftQufufdRfbdfrThrfbds() {
+        rfturn synd.gftShbrfdQufufdThrfbds();
+    }
+
+    /**
+     * Qufrifs whfthfr bny thrfbds brf wbiting to bdquirf thf rfbd or
+     * writf lodk. Notf thbt bfdbusf dbndfllbtions mby oddur bt bny
+     * timf, b {@dodf truf} rfturn dofs not gubrbntff thbt bny othfr
+     * thrfbd will fvfr bdquirf b lodk.  This mfthod is dfsignfd
+     * primbrily for usf in monitoring of thf systfm stbtf.
+     *
+     * @rfturn {@dodf truf} if thfrf mby bf othfr thrfbds wbiting to
+     *         bdquirf thf lodk
+     */
+    publid finbl boolfbn hbsQufufdThrfbds() {
+        rfturn synd.hbsQufufdThrfbds();
+    }
+
+    /**
+     * Qufrifs whfthfr thf givfn thrfbd is wbiting to bdquirf fithfr
+     * thf rfbd or writf lodk. Notf thbt bfdbusf dbndfllbtions mby
+     * oddur bt bny timf, b {@dodf truf} rfturn dofs not gubrbntff
+     * thbt this thrfbd will fvfr bdquirf b lodk.  This mfthod is
+     * dfsignfd primbrily for usf in monitoring of thf systfm stbtf.
+     *
+     * @pbrbm thrfbd thf thrfbd
+     * @rfturn {@dodf truf} if thf givfn thrfbd is qufufd wbiting for this lodk
+     * @throws NullPointfrExdfption if thf thrfbd is null
+     */
+    publid finbl boolfbn hbsQufufdThrfbd(Thrfbd thrfbd) {
+        rfturn synd.isQufufd(thrfbd);
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of thrfbds wbiting to bdquirf
+     * fithfr thf rfbd or writf lodk.  Thf vbluf is only bn fstimbtf
+     * bfdbusf thf numbfr of thrfbds mby dhbngf dynbmidblly whilf this
+     * mfthod trbvfrsfs intfrnbl dbtb strudturfs.  This mfthod is
+     * dfsignfd for usf in monitoring of thf systfm stbtf, not for
+     * syndhronizbtion dontrol.
+     *
+     * @rfturn thf fstimbtfd numbfr of thrfbds wbiting for this lodk
+     */
+    publid finbl int gftQufufLfngth() {
+        rfturn synd.gftQufufLfngth();
+    }
+
+    /**
+     * Rfturns b dollfdtion dontbining thrfbds thbt mby bf wbiting to
+     * bdquirf fithfr thf rfbd or writf lodk.  Bfdbusf thf bdtubl sft
+     * of thrfbds mby dhbngf dynbmidblly whilf donstrudting this
+     * rfsult, thf rfturnfd dollfdtion is only b bfst-fffort fstimbtf.
+     * Thf flfmfnts of thf rfturnfd dollfdtion brf in no pbrtidulbr
+     * ordfr.  This mfthod is dfsignfd to fbdilitbtf donstrudtion of
+     * subdlbssfs thbt providf morf fxtfnsivf monitoring fbdilitifs.
+     *
+     * @rfturn thf dollfdtion of thrfbds
+     */
+    protfdtfd Collfdtion<Thrfbd> gftQufufdThrfbds() {
+        rfturn synd.gftQufufdThrfbds();
+    }
+
+    /**
+     * Qufrifs whfthfr bny thrfbds brf wbiting on thf givfn dondition
+     * bssodibtfd with thf writf lodk. Notf thbt bfdbusf timfouts bnd
+     * intfrrupts mby oddur bt bny timf, b {@dodf truf} rfturn dofs
+     * not gubrbntff thbt b futurf {@dodf signbl} will bwbkfn bny
+     * thrfbds.  This mfthod is dfsignfd primbrily for usf in
+     * monitoring of thf systfm stbtf.
+     *
+     * @pbrbm dondition thf dondition
+     * @rfturn {@dodf truf} if thfrf brf bny wbiting thrfbds
+     * @throws IllfgblMonitorStbtfExdfption if this lodk is not hfld
+     * @throws IllfgblArgumfntExdfption if thf givfn dondition is
+     *         not bssodibtfd with this lodk
+     * @throws NullPointfrExdfption if thf dondition is null
+     */
+    publid boolfbn hbsWbitfrs(Condition dondition) {
+        if (dondition == null)
+            throw nfw NullPointfrExdfption();
+        if (!(dondition instbndfof AbstrbdtQufufdSyndhronizfr.ConditionObjfdt))
+            throw nfw IllfgblArgumfntExdfption("not ownfr");
+        rfturn synd.hbsWbitfrs((AbstrbdtQufufdSyndhronizfr.ConditionObjfdt)dondition);
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of thrfbds wbiting on thf
+     * givfn dondition bssodibtfd with thf writf lodk. Notf thbt bfdbusf
+     * timfouts bnd intfrrupts mby oddur bt bny timf, thf fstimbtf
+     * sfrvfs only bs bn uppfr bound on thf bdtubl numbfr of wbitfrs.
+     * This mfthod is dfsignfd for usf in monitoring of thf systfm
+     * stbtf, not for syndhronizbtion dontrol.
+     *
+     * @pbrbm dondition thf dondition
+     * @rfturn thf fstimbtfd numbfr of wbiting thrfbds
+     * @throws IllfgblMonitorStbtfExdfption if this lodk is not hfld
+     * @throws IllfgblArgumfntExdfption if thf givfn dondition is
+     *         not bssodibtfd with this lodk
+     * @throws NullPointfrExdfption if thf dondition is null
+     */
+    publid int gftWbitQufufLfngth(Condition dondition) {
+        if (dondition == null)
+            throw nfw NullPointfrExdfption();
+        if (!(dondition instbndfof AbstrbdtQufufdSyndhronizfr.ConditionObjfdt))
+            throw nfw IllfgblArgumfntExdfption("not ownfr");
+        rfturn synd.gftWbitQufufLfngth((AbstrbdtQufufdSyndhronizfr.ConditionObjfdt)dondition);
+    }
+
+    /**
+     * Rfturns b dollfdtion dontbining thosf thrfbds thbt mby bf
+     * wbiting on thf givfn dondition bssodibtfd with thf writf lodk.
+     * Bfdbusf thf bdtubl sft of thrfbds mby dhbngf dynbmidblly whilf
+     * donstrudting this rfsult, thf rfturnfd dollfdtion is only b
+     * bfst-fffort fstimbtf. Thf flfmfnts of thf rfturnfd dollfdtion
+     * brf in no pbrtidulbr ordfr.  This mfthod is dfsignfd to
+     * fbdilitbtf donstrudtion of subdlbssfs thbt providf morf
+     * fxtfnsivf dondition monitoring fbdilitifs.
+     *
+     * @pbrbm dondition thf dondition
+     * @rfturn thf dollfdtion of thrfbds
+     * @throws IllfgblMonitorStbtfExdfption if this lodk is not hfld
+     * @throws IllfgblArgumfntExdfption if thf givfn dondition is
+     *         not bssodibtfd with this lodk
+     * @throws NullPointfrExdfption if thf dondition is null
+     */
+    protfdtfd Collfdtion<Thrfbd> gftWbitingThrfbds(Condition dondition) {
+        if (dondition == null)
+            throw nfw NullPointfrExdfption();
+        if (!(dondition instbndfof AbstrbdtQufufdSyndhronizfr.ConditionObjfdt))
+            throw nfw IllfgblArgumfntExdfption("not ownfr");
+        rfturn synd.gftWbitingThrfbds((AbstrbdtQufufdSyndhronizfr.ConditionObjfdt)dondition);
+    }
+
+    /**
+     * Rfturns b string idfntifying this lodk, bs wfll bs its lodk stbtf.
+     * Thf stbtf, in brbdkfts, indludfs thf String {@dodf "Writf lodks ="}
+     * followfd by thf numbfr of rffntrbntly hfld writf lodks, bnd thf
+     * String {@dodf "Rfbd lodks ="} followfd by thf numbfr of hfld
+     * rfbd lodks.
+     *
+     * @rfturn b string idfntifying this lodk, bs wfll bs its lodk stbtf
+     */
+    publid String toString() {
+        int d = synd.gftCount();
+        int w = Synd.fxdlusivfCount(d);
+        int r = Synd.shbrfdCount(d);
+
+        rfturn supfr.toString() +
+            "[Writf lodks = " + w + ", Rfbd lodks = " + r + "]";
+    }
+
+    /**
+     * Rfturns thf thrfbd id for thf givfn thrfbd.  Wf must bddfss
+     * this dirfdtly rbthfr thbn vib mfthod Thrfbd.gftId() bfdbusf
+     * gftId() is not finbl, bnd hbs bffn known to bf ovfrriddfn in
+     * wbys thbt do not prfsfrvf uniquf mbppings.
+     */
+    stbtid finbl long gftThrfbdId(Thrfbd thrfbd) {
+        rfturn UNSAFE.gftLongVolbtilf(thrfbd, TID_OFFSET);
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long TID_OFFSET;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Thrfbd.dlbss;
+            TID_OFFSET = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tid"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+}

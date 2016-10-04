@@ -1,0 +1,658 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "ContfxtublSubstSubtbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LookupProdfssor.h"
+#indludf "CovfrbgfTbblfs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+/*
+    NOTE: This dould bf optimizfd somfwhbt by kffping trbdk
+    of thf prfvious sfqufndfIndfx in thf loop bnd doing nfxt()
+    or prfv() of thf dfltb bftwffn thbt bnd thf durrfnt
+    sfqufndfIndfx instfbd of blwbys rfsftting to thf front.
+*/
+void ContfxtublSubstitutionBbsf::bpplySubstitutionLookups(
+        donst LookupProdfssor *lookupProdfssor,
+        donst LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>& substLookupRfdordArrby,
+        lf_uint16 substCount,
+        GlyphItfrbtor *glyphItfrbtor,
+        donst LEFontInstbndf *fontInstbndf,
+        lf_int32 position,
+        LEErrorCodf& suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor);
+    donst SubstitutionLookupRfdord *substLookupRfdordArrbyPtr = substLookupRfdordArrby.gftAlibs(); // OK to dfrfffrfndf, rbngf dhfdkfd bgbinst substCount bflow.
+
+    for (lf_int16 subst = 0; subst < substCount && LE_SUCCESS(suddfss); subst += 1) {
+        lf_uint16 sfqufndfIndfx = SWAPW(substLookupRfdordArrbyPtr[subst].sfqufndfIndfx);
+        lf_uint16 lookupListIndfx = SWAPW(substLookupRfdordArrbyPtr[subst].lookupListIndfx);
+
+        tfmpItfrbtor.sftCurrStrfbmPosition(position);
+        tfmpItfrbtor.nfxt(sfqufndfIndfx);
+
+        lookupProdfssor->bpplySinglfLookup(lookupListIndfx, &tfmpItfrbtor, fontInstbndf, suddfss);
+    }
+}
+
+lf_bool ContfxtublSubstitutionBbsf::mbtdhGlyphIDs(donst LERfffrfndfToArrbyOf<TTGlyphID>& glyphArrby, lf_uint16 glyphCount,
+                                               GlyphItfrbtor *glyphItfrbtor, lf_bool bbdktrbdk)
+{
+    lf_int32 dirfdtion = 1;
+    lf_int32 mbtdh = 0;
+
+    if (bbdktrbdk) {
+        mbtdh = glyphCount -1;
+        dirfdtion = -1;
+    }
+
+    whilf (glyphCount > 0) {
+        if (! glyphItfrbtor->nfxt()) {
+            rfturn FALSE;
+        }
+
+        TTGlyphID glyph = (TTGlyphID) glyphItfrbtor->gftCurrGlyphID();
+
+        if (glyph != SWAPW(glyphArrby[mbtdh])) {
+            rfturn FALSE;
+        }
+
+        glyphCount -= 1;
+        mbtdh += dirfdtion;
+    }
+
+    rfturn TRUE;
+}
+
+lf_bool ContfxtublSubstitutionBbsf::mbtdhGlyphClbssfs(
+    donst LERfffrfndfToArrbyOf<lf_uint16> &dlbssArrby,
+    lf_uint16 glyphCount,
+    GlyphItfrbtor *glyphItfrbtor,
+    donst LERfffrfndfTo<ClbssDffinitionTbblf> &dlbssDffinitionTbblf,
+    LEErrorCodf &suddfss,
+    lf_bool bbdktrbdk)
+{
+    if (LE_FAILURE(suddfss)) { rfturn FALSE; }
+
+    lf_int32 dirfdtion = 1;
+    lf_int32 mbtdh = 0;
+
+    if (bbdktrbdk) {
+        mbtdh = glyphCount - 1;
+        dirfdtion = -1;
+    }
+
+    whilf (glyphCount > 0) {
+        if (! glyphItfrbtor->nfxt()) {
+            rfturn FALSE;
+        }
+
+        LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+        lf_int32 glyphClbss = dlbssDffinitionTbblf->gftGlyphClbss(dlbssDffinitionTbblf, glyph, suddfss);
+        lf_int32 mbtdhClbss = SWAPW(dlbssArrby[mbtdh]);
+
+        if (glyphClbss != mbtdhClbss) {
+            // Somf fonts, f.g. Trbditionbl Arbbid, hbvf dlbssfs
+            // in thf dlbss brrby whidh brfn't in thf dlbss dffinition
+            // tbblf. If wf'rf looking for sudh b dlbss, prftfnd thbt
+            // wf found it.
+            if (dlbssDffinitionTbblf->hbsGlyphClbss(dlbssDffinitionTbblf, mbtdhClbss, suddfss)) {
+                rfturn FALSE;
+            }
+        }
+
+        glyphCount -= 1;
+        mbtdh += dirfdtion;
+    }
+
+    rfturn TRUE;
+}
+
+lf_bool ContfxtublSubstitutionBbsf::mbtdhGlyphCovfrbgfs(donst LERfffrfndfToArrbyOf<Offsft> &dovfrbgfTbblfOffsftArrby, lf_uint16 glyphCount,
+GlyphItfrbtor *glyphItfrbtor, donst LETbblfRfffrfndf &offsftBbsf, LEErrorCodf &suddfss, lf_bool bbdktrbdk)
+{
+    lf_int32 dirfdtion = 1;
+    lf_int32 glyph = 0;
+
+    if (bbdktrbdk) {
+        glyph = glyphCount - 1;
+        dirfdtion = -1;
+    }
+
+    whilf (glyphCount > 0) {
+        Offsft dovfrbgfTbblfOffsft = SWAPW(dovfrbgfTbblfOffsftArrby[glyph]);
+        LERfffrfndfTo<CovfrbgfTbblf> dovfrbgfTbblf(offsftBbsf, suddfss, dovfrbgfTbblfOffsft);
+
+        if (LE_FAILURE(suddfss) || ! glyphItfrbtor->nfxt()) {
+            rfturn FALSE;
+        }
+
+        if (dovfrbgfTbblf->gftGlyphCovfrbgf(dovfrbgfTbblf,
+                                            (LEGlyphID) glyphItfrbtor->gftCurrGlyphID(),
+                                            suddfss) < 0) {
+            rfturn FALSE;
+        }
+
+        glyphCount -= 1;
+        glyph += dirfdtion;
+    }
+
+    rfturn TRUE;
+}
+
+lf_uint32 ContfxtublSubstitutionSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                                                  GlyphItfrbtor *glyphItfrbtor,
+                                                  donst LEFontInstbndf *fontInstbndf,
+                                                  LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    switdh(SWAPW(subtbblfFormbt))
+    {
+    dbsf 0:
+        rfturn 0;
+
+    dbsf 1:
+    {
+      LERfffrfndfTo<ContfxtublSubstitutionFormbt1Subtbblf> subtbblf(bbsf, suddfss, (donst ContfxtublSubstitutionFormbt1Subtbblf *) this);
+      if( LE_FAILURE(suddfss) ) {
+        rfturn 0;
+      }
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dbsf 2:
+    {
+      LERfffrfndfTo<ContfxtublSubstitutionFormbt2Subtbblf> subtbblf(bbsf, suddfss, (donst ContfxtublSubstitutionFormbt2Subtbblf *) this);
+      if( LE_FAILURE(suddfss) ) {
+        rfturn 0;
+      }
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dbsf 3:
+    {
+      LERfffrfndfTo<ContfxtublSubstitutionFormbt3Subtbblf> subtbblf(bbsf, suddfss, (donst ContfxtublSubstitutionFormbt3Subtbblf *) this);
+      if( LE_FAILURE(suddfss) ) {
+        rfturn 0;
+      }
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dffbult:
+        rfturn 0;
+    }
+}
+
+lf_uint32 ContfxtublSubstitutionFormbt1Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                                                         GlyphItfrbtor *glyphItfrbtor,
+                                                         donst LEFontInstbndf *fontInstbndf,
+                                                         LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(lookupProdfssor->gftRfffrfndf(), glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+        lf_uint16 srSftCount = SWAPW(subRulfSftCount);
+
+        if (dovfrbgfIndfx < srSftCount) {
+            Offsft subRulfSftTbblfOffsft = SWAPW(subRulfSftTbblfOffsftArrby[dovfrbgfIndfx]);
+            LERfffrfndfTo<SubRulfSftTbblf>
+                 subRulfSftTbblf(bbsf, suddfss, (donst SubRulfSftTbblf *) ((dhbr *) this + subRulfSftTbblfOffsft));
+            lf_uint16 subRulfCount = SWAPW(subRulfSftTbblf->subRulfCount);
+            lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+
+            for (lf_uint16 subRulf = 0; subRulf < subRulfCount; subRulf += 1) {
+                Offsft subRulfTbblfOffsft =
+                    SWAPW(subRulfSftTbblf->subRulfTbblfOffsftArrby[subRulf]);
+                LERfffrfndfTo<SubRulfTbblf>
+                     subRulfTbblf(subRulfSftTbblf, suddfss, subRulfTbblfOffsft);
+                lf_uint16 mbtdhCount = SWAPW(subRulfTbblf->glyphCount) - 1;
+                lf_uint16 substCount = SWAPW(subRulfTbblf->substCount);
+                LERfffrfndfToArrbyOf<TTGlyphID> inputGlyphArrby(bbsf, suddfss, subRulfTbblf->inputGlyphArrby, mbtdhCount+2);
+                if (LE_FAILURE(suddfss)) { rfturn 0; }
+                if (mbtdhGlyphIDs(inputGlyphArrby, mbtdhCount, glyphItfrbtor)) {
+                  LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+                    substLookupRfdordArrby(bbsf, suddfss, (donst SubstitutionLookupRfdord *) &subRulfTbblf->inputGlyphArrby[mbtdhCount], substCount);
+
+                    bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, substCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+                    rfturn mbtdhCount + 1;
+                }
+
+                glyphItfrbtor->sftCurrStrfbmPosition(position);
+            }
+        }
+
+        // XXX If wf gft hfrf, thf tbblf is mbl-formfd...
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 ContfxtublSubstitutionFormbt2Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf,
+         donst LookupProdfssor *lookupProdfssor,
+         GlyphItfrbtor *glyphItfrbtor,
+         donst LEFontInstbndf *fontInstbndf,
+         LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(lookupProdfssor->gftRfffrfndf(), glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+        LERfffrfndfTo<ClbssDffinitionTbblf> dlbssDffinitionTbblf(bbsf, suddfss,
+                                                                 (donst ClbssDffinitionTbblf *) ((dhbr *) this + SWAPW(dlbssDffTbblfOffsft)));
+        lf_uint16 sdSftCount = SWAPW(subClbssSftCount);
+        lf_int32 sftClbss = dlbssDffinitionTbblf->gftGlyphClbss(dlbssDffinitionTbblf,
+                                                                glyphItfrbtor->gftCurrGlyphID(),
+                                                                suddfss);
+
+        if (sftClbss < sdSftCount && subClbssSftTbblfOffsftArrby[sftClbss] != 0) {
+            Offsft subClbssSftTbblfOffsft = SWAPW(subClbssSftTbblfOffsftArrby[sftClbss]);
+            LERfffrfndfTo<SubClbssSftTbblf>
+                 subClbssSftTbblf(bbsf, suddfss, (donst SubClbssSftTbblf *) ((dhbr *) this + subClbssSftTbblfOffsft));
+            lf_uint16 subClbssRulfCount = SWAPW(subClbssSftTbblf->subClbssRulfCount);
+            lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+
+            for (lf_uint16 sdRulf = 0; sdRulf < subClbssRulfCount; sdRulf += 1) {
+                Offsft subClbssRulfTbblfOffsft =
+                    SWAPW(subClbssSftTbblf->subClbssRulfTbblfOffsftArrby[sdRulf]);
+                LERfffrfndfTo<SubClbssRulfTbblf>
+                     subClbssRulfTbblf(subClbssSftTbblf, suddfss, subClbssRulfTbblfOffsft);
+                lf_uint16 mbtdhCount = SWAPW(subClbssRulfTbblf->glyphCount) - 1;
+                lf_uint16 substCount = SWAPW(subClbssRulfTbblf->substCount);
+
+                LERfffrfndfToArrbyOf<lf_uint16> dlbssArrby(bbsf, suddfss, subClbssRulfTbblf->dlbssArrby, mbtdhCount+1);
+
+                if (LE_FAILURE(suddfss)) { rfturn 0; }
+                if (mbtdhGlyphClbssfs(dlbssArrby, mbtdhCount, glyphItfrbtor, dlbssDffinitionTbblf, suddfss)) {
+                    LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+                      substLookupRfdordArrby(bbsf, suddfss, (donst SubstitutionLookupRfdord *) &subClbssRulfTbblf->dlbssArrby[mbtdhCount], substCount);
+
+                    bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, substCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+                    rfturn mbtdhCount + 1;
+                }
+
+                glyphItfrbtor->sftCurrStrfbmPosition(position);
+            }
+        }
+
+        // XXX If wf gft hfrf, thf tbblf is mbl-formfd...
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 ContfxtublSubstitutionFormbt3Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf,
+                                                         donst LookupProdfssor *lookupProdfssor,
+                                                         GlyphItfrbtor *glyphItfrbtor,
+                                                         donst LEFontInstbndf *fontInstbndf,
+                                                         LEErrorCodf& suddfss)donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    lf_uint16 gCount = SWAPW(glyphCount);
+    lf_uint16 subCount = SWAPW(substCount);
+    lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+
+    // Bbdk up thf glyph itfrbtor so thbt wf
+    // dbn dbll nfxt() bfforf thf dhfdk, whidh
+    // will lfbvf it pointing bt thf lbst glyph
+    // thbt mbtdhfd whfn wf'rf donf.
+    glyphItfrbtor->prfv();
+
+    LERfffrfndfToArrbyOf<Offsft> dovTbblfOffsftArrby(bbsf, suddfss, dovfrbgfTbblfOffsftArrby, gCount);
+
+    if( LE_FAILURE(suddfss) ) { rfturn 0; }
+
+    if (ContfxtublSubstitutionBbsf::mbtdhGlyphCovfrbgfs(dovTbblfOffsftArrby, gCount, glyphItfrbtor, bbsf, suddfss)) {
+        LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+          substLookupRfdordArrby(bbsf, suddfss, (donst SubstitutionLookupRfdord *) &dovfrbgfTbblfOffsftArrby[gCount], subCount);
+
+        ContfxtublSubstitutionBbsf::bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, subCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+        rfturn gCount + 1;
+    }
+
+    glyphItfrbtor->sftCurrStrfbmPosition(position);
+
+    rfturn 0;
+}
+
+lf_uint32 ChbiningContfxtublSubstitutionSubtbblf::prodfss(donst LERfffrfndfTo<ChbiningContfxtublSubstitutionSubtbblf> &bbsf,
+                                                          donst LookupProdfssor *lookupProdfssor,
+                                                          GlyphItfrbtor *glyphItfrbtor,
+                                                          donst LEFontInstbndf *fontInstbndf,
+                                                          LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    switdh(SWAPW(subtbblfFormbt))
+    {
+    dbsf 0:
+        rfturn 0;
+
+    dbsf 1:
+    {
+      LERfffrfndfTo<ChbiningContfxtublSubstitutionFormbt1Subtbblf> subtbblf(bbsf, suddfss,  (ChbiningContfxtublSubstitutionFormbt1Subtbblf *) this);
+      if(LE_FAILURE(suddfss)) rfturn 0;
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dbsf 2:
+    {
+      LERfffrfndfTo<ChbiningContfxtublSubstitutionFormbt2Subtbblf> subtbblf(bbsf, suddfss, (donst ChbiningContfxtublSubstitutionFormbt2Subtbblf *) this);
+      if( LE_FAILURE(suddfss) ) { rfturn 0; }
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dbsf 3:
+    {
+      LERfffrfndfTo<ChbiningContfxtublSubstitutionFormbt3Subtbblf> subtbblf(bbsf, suddfss, (donst ChbiningContfxtublSubstitutionFormbt3Subtbblf *) this);
+      if( LE_FAILURE(suddfss) ) { rfturn 0; }
+      rfturn subtbblf->prodfss(subtbblf, lookupProdfssor, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dffbult:
+        rfturn 0;
+    }
+}
+
+// NOTE: This dould bf b #dffinf, but thbt sffms to donfusf
+// thf Visubl Studio .NET 2003 dompilfr on thf dblls to thf
+// GlyphItfrbtor donstrudtor. It somfhow dbn't dfdidf if
+// fmptyFfbturfList mbtdhfs bn lf_uint32 or bn lf_uint16...
+stbtid donst FfbturfMbsk fmptyFfbturfList = 0x00000000UL;
+
+lf_uint32 ChbiningContfxtublSubstitutionFormbt1Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                                                                 GlyphItfrbtor *glyphItfrbtor,
+                                                                 donst LEFontInstbndf *fontInstbndf,
+                                                                 LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(lookupProdfssor->gftRfffrfndf(), glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+        lf_uint16 srSftCount = SWAPW(dhbinSubRulfSftCount);
+
+        if (dovfrbgfIndfx < srSftCount) {
+            Offsft dhbinSubRulfSftTbblfOffsft = SWAPW(dhbinSubRulfSftTbblfOffsftArrby[dovfrbgfIndfx]);
+            LERfffrfndfTo<ChbinSubRulfSftTbblf>
+                 dhbinSubRulfSftTbblf(bbsf, suddfss, (donst ChbinSubRulfSftTbblf *) ((dhbr *) this + dhbinSubRulfSftTbblfOffsft));
+            lf_uint16 dhbinSubRulfCount = SWAPW(dhbinSubRulfSftTbblf->dhbinSubRulfCount);
+            lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+            GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor, fmptyFfbturfList);
+
+            for (lf_uint16 subRulf = 0; subRulf < dhbinSubRulfCount; subRulf += 1) {
+                Offsft dhbinSubRulfTbblfOffsft =
+                    SWAPW(dhbinSubRulfSftTbblf->dhbinSubRulfTbblfOffsftArrby[subRulf]);
+                LERfffrfndfTo<ChbinSubRulfTbblf>
+                     dhbinSubRulfTbblf = LERfffrfndfTo<ChbinSubRulfTbblf>(dhbinSubRulfSftTbblf, suddfss, dhbinSubRulfTbblfOffsft);
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                lf_uint16 bbdktrbdkGlyphCount = SWAPW(dhbinSubRulfTbblf->bbdktrbdkGlyphCount);
+                LERfffrfndfToArrbyOf<TTGlyphID> bbdktrbdkGlyphArrby(bbsf, suddfss, dhbinSubRulfTbblf->bbdktrbdkGlyphArrby, bbdktrbdkGlyphCount);
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                lf_uint16 inputGlyphCount = (lf_uint16) SWAPW(dhbinSubRulfTbblf->bbdktrbdkGlyphArrby[bbdktrbdkGlyphCount]) - 1;
+                LERfffrfndfToArrbyOf<TTGlyphID>   inputGlyphArrby(bbsf, suddfss, &dhbinSubRulfTbblf->bbdktrbdkGlyphArrby[bbdktrbdkGlyphCount + 1], inputGlyphCount+2);
+
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                lf_uint16 lookbhfbdGlyphCount = (lf_uint16) SWAPW(inputGlyphArrby[inputGlyphCount]);
+                LERfffrfndfToArrbyOf<TTGlyphID>   lookbhfbdGlyphArrby(bbsf, suddfss, inputGlyphArrby.gftAlibs(inputGlyphCount + 1,suddfss), lookbhfbdGlyphCount+2);
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                lf_uint16 substCount = (lf_uint16) SWAPW(lookbhfbdGlyphArrby[lookbhfbdGlyphCount]);
+
+                tfmpItfrbtor.sftCurrStrfbmPosition(position);
+
+                if (! tfmpItfrbtor.prfv(bbdktrbdkGlyphCount)) {
+                    dontinuf;
+                }
+
+                tfmpItfrbtor.prfv();
+
+                if (! mbtdhGlyphIDs(bbdktrbdkGlyphArrby, bbdktrbdkGlyphCount, &tfmpItfrbtor, TRUE)) {
+                    dontinuf;
+                }
+
+                tfmpItfrbtor.sftCurrStrfbmPosition(position);
+                tfmpItfrbtor.nfxt(inputGlyphCount);
+                if (!mbtdhGlyphIDs(lookbhfbdGlyphArrby, lookbhfbdGlyphCount, &tfmpItfrbtor)) {
+                    dontinuf;
+                }
+
+                if (mbtdhGlyphIDs(inputGlyphArrby, inputGlyphCount, glyphItfrbtor)) {
+                    LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+                      substLookupRfdordArrby(bbsf, suddfss, (donst SubstitutionLookupRfdord *) lookbhfbdGlyphArrby.gftAlibs(lookbhfbdGlyphCount + 1,suddfss), substCount);
+
+                    bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, substCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+                    rfturn inputGlyphCount + 1;
+                }
+
+                glyphItfrbtor->sftCurrStrfbmPosition(position);
+            }
+        }
+
+        // XXX If wf gft hfrf, thf tbblf is mbl-formfd...
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 ChbiningContfxtublSubstitutionFormbt2Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                                                                 GlyphItfrbtor *glyphItfrbtor,
+                                                                 donst LEFontInstbndf *fontInstbndf,
+                                                                 LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(lookupProdfssor->gftRfffrfndf(), glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+        LERfffrfndfTo<ClbssDffinitionTbblf>
+             bbdktrbdkClbssDffinitionTbblf(bbsf, suddfss, (donst ClbssDffinitionTbblf *) ((dhbr *) this + SWAPW(bbdktrbdkClbssDffTbblfOffsft)));
+        LERfffrfndfTo<ClbssDffinitionTbblf>
+             inputClbssDffinitionTbblf(bbsf, suddfss, (donst ClbssDffinitionTbblf *) ((dhbr *) this + SWAPW(inputClbssDffTbblfOffsft)));
+        LERfffrfndfTo<ClbssDffinitionTbblf>
+             lookbhfbdClbssDffinitionTbblf(bbsf, suddfss, (donst ClbssDffinitionTbblf *) ((dhbr *) this + SWAPW(lookbhfbdClbssDffTbblfOffsft)));
+        lf_uint16 sdSftCount = SWAPW(dhbinSubClbssSftCount);
+        lf_int32 sftClbss = inputClbssDffinitionTbblf->gftGlyphClbss(inputClbssDffinitionTbblf,
+                                                                     glyphItfrbtor->gftCurrGlyphID(),
+                                                                     suddfss);
+
+        if (sftClbss < sdSftCount && dhbinSubClbssSftTbblfOffsftArrby[sftClbss] != 0) {
+            Offsft dhbinSubClbssSftTbblfOffsft = SWAPW(dhbinSubClbssSftTbblfOffsftArrby[sftClbss]);
+            LERfffrfndfTo<ChbinSubClbssSftTbblf>
+                 dhbinSubClbssSftTbblf(bbsf, suddfss, (donst ChbinSubClbssSftTbblf *) ((dhbr *) this + dhbinSubClbssSftTbblfOffsft));
+            lf_uint16 dhbinSubClbssRulfCount = SWAPW(dhbinSubClbssSftTbblf->dhbinSubClbssRulfCount);
+            lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+            GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor, fmptyFfbturfList);
+
+            for (lf_uint16 sdRulf = 0; sdRulf < dhbinSubClbssRulfCount; sdRulf += 1) {
+                Offsft dhbinSubClbssRulfTbblfOffsft =
+                    SWAPW(dhbinSubClbssSftTbblf->dhbinSubClbssRulfTbblfOffsftArrby[sdRulf]);
+                LERfffrfndfTo<ChbinSubClbssRulfTbblf>
+                     dhbinSubClbssRulfTbblf(dhbinSubClbssSftTbblf, suddfss, dhbinSubClbssRulfTbblfOffsft);
+                lf_uint16 bbdktrbdkGlyphCount = SWAPW(dhbinSubClbssRulfTbblf->bbdktrbdkGlyphCount);
+                lf_uint16 inputGlyphCount = SWAPW(dhbinSubClbssRulfTbblf->bbdktrbdkClbssArrby[bbdktrbdkGlyphCount]) - 1;
+                LERfffrfndfToArrbyOf<lf_uint16>   inputClbssArrby(bbsf, suddfss, &dhbinSubClbssRulfTbblf->bbdktrbdkClbssArrby[bbdktrbdkGlyphCount + 1],inputGlyphCount+2); // +2 for thf lookbhfbdGlyphCount dount
+                lf_uint16 lookbhfbdGlyphCount = SWAPW(inputClbssArrby.gftObjfdt(inputGlyphCount, suddfss));
+                LERfffrfndfToArrbyOf<lf_uint16>   lookbhfbdClbssArrby(bbsf, suddfss, inputClbssArrby.gftAlibs(inputGlyphCount + 1,suddfss), lookbhfbdGlyphCount+2); // +2 for thf substCount
+
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                lf_uint16 substCount = SWAPW(lookbhfbdClbssArrby[lookbhfbdGlyphCount]);
+
+
+                tfmpItfrbtor.sftCurrStrfbmPosition(position);
+
+                if (! tfmpItfrbtor.prfv(bbdktrbdkGlyphCount)) {
+                    dontinuf;
+                }
+
+                tfmpItfrbtor.prfv();
+                LERfffrfndfToArrbyOf<lf_uint16>   bbdktrbdkClbssArrby(bbsf, suddfss, dhbinSubClbssRulfTbblf->bbdktrbdkClbssArrby, bbdktrbdkGlyphCount);
+                if( LE_FAILURE(suddfss) ) { rfturn 0; }
+                if (! mbtdhGlyphClbssfs(bbdktrbdkClbssArrby, bbdktrbdkGlyphCount,
+                                        &tfmpItfrbtor, bbdktrbdkClbssDffinitionTbblf, suddfss, TRUE)) {
+                    dontinuf;
+                }
+
+                tfmpItfrbtor.sftCurrStrfbmPosition(position);
+                tfmpItfrbtor.nfxt(inputGlyphCount);
+                if (! mbtdhGlyphClbssfs(lookbhfbdClbssArrby, lookbhfbdGlyphCount, &tfmpItfrbtor, lookbhfbdClbssDffinitionTbblf, suddfss)) {
+                    dontinuf;
+                }
+
+                if (mbtdhGlyphClbssfs(inputClbssArrby, inputGlyphCount, glyphItfrbtor, inputClbssDffinitionTbblf, suddfss)) {
+                    LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+                      substLookupRfdordArrby(bbsf, suddfss, (donst SubstitutionLookupRfdord *) lookbhfbdClbssArrby.gftAlibs(lookbhfbdGlyphCount + 1, suddfss), substCount);
+                    if (LE_FAILURE(suddfss)) { rfturn 0; }
+                    bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, substCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+                    rfturn inputGlyphCount + 1;
+                }
+
+                glyphItfrbtor->sftCurrStrfbmPosition(position);
+            }
+        }
+
+        // XXX If wf gft hfrf, thf tbblf is mbl-formfd...
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 ChbiningContfxtublSubstitutionFormbt3Subtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                                                                 GlyphItfrbtor *glyphItfrbtor,
+                                                                 donst LEFontInstbndf *fontInstbndf,
+                                                                 LEErrorCodf & suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    lf_uint16 bbdktrkGlyphCount = SWAPW(bbdktrbdkGlyphCount);
+    lf_uint16 inputGlyphCount = (lf_uint16) SWAPW(bbdktrbdkCovfrbgfTbblfOffsftArrby[bbdktrkGlyphCount]);
+    LERfffrfndfToArrbyOf<Offsft>   inputCovfrbgfTbblfOffsftArrby(bbsf, suddfss, &bbdktrbdkCovfrbgfTbblfOffsftArrby[bbdktrkGlyphCount + 1], inputGlyphCount+2); // offsft
+    if (LE_FAILURE(suddfss)) { rfturn 0; }
+    donst lf_uint16 lookbhfbdGlyphCount = (lf_uint16) SWAPW(inputCovfrbgfTbblfOffsftArrby[inputGlyphCount]);
+
+    if( LE_FAILURE(suddfss)) { rfturn 0; }
+    LERfffrfndfToArrbyOf<Offsft>   lookbhfbdCovfrbgfTbblfOffsftArrby(bbsf, suddfss, inputCovfrbgfTbblfOffsftArrby.gftAlibs(inputGlyphCount + 1, suddfss), lookbhfbdGlyphCount+2);
+
+    if( LE_FAILURE(suddfss) ) { rfturn 0; }
+    lf_uint16 substCount = (lf_uint16) SWAPW(lookbhfbdCovfrbgfTbblfOffsftArrby[lookbhfbdGlyphCount]);
+    lf_int32 position = glyphItfrbtor->gftCurrStrfbmPosition();
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor, fmptyFfbturfList);
+
+    if (! tfmpItfrbtor.prfv(bbdktrkGlyphCount)) {
+        rfturn 0;
+    }
+
+    tfmpItfrbtor.prfv();
+    if (! ContfxtublSubstitutionBbsf::mbtdhGlyphCovfrbgfs(bbdktrbdkCovfrbgfTbblfOffsftArrby,
+                       bbdktrkGlyphCount, &tfmpItfrbtor, bbsf, suddfss, TRUE)) {
+        rfturn 0;
+    }
+
+    tfmpItfrbtor.sftCurrStrfbmPosition(position);
+    tfmpItfrbtor.nfxt(inputGlyphCount - 1);
+    if (! ContfxtublSubstitutionBbsf::mbtdhGlyphCovfrbgfs(lookbhfbdCovfrbgfTbblfOffsftArrby,
+                        lookbhfbdGlyphCount, &tfmpItfrbtor, bbsf, suddfss)) {
+        rfturn 0;
+    }
+
+    // Bbdk up thf glyph itfrbtor so thbt wf
+    // dbn dbll nfxt() bfforf thf dhfdk, whidh
+    // will lfbvf it pointing bt thf lbst glyph
+    // thbt mbtdhfd whfn wf'rf donf.
+    glyphItfrbtor->prfv();
+
+    if (ContfxtublSubstitutionBbsf::mbtdhGlyphCovfrbgfs(inputCovfrbgfTbblfOffsftArrby,
+                                                        inputGlyphCount, glyphItfrbtor, bbsf, suddfss)) {
+        LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>
+          substLookupRfdordArrby(bbsf, suddfss,
+                                 (donst SubstitutionLookupRfdord *) lookbhfbdCovfrbgfTbblfOffsftArrby.gftAlibs(lookbhfbdGlyphCount + 1,suddfss), substCount);
+
+        ContfxtublSubstitutionBbsf::bpplySubstitutionLookups(lookupProdfssor, substLookupRfdordArrby, substCount, glyphItfrbtor, fontInstbndf, position, suddfss);
+
+        rfturn inputGlyphCount;
+    }
+
+    glyphItfrbtor->sftCurrStrfbmPosition(position);
+
+    rfturn 0;
+}
+
+U_NAMESPACE_END

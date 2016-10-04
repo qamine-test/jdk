@@ -1,1484 +1,1484 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import sun.awt.datatransfer.DataTransferer;
-import sun.reflect.misc.ReflectUtil;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.CharArrayReader;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.OptionalDataException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Objects;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.CibrArrbyRfbdfr;
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.OptionblDbtbExdfption;
+import jbvb.io.Rfbdfr;
+import jbvb.io.StringRfbdfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
 
-import static sun.security.util.SecurityConstants.GET_CLASSLOADER_PERMISSION;
+import stbtid sun.sfdurity.util.SfdurityConstbnts.GET_CLASSLOADER_PERMISSION;
 
 /**
- * A {@code DataFlavor} provides meta information about data. {@code DataFlavor}
- * is typically used to access data on the clipboard, or during
- * a drag and drop operation.
+ * A {@dodf DbtbFlbvor} providfs mftb informbtion bbout dbtb. {@dodf DbtbFlbvor}
+ * is typidblly usfd to bddfss dbtb on tif dlipbobrd, or during
+ * b drbg bnd drop opfrbtion.
  * <p>
- * An instance of {@code DataFlavor} encapsulates a content type as
- * defined in <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
- * and <a href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</a>.
- * A content type is typically referred to as a MIME type.
+ * An instbndf of {@dodf DbtbFlbvor} fndbpsulbtfs b dontfnt typf bs
+ * dffinfd in <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045</b>
+ * bnd <b irff="ittp://www.iftf.org/rfd/rfd2046.txt">RFC 2046</b>.
+ * A dontfnt typf is typidblly rfffrrfd to bs b MIME typf.
  * <p>
- * A content type consists of a media type (referred
- * to as the primary type), a subtype, and optional parameters. See
- * <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
- * for details on the syntax of a MIME type.
+ * A dontfnt typf donsists of b mfdib typf (rfffrrfd
+ * to bs tif primbry typf), b subtypf, bnd optionbl pbrbmftfrs. Sff
+ * <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045</b>
+ * for dftbils on tif syntbx of b MIME typf.
  * <p>
- * The JRE data transfer implementation interprets the parameter &quot;class&quot;
- * of a MIME type as <B>a representation class</b>.
- * The representation class reflects the class of the object being
- * transferred. In other words, the representation class is the type of
- * object returned by {@link Transferable#getTransferData}.
- * For example, the MIME type of {@link #imageFlavor} is
- * {@code "image/x-java-image;class=java.awt.Image"},
- * the primary type is {@code image}, the subtype is
- * {@code x-java-image}, and the representation class is
- * {@code java.awt.Image}. When {@code getTransferData} is invoked
- * with a {@code DataFlavor} of {@code imageFlavor}, an instance of
- * {@code java.awt.Image} is returned.
- * It's important to note that {@code DataFlavor} does no error checking
- * against the representation class. It is up to consumers of
- * {@code DataFlavor}, such as {@code Transferable}, to honor the representation
- * class.
+ * Tif JRE dbtb trbnsffr implfmfntbtion intfrprfts tif pbrbmftfr &quot;dlbss&quot;
+ * of b MIME typf bs <B>b rfprfsfntbtion dlbss</b>.
+ * Tif rfprfsfntbtion dlbss rfflfdts tif dlbss of tif objfdt bfing
+ * trbnsffrrfd. In otifr words, tif rfprfsfntbtion dlbss is tif typf of
+ * objfdt rfturnfd by {@link Trbnsffrbblf#gftTrbnsffrDbtb}.
+ * For fxbmplf, tif MIME typf of {@link #imbgfFlbvor} is
+ * {@dodf "imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf"},
+ * tif primbry typf is {@dodf imbgf}, tif subtypf is
+ * {@dodf x-jbvb-imbgf}, bnd tif rfprfsfntbtion dlbss is
+ * {@dodf jbvb.bwt.Imbgf}. Wifn {@dodf gftTrbnsffrDbtb} is invokfd
+ * witi b {@dodf DbtbFlbvor} of {@dodf imbgfFlbvor}, bn instbndf of
+ * {@dodf jbvb.bwt.Imbgf} is rfturnfd.
+ * It's importbnt to notf tibt {@dodf DbtbFlbvor} dofs no frror difdking
+ * bgbinst tif rfprfsfntbtion dlbss. It is up to donsumfrs of
+ * {@dodf DbtbFlbvor}, sudi bs {@dodf Trbnsffrbblf}, to ionor tif rfprfsfntbtion
+ * dlbss.
  * <br>
- * Note, if you do not specify a representation class when
- * creating a {@code DataFlavor}, the default
- * representation class is used. See appropriate documentation for
- * {@code DataFlavor}'s constructors.
+ * Notf, if you do not spfdify b rfprfsfntbtion dlbss wifn
+ * drfbting b {@dodf DbtbFlbvor}, tif dffbult
+ * rfprfsfntbtion dlbss is usfd. Sff bppropribtf dodumfntbtion for
+ * {@dodf DbtbFlbvor}'s donstrudtors.
  * <p>
- * Also, {@code DataFlavor} instances with the &quot;text&quot; primary
- * MIME type may have a &quot;charset&quot; parameter. Refer to
- * <a href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</a> and
- * {@link #selectBestTextFlavor} for details on &quot;text&quot; MIME types
- * and the &quot;charset&quot; parameter.
+ * Also, {@dodf DbtbFlbvor} instbndfs witi tif &quot;tfxt&quot; primbry
+ * MIME typf mby ibvf b &quot;dibrsft&quot; pbrbmftfr. Rfffr to
+ * <b irff="ittp://www.iftf.org/rfd/rfd2046.txt">RFC 2046</b> bnd
+ * {@link #sflfdtBfstTfxtFlbvor} for dftbils on &quot;tfxt&quot; MIME typfs
+ * bnd tif &quot;dibrsft&quot; pbrbmftfr.
  * <p>
- * Equality of {@code DataFlavors} is determined by the primary type,
- * subtype, and representation class. Refer to {@link #equals(DataFlavor)} for
- * details. When determining equality, any optional parameters are ignored.
- * For example, the following produces two {@code DataFlavors} that
- * are considered identical:
- * <pre>
- *   DataFlavor flavor1 = new DataFlavor(Object.class, &quot;X-test/test; class=&lt;java.lang.Object&gt;; foo=bar&quot;);
- *   DataFlavor flavor2 = new DataFlavor(Object.class, &quot;X-test/test; class=&lt;java.lang.Object&gt;; x=y&quot;);
- *   // The following returns true.
- *   flavor1.equals(flavor2);
- * </pre>
- * As mentioned, {@code flavor1} and {@code flavor2} are considered identical.
- * As such, asking a {@code Transferable} for either {@code DataFlavor} returns
- * the same results.
+ * Equblity of {@dodf DbtbFlbvors} is dftfrminfd by tif primbry typf,
+ * subtypf, bnd rfprfsfntbtion dlbss. Rfffr to {@link #fqubls(DbtbFlbvor)} for
+ * dftbils. Wifn dftfrmining fqublity, bny optionbl pbrbmftfrs brf ignorfd.
+ * For fxbmplf, tif following produdfs two {@dodf DbtbFlbvors} tibt
+ * brf donsidfrfd idfntidbl:
+ * <prf>
+ *   DbtbFlbvor flbvor1 = nfw DbtbFlbvor(Objfdt.dlbss, &quot;X-tfst/tfst; dlbss=&lt;jbvb.lbng.Objfdt&gt;; foo=bbr&quot;);
+ *   DbtbFlbvor flbvor2 = nfw DbtbFlbvor(Objfdt.dlbss, &quot;X-tfst/tfst; dlbss=&lt;jbvb.lbng.Objfdt&gt;; x=y&quot;);
+ *   // Tif following rfturns truf.
+ *   flbvor1.fqubls(flbvor2);
+ * </prf>
+ * As mfntionfd, {@dodf flbvor1} bnd {@dodf flbvor2} brf donsidfrfd idfntidbl.
+ * As sudi, bsking b {@dodf Trbnsffrbblf} for fitifr {@dodf DbtbFlbvor} rfturns
+ * tif sbmf rfsults.
  * <p>
- * For more information on using data transfer with Swing see
- * the <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
- * How to Use Drag and Drop and Data Transfer</a>,
- * section in <em>Java Tutorial</em>.
+ * For morf informbtion on using dbtb trbnsffr witi Swing sff
+ * tif <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+ * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>,
+ * sfdtion in <fm>Jbvb Tutoribl</fm>.
  *
- * @author      Blake Sullivan
- * @author      Laurence P. G. Cable
- * @author      Jeff Dunn
+ * @butior      Blbkf Sullivbn
+ * @butior      Lburfndf P. G. Cbblf
+ * @butior      Jfff Dunn
  */
-public class DataFlavor implements Externalizable, Cloneable {
+publid dlbss DbtbFlbvor implfmfnts Extfrnblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = 8367026044764648243L;
-    private static final Class<InputStream> ioInputStreamClass = InputStream.class;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8367026044764648243L;
+    privbtf stbtid finbl Clbss<InputStrfbm> ioInputStrfbmClbss = InputStrfbm.dlbss;
 
     /**
-     * Tries to load a class from: the bootstrap loader, the system loader,
-     * the context loader (if one is present) and finally the loader specified.
+     * Trifs to lobd b dlbss from: tif bootstrbp lobdfr, tif systfm lobdfr,
+     * tif dontfxt lobdfr (if onf is prfsfnt) bnd finblly tif lobdfr spfdififd.
      *
-     * @param className the name of the class to be loaded
-     * @param fallback the fallback loader
-     * @return the class loaded
-     * @exception ClassNotFoundException if class is not found
+     * @pbrbm dlbssNbmf tif nbmf of tif dlbss to bf lobdfd
+     * @pbrbm fbllbbdk tif fbllbbdk lobdfr
+     * @rfturn tif dlbss lobdfd
+     * @fxdfption ClbssNotFoundExdfption if dlbss is not found
      */
-    protected final static Class<?> tryToLoadClass(String className,
-                                                   ClassLoader fallback)
-        throws ClassNotFoundException
+    protfdtfd finbl stbtid Clbss<?> tryToLobdClbss(String dlbssNbmf,
+                                                   ClbssLobdfr fbllbbdk)
+        tirows ClbssNotFoundExdfption
     {
-        ReflectUtil.checkPackageAccess(className);
+        RfflfdtUtil.difdkPbdkbgfAddfss(dlbssNbmf);
         try {
-            SecurityManager sm = System.getSecurityManager();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkPermission(GET_CLASSLOADER_PERMISSION);
+                sm.difdkPfrmission(GET_CLASSLOADER_PERMISSION);
             }
-            ClassLoader loader = ClassLoader.getSystemClassLoader();
+            ClbssLobdfr lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
             try {
-                // bootstrap class loader and system class loader if present
-                return Class.forName(className, true, loader);
+                // bootstrbp dlbss lobdfr bnd systfm dlbss lobdfr if prfsfnt
+                rfturn Clbss.forNbmf(dlbssNbmf, truf, lobdfr);
             }
-            catch (ClassNotFoundException exception) {
-                // thread context class loader if and only if present
-                loader = Thread.currentThread().getContextClassLoader();
-                if (loader != null) {
+            dbtdi (ClbssNotFoundExdfption fxdfption) {
+                // tirfbd dontfxt dlbss lobdfr if bnd only if prfsfnt
+                lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+                if (lobdfr != null) {
                     try {
-                        return Class.forName(className, true, loader);
+                        rfturn Clbss.forNbmf(dlbssNbmf, truf, lobdfr);
                     }
-                    catch (ClassNotFoundException e) {
-                        // fallback to user's class loader
+                    dbtdi (ClbssNotFoundExdfption f) {
+                        // fbllbbdk to usfr's dlbss lobdfr
                     }
                 }
             }
-        } catch (SecurityException exception) {
-            // ignore secured class loaders
+        } dbtdi (SfdurityExdfption fxdfption) {
+            // ignorf sfdurfd dlbss lobdfrs
         }
-        return Class.forName(className, true, fallback);
+        rfturn Clbss.forNbmf(dlbssNbmf, truf, fbllbbdk);
     }
 
     /*
-     * private initializer
+     * privbtf initiblizfr
      */
-    static private DataFlavor createConstant(Class<?> rc, String prn) {
+    stbtid privbtf DbtbFlbvor drfbtfConstbnt(Clbss<?> rd, String prn) {
         try {
-            return new DataFlavor(rc, prn);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /*
-     * private initializer
-     */
-    static private DataFlavor createConstant(String mt, String prn) {
-        try {
-            return new DataFlavor(mt, prn);
-        } catch (Exception e) {
-            return null;
+            rfturn nfw DbtbFlbvor(rd, prn);
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
     /*
-     * private initializer
+     * privbtf initiblizfr
      */
-    static private DataFlavor initHtmlDataFlavor(String htmlFlavorType) {
+    stbtid privbtf DbtbFlbvor drfbtfConstbnt(String mt, String prn) {
         try {
-            return new DataFlavor ("text/html; class=java.lang.String;document=" +
-                                       htmlFlavorType + ";charset=Unicode");
-        } catch (Exception e) {
-            return null;
+            rfturn nfw DbtbFlbvor(mt, prn);
+        } dbtdi (Exdfption f) {
+            rfturn null;
+        }
+    }
+
+    /*
+     * privbtf initiblizfr
+     */
+    stbtid privbtf DbtbFlbvor initHtmlDbtbFlbvor(String itmlFlbvorTypf) {
+        try {
+            rfturn nfw DbtbFlbvor ("tfxt/itml; dlbss=jbvb.lbng.String;dodumfnt=" +
+                                       itmlFlbvorTypf + ";dibrsft=Unidodf");
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * The <code>DataFlavor</code> representing a Java Unicode String class,
-     * where:
-     * <pre>
-     *     representationClass = java.lang.String
-     *     mimeType           = "application/x-java-serialized-object"
-     * </pre>
+     * Tif <dodf>DbtbFlbvor</dodf> rfprfsfnting b Jbvb Unidodf String dlbss,
+     * wifrf:
+     * <prf>
+     *     rfprfsfntbtionClbss = jbvb.lbng.String
+     *     mimfTypf           = "bpplidbtion/x-jbvb-sfriblizfd-objfdt"
+     * </prf>
      */
-    public static final DataFlavor stringFlavor = createConstant(java.lang.String.class, "Unicode String");
+    publid stbtid finbl DbtbFlbvor stringFlbvor = drfbtfConstbnt(jbvb.lbng.String.dlbss, "Unidodf String");
 
     /**
-     * The <code>DataFlavor</code> representing a Java Image class,
-     * where:
-     * <pre>
-     *     representationClass = java.awt.Image
-     *     mimeType            = "image/x-java-image"
-     * </pre>
+     * Tif <dodf>DbtbFlbvor</dodf> rfprfsfnting b Jbvb Imbgf dlbss,
+     * wifrf:
+     * <prf>
+     *     rfprfsfntbtionClbss = jbvb.bwt.Imbgf
+     *     mimfTypf            = "imbgf/x-jbvb-imbgf"
+     * </prf>
      */
-    public static final DataFlavor imageFlavor = createConstant("image/x-java-image; class=java.awt.Image", "Image");
+    publid stbtid finbl DbtbFlbvor imbgfFlbvor = drfbtfConstbnt("imbgf/x-jbvb-imbgf; dlbss=jbvb.bwt.Imbgf", "Imbgf");
 
     /**
-     * The <code>DataFlavor</code> representing plain text with Unicode
-     * encoding, where:
-     * <pre>
-     *     representationClass = InputStream
-     *     mimeType            = "text/plain; charset=unicode"
-     * </pre>
-     * This <code>DataFlavor</code> has been <b>deprecated</b> because
-     * (1) Its representation is an InputStream, an 8-bit based representation,
-     * while Unicode is a 16-bit character set; and (2) The charset "unicode"
-     * is not well-defined. "unicode" implies a particular platform's
-     * implementation of Unicode, not a cross-platform implementation.
+     * Tif <dodf>DbtbFlbvor</dodf> rfprfsfnting plbin tfxt witi Unidodf
+     * fndoding, wifrf:
+     * <prf>
+     *     rfprfsfntbtionClbss = InputStrfbm
+     *     mimfTypf            = "tfxt/plbin; dibrsft=unidodf"
+     * </prf>
+     * Tiis <dodf>DbtbFlbvor</dodf> ibs bffn <b>dfprfdbtfd</b> bfdbusf
+     * (1) Its rfprfsfntbtion is bn InputStrfbm, bn 8-bit bbsfd rfprfsfntbtion,
+     * wiilf Unidodf is b 16-bit dibrbdtfr sft; bnd (2) Tif dibrsft "unidodf"
+     * is not wfll-dffinfd. "unidodf" implifs b pbrtidulbr plbtform's
+     * implfmfntbtion of Unidodf, not b dross-plbtform implfmfntbtion.
      *
-     * @deprecated as of 1.3. Use <code>DataFlavor.getReaderForText(Transferable)</code>
-     *             instead of <code>Transferable.getTransferData(DataFlavor.plainTextFlavor)</code>.
+     * @dfprfdbtfd bs of 1.3. Usf <dodf>DbtbFlbvor.gftRfbdfrForTfxt(Trbnsffrbblf)</dodf>
+     *             instfbd of <dodf>Trbnsffrbblf.gftTrbnsffrDbtb(DbtbFlbvor.plbinTfxtFlbvor)</dodf>.
      */
-    @Deprecated
-    public static final DataFlavor plainTextFlavor = createConstant("text/plain; charset=unicode; class=java.io.InputStream", "Plain Text");
+    @Dfprfdbtfd
+    publid stbtid finbl DbtbFlbvor plbinTfxtFlbvor = drfbtfConstbnt("tfxt/plbin; dibrsft=unidodf; dlbss=jbvb.io.InputStrfbm", "Plbin Tfxt");
 
     /**
-     * A MIME Content-Type of application/x-java-serialized-object represents
-     * a graph of Java object(s) that have been made persistent.
+     * A MIME Contfnt-Typf of bpplidbtion/x-jbvb-sfriblizfd-objfdt rfprfsfnts
+     * b grbpi of Jbvb objfdt(s) tibt ibvf bffn mbdf pfrsistfnt.
      *
-     * The representation class associated with this <code>DataFlavor</code>
-     * identifies the Java type of an object returned as a reference
-     * from an invocation <code>java.awt.datatransfer.getTransferData</code>.
+     * Tif rfprfsfntbtion dlbss bssodibtfd witi tiis <dodf>DbtbFlbvor</dodf>
+     * idfntififs tif Jbvb typf of bn objfdt rfturnfd bs b rfffrfndf
+     * from bn invodbtion <dodf>jbvb.bwt.dbtbtrbnsffr.gftTrbnsffrDbtb</dodf>.
      */
-    public static final String javaSerializedObjectMimeType = "application/x-java-serialized-object";
+    publid stbtid finbl String jbvbSfriblizfdObjfdtMimfTypf = "bpplidbtion/x-jbvb-sfriblizfd-objfdt";
 
     /**
-     * To transfer a list of files to/from Java (and the underlying
-     * platform) a <code>DataFlavor</code> of this type/subtype and
-     * representation class of <code>java.util.List</code> is used.
-     * Each element of the list is required/guaranteed to be of type
-     * <code>java.io.File</code>.
+     * To trbnsffr b list of filfs to/from Jbvb (bnd tif undfrlying
+     * plbtform) b <dodf>DbtbFlbvor</dodf> of tiis typf/subtypf bnd
+     * rfprfsfntbtion dlbss of <dodf>jbvb.util.List</dodf> is usfd.
+     * Ebdi flfmfnt of tif list is rfquirfd/gubrbntffd to bf of typf
+     * <dodf>jbvb.io.Filf</dodf>.
      */
-    public static final DataFlavor javaFileListFlavor = createConstant("application/x-java-file-list;class=java.util.List", null);
+    publid stbtid finbl DbtbFlbvor jbvbFilfListFlbvor = drfbtfConstbnt("bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List", null);
 
     /**
-     * To transfer a reference to an arbitrary Java object reference that
-     * has no associated MIME Content-type, across a <code>Transferable</code>
-     * interface WITHIN THE SAME JVM, a <code>DataFlavor</code>
-     * with this type/subtype is used, with a <code>representationClass</code>
-     * equal to the type of the class/interface being passed across the
-     * <code>Transferable</code>.
+     * To trbnsffr b rfffrfndf to bn brbitrbry Jbvb objfdt rfffrfndf tibt
+     * ibs no bssodibtfd MIME Contfnt-typf, bdross b <dodf>Trbnsffrbblf</dodf>
+     * intfrfbdf WITHIN THE SAME JVM, b <dodf>DbtbFlbvor</dodf>
+     * witi tiis typf/subtypf is usfd, witi b <dodf>rfprfsfntbtionClbss</dodf>
+     * fqubl to tif typf of tif dlbss/intfrfbdf bfing pbssfd bdross tif
+     * <dodf>Trbnsffrbblf</dodf>.
      * <p>
-     * The object reference returned from
-     * <code>Transferable.getTransferData</code> for a <code>DataFlavor</code>
-     * with this MIME Content-Type is required to be
-     * an instance of the representation Class of the <code>DataFlavor</code>.
+     * Tif objfdt rfffrfndf rfturnfd from
+     * <dodf>Trbnsffrbblf.gftTrbnsffrDbtb</dodf> for b <dodf>DbtbFlbvor</dodf>
+     * witi tiis MIME Contfnt-Typf is rfquirfd to bf
+     * bn instbndf of tif rfprfsfntbtion Clbss of tif <dodf>DbtbFlbvor</dodf>.
      */
-    public static final String javaJVMLocalObjectMimeType = "application/x-java-jvm-local-objectref";
+    publid stbtid finbl String jbvbJVMLodblObjfdtMimfTypf = "bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff";
 
     /**
-     * In order to pass a live link to a Remote object via a Drag and Drop
-     * <code>ACTION_LINK</code> operation a Mime Content Type of
-     * application/x-java-remote-object should be used,
-     * where the representation class of the <code>DataFlavor</code>
-     * represents the type of the <code>Remote</code> interface to be
-     * transferred.
+     * In ordfr to pbss b livf link to b Rfmotf objfdt vib b Drbg bnd Drop
+     * <dodf>ACTION_LINK</dodf> opfrbtion b Mimf Contfnt Typf of
+     * bpplidbtion/x-jbvb-rfmotf-objfdt siould bf usfd,
+     * wifrf tif rfprfsfntbtion dlbss of tif <dodf>DbtbFlbvor</dodf>
+     * rfprfsfnts tif typf of tif <dodf>Rfmotf</dodf> intfrfbdf to bf
+     * trbnsffrrfd.
      */
-    public static final String javaRemoteObjectMimeType = "application/x-java-remote-object";
+    publid stbtid finbl String jbvbRfmotfObjfdtMimfTypf = "bpplidbtion/x-jbvb-rfmotf-objfdt";
 
     /**
-     * Represents a piece of an HTML markup. The markup consists of the part
-     * selected on the source side. Therefore some tags in the markup may be
-     * unpaired. If the flavor is used to represent the data in
-     * a {@link Transferable} instance, no additional changes will be made.
-     * This DataFlavor instance represents the same HTML markup as DataFlavor
-     * instances which content MIME type does not contain document parameter
-     * and representation class is the String class.
-     * <pre>
-     *     representationClass = String
-     *     mimeType           = "text/html"
-     * </pre>
+     * Rfprfsfnts b pifdf of bn HTML mbrkup. Tif mbrkup donsists of tif pbrt
+     * sflfdtfd on tif sourdf sidf. Tifrfforf somf tbgs in tif mbrkup mby bf
+     * unpbirfd. If tif flbvor is usfd to rfprfsfnt tif dbtb in
+     * b {@link Trbnsffrbblf} instbndf, no bdditionbl dibngfs will bf mbdf.
+     * Tiis DbtbFlbvor instbndf rfprfsfnts tif sbmf HTML mbrkup bs DbtbFlbvor
+     * instbndfs wiidi dontfnt MIME typf dofs not dontbin dodumfnt pbrbmftfr
+     * bnd rfprfsfntbtion dlbss is tif String dlbss.
+     * <prf>
+     *     rfprfsfntbtionClbss = String
+     *     mimfTypf           = "tfxt/itml"
+     * </prf>
      */
-    public static DataFlavor selectionHtmlFlavor = initHtmlDataFlavor("selection");
+    publid stbtid DbtbFlbvor sflfdtionHtmlFlbvor = initHtmlDbtbFlbvor("sflfdtion");
 
     /**
-     * Represents a piece of an HTML markup. If possible, the markup received
-     * from a native system is supplemented with pair tags to be
-     * a well-formed HTML markup. If the flavor is used to represent the data in
-     * a {@link Transferable} instance, no additional changes will be made.
-     * <pre>
-     *     representationClass = String
-     *     mimeType           = "text/html"
-     * </pre>
+     * Rfprfsfnts b pifdf of bn HTML mbrkup. If possiblf, tif mbrkup rfdfivfd
+     * from b nbtivf systfm is supplfmfntfd witi pbir tbgs to bf
+     * b wfll-formfd HTML mbrkup. If tif flbvor is usfd to rfprfsfnt tif dbtb in
+     * b {@link Trbnsffrbblf} instbndf, no bdditionbl dibngfs will bf mbdf.
+     * <prf>
+     *     rfprfsfntbtionClbss = String
+     *     mimfTypf           = "tfxt/itml"
+     * </prf>
      */
-    public static DataFlavor fragmentHtmlFlavor = initHtmlDataFlavor("fragment");
+    publid stbtid DbtbFlbvor frbgmfntHtmlFlbvor = initHtmlDbtbFlbvor("frbgmfnt");
 
     /**
-     * Represents a piece of an HTML markup. If possible, the markup
-     * received from a native system is supplemented with additional
-     * tags to make up a well-formed HTML document. If the flavor is used to
-     * represent the data in a {@link Transferable} instance,
-     * no additional changes will be made.
-     * <pre>
-     *     representationClass = String
-     *     mimeType           = "text/html"
-     * </pre>
+     * Rfprfsfnts b pifdf of bn HTML mbrkup. If possiblf, tif mbrkup
+     * rfdfivfd from b nbtivf systfm is supplfmfntfd witi bdditionbl
+     * tbgs to mbkf up b wfll-formfd HTML dodumfnt. If tif flbvor is usfd to
+     * rfprfsfnt tif dbtb in b {@link Trbnsffrbblf} instbndf,
+     * no bdditionbl dibngfs will bf mbdf.
+     * <prf>
+     *     rfprfsfntbtionClbss = String
+     *     mimfTypf           = "tfxt/itml"
+     * </prf>
      */
-    public static  DataFlavor allHtmlFlavor = initHtmlDataFlavor("all");
+    publid stbtid  DbtbFlbvor bllHtmlFlbvor = initHtmlDbtbFlbvor("bll");
 
     /**
-     * Constructs a new <code>DataFlavor</code>.  This constructor is
-     * provided only for the purpose of supporting the
-     * <code>Externalizable</code> interface.  It is not
-     * intended for public (client) use.
+     * Construdts b nfw <dodf>DbtbFlbvor</dodf>.  Tiis donstrudtor is
+     * providfd only for tif purposf of supporting tif
+     * <dodf>Extfrnblizbblf</dodf> intfrfbdf.  It is not
+     * intfndfd for publid (dlifnt) usf.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public DataFlavor() {
-        super();
+    publid DbtbFlbvor() {
+        supfr();
     }
 
     /**
-     * Constructs a fully specified <code>DataFlavor</code>.
+     * Construdts b fully spfdififd <dodf>DbtbFlbvor</dodf>.
      *
-     * @exception NullPointerException if either <code>primaryType</code>,
-     *            <code>subType</code> or <code>representationClass</code> is null
+     * @fxdfption NullPointfrExdfption if fitifr <dodf>primbryTypf</dodf>,
+     *            <dodf>subTypf</dodf> or <dodf>rfprfsfntbtionClbss</dodf> is null
      */
-    private DataFlavor(String primaryType, String subType, MimeTypeParameterList params, Class<?> representationClass, String humanPresentableName) {
-        super();
-        if (primaryType == null) {
-            throw new NullPointerException("primaryType");
+    privbtf DbtbFlbvor(String primbryTypf, String subTypf, MimfTypfPbrbmftfrList pbrbms, Clbss<?> rfprfsfntbtionClbss, String iumbnPrfsfntbblfNbmf) {
+        supfr();
+        if (primbryTypf == null) {
+            tirow nfw NullPointfrExdfption("primbryTypf");
         }
-        if (subType == null) {
-            throw new NullPointerException("subType");
+        if (subTypf == null) {
+            tirow nfw NullPointfrExdfption("subTypf");
         }
-        if (representationClass == null) {
-            throw new NullPointerException("representationClass");
+        if (rfprfsfntbtionClbss == null) {
+            tirow nfw NullPointfrExdfption("rfprfsfntbtionClbss");
         }
 
-        if (params == null) params = new MimeTypeParameterList();
+        if (pbrbms == null) pbrbms = nfw MimfTypfPbrbmftfrList();
 
-        params.set("class", representationClass.getName());
+        pbrbms.sft("dlbss", rfprfsfntbtionClbss.gftNbmf());
 
-        if (humanPresentableName == null) {
-            humanPresentableName = params.get("humanPresentableName");
+        if (iumbnPrfsfntbblfNbmf == null) {
+            iumbnPrfsfntbblfNbmf = pbrbms.gft("iumbnPrfsfntbblfNbmf");
 
-            if (humanPresentableName == null)
-                humanPresentableName = primaryType + "/" + subType;
+            if (iumbnPrfsfntbblfNbmf == null)
+                iumbnPrfsfntbblfNbmf = primbryTypf + "/" + subTypf;
         }
 
         try {
-            mimeType = new MimeType(primaryType, subType, params);
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("MimeType Parse Exception: " + mtpe.getMessage());
+            mimfTypf = nfw MimfTypf(primbryTypf, subTypf, pbrbms);
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            tirow nfw IllfgblArgumfntExdfption("MimfTypf Pbrsf Exdfption: " + mtpf.gftMfssbgf());
         }
 
-        this.representationClass  = representationClass;
-        this.humanPresentableName = humanPresentableName;
+        tiis.rfprfsfntbtionClbss  = rfprfsfntbtionClbss;
+        tiis.iumbnPrfsfntbblfNbmf = iumbnPrfsfntbblfNbmf;
 
-        mimeType.removeParameter("humanPresentableName");
+        mimfTypf.rfmovfPbrbmftfr("iumbnPrfsfntbblfNbmf");
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> that represents a Java class.
+     * Construdts b <dodf>DbtbFlbvor</dodf> tibt rfprfsfnts b Jbvb dlbss.
      * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
-     * <pre>
-     *    representationClass = representationClass
-     *    mimeType            = application/x-java-serialized-object
-     * </pre>
-     * @param representationClass the class used to transfer data in this flavor
-     * @param humanPresentableName the human-readable string used to identify
-     *                 this flavor; if this parameter is <code>null</code>
-     *                 then the value of the the MIME Content Type is used
-     * @exception NullPointerException if <code>representationClass</code> is null
+     * Tif rfturnfd <dodf>DbtbFlbvor</dodf> will ibvf tif following
+     * dibrbdtfristids:
+     * <prf>
+     *    rfprfsfntbtionClbss = rfprfsfntbtionClbss
+     *    mimfTypf            = bpplidbtion/x-jbvb-sfriblizfd-objfdt
+     * </prf>
+     * @pbrbm rfprfsfntbtionClbss tif dlbss usfd to trbnsffr dbtb in tiis flbvor
+     * @pbrbm iumbnPrfsfntbblfNbmf tif iumbn-rfbdbblf string usfd to idfntify
+     *                 tiis flbvor; if tiis pbrbmftfr is <dodf>null</dodf>
+     *                 tifn tif vbluf of tif tif MIME Contfnt Typf is usfd
+     * @fxdfption NullPointfrExdfption if <dodf>rfprfsfntbtionClbss</dodf> is null
      */
-    public DataFlavor(Class<?> representationClass, String humanPresentableName) {
-        this("application", "x-java-serialized-object", null, representationClass, humanPresentableName);
-        if (representationClass == null) {
-            throw new NullPointerException("representationClass");
-        }
-    }
-
-    /**
-     * Constructs a <code>DataFlavor</code> that represents a
-     * <code>MimeType</code>.
-     * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
-     * <p>
-     * If the <code>mimeType</code> is
-     * "application/x-java-serialized-object; class=&lt;representation class&gt;",
-     * the result is the same as calling
-     * <code>new DataFlavor(Class.forName(&lt;representation class&gt;)</code>.
-     * <p>
-     * Otherwise:
-     * <pre>
-     *     representationClass = InputStream
-     *     mimeType            = mimeType
-     * </pre>
-     * @param mimeType the string used to identify the MIME type for this flavor;
-     *                 if the <code>mimeType</code> does not specify a
-     *                 "class=" parameter, or if the class is not successfully
-     *                 loaded, then an <code>IllegalArgumentException</code>
-     *                 is thrown
-     * @param humanPresentableName the human-readable string used to identify
-     *                 this flavor; if this parameter is <code>null</code>
-     *                 then the value of the the MIME Content Type is used
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid or if the class is not successfully loaded
-     * @exception NullPointerException if <code>mimeType</code> is null
-     */
-    public DataFlavor(String mimeType, String humanPresentableName) {
-        super();
-        if (mimeType == null) {
-            throw new NullPointerException("mimeType");
-        }
-        try {
-            initialize(mimeType, humanPresentableName, this.getClass().getClassLoader());
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
-        } catch (ClassNotFoundException cnfe) {
-            throw new IllegalArgumentException("can't find specified class: " + cnfe.getMessage());
+    publid DbtbFlbvor(Clbss<?> rfprfsfntbtionClbss, String iumbnPrfsfntbblfNbmf) {
+        tiis("bpplidbtion", "x-jbvb-sfriblizfd-objfdt", null, rfprfsfntbtionClbss, iumbnPrfsfntbblfNbmf);
+        if (rfprfsfntbtionClbss == null) {
+            tirow nfw NullPointfrExdfption("rfprfsfntbtionClbss");
         }
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> that represents a
-     * <code>MimeType</code>.
+     * Construdts b <dodf>DbtbFlbvor</dodf> tibt rfprfsfnts b
+     * <dodf>MimfTypf</dodf>.
      * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
+     * Tif rfturnfd <dodf>DbtbFlbvor</dodf> will ibvf tif following
+     * dibrbdtfristids:
      * <p>
-     * If the mimeType is
-     * "application/x-java-serialized-object; class=&lt;representation class&gt;",
-     * the result is the same as calling
-     * <code>new DataFlavor(Class.forName(&lt;representation class&gt;)</code>.
+     * If tif <dodf>mimfTypf</dodf> is
+     * "bpplidbtion/x-jbvb-sfriblizfd-objfdt; dlbss=&lt;rfprfsfntbtion dlbss&gt;",
+     * tif rfsult is tif sbmf bs dblling
+     * <dodf>nfw DbtbFlbvor(Clbss.forNbmf(&lt;rfprfsfntbtion dlbss&gt;)</dodf>.
      * <p>
-     * Otherwise:
-     * <pre>
-     *     representationClass = InputStream
-     *     mimeType            = mimeType
-     * </pre>
-     * @param mimeType the string used to identify the MIME type for this flavor
-     * @param humanPresentableName the human-readable string used to
-     *          identify this flavor
-     * @param classLoader the class loader to use
-     * @exception ClassNotFoundException if the class is not loaded
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid
-     * @exception NullPointerException if <code>mimeType</code> is null
+     * Otifrwisf:
+     * <prf>
+     *     rfprfsfntbtionClbss = InputStrfbm
+     *     mimfTypf            = mimfTypf
+     * </prf>
+     * @pbrbm mimfTypf tif string usfd to idfntify tif MIME typf for tiis flbvor;
+     *                 if tif <dodf>mimfTypf</dodf> dofs not spfdify b
+     *                 "dlbss=" pbrbmftfr, or if tif dlbss is not suddfssfully
+     *                 lobdfd, tifn bn <dodf>IllfgblArgumfntExdfption</dodf>
+     *                 is tirown
+     * @pbrbm iumbnPrfsfntbblfNbmf tif iumbn-rfbdbblf string usfd to idfntify
+     *                 tiis flbvor; if tiis pbrbmftfr is <dodf>null</dodf>
+     *                 tifn tif vbluf of tif tif MIME Contfnt Typf is usfd
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mimfTypf</dodf> is
+     *                 invblid or if tif dlbss is not suddfssfully lobdfd
+     * @fxdfption NullPointfrExdfption if <dodf>mimfTypf</dodf> is null
      */
-    public DataFlavor(String mimeType, String humanPresentableName, ClassLoader classLoader) throws ClassNotFoundException {
-        super();
-        if (mimeType == null) {
-            throw new NullPointerException("mimeType");
+    publid DbtbFlbvor(String mimfTypf, String iumbnPrfsfntbblfNbmf) {
+        supfr();
+        if (mimfTypf == null) {
+            tirow nfw NullPointfrExdfption("mimfTypf");
         }
         try {
-            initialize(mimeType, humanPresentableName, classLoader);
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
+            initiblizf(mimfTypf, iumbnPrfsfntbblfNbmf, tiis.gftClbss().gftClbssLobdfr());
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            tirow nfw IllfgblArgumfntExdfption("fbilfd to pbrsf:" + mimfTypf);
+        } dbtdi (ClbssNotFoundExdfption dnff) {
+            tirow nfw IllfgblArgumfntExdfption("dbn't find spfdififd dlbss: " + dnff.gftMfssbgf());
         }
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> from a <code>mimeType</code> string.
-     * The string can specify a "class=&lt;fully specified Java class name&gt;"
-     * parameter to create a <code>DataFlavor</code> with the desired
-     * representation class. If the string does not contain "class=" parameter,
-     * <code>java.io.InputStream</code> is used as default.
-     *
-     * @param mimeType the string used to identify the MIME type for this flavor;
-     *                 if the class specified by "class=" parameter is not
-     *                 successfully loaded, then an
-     *                 <code>ClassNotFoundException</code> is thrown
-     * @exception ClassNotFoundException if the class is not loaded
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid
-     * @exception NullPointerException if <code>mimeType</code> is null
+     * Construdts b <dodf>DbtbFlbvor</dodf> tibt rfprfsfnts b
+     * <dodf>MimfTypf</dodf>.
+     * <p>
+     * Tif rfturnfd <dodf>DbtbFlbvor</dodf> will ibvf tif following
+     * dibrbdtfristids:
+     * <p>
+     * If tif mimfTypf is
+     * "bpplidbtion/x-jbvb-sfriblizfd-objfdt; dlbss=&lt;rfprfsfntbtion dlbss&gt;",
+     * tif rfsult is tif sbmf bs dblling
+     * <dodf>nfw DbtbFlbvor(Clbss.forNbmf(&lt;rfprfsfntbtion dlbss&gt;)</dodf>.
+     * <p>
+     * Otifrwisf:
+     * <prf>
+     *     rfprfsfntbtionClbss = InputStrfbm
+     *     mimfTypf            = mimfTypf
+     * </prf>
+     * @pbrbm mimfTypf tif string usfd to idfntify tif MIME typf for tiis flbvor
+     * @pbrbm iumbnPrfsfntbblfNbmf tif iumbn-rfbdbblf string usfd to
+     *          idfntify tiis flbvor
+     * @pbrbm dlbssLobdfr tif dlbss lobdfr to usf
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss is not lobdfd
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mimfTypf</dodf> is
+     *                 invblid
+     * @fxdfption NullPointfrExdfption if <dodf>mimfTypf</dodf> is null
      */
-    public DataFlavor(String mimeType) throws ClassNotFoundException {
-        super();
-        if (mimeType == null) {
-            throw new NullPointerException("mimeType");
+    publid DbtbFlbvor(String mimfTypf, String iumbnPrfsfntbblfNbmf, ClbssLobdfr dlbssLobdfr) tirows ClbssNotFoundExdfption {
+        supfr();
+        if (mimfTypf == null) {
+            tirow nfw NullPointfrExdfption("mimfTypf");
         }
         try {
-            initialize(mimeType, null, this.getClass().getClassLoader());
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
+            initiblizf(mimfTypf, iumbnPrfsfntbblfNbmf, dlbssLobdfr);
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            tirow nfw IllfgblArgumfntExdfption("fbilfd to pbrsf:" + mimfTypf);
+        }
+    }
+
+    /**
+     * Construdts b <dodf>DbtbFlbvor</dodf> from b <dodf>mimfTypf</dodf> string.
+     * Tif string dbn spfdify b "dlbss=&lt;fully spfdififd Jbvb dlbss nbmf&gt;"
+     * pbrbmftfr to drfbtf b <dodf>DbtbFlbvor</dodf> witi tif dfsirfd
+     * rfprfsfntbtion dlbss. If tif string dofs not dontbin "dlbss=" pbrbmftfr,
+     * <dodf>jbvb.io.InputStrfbm</dodf> is usfd bs dffbult.
+     *
+     * @pbrbm mimfTypf tif string usfd to idfntify tif MIME typf for tiis flbvor;
+     *                 if tif dlbss spfdififd by "dlbss=" pbrbmftfr is not
+     *                 suddfssfully lobdfd, tifn bn
+     *                 <dodf>ClbssNotFoundExdfption</dodf> is tirown
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss is not lobdfd
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mimfTypf</dodf> is
+     *                 invblid
+     * @fxdfption NullPointfrExdfption if <dodf>mimfTypf</dodf> is null
+     */
+    publid DbtbFlbvor(String mimfTypf) tirows ClbssNotFoundExdfption {
+        supfr();
+        if (mimfTypf == null) {
+            tirow nfw NullPointfrExdfption("mimfTypf");
+        }
+        try {
+            initiblizf(mimfTypf, null, tiis.gftClbss().gftClbssLobdfr());
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            tirow nfw IllfgblArgumfntExdfption("fbilfd to pbrsf:" + mimfTypf);
         }
     }
 
    /**
-    * Common initialization code called from various constructors.
+    * Common initiblizbtion dodf dbllfd from vbrious donstrudtors.
     *
-    * @param mimeType the MIME Content Type (must have a class= param)
-    * @param humanPresentableName the human Presentable Name or
-    *                 <code>null</code>
-    * @param classLoader the fallback class loader to resolve against
+    * @pbrbm mimfTypf tif MIME Contfnt Typf (must ibvf b dlbss= pbrbm)
+    * @pbrbm iumbnPrfsfntbblfNbmf tif iumbn Prfsfntbblf Nbmf or
+    *                 <dodf>null</dodf>
+    * @pbrbm dlbssLobdfr tif fbllbbdk dlbss lobdfr to rfsolvf bgbinst
     *
-    * @throws MimeTypeParseException
-    * @throws ClassNotFoundException
-    * @throws  NullPointerException if <code>mimeType</code> is null
+    * @tirows MimfTypfPbrsfExdfption
+    * @tirows ClbssNotFoundExdfption
+    * @tirows  NullPointfrExdfption if <dodf>mimfTypf</dodf> is null
     *
-    * @see #tryToLoadClass
+    * @sff #tryToLobdClbss
     */
-    private void initialize(String mimeType, String humanPresentableName, ClassLoader classLoader) throws MimeTypeParseException, ClassNotFoundException {
-        if (mimeType == null) {
-            throw new NullPointerException("mimeType");
+    privbtf void initiblizf(String mimfTypf, String iumbnPrfsfntbblfNbmf, ClbssLobdfr dlbssLobdfr) tirows MimfTypfPbrsfExdfption, ClbssNotFoundExdfption {
+        if (mimfTypf == null) {
+            tirow nfw NullPointfrExdfption("mimfTypf");
         }
 
-        this.mimeType = new MimeType(mimeType); // throws
+        tiis.mimfTypf = nfw MimfTypf(mimfTypf); // tirows
 
-        String rcn = getParameter("class");
+        String rdn = gftPbrbmftfr("dlbss");
 
-        if (rcn == null) {
-            if ("application/x-java-serialized-object".equals(this.mimeType.getBaseType()))
+        if (rdn == null) {
+            if ("bpplidbtion/x-jbvb-sfriblizfd-objfdt".fqubls(tiis.mimfTypf.gftBbsfTypf()))
 
-                throw new IllegalArgumentException("no representation class specified for:" + mimeType);
-            else
-                representationClass = java.io.InputStream.class; // default
-        } else { // got a class name
-            representationClass = DataFlavor.tryToLoadClass(rcn, classLoader);
+                tirow nfw IllfgblArgumfntExdfption("no rfprfsfntbtion dlbss spfdififd for:" + mimfTypf);
+            flsf
+                rfprfsfntbtionClbss = jbvb.io.InputStrfbm.dlbss; // dffbult
+        } flsf { // got b dlbss nbmf
+            rfprfsfntbtionClbss = DbtbFlbvor.tryToLobdClbss(rdn, dlbssLobdfr);
         }
 
-        this.mimeType.setParameter("class", representationClass.getName());
+        tiis.mimfTypf.sftPbrbmftfr("dlbss", rfprfsfntbtionClbss.gftNbmf());
 
-        if (humanPresentableName == null) {
-            humanPresentableName = this.mimeType.getParameter("humanPresentableName");
-            if (humanPresentableName == null)
-                humanPresentableName = this.mimeType.getPrimaryType() + "/" + this.mimeType.getSubType();
+        if (iumbnPrfsfntbblfNbmf == null) {
+            iumbnPrfsfntbblfNbmf = tiis.mimfTypf.gftPbrbmftfr("iumbnPrfsfntbblfNbmf");
+            if (iumbnPrfsfntbblfNbmf == null)
+                iumbnPrfsfntbblfNbmf = tiis.mimfTypf.gftPrimbryTypf() + "/" + tiis.mimfTypf.gftSubTypf();
         }
 
-        this.humanPresentableName = humanPresentableName; // set it.
+        tiis.iumbnPrfsfntbblfNbmf = iumbnPrfsfntbblfNbmf; // sft it.
 
-        this.mimeType.removeParameter("humanPresentableName"); // just in case
+        tiis.mimfTypf.rfmovfPbrbmftfr("iumbnPrfsfntbblfNbmf"); // just in dbsf
     }
 
     /**
-     * String representation of this <code>DataFlavor</code> and its
-     * parameters. The resulting <code>String</code> contains the name of
-     * the <code>DataFlavor</code> class, this flavor's MIME type, and its
-     * representation class. If this flavor has a primary MIME type of "text",
-     * supports the charset parameter, and has an encoded representation, the
-     * flavor's charset is also included. See <code>selectBestTextFlavor</code>
-     * for a list of text flavors which support the charset parameter.
+     * String rfprfsfntbtion of tiis <dodf>DbtbFlbvor</dodf> bnd its
+     * pbrbmftfrs. Tif rfsulting <dodf>String</dodf> dontbins tif nbmf of
+     * tif <dodf>DbtbFlbvor</dodf> dlbss, tiis flbvor's MIME typf, bnd its
+     * rfprfsfntbtion dlbss. If tiis flbvor ibs b primbry MIME typf of "tfxt",
+     * supports tif dibrsft pbrbmftfr, bnd ibs bn fndodfd rfprfsfntbtion, tif
+     * flbvor's dibrsft is blso indludfd. Sff <dodf>sflfdtBfstTfxtFlbvor</dodf>
+     * for b list of tfxt flbvors wiidi support tif dibrsft pbrbmftfr.
      *
-     * @return  string representation of this <code>DataFlavor</code>
-     * @see #selectBestTextFlavor
+     * @rfturn  string rfprfsfntbtion of tiis <dodf>DbtbFlbvor</dodf>
+     * @sff #sflfdtBfstTfxtFlbvor
      */
-    public String toString() {
-        String string = getClass().getName();
-        string += "["+paramString()+"]";
-        return string;
+    publid String toString() {
+        String string = gftClbss().gftNbmf();
+        string += "["+pbrbmString()+"]";
+        rfturn string;
     }
 
-    private String paramString() {
-        String params = "";
-        params += "mimetype=";
-        if (mimeType == null) {
-            params += "null";
-        } else {
-            params += mimeType.getBaseType();
+    privbtf String pbrbmString() {
+        String pbrbms = "";
+        pbrbms += "mimftypf=";
+        if (mimfTypf == null) {
+            pbrbms += "null";
+        } flsf {
+            pbrbms += mimfTypf.gftBbsfTypf();
         }
-        params += ";representationclass=";
-        if (representationClass == null) {
-           params += "null";
-        } else {
-           params += representationClass.getName();
+        pbrbms += ";rfprfsfntbtiondlbss=";
+        if (rfprfsfntbtionClbss == null) {
+           pbrbms += "null";
+        } flsf {
+           pbrbms += rfprfsfntbtionClbss.gftNbmf();
         }
-        if (DataTransferer.isFlavorCharsetTextType(this) &&
-            (isRepresentationClassInputStream() ||
-             isRepresentationClassByteBuffer() ||
-             byte[].class.equals(representationClass)))
+        if (DbtbTrbnsffrfr.isFlbvorCibrsftTfxtTypf(tiis) &&
+            (isRfprfsfntbtionClbssInputStrfbm() ||
+             isRfprfsfntbtionClbssBytfBufffr() ||
+             bytf[].dlbss.fqubls(rfprfsfntbtionClbss)))
         {
-            params += ";charset=" + DataTransferer.getTextCharset(this);
+            pbrbms += ";dibrsft=" + DbtbTrbnsffrfr.gftTfxtCibrsft(tiis);
         }
-        return params;
+        rfturn pbrbms;
     }
 
     /**
-     * Returns a <code>DataFlavor</code> representing plain text with Unicode
-     * encoding, where:
-     * <pre>
-     *     representationClass = java.io.InputStream
-     *     mimeType            = "text/plain;
-     *                            charset=&lt;platform default Unicode encoding&gt;"
-     * </pre>
-     * Sun's implementation for Microsoft Windows uses the encoding <code>utf-16le</code>.
-     * Sun's implementation for Solaris and Linux uses the encoding
-     * <code>iso-10646-ucs-2</code>.
+     * Rfturns b <dodf>DbtbFlbvor</dodf> rfprfsfnting plbin tfxt witi Unidodf
+     * fndoding, wifrf:
+     * <prf>
+     *     rfprfsfntbtionClbss = jbvb.io.InputStrfbm
+     *     mimfTypf            = "tfxt/plbin;
+     *                            dibrsft=&lt;plbtform dffbult Unidodf fndoding&gt;"
+     * </prf>
+     * Sun's implfmfntbtion for Midrosoft Windows usfs tif fndoding <dodf>utf-16lf</dodf>.
+     * Sun's implfmfntbtion for Solbris bnd Linux usfs tif fndoding
+     * <dodf>iso-10646-uds-2</dodf>.
      *
-     * @return a <code>DataFlavor</code> representing plain text
-     *    with Unicode encoding
-     * @since 1.3
+     * @rfturn b <dodf>DbtbFlbvor</dodf> rfprfsfnting plbin tfxt
+     *    witi Unidodf fndoding
+     * @sindf 1.3
      */
-    public static final DataFlavor getTextPlainUnicodeFlavor() {
-        String encoding = null;
-        DataTransferer transferer = DataTransferer.getInstance();
-        if (transferer != null) {
-            encoding = transferer.getDefaultUnicodeEncoding();
+    publid stbtid finbl DbtbFlbvor gftTfxtPlbinUnidodfFlbvor() {
+        String fndoding = null;
+        DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+        if (trbnsffrfr != null) {
+            fndoding = trbnsffrfr.gftDffbultUnidodfEndoding();
         }
-        return new DataFlavor(
-            "text/plain;charset="+encoding
-            +";class=java.io.InputStream", "Plain Text");
+        rfturn nfw DbtbFlbvor(
+            "tfxt/plbin;dibrsft="+fndoding
+            +";dlbss=jbvb.io.InputStrfbm", "Plbin Tfxt");
     }
 
     /**
-     * Selects the best text <code>DataFlavor</code> from an array of <code>
-     * DataFlavor</code>s. Only <code>DataFlavor.stringFlavor</code>, and
-     * equivalent flavors, and flavors that have a primary MIME type of "text",
-     * are considered for selection.
+     * Sflfdts tif bfst tfxt <dodf>DbtbFlbvor</dodf> from bn brrby of <dodf>
+     * DbtbFlbvor</dodf>s. Only <dodf>DbtbFlbvor.stringFlbvor</dodf>, bnd
+     * fquivblfnt flbvors, bnd flbvors tibt ibvf b primbry MIME typf of "tfxt",
+     * brf donsidfrfd for sflfdtion.
      * <p>
-     * Flavors are first sorted by their MIME types in the following order:
+     * Flbvors brf first sortfd by tifir MIME typfs in tif following ordfr:
      * <ul>
-     * <li>"text/sgml"
-     * <li>"text/xml"
-     * <li>"text/html"
-     * <li>"text/rtf"
-     * <li>"text/enriched"
-     * <li>"text/richtext"
-     * <li>"text/uri-list"
-     * <li>"text/tab-separated-values"
-     * <li>"text/t140"
-     * <li>"text/rfc822-headers"
-     * <li>"text/parityfec"
-     * <li>"text/directory"
-     * <li>"text/css"
-     * <li>"text/calendar"
-     * <li>"application/x-java-serialized-object"
-     * <li>"text/plain"
-     * <li>"text/&lt;other&gt;"
+     * <li>"tfxt/sgml"
+     * <li>"tfxt/xml"
+     * <li>"tfxt/itml"
+     * <li>"tfxt/rtf"
+     * <li>"tfxt/fnridifd"
+     * <li>"tfxt/riditfxt"
+     * <li>"tfxt/uri-list"
+     * <li>"tfxt/tbb-sfpbrbtfd-vblufs"
+     * <li>"tfxt/t140"
+     * <li>"tfxt/rfd822-ifbdfrs"
+     * <li>"tfxt/pbrityffd"
+     * <li>"tfxt/dirfdtory"
+     * <li>"tfxt/dss"
+     * <li>"tfxt/dblfndbr"
+     * <li>"bpplidbtion/x-jbvb-sfriblizfd-objfdt"
+     * <li>"tfxt/plbin"
+     * <li>"tfxt/&lt;otifr&gt;"
      * </ul>
-     * <p>For example, "text/sgml" will be selected over
-     * "text/html", and <code>DataFlavor.stringFlavor</code> will be chosen
-     * over <code>DataFlavor.plainTextFlavor</code>.
+     * <p>For fxbmplf, "tfxt/sgml" will bf sflfdtfd ovfr
+     * "tfxt/itml", bnd <dodf>DbtbFlbvor.stringFlbvor</dodf> will bf diosfn
+     * ovfr <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>.
      * <p>
-     * If two or more flavors share the best MIME type in the array, then that
-     * MIME type will be checked to see if it supports the charset parameter.
+     * If two or morf flbvors sibrf tif bfst MIME typf in tif brrby, tifn tibt
+     * MIME typf will bf difdkfd to sff if it supports tif dibrsft pbrbmftfr.
      * <p>
-     * The following MIME types support, or are treated as though they support,
-     * the charset parameter:
+     * Tif following MIME typfs support, or brf trfbtfd bs tiougi tify support,
+     * tif dibrsft pbrbmftfr:
      * <ul>
-     * <li>"text/sgml"
-     * <li>"text/xml"
-     * <li>"text/html"
-     * <li>"text/enriched"
-     * <li>"text/richtext"
-     * <li>"text/uri-list"
-     * <li>"text/directory"
-     * <li>"text/css"
-     * <li>"text/calendar"
-     * <li>"application/x-java-serialized-object"
-     * <li>"text/plain"
+     * <li>"tfxt/sgml"
+     * <li>"tfxt/xml"
+     * <li>"tfxt/itml"
+     * <li>"tfxt/fnridifd"
+     * <li>"tfxt/riditfxt"
+     * <li>"tfxt/uri-list"
+     * <li>"tfxt/dirfdtory"
+     * <li>"tfxt/dss"
+     * <li>"tfxt/dblfndbr"
+     * <li>"bpplidbtion/x-jbvb-sfriblizfd-objfdt"
+     * <li>"tfxt/plbin"
      * </ul>
-     * The following MIME types do not support, or are treated as though they
-     * do not support, the charset parameter:
+     * Tif following MIME typfs do not support, or brf trfbtfd bs tiougi tify
+     * do not support, tif dibrsft pbrbmftfr:
      * <ul>
-     * <li>"text/rtf"
-     * <li>"text/tab-separated-values"
-     * <li>"text/t140"
-     * <li>"text/rfc822-headers"
-     * <li>"text/parityfec"
+     * <li>"tfxt/rtf"
+     * <li>"tfxt/tbb-sfpbrbtfd-vblufs"
+     * <li>"tfxt/t140"
+     * <li>"tfxt/rfd822-ifbdfrs"
+     * <li>"tfxt/pbrityffd"
      * </ul>
-     * For "text/&lt;other&gt;" MIME types, the first time the JRE needs to
-     * determine whether the MIME type supports the charset parameter, it will
-     * check whether the parameter is explicitly listed in an arbitrarily
-     * chosen <code>DataFlavor</code> which uses that MIME type. If so, the JRE
-     * will assume from that point on that the MIME type supports the charset
-     * parameter and will not check again. If the parameter is not explicitly
-     * listed, the JRE will assume from that point on that the MIME type does
-     * not support the charset parameter and will not check again. Because
-     * this check is performed on an arbitrarily chosen
-     * <code>DataFlavor</code>, developers must ensure that all
-     * <code>DataFlavor</code>s with a "text/&lt;other&gt;" MIME type specify
-     * the charset parameter if it is supported by that MIME type. Developers
-     * should never rely on the JRE to substitute the platform's default
-     * charset for a "text/&lt;other&gt;" DataFlavor. Failure to adhere to this
-     * restriction will lead to undefined behavior.
+     * For "tfxt/&lt;otifr&gt;" MIME typfs, tif first timf tif JRE nffds to
+     * dftfrminf wiftifr tif MIME typf supports tif dibrsft pbrbmftfr, it will
+     * difdk wiftifr tif pbrbmftfr is fxpliditly listfd in bn brbitrbrily
+     * diosfn <dodf>DbtbFlbvor</dodf> wiidi usfs tibt MIME typf. If so, tif JRE
+     * will bssumf from tibt point on tibt tif MIME typf supports tif dibrsft
+     * pbrbmftfr bnd will not difdk bgbin. If tif pbrbmftfr is not fxpliditly
+     * listfd, tif JRE will bssumf from tibt point on tibt tif MIME typf dofs
+     * not support tif dibrsft pbrbmftfr bnd will not difdk bgbin. Bfdbusf
+     * tiis difdk is pfrformfd on bn brbitrbrily diosfn
+     * <dodf>DbtbFlbvor</dodf>, dfvflopfrs must fnsurf tibt bll
+     * <dodf>DbtbFlbvor</dodf>s witi b "tfxt/&lt;otifr&gt;" MIME typf spfdify
+     * tif dibrsft pbrbmftfr if it is supportfd by tibt MIME typf. Dfvflopfrs
+     * siould nfvfr rfly on tif JRE to substitutf tif plbtform's dffbult
+     * dibrsft for b "tfxt/&lt;otifr&gt;" DbtbFlbvor. Fbilurf to bdifrf to tiis
+     * rfstridtion will lfbd to undffinfd bfibvior.
      * <p>
-     * If the best MIME type in the array does not support the charset
-     * parameter, the flavors which share that MIME type will then be sorted by
-     * their representation classes in the following order:
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * <code>[B</code>, &lt;all others&gt;.
+     * If tif bfst MIME typf in tif brrby dofs not support tif dibrsft
+     * pbrbmftfr, tif flbvors wiidi sibrf tibt MIME typf will tifn bf sortfd by
+     * tifir rfprfsfntbtion dlbssfs in tif following ordfr:
+     * <dodf>jbvb.io.InputStrfbm</dodf>, <dodf>jbvb.nio.BytfBufffr</dodf>,
+     * <dodf>[B</dodf>, &lt;bll otifrs&gt;.
      * <p>
-     * If two or more flavors share the best representation class, or if no
-     * flavor has one of the three specified representations, then one of those
-     * flavors will be chosen non-deterministically.
+     * If two or morf flbvors sibrf tif bfst rfprfsfntbtion dlbss, or if no
+     * flbvor ibs onf of tif tirff spfdififd rfprfsfntbtions, tifn onf of tiosf
+     * flbvors will bf diosfn non-dftfrministidblly.
      * <p>
-     * If the best MIME type in the array does support the charset parameter,
-     * the flavors which share that MIME type will then be sorted by their
-     * representation classes in the following order:
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>, &lt;all others&gt;.
+     * If tif bfst MIME typf in tif brrby dofs support tif dibrsft pbrbmftfr,
+     * tif flbvors wiidi sibrf tibt MIME typf will tifn bf sortfd by tifir
+     * rfprfsfntbtion dlbssfs in tif following ordfr:
+     * <dodf>jbvb.io.Rfbdfr</dodf>, <dodf>jbvb.lbng.String</dodf>,
+     * <dodf>jbvb.nio.CibrBufffr</dodf>, <dodf>[C</dodf>, &lt;bll otifrs&gt;.
      * <p>
-     * If two or more flavors share the best representation class, and that
-     * representation is one of the four explicitly listed, then one of those
-     * flavors will be chosen non-deterministically. If, however, no flavor has
-     * one of the four specified representations, the flavors will then be
-     * sorted by their charsets. Unicode charsets, such as "UTF-16", "UTF-8",
-     * "UTF-16BE", "UTF-16LE", and their aliases, are considered best. After
-     * them, the platform default charset and its aliases are selected.
-     * "US-ASCII" and its aliases are worst. All other charsets are chosen in
-     * alphabetical order, but only charsets supported by this implementation
-     * of the Java platform will be considered.
+     * If two or morf flbvors sibrf tif bfst rfprfsfntbtion dlbss, bnd tibt
+     * rfprfsfntbtion is onf of tif four fxpliditly listfd, tifn onf of tiosf
+     * flbvors will bf diosfn non-dftfrministidblly. If, iowfvfr, no flbvor ibs
+     * onf of tif four spfdififd rfprfsfntbtions, tif flbvors will tifn bf
+     * sortfd by tifir dibrsfts. Unidodf dibrsfts, sudi bs "UTF-16", "UTF-8",
+     * "UTF-16BE", "UTF-16LE", bnd tifir blibsfs, brf donsidfrfd bfst. Aftfr
+     * tifm, tif plbtform dffbult dibrsft bnd its blibsfs brf sflfdtfd.
+     * "US-ASCII" bnd its blibsfs brf worst. All otifr dibrsfts brf diosfn in
+     * blpibbftidbl ordfr, but only dibrsfts supportfd by tiis implfmfntbtion
+     * of tif Jbvb plbtform will bf donsidfrfd.
      * <p>
-     * If two or more flavors share the best charset, the flavors will then
-     * again be sorted by their representation classes in the following order:
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * <code>[B</code>, &lt;all others&gt;.
+     * If two or morf flbvors sibrf tif bfst dibrsft, tif flbvors will tifn
+     * bgbin bf sortfd by tifir rfprfsfntbtion dlbssfs in tif following ordfr:
+     * <dodf>jbvb.io.InputStrfbm</dodf>, <dodf>jbvb.nio.BytfBufffr</dodf>,
+     * <dodf>[B</dodf>, &lt;bll otifrs&gt;.
      * <p>
-     * If two or more flavors share the best representation class, or if no
-     * flavor has one of the three specified representations, then one of those
-     * flavors will be chosen non-deterministically.
+     * If two or morf flbvors sibrf tif bfst rfprfsfntbtion dlbss, or if no
+     * flbvor ibs onf of tif tirff spfdififd rfprfsfntbtions, tifn onf of tiosf
+     * flbvors will bf diosfn non-dftfrministidblly.
      *
-     * @param availableFlavors an array of available <code>DataFlavor</code>s
-     * @return the best (highest fidelity) flavor according to the rules
-     *         specified above, or <code>null</code>,
-     *         if <code>availableFlavors</code> is <code>null</code>,
-     *         has zero length, or contains no text flavors
-     * @since 1.3
+     * @pbrbm bvbilbblfFlbvors bn brrby of bvbilbblf <dodf>DbtbFlbvor</dodf>s
+     * @rfturn tif bfst (iigifst fidflity) flbvor bddording to tif rulfs
+     *         spfdififd bbovf, or <dodf>null</dodf>,
+     *         if <dodf>bvbilbblfFlbvors</dodf> is <dodf>null</dodf>,
+     *         ibs zfro lfngti, or dontbins no tfxt flbvors
+     * @sindf 1.3
      */
-    public static final DataFlavor selectBestTextFlavor(
-                                       DataFlavor[] availableFlavors) {
-        if (availableFlavors == null || availableFlavors.length == 0) {
-            return null;
+    publid stbtid finbl DbtbFlbvor sflfdtBfstTfxtFlbvor(
+                                       DbtbFlbvor[] bvbilbblfFlbvors) {
+        if (bvbilbblfFlbvors == null || bvbilbblfFlbvors.lfngti == 0) {
+            rfturn null;
         }
 
-        if (textFlavorComparator == null) {
-            textFlavorComparator = new TextFlavorComparator();
+        if (tfxtFlbvorCompbrbtor == null) {
+            tfxtFlbvorCompbrbtor = nfw TfxtFlbvorCompbrbtor();
         }
 
-        DataFlavor bestFlavor = Collections.max(Arrays.asList(availableFlavors),
-                                                textFlavorComparator);
+        DbtbFlbvor bfstFlbvor = Collfdtions.mbx(Arrbys.bsList(bvbilbblfFlbvors),
+                                                tfxtFlbvorCompbrbtor);
 
-        if (!bestFlavor.isFlavorTextType()) {
-            return null;
+        if (!bfstFlbvor.isFlbvorTfxtTypf()) {
+            rfturn null;
         }
 
-        return bestFlavor;
+        rfturn bfstFlbvor;
     }
 
-    private static Comparator<DataFlavor> textFlavorComparator;
+    privbtf stbtid Compbrbtor<DbtbFlbvor> tfxtFlbvorCompbrbtor;
 
-    static class TextFlavorComparator
-            extends DataTransferer.DataFlavorComparator {
+    stbtid dlbss TfxtFlbvorCompbrbtor
+            fxtfnds DbtbTrbnsffrfr.DbtbFlbvorCompbrbtor {
 
         /**
-         * Compares two <code>DataFlavor</code> objects. Returns a negative
-         * integer, zero, or a positive integer as the first
-         * <code>DataFlavor</code> is worse than, equal to, or better than the
-         * second.
+         * Compbrfs two <dodf>DbtbFlbvor</dodf> objfdts. Rfturns b nfgbtivf
+         * intfgfr, zfro, or b positivf intfgfr bs tif first
+         * <dodf>DbtbFlbvor</dodf> is worsf tibn, fqubl to, or bfttfr tibn tif
+         * sfdond.
          * <p>
-         * <code>DataFlavor</code>s are ordered according to the rules outlined
-         * for <code>selectBestTextFlavor</code>.
+         * <dodf>DbtbFlbvor</dodf>s brf ordfrfd bddording to tif rulfs outlinfd
+         * for <dodf>sflfdtBfstTfxtFlbvor</dodf>.
          *
-         * @param flavor1 the first <code>DataFlavor</code> to be compared
-         * @param flavor2 the second <code>DataFlavor</code> to be compared
-         * @return a negative integer, zero, or a positive integer as the first
-         *         argument is worse, equal to, or better than the second
-         * @throws ClassCastException if either of the arguments is not an
-         *         instance of <code>DataFlavor</code>
-         * @throws NullPointerException if either of the arguments is
-         *         <code>null</code>
+         * @pbrbm flbvor1 tif first <dodf>DbtbFlbvor</dodf> to bf dompbrfd
+         * @pbrbm flbvor2 tif sfdond <dodf>DbtbFlbvor</dodf> to bf dompbrfd
+         * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tif first
+         *         brgumfnt is worsf, fqubl to, or bfttfr tibn tif sfdond
+         * @tirows ClbssCbstExdfption if fitifr of tif brgumfnts is not bn
+         *         instbndf of <dodf>DbtbFlbvor</dodf>
+         * @tirows NullPointfrExdfption if fitifr of tif brgumfnts is
+         *         <dodf>null</dodf>
          *
-         * @see #selectBestTextFlavor
+         * @sff #sflfdtBfstTfxtFlbvor
          */
-        public int compare(DataFlavor flavor1, DataFlavor flavor2) {
-            if (flavor1.isFlavorTextType()) {
-                if (flavor2.isFlavorTextType()) {
-                    return super.compare(flavor1, flavor2);
-                } else {
-                    return 1;
+        publid int dompbrf(DbtbFlbvor flbvor1, DbtbFlbvor flbvor2) {
+            if (flbvor1.isFlbvorTfxtTypf()) {
+                if (flbvor2.isFlbvorTfxtTypf()) {
+                    rfturn supfr.dompbrf(flbvor1, flbvor2);
+                } flsf {
+                    rfturn 1;
                 }
-            } else if (flavor2.isFlavorTextType()) {
-                return -1;
-            } else {
-                return 0;
+            } flsf if (flbvor2.isFlbvorTfxtTypf()) {
+                rfturn -1;
+            } flsf {
+                rfturn 0;
             }
         }
     }
 
     /**
-     * Gets a Reader for a text flavor, decoded, if necessary, for the expected
-     * charset (encoding). The supported representation classes are
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>,
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * and <code>[B</code>.
+     * Gfts b Rfbdfr for b tfxt flbvor, dfdodfd, if nfdfssbry, for tif fxpfdtfd
+     * dibrsft (fndoding). Tif supportfd rfprfsfntbtion dlbssfs brf
+     * <dodf>jbvb.io.Rfbdfr</dodf>, <dodf>jbvb.lbng.String</dodf>,
+     * <dodf>jbvb.nio.CibrBufffr</dodf>, <dodf>[C</dodf>,
+     * <dodf>jbvb.io.InputStrfbm</dodf>, <dodf>jbvb.nio.BytfBufffr</dodf>,
+     * bnd <dodf>[B</dodf>.
      * <p>
-     * Because text flavors which do not support the charset parameter are
-     * encoded in a non-standard format, this method should not be called for
-     * such flavors. However, in order to maintain backward-compatibility,
-     * if this method is called for such a flavor, this method will treat the
-     * flavor as though it supports the charset parameter and attempt to
-     * decode it accordingly. See <code>selectBestTextFlavor</code> for a list
-     * of text flavors which do not support the charset parameter.
+     * Bfdbusf tfxt flbvors wiidi do not support tif dibrsft pbrbmftfr brf
+     * fndodfd in b non-stbndbrd formbt, tiis mftiod siould not bf dbllfd for
+     * sudi flbvors. Howfvfr, in ordfr to mbintbin bbdkwbrd-dompbtibility,
+     * if tiis mftiod is dbllfd for sudi b flbvor, tiis mftiod will trfbt tif
+     * flbvor bs tiougi it supports tif dibrsft pbrbmftfr bnd bttfmpt to
+     * dfdodf it bddordingly. Sff <dodf>sflfdtBfstTfxtFlbvor</dodf> for b list
+     * of tfxt flbvors wiidi do not support tif dibrsft pbrbmftfr.
      *
-     * @param transferable the <code>Transferable</code> whose data will be
-     *        requested in this flavor
+     * @pbrbm trbnsffrbblf tif <dodf>Trbnsffrbblf</dodf> wiosf dbtb will bf
+     *        rfqufstfd in tiis flbvor
      *
-     * @return a <code>Reader</code> to read the <code>Transferable</code>'s
-     *         data
+     * @rfturn b <dodf>Rfbdfr</dodf> to rfbd tif <dodf>Trbnsffrbblf</dodf>'s
+     *         dbtb
      *
-     * @exception IllegalArgumentException if the representation class
-     *            is not one of the seven listed above
-     * @exception IllegalArgumentException if the <code>Transferable</code>
-     *            has <code>null</code> data
-     * @exception NullPointerException if the <code>Transferable</code> is
-     *            <code>null</code>
-     * @exception UnsupportedEncodingException if this flavor's representation
-     *            is <code>java.io.InputStream</code>,
-     *            <code>java.nio.ByteBuffer</code>, or <code>[B</code> and
-     *            this flavor's encoding is not supported by this
-     *            implementation of the Java platform
-     * @exception UnsupportedFlavorException if the <code>Transferable</code>
-     *            does not support this flavor
-     * @exception IOException if the data cannot be read because of an
-     *            I/O error
-     * @see #selectBestTextFlavor
-     * @since 1.3
+     * @fxdfption IllfgblArgumfntExdfption if tif rfprfsfntbtion dlbss
+     *            is not onf of tif sfvfn listfd bbovf
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Trbnsffrbblf</dodf>
+     *            ibs <dodf>null</dodf> dbtb
+     * @fxdfption NullPointfrExdfption if tif <dodf>Trbnsffrbblf</dodf> is
+     *            <dodf>null</dodf>
+     * @fxdfption UnsupportfdEndodingExdfption if tiis flbvor's rfprfsfntbtion
+     *            is <dodf>jbvb.io.InputStrfbm</dodf>,
+     *            <dodf>jbvb.nio.BytfBufffr</dodf>, or <dodf>[B</dodf> bnd
+     *            tiis flbvor's fndoding is not supportfd by tiis
+     *            implfmfntbtion of tif Jbvb plbtform
+     * @fxdfption UnsupportfdFlbvorExdfption if tif <dodf>Trbnsffrbblf</dodf>
+     *            dofs not support tiis flbvor
+     * @fxdfption IOExdfption if tif dbtb dbnnot bf rfbd bfdbusf of bn
+     *            I/O frror
+     * @sff #sflfdtBfstTfxtFlbvor
+     * @sindf 1.3
      */
-    public Reader getReaderForText(Transferable transferable)
-        throws UnsupportedFlavorException, IOException
+    publid Rfbdfr gftRfbdfrForTfxt(Trbnsffrbblf trbnsffrbblf)
+        tirows UnsupportfdFlbvorExdfption, IOExdfption
     {
-        Object transferObject = transferable.getTransferData(this);
-        if (transferObject == null) {
-            throw new IllegalArgumentException
-                ("getTransferData() returned null");
+        Objfdt trbnsffrObjfdt = trbnsffrbblf.gftTrbnsffrDbtb(tiis);
+        if (trbnsffrObjfdt == null) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("gftTrbnsffrDbtb() rfturnfd null");
         }
 
-        if (transferObject instanceof Reader) {
-            return (Reader)transferObject;
-        } else if (transferObject instanceof String) {
-            return new StringReader((String)transferObject);
-        } else if (transferObject instanceof CharBuffer) {
-            CharBuffer buffer = (CharBuffer)transferObject;
-            int size = buffer.remaining();
-            char[] chars = new char[size];
-            buffer.get(chars, 0, size);
-            return new CharArrayReader(chars);
-        } else if (transferObject instanceof char[]) {
-            return new CharArrayReader((char[])transferObject);
+        if (trbnsffrObjfdt instbndfof Rfbdfr) {
+            rfturn (Rfbdfr)trbnsffrObjfdt;
+        } flsf if (trbnsffrObjfdt instbndfof String) {
+            rfturn nfw StringRfbdfr((String)trbnsffrObjfdt);
+        } flsf if (trbnsffrObjfdt instbndfof CibrBufffr) {
+            CibrBufffr bufffr = (CibrBufffr)trbnsffrObjfdt;
+            int sizf = bufffr.rfmbining();
+            dibr[] dibrs = nfw dibr[sizf];
+            bufffr.gft(dibrs, 0, sizf);
+            rfturn nfw CibrArrbyRfbdfr(dibrs);
+        } flsf if (trbnsffrObjfdt instbndfof dibr[]) {
+            rfturn nfw CibrArrbyRfbdfr((dibr[])trbnsffrObjfdt);
         }
 
-        InputStream stream = null;
+        InputStrfbm strfbm = null;
 
-        if (transferObject instanceof InputStream) {
-            stream = (InputStream)transferObject;
-        } else if (transferObject instanceof ByteBuffer) {
-            ByteBuffer buffer = (ByteBuffer)transferObject;
-            int size = buffer.remaining();
-            byte[] bytes = new byte[size];
-            buffer.get(bytes, 0, size);
-            stream = new ByteArrayInputStream(bytes);
-        } else if (transferObject instanceof byte[]) {
-            stream = new ByteArrayInputStream((byte[])transferObject);
+        if (trbnsffrObjfdt instbndfof InputStrfbm) {
+            strfbm = (InputStrfbm)trbnsffrObjfdt;
+        } flsf if (trbnsffrObjfdt instbndfof BytfBufffr) {
+            BytfBufffr bufffr = (BytfBufffr)trbnsffrObjfdt;
+            int sizf = bufffr.rfmbining();
+            bytf[] bytfs = nfw bytf[sizf];
+            bufffr.gft(bytfs, 0, sizf);
+            strfbm = nfw BytfArrbyInputStrfbm(bytfs);
+        } flsf if (trbnsffrObjfdt instbndfof bytf[]) {
+            strfbm = nfw BytfArrbyInputStrfbm((bytf[])trbnsffrObjfdt);
         }
 
-        if (stream == null) {
-            throw new IllegalArgumentException("transfer data is not Reader, String, CharBuffer, char array, InputStream, ByteBuffer, or byte array");
+        if (strfbm == null) {
+            tirow nfw IllfgblArgumfntExdfption("trbnsffr dbtb is not Rfbdfr, String, CibrBufffr, dibr brrby, InputStrfbm, BytfBufffr, or bytf brrby");
         }
 
-        String encoding = getParameter("charset");
-        return (encoding == null)
-            ? new InputStreamReader(stream)
-            : new InputStreamReader(stream, encoding);
+        String fndoding = gftPbrbmftfr("dibrsft");
+        rfturn (fndoding == null)
+            ? nfw InputStrfbmRfbdfr(strfbm)
+            : nfw InputStrfbmRfbdfr(strfbm, fndoding);
     }
 
     /**
-     * Returns the MIME type string for this <code>DataFlavor</code>.
-     * @return the MIME type string for this flavor
+     * Rfturns tif MIME typf string for tiis <dodf>DbtbFlbvor</dodf>.
+     * @rfturn tif MIME typf string for tiis flbvor
      */
-    public String getMimeType() {
-        return (mimeType != null) ? mimeType.toString() : null;
+    publid String gftMimfTypf() {
+        rfturn (mimfTypf != null) ? mimfTypf.toString() : null;
     }
 
     /**
-     * Returns the <code>Class</code> which objects supporting this
-     * <code>DataFlavor</code> will return when this <code>DataFlavor</code>
-     * is requested.
-     * @return the <code>Class</code> which objects supporting this
-     * <code>DataFlavor</code> will return when this <code>DataFlavor</code>
-     * is requested
+     * Rfturns tif <dodf>Clbss</dodf> wiidi objfdts supporting tiis
+     * <dodf>DbtbFlbvor</dodf> will rfturn wifn tiis <dodf>DbtbFlbvor</dodf>
+     * is rfqufstfd.
+     * @rfturn tif <dodf>Clbss</dodf> wiidi objfdts supporting tiis
+     * <dodf>DbtbFlbvor</dodf> will rfturn wifn tiis <dodf>DbtbFlbvor</dodf>
+     * is rfqufstfd
      */
-    public Class<?> getRepresentationClass() {
-        return representationClass;
+    publid Clbss<?> gftRfprfsfntbtionClbss() {
+        rfturn rfprfsfntbtionClbss;
     }
 
     /**
-     * Returns the human presentable name for the data format that this
-     * <code>DataFlavor</code> represents.  This name would be localized
-     * for different countries.
-     * @return the human presentable name for the data format that this
-     *    <code>DataFlavor</code> represents
+     * Rfturns tif iumbn prfsfntbblf nbmf for tif dbtb formbt tibt tiis
+     * <dodf>DbtbFlbvor</dodf> rfprfsfnts.  Tiis nbmf would bf lodblizfd
+     * for difffrfnt dountrifs.
+     * @rfturn tif iumbn prfsfntbblf nbmf for tif dbtb formbt tibt tiis
+     *    <dodf>DbtbFlbvor</dodf> rfprfsfnts
      */
-    public String getHumanPresentableName() {
-        return humanPresentableName;
+    publid String gftHumbnPrfsfntbblfNbmf() {
+        rfturn iumbnPrfsfntbblfNbmf;
     }
 
     /**
-     * Returns the primary MIME type for this <code>DataFlavor</code>.
-     * @return the primary MIME type of this <code>DataFlavor</code>
+     * Rfturns tif primbry MIME typf for tiis <dodf>DbtbFlbvor</dodf>.
+     * @rfturn tif primbry MIME typf of tiis <dodf>DbtbFlbvor</dodf>
      */
-    public String getPrimaryType() {
-        return (mimeType != null) ? mimeType.getPrimaryType() : null;
+    publid String gftPrimbryTypf() {
+        rfturn (mimfTypf != null) ? mimfTypf.gftPrimbryTypf() : null;
     }
 
     /**
-     * Returns the sub MIME type of this <code>DataFlavor</code>.
-     * @return the Sub MIME type of this <code>DataFlavor</code>
+     * Rfturns tif sub MIME typf of tiis <dodf>DbtbFlbvor</dodf>.
+     * @rfturn tif Sub MIME typf of tiis <dodf>DbtbFlbvor</dodf>
      */
-    public String getSubType() {
-        return (mimeType != null) ? mimeType.getSubType() : null;
+    publid String gftSubTypf() {
+        rfturn (mimfTypf != null) ? mimfTypf.gftSubTypf() : null;
     }
 
     /**
-     * Returns the human presentable name for this <code>DataFlavor</code>
-     * if <code>paramName</code> equals "humanPresentableName".  Otherwise
-     * returns the MIME type value associated with <code>paramName</code>.
+     * Rfturns tif iumbn prfsfntbblf nbmf for tiis <dodf>DbtbFlbvor</dodf>
+     * if <dodf>pbrbmNbmf</dodf> fqubls "iumbnPrfsfntbblfNbmf".  Otifrwisf
+     * rfturns tif MIME typf vbluf bssodibtfd witi <dodf>pbrbmNbmf</dodf>.
      *
-     * @param paramName the parameter name requested
-     * @return the value of the name parameter, or <code>null</code>
-     *  if there is no associated value
+     * @pbrbm pbrbmNbmf tif pbrbmftfr nbmf rfqufstfd
+     * @rfturn tif vbluf of tif nbmf pbrbmftfr, or <dodf>null</dodf>
+     *  if tifrf is no bssodibtfd vbluf
      */
-    public String getParameter(String paramName) {
-        if (paramName.equals("humanPresentableName")) {
-            return humanPresentableName;
-        } else {
-            return (mimeType != null)
-                ? mimeType.getParameter(paramName) : null;
+    publid String gftPbrbmftfr(String pbrbmNbmf) {
+        if (pbrbmNbmf.fqubls("iumbnPrfsfntbblfNbmf")) {
+            rfturn iumbnPrfsfntbblfNbmf;
+        } flsf {
+            rfturn (mimfTypf != null)
+                ? mimfTypf.gftPbrbmftfr(pbrbmNbmf) : null;
         }
     }
 
     /**
-     * Sets the human presentable name for the data format that this
-     * <code>DataFlavor</code> represents. This name would be localized
-     * for different countries.
-     * @param humanPresentableName the new human presentable name
+     * Sfts tif iumbn prfsfntbblf nbmf for tif dbtb formbt tibt tiis
+     * <dodf>DbtbFlbvor</dodf> rfprfsfnts. Tiis nbmf would bf lodblizfd
+     * for difffrfnt dountrifs.
+     * @pbrbm iumbnPrfsfntbblfNbmf tif nfw iumbn prfsfntbblf nbmf
      */
-    public void setHumanPresentableName(String humanPresentableName) {
-        this.humanPresentableName = humanPresentableName;
+    publid void sftHumbnPrfsfntbblfNbmf(String iumbnPrfsfntbblfNbmf) {
+        tiis.iumbnPrfsfntbblfNbmf = iumbnPrfsfntbblfNbmf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * The equals comparison for the {@code DataFlavor} class is implemented
-     * as follows: Two <code>DataFlavor</code>s are considered equal if and
-     * only if their MIME primary type and subtype and representation class are
-     * equal. Additionally, if the primary type is "text", the subtype denotes
-     * a text flavor which supports the charset parameter, and the
-     * representation class is not <code>java.io.Reader</code>,
-     * <code>java.lang.String</code>, <code>java.nio.CharBuffer</code>, or
-     * <code>[C</code>, the <code>charset</code> parameter must also be equal.
-     * If a charset is not explicitly specified for one or both
-     * <code>DataFlavor</code>s, the platform default encoding is assumed. See
-     * <code>selectBestTextFlavor</code> for a list of text flavors which
-     * support the charset parameter.
+     * Tif fqubls dompbrison for tif {@dodf DbtbFlbvor} dlbss is implfmfntfd
+     * bs follows: Two <dodf>DbtbFlbvor</dodf>s brf donsidfrfd fqubl if bnd
+     * only if tifir MIME primbry typf bnd subtypf bnd rfprfsfntbtion dlbss brf
+     * fqubl. Additionblly, if tif primbry typf is "tfxt", tif subtypf dfnotfs
+     * b tfxt flbvor wiidi supports tif dibrsft pbrbmftfr, bnd tif
+     * rfprfsfntbtion dlbss is not <dodf>jbvb.io.Rfbdfr</dodf>,
+     * <dodf>jbvb.lbng.String</dodf>, <dodf>jbvb.nio.CibrBufffr</dodf>, or
+     * <dodf>[C</dodf>, tif <dodf>dibrsft</dodf> pbrbmftfr must blso bf fqubl.
+     * If b dibrsft is not fxpliditly spfdififd for onf or boti
+     * <dodf>DbtbFlbvor</dodf>s, tif plbtform dffbult fndoding is bssumfd. Sff
+     * <dodf>sflfdtBfstTfxtFlbvor</dodf> for b list of tfxt flbvors wiidi
+     * support tif dibrsft pbrbmftfr.
      *
-     * @param o the <code>Object</code> to compare with <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @pbrbm o tif <dodf>Objfdt</dodf> to dompbrf witi <dodf>tiis</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>tibt</dodf> is fquivblfnt to tiis
+     *         <dodf>DbtbFlbvor</dodf>; <dodf>fblsf</dodf> otifrwisf
+     * @sff #sflfdtBfstTfxtFlbvor
      */
-    public boolean equals(Object o) {
-        return ((o instanceof DataFlavor) && equals((DataFlavor)o));
+    publid boolfbn fqubls(Objfdt o) {
+        rfturn ((o instbndfof DbtbFlbvor) && fqubls((DbtbFlbvor)o));
     }
 
     /**
-     * This method has the same behavior as {@link #equals(Object)}.
-     * The only difference being that it takes a {@code DataFlavor} instance
-     * as a parameter.
+     * Tiis mftiod ibs tif sbmf bfibvior bs {@link #fqubls(Objfdt)}.
+     * Tif only difffrfndf bfing tibt it tbkfs b {@dodf DbtbFlbvor} instbndf
+     * bs b pbrbmftfr.
      *
-     * @param that the <code>DataFlavor</code> to compare with
-     *        <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @pbrbm tibt tif <dodf>DbtbFlbvor</dodf> to dompbrf witi
+     *        <dodf>tiis</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>tibt</dodf> is fquivblfnt to tiis
+     *         <dodf>DbtbFlbvor</dodf>; <dodf>fblsf</dodf> otifrwisf
+     * @sff #sflfdtBfstTfxtFlbvor
      */
-    public boolean equals(DataFlavor that) {
-        if (that == null) {
-            return false;
+    publid boolfbn fqubls(DbtbFlbvor tibt) {
+        if (tibt == null) {
+            rfturn fblsf;
         }
-        if (this == that) {
-            return true;
-        }
-
-        if (!Objects.equals(this.getRepresentationClass(), that.getRepresentationClass())) {
-            return false;
+        if (tiis == tibt) {
+            rfturn truf;
         }
 
-        if (mimeType == null) {
-            if (that.mimeType != null) {
-                return false;
+        if (!Objfdts.fqubls(tiis.gftRfprfsfntbtionClbss(), tibt.gftRfprfsfntbtionClbss())) {
+            rfturn fblsf;
+        }
+
+        if (mimfTypf == null) {
+            if (tibt.mimfTypf != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!mimeType.match(that.mimeType)) {
-                return false;
+        } flsf {
+            if (!mimfTypf.mbtdi(tibt.mimfTypf)) {
+                rfturn fblsf;
             }
 
-            if ("text".equals(getPrimaryType())) {
-                if (DataTransferer.doesSubtypeSupportCharset(this)
-                        && representationClass != null
-                        && !isStandardTextRepresentationClass()) {
-                    String thisCharset =
-                            DataTransferer.canonicalName(this.getParameter("charset"));
-                    String thatCharset =
-                            DataTransferer.canonicalName(that.getParameter("charset"));
-                    if (!Objects.equals(thisCharset, thatCharset)) {
-                        return false;
+            if ("tfxt".fqubls(gftPrimbryTypf())) {
+                if (DbtbTrbnsffrfr.dofsSubtypfSupportCibrsft(tiis)
+                        && rfprfsfntbtionClbss != null
+                        && !isStbndbrdTfxtRfprfsfntbtionClbss()) {
+                    String tiisCibrsft =
+                            DbtbTrbnsffrfr.dbnonidblNbmf(tiis.gftPbrbmftfr("dibrsft"));
+                    String tibtCibrsft =
+                            DbtbTrbnsffrfr.dbnonidblNbmf(tibt.gftPbrbmftfr("dibrsft"));
+                    if (!Objfdts.fqubls(tiisCibrsft, tibtCibrsft)) {
+                        rfturn fblsf;
                     }
                 }
 
-                if ("html".equals(getSubType())) {
-                    String thisDocument = this.getParameter("document");
-                    String thatDocument = that.getParameter("document");
-                    if (!Objects.equals(thisDocument, thatDocument)) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Compares only the <code>mimeType</code> against the passed in
-     * <code>String</code> and <code>representationClass</code> is
-     * not considered in the comparison.
-     *
-     * If <code>representationClass</code> needs to be compared, then
-     * <code>equals(new DataFlavor(s))</code> may be used.
-     * @deprecated As inconsistent with <code>hashCode()</code> contract,
-     *             use <code>isMimeTypeEqual(String)</code> instead.
-     * @param s the {@code mimeType} to compare.
-     * @return true if the String (MimeType) is equal; false otherwise or if
-     *         {@code s} is {@code null}
-     */
-    @Deprecated
-    public boolean equals(String s) {
-        if (s == null || mimeType == null)
-            return false;
-        return isMimeTypeEqual(s);
-    }
-
-    /**
-     * Returns hash code for this <code>DataFlavor</code>.
-     * For two equal <code>DataFlavor</code>s, hash codes are equal.
-     * For the <code>String</code>
-     * that matches <code>DataFlavor.equals(String)</code>, it is not
-     * guaranteed that <code>DataFlavor</code>'s hash code is equal
-     * to the hash code of the <code>String</code>.
-     *
-     * @return a hash code for this <code>DataFlavor</code>
-     */
-    public int hashCode() {
-        int total = 0;
-
-        if (representationClass != null) {
-            total += representationClass.hashCode();
-        }
-
-        if (mimeType != null) {
-            String primaryType = mimeType.getPrimaryType();
-            if (primaryType != null) {
-                total += primaryType.hashCode();
-            }
-
-            // Do not add subType.hashCode() to the total. equals uses
-            // MimeType.match which reports a match if one or both of the
-            // subTypes is '*', regardless of the other subType.
-
-            if ("text".equals(primaryType)) {
-                if (DataTransferer.doesSubtypeSupportCharset(this)
-                        && representationClass != null
-                        && !isStandardTextRepresentationClass()) {
-                    String charset = DataTransferer.canonicalName(getParameter("charset"));
-                    if (charset != null) {
-                        total += charset.hashCode();
-                    }
-                }
-
-                if ("html".equals(getSubType())) {
-                    String document = this.getParameter("document");
-                    if (document != null) {
-                        total += document.hashCode();
+                if ("itml".fqubls(gftSubTypf())) {
+                    String tiisDodumfnt = tiis.gftPbrbmftfr("dodumfnt");
+                    String tibtDodumfnt = tibt.gftPbrbmftfr("dodumfnt");
+                    if (!Objfdts.fqubls(tiisDodumfnt, tibtDodumfnt)) {
+                        rfturn fblsf;
                     }
                 }
             }
         }
 
-        return total;
+        rfturn truf;
     }
 
     /**
-     * Identical to {@link #equals(DataFlavor)}.
+     * Compbrfs only tif <dodf>mimfTypf</dodf> bgbinst tif pbssfd in
+     * <dodf>String</dodf> bnd <dodf>rfprfsfntbtionClbss</dodf> is
+     * not donsidfrfd in tif dompbrison.
      *
-     * @param that the <code>DataFlavor</code> to compare with
-     *        <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
-     * @since 1.3
+     * If <dodf>rfprfsfntbtionClbss</dodf> nffds to bf dompbrfd, tifn
+     * <dodf>fqubls(nfw DbtbFlbvor(s))</dodf> mby bf usfd.
+     * @dfprfdbtfd As indonsistfnt witi <dodf>ibsiCodf()</dodf> dontrbdt,
+     *             usf <dodf>isMimfTypfEqubl(String)</dodf> instfbd.
+     * @pbrbm s tif {@dodf mimfTypf} to dompbrf.
+     * @rfturn truf if tif String (MimfTypf) is fqubl; fblsf otifrwisf or if
+     *         {@dodf s} is {@dodf null}
      */
-    public boolean match(DataFlavor that) {
-        return equals(that);
+    @Dfprfdbtfd
+    publid boolfbn fqubls(String s) {
+        if (s == null || mimfTypf == null)
+            rfturn fblsf;
+        rfturn isMimfTypfEqubl(s);
     }
 
     /**
-     * Returns whether the string representation of the MIME type passed in
-     * is equivalent to the MIME type of this <code>DataFlavor</code>.
-     * Parameters are not included in the comparison.
+     * Rfturns ibsi dodf for tiis <dodf>DbtbFlbvor</dodf>.
+     * For two fqubl <dodf>DbtbFlbvor</dodf>s, ibsi dodfs brf fqubl.
+     * For tif <dodf>String</dodf>
+     * tibt mbtdifs <dodf>DbtbFlbvor.fqubls(String)</dodf>, it is not
+     * gubrbntffd tibt <dodf>DbtbFlbvor</dodf>'s ibsi dodf is fqubl
+     * to tif ibsi dodf of tif <dodf>String</dodf>.
      *
-     * @param mimeType the string representation of the MIME type
-     * @return true if the string representation of the MIME type passed in is
-     *         equivalent to the MIME type of this <code>DataFlavor</code>;
-     *         false otherwise
-     * @throws NullPointerException if mimeType is <code>null</code>
+     * @rfturn b ibsi dodf for tiis <dodf>DbtbFlbvor</dodf>
      */
-    public boolean isMimeTypeEqual(String mimeType) {
-        // JCK Test DataFlavor0117: if 'mimeType' is null, throw NPE
-        if (mimeType == null) {
-            throw new NullPointerException("mimeType");
+    publid int ibsiCodf() {
+        int totbl = 0;
+
+        if (rfprfsfntbtionClbss != null) {
+            totbl += rfprfsfntbtionClbss.ibsiCodf();
         }
-        if (this.mimeType == null) {
-            return false;
+
+        if (mimfTypf != null) {
+            String primbryTypf = mimfTypf.gftPrimbryTypf();
+            if (primbryTypf != null) {
+                totbl += primbryTypf.ibsiCodf();
+            }
+
+            // Do not bdd subTypf.ibsiCodf() to tif totbl. fqubls usfs
+            // MimfTypf.mbtdi wiidi rfports b mbtdi if onf or boti of tif
+            // subTypfs is '*', rfgbrdlfss of tif otifr subTypf.
+
+            if ("tfxt".fqubls(primbryTypf)) {
+                if (DbtbTrbnsffrfr.dofsSubtypfSupportCibrsft(tiis)
+                        && rfprfsfntbtionClbss != null
+                        && !isStbndbrdTfxtRfprfsfntbtionClbss()) {
+                    String dibrsft = DbtbTrbnsffrfr.dbnonidblNbmf(gftPbrbmftfr("dibrsft"));
+                    if (dibrsft != null) {
+                        totbl += dibrsft.ibsiCodf();
+                    }
+                }
+
+                if ("itml".fqubls(gftSubTypf())) {
+                    String dodumfnt = tiis.gftPbrbmftfr("dodumfnt");
+                    if (dodumfnt != null) {
+                        totbl += dodumfnt.ibsiCodf();
+                    }
+                }
+            }
+        }
+
+        rfturn totbl;
+    }
+
+    /**
+     * Idfntidbl to {@link #fqubls(DbtbFlbvor)}.
+     *
+     * @pbrbm tibt tif <dodf>DbtbFlbvor</dodf> to dompbrf witi
+     *        <dodf>tiis</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>tibt</dodf> is fquivblfnt to tiis
+     *         <dodf>DbtbFlbvor</dodf>; <dodf>fblsf</dodf> otifrwisf
+     * @sff #sflfdtBfstTfxtFlbvor
+     * @sindf 1.3
+     */
+    publid boolfbn mbtdi(DbtbFlbvor tibt) {
+        rfturn fqubls(tibt);
+    }
+
+    /**
+     * Rfturns wiftifr tif string rfprfsfntbtion of tif MIME typf pbssfd in
+     * is fquivblfnt to tif MIME typf of tiis <dodf>DbtbFlbvor</dodf>.
+     * Pbrbmftfrs brf not indludfd in tif dompbrison.
+     *
+     * @pbrbm mimfTypf tif string rfprfsfntbtion of tif MIME typf
+     * @rfturn truf if tif string rfprfsfntbtion of tif MIME typf pbssfd in is
+     *         fquivblfnt to tif MIME typf of tiis <dodf>DbtbFlbvor</dodf>;
+     *         fblsf otifrwisf
+     * @tirows NullPointfrExdfption if mimfTypf is <dodf>null</dodf>
+     */
+    publid boolfbn isMimfTypfEqubl(String mimfTypf) {
+        // JCK Tfst DbtbFlbvor0117: if 'mimfTypf' is null, tirow NPE
+        if (mimfTypf == null) {
+            tirow nfw NullPointfrExdfption("mimfTypf");
+        }
+        if (tiis.mimfTypf == null) {
+            rfturn fblsf;
         }
         try {
-            return this.mimeType.match(new MimeType(mimeType));
-        } catch (MimeTypeParseException mtpe) {
-            return false;
+            rfturn tiis.mimfTypf.mbtdi(nfw MimfTypf(mimfTypf));
+        } dbtdi (MimfTypfPbrsfExdfption mtpf) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Compares the <code>mimeType</code> of two <code>DataFlavor</code>
-     * objects. No parameters are considered.
+     * Compbrfs tif <dodf>mimfTypf</dodf> of two <dodf>DbtbFlbvor</dodf>
+     * objfdts. No pbrbmftfrs brf donsidfrfd.
      *
-     * @param dataFlavor the <code>DataFlavor</code> to be compared
-     * @return true if the <code>MimeType</code>s are equal,
-     *  otherwise false
+     * @pbrbm dbtbFlbvor tif <dodf>DbtbFlbvor</dodf> to bf dompbrfd
+     * @rfturn truf if tif <dodf>MimfTypf</dodf>s brf fqubl,
+     *  otifrwisf fblsf
      */
 
-    public final boolean isMimeTypeEqual(DataFlavor dataFlavor) {
-        return isMimeTypeEqual(dataFlavor.mimeType);
+    publid finbl boolfbn isMimfTypfEqubl(DbtbFlbvor dbtbFlbvor) {
+        rfturn isMimfTypfEqubl(dbtbFlbvor.mimfTypf);
     }
 
     /**
-     * Compares the <code>mimeType</code> of two <code>DataFlavor</code>
-     * objects.  No parameters are considered.
+     * Compbrfs tif <dodf>mimfTypf</dodf> of two <dodf>DbtbFlbvor</dodf>
+     * objfdts.  No pbrbmftfrs brf donsidfrfd.
      *
-     * @return true if the <code>MimeType</code>s are equal,
-     *  otherwise false
+     * @rfturn truf if tif <dodf>MimfTypf</dodf>s brf fqubl,
+     *  otifrwisf fblsf
      */
 
-    private boolean isMimeTypeEqual(MimeType mtype) {
-        if (this.mimeType == null) {
-            return (mtype == null);
+    privbtf boolfbn isMimfTypfEqubl(MimfTypf mtypf) {
+        if (tiis.mimfTypf == null) {
+            rfturn (mtypf == null);
         }
-        return mimeType.match(mtype);
+        rfturn mimfTypf.mbtdi(mtypf);
     }
 
     /**
-     * Checks if the representation class is one of the standard text
-     * representation classes.
+     * Cifdks if tif rfprfsfntbtion dlbss is onf of tif stbndbrd tfxt
+     * rfprfsfntbtion dlbssfs.
      *
-     * @return true if the representation class is one of the standard text
-     *              representation classes, otherwise false
+     * @rfturn truf if tif rfprfsfntbtion dlbss is onf of tif stbndbrd tfxt
+     *              rfprfsfntbtion dlbssfs, otifrwisf fblsf
      */
-    private boolean isStandardTextRepresentationClass() {
-        return isRepresentationClassReader()
-                || String.class.equals(representationClass)
-                || isRepresentationClassCharBuffer()
-                || char[].class.equals(representationClass);
+    privbtf boolfbn isStbndbrdTfxtRfprfsfntbtionClbss() {
+        rfturn isRfprfsfntbtionClbssRfbdfr()
+                || String.dlbss.fqubls(rfprfsfntbtionClbss)
+                || isRfprfsfntbtionClbssCibrBufffr()
+                || dibr[].dlbss.fqubls(rfprfsfntbtionClbss);
     }
 
    /**
-    * Does the <code>DataFlavor</code> represent a serialized object?
-    * @return whether or not a serialized object is represented
+    * Dofs tif <dodf>DbtbFlbvor</dodf> rfprfsfnt b sfriblizfd objfdt?
+    * @rfturn wiftifr or not b sfriblizfd objfdt is rfprfsfntfd
     */
-    public boolean isMimeTypeSerializedObject() {
-        return isMimeTypeEqual(javaSerializedObjectMimeType);
+    publid boolfbn isMimfTypfSfriblizfdObjfdt() {
+        rfturn isMimfTypfEqubl(jbvbSfriblizfdObjfdtMimfTypf);
     }
 
     /**
-     * Returns the default representation class.
-     * @return the default representation class
+     * Rfturns tif dffbult rfprfsfntbtion dlbss.
+     * @rfturn tif dffbult rfprfsfntbtion dlbss
      */
-    public final Class<?> getDefaultRepresentationClass() {
-        return ioInputStreamClass;
+    publid finbl Clbss<?> gftDffbultRfprfsfntbtionClbss() {
+        rfturn ioInputStrfbmClbss;
     }
 
     /**
-     * Returns the name of the default representation class.
-     * @return the name of the default representation class
+     * Rfturns tif nbmf of tif dffbult rfprfsfntbtion dlbss.
+     * @rfturn tif nbmf of tif dffbult rfprfsfntbtion dlbss
      */
-    public final String getDefaultRepresentationClassAsString() {
-        return getDefaultRepresentationClass().getName();
+    publid finbl String gftDffbultRfprfsfntbtionClbssAsString() {
+        rfturn gftDffbultRfprfsfntbtionClbss().gftNbmf();
     }
 
    /**
-    * Does the <code>DataFlavor</code> represent a
-    * <code>java.io.InputStream</code>?
-    * @return whether or not this {@code DataFlavor} represent a
-    * {@code java.io.InputStream}
+    * Dofs tif <dodf>DbtbFlbvor</dodf> rfprfsfnt b
+    * <dodf>jbvb.io.InputStrfbm</dodf>?
+    * @rfturn wiftifr or not tiis {@dodf DbtbFlbvor} rfprfsfnt b
+    * {@dodf jbvb.io.InputStrfbm}
     */
-    public boolean isRepresentationClassInputStream() {
-        return ioInputStreamClass.isAssignableFrom(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssInputStrfbm() {
+        rfturn ioInputStrfbmClbss.isAssignbblfFrom(rfprfsfntbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.io.Reader</code> or a subclass
-     * thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.io.Reader} or a subclass
-     * thereof
+     * Rfturns wiftifr tif rfprfsfntbtion dlbss for tiis
+     * <dodf>DbtbFlbvor</dodf> is <dodf>jbvb.io.Rfbdfr</dodf> or b subdlbss
+     * tifrfof.
+     * @rfturn wiftifr or not tif rfprfsfntbtion dlbss for tiis
+     * {@dodf DbtbFlbvor} is {@dodf jbvb.io.Rfbdfr} or b subdlbss
+     * tifrfof
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public boolean isRepresentationClassReader() {
-        return java.io.Reader.class.isAssignableFrom(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssRfbdfr() {
+        rfturn jbvb.io.Rfbdfr.dlbss.isAssignbblfFrom(rfprfsfntbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.nio.CharBuffer</code> or a
-     * subclass thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.nio.CharBuffer} or a subclass
-     * thereof
+     * Rfturns wiftifr tif rfprfsfntbtion dlbss for tiis
+     * <dodf>DbtbFlbvor</dodf> is <dodf>jbvb.nio.CibrBufffr</dodf> or b
+     * subdlbss tifrfof.
+     * @rfturn wiftifr or not tif rfprfsfntbtion dlbss for tiis
+     * {@dodf DbtbFlbvor} is {@dodf jbvb.nio.CibrBufffr} or b subdlbss
+     * tifrfof
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public boolean isRepresentationClassCharBuffer() {
-        return java.nio.CharBuffer.class.isAssignableFrom(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssCibrBufffr() {
+        rfturn jbvb.nio.CibrBufffr.dlbss.isAssignbblfFrom(rfprfsfntbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.nio.ByteBuffer</code> or a
-     * subclass thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.nio.ByteBuffer} or a subclass
-     * thereof
+     * Rfturns wiftifr tif rfprfsfntbtion dlbss for tiis
+     * <dodf>DbtbFlbvor</dodf> is <dodf>jbvb.nio.BytfBufffr</dodf> or b
+     * subdlbss tifrfof.
+     * @rfturn wiftifr or not tif rfprfsfntbtion dlbss for tiis
+     * {@dodf DbtbFlbvor} is {@dodf jbvb.nio.BytfBufffr} or b subdlbss
+     * tifrfof
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public boolean isRepresentationClassByteBuffer() {
-        return java.nio.ByteBuffer.class.isAssignableFrom(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssBytfBufffr() {
+        rfturn jbvb.nio.BytfBufffr.dlbss.isAssignbblfFrom(rfprfsfntbtionClbss);
     }
 
    /**
-    * Returns true if the representation class can be serialized.
-    * @return true if the representation class can be serialized
+    * Rfturns truf if tif rfprfsfntbtion dlbss dbn bf sfriblizfd.
+    * @rfturn truf if tif rfprfsfntbtion dlbss dbn bf sfriblizfd
     */
 
-    public boolean isRepresentationClassSerializable() {
-        return java.io.Serializable.class.isAssignableFrom(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssSfriblizbblf() {
+        rfturn jbvb.io.Sfriblizbblf.dlbss.isAssignbblfFrom(rfprfsfntbtionClbss);
     }
 
    /**
-    * Returns true if the representation class is <code>Remote</code>.
-    * @return true if the representation class is <code>Remote</code>
+    * Rfturns truf if tif rfprfsfntbtion dlbss is <dodf>Rfmotf</dodf>.
+    * @rfturn truf if tif rfprfsfntbtion dlbss is <dodf>Rfmotf</dodf>
     */
 
-    public boolean isRepresentationClassRemote() {
-        return DataTransferer.isRemote(representationClass);
+    publid boolfbn isRfprfsfntbtionClbssRfmotf() {
+        rfturn DbtbTrbnsffrfr.isRfmotf(rfprfsfntbtionClbss);
     }
 
    /**
-    * Returns true if the <code>DataFlavor</code> specified represents
-    * a serialized object.
-    * @return true if the <code>DataFlavor</code> specified represents
-    *   a Serialized Object
+    * Rfturns truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+    * b sfriblizfd objfdt.
+    * @rfturn truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+    *   b Sfriblizfd Objfdt
     */
 
-    public boolean isFlavorSerializedObjectType() {
-        return isRepresentationClassSerializable() && isMimeTypeEqual(javaSerializedObjectMimeType);
+    publid boolfbn isFlbvorSfriblizfdObjfdtTypf() {
+        rfturn isRfprfsfntbtionClbssSfriblizbblf() && isMimfTypfEqubl(jbvbSfriblizfdObjfdtMimfTypf);
     }
 
     /**
-     * Returns true if the <code>DataFlavor</code> specified represents
-     * a remote object.
-     * @return true if the <code>DataFlavor</code> specified represents
-     *  a Remote Object
+     * Rfturns truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+     * b rfmotf objfdt.
+     * @rfturn truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+     *  b Rfmotf Objfdt
      */
 
-    public boolean isFlavorRemoteObjectType() {
-        return isRepresentationClassRemote()
-            && isRepresentationClassSerializable()
-            && isMimeTypeEqual(javaRemoteObjectMimeType);
+    publid boolfbn isFlbvorRfmotfObjfdtTypf() {
+        rfturn isRfprfsfntbtionClbssRfmotf()
+            && isRfprfsfntbtionClbssSfriblizbblf()
+            && isMimfTypfEqubl(jbvbRfmotfObjfdtMimfTypf);
     }
 
 
    /**
-    * Returns true if the <code>DataFlavor</code> specified represents
-    * a list of file objects.
-    * @return true if the <code>DataFlavor</code> specified represents
-    *   a List of File objects
+    * Rfturns truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+    * b list of filf objfdts.
+    * @rfturn truf if tif <dodf>DbtbFlbvor</dodf> spfdififd rfprfsfnts
+    *   b List of Filf objfdts
     */
 
-   public boolean isFlavorJavaFileListType() {
-        if (mimeType == null || representationClass == null)
-            return false;
-        return java.util.List.class.isAssignableFrom(representationClass) &&
-               mimeType.match(javaFileListFlavor.mimeType);
+   publid boolfbn isFlbvorJbvbFilfListTypf() {
+        if (mimfTypf == null || rfprfsfntbtionClbss == null)
+            rfturn fblsf;
+        rfturn jbvb.util.List.dlbss.isAssignbblfFrom(rfprfsfntbtionClbss) &&
+               mimfTypf.mbtdi(jbvbFilfListFlbvor.mimfTypf);
 
    }
 
     /**
-     * Returns whether this <code>DataFlavor</code> is a valid text flavor for
-     * this implementation of the Java platform. Only flavors equivalent to
-     * <code>DataFlavor.stringFlavor</code> and <code>DataFlavor</code>s with
-     * a primary MIME type of "text" can be valid text flavors.
+     * Rfturns wiftifr tiis <dodf>DbtbFlbvor</dodf> is b vblid tfxt flbvor for
+     * tiis implfmfntbtion of tif Jbvb plbtform. Only flbvors fquivblfnt to
+     * <dodf>DbtbFlbvor.stringFlbvor</dodf> bnd <dodf>DbtbFlbvor</dodf>s witi
+     * b primbry MIME typf of "tfxt" dbn bf vblid tfxt flbvors.
      * <p>
-     * If this flavor supports the charset parameter, it must be equivalent to
-     * <code>DataFlavor.stringFlavor</code>, or its representation must be
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>,
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>, or
-     * <code>[B</code>. If the representation is
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>, or
-     * <code>[B</code>, then this flavor's <code>charset</code> parameter must
-     * be supported by this implementation of the Java platform. If a charset
-     * is not specified, then the platform default charset, which is always
-     * supported, is assumed.
+     * If tiis flbvor supports tif dibrsft pbrbmftfr, it must bf fquivblfnt to
+     * <dodf>DbtbFlbvor.stringFlbvor</dodf>, or its rfprfsfntbtion must bf
+     * <dodf>jbvb.io.Rfbdfr</dodf>, <dodf>jbvb.lbng.String</dodf>,
+     * <dodf>jbvb.nio.CibrBufffr</dodf>, <dodf>[C</dodf>,
+     * <dodf>jbvb.io.InputStrfbm</dodf>, <dodf>jbvb.nio.BytfBufffr</dodf>, or
+     * <dodf>[B</dodf>. If tif rfprfsfntbtion is
+     * <dodf>jbvb.io.InputStrfbm</dodf>, <dodf>jbvb.nio.BytfBufffr</dodf>, or
+     * <dodf>[B</dodf>, tifn tiis flbvor's <dodf>dibrsft</dodf> pbrbmftfr must
+     * bf supportfd by tiis implfmfntbtion of tif Jbvb plbtform. If b dibrsft
+     * is not spfdififd, tifn tif plbtform dffbult dibrsft, wiidi is blwbys
+     * supportfd, is bssumfd.
      * <p>
-     * If this flavor does not support the charset parameter, its
-     * representation must be <code>java.io.InputStream</code>,
-     * <code>java.nio.ByteBuffer</code>, or <code>[B</code>.
+     * If tiis flbvor dofs not support tif dibrsft pbrbmftfr, its
+     * rfprfsfntbtion must bf <dodf>jbvb.io.InputStrfbm</dodf>,
+     * <dodf>jbvb.nio.BytfBufffr</dodf>, or <dodf>[B</dodf>.
      * <p>
-     * See <code>selectBestTextFlavor</code> for a list of text flavors which
-     * support the charset parameter.
+     * Sff <dodf>sflfdtBfstTfxtFlbvor</dodf> for b list of tfxt flbvors wiidi
+     * support tif dibrsft pbrbmftfr.
      *
-     * @return <code>true</code> if this <code>DataFlavor</code> is a valid
-     *         text flavor as described above; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
-     * @since 1.4
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>DbtbFlbvor</dodf> is b vblid
+     *         tfxt flbvor bs dfsdribfd bbovf; <dodf>fblsf</dodf> otifrwisf
+     * @sff #sflfdtBfstTfxtFlbvor
+     * @sindf 1.4
      */
-    public boolean isFlavorTextType() {
-        return (DataTransferer.isFlavorCharsetTextType(this) ||
-                DataTransferer.isFlavorNoncharsetTextType(this));
+    publid boolfbn isFlbvorTfxtTypf() {
+        rfturn (DbtbTrbnsffrfr.isFlbvorCibrsftTfxtTypf(tiis) ||
+                DbtbTrbnsffrfr.isFlbvorNondibrsftTfxtTypf(tiis));
     }
 
    /**
-    * Serializes this <code>DataFlavor</code>.
+    * Sfriblizfs tiis <dodf>DbtbFlbvor</dodf>.
     */
 
-   public synchronized void writeExternal(ObjectOutput os) throws IOException {
-       if (mimeType != null) {
-           mimeType.setParameter("humanPresentableName", humanPresentableName);
-           os.writeObject(mimeType);
-           mimeType.removeParameter("humanPresentableName");
-       } else {
-           os.writeObject(null);
+   publid syndironizfd void writfExtfrnbl(ObjfdtOutput os) tirows IOExdfption {
+       if (mimfTypf != null) {
+           mimfTypf.sftPbrbmftfr("iumbnPrfsfntbblfNbmf", iumbnPrfsfntbblfNbmf);
+           os.writfObjfdt(mimfTypf);
+           mimfTypf.rfmovfPbrbmftfr("iumbnPrfsfntbblfNbmf");
+       } flsf {
+           os.writfObjfdt(null);
        }
 
-       os.writeObject(representationClass);
+       os.writfObjfdt(rfprfsfntbtionClbss);
    }
 
    /**
-    * Restores this <code>DataFlavor</code> from a Serialized state.
+    * Rfstorfs tiis <dodf>DbtbFlbvor</dodf> from b Sfriblizfd stbtf.
     */
 
-   public synchronized void readExternal(ObjectInput is) throws IOException , ClassNotFoundException {
-       String rcn = null;
-        mimeType = (MimeType)is.readObject();
+   publid syndironizfd void rfbdExtfrnbl(ObjfdtInput is) tirows IOExdfption , ClbssNotFoundExdfption {
+       String rdn = null;
+        mimfTypf = (MimfTypf)is.rfbdObjfdt();
 
-        if (mimeType != null) {
-            humanPresentableName =
-                mimeType.getParameter("humanPresentableName");
-            mimeType.removeParameter("humanPresentableName");
-            rcn = mimeType.getParameter("class");
-            if (rcn == null) {
-                throw new IOException("no class parameter specified in: " +
-                                      mimeType);
+        if (mimfTypf != null) {
+            iumbnPrfsfntbblfNbmf =
+                mimfTypf.gftPbrbmftfr("iumbnPrfsfntbblfNbmf");
+            mimfTypf.rfmovfPbrbmftfr("iumbnPrfsfntbblfNbmf");
+            rdn = mimfTypf.gftPbrbmftfr("dlbss");
+            if (rdn == null) {
+                tirow nfw IOExdfption("no dlbss pbrbmftfr spfdififd in: " +
+                                      mimfTypf);
             }
         }
 
         try {
-            representationClass = (Class)is.readObject();
-        } catch (OptionalDataException ode) {
-            if (!ode.eof || ode.length != 0) {
-                throw ode;
+            rfprfsfntbtionClbss = (Clbss)is.rfbdObjfdt();
+        } dbtdi (OptionblDbtbExdfption odf) {
+            if (!odf.fof || odf.lfngti != 0) {
+                tirow odf;
             }
-            // Ensure backward compatibility.
-            // Old versions didn't write the representation class to the stream.
-            if (rcn != null) {
-                representationClass =
-                    DataFlavor.tryToLoadClass(rcn, getClass().getClassLoader());
+            // Ensurf bbdkwbrd dompbtibility.
+            // Old vfrsions didn't writf tif rfprfsfntbtion dlbss to tif strfbm.
+            if (rdn != null) {
+                rfprfsfntbtionClbss =
+                    DbtbFlbvor.tryToLobdClbss(rdn, gftClbss().gftClbssLobdfr());
             }
         }
    }
 
    /**
-    * Returns a clone of this <code>DataFlavor</code>.
-    * @return a clone of this <code>DataFlavor</code>
+    * Rfturns b dlonf of tiis <dodf>DbtbFlbvor</dodf>.
+    * @rfturn b dlonf of tiis <dodf>DbtbFlbvor</dodf>
     */
 
-    public Object clone() throws CloneNotSupportedException {
-        Object newObj = super.clone();
-        if (mimeType != null) {
-            ((DataFlavor)newObj).mimeType = (MimeType)mimeType.clone();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        Objfdt nfwObj = supfr.dlonf();
+        if (mimfTypf != null) {
+            ((DbtbFlbvor)nfwObj).mimfTypf = (MimfTypf)mimfTypf.dlonf();
         }
-        return newObj;
-    } // clone()
+        rfturn nfwObj;
+    } // dlonf()
 
    /**
-    * Called on <code>DataFlavor</code> for every MIME Type parameter
-    * to allow <code>DataFlavor</code> subclasses to handle special
-    * parameters like the text/plain <code>charset</code>
-    * parameters, whose values are case insensitive.  (MIME type parameter
-    * values are supposed to be case sensitive.
+    * Cbllfd on <dodf>DbtbFlbvor</dodf> for fvfry MIME Typf pbrbmftfr
+    * to bllow <dodf>DbtbFlbvor</dodf> subdlbssfs to ibndlf spfdibl
+    * pbrbmftfrs likf tif tfxt/plbin <dodf>dibrsft</dodf>
+    * pbrbmftfrs, wiosf vblufs brf dbsf insfnsitivf.  (MIME typf pbrbmftfr
+    * vblufs brf supposfd to bf dbsf sfnsitivf.
     * <p>
-    * This method is called for each parameter name/value pair and should
-    * return the normalized representation of the <code>parameterValue</code>.
+    * Tiis mftiod is dbllfd for fbdi pbrbmftfr nbmf/vbluf pbir bnd siould
+    * rfturn tif normblizfd rfprfsfntbtion of tif <dodf>pbrbmftfrVbluf</dodf>.
     *
-    * This method is never invoked by this implementation from 1.1 onwards.
+    * Tiis mftiod is nfvfr invokfd by tiis implfmfntbtion from 1.1 onwbrds.
     *
-    * @param parameterName the parameter name
-    * @param parameterValue the parameter value
-    * @return the parameter value
-    * @deprecated
+    * @pbrbm pbrbmftfrNbmf tif pbrbmftfr nbmf
+    * @pbrbm pbrbmftfrVbluf tif pbrbmftfr vbluf
+    * @rfturn tif pbrbmftfr vbluf
+    * @dfprfdbtfd
     */
-    @Deprecated
-    protected String normalizeMimeTypeParameter(String parameterName, String parameterValue) {
-        return parameterValue;
+    @Dfprfdbtfd
+    protfdtfd String normblizfMimfTypfPbrbmftfr(String pbrbmftfrNbmf, String pbrbmftfrVbluf) {
+        rfturn pbrbmftfrVbluf;
     }
 
    /**
-    * Called for each MIME type string to give <code>DataFlavor</code> subtypes
-    * the opportunity to change how the normalization of MIME types is
-    * accomplished.  One possible use would be to add default
-    * parameter/value pairs in cases where none are present in the MIME
-    * type string passed in.
+    * Cbllfd for fbdi MIME typf string to givf <dodf>DbtbFlbvor</dodf> subtypfs
+    * tif opportunity to dibngf iow tif normblizbtion of MIME typfs is
+    * bddomplisifd.  Onf possiblf usf would bf to bdd dffbult
+    * pbrbmftfr/vbluf pbirs in dbsfs wifrf nonf brf prfsfnt in tif MIME
+    * typf string pbssfd in.
     *
-    * This method is never invoked by this implementation from 1.1 onwards.
+    * Tiis mftiod is nfvfr invokfd by tiis implfmfntbtion from 1.1 onwbrds.
     *
-    * @param mimeType the mime type
-    * @return the mime type
-    * @deprecated
+    * @pbrbm mimfTypf tif mimf typf
+    * @rfturn tif mimf typf
+    * @dfprfdbtfd
     */
-    @Deprecated
-    protected String normalizeMimeType(String mimeType) {
-        return mimeType;
+    @Dfprfdbtfd
+    protfdtfd String normblizfMimfTypf(String mimfTypf) {
+        rfturn mimfTypf;
     }
 
     /*
-     * fields
+     * fiflds
      */
 
-    /* placeholder for caching any platform-specific data for flavor */
+    /* plbdfioldfr for dbdiing bny plbtform-spfdifid dbtb for flbvor */
 
-    transient int       atom;
+    trbnsifnt int       btom;
 
-    /* Mime Type of DataFlavor */
+    /* Mimf Typf of DbtbFlbvor */
 
-    MimeType            mimeType;
+    MimfTypf            mimfTypf;
 
-    private String      humanPresentableName;
+    privbtf String      iumbnPrfsfntbblfNbmf;
 
-    /** Java class of objects this DataFlavor represents **/
+    /** Jbvb dlbss of objfdts tiis DbtbFlbvor rfprfsfnts **/
 
-    private Class<?>       representationClass;
+    privbtf Clbss<?>       rfprfsfntbtionClbss;
 
-} // class DataFlavor
+} // dlbss DbtbFlbvor

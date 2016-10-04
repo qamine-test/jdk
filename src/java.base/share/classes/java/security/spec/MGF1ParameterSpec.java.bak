@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * This class specifies the set of parameters used with mask generation
- * function MGF1 in OAEP Padding and RSA-PSS signature scheme, as
- * defined in the
- * <a href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1 v2.1</a>
- * standard.
+ * Tiis dlbss spfdififs tif sft of pbrbmftfrs usfd witi mbsk gfnfrbtion
+ * fundtion MGF1 in OAEP Pbdding bnd RSA-PSS signbturf sdifmf, bs
+ * dffinfd in tif
+ * <b irff="ittp://www.iftf.org/rfd/rfd3447.txt">PKCS #1 v2.1</b>
+ * stbndbrd.
  *
- * <p>Its ASN.1 definition in PKCS#1 standard is described below:
- * <pre>
- * MGF1Parameters ::= OAEP-PSSDigestAlgorthms
- * </pre>
- * where
- * <pre>
- * OAEP-PSSDigestAlgorithms    ALGORITHM-IDENTIFIER ::= {
- *   { OID id-sha1 PARAMETERS NULL   }|
- *   { OID id-sha224 PARAMETERS NULL   }|
- *   { OID id-sha256 PARAMETERS NULL }|
- *   { OID id-sha384 PARAMETERS NULL }|
- *   { OID id-sha512 PARAMETERS NULL },
- *   ...  -- Allows for future expansion --
+ * <p>Its ASN.1 dffinition in PKCS#1 stbndbrd is dfsdribfd bflow:
+ * <prf>
+ * MGF1Pbrbmftfrs ::= OAEP-PSSDigfstAlgortims
+ * </prf>
+ * wifrf
+ * <prf>
+ * OAEP-PSSDigfstAlgoritims    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-sib1 PARAMETERS NULL   }|
+ *   { OID id-sib224 PARAMETERS NULL   }|
+ *   { OID id-sib256 PARAMETERS NULL }|
+ *   { OID id-sib384 PARAMETERS NULL }|
+ *   { OID id-sib512 PARAMETERS NULL },
+ *   ...  -- Allows for futurf fxpbnsion --
  * }
- * </pre>
- * @see PSSParameterSpec
- * @see javax.crypto.spec.OAEPParameterSpec
+ * </prf>
+ * @sff PSSPbrbmftfrSpfd
+ * @sff jbvbx.drypto.spfd.OAEPPbrbmftfrSpfd
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MGF1ParameterSpec implements AlgorithmParameterSpec {
+publid dlbss MGF1PbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
     /**
-     * The MGF1ParameterSpec which uses "SHA-1" message digest.
+     * Tif MGF1PbrbmftfrSpfd wiidi usfs "SHA-1" mfssbgf digfst.
      */
-    public static final MGF1ParameterSpec SHA1 =
-        new MGF1ParameterSpec("SHA-1");
+    publid stbtid finbl MGF1PbrbmftfrSpfd SHA1 =
+        nfw MGF1PbrbmftfrSpfd("SHA-1");
     /**
-     * The MGF1ParameterSpec which uses "SHA-224" message digest.
+     * Tif MGF1PbrbmftfrSpfd wiidi usfs "SHA-224" mfssbgf digfst.
      */
-    public static final MGF1ParameterSpec SHA224 =
-        new MGF1ParameterSpec("SHA-224");
+    publid stbtid finbl MGF1PbrbmftfrSpfd SHA224 =
+        nfw MGF1PbrbmftfrSpfd("SHA-224");
     /**
-     * The MGF1ParameterSpec which uses "SHA-256" message digest.
+     * Tif MGF1PbrbmftfrSpfd wiidi usfs "SHA-256" mfssbgf digfst.
      */
-    public static final MGF1ParameterSpec SHA256 =
-        new MGF1ParameterSpec("SHA-256");
+    publid stbtid finbl MGF1PbrbmftfrSpfd SHA256 =
+        nfw MGF1PbrbmftfrSpfd("SHA-256");
     /**
-     * The MGF1ParameterSpec which uses "SHA-384" message digest.
+     * Tif MGF1PbrbmftfrSpfd wiidi usfs "SHA-384" mfssbgf digfst.
      */
-    public static final MGF1ParameterSpec SHA384 =
-        new MGF1ParameterSpec("SHA-384");
+    publid stbtid finbl MGF1PbrbmftfrSpfd SHA384 =
+        nfw MGF1PbrbmftfrSpfd("SHA-384");
     /**
-     * The MGF1ParameterSpec which uses SHA-512 message digest.
+     * Tif MGF1PbrbmftfrSpfd wiidi usfs SHA-512 mfssbgf digfst.
      */
-    public static final MGF1ParameterSpec SHA512 =
-        new MGF1ParameterSpec("SHA-512");
+    publid stbtid finbl MGF1PbrbmftfrSpfd SHA512 =
+        nfw MGF1PbrbmftfrSpfd("SHA-512");
 
-    private String mdName;
+    privbtf String mdNbmf;
 
     /**
-     * Constructs a parameter set for mask generation function MGF1
-     * as defined in the PKCS #1 standard.
+     * Construdts b pbrbmftfr sft for mbsk gfnfrbtion fundtion MGF1
+     * bs dffinfd in tif PKCS #1 stbndbrd.
      *
-     * @param mdName the algorithm name for the message digest
-     * used in this mask generation function MGF1.
-     * @exception NullPointerException if {@code mdName} is null.
+     * @pbrbm mdNbmf tif blgoritim nbmf for tif mfssbgf digfst
+     * usfd in tiis mbsk gfnfrbtion fundtion MGF1.
+     * @fxdfption NullPointfrExdfption if {@dodf mdNbmf} is null.
      */
-    public MGF1ParameterSpec(String mdName) {
-        if (mdName == null) {
-            throw new NullPointerException("digest algorithm is null");
+    publid MGF1PbrbmftfrSpfd(String mdNbmf) {
+        if (mdNbmf == null) {
+            tirow nfw NullPointfrExdfption("digfst blgoritim is null");
         }
-        this.mdName = mdName;
+        tiis.mdNbmf = mdNbmf;
     }
 
     /**
-     * Returns the algorithm name of the message digest used by the mask
-     * generation function.
+     * Rfturns tif blgoritim nbmf of tif mfssbgf digfst usfd by tif mbsk
+     * gfnfrbtion fundtion.
      *
-     * @return the algorithm name of the message digest.
+     * @rfturn tif blgoritim nbmf of tif mfssbgf digfst.
      */
-    public String getDigestAlgorithm() {
-        return mdName;
+    publid String gftDigfstAlgoritim() {
+        rfturn mdNbmf;
     }
 }

@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2006, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2006, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,19 +31,19 @@
 
 minst
 
-This agent library can be used to inject code at method calls.
-It uses the same java_crw_demo library used by HPROF to do BCI on all 
-or selected classfiles loaded into the Virtual Machine.  
-The class Minst.java can be customized to do whatever you wish,
-within reason of course, and does not call native methods directly.
+Tiis bgfnt librbry dbn bf usfd to injfdt dodf bt mftiod dblls.
+It usfs tif sbmf jbvb_drw_dfmo librbry usfd by HPROF to do BCI on bll 
+or sflfdtfd dlbssfilfs lobdfd into tif Virtubl Mbdiinf.  
+Tif dlbss Minst.jbvb dbn bf dustomizfd to do wibtfvfr you wisi,
+witiin rfbson of doursf, bnd dofs not dbll nbtivf mftiods dirfdtly.
 
-You can use this agent library as follows:
+You dbn usf tiis bgfnt librbry bs follows:
 
-    java -agentlib:minst ...
+    jbvb -bgfntlib:minst ...
 
-To get help on the available options try:
+To gft iflp on tif bvbilbblf options try:
 
-    java -agentlib:minst=help
+    jbvb -bgfntlib:minst=iflp
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+Sff ${JAVA_HOME}/dfmo/jvmti/indfx.itml for iflp running bnd building bgfnts.
 

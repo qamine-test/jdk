@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+
+
+/**
+ * A sfriblizfd mbpping in thf Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>DATALINK</dodf> vbluf. A <dodf>DATALINK</dodf> vbluf
+ * rfffrfndfs b filf outsidf of thf undfrlying dbtb sourdf thbt thf
+ * dbtb sourdf mbnbgfs.
+ * <P>
+ * <dodf>RowSft</dodf> implfmfntbtions dbn usf thf mfthod <dodf>RowSft.gftURL</dodf>
+ * to rftrifvf b <dodf>jbvb.nft.URL</dodf> objfdt, whidh dbn bf usfd
+ * to mbnipulbtf thf fxtfrnbl dbtb.
+ * <prf>
+ *      jbvb.nft.URL url = rowsft.gftURL(1);
+ * </prf>
+ *
+ * <h3> Thrfbd sbffty </h3>
+ *
+ * A SfriblDbtblink is not sbff for usf by multiplf dondurrfnt thrfbds.  If b
+ * SfriblDbtblink is to bf usfd by morf thbn onf thrfbd thfn bddfss to thf
+ * SfriblDbtblink should bf dontrollfd by bppropribtf syndhronizbtion.
+ *
+ * @sindf 1.5
+ */
+publid dlbss SfriblDbtblink implfmfnts Sfriblizbblf, Clonfbblf {
+
+    /**
+     * Thf fxtrbdtfd URL fifld rftrifvfd from thf DATALINK fifld.
+     * @sfribl
+     */
+    privbtf URL url;
+
+    /**
+     * Thf SQL typf of thf flfmfnts in this <dodf>SfriblDbtblink</dodf>
+     * objfdt.  Thf typf is fxprfssfd bs onf of thf dontbnts from thf
+     * dlbss <dodf>jbvb.sql.Typfs</dodf>.
+     * @sfribl
+     */
+    privbtf int bbsfTypf;
+
+    /**
+     * Thf typf nbmf usfd by thf DBMS for thf flfmfnts in thf SQL
+     * <dodf>DATALINK</dodf> vbluf thbt this SfriblDbtblink objfdt
+     * rfprfsfnts.
+     * @sfribl
+     */
+    privbtf String bbsfTypfNbmf;
+
+    /**
+      * Construdts b nfw <dodf>SfriblDbtblink</dodf> objfdt from thf givfn
+      * <dodf>jbvb.nft.URL</dodf> objfdt.
+      *
+      * @pbrbm url thf {@dodf URL} to drfbtf thf {@dodf SfriblDbtbLink} from
+      * @throws SfriblExdfption if url pbrbmftfr is b null
+      */
+    publid SfriblDbtblink(URL url) throws SfriblExdfption {
+        if (url == null) {
+            throw nfw SfriblExdfption("Cbnnot sfriblizf fmpty URL instbndf");
+        }
+        this.url = url;
+    }
+
+    /**
+     * Rfturns b nfw URL thbt is b dopy of this <dodf>SfriblDbtblink</dodf>
+     * objfdt.
+     *
+     * @rfturn b dopy of this <dodf>SfriblDbtblink</dodf> objfdt bs b
+     * <dodf>URL</dodf> objfdt in thf Jbvb progrbmming lbngubgf.
+     * @throws SfriblExdfption if thf <dodf>URL</dodf> objfdt dbnnot bf df-sfriblizfd
+     */
+    publid URL gftDbtblink() throws SfriblExdfption {
+
+        URL bURL = null;
+
+        try {
+            bURL = nfw URL((this.url).toString());
+        } dbtdh (jbvb.nft.MblformfdURLExdfption f) {
+            throw nfw SfriblExdfption("MblformfdURLExdfption: " + f.gftMfssbgf());
+        }
+        rfturn bURL;
+    }
+
+    /**
+     * Compbrfs this {@dodf SfriblDbtblink} to thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is not
+     * {@dodf null} bnd is b {@dodf SfriblDbtblink} objfdt whosf URL is
+     * idfntidbl to this objfdt's URL
+     *
+     * @pbrbm  obj Thf objfdt to dompbrf this {@dodf SfriblDbtblink} bgbinst
+     *
+     * @rfturn  {@dodf truf} if thf givfn objfdt rfprfsfnts b {@dodf SfriblDbtblink}
+     *          fquivblfnt to this SfriblDbtblink, {@dodf fblsf} othfrwisf
+     *
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof SfriblDbtblink) {
+            SfriblDbtblink sdl = (SfriblDbtblink) obj;
+            rfturn url.fqubls(sdl.url);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf SfriblDbtblink}. Thf hbsh dodf for b
+     * {@dodf SfriblDbtblink} objfdt is tbkfn bs thf hbsh dodf of
+     * thf {@dodf URL} it storfs
+     *
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn 31 + url.hbshCodf();
+    }
+
+    /**
+     * Rfturns b dlonf of this {@dodf SfriblDbtblink}.
+     *
+     * @rfturn  b dlonf of this SfriblDbtblink
+     */
+    publid Objfdt dlonf() {
+        try {
+            SfriblDbtblink sdl = (SfriblDbtblink) supfr.dlonf();
+            rfturn sdl;
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError();
+        }
+    }
+
+    /**
+     * rfbdObjfdt bnd writfObjfdt brf dbllfd to rfstorf thf stbtf
+     * of thf {@dodf SfriblDbtblink}
+     * from b strfbm. Notf: wf lfvfrbgf thf dffbult Sfriblizfd form
+     */
+
+    /**
+     * Thf idfntififr thbt bssists in thf sfriblizbtion of this
+     *  {@dodf SfriblDbtblink} objfdt.
+     */
+    stbtid finbl long sfriblVfrsionUID = 2826907821828733626L;
+}

@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.LodblVbribblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class VarDeclarationStatement extends Statement {
-    LocalMember field;
-    Expression expr;
+publid
+dlbss VbrDfdlbrbtionStbtfmfnt fxtfnds Stbtfmfnt {
+    LodblMfmbfr fifld;
+    Exprfssion fxpr;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public VarDeclarationStatement(long where, Expression expr) {
-        super(VARDECLARATION, where);
-        this.expr = expr;
+    publid VbrDfdlbrbtionStbtfmfnt(long wifrf, Exprfssion fxpr) {
+        supfr(VARDECLARATION, wifrf);
+        tiis.fxpr = fxpr;
     }
-    public VarDeclarationStatement(long where, LocalMember field, Expression expr) {
-        super(VARDECLARATION, where);
-        this.field = field;
-        this.expr = expr;
+    publid VbrDfdlbrbtionStbtfmfnt(long wifrf, LodblMfmbfr fifld, Exprfssion fxpr) {
+        supfr(VARDECLARATION, wifrf);
+        tiis.fifld = fifld;
+        tiis.fxpr = fxpr;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset checkDeclaration(Environment env, Context ctx, Vset vset, int mod, Type t, Hashtable<Object, Object> exp) {
-        if (labels != null) {
-            env.error(where, "declaration.with.label", labels[0]);
+    Vsft difdkDfdlbrbtion(Environmfnt fnv, Contfxt dtx, Vsft vsft, int mod, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (lbbfls != null) {
+            fnv.frror(wifrf, "dfdlbrbtion.witi.lbbfl", lbbfls[0]);
         }
-        if (field != null) {
-            if (ctx.getLocalClass(field.getName()) != null
-                && field.isInnerClass()) {
-                env.error(where, "local.class.redefined", field.getName());
+        if (fifld != null) {
+            if (dtx.gftLodblClbss(fifld.gftNbmf()) != null
+                && fifld.isInnfrClbss()) {
+                fnv.frror(wifrf, "lodbl.dlbss.rfdffinfd", fifld.gftNbmf());
             }
 
-            ctx.declare(env, field);
-            if (field.isInnerClass()) {
-                ClassDefinition body = field.getInnerClass();
+            dtx.dfdlbrf(fnv, fifld);
+            if (fifld.isInnfrClbss()) {
+                ClbssDffinition body = fifld.gftInnfrClbss();
                 try {
-                    vset = body.checkLocalClass(env, ctx, vset,
+                    vsft = body.difdkLodblClbss(fnv, dtx, vsft,
                                                 null, null, null);
-                } catch (ClassNotFound ee) {
-                    env.error(where, "class.not.found", ee.name, opNames[op]);
+                } dbtdi (ClbssNotFound ff) {
+                    fnv.frror(wifrf, "dlbss.not.found", ff.nbmf, opNbmfs[op]);
                 }
-                return vset;
+                rfturn vsft;
             }
-            vset.addVar(field.number);
-            return (expr != null) ? expr.checkValue(env, ctx, vset, exp) : vset;
+            vsft.bddVbr(fifld.numbfr);
+            rfturn (fxpr != null) ? fxpr.difdkVbluf(fnv, dtx, vsft, fxp) : vsft;
         }
 
-        // Argument 'expr' is either an IdentifierExpression for a declaration of
-        // the form 'type x' or an AssignmentExpression for a declaration of the
-        // form 'type x = initvalue'.  Note that these expressions are treated
-        // specially in this context, and don't have much connection to their ordinary
-        // meaning.
+        // Argumfnt 'fxpr' is fitifr bn IdfntififrExprfssion for b dfdlbrbtion of
+        // tif form 'typf x' or bn AssignmfntExprfssion for b dfdlbrbtion of tif
+        // form 'typf x = initvbluf'.  Notf tibt tifsf fxprfssions brf trfbtfd
+        // spfdiblly in tiis dontfxt, bnd don't ibvf mudi donnfdtion to tifir ordinbry
+        // mfbning.
 
-        Expression e = expr;
+        Exprfssion f = fxpr;
 
-        if (e.op == ASSIGN) {
-            expr = ((AssignExpression)e).right;
-            e = ((AssignExpression)e).left;
-        } else {
-            expr = null;
+        if (f.op == ASSIGN) {
+            fxpr = ((AssignExprfssion)f).rigit;
+            f = ((AssignExprfssion)f).lfft;
+        } flsf {
+            fxpr = null;
         }
 
-        boolean declError = t.isType(TC_ERROR);
-        while (e.op == ARRAYACCESS) {
-            ArrayAccessExpression array = (ArrayAccessExpression)e;
-            if (array.index != null) {
-                env.error(array.index.where, "array.dim.in.type");
-                declError = true;
+        boolfbn dfdlError = t.isTypf(TC_ERROR);
+        wiilf (f.op == ARRAYACCESS) {
+            ArrbyAddfssExprfssion brrby = (ArrbyAddfssExprfssion)f;
+            if (brrby.indfx != null) {
+                fnv.frror(brrby.indfx.wifrf, "brrby.dim.in.typf");
+                dfdlError = truf;
             }
-            e = array.right;
-            t = Type.tArray(t);
+            f = brrby.rigit;
+            t = Typf.tArrby(t);
         }
-        if (e.op == IDENT) {
-            Identifier id = ((IdentifierExpression)e).id;
-            if (ctx.getLocalField(id) != null) {
-                env.error(where, "local.redefined", id);
+        if (f.op == IDENT) {
+            Idfntififr id = ((IdfntififrExprfssion)f).id;
+            if (dtx.gftLodblFifld(id) != null) {
+                fnv.frror(wifrf, "lodbl.rfdffinfd", id);
             }
 
-            field = new LocalMember(e.where, ctx.field.getClassDefinition(), mod, t, id);
-            ctx.declare(env, field);
+            fifld = nfw LodblMfmbfr(f.wifrf, dtx.fifld.gftClbssDffinition(), mod, t, id);
+            dtx.dfdlbrf(fnv, fifld);
 
-            if (expr != null) {
-                vset = expr.checkInitializer(env, ctx, vset, t, exp);
-                expr = convert(env, ctx, t, expr);
-                field.setValue(expr); // for the sake of non-blank finals
-                if (field.isConstant()) {
-                    // Keep in mind that isConstant() only means expressions
-                    // that are constant according to the JLS.  They might
-                    // not be either constants or evaluable (eg. 1/0).
-                    field.addModifiers(M_INLINEABLE);
+            if (fxpr != null) {
+                vsft = fxpr.difdkInitiblizfr(fnv, dtx, vsft, t, fxp);
+                fxpr = donvfrt(fnv, dtx, t, fxpr);
+                fifld.sftVbluf(fxpr); // for tif sbkf of non-blbnk finbls
+                if (fifld.isConstbnt()) {
+                    // Kffp in mind tibt isConstbnt() only mfbns fxprfssions
+                    // tibt brf donstbnt bddording to tif JLS.  Tify migit
+                    // not bf fitifr donstbnts or fvblubblf (fg. 1/0).
+                    fifld.bddModififrs(M_INLINEABLE);
                 }
-                vset.addVar(field.number);
-            } else if (declError) {
-                vset.addVar(field.number);
-            } else {
-                vset.addVarUnassigned(field.number);
+                vsft.bddVbr(fifld.numbfr);
+            } flsf if (dfdlError) {
+                vsft.bddVbr(fifld.numbfr);
+            } flsf {
+                vsft.bddVbrUnbssignfd(fifld.numbfr);
             }
-            return vset;
+            rfturn vsft;
         }
-        env.error(e.where, "invalid.decl");
-        return vset;
+        fnv.frror(f.wifrf, "invblid.dfdl");
+        rfturn vsft;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        if (field.isInnerClass()) {
-            ClassDefinition body = field.getInnerClass();
-            body.inlineLocalClass(env);
-            return null;
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (fifld.isInnfrClbss()) {
+            ClbssDffinition body = fifld.gftInnfrClbss();
+            body.inlinfLodblClbss(fnv);
+            rfturn null;
         }
 
-        // Don't generate code for variable if unused and
-        // optimization is on, whether or not debugging is on
-        if (env.opt() && !field.isUsed()) {
-            return new ExpressionStatement(where, expr).inline(env, ctx);
+        // Don't gfnfrbtf dodf for vbribblf if unusfd bnd
+        // optimizbtion is on, wiftifr or not dfbugging is on
+        if (fnv.opt() && !fifld.isUsfd()) {
+            rfturn nfw ExprfssionStbtfmfnt(wifrf, fxpr).inlinf(fnv, dtx);
         }
 
-        ctx.declare(env, field);
+        dtx.dfdlbrf(fnv, fifld);
 
-        if (expr != null) {
-            expr = expr.inlineValue(env, ctx);
-            field.setValue(expr); // for the sake of non-blank finals
-            if (env.opt() && (field.writecount == 0)) {
-                if (expr.op == IDENT) {
+        if (fxpr != null) {
+            fxpr = fxpr.inlinfVbluf(fnv, dtx);
+            fifld.sftVbluf(fxpr); // for tif sbkf of non-blbnk finbls
+            if (fnv.opt() && (fifld.writfdount == 0)) {
+                if (fxpr.op == IDENT) {
 
-                    // This code looks like it tests whether a final variable
-                    // is being initialized by an identifier expression.
-                    // Then if the identifier is a local of the same method
-                    // it makes the final variable eligible to be inlined.
-                    // BUT: why isn't the local also checked to make sure
-                    // it is itself final?  Unknown.
+                    // Tiis dodf looks likf it tfsts wiftifr b finbl vbribblf
+                    // is bfing initiblizfd by bn idfntififr fxprfssion.
+                    // Tifn if tif idfntififr is b lodbl of tif sbmf mftiod
+                    // it mbkfs tif finbl vbribblf fligiblf to bf inlinfd.
+                    // BUT: wiy isn't tif lodbl blso difdkfd to mbkf surf
+                    // it is itsflf finbl?  Unknown.
 
-                    IdentifierExpression e = (IdentifierExpression)expr;
-                    if (e.field.isLocal() && ((ctx = ctx.getInlineContext()) != null) &&
-                        (((LocalMember)e.field).number < ctx.varNumber)) {
-                        //System.out.println("FINAL IDENT = " + field + " in " + ctx.field);
-                        field.setValue(expr);
-                        field.addModifiers(M_INLINEABLE);
+                    IdfntififrExprfssion f = (IdfntififrExprfssion)fxpr;
+                    if (f.fifld.isLodbl() && ((dtx = dtx.gftInlinfContfxt()) != null) &&
+                        (((LodblMfmbfr)f.fifld).numbfr < dtx.vbrNumbfr)) {
+                        //Systfm.out.println("FINAL IDENT = " + fifld + " in " + dtx.fifld);
+                        fifld.sftVbluf(fxpr);
+                        fifld.bddModififrs(M_INLINEABLE);
 
-                        // The two lines below used to elide the declaration
-                        // of inlineable variables, on the theory that there
-                        // wouldn't be any references.  But this breaks the
-                        // translation of nested classes, which might refer to
-                        // the variable.
+                        // Tif two linfs bflow usfd to flidf tif dfdlbrbtion
+                        // of inlinfbblf vbribblfs, on tif tifory tibt tifrf
+                        // wouldn't bf bny rfffrfndfs.  But tiis brfbks tif
+                        // trbnslbtion of nfstfd dlbssfs, wiidi migit rfffr to
+                        // tif vbribblf.
 
-                        //expr = null;
-                        //return null;
+                        //fxpr = null;
+                        //rfturn null;
                     }
                 }
-                if (expr.isConstant() || (expr.op == THIS) || (expr.op == SUPER)) {
-                    //System.out.println("FINAL = " + field + " in " + ctx.field);
-                    field.setValue(expr);
-                    field.addModifiers(M_INLINEABLE);
+                if (fxpr.isConstbnt() || (fxpr.op == THIS) || (fxpr.op == SUPER)) {
+                    //Systfm.out.println("FINAL = " + fifld + " in " + dtx.fifld);
+                    fifld.sftVbluf(fxpr);
+                    fifld.bddModififrs(M_INLINEABLE);
 
-                    // The two lines below used to elide the declaration
-                    // of inlineable variables, on the theory that there
-                    // wouldn't be any references.  But this breaks the
-                    // translation of nested classes, which might refer to
-                    // the variable.  Fix for 4073244.
+                    // Tif two linfs bflow usfd to flidf tif dfdlbrbtion
+                    // of inlinfbblf vbribblfs, on tif tifory tibt tifrf
+                    // wouldn't bf bny rfffrfndfs.  But tiis brfbks tif
+                    // trbnslbtion of nfstfd dlbssfs, wiidi migit rfffr to
+                    // tif vbribblf.  Fix for 4073244.
 
-                    //expr = null;
-                    //return null;
+                    //fxpr = null;
+                    //rfturn null;
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        VarDeclarationStatement s = (VarDeclarationStatement)clone();
-        if (expr != null) {
-            s.expr = expr.copyInline(ctx);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        VbrDfdlbrbtionStbtfmfnt s = (VbrDfdlbrbtionStbtfmfnt)dlonf();
+        if (fxpr != null) {
+            s.fxpr = fxpr.dopyInlinf(dtx);
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        if (field != null && field.isInnerClass()) {
-            return thresh;      // don't copy classes...
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        if (fifld != null && fifld.isInnfrClbss()) {
+            rfturn tirfsi;      // don't dopy dlbssfs...
         }
-        return (expr != null) ? expr.costInline(thresh, env, ctx) : 0;
+        rfturn (fxpr != null) ? fxpr.dostInlinf(tirfsi, fnv, dtx) : 0;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        if (expr != null && !expr.type.isType(TC_VOID)) {
-            // The two lines of code directly following this comment used
-            // to be in the opposite order.  They were switched so that
-            // lines like the following:
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (fxpr != null && !fxpr.typf.isTypf(TC_VOID)) {
+            // Tif two linfs of dodf dirfdtly following tiis dommfnt usfd
+            // to bf in tif oppositf ordfr.  Tify wfrf switdifd so tibt
+            // linfs likf tif following:
             //
             //     int j = (j = 4);
             //
-            // will compile correctly.  (Constructions like the above are
-            // legal.  JLS 14.3.2 says that the scope of a local variable
-            // includes its own initializer.)  It is important that we
-            // declare `field' before we code `expr', because otherwise
-            // situations can arise where `field' thinks it is assigned
-            // a local variable slot that is, in actuality, assigned to
-            // an entirely different variable.  (Bug id 4076729)
-            ctx.declare(env, field);
-            expr.codeValue(env, ctx, asm);
+            // will dompilf dorrfdtly.  (Construdtions likf tif bbovf brf
+            // lfgbl.  JLS 14.3.2 sbys tibt tif sdopf of b lodbl vbribblf
+            // indludfs its own initiblizfr.)  It is importbnt tibt wf
+            // dfdlbrf `fifld' bfforf wf dodf `fxpr', bfdbusf otifrwisf
+            // situbtions dbn brisf wifrf `fifld' tiinks it is bssignfd
+            // b lodbl vbribblf slot tibt is, in bdtublity, bssignfd to
+            // bn fntirfly difffrfnt vbribblf.  (Bug id 4076729)
+            dtx.dfdlbrf(fnv, fifld);
+            fxpr.dodfVbluf(fnv, dtx, bsm);
 
-            asm.add(where, opc_istore + field.getType().getTypeCodeOffset(),
-                    new LocalVariable(field, field.number));
-        } else {
-            ctx.declare(env, field);
-            if (expr != null) {
-                // an initial side effect, rather than an initial value
-                expr.code(env, ctx, asm);
+            bsm.bdd(wifrf, opd_istorf + fifld.gftTypf().gftTypfCodfOffsft(),
+                    nfw LodblVbribblf(fifld, fifld.numbfr));
+        } flsf {
+            dtx.dfdlbrf(fnv, fifld);
+            if (fxpr != null) {
+                // bn initibl sidf ffffdt, rbtifr tibn bn initibl vbluf
+                fxpr.dodf(fnv, dtx, bsm);
             }
         }
     }
@@ -261,16 +261,16 @@ class VarDeclarationStatement extends Statement {
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        out.print("local ");
-        if (field != null) {
-            out.print(field + "#" + field.hashCode());
-            if (expr != null) {
+    publid void print(PrintStrfbm out, int indfnt) {
+        out.print("lodbl ");
+        if (fifld != null) {
+            out.print(fifld + "#" + fifld.ibsiCodf());
+            if (fxpr != null) {
                 out.print(" = ");
-                expr.print(out);
+                fxpr.print(out);
             }
-        } else {
-            expr.print(out);
+        } flsf {
+            fxpr.print(out);
             out.print(";");
         }
     }

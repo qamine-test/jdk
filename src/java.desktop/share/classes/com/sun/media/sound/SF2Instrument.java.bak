@@ -1,911 +1,911 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.sound.midi.Patch;
+import jbvbx.sound.midi.Pbtdi;
 
 /**
- * Soundfont instrument.
+ * Soundfont instrumfnt.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SF2Instrument extends ModelInstrument {
+publid finbl dlbss SF2Instrumfnt fxtfnds ModflInstrumfnt {
 
-    String name = "";
-    int preset = 0;
-    int bank = 0;
-    long library = 0;
-    long genre = 0;
-    long morphology = 0;
-    SF2GlobalRegion globalregion = null;
-    List<SF2InstrumentRegion> regions
-            = new ArrayList<SF2InstrumentRegion>();
+    String nbmf = "";
+    int prfsft = 0;
+    int bbnk = 0;
+    long librbry = 0;
+    long gfnrf = 0;
+    long morpiology = 0;
+    SF2GlobblRfgion globblrfgion = null;
+    List<SF2InstrumfntRfgion> rfgions
+            = nfw ArrbyList<SF2InstrumfntRfgion>();
 
-    public SF2Instrument() {
-        super(null, null, null, null);
+    publid SF2Instrumfnt() {
+        supfr(null, null, null, null);
     }
 
-    public SF2Instrument(SF2Soundbank soundbank) {
-        super(soundbank, null, null, null);
+    publid SF2Instrumfnt(SF2Soundbbnk soundbbnk) {
+        supfr(soundbbnk, null, null, null);
     }
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public Patch getPatch() {
-        if (bank == 128)
-            return new ModelPatch(0, preset, true);
-        else
-            return new ModelPatch(bank << 7, preset, false);
+    publid Pbtdi gftPbtdi() {
+        if (bbnk == 128)
+            rfturn nfw ModflPbtdi(0, prfsft, truf);
+        flsf
+            rfturn nfw ModflPbtdi(bbnk << 7, prfsft, fblsf);
     }
 
-    public void setPatch(Patch patch) {
-        if (patch instanceof ModelPatch && ((ModelPatch) patch).isPercussion()) {
-            bank = 128;
-            preset = patch.getProgram();
-        } else {
-            bank = patch.getBank() >> 7;
-            preset = patch.getProgram();
+    publid void sftPbtdi(Pbtdi pbtdi) {
+        if (pbtdi instbndfof ModflPbtdi && ((ModflPbtdi) pbtdi).isPfrdussion()) {
+            bbnk = 128;
+            prfsft = pbtdi.gftProgrbm();
+        } flsf {
+            bbnk = pbtdi.gftBbnk() >> 7;
+            prfsft = pbtdi.gftProgrbm();
         }
     }
 
-    public Object getData() {
-        return null;
+    publid Objfdt gftDbtb() {
+        rfturn null;
     }
 
-    public long getGenre() {
-        return genre;
+    publid long gftGfnrf() {
+        rfturn gfnrf;
     }
 
-    public void setGenre(long genre) {
-        this.genre = genre;
+    publid void sftGfnrf(long gfnrf) {
+        tiis.gfnrf = gfnrf;
     }
 
-    public long getLibrary() {
-        return library;
+    publid long gftLibrbry() {
+        rfturn librbry;
     }
 
-    public void setLibrary(long library) {
-        this.library = library;
+    publid void sftLibrbry(long librbry) {
+        tiis.librbry = librbry;
     }
 
-    public long getMorphology() {
-        return morphology;
+    publid long gftMorpiology() {
+        rfturn morpiology;
     }
 
-    public void setMorphology(long morphology) {
-        this.morphology = morphology;
+    publid void sftMorpiology(long morpiology) {
+        tiis.morpiology = morpiology;
     }
 
-    public List<SF2InstrumentRegion> getRegions() {
-        return regions;
+    publid List<SF2InstrumfntRfgion> gftRfgions() {
+        rfturn rfgions;
     }
 
-    public SF2GlobalRegion getGlobalRegion() {
-        return globalregion;
+    publid SF2GlobblRfgion gftGlobblRfgion() {
+        rfturn globblrfgion;
     }
 
-    public void setGlobalZone(SF2GlobalRegion zone) {
-        globalregion = zone;
+    publid void sftGlobblZonf(SF2GlobblRfgion zonf) {
+        globblrfgion = zonf;
     }
 
-    public String toString() {
-        if (bank == 128)
-            return "Drumkit: " + name + " preset #" + preset;
-        else
-            return "Instrument: " + name + " bank #" + bank
-                    + " preset #" + preset;
+    publid String toString() {
+        if (bbnk == 128)
+            rfturn "Drumkit: " + nbmf + " prfsft #" + prfsft;
+        flsf
+            rfturn "Instrumfnt: " + nbmf + " bbnk #" + bbnk
+                    + " prfsft #" + prfsft;
     }
 
-    public ModelPerformer[] getPerformers() {
-        int performercount = 0;
-        for (SF2InstrumentRegion presetzone : regions)
-            performercount += presetzone.getLayer().getRegions().size();
-        ModelPerformer[] performers = new ModelPerformer[performercount];
+    publid ModflPfrformfr[] gftPfrformfrs() {
+        int pfrformfrdount = 0;
+        for (SF2InstrumfntRfgion prfsftzonf : rfgions)
+            pfrformfrdount += prfsftzonf.gftLbyfr().gftRfgions().sizf();
+        ModflPfrformfr[] pfrformfrs = nfw ModflPfrformfr[pfrformfrdount];
         int pi = 0;
 
-        SF2GlobalRegion presetglobal = globalregion;
-        for (SF2InstrumentRegion presetzone : regions) {
-            Map<Integer, Short> pgenerators = new HashMap<Integer, Short>();
-            pgenerators.putAll(presetzone.getGenerators());
-            if (presetglobal != null)
-                pgenerators.putAll(presetglobal.getGenerators());
+        SF2GlobblRfgion prfsftglobbl = globblrfgion;
+        for (SF2InstrumfntRfgion prfsftzonf : rfgions) {
+            Mbp<Intfgfr, Siort> pgfnfrbtors = nfw HbsiMbp<Intfgfr, Siort>();
+            pgfnfrbtors.putAll(prfsftzonf.gftGfnfrbtors());
+            if (prfsftglobbl != null)
+                pgfnfrbtors.putAll(prfsftglobbl.gftGfnfrbtors());
 
-            SF2Layer layer = presetzone.getLayer();
-            SF2GlobalRegion layerglobal = layer.getGlobalRegion();
-            for (SF2LayerRegion layerzone : layer.getRegions()) {
-                ModelPerformer performer = new ModelPerformer();
-                if (layerzone.getSample() != null)
-                    performer.setName(layerzone.getSample().getName());
-                else
-                    performer.setName(layer.getName());
+            SF2Lbyfr lbyfr = prfsftzonf.gftLbyfr();
+            SF2GlobblRfgion lbyfrglobbl = lbyfr.gftGlobblRfgion();
+            for (SF2LbyfrRfgion lbyfrzonf : lbyfr.gftRfgions()) {
+                ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+                if (lbyfrzonf.gftSbmplf() != null)
+                    pfrformfr.sftNbmf(lbyfrzonf.gftSbmplf().gftNbmf());
+                flsf
+                    pfrformfr.sftNbmf(lbyfr.gftNbmf());
 
-                performers[pi++] = performer;
+                pfrformfrs[pi++] = pfrformfr;
 
-                int keyfrom = 0;
-                int keyto = 127;
-                int velfrom = 0;
-                int velto = 127;
+                int kfyfrom = 0;
+                int kfyto = 127;
+                int vflfrom = 0;
+                int vflto = 127;
 
-                if (layerzone.contains(SF2Region.GENERATOR_EXCLUSIVECLASS)) {
-                    performer.setExclusiveClass(layerzone.getInteger(
-                            SF2Region.GENERATOR_EXCLUSIVECLASS));
+                if (lbyfrzonf.dontbins(SF2Rfgion.GENERATOR_EXCLUSIVECLASS)) {
+                    pfrformfr.sftExdlusivfClbss(lbyfrzonf.gftIntfgfr(
+                            SF2Rfgion.GENERATOR_EXCLUSIVECLASS));
                 }
-                if (layerzone.contains(SF2Region.GENERATOR_KEYRANGE)) {
-                    byte[] bytes = layerzone.getBytes(
-                            SF2Region.GENERATOR_KEYRANGE);
-                    if (bytes[0] >= 0)
-                        if (bytes[0] > keyfrom)
-                            keyfrom = bytes[0];
-                    if (bytes[1] >= 0)
-                        if (bytes[1] < keyto)
-                            keyto = bytes[1];
+                if (lbyfrzonf.dontbins(SF2Rfgion.GENERATOR_KEYRANGE)) {
+                    bytf[] bytfs = lbyfrzonf.gftBytfs(
+                            SF2Rfgion.GENERATOR_KEYRANGE);
+                    if (bytfs[0] >= 0)
+                        if (bytfs[0] > kfyfrom)
+                            kfyfrom = bytfs[0];
+                    if (bytfs[1] >= 0)
+                        if (bytfs[1] < kfyto)
+                            kfyto = bytfs[1];
                 }
-                if (layerzone.contains(SF2Region.GENERATOR_VELRANGE)) {
-                    byte[] bytes = layerzone.getBytes(
-                            SF2Region.GENERATOR_VELRANGE);
-                    if (bytes[0] >= 0)
-                        if (bytes[0] > velfrom)
-                            velfrom = bytes[0];
-                    if (bytes[1] >= 0)
-                        if (bytes[1] < velto)
-                            velto = bytes[1];
+                if (lbyfrzonf.dontbins(SF2Rfgion.GENERATOR_VELRANGE)) {
+                    bytf[] bytfs = lbyfrzonf.gftBytfs(
+                            SF2Rfgion.GENERATOR_VELRANGE);
+                    if (bytfs[0] >= 0)
+                        if (bytfs[0] > vflfrom)
+                            vflfrom = bytfs[0];
+                    if (bytfs[1] >= 0)
+                        if (bytfs[1] < vflto)
+                            vflto = bytfs[1];
                 }
-                if (presetzone.contains(SF2Region.GENERATOR_KEYRANGE)) {
-                    byte[] bytes = presetzone.getBytes(
-                            SF2Region.GENERATOR_KEYRANGE);
-                    if (bytes[0] > keyfrom)
-                        keyfrom = bytes[0];
-                    if (bytes[1] < keyto)
-                        keyto = bytes[1];
+                if (prfsftzonf.dontbins(SF2Rfgion.GENERATOR_KEYRANGE)) {
+                    bytf[] bytfs = prfsftzonf.gftBytfs(
+                            SF2Rfgion.GENERATOR_KEYRANGE);
+                    if (bytfs[0] > kfyfrom)
+                        kfyfrom = bytfs[0];
+                    if (bytfs[1] < kfyto)
+                        kfyto = bytfs[1];
                 }
-                if (presetzone.contains(SF2Region.GENERATOR_VELRANGE)) {
-                    byte[] bytes = presetzone.getBytes(
-                            SF2Region.GENERATOR_VELRANGE);
-                    if (bytes[0] > velfrom)
-                        velfrom = bytes[0];
-                    if (bytes[1] < velto)
-                        velto = bytes[1];
+                if (prfsftzonf.dontbins(SF2Rfgion.GENERATOR_VELRANGE)) {
+                    bytf[] bytfs = prfsftzonf.gftBytfs(
+                            SF2Rfgion.GENERATOR_VELRANGE);
+                    if (bytfs[0] > vflfrom)
+                        vflfrom = bytfs[0];
+                    if (bytfs[1] < vflto)
+                        vflto = bytfs[1];
                 }
-                performer.setKeyFrom(keyfrom);
-                performer.setKeyTo(keyto);
-                performer.setVelFrom(velfrom);
-                performer.setVelTo(velto);
+                pfrformfr.sftKfyFrom(kfyfrom);
+                pfrformfr.sftKfyTo(kfyto);
+                pfrformfr.sftVflFrom(vflfrom);
+                pfrformfr.sftVflTo(vflto);
 
-                int startAddrsOffset = layerzone.getShort(
-                        SF2Region.GENERATOR_STARTADDRSOFFSET);
-                int endAddrsOffset = layerzone.getShort(
-                        SF2Region.GENERATOR_ENDADDRSOFFSET);
-                int startloopAddrsOffset = layerzone.getShort(
-                        SF2Region.GENERATOR_STARTLOOPADDRSOFFSET);
-                int endloopAddrsOffset = layerzone.getShort(
-                        SF2Region.GENERATOR_ENDLOOPADDRSOFFSET);
+                int stbrtAddrsOffsft = lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_STARTADDRSOFFSET);
+                int fndAddrsOffsft = lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_ENDADDRSOFFSET);
+                int stbrtloopAddrsOffsft = lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_STARTLOOPADDRSOFFSET);
+                int fndloopAddrsOffsft = lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_ENDLOOPADDRSOFFSET);
 
-                startAddrsOffset += layerzone.getShort(
-                        SF2Region.GENERATOR_STARTADDRSCOARSEOFFSET) * 32768;
-                endAddrsOffset += layerzone.getShort(
-                        SF2Region.GENERATOR_ENDADDRSCOARSEOFFSET) * 32768;
-                startloopAddrsOffset += layerzone.getShort(
-                        SF2Region.GENERATOR_STARTLOOPADDRSCOARSEOFFSET) * 32768;
-                endloopAddrsOffset += layerzone.getShort(
-                        SF2Region.GENERATOR_ENDLOOPADDRSCOARSEOFFSET) * 32768;
-                startloopAddrsOffset -= startAddrsOffset;
-                endloopAddrsOffset -= startAddrsOffset;
+                stbrtAddrsOffsft += lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_STARTADDRSCOARSEOFFSET) * 32768;
+                fndAddrsOffsft += lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_ENDADDRSCOARSEOFFSET) * 32768;
+                stbrtloopAddrsOffsft += lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_STARTLOOPADDRSCOARSEOFFSET) * 32768;
+                fndloopAddrsOffsft += lbyfrzonf.gftSiort(
+                        SF2Rfgion.GENERATOR_ENDLOOPADDRSCOARSEOFFSET) * 32768;
+                stbrtloopAddrsOffsft -= stbrtAddrsOffsft;
+                fndloopAddrsOffsft -= stbrtAddrsOffsft;
 
-                SF2Sample sample = layerzone.getSample();
-                int rootkey = sample.originalPitch;
-                if (layerzone.getShort(SF2Region.GENERATOR_OVERRIDINGROOTKEY) != -1) {
-                    rootkey = layerzone.getShort(
-                            SF2Region.GENERATOR_OVERRIDINGROOTKEY);
+                SF2Sbmplf sbmplf = lbyfrzonf.gftSbmplf();
+                int rootkfy = sbmplf.originblPitdi;
+                if (lbyfrzonf.gftSiort(SF2Rfgion.GENERATOR_OVERRIDINGROOTKEY) != -1) {
+                    rootkfy = lbyfrzonf.gftSiort(
+                            SF2Rfgion.GENERATOR_OVERRIDINGROOTKEY);
                 }
-                float pitchcorrection = (-rootkey * 100) + sample.pitchCorrection;
-                ModelByteBuffer buff = sample.getDataBuffer();
-                ModelByteBuffer buff24 = sample.getData24Buffer();
+                flobt pitdidorrfdtion = (-rootkfy * 100) + sbmplf.pitdiCorrfdtion;
+                ModflBytfBufffr buff = sbmplf.gftDbtbBufffr();
+                ModflBytfBufffr buff24 = sbmplf.gftDbtb24Bufffr();
 
-                if (startAddrsOffset != 0 || endAddrsOffset != 0) {
-                    buff = buff.subbuffer(startAddrsOffset * 2,
-                            buff.capacity() + endAddrsOffset * 2);
+                if (stbrtAddrsOffsft != 0 || fndAddrsOffsft != 0) {
+                    buff = buff.subbufffr(stbrtAddrsOffsft * 2,
+                            buff.dbpbdity() + fndAddrsOffsft * 2);
                     if (buff24 != null) {
-                        buff24 = buff24.subbuffer(startAddrsOffset,
-                                buff24.capacity() + endAddrsOffset);
+                        buff24 = buff24.subbufffr(stbrtAddrsOffsft,
+                                buff24.dbpbdity() + fndAddrsOffsft);
                     }
 
                     /*
-                    if (startAddrsOffset < 0)
-                        startAddrsOffset = 0;
-                    if (endAddrsOffset > (buff.capacity()/2-startAddrsOffset))
-                        startAddrsOffset = (int)buff.capacity()/2-startAddrsOffset;
-                    byte[] data = buff.array();
-                    int off = (int)buff.arrayOffset() + startAddrsOffset*2;
-                    int len = (int)buff.capacity() + endAddrsOffset*2;
-                    if (off+len > data.length)
-                        len = data.length - off;
-                    buff = new ModelByteBuffer(data, off, len);
+                    if (stbrtAddrsOffsft < 0)
+                        stbrtAddrsOffsft = 0;
+                    if (fndAddrsOffsft > (buff.dbpbdity()/2-stbrtAddrsOffsft))
+                        stbrtAddrsOffsft = (int)buff.dbpbdity()/2-stbrtAddrsOffsft;
+                    bytf[] dbtb = buff.brrby();
+                    int off = (int)buff.brrbyOffsft() + stbrtAddrsOffsft*2;
+                    int lfn = (int)buff.dbpbdity() + fndAddrsOffsft*2;
+                    if (off+lfn > dbtb.lfngti)
+                        lfn = dbtb.lfngti - off;
+                    buff = nfw ModflBytfBufffr(dbtb, off, lfn);
                     if(buff24 != null) {
-                        data = buff.array();
-                        off = (int)buff.arrayOffset() + startAddrsOffset;
-                        len = (int)buff.capacity() + endAddrsOffset;
-                        buff24 = new ModelByteBuffer(data, off, len);
+                        dbtb = buff.brrby();
+                        off = (int)buff.brrbyOffsft() + stbrtAddrsOffsft;
+                        lfn = (int)buff.dbpbdity() + fndAddrsOffsft;
+                        buff24 = nfw ModflBytfBufffr(dbtb, off, lfn);
                     }
                     */
                 }
 
-                ModelByteBufferWavetable osc = new ModelByteBufferWavetable(
-                        buff, sample.getFormat(), pitchcorrection);
+                ModflBytfBufffrWbvftbblf osd = nfw ModflBytfBufffrWbvftbblf(
+                        buff, sbmplf.gftFormbt(), pitdidorrfdtion);
                 if (buff24 != null)
-                    osc.set8BitExtensionBuffer(buff24);
+                    osd.sft8BitExtfnsionBufffr(buff24);
 
-                Map<Integer, Short> generators = new HashMap<Integer, Short>();
-                if (layerglobal != null)
-                    generators.putAll(layerglobal.getGenerators());
-                generators.putAll(layerzone.getGenerators());
-                for (Map.Entry<Integer, Short> gen : pgenerators.entrySet()) {
-                    short val;
-                    if (!generators.containsKey(gen.getKey()))
-                        val = layerzone.getShort(gen.getKey());
-                    else
-                        val = generators.get(gen.getKey());
-                    val += gen.getValue();
-                    generators.put(gen.getKey(), val);
+                Mbp<Intfgfr, Siort> gfnfrbtors = nfw HbsiMbp<Intfgfr, Siort>();
+                if (lbyfrglobbl != null)
+                    gfnfrbtors.putAll(lbyfrglobbl.gftGfnfrbtors());
+                gfnfrbtors.putAll(lbyfrzonf.gftGfnfrbtors());
+                for (Mbp.Entry<Intfgfr, Siort> gfn : pgfnfrbtors.fntrySft()) {
+                    siort vbl;
+                    if (!gfnfrbtors.dontbinsKfy(gfn.gftKfy()))
+                        vbl = lbyfrzonf.gftSiort(gfn.gftKfy());
+                    flsf
+                        vbl = gfnfrbtors.gft(gfn.gftKfy());
+                    vbl += gfn.gftVbluf();
+                    gfnfrbtors.put(gfn.gftKfy(), vbl);
                 }
 
-                // SampleMode:
-                // 0 indicates a sound reproduced with no loop
-                // 1 indicates a sound which loops continuously
-                // 2 is unused but should be interpreted as indicating no loop
-                // 3 indicates a sound which loops for the duration of key
-                //   depression then proceeds to play the remainder of the sample.
-                int sampleMode = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_SAMPLEMODES);
-                if ((sampleMode == 1) || (sampleMode == 3)) {
-                    if (sample.startLoop >= 0 && sample.endLoop > 0) {
-                        osc.setLoopStart((int)(sample.startLoop
-                                + startloopAddrsOffset));
-                        osc.setLoopLength((int)(sample.endLoop - sample.startLoop
-                                + endloopAddrsOffset - startloopAddrsOffset));
-                        if (sampleMode == 1)
-                            osc.setLoopType(ModelWavetable.LOOP_TYPE_FORWARD);
-                        if (sampleMode == 3)
-                            osc.setLoopType(ModelWavetable.LOOP_TYPE_RELEASE);
+                // SbmplfModf:
+                // 0 indidbtfs b sound rfprodudfd witi no loop
+                // 1 indidbtfs b sound wiidi loops dontinuously
+                // 2 is unusfd but siould bf intfrprftfd bs indidbting no loop
+                // 3 indidbtfs b sound wiidi loops for tif durbtion of kfy
+                //   dfprfssion tifn prodffds to plby tif rfmbindfr of tif sbmplf.
+                int sbmplfModf = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_SAMPLEMODES);
+                if ((sbmplfModf == 1) || (sbmplfModf == 3)) {
+                    if (sbmplf.stbrtLoop >= 0 && sbmplf.fndLoop > 0) {
+                        osd.sftLoopStbrt((int)(sbmplf.stbrtLoop
+                                + stbrtloopAddrsOffsft));
+                        osd.sftLoopLfngti((int)(sbmplf.fndLoop - sbmplf.stbrtLoop
+                                + fndloopAddrsOffsft - stbrtloopAddrsOffsft));
+                        if (sbmplfModf == 1)
+                            osd.sftLoopTypf(ModflWbvftbblf.LOOP_TYPE_FORWARD);
+                        if (sbmplfModf == 3)
+                            osd.sftLoopTypf(ModflWbvftbblf.LOOP_TYPE_RELEASE);
                     }
                 }
-                performer.getOscillators().add(osc);
+                pfrformfr.gftOsdillbtors().bdd(osd);
 
 
-                short volDelay = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_DELAYVOLENV);
-                short volAttack = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_ATTACKVOLENV);
-                short volHold = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_HOLDVOLENV);
-                short volDecay = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_DECAYVOLENV);
-                short volSustain = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_SUSTAINVOLENV);
-                short volRelease = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_RELEASEVOLENV);
+                siort volDflby = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_DELAYVOLENV);
+                siort volAttbdk = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_ATTACKVOLENV);
+                siort volHold = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_HOLDVOLENV);
+                siort volDfdby = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_DECAYVOLENV);
+                siort volSustbin = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_SUSTAINVOLENV);
+                siort volRflfbsf = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_RELEASEVOLENV);
 
                 if (volHold != -12000) {
-                    short volKeyNumToHold = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_KEYNUMTOVOLENVHOLD);
-                    volHold += 60 * volKeyNumToHold;
-                    float fvalue = -volKeyNumToHold * 128;
-                    ModelIdentifier src = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_EG1_HOLD;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(new ModelSource(src), fvalue,
-                            new ModelDestination(dest)));
+                    siort volKfyNumToHold = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_KEYNUMTOVOLENVHOLD);
+                    volHold += 60 * volKfyNumToHold;
+                    flobt fvbluf = -volKfyNumToHold * 128;
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_EG1_HOLD;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd), fvbluf,
+                            nfw ModflDfstinbtion(dfst)));
                 }
-                if (volDecay != -12000) {
-                    short volKeyNumToDecay = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_KEYNUMTOVOLENVDECAY);
-                    volDecay += 60 * volKeyNumToDecay;
-                    float fvalue = -volKeyNumToDecay * 128;
-                    ModelIdentifier src = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_EG1_DECAY;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(new ModelSource(src), fvalue,
-                            new ModelDestination(dest)));
+                if (volDfdby != -12000) {
+                    siort volKfyNumToDfdby = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_KEYNUMTOVOLENVDECAY);
+                    volDfdby += 60 * volKfyNumToDfdby;
+                    flobt fvbluf = -volKfyNumToDfdby * 128;
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_EG1_DECAY;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd), fvbluf,
+                            nfw ModflDfstinbtion(dfst)));
                 }
 
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_EG1_DELAY, volDelay);
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_EG1_ATTACK, volAttack);
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_EG1_HOLD, volHold);
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_EG1_DECAY, volDecay);
-                //float fvolsustain = (960-volSustain)*(1000.0f/960.0f);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_DELAY, volDflby);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_ATTACK, volAttbdk);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_HOLD, volHold);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_DECAY, volDfdby);
+                //flobt fvolsustbin = (960-volSustbin)*(1000.0f/960.0f);
 
-                volSustain = (short)(1000 - volSustain);
-                if (volSustain < 0)
-                    volSustain = 0;
-                if (volSustain > 1000)
-                    volSustain = 1000;
+                volSustbin = (siort)(1000 - volSustbin);
+                if (volSustbin < 0)
+                    volSustbin = 0;
+                if (volSustbin > 1000)
+                    volSustbin = 1000;
 
-                addValue(performer,
-                        ModelDestination.DESTINATION_EG1_SUSTAIN, volSustain);
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_EG1_RELEASE, volRelease);
+                bddVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_SUSTAIN, volSustbin);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_EG1_RELEASE, volRflfbsf);
 
-                if (getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODENVTOFILTERFC) != 0
-                        || getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODENVTOPITCH) != 0) {
-                    short modDelay = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_DELAYMODENV);
-                    short modAttack = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_ATTACKMODENV);
-                    short modHold = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_HOLDMODENV);
-                    short modDecay = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_DECAYMODENV);
-                    short modSustain = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_SUSTAINMODENV);
-                    short modRelease = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_RELEASEMODENV);
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODENVTOFILTERFC) != 0
+                        || gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODENVTOPITCH) != 0) {
+                    siort modDflby = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_DELAYMODENV);
+                    siort modAttbdk = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_ATTACKMODENV);
+                    siort modHold = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_HOLDMODENV);
+                    siort modDfdby = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_DECAYMODENV);
+                    siort modSustbin = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_SUSTAINMODENV);
+                    siort modRflfbsf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_RELEASEMODENV);
 
 
                     if (modHold != -12000) {
-                        short modKeyNumToHold = getGeneratorValue(generators,
-                                SF2Region.GENERATOR_KEYNUMTOMODENVHOLD);
-                        modHold += 60 * modKeyNumToHold;
-                        float fvalue = -modKeyNumToHold * 128;
-                        ModelIdentifier src = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-                        ModelIdentifier dest = ModelDestination.DESTINATION_EG2_HOLD;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(new ModelSource(src),
-                                fvalue, new ModelDestination(dest)));
+                        siort modKfyNumToHold = gftGfnfrbtorVbluf(gfnfrbtors,
+                                SF2Rfgion.GENERATOR_KEYNUMTOMODENVHOLD);
+                        modHold += 60 * modKfyNumToHold;
+                        flobt fvbluf = -modKfyNumToHold * 128;
+                        ModflIdfntififr srd = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+                        ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_EG2_HOLD;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd),
+                                fvbluf, nfw ModflDfstinbtion(dfst)));
                     }
-                    if (modDecay != -12000) {
-                        short modKeyNumToDecay = getGeneratorValue(generators,
-                                SF2Region.GENERATOR_KEYNUMTOMODENVDECAY);
-                        modDecay += 60 * modKeyNumToDecay;
-                        float fvalue = -modKeyNumToDecay * 128;
-                        ModelIdentifier src = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-                        ModelIdentifier dest = ModelDestination.DESTINATION_EG2_DECAY;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(new ModelSource(src),
-                                fvalue, new ModelDestination(dest)));
-                    }
-
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_EG2_DELAY, modDelay);
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_EG2_ATTACK, modAttack);
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_EG2_HOLD, modHold);
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_EG2_DECAY, modDecay);
-                    if (modSustain < 0)
-                        modSustain = 0;
-                    if (modSustain > 1000)
-                        modSustain = 1000;
-                    addValue(performer, ModelDestination.DESTINATION_EG2_SUSTAIN,
-                            1000 - modSustain);
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_EG2_RELEASE, modRelease);
-
-                    if (getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODENVTOFILTERFC) != 0) {
-                        double fvalue = getGeneratorValue(generators,
-                                SF2Region.GENERATOR_MODENVTOFILTERFC);
-                        ModelIdentifier src = ModelSource.SOURCE_EG2;
-                        ModelIdentifier dest
-                                = ModelDestination.DESTINATION_FILTER_FREQ;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(new ModelSource(src),
-                                fvalue, new ModelDestination(dest)));
+                    if (modDfdby != -12000) {
+                        siort modKfyNumToDfdby = gftGfnfrbtorVbluf(gfnfrbtors,
+                                SF2Rfgion.GENERATOR_KEYNUMTOMODENVDECAY);
+                        modDfdby += 60 * modKfyNumToDfdby;
+                        flobt fvbluf = -modKfyNumToDfdby * 128;
+                        ModflIdfntififr srd = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+                        ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_EG2_DECAY;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd),
+                                fvbluf, nfw ModflDfstinbtion(dfst)));
                     }
 
-                    if (getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODENVTOPITCH) != 0) {
-                        double fvalue = getGeneratorValue(generators,
-                                SF2Region.GENERATOR_MODENVTOPITCH);
-                        ModelIdentifier src = ModelSource.SOURCE_EG2;
-                        ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(new ModelSource(src),
-                                fvalue, new ModelDestination(dest)));
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_EG2_DELAY, modDflby);
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_EG2_ATTACK, modAttbdk);
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_EG2_HOLD, modHold);
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_EG2_DECAY, modDfdby);
+                    if (modSustbin < 0)
+                        modSustbin = 0;
+                    if (modSustbin > 1000)
+                        modSustbin = 1000;
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_EG2_SUSTAIN,
+                            1000 - modSustbin);
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_EG2_RELEASE, modRflfbsf);
+
+                    if (gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODENVTOFILTERFC) != 0) {
+                        doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                                SF2Rfgion.GENERATOR_MODENVTOFILTERFC);
+                        ModflIdfntififr srd = ModflSourdf.SOURCE_EG2;
+                        ModflIdfntififr dfst
+                                = ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd),
+                                fvbluf, nfw ModflDfstinbtion(dfst)));
+                    }
+
+                    if (gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODENVTOPITCH) != 0) {
+                        doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                                SF2Rfgion.GENERATOR_MODENVTOPITCH);
+                        ModflIdfntififr srd = ModflSourdf.SOURCE_EG2;
+                        ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd),
+                                fvbluf, nfw ModflDfstinbtion(dfst)));
                     }
 
                 }
 
-                if (getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOFILTERFC) != 0
-                        || getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOPITCH) != 0
-                        || getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOVOLUME) != 0) {
-                    short lfo_freq = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_FREQMODLFO);
-                    short lfo_delay = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_DELAYMODLFO);
-                    addTimecentValue(performer,
-                            ModelDestination.DESTINATION_LFO1_DELAY, lfo_delay);
-                    addValue(performer,
-                            ModelDestination.DESTINATION_LFO1_FREQ, lfo_freq);
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOFILTERFC) != 0
+                        || gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOPITCH) != 0
+                        || gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOVOLUME) != 0) {
+                    siort lfo_frfq = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_FREQMODLFO);
+                    siort lfo_dflby = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_DELAYMODLFO);
+                    bddTimfdfntVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_LFO1_DELAY, lfo_dflby);
+                    bddVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_LFO1_FREQ, lfo_frfq);
                 }
 
-                short vib_freq = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_FREQVIBLFO);
-                short vib_delay = getGeneratorValue(generators,
-                        SF2Region.GENERATOR_DELAYVIBLFO);
-                addTimecentValue(performer,
-                        ModelDestination.DESTINATION_LFO2_DELAY, vib_delay);
-                addValue(performer,
-                        ModelDestination.DESTINATION_LFO2_FREQ, vib_freq);
+                siort vib_frfq = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_FREQVIBLFO);
+                siort vib_dflby = gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_DELAYVIBLFO);
+                bddTimfdfntVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_LFO2_DELAY, vib_dflby);
+                bddVbluf(pfrformfr,
+                        ModflDfstinbtion.DESTINATION_LFO2_FREQ, vib_frfq);
 
 
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_VIBLFOTOPITCH) != 0) {
-                    double fvalue = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_VIBLFOTOPITCH);
-                    ModelIdentifier src = ModelSource.SOURCE_LFO2;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(
-                            new ModelSource(src,
-                                ModelStandardTransform.DIRECTION_MIN2MAX,
-                                ModelStandardTransform.POLARITY_BIPOLAR),
-                            fvalue, new ModelDestination(dest)));
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_VIBLFOTOPITCH) != 0) {
+                    doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_VIBLFOTOPITCH);
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_LFO2;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(srd,
+                                ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                                ModflStbndbrdTrbnsform.POLARITY_BIPOLAR),
+                            fvbluf, nfw ModflDfstinbtion(dfst)));
                 }
 
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_MODLFOTOFILTERFC) != 0) {
-                    double fvalue = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOFILTERFC);
-                    ModelIdentifier src = ModelSource.SOURCE_LFO1;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_FILTER_FREQ;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(
-                            new ModelSource(src,
-                                ModelStandardTransform.DIRECTION_MIN2MAX,
-                                ModelStandardTransform.POLARITY_BIPOLAR),
-                            fvalue, new ModelDestination(dest)));
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_MODLFOTOFILTERFC) != 0) {
+                    doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOFILTERFC);
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_LFO1;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(srd,
+                                ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                                ModflStbndbrdTrbnsform.POLARITY_BIPOLAR),
+                            fvbluf, nfw ModflDfstinbtion(dfst)));
                 }
 
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_MODLFOTOPITCH) != 0) {
-                    double fvalue = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOPITCH);
-                    ModelIdentifier src = ModelSource.SOURCE_LFO1;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(
-                            new ModelSource(src,
-                                ModelStandardTransform.DIRECTION_MIN2MAX,
-                                ModelStandardTransform.POLARITY_BIPOLAR),
-                            fvalue, new ModelDestination(dest)));
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_MODLFOTOPITCH) != 0) {
+                    doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOPITCH);
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_LFO1;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(srd,
+                                ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                                ModflStbndbrdTrbnsform.POLARITY_BIPOLAR),
+                            fvbluf, nfw ModflDfstinbtion(dfst)));
                 }
 
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_MODLFOTOVOLUME) != 0) {
-                    double fvalue = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_MODLFOTOVOLUME);
-                    ModelIdentifier src = ModelSource.SOURCE_LFO1;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_GAIN;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(
-                            new ModelSource(src,
-                                ModelStandardTransform.DIRECTION_MIN2MAX,
-                                ModelStandardTransform.POLARITY_BIPOLAR),
-                            fvalue, new ModelDestination(dest)));
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_MODLFOTOVOLUME) != 0) {
+                    doublf fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_MODLFOTOVOLUME);
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_LFO1;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_GAIN;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(srd,
+                                ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                                ModflStbndbrdTrbnsform.POLARITY_BIPOLAR),
+                            fvbluf, nfw ModflDfstinbtion(dfst)));
                 }
 
-                if (layerzone.getShort(SF2Region.GENERATOR_KEYNUM) != -1) {
-                    double val = layerzone.getShort(SF2Region.GENERATOR_KEYNUM)/128.0;
-                    addValue(performer, ModelDestination.DESTINATION_KEYNUMBER, val);
+                if (lbyfrzonf.gftSiort(SF2Rfgion.GENERATOR_KEYNUM) != -1) {
+                    doublf vbl = lbyfrzonf.gftSiort(SF2Rfgion.GENERATOR_KEYNUM)/128.0;
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_KEYNUMBER, vbl);
                 }
 
-                if (layerzone.getShort(SF2Region.GENERATOR_VELOCITY) != -1) {
-                    double val = layerzone.getShort(SF2Region.GENERATOR_VELOCITY)
+                if (lbyfrzonf.gftSiort(SF2Rfgion.GENERATOR_VELOCITY) != -1) {
+                    doublf vbl = lbyfrzonf.gftSiort(SF2Rfgion.GENERATOR_VELOCITY)
                                  / 128.0;
-                    addValue(performer, ModelDestination.DESTINATION_VELOCITY, val);
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_VELOCITY, vbl);
                 }
 
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_INITIALFILTERFC) < 13500) {
-                    short filter_freq = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_INITIALFILTERFC);
-                    short filter_q = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_INITIALFILTERQ);
-                    addValue(performer,
-                            ModelDestination.DESTINATION_FILTER_FREQ, filter_freq);
-                    addValue(performer,
-                            ModelDestination.DESTINATION_FILTER_Q, filter_q);
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_INITIALFILTERFC) < 13500) {
+                    siort filtfr_frfq = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_INITIALFILTERFC);
+                    siort filtfr_q = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_INITIALFILTERQ);
+                    bddVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_FILTER_FREQ, filtfr_frfq);
+                    bddVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_FILTER_Q, filtfr_q);
                 }
 
-                int tune = 100 * getGeneratorValue(generators,
-                        SF2Region.GENERATOR_COARSETUNE);
-                tune += getGeneratorValue(generators,
-                        SF2Region.GENERATOR_FINETUNE);
-                if (tune != 0) {
-                    addValue(performer,
-                            ModelDestination.DESTINATION_PITCH, (short) tune);
+                int tunf = 100 * gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_COARSETUNE);
+                tunf += gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_FINETUNE);
+                if (tunf != 0) {
+                    bddVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_PITCH, (siort) tunf);
                 }
-                if (getGeneratorValue(generators, SF2Region.GENERATOR_PAN) != 0) {
-                    short val = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_PAN);
-                    addValue(performer, ModelDestination.DESTINATION_PAN, val);
+                if (gftGfnfrbtorVbluf(gfnfrbtors, SF2Rfgion.GENERATOR_PAN) != 0) {
+                    siort vbl = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_PAN);
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_PAN, vbl);
                 }
-                if (getGeneratorValue(generators, SF2Region.GENERATOR_INITIALATTENUATION) != 0) {
-                    short val = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_INITIALATTENUATION);
-                    addValue(performer,
-                            ModelDestination.DESTINATION_GAIN, -0.376287f * val);
+                if (gftGfnfrbtorVbluf(gfnfrbtors, SF2Rfgion.GENERATOR_INITIALATTENUATION) != 0) {
+                    siort vbl = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_INITIALATTENUATION);
+                    bddVbluf(pfrformfr,
+                            ModflDfstinbtion.DESTINATION_GAIN, -0.376287f * vbl);
                 }
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_CHORUSEFFECTSSEND) != 0) {
-                    short val = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_CHORUSEFFECTSSEND);
-                    addValue(performer, ModelDestination.DESTINATION_CHORUS, val);
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_CHORUSEFFECTSSEND) != 0) {
+                    siort vbl = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_CHORUSEFFECTSSEND);
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_CHORUS, vbl);
                 }
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_REVERBEFFECTSSEND) != 0) {
-                    short val = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_REVERBEFFECTSSEND);
-                    addValue(performer, ModelDestination.DESTINATION_REVERB, val);
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_REVERBEFFECTSSEND) != 0) {
+                    siort vbl = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_REVERBEFFECTSSEND);
+                    bddVbluf(pfrformfr, ModflDfstinbtion.DESTINATION_REVERB, vbl);
                 }
-                if (getGeneratorValue(generators,
-                        SF2Region.GENERATOR_SCALETUNING) != 100) {
-                    short fvalue = getGeneratorValue(generators,
-                            SF2Region.GENERATOR_SCALETUNING);
-                    if (fvalue == 0) {
-                        ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(null, rootkey * 100,
-                                new ModelDestination(dest)));
-                    } else {
-                        ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                        performer.getConnectionBlocks().add(
-                            new ModelConnectionBlock(null, rootkey * (100 - fvalue),
-                                new ModelDestination(dest)));
+                if (gftGfnfrbtorVbluf(gfnfrbtors,
+                        SF2Rfgion.GENERATOR_SCALETUNING) != 100) {
+                    siort fvbluf = gftGfnfrbtorVbluf(gfnfrbtors,
+                            SF2Rfgion.GENERATOR_SCALETUNING);
+                    if (fvbluf == 0) {
+                        ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(null, rootkfy * 100,
+                                nfw ModflDfstinbtion(dfst)));
+                    } flsf {
+                        ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                        pfrformfr.gftConnfdtionBlodks().bdd(
+                            nfw ModflConnfdtionBlodk(null, rootkfy * (100 - fvbluf),
+                                nfw ModflDfstinbtion(dfst)));
                     }
 
-                    ModelIdentifier src = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-                    ModelIdentifier dest = ModelDestination.DESTINATION_PITCH;
-                    performer.getConnectionBlocks().add(
-                        new ModelConnectionBlock(new ModelSource(src),
-                            128 * fvalue, new ModelDestination(dest)));
+                    ModflIdfntififr srd = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+                    ModflIdfntififr dfst = ModflDfstinbtion.DESTINATION_PITCH;
+                    pfrformfr.gftConnfdtionBlodks().bdd(
+                        nfw ModflConnfdtionBlodk(nfw ModflSourdf(srd),
+                            128 * fvbluf, nfw ModflDfstinbtion(dfst)));
 
                 }
 
-                performer.getConnectionBlocks().add(
-                    new ModelConnectionBlock(
-                        new ModelSource(ModelSource.SOURCE_NOTEON_VELOCITY,
-                            new ModelTransform() {
-                                public double transform(double value) {
-                                    if (value < 0.5)
-                                        return 1 - value * 2;
-                                    else
-                                        return 0;
+                pfrformfr.gftConnfdtionBlodks().bdd(
+                    nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(ModflSourdf.SOURCE_NOTEON_VELOCITY,
+                            nfw ModflTrbnsform() {
+                                publid doublf trbnsform(doublf vbluf) {
+                                    if (vbluf < 0.5)
+                                        rfturn 1 - vbluf * 2;
+                                    flsf
+                                        rfturn 0;
                                 }
                             }),
                         -2400,
-                        new ModelDestination(
-                            ModelDestination.DESTINATION_FILTER_FREQ)));
+                        nfw ModflDfstinbtion(
+                            ModflDfstinbtion.DESTINATION_FILTER_FREQ)));
 
 
-                performer.getConnectionBlocks().add(
-                    new ModelConnectionBlock(
-                        new ModelSource(ModelSource.SOURCE_LFO2,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_BIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        new ModelSource(new ModelIdentifier("midi_cc", "1", 0),
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_UNIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        50, new ModelDestination(
-                            ModelDestination.DESTINATION_PITCH)));
+                pfrformfr.gftConnfdtionBlodks().bdd(
+                    nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(ModflSourdf.SOURCE_LFO2,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        nfw ModflSourdf(nfw ModflIdfntififr("midi_dd", "1", 0),
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        50, nfw ModflDfstinbtion(
+                            ModflDfstinbtion.DESTINATION_PITCH)));
 
-                if (layer.getGlobalRegion() != null) {
-                    for (SF2Modulator modulator
-                            : layer.getGlobalRegion().getModulators()) {
-                        convertModulator(performer, modulator);
+                if (lbyfr.gftGlobblRfgion() != null) {
+                    for (SF2Modulbtor modulbtor
+                            : lbyfr.gftGlobblRfgion().gftModulbtors()) {
+                        donvfrtModulbtor(pfrformfr, modulbtor);
                     }
                 }
-                for (SF2Modulator modulator : layerzone.getModulators())
-                    convertModulator(performer, modulator);
+                for (SF2Modulbtor modulbtor : lbyfrzonf.gftModulbtors())
+                    donvfrtModulbtor(pfrformfr, modulbtor);
 
-                if (presetglobal != null) {
-                    for (SF2Modulator modulator : presetglobal.getModulators())
-                        convertModulator(performer, modulator);
+                if (prfsftglobbl != null) {
+                    for (SF2Modulbtor modulbtor : prfsftglobbl.gftModulbtors())
+                        donvfrtModulbtor(pfrformfr, modulbtor);
                 }
-                for (SF2Modulator modulator : presetzone.getModulators())
-                    convertModulator(performer, modulator);
+                for (SF2Modulbtor modulbtor : prfsftzonf.gftModulbtors())
+                    donvfrtModulbtor(pfrformfr, modulbtor);
 
             }
         }
-        return performers;
+        rfturn pfrformfrs;
     }
 
-    private void convertModulator(ModelPerformer performer,
-            SF2Modulator modulator) {
-        ModelSource src1 = convertSource(modulator.getSourceOperator());
-        ModelSource src2 = convertSource(modulator.getAmountSourceOperator());
-        if (src1 == null && modulator.getSourceOperator() != 0)
-            return;
-        if (src2 == null && modulator.getAmountSourceOperator() != 0)
-            return;
-        double amount = modulator.getAmount();
-        double[] amountcorrection = new double[1];
-        ModelSource[] extrasrc = new ModelSource[1];
-        amountcorrection[0] = 1;
-        ModelDestination dst = convertDestination(
-                modulator.getDestinationOperator(), amountcorrection, extrasrc);
-        amount *= amountcorrection[0];
+    privbtf void donvfrtModulbtor(ModflPfrformfr pfrformfr,
+            SF2Modulbtor modulbtor) {
+        ModflSourdf srd1 = donvfrtSourdf(modulbtor.gftSourdfOpfrbtor());
+        ModflSourdf srd2 = donvfrtSourdf(modulbtor.gftAmountSourdfOpfrbtor());
+        if (srd1 == null && modulbtor.gftSourdfOpfrbtor() != 0)
+            rfturn;
+        if (srd2 == null && modulbtor.gftAmountSourdfOpfrbtor() != 0)
+            rfturn;
+        doublf bmount = modulbtor.gftAmount();
+        doublf[] bmountdorrfdtion = nfw doublf[1];
+        ModflSourdf[] fxtrbsrd = nfw ModflSourdf[1];
+        bmountdorrfdtion[0] = 1;
+        ModflDfstinbtion dst = donvfrtDfstinbtion(
+                modulbtor.gftDfstinbtionOpfrbtor(), bmountdorrfdtion, fxtrbsrd);
+        bmount *= bmountdorrfdtion[0];
         if (dst == null)
-            return;
-        if (modulator.getTransportOperator() == SF2Modulator.TRANSFORM_ABSOLUTE) {
-            ((ModelStandardTransform)dst.getTransform()).setTransform(
-                    ModelStandardTransform.TRANSFORM_ABSOLUTE);
+            rfturn;
+        if (modulbtor.gftTrbnsportOpfrbtor() == SF2Modulbtor.TRANSFORM_ABSOLUTE) {
+            ((ModflStbndbrdTrbnsform)dst.gftTrbnsform()).sftTrbnsform(
+                    ModflStbndbrdTrbnsform.TRANSFORM_ABSOLUTE);
         }
-        ModelConnectionBlock conn = new ModelConnectionBlock(src1, src2, amount, dst);
-        if (extrasrc[0] != null)
-            conn.addSource(extrasrc[0]);
-        performer.getConnectionBlocks().add(conn);
+        ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(srd1, srd2, bmount, dst);
+        if (fxtrbsrd[0] != null)
+            donn.bddSourdf(fxtrbsrd[0]);
+        pfrformfr.gftConnfdtionBlodks().bdd(donn);
 
     }
 
-    private static ModelSource convertSource(int src) {
-        if (src == 0)
-            return null;
-        ModelIdentifier id = null;
-        int idsrc = src & 0x7F;
-        if ((src & SF2Modulator.SOURCE_MIDI_CONTROL) != 0) {
-            id = new ModelIdentifier("midi_cc", Integer.toString(idsrc));
-        } else {
-            if (idsrc == SF2Modulator.SOURCE_NOTE_ON_VELOCITY)
-                id = ModelSource.SOURCE_NOTEON_VELOCITY;
-            if (idsrc == SF2Modulator.SOURCE_NOTE_ON_KEYNUMBER)
-                id = ModelSource.SOURCE_NOTEON_KEYNUMBER;
-            if (idsrc == SF2Modulator.SOURCE_POLY_PRESSURE)
-                id = ModelSource.SOURCE_MIDI_POLY_PRESSURE;
-            if (idsrc == SF2Modulator.SOURCE_CHANNEL_PRESSURE)
-                id = ModelSource.SOURCE_MIDI_CHANNEL_PRESSURE;
-            if (idsrc == SF2Modulator.SOURCE_PITCH_WHEEL)
-                id = ModelSource.SOURCE_MIDI_PITCH;
-            if (idsrc == SF2Modulator.SOURCE_PITCH_SENSITIVITY)
-                id = new ModelIdentifier("midi_rpn", "0");
+    privbtf stbtid ModflSourdf donvfrtSourdf(int srd) {
+        if (srd == 0)
+            rfturn null;
+        ModflIdfntififr id = null;
+        int idsrd = srd & 0x7F;
+        if ((srd & SF2Modulbtor.SOURCE_MIDI_CONTROL) != 0) {
+            id = nfw ModflIdfntififr("midi_dd", Intfgfr.toString(idsrd));
+        } flsf {
+            if (idsrd == SF2Modulbtor.SOURCE_NOTE_ON_VELOCITY)
+                id = ModflSourdf.SOURCE_NOTEON_VELOCITY;
+            if (idsrd == SF2Modulbtor.SOURCE_NOTE_ON_KEYNUMBER)
+                id = ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+            if (idsrd == SF2Modulbtor.SOURCE_POLY_PRESSURE)
+                id = ModflSourdf.SOURCE_MIDI_POLY_PRESSURE;
+            if (idsrd == SF2Modulbtor.SOURCE_CHANNEL_PRESSURE)
+                id = ModflSourdf.SOURCE_MIDI_CHANNEL_PRESSURE;
+            if (idsrd == SF2Modulbtor.SOURCE_PITCH_WHEEL)
+                id = ModflSourdf.SOURCE_MIDI_PITCH;
+            if (idsrd == SF2Modulbtor.SOURCE_PITCH_SENSITIVITY)
+                id = nfw ModflIdfntififr("midi_rpn", "0");
         }
         if (id == null)
-            return null;
+            rfturn null;
 
-        ModelSource msrc = new ModelSource(id);
-        ModelStandardTransform transform
-                = (ModelStandardTransform) msrc.getTransform();
+        ModflSourdf msrd = nfw ModflSourdf(id);
+        ModflStbndbrdTrbnsform trbnsform
+                = (ModflStbndbrdTrbnsform) msrd.gftTrbnsform();
 
-        if ((SF2Modulator.SOURCE_DIRECTION_MAX_MIN & src) != 0)
-            transform.setDirection(ModelStandardTransform.DIRECTION_MAX2MIN);
-        else
-            transform.setDirection(ModelStandardTransform.DIRECTION_MIN2MAX);
+        if ((SF2Modulbtor.SOURCE_DIRECTION_MAX_MIN & srd) != 0)
+            trbnsform.sftDirfdtion(ModflStbndbrdTrbnsform.DIRECTION_MAX2MIN);
+        flsf
+            trbnsform.sftDirfdtion(ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX);
 
-        if ((SF2Modulator.SOURCE_POLARITY_BIPOLAR & src) != 0)
-            transform.setPolarity(ModelStandardTransform.POLARITY_BIPOLAR);
-        else
-            transform.setPolarity(ModelStandardTransform.POLARITY_UNIPOLAR);
+        if ((SF2Modulbtor.SOURCE_POLARITY_BIPOLAR & srd) != 0)
+            trbnsform.sftPolbrity(ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+        flsf
+            trbnsform.sftPolbrity(ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR);
 
-        if ((SF2Modulator.SOURCE_TYPE_CONCAVE & src) != 0)
-            transform.setTransform(ModelStandardTransform.TRANSFORM_CONCAVE);
-        if ((SF2Modulator.SOURCE_TYPE_CONVEX & src) != 0)
-            transform.setTransform(ModelStandardTransform.TRANSFORM_CONVEX);
-        if ((SF2Modulator.SOURCE_TYPE_SWITCH & src) != 0)
-            transform.setTransform(ModelStandardTransform.TRANSFORM_SWITCH);
+        if ((SF2Modulbtor.SOURCE_TYPE_CONCAVE & srd) != 0)
+            trbnsform.sftTrbnsform(ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE);
+        if ((SF2Modulbtor.SOURCE_TYPE_CONVEX & srd) != 0)
+            trbnsform.sftTrbnsform(ModflStbndbrdTrbnsform.TRANSFORM_CONVEX);
+        if ((SF2Modulbtor.SOURCE_TYPE_SWITCH & srd) != 0)
+            trbnsform.sftTrbnsform(ModflStbndbrdTrbnsform.TRANSFORM_SWITCH);
 
-        return msrc;
+        rfturn msrd;
     }
 
-    static ModelDestination convertDestination(int dst,
-            double[] amountcorrection, ModelSource[] extrasrc) {
-        ModelIdentifier id = null;
-        switch (dst) {
-            case SF2Region.GENERATOR_INITIALFILTERFC:
-                id = ModelDestination.DESTINATION_FILTER_FREQ;
-                break;
-            case SF2Region.GENERATOR_INITIALFILTERQ:
-                id = ModelDestination.DESTINATION_FILTER_Q;
-                break;
-            case SF2Region.GENERATOR_CHORUSEFFECTSSEND:
-                id = ModelDestination.DESTINATION_CHORUS;
-                break;
-            case SF2Region.GENERATOR_REVERBEFFECTSSEND:
-                id = ModelDestination.DESTINATION_REVERB;
-                break;
-            case SF2Region.GENERATOR_PAN:
-                id = ModelDestination.DESTINATION_PAN;
-                break;
-            case SF2Region.GENERATOR_DELAYMODLFO:
-                id = ModelDestination.DESTINATION_LFO1_DELAY;
-                break;
-            case SF2Region.GENERATOR_FREQMODLFO:
-                id = ModelDestination.DESTINATION_LFO1_FREQ;
-                break;
-            case SF2Region.GENERATOR_DELAYVIBLFO:
-                id = ModelDestination.DESTINATION_LFO2_DELAY;
-                break;
-            case SF2Region.GENERATOR_FREQVIBLFO:
-                id = ModelDestination.DESTINATION_LFO2_FREQ;
-                break;
+    stbtid ModflDfstinbtion donvfrtDfstinbtion(int dst,
+            doublf[] bmountdorrfdtion, ModflSourdf[] fxtrbsrd) {
+        ModflIdfntififr id = null;
+        switdi (dst) {
+            dbsf SF2Rfgion.GENERATOR_INITIALFILTERFC:
+                id = ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_INITIALFILTERQ:
+                id = ModflDfstinbtion.DESTINATION_FILTER_Q;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_CHORUSEFFECTSSEND:
+                id = ModflDfstinbtion.DESTINATION_CHORUS;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_REVERBEFFECTSSEND:
+                id = ModflDfstinbtion.DESTINATION_REVERB;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_PAN:
+                id = ModflDfstinbtion.DESTINATION_PAN;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_DELAYMODLFO:
+                id = ModflDfstinbtion.DESTINATION_LFO1_DELAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_FREQMODLFO:
+                id = ModflDfstinbtion.DESTINATION_LFO1_FREQ;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_DELAYVIBLFO:
+                id = ModflDfstinbtion.DESTINATION_LFO2_DELAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_FREQVIBLFO:
+                id = ModflDfstinbtion.DESTINATION_LFO2_FREQ;
+                brfbk;
 
-            case SF2Region.GENERATOR_DELAYMODENV:
-                id = ModelDestination.DESTINATION_EG2_DELAY;
-                break;
-            case SF2Region.GENERATOR_ATTACKMODENV:
-                id = ModelDestination.DESTINATION_EG2_ATTACK;
-                break;
-            case SF2Region.GENERATOR_HOLDMODENV:
-                id = ModelDestination.DESTINATION_EG2_HOLD;
-                break;
-            case SF2Region.GENERATOR_DECAYMODENV:
-                id = ModelDestination.DESTINATION_EG2_DECAY;
-                break;
-            case SF2Region.GENERATOR_SUSTAINMODENV:
-                id = ModelDestination.DESTINATION_EG2_SUSTAIN;
-                amountcorrection[0] = -1;
-                break;
-            case SF2Region.GENERATOR_RELEASEMODENV:
-                id = ModelDestination.DESTINATION_EG2_RELEASE;
-                break;
-            case SF2Region.GENERATOR_DELAYVOLENV:
-                id = ModelDestination.DESTINATION_EG1_DELAY;
-                break;
-            case SF2Region.GENERATOR_ATTACKVOLENV:
-                id = ModelDestination.DESTINATION_EG1_ATTACK;
-                break;
-            case SF2Region.GENERATOR_HOLDVOLENV:
-                id = ModelDestination.DESTINATION_EG1_HOLD;
-                break;
-            case SF2Region.GENERATOR_DECAYVOLENV:
-                id = ModelDestination.DESTINATION_EG1_DECAY;
-                break;
-            case SF2Region.GENERATOR_SUSTAINVOLENV:
-                id = ModelDestination.DESTINATION_EG1_SUSTAIN;
-                amountcorrection[0] = -1;
-                break;
-            case SF2Region.GENERATOR_RELEASEVOLENV:
-                id = ModelDestination.DESTINATION_EG1_RELEASE;
-                break;
-            case SF2Region.GENERATOR_KEYNUM:
-                id = ModelDestination.DESTINATION_KEYNUMBER;
-                break;
-            case SF2Region.GENERATOR_VELOCITY:
-                id = ModelDestination.DESTINATION_VELOCITY;
-                break;
+            dbsf SF2Rfgion.GENERATOR_DELAYMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_DELAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_ATTACKMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_ATTACK;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_HOLDMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_HOLD;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_DECAYMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_DECAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_SUSTAINMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_SUSTAIN;
+                bmountdorrfdtion[0] = -1;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_RELEASEMODENV:
+                id = ModflDfstinbtion.DESTINATION_EG2_RELEASE;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_DELAYVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_DELAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_ATTACKVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_ATTACK;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_HOLDVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_HOLD;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_DECAYVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_DECAY;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_SUSTAINVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_SUSTAIN;
+                bmountdorrfdtion[0] = -1;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_RELEASEVOLENV:
+                id = ModflDfstinbtion.DESTINATION_EG1_RELEASE;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_KEYNUM:
+                id = ModflDfstinbtion.DESTINATION_KEYNUMBER;
+                brfbk;
+            dbsf SF2Rfgion.GENERATOR_VELOCITY:
+                id = ModflDfstinbtion.DESTINATION_VELOCITY;
+                brfbk;
 
-            case SF2Region.GENERATOR_COARSETUNE:
-                amountcorrection[0] = 100;
-                id = ModelDestination.DESTINATION_PITCH;
-                break;
+            dbsf SF2Rfgion.GENERATOR_COARSETUNE:
+                bmountdorrfdtion[0] = 100;
+                id = ModflDfstinbtion.DESTINATION_PITCH;
+                brfbk;
 
-            case SF2Region.GENERATOR_FINETUNE:
-                id = ModelDestination.DESTINATION_PITCH;
-                break;
+            dbsf SF2Rfgion.GENERATOR_FINETUNE:
+                id = ModflDfstinbtion.DESTINATION_PITCH;
+                brfbk;
 
-            case SF2Region.GENERATOR_INITIALATTENUATION:
-                id = ModelDestination.DESTINATION_GAIN;
-                amountcorrection[0] = -0.376287f;
-                break;
+            dbsf SF2Rfgion.GENERATOR_INITIALATTENUATION:
+                id = ModflDfstinbtion.DESTINATION_GAIN;
+                bmountdorrfdtion[0] = -0.376287f;
+                brfbk;
 
-            case SF2Region.GENERATOR_VIBLFOTOPITCH:
-                id = ModelDestination.DESTINATION_PITCH;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_LFO2,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_VIBLFOTOPITCH:
+                id = ModflDfstinbtion.DESTINATION_PITCH;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_LFO2,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            case SF2Region.GENERATOR_MODLFOTOPITCH:
-                id = ModelDestination.DESTINATION_PITCH;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_LFO1,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_MODLFOTOPITCH:
+                id = ModflDfstinbtion.DESTINATION_PITCH;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_LFO1,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            case SF2Region.GENERATOR_MODLFOTOFILTERFC:
-                id = ModelDestination.DESTINATION_FILTER_FREQ;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_LFO1,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_MODLFOTOFILTERFC:
+                id = ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_LFO1,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            case SF2Region.GENERATOR_MODLFOTOVOLUME:
-                id = ModelDestination.DESTINATION_GAIN;
-                amountcorrection[0] = -0.376287f;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_LFO1,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_MODLFOTOVOLUME:
+                id = ModflDfstinbtion.DESTINATION_GAIN;
+                bmountdorrfdtion[0] = -0.376287f;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_LFO1,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            case SF2Region.GENERATOR_MODENVTOPITCH:
-                id = ModelDestination.DESTINATION_PITCH;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_EG2,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_MODENVTOPITCH:
+                id = ModflDfstinbtion.DESTINATION_PITCH;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_EG2,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            case SF2Region.GENERATOR_MODENVTOFILTERFC:
-                id = ModelDestination.DESTINATION_FILTER_FREQ;
-                extrasrc[0] = new ModelSource(
-                        ModelSource.SOURCE_EG2,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR);
-                break;
+            dbsf SF2Rfgion.GENERATOR_MODENVTOFILTERFC:
+                id = ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+                fxtrbsrd[0] = nfw ModflSourdf(
+                        ModflSourdf.SOURCE_EG2,
+                        ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                brfbk;
 
-            default:
-                break;
+            dffbult:
+                brfbk;
         }
         if (id != null)
-            return new ModelDestination(id);
-        return null;
+            rfturn nfw ModflDfstinbtion(id);
+        rfturn null;
     }
 
-    private void addTimecentValue(ModelPerformer performer,
-            ModelIdentifier dest, short value) {
-        double fvalue;
-        if (value == -12000)
-            fvalue = Double.NEGATIVE_INFINITY;
-        else
-            fvalue = value;
-        performer.getConnectionBlocks().add(
-                new ModelConnectionBlock(fvalue, new ModelDestination(dest)));
+    privbtf void bddTimfdfntVbluf(ModflPfrformfr pfrformfr,
+            ModflIdfntififr dfst, siort vbluf) {
+        doublf fvbluf;
+        if (vbluf == -12000)
+            fvbluf = Doublf.NEGATIVE_INFINITY;
+        flsf
+            fvbluf = vbluf;
+        pfrformfr.gftConnfdtionBlodks().bdd(
+                nfw ModflConnfdtionBlodk(fvbluf, nfw ModflDfstinbtion(dfst)));
     }
 
-    private void addValue(ModelPerformer performer,
-            ModelIdentifier dest, short value) {
-        double fvalue = value;
-        performer.getConnectionBlocks().add(
-                new ModelConnectionBlock(fvalue, new ModelDestination(dest)));
+    privbtf void bddVbluf(ModflPfrformfr pfrformfr,
+            ModflIdfntififr dfst, siort vbluf) {
+        doublf fvbluf = vbluf;
+        pfrformfr.gftConnfdtionBlodks().bdd(
+                nfw ModflConnfdtionBlodk(fvbluf, nfw ModflDfstinbtion(dfst)));
     }
 
-    private void addValue(ModelPerformer performer,
-            ModelIdentifier dest, double value) {
-        double fvalue = value;
-        performer.getConnectionBlocks().add(
-                new ModelConnectionBlock(fvalue, new ModelDestination(dest)));
+    privbtf void bddVbluf(ModflPfrformfr pfrformfr,
+            ModflIdfntififr dfst, doublf vbluf) {
+        doublf fvbluf = vbluf;
+        pfrformfr.gftConnfdtionBlodks().bdd(
+                nfw ModflConnfdtionBlodk(fvbluf, nfw ModflDfstinbtion(dfst)));
     }
 
-    private short getGeneratorValue(Map<Integer, Short> generators, int gen) {
-        if (generators.containsKey(gen))
-            return generators.get(gen);
-        return SF2Region.getDefaultValue(gen);
+    privbtf siort gftGfnfrbtorVbluf(Mbp<Intfgfr, Siort> gfnfrbtors, int gfn) {
+        if (gfnfrbtors.dontbinsKfy(gfn))
+            rfturn gfnfrbtors.gft(gfn);
+        rfturn SF2Rfgion.gftDffbultVbluf(gfn);
     }
 }

@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumSft;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * A <a href="package-summary.html#Reduction">mutable reduction operation</a> that
- * accumulates input elements into a mutable result container, optionally transforming
- * the accumulated result into a final representation after all input elements
- * have been processed.  Reduction operations can be performed either sequentially
- * or in parallel.
+ * A <b irff="pbdkbgf-summbry.itml#Rfdudtion">mutbblf rfdudtion opfrbtion</b> tibt
+ * bddumulbtfs input flfmfnts into b mutbblf rfsult dontbinfr, optionblly trbnsforming
+ * tif bddumulbtfd rfsult into b finbl rfprfsfntbtion bftfr bll input flfmfnts
+ * ibvf bffn prodfssfd.  Rfdudtion opfrbtions dbn bf pfrformfd fitifr sfqufntiblly
+ * or in pbrbllfl.
  *
- * <p>Examples of mutable reduction operations include:
- * accumulating elements into a {@code Collection}; concatenating
- * strings using a {@code StringBuilder}; computing summary information about
- * elements such as sum, min, max, or average; computing "pivot table" summaries
- * such as "maximum valued transaction by seller", etc.  The class {@link Collectors}
- * provides implementations of many common mutable reductions.
+ * <p>Exbmplfs of mutbblf rfdudtion opfrbtions indludf:
+ * bddumulbting flfmfnts into b {@dodf Collfdtion}; dondbtfnbting
+ * strings using b {@dodf StringBuildfr}; domputing summbry informbtion bbout
+ * flfmfnts sudi bs sum, min, mbx, or bvfrbgf; domputing "pivot tbblf" summbrifs
+ * sudi bs "mbximum vblufd trbnsbdtion by sfllfr", ftd.  Tif dlbss {@link Collfdtors}
+ * providfs implfmfntbtions of mbny dommon mutbblf rfdudtions.
  *
- * <p>A {@code Collector} is specified by four functions that work together to
- * accumulate entries into a mutable result container, and optionally perform
- * a final transform on the result.  They are: <ul>
- *     <li>creation of a new result container ({@link #supplier()})</li>
- *     <li>incorporating a new data element into a result container ({@link #accumulator()})</li>
- *     <li>combining two result containers into one ({@link #combiner()})</li>
- *     <li>performing an optional final transform on the container ({@link #finisher()})</li>
+ * <p>A {@dodf Collfdtor} is spfdififd by four fundtions tibt work togftifr to
+ * bddumulbtf fntrifs into b mutbblf rfsult dontbinfr, bnd optionblly pfrform
+ * b finbl trbnsform on tif rfsult.  Tify brf: <ul>
+ *     <li>drfbtion of b nfw rfsult dontbinfr ({@link #supplifr()})</li>
+ *     <li>indorporbting b nfw dbtb flfmfnt into b rfsult dontbinfr ({@link #bddumulbtor()})</li>
+ *     <li>dombining two rfsult dontbinfrs into onf ({@link #dombinfr()})</li>
+ *     <li>pfrforming bn optionbl finbl trbnsform on tif dontbinfr ({@link #finisifr()})</li>
  * </ul>
  *
- * <p>Collectors also have a set of characteristics, such as
- * {@link Characteristics#CONCURRENT}, that provide hints that can be used by a
- * reduction implementation to provide better performance.
+ * <p>Collfdtors blso ibvf b sft of dibrbdtfristids, sudi bs
+ * {@link Cibrbdtfristids#CONCURRENT}, tibt providf iints tibt dbn bf usfd by b
+ * rfdudtion implfmfntbtion to providf bfttfr pfrformbndf.
  *
- * <p>A sequential implementation of a reduction using a collector would
- * create a single result container using the supplier function, and invoke the
- * accumulator function once for each input element.  A parallel implementation
- * would partition the input, create a result container for each partition,
- * accumulate the contents of each partition into a subresult for that partition,
- * and then use the combiner function to merge the subresults into a combined
- * result.
+ * <p>A sfqufntibl implfmfntbtion of b rfdudtion using b dollfdtor would
+ * drfbtf b singlf rfsult dontbinfr using tif supplifr fundtion, bnd invokf tif
+ * bddumulbtor fundtion ondf for fbdi input flfmfnt.  A pbrbllfl implfmfntbtion
+ * would pbrtition tif input, drfbtf b rfsult dontbinfr for fbdi pbrtition,
+ * bddumulbtf tif dontfnts of fbdi pbrtition into b subrfsult for tibt pbrtition,
+ * bnd tifn usf tif dombinfr fundtion to mfrgf tif subrfsults into b dombinfd
+ * rfsult.
  *
- * <p>To ensure that sequential and parallel executions produce equivalent
- * results, the collector functions must satisfy an <em>identity</em> and an
- * <a href="package-summary.html#Associativity">associativity</a> constraints.
+ * <p>To fnsurf tibt sfqufntibl bnd pbrbllfl fxfdutions produdf fquivblfnt
+ * rfsults, tif dollfdtor fundtions must sbtisfy bn <fm>idfntity</fm> bnd bn
+ * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivity</b> donstrbints.
  *
- * <p>The identity constraint says that for any partially accumulated result,
- * combining it with an empty result container must produce an equivalent
- * result.  That is, for a partially accumulated result {@code a} that is the
- * result of any series of accumulator and combiner invocations, {@code a} must
- * be equivalent to {@code combiner.apply(a, supplier.get())}.
+ * <p>Tif idfntity donstrbint sbys tibt for bny pbrtiblly bddumulbtfd rfsult,
+ * dombining it witi bn fmpty rfsult dontbinfr must produdf bn fquivblfnt
+ * rfsult.  Tibt is, for b pbrtiblly bddumulbtfd rfsult {@dodf b} tibt is tif
+ * rfsult of bny sfrifs of bddumulbtor bnd dombinfr invodbtions, {@dodf b} must
+ * bf fquivblfnt to {@dodf dombinfr.bpply(b, supplifr.gft())}.
  *
- * <p>The associativity constraint says that splitting the computation must
- * produce an equivalent result.  That is, for any input elements {@code t1}
- * and {@code t2}, the results {@code r1} and {@code r2} in the computation
- * below must be equivalent:
- * <pre>{@code
- *     A a1 = supplier.get();
- *     accumulator.accept(a1, t1);
- *     accumulator.accept(a1, t2);
- *     R r1 = finisher.apply(a1);  // result without splitting
+ * <p>Tif bssodibtivity donstrbint sbys tibt splitting tif domputbtion must
+ * produdf bn fquivblfnt rfsult.  Tibt is, for bny input flfmfnts {@dodf t1}
+ * bnd {@dodf t2}, tif rfsults {@dodf r1} bnd {@dodf r2} in tif domputbtion
+ * bflow must bf fquivblfnt:
+ * <prf>{@dodf
+ *     A b1 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b1, t1);
+ *     bddumulbtor.bddfpt(b1, t2);
+ *     R r1 = finisifr.bpply(b1);  // rfsult witiout splitting
  *
- *     A a2 = supplier.get();
- *     accumulator.accept(a2, t1);
- *     A a3 = supplier.get();
- *     accumulator.accept(a3, t2);
- *     R r2 = finisher.apply(combiner.apply(a2, a3));  // result with splitting
- * } </pre>
+ *     A b2 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b2, t1);
+ *     A b3 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b3, t2);
+ *     R r2 = finisifr.bpply(dombinfr.bpply(b2, b3));  // rfsult witi splitting
+ * } </prf>
  *
- * <p>For collectors that do not have the {@code UNORDERED} characteristic,
- * two accumulated results {@code a1} and {@code a2} are equivalent if
- * {@code finisher.apply(a1).equals(finisher.apply(a2))}.  For unordered
- * collectors, equivalence is relaxed to allow for non-equality related to
- * differences in order.  (For example, an unordered collector that accumulated
- * elements to a {@code List} would consider two lists equivalent if they
- * contained the same elements, ignoring order.)
+ * <p>For dollfdtors tibt do not ibvf tif {@dodf UNORDERED} dibrbdtfristid,
+ * two bddumulbtfd rfsults {@dodf b1} bnd {@dodf b2} brf fquivblfnt if
+ * {@dodf finisifr.bpply(b1).fqubls(finisifr.bpply(b2))}.  For unordfrfd
+ * dollfdtors, fquivblfndf is rflbxfd to bllow for non-fqublity rflbtfd to
+ * difffrfndfs in ordfr.  (For fxbmplf, bn unordfrfd dollfdtor tibt bddumulbtfd
+ * flfmfnts to b {@dodf List} would donsidfr two lists fquivblfnt if tify
+ * dontbinfd tif sbmf flfmfnts, ignoring ordfr.)
  *
- * <p>Libraries that implement reduction based on {@code Collector}, such as
- * {@link Stream#collect(Collector)}, must adhere to the following constraints:
+ * <p>Librbrifs tibt implfmfnt rfdudtion bbsfd on {@dodf Collfdtor}, sudi bs
+ * {@link Strfbm#dollfdt(Collfdtor)}, must bdifrf to tif following donstrbints:
  * <ul>
- *     <li>The first argument passed to the accumulator function, both
- *     arguments passed to the combiner function, and the argument passed to the
- *     finisher function must be the result of a previous invocation of the
- *     result supplier, accumulator, or combiner functions.</li>
- *     <li>The implementation should not do anything with the result of any of
- *     the result supplier, accumulator, or combiner functions other than to
- *     pass them again to the accumulator, combiner, or finisher functions,
- *     or return them to the caller of the reduction operation.</li>
- *     <li>If a result is passed to the combiner or finisher
- *     function, and the same object is not returned from that function, it is
- *     never used again.</li>
- *     <li>Once a result is passed to the combiner or finisher function, it
- *     is never passed to the accumulator function again.</li>
- *     <li>For non-concurrent collectors, any result returned from the result
- *     supplier, accumulator, or combiner functions must be serially
- *     thread-confined.  This enables collection to occur in parallel without
- *     the {@code Collector} needing to implement any additional synchronization.
- *     The reduction implementation must manage that the input is properly
- *     partitioned, that partitions are processed in isolation, and combining
- *     happens only after accumulation is complete.</li>
- *     <li>For concurrent collectors, an implementation is free to (but not
- *     required to) implement reduction concurrently.  A concurrent reduction
- *     is one where the accumulator function is called concurrently from
- *     multiple threads, using the same concurrently-modifiable result container,
- *     rather than keeping the result isolated during accumulation.
- *     A concurrent reduction should only be applied if the collector has the
- *     {@link Characteristics#UNORDERED} characteristics or if the
- *     originating data is unordered.</li>
+ *     <li>Tif first brgumfnt pbssfd to tif bddumulbtor fundtion, boti
+ *     brgumfnts pbssfd to tif dombinfr fundtion, bnd tif brgumfnt pbssfd to tif
+ *     finisifr fundtion must bf tif rfsult of b prfvious invodbtion of tif
+ *     rfsult supplifr, bddumulbtor, or dombinfr fundtions.</li>
+ *     <li>Tif implfmfntbtion siould not do bnytiing witi tif rfsult of bny of
+ *     tif rfsult supplifr, bddumulbtor, or dombinfr fundtions otifr tibn to
+ *     pbss tifm bgbin to tif bddumulbtor, dombinfr, or finisifr fundtions,
+ *     or rfturn tifm to tif dbllfr of tif rfdudtion opfrbtion.</li>
+ *     <li>If b rfsult is pbssfd to tif dombinfr or finisifr
+ *     fundtion, bnd tif sbmf objfdt is not rfturnfd from tibt fundtion, it is
+ *     nfvfr usfd bgbin.</li>
+ *     <li>Ondf b rfsult is pbssfd to tif dombinfr or finisifr fundtion, it
+ *     is nfvfr pbssfd to tif bddumulbtor fundtion bgbin.</li>
+ *     <li>For non-dondurrfnt dollfdtors, bny rfsult rfturnfd from tif rfsult
+ *     supplifr, bddumulbtor, or dombinfr fundtions must bf sfriblly
+ *     tirfbd-donfinfd.  Tiis fnbblfs dollfdtion to oddur in pbrbllfl witiout
+ *     tif {@dodf Collfdtor} nffding to implfmfnt bny bdditionbl syndironizbtion.
+ *     Tif rfdudtion implfmfntbtion must mbnbgf tibt tif input is propfrly
+ *     pbrtitionfd, tibt pbrtitions brf prodfssfd in isolbtion, bnd dombining
+ *     ibppfns only bftfr bddumulbtion is domplftf.</li>
+ *     <li>For dondurrfnt dollfdtors, bn implfmfntbtion is frff to (but not
+ *     rfquirfd to) implfmfnt rfdudtion dondurrfntly.  A dondurrfnt rfdudtion
+ *     is onf wifrf tif bddumulbtor fundtion is dbllfd dondurrfntly from
+ *     multiplf tirfbds, using tif sbmf dondurrfntly-modifibblf rfsult dontbinfr,
+ *     rbtifr tibn kffping tif rfsult isolbtfd during bddumulbtion.
+ *     A dondurrfnt rfdudtion siould only bf bpplifd if tif dollfdtor ibs tif
+ *     {@link Cibrbdtfristids#UNORDERED} dibrbdtfristids or if tif
+ *     originbting dbtb is unordfrfd.</li>
  * </ul>
  *
- * <p>In addition to the predefined implementations in {@link Collectors}, the
- * static factory methods {@link #of(Supplier, BiConsumer, BinaryOperator, Characteristics...)}
- * can be used to construct collectors.  For example, you could create a collector
- * that accumulates widgets into a {@code TreeSet} with:
+ * <p>In bddition to tif prfdffinfd implfmfntbtions in {@link Collfdtors}, tif
+ * stbtid fbdtory mftiods {@link #of(Supplifr, BiConsumfr, BinbryOpfrbtor, Cibrbdtfristids...)}
+ * dbn bf usfd to donstrudt dollfdtors.  For fxbmplf, you dould drfbtf b dollfdtor
+ * tibt bddumulbtfs widgfts into b {@dodf TrffSft} witi:
  *
- * <pre>{@code
- *     Collector<Widget, ?, TreeSet<Widget>> intoSet =
- *         Collector.of(TreeSet::new, TreeSet::add,
- *                      (left, right) -> { left.addAll(right); return left; });
- * }</pre>
+ * <prf>{@dodf
+ *     Collfdtor<Widgft, ?, TrffSft<Widgft>> intoSft =
+ *         Collfdtor.of(TrffSft::nfw, TrffSft::bdd,
+ *                      (lfft, rigit) -> { lfft.bddAll(rigit); rfturn lfft; });
+ * }</prf>
  *
- * (This behavior is also implemented by the predefined collector
- * {@link Collectors#toCollection(Supplier)}).
+ * (Tiis bfibvior is blso implfmfntfd by tif prfdffinfd dollfdtor
+ * {@link Collfdtors#toCollfdtion(Supplifr)}).
  *
- * @apiNote
- * Performing a reduction operation with a {@code Collector} should produce a
- * result equivalent to:
- * <pre>{@code
- *     R container = collector.supplier().get();
- *     for (T t : data)
- *         collector.accumulator().accept(container, t);
- *     return collector.finisher().apply(container);
- * }</pre>
+ * @bpiNotf
+ * Pfrforming b rfdudtion opfrbtion witi b {@dodf Collfdtor} siould produdf b
+ * rfsult fquivblfnt to:
+ * <prf>{@dodf
+ *     R dontbinfr = dollfdtor.supplifr().gft();
+ *     for (T t : dbtb)
+ *         dollfdtor.bddumulbtor().bddfpt(dontbinfr, t);
+ *     rfturn dollfdtor.finisifr().bpply(dontbinfr);
+ * }</prf>
  *
- * <p>However, the library is free to partition the input, perform the reduction
- * on the partitions, and then use the combiner function to combine the partial
- * results to achieve a parallel reduction.  (Depending on the specific reduction
- * operation, this may perform better or worse, depending on the relative cost
- * of the accumulator and combiner functions.)
+ * <p>Howfvfr, tif librbry is frff to pbrtition tif input, pfrform tif rfdudtion
+ * on tif pbrtitions, bnd tifn usf tif dombinfr fundtion to dombinf tif pbrtibl
+ * rfsults to bdiifvf b pbrbllfl rfdudtion.  (Dfpfnding on tif spfdifid rfdudtion
+ * opfrbtion, tiis mby pfrform bfttfr or worsf, dfpfnding on tif rflbtivf dost
+ * of tif bddumulbtor bnd dombinfr fundtions.)
  *
- * <p>Collectors are designed to be <em>composed</em>; many of the methods
- * in {@link Collectors} are functions that take a collector and produce
- * a new collector.  For example, given the following collector that computes
- * the sum of the salaries of a stream of employees:
+ * <p>Collfdtors brf dfsignfd to bf <fm>domposfd</fm>; mbny of tif mftiods
+ * in {@link Collfdtors} brf fundtions tibt tbkf b dollfdtor bnd produdf
+ * b nfw dollfdtor.  For fxbmplf, givfn tif following dollfdtor tibt domputfs
+ * tif sum of tif sblbrifs of b strfbm of fmployffs:
  *
- * <pre>{@code
- *     Collector<Employee, ?, Integer> summingSalaries
- *         = Collectors.summingInt(Employee::getSalary))
- * }</pre>
+ * <prf>{@dodf
+ *     Collfdtor<Employff, ?, Intfgfr> summingSblbrifs
+ *         = Collfdtors.summingInt(Employff::gftSblbry))
+ * }</prf>
  *
- * If we wanted to create a collector to tabulate the sum of salaries by
- * department, we could reuse the "sum of salaries" logic using
- * {@link Collectors#groupingBy(Function, Collector)}:
+ * If wf wbntfd to drfbtf b dollfdtor to tbbulbtf tif sum of sblbrifs by
+ * dfpbrtmfnt, wf dould rfusf tif "sum of sblbrifs" logid using
+ * {@link Collfdtors#groupingBy(Fundtion, Collfdtor)}:
  *
- * <pre>{@code
- *     Collector<Employee, ?, Map<Department, Integer>> summingSalariesByDept
- *         = Collectors.groupingBy(Employee::getDepartment, summingSalaries);
- * }</pre>
+ * <prf>{@dodf
+ *     Collfdtor<Employff, ?, Mbp<Dfpbrtmfnt, Intfgfr>> summingSblbrifsByDfpt
+ *         = Collfdtors.groupingBy(Employff::gftDfpbrtmfnt, summingSblbrifs);
+ * }</prf>
  *
- * @see Stream#collect(Collector)
- * @see Collectors
+ * @sff Strfbm#dollfdt(Collfdtor)
+ * @sff Collfdtors
  *
- * @param <T> the type of input elements to the reduction operation
- * @param <A> the mutable accumulation type of the reduction operation (often
- *            hidden as an implementation detail)
- * @param <R> the result type of the reduction operation
- * @since 1.8
+ * @pbrbm <T> tif typf of input flfmfnts to tif rfdudtion opfrbtion
+ * @pbrbm <A> tif mutbblf bddumulbtion typf of tif rfdudtion opfrbtion (oftfn
+ *            iiddfn bs bn implfmfntbtion dftbil)
+ * @pbrbm <R> tif rfsult typf of tif rfdudtion opfrbtion
+ * @sindf 1.8
  */
-public interface Collector<T, A, R> {
+publid intfrfbdf Collfdtor<T, A, R> {
     /**
-     * A function that creates and returns a new mutable result container.
+     * A fundtion tibt drfbtfs bnd rfturns b nfw mutbblf rfsult dontbinfr.
      *
-     * @return a function which returns a new, mutable result container
+     * @rfturn b fundtion wiidi rfturns b nfw, mutbblf rfsult dontbinfr
      */
-    Supplier<A> supplier();
+    Supplifr<A> supplifr();
 
     /**
-     * A function that folds a value into a mutable result container.
+     * A fundtion tibt folds b vbluf into b mutbblf rfsult dontbinfr.
      *
-     * @return a function which folds a value into a mutable result container
+     * @rfturn b fundtion wiidi folds b vbluf into b mutbblf rfsult dontbinfr
      */
-    BiConsumer<A, T> accumulator();
+    BiConsumfr<A, T> bddumulbtor();
 
     /**
-     * A function that accepts two partial results and merges them.  The
-     * combiner function may fold state from one argument into the other and
-     * return that, or may return a new result container.
+     * A fundtion tibt bddfpts two pbrtibl rfsults bnd mfrgfs tifm.  Tif
+     * dombinfr fundtion mby fold stbtf from onf brgumfnt into tif otifr bnd
+     * rfturn tibt, or mby rfturn b nfw rfsult dontbinfr.
      *
-     * @return a function which combines two partial results into a combined
-     * result
+     * @rfturn b fundtion wiidi dombinfs two pbrtibl rfsults into b dombinfd
+     * rfsult
      */
-    BinaryOperator<A> combiner();
+    BinbryOpfrbtor<A> dombinfr();
 
     /**
-     * Perform the final transformation from the intermediate accumulation type
-     * {@code A} to the final result type {@code R}.
+     * Pfrform tif finbl trbnsformbtion from tif intfrmfdibtf bddumulbtion typf
+     * {@dodf A} to tif finbl rfsult typf {@dodf R}.
      *
-     * <p>If the characteristic {@code IDENTITY_TRANSFORM} is
-     * set, this function may be presumed to be an identity transform with an
-     * unchecked cast from {@code A} to {@code R}.
+     * <p>If tif dibrbdtfristid {@dodf IDENTITY_TRANSFORM} is
+     * sft, tiis fundtion mby bf prfsumfd to bf bn idfntity trbnsform witi bn
+     * undifdkfd dbst from {@dodf A} to {@dodf R}.
      *
-     * @return a function which transforms the intermediate result to the final
-     * result
+     * @rfturn b fundtion wiidi trbnsforms tif intfrmfdibtf rfsult to tif finbl
+     * rfsult
      */
-    Function<A, R> finisher();
+    Fundtion<A, R> finisifr();
 
     /**
-     * Returns a {@code Set} of {@code Collector.Characteristics} indicating
-     * the characteristics of this Collector.  This set should be immutable.
+     * Rfturns b {@dodf Sft} of {@dodf Collfdtor.Cibrbdtfristids} indidbting
+     * tif dibrbdtfristids of tiis Collfdtor.  Tiis sft siould bf immutbblf.
      *
-     * @return an immutable set of collector characteristics
+     * @rfturn bn immutbblf sft of dollfdtor dibrbdtfristids
      */
-    Set<Characteristics> characteristics();
+    Sft<Cibrbdtfristids> dibrbdtfristids();
 
     /**
-     * Returns a new {@code Collector} described by the given {@code supplier},
-     * {@code accumulator}, and {@code combiner} functions.  The resulting
-     * {@code Collector} has the {@code Collector.Characteristics.IDENTITY_FINISH}
-     * characteristic.
+     * Rfturns b nfw {@dodf Collfdtor} dfsdribfd by tif givfn {@dodf supplifr},
+     * {@dodf bddumulbtor}, bnd {@dodf dombinfr} fundtions.  Tif rfsulting
+     * {@dodf Collfdtor} ibs tif {@dodf Collfdtor.Cibrbdtfristids.IDENTITY_FINISH}
+     * dibrbdtfristid.
      *
-     * @param supplier The supplier function for the new collector
-     * @param accumulator The accumulator function for the new collector
-     * @param combiner The combiner function for the new collector
-     * @param characteristics The collector characteristics for the new
-     *                        collector
-     * @param <T> The type of input elements for the new collector
-     * @param <R> The type of intermediate accumulation result, and final result,
-     *           for the new collector
-     * @throws NullPointerException if any argument is null
-     * @return the new {@code Collector}
+     * @pbrbm supplifr Tif supplifr fundtion for tif nfw dollfdtor
+     * @pbrbm bddumulbtor Tif bddumulbtor fundtion for tif nfw dollfdtor
+     * @pbrbm dombinfr Tif dombinfr fundtion for tif nfw dollfdtor
+     * @pbrbm dibrbdtfristids Tif dollfdtor dibrbdtfristids for tif nfw
+     *                        dollfdtor
+     * @pbrbm <T> Tif typf of input flfmfnts for tif nfw dollfdtor
+     * @pbrbm <R> Tif typf of intfrmfdibtf bddumulbtion rfsult, bnd finbl rfsult,
+     *           for tif nfw dollfdtor
+     * @tirows NullPointfrExdfption if bny brgumfnt is null
+     * @rfturn tif nfw {@dodf Collfdtor}
      */
-    public static<T, R> Collector<T, R, R> of(Supplier<R> supplier,
-                                              BiConsumer<R, T> accumulator,
-                                              BinaryOperator<R> combiner,
-                                              Characteristics... characteristics) {
-        Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
-        Objects.requireNonNull(combiner);
-        Objects.requireNonNull(characteristics);
-        Set<Characteristics> cs = (characteristics.length == 0)
-                                  ? Collectors.CH_ID
-                                  : Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH,
-                                                                           characteristics));
-        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, cs);
+    publid stbtid<T, R> Collfdtor<T, R, R> of(Supplifr<R> supplifr,
+                                              BiConsumfr<R, T> bddumulbtor,
+                                              BinbryOpfrbtor<R> dombinfr,
+                                              Cibrbdtfristids... dibrbdtfristids) {
+        Objfdts.rfquirfNonNull(supplifr);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(dombinfr);
+        Objfdts.rfquirfNonNull(dibrbdtfristids);
+        Sft<Cibrbdtfristids> ds = (dibrbdtfristids.lfngti == 0)
+                                  ? Collfdtors.CH_ID
+                                  : Collfdtions.unmodifibblfSft(EnumSft.of(Collfdtor.Cibrbdtfristids.IDENTITY_FINISH,
+                                                                           dibrbdtfristids));
+        rfturn nfw Collfdtors.CollfdtorImpl<>(supplifr, bddumulbtor, dombinfr, ds);
     }
 
     /**
-     * Returns a new {@code Collector} described by the given {@code supplier},
-     * {@code accumulator}, {@code combiner}, and {@code finisher} functions.
+     * Rfturns b nfw {@dodf Collfdtor} dfsdribfd by tif givfn {@dodf supplifr},
+     * {@dodf bddumulbtor}, {@dodf dombinfr}, bnd {@dodf finisifr} fundtions.
      *
-     * @param supplier The supplier function for the new collector
-     * @param accumulator The accumulator function for the new collector
-     * @param combiner The combiner function for the new collector
-     * @param finisher The finisher function for the new collector
-     * @param characteristics The collector characteristics for the new
-     *                        collector
-     * @param <T> The type of input elements for the new collector
-     * @param <A> The intermediate accumulation type of the new collector
-     * @param <R> The final result type of the new collector
-     * @throws NullPointerException if any argument is null
-     * @return the new {@code Collector}
+     * @pbrbm supplifr Tif supplifr fundtion for tif nfw dollfdtor
+     * @pbrbm bddumulbtor Tif bddumulbtor fundtion for tif nfw dollfdtor
+     * @pbrbm dombinfr Tif dombinfr fundtion for tif nfw dollfdtor
+     * @pbrbm finisifr Tif finisifr fundtion for tif nfw dollfdtor
+     * @pbrbm dibrbdtfristids Tif dollfdtor dibrbdtfristids for tif nfw
+     *                        dollfdtor
+     * @pbrbm <T> Tif typf of input flfmfnts for tif nfw dollfdtor
+     * @pbrbm <A> Tif intfrmfdibtf bddumulbtion typf of tif nfw dollfdtor
+     * @pbrbm <R> Tif finbl rfsult typf of tif nfw dollfdtor
+     * @tirows NullPointfrExdfption if bny brgumfnt is null
+     * @rfturn tif nfw {@dodf Collfdtor}
      */
-    public static<T, A, R> Collector<T, A, R> of(Supplier<A> supplier,
-                                                 BiConsumer<A, T> accumulator,
-                                                 BinaryOperator<A> combiner,
-                                                 Function<A, R> finisher,
-                                                 Characteristics... characteristics) {
-        Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
-        Objects.requireNonNull(combiner);
-        Objects.requireNonNull(finisher);
-        Objects.requireNonNull(characteristics);
-        Set<Characteristics> cs = Collectors.CH_NOID;
-        if (characteristics.length > 0) {
-            cs = EnumSet.noneOf(Characteristics.class);
-            Collections.addAll(cs, characteristics);
-            cs = Collections.unmodifiableSet(cs);
+    publid stbtid<T, A, R> Collfdtor<T, A, R> of(Supplifr<A> supplifr,
+                                                 BiConsumfr<A, T> bddumulbtor,
+                                                 BinbryOpfrbtor<A> dombinfr,
+                                                 Fundtion<A, R> finisifr,
+                                                 Cibrbdtfristids... dibrbdtfristids) {
+        Objfdts.rfquirfNonNull(supplifr);
+        Objfdts.rfquirfNonNull(bddumulbtor);
+        Objfdts.rfquirfNonNull(dombinfr);
+        Objfdts.rfquirfNonNull(finisifr);
+        Objfdts.rfquirfNonNull(dibrbdtfristids);
+        Sft<Cibrbdtfristids> ds = Collfdtors.CH_NOID;
+        if (dibrbdtfristids.lfngti > 0) {
+            ds = EnumSft.nonfOf(Cibrbdtfristids.dlbss);
+            Collfdtions.bddAll(ds, dibrbdtfristids);
+            ds = Collfdtions.unmodifibblfSft(ds);
         }
-        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, finisher, cs);
+        rfturn nfw Collfdtors.CollfdtorImpl<>(supplifr, bddumulbtor, dombinfr, finisifr, ds);
     }
 
     /**
-     * Characteristics indicating properties of a {@code Collector}, which can
-     * be used to optimize reduction implementations.
+     * Cibrbdtfristids indidbting propfrtifs of b {@dodf Collfdtor}, wiidi dbn
+     * bf usfd to optimizf rfdudtion implfmfntbtions.
      */
-    enum Characteristics {
+    fnum Cibrbdtfristids {
         /**
-         * Indicates that this collector is <em>concurrent</em>, meaning that
-         * the result container can support the accumulator function being
-         * called concurrently with the same result container from multiple
-         * threads.
+         * Indidbtfs tibt tiis dollfdtor is <fm>dondurrfnt</fm>, mfbning tibt
+         * tif rfsult dontbinfr dbn support tif bddumulbtor fundtion bfing
+         * dbllfd dondurrfntly witi tif sbmf rfsult dontbinfr from multiplf
+         * tirfbds.
          *
-         * <p>If a {@code CONCURRENT} collector is not also {@code UNORDERED},
-         * then it should only be evaluated concurrently if applied to an
-         * unordered data source.
+         * <p>If b {@dodf CONCURRENT} dollfdtor is not blso {@dodf UNORDERED},
+         * tifn it siould only bf fvblubtfd dondurrfntly if bpplifd to bn
+         * unordfrfd dbtb sourdf.
          */
         CONCURRENT,
 
         /**
-         * Indicates that the collection operation does not commit to preserving
-         * the encounter order of input elements.  (This might be true if the
-         * result container has no intrinsic order, such as a {@link Set}.)
+         * Indidbtfs tibt tif dollfdtion opfrbtion dofs not dommit to prfsfrving
+         * tif fndountfr ordfr of input flfmfnts.  (Tiis migit bf truf if tif
+         * rfsult dontbinfr ibs no intrinsid ordfr, sudi bs b {@link Sft}.)
          */
         UNORDERED,
 
         /**
-         * Indicates that the finisher function is the identity function and
-         * can be elided.  If set, it must be the case that an unchecked cast
-         * from A to R will succeed.
+         * Indidbtfs tibt tif finisifr fundtion is tif idfntity fundtion bnd
+         * dbn bf flidfd.  If sft, it must bf tif dbsf tibt bn undifdkfd dbst
+         * from A to R will suddffd.
          */
         IDENTITY_FINISH
     }

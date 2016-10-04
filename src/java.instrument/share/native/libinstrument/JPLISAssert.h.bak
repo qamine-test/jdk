@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
 /*
- *  Super-cheesy assertions that aren't efficient when they are turned on, but
- *  are free when turned off (all pre-processor stuff)
+ *  Supfr-diffsy bssfrtions tibt brfn't fffidifnt wifn tify brf turnfd on, but
+ *  brf frff wifn turnfd off (bll prf-prodfssor stuff)
  */
 
 
-#ifndef _JPLISASSERT_H_
-#define _JPLISASSERT_H_
+#ifndff _JPLISASSERT_H_
+#dffinf _JPLISASSERT_H_
 
-#include    <jni.h>
+#indludf    <jni.i>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-#define JPLISASSERT_ENABLEASSERTIONS    (1)
+#dffinf JPLISASSERT_ENABLEASSERTIONS    (1)
 
 
-#ifndef JPLISASSERT_ENABLEASSERTIONS
-#define JPLISASSERT_ENABLEASSERTIONS    (0)
-#endif
+#ifndff JPLISASSERT_ENABLEASSERTIONS
+#dffinf JPLISASSERT_ENABLEASSERTIONS    (0)
+#fndif
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
 #if JPLISASSERT_ENABLEASSERTIONS
-#define jplis_assert(x)             JPLISAssertCondition((jboolean)(x), #x, THIS_FILE, __LINE__)
-#define jplis_assert_msg(x, msg)    JPLISAssertConditionWithMessage((jboolean)(x), #x, msg, THIS_FILE, __LINE__)
-#else
-#define jplis_assert(x)
-#define jplis_assert_msg(x, msg)
-#endif
+#dffinf jplis_bssfrt(x)             JPLISAssfrtCondition((jboolfbn)(x), #x, THIS_FILE, __LINE__)
+#dffinf jplis_bssfrt_msg(x, msg)    JPLISAssfrtConditionWitiMfssbgf((jboolfbn)(x), #x, msg, THIS_FILE, __LINE__)
+#flsf
+#dffinf jplis_bssfrt(x)
+#dffinf jplis_bssfrt_msg(x, msg)
+#fndif
 
 /*
- * Test the supplied condition.
- * If false, print a constructed message including source site info to stderr.
- * If true, do nothing.
+ * Tfst tif supplifd dondition.
+ * If fblsf, print b donstrudtfd mfssbgf indluding sourdf sitf info to stdfrr.
+ * If truf, do notiing.
  */
-extern void
-JPLISAssertCondition(   jboolean        condition,
-                        const char *    assertionText,
-                        const char *    file,
-                        int             line);
+fxtfrn void
+JPLISAssfrtCondition(   jboolfbn        dondition,
+                        donst dibr *    bssfrtionTfxt,
+                        donst dibr *    filf,
+                        int             linf);
 
 /*
- * Test the supplied condition.
- * If false, print a constructed message including source site info
- * and the supplied message to stderr.
- * If true, do nothing.
+ * Tfst tif supplifd dondition.
+ * If fblsf, print b donstrudtfd mfssbgf indluding sourdf sitf info
+ * bnd tif supplifd mfssbgf to stdfrr.
+ * If truf, do notiing.
  */
-extern void
-JPLISAssertConditionWithMessage(    jboolean        condition,
-                                    const char *    assertionText,
-                                    const char *    message,
-                                    const char *    file,
-                                    int             line);
+fxtfrn void
+JPLISAssfrtConditionWitiMfssbgf(    jboolfbn        dondition,
+                                    donst dibr *    bssfrtionTfxt,
+                                    donst dibr *    mfssbgf,
+                                    donst dibr *    filf,
+                                    int             linf);
 
 
 
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
 
 
-#endif
+#fndif

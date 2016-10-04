@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Arrbys;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
+
+/**
+ * NOTE: Thfrf is b JDK-intfrnbl dfpfndfndy on thf fxistfndf of this
+ * dlbss bnd its gftClifntSodkftFbdtory mfthod in thf implfmfntbtion
+ * of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
+ **/
+publid dlbss LivfRff implfmfnts Clonfbblf {
+    /** wirf rfprfsfntbtion for thf objfdt*/
+    privbtf finbl Endpoint fp;
+    privbtf finbl ObjID id;
+
+    /** dbdhfd donnfdtion sfrvidf for thf objfdt */
+    privbtf trbnsifnt Chbnnfl dh;
+
+    /** flbg to indidbtf whfthfr this rff spfdififs b lodbl sfrvfr or
+     * is b rff for b rfmotf objfdt (surrogbtf)
+     */
+    privbtf finbl boolfbn isLodbl;
+
+    /**
+     * Construdt b "wfll-known" livf rfffrfndf to b rfmotf objfdt
+     * @pbrbm isLodblSfrvfr If truf, indidbtfs this rff spfdififs b lodbl
+     * sfrvfr in this bddrfss spbdf; if fblsf, thf rff is for b rfmotf
+     * objfdt (hfndf b surrogbtf or proxy) in bnothfr bddrfss spbdf.
+     */
+    publid LivfRff(ObjID objID, Endpoint fndpoint, boolfbn isLodbl) {
+        fp = fndpoint;
+        id = objID;
+        this.isLodbl = isLodbl;
+    }
+
+    /**
+     * Construdt b nfw livf rfffrfndf for b sfrvfr objfdt in thf lodbl
+     * bddrfss spbdf.
+     */
+    publid LivfRff(int port) {
+        this((nfw ObjID()), port);
+    }
+
+    /**
+     * Construdt b nfw livf rfffrfndf for b sfrvfr objfdt in thf lodbl
+     * bddrfss spbdf, to usf sodkfts of thf spfdififd typf.
+     */
+    publid LivfRff(int port,
+                   RMIClifntSodkftFbdtory dsf,
+                   RMISfrvfrSodkftFbdtory ssf)
+    {
+        this((nfw ObjID()), port, dsf, ssf);
+    }
+
+    /**
+     * Construdt b nfw livf rfffrfndf for b "wfll-known" sfrvfr objfdt
+     * in thf lodbl bddrfss spbdf.
+     */
+    publid LivfRff(ObjID objID, int port) {
+        this(objID, TCPEndpoint.gftLodblEndpoint(port), truf);
+    }
+
+    /**
+     * Construdt b nfw livf rfffrfndf for b "wfll-known" sfrvfr objfdt
+     * in thf lodbl bddrfss spbdf, to usf sodkfts of thf spfdififd typf.
+     */
+    publid LivfRff(ObjID objID, int port, RMIClifntSodkftFbdtory dsf,
+                   RMISfrvfrSodkftFbdtory ssf)
+    {
+        this(objID, TCPEndpoint.gftLodblEndpoint(port, dsf, ssf), truf);
+    }
+
+    /**
+     * Rfturn b shbllow dopy of this rff.
+     */
+    publid Objfdt dlonf() {
+        try {
+            LivfRff nfwRff = (LivfRff) supfr.dlonf();
+            rfturn nfwRff;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    /**
+     * Rfturn thf port numbfr bssodibtfd with this rff.
+     */
+    publid int gftPort() {
+        rfturn ((TCPEndpoint) fp).gftPort();
+    }
+
+    /**
+     * Rfturn thf dlifnt sodkft fbdtory bssodibtfd with this rff.
+     *
+     * NOTE: Thfrf is b JDK-intfrnbl dfpfndfndy on thf fxistfndf of
+     * this mfthod in thf implfmfntbtion of
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
+     **/
+    publid RMIClifntSodkftFbdtory gftClifntSodkftFbdtory() {
+        rfturn ((TCPEndpoint) fp).gftClifntSodkftFbdtory();
+    }
+
+    /**
+     * Rfturn thf sfrvfr sodkft fbdtory bssodibtfd with this rff.
+     */
+    publid RMISfrvfrSodkftFbdtory gftSfrvfrSodkftFbdtory() {
+        rfturn ((TCPEndpoint) fp).gftSfrvfrSodkftFbdtory();
+    }
+
+    /**
+     * Export thf objfdt to bddfpt indoming dblls.
+     */
+    publid void fxportObjfdt(Tbrgft tbrgft) throws RfmotfExdfption {
+        fp.fxportObjfdt(tbrgft);
+    }
+
+    publid Chbnnfl gftChbnnfl() throws RfmotfExdfption {
+        if (dh == null) {
+            dh = fp.gftChbnnfl();
+        }
+        rfturn dh;
+    }
+
+    publid ObjID gftObjID() {
+        rfturn id;
+    }
+
+    Endpoint gftEndpoint() {
+        rfturn fp;
+    }
+
+    publid String toString() {
+        String typf;
+
+        if (isLodbl)
+            typf = "lodbl";
+        flsf
+            typf = "rfmotf";
+        rfturn "[fndpoint:" + fp + "(" + typf + ")," +
+            "objID:" + id + "]";
+    }
+
+    publid int hbshCodf() {
+        rfturn id.hbshCodf();
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof LivfRff) {
+            LivfRff rff = (LivfRff) obj;
+
+            rfturn (fp.fqubls(rff.fp) && id.fqubls(rff.id) &&
+                    isLodbl == rff.isLodbl);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid boolfbn rfmotfEqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof LivfRff) {
+            LivfRff rff = (LivfRff) obj;
+
+            TCPEndpoint thisEp = ((TCPEndpoint) fp);
+            TCPEndpoint rffEp = ((TCPEndpoint) rff.fp);
+
+            RMIClifntSodkftFbdtory thisClifntFbdtory =
+                thisEp.gftClifntSodkftFbdtory();
+            RMIClifntSodkftFbdtory rffClifntFbdtory =
+                rffEp.gftClifntSodkftFbdtory();
+
+            /**
+             * Fix for 4254103: LivfRff.rfmotfEqubls should not fbil
+             * if onf of thf objfdts in thf dompbrison hbs b null
+             * sfrvfr sodkft.  Compbrison should only donsidfr thf
+             * following dritfrib:
+             *
+             * hosts, ports, dlifnt sodkft fbdtorifs bnd objfdt IDs.
+             */
+            if (thisEp.gftPort() != rffEp.gftPort() ||
+                !thisEp.gftHost().fqubls(rffEp.gftHost()))
+            {
+                rfturn fblsf;
+            }
+            if ((thisClifntFbdtory == null) ^ (rffClifntFbdtory == null)) {
+                rfturn fblsf;
+            }
+            if ((thisClifntFbdtory != null) &&
+                !((thisClifntFbdtory.gftClbss() ==
+                   rffClifntFbdtory.gftClbss()) &&
+                  (thisClifntFbdtory.fqubls(rffClifntFbdtory))))
+            {
+                rfturn fblsf;
+            }
+            rfturn (id.fqubls(rff.id));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid void writf(ObjfdtOutput out, boolfbn usfNfwFormbt)
+        throws IOExdfption
+    {
+        boolfbn isRfsultStrfbm = fblsf;
+        if (out instbndfof ConnfdtionOutputStrfbm) {
+            ConnfdtionOutputStrfbm strfbm = (ConnfdtionOutputStrfbm) out;
+            isRfsultStrfbm = strfbm.isRfsultStrfbm();
+            /*
+             * Ensurf thbt rfffrfntibl intfgrity is not brokfn whilf
+             * this LivfRff is in trbnsit.  If it is bfing mbrshbllfd
+             * bs pbrt of b rfsult, it mby not othfrwisf bf strongly
+             * rfbdhbblf bftfr thf rfmotf dbll hbs domplftfd; fvfn if
+             * it is bfing mbrshbllfd bs pbrt of bn brgumfnt, thf VM
+             * mby dftfrminf thbt thf rfffrfndf on thf stbdk is no
+             * longfr rfbdhbblf bftfr mbrshblling (sff 6181943)--
+             * thfrfforf, tfll thf strfbm to sbvf b rfffrfndf until b
+             * timfout fxpirfs or, for rfsults, b DGCAdk mfssbgf hbs
+             * bffn rfdfivfd from thf dbllfr, or for brgumfnts, thf
+             * rfmotf dbll hbs domplftfd.  For b "lodbl" LivfRff, sbvf
+             * b rfffrfndf to thf impl dirfdtly, bfdbusf thf impl is
+             * not rfbdhbblf from thf LivfRff (sff 4114579);
+             * othfrwisf, sbvf b rfffrfndf to thf LivfRff, for thf
+             * dlifnt-sidf DGC to wbtdh ovfr.  (Also sff 4017232.)
+             */
+            if (isLodbl) {
+                ObjfdtEndpoint of =
+                    nfw ObjfdtEndpoint(id, fp.gftInboundTrbnsport());
+                Tbrgft tbrgft = ObjfdtTbblf.gftTbrgft(of);
+
+                if (tbrgft != null) {
+                    Rfmotf impl = tbrgft.gftImpl();
+                    if (impl != null) {
+                        strfbm.sbvfObjfdt(impl);
+                    }
+                }
+            } flsf {
+                strfbm.sbvfObjfdt(this);
+            }
+        }
+        // All togfthfr now writf out thf fndpoint, id, bnd flbg
+
+        // (nffd to dhoosf whfthfr or not to usf old JDK1.1 fndpoint formbt)
+        if (usfNfwFormbt) {
+            ((TCPEndpoint) fp).writf(out);
+        } flsf {
+            ((TCPEndpoint) fp).writfHostPortFormbt(out);
+        }
+        id.writf(out);
+        out.writfBoolfbn(isRfsultStrfbm);
+    }
+
+    publid stbtid LivfRff rfbd(ObjfdtInput in, boolfbn usfNfwFormbt)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        Endpoint fp;
+        ObjID id;
+
+        // Now rfbd in thf fndpoint, id, bnd rfsult flbg
+        // (nffd to dhoosf whfthfr or not to rfbd old JDK1.1 fndpoint formbt)
+        if (usfNfwFormbt) {
+            fp = TCPEndpoint.rfbd(in);
+        } flsf {
+            fp = TCPEndpoint.rfbdHostPortFormbt(in);
+        }
+        id = ObjID.rfbd(in);
+        boolfbn isRfsultStrfbm = in.rfbdBoolfbn();
+
+        LivfRff rff = nfw LivfRff(id, fp, fblsf);
+
+        if (in instbndfof ConnfdtionInputStrfbm) {
+            ConnfdtionInputStrfbm strfbm = (ConnfdtionInputStrfbm)in;
+            // sbvf rff to sfnd "dirty" dbll bftfr bll brgs/rfturns
+            // hbvf bffn unmbrshblfd.
+            strfbm.sbvfRff(rff);
+            if (isRfsultStrfbm) {
+                // sft flbg in strfbm indidbting thbt rfmotf objfdts wfrf
+                // unmbrshblfd.  A DGC bdk should bf sfnt by thf trbnsport.
+                strfbm.sftAdkNffdfd();
+            }
+        } flsf {
+            DGCClifnt.rfgistfrRffs(fp, Arrbys.bsList(nfw LivfRff[] { rff }));
+        }
+
+        rfturn rff;
+    }
+}

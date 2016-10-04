@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.callback;
+pbdkbgf jbvbx.sfdurity.buti.dbllbbdk;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code ChoiceCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to display a list of choices
- * and to retrieve the selected choice(s).
+ * <p> Undfrlying sfdurity sfrvidfs instbntibtf bnd pbss b
+ * {@dodf CioidfCbllbbdk} to tif {@dodf ibndlf}
+ * mftiod of b {@dodf CbllbbdkHbndlfr} to displby b list of dioidfs
+ * bnd to rftrifvf tif sflfdtfd dioidf(s).
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @sff jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr
  */
-public class ChoiceCallback implements Callback, java.io.Serializable {
+publid dlbss CioidfCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -3975664071579892167L;
-
-    /**
-     * @serial
-     * @since 1.4
-     */
-    private String prompt;
-    /**
-     * @serial the list of choices
-     * @since 1.4
-     */
-    private String[] choices;
-    /**
-     * @serial the choice to be used as the default choice
-     * @since 1.4
-     */
-    private int defaultChoice;
-    /**
-     * @serial whether multiple selections are allowed from the list of
-     * choices
-     * @since 1.4
-     */
-    private boolean multipleSelectionsAllowed;
-    /**
-     * @serial the selected choices, represented as indexes into the
-     *          {@code choices} list.
-     * @since 1.4
-     */
-    private int[] selections;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3975664071579892167L;
 
     /**
-     * Construct a {@code ChoiceCallback} with a prompt,
-     * a list of choices, a default choice, and a boolean specifying
-     * whether or not multiple selections from the list of choices are allowed.
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String prompt;
+    /**
+     * @sfribl tif list of dioidfs
+     * @sindf 1.4
+     */
+    privbtf String[] dioidfs;
+    /**
+     * @sfribl tif dioidf to bf usfd bs tif dffbult dioidf
+     * @sindf 1.4
+     */
+    privbtf int dffbultCioidf;
+    /**
+     * @sfribl wiftifr multiplf sflfdtions brf bllowfd from tif list of
+     * dioidfs
+     * @sindf 1.4
+     */
+    privbtf boolfbn multiplfSflfdtionsAllowfd;
+    /**
+     * @sfribl tif sflfdtfd dioidfs, rfprfsfntfd bs indfxfs into tif
+     *          {@dodf dioidfs} list.
+     * @sindf 1.4
+     */
+    privbtf int[] sflfdtions;
+
+    /**
+     * Construdt b {@dodf CioidfCbllbbdk} witi b prompt,
+     * b list of dioidfs, b dffbult dioidf, bnd b boolfbn spfdifying
+     * wiftifr or not multiplf sflfdtions from tif list of dioidfs brf bllowfd.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of choices. <p>
+     * @pbrbm prompt tif prompt usfd to dfsdribf tif list of dioidfs. <p>
      *
-     * @param choices the list of choices. <p>
+     * @pbrbm dioidfs tif list of dioidfs. <p>
      *
-     * @param defaultChoice the choice to be used as the default choice
-     *                  when the list of choices are displayed.  This value
-     *                  is represented as an index into the
-     *                  {@code choices} array. <p>
+     * @pbrbm dffbultCioidf tif dioidf to bf usfd bs tif dffbult dioidf
+     *                  wifn tif list of dioidfs brf displbyfd.  Tiis vbluf
+     *                  is rfprfsfntfd bs bn indfx into tif
+     *                  {@dodf dioidfs} brrby. <p>
      *
-     * @param multipleSelectionsAllowed boolean specifying whether or
-     *                  not multiple selections can be made from the
-     *                  list of choices.
+     * @pbrbm multiplfSflfdtionsAllowfd boolfbn spfdifying wiftifr or
+     *                  not multiplf sflfdtions dbn bf mbdf from tif
+     *                  list of dioidfs.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if {@code choices} is null,
-     *                  if {@code choices} has a length of 0,
-     *                  if any element from {@code choices} is null,
-     *                  if any element from {@code choices}
-     *                  has a length of 0 or if {@code defaultChoice}
-     *                  does not fall within the array boundaries of
-     *                  {@code choices}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null,
+     *                  if {@dodf prompt} ibs b lfngti of 0,
+     *                  if {@dodf dioidfs} is null,
+     *                  if {@dodf dioidfs} ibs b lfngti of 0,
+     *                  if bny flfmfnt from {@dodf dioidfs} is null,
+     *                  if bny flfmfnt from {@dodf dioidfs}
+     *                  ibs b lfngti of 0 or if {@dodf dffbultCioidf}
+     *                  dofs not fbll witiin tif brrby boundbrifs of
+     *                  {@dodf dioidfs}.
      */
-    public ChoiceCallback(String prompt, String[] choices,
-                int defaultChoice, boolean multipleSelectionsAllowed) {
+    publid CioidfCbllbbdk(String prompt, String[] dioidfs,
+                int dffbultCioidf, boolfbn multiplfSflfdtionsAllowfd) {
 
-        if (prompt == null || prompt.length() == 0 ||
-            choices == null || choices.length == 0 ||
-            defaultChoice < 0 || defaultChoice >= choices.length)
-            throw new IllegalArgumentException();
+        if (prompt == null || prompt.lfngti() == 0 ||
+            dioidfs == null || dioidfs.lfngti == 0 ||
+            dffbultCioidf < 0 || dffbultCioidf >= dioidfs.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        for (int i = 0; i < choices.length; i++) {
-            if (choices[i] == null || choices[i].length() == 0)
-                throw new IllegalArgumentException();
+        for (int i = 0; i < dioidfs.lfngti; i++) {
+            if (dioidfs[i] == null || dioidfs[i].lfngti() == 0)
+                tirow nfw IllfgblArgumfntExdfption();
         }
 
-        this.prompt = prompt;
-        this.choices = choices;
-        this.defaultChoice = defaultChoice;
-        this.multipleSelectionsAllowed = multipleSelectionsAllowed;
+        tiis.prompt = prompt;
+        tiis.dioidfs = dioidfs;
+        tiis.dffbultCioidf = dffbultCioidf;
+        tiis.multiplfSflfdtionsAllowfd = multiplfSflfdtionsAllowfd;
     }
 
     /**
-     * Get the prompt.
+     * Gft tif prompt.
      *
      * <p>
      *
-     * @return the prompt.
+     * @rfturn tif prompt.
      */
-    public String getPrompt() {
-        return prompt;
+    publid String gftPrompt() {
+        rfturn prompt;
     }
 
     /**
-     * Get the list of choices.
+     * Gft tif list of dioidfs.
      *
      * <p>
      *
-     * @return the list of choices.
+     * @rfturn tif list of dioidfs.
      */
-    public String[] getChoices() {
-        return choices;
+    publid String[] gftCioidfs() {
+        rfturn dioidfs;
     }
 
     /**
-     * Get the defaultChoice.
+     * Gft tif dffbultCioidf.
      *
      * <p>
      *
-     * @return the defaultChoice, represented as an index into
-     *          the {@code choices} list.
+     * @rfturn tif dffbultCioidf, rfprfsfntfd bs bn indfx into
+     *          tif {@dodf dioidfs} list.
      */
-    public int getDefaultChoice() {
-        return defaultChoice;
+    publid int gftDffbultCioidf() {
+        rfturn dffbultCioidf;
     }
 
     /**
-     * Get the boolean determining whether multiple selections from
-     * the {@code choices} list are allowed.
+     * Gft tif boolfbn dftfrmining wiftifr multiplf sflfdtions from
+     * tif {@dodf dioidfs} list brf bllowfd.
      *
      * <p>
      *
-     * @return whether multiple selections are allowed.
+     * @rfturn wiftifr multiplf sflfdtions brf bllowfd.
      */
-    public boolean allowMultipleSelections() {
-        return multipleSelectionsAllowed;
+    publid boolfbn bllowMultiplfSflfdtions() {
+        rfturn multiplfSflfdtionsAllowfd;
     }
 
     /**
-     * Set the selected choice.
+     * Sft tif sflfdtfd dioidf.
      *
      * <p>
      *
-     * @param selection the selection represented as an index into the
-     *          {@code choices} list.
+     * @pbrbm sflfdtion tif sflfdtion rfprfsfntfd bs bn indfx into tif
+     *          {@dodf dioidfs} list.
      *
-     * @see #getSelectedIndexes
+     * @sff #gftSflfdtfdIndfxfs
      */
-    public void setSelectedIndex(int selection) {
-        this.selections = new int[1];
-        this.selections[0] = selection;
+    publid void sftSflfdtfdIndfx(int sflfdtion) {
+        tiis.sflfdtions = nfw int[1];
+        tiis.sflfdtions[0] = sflfdtion;
     }
 
     /**
-     * Set the selected choices.
+     * Sft tif sflfdtfd dioidfs.
      *
      * <p>
      *
-     * @param selections the selections represented as indexes into the
-     *          {@code choices} list.
+     * @pbrbm sflfdtions tif sflfdtions rfprfsfntfd bs indfxfs into tif
+     *          {@dodf dioidfs} list.
      *
-     * @exception UnsupportedOperationException if multiple selections are
-     *          not allowed, as determined by
-     *          {@code allowMultipleSelections}.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if multiplf sflfdtions brf
+     *          not bllowfd, bs dftfrminfd by
+     *          {@dodf bllowMultiplfSflfdtions}.
      *
-     * @see #getSelectedIndexes
+     * @sff #gftSflfdtfdIndfxfs
      */
-    public void setSelectedIndexes(int[] selections) {
-        if (!multipleSelectionsAllowed)
-            throw new UnsupportedOperationException();
-        this.selections = selections;
+    publid void sftSflfdtfdIndfxfs(int[] sflfdtions) {
+        if (!multiplfSflfdtionsAllowfd)
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        tiis.sflfdtions = sflfdtions;
     }
 
     /**
-     * Get the selected choices.
+     * Gft tif sflfdtfd dioidfs.
      *
      * <p>
      *
-     * @return the selected choices, represented as indexes into the
-     *          {@code choices} list.
+     * @rfturn tif sflfdtfd dioidfs, rfprfsfntfd bs indfxfs into tif
+     *          {@dodf dioidfs} list.
      *
-     * @see #setSelectedIndexes
+     * @sff #sftSflfdtfdIndfxfs
      */
-    public int[] getSelectedIndexes() {
-        return selections;
+    publid int[] gftSflfdtfdIndfxfs() {
+        rfturn sflfdtions;
     }
 }

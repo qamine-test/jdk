@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,168 +54,168 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.zone.ZoneRules;
-import java.time.zone.ZoneRulesException;
-import java.time.zone.ZoneRulesProvider;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.timf.zonf.ZonfRulfsExdfption;
+import jbvb.timf.zonf.ZonfRulfsProvidfr;
+import jbvb.util.Objfdts;
 
 /**
- * A geographical region where the same time-zone rules apply.
+ * A gfogrbpiidbl rfgion wifrf tif sbmf timf-zonf rulfs bpply.
  * <p>
- * Time-zone information is categorized as a set of rules defining when and
- * how the offset from UTC/Greenwich changes. These rules are accessed using
- * identifiers based on geographical regions, such as countries or states.
- * The most common region classification is the Time Zone Database (TZDB),
- * which defines regions such as 'Europe/Paris' and 'Asia/Tokyo'.
+ * Timf-zonf informbtion is dbtfgorizfd bs b sft of rulfs dffining wifn bnd
+ * iow tif offsft from UTC/Grffnwidi dibngfs. Tifsf rulfs brf bddfssfd using
+ * idfntififrs bbsfd on gfogrbpiidbl rfgions, sudi bs dountrifs or stbtfs.
+ * Tif most dommon rfgion dlbssifidbtion is tif Timf Zonf Dbtbbbsf (TZDB),
+ * wiidi dffinfs rfgions sudi bs 'Europf/Pbris' bnd 'Asib/Tokyo'.
  * <p>
- * The region identifier, modeled by this class, is distinct from the
- * underlying rules, modeled by {@link ZoneRules}.
- * The rules are defined by governments and change frequently.
- * By contrast, the region identifier is well-defined and long-lived.
- * This separation also allows rules to be shared between regions if appropriate.
+ * Tif rfgion idfntififr, modflfd by tiis dlbss, is distindt from tif
+ * undfrlying rulfs, modflfd by {@link ZonfRulfs}.
+ * Tif rulfs brf dffinfd by govfrnmfnts bnd dibngf frfqufntly.
+ * By dontrbst, tif rfgion idfntififr is wfll-dffinfd bnd long-livfd.
+ * Tiis sfpbrbtion blso bllows rulfs to bf sibrfd bftwffn rfgions if bppropribtf.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class ZoneRegion extends ZoneId implements Serializable {
+finbl dlbss ZonfRfgion fxtfnds ZonfId implfmfnts Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 8386373296231747096L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8386373296231747096L;
     /**
-     * The time-zone ID, not null.
+     * Tif timf-zonf ID, not null.
      */
-    private final String id;
+    privbtf finbl String id;
     /**
-     * The time-zone rules, null if zone ID was loaded leniently.
+     * Tif timf-zonf rulfs, null if zonf ID wbs lobdfd lfnifntly.
      */
-    private final transient ZoneRules rules;
+    privbtf finbl trbnsifnt ZonfRulfs rulfs;
 
     /**
-     * Obtains an instance of {@code ZoneId} from an identifier.
+     * Obtbins bn instbndf of {@dodf ZonfId} from bn idfntififr.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param checkAvailable  whether to check if the zone ID is available
-     * @return the zone ID, not null
-     * @throws DateTimeException if the ID format is invalid
-     * @throws ZoneRulesException if checking availability and the ID cannot be found
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @pbrbm difdkAvbilbblf  wiftifr to difdk if tif zonf ID is bvbilbblf
+     * @rfturn tif zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif ID formbt is invblid
+     * @tirows ZonfRulfsExdfption if difdking bvbilbbility bnd tif ID dbnnot bf found
      */
-    static ZoneRegion ofId(String zoneId, boolean checkAvailable) {
-        Objects.requireNonNull(zoneId, "zoneId");
-        checkName(zoneId);
-        ZoneRules rules = null;
+    stbtid ZonfRfgion ofId(String zonfId, boolfbn difdkAvbilbblf) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        difdkNbmf(zonfId);
+        ZonfRulfs rulfs = null;
         try {
-            // always attempt load for better behavior after deserialization
-            rules = ZoneRulesProvider.getRules(zoneId, true);
-        } catch (ZoneRulesException ex) {
-            if (checkAvailable) {
-                throw ex;
+            // blwbys bttfmpt lobd for bfttfr bfibvior bftfr dfsfriblizbtion
+            rulfs = ZonfRulfsProvidfr.gftRulfs(zonfId, truf);
+        } dbtdi (ZonfRulfsExdfption fx) {
+            if (difdkAvbilbblf) {
+                tirow fx;
             }
         }
-        return new ZoneRegion(zoneId, rules);
+        rfturn nfw ZonfRfgion(zonfId, rulfs);
     }
 
     /**
-     * Checks that the given string is a legal ZondId name.
+     * Cifdks tibt tif givfn string is b lfgbl ZondId nbmf.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @throws DateTimeException if the ID format is invalid
+     * @pbrbm zonfId  tif timf-zonf ID, not null
+     * @tirows DbtfTimfExdfption if tif ID formbt is invblid
      */
-    private static void checkName(String zoneId) {
-        int n = zoneId.length();
+    privbtf stbtid void difdkNbmf(String zonfId) {
+        int n = zonfId.lfngti();
         if (n < 2) {
-           throw new DateTimeException("Invalid ID for region-based ZoneId, invalid format: " + zoneId);
+           tirow nfw DbtfTimfExdfption("Invblid ID for rfgion-bbsfd ZonfId, invblid formbt: " + zonfId);
         }
         for (int i = 0; i < n; i++) {
-            char c = zoneId.charAt(i);
-            if (c >= 'a' && c <= 'z') continue;
-            if (c >= 'A' && c <= 'Z') continue;
-            if (c == '/' && i != 0) continue;
-            if (c >= '0' && c <= '9' && i != 0) continue;
-            if (c == '~' && i != 0) continue;
-            if (c == '.' && i != 0) continue;
-            if (c == '_' && i != 0) continue;
-            if (c == '+' && i != 0) continue;
-            if (c == '-' && i != 0) continue;
-            throw new DateTimeException("Invalid ID for region-based ZoneId, invalid format: " + zoneId);
+            dibr d = zonfId.dibrAt(i);
+            if (d >= 'b' && d <= 'z') dontinuf;
+            if (d >= 'A' && d <= 'Z') dontinuf;
+            if (d == '/' && i != 0) dontinuf;
+            if (d >= '0' && d <= '9' && i != 0) dontinuf;
+            if (d == '~' && i != 0) dontinuf;
+            if (d == '.' && i != 0) dontinuf;
+            if (d == '_' && i != 0) dontinuf;
+            if (d == '+' && i != 0) dontinuf;
+            if (d == '-' && i != 0) dontinuf;
+            tirow nfw DbtfTimfExdfption("Invblid ID for rfgion-bbsfd ZonfId, invblid formbt: " + zonfId);
         }
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param id  the time-zone ID, not null
-     * @param rules  the rules, null for lazy lookup
+     * @pbrbm id  tif timf-zonf ID, not null
+     * @pbrbm rulfs  tif rulfs, null for lbzy lookup
      */
-    ZoneRegion(String id, ZoneRules rules) {
-        this.id = id;
-        this.rules = rules;
+    ZonfRfgion(String id, ZonfRulfs rulfs) {
+        tiis.id = id;
+        tiis.rulfs = rulfs;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public String getId() {
-        return id;
+    @Ovfrridf
+    publid String gftId() {
+        rfturn id;
     }
 
-    @Override
-    public ZoneRules getRules() {
-        // additional query for group provider when null allows for possibility
-        // that the provider was updated after the ZoneId was created
-        return (rules != null ? rules : ZoneRulesProvider.getRules(id, false));
+    @Ovfrridf
+    publid ZonfRulfs gftRulfs() {
+        // bdditionbl qufry for group providfr wifn null bllows for possibility
+        // tibt tif providfr wbs updbtfd bftfr tif ZonfId wbs drfbtfd
+        rfturn (rulfs != null ? rulfs : ZonfRulfsProvidfr.gftRulfs(id, fblsf));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(7);  // identifies a ZoneId (not ZoneOffset)
-     *  out.writeUTF(zoneId);
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../sfriblizfd-form.itml#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(7);  // idfntififs b ZonfId (not ZonfOffsft)
+     *  out.writfUTF(zonfId);
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.ZONE_REGION_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZONE_REGION_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    @Override
-    void write(DataOutput out) throws IOException {
-        out.writeByte(Ser.ZONE_REGION_TYPE);
-        writeExternal(out);
+    @Ovfrridf
+    void writf(DbtbOutput out) tirows IOExdfption {
+        out.writfBytf(Sfr.ZONE_REGION_TYPE);
+        writfExtfrnbl(out);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeUTF(id);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfUTF(id);
     }
 
-    static ZoneId readExternal(DataInput in) throws IOException {
-        String id = in.readUTF();
-        return ZoneId.of(id, false);
+    stbtid ZonfId rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        String id = in.rfbdUTF();
+        rfturn ZonfId.of(id, fblsf);
     }
 
 }

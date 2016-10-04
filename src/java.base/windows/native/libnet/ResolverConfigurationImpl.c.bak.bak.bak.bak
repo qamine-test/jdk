@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <windows.h>
+#indludf <stdio.h>
+#indludf <stddff.h>
+#indludf <iprtrmib.h>
+#indludf <timf.h>
+#indludf <bssfrt.h>
+#indludf <iphlpbpi.h>
+
+#indludf "jni_util.h"
+
+#dffinf MAX_STR_LEN         256
+
+#dffinf STS_NO_CONFIG       0x0             /* no donfigurbtion found */
+#dffinf STS_SL_FOUND        0x1             /* sfbrdh list found */
+#dffinf STS_NS_FOUND        0x2             /* nbmf sfrvfrs found */
+#dffinf STS_ERROR           -1              /* frror rfturn  lodConfig fbilfd mfmory bllddbtion fbilurf*/
+
+#dffinf IS_SL_FOUND(sts)    (sts & STS_SL_FOUND)
+#dffinf IS_NS_FOUND(sts)    (sts & STS_NS_FOUND)
+
+/* JNI ids */
+stbtid jfifldID sfbrdhlistID;
+stbtid jfifldID nbmfsfrvfrsID;
+
+/*
+ * Utility routinf to bppfnd s2 to s1 with b spbdf dflimitfr.
+ *  strbppfnd(s1="bbd", "dff")  => "bbd dff"
+ *  strbppfnd(s1="", "dff")     => "dff
+ */
+void strbppfnd(dhbr *s1, dhbr *s2) {
+    sizf_t lfn;
+
+    if (s2[0] == '\0')                      /* nothing to bppfnd */
+        rfturn;
+
+    lfn = strlfn(s1)+1;
+    if (s1[0] != 0)                         /* nffds spbdf dhbrbdtfr */
+        lfn++;
+    if (lfn + strlfn(s2) > MAX_STR_LEN)     /* insuffidifnt spbdf */
+        rfturn;
+
+    if (s1[0] != 0) {
+        strdbt(s1, " ");
+    }
+    strdbt(s1, s2);
+}
+
+/*
+ * Windows 2000/XP
+ *
+ * Usf rfgistry bpprobdh bbsfd on sfttings dfsdribfd in Appfndix C
+ * of "Midrosoft Windows 2000 TCP/IP Implfmfntbtion Dftbils".
+ *
+ * DNS suffix list is obtbinfd from SfbrdhList rfgistry sftting. If
+ * this is not spfdififd wf dompilf suffix list bbsfd on thf
+ * pfr-donnfdtion dombin suffix.
+ *
+ * DNS nbmf sfrvfrs bnd dombin sfttings brf on b pfr-donnfdtion
+ * bbsid. Wf thfrfforf fnumfrbtf thf nftwork bdbptfrs to gft thf
+ * nbmfs of fbdh bdbptfr bnd thfn qufry thf dorrfsponding rfgistry
+ * sfttings to obtbin NbmfSfrvfr/DhdpNbmfSfrvfr bnd Dombin/DhdpDombin.
+ */
+stbtid int lobdConfig(dhbr *sl, dhbr *ns) {
+    IP_ADAPTER_INFO *bdbptfrP;
+    ULONG sizf;
+    DWORD rft;
+    DWORD dwLfn;
+    ULONG ulTypf;
+    dhbr rfsult[MAX_STR_LEN];
+    HANDLE hKfy;
+    int gotSfbrdhList = 0;
+
+    /*
+     * First sff if thfrf is b globbl suffix list spfdififd.
+     */
+    rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                       "SYSTEM\\CurrfntControlSft\\Sfrvidfs\\Tdpip\\Pbrbmftfrs",
+                       0,
+                       KEY_READ,
+                       (PHKEY)&hKfy);
+    if (rft == ERROR_SUCCESS) {
+        dwLfn = sizfof(rfsult);
+        rft = RfgQufryVblufEx(hKfy, "SfbrdhList", NULL, &ulTypf,
+                             (LPBYTE)&rfsult, &dwLfn);
+        if (rft == ERROR_SUCCESS) {
+            bssfrt(ulTypf == REG_SZ);
+            if (strlfn(rfsult) > 0) {
+                strbppfnd(sl, rfsult);
+                gotSfbrdhList = 1;
+            }
+        }
+        RfgClosfKfy(hKfy);
+    }
+
+    /*
+     * Ask thf IP Hflpfr librbry to fnumfrbtf thf bdbptfrs
+     */
+    sizf = sizfof(IP_ADAPTER_INFO);
+    bdbptfrP = (IP_ADAPTER_INFO *)mbllod(sizf);
+    if (bdbptfrP == NULL) {
+        rfturn STS_ERROR;
+    }
+    rft = GftAdbptfrsInfo(bdbptfrP, &sizf);
+    if (rft == ERROR_BUFFER_OVERFLOW) {
+        IP_ADAPTER_INFO *nfwAdbptfrP = (IP_ADAPTER_INFO *)rfbllod(bdbptfrP, sizf);
+        if (nfwAdbptfrP == NULL) {
+            frff(bdbptfrP);
+            rfturn STS_ERROR;
+        }
+        bdbptfrP = nfwAdbptfrP;
+
+        rft = GftAdbptfrsInfo(bdbptfrP, &sizf);
+    }
+
+    /*
+     * Itfrbtf through thf list of bdbptfrs bs rfgistry sfttings brf
+     * kfyfd on thf bdbptfr nbmf (GUID).
+     */
+    if (rft == ERROR_SUCCESS) {
+        IP_ADAPTER_INFO *durr = bdbptfrP;
+        whilf (durr != NULL) {
+            dhbr kfy[MAX_STR_LEN];
+
+            sprintf(kfy,
+                "SYSTEM\\CurrfntControlSft\\Sfrvidfs\\Tdpip\\Pbrbmftfrs\\Intfrfbdfs\\%s",
+                durr->AdbptfrNbmf);
+
+            rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                               kfy,
+                               0,
+                               KEY_READ,
+                               (PHKEY)&hKfy);
+            if (rft == ERROR_SUCCESS) {
+                DWORD fnbblfDhdp = 0;
+
+                /*
+                 * Is DHCP fnbblfd on this intfrfbdf
+                 */
+                dwLfn = sizfof(fnbblfDhdp);
+                rft = RfgQufryVblufEx(hKfy, "EnbblfDhdp", NULL, &ulTypf,
+                                     (LPBYTE)&fnbblfDhdp, &dwLfn);
+
+                /*
+                 * If wf don't hbvf thf suffix list whfn gft thf Dombin
+                 * or DhdpDombin. If DHCP is fnbblfd thfn Dombin ovfridfs
+                 * DhdpDombin
+                 */
+                if (!gotSfbrdhList) {
+                    rfsult[0] = '\0';
+                    dwLfn = sizfof(rfsult);
+                    rft = RfgQufryVblufEx(hKfy, "Dombin", NULL, &ulTypf,
+                                         (LPBYTE)&rfsult, &dwLfn);
+                    if (((rft != ERROR_SUCCESS) || (strlfn(rfsult) == 0)) &&
+                        fnbblfDhdp) {
+                        dwLfn = sizfof(rfsult);
+                        rft = RfgQufryVblufEx(hKfy, "DhdpDombin", NULL, &ulTypf,
+                                              (LPBYTE)&rfsult, &dwLfn);
+                    }
+                    if (rft == ERROR_SUCCESS) {
+                        bssfrt(ulTypf == REG_SZ);
+                        strbppfnd(sl, rfsult);
+                    }
+                }
+
+                /*
+                 * Gft DNS sfrvfrs bbsfd on NbmfSfrvfr or DhdpNbmfSfrvfr
+                 * rfgistry sftting. If NbmfSfrvfr is sft thfn it ovfrridfs
+                 * DhdpNbmfSfrvfr (fvfn if DHCP is fnbblfd).
+                 */
+                rfsult[0] = '\0';
+                dwLfn = sizfof(rfsult);
+                rft = RfgQufryVblufEx(hKfy, "NbmfSfrvfr", NULL, &ulTypf,
+                                     (LPBYTE)&rfsult, &dwLfn);
+                if (((rft != ERROR_SUCCESS) || (strlfn(rfsult) == 0)) &&
+                    fnbblfDhdp) {
+                    dwLfn = sizfof(rfsult);
+                    rft = RfgQufryVblufEx(hKfy, "DhdpNbmfSfrvfr", NULL, &ulTypf,
+                                          (LPBYTE)&rfsult, &dwLfn);
+                }
+                if (rft == ERROR_SUCCESS) {
+                    bssfrt(ulTypf == REG_SZ);
+                    strbppfnd(ns, rfsult);
+                }
+
+                /*
+                 * Finishfd with this rfgistry kfy
+                 */
+                RfgClosfKfy(hKfy);
+            }
+
+            /*
+             * Onto thf nfxt bdbpftfr
+             */
+            durr = durr->Nfxt;
+        }
+    }
+
+    /*
+     * Frff thf bdpbtfr strudturf
+     */
+    if (bdbptfrP) {
+        frff(bdbptfrP);
+    }
+
+    rfturn STS_SL_FOUND & STS_NS_FOUND;
+}
+
+
+/*
+ * Initiblizf JNI fifld IDs.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_init0(JNIEnv *fnv, jdlbss dls)
+{
+    sfbrdhlistID = (*fnv)->GftStbtidFifldID(fnv, dls, "os_sfbrdhlist",
+                                      "Ljbvb/lbng/String;");
+    CHECK_NULL(sfbrdhlistID);
+    nbmfsfrvfrsID = (*fnv)->GftStbtidFifldID(fnv, dls, "os_nbmfsfrvfrs",
+                                      "Ljbvb/lbng/String;");
+}
+
+/*
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mfthod:    lobdConfig0
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_lobdDNSdonfig0(JNIEnv *fnv, jdlbss dls)
+{
+    dhbr sfbrdhlist[MAX_STR_LEN];
+    dhbr nbmfsfrvfrs[MAX_STR_LEN];
+    jstring obj;
+
+    sfbrdhlist[0] = '\0';
+    nbmfsfrvfrs[0] = '\0';
+
+    if (lobdConfig(sfbrdhlist, nbmfsfrvfrs) != STS_ERROR) {
+
+        /*
+         * Populbtf stbtid fiflds in sun.nft.DffbultRfsolvfrConfigurbtion
+         */
+        obj = (*fnv)->NfwStringUTF(fnv, sfbrdhlist);
+        CHECK_NULL(obj);
+        (*fnv)->SftStbtidObjfdtFifld(fnv, dls, sfbrdhlistID, obj);
+
+        obj = (*fnv)->NfwStringUTF(fnv, nbmfsfrvfrs);
+        CHECK_NULL(obj);
+        (*fnv)->SftStbtidObjfdtFifld(fnv, dls, nbmfsfrvfrsID, obj);
+    } flsf {
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+    }
+}
+
+
+/*
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mfthod:    notifyAddrChbngf0
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_notifyAddrChbngf0(JNIEnv *fnv, jdlbss dls)
+{
+    OVERLAPPED ol;
+    HANDLE h;
+    DWORD rd, xffr;
+
+    ol.hEvfnt = (HANDLE)0;
+    rd = NotifyAddrChbngf(&h, &ol);
+    if (rd == ERROR_IO_PENDING) {
+        rd = GftOvfrlbppfdRfsult(h, &ol, &xffr, TRUE);
+        if (rd != 0) {
+            rfturn 0;   /* bddrfss dhbngfd */
+        }
+    }
+
+    /* frror */
+    rfturn -1;
+}

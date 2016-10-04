@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.ProviderException;
+import jbvb.sfdurity.ProvidfrExdfption;
 
-import sun.security.util.Debug;
+import sun.sfdurity.util.Dfbug;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
 /**
- * Session manager. There is one session manager object per PKCS#11
- * provider. It allows code to checkout a session, release it
- * back to the pool, or force it to be closed.
+ * Sfssion mbnbgfr. Tifrf is onf sfssion mbnbgfr objfdt pfr PKCS#11
+ * providfr. It bllows dodf to difdkout b sfssion, rflfbsf it
+ * bbdk to tif pool, or fordf it to bf dlosfd.
  *
- * The session manager pools sessions to minimize the number of
- * C_OpenSession() and C_CloseSession() that have to be made. It
- * maintains two pools: one for "object" sessions and one for
- * "operation" sessions.
+ * Tif sfssion mbnbgfr pools sfssions to minimizf tif numbfr of
+ * C_OpfnSfssion() bnd C_ClosfSfssion() tibt ibvf to bf mbdf. It
+ * mbintbins two pools: onf for "objfdt" sfssions bnd onf for
+ * "opfrbtion" sfssions.
  *
- * The reason for this separation is how PKCS#11 deals with session objects.
- * It defines that when a session is closed, all objects created within
- * that session are destroyed. In other words, we may never close a session
- * while a Key created it in is still in use. We would like to keep the
- * number of such sessions low. Note that we occasionally want to explicitly
- * close a session, see P11Signature.
+ * Tif rfbson for tiis sfpbrbtion is iow PKCS#11 dfbls witi sfssion objfdts.
+ * It dffinfs tibt wifn b sfssion is dlosfd, bll objfdts drfbtfd witiin
+ * tibt sfssion brf dfstroyfd. In otifr words, wf mby nfvfr dlosf b sfssion
+ * wiilf b Kfy drfbtfd it in is still in usf. Wf would likf to kffp tif
+ * numbfr of sudi sfssions low. Notf tibt wf oddbsionblly wbnt to fxpliditly
+ * dlosf b sfssion, sff P11Signbturf.
  *
- * NOTE that sessions obtained from this class SHOULD be returned using
- * either releaseSession() or closeSession() using a finally block when
- * not needed anymore. Otherwise, they will be left for cleanup via the
- * PhantomReference mechanism when GC kicks in, but it's best not to rely
- * on that since GC may not run timely enough since the native PKCS11 library
- * is also consuming memory.
+ * NOTE tibt sfssions obtbinfd from tiis dlbss SHOULD bf rfturnfd using
+ * fitifr rflfbsfSfssion() or dlosfSfssion() using b finblly blodk wifn
+ * not nffdfd bnymorf. Otifrwisf, tify will bf lfft for dlfbnup vib tif
+ * PibntomRfffrfndf mfdibnism wifn GC kidks in, but it's bfst not to rfly
+ * on tibt sindf GC mby not run timfly fnougi sindf tif nbtivf PKCS11 librbry
+ * is blso donsuming mfmory.
  *
- * Note that sessions are automatically closed when they are not used for a
- * period of time, see Session.
+ * Notf tibt sfssions brf butombtidblly dlosfd wifn tify brf not usfd for b
+ * pfriod of timf, sff Sfssion.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class SessionManager {
+finbl dlbss SfssionMbnbgfr {
 
-    private final static int DEFAULT_MAX_SESSIONS = 32;
+    privbtf finbl stbtid int DEFAULT_MAX_SESSIONS = 32;
 
-    private final static Debug debug = Debug.getInstance("pkcs11");
+    privbtf finbl stbtid Dfbug dfbug = Dfbug.gftInstbndf("pkds11");
 
-    // token instance
-    private final Token token;
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
 
-    // maximum number of sessions to open with this token
-    private final int maxSessions;
+    // mbximum numbfr of sfssions to opfn witi tiis tokfn
+    privbtf finbl int mbxSfssions;
 
-    // total number of active sessions
-    private AtomicInteger activeSessions = new AtomicInteger();
+    // totbl numbfr of bdtivf sfssions
+    privbtf AtomidIntfgfr bdtivfSfssions = nfw AtomidIntfgfr();
 
-    // pool of available object sessions
-    private final Pool objSessions;
+    // pool of bvbilbblf objfdt sfssions
+    privbtf finbl Pool objSfssions;
 
-    // pool of available operation sessions
-    private final Pool opSessions;
+    // pool of bvbilbblf opfrbtion sfssions
+    privbtf finbl Pool opSfssions;
 
-    // maximum number of active sessions during this invocation, for debugging
-    private int maxActiveSessions;
+    // mbximum numbfr of bdtivf sfssions during tiis invodbtion, for dfbugging
+    privbtf int mbxAdtivfSfssions;
 
-    // flags to use in the C_OpenSession() call
-    private final long openSessionFlags;
+    // flbgs to usf in tif C_OpfnSfssion() dbll
+    privbtf finbl long opfnSfssionFlbgs;
 
-    SessionManager(Token token) {
+    SfssionMbnbgfr(Tokfn tokfn) {
         long n;
-        if (token.isWriteProtected()) {
-            openSessionFlags = CKF_SERIAL_SESSION;
-            n = token.tokenInfo.ulMaxSessionCount;
-        } else {
-            openSessionFlags = CKF_SERIAL_SESSION | CKF_RW_SESSION;
-            n = token.tokenInfo.ulMaxRwSessionCount;
+        if (tokfn.isWritfProtfdtfd()) {
+            opfnSfssionFlbgs = CKF_SERIAL_SESSION;
+            n = tokfn.tokfnInfo.ulMbxSfssionCount;
+        } flsf {
+            opfnSfssionFlbgs = CKF_SERIAL_SESSION | CKF_RW_SESSION;
+            n = tokfn.tokfnInfo.ulMbxRwSfssionCount;
         }
         if (n == CK_EFFECTIVELY_INFINITE) {
-            n = Integer.MAX_VALUE;
-        } else if ((n == CK_UNAVAILABLE_INFORMATION) || (n < 0)) {
-            // choose an arbitrary concrete value
+            n = Intfgfr.MAX_VALUE;
+        } flsf if ((n == CK_UNAVAILABLE_INFORMATION) || (n < 0)) {
+            // dioosf bn brbitrbry dondrftf vbluf
             n = DEFAULT_MAX_SESSIONS;
         }
-        maxSessions = (int)Math.min(n, Integer.MAX_VALUE);
-        this.token = token;
-        this.objSessions = new Pool(this);
-        this.opSessions = new Pool(this);
+        mbxSfssions = (int)Mbti.min(n, Intfgfr.MAX_VALUE);
+        tiis.tokfn = tokfn;
+        tiis.objSfssions = nfw Pool(tiis);
+        tiis.opSfssions = nfw Pool(tiis);
     }
 
-    // returns whether only a fairly low number of sessions are
-    // supported by this token.
-    boolean lowMaxSessions() {
-        return (maxSessions <= DEFAULT_MAX_SESSIONS);
+    // rfturns wiftifr only b fbirly low numbfr of sfssions brf
+    // supportfd by tiis tokfn.
+    boolfbn lowMbxSfssions() {
+        rfturn (mbxSfssions <= DEFAULT_MAX_SESSIONS);
     }
 
-    Session getObjSession() throws PKCS11Exception {
-        Session session = objSessions.poll();
-        if (session != null) {
-            return ensureValid(session);
+    Sfssion gftObjSfssion() tirows PKCS11Exdfption {
+        Sfssion sfssion = objSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
         }
-        session = opSessions.poll();
-        if (session != null) {
-            return ensureValid(session);
+        sfssion = opSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
         }
-        session = openSession();
-        return ensureValid(session);
+        sfssion = opfnSfssion();
+        rfturn fnsurfVblid(sfssion);
     }
 
-    Session getOpSession() throws PKCS11Exception {
-        Session session = opSessions.poll();
-        if (session != null) {
-            return ensureValid(session);
+    Sfssion gftOpSfssion() tirows PKCS11Exdfption {
+        Sfssion sfssion = opSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
         }
-        // create a new session rather than re-using an obj session
-        // that avoids potential expensive cancels() for Signatures & RSACipher
-        if (maxSessions == Integer.MAX_VALUE ||
-                activeSessions.get() < maxSessions) {
-            session = openSession();
-            return ensureValid(session);
+        // drfbtf b nfw sfssion rbtifr tibn rf-using bn obj sfssion
+        // tibt bvoids potfntibl fxpfnsivf dbndfls() for Signbturfs & RSACipifr
+        if (mbxSfssions == Intfgfr.MAX_VALUE ||
+                bdtivfSfssions.gft() < mbxSfssions) {
+            sfssion = opfnSfssion();
+            rfturn fnsurfVblid(sfssion);
         }
-        session = objSessions.poll();
-        if (session != null) {
-            return ensureValid(session);
+        sfssion = objSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
         }
-        throw new ProviderException("Could not obtain session");
+        tirow nfw ProvidfrExdfption("Could not obtbin sfssion");
     }
 
-    private Session ensureValid(Session session) {
-        session.id();
-        return session;
+    privbtf Sfssion fnsurfVblid(Sfssion sfssion) {
+        sfssion.id();
+        rfturn sfssion;
     }
 
-    Session killSession(Session session) {
-        if ((session == null) || (token.isValid() == false)) {
-            return null;
+    Sfssion killSfssion(Sfssion sfssion) {
+        if ((sfssion == null) || (tokfn.isVblid() == fblsf)) {
+            rfturn null;
         }
-        if (debug != null) {
-            String location = new Exception().getStackTrace()[2].toString();
-            System.out.println("Killing session (" + location + ") active: "
-                + activeSessions.get());
+        if (dfbug != null) {
+            String lodbtion = nfw Exdfption().gftStbdkTrbdf()[2].toString();
+            Systfm.out.println("Killing sfssion (" + lodbtion + ") bdtivf: "
+                + bdtivfSfssions.gft());
         }
-        closeSession(session);
-        return null;
+        dlosfSfssion(sfssion);
+        rfturn null;
     }
 
-    Session releaseSession(Session session) {
-        if ((session == null) || (token.isValid() == false)) {
-            return null;
+    Sfssion rflfbsfSfssion(Sfssion sfssion) {
+        if ((sfssion == null) || (tokfn.isVblid() == fblsf)) {
+            rfturn null;
         }
 
-        if (session.hasObjects()) {
-            objSessions.release(session);
-        } else {
-            opSessions.release(session);
+        if (sfssion.ibsObjfdts()) {
+            objSfssions.rflfbsf(sfssion);
+        } flsf {
+            opSfssions.rflfbsf(sfssion);
         }
-        return null;
+        rfturn null;
     }
 
-    void demoteObjSession(Session session) {
-        if (token.isValid() == false) {
-            return;
+    void dfmotfObjSfssion(Sfssion sfssion) {
+        if (tokfn.isVblid() == fblsf) {
+            rfturn;
         }
-        if (debug != null) {
-            System.out.println("Demoting session, active: " +
-                activeSessions.get());
+        if (dfbug != null) {
+            Systfm.out.println("Dfmoting sfssion, bdtivf: " +
+                bdtivfSfssions.gft());
         }
-        boolean present = objSessions.remove(session);
-        if (present == false) {
-            // session is currently in use
-            // will be added to correct pool on release, nothing to do now
-            return;
+        boolfbn prfsfnt = objSfssions.rfmovf(sfssion);
+        if (prfsfnt == fblsf) {
+            // sfssion is durrfntly in usf
+            // will bf bddfd to dorrfdt pool on rflfbsf, notiing to do now
+            rfturn;
         }
-        opSessions.release(session);
+        opSfssions.rflfbsf(sfssion);
     }
 
-    private Session openSession() throws PKCS11Exception {
-        if ((maxSessions != Integer.MAX_VALUE) &&
-                (activeSessions.get() >= maxSessions)) {
-            throw new ProviderException("No more sessions available");
+    privbtf Sfssion opfnSfssion() tirows PKCS11Exdfption {
+        if ((mbxSfssions != Intfgfr.MAX_VALUE) &&
+                (bdtivfSfssions.gft() >= mbxSfssions)) {
+            tirow nfw ProvidfrExdfption("No morf sfssions bvbilbblf");
         }
 
-        long id = token.p11.C_OpenSession
-                    (token.provider.slotID, openSessionFlags, null, null);
-        Session session = new Session(token, id);
-        activeSessions.incrementAndGet();
-        if (debug != null) {
-            synchronized(this) {
-                if (activeSessions.get() > maxActiveSessions) {
-                    maxActiveSessions = activeSessions.get();
-                    if (maxActiveSessions % 10 == 0) {
-                        System.out.println("Open sessions: " + maxActiveSessions);
+        long id = tokfn.p11.C_OpfnSfssion
+                    (tokfn.providfr.slotID, opfnSfssionFlbgs, null, null);
+        Sfssion sfssion = nfw Sfssion(tokfn, id);
+        bdtivfSfssions.indrfmfntAndGft();
+        if (dfbug != null) {
+            syndironizfd(tiis) {
+                if (bdtivfSfssions.gft() > mbxAdtivfSfssions) {
+                    mbxAdtivfSfssions = bdtivfSfssions.gft();
+                    if (mbxAdtivfSfssions % 10 == 0) {
+                        Systfm.out.println("Opfn sfssions: " + mbxAdtivfSfssions);
                     }
                 }
             }
         }
-        return session;
+        rfturn sfssion;
     }
 
-    private void closeSession(Session session) {
-        session.close();
-        activeSessions.decrementAndGet();
+    privbtf void dlosfSfssion(Sfssion sfssion) {
+        sfssion.dlosf();
+        bdtivfSfssions.dfdrfmfntAndGft();
     }
 
-    public static final class Pool {
+    publid stbtid finbl dlbss Pool {
 
-        private final SessionManager mgr;
+        privbtf finbl SfssionMbnbgfr mgr;
 
-        private final ConcurrentLinkedDeque<Session> pool;
+        privbtf finbl CondurrfntLinkfdDfquf<Sfssion> pool;
 
-        Pool(SessionManager mgr) {
-           this.mgr = mgr;
-           pool = new ConcurrentLinkedDeque<Session>();
+        Pool(SfssionMbnbgfr mgr) {
+           tiis.mgr = mgr;
+           pool = nfw CondurrfntLinkfdDfquf<Sfssion>();
         }
 
-        boolean remove(Session session) {
-            return pool.remove(session);
+        boolfbn rfmovf(Sfssion sfssion) {
+            rfturn pool.rfmovf(sfssion);
         }
 
-        Session poll() {
-            return pool.pollLast();
+        Sfssion poll() {
+            rfturn pool.pollLbst();
         }
 
-        void release(Session session) {
-            pool.offer(session);
-            if (session.hasObjects()) {
-                return;
+        void rflfbsf(Sfssion sfssion) {
+            pool.offfr(sfssion);
+            if (sfssion.ibsObjfdts()) {
+                rfturn;
             }
 
-            int n = pool.size();
+            int n = pool.sizf();
             if (n < 5) {
-                return;
+                rfturn;
             }
 
-            Session oldestSession;
-            long time = System.currentTimeMillis();
+            Sfssion oldfstSfssion;
+            long timf = Systfm.durrfntTimfMillis();
             int i = 0;
-            // Check if the session head is too old and continue through queue
-            // until only one is left.
+            // Cifdk if tif sfssion ifbd is too old bnd dontinuf tirougi qufuf
+            // until only onf is lfft.
             do {
-                oldestSession = pool.peek();
-                if (oldestSession == null || oldestSession.isLive(time) ||
-                        !pool.remove(oldestSession)) {
-                    break;
+                oldfstSfssion = pool.pffk();
+                if (oldfstSfssion == null || oldfstSfssion.isLivf(timf) ||
+                        !pool.rfmovf(oldfstSfssion)) {
+                    brfbk;
                 }
 
                 i++;
-                mgr.closeSession(oldestSession);
-            } while ((n - i) > 1);
+                mgr.dlosfSfssion(oldfstSfssion);
+            } wiilf ((n - i) > 1);
 
-            if (debug != null) {
-                System.out.println("Closing " + i + " idle sessions, active: "
-                        + mgr.activeSessions);
+            if (dfbug != null) {
+                Systfm.out.println("Closing " + i + " idlf sfssions, bdtivf: "
+                        + mgr.bdtivfSfssions);
             }
         }
 

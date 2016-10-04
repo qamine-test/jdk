@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.util.Map;
+import jbvb.util.Mbp;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpDefinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
 
 // jdmk imports
 //
 
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryPoolMXBean;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
 
-import sun.management.snmp.jvmmib.JvmMemPoolEntryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolState;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolType;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolThreshdSupport;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolCollectThreshdSupport;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmPoolEntryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolStbtf;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolTypf;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolTirfsidSupport;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmPoolCollfdtTirfsidSupport;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
 /**
- * The class is used for implementing the "JvmMemPoolEntry" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmPoolEntry" group.
  */
-public class JvmMemPoolEntryImpl implements JvmMemPoolEntryMBean {
+publid dlbss JvmMfmPoolEntryImpl implfmfnts JvmMfmPoolEntryMBfbn {
 
     /**
-     * Variable for storing the value of "JvmMemPoolIndex".
+     * Vbribblf for storing tif vbluf of "JvmMfmPoolIndfx".
      *
-     * "An index value opaquely computed by the agent which uniquely
-     * identifies a row in the jvmMemPoolTable.
+     * "An indfx vbluf opbqufly domputfd by tif bgfnt wiidi uniqufly
+     * idfntififs b row in tif jvmMfmPoolTbblf.
      * "
      *
      */
-    final protected int jvmMemPoolIndex;
+    finbl protfdtfd int jvmMfmPoolIndfx;
 
 
-    final static String memoryTag = "jvmMemPoolEntry.getUsage";
-    final static String peakMemoryTag = "jvmMemPoolEntry.getPeakUsage";
-    final static String collectMemoryTag =
-        "jvmMemPoolEntry.getCollectionUsage";
-    final static MemoryUsage ZEROS = new MemoryUsage(0,0,0,0);
+    finbl stbtid String mfmoryTbg = "jvmMfmPoolEntry.gftUsbgf";
+    finbl stbtid String pfbkMfmoryTbg = "jvmMfmPoolEntry.gftPfbkUsbgf";
+    finbl stbtid String dollfdtMfmoryTbg =
+        "jvmMfmPoolEntry.gftCollfdtionUsbgf";
+    finbl stbtid MfmoryUsbgf ZEROS = nfw MfmoryUsbgf(0,0,0,0);
 
-    final String entryMemoryTag;
-    final String entryPeakMemoryTag;
-    final String entryCollectMemoryTag;
+    finbl String fntryMfmoryTbg;
+    finbl String fntryPfbkMfmoryTbg;
+    finbl String fntryCollfdtMfmoryTbg;
 
-    MemoryUsage getMemoryUsage() {
+    MfmoryUsbgf gftMfmoryUsbgf() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryMemoryTag);
-                if (cached != null) {
-                    log.debug("getMemoryUsage",entryMemoryTag+
-                          " found in cache.");
-                    return cached;
+                finbl MfmoryUsbgf dbdifd = (MfmoryUsbgf)
+                    m.gft(fntryMfmoryTbg);
+                if (dbdifd != null) {
+                    log.dfbug("gftMfmoryUsbgf",fntryMfmoryTbg+
+                          " found in dbdif.");
+                    rfturn dbdifd;
                 }
 
-                MemoryUsage u = pool.getUsage();
+                MfmoryUsbgf u = pool.gftUsbgf();
                 if (u == null) u = ZEROS;
 
-                m.put(entryMemoryTag,u);
-                return u;
+                m.put(fntryMfmoryTbg,u);
+                rfturn u;
             }
-            // Should never come here.
-            // Log error!
-            log.trace("getMemoryUsage", "ERROR: should never come here!");
-            return pool.getUsage();
-        } catch (RuntimeException x) {
-            log.trace("getMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getMemoryUsage",x);
-            throw x;
+            // Siould nfvfr domf ifrf.
+            // Log frror!
+            log.trbdf("gftMfmoryUsbgf", "ERROR: siould nfvfr domf ifrf!");
+            rfturn pool.gftUsbgf();
+        } dbtdi (RuntimfExdfption x) {
+            log.trbdf("gftMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftMfmoryUsbgf",x);
+            tirow x;
         }
 
     }
 
-    MemoryUsage getPeakMemoryUsage() {
+    MfmoryUsbgf gftPfbkMfmoryUsbgf() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryPeakMemoryTag);
-                if (cached != null) {
-                    if (log.isDebugOn())
-                        log.debug("getPeakMemoryUsage",
-                              entryPeakMemoryTag + " found in cache.");
-                    return cached;
+                finbl MfmoryUsbgf dbdifd = (MfmoryUsbgf)
+                    m.gft(fntryPfbkMfmoryTbg);
+                if (dbdifd != null) {
+                    if (log.isDfbugOn())
+                        log.dfbug("gftPfbkMfmoryUsbgf",
+                              fntryPfbkMfmoryTbg + " found in dbdif.");
+                    rfturn dbdifd;
                 }
 
-                MemoryUsage u = pool.getPeakUsage();
+                MfmoryUsbgf u = pool.gftPfbkUsbgf();
                 if (u == null) u = ZEROS;
 
-                m.put(entryPeakMemoryTag,u);
-                return u;
+                m.put(fntryPfbkMfmoryTbg,u);
+                rfturn u;
             }
-            // Should never come here.
-            // Log error!
-            log.trace("getPeakMemoryUsage", "ERROR: should never come here!");
-            return ZEROS;
-        } catch (RuntimeException x) {
-            log.trace("getPeakMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getPeakMemoryUsage",x);
-            throw x;
+            // Siould nfvfr domf ifrf.
+            // Log frror!
+            log.trbdf("gftPfbkMfmoryUsbgf", "ERROR: siould nfvfr domf ifrf!");
+            rfturn ZEROS;
+        } dbtdi (RuntimfExdfption x) {
+            log.trbdf("gftPfbkMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftPfbkMfmoryUsbgf",x);
+            tirow x;
         }
 
     }
 
-    MemoryUsage getCollectMemoryUsage() {
+    MfmoryUsbgf gftCollfdtMfmoryUsbgf() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryCollectMemoryTag);
-                if (cached != null) {
-                    if (log.isDebugOn())
-                        log.debug("getCollectMemoryUsage",
-                                  entryCollectMemoryTag + " found in cache.");
-                    return cached;
+                finbl MfmoryUsbgf dbdifd = (MfmoryUsbgf)
+                    m.gft(fntryCollfdtMfmoryTbg);
+                if (dbdifd != null) {
+                    if (log.isDfbugOn())
+                        log.dfbug("gftCollfdtMfmoryUsbgf",
+                                  fntryCollfdtMfmoryTbg + " found in dbdif.");
+                    rfturn dbdifd;
                 }
 
-                MemoryUsage u = pool.getCollectionUsage();
+                MfmoryUsbgf u = pool.gftCollfdtionUsbgf();
                 if (u == null) u = ZEROS;
 
-                m.put(entryCollectMemoryTag,u);
-                return u;
+                m.put(fntryCollfdtMfmoryTbg,u);
+                rfturn u;
             }
-            // Should never come here.
-            // Log error!
-            log.trace("getCollectMemoryUsage",
-                      "ERROR: should never come here!");
-            return ZEROS;
-        } catch (RuntimeException x) {
-            log.trace("getPeakMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getPeakMemoryUsage",x);
-            throw x;
+            // Siould nfvfr domf ifrf.
+            // Log frror!
+            log.trbdf("gftCollfdtMfmoryUsbgf",
+                      "ERROR: siould nfvfr domf ifrf!");
+            rfturn ZEROS;
+        } dbtdi (RuntimfExdfption x) {
+            log.trbdf("gftPfbkMfmoryUsbgf",
+                  "Fbilfd to gft MfmoryUsbgf: " + x);
+            log.dfbug("gftPfbkMfmoryUsbgf",x);
+            tirow x;
         }
 
     }
 
-    final MemoryPoolMXBean pool;
+    finbl MfmoryPoolMXBfbn pool;
 
     /**
-     * Constructor for the "JvmMemPoolEntry" group.
+     * Construdtor for tif "JvmMfmPoolEntry" group.
      */
-    public JvmMemPoolEntryImpl(MemoryPoolMXBean mp, final int index) {
-        this.pool=mp;
-        this.jvmMemPoolIndex = index;
-        this.entryMemoryTag = memoryTag + "." + index;
-        this.entryPeakMemoryTag = peakMemoryTag + "." + index;
-        this.entryCollectMemoryTag = collectMemoryTag + "." + index;
+    publid JvmMfmPoolEntryImpl(MfmoryPoolMXBfbn mp, finbl int indfx) {
+        tiis.pool=mp;
+        tiis.jvmMfmPoolIndfx = indfx;
+        tiis.fntryMfmoryTbg = mfmoryTbg + "." + indfx;
+        tiis.fntryPfbkMfmoryTbg = pfbkMfmoryTbg + "." + indfx;
+        tiis.fntryCollfdtMfmoryTbg = dollfdtMfmoryTbg + "." + indfx;
     }
 
     /**
-     * Getter for the "JvmMemPoolMaxSize" variable.
+     * Gfttfr for tif "JvmMfmPoolMbxSizf" vbribblf.
      */
-    public Long getJvmMemPoolMaxSize() throws SnmpStatusException {
-        final long val = getMemoryUsage().getMax();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolMbxSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolUsed" variable.
+     * Gfttfr for tif "JvmMfmPoolUsfd" vbribblf.
      */
-    public Long getJvmMemPoolUsed() throws SnmpStatusException {
-        final long val = getMemoryUsage().getUsed();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolUsfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolInitSize" variable.
+     * Gfttfr for tif "JvmMfmPoolInitSizf" vbribblf.
      */
-    public Long getJvmMemPoolInitSize() throws SnmpStatusException {
-        final long val = getMemoryUsage().getInit();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolInitSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftInit();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCommitted" variable.
+     * Gfttfr for tif "JvmMfmPoolCommittfd" vbribblf.
      */
-    public Long getJvmMemPoolCommitted() throws SnmpStatusException {
-        final long val = getMemoryUsage().getCommitted();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCommittfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakMaxSize" variable.
+     * Gfttfr for tif "JvmMfmPoolPfbkMbxSizf" vbribblf.
      */
-    public Long getJvmMemPoolPeakMaxSize() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getMax();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolPfbkMbxSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakUsed" variable.
+     * Gfttfr for tif "JvmMfmPoolPfbkUsfd" vbribblf.
      */
-    public Long getJvmMemPoolPeakUsed() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getUsed();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolPfbkUsfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakCommitted" variable.
+     * Gfttfr for tif "JvmMfmPoolPfbkCommittfd" vbribblf.
      */
-    public Long getJvmMemPoolPeakCommitted() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getCommitted();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolPfbkCommittfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftPfbkMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectMaxSize" variable.
+     * Gfttfr for tif "JvmMfmPoolCollfdtMbxSizf" vbribblf.
      */
-    public Long getJvmMemPoolCollectMaxSize() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getMax();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCollfdtMbxSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectUsed" variable.
+     * Gfttfr for tif "JvmMfmPoolCollfdtUsfd" vbribblf.
      */
-    public Long getJvmMemPoolCollectUsed() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getUsed();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCollfdtUsfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectCommitted" variable.
+     * Gfttfr for tif "JvmMfmPoolCollfdtCommittfd" vbribblf.
      */
-    public Long getJvmMemPoolCollectCommitted() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getCommitted();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCollfdtCommittfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftCollfdtMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshold" variable.
+     * Gfttfr for tif "JvmMfmPoolTirfsiold" vbribblf.
      */
-    public Long getJvmMemPoolThreshold() throws SnmpStatusException {
-        if (!pool.isUsageThresholdSupported())
-            return JvmMemoryImpl.Long0;
-        final long val = pool.getUsageThreshold();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolTirfsiold() tirows SnmpStbtusExdfption {
+        if (!pool.isUsbgfTirfsioldSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftUsbgfTirfsiold();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Setter for the "JvmMemPoolThreshold" variable.
+     * Sfttfr for tif "JvmMfmPoolTirfsiold" vbribblf.
      */
-    public void setJvmMemPoolThreshold(Long x) throws SnmpStatusException {
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
-        // This should never throw an exception has the checks have
-        // already been performed in checkJvmMemPoolThreshold().
+    publid void sftJvmMfmPoolTirfsiold(Long x) tirows SnmpStbtusExdfption {
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        // Tiis siould nfvfr tirow bn fxdfption ibs tif difdks ibvf
+        // blrfbdy bffn pfrformfd in difdkJvmMfmPoolTirfsiold().
         //
-        pool.setUsageThreshold(val);
+        pool.sftUsbgfTirfsiold(vbl);
     }
 
     /**
-     * Checker for the "JvmMemPoolThreshold" variable.
+     * Cifdkfr for tif "JvmMfmPoolTirfsiold" vbribblf.
      */
-    public void checkJvmMemPoolThreshold(Long x) throws SnmpStatusException {
-        // if threshold is -1, it means that low memory detection is not
-        // supported.
+    publid void difdkJvmMfmPoolTirfsiold(Long x) tirows SnmpStbtusExdfption {
+        // if tirfsiold is -1, it mfbns tibt low mfmory dftfdtion is not
+        // supportfd.
 
-        if (!pool.isUsageThresholdSupported())
-            throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        if (!pool.isUsbgfTirfsioldSupportfd())
+            tirow nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdSupport" variable.
+     * Gfttfr for tif "JvmMfmPoolTirfsidSupport" vbribblf.
      */
-    public EnumJvmMemPoolThreshdSupport getJvmMemPoolThreshdSupport()
-        throws SnmpStatusException {
-        if (pool.isUsageThresholdSupported())
-            return EnumJvmMemPoolThreshdSupported;
-        else
-            return EnumJvmMemPoolThreshdUnsupported;
+    publid EnumJvmMfmPoolTirfsidSupport gftJvmMfmPoolTirfsidSupport()
+        tirows SnmpStbtusExdfption {
+        if (pool.isUsbgfTirfsioldSupportfd())
+            rfturn EnumJvmMfmPoolTirfsidSupportfd;
+        flsf
+            rfturn EnumJvmMfmPoolTirfsidUnsupportfd;
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdCount" variable.
+     * Gfttfr for tif "JvmMfmPoolTirfsidCount" vbribblf.
      */
-    public Long getJvmMemPoolThreshdCount()
-        throws SnmpStatusException {
-        if (!pool.isUsageThresholdSupported())
-            return JvmMemoryImpl.Long0;
-        final long val = pool.getUsageThresholdCount();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolTirfsidCount()
+        tirows SnmpStbtusExdfption {
+        if (!pool.isUsbgfTirfsioldSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftUsbgfTirfsioldCount();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectThreshold" variable.
+     * Gfttfr for tif "JvmMfmPoolCollfdtTirfsiold" vbribblf.
      */
-    public Long getJvmMemPoolCollectThreshold() throws SnmpStatusException {
-        if (!pool.isCollectionUsageThresholdSupported())
-            return JvmMemoryImpl.Long0;
-        final long val = pool.getCollectionUsageThreshold();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCollfdtTirfsiold() tirows SnmpStbtusExdfption {
+        if (!pool.isCollfdtionUsbgfTirfsioldSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftCollfdtionUsbgfTirfsiold();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
     /**
-     * Setter for the "JvmMemPoolCollectThreshold" variable.
+     * Sfttfr for tif "JvmMfmPoolCollfdtTirfsiold" vbribblf.
      */
-    public void setJvmMemPoolCollectThreshold(Long x)
-        throws SnmpStatusException {
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
-        // This should never throw an exception has the checks have
-        // already been performed in checkJvmMemPoolCollectThreshold().
+    publid void sftJvmMfmPoolCollfdtTirfsiold(Long x)
+        tirows SnmpStbtusExdfption {
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
+        // Tiis siould nfvfr tirow bn fxdfption ibs tif difdks ibvf
+        // blrfbdy bffn pfrformfd in difdkJvmMfmPoolCollfdtTirfsiold().
         //
-        pool.setCollectionUsageThreshold(val);
+        pool.sftCollfdtionUsbgfTirfsiold(vbl);
     }
 
     /**
-     * Checker for the "JvmMemPoolCollectThreshold" variable.
+     * Cifdkfr for tif "JvmMfmPoolCollfdtTirfsiold" vbribblf.
      */
-    public void checkJvmMemPoolCollectThreshold(Long x)
-        throws SnmpStatusException {
-        // if threshold is -1, it means that low memory detection is not
-        // supported.
+    publid void difdkJvmMfmPoolCollfdtTirfsiold(Long x)
+        tirows SnmpStbtusExdfption {
+        // if tirfsiold is -1, it mfbns tibt low mfmory dftfdtion is not
+        // supportfd.
 
-        if (!pool.isCollectionUsageThresholdSupported())
-            throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        if (!pool.isCollfdtionUsbgfTirfsioldSupportfd())
+            tirow nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
+        finbl long vbl = x.longVbluf();
+        if (vbl < 0 )
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdSupport" variable.
+     * Gfttfr for tif "JvmMfmPoolTirfsidSupport" vbribblf.
      */
-    public EnumJvmMemPoolCollectThreshdSupport
-        getJvmMemPoolCollectThreshdSupport()
-        throws SnmpStatusException {
-        if (pool.isCollectionUsageThresholdSupported())
-            return EnumJvmMemPoolCollectThreshdSupported;
-        else
-            return EnumJvmMemPoolCollectThreshdUnsupported;
+    publid EnumJvmMfmPoolCollfdtTirfsidSupport
+        gftJvmMfmPoolCollfdtTirfsidSupport()
+        tirows SnmpStbtusExdfption {
+        if (pool.isCollfdtionUsbgfTirfsioldSupportfd())
+            rfturn EnumJvmMfmPoolCollfdtTirfsidSupportfd;
+        flsf
+            rfturn EnumJvmMfmPoolCollfdtTirfsidUnsupportfd;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectThreshdCount" variable.
+     * Gfttfr for tif "JvmMfmPoolCollfdtTirfsidCount" vbribblf.
      */
-    public Long getJvmMemPoolCollectThreshdCount()
-        throws SnmpStatusException {
-        if (!pool.isCollectionUsageThresholdSupported())
-            return JvmMemoryImpl.Long0;
-        final long val = pool.getCollectionUsageThresholdCount();
-        if (val > -1) return  val;
-        else return JvmMemoryImpl.Long0;
+    publid Long gftJvmMfmPoolCollfdtTirfsidCount()
+        tirows SnmpStbtusExdfption {
+        if (!pool.isCollfdtionUsbgfTirfsioldSupportfd())
+            rfturn JvmMfmoryImpl.Long0;
+        finbl long vbl = pool.gftCollfdtionUsbgfTirfsioldCount();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn JvmMfmoryImpl.Long0;
     }
 
-    public static EnumJvmMemPoolType jvmMemPoolType(MemoryType type)
-        throws SnmpStatusException {
-        if (type.equals(MemoryType.HEAP))
-            return  EnumJvmMemPoolTypeHeap;
-        else if (type.equals(MemoryType.NON_HEAP))
-            return EnumJvmMemPoolTypeNonHeap;
-        throw new SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
-    }
-
-    /**
-     * Getter for the "JvmMemPoolType" variable.
-     */
-    public EnumJvmMemPoolType getJvmMemPoolType() throws SnmpStatusException {
-        return jvmMemPoolType(pool.getType());
+    publid stbtid EnumJvmMfmPoolTypf jvmMfmPoolTypf(MfmoryTypf typf)
+        tirows SnmpStbtusExdfption {
+        if (typf.fqubls(MfmoryTypf.HEAP))
+            rfturn  EnumJvmMfmPoolTypfHfbp;
+        flsf if (typf.fqubls(MfmoryTypf.NON_HEAP))
+            rfturn EnumJvmMfmPoolTypfNonHfbp;
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmMemPoolName" variable.
+     * Gfttfr for tif "JvmMfmPoolTypf" vbribblf.
      */
-    public String getJvmMemPoolName() throws SnmpStatusException {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(pool.getName());
+    publid EnumJvmMfmPoolTypf gftJvmMfmPoolTypf() tirows SnmpStbtusExdfption {
+        rfturn jvmMfmPoolTypf(pool.gftTypf());
     }
 
     /**
-     * Getter for the "JvmMemPoolIndex" variable.
+     * Gfttfr for tif "JvmMfmPoolNbmf" vbribblf.
      */
-    public Integer getJvmMemPoolIndex() throws SnmpStatusException {
-        return jvmMemPoolIndex;
+    publid String gftJvmMfmPoolNbmf() tirows SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(pool.gftNbmf());
+    }
+
+    /**
+     * Gfttfr for tif "JvmMfmPoolIndfx" vbribblf.
+     */
+    publid Intfgfr gftJvmMfmPoolIndfx() tirows SnmpStbtusExdfption {
+        rfturn jvmMfmPoolIndfx;
     }
 
 
     /**
-     * Getter for the "JvmMemPoolState" variable.
+     * Gfttfr for tif "JvmMfmPoolStbtf" vbribblf.
      */
-    public EnumJvmMemPoolState getJvmMemPoolState()
-        throws SnmpStatusException {
-        if (pool.isValid())
-            return JvmMemPoolStateValid;
-        else
-            return JvmMemPoolStateInvalid;
+    publid EnumJvmMfmPoolStbtf gftJvmMfmPoolStbtf()
+        tirows SnmpStbtusExdfption {
+        if (pool.isVblid())
+            rfturn JvmMfmPoolStbtfVblid;
+        flsf
+            rfturn JvmMfmPoolStbtfInvblid;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakReset" variable.
+     * Gfttfr for tif "JvmMfmPoolPfbkRfsft" vbribblf.
      */
-    public synchronized Long getJvmMemPoolPeakReset()
-        throws SnmpStatusException {
-        return jvmMemPoolPeakReset;
+    publid syndironizfd Long gftJvmMfmPoolPfbkRfsft()
+        tirows SnmpStbtusExdfption {
+        rfturn jvmMfmPoolPfbkRfsft;
     }
 
     /**
-     * Setter for the "JvmMemPoolPeakReset" variable.
+     * Sfttfr for tif "JvmMfmPoolPfbkRfsft" vbribblf.
      */
-    public synchronized void setJvmMemPoolPeakReset(Long x)
-        throws SnmpStatusException {
-        final long l = x.longValue();
-        if (l > jvmMemPoolPeakReset) {
-            final long stamp = System.currentTimeMillis();
-            pool.resetPeakUsage();
-            jvmMemPoolPeakReset = stamp;
-            log.debug("setJvmMemPoolPeakReset",
-                      "jvmMemPoolPeakReset="+stamp);
+    publid syndironizfd void sftJvmMfmPoolPfbkRfsft(Long x)
+        tirows SnmpStbtusExdfption {
+        finbl long l = x.longVbluf();
+        if (l > jvmMfmPoolPfbkRfsft) {
+            finbl long stbmp = Systfm.durrfntTimfMillis();
+            pool.rfsftPfbkUsbgf();
+            jvmMfmPoolPfbkRfsft = stbmp;
+            log.dfbug("sftJvmMfmPoolPfbkRfsft",
+                      "jvmMfmPoolPfbkRfsft="+stbmp);
         }
     }
 
     /**
-     * Checker for the "JvmMemPoolPeakReset" variable.
+     * Cifdkfr for tif "JvmMfmPoolPfbkRfsft" vbribblf.
      */
-    public void checkJvmMemPoolPeakReset(Long x) throws SnmpStatusException {
+    publid void difdkJvmMfmPoolPfbkRfsft(Long x) tirows SnmpStbtusExdfption {
     }
 
-    /* Last time peak usage was reset */
-    private long jvmMemPoolPeakReset = 0;
+    /* Lbst timf pfbk usbgf wbs rfsft */
+    privbtf long jvmMfmPoolPfbkRfsft = 0;
 
-    private final static EnumJvmMemPoolState JvmMemPoolStateValid =
-        new EnumJvmMemPoolState("valid");
-    private final static EnumJvmMemPoolState JvmMemPoolStateInvalid =
-        new EnumJvmMemPoolState("invalid");
+    privbtf finbl stbtid EnumJvmMfmPoolStbtf JvmMfmPoolStbtfVblid =
+        nfw EnumJvmMfmPoolStbtf("vblid");
+    privbtf finbl stbtid EnumJvmMfmPoolStbtf JvmMfmPoolStbtfInvblid =
+        nfw EnumJvmMfmPoolStbtf("invblid");
 
-    private static final EnumJvmMemPoolType EnumJvmMemPoolTypeHeap =
-        new EnumJvmMemPoolType("heap");
-    private static final EnumJvmMemPoolType EnumJvmMemPoolTypeNonHeap =
-        new EnumJvmMemPoolType("nonheap");
+    privbtf stbtid finbl EnumJvmMfmPoolTypf EnumJvmMfmPoolTypfHfbp =
+        nfw EnumJvmMfmPoolTypf("ifbp");
+    privbtf stbtid finbl EnumJvmMfmPoolTypf EnumJvmMfmPoolTypfNonHfbp =
+        nfw EnumJvmMfmPoolTypf("nonifbp");
 
-    private static final EnumJvmMemPoolThreshdSupport
-        EnumJvmMemPoolThreshdSupported =
-        new EnumJvmMemPoolThreshdSupport("supported");
-    private static final EnumJvmMemPoolThreshdSupport
-        EnumJvmMemPoolThreshdUnsupported =
-        new EnumJvmMemPoolThreshdSupport("unsupported");
+    privbtf stbtid finbl EnumJvmMfmPoolTirfsidSupport
+        EnumJvmMfmPoolTirfsidSupportfd =
+        nfw EnumJvmMfmPoolTirfsidSupport("supportfd");
+    privbtf stbtid finbl EnumJvmMfmPoolTirfsidSupport
+        EnumJvmMfmPoolTirfsidUnsupportfd =
+        nfw EnumJvmMfmPoolTirfsidSupport("unsupportfd");
 
-    private static final EnumJvmMemPoolCollectThreshdSupport
-        EnumJvmMemPoolCollectThreshdSupported =
-        new EnumJvmMemPoolCollectThreshdSupport("supported");
-    private static final EnumJvmMemPoolCollectThreshdSupport
-        EnumJvmMemPoolCollectThreshdUnsupported=
-        new EnumJvmMemPoolCollectThreshdSupport("unsupported");
+    privbtf stbtid finbl EnumJvmMfmPoolCollfdtTirfsidSupport
+        EnumJvmMfmPoolCollfdtTirfsidSupportfd =
+        nfw EnumJvmMfmPoolCollfdtTirfsidSupport("supportfd");
+    privbtf stbtid finbl EnumJvmMfmPoolCollfdtTirfsidSupport
+        EnumJvmMfmPoolCollfdtTirfsidUnsupportfd=
+        nfw EnumJvmMfmPoolCollfdtTirfsidSupport("unsupportfd");
 
 
-    static final MibLogger log = new MibLogger(JvmMemPoolEntryImpl.class);
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmMfmPoolEntryImpl.dlbss);
 }

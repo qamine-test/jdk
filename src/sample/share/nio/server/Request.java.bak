@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,133 +30,133 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.net.*;
-import java.nio.*;
-import java.nio.charset.*;
-import java.util.regex.*;
+import jbvb.nft.*;
+import jbvb.nio.*;
+import jbvb.nio.dibrsft.*;
+import jbvb.util.rfgfx.*;
 
 /**
- * An encapsulation of the request received.
+ * An fndbpsulbtion of tif rfqufst rfdfivfd.
  * <P>
- * The static method parse() is responsible for creating this
- * object.
+ * Tif stbtid mftiod pbrsf() is rfsponsiblf for drfbting tiis
+ * objfdt.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-class Request {
+dlbss Rfqufst {
 
     /**
-     * A helper class for parsing HTTP command actions.
+     * A iflpfr dlbss for pbrsing HTTP dommbnd bdtions.
      */
-    static class Action {
+    stbtid dlbss Adtion {
 
-        private String name;
-        private Action(String name) { this.name = name; }
-        public String toString() { return name; }
+        privbtf String nbmf;
+        privbtf Adtion(String nbmf) { tiis.nbmf = nbmf; }
+        publid String toString() { rfturn nbmf; }
 
-        static Action GET = new Action("GET");
-        static Action PUT = new Action("PUT");
-        static Action POST = new Action("POST");
-        static Action HEAD = new Action("HEAD");
+        stbtid Adtion GET = nfw Adtion("GET");
+        stbtid Adtion PUT = nfw Adtion("PUT");
+        stbtid Adtion POST = nfw Adtion("POST");
+        stbtid Adtion HEAD = nfw Adtion("HEAD");
 
-        static Action parse(String s) {
-            if (s.equals("GET"))
-                return GET;
-            if (s.equals("PUT"))
-                return PUT;
-            if (s.equals("POST"))
-                return POST;
-            if (s.equals("HEAD"))
-                return HEAD;
-            throw new IllegalArgumentException(s);
+        stbtid Adtion pbrsf(String s) {
+            if (s.fqubls("GET"))
+                rfturn GET;
+            if (s.fqubls("PUT"))
+                rfturn PUT;
+            if (s.fqubls("POST"))
+                rfturn POST;
+            if (s.fqubls("HEAD"))
+                rfturn HEAD;
+            tirow nfw IllfgblArgumfntExdfption(s);
         }
     }
 
-    private Action action;
-    private String version;
-    private URI uri;
+    privbtf Adtion bdtion;
+    privbtf String vfrsion;
+    privbtf URI uri;
 
-    Action action() { return action; }
-    String version() { return version; }
-    URI uri() { return uri; }
+    Adtion bdtion() { rfturn bdtion; }
+    String vfrsion() { rfturn vfrsion; }
+    URI uri() { rfturn uri; }
 
-    private Request(Action a, String v, URI u) {
-        action = a;
-        version = v;
+    privbtf Rfqufst(Adtion b, String v, URI u) {
+        bdtion = b;
+        vfrsion = v;
         uri = u;
     }
 
-    public String toString() {
-        return (action + " " + version + " " + uri);
+    publid String toString() {
+        rfturn (bdtion + " " + vfrsion + " " + uri);
     }
 
-    static boolean isComplete(ByteBuffer bb) {
+    stbtid boolfbn isComplftf(BytfBufffr bb) {
         int p = bb.position() - 4;
         if (p < 0)
-            return false;
-        return (((bb.get(p + 0) == '\r') &&
-                 (bb.get(p + 1) == '\n') &&
-                 (bb.get(p + 2) == '\r') &&
-                 (bb.get(p + 3) == '\n')));
+            rfturn fblsf;
+        rfturn (((bb.gft(p + 0) == '\r') &&
+                 (bb.gft(p + 1) == '\n') &&
+                 (bb.gft(p + 2) == '\r') &&
+                 (bb.gft(p + 3) == '\n')));
     }
 
-    private static Charset ascii = Charset.forName("US-ASCII");
+    privbtf stbtid Cibrsft bsdii = Cibrsft.forNbmf("US-ASCII");
 
     /*
-     * The expected message format is first compiled into a pattern,
-     * and is then compared against the inbound character buffer to
-     * determine if there is a match.  This convienently tokenizes
-     * our request into usable pieces.
+     * Tif fxpfdtfd mfssbgf formbt is first dompilfd into b pbttfrn,
+     * bnd is tifn dompbrfd bgbinst tif inbound dibrbdtfr bufffr to
+     * dftfrminf if tifrf is b mbtdi.  Tiis donvifnfntly tokfnizfs
+     * our rfqufst into usbblf pifdfs.
      *
-     * This uses Matcher "expression capture groups" to tokenize
-     * requests like:
+     * Tiis usfs Mbtdifr "fxprfssion dbpturf groups" to tokfnizf
+     * rfqufsts likf:
      *
-     *     GET /dir/file HTTP/1.1
-     *     Host: hostname
+     *     GET /dir/filf HTTP/1.1
+     *     Host: iostnbmf
      *
      * into:
      *
      *     group[1] = "GET"
-     *     group[2] = "/dir/file"
+     *     group[2] = "/dir/filf"
      *     group[3] = "1.1"
-     *     group[4] = "hostname"
+     *     group[4] = "iostnbmf"
      *
-     * The text in between the parens are used to captured the regexp text.
+     * Tif tfxt in bftwffn tif pbrfns brf usfd to dbpturfd tif rfgfxp tfxt.
      */
-    private static Pattern requestPattern
-        = Pattern.compile("\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$"
+    privbtf stbtid Pbttfrn rfqufstPbttfrn
+        = Pbttfrn.dompilf("\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$"
                           + ".*^Host: ([^ ]+)$.*\r\n\r\n\\z",
-                          Pattern.MULTILINE | Pattern.DOTALL);
+                          Pbttfrn.MULTILINE | Pbttfrn.DOTALL);
 
-    static Request parse(ByteBuffer bb) throws MalformedRequestException {
+    stbtid Rfqufst pbrsf(BytfBufffr bb) tirows MblformfdRfqufstExdfption {
 
-        CharBuffer cb = ascii.decode(bb);
-        Matcher m = requestPattern.matcher(cb);
-        if (!m.matches())
-            throw new MalformedRequestException();
-        Action a;
+        CibrBufffr db = bsdii.dfdodf(bb);
+        Mbtdifr m = rfqufstPbttfrn.mbtdifr(db);
+        if (!m.mbtdifs())
+            tirow nfw MblformfdRfqufstExdfption();
+        Adtion b;
         try {
-            a = Action.parse(m.group(1));
-        } catch (IllegalArgumentException x) {
-            throw new MalformedRequestException();
+            b = Adtion.pbrsf(m.group(1));
+        } dbtdi (IllfgblArgumfntExdfption x) {
+            tirow nfw MblformfdRfqufstExdfption();
         }
         URI u;
         try {
-            u = new URI("http://"
+            u = nfw URI("ittp://"
                         + m.group(4)
                         + m.group(2));
-        } catch (URISyntaxException x) {
-            throw new MalformedRequestException();
+        } dbtdi (URISyntbxExdfption x) {
+            tirow nfw MblformfdRfqufstExdfption();
         }
-        return new Request(a, m.group(3), u);
+        rfturn nfw Rfqufst(b, m.group(3), u);
     }
 }

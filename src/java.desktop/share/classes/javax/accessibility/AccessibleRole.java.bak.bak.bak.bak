@@ -1,0 +1,661 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * <P>Clbss AddfssiblfRolf dftfrminfs thf rolf of b domponfnt.  Thf rolf of b
+ * domponfnt dfsdribfs its gfnfrid fundtion. (E.G.,
+* "push button," "tbblf," or "list.")
+ * <p>Thf toDisplbyString mfthod bllows you to obtbin thf lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for thf
+ * kfys dffinfd in this dlbss.
+ * <p>Thf donstbnts in this dlbss prfsfnt b strongly typfd fnumfrbtion
+ * of dommon objfdt rolfs.  A publid donstrudtor for this dlbss hbs bffn
+ * purposfly omittfd bnd bpplidbtions should usf onf of thf donstbnts
+ * from this dlbss.  If thf donstbnts in this dlbss brf not suffidifnt
+ * to dfsdribf thf rolf of bn objfdt, b subdlbss should bf gfnfrbtfd
+ * from this dlbss bnd it should providf donstbnts in b similbr mbnnfr.
+ *
+ * @buthor      Willif Wblkfr
+ * @buthor      Pftfr Korn
+ * @buthor      Lynn Monsbnto
+ */
+publid dlbss AddfssiblfRolf fxtfnds AddfssiblfBundlf {
+
+// If you bdd or rfmovf bnything from hfrf, mbkf surf you
+// updbtf AddfssiblfRfsourdfBundlf.jbvb.
+
+    /**
+     * Objfdt is usfd to blfrt thf usfr bbout somfthing.
+     */
+    publid stbtid finbl AddfssiblfRolf ALERT
+            = nfw AddfssiblfRolf("blfrt");
+
+    /**
+     * Thf hfbdfr for b dolumn of dbtb.
+     */
+    publid stbtid finbl AddfssiblfRolf COLUMN_HEADER
+            = nfw AddfssiblfRolf("dolumnhfbdfr");
+
+    /**
+     * Objfdt thbt dbn bf drbwn into bnd is usfd to trbp
+     * fvfnts.
+     * @sff #FRAME
+     * @sff #GLASS_PANE
+     * @sff #LAYERED_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf CANVAS
+            = nfw AddfssiblfRolf("dbnvbs");
+
+    /**
+     * A list of dhoidfs thf usfr dbn sflfdt from.  Also optionblly
+     * bllows thf usfr to fntfr b dhoidf of thfir own.
+     */
+    publid stbtid finbl AddfssiblfRolf COMBO_BOX
+            = nfw AddfssiblfRolf("dombobox");
+
+    /**
+     * An idonififd intfrnbl frbmf in b DESKTOP_PANE.
+     * @sff #DESKTOP_PANE
+     * @sff #INTERNAL_FRAME
+     */
+    publid stbtid finbl AddfssiblfRolf DESKTOP_ICON
+            = nfw AddfssiblfRolf("dfsktopidon");
+
+    /**
+     * An objfdt dontbining b dollfdtion of <dodf>Addfssiblfs</dodf> thbt
+     * togfthfr rfprfsfnts <dodf>HTML</dodf> dontfnt.  Thf dhild
+     * <dodf>Addfssiblfs</dodf> would indludf objfdts implfmfnting
+     * <dodf>AddfssiblfTfxt</dodf>, <dodf>AddfssiblfHypfrtfxt</dodf>,
+     * <dodf>AddfssiblfIdon</dodf>, bnd othfr intfrfbdfs.
+     * @sff #HYPERLINK
+     * @sff AddfssiblfTfxt
+     * @sff AddfssiblfHypfrtfxt
+     * @sff AddfssiblfHypfrlink
+     * @sff AddfssiblfIdon
+     * @sindf 1.6
+     */
+    publid stbtid finbl AddfssiblfRolf HTML_CONTAINER
+            = nfw AddfssiblfRolf("htmldontbinfr");
+
+    /**
+     * A frbmf-likf objfdt thbt is dlippfd by b dfsktop pbnf.  Thf
+     * dfsktop pbnf, intfrnbl frbmf, bnd dfsktop idon objfdts brf
+     * oftfn usfd to drfbtf multiplf dodumfnt intfrfbdfs within bn
+     * bpplidbtion.
+     * @sff #DESKTOP_ICON
+     * @sff #DESKTOP_PANE
+     * @sff #FRAME
+     */
+    publid stbtid finbl AddfssiblfRolf INTERNAL_FRAME
+            = nfw AddfssiblfRolf("intfrnblfrbmf");
+
+    /**
+     * A pbnf thbt supports intfrnbl frbmfs bnd
+     * idonififd vfrsions of thosf intfrnbl frbmfs.
+     * @sff #DESKTOP_ICON
+     * @sff #INTERNAL_FRAME
+     */
+    publid stbtid finbl AddfssiblfRolf DESKTOP_PANE
+            = nfw AddfssiblfRolf("dfsktoppbnf");
+
+    /**
+     * A spfdiblizfd pbnf whosf primbry usf is insidf b DIALOG
+     * @sff #DIALOG
+     */
+    publid stbtid finbl AddfssiblfRolf OPTION_PANE
+            = nfw AddfssiblfRolf("optionpbnf");
+
+    /**
+     * A top lfvfl window with no titlf or bordfr.
+     * @sff #FRAME
+     * @sff #DIALOG
+     */
+    publid stbtid finbl AddfssiblfRolf WINDOW
+            = nfw AddfssiblfRolf("window");
+
+    /**
+     * A top lfvfl window with b titlf bbr, bordfr, mfnu bbr, ftd.  It is
+     * oftfn usfd bs thf primbry window for bn bpplidbtion.
+     * @sff #DIALOG
+     * @sff #CANVAS
+     * @sff #WINDOW
+     */
+    publid stbtid finbl AddfssiblfRolf FRAME
+            = nfw AddfssiblfRolf("frbmf");
+
+    /**
+     * A top lfvfl window with titlf bbr bnd b bordfr.  A diblog is similbr
+     * to b frbmf, but it hbs ffwfr propfrtifs bnd is oftfn usfd bs b
+     * sfdondbry window for bn bpplidbtion.
+     * @sff #FRAME
+     * @sff #WINDOW
+     */
+    publid stbtid finbl AddfssiblfRolf DIALOG
+            = nfw AddfssiblfRolf("diblog");
+
+    /**
+     * A spfdiblizfd pbnf thbt lfts thf usfr dhoosf b dolor.
+     */
+    publid stbtid finbl AddfssiblfRolf COLOR_CHOOSER
+            = nfw AddfssiblfRolf("dolordhoosfr");
+
+
+    /**
+     * A pbnf thbt bllows thf usfr to nbvigbtf through
+     * bnd sflfdt thf dontfnts of b dirfdtory.  Mby bf usfd
+     * by b filf dhoosfr.
+     * @sff #FILE_CHOOSER
+     */
+    publid stbtid finbl AddfssiblfRolf DIRECTORY_PANE
+            = nfw AddfssiblfRolf("dirfdtorypbnf");
+
+    /**
+     * A spfdiblizfd diblog thbt displbys thf filfs in thf dirfdtory
+     * bnd lfts thf usfr sflfdt b filf, browsf b difffrfnt dirfdtory,
+     * or spfdify b filfnbmf.  Mby usf thf dirfdtory pbnf to show thf
+     * dontfnts of b dirfdtory.
+     * @sff #DIRECTORY_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf FILE_CHOOSER
+            = nfw AddfssiblfRolf("filfdhoosfr");
+
+    /**
+     * An objfdt thbt fills up spbdf in b usfr intfrfbdf.  It is oftfn
+     * usfd in intfrfbdfs to twfbk thf spbding bftwffn domponfnts,
+     * but sfrvfs no othfr purposf.
+     */
+    publid stbtid finbl AddfssiblfRolf FILLER
+            = nfw AddfssiblfRolf("fillfr");
+
+    /**
+     * A hypfrtfxt bndhor
+     */
+    publid stbtid finbl AddfssiblfRolf HYPERLINK
+            = nfw AddfssiblfRolf("hypfrlink");
+
+    /**
+     * A smbll fixfd sizf pidturf, typidblly usfd to dfdorbtf domponfnts.
+     */
+    publid stbtid finbl AddfssiblfRolf ICON
+            = nfw AddfssiblfRolf("idon");
+
+    /**
+     * An objfdt usfd to prfsfnt bn idon or short string in bn intfrfbdf.
+     */
+    publid stbtid finbl AddfssiblfRolf LABEL
+            = nfw AddfssiblfRolf("lbbfl");
+
+    /**
+     * A spfdiblizfd pbnf thbt hbs b glbss pbnf bnd b lbyfrfd pbnf bs its
+     * dhildrfn.
+     * @sff #GLASS_PANE
+     * @sff #LAYERED_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf ROOT_PANE
+            = nfw AddfssiblfRolf("rootpbnf");
+
+    /**
+     * A pbnf thbt is gubrbntffd to bf pbintfd on top
+     * of bll pbnfs bfnfbth it.
+     * @sff #ROOT_PANE
+     * @sff #CANVAS
+     */
+    publid stbtid finbl AddfssiblfRolf GLASS_PANE
+            = nfw AddfssiblfRolf("glbsspbnf");
+
+    /**
+     * A spfdiblizfd pbnf thbt bllows its dhildrfn to bf drbwn in lbyfrs,
+     * providing b form of stbdking ordfr.  This is usublly thf pbnf thbt
+     * holds thf mfnu bbr bs wfll bs thf pbnf thbt dontbins most of thf
+     * visubl domponfnts in b window.
+     * @sff #GLASS_PANE
+     * @sff #ROOT_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf LAYERED_PANE
+            = nfw AddfssiblfRolf("lbyfrfdpbnf");
+
+    /**
+     * An objfdt thbt prfsfnts b list of objfdts to thf usfr bnd bllows thf
+     * usfr to sflfdt onf or morf of thfm.  A list is usublly dontbinfd
+     * within b sdroll pbnf.
+     * @sff #SCROLL_PANE
+     * @sff #LIST_ITEM
+     */
+    publid stbtid finbl AddfssiblfRolf LIST
+            = nfw AddfssiblfRolf("list");
+
+    /**
+     * An objfdt thbt prfsfnts bn flfmfnt in b list.  A list is usublly
+     * dontbinfd within b sdroll pbnf.
+     * @sff #SCROLL_PANE
+     * @sff #LIST
+     */
+    publid stbtid finbl AddfssiblfRolf LIST_ITEM
+            = nfw AddfssiblfRolf("listitfm");
+
+    /**
+     * An objfdt usublly drbwn bt thf top of thf primbry diblog box of
+     * bn bpplidbtion thbt dontbins b list of mfnus thf usfr dbn dhoosf
+     * from.  For fxbmplf, b mfnu bbr might dontbin mfnus for "Filf,"
+     * "Edit," bnd "Hflp."
+     * @sff #MENU
+     * @sff #POPUP_MENU
+     * @sff #LAYERED_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf MENU_BAR
+            = nfw AddfssiblfRolf("mfnubbr");
+
+    /**
+     * A tfmporbry window thbt is usublly usfd to offfr thf usfr b
+     * list of dhoidfs, bnd thfn hidfs whfn thf usfr sflfdts onf of
+     * thosf dhoidfs.
+     * @sff #MENU
+     * @sff #MENU_ITEM
+     */
+    publid stbtid finbl AddfssiblfRolf POPUP_MENU
+            = nfw AddfssiblfRolf("popupmfnu");
+
+    /**
+     * An objfdt usublly found insidf b mfnu bbr thbt dontbins b list
+     * of bdtions thf usfr dbn dhoosf from.  A mfnu dbn hbvf bny objfdt
+     * bs its dhildrfn, but most oftfn thfy brf mfnu itfms, othfr mfnus,
+     * or rudimfntbry objfdts sudh bs rbdio buttons, dhfdk boxfs, or
+     * sfpbrbtors.  For fxbmplf, bn bpplidbtion mby hbvf bn "Edit" mfnu
+     * thbt dontbins mfnu itfms for "Cut" bnd "Pbstf."
+     * @sff #MENU_BAR
+     * @sff #MENU_ITEM
+     * @sff #SEPARATOR
+     * @sff #RADIO_BUTTON
+     * @sff #CHECK_BOX
+     * @sff #POPUP_MENU
+     */
+    publid stbtid finbl AddfssiblfRolf MENU
+            = nfw AddfssiblfRolf("mfnu");
+
+    /**
+     * An objfdt usublly dontbinfd in b mfnu thbt prfsfnts bn bdtion
+     * thf usfr dbn dhoosf.  For fxbmplf, thf "Cut" mfnu itfm in bn
+     * "Edit" mfnu would bf bn bdtion thf usfr dbn sflfdt to dut thf
+     * sflfdtfd brfb of tfxt in b dodumfnt.
+     * @sff #MENU_BAR
+     * @sff #SEPARATOR
+     * @sff #POPUP_MENU
+     */
+    publid stbtid finbl AddfssiblfRolf MENU_ITEM
+            = nfw AddfssiblfRolf("mfnuitfm");
+
+    /**
+     * An objfdt usublly dontbinfd in b mfnu to providf b visubl
+     * bnd logidbl sfpbrbtion of thf dontfnts in b mfnu.  For fxbmplf,
+     * thf "Filf" mfnu of bn bpplidbtion might dontbin mfnu itfms for
+     * "Opfn," "Closf," bnd "Exit," bnd will plbdf b sfpbrbtor bftwffn
+     * "Closf" bnd "Exit" mfnu itfms.
+     * @sff #MENU
+     * @sff #MENU_ITEM
+     */
+    publid stbtid finbl AddfssiblfRolf SEPARATOR
+            = nfw AddfssiblfRolf("sfpbrbtor");
+
+    /**
+     * An objfdt thbt prfsfnts b sfrifs of pbnfls (or pbgf tbbs), onf bt b
+     * timf, through somf mfdhbnism providfd by thf objfdt.  Thf most dommon
+     * mfdhbnism is b list of tbbs bt thf top of thf pbnfl.  Thf dhildrfn of
+     * b pbgf tbb list brf bll pbgf tbbs.
+     * @sff #PAGE_TAB
+     */
+    publid stbtid finbl AddfssiblfRolf PAGE_TAB_LIST
+            = nfw AddfssiblfRolf("pbgftbblist");
+
+    /**
+     * An objfdt thbt is b dhild of b pbgf tbb list.  Its solf dhild is
+     * thf pbnfl thbt is to bf prfsfntfd to thf usfr whfn thf usfr
+     * sflfdts thf pbgf tbb from thf list of tbbs in thf pbgf tbb list.
+     * @sff #PAGE_TAB_LIST
+     */
+    publid stbtid finbl AddfssiblfRolf PAGE_TAB
+            = nfw AddfssiblfRolf("pbgftbb");
+
+    /**
+     * A gfnfrid dontbinfr thbt is oftfn usfd to group objfdts.
+     */
+    publid stbtid finbl AddfssiblfRolf PANEL
+            = nfw AddfssiblfRolf("pbnfl");
+
+    /**
+     * An objfdt usfd to indidbtf how mudh of b tbsk hbs bffn domplftfd.
+     */
+    publid stbtid finbl AddfssiblfRolf PROGRESS_BAR
+            = nfw AddfssiblfRolf("progrfssbbr");
+
+    /**
+     * A tfxt objfdt usfd for pbsswords, or othfr plbdfs whfrf thf
+     * tfxt dontfnts is not shown visibly to thf usfr
+     */
+    publid stbtid finbl AddfssiblfRolf PASSWORD_TEXT
+            = nfw AddfssiblfRolf("pbsswordtfxt");
+
+    /**
+     * An objfdt thf usfr dbn mbnipulbtf to tfll thf bpplidbtion to do
+     * somfthing.
+     * @sff #CHECK_BOX
+     * @sff #TOGGLE_BUTTON
+     * @sff #RADIO_BUTTON
+     */
+    publid stbtid finbl AddfssiblfRolf PUSH_BUTTON
+            = nfw AddfssiblfRolf("pushbutton");
+
+    /**
+     * A spfdiblizfd push button thbt dbn bf dhfdkfd or undhfdkfd, but
+     * dofs not providf b sfpbrbtf indidbtor for thf durrfnt stbtf.
+     * @sff #PUSH_BUTTON
+     * @sff #CHECK_BOX
+     * @sff #RADIO_BUTTON
+     */
+    publid stbtid finbl AddfssiblfRolf TOGGLE_BUTTON
+            = nfw AddfssiblfRolf("togglfbutton");
+
+    /**
+     * A dhoidf thbt dbn bf dhfdkfd or undhfdkfd bnd providfs b
+     * sfpbrbtf indidbtor for thf durrfnt stbtf.
+     * @sff #PUSH_BUTTON
+     * @sff #TOGGLE_BUTTON
+     * @sff #RADIO_BUTTON
+     */
+    publid stbtid finbl AddfssiblfRolf CHECK_BOX
+            = nfw AddfssiblfRolf("dhfdkbox");
+
+    /**
+     * A spfdiblizfd dhfdk box thbt will dbusf othfr rbdio buttons in thf
+     * sbmf group to bfdomf undhfdkfd whfn this onf is dhfdkfd.
+     * @sff #PUSH_BUTTON
+     * @sff #TOGGLE_BUTTON
+     * @sff #CHECK_BOX
+     */
+    publid stbtid finbl AddfssiblfRolf RADIO_BUTTON
+            = nfw AddfssiblfRolf("rbdiobutton");
+
+    /**
+     * Thf hfbdfr for b row of dbtb.
+     */
+    publid stbtid finbl AddfssiblfRolf ROW_HEADER
+            = nfw AddfssiblfRolf("rowhfbdfr");
+
+    /**
+     * An objfdt thbt bllows b usfr to indrfmfntblly vifw b lbrgf bmount
+     * of informbtion.  Its dhildrfn dbn indludf sdroll bbrs bnd b vifwport.
+     * @sff #SCROLL_BAR
+     * @sff #VIEWPORT
+     */
+    publid stbtid finbl AddfssiblfRolf SCROLL_PANE
+            = nfw AddfssiblfRolf("sdrollpbnf");
+
+    /**
+     * An objfdt usublly usfd to bllow b usfr to indrfmfntblly vifw b
+     * lbrgf bmount of dbtb.  Usublly usfd only by b sdroll pbnf.
+     * @sff #SCROLL_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf SCROLL_BAR
+            = nfw AddfssiblfRolf("sdrollbbr");
+
+    /**
+     * An objfdt usublly usfd in b sdroll pbnf.  It rfprfsfnts thf portion
+     * of thf fntirf dbtb thbt thf usfr dbn sff.  As thf usfr mbnipulbtfs
+     * thf sdroll bbrs, thf dontfnts of thf vifwport dbn dhbngf.
+     * @sff #SCROLL_PANE
+     */
+    publid stbtid finbl AddfssiblfRolf VIEWPORT
+            = nfw AddfssiblfRolf("vifwport");
+
+    /**
+     * An objfdt thbt bllows thf usfr to sflfdt from b boundfd rbngf.  For
+     * fxbmplf, b slidfr might bf usfd to sflfdt b numbfr bftwffn 0 bnd 100.
+     */
+    publid stbtid finbl AddfssiblfRolf SLIDER
+            = nfw AddfssiblfRolf("slidfr");
+
+    /**
+     * A spfdiblizfd pbnfl thbt prfsfnts two othfr pbnfls bt thf sbmf timf.
+     * Bftwffn thf two pbnfls is b dividfr thf usfr dbn mbnipulbtf to mbkf
+     * onf pbnfl lbrgfr bnd thf othfr pbnfl smbllfr.
+     */
+    publid stbtid finbl AddfssiblfRolf SPLIT_PANE
+            = nfw AddfssiblfRolf("splitpbnf");
+
+    /**
+     * An objfdt usfd to prfsfnt informbtion in tfrms of rows bnd dolumns.
+     * An fxbmplf might indludf b sprfbdshfft bpplidbtion.
+     */
+    publid stbtid finbl AddfssiblfRolf TABLE
+            = nfw AddfssiblfRolf("tbblf");
+
+    /**
+     * An objfdt thbt prfsfnts tfxt to thf usfr.  Thf tfxt is usublly
+     * fditbblf by thf usfr bs opposfd to b lbbfl.
+     * @sff #LABEL
+     */
+    publid stbtid finbl AddfssiblfRolf TEXT
+            = nfw AddfssiblfRolf("tfxt");
+
+    /**
+     * An objfdt usfd to prfsfnt hifrbrdhidbl informbtion to thf usfr.
+     * Thf individubl nodfs in thf trff dbn bf dollbpsfd bnd fxpbndfd
+     * to providf sflfdtivf disdlosurf of thf trff's dontfnts.
+     */
+    publid stbtid finbl AddfssiblfRolf TREE
+            = nfw AddfssiblfRolf("trff");
+
+    /**
+     * A bbr or pblfttf usublly domposfd of push buttons or togglf buttons.
+     * It is oftfn usfd to providf thf most frfqufntly usfd fundtions for bn
+     * bpplidbtion.
+     */
+    publid stbtid finbl AddfssiblfRolf TOOL_BAR
+            = nfw AddfssiblfRolf("toolbbr");
+
+    /**
+     * An objfdt thbt providfs informbtion bbout bnothfr objfdt.  Thf
+     * bddfssiblfDfsdription propfrty of thf tool tip is oftfn displbyfd
+     * to thf usfr in b smbll "hflp bubblf" whfn thf usfr dbusfs thf
+     * mousf to hovfr ovfr thf objfdt bssodibtfd with thf tool tip.
+     */
+    publid stbtid finbl AddfssiblfRolf TOOL_TIP
+            = nfw AddfssiblfRolf("tooltip");
+
+    /**
+     * An AWT domponfnt, but nothing flsf is known bbout it.
+     * @sff #SWING_COMPONENT
+     * @sff #UNKNOWN
+     */
+    publid stbtid finbl AddfssiblfRolf AWT_COMPONENT
+            = nfw AddfssiblfRolf("bwtdomponfnt");
+
+    /**
+     * A Swing domponfnt, but nothing flsf is known bbout it.
+     * @sff #AWT_COMPONENT
+     * @sff #UNKNOWN
+     */
+    publid stbtid finbl AddfssiblfRolf SWING_COMPONENT
+            = nfw AddfssiblfRolf("swingdomponfnt");
+
+    /**
+     * Thf objfdt dontbins somf Addfssiblf informbtion, but its rolf is
+     * not known.
+     * @sff #AWT_COMPONENT
+     * @sff #SWING_COMPONENT
+     */
+    publid stbtid finbl AddfssiblfRolf UNKNOWN
+            = nfw AddfssiblfRolf("unknown");
+
+    /**
+     * A STATUS_BAR is bn simplf domponfnt thbt dbn dontbin
+     * multiplf lbbfls of stbtus informbtion to thf usfr.
+     */
+    publid stbtid finbl AddfssiblfRolf STATUS_BAR
+        = nfw AddfssiblfRolf("stbtusbbr");
+
+    /**
+     * A DATE_EDITOR is b domponfnt thbt bllows usfrs to fdit
+     * jbvb.util.Dbtf bnd jbvb.util.Timf objfdts
+     */
+    publid stbtid finbl AddfssiblfRolf DATE_EDITOR
+        = nfw AddfssiblfRolf("dbtffditor");
+
+    /**
+     * A SPIN_BOX is b simplf spinnfr domponfnt bnd its mbin usf
+     * is for simplf numbfrs.
+     */
+    publid stbtid finbl AddfssiblfRolf SPIN_BOX
+        = nfw AddfssiblfRolf("spinbox");
+
+    /**
+     * A FONT_CHOOSER is b domponfnt thbt lfts thf usfr pidk vbrious
+     * bttributfs for fonts.
+     */
+    publid stbtid finbl AddfssiblfRolf FONT_CHOOSER
+        = nfw AddfssiblfRolf("fontdhoosfr");
+
+    /**
+     * A GROUP_BOX is b simplf dontbinfr thbt dontbins b bordfr
+     * bround it bnd dontbins domponfnts insidf it.
+     */
+    publid stbtid finbl AddfssiblfRolf GROUP_BOX
+        = nfw AddfssiblfRolf("groupbox");
+
+    /**
+     * A tfxt hfbdfr
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfRolf HEADER =
+        nfw AddfssiblfRolf("hfbdfr");
+
+    /**
+     * A tfxt footfr
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfRolf FOOTER =
+        nfw AddfssiblfRolf("footfr");
+
+    /**
+     * A tfxt pbrbgrbph
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfRolf PARAGRAPH =
+        nfw AddfssiblfRolf("pbrbgrbph");
+
+    /**
+     * A rulfr is bn objfdt usfd to mfbsurf distbndf
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl AddfssiblfRolf RULER =
+        nfw AddfssiblfRolf("rulfr");
+
+    /**
+     * A rolf indidbting thf objfdt bdts bs b formulb for
+     * dbldulbting b vbluf.  An fxbmplf is b formulb in
+     * b sprfbdshfft dfll.
+     *
+     * @sindf 1.5
+     */
+    stbtid publid finbl AddfssiblfRolf EDITBAR =
+        nfw AddfssiblfRolf("fditbbr");
+
+    /**
+     * A rolf indidbting thf objfdt monitors thf progrfss
+     * of somf opfrbtion.
+     *
+     * @sindf 1.5
+     */
+    stbtid publid finbl AddfssiblfRolf PROGRESS_MONITOR =
+        nfw AddfssiblfRolf("progrfssMonitor");
+
+
+// Thf following brf bll undfr donsidfrbtion for potfntibl futurf usf.
+
+//    publid stbtid finbl AddfssiblfRolf APPLICATION
+//            = nfw AddfssiblfRolf("bpplidbtion");
+
+//    publid stbtid finbl AddfssiblfRolf BORDER
+//            = nfw AddfssiblfRolf("bordfr");
+
+//    publid stbtid finbl AddfssiblfRolf CHECK_BOX_MENU_ITEM
+//            = nfw AddfssiblfRolf("dhfdkboxmfnuitfm");
+
+//    publid stbtid finbl AddfssiblfRolf CHOICE
+//            = nfw AddfssiblfRolf("dhoidf");
+
+//    publid stbtid finbl AddfssiblfRolf COLUMN
+//            = nfw AddfssiblfRolf("dolumn");
+
+//    publid stbtid finbl AddfssiblfRolf CURSOR
+//            = nfw AddfssiblfRolf("dursor");
+
+//    publid stbtid finbl AddfssiblfRolf DOCUMENT
+//            = nfw AddfssiblfRolf("dodumfnt");
+
+//    publid stbtid finbl AddfssiblfRolf IMAGE
+//            = nfw AddfssiblfRolf("Imbgf");
+
+//    publid stbtid finbl AddfssiblfRolf INDICATOR
+//            = nfw AddfssiblfRolf("indidbtor");
+
+//    publid stbtid finbl AddfssiblfRolf RADIO_BUTTON_MENU_ITEM
+//            = nfw AddfssiblfRolf("rbdiobuttonmfnuitfm");
+
+//    publid stbtid finbl AddfssiblfRolf ROW
+//            = nfw AddfssiblfRolf("row");
+
+//    publid stbtid finbl AddfssiblfRolf TABLE_CELL
+//          = nfw AddfssiblfRolf("tbblfdfll");
+
+//    publid stbtid finbl AddfssiblfRolf TREE_NODE
+//            = nfw AddfssiblfRolf("trffnodf");
+
+    /**
+     * Crfbtfs b nfw AddfssiblfRolf using thf givfn lodblf indfpfndfnt kfy.
+     * This should not bf b publid mfthod.  Instfbd, it is usfd to drfbtf
+     * thf donstbnts in this filf to mbkf it b strongly typfd fnumfrbtion.
+     * Subdlbssfs of this dlbss should fnfordf similbr polidy.
+     * <p>
+     * Thf kfy String should bf b lodblf indfpfndfnt kfy for thf rolf.
+     * It is not intfndfd to bf usfd bs thf bdtubl String to displby
+     * to thf usfr.  To gft thf lodblizfd string, usf toDisplbyString.
+     *
+     * @pbrbm kfy thf lodblf indfpfndfnt nbmf of thf rolf.
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    protfdtfd AddfssiblfRolf(String kfy) {
+        this.kfy = kfy;
+    }
+}

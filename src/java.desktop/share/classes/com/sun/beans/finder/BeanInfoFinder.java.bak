@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import java.beans.BeanDescriptor;
-import java.beans.BeanInfo;
-import java.beans.MethodDescriptor;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
+import jbvb.bfbns.BfbnDfsdriptor;
+import jbvb.bfbns.BfbnInfo;
+import jbvb.bfbns.MftiodDfsdriptor;
+import jbvb.bfbns.PropfrtyDfsdriptor;
+import jbvb.lbng.rfflfdt.Mftiod;
 
 /**
- * This is utility class that provides functionality
- * to find a {@link BeanInfo} for a JavaBean specified by its type.
+ * Tiis is utility dlbss tibt providfs fundtionblity
+ * to find b {@link BfbnInfo} for b JbvbBfbn spfdififd by its typf.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class BeanInfoFinder
-        extends InstanceFinder<BeanInfo> {
+publid finbl dlbss BfbnInfoFindfr
+        fxtfnds InstbndfFindfr<BfbnInfo> {
 
-    private static final String DEFAULT = "sun.beans.infos";
-    private static final String DEFAULT_NEW = "com.sun.beans.infos";
+    privbtf stbtid finbl String DEFAULT = "sun.bfbns.infos";
+    privbtf stbtid finbl String DEFAULT_NEW = "dom.sun.bfbns.infos";
 
-    public BeanInfoFinder() {
-        super(BeanInfo.class, true, "BeanInfo", DEFAULT);
+    publid BfbnInfoFindfr() {
+        supfr(BfbnInfo.dlbss, truf, "BfbnInfo", DEFAULT);
     }
 
-    private static boolean isValid(Class<?> type, Method method) {
-        return (method != null) && method.getDeclaringClass().isAssignableFrom(type);
+    privbtf stbtid boolfbn isVblid(Clbss<?> typf, Mftiod mftiod) {
+        rfturn (mftiod != null) && mftiod.gftDfdlbringClbss().isAssignbblfFrom(typf);
     }
 
-    @Override
-    protected BeanInfo instantiate(Class<?> type, String prefix, String name) {
-        if (DEFAULT.equals(prefix)) {
-            prefix = DEFAULT_NEW;
+    @Ovfrridf
+    protfdtfd BfbnInfo instbntibtf(Clbss<?> typf, String prffix, String nbmf) {
+        if (DEFAULT.fqubls(prffix)) {
+            prffix = DEFAULT_NEW;
         }
-        // this optimization will only use the BeanInfo search path
-        // if is has changed from the original
-        // or trying to get the ComponentBeanInfo
-        BeanInfo info = !DEFAULT_NEW.equals(prefix) || "ComponentBeanInfo".equals(name)
-                ? super.instantiate(type, prefix, name)
+        // tiis optimizbtion will only usf tif BfbnInfo sfbrdi pbti
+        // if is ibs dibngfd from tif originbl
+        // or trying to gft tif ComponfntBfbnInfo
+        BfbnInfo info = !DEFAULT_NEW.fqubls(prffix) || "ComponfntBfbnInfo".fqubls(nbmf)
+                ? supfr.instbntibtf(typf, prffix, nbmf)
                 : null;
 
         if (info != null) {
-            // make sure that the returned BeanInfo matches the class
-            BeanDescriptor bd = info.getBeanDescriptor();
+            // mbkf surf tibt tif rfturnfd BfbnInfo mbtdifs tif dlbss
+            BfbnDfsdriptor bd = info.gftBfbnDfsdriptor();
             if (bd != null) {
-                if (type.equals(bd.getBeanClass())) {
-                    return info;
+                if (typf.fqubls(bd.gftBfbnClbss())) {
+                    rfturn info;
                 }
             }
-            else {
-                PropertyDescriptor[] pds = info.getPropertyDescriptors();
+            flsf {
+                PropfrtyDfsdriptor[] pds = info.gftPropfrtyDfsdriptors();
                 if (pds != null) {
-                    for (PropertyDescriptor pd : pds) {
-                        Method method = pd.getReadMethod();
-                        if (method == null) {
-                            method = pd.getWriteMethod();
+                    for (PropfrtyDfsdriptor pd : pds) {
+                        Mftiod mftiod = pd.gftRfbdMftiod();
+                        if (mftiod == null) {
+                            mftiod = pd.gftWritfMftiod();
                         }
-                        if (isValid(type, method)) {
-                            return info;
+                        if (isVblid(typf, mftiod)) {
+                            rfturn info;
                         }
                     }
                 }
-                else {
-                    MethodDescriptor[] mds = info.getMethodDescriptors();
+                flsf {
+                    MftiodDfsdriptor[] mds = info.gftMftiodDfsdriptors();
                     if (mds != null) {
-                        for (MethodDescriptor md : mds) {
-                            if (isValid(type, md.getMethod())) {
-                                return info;
+                        for (MftiodDfsdriptor md : mds) {
+                            if (isVblid(typf, md.gftMftiod())) {
+                                rfturn info;
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 }

@@ -1,706 +1,706 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.tree.*;
-import java.awt.Font;
+import jbvbx.swing.*;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.Font;
 
-import java.text.SimpleDateFormat;
+import jbvb.tfxt.SimplfDbtfFormbt;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.event.*;
-import java.awt.Dimension;
-import java.util.*;
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.Dimfnsion;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
 
-import javax.management.*;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb;
 
-import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.Mfssbgfs;
 
-@SuppressWarnings("serial")
-public class XMBeanNotifications extends JTable implements NotificationListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss XMBfbnNotifidbtions fxtfnds JTbblf implfmfnts NotifidbtionListfnfr {
 
-    private final static String[] columnNames = {
-        Messages.TIME_STAMP,
-        Messages.TYPE,
-        Messages.USER_DATA,
-        Messages.SEQ_NUM,
-        Messages.MESSAGE,
-        Messages.EVENT,
-        Messages.SOURCE
+    privbtf finbl stbtid String[] dolumnNbmfs = {
+        Mfssbgfs.TIME_STAMP,
+        Mfssbgfs.TYPE,
+        Mfssbgfs.USER_DATA,
+        Mfssbgfs.SEQ_NUM,
+        Mfssbgfs.MESSAGE,
+        Mfssbgfs.EVENT,
+        Mfssbgfs.SOURCE
     };
-    private HashMap<ObjectName, XMBeanNotificationsListener> listeners =
-            new HashMap<ObjectName, XMBeanNotificationsListener>();
-    private volatile boolean subscribed;
-    private XMBeanNotificationsListener currentListener;
-    public final static String NOTIFICATION_RECEIVED_EVENT =
-            "jconsole.xnotification.received";
-    private List<NotificationListener> notificationListenersList;
-    private volatile boolean enabled;
-    private Font normalFont,  boldFont;
-    private int rowMinHeight = -1;
-    private TableCellEditor userDataEditor = new UserDataCellEditor();
-    private NotifMouseListener mouseListener = new NotifMouseListener();
-    private SimpleDateFormat timeFormater = new SimpleDateFormat("HH:mm:ss:SSS");
-    private static TableCellEditor editor =
-            new Utils.ReadOnlyTableCellEditor(new JTextField());
+    privbtf HbsiMbp<ObjfdtNbmf, XMBfbnNotifidbtionsListfnfr> listfnfrs =
+            nfw HbsiMbp<ObjfdtNbmf, XMBfbnNotifidbtionsListfnfr>();
+    privbtf volbtilf boolfbn subsdribfd;
+    privbtf XMBfbnNotifidbtionsListfnfr durrfntListfnfr;
+    publid finbl stbtid String NOTIFICATION_RECEIVED_EVENT =
+            "jdonsolf.xnotifidbtion.rfdfivfd";
+    privbtf List<NotifidbtionListfnfr> notifidbtionListfnfrsList;
+    privbtf volbtilf boolfbn fnbblfd;
+    privbtf Font normblFont,  boldFont;
+    privbtf int rowMinHfigit = -1;
+    privbtf TbblfCfllEditor usfrDbtbEditor = nfw UsfrDbtbCfllEditor();
+    privbtf NotifMousfListfnfr mousfListfnfr = nfw NotifMousfListfnfr();
+    privbtf SimplfDbtfFormbt timfFormbtfr = nfw SimplfDbtfFormbt("HH:mm:ss:SSS");
+    privbtf stbtid TbblfCfllEditor fditor =
+            nfw Utils.RfbdOnlyTbblfCfllEditor(nfw JTfxtFifld());
 
-    public XMBeanNotifications() {
-        super(new TableSorter(columnNames, 0));
-        setColumnSelectionAllowed(false);
-        setRowSelectionAllowed(false);
-        getTableHeader().setReorderingAllowed(false);
-        ArrayList<NotificationListener> l =
-                new ArrayList<NotificationListener>(1);
-        notificationListenersList = Collections.synchronizedList(l);
+    publid XMBfbnNotifidbtions() {
+        supfr(nfw TbblfSortfr(dolumnNbmfs, 0));
+        sftColumnSflfdtionAllowfd(fblsf);
+        sftRowSflfdtionAllowfd(fblsf);
+        gftTbblfHfbdfr().sftRfordfringAllowfd(fblsf);
+        ArrbyList<NotifidbtionListfnfr> l =
+                nfw ArrbyList<NotifidbtionListfnfr>(1);
+        notifidbtionListfnfrsList = Collfdtions.syndironizfdList(l);
 
-        addMouseListener(mouseListener);
+        bddMousfListfnfr(mousfListfnfr);
 
-        TableColumnModel colModel = getColumnModel();
-        colModel.getColumn(0).setPreferredWidth(45);
-        colModel.getColumn(1).setPreferredWidth(50);
-        colModel.getColumn(2).setPreferredWidth(50);
-        colModel.getColumn(3).setPreferredWidth(40);
-        colModel.getColumn(4).setPreferredWidth(50);
-        colModel.getColumn(5).setPreferredWidth(50);
-        setColumnEditors();
-        addKeyListener(new Utils.CopyKeyAdapter());
+        TbblfColumnModfl dolModfl = gftColumnModfl();
+        dolModfl.gftColumn(0).sftPrfffrrfdWidti(45);
+        dolModfl.gftColumn(1).sftPrfffrrfdWidti(50);
+        dolModfl.gftColumn(2).sftPrfffrrfdWidti(50);
+        dolModfl.gftColumn(3).sftPrfffrrfdWidti(40);
+        dolModfl.gftColumn(4).sftPrfffrrfdWidti(50);
+        dolModfl.gftColumn(5).sftPrfffrrfdWidti(50);
+        sftColumnEditors();
+        bddKfyListfnfr(nfw Utils.CopyKfyAdbptfr());
     }
 
-    // Call on EDT
-    public void cancelCellEditing() {
-        TableCellEditor tce = getCellEditor();
-        if (tce != null) {
-            tce.cancelCellEditing();
+    // Cbll on EDT
+    publid void dbndflCfllEditing() {
+        TbblfCfllEditor tdf = gftCfllEditor();
+        if (tdf != null) {
+            tdf.dbndflCfllEditing();
         }
     }
 
-    // Call on EDT
-    public void stopCellEditing() {
-        TableCellEditor tce = getCellEditor();
-        if (tce != null) {
-            tce.stopCellEditing();
+    // Cbll on EDT
+    publid void stopCfllEditing() {
+        TbblfCfllEditor tdf = gftCfllEditor();
+        if (tdf != null) {
+            tdf.stopCfllEditing();
         }
     }
 
-    // Call on EDT
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        UserDataCell cell = getUserDataCell(row, col);
-        if (cell != null) {
-            return cell.isMaximized();
+    // Cbll on EDT
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dol) {
+        UsfrDbtbCfll dfll = gftUsfrDbtbCfll(row, dol);
+        if (dfll != null) {
+            rfturn dfll.isMbximizfd();
         }
-        return true;
+        rfturn truf;
     }
 
-    // Call on EDT
-    @Override
-    public void setValueAt(Object value, int row, int column) {
+    // Cbll on EDT
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt vbluf, int row, int dolumn) {
     }
 
-    // Call on EDT
-    @Override
-    public synchronized Component prepareRenderer(
-            TableCellRenderer renderer, int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
-        if (row >= getRowCount()) {
-            return null;
+    // Cbll on EDT
+    @Ovfrridf
+    publid syndironizfd Componfnt prfpbrfRfndfrfr(
+            TbblfCfllRfndfrfr rfndfrfr, int row, int dolumn) {
+        //In dbsf wf ibvf b rfpbint tirfbd tibt is in tif prodfss of
+        //rfpbinting bn obsolftf tbblf, just ignorf tif dbll.
+        //It dbn ibppfn wifn MBfbn sflfdtion is switdifd bt b vfry quidk rbtf
+        if (row >= gftRowCount()) {
+            rfturn null;
         }
 
-        Component comp = super.prepareRenderer(renderer, row, column);
+        Componfnt domp = supfr.prfpbrfRfndfrfr(rfndfrfr, row, dolumn);
 
-        if (normalFont == null) {
-            normalFont = comp.getFont();
-            boldFont = normalFont.deriveFont(Font.BOLD);
+        if (normblFont == null) {
+            normblFont = domp.gftFont();
+            boldFont = normblFont.dfrivfFont(Font.BOLD);
         }
-        UserDataCell cell = getUserDataCell(row, 2);
-        if (column == 2 && cell != null) {
-            comp.setFont(boldFont);
-            int size = cell.getHeight();
-            if (size > 0) {
-                if (getRowHeight(row) != size) {
-                    setRowHeight(row, size);
+        UsfrDbtbCfll dfll = gftUsfrDbtbCfll(row, 2);
+        if (dolumn == 2 && dfll != null) {
+            domp.sftFont(boldFont);
+            int sizf = dfll.gftHfigit();
+            if (sizf > 0) {
+                if (gftRowHfigit(row) != sizf) {
+                    sftRowHfigit(row, sizf);
                 }
             }
-        } else {
-            comp.setFont(normalFont);
+        } flsf {
+            domp.sftFont(normblFont);
         }
 
-        return comp;
+        rfturn domp;
     }
 
-    // Call on EDT
-    @Override
-    public synchronized TableCellRenderer getCellRenderer(int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
-        if (row >= getRowCount()) {
-            return null;
+    // Cbll on EDT
+    @Ovfrridf
+    publid syndironizfd TbblfCfllRfndfrfr gftCfllRfndfrfr(int row, int dolumn) {
+        //In dbsf wf ibvf b rfpbint tirfbd tibt is in tif prodfss of
+        //rfpbinting bn obsolftf tbblf, just ignorf tif dbll.
+        //It dbn ibppfn wifn MBfbn sflfdtion is switdifd bt b vfry quidk rbtf
+        if (row >= gftRowCount()) {
+            rfturn null;
         }
 
-        DefaultTableCellRenderer renderer;
+        DffbultTbblfCfllRfndfrfr rfndfrfr;
         String toolTip = null;
-        UserDataCell cell = getUserDataCell(row, column);
-        if (cell != null && cell.isInited()) {
-            renderer = (DefaultTableCellRenderer) cell.getRenderer();
-        } else {
-            renderer =
-                    (DefaultTableCellRenderer) super.getCellRenderer(row, column);
+        UsfrDbtbCfll dfll = gftUsfrDbtbCfll(row, dolumn);
+        if (dfll != null && dfll.isInitfd()) {
+            rfndfrfr = (DffbultTbblfCfllRfndfrfr) dfll.gftRfndfrfr();
+        } flsf {
+            rfndfrfr =
+                    (DffbultTbblfCfllRfndfrfr) supfr.gftCfllRfndfrfr(row, dolumn);
         }
 
-        if (cell != null) {
-            toolTip = Messages.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
-                    ". " + cell.toString();
-        } else {
-            Object val =
-                    ((DefaultTableModel) getModel()).getValueAt(row, column);
-            if (val != null) {
-                toolTip = val.toString();
+        if (dfll != null) {
+            toolTip = Mfssbgfs.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
+                    ". " + dfll.toString();
+        } flsf {
+            Objfdt vbl =
+                    ((DffbultTbblfModfl) gftModfl()).gftVblufAt(row, dolumn);
+            if (vbl != null) {
+                toolTip = vbl.toString();
             }
         }
 
-        renderer.setToolTipText(toolTip);
+        rfndfrfr.sftToolTipTfxt(toolTip);
 
-        return renderer;
+        rfturn rfndfrfr;
     }
 
-    // Call on EDT
-    private UserDataCell getUserDataCell(int row, int column) {
-        Object obj = ((DefaultTableModel) getModel()).getValueAt(row, column);
-        if (obj instanceof UserDataCell) {
-            return (UserDataCell) obj;
+    // Cbll on EDT
+    privbtf UsfrDbtbCfll gftUsfrDbtbCfll(int row, int dolumn) {
+        Objfdt obj = ((DffbultTbblfModfl) gftModfl()).gftVblufAt(row, dolumn);
+        if (obj instbndfof UsfrDbtbCfll) {
+            rfturn (UsfrDbtbCfll) obj;
         }
-        return null;
+        rfturn null;
     }
 
-    synchronized void dispose() {
-        listeners.clear();
+    syndironizfd void disposf() {
+        listfnfrs.dlfbr();
     }
 
-    public long getReceivedNotifications(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
-        if (listener == null) {
-            return 0;
-        } else {
-            return listener.getReceivedNotifications();
-        }
-    }
-
-    public synchronized boolean clearCurrentNotifications() {
-        emptyTable();
-        if (currentListener != null) {
-            currentListener.clear();
-            return true;
-        } else {
-            return false;
+    publid long gftRfdfivfdNotifidbtions(XMBfbn mbfbn) {
+        XMBfbnNotifidbtionsListfnfr listfnfr =
+                listfnfrs.gft(mbfbn.gftObjfdtNbmf());
+        if (listfnfr == null) {
+            rfturn 0;
+        } flsf {
+            rfturn listfnfr.gftRfdfivfdNotifidbtions();
         }
     }
 
-    public synchronized boolean unregisterListener(DefaultMutableTreeNode node) {
-        XMBean mbean = (XMBean) ((XNodeInfo) node.getUserObject()).getData();
-        return unregister(mbean.getObjectName());
+    publid syndironizfd boolfbn dlfbrCurrfntNotifidbtions() {
+        fmptyTbblf();
+        if (durrfntListfnfr != null) {
+            durrfntListfnfr.dlfbr();
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
     }
 
-    public synchronized void registerListener(DefaultMutableTreeNode node)
-            throws InstanceNotFoundException, IOException {
-        XMBean mbean = (XMBean) ((XNodeInfo) node.getUserObject()).getData();
-        if (!subscribed) {
+    publid syndironizfd boolfbn unrfgistfrListfnfr(DffbultMutbblfTrffNodf nodf) {
+        XMBfbn mbfbn = (XMBfbn) ((XNodfInfo) nodf.gftUsfrObjfdt()).gftDbtb();
+        rfturn unrfgistfr(mbfbn.gftObjfdtNbmf());
+    }
+
+    publid syndironizfd void rfgistfrListfnfr(DffbultMutbblfTrffNodf nodf)
+            tirows InstbndfNotFoundExdfption, IOExdfption {
+        XMBfbn mbfbn = (XMBfbn) ((XNodfInfo) nodf.gftUsfrObjfdt()).gftDbtb();
+        if (!subsdribfd) {
             try {
-                mbean.getMBeanServerConnection().addNotificationListener(
-                        MBeanServerDelegate.DELEGATE_NAME, this, null, null);
-                subscribed = true;
-            } catch (Exception e) {
-                if (JConsole.isDebug()) {
-                    System.err.println("Error adding listener for delegate:");
-                    e.printStackTrace();
+                mbfbn.gftMBfbnSfrvfrConnfdtion().bddNotifidbtionListfnfr(
+                        MBfbnSfrvfrDflfgbtf.DELEGATE_NAME, tiis, null, null);
+                subsdribfd = truf;
+            } dbtdi (Exdfption f) {
+                if (JConsolf.isDfbug()) {
+                    Systfm.frr.println("Error bdding listfnfr for dflfgbtf:");
+                    f.printStbdkTrbdf();
                 }
             }
         }
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
-        if (listener == null) {
-            listener = new XMBeanNotificationsListener(
-                    this, mbean, node, columnNames);
-            listeners.put(mbean.getObjectName(), listener);
-        } else {
-            if (!listener.isRegistered()) {
-                emptyTable();
-                listener.register(node);
+        XMBfbnNotifidbtionsListfnfr listfnfr =
+                listfnfrs.gft(mbfbn.gftObjfdtNbmf());
+        if (listfnfr == null) {
+            listfnfr = nfw XMBfbnNotifidbtionsListfnfr(
+                    tiis, mbfbn, nodf, dolumnNbmfs);
+            listfnfrs.put(mbfbn.gftObjfdtNbmf(), listfnfr);
+        } flsf {
+            if (!listfnfr.isRfgistfrfd()) {
+                fmptyTbblf();
+                listfnfr.rfgistfr(nodf);
             }
         }
-        enabled = true;
-        currentListener = listener;
+        fnbblfd = truf;
+        durrfntListfnfr = listfnfr;
     }
 
-    public synchronized void handleNotification(
-            Notification notif, Object handback) {
+    publid syndironizfd void ibndlfNotifidbtion(
+            Notifidbtion notif, Objfdt ibndbbdk) {
         try {
-            if (notif instanceof MBeanServerNotification) {
-                ObjectName mbean =
-                        ((MBeanServerNotification) notif).getMBeanName();
-                if (notif.getType().indexOf("JMX.mbean.unregistered") >= 0) {
-                    unregister(mbean);
+            if (notif instbndfof MBfbnSfrvfrNotifidbtion) {
+                ObjfdtNbmf mbfbn =
+                        ((MBfbnSfrvfrNotifidbtion) notif).gftMBfbnNbmf();
+                if (notif.gftTypf().indfxOf("JMX.mbfbn.unrfgistfrfd") >= 0) {
+                    unrfgistfr(mbfbn);
                 }
             }
-        } catch (Exception e) {
-            if (JConsole.isDebug()) {
-                System.err.println("Error unregistering notification:");
-                e.printStackTrace();
+        } dbtdi (Exdfption f) {
+            if (JConsolf.isDfbug()) {
+                Systfm.frr.println("Error unrfgistfring notifidbtion:");
+                f.printStbdkTrbdf();
             }
         }
     }
 
-    public synchronized void disableNotifications() {
-        emptyTable();
-        currentListener = null;
-        enabled = false;
+    publid syndironizfd void disbblfNotifidbtions() {
+        fmptyTbblf();
+        durrfntListfnfr = null;
+        fnbblfd = fblsf;
     }
 
-    private synchronized boolean unregister(ObjectName mbean) {
-        XMBeanNotificationsListener listener = listeners.get(mbean);
-        if (listener != null && listener.isRegistered()) {
-            listener.unregister();
-            return true;
-        } else {
-            return false;
+    privbtf syndironizfd boolfbn unrfgistfr(ObjfdtNbmf mbfbn) {
+        XMBfbnNotifidbtionsListfnfr listfnfr = listfnfrs.gft(mbfbn);
+        if (listfnfr != null && listfnfr.isRfgistfrfd()) {
+            listfnfr.unrfgistfr();
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public void addNotificationsListener(NotificationListener nl) {
-        notificationListenersList.add(nl);
+    publid void bddNotifidbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.bdd(nl);
     }
 
-    public void removeNotificationsListener(NotificationListener nl) {
-        notificationListenersList.remove(nl);
+    publid void rfmovfNotifidbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.rfmovf(nl);
     }
 
-    // Call on EDT
-    void fireNotificationReceived(
-            XMBeanNotificationsListener listener, XMBean mbean,
-            DefaultMutableTreeNode node, Object[] rowData, long received) {
-        if (enabled) {
-            DefaultTableModel tableModel = (DefaultTableModel) getModel();
-            if (listener == currentListener) {
-                tableModel.insertRow(0, rowData);
-                repaint();
+    // Cbll on EDT
+    void firfNotifidbtionRfdfivfd(
+            XMBfbnNotifidbtionsListfnfr listfnfr, XMBfbn mbfbn,
+            DffbultMutbblfTrffNodf nodf, Objfdt[] rowDbtb, long rfdfivfd) {
+        if (fnbblfd) {
+            DffbultTbblfModfl tbblfModfl = (DffbultTbblfModfl) gftModfl();
+            if (listfnfr == durrfntListfnfr) {
+                tbblfModfl.insfrtRow(0, rowDbtb);
+                rfpbint();
             }
         }
-        Notification notif =
-                new Notification(NOTIFICATION_RECEIVED_EVENT, this, 0);
-        notif.setUserData(received);
-        for (NotificationListener nl : notificationListenersList) {
-            nl.handleNotification(notif, node);
+        Notifidbtion notif =
+                nfw Notifidbtion(NOTIFICATION_RECEIVED_EVENT, tiis, 0);
+        notif.sftUsfrDbtb(rfdfivfd);
+        for (NotifidbtionListfnfr nl : notifidbtionListfnfrsList) {
+            nl.ibndlfNotifidbtion(notif, nodf);
         }
     }
 
-    // Call on EDT
-    private void updateModel(List<Object[]> data) {
-        emptyTable();
-        DefaultTableModel tableModel = (DefaultTableModel) getModel();
-        for (Object[] rowData : data) {
-            tableModel.addRow(rowData);
+    // Cbll on EDT
+    privbtf void updbtfModfl(List<Objfdt[]> dbtb) {
+        fmptyTbblf();
+        DffbultTbblfModfl tbblfModfl = (DffbultTbblfModfl) gftModfl();
+        for (Objfdt[] rowDbtb : dbtb) {
+            tbblfModfl.bddRow(rowDbtb);
         }
     }
 
-    public synchronized boolean isListenerRegistered(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
-        if (listener == null) {
-            return false;
+    publid syndironizfd boolfbn isListfnfrRfgistfrfd(XMBfbn mbfbn) {
+        XMBfbnNotifidbtionsListfnfr listfnfr =
+                listfnfrs.gft(mbfbn.gftObjfdtNbmf());
+        if (listfnfr == null) {
+            rfturn fblsf;
         }
-        return listener.isRegistered();
+        rfturn listfnfr.isRfgistfrfd();
     }
 
-    // Call on EDT
-    public synchronized void loadNotifications(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
-        emptyTable();
-        if (listener != null) {
-            enabled = true;
-            List<Object[]> data = listener.getData();
-            updateModel(data);
-            currentListener = listener;
-            validate();
-            repaint();
-        } else {
-            enabled = false;
+    // Cbll on EDT
+    publid syndironizfd void lobdNotifidbtions(XMBfbn mbfbn) {
+        XMBfbnNotifidbtionsListfnfr listfnfr =
+                listfnfrs.gft(mbfbn.gftObjfdtNbmf());
+        fmptyTbblf();
+        if (listfnfr != null) {
+            fnbblfd = truf;
+            List<Objfdt[]> dbtb = listfnfr.gftDbtb();
+            updbtfModfl(dbtb);
+            durrfntListfnfr = listfnfr;
+            vblidbtf();
+            rfpbint();
+        } flsf {
+            fnbblfd = fblsf;
         }
     }
 
-    // Call on EDT
-    private void setColumnEditors() {
-        TableColumnModel tcm = getColumnModel();
-        for (int i = 0; i < columnNames.length; i++) {
-            TableColumn tc = tcm.getColumn(i);
+    // Cbll on EDT
+    privbtf void sftColumnEditors() {
+        TbblfColumnModfl tdm = gftColumnModfl();
+        for (int i = 0; i < dolumnNbmfs.lfngti; i++) {
+            TbblfColumn td = tdm.gftColumn(i);
             if (i == 2) {
-                tc.setCellEditor(userDataEditor);
-            } else {
-                tc.setCellEditor(editor);
+                td.sftCfllEditor(usfrDbtbEditor);
+            } flsf {
+                td.sftCfllEditor(fditor);
             }
         }
     }
 
-    // Call on EDT
-    public boolean isTableEditable() {
-        return true;
+    // Cbll on EDT
+    publid boolfbn isTbblfEditbblf() {
+        rfturn truf;
     }
 
-    // Call on EDT
-    public synchronized void emptyTable() {
-        DefaultTableModel model = (DefaultTableModel) getModel();
-        //invalidate();
-        while (model.getRowCount() > 0) {
-            model.removeRow(0);
+    // Cbll on EDT
+    publid syndironizfd void fmptyTbblf() {
+        DffbultTbblfModfl modfl = (DffbultTbblfModfl) gftModfl();
+        //invblidbtf();
+        wiilf (modfl.gftRowCount() > 0) {
+            modfl.rfmovfRow(0);
         }
-        validate();
+        vblidbtf();
     }
 
-    // Call on EDT
-    synchronized void updateUserDataCell(int row, int col) {
-        Object obj = getModel().getValueAt(row, 2);
-        if (obj instanceof UserDataCell) {
-            UserDataCell cell = (UserDataCell) obj;
-            if (!cell.isInited()) {
-                if (rowMinHeight == -1) {
-                    rowMinHeight = getRowHeight(row);
+    // Cbll on EDT
+    syndironizfd void updbtfUsfrDbtbCfll(int row, int dol) {
+        Objfdt obj = gftModfl().gftVblufAt(row, 2);
+        if (obj instbndfof UsfrDbtbCfll) {
+            UsfrDbtbCfll dfll = (UsfrDbtbCfll) obj;
+            if (!dfll.isInitfd()) {
+                if (rowMinHfigit == -1) {
+                    rowMinHfigit = gftRowHfigit(row);
                 }
-                cell.init(super.getCellRenderer(row, col), rowMinHeight);
+                dfll.init(supfr.gftCfllRfndfrfr(row, dol), rowMinHfigit);
             }
 
-            cell.switchState();
-            setRowHeight(row, cell.getHeight());
+            dfll.switdiStbtf();
+            sftRowHfigit(row, dfll.gftHfigit());
 
-            if (!cell.isMaximized()) {
-                cancelCellEditing();
-                //Back to simple editor.
-                editCellAt(row, 2);
+            if (!dfll.isMbximizfd()) {
+                dbndflCfllEditing();
+                //Bbdk to simplf fditor.
+                fditCfllAt(row, 2);
             }
 
-            invalidate();
-            repaint();
+            invblidbtf();
+            rfpbint();
         }
     }
 
-    class UserDataCellRenderer extends DefaultTableCellRenderer {
+    dlbss UsfrDbtbCfllRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr {
 
-        Component comp;
+        Componfnt domp;
 
-        UserDataCellRenderer(Component comp) {
-            this.comp = comp;
-            Dimension d = comp.getPreferredSize();
-            if (d.getHeight() > 200) {
-                comp.setPreferredSize(new Dimension((int) d.getWidth(), 200));
+        UsfrDbtbCfllRfndfrfr(Componfnt domp) {
+            tiis.domp = domp;
+            Dimfnsion d = domp.gftPrfffrrfdSizf();
+            if (d.gftHfigit() > 200) {
+                domp.sftPrfffrrfdSizf(nfw Dimfnsion((int) d.gftWidti(), 200));
             }
         }
 
-        @Override
-        public Component getTableCellRendererComponent(
-                JTable table,
-                Object value,
-                boolean isSelected,
-                boolean hasFocus,
+        @Ovfrridf
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(
+                JTbblf tbblf,
+                Objfdt vbluf,
+                boolfbn isSflfdtfd,
+                boolfbn ibsFodus,
                 int row,
-                int column) {
-            return comp;
+                int dolumn) {
+            rfturn domp;
         }
 
-        public Component getComponent() {
-            return comp;
-        }
-    }
-
-    class UserDataCell {
-
-        TableCellRenderer minRenderer;
-        UserDataCellRenderer maxRenderer;
-        int minHeight;
-        boolean minimized = true;
-        boolean init = false;
-        Object userData;
-
-        UserDataCell(Object userData, Component max) {
-            this.userData = userData;
-            this.maxRenderer = new UserDataCellRenderer(max);
-
-        }
-
-        @Override
-        public String toString() {
-            if (userData == null) {
-                return null;
-            }
-            if (userData.getClass().isArray()) {
-                String name =
-                        Utils.getArrayClassName(userData.getClass().getName());
-                int length = Array.getLength(userData);
-                return name + "[" + length + "]";
-            }
-
-            if (userData instanceof CompositeData ||
-                    userData instanceof TabularData) {
-                return userData.getClass().getName();
-            }
-
-            return userData.toString();
-        }
-
-        boolean isInited() {
-            return init;
-        }
-
-        void init(TableCellRenderer minRenderer, int minHeight) {
-            this.minRenderer = minRenderer;
-            this.minHeight = minHeight;
-            init = true;
-        }
-
-        void switchState() {
-            minimized = !minimized;
-        }
-
-        boolean isMaximized() {
-            return !minimized;
-        }
-
-        void minimize() {
-            minimized = true;
-        }
-
-        void maximize() {
-            minimized = false;
-        }
-
-        int getHeight() {
-            if (minimized) {
-                return minHeight;
-            } else {
-                return (int) maxRenderer.getComponent().
-                        getPreferredSize().getHeight();
-            }
-        }
-
-        TableCellRenderer getRenderer() {
-            if (minimized) {
-                return minRenderer;
-            } else {
-                return maxRenderer;
-            }
+        publid Componfnt gftComponfnt() {
+            rfturn domp;
         }
     }
 
-    class NotifMouseListener extends MouseAdapter {
+    dlbss UsfrDbtbCfll {
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (e.getButton() == MouseEvent.BUTTON1) {
-                if (e.getClickCount() >= 2) {
-                    int row = XMBeanNotifications.this.getSelectedRow();
-                    int col = XMBeanNotifications.this.getSelectedColumn();
-                    if (col != 2) {
-                        return;
+        TbblfCfllRfndfrfr minRfndfrfr;
+        UsfrDbtbCfllRfndfrfr mbxRfndfrfr;
+        int minHfigit;
+        boolfbn minimizfd = truf;
+        boolfbn init = fblsf;
+        Objfdt usfrDbtb;
+
+        UsfrDbtbCfll(Objfdt usfrDbtb, Componfnt mbx) {
+            tiis.usfrDbtb = usfrDbtb;
+            tiis.mbxRfndfrfr = nfw UsfrDbtbCfllRfndfrfr(mbx);
+
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            if (usfrDbtb == null) {
+                rfturn null;
+            }
+            if (usfrDbtb.gftClbss().isArrby()) {
+                String nbmf =
+                        Utils.gftArrbyClbssNbmf(usfrDbtb.gftClbss().gftNbmf());
+                int lfngti = Arrby.gftLfngti(usfrDbtb);
+                rfturn nbmf + "[" + lfngti + "]";
+            }
+
+            if (usfrDbtb instbndfof CompositfDbtb ||
+                    usfrDbtb instbndfof TbbulbrDbtb) {
+                rfturn usfrDbtb.gftClbss().gftNbmf();
+            }
+
+            rfturn usfrDbtb.toString();
+        }
+
+        boolfbn isInitfd() {
+            rfturn init;
+        }
+
+        void init(TbblfCfllRfndfrfr minRfndfrfr, int minHfigit) {
+            tiis.minRfndfrfr = minRfndfrfr;
+            tiis.minHfigit = minHfigit;
+            init = truf;
+        }
+
+        void switdiStbtf() {
+            minimizfd = !minimizfd;
+        }
+
+        boolfbn isMbximizfd() {
+            rfturn !minimizfd;
+        }
+
+        void minimizf() {
+            minimizfd = truf;
+        }
+
+        void mbximizf() {
+            minimizfd = fblsf;
+        }
+
+        int gftHfigit() {
+            if (minimizfd) {
+                rfturn minHfigit;
+            } flsf {
+                rfturn (int) mbxRfndfrfr.gftComponfnt().
+                        gftPrfffrrfdSizf().gftHfigit();
+            }
+        }
+
+        TbblfCfllRfndfrfr gftRfndfrfr() {
+            if (minimizfd) {
+                rfturn minRfndfrfr;
+            } flsf {
+                rfturn mbxRfndfrfr;
+            }
+        }
+    }
+
+    dlbss NotifMousfListfnfr fxtfnds MousfAdbptfr {
+
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.gftButton() == MousfEvfnt.BUTTON1) {
+                if (f.gftClidkCount() >= 2) {
+                    int row = XMBfbnNotifidbtions.tiis.gftSflfdtfdRow();
+                    int dol = XMBfbnNotifidbtions.tiis.gftSflfdtfdColumn();
+                    if (dol != 2) {
+                        rfturn;
                     }
-                    if (col == -1 || row == -1) {
-                        return;
+                    if (dol == -1 || row == -1) {
+                        rfturn;
                     }
 
-                    XMBeanNotifications.this.updateUserDataCell(row, col);
+                    XMBfbnNotifidbtions.tiis.updbtfUsfrDbtbCfll(row, dol);
                 }
             }
         }
     }
 
-    class UserDataCellEditor extends XTextFieldEditor {
-        // implements javax.swing.table.TableCellEditor
-        @Override
-        public Component getTableCellEditorComponent(
-                JTable table,
-                Object value,
-                boolean isSelected,
+    dlbss UsfrDbtbCfllEditor fxtfnds XTfxtFifldEditor {
+        // implfmfnts jbvbx.swing.tbblf.TbblfCfllEditor
+        @Ovfrridf
+        publid Componfnt gftTbblfCfllEditorComponfnt(
+                JTbblf tbblf,
+                Objfdt vbluf,
+                boolfbn isSflfdtfd,
                 int row,
-                int column) {
-            Object val = value;
-            if (column == 2) {
-                Object obj = getModel().getValueAt(row, column);
-                if (obj instanceof UserDataCell) {
-                    UserDataCell cell = (UserDataCell) obj;
-                    if (cell.getRenderer() instanceof UserDataCellRenderer) {
-                        UserDataCellRenderer zr =
-                                (UserDataCellRenderer) cell.getRenderer();
-                        return zr.getComponent();
+                int dolumn) {
+            Objfdt vbl = vbluf;
+            if (dolumn == 2) {
+                Objfdt obj = gftModfl().gftVblufAt(row, dolumn);
+                if (obj instbndfof UsfrDbtbCfll) {
+                    UsfrDbtbCfll dfll = (UsfrDbtbCfll) obj;
+                    if (dfll.gftRfndfrfr() instbndfof UsfrDbtbCfllRfndfrfr) {
+                        UsfrDbtbCfllRfndfrfr zr =
+                                (UsfrDbtbCfllRfndfrfr) dfll.gftRfndfrfr();
+                        rfturn zr.gftComponfnt();
                     }
-                } else {
-                    Component comp = super.getTableCellEditorComponent(
-                            table, val, isSelected, row, column);
-                    textField.setEditable(false);
-                    return comp;
+                } flsf {
+                    Componfnt domp = supfr.gftTbblfCfllEditorComponfnt(
+                            tbblf, vbl, isSflfdtfd, row, dolumn);
+                    tfxtFifld.sftEditbblf(fblsf);
+                    rfturn domp;
                 }
             }
-            return super.getTableCellEditorComponent(
-                    table,
-                    val,
-                    isSelected,
+            rfturn supfr.gftTbblfCfllEditorComponfnt(
+                    tbblf,
+                    vbl,
+                    isSflfdtfd,
                     row,
-                    column);
+                    dolumn);
         }
 
-        @Override
-        public boolean stopCellEditing() {
-            int editingRow = getEditingRow();
-            int editingColumn = getEditingColumn();
-            if (editingColumn == 2) {
-                Object obj = getModel().getValueAt(editingRow, editingColumn);
-                if (obj instanceof UserDataCell) {
-                    UserDataCell cell = (UserDataCell) obj;
-                    if (cell.isMaximized()) {
-                        cancelCellEditing();
-                        return true;
+        @Ovfrridf
+        publid boolfbn stopCfllEditing() {
+            int fditingRow = gftEditingRow();
+            int fditingColumn = gftEditingColumn();
+            if (fditingColumn == 2) {
+                Objfdt obj = gftModfl().gftVblufAt(fditingRow, fditingColumn);
+                if (obj instbndfof UsfrDbtbCfll) {
+                    UsfrDbtbCfll dfll = (UsfrDbtbCfll) obj;
+                    if (dfll.isMbximizfd()) {
+                        dbndflCfllEditing();
+                        rfturn truf;
                     }
                 }
             }
-            return super.stopCellEditing();
+            rfturn supfr.stopCfllEditing();
         }
     }
 
-    class XMBeanNotificationsListener implements NotificationListener {
+    dlbss XMBfbnNotifidbtionsListfnfr implfmfnts NotifidbtionListfnfr {
 
-        private XMBean xmbean;
-        private DefaultMutableTreeNode node;
-        private volatile long received;
-        private XMBeanNotifications notifications;
-        private volatile boolean unregistered;
-        private ArrayList<Object[]> data = new ArrayList<Object[]>();
+        privbtf XMBfbn xmbfbn;
+        privbtf DffbultMutbblfTrffNodf nodf;
+        privbtf volbtilf long rfdfivfd;
+        privbtf XMBfbnNotifidbtions notifidbtions;
+        privbtf volbtilf boolfbn unrfgistfrfd;
+        privbtf ArrbyList<Objfdt[]> dbtb = nfw ArrbyList<Objfdt[]>();
 
-        public XMBeanNotificationsListener(
-                XMBeanNotifications notifications,
-                XMBean xmbean,
-                DefaultMutableTreeNode node,
-                String[] columnNames) {
-            this.notifications = notifications;
-            this.xmbean = xmbean;
-            this.node = node;
-            register(node);
+        publid XMBfbnNotifidbtionsListfnfr(
+                XMBfbnNotifidbtions notifidbtions,
+                XMBfbn xmbfbn,
+                DffbultMutbblfTrffNodf nodf,
+                String[] dolumnNbmfs) {
+            tiis.notifidbtions = notifidbtions;
+            tiis.xmbfbn = xmbfbn;
+            tiis.nodf = nodf;
+            rfgistfr(nodf);
         }
 
-        public synchronized List<Object[]> getData() {
-            return data;
+        publid syndironizfd List<Objfdt[]> gftDbtb() {
+            rfturn dbtb;
         }
 
-        public synchronized void clear() {
-            data.clear();
-            received = 0;
+        publid syndironizfd void dlfbr() {
+            dbtb.dlfbr();
+            rfdfivfd = 0;
         }
 
-        public synchronized boolean isRegistered() {
-            return !unregistered;
+        publid syndironizfd boolfbn isRfgistfrfd() {
+            rfturn !unrfgistfrfd;
         }
 
-        public synchronized void unregister() {
+        publid syndironizfd void unrfgistfr() {
             try {
-                xmbean.getMBeanServerConnection().removeNotificationListener(
-                        xmbean.getObjectName(), this, null, null);
-            } catch (Exception e) {
-                if (JConsole.isDebug()) {
-                    System.err.println("Error removing listener:");
-                    e.printStackTrace();
+                xmbfbn.gftMBfbnSfrvfrConnfdtion().rfmovfNotifidbtionListfnfr(
+                        xmbfbn.gftObjfdtNbmf(), tiis, null, null);
+            } dbtdi (Exdfption f) {
+                if (JConsolf.isDfbug()) {
+                    Systfm.frr.println("Error rfmoving listfnfr:");
+                    f.printStbdkTrbdf();
                 }
             }
-            unregistered = true;
+            unrfgistfrfd = truf;
         }
 
-        public synchronized long getReceivedNotifications() {
-            return received;
+        publid syndironizfd long gftRfdfivfdNotifidbtions() {
+            rfturn rfdfivfd;
         }
 
-        public synchronized void register(DefaultMutableTreeNode node) {
-            clear();
-            this.node = node;
+        publid syndironizfd void rfgistfr(DffbultMutbblfTrffNodf nodf) {
+            dlfbr();
+            tiis.nodf = nodf;
             try {
-                xmbean.getMBeanServerConnection().addNotificationListener(
-                        xmbean.getObjectName(), this, null, null);
-                unregistered = false;
-            } catch (Exception e) {
-                if (JConsole.isDebug()) {
-                    System.err.println("Error adding listener:");
-                    e.printStackTrace();
+                xmbfbn.gftMBfbnSfrvfrConnfdtion().bddNotifidbtionListfnfr(
+                        xmbfbn.gftObjfdtNbmf(), tiis, null, null);
+                unrfgistfrfd = fblsf;
+            } dbtdi (Exdfption f) {
+                if (JConsolf.isDfbug()) {
+                    Systfm.frr.println("Error bdding listfnfr:");
+                    f.printStbdkTrbdf();
                 }
             }
         }
 
-        public synchronized void handleNotification(
-                final Notification n, Object hb) {
-            EventQueue.invokeLater(new Runnable() {
+        publid syndironizfd void ibndlfNotifidbtion(
+                finbl Notifidbtion n, Objfdt ib) {
+            EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
 
-                public void run() {
-                    synchronized (XMBeanNotificationsListener.this) {
+                publid void run() {
+                    syndironizfd (XMBfbnNotifidbtionsListfnfr.tiis) {
                         try {
-                            if (unregistered) {
-                                return;
+                            if (unrfgistfrfd) {
+                                rfturn;
                             }
-                            Date receivedDate = new Date(n.getTimeStamp());
-                            String time = timeFormater.format(receivedDate);
+                            Dbtf rfdfivfdDbtf = nfw Dbtf(n.gftTimfStbmp());
+                            String timf = timfFormbtfr.formbt(rfdfivfdDbtf);
 
-                            Object userData = n.getUserData();
-                            Component comp = null;
-                            UserDataCell cell = null;
-                            if ((comp = XDataViewer.createNotificationViewer(userData)) != null) {
-                                XDataViewer.registerForMouseEvent(comp, mouseListener);
-                                cell = new UserDataCell(userData, comp);
+                            Objfdt usfrDbtb = n.gftUsfrDbtb();
+                            Componfnt domp = null;
+                            UsfrDbtbCfll dfll = null;
+                            if ((domp = XDbtbVifwfr.drfbtfNotifidbtionVifwfr(usfrDbtb)) != null) {
+                                XDbtbVifwfr.rfgistfrForMousfEvfnt(domp, mousfListfnfr);
+                                dfll = nfw UsfrDbtbCfll(usfrDbtb, domp);
                             }
 
-                            Object[] rowData = {
-                                time,
-                                n.getType(),
-                                (cell == null ? userData : cell),
-                                n.getSequenceNumber(),
-                                n.getMessage(),
+                            Objfdt[] rowDbtb = {
+                                timf,
+                                n.gftTypf(),
+                                (dfll == null ? usfrDbtb : dfll),
+                                n.gftSfqufndfNumbfr(),
+                                n.gftMfssbgf(),
                                 n,
-                                n.getSource()
+                                n.gftSourdf()
                             };
-                            received++;
-                            data.add(0, rowData);
+                            rfdfivfd++;
+                            dbtb.bdd(0, rowDbtb);
 
-                            notifications.fireNotificationReceived(
-                                    XMBeanNotificationsListener.this,
-                                    xmbean, node, rowData, received);
-                        } catch (Exception e) {
-                            if (JConsole.isDebug()) {
-                                System.err.println("Error handling notification:");
-                                e.printStackTrace();
+                            notifidbtions.firfNotifidbtionRfdfivfd(
+                                    XMBfbnNotifidbtionsListfnfr.tiis,
+                                    xmbfbn, nodf, rowDbtb, rfdfivfd);
+                        } dbtdi (Exdfption f) {
+                            if (JConsolf.isDfbug()) {
+                                Systfm.frr.println("Error ibndling notifidbtion:");
+                                f.printStbdkTrbdf();
                             }
                         }
                     }

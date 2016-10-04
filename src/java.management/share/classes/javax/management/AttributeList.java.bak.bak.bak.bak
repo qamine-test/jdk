@@ -1,0 +1,337 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * <p>Rfprfsfnts b list of vblufs for bttributfs of bn MBfbn.  Sff thf
+ * {@link MBfbnSfrvfrConnfdtion#gftAttributfs gftAttributfs} bnd
+ * {@link MBfbnSfrvfrConnfdtion#sftAttributfs sftAttributfs} mfthods of
+ * {@link MBfbnSfrvfr} bnd {@link MBfbnSfrvfrConnfdtion}.</p>
+ *
+ * <p id="typf-sbff">For dompbtibility rfbsons, it is possiblf, though
+ * highly disdourbgfd, to bdd objfdts to bn {@dodf AttributfList} thbt brf
+ * not instbndfs of {@dodf Attributf}.  Howfvfr, bn {@dodf AttributfList}
+ * dbn bf mbdf <fm>typf-sbff</fm>, whidh mfbns thbt bn bttfmpt to bdd
+ * bn objfdt thbt is not bn {@dodf Attributf} will produdf bn {@dodf
+ * IllfgblArgumfntExdfption}.  An {@dodf AttributfList} bfdomfs typf-sbff
+ * whfn thf mfthod {@link #bsList()} is dbllfd on it.</p>
+ *
+ * @sindf 1.5
+ */
+/* Wf dbnnot fxtfnd ArrbyList<Attributf> bfdbusf our lfgbdy
+   bdd(Attributf) mfthod would thfn ovfrridf bdd(E) in ArrbyList<E>,
+   bnd our rfturn vbluf is void whfrfbs ArrbyList.bdd(E)'s is boolfbn.
+   Likfwisf for sft(int,Attributf).  Grrr.  Wf dbnnot usf dovbribndf
+   to ovfrridf thf most importbnt mfthods bnd hbvf thfm rfturn
+   Attributf, fithfr, bfdbusf thbt would brfbk subdlbssfs thbt
+   ovfrridf thosf mfthods in turn (using thf originbl rfturn typf
+   of Objfdt).  Finblly, wf dbnnot implfmfnt Itfrbblf<Attributf>
+   so you dould writf
+       for (Attributf b : bttributfList)
+   bfdbusf ArrbyList<> implfmfnts Itfrbblf<> bnd thf sbmf dlbss dbnnot
+   implfmfnt two vfrsions of b gfnfrid intfrfbdf.  Instfbd wf providf
+   thf bsList() mfthod so you dbn writf
+       for (Attributf b : bttributfList.bsList())
+*/
+publid dlbss AttributfList fxtfnds ArrbyList<Objfdt> {
+
+    privbtf trbnsifnt volbtilf boolfbn typfSbff;
+    privbtf trbnsifnt volbtilf boolfbn tbintfd;
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4077085769279709076L;
+
+    /**
+     * Construdts bn fmpty <CODE>AttributfList</CODE>.
+     */
+    publid AttributfList() {
+        supfr();
+    }
+
+    /**
+     * Construdts bn fmpty <CODE>AttributfList</CODE> with
+     * thf initibl dbpbdity spfdififd.
+     *
+     * @pbrbm initiblCbpbdity thf initibl dbpbdity of thf
+     * <dodf>AttributfList</dodf>, bs spfdififd by {@link
+     * ArrbyList#ArrbyList(int)}.
+     */
+    publid AttributfList(int initiblCbpbdity) {
+        supfr(initiblCbpbdity);
+    }
+
+    /**
+     * Construdts bn <CODE>AttributfList</CODE> dontbining thf
+     * flfmfnts of thf <CODE>AttributfList</CODE> spfdififd, in thf
+     * ordfr in whidh thfy brf rfturnfd by thf
+     * <CODE>AttributfList</CODE>'s itfrbtor.  Thf
+     * <CODE>AttributfList</CODE> instbndf hbs bn initibl dbpbdity of
+     * 110% of thf sizf of thf <CODE>AttributfList</CODE> spfdififd.
+     *
+     * @pbrbm list thf <dodf>AttributfList</dodf> thbt dffinfs thf initibl
+     * dontfnts of thf nfw <dodf>AttributfList</dodf>.
+     *
+     * @sff ArrbyList#ArrbyList(jbvb.util.Collfdtion)
+     */
+    publid AttributfList(AttributfList list) {
+        supfr(list);
+    }
+
+    /**
+     * Construdts bn {@dodf AttributfList} dontbining thf flfmfnts of thf
+     * {@dodf List} spfdififd, in thf ordfr in whidh thfy brf rfturnfd by
+     * thf {@dodf List}'s itfrbtor.
+     *
+     * @pbrbm list thf {@dodf List} thbt dffinfs thf initibl dontfnts of
+     * thf nfw {@dodf AttributfList}.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf list} pbrbmftfr
+     * is {@dodf null} or if thf {@dodf list} pbrbmftfr dontbins bny
+     * non-Attributf objfdts.
+     *
+     * @sff ArrbyList#ArrbyList(jbvb.util.Collfdtion)
+     *
+     * @sindf 1.6
+     */
+    publid AttributfList(List<Attributf> list) {
+        // Chfdk for null pbrbmftfr
+        //
+        if (list == null)
+            throw nfw IllfgblArgumfntExdfption("Null pbrbmftfr");
+
+        // Chfdk for non-Attributf objfdts
+        //
+        bdding(list);
+
+        // Build thf List<Attributf>
+        //
+        supfr.bddAll(list);
+    }
+
+    /**
+     * Rfturn b vifw of this list bs b {@dodf List<Attributf>}.
+     * Chbngfs to thf rfturnfd vbluf brf rfflfdtfd by dhbngfs
+     * to thf originbl {@dodf AttributfList} bnd vidf vfrsb.
+     *
+     * @rfturn b {@dodf List<Attributf>} whosf dontfnts
+     * rfflfdt thf dontfnts of this {@dodf AttributfList}.
+     *
+     * <p>If this mfthod hbs fvfr bffn dbllfd on b givfn
+     * {@dodf AttributfList} instbndf, b subsfqufnt bttfmpt to bdd
+     * bn objfdt to thbt instbndf whidh is not bn {@dodf Attributf}
+     * will fbil with b {@dodf IllfgblArgumfntExdfption}. For dompbtibility
+     * rfbsons, bn {@dodf AttributfList} on whidh this mfthod hbs nfvfr
+     * bffn dbllfd dofs bllow objfdts othfr thbn {@dodf Attributf}s to
+     * bf bddfd.</p>
+     *
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} dontbins
+     * bn flfmfnt thbt is not bn {@dodf Attributf}.
+     *
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid List<Attributf> bsList() {
+        typfSbff = truf;
+        if (tbintfd)
+            bdding((Collfdtion<?>) this);  // will throw IllfgblArgumfntExdfption
+        rfturn (List<Attributf>) (List<?>) this;
+    }
+
+    /**
+     * Adds thf {@dodf Attributf} spfdififd bs thf lbst flfmfnt of thf list.
+     *
+     * @pbrbm objfdt  Thf bttributf to bf bddfd.
+     */
+    publid void bdd(Attributf objfdt)  {
+        supfr.bdd(objfdt);
+    }
+
+    /**
+     * Insfrts thf bttributf spfdififd bs bn flfmfnt bt thf position spfdififd.
+     * Elfmfnts with bn indfx grfbtfr thbn or fqubl to thf durrfnt position brf
+     * shiftfd up. If thf indfx is out of rbngf {@litfrbl (indfx < 0 || indfx >
+     * sizf())} b RuntimfOpfrbtionsExdfption should bf rbisfd, wrbpping thf
+     * jbvb.lbng.IndfxOutOfBoundsExdfption thrown.
+     *
+     * @pbrbm objfdt  Thf <CODE>Attributf</CODE> objfdt to bf insfrtfd.
+     * @pbrbm indfx Thf position in thf list whfrf thf nfw {@dodf Attributf}
+     * objfdt is to bf insfrtfd.
+     */
+    publid void bdd(int indfx, Attributf objfdt)  {
+        try {
+            supfr.bdd(indfx, objfdt);
+        }
+        dbtdh (IndfxOutOfBoundsExdfption f) {
+            throw nfw RuntimfOpfrbtionsExdfption(f,
+                "Thf spfdififd indfx is out of rbngf");
+        }
+    }
+
+    /**
+     * Sfts thf flfmfnt bt thf position spfdififd to bf thf bttributf spfdififd.
+     * Thf prfvious flfmfnt bt thbt position is disdbrdfd. If thf indfx is
+     * out of rbngf {@litfrbl (indfx < 0 || indfx > sizf())} b RuntimfOpfrbtionsExdfption
+     * should bf rbisfd, wrbpping thf jbvb.lbng.IndfxOutOfBoundsExdfption thrown.
+     *
+     * @pbrbm objfdt  Thf vbluf to whidh thf bttributf flfmfnt should bf sft.
+     * @pbrbm indfx  Thf position spfdififd.
+     */
+    publid void sft(int indfx, Attributf objfdt)  {
+        try {
+            supfr.sft(indfx, objfdt);
+        }
+        dbtdh (IndfxOutOfBoundsExdfption f) {
+            throw nfw RuntimfOpfrbtionsExdfption(f,
+                "Thf spfdififd indfx is out of rbngf");
+        }
+    }
+
+    /**
+     * Appfnds bll thf flfmfnts in thf <CODE>AttributfList</CODE> spfdififd to
+     * thf fnd of thf list, in thf ordfr in whidh thfy brf rfturnfd by thf
+     * Itfrbtor of thf <CODE>AttributfList</CODE> spfdififd.
+     *
+     * @pbrbm list  Elfmfnts to bf insfrtfd into thf list.
+     *
+     * @rfturn truf if this list dhbngfd bs b rfsult of thf dbll.
+     *
+     * @sff ArrbyList#bddAll(jbvb.util.Collfdtion)
+     */
+    publid boolfbn bddAll(AttributfList list)  {
+        rfturn (supfr.bddAll(list));
+    }
+
+    /**
+     * Insfrts bll of thf flfmfnts in thf <CODE>AttributfList</CODE> spfdififd
+     * into this list, stbrting bt thf spfdififd position, in thf ordfr in whidh
+     * thfy brf rfturnfd by thf Itfrbtor of thf {@dodf AttributfList} spfdififd.
+     * If thf indfx is out of rbngf {@litfrbl (indfx < 0 || indfx > sizf())} b
+     * RuntimfOpfrbtionsExdfption should bf rbisfd, wrbpping thf
+     * jbvb.lbng.IndfxOutOfBoundsExdfption thrown.
+     *
+     * @pbrbm list  Elfmfnts to bf insfrtfd into thf list.
+     * @pbrbm indfx  Position bt whidh to insfrt thf first flfmfnt from thf
+     * <CODE>AttributfList</CODE> spfdififd.
+     *
+     * @rfturn truf if this list dhbngfd bs b rfsult of thf dbll.
+     *
+     * @sff ArrbyList#bddAll(int, jbvb.util.Collfdtion)
+     */
+    publid boolfbn bddAll(int indfx, AttributfList list)  {
+        try {
+            rfturn supfr.bddAll(indfx, list);
+        } dbtdh (IndfxOutOfBoundsExdfption f) {
+            throw nfw RuntimfOpfrbtionsExdfption(f,
+                "Thf spfdififd indfx is out of rbngf");
+        }
+    }
+
+    /*
+     * Ovfrridf bll of thf mfthods from ArrbyList<Objfdt> thbt might bdd
+     * b non-Attributf to thf List, bnd disbllow thbt if bsList hbs fvfr
+     * bffn dbllfd on this instbndf.
+     */
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} is
+     * <b hrff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
+     */
+    @Ovfrridf
+    publid boolfbn bdd(Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        rfturn supfr.bdd(flfmfnt);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} is
+     * <b hrff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
+     */
+    @Ovfrridf
+    publid void bdd(int indfx, Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        supfr.bdd(indfx, flfmfnt);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} is
+     * <b hrff="#typf-sbff">typf-sbff</b> bnd {@dodf d} dontbins bn
+     * flfmfnt thbt is not bn {@dodf Attributf}.
+     */
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<?> d) {
+        bdding(d);
+        rfturn supfr.bddAll(d);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} is
+     * <b hrff="#typf-sbff">typf-sbff</b> bnd {@dodf d} dontbins bn
+     * flfmfnt thbt is not bn {@dodf Attributf}.
+     */
+    @Ovfrridf
+    publid boolfbn bddAll(int indfx, Collfdtion<?> d) {
+        bdding(d);
+        rfturn supfr.bddAll(indfx, d);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption if this {@dodf AttributfList} is
+     * <b hrff="#typf-sbff">typf-sbff</b> bnd {@dodf flfmfnt} is not bn
+     * {@dodf Attributf}.
+     */
+    @Ovfrridf
+    publid Objfdt sft(int indfx, Objfdt flfmfnt) {
+        bdding(flfmfnt);
+        rfturn supfr.sft(indfx, flfmfnt);
+    }
+
+    privbtf void bdding(Objfdt x) {
+        if (x == null || x instbndfof Attributf)
+            rfturn;
+        if (typfSbff)
+            throw nfw IllfgblArgumfntExdfption("Not bn Attributf: " + x);
+        flsf
+            tbintfd = truf;
+    }
+
+    privbtf void bdding(Collfdtion<?> d) {
+        for (Objfdt x : d)
+            bdding(x);
+    }
+}

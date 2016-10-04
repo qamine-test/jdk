@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,164 +30,164 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import jbvbx.swing.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvb.io.Filf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * A convenience implementation of the FileView interface that
- * manages name, icon, traversable, and file type information.
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
  *
- * This implementation will work well with file systems that use
- * "dot" extensions to indicate file type. For example: "picture.gif"
- * as a gif image.
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
+ * bs b gif imbgf.
  *
- * If the java.io.File ever contains some of this information, such as
- * file type, icon, and hidden file inforation, this implementation may
- * become obsolete. At minimum, it should be rewritten at that time to
- * use any new type information provided by java.io.File
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * usf bny nfw typf informbtion providfd by jbvb.io.Filf
  *
- * Example:
- *    JFileChooser chooser = new JFileChooser();
- *    fileView = new ExampleFileView();
- *    fileView.putIcon("jpg", new ImageIcon("images/jpgIcon.jpg"));
- *    fileView.putIcon("gif", new ImageIcon("images/gifIcon.gif"));
- *    chooser.setFileView(fileView);
+ * Exbmplf:
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    filfVifw = nfw ExbmplfFilfVifw();
+ *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
+ *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
+ *    dioosfr.sftFilfVifw(filfVifw);
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  */
-public class ExampleFileView extends FileView {
+publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
 
-    private final Map<String, Icon> icons = new HashMap<String, Icon>();
-    private final Map<File, String> fileDescriptions =
-            new HashMap<File, String>();
-    private final Map<String, String> typeDescriptions =
-            new HashMap<String, String>();
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
+    privbtf finbl Mbp<Filf, String> filfDfsdriptions =
+            nfw HbsiMbp<Filf, String>();
+    privbtf finbl Mbp<String, String> typfDfsdriptions =
+            nfw HbsiMbp<String, String>();
 
     /**
-     * The name of the file.  Do nothing special here. Let
-     * the system file view handle this.
-     * @see FileView#getName
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * tif systfm filf vifw ibndlf tiis.
+     * @sff FilfVifw#gftNbmf
      */
-    @Override
-    public String getName(File f) {
-        return null;
+    @Ovfrridf
+    publid String gftNbmf(Filf f) {
+        rfturn null;
     }
 
     /**
-     * Adds a human readable description of the file.
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
      */
-    public void putDescription(File f, String fileDescription) {
-        fileDescriptions.put(f, fileDescription);
+    publid void putDfsdription(Filf f, String filfDfsdription) {
+        filfDfsdriptions.put(f, filfDfsdription);
     }
 
     /**
-     * A human readable description of the file.
+     * A iumbn rfbdbblf dfsdription of tif filf.
      *
-     * @see FileView#getDescription
+     * @sff FilfVifw#gftDfsdription
      */
-    @Override
-    public String getDescription(File f) {
-        return fileDescriptions.get(f);
+    @Ovfrridf
+    publid String gftDfsdription(Filf f) {
+        rfturn filfDfsdriptions.gft(f);
     }
 
     /**
-     * Adds a human readable type description for files. Based on "dot"
-     * extension strings, e.g: ".gif". Case is ignored.
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
      */
-    public void putTypeDescription(String extension, String typeDescription) {
-        typeDescriptions.put(extension, typeDescription);
+    publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
+        typfDfsdriptions.put(fxtfnsion, typfDfsdription);
     }
 
     /**
-     * Adds a human readable type description for files of the type of
-     * the passed in file. Based on "dot" extension strings, e.g: ".gif".
-     * Case is ignored.
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * Cbsf is ignorfd.
      */
-    public void putTypeDescription(File f, String typeDescription) {
-        putTypeDescription(getExtension(f), typeDescription);
+    publid void putTypfDfsdription(Filf f, String typfDfsdription) {
+        putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
     }
 
     /**
-     * A human readable description of the type of the file.
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
      *
-     * @see FileView#getTypeDescription
+     * @sff FilfVifw#gftTypfDfsdription
      */
-    @Override
-    public String getTypeDescription(File f) {
-        return typeDescriptions.get(getExtension(f));
+    @Ovfrridf
+    publid String gftTypfDfsdription(Filf f) {
+        rfturn typfDfsdriptions.gft(gftExtfnsion(f));
     }
 
     /**
-     * Convenience method that returns the "dot" extension for the
-     * given file.
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * givfn filf.
      */
-    private String getExtension(File f) {
-        String name = f.getName();
-        if (name != null) {
-            int extensionIndex = name.lastIndexOf('.');
-            if (extensionIndex < 0) {
-                return null;
+    privbtf String gftExtfnsion(Filf f) {
+        String nbmf = f.gftNbmf();
+        if (nbmf != null) {
+            int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            if (fxtfnsionIndfx < 0) {
+                rfturn null;
             }
-            return name.substring(extensionIndex + 1).toLowerCase();
+            rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Adds an icon based on the file type "dot" extension
-     * string, e.g: ".gif". Case is ignored.
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * string, f.g: ".gif". Cbsf is ignorfd.
      */
-    public void putIcon(String extension, Icon icon) {
-        icons.put(extension, icon);
+    publid void putIdon(String fxtfnsion, Idon idon) {
+        idons.put(fxtfnsion, idon);
     }
 
     /**
-     * Icon that reperesents this file. Default implementation returns
-     * null. You might want to override this to return something more
-     * interesting.
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * intfrfsting.
      *
-     * @see FileView#getIcon
+     * @sff FilfVifw#gftIdon
      */
-    @Override
-    public Icon getIcon(File f) {
-        Icon icon = null;
-        String extension = getExtension(f);
-        if (extension != null) {
-            icon = icons.get(extension);
+    @Ovfrridf
+    publid Idon gftIdon(Filf f) {
+        Idon idon = null;
+        String fxtfnsion = gftExtfnsion(f);
+        if (fxtfnsion != null) {
+            idon = idons.gft(fxtfnsion);
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * Whether the directory is traversable or not. Generic implementation
-     * returns true for all directories and special folders.
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
      *
-     * You might want to subtype ExampleFileView to do somethimg more interesting,
-     * such as recognize compound documents directories; in such a case you might
-     * return a special icon for the directory that makes it look like a regular
-     * document, and return false for isTraversable to not allow users to
-     * descend into the directory.
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dfsdfnd into tif dirfdtory.
      *
-     * @see FileView#isTraversable
+     * @sff FilfVifw#isTrbvfrsbblf
      */
-    @Override
-    public Boolean isTraversable(File f) {
-        // if (some_reason) {
-        //    return Boolean.FALSE;
+    @Ovfrridf
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+        // if (somf_rfbson) {
+        //    rfturn Boolfbn.FALSE;
         // }
-        return null;    // Use default from FileSystemView
+        rfturn null;    // Usf dffbult from FilfSystfmVifw
     }
 }

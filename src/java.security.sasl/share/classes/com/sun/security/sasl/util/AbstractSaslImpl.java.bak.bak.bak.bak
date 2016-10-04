@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.util;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
+
+import sun.misd.HfxDumpEndodfr;
+
+/**
+ * Thf bbsf dlbss usfd by dlifnt bnd sfrvfr implfmfntbtions of SASL
+ * mfdhbnisms to prodfss propfrtifs pbssfd in thf props brgumfnt
+ * bnd strings with thf sbmf formbt (f.g., usfd in digfst-md5).
+ *
+ * Also dontbins utilitifs for doing int to nftwork-bytf-ordfr
+ * trbnsformbtions.
+ *
+ * @buthor Rosbnnb Lff
+ */
+publid bbstrbdt dlbss AbstrbdtSbslImpl {
+
+    protfdtfd boolfbn domplftfd = fblsf;
+    protfdtfd boolfbn privbdy = fblsf;
+    protfdtfd boolfbn intfgrity = fblsf;
+    protfdtfd bytf[] qop;           // ordfrfd list of qops
+    protfdtfd bytf bllQop;          // b mbsk indidbting whidh QOPs brf rfqufstfd
+    protfdtfd bytf[] strfngth;      // ordfrfd list of diphfr strfngths
+
+    // Thfsf brf rflfvbnt only whfn privbdy or intfgrby hbvf bffn nfgotibtfd
+    protfdtfd int sfndMbxBufSizf = 0;     // spfdififd by pffr but dbn ovfrridf
+    protfdtfd int rfdvMbxBufSizf = 65536; // optionblly spfdififd by sflf
+    protfdtfd int rbwSfndSizf;            // dfrivfd from sfndMbxBufSizf
+
+    protfdtfd String myClbssNbmf;
+
+    protfdtfd AbstrbdtSbslImpl(Mbp<String, ?> props, String dlbssNbmf)
+            throws SbslExdfption {
+        myClbssNbmf = dlbssNbmf;
+
+        // Pbrsf propfrtifs  to sft dfsirfd dontfxt options
+        if (props != null) {
+            String prop;
+
+            // "buth", "buth-int", "buth-donf"
+            qop = pbrsfQop(prop=(String)props.gft(Sbsl.QOP));
+            loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                "SASLIMPL01:Prfffrrfd qop propfrty: {0}", prop);
+            bllQop = dombinfMbsks(qop);
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                    "SASLIMPL02:Prfffrrfd qop mbsk: {0}", bllQop);
+
+                if (qop.lfngth > 0) {
+                    StringBuildfr str = nfw StringBuildfr();
+                    for (int i = 0; i < qop.lfngth; i++) {
+                        str.bppfnd(Bytf.toString(qop[i]));
+                        str.bppfnd(' ');
+                    }
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                            "SASLIMPL03:Prfffrrfd qops : {0}", str.toString());
+                }
+            }
+
+            // "low", "mfdium", "high"
+            strfngth = pbrsfStrfngth(prop=(String)props.gft(Sbsl.STRENGTH));
+            loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                "SASLIMPL04:Prfffrrfd strfngth propfrty: {0}", prop);
+            if (loggfr.isLoggbblf(Lfvfl.FINE) && strfngth.lfngth > 0) {
+                StringBuildfr str = nfw StringBuildfr();
+                for (int i = 0; i < strfngth.lfngth; i++) {
+                    str.bppfnd(Bytf.toString(strfngth[i]));
+                    str.bppfnd(' ');
+                }
+                loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL05:Ciphfr strfngths: {0}", str.toString());
+            }
+
+            // Mbx rfdfivf bufffr sizf
+            prop = (String)props.gft(Sbsl.MAX_BUFFER);
+            if (prop != null) {
+                try {
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL06:Mbx rfdfivf bufffr sizf: {0}", prop);
+                    rfdvMbxBufSizf = Intfgfr.pbrsfInt(prop);
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    throw nfw SbslExdfption(
+                "Propfrty must bf string rfprfsfntbtion of intfgfr: " +
+                        Sbsl.MAX_BUFFER);
+                }
+            }
+
+            // Mbx sfnd bufffr sizf
+            prop = (String)props.gft(MAX_SEND_BUF);
+            if (prop != null) {
+                try {
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL07:Mbx sfnd bufffr sizf: {0}", prop);
+                    sfndMbxBufSizf = Intfgfr.pbrsfInt(prop);
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    throw nfw SbslExdfption(
+                "Propfrty must bf string rfprfsfntbtion of intfgfr: " +
+                        MAX_SEND_BUF);
+                }
+            }
+        } flsf {
+            qop = DEFAULT_QOP;
+            bllQop = NO_PROTECTION;
+            strfngth = STRENGTH_MASKS;
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr this mfdhbnism hbs domplftfd.
+     *
+     * @rfturn truf if hbs domplftfd; fblsf othfrwisf;
+     */
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
+    }
+
+    /**
+     * Rftrifvfs thf nfgotibtfd propfrty.
+     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion fxdhbngf hbs
+     * not domplftfd
+     */
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            throw nfw IllfgblStbtfExdfption("SASL buthfntidbtion not domplftfd");
+        }
+        switdh (propNbmf) {
+            dbsf Sbsl.QOP:
+                if (privbdy) {
+                    rfturn "buth-donf";
+                } flsf if (intfgrity) {
+                    rfturn "buth-int";
+                } flsf {
+                    rfturn "buth";
+                }
+            dbsf Sbsl.MAX_BUFFER:
+                rfturn Intfgfr.toString(rfdvMbxBufSizf);
+            dbsf Sbsl.RAW_SEND_SIZE:
+                rfturn Intfgfr.toString(rbwSfndSizf);
+            dbsf MAX_SEND_BUF:
+                rfturn Intfgfr.toString(sfndMbxBufSizf);
+            dffbult:
+                rfturn null;
+        }
+    }
+
+    protfdtfd stbtid finbl bytf dombinfMbsks(bytf[] in) {
+        bytf bnswfr = 0;
+        for (int i = 0; i < in.lfngth; i++) {
+            bnswfr |= in[i];
+        }
+        rfturn bnswfr;
+    }
+
+    protfdtfd stbtid finbl bytf findPrfffrrfdMbsk(bytf prff, bytf[] in) {
+        for (int i = 0; i < in.lfngth; i++) {
+            if ((in[i]&prff) != 0) {
+                rfturn in[i];
+            }
+        }
+        rfturn (bytf)0;
+    }
+
+    privbtf stbtid finbl bytf[] pbrsfQop(String qop) throws SbslExdfption {
+        rfturn pbrsfQop(qop, null, fblsf);
+    }
+
+    protfdtfd stbtid finbl bytf[] pbrsfQop(String qop, String[] sbvfTokfns,
+        boolfbn ignorf) throws SbslExdfption {
+        if (qop == null) {
+            rfturn DEFAULT_QOP;   // dffbult
+        }
+
+        rfturn pbrsfProp(Sbsl.QOP, qop, QOP_TOKENS, QOP_MASKS, sbvfTokfns, ignorf);
+    }
+
+    privbtf stbtid finbl bytf[] pbrsfStrfngth(String strfngth)
+        throws SbslExdfption {
+        if (strfngth == null) {
+            rfturn DEFAULT_STRENGTH;   // dffbult
+        }
+
+        rfturn pbrsfProp(Sbsl.STRENGTH, strfngth, STRENGTH_TOKENS,
+            STRENGTH_MASKS, null, fblsf);
+    }
+
+    privbtf stbtid finbl bytf[] pbrsfProp(String propNbmf, String propVbl,
+        String[] vbls, bytf[] mbsks, String[] tokfns, boolfbn ignorf)
+        throws SbslExdfption {
+
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(propVbl, ", \t\n");
+        String tokfn;
+        bytf[] bnswfr = nfw bytf[vbls.lfngth];
+        int i = 0;
+        boolfbn found;
+
+        whilf (pbrsfr.hbsMorfTokfns() && i < bnswfr.lfngth) {
+            tokfn = pbrsfr.nfxtTokfn();
+            found = fblsf;
+            for (int j = 0; !found && j < vbls.lfngth; j++) {
+                if (tokfn.fqublsIgnorfCbsf(vbls[j])) {
+                    found = truf;
+                    bnswfr[i++] = mbsks[j];
+                    if (tokfns != null) {
+                        tokfns[j] = tokfn;    // sbvf whbt wbs pbrsfd
+                    }
+                }
+            }
+            if (!found && !ignorf) {
+                throw nfw SbslExdfption(
+                    "Invblid tokfn in " + propNbmf + ": " + propVbl);
+            }
+        }
+        // Initiblizf rfst of brrby with 0
+        for (int j = i; j < bnswfr.lfngth; j++) {
+            bnswfr[j] = 0;
+        }
+        rfturn bnswfr;
+    }
+
+
+    /**
+     * Outputs b bytf brrby. Cbn bf null.
+     */
+    protfdtfd stbtid finbl void trbdfOutput(String srdClbss, String srdMfthod,
+        String trbdfTbg, bytf[] output) {
+        trbdfOutput(srdClbss, srdMfthod, trbdfTbg, output, 0,
+                output == null ? 0 : output.lfngth);
+    }
+
+    protfdtfd stbtid finbl void trbdfOutput(String srdClbss, String srdMfthod,
+        String trbdfTbg, bytf[] output, int offsft, int lfn) {
+        try {
+            int origlfn = lfn;
+            Lfvfl lfv;
+
+            if (!loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                lfn = Mbth.min(16, lfn);
+                lfv = Lfvfl.FINER;
+            } flsf {
+                lfv = Lfvfl.FINEST;
+            }
+
+            String dontfnt;
+
+            if (output != null) {
+                BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm(lfn);
+                nfw HfxDumpEndodfr().fndodfBufffr(
+                    nfw BytfArrbyInputStrfbm(output, offsft, lfn), out);
+                dontfnt = out.toString();
+            } flsf {
+                dontfnt = "NULL";
+            }
+
+            // Mfssbgf id supplifd by dbllfr bs pbrt of trbdfTbg
+            loggfr.logp(lfv, srdClbss, srdMfthod, "{0} ( {1} ): {2}",
+                nfw Objfdt[] {trbdfTbg, origlfn, dontfnt});
+        } dbtdh (Exdfption f) {
+            loggfr.logp(Lfvfl.WARNING, srdClbss, srdMfthod,
+                "SASLIMPL09:Error gfnfrbting trbdf output: {0}", f);
+        }
+    }
+
+
+    /**
+     * Rfturns thf intfgfr rfprfsfntfd by  4 bytfs in nftwork bytf ordfr.
+     */
+    protfdtfd stbtid finbl int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        int bnswfr = 0;
+
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
+        }
+        rfturn bnswfr;
+    }
+
+    /**
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in thf bufffr
+     * supplifd.
+     */
+    protfdtfd stbtid finbl void intToNftworkBytfOrdfr(int num, bytf[] buf,
+        int stbrt, int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
+            num >>>= 8;
+        }
+    }
+
+    // ---------------- Constbnts  -----------------
+    privbtf stbtid finbl String SASL_LOGGER_NAME = "jbvbx.sfdurity.sbsl";
+    protfdtfd stbtid finbl String MAX_SEND_BUF = "jbvbx.sfdurity.sbsl.sfndmbxbufffr";
+
+    /**
+     * Loggfr for dfbug mfssbgfs
+     */
+    protfdtfd stbtid finbl Loggfr loggfr = Loggfr.gftLoggfr(SASL_LOGGER_NAME);
+
+    // dffbult 0 (no protfdtion); 1 (intfgrity only)
+    protfdtfd stbtid finbl bytf NO_PROTECTION = (bytf)1;
+    protfdtfd stbtid finbl bytf INTEGRITY_ONLY_PROTECTION = (bytf)2;
+    protfdtfd stbtid finbl bytf PRIVACY_PROTECTION = (bytf)4;
+
+    protfdtfd stbtid finbl bytf LOW_STRENGTH = (bytf)1;
+    protfdtfd stbtid finbl bytf MEDIUM_STRENGTH = (bytf)2;
+    protfdtfd stbtid finbl bytf HIGH_STRENGTH = (bytf)4;
+
+    privbtf stbtid finbl bytf[] DEFAULT_QOP = nfw bytf[]{NO_PROTECTION};
+    privbtf stbtid finbl String[] QOP_TOKENS = {"buth-donf",
+                                       "buth-int",
+                                       "buth"};
+    privbtf stbtid finbl bytf[] QOP_MASKS = {PRIVACY_PROTECTION,
+                                     INTEGRITY_ONLY_PROTECTION,
+                                     NO_PROTECTION};
+
+    privbtf stbtid finbl bytf[] DEFAULT_STRENGTH = nfw bytf[]{
+        HIGH_STRENGTH, MEDIUM_STRENGTH, LOW_STRENGTH};
+    privbtf stbtid finbl String[] STRENGTH_TOKENS = {"low",
+                                                     "mfdium",
+                                                     "high"};
+    privbtf stbtid finbl bytf[] STRENGTH_MASKS = {LOW_STRENGTH,
+                                                  MEDIUM_STRENGTH,
+                                                  HIGH_STRENGTH};
+}

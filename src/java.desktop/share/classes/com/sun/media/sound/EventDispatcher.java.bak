@@ -1,452 +1,452 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.sound.midi.ControllerEventListener;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.ShortMessage;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+import jbvbx.sound.midi.ControllfrEvfntListfnfr;
+import jbvbx.sound.midi.MftbEvfntListfnfr;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.SiortMfssbgf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfListfnfr;
 
 
 
 /**
- * EventDispatcher.  Used by various classes in the Java Sound implementation
- * to send events.
+ * EvfntDispbtdifr.  Usfd by vbrious dlbssfs in tif Jbvb Sound implfmfntbtion
+ * to sfnd fvfnts.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
-final class EventDispatcher implements Runnable {
+finbl dlbss EvfntDispbtdifr implfmfnts Runnbblf {
 
     /**
-     * time of inactivity until the auto closing clips
-     * are closed
+     * timf of inbdtivity until tif buto dlosing dlips
+     * brf dlosfd
      */
-    private static final int AUTO_CLOSE_TIME = 5000;
-
-
-    /**
-     * List of events
-     */
-    private final ArrayList<EventInfo> eventQueue = new ArrayList<>();
+    privbtf stbtid finbl int AUTO_CLOSE_TIME = 5000;
 
 
     /**
-     * Thread object for this EventDispatcher instance
+     * List of fvfnts
      */
-    private Thread thread = null;
+    privbtf finbl ArrbyList<EvfntInfo> fvfntQufuf = nfw ArrbyList<>();
+
+
+    /**
+     * Tirfbd objfdt for tiis EvfntDispbtdifr instbndf
+     */
+    privbtf Tirfbd tirfbd = null;
 
 
     /*
-     * support for auto-closing Clips
+     * support for buto-dlosing Clips
      */
-    private final ArrayList<ClipInfo> autoClosingClips = new ArrayList<ClipInfo>();
+    privbtf finbl ArrbyList<ClipInfo> butoClosingClips = nfw ArrbyList<ClipInfo>();
 
     /*
-     * support for monitoring data lines
+     * support for monitoring dbtb linfs
      */
-    private final ArrayList<LineMonitor> lineMonitors = new ArrayList<LineMonitor>();
+    privbtf finbl ArrbyList<LinfMonitor> linfMonitors = nfw ArrbyList<LinfMonitor>();
 
     /**
-     * Approximate interval between calls to LineMonitor.checkLine
+     * Approximbtf intfrvbl bftwffn dblls to LinfMonitor.difdkLinf
      */
-    static final int LINE_MONITOR_TIME = 400;
+    stbtid finbl int LINE_MONITOR_TIME = 400;
 
 
     /**
-     * This start() method starts an event thread if one is not already active.
+     * Tiis stbrt() mftiod stbrts bn fvfnt tirfbd if onf is not blrfbdy bdtivf.
      */
-    synchronized void start() {
+    syndironizfd void stbrt() {
 
-        if(thread == null) {
-            thread = JSSecurityManager.createThread(this,
-                                                    "Java Sound Event Dispatcher",   // name
-                                                    true,  // daemon
+        if(tirfbd == null) {
+            tirfbd = JSSfdurityMbnbgfr.drfbtfTirfbd(tiis,
+                                                    "Jbvb Sound Evfnt Dispbtdifr",   // nbmf
+                                                    truf,  // dbfmon
                                                     -1,    // priority
-                                                    true); // doStart
+                                                    truf); // doStbrt
         }
     }
 
 
     /**
-     * Invoked when there is at least one event in the queue.
-     * Implement this as a callback to process one event.
+     * Invokfd wifn tifrf is bt lfbst onf fvfnt in tif qufuf.
+     * Implfmfnt tiis bs b dbllbbdk to prodfss onf fvfnt.
      */
-    void processEvent(EventInfo eventInfo) {
-        int count = eventInfo.getListenerCount();
+    void prodfssEvfnt(EvfntInfo fvfntInfo) {
+        int dount = fvfntInfo.gftListfnfrCount();
 
-        // process an LineEvent
-        if (eventInfo.getEvent() instanceof LineEvent) {
-            LineEvent event = (LineEvent) eventInfo.getEvent();
-            if (Printer.debug) Printer.debug("Sending "+event+" to "+count+" listeners");
-            for (int i = 0; i < count; i++) {
+        // prodfss bn LinfEvfnt
+        if (fvfntInfo.gftEvfnt() instbndfof LinfEvfnt) {
+            LinfEvfnt fvfnt = (LinfEvfnt) fvfntInfo.gftEvfnt();
+            if (Printfr.dfbug) Printfr.dfbug("Sfnding "+fvfnt+" to "+dount+" listfnfrs");
+            for (int i = 0; i < dount; i++) {
                 try {
-                    ((LineListener) eventInfo.getListener(i)).update(event);
-                } catch (Throwable t) {
-                    if (Printer.err) t.printStackTrace();
+                    ((LinfListfnfr) fvfntInfo.gftListfnfr(i)).updbtf(fvfnt);
+                } dbtdi (Tirowbblf t) {
+                    if (Printfr.frr) t.printStbdkTrbdf();
                 }
             }
-            return;
+            rfturn;
         }
 
-        // process a MetaMessage
-        if (eventInfo.getEvent() instanceof MetaMessage) {
-            MetaMessage event = (MetaMessage)eventInfo.getEvent();
-            for (int i = 0; i < count; i++) {
+        // prodfss b MftbMfssbgf
+        if (fvfntInfo.gftEvfnt() instbndfof MftbMfssbgf) {
+            MftbMfssbgf fvfnt = (MftbMfssbgf)fvfntInfo.gftEvfnt();
+            for (int i = 0; i < dount; i++) {
                 try {
-                    ((MetaEventListener) eventInfo.getListener(i)).meta(event);
-                } catch (Throwable t) {
-                    if (Printer.err) t.printStackTrace();
+                    ((MftbEvfntListfnfr) fvfntInfo.gftListfnfr(i)).mftb(fvfnt);
+                } dbtdi (Tirowbblf t) {
+                    if (Printfr.frr) t.printStbdkTrbdf();
                 }
             }
-            return;
+            rfturn;
         }
 
-        // process a Controller or Mode Event
-        if (eventInfo.getEvent() instanceof ShortMessage) {
-            ShortMessage event = (ShortMessage)eventInfo.getEvent();
-            int status = event.getStatus();
+        // prodfss b Controllfr or Modf Evfnt
+        if (fvfntInfo.gftEvfnt() instbndfof SiortMfssbgf) {
+            SiortMfssbgf fvfnt = (SiortMfssbgf)fvfntInfo.gftEvfnt();
+            int stbtus = fvfnt.gftStbtus();
 
-            // Controller and Mode events have status byte 0xBc, where
-            // c is the channel they are sent on.
-            if ((status & 0xF0) == 0xB0) {
-                for (int i = 0; i < count; i++) {
+            // Controllfr bnd Modf fvfnts ibvf stbtus bytf 0xBd, wifrf
+            // d is tif dibnnfl tify brf sfnt on.
+            if ((stbtus & 0xF0) == 0xB0) {
+                for (int i = 0; i < dount; i++) {
                     try {
-                        ((ControllerEventListener) eventInfo.getListener(i)).controlChange(event);
-                    } catch (Throwable t) {
-                        if (Printer.err) t.printStackTrace();
+                        ((ControllfrEvfntListfnfr) fvfntInfo.gftListfnfr(i)).dontrolCibngf(fvfnt);
+                    } dbtdi (Tirowbblf t) {
+                        if (Printfr.frr) t.printStbdkTrbdf();
                     }
                 }
             }
-            return;
+            rfturn;
         }
 
-        Printer.err("Unknown event type: " + eventInfo.getEvent());
+        Printfr.frr("Unknown fvfnt typf: " + fvfntInfo.gftEvfnt());
     }
 
 
     /**
-     * Wait until there is something in the event queue to process.  Then
-     * dispatch the event to the listeners.The entire method does not
-     * need to be synchronized since this includes taking the event out
-     * from the queue and processing the event. We only need to provide
-     * exclusive access over the code where an event is removed from the
-     *queue.
+     * Wbit until tifrf is somftiing in tif fvfnt qufuf to prodfss.  Tifn
+     * dispbtdi tif fvfnt to tif listfnfrs.Tif fntirf mftiod dofs not
+     * nffd to bf syndironizfd sindf tiis indludfs tbking tif fvfnt out
+     * from tif qufuf bnd prodfssing tif fvfnt. Wf only nffd to providf
+     * fxdlusivf bddfss ovfr tif dodf wifrf bn fvfnt is rfmovfd from tif
+     *qufuf.
      */
-    void dispatchEvents() {
+    void dispbtdiEvfnts() {
 
-        EventInfo eventInfo = null;
+        EvfntInfo fvfntInfo = null;
 
-        synchronized (this) {
+        syndironizfd (tiis) {
 
-            // Wait till there is an event in the event queue.
+            // Wbit till tifrf is bn fvfnt in tif fvfnt qufuf.
             try {
 
-                if (eventQueue.size() == 0) {
-                    if (autoClosingClips.size() > 0 || lineMonitors.size() > 0) {
-                        int waitTime = AUTO_CLOSE_TIME;
-                        if (lineMonitors.size() > 0) {
-                            waitTime = LINE_MONITOR_TIME;
+                if (fvfntQufuf.sizf() == 0) {
+                    if (butoClosingClips.sizf() > 0 || linfMonitors.sizf() > 0) {
+                        int wbitTimf = AUTO_CLOSE_TIME;
+                        if (linfMonitors.sizf() > 0) {
+                            wbitTimf = LINE_MONITOR_TIME;
                         }
-                        wait(waitTime);
-                    } else {
-                        wait();
+                        wbit(wbitTimf);
+                    } flsf {
+                        wbit();
                     }
                 }
-            } catch (InterruptedException e) {
+            } dbtdi (IntfrruptfdExdfption f) {
             }
-            if (eventQueue.size() > 0) {
-                // Remove the event from the queue and dispatch it to the listeners.
-                eventInfo = eventQueue.remove(0);
+            if (fvfntQufuf.sizf() > 0) {
+                // Rfmovf tif fvfnt from tif qufuf bnd dispbtdi it to tif listfnfrs.
+                fvfntInfo = fvfntQufuf.rfmovf(0);
             }
 
-        } // end of synchronized
-        if (eventInfo != null) {
-            processEvent(eventInfo);
-        } else {
-            if (autoClosingClips.size() > 0) {
-                closeAutoClosingClips();
+        } // fnd of syndironizfd
+        if (fvfntInfo != null) {
+            prodfssEvfnt(fvfntInfo);
+        } flsf {
+            if (butoClosingClips.sizf() > 0) {
+                dlosfAutoClosingClips();
             }
-            if (lineMonitors.size() > 0) {
-                monitorLines();
+            if (linfMonitors.sizf() > 0) {
+                monitorLinfs();
             }
         }
     }
 
 
     /**
-     * Queue the given event in the event queue.
+     * Qufuf tif givfn fvfnt in tif fvfnt qufuf.
      */
-    private synchronized void postEvent(EventInfo eventInfo) {
-        eventQueue.add(eventInfo);
+    privbtf syndironizfd void postEvfnt(EvfntInfo fvfntInfo) {
+        fvfntQufuf.bdd(fvfntInfo);
         notifyAll();
     }
 
 
     /**
-     * A loop to dispatch events.
+     * A loop to dispbtdi fvfnts.
      */
-    public void run() {
+    publid void run() {
 
-        while (true) {
+        wiilf (truf) {
             try {
-                dispatchEvents();
-            } catch (Throwable t) {
-                if (Printer.err) t.printStackTrace();
+                dispbtdiEvfnts();
+            } dbtdi (Tirowbblf t) {
+                if (Printfr.frr) t.printStbdkTrbdf();
             }
         }
     }
 
 
     /**
-     * Send audio and MIDI events.
+     * Sfnd budio bnd MIDI fvfnts.
      */
-    void sendAudioEvents(Object event, List<Object> listeners) {
-        if ((listeners == null)
-            || (listeners.size() == 0)) {
-            // nothing to do
-            return;
+    void sfndAudioEvfnts(Objfdt fvfnt, List<Objfdt> listfnfrs) {
+        if ((listfnfrs == null)
+            || (listfnfrs.sizf() == 0)) {
+            // notiing to do
+            rfturn;
         }
 
-        start();
+        stbrt();
 
-        EventInfo eventInfo = new EventInfo(event, listeners);
-        postEvent(eventInfo);
+        EvfntInfo fvfntInfo = nfw EvfntInfo(fvfnt, listfnfrs);
+        postEvfnt(fvfntInfo);
     }
 
 
     /*
-     * go through the list of registered auto-closing
-     * Clip instances and close them, if appropriate
+     * go tirougi tif list of rfgistfrfd buto-dlosing
+     * Clip instbndfs bnd dlosf tifm, if bppropribtf
      *
-     * This method is called in regular intervals
+     * Tiis mftiod is dbllfd in rfgulbr intfrvbls
      */
-    private void closeAutoClosingClips() {
-        synchronized(autoClosingClips) {
-            if (Printer.debug)Printer.debug("> EventDispatcher.closeAutoClosingClips ("+autoClosingClips.size()+" clips)");
-            long currTime = System.currentTimeMillis();
-            for (int i = autoClosingClips.size()-1; i >= 0 ; i--) {
-                ClipInfo info = autoClosingClips.get(i);
-                if (info.isExpired(currTime)) {
-                    AutoClosingClip clip = info.getClip();
-                    // sanity check
-                    if (!clip.isOpen() || !clip.isAutoClosing()) {
-                        if (Printer.debug)Printer.debug("EventDispatcher: removing clip "+clip+"  isOpen:"+clip.isOpen());
-                        autoClosingClips.remove(i);
+    privbtf void dlosfAutoClosingClips() {
+        syndironizfd(butoClosingClips) {
+            if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdifr.dlosfAutoClosingClips ("+butoClosingClips.sizf()+" dlips)");
+            long durrTimf = Systfm.durrfntTimfMillis();
+            for (int i = butoClosingClips.sizf()-1; i >= 0 ; i--) {
+                ClipInfo info = butoClosingClips.gft(i);
+                if (info.isExpirfd(durrTimf)) {
+                    AutoClosingClip dlip = info.gftClip();
+                    // sbnity difdk
+                    if (!dlip.isOpfn() || !dlip.isAutoClosing()) {
+                        if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: rfmoving dlip "+dlip+"  isOpfn:"+dlip.isOpfn());
+                        butoClosingClips.rfmovf(i);
                     }
-                    else if (!clip.isRunning() && !clip.isActive() && clip.isAutoClosing()) {
-                        if (Printer.debug)Printer.debug("EventDispatcher: closing clip "+clip);
-                        clip.close();
-                    } else {
-                        if (Printer.debug)Printer.debug("Doing nothing with clip "+clip+":");
-                        if (Printer.debug)Printer.debug("  open="+clip.isOpen()+", autoclosing="+clip.isAutoClosing());
-                        if (Printer.debug)Printer.debug("  isRunning="+clip.isRunning()+", isActive="+clip.isActive());
+                    flsf if (!dlip.isRunning() && !dlip.isAdtivf() && dlip.isAutoClosing()) {
+                        if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: dlosing dlip "+dlip);
+                        dlip.dlosf();
+                    } flsf {
+                        if (Printfr.dfbug)Printfr.dfbug("Doing notiing witi dlip "+dlip+":");
+                        if (Printfr.dfbug)Printfr.dfbug("  opfn="+dlip.isOpfn()+", butodlosing="+dlip.isAutoClosing());
+                        if (Printfr.dfbug)Printfr.dfbug("  isRunning="+dlip.isRunning()+", isAdtivf="+dlip.isAdtivf());
                     }
-                } else {
-                    if (Printer.debug)Printer.debug("EventDispatcher: clip "+info.getClip()+" not yet expired");
+                } flsf {
+                    if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: dlip "+info.gftClip()+" not yft fxpirfd");
                 }
             }
         }
-        if (Printer.debug)Printer.debug("< EventDispatcher.closeAutoClosingClips ("+autoClosingClips.size()+" clips)");
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdifr.dlosfAutoClosingClips ("+butoClosingClips.sizf()+" dlips)");
     }
 
-    private int getAutoClosingClipIndex(AutoClosingClip clip) {
-        synchronized(autoClosingClips) {
-            for (int i = autoClosingClips.size()-1; i >= 0; i--) {
-                if (clip.equals(autoClosingClips.get(i).getClip())) {
-                    return i;
+    privbtf int gftAutoClosingClipIndfx(AutoClosingClip dlip) {
+        syndironizfd(butoClosingClips) {
+            for (int i = butoClosingClips.sizf()-1; i >= 0; i--) {
+                if (dlip.fqubls(butoClosingClips.gft(i).gftClip())) {
+                    rfturn i;
                 }
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * called from auto-closing clips when one of their open() method is called
+     * dbllfd from buto-dlosing dlips wifn onf of tifir opfn() mftiod is dbllfd
      */
-    void autoClosingClipOpened(AutoClosingClip clip) {
-        if (Printer.debug)Printer.debug("> EventDispatcher.autoClosingClipOpened ");
-        int index = 0;
-        synchronized(autoClosingClips) {
-            index = getAutoClosingClipIndex(clip);
-            if (index == -1) {
-                if (Printer.debug)Printer.debug("EventDispatcher: adding auto-closing clip "+clip);
-                autoClosingClips.add(new ClipInfo(clip));
+    void butoClosingClipOpfnfd(AutoClosingClip dlip) {
+        if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdifr.butoClosingClipOpfnfd ");
+        int indfx = 0;
+        syndironizfd(butoClosingClips) {
+            indfx = gftAutoClosingClipIndfx(dlip);
+            if (indfx == -1) {
+                if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: bdding buto-dlosing dlip "+dlip);
+                butoClosingClips.bdd(nfw ClipInfo(dlip));
             }
         }
-        if (index == -1) {
-            synchronized (this) {
-                // this is only for the case that the first clip is set to autoclosing,
-                // and it is already open, and nothing is done with it.
-                // EventDispatcher.process() method would block in wait() and
-                // never close this first clip, keeping the device open.
+        if (indfx == -1) {
+            syndironizfd (tiis) {
+                // tiis is only for tif dbsf tibt tif first dlip is sft to butodlosing,
+                // bnd it is blrfbdy opfn, bnd notiing is donf witi it.
+                // EvfntDispbtdifr.prodfss() mftiod would blodk in wbit() bnd
+                // nfvfr dlosf tiis first dlip, kffping tif dfvidf opfn.
                 notifyAll();
             }
         }
-        if (Printer.debug)Printer.debug("< EventDispatcher.autoClosingClipOpened finished("+autoClosingClips.size()+" clips)");
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdifr.butoClosingClipOpfnfd finisifd("+butoClosingClips.sizf()+" dlips)");
     }
 
     /**
-     * called from auto-closing clips when their closed() method is called
+     * dbllfd from buto-dlosing dlips wifn tifir dlosfd() mftiod is dbllfd
      */
-    void autoClosingClipClosed(AutoClosingClip clip) {
-        // nothing to do -- is removed from arraylist above
+    void butoClosingClipClosfd(AutoClosingClip dlip) {
+        // notiing to do -- is rfmovfd from brrbylist bbovf
     }
 
 
-    // ////////////////////////// Line Monitoring Support /////////////////// //
+    // ////////////////////////// Linf Monitoring Support /////////////////// //
     /*
-     * go through the list of registered line monitors
-     * and call their checkLine method
+     * go tirougi tif list of rfgistfrfd linf monitors
+     * bnd dbll tifir difdkLinf mftiod
      *
-     * This method is called in regular intervals
+     * Tiis mftiod is dbllfd in rfgulbr intfrvbls
      */
-    private void monitorLines() {
-        synchronized(lineMonitors) {
-            if (Printer.debug)Printer.debug("> EventDispatcher.monitorLines ("+lineMonitors.size()+" monitors)");
-            for (int i = 0; i < lineMonitors.size(); i++) {
-                lineMonitors.get(i).checkLine();
+    privbtf void monitorLinfs() {
+        syndironizfd(linfMonitors) {
+            if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdifr.monitorLinfs ("+linfMonitors.sizf()+" monitors)");
+            for (int i = 0; i < linfMonitors.sizf(); i++) {
+                linfMonitors.gft(i).difdkLinf();
             }
         }
-        if (Printer.debug)Printer.debug("< EventDispatcher.monitorLines("+lineMonitors.size()+" monitors)");
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdifr.monitorLinfs("+linfMonitors.sizf()+" monitors)");
     }
 
 
     /**
-     * Add this LineMonitor instance to the list of monitors
+     * Add tiis LinfMonitor instbndf to tif list of monitors
      */
-    void addLineMonitor(LineMonitor lm) {
-        if (Printer.trace)Printer.trace("> EventDispatcher.addLineMonitor("+lm+")");
-        synchronized(lineMonitors) {
-            if (lineMonitors.indexOf(lm) >= 0) {
-                if (Printer.trace)Printer.trace("< EventDispatcher.addLineMonitor finished -- this monitor already exists!");
-                return;
+    void bddLinfMonitor(LinfMonitor lm) {
+        if (Printfr.trbdf)Printfr.trbdf("> EvfntDispbtdifr.bddLinfMonitor("+lm+")");
+        syndironizfd(linfMonitors) {
+            if (linfMonitors.indfxOf(lm) >= 0) {
+                if (Printfr.trbdf)Printfr.trbdf("< EvfntDispbtdifr.bddLinfMonitor finisifd -- tiis monitor blrfbdy fxists!");
+                rfturn;
             }
-            if (Printer.debug)Printer.debug("EventDispatcher: adding line monitor "+lm);
-            lineMonitors.add(lm);
+            if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: bdding linf monitor "+lm);
+            linfMonitors.bdd(lm);
         }
-        synchronized (this) {
-            // need to interrupt the infinite wait()
+        syndironizfd (tiis) {
+            // nffd to intfrrupt tif infinitf wbit()
             notifyAll();
         }
-        if (Printer.debug)Printer.debug("< EventDispatcher.addLineMonitor finished -- now ("+lineMonitors.size()+" monitors)");
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdifr.bddLinfMonitor finisifd -- now ("+linfMonitors.sizf()+" monitors)");
     }
 
     /**
-     * Remove this LineMonitor instance from the list of monitors
+     * Rfmovf tiis LinfMonitor instbndf from tif list of monitors
      */
-    void removeLineMonitor(LineMonitor lm) {
-        if (Printer.trace)Printer.trace("> EventDispatcher.removeLineMonitor("+lm+")");
-        synchronized(lineMonitors) {
-            if (lineMonitors.indexOf(lm) < 0) {
-                if (Printer.trace)Printer.trace("< EventDispatcher.removeLineMonitor finished -- this monitor does not exist!");
-                return;
+    void rfmovfLinfMonitor(LinfMonitor lm) {
+        if (Printfr.trbdf)Printfr.trbdf("> EvfntDispbtdifr.rfmovfLinfMonitor("+lm+")");
+        syndironizfd(linfMonitors) {
+            if (linfMonitors.indfxOf(lm) < 0) {
+                if (Printfr.trbdf)Printfr.trbdf("< EvfntDispbtdifr.rfmovfLinfMonitor finisifd -- tiis monitor dofs not fxist!");
+                rfturn;
             }
-            if (Printer.debug)Printer.debug("EventDispatcher: removing line monitor "+lm);
-            lineMonitors.remove(lm);
+            if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdifr: rfmoving linf monitor "+lm);
+            linfMonitors.rfmovf(lm);
         }
-        if (Printer.debug)Printer.debug("< EventDispatcher.removeLineMonitor finished -- now ("+lineMonitors.size()+" monitors)");
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdifr.rfmovfLinfMonitor finisifd -- now ("+linfMonitors.sizf()+" monitors)");
     }
 
     // /////////////////////////////////// INNER CLASSES ////////////////////////////////////////// //
 
     /**
-     * Container for an event and a set of listeners to deliver it to.
+     * Contbinfr for bn fvfnt bnd b sft of listfnfrs to dflivfr it to.
      */
-    private class EventInfo {
+    privbtf dlbss EvfntInfo {
 
-        private final Object event;
-        private final Object[] listeners;
+        privbtf finbl Objfdt fvfnt;
+        privbtf finbl Objfdt[] listfnfrs;
 
         /**
-         * Create a new instance of this event Info class
-         * @param event the event to be dispatched
-         * @param listeners listener list; will be copied
+         * Crfbtf b nfw instbndf of tiis fvfnt Info dlbss
+         * @pbrbm fvfnt tif fvfnt to bf dispbtdifd
+         * @pbrbm listfnfrs listfnfr list; will bf dopifd
          */
-        EventInfo(Object event, List<Object> listeners) {
-            this.event = event;
-            this.listeners = listeners.toArray();
+        EvfntInfo(Objfdt fvfnt, List<Objfdt> listfnfrs) {
+            tiis.fvfnt = fvfnt;
+            tiis.listfnfrs = listfnfrs.toArrby();
         }
 
-        Object getEvent() {
-            return event;
+        Objfdt gftEvfnt() {
+            rfturn fvfnt;
         }
 
-        int getListenerCount() {
-            return listeners.length;
+        int gftListfnfrCount() {
+            rfturn listfnfrs.lfngti;
         }
 
-        Object getListener(int index) {
-            return listeners[index];
+        Objfdt gftListfnfr(int indfx) {
+            rfturn listfnfrs[indfx];
         }
 
-    } // class EventInfo
+    } // dlbss EvfntInfo
 
 
     /**
-     * Container for a clip with its expiration time
+     * Contbinfr for b dlip witi its fxpirbtion timf
      */
-    private class ClipInfo {
+    privbtf dlbss ClipInfo {
 
-        private final AutoClosingClip clip;
-        private final long expiration;
+        privbtf finbl AutoClosingClip dlip;
+        privbtf finbl long fxpirbtion;
 
         /**
-         * Create a new instance of this clip Info class
+         * Crfbtf b nfw instbndf of tiis dlip Info dlbss
          */
-        ClipInfo(AutoClosingClip clip) {
-            this.clip = clip;
-            this.expiration = System.currentTimeMillis() + AUTO_CLOSE_TIME;
+        ClipInfo(AutoClosingClip dlip) {
+            tiis.dlip = dlip;
+            tiis.fxpirbtion = Systfm.durrfntTimfMillis() + AUTO_CLOSE_TIME;
         }
 
-        AutoClosingClip getClip() {
-            return clip;
+        AutoClosingClip gftClip() {
+            rfturn dlip;
         }
 
-        boolean isExpired(long currTime) {
-            return currTime > expiration;
+        boolfbn isExpirfd(long durrTimf) {
+            rfturn durrTimf > fxpirbtion;
         }
-    } // class ClipInfo
+    } // dlbss ClipInfo
 
 
     /**
-     * Interface that a class that wants to get regular
-     * line monitor events implements
+     * Intfrfbdf tibt b dlbss tibt wbnts to gft rfgulbr
+     * linf monitor fvfnts implfmfnts
      */
-    interface LineMonitor {
+    intfrfbdf LinfMonitor {
         /**
-         * Called by event dispatcher in regular intervals
+         * Cbllfd by fvfnt dispbtdifr in rfgulbr intfrvbls
          */
-        public void checkLine();
+        publid void difdkLinf();
     }
 
-} // class EventDispatcher
+} // dlbss EvfntDispbtdifr

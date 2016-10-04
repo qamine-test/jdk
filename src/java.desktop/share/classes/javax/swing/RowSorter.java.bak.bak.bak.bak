@@ -1,0 +1,425 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.SortOrdfr;
+import jbvbx.swing.fvfnt.*;
+import jbvb.util.*;
+
+/**
+ * <dodf>RowSortfr</dodf> providfs thf bbsis for sorting bnd filtfring.
+ * Bfyond drfbting bnd instblling b <dodf>RowSortfr</dodf>, you vfry rbrfly
+ * nffd to intfrbdt with onf dirfdtly.  Rfffr to
+ * {@link jbvbx.swing.tbblf.TbblfRowSortfr TbblfRowSortfr} for b dondrftf
+ * implfmfntbtion of <dodf>RowSortfr</dodf> for <dodf>JTbblf</dodf>.
+ * <p>
+ * <dodf>RowSortfr</dodf>'s primbry rolf is to providf b mbpping bftwffn
+ * two doordinbtf systfms: thbt of thf vifw (for fxbmplf b
+ * <dodf>JTbblf</dodf>) bnd thbt of thf undfrlying dbtb sourdf, typidblly b
+ * modfl.
+ * <p>
+ * Thf vifw invokfs thf following mfthods on thf <dodf>RowSortfr</dodf>:
+ * <ul>
+ * <li><dodf>togglfSortOrdfr</dodf> &#8212; Thf vifw invokfs this whfn thf
+ *     bppropribtf usfr gfsturf hbs oddurrfd to triggfr b sort.  For fxbmplf,
+ *     thf usfr dlidkfd b dolumn hfbdfr in b tbblf.
+ * <li>Onf of thf modfl dhbngf mfthods &#8212; Thf vifw invokfs b modfl
+ *     dhbngf mfthod whfn thf undfrlying modfl
+ *     hbs dhbngfd.  Thfrf mby bf ordfr dfpfndfndifs in how thf fvfnts brf
+ *     dflivfrfd, so b <dodf>RowSortfr</dodf> should not updbtf its mbpping
+ *     until onf of thfsf mfthods is invokfd.
+ * </ul>
+ * Bfdbusf thf vifw mbkfs fxtfnsivf usf of  thf
+ * <dodf>donvfrtRowIndfxToModfl</dodf>,
+ * <dodf>donvfrtRowIndfxToVifw</dodf> bnd <dodf>gftVifwRowCount</dodf> mfthods,
+ * thfsf mfthods nffd to bf fbst.
+ * <p>
+ * <dodf>RowSortfr</dodf> providfs notifidbtion of dhbngfs by wby of
+ * <dodf>RowSortfrListfnfr</dodf>.  Two typfs of notifidbtion brf sfnt:
+ * <ul>
+ * <li><dodf>RowSortfrEvfnt.Typf.SORT_ORDER_CHANGED</dodf> &#8212; notififs
+ *     listfnfrs thbt thf sort ordfr hbs dhbngfd.  This is typidblly followfd
+ *     by b notifidbtion thbt thf sort hbs dhbngfd.
+ * <li><dodf>RowSortfrEvfnt.Typf.SORTED</dodf> &#8212; notififs listfnfrs thbt
+ *     thf mbpping mbintbinfd by thf <dodf>RowSortfr</dodf> hbs dhbngfd in
+ *     somf wby.
+ * </ul>
+ * <dodf>RowSortfr</dodf> implfmfntbtions typidblly don't hbvf b onf-to-onf
+ * mbpping with thf undfrlying modfl, but thfy dbn.
+ * For fxbmplf, if b dbtbbbsf dofs thf sorting,
+ * <dodf>togglfSortOrdfr</dodf> might dbll through to thf dbtbbbsf
+ * (on b bbdkground thrfbd), bnd ovfrridf thf mbpping mfthods to rfturn thf
+ * brgumfnt thbt is pbssfd in.
+ * <p>
+ * Condrftf implfmfntbtions of <dodf>RowSortfr</dodf>
+ * nffd to rfffrfndf b modfl sudh bs <dodf>TbblfModfl</dodf> or
+ * <dodf>ListModfl</dodf>.  Thf vifw dlbssfs, sudh bs
+ * <dodf>JTbblf</dodf> bnd <dodf>JList</dodf>, will blso hbvf b
+ * rfffrfndf to thf modfl.  To bvoid ordfring dfpfndfndifs,
+ * <dodf>RowSortfr</dodf> implfmfntbtions should not instbll b
+ * listfnfr on thf modfl.  Instfbd thf vifw dlbss will dbll into thf
+ * <dodf>RowSortfr</dodf> whfn thf modfl dhbngfs.  For
+ * fxbmplf, if b row is updbtfd in b <dodf>TbblfModfl</dodf>
+ * <dodf>JTbblf</dodf> invokfs <dodf>rowsUpdbtfd</dodf>.
+ * Whfn thf modfl dhbngfs, thf vifw mby dbll into bny of thf following mfthods:
+ * <dodf>modflStrudturfChbngfd</dodf>, <dodf>bllRowsChbngfd</dodf>,
+ * <dodf>rowsInsfrtfd</dodf>, <dodf>rowsDflftfd</dodf> bnd
+ * <dodf>rowsUpdbtfd</dodf>.
+ *
+ * @pbrbm <M> thf typf of thf undfrlying modfl
+ * @sff jbvbx.swing.tbblf.TbblfRowSortfr
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss RowSortfr<M> {
+    privbtf EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    /**
+     * Crfbtfs b <dodf>RowSortfr</dodf>.
+     */
+    publid RowSortfr() {
+    }
+
+    /**
+     * Rfturns thf undfrlying modfl.
+     *
+     * @rfturn thf undfrlying modfl
+     */
+    publid bbstrbdt M gftModfl();
+
+    /**
+     * Rfvfrsfs thf sort ordfr of thf spfdififd dolumn.  It is up to
+     * subdlbssfs to providf thf fxbdt bfhbvior whfn invokfd.  Typidblly
+     * this will rfvfrsf thf sort ordfr from bsdfnding to dfsdfnding (or
+     * dfsdfnding to bsdfnding) if thf spfdififd dolumn is blrfbdy thf
+     * primbry sortfd dolumn; othfrwisf, mbkfs thf spfdififd dolumn
+     * thf primbry sortfd dolumn, with bn bsdfnding sort ordfr.  If
+     * thf spfdififd dolumn is not sortbblf, this mfthod hbs no
+     * ffffdt.
+     * <p>
+     * If this rfsults in dhbnging thf sort ordfr bnd sorting, thf
+     * bppropribtf <dodf>RowSortfrListfnfr</dodf> notifidbtion will bf
+     * sfnt.
+     *
+     * @pbrbm dolumn thf dolumn to togglf thf sort ordfring of, in
+     *        tfrms of thf undfrlying modfl
+     * @throws IndfxOutOfBoundsExdfption if dolumn is outsidf thf rbngf of
+     *         thf undfrlying modfl
+     */
+    publid bbstrbdt void togglfSortOrdfr(int dolumn);
+
+    /**
+     * Rfturns thf lodbtion of <dodf>indfx</dodf> in tfrms of thf
+     * undfrlying modfl.  Thbt is, for thf row <dodf>indfx</dodf> in
+     * thf doordinbtfs of thf vifw this rfturns thf row indfx in tfrms
+     * of thf undfrlying modfl.
+     *
+     * @pbrbm indfx thf row indfx in tfrms of thf undfrlying vifw
+     * @rfturn row indfx in tfrms of thf vifw
+     * @throws IndfxOutOfBoundsExdfption if <dodf>indfx</dodf> is outsidf thf
+     *         rbngf of thf vifw
+     */
+    publid bbstrbdt int donvfrtRowIndfxToModfl(int indfx);
+
+    /**
+     * Rfturns thf lodbtion of <dodf>indfx</dodf> in tfrms of thf
+     * vifw.  Thbt is, for thf row <dodf>indfx</dodf> in thf
+     * doordinbtfs of thf undfrlying modfl this rfturns thf row indfx
+     * in tfrms of thf vifw.
+     *
+     * @pbrbm indfx thf row indfx in tfrms of thf undfrlying modfl
+     * @rfturn row indfx in tfrms of thf vifw, or -1 if indfx hbs bffn
+     *         filtfrfd out of thf vifw
+     * @throws IndfxOutOfBoundsExdfption if <dodf>indfx</dodf> is outsidf
+     *         thf rbngf of thf modfl
+     */
+    publid bbstrbdt int donvfrtRowIndfxToVifw(int indfx);
+
+    /**
+     * Sfts thf durrfnt sort kfys.
+     *
+     * @pbrbm kfys thf nfw <dodf>SortKfys</dodf>; <dodf>null</dodf>
+     *        is b shorthbnd for spfdifying bn fmpty list,
+     *        indidbting thbt thf vifw should bf unsortfd
+     */
+    publid bbstrbdt void sftSortKfys(List<? fxtfnds SortKfy> kfys);
+
+    /**
+     * Rfturns thf durrfnt sort kfys.  This must rfturn b {@dodf
+     * non-null List} bnd mby rfturn bn unmodifibblf {@dodf List}. If
+     * you nffd to dhbngf thf sort kfys, mbkf b dopy of thf rfturnfd
+     * {@dodf List}, mutbtf thf dopy bnd invokf {@dodf sftSortKfys}
+     * with thf nfw list.
+     *
+     * @rfturn thf durrfnt sort ordfr
+     */
+    publid bbstrbdt List<? fxtfnds SortKfy> gftSortKfys();
+
+    /**
+     * Rfturns thf numbfr of rows in thf vifw.  If thf dontfnts hbvf
+     * bffn filtfrfd this might difffr from thf row dount of thf
+     * undfrlying modfl.
+     *
+     * @rfturn numbfr of rows in thf vifw
+     * @sff #gftModflRowCount
+     */
+    publid bbstrbdt int gftVifwRowCount();
+
+    /**
+     * Rfturns thf numbfr of rows in thf undfrlying modfl.
+     *
+     * @rfturn numbfr of rows in thf undfrlying modfl
+     * @sff #gftVifwRowCount
+     */
+    publid bbstrbdt int gftModflRowCount();
+
+    /**
+     * Invokfd whfn thf undfrlying modfl strudturf hbs domplftfly
+     * dhbngfd.  For fxbmplf, if thf numbfr of dolumns in b
+     * <dodf>TbblfModfl</dodf> dhbngfd, this mfthod would bf invokfd.
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     */
+    publid bbstrbdt void modflStrudturfChbngfd();
+
+    /**
+     * Invokfd whfn thf dontfnts of thf undfrlying modfl hbvf
+     * domplftfly dhbngfd. Thf strudturf of thf tbblf is thf sbmf,
+     * only thf dontfnts hbvf dhbngfd. This is typidblly sfnt whfn it
+     * is too fxpfnsivf to dhbrbdtfrizf thf dhbngf in tfrms of thf
+     * othfr mfthods.
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     */
+    publid bbstrbdt void bllRowsChbngfd();
+
+    /**
+     * Invokfd whfn rows hbvf bffn insfrtfd into thf undfrlying modfl
+     * in thf spfdififd rbngf (indlusivf).
+     * <p>
+     * Thf brgumfnts givf thf indidfs of thf ffffdtfd rbngf.
+     * Thf first brgumfnt is in tfrms of thf modfl bfforf thf dhbngf, bnd
+     * must bf lfss thbn or fqubl to thf sizf of thf modfl bfforf thf dhbngf.
+     * Thf sfdond brgumfnt is in tfrms of thf modfl bftfr thf dhbngf bnd must
+     * bf lfss thbn thf sizf of thf modfl bftfr thf dhbngf. For fxbmplf,
+     * if you hbvf b 5-row modfl bnd bdd 3 itfms to thf fnd of thf modfl
+     * thf indidfs brf 5, 7.
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     *
+     * @pbrbm firstRow thf first row
+     * @pbrbm fndRow thf lbst row
+     * @throws IndfxOutOfBoundsExdfption if fithfr brgumfnt is invblid, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
+     */
+    publid bbstrbdt void rowsInsfrtfd(int firstRow, int fndRow);
+
+    /**
+     * Invokfd whfn rows hbvf bffn dflftfd from thf undfrlying modfl
+     * in thf spfdififd rbngf (indlusivf).
+     * <p>
+     * Thf brgumfnts givf thf indidfs of thf ffffdtfd rbngf bnd
+     * brf in tfrms of thf modfl <b>bfforf</b> thf dhbngf.
+     * For fxbmplf, if you hbvf b 5-row modfl bnd dflftf 3 itfms from thf fnd
+     * of thf modfl thf indidfs brf 2, 4.
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     *
+     * @pbrbm firstRow thf first row
+     * @pbrbm fndRow thf lbst row
+     * @throws IndfxOutOfBoundsExdfption if fithfr brgumfnt is outsidf
+     *         thf rbngf of thf modfl bfforf thf dhbngf, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
+     */
+    publid bbstrbdt void rowsDflftfd(int firstRow, int fndRow);
+
+    /**
+     * Invokfd whfn rows hbvf bffn dhbngfd in thf undfrlying modfl
+     * bftwffn thf spfdififd rbngf (indlusivf).
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     *
+     * @pbrbm firstRow thf first row, in tfrms of thf undfrlying modfl
+     * @pbrbm fndRow thf lbst row, in tfrms of thf undfrlying modfl
+     * @throws IndfxOutOfBoundsExdfption if fithfr brgumfnt is outsidf
+     *         thf rbngf of thf undfrlying modfl, or
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>
+     */
+    publid bbstrbdt void rowsUpdbtfd(int firstRow, int fndRow);
+
+    /**
+     * Invokfd whfn thf dolumn in thf rows hbvf bffn updbtfd in
+     * thf undfrlying modfl bftwffn thf spfdififd rbngf.
+     * <p>
+     * You normblly do not dbll this mfthod.  This mfthod is publid
+     * to bllow vifw dlbssfs to dbll it.
+     *
+     * @pbrbm firstRow thf first row, in tfrms of thf undfrlying modfl
+     * @pbrbm fndRow thf lbst row, in tfrms of thf undfrlying modfl
+     * @pbrbm dolumn thf dolumn thbt hbs dhbngfd, in tfrms of thf undfrlying
+     *        modfl
+     * @throws IndfxOutOfBoundsExdfption if fithfr brgumfnt is outsidf
+     *         thf rbngf of thf undfrlying modfl bftfr thf dhbngf,
+     *         <dodf>firstRow</dodf> &gt; <dodf>fndRow</dodf>, or
+     *         <dodf>dolumn</dodf> is outsidf thf rbngf of thf undfrlying
+     *          modfl
+     */
+    publid bbstrbdt void rowsUpdbtfd(int firstRow, int fndRow, int dolumn);
+
+    /**
+     * Adds b <dodf>RowSortfrListfnfr</dodf> to rfdfivf notifidbtion
+     * bbout this <dodf>RowSortfr</dodf>.  If thf sbmf
+     * listfnfr is bddfd morf thbn ondf it will rfdfivf multiplf
+     * notifidbtions.  If <dodf>l</dodf> is <dodf>null</dodf> nothing
+     * is donf.
+     *
+     * @pbrbm l thf <dodf>RowSortfrListfnfr</dodf>
+     */
+    publid void bddRowSortfrListfnfr(RowSortfrListfnfr l) {
+        listfnfrList.bdd(RowSortfrListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b <dodf>RowSortfrListfnfr</dodf>.  If
+     * <dodf>l</dodf> is <dodf>null</dodf> nothing is donf.
+     *
+     * @pbrbm l thf <dodf>RowSortfrListfnfr</dodf>
+     */
+    publid void rfmovfRowSortfrListfnfr(RowSortfrListfnfr l) {
+        listfnfrList.rfmovf(RowSortfrListfnfr.dlbss, l);
+    }
+
+    /**
+     * Notififs listfnfr thbt thf sort ordfr hbs dhbngfd.
+     */
+    protfdtfd void firfSortOrdfrChbngfd() {
+        firfRowSortfrChbngfd(nfw RowSortfrEvfnt(this));
+    }
+
+    /**
+     * Notififs listfnfr thbt thf mbpping hbs dhbngfd.
+     *
+     * @pbrbm lbstRowIndfxToModfl thf mbpping from modfl indidfs to
+     *        vifw indidfs prior to thf sort, mby bf <dodf>null</dodf>
+     */
+    protfdtfd void firfRowSortfrChbngfd(int[] lbstRowIndfxToModfl) {
+        firfRowSortfrChbngfd(nfw RowSortfrEvfnt(this,
+                RowSortfrEvfnt.Typf.SORTED, lbstRowIndfxToModfl));
+    }
+
+    void firfRowSortfrChbngfd(RowSortfrEvfnt fvfnt) {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == RowSortfrListfnfr.dlbss) {
+                ((RowSortfrListfnfr)listfnfrs[i + 1]).
+                        sortfrChbngfd(fvfnt);
+            }
+        }
+    }
+
+    /**
+     * SortKfy dfsdribfs thf sort ordfr for b pbrtidulbr dolumn.  Thf
+     * dolumn indfx is in tfrms of thf undfrlying modfl, whidh mby difffr
+     * from thbt of thf vifw.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid dlbss SortKfy {
+        privbtf int dolumn;
+        privbtf SortOrdfr sortOrdfr;
+
+        /**
+         * Crfbtfs b <dodf>SortKfy</dodf> for thf spfdififd dolumn with
+         * thf spfdififd sort ordfr.
+         *
+         * @pbrbm dolumn indfx of thf dolumn, in tfrms of thf modfl
+         * @pbrbm sortOrdfr thf sortfr ordfr
+         * @throws IllfgblArgumfntExdfption if <dodf>sortOrdfr</dodf> is
+         *         <dodf>null</dodf>
+         */
+        publid SortKfy(int dolumn, SortOrdfr sortOrdfr) {
+            if (sortOrdfr == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "sort ordfr must bf non-null");
+            }
+            this.dolumn = dolumn;
+            this.sortOrdfr = sortOrdfr;
+        }
+
+        /**
+         * Rfturns thf indfx of thf dolumn.
+         *
+         * @rfturn indfx of dolumn
+         */
+        publid finbl int gftColumn() {
+            rfturn dolumn;
+        }
+
+        /**
+         * Rfturns thf sort ordfr of thf dolumn.
+         *
+         * @rfturn thf sort ordfr of thf dolumn
+         */
+        publid finbl SortOrdfr gftSortOrdfr() {
+            rfturn sortOrdfr;
+        }
+
+        /**
+         * Rfturns thf hbsh dodf for this <dodf>SortKfy</dodf>.
+         *
+         * @rfturn hbsh dodf
+         */
+        publid int hbshCodf() {
+            int rfsult = 17;
+            rfsult = 37 * rfsult + dolumn;
+            rfsult = 37 * rfsult + sortOrdfr.hbshCodf();
+            rfturn rfsult;
+        }
+
+        /**
+         * Rfturns truf if this objfdt fqubls thf spfdififd objfdt.
+         * If thf spfdififd objfdt is b <dodf>SortKfy</dodf> bnd
+         * rfffrfndfs thf sbmf dolumn bnd sort ordfr, thf two objfdts
+         * brf fqubl.
+         *
+         * @pbrbm o thf objfdt to dompbrf to
+         * @rfturn truf if <dodf>o</dodf> is fqubl to this <dodf>SortKfy</dodf>
+         */
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == this) {
+                rfturn truf;
+            }
+            if (o instbndfof SortKfy) {
+                rfturn (((SortKfy)o).dolumn == dolumn &&
+                        ((SortKfy)o).sortOrdfr == sortOrdfr);
+            }
+            rfturn fblsf;
+        }
+    }
+}

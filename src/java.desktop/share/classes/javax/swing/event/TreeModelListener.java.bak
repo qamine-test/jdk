@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * Defines the interface for an object that listens
- * to changes in a TreeModel.
- * For further information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/events/treemodellistener.html">How to Write a Tree Model Listener</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Dffinfs tif intfrfbdf for bn objfdt tibt listfns
+ * to dibngfs in b TrffModfl.
+ * For furtifr informbtion bnd fxbmplfs sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/trffmodfllistfnfr.itml">How to Writf b Trff Modfl Listfnfr</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
- * @author Rob Davis
- * @author Ray Ryan
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
  */
-public interface TreeModelListener extends EventListener {
+publid intfrfbdf TrffModflListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * <p>Invoked after a node (or a set of siblings) has changed in some
-     * way. The node(s) have not changed locations in the tree or
-     * altered their children arrays, but other attributes have
-     * changed and may affect presentation. Example: the name of a
-     * file has changed, but it is in the same location in the file
-     * system.
+     * <p>Invokfd bftfr b nodf (or b sft of siblings) ibs dibngfd in somf
+     * wby. Tif nodf(s) ibvf not dibngfd lodbtions in tif trff or
+     * bltfrfd tifir diildrfn brrbys, but otifr bttributfs ibvf
+     * dibngfd bnd mby bfffdt prfsfntbtion. Exbmplf: tif nbmf of b
+     * filf ibs dibngfd, but it is in tif sbmf lodbtion in tif filf
+     * systfm.
      *
-     * <p>To indicate the root has changed, childIndices and children
-     * will be null.
+     * <p>To indidbtf tif root ibs dibngfd, diildIndidfs bnd diildrfn
+     * will bf null.
      *
-     * <p>Use {@code e.getPath()} to get the parent of the changed node(s).
-     * {@code e.getChildIndices()} returns the index(es) of the changed node(s).
+     * <p>Usf {@dodf f.gftPbti()} to gft tif pbrfnt of tif dibngfd nodf(s).
+     * {@dodf f.gftCiildIndidfs()} rfturns tif indfx(fs) of tif dibngfd nodf(s).
      *
-     * @param e a {@code TreeModelEvent} describing changes to a tree model
+     * @pbrbm f b {@dodf TrffModflEvfnt} dfsdribing dibngfs to b trff modfl
      */
-    void treeNodesChanged(TreeModelEvent e);
+    void trffNodfsCibngfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after nodes have been inserted into the tree.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn insfrtfd into tif trff.</p>
      *
-     * <p>Use {@code e.getPath()} to get the parent of the new node(s).
-     * {@code e.getChildIndices()} returns the index(es) of the new node(s)
-     * in ascending order.
+     * <p>Usf {@dodf f.gftPbti()} to gft tif pbrfnt of tif nfw nodf(s).
+     * {@dodf f.gftCiildIndidfs()} rfturns tif indfx(fs) of tif nfw nodf(s)
+     * in bsdfnding ordfr.
      *
-     * @param e a {@code TreeModelEvent} describing changes to a tree model
+     * @pbrbm f b {@dodf TrffModflEvfnt} dfsdribing dibngfs to b trff modfl
      */
-    void treeNodesInserted(TreeModelEvent e);
+    void trffNodfsInsfrtfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after nodes have been removed from the tree.  Note that
-     * if a subtree is removed from the tree, this method may only be
-     * invoked once for the root of the removed subtree, not once for
-     * each individual set of siblings removed.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn rfmovfd from tif trff.  Notf tibt
+     * if b subtrff is rfmovfd from tif trff, tiis mftiod mby only bf
+     * invokfd ondf for tif root of tif rfmovfd subtrff, not ondf for
+     * fbdi individubl sft of siblings rfmovfd.</p>
      *
-     * <p>Use {@code e.getPath()} to get the former parent of the deleted
-     * node(s). {@code e.getChildIndices()} returns, in ascending order, the
-     * index(es) the node(s) had before being deleted.
+     * <p>Usf {@dodf f.gftPbti()} to gft tif formfr pbrfnt of tif dflftfd
+     * nodf(s). {@dodf f.gftCiildIndidfs()} rfturns, in bsdfnding ordfr, tif
+     * indfx(fs) tif nodf(s) ibd bfforf bfing dflftfd.
      *
-     * @param e a {@code TreeModelEvent} describing changes to a tree model
+     * @pbrbm f b {@dodf TrffModflEvfnt} dfsdribing dibngfs to b trff modfl
      */
-    void treeNodesRemoved(TreeModelEvent e);
+    void trffNodfsRfmovfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after the tree has drastically changed structure from a
-     * given node down.  If the path returned by e.getPath() is of length
-     * one and the first element does not identify the current root node
-     * the first element should become the new root of the tree.
+     * <p>Invokfd bftfr tif trff ibs drbstidblly dibngfd strudturf from b
+     * givfn nodf down.  If tif pbti rfturnfd by f.gftPbti() is of lfngti
+     * onf bnd tif first flfmfnt dofs not idfntify tif durrfnt root nodf
+     * tif first flfmfnt siould bfdomf tif nfw root of tif trff.
      *
-     * <p>Use {@code e.getPath()} to get the path to the node.
-     * {@code e.getChildIndices()} returns null.
+     * <p>Usf {@dodf f.gftPbti()} to gft tif pbti to tif nodf.
+     * {@dodf f.gftCiildIndidfs()} rfturns null.
      *
-     * @param e a {@code TreeModelEvent} describing changes to a tree model
+     * @pbrbm f b {@dodf TrffModflEvfnt} dfsdribing dibngfs to b trff modfl
      */
-    void treeStructureChanged(TreeModelEvent e);
+    void trffStrudturfCibngfd(TrffModflEvfnt f);
 
 }

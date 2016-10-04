@@ -1,0 +1,1082 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2003 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlyphJustifidbtionInfo;
+import jbvb.bwt.font.GlyphMftrids;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.TfxtAttributf;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+import jbvb.util.Mbp;
+
+/**
+ * Dffbult implfmfntbtion of ExtfndfdTfxtLbbfl.
+ */
+
+// {jbr} I mbdf this dlbss pbdkbgf-privbtf to kffp thf
+// Dfdorbtion.Lbbfl API pbdkbgf-privbtf.
+
+/* publid */
+dlbss ExtfndfdTfxtSourdfLbbfl fxtfnds ExtfndfdTfxtLbbfl implfmfnts Dfdorbtion.Lbbfl {
+
+  TfxtSourdf sourdf;
+  privbtf Dfdorbtion dfdorbtor;
+
+  // dbdhfs
+  privbtf Font font;
+  privbtf AffinfTrbnsform bbsfTX;
+  privbtf CorfMftrids dm;
+
+  Rfdtbnglf2D lb;
+  Rfdtbnglf2D bb;
+  Rfdtbnglf2D vb;
+  Rfdtbnglf2D ib;
+  StbndbrdGlyphVfdtor gv;
+  flobt[] dhbrinfo;
+
+  /**
+   * Crfbtf from b TfxtSourdf.
+   */
+  publid ExtfndfdTfxtSourdfLbbfl(TfxtSourdf sourdf, Dfdorbtion dfdorbtor) {
+    this.sourdf = sourdf;
+    this.dfdorbtor = dfdorbtor;
+    finishInit();
+  }
+
+  /**
+   * Crfbtf from b TfxtSourdf, optionblly using dbdhfd dbtb from oldLbbfl stbrting bt thf offsft.
+   * If prfsfnt oldLbbfl must hbvf bffn drfbtfd from b run of tfxt thbt indludfs thf tfxt usfd in
+   * thf nfw lbbfl.  Stbrt in sourdf dorrfsponds to logidbl dhbrbdtfr offsft in oldLbbfl.
+   */
+  publid ExtfndfdTfxtSourdfLbbfl(TfxtSourdf sourdf, ExtfndfdTfxtSourdfLbbfl oldLbbfl, int offsft) {
+    // durrfntly no optimizbtion.
+    this.sourdf = sourdf;
+    this.dfdorbtor = oldLbbfl.dfdorbtor;
+    finishInit();
+  }
+
+  privbtf void finishInit() {
+    font = sourdf.gftFont();
+
+    Mbp<TfxtAttributf, ?> btts = font.gftAttributfs();
+    bbsfTX = AttributfVblufs.gftBbsflinfTrbnsform(btts);
+    if (bbsfTX == null){
+        dm = sourdf.gftCorfMftrids();
+    } flsf {
+      AffinfTrbnsform dhbrTX = AttributfVblufs.gftChbrTrbnsform(btts);
+      if (dhbrTX == null) {
+          dhbrTX = nfw AffinfTrbnsform();
+      }
+      font = font.dfrivfFont(dhbrTX);
+
+      LinfMftrids lm = font.gftLinfMftrids(sourdf.gftChbrs(), sourdf.gftStbrt(),
+          sourdf.gftStbrt() + sourdf.gftLfngth(), sourdf.gftFRC());
+      dm = CorfMftrids.gft(lm);
+    }
+  }
+
+
+  // TfxtLbbfl API
+
+  publid Rfdtbnglf2D gftLogidblBounds() {
+    rfturn gftLogidblBounds(0, 0);
+  }
+
+  publid Rfdtbnglf2D gftLogidblBounds(flobt x, flobt y) {
+    if (lb == null) {
+      lb = drfbtfLogidblBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(lb.gftX() + x),
+                                 (flobt)(lb.gftY() + y),
+                                 (flobt)lb.gftWidth(),
+                                 (flobt)lb.gftHfight());
+  }
+
+    publid flobt gftAdvbndf() {
+        if (lb == null) {
+            lb = drfbtfLogidblBounds();
+        }
+        rfturn (flobt)lb.gftWidth();
+    }
+
+  publid Rfdtbnglf2D gftVisublBounds(flobt x, flobt y) {
+    if (vb == null) {
+      vb = dfdorbtor.gftVisublBounds(this);
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(vb.gftX() + x),
+                                 (flobt)(vb.gftY() + y),
+                                 (flobt)vb.gftWidth(),
+                                 (flobt)vb.gftHfight());
+  }
+
+  publid Rfdtbnglf2D gftAlignBounds(flobt x, flobt y) {
+    if (bb == null) {
+      bb = drfbtfAlignBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(bb.gftX() + x),
+                                 (flobt)(bb.gftY() + y),
+                                 (flobt)bb.gftWidth(),
+                                 (flobt)bb.gftHfight());
+
+  }
+
+  publid Rfdtbnglf2D gftItblidBounds(flobt x, flobt y) {
+    if (ib == null) {
+      ib = drfbtfItblidBounds();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt((flobt)(ib.gftX() + x),
+                                 (flobt)(ib.gftY() + y),
+                                 (flobt)ib.gftWidth(),
+                                 (flobt)ib.gftHfight());
+
+  }
+
+  publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+      rfturn gftGV().gftPixflBounds(frd, x, y);
+  }
+
+  publid boolfbn isSimplf() {
+      rfturn dfdorbtor == Dfdorbtion.gftPlbinDfdorbtion() &&
+             bbsfTX == null;
+  }
+
+  publid AffinfTrbnsform gftBbsflinfTrbnsform() {
+      rfturn bbsfTX; // pbssing intfrnbl objfdt, dbllfr must not modify!
+  }
+
+  publid Shbpf hbndlfGftOutlinf(flobt x, flobt y) {
+    rfturn gftGV().gftOutlinf(x, y);
+  }
+
+  publid Shbpf gftOutlinf(flobt x, flobt y) {
+    rfturn dfdorbtor.gftOutlinf(this, x, y);
+  }
+
+  publid void hbndlfDrbw(Grbphids2D g, flobt x, flobt y) {
+    g.drbwGlyphVfdtor(gftGV(), x, y);
+  }
+
+  publid void drbw(Grbphids2D g, flobt x, flobt y) {
+    dfdorbtor.drbwTfxtAndDfdorbtions(this, g, x, y);
+  }
+
+  /**
+   * Thf logidbl bounds fxtfnds from thf origin of thf glyphvfdtor to thf
+   * position bt whidh b following glyphvfdtor's origin should bf plbdfd.
+   * Wf blwbys bssumf glyph vfdtors brf rfndfrfd from lfft to right, so
+   * thf origin is blwbys to thf lfft.
+   * <p> On b lfft-to-right run, dombining mbrks bnd 'ligbturfd bwby'
+   * dhbrbdtfrs brf to thf right of thfir bbsf dhbrbdtfrs.  Thf dhbrinfo
+   * brrby will rfdord thf dhbrbdtfr positions for thfsf 'missing' dhbrbdtfrs
+   * bs bfing bt thf origin+bdvbndf of thf bbsf glyph, with zfro bdvbndf.
+   * (This is not nfdfssbrily thf sbmf bs thf glyph position, for fxbmplf,
+   * bn umlbut glyph mby hbvf b position to thf lfft of this point, it dfpfnds
+   * on whfthfr thf font wbs dfsignfd so thbt sudh glyphs ovfrhbng to thf lfft
+   * of thfir origin, or whfthfr it prfsumfs somf kind of kfrning to position
+   * thf glyphs).  Anywby, thf lfft of thf bounds is thf origin of thf first
+   * logidbl (lfftmost) dhbrbdtfr, bnd thf right is thf origin + bdvbndf of thf
+   * lbst logidbl (rightmost) dhbrbdtfr.
+   * <p> On b right-to-lfft run, thfsf spfdibl dhbrbdtfrs brf to thf lfft
+   * of thfir bbsf dhbrbdtfrs.  Agbin, sindf 'glyph position' hbs bffn bbstrbdtfd
+   * bwby, wf dbn usf thf origin of thf lfftmost dhbrbdtfr, bnd thf origin +
+   * bdvbndf of thf rightmost dhbrbdtfr.
+   * <p> On b mixfd run (hindi) wf dbn't rfly on thf first logidbl dhbrbdtfr
+   * bfing thf lfftmost dhbrbdtfr.  Howfvfr wf dbn bgbin rfly on thf lfftmost
+   * dhbrbdtfr origin bnd thf rightmost dhbrbdtfr + bdvbndf.
+   */
+  protfdtfd Rfdtbnglf2D drfbtfLogidblBounds() {
+    rfturn gftGV().gftLogidblBounds();
+  }
+
+  publid Rfdtbnglf2D hbndlfGftVisublBounds() {
+    rfturn gftGV().gftVisublBounds();
+  }
+
+  /**
+   * Likf drfbtfLogidblBounds fxdfpt ignorf lfbding bnd logidblly trbiling whitf spbdf.
+   * this bssumfs logidblly trbiling whitfspbdf is blso visublly trbiling.
+   * Whitfspbdf is bnything thbt hbs b zfro visubl width, rfgbrdlfss of its bdvbndf.
+   * <p> Wf mbkf thf sbmf simplifying bssumptions bs in drfbtfLogidblBounds, nbmfly
+   * thbt wf dbn rfly on thf dhbrinfo to shifld us from bny glyph positioning odditifs
+   * in thf font thbt plbdf thf glyph for b dhbrbdtfr bt othfr thbn thf pos + bdvbndf
+   * of thf dhbrbdtfr to its lfft.  So wf no longfr nffd to skip dhbrs with zfro
+   * bdvbndf, bs thfir bounds (right bnd lfft) brf blrfbdy dorrfdt.
+   */
+  protfdtfd Rfdtbnglf2D drfbtfAlignBounds() {
+    flobt[] info = gftChbrinfo();
+
+    flobt bl = 0f;
+    flobt bt = -dm.bsdfnt;
+    flobt bw = 0f;
+    flobt bh = dm.bsdfnt + dm.dfsdfnt;
+
+    if (dhbrinfo == null || dhbrinfo.lfngth == 0) {
+        rfturn nfw Rfdtbnglf2D.Flobt(bl, bt, bw, bh);
+    }
+
+    boolfbn linfIsLTR = (sourdf.gftLbyoutFlbgs() & 0x8) == 0;
+    int rn = info.lfngth - numvbls;
+    if (linfIsLTR) {
+      whilf (rn > 0 && info[rn+visw] == 0) {
+        rn -= numvbls;
+      }
+    }
+
+    if (rn >= 0) {
+      int ln = 0;
+      whilf (ln < rn && ((info[ln+bdvx] == 0) || (!linfIsLTR && info[ln+visw] == 0))) {
+        ln += numvbls;
+      }
+
+      bl = Mbth.mbx(0f, info[ln+posx]);
+      bw = info[rn+posx] + info[rn+bdvx] - bl;
+    }
+
+    /*
+      boolfbn linfIsLTR = sourdf.linfIsLTR();
+      int rn = info.lfngth - numvbls;
+      whilf (rn > 0 && ((info[rn+bdvx] == 0) || (linfIsLTR && info[rn+visw] == 0))) {
+      rn -= numvbls;
+      }
+
+      if (rn >= 0) {
+      int ln = 0;
+      whilf (ln < rn && ((info[ln+bdvx] == 0) || (!linfIsLTR && info[ln+visw] == 0))) {
+      ln += numvbls;
+      }
+
+      bl = Mbth.mbx(0f, info[ln+posx]);
+      bw = info[rn+posx] + info[rn+bdvx] - bl;
+      }
+      */
+
+    rfturn nfw Rfdtbnglf2D.Flobt(bl, bt, bw, bh);
+  }
+
+  publid Rfdtbnglf2D drfbtfItblidBounds() {
+    flobt ib = dm.itblidAnglf;
+
+    Rfdtbnglf2D lb = gftLogidblBounds();
+    flobt l = (flobt)lb.gftMinX();
+    flobt t = -dm.bsdfnt;
+    flobt r = (flobt)lb.gftMbxX();
+    flobt b = dm.dfsdfnt;
+    if (ib != 0) {
+        if (ib > 0) {
+            l -= ib * (b - dm.ssOffsft);
+            r -= ib * (t - dm.ssOffsft);
+        } flsf {
+            l -= ib * (t - dm.ssOffsft);
+            r -= ib * (b - dm.ssOffsft);
+        }
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt(l, t, r - l, b - t);
+  }
+
+  privbtf finbl StbndbrdGlyphVfdtor gftGV() {
+    if (gv == null) {
+      gv = drfbtfGV();
+    }
+
+    rfturn gv;
+  }
+
+  protfdtfd StbndbrdGlyphVfdtor drfbtfGV() {
+    FontRfndfrContfxt frd = sourdf.gftFRC();
+    int flbgs = sourdf.gftLbyoutFlbgs();
+    dhbr[] dontfxt = sourdf.gftChbrs();
+    int stbrt = sourdf.gftStbrt();
+    int lfngth = sourdf.gftLfngth();
+
+    GlyphLbyout gl = GlyphLbyout.gft(null); // !!! no dustom lbyout fnginfs
+    gv = gl.lbyout(font, frd, dontfxt, stbrt, lfngth, flbgs, null); // ??? usf tfxtsourdf
+    GlyphLbyout.donf(gl);
+
+    rfturn gv;
+  }
+
+  // ExtfndfdTfxtLbbfl API
+
+  privbtf stbtid finbl int posx = 0,
+    posy = 1,
+    bdvx = 2,
+    bdvy = 3,
+    visx = 4,
+    visy = 5,
+    visw = 6,
+    vish = 7;
+  privbtf stbtid finbl int numvbls = 8;
+
+  publid int gftNumChbrbdtfrs() {
+    rfturn sourdf.gftLfngth();
+  }
+
+  publid CorfMftrids gftCorfMftrids() {
+    rfturn dm;
+  }
+
+  publid flobt gftChbrX(int indfx) {
+    vblidbtf(indfx);
+    flobt[] dhbrinfo = gftChbrinfo();
+    int idx = l2v(indfx) * numvbls + posx;
+    if (dhbrinfo == null || idx >= dhbrinfo.lfngth) {
+        rfturn 0f;
+    } flsf {
+        rfturn dhbrinfo[idx];
+    }
+  }
+
+  publid flobt gftChbrY(int indfx) {
+    vblidbtf(indfx);
+    flobt[] dhbrinfo = gftChbrinfo();
+    int idx = l2v(indfx) * numvbls + posy;
+    if (dhbrinfo == null || idx >= dhbrinfo.lfngth) {
+        rfturn 0f;
+    } flsf {
+        rfturn dhbrinfo[idx];
+    }
+  }
+
+  publid flobt gftChbrAdvbndf(int indfx) {
+    vblidbtf(indfx);
+    flobt[] dhbrinfo = gftChbrinfo();
+    int idx = l2v(indfx) * numvbls + bdvx;
+    if (dhbrinfo == null || idx >= dhbrinfo.lfngth) {
+        rfturn 0f;
+    } flsf {
+        rfturn dhbrinfo[idx];
+    }
+  }
+
+  publid Rfdtbnglf2D hbndlfGftChbrVisublBounds(int indfx) {
+    vblidbtf(indfx);
+    flobt[] dhbrinfo = gftChbrinfo();
+    indfx = l2v(indfx) * numvbls;
+    if (dhbrinfo == null || (indfx+vish) >= dhbrinfo.lfngth) {
+        rfturn nfw Rfdtbnglf2D.Flobt();
+    }
+    rfturn nfw Rfdtbnglf2D.Flobt(
+                                 dhbrinfo[indfx + visx],
+                                 dhbrinfo[indfx + visy],
+                                 dhbrinfo[indfx + visw],
+                                 dhbrinfo[indfx + vish]);
+  }
+
+  publid Rfdtbnglf2D gftChbrVisublBounds(int indfx, flobt x, flobt y) {
+
+    Rfdtbnglf2D bounds = dfdorbtor.gftChbrVisublBounds(this, indfx);
+    if (x != 0 || y != 0) {
+        bounds.sftRfdt(bounds.gftX()+x,
+                       bounds.gftY()+y,
+                       bounds.gftWidth(),
+                       bounds.gftHfight());
+    }
+    rfturn bounds;
+  }
+
+  privbtf void vblidbtf(int indfx) {
+    if (indfx < 0) {
+      throw nfw IllfgblArgumfntExdfption("indfx " + indfx + " < 0");
+    } flsf if (indfx >= sourdf.gftLfngth()) {
+      throw nfw IllfgblArgumfntExdfption("indfx " + indfx + " < " + sourdf.gftLfngth());
+    }
+  }
+
+  /*
+    publid int hitTfstChbr(flobt x, flobt y) {
+    // !!! rfturn indfx of dhbr hit, for swing
+    // rfsult is nfgbtivf for trbiling-fdgf hits
+    // no itblids so no problfm bt mbrgins.
+    // for now, ignorf y sindf wf bssumf horizontbl tfxt
+
+    // find non-dombining dhbr origin to right of x
+    flobt[] dhbrinfo = gftChbrinfo();
+
+    int n = 0;
+    int f = sourdf.gftLfngth();
+    whilf (n < f && dhbrinfo[n + bdvx] != 0 && dhbrinfo[n + posx] > x) {
+    n += numvbls;
+    }
+    flobt rightx = n < f ? dhbrinfo[n+posx] : dhbrinfo[f - numvbls + posx] + dhbrinfo[f - numvbls + bdvx];
+
+    // find non-dombining dhbr to lfft of thbt dhbr
+    n -= numvbls;
+    whilf (n >= 0 && dhbrinfo[n+bdvx] == 0) {
+    n -= numvbls;
+    }
+    flobt lfftx = n >= 0 ? dhbrinfo[n+posx] : 0;
+    flobt lfftb = n >= 0 ? dhbrinfo[n+bdvx] : 0;
+
+    n /= numvbls;
+
+    boolfbn lfft = truf;
+    if (x < lfftx + lfftb / 2f) {
+    // lfft of prfv dhbr
+    } flsf if (x < (lfftx + lfftb + rightx) / 2f) {
+    // right of prfv dhbr
+    lfft = fblsf;
+    } flsf {
+    // lfft of follow dhbr
+    n += 1;
+    }
+
+    if ((sourdf.gftLbyoutFlbgs() & 0x1) != 0) {
+    n = gftNumChbrbdtfrs() - 1 - n;
+    lfft = !lfft;
+    }
+
+    rfturn lfft ? n : -n;
+    }
+    */
+
+  publid int logidblToVisubl(int logidblIndfx) {
+    vblidbtf(logidblIndfx);
+    rfturn l2v(logidblIndfx);
+  }
+
+  publid int visublToLogidbl(int visublIndfx) {
+    vblidbtf(visublIndfx);
+    rfturn v2l(visublIndfx);
+  }
+
+  publid int gftLinfBrfbkIndfx(int stbrt, flobt width) {
+    flobt[] dhbrinfo = gftChbrinfo();
+    int lfngth = sourdf.gftLfngth();
+    --stbrt;
+    whilf (width >= 0 && ++stbrt < lfngth) {
+      int didx = l2v(stbrt) * numvbls + bdvx;
+      if (didx >= dhbrinfo.lfngth) {
+          brfbk; // lbyout bbilfd for somf rfbson
+      }
+      flobt bdv = dhbrinfo[didx];
+      width -= bdv;
+    }
+
+    rfturn stbrt;
+  }
+
+  publid flobt gftAdvbndfBftwffn(int stbrt, int limit) {
+    flobt b = 0f;
+
+    flobt[] dhbrinfo = gftChbrinfo();
+    --stbrt;
+    whilf (++stbrt < limit) {
+      int didx = l2v(stbrt) * numvbls + bdvx;
+      if (didx >= dhbrinfo.lfngth) {
+          brfbk; // lbyout bbilfd for somf rfbson
+      }
+      b += dhbrinfo[didx];
+    }
+
+    rfturn b;
+  }
+
+  publid boolfbn dbrftAtOffsftIsVblid(int offsft) {
+      // REMIND: improvf this implfmfntbtion
+
+      // Ligbturf formbtion dbn fithfr bf donf in logidbl ordfr,
+      // with thf ligbturf glyph logidblly prfdfding thf null
+      // dhbrs;  or in visubl ordfr, with thf ligbturf glyph to
+      // thf lfft of thf null dhbrs.  This mfthod's implfmfntbtion
+      // must rfflfdt whidh strbtfgy is usfd.
+
+      if (offsft == 0 || offsft == sourdf.gftLfngth()) {
+          rfturn truf;
+      }
+      dhbr d = sourdf.gftChbrs()[sourdf.gftStbrt() + offsft];
+      if (d == '\t' || d == '\n' || d == '\r') { // hbdk
+          rfturn truf;
+      }
+      int v = l2v(offsft);
+
+      // If ligbturfs brf blwbys to thf lfft, do this stuff:
+      //if (!(sourdf.gftLbyoutFlbgs() & 0x1) == 0) {
+      //    v += 1;
+      //    if (v == sourdf.gftLfngth()) {
+      //        rfturn truf;
+      //    }
+      //}
+
+      int idx = v * numvbls + bdvx;
+      flobt[] dhbrinfo = gftChbrinfo();
+      if (dhbrinfo == null || idx >= dhbrinfo.lfngth) {
+          rfturn fblsf;
+      } flsf {
+          rfturn dhbrinfo[idx] != 0;
+      }
+  }
+
+  privbtf finbl flobt[] gftChbrinfo() {
+    if (dhbrinfo == null) {
+      dhbrinfo = drfbtfChbrinfo();
+    }
+    rfturn dhbrinfo;
+  }
+
+/*
+* This tbkfs thf glyph info rfdord obtbinfd from thf glyph vfdtor bnd donvfrts it into b similbr rfdord
+* bdjustfd to rfprfsfnt dhbrbdtfr dbtb instfbd.  For fdonomy wf don't usf glyph info rfdords in this prodfssing.
+*
+* Hfrf brf somf donstrbints:
+* - thfrf dbn bf morf glyphs thbn dhbrbdtfrs (glyph insfrtion, pfrhbps bbsfd on normblizbtion, hbs tbkfn plbdf)
+* - thfrf dbn not bf ffwfr glyphs thbn dhbrbdtfrs (0xffff glyphs brf insfrtfd for dhbrbdtfrs ligbturizfd bwby)
+* - fbdh glyph mbps to b singlf dhbrbdtfr, whfn multiplf glyphs fxist for b dhbrbdtfr thfy bll mbp to it, but
+*   no two dhbrbdtfrs mbp to thf sbmf glyph
+* - multiplf glyphs mbpping to thf sbmf dhbrbdtfr nffd not bf in sfqufndf (thbi, tbmil hbvf split dhbrbdtfrs)
+* - glyphs mby bf brbitrbrily rfordfrfd (Indid rfordfrs glyphs)
+* - bll glyphs shbrf thf sbmf bidi lfvfl
+* - bll glyphs shbrf thf sbmf horizontbl (or vfrtidbl) bbsflinf
+* - dombining mbrks visublly follow thfir bbsf dhbrbdtfr in thf glyph brrby-- i.f. in bn rtl gv thfy brf
+*   to thf lfft of thfir bbsf dhbrbdtfr-- bnd hbvf zfro bdvbndf.
+*
+* Thf output mbps this to dhbrbdtfr positions, bnd thfrfforf dbrft positions, vib thf following bssumptions:
+* - zfro-bdvbndf glyphs do not dontributf to thf bdvbndf of thfir dhbrbdtfr (i.f. position is ignorfd), donvfrsfly
+*   if b glyph is to dontributf to thf bdvbndf of its dhbrbdtfr it must hbvf b non-zfro (flobt) bdvbndf
+* - no dbrfts dbn bppfbr bftwffn b zfro width dhbrbdtfr bnd its prfdfding dhbrbdtfr, whfrf 'prfdfding' is
+*   dffinfd logidblly.
+* - no dbrfts dbn bppfbr within b split dhbrbdtfr
+* - no dbrfts dbn bppfbr within b lodbl rfordfring (i.f. Indid rfordfring, or non-bdjbdfnt split dhbrbdtfrs)
+* - bll dhbrbdtfrs lif on thf sbmf bbsflinf, bnd it is fithfr horizontbl or vfrtidbl
+* - thf dhbrinfo is in uniform ltr or rtl ordfr (visubl ordfr), sindf lodbl rfordfrings bnd split dhbrbdtfrs brf rfmovfd
+*
+* Thf blgorithm works in thf following wby:
+* 1) wf sdbn thf glyphs ltr or rtl bbsfd on thf bidi run dirfdtion
+* 2) wf dbn work in plbdf, sindf wf blwbys donsumf b glyph for fbdh dhbr wf writf
+*    b) if thf linf is ltr, wf stbrt writing bt position 0 until wf finish, thfrf mby bf lfftvfr spbdf
+*    b) if thf linf is rtl bnd 1-1, wf stbrt writing bt position numChbrs/glyphs - 1 until wf finish bt 0
+*    d) othfrwisf if wf don't finish bt 0, wf hbvf to dopy thf dbtb down
+* 3) wf donsumf dlustfrs in thf following wby:
+*    b) thf first flfmfnt is blwbys donsumfd
+*    b) subsfqufnt flfmfnts brf donsumfd if:
+*       i) thfir bdvbndf is zfro
+*       ii) thfir dhbrbdtfr indfx <= thf dhbrbdtfr indfx of bny dhbrbdtfr sffn in this dlustfr
+*       iii) thf minimum dhbrbdtfr indfx sffn in this dlustfr isn't bdjbdfnt to thf prfvious dlustfr
+*    d) dhbrbdtfr dbtb is writtfn bs follows for horizontbl linfs (x/y bnd w/h brf fxdhbngfd on vfrtidbl linfs)
+*       i) thf x position is thf position of thf lfftmost glyph whosf bdvbndf is not zfro
+*       ii)thf y position is thf bbsflinf
+*       iii) thf x bdvbndf is thf distbndf to thf mbximum x + bdv of bll glyphs whosf bdvbndf is not zfro
+*       iv) thf y bdvbndf is thf bbsflinf
+*       v) vis x,y,w,h tightly fndlosfs thf vis x,y,w,h of bll thf glyphs with nonzfro w bnd h
+* 4) wf dbn mbkf somf simplf optimizbtions if wf know somf things:
+*    b) if thf mbpping is 1-1, unidirfdtionbl, bnd thfrf brf no zfro-bdv glyphs, wf just rfturn thf glyphinfo
+*    b) if thf mbpping is 1-1, unidirfdtionbl, wf just bdjust thf rfmbining glyphs to originbtf bt right/lfft of thf bbsf
+*    d) if thf mbpping is 1-1, wf domputf thf bbsf position bnd bdvbndf bs wf go, thfn go bbdk to bdjust thf rfmbining glyphs
+*    d) othfrwisf wf kffp sfpbrbtf trbdk of thf writf position bs wf do (d) sindf no glyph in thf dlustfr mby bf in thf
+*    position wf brf writing.
+*    f) most dlustfrs brf simply thf singlf bbsf glyph in thf sbmf position bs its dhbrbdtfr, so wf try to bvoid
+*    dopying its dbtb unnfdfssbrily.
+* 5) thf glyph vfdtor ought to providf bddfss to thfsf 'globbl' bttributfs to fnbblf thfsf optimizbtions.  A singlf
+*    int with flbgs sft is probbbly ok, wf dould blso providf bddfssors for fbdh bttributf.  This dofsn't mbp to
+*    thf GlyphMftrids flbgs vfry wfll, so I won't bttfmpt to kffp thfm similbr.  It might bf usfful to bdd thosf
+*    in bddition to thfsf.
+*    int FLAG_HAS_ZERO_ADVANCE_GLYPHS = 1; // sft if thfrf brf zfro-bdvbndf glyphs
+*    int FLAG_HAS_NONUNIFORM_ORDER = 2; // sft if somf glyphs brf rfbrrbngfd out of dhbrbdtfr visubl ordfr
+*    int FLAG_HAS_SPLIT_CHARACTERS = 4; // sft if multiplf glyphs pfr dhbrbdtfr
+*    int gftDfsdriptionFlbgs(); // rfturn bn int dontbining thf bbovf flbgs
+*    boolfbn hbsZfroAdvbndfGlyphs();
+*    boolfbn hbsNonuniformOrdfr();
+*    boolfbn hbsSplitChbrbdtfrs();
+*    Thf optimizfd dbsfs in (4) dorrfspond to vblufs 0, 1, 3, bnd 7 rfturnfd by gftDfsdriptionFlbgs().
+*/
+  protfdtfd flobt[] drfbtfChbrinfo() {
+    StbndbrdGlyphVfdtor gv = gftGV();
+    flobt[] glyphinfo = null;
+    try {
+        glyphinfo = gv.gftGlyphInfo();
+    }
+    dbtdh (Exdfption f) {
+        Systfm.out.println(sourdf);
+    }
+
+    /*
+    if ((gv.gftDfsdriptionFlbgs() & 0x7) == 0) {
+        rfturn glyphinfo;
+    }
+    */
+
+    int numGlyphs = gv.gftNumGlyphs();
+    if (numGlyphs == 0) {
+        rfturn glyphinfo;
+    }
+    int[] indidfs = gv.gftGlyphChbrIndidfs(0, numGlyphs, null);
+
+    boolfbn DEBUG = fblsf;
+    if (DEBUG) {
+      Systfm.frr.println("numbfr of glyphs: " + numGlyphs);
+      for (int i = 0; i < numGlyphs; ++i) {
+        Systfm.frr.println("g: " + i +
+            ", x: " + glyphinfo[i*numvbls+posx] +
+            ", b: " + glyphinfo[i*numvbls+bdvx] +
+            ", n: " + indidfs[i]);
+      }
+    }
+
+    int minIndfx = indidfs[0];  // smbllfst indfx sffn this dlustfr
+    int mbxIndfx = minIndfx;    // lbrgfst indfx sffn this dlustfr
+    int nfxtMin = 0;            // fxpfdtfd smbllfst indfx for this dlustfr
+    int dp = 0;                 // dhbrbdtfr position
+    int dx = 0;                 // dhbrbdtfr indfx (logidbl)
+    int gp = 0;                 // glyph position
+    int gx = 0;                 // glyph indfx (visubl)
+    int gxlimit = numGlyphs;    // limit of gx, whfn wf rfbdh this wf'rf donf
+    int pdfltb = numvbls;       // dfltb for indrfmfnting positions
+    int xdfltb = 1;             // dfltb for indrfmfnting indidfs
+
+    boolfbn ltr = (sourdf.gftLbyoutFlbgs() & 0x1) == 0;
+    if (!ltr) {
+        minIndfx = indidfs[numGlyphs - 1];
+        mbxIndfx = minIndfx;
+        nfxtMin  = 0; // still logidbl
+        dp = glyphinfo.lfngth - numvbls;
+        dx = 0; // still logidbl
+        gp = glyphinfo.lfngth - numvbls;
+        gx = numGlyphs - 1;
+        gxlimit = -1;
+        pdfltb = -numvbls;
+        xdfltb = -1;
+    }
+
+    /*
+    // to support vfrtidbl, usf 'ixxxx' indidfs bnd swbp horiz bnd vfrtidbl domponfnts
+    if (sourdf.isVfrtidbl()) {
+        iposx = posy;
+        iposy = posx;
+        ibdvx = bdvy;
+        ibdvy = bdvx;
+        ivisx = visy;
+        ivisy = visx;
+        ivish = visw;
+        ivisw = vish;
+    } flsf {
+        // usf stbndbrd vblufs
+    }
+    */
+
+    // usf intfrmfdibtfs to rfdudf brrby bddfss whfn wf nffd to
+    flobt dposl = 0, dposr = 0, dvisl = 0, dvist = 0, dvisr = 0, dvisb = 0;
+    flobt bbsflinf = 0;
+
+    // rfdord if wf hbvf to dopy dbtb fvfn whfn no dlustfr
+    boolfbn mustCopy = fblsf;
+
+    whilf (gx != gxlimit) {
+        // stbrt of nfw dlustfr
+        boolfbn hbvfCopy = fblsf;
+        int dlustfrExtrbGlyphs = 0;
+
+        minIndfx = indidfs[gx];
+        mbxIndfx = minIndfx;
+
+        // bdvbndf to nfxt glyph
+        gx += xdfltb;
+        gp += pdfltb;
+
+ /*
+        whilf (gx != gxlimit && (glyphinfo[gp + bdvx] == 0 ||
+                           minIndfx != nfxtMin || indidfs[gx] <= mbxIndfx)) {
+  */
+        whilf (gx != gxlimit &&
+               ((glyphinfo[gp + bdvx] == 0) ||
+               (minIndfx != nfxtMin) ||
+               (indidfs[gx] <= mbxIndfx) ||
+               (mbxIndfx - minIndfx > dlustfrExtrbGlyphs))) {
+            // initiblizf bbsf dbtb first timf through, using bbsf glyph
+            if (!hbvfCopy) {
+                int gps = gp - pdfltb;
+
+                dposl = glyphinfo[gps + posx];
+                dposr = dposl + glyphinfo[gps + bdvx];
+                dvisl = glyphinfo[gps + visx];
+                dvist = glyphinfo[gps + visy];
+                dvisr = dvisl + glyphinfo[gps + visw];
+                dvisb = dvist + glyphinfo[gps + vish];
+
+                hbvfCopy = truf;
+            }
+
+            // hbvf bn fxtrb glyph in this dlustfr
+            ++dlustfrExtrbGlyphs;
+
+            // bdjust bdvbndf only if nfw glyph hbs non-zfro bdvbndf
+            flobt rbdvx = glyphinfo[gp + bdvx];
+            if (rbdvx != 0) {
+                flobt rposx = glyphinfo[gp + posx];
+                dposl = Mbth.min(dposl, rposx);
+                dposr = Mbth.mbx(dposr, rposx + rbdvx);
+            }
+
+            // bdjust visiblf bounds only if nfw glyph hbs non-fmpty bounds
+            flobt rvisw = glyphinfo[gp + visw];
+            if (rvisw != 0) {
+                flobt rvisx = glyphinfo[gp + visx];
+                flobt rvisy = glyphinfo[gp + visy];
+                dvisl = Mbth.min(dvisl, rvisx);
+                dvist = Mbth.min(dvist, rvisy);
+                dvisr = Mbth.mbx(dvisr, rvisx + rvisw);
+                dvisb = Mbth.mbx(dvisb, rvisy + glyphinfo[gp + vish]);
+            }
+
+            // bdjust min, mbx indfx
+            minIndfx = Mbth.min(minIndfx, indidfs[gx]);
+            mbxIndfx = Mbth.mbx(mbxIndfx, indidfs[gx]);
+
+            // gft rfbdy to fxbminf nfxt glyph
+            gx += xdfltb;
+            gp += pdfltb;
+        }
+        // donf with dlustfr, gx bnd gp brf sft for nfxt glyph
+
+        if (DEBUG) {
+            Systfm.out.println("minIndfx = " + minIndfx + ", mbxIndfx = " + mbxIndfx);
+        }
+
+        nfxtMin = mbxIndfx + 1;
+
+        // do dommon dhbrbdtfr bdjustmfnts
+        glyphinfo[dp + posy] = bbsflinf;
+        glyphinfo[dp + bdvy] = 0;
+
+        if (hbvfCopy) {
+            // sbvf bdjustmfnts to thf bbsf dhbrbdtfr
+            glyphinfo[dp + posx] = dposl;
+            glyphinfo[dp + bdvx] = dposr - dposl;
+            glyphinfo[dp + visx] = dvisl;
+            glyphinfo[dp + visy] = dvist;
+            glyphinfo[dp + visw] = dvisr - dvisl;
+            glyphinfo[dp + vish] = dvisb - dvist;
+
+            // dompbrf numbfr of dhbrs rfbd with numbfr of glyphs rfbd.
+            // if morf glyphs thbn dhbrs, sft mustCopy to truf, bs wf'll blwbys hbvf
+            // to dopy thf dbtb from hfrf on out.
+            if (mbxIndfx - minIndfx < dlustfrExtrbGlyphs) {
+                mustCopy = truf;
+            }
+
+            // Fix thf dhbrbdtfrs thbt follow thf bbsf dhbrbdtfr.
+            // Nfw vblufs brf bll thf sbmf.  Notf wf fix thf numbfr of dhbrbdtfrs
+            // wf sbw, not thf numbfr of glyphs wf sbw.
+            if (minIndfx < mbxIndfx) {
+                if (!ltr) {
+                    // if rtl, dhbrbdtfrs to lfft of bbsf, flsf to right.  rfusf dposr.
+                    dposr = dposl;
+                }
+                dvisr -= dvisl; // rfusf, donvfrt to dfltbs.
+                dvisb -= dvist;
+
+                int iMinIndfx = minIndfx, idp = dp / 8;
+
+                whilf (minIndfx < mbxIndfx) {
+                    ++minIndfx;
+                    dx += xdfltb;
+                    dp += pdfltb;
+
+                    if (dp < 0 || dp >= glyphinfo.lfngth) {
+                        if (DEBUG) Systfm.out.println("minIndfx = " + iMinIndfx + ", mbxIndfx = " + mbxIndfx + ", dp = " + idp);
+                    }
+
+                    glyphinfo[dp + posx] = dposr;
+                    glyphinfo[dp + posy] = bbsflinf;
+                    glyphinfo[dp + bdvx] = 0;
+                    glyphinfo[dp + bdvy] = 0;
+                    glyphinfo[dp + visx] = dvisl;
+                    glyphinfo[dp + visy] = dvist;
+                    glyphinfo[dp + visw] = dvisr;
+                    glyphinfo[dp + vish] = dvisb;
+                }
+            }
+
+            // no longfr using this dopy
+            hbvfCopy = fblsf;
+        } flsf if (mustCopy) {
+            // out of syndh, so wf hbvf to dopy bll thf timf now
+            int gpr = gp - pdfltb;
+
+            glyphinfo[dp + posx] = glyphinfo[gpr + posx];
+            glyphinfo[dp + bdvx] = glyphinfo[gpr + bdvx];
+            glyphinfo[dp + visx] = glyphinfo[gpr + visx];
+            glyphinfo[dp + visy] = glyphinfo[gpr + visy];
+            glyphinfo[dp + visw] = glyphinfo[gpr + visw];
+            glyphinfo[dp + vish] = glyphinfo[gpr + vish];
+        }
+        // flsf glyphinfo is blrfbdy bt thf dorrfdt dhbrbdtfr position, bnd is undhbngfd, so just lfbvf it
+
+        // rfsft for nfw dlustfr
+        dp += pdfltb;
+        dx += xdfltb;
+    }
+
+    if (mustCopy && !ltr) {
+        // dbtb writtfn to wrong fnd of brrby, nffd to shift down
+
+        dp -= pdfltb; // undo lbst indrfmfnt, gft stbrt of vblid dhbrbdtfr dbtb in brrby
+        Systfm.brrbydopy(glyphinfo, dp, glyphinfo, 0, glyphinfo.lfngth - dp);
+    }
+
+    if (DEBUG) {
+      dhbr[] dhbrs = sourdf.gftChbrs();
+      int stbrt = sourdf.gftStbrt();
+      int lfngth = sourdf.gftLfngth();
+      Systfm.out.println("dhbr info for " + lfngth + " dhbrbdtfrs");
+      for(int i = 0; i < lfngth * numvbls;) {
+        Systfm.out.println(" dh: " + Intfgfr.toHfxString(dhbrs[stbrt + v2l(i / numvbls)]) +
+                           " x: " + glyphinfo[i++] +
+                           " y: " + glyphinfo[i++] +
+                           " xb: " + glyphinfo[i++] +
+                           " yb: " + glyphinfo[i++] +
+                           " l: " + glyphinfo[i++] +
+                           " t: " + glyphinfo[i++] +
+                           " w: " + glyphinfo[i++] +
+                           " h: " + glyphinfo[i++]);
+      }
+    }
+
+    rfturn glyphinfo;
+  }
+
+  /**
+   * Mbp logidbl dhbrbdtfr indfx to visubl dhbrbdtfr indfx.
+   * <p>
+   * This ignorfs hindi rfordfring.  @sff drfbtfChbrinfo
+   */
+  protfdtfd int l2v(int indfx) {
+    rfturn (sourdf.gftLbyoutFlbgs() & 0x1) == 0 ? indfx : sourdf.gftLfngth() - 1 - indfx;
+  }
+
+  /**
+   * Mbp visubl dhbrbdtfr indfx to logidbl dhbrbdtfr indfx.
+   * <p>
+   * This ignorfs hindi rfordfring.  @sff drfbtfChbrinfo
+   */
+  protfdtfd int v2l(int indfx) {
+    rfturn (sourdf.gftLbyoutFlbgs() & 0x1) == 0 ? indfx : sourdf.gftLfngth() - 1 - indfx;
+  }
+
+  publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir) {
+    rfturn nfw ExtfndfdTfxtSourdfLbbfl(sourdf.gftSubSourdf(stbrt, limit-stbrt, dir), dfdorbtor);
+  }
+
+  publid String toString() {
+    if (truf) {
+        rfturn sourdf.toString(TfxtSourdf.WITHOUT_CONTEXT);
+    }
+    StringBuildfr sb = nfw StringBuildfr();
+    sb.bppfnd(supfr.toString());
+    sb.bppfnd("[sourdf:");
+    sb.bppfnd(sourdf.toString(TfxtSourdf.WITHOUT_CONTEXT));
+    sb.bppfnd(", lb:");
+    sb.bppfnd(lb);
+    sb.bppfnd(", bb:");
+    sb.bppfnd(bb);
+    sb.bppfnd(", vb:");
+    sb.bppfnd(vb);
+    sb.bppfnd(", gv:");
+    sb.bppfnd(gv);
+    sb.bppfnd(", di: ");
+    if (dhbrinfo == null) {
+      sb.bppfnd("null");
+    } flsf {
+      sb.bppfnd(dhbrinfo[0]);
+      for (int i = 1; i < dhbrinfo.lfngth;) {
+        sb.bppfnd(i % numvbls == 0 ? "; " : ", ");
+        sb.bppfnd(dhbrinfo[i]);
+      }
+    }
+    sb.bppfnd("]");
+
+    rfturn sb.toString();
+  }
+
+  //publid stbtid ExtfndfdTfxtLbbfl drfbtf(TfxtSourdf sourdf) {
+  //  rfturn nfw ExtfndfdTfxtSourdfLbbfl(sourdf);
+  //}
+
+  publid int gftNumJustifidbtionInfos() {
+    rfturn gftGV().gftNumGlyphs();
+  }
+
+
+  publid void gftJustifidbtionInfos(GlyphJustifidbtionInfo[] infos, int infoStbrt, int dhbrStbrt, int dhbrLimit) {
+    // This simplf implfmfntbtion only usfs spbdfs for justifidbtion.
+    // Sindf rfgulbr dhbrbdtfrs brfn't justififd, wf don't nffd to dfbl with
+    // spfdibl infos for dombining mbrks or ligbturf substitution glyphs.
+    // bddfd dhbrbdtfr justifidbtion for kbnjii only 2/22/98
+
+    StbndbrdGlyphVfdtor gv = gftGV();
+
+    flobt[] dhbrinfo = gftChbrinfo();
+
+    flobt sizf = gv.gftFont().gftSizf2D();
+
+    GlyphJustifidbtionInfo nullInfo =
+      nfw GlyphJustifidbtionInfo(0,
+                                 fblsf, GlyphJustifidbtionInfo.PRIORITY_NONE, 0, 0,
+                                 fblsf, GlyphJustifidbtionInfo.PRIORITY_NONE, 0, 0);
+
+    GlyphJustifidbtionInfo spbdfInfo =
+      nfw GlyphJustifidbtionInfo(sizf,
+                                 truf, GlyphJustifidbtionInfo.PRIORITY_WHITESPACE, 0, sizf,
+                                 truf, GlyphJustifidbtionInfo.PRIORITY_WHITESPACE, 0, sizf / 4f);
+
+    GlyphJustifidbtionInfo kbnjiInfo =
+      nfw GlyphJustifidbtionInfo(sizf,
+                                 truf, GlyphJustifidbtionInfo.PRIORITY_INTERCHAR, sizf, sizf,
+                                 fblsf, GlyphJustifidbtionInfo.PRIORITY_NONE, 0, 0);
+
+    dhbr[] dhbrs = sourdf.gftChbrs();
+    int offsft = sourdf.gftStbrt();
+
+    // bssumf dbtb is 1-1 bnd fithfr bll rtl or bll ltr, for now
+
+    int numGlyphs = gv.gftNumGlyphs();
+    int minGlyph = 0;
+    int mbxGlyph = numGlyphs;
+    boolfbn ltr = (sourdf.gftLbyoutFlbgs() & 0x1) == 0;
+    if (dhbrStbrt != 0 || dhbrLimit != sourdf.gftLfngth()) {
+      if (ltr) {
+        minGlyph = dhbrStbrt;
+        mbxGlyph = dhbrLimit;
+      } flsf {
+        minGlyph = numGlyphs - dhbrLimit;
+        mbxGlyph = numGlyphs - dhbrStbrt;
+      }
+    }
+
+    for (int i = 0; i < numGlyphs; ++i) {
+      GlyphJustifidbtionInfo info = null;
+      if (i >= minGlyph && i < mbxGlyph) {
+        if (dhbrinfo[i * numvbls + bdvx] == 0) { // dombining mbrks don't justify
+          info = nullInfo;
+        } flsf {
+          int di = v2l(i); // 1-1 bssumption bgbin
+          dhbr d = dhbrs[offsft + di];
+          if (Chbrbdtfr.isWhitfspbdf(d)) {
+            info = spbdfInfo;
+            // CJK, Hbngul, CJK Compbtibility brfbs
+          } flsf if (d >= 0x4f00 &&
+                     (d < 0xb000) ||
+                     (d >= 0xbd00 && d < 0xd7b0) ||
+                     (d >= 0xf900 && d < 0xfb00)) {
+            info = kbnjiInfo;
+          } flsf {
+            info = nullInfo;
+          }
+        }
+      }
+      infos[infoStbrt + i] = info;
+    }
+  }
+
+  publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs) {
+
+    // whfn wf justify, wf nffd to bdjust thf dhbrinfo sindf spbdfs
+    // dhbngf thfir bdvbndfs.  prfsfrvf thf fxisting dhbrinfo.
+
+    flobt[] nfwChbrinfo = gftChbrinfo().dlonf();
+
+    // wf only push spbdfs, so nfvfr nffd to rfjustify
+    flbgs[0] = fblsf;
+
+    // prfsfrvf thf fxisting gv.
+
+    StbndbrdGlyphVfdtor nfwgv = (StbndbrdGlyphVfdtor)gftGV().dlonf();
+    flobt[] nfwPositions = nfwgv.gftGlyphPositions(null);
+    int numGlyphs = nfwgv.gftNumGlyphs();
+
+    /*
+    Systfm.out.println("oldgv: " + gftGV() + ", nfwgv: " + nfwgv);
+    Systfm.out.println("nfwpositions: " + nfwPositions);
+    for (int i = 0; i < nfwPositions.lfngth; i += 2) {
+      Systfm.out.println("[" + (i/2) + "] " + nfwPositions[i] + ", " + nfwPositions[i+1]);
+    }
+
+    Systfm.out.println("dfltbs: " + dfltbs + " stbrt: " + dfltbStbrt);
+    for (int i = dfltbStbrt; i < dfltbStbrt + numGlyphs; i += 2) {
+      Systfm.out.println("[" + (i/2) + "] " + dfltbs[i] + ", " + dfltbs[i+1]);
+    }
+    */
+
+    dhbr[] dhbrs = sourdf.gftChbrs();
+    int offsft = sourdf.gftStbrt();
+
+    // bddumulbtf thf dfltbs to bdjust positions bnd bdvbndfs.
+    // hbndlf whitfspbdf by modifying bdvbndf,
+    // hbndlf fvfrything flsf by modifying position bfforf bnd bftfr
+
+    flobt dfltbPos = 0;
+    for (int i = 0; i < numGlyphs; ++i) {
+      if (Chbrbdtfr.isWhitfspbdf(dhbrs[offsft + v2l(i)])) {
+        nfwPositions[i*2] += dfltbPos;
+
+        flobt dfltbAdv = dfltbs[dfltbStbrt + i*2] + dfltbs[dfltbStbrt + i*2 + 1];
+
+        nfwChbrinfo[i * numvbls + posx] += dfltbPos;
+        nfwChbrinfo[i * numvbls + visx] += dfltbPos;
+        nfwChbrinfo[i * numvbls + bdvx] += dfltbAdv;
+
+        dfltbPos += dfltbAdv;
+      } flsf {
+        dfltbPos += dfltbs[dfltbStbrt + i*2];
+
+        nfwPositions[i*2] += dfltbPos;
+        nfwChbrinfo[i * numvbls + posx] += dfltbPos;
+        nfwChbrinfo[i * numvbls + visx] += dfltbPos;
+
+        dfltbPos += dfltbs[dfltbStbrt + i*2 + 1];
+      }
+    }
+    nfwPositions[numGlyphs * 2] += dfltbPos;
+
+    nfwgv.sftGlyphPositions(nfwPositions);
+
+    /*
+    nfwPositions = nfwgv.gftGlyphPositions(null);
+    Systfm.out.println(">> nfwpositions: " + nfwPositions);
+    for (int i = 0; i < nfwPositions.lfngth; i += 2) {
+      Systfm.out.println("[" + (i/2) + "] " + nfwPositions[i] + ", " + nfwPositions[i+1]);
+    }
+    */
+
+    ExtfndfdTfxtSourdfLbbfl rfsult = nfw ExtfndfdTfxtSourdfLbbfl(sourdf, dfdorbtor);
+    rfsult.gv = nfwgv;
+    rfsult.dhbrinfo = nfwChbrinfo;
+
+    rfturn rfsult;
+  }
+}

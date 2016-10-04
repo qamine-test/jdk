@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 
-import java.io.*;
-import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.Dialog;
-import java.awt.Window;
-import java.awt.Component;
-import java.awt.Container;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import jbvb.io.*;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Window;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
 
-import java.awt.IllegalComponentStateException;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.text.*;
-import java.util.Locale;
-import javax.accessibility.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.bwt.IllfgblComponfntStbtfExdfption;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.tfxt.*;
+import jbvb.util.Lodblf;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
 
 
-/** A class to monitor the progress of some operation. If it looks
- * like the operation will take a while, a progress dialog will be popped up.
- * When the ProgressMonitor is created it is given a numeric range and a
- * descriptive string. As the operation progresses, call the setProgress method
- * to indicate how far along the [min,max] range the operation is.
- * Initially, there is no ProgressDialog. After the first millisToDecideToPopup
- * milliseconds (default 500) the progress monitor will predict how long
- * the operation will take.  If it is longer than millisToPopup (default 2000,
- * 2 seconds) a ProgressDialog will be popped up.
+/** A dlbss to monitor tif progrfss of somf opfrbtion. If it looks
+ * likf tif opfrbtion will tbkf b wiilf, b progrfss diblog will bf poppfd up.
+ * Wifn tif ProgrfssMonitor is drfbtfd it is givfn b numfrid rbngf bnd b
+ * dfsdriptivf string. As tif opfrbtion progrfssfs, dbll tif sftProgrfss mftiod
+ * to indidbtf iow fbr blong tif [min,mbx] rbngf tif opfrbtion is.
+ * Initiblly, tifrf is no ProgrfssDiblog. Aftfr tif first millisToDfdidfToPopup
+ * millisfdonds (dffbult 500) tif progrfss monitor will prfdidt iow long
+ * tif opfrbtion will tbkf.  If it is longfr tibn millisToPopup (dffbult 2000,
+ * 2 sfdonds) b ProgrfssDiblog will bf poppfd up.
  * <p>
- * From time to time, when the Dialog box is visible, the progress bar will
- * be updated when setProgress is called.  setProgress won't always update
- * the progress bar, it will only be done if the amount of progress is
- * visibly significant.
+ * From timf to timf, wifn tif Diblog box is visiblf, tif progrfss bbr will
+ * bf updbtfd wifn sftProgrfss is dbllfd.  sftProgrfss won't blwbys updbtf
+ * tif progrfss bbr, it will only bf donf if tif bmount of progrfss is
+ * visibly signifidbnt.
  *
  * <p>
  *
- * For further documentation and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html">How to Monitor Progress</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For furtifr dodumfntbtion bnd fxbmplfs sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.itml">How to Monitor Progrfss</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
- * @see ProgressMonitorInputStream
- * @author James Gosling
- * @author Lynn Monsanto (accessibility)
- * @since 1.2
+ * @sff ProgrfssMonitorInputStrfbm
+ * @butior Jbmfs Gosling
+ * @butior Lynn Monsbnto (bddfssibility)
+ * @sindf 1.2
  */
-public class ProgressMonitor implements Accessible
+publid dlbss ProgrfssMonitor implfmfnts Addfssiblf
 {
-    private ProgressMonitor root;
-    private JDialog         dialog;
-    private JOptionPane     pane;
-    private JProgressBar    myBar;
-    private JLabel          noteLabel;
-    private Component       parentComponent;
-    private String          note;
-    private Object[]        cancelOption = null;
-    private Object          message;
-    private long            T0;
-    private int             millisToDecideToPopup = 500;
-    private int             millisToPopup = 2000;
-    private int             min;
-    private int             max;
+    privbtf ProgrfssMonitor root;
+    privbtf JDiblog         diblog;
+    privbtf JOptionPbnf     pbnf;
+    privbtf JProgrfssBbr    myBbr;
+    privbtf JLbbfl          notfLbbfl;
+    privbtf Componfnt       pbrfntComponfnt;
+    privbtf String          notf;
+    privbtf Objfdt[]        dbndflOption = null;
+    privbtf Objfdt          mfssbgf;
+    privbtf long            T0;
+    privbtf int             millisToDfdidfToPopup = 500;
+    privbtf int             millisToPopup = 2000;
+    privbtf int             min;
+    privbtf int             mbx;
 
 
     /**
-     * Constructs a graphic object that shows progress, typically by filling
-     * in a rectangular bar as the process nears completion.
+     * Construdts b grbpiid objfdt tibt siows progrfss, typidblly by filling
+     * in b rfdtbngulbr bbr bs tif prodfss nfbrs domplftion.
      *
-     * @param parentComponent the parent component for the dialog box
-     * @param message a descriptive message that will be shown
-     *        to the user to indicate what operation is being monitored.
-     *        This does not change as the operation progresses.
-     *        See the message parameters to methods in
-     *        {@link JOptionPane#message}
-     *        for the range of values.
-     * @param note a short note describing the state of the
-     *        operation.  As the operation progresses, you can call
-     *        setNote to change the note displayed.  This is used,
-     *        for example, in operations that iterate through a
-     *        list of files to show the name of the file being processes.
-     *        If note is initially null, there will be no note line
-     *        in the dialog box and setNote will be ineffective
-     * @param min the lower bound of the range
-     * @param max the upper bound of the range
-     * @see JDialog
-     * @see JOptionPane
+     * @pbrbm pbrfntComponfnt tif pbrfnt domponfnt for tif diblog box
+     * @pbrbm mfssbgf b dfsdriptivf mfssbgf tibt will bf siown
+     *        to tif usfr to indidbtf wibt opfrbtion is bfing monitorfd.
+     *        Tiis dofs not dibngf bs tif opfrbtion progrfssfs.
+     *        Sff tif mfssbgf pbrbmftfrs to mftiods in
+     *        {@link JOptionPbnf#mfssbgf}
+     *        for tif rbngf of vblufs.
+     * @pbrbm notf b siort notf dfsdribing tif stbtf of tif
+     *        opfrbtion.  As tif opfrbtion progrfssfs, you dbn dbll
+     *        sftNotf to dibngf tif notf displbyfd.  Tiis is usfd,
+     *        for fxbmplf, in opfrbtions tibt itfrbtf tirougi b
+     *        list of filfs to siow tif nbmf of tif filf bfing prodfssfs.
+     *        If notf is initiblly null, tifrf will bf no notf linf
+     *        in tif diblog box bnd sftNotf will bf inffffdtivf
+     * @pbrbm min tif lowfr bound of tif rbngf
+     * @pbrbm mbx tif uppfr bound of tif rbngf
+     * @sff JDiblog
+     * @sff JOptionPbnf
      */
-    public ProgressMonitor(Component parentComponent,
-                           Object message,
-                           String note,
+    publid ProgrfssMonitor(Componfnt pbrfntComponfnt,
+                           Objfdt mfssbgf,
+                           String notf,
                            int min,
-                           int max) {
-        this(parentComponent, message, note, min, max, null);
+                           int mbx) {
+        tiis(pbrfntComponfnt, mfssbgf, notf, min, mbx, null);
     }
 
 
-    private ProgressMonitor(Component parentComponent,
-                            Object message,
-                            String note,
+    privbtf ProgrfssMonitor(Componfnt pbrfntComponfnt,
+                            Objfdt mfssbgf,
+                            String notf,
                             int min,
-                            int max,
-                            ProgressMonitor group) {
-        this.min = min;
-        this.max = max;
-        this.parentComponent = parentComponent;
+                            int mbx,
+                            ProgrfssMonitor group) {
+        tiis.min = min;
+        tiis.mbx = mbx;
+        tiis.pbrfntComponfnt = pbrfntComponfnt;
 
-        cancelOption = new Object[1];
-        cancelOption[0] = UIManager.getString("OptionPane.cancelButtonText");
+        dbndflOption = nfw Objfdt[1];
+        dbndflOption[0] = UIMbnbgfr.gftString("OptionPbnf.dbndflButtonTfxt");
 
-        this.message = message;
-        this.note = note;
+        tiis.mfssbgf = mfssbgf;
+        tiis.notf = notf;
         if (group != null) {
             root = (group.root != null) ? group.root : group;
             T0 = root.T0;
-            dialog = root.dialog;
+            diblog = root.diblog;
         }
-        else {
-            T0 = System.currentTimeMillis();
+        flsf {
+            T0 = Systfm.durrfntTimfMillis();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ProgressOptionPane extends JOptionPane
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss ProgrfssOptionPbnf fxtfnds JOptionPbnf
     {
-        ProgressOptionPane(Object messageList) {
-            super(messageList,
-                  JOptionPane.INFORMATION_MESSAGE,
-                  JOptionPane.DEFAULT_OPTION,
+        ProgrfssOptionPbnf(Objfdt mfssbgfList) {
+            supfr(mfssbgfList,
+                  JOptionPbnf.INFORMATION_MESSAGE,
+                  JOptionPbnf.DEFAULT_OPTION,
                   null,
-                  ProgressMonitor.this.cancelOption,
+                  ProgrfssMonitor.tiis.dbndflOption,
                   null);
         }
 
 
-        public int getMaxCharactersPerLineCount() {
-            return 60;
+        publid int gftMbxCibrbdtfrsPfrLinfCount() {
+            rfturn 60;
         }
 
 
-        // Equivalent to JOptionPane.createDialog,
-        // but create a modeless dialog.
-        // This is necessary because the Solaris implementation doesn't
-        // support Dialog.setModal yet.
-        public JDialog createDialog(Component parentComponent, String title) {
-            final JDialog dialog;
+        // Equivblfnt to JOptionPbnf.drfbtfDiblog,
+        // but drfbtf b modflfss diblog.
+        // Tiis is nfdfssbry bfdbusf tif Solbris implfmfntbtion dofsn't
+        // support Diblog.sftModbl yft.
+        publid JDiblog drfbtfDiblog(Componfnt pbrfntComponfnt, String titlf) {
+            finbl JDiblog diblog;
 
-            Window window = JOptionPane.getWindowForComponent(parentComponent);
-            if (window instanceof Frame) {
-                dialog = new JDialog((Frame)window, title, false);
-            } else {
-                dialog = new JDialog((Dialog)window, title, false);
+            Window window = JOptionPbnf.gftWindowForComponfnt(pbrfntComponfnt);
+            if (window instbndfof Frbmf) {
+                diblog = nfw JDiblog((Frbmf)window, titlf, fblsf);
+            } flsf {
+                diblog = nfw JDiblog((Diblog)window, titlf, fblsf);
             }
-            if (window instanceof SwingUtilities.SharedOwnerFrame) {
-                WindowListener ownerShutdownListener =
-                        SwingUtilities.getSharedOwnerFrameShutdownListener();
-                dialog.addWindowListener(ownerShutdownListener);
+            if (window instbndfof SwingUtilitifs.SibrfdOwnfrFrbmf) {
+                WindowListfnfr ownfrSiutdownListfnfr =
+                        SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+                diblog.bddWindowListfnfr(ownfrSiutdownListfnfr);
             }
-            Container contentPane = dialog.getContentPane();
+            Contbinfr dontfntPbnf = diblog.gftContfntPbnf();
 
-            contentPane.setLayout(new BorderLayout());
-            contentPane.add(this, BorderLayout.CENTER);
-            dialog.pack();
-            dialog.setLocationRelativeTo(parentComponent);
-            dialog.addWindowListener(new WindowAdapter() {
-                boolean gotFocus = false;
+            dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+            dontfntPbnf.bdd(tiis, BordfrLbyout.CENTER);
+            diblog.pbdk();
+            diblog.sftLodbtionRflbtivfTo(pbrfntComponfnt);
+            diblog.bddWindowListfnfr(nfw WindowAdbptfr() {
+                boolfbn gotFodus = fblsf;
 
-                public void windowClosing(WindowEvent we) {
-                    setValue(cancelOption[0]);
+                publid void windowClosing(WindowEvfnt wf) {
+                    sftVbluf(dbndflOption[0]);
                 }
 
-                public void windowActivated(WindowEvent we) {
-                    // Once window gets focus, set initial focus
-                    if (!gotFocus) {
-                        selectInitialValue();
-                        gotFocus = true;
+                publid void windowAdtivbtfd(WindowEvfnt wf) {
+                    // Ondf window gfts fodus, sft initibl fodus
+                    if (!gotFodus) {
+                        sflfdtInitiblVbluf();
+                        gotFodus = truf;
                     }
                 }
             });
 
-            addPropertyChangeListener(new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent event) {
-                    if(dialog.isVisible() &&
-                       event.getSource() == ProgressOptionPane.this &&
-                       (event.getPropertyName().equals(VALUE_PROPERTY) ||
-                        event.getPropertyName().equals(INPUT_VALUE_PROPERTY))){
-                        dialog.setVisible(false);
-                        dialog.dispose();
+            bddPropfrtyCibngfListfnfr(nfw PropfrtyCibngfListfnfr() {
+                publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+                    if(diblog.isVisiblf() &&
+                       fvfnt.gftSourdf() == ProgrfssOptionPbnf.tiis &&
+                       (fvfnt.gftPropfrtyNbmf().fqubls(VALUE_PROPERTY) ||
+                        fvfnt.gftPropfrtyNbmf().fqubls(INPUT_VALUE_PROPERTY))){
+                        diblog.sftVisiblf(fblsf);
+                        diblog.disposf();
                     }
                 }
             });
 
-            return dialog;
+            rfturn diblog;
         }
 
         /////////////////
-        // Accessibility support for ProgressOptionPane
+        // Addfssibility support for ProgrfssOptionPbnf
         ////////////////
 
         /**
-         * Gets the AccessibleContext for the ProgressOptionPane
+         * Gfts tif AddfssiblfContfxt for tif ProgrfssOptionPbnf
          *
-         * @return the AccessibleContext for the ProgressOptionPane
-         * @since 1.5
+         * @rfturn tif AddfssiblfContfxt for tif ProgrfssOptionPbnf
+         * @sindf 1.5
          */
-        public AccessibleContext getAccessibleContext() {
-            return ProgressMonitor.this.getAccessibleContext();
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            rfturn ProgrfssMonitor.tiis.gftAddfssiblfContfxt();
         }
 
         /*
-         * Returns the AccessibleJOptionPane
+         * Rfturns tif AddfssiblfJOptionPbnf
          */
-        private AccessibleContext getAccessibleJOptionPane() {
-            return super.getAccessibleContext();
+        privbtf AddfssiblfContfxt gftAddfssiblfJOptionPbnf() {
+            rfturn supfr.gftAddfssiblfContfxt();
         }
     }
 
 
     /**
-     * Indicate the progress of the operation being monitored.
-     * If the specified value is &gt;= the maximum, the progress
-     * monitor is closed.
-     * @param nv an int specifying the current value, between the
-     *        maximum and minimum specified for this component
-     * @see #setMinimum
-     * @see #setMaximum
-     * @see #close
+     * Indidbtf tif progrfss of tif opfrbtion bfing monitorfd.
+     * If tif spfdififd vbluf is &gt;= tif mbximum, tif progrfss
+     * monitor is dlosfd.
+     * @pbrbm nv bn int spfdifying tif durrfnt vbluf, bftwffn tif
+     *        mbximum bnd minimum spfdififd for tiis domponfnt
+     * @sff #sftMinimum
+     * @sff #sftMbximum
+     * @sff #dlosf
      */
-    public void setProgress(int nv) {
-        if (nv >= max) {
-            close();
+    publid void sftProgrfss(int nv) {
+        if (nv >= mbx) {
+            dlosf();
         }
-        else {
-            if (myBar != null) {
-                myBar.setValue(nv);
+        flsf {
+            if (myBbr != null) {
+                myBbr.sftVbluf(nv);
             }
-            else {
-                long T = System.currentTimeMillis();
+            flsf {
+                long T = Systfm.durrfntTimfMillis();
                 long dT = (int)(T-T0);
-                if (dT >= millisToDecideToPopup) {
-                    int predictedCompletionTime;
+                if (dT >= millisToDfdidfToPopup) {
+                    int prfdidtfdComplftionTimf;
                     if (nv > min) {
-                        predictedCompletionTime = (int)(dT *
-                                                        (max - min) /
+                        prfdidtfdComplftionTimf = (int)(dT *
+                                                        (mbx - min) /
                                                         (nv - min));
                     }
-                    else {
-                        predictedCompletionTime = millisToPopup;
+                    flsf {
+                        prfdidtfdComplftionTimf = millisToPopup;
                     }
-                    if (predictedCompletionTime >= millisToPopup) {
-                        myBar = new JProgressBar();
-                        myBar.setMinimum(min);
-                        myBar.setMaximum(max);
-                        myBar.setValue(nv);
-                        if (note != null) noteLabel = new JLabel(note);
-                        pane = new ProgressOptionPane(new Object[] {message,
-                                                                    noteLabel,
-                                                                    myBar});
-                        dialog = pane.createDialog(parentComponent,
-                            UIManager.getString(
-                                "ProgressMonitor.progressText"));
-                        dialog.show();
+                    if (prfdidtfdComplftionTimf >= millisToPopup) {
+                        myBbr = nfw JProgrfssBbr();
+                        myBbr.sftMinimum(min);
+                        myBbr.sftMbximum(mbx);
+                        myBbr.sftVbluf(nv);
+                        if (notf != null) notfLbbfl = nfw JLbbfl(notf);
+                        pbnf = nfw ProgrfssOptionPbnf(nfw Objfdt[] {mfssbgf,
+                                                                    notfLbbfl,
+                                                                    myBbr});
+                        diblog = pbnf.drfbtfDiblog(pbrfntComponfnt,
+                            UIMbnbgfr.gftString(
+                                "ProgrfssMonitor.progrfssTfxt"));
+                        diblog.siow();
                     }
                 }
             }
@@ -302,752 +302,752 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Indicate that the operation is complete.  This happens automatically
-     * when the value set by setProgress is &gt;= max, but it may be called
-     * earlier if the operation ends early.
+     * Indidbtf tibt tif opfrbtion is domplftf.  Tiis ibppfns butombtidblly
+     * wifn tif vbluf sft by sftProgrfss is &gt;= mbx, but it mby bf dbllfd
+     * fbrlifr if tif opfrbtion fnds fbrly.
      */
-    public void close() {
-        if (dialog != null) {
-            dialog.setVisible(false);
-            dialog.dispose();
-            dialog = null;
-            pane = null;
-            myBar = null;
+    publid void dlosf() {
+        if (diblog != null) {
+            diblog.sftVisiblf(fblsf);
+            diblog.disposf();
+            diblog = null;
+            pbnf = null;
+            myBbr = null;
         }
     }
 
 
     /**
-     * Returns the minimum value -- the lower end of the progress value.
+     * Rfturns tif minimum vbluf -- tif lowfr fnd of tif progrfss vbluf.
      *
-     * @return an int representing the minimum value
-     * @see #setMinimum
+     * @rfturn bn int rfprfsfnting tif minimum vbluf
+     * @sff #sftMinimum
      */
-    public int getMinimum() {
-        return min;
+    publid int gftMinimum() {
+        rfturn min;
     }
 
 
     /**
-     * Specifies the minimum value.
+     * Spfdififs tif minimum vbluf.
      *
-     * @param m  an int specifying the minimum value
-     * @see #getMinimum
+     * @pbrbm m  bn int spfdifying tif minimum vbluf
+     * @sff #gftMinimum
      */
-    public void setMinimum(int m) {
-        if (myBar != null) {
-            myBar.setMinimum(m);
+    publid void sftMinimum(int m) {
+        if (myBbr != null) {
+            myBbr.sftMinimum(m);
         }
         min = m;
     }
 
 
     /**
-     * Returns the maximum value -- the higher end of the progress value.
+     * Rfturns tif mbximum vbluf -- tif iigifr fnd of tif progrfss vbluf.
      *
-     * @return an int representing the maximum value
-     * @see #setMaximum
+     * @rfturn bn int rfprfsfnting tif mbximum vbluf
+     * @sff #sftMbximum
      */
-    public int getMaximum() {
-        return max;
+    publid int gftMbximum() {
+        rfturn mbx;
     }
 
 
     /**
-     * Specifies the maximum value.
+     * Spfdififs tif mbximum vbluf.
      *
-     * @param m  an int specifying the maximum value
-     * @see #getMaximum
+     * @pbrbm m  bn int spfdifying tif mbximum vbluf
+     * @sff #gftMbximum
      */
-    public void setMaximum(int m) {
-        if (myBar != null) {
-            myBar.setMaximum(m);
+    publid void sftMbximum(int m) {
+        if (myBbr != null) {
+            myBbr.sftMbximum(m);
         }
-        max = m;
+        mbx = m;
     }
 
 
     /**
-     * Returns true if the user hits the Cancel button in the progress dialog.
+     * Rfturns truf if tif usfr iits tif Cbndfl button in tif progrfss diblog.
      *
-     * @return true if the user hits the Cancel button in the progress dialog
+     * @rfturn truf if tif usfr iits tif Cbndfl button in tif progrfss diblog
      */
-    public boolean isCanceled() {
-        if (pane == null) return false;
-        Object v = pane.getValue();
-        return ((v != null) &&
-                (cancelOption.length == 1) &&
-                (v.equals(cancelOption[0])));
+    publid boolfbn isCbndflfd() {
+        if (pbnf == null) rfturn fblsf;
+        Objfdt v = pbnf.gftVbluf();
+        rfturn ((v != null) &&
+                (dbndflOption.lfngti == 1) &&
+                (v.fqubls(dbndflOption[0])));
     }
 
 
     /**
-     * Specifies the amount of time to wait before deciding whether or
-     * not to popup a progress monitor.
+     * Spfdififs tif bmount of timf to wbit bfforf dfdiding wiftifr or
+     * not to popup b progrfss monitor.
      *
-     * @param millisToDecideToPopup  an int specifying the time to wait,
-     *        in milliseconds
-     * @see #getMillisToDecideToPopup
+     * @pbrbm millisToDfdidfToPopup  bn int spfdifying tif timf to wbit,
+     *        in millisfdonds
+     * @sff #gftMillisToDfdidfToPopup
      */
-    public void setMillisToDecideToPopup(int millisToDecideToPopup) {
-        this.millisToDecideToPopup = millisToDecideToPopup;
+    publid void sftMillisToDfdidfToPopup(int millisToDfdidfToPopup) {
+        tiis.millisToDfdidfToPopup = millisToDfdidfToPopup;
     }
 
 
     /**
-     * Returns the amount of time this object waits before deciding whether
-     * or not to popup a progress monitor.
+     * Rfturns tif bmount of timf tiis objfdt wbits bfforf dfdiding wiftifr
+     * or not to popup b progrfss monitor.
      *
-     * @return the amount of time in milliseconds this object waits before
-     *         deciding whether or not to popup a progress monitor
-     * @see #setMillisToDecideToPopup
+     * @rfturn tif bmount of timf in millisfdonds tiis objfdt wbits bfforf
+     *         dfdiding wiftifr or not to popup b progrfss monitor
+     * @sff #sftMillisToDfdidfToPopup
      */
-    public int getMillisToDecideToPopup() {
-        return millisToDecideToPopup;
+    publid int gftMillisToDfdidfToPopup() {
+        rfturn millisToDfdidfToPopup;
     }
 
 
     /**
-     * Specifies the amount of time it will take for the popup to appear.
-     * (If the predicted time remaining is less than this time, the popup
-     * won't be displayed.)
+     * Spfdififs tif bmount of timf it will tbkf for tif popup to bppfbr.
+     * (If tif prfdidtfd timf rfmbining is lfss tibn tiis timf, tif popup
+     * won't bf displbyfd.)
      *
-     * @param millisToPopup  an int specifying the time in milliseconds
-     * @see #getMillisToPopup
+     * @pbrbm millisToPopup  bn int spfdifying tif timf in millisfdonds
+     * @sff #gftMillisToPopup
      */
-    public void setMillisToPopup(int millisToPopup) {
-        this.millisToPopup = millisToPopup;
+    publid void sftMillisToPopup(int millisToPopup) {
+        tiis.millisToPopup = millisToPopup;
     }
 
 
     /**
-     * Returns the amount of time it will take for the popup to appear.
+     * Rfturns tif bmount of timf it will tbkf for tif popup to bppfbr.
      *
-     * @return the amont of time in milliseconds it will take for the
-     *         popup to appear
-     * @see #setMillisToPopup
+     * @rfturn tif bmont of timf in millisfdonds it will tbkf for tif
+     *         popup to bppfbr
+     * @sff #sftMillisToPopup
      */
-    public int getMillisToPopup() {
-        return millisToPopup;
+    publid int gftMillisToPopup() {
+        rfturn millisToPopup;
     }
 
 
     /**
-     * Specifies the additional note that is displayed along with the
-     * progress message. Used, for example, to show which file the
-     * is currently being copied during a multiple-file copy.
+     * Spfdififs tif bdditionbl notf tibt is displbyfd blong witi tif
+     * progrfss mfssbgf. Usfd, for fxbmplf, to siow wiidi filf tif
+     * is durrfntly bfing dopifd during b multiplf-filf dopy.
      *
-     * @param note  a String specifying the note to display
-     * @see #getNote
+     * @pbrbm notf  b String spfdifying tif notf to displby
+     * @sff #gftNotf
      */
-    public void setNote(String note) {
-        this.note = note;
-        if (noteLabel != null) {
-            noteLabel.setText(note);
+    publid void sftNotf(String notf) {
+        tiis.notf = notf;
+        if (notfLbbfl != null) {
+            notfLbbfl.sftTfxt(notf);
         }
     }
 
 
     /**
-     * Specifies the additional note that is displayed along with the
-     * progress message.
+     * Spfdififs tif bdditionbl notf tibt is displbyfd blong witi tif
+     * progrfss mfssbgf.
      *
-     * @return a String specifying the note to display
-     * @see #setNote
+     * @rfturn b String spfdifying tif notf to displby
+     * @sff #sftNotf
      */
-    public String getNote() {
-        return note;
+    publid String gftNotf() {
+        rfturn notf;
     }
 
     /////////////////
-    // Accessibility support
+    // Addfssibility support
     ////////////////
 
     /**
-     * The <code>AccessibleContext</code> for the <code>ProgressMonitor</code>
-     * @since 1.5
+     * Tif <dodf>AddfssiblfContfxt</dodf> for tif <dodf>ProgrfssMonitor</dodf>
+     * @sindf 1.5
      */
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
-    private AccessibleContext accessibleJOptionPane = null;
+    privbtf AddfssiblfContfxt bddfssiblfJOptionPbnf = null;
 
     /**
-     * Gets the <code>AccessibleContext</code> for the
-     * <code>ProgressMonitor</code>
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> for tif
+     * <dodf>ProgrfssMonitor</dodf>
      *
-     * @return the <code>AccessibleContext</code> for the
-     * <code>ProgressMonitor</code>
-     * @since 1.5
+     * @rfturn tif <dodf>AddfssiblfContfxt</dodf> for tif
+     * <dodf>ProgrfssMonitor</dodf>
+     * @sindf 1.5
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleProgressMonitor();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfProgrfssMonitor();
         }
-        if (pane != null && accessibleJOptionPane == null) {
-            // Notify the AccessibleProgressMonitor that the
-            // ProgressOptionPane was created. It is necessary
-            // to poll for ProgressOptionPane creation because
-            // the ProgressMonitor does not have a Component
-            // to add a listener to until the ProgressOptionPane
-            // is created.
-            if (accessibleContext instanceof AccessibleProgressMonitor) {
-                ((AccessibleProgressMonitor)accessibleContext).optionPaneCreated();
+        if (pbnf != null && bddfssiblfJOptionPbnf == null) {
+            // Notify tif AddfssiblfProgrfssMonitor tibt tif
+            // ProgrfssOptionPbnf wbs drfbtfd. It is nfdfssbry
+            // to poll for ProgrfssOptionPbnf drfbtion bfdbusf
+            // tif ProgrfssMonitor dofs not ibvf b Componfnt
+            // to bdd b listfnfr to until tif ProgrfssOptionPbnf
+            // is drfbtfd.
+            if (bddfssiblfContfxt instbndfof AddfssiblfProgrfssMonitor) {
+                ((AddfssiblfProgrfssMonitor)bddfssiblfContfxt).optionPbnfCrfbtfd();
             }
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * <code>AccessibleProgressMonitor</code> implements accessibility
-     * support for the <code>ProgressMonitor</code> class.
-     * @since 1.5
+     * <dodf>AddfssiblfProgrfssMonitor</dodf> implfmfnts bddfssibility
+     * support for tif <dodf>ProgrfssMonitor</dodf> dlbss.
+     * @sindf 1.5
      */
-    protected class AccessibleProgressMonitor extends AccessibleContext
-        implements AccessibleText, ChangeListener, PropertyChangeListener {
+    protfdtfd dlbss AddfssiblfProgrfssMonitor fxtfnds AddfssiblfContfxt
+        implfmfnts AddfssiblfTfxt, CibngfListfnfr, PropfrtyCibngfListfnfr {
 
         /*
-         * The accessibility hierarchy for ProgressMonitor is a flattened
-         * version of the ProgressOptionPane component hierarchy.
+         * Tif bddfssibility iifrbrdiy for ProgrfssMonitor is b flbttfnfd
+         * vfrsion of tif ProgrfssOptionPbnf domponfnt iifrbrdiy.
          *
-         * The ProgressOptionPane component hierarchy is:
-         *   JDialog
-         *     ProgressOptionPane
-         *       JPanel
-         *         JPanel
-         *           JLabel
-         *           JLabel
-         *           JProgressBar
+         * Tif ProgrfssOptionPbnf domponfnt iifrbrdiy is:
+         *   JDiblog
+         *     ProgrfssOptionPbnf
+         *       JPbnfl
+         *         JPbnfl
+         *           JLbbfl
+         *           JLbbfl
+         *           JProgrfssBbr
          *
-         * The AccessibleProgessMonitor accessibility hierarchy is:
-         *   AccessibleJDialog
-         *     AccessibleProgressMonitor
-         *       AccessibleJLabel
-         *       AccessibleJLabel
-         *       AccessibleJProgressBar
+         * Tif AddfssiblfProgfssMonitor bddfssibility iifrbrdiy is:
+         *   AddfssiblfJDiblog
+         *     AddfssiblfProgrfssMonitor
+         *       AddfssiblfJLbbfl
+         *       AddfssiblfJLbbfl
+         *       AddfssiblfJProgrfssBbr
          *
-         * The abstraction presented to assitive technologies by
-         * the AccessibleProgressMonitor is that a dialog contains a
-         * progress monitor with three children: a message, a note
-         * label and a progress bar.
+         * Tif bbstrbdtion prfsfntfd to bssitivf tfdinologifs by
+         * tif AddfssiblfProgrfssMonitor is tibt b diblog dontbins b
+         * progrfss monitor witi tirff diildrfn: b mfssbgf, b notf
+         * lbbfl bnd b progrfss bbr.
          */
 
-        private Object oldModelValue;
+        privbtf Objfdt oldModflVbluf;
 
         /**
-         * AccessibleProgressMonitor constructor
+         * AddfssiblfProgrfssMonitor donstrudtor
          */
-        protected AccessibleProgressMonitor() {
-        }
-
-        /*
-         * Initializes the AccessibleContext now that the ProgressOptionPane
-         * has been created. Because the ProgressMonitor is not a Component
-         * implementing the Accessible interface, an AccessibleContext
-         * must be synthesized from the ProgressOptionPane and its children.
-         *
-         * For other AWT and Swing classes, the inner class that implements
-         * accessibility for the class extends the inner class that implements
-         * implements accessibility for the super class. AccessibleProgressMonitor
-         * cannot extend AccessibleJOptionPane and must therefore delegate calls
-         * to the AccessibleJOptionPane.
-         */
-        private void optionPaneCreated() {
-            accessibleJOptionPane =
-                ((ProgressOptionPane)pane).getAccessibleJOptionPane();
-
-            // add a listener for progress bar ChangeEvents
-            if (myBar != null) {
-                myBar.addChangeListener(this);
-            }
-
-            // add a listener for note label PropertyChangeEvents
-            if (noteLabel != null) {
-                noteLabel.addPropertyChangeListener(this);
-            }
-        }
-
-        /**
-         * Invoked when the target of the listener has changed its state.
-         *
-         * @param e  a <code>ChangeEvent</code> object. Must not be null.
-         * @throws NullPointerException if the parameter is null.
-         */
-        public void stateChanged(ChangeEvent e) {
-            if (e == null) {
-                return;
-            }
-            if (myBar != null) {
-                // the progress bar value changed
-                Object newModelValue = myBar.getValue();
-                firePropertyChange(ACCESSIBLE_VALUE_PROPERTY,
-                                   oldModelValue,
-                                   newModelValue);
-                oldModelValue = newModelValue;
-            }
-        }
-
-        /**
-         * This method gets called when a bound property is changed.
-         *
-         * @param e A <code>PropertyChangeEvent</code> object describing
-         * the event source and the property that has changed. Must not be null.
-         * @throws NullPointerException if the parameter is null.
-         */
-        public void propertyChange(PropertyChangeEvent e) {
-            if (e.getSource() == noteLabel && e.getPropertyName() == "text") {
-                // the note label text changed
-                firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, 0);
-            }
-        }
-
-        /* ===== Begin AccessileContext ===== */
-
-        /**
-         * Gets the accessibleName property of this object.  The accessibleName
-         * property of an object is a localized String that designates the purpose
-         * of the object.  For example, the accessibleName property of a label
-         * or button might be the text of the label or button itself.  In the
-         * case of an object that doesn't display its name, the accessibleName
-         * should still be set.  For example, in the case of a text field used
-         * to enter the name of a city, the accessibleName for the en_US locale
-         * could be 'city.'
-         *
-         * @return the localized name of the object; null if this
-         * object does not have a name
-         *
-         * @see #setAccessibleName
-         */
-        public String getAccessibleName() {
-            if (accessibleName != null) { // defined in AccessibleContext
-                return accessibleName;
-            } else if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleName();
-            }
-            return null;
-        }
-
-        /**
-         * Gets the accessibleDescription property of this object.  The
-         * accessibleDescription property of this object is a short localized
-         * phrase describing the purpose of the object.  For example, in the
-         * case of a 'Cancel' button, the accessibleDescription could be
-         * 'Ignore changes and close dialog box.'
-         *
-         * @return the localized description of the object; null if
-         * this object does not have a description
-         *
-         * @see #setAccessibleDescription
-         */
-        public String getAccessibleDescription() {
-            if (accessibleDescription != null) { // defined in AccessibleContext
-                return accessibleDescription;
-            } else if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleDescription();
-            }
-            return null;
-        }
-
-        /**
-         * Gets the role of this object.  The role of the object is the generic
-         * purpose or use of the class of this object.  For example, the role
-         * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-         * AccessibleRole are provided so component developers can pick from
-         * a set of predefined roles.  This enables assistive technologies to
-         * provide a consistent interface to various tweaked subclasses of
-         * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-         * that act like a push button) as well as distinguish between subclasses
-         * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-         * and AccessibleRole.RADIO_BUTTON for radio buttons).
-         * <p>Note that the AccessibleRole class is also extensible, so
-         * custom component developers can define their own AccessibleRole's
-         * if the set of predefined roles is inadequate.
-         *
-         * @return an instance of AccessibleRole describing the role of the object
-         * @see AccessibleRole
-         */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PROGRESS_MONITOR;
-        }
-
-        /**
-         * Gets the state set of this object.  The AccessibleStateSet of an object
-         * is composed of a set of unique AccessibleStates.  A change in the
-         * AccessibleStateSet of an object will cause a PropertyChangeEvent to
-         * be fired for the ACCESSIBLE_STATE_PROPERTY property.
-         *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
-         */
-        public AccessibleStateSet getAccessibleStateSet() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleStateSet();
-            }
-            return null;
-        }
-
-        /**
-         * Gets the Accessible parent of this object.
-         *
-         * @return the Accessible parent of this object; null if this
-         * object does not have an Accessible parent
-         */
-        public Accessible getAccessibleParent() {
-            return dialog;
+        protfdtfd AddfssiblfProgrfssMonitor() {
         }
 
         /*
-         * Returns the parent AccessibleContext
+         * Initiblizfs tif AddfssiblfContfxt now tibt tif ProgrfssOptionPbnf
+         * ibs bffn drfbtfd. Bfdbusf tif ProgrfssMonitor is not b Componfnt
+         * implfmfnting tif Addfssiblf intfrfbdf, bn AddfssiblfContfxt
+         * must bf syntifsizfd from tif ProgrfssOptionPbnf bnd its diildrfn.
+         *
+         * For otifr AWT bnd Swing dlbssfs, tif innfr dlbss tibt implfmfnts
+         * bddfssibility for tif dlbss fxtfnds tif innfr dlbss tibt implfmfnts
+         * implfmfnts bddfssibility for tif supfr dlbss. AddfssiblfProgrfssMonitor
+         * dbnnot fxtfnd AddfssiblfJOptionPbnf bnd must tifrfforf dflfgbtf dblls
+         * to tif AddfssiblfJOptionPbnf.
          */
-        private AccessibleContext getParentAccessibleContext() {
-            if (dialog != null) {
-                return dialog.getAccessibleContext();
+        privbtf void optionPbnfCrfbtfd() {
+            bddfssiblfJOptionPbnf =
+                ((ProgrfssOptionPbnf)pbnf).gftAddfssiblfJOptionPbnf();
+
+            // bdd b listfnfr for progrfss bbr CibngfEvfnts
+            if (myBbr != null) {
+                myBbr.bddCibngfListfnfr(tiis);
             }
-            return null;
+
+            // bdd b listfnfr for notf lbbfl PropfrtyCibngfEvfnts
+            if (notfLbbfl != null) {
+                notfLbbfl.bddPropfrtyCibngfListfnfr(tiis);
+            }
         }
 
         /**
-         * Gets the 0-based index of this object in its accessible parent.
+         * Invokfd wifn tif tbrgft of tif listfnfr ibs dibngfd its stbtf.
          *
-         * @return the 0-based index of this object in its parent; -1 if this
-         * object does not have an accessible parent.
-         *
-         * @see #getAccessibleParent
-         * @see #getAccessibleChildrenCount
-         * @see #getAccessibleChild
+         * @pbrbm f  b <dodf>CibngfEvfnt</dodf> objfdt. Must not bf null.
+         * @tirows NullPointfrExdfption if tif pbrbmftfr is null.
          */
-        public int getAccessibleIndexInParent() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleIndexInParent();
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (f == null) {
+                rfturn;
             }
-            return -1;
+            if (myBbr != null) {
+                // tif progrfss bbr vbluf dibngfd
+                Objfdt nfwModflVbluf = myBbr.gftVbluf();
+                firfPropfrtyCibngf(ACCESSIBLE_VALUE_PROPERTY,
+                                   oldModflVbluf,
+                                   nfwModflVbluf);
+                oldModflVbluf = nfwModflVbluf;
+            }
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd.
          *
-         * @return the number of accessible children of the object.
+         * @pbrbm f A <dodf>PropfrtyCibngfEvfnt</dodf> objfdt dfsdribing
+         * tif fvfnt sourdf bnd tif propfrty tibt ibs dibngfd. Must not bf null.
+         * @tirows NullPointfrExdfption if tif pbrbmftfr is null.
          */
-        public int getAccessibleChildrenCount() {
-            // return the number of children in the JPanel containing
-            // the message, note label and progress bar
-            AccessibleContext ac = getPanelAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleChildrenCount();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if (f.gftSourdf() == notfLbbfl && f.gftPropfrtyNbmf() == "tfxt") {
+                // tif notf lbbfl tfxt dibngfd
+                firfPropfrtyCibngf(ACCESSIBLE_TEXT_PROPERTY, null, 0);
             }
-            return 0;
+        }
+
+        /* ===== Bfgin AddfssilfContfxt ===== */
+
+        /**
+         * Gfts tif bddfssiblfNbmf propfrty of tiis objfdt.  Tif bddfssiblfNbmf
+         * propfrty of bn objfdt is b lodblizfd String tibt dfsignbtfs tif purposf
+         * of tif objfdt.  For fxbmplf, tif bddfssiblfNbmf propfrty of b lbbfl
+         * or button migit bf tif tfxt of tif lbbfl or button itsflf.  In tif
+         * dbsf of bn objfdt tibt dofsn't displby its nbmf, tif bddfssiblfNbmf
+         * siould still bf sft.  For fxbmplf, in tif dbsf of b tfxt fifld usfd
+         * to fntfr tif nbmf of b dity, tif bddfssiblfNbmf for tif fn_US lodblf
+         * dould bf 'dity.'
+         *
+         * @rfturn tif lodblizfd nbmf of tif objfdt; null if tiis
+         * objfdt dofs not ibvf b nbmf
+         *
+         * @sff #sftAddfssiblfNbmf
+         */
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) { // dffinfd in AddfssiblfContfxt
+                rfturn bddfssiblfNbmf;
+            } flsf if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftAddfssiblfNbmf();
+            }
+            rfturn null;
         }
 
         /**
-         * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * Gfts tif bddfssiblfDfsdription propfrty of tiis objfdt.  Tif
+         * bddfssiblfDfsdription propfrty of tiis objfdt is b siort lodblizfd
+         * pirbsf dfsdribing tif purposf of tif objfdt.  For fxbmplf, in tif
+         * dbsf of b 'Cbndfl' button, tif bddfssiblfDfsdription dould bf
+         * 'Ignorf dibngfs bnd dlosf diblog box.'
          *
-         * @param i zero-based index of child
-         * @return the Accessible child of the object
-         * @see #getAccessibleChildrenCount
+         * @rfturn tif lodblizfd dfsdription of tif objfdt; null if
+         * tiis objfdt dofs not ibvf b dfsdription
+         *
+         * @sff #sftAddfssiblfDfsdription
          */
-        public Accessible getAccessibleChild(int i) {
-            // return a child in the JPanel containing the message, note label
-            // and progress bar
-            AccessibleContext ac = getPanelAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleChild(i);
+        publid String gftAddfssiblfDfsdription() {
+            if (bddfssiblfDfsdription != null) { // dffinfd in AddfssiblfContfxt
+                rfturn bddfssiblfDfsdription;
+            } flsf if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftAddfssiblfDfsdription();
             }
-            return null;
+            rfturn null;
+        }
+
+        /**
+         * Gfts tif rolf of tiis objfdt.  Tif rolf of tif objfdt is tif gfnfrid
+         * purposf or usf of tif dlbss of tiis objfdt.  For fxbmplf, tif rolf
+         * of b pusi button is AddfssiblfRolf.PUSH_BUTTON.  Tif rolfs in
+         * AddfssiblfRolf brf providfd so domponfnt dfvflopfrs dbn pidk from
+         * b sft of prfdffinfd rolfs.  Tiis fnbblfs bssistivf tfdinologifs to
+         * providf b donsistfnt intfrfbdf to vbrious twfbkfd subdlbssfs of
+         * domponfnts (f.g., usf AddfssiblfRolf.PUSH_BUTTON for bll domponfnts
+         * tibt bdt likf b pusi button) bs wfll bs distinguisi bftwffn subdlbssfs
+         * tibt bfibvf difffrfntly (f.g., AddfssiblfRolf.CHECK_BOX for difdk boxfs
+         * bnd AddfssiblfRolf.RADIO_BUTTON for rbdio buttons).
+         * <p>Notf tibt tif AddfssiblfRolf dlbss is blso fxtfnsiblf, so
+         * dustom domponfnt dfvflopfrs dbn dffinf tifir own AddfssiblfRolf's
+         * if tif sft of prfdffinfd rolfs is inbdfqubtf.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PROGRESS_MONITOR;
+        }
+
+        /**
+         * Gfts tif stbtf sft of tiis objfdt.  Tif AddfssiblfStbtfSft of bn objfdt
+         * is domposfd of b sft of uniquf AddfssiblfStbtfs.  A dibngf in tif
+         * AddfssiblfStbtfSft of bn objfdt will dbusf b PropfrtyCibngfEvfnt to
+         * bf firfd for tif ACCESSIBLE_STATE_PROPERTY propfrty.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif
+         * durrfnt stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtfSft
+         * @sff AddfssiblfStbtf
+         * @sff #bddPropfrtyCibngfListfnfr
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftAddfssiblfStbtfSft();
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gfts tif Addfssiblf pbrfnt of tiis objfdt.
+         *
+         * @rfturn tif Addfssiblf pbrfnt of tiis objfdt; null if tiis
+         * objfdt dofs not ibvf bn Addfssiblf pbrfnt
+         */
+        publid Addfssiblf gftAddfssiblfPbrfnt() {
+            rfturn diblog;
         }
 
         /*
-         * Returns the AccessibleContext for the JPanel containing the
-         * message, note label and progress bar
+         * Rfturns tif pbrfnt AddfssiblfContfxt
          */
-        private AccessibleContext getPanelAccessibleContext() {
-            if (myBar != null) {
-                Component c = myBar.getParent();
-                if (c instanceof Accessible) {
-                    return c.getAccessibleContext();
+        privbtf AddfssiblfContfxt gftPbrfntAddfssiblfContfxt() {
+            if (diblog != null) {
+                rfturn diblog.gftAddfssiblfContfxt();
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gfts tif 0-bbsfd indfx of tiis objfdt in its bddfssiblf pbrfnt.
+         *
+         * @rfturn tif 0-bbsfd indfx of tiis objfdt in its pbrfnt; -1 if tiis
+         * objfdt dofs not ibvf bn bddfssiblf pbrfnt.
+         *
+         * @sff #gftAddfssiblfPbrfnt
+         * @sff #gftAddfssiblfCiildrfnCount
+         * @sff #gftAddfssiblfCiild
+         */
+        publid int gftAddfssiblfIndfxInPbrfnt() {
+            if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftAddfssiblfIndfxInPbrfnt();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns tif numbfr of bddfssiblf diildrfn of tif objfdt.
+         *
+         * @rfturn tif numbfr of bddfssiblf diildrfn of tif objfdt.
+         */
+        publid int gftAddfssiblfCiildrfnCount() {
+            // rfturn tif numbfr of diildrfn in tif JPbnfl dontbining
+            // tif mfssbgf, notf lbbfl bnd progrfss bbr
+            AddfssiblfContfxt bd = gftPbnflAddfssiblfContfxt();
+            if (bd != null) {
+                rfturn bd.gftAddfssiblfCiildrfnCount();
+            }
+            rfturn 0;
+        }
+
+        /**
+         * Rfturns tif spfdififd Addfssiblf diild of tif objfdt.  Tif Addfssiblf
+         * diildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so tif first diild
+         * of bn Addfssiblf diild is bt indfx 0, tif sfdond diild is bt indfx 1,
+         * bnd so on.
+         *
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif Addfssiblf diild of tif objfdt
+         * @sff #gftAddfssiblfCiildrfnCount
+         */
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            // rfturn b diild in tif JPbnfl dontbining tif mfssbgf, notf lbbfl
+            // bnd progrfss bbr
+            AddfssiblfContfxt bd = gftPbnflAddfssiblfContfxt();
+            if (bd != null) {
+                rfturn bd.gftAddfssiblfCiild(i);
+            }
+            rfturn null;
+        }
+
+        /*
+         * Rfturns tif AddfssiblfContfxt for tif JPbnfl dontbining tif
+         * mfssbgf, notf lbbfl bnd progrfss bbr
+         */
+        privbtf AddfssiblfContfxt gftPbnflAddfssiblfContfxt() {
+            if (myBbr != null) {
+                Componfnt d = myBbr.gftPbrfnt();
+                if (d instbndfof Addfssiblf) {
+                    rfturn d.gftAddfssiblfContfxt();
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Gets the locale of the component. If the component does not have a
-         * locale, then the locale of its parent is returned.
+         * Gfts tif lodblf of tif domponfnt. If tif domponfnt dofs not ibvf b
+         * lodblf, tifn tif lodblf of its pbrfnt is rfturnfd.
          *
-         * @return this component's locale.  If this component does not have
-         * a locale, the locale of its parent is returned.
+         * @rfturn tiis domponfnt's lodblf.  If tiis domponfnt dofs not ibvf
+         * b lodblf, tif lodblf of its pbrfnt is rfturnfd.
          *
-         * @exception IllegalComponentStateException
-         * If the Component does not have its own locale and has not yet been
-         * added to a containment hierarchy such that the locale can be
-         * determined from the containing parent.
+         * @fxdfption IllfgblComponfntStbtfExdfption
+         * If tif Componfnt dofs not ibvf its own lodblf bnd ibs not yft bffn
+         * bddfd to b dontbinmfnt iifrbrdiy sudi tibt tif lodblf dbn bf
+         * dftfrminfd from tif dontbining pbrfnt.
          */
-        public Locale getLocale() throws IllegalComponentStateException {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getLocale();
+        publid Lodblf gftLodblf() tirows IllfgblComponfntStbtfExdfption {
+            if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftLodblf();
             }
-            return null;
+            rfturn null;
         }
 
-        /* ===== end AccessibleContext ===== */
+        /* ===== fnd AddfssiblfContfxt ===== */
 
         /**
-         * Gets the AccessibleComponent associated with this object that has a
-         * graphical representation.
+         * Gfts tif AddfssiblfComponfnt bssodibtfd witi tiis objfdt tibt ibs b
+         * grbpiidbl rfprfsfntbtion.
          *
-         * @return AccessibleComponent if supported by object; else return null
-         * @see AccessibleComponent
+         * @rfturn AddfssiblfComponfnt if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfComponfnt
          */
-        public AccessibleComponent getAccessibleComponent() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleComponent();
+        publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+            if (bddfssiblfJOptionPbnf != null) {
+                // dflfgbtf to tif AddfssiblfJOptionPbnf
+                rfturn bddfssiblfJOptionPbnf.gftAddfssiblfComponfnt();
             }
-            return null;
-        }
-
-        /**
-         * Gets the AccessibleValue associated with this object that supports a
-         * Numerical value.
-         *
-         * @return AccessibleValue if supported by object; else return null
-         * @see AccessibleValue
-         */
-        public AccessibleValue getAccessibleValue() {
-            if (myBar != null) {
-                // delegate to the AccessibleJProgressBar
-                return myBar.getAccessibleContext().getAccessibleValue();
-            }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Gets the AccessibleText associated with this object presenting
-         * text on the display.
+         * Gfts tif AddfssiblfVbluf bssodibtfd witi tiis objfdt tibt supports b
+         * Numfridbl vbluf.
          *
-         * @return AccessibleText if supported by object; else return null
-         * @see AccessibleText
+         * @rfturn AddfssiblfVbluf if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfVbluf
          */
-        public AccessibleText getAccessibleText() {
-            if (getNoteLabelAccessibleText() != null) {
-                return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            if (myBbr != null) {
+                // dflfgbtf to tif AddfssiblfJProgrfssBbr
+                rfturn myBbr.gftAddfssiblfContfxt().gftAddfssiblfVbluf();
             }
-            return null;
+            rfturn null;
+        }
+
+        /**
+         * Gfts tif AddfssiblfTfxt bssodibtfd witi tiis objfdt prfsfnting
+         * tfxt on tif displby.
+         *
+         * @rfturn AddfssiblfTfxt if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfTfxt
+         */
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            if (gftNotfLbbflAddfssiblfTfxt() != null) {
+                rfturn tiis;
+            }
+            rfturn null;
         }
 
         /*
-         * Returns the note label AccessibleText
+         * Rfturns tif notf lbbfl AddfssiblfTfxt
          */
-        private AccessibleText getNoteLabelAccessibleText() {
-            if (noteLabel != null) {
-                // AccessibleJLabel implements AccessibleText if the
-                // JLabel contains HTML text
-                return noteLabel.getAccessibleContext().getAccessibleText();
+        privbtf AddfssiblfTfxt gftNotfLbbflAddfssiblfTfxt() {
+            if (notfLbbfl != null) {
+                // AddfssiblfJLbbfl implfmfnts AddfssiblfTfxt if tif
+                // JLbbfl dontbins HTML tfxt
+                rfturn notfLbbfl.gftAddfssiblfContfxt().gftAddfssiblfTfxt();
             }
-            return null;
+            rfturn null;
         }
 
-        /* ===== Begin AccessibleText impl ===== */
+        /* ===== Bfgin AddfssiblfTfxt impl ===== */
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
-         * this method returns -1.
+         * Givfn b point in lodbl doordinbtfs, rfturn tif zfro-bbsfd indfx
+         * of tif dibrbdtfr undfr tibt Point.  If tif point is invblid,
+         * tiis mftiod rfturns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p; if
-         * Point is invalid return -1.
+         * @pbrbm p tif Point in lodbl doordinbtfs
+         * @rfturn tif zfro-bbsfd indfx of tif dibrbdtfr undfr Point p; if
+         * Point is invblid rfturn -1.
          */
-        public int getIndexAtPoint(Point p) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null && sameWindowAncestor(pane, noteLabel)) {
-                // convert point from the option pane bounds
-                // to the note label bounds.
-                Point noteLabelPoint = SwingUtilities.convertPoint(pane,
+        publid int gftIndfxAtPoint(Point p) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null && sbmfWindowAndfstor(pbnf, notfLbbfl)) {
+                // donvfrt point from tif option pbnf bounds
+                // to tif notf lbbfl bounds.
+                Point notfLbbflPoint = SwingUtilitifs.donvfrtPoint(pbnf,
                                                                    p,
-                                                                   noteLabel);
-                if (noteLabelPoint != null) {
-                    return at.getIndexAtPoint(noteLabelPoint);
+                                                                   notfLbbfl);
+                if (notfLbbflPoint != null) {
+                    rfturn bt.gftIndfxAtPoint(notfLbbflPoint);
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid an empty rectangle is returned.
+         * Dftfrminfs tif bounding box of tif dibrbdtfr bt tif givfn
+         * indfx into tif string.  Tif bounds brf rfturnfd in lodbl
+         * doordinbtfs.  If tif indfx is invblid bn fmpty rfdtbnglf is rfturnfd.
          *
-         * @param i the index into the String
-         * @return the screen coordinates of the character's bounding box,
-         * if index is invalid return an empty rectangle.
+         * @pbrbm i tif indfx into tif String
+         * @rfturn tif sdrffn doordinbtfs of tif dibrbdtfr's bounding box,
+         * if indfx is invblid rfturn bn fmpty rfdtbnglf.
          */
-        public Rectangle getCharacterBounds(int i) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null && sameWindowAncestor(pane, noteLabel)) {
-                // return rectangle in the option pane bounds
-                Rectangle noteLabelRect = at.getCharacterBounds(i);
-                if (noteLabelRect != null) {
-                    return SwingUtilities.convertRectangle(noteLabel,
-                                                           noteLabelRect,
-                                                           pane);
+        publid Rfdtbnglf gftCibrbdtfrBounds(int i) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null && sbmfWindowAndfstor(pbnf, notfLbbfl)) {
+                // rfturn rfdtbnglf in tif option pbnf bounds
+                Rfdtbnglf notfLbbflRfdt = bt.gftCibrbdtfrBounds(i);
+                if (notfLbbflRfdt != null) {
+                    rfturn SwingUtilitifs.donvfrtRfdtbnglf(notfLbbfl,
+                                                           notfLbbflRfdt,
+                                                           pbnf);
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * Returns whether source and destination components have the
-         * same window ancestor
+         * Rfturns wiftifr sourdf bnd dfstinbtion domponfnts ibvf tif
+         * sbmf window bndfstor
          */
-        private boolean sameWindowAncestor(Component src, Component dest) {
-            if (src == null || dest == null) {
-                return false;
+        privbtf boolfbn sbmfWindowAndfstor(Componfnt srd, Componfnt dfst) {
+            if (srd == null || dfst == null) {
+                rfturn fblsf;
             }
-            return SwingUtilities.getWindowAncestor(src) ==
-                SwingUtilities.getWindowAncestor(dest);
+            rfturn SwingUtilitifs.gftWindowAndfstor(srd) ==
+                SwingUtilitifs.gftWindowAndfstor(dfst);
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Rfturns tif numbfr of dibrbdtfrs (vblid indidifs)
          *
-         * @return the number of characters
+         * @rfturn tif numbfr of dibrbdtfrs
          */
-        public int getCharCount() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCharCount();
+        publid int gftCibrCount() {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftCibrCount();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Rfturns tif zfro-bbsfd offsft of tif dbrft.
          *
-         * Note: That to the right of the caret will have the same index
-         * value as the offset (the caret is between two characters).
-         * @return the zero-based offset of the caret.
+         * Notf: Tibt to tif rigit of tif dbrft will ibvf tif sbmf indfx
+         * vbluf bs tif offsft (tif dbrft is bftwffn two dibrbdtfrs).
+         * @rfturn tif zfro-bbsfd offsft of tif dbrft.
          */
-        public int getCaretPosition() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCaretPosition();
+        publid int gftCbrftPosition() {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftCbrftPosition();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the String at a given index.
+         * Rfturns tif String bt b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getAtIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getAtIndex(part, index);
+        publid String gftAtIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftAtIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the String after a given index.
+         * Rfturns tif String bftfr b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getAfterIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getAfterIndex(part, index);
+        publid String gftAftfrIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftAftfrIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the String before a given index.
+         * Rfturns tif String bfforf b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getBeforeIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getBeforeIndex(part, index);
+        publid String gftBfforfIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftBfforfIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the AttributeSet for a given character at a given index
+         * Rfturns tif AttributfSft for b givfn dibrbdtfr bt b givfn indfx
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i tif zfro-bbsfd indfx into tif tfxt
+         * @rfturn tif AttributfSft of tif dibrbdtfr
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCharacterAttribute(i);
+        publid AttributfSft gftCibrbdtfrAttributf(int i) {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftCibrbdtfrAttributf(i);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the start offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * Rfturns tif stbrt offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
          *
-         * @return the index into the text of the start of the selection
+         * @rfturn tif indfx into tif tfxt of tif stbrt of tif sflfdtion
          */
-        public int getSelectionStart() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectionStart();
+        publid int gftSflfdtionStbrt() {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftSflfdtionStbrt();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the end offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * Rfturns tif fnd offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
          *
-         * @return the index into the text of the end of the selection
+         * @rfturn tif indfx into tif tfxt of tif fnd of tif sflfdtion
          */
-        public int getSelectionEnd() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectionEnd();
+        publid int gftSflfdtionEnd() {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftSflfdtionEnd();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Rfturns tif portion of tif tfxt tibt is sflfdtfd.
          *
-         * @return the String portion of the text that is selected
+         * @rfturn tif String portion of tif tfxt tibt is sflfdtfd
          */
-        public String getSelectedText() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectedText();
+        publid String gftSflfdtfdTfxt() {
+            AddfssiblfTfxt bt = gftNotfLbbflAddfssiblfTfxt();
+            if (bt != null) {   // JLbbfl dontbins HTML tfxt
+                rfturn bt.gftSflfdtfdTfxt();
             }
-            return null;
+            rfturn null;
         }
-        /* ===== End AccessibleText impl ===== */
+        /* ===== End AddfssiblfTfxt impl ===== */
     }
-    // inner class AccessibleProgressMonitor
+    // innfr dlbss AddfssiblfProgrfssMonitor
 
 }

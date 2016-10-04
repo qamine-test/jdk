@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 
-import java.security.PrivilegedAction;
-import java.security.AccessController;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
 
-import sun.awt.PeerEvent;
+import sun.bwt.PffrEvfnt;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * This utility class is used to suspend execution on a thread
- * while still allowing {@code EventDispatchThread} to dispatch events.
- * The API methods of the class are thread-safe.
+ * Tiis utility dlbss is usfd to suspfnd fxfdution on b tirfbd
+ * wiilf still bllowing {@dodf EvfntDispbtdiTirfbd} to dispbtdi fvfnts.
+ * Tif API mftiods of tif dlbss brf tirfbd-sbff.
  *
- * @author Anton Tarasov, Artem Ananiev
+ * @butior Anton Tbrbsov, Artfm Anbnifv
  *
- * @since 1.7
+ * @sindf 1.7
  */
-class WaitDispatchSupport implements SecondaryLoop {
+dlbss WbitDispbtdiSupport implfmfnts SfdondbryLoop {
 
-    private final static PlatformLogger log =
-        PlatformLogger.getLogger("java.awt.event.WaitDispatchSupport");
+    privbtf finbl stbtid PlbtformLoggfr log =
+        PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.WbitDispbtdiSupport");
 
-    private EventDispatchThread dispatchThread;
-    private EventFilter filter;
+    privbtf EvfntDispbtdiTirfbd dispbtdiTirfbd;
+    privbtf EvfntFiltfr filtfr;
 
-    private volatile Conditional extCondition;
-    private volatile Conditional condition;
+    privbtf volbtilf Conditionbl fxtCondition;
+    privbtf volbtilf Conditionbl dondition;
 
-    private long interval;
-    // Use a shared daemon timer to serve all the WaitDispatchSupports
-    private static Timer timer;
-    // When this WDS expires, we cancel the timer task leaving the
-    // shared timer up and running
-    private TimerTask timerTask;
+    privbtf long intfrvbl;
+    // Usf b sibrfd dbfmon timfr to sfrvf bll tif WbitDispbtdiSupports
+    privbtf stbtid Timfr timfr;
+    // Wifn tiis WDS fxpirfs, wf dbndfl tif timfr tbsk lfbving tif
+    // sibrfd timfr up bnd running
+    privbtf TimfrTbsk timfrTbsk;
 
-    private AtomicBoolean keepBlockingEDT = new AtomicBoolean(false);
-    private AtomicBoolean keepBlockingCT = new AtomicBoolean(false);
+    privbtf AtomidBoolfbn kffpBlodkingEDT = nfw AtomidBoolfbn(fblsf);
+    privbtf AtomidBoolfbn kffpBlodkingCT = nfw AtomidBoolfbn(fblsf);
 
-    private static synchronized void initializeTimer() {
-        if (timer == null) {
-            timer = new Timer("AWT-WaitDispatchSupport-Timer", true);
+    privbtf stbtid syndironizfd void initiblizfTimfr() {
+        if (timfr == null) {
+            timfr = nfw Timfr("AWT-WbitDispbtdiSupport-Timfr", truf);
         }
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crfbtfs b {@dodf WbitDispbtdiSupport} instbndf to
+     * sfrvf tif givfn fvfnt dispbtdi tirfbd.
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
+     * @pbrbm dispbtdiTirfbd An fvfnt dispbtdi tirfbd tibt
+     *        siould not stop dispbtdiing fvfnts wiilf wbiting
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread) {
-        this(dispatchThread, null);
+    publid WbitDispbtdiSupport(EvfntDispbtdiTirfbd dispbtdiTirfbd) {
+        tiis(dispbtdiTirfbd, null);
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crfbtfs b {@dodf WbitDispbtdiSupport} instbndf to
+     * sfrvf tif givfn fvfnt dispbtdi tirfbd.
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
-     * @param extCond A conditional object used to determine
-     *        if the loop should be terminated
+     * @pbrbm dispbtdiTirfbd An fvfnt dispbtdi tirfbd tibt
+     *        siould not stop dispbtdiing fvfnts wiilf wbiting
+     * @pbrbm fxtCond A donditionbl objfdt usfd to dftfrminf
+     *        if tif loop siould bf tfrminbtfd
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread,
-                               Conditional extCond)
+    publid WbitDispbtdiSupport(EvfntDispbtdiTirfbd dispbtdiTirfbd,
+                               Conditionbl fxtCond)
     {
-        if (dispatchThread == null) {
-            throw new IllegalArgumentException("The dispatchThread can not be null");
+        if (dispbtdiTirfbd == null) {
+            tirow nfw IllfgblArgumfntExdfption("Tif dispbtdiTirfbd dbn not bf null");
         }
 
-        this.dispatchThread = dispatchThread;
-        this.extCondition = extCond;
-        this.condition = new Conditional() {
-            @Override
-            public boolean evaluate() {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("evaluate(): blockingEDT=" + keepBlockingEDT.get() +
-                               ", blockingCT=" + keepBlockingCT.get());
+        tiis.dispbtdiTirfbd = dispbtdiTirfbd;
+        tiis.fxtCondition = fxtCond;
+        tiis.dondition = nfw Conditionbl() {
+            @Ovfrridf
+            publid boolfbn fvblubtf() {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("fvblubtf(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                               ", blodkingCT=" + kffpBlodkingCT.gft());
                 }
-                boolean extEvaluate =
-                    (extCondition != null) ? extCondition.evaluate() : true;
-                if (!keepBlockingEDT.get() || !extEvaluate) {
-                    if (timerTask != null) {
-                        timerTask.cancel();
-                        timerTask = null;
+                boolfbn fxtEvblubtf =
+                    (fxtCondition != null) ? fxtCondition.fvblubtf() : truf;
+                if (!kffpBlodkingEDT.gft() || !fxtEvblubtf) {
+                    if (timfrTbsk != null) {
+                        timfrTbsk.dbndfl();
+                        timfrTbsk = null;
                     }
-                    return false;
+                    rfturn fblsf;
                 }
-                return true;
+                rfturn truf;
             }
         };
     }
 
     /**
-     * Creates a {@code WaitDispatchSupport} instance to
-     * serve the given event dispatch thread.
+     * Crfbtfs b {@dodf WbitDispbtdiSupport} instbndf to
+     * sfrvf tif givfn fvfnt dispbtdi tirfbd.
      * <p>
-     * The {@link EventFilter} is set on the {@code dispatchThread}
-     * while waiting. The filter is removed on completion of the
-     * waiting process.
+     * Tif {@link EvfntFiltfr} is sft on tif {@dodf dispbtdiTirfbd}
+     * wiilf wbiting. Tif filtfr is rfmovfd on domplftion of tif
+     * wbiting prodfss.
      * <p>
      *
      *
-     * @param dispatchThread An event dispatch thread that
-     *        should not stop dispatching events while waiting
-     * @param filter {@code EventFilter} to be set
-     * @param interval A time interval to wait for. Note that
-     *        when the waiting process takes place on EDT
-     *        there is no guarantee to stop it in the given time
+     * @pbrbm dispbtdiTirfbd An fvfnt dispbtdi tirfbd tibt
+     *        siould not stop dispbtdiing fvfnts wiilf wbiting
+     * @pbrbm filtfr {@dodf EvfntFiltfr} to bf sft
+     * @pbrbm intfrvbl A timf intfrvbl to wbit for. Notf tibt
+     *        wifn tif wbiting prodfss tbkfs plbdf on EDT
+     *        tifrf is no gubrbntff to stop it in tif givfn timf
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public WaitDispatchSupport(EventDispatchThread dispatchThread,
-                               Conditional extCondition,
-                               EventFilter filter, long interval)
+    publid WbitDispbtdiSupport(EvfntDispbtdiTirfbd dispbtdiTirfbd,
+                               Conditionbl fxtCondition,
+                               EvfntFiltfr filtfr, long intfrvbl)
     {
-        this(dispatchThread, extCondition);
-        this.filter = filter;
-        if (interval < 0) {
-            throw new IllegalArgumentException("The interval value must be >= 0");
+        tiis(dispbtdiTirfbd, fxtCondition);
+        tiis.filtfr = filtfr;
+        if (intfrvbl < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Tif intfrvbl vbluf must bf >= 0");
         }
-        this.interval = interval;
-        if (interval != 0) {
-            initializeTimer();
+        tiis.intfrvbl = intfrvbl;
+        if (intfrvbl != 0) {
+            initiblizfTimfr();
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public boolean enter() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("enter(): blockingEDT=" + keepBlockingEDT.get() +
-                     ", blockingCT=" + keepBlockingCT.get());
+    @Ovfrridf
+    publid boolfbn fntfr() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("fntfr(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                     ", blodkingCT=" + kffpBlodkingCT.gft());
         }
 
-        if (!keepBlockingEDT.compareAndSet(false, true)) {
-            log.fine("The secondary loop is already running, aborting");
-            return false;
+        if (!kffpBlodkingEDT.dompbrfAndSft(fblsf, truf)) {
+            log.finf("Tif sfdondbry loop is blrfbdy running, bborting");
+            rfturn fblsf;
         }
 
-        final Runnable run = new Runnable() {
-            public void run() {
-                log.fine("Starting a new event pump");
-                if (filter == null) {
-                    dispatchThread.pumpEvents(condition);
-                } else {
-                    dispatchThread.pumpEventsForFilter(condition, filter);
+        finbl Runnbblf run = nfw Runnbblf() {
+            publid void run() {
+                log.finf("Stbrting b nfw fvfnt pump");
+                if (filtfr == null) {
+                    dispbtdiTirfbd.pumpEvfnts(dondition);
+                } flsf {
+                    dispbtdiTirfbd.pumpEvfntsForFiltfr(dondition, filtfr);
                 }
             }
         };
 
-        // We have two mechanisms for blocking: if we're on the
-        // dispatch thread, start a new event pump; if we're
-        // on any other thread, call wait() on the treelock
+        // Wf ibvf two mfdibnisms for blodking: if wf'rf on tif
+        // dispbtdi tirfbd, stbrt b nfw fvfnt pump; if wf'rf
+        // on bny otifr tirfbd, dbll wbit() on tif trfflodk
 
-        Thread currentThread = Thread.currentThread();
-        if (currentThread == dispatchThread) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("On dispatch thread: " + dispatchThread);
+        Tirfbd durrfntTirfbd = Tirfbd.durrfntTirfbd();
+        if (durrfntTirfbd == dispbtdiTirfbd) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("On dispbtdi tirfbd: " + dispbtdiTirfbd);
             }
-            if (interval != 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("scheduling the timer for " + interval + " ms");
+            if (intfrvbl != 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("sdifduling tif timfr for " + intfrvbl + " ms");
                 }
-                timer.schedule(timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (keepBlockingEDT.compareAndSet(true, false)) {
-                            wakeupEDT();
+                timfr.sdifdulf(timfrTbsk = nfw TimfrTbsk() {
+                    @Ovfrridf
+                    publid void run() {
+                        if (kffpBlodkingEDT.dompbrfAndSft(truf, fblsf)) {
+                            wbkfupEDT();
                         }
                     }
-                }, interval);
+                }, intfrvbl);
             }
-            // Dispose SequencedEvent we are dispatching on the the current
-            // AppContext, to prevent us from hang - see 4531693 for details
-            SequencedEvent currentSE = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().getCurrentSequencedEvent();
-            if (currentSE != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Dispose current SequencedEvent: " + currentSE);
+            // Disposf SfqufndfdEvfnt wf brf dispbtdiing on tif tif durrfnt
+            // AppContfxt, to prfvfnt us from ibng - sff 4531693 for dftbils
+            SfqufndfdEvfnt durrfntSE = KfybobrdFodusMbnbgfr.
+                gftCurrfntKfybobrdFodusMbnbgfr().gftCurrfntSfqufndfdEvfnt();
+            if (durrfntSE != null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Disposf durrfnt SfqufndfdEvfnt: " + durrfntSE);
                 }
-                currentSE.dispose();
+                durrfntSE.disposf();
             }
-            // In case the exit() method is called before starting
-            // new event pump it will post the waking event to EDT.
-            // The event will be handled after the the new event pump
-            // starts. Thus, the enter() method will not hang.
+            // In dbsf tif fxit() mftiod is dbllfd bfforf stbrting
+            // nfw fvfnt pump it will post tif wbking fvfnt to EDT.
+            // Tif fvfnt will bf ibndlfd bftfr tif tif nfw fvfnt pump
+            // stbrts. Tius, tif fntfr() mftiod will not ibng.
             //
-            // Event pump should be privileged. See 6300270.
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+            // Evfnt pump siould bf privilfgfd. Sff 6300270.
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     run.run();
-                    return null;
+                    rfturn null;
                 }
             });
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("On non-dispatch thread: " + currentThread);
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("On non-dispbtdi tirfbd: " + durrfntTirfbd);
             }
-            synchronized (getTreeLock()) {
-                if (filter != null) {
-                    dispatchThread.addEventFilter(filter);
+            syndironizfd (gftTrffLodk()) {
+                if (filtfr != null) {
+                    dispbtdiTirfbd.bddEvfntFiltfr(filtfr);
                 }
                 try {
-                    EventQueue eq = dispatchThread.getEventQueue();
-                    eq.postEvent(new PeerEvent(this, run, PeerEvent.PRIORITY_EVENT));
-                    keepBlockingCT.set(true);
-                    if (interval > 0) {
-                        long currTime = System.currentTimeMillis();
-                        while (keepBlockingCT.get() &&
-                               ((extCondition != null) ? extCondition.evaluate() : true) &&
-                               (currTime + interval > System.currentTimeMillis()))
+                    EvfntQufuf fq = dispbtdiTirfbd.gftEvfntQufuf();
+                    fq.postEvfnt(nfw PffrEvfnt(tiis, run, PffrEvfnt.PRIORITY_EVENT));
+                    kffpBlodkingCT.sft(truf);
+                    if (intfrvbl > 0) {
+                        long durrTimf = Systfm.durrfntTimfMillis();
+                        wiilf (kffpBlodkingCT.gft() &&
+                               ((fxtCondition != null) ? fxtCondition.fvblubtf() : truf) &&
+                               (durrTimf + intfrvbl > Systfm.durrfntTimfMillis()))
                         {
-                            getTreeLock().wait(interval);
+                            gftTrffLodk().wbit(intfrvbl);
                         }
-                    } else {
-                        while (keepBlockingCT.get() &&
-                               ((extCondition != null) ? extCondition.evaluate() : true))
+                    } flsf {
+                        wiilf (kffpBlodkingCT.gft() &&
+                               ((fxtCondition != null) ? fxtCondition.fvblubtf() : truf))
                         {
-                            getTreeLock().wait();
+                            gftTrffLodk().wbit();
                         }
                     }
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("waitDone " + keepBlockingEDT.get() + " " + keepBlockingCT.get());
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("wbitDonf " + kffpBlodkingEDT.gft() + " " + kffpBlodkingCT.gft());
                     }
-                } catch (InterruptedException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("Exception caught while waiting: " + e);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("Exdfption dbugit wiilf wbiting: " + f);
                     }
-                } finally {
-                    if (filter != null) {
-                        dispatchThread.removeEventFilter(filter);
+                } finblly {
+                    if (filtfr != null) {
+                        dispbtdiTirfbd.rfmovfEvfntFiltfr(filtfr);
                     }
                 }
-                // If the waiting process has been stopped because of the
-                // time interval passed or an exception occurred, the state
-                // should be changed
-                keepBlockingEDT.set(false);
-                keepBlockingCT.set(false);
+                // If tif wbiting prodfss ibs bffn stoppfd bfdbusf of tif
+                // timf intfrvbl pbssfd or bn fxdfption oddurrfd, tif stbtf
+                // siould bf dibngfd
+                kffpBlodkingEDT.sft(fblsf);
+                kffpBlodkingCT.sft(fblsf);
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean exit() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("exit(): blockingEDT=" + keepBlockingEDT.get() +
-                     ", blockingCT=" + keepBlockingCT.get());
+    publid boolfbn fxit() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("fxit(): blodkingEDT=" + kffpBlodkingEDT.gft() +
+                     ", blodkingCT=" + kffpBlodkingCT.gft());
         }
-        if (keepBlockingEDT.compareAndSet(true, false)) {
-            wakeupEDT();
-            return true;
+        if (kffpBlodkingEDT.dompbrfAndSft(truf, fblsf)) {
+            wbkfupEDT();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private final static Object getTreeLock() {
-        return Component.LOCK;
+    privbtf finbl stbtid Objfdt gftTrffLodk() {
+        rfturn Componfnt.LOCK;
     }
 
-    private final Runnable wakingRunnable = new Runnable() {
-        public void run() {
-            log.fine("Wake up EDT");
-            synchronized (getTreeLock()) {
-                keepBlockingCT.set(false);
-                getTreeLock().notifyAll();
+    privbtf finbl Runnbblf wbkingRunnbblf = nfw Runnbblf() {
+        publid void run() {
+            log.finf("Wbkf up EDT");
+            syndironizfd (gftTrffLodk()) {
+                kffpBlodkingCT.sft(fblsf);
+                gftTrffLodk().notifyAll();
             }
-            log.fine("Wake up EDT done");
+            log.finf("Wbkf up EDT donf");
         }
     };
 
-    private void wakeupEDT() {
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("wakeupEDT(): EDT == " + dispatchThread);
+    privbtf void wbkfupEDT() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("wbkfupEDT(): EDT == " + dispbtdiTirfbd);
         }
-        EventQueue eq = dispatchThread.getEventQueue();
-        eq.postEvent(new PeerEvent(this, wakingRunnable, PeerEvent.PRIORITY_EVENT));
+        EvfntQufuf fq = dispbtdiTirfbd.gftEvfntQufuf();
+        fq.postEvfnt(nfw PffrEvfnt(tiis, wbkingRunnbblf, PffrEvfnt.PRIORITY_EVENT));
     }
 }

@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This exception is thrown when a context implementation does not support
-  * the operation being invoked.
-  * For example, if a server does not support the Context.bind() method
-  * it would throw OperationNotSupportedException when the bind() method
-  * is invoked on it.
+  * Tiis fxdfption is tirown wifn b dontfxt implfmfntbtion dofs not support
+  * tif opfrbtion bfing invokfd.
+  * For fxbmplf, if b sfrvfr dofs not support tif Contfxt.bind() mftiod
+  * it would tirow OpfrbtionNotSupportfdExdfption wifn tif bind() mftiod
+  * is invokfd on it.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * bpply dirfdtly ifrf.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
 
-public class OperationNotSupportedException extends NamingException {
+publid dlbss OpfrbtionNotSupportfdExdfption fxtfnds NbmingExdfption {
     /**
-      * Constructs a new instance of OperationNotSupportedException.
-      * All fields default to null.
+      * Construdts b nfw instbndf of OpfrbtionNotSupportfdExdfption.
+      * All fiflds dffbult to null.
       */
-    public OperationNotSupportedException() {
-        super();
+    publid OpfrbtionNotSupportfdExdfption() {
+        supfr();
     }
 
     /**
-      * Constructs a new instance of OperationNotSupportedException using an
-      * explanation. All other fields default to null.
+      * Construdts b nfw instbndf of OpfrbtionNotSupportfdExdfption using bn
+      * fxplbnbtion. All otifr fiflds dffbult to null.
       *
-      * @param  explanation     Possibly null additional detail about this exception
-      * @see java.lang.Throwable#getMessage
+      * @pbrbm  fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption
+      * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
       */
-    public OperationNotSupportedException(String explanation) {
-        super(explanation);
+    publid OpfrbtionNotSupportfdExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 5493232822427682064L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5493232822427682064L;
 }

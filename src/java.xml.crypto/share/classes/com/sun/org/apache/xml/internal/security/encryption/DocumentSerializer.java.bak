@@ -1,113 +1,113 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.StringRfbdfr;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfr;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.DodumfntFrbgmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.InputSourdf;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Converts <code>String</code>s into <code>Node</code>s and visa versa.
+ * Convfrts <dodf>String</dodf>s into <dodf>Nodf</dodf>s bnd visb vfrsb.
  */
-public class DocumentSerializer extends AbstractSerializer {
+publid dlbss DodumfntSfriblizfr fxtfnds AbstrbdtSfriblizfr {
 
-    protected DocumentBuilderFactory dbf;
+    protfdtfd DodumfntBuildfrFbdtory dbf;
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm sourdf
+     * @pbrbm dtx
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    public Node deserialize(byte[] source, Node ctx) throws XMLEncryptionException {
-        byte[] fragment = createContext(source, ctx);
-        return deserialize(ctx, new InputSource(new ByteArrayInputStream(fragment)));
+    publid Nodf dfsfriblizf(bytf[] sourdf, Nodf dtx) tirows XMLEndryptionExdfption {
+        bytf[] frbgmfnt = drfbtfContfxt(sourdf, dtx);
+        rfturn dfsfriblizf(dtx, nfw InputSourdf(nfw BytfArrbyInputStrfbm(frbgmfnt)));
     }
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm sourdf
+     * @pbrbm dtx
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    public Node deserialize(String source, Node ctx) throws XMLEncryptionException {
-        String fragment = createContext(source, ctx);
-        return deserialize(ctx, new InputSource(new StringReader(fragment)));
+    publid Nodf dfsfriblizf(String sourdf, Nodf dtx) tirows XMLEndryptionExdfption {
+        String frbgmfnt = drfbtfContfxt(sourdf, dtx);
+        rfturn dfsfriblizf(dtx, nfw InputSourdf(nfw StringRfbdfr(frbgmfnt)));
     }
 
     /**
-     * @param ctx
-     * @param inputSource
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm dtx
+     * @pbrbm inputSourdf
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    private Node deserialize(Node ctx, InputSource inputSource) throws XMLEncryptionException {
+    privbtf Nodf dfsfriblizf(Nodf dtx, InputSourdf inputSourdf) tirows XMLEndryptionExdfption {
         try {
             if (dbf == null) {
-                dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                dbf.setAttribute("http://xml.org/sax/features/namespaces", Boolean.TRUE);
-                dbf.setValidating(false);
+                dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+                dbf.sftNbmfspbdfAwbrf(truf);
+                dbf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+                dbf.sftAttributf("ittp://xml.org/sbx/ffbturfs/nbmfspbdfs", Boolfbn.TRUE);
+                dbf.sftVblidbting(fblsf);
             }
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document d = db.parse(inputSource);
+            DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+            Dodumfnt d = db.pbrsf(inputSourdf);
 
-            Document contextDocument = null;
-            if (Node.DOCUMENT_NODE == ctx.getNodeType()) {
-                contextDocument = (Document)ctx;
-            } else {
-                contextDocument = ctx.getOwnerDocument();
+            Dodumfnt dontfxtDodumfnt = null;
+            if (Nodf.DOCUMENT_NODE == dtx.gftNodfTypf()) {
+                dontfxtDodumfnt = (Dodumfnt)dtx;
+            } flsf {
+                dontfxtDodumfnt = dtx.gftOwnfrDodumfnt();
             }
 
-            Element fragElt =
-                    (Element) contextDocument.importNode(d.getDocumentElement(), true);
-            DocumentFragment result = contextDocument.createDocumentFragment();
-            Node child = fragElt.getFirstChild();
-            while (child != null) {
-                fragElt.removeChild(child);
-                result.appendChild(child);
-                child = fragElt.getFirstChild();
+            Elfmfnt frbgElt =
+                    (Elfmfnt) dontfxtDodumfnt.importNodf(d.gftDodumfntElfmfnt(), truf);
+            DodumfntFrbgmfnt rfsult = dontfxtDodumfnt.drfbtfDodumfntFrbgmfnt();
+            Nodf diild = frbgElt.gftFirstCiild();
+            wiilf (diild != null) {
+                frbgElt.rfmovfCiild(diild);
+                rfsult.bppfndCiild(diild);
+                diild = frbgElt.gftFirstCiild();
             }
-            return result;
-        } catch (SAXException se) {
-            throw new XMLEncryptionException("empty", se);
-        } catch (ParserConfigurationException pce) {
-            throw new XMLEncryptionException("empty", pce);
-        } catch (IOException ioe) {
-            throw new XMLEncryptionException("empty", ioe);
+            rfturn rfsult;
+        } dbtdi (SAXExdfption sf) {
+            tirow nfw XMLEndryptionExdfption("fmpty", sf);
+        } dbtdi (PbrsfrConfigurbtionExdfption pdf) {
+            tirow nfw XMLEndryptionExdfption("fmpty", pdf);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw XMLEndryptionExdfption("fmpty", iof);
         }
     }
 

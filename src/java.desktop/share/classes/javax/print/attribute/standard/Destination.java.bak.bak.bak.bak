@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.nft.URI;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.URISyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss Dfstinbtion is b printing bttributf dlbss, b URI, thbt is usfd to
+ * indidbtf bn bltfrnbtf dfstinbtion for thf spoolfd printfr formbttfd
+ * dbtb. Mbny PrintSfrvidfs will not support thf notion of b dfstinbtion
+ * othfr thbn thf printfr dfvidf, bnd so will not support this bttributf.
+ * <p>
+ * A dommon usf for this bttributf will bf bpplidbtions whidh wbnt
+ * to rfdirfdt output to b lodbl disk filf : fg."filf:out.prn".
+ * Notf thbt propfr donstrudtion of "filf:" sdhfmf URI instbndfs should
+ * bf pfrformfd using thf <dodf>toURI()</dodf> mfthod of dlbss
+ * {@link jbvb.io.Filf Filf}.
+ * Sff thf dodumfntbtion on thbt dlbss for morf informbtion.
+ * <p>
+ * If b dfstinbtion URI is spfdififd in b PrintRfqufst bnd it is not
+ * bddfssiblf for output by thf PrintSfrvidf, b PrintExdfption will bf thrown.
+ * Thf PrintExdfption mby implfmfnt URIExdfption to providf b morf spfdifid
+ * dbusf.
+ * <P>
+ * <B>IPP Compbtibility:</B> Dfstinbtion is not bn IPP bttributf.
+ *
+ * @buthor  Phil Rbdf.
+ */
+publid finbl dlbss Dfstinbtion fxtfnds URISyntbx
+        implfmfnts PrintJobAttributf, PrintRfqufstAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6776739171700415321L;
+
+    /**
+     * Construdts b nfw dfstinbtion bttributf with thf spfdififd URI.
+     *
+     * @pbrbm  uri  URI.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>uri</CODE> is null.
+     */
+    publid Dfstinbtion(URI uri) {
+        supfr (uri);
+    }
+
+    /**
+     * Rfturns whfthfr this dfstinbtion bttributf is fquivblfnt to thf
+     * pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss Dfstinbtion.
+     * <LI>
+     * This dfstinbtion bttributf's URI bnd <CODE>objfdt</CODE>'s URI
+     * brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this dfstinbtion
+     *         bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) &&
+                objfdt instbndfof Dfstinbtion);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss Dfstinbtion, thf dbtfgory is dlbss Dfstinbtion itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Dfstinbtion.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss Dfstinbtion, thf dbtfgory nbmf is <CODE>"spool-dbtb-dfstinbtion"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "spool-dbtb-dfstinbtion";
+    }
+
+}

@@ -1,0 +1,225 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLContfxt_h_Indludfd
+#dffinf OGLContfxt_h_Indludfd
+
+#indludf "sun_jbvb2d_pipf_BufffrfdContfxt.h"
+#indludf "sun_jbvb2d_opfngl_OGLContfxt.h"
+#indludf "sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps.h"
+
+#indludf "j2d_md.h"
+#indludf "J2D_GL/gl.h"
+#indludf "OGLSurfbdfDbtb.h"
+
+/**
+ * Thf OGLBlfndRulf strudturf fndbpsulbtfs thf two fnumfrbtfd vblufs thbt
+ * domprisf b givfn Portfr-Duff blfnding (dompositing) rulf.  For fxbmplf,
+ * thf "SrdOvfr" rulf dbn bf rfprfsfntfd by:
+ *     rulf.srd = GL_ONE;
+ *     rulf.dst = GL_ONE_MINUS_SRC_ALPHA;
+ *
+ *     GLfnum srd;
+ * Thf donstbnt rfprfsfnting thf sourdf fbdtor in this Portfr-Duff rulf.
+ *
+ *     GLfnum dst;
+ * Thf donstbnt rfprfsfnting thf dfstinbtion fbdtor in this Portfr-Duff rulf.
+ */
+typfdff strudt {
+    GLfnum srd;
+    GLfnum dst;
+} OGLBlfndRulf;
+
+/**
+ * Thf OGLContfxt strudturf dontbins dbdhfd stbtf rflfvbnt to thf nbtivf
+ * OpfnGL dontfxt storfd within thf nbtivf dtxInfo fifld.  Ebdh Jbvb-lfvfl
+ * OGLContfxt objfdt is bssodibtfd with b nbtivf-lfvfl OGLContfxt strudturf.
+ * Thf dbps fifld is b bitfifld thbt fxprfssfs thf dbpbbilitifs of thf
+ * GrbphidsConfig bssodibtfd with this dontfxt (sff OGLContfxt.jbvb for
+ * thf dffinitions of fbdh dbpbbility bit).  Thf othfr fiflds brf
+ * simply dbdhfd vblufs of vbrious flfmfnts of thf dontfxt stbtf, typidblly
+ * usfd in thf OGLContfxt.sft*() mfthods.
+ *
+ * Notf thbt thf tfxturfFundtion fifld is impliditly sft to zfro whfn thf
+ * OGLContfxt is drfbtfd.  Thf bddfptbblf vblufs (f.g. GL_MODULATE,
+ * GL_REPLACE) for this fifld brf nfvfr zfro, whidh mfbns wf will blwbys
+ * vblidbtf thf tfxturf fundtion stbtf upon thf first dbll to thf
+ * OGLC_UPDATE_TEXTURE_FUNCTION() mbdro.
+ */
+typfdff strudt {
+    void       *dtxInfo;
+    jint       dbps;
+    jint       dompStbtf;
+    jflobt     fxtrbAlphb;
+    jint       xorPixfl;
+    jint       pixfl;
+    jubytf     r;
+    jubytf     g;
+    jubytf     b;
+    jubytf     b;
+    jint       pbintStbtf;
+    jboolfbn   usfMbsk;
+    GLdoublf   *xformMbtrix;
+    GLuint     blitTfxturfID;
+    GLint      tfxturfFundtion;
+    jboolfbn   vfrtfxCbdhfEnbblfd;
+} OGLContfxt;
+
+/**
+ * Sff BufffrfdContfxt.jbvb for morf on thfsf flbgs...
+ */
+#dffinf OGLC_NO_CONTEXT_FLAGS \
+    sun_jbvb2d_pipf_BufffrfdContfxt_NO_CONTEXT_FLAGS
+#dffinf OGLC_SRC_IS_OPAQUE    \
+    sun_jbvb2d_pipf_BufffrfdContfxt_SRC_IS_OPAQUE
+#dffinf OGLC_USE_MASK         \
+    sun_jbvb2d_pipf_BufffrfdContfxt_USE_MASK
+
+/**
+ * Sff OGLContfxt.jbvb for morf on thfsf flbgs.
+ */
+#dffinf CAPS_EMPTY           \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EMPTY
+#dffinf CAPS_RT_PLAIN_ALPHA  \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_RT_PLAIN_ALPHA
+#dffinf CAPS_RT_TEXTURE_ALPHA       \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_RT_TEXTURE_ALPHA
+#dffinf CAPS_RT_TEXTURE_OPAQUE      \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_RT_TEXTURE_OPAQUE
+#dffinf CAPS_MULTITEXTURE    \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_MULTITEXTURE
+#dffinf CAPS_TEXNONPOW2      \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_TEXNONPOW2
+#dffinf CAPS_TEXNONSQUARE    \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_TEXNONSQUARE
+#dffinf CAPS_PS20            \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_PS20
+#dffinf CAPS_PS30            \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_PS30
+#dffinf LAST_SHARED_CAP      \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_LAST_SHARED_CAP
+#dffinf CAPS_EXT_FBOBJECT    \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EXT_FBOBJECT
+#dffinf CAPS_STORED_ALPHA    \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_STORED_ALPHA
+#dffinf CAPS_DOUBLEBUFFERED  \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_DOUBLEBUFFERED
+#dffinf CAPS_EXT_LCD_SHADER  \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EXT_LCD_SHADER
+#dffinf CAPS_EXT_BIOP_SHADER \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EXT_BIOP_SHADER
+#dffinf CAPS_EXT_GRAD_SHADER \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EXT_GRAD_SHADER
+#dffinf CAPS_EXT_TEXRECT     \
+    sun_jbvb2d_opfngl_OGLContfxt_OGLContfxtCbps_CAPS_EXT_TEXRECT
+
+/**
+ * Evblubtfs to truf if thf givfn dbpbbility bitmbsk is prfsfnt for thf
+ * givfn OGLContfxt.  Notf thbt only thf donstbnt nbmf nffds to bf pbssfd bs
+ * b pbrbmftfr, bs this mbdro will butombtidblly prfpfnd thf full pbdkbgf
+ * bnd dlbss nbmf to thf donstbnt nbmf.
+ */
+#dffinf OGLC_IS_CAP_PRESENT(ogld, dbp) (((ogld)->dbps & (dbp)) != 0)
+
+/**
+ * At stbrtup wf will fmbfd onf of thf following vblufs in thf dbps fifld
+ * of OGLContfxt.  Lbtfr wf dbn usf this informbtion to sflfdt
+ * thf dodfpbth thbt offfrs thf bfst pfrformbndf for thbt vfndor's
+ * hbrdwbrf bnd/or drivfrs.
+ */
+#dffinf OGLC_VENDOR_OTHER  0
+#dffinf OGLC_VENDOR_ATI    1
+#dffinf OGLC_VENDOR_NVIDIA 2
+#dffinf OGLC_VENDOR_SUN    3
+
+#dffinf OGLC_VCAP_MASK     0x3
+#dffinf OGLC_VCAP_OFFSET   24
+
+#dffinf OGLC_GET_VENDOR(ogld) \
+    (((ogld)->dbps >> OGLC_VCAP_OFFSET) & OGLC_VCAP_MASK)
+
+/**
+ * This donstbnt dftfrminfs thf sizf of thf shbrfd tilf tfxturf usfd
+ * by b numbfr of imbgf rfndfring mfthods.  For fxbmplf, thf blit tilf tfxturf
+ * will hbvf dimfnsions with width OGLC_BLIT_TILE_SIZE bnd hfight
+ * OGLC_BLIT_TILE_SIZE (thf tilf will blwbys bf squbrf).
+ */
+#dffinf OGLC_BLIT_TILE_SIZE 128
+
+/**
+ * Hflpfr mbdros thbt updbtf thf durrfnt tfxturf fundtion stbtf only whfn
+ * it nffds to bf dhbngfd, whidh hflps rfdudf ovfrhfbd for smbll tfxturing
+ * opfrbtions.  Thf filtfr stbtf is sft on b pfr-dontfxt (not pfr-tfxturf)
+ * bbsis; for fxbmplf, if wf bpply onf tfxturf using GL_MODULATE followfd by
+ * bnothfr tfxturf using GL_MODULATE (undfr thf sbmf dontfxt), thfrf is no
+ * nffd to sft thf tfxturf fundtion thf sfdond timf, bs thbt would bf
+ * rfdundbnt.
+ */
+#dffinf OGLC_INIT_TEXTURE_FUNCTION(ogld, fund)                      \
+    do {                                                            \
+        j2d_glTfxEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, (fund)); \
+        (ogld)->tfxturfFundtion = (fund);                           \
+    } whilf (0)
+
+#dffinf OGLC_UPDATE_TEXTURE_FUNCTION(ogld, fund)    \
+    do {                                            \
+        if ((ogld)->tfxturfFundtion != (fund)) {    \
+            OGLC_INIT_TEXTURE_FUNCTION(ogld, fund); \
+        }                                           \
+    } whilf (0)
+
+/**
+ * Exportfd mfthods.
+ */
+OGLContfxt *OGLContfxt_SftSurfbdfs(JNIEnv *fnv, jlong pSrd, jlong pDst);
+void OGLContfxt_RfsftClip(OGLContfxt *ogld);
+void OGLContfxt_SftRfdtClip(OGLContfxt *ogld, OGLSDOps *dstOps,
+                            jint x1, jint y1, jint x2, jint y2);
+void OGLContfxt_BfginShbpfClip(OGLContfxt *ogld);
+void OGLContfxt_EndShbpfClip(OGLContfxt *ogld, OGLSDOps *dstOps);
+void OGLContfxt_SftExtrbAlphb(jflobt fb);
+void OGLContfxt_RfsftCompositf(OGLContfxt *ogld);
+void OGLContfxt_SftAlphbCompositf(OGLContfxt *ogld,
+                                  jint rulf, jflobt fxtrbAlphb, jint flbgs);
+void OGLContfxt_SftXorCompositf(OGLContfxt *ogld, jint xorPixfl);
+void OGLContfxt_RfsftTrbnsform(OGLContfxt *ogld);
+void OGLContfxt_SftTrbnsform(OGLContfxt *ogld,
+                             jdoublf m00, jdoublf m10,
+                             jdoublf m01, jdoublf m11,
+                             jdoublf m02, jdoublf m12);
+
+jboolfbn OGLContfxt_InitBlitTilfTfxturf(OGLContfxt *ogld);
+GLuint OGLContfxt_CrfbtfBlitTfxturf(GLfnum intfrnblFormbt, GLfnum pixflFormbt,
+                                    GLuint width, GLuint hfight);
+
+void OGLContfxt_DfstroyContfxtRfsourdfs(OGLContfxt *ogld);
+
+jboolfbn OGLContfxt_IsExtfnsionAvbilbblf(donst dhbr *fxtString, dhbr *fxtNbmf);
+void OGLContfxt_GftExtfnsionInfo(JNIEnv *fnv, jint *dbps);
+jboolfbn OGLContfxt_IsVfrsionSupportfd(donst unsignfd dhbr *vfrsionstr);
+
+GLhbndlfARB OGLContfxt_CrfbtfFrbgmfntProgrbm(donst dhbr *frbgmfntShbdfrSourdf);
+
+#fndif /* OGLContfxt_h_Indludfd */

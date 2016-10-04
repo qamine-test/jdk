@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvb.lbng.mbnbgfmfnt.MfmoryNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
 
 /**
- * A CompositeData for MemoryNotificationInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for MfmoryNotifidbtionInfo for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class MemoryNotifInfoCompositeData extends LazyCompositeData {
-    private final MemoryNotificationInfo memoryNotifInfo;
+publid dlbss MfmoryNotifInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl MfmoryNotifidbtionInfo mfmoryNotifInfo;
 
-    private MemoryNotifInfoCompositeData(MemoryNotificationInfo info) {
-        this.memoryNotifInfo = info;
+    privbtf MfmoryNotifInfoCompositfDbtb(MfmoryNotifidbtionInfo info) {
+        tiis.mfmoryNotifInfo = info;
     }
 
-    public MemoryNotificationInfo getMemoryNotifInfo() {
-        return memoryNotifInfo;
+    publid MfmoryNotifidbtionInfo gftMfmoryNotifInfo() {
+        rfturn mfmoryNotifInfo;
     }
 
-    public static CompositeData toCompositeData(MemoryNotificationInfo info) {
-        MemoryNotifInfoCompositeData mnicd =
-            new MemoryNotifInfoCompositeData(info);
-        return mnicd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(MfmoryNotifidbtionInfo info) {
+        MfmoryNotifInfoCompositfDbtb mnidd =
+            nfw MfmoryNotifInfoCompositfDbtb(info);
+        rfturn mnidd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // memoryNotifInfoItemNames!
-        final Object[] memoryNotifInfoItemValues = {
-            memoryNotifInfo.getPoolName(),
-            MemoryUsageCompositeData.toCompositeData(memoryNotifInfo.getUsage()),
-            memoryNotifInfo.getCount(),
+        // mfmoryNotifInfoItfmNbmfs!
+        finbl Objfdt[] mfmoryNotifInfoItfmVblufs = {
+            mfmoryNotifInfo.gftPoolNbmf(),
+            MfmoryUsbgfCompositfDbtb.toCompositfDbtb(mfmoryNotifInfo.gftUsbgf()),
+            mfmoryNotifInfo.gftCount(),
         };
 
         try {
-            return new CompositeDataSupport(memoryNotifInfoCompositeType,
-                                            memoryNotifInfoItemNames,
-                                            memoryNotifInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(mfmoryNotifInfoCompositfTypf,
+                                            mfmoryNotifInfoItfmNbmfs,
+                                            mfmoryNotifInfoItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final CompositeType memoryNotifInfoCompositeType;
-    static {
+    privbtf stbtid finbl CompositfTypf mfmoryNotifInfoCompositfTypf;
+    stbtid {
         try {
-            memoryNotifInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(MemoryNotificationInfo.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            mfmoryNotifInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(MfmoryNotifidbtionInfo.dlbss);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final String POOL_NAME = "poolName";
-    private static final String USAGE     = "usage";
-    private static final String COUNT     = "count";
-    private static final String[] memoryNotifInfoItemNames = {
+    privbtf stbtid finbl String POOL_NAME = "poolNbmf";
+    privbtf stbtid finbl String USAGE     = "usbgf";
+    privbtf stbtid finbl String COUNT     = "dount";
+    privbtf stbtid finbl String[] mfmoryNotifInfoItfmNbmfs = {
         POOL_NAME,
         USAGE,
         COUNT,
     };
 
 
-    public static String getPoolName(CompositeData cd) {
-        String poolname = getString(cd, POOL_NAME);
-        if (poolname == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + POOL_NAME + " has null value");
+    publid stbtid String gftPoolNbmf(CompositfDbtb dd) {
+        String poolnbmf = gftString(dd, POOL_NAME);
+        if (poolnbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dompositf dbtb: " +
+                "Attributf " + POOL_NAME + " ibs null vbluf");
         }
-        return poolname;
+        rfturn poolnbmf;
     }
 
-    public static MemoryUsage getUsage(CompositeData cd) {
-        CompositeData usageData = (CompositeData) cd.get(USAGE);
-        return MemoryUsage.from(usageData);
+    publid stbtid MfmoryUsbgf gftUsbgf(CompositfDbtb dd) {
+        CompositfDbtb usbgfDbtb = (CompositfDbtb) dd.gft(USAGE);
+        rfturn MfmoryUsbgf.from(usbgfDbtb);
     }
 
-    public static long getCount(CompositeData cd) {
-        return getLong(cd, COUNT);
+    publid stbtid long gftCount(CompositfDbtb dd) {
+        rfturn gftLong(dd, COUNT);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(memoryNotifInfoCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for MemoryNotificationInfo");
+        if (!isTypfMbtdifd(mfmoryNotifInfoCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for MfmoryNotifidbtionInfo");
         }
     }
 
-    private static final long serialVersionUID = -1805123446483771291L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1805123446483771291L;
 }

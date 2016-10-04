@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.bwt.im.spi;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.Imbgf;
+import jbvb.util.Lodblf;
+
+/**
+ * Dffinfs mfthods thbt providf suffidifnt informbtion bbout bn input mfthod
+ * to fnbblf sflfdtion bnd lobding of thbt input mfthod.
+ * Thf input mfthod itsflf is only lobdfd whfn it is bdtublly usfd.
+ *
+ * @sindf 1.3
+ */
+
+publid intfrfbdf InputMfthodDfsdriptor {
+
+    /**
+     * Rfturns thf lodblfs supportfd by thf dorrfsponding input mfthod.
+     * Thf lodblf mby dfsdribf just thf lbngubgf, or mby blso indludf
+     * dountry bnd vbribnt informbtion if nffdfd.
+     * Thf informbtion is usfd to sflfdt input mfthods by lodblf
+     * ({@link jbvb.bwt.im.InputContfxt#sflfdtInputMfthod(Lodblf)}). It mby blso
+     * bf usfd to sort input mfthods by lodblf in b usfr-visiblf
+     * list of input mfthods.
+     * <p>
+     * Only thf input mfthod's primbry lodblfs should bf rfturnfd.
+     * For fxbmplf, if b Jbpbnfsf input mfthod blso hbs b pbss-through
+     * modf for Rombn dhbrbdtfrs, typidblly still only Jbpbnfsf would
+     * bf rfturnfd. Thus, thf list of lodblfs rfturnfd is typidblly
+     * b subsft of thf lodblfs for whidh thf dorrfsponding input mfthod's
+     * implfmfntbtion of {@link jbvb.bwt.im.spi.InputMfthod#sftLodblf} rfturns truf.
+     * <p>
+     * If {@link #hbsDynbmidLodblfList} rfturns truf, this mfthod is
+     * dbllfd fbdh timf thf informbtion is nffdfd. This
+     * givfs input mfthods thbt dfpfnd on nftwork rfsourdfs thf dhbndf
+     * to bdd or rfmovf lodblfs bs rfsourdfs bfdomf bvbilbblf or
+     * unbvbilbblf.
+     *
+     * @rfturn thf lodblfs supportfd by thf input mfthod
+     * @fxdfption AWTExdfption if it dbn bf dftfrminfd thbt thf input mfthod
+     * is inopfrbblf, for fxbmplf, bfdbusf of indomplftf instbllbtion.
+     */
+    Lodblf[] gftAvbilbblfLodblfs() throws AWTExdfption;
+
+    /**
+     * Rfturns whfthfr thf list of bvbilbblf lodblfs dbn dhbngf
+     * bt runtimf. This mby bf thf dbsf, for fxbmplf, for bdbptfrs
+     * thbt bddfss rfbl input mfthods ovfr thf nftwork.
+     * @rfturn whfthfr thf list of bvbilbblf lodblfs dbn dhbngf bt
+     * runtimf
+     */
+    boolfbn hbsDynbmidLodblfList();
+
+    /**
+     * Rfturns thf usfr-visiblf nbmf of thf dorrfsponding
+     * input mfthod for thf givfn input lodblf in thf lbngubgf in whidh
+     * thf nbmf will bf displbyfd.
+     * <p>
+     * Thf inputLodblf pbrbmftfr spfdififs thf lodblf for whidh tfxt
+     * is input.
+     * This pbrbmftfr dbn only tbkf vblufs obtbinfd from this dfsdriptor's
+     * {@link #gftAvbilbblfLodblfs} mfthod or null. If it is null, bn
+     * input lodblf indfpfndfnt nbmf for thf input mfthod should bf
+     * rfturnfd.
+     * <p>
+     * If b nbmf for thf dfsirfd displby lbngubgf is not bvbilbblf, thf
+     * mfthod mby fbll bbdk to somf othfr lbngubgf.
+     *
+     * @pbrbm inputLodblf thf lodblf for whidh tfxt input is supportfd, or null
+     * @pbrbm displbyLbngubgf thf lbngubgf in whidh thf nbmf will bf displbyfd
+     * @rfturn thf usfr-visiblf nbmf of thf dorrfsponding input mfthod
+     * for thf givfn input lodblf in thf lbngubgf in whidh thf nbmf
+     * will bf displbyfd
+     */
+    String gftInputMfthodDisplbyNbmf(Lodblf inputLodblf, Lodblf displbyLbngubgf);
+
+    /**
+     * Rfturns bn idon for thf dorrfsponding input mfthod.
+     * Thf idon mby bf usfd by b usfr intfrfbdf for sflfdting input mfthods.
+     * <p>
+     * Thf inputLodblf pbrbmftfr spfdififs thf lodblf for whidh tfxt
+     * is input.
+     * This pbrbmftfr dbn only tbkf vblufs obtbinfd from this dfsdriptor's
+     * {@link #gftAvbilbblfLodblfs} mfthod or null. If it is null, bn
+     * input lodblf indfpfndfnt idon for thf input mfthod should bf
+     * rfturnfd.
+     * <p>
+     * Thf idon's sizf should bf 16&timfs;16 pixfls.
+     *
+     * @pbrbm inputLodblf thf lodblf for whidh tfxt input is supportfd, or null
+     * @rfturn bn idon for thf dorrfsponding input mfthod, or null
+     */
+    Imbgf gftInputMfthodIdon(Lodblf inputLodblf);
+
+    /**
+     * Crfbtfs b nfw instbndf of thf dorrfsponding input mfthod.
+     *
+     * @rfturn b nfw instbndf of thf dorrfsponding input mfthod
+     * @fxdfption Exdfption bny fxdfption thbt mby oddur whilf drfbting thf
+     * input mfthod instbndf
+     */
+    InputMfthod drfbtfInputMfthod() throws Exdfption;
+}

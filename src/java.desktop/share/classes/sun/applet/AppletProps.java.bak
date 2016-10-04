@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.awt.*;
-import java.io.*;
-import java.util.Properties;
-import sun.net.www.http.HttpClient;
-import sun.net.ftp.FtpClient;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.util.Propfrtifs;
+import sun.nft.www.ittp.HttpClifnt;
+import sun.nft.ftp.FtpClifnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
 
-import sun.security.action.*;
+import sun.sfdurity.bdtion.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-class AppletProps extends Frame {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+dlbss ApplftProps fxtfnds Frbmf {
 
-    TextField proxyHost;
-    TextField proxyPort;
-    Choice accessMode;
+    TfxtFifld proxyHost;
+    TfxtFifld proxyPort;
+    Cioidf bddfssModf;
 
-    AppletProps() {
-        setTitle(amh.getMessage("title"));
-        Panel p = new Panel();
-        p.setLayout(new GridLayout(0, 2));
+    ApplftProps() {
+        sftTitlf(bmi.gftMfssbgf("titlf"));
+        Pbnfl p = nfw Pbnfl();
+        p.sftLbyout(nfw GridLbyout(0, 2));
 
-        p.add(new Label(amh.getMessage("label.http.server", "Http proxy server:")));
-        p.add(proxyHost = new TextField());
+        p.bdd(nfw Lbbfl(bmi.gftMfssbgf("lbbfl.ittp.sfrvfr", "Http proxy sfrvfr:")));
+        p.bdd(proxyHost = nfw TfxtFifld());
 
-        p.add(new Label(amh.getMessage("label.http.proxy")));
-        p.add(proxyPort = new TextField());
+        p.bdd(nfw Lbbfl(bmi.gftMfssbgf("lbbfl.ittp.proxy")));
+        p.bdd(proxyPort = nfw TfxtFifld());
 
-        p.add(new Label(amh.getMessage("label.class")));
-        p.add(accessMode = new Choice());
-        accessMode.addItem(amh.getMessage("choice.class.item.restricted"));
-        accessMode.addItem(amh.getMessage("choice.class.item.unrestricted"));
+        p.bdd(nfw Lbbfl(bmi.gftMfssbgf("lbbfl.dlbss")));
+        p.bdd(bddfssModf = nfw Cioidf());
+        bddfssModf.bddItfm(bmi.gftMfssbgf("dioidf.dlbss.itfm.rfstridtfd"));
+        bddfssModf.bddItfm(bmi.gftMfssbgf("dioidf.dlbss.itfm.unrfstridtfd"));
 
-        add("Center", p);
-        p = new Panel();
-        p.add(new Button(amh.getMessage("button.apply")));
-        p.add(new Button(amh.getMessage("button.reset")));
-        p.add(new Button(amh.getMessage("button.cancel")));
-        add("South", p);
-        move(200, 150);
-        pack();
-        reset();
+        bdd("Cfntfr", p);
+        p = nfw Pbnfl();
+        p.bdd(nfw Button(bmi.gftMfssbgf("button.bpply")));
+        p.bdd(nfw Button(bmi.gftMfssbgf("button.rfsft")));
+        p.bdd(nfw Button(bmi.gftMfssbgf("button.dbndfl")));
+        bdd("Souti", p);
+        movf(200, 150);
+        pbdk();
+        rfsft();
     }
 
-    void reset() {
-        AppletSecurity security = (AppletSecurity) System.getSecurityManager();
-        if (security != null)
-            security.reset();
+    void rfsft() {
+        ApplftSfdurity sfdurity = (ApplftSfdurity) Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.rfsft();
 
-        String proxyhost = AccessController.doPrivileged(
-                new GetPropertyAction("http.proxyHost"));
-        String proxyport = AccessController.doPrivileged(
-                new GetPropertyAction("http.proxyPort"));
+        String proxyiost = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("ittp.proxyHost"));
+        String proxyport = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("ittp.proxyPort"));
 
-        Boolean tmp = AccessController.doPrivileged(
-                new GetBooleanAction("package.restrict.access.sun"));
+        Boolfbn tmp = AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion("pbdkbgf.rfstridt.bddfss.sun"));
 
-        boolean packageRestrict = tmp.booleanValue();
-        if (packageRestrict) {
-           accessMode.select(amh.getMessage("choice.class.item.restricted"));
-        } else {
-           accessMode.select(amh.getMessage("choice.class.item.unrestricted"));
+        boolfbn pbdkbgfRfstridt = tmp.boolfbnVbluf();
+        if (pbdkbgfRfstridt) {
+           bddfssModf.sflfdt(bmi.gftMfssbgf("dioidf.dlbss.itfm.rfstridtfd"));
+        } flsf {
+           bddfssModf.sflfdt(bmi.gftMfssbgf("dioidf.dlbss.itfm.unrfstridtfd"));
         }
 
-        if (proxyhost != null) {
-            proxyHost.setText(proxyhost);
-            proxyPort.setText(proxyport);
-        } else {
-            proxyHost.setText("");
-            proxyPort.setText("");
+        if (proxyiost != null) {
+            proxyHost.sftTfxt(proxyiost);
+            proxyPort.sftTfxt(proxyport);
+        } flsf {
+            proxyHost.sftTfxt("");
+            proxyPort.sftTfxt("");
         }
     }
 
-    void apply() {
-        String proxyHostValue = proxyHost.getText().trim();
-        String proxyPortValue = proxyPort.getText().trim();
+    void bpply() {
+        String proxyHostVbluf = proxyHost.gftTfxt().trim();
+        String proxyPortVbluf = proxyPort.gftTfxt().trim();
 
-        // Get properties
-        final Properties props = AccessController.doPrivileged(
-             new PrivilegedAction<Properties>() {
-                 public Properties run() {
-                     return System.getProperties();
+        // Gft propfrtifs
+        finbl Propfrtifs props = AddfssControllfr.doPrivilfgfd(
+             nfw PrivilfgfdAdtion<Propfrtifs>() {
+                 publid Propfrtifs run() {
+                     rfturn Systfm.gftPropfrtifs();
                  }
         });
 
-        if (proxyHostValue.length() != 0) {
+        if (proxyHostVbluf.lfngti() != 0) {
             /* 4066402 */
-            /* Check for parsable value in proxy port number field before */
-            /* applying. Display warning to user until parsable value is  */
-            /* entered. */
-            int proxyPortNumber = 0;
+            /* Cifdk for pbrsbblf vbluf in proxy port numbfr fifld bfforf */
+            /* bpplying. Displby wbrning to usfr until pbrsbblf vbluf is  */
+            /* fntfrfd. */
+            int proxyPortNumbfr = 0;
             try {
-                proxyPortNumber = Integer.parseInt(proxyPortValue);
-            } catch (NumberFormatException e) {}
+                proxyPortNumbfr = Intfgfr.pbrsfInt(proxyPortVbluf);
+            } dbtdi (NumbfrFormbtExdfption f) {}
 
-            if (proxyPortNumber <= 0) {
-                proxyPort.selectAll();
-                proxyPort.requestFocus();
-                (new AppletPropsErrorDialog(this,
-                                            amh.getMessage("title.invalidproxy"),
-                                            amh.getMessage("label.invalidproxy"),
-                                            amh.getMessage("button.ok"))).show();
-                return;
+            if (proxyPortNumbfr <= 0) {
+                proxyPort.sflfdtAll();
+                proxyPort.rfqufstFodus();
+                (nfw ApplftPropsErrorDiblog(tiis,
+                                            bmi.gftMfssbgf("titlf.invblidproxy"),
+                                            bmi.gftMfssbgf("lbbfl.invblidproxy"),
+                                            bmi.gftMfssbgf("button.ok"))).siow();
+                rfturn;
             }
-            /* end 4066402 */
+            /* fnd 4066402 */
 
-            props.put("http.proxyHost", proxyHostValue);
-            props.put("http.proxyPort", proxyPortValue);
-        } else {
-            props.put("http.proxyHost", "");
+            props.put("ittp.proxyHost", proxyHostVbluf);
+            props.put("ittp.proxyPort", proxyPortVbluf);
+        } flsf {
+            props.put("ittp.proxyHost", "");
         }
 
-        if (amh.getMessage("choice.class.item.restricted").equals(accessMode.getSelectedItem())) {
-            props.put("package.restrict.access.sun", "true");
-        } else {
-            props.put("package.restrict.access.sun", "false");
+        if (bmi.gftMfssbgf("dioidf.dlbss.itfm.rfstridtfd").fqubls(bddfssModf.gftSflfdtfdItfm())) {
+            props.put("pbdkbgf.rfstridt.bddfss.sun", "truf");
+        } flsf {
+            props.put("pbdkbgf.rfstridt.bddfss.sun", "fblsf");
         }
 
-        // Save properties
+        // Sbvf propfrtifs
         try {
-            reset();
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws IOException {
-                    File dotAV = Main.theUserPropertiesFile;
-                    FileOutputStream out = new FileOutputStream(dotAV);
-                    Properties avProps = new Properties();
-                    for (int i = 0; i < Main.avDefaultUserProps.length; i++) {
-                        String avKey = Main.avDefaultUserProps[i][0];
-                        avProps.setProperty(avKey, props.getProperty(avKey));
+            rfsft();
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                publid Objfdt run() tirows IOExdfption {
+                    Filf dotAV = Mbin.tifUsfrPropfrtifsFilf;
+                    FilfOutputStrfbm out = nfw FilfOutputStrfbm(dotAV);
+                    Propfrtifs bvProps = nfw Propfrtifs();
+                    for (int i = 0; i < Mbin.bvDffbultUsfrProps.lfngti; i++) {
+                        String bvKfy = Mbin.bvDffbultUsfrProps[i][0];
+                        bvProps.sftPropfrty(bvKfy, props.gftPropfrty(bvKfy));
                     }
-                    avProps.store(out, amh.getMessage("prop.store"));
-                    out.close();
-                    return null;
+                    bvProps.storf(out, bmi.gftMfssbgf("prop.storf"));
+                    out.dlosf();
+                    rfturn null;
                 }
             });
-            hide();
-        } catch (java.security.PrivilegedActionException e) {
-            System.out.println(amh.getMessage("apply.exception",
-                                              e.getException()));
-            // XXX what's the general feeling on stack traces to System.out?
-            e.printStackTrace();
-            reset();
+            iidf();
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            Systfm.out.println(bmi.gftMfssbgf("bpply.fxdfption",
+                                              f.gftExdfption()));
+            // XXX wibt's tif gfnfrbl fffling on stbdk trbdfs to Systfm.out?
+            f.printStbdkTrbdf();
+            rfsft();
         }
     }
 
-    public boolean action(Event evt, Object obj) {
-        if (amh.getMessage("button.apply").equals(obj)) {
-            apply();
-            return true;
+    publid boolfbn bdtion(Evfnt fvt, Objfdt obj) {
+        if (bmi.gftMfssbgf("button.bpply").fqubls(obj)) {
+            bpply();
+            rfturn truf;
         }
-        if (amh.getMessage("button.reset").equals(obj)) {
-            reset();
-            return true;
+        if (bmi.gftMfssbgf("button.rfsft").fqubls(obj)) {
+            rfsft();
+            rfturn truf;
         }
-        if (amh.getMessage("button.cancel").equals(obj)) {
-            reset();
-            hide();
-            return true;
+        if (bmi.gftMfssbgf("button.dbndfl").fqubls(obj)) {
+            rfsft();
+            iidf();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletprops");
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("bpplftprops");
 
 }
 
 /* 4066432 */
-/* Dialog class to display property-related errors to user */
-@SuppressWarnings("serial") // JDK implementation class
-class AppletPropsErrorDialog extends Dialog {
-    public AppletPropsErrorDialog(Frame parent, String title, String message,
-                String buttonText) {
-        super(parent, title, true);
-        Panel p = new Panel();
-        add("Center", new Label(message));
-        p.add(new Button(buttonText));
-        add("South", p);
-        pack();
+/* Diblog dlbss to displby propfrty-rflbtfd frrors to usfr */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+dlbss ApplftPropsErrorDiblog fxtfnds Diblog {
+    publid ApplftPropsErrorDiblog(Frbmf pbrfnt, String titlf, String mfssbgf,
+                String buttonTfxt) {
+        supfr(pbrfnt, titlf, truf);
+        Pbnfl p = nfw Pbnfl();
+        bdd("Cfntfr", nfw Lbbfl(mfssbgf));
+        p.bdd(nfw Button(buttonTfxt));
+        bdd("Souti", p);
+        pbdk();
 
-        Dimension dDim = size();
-        Rectangle fRect = parent.bounds();
-        move(fRect.x + ((fRect.width - dDim.width) / 2),
-             fRect.y + ((fRect.height - dDim.height) / 2));
+        Dimfnsion dDim = sizf();
+        Rfdtbnglf fRfdt = pbrfnt.bounds();
+        movf(fRfdt.x + ((fRfdt.widti - dDim.widti) / 2),
+             fRfdt.y + ((fRfdt.ifigit - dDim.ifigit) / 2));
     }
 
-    public boolean action(Event event, Object object) {
-        hide();
-        dispose();
-        return true;
+    publid boolfbn bdtion(Evfnt fvfnt, Objfdt objfdt) {
+        iidf();
+        disposf();
+        rfturn truf;
     }
 }
 
-/* end 4066432 */
+/* fnd 4066432 */

@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+
+
+/**
+ * An intfrfbdf thbt providfs informbtion to b sdrolling dontbinfr
+ * likf JSdrollPbnf.  A domplfx domponfnt thbt's likfly to bf usfd
+ * bs b vifwing b JSdrollPbnf vifwport (or othfr sdrolling dontbinfr)
+ * should implfmfnt this intfrfbdf.
+ *
+ * @sff JVifwport
+ * @sff JSdrollPbnf
+ * @sff JSdrollBbr
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+publid intfrfbdf Sdrollbblf
+{
+    /**
+     * Rfturns thf prfffrrfd sizf of thf vifwport for b vifw domponfnt.
+     * For fxbmplf, thf prfffrrfd sizf of b <dodf>JList</dodf> domponfnt
+     * is thf sizf rfquirfd to bddommodbtf bll of thf dflls in its list.
+     * Howfvfr, thf vbluf of <dodf>prfffrrfdSdrollbblfVifwportSizf</dodf>
+     * is thf sizf rfquirfd for <dodf>JList.gftVisiblfRowCount</dodf> rows.
+     * A domponfnt without bny propfrtifs thbt would bfffdt thf vifwport
+     * sizf should just rfturn <dodf>gftPrfffrrfdSizf</dodf> hfrf.
+     *
+     * @rfturn thf prfffrrfdSizf of b <dodf>JVifwport</dodf> whosf vifw
+     *    is this <dodf>Sdrollbblf</dodf>
+     * @sff JVifwport#gftPrfffrrfdSizf
+     */
+    Dimfnsion gftPrfffrrfdSdrollbblfVifwportSizf();
+
+
+    /**
+     * Componfnts thbt displby logidbl rows or dolumns should domputf
+     * thf sdroll indrfmfnt thbt will domplftfly fxposf onf nfw row
+     * or dolumn, dfpfnding on thf vbluf of orifntbtion.  Idfblly,
+     * domponfnts should hbndlf b pbrtiblly fxposfd row or dolumn by
+     * rfturning thf distbndf rfquirfd to domplftfly fxposf thf itfm.
+     * <p>
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf this mfthod
+     * fbdh timf thf usfr rfqufsts b unit sdroll.
+     *
+     * @pbrbm visiblfRfdt Thf vifw brfb visiblf within thf vifwport
+     * @pbrbm orifntbtion Eithfr SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss thbn zfro to sdroll up/lfft, grfbtfr thbn zfro for down/right.
+     * @rfturn Thf "unit" indrfmfnt for sdrolling in thf spfdififd dirfdtion.
+     *         This vbluf should blwbys bf positivf.
+     * @sff JSdrollBbr#sftUnitIndrfmfnt
+     */
+    int gftSdrollbblfUnitIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion);
+
+
+    /**
+     * Componfnts thbt displby logidbl rows or dolumns should domputf
+     * thf sdroll indrfmfnt thbt will domplftfly fxposf onf blodk
+     * of rows or dolumns, dfpfnding on thf vbluf of orifntbtion.
+     * <p>
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf this mfthod
+     * fbdh timf thf usfr rfqufsts b blodk sdroll.
+     *
+     * @pbrbm visiblfRfdt Thf vifw brfb visiblf within thf vifwport
+     * @pbrbm orifntbtion Eithfr SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss thbn zfro to sdroll up/lfft, grfbtfr thbn zfro for down/right.
+     * @rfturn Thf "blodk" indrfmfnt for sdrolling in thf spfdififd dirfdtion.
+     *         This vbluf should blwbys bf positivf.
+     * @sff JSdrollBbr#sftBlodkIndrfmfnt
+     */
+    int gftSdrollbblfBlodkIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion);
+
+
+    /**
+     * Rfturn truf if b vifwport should blwbys fordf thf width of this
+     * <dodf>Sdrollbblf</dodf> to mbtdh thf width of thf vifwport.
+     * For fxbmplf b normbl
+     * tfxt vifw thbt supportfd linf wrbpping would rfturn truf hfrf, sindf it
+     * would bf undfsirbblf for wrbppfd linfs to disbppfbr bfyond thf right
+     * fdgf of thf vifwport.  Notf thbt rfturning truf for b Sdrollbblf
+     * whosf bndfstor is b JSdrollPbnf ffffdtivfly disbblfs horizontbl
+     * sdrolling.
+     * <p>
+     * Sdrolling dontbinfrs, likf JVifwport, will usf this mfthod fbdh
+     * timf thfy brf vblidbtfd.
+     *
+     * @rfturn Truf if b vifwport should fordf thf Sdrollbblfs width to mbtdh its own.
+     */
+    boolfbn gftSdrollbblfTrbdksVifwportWidth();
+
+    /**
+     * Rfturn truf if b vifwport should blwbys fordf thf hfight of this
+     * Sdrollbblf to mbtdh thf hfight of thf vifwport.  For fxbmplf b
+     * dolumnbr tfxt vifw thbt flowfd tfxt in lfft to right dolumns
+     * dould ffffdtivfly disbblf vfrtidbl sdrolling by rfturning
+     * truf hfrf.
+     * <p>
+     * Sdrolling dontbinfrs, likf JVifwport, will usf this mfthod fbdh
+     * timf thfy brf vblidbtfd.
+     *
+     * @rfturn Truf if b vifwport should fordf thf Sdrollbblfs hfight to mbtdh its own.
+     */
+    boolfbn gftSdrollbblfTrbdksVifwportHfight();
+}

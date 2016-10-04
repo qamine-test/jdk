@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.cert.CRLException;
-import java.security.cert.CertificateException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.TreeMap;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the CRL Extensions.
- * It is used for both CRL Extensions and CRL Entry Extensions,
- * which are defined are follows:
- * <pre>
- * TBSCertList  ::=  SEQUENCE  {
- *    version              Version OPTIONAL,   -- if present, must be v2
- *    signature            AlgorithmIdentifier,
- *    issuer               Name,
- *    thisUpdate           Time,
- *    nextUpdate           Time  OPTIONAL,
- *    revokedCertificates  SEQUENCE OF SEQUENCE  {
- *        userCertificate         CertificateSerialNumber,
- *        revocationDate          Time,
- *        crlEntryExtensions      Extensions OPTIONAL  -- if present, must be v2
+ * Tiis dlbss dffinfs tif CRL Extfnsions.
+ * It is usfd for boti CRL Extfnsions bnd CRL Entry Extfnsions,
+ * wiidi brf dffinfd brf follows:
+ * <prf>
+ * TBSCfrtList  ::=  SEQUENCE  {
+ *    vfrsion              Vfrsion OPTIONAL,   -- if prfsfnt, must bf v2
+ *    signbturf            AlgoritimIdfntififr,
+ *    issufr               Nbmf,
+ *    tiisUpdbtf           Timf,
+ *    nfxtUpdbtf           Timf  OPTIONAL,
+ *    rfvokfdCfrtifidbtfs  SEQUENCE OF SEQUENCE  {
+ *        usfrCfrtifidbtf         CfrtifidbtfSfriblNumbfr,
+ *        rfvodbtionDbtf          Timf,
+ *        drlEntryExtfnsions      Extfnsions OPTIONAL  -- if prfsfnt, must bf v2
  *    }  OPTIONAL,
- *    crlExtensions        [0] EXPLICIT Extensions OPTIONAL  -- if present, must be v2
+ *    drlExtfnsions        [0] EXPLICIT Extfnsions OPTIONAL  -- if prfsfnt, must bf v2
  * }
- * </pre>
+ * </prf>
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class CRLExtensions {
+publid dlbss CRLExtfnsions {
 
-    private Map<String,Extension> map = Collections.synchronizedMap(
-            new TreeMap<String,Extension>());
-    private boolean unsupportedCritExt = false;
+    privbtf Mbp<String,Extfnsion> mbp = Collfdtions.syndironizfdMbp(
+            nfw TrffMbp<String,Extfnsion>());
+    privbtf boolfbn unsupportfdCritExt = fblsf;
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public CRLExtensions() { }
+    publid CRLExtfnsions() { }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the Extension from, i.e. the
-     *        sequence of extensions.
-     * @exception CRLException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif Extfnsion from, i.f. tif
+     *        sfqufndf of fxtfnsions.
+     * @fxdfption CRLExdfption on dfdoding frrors.
      */
-    public CRLExtensions(DerInputStream in) throws CRLException {
+    publid CRLExtfnsions(DfrInputStrfbm in) tirows CRLExdfption {
         init(in);
     }
 
-    // helper routine
-    private void init(DerInputStream derStrm) throws CRLException {
+    // iflpfr routinf
+    privbtf void init(DfrInputStrfbm dfrStrm) tirows CRLExdfption {
         try {
-            DerInputStream str = derStrm;
+            DfrInputStrfbm str = dfrStrm;
 
-            byte nextByte = (byte)derStrm.peekByte();
-            // check for context specific byte 0; skip it
-            if (((nextByte & 0x0c0) == 0x080) &&
-                ((nextByte & 0x01f) == 0x000)) {
-                DerValue val = str.getDerValue();
-                str = val.data;
+            bytf nfxtBytf = (bytf)dfrStrm.pffkBytf();
+            // difdk for dontfxt spfdifid bytf 0; skip it
+            if (((nfxtBytf & 0x0d0) == 0x080) &&
+                ((nfxtBytf & 0x01f) == 0x000)) {
+                DfrVbluf vbl = str.gftDfrVbluf();
+                str = vbl.dbtb;
             }
 
-            DerValue[] exts = str.getSequence(5);
-            for (int i = 0; i < exts.length; i++) {
-                Extension ext = new Extension(exts[i]);
-                parseExtension(ext);
+            DfrVbluf[] fxts = str.gftSfqufndf(5);
+            for (int i = 0; i < fxts.lfngti; i++) {
+                Extfnsion fxt = nfw Extfnsion(fxts[i]);
+                pbrsfExtfnsion(fxt);
             }
-        } catch (IOException e) {
-            throw new CRLException("Parsing error: " + e.toString());
+        } dbtdi (IOExdfption f) {
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.toString());
         }
     }
 
-    private static final Class<?>[] PARAMS = {Boolean.class, Object.class};
+    privbtf stbtid finbl Clbss<?>[] PARAMS = {Boolfbn.dlbss, Objfdt.dlbss};
 
-    // Parse the encoded extension
-    private void parseExtension(Extension ext) throws CRLException {
+    // Pbrsf tif fndodfd fxtfnsion
+    privbtf void pbrsfExtfnsion(Extfnsion fxt) tirows CRLExdfption {
         try {
-            Class<?> extClass = OIDMap.getClass(ext.getExtensionId());
-            if (extClass == null) {   // Unsupported extension
-                if (ext.isCritical())
-                    unsupportedCritExt = true;
-                if (map.put(ext.getExtensionId().toString(), ext) != null)
-                    throw new CRLException("Duplicate extensions not allowed");
-                return;
+            Clbss<?> fxtClbss = OIDMbp.gftClbss(fxt.gftExtfnsionId());
+            if (fxtClbss == null) {   // Unsupportfd fxtfnsion
+                if (fxt.isCritidbl())
+                    unsupportfdCritExt = truf;
+                if (mbp.put(fxt.gftExtfnsionId().toString(), fxt) != null)
+                    tirow nfw CRLExdfption("Duplidbtf fxtfnsions not bllowfd");
+                rfturn;
             }
-            Constructor<?> cons = extClass.getConstructor(PARAMS);
-            Object[] passed = new Object[] {Boolean.valueOf(ext.isCritical()),
-                                            ext.getExtensionValue()};
-            CertAttrSet<?> crlExt = (CertAttrSet<?>)cons.newInstance(passed);
-            if (map.put(crlExt.getName(), (Extension)crlExt) != null) {
-                throw new CRLException("Duplicate extensions not allowed");
+            Construdtor<?> dons = fxtClbss.gftConstrudtor(PARAMS);
+            Objfdt[] pbssfd = nfw Objfdt[] {Boolfbn.vblufOf(fxt.isCritidbl()),
+                                            fxt.gftExtfnsionVbluf()};
+            CfrtAttrSft<?> drlExt = (CfrtAttrSft<?>)dons.nfwInstbndf(pbssfd);
+            if (mbp.put(drlExt.gftNbmf(), (Extfnsion)drlExt) != null) {
+                tirow nfw CRLExdfption("Duplidbtf fxtfnsions not bllowfd");
             }
-        } catch (InvocationTargetException invk) {
-            throw new CRLException(invk.getTargetException().getMessage());
-        } catch (Exception e) {
-            throw new CRLException(e.toString());
+        } dbtdi (InvodbtionTbrgftExdfption invk) {
+            tirow nfw CRLExdfption(invk.gftTbrgftExdfption().gftMfssbgf());
+        } dbtdi (Exdfption f) {
+            tirow nfw CRLExdfption(f.toString());
         }
     }
 
     /**
-     * Encode the extensions in DER form to the stream.
+     * Endodf tif fxtfnsions in DER form to tif strfbm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @param isExplicit the tag indicating whether this is an entry
-     * extension (false) or a CRL extension (true).
-     * @exception CRLException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @pbrbm isExplidit tif tbg indidbting wiftifr tiis is bn fntry
+     * fxtfnsion (fblsf) or b CRL fxtfnsion (truf).
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out, boolean isExplicit)
-    throws CRLException {
+    publid void fndodf(OutputStrfbm out, boolfbn isExplidit)
+    tirows CRLExdfption {
         try {
-            DerOutputStream extOut = new DerOutputStream();
-            Collection<Extension> allExts = map.values();
-            Object[] objs = allExts.toArray();
+            DfrOutputStrfbm fxtOut = nfw DfrOutputStrfbm();
+            Collfdtion<Extfnsion> bllExts = mbp.vblufs();
+            Objfdt[] objs = bllExts.toArrby();
 
-            for (int i = 0; i < objs.length; i++) {
-                if (objs[i] instanceof CertAttrSet)
-                    ((CertAttrSet)objs[i]).encode(extOut);
-                else if (objs[i] instanceof Extension)
-                    ((Extension)objs[i]).encode(extOut);
-                else
-                    throw new CRLException("Illegal extension object");
+            for (int i = 0; i < objs.lfngti; i++) {
+                if (objs[i] instbndfof CfrtAttrSft)
+                    ((CfrtAttrSft)objs[i]).fndodf(fxtOut);
+                flsf if (objs[i] instbndfof Extfnsion)
+                    ((Extfnsion)objs[i]).fndodf(fxtOut);
+                flsf
+                    tirow nfw CRLExdfption("Illfgbl fxtfnsion objfdt");
             }
 
-            DerOutputStream seq = new DerOutputStream();
-            seq.write(DerValue.tag_Sequence, extOut);
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, fxtOut);
 
-            DerOutputStream tmp = new DerOutputStream();
-            if (isExplicit)
-                tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                             true, (byte)0), seq);
-            else
-                tmp = seq;
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            if (isExplidit)
+                tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                             truf, (bytf)0), sfq);
+            flsf
+                tmp = sfq;
 
-            out.write(tmp.toByteArray());
-        } catch (IOException e) {
-            throw new CRLException("Encoding error: " + e.toString());
-        } catch (CertificateException e) {
-            throw new CRLException("Encoding error: " + e.toString());
+            out.writf(tmp.toBytfArrby());
+        } dbtdi (IOExdfption f) {
+            tirow nfw CRLExdfption("Endoding frror: " + f.toString());
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw CRLExdfption("Endoding frror: " + f.toString());
         }
     }
 
     /**
-     * Get the extension with this alias.
+     * Gft tif fxtfnsion witi tiis blibs.
      *
-     * @param alias the identifier string for the extension to retrieve.
+     * @pbrbm blibs tif idfntififr string for tif fxtfnsion to rftrifvf.
      */
-    public Extension get(String alias) {
-        X509AttributeName attr = new X509AttributeName(alias);
-        String name;
-        String id = attr.getPrefix();
-        if (id.equalsIgnoreCase(X509CertImpl.NAME)) { // fully qualified
-            int index = alias.lastIndexOf('.');
-            name = alias.substring(index + 1);
-        } else
-            name = alias;
-        return map.get(name);
+    publid Extfnsion gft(String blibs) {
+        X509AttributfNbmf bttr = nfw X509AttributfNbmf(blibs);
+        String nbmf;
+        String id = bttr.gftPrffix();
+        if (id.fqublsIgnorfCbsf(X509CfrtImpl.NAME)) { // fully qublififd
+            int indfx = blibs.lbstIndfxOf('.');
+            nbmf = blibs.substring(indfx + 1);
+        } flsf
+            nbmf = blibs;
+        rfturn mbp.gft(nbmf);
     }
 
     /**
-     * Set the extension value with this alias.
+     * Sft tif fxtfnsion vbluf witi tiis blibs.
      *
-     * @param alias the identifier string for the extension to set.
-     * @param obj the Object to set the extension identified by the
-     *        alias.
+     * @pbrbm blibs tif idfntififr string for tif fxtfnsion to sft.
+     * @pbrbm obj tif Objfdt to sft tif fxtfnsion idfntififd by tif
+     *        blibs.
      */
-    public void set(String alias, Object obj) {
-        map.put(alias, (Extension)obj);
+    publid void sft(String blibs, Objfdt obj) {
+        mbp.put(blibs, (Extfnsion)obj);
     }
 
     /**
-     * Delete the extension value with this alias.
+     * Dflftf tif fxtfnsion vbluf witi tiis blibs.
      *
-     * @param alias the identifier string for the extension to delete.
+     * @pbrbm blibs tif idfntififr string for tif fxtfnsion to dflftf.
      */
-    public void delete(String alias) {
-        map.remove(alias);
+    publid void dflftf(String blibs) {
+        mbp.rfmovf(blibs);
     }
 
     /**
-     * Return an enumeration of the extensions.
-     * @return an enumeration of the extensions in this CRL.
+     * Rfturn bn fnumfrbtion of tif fxtfnsions.
+     * @rfturn bn fnumfrbtion of tif fxtfnsions in tiis CRL.
      */
-    public Enumeration<Extension> getElements() {
-        return Collections.enumeration(map.values());
+    publid Enumfrbtion<Extfnsion> gftElfmfnts() {
+        rfturn Collfdtions.fnumfrbtion(mbp.vblufs());
     }
 
     /**
-     * Return a collection view of the extensions.
-     * @return a collection view of the extensions in this CRL.
+     * Rfturn b dollfdtion vifw of tif fxtfnsions.
+     * @rfturn b dollfdtion vifw of tif fxtfnsions in tiis CRL.
      */
-    public Collection<Extension> getAllExtensions() {
-        return map.values();
+    publid Collfdtion<Extfnsion> gftAllExtfnsions() {
+        rfturn mbp.vblufs();
     }
 
     /**
-     * Return true if a critical extension is found that is
-     * not supported, otherwise return false.
+     * Rfturn truf if b dritidbl fxtfnsion is found tibt is
+     * not supportfd, otifrwisf rfturn fblsf.
      */
-    public boolean hasUnsupportedCriticalExtension() {
-        return unsupportedCritExt;
+    publid boolfbn ibsUnsupportfdCritidblExtfnsion() {
+        rfturn unsupportfdCritExt;
     }
 
     /**
-     * Compares this CRLExtensions for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>CRLExtensions</code>, then
-     * all the entries are compared with the entries from this.
+     * Compbrfs tiis CRLExtfnsions for fqublity witi tif spfdififd
+     * objfdt. If tif <dodf>otifr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>CRLExtfnsions</dodf>, tifn
+     * bll tif fntrifs brf dompbrfd witi tif fntrifs from tiis.
      *
-     * @param other the object to test for equality with this CRLExtensions.
-     * @return true iff all the entries match that of the Other,
-     * false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis CRLExtfnsions.
+     * @rfturn truf iff bll tif fntrifs mbtdi tibt of tif Otifr,
+     * fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof CRLExtensions))
-            return false;
-        Collection<Extension> otherC =
-                        ((CRLExtensions)other).getAllExtensions();
-        Object[] objs = otherC.toArray();
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof CRLExtfnsions))
+            rfturn fblsf;
+        Collfdtion<Extfnsion> otifrC =
+                        ((CRLExtfnsions)otifr).gftAllExtfnsions();
+        Objfdt[] objs = otifrC.toArrby();
 
-        int len = objs.length;
-        if (len != map.size())
-            return false;
+        int lfn = objs.lfngti;
+        if (lfn != mbp.sizf())
+            rfturn fblsf;
 
-        Extension otherExt, thisExt;
-        String key = null;
-        for (int i = 0; i < len; i++) {
-            if (objs[i] instanceof CertAttrSet)
-                key = ((CertAttrSet)objs[i]).getName();
-            otherExt = (Extension)objs[i];
-            if (key == null)
-                key = otherExt.getExtensionId().toString();
-            thisExt = map.get(key);
-            if (thisExt == null)
-                return false;
-            if (! thisExt.equals(otherExt))
-                return false;
+        Extfnsion otifrExt, tiisExt;
+        String kfy = null;
+        for (int i = 0; i < lfn; i++) {
+            if (objs[i] instbndfof CfrtAttrSft)
+                kfy = ((CfrtAttrSft)objs[i]).gftNbmf();
+            otifrExt = (Extfnsion)objs[i];
+            if (kfy == null)
+                kfy = otifrExt.gftExtfnsionId().toString();
+            tiisExt = mbp.gft(kfy);
+            if (tiisExt == null)
+                rfturn fblsf;
+            if (! tiisExt.fqubls(otifrExt))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a hashcode value for this CRLExtensions.
+     * Rfturns b ibsidodf vbluf for tiis CRLExtfnsions.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        return map.hashCode();
+    publid int ibsiCodf() {
+        rfturn mbp.ibsiCodf();
     }
 
     /**
-     * Returns a string representation of this <tt>CRLExtensions</tt> object
-     * in the form of a set of entries, enclosed in braces and separated
-     * by the ASCII characters "<tt>,&nbsp;</tt>" (comma and space).
-     * <p>Overrides to <tt>toString</tt> method of <tt>Object</tt>.
+     * Rfturns b string rfprfsfntbtion of tiis <tt>CRLExtfnsions</tt> objfdt
+     * in tif form of b sft of fntrifs, fndlosfd in brbdfs bnd sfpbrbtfd
+     * by tif ASCII dibrbdtfrs "<tt>,&nbsp;</tt>" (dommb bnd spbdf).
+     * <p>Ovfrridfs to <tt>toString</tt> mftiod of <tt>Objfdt</tt>.
      *
-     * @return  a string representation of this CRLExtensions.
+     * @rfturn  b string rfprfsfntbtion of tiis CRLExtfnsions.
      */
-    public String toString() {
-        return map.toString();
+    publid String toString() {
+        rfturn mbp.toString();
     }
 }

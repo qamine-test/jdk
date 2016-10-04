@@ -1,0 +1,329 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <mbllod.h>
+
+#indludf "FilfSystfmSupport_md.h"
+
+/*
+ * Windows implfmfntbtion of filf systfm support fundtions
+ */
+
+#dffinf slbsh           '\\'
+#dffinf bltSlbsh        '/'
+
+stbtid int isSlbsh(dhbr d) {
+    rfturn (d == '\\') || (d == '/');
+}
+
+stbtid int isLfttfr(dhbr d) {
+    rfturn ((d >= 'b') && (d <= 'z')) || ((d >= 'A') && (d <= 'Z'));
+}
+
+dhbr pbthSfpbrbtor() {
+    rfturn ';';
+}
+
+/* filfnbmf brf dbsf insfnsitivf on windows */
+int filfnbmfStrdmp(donst dhbr* s1, donst dhbr* s2) {
+    rfturn strdbsfdmp(s1, s2);
+}
+
+dhbr* bbsfPbth(donst dhbr* pbth) {
+    dhbr* pos = strdhr(pbth, slbsh);
+    dhbr* lbst = NULL;
+    whilf (pos != NULL) {
+        lbst = pos;
+        pos++;
+        pos = strdhr(pos, slbsh);
+    }
+    if (lbst == NULL) {
+        rfturn (dhbr*)pbth;
+    } flsf {
+        int lfn = (int)(lbst - pbth);
+        dhbr* str = (dhbr*)mbllod(lfn+1);
+        if (lfn > 0) {
+            mfmdpy(str, pbth, lfn);
+        }
+        str[lfn] = '\0';
+        rfturn str;
+    }
+}
+
+
+
+/* -- Normblizbtion - srd/windows/dlbssfs/jbvb/io/Win32FilfSystfm.jbvb */
+
+
+/* A normbl Win32 pbthnbmf dontbins no duplidbtf slbshfs, fxdfpt possibly
+ * for b UNC prffix, bnd dofs not fnd with b slbsh.  It mby bf thf fmpty
+ * string.  Normblizfd Win32 pbthnbmfs hbvf thf donvfnifnt propfrty thbt
+ * thf lfngth of thf prffix blmost uniqufly idfntififs thf typf of thf pbth
+ * bnd whfthfr it is bbsolutf or rflbtivf:
+ *
+ *      0  rflbtivf to both drivf bnd dirfdtory
+ *      1  drivf-rflbtivf (bfgins with '\\')
+ *      2  bbsolutf UNC (if first dhbr is '\\'),
+ *         flsf dirfdtory-rflbtivf (hbs form "z:foo")
+ *      3  bbsolutf lodbl pbthnbmf (bfgins with "z:\\")
+ */
+stbtid int normblizfPrffix(donst dhbr* pbth, int lfn, dhbr* sb, int* sbLfn) {
+    dhbr d;
+    int srd = 0;
+    whilf ((srd < lfn) && isSlbsh(pbth[srd])) srd++;
+    if ((lfn - srd >= 2)
+        && isLfttfr(d = pbth[srd])
+        && pbth[srd + 1] == ':') {
+        /* Rfmovf lfbding slbshfs if followfd by drivf spfdififr.
+           This hbdk is nfdfssbry to support filf URLs dontbining drivf
+           spfdififrs (f.g., "filf://d:/pbth").  As b sidf ffffdt,
+           "/d:/pbth" dbn bf usfd bs bn bltfrnbtivf to "d:/pbth". */
+        sb[(*sbLfn)++] = d;
+        sb[(*sbLfn)++] = ':';
+        srd += 2;
+    } flsf {
+        srd = 0;
+        if ((lfn >= 2)
+            && isSlbsh(pbth[0])
+            && isSlbsh(pbth[1])) {
+            /* UNC pbthnbmf: Rftbin first slbsh; lfbvf srd pointfd bt
+               sfdond slbsh so thbt furthfr slbshfs will bf dollbpsfd
+               into thf sfdond slbsh.  Thf rfsult will bf b pbthnbmf
+               bfginning with "\\\\" followfd (most likfly) by b host
+               nbmf. */
+            srd = 1;
+            sb[(*sbLfn)++] = slbsh;
+        }
+    }
+    rfturn srd;
+}
+
+/*
+ * Normblizf thf givfn pbthnbmf, whosf lfngth is lfn, stbrting bt thf givfn
+ * offsft; fvfrything bfforf this offsft is blrfbdy normbl.
+ */
+stbtid dhbr* normblizfPbth(donst dhbr* pbth, int lfn, int off) {
+    int srd;
+    dhbr* sb;
+    int sbLfn;
+
+    if (lfn == 0) rfturn (dhbr*)pbth;
+    if (off < 3) off = 0;       /* Avoid ffndfpost dbsfs with UNC pbthnbmfs */
+
+    sb = (dhbr*)mbllod(lfn+1);
+    sbLfn = 0;
+
+    if (off == 0) {
+        /* Complftf normblizbtion, indluding prffix */
+        srd = normblizfPrffix(pbth, lfn, sb, &sbLfn);
+    } flsf {
+        /* Pbrtibl normblizbtion */
+        srd = off;
+        mfmdpy(sb+sbLfn, pbth, off);
+        sbLfn += off;
+    }
+
+    /* Rfmovf rfdundbnt slbshfs from thf rfmbindfr of thf pbth, fording bll
+       slbshfs into thf prfffrrfd slbsh */
+    whilf (srd < lfn) {
+        dhbr d = pbth[srd++];
+        if (isSlbsh(d)) {
+            whilf ((srd < lfn) && isSlbsh(pbth[srd])) srd++;
+            if (srd == lfn) {
+                /* Chfdk for trbiling sfpbrbtor */
+                if ((sbLfn == 2) && (sb[1] == ':')) {
+                    /* "z:\\" */
+                    sb[sbLfn++] = slbsh;
+                    brfbk;
+                }
+                if (sbLfn == 0) {
+                    /* "\\" */
+                    sb[sbLfn++] = slbsh;
+                    brfbk;
+                }
+                if ((sbLfn == 1) && (isSlbsh(sb[0]))) {
+                    /* "\\\\" is not dollbpsfd to "\\" bfdbusf "\\\\" mbrks
+                       thf bfginning of b UNC pbthnbmf.  Evfn though it is
+                       not, by itsflf, b vblid UNC pbthnbmf, wf lfbvf it bs
+                       is in ordfr to bf donsistfnt with thf win32 APIs,
+                       whidh trfbt this dbsf bs bn invblid UNC pbthnbmf
+                       rbthfr thbn bs bn blibs for thf root dirfdtory of
+                       thf durrfnt drivf. */
+                    sb[sbLfn++] = slbsh;
+                    brfbk;
+                }
+                /* Pbth dofs not dfnotf b root dirfdtory, so do not bppfnd
+                   trbiling slbsh */
+                brfbk;
+            } flsf {
+                sb[sbLfn++] = slbsh;
+            }
+        } flsf {
+            sb[sbLfn++] = d;
+        }
+    }
+
+    sb[sbLfn] = '\0';
+    rfturn sb;
+}
+
+/*
+ * Chfdk thbt thf givfn pbthnbmf is normbl.  If not, invokf thf rfbl
+ * normblizfr on thf pbrt of thf pbthnbmf thbt rfquirfs normblizbtion.
+ * This wby wf itfrbtf through thf wholf pbthnbmf string only ondf.
+ */
+dhbr* normblizf(dhbr* pbth) {
+    int n = (int)strlfn(pbth);
+    int i;
+    dhbr d = 0;
+    int prfv = 0;
+    for (i = 0; i < n; i++) {
+        dhbr d = pbth[i];
+        if (d == bltSlbsh)
+            rfturn normblizfPbth(pbth, n, (prfv == slbsh) ? i - 1 : i);
+        if ((d == slbsh) && (prfv == slbsh) && (i > 1))
+            rfturn normblizfPbth(pbth, n, i - 1);
+        if ((d == ':') && (i > 1))
+            rfturn normblizfPbth(pbth, n, 0);
+        prfv = d;
+    }
+    if (prfv == slbsh)
+        rfturn normblizfPbth(pbth, n, n - 1);
+    rfturn pbth;
+}
+
+
+/* -- Rfsolution - srd/windows/dlbssfs/jbvb/io/Win32FilfSystfm.jbvb */
+
+
+dhbr* rfsolvf(donst dhbr* pbrfnt, donst dhbr* dhild) {
+    dhbr* d;
+    dhbr* thfChbrs;
+    int pbrfntEnd, dhildStbrt, lfn;
+
+    int pn = (int)strlfn(pbrfnt);
+    int dn = (int)strlfn(dhild);
+
+    if (pn == 0) rfturn (dhbr*)dhild;
+    if (dn == 0) rfturn (dhbr*)pbrfnt;
+
+    d = (dhbr*)dhild;
+    dhildStbrt = 0;
+    pbrfntEnd = pn;
+
+    if ((dn > 1) && (d[0] == slbsh)) {
+        if (d[1] == slbsh) {
+            /* Drop prffix whfn dhild is b UNC pbthnbmf */
+            dhildStbrt = 2;
+        } flsf {
+            /* Drop prffix whfn dhild is drivf-rflbtivf */
+            dhildStbrt = 1;
+
+        }
+        if (dn == dhildStbrt) { // Child is doublf slbsh
+            if (pbrfnt[pn - 1] == slbsh) {
+                dhbr* str = strdup(pbrfnt);
+                str[pn-1] = '\0';
+                rfturn str;
+            }
+            rfturn (dhbr*)pbrfnt;
+        }
+    }
+
+    if (pbrfnt[pn - 1] == slbsh)
+        pbrfntEnd--;
+
+    lfn = pbrfntEnd + dn - dhildStbrt;
+
+    if (dhild[dhildStbrt] == slbsh) {
+        thfChbrs = (dhbr*)mbllod(lfn+1);
+        mfmdpy(thfChbrs, pbrfnt, pbrfntEnd);
+        mfmdpy(thfChbrs+pbrfntEnd, dhild+dhildStbrt, (dn-dhildStbrt));
+        thfChbrs[lfn] = '\0';
+    } flsf {
+        thfChbrs = (dhbr*)mbllod(lfn+2);
+        mfmdpy(thfChbrs, pbrfnt, pbrfntEnd);
+        thfChbrs[pbrfntEnd] = slbsh;
+        mfmdpy(thfChbrs+pbrfntEnd+1, dhild+dhildStbrt, (dn-dhildStbrt));
+        thfChbrs[lfn+1] = '\0';
+    }
+    rfturn thfChbrs;
+}
+
+
+stbtid int prffixLfngth(donst dhbr* pbth) {
+    dhbr d0, d1;
+
+    int n = (int)strlfn(pbth);
+    if (n == 0) rfturn 0;
+    d0 = pbth[0];
+    d1 = (n > 1) ? pbth[1] : 0;
+    if (d0 == slbsh) {
+        if (d1 == slbsh) rfturn 2;      /* Absolutf UNC pbthnbmf "\\\\foo" */
+        rfturn 1;                       /* Drivf-rflbtivf "\\foo" */
+    }
+    if (isLfttfr(d0) && (d1 == ':')) {
+        if ((n > 2) && (pbth[2] == slbsh))
+            rfturn 3;           /* Absolutf lodbl pbthnbmf "z:\\foo" */
+        rfturn 2;                       /* Dirfdtory-rflbtivf "z:foo" */
+    }
+    rfturn 0;                   /* Complftfly rflbtivf */
+}
+
+
+int isAbsolutf(donst dhbr* pbth) {
+    int pl = prffixLfngth(pbth);
+    rfturn (((pl == 2) && (pbth[0] == slbsh)) || (pl == 3));
+}
+
+
+dhbr* fromURIPbth(donst dhbr* pbth) {
+    int stbrt = 0;
+    int lfn = (int)strlfn(pbth);
+
+    if ((lfn > 2) && (pbth[2] == ':')) {
+        // "/d:/foo" --> "d:/foo"
+        stbrt = 1;
+        // "d:/foo/" --> "d:/foo", but "d:/" --> "d:/"
+        if ((lfn > 3) && pbth[lfn-1] == '/')
+            lfn--;
+    } flsf if ((lfn > 1) && pbth[lfn-1] == '/') {
+        // "/foo/" --> "/foo"
+        lfn--;
+    }
+
+    if (stbrt == 0 && lfn == (int)strlfn(pbth)) {
+        rfturn (dhbr*)pbth;
+    } flsf {
+        dhbr* p = (dhbr*)mbllod(lfn+1);
+        if (p != NULL) {
+            mfmdpy(p, pbth+stbrt, lfn);
+            p[lfn] = '\0';
+        }
+        rfturn p;
+    }
+}

@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.TypeResolver;
+import dom.sun.bfbns.TypfRfsolvfr;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
-import java.lang.ref.SoftReference;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp.Entry;
 
 /**
- * The FeatureDescriptor class is the common baseclass for PropertyDescriptor,
- * EventSetDescriptor, and MethodDescriptor, etc.
+ * Tif FfbturfDfsdriptor dlbss is tif dommon bbsfdlbss for PropfrtyDfsdriptor,
+ * EvfntSftDfsdriptor, bnd MftiodDfsdriptor, ftd.
  * <p>
- * It supports some common information that can be set and retrieved for
- * any of the introspection descriptors.
+ * It supports somf dommon informbtion tibt dbn bf sft bnd rftrifvfd for
+ * bny of tif introspfdtion dfsdriptors.
  * <p>
- * In addition it provides an extension mechanism so that arbitrary
- * attribute/value pairs can be associated with a design feature.
+ * In bddition it providfs bn fxtfnsion mfdibnism so tibt brbitrbry
+ * bttributf/vbluf pbirs dbn bf bssodibtfd witi b dfsign ffbturf.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class FeatureDescriptor {
-    private static final String TRANSIENT = "transient";
+publid dlbss FfbturfDfsdriptor {
+    privbtf stbtid finbl String TRANSIENT = "trbnsifnt";
 
-    private Reference<? extends Class<?>> classRef;
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> dlbssRff;
 
     /**
-     * Constructs a <code>FeatureDescriptor</code>.
+     * Construdts b <dodf>FfbturfDfsdriptor</dodf>.
      */
-    public FeatureDescriptor() {
+    publid FfbturfDfsdriptor() {
     }
 
     /**
-     * Gets the programmatic name of this feature.
+     * Gfts tif progrbmmbtid nbmf of tiis ffbturf.
      *
-     * @return The programmatic name of the property/method/event
+     * @rfturn Tif progrbmmbtid nbmf of tif propfrty/mftiod/fvfnt
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Sets the programmatic name of this feature.
+     * Sfts tif progrbmmbtid nbmf of tiis ffbturf.
      *
-     * @param name  The programmatic name of the property/method/event
+     * @pbrbm nbmf  Tif progrbmmbtid nbmf of tif propfrty/mftiod/fvfnt
      */
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Gets the localized display name of this feature.
+     * Gfts tif lodblizfd displby nbmf of tiis ffbturf.
      *
-     * @return The localized display name for the property/method/event.
-     *  This defaults to the same as its programmatic name from getName.
+     * @rfturn Tif lodblizfd displby nbmf for tif propfrty/mftiod/fvfnt.
+     *  Tiis dffbults to tif sbmf bs its progrbmmbtid nbmf from gftNbmf.
      */
-    public String getDisplayName() {
-        if (displayName == null) {
-            return getName();
+    publid String gftDisplbyNbmf() {
+        if (displbyNbmf == null) {
+            rfturn gftNbmf();
         }
-        return displayName;
+        rfturn displbyNbmf;
     }
 
     /**
-     * Sets the localized display name of this feature.
+     * Sfts tif lodblizfd displby nbmf of tiis ffbturf.
      *
-     * @param displayName  The localized display name for the
-     *          property/method/event.
+     * @pbrbm displbyNbmf  Tif lodblizfd displby nbmf for tif
+     *          propfrty/mftiod/fvfnt.
      */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    publid void sftDisplbyNbmf(String displbyNbmf) {
+        tiis.displbyNbmf = displbyNbmf;
     }
 
     /**
-     * The "expert" flag is used to distinguish between those features that are
-     * intended for expert users from those that are intended for normal users.
+     * Tif "fxpfrt" flbg is usfd to distinguisi bftwffn tiosf ffbturfs tibt brf
+     * intfndfd for fxpfrt usfrs from tiosf tibt brf intfndfd for normbl usfrs.
      *
-     * @return True if this feature is intended for use by experts only.
+     * @rfturn Truf if tiis ffbturf is intfndfd for usf by fxpfrts only.
      */
-    public boolean isExpert() {
-        return expert;
+    publid boolfbn isExpfrt() {
+        rfturn fxpfrt;
     }
 
     /**
-     * The "expert" flag is used to distinguish between features that are
-     * intended for expert users from those that are intended for normal users.
+     * Tif "fxpfrt" flbg is usfd to distinguisi bftwffn ffbturfs tibt brf
+     * intfndfd for fxpfrt usfrs from tiosf tibt brf intfndfd for normbl usfrs.
      *
-     * @param expert True if this feature is intended for use by experts only.
+     * @pbrbm fxpfrt Truf if tiis ffbturf is intfndfd for usf by fxpfrts only.
      */
-    public void setExpert(boolean expert) {
-        this.expert = expert;
+    publid void sftExpfrt(boolfbn fxpfrt) {
+        tiis.fxpfrt = fxpfrt;
     }
 
     /**
-     * The "hidden" flag is used to identify features that are intended only
-     * for tool use, and which should not be exposed to humans.
+     * Tif "iiddfn" flbg is usfd to idfntify ffbturfs tibt brf intfndfd only
+     * for tool usf, bnd wiidi siould not bf fxposfd to iumbns.
      *
-     * @return True if this feature should be hidden from human users.
+     * @rfturn Truf if tiis ffbturf siould bf iiddfn from iumbn usfrs.
      */
-    public boolean isHidden() {
-        return hidden;
+    publid boolfbn isHiddfn() {
+        rfturn iiddfn;
     }
 
     /**
-     * The "hidden" flag is used to identify features that are intended only
-     * for tool use, and which should not be exposed to humans.
+     * Tif "iiddfn" flbg is usfd to idfntify ffbturfs tibt brf intfndfd only
+     * for tool usf, bnd wiidi siould not bf fxposfd to iumbns.
      *
-     * @param hidden  True if this feature should be hidden from human users.
+     * @pbrbm iiddfn  Truf if tiis ffbturf siould bf iiddfn from iumbn usfrs.
      */
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    publid void sftHiddfn(boolfbn iiddfn) {
+        tiis.iiddfn = iiddfn;
     }
 
     /**
-     * The "preferred" flag is used to identify features that are particularly
-     * important for presenting to humans.
+     * Tif "prfffrrfd" flbg is usfd to idfntify ffbturfs tibt brf pbrtidulbrly
+     * importbnt for prfsfnting to iumbns.
      *
-     * @return True if this feature should be preferentially shown to human users.
-     * @since 1.2
+     * @rfturn Truf if tiis ffbturf siould bf prfffrfntiblly siown to iumbn usfrs.
+     * @sindf 1.2
      */
-    public boolean isPreferred() {
-        return preferred;
+    publid boolfbn isPrfffrrfd() {
+        rfturn prfffrrfd;
     }
 
     /**
-     * The "preferred" flag is used to identify features that are particularly
-     * important for presenting to humans.
+     * Tif "prfffrrfd" flbg is usfd to idfntify ffbturfs tibt brf pbrtidulbrly
+     * importbnt for prfsfnting to iumbns.
      *
-     * @param preferred  True if this feature should be preferentially shown
-     *                   to human users.
-     * @since 1.2
+     * @pbrbm prfffrrfd  Truf if tiis ffbturf siould bf prfffrfntiblly siown
+     *                   to iumbn usfrs.
+     * @sindf 1.2
      */
-    public void setPreferred(boolean preferred) {
-        this.preferred = preferred;
+    publid void sftPrfffrrfd(boolfbn prfffrrfd) {
+        tiis.prfffrrfd = prfffrrfd;
     }
 
     /**
-     * Gets the short description of this feature.
+     * Gfts tif siort dfsdription of tiis ffbturf.
      *
-     * @return  A localized short description associated with this
-     *   property/method/event.  This defaults to be the display name.
+     * @rfturn  A lodblizfd siort dfsdription bssodibtfd witi tiis
+     *   propfrty/mftiod/fvfnt.  Tiis dffbults to bf tif displby nbmf.
      */
-    public String getShortDescription() {
-        if (shortDescription == null) {
-            return getDisplayName();
+    publid String gftSiortDfsdription() {
+        if (siortDfsdription == null) {
+            rfturn gftDisplbyNbmf();
         }
-        return shortDescription;
+        rfturn siortDfsdription;
     }
 
     /**
-     * You can associate a short descriptive string with a feature.  Normally
-     * these descriptive strings should be less than about 40 characters.
-     * @param text  A (localized) short description to be associated with
-     * this property/method/event.
+     * You dbn bssodibtf b siort dfsdriptivf string witi b ffbturf.  Normblly
+     * tifsf dfsdriptivf strings siould bf lfss tibn bbout 40 dibrbdtfrs.
+     * @pbrbm tfxt  A (lodblizfd) siort dfsdription to bf bssodibtfd witi
+     * tiis propfrty/mftiod/fvfnt.
      */
-    public void setShortDescription(String text) {
-        shortDescription = text;
+    publid void sftSiortDfsdription(String tfxt) {
+        siortDfsdription = tfxt;
     }
 
     /**
-     * Associate a named attribute with this feature.
+     * Assodibtf b nbmfd bttributf witi tiis ffbturf.
      *
-     * @param attributeName  The locale-independent name of the attribute
-     * @param value  The value.
+     * @pbrbm bttributfNbmf  Tif lodblf-indfpfndfnt nbmf of tif bttributf
+     * @pbrbm vbluf  Tif vbluf.
      */
-    public void setValue(String attributeName, Object value) {
-        getTable().put(attributeName, value);
+    publid void sftVbluf(String bttributfNbmf, Objfdt vbluf) {
+        gftTbblf().put(bttributfNbmf, vbluf);
     }
 
     /**
-     * Retrieve a named attribute with this feature.
+     * Rftrifvf b nbmfd bttributf witi tiis ffbturf.
      *
-     * @param attributeName  The locale-independent name of the attribute
-     * @return  The value of the attribute.  May be null if
-     *     the attribute is unknown.
+     * @pbrbm bttributfNbmf  Tif lodblf-indfpfndfnt nbmf of tif bttributf
+     * @rfturn  Tif vbluf of tif bttributf.  Mby bf null if
+     *     tif bttributf is unknown.
      */
-    public Object getValue(String attributeName) {
-        return (this.table != null)
-                ? this.table.get(attributeName)
+    publid Objfdt gftVbluf(String bttributfNbmf) {
+        rfturn (tiis.tbblf != null)
+                ? tiis.tbblf.gft(bttributfNbmf)
                 : null;
     }
 
     /**
-     * Gets an enumeration of the locale-independent names of this
-     * feature.
+     * Gfts bn fnumfrbtion of tif lodblf-indfpfndfnt nbmfs of tiis
+     * ffbturf.
      *
-     * @return  An enumeration of the locale-independent names of any
-     *    attributes that have been registered with setValue.
+     * @rfturn  An fnumfrbtion of tif lodblf-indfpfndfnt nbmfs of bny
+     *    bttributfs tibt ibvf bffn rfgistfrfd witi sftVbluf.
      */
-    public Enumeration<String> attributeNames() {
-        return getTable().keys();
+    publid Enumfrbtion<String> bttributfNbmfs() {
+        rfturn gftTbblf().kfys();
     }
 
     /**
-     * Package-private constructor,
-     * Merge information from two FeatureDescriptors.
-     * The merged hidden and expert flags are formed by or-ing the values.
-     * In the event of other conflicts, the second argument (y) is
-     * given priority over the first argument (x).
+     * Pbdkbgf-privbtf donstrudtor,
+     * Mfrgf informbtion from two FfbturfDfsdriptors.
+     * Tif mfrgfd iiddfn bnd fxpfrt flbgs brf formfd by or-ing tif vblufs.
+     * In tif fvfnt of otifr donflidts, tif sfdond brgumfnt (y) is
+     * givfn priority ovfr tif first brgumfnt (x).
      *
-     * @param x  The first (lower priority) MethodDescriptor
-     * @param y  The second (higher priority) MethodDescriptor
+     * @pbrbm x  Tif first (lowfr priority) MftiodDfsdriptor
+     * @pbrbm y  Tif sfdond (iigifr priority) MftiodDfsdriptor
      */
-    FeatureDescriptor(FeatureDescriptor x, FeatureDescriptor y) {
-        expert = x.expert | y.expert;
-        hidden = x.hidden | y.hidden;
-        preferred = x.preferred | y.preferred;
-        name = y.name;
-        shortDescription = x.shortDescription;
-        if (y.shortDescription != null) {
-            shortDescription = y.shortDescription;
+    FfbturfDfsdriptor(FfbturfDfsdriptor x, FfbturfDfsdriptor y) {
+        fxpfrt = x.fxpfrt | y.fxpfrt;
+        iiddfn = x.iiddfn | y.iiddfn;
+        prfffrrfd = x.prfffrrfd | y.prfffrrfd;
+        nbmf = y.nbmf;
+        siortDfsdription = x.siortDfsdription;
+        if (y.siortDfsdription != null) {
+            siortDfsdription = y.siortDfsdription;
         }
-        displayName = x.displayName;
-        if (y.displayName != null) {
-            displayName = y.displayName;
+        displbyNbmf = x.displbyNbmf;
+        if (y.displbyNbmf != null) {
+            displbyNbmf = y.displbyNbmf;
         }
-        classRef = x.classRef;
-        if (y.classRef != null) {
-            classRef = y.classRef;
+        dlbssRff = x.dlbssRff;
+        if (y.dlbssRff != null) {
+            dlbssRff = y.dlbssRff;
         }
-        addTable(x.table);
-        addTable(y.table);
+        bddTbblf(x.tbblf);
+        bddTbblf(y.tbblf);
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbdkbgf-privbtf dup donstrudtor
+     * Tiis must isolbtf tif nfw objfdt from bny dibngfs to tif old objfdt.
      */
-    FeatureDescriptor(FeatureDescriptor old) {
-        expert = old.expert;
-        hidden = old.hidden;
-        preferred = old.preferred;
-        name = old.name;
-        shortDescription = old.shortDescription;
-        displayName = old.displayName;
-        classRef = old.classRef;
+    FfbturfDfsdriptor(FfbturfDfsdriptor old) {
+        fxpfrt = old.fxpfrt;
+        iiddfn = old.iiddfn;
+        prfffrrfd = old.prfffrrfd;
+        nbmf = old.nbmf;
+        siortDfsdription = old.siortDfsdription;
+        displbyNbmf = old.displbyNbmf;
+        dlbssRff = old.dlbssRff;
 
-        addTable(old.table);
+        bddTbblf(old.tbblf);
     }
 
     /**
-     * Copies all values from the specified attribute table.
-     * If some attribute is exist its value should be overridden.
+     * Copifs bll vblufs from tif spfdififd bttributf tbblf.
+     * If somf bttributf is fxist its vbluf siould bf ovfrriddfn.
      *
-     * @param table  the attribute table with new values
+     * @pbrbm tbblf  tif bttributf tbblf witi nfw vblufs
      */
-    private void addTable(Hashtable<String, Object> table) {
-        if ((table != null) && !table.isEmpty()) {
-            getTable().putAll(table);
+    privbtf void bddTbblf(Hbsitbblf<String, Objfdt> tbblf) {
+        if ((tbblf != null) && !tbblf.isEmpty()) {
+            gftTbblf().putAll(tbblf);
         }
     }
 
     /**
-     * Returns the initialized attribute table.
+     * Rfturns tif initiblizfd bttributf tbblf.
      *
-     * @return the initialized attribute table
+     * @rfturn tif initiblizfd bttributf tbblf
      */
-    private Hashtable<String, Object> getTable() {
-        if (this.table == null) {
-            this.table = new Hashtable<>();
+    privbtf Hbsitbblf<String, Objfdt> gftTbblf() {
+        if (tiis.tbblf == null) {
+            tiis.tbblf = nfw Hbsitbblf<>();
         }
-        return this.table;
+        rfturn tiis.tbblf;
     }
 
     /**
-     * Sets the "transient" attribute according to the annotation.
-     * If the "transient" attribute is already set
-     * it should not be changed.
+     * Sfts tif "trbnsifnt" bttributf bddording to tif bnnotbtion.
+     * If tif "trbnsifnt" bttributf is blrfbdy sft
+     * it siould not bf dibngfd.
      *
-     * @param annotation  the annotation of the element of the feature
+     * @pbrbm bnnotbtion  tif bnnotbtion of tif flfmfnt of tif ffbturf
      */
-    void setTransient(Transient annotation) {
-        if ((annotation != null) && (null == getValue(TRANSIENT))) {
-            setValue(TRANSIENT, annotation.value());
+    void sftTrbnsifnt(Trbnsifnt bnnotbtion) {
+        if ((bnnotbtion != null) && (null == gftVbluf(TRANSIENT))) {
+            sftVbluf(TRANSIENT, bnnotbtion.vbluf());
         }
     }
 
     /**
-     * Indicates whether the feature is transient.
+     * Indidbtfs wiftifr tif ffbturf is trbnsifnt.
      *
-     * @return {@code true} if the feature is transient,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif ffbturf is trbnsifnt,
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean isTransient() {
-        Object value = getValue(TRANSIENT);
-        return (value instanceof Boolean)
-                ? (Boolean) value
-                : false;
+    boolfbn isTrbnsifnt() {
+        Objfdt vbluf = gftVbluf(TRANSIENT);
+        rfturn (vbluf instbndfof Boolfbn)
+                ? (Boolfbn) vbluf
+                : fblsf;
     }
 
-    // Package private methods for recreating the weak/soft referent
+    // Pbdkbgf privbtf mftiods for rfdrfbting tif wfbk/soft rfffrfnt
 
-    void setClass0(Class<?> cls) {
-        this.classRef = getWeakReference(cls);
+    void sftClbss0(Clbss<?> dls) {
+        tiis.dlbssRff = gftWfbkRfffrfndf(dls);
     }
 
-    Class<?> getClass0() {
-        return (this.classRef != null)
-                ? this.classRef.get()
+    Clbss<?> gftClbss0() {
+        rfturn (tiis.dlbssRff != null)
+                ? tiis.dlbssRff.gft()
                 : null;
     }
 
     /**
-     * Creates a new soft reference that refers to the given object.
+     * Crfbtfs b nfw soft rfffrfndf tibt rfffrs to tif givfn objfdt.
      *
-     * @return a new soft reference or <code>null</code> if object is <code>null</code>
+     * @rfturn b nfw soft rfffrfndf or <dodf>null</dodf> if objfdt is <dodf>null</dodf>
      *
-     * @see SoftReference
+     * @sff SoftRfffrfndf
      */
-    static <T> Reference<T> getSoftReference(T object) {
-        return (object != null)
-                ? new SoftReference<>(object)
+    stbtid <T> Rfffrfndf<T> gftSoftRfffrfndf(T objfdt) {
+        rfturn (objfdt != null)
+                ? nfw SoftRfffrfndf<>(objfdt)
                 : null;
     }
 
     /**
-     * Creates a new weak reference that refers to the given object.
+     * Crfbtfs b nfw wfbk rfffrfndf tibt rfffrs to tif givfn objfdt.
      *
-     * @return a new weak reference or <code>null</code> if object is <code>null</code>
+     * @rfturn b nfw wfbk rfffrfndf or <dodf>null</dodf> if objfdt is <dodf>null</dodf>
      *
-     * @see WeakReference
+     * @sff WfbkRfffrfndf
      */
-    static <T> Reference<T> getWeakReference(T object) {
-        return (object != null)
-                ? new WeakReference<>(object)
+    stbtid <T> Rfffrfndf<T> gftWfbkRfffrfndf(T objfdt) {
+        rfturn (objfdt != null)
+                ? nfw WfbkRfffrfndf<>(objfdt)
                 : null;
     }
 
     /**
-     * Resolves the return type of the method.
+     * Rfsolvfs tif rfturn typf of tif mftiod.
      *
-     * @param base    the class that contains the method in the hierarchy
-     * @param method  the object that represents the method
-     * @return a class identifying the return type of the method
+     * @pbrbm bbsf    tif dlbss tibt dontbins tif mftiod in tif iifrbrdiy
+     * @pbrbm mftiod  tif objfdt tibt rfprfsfnts tif mftiod
+     * @rfturn b dlbss idfntifying tif rfturn typf of tif mftiod
      *
-     * @see Method#getGenericReturnType
-     * @see Method#getReturnType
+     * @sff Mftiod#gftGfnfridRfturnTypf
+     * @sff Mftiod#gftRfturnTypf
      */
-    static Class<?> getReturnType(Class<?> base, Method method) {
-        if (base == null) {
-            base = method.getDeclaringClass();
+    stbtid Clbss<?> gftRfturnTypf(Clbss<?> bbsf, Mftiod mftiod) {
+        if (bbsf == null) {
+            bbsf = mftiod.gftDfdlbringClbss();
         }
-        return TypeResolver.erase(TypeResolver.resolveInClass(base, method.getGenericReturnType()));
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(bbsf, mftiod.gftGfnfridRfturnTypf()));
     }
 
     /**
-     * Resolves the parameter types of the method.
+     * Rfsolvfs tif pbrbmftfr typfs of tif mftiod.
      *
-     * @param base    the class that contains the method in the hierarchy
-     * @param method  the object that represents the method
-     * @return an array of classes identifying the parameter types of the method
+     * @pbrbm bbsf    tif dlbss tibt dontbins tif mftiod in tif iifrbrdiy
+     * @pbrbm mftiod  tif objfdt tibt rfprfsfnts tif mftiod
+     * @rfturn bn brrby of dlbssfs idfntifying tif pbrbmftfr typfs of tif mftiod
      *
-     * @see Method#getGenericParameterTypes
-     * @see Method#getParameterTypes
+     * @sff Mftiod#gftGfnfridPbrbmftfrTypfs
+     * @sff Mftiod#gftPbrbmftfrTypfs
      */
-    static Class<?>[] getParameterTypes(Class<?> base, Method method) {
-        if (base == null) {
-            base = method.getDeclaringClass();
+    stbtid Clbss<?>[] gftPbrbmftfrTypfs(Clbss<?> bbsf, Mftiod mftiod) {
+        if (bbsf == null) {
+            bbsf = mftiod.gftDfdlbringClbss();
         }
-        return TypeResolver.erase(TypeResolver.resolveInClass(base, method.getGenericParameterTypes()));
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(bbsf, mftiod.gftGfnfridPbrbmftfrTypfs()));
     }
 
-    private boolean expert;
-    private boolean hidden;
-    private boolean preferred;
-    private String shortDescription;
-    private String name;
-    private String displayName;
-    private Hashtable<String, Object> table;
+    privbtf boolfbn fxpfrt;
+    privbtf boolfbn iiddfn;
+    privbtf boolfbn prfffrrfd;
+    privbtf String siortDfsdription;
+    privbtf String nbmf;
+    privbtf String displbyNbmf;
+    privbtf Hbsitbblf<String, Objfdt> tbblf;
 
     /**
-     * Returns a string representation of the object.
+     * Rfturns b string rfprfsfntbtion of tif objfdt.
      *
-     * @return a string representation of the object
+     * @rfturn b string rfprfsfntbtion of tif objfdt
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getName());
-        sb.append("[name=").append(this.name);
-        appendTo(sb, "displayName", this.displayName);
-        appendTo(sb, "shortDescription", this.shortDescription);
-        appendTo(sb, "preferred", this.preferred);
-        appendTo(sb, "hidden", this.hidden);
-        appendTo(sb, "expert", this.expert);
-        if ((this.table != null) && !this.table.isEmpty()) {
-            sb.append("; values={");
-            for (Entry<String, Object> entry : this.table.entrySet()) {
-                sb.append(entry.getKey()).append("=").append(entry.getValue()).append("; ");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(gftClbss().gftNbmf());
+        sb.bppfnd("[nbmf=").bppfnd(tiis.nbmf);
+        bppfndTo(sb, "displbyNbmf", tiis.displbyNbmf);
+        bppfndTo(sb, "siortDfsdription", tiis.siortDfsdription);
+        bppfndTo(sb, "prfffrrfd", tiis.prfffrrfd);
+        bppfndTo(sb, "iiddfn", tiis.iiddfn);
+        bppfndTo(sb, "fxpfrt", tiis.fxpfrt);
+        if ((tiis.tbblf != null) && !tiis.tbblf.isEmpty()) {
+            sb.bppfnd("; vblufs={");
+            for (Entry<String, Objfdt> fntry : tiis.tbblf.fntrySft()) {
+                sb.bppfnd(fntry.gftKfy()).bppfnd("=").bppfnd(fntry.gftVbluf()).bppfnd("; ");
             }
-            sb.setLength(sb.length() - 2);
-            sb.append("}");
+            sb.sftLfngti(sb.lfngti() - 2);
+            sb.bppfnd("}");
         }
-        appendTo(sb);
-        return sb.append("]").toString();
+        bppfndTo(sb);
+        rfturn sb.bppfnd("]").toString();
     }
 
-    void appendTo(StringBuilder sb) {
+    void bppfndTo(StringBuildfr sb) {
     }
 
-    static void appendTo(StringBuilder sb, String name, Reference<?> reference) {
-        if (reference != null) {
-            appendTo(sb, name, reference.get());
-        }
-    }
-
-    static void appendTo(StringBuilder sb, String name, Object value) {
-        if (value != null) {
-            sb.append("; ").append(name).append("=").append(value);
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, Rfffrfndf<?> rfffrfndf) {
+        if (rfffrfndf != null) {
+            bppfndTo(sb, nbmf, rfffrfndf.gft());
         }
     }
 
-    static void appendTo(StringBuilder sb, String name, boolean value) {
-        if (value) {
-            sb.append("; ").append(name);
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, Objfdt vbluf) {
+        if (vbluf != null) {
+            sb.bppfnd("; ").bppfnd(nbmf).bppfnd("=").bppfnd(vbluf);
+        }
+    }
+
+    stbtid void bppfndTo(StringBuildfr sb, String nbmf, boolfbn vbluf) {
+        if (vbluf) {
+            sb.bppfnd("; ").bppfnd(nbmf);
         }
     }
 }

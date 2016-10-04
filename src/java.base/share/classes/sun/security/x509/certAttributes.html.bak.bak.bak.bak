@@ -1,0 +1,246 @@
+<HTML>
+<BODY>
+<HEAD>
+<TITLE>Cfrtifidbtf Attributfs</TITLE>
+</HEAD>
+<h2><dfntfr>Cfrtifidbtf Attributfs</dfntfr></h2>
+<font sizf=3><dfntfr>July 1998</font></dfntfr>
+<p>
+In JDK1.2 wf providf bn implfmfntbtion of X.509 (vfrsion 3).
+Thf X509CfrtImpl dlbss supports thf following mfthods to
+mbnipulbtf thf vbrious bttributfs of b dfrtifidbtf:
+<prf>
+     Objfdt gft(String nbmf)
+     void sft(String nbmf, Objfdt vbluf), bnd
+     void dflftf(String nbmf)
+</prf>
+A list of bll thf X.509 v3 Cfrtifidbtf bttributfs thbt dbn bf mbnipulbtfd
+is providfd in thf following tbblf.
+For fxbmplf, if you wbnt to gft thf signbturf domponfnt of
+thf dfrtifidbtf:
+<prf>
+     X509CfrtImpl dfrt;
+     // gft thf dfrtifidbtf objfdt
+     bytf[] sig = (bytf[])dfrt.gft("x509.signbturf");
+                  // using thf fully-qublififd idfntififr
+OR
+     bytf[] sig = (bytf[])dfrt.gft(X509CfrtImpl.SIG);
+                  // using dffinfd donstbnts
+</prf>
+<p>
+<tbblf bordfr=1>
+<dbption>sun.sfdurity.x509.X509CfrtImpl</dbption>
+<tr>
+<td><strong>Attributf</strong></td>
+<td><strong>Fully-qublififd idfntififr</strong></td>
+<td><strong>Dffinfd donstbnts</strong></td>
+<td><strong>Typf of Objfdt rfturnfd</strong><br>
+(in sun.sfdurity.x509 unlfss fully-qublififd)</td>
+</tr>
+<tr>
+<td>signbturfAlgorithm</td>
+<td>x509.blgorithm</td>
+<td>X509CfrtImpl.SIG_ALG</td>
+<td>AlgorithmId</td>
+</tr>
+<tr>
+<td>signbturf</td>
+<td>x509.signbturf</td>
+<td>X509CfrtImpl.SIG</td>
+<td>bytf[]</td>
+</tr>
+<tr>
+<td>tbsCfrtifidbtf</td>
+<td>x509.info</td>
+<td>X509CfrtInfo.IDENT</td>
+<td>X509CfrtInfo</td>
+</tr>
+<tr>
+<td>vfrsion</td>
+<td>x509.info.vfrsion<br>
+x509.info.vfrsion.numbfr</td>
+<td>CfrtifidbtfVfrsion.IDENT<br>
+nonf</td>
+<td>CfrtifidbtfVfrsion<br>
+jbvb.lbng.Intfgfr</td>
+</tr>
+<tr>
+<td>sfriblNumbfr</td>
+<td>x509.info.sfriblNumbfr<br>
+x509.info.sfriblNumbfr.numbfr</td>
+<td>CfrtifidbtfSfriblNumbfr.IDENT<br>
+X509CfrtImpl.SERIAL_ID</td>
+<td>CfrtifidbtfSfriblNumbfr<br>
+SfriblNumbfr</td>
+</tr>
+<tr>
+<td>signbturf</td>
+<td>x509.info.blgorithmID<br>
+x509.info.blgorithmID.blgorithm</td>
+<td>CfrtifidbtfAlgorithmId.IDENT<br>
+nonf</td>
+<td>CfrtifidbtfAlgorithmId<br>
+AlgorithmId</td>
+</tr>
+<tr>
+<td>issufr</td>
+<td>x509.info.issufr<br>
+x509.info.issufr.dnbmf</td>
+<td>nonf<br>
+X509CfrtImpl.ISSUER_DN</td>
+<td>X500Nbmf<br>
+X500Nbmf</td>
+</tr>
+<tr>
+<td>vblidity<br>
+vblidity.notAftfr<br>
+vblidity.notBfforf</td>
+<td>x509.info.vblidity<br>
+x509.info.vblidity.notAftfr<br>
+x509.info.vblidity.notBfforf</td>
+<td>CfrtifidbtfVblidity.IDENT<br>
+nonf<br>
+nonf</td>
+<td>CfrtifidbtfVblidity<br>
+jbvb.util.Dbtf<br>
+jbvb.util.Dbtf</td>
+</tr>
+<tr>
+<td>subjfdt</td>
+<td>x509.info.subjfdt<br>
+x509.info.subjfdt.dnbmf</td>
+<td>nonf<br>
+X509CfrtImpl.SUBJECT_DN</td>
+<td>X500Nbmf<br>
+X500Nbmf</td>
+</tr>
+<tr>
+<td>subjfdtPublidKfyInfo</td>
+<td>x509.info.kfy<br>
+x509.info.kfy.vbluf</td>
+<td>CfrtifidbtfX509Kfy.IDENT<br>
+X509CfrtImpl.PUBLIC_KEY</td>
+<td>CfrtifidbtfX509Kfy<br>
+X509Kfy</td>
+</tr>
+<tr>
+<td>issufrUniqufID</td>
+<td>x509.info.issufrID<br>
+x509.info.issufrID.id</td>
+<td>nonf<br>
+nonf</td>
+<td>UniqufIdfntity<br>
+UniqufIdfntity</td>
+</tr>
+<tr>
+<td>subjfdtUniqufID</td>
+<td>x509.info.subjfdtID<br>
+x509.info.subjfdtID.id</td>
+<td>nonf<br>
+nonf</td>
+<td>UniqufIdfntity<br>
+UniqufIdfntity</td>
+</tr>
+<tr>
+<td>fxtfnsions</td>
+<td>x509.info.fxtfnsions</td>
+<td>CfrtifidbtfExtfnsions.IDENT</td>
+<td>CfrtifidbtfExtfnsions</td>
+</tr>
+</tbblf>
+<br>
+<br>
+<tbblf bordfr=1>
+<dbption>X.509 V3 dfrtifidbtf fxtfnsions</dbption>
+<tr>
+<td><strong>Extfnsion</strong></td>
+<td><strong>Extfnsion bttributf idfntififr</strong></td>
+<td><strong>Short form</strong></td>
+<td><strong>Typf of Objfdt rfturnfd</strong></td>
+</tr>
+<tr>
+<td>Authority Kfy Idfntififr</td>
+<td>x509.info.fxtfnsions.AuthorityKfyIdfntififr</td>
+<td>AuthorityKfyIdfntififrExtfnsion.IDENT</td>
+<td>AuthorityKfyIdfntififrExtfnsion</td>
+</tr>
+<tr>
+<td>Subjfdt Kfy Idfntififr</td>
+<td>x509.info.fxtfnsions.SubjfdtKfyIdfntififr</td>
+<td>SubjfdtKfyIdfntififrExtfnsion.IDENT</td>
+<td>SubjfdtKfyIdfntififrExtfnsion</td>
+</tr>
+<tr>
+<td>Kfy Usbgf</td>
+<td>x509.info.fxtfnsions.KfyUsbgf</td>
+<td>KfyUsbgfExtfnsion.IDENT</td>
+<td>KfyUsbgfExtfnsion</td>
+</tr>
+<tr>
+<td>Privbtf Kfy Usbgf Pfriod</td>
+<td>x509.info.fxtfnsions.PrivbtfKfyUsbgf</td>
+<td>PrivbtfKfyUsbgfExtfnsion.IDENT</td>
+<td>PrivbtfKfyUsbgfExtfnsion</td>
+</tr>
+<tr>
+<td>Polidy Mbppings</td>
+<td>x509.info.fxtfnsions.PolidyMbppings</td>
+<td>PolidyMbppingsExtfnsion.IDENT</td>
+<td>PolidyMbppingsExtfnsion</td>
+</tr>
+<tr>
+<td>Subjfdt Altfrnbtivf Nbmf</td>
+<td>x509.info.fxtfnsions.SubjfdtAltfrnbtivfNbmf</td>
+<td>SubjfdtAltfrnbtivfNbmfExtfnsion.IDENT</td>
+<td>SubjfdtAltfrnbtivfNbmfExtfnsion</td>
+</tr>
+<tr>
+<td>Issufr Altfrnbtivf Nbmf</td>
+<td>x509.info.fxtfnsions.IssufrAltfrnbtivfNbmf</td>
+<td>IssufrAltfrnbtivfNbmfExtfnsion.IDENT</td>
+<td>IssufrAltfrnbtivfNbmfExtfnsion</td>
+</tr>
+<tr>
+<td>Bbsid Constrbints</td>
+<td>x509.info.fxtfnsions.BbsidConstrbints</td>
+<td>BbsidConstrbintsExtfnsion.IDENT</td>
+<td>BbsidConstrbintsExtfnsion</td>
+</tr>
+<tr>
+<td>Nbmf Constrbints</td>
+<td>x509.info.fxtfnsions.NbmfConstrbints</td>
+<td>NbmfConstrbintsExtfnsion.IDENT</td>
+<td>NbmfConstrbintsExtfnsion</td>
+</tr>
+<tr>
+<td>Polidy Constrbints</td>
+<td>x509.info.fxtfnsions.PolidyConstrbints</td>
+<td>PolidyConstrbintsExtfnsion.IDENT</td>
+<td>PolidyConstrbintsExtfnsion</td>
+</tr>
+<tr>
+<td>Nftsdbpf Cfrtifidbtf Typf</td>
+<td>x509.info.fxtfnsions.NftsdbpfCfrtTypf</td>
+<td>NftsdbpfCfrtTypfExtfnsion.IDENT</td>
+<td>NftsdbpfCfrtTypfExtfnsion</td>
+</tr>
+</tbblf>
+<p>
+Extfnsions dbn bf bddfd by implfmfnting thf
+<dodf>sun.sfdurity.x509.CfrtAttrSft</dodf> intfrfbdf bnd
+subdlbssing <dodf>sun.sfdurity.x509.Extfnsion</dodf> dlbss.
+Rfgistfr thf nfw fxtfnsion using thf OIDMbp dlbss.
+Thf following fxtfnsions brf not durrfntly supportfd from thf
+PKIX profilf:
+<tbblf>
+<tr>
+<td>Nbmf</td>
+<td>ObjfdtIdfntififr</td>
+</tr>
+<tr>
+<td>CfrtifidbtfPolidifs</td>
+<td>2.5.29.32</td>
+</tr>
+</tbblf>
+</BODY>
+</HTML>

@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.Toolkit;
-import java.awt.event.*;
-import java.awt.dnd.DragSource;
-import javax.swing.*;
-import sun.awt.dnd.SunDragSourceContextPeer;
-import sun.awt.AppContext;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvbx.swing.*;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.AppContfxt;
 
 /**
- * Drag gesture recognition support for classes that have a
- * <code>TransferHandler</code>. The gesture for a drag in this class is a mouse
- * press followed by movement by <code>DragSource.getDragThreshold()</code>
- * pixels. An instance of this class is maintained per AppContext, and the
- * public static methods call into the appropriate instance.
+ * Drbg gfsturf rfdognition support for dlbssfs tibt ibvf b
+ * <dodf>TrbnsffrHbndlfr</dodf>. Tif gfsturf for b drbg in tiis dlbss is b mousf
+ * prfss followfd by movfmfnt by <dodf>DrbgSourdf.gftDrbgTirfsiold()</dodf>
+ * pixfls. An instbndf of tiis dlbss is mbintbinfd pfr AppContfxt, bnd tif
+ * publid stbtid mftiods dbll into tif bppropribtf instbndf.
  *
- * @author Shannon Hickey
+ * @butior Sibnnon Hidkfy
  */
-class DragRecognitionSupport {
-    private int motionThreshold;
-    private MouseEvent dndArmedEvent;
-    private JComponent component;
+dlbss DrbgRfdognitionSupport {
+    privbtf int motionTirfsiold;
+    privbtf MousfEvfnt dndArmfdEvfnt;
+    privbtf JComponfnt domponfnt;
 
     /**
-     * This interface allows us to pass in a handler to mouseDragged,
-     * so that we can be notified immediately before a drag begins.
+     * Tiis intfrfbdf bllows us to pbss in b ibndlfr to mousfDrbggfd,
+     * so tibt wf dbn bf notififd immfdibtfly bfforf b drbg bfgins.
      */
-    public static interface BeforeDrag {
-        public void dragStarting(MouseEvent me);
+    publid stbtid intfrfbdf BfforfDrbg {
+        publid void drbgStbrting(MousfEvfnt mf);
     }
 
     /**
-     * Returns the DragRecognitionSupport for the caller's AppContext.
+     * Rfturns tif DrbgRfdognitionSupport for tif dbllfr's AppContfxt.
      */
-    private static DragRecognitionSupport getDragRecognitionSupport() {
-        DragRecognitionSupport support =
-            (DragRecognitionSupport)AppContext.getAppContext().
-                get(DragRecognitionSupport.class);
+    privbtf stbtid DrbgRfdognitionSupport gftDrbgRfdognitionSupport() {
+        DrbgRfdognitionSupport support =
+            (DrbgRfdognitionSupport)AppContfxt.gftAppContfxt().
+                gft(DrbgRfdognitionSupport.dlbss);
 
         if (support == null) {
-            support = new DragRecognitionSupport();
-            AppContext.getAppContext().put(DragRecognitionSupport.class, support);
+            support = nfw DrbgRfdognitionSupport();
+            AppContfxt.gftAppContfxt().put(DrbgRfdognitionSupport.dlbss, support);
         }
 
-        return support;
+        rfturn support;
     }
 
     /**
-     * Returns whether or not the event is potentially part of a drag sequence.
+     * Rfturns wiftifr or not tif fvfnt is potfntiblly pbrt of b drbg sfqufndf.
      */
-    public static boolean mousePressed(MouseEvent me) {
-        return getDragRecognitionSupport().mousePressedImpl(me);
+    publid stbtid boolfbn mousfPrfssfd(MousfEvfnt mf) {
+        rfturn gftDrbgRfdognitionSupport().mousfPrfssfdImpl(mf);
     }
 
     /**
-     * If a dnd recognition has been going on, return the MouseEvent
-     * that started the recognition. Otherwise, return null.
+     * If b dnd rfdognition ibs bffn going on, rfturn tif MousfEvfnt
+     * tibt stbrtfd tif rfdognition. Otifrwisf, rfturn null.
      */
-    public static MouseEvent mouseReleased(MouseEvent me) {
-        return getDragRecognitionSupport().mouseReleasedImpl(me);
+    publid stbtid MousfEvfnt mousfRflfbsfd(MousfEvfnt mf) {
+        rfturn gftDrbgRfdognitionSupport().mousfRflfbsfdImpl(mf);
     }
 
     /**
-     * Returns whether or not a drag gesture recognition is ongoing.
+     * Rfturns wiftifr or not b drbg gfsturf rfdognition is ongoing.
      */
-    public static boolean mouseDragged(MouseEvent me, BeforeDrag bd) {
-        return getDragRecognitionSupport().mouseDraggedImpl(me, bd);
+    publid stbtid boolfbn mousfDrbggfd(MousfEvfnt mf, BfforfDrbg bd) {
+        rfturn gftDrbgRfdognitionSupport().mousfDrbggfdImpl(mf, bd);
     }
 
-    private void clearState() {
-        dndArmedEvent = null;
-        component = null;
+    privbtf void dlfbrStbtf() {
+        dndArmfdEvfnt = null;
+        domponfnt = null;
     }
 
-    private int mapDragOperationFromModifiers(MouseEvent me,
-                                              TransferHandler th) {
+    privbtf int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt mf,
+                                              TrbnsffrHbndlfr ti) {
 
-        if (th == null || !SwingUtilities.isLeftMouseButton(me)) {
-            return TransferHandler.NONE;
+        if (ti == null || !SwingUtilitifs.isLfftMousfButton(mf)) {
+            rfturn TrbnsffrHbndlfr.NONE;
         }
 
-        return SunDragSourceContextPeer.
-            convertModifiersToDropAction(me.getModifiersEx(),
-                                         th.getSourceActions(component));
+        rfturn SunDrbgSourdfContfxtPffr.
+            donvfrtModififrsToDropAdtion(mf.gftModififrsEx(),
+                                         ti.gftSourdfAdtions(domponfnt));
     }
 
     /**
-     * Returns whether or not the event is potentially part of a drag sequence.
+     * Rfturns wiftifr or not tif fvfnt is potfntiblly pbrt of b drbg sfqufndf.
      */
-    private boolean mousePressedImpl(MouseEvent me) {
-        component = (JComponent)me.getSource();
+    privbtf boolfbn mousfPrfssfdImpl(MousfEvfnt mf) {
+        domponfnt = (JComponfnt)mf.gftSourdf();
 
-        if (mapDragOperationFromModifiers(me, component.getTransferHandler())
-                != TransferHandler.NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(mf, domponfnt.gftTrbnsffrHbndlfr())
+                != TrbnsffrHbndlfr.NONE) {
 
-            motionThreshold = DragSource.getDragThreshold();
-            dndArmedEvent = me;
-            return true;
+            motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+            dndArmfdEvfnt = mf;
+            rfturn truf;
         }
 
-        clearState();
-        return false;
+        dlfbrStbtf();
+        rfturn fblsf;
     }
 
     /**
-     * If a dnd recognition has been going on, return the MouseEvent
-     * that started the recognition. Otherwise, return null.
+     * If b dnd rfdognition ibs bffn going on, rfturn tif MousfEvfnt
+     * tibt stbrtfd tif rfdognition. Otifrwisf, rfturn null.
      */
-    private MouseEvent mouseReleasedImpl(MouseEvent me) {
-        /* no recognition has been going on */
-        if (dndArmedEvent == null) {
-            return null;
+    privbtf MousfEvfnt mousfRflfbsfdImpl(MousfEvfnt mf) {
+        /* no rfdognition ibs bffn going on */
+        if (dndArmfdEvfnt == null) {
+            rfturn null;
         }
 
-        MouseEvent retEvent = null;
+        MousfEvfnt rftEvfnt = null;
 
-        if (me.getSource() == component) {
-            retEvent = dndArmedEvent;
-        } // else component has changed unexpectedly, so return null
+        if (mf.gftSourdf() == domponfnt) {
+            rftEvfnt = dndArmfdEvfnt;
+        } // flsf domponfnt ibs dibngfd unfxpfdtfdly, so rfturn null
 
-        clearState();
-        return retEvent;
+        dlfbrStbtf();
+        rfturn rftEvfnt;
     }
 
     /**
-     * Returns whether or not a drag gesture recognition is ongoing.
+     * Rfturns wiftifr or not b drbg gfsturf rfdognition is ongoing.
      */
-    private boolean mouseDraggedImpl(MouseEvent me, BeforeDrag bd) {
-        /* no recognition is in progress */
-        if (dndArmedEvent == null) {
-            return false;
+    privbtf boolfbn mousfDrbggfdImpl(MousfEvfnt mf, BfforfDrbg bd) {
+        /* no rfdognition is in progrfss */
+        if (dndArmfdEvfnt == null) {
+            rfturn fblsf;
         }
 
-        /* component has changed unexpectedly, so bail */
-        if (me.getSource() != component) {
-            clearState();
-            return false;
+        /* domponfnt ibs dibngfd unfxpfdtfdly, so bbil */
+        if (mf.gftSourdf() != domponfnt) {
+            dlfbrStbtf();
+            rfturn fblsf;
         }
 
-        int dx = Math.abs(me.getX() - dndArmedEvent.getX());
-        int dy = Math.abs(me.getY() - dndArmedEvent.getY());
-        if ((dx > motionThreshold) || (dy > motionThreshold)) {
-            TransferHandler th = component.getTransferHandler();
-            int action = mapDragOperationFromModifiers(me, th);
-            if (action != TransferHandler.NONE) {
-                /* notify the BeforeDrag instance */
+        int dx = Mbti.bbs(mf.gftX() - dndArmfdEvfnt.gftX());
+        int dy = Mbti.bbs(mf.gftY() - dndArmfdEvfnt.gftY());
+        if ((dx > motionTirfsiold) || (dy > motionTirfsiold)) {
+            TrbnsffrHbndlfr ti = domponfnt.gftTrbnsffrHbndlfr();
+            int bdtion = mbpDrbgOpfrbtionFromModififrs(mf, ti);
+            if (bdtion != TrbnsffrHbndlfr.NONE) {
+                /* notify tif BfforfDrbg instbndf */
                 if (bd != null) {
-                    bd.dragStarting(dndArmedEvent);
+                    bd.drbgStbrting(dndArmfdEvfnt);
                 }
-                th.exportAsDrag(component, dndArmedEvent, action);
-                clearState();
+                ti.fxportAsDrbg(domponfnt, dndArmfdEvfnt, bdtion);
+                dlfbrStbtf();
             }
         }
 
-        return true;
+        rfturn truf;
     }
 }

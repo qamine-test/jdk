@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,1307 +59,1307 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.LocalTime.NANOS_PER_SECOND;
-import static java.time.LocalTime.SECONDS_PER_DAY;
-import static java.time.LocalTime.SECONDS_PER_HOUR;
-import static java.time.LocalTime.SECONDS_PER_MINUTE;
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
-import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_SECOND;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_DAY;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_HOUR;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_MINUTE;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MICRO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MILLI_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.NANO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.formbt.DbtfTimfFormbttfr;
+import jbvb.timf.formbt.DbtfTimfPbrsfExdfption;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
 
 /**
- * An instantaneous point on the time-line.
+ * An instbntbnfous point on tif timf-linf.
  * <p>
- * This class models a single instantaneous point on the time-line.
- * This might be used to record event time-stamps in the application.
+ * Tiis dlbss modfls b singlf instbntbnfous point on tif timf-linf.
+ * Tiis migit bf usfd to rfdord fvfnt timf-stbmps in tif bpplidbtion.
  * <p>
- * The range of an instant requires the storage of a number larger than a {@code long}.
- * To achieve this, the class stores a {@code long} representing epoch-seconds and an
- * {@code int} representing nanosecond-of-second, which will always be between 0 and 999,999,999.
- * The epoch-seconds are measured from the standard Java epoch of {@code 1970-01-01T00:00:00Z}
- * where instants after the epoch have positive values, and earlier instants have negative values.
- * For both the epoch-second and nanosecond parts, a larger value is always later on the time-line
- * than a smaller value.
+ * Tif rbngf of bn instbnt rfquirfs tif storbgf of b numbfr lbrgfr tibn b {@dodf long}.
+ * To bdiifvf tiis, tif dlbss storfs b {@dodf long} rfprfsfnting fpodi-sfdonds bnd bn
+ * {@dodf int} rfprfsfnting nbnosfdond-of-sfdond, wiidi will blwbys bf bftwffn 0 bnd 999,999,999.
+ * Tif fpodi-sfdonds brf mfbsurfd from tif stbndbrd Jbvb fpodi of {@dodf 1970-01-01T00:00:00Z}
+ * wifrf instbnts bftfr tif fpodi ibvf positivf vblufs, bnd fbrlifr instbnts ibvf nfgbtivf vblufs.
+ * For boti tif fpodi-sfdond bnd nbnosfdond pbrts, b lbrgfr vbluf is blwbys lbtfr on tif timf-linf
+ * tibn b smbllfr vbluf.
  *
- * <h3>Time-scale</h3>
+ * <i3>Timf-sdblf</i3>
  * <p>
- * The length of the solar day is the standard way that humans measure time.
- * This has traditionally been subdivided into 24 hours of 60 minutes of 60 seconds,
- * forming a 86400 second day.
+ * Tif lfngti of tif solbr dby is tif stbndbrd wby tibt iumbns mfbsurf timf.
+ * Tiis ibs trbditionblly bffn subdividfd into 24 iours of 60 minutfs of 60 sfdonds,
+ * forming b 86400 sfdond dby.
  * <p>
- * Modern timekeeping is based on atomic clocks which precisely define an SI second
- * relative to the transitions of a Caesium atom. The length of an SI second was defined
- * to be very close to the 86400th fraction of a day.
+ * Modfrn timfkffping is bbsfd on btomid dlodks wiidi prfdisfly dffinf bn SI sfdond
+ * rflbtivf to tif trbnsitions of b Cbfsium btom. Tif lfngti of bn SI sfdond wbs dffinfd
+ * to bf vfry dlosf to tif 86400ti frbdtion of b dby.
  * <p>
- * Unfortunately, as the Earth rotates the length of the day varies.
- * In addition, over time the average length of the day is getting longer as the Earth slows.
- * As a result, the length of a solar day in 2012 is slightly longer than 86400 SI seconds.
- * The actual length of any given day and the amount by which the Earth is slowing
- * are not predictable and can only be determined by measurement.
- * The UT1 time-scale captures the accurate length of day, but is only available some
- * time after the day has completed.
+ * Unfortunbtfly, bs tif Ebrti rotbtfs tif lfngti of tif dby vbrifs.
+ * In bddition, ovfr timf tif bvfrbgf lfngti of tif dby is gftting longfr bs tif Ebrti slows.
+ * As b rfsult, tif lfngti of b solbr dby in 2012 is sligitly longfr tibn 86400 SI sfdonds.
+ * Tif bdtubl lfngti of bny givfn dby bnd tif bmount by wiidi tif Ebrti is slowing
+ * brf not prfdidtbblf bnd dbn only bf dftfrminfd by mfbsurfmfnt.
+ * Tif UT1 timf-sdblf dbpturfs tif bddurbtf lfngti of dby, but is only bvbilbblf somf
+ * timf bftfr tif dby ibs domplftfd.
  * <p>
- * The UTC time-scale is a standard approach to bundle up all the additional fractions
- * of a second from UT1 into whole seconds, known as <i>leap-seconds</i>.
- * A leap-second may be added or removed depending on the Earth's rotational changes.
- * As such, UTC permits a day to have 86399 SI seconds or 86401 SI seconds where
- * necessary in order to keep the day aligned with the Sun.
+ * Tif UTC timf-sdblf is b stbndbrd bpprobdi to bundlf up bll tif bdditionbl frbdtions
+ * of b sfdond from UT1 into wiolf sfdonds, known bs <i>lfbp-sfdonds</i>.
+ * A lfbp-sfdond mby bf bddfd or rfmovfd dfpfnding on tif Ebrti's rotbtionbl dibngfs.
+ * As sudi, UTC pfrmits b dby to ibvf 86399 SI sfdonds or 86401 SI sfdonds wifrf
+ * nfdfssbry in ordfr to kffp tif dby blignfd witi tif Sun.
  * <p>
- * The modern UTC time-scale was introduced in 1972, introducing the concept of whole leap-seconds.
- * Between 1958 and 1972, the definition of UTC was complex, with minor sub-second leaps and
- * alterations to the length of the notional second. As of 2012, discussions are underway
- * to change the definition of UTC again, with the potential to remove leap seconds or
- * introduce other changes.
+ * Tif modfrn UTC timf-sdblf wbs introdudfd in 1972, introduding tif dondfpt of wiolf lfbp-sfdonds.
+ * Bftwffn 1958 bnd 1972, tif dffinition of UTC wbs domplfx, witi minor sub-sfdond lfbps bnd
+ * bltfrbtions to tif lfngti of tif notionbl sfdond. As of 2012, disdussions brf undfrwby
+ * to dibngf tif dffinition of UTC bgbin, witi tif potfntibl to rfmovf lfbp sfdonds or
+ * introdudf otifr dibngfs.
  * <p>
- * Given the complexity of accurate timekeeping described above, this Java API defines
- * its own time-scale, the <i>Java Time-Scale</i>.
+ * Givfn tif domplfxity of bddurbtf timfkffping dfsdribfd bbovf, tiis Jbvb API dffinfs
+ * its own timf-sdblf, tif <i>Jbvb Timf-Sdblf</i>.
  * <p>
- * The Java Time-Scale divides each calendar day into exactly 86400
- * subdivisions, known as seconds.  These seconds may differ from the
- * SI second.  It closely matches the de facto international civil time
- * scale, the definition of which changes from time to time.
+ * Tif Jbvb Timf-Sdblf dividfs fbdi dblfndbr dby into fxbdtly 86400
+ * subdivisions, known bs sfdonds.  Tifsf sfdonds mby difffr from tif
+ * SI sfdond.  It dlosfly mbtdifs tif df fbdto intfrnbtionbl divil timf
+ * sdblf, tif dffinition of wiidi dibngfs from timf to timf.
  * <p>
- * The Java Time-Scale has slightly different definitions for different
- * segments of the time-line, each based on the consensus international
- * time scale that is used as the basis for civil time. Whenever the
- * internationally-agreed time scale is modified or replaced, a new
- * segment of the Java Time-Scale must be defined for it.  Each segment
- * must meet these requirements:
+ * Tif Jbvb Timf-Sdblf ibs sligitly difffrfnt dffinitions for difffrfnt
+ * sfgmfnts of tif timf-linf, fbdi bbsfd on tif donsfnsus intfrnbtionbl
+ * timf sdblf tibt is usfd bs tif bbsis for divil timf. Wifnfvfr tif
+ * intfrnbtionblly-bgrffd timf sdblf is modififd or rfplbdfd, b nfw
+ * sfgmfnt of tif Jbvb Timf-Sdblf must bf dffinfd for it.  Ebdi sfgmfnt
+ * must mfft tifsf rfquirfmfnts:
  * <ul>
- * <li>the Java Time-Scale shall closely match the underlying international
- *  civil time scale;</li>
- * <li>the Java Time-Scale shall exactly match the international civil
- *  time scale at noon each day;</li>
- * <li>the Java Time-Scale shall have a precisely-defined relationship to
- *  the international civil time scale.</li>
+ * <li>tif Jbvb Timf-Sdblf sibll dlosfly mbtdi tif undfrlying intfrnbtionbl
+ *  divil timf sdblf;</li>
+ * <li>tif Jbvb Timf-Sdblf sibll fxbdtly mbtdi tif intfrnbtionbl divil
+ *  timf sdblf bt noon fbdi dby;</li>
+ * <li>tif Jbvb Timf-Sdblf sibll ibvf b prfdisfly-dffinfd rflbtionsiip to
+ *  tif intfrnbtionbl divil timf sdblf.</li>
  * </ul>
- * There are currently, as of 2013, two segments in the Java time-scale.
+ * Tifrf brf durrfntly, bs of 2013, two sfgmfnts in tif Jbvb timf-sdblf.
  * <p>
- * For the segment from 1972-11-03 (exact boundary discussed below) until
- * further notice, the consensus international time scale is UTC (with
- * leap seconds).  In this segment, the Java Time-Scale is identical to
- * <a href="http://www.cl.cam.ac.uk/~mgk25/time/utc-sls/">UTC-SLS</a>.
- * This is identical to UTC on days that do not have a leap second.
- * On days that do have a leap second, the leap second is spread equally
- * over the last 1000 seconds of the day, maintaining the appearance of
- * exactly 86400 seconds per day.
+ * For tif sfgmfnt from 1972-11-03 (fxbdt boundbry disdussfd bflow) until
+ * furtifr notidf, tif donsfnsus intfrnbtionbl timf sdblf is UTC (witi
+ * lfbp sfdonds).  In tiis sfgmfnt, tif Jbvb Timf-Sdblf is idfntidbl to
+ * <b irff="ittp://www.dl.dbm.bd.uk/~mgk25/timf/utd-sls/">UTC-SLS</b>.
+ * Tiis is idfntidbl to UTC on dbys tibt do not ibvf b lfbp sfdond.
+ * On dbys tibt do ibvf b lfbp sfdond, tif lfbp sfdond is sprfbd fqublly
+ * ovfr tif lbst 1000 sfdonds of tif dby, mbintbining tif bppfbrbndf of
+ * fxbdtly 86400 sfdonds pfr dby.
  * <p>
- * For the segment prior to 1972-11-03, extending back arbitrarily far,
- * the consensus international time scale is defined to be UT1, applied
- * proleptically, which is equivalent to the (mean) solar time on the
- * prime meridian (Greenwich). In this segment, the Java Time-Scale is
- * identical to the consensus international time scale. The exact
- * boundary between the two segments is the instant where UT1 = UTC
- * between 1972-11-03T00:00 and 1972-11-04T12:00.
+ * For tif sfgmfnt prior to 1972-11-03, fxtfnding bbdk brbitrbrily fbr,
+ * tif donsfnsus intfrnbtionbl timf sdblf is dffinfd to bf UT1, bpplifd
+ * prolfptidblly, wiidi is fquivblfnt to tif (mfbn) solbr timf on tif
+ * primf mfridibn (Grffnwidi). In tiis sfgmfnt, tif Jbvb Timf-Sdblf is
+ * idfntidbl to tif donsfnsus intfrnbtionbl timf sdblf. Tif fxbdt
+ * boundbry bftwffn tif two sfgmfnts is tif instbnt wifrf UT1 = UTC
+ * bftwffn 1972-11-03T00:00 bnd 1972-11-04T12:00.
  * <p>
- * Implementations of the Java time-scale using the JSR-310 API are not
- * required to provide any clock that is sub-second accurate, or that
- * progresses monotonically or smoothly. Implementations are therefore
- * not required to actually perform the UTC-SLS slew or to otherwise be
- * aware of leap seconds. JSR-310 does, however, require that
- * implementations must document the approach they use when defining a
- * clock representing the current instant.
- * See {@link Clock} for details on the available clocks.
+ * Implfmfntbtions of tif Jbvb timf-sdblf using tif JSR-310 API brf not
+ * rfquirfd to providf bny dlodk tibt is sub-sfdond bddurbtf, or tibt
+ * progrfssfs monotonidblly or smootily. Implfmfntbtions brf tifrfforf
+ * not rfquirfd to bdtublly pfrform tif UTC-SLS slfw or to otifrwisf bf
+ * bwbrf of lfbp sfdonds. JSR-310 dofs, iowfvfr, rfquirf tibt
+ * implfmfntbtions must dodumfnt tif bpprobdi tify usf wifn dffining b
+ * dlodk rfprfsfnting tif durrfnt instbnt.
+ * Sff {@link Clodk} for dftbils on tif bvbilbblf dlodks.
  * <p>
- * The Java time-scale is used for all date-time classes.
- * This includes {@code Instant}, {@code LocalDate}, {@code LocalTime}, {@code OffsetDateTime},
- * {@code ZonedDateTime} and {@code Duration}.
+ * Tif Jbvb timf-sdblf is usfd for bll dbtf-timf dlbssfs.
+ * Tiis indludfs {@dodf Instbnt}, {@dodf LodblDbtf}, {@dodf LodblTimf}, {@dodf OffsftDbtfTimf},
+ * {@dodf ZonfdDbtfTimf} bnd {@dodf Durbtion}.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code Instant} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf Instbnt} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class Instant
-        implements Temporal, TemporalAdjuster, Comparable<Instant>, Serializable {
+publid finbl dlbss Instbnt
+        implfmfnts Tfmporbl, TfmporblAdjustfr, Compbrbblf<Instbnt>, Sfriblizbblf {
 
     /**
-     * Constant for the 1970-01-01T00:00:00Z epoch instant.
+     * Constbnt for tif 1970-01-01T00:00:00Z fpodi instbnt.
      */
-    public static final Instant EPOCH = new Instant(0, 0);
+    publid stbtid finbl Instbnt EPOCH = nfw Instbnt(0, 0);
     /**
-     * The minimum supported epoch second.
+     * Tif minimum supportfd fpodi sfdond.
      */
-    private static final long MIN_SECOND = -31557014167219200L;
+    privbtf stbtid finbl long MIN_SECOND = -31557014167219200L;
     /**
-     * The maximum supported epoch second.
+     * Tif mbximum supportfd fpodi sfdond.
      */
-    private static final long MAX_SECOND = 31556889864403199L;
+    privbtf stbtid finbl long MAX_SECOND = 31556889864403199L;
     /**
-     * The minimum supported {@code Instant}, '-1000000000-01-01T00:00Z'.
-     * This could be used by an application as a "far past" instant.
+     * Tif minimum supportfd {@dodf Instbnt}, '-1000000000-01-01T00:00Z'.
+     * Tiis dould bf usfd by bn bpplidbtion bs b "fbr pbst" instbnt.
      * <p>
-     * This is one year earlier than the minimum {@code LocalDateTime}.
-     * This provides sufficient values to handle the range of {@code ZoneOffset}
-     * which affect the instant in addition to the local date-time.
-     * The value is also chosen such that the value of the year fits in
-     * an {@code int}.
+     * Tiis is onf yfbr fbrlifr tibn tif minimum {@dodf LodblDbtfTimf}.
+     * Tiis providfs suffidifnt vblufs to ibndlf tif rbngf of {@dodf ZonfOffsft}
+     * wiidi bfffdt tif instbnt in bddition to tif lodbl dbtf-timf.
+     * Tif vbluf is blso diosfn sudi tibt tif vbluf of tif yfbr fits in
+     * bn {@dodf int}.
      */
-    public static final Instant MIN = Instant.ofEpochSecond(MIN_SECOND, 0);
+    publid stbtid finbl Instbnt MIN = Instbnt.ofEpodiSfdond(MIN_SECOND, 0);
     /**
-     * The maximum supported {@code Instant}, '1000000000-12-31T23:59:59.999999999Z'.
-     * This could be used by an application as a "far future" instant.
+     * Tif mbximum supportfd {@dodf Instbnt}, '1000000000-12-31T23:59:59.999999999Z'.
+     * Tiis dould bf usfd by bn bpplidbtion bs b "fbr futurf" instbnt.
      * <p>
-     * This is one year later than the maximum {@code LocalDateTime}.
-     * This provides sufficient values to handle the range of {@code ZoneOffset}
-     * which affect the instant in addition to the local date-time.
-     * The value is also chosen such that the value of the year fits in
-     * an {@code int}.
+     * Tiis is onf yfbr lbtfr tibn tif mbximum {@dodf LodblDbtfTimf}.
+     * Tiis providfs suffidifnt vblufs to ibndlf tif rbngf of {@dodf ZonfOffsft}
+     * wiidi bfffdt tif instbnt in bddition to tif lodbl dbtf-timf.
+     * Tif vbluf is blso diosfn sudi tibt tif vbluf of tif yfbr fits in
+     * bn {@dodf int}.
      */
-    public static final Instant MAX = Instant.ofEpochSecond(MAX_SECOND, 999_999_999);
+    publid stbtid finbl Instbnt MAX = Instbnt.ofEpodiSfdond(MAX_SECOND, 999_999_999);
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -665713676816604388L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -665713676816604388L;
 
     /**
-     * The number of seconds from the epoch of 1970-01-01T00:00:00Z.
+     * Tif numbfr of sfdonds from tif fpodi of 1970-01-01T00:00:00Z.
      */
-    private final long seconds;
+    privbtf finbl long sfdonds;
     /**
-     * The number of nanoseconds, later along the time-line, from the seconds field.
-     * This is always positive, and never exceeds 999,999,999.
+     * Tif numbfr of nbnosfdonds, lbtfr blong tif timf-linf, from tif sfdonds fifld.
+     * Tiis is blwbys positivf, bnd nfvfr fxdffds 999,999,999.
      */
-    private final int nanos;
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains the current instant from the system clock.
-     * <p>
-     * This will query the {@link Clock#systemUTC() system UTC clock} to
-     * obtain the current instant.
-     * <p>
-     * Using this method will prevent the ability to use an alternate time-source for
-     * testing because the clock is effectively hard-coded.
-     *
-     * @return the current instant using the system clock, not null
-     */
-    public static Instant now() {
-        return Clock.systemUTC().instant();
-    }
-
-    /**
-     * Obtains the current instant from the specified clock.
-     * <p>
-     * This will query the specified clock to obtain the current time.
-     * <p>
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
-     *
-     * @param clock  the clock to use, not null
-     * @return the current instant, not null
-     */
-    public static Instant now(Clock clock) {
-        Objects.requireNonNull(clock, "clock");
-        return clock.instant();
-    }
+    privbtf finbl int nbnos;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} using seconds from the
-     * epoch of 1970-01-01T00:00:00Z.
+     * Obtbins tif durrfnt instbnt from tif systfm dlodk.
      * <p>
-     * The nanosecond field is set to zero.
+     * Tiis will qufry tif {@link Clodk#systfmUTC() systfm UTC dlodk} to
+     * obtbin tif durrfnt instbnt.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf timf-sourdf for
+     * tfsting bfdbusf tif dlodk is ffffdtivfly ibrd-dodfd.
      *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @rfturn tif durrfnt instbnt using tif systfm dlodk, not null
      */
-    public static Instant ofEpochSecond(long epochSecond) {
-        return create(epochSecond, 0);
+    publid stbtid Instbnt now() {
+        rfturn Clodk.systfmUTC().instbnt();
     }
 
     /**
-     * Obtains an instance of {@code Instant} using seconds from the
-     * epoch of 1970-01-01T00:00:00Z and nanosecond fraction of second.
+     * Obtbins tif durrfnt instbnt from tif spfdififd dlodk.
      * <p>
-     * This method allows an arbitrary number of nanoseconds to be passed in.
-     * The factory will alter the values of the second and nanosecond in order
-     * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same instant:
-     * <pre>
-     *  Instant.ofEpochSecond(3, 1);
-     *  Instant.ofEpochSecond(4, -999_999_999);
-     *  Instant.ofEpochSecond(2, 1000_000_001);
-     * </pre>
-     *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @param nanoAdjustment  the nanosecond adjustment to the number of seconds, positive or negative
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
-     */
-    public static Instant ofEpochSecond(long epochSecond, long nanoAdjustment) {
-        long secs = Math.addExact(epochSecond, Math.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
-        int nos = (int)Math.floorMod(nanoAdjustment, NANOS_PER_SECOND);
-        return create(secs, nos);
-    }
-
-    /**
-     * Obtains an instance of {@code Instant} using milliseconds from the
-     * epoch of 1970-01-01T00:00:00Z.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt timf.
      * <p>
-     * The seconds and nanoseconds are extracted from the specified milliseconds.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@link Clodk dfpfndfndy injfdtion}.
      *
-     * @param epochMilli  the number of milliseconds from 1970-01-01T00:00:00Z
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt instbnt, not null
      */
-    public static Instant ofEpochMilli(long epochMilli) {
-        long secs = Math.floorDiv(epochMilli, 1000);
-        int mos = (int)Math.floorMod(epochMilli, 1000);
-        return create(secs, mos * 1000_000);
+    publid stbtid Instbnt now(Clodk dlodk) {
+        Objfdts.rfquirfNonNull(dlodk, "dlodk");
+        rfturn dlodk.instbnt();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} from a temporal object.
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds from tif
+     * fpodi of 1970-01-01T00:00:00Z.
      * <p>
-     * This obtains an instant based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code Instant}.
-     * <p>
-     * The conversion extracts the {@link ChronoField#INSTANT_SECONDS INSTANT_SECONDS}
-     * and {@link ChronoField#NANO_OF_SECOND NANO_OF_SECOND} fields.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code Instant::from}.
+     * Tif nbnosfdond fifld is sft to zfro.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the instant, not null
-     * @throws DateTimeException if unable to convert to an {@code Instant}
+     * @pbrbm fpodiSfdond  tif numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @rfturn bn instbnt, not null
+     * @tirows DbtfTimfExdfption if tif instbnt fxdffds tif mbximum or minimum instbnt
      */
-    public static Instant from(TemporalAccessor temporal) {
-        if (temporal instanceof Instant) {
-            return (Instant) temporal;
+    publid stbtid Instbnt ofEpodiSfdond(long fpodiSfdond) {
+        rfturn drfbtf(fpodiSfdond, 0);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds from tif
+     * fpodi of 1970-01-01T00:00:00Z bnd nbnosfdond frbdtion of sfdond.
+     * <p>
+     * Tiis mftiod bllows bn brbitrbry numbfr of nbnosfdonds to bf pbssfd in.
+     * Tif fbdtory will bltfr tif vblufs of tif sfdond bnd nbnosfdond in ordfr
+     * to fnsurf tibt tif storfd nbnosfdond is in tif rbngf 0 to 999,999,999.
+     * For fxbmplf, tif following will rfsult in tif fxbdtly tif sbmf instbnt:
+     * <prf>
+     *  Instbnt.ofEpodiSfdond(3, 1);
+     *  Instbnt.ofEpodiSfdond(4, -999_999_999);
+     *  Instbnt.ofEpodiSfdond(2, 1000_000_001);
+     * </prf>
+     *
+     * @pbrbm fpodiSfdond  tif numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnoAdjustmfnt  tif nbnosfdond bdjustmfnt to tif numbfr of sfdonds, positivf or nfgbtivf
+     * @rfturn bn instbnt, not null
+     * @tirows DbtfTimfExdfption if tif instbnt fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid stbtid Instbnt ofEpodiSfdond(long fpodiSfdond, long nbnoAdjustmfnt) {
+        long sfds = Mbti.bddExbdt(fpodiSfdond, Mbti.floorDiv(nbnoAdjustmfnt, NANOS_PER_SECOND));
+        int nos = (int)Mbti.floorMod(nbnoAdjustmfnt, NANOS_PER_SECOND);
+        rfturn drfbtf(sfds, nos);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using millisfdonds from tif
+     * fpodi of 1970-01-01T00:00:00Z.
+     * <p>
+     * Tif sfdonds bnd nbnosfdonds brf fxtrbdtfd from tif spfdififd millisfdonds.
+     *
+     * @pbrbm fpodiMilli  tif numbfr of millisfdonds from 1970-01-01T00:00:00Z
+     * @rfturn bn instbnt, not null
+     * @tirows DbtfTimfExdfption if tif instbnt fxdffds tif mbximum or minimum instbnt
+     */
+    publid stbtid Instbnt ofEpodiMilli(long fpodiMilli) {
+        long sfds = Mbti.floorDiv(fpodiMilli, 1000);
+        int mos = (int)Mbti.floorMod(fpodiMilli, 1000);
+        rfturn drfbtf(sfds, mos * 1000_000);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} from b tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins bn instbnt bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf Instbnt}.
+     * <p>
+     * Tif donvfrsion fxtrbdts tif {@link CironoFifld#INSTANT_SECONDS INSTANT_SECONDS}
+     * bnd {@link CironoFifld#NANO_OF_SECOND NANO_OF_SECOND} fiflds.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf Instbnt::from}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif instbnt, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to bn {@dodf Instbnt}
+     */
+    publid stbtid Instbnt from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof Instbnt) {
+            rfturn (Instbnt) tfmporbl;
         }
-        Objects.requireNonNull(temporal, "temporal");
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
         try {
-            long instantSecs = temporal.getLong(INSTANT_SECONDS);
-            int nanoOfSecond = temporal.get(NANO_OF_SECOND);
-            return Instant.ofEpochSecond(instantSecs, nanoOfSecond);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain Instant from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            long instbntSfds = tfmporbl.gftLong(INSTANT_SECONDS);
+            int nbnoOfSfdond = tfmporbl.gft(NANO_OF_SECOND);
+            rfturn Instbnt.ofEpodiSfdond(instbntSfds, nbnoOfSfdond);
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin Instbnt from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} from a text string such as
-     * {@code 2007-12-03T10:15:30.00Z}.
+     * Obtbins bn instbndf of {@dodf Instbnt} from b tfxt string sudi bs
+     * {@dodf 2007-12-03T10:15:30.00Z}.
      * <p>
-     * The string must represent a valid instant in UTC and is parsed using
-     * {@link DateTimeFormatter#ISO_INSTANT}.
+     * Tif string must rfprfsfnt b vblid instbnt in UTC bnd is pbrsfd using
+     * {@link DbtfTimfFormbttfr#ISO_INSTANT}.
      *
-     * @param text  the text to parse, not null
-     * @return the parsed instant, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm tfxt  tif tfxt to pbrsf, not null
+     * @rfturn tif pbrsfd instbnt, not null
+     * @tirows DbtfTimfPbrsfExdfption if tif tfxt dbnnot bf pbrsfd
      */
-    public static Instant parse(final CharSequence text) {
-        return DateTimeFormatter.ISO_INSTANT.parse(text, Instant::from);
+    publid stbtid Instbnt pbrsf(finbl CibrSfqufndf tfxt) {
+        rfturn DbtfTimfFormbttfr.ISO_INSTANT.pbrsf(tfxt, Instbnt::from);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} using seconds and nanoseconds.
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds bnd nbnosfdonds.
      *
-     * @param seconds  the length of the duration in seconds
-     * @param nanoOfSecond  the nano-of-second, from 0 to 999,999,999
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm sfdonds  tif lfngti of tif durbtion in sfdonds
+     * @pbrbm nbnoOfSfdond  tif nbno-of-sfdond, from 0 to 999,999,999
+     * @tirows DbtfTimfExdfption if tif instbnt fxdffds tif mbximum or minimum instbnt
      */
-    private static Instant create(long seconds, int nanoOfSecond) {
-        if ((seconds | nanoOfSecond) == 0) {
-            return EPOCH;
+    privbtf stbtid Instbnt drfbtf(long sfdonds, int nbnoOfSfdond) {
+        if ((sfdonds | nbnoOfSfdond) == 0) {
+            rfturn EPOCH;
         }
-        if (seconds < MIN_SECOND || seconds > MAX_SECOND) {
-            throw new DateTimeException("Instant exceeds minimum or maximum instant");
+        if (sfdonds < MIN_SECOND || sfdonds > MAX_SECOND) {
+            tirow nfw DbtfTimfExdfption("Instbnt fxdffds minimum or mbximum instbnt");
         }
-        return new Instant(seconds, nanoOfSecond);
+        rfturn nfw Instbnt(sfdonds, nbnoOfSfdond);
     }
 
     /**
-     * Constructs an instance of {@code Instant} using seconds from the epoch of
-     * 1970-01-01T00:00:00Z and nanosecond fraction of second.
+     * Construdts bn instbndf of {@dodf Instbnt} using sfdonds from tif fpodi of
+     * 1970-01-01T00:00:00Z bnd nbnosfdond frbdtion of sfdond.
      *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @param nanos  the nanoseconds within the second, must be positive
+     * @pbrbm fpodiSfdond  tif numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnos  tif nbnosfdonds witiin tif sfdond, must bf positivf
      */
-    private Instant(long epochSecond, int nanos) {
-        super();
-        this.seconds = epochSecond;
-        this.nanos = nanos;
+    privbtf Instbnt(long fpodiSfdond, int nbnos) {
+        supfr();
+        tiis.sfdonds = fpodiSfdond;
+        tiis.nbnos = nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified field is supported.
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This checks if this instant can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * Tiis difdks if tiis instbnt dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf},
+     * {@link #gft(TfmporblFifld) gft} bnd {@link #witi(TfmporblFifld, long)}
+     * mftiods will tirow bn fxdfption.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif supportfd fiflds brf:
      * <ul>
-     * <li>{@code NANO_OF_SECOND}
-     * <li>{@code MICRO_OF_SECOND}
-     * <li>{@code MILLI_OF_SECOND}
-     * <li>{@code INSTANT_SECONDS}
+     * <li>{@dodf NANO_OF_SECOND}
+     * <li>{@dodf MICRO_OF_SECOND}
+     * <li>{@dodf MILLI_OF_SECOND}
+     * <li>{@dodf INSTANT_SECONDS}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this instant, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis instbnt, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == INSTANT_SECONDS || field == NANO_OF_SECOND || field == MICRO_OF_SECOND || field == MILLI_OF_SECOND;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            rfturn fifld == INSTANT_SECONDS || fifld == NANO_OF_SECOND || fifld == MICRO_OF_SECOND || fifld == MILLI_OF_SECOND;
         }
-        return field != null && field.isSupportedBy(this);
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
     /**
-     * Checks if the specified unit is supported.
+     * Cifdks if tif spfdififd unit is supportfd.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * Tiis difdks if tif spfdififd unit dbn bf bddfd to, or subtrbdtfd from, tiis dbtf-timf.
+     * If fblsf, tifn dblling tif {@link #plus(long, TfmporblUnit)} bnd
+     * {@link #minus(long, TfmporblUnit) minus} mftiods will tirow bn fxdfption.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If tif unit is b {@link CironoUnit} tifn tif qufry is implfmfntfd ifrf.
+     * Tif supportfd units brf:
      * <ul>
-     * <li>{@code NANOS}
-     * <li>{@code MICROS}
-     * <li>{@code MILLIS}
-     * <li>{@code SECONDS}
-     * <li>{@code MINUTES}
-     * <li>{@code HOURS}
-     * <li>{@code HALF_DAYS}
-     * <li>{@code DAYS}
+     * <li>{@dodf NANOS}
+     * <li>{@dodf MICROS}
+     * <li>{@dodf MILLIS}
+     * <li>{@dodf SECONDS}
+     * <li>{@dodf MINUTES}
+     * <li>{@dodf HOURS}
+     * <li>{@dodf HALF_DAYS}
+     * <li>{@dodf DAYS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All otifr {@dodf CironoUnit} instbndfs will rfturn fblsf.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
-     * Whether the unit is supported is determined by the unit.
+     * If tif unit is not b {@dodf CironoUnit}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.isSupportfdBy(Tfmporbl)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif unit is supportfd is dftfrminfd by tif unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  tif unit to difdk, null rfturns fblsf
+     * @rfturn truf if tif unit dbn bf bddfd/subtrbdtfd, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isTimeBased() || unit == DAYS;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            rfturn unit.isTimfBbsfd() || unit == DAYS;
         }
-        return unit != null && unit.isSupportedBy(this);
+        rfturn unit != null && unit.isSupportfdBy(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This instant is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis instbnt is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn
+     * bppropribtf rbngf instbndfs.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
      */
-    @Override  // override for Javadoc
-    public ValueRange range(TemporalField field) {
-        return Temporal.super.range(field);
+    @Ovfrridf  // ovfrridf for Jbvbdod
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        rfturn Tfmporbl.supfr.rbngf(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this instant as an {@code int}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis instbnt bs bn {@dodf int}.
      * <p>
-     * This queries this instant for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis instbnt for tif vbluf of tif spfdififd fifld.
+     * Tif rfturnfd vbluf will blwbys bf witiin tif vblid rbngf of vblufs for tif fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time, except {@code INSTANT_SECONDS} which is too
-     * large to fit in an {@code int} and throws a {@code DateTimeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on tiis dbtf-timf, fxdfpt {@dodf INSTANT_SECONDS} wiidi is too
+     * lbrgf to fit in bn {@dodf int} bnd tirows b {@dodf DbtfTimfExdfption}.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd or
+     *         tif vbluf is outsidf tif rbngf of vblid vblufs for tif fifld
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd or
+     *         tif rbngf of vblufs fxdffds bn {@dodf int}
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override  // override for Javadoc and performance
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case NANO_OF_SECOND: return nanos;
-                case MICRO_OF_SECOND: return nanos / 1000;
-                case MILLI_OF_SECOND: return nanos / 1000_000;
-                case INSTANT_SECONDS: INSTANT_SECONDS.checkValidIntValue(seconds);
+    @Ovfrridf  // ovfrridf for Jbvbdod bnd pfrformbndf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf NANO_OF_SECOND: rfturn nbnos;
+                dbsf MICRO_OF_SECOND: rfturn nbnos / 1000;
+                dbsf MILLI_OF_SECOND: rfturn nbnos / 1000_000;
+                dbsf INSTANT_SECONDS: INSTANT_SECONDS.difdkVblidIntVbluf(sfdonds);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return range(field).checkValidIntValue(field.getFrom(this), field);
+        rfturn rbngf(fifld).difdkVblidIntVbluf(fifld.gftFrom(tiis), fifld);
     }
 
     /**
-     * Gets the value of the specified field from this instant as a {@code long}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis instbnt bs b {@dodf long}.
      * <p>
-     * This queries this instant for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis instbnt for tif vbluf of tif spfdififd fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on tiis dbtf-timf.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case NANO_OF_SECOND: return nanos;
-                case MICRO_OF_SECOND: return nanos / 1000;
-                case MILLI_OF_SECOND: return nanos / 1000_000;
-                case INSTANT_SECONDS: return seconds;
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf NANO_OF_SECOND: rfturn nbnos;
+                dbsf MICRO_OF_SECOND: rfturn nbnos / 1000;
+                dbsf MILLI_OF_SECOND: rfturn nbnos / 1000_000;
+                dbsf INSTANT_SECONDS: rfturn sfdonds;
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the number of seconds from the Java epoch of 1970-01-01T00:00:00Z.
+     * Gfts tif numbfr of sfdonds from tif Jbvb fpodi of 1970-01-01T00:00:00Z.
      * <p>
-     * The epoch second count is a simple incrementing count of seconds where
-     * second 0 is 1970-01-01T00:00:00Z.
-     * The nanosecond part of the day is returned by {@code getNanosOfSecond}.
+     * Tif fpodi sfdond dount is b simplf indrfmfnting dount of sfdonds wifrf
+     * sfdond 0 is 1970-01-01T00:00:00Z.
+     * Tif nbnosfdond pbrt of tif dby is rfturnfd by {@dodf gftNbnosOfSfdond}.
      *
-     * @return the seconds from the epoch of 1970-01-01T00:00:00Z
+     * @rfturn tif sfdonds from tif fpodi of 1970-01-01T00:00:00Z
      */
-    public long getEpochSecond() {
-        return seconds;
+    publid long gftEpodiSfdond() {
+        rfturn sfdonds;
     }
 
     /**
-     * Gets the number of nanoseconds, later along the time-line, from the start
-     * of the second.
+     * Gfts tif numbfr of nbnosfdonds, lbtfr blong tif timf-linf, from tif stbrt
+     * of tif sfdond.
      * <p>
-     * The nanosecond-of-second value measures the total number of nanoseconds from
-     * the second returned by {@code getEpochSecond}.
+     * Tif nbnosfdond-of-sfdond vbluf mfbsurfs tif totbl numbfr of nbnosfdonds from
+     * tif sfdond rfturnfd by {@dodf gftEpodiSfdond}.
      *
-     * @return the nanoseconds within the second, always positive, never exceeds 999,999,999
+     * @rfturn tif nbnosfdonds witiin tif sfdond, blwbys positivf, nfvfr fxdffds 999,999,999
      */
-    public int getNano() {
-        return nanos;
+    publid int gftNbno() {
+        rfturn nbnos;
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this instant.
+     * Rfturns bn bdjustfd dopy of tiis instbnt.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the instant adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * Tiis rfturns bn {@dodf Instbnt}, bbsfd on tiis onf, witi tif instbnt bdjustfd.
+     * Tif bdjustmfnt tbkfs plbdf using tif spfdififd bdjustfr strbtfgy objfdt.
+     * Rfbd tif dodumfntbtion of tif bdjustfr to undfrstbnd wibt bdjustmfnt will bf mbdf.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblAdjustfr#bdjustInto(Tfmporbl)} mftiod on tif
+     * spfdififd bdjustfr pbssing {@dodf tiis} bs tif brgumfnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return an {@code Instant} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm bdjustfr tif bdjustfr to usf, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on {@dodf tiis} witi tif bdjustmfnt mbdf, not null
+     * @tirows DbtfTimfExdfption if tif bdjustmfnt dbnnot bf mbdf
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant with(TemporalAdjuster adjuster) {
-        return (Instant) adjuster.adjustInto(this);
+    @Ovfrridf
+    publid Instbnt witi(TfmporblAdjustfr bdjustfr) {
+        rfturn (Instbnt) bdjustfr.bdjustInto(tiis);
     }
 
     /**
-     * Returns a copy of this instant with the specified field set to a new value.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd fifld sft to b nfw vbluf.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the value
-     * for the specified field changed.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * Tiis rfturns bn {@dodf Instbnt}, bbsfd on tiis onf, witi tif vbluf
+     * for tif spfdififd fifld dibngfd.
+     * If it is not possiblf to sft tif vbluf, bfdbusf tif fifld is not supportfd or for
+     * somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
-     * The supported fields behave as follows:
+     * If tif fifld is b {@link CironoFifld} tifn tif bdjustmfnt is implfmfntfd ifrf.
+     * Tif supportfd fiflds bfibvf bs follows:
      * <ul>
-     * <li>{@code NANO_OF_SECOND} -
-     *  Returns an {@code Instant} with the specified nano-of-second.
-     *  The epoch-second will be unchanged.
-     * <li>{@code MICRO_OF_SECOND} -
-     *  Returns an {@code Instant} with the nano-of-second replaced by the specified
-     *  micro-of-second multiplied by 1,000. The epoch-second will be unchanged.
-     * <li>{@code MILLI_OF_SECOND} -
-     *  Returns an {@code Instant} with the nano-of-second replaced by the specified
-     *  milli-of-second multiplied by 1,000,000. The epoch-second will be unchanged.
-     * <li>{@code INSTANT_SECONDS} -
-     *  Returns an {@code Instant} with the specified epoch-second.
-     *  The nano-of-second will be unchanged.
+     * <li>{@dodf NANO_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} witi tif spfdififd nbno-of-sfdond.
+     *  Tif fpodi-sfdond will bf undibngfd.
+     * <li>{@dodf MICRO_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} witi tif nbno-of-sfdond rfplbdfd by tif spfdififd
+     *  midro-of-sfdond multiplifd by 1,000. Tif fpodi-sfdond will bf undibngfd.
+     * <li>{@dodf MILLI_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} witi tif nbno-of-sfdond rfplbdfd by tif spfdififd
+     *  milli-of-sfdond multiplifd by 1,000,000. Tif fpodi-sfdond will bf undibngfd.
+     * <li>{@dodf INSTANT_SECONDS} -
+     *  Rfturns bn {@dodf Instbnt} witi tif spfdififd fpodi-sfdond.
+     *  Tif nbno-of-sfdond will bf undibngfd.
      * </ul>
      * <p>
-     * In all cases, if the new value is outside the valid range of values for the field
-     * then a {@code DateTimeException} will be thrown.
+     * In bll dbsfs, if tif nfw vbluf is outsidf tif vblid rbngf of vblufs for tif fifld
+     * tifn b {@dodf DbtfTimfExdfption} will bf tirown.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.bdjustInto(Tfmporbl, long)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. In tiis dbsf, tif fifld dftfrminfs
+     * wiftifr bnd iow to bdjust tif instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return an {@code Instant} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to sft in tif rfsult, not null
+     * @pbrbm nfwVbluf  tif nfw vbluf of tif fifld in tif rfsult
+     * @rfturn bn {@dodf Instbnt} bbsfd on {@dodf tiis} witi tif spfdififd fifld sft, not null
+     * @tirows DbtfTimfExdfption if tif fifld dbnnot bf sft
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
-            switch (f) {
-                case MILLI_OF_SECOND: {
-                    int nval = (int) newValue * 1000_000;
-                    return (nval != nanos ? create(seconds, nval) : this);
+    @Ovfrridf
+    publid Instbnt witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            f.difdkVblidVbluf(nfwVbluf);
+            switdi (f) {
+                dbsf MILLI_OF_SECOND: {
+                    int nvbl = (int) nfwVbluf * 1000_000;
+                    rfturn (nvbl != nbnos ? drfbtf(sfdonds, nvbl) : tiis);
                 }
-                case MICRO_OF_SECOND: {
-                    int nval = (int) newValue * 1000;
-                    return (nval != nanos ? create(seconds, nval) : this);
+                dbsf MICRO_OF_SECOND: {
+                    int nvbl = (int) nfwVbluf * 1000;
+                    rfturn (nvbl != nbnos ? drfbtf(sfdonds, nvbl) : tiis);
                 }
-                case NANO_OF_SECOND: return (newValue != nanos ? create(seconds, (int) newValue) : this);
-                case INSTANT_SECONDS: return (newValue != seconds ? create(newValue, nanos) : this);
+                dbsf NANO_OF_SECOND: rfturn (nfwVbluf != nbnos ? drfbtf(sfdonds, (int) nfwVbluf) : tiis);
+                dbsf INSTANT_SECONDS: rfturn (nfwVbluf != sfdonds ? drfbtf(nfwVbluf, nbnos) : tiis);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.adjustInto(this, newValue);
+        rfturn fifld.bdjustInto(tiis, nfwVbluf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code Instant} truncated to the specified unit.
+     * Rfturns b dopy of tiis {@dodf Instbnt} trundbtfd to tif spfdififd unit.
      * <p>
-     * Truncating the instant returns a copy of the original with fields
-     * smaller than the specified unit set to zero.
-     * The fields are calculated on the basis of using a UTC offset as seen
-     * in {@code toString}.
-     * For example, truncating with the {@link ChronoUnit#MINUTES MINUTES} unit will
-     * round down to the nearest minute, setting the seconds and nanoseconds to zero.
+     * Trundbting tif instbnt rfturns b dopy of tif originbl witi fiflds
+     * smbllfr tibn tif spfdififd unit sft to zfro.
+     * Tif fiflds brf dbldulbtfd on tif bbsis of using b UTC offsft bs sffn
+     * in {@dodf toString}.
+     * For fxbmplf, trundbting witi tif {@link CironoUnit#MINUTES MINUTES} unit will
+     * round down to tif nfbrfst minutf, sftting tif sfdonds bnd nbnosfdonds to zfro.
      * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
+     * Tif unit must ibvf b {@linkplbin TfmporblUnit#gftDurbtion() durbtion}
+     * tibt dividfs into tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * Tiis indludfs bll supplifd timf units on {@link CironoUnit} bnd
+     * {@link CironoUnit#DAYS DAYS}. Otifr units tirow bn fxdfption.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return an {@code Instant} based on this instant with the time truncated, not null
-     * @throws DateTimeException if the unit is invalid for truncation
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit  tif unit to trundbtf to, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif timf trundbtfd, not null
+     * @tirows DbtfTimfExdfption if tif unit is invblid for trundbtion
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd
      */
-    public Instant truncatedTo(TemporalUnit unit) {
-        if (unit == ChronoUnit.NANOS) {
-            return this;
+    publid Instbnt trundbtfdTo(TfmporblUnit unit) {
+        if (unit == CironoUnit.NANOS) {
+            rfturn tiis;
         }
-        Duration unitDur = unit.getDuration();
-        if (unitDur.getSeconds() > LocalTime.SECONDS_PER_DAY) {
-            throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
+        Durbtion unitDur = unit.gftDurbtion();
+        if (unitDur.gftSfdonds() > LodblTimf.SECONDS_PER_DAY) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unit is too lbrgf to bf usfd for trundbtion");
         }
-        long dur = unitDur.toNanos();
-        if ((LocalTime.NANOS_PER_DAY % dur) != 0) {
-            throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
+        long dur = unitDur.toNbnos();
+        if ((LodblTimf.NANOS_PER_DAY % dur) != 0) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unit must dividf into b stbndbrd dby witiout rfmbindfr");
         }
-        long nod = (seconds % LocalTime.SECONDS_PER_DAY) * LocalTime.NANOS_PER_SECOND + nanos;
-        long result = (nod / dur) * dur;
-        return plusNanos(result - nod);
+        long nod = (sfdonds % LodblTimf.SECONDS_PER_DAY) * LodblTimf.NANOS_PER_SECOND + nbnos;
+        long rfsult = (nod / dur) * dur;
+        rfturn plusNbnos(rfsult - nod);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified amount added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd bmount bddfd.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the specified amount added.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * Tiis rfturns bn {@dodf Instbnt}, bbsfd on tiis onf, witi tif spfdififd bmount bddfd.
+     * Tif bmount is typidblly {@link Durbtion} but mby bf bny otifr typf implfmfnting
+     * tif {@link TfmporblAmount} intfrfbdf.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * Tif dbldulbtion is dflfgbtfd to tif bmount objfdt by dblling
+     * {@link TfmporblAmount#bddTo(Tfmporbl)}. Tif bmount implfmfntbtion is frff
+     * to implfmfnt tif bddition in bny wby it wisifs, iowfvfr it typidblly
+     * dblls bbdk to {@link #plus(long, TfmporblUnit)}. Consult tif dodumfntbtion
+     * of tif bmount implfmfntbtion to dftfrminf if it dbn bf suddfssfully bddfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return an {@code Instant} based on this instant with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm bmountToAdd  tif bmount to bdd, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif bddition mbdf, not null
+     * @tirows DbtfTimfExdfption if tif bddition dbnnot bf mbdf
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant plus(TemporalAmount amountToAdd) {
-        return (Instant) amountToAdd.addTo(this);
+    @Ovfrridf
+    publid Instbnt plus(TfmporblAmount bmountToAdd) {
+        rfturn (Instbnt) bmountToAdd.bddTo(tiis);
     }
 
     /**
-     * Returns a copy of this instant with the specified amount added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd bmount bddfd.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * Tiis rfturns bn {@dodf Instbnt}, bbsfd on tiis onf, witi tif bmount
+     * in tfrms of tif unit bddfd. If it is not possiblf to bdd tif bmount, bfdbusf tif
+     * unit is not supportfd or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * The supported fields behave as follows:
+     * If tif fifld is b {@link CironoUnit} tifn tif bddition is implfmfntfd ifrf.
+     * Tif supportfd fiflds bfibvf bs follows:
      * <ul>
-     * <li>{@code NANOS} -
-     *  Returns a {@code Instant} with the specified number of nanoseconds added.
-     *  This is equivalent to {@link #plusNanos(long)}.
-     * <li>{@code MICROS} -
-     *  Returns a {@code Instant} with the specified number of microseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
-     *  multiplied by 1,000.
-     * <li>{@code MILLIS} -
-     *  Returns a {@code Instant} with the specified number of milliseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
-     *  multiplied by 1,000,000.
-     * <li>{@code SECONDS} -
-     *  Returns a {@code Instant} with the specified number of seconds added.
-     *  This is equivalent to {@link #plusSeconds(long)}.
-     * <li>{@code MINUTES} -
-     *  Returns a {@code Instant} with the specified number of minutes added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
-     *  multiplied by 60.
-     * <li>{@code HOURS} -
-     *  Returns a {@code Instant} with the specified number of hours added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
-     *  multiplied by 3,600.
-     * <li>{@code HALF_DAYS} -
-     *  Returns a {@code Instant} with the specified number of half-days added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
-     *  multiplied by 43,200 (12 hours).
-     * <li>{@code DAYS} -
-     *  Returns a {@code Instant} with the specified number of days added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
-     *  multiplied by 86,400 (24 hours).
+     * <li>{@dodf NANOS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of nbnosfdonds bddfd.
+     *  Tiis is fquivblfnt to {@link #plusNbnos(long)}.
+     * <li>{@dodf MICROS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of midrosfdonds bddfd.
+     *  Tiis is fquivblfnt to {@link #plusNbnos(long)} witi tif bmount
+     *  multiplifd by 1,000.
+     * <li>{@dodf MILLIS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of millisfdonds bddfd.
+     *  Tiis is fquivblfnt to {@link #plusNbnos(long)} witi tif bmount
+     *  multiplifd by 1,000,000.
+     * <li>{@dodf SECONDS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of sfdonds bddfd.
+     *  Tiis is fquivblfnt to {@link #plusSfdonds(long)}.
+     * <li>{@dodf MINUTES} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of minutfs bddfd.
+     *  Tiis is fquivblfnt to {@link #plusSfdonds(long)} witi tif bmount
+     *  multiplifd by 60.
+     * <li>{@dodf HOURS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of iours bddfd.
+     *  Tiis is fquivblfnt to {@link #plusSfdonds(long)} witi tif bmount
+     *  multiplifd by 3,600.
+     * <li>{@dodf HALF_DAYS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of iblf-dbys bddfd.
+     *  Tiis is fquivblfnt to {@link #plusSfdonds(long)} witi tif bmount
+     *  multiplifd by 43,200 (12 iours).
+     * <li>{@dodf DAYS} -
+     *  Rfturns b {@dodf Instbnt} witi tif spfdififd numbfr of dbys bddfd.
+     *  Tiis is fquivblfnt to {@link #plusSfdonds(long)} witi tif bmount
+     *  multiplifd by 86,400 (24 iours).
      * </ul>
      * <p>
-     * All other {@code ChronoUnit} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All otifr {@dodf CironoUnit} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If tif fifld is not b {@dodf CironoUnit}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bddTo(Tfmporbl, long)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. In tiis dbsf, tif unit dftfrminfs
+     * wiftifr bnd iow to pfrform tif bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return an {@code Instant} based on this instant with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm bmountToAdd  tif bmount of tif unit to bdd to tif rfsult, mby bf nfgbtivf
+     * @pbrbm unit  tif unit of tif bmount to bdd, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd bmount bddfd, not null
+     * @tirows DbtfTimfExdfption if tif bddition dbnnot bf mbdf
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plus(amountToAdd / 1000_000, (amountToAdd % 1000_000) * 1000);
-                case MILLIS: return plusMillis(amountToAdd);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_MINUTE));
-                case HOURS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_HOUR));
-                case HALF_DAYS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY / 2));
-                case DAYS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY));
+    @Ovfrridf
+    publid Instbnt plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            switdi ((CironoUnit) unit) {
+                dbsf NANOS: rfturn plusNbnos(bmountToAdd);
+                dbsf MICROS: rfturn plus(bmountToAdd / 1000_000, (bmountToAdd % 1000_000) * 1000);
+                dbsf MILLIS: rfturn plusMillis(bmountToAdd);
+                dbsf SECONDS: rfturn plusSfdonds(bmountToAdd);
+                dbsf MINUTES: rfturn plusSfdonds(Mbti.multiplyExbdt(bmountToAdd, SECONDS_PER_MINUTE));
+                dbsf HOURS: rfturn plusSfdonds(Mbti.multiplyExbdt(bmountToAdd, SECONDS_PER_HOUR));
+                dbsf HALF_DAYS: rfturn plusSfdonds(Mbti.multiplyExbdt(bmountToAdd, SECONDS_PER_DAY / 2));
+                dbsf DAYS: rfturn plusSfdonds(Mbti.multiplyExbdt(bmountToAdd, SECONDS_PER_DAY));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
         }
-        return unit.addTo(this, amountToAdd);
+        rfturn unit.bddTo(tiis, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified duration in seconds added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in sfdonds bddfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm sfdondsToAdd  tif sfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd sfdonds bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant plusSeconds(long secondsToAdd) {
-        return plus(secondsToAdd, 0);
+    publid Instbnt plusSfdonds(long sfdondsToAdd) {
+        rfturn plus(sfdondsToAdd, 0);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in milliseconds added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in millisfdonds bddfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param millisToAdd  the milliseconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified milliseconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm millisToAdd  tif millisfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd millisfdonds bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant plusMillis(long millisToAdd) {
-        return plus(millisToAdd / 1000, (millisToAdd % 1000) * 1000_000);
+    publid Instbnt plusMillis(long millisToAdd) {
+        rfturn plus(millisToAdd / 1000, (millisToAdd % 1000) * 1000_000);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in nanoseconds added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in nbnosfdonds bddfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param nanosToAdd  the nanoseconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified nanoseconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm nbnosToAdd  tif nbnosfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd nbnosfdonds bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant plusNanos(long nanosToAdd) {
-        return plus(0, nanosToAdd);
+    publid Instbnt plusNbnos(long nbnosToAdd) {
+        rfturn plus(0, nbnosToAdd);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration added.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion bddfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @param nanosToAdd  the nanos to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm sfdondsToAdd  tif sfdonds to bdd, positivf or nfgbtivf
+     * @pbrbm nbnosToAdd  tif nbnos to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd sfdonds bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    private Instant plus(long secondsToAdd, long nanosToAdd) {
-        if ((secondsToAdd | nanosToAdd) == 0) {
-            return this;
+    privbtf Instbnt plus(long sfdondsToAdd, long nbnosToAdd) {
+        if ((sfdondsToAdd | nbnosToAdd) == 0) {
+            rfturn tiis;
         }
-        long epochSec = Math.addExact(seconds, secondsToAdd);
-        epochSec = Math.addExact(epochSec, nanosToAdd / NANOS_PER_SECOND);
-        nanosToAdd = nanosToAdd % NANOS_PER_SECOND;
-        long nanoAdjustment = nanos + nanosToAdd;  // safe int+NANOS_PER_SECOND
-        return ofEpochSecond(epochSec, nanoAdjustment);
+        long fpodiSfd = Mbti.bddExbdt(sfdonds, sfdondsToAdd);
+        fpodiSfd = Mbti.bddExbdt(fpodiSfd, nbnosToAdd / NANOS_PER_SECOND);
+        nbnosToAdd = nbnosToAdd % NANOS_PER_SECOND;
+        long nbnoAdjustmfnt = nbnos + nbnosToAdd;  // sbff int+NANOS_PER_SECOND
+        rfturn ofEpodiSfdond(fpodiSfd, nbnoAdjustmfnt);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified amount subtracted.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd bmount subtrbdtfd.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * Tiis rfturns bn {@dodf Instbnt}, bbsfd on tiis onf, witi tif spfdififd bmount subtrbdtfd.
+     * Tif bmount is typidblly {@link Durbtion} but mby bf bny otifr typf implfmfnting
+     * tif {@link TfmporblAmount} intfrfbdf.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * Tif dbldulbtion is dflfgbtfd to tif bmount objfdt by dblling
+     * {@link TfmporblAmount#subtrbdtFrom(Tfmporbl)}. Tif bmount implfmfntbtion is frff
+     * to implfmfnt tif subtrbdtion in bny wby it wisifs, iowfvfr it typidblly
+     * dblls bbdk to {@link #minus(long, TfmporblUnit)}. Consult tif dodumfntbtion
+     * of tif bmount implfmfntbtion to dftfrminf if it dbn bf suddfssfully subtrbdtfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return an {@code Instant} based on this instant with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm bmountToSubtrbdt  tif bmount to subtrbdt, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif subtrbdtion mbdf, not null
+     * @tirows DbtfTimfExdfption if tif subtrbdtion dbnnot bf mbdf
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant minus(TemporalAmount amountToSubtract) {
-        return (Instant) amountToSubtract.subtractFrom(this);
+    @Ovfrridf
+    publid Instbnt minus(TfmporblAmount bmountToSubtrbdt) {
+        rfturn (Instbnt) bmountToSubtrbdt.subtrbdtFrom(tiis);
     }
 
     /**
-     * Returns a copy of this instant with the specified amount subtracted.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd bmount subtrbdtfd.
      * <p>
-     * This returns a {@code Instant}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * Tiis rfturns b {@dodf Instbnt}, bbsfd on tiis onf, witi tif bmount
+     * in tfrms of tif unit subtrbdtfd. If it is not possiblf to subtrbdt tif bmount,
+     * bfdbusf tif unit is not supportfd or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * Tiis mftiod is fquivblfnt to {@link #plus(long, TfmporblUnit)} witi tif bmount nfgbtfd.
+     * Sff tibt mftiod for b full dfsdription of iow bddition, bnd tius subtrbdtion, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return an {@code Instant} based on this instant with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm bmountToSubtrbdt  tif bmount of tif unit to subtrbdt from tif rfsult, mby bf nfgbtivf
+     * @pbrbm unit  tif unit of tif bmount to subtrbdt, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd bmount subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif subtrbdtion dbnnot bf mbdf
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Instant minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    @Ovfrridf
+    publid Instbnt minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn (bmountToSubtrbdt == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbdt, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified duration in seconds subtracted.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in sfdonds subtrbdtfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param secondsToSubtract  the seconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm sfdondsToSubtrbdt  tif sfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd sfdonds subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant minusSeconds(long secondsToSubtract) {
-        if (secondsToSubtract == Long.MIN_VALUE) {
-            return plusSeconds(Long.MAX_VALUE).plusSeconds(1);
+    publid Instbnt minusSfdonds(long sfdondsToSubtrbdt) {
+        if (sfdondsToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusSfdonds(Long.MAX_VALUE).plusSfdonds(1);
         }
-        return plusSeconds(-secondsToSubtract);
+        rfturn plusSfdonds(-sfdondsToSubtrbdt);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in milliseconds subtracted.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in millisfdonds subtrbdtfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param millisToSubtract  the milliseconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified milliseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm millisToSubtrbdt  tif millisfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd millisfdonds subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant minusMillis(long millisToSubtract) {
-        if (millisToSubtract == Long.MIN_VALUE) {
-            return plusMillis(Long.MAX_VALUE).plusMillis(1);
+    publid Instbnt minusMillis(long millisToSubtrbdt) {
+        if (millisToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusMillis(Long.MAX_VALUE).plusMillis(1);
         }
-        return plusMillis(-millisToSubtract);
+        rfturn plusMillis(-millisToSubtrbdt);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in nanoseconds subtracted.
+     * Rfturns b dopy of tiis instbnt witi tif spfdififd durbtion in nbnosfdonds subtrbdtfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param nanosToSubtract  the nanoseconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified nanoseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm nbnosToSubtrbdt  tif nbnosfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on tiis instbnt witi tif spfdififd nbnosfdonds subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif mbximum or minimum instbnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public Instant minusNanos(long nanosToSubtract) {
-        if (nanosToSubtract == Long.MIN_VALUE) {
-            return plusNanos(Long.MAX_VALUE).plusNanos(1);
+    publid Instbnt minusNbnos(long nbnosToSubtrbdt) {
+        if (nbnosToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusNbnos(Long.MAX_VALUE).plusNbnos(1);
         }
-        return plusNanos(-nanosToSubtract);
+        rfturn plusNbnos(-nbnosToSubtrbdt);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Queries this instant using the specified query.
+     * Qufrifs tiis instbnt using tif spfdififd qufry.
      * <p>
-     * This queries this instant using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * Tiis qufrifs tiis instbnt using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.precision()) {
-            return (R) NANOS;
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        if (query == TemporalQueries.chronology() || query == TemporalQueries.zoneId() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.offset() ||
-                query == TemporalQueries.localDate() || query == TemporalQueries.localTime()) {
-            return null;
+        // inlinf TfmporblAddfssor.supfr.qufry(qufry) bs bn optimizbtion
+        if (qufry == TfmporblQufrifs.dironology() || qufry == TfmporblQufrifs.zonfId() ||
+                qufry == TfmporblQufrifs.zonf() || qufry == TfmporblQufrifs.offsft() ||
+                qufry == TfmporblQufrifs.lodblDbtf() || qufry == TfmporblQufrifs.lodblTimf()) {
+            rfturn null;
         }
-        return query.queryFrom(this);
+        rfturn qufry.qufryFrom(tiis);
     }
 
     /**
-     * Adjusts the specified temporal object to have this instant.
+     * Adjusts tif spfdififd tfmporbl objfdt to ibvf tiis instbnt.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the instant changed to be the same as this.
+     * Tiis rfturns b tfmporbl objfdt of tif sbmf obsfrvbblf typf bs tif input
+     * witi tif instbnt dibngfd to bf tif sbmf bs tiis.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * twice, passing {@link ChronoField#INSTANT_SECONDS} and
-     * {@link ChronoField#NANO_OF_SECOND} as the fields.
+     * Tif bdjustmfnt is fquivblfnt to using {@link Tfmporbl#witi(TfmporblFifld, long)}
+     * twidf, pbssing {@link CironoFifld#INSTANT_SECONDS} bnd
+     * {@link CironoFifld#NANO_OF_SECOND} bs tif fiflds.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisInstant.adjustInto(temporal);
-     *   temporal = temporal.with(thisInstant);
-     * </pre>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf tif dblling pbttfrn by using
+     * {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisInstbnt.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisInstbnt);
+     * </prf>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn tif bdjustfd objfdt, not null
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(INSTANT_SECONDS, seconds).with(NANO_OF_SECOND, nanos);
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.witi(INSTANT_SECONDS, sfdonds).witi(NANO_OF_SECOND, nbnos);
     }
 
     /**
-     * Calculates the amount of time until another instant in terms of the specified unit.
+     * Cbldulbtfs tif bmount of timf until bnotifr instbnt in tfrms of tif spfdififd unit.
      * <p>
-     * This calculates the amount of time between two {@code Instant}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified instant.
-     * The result will be negative if the end is before the start.
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two instants.
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code Instant} using {@link #from(TemporalAccessor)}.
-     * For example, the amount in days between two dates can be calculated
-     * using {@code startInstant.until(endInstant, SECONDS)}.
+     * Tiis dbldulbtfs tif bmount of timf bftwffn two {@dodf Instbnt}
+     * objfdts in tfrms of b singlf {@dodf TfmporblUnit}.
+     * Tif stbrt bnd fnd points brf {@dodf tiis} bnd tif spfdififd instbnt.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * domplftf units bftwffn tif two instbnts.
+     * Tif {@dodf Tfmporbl} pbssfd to tiis mftiod is donvfrtfd to b
+     * {@dodf Instbnt} using {@link #from(TfmporblAddfssor)}.
+     * For fxbmplf, tif bmount in dbys bftwffn two dbtfs dbn bf dbldulbtfd
+     * using {@dodf stbrtInstbnt.until(fndInstbnt, SECONDS)}.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-     * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, SECONDS);
-     *   amount = SECONDS.between(start, end);
-     * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod.
+     * Tif sfdond is to usf {@link TfmporblUnit#bftwffn(Tfmporbl, Tfmporbl)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt
+     *   bmount = stbrt.until(fnd, SECONDS);
+     *   bmount = SECONDS.bftwffn(stbrt, fnd);
+     * </prf>
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
-     * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS}, {@code HALF_DAYS} and {@code DAYS}
-     * are supported. Other {@code ChronoUnit} values will throw an exception.
+     * Tif dbldulbtion is implfmfntfd in tiis mftiod for {@link CironoUnit}.
+     * Tif units {@dodf NANOS}, {@dodf MICROS}, {@dodf MILLIS}, {@dodf SECONDS},
+     * {@dodf MINUTES}, {@dodf HOURS}, {@dodf HALF_DAYS} bnd {@dodf DAYS}
+     * brf supportfd. Otifr {@dodf CironoUnit} vblufs will tirow bn fxdfption.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If tif unit is not b {@dodf CironoUnit}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bftwffn(Tfmporbl, Tfmporbl)}
+     * pbssing {@dodf tiis} bs tif first brgumfnt bnd tif donvfrtfd input tfmporbl
+     * bs tif sfdond brgumfnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to an {@code Instant}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this instant and the end instant
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to an {@code Instant}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fndExdlusivf  tif fnd dbtf, fxdlusivf, wiidi is donvfrtfd to bn {@dodf Instbnt}, not null
+     * @pbrbm unit  tif unit to mfbsurf tif bmount in, not null
+     * @rfturn tif bmount of timf bftwffn tiis instbnt bnd tif fnd instbnt
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     *  tfmporbl dbnnot bf donvfrtfd to bn {@dodf Instbnt}
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        Instant end = Instant.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            ChronoUnit f = (ChronoUnit) unit;
-            switch (f) {
-                case NANOS: return nanosUntil(end);
-                case MICROS: return nanosUntil(end) / 1000;
-                case MILLIS: return Math.subtractExact(end.toEpochMilli(), toEpochMilli());
-                case SECONDS: return secondsUntil(end);
-                case MINUTES: return secondsUntil(end) / SECONDS_PER_MINUTE;
-                case HOURS: return secondsUntil(end) / SECONDS_PER_HOUR;
-                case HALF_DAYS: return secondsUntil(end) / (12 * SECONDS_PER_HOUR);
-                case DAYS: return secondsUntil(end) / (SECONDS_PER_DAY);
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Instbnt fnd = Instbnt.from(fndExdlusivf);
+        if (unit instbndfof CironoUnit) {
+            CironoUnit f = (CironoUnit) unit;
+            switdi (f) {
+                dbsf NANOS: rfturn nbnosUntil(fnd);
+                dbsf MICROS: rfturn nbnosUntil(fnd) / 1000;
+                dbsf MILLIS: rfturn Mbti.subtrbdtExbdt(fnd.toEpodiMilli(), toEpodiMilli());
+                dbsf SECONDS: rfturn sfdondsUntil(fnd);
+                dbsf MINUTES: rfturn sfdondsUntil(fnd) / SECONDS_PER_MINUTE;
+                dbsf HOURS: rfturn sfdondsUntil(fnd) / SECONDS_PER_HOUR;
+                dbsf HALF_DAYS: rfturn sfdondsUntil(fnd) / (12 * SECONDS_PER_HOUR);
+                dbsf DAYS: rfturn sfdondsUntil(fnd) / (SECONDS_PER_DAY);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
         }
-        return unit.between(this, end);
+        rfturn unit.bftwffn(tiis, fnd);
     }
 
-    private long nanosUntil(Instant end) {
-        long secsDiff = Math.subtractExact(end.seconds, seconds);
-        long totalNanos = Math.multiplyExact(secsDiff, NANOS_PER_SECOND);
-        return Math.addExact(totalNanos, end.nanos - nanos);
+    privbtf long nbnosUntil(Instbnt fnd) {
+        long sfdsDiff = Mbti.subtrbdtExbdt(fnd.sfdonds, sfdonds);
+        long totblNbnos = Mbti.multiplyExbdt(sfdsDiff, NANOS_PER_SECOND);
+        rfturn Mbti.bddExbdt(totblNbnos, fnd.nbnos - nbnos);
     }
 
-    private long secondsUntil(Instant end) {
-        long secsDiff = Math.subtractExact(end.seconds, seconds);
-        long nanosDiff = end.nanos - nanos;
-        if (secsDiff > 0 && nanosDiff < 0) {
-            secsDiff--;
-        } else if (secsDiff < 0 && nanosDiff > 0) {
-            secsDiff++;
+    privbtf long sfdondsUntil(Instbnt fnd) {
+        long sfdsDiff = Mbti.subtrbdtExbdt(fnd.sfdonds, sfdonds);
+        long nbnosDiff = fnd.nbnos - nbnos;
+        if (sfdsDiff > 0 && nbnosDiff < 0) {
+            sfdsDiff--;
+        } flsf if (sfdsDiff < 0 && nbnosDiff > 0) {
+            sfdsDiff++;
         }
-        return secsDiff;
+        rfturn sfdsDiff;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this instant with an offset to create an {@code OffsetDateTime}.
+     * Combinfs tiis instbnt witi bn offsft to drfbtf bn {@dodf OffsftDbtfTimf}.
      * <p>
-     * This returns an {@code OffsetDateTime} formed from this instant at the
-     * specified offset from UTC/Greenwich. An exception will be thrown if the
-     * instant is too large to fit into an offset date-time.
+     * Tiis rfturns bn {@dodf OffsftDbtfTimf} formfd from tiis instbnt bt tif
+     * spfdififd offsft from UTC/Grffnwidi. An fxdfption will bf tirown if tif
+     * instbnt is too lbrgf to fit into bn offsft dbtf-timf.
      * <p>
-     * This method is equivalent to
-     * {@link OffsetDateTime#ofInstant(Instant, ZoneId) OffsetDateTime.ofInstant(this, offset)}.
+     * Tiis mftiod is fquivblfnt to
+     * {@link OffsftDbtfTimf#ofInstbnt(Instbnt, ZonfId) OffsftDbtfTimf.ofInstbnt(tiis, offsft)}.
      *
-     * @param offset  the offset to combine with, not null
-     * @return the offset date-time formed from this instant and the specified offset, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm offsft  tif offsft to dombinf witi, not null
+     * @rfturn tif offsft dbtf-timf formfd from tiis instbnt bnd tif spfdififd offsft, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd rbngf
      */
-    public OffsetDateTime atOffset(ZoneOffset offset) {
-        return OffsetDateTime.ofInstant(this, offset);
+    publid OffsftDbtfTimf btOffsft(ZonfOffsft offsft) {
+        rfturn OffsftDbtfTimf.ofInstbnt(tiis, offsft);
     }
 
     /**
-     * Combines this instant with a time-zone to create a {@code ZonedDateTime}.
+     * Combinfs tiis instbnt witi b timf-zonf to drfbtf b {@dodf ZonfdDbtfTimf}.
      * <p>
-     * This returns an {@code ZonedDateTime} formed from this instant at the
-     * specified time-zone. An exception will be thrown if the instant is too
-     * large to fit into a zoned date-time.
+     * Tiis rfturns bn {@dodf ZonfdDbtfTimf} formfd from tiis instbnt bt tif
+     * spfdififd timf-zonf. An fxdfption will bf tirown if tif instbnt is too
+     * lbrgf to fit into b zonfd dbtf-timf.
      * <p>
-     * This method is equivalent to
-     * {@link ZonedDateTime#ofInstant(Instant, ZoneId) ZonedDateTime.ofInstant(this, zone)}.
+     * Tiis mftiod is fquivblfnt to
+     * {@link ZonfdDbtfTimf#ofInstbnt(Instbnt, ZonfId) ZonfdDbtfTimf.ofInstbnt(tiis, zonf)}.
      *
-     * @param zone  the zone to combine with, not null
-     * @return the zoned date-time formed from this instant and the specified zone, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm zonf  tif zonf to dombinf witi, not null
+     * @rfturn tif zonfd dbtf-timf formfd from tiis instbnt bnd tif spfdififd zonf, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd rbngf
      */
-    public ZonedDateTime atZone(ZoneId zone) {
-        return ZonedDateTime.ofInstant(this, zone);
+    publid ZonfdDbtfTimf btZonf(ZonfId zonf) {
+        rfturn ZonfdDbtfTimf.ofInstbnt(tiis, zonf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this instant to the number of milliseconds from the epoch
+     * Convfrts tiis instbnt to tif numbfr of millisfdonds from tif fpodi
      * of 1970-01-01T00:00:00Z.
      * <p>
-     * If this instant represents a point on the time-line too far in the future
-     * or past to fit in a {@code long} milliseconds, then an exception is thrown.
+     * If tiis instbnt rfprfsfnts b point on tif timf-linf too fbr in tif futurf
+     * or pbst to fit in b {@dodf long} millisfdonds, tifn bn fxdfption is tirown.
      * <p>
-     * If this instant has greater than millisecond precision, then the conversion
-     * will drop any excess precision information as though the amount in nanoseconds
-     * was subject to integer division by one million.
+     * If tiis instbnt ibs grfbtfr tibn millisfdond prfdision, tifn tif donvfrsion
+     * will drop bny fxdfss prfdision informbtion bs tiougi tif bmount in nbnosfdonds
+     * wbs subjfdt to intfgfr division by onf million.
      *
-     * @return the number of milliseconds since the epoch of 1970-01-01T00:00:00Z
-     * @throws ArithmeticException if numeric overflow occurs
+     * @rfturn tif numbfr of millisfdonds sindf tif fpodi of 1970-01-01T00:00:00Z
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    public long toEpochMilli() {
-        long millis = Math.multiplyExact(seconds, 1000);
-        return millis + nanos / 1000_000;
+    publid long toEpodiMilli() {
+        long millis = Mbti.multiplyExbdt(sfdonds, 1000);
+        rfturn millis + nbnos / 1000_000;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this instant to the specified instant.
+     * Compbrfs tiis instbnt to tif spfdififd instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * Tif dompbrison is bbsfd on tif timf-linf position of tif instbnts.
+     * It is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otifrInstbnt  tif otifr instbnt to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
+     * @tirows NullPointfrExdfption if otifrInstbnt is null
      */
-    @Override
-    public int compareTo(Instant otherInstant) {
-        int cmp = Long.compare(seconds, otherInstant.seconds);
-        if (cmp != 0) {
-            return cmp;
+    @Ovfrridf
+    publid int dompbrfTo(Instbnt otifrInstbnt) {
+        int dmp = Long.dompbrf(sfdonds, otifrInstbnt.sfdonds);
+        if (dmp != 0) {
+            rfturn dmp;
         }
-        return nanos - otherInstant.nanos;
+        rfturn nbnos - otifrInstbnt.nbnos;
     }
 
     /**
-     * Checks if this instant is after the specified instant.
+     * Cifdks if tiis instbnt is bftfr tif spfdififd instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * Tif dompbrison is bbsfd on tif timf-linf position of tif instbnts.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return true if this instant is after the specified instant
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otifrInstbnt  tif otifr instbnt to dompbrf to, not null
+     * @rfturn truf if tiis instbnt is bftfr tif spfdififd instbnt
+     * @tirows NullPointfrExdfption if otifrInstbnt is null
      */
-    public boolean isAfter(Instant otherInstant) {
-        return compareTo(otherInstant) > 0;
+    publid boolfbn isAftfr(Instbnt otifrInstbnt) {
+        rfturn dompbrfTo(otifrInstbnt) > 0;
     }
 
     /**
-     * Checks if this instant is before the specified instant.
+     * Cifdks if tiis instbnt is bfforf tif spfdififd instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * Tif dompbrison is bbsfd on tif timf-linf position of tif instbnts.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return true if this instant is before the specified instant
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otifrInstbnt  tif otifr instbnt to dompbrf to, not null
+     * @rfturn truf if tiis instbnt is bfforf tif spfdififd instbnt
+     * @tirows NullPointfrExdfption if otifrInstbnt is null
      */
-    public boolean isBefore(Instant otherInstant) {
-        return compareTo(otherInstant) < 0;
+    publid boolfbn isBfforf(Instbnt otifrInstbnt) {
+        rfturn dompbrfTo(otifrInstbnt) < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this instant is equal to the specified instant.
+     * Cifdks if tiis instbnt is fqubl to tif spfdififd instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * Tif dompbrison is bbsfd on tif timf-linf position of tif instbnts.
      *
-     * @param otherInstant  the other instant, null returns false
-     * @return true if the other instant is equal to this one
+     * @pbrbm otifrInstbnt  tif otifr instbnt, null rfturns fblsf
+     * @rfturn truf if tif otifr instbnt is fqubl to tiis onf
      */
-    @Override
-    public boolean equals(Object otherInstant) {
-        if (this == otherInstant) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifrInstbnt) {
+        if (tiis == otifrInstbnt) {
+            rfturn truf;
         }
-        if (otherInstant instanceof Instant) {
-            Instant other = (Instant) otherInstant;
-            return this.seconds == other.seconds &&
-                   this.nanos == other.nanos;
+        if (otifrInstbnt instbndfof Instbnt) {
+            Instbnt otifr = (Instbnt) otifrInstbnt;
+            rfturn tiis.sfdonds == otifr.sfdonds &&
+                   tiis.nbnos == otifr.nbnos;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this instant.
+     * Rfturns b ibsi dodf for tiis instbnt.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return ((int) (seconds ^ (seconds >>> 32))) + 51 * nanos;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn ((int) (sfdonds ^ (sfdonds >>> 32))) + 51 * nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A string representation of this instant using ISO-8601 representation.
+     * A string rfprfsfntbtion of tiis instbnt using ISO-8601 rfprfsfntbtion.
      * <p>
-     * The format used is the same as {@link DateTimeFormatter#ISO_INSTANT}.
+     * Tif formbt usfd is tif sbmf bs {@link DbtfTimfFormbttfr#ISO_INSTANT}.
      *
-     * @return an ISO-8601 representation of this instant, not null
+     * @rfturn bn ISO-8601 rfprfsfntbtion of tiis instbnt, not null
      */
-    @Override
-    public String toString() {
-        return DateTimeFormatter.ISO_INSTANT.format(this);
+    @Ovfrridf
+    publid String toString() {
+        rfturn DbtfTimfFormbttfr.ISO_INSTANT.formbt(tiis);
     }
 
     // -----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(2);  // identifies an Instant
-     *  out.writeLong(seconds);
-     *  out.writeInt(nanos);
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../sfriblizfd-form.itml#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(2);  // idfntififs bn Instbnt
+     *  out.writfLong(sfdonds);
+     *  out.writfInt(nbnos);
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.INSTANT_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.INSTANT_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeLong(seconds);
-        out.writeInt(nanos);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfLong(sfdonds);
+        out.writfInt(nbnos);
     }
 
-    static Instant readExternal(DataInput in) throws IOException {
-        long seconds = in.readLong();
-        int nanos = in.readInt();
-        return Instant.ofEpochSecond(seconds, nanos);
+    stbtid Instbnt rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        long sfdonds = in.rfbdLong();
+        int nbnos = in.rfbdInt();
+        rfturn Instbnt.ofEpodiSfdond(sfdonds, nbnos);
     }
 
 }

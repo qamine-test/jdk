@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
 
 /**
- * Provides access to the Linux epoll facility.
+ * Providfs bddfss to tif Linux fpoll fbdility.
  */
 
-class EPoll {
-    private EPoll() { }
+dlbss EPoll {
+    privbtf EPoll() { }
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
     /**
-     * typedef union epoll_data {
+     * typfdff union fpoll_dbtb {
      *     void *ptr;
      *     int fd;
      *     __uint32_t u32;
      *     __uint64_t u64;
-     *  } epoll_data_t;
+     *  } fpoll_dbtb_t;
      *
-     * struct epoll_event {
-     *     __uint32_t events;
-     *     epoll_data_t data;
+     * strudt fpoll_fvfnt {
+     *     __uint32_t fvfnts;
+     *     fpoll_dbtb_t dbtb;
      * }
      */
-    private static final int SIZEOF_EPOLLEVENT   = eventSize();
-    private static final int OFFSETOF_EVENTS     = eventsOffset();
-    private static final int OFFSETOF_FD         = dataOffset();
+    privbtf stbtid finbl int SIZEOF_EPOLLEVENT   = fvfntSizf();
+    privbtf stbtid finbl int OFFSETOF_EVENTS     = fvfntsOffsft();
+    privbtf stbtid finbl int OFFSETOF_FD         = dbtbOffsft();
 
-    // opcodes
-    static final int EPOLL_CTL_ADD  = 1;
-    static final int EPOLL_CTL_DEL  = 2;
-    static final int EPOLL_CTL_MOD  = 3;
+    // opdodfs
+    stbtid finbl int EPOLL_CTL_ADD  = 1;
+    stbtid finbl int EPOLL_CTL_DEL  = 2;
+    stbtid finbl int EPOLL_CTL_MOD  = 3;
 
-    // flags
-    static final int EPOLLONESHOT   = (1 << 30);
+    // flbgs
+    stbtid finbl int EPOLLONESHOT   = (1 << 30);
 
     /**
-     * Allocates a poll array to handle up to {@code count} events.
+     * Allodbtfs b poll brrby to ibndlf up to {@dodf dount} fvfnts.
      */
-    static long allocatePollArray(int count) {
-        return unsafe.allocateMemory(count * SIZEOF_EPOLLEVENT);
+    stbtid long bllodbtfPollArrby(int dount) {
+        rfturn unsbff.bllodbtfMfmory(dount * SIZEOF_EPOLLEVENT);
     }
 
     /**
-     * Free a poll array
+     * Frff b poll brrby
      */
-    static void freePollArray(long address) {
-        unsafe.freeMemory(address);
+    stbtid void frffPollArrby(long bddrfss) {
+        unsbff.frffMfmory(bddrfss);
     }
 
     /**
-     * Returns event[i];
+     * Rfturns fvfnt[i];
      */
-    static long getEvent(long address, int i) {
-        return address + (SIZEOF_EPOLLEVENT*i);
+    stbtid long gftEvfnt(long bddrfss, int i) {
+        rfturn bddrfss + (SIZEOF_EPOLLEVENT*i);
     }
 
     /**
-     * Returns event->data.fd
+     * Rfturns fvfnt->dbtb.fd
      */
-    static int getDescriptor(long eventAddress) {
-        return unsafe.getInt(eventAddress + OFFSETOF_FD);
+    stbtid int gftDfsdriptor(long fvfntAddrfss) {
+        rfturn unsbff.gftInt(fvfntAddrfss + OFFSETOF_FD);
     }
 
     /**
-     * Returns event->events
+     * Rfturns fvfnt->fvfnts
      */
-    static int getEvents(long eventAddress) {
-        return unsafe.getInt(eventAddress + OFFSETOF_EVENTS);
+    stbtid int gftEvfnts(long fvfntAddrfss) {
+        rfturn unsbff.gftInt(fvfntAddrfss + OFFSETOF_EVENTS);
     }
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native int eventSize();
+    privbtf stbtid nbtivf int fvfntSizf();
 
-    private static native int eventsOffset();
+    privbtf stbtid nbtivf int fvfntsOffsft();
 
-    private static native int dataOffset();
+    privbtf stbtid nbtivf int dbtbOffsft();
 
-    static native int epollCreate() throws IOException;
+    stbtid nbtivf int fpollCrfbtf() tirows IOExdfption;
 
-    static native int epollCtl(int epfd, int opcode, int fd, int events);
+    stbtid nbtivf int fpollCtl(int fpfd, int opdodf, int fd, int fvfnts);
 
-    static native int epollWait(int epfd, long pollAddress, int numfds)
-        throws IOException;
+    stbtid nbtivf int fpollWbit(int fpfd, long pollAddrfss, int numfds)
+        tirows IOExdfption;
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
     }
 }

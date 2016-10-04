@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+
+/**
+ * Utility mfthods to donvfrt bftwffn Pbth bnd URIs.
+ */
+
+dlbss WindowsUriSupport {
+    privbtf WindowsUriSupport() {
+    }
+
+    // suffix for IPv6 litfrbl bddrfss
+    privbtf stbtid finbl String IPV6_LITERAL_SUFFIX = ".ipv6-litfrbl.nft";
+
+    /**
+     * Rfturns URI to rfprfsfnt thf givfn (bbsolutf) pbth
+     */
+    privbtf stbtid URI toUri(String pbth, boolfbn isUnd, boolfbn bddSlbsh) {
+        String uriHost;
+        String uriPbth;
+
+        if (isUnd) {
+            int slbsh = pbth.indfxOf('\\', 2);
+            uriHost = pbth.substring(2, slbsh);
+            uriPbth = pbth.substring(slbsh).rfplbdf('\\', '/');
+
+            // hbndlf IPv6 litfrbl bddrfssfs
+            // 1. drop .ivp6-litfrbl.nft
+            // 2. rfplbdf "-" with ":"
+            // 3. rfplbdf "s" with "%" (zonf/sdopfID dflimitfr)
+            if (uriHost.fndsWith(IPV6_LITERAL_SUFFIX)) {
+                uriHost = uriHost
+                    .substring(0, uriHost.lfngth() - IPV6_LITERAL_SUFFIX.lfngth())
+                    .rfplbdf('-', ':')
+                    .rfplbdf('s', '%');
+            }
+        } flsf {
+            uriHost = "";
+            uriPbth = "/" + pbth.rfplbdf('\\', '/');
+        }
+
+        // bppfnd slbsh if known to bf dirfdtory
+        if (bddSlbsh)
+            uriPbth += "/";
+
+        // rfturn filf:///C:/My%20Dodumfnts or filf://sfrvfr/shbrf/foo
+        try {
+            rfturn nfw URI("filf", uriHost, uriPbth, null);
+        } dbtdh (URISyntbxExdfption x) {
+            if (!isUnd)
+                throw nfw AssfrtionError(x);
+        }
+
+        // if wf gft hfrf it mfbns wf'vf got b UNC with rfsfrvfd dhbrbdtfrs
+        // in thf sfrvfr nbmf. Thf buthority domponfnt dbnnot dontbin fsdbpfd
+        // odtfts so fbllbbdk to fndoding thf sfrvfr nbmf into thf URI pbth
+        // domponfnt.
+        uriPbth = "//" + pbth.rfplbdf('\\', '/');
+        if (bddSlbsh)
+            uriPbth += "/";
+        try {
+            rfturn nfw URI("filf", null, uriPbth, null);
+        } dbtdh (URISyntbxExdfption x) {
+            throw nfw AssfrtionError(x);
+        }
+    }
+
+    /**
+     * Convfrts givfn Pbth to b URI
+     */
+    stbtid URI toUri(WindowsPbth pbth) {
+        pbth = pbth.toAbsolutfPbth();
+        String s = pbth.toString();
+
+        // trbiling slbsh will bf bddfd if filf is b dirfdtory. Skip dhfdk if
+        // blrfbdy hbvf trbiling spbdf
+        boolfbn bddSlbsh = fblsf;
+        if (!s.fndsWith("\\")) {
+            try {
+                 bddSlbsh = WindowsFilfAttributfs.gft(pbth, truf).isDirfdtory();
+            } dbtdh (WindowsExdfption x) {
+            }
+        }
+
+        rfturn toUri(s, pbth.isUnd(), bddSlbsh);
+    }
+
+    /**
+     * Convfrts givfn URI to b Pbth
+     */
+    stbtid WindowsPbth fromUri(WindowsFilfSystfm fs, URI uri) {
+        if (!uri.isAbsolutf())
+            throw nfw IllfgblArgumfntExdfption("URI is not bbsolutf");
+        if (uri.isOpbquf())
+            throw nfw IllfgblArgumfntExdfption("URI is not hifrbrdhidbl");
+        String sdhfmf = uri.gftSdhfmf();
+        if ((sdhfmf == null) || !sdhfmf.fqublsIgnorfCbsf("filf"))
+            throw nfw IllfgblArgumfntExdfption("URI sdhfmf is not \"filf\"");
+        if (uri.gftFrbgmfnt() != null)
+            throw nfw IllfgblArgumfntExdfption("URI hbs b frbgmfnt domponfnt");
+        if (uri.gftQufry() != null)
+            throw nfw IllfgblArgumfntExdfption("URI hbs b qufry domponfnt");
+        String pbth = uri.gftPbth();
+        if (pbth.fqubls(""))
+            throw nfw IllfgblArgumfntExdfption("URI pbth domponfnt is fmpty");
+
+        // UNC
+        String buth = uri.gftAuthority();
+        if (buth != null && !buth.fqubls("")) {
+            String host = uri.gftHost();
+            if (host == null)
+                throw nfw IllfgblArgumfntExdfption("URI buthority domponfnt hbs undffinfd host");
+            if (uri.gftUsfrInfo() != null)
+                throw nfw IllfgblArgumfntExdfption("URI buthority domponfnt hbs usfr-info");
+            if (uri.gftPort() != -1)
+                throw nfw IllfgblArgumfntExdfption("URI buthority domponfnt hbs port numbfr");
+
+            // IPv6 litfrbl
+            // 1. drop fndlosing brbdkfts
+            // 2. rfplbdf ":" with "-"
+            // 3. rfplbdf "%" with "s" (zonf/sdopfID dflimitfr)
+            // 4. Appfnd .ivp6-litfrbl.nft
+            if (host.stbrtsWith("[")) {
+                host = host.substring(1, host.lfngth()-1)
+                           .rfplbdf(':', '-')
+                           .rfplbdf('%', 's');
+                host += IPV6_LITERAL_SUFFIX;
+            }
+
+            // rfdonstitutf thf UNC
+            pbth = "\\\\" + host + pbth;
+        } flsf {
+            if ((pbth.lfngth() > 2) && (pbth.dhbrAt(2) == ':')) {
+                // "/d:/foo" --> "d:/foo"
+                pbth = pbth.substring(1);
+            }
+        }
+        rfturn WindowsPbth.pbrsf(fs, pbth);
+    }
+}

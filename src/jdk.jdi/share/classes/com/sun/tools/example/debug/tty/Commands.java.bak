@@ -1,2106 +1,2106 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.Connector;
-import com.sun.jdi.request.*;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import com.sun.tools.example.debug.expr.ParseException;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.Connfdtor;
+import dom.sun.jdi.rfqufst.*;
+import dom.sun.tools.fxbmplf.dfbug.fxpr.ExprfssionPbrsfr;
+import dom.sun.tools.fxbmplf.dfbug.fxpr.PbrsfExdfption;
 
-import java.text.*;
-import java.util.*;
-import java.io.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-class Commands {
+dlbss Commbnds {
 
-    abstract class AsyncExecution {
-        abstract void action();
+    bbstrbdt dlbss AsyndExfdution {
+        bbstrbdt void bdtion();
 
-        AsyncExecution() {
-            execute();
+        AsyndExfdution() {
+            fxfdutf();
         }
 
-        void execute() {
+        void fxfdutf() {
             /*
-             * Save current thread and stack frame. (BugId 4296031)
+             * Sbvf durrfnt tirfbd bnd stbdk frbmf. (BugId 4296031)
              */
-            final ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            final int stackFrame = threadInfo == null? 0 : threadInfo.getCurrentFrameIndex();
-            Thread thread = new Thread("asynchronous jdb command") {
-                    @Override
-                    public void run() {
+            finbl TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            finbl int stbdkFrbmf = tirfbdInfo == null? 0 : tirfbdInfo.gftCurrfntFrbmfIndfx();
+            Tirfbd tirfbd = nfw Tirfbd("bsyndironous jdb dommbnd") {
+                    @Ovfrridf
+                    publid void run() {
                         try {
-                            action();
-                        } catch (UnsupportedOperationException uoe) {
+                            bdtion();
+                        } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
                             //(BugId 4453329)
-                            MessageOutput.println("Operation is not supported on the target VM");
-                        } catch (Exception e) {
-                            MessageOutput.println("Internal exception during operation:",
-                                                  e.getMessage());
-                        } finally {
+                            MfssbgfOutput.println("Opfrbtion is not supportfd on tif tbrgft VM");
+                        } dbtdi (Exdfption f) {
+                            MfssbgfOutput.println("Intfrnbl fxdfption during opfrbtion:",
+                                                  f.gftMfssbgf());
+                        } finblly {
                             /*
-                             * This was an asynchronous command.  Events may have been
-                             * processed while it was running.  Restore the thread and
-                             * stack frame the user was looking at.  (BugId 4296031)
+                             * Tiis wbs bn bsyndironous dommbnd.  Evfnts mby ibvf bffn
+                             * prodfssfd wiilf it wbs running.  Rfstorf tif tirfbd bnd
+                             * stbdk frbmf tif usfr wbs looking bt.  (BugId 4296031)
                              */
-                            if (threadInfo != null) {
-                                ThreadInfo.setCurrentThreadInfo(threadInfo);
+                            if (tirfbdInfo != null) {
+                                TirfbdInfo.sftCurrfntTirfbdInfo(tirfbdInfo);
                                 try {
-                                    threadInfo.setCurrentFrameIndex(stackFrame);
-                                } catch (IncompatibleThreadStateException e) {
-                                    MessageOutput.println("Current thread isnt suspended.");
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    MessageOutput.println("Requested stack frame is no longer active:",
-                                                          new Object []{stackFrame});
+                                    tirfbdInfo.sftCurrfntFrbmfIndfx(stbdkFrbmf);
+                                } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+                                    MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+                                } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+                                    MfssbgfOutput.println("Rfqufstfd stbdk frbmf is no longfr bdtivf:",
+                                                          nfw Objfdt []{stbdkFrbmf});
                                 }
                             }
-                            MessageOutput.printPrompt();
+                            MfssbgfOutput.printPrompt();
                         }
                     }
                 };
-            thread.start();
+            tirfbd.stbrt();
         }
     }
 
-    Commands() {
+    Commbnds() {
     }
 
-    private Value evaluate(String expr) {
-        Value result = null;
-        ExpressionParser.GetFrame frameGetter = null;
+    privbtf Vbluf fvblubtf(String fxpr) {
+        Vbluf rfsult = null;
+        ExprfssionPbrsfr.GftFrbmf frbmfGfttfr = null;
         try {
-            final ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if ((threadInfo != null) && (threadInfo.getCurrentFrame() != null)) {
-                frameGetter = new ExpressionParser.GetFrame() {
-                        @Override
-                        public StackFrame get() throws IncompatibleThreadStateException {
-                            return threadInfo.getCurrentFrame();
+            finbl TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            if ((tirfbdInfo != null) && (tirfbdInfo.gftCurrfntFrbmf() != null)) {
+                frbmfGfttfr = nfw ExprfssionPbrsfr.GftFrbmf() {
+                        @Ovfrridf
+                        publid StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption {
+                            rfturn tirfbdInfo.gftCurrfntFrbmf();
                         }
                     };
             }
-            result = ExpressionParser.evaluate(expr, Env.vm(), frameGetter);
-        } catch (InvocationException ie) {
-            MessageOutput.println("Exception in expression:",
-                                  ie.exception().referenceType().name());
-        } catch (Exception ex) {
-            String exMessage = ex.getMessage();
-            if (exMessage == null) {
-                MessageOutput.printException(exMessage, ex);
-            } else {
+            rfsult = ExprfssionPbrsfr.fvblubtf(fxpr, Env.vm(), frbmfGfttfr);
+        } dbtdi (InvodbtionExdfption if) {
+            MfssbgfOutput.println("Exdfption in fxprfssion:",
+                                  if.fxdfption().rfffrfndfTypf().nbmf());
+        } dbtdi (Exdfption fx) {
+            String fxMfssbgf = fx.gftMfssbgf();
+            if (fxMfssbgf == null) {
+                MfssbgfOutput.printExdfption(fxMfssbgf, fx);
+            } flsf {
                 String s;
                 try {
-                    s = MessageOutput.format(exMessage);
-                } catch (MissingResourceException mex) {
-                    s = ex.toString();
+                    s = MfssbgfOutput.formbt(fxMfssbgf);
+                } dbtdi (MissingRfsourdfExdfption mfx) {
+                    s = fx.toString();
                 }
-                MessageOutput.printDirectln(s);// Special case: use printDirectln()
+                MfssbgfOutput.printDirfdtln(s);// Spfdibl dbsf: usf printDirfdtln()
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private String getStringValue() {
-         Value val = null;
-         String valStr = null;
+    privbtf String gftStringVbluf() {
+         Vbluf vbl = null;
+         String vblStr = null;
          try {
-              val = ExpressionParser.getMassagedValue();
-              valStr = val.toString();
-         } catch (ParseException e) {
-              String msg = e.getMessage();
+              vbl = ExprfssionPbrsfr.gftMbssbgfdVbluf();
+              vblStr = vbl.toString();
+         } dbtdi (PbrsfExdfption f) {
+              String msg = f.gftMfssbgf();
               if (msg == null) {
-                  MessageOutput.printException(msg, e);
-              } else {
+                  MfssbgfOutput.printExdfption(msg, f);
+              } flsf {
                   String s;
                   try {
-                      s = MessageOutput.format(msg);
-                  } catch (MissingResourceException mex) {
-                      s = e.toString();
+                      s = MfssbgfOutput.formbt(msg);
+                  } dbtdi (MissingRfsourdfExdfption mfx) {
+                      s = f.toString();
                   }
-                  MessageOutput.printDirectln(s);
+                  MfssbgfOutput.printDirfdtln(s);
               }
          }
-         return valStr;
+         rfturn vblStr;
     }
 
-    private ThreadInfo doGetThread(String idToken) {
-        ThreadInfo threadInfo = ThreadInfo.getThreadInfo(idToken);
-        if (threadInfo == null) {
-            MessageOutput.println("is not a valid thread id", idToken);
+    privbtf TirfbdInfo doGftTirfbd(String idTokfn) {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftTirfbdInfo(idTokfn);
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("is not b vblid tirfbd id", idTokfn);
         }
-        return threadInfo;
+        rfturn tirfbdInfo;
     }
 
-    String typedName(Method method) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(method.name());
-        sb.append("(");
+    String typfdNbmf(Mftiod mftiod) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(mftiod.nbmf());
+        sb.bppfnd("(");
 
-        List<String> args = method.argumentTypeNames();
-        int lastParam = args.size() - 1;
-        // output param types except for the last
-        for (int ii = 0; ii < lastParam; ii++) {
-            sb.append(args.get(ii));
-            sb.append(", ");
+        List<String> brgs = mftiod.brgumfntTypfNbmfs();
+        int lbstPbrbm = brgs.sizf() - 1;
+        // output pbrbm typfs fxdfpt for tif lbst
+        for (int ii = 0; ii < lbstPbrbm; ii++) {
+            sb.bppfnd(brgs.gft(ii));
+            sb.bppfnd(", ");
         }
-        if (lastParam >= 0) {
-            // output the last param
-            String lastStr = args.get(lastParam);
-            if (method.isVarArgs()) {
-                // lastParam is an array.  Replace the [] with ...
-                sb.append(lastStr.substring(0, lastStr.length() - 2));
-                sb.append("...");
-            } else {
-                sb.append(lastStr);
+        if (lbstPbrbm >= 0) {
+            // output tif lbst pbrbm
+            String lbstStr = brgs.gft(lbstPbrbm);
+            if (mftiod.isVbrArgs()) {
+                // lbstPbrbm is bn brrby.  Rfplbdf tif [] witi ...
+                sb.bppfnd(lbstStr.substring(0, lbstStr.lfngti() - 2));
+                sb.bppfnd("...");
+            } flsf {
+                sb.bppfnd(lbstStr);
             }
         }
-        sb.append(")");
-        return sb.toString();
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 
-    void commandConnectors(VirtualMachineManager vmm) {
-        Collection<Connector> ccs = vmm.allConnectors();
-        if (ccs.isEmpty()) {
-            MessageOutput.println("Connectors available");
+    void dommbndConnfdtors(VirtublMbdiinfMbnbgfr vmm) {
+        Collfdtion<Connfdtor> dds = vmm.bllConnfdtors();
+        if (dds.isEmpty()) {
+            MfssbgfOutput.println("Connfdtors bvbilbblf");
         }
-        for (Connector cc : ccs) {
-            String transportName =
-                cc.transport() == null ? "null" : cc.transport().name();
-            MessageOutput.println();
-            MessageOutput.println("Connector and Transport name",
-                                  new Object [] {cc.name(), transportName});
-            MessageOutput.println("Connector description", cc.description());
+        for (Connfdtor dd : dds) {
+            String trbnsportNbmf =
+                dd.trbnsport() == null ? "null" : dd.trbnsport().nbmf();
+            MfssbgfOutput.println();
+            MfssbgfOutput.println("Connfdtor bnd Trbnsport nbmf",
+                                  nfw Objfdt [] {dd.nbmf(), trbnsportNbmf});
+            MfssbgfOutput.println("Connfdtor dfsdription", dd.dfsdription());
 
-            for (Connector.Argument aa : cc.defaultArguments().values()) {
-                    MessageOutput.println();
+            for (Connfdtor.Argumfnt bb : dd.dffbultArgumfnts().vblufs()) {
+                    MfssbgfOutput.println();
 
-                    boolean requiredArgument = aa.mustSpecify();
-                    if (aa.value() == null || aa.value() == "") {
-                        //no current value and no default.
-                        MessageOutput.println(requiredArgument ?
-                                              "Connector required argument nodefault" :
-                                              "Connector argument nodefault", aa.name());
-                    } else {
-                        MessageOutput.println(requiredArgument ?
-                                              "Connector required argument default" :
-                                              "Connector argument default",
-                                              new Object [] {aa.name(), aa.value()});
+                    boolfbn rfquirfdArgumfnt = bb.mustSpfdify();
+                    if (bb.vbluf() == null || bb.vbluf() == "") {
+                        //no durrfnt vbluf bnd no dffbult.
+                        MfssbgfOutput.println(rfquirfdArgumfnt ?
+                                              "Connfdtor rfquirfd brgumfnt nodffbult" :
+                                              "Connfdtor brgumfnt nodffbult", bb.nbmf());
+                    } flsf {
+                        MfssbgfOutput.println(rfquirfdArgumfnt ?
+                                              "Connfdtor rfquirfd brgumfnt dffbult" :
+                                              "Connfdtor brgumfnt dffbult",
+                                              nfw Objfdt [] {bb.nbmf(), bb.vbluf()});
                     }
-                    MessageOutput.println("Connector description", aa.description());
+                    MfssbgfOutput.println("Connfdtor dfsdription", bb.dfsdription());
 
                 }
             }
 
     }
 
-    void commandClasses() {
-        StringBuilder classList = new StringBuilder();
-        for (ReferenceType refType : Env.vm().allClasses()) {
-            classList.append(refType.name());
-            classList.append("\n");
+    void dommbndClbssfs() {
+        StringBuildfr dlbssList = nfw StringBuildfr();
+        for (RfffrfndfTypf rffTypf : Env.vm().bllClbssfs()) {
+            dlbssList.bppfnd(rffTypf.nbmf());
+            dlbssList.bppfnd("\n");
         }
-        MessageOutput.print("** classes list **", classList.toString());
+        MfssbgfOutput.print("** dlbssfs list **", dlbssList.toString());
     }
 
-    void commandClass(StringTokenizer t) {
+    void dommbndClbss(StringTokfnizfr t) {
 
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
-            return;
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No dlbss spfdififd.");
+            rfturn;
         }
 
-        String idClass = t.nextToken();
-        boolean showAll = false;
+        String idClbss = t.nfxtTokfn();
+        boolfbn siowAll = fblsf;
 
-        if (t.hasMoreTokens()) {
-            if (t.nextToken().toLowerCase().equals("all")) {
-                showAll = true;
-            } else {
-                MessageOutput.println("Invalid option on class command");
-                return;
+        if (t.ibsMorfTokfns()) {
+            if (t.nfxtTokfn().toLowfrCbsf().fqubls("bll")) {
+                siowAll = truf;
+            } flsf {
+                MfssbgfOutput.println("Invblid option on dlbss dommbnd");
+                rfturn;
             }
         }
-        ReferenceType type = Env.getReferenceTypeFromToken(idClass);
-        if (type == null) {
-            MessageOutput.println("is not a valid id or class name", idClass);
-            return;
+        RfffrfndfTypf typf = Env.gftRfffrfndfTypfFromTokfn(idClbss);
+        if (typf == null) {
+            MfssbgfOutput.println("is not b vblid id or dlbss nbmf", idClbss);
+            rfturn;
         }
-        if (type instanceof ClassType) {
-            ClassType clazz = (ClassType)type;
-            MessageOutput.println("Class:", clazz.name());
+        if (typf instbndfof ClbssTypf) {
+            ClbssTypf dlbzz = (ClbssTypf)typf;
+            MfssbgfOutput.println("Clbss:", dlbzz.nbmf());
 
-            ClassType superclass = clazz.superclass();
-            while (superclass != null) {
-                MessageOutput.println("extends:", superclass.name());
-                superclass = showAll ? superclass.superclass() : null;
-            }
-
-            List<InterfaceType> interfaces =
-                showAll ? clazz.allInterfaces() : clazz.interfaces();
-            for (InterfaceType interfaze : interfaces) {
-                MessageOutput.println("implements:", interfaze.name());
+            ClbssTypf supfrdlbss = dlbzz.supfrdlbss();
+            wiilf (supfrdlbss != null) {
+                MfssbgfOutput.println("fxtfnds:", supfrdlbss.nbmf());
+                supfrdlbss = siowAll ? supfrdlbss.supfrdlbss() : null;
             }
 
-            for (ClassType sub : clazz.subclasses()) {
-                MessageOutput.println("subclass:", sub.name());
+            List<IntfrfbdfTypf> intfrfbdfs =
+                siowAll ? dlbzz.bllIntfrfbdfs() : dlbzz.intfrfbdfs();
+            for (IntfrfbdfTypf intfrfbzf : intfrfbdfs) {
+                MfssbgfOutput.println("implfmfnts:", intfrfbzf.nbmf());
             }
-            for (ReferenceType nest : clazz.nestedTypes()) {
-                MessageOutput.println("nested:", nest.name());
-            }
-        } else if (type instanceof InterfaceType) {
-            InterfaceType interfaze = (InterfaceType)type;
-            MessageOutput.println("Interface:", interfaze.name());
-            for (InterfaceType superinterface : interfaze.superinterfaces()) {
-                MessageOutput.println("extends:", superinterface.name());
-            }
-            for (InterfaceType sub : interfaze.subinterfaces()) {
-                MessageOutput.println("subinterface:", sub.name());
-            }
-            for (ClassType implementor : interfaze.implementors()) {
-                MessageOutput.println("implementor:", implementor.name());
-            }
-            for (ReferenceType nest : interfaze.nestedTypes()) {
-                MessageOutput.println("nested:", nest.name());
-            }
-        } else {  // array type
-            ArrayType array = (ArrayType)type;
-            MessageOutput.println("Array:", array.name());
-        }
-    }
 
-    void commandMethods(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
-            return;
-        }
-
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
-        if (cls != null) {
-            StringBuilder methodsList = new StringBuilder();
-            for (Method method : cls.allMethods()) {
-                methodsList.append(method.declaringType().name());
-                methodsList.append(" ");
-                methodsList.append(typedName(method));
-                methodsList.append('\n');
+            for (ClbssTypf sub : dlbzz.subdlbssfs()) {
+                MfssbgfOutput.println("subdlbss:", sub.nbmf());
             }
-            MessageOutput.print("** methods list **", methodsList.toString());
-        } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            for (RfffrfndfTypf nfst : dlbzz.nfstfdTypfs()) {
+                MfssbgfOutput.println("nfstfd:", nfst.nbmf());
+            }
+        } flsf if (typf instbndfof IntfrfbdfTypf) {
+            IntfrfbdfTypf intfrfbzf = (IntfrfbdfTypf)typf;
+            MfssbgfOutput.println("Intfrfbdf:", intfrfbzf.nbmf());
+            for (IntfrfbdfTypf supfrintfrfbdf : intfrfbzf.supfrintfrfbdfs()) {
+                MfssbgfOutput.println("fxtfnds:", supfrintfrfbdf.nbmf());
+            }
+            for (IntfrfbdfTypf sub : intfrfbzf.subintfrfbdfs()) {
+                MfssbgfOutput.println("subintfrfbdf:", sub.nbmf());
+            }
+            for (ClbssTypf implfmfntor : intfrfbzf.implfmfntors()) {
+                MfssbgfOutput.println("implfmfntor:", implfmfntor.nbmf());
+            }
+            for (RfffrfndfTypf nfst : intfrfbzf.nfstfdTypfs()) {
+                MfssbgfOutput.println("nfstfd:", nfst.nbmf());
+            }
+        } flsf {  // brrby typf
+            ArrbyTypf brrby = (ArrbyTypf)typf;
+            MfssbgfOutput.println("Arrby:", brrby.nbmf());
         }
     }
 
-    void commandFields(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
-            return;
+    void dommbndMftiods(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No dlbss spfdififd.");
+            rfturn;
         }
 
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
-        if (cls != null) {
-            List<Field> fields = cls.allFields();
-            List<Field> visible = cls.visibleFields();
-            StringBuilder fieldsList = new StringBuilder();
-            for (Field field : fields) {
+        String idClbss = t.nfxtTokfn();
+        RfffrfndfTypf dls = Env.gftRfffrfndfTypfFromTokfn(idClbss);
+        if (dls != null) {
+            StringBuildfr mftiodsList = nfw StringBuildfr();
+            for (Mftiod mftiod : dls.bllMftiods()) {
+                mftiodsList.bppfnd(mftiod.dfdlbringTypf().nbmf());
+                mftiodsList.bppfnd(" ");
+                mftiodsList.bppfnd(typfdNbmf(mftiod));
+                mftiodsList.bppfnd('\n');
+            }
+            MfssbgfOutput.print("** mftiods list **", mftiodsList.toString());
+        } flsf {
+            MfssbgfOutput.println("is not b vblid id or dlbss nbmf", idClbss);
+        }
+    }
+
+    void dommbndFiflds(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No dlbss spfdififd.");
+            rfturn;
+        }
+
+        String idClbss = t.nfxtTokfn();
+        RfffrfndfTypf dls = Env.gftRfffrfndfTypfFromTokfn(idClbss);
+        if (dls != null) {
+            List<Fifld> fiflds = dls.bllFiflds();
+            List<Fifld> visiblf = dls.visiblfFiflds();
+            StringBuildfr fifldsList = nfw StringBuildfr();
+            for (Fifld fifld : fiflds) {
                 String s;
-                if (!visible.contains(field)) {
-                    s = MessageOutput.format("list field typename and name hidden",
-                                             new Object [] {field.typeName(),
-                                                            field.name()});
-                } else if (!field.declaringType().equals(cls)) {
-                    s = MessageOutput.format("list field typename and name inherited",
-                                             new Object [] {field.typeName(),
-                                                            field.name(),
-                                                            field.declaringType().name()});
-                } else {
-                    s = MessageOutput.format("list field typename and name",
-                                             new Object [] {field.typeName(),
-                                                            field.name()});
+                if (!visiblf.dontbins(fifld)) {
+                    s = MfssbgfOutput.formbt("list fifld typfnbmf bnd nbmf iiddfn",
+                                             nfw Objfdt [] {fifld.typfNbmf(),
+                                                            fifld.nbmf()});
+                } flsf if (!fifld.dfdlbringTypf().fqubls(dls)) {
+                    s = MfssbgfOutput.formbt("list fifld typfnbmf bnd nbmf inifritfd",
+                                             nfw Objfdt [] {fifld.typfNbmf(),
+                                                            fifld.nbmf(),
+                                                            fifld.dfdlbringTypf().nbmf()});
+                } flsf {
+                    s = MfssbgfOutput.formbt("list fifld typfnbmf bnd nbmf",
+                                             nfw Objfdt [] {fifld.typfNbmf(),
+                                                            fifld.nbmf()});
                 }
-                fieldsList.append(s);
+                fifldsList.bppfnd(s);
             }
-            MessageOutput.print("** fields list **", fieldsList.toString());
-        } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            MfssbgfOutput.print("** fiflds list **", fifldsList.toString());
+        } flsf {
+            MfssbgfOutput.println("is not b vblid id or dlbss nbmf", idClbss);
         }
     }
 
-    private void printThreadGroup(ThreadGroupReference tg) {
-        ThreadIterator threadIter = new ThreadIterator(tg);
+    privbtf void printTirfbdGroup(TirfbdGroupRfffrfndf tg) {
+        TirfbdItfrbtor tirfbdItfr = nfw TirfbdItfrbtor(tg);
 
-        MessageOutput.println("Thread Group:", tg.name());
-        int maxIdLength = 0;
-        int maxNameLength = 0;
-        while (threadIter.hasNext()) {
-            ThreadReference thr = threadIter.next();
-            maxIdLength = Math.max(maxIdLength,
-                                   Env.description(thr).length());
-            maxNameLength = Math.max(maxNameLength,
-                                     thr.name().length());
+        MfssbgfOutput.println("Tirfbd Group:", tg.nbmf());
+        int mbxIdLfngti = 0;
+        int mbxNbmfLfngti = 0;
+        wiilf (tirfbdItfr.ibsNfxt()) {
+            TirfbdRfffrfndf tir = tirfbdItfr.nfxt();
+            mbxIdLfngti = Mbti.mbx(mbxIdLfngti,
+                                   Env.dfsdription(tir).lfngti());
+            mbxNbmfLfngti = Mbti.mbx(mbxNbmfLfngti,
+                                     tir.nbmf().lfngti());
         }
 
-        threadIter = new ThreadIterator(tg);
-        while (threadIter.hasNext()) {
-            ThreadReference thr = threadIter.next();
-            if (thr.threadGroup() == null) {
-                continue;
+        tirfbdItfr = nfw TirfbdItfrbtor(tg);
+        wiilf (tirfbdItfr.ibsNfxt()) {
+            TirfbdRfffrfndf tir = tirfbdItfr.nfxt();
+            if (tir.tirfbdGroup() == null) {
+                dontinuf;
             }
-            // Note any thread group changes
-            if (!thr.threadGroup().equals(tg)) {
-                tg = thr.threadGroup();
-                MessageOutput.println("Thread Group:", tg.name());
+            // Notf bny tirfbd group dibngfs
+            if (!tir.tirfbdGroup().fqubls(tg)) {
+                tg = tir.tirfbdGroup();
+                MfssbgfOutput.println("Tirfbd Group:", tg.nbmf());
             }
 
             /*
-             * Do a bit of filling with whitespace to get thread ID
-             * and thread names to line up in the listing, and also
-             * allow for proper localization.  This also works for
-             * very long thread names, at the possible cost of lines
-             * being wrapped by the display device.
+             * Do b bit of filling witi wiitfspbdf to gft tirfbd ID
+             * bnd tirfbd nbmfs to linf up in tif listing, bnd blso
+             * bllow for propfr lodblizbtion.  Tiis blso works for
+             * vfry long tirfbd nbmfs, bt tif possiblf dost of linfs
+             * bfing wrbppfd by tif displby dfvidf.
              */
-            StringBuilder idBuffer = new StringBuilder(Env.description(thr));
-            for (int i = idBuffer.length(); i < maxIdLength; i++) {
-                idBuffer.append(" ");
+            StringBuildfr idBufffr = nfw StringBuildfr(Env.dfsdription(tir));
+            for (int i = idBufffr.lfngti(); i < mbxIdLfngti; i++) {
+                idBufffr.bppfnd(" ");
             }
-            StringBuilder nameBuffer = new StringBuilder(thr.name());
-            for (int i = nameBuffer.length(); i < maxNameLength; i++) {
-                nameBuffer.append(" ");
+            StringBuildfr nbmfBufffr = nfw StringBuildfr(tir.nbmf());
+            for (int i = nbmfBufffr.lfngti(); i < mbxNbmfLfngti; i++) {
+                nbmfBufffr.bppfnd(" ");
             }
 
             /*
-             * Select the output format to use based on thread status
-             * and breakpoint.
+             * Sflfdt tif output formbt to usf bbsfd on tirfbd stbtus
+             * bnd brfbkpoint.
              */
-            String statusFormat;
-            switch (thr.status()) {
-            case ThreadReference.THREAD_STATUS_UNKNOWN:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name unknownStatus BP";
-                } else {
-                    statusFormat = "Thread description name unknownStatus";
+            String stbtusFormbt;
+            switdi (tir.stbtus()) {
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_UNKNOWN:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf unknownStbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf unknownStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_ZOMBIE:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name zombieStatus BP";
-                } else {
-                    statusFormat = "Thread description name zombieStatus";
+                brfbk;
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_ZOMBIE:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf zombifStbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf zombifStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_RUNNING:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name runningStatus BP";
-                } else {
-                    statusFormat = "Thread description name runningStatus";
+                brfbk;
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_RUNNING:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf runningStbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf runningStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_SLEEPING:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name sleepingStatus BP";
-                } else {
-                    statusFormat = "Thread description name sleepingStatus";
+                brfbk;
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_SLEEPING:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf slffpingStbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf slffpingStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_MONITOR:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name waitingStatus BP";
-                } else {
-                    statusFormat = "Thread description name waitingStatus";
+                brfbk;
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_MONITOR:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf wbitingStbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf wbitingStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_WAIT:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name condWaitstatus BP";
-                } else {
-                    statusFormat = "Thread description name condWaitstatus";
+                brfbk;
+            dbsf TirfbdRfffrfndf.THREAD_STATUS_WAIT:
+                if (tir.isAtBrfbkpoint()) {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf dondWbitstbtus BP";
+                } flsf {
+                    stbtusFormbt = "Tirfbd dfsdription nbmf dondWbitstbtus";
                 }
-                break;
-            default:
-                throw new InternalError(MessageOutput.format("Invalid thread status."));
+                brfbk;
+            dffbult:
+                tirow nfw IntfrnblError(MfssbgfOutput.formbt("Invblid tirfbd stbtus."));
             }
-            MessageOutput.println(statusFormat,
-                                  new Object [] {idBuffer.toString(),
-                                                 nameBuffer.toString()});
+            MfssbgfOutput.println(stbtusFormbt,
+                                  nfw Objfdt [] {idBufffr.toString(),
+                                                 nbmfBufffr.toString()});
         }
     }
 
-    void commandThreads(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            printThreadGroup(ThreadInfo.group());
-            return;
+    void dommbndTirfbds(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            printTirfbdGroup(TirfbdInfo.group());
+            rfturn;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = ThreadGroupIterator.find(name);
+        String nbmf = t.nfxtTokfn();
+        TirfbdGroupRfffrfndf tg = TirfbdGroupItfrbtor.find(nbmf);
         if (tg == null) {
-            MessageOutput.println("is not a valid threadgroup name", name);
-        } else {
-            printThreadGroup(tg);
+            MfssbgfOutput.println("is not b vblid tirfbdgroup nbmf", nbmf);
+        } flsf {
+            printTirfbdGroup(tg);
         }
     }
 
-    void commandThreadGroups() {
-        ThreadGroupIterator it = new ThreadGroupIterator();
-        int cnt = 0;
-        while (it.hasNext()) {
-            ThreadGroupReference tg = it.nextThreadGroup();
-            ++cnt;
-            MessageOutput.println("thread group number description name",
-                                  new Object [] { new Integer (cnt),
-                                                  Env.description(tg),
-                                                  tg.name()});
+    void dommbndTirfbdGroups() {
+        TirfbdGroupItfrbtor it = nfw TirfbdGroupItfrbtor();
+        int dnt = 0;
+        wiilf (it.ibsNfxt()) {
+            TirfbdGroupRfffrfndf tg = it.nfxtTirfbdGroup();
+            ++dnt;
+            MfssbgfOutput.println("tirfbd group numbfr dfsdription nbmf",
+                                  nfw Objfdt [] { nfw Intfgfr (dnt),
+                                                  Env.dfsdription(tg),
+                                                  tg.nbmf()});
         }
     }
 
-    void commandThread(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Thread number not specified.");
-            return;
+    void dommbndTirfbd(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Tirfbd numbfr not spfdififd.");
+            rfturn;
         }
-        ThreadInfo threadInfo = doGetThread(t.nextToken());
-        if (threadInfo != null) {
-            ThreadInfo.setCurrentThreadInfo(threadInfo);
+        TirfbdInfo tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
+        if (tirfbdInfo != null) {
+            TirfbdInfo.sftCurrfntTirfbdInfo(tirfbdInfo);
         }
     }
 
-    void commandThreadGroup(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Threadgroup name not specified.");
-            return;
+    void dommbndTirfbdGroup(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Tirfbdgroup nbmf not spfdififd.");
+            rfturn;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = ThreadGroupIterator.find(name);
+        String nbmf = t.nfxtTokfn();
+        TirfbdGroupRfffrfndf tg = TirfbdGroupItfrbtor.find(nbmf);
         if (tg == null) {
-            MessageOutput.println("is not a valid threadgroup name", name);
-        } else {
-            ThreadInfo.setThreadGroup(tg);
+            MfssbgfOutput.println("is not b vblid tirfbdgroup nbmf", nbmf);
+        } flsf {
+            TirfbdInfo.sftTirfbdGroup(tg);
         }
     }
 
-    void commandRun(StringTokenizer t) {
+    void dommbndRun(StringTokfnizfr t) {
         /*
-         * The 'run' command makes little sense in a
-         * that doesn't support restarts or multiple VMs. However,
-         * this is an attempt to emulate the behavior of the old
-         * JDB as much as possible. For new users and implementations
-         * it is much more straightforward to launch immedidately
-         * with the -launch option.
+         * Tif 'run' dommbnd mbkfs littlf sfnsf in b
+         * tibt dofsn't support rfstbrts or multiplf VMs. Howfvfr,
+         * tiis is bn bttfmpt to fmulbtf tif bfibvior of tif old
+         * JDB bs mudi bs possiblf. For nfw usfrs bnd implfmfntbtions
+         * it is mudi morf strbigitforwbrd to lbundi immfdidbtfly
+         * witi tif -lbundi option.
          */
-        VMConnection connection = Env.connection();
-        if (!connection.isLaunch()) {
-            if (!t.hasMoreTokens()) {
-                commandCont();
-            } else {
-                MessageOutput.println("run <args> command is valid only with launched VMs");
+        VMConnfdtion donnfdtion = Env.donnfdtion();
+        if (!donnfdtion.isLbundi()) {
+            if (!t.ibsMorfTokfns()) {
+                dommbndCont();
+            } flsf {
+                MfssbgfOutput.println("run <brgs> dommbnd is vblid only witi lbundifd VMs");
             }
-            return;
+            rfturn;
         }
-        if (connection.isOpen()) {
-            MessageOutput.println("VM already running. use cont to continue after events.");
-            return;
+        if (donnfdtion.isOpfn()) {
+            MfssbgfOutput.println("VM blrfbdy running. usf dont to dontinuf bftfr fvfnts.");
+            rfturn;
         }
-
-        /*
-         * Set the main class and any arguments. Note that this will work
-         * only with the standard launcher, "com.sun.jdi.CommandLineLauncher"
-         */
-        String args;
-        if (t.hasMoreTokens()) {
-            args = t.nextToken("");
-            boolean argsSet = connection.setConnectorArg("main", args);
-            if (!argsSet) {
-                MessageOutput.println("Unable to set main class and arguments");
-                return;
-            }
-        } else {
-            args = connection.connectorArg("main");
-            if (args.length() == 0) {
-                MessageOutput.println("Main class and arguments must be specified");
-                return;
-            }
-        }
-        MessageOutput.println("run", args);
 
         /*
-         * Launch the VM.
+         * Sft tif mbin dlbss bnd bny brgumfnts. Notf tibt tiis will work
+         * only witi tif stbndbrd lbundifr, "dom.sun.jdi.CommbndLinfLbundifr"
          */
-        connection.open();
-
-    }
-
-    void commandLoad(StringTokenizer t) {
-        MessageOutput.println("The load command is no longer supported.");
-    }
-
-    private List<ThreadReference> allThreads(ThreadGroupReference group) {
-        List<ThreadReference> list = new ArrayList<ThreadReference>();
-        list.addAll(group.threads());
-        for (ThreadGroupReference child : group.threadGroups()) {
-            list.addAll(allThreads(child));
+        String brgs;
+        if (t.ibsMorfTokfns()) {
+            brgs = t.nfxtTokfn("");
+            boolfbn brgsSft = donnfdtion.sftConnfdtorArg("mbin", brgs);
+            if (!brgsSft) {
+                MfssbgfOutput.println("Unbblf to sft mbin dlbss bnd brgumfnts");
+                rfturn;
+            }
+        } flsf {
+            brgs = donnfdtion.donnfdtorArg("mbin");
+            if (brgs.lfngti() == 0) {
+                MfssbgfOutput.println("Mbin dlbss bnd brgumfnts must bf spfdififd");
+                rfturn;
+            }
         }
-        return list;
+        MfssbgfOutput.println("run", brgs);
+
+        /*
+         * Lbundi tif VM.
+         */
+        donnfdtion.opfn();
+
     }
 
-    void commandSuspend(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            Env.vm().suspend();
-            MessageOutput.println("All threads suspended.");
-        } else {
-            while (t.hasMoreTokens()) {
-                ThreadInfo threadInfo = doGetThread(t.nextToken());
-                if (threadInfo != null) {
-                    threadInfo.getThread().suspend();
+    void dommbndLobd(StringTokfnizfr t) {
+        MfssbgfOutput.println("Tif lobd dommbnd is no longfr supportfd.");
+    }
+
+    privbtf List<TirfbdRfffrfndf> bllTirfbds(TirfbdGroupRfffrfndf group) {
+        List<TirfbdRfffrfndf> list = nfw ArrbyList<TirfbdRfffrfndf>();
+        list.bddAll(group.tirfbds());
+        for (TirfbdGroupRfffrfndf diild : group.tirfbdGroups()) {
+            list.bddAll(bllTirfbds(diild));
+        }
+        rfturn list;
+    }
+
+    void dommbndSuspfnd(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            Env.vm().suspfnd();
+            MfssbgfOutput.println("All tirfbds suspfndfd.");
+        } flsf {
+            wiilf (t.ibsMorfTokfns()) {
+                TirfbdInfo tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
+                if (tirfbdInfo != null) {
+                    tirfbdInfo.gftTirfbd().suspfnd();
                 }
             }
         }
     }
 
-    void commandResume(StringTokenizer t) {
-         if (!t.hasMoreTokens()) {
-             ThreadInfo.invalidateAll();
-             Env.vm().resume();
-             MessageOutput.println("All threads resumed.");
-         } else {
-             while (t.hasMoreTokens()) {
-                ThreadInfo threadInfo = doGetThread(t.nextToken());
-                if (threadInfo != null) {
-                    threadInfo.invalidate();
-                    threadInfo.getThread().resume();
+    void dommbndRfsumf(StringTokfnizfr t) {
+         if (!t.ibsMorfTokfns()) {
+             TirfbdInfo.invblidbtfAll();
+             Env.vm().rfsumf();
+             MfssbgfOutput.println("All tirfbds rfsumfd.");
+         } flsf {
+             wiilf (t.ibsMorfTokfns()) {
+                TirfbdInfo tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
+                if (tirfbdInfo != null) {
+                    tirfbdInfo.invblidbtf();
+                    tirfbdInfo.gftTirfbd().rfsumf();
                 }
             }
         }
     }
 
-    void commandCont() {
-        if (ThreadInfo.getCurrentThreadInfo() == null) {
-            MessageOutput.println("Nothing suspended.");
-            return;
+    void dommbndCont() {
+        if (TirfbdInfo.gftCurrfntTirfbdInfo() == null) {
+            MfssbgfOutput.println("Notiing suspfndfd.");
+            rfturn;
         }
-        ThreadInfo.invalidateAll();
-        Env.vm().resume();
+        TirfbdInfo.invblidbtfAll();
+        Env.vm().rfsumf();
     }
 
-    void clearPreviousStep(ThreadReference thread) {
+    void dlfbrPrfviousStfp(TirfbdRfffrfndf tirfbd) {
         /*
-         * A previous step may not have completed on this thread;
-         * if so, it gets removed here.
+         * A prfvious stfp mby not ibvf domplftfd on tiis tirfbd;
+         * if so, it gfts rfmovfd ifrf.
          */
-         EventRequestManager mgr = Env.vm().eventRequestManager();
-         for (StepRequest request : mgr.stepRequests()) {
-             if (request.thread().equals(thread)) {
-                 mgr.deleteEventRequest(request);
-                 break;
+         EvfntRfqufstMbnbgfr mgr = Env.vm().fvfntRfqufstMbnbgfr();
+         for (StfpRfqufst rfqufst : mgr.stfpRfqufsts()) {
+             if (rfqufst.tirfbd().fqubls(tirfbd)) {
+                 mgr.dflftfEvfntRfqufst(rfqufst);
+                 brfbk;
              }
          }
     }
-    /* step
+    /* stfp
      *
      */
-    void commandStep(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
-            return;
+    void dommbndStfp(StringTokfnizfr t) {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("Notiing suspfndfd.");
+            rfturn;
         }
-        int depth;
-        if (t.hasMoreTokens() &&
-                  t.nextToken().toLowerCase().equals("up")) {
-            depth = StepRequest.STEP_OUT;
-        } else {
-            depth = StepRequest.STEP_INTO;
+        int dfpti;
+        if (t.ibsMorfTokfns() &&
+                  t.nfxtTokfn().toLowfrCbsf().fqubls("up")) {
+            dfpti = StfpRfqufst.STEP_OUT;
+        } flsf {
+            dfpti = StfpRfqufst.STEP_INTO;
         }
 
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
-                                                       StepRequest.STEP_LINE, depth);
-        if (depth == StepRequest.STEP_INTO) {
-            Env.addExcludes(request);
+        dlfbrPrfviousStfp(tirfbdInfo.gftTirfbd());
+        EvfntRfqufstMbnbgfr rfqMgr = Env.vm().fvfntRfqufstMbnbgfr();
+        StfpRfqufst rfqufst = rfqMgr.drfbtfStfpRfqufst(tirfbdInfo.gftTirfbd(),
+                                                       StfpRfqufst.STEP_LINE, dfpti);
+        if (dfpti == StfpRfqufst.STEP_INTO) {
+            Env.bddExdludfs(rfqufst);
         }
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
-        Env.vm().resume();
+        // Wf wbnt just tif nfxt stfp fvfnt bnd no otifrs
+        rfqufst.bddCountFiltfr(1);
+        rfqufst.fnbblf();
+        TirfbdInfo.invblidbtfAll();
+        Env.vm().rfsumf();
     }
 
-    /* stepi
-     * step instruction.
+    /* stfpi
+     * stfp instrudtion.
      */
-    void commandStepi() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
-            return;
+    void dommbndStfpi() {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("Notiing suspfndfd.");
+            rfturn;
         }
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
-                                                       StepRequest.STEP_MIN,
-                                                       StepRequest.STEP_INTO);
-        Env.addExcludes(request);
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
-        Env.vm().resume();
+        dlfbrPrfviousStfp(tirfbdInfo.gftTirfbd());
+        EvfntRfqufstMbnbgfr rfqMgr = Env.vm().fvfntRfqufstMbnbgfr();
+        StfpRfqufst rfqufst = rfqMgr.drfbtfStfpRfqufst(tirfbdInfo.gftTirfbd(),
+                                                       StfpRfqufst.STEP_MIN,
+                                                       StfpRfqufst.STEP_INTO);
+        Env.bddExdludfs(rfqufst);
+        // Wf wbnt just tif nfxt stfp fvfnt bnd no otifrs
+        rfqufst.bddCountFiltfr(1);
+        rfqufst.fnbblf();
+        TirfbdInfo.invblidbtfAll();
+        Env.vm().rfsumf();
     }
 
-    void commandNext() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
-            return;
+    void dommbndNfxt() {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("Notiing suspfndfd.");
+            rfturn;
         }
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
-                                                       StepRequest.STEP_LINE,
-                                                       StepRequest.STEP_OVER);
-        Env.addExcludes(request);
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
-        Env.vm().resume();
+        dlfbrPrfviousStfp(tirfbdInfo.gftTirfbd());
+        EvfntRfqufstMbnbgfr rfqMgr = Env.vm().fvfntRfqufstMbnbgfr();
+        StfpRfqufst rfqufst = rfqMgr.drfbtfStfpRfqufst(tirfbdInfo.gftTirfbd(),
+                                                       StfpRfqufst.STEP_LINE,
+                                                       StfpRfqufst.STEP_OVER);
+        Env.bddExdludfs(rfqufst);
+        // Wf wbnt just tif nfxt stfp fvfnt bnd no otifrs
+        rfqufst.bddCountFiltfr(1);
+        rfqufst.fnbblf();
+        TirfbdInfo.invblidbtfAll();
+        Env.vm().rfsumf();
     }
 
-    void doKill(ThreadReference thread, StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No exception object specified.");
-            return;
+    void doKill(TirfbdRfffrfndf tirfbd, StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No fxdfption objfdt spfdififd.");
+            rfturn;
         }
-        String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
+        String fxpr = t.nfxtTokfn("");
+        Vbluf vbl = fvblubtf(fxpr);
+        if ((vbl != null) && (vbl instbndfof ObjfdtRfffrfndf)) {
             try {
-                thread.stop((ObjectReference)val);
-                MessageOutput.println("killed", thread.toString());
-            } catch (InvalidTypeException e) {
-                MessageOutput.println("Invalid exception object");
+                tirfbd.stop((ObjfdtRfffrfndf)vbl);
+                MfssbgfOutput.println("killfd", tirfbd.toString());
+            } dbtdi (InvblidTypfExdfption f) {
+                MfssbgfOutput.println("Invblid fxdfption objfdt");
             }
-        } else {
-            MessageOutput.println("Expression must evaluate to an object");
+        } flsf {
+            MfssbgfOutput.println("Exprfssion must fvblubtf to bn objfdt");
         }
     }
 
-    void doKillThread(final ThreadReference threadToKill,
-                      final StringTokenizer tokenizer) {
-        new AsyncExecution() {
-                @Override
-                void action() {
-                    doKill(threadToKill, tokenizer);
+    void doKillTirfbd(finbl TirfbdRfffrfndf tirfbdToKill,
+                      finbl StringTokfnizfr tokfnizfr) {
+        nfw AsyndExfdution() {
+                @Ovfrridf
+                void bdtion() {
+                    doKill(tirfbdToKill, tokfnizfr);
                 }
             };
     }
 
-    void commandKill(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Usage: kill <thread id> <throwable>");
-            return;
+    void dommbndKill(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Usbgf: kill <tirfbd id> <tirowbblf>");
+            rfturn;
         }
-        ThreadInfo threadInfo = doGetThread(t.nextToken());
-        if (threadInfo != null) {
-            MessageOutput.println("killing thread:", threadInfo.getThread().name());
-            doKillThread(threadInfo.getThread(), t);
-            return;
+        TirfbdInfo tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
+        if (tirfbdInfo != null) {
+            MfssbgfOutput.println("killing tirfbd:", tirfbdInfo.gftTirfbd().nbmf());
+            doKillTirfbd(tirfbdInfo.gftTirfbd(), t);
+            rfturn;
         }
     }
 
-    void listCaughtExceptions() {
-        boolean noExceptions = true;
+    void listCbugitExdfptions() {
+        boolfbn noExdfptions = truf;
 
-        // Print a listing of the catch patterns currently in place
-        for (EventRequestSpec spec : Env.specList.eventRequestSpecs()) {
-            if (spec instanceof ExceptionSpec) {
-                if (noExceptions) {
-                    noExceptions = false;
-                    MessageOutput.println("Exceptions caught:");
+        // Print b listing of tif dbtdi pbttfrns durrfntly in plbdf
+        for (EvfntRfqufstSpfd spfd : Env.spfdList.fvfntRfqufstSpfds()) {
+            if (spfd instbndfof ExdfptionSpfd) {
+                if (noExdfptions) {
+                    noExdfptions = fblsf;
+                    MfssbgfOutput.println("Exdfptions dbugit:");
                 }
-                MessageOutput.println("tab", spec.toString());
+                MfssbgfOutput.println("tbb", spfd.toString());
             }
         }
-        if (noExceptions) {
-            MessageOutput.println("No exceptions caught.");
+        if (noExdfptions) {
+            MfssbgfOutput.println("No fxdfptions dbugit.");
         }
     }
 
-    private EventRequestSpec parseExceptionSpec(StringTokenizer t) {
-        String notification = t.nextToken();
-        boolean notifyCaught = false;
-        boolean notifyUncaught = false;
-        EventRequestSpec spec = null;
-        String classPattern = null;
+    privbtf EvfntRfqufstSpfd pbrsfExdfptionSpfd(StringTokfnizfr t) {
+        String notifidbtion = t.nfxtTokfn();
+        boolfbn notifyCbugit = fblsf;
+        boolfbn notifyUndbugit = fblsf;
+        EvfntRfqufstSpfd spfd = null;
+        String dlbssPbttfrn = null;
 
-        if (notification.equals("uncaught")) {
-            notifyCaught = false;
-            notifyUncaught = true;
-        } else if (notification.equals("caught")) {
-            notifyCaught = true;
-            notifyUncaught = false;
-        } else if (notification.equals("all")) {
-            notifyCaught = true;
-            notifyUncaught = true;
-        } else {
+        if (notifidbtion.fqubls("undbugit")) {
+            notifyCbugit = fblsf;
+            notifyUndbugit = truf;
+        } flsf if (notifidbtion.fqubls("dbugit")) {
+            notifyCbugit = truf;
+            notifyUndbugit = fblsf;
+        } flsf if (notifidbtion.fqubls("bll")) {
+            notifyCbugit = truf;
+            notifyUndbugit = truf;
+        } flsf {
             /*
-             * Handle the same as "all" for backward
-             * compatibility with existing .jdbrc files.
+             * Hbndlf tif sbmf bs "bll" for bbdkwbrd
+             * dompbtibility witi fxisting .jdbrd filfs.
              *
-             * Insert an "all" and take the current token as the
-             * intended classPattern
+             * Insfrt bn "bll" bnd tbkf tif durrfnt tokfn bs tif
+             * intfndfd dlbssPbttfrn
              *
              */
-            notifyCaught = true;
-            notifyUncaught = true;
-            classPattern = notification;
+            notifyCbugit = truf;
+            notifyUndbugit = truf;
+            dlbssPbttfrn = notifidbtion;
         }
-        if (classPattern == null && t.hasMoreTokens()) {
-            classPattern = t.nextToken();
+        if (dlbssPbttfrn == null && t.ibsMorfTokfns()) {
+            dlbssPbttfrn = t.nfxtTokfn();
         }
-        if ((classPattern != null) && (notifyCaught || notifyUncaught)) {
+        if ((dlbssPbttfrn != null) && (notifyCbugit || notifyUndbugit)) {
             try {
-                spec = Env.specList.createExceptionCatch(classPattern,
-                                                         notifyCaught,
-                                                         notifyUncaught);
-            } catch (ClassNotFoundException exc) {
-                MessageOutput.println("is not a valid class name", classPattern);
+                spfd = Env.spfdList.drfbtfExdfptionCbtdi(dlbssPbttfrn,
+                                                         notifyCbugit,
+                                                         notifyUndbugit);
+            } dbtdi (ClbssNotFoundExdfption fxd) {
+                MfssbgfOutput.println("is not b vblid dlbss nbmf", dlbssPbttfrn);
             }
         }
-        return spec;
+        rfturn spfd;
     }
 
-    void commandCatchException(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listCaughtExceptions();
-        } else {
-            EventRequestSpec spec = parseExceptionSpec(t);
-            if (spec != null) {
-                resolveNow(spec);
-            } else {
-                MessageOutput.println("Usage: catch exception");
+    void dommbndCbtdiExdfption(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            listCbugitExdfptions();
+        } flsf {
+            EvfntRfqufstSpfd spfd = pbrsfExdfptionSpfd(t);
+            if (spfd != null) {
+                rfsolvfNow(spfd);
+            } flsf {
+                MfssbgfOutput.println("Usbgf: dbtdi fxdfption");
             }
         }
     }
 
-    void commandIgnoreException(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listCaughtExceptions();
-        } else {
-            EventRequestSpec spec = parseExceptionSpec(t);
-            if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
-            } else {
-                if (spec != null) {
-                    MessageOutput.println("Not found:", spec.toString());
+    void dommbndIgnorfExdfption(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            listCbugitExdfptions();
+        } flsf {
+            EvfntRfqufstSpfd spfd = pbrsfExdfptionSpfd(t);
+            if (Env.spfdList.dflftf(spfd)) {
+                MfssbgfOutput.println("Rfmovfd:", spfd.toString());
+            } flsf {
+                if (spfd != null) {
+                    MfssbgfOutput.println("Not found:", spfd.toString());
                 }
-                MessageOutput.println("Usage: ignore exception");
+                MfssbgfOutput.println("Usbgf: ignorf fxdfption");
             }
         }
     }
 
-    void commandUp(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Current thread not set.");
-            return;
+    void dommbndUp(StringTokfnizfr t) {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("Currfnt tirfbd not sft.");
+            rfturn;
         }
 
-        int nLevels = 1;
-        if (t.hasMoreTokens()) {
-            String idToken = t.nextToken();
+        int nLfvfls = 1;
+        if (t.ibsMorfTokfns()) {
+            String idTokfn = t.nfxtTokfn();
             int i;
             try {
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(idToken);
-                i = n.intValue();
-            } catch (java.text.ParseException jtpe) {
+                NumbfrFormbt nf = NumbfrFormbt.gftNumbfrInstbndf();
+                nf.sftPbrsfIntfgfrOnly(truf);
+                Numbfr n = nf.pbrsf(idTokfn);
+                i = n.intVbluf();
+            } dbtdi (jbvb.tfxt.PbrsfExdfption jtpf) {
                 i = 0;
             }
             if (i <= 0) {
-                MessageOutput.println("Usage: up [n frames]");
-                return;
+                MfssbgfOutput.println("Usbgf: up [n frbmfs]");
+                rfturn;
             }
-            nLevels = i;
+            nLfvfls = i;
         }
 
         try {
-            threadInfo.up(nLevels);
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            MessageOutput.println("End of stack.");
+            tirfbdInfo.up(nLfvfls);
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            MfssbgfOutput.println("End of stbdk.");
         }
     }
 
-    void commandDown(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Current thread not set.");
-            return;
+    void dommbndDown(StringTokfnizfr t) {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("Currfnt tirfbd not sft.");
+            rfturn;
         }
 
-        int nLevels = 1;
-        if (t.hasMoreTokens()) {
-            String idToken = t.nextToken();
+        int nLfvfls = 1;
+        if (t.ibsMorfTokfns()) {
+            String idTokfn = t.nfxtTokfn();
             int i;
             try {
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(idToken);
-                i = n.intValue();
-            } catch (java.text.ParseException jtpe) {
+                NumbfrFormbt nf = NumbfrFormbt.gftNumbfrInstbndf();
+                nf.sftPbrsfIntfgfrOnly(truf);
+                Numbfr n = nf.pbrsf(idTokfn);
+                i = n.intVbluf();
+            } dbtdi (jbvb.tfxt.PbrsfExdfption jtpf) {
                 i = 0;
             }
             if (i <= 0) {
-                MessageOutput.println("Usage: down [n frames]");
-                return;
+                MfssbgfOutput.println("Usbgf: down [n frbmfs]");
+                rfturn;
             }
-            nLevels = i;
+            nLfvfls = i;
         }
 
         try {
-            threadInfo.down(nLevels);
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            MessageOutput.println("End of stack.");
+            tirfbdInfo.down(nLfvfls);
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            MfssbgfOutput.println("End of stbdk.");
         }
     }
 
-    private void dumpStack(ThreadInfo threadInfo, boolean showPC) {
-        List<StackFrame> stack = null;
+    privbtf void dumpStbdk(TirfbdInfo tirfbdInfo, boolfbn siowPC) {
+        List<StbdkFrbmf> stbdk = null;
         try {
-            stack = threadInfo.getStack();
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-            return;
+            stbdk = tirfbdInfo.gftStbdk();
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+            rfturn;
         }
-        if (stack == null) {
-            MessageOutput.println("Thread is not running (no stack).");
-        } else {
-            int nFrames = stack.size();
-            for (int i = threadInfo.getCurrentFrameIndex(); i < nFrames; i++) {
-                StackFrame frame = stack.get(i);
-                dumpFrame (i, showPC, frame);
+        if (stbdk == null) {
+            MfssbgfOutput.println("Tirfbd is not running (no stbdk).");
+        } flsf {
+            int nFrbmfs = stbdk.sizf();
+            for (int i = tirfbdInfo.gftCurrfntFrbmfIndfx(); i < nFrbmfs; i++) {
+                StbdkFrbmf frbmf = stbdk.gft(i);
+                dumpFrbmf (i, siowPC, frbmf);
             }
         }
     }
 
-    private void dumpFrame (int frameNumber, boolean showPC, StackFrame frame) {
-        Location loc = frame.location();
-        long pc = -1;
-        if (showPC) {
-            pc = loc.codeIndex();
+    privbtf void dumpFrbmf (int frbmfNumbfr, boolfbn siowPC, StbdkFrbmf frbmf) {
+        Lodbtion lod = frbmf.lodbtion();
+        long pd = -1;
+        if (siowPC) {
+            pd = lod.dodfIndfx();
         }
-        Method meth = loc.method();
+        Mftiod mfti = lod.mftiod();
 
-        long lineNumber = loc.lineNumber();
-        String methodInfo = null;
-        if (meth.isNative()) {
-            methodInfo = MessageOutput.format("native method");
-        } else if (lineNumber != -1) {
+        long linfNumbfr = lod.linfNumbfr();
+        String mftiodInfo = null;
+        if (mfti.isNbtivf()) {
+            mftiodInfo = MfssbgfOutput.formbt("nbtivf mftiod");
+        } flsf if (linfNumbfr != -1) {
             try {
-                methodInfo = loc.sourceName() +
-                    MessageOutput.format("line number",
-                                         new Object [] {Long.valueOf(lineNumber)});
-            } catch (AbsentInformationException e) {
-                methodInfo = MessageOutput.format("unknown");
+                mftiodInfo = lod.sourdfNbmf() +
+                    MfssbgfOutput.formbt("linf numbfr",
+                                         nfw Objfdt [] {Long.vblufOf(linfNumbfr)});
+            } dbtdi (AbsfntInformbtionExdfption f) {
+                mftiodInfo = MfssbgfOutput.formbt("unknown");
             }
         }
-        if (pc != -1) {
-            MessageOutput.println("stack frame dump with pc",
-                                  new Object [] {(frameNumber + 1),
-                                                 meth.declaringType().name(),
-                                                 meth.name(),
-                                                 methodInfo,
-                                                 Long.valueOf(pc)});
-        } else {
-            MessageOutput.println("stack frame dump",
-                                  new Object [] {(frameNumber + 1),
-                                                 meth.declaringType().name(),
-                                                 meth.name(),
-                                                 methodInfo});
+        if (pd != -1) {
+            MfssbgfOutput.println("stbdk frbmf dump witi pd",
+                                  nfw Objfdt [] {(frbmfNumbfr + 1),
+                                                 mfti.dfdlbringTypf().nbmf(),
+                                                 mfti.nbmf(),
+                                                 mftiodInfo,
+                                                 Long.vblufOf(pd)});
+        } flsf {
+            MfssbgfOutput.println("stbdk frbmf dump",
+                                  nfw Objfdt [] {(frbmfNumbfr + 1),
+                                                 mfti.dfdlbringTypf().nbmf(),
+                                                 mfti.nbmf(),
+                                                 mftiodInfo});
         }
     }
 
-    void commandWhere(StringTokenizer t, boolean showPC) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
-                return;
+    void dommbndWifrf(StringTokfnizfr t, boolfbn siowPC) {
+        if (!t.ibsMorfTokfns()) {
+            TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            if (tirfbdInfo == null) {
+                MfssbgfOutput.println("No tirfbd spfdififd.");
+                rfturn;
             }
-            dumpStack(threadInfo, showPC);
-        } else {
-            String token = t.nextToken();
-            if (token.toLowerCase().equals("all")) {
-                for (ThreadInfo threadInfo : ThreadInfo.threads()) {
-                    MessageOutput.println("Thread:",
-                                          threadInfo.getThread().name());
-                    dumpStack(threadInfo, showPC);
+            dumpStbdk(tirfbdInfo, siowPC);
+        } flsf {
+            String tokfn = t.nfxtTokfn();
+            if (tokfn.toLowfrCbsf().fqubls("bll")) {
+                for (TirfbdInfo tirfbdInfo : TirfbdInfo.tirfbds()) {
+                    MfssbgfOutput.println("Tirfbd:",
+                                          tirfbdInfo.gftTirfbd().nbmf());
+                    dumpStbdk(tirfbdInfo, siowPC);
                 }
-            } else {
-                ThreadInfo threadInfo = doGetThread(token);
-                if (threadInfo != null) {
-                    ThreadInfo.setCurrentThreadInfo(threadInfo);
-                    dumpStack(threadInfo, showPC);
+            } flsf {
+                TirfbdInfo tirfbdInfo = doGftTirfbd(tokfn);
+                if (tirfbdInfo != null) {
+                    TirfbdInfo.sftCurrfntTirfbdInfo(tirfbdInfo);
+                    dumpStbdk(tirfbdInfo, siowPC);
                 }
             }
         }
     }
 
-    void commandInterrupt(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
-                return;
+    void dommbndIntfrrupt(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            if (tirfbdInfo == null) {
+                MfssbgfOutput.println("No tirfbd spfdififd.");
+                rfturn;
             }
-            threadInfo.getThread().interrupt();
-        } else {
-            ThreadInfo threadInfo = doGetThread(t.nextToken());
-            if (threadInfo != null) {
-                threadInfo.getThread().interrupt();
+            tirfbdInfo.gftTirfbd().intfrrupt();
+        } flsf {
+            TirfbdInfo tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
+            if (tirfbdInfo != null) {
+                tirfbdInfo.gftTirfbd().intfrrupt();
             }
         }
     }
 
-    void commandMemory() {
-        MessageOutput.println("The memory command is no longer supported.");
+    void dommbndMfmory() {
+        MfssbgfOutput.println("Tif mfmory dommbnd is no longfr supportfd.");
     }
 
-    void commandGC() {
-        MessageOutput.println("The gc command is no longer necessary.");
+    void dommbndGC() {
+        MfssbgfOutput.println("Tif gd dommbnd is no longfr nfdfssbry.");
     }
 
     /*
-     * The next two methods are used by this class and by EventHandler
-     * to print consistent locations and error messages.
+     * Tif nfxt two mftiods brf usfd by tiis dlbss bnd by EvfntHbndlfr
+     * to print donsistfnt lodbtions bnd frror mfssbgfs.
      */
-    static String locationString(Location loc) {
-        return MessageOutput.format("locationString",
-                                    new Object [] {loc.declaringType().name(),
-                                                   loc.method().name(),
-                                                   new Integer (loc.lineNumber()),
-                                                   Long.valueOf(loc.codeIndex())});
+    stbtid String lodbtionString(Lodbtion lod) {
+        rfturn MfssbgfOutput.formbt("lodbtionString",
+                                    nfw Objfdt [] {lod.dfdlbringTypf().nbmf(),
+                                                   lod.mftiod().nbmf(),
+                                                   nfw Intfgfr (lod.linfNumbfr()),
+                                                   Long.vblufOf(lod.dodfIndfx())});
     }
 
-    void listBreakpoints() {
-        boolean noBreakpoints = true;
+    void listBrfbkpoints() {
+        boolfbn noBrfbkpoints = truf;
 
-        // Print set breakpoints
-        for (EventRequestSpec spec : Env.specList.eventRequestSpecs()) {
-            if (spec instanceof BreakpointSpec) {
-                if (noBreakpoints) {
-                    noBreakpoints = false;
-                    MessageOutput.println("Breakpoints set:");
+        // Print sft brfbkpoints
+        for (EvfntRfqufstSpfd spfd : Env.spfdList.fvfntRfqufstSpfds()) {
+            if (spfd instbndfof BrfbkpointSpfd) {
+                if (noBrfbkpoints) {
+                    noBrfbkpoints = fblsf;
+                    MfssbgfOutput.println("Brfbkpoints sft:");
                 }
-                MessageOutput.println("tab", spec.toString());
+                MfssbgfOutput.println("tbb", spfd.toString());
             }
         }
-        if (noBreakpoints) {
-            MessageOutput.println("No breakpoints set.");
+        if (noBrfbkpoints) {
+            MfssbgfOutput.println("No brfbkpoints sft.");
         }
     }
 
 
-    private void printBreakpointCommandUsage(String atForm, String inForm) {
-        MessageOutput.println("printbreakpointcommandusage",
-                              new Object [] {atForm, inForm});
+    privbtf void printBrfbkpointCommbndUsbgf(String btForm, String inForm) {
+        MfssbgfOutput.println("printbrfbkpointdommbndusbgf",
+                              nfw Objfdt [] {btForm, inForm});
     }
 
-    protected BreakpointSpec parseBreakpointSpec(StringTokenizer t,
-                                             String atForm, String inForm) {
-        BreakpointSpec breakpoint = null;
+    protfdtfd BrfbkpointSpfd pbrsfBrfbkpointSpfd(StringTokfnizfr t,
+                                             String btForm, String inForm) {
+        BrfbkpointSpfd brfbkpoint = null;
         try {
-            String token = t.nextToken(":( \t\n\r");
+            String tokfn = t.nfxtTokfn(":( \t\n\r");
 
-            // We can't use hasMoreTokens here because it will cause any leading
-            // paren to be lost.
-            String rest;
+            // Wf dbn't usf ibsMorfTokfns ifrf bfdbusf it will dbusf bny lfbding
+            // pbrfn to bf lost.
+            String rfst;
             try {
-                rest = t.nextToken("").trim();
-            } catch (NoSuchElementException e) {
-                rest = null;
+                rfst = t.nfxtTokfn("").trim();
+            } dbtdi (NoSudiElfmfntExdfption f) {
+                rfst = null;
             }
 
-            if ((rest != null) && rest.startsWith(":")) {
-                t = new StringTokenizer(rest.substring(1));
-                String classId = token;
-                String lineToken = t.nextToken();
+            if ((rfst != null) && rfst.stbrtsWiti(":")) {
+                t = nfw StringTokfnizfr(rfst.substring(1));
+                String dlbssId = tokfn;
+                String linfTokfn = t.nfxtTokfn();
 
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(lineToken);
-                int lineNumber = n.intValue();
+                NumbfrFormbt nf = NumbfrFormbt.gftNumbfrInstbndf();
+                nf.sftPbrsfIntfgfrOnly(truf);
+                Numbfr n = nf.pbrsf(linfTokfn);
+                int linfNumbfr = n.intVbluf();
 
-                if (t.hasMoreTokens()) {
-                    printBreakpointCommandUsage(atForm, inForm);
-                    return null;
+                if (t.ibsMorfTokfns()) {
+                    printBrfbkpointCommbndUsbgf(btForm, inForm);
+                    rfturn null;
                 }
                 try {
-                    breakpoint = Env.specList.createBreakpoint(classId,
-                                                               lineNumber);
-                } catch (ClassNotFoundException exc) {
-                    MessageOutput.println("is not a valid class name", classId);
+                    brfbkpoint = Env.spfdList.drfbtfBrfbkpoint(dlbssId,
+                                                               linfNumbfr);
+                } dbtdi (ClbssNotFoundExdfption fxd) {
+                    MfssbgfOutput.println("is not b vblid dlbss nbmf", dlbssId);
                 }
-            } else {
-                // Try stripping method from class.method token.
-                int idot = token.lastIndexOf('.');
-                if ( (idot <= 0) ||                     /* No dot or dot in first char */
-                     (idot >= token.length() - 1) ) { /* dot in last char */
-                    printBreakpointCommandUsage(atForm, inForm);
-                    return null;
+            } flsf {
+                // Try stripping mftiod from dlbss.mftiod tokfn.
+                int idot = tokfn.lbstIndfxOf('.');
+                if ( (idot <= 0) ||                     /* No dot or dot in first dibr */
+                     (idot >= tokfn.lfngti() - 1) ) { /* dot in lbst dibr */
+                    printBrfbkpointCommbndUsbgf(btForm, inForm);
+                    rfturn null;
                 }
-                String methodName = token.substring(idot + 1);
-                String classId = token.substring(0, idot);
-                List<String> argumentList = null;
-                if (rest != null) {
-                    if (!rest.startsWith("(") || !rest.endsWith(")")) {
-                        MessageOutput.println("Invalid method specification:",
-                                              methodName + rest);
-                        printBreakpointCommandUsage(atForm, inForm);
-                        return null;
+                String mftiodNbmf = tokfn.substring(idot + 1);
+                String dlbssId = tokfn.substring(0, idot);
+                List<String> brgumfntList = null;
+                if (rfst != null) {
+                    if (!rfst.stbrtsWiti("(") || !rfst.fndsWiti(")")) {
+                        MfssbgfOutput.println("Invblid mftiod spfdifidbtion:",
+                                              mftiodNbmf + rfst);
+                        printBrfbkpointCommbndUsbgf(btForm, inForm);
+                        rfturn null;
                     }
-                    // Trim the parens
-                    rest = rest.substring(1, rest.length() - 1);
+                    // Trim tif pbrfns
+                    rfst = rfst.substring(1, rfst.lfngti() - 1);
 
-                    argumentList = new ArrayList<String>();
-                    t = new StringTokenizer(rest, ",");
-                    while (t.hasMoreTokens()) {
-                        argumentList.add(t.nextToken());
+                    brgumfntList = nfw ArrbyList<String>();
+                    t = nfw StringTokfnizfr(rfst, ",");
+                    wiilf (t.ibsMorfTokfns()) {
+                        brgumfntList.bdd(t.nfxtTokfn());
                     }
                 }
                 try {
-                    breakpoint = Env.specList.createBreakpoint(classId,
-                                                               methodName,
-                                                               argumentList);
-                } catch (MalformedMemberNameException exc) {
-                    MessageOutput.println("is not a valid method name", methodName);
-                } catch (ClassNotFoundException exc) {
-                    MessageOutput.println("is not a valid class name", classId);
+                    brfbkpoint = Env.spfdList.drfbtfBrfbkpoint(dlbssId,
+                                                               mftiodNbmf,
+                                                               brgumfntList);
+                } dbtdi (MblformfdMfmbfrNbmfExdfption fxd) {
+                    MfssbgfOutput.println("is not b vblid mftiod nbmf", mftiodNbmf);
+                } dbtdi (ClbssNotFoundExdfption fxd) {
+                    MfssbgfOutput.println("is not b vblid dlbss nbmf", dlbssId);
                 }
             }
-        } catch (Exception e) {
-            printBreakpointCommandUsage(atForm, inForm);
-            return null;
+        } dbtdi (Exdfption f) {
+            printBrfbkpointCommbndUsbgf(btForm, inForm);
+            rfturn null;
         }
-        return breakpoint;
+        rfturn brfbkpoint;
     }
 
-    private void resolveNow(EventRequestSpec spec) {
-        boolean success = Env.specList.addEagerlyResolve(spec);
-        if (success && !spec.isResolved()) {
-            MessageOutput.println("Deferring.", spec.toString());
+    privbtf void rfsolvfNow(EvfntRfqufstSpfd spfd) {
+        boolfbn suddfss = Env.spfdList.bddEbgfrlyRfsolvf(spfd);
+        if (suddfss && !spfd.isRfsolvfd()) {
+            MfssbgfOutput.println("Dfffrring.", spfd.toString());
         }
     }
 
-    void commandStop(StringTokenizer t) {
-        String atIn;
-        byte suspendPolicy = EventRequest.SUSPEND_ALL;
+    void dommbndStop(StringTokfnizfr t) {
+        String btIn;
+        bytf suspfndPolidy = EvfntRfqufst.SUSPEND_ALL;
 
-        if (t.hasMoreTokens()) {
-            atIn = t.nextToken();
-            if (atIn.equals("go") && t.hasMoreTokens()) {
-                suspendPolicy = EventRequest.SUSPEND_NONE;
-                atIn = t.nextToken();
-            } else if (atIn.equals("thread") && t.hasMoreTokens()) {
-                suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-                atIn = t.nextToken();
+        if (t.ibsMorfTokfns()) {
+            btIn = t.nfxtTokfn();
+            if (btIn.fqubls("go") && t.ibsMorfTokfns()) {
+                suspfndPolidy = EvfntRfqufst.SUSPEND_NONE;
+                btIn = t.nfxtTokfn();
+            } flsf if (btIn.fqubls("tirfbd") && t.ibsMorfTokfns()) {
+                suspfndPolidy = EvfntRfqufst.SUSPEND_EVENT_THREAD;
+                btIn = t.nfxtTokfn();
             }
-        } else {
-            listBreakpoints();
-            return;
+        } flsf {
+            listBrfbkpoints();
+            rfturn;
         }
 
-        BreakpointSpec spec = parseBreakpointSpec(t, "stop at", "stop in");
-        if (spec != null) {
-            // Enforcement of "at" vs. "in". The distinction is really
-            // unnecessary and we should consider not checking for this
-            // (and making "at" and "in" optional).
-            if (atIn.equals("at") && spec.isMethodBreakpoint()) {
-                MessageOutput.println("Use stop at to set a breakpoint at a line number");
-                printBreakpointCommandUsage("stop at", "stop in");
-                return;
+        BrfbkpointSpfd spfd = pbrsfBrfbkpointSpfd(t, "stop bt", "stop in");
+        if (spfd != null) {
+            // Enfordfmfnt of "bt" vs. "in". Tif distindtion is rfblly
+            // unnfdfssbry bnd wf siould donsidfr not difdking for tiis
+            // (bnd mbking "bt" bnd "in" optionbl).
+            if (btIn.fqubls("bt") && spfd.isMftiodBrfbkpoint()) {
+                MfssbgfOutput.println("Usf stop bt to sft b brfbkpoint bt b linf numbfr");
+                printBrfbkpointCommbndUsbgf("stop bt", "stop in");
+                rfturn;
             }
-            spec.suspendPolicy = suspendPolicy;
-            resolveNow(spec);
+            spfd.suspfndPolidy = suspfndPolidy;
+            rfsolvfNow(spfd);
         }
     }
 
-    void commandClear(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listBreakpoints();
-            return;
+    void dommbndClfbr(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            listBrfbkpoints();
+            rfturn;
         }
 
-        BreakpointSpec spec = parseBreakpointSpec(t, "clear", "clear");
-        if (spec != null) {
-            if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
-            } else {
-                MessageOutput.println("Not found:", spec.toString());
+        BrfbkpointSpfd spfd = pbrsfBrfbkpointSpfd(t, "dlfbr", "dlfbr");
+        if (spfd != null) {
+            if (Env.spfdList.dflftf(spfd)) {
+                MfssbgfOutput.println("Rfmovfd:", spfd.toString());
+            } flsf {
+                MfssbgfOutput.println("Not found:", spfd.toString());
             }
         }
     }
 
-    private List<WatchpointSpec> parseWatchpointSpec(StringTokenizer t) {
-        List<WatchpointSpec> list = new ArrayList<WatchpointSpec>();
-        boolean access = false;
-        boolean modification = false;
-        int suspendPolicy = EventRequest.SUSPEND_ALL;
+    privbtf List<WbtdipointSpfd> pbrsfWbtdipointSpfd(StringTokfnizfr t) {
+        List<WbtdipointSpfd> list = nfw ArrbyList<WbtdipointSpfd>();
+        boolfbn bddfss = fblsf;
+        boolfbn modifidbtion = fblsf;
+        int suspfndPolidy = EvfntRfqufst.SUSPEND_ALL;
 
-        String fieldName = t.nextToken();
-        if (fieldName.equals("go")) {
-            suspendPolicy = EventRequest.SUSPEND_NONE;
-            fieldName = t.nextToken();
-        } else if (fieldName.equals("thread")) {
-            suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-            fieldName = t.nextToken();
+        String fifldNbmf = t.nfxtTokfn();
+        if (fifldNbmf.fqubls("go")) {
+            suspfndPolidy = EvfntRfqufst.SUSPEND_NONE;
+            fifldNbmf = t.nfxtTokfn();
+        } flsf if (fifldNbmf.fqubls("tirfbd")) {
+            suspfndPolidy = EvfntRfqufst.SUSPEND_EVENT_THREAD;
+            fifldNbmf = t.nfxtTokfn();
         }
-        if (fieldName.equals("access")) {
-            access = true;
-            fieldName = t.nextToken();
-        } else if (fieldName.equals("all")) {
-            access = true;
-            modification = true;
-            fieldName = t.nextToken();
-        } else {
-            modification = true;
+        if (fifldNbmf.fqubls("bddfss")) {
+            bddfss = truf;
+            fifldNbmf = t.nfxtTokfn();
+        } flsf if (fifldNbmf.fqubls("bll")) {
+            bddfss = truf;
+            modifidbtion = truf;
+            fifldNbmf = t.nfxtTokfn();
+        } flsf {
+            modifidbtion = truf;
         }
-        int dot = fieldName.lastIndexOf('.');
+        int dot = fifldNbmf.lbstIndfxOf('.');
         if (dot < 0) {
-            MessageOutput.println("Class containing field must be specified.");
-            return list;
+            MfssbgfOutput.println("Clbss dontbining fifld must bf spfdififd.");
+            rfturn list;
         }
-        String className = fieldName.substring(0, dot);
-        fieldName = fieldName.substring(dot+1);
+        String dlbssNbmf = fifldNbmf.substring(0, dot);
+        fifldNbmf = fifldNbmf.substring(dot+1);
 
         try {
-            WatchpointSpec spec;
-            if (access) {
-                spec = Env.specList.createAccessWatchpoint(className,
-                                                           fieldName);
-                spec.suspendPolicy = suspendPolicy;
-                list.add(spec);
+            WbtdipointSpfd spfd;
+            if (bddfss) {
+                spfd = Env.spfdList.drfbtfAddfssWbtdipoint(dlbssNbmf,
+                                                           fifldNbmf);
+                spfd.suspfndPolidy = suspfndPolidy;
+                list.bdd(spfd);
             }
-            if (modification) {
-                spec = Env.specList.createModificationWatchpoint(className,
-                                                                 fieldName);
-                spec.suspendPolicy = suspendPolicy;
-                list.add(spec);
+            if (modifidbtion) {
+                spfd = Env.spfdList.drfbtfModifidbtionWbtdipoint(dlbssNbmf,
+                                                                 fifldNbmf);
+                spfd.suspfndPolidy = suspfndPolidy;
+                list.bdd(spfd);
             }
-        } catch (MalformedMemberNameException exc) {
-            MessageOutput.println("is not a valid field name", fieldName);
-        } catch (ClassNotFoundException exc) {
-            MessageOutput.println("is not a valid class name", className);
+        } dbtdi (MblformfdMfmbfrNbmfExdfption fxd) {
+            MfssbgfOutput.println("is not b vblid fifld nbmf", fifldNbmf);
+        } dbtdi (ClbssNotFoundExdfption fxd) {
+            MfssbgfOutput.println("is not b vblid dlbss nbmf", dlbssNbmf);
         }
-        return list;
+        rfturn list;
     }
 
-    void commandWatch(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Field to watch not specified");
-            return;
+    void dommbndWbtdi(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Fifld to wbtdi not spfdififd");
+            rfturn;
         }
 
-        for (WatchpointSpec spec : parseWatchpointSpec(t)) {
-            resolveNow(spec);
+        for (WbtdipointSpfd spfd : pbrsfWbtdipointSpfd(t)) {
+            rfsolvfNow(spfd);
         }
     }
 
-    void commandUnwatch(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Field to unwatch not specified");
-            return;
+    void dommbndUnwbtdi(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Fifld to unwbtdi not spfdififd");
+            rfturn;
         }
 
-        for (WatchpointSpec spec : parseWatchpointSpec(t)) {
-            if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
-            } else {
-                MessageOutput.println("Not found:", spec.toString());
+        for (WbtdipointSpfd spfd : pbrsfWbtdipointSpfd(t)) {
+            if (Env.spfdList.dflftf(spfd)) {
+                MfssbgfOutput.println("Rfmovfd:", spfd.toString());
+            } flsf {
+                MfssbgfOutput.println("Not found:", spfd.toString());
             }
         }
     }
 
-    void turnOnExitTrace(ThreadInfo threadInfo, int suspendPolicy) {
-        EventRequestManager erm = Env.vm().eventRequestManager();
-        MethodExitRequest exit = erm.createMethodExitRequest();
-        if (threadInfo != null) {
-            exit.addThreadFilter(threadInfo.getThread());
+    void turnOnExitTrbdf(TirfbdInfo tirfbdInfo, int suspfndPolidy) {
+        EvfntRfqufstMbnbgfr frm = Env.vm().fvfntRfqufstMbnbgfr();
+        MftiodExitRfqufst fxit = frm.drfbtfMftiodExitRfqufst();
+        if (tirfbdInfo != null) {
+            fxit.bddTirfbdFiltfr(tirfbdInfo.gftTirfbd());
         }
-        Env.addExcludes(exit);
-        exit.setSuspendPolicy(suspendPolicy);
-        exit.enable();
+        Env.bddExdludfs(fxit);
+        fxit.sftSuspfndPolidy(suspfndPolidy);
+        fxit.fnbblf();
 
     }
 
-    static String methodTraceCommand = null;
+    stbtid String mftiodTrbdfCommbnd = null;
 
-    void commandTrace(StringTokenizer t) {
+    void dommbndTrbdf(StringTokfnizfr t) {
         String modif;
-        int suspendPolicy = EventRequest.SUSPEND_ALL;
-        ThreadInfo threadInfo = null;
+        int suspfndPolidy = EvfntRfqufst.SUSPEND_ALL;
+        TirfbdInfo tirfbdInfo = null;
         String goStr = " ";
 
         /*
-         * trace [go] methods [thread]
-         * trace [go] method exit | exits [thread]
+         * trbdf [go] mftiods [tirfbd]
+         * trbdf [go] mftiod fxit | fxits [tirfbd]
          */
-        if (t.hasMoreTokens()) {
-            modif = t.nextToken();
-            if (modif.equals("go")) {
-                suspendPolicy = EventRequest.SUSPEND_NONE;
+        if (t.ibsMorfTokfns()) {
+            modif = t.nfxtTokfn();
+            if (modif.fqubls("go")) {
+                suspfndPolidy = EvfntRfqufst.SUSPEND_NONE;
                 goStr = " go ";
-                if (t.hasMoreTokens()) {
-                    modif = t.nextToken();
+                if (t.ibsMorfTokfns()) {
+                    modif = t.nfxtTokfn();
                 }
-            } else if (modif.equals("thread")) {
-                // this is undocumented as it doesn't work right.
-                suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-                if (t.hasMoreTokens()) {
-                    modif = t.nextToken();
+            } flsf if (modif.fqubls("tirfbd")) {
+                // tiis is undodumfntfd bs it dofsn't work rigit.
+                suspfndPolidy = EvfntRfqufst.SUSPEND_EVENT_THREAD;
+                if (t.ibsMorfTokfns()) {
+                    modif = t.nfxtTokfn();
                 }
             }
 
-            if  (modif.equals("method")) {
-                String traceCmd = null;
+            if  (modif.fqubls("mftiod")) {
+                String trbdfCmd = null;
 
-                if (t.hasMoreTokens()) {
-                    String modif1 = t.nextToken();
-                    if (modif1.equals("exits") || modif1.equals("exit")) {
-                        if (t.hasMoreTokens()) {
-                            threadInfo = doGetThread(t.nextToken());
+                if (t.ibsMorfTokfns()) {
+                    String modif1 = t.nfxtTokfn();
+                    if (modif1.fqubls("fxits") || modif1.fqubls("fxit")) {
+                        if (t.ibsMorfTokfns()) {
+                            tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
                         }
-                        if (modif1.equals("exit")) {
-                            StackFrame frame;
+                        if (modif1.fqubls("fxit")) {
+                            StbdkFrbmf frbmf;
                             try {
-                                frame = ThreadInfo.getCurrentThreadInfo().getCurrentFrame();
-                            } catch (IncompatibleThreadStateException ee) {
-                                MessageOutput.println("Current thread isnt suspended.");
-                                return;
+                                frbmf = TirfbdInfo.gftCurrfntTirfbdInfo().gftCurrfntFrbmf();
+                            } dbtdi (IndompbtiblfTirfbdStbtfExdfption ff) {
+                                MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+                                rfturn;
                             }
-                            Env.setAtExitMethod(frame.location().method());
-                            traceCmd = MessageOutput.format("trace" +
-                                                    goStr + "method exit " +
-                                                    "in effect for",
-                                                    Env.atExitMethod().toString());
-                        } else {
-                            traceCmd = MessageOutput.format("trace" +
-                                                   goStr + "method exits " +
-                                                   "in effect");
+                            Env.sftAtExitMftiod(frbmf.lodbtion().mftiod());
+                            trbdfCmd = MfssbgfOutput.formbt("trbdf" +
+                                                    goStr + "mftiod fxit " +
+                                                    "in ffffdt for",
+                                                    Env.btExitMftiod().toString());
+                        } flsf {
+                            trbdfCmd = MfssbgfOutput.formbt("trbdf" +
+                                                   goStr + "mftiod fxits " +
+                                                   "in ffffdt");
                         }
-                        commandUntrace(new StringTokenizer("methods"));
-                        turnOnExitTrace(threadInfo, suspendPolicy);
-                        methodTraceCommand = traceCmd;
-                        return;
+                        dommbndUntrbdf(nfw StringTokfnizfr("mftiods"));
+                        turnOnExitTrbdf(tirfbdInfo, suspfndPolidy);
+                        mftiodTrbdfCommbnd = trbdfCmd;
+                        rfturn;
                     }
-                } else {
-                   MessageOutput.println("Can only trace");
-                   return;
+                } flsf {
+                   MfssbgfOutput.println("Cbn only trbdf");
+                   rfturn;
                 }
             }
-            if (modif.equals("methods")) {
-                // Turn on method entry trace
-                MethodEntryRequest entry;
-                EventRequestManager erm = Env.vm().eventRequestManager();
-                if (t.hasMoreTokens()) {
-                    threadInfo = doGetThread(t.nextToken());
+            if (modif.fqubls("mftiods")) {
+                // Turn on mftiod fntry trbdf
+                MftiodEntryRfqufst fntry;
+                EvfntRfqufstMbnbgfr frm = Env.vm().fvfntRfqufstMbnbgfr();
+                if (t.ibsMorfTokfns()) {
+                    tirfbdInfo = doGftTirfbd(t.nfxtTokfn());
                 }
-                if (threadInfo != null) {
+                if (tirfbdInfo != null) {
                     /*
-                     * To keep things simple we want each 'trace' to cancel
-                     * previous traces.  However in this case, we don't do that
-                     * to preserve backward compatibility with pre JDK 6.0.
-                     * IE, you can currently do
-                     *   trace   methods 0x21
-                     *   trace   methods 0x22
-                     * and you will get xxx traced just on those two threads
-                     * But this feature is kind of broken because if you then do
-                     *   untrace  0x21
-                     * it turns off both traces instead of just the one.
-                     * Another bogosity is that if you do
-                     *   trace methods
-                     *   trace methods
-                     * and you will get two traces.
+                     * To kffp tiings simplf wf wbnt fbdi 'trbdf' to dbndfl
+                     * prfvious trbdfs.  Howfvfr in tiis dbsf, wf don't do tibt
+                     * to prfsfrvf bbdkwbrd dompbtibility witi prf JDK 6.0.
+                     * IE, you dbn durrfntly do
+                     *   trbdf   mftiods 0x21
+                     *   trbdf   mftiods 0x22
+                     * bnd you will gft xxx trbdfd just on tiosf two tirfbds
+                     * But tiis ffbturf is kind of brokfn bfdbusf if you tifn do
+                     *   untrbdf  0x21
+                     * it turns off boti trbdfs instfbd of just tif onf.
+                     * Anotifr bogosity is tibt if you do
+                     *   trbdf mftiods
+                     *   trbdf mftiods
+                     * bnd you will gft two trbdfs.
                      */
 
-                    entry = erm.createMethodEntryRequest();
-                    entry.addThreadFilter(threadInfo.getThread());
-                } else {
-                    commandUntrace(new StringTokenizer("methods"));
-                    entry = erm.createMethodEntryRequest();
+                    fntry = frm.drfbtfMftiodEntryRfqufst();
+                    fntry.bddTirfbdFiltfr(tirfbdInfo.gftTirfbd());
+                } flsf {
+                    dommbndUntrbdf(nfw StringTokfnizfr("mftiods"));
+                    fntry = frm.drfbtfMftiodEntryRfqufst();
                 }
-                Env.addExcludes(entry);
-                entry.setSuspendPolicy(suspendPolicy);
-                entry.enable();
-                turnOnExitTrace(threadInfo, suspendPolicy);
-                methodTraceCommand = MessageOutput.format("trace" + goStr +
-                                                          "methods in effect");
+                Env.bddExdludfs(fntry);
+                fntry.sftSuspfndPolidy(suspfndPolidy);
+                fntry.fnbblf();
+                turnOnExitTrbdf(tirfbdInfo, suspfndPolidy);
+                mftiodTrbdfCommbnd = MfssbgfOutput.formbt("trbdf" + goStr +
+                                                          "mftiods in ffffdt");
 
-                return;
+                rfturn;
             }
 
-            MessageOutput.println("Can only trace");
-            return;
+            MfssbgfOutput.println("Cbn only trbdf");
+            rfturn;
         }
 
-        // trace all by itself.
-        if (methodTraceCommand != null) {
-            MessageOutput.printDirectln(methodTraceCommand);
+        // trbdf bll by itsflf.
+        if (mftiodTrbdfCommbnd != null) {
+            MfssbgfOutput.printDirfdtln(mftiodTrbdfCommbnd);
         }
 
-        // More trace lines can be added here.
+        // Morf trbdf linfs dbn bf bddfd ifrf.
     }
 
-    void commandUntrace(StringTokenizer t) {
-        // untrace
-        // untrace methods
+    void dommbndUntrbdf(StringTokfnizfr t) {
+        // untrbdf
+        // untrbdf mftiods
 
         String modif = null;
-        EventRequestManager erm = Env.vm().eventRequestManager();
-        if (t.hasMoreTokens()) {
-            modif = t.nextToken();
+        EvfntRfqufstMbnbgfr frm = Env.vm().fvfntRfqufstMbnbgfr();
+        if (t.ibsMorfTokfns()) {
+            modif = t.nfxtTokfn();
         }
-        if (modif == null || modif.equals("methods")) {
-            erm.deleteEventRequests(erm.methodEntryRequests());
-            erm.deleteEventRequests(erm.methodExitRequests());
-            Env.setAtExitMethod(null);
-            methodTraceCommand = null;
+        if (modif == null || modif.fqubls("mftiods")) {
+            frm.dflftfEvfntRfqufsts(frm.mftiodEntryRfqufsts());
+            frm.dflftfEvfntRfqufsts(frm.mftiodExitRfqufsts());
+            Env.sftAtExitMftiod(null);
+            mftiodTrbdfCommbnd = null;
         }
     }
 
-    void commandList(StringTokenizer t) {
-        StackFrame frame = null;
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("No thread specified.");
-            return;
+    void dommbndList(StringTokfnizfr t) {
+        StbdkFrbmf frbmf = null;
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("No tirfbd spfdififd.");
+            rfturn;
         }
         try {
-            frame = threadInfo.getCurrentFrame();
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-            return;
+            frbmf = tirfbdInfo.gftCurrfntFrbmf();
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
+            rfturn;
         }
 
-        if (frame == null) {
-            MessageOutput.println("No frames on the current call stack");
-            return;
+        if (frbmf == null) {
+            MfssbgfOutput.println("No frbmfs on tif durrfnt dbll stbdk");
+            rfturn;
         }
 
-        Location loc = frame.location();
-        if (loc.method().isNative()) {
-            MessageOutput.println("Current method is native");
-            return;
+        Lodbtion lod = frbmf.lodbtion();
+        if (lod.mftiod().isNbtivf()) {
+            MfssbgfOutput.println("Currfnt mftiod is nbtivf");
+            rfturn;
         }
 
-        String sourceFileName = null;
+        String sourdfFilfNbmf = null;
         try {
-            sourceFileName = loc.sourceName();
+            sourdfFilfNbmf = lod.sourdfNbmf();
 
-            ReferenceType refType = loc.declaringType();
-            int lineno = loc.lineNumber();
+            RfffrfndfTypf rffTypf = lod.dfdlbringTypf();
+            int linfno = lod.linfNumbfr();
 
-            if (t.hasMoreTokens()) {
-                String id = t.nextToken();
+            if (t.ibsMorfTokfns()) {
+                String id = t.nfxtTokfn();
 
-                // See if token is a line number.
+                // Sff if tokfn is b linf numbfr.
                 try {
-                    NumberFormat nf = NumberFormat.getNumberInstance();
-                    nf.setParseIntegerOnly(true);
-                    Number n = nf.parse(id);
-                    lineno = n.intValue();
-                } catch (java.text.ParseException jtpe) {
-                    // It isn't -- see if it's a method name.
-                        List<Method> meths = refType.methodsByName(id);
-                        if (meths == null || meths.size() == 0) {
-                            MessageOutput.println("is not a valid line number or method name for",
-                                                  new Object [] {id, refType.name()});
-                            return;
-                        } else if (meths.size() > 1) {
-                            MessageOutput.println("is an ambiguous method name in",
-                                                  new Object [] {id, refType.name()});
-                            return;
+                    NumbfrFormbt nf = NumbfrFormbt.gftNumbfrInstbndf();
+                    nf.sftPbrsfIntfgfrOnly(truf);
+                    Numbfr n = nf.pbrsf(id);
+                    linfno = n.intVbluf();
+                } dbtdi (jbvb.tfxt.PbrsfExdfption jtpf) {
+                    // It isn't -- sff if it's b mftiod nbmf.
+                        List<Mftiod> mftis = rffTypf.mftiodsByNbmf(id);
+                        if (mftis == null || mftis.sizf() == 0) {
+                            MfssbgfOutput.println("is not b vblid linf numbfr or mftiod nbmf for",
+                                                  nfw Objfdt [] {id, rffTypf.nbmf()});
+                            rfturn;
+                        } flsf if (mftis.sizf() > 1) {
+                            MfssbgfOutput.println("is bn bmbiguous mftiod nbmf in",
+                                                  nfw Objfdt [] {id, rffTypf.nbmf()});
+                            rfturn;
                         }
-                        loc = meths.get(0).location();
-                        lineno = loc.lineNumber();
+                        lod = mftis.gft(0).lodbtion();
+                        linfno = lod.linfNumbfr();
                 }
             }
-            int startLine = Math.max(lineno - 4, 1);
-            int endLine = startLine + 9;
-            if (lineno < 0) {
-                MessageOutput.println("Line number information not available for");
-            } else if (Env.sourceLine(loc, lineno) == null) {
-                MessageOutput.println("is an invalid line number for",
-                                      new Object [] {new Integer (lineno),
-                                                     refType.name()});
-            } else {
-                for (int i = startLine; i <= endLine; i++) {
-                    String sourceLine = Env.sourceLine(loc, i);
-                    if (sourceLine == null) {
-                        break;
+            int stbrtLinf = Mbti.mbx(linfno - 4, 1);
+            int fndLinf = stbrtLinf + 9;
+            if (linfno < 0) {
+                MfssbgfOutput.println("Linf numbfr informbtion not bvbilbblf for");
+            } flsf if (Env.sourdfLinf(lod, linfno) == null) {
+                MfssbgfOutput.println("is bn invblid linf numbfr for",
+                                      nfw Objfdt [] {nfw Intfgfr (linfno),
+                                                     rffTypf.nbmf()});
+            } flsf {
+                for (int i = stbrtLinf; i <= fndLinf; i++) {
+                    String sourdfLinf = Env.sourdfLinf(lod, i);
+                    if (sourdfLinf == null) {
+                        brfbk;
                     }
-                    if (i == lineno) {
-                        MessageOutput.println("source line number current line and line",
-                                              new Object [] {new Integer (i),
-                                                             sourceLine});
-                    } else {
-                        MessageOutput.println("source line number and line",
-                                              new Object [] {new Integer (i),
-                                                             sourceLine});
+                    if (i == linfno) {
+                        MfssbgfOutput.println("sourdf linf numbfr durrfnt linf bnd linf",
+                                              nfw Objfdt [] {nfw Intfgfr (i),
+                                                             sourdfLinf});
+                    } flsf {
+                        MfssbgfOutput.println("sourdf linf numbfr bnd linf",
+                                              nfw Objfdt [] {nfw Intfgfr (i),
+                                                             sourdfLinf});
                     }
                 }
             }
-        } catch (AbsentInformationException e) {
-            MessageOutput.println("No source information available for:", loc.toString());
-        } catch(FileNotFoundException exc) {
-            MessageOutput.println("Source file not found:", sourceFileName);
-        } catch(IOException exc) {
-            MessageOutput.println("I/O exception occurred:", exc.toString());
+        } dbtdi (AbsfntInformbtionExdfption f) {
+            MfssbgfOutput.println("No sourdf informbtion bvbilbblf for:", lod.toString());
+        } dbtdi(FilfNotFoundExdfption fxd) {
+            MfssbgfOutput.println("Sourdf filf not found:", sourdfFilfNbmf);
+        } dbtdi(IOExdfption fxd) {
+            MfssbgfOutput.println("I/O fxdfption oddurrfd:", fxd.toString());
         }
     }
 
-    void commandLines(StringTokenizer t) { // Undocumented command: useful for testing
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Specify class and method");
-        } else {
-            String idClass = t.nextToken();
-            String idMethod = t.hasMoreTokens() ? t.nextToken() : null;
+    void dommbndLinfs(StringTokfnizfr t) { // Undodumfntfd dommbnd: usfful for tfsting
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Spfdify dlbss bnd mftiod");
+        } flsf {
+            String idClbss = t.nfxtTokfn();
+            String idMftiod = t.ibsMorfTokfns() ? t.nfxtTokfn() : null;
             try {
-                ReferenceType refType = Env.getReferenceTypeFromToken(idClass);
-                if (refType != null) {
-                    List<Location> lines = null;
-                    if (idMethod == null) {
-                        lines = refType.allLineLocations();
-                    } else {
-                        for (Method method : refType.allMethods()) {
-                            if (method.name().equals(idMethod)) {
-                                lines = method.allLineLocations();
+                RfffrfndfTypf rffTypf = Env.gftRfffrfndfTypfFromTokfn(idClbss);
+                if (rffTypf != null) {
+                    List<Lodbtion> linfs = null;
+                    if (idMftiod == null) {
+                        linfs = rffTypf.bllLinfLodbtions();
+                    } flsf {
+                        for (Mftiod mftiod : rffTypf.bllMftiods()) {
+                            if (mftiod.nbmf().fqubls(idMftiod)) {
+                                linfs = mftiod.bllLinfLodbtions();
                             }
                         }
-                        if (lines == null) {
-                            MessageOutput.println("is not a valid method name", idMethod);
+                        if (linfs == null) {
+                            MfssbgfOutput.println("is not b vblid mftiod nbmf", idMftiod);
                         }
                     }
-                    for (Location line : lines) {
-                        MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
+                    for (Lodbtion linf : linfs) {
+                        MfssbgfOutput.printDirfdtln(linf.toString());// Spfdibl dbsf: usf printDirfdtln()
                     }
-                } else {
-                    MessageOutput.println("is not a valid id or class name", idClass);
+                } flsf {
+                    MfssbgfOutput.println("is not b vblid id or dlbss nbmf", idClbss);
                 }
-            } catch (AbsentInformationException e) {
-                MessageOutput.println("Line number information not available for", idClass);
+            } dbtdi (AbsfntInformbtionExdfption f) {
+                MfssbgfOutput.println("Linf numbfr informbtion not bvbilbblf for", idClbss);
             }
         }
     }
 
-    void commandClasspath(StringTokenizer t) {
-        if (Env.vm() instanceof PathSearchingVirtualMachine) {
-            PathSearchingVirtualMachine vm = (PathSearchingVirtualMachine)Env.vm();
-            MessageOutput.println("base directory:", vm.baseDirectory());
-            MessageOutput.println("classpath:", vm.classPath().toString());
-            MessageOutput.println("bootclasspath:", vm.bootClassPath().toString());
-        } else {
-            MessageOutput.println("The VM does not use paths");
+    void dommbndClbsspbti(StringTokfnizfr t) {
+        if (Env.vm() instbndfof PbtiSfbrdiingVirtublMbdiinf) {
+            PbtiSfbrdiingVirtublMbdiinf vm = (PbtiSfbrdiingVirtublMbdiinf)Env.vm();
+            MfssbgfOutput.println("bbsf dirfdtory:", vm.bbsfDirfdtory());
+            MfssbgfOutput.println("dlbsspbti:", vm.dlbssPbti().toString());
+            MfssbgfOutput.println("bootdlbsspbti:", vm.bootClbssPbti().toString());
+        } flsf {
+            MfssbgfOutput.println("Tif VM dofs not usf pbtis");
         }
     }
 
-    /* Get or set the source file path list. */
-    void commandUse(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.printDirectln(Env.getSourcePath());// Special case: use printDirectln()
-        } else {
+    /* Gft or sft tif sourdf filf pbti list. */
+    void dommbndUsf(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.printDirfdtln(Env.gftSourdfPbti());// Spfdibl dbsf: usf printDirfdtln()
+        } flsf {
             /*
-             * Take the remainder of the command line, minus
-             * leading or trailing whitespace.  Embedded
-             * whitespace is fine.
+             * Tbkf tif rfmbindfr of tif dommbnd linf, minus
+             * lfbding or trbiling wiitfspbdf.  Embfddfd
+             * wiitfspbdf is finf.
              */
-            Env.setSourcePath(t.nextToken("").trim());
+            Env.sftSourdfPbti(t.nfxtTokfn("").trim());
         }
     }
 
-    /* Print a stack variable */
-    private void printVar(LocalVariable var, Value value) {
-        MessageOutput.println("expr is value",
-                              new Object [] {var.name(),
-                                             value == null ? "null" : value.toString()});
+    /* Print b stbdk vbribblf */
+    privbtf void printVbr(LodblVbribblf vbr, Vbluf vbluf) {
+        MfssbgfOutput.println("fxpr is vbluf",
+                              nfw Objfdt [] {vbr.nbmf(),
+                                             vbluf == null ? "null" : vbluf.toString()});
     }
 
-    /* Print all local variables in current stack frame. */
-    void commandLocals() {
-        StackFrame frame;
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("No default thread specified:");
-            return;
+    /* Print bll lodbl vbribblfs in durrfnt stbdk frbmf. */
+    void dommbndLodbls() {
+        StbdkFrbmf frbmf;
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        if (tirfbdInfo == null) {
+            MfssbgfOutput.println("No dffbult tirfbd spfdififd:");
+            rfturn;
         }
         try {
-            frame = threadInfo.getCurrentFrame();
-            if (frame == null) {
-                throw new AbsentInformationException();
+            frbmf = tirfbdInfo.gftCurrfntFrbmf();
+            if (frbmf == null) {
+                tirow nfw AbsfntInformbtionExdfption();
             }
-            List<LocalVariable> vars = frame.visibleVariables();
+            List<LodblVbribblf> vbrs = frbmf.visiblfVbribblfs();
 
-            if (vars.size() == 0) {
-                MessageOutput.println("No local variables");
-                return;
+            if (vbrs.sizf() == 0) {
+                MfssbgfOutput.println("No lodbl vbribblfs");
+                rfturn;
             }
-            Map<LocalVariable, Value> values = frame.getValues(vars);
+            Mbp<LodblVbribblf, Vbluf> vblufs = frbmf.gftVblufs(vbrs);
 
-            MessageOutput.println("Method arguments:");
-            for (LocalVariable var : vars) {
-                if (var.isArgument()) {
-                    Value val = values.get(var);
-                    printVar(var, val);
+            MfssbgfOutput.println("Mftiod brgumfnts:");
+            for (LodblVbribblf vbr : vbrs) {
+                if (vbr.isArgumfnt()) {
+                    Vbluf vbl = vblufs.gft(vbr);
+                    printVbr(vbr, vbl);
                 }
             }
-            MessageOutput.println("Local variables:");
-            for (LocalVariable var : vars) {
-                if (!var.isArgument()) {
-                    Value val = values.get(var);
-                    printVar(var, val);
+            MfssbgfOutput.println("Lodbl vbribblfs:");
+            for (LodblVbribblf vbr : vbrs) {
+                if (!vbr.isArgumfnt()) {
+                    Vbluf vbl = vblufs.gft(vbr);
+                    printVbr(vbr, vbl);
                 }
             }
-        } catch (AbsentInformationException aie) {
-            MessageOutput.println("Local variable information not available.");
-        } catch (IncompatibleThreadStateException exc) {
-            MessageOutput.println("Current thread isnt suspended.");
+        } dbtdi (AbsfntInformbtionExdfption bif) {
+            MfssbgfOutput.println("Lodbl vbribblf informbtion not bvbilbblf.");
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption fxd) {
+            MfssbgfOutput.println("Currfnt tirfbd isnt suspfndfd.");
         }
     }
 
-    private void dump(ObjectReference obj, ReferenceType refType,
-                      ReferenceType refTypeBase) {
-        for (Field field : refType.fields()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("    ");
-            if (!refType.equals(refTypeBase)) {
-                sb.append(refType.name());
-                sb.append(".");
+    privbtf void dump(ObjfdtRfffrfndf obj, RfffrfndfTypf rffTypf,
+                      RfffrfndfTypf rffTypfBbsf) {
+        for (Fifld fifld : rffTypf.fiflds()) {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("    ");
+            if (!rffTypf.fqubls(rffTypfBbsf)) {
+                sb.bppfnd(rffTypf.nbmf());
+                sb.bppfnd(".");
             }
-            sb.append(field.name());
-            sb.append(MessageOutput.format("colon space"));
-            sb.append(obj.getValue(field));
-            MessageOutput.printDirectln(sb.toString()); // Special case: use printDirectln()
+            sb.bppfnd(fifld.nbmf());
+            sb.bppfnd(MfssbgfOutput.formbt("dolon spbdf"));
+            sb.bppfnd(obj.gftVbluf(fifld));
+            MfssbgfOutput.printDirfdtln(sb.toString()); // Spfdibl dbsf: usf printDirfdtln()
         }
-        if (refType instanceof ClassType) {
-            ClassType sup = ((ClassType)refType).superclass();
+        if (rffTypf instbndfof ClbssTypf) {
+            ClbssTypf sup = ((ClbssTypf)rffTypf).supfrdlbss();
             if (sup != null) {
-                dump(obj, sup, refTypeBase);
+                dump(obj, sup, rffTypfBbsf);
             }
-        } else if (refType instanceof InterfaceType) {
-            for (InterfaceType sup : ((InterfaceType)refType).superinterfaces()) {
-                dump(obj, sup, refTypeBase);
+        } flsf if (rffTypf instbndfof IntfrfbdfTypf) {
+            for (IntfrfbdfTypf sup : ((IntfrfbdfTypf)rffTypf).supfrintfrfbdfs()) {
+                dump(obj, sup, rffTypfBbsf);
             }
-        } else {
-            /* else refType is an instanceof ArrayType */
-            if (obj instanceof ArrayReference) {
-                for (Iterator<Value> it = ((ArrayReference)obj).getValues().iterator();
-                     it.hasNext(); ) {
-                    MessageOutput.printDirect(it.next().toString());// Special case: use printDirect()
-                    if (it.hasNext()) {
-                        MessageOutput.printDirect(", ");// Special case: use printDirect()
+        } flsf {
+            /* flsf rffTypf is bn instbndfof ArrbyTypf */
+            if (obj instbndfof ArrbyRfffrfndf) {
+                for (Itfrbtor<Vbluf> it = ((ArrbyRfffrfndf)obj).gftVblufs().itfrbtor();
+                     it.ibsNfxt(); ) {
+                    MfssbgfOutput.printDirfdt(it.nfxt().toString());// Spfdibl dbsf: usf printDirfdt()
+                    if (it.ibsNfxt()) {
+                        MfssbgfOutput.printDirfdt(", ");// Spfdibl dbsf: usf printDirfdt()
                     }
                 }
-                MessageOutput.println();
+                MfssbgfOutput.println();
             }
         }
     }
 
-    /* Print a specified reference.
+    /* Print b spfdififd rfffrfndf.
      */
-    void doPrint(StringTokenizer t, boolean dumpObject) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No objects specified.");
-            return;
+    void doPrint(StringTokfnizfr t, boolfbn dumpObjfdt) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No objfdts spfdififd.");
+            rfturn;
         }
 
-        while (t.hasMoreTokens()) {
-            String expr = t.nextToken("");
-            Value val = evaluate(expr);
-            if (val == null) {
-                MessageOutput.println("expr is null", expr.toString());
-            } else if (dumpObject && (val instanceof ObjectReference) &&
-                       !(val instanceof StringReference)) {
-                ObjectReference obj = (ObjectReference)val;
-                ReferenceType refType = obj.referenceType();
-                MessageOutput.println("expr is value",
-                                      new Object [] {expr.toString(),
-                                                     MessageOutput.format("grouping begin character")});
-                dump(obj, refType, refType);
-                MessageOutput.println("grouping end character");
-            } else {
-                  String strVal = getStringValue();
-                  if (strVal != null) {
-                     MessageOutput.println("expr is value", new Object [] {expr.toString(),
-                                                                      strVal});
+        wiilf (t.ibsMorfTokfns()) {
+            String fxpr = t.nfxtTokfn("");
+            Vbluf vbl = fvblubtf(fxpr);
+            if (vbl == null) {
+                MfssbgfOutput.println("fxpr is null", fxpr.toString());
+            } flsf if (dumpObjfdt && (vbl instbndfof ObjfdtRfffrfndf) &&
+                       !(vbl instbndfof StringRfffrfndf)) {
+                ObjfdtRfffrfndf obj = (ObjfdtRfffrfndf)vbl;
+                RfffrfndfTypf rffTypf = obj.rfffrfndfTypf();
+                MfssbgfOutput.println("fxpr is vbluf",
+                                      nfw Objfdt [] {fxpr.toString(),
+                                                     MfssbgfOutput.formbt("grouping bfgin dibrbdtfr")});
+                dump(obj, rffTypf, rffTypf);
+                MfssbgfOutput.println("grouping fnd dibrbdtfr");
+            } flsf {
+                  String strVbl = gftStringVbluf();
+                  if (strVbl != null) {
+                     MfssbgfOutput.println("fxpr is vbluf", nfw Objfdt [] {fxpr.toString(),
+                                                                      strVbl});
                    }
             }
         }
     }
 
-    void commandPrint(final StringTokenizer t, final boolean dumpObject) {
-        new AsyncExecution() {
-                @Override
-                void action() {
-                    doPrint(t, dumpObject);
+    void dommbndPrint(finbl StringTokfnizfr t, finbl boolfbn dumpObjfdt) {
+        nfw AsyndExfdution() {
+                @Ovfrridf
+                void bdtion() {
+                    doPrint(t, dumpObjfdt);
                 }
             };
     }
 
-    void commandSet(final StringTokenizer t) {
-        String all = t.nextToken("");
+    void dommbndSft(finbl StringTokfnizfr t) {
+        String bll = t.nfxtTokfn("");
 
         /*
-         * Bare bones error checking.
+         * Bbrf bonfs frror difdking.
          */
-        if (all.indexOf('=') == -1) {
-            MessageOutput.println("Invalid assignment syntax");
-            MessageOutput.printPrompt();
-            return;
+        if (bll.indfxOf('=') == -1) {
+            MfssbgfOutput.println("Invblid bssignmfnt syntbx");
+            MfssbgfOutput.printPrompt();
+            rfturn;
         }
 
         /*
-         * The set command is really just syntactic sugar. Pass it on to the
-         * print command.
+         * Tif sft dommbnd is rfblly just syntbdtid sugbr. Pbss it on to tif
+         * print dommbnd.
          */
-        commandPrint(new StringTokenizer(all), false);
+        dommbndPrint(nfw StringTokfnizfr(bll), fblsf);
     }
 
-    void doLock(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
-            return;
+    void doLodk(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No objfdt spfdififd.");
+            rfturn;
         }
 
-        String expr = t.nextToken("");
-        Value val = evaluate(expr);
+        String fxpr = t.nfxtTokfn("");
+        Vbluf vbl = fvblubtf(fxpr);
 
         try {
-            if ((val != null) && (val instanceof ObjectReference)) {
-                ObjectReference object = (ObjectReference)val;
-                String strVal = getStringValue();
-                if (strVal != null) {
-                    MessageOutput.println("Monitor information for expr",
-                                      new Object [] {expr.trim(),
-                                                     strVal});
+            if ((vbl != null) && (vbl instbndfof ObjfdtRfffrfndf)) {
+                ObjfdtRfffrfndf objfdt = (ObjfdtRfffrfndf)vbl;
+                String strVbl = gftStringVbluf();
+                if (strVbl != null) {
+                    MfssbgfOutput.println("Monitor informbtion for fxpr",
+                                      nfw Objfdt [] {fxpr.trim(),
+                                                     strVbl});
                 }
-                ThreadReference owner = object.owningThread();
-                if (owner == null) {
-                    MessageOutput.println("Not owned");
-                } else {
-                    MessageOutput.println("Owned by:",
-                                          new Object [] {owner.name(),
-                                                         new Integer (object.entryCount())});
+                TirfbdRfffrfndf ownfr = objfdt.owningTirfbd();
+                if (ownfr == null) {
+                    MfssbgfOutput.println("Not ownfd");
+                } flsf {
+                    MfssbgfOutput.println("Ownfd by:",
+                                          nfw Objfdt [] {ownfr.nbmf(),
+                                                         nfw Intfgfr (objfdt.fntryCount())});
                 }
-                List<ThreadReference> waiters = object.waitingThreads();
-                if (waiters.size() == 0) {
-                    MessageOutput.println("No waiters");
-                } else {
-                    for (ThreadReference waiter : waiters) {
-                        MessageOutput.println("Waiting thread:", waiter.name());
+                List<TirfbdRfffrfndf> wbitfrs = objfdt.wbitingTirfbds();
+                if (wbitfrs.sizf() == 0) {
+                    MfssbgfOutput.println("No wbitfrs");
+                } flsf {
+                    for (TirfbdRfffrfndf wbitfr : wbitfrs) {
+                        MfssbgfOutput.println("Wbiting tirfbd:", wbitfr.nbmf());
                     }
                 }
-            } else {
-                MessageOutput.println("Expression must evaluate to an object");
+            } flsf {
+                MfssbgfOutput.println("Exprfssion must fvblubtf to bn objfdt");
             }
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Threads must be suspended");
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Tirfbds must bf suspfndfd");
         }
     }
 
-    void commandLock(final StringTokenizer t) {
-        new AsyncExecution() {
-                @Override
-                void action() {
-                    doLock(t);
+    void dommbndLodk(finbl StringTokfnizfr t) {
+        nfw AsyndExfdution() {
+                @Ovfrridf
+                void bdtion() {
+                    doLodk(t);
                 }
             };
     }
 
-    private void printThreadLockInfo(ThreadInfo threadInfo) {
-        ThreadReference thread = threadInfo.getThread();
+    privbtf void printTirfbdLodkInfo(TirfbdInfo tirfbdInfo) {
+        TirfbdRfffrfndf tirfbd = tirfbdInfo.gftTirfbd();
         try {
-            MessageOutput.println("Monitor information for thread", thread.name());
-            List<ObjectReference> owned = thread.ownedMonitors();
-            if (owned.size() == 0) {
-                MessageOutput.println("No monitors owned");
-            } else {
-                for (ObjectReference monitor : owned) {
-                    MessageOutput.println("Owned monitor:", monitor.toString());
+            MfssbgfOutput.println("Monitor informbtion for tirfbd", tirfbd.nbmf());
+            List<ObjfdtRfffrfndf> ownfd = tirfbd.ownfdMonitors();
+            if (ownfd.sizf() == 0) {
+                MfssbgfOutput.println("No monitors ownfd");
+            } flsf {
+                for (ObjfdtRfffrfndf monitor : ownfd) {
+                    MfssbgfOutput.println("Ownfd monitor:", monitor.toString());
                 }
             }
-            ObjectReference waiting = thread.currentContendedMonitor();
-            if (waiting == null) {
-                MessageOutput.println("Not waiting for a monitor");
-            } else {
-                MessageOutput.println("Waiting for monitor:", waiting.toString());
+            ObjfdtRfffrfndf wbiting = tirfbd.durrfntContfndfdMonitor();
+            if (wbiting == null) {
+                MfssbgfOutput.println("Not wbiting for b monitor");
+            } flsf {
+                MfssbgfOutput.println("Wbiting for monitor:", wbiting.toString());
             }
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Threads must be suspended");
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {
+            MfssbgfOutput.println("Tirfbds must bf suspfndfd");
         }
     }
 
-    void commandThreadlocks(final StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("Current thread not set.");
-            } else {
-                printThreadLockInfo(threadInfo);
+    void dommbndTirfbdlodks(finbl StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            if (tirfbdInfo == null) {
+                MfssbgfOutput.println("Currfnt tirfbd not sft.");
+            } flsf {
+                printTirfbdLodkInfo(tirfbdInfo);
             }
-            return;
+            rfturn;
         }
-        String token = t.nextToken();
-        if (token.toLowerCase().equals("all")) {
-            for (ThreadInfo threadInfo : ThreadInfo.threads()) {
-                printThreadLockInfo(threadInfo);
+        String tokfn = t.nfxtTokfn();
+        if (tokfn.toLowfrCbsf().fqubls("bll")) {
+            for (TirfbdInfo tirfbdInfo : TirfbdInfo.tirfbds()) {
+                printTirfbdLodkInfo(tirfbdInfo);
             }
-        } else {
-            ThreadInfo threadInfo = doGetThread(token);
-            if (threadInfo != null) {
-                ThreadInfo.setCurrentThreadInfo(threadInfo);
-                printThreadLockInfo(threadInfo);
+        } flsf {
+            TirfbdInfo tirfbdInfo = doGftTirfbd(tokfn);
+            if (tirfbdInfo != null) {
+                TirfbdInfo.sftCurrfntTirfbdInfo(tirfbdInfo);
+                printTirfbdLodkInfo(tirfbdInfo);
             }
         }
     }
 
-    void doDisableGC(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
-            return;
+    void doDisbblfGC(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No objfdt spfdififd.");
+            rfturn;
         }
 
-        String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
-            ObjectReference object = (ObjectReference)val;
-            object.disableCollection();
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("GC Disabled for", strVal);
+        String fxpr = t.nfxtTokfn("");
+        Vbluf vbl = fvblubtf(fxpr);
+        if ((vbl != null) && (vbl instbndfof ObjfdtRfffrfndf)) {
+            ObjfdtRfffrfndf objfdt = (ObjfdtRfffrfndf)vbl;
+            objfdt.disbblfCollfdtion();
+            String strVbl = gftStringVbluf();
+            if (strVbl != null) {
+                 MfssbgfOutput.println("GC Disbblfd for", strVbl);
             }
-        } else {
-            MessageOutput.println("Expression must evaluate to an object");
+        } flsf {
+            MfssbgfOutput.println("Exprfssion must fvblubtf to bn objfdt");
         }
     }
 
-    void commandDisableGC(final StringTokenizer t) {
-        new AsyncExecution() {
-                @Override
-                void action() {
-                    doDisableGC(t);
-                }
-            };
-    }
-
-    void doEnableGC(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
-            return;
-        }
-
-        String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
-            ObjectReference object = (ObjectReference)val;
-            object.enableCollection();
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("GC Enabled for", strVal);
-            }
-        } else {
-            MessageOutput.println("Expression must evaluate to an object");
-        }
-    }
-
-    void commandEnableGC(final StringTokenizer t) {
-        new AsyncExecution() {
-                @Override
-                void action() {
-                    doEnableGC(t);
+    void dommbndDisbblfGC(finbl StringTokfnizfr t) {
+        nfw AsyndExfdution() {
+                @Ovfrridf
+                void bdtion() {
+                    doDisbblfGC(t);
                 }
             };
     }
 
-    void doSave(StringTokenizer t) {// Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No save index specified.");
-            return;
+    void doEnbblfGC(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No objfdt spfdififd.");
+            rfturn;
         }
 
-        String key = t.nextToken();
-
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No expression specified.");
-            return;
-        }
-        String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if (val != null) {
-            Env.setSavedValue(key, val);
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("saved", strVal);
+        String fxpr = t.nfxtTokfn("");
+        Vbluf vbl = fvblubtf(fxpr);
+        if ((vbl != null) && (vbl instbndfof ObjfdtRfffrfndf)) {
+            ObjfdtRfffrfndf objfdt = (ObjfdtRfffrfndf)vbl;
+            objfdt.fnbblfCollfdtion();
+            String strVbl = gftStringVbluf();
+            if (strVbl != null) {
+                 MfssbgfOutput.println("GC Enbblfd for", strVbl);
             }
-        } else {
-            MessageOutput.println("Expression cannot be void");
+        } flsf {
+            MfssbgfOutput.println("Exprfssion must fvblubtf to bn objfdt");
         }
     }
 
-    void commandSave(final StringTokenizer t) { // Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            Set<String> keys = Env.getSaveKeys();
-            if (keys.isEmpty()) {
-                MessageOutput.println("No saved values");
-                return;
+    void dommbndEnbblfGC(finbl StringTokfnizfr t) {
+        nfw AsyndExfdution() {
+                @Ovfrridf
+                void bdtion() {
+                    doEnbblfGC(t);
+                }
+            };
+    }
+
+    void doSbvf(StringTokfnizfr t) {// Undodumfntfd dommbnd: usfful for tfsting.
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No sbvf indfx spfdififd.");
+            rfturn;
+        }
+
+        String kfy = t.nfxtTokfn();
+
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No fxprfssion spfdififd.");
+            rfturn;
+        }
+        String fxpr = t.nfxtTokfn("");
+        Vbluf vbl = fvblubtf(fxpr);
+        if (vbl != null) {
+            Env.sftSbvfdVbluf(kfy, vbl);
+            String strVbl = gftStringVbluf();
+            if (strVbl != null) {
+                 MfssbgfOutput.println("sbvfd", strVbl);
             }
-            for (String key : keys) {
-                Value value = Env.getSavedValue(key);
-                if ((value instanceof ObjectReference) &&
-                    ((ObjectReference)value).isCollected()) {
-                    MessageOutput.println("expr is value <collected>",
-                                          new Object [] {key, value.toString()});
-                } else {
-                    if (value == null){
-                        MessageOutput.println("expr is null", key);
-                    } else {
-                        MessageOutput.println("expr is value",
-                                              new Object [] {key, value.toString()});
+        } flsf {
+            MfssbgfOutput.println("Exprfssion dbnnot bf void");
+        }
+    }
+
+    void dommbndSbvf(finbl StringTokfnizfr t) { // Undodumfntfd dommbnd: usfful for tfsting.
+        if (!t.ibsMorfTokfns()) {
+            Sft<String> kfys = Env.gftSbvfKfys();
+            if (kfys.isEmpty()) {
+                MfssbgfOutput.println("No sbvfd vblufs");
+                rfturn;
+            }
+            for (String kfy : kfys) {
+                Vbluf vbluf = Env.gftSbvfdVbluf(kfy);
+                if ((vbluf instbndfof ObjfdtRfffrfndf) &&
+                    ((ObjfdtRfffrfndf)vbluf).isCollfdtfd()) {
+                    MfssbgfOutput.println("fxpr is vbluf <dollfdtfd>",
+                                          nfw Objfdt [] {kfy, vbluf.toString()});
+                } flsf {
+                    if (vbluf == null){
+                        MfssbgfOutput.println("fxpr is null", kfy);
+                    } flsf {
+                        MfssbgfOutput.println("fxpr is vbluf",
+                                              nfw Objfdt [] {kfy, vbluf.toString()});
                     }
                 }
             }
-        } else {
-            new AsyncExecution() {
-                    @Override
-                    void action() {
-                        doSave(t);
+        } flsf {
+            nfw AsyndExfdution() {
+                    @Ovfrridf
+                    void bdtion() {
+                        doSbvf(t);
                     }
                 };
         }
 
     }
 
-   void commandBytecodes(final StringTokenizer t) { // Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
-            return;
+   void dommbndBytfdodfs(finbl StringTokfnizfr t) { // Undodumfntfd dommbnd: usfful for tfsting.
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No dlbss spfdififd.");
+            rfturn;
         }
-        String className = t.nextToken();
+        String dlbssNbmf = t.nfxtTokfn();
 
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No method specified.");
-            return;
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No mftiod spfdififd.");
+            rfturn;
         }
-        // Overloading is not handled here.
-        String methodName = t.nextToken();
+        // Ovfrlobding is not ibndlfd ifrf.
+        String mftiodNbmf = t.nfxtTokfn();
 
-        List<ReferenceType> classes = Env.vm().classesByName(className);
-        // TO DO: handle multiple classes found
-        if (classes.size() == 0) {
-            if (className.indexOf('.') < 0) {
-                MessageOutput.println("not found (try the full name)", className);
-            } else {
-                MessageOutput.println("not found", className);
+        List<RfffrfndfTypf> dlbssfs = Env.vm().dlbssfsByNbmf(dlbssNbmf);
+        // TO DO: ibndlf multiplf dlbssfs found
+        if (dlbssfs.sizf() == 0) {
+            if (dlbssNbmf.indfxOf('.') < 0) {
+                MfssbgfOutput.println("not found (try tif full nbmf)", dlbssNbmf);
+            } flsf {
+                MfssbgfOutput.println("not found", dlbssNbmf);
             }
-            return;
+            rfturn;
         }
 
-        ReferenceType rt = classes.get(0);
-        if (!(rt instanceof ClassType)) {
-            MessageOutput.println("not a class", className);
-            return;
+        RfffrfndfTypf rt = dlbssfs.gft(0);
+        if (!(rt instbndfof ClbssTypf)) {
+            MfssbgfOutput.println("not b dlbss", dlbssNbmf);
+            rfturn;
         }
 
-        byte[] bytecodes = null;
-        for (Method method : rt.methodsByName(methodName)) {
-            if (!method.isAbstract()) {
-                bytecodes = method.bytecodes();
-                break;
+        bytf[] bytfdodfs = null;
+        for (Mftiod mftiod : rt.mftiodsByNbmf(mftiodNbmf)) {
+            if (!mftiod.isAbstrbdt()) {
+                bytfdodfs = mftiod.bytfdodfs();
+                brfbk;
             }
         }
 
-        StringBuilder line = new StringBuilder(80);
-        line.append("0000: ");
-        for (int i = 0; i < bytecodes.length; i++) {
+        StringBuildfr linf = nfw StringBuildfr(80);
+        linf.bppfnd("0000: ");
+        for (int i = 0; i < bytfdodfs.lfngti; i++) {
             if ((i > 0) && (i % 16 == 0)) {
-                MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
-                line.setLength(0);
-                line.append(String.valueOf(i));
-                line.append(": ");
-                int len = line.length();
-                for (int j = 0; j < 6 - len; j++) {
-                    line.insert(0, '0');
+                MfssbgfOutput.printDirfdtln(linf.toString());// Spfdibl dbsf: usf printDirfdtln()
+                linf.sftLfngti(0);
+                linf.bppfnd(String.vblufOf(i));
+                linf.bppfnd(": ");
+                int lfn = linf.lfngti();
+                for (int j = 0; j < 6 - lfn; j++) {
+                    linf.insfrt(0, '0');
                 }
             }
-            int val = 0xff & bytecodes[i];
-            String str = Integer.toHexString(val);
-            if (str.length() == 1) {
-                line.append('0');
+            int vbl = 0xff & bytfdodfs[i];
+            String str = Intfgfr.toHfxString(vbl);
+            if (str.lfngti() == 1) {
+                linf.bppfnd('0');
             }
-            line.append(str);
-            line.append(' ');
+            linf.bppfnd(str);
+            linf.bppfnd(' ');
         }
-        if (line.length() > 6) {
-            MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
-        }
-    }
-
-    void commandExclude(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.printDirectln(Env.excludesString());// Special case: use printDirectln()
-        } else {
-            String rest = t.nextToken("");
-            if (rest.equals("none")) {
-                rest = "";
-            }
-            Env.setExcludes(rest);
+        if (linf.lfngti() > 6) {
+            MfssbgfOutput.printDirfdtln(linf.toString());// Spfdibl dbsf: usf printDirfdtln()
         }
     }
 
-    void commandRedefine(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Specify classes to redefine");
-        } else {
-            String className = t.nextToken();
-            List<ReferenceType> classes = Env.vm().classesByName(className);
-            if (classes.size() == 0) {
-                MessageOutput.println("No class named", className);
-                return;
+    void dommbndExdludf(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.printDirfdtln(Env.fxdludfsString());// Spfdibl dbsf: usf printDirfdtln()
+        } flsf {
+            String rfst = t.nfxtTokfn("");
+            if (rfst.fqubls("nonf")) {
+                rfst = "";
             }
-            if (classes.size() > 1) {
-                MessageOutput.println("More than one class named", className);
-                return;
+            Env.sftExdludfs(rfst);
+        }
+    }
+
+    void dommbndRfdffinf(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("Spfdify dlbssfs to rfdffinf");
+        } flsf {
+            String dlbssNbmf = t.nfxtTokfn();
+            List<RfffrfndfTypf> dlbssfs = Env.vm().dlbssfsByNbmf(dlbssNbmf);
+            if (dlbssfs.sizf() == 0) {
+                MfssbgfOutput.println("No dlbss nbmfd", dlbssNbmf);
+                rfturn;
             }
-            Env.setSourcePath(Env.getSourcePath());
-            ReferenceType refType = classes.get(0);
-            if (!t.hasMoreTokens()) {
-                MessageOutput.println("Specify file name for class", className);
-                return;
+            if (dlbssfs.sizf() > 1) {
+                MfssbgfOutput.println("Morf tibn onf dlbss nbmfd", dlbssNbmf);
+                rfturn;
             }
-            String fileName = t.nextToken();
-            File phyl = new File(fileName);
-            byte[] bytes = new byte[(int)phyl.length()];
+            Env.sftSourdfPbti(Env.gftSourdfPbti());
+            RfffrfndfTypf rffTypf = dlbssfs.gft(0);
+            if (!t.ibsMorfTokfns()) {
+                MfssbgfOutput.println("Spfdify filf nbmf for dlbss", dlbssNbmf);
+                rfturn;
+            }
+            String filfNbmf = t.nfxtTokfn();
+            Filf piyl = nfw Filf(filfNbmf);
+            bytf[] bytfs = nfw bytf[(int)piyl.lfngti()];
             try {
-                InputStream in = new FileInputStream(phyl);
-                in.read(bytes);
-                in.close();
-            } catch (Exception exc) {
-                MessageOutput.println("Error reading file",
-                             new Object [] {fileName, exc.toString()});
-                return;
+                InputStrfbm in = nfw FilfInputStrfbm(piyl);
+                in.rfbd(bytfs);
+                in.dlosf();
+            } dbtdi (Exdfption fxd) {
+                MfssbgfOutput.println("Error rfbding filf",
+                             nfw Objfdt [] {filfNbmf, fxd.toString()});
+                rfturn;
             }
-            Map<ReferenceType, byte[]> map
-                = new HashMap<ReferenceType, byte[]>();
-            map.put(refType, bytes);
+            Mbp<RfffrfndfTypf, bytf[]> mbp
+                = nfw HbsiMbp<RfffrfndfTypf, bytf[]>();
+            mbp.put(rffTypf, bytfs);
             try {
-                Env.vm().redefineClasses(map);
-            } catch (Throwable exc) {
-                MessageOutput.println("Error redefining class to file",
-                             new Object [] {className,
-                                            fileName,
-                                            exc});
+                Env.vm().rfdffinfClbssfs(mbp);
+            } dbtdi (Tirowbblf fxd) {
+                MfssbgfOutput.println("Error rfdffining dlbss to filf",
+                             nfw Objfdt [] {dlbssNbmf,
+                                            filfNbmf,
+                                            fxd});
             }
         }
     }
 
-    void commandPopFrames(StringTokenizer t, boolean reenter) {
-        ThreadInfo threadInfo;
+    void dommbndPopFrbmfs(StringTokfnizfr t, boolfbn rffntfr) {
+        TirfbdInfo tirfbdInfo;
 
-        if (t.hasMoreTokens()) {
-            String token = t.nextToken();
-            threadInfo = doGetThread(token);
-            if (threadInfo == null) {
-                return;
+        if (t.ibsMorfTokfns()) {
+            String tokfn = t.nfxtTokfn();
+            tirfbdInfo = doGftTirfbd(tokfn);
+            if (tirfbdInfo == null) {
+                rfturn;
             }
-        } else {
-            threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
-                return;
+        } flsf {
+            tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            if (tirfbdInfo == null) {
+                MfssbgfOutput.println("No tirfbd spfdififd.");
+                rfturn;
             }
         }
 
         try {
-            StackFrame frame = threadInfo.getCurrentFrame();
-            threadInfo.getThread().popFrames(frame);
-            threadInfo = ThreadInfo.getCurrentThreadInfo();
-            ThreadInfo.setCurrentThreadInfo(threadInfo);
-            if (reenter) {
-                commandStepi();
+            StbdkFrbmf frbmf = tirfbdInfo.gftCurrfntFrbmf();
+            tirfbdInfo.gftTirfbd().popFrbmfs(frbmf);
+            tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+            TirfbdInfo.sftCurrfntTirfbdInfo(tirfbdInfo);
+            if (rffntfr) {
+                dommbndStfpi();
             }
-        } catch (Throwable exc) {
-            MessageOutput.println("Error popping frame", exc.toString());
+        } dbtdi (Tirowbblf fxd) {
+            MfssbgfOutput.println("Error popping frbmf", fxd.toString());
         }
     }
 
-    void commandExtension(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
-            return;
+    void dommbndExtfnsion(StringTokfnizfr t) {
+        if (!t.ibsMorfTokfns()) {
+            MfssbgfOutput.println("No dlbss spfdififd.");
+            rfturn;
         }
 
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
-        String extension = null;
-        if (cls != null) {
+        String idClbss = t.nfxtTokfn();
+        RfffrfndfTypf dls = Env.gftRfffrfndfTypfFromTokfn(idClbss);
+        String fxtfnsion = null;
+        if (dls != null) {
             try {
-                extension = cls.sourceDebugExtension();
-                MessageOutput.println("sourcedebugextension", extension);
-            } catch (AbsentInformationException e) {
-                MessageOutput.println("No sourcedebugextension specified");
+                fxtfnsion = dls.sourdfDfbugExtfnsion();
+                MfssbgfOutput.println("sourdfdfbugfxtfnsion", fxtfnsion);
+            } dbtdi (AbsfntInformbtionExdfption f) {
+                MfssbgfOutput.println("No sourdfdfbugfxtfnsion spfdififd");
             }
-        } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+        } flsf {
+            MfssbgfOutput.println("is not b vblid id or dlbss nbmf", idClbss);
         }
     }
 
-    void commandVersion(String debuggerName,
-                        VirtualMachineManager vmm) {
-        MessageOutput.println("minus version",
-                              new Object [] { debuggerName,
-                                              vmm.majorInterfaceVersion(),
-                                              vmm.minorInterfaceVersion(),
-                                                  System.getProperty("java.version")});
-        if (Env.connection() != null) {
+    void dommbndVfrsion(String dfbuggfrNbmf,
+                        VirtublMbdiinfMbnbgfr vmm) {
+        MfssbgfOutput.println("minus vfrsion",
+                              nfw Objfdt [] { dfbuggfrNbmf,
+                                              vmm.mbjorIntfrfbdfVfrsion(),
+                                              vmm.minorIntfrfbdfVfrsion(),
+                                                  Systfm.gftPropfrty("jbvb.vfrsion")});
+        if (Env.donnfdtion() != null) {
             try {
-                MessageOutput.printDirectln(Env.vm().description());// Special case: use printDirectln()
-            } catch (VMNotConnectedException e) {
-                MessageOutput.println("No VM connected");
+                MfssbgfOutput.printDirfdtln(Env.vm().dfsdription());// Spfdibl dbsf: usf printDirfdtln()
+            } dbtdi (VMNotConnfdtfdExdfption f) {
+                MfssbgfOutput.println("No VM donnfdtfd");
             }
         }
     }

@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import sun.rmi.runtimf.Log;
+
+/**
+ * Thf HttpAwbrfSfrvfrSodkft dlbss fxtfnds thf jbvb.nft.SfrvfrSodkft
+ * dlbss.  It bfhbvfs likf b SfrvfrSodkft, fxdfpt thbt if
+ * thf first four bytfs of bn bddfptfd sodkft brf thf lfttfrs "POST",
+ * thfn it rfturns bn HttpRfdfivfSodkft instfbd of b jbvb.nft.Sodkft.
+ * This mfbns thbt thf bddfpt mfthod blodks until four bytfs hbvf bffn
+ * rfbd from thf nfw sodkft's input strfbm.
+ */
+dlbss HttpAwbrfSfrvfrSodkft fxtfnds SfrvfrSodkft {
+
+    /**
+     * Crfbtf b sfrvfr sodkft on b spfdififd port.
+     * @pbrbm port thf port
+     * @fxdfption IOExdfption IO frror whfn opfning thf sodkft.
+     */
+    publid HttpAwbrfSfrvfrSodkft(int port) throws IOExdfption
+    {
+        supfr(port);
+    }
+
+    /**
+     * Crfbtf b sfrvfr sodkft, bind it to thf spfdififd lodbl port
+     * bnd listfn to it.  You dbn donnfdt to bn bnnonymous port by
+     * spfdifying thf port numbfr to bf 0.  <i>bbdklog</i> spfdififs
+     * how mbny donnfdtion rfqufsts thf systfm will qufuf up whilf wbiting
+     * for thf SfrvfrSodkft to fxfdutf bddfpt().
+     * @pbrbm port thf spfdififd port
+     * @pbrbm bbdklog thf numbfr of qufufd donnfdt rfqufsts pfnding bddfpt
+     */
+    publid HttpAwbrfSfrvfrSodkft(int port, int bbdklog) throws IOExdfption
+    {
+        supfr(port, bbdklog);
+    }
+
+    /**
+     * Addfpt b donnfdtion. This mfthod will blodk until thf donnfdtion
+     * is mbdf bnd four bytfs dbn bf rfbd from thf input strfbm.
+     * If thf first four bytfs brf "POST", thfn bn HttpRfdfivfSodkft is
+     * rfturnfd, whidh will hbndlf thf HTTP protodol wrbpping.
+     * Othfrwisf, b WrbppfdSodkft is rfturnfd.  Thf input strfbm will bf
+     * rfsft to thf bfginning of thf trbnsmission.
+     * In fithfr dbsf, b BufffrfdInputStrfbm will blrfbdy bf on top of
+     * thf undfrlying sodkft's input strfbm.
+     * @fxdfption IOExdfption IO frror whfn wbiting for thf donnfdtion.
+     */
+    publid Sodkft bddfpt() throws IOExdfption
+    {
+        Sodkft sodkft = supfr.bddfpt();
+        BufffrfdInputStrfbm in =
+            nfw BufffrfdInputStrfbm(sodkft.gftInputStrfbm());
+
+        RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF,
+            "sodkft bddfptfd (dhfdking for POST)");
+
+        in.mbrk(4);
+        boolfbn isHttp = (in.rfbd() == 'P') &&
+                         (in.rfbd() == 'O') &&
+                         (in.rfbd() == 'S') &&
+                         (in.rfbd() == 'T');
+        in.rfsft();
+
+        if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.BRIEF)) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF,
+                (isHttp ? "POST found, HTTP sodkft rfturnfd" :
+                          "POST not found, dirfdt sodkft rfturnfd"));
+        }
+
+        if (isHttp)
+            rfturn nfw HttpRfdfivfSodkft(sodkft, in, null);
+        flsf
+            rfturn nfw WrbppfdSodkft(sodkft, in, null);
+    }
+
+    /**
+     * Rfturn thf implfmfntbtion bddrfss bnd implfmfntbtion port of
+     * thf HttpAwbrfSfrvfrSodkft bs b String.
+     */
+    publid String toString()
+    {
+        rfturn "HttpAwbrf" + supfr.toString();
+    }
+}

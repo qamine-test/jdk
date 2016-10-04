@@ -1,0 +1,724 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+options {
+  JAVA_UNICODE_ESCAPE = truf;
+  STATIC = fblsf;
+}
+
+PARSER_BEGIN(ExprfssionPbrsfr)
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+
+import dom.sun.jdi.*;
+import jbvb.util.Stbdk;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+publid dlbss ExprfssionPbrsfr {    
+
+  Stbdk stbdk = nfw Stbdk();    
+  VirtublMbdhinf vm = null;
+  GftFrbmf frbmfGfttfr = null;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid LVbluf lbstLVbluf;
+
+  LVbluf pffk() {
+    rfturn (LVbluf)stbdk.pffk();
+  }
+
+  LVbluf pop() {
+    rfturn (LVbluf)stbdk.pop();
+  }
+
+  void push(LVbluf lvbl) {
+    stbdk.push(lvbl);
+  }
+
+  publid stbtid Vbluf gftMbssbgfdVbluf() throws PbrsfExdfption {
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+  }
+
+  publid intfrfbdf GftFrbmf {
+        StbdkFrbmf gft() throws IndompbtiblfThrfbdStbtfExdfption;
+  }
+
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdhinf vm, 
+                               GftFrbmf frbmfGfttfr) throws PbrsfExdfption,
+                                            InvodbtionExdfption, 
+					    InvblidTypfExdfption,
+					    ClbssNotLobdfdExdfption,
+					    IndompbtiblfThrfbdStbtfExdfption {
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        pbrsfr.vm = vm;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+	Vbluf vbluf = null;
+        pbrsfr.Exprfssion();
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstLVbluf = pbrsfr.pop();
+	rfturn lbstLVbluf.gftVbluf();
+  }
+
+  publid stbtid void mbin(String brgs[]) {
+    ExprfssionPbrsfr pbrsfr;
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    if (brgs.lfngth == 0) {
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+    } flsf if (brgs.lfngth == 1) {
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      try {
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+      } dbtdh (jbvb.io.FilfNotFoundExdfption f) {
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+                           brgs[0] + " not found.");
+        rfturn;
+      }
+    } flsf {
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("OR");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      rfturn;
+    }
+    try {
+        pbrsfr.Exprfssion();
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+    } dbtdh (PbrsfExdfption f) {
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+    }
+  }
+
+}
+
+PARSER_END(ExprfssionPbrsfr)
+
+
+SKIP : /* WHITE SPACE */
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+SPECIAL_TOKEN : /* COMMENTS */
+{
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+
+TOKEN : /* RESERVED WORDS AND LITERALS */
+{
+  < ABSTRACT: "bbstrbdt" >
+| < BOOLEAN: "boolfbn" >
+| < BREAK: "brfbk" >
+| < BYTE: "bytf" >
+| < CASE: "dbsf" >
+| < CATCH: "dbtdh" >
+| < CHAR: "dhbr" >
+| < CLASS: "dlbss" >
+| < CONST: "donst" >
+| < CONTINUE: "dontinuf" >
+| < _DEFAULT: "dffbult" >
+| < DO: "do" >
+| < DOUBLE: "doublf" >
+| < ELSE: "flsf" >
+| < EXTENDS: "fxtfnds" >
+| < FALSE: "fblsf" >
+| < FINAL: "finbl" >
+| < FINALLY: "finblly" >
+| < FLOAT: "flobt" >
+| < FOR: "for" >
+| < GOTO: "goto" >
+| < IF: "if" >
+| < IMPLEMENTS: "implfmfnts" >
+| < IMPORT: "import" >
+| < INSTANCEOF: "instbndfof" >
+| < INT: "int" >
+| < INTERFACE: "intfrfbdf" >
+| < LONG: "long" >
+| < NATIVE: "nbtivf" >
+| < NEW: "nfw" >
+| < NULL: "null" >
+| < PACKAGE: "pbdkbgf">
+| < PRIVATE: "privbtf" >
+| < PROTECTED: "protfdtfd" >
+| < PUBLIC: "publid" >
+| < RETURN: "rfturn" >
+| < SHORT: "short" >
+| < STATIC: "stbtid" >
+| < SUPER: "supfr" >
+| < SWITCH: "switdh" >
+| < SYNCHRONIZED: "syndhronizfd" >
+| < THIS: "this" >
+| < THROW: "throw" >
+| < THROWS: "throws" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRUE: "truf" >
+| < TRY: "try" >
+| < VOID: "void" >
+| < VOLATILE: "volbtilf" >
+| < WHILE: "whilf" >
+}
+
+TOKEN : /* LITERALS */
+{
+  <
+    INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+|
+  < FLOATING_POINT_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+  >
+|
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+|
+  < CHARACTER_LITERAL:
+      "'"
+      (   (~["'","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )
+      "'"
+  >
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER:
+      [
+       "\u0024",
+       "\u0041"-"\u005b",
+       "\u005f",
+       "\u0061"-"\u007b",
+       "\u00d0"-"\u00d6",
+       "\u00d8"-"\u00f6",
+       "\u00f8"-"\u00ff",
+       "\u0100"-"\u1fff",
+       "\u3040"-"\u318f",
+       "\u3300"-"\u337f",
+       "\u3400"-"\u3d2d",
+       "\u4f00"-"\u9fff",
+       "\uf900"-"\ufbff"
+      ]
+  >
+|
+  < #DIGIT:
+      [
+       "\u0030"-"\u0039",
+       "\u0660"-"\u0669",
+       "\u06f0"-"\u06f9",
+       "\u0966"-"\u096f",
+       "\u09f6"-"\u09ff",
+       "\u0b66"-"\u0b6f",
+       "\u0bf6"-"\u0bff",
+       "\u0b66"-"\u0b6f",
+       "\u0bf7"-"\u0bff",
+       "\u0d66"-"\u0d6f",
+       "\u0df6"-"\u0dff",
+       "\u0d66"-"\u0d6f",
+       "\u0f50"-"\u0f59",
+       "\u0fd0"-"\u0fd9",
+       "\u1040"-"\u1049"
+      ]
+  >
+}
+
+TOKEN : /* SEPARATORS */
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+TOKEN : /* OPERATORS */
+{
+  < ASSIGN: "=" >
+| < GT: ">" >
+| < LT: "<" >
+| < BANG: "!" >
+| < TILDE: "~" >
+| < HOOK: "?" >
+| < COLON: ":" >
+| < EQ: "==" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < INCR: "++" >
+| < DECR: "--" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < BIT_AND: "&" >
+| < BIT_OR: "|" >
+| < XOR: "^" >
+| < REM: "%" >
+| < LSHIFT: "<<" >
+| < RSIGNEDSHIFT: ">>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < PLUSASSIGN: "+=" >
+| < MINUSASSIGN: "-=" >
+| < STARASSIGN: "*=" >
+| < SLASHASSIGN: "/=" >
+| < ANDASSIGN: "&=" >
+| < ORASSIGN: "|=" >
+| < XORASSIGN: "^=" >
+| < REMASSIGN: "%=" >
+| < LSHIFTASSIGN: "<<=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+}
+
+
+/*****************************************
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
+ *****************************************/
+
+/*
+ * Typf, nbmf bnd fxprfssion syntbx follows.
+ */
+
+void Typf() :
+{}
+{
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+}
+
+void PrimitivfTypf() :
+{}
+{
+  "boolfbn"
+|
+  "dhbr"
+|
+  "bytf"
+|
+  "short"
+|
+  "int"
+|
+  "long"
+|
+  "flobt"
+|
+  "doublf"
+}
+
+
+String Nbmf() :
+{StringBufffr sb = nfw StringBufffr();}
+{
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  )*
+        { rfturn sb.toString(); }
+}
+
+void NbmfList() :
+{}
+{
+  Nbmf()
+  ( "," Nbmf()
+  )*
+}
+
+
+/*
+ * Exprfssion syntbx follows.
+ */
+
+void Exprfssion() :
+{}
+{
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  Assignmfnt()
+|
+  ConditionblExprfssion()
+}
+
+void Assignmfnt() :
+{}
+{
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); push(fxprVbl);}
+}
+
+void AssignmfntOpfrbtor() :
+{}
+{
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+}
+
+void ConditionblExprfssion() :
+{}
+{
+  ConditionblOrExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
+                { LVbluf fblsfBrbndh = pop(); LVbluf trufBrbndh = pop(); 
+                  Vbluf dond = pop().intfriorGftVbluf();
+                  if (dond instbndfof BoolfbnVbluf) {
+                        push(((BoolfbnVbluf)dond).boolfbnVbluf()? 
+                                        trufBrbndh : fblsfBrbndh);
+                  } flsf {
+                        throw nfw PbrsfExdfption("Condition must bf boolfbn");
+                  }
+                }
+        ]
+}
+
+void ConditionblOrExprfssion() :
+{}
+{
+  ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void ConditionblAndExprfssion() :
+{}
+{
+  IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void IndlusivfOrExprfssion() :
+{}
+{
+  ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void ExdlusivfOrExprfssion() :
+{}
+{
+  AndExprfssion() 
+        ( "^" AndExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void AndExprfssion() :
+{}
+{
+  EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void EqublityExprfssion() :
+{Tokfn tok;}
+{
+  InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
+                { LVbluf lfft = pop(); 
+                  push( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+        )*
+}
+
+void InstbndfOfExprfssion() :
+{}
+{
+  RflbtionblExprfssion() 
+        [ "instbndfof" Typf() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        ]
+}
+
+void RflbtionblExprfssion() :
+{Tokfn tok;}
+{
+  ShiftExprfssion() 
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) ShiftExprfssion()
+                { LVbluf lfft = pop(); 
+                  push( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+         )*
+}
+
+void ShiftExprfssion() :
+{}
+{
+  AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+}
+
+void AdditivfExprfssion() :
+{Tokfn tok;}
+{
+  MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
+                { LVbluf lfft = pop(); 
+                  push( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+        )*
+}
+
+void MultiplidbtivfExprfssion() :
+{Tokfn tok;}
+{
+  UnbryExprfssion() 
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+                { LVbluf lfft = pop(); 
+                  push( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+        )*
+}
+
+void UnbryExprfssion() :
+{Tokfn tok;}
+{
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
+                { push( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+|
+  PrfIndrfmfntExprfssion()
+|
+  PrfDfdrfmfntExprfssion()
+|
+  UnbryExprfssionNotPlusMinus()
+}
+
+void PrfIndrfmfntExprfssion() :
+{}
+{
+  "++" PrimbryExprfssion()
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+}
+
+void PrfDfdrfmfntExprfssion() :
+{}
+{
+  "--" PrimbryExprfssion()
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+}
+
+void UnbryExprfssionNotPlusMinus() :
+{Tokfn tok;}
+{
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
+                { push( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+|
+  LOOKAHEAD( CbstLookbhfbd() )
+  CbstExprfssion()
+|
+  PostfixExprfssion()
+}
+
+// This produdtion is to dftfrminf lookbhfbd only.  Thf LOOKAHEAD spfdifidbtions
+// bflow brf not usfd, but thfy brf thfrf just to indidbtf thbt wf know bbout
+// this.
+void CbstLookbhfbd() :
+{}
+{
+  LOOKAHEAD(2)
+  "(" PrimitivfTypf()
+|
+  LOOKAHEAD("(" Nbmf() "[")
+  "(" Nbmf() "[" "]"
+|
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "supfr" | "nfw" | Litfrbl() )
+}
+
+void PostfixExprfssion() :
+{}
+{
+  PrimbryExprfssion() 
+        [ "++" | "--" 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        ]
+}
+
+void CbstExprfssion() :
+{}
+{
+  LOOKAHEAD(2)
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+|
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
+}
+
+void PrimbryExprfssion() :
+{}
+{
+  PrimbryPrffix() ( PrimbrySuffix() )*
+}
+
+void PrimbryPrffix() :
+{String nbmf;}
+{
+  Litfrbl()
+|
+  nbmf = Nbmf()
+                        { push(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+|
+  "this"
+                        { push(LVbluf.mbkfThisObjfdt(vm, frbmfGfttfr, tokfn)); }
+|
+  "supfr" "." <IDENTIFIER>
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+|
+  "(" Exprfssion() ")"
+|
+  AllodbtionExprfssion()
+}
+
+void PrimbrySuffix() :
+{List brgList;}
+{
+  "[" Exprfssion() "]"  
+                        { LVbluf indfx = pop();
+                          push(pop().brrbyElfmfntLVbluf(indfx)); }
+|
+  "." <IDENTIFIER>
+                        { push(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+|
+  brgList = Argumfnts()
+                        { pffk().invokfWith(brgList); }
+}
+
+void Litfrbl() :
+{}
+{
+  <INTEGER_LITERAL>
+                        { push(LVbluf.mbkfIntfgfr(vm, tokfn)); }
+|
+  <FLOATING_POINT_LITERAL>
+                        { push(LVbluf.mbkfFlobt(vm, tokfn)); }
+|
+  <CHARACTER_LITERAL>
+                        { push(LVbluf.mbkfChbrbdtfr(vm, tokfn)); }
+|
+  <STRING_LITERAL>
+                        { push(LVbluf.mbkfString(vm, tokfn)); }
+|
+  BoolfbnLitfrbl()
+                        { push(LVbluf.mbkfBoolfbn(vm, tokfn)); }
+|
+  NullLitfrbl()
+                        { push(LVbluf.mbkfNull(vm, tokfn)); }
+}
+
+void BoolfbnLitfrbl() :
+{}
+{
+  "truf" 
+|
+  "fblsf"
+}
+
+void NullLitfrbl() :
+{}
+{
+  "null"
+}
+
+List Argumfnts() :
+{List brgList = nfw ArrbyList();}
+{
+  "(" [ ArgumfntList(brgList) ] ")"
+  { rfturn brgList; }
+}
+
+void ArgumfntList(List brgList) :
+{}
+{
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
+}
+
+void AllodbtionExprfssion() :
+{List brgList; String dlbssNbmf;}
+{
+  LOOKAHEAD(2)
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
+|
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+                        { push(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
+                           | ArrbyDimfnsions() 
+                        { throw nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+			   )
+}
+
+/*
+ * Thf sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * if thfrf is bn fxprfssion bftwffn thf "[...]".
+ */
+void ArrbyDimfnsions() :
+{}
+{
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+}
+

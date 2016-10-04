@@ -1,495 +1,495 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * A text component that can be marked up with attributes that are
- * represented graphically.
- * You can find how-to information and examples of using text panes in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A tfxt domponfnt tibt dbn bf mbrkfd up witi bttributfs tibt brf
+ * rfprfsfntfd grbpiidblly.
+ * You dbn find iow-to informbtion bnd fxbmplfs of using tfxt pbnfs in
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxt.itml">Using Tfxt Componfnts</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
  * <p>
- * This component models paragraphs
- * that are composed of runs of character level attributes.  Each
- * paragraph may have a logical style attached to it which contains
- * the default attributes to use if not overridden by attributes set
- * on the paragraph or character run.  Components and images may
- * be embedded in the flow of text.
+ * Tiis domponfnt modfls pbrbgrbpis
+ * tibt brf domposfd of runs of dibrbdtfr lfvfl bttributfs.  Ebdi
+ * pbrbgrbpi mby ibvf b logidbl stylf bttbdifd to it wiidi dontbins
+ * tif dffbult bttributfs to usf if not ovfrriddfn by bttributfs sft
+ * on tif pbrbgrbpi or dibrbdtfr run.  Componfnts bnd imbgfs mby
+ * bf fmbfddfd in tif flow of tfxt.
  *
  * <dl>
- * <dt><b>Newlines</b>
+ * <dt><b>Nfwlinfs</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b disdussion on iow nfwlinfs brf ibndlfd, sff
+ * <b irff="tfxt/DffbultEditorKit.itml">DffbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer true
- * description: A text component that can be marked up with attributes that are graphically represented.
+ * @bfbninfo
+ *   bttributf: isContbinfr truf
+ * dfsdription: A tfxt domponfnt tibt dbn bf mbrkfd up witi bttributfs tibt brf grbpiidblly rfprfsfntfd.
  *
- * @author  Timothy Prinzing
- * @see javax.swing.text.StyledEditorKit
- * @since 1.2
+ * @butior  Timotiy Prinzing
+ * @sff jbvbx.swing.tfxt.StylfdEditorKit
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTextPane extends JEditorPane {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTfxtPbnf fxtfnds JEditorPbnf {
 
     /**
-     * Creates a new <code>JTextPane</code>.  A new instance of
-     * <code>StyledEditorKit</code> is
-     * created and set, and the document model set to <code>null</code>.
+     * Crfbtfs b nfw <dodf>JTfxtPbnf</dodf>.  A nfw instbndf of
+     * <dodf>StylfdEditorKit</dodf> is
+     * drfbtfd bnd sft, bnd tif dodumfnt modfl sft to <dodf>null</dodf>.
      */
-    public JTextPane() {
-        super();
-        EditorKit editorKit = createDefaultEditorKit();
-        String contentType = editorKit.getContentType();
-        if (contentType != null
-            && getEditorKitClassNameForContentType(contentType) ==
-                 defaultEditorKitMap.get(contentType)) {
-            setEditorKitForContentType(contentType, editorKit);
+    publid JTfxtPbnf() {
+        supfr();
+        EditorKit fditorKit = drfbtfDffbultEditorKit();
+        String dontfntTypf = fditorKit.gftContfntTypf();
+        if (dontfntTypf != null
+            && gftEditorKitClbssNbmfForContfntTypf(dontfntTypf) ==
+                 dffbultEditorKitMbp.gft(dontfntTypf)) {
+            sftEditorKitForContfntTypf(dontfntTypf, fditorKit);
         }
-        setEditorKit(editorKit);
+        sftEditorKit(fditorKit);
     }
 
     /**
-     * Creates a new <code>JTextPane</code>, with a specified document model.
-     * A new instance of <code>javax.swing.text.StyledEditorKit</code>
-     *  is created and set.
+     * Crfbtfs b nfw <dodf>JTfxtPbnf</dodf>, witi b spfdififd dodumfnt modfl.
+     * A nfw instbndf of <dodf>jbvbx.swing.tfxt.StylfdEditorKit</dodf>
+     *  is drfbtfd bnd sft.
      *
-     * @param doc the document model
+     * @pbrbm dod tif dodumfnt modfl
      */
-    public JTextPane(StyledDocument doc) {
-        this();
-        setStyledDocument(doc);
+    publid JTfxtPbnf(StylfdDodumfnt dod) {
+        tiis();
+        sftStylfdDodumfnt(dod);
     }
 
     /**
-     * Returns the class ID for the UI.
+     * Rfturns tif dlbss ID for tif UI.
      *
-     * @return the string "TextPaneUI"
+     * @rfturn tif string "TfxtPbnfUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Associates the editor with a text document.  This
-     * must be a <code>StyledDocument</code>.
+     * Assodibtfs tif fditor witi b tfxt dodumfnt.  Tiis
+     * must bf b <dodf>StylfdDodumfnt</dodf>.
      *
-     * @param doc  the document to display/edit
-     * @exception IllegalArgumentException  if <code>doc</code> can't
-     *   be narrowed to a <code>StyledDocument</code> which is the
-     *   required type of model for this text component
+     * @pbrbm dod  tif dodumfnt to displby/fdit
+     * @fxdfption IllfgblArgumfntExdfption  if <dodf>dod</dodf> dbn't
+     *   bf nbrrowfd to b <dodf>StylfdDodumfnt</dodf> wiidi is tif
+     *   rfquirfd typf of modfl for tiis tfxt domponfnt
      */
-    public void setDocument(Document doc) {
-        if (doc instanceof StyledDocument) {
-            super.setDocument(doc);
-        } else {
-            throw new IllegalArgumentException("Model must be StyledDocument");
+    publid void sftDodumfnt(Dodumfnt dod) {
+        if (dod instbndfof StylfdDodumfnt) {
+            supfr.sftDodumfnt(dod);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Modfl must bf StylfdDodumfnt");
         }
     }
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor.
+     * Assodibtfs tif fditor witi b tfxt dodumfnt.
+     * Tif durrfntly rfgistfrfd fbdtory is usfd to build b vifw for
+     * tif dodumfnt, wiidi gfts displbyfd by tif fditor.
      *
-     * @param doc  the document to display/edit
+     * @pbrbm dod  tif dodumfnt to displby/fdit
      */
-    public void setStyledDocument(StyledDocument doc) {
-        super.setDocument(doc);
+    publid void sftStylfdDodumfnt(StylfdDodumfnt dod) {
+        supfr.sftDodumfnt(dod);
     }
 
     /**
-     * Fetches the model associated with the editor.
+     * Fftdifs tif modfl bssodibtfd witi tif fditor.
      *
-     * @return the model
+     * @rfturn tif modfl
      */
-    public StyledDocument getStyledDocument() {
-        return (StyledDocument) getDocument();
+    publid StylfdDodumfnt gftStylfdDodumfnt() {
+        rfturn (StylfdDodumfnt) gftDodumfnt();
     }
 
     /**
-     * Replaces the currently selected content with new content
-     * represented by the given string.  If there is no selection
-     * this amounts to an insert of the given text.  If there
-     * is no replacement text this amounts to a removal of the
-     * current selection.  The replacement text will have the
-     * attributes currently defined for input at the point of
-     * insertion.  If the document is not editable, beep and return.
+     * Rfplbdfs tif durrfntly sflfdtfd dontfnt witi nfw dontfnt
+     * rfprfsfntfd by tif givfn string.  If tifrf is no sflfdtion
+     * tiis bmounts to bn insfrt of tif givfn tfxt.  If tifrf
+     * is no rfplbdfmfnt tfxt tiis bmounts to b rfmovbl of tif
+     * durrfnt sflfdtion.  Tif rfplbdfmfnt tfxt will ibvf tif
+     * bttributfs durrfntly dffinfd for input bt tif point of
+     * insfrtion.  If tif dodumfnt is not fditbblf, bffp bnd rfturn.
      *
-     * @param content  the content to replace the selection with
+     * @pbrbm dontfnt  tif dontfnt to rfplbdf tif sflfdtion witi
      */
-    @Override
-    public void replaceSelection(String content) {
-        replaceSelection(content, true);
+    @Ovfrridf
+    publid void rfplbdfSflfdtion(String dontfnt) {
+        rfplbdfSflfdtion(dontfnt, truf);
     }
 
-    private void replaceSelection(String content, boolean checkEditable) {
-        if (checkEditable && !isEditable()) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JTextPane.this);
-            return;
+    privbtf void rfplbdfSflfdtion(String dontfnt, boolfbn difdkEditbblf) {
+        if (difdkEditbblf && !isEditbblf()) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JTfxtPbnf.tiis);
+            rfturn;
         }
-        Document doc = getStyledDocument();
-        if (doc != null) {
+        Dodumfnt dod = gftStylfdDodumfnt();
+        if (dod != null) {
             try {
-                Caret caret = getCaret();
-                boolean composedTextSaved = saveComposedText(caret.getDot());
-                int p0 = Math.min(caret.getDot(), caret.getMark());
-                int p1 = Math.max(caret.getDot(), caret.getMark());
-                AttributeSet attr = getInputAttributes().copyAttributes();
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(p0, p1 - p0, content,attr);
+                Cbrft dbrft = gftCbrft();
+                boolfbn domposfdTfxtSbvfd = sbvfComposfdTfxt(dbrft.gftDot());
+                int p0 = Mbti.min(dbrft.gftDot(), dbrft.gftMbrk());
+                int p1 = Mbti.mbx(dbrft.gftDot(), dbrft.gftMbrk());
+                AttributfSft bttr = gftInputAttributfs().dopyAttributfs();
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfplbdf(p0, p1 - p0, dontfnt,bttr);
                 }
-                else {
+                flsf {
                     if (p0 != p1) {
-                        doc.remove(p0, p1 - p0);
+                        dod.rfmovf(p0, p1 - p0);
                     }
-                    if (content != null && content.length() > 0) {
-                        doc.insertString(p0, content, attr);
+                    if (dontfnt != null && dontfnt.lfngti() > 0) {
+                        dod.insfrtString(p0, dontfnt, bttr);
                     }
                 }
-                if (composedTextSaved) {
-                    restoreComposedText();
+                if (domposfdTfxtSbvfd) {
+                    rfstorfComposfdTfxt();
                 }
-            } catch (BadLocationException e) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JTextPane.this);
+            } dbtdi (BbdLodbtionExdfption f) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JTfxtPbnf.tiis);
             }
         }
     }
 
     /**
-     * Inserts a component into the document as a replacement
-     * for the currently selected content.  If there is no
-     * selection the component is effectively inserted at the
-     * current position of the caret.  This is represented in
-     * the associated document as an attribute of one character
-     * of content.
+     * Insfrts b domponfnt into tif dodumfnt bs b rfplbdfmfnt
+     * for tif durrfntly sflfdtfd dontfnt.  If tifrf is no
+     * sflfdtion tif domponfnt is ffffdtivfly insfrtfd bt tif
+     * durrfnt position of tif dbrft.  Tiis is rfprfsfntfd in
+     * tif bssodibtfd dodumfnt bs bn bttributf of onf dibrbdtfr
+     * of dontfnt.
      * <p>
-     * The component given is the actual component used by the
-     * JTextPane.  Since components cannot be a child of more than
-     * one container, this method should not be used in situations
-     * where the model is shared by text components.
+     * Tif domponfnt givfn is tif bdtubl domponfnt usfd by tif
+     * JTfxtPbnf.  Sindf domponfnts dbnnot bf b diild of morf tibn
+     * onf dontbinfr, tiis mftiod siould not bf usfd in situbtions
+     * wifrf tif modfl is sibrfd by tfxt domponfnts.
      * <p>
-     * The component is placed relative to the text baseline
-     * according to the value returned by
-     * <code>Component.getAlignmentY</code>.  For Swing components
-     * this value can be conveniently set using the method
-     * <code>JComponent.setAlignmentY</code>.  For example, setting
-     * a value of <code>0.75</code> will cause 75 percent of the
-     * component to be above the baseline, and 25 percent of the
-     * component to be below the baseline.
+     * Tif domponfnt is plbdfd rflbtivf to tif tfxt bbsflinf
+     * bddording to tif vbluf rfturnfd by
+     * <dodf>Componfnt.gftAlignmfntY</dodf>.  For Swing domponfnts
+     * tiis vbluf dbn bf donvfnifntly sft using tif mftiod
+     * <dodf>JComponfnt.sftAlignmfntY</dodf>.  For fxbmplf, sftting
+     * b vbluf of <dodf>0.75</dodf> will dbusf 75 pfrdfnt of tif
+     * domponfnt to bf bbovf tif bbsflinf, bnd 25 pfrdfnt of tif
+     * domponfnt to bf bflow tif bbsflinf.
      *
-     * @param c    the component to insert
+     * @pbrbm d    tif domponfnt to insfrt
      */
-    public void insertComponent(Component c) {
-        MutableAttributeSet inputAttributes = getInputAttributes();
-        inputAttributes.removeAttributes(inputAttributes);
-        StyleConstants.setComponent(inputAttributes, c);
-        replaceSelection(" ", false);
-        inputAttributes.removeAttributes(inputAttributes);
+    publid void insfrtComponfnt(Componfnt d) {
+        MutbblfAttributfSft inputAttributfs = gftInputAttributfs();
+        inputAttributfs.rfmovfAttributfs(inputAttributfs);
+        StylfConstbnts.sftComponfnt(inputAttributfs, d);
+        rfplbdfSflfdtion(" ", fblsf);
+        inputAttributfs.rfmovfAttributfs(inputAttributfs);
     }
 
     /**
-     * Inserts an icon into the document as a replacement
-     * for the currently selected content.  If there is no
-     * selection the icon is effectively inserted at the
-     * current position of the caret.  This is represented in
-     * the associated document as an attribute of one character
-     * of content.
+     * Insfrts bn idon into tif dodumfnt bs b rfplbdfmfnt
+     * for tif durrfntly sflfdtfd dontfnt.  If tifrf is no
+     * sflfdtion tif idon is ffffdtivfly insfrtfd bt tif
+     * durrfnt position of tif dbrft.  Tiis is rfprfsfntfd in
+     * tif bssodibtfd dodumfnt bs bn bttributf of onf dibrbdtfr
+     * of dontfnt.
      *
-     * @param g    the icon to insert
-     * @see Icon
+     * @pbrbm g    tif idon to insfrt
+     * @sff Idon
      */
-    public void insertIcon(Icon g) {
-        MutableAttributeSet inputAttributes = getInputAttributes();
-        inputAttributes.removeAttributes(inputAttributes);
-        StyleConstants.setIcon(inputAttributes, g);
-        replaceSelection(" ", false);
-        inputAttributes.removeAttributes(inputAttributes);
+    publid void insfrtIdon(Idon g) {
+        MutbblfAttributfSft inputAttributfs = gftInputAttributfs();
+        inputAttributfs.rfmovfAttributfs(inputAttributfs);
+        StylfConstbnts.sftIdon(inputAttributfs, g);
+        rfplbdfSflfdtion(" ", fblsf);
+        inputAttributfs.rfmovfAttributfs(inputAttributfs);
     }
 
     /**
-     * Adds a new style into the logical style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b nfw stylf into tif logidbl stylf iifrbrdiy.  Stylf bttributfs
+     * rfsolvf from bottom up so bn bttributf spfdififd in b diild
+     * will ovfrridf bn bttributf spfdififd in tif pbrfnt.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles).  The name may be <code>null</code>
-     *   if the style is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   tif nbmf of tif stylf (must bf uniquf witiin tif
+     *   dollfdtion of nbmfd stylfs).  Tif nbmf mby bf <dodf>null</dodf>
+     *   if tif stylf is unnbmfd, but tif dbllfr is rfsponsiblf
+     *   for mbnbging tif rfffrfndf rfturnfd bs bn unnbmfd stylf dbn't
+     *   bf fftdifd by nbmf.  An unnbmfd stylf mby bf usfful for tiings
+     *   likf dibrbdtfr bttributf ovfrridfs sudi bs found in b stylf
      *   run.
-     * @param parent the parent style.  This may be <code>null</code>
-     *   if unspecified
-     *   attributes need not be resolved in some other style.
-     * @return the new <code>Style</code>
+     * @pbrbm pbrfnt tif pbrfnt stylf.  Tiis mby bf <dodf>null</dodf>
+     *   if unspfdififd
+     *   bttributfs nffd not bf rfsolvfd in somf otifr stylf.
+     * @rfturn tif nfw <dodf>Stylf</dodf>
      */
-    public Style addStyle(String nm, Style parent) {
-        StyledDocument doc = getStyledDocument();
-        return doc.addStyle(nm, parent);
+    publid Stylf bddStylf(String nm, Stylf pbrfnt) {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        rfturn dod.bddStylf(nm, pbrfnt);
     }
 
     /**
-     * Removes a named non-<code>null</code> style previously added to
-     * the document.
+     * Rfmovfs b nbmfd non-<dodf>null</dodf> stylf prfviously bddfd to
+     * tif dodumfnt.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  tif nbmf of tif stylf to rfmovf
      */
-    public void removeStyle(String nm) {
-        StyledDocument doc = getStyledDocument();
-        doc.removeStyle(nm);
+    publid void rfmovfStylf(String nm) {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        dod.rfmovfStylf(nm);
     }
 
     /**
-     * Fetches a named non-<code>null</code> style previously added.
+     * Fftdifs b nbmfd non-<dodf>null</dodf> stylf prfviously bddfd.
      *
-     * @param nm  the name of the style
-     * @return the <code>Style</code>
+     * @pbrbm nm  tif nbmf of tif stylf
+     * @rfturn tif <dodf>Stylf</dodf>
      */
-    public Style getStyle(String nm) {
-        StyledDocument doc = getStyledDocument();
-        return doc.getStyle(nm);
+    publid Stylf gftStylf(String nm) {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        rfturn dod.gftStylf(nm);
     }
 
     /**
-     * Sets the logical style to use for the paragraph at the
-     * current caret position.  If attributes aren't explicitly set
-     * for character and paragraph attributes they will resolve
-     * through the logical style assigned to the paragraph, which
-     * in term may resolve through some hierarchy completely
-     * independent of the element hierarchy in the document.
+     * Sfts tif logidbl stylf to usf for tif pbrbgrbpi bt tif
+     * durrfnt dbrft position.  If bttributfs brfn't fxpliditly sft
+     * for dibrbdtfr bnd pbrbgrbpi bttributfs tify will rfsolvf
+     * tirougi tif logidbl stylf bssignfd to tif pbrbgrbpi, wiidi
+     * in tfrm mby rfsolvf tirougi somf iifrbrdiy domplftfly
+     * indfpfndfnt of tif flfmfnt iifrbrdiy in tif dodumfnt.
      *
-     * @param s  the logical style to assign to the paragraph,
-     *          or <code>null</code> for no style
+     * @pbrbm s  tif logidbl stylf to bssign to tif pbrbgrbpi,
+     *          or <dodf>null</dodf> for no stylf
      */
-    public void setLogicalStyle(Style s) {
-        StyledDocument doc = getStyledDocument();
-        doc.setLogicalStyle(getCaretPosition(), s);
+    publid void sftLogidblStylf(Stylf s) {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        dod.sftLogidblStylf(gftCbrftPosition(), s);
     }
 
     /**
-     * Fetches the logical style assigned to the paragraph represented
-     * by the current position of the caret, or <code>null</code>.
+     * Fftdifs tif logidbl stylf bssignfd to tif pbrbgrbpi rfprfsfntfd
+     * by tif durrfnt position of tif dbrft, or <dodf>null</dodf>.
      *
-     * @return the <code>Style</code>
+     * @rfturn tif <dodf>Stylf</dodf>
      */
-    public Style getLogicalStyle() {
-        StyledDocument doc = getStyledDocument();
-        return doc.getLogicalStyle(getCaretPosition());
+    publid Stylf gftLogidblStylf() {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        rfturn dod.gftLogidblStylf(gftCbrftPosition());
     }
 
     /**
-     * Fetches the character attributes in effect at the
-     * current location of the caret, or <code>null</code>.
+     * Fftdifs tif dibrbdtfr bttributfs in ffffdt bt tif
+     * durrfnt lodbtion of tif dbrft, or <dodf>null</dodf>.
      *
-     * @return the attributes, or <code>null</code>
+     * @rfturn tif bttributfs, or <dodf>null</dodf>
      */
-    public AttributeSet getCharacterAttributes() {
-        StyledDocument doc = getStyledDocument();
-        Element run = doc.getCharacterElement(getCaretPosition());
+    publid AttributfSft gftCibrbdtfrAttributfs() {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        Elfmfnt run = dod.gftCibrbdtfrElfmfnt(gftCbrftPosition());
         if (run != null) {
-            return run.getAttributes();
+            rfturn run.gftAttributfs();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Applies the given attributes to character
-     * content.  If there is a selection, the attributes
-     * are applied to the selection range.  If there
-     * is no selection, the attributes are applied to
-     * the input attribute set which defines the attributes
-     * for any new text that gets inserted.
+     * Applifs tif givfn bttributfs to dibrbdtfr
+     * dontfnt.  If tifrf is b sflfdtion, tif bttributfs
+     * brf bpplifd to tif sflfdtion rbngf.  If tifrf
+     * is no sflfdtion, tif bttributfs brf bpplifd to
+     * tif input bttributf sft wiidi dffinfs tif bttributfs
+     * for bny nfw tfxt tibt gfts insfrtfd.
      *
-     * @param attr the attributes
-     * @param replace if true, then replace the existing attributes first
+     * @pbrbm bttr tif bttributfs
+     * @pbrbm rfplbdf if truf, tifn rfplbdf tif fxisting bttributfs first
      */
-    public void setCharacterAttributes(AttributeSet attr, boolean replace) {
-        int p0 = getSelectionStart();
-        int p1 = getSelectionEnd();
+    publid void sftCibrbdtfrAttributfs(AttributfSft bttr, boolfbn rfplbdf) {
+        int p0 = gftSflfdtionStbrt();
+        int p1 = gftSflfdtionEnd();
         if (p0 != p1) {
-            StyledDocument doc = getStyledDocument();
-            doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
-        } else {
-            MutableAttributeSet inputAttributes = getInputAttributes();
-            if (replace) {
-                inputAttributes.removeAttributes(inputAttributes);
+            StylfdDodumfnt dod = gftStylfdDodumfnt();
+            dod.sftCibrbdtfrAttributfs(p0, p1 - p0, bttr, rfplbdf);
+        } flsf {
+            MutbblfAttributfSft inputAttributfs = gftInputAttributfs();
+            if (rfplbdf) {
+                inputAttributfs.rfmovfAttributfs(inputAttributfs);
             }
-            inputAttributes.addAttributes(attr);
+            inputAttributfs.bddAttributfs(bttr);
         }
     }
 
     /**
-     * Fetches the current paragraph attributes in effect
-     * at the location of the caret, or <code>null</code> if none.
+     * Fftdifs tif durrfnt pbrbgrbpi bttributfs in ffffdt
+     * bt tif lodbtion of tif dbrft, or <dodf>null</dodf> if nonf.
      *
-     * @return the attributes
+     * @rfturn tif bttributfs
      */
-    public AttributeSet getParagraphAttributes() {
-        StyledDocument doc = getStyledDocument();
-        Element paragraph = doc.getParagraphElement(getCaretPosition());
-        if (paragraph != null) {
-            return paragraph.getAttributes();
+    publid AttributfSft gftPbrbgrbpiAttributfs() {
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        Elfmfnt pbrbgrbpi = dod.gftPbrbgrbpiElfmfnt(gftCbrftPosition());
+        if (pbrbgrbpi != null) {
+            rfturn pbrbgrbpi.gftAttributfs();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Applies the given attributes to paragraphs.  If
-     * there is a selection, the attributes are applied
-     * to the paragraphs that intersect the selection.
-     * If there is no selection, the attributes are applied
-     * to the paragraph at the current caret position.
+     * Applifs tif givfn bttributfs to pbrbgrbpis.  If
+     * tifrf is b sflfdtion, tif bttributfs brf bpplifd
+     * to tif pbrbgrbpis tibt intfrsfdt tif sflfdtion.
+     * If tifrf is no sflfdtion, tif bttributfs brf bpplifd
+     * to tif pbrbgrbpi bt tif durrfnt dbrft position.
      *
-     * @param attr the non-<code>null</code> attributes
-     * @param replace if true, replace the existing attributes first
+     * @pbrbm bttr tif non-<dodf>null</dodf> bttributfs
+     * @pbrbm rfplbdf if truf, rfplbdf tif fxisting bttributfs first
      */
-    public void setParagraphAttributes(AttributeSet attr, boolean replace) {
-        int p0 = getSelectionStart();
-        int p1 = getSelectionEnd();
-        StyledDocument doc = getStyledDocument();
-        doc.setParagraphAttributes(p0, p1 - p0, attr, replace);
+    publid void sftPbrbgrbpiAttributfs(AttributfSft bttr, boolfbn rfplbdf) {
+        int p0 = gftSflfdtionStbrt();
+        int p1 = gftSflfdtionEnd();
+        StylfdDodumfnt dod = gftStylfdDodumfnt();
+        dod.sftPbrbgrbpiAttributfs(p0, p1 - p0, bttr, rfplbdf);
     }
 
     /**
-     * Gets the input attributes for the pane.
+     * Gfts tif input bttributfs for tif pbnf.
      *
-     * @return the attributes
+     * @rfturn tif bttributfs
      */
-    public MutableAttributeSet getInputAttributes() {
-        return getStyledEditorKit().getInputAttributes();
+    publid MutbblfAttributfSft gftInputAttributfs() {
+        rfturn gftStylfdEditorKit().gftInputAttributfs();
     }
 
     /**
-     * Gets the editor kit.
+     * Gfts tif fditor kit.
      *
-     * @return the editor kit
+     * @rfturn tif fditor kit
      */
-    protected final StyledEditorKit getStyledEditorKit() {
-        return (StyledEditorKit) getEditorKit();
+    protfdtfd finbl StylfdEditorKit gftStylfdEditorKit() {
+        rfturn (StylfdEditorKit) gftEditorKit();
     }
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "TextPaneUI";
+    privbtf stbtid finbl String uiClbssID = "TfxtPbnfUI";
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      *
-     * @param s the output stream
+     * @pbrbm s tif output strfbm
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
-    // --- JEditorPane ------------------------------------
+    // --- JEditorPbnf ------------------------------------
 
     /**
-     * Creates the <code>EditorKit</code> to use by default.  This
-     * is implemented to return <code>javax.swing.text.StyledEditorKit</code>.
+     * Crfbtfs tif <dodf>EditorKit</dodf> to usf by dffbult.  Tiis
+     * is implfmfntfd to rfturn <dodf>jbvbx.swing.tfxt.StylfdEditorKit</dodf>.
      *
-     * @return the editor kit
+     * @rfturn tif fditor kit
      */
-    protected EditorKit createDefaultEditorKit() {
-        return new StyledEditorKit();
+    protfdtfd EditorKit drfbtfDffbultEditorKit() {
+        rfturn nfw StylfdEditorKit();
     }
 
     /**
-     * Sets the currently installed kit for handling
-     * content.  This is the bound property that
-     * establishes the content type of the editor.
+     * Sfts tif durrfntly instbllfd kit for ibndling
+     * dontfnt.  Tiis is tif bound propfrty tibt
+     * fstbblisifs tif dontfnt typf of tif fditor.
      *
-     * @param kit the desired editor behavior
-     * @exception IllegalArgumentException if kit is not a
-     *          <code>StyledEditorKit</code>
+     * @pbrbm kit tif dfsirfd fditor bfibvior
+     * @fxdfption IllfgblArgumfntExdfption if kit is not b
+     *          <dodf>StylfdEditorKit</dodf>
      */
-    public final void setEditorKit(EditorKit kit) {
-        if (kit instanceof StyledEditorKit) {
-            super.setEditorKit(kit);
-        } else {
-            throw new IllegalArgumentException("Must be StyledEditorKit");
+    publid finbl void sftEditorKit(EditorKit kit) {
+        if (kit instbndfof StylfdEditorKit) {
+            supfr.sftEditorKit(kit);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Must bf StylfdEditorKit");
         }
     }
 
     /**
-     * Returns a string representation of this <code>JTextPane</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JTfxtPbnf</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JTextPane</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JTfxtPbnf</dodf>
      */
-    protected String paramString() {
-        return super.paramString();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
     }
 
 }

@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
 
 /**
- * Class MediaSizeName is a subclass of Media.
+ * Clbss MfdibSizfNbmf is b subdlbss of Mfdib.
  * <P>
- * This attribute can be used instead of specifying MediaName or MediaTray.
+ * Tiis bttributf dbn bf usfd instfbd of spfdifying MfdibNbmf or MfdibTrby.
  * <p>
- * Class MediaSizeName currently declares a few standard media
- * name values.
+ * Clbss MfdibSizfNbmf durrfntly dfdlbrfs b ffw stbndbrd mfdib
+ * nbmf vblufs.
  * <P>
- * <B>IPP Compatibility:</B> MediaSizeName is a representation class for
- * values of the IPP "media" attribute which names media sizes.
- * The names of the media sizes correspond to those in the IPP 1.1 RFC
- * <a HREF="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</a>
+ * <B>IPP Compbtibility:</B> MfdibSizfNbmf is b rfprfsfntbtion dlbss for
+ * vblufs of tif IPP "mfdib" bttributf wiidi nbmfs mfdib sizfs.
+ * Tif nbmfs of tif mfdib sizfs dorrfspond to tiosf in tif IPP 1.1 RFC
+ * <b HREF="ittp://www.iftf.org/rfd/rfd2911.txt">RFC 2911</b>
  *
  */
-public class MediaSizeName extends Media {
+publid dlbss MfdibSizfNbmf fxtfnds Mfdib {
 
-    private static final long serialVersionUID = 2778798329756942747L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2778798329756942747L;
 
     /**
-     * A0 size.
+     * A0 sizf.
      */
-    public static final MediaSizeName ISO_A0 = new MediaSizeName(0);
+    publid stbtid finbl MfdibSizfNbmf ISO_A0 = nfw MfdibSizfNbmf(0);
     /**
-     * A1 size.
+     * A1 sizf.
      */
-    public static final MediaSizeName ISO_A1 = new MediaSizeName(1);
+    publid stbtid finbl MfdibSizfNbmf ISO_A1 = nfw MfdibSizfNbmf(1);
     /**
-     * A2 size.
+     * A2 sizf.
      */
-    public static final MediaSizeName ISO_A2 = new MediaSizeName(2);
+    publid stbtid finbl MfdibSizfNbmf ISO_A2 = nfw MfdibSizfNbmf(2);
     /**
-     * A3 size.
+     * A3 sizf.
      */
-    public static final MediaSizeName ISO_A3 = new MediaSizeName(3);
+    publid stbtid finbl MfdibSizfNbmf ISO_A3 = nfw MfdibSizfNbmf(3);
     /**
-     * A4 size.
+     * A4 sizf.
      */
-    public static final MediaSizeName ISO_A4 = new MediaSizeName(4);
+    publid stbtid finbl MfdibSizfNbmf ISO_A4 = nfw MfdibSizfNbmf(4);
     /**
-     * A5 size.
+     * A5 sizf.
      */
-    public static final MediaSizeName ISO_A5 = new MediaSizeName(5);
+    publid stbtid finbl MfdibSizfNbmf ISO_A5 = nfw MfdibSizfNbmf(5);
     /**
-     * A6 size.
+     * A6 sizf.
      */
-    public static final MediaSizeName ISO_A6 = new MediaSizeName(6);
+    publid stbtid finbl MfdibSizfNbmf ISO_A6 = nfw MfdibSizfNbmf(6);
     /**
-     * A7 size.
+     * A7 sizf.
      */
-    public static final MediaSizeName ISO_A7 = new MediaSizeName(7);
+    publid stbtid finbl MfdibSizfNbmf ISO_A7 = nfw MfdibSizfNbmf(7);
     /**
-     * A8 size.
+     * A8 sizf.
      */
-    public static final MediaSizeName ISO_A8 = new MediaSizeName(8);
+    publid stbtid finbl MfdibSizfNbmf ISO_A8 = nfw MfdibSizfNbmf(8);
     /**
-     * A9 size.
+     * A9 sizf.
      */
-    public static final MediaSizeName ISO_A9 = new MediaSizeName(9);
+    publid stbtid finbl MfdibSizfNbmf ISO_A9 = nfw MfdibSizfNbmf(9);
     /**
-     * A10 size.
+     * A10 sizf.
      */
-    public static final MediaSizeName ISO_A10 = new MediaSizeName(10);
-
-   /**
-     * ISO B0 size.
-     */
-    public static final MediaSizeName ISO_B0 = new MediaSizeName(11);
-    /**
-     * ISO B1 size.
-     */
-    public static final MediaSizeName ISO_B1 = new MediaSizeName(12);
-    /**
-     * ISO B2 size.
-     */
-    public static final MediaSizeName ISO_B2 = new MediaSizeName(13);
-    /**
-     * ISO B3 size.
-     */
-    public static final MediaSizeName ISO_B3 = new MediaSizeName(14);
-    /**
-     * ISO B4 size.
-     */
-    public static final MediaSizeName ISO_B4 = new MediaSizeName(15);
-    /**
-     * ISO B5 size.
-     */
-    public static final MediaSizeName ISO_B5 = new MediaSizeName(16);
-    /**
-     * ISO B6 size.
-     */
-    public static final MediaSizeName ISO_B6 = new MediaSizeName(17);
-    /**
-     * ISO B7 size.
-     */
-    public static final MediaSizeName ISO_B7 = new MediaSizeName(18);
-    /**
-     * ISO B8 size.
-     */
-    public static final MediaSizeName ISO_B8 = new MediaSizeName(19);
-    /**
-     * ISO B9 size.
-     */
-    public static final MediaSizeName ISO_B9 = new MediaSizeName(20);
-    /**
-     * ISO B10 size.
-     */
-    public static final MediaSizeName ISO_B10 = new MediaSizeName(21);
+    publid stbtid finbl MfdibSizfNbmf ISO_A10 = nfw MfdibSizfNbmf(10);
 
    /**
-     * JIS B0 size.
+     * ISO B0 sizf.
      */
-    public static final MediaSizeName JIS_B0 = new MediaSizeName(22);
+    publid stbtid finbl MfdibSizfNbmf ISO_B0 = nfw MfdibSizfNbmf(11);
     /**
-     * JIS B1 size.
+     * ISO B1 sizf.
      */
-    public static final MediaSizeName JIS_B1 = new MediaSizeName(23);
+    publid stbtid finbl MfdibSizfNbmf ISO_B1 = nfw MfdibSizfNbmf(12);
     /**
-     * JIS B2 size.
+     * ISO B2 sizf.
      */
-    public static final MediaSizeName JIS_B2 = new MediaSizeName(24);
+    publid stbtid finbl MfdibSizfNbmf ISO_B2 = nfw MfdibSizfNbmf(13);
     /**
-     * JIS B3 size.
+     * ISO B3 sizf.
      */
-    public static final MediaSizeName JIS_B3 = new MediaSizeName(25);
+    publid stbtid finbl MfdibSizfNbmf ISO_B3 = nfw MfdibSizfNbmf(14);
     /**
-     * JIS B4 size.
+     * ISO B4 sizf.
      */
-    public static final MediaSizeName JIS_B4 = new MediaSizeName(26);
+    publid stbtid finbl MfdibSizfNbmf ISO_B4 = nfw MfdibSizfNbmf(15);
     /**
-     * JIS B5 size.
+     * ISO B5 sizf.
      */
-    public static final MediaSizeName JIS_B5 = new MediaSizeName(27);
+    publid stbtid finbl MfdibSizfNbmf ISO_B5 = nfw MfdibSizfNbmf(16);
     /**
-     * JIS B6 size.
+     * ISO B6 sizf.
      */
-    public static final MediaSizeName JIS_B6 = new MediaSizeName(28);
+    publid stbtid finbl MfdibSizfNbmf ISO_B6 = nfw MfdibSizfNbmf(17);
     /**
-     * JIS B7 size.
+     * ISO B7 sizf.
      */
-    public static final MediaSizeName JIS_B7 = new MediaSizeName(29);
+    publid stbtid finbl MfdibSizfNbmf ISO_B7 = nfw MfdibSizfNbmf(18);
     /**
-     * JIS B8 size.
+     * ISO B8 sizf.
      */
-    public static final MediaSizeName JIS_B8 = new MediaSizeName(30);
+    publid stbtid finbl MfdibSizfNbmf ISO_B8 = nfw MfdibSizfNbmf(19);
     /**
-     * JIS B9 size.
+     * ISO B9 sizf.
      */
-    public static final MediaSizeName JIS_B9 = new MediaSizeName(31);
+    publid stbtid finbl MfdibSizfNbmf ISO_B9 = nfw MfdibSizfNbmf(20);
     /**
-     * JIS B10 size.
+     * ISO B10 sizf.
      */
-    public static final MediaSizeName JIS_B10 = new MediaSizeName(32);
+    publid stbtid finbl MfdibSizfNbmf ISO_B10 = nfw MfdibSizfNbmf(21);
 
-    /**
-     * ISO C0 size.
-     */
-    public static final MediaSizeName ISO_C0 = new MediaSizeName(33);
-    /**
-     * ISO C1 size.
-     */
-    public static final MediaSizeName ISO_C1 = new MediaSizeName(34);
-    /**
-     * ISO C2 size.
-     */
-    public static final MediaSizeName ISO_C2 = new MediaSizeName(35);
-    /**
-     * ISO C3 size.
-     */
-    public static final MediaSizeName ISO_C3 = new MediaSizeName(36);
-    /**
-     * ISO C4 size.
-     */
-    public static final MediaSizeName ISO_C4 = new MediaSizeName(37);
-    /**
-     * ISO C5 size.
-     */
-    public static final MediaSizeName ISO_C5 = new MediaSizeName(38);
-    /**
-     *   letter size.
-     */
-    public static final MediaSizeName ISO_C6 = new MediaSizeName(39);
-    /**
-     *   letter size.
-     */
-    public static final MediaSizeName NA_LETTER = new MediaSizeName(40);
-
-    /**
-     *  legal size .
-     */
-    public static final MediaSizeName NA_LEGAL = new MediaSizeName(41);
-
-    /**
-     *  executive size .
-     */
-    public static final MediaSizeName EXECUTIVE = new MediaSizeName(42);
-
-    /**
-     *  ledger size .
-     */
-    public static final MediaSizeName LEDGER = new MediaSizeName(43);
-
-    /**
-     *  tabloid size .
-     */
-    public static final MediaSizeName TABLOID = new MediaSizeName(44);
-
-    /**
-     *  invoice size .
-     */
-    public static final MediaSizeName INVOICE = new MediaSizeName(45);
-
-    /**
-     *  folio size .
-     */
-    public static final MediaSizeName FOLIO = new MediaSizeName(46);
-
-    /**
-     *  quarto size .
-     */
-    public static final MediaSizeName QUARTO = new MediaSizeName(47);
-
-    /**
-     *  Japanese Postcard size.
-     */
-    public static final MediaSizeName
-        JAPANESE_POSTCARD = new MediaSizeName(48);
    /**
-     *  Japanese Double Postcard size.
+     * JIS B0 sizf.
      */
-    public static final MediaSizeName
-        JAPANESE_DOUBLE_POSTCARD = new MediaSizeName(49);
+    publid stbtid finbl MfdibSizfNbmf JIS_B0 = nfw MfdibSizfNbmf(22);
+    /**
+     * JIS B1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B1 = nfw MfdibSizfNbmf(23);
+    /**
+     * JIS B2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B2 = nfw MfdibSizfNbmf(24);
+    /**
+     * JIS B3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B3 = nfw MfdibSizfNbmf(25);
+    /**
+     * JIS B4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B4 = nfw MfdibSizfNbmf(26);
+    /**
+     * JIS B5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B5 = nfw MfdibSizfNbmf(27);
+    /**
+     * JIS B6 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B6 = nfw MfdibSizfNbmf(28);
+    /**
+     * JIS B7 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B7 = nfw MfdibSizfNbmf(29);
+    /**
+     * JIS B8 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B8 = nfw MfdibSizfNbmf(30);
+    /**
+     * JIS B9 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B9 = nfw MfdibSizfNbmf(31);
+    /**
+     * JIS B10 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B10 = nfw MfdibSizfNbmf(32);
 
     /**
-     *  A size .
+     * ISO C0 sizf.
      */
-    public static final MediaSizeName A = new MediaSizeName(50);
+    publid stbtid finbl MfdibSizfNbmf ISO_C0 = nfw MfdibSizfNbmf(33);
+    /**
+     * ISO C1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C1 = nfw MfdibSizfNbmf(34);
+    /**
+     * ISO C2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C2 = nfw MfdibSizfNbmf(35);
+    /**
+     * ISO C3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C3 = nfw MfdibSizfNbmf(36);
+    /**
+     * ISO C4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C4 = nfw MfdibSizfNbmf(37);
+    /**
+     * ISO C5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C5 = nfw MfdibSizfNbmf(38);
+    /**
+     *   lfttfr sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C6 = nfw MfdibSizfNbmf(39);
+    /**
+     *   lfttfr sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf NA_LETTER = nfw MfdibSizfNbmf(40);
 
     /**
-     *  B size .
+     *  lfgbl sizf .
      */
-    public static final MediaSizeName B = new MediaSizeName(51);
+    publid stbtid finbl MfdibSizfNbmf NA_LEGAL = nfw MfdibSizfNbmf(41);
 
     /**
-     *  C size .
+     *  fxfdutivf sizf .
      */
-    public static final MediaSizeName C = new MediaSizeName(52);
+    publid stbtid finbl MfdibSizfNbmf EXECUTIVE = nfw MfdibSizfNbmf(42);
 
     /**
-     *  D size .
+     *  lfdgfr sizf .
      */
-    public static final MediaSizeName D = new MediaSizeName(53);
+    publid stbtid finbl MfdibSizfNbmf LEDGER = nfw MfdibSizfNbmf(43);
 
     /**
-     *  E size .
+     *  tbbloid sizf .
      */
-    public static final MediaSizeName E = new MediaSizeName(54);
+    publid stbtid finbl MfdibSizfNbmf TABLOID = nfw MfdibSizfNbmf(44);
 
     /**
-     *  ISO designated long size .
+     *  invoidf sizf .
      */
-    public static final MediaSizeName
-        ISO_DESIGNATED_LONG = new MediaSizeName(55);
+    publid stbtid finbl MfdibSizfNbmf INVOICE = nfw MfdibSizfNbmf(45);
 
     /**
-     *  Italy envelope size .
+     *  folio sizf .
      */
-    public static final MediaSizeName
-        ITALY_ENVELOPE = new MediaSizeName(56);  // DESIGNATED_LONG?
+    publid stbtid finbl MfdibSizfNbmf FOLIO = nfw MfdibSizfNbmf(46);
 
     /**
-     *  monarch envelope size .
+     *  qubrto sizf .
      */
-    public static final MediaSizeName
-        MONARCH_ENVELOPE = new MediaSizeName(57);
+    publid stbtid finbl MfdibSizfNbmf QUARTO = nfw MfdibSizfNbmf(47);
+
     /**
-     * personal envelope size .
+     *  Jbpbnfsf Postdbrd sizf.
      */
-    public static final MediaSizeName
-        PERSONAL_ENVELOPE = new MediaSizeName(58);
-    /**
-     *  number 9 envelope size .
-     */
-    public static final MediaSizeName
-        NA_NUMBER_9_ENVELOPE = new MediaSizeName(59);
-    /**
-     *  number 10 envelope size .
-     */
-    public static final MediaSizeName
-        NA_NUMBER_10_ENVELOPE = new MediaSizeName(60);
-    /**
-     *  number 11 envelope size .
-     */
-    public static final MediaSizeName
-        NA_NUMBER_11_ENVELOPE = new MediaSizeName(61);
-    /**
-     *  number 12 envelope size .
-     */
-    public static final MediaSizeName
-        NA_NUMBER_12_ENVELOPE = new MediaSizeName(62);
-    /**
-     *  number 14 envelope size .
-     */
-    public static final MediaSizeName
-        NA_NUMBER_14_ENVELOPE = new MediaSizeName(63);
+    publid stbtid finbl MfdibSizfNbmf
+        JAPANESE_POSTCARD = nfw MfdibSizfNbmf(48);
    /**
-     *  6x9 North American envelope size.
+     *  Jbpbnfsf Doublf Postdbrd sizf.
      */
-    public static final MediaSizeName
-        NA_6X9_ENVELOPE = new MediaSizeName(64);
+    publid stbtid finbl MfdibSizfNbmf
+        JAPANESE_DOUBLE_POSTCARD = nfw MfdibSizfNbmf(49);
+
+    /**
+     *  A sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf A = nfw MfdibSizfNbmf(50);
+
+    /**
+     *  B sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf B = nfw MfdibSizfNbmf(51);
+
+    /**
+     *  C sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf C = nfw MfdibSizfNbmf(52);
+
+    /**
+     *  D sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf D = nfw MfdibSizfNbmf(53);
+
+    /**
+     *  E sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf E = nfw MfdibSizfNbmf(54);
+
+    /**
+     *  ISO dfsignbtfd long sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        ISO_DESIGNATED_LONG = nfw MfdibSizfNbmf(55);
+
+    /**
+     *  Itbly fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        ITALY_ENVELOPE = nfw MfdibSizfNbmf(56);  // DESIGNATED_LONG?
+
+    /**
+     *  monbrdi fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        MONARCH_ENVELOPE = nfw MfdibSizfNbmf(57);
+    /**
+     * pfrsonbl fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        PERSONAL_ENVELOPE = nfw MfdibSizfNbmf(58);
+    /**
+     *  numbfr 9 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_9_ENVELOPE = nfw MfdibSizfNbmf(59);
+    /**
+     *  numbfr 10 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_10_ENVELOPE = nfw MfdibSizfNbmf(60);
+    /**
+     *  numbfr 11 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_11_ENVELOPE = nfw MfdibSizfNbmf(61);
+    /**
+     *  numbfr 12 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_12_ENVELOPE = nfw MfdibSizfNbmf(62);
+    /**
+     *  numbfr 14 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_14_ENVELOPE = nfw MfdibSizfNbmf(63);
    /**
-     *  7x9 North American envelope size.
+     *  6x9 Norti Amfridbn fnvflopf sizf.
      */
-    public static final MediaSizeName
-        NA_7X9_ENVELOPE = new MediaSizeName(65);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_6X9_ENVELOPE = nfw MfdibSizfNbmf(64);
    /**
-     *  9x11 North American envelope size.
+     *  7x9 Norti Amfridbn fnvflopf sizf.
      */
-    public static final MediaSizeName
-        NA_9X11_ENVELOPE = new MediaSizeName(66);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_7X9_ENVELOPE = nfw MfdibSizfNbmf(65);
+   /**
+     *  9x11 Norti Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_9X11_ENVELOPE = nfw MfdibSizfNbmf(66);
     /**
-     *  9x12 North American envelope size.
+     *  9x12 Norti Amfridbn fnvflopf sizf.
      */
-    public static final MediaSizeName
-        NA_9X12_ENVELOPE = new MediaSizeName(67);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_9X12_ENVELOPE = nfw MfdibSizfNbmf(67);
 
     /**
-     *  10x13 North American envelope size .
+     *  10x13 Norti Amfridbn fnvflopf sizf .
      */
-    public static final MediaSizeName
-        NA_10X13_ENVELOPE = new MediaSizeName(68);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X13_ENVELOPE = nfw MfdibSizfNbmf(68);
     /**
-     *  10x14North American  envelope size .
+     *  10x14Norti Amfridbn  fnvflopf sizf .
      */
-    public static final MediaSizeName
-        NA_10X14_ENVELOPE = new MediaSizeName(69);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X14_ENVELOPE = nfw MfdibSizfNbmf(69);
     /**
-     *  10x15 North American envelope size.
+     *  10x15 Norti Amfridbn fnvflopf sizf.
      */
-    public static final MediaSizeName
-        NA_10X15_ENVELOPE = new MediaSizeName(70);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X15_ENVELOPE = nfw MfdibSizfNbmf(70);
 
     /**
-     *  5x7 North American paper.
+     *  5x7 Norti Amfridbn pbpfr.
      */
-    public static final MediaSizeName
-        NA_5X7 = new MediaSizeName(71);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_5X7 = nfw MfdibSizfNbmf(71);
 
     /**
-     *  8x10 North American paper.
+     *  8x10 Norti Amfridbn pbpfr.
      */
-    public static final MediaSizeName
-        NA_8X10 = new MediaSizeName(72);
+    publid stbtid finbl MfdibSizfNbmf
+        NA_8X10 = nfw MfdibSizfNbmf(72);
 
     /**
-     * Construct a new media size enumeration value with the given integer
-     * value.
+     * Construdt b nfw mfdib sizf fnumfrbtion vbluf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected MediaSizeName(int value) {
-        super (value);
+    protfdtfd MfdibSizfNbmf(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-                "iso-a0",
-                "iso-a1",
-                "iso-a2",
-                "iso-a3",
-                "iso-a4",
-                "iso-a5",
-                "iso-a6",
-                "iso-a7",
-                "iso-a8",
-                "iso-a9",
-                "iso-a10",
+    privbtf stbtid finbl String[] myStringTbblf = {
+                "iso-b0",
+                "iso-b1",
+                "iso-b2",
+                "iso-b3",
+                "iso-b4",
+                "iso-b5",
+                "iso-b6",
+                "iso-b7",
+                "iso-b8",
+                "iso-b9",
+                "iso-b10",
                 "iso-b0",
                 "iso-b1",
                 "iso-b2",
@@ -426,49 +426,49 @@ public class MediaSizeName extends Media {
                 "jis-b8",
                 "jis-b9",
                 "jis-b10",
-                "iso-c0",
-                "iso-c1",
-                "iso-c2",
-                "iso-c3",
-                "iso-c4",
-                "iso-c5",
-                "iso-c6",
-                "na-letter",
-                "na-legal",
-                "executive",
-                "ledger",
-                "tabloid",
-                "invoice",
+                "iso-d0",
+                "iso-d1",
+                "iso-d2",
+                "iso-d3",
+                "iso-d4",
+                "iso-d5",
+                "iso-d6",
+                "nb-lfttfr",
+                "nb-lfgbl",
+                "fxfdutivf",
+                "lfdgfr",
+                "tbbloid",
+                "invoidf",
                 "folio",
-                "quarto",
-                "japanese-postcard",
-                "oufuko-postcard",
-                "a",
+                "qubrto",
+                "jbpbnfsf-postdbrd",
+                "oufuko-postdbrd",
                 "b",
-                "c",
+                "b",
                 "d",
-                "e",
-                "iso-designated-long",
-                "italian-envelope",
-                "monarch-envelope",
-                "personal-envelope",
-                "na-number-9-envelope",
-                "na-number-10-envelope",
-                "na-number-11-envelope",
-                "na-number-12-envelope",
-                "na-number-14-envelope",
-                "na-6x9-envelope",
-                "na-7x9-envelope",
-                "na-9x11-envelope",
-                "na-9x12-envelope",
-                "na-10x13-envelope",
-                "na-10x14-envelope",
-                "na-10x15-envelope",
-                "na-5x7",
-                "na-8x10",
+                "d",
+                "f",
+                "iso-dfsignbtfd-long",
+                "itblibn-fnvflopf",
+                "monbrdi-fnvflopf",
+                "pfrsonbl-fnvflopf",
+                "nb-numbfr-9-fnvflopf",
+                "nb-numbfr-10-fnvflopf",
+                "nb-numbfr-11-fnvflopf",
+                "nb-numbfr-12-fnvflopf",
+                "nb-numbfr-14-fnvflopf",
+                "nb-6x9-fnvflopf",
+                "nb-7x9-fnvflopf",
+                "nb-9x11-fnvflopf",
+                "nb-9x12-fnvflopf",
+                "nb-10x13-fnvflopf",
+                "nb-10x14-fnvflopf",
+                "nb-10x15-fnvflopf",
+                "nb-5x7",
+                "nb-8x10",
         };
 
-    private static final MediaSizeName[] myEnumValueTable = {
+    privbtf stbtid finbl MfdibSizfNbmf[] myEnumVblufTbblf = {
                 ISO_A0,
                 ISO_A1,
                 ISO_A2,
@@ -546,18 +546,18 @@ public class MediaSizeName extends Media {
 
 
     /**
-     * Returns the string table for class MediaSizeName.
+     * Rfturns tif string tbblf for dlbss MfdibSizfNbmf.
      */
-    protected String[] getStringTable()
+    protfdtfd String[] gftStringTbblf()
     {
-        return myStringTable.clone();
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class MediaSizeName.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss MfdibSizfNbmf.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
 

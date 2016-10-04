@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
 /**
- * Defines the requirements for a tree node object that can change --
- * by adding or removing child nodes, or by changing the contents
- * of a user object stored in the node.
+ * Dffinfs tif rfquirfmfnts for b trff nodf objfdt tibt dbn dibngf --
+ * by bdding or rfmoving diild nodfs, or by dibnging tif dontfnts
+ * of b usfr objfdt storfd in tif nodf.
  *
- * @see DefaultMutableTreeNode
- * @see javax.swing.JTree
+ * @sff DffbultMutbblfTrffNodf
+ * @sff jbvbx.swing.JTrff
  *
- * @author Rob Davis
- * @author Scott Violet
+ * @butior Rob Dbvis
+ * @butior Sdott Violft
  */
 
-public interface MutableTreeNode extends TreeNode
+publid intfrfbdf MutbblfTrffNodf fxtfnds TrffNodf
 {
     /**
-     * Adds <code>child</code> to the receiver at <code>index</code>.
-     * <code>child</code> will be messaged with <code>setParent</code>.
+     * Adds <dodf>diild</dodf> to tif rfdfivfr bt <dodf>indfx</dodf>.
+     * <dodf>diild</dodf> will bf mfssbgfd witi <dodf>sftPbrfnt</dodf>.
      *
-     * @param child node to be added
-     * @param index index of the receiver
+     * @pbrbm diild nodf to bf bddfd
+     * @pbrbm indfx indfx of tif rfdfivfr
      */
-    void insert(MutableTreeNode child, int index);
+    void insfrt(MutbblfTrffNodf diild, int indfx);
 
     /**
-     * Removes the child at <code>index</code> from the receiver.
+     * Rfmovfs tif diild bt <dodf>indfx</dodf> from tif rfdfivfr.
      *
-     * @param index index of child to be removed
+     * @pbrbm indfx indfx of diild to bf rfmovfd
      */
-    void remove(int index);
+    void rfmovf(int indfx);
 
     /**
-     * Removes <code>node</code> from the receiver. <code>setParent</code>
-     * will be messaged on <code>node</code>.
+     * Rfmovfs <dodf>nodf</dodf> from tif rfdfivfr. <dodf>sftPbrfnt</dodf>
+     * will bf mfssbgfd on <dodf>nodf</dodf>.
      *
-     * @param node node to be removed from the receiver
+     * @pbrbm nodf nodf to bf rfmovfd from tif rfdfivfr
      */
-    void remove(MutableTreeNode node);
+    void rfmovf(MutbblfTrffNodf nodf);
 
     /**
-     * Resets the user object of the receiver to <code>object</code>.
+     * Rfsfts tif usfr objfdt of tif rfdfivfr to <dodf>objfdt</dodf>.
      *
-     * @param object object to be set as a receiver
+     * @pbrbm objfdt objfdt to bf sft bs b rfdfivfr
      */
-    void setUserObject(Object object);
+    void sftUsfrObjfdt(Objfdt objfdt);
 
     /**
-     * Removes the receiver from its parent.
+     * Rfmovfs tif rfdfivfr from its pbrfnt.
      */
-    void removeFromParent();
+    void rfmovfFromPbrfnt();
 
     /**
-     * Sets the parent of the receiver to <code>newParent</code>.
+     * Sfts tif pbrfnt of tif rfdfivfr to <dodf>nfwPbrfnt</dodf>.
      *
-     * @param newParent node to be set as parent of the receiver
+     * @pbrbm nfwPbrfnt nodf to bf sft bs pbrfnt of tif rfdfivfr
      */
-    void setParent(MutableTreeNode newParent);
+    void sftPbrfnt(MutbblfTrffNodf nfwPbrfnt);
 }

@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpCountfr;
+import dom.sun.jmx.snmp.SnmpCountfr64;
+import dom.sun.jmx.snmp.SnmpGbugf;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.SnmpUnsignfdInt;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpOpbquf;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStringFixfd;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpNull;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibGroup;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdMftbSfrvfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+import dom.sun.jmx.snmp.EnumRowStbtus;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmThrfbdingMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmThrfbdInstbndfTbblfMftb;
+
+/**
+ * Thf dlbss is usfd for rfprfsfnting SNMP mftbdbtb for thf "JvmThrfbding"
+ * group.
+ */
+publid dlbss JvmThrfbdingMftbImpl fxtfnds JvmThrfbdingMftb {
+
+    stbtid finbl long sfriblVfrsionUID = -2104788458393251457L;
+
+    /**
+     * Construdtor for thf mftbdbtb bssodibtfd to "JvmThrfbding".
+     */
+    publid JvmThrfbdingMftbImpl(SnmpMib myMib,
+                                SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib, objsfrv);
+    }
+
+    /**
+     * Fbdtory mfthod for "JvmThrfbdInstbndfTbblf" tbblf mftbdbtb dlbss.
+     *
+     * You dbn rfdffinf this mfthod if you nffd to rfplbdf thf dffbult
+     * gfnfrbtfd mftbdbtb dlbss with your own dustomizfd dlbss.
+     *
+     * @pbrbm tbblfNbmf Nbmf of thf tbblf objfdt ("JvmThrfbdInstbndfTbblf")
+     * @pbrbm groupNbmf Nbmf of thf group to whidh this tbblf bflong
+     *        ("JvmThrfbding")
+     * @pbrbm mib Thf SnmpMib objfdt in whidh this tbblf is rfgistfrfd
+     * @pbrbm sfrvfr MBfbnSfrvfr for this tbblf fntrifs (mby bf null)
+     *
+     * @rfturn An instbndf of thf mftbdbtb dlbss gfnfrbtfd for thf
+     *         "JvmThrfbdInstbndfTbblf" tbblf (JvmThrfbdInstbndfTbblfMftb)
+     *
+     **/
+    protfdtfd JvmThrfbdInstbndfTbblfMftb
+        drfbtfJvmThrfbdInstbndfTbblfMftbNodf(String tbblfNbmf,
+                                             String groupNbmf,
+                                             SnmpMib mib,
+                                             MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmThrfbdInstbndfTbblfMftbImpl(mib, objfdtsfrvfr);
+    }
+}

@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Storing dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion dbn storf 24-bit pixfls into bn brrby of bytfs
+ * bs thrff donsfdutivf bytfs sudh thbt thf pixfl for (srdX, srdY) is
+ * storfd bt indidfs (srdOff + srdY * srdSdbn + srdX * 3 + C) in thf
+ * brrby, whfrf C == 0 for thf bluf domponfnt, 1 for thf grffn domponfnt,
+ * bnd 2 for thf rfd domponfnt.
+ */
+
+#dffinf DfdlbrfOutputVbrs                               \
+    pixptr dstP;
+
+#dffinf InitOutput(dvdbtb, dlrdbtb, dstX, dstY)                 \
+    do {                                                        \
+        img_dhfdk(dlrdbtb->bitspfrpixfl == 24);                 \
+        dstP.vp = dvdbtb->outbuf;                               \
+        dstP.bp += dstY * SdbnBytfs(dvdbtb) + dstX * 3;         \
+    } whilf (0)
+
+#dffinf PutPixflInd(pixfl, rfd, grffn, bluf)                    \
+    do {                                                        \
+        *dstP.bp++ = bluf;                                      \
+        *dstP.bp++ = grffn;                                     \
+        *dstP.bp++ = rfd;                                       \
+    } whilf (0)
+
+#dffinf EndOutputRow(dvdbtb, dstY, dstX1, dstX2)                \
+    do {                                                        \
+        SfndRow(dvdbtb, dstY, dstX1, dstX2);                    \
+        dstP.bp += SdbnBytfs(dvdbtb) - (dstX2 - dstX1) * 3;     \
+    } whilf (0)
+
+#dffinf EndOutputRfdt(dvdbtb, dstX1, dstY1, dstX2, dstY2)       \
+    SfndBufffr(dvdbtb, dstX1, dstY1, dstX2, dstY2)

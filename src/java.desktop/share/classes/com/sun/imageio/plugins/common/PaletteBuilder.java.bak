@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.common;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
 
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.Color;
-import javax.imageio.ImageTypeSpecifier;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.Color;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
 
 
 /**
- * This class implements the octree quantization method
- *  as it is described in the "Graphics Gems"
- *  (ISBN 0-12-286166-3, Chapter 4, pages 297-293)
+ * Tiis dlbss implfmfnts tif odtrff qubntizbtion mftiod
+ *  bs it is dfsdribfd in tif "Grbpiids Gfms"
+ *  (ISBN 0-12-286166-3, Cibptfr 4, pbgfs 297-293)
  */
-public class PaletteBuilder {
+publid dlbss PblfttfBuildfr {
 
     /**
-     * maximum of tree depth
+     * mbximum of trff dfpti
      */
-    protected static final int MAXLEVEL = 8;
+    protfdtfd stbtid finbl int MAXLEVEL = 8;
 
-    protected RenderedImage src;
-    protected ColorModel srcColorModel;
-    protected Raster srcRaster;
+    protfdtfd RfndfrfdImbgf srd;
+    protfdtfd ColorModfl srdColorModfl;
+    protfdtfd Rbstfr srdRbstfr;
 
-    protected int requiredSize;
+    protfdtfd int rfquirfdSizf;
 
-    protected ColorNode root;
+    protfdtfd ColorNodf root;
 
-    protected int numNodes;
-    protected int maxNodes;
-    protected int currLevel;
-    protected int currSize;
+    protfdtfd int numNodfs;
+    protfdtfd int mbxNodfs;
+    protfdtfd int durrLfvfl;
+    protfdtfd int durrSizf;
 
-    protected ColorNode[] reduceList;
-    protected ColorNode[] palette;
+    protfdtfd ColorNodf[] rfdudfList;
+    protfdtfd ColorNodf[] pblfttf;
 
-    protected int transparency;
-    protected ColorNode transColor;
+    protfdtfd int trbnspbrfndy;
+    protfdtfd ColorNodf trbnsColor;
 
 
     /**
-     * Creates an image representing given image
-     * <code>src</code> using <code>IndexColorModel</code>.
+     * Crfbtfs bn imbgf rfprfsfnting givfn imbgf
+     * <dodf>srd</dodf> using <dodf>IndfxColorModfl</dodf>.
      *
-     * Lossless conversion is not always possible (e.g. if number
-     * of colors in the  given image exceeds maximum palette size).
-     * Result image then is an approximation constructed by octree
-     * quantization method.
+     * Losslfss donvfrsion is not blwbys possiblf (f.g. if numbfr
+     * of dolors in tif  givfn imbgf fxdffds mbximum pblfttf sizf).
+     * Rfsult imbgf tifn is bn bpproximbtion donstrudtfd by odtrff
+     * qubntizbtion mftiod.
      *
-     * @exception IllegalArgumentException if <code>src</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>srd</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @exception UnsupportedOperationException if implemented method
-     * is unable to create approximation of <code>src</code>
-     * and <code>canCreatePalette</code> returns <code>false</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if implfmfntfd mftiod
+     * is unbblf to drfbtf bpproximbtion of <dodf>srd</dodf>
+     * bnd <dodf>dbnCrfbtfPblfttf</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @see createIndexColorModel
+     * @sff drfbtfIndfxColorModfl
      *
-     * @see canCreatePalette
+     * @sff dbnCrfbtfPblfttf
      *
      */
-    public static RenderedImage createIndexedImage(RenderedImage src) {
-        PaletteBuilder pb = new PaletteBuilder(src);
-        pb.buildPalette();
-        return pb.getIndexedImage();
+    publid stbtid RfndfrfdImbgf drfbtfIndfxfdImbgf(RfndfrfdImbgf srd) {
+        PblfttfBuildfr pb = nfw PblfttfBuildfr(srd);
+        pb.buildPblfttf();
+        rfturn pb.gftIndfxfdImbgf();
     }
 
     /**
-     * Creates an palette representing colors from given image
-     * <code>img</code>. If number of colors in the given image exceeds
-     * maximum palette size closest colors would be merged.
+     * Crfbtfs bn pblfttf rfprfsfnting dolors from givfn imbgf
+     * <dodf>img</dodf>. If numbfr of dolors in tif givfn imbgf fxdffds
+     * mbximum pblfttf sizf dlosfst dolors would bf mfrgfd.
      *
-     * @exception IllegalArgumentException if <code>img</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>img</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @exception UnsupportedOperationException if implemented method
-     * is unable to create approximation of <code>img</code>
-     * and <code>canCreatePalette</code> returns <code>false</code>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if implfmfntfd mftiod
+     * is unbblf to drfbtf bpproximbtion of <dodf>img</dodf>
+     * bnd <dodf>dbnCrfbtfPblfttf</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @see createIndexedImage
+     * @sff drfbtfIndfxfdImbgf
      *
-     * @see canCreatePalette
+     * @sff dbnCrfbtfPblfttf
      *
      */
-    public static IndexColorModel createIndexColorModel(RenderedImage img) {
-        PaletteBuilder pb = new PaletteBuilder(img);
-        pb.buildPalette();
-        return pb.getIndexColorModel();
+    publid stbtid IndfxColorModfl drfbtfIndfxColorModfl(RfndfrfdImbgf img) {
+        PblfttfBuildfr pb = nfw PblfttfBuildfr(img);
+        pb.buildPblfttf();
+        rfturn pb.gftIndfxColorModfl();
     }
 
     /**
-     * Returns <code>true</code> if PaletteBuilder is able to create
-     * palette for given image type.
+     * Rfturns <dodf>truf</dodf> if PblfttfBuildfr is bblf to drfbtf
+     * pblfttf for givfn imbgf typf.
      *
-     * @param type an instance of <code>ImageTypeSpecifier</code> to be
-     * indexed.
+     * @pbrbm typf bn instbndf of <dodf>ImbgfTypfSpfdififr</dodf> to bf
+     * indfxfd.
      *
-     * @return <code>true</code> if the <code>PaletteBuilder</code>
-     * is likely to be able to create palette for this image type.
+     * @rfturn <dodf>truf</dodf> if tif <dodf>PblfttfBuildfr</dodf>
+     * is likfly to bf bblf to drfbtf pblfttf for tiis imbgf typf.
      *
-     * @exception IllegalArgumentException if <code>type</code>
-     * is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>typf</dodf>
+     * is <dodf>null</dodf>.
      */
-    public static boolean canCreatePalette(ImageTypeSpecifier type) {
-        if (type == null) {
-            throw new IllegalArgumentException("type == null");
+    publid stbtid boolfbn dbnCrfbtfPblfttf(ImbgfTypfSpfdififr typf) {
+        if (typf == null) {
+            tirow nfw IllfgblArgumfntExdfption("typf == null");
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns <code>true</code> if PaletteBuilder is able to create
-     * palette for given rendered image.
+     * Rfturns <dodf>truf</dodf> if PblfttfBuildfr is bblf to drfbtf
+     * pblfttf for givfn rfndfrfd imbgf.
      *
-     * @param image an instance of <code>RenderedImage</code> to be
-     * indexed.
+     * @pbrbm imbgf bn instbndf of <dodf>RfndfrfdImbgf</dodf> to bf
+     * indfxfd.
      *
-     * @return <code>true</code> if the <code>PaletteBuilder</code>
-     * is likely to be able to create palette for this image type.
+     * @rfturn <dodf>truf</dodf> if tif <dodf>PblfttfBuildfr</dodf>
+     * is likfly to bf bblf to drfbtf pblfttf for tiis imbgf typf.
      *
-     * @exception IllegalArgumentException if <code>image</code>
-     * is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf>
+     * is <dodf>null</dodf>.
      */
-    public static boolean canCreatePalette(RenderedImage image) {
-        if (image == null) {
-            throw new IllegalArgumentException("image == null");
+    publid stbtid boolfbn dbnCrfbtfPblfttf(RfndfrfdImbgf imbgf) {
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgf == null");
         }
-        ImageTypeSpecifier type = new ImageTypeSpecifier(image);
-        return canCreatePalette(type);
+        ImbgfTypfSpfdififr typf = nfw ImbgfTypfSpfdififr(imbgf);
+        rfturn dbnCrfbtfPblfttf(typf);
     }
 
-    protected RenderedImage getIndexedImage() {
-        IndexColorModel icm = getIndexColorModel();
+    protfdtfd RfndfrfdImbgf gftIndfxfdImbgf() {
+        IndfxColorModfl idm = gftIndfxColorModfl();
 
-        BufferedImage dst =
-            new BufferedImage(src.getWidth(), src.getHeight(),
-                              BufferedImage.TYPE_BYTE_INDEXED, icm);
+        BufffrfdImbgf dst =
+            nfw BufffrfdImbgf(srd.gftWidti(), srd.gftHfigit(),
+                              BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
 
-        WritableRaster wr = dst.getRaster();
-        for (int y =0; y < dst.getHeight(); y++) {
-            for (int x = 0; x < dst.getWidth(); x++) {
-                Color aColor = getSrcColor(x,y);
-                wr.setSample(x, y, 0, findColorIndex(root, aColor));
+        WritbblfRbstfr wr = dst.gftRbstfr();
+        for (int y =0; y < dst.gftHfigit(); y++) {
+            for (int x = 0; x < dst.gftWidti(); x++) {
+                Color bColor = gftSrdColor(x,y);
+                wr.sftSbmplf(x, y, 0, findColorIndfx(root, bColor));
             }
         }
 
-        return dst;
+        rfturn dst;
     }
 
 
-    protected PaletteBuilder(RenderedImage src) {
-        this(src, 256);
+    protfdtfd PblfttfBuildfr(RfndfrfdImbgf srd) {
+        tiis(srd, 256);
     }
 
-    protected PaletteBuilder(RenderedImage src, int size) {
-        this.src = src;
-        this.srcColorModel = src.getColorModel();
-        this.srcRaster = src.getData();
+    protfdtfd PblfttfBuildfr(RfndfrfdImbgf srd, int sizf) {
+        tiis.srd = srd;
+        tiis.srdColorModfl = srd.gftColorModfl();
+        tiis.srdRbstfr = srd.gftDbtb();
 
-        this.transparency =
-            srcColorModel.getTransparency();
+        tiis.trbnspbrfndy =
+            srdColorModfl.gftTrbnspbrfndy();
 
-        this.requiredSize = size;
+        tiis.rfquirfdSizf = sizf;
     }
 
-    private Color getSrcColor(int x, int y) {
-        int argb = srcColorModel.getRGB(srcRaster.getDataElements(x, y, null));
-        return new Color(argb, transparency != Transparency.OPAQUE);
+    privbtf Color gftSrdColor(int x, int y) {
+        int brgb = srdColorModfl.gftRGB(srdRbstfr.gftDbtbElfmfnts(x, y, null));
+        rfturn nfw Color(brgb, trbnspbrfndy != Trbnspbrfndy.OPAQUE);
     }
 
-    protected int findColorIndex(ColorNode aNode, Color aColor) {
-        if (transparency != Transparency.OPAQUE &&
-            aColor.getAlpha() != 0xff)
+    protfdtfd int findColorIndfx(ColorNodf bNodf, Color bColor) {
+        if (trbnspbrfndy != Trbnspbrfndy.OPAQUE &&
+            bColor.gftAlpib() != 0xff)
         {
-            return 0; // default transparnt pixel
+            rfturn 0; // dffbult trbnspbrnt pixfl
         }
 
-        if (aNode.isLeaf) {
-            return aNode.paletteIndex;
-        } else {
-            int childIndex = getBranchIndex(aColor, aNode.level);
+        if (bNodf.isLfbf) {
+            rfturn bNodf.pblfttfIndfx;
+        } flsf {
+            int diildIndfx = gftBrbndiIndfx(bColor, bNodf.lfvfl);
 
-            return findColorIndex(aNode.children[childIndex], aColor);
+            rfturn findColorIndfx(bNodf.diildrfn[diildIndfx], bColor);
         }
     }
 
-    protected void buildPalette() {
-        reduceList = new ColorNode[MAXLEVEL + 1];
-        for (int i = 0; i < reduceList.length; i++) {
-            reduceList[i] = null;
+    protfdtfd void buildPblfttf() {
+        rfdudfList = nfw ColorNodf[MAXLEVEL + 1];
+        for (int i = 0; i < rfdudfList.lfngti; i++) {
+            rfdudfList[i] = null;
         }
 
-        numNodes = 0;
-        maxNodes = 0;
+        numNodfs = 0;
+        mbxNodfs = 0;
         root = null;
-        currSize = 0;
-        currLevel = MAXLEVEL;
+        durrSizf = 0;
+        durrLfvfl = MAXLEVEL;
 
         /*
-          from the book
+          from tif book
 
         */
 
-        int w = src.getWidth();
-        int h = src.getHeight();
-        for (int y = 0; y < h; y++) {
+        int w = srd.gftWidti();
+        int i = srd.gftHfigit();
+        for (int y = 0; y < i; y++) {
             for (int x = 0; x < w; x++) {
 
-                Color aColor = getSrcColor(w - x - 1, h - y - 1);
+                Color bColor = gftSrdColor(w - x - 1, i - y - 1);
                 /*
-                 * If transparency of given image is not opaque we assume all
-                 * colors with alpha less than 1.0 as fully transparent.
+                 * If trbnspbrfndy of givfn imbgf is not opbquf wf bssumf bll
+                 * dolors witi blpib lfss tibn 1.0 bs fully trbnspbrfnt.
                  */
-                if (transparency != Transparency.OPAQUE &&
-                    aColor.getAlpha() != 0xff)
+                if (trbnspbrfndy != Trbnspbrfndy.OPAQUE &&
+                    bColor.gftAlpib() != 0xff)
                 {
-                    if (transColor == null) {
-                        this.requiredSize --; // one slot for transparent color
+                    if (trbnsColor == null) {
+                        tiis.rfquirfdSizf --; // onf slot for trbnspbrfnt dolor
 
-                        transColor = new ColorNode();
-                        transColor.isLeaf = true;
+                        trbnsColor = nfw ColorNodf();
+                        trbnsColor.isLfbf = truf;
                     }
-                    transColor = insertNode(transColor, aColor, 0);
-                } else {
-                    root = insertNode(root, aColor, 0);
+                    trbnsColor = insfrtNodf(trbnsColor, bColor, 0);
+                } flsf {
+                    root = insfrtNodf(root, bColor, 0);
                 }
-                if (currSize > requiredSize) {
-                    reduceTree();
+                if (durrSizf > rfquirfdSizf) {
+                    rfdudfTrff();
                 }
             }
         }
     }
 
-    protected ColorNode insertNode(ColorNode aNode, Color aColor, int aLevel) {
+    protfdtfd ColorNodf insfrtNodf(ColorNodf bNodf, Color bColor, int bLfvfl) {
 
-        if (aNode == null) {
-            aNode = new ColorNode();
-            numNodes++;
-            if (numNodes > maxNodes) {
-                maxNodes = numNodes;
+        if (bNodf == null) {
+            bNodf = nfw ColorNodf();
+            numNodfs++;
+            if (numNodfs > mbxNodfs) {
+                mbxNodfs = numNodfs;
             }
-            aNode.level = aLevel;
-            aNode.isLeaf = (aLevel > MAXLEVEL);
-            if (aNode.isLeaf) {
-                currSize++;
+            bNodf.lfvfl = bLfvfl;
+            bNodf.isLfbf = (bLfvfl > MAXLEVEL);
+            if (bNodf.isLfbf) {
+                durrSizf++;
             }
         }
-        aNode.colorCount++;
-        aNode.red   += aColor.getRed();
-        aNode.green += aColor.getGreen();
-        aNode.blue  += aColor.getBlue();
+        bNodf.dolorCount++;
+        bNodf.rfd   += bColor.gftRfd();
+        bNodf.grffn += bColor.gftGrffn();
+        bNodf.bluf  += bColor.gftBluf();
 
-        if (!aNode.isLeaf) {
-            int branchIndex = getBranchIndex(aColor, aLevel);
-            if (aNode.children[branchIndex] == null) {
-                aNode.childCount++;
-                if (aNode.childCount == 2) {
-                    aNode.nextReducible = reduceList[aLevel];
-                    reduceList[aLevel] = aNode;
+        if (!bNodf.isLfbf) {
+            int brbndiIndfx = gftBrbndiIndfx(bColor, bLfvfl);
+            if (bNodf.diildrfn[brbndiIndfx] == null) {
+                bNodf.diildCount++;
+                if (bNodf.diildCount == 2) {
+                    bNodf.nfxtRfdudiblf = rfdudfList[bLfvfl];
+                    rfdudfList[bLfvfl] = bNodf;
                 }
             }
-            aNode.children[branchIndex] =
-                insertNode(aNode.children[branchIndex], aColor, aLevel + 1);
+            bNodf.diildrfn[brbndiIndfx] =
+                insfrtNodf(bNodf.diildrfn[brbndiIndfx], bColor, bLfvfl + 1);
         }
-        return aNode;
+        rfturn bNodf;
     }
 
-    protected IndexColorModel getIndexColorModel() {
-        int size = currSize;
-        if (transColor != null) {
-            size ++; // we need place for transparent color;
+    protfdtfd IndfxColorModfl gftIndfxColorModfl() {
+        int sizf = durrSizf;
+        if (trbnsColor != null) {
+            sizf ++; // wf nffd plbdf for trbnspbrfnt dolor;
         }
 
-        byte[] red = new byte[size];
-        byte[] green = new byte[size];
-        byte[] blue = new byte[size];
+        bytf[] rfd = nfw bytf[sizf];
+        bytf[] grffn = nfw bytf[sizf];
+        bytf[] bluf = nfw bytf[sizf];
 
-        int index = 0;
-        palette = new ColorNode[size];
-        if (transColor != null) {
-            index ++;
+        int indfx = 0;
+        pblfttf = nfw ColorNodf[sizf];
+        if (trbnsColor != null) {
+            indfx ++;
         }
 
         if (root != null) {
-            findPaletteEntry(root, index, red, green, blue);
+            findPblfttfEntry(root, indfx, rfd, grffn, bluf);
         }
 
-        IndexColorModel icm = null;
-        if (transColor  != null) {
-            icm = new IndexColorModel(8, size, red, green, blue, 0);
-        } else {
-            icm = new IndexColorModel(8, currSize, red, green, blue);
+        IndfxColorModfl idm = null;
+        if (trbnsColor  != null) {
+            idm = nfw IndfxColorModfl(8, sizf, rfd, grffn, bluf, 0);
+        } flsf {
+            idm = nfw IndfxColorModfl(8, durrSizf, rfd, grffn, bluf);
         }
-        return icm;
+        rfturn idm;
     }
 
-    protected int findPaletteEntry(ColorNode aNode, int index,
-                                   byte[] red, byte[] green, byte[] blue)
+    protfdtfd int findPblfttfEntry(ColorNodf bNodf, int indfx,
+                                   bytf[] rfd, bytf[] grffn, bytf[] bluf)
         {
-            if (aNode.isLeaf) {
-                red[index]   = (byte)(aNode.red/aNode.colorCount);
-                green[index] = (byte)(aNode.green/aNode.colorCount);
-                blue[index]  = (byte)(aNode.blue/aNode.colorCount);
-                aNode.paletteIndex = index;
+            if (bNodf.isLfbf) {
+                rfd[indfx]   = (bytf)(bNodf.rfd/bNodf.dolorCount);
+                grffn[indfx] = (bytf)(bNodf.grffn/bNodf.dolorCount);
+                bluf[indfx]  = (bytf)(bNodf.bluf/bNodf.dolorCount);
+                bNodf.pblfttfIndfx = indfx;
 
-                palette[index] = aNode;
+                pblfttf[indfx] = bNodf;
 
-                index++;
-            } else {
+                indfx++;
+            } flsf {
                 for (int i = 0; i < 8; i++) {
-                    if (aNode.children[i] != null) {
-                        index = findPaletteEntry(aNode.children[i], index,
-                                                 red, green, blue);
+                    if (bNodf.diildrfn[i] != null) {
+                        indfx = findPblfttfEntry(bNodf.diildrfn[i], indfx,
+                                                 rfd, grffn, bluf);
                     }
                 }
             }
-            return index;
+            rfturn indfx;
         }
 
-    protected int getBranchIndex(Color aColor, int aLevel) {
-        if (aLevel > MAXLEVEL || aLevel < 0) {
-            throw new IllegalArgumentException("Invalid octree node depth: " +
-                                               aLevel);
+    protfdtfd int gftBrbndiIndfx(Color bColor, int bLfvfl) {
+        if (bLfvfl > MAXLEVEL || bLfvfl < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid odtrff nodf dfpti: " +
+                                               bLfvfl);
         }
 
-        int shift = MAXLEVEL - aLevel;
-        int red_index = 0x1 & ((0xff & aColor.getRed()) >> shift);
-        int green_index = 0x1 & ((0xff & aColor.getGreen()) >> shift);
-        int blue_index = 0x1 & ((0xff & aColor.getBlue()) >> shift);
-        int index = (red_index << 2) | (green_index << 1) | blue_index;
-        return index;
+        int siift = MAXLEVEL - bLfvfl;
+        int rfd_indfx = 0x1 & ((0xff & bColor.gftRfd()) >> siift);
+        int grffn_indfx = 0x1 & ((0xff & bColor.gftGrffn()) >> siift);
+        int bluf_indfx = 0x1 & ((0xff & bColor.gftBluf()) >> siift);
+        int indfx = (rfd_indfx << 2) | (grffn_indfx << 1) | bluf_indfx;
+        rfturn indfx;
     }
 
-    protected void reduceTree() {
-        int level = reduceList.length - 1;
-        while (reduceList[level] == null && level >= 0) {
-            level--;
+    protfdtfd void rfdudfTrff() {
+        int lfvfl = rfdudfList.lfngti - 1;
+        wiilf (rfdudfList[lfvfl] == null && lfvfl >= 0) {
+            lfvfl--;
         }
 
-        ColorNode thisNode = reduceList[level];
-        if (thisNode == null) {
-            // nothing to reduce
-            return;
+        ColorNodf tiisNodf = rfdudfList[lfvfl];
+        if (tiisNodf == null) {
+            // notiing to rfdudf
+            rfturn;
         }
 
-        // look for element with lower color count
-        ColorNode pList = thisNode;
-        int minColorCount = pList.colorCount;
+        // look for flfmfnt witi lowfr dolor dount
+        ColorNodf pList = tiisNodf;
+        int minColorCount = pList.dolorCount;
 
-        int cnt = 1;
-        while (pList.nextReducible != null) {
-            if (minColorCount > pList.nextReducible.colorCount) {
-                thisNode = pList;
-                minColorCount = pList.colorCount;
+        int dnt = 1;
+        wiilf (pList.nfxtRfdudiblf != null) {
+            if (minColorCount > pList.nfxtRfdudiblf.dolorCount) {
+                tiisNodf = pList;
+                minColorCount = pList.dolorCount;
             }
-            pList = pList.nextReducible;
-            cnt++;
+            pList = pList.nfxtRfdudiblf;
+            dnt++;
         }
 
-        // save pointer to first reducible node
-        // NB: current color count for node could be changed in future
-        if (thisNode == reduceList[level]) {
-            reduceList[level] = thisNode.nextReducible;
-        } else {
-            pList = thisNode.nextReducible; // we need to process it
-            thisNode.nextReducible = pList.nextReducible;
-            thisNode = pList;
+        // sbvf pointfr to first rfdudiblf nodf
+        // NB: durrfnt dolor dount for nodf dould bf dibngfd in futurf
+        if (tiisNodf == rfdudfList[lfvfl]) {
+            rfdudfList[lfvfl] = tiisNodf.nfxtRfdudiblf;
+        } flsf {
+            pList = tiisNodf.nfxtRfdudiblf; // wf nffd to prodfss it
+            tiisNodf.nfxtRfdudiblf = pList.nfxtRfdudiblf;
+            tiisNodf = pList;
         }
 
-        if (thisNode.isLeaf) {
-            return;
+        if (tiisNodf.isLfbf) {
+            rfturn;
         }
 
-        // reduce node
-        int leafChildCount = thisNode.getLeafChildCount();
-        thisNode.isLeaf = true;
-        currSize -= (leafChildCount - 1);
-        int aDepth = thisNode.level;
+        // rfdudf nodf
+        int lfbfCiildCount = tiisNodf.gftLfbfCiildCount();
+        tiisNodf.isLfbf = truf;
+        durrSizf -= (lfbfCiildCount - 1);
+        int bDfpti = tiisNodf.lfvfl;
         for (int i = 0; i < 8; i++) {
-            thisNode.children[i] = freeTree(thisNode.children[i]);
+            tiisNodf.diildrfn[i] = frffTrff(tiisNodf.diildrfn[i]);
         }
-        thisNode.childCount = 0;
+        tiisNodf.diildCount = 0;
     }
 
-    protected ColorNode freeTree(ColorNode aNode) {
-        if (aNode == null) {
-            return null;
+    protfdtfd ColorNodf frffTrff(ColorNodf bNodf) {
+        if (bNodf == null) {
+            rfturn null;
         }
         for (int i = 0; i < 8; i++) {
-            aNode.children[i] = freeTree(aNode.children[i]);
+            bNodf.diildrfn[i] = frffTrff(bNodf.diildrfn[i]);
         }
 
-        numNodes--;
-        return null;
+        numNodfs--;
+        rfturn null;
     }
 
     /**
-     * The node of color tree.
+     * Tif nodf of dolor trff.
      */
-    protected class ColorNode {
-        public boolean isLeaf;
-        public int childCount;
-        ColorNode[] children;
+    protfdtfd dlbss ColorNodf {
+        publid boolfbn isLfbf;
+        publid int diildCount;
+        ColorNodf[] diildrfn;
 
-        public int colorCount;
-        public long red;
-        public long blue;
-        public long green;
+        publid int dolorCount;
+        publid long rfd;
+        publid long bluf;
+        publid long grffn;
 
-        public int paletteIndex;
+        publid int pblfttfIndfx;
 
-        public int level;
-        ColorNode nextReducible;
+        publid int lfvfl;
+        ColorNodf nfxtRfdudiblf;
 
-        public ColorNode() {
-            isLeaf = false;
-            level = 0;
-            childCount = 0;
-            children = new ColorNode[8];
+        publid ColorNodf() {
+            isLfbf = fblsf;
+            lfvfl = 0;
+            diildCount = 0;
+            diildrfn = nfw ColorNodf[8];
             for (int i = 0; i < 8; i++) {
-                children[i] = null;
+                diildrfn[i] = null;
             }
 
-            colorCount = 0;
-            red = green = blue = 0;
+            dolorCount = 0;
+            rfd = grffn = bluf = 0;
 
-            paletteIndex = 0;
+            pblfttfIndfx = 0;
         }
 
-        public int getLeafChildCount() {
-            if (isLeaf) {
-                return 0;
+        publid int gftLfbfCiildCount() {
+            if (isLfbf) {
+                rfturn 0;
             }
-            int cnt = 0;
-            for (int i = 0; i < children.length; i++) {
-                if (children[i] != null) {
-                    if (children[i].isLeaf) {
-                        cnt ++;
-                    } else {
-                        cnt += children[i].getLeafChildCount();
+            int dnt = 0;
+            for (int i = 0; i < diildrfn.lfngti; i++) {
+                if (diildrfn[i] != null) {
+                    if (diildrfn[i].isLfbf) {
+                        dnt ++;
+                    } flsf {
+                        dnt += diildrfn[i].gftLfbfCiildCount();
                     }
                 }
             }
-            return cnt;
+            rfturn dnt;
         }
 
-        public int getRGB() {
-            int r = (int)red/colorCount;
-            int g = (int)green/colorCount;
-            int b = (int)blue/colorCount;
+        publid int gftRGB() {
+            int r = (int)rfd/dolorCount;
+            int g = (int)grffn/dolorCount;
+            int b = (int)bluf/dolorCount;
 
-            int c = 0xff << 24 | (0xff&r) << 16 | (0xff&g) << 8 | (0xff&b);
-            return c;
+            int d = 0xff << 24 | (0xff&r) << 16 | (0xff&g) << 8 | (0xff&b);
+            rfturn d;
         }
     }
 }

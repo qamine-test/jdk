@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "com_apple_concurrent_LibDispatchNative.h"
+#import "dom_bpplf_dondurrfnt_LibDispbtdiNbtivf.i"
 
-#import <dispatch/dispatch.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <dispbtdi/dispbtdi.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeIsDispatchSupported
- * Signature: ()Z
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfIsDispbtdiSupportfd
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeIsDispatchSupported
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfIsDispbtdiSupportfd
+(JNIEnv *fnv, jdlbss dlbzz)
 {
-        return JNI_TRUE;
+        rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeGetMainQueue
- * Signature: ()J
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfGftMbinQufuf
+ * Signbturf: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeGetMainQueue
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfGftMbinQufuf
+(JNIEnv *fnv, jdlbss dlbzz)
 {
-        dispatch_queue_t queue = dispatch_get_main_queue();
-        return ptr_to_jlong(queue);
+        dispbtdi_qufuf_t qufuf = dispbtdi_gft_mbin_qufuf();
+        rfturn ptr_to_jlong(qufuf);
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeCreateConcurrentQueue
- * Signature: (I)J
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfCrfbtfCondurrfntQufuf
+ * Signbturf: (I)J
  */
-JNIEXPORT jlong JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeCreateConcurrentQueue
-(JNIEnv *env, jclass clazz, jint priority)
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfCrfbtfCondurrfntQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jint priority)
 {
-        dispatch_queue_t queue = dispatch_get_global_queue((long)priority, 0);
-        return ptr_to_jlong(queue);
+        dispbtdi_qufuf_t qufuf = dispbtdi_gft_globbl_qufuf((long)priority, 0);
+        rfturn ptr_to_jlong(qufuf);
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeCreateSerialQueue
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfCrfbtfSfriblQufuf
+ * Signbturf: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeCreateSerialQueue
-(JNIEnv *env, jclass clazz, jstring name)
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfCrfbtfSfriblQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jstring nbmf)
 {
-        if (name == NULL) return 0L;
+        if (nbmf == NULL) rfturn 0L;
 
-        jboolean isCopy;
-        const char *queue_name = (*env)->GetStringUTFChars(env, name, &isCopy);
-        dispatch_queue_t queue = dispatch_queue_create(queue_name, NULL);
-        (*env)->ReleaseStringUTFChars(env, name, queue_name);
+        jboolfbn isCopy;
+        donst dibr *qufuf_nbmf = (*fnv)->GftStringUTFCibrs(fnv, nbmf, &isCopy);
+        dispbtdi_qufuf_t qufuf = dispbtdi_qufuf_drfbtf(qufuf_nbmf, NULL);
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, nbmf, qufuf_nbmf);
 
-        return ptr_to_jlong(queue);
+        rfturn ptr_to_jlong(qufuf);
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeReleaseQueue
- * Signature: (J)V
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfRflfbsfQufuf
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeReleaseQueue
-(JNIEnv *env, jclass clazz, jlong nativeQueue)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfRflfbsfQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf)
 {
-        if (nativeQueue == 0L) return;
-        dispatch_release((dispatch_queue_t)jlong_to_ptr(nativeQueue));
+        if (nbtivfQufuf == 0L) rfturn;
+        dispbtdi_rflfbsf((dispbtdi_qufuf_t)jlong_to_ptr(nbtivfQufuf));
 }
 
 
-static JNF_CLASS_CACHE(jc_Runnable, "java/lang/Runnable");
-static JNF_MEMBER_CACHE(jm_run, jc_Runnable, "run", "()V");
+stbtid JNF_CLASS_CACHE(jd_Runnbblf, "jbvb/lbng/Runnbblf");
+stbtid JNF_MEMBER_CACHE(jm_run, jd_Runnbblf, "run", "()V");
 
-static void perform_dispatch(JNIEnv *env, jlong nativeQueue, jobject runnable, void (*dispatch_fxn)(dispatch_queue_t, dispatch_block_t))
+stbtid void pfrform_dispbtdi(JNIEnv *fnv, jlong nbtivfQufuf, jobjfdt runnbblf, void (*dispbtdi_fxn)(dispbtdi_qufuf_t, dispbtdi_blodk_t))
 {
-JNF_COCOA_ENTER(env);
-        dispatch_queue_t queue = (dispatch_queue_t)jlong_to_ptr(nativeQueue);
-        if (queue == NULL) return; // shouldn't happen
+JNF_COCOA_ENTER(fnv);
+        dispbtdi_qufuf_t qufuf = (dispbtdi_qufuf_t)jlong_to_ptr(nbtivfQufuf);
+        if (qufuf == NULL) rfturn; // siouldn't ibppfn
 
-        // create a global-ref around the Runnable, so it can be safely passed to the dispatch thread
-        JNFJObjectWrapper *wrappedRunnable = [[JNFJObjectWrapper alloc] initWithJObject:runnable withEnv:env];
+        // drfbtf b globbl-rff bround tif Runnbblf, so it dbn bf sbffly pbssfd to tif dispbtdi tirfbd
+        JNFJObjfdtWrbppfr *wrbppfdRunnbblf = [[JNFJObjfdtWrbppfr bllod] initWitiJObjfdt:runnbblf witiEnv:fnv];
 
-        dispatch_fxn(queue, ^{
-                // attach the dispatch thread to the JVM if necessary, and get an env
-                JNFThreadContext ctx = JNFThreadDetachOnThreadDeath | JNFThreadSetSystemClassLoaderOnAttach | JNFThreadAttachAsDaemon;
-                JNIEnv *blockEnv = JNFObtainEnv(&ctx);
+        dispbtdi_fxn(qufuf, ^{
+                // bttbdi tif dispbtdi tirfbd to tif JVM if nfdfssbry, bnd gft bn fnv
+                JNFTirfbdContfxt dtx = JNFTirfbdDftbdiOnTirfbdDfbti | JNFTirfbdSftSystfmClbssLobdfrOnAttbdi | JNFTirfbdAttbdiAsDbfmon;
+                JNIEnv *blodkEnv = JNFObtbinEnv(&dtx);
 
-        JNF_COCOA_ENTER(blockEnv);
+        JNF_COCOA_ENTER(blodkEnv);
 
-                // call the user's runnable
-                JNFCallObjectMethod(blockEnv, [wrappedRunnable jObject], jm_run);
+                // dbll tif usfr's runnbblf
+                JNFCbllObjfdtMftiod(blodkEnv, [wrbppfdRunnbblf jObjfdt], jm_run);
 
-                // explicitly clear object while we have an env (it's cheaper that way)
-                [wrappedRunnable setJObject:NULL withEnv:blockEnv];
+                // fxpliditly dlfbr objfdt wiilf wf ibvf bn fnv (it's difbpfr tibt wby)
+                [wrbppfdRunnbblf sftJObjfdt:NULL witiEnv:blodkEnv];
 
-        JNF_COCOA_EXIT(blockEnv);
+        JNF_COCOA_EXIT(blodkEnv);
 
-                // let the env go, but leave the thread attached as a daemon
-                JNFReleaseEnv(blockEnv, &ctx);
+                // lft tif fnv go, but lfbvf tif tirfbd bttbdifd bs b dbfmon
+                JNFRflfbsfEnv(blodkEnv, &dtx);
         });
 
-        // release this thread's interest in the Runnable, the block
-        // will have retained the it's own interest above
-        [wrappedRunnable release];
+        // rflfbsf tiis tirfbd's intfrfst in tif Runnbblf, tif blodk
+        // will ibvf rftbinfd tif it's own intfrfst bbovf
+        [wrbppfdRunnbblf rflfbsf];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeExecuteAsync
- * Signature: (JLjava/lang/Runnable;)V
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfExfdutfAsynd
+ * Signbturf: (JLjbvb/lbng/Runnbblf;)V
  */
-JNIEXPORT void JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeExecuteAsync
-(JNIEnv *env, jclass clazz, jlong nativeQueue, jobject runnable)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfExfdutfAsynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf, jobjfdt runnbblf)
 {
-        // enqueues and returns
-        perform_dispatch(env, nativeQueue, runnable, dispatch_async);
+        // fnqufufs bnd rfturns
+        pfrform_dispbtdi(fnv, nbtivfQufuf, runnbblf, dispbtdi_bsynd);
 }
 
 
 /*
- * Class:     com_apple_concurrent_LibDispatchNative
- * Method:    nativeExecuteSync
- * Signature: (JLjava/lang/Runnable;)V
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdiNbtivf
+ * Mftiod:    nbtivfExfdutfSynd
+ * Signbturf: (JLjbvb/lbng/Runnbblf;)V
  */
-JNIEXPORT void JNICALL Java_com_apple_concurrent_LibDispatchNative_nativeExecuteSync
-(JNIEnv *env, jclass clazz, jlong nativeQueue, jobject runnable)
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdiNbtivf_nbtivfExfdutfSynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf, jobjfdt runnbblf)
 {
-        // blocks until the Runnable completes
-        perform_dispatch(env, nativeQueue, runnable, dispatch_sync);
+        // blodks until tif Runnbblf domplftfs
+        pfrform_dispbtdi(fnv, nbtivfQufuf, runnbblf, dispbtdi_synd);
 }

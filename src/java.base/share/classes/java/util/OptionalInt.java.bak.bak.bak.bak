@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntSupplifr;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * A dontbinfr objfdt whidh mby or mby not dontbin b {@dodf int} vbluf.
+ * If b vbluf is prfsfnt, {@dodf isPrfsfnt()} will rfturn {@dodf truf} bnd
+ * {@dodf gftAsInt()} will rfturn thf vbluf.
+ *
+ * <p>Additionbl mfthods thbt dfpfnd on thf prfsfndf or bbsfndf of b dontbinfd
+ * vbluf brf providfd, sudh bs {@link #orElsf(int) orElsf()}
+ * (rfturn b dffbult vbluf if vbluf not prfsfnt) bnd
+ * {@link #ifPrfsfnt(jbvb.util.fundtion.IntConsumfr) ifPrfsfnt()} (fxfdutf b blodk
+ * of dodf if thf vbluf is prfsfnt).
+ *
+ * <p>This is b <b hrff="../lbng/dod-filfs/VblufBbsfd.html">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity hbsh dodf, or syndhronizbtion) on instbndfs of
+ * {@dodf OptionblInt} mby hbvf unprfdidtbblf rfsults bnd should bf bvoidfd.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss OptionblInt {
+    /**
+     * Common instbndf for {@dodf fmpty()}.
+     */
+    privbtf stbtid finbl OptionblInt EMPTY = nfw OptionblInt();
+
+    /**
+     * If truf thfn thf vbluf is prfsfnt, othfrwisf indidbtfs no vbluf is prfsfnt
+     */
+    privbtf finbl boolfbn isPrfsfnt;
+    privbtf finbl int vbluf;
+
+    /**
+     * Construdt bn fmpty instbndf.
+     *
+     * @implNotf Gfnfrblly only onf fmpty instbndf, {@link OptionblInt#EMPTY},
+     * should fxist pfr VM.
+     */
+    privbtf OptionblInt() {
+        this.isPrfsfnt = fblsf;
+        this.vbluf = 0;
+    }
+
+    /**
+     * Rfturns bn fmpty {@dodf OptionblInt} instbndf.  No vbluf is prfsfnt for this
+     * OptionblInt.
+     *
+     * @bpiNotf Though it mby bf tfmpting to do so, bvoid tfsting if bn objfdt
+     * is fmpty by dompbring with {@dodf ==} bgbinst instbndfs rfturnfd by
+     * {@dodf Option.fmpty()}. Thfrf is no gubrbntff thbt it is b singlfton.
+     * Instfbd, usf {@link #isPrfsfnt()}.
+     *
+     *  @rfturn bn fmpty {@dodf OptionblInt}
+     */
+    publid stbtid OptionblInt fmpty() {
+        rfturn EMPTY;
+    }
+
+    /**
+     * Construdt bn instbndf with thf vbluf prfsfnt.
+     *
+     * @pbrbm vbluf thf int vbluf to bf prfsfnt
+     */
+    privbtf OptionblInt(int vbluf) {
+        this.isPrfsfnt = truf;
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Rfturn bn {@dodf OptionblInt} with thf spfdififd vbluf prfsfnt.
+     *
+     * @pbrbm vbluf thf vbluf to bf prfsfnt
+     * @rfturn bn {@dodf OptionblInt} with thf vbluf prfsfnt
+     */
+    publid stbtid OptionblInt of(int vbluf) {
+        rfturn nfw OptionblInt(vbluf);
+    }
+
+    /**
+     * If b vbluf is prfsfnt in this {@dodf OptionblInt}, rfturns thf vbluf,
+     * othfrwisf throws {@dodf NoSudhElfmfntExdfption}.
+     *
+     * @rfturn thf vbluf hfld by this {@dodf OptionblInt}
+     * @throws NoSudhElfmfntExdfption if thfrf is no vbluf prfsfnt
+     *
+     * @sff OptionblInt#isPrfsfnt()
+     */
+    publid int gftAsInt() {
+        if (!isPrfsfnt) {
+            throw nfw NoSudhElfmfntExdfption("No vbluf prfsfnt");
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thfrf is b vbluf prfsfnt, othfrwisf {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if thfrf is b vbluf prfsfnt, othfrwisf {@dodf fblsf}
+     */
+    publid boolfbn isPrfsfnt() {
+        rfturn isPrfsfnt;
+    }
+
+    /**
+     * Hbvf thf spfdififd donsumfr bddfpt thf vbluf if b vbluf is prfsfnt,
+     * othfrwisf do nothing.
+     *
+     * @pbrbm donsumfr blodk to bf fxfdutfd if b vbluf is prfsfnt
+     * @throws NullPointfrExdfption if vbluf is prfsfnt bnd {@dodf donsumfr} is
+     * null
+     */
+    publid void ifPrfsfnt(IntConsumfr donsumfr) {
+        if (isPrfsfnt)
+            donsumfr.bddfpt(vbluf);
+    }
+
+    /**
+     * Rfturn thf vbluf if prfsfnt, othfrwisf rfturn {@dodf othfr}.
+     *
+     * @pbrbm othfr thf vbluf to bf rfturnfd if thfrf is no vbluf prfsfnt
+     * @rfturn thf vbluf, if prfsfnt, othfrwisf {@dodf othfr}
+     */
+    publid int orElsf(int othfr) {
+        rfturn isPrfsfnt ? vbluf : othfr;
+    }
+
+    /**
+     * Rfturn thf vbluf if prfsfnt, othfrwisf invokf {@dodf othfr} bnd rfturn
+     * thf rfsult of thbt invodbtion.
+     *
+     * @pbrbm othfr b {@dodf IntSupplifr} whosf rfsult is rfturnfd if no vbluf
+     * is prfsfnt
+     * @rfturn thf vbluf if prfsfnt othfrwisf thf rfsult of {@dodf othfr.gftAsInt()}
+     * @throws NullPointfrExdfption if vbluf is not prfsfnt bnd {@dodf othfr} is
+     * null
+     */
+    publid int orElsfGft(IntSupplifr othfr) {
+        rfturn isPrfsfnt ? vbluf : othfr.gftAsInt();
+    }
+
+    /**
+     * Rfturn thf dontbinfd vbluf, if prfsfnt, othfrwisf throw bn fxdfption
+     * to bf drfbtfd by thf providfd supplifr.
+     *
+     * @bpiNotf A mfthod rfffrfndf to thf fxdfption donstrudtor with bn fmpty
+     * brgumfnt list dbn bf usfd bs thf supplifr. For fxbmplf,
+     * {@dodf IllfgblStbtfExdfption::nfw}
+     *
+     * @pbrbm <X> Typf of thf fxdfption to bf thrown
+     * @pbrbm fxdfptionSupplifr Thf supplifr whidh will rfturn thf fxdfption to
+     * bf thrown
+     * @rfturn thf prfsfnt vbluf
+     * @throws X if thfrf is no vbluf prfsfnt
+     * @throws NullPointfrExdfption if no vbluf is prfsfnt bnd
+     * {@dodf fxdfptionSupplifr} is null
+     */
+    publid<X fxtfnds Throwbblf> int orElsfThrow(Supplifr<X> fxdfptionSupplifr) throws X {
+        if (isPrfsfnt) {
+            rfturn vbluf;
+        } flsf {
+            throw fxdfptionSupplifr.gft();
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this OptionblInt. Thf
+     * othfr objfdt is donsidfrfd fqubl if:
+     * <ul>
+     * <li>it is blso bn {@dodf OptionblInt} bnd;
+     * <li>both instbndfs hbvf no vbluf prfsfnt or;
+     * <li>thf prfsfnt vblufs brf "fqubl to" fbdh othfr vib {@dodf ==}.
+     * </ul>
+     *
+     * @pbrbm obj bn objfdt to bf tfstfd for fqublity
+     * @rfturn {dodf truf} if thf othfr objfdt is "fqubl to" this objfdt
+     * othfrwisf {@dodf fblsf}
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+
+        if (!(obj instbndfof OptionblInt)) {
+            rfturn fblsf;
+        }
+
+        OptionblInt othfr = (OptionblInt) obj;
+        rfturn (isPrfsfnt && othfr.isPrfsfnt)
+                ? vbluf == othfr.vbluf
+                : isPrfsfnt == othfr.isPrfsfnt;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf of thf prfsfnt vbluf, if bny, or 0 (zfro) if
+     * no vbluf is prfsfnt.
+     *
+     * @rfturn hbsh dodf vbluf of thf prfsfnt vbluf or 0 if no vbluf is prfsfnt
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn isPrfsfnt ? Intfgfr.hbshCodf(vbluf) : 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Rfturns b non-fmpty string rfprfsfntbtion of this objfdt suitbblf for
+     * dfbugging. Thf fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
+     *
+     * @implSpfd If b vbluf is prfsfnt thf rfsult must indludf its string
+     * rfprfsfntbtion in thf rfsult. Empty bnd prfsfnt instbndfs must bf
+     * unbmbiguously difffrfntibblf.
+     *
+     * @rfturn thf string rfprfsfntbtion of this instbndf
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn isPrfsfnt
+                ? String.formbt("OptionblInt[%s]", vbluf)
+                : "OptionblInt.fmpty";
+    }
+}

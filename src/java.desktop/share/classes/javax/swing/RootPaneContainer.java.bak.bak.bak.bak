@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+
+
+/**
+ * This intfrfbdf is implfmfntfd by domponfnts thbt hbvf b singlf
+ * JRootPbnf dhild: JDiblog, JFrbmf, JWindow, JApplft, JIntfrnblFrbmf.
+ * Thf mfthods in  this intfrfbdf brf just <i>dovfrs</i> for thf JRootPbnf
+ * propfrtifs, f.g. <dodf>gftContfntPbnf()</dodf> is gfnfrblly implfmfntfd
+ * likf this:<prf>
+ *     publid Contbinfr gftContfntPbnf() {
+ *         rfturn gftRootPbnf().gftContfntPbnf();
+ *     }
+ * </prf>
+ * This intfrfbdf sfrvfs bs b <i>mbrkfr</i> for Swing GUI buildfrs
+ * thbt nffd to trfbt domponfnts likf JFrbmf, thbt dontbin b
+ * singlf JRootPbnf, spfdiblly.  For fxbmplf in b GUI buildfr,
+ * dropping b domponfnt on b RootPbnfContbinfr would bf intfrprftfd
+ * bs <dodf>frbmf.gftContfntPbnf().bdd(dhild)</dodf>.
+ * <p>
+ * As b donvfnifndf, thf stbndbrd dlbssfs thbt implfmfnt this intfrfbdf
+ * (sudh bs {@dodf JFrbmf}, {@dodf JDiblog}, {@dodf JWindow}, {@dodf JApplft},
+ * bnd {@dodf JIntfrnblFrbmf}) hbvf thfir {@dodf bdd}, {@dodf rfmovf},
+ * bnd {@dodf sftLbyout} mfthods ovfrriddfn, so thbt thfy dflfgbtf dblls
+ * to thf dorrfsponding mfthods of thf {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b dhild domponfnt to b frbmf bs follows:
+ * <prf>
+ *       frbmf.bdd(dhild);
+ * </prf>
+ * instfbd of:
+ * <prf>
+ *       frbmf.gftContfntPbnf().bdd(dhild);
+ * </prf>
+ * <p>
+ * Thf bfhbvior of thf <dodf>bdd</dodf> bnd
+ * <dodf>sftLbyout</dodf> mfthods for
+ * <dodf>JFrbmf</dodf>, <dodf>JDiblog</dodf>, <dodf>JWindow</dodf>,
+ * <dodf>JApplft</dodf> bnd <dodf>JIntfrnblFrbmf</dodf> is dontrollfd by
+ * thf <dodf>rootPbnfChfdkingEnbblfd</dodf> propfrty. If this propfrty is
+ * truf (thf dffbult), thfn dblls to thfsf mfthods brf
+  * forwbrdfd to thf <dodf>dontfntPbnf</dodf>; if fblsf, thfsf
+  * mfthods opfrbtf dirfdtly on thf <dodf>RootPbnfContbinfr</dodf>. This
+  * propfrty is only intfndfd for subdlbssfs, bnd is thfrfforf protfdtfd.
+ *
+ * @sff JRootPbnf
+ * @sff JFrbmf
+ * @sff JDiblog
+ * @sff JWindow
+ * @sff JApplft
+ * @sff JIntfrnblFrbmf
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+publid intfrfbdf RootPbnfContbinfr
+{
+    /**
+     * Rfturn this domponfnt's singlf JRootPbnf dhild.  A donvfntionbl
+     * implfmfntbtion of this intfrfbdf will hbvf bll of thf othfr
+     * mfthods indirfdt through this onf.  Thf rootPbnf hbs two
+     * dhildrfn: thf glbssPbnf bnd thf lbyfrfdPbnf.
+     *
+     * @rfturn this domponfnts singlf JRootPbnf dhild.
+     * @sff JRootPbnf
+     */
+    JRootPbnf gftRootPbnf();
+
+
+    /**
+     * Thf "dontfntPbnf" is thf primbry dontbinfr for bpplidbtion
+     * spfdifid domponfnts.  Applidbtions should bdd dhildrfn to
+     * thf dontfntPbnf, sft its lbyout mbnbgfr, bnd so on.
+     * <p>
+     * Thf dontfntPbnf mby not bf null.
+     * <p>
+     * Gfnfrblly implfmfntfd with
+     * <dodf>gftRootPbnf().sftContfntPbnf(dontfntPbnf);</dodf>
+     *
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if thf dontfnt pbnf pbrbmftfr is null
+     * @pbrbm dontfntPbnf thf Contbinfr to usf for thf dontfnts of this
+     *        JRootPbnf
+     * @sff JRootPbnf#gftContfntPbnf
+     * @sff #gftContfntPbnf
+     */
+    void sftContfntPbnf(Contbinfr dontfntPbnf);
+
+
+    /**
+     * Rfturns thf dontfntPbnf.
+     *
+     * @rfturn thf vbluf of thf dontfntPbnf propfrty.
+     * @sff #sftContfntPbnf
+     */
+    Contbinfr gftContfntPbnf();
+
+
+    /**
+     * A Contbinfr thbt mbnbgfs thf dontfntPbnf bnd in somf dbsfs b mfnu bbr.
+     * Thf lbyfrfdPbnf dbn bf usfd by dfsdfndbnts thbt wbnt to bdd b dhild
+     * to thf RootPbnfContbinfr thbt isn't lbyout mbnbgfd.  For fxbmplf
+     * bn intfrnbl diblog or b drbg bnd drop ffffdt domponfnt.
+     * <p>
+     * Thf lbyfrfdPbnf mby not bf null.
+     * <p>
+     * Gfnfrblly implfmfntfd with<prf>
+     *    gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);</prf>
+     *
+     * @pbrbm lbyfrfdPbnf thf lbyfrfd pbnf
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if thf lbyfrfd pbnf pbrbmftfr is null
+     * @sff #gftLbyfrfdPbnf
+     * @sff JRootPbnf#gftLbyfrfdPbnf
+     */
+    void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf);
+
+
+    /**
+     * Rfturns thf lbyfrfdPbnf.
+     *
+     * @rfturn thf vbluf of thf lbyfrfdPbnf propfrty.
+     * @sff #sftLbyfrfdPbnf
+     */
+    JLbyfrfdPbnf gftLbyfrfdPbnf();
+
+
+    /**
+     * Thf glbssPbnf is blwbys thf first dhild of thf rootPbnf
+     * bnd thf rootPbnfs lbyout mbnbgfr fnsurfs thbt it's blwbys
+     * bs big bs thf rootPbnf.  By dffbult it's trbnspbrfnt bnd
+     * not visiblf.  It dbn bf usfd to tfmporbrily grbb bll kfybobrd
+     * bnd mousf input by bdding listfnfrs bnd thfn mbking it visiblf.
+     * by dffbult it's not visiblf.
+     * <p>
+     * Thf glbssPbnf mby not bf null.
+     * <p>
+     * Gfnfrblly implfmfntfd with
+     * <dodf>gftRootPbnf().sftGlbssPbnf(glbssPbnf);</dodf>
+     *
+     * @pbrbm glbssPbnf thf glbss pbnf
+     * @sff #gftGlbssPbnf
+     * @sff JRootPbnf#sftGlbssPbnf
+     */
+    void sftGlbssPbnf(Componfnt glbssPbnf);
+
+
+    /**
+     * Rfturns thf glbssPbnf.
+     *
+     * @rfturn thf vbluf of thf glbssPbnf propfrty.
+     * @sff #sftGlbssPbnf
+     */
+    Componfnt gftGlbssPbnf();
+
+}

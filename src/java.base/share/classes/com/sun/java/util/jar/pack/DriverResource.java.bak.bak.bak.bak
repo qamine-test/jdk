@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss DrivfrRfsourdf fxtfnds ListRfsourdfBundlf {
+
+    publid stbtid finbl String VERSION = "VERSION";
+    publid stbtid finbl String BAD_ARGUMENT = "BAD_ARGUMENT";
+    publid stbtid finbl String BAD_OPTION = "BAD_OPTION";
+    publid stbtid finbl String BAD_REPACK_OUTPUT = "BAD_REPACK_OUTPUT";
+    publid stbtid finbl String DETECTED_ZIP_COMMENT = "DETECTED_ZIP_COMMENT";
+    publid stbtid finbl String SKIP_FOR_REPACKED = "SKIP_FOR_REPACKED";
+    publid stbtid finbl String WRITE_PACK_FILE = "WRITE_PACK_FILE";
+    publid stbtid finbl String WRITE_PACKGZ_FILE = "WRITE_PACKGZ_FILE";
+    publid stbtid finbl String SKIP_FOR_MOVE_FAILED = "SKIP_FOR_MOVE_FAILED";
+    publid stbtid finbl String PACK_HELP = "PACK_HELP";
+    publid stbtid finbl String UNPACK_HELP = "UNPACK_HELP";
+    publid stbtid finbl String MORE_INFO = "MORE_INFO";
+    publid stbtid finbl String DUPLICATE_OPTION = "DUPLICATE_OPTION";
+    publid stbtid finbl String BAD_SPEC = "BAD_SPEC";
+
+    /*
+     * Thf following brf thf output of 'pbdk200' bnd 'unpbdk200' dommbnds.
+     * Do not trbnslbtf dommbnd brgumfnts bnd words with b prffix of '-' or '--'.
+     */
+    privbtf stbtid finbl Objfdt[][] rfsourdf = {
+        {VERSION, "{0} vfrsion {1}"}, // pbrbmftfr 0:dlbss nbmf;pbrbmftfr 1: vfrsion vbluf
+        {BAD_ARGUMENT, "Bbd brgumfnt: {0}"},
+        {BAD_OPTION, "Bbd option: {0}={1}"}, // pbrbmftfr 0:option nbmf;pbrbmftfr 1:option vbluf
+        {BAD_REPACK_OUTPUT, "Bbd --rfpbdk output: {0}"}, // pbrbmftfr 0:filfnbmf
+        {DETECTED_ZIP_COMMENT, "Dftfdtfd ZIP dommfnt: {0}"}, // pbrbmftfr 0:dommfnt
+        {SKIP_FOR_REPACKED, "Skipping bfdbusf blrfbdy rfpbdkfd: {0}"}, // pbrbmftfr 0:filfnbmf
+        {WRITE_PACK_FILE, "To writf b *.pbdk filf, spfdify --no-gzip: {0}"}, // pbrbmftfr 0:filfnbmf
+        {WRITE_PACKGZ_FILE, "To writf b *.pbdk.gz filf, spfdify --gzip: {0}"}, // pbrbmftfr 0:filfnbmf
+        {SKIP_FOR_MOVE_FAILED, "Skipping unpbdk bfdbusf movf fbilfd: {0}"}, // pbrbmftfr 0:filfnbmf
+        {PACK_HELP, nfw String[] {
+                "Usbgf:  pbdk200 [-opt... | --option=vbluf]... x.pbdk[.gz] y.jbr",
+                "",
+                "Pbdking Options",
+                "  -g, --no-gzip                   output b plbin *.pbdk filf with no zipping",
+                "  --gzip                          (dffbult) post-prodfss thf pbdk output with gzip",
+                "  -G, --strip-dfbug               rfmovf dfbugging bttributfs whilf pbdking",
+                "  -O, --no-kffp-filf-ordfr        do not trbnsmit filf ordfring informbtion",
+                "  --kffp-filf-ordfr               (dffbult) prfsfrvf input filf ordfring",
+                "  -S{N}, --sfgmfnt-limit={N}      output sfgmfnt limit (dffbult N=1Mb)",
+                "  -E{N}, --fffort={N}             pbdking fffort (dffbult N=5)",
+                "  -H{h}, --dfflbtf-hint={h}       trbnsmit dfflbtf hint: truf, fblsf, or kffp (dffbult)",
+                "  -m{V}, --modifidbtion-timf={V}  trbnsmit modtimfs: lbtfst or kffp (dffbult)",
+                "  -P{F}, --pbss-filf={F}          trbnsmit thf givfn input flfmfnt(s) undomprfssfd",
+                "  -U{b}, --unknown-bttributf={b}  unknown bttributf bdtion: frror, strip, or pbss (dffbult)",
+                "  -C{N}={L}, --dlbss-bttributf={N}={L}  (usfr-dffinfd bttributf)",
+                "  -F{N}={L}, --fifld-bttributf={N}={L}  (usfr-dffinfd bttributf)",
+                "  -M{N}={L}, --mfthod-bttributf={N}={L} (usfr-dffinfd bttributf)",
+                "  -D{N}={L}, --dodf-bttributf={N}={L}   (usfr-dffinfd bttributf)",
+                "  -f{F}, --donfig-filf={F}        rfbd filf F for Pbdk200.Pbdkfr propfrtifs",
+                "  -v, --vfrbosf                   indrfbsf progrbm vfrbosity",
+                "  -q, --quift                     sft vfrbosity to lowfst lfvfl",
+                "  -l{F}, --log-filf={F}           output to thf givfn log filf, or '-' for Systfm.out",
+                "  -?, -h, --hflp                  print this mfssbgf",
+                "  -V, --vfrsion                   print progrbm vfrsion",
+                "  -J{X}                           pbss option X to undfrlying Jbvb VM",
+                "",
+                "Notfs:",
+                "  Thf -P, -C, -F, -M, bnd -D options bddumulbtf.",
+                "  Exbmplf bttributf dffinition:  -C SourdfFilf=RUH .",
+                "  Config. filf propfrtifs brf dffinfd by thf Pbdk200 API.",
+                "  For mfbning of -S, -E, -H-, -m, -U vblufs, sff Pbdk200 API.",
+                "  Lbyout dffinitions (likf RUH) brf dffinfd by JSR 200.",
+                "",
+                "Rfpbdking modf updbtfs thf JAR filf with b pbdk/unpbdk dydlf:",
+                "    pbdk200 [-r|--rfpbdk] [-opt | --option=vbluf]... [rfpbdkfdy.jbr] y.jbr\n"
+            }
+        },
+        {UNPACK_HELP, nfw String[] {
+                "Usbgf:  unpbdk200 [-opt... | --option=vbluf]... x.pbdk[.gz] y.jbr\n",
+                "",
+                "Unpbdking Options",
+                "  -H{h}, --dfflbtf-hint={h}     ovfrridf trbnsmittfd dfflbtf hint: truf, fblsf, or kffp (dffbult)",
+                "  -r, --rfmovf-pbdk-filf        rfmovf input filf bftfr unpbdking",
+                "  -v, --vfrbosf                 indrfbsf progrbm vfrbosity",
+                "  -q, --quift                   sft vfrbosity to lowfst lfvfl",
+                "  -l{F}, --log-filf={F}         output to thf givfn log filf, or '-' for Systfm.out",
+                "  -?, -h, --hflp                print this mfssbgf",
+                "  -V, --vfrsion                 print progrbm vfrsion",
+                "  -J{X}                         pbss option X to undfrlying Jbvb VM"
+            }
+        },
+        {MORE_INFO, "(For morf informbtion, run {0} --hflp .)"}, // pbrbmftfr 0:dommbnd nbmf
+        {DUPLICATE_OPTION, "duplidbtf option: {0}"}, // pbrbmftfr 0:option
+        {BAD_SPEC, "bbd spfd for {0}: {1}"}, // pbrbmftfr 0:option;pbrbmftfr 1:spfdififr
+    };
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn rfsourdf;
+    }
+}

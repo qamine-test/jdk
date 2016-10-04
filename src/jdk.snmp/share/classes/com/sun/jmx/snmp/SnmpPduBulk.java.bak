@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 /**
- * Represents a <CODE>get-bulk</CODE> PDU as defined in RFC 1448.
+ * Rfprfsfnts b <CODE>gft-bulk</CODE> PDU bs dffinfd in RFC 1448.
  * <P>
- * You will not usually need to use this class, except if you
- * decide to implement your own
- * {@link com.sun.jmx.snmp.SnmpPduFactory SnmpPduFactory} object.
+ * You will not usublly nffd to usf tiis dlbss, fxdfpt if you
+ * dfdidf to implfmfnt your own
+ * {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmpPduFbdtory} objfdt.
  * <P>
- * The <CODE>SnmpPduBulk</CODE> extends {@link com.sun.jmx.snmp.SnmpPduPacket SnmpPduPacket}
- * and defines attributes specific to the <CODE>get-bulk</CODE> PDU (see RFC 1448).
+ * Tif <CODE>SnmpPduBulk</CODE> fxtfnds {@link dom.sun.jmx.snmp.SnmpPduPbdkft SnmpPduPbdkft}
+ * bnd dffinfs bttributfs spfdifid to tif <CODE>gft-bulk</CODE> PDU (sff RFC 1448).
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpPduBulk extends SnmpPduPacket
-    implements SnmpPduBulkType {
-    private static final long serialVersionUID = -7431306775883371046L;
+publid dlbss SnmpPduBulk fxtfnds SnmpPduPbdkft
+    implfmfnts SnmpPduBulkTypf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7431306775883371046L;
 
     /**
-     * The <CODE>non-repeaters</CODE> value.
-     * @serial
+     * Tif <CODE>non-rfpfbtfrs</CODE> vbluf.
+     * @sfribl
      */
-    public int            nonRepeaters ;
-
-
-    /**
-     * The <CODE>max-repetitions</CODE> value.
-     * @serial
-     */
-    public int            maxRepetitions ;
+    publid int            nonRfpfbtfrs ;
 
 
     /**
-     * Builds a new <CODE>get-bulk</CODE> PDU.
-     * <BR><CODE>type</CODE> and <CODE>version</CODE> fields are initialized with
-     * {@link com.sun.jmx.snmp.SnmpDefinitions#pduGetBulkRequestPdu pduGetBulkRequestPdu}
-     * and {@link com.sun.jmx.snmp.SnmpDefinitions#snmpVersionTwo snmpVersionTwo}.
+     * Tif <CODE>mbx-rfpftitions</CODE> vbluf.
+     * @sfribl
      */
-    public SnmpPduBulk() {
-        type = pduGetBulkRequestPdu ;
-        version = snmpVersionTwo ;
+    publid int            mbxRfpftitions ;
+
+
+    /**
+     * Builds b nfw <CODE>gft-bulk</CODE> PDU.
+     * <BR><CODE>typf</CODE> bnd <CODE>vfrsion</CODE> fiflds brf initiblizfd witi
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions#pduGftBulkRfqufstPdu pduGftBulkRfqufstPdu}
+     * bnd {@link dom.sun.jmx.snmp.SnmpDffinitions#snmpVfrsionTwo snmpVfrsionTwo}.
+     */
+    publid SnmpPduBulk() {
+        typf = pduGftBulkRfqufstPdu ;
+        vfrsion = snmpVfrsionTwo ;
     }
     /**
-     * Implements the <CODE>SnmpPduBulkType</CODE> interface.
+     * Implfmfnts tif <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void setMaxRepetitions(int i) {
-        maxRepetitions = i;
+    publid void sftMbxRfpftitions(int i) {
+        mbxRfpftitions = i;
     }
     /**
-     * Implements the <CODE>SnmpPduBulkType</CODE> interface.
+     * Implfmfnts tif <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void setNonRepeaters(int i) {
-        nonRepeaters = i;
+    publid void sftNonRfpfbtfrs(int i) {
+        nonRfpfbtfrs = i;
     }
     /**
-     * Implements the <CODE>SnmpPduBulkType</CODE> interface.
+     * Implfmfnts tif <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getMaxRepetitions() { return maxRepetitions; }
+    publid int gftMbxRfpftitions() { rfturn mbxRfpftitions; }
     /**
-     * Implements the <CODE>SnmpPduBulkType</CODE> interface.
+     * Implfmfnts tif <CODE>SnmpPduBulkTypf</CODE> intfrfbdf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getNonRepeaters() { return nonRepeaters; }
+    publid int gftNonRfpfbtfrs() { rfturn nonRfpfbtfrs; }
     /**
-     * Implements the <CODE>SnmpAckPdu</CODE> interface.
+     * Implfmfnts tif <CODE>SnmpAdkPdu</CODE> intfrfbdf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpPdu getResponsePdu() {
-        SnmpPduRequest result = new SnmpPduRequest();
-        result.address = address;
-        result.port = port;
-        result.version = version;
-        result.community = community;
-        result.type = SnmpDefinitions.pduGetResponsePdu;
-        result.requestId = requestId;
-        result.errorStatus = SnmpDefinitions.snmpRspNoError;
-        result.errorIndex = 0;
+    publid SnmpPdu gftRfsponsfPdu() {
+        SnmpPduRfqufst rfsult = nfw SnmpPduRfqufst();
+        rfsult.bddrfss = bddrfss;
+        rfsult.port = port;
+        rfsult.vfrsion = vfrsion;
+        rfsult.dommunity = dommunity;
+        rfsult.typf = SnmpDffinitions.pduGftRfsponsfPdu;
+        rfsult.rfqufstId = rfqufstId;
+        rfsult.frrorStbtus = SnmpDffinitions.snmpRspNoError;
+        rfsult.frrorIndfx = 0;
 
-        return result;
+        rfturn rfsult;
     }
 }

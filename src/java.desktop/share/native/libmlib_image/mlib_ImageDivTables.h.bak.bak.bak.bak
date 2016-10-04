@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#ifndff __MLIB_IMAGEDIVTABLES_H
+#dffinf __MLIB_IMAGEDIVTABLES_H
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
+
+#ifdff __DIV_TABLE_DEFINED
+
+#ifdff __SUNPRO_C
+#prbgmb blign 64 (mlib_div6_tbb)
+#prbgmb blign 64 (mlib_div1_tbb)
+#prbgmb blign 64 (mlib_HSL2RGB_L2)
+#prbgmb blign 64 (mlib_HSL2RGB_F)
+#prbgmb blign 64 (mlib_U82F32)
+#prbgmb blign 64 (mlib_FlipAndFixRotbtfTbblf)
+#fndif /* __SUNPRO_C */
+
+donst mlib_u16 mlib_div6_tbb[];
+donst mlib_u16 mlib_div1_tbb[];
+donst mlib_f32 mlib_HSL2RGB_L2[];
+donst mlib_f32 mlib_HSL2RGB_F[];
+donst mlib_f32 mlib_U82F32[];
+donst mlib_d64 mlib_U82D64[];
+donst mlib_u32 mlib_FlipAndFixRotbtfTbblf[];
+
+#flsf
+
+fxtfrn donst mlib_u16 mlib_div6_tbb[];
+fxtfrn donst mlib_u16 mlib_div1_tbb[];
+fxtfrn donst mlib_f32 mlib_HSL2RGB_L2[];
+fxtfrn donst mlib_f32 mlib_HSL2RGB_F[];
+fxtfrn donst mlib_f32 mlib_U82F32[];
+fxtfrn donst mlib_d64 mlib_U82D64[];
+fxtfrn donst mlib_u32 mlib_FlipAndFixRotbtfTbblf[];
+
+#fndif /* __DIV_TABLE_DEFINED */
+
+#ifdff __dplusplus
+}
+#fndif /* __dplusplus */
+#fndif /* __MLIB_IMAGEDIVTABLES_H */
+
+/***************************************************************/

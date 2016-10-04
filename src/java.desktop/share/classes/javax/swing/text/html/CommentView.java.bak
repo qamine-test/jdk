@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.util.*;
 
 /**
- * CommentView subclasses HiddenTagView to contain a JTextArea showing
- * a comment. When the textarea is edited the comment is
- * reset. As this inherits from EditableView if the JTextComponent is
- * not editable, the textarea will not be visible.
+ * CommfntVifw subdlbssfs HiddfnTbgVifw to dontbin b JTfxtArfb siowing
+ * b dommfnt. Wifn tif tfxtbrfb is fditfd tif dommfnt is
+ * rfsft. As tiis inifrits from EditbblfVifw if tif JTfxtComponfnt is
+ * not fditbblf, tif tfxtbrfb will not bf visiblf.
  *
- * @author  Scott Violet
+ * @butior  Sdott Violft
  */
-class CommentView extends HiddenTagView {
-    CommentView(Element e) {
-        super(e);
+dlbss CommfntVifw fxtfnds HiddfnTbgVifw {
+    CommfntVifw(Elfmfnt f) {
+        supfr(f);
     }
 
-    protected Component createComponent() {
-        Container host = getContainer();
-        if (host != null && !((JTextComponent)host).isEditable()) {
-            return null;
+    protfdtfd Componfnt drfbtfComponfnt() {
+        Contbinfr iost = gftContbinfr();
+        if (iost != null && !((JTfxtComponfnt)iost).isEditbblf()) {
+            rfturn null;
         }
-        JTextArea ta = new JTextArea(getRepresentedText());
-        Document doc = getDocument();
+        JTfxtArfb tb = nfw JTfxtArfb(gftRfprfsfntfdTfxt());
+        Dodumfnt dod = gftDodumfnt();
         Font font;
-        if (doc instanceof StyledDocument) {
-            font = ((StyledDocument)doc).getFont(getAttributes());
-            ta.setFont(font);
+        if (dod instbndfof StylfdDodumfnt) {
+            font = ((StylfdDodumfnt)dod).gftFont(gftAttributfs());
+            tb.sftFont(font);
         }
-        else {
-            font = ta.getFont();
+        flsf {
+            font = tb.gftFont();
         }
-        updateYAlign(font);
-        ta.setBorder(CBorder);
-        ta.getDocument().addDocumentListener(this);
-        ta.setFocusable(isVisible());
-        return ta;
+        updbtfYAlign(font);
+        tb.sftBordfr(CBordfr);
+        tb.gftDodumfnt().bddDodumfntListfnfr(tiis);
+        tb.sftFodusbblf(isVisiblf());
+        rfturn tb;
     }
 
-    void resetBorder() {
+    void rfsftBordfr() {
     }
 
     /**
-     * This is subclassed to put the text on the Comment attribute of
-     * the Element's AttributeSet.
+     * Tiis is subdlbssfd to put tif tfxt on tif Commfnt bttributf of
+     * tif Elfmfnt's AttributfSft.
      */
-    void _updateModelFromText() {
-        JTextComponent textC = getTextComponent();
-        Document doc = getDocument();
-        if (textC != null && doc != null) {
-            String text = textC.getText();
-            SimpleAttributeSet sas = new SimpleAttributeSet();
-            isSettingAttributes = true;
+    void _updbtfModflFromTfxt() {
+        JTfxtComponfnt tfxtC = gftTfxtComponfnt();
+        Dodumfnt dod = gftDodumfnt();
+        if (tfxtC != null && dod != null) {
+            String tfxt = tfxtC.gftTfxt();
+            SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+            isSfttingAttributfs = truf;
             try {
-                sas.addAttribute(HTML.Attribute.COMMENT, text);
-                ((StyledDocument)doc).setCharacterAttributes
-                    (getStartOffset(), getEndOffset() -
-                     getStartOffset(), sas, false);
+                sbs.bddAttributf(HTML.Attributf.COMMENT, tfxt);
+                ((StylfdDodumfnt)dod).sftCibrbdtfrAttributfs
+                    (gftStbrtOffsft(), gftEndOffsft() -
+                     gftStbrtOffsft(), sbs, fblsf);
             }
-            finally {
-                isSettingAttributes = false;
+            finblly {
+                isSfttingAttributfs = fblsf;
             }
         }
     }
 
-    JTextComponent getTextComponent() {
-        return (JTextComponent)getComponent();
+    JTfxtComponfnt gftTfxtComponfnt() {
+        rfturn (JTfxtComponfnt)gftComponfnt();
     }
 
-    String getRepresentedText() {
-        AttributeSet as = getElement().getAttributes();
-        if (as != null) {
-            Object comment = as.getAttribute(HTML.Attribute.COMMENT);
-            if (comment instanceof String) {
-                return (String)comment;
+    String gftRfprfsfntfdTfxt() {
+        AttributfSft bs = gftElfmfnt().gftAttributfs();
+        if (bs != null) {
+            Objfdt dommfnt = bs.gftAttributf(HTML.Attributf.COMMENT);
+            if (dommfnt instbndfof String) {
+                rfturn (String)dommfnt;
             }
         }
-        return "";
+        rfturn "";
     }
 
-    static final Border CBorder = new CommentBorder();
-    static final int commentPadding = 3;
-    static final int commentPaddingD = commentPadding * 3;
+    stbtid finbl Bordfr CBordfr = nfw CommfntBordfr();
+    stbtid finbl int dommfntPbdding = 3;
+    stbtid finbl int dommfntPbddingD = dommfntPbdding * 3;
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class CommentBorder extends LineBorder {
-        CommentBorder() {
-            super(Color.black, 1);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss CommfntBordfr fxtfnds LinfBordfr {
+        CommfntBordfr() {
+            supfr(Color.blbdk, 1);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                                int width, int height) {
-            super.paintBorder(c, g, x + commentPadding, y,
-                              width - commentPaddingD, height);
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                                int widti, int ifigit) {
+            supfr.pbintBordfr(d, g, x + dommfntPbdding, y,
+                              widti - dommfntPbddingD, ifigit);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            Insets retI = super.getBorderInsets(c, insets);
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            Insfts rftI = supfr.gftBordfrInsfts(d, insfts);
 
-            retI.left += commentPadding;
-            retI.right += commentPadding;
-            return retI;
+            rftI.lfft += dommfntPbdding;
+            rftI.rigit += dommfntPbdding;
+            rfturn rftI;
         }
 
-        public boolean isBorderOpaque() {
-            return false;
+        publid boolfbn isBordfrOpbquf() {
+            rfturn fblsf;
         }
-    } // End of class CommentView.CommentBorder
-} // End of CommentView
+    } // End of dlbss CommfntVifw.CommfntBordfr
+} // End of CommfntVifw

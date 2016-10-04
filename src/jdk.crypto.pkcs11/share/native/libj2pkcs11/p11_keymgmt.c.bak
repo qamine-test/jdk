@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,702 +45,702 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-#ifdef P11_ENABLE_C_GENERATEKEY
+#ifdff P11_ENABLE_C_GENERATEKEY
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GenerateKey
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GfnfrbtfKfy
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE_PTR phKey
+ * @rfturn  jlong jKfyHbndlf            CK_OBJECT_HANDLE_PTR piKfy
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GenerateKey
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jobjectArray jTemplate)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GfnfrbtfKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    CK_OBJECT_HANDLE ckKeyHandle = 0;
-    jlong jKeyHandle = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    CK_OBJECT_HANDLE dkKfyHbndlf = 0;
+    jlong jKfyHbndlf = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return 0L ; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0L ; }
 
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        return 0L;
+        rfturn 0L;
     }
 
-    rv = (*ckpFunctions->C_GenerateKey)(ckSessionHandle, &ckMechanism, ckpAttributes, ckAttributesLength, &ckKeyHandle);
+    rv = (*dkpFundtions->C_GfnfrbtfKfy)(dkSfssionHbndlf, &dkMfdibnism, dkpAttributfs, dkAttributfsLfngti, &dkKfyHbndlf);
 
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jKeyHandle = ckULongToJLong(ckKeyHandle);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jKfyHbndlf = dkULongToJLong(dkKfyHbndlf);
 
-        /* cheack, if we must give a initialization vector back to Java */
-        switch (ckMechanism.mechanism) {
-        case CKM_PBE_MD2_DES_CBC:
-        case CKM_PBE_MD5_DES_CBC:
-        case CKM_PBE_MD5_CAST_CBC:
-        case CKM_PBE_MD5_CAST3_CBC:
-        case CKM_PBE_MD5_CAST128_CBC:
-        /* case CKM_PBE_MD5_CAST5_CBC:  the same as CKM_PBE_MD5_CAST128_CBC */
-        case CKM_PBE_SHA1_CAST128_CBC:
-        /* case CKM_PBE_SHA1_CAST5_CBC: the same as CKM_PBE_SHA1_CAST128_CBC */
-            /* we must copy back the initialization vector to the jMechanism object */
-            copyBackPBEInitializationVector(env, &ckMechanism, jMechanism);
-            break;
+        /* difbdk, if wf must givf b initiblizbtion vfdtor bbdk to Jbvb */
+        switdi (dkMfdibnism.mfdibnism) {
+        dbsf CKM_PBE_MD2_DES_CBC:
+        dbsf CKM_PBE_MD5_DES_CBC:
+        dbsf CKM_PBE_MD5_CAST_CBC:
+        dbsf CKM_PBE_MD5_CAST3_CBC:
+        dbsf CKM_PBE_MD5_CAST128_CBC:
+        /* dbsf CKM_PBE_MD5_CAST5_CBC:  tif sbmf bs CKM_PBE_MD5_CAST128_CBC */
+        dbsf CKM_PBE_SHA1_CAST128_CBC:
+        /* dbsf CKM_PBE_SHA1_CAST5_CBC: tif sbmf bs CKM_PBE_SHA1_CAST128_CBC */
+            /* wf must dopy bbdk tif initiblizbtion vfdtor to tif jMfdibnism objfdt */
+            dopyBbdkPBEInitiblizbtionVfdtor(fnv, &dkMfdibnism, jMfdibnism);
+            brfbk;
         }
     }
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
 
-    return jKeyHandle ;
+    rfturn jKfyHbndlf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GENERATEKEYPAIR
+#ifdff P11_ENABLE_C_GENERATEKEYPAIR
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GenerateKeyPair
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)[J
- * Parametermapping:                          *PKCS11*
- * @param   jlong jSessionHandle              CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism                CK_MECHANISM_PTR pMechanism
- * @param   jobjectArray jPublicKeyTemplate   CK_ATTRIBUTE_PTR pPublicKeyTemplate
- *                                            CK_ULONG ulPublicKeyAttributeCount
- * @param   jobjectArray jPrivateKeyTemplate  CK_ATTRIBUTE_PTR pPrivateKeyTemplate
- *                                            CK_ULONG ulPrivateKeyAttributeCount
- * @return  jlongArray jKeyHandles            CK_OBJECT_HANDLE_PTR phPublicKey
- *                                            CK_OBJECT_HANDLE_PTR phPublicKey
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GfnfrbtfKfyPbir
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)[J
+ * Pbrbmftfrmbpping:                          *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf              CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism                CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jobjfdtArrby jPublidKfyTfmplbtf   CK_ATTRIBUTE_PTR pPublidKfyTfmplbtf
+ *                                            CK_ULONG ulPublidKfyAttributfCount
+ * @pbrbm   jobjfdtArrby jPrivbtfKfyTfmplbtf  CK_ATTRIBUTE_PTR pPrivbtfKfyTfmplbtf
+ *                                            CK_ULONG ulPrivbtfKfyAttributfCount
+ * @rfturn  jlongArrby jKfyHbndlfs            CK_OBJECT_HANDLE_PTR piPublidKfy
+ *                                            CK_OBJECT_HANDLE_PTR piPublidKfy
  */
-JNIEXPORT jlongArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GenerateKeyPair
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism,
-     jobjectArray jPublicKeyTemplate, jobjectArray jPrivateKeyTemplate)
+JNIEXPORT jlongArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GfnfrbtfKfyPbir
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism,
+     jobjfdtArrby jPublidKfyTfmplbtf, jobjfdtArrby jPrivbtfKfyTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_ATTRIBUTE_PTR ckpPublicKeyAttributes = NULL_PTR;
-    CK_ATTRIBUTE_PTR ckpPrivateKeyAttributes = NULL_PTR;
-    CK_ULONG ckPublicKeyAttributesLength;
-    CK_ULONG ckPrivateKeyAttributesLength;
-    CK_OBJECT_HANDLE_PTR ckpPublicKeyHandle;  /* pointer to Public Key */
-    CK_OBJECT_HANDLE_PTR ckpPrivateKeyHandle; /* pointer to Private Key */
-    CK_OBJECT_HANDLE_PTR ckpKeyHandles;     /* pointer to array with Public and Private Key */
-    jlongArray jKeyHandles = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_ATTRIBUTE_PTR dkpPublidKfyAttributfs = NULL_PTR;
+    CK_ATTRIBUTE_PTR dkpPrivbtfKfyAttributfs = NULL_PTR;
+    CK_ULONG dkPublidKfyAttributfsLfngti;
+    CK_ULONG dkPrivbtfKfyAttributfsLfngti;
+    CK_OBJECT_HANDLE_PTR dkpPublidKfyHbndlf;  /* pointfr to Publid Kfy */
+    CK_OBJECT_HANDLE_PTR dkpPrivbtfKfyHbndlf; /* pointfr to Privbtf Kfy */
+    CK_OBJECT_HANDLE_PTR dkpKfyHbndlfs;     /* pointfr to brrby witi Publid bnd Privbtf Kfy */
+    jlongArrby jKfyHbndlfs = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    ckpKeyHandles = (CK_OBJECT_HANDLE_PTR) malloc(2 * sizeof(CK_OBJECT_HANDLE));
-    if (ckpKeyHandles == NULL) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    dkpKfyHbndlfs = (CK_OBJECT_HANDLE_PTR) mbllod(2 * sizfof(CK_OBJECT_HANDLE));
+    if (dkpKfyHbndlfs == NULL) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    ckpPublicKeyHandle = ckpKeyHandles;   /* first element of array is Public Key */
-    ckpPrivateKeyHandle = (ckpKeyHandles + 1);  /* second element of array is Private Key */
+    dkpPublidKfyHbndlf = dkpKfyHbndlfs;   /* first flfmfnt of brrby is Publid Kfy */
+    dkpPrivbtfKfyHbndlf = (dkpKfyHbndlfs + 1);  /* sfdond flfmfnt of brrby is Privbtf Kfy */
 
-    jAttributeArrayToCKAttributeArray(env, jPublicKeyTemplate, &ckpPublicKeyAttributes, &ckPublicKeyAttributesLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    jAttributfArrbyToCKAttributfArrby(fnv, jPublidKfyTfmplbtf, &dkpPublidKfyAttributfs, &dkPublidKfyAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        free(ckpKeyHandles);
-        return NULL;
+        frff(dkpKfyHbndlfs);
+        rfturn NULL;
     }
 
-    jAttributeArrayToCKAttributeArray(env, jPrivateKeyTemplate, &ckpPrivateKeyAttributes, &ckPrivateKeyAttributesLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    jAttributfArrbyToCKAttributfArrby(fnv, jPrivbtfKfyTfmplbtf, &dkpPrivbtfKfyAttributfs, &dkPrivbtfKfyAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        free(ckpKeyHandles);
-        freeCKAttributeArray(ckpPublicKeyAttributes, ckPublicKeyAttributesLength);
-        return NULL;
+        frff(dkpKfyHbndlfs);
+        frffCKAttributfArrby(dkpPublidKfyAttributfs, dkPublidKfyAttributfsLfngti);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_GenerateKeyPair)(ckSessionHandle, &ckMechanism,
-                     ckpPublicKeyAttributes, ckPublicKeyAttributesLength,
-                     ckpPrivateKeyAttributes, ckPrivateKeyAttributesLength,
-                     ckpPublicKeyHandle, ckpPrivateKeyHandle);
+    rv = (*dkpFundtions->C_GfnfrbtfKfyPbir)(dkSfssionHbndlf, &dkMfdibnism,
+                     dkpPublidKfyAttributfs, dkPublidKfyAttributfsLfngti,
+                     dkpPrivbtfKfyAttributfs, dkPrivbtfKfyAttributfsLfngti,
+                     dkpPublidKfyHbndlf, dkpPrivbtfKfyHbndlf);
 
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jKeyHandles = ckULongArrayToJLongArray(env, ckpKeyHandles, 2);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jKfyHbndlfs = dkULongArrbyToJLongArrby(fnv, dkpKfyHbndlfs, 2);
     }
 
-    if(ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if(dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
-    free(ckpKeyHandles);
-    freeCKAttributeArray(ckpPublicKeyAttributes, ckPublicKeyAttributesLength);
-    freeCKAttributeArray(ckpPrivateKeyAttributes, ckPrivateKeyAttributesLength);
+    frff(dkpKfyHbndlfs);
+    frffCKAttributfArrby(dkpPublidKfyAttributfs, dkPublidKfyAttributfsLfngti);
+    frffCKAttributfArrby(dkpPrivbtfKfyAttributfs, dkPrivbtfKfyAttributfsLfngti);
 
-    return jKeyHandles ;
+    rfturn jKfyHbndlfs ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_WRAPKEY
+#ifdff P11_ENABLE_C_WRAPKEY
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_WrapKey
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;JJ)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jlong jWrappingKeyHandle    CK_OBJECT_HANDLE hWrappingKey
- * @param   jlong jKeyHandle            CK_OBJECT_HANDLE hKey
- * @return  jbyteArray jWrappedKey      CK_BYTE_PTR pWrappedKey
- *                                      CK_ULONG_PTR pulWrappedKeyLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_WrbpKfy
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;JJ)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jlong jWrbppingKfyHbndlf    CK_OBJECT_HANDLE iWrbppingKfy
+ * @pbrbm   jlong jKfyHbndlf            CK_OBJECT_HANDLE iKfy
+ * @rfturn  jbytfArrby jWrbppfdKfy      CK_BYTE_PTR pWrbppfdKfy
+ *                                      CK_ULONG_PTR pulWrbppfdKfyLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1WrapKey
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jWrappingKeyHandle, jlong jKeyHandle)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1WrbpKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism, jlong jWrbppingKfyHbndlf, jlong jKfyHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckWrappingKeyHandle;
-    CK_OBJECT_HANDLE ckKeyHandle;
-    jbyteArray jWrappedKey = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_OBJECT_HANDLE dkWrbppingKfyHbndlf;
+    CK_OBJECT_HANDLE dkKfyHbndlf;
+    jbytfArrby jWrbppfdKfy = NULL;
     CK_RV rv;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
-    CK_BYTE_PTR ckpWrappedKey = BUF;
-    CK_ULONG ckWrappedKeyLength = MAX_STACK_BUFFER_LEN;
+    CK_BYTE_PTR dkpWrbppfdKfy = BUF;
+    CK_ULONG dkWrbppfdKfyLfngti = MAX_STACK_BUFFER_LEN;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    ckWrappingKeyHandle = jLongToCKULong(jWrappingKeyHandle);
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    dkWrbppingKfyHbndlf = jLongToCKULong(jWrbppingKfyHbndlf);
+    dkKfyHbndlf = jLongToCKULong(jKfyHbndlf);
 
-    rv = (*ckpFunctions->C_WrapKey)(ckSessionHandle, &ckMechanism, ckWrappingKeyHandle, ckKeyHandle, ckpWrappedKey, &ckWrappedKeyLength);
+    rv = (*dkpFundtions->C_WrbpKfy)(dkSfssionHbndlf, &dkMfdibnism, dkWrbppingKfyHbndlf, dkKfyHbndlf, dkpWrbppfdKfy, &dkWrbppfdKfyLfngti);
     if (rv == CKR_BUFFER_TOO_SMALL) {
-        ckpWrappedKey = (CK_BYTE_PTR) malloc(ckWrappedKeyLength);
-        if (ckpWrappedKey == NULL) {
-            if (ckMechanism.pParameter != NULL_PTR) {
-                free(ckMechanism.pParameter);
+        dkpWrbppfdKfy = (CK_BYTE_PTR) mbllod(dkWrbppfdKfyLfngti);
+        if (dkpWrbppfdKfy == NULL) {
+            if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+                frff(dkMfdibnism.pPbrbmftfr);
             }
-            throwOutOfMemoryError(env, 0);
-            return NULL;
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL;
         }
 
-        rv = (*ckpFunctions->C_WrapKey)(ckSessionHandle, &ckMechanism, ckWrappingKeyHandle, ckKeyHandle, ckpWrappedKey, &ckWrappedKeyLength);
+        rv = (*dkpFundtions->C_WrbpKfy)(dkSfssionHbndlf, &dkMfdibnism, dkWrbppingKfyHbndlf, dkKfyHbndlf, dkpWrbppfdKfy, &dkWrbppfdKfyLfngti);
     }
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jWrappedKey = ckByteArrayToJByteArray(env, ckpWrappedKey, ckWrappedKeyLength);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jWrbppfdKfy = dkBytfArrbyToJBytfArrby(fnv, dkpWrbppfdKfy, dkWrbppfdKfyLfngti);
     }
 
-    if (ckpWrappedKey != BUF) { free(ckpWrappedKey); }
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkpWrbppfdKfy != BUF) { frff(dkpWrbppfdKfy); }
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
-    return jWrappedKey ;
+    rfturn jWrbppfdKfy ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_UNWRAPKEY
+#ifdff P11_ENABLE_C_UNWRAPKEY
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_UnwrapKey
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J[B[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jlong jUnwrappingKeyHandle  CK_OBJECT_HANDLE hUnwrappingKey
- * @param   jbyteArray jWrappedKey      CK_BYTE_PTR pWrappedKey
- *                                      CK_ULONG_PTR pulWrappedKeyLen
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_UnwrbpKfy
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;J[B[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jlong jUnwrbppingKfyHbndlf  CK_OBJECT_HANDLE iUnwrbppingKfy
+ * @pbrbm   jbytfArrby jWrbppfdKfy      CK_BYTE_PTR pWrbppfdKfy
+ *                                      CK_ULONG_PTR pulWrbppfdKfyLfn
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE_PTR phKey
+ * @rfturn  jlong jKfyHbndlf            CK_OBJECT_HANDLE_PTR piKfy
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1UnwrapKey
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jUnwrappingKeyHandle,
-     jbyteArray jWrappedKey, jobjectArray jTemplate)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1UnwrbpKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism, jlong jUnwrbppingKfyHbndlf,
+     jbytfArrby jWrbppfdKfy, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckUnwrappingKeyHandle;
-    CK_BYTE_PTR ckpWrappedKey = NULL_PTR;
-    CK_ULONG ckWrappedKeyLength;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    CK_OBJECT_HANDLE ckKeyHandle = 0;
-    jlong jKeyHandle = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_OBJECT_HANDLE dkUnwrbppingKfyHbndlf;
+    CK_BYTE_PTR dkpWrbppfdKfy = NULL_PTR;
+    CK_ULONG dkWrbppfdKfyLfngti;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    CK_OBJECT_HANDLE dkKfyHbndlf = 0;
+    jlong jKfyHbndlf = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return 0L; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0L; }
 
-    ckUnwrappingKeyHandle = jLongToCKULong(jUnwrappingKeyHandle);
-    jByteArrayToCKByteArray(env, jWrappedKey, &ckpWrappedKey, &ckWrappedKeyLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    dkUnwrbppingKfyHbndlf = jLongToCKULong(jUnwrbppingKfyHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jWrbppfdKfy, &dkpWrbppfdKfy, &dkWrbppfdKfyLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        return 0L;
+        rfturn 0L;
     }
 
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        free(ckpWrappedKey);
-        return 0L;
+        frff(dkpWrbppfdKfy);
+        rfturn 0L;
     }
 
 
-    rv = (*ckpFunctions->C_UnwrapKey)(ckSessionHandle, &ckMechanism, ckUnwrappingKeyHandle,
-                 ckpWrappedKey, ckWrappedKeyLength,
-                 ckpAttributes, ckAttributesLength, &ckKeyHandle);
+    rv = (*dkpFundtions->C_UnwrbpKfy)(dkSfssionHbndlf, &dkMfdibnism, dkUnwrbppingKfyHbndlf,
+                 dkpWrbppfdKfy, dkWrbppfdKfyLfngti,
+                 dkpAttributfs, dkAttributfsLfngti, &dkKfyHbndlf);
 
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jKeyHandle = ckLongToJLong(ckKeyHandle);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jKfyHbndlf = dkLongToJLong(dkKfyHbndlf);
 
 #if 0
-        /* cheack, if we must give a initialization vector back to Java */
-        if (ckMechanism.mechanism == CKM_KEY_WRAP_SET_OAEP) {
-            /* we must copy back the unwrapped key info to the jMechanism object */
-            copyBackSetUnwrappedKey(env, &ckMechanism, jMechanism);
+        /* difbdk, if wf must givf b initiblizbtion vfdtor bbdk to Jbvb */
+        if (dkMfdibnism.mfdibnism == CKM_KEY_WRAP_SET_OAEP) {
+            /* wf must dopy bbdk tif unwrbppfd kfy info to tif jMfdibnism objfdt */
+            dopyBbdkSftUnwrbppfdKfy(fnv, &dkMfdibnism, jMfdibnism);
         }
-#endif
+#fndif
     }
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
-    free(ckpWrappedKey);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
+    frff(dkpWrbppfdKfy);
 
-    return jKeyHandle ;
+    rfturn jKfyHbndlf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DERIVEKEY
+#ifdff P11_ENABLE_C_DERIVEKEY
 
-void freeMasterKeyDeriveParams(CK_MECHANISM_PTR ckMechanism) {
-    CK_SSL3_MASTER_KEY_DERIVE_PARAMS *params = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS *) ckMechanism->pParameter;
-    if (params == NULL) {
-        return;
+void frffMbstfrKfyDfrivfPbrbms(CK_MECHANISM_PTR dkMfdibnism) {
+    CK_SSL3_MASTER_KEY_DERIVE_PARAMS *pbrbms = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS *) dkMfdibnism->pPbrbmftfr;
+    if (pbrbms == NULL) {
+        rfturn;
     }
 
-    if (params->RandomInfo.pClientRandom != NULL) {
-        free(params->RandomInfo.pClientRandom);
+    if (pbrbms->RbndomInfo.pClifntRbndom != NULL) {
+        frff(pbrbms->RbndomInfo.pClifntRbndom);
     }
-    if (params->RandomInfo.pServerRandom != NULL) {
-        free(params->RandomInfo.pServerRandom);
+    if (pbrbms->RbndomInfo.pSfrvfrRbndom != NULL) {
+        frff(pbrbms->RbndomInfo.pSfrvfrRbndom);
     }
-    if (params->pVersion != NULL) {
-        free(params->pVersion);
+    if (pbrbms->pVfrsion != NULL) {
+        frff(pbrbms->pVfrsion);
     }
 }
 
-void freeEcdh1DeriveParams(CK_MECHANISM_PTR ckMechanism) {
-    CK_ECDH1_DERIVE_PARAMS *params = (CK_ECDH1_DERIVE_PARAMS *) ckMechanism->pParameter;
-    if (params == NULL) {
-        return;
+void frffEddi1DfrivfPbrbms(CK_MECHANISM_PTR dkMfdibnism) {
+    CK_ECDH1_DERIVE_PARAMS *pbrbms = (CK_ECDH1_DERIVE_PARAMS *) dkMfdibnism->pPbrbmftfr;
+    if (pbrbms == NULL) {
+        rfturn;
     }
 
-    if (params->pSharedData != NULL) {
-        free(params->pSharedData);
+    if (pbrbms->pSibrfdDbtb != NULL) {
+        frff(pbrbms->pSibrfdDbtb);
     }
-    if (params->pPublicData != NULL) {
-        free(params->pPublicData);
+    if (pbrbms->pPublidDbtb != NULL) {
+        frff(pbrbms->pPublidDbtb);
     }
 }
 
 /*
- * Copy back the PRF output to Java.
+ * Copy bbdk tif PRF output to Jbvb.
  */
-void copyBackTLSPrfParams(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism)
+void dopyBbdkTLSPrfPbrbms(JNIEnv *fnv, CK_MECHANISM *dkMfdibnism, jobjfdt jMfdibnism)
 {
-    jclass jMechanismClass, jTLSPrfParamsClass;
-    CK_TLS_PRF_PARAMS *ckTLSPrfParams;
-    jobject jTLSPrfParams;
-    jfieldID fieldID;
-    CK_MECHANISM_TYPE ckMechanismType;
-    jlong jMechanismType;
+    jdlbss jMfdibnismClbss, jTLSPrfPbrbmsClbss;
+    CK_TLS_PRF_PARAMS *dkTLSPrfPbrbms;
+    jobjfdt jTLSPrfPbrbms;
+    jfifldID fifldID;
+    CK_MECHANISM_TYPE dkMfdibnismTypf;
+    jlong jMfdibnismTypf;
     CK_BYTE_PTR output;
-    jobject jOutput;
-    jint jLength;
-    jbyte* jBytes;
+    jobjfdt jOutput;
+    jint jLfngti;
+    jbytf* jBytfs;
     int i;
 
-    /* get mechanism */
-    jMechanismClass = (*env)->FindClass(env, CLASS_MECHANISM);
-    if (jMechanismClass == NULL) { return; }
-    fieldID = (*env)->GetFieldID(env, jMechanismClass, "mechanism", "J");
-    if (fieldID == NULL) { return; }
-    jMechanismType = (*env)->GetLongField(env, jMechanism, fieldID);
-    ckMechanismType = jLongToCKULong(jMechanismType);
-    if (ckMechanismType != ckMechanism->mechanism) {
-        /* we do not have maching types, this should not occur */
-        return;
+    /* gft mfdibnism */
+    jMfdibnismClbss = (*fnv)->FindClbss(fnv, CLASS_MECHANISM);
+    if (jMfdibnismClbss == NULL) { rfturn; }
+    fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "mfdibnism", "J");
+    if (fifldID == NULL) { rfturn; }
+    jMfdibnismTypf = (*fnv)->GftLongFifld(fnv, jMfdibnism, fifldID);
+    dkMfdibnismTypf = jLongToCKULong(jMfdibnismTypf);
+    if (dkMfdibnismTypf != dkMfdibnism->mfdibnism) {
+        /* wf do not ibvf mbdiing typfs, tiis siould not oddur */
+        rfturn;
     }
 
-    /* get the native CK_TLS_PRF_PARAMS */
-    ckTLSPrfParams = (CK_TLS_PRF_PARAMS *) ckMechanism->pParameter;
-    if (ckTLSPrfParams != NULL_PTR) {
-        /* get the Java CK_TLS_PRF_PARAMS object (pParameter) */
-        fieldID = (*env)->GetFieldID(env, jMechanismClass, "pParameter", "Ljava/lang/Object;");
-        if (fieldID == NULL) { return; }
-        jTLSPrfParams = (*env)->GetObjectField(env, jMechanism, fieldID);
+    /* gft tif nbtivf CK_TLS_PRF_PARAMS */
+    dkTLSPrfPbrbms = (CK_TLS_PRF_PARAMS *) dkMfdibnism->pPbrbmftfr;
+    if (dkTLSPrfPbrbms != NULL_PTR) {
+        /* gft tif Jbvb CK_TLS_PRF_PARAMS objfdt (pPbrbmftfr) */
+        fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "pPbrbmftfr", "Ljbvb/lbng/Objfdt;");
+        if (fifldID == NULL) { rfturn; }
+        jTLSPrfPbrbms = (*fnv)->GftObjfdtFifld(fnv, jMfdibnism, fifldID);
 
-        /* copy back the client IV */
-        jTLSPrfParamsClass = (*env)->FindClass(env, CLASS_TLS_PRF_PARAMS);
-        if (jTLSPrfParamsClass == NULL) { return; }
-        fieldID = (*env)->GetFieldID(env, jTLSPrfParamsClass, "pOutput", "[B");
-        if (fieldID == NULL) { return; }
-        jOutput = (*env)->GetObjectField(env, jTLSPrfParams, fieldID);
-        output = ckTLSPrfParams->pOutput;
+        /* dopy bbdk tif dlifnt IV */
+        jTLSPrfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_TLS_PRF_PARAMS);
+        if (jTLSPrfPbrbmsClbss == NULL) { rfturn; }
+        fifldID = (*fnv)->GftFifldID(fnv, jTLSPrfPbrbmsClbss, "pOutput", "[B");
+        if (fifldID == NULL) { rfturn; }
+        jOutput = (*fnv)->GftObjfdtFifld(fnv, jTLSPrfPbrbms, fifldID);
+        output = dkTLSPrfPbrbms->pOutput;
 
-        // Note: we assume that the token returned exactly as many bytes as we
-        // requested. Anything else would not make sense.
+        // Notf: wf bssumf tibt tif tokfn rfturnfd fxbdtly bs mbny bytfs bs wf
+        // rfqufstfd. Anytiing flsf would not mbkf sfnsf.
         if (jOutput != NULL) {
-            jLength = (*env)->GetArrayLength(env, jOutput);
-            jBytes = (*env)->GetByteArrayElements(env, jOutput, NULL);
-            if (jBytes == NULL) { return; }
+            jLfngti = (*fnv)->GftArrbyLfngti(fnv, jOutput);
+            jBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, jOutput, NULL);
+            if (jBytfs == NULL) { rfturn; }
 
-            /* copy the bytes to the Java buffer */
-            for (i=0; i < jLength; i++) {
-                jBytes[i] = ckByteToJByte(output[i]);
+            /* dopy tif bytfs to tif Jbvb bufffr */
+            for (i=0; i < jLfngti; i++) {
+                jBytfs[i] = dkBytfToJBytf(output[i]);
             }
-            /* copy back the Java buffer to the object */
-            (*env)->ReleaseByteArrayElements(env, jOutput, jBytes, 0);
+            /* dopy bbdk tif Jbvb bufffr to tif objfdt */
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jOutput, jBytfs, 0);
         }
 
-        // free malloc'd data
-        free(ckTLSPrfParams->pSeed);
-        free(ckTLSPrfParams->pLabel);
-        free(ckTLSPrfParams->pulOutputLen);
-        free(ckTLSPrfParams->pOutput);
+        // frff mbllod'd dbtb
+        frff(dkTLSPrfPbrbms->pSffd);
+        frff(dkTLSPrfPbrbms->pLbbfl);
+        frff(dkTLSPrfPbrbms->pulOutputLfn);
+        frff(dkTLSPrfPbrbms->pOutput);
     }
 }
 
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DeriveKey
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @param   jlong jBaseKeyHandle        CK_OBJECT_HANDLE hBaseKey
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfrivfKfy
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;J[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
+ * @pbrbm   jlong jBbsfKfyHbndlf        CK_OBJECT_HANDLE iBbsfKfy
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE_PTR phKey
+ * @rfturn  jlong jKfyHbndlf            CK_OBJECT_HANDLE_PTR piKfy
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DeriveKey
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jBaseKeyHandle, jobjectArray jTemplate)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfrivfKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism, jlong jBbsfKfyHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckBaseKeyHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    CK_OBJECT_HANDLE ckKeyHandle = 0;
-    jlong jKeyHandle = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
+    CK_OBJECT_HANDLE dkBbsfKfyHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    CK_OBJECT_HANDLE dkKfyHbndlf = 0;
+    jlong jKfyHbndlf = 0L;
     CK_RV rv;
-    CK_OBJECT_HANDLE_PTR phKey = &ckKeyHandle;
+    CK_OBJECT_HANDLE_PTR piKfy = &dkKfyHbndlf;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return 0L; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0L; }
 
-    ckBaseKeyHandle = jLongToCKULong(jBaseKeyHandle);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) {
-        if (ckMechanism.pParameter != NULL_PTR) {
-            free(ckMechanism.pParameter);
+    dkBbsfKfyHbndlf = jLongToCKULong(jBbsfKfyHbndlf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+            frff(dkMfdibnism.pPbrbmftfr);
         }
-        return 0L;
+        rfturn 0L;
     }
 
-    switch (ckMechanism.mechanism) {
-    case CKM_SSL3_KEY_AND_MAC_DERIVE:
-    case CKM_TLS_KEY_AND_MAC_DERIVE:
-    case CKM_TLS_PRF:
-        // these mechanism do not return a key handle via phKey
-        // set to NULL in case pedantic implementations check for it
-        phKey = NULL;
-        break;
-    default:
-        // empty
-        break;
+    switdi (dkMfdibnism.mfdibnism) {
+    dbsf CKM_SSL3_KEY_AND_MAC_DERIVE:
+    dbsf CKM_TLS_KEY_AND_MAC_DERIVE:
+    dbsf CKM_TLS_PRF:
+        // tifsf mfdibnism do not rfturn b kfy ibndlf vib piKfy
+        // sft to NULL in dbsf pfdbntid implfmfntbtions difdk for it
+        piKfy = NULL;
+        brfbk;
+    dffbult:
+        // fmpty
+        brfbk;
     }
 
-    rv = (*ckpFunctions->C_DeriveKey)(ckSessionHandle, &ckMechanism, ckBaseKeyHandle,
-                 ckpAttributes, ckAttributesLength, phKey);
+    rv = (*dkpFundtions->C_DfrivfKfy)(dkSfssionHbndlf, &dkMfdibnism, dkBbsfKfyHbndlf,
+                 dkpAttributfs, dkAttributfsLfngti, piKfy);
 
-    jKeyHandle = ckLongToJLong(ckKeyHandle);
+    jKfyHbndlf = dkLongToJLong(dkKfyHbndlf);
 
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
 
-    switch (ckMechanism.mechanism) {
-    case CKM_SSL3_MASTER_KEY_DERIVE:
-    case CKM_TLS_MASTER_KEY_DERIVE:
-        /* we must copy back the client version */
-        copyBackClientVersion(env, &ckMechanism, jMechanism);
-        freeMasterKeyDeriveParams(&ckMechanism);
-        break;
-    case CKM_SSL3_MASTER_KEY_DERIVE_DH:
-    case CKM_TLS_MASTER_KEY_DERIVE_DH:
-        freeMasterKeyDeriveParams(&ckMechanism);
-        break;
-    case CKM_SSL3_KEY_AND_MAC_DERIVE:
-    case CKM_TLS_KEY_AND_MAC_DERIVE:
-        /* we must copy back the unwrapped key info to the jMechanism object */
-        copyBackSSLKeyMatParams(env, &ckMechanism, jMechanism);
-        break;
-    case CKM_TLS_PRF:
-        copyBackTLSPrfParams(env, &ckMechanism, jMechanism);
-        break;
-    case CKM_ECDH1_DERIVE:
-        freeEcdh1DeriveParams(&ckMechanism);
-        break;
-    default:
-        // empty
-        break;
+    switdi (dkMfdibnism.mfdibnism) {
+    dbsf CKM_SSL3_MASTER_KEY_DERIVE:
+    dbsf CKM_TLS_MASTER_KEY_DERIVE:
+        /* wf must dopy bbdk tif dlifnt vfrsion */
+        dopyBbdkClifntVfrsion(fnv, &dkMfdibnism, jMfdibnism);
+        frffMbstfrKfyDfrivfPbrbms(&dkMfdibnism);
+        brfbk;
+    dbsf CKM_SSL3_MASTER_KEY_DERIVE_DH:
+    dbsf CKM_TLS_MASTER_KEY_DERIVE_DH:
+        frffMbstfrKfyDfrivfPbrbms(&dkMfdibnism);
+        brfbk;
+    dbsf CKM_SSL3_KEY_AND_MAC_DERIVE:
+    dbsf CKM_TLS_KEY_AND_MAC_DERIVE:
+        /* wf must dopy bbdk tif unwrbppfd kfy info to tif jMfdibnism objfdt */
+        dopyBbdkSSLKfyMbtPbrbms(fnv, &dkMfdibnism, jMfdibnism);
+        brfbk;
+    dbsf CKM_TLS_PRF:
+        dopyBbdkTLSPrfPbrbms(fnv, &dkMfdibnism, jMfdibnism);
+        brfbk;
+    dbsf CKM_ECDH1_DERIVE:
+        frffEddi1DfrivfPbrbms(&dkMfdibnism);
+        brfbk;
+    dffbult:
+        // fmpty
+        brfbk;
     }
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return 0L ; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0L ; }
 
-    return jKeyHandle ;
+    rfturn jKfyHbndlf ;
 }
 
 /*
- * Copy back the client version information from the native
- * structure to the Java object. This is only used for the
- * CKM_SSL3_MASTER_KEY_DERIVE mechanism when used for deriving a key.
+ * Copy bbdk tif dlifnt vfrsion informbtion from tif nbtivf
+ * strudturf to tif Jbvb objfdt. Tiis is only usfd for tif
+ * CKM_SSL3_MASTER_KEY_DERIVE mfdibnism wifn usfd for dfriving b kfy.
  *
  */
-void copyBackClientVersion(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism)
+void dopyBbdkClifntVfrsion(JNIEnv *fnv, CK_MECHANISM *dkMfdibnism, jobjfdt jMfdibnism)
 {
-  jclass jMechanismClass, jSSL3MasterKeyDeriveParamsClass, jVersionClass;
-  CK_SSL3_MASTER_KEY_DERIVE_PARAMS *ckSSL3MasterKeyDeriveParams;
-  CK_VERSION *ckVersion;
-  jfieldID fieldID;
-  CK_MECHANISM_TYPE ckMechanismType;
-  jlong jMechanismType;
-  jobject jSSL3MasterKeyDeriveParams;
-  jobject jVersion;
+  jdlbss jMfdibnismClbss, jSSL3MbstfrKfyDfrivfPbrbmsClbss, jVfrsionClbss;
+  CK_SSL3_MASTER_KEY_DERIVE_PARAMS *dkSSL3MbstfrKfyDfrivfPbrbms;
+  CK_VERSION *dkVfrsion;
+  jfifldID fifldID;
+  CK_MECHANISM_TYPE dkMfdibnismTypf;
+  jlong jMfdibnismTypf;
+  jobjfdt jSSL3MbstfrKfyDfrivfPbrbms;
+  jobjfdt jVfrsion;
 
-  /* get mechanism */
-  jMechanismClass = (*env)->FindClass(env, CLASS_MECHANISM);
-  if (jMechanismClass == NULL) { return; }
-  fieldID = (*env)->GetFieldID(env, jMechanismClass, "mechanism", "J");
-  if (fieldID == NULL) { return; }
-  jMechanismType = (*env)->GetLongField(env, jMechanism, fieldID);
-  ckMechanismType = jLongToCKULong(jMechanismType);
-  if (ckMechanismType != ckMechanism->mechanism) {
-    /* we do not have maching types, this should not occur */
-    return;
+  /* gft mfdibnism */
+  jMfdibnismClbss = (*fnv)->FindClbss(fnv, CLASS_MECHANISM);
+  if (jMfdibnismClbss == NULL) { rfturn; }
+  fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "mfdibnism", "J");
+  if (fifldID == NULL) { rfturn; }
+  jMfdibnismTypf = (*fnv)->GftLongFifld(fnv, jMfdibnism, fifldID);
+  dkMfdibnismTypf = jLongToCKULong(jMfdibnismTypf);
+  if (dkMfdibnismTypf != dkMfdibnism->mfdibnism) {
+    /* wf do not ibvf mbdiing typfs, tiis siould not oddur */
+    rfturn;
   }
 
-  /* get the native CK_SSL3_MASTER_KEY_DERIVE_PARAMS */
-  ckSSL3MasterKeyDeriveParams = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS *) ckMechanism->pParameter;
-  if (ckSSL3MasterKeyDeriveParams != NULL_PTR) {
-    /* get the native CK_VERSION */
-    ckVersion = ckSSL3MasterKeyDeriveParams->pVersion;
-    if (ckVersion != NULL_PTR) {
-      /* get the Java CK_SSL3_MASTER_KEY_DERIVE_PARAMS (pParameter) */
-      fieldID = (*env)->GetFieldID(env, jMechanismClass, "pParameter", "Ljava/lang/Object;");
-      if (fieldID == NULL) { return; }
+  /* gft tif nbtivf CK_SSL3_MASTER_KEY_DERIVE_PARAMS */
+  dkSSL3MbstfrKfyDfrivfPbrbms = (CK_SSL3_MASTER_KEY_DERIVE_PARAMS *) dkMfdibnism->pPbrbmftfr;
+  if (dkSSL3MbstfrKfyDfrivfPbrbms != NULL_PTR) {
+    /* gft tif nbtivf CK_VERSION */
+    dkVfrsion = dkSSL3MbstfrKfyDfrivfPbrbms->pVfrsion;
+    if (dkVfrsion != NULL_PTR) {
+      /* gft tif Jbvb CK_SSL3_MASTER_KEY_DERIVE_PARAMS (pPbrbmftfr) */
+      fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "pPbrbmftfr", "Ljbvb/lbng/Objfdt;");
+      if (fifldID == NULL) { rfturn; }
 
-      jSSL3MasterKeyDeriveParams = (*env)->GetObjectField(env, jMechanism, fieldID);
+      jSSL3MbstfrKfyDfrivfPbrbms = (*fnv)->GftObjfdtFifld(fnv, jMfdibnism, fifldID);
 
-      /* get the Java CK_VERSION */
-      jSSL3MasterKeyDeriveParamsClass = (*env)->FindClass(env, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
-      if (jSSL3MasterKeyDeriveParamsClass == NULL) { return; }
-      fieldID = (*env)->GetFieldID(env, jSSL3MasterKeyDeriveParamsClass, "pVersion", "L"CLASS_VERSION";");
-      if (fieldID == NULL) { return; }
-      jVersion = (*env)->GetObjectField(env, jSSL3MasterKeyDeriveParams, fieldID);
+      /* gft tif Jbvb CK_VERSION */
+      jSSL3MbstfrKfyDfrivfPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS);
+      if (jSSL3MbstfrKfyDfrivfPbrbmsClbss == NULL) { rfturn; }
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3MbstfrKfyDfrivfPbrbmsClbss, "pVfrsion", "L"CLASS_VERSION";");
+      if (fifldID == NULL) { rfturn; }
+      jVfrsion = (*fnv)->GftObjfdtFifld(fnv, jSSL3MbstfrKfyDfrivfPbrbms, fifldID);
 
-      /* now copy back the version from the native structure to the Java structure */
+      /* now dopy bbdk tif vfrsion from tif nbtivf strudturf to tif Jbvb strudturf */
 
-      /* copy back the major version */
-      jVersionClass = (*env)->FindClass(env, CLASS_VERSION);
-      if (jVersionClass == NULL) { return; }
-      fieldID = (*env)->GetFieldID(env, jVersionClass, "major", "B");
-      if (fieldID == NULL) { return; }
-      (*env)->SetByteField(env, jVersion, fieldID, ckByteToJByte(ckVersion->major));
+      /* dopy bbdk tif mbjor vfrsion */
+      jVfrsionClbss = (*fnv)->FindClbss(fnv, CLASS_VERSION);
+      if (jVfrsionClbss == NULL) { rfturn; }
+      fifldID = (*fnv)->GftFifldID(fnv, jVfrsionClbss, "mbjor", "B");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftBytfFifld(fnv, jVfrsion, fifldID, dkBytfToJBytf(dkVfrsion->mbjor));
 
-      /* copy back the minor version */
-      fieldID = (*env)->GetFieldID(env, jVersionClass, "minor", "B");
-      if (fieldID == NULL) { return; }
-      (*env)->SetByteField(env, jVersion, fieldID, ckByteToJByte(ckVersion->minor));
+      /* dopy bbdk tif minor vfrsion */
+      fifldID = (*fnv)->GftFifldID(fnv, jVfrsionClbss, "minor", "B");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftBytfFifld(fnv, jVfrsion, fifldID, dkBytfToJBytf(dkVfrsion->minor));
     }
   }
 }
 
 
 /*
- * Copy back the derived keys and initialization vectors from the native
- * structure to the Java object. This is only used for the
- * CKM_SSL3_KEY_AND_MAC_DERIVE mechanism when used for deriving a key.
+ * Copy bbdk tif dfrivfd kfys bnd initiblizbtion vfdtors from tif nbtivf
+ * strudturf to tif Jbvb objfdt. Tiis is only usfd for tif
+ * CKM_SSL3_KEY_AND_MAC_DERIVE mfdibnism wifn usfd for dfriving b kfy.
  *
  */
-void copyBackSSLKeyMatParams(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism)
+void dopyBbdkSSLKfyMbtPbrbms(JNIEnv *fnv, CK_MECHANISM *dkMfdibnism, jobjfdt jMfdibnism)
 {
-  jclass jMechanismClass, jSSL3KeyMatParamsClass, jSSL3KeyMatOutClass;
-  CK_SSL3_KEY_MAT_PARAMS *ckSSL3KeyMatParam;
-  CK_SSL3_KEY_MAT_OUT *ckSSL3KeyMatOut;
-  jfieldID fieldID;
-  CK_MECHANISM_TYPE ckMechanismType;
-  jlong jMechanismType;
+  jdlbss jMfdibnismClbss, jSSL3KfyMbtPbrbmsClbss, jSSL3KfyMbtOutClbss;
+  CK_SSL3_KEY_MAT_PARAMS *dkSSL3KfyMbtPbrbm;
+  CK_SSL3_KEY_MAT_OUT *dkSSL3KfyMbtOut;
+  jfifldID fifldID;
+  CK_MECHANISM_TYPE dkMfdibnismTypf;
+  jlong jMfdibnismTypf;
   CK_BYTE_PTR iv;
-  jobject jSSL3KeyMatParam;
-  jobject jSSL3KeyMatOut;
-  jobject jIV;
-  jint jLength;
-  jbyte* jBytes;
+  jobjfdt jSSL3KfyMbtPbrbm;
+  jobjfdt jSSL3KfyMbtOut;
+  jobjfdt jIV;
+  jint jLfngti;
+  jbytf* jBytfs;
   int i;
 
-  /* get mechanism */
-  jMechanismClass= (*env)->FindClass(env, CLASS_MECHANISM);
-  if (jMechanismClass == NULL) { return; }
-  fieldID = (*env)->GetFieldID(env, jMechanismClass, "mechanism", "J");
-  if (fieldID == NULL) { return; }
-  jMechanismType = (*env)->GetLongField(env, jMechanism, fieldID);
-  ckMechanismType = jLongToCKULong(jMechanismType);
-  if (ckMechanismType != ckMechanism->mechanism) {
-    /* we do not have maching types, this should not occur */
-    return;
+  /* gft mfdibnism */
+  jMfdibnismClbss= (*fnv)->FindClbss(fnv, CLASS_MECHANISM);
+  if (jMfdibnismClbss == NULL) { rfturn; }
+  fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "mfdibnism", "J");
+  if (fifldID == NULL) { rfturn; }
+  jMfdibnismTypf = (*fnv)->GftLongFifld(fnv, jMfdibnism, fifldID);
+  dkMfdibnismTypf = jLongToCKULong(jMfdibnismTypf);
+  if (dkMfdibnismTypf != dkMfdibnism->mfdibnism) {
+    /* wf do not ibvf mbdiing typfs, tiis siould not oddur */
+    rfturn;
   }
 
-  /* get the native CK_SSL3_KEY_MAT_PARAMS */
-  ckSSL3KeyMatParam = (CK_SSL3_KEY_MAT_PARAMS *) ckMechanism->pParameter;
-  if (ckSSL3KeyMatParam != NULL_PTR) {
-    // free malloc'd data
-    if (ckSSL3KeyMatParam->RandomInfo.pClientRandom != NULL) {
-        free(ckSSL3KeyMatParam->RandomInfo.pClientRandom);
+  /* gft tif nbtivf CK_SSL3_KEY_MAT_PARAMS */
+  dkSSL3KfyMbtPbrbm = (CK_SSL3_KEY_MAT_PARAMS *) dkMfdibnism->pPbrbmftfr;
+  if (dkSSL3KfyMbtPbrbm != NULL_PTR) {
+    // frff mbllod'd dbtb
+    if (dkSSL3KfyMbtPbrbm->RbndomInfo.pClifntRbndom != NULL) {
+        frff(dkSSL3KfyMbtPbrbm->RbndomInfo.pClifntRbndom);
     }
-    if (ckSSL3KeyMatParam->RandomInfo.pServerRandom != NULL) {
-        free(ckSSL3KeyMatParam->RandomInfo.pServerRandom);
+    if (dkSSL3KfyMbtPbrbm->RbndomInfo.pSfrvfrRbndom != NULL) {
+        frff(dkSSL3KfyMbtPbrbm->RbndomInfo.pSfrvfrRbndom);
     }
 
-    /* get the native CK_SSL3_KEY_MAT_OUT */
-    ckSSL3KeyMatOut = ckSSL3KeyMatParam->pReturnedKeyMaterial;
-    if (ckSSL3KeyMatOut != NULL_PTR) {
-      /* get the Java CK_SSL3_KEY_MAT_PARAMS (pParameter) */
-      fieldID = (*env)->GetFieldID(env, jMechanismClass, "pParameter", "Ljava/lang/Object;");
-      if (fieldID == NULL) { return; }
-      jSSL3KeyMatParam = (*env)->GetObjectField(env, jMechanism, fieldID);
+    /* gft tif nbtivf CK_SSL3_KEY_MAT_OUT */
+    dkSSL3KfyMbtOut = dkSSL3KfyMbtPbrbm->pRfturnfdKfyMbtfribl;
+    if (dkSSL3KfyMbtOut != NULL_PTR) {
+      /* gft tif Jbvb CK_SSL3_KEY_MAT_PARAMS (pPbrbmftfr) */
+      fifldID = (*fnv)->GftFifldID(fnv, jMfdibnismClbss, "pPbrbmftfr", "Ljbvb/lbng/Objfdt;");
+      if (fifldID == NULL) { rfturn; }
+      jSSL3KfyMbtPbrbm = (*fnv)->GftObjfdtFifld(fnv, jMfdibnism, fifldID);
 
-      /* get the Java CK_SSL3_KEY_MAT_OUT */
-      jSSL3KeyMatParamsClass = (*env)->FindClass(env, CLASS_SSL3_KEY_MAT_PARAMS);
-      if (jSSL3KeyMatParamsClass == NULL) { return; }
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatParamsClass, "pReturnedKeyMaterial", "L"CLASS_SSL3_KEY_MAT_OUT";");
-      if (fieldID == NULL) { return; }
-      jSSL3KeyMatOut = (*env)->GetObjectField(env, jSSL3KeyMatParam, fieldID);
+      /* gft tif Jbvb CK_SSL3_KEY_MAT_OUT */
+      jSSL3KfyMbtPbrbmsClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_KEY_MAT_PARAMS);
+      if (jSSL3KfyMbtPbrbmsClbss == NULL) { rfturn; }
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtPbrbmsClbss, "pRfturnfdKfyMbtfribl", "L"CLASS_SSL3_KEY_MAT_OUT";");
+      if (fifldID == NULL) { rfturn; }
+      jSSL3KfyMbtOut = (*fnv)->GftObjfdtFifld(fnv, jSSL3KfyMbtPbrbm, fifldID);
 
-      /* now copy back all the key handles and the initialization vectors */
-      /* copy back client MAC secret handle */
-      jSSL3KeyMatOutClass = (*env)->FindClass(env, CLASS_SSL3_KEY_MAT_OUT);
-      if (jSSL3KeyMatOutClass == NULL) { return; }
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "hClientMacSecret", "J");
-      if (fieldID == NULL) { return; }
-      (*env)->SetLongField(env, jSSL3KeyMatOut, fieldID, ckULongToJLong(ckSSL3KeyMatOut->hClientMacSecret));
+      /* now dopy bbdk bll tif kfy ibndlfs bnd tif initiblizbtion vfdtors */
+      /* dopy bbdk dlifnt MAC sfdrft ibndlf */
+      jSSL3KfyMbtOutClbss = (*fnv)->FindClbss(fnv, CLASS_SSL3_KEY_MAT_OUT);
+      if (jSSL3KfyMbtOutClbss == NULL) { rfturn; }
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "iClifntMbdSfdrft", "J");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftLongFifld(fnv, jSSL3KfyMbtOut, fifldID, dkULongToJLong(dkSSL3KfyMbtOut->iClifntMbdSfdrft));
 
-      /* copy back server MAC secret handle */
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "hServerMacSecret", "J");
-      if (fieldID == NULL) { return; }
-      (*env)->SetLongField(env, jSSL3KeyMatOut, fieldID, ckULongToJLong(ckSSL3KeyMatOut->hServerMacSecret));
+      /* dopy bbdk sfrvfr MAC sfdrft ibndlf */
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "iSfrvfrMbdSfdrft", "J");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftLongFifld(fnv, jSSL3KfyMbtOut, fifldID, dkULongToJLong(dkSSL3KfyMbtOut->iSfrvfrMbdSfdrft));
 
-      /* copy back client secret key handle */
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "hClientKey", "J");
-      if (fieldID == NULL) { return; }
-      (*env)->SetLongField(env, jSSL3KeyMatOut, fieldID, ckULongToJLong(ckSSL3KeyMatOut->hClientKey));
+      /* dopy bbdk dlifnt sfdrft kfy ibndlf */
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "iClifntKfy", "J");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftLongFifld(fnv, jSSL3KfyMbtOut, fifldID, dkULongToJLong(dkSSL3KfyMbtOut->iClifntKfy));
 
-      /* copy back server secret key handle */
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "hServerKey", "J");
-      if (fieldID == NULL) { return; }
-      (*env)->SetLongField(env, jSSL3KeyMatOut, fieldID, ckULongToJLong(ckSSL3KeyMatOut->hServerKey));
+      /* dopy bbdk sfrvfr sfdrft kfy ibndlf */
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "iSfrvfrKfy", "J");
+      if (fifldID == NULL) { rfturn; }
+      (*fnv)->SftLongFifld(fnv, jSSL3KfyMbtOut, fifldID, dkULongToJLong(dkSSL3KfyMbtOut->iSfrvfrKfy));
 
-      /* copy back the client IV */
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "pIVClient", "[B");
-      if (fieldID == NULL) { return; }
-      jIV = (*env)->GetObjectField(env, jSSL3KeyMatOut, fieldID);
-      iv = ckSSL3KeyMatOut->pIVClient;
+      /* dopy bbdk tif dlifnt IV */
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "pIVClifnt", "[B");
+      if (fifldID == NULL) { rfturn; }
+      jIV = (*fnv)->GftObjfdtFifld(fnv, jSSL3KfyMbtOut, fifldID);
+      iv = dkSSL3KfyMbtOut->pIVClifnt;
 
       if (jIV != NULL) {
-        jLength = (*env)->GetArrayLength(env, jIV);
-        jBytes = (*env)->GetByteArrayElements(env, jIV, NULL);
-        if (jBytes == NULL) { return; }
-        /* copy the bytes to the Java buffer */
-        for (i=0; i < jLength; i++) {
-          jBytes[i] = ckByteToJByte(iv[i]);
+        jLfngti = (*fnv)->GftArrbyLfngti(fnv, jIV);
+        jBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, jIV, NULL);
+        if (jBytfs == NULL) { rfturn; }
+        /* dopy tif bytfs to tif Jbvb bufffr */
+        for (i=0; i < jLfngti; i++) {
+          jBytfs[i] = dkBytfToJBytf(iv[i]);
         }
-        /* copy back the Java buffer to the object */
-        (*env)->ReleaseByteArrayElements(env, jIV, jBytes, 0);
+        /* dopy bbdk tif Jbvb bufffr to tif objfdt */
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jIV, jBytfs, 0);
       }
-      // free malloc'd data
-      free(ckSSL3KeyMatOut->pIVClient);
+      // frff mbllod'd dbtb
+      frff(dkSSL3KfyMbtOut->pIVClifnt);
 
-      /* copy back the server IV */
-      fieldID = (*env)->GetFieldID(env, jSSL3KeyMatOutClass, "pIVServer", "[B");
-      if (fieldID == NULL) { return; }
-      jIV = (*env)->GetObjectField(env, jSSL3KeyMatOut, fieldID);
-      iv = ckSSL3KeyMatOut->pIVServer;
+      /* dopy bbdk tif sfrvfr IV */
+      fifldID = (*fnv)->GftFifldID(fnv, jSSL3KfyMbtOutClbss, "pIVSfrvfr", "[B");
+      if (fifldID == NULL) { rfturn; }
+      jIV = (*fnv)->GftObjfdtFifld(fnv, jSSL3KfyMbtOut, fifldID);
+      iv = dkSSL3KfyMbtOut->pIVSfrvfr;
 
       if (jIV != NULL) {
-        jLength = (*env)->GetArrayLength(env, jIV);
-        jBytes = (*env)->GetByteArrayElements(env, jIV, NULL);
-        if (jBytes == NULL) { return; }
-        /* copy the bytes to the Java buffer */
-        for (i=0; i < jLength; i++) {
-          jBytes[i] = ckByteToJByte(iv[i]);
+        jLfngti = (*fnv)->GftArrbyLfngti(fnv, jIV);
+        jBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, jIV, NULL);
+        if (jBytfs == NULL) { rfturn; }
+        /* dopy tif bytfs to tif Jbvb bufffr */
+        for (i=0; i < jLfngti; i++) {
+          jBytfs[i] = dkBytfToJBytf(iv[i]);
         }
-        /* copy back the Java buffer to the object */
-        (*env)->ReleaseByteArrayElements(env, jIV, jBytes, 0);
+        /* dopy bbdk tif Jbvb bufffr to tif objfdt */
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jIV, jBytfs, 0);
       }
-      // free malloc'd data
-      free(ckSSL3KeyMatOut->pIVServer);
-      free(ckSSL3KeyMatOut);
+      // frff mbllod'd dbtb
+      frff(dkSSL3KfyMbtOut->pIVSfrvfr);
+      frff(dkSSL3KfyMbtOut);
     }
   }
 }
 
-#endif
+#fndif

@@ -1,503 +1,503 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.lang.ref.*;
-import java.util.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  */
-public class WindowsScrollBarUI extends BasicScrollBarUI {
-    private Grid thumbGrid;
-    private Grid highlightGrid;
-    private Dimension horizontalThumbSize;
-    private Dimension verticalThumbSize;
+publid dlbss WindowsSdrollBbrUI fxtfnds BbsidSdrollBbrUI {
+    privbtf Grid tiumbGrid;
+    privbtf Grid iigiligitGrid;
+    privbtf Dimfnsion iorizontblTiumbSizf;
+    privbtf Dimfnsion vfrtidblTiumbSizf;
 
     /**
-     * Creates a UI for a JScrollBar.
+     * Crfbtfs b UI for b JSdrollBbr.
      *
-     * @param c the text field
-     * @return the UI
+     * @pbrbm d tif tfxt fifld
+     * @rfturn tif UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsScrollBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsSdrollBbrUI();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            scrollbar.setBorder(null);
-            horizontalThumbSize = getSize(scrollbar, xp, Part.SBP_THUMBBTNHORZ);
-            verticalThumbSize = getSize(scrollbar, xp, Part.SBP_THUMBBTNVERT);
-        } else {
-            horizontalThumbSize = null;
-            verticalThumbSize = null;
+            sdrollbbr.sftBordfr(null);
+            iorizontblTiumbSizf = gftSizf(sdrollbbr, xp, Pbrt.SBP_THUMBBTNHORZ);
+            vfrtidblTiumbSizf = gftSizf(sdrollbbr, xp, Pbrt.SBP_THUMBBTNVERT);
+        } flsf {
+            iorizontblTiumbSizf = null;
+            vfrtidblTiumbSizf = null;
         }
     }
 
-    private static Dimension getSize(Component component, XPStyle xp, Part part) {
-        Skin skin = xp.getSkin(component, part);
-        return new Dimension(skin.getWidth(), skin.getHeight());
+    privbtf stbtid Dimfnsion gftSizf(Componfnt domponfnt, XPStylf xp, Pbrt pbrt) {
+        Skin skin = xp.gftSkin(domponfnt, pbrt);
+        rfturn nfw Dimfnsion(skin.gftWidti(), skin.gftHfigit());
     }
 
-    @Override
-    protected Dimension getMinimumThumbSize() {
-        if ((horizontalThumbSize == null) || (verticalThumbSize == null)) {
-            return super.getMinimumThumbSize();
+    @Ovfrridf
+    protfdtfd Dimfnsion gftMinimumTiumbSizf() {
+        if ((iorizontblTiumbSizf == null) || (vfrtidblTiumbSizf == null)) {
+            rfturn supfr.gftMinimumTiumbSizf();
         }
-        return JScrollBar.HORIZONTAL == scrollbar.getOrientation()
-                ? horizontalThumbSize
-                : verticalThumbSize;
+        rfturn JSdrollBbr.HORIZONTAL == sdrollbbr.gftOrifntbtion()
+                ? iorizontblTiumbSizf
+                : vfrtidblTiumbSizf;
     }
 
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
-        thumbGrid = highlightGrid = null;
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        tiumbGrid = iigiligitGrid = null;
     }
 
-    protected void configureScrollBarColors() {
-        super.configureScrollBarColors();
-        Color color = UIManager.getColor("ScrollBar.trackForeground");
-        if (color != null && trackColor != null) {
-            thumbGrid = Grid.getGrid(color, trackColor);
+    protfdtfd void donfigurfSdrollBbrColors() {
+        supfr.donfigurfSdrollBbrColors();
+        Color dolor = UIMbnbgfr.gftColor("SdrollBbr.trbdkForfground");
+        if (dolor != null && trbdkColor != null) {
+            tiumbGrid = Grid.gftGrid(dolor, trbdkColor);
         }
 
-        color = UIManager.getColor("ScrollBar.trackHighlightForeground");
-        if (color != null && trackHighlightColor != null) {
-            highlightGrid = Grid.getGrid(color, trackHighlightColor);
+        dolor = UIMbnbgfr.gftColor("SdrollBbr.trbdkHigiligitForfground");
+        if (dolor != null && trbdkHigiligitColor != null) {
+            iigiligitGrid = Grid.gftGrid(dolor, trbdkHigiligitColor);
         }
     }
 
-    protected JButton createDecreaseButton(int orientation)  {
-        return new WindowsArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion)  {
+        rfturn nfw WindowsArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbDbrkSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit"));
     }
 
-    protected JButton createIncreaseButton(int orientation)  {
-        return new WindowsArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion)  {
+        rfturn nfw WindowsArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbDbrkSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit"));
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    @Override
-    protected ArrowButtonListener createArrowButtonListener(){
-        // we need to repaint the entire scrollbar because state change for each
-        // button causes a state change for the thumb and other button on Vista
-        if(XPStyle.isVista()) {
-            return new ArrowButtonListener() {
-                public void mouseEntered(MouseEvent evt) {
-                    repaint();
-                    super.mouseEntered(evt);
+    @Ovfrridf
+    protfdtfd ArrowButtonListfnfr drfbtfArrowButtonListfnfr(){
+        // wf nffd to rfpbint tif fntirf sdrollbbr bfdbusf stbtf dibngf for fbdi
+        // button dbusfs b stbtf dibngf for tif tiumb bnd otifr button on Vistb
+        if(XPStylf.isVistb()) {
+            rfturn nfw ArrowButtonListfnfr() {
+                publid void mousfEntfrfd(MousfEvfnt fvt) {
+                    rfpbint();
+                    supfr.mousfEntfrfd(fvt);
                 }
-                public void mouseExited(MouseEvent evt) {
-                    repaint();
-                    super.mouseExited(evt);
+                publid void mousfExitfd(MousfEvfnt fvt) {
+                    rfpbint();
+                    supfr.mousfExitfd(fvt);
                 }
-                private void repaint() {
-                    scrollbar.repaint();
+                privbtf void rfpbint() {
+                    sdrollbbr.rfpbint();
                 }
             };
-        } else {
-            return super.createArrowButtonListener();
+        } flsf {
+            rfturn supfr.drfbtfArrowButtonListfnfr();
         }
     }
 
-    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds){
-        boolean v = (scrollbar.getOrientation() == JScrollBar.VERTICAL);
+    protfdtfd void pbintTrbdk(Grbpiids g, JComponfnt d, Rfdtbnglf trbdkBounds){
+        boolfbn v = (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL);
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            JScrollBar sb = (JScrollBar)c;
-            State state = State.NORMAL;
-            // Pending: Implement rollover (hot) and pressed
-            if (!sb.isEnabled()) {
-                state = State.DISABLED;
+            JSdrollBbr sb = (JSdrollBbr)d;
+            Stbtf stbtf = Stbtf.NORMAL;
+            // Pfnding: Implfmfnt rollovfr (iot) bnd prfssfd
+            if (!sb.isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
             }
-            Part part = v ? Part.SBP_LOWERTRACKVERT : Part.SBP_LOWERTRACKHORZ;
-            xp.getSkin(sb, part).paintSkin(g, trackBounds, state);
-        } else if (thumbGrid == null) {
-            super.paintTrack(g, c, trackBounds);
+            Pbrt pbrt = v ? Pbrt.SBP_LOWERTRACKVERT : Pbrt.SBP_LOWERTRACKHORZ;
+            xp.gftSkin(sb, pbrt).pbintSkin(g, trbdkBounds, stbtf);
+        } flsf if (tiumbGrid == null) {
+            supfr.pbintTrbdk(g, d, trbdkBounds);
         }
-        else {
-            thumbGrid.paint(g, trackBounds.x, trackBounds.y, trackBounds.width,
-                            trackBounds.height);
-            if (trackHighlight == DECREASE_HIGHLIGHT) {
-                paintDecreaseHighlight(g);
+        flsf {
+            tiumbGrid.pbint(g, trbdkBounds.x, trbdkBounds.y, trbdkBounds.widti,
+                            trbdkBounds.ifigit);
+            if (trbdkHigiligit == DECREASE_HIGHLIGHT) {
+                pbintDfdrfbsfHigiligit(g);
             }
-            else if (trackHighlight == INCREASE_HIGHLIGHT) {
-                paintIncreaseHighlight(g);
+            flsf if (trbdkHigiligit == INCREASE_HIGHLIGHT) {
+                pbintIndrfbsfHigiligit(g);
             }
         }
     }
 
-    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        boolean v = (scrollbar.getOrientation() == JScrollBar.VERTICAL);
+    protfdtfd void pbintTiumb(Grbpiids g, JComponfnt d, Rfdtbnglf tiumbBounds) {
+        boolfbn v = (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL);
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            JScrollBar sb = (JScrollBar)c;
-            State state = State.NORMAL;
-            if (!sb.isEnabled()) {
-                state = State.DISABLED;
-            } else if (isDragging) {
-                state = State.PRESSED;
-            } else if (isThumbRollover()) {
-                state = State.HOT;
-            } else if (XPStyle.isVista()) {
-                if ((incrButton != null && incrButton.getModel().isRollover()) ||
-                    (decrButton != null && decrButton.getModel().isRollover())) {
-                    state = State.HOVER;
+            JSdrollBbr sb = (JSdrollBbr)d;
+            Stbtf stbtf = Stbtf.NORMAL;
+            if (!sb.isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            } flsf if (isDrbgging) {
+                stbtf = Stbtf.PRESSED;
+            } flsf if (isTiumbRollovfr()) {
+                stbtf = Stbtf.HOT;
+            } flsf if (XPStylf.isVistb()) {
+                if ((indrButton != null && indrButton.gftModfl().isRollovfr()) ||
+                    (dfdrButton != null && dfdrButton.gftModfl().isRollovfr())) {
+                    stbtf = Stbtf.HOVER;
                 }
             }
-            // Paint thumb
-            Part thumbPart = v ? Part.SBP_THUMBBTNVERT : Part.SBP_THUMBBTNHORZ;
-            xp.getSkin(sb, thumbPart).paintSkin(g, thumbBounds, state);
-            // Paint gripper
-            Part gripperPart = v ? Part.SBP_GRIPPERVERT : Part.SBP_GRIPPERHORZ;
-            Skin skin = xp.getSkin(sb, gripperPart);
-            Insets gripperInsets = xp.getMargin(c, thumbPart, null, Prop.CONTENTMARGINS);
-            if (gripperInsets == null ||
-                (v && (thumbBounds.height - gripperInsets.top -
-                       gripperInsets.bottom >= skin.getHeight())) ||
-                (!v && (thumbBounds.width - gripperInsets.left -
-                        gripperInsets.right >= skin.getWidth()))) {
-                skin.paintSkin(g,
-                               thumbBounds.x + (thumbBounds.width  - skin.getWidth()) / 2,
-                               thumbBounds.y + (thumbBounds.height - skin.getHeight()) / 2,
-                               skin.getWidth(), skin.getHeight(), state);
+            // Pbint tiumb
+            Pbrt tiumbPbrt = v ? Pbrt.SBP_THUMBBTNVERT : Pbrt.SBP_THUMBBTNHORZ;
+            xp.gftSkin(sb, tiumbPbrt).pbintSkin(g, tiumbBounds, stbtf);
+            // Pbint grippfr
+            Pbrt grippfrPbrt = v ? Pbrt.SBP_GRIPPERVERT : Pbrt.SBP_GRIPPERHORZ;
+            Skin skin = xp.gftSkin(sb, grippfrPbrt);
+            Insfts grippfrInsfts = xp.gftMbrgin(d, tiumbPbrt, null, Prop.CONTENTMARGINS);
+            if (grippfrInsfts == null ||
+                (v && (tiumbBounds.ifigit - grippfrInsfts.top -
+                       grippfrInsfts.bottom >= skin.gftHfigit())) ||
+                (!v && (tiumbBounds.widti - grippfrInsfts.lfft -
+                        grippfrInsfts.rigit >= skin.gftWidti()))) {
+                skin.pbintSkin(g,
+                               tiumbBounds.x + (tiumbBounds.widti  - skin.gftWidti()) / 2,
+                               tiumbBounds.y + (tiumbBounds.ifigit - skin.gftHfigit()) / 2,
+                               skin.gftWidti(), skin.gftHfigit(), stbtf);
             }
-        } else {
-            super.paintThumb(g, c, thumbBounds);
+        } flsf {
+            supfr.pbintTiumb(g, d, tiumbBounds);
         }
     }
 
 
-    protected void paintDecreaseHighlight(Graphics g) {
-        if (highlightGrid == null) {
-            super.paintDecreaseHighlight(g);
+    protfdtfd void pbintDfdrfbsfHigiligit(Grbpiids g) {
+        if (iigiligitGrid == null) {
+            supfr.pbintDfdrfbsfHigiligit(g);
         }
-        else {
-            Insets insets = scrollbar.getInsets();
-            Rectangle thumbR = getThumbBounds();
-            int x, y, w, h;
+        flsf {
+            Insfts insfts = sdrollbbr.gftInsfts();
+            Rfdtbnglf tiumbR = gftTiumbBounds();
+            int x, y, w, i;
 
-            if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-                x = insets.left;
-                y = decrButton.getY() + decrButton.getHeight();
-                w = scrollbar.getWidth() - (insets.left + insets.right);
-                h = thumbR.y - y;
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                x = insfts.lfft;
+                y = dfdrButton.gftY() + dfdrButton.gftHfigit();
+                w = sdrollbbr.gftWidti() - (insfts.lfft + insfts.rigit);
+                i = tiumbR.y - y;
             }
-            else {
-                x = decrButton.getX() + decrButton.getHeight();
-                y = insets.top;
-                w = thumbR.x - x;
-                h = scrollbar.getHeight() - (insets.top + insets.bottom);
+            flsf {
+                x = dfdrButton.gftX() + dfdrButton.gftHfigit();
+                y = insfts.top;
+                w = tiumbR.x - x;
+                i = sdrollbbr.gftHfigit() - (insfts.top + insfts.bottom);
             }
-            highlightGrid.paint(g, x, y, w, h);
+            iigiligitGrid.pbint(g, x, y, w, i);
         }
     }
 
 
-    protected void paintIncreaseHighlight(Graphics g) {
-        if (highlightGrid == null) {
-            super.paintDecreaseHighlight(g);
+    protfdtfd void pbintIndrfbsfHigiligit(Grbpiids g) {
+        if (iigiligitGrid == null) {
+            supfr.pbintDfdrfbsfHigiligit(g);
         }
-        else {
-            Insets insets = scrollbar.getInsets();
-            Rectangle thumbR = getThumbBounds();
-            int x, y, w, h;
+        flsf {
+            Insfts insfts = sdrollbbr.gftInsfts();
+            Rfdtbnglf tiumbR = gftTiumbBounds();
+            int x, y, w, i;
 
-            if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-                x = insets.left;
-                y = thumbR.y + thumbR.height;
-                w = scrollbar.getWidth() - (insets.left + insets.right);
-                h = incrButton.getY() - y;
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                x = insfts.lfft;
+                y = tiumbR.y + tiumbR.ifigit;
+                w = sdrollbbr.gftWidti() - (insfts.lfft + insfts.rigit);
+                i = indrButton.gftY() - y;
             }
-            else {
-                x = thumbR.x + thumbR.width;
-                y = insets.top;
-                w = incrButton.getX() - x;
-                h = scrollbar.getHeight() - (insets.top + insets.bottom);
+            flsf {
+                x = tiumbR.x + tiumbR.widti;
+                y = insfts.top;
+                w = indrButton.gftX() - x;
+                i = sdrollbbr.gftHfigit() - (insfts.top + insfts.bottom);
             }
-            highlightGrid.paint(g, x, y, w, h);
+            iigiligitGrid.pbint(g, x, y, w, i);
         }
     }
 
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    @Override
-    protected void setThumbRollover(boolean active) {
-        boolean old = isThumbRollover();
-        super.setThumbRollover(active);
-        // we need to repaint the entire scrollbar because state change for thumb
-        // causes state change for incr and decr buttons on Vista
-        if(XPStyle.isVista() && active != old) {
-            scrollbar.repaint();
+    @Ovfrridf
+    protfdtfd void sftTiumbRollovfr(boolfbn bdtivf) {
+        boolfbn old = isTiumbRollovfr();
+        supfr.sftTiumbRollovfr(bdtivf);
+        // wf nffd to rfpbint tif fntirf sdrollbbr bfdbusf stbtf dibngf for tiumb
+        // dbusfs stbtf dibngf for indr bnd dfdr buttons on Vistb
+        if(XPStylf.isVistb() && bdtivf != old) {
+            sdrollbbr.rfpbint();
         }
     }
 
     /**
-     * WindowsArrowButton is used for the buttons to position the
-     * document up/down. It differs from BasicArrowButton in that the
-     * preferred size is always a square.
+     * WindowsArrowButton is usfd for tif buttons to position tif
+     * dodumfnt up/down. It difffrs from BbsidArrowButton in tibt tif
+     * prfffrrfd sizf is blwbys b squbrf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class WindowsArrowButton extends BasicArrowButton {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss WindowsArrowButton fxtfnds BbsidArrowButton {
 
-        public WindowsArrowButton(int direction, Color background, Color shadow,
-                         Color darkShadow, Color highlight) {
-            super(direction, background, shadow, darkShadow, highlight);
+        publid WindowsArrowButton(int dirfdtion, Color bbdkground, Color sibdow,
+                         Color dbrkSibdow, Color iigiligit) {
+            supfr(dirfdtion, bbdkground, sibdow, dbrkSibdow, iigiligit);
         }
 
-        public WindowsArrowButton(int direction) {
-            super(direction);
+        publid WindowsArrowButton(int dirfdtion) {
+            supfr(dirfdtion);
         }
 
-        public void paint(Graphics g) {
-            XPStyle xp = XPStyle.getXP();
+        publid void pbint(Grbpiids g) {
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                ButtonModel model = getModel();
-                Skin skin = xp.getSkin(this, Part.SBP_ARROWBTN);
-                State state = null;
+                ButtonModfl modfl = gftModfl();
+                Skin skin = xp.gftSkin(tiis, Pbrt.SBP_ARROWBTN);
+                Stbtf stbtf = null;
 
-                boolean jointRollover = XPStyle.isVista() && (isThumbRollover() ||
-                    (this == incrButton && decrButton.getModel().isRollover()) ||
-                    (this == decrButton && incrButton.getModel().isRollover()));
+                boolfbn jointRollovfr = XPStylf.isVistb() && (isTiumbRollovfr() ||
+                    (tiis == indrButton && dfdrButton.gftModfl().isRollovfr()) ||
+                    (tiis == dfdrButton && indrButton.gftModfl().isRollovfr()));
 
-                // normal, rollover, pressed, disabled
-                if (model.isArmed() && model.isPressed()) {
-                    switch (direction) {
-                        case NORTH: state = State.UPPRESSED;    break;
-                        case SOUTH: state = State.DOWNPRESSED;  break;
-                        case WEST:  state = State.LEFTPRESSED;  break;
-                        case EAST:  state = State.RIGHTPRESSED; break;
+                // normbl, rollovfr, prfssfd, disbblfd
+                if (modfl.isArmfd() && modfl.isPrfssfd()) {
+                    switdi (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPPRESSED;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNPRESSED;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTPRESSED;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTPRESSED; brfbk;
                     }
-                } else if (!model.isEnabled()) {
-                    switch (direction) {
-                        case NORTH: state = State.UPDISABLED;    break;
-                        case SOUTH: state = State.DOWNDISABLED;  break;
-                        case WEST:  state = State.LEFTDISABLED;  break;
-                        case EAST:  state = State.RIGHTDISABLED; break;
+                } flsf if (!modfl.isEnbblfd()) {
+                    switdi (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPDISABLED;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNDISABLED;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTDISABLED;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTDISABLED; brfbk;
                     }
-                } else if (model.isRollover() || model.isPressed()) {
-                    switch (direction) {
-                        case NORTH: state = State.UPHOT;    break;
-                        case SOUTH: state = State.DOWNHOT;  break;
-                        case WEST:  state = State.LEFTHOT;  break;
-                        case EAST:  state = State.RIGHTHOT; break;
+                } flsf if (modfl.isRollovfr() || modfl.isPrfssfd()) {
+                    switdi (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPHOT;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNHOT;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTHOT;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTHOT; brfbk;
                     }
-                } else if (jointRollover) {
-                    switch (direction) {
-                        case NORTH: state = State.UPHOVER;    break;
-                        case SOUTH: state = State.DOWNHOVER;  break;
-                        case WEST:  state = State.LEFTHOVER;  break;
-                        case EAST:  state = State.RIGHTHOVER; break;
+                } flsf if (jointRollovfr) {
+                    switdi (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPHOVER;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNHOVER;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTHOVER;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTHOVER; brfbk;
                     }
-                } else {
-                    switch (direction) {
-                        case NORTH: state = State.UPNORMAL;    break;
-                        case SOUTH: state = State.DOWNNORMAL;  break;
-                        case WEST:  state = State.LEFTNORMAL;  break;
-                        case EAST:  state = State.RIGHTNORMAL; break;
+                } flsf {
+                    switdi (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPNORMAL;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNNORMAL;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTNORMAL;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTNORMAL; brfbk;
                     }
                 }
 
-                skin.paintSkin(g, 0, 0, getWidth(), getHeight(), state);
-            } else {
-                super.paint(g);
+                skin.pbintSkin(g, 0, 0, gftWidti(), gftHfigit(), stbtf);
+            } flsf {
+                supfr.pbint(g);
             }
         }
 
-        public Dimension getPreferredSize() {
-            int size = 16;
-            if (scrollbar != null) {
-                switch (scrollbar.getOrientation()) {
-                case JScrollBar.VERTICAL:
-                    size = scrollbar.getWidth();
-                    break;
-                case JScrollBar.HORIZONTAL:
-                    size = scrollbar.getHeight();
-                    break;
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            int sizf = 16;
+            if (sdrollbbr != null) {
+                switdi (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    sizf = sdrollbbr.gftWidti();
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    sizf = sdrollbbr.gftHfigit();
+                    brfbk;
                 }
-                size = Math.max(size, 5);
+                sizf = Mbti.mbx(sizf, 5);
             }
-            return new Dimension(size, size);
+            rfturn nfw Dimfnsion(sizf, sizf);
         }
     }
 
 
     /**
-     * This should be pulled out into its own class if more classes need to
-     * use it.
+     * Tiis siould bf pullfd out into its own dlbss if morf dlbssfs nffd to
+     * usf it.
      * <p>
-     * Grid is used to draw the track for windows scrollbars. Grids
-     * are cached in a HashMap, with the key being the rgb components
-     * of the foreground/background colors. Further the Grid is held through
-     * a WeakRef so that it can be freed when no longer needed. As the
-     * Grid is rather expensive to draw, it is drawn in a BufferedImage.
+     * Grid is usfd to drbw tif trbdk for windows sdrollbbrs. Grids
+     * brf dbdifd in b HbsiMbp, witi tif kfy bfing tif rgb domponfnts
+     * of tif forfground/bbdkground dolors. Furtifr tif Grid is ifld tirougi
+     * b WfbkRff so tibt it dbn bf frffd wifn no longfr nffdfd. As tif
+     * Grid is rbtifr fxpfnsivf to drbw, it is drbwn in b BufffrfdImbgf.
      */
-    private static class Grid {
-        private static final int BUFFER_SIZE = 64;
-        private static HashMap<String, WeakReference<Grid>> map;
+    privbtf stbtid dlbss Grid {
+        privbtf stbtid finbl int BUFFER_SIZE = 64;
+        privbtf stbtid HbsiMbp<String, WfbkRfffrfndf<Grid>> mbp;
 
-        private BufferedImage image;
+        privbtf BufffrfdImbgf imbgf;
 
-        static {
-            map = new HashMap<String, WeakReference<Grid>>();
+        stbtid {
+            mbp = nfw HbsiMbp<String, WfbkRfffrfndf<Grid>>();
         }
 
-        public static Grid getGrid(Color fg, Color bg) {
-            String key = fg.getRGB() + " " + bg.getRGB();
-            WeakReference<Grid> ref = map.get(key);
-            Grid grid = (ref == null) ? null : ref.get();
+        publid stbtid Grid gftGrid(Color fg, Color bg) {
+            String kfy = fg.gftRGB() + " " + bg.gftRGB();
+            WfbkRfffrfndf<Grid> rff = mbp.gft(kfy);
+            Grid grid = (rff == null) ? null : rff.gft();
             if (grid == null) {
-                grid = new Grid(fg, bg);
-                map.put(key, new WeakReference<Grid>(grid));
+                grid = nfw Grid(fg, bg);
+                mbp.put(kfy, nfw WfbkRfffrfndf<Grid>(grid));
             }
-            return grid;
+            rfturn grid;
         }
 
-        public Grid(Color fg, Color bg) {
-            int cmap[] = { fg.getRGB(), bg.getRGB() };
-            IndexColorModel icm = new IndexColorModel(8, 2, cmap, 0, false, -1,
-                                                      DataBuffer.TYPE_BYTE);
-            image = new BufferedImage(BUFFER_SIZE, BUFFER_SIZE,
-                                      BufferedImage.TYPE_BYTE_INDEXED, icm);
-            Graphics g = image.getGraphics();
+        publid Grid(Color fg, Color bg) {
+            int dmbp[] = { fg.gftRGB(), bg.gftRGB() };
+            IndfxColorModfl idm = nfw IndfxColorModfl(8, 2, dmbp, 0, fblsf, -1,
+                                                      DbtbBufffr.TYPE_BYTE);
+            imbgf = nfw BufffrfdImbgf(BUFFER_SIZE, BUFFER_SIZE,
+                                      BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
+            Grbpiids g = imbgf.gftGrbpiids();
             try {
-                g.setClip(0, 0, BUFFER_SIZE, BUFFER_SIZE);
-                paintGrid(g, fg, bg);
+                g.sftClip(0, 0, BUFFER_SIZE, BUFFER_SIZE);
+                pbintGrid(g, fg, bg);
             }
-            finally {
-                g.dispose();
+            finblly {
+                g.disposf();
             }
         }
 
         /**
-         * Paints the grid into the specified Graphics at the specified
-         * location.
+         * Pbints tif grid into tif spfdififd Grbpiids bt tif spfdififd
+         * lodbtion.
          */
-        public void paint(Graphics g, int x, int y, int w, int h) {
-            Rectangle clipRect = g.getClipBounds();
-            int minX = Math.max(x, clipRect.x);
-            int minY = Math.max(y, clipRect.y);
-            int maxX = Math.min(clipRect.x + clipRect.width, x + w);
-            int maxY = Math.min(clipRect.y + clipRect.height, y + h);
+        publid void pbint(Grbpiids g, int x, int y, int w, int i) {
+            Rfdtbnglf dlipRfdt = g.gftClipBounds();
+            int minX = Mbti.mbx(x, dlipRfdt.x);
+            int minY = Mbti.mbx(y, dlipRfdt.y);
+            int mbxX = Mbti.min(dlipRfdt.x + dlipRfdt.widti, x + w);
+            int mbxY = Mbti.min(dlipRfdt.y + dlipRfdt.ifigit, y + i);
 
-            if (maxX <= minX || maxY <= minY) {
-                return;
+            if (mbxX <= minX || mbxY <= minY) {
+                rfturn;
             }
-            int xOffset = (minX - x) % 2;
-            for (int xCounter = minX; xCounter < maxX;
-                 xCounter += BUFFER_SIZE) {
-                int yOffset = (minY - y) % 2;
-                int width = Math.min(BUFFER_SIZE - xOffset,
-                                     maxX - xCounter);
+            int xOffsft = (minX - x) % 2;
+            for (int xCountfr = minX; xCountfr < mbxX;
+                 xCountfr += BUFFER_SIZE) {
+                int yOffsft = (minY - y) % 2;
+                int widti = Mbti.min(BUFFER_SIZE - xOffsft,
+                                     mbxX - xCountfr);
 
-                for (int yCounter = minY; yCounter < maxY;
-                     yCounter += BUFFER_SIZE) {
-                    int height = Math.min(BUFFER_SIZE - yOffset,
-                                          maxY - yCounter);
+                for (int yCountfr = minY; yCountfr < mbxY;
+                     yCountfr += BUFFER_SIZE) {
+                    int ifigit = Mbti.min(BUFFER_SIZE - yOffsft,
+                                          mbxY - yCountfr);
 
-                    g.drawImage(image, xCounter, yCounter,
-                                xCounter + width, yCounter + height,
-                                xOffset, yOffset,
-                                xOffset + width, yOffset + height, null);
-                    if (yOffset != 0) {
-                        yCounter -= yOffset;
-                        yOffset = 0;
+                    g.drbwImbgf(imbgf, xCountfr, yCountfr,
+                                xCountfr + widti, yCountfr + ifigit,
+                                xOffsft, yOffsft,
+                                xOffsft + widti, yOffsft + ifigit, null);
+                    if (yOffsft != 0) {
+                        yCountfr -= yOffsft;
+                        yOffsft = 0;
                     }
                 }
-                if (xOffset != 0) {
-                    xCounter -= xOffset;
-                    xOffset = 0;
+                if (xOffsft != 0) {
+                    xCountfr -= xOffsft;
+                    xOffsft = 0;
                 }
             }
         }
 
         /**
-         * Actually renders the grid into the Graphics <code>g</code>.
+         * Adtublly rfndfrs tif grid into tif Grbpiids <dodf>g</dodf>.
          */
-        private void paintGrid(Graphics g, Color fg, Color bg) {
-            Rectangle clipRect = g.getClipBounds();
-            g.setColor(bg);
-            g.fillRect(clipRect.x, clipRect.y, clipRect.width,
-                       clipRect.height);
-            g.setColor(fg);
-            g.translate(clipRect.x, clipRect.y);
-            int width = clipRect.width;
-            int height = clipRect.height;
-            int xCounter = clipRect.x % 2;
-            for (int end = width - height; xCounter < end; xCounter += 2) {
-                g.drawLine(xCounter, 0, xCounter + height, height);
+        privbtf void pbintGrid(Grbpiids g, Color fg, Color bg) {
+            Rfdtbnglf dlipRfdt = g.gftClipBounds();
+            g.sftColor(bg);
+            g.fillRfdt(dlipRfdt.x, dlipRfdt.y, dlipRfdt.widti,
+                       dlipRfdt.ifigit);
+            g.sftColor(fg);
+            g.trbnslbtf(dlipRfdt.x, dlipRfdt.y);
+            int widti = dlipRfdt.widti;
+            int ifigit = dlipRfdt.ifigit;
+            int xCountfr = dlipRfdt.x % 2;
+            for (int fnd = widti - ifigit; xCountfr < fnd; xCountfr += 2) {
+                g.drbwLinf(xCountfr, 0, xCountfr + ifigit, ifigit);
             }
-            for (int end = width; xCounter < end; xCounter += 2) {
-                g.drawLine(xCounter, 0, width, width - xCounter);
+            for (int fnd = widti; xCountfr < fnd; xCountfr += 2) {
+                g.drbwLinf(xCountfr, 0, widti, widti - xCountfr);
             }
 
-            int yCounter = ((clipRect.x % 2) == 0) ? 2 : 1;
-            for (int end = height - width; yCounter < end; yCounter += 2) {
-                g.drawLine(0, yCounter, width, yCounter + width);
+            int yCountfr = ((dlipRfdt.x % 2) == 0) ? 2 : 1;
+            for (int fnd = ifigit - widti; yCountfr < fnd; yCountfr += 2) {
+                g.drbwLinf(0, yCountfr, widti, yCountfr + widti);
             }
-            for (int end = height; yCounter < end; yCounter += 2) {
-                g.drawLine(0, yCounter, height - yCounter, height);
+            for (int fnd = ifigit; yCountfr < fnd; yCountfr += 2) {
+                g.drbwLinf(0, yCountfr, ifigit - yCountfr, ifigit);
             }
-            g.translate(-clipRect.x, -clipRect.y);
+            g.trbnslbtf(-dlipRfdt.x, -dlipRfdt.y);
         }
     }
 }

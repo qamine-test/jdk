@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_java2d_d3d_D3DMaskFill.h"
+#indludf "sun_jbvb2d_d3d_D3DMbskFill.i"
 
-#include "D3DMaskFill.h"
-#include "D3DRenderQueue.h"
+#indludf "D3DMbskFill.i"
+#indludf "D3DRfndfrQufuf.i"
 
 /**
- * This implementation first copies the alpha tile into a texture and then
- * maps that texture to the destination surface.  This approach appears to
- * offer the best performance despite being a two-step process.
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
  *
- * Here are some descriptions of the many variables used in this method:
- *   x,y     - upper left corner of the tile destination
- *   w,h     - width/height of the mask tile
- *   x0      - placekeeper for the original destination x location
- *   tw,th   - width/height of the actual texture tile in pixels
- *   sx1,sy1 - upper left corner of the mask tile source region
- *   sx2,sy2 - lower left corner of the mask tile source region
- *   sx,sy   - "current" upper left corner of the mask tile region of interest
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
  */
 HRESULT
-D3DMaskFill_MaskFill(D3DContext *d3dc,
-                     jint x, jint y, jint w, jint h,
-                     jint maskoff, jint maskscan, jint masklen,
-                     unsigned char *pMask)
+D3DMbskFill_MbskFill(D3DContfxt *d3dd,
+                     jint x, jint y, jint w, jint i,
+                     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+                     unsignfd dibr *pMbsk)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DMaskFill_MaskFill");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskFill_MbskFill");
 
-    RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d", x, y, w, h);
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  maskoff=%d maskscan=%d",
-                maskoff, maskscan);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
+                mbskoff, mbsksdbn);
 
     {
-        D3DMaskCache *maskCache = d3dc->GetMaskCache();
-        jint tw, th, x0;
+        D3DMbskCbdif *mbskCbdif = d3dd->GftMbskCbdif();
+        jint tw, ti, x0;
         jint sx1, sy1, sx2, sy2;
-        jint sx, sy, sw, sh;
+        jint sx, sy, sw, si;
 
-        res = d3dc->BeginScene(STATE_MASKOP);
-        RETURN_STATUS_IF_FAILED(res);
+        rfs = d3dd->BfginSdfnf(STATE_MASKOP);
+        RETURN_STATUS_IF_FAILED(rfs);
 
         x0 = x;
         tw = D3D_MASK_CACHE_TILE_WIDTH;
-        th = D3D_MASK_CACHE_TILE_HEIGHT;
-        sx1 = maskoff % maskscan;
-        sy1 = maskoff / maskscan;
+        ti = D3D_MASK_CACHE_TILE_HEIGHT;
+        sx1 = mbskoff % mbsksdbn;
+        sy1 = mbskoff / mbsksdbn;
         sx2 = sx1 + w;
-        sy2 = sy1 + h;
+        sy2 = sy1 + i;
 
-        for (sy = sy1; sy < sy2; sy += th, y += th) {
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
             x = x0;
-            sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
 
             for (sx = sx1; sx < sx2; sx += tw, x += tw) {
                 sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
 
-                res = maskCache->AddMaskQuad(sx, sy, x, y, sw, sh,
-                                             maskscan, pMask);
+                rfs = mbskCbdif->AddMbskQubd(sx, sy, x, y, sw, si,
+                                             mbsksdbn, pMbsk);
             }
         }
     }
-    return res;
+    rfturn rfs;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_d3d_D3DMaskFill_maskFill
-    (JNIEnv *env, jobject self,
-     jint x, jint y, jint w, jint h,
-     jint maskoff, jint maskscan, jint masklen,
-     jbyteArray maskArray)
+Jbvb_sun_jbvb2d_d3d_D3DMbskFill_mbskFill
+    (JNIEnv *fnv, jobjfdt sflf,
+     jint x, jint y, jint w, jint i,
+     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+     jbytfArrby mbskArrby)
 {
-    D3DContext *d3dc = D3DRQ_GetCurrentContext();
-    unsigned char *mask;
+    D3DContfxt *d3dd = D3DRQ_GftCurrfntContfxt();
+    unsignfd dibr *mbsk;
 
-    J2dTraceLn(J2D_TRACE_ERROR, "D3DMaskFill_maskFill");
+    J2dTrbdfLn(J2D_TRACE_ERROR, "D3DMbskFill_mbskFill");
 
-    if (maskArray != NULL) {
-        mask = (unsigned char *)
-            env->GetPrimitiveArrayCritical(maskArray, NULL);
-    } else {
-        mask = NULL;
+    if (mbskArrby != NULL) {
+        mbsk = (unsignfd dibr *)
+            fnv->GftPrimitivfArrbyCritidbl(mbskArrby, NULL);
+    } flsf {
+        mbsk = NULL;
     }
 
-    D3DMaskFill_MaskFill(d3dc,
-                         x, y, w, h,
-                         maskoff, maskscan, masklen, mask);
+    D3DMbskFill_MbskFill(d3dd,
+                         x, y, w, i,
+                         mbskoff, mbsksdbn, mbsklfn, mbsk);
 
-    // reset current state, and ensure rendering is flushed to dest
-    if (d3dc != NULL) {
-        d3dc->FlushVertexQueue();
+    // rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    if (d3dd != NULL) {
+        d3dd->FlusiVfrtfxQufuf();
     }
 
-    if (mask != NULL) {
-        env->ReleasePrimitiveArrayCritical(maskArray, mask, JNI_ABORT);
+    if (mbsk != NULL) {
+        fnv->RflfbsfPrimitivfArrbyCritidbl(mbskArrby, mbsk, JNI_ABORT);
     }
 }

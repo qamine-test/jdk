@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.shell;
+pbdkbgf sun.bwt.sifll;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.swing.SwingConstants;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.swing.SwingConstbnts;
 
-// NOTE: This class supersedes Win32ShellFolder, which was removed from
-//       distribution after version 1.4.2.
+// NOTE: Tiis dlbss supfrsfdfs Win32SifllFoldfr, wiidi wbs rfmovfd from
+//       distribution bftfr vfrsion 1.4.2.
 
 /**
- * Win32 Shell Folders
+ * Win32 Sifll Foldfrs
  * <P>
  * <BR>
- * There are two fundamental types of shell folders : file system folders
- * and non-file system folders.  File system folders are relatively easy
- * to deal with.  Non-file system folders are items such as My Computer,
- * Network Neighborhood, and the desktop.  Some of these non-file system
- * folders have special values and properties.
+ * Tifrf brf two fundbmfntbl typfs of sifll foldfrs : filf systfm foldfrs
+ * bnd non-filf systfm foldfrs.  Filf systfm foldfrs brf rflbtivfly fbsy
+ * to dfbl witi.  Non-filf systfm foldfrs brf itfms sudi bs My Computfr,
+ * Nftwork Nfigiboriood, bnd tif dfsktop.  Somf of tifsf non-filf systfm
+ * foldfrs ibvf spfdibl vblufs bnd propfrtifs.
  * <P>
  * <BR>
- * Win32 keeps two basic data structures for shell folders.  The first
- * of these is called an ITEMIDLIST.  Usually a pointer, called an
- * LPITEMIDLIST, or more frequently just "PIDL".  This structure holds
- * a series of identifiers and can be either relative to the desktop
- * (an absolute PIDL), or relative to the shell folder that contains them.
- * Some Win32 functions can take absolute or relative PIDL values, and
- * others can only accept relative values.
+ * Win32 kffps two bbsid dbtb strudturfs for sifll foldfrs.  Tif first
+ * of tifsf is dbllfd bn ITEMIDLIST.  Usublly b pointfr, dbllfd bn
+ * LPITEMIDLIST, or morf frfqufntly just "PIDL".  Tiis strudturf iolds
+ * b sfrifs of idfntififrs bnd dbn bf fitifr rflbtivf to tif dfsktop
+ * (bn bbsolutf PIDL), or rflbtivf to tif sifll foldfr tibt dontbins tifm.
+ * Somf Win32 fundtions dbn tbkf bbsolutf or rflbtivf PIDL vblufs, bnd
+ * otifrs dbn only bddfpt rflbtivf vblufs.
  * <BR>
- * The second data structure is an IShellFolder COM interface.  Using
- * this interface, one can enumerate the relative PIDLs in a shell
- * folder, get attributes, etc.
+ * Tif sfdond dbtb strudturf is bn ISifllFoldfr COM intfrfbdf.  Using
+ * tiis intfrfbdf, onf dbn fnumfrbtf tif rflbtivf PIDLs in b sifll
+ * foldfr, gft bttributfs, ftd.
  * <BR>
- * All Win32ShellFolder2 objects which are folder types (even non-file
- * system folders) contain an IShellFolder object. Files are named in
- * directories via relative PIDLs.
+ * All Win32SifllFoldfr2 objfdts wiidi brf foldfr typfs (fvfn non-filf
+ * systfm foldfrs) dontbin bn ISifllFoldfr objfdt. Filfs brf nbmfd in
+ * dirfdtorifs vib rflbtivf PIDLs.
  *
- * @author Michael Martak
- * @author Leif Samuelsson
- * @author Kenneth Russell
- * @since 1.4 */
-@SuppressWarnings("serial") // JDK-implementation class
-final class Win32ShellFolder2 extends ShellFolder {
+ * @butior Midibfl Mbrtbk
+ * @butior Lfif Sbmuflsson
+ * @butior Kfnnfti Russfll
+ * @sindf 1.4 */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss Win32SifllFoldfr2 fxtfnds SifllFoldfr {
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    // Win32 Shell Folder Constants
-    public static final int DESKTOP = 0x0000;
-    public static final int INTERNET = 0x0001;
-    public static final int PROGRAMS = 0x0002;
-    public static final int CONTROLS = 0x0003;
-    public static final int PRINTERS = 0x0004;
-    public static final int PERSONAL = 0x0005;
-    public static final int FAVORITES = 0x0006;
-    public static final int STARTUP = 0x0007;
-    public static final int RECENT = 0x0008;
-    public static final int SENDTO = 0x0009;
-    public static final int BITBUCKET = 0x000a;
-    public static final int STARTMENU = 0x000b;
-    public static final int DESKTOPDIRECTORY = 0x0010;
-    public static final int DRIVES = 0x0011;
-    public static final int NETWORK = 0x0012;
-    public static final int NETHOOD = 0x0013;
-    public static final int FONTS = 0x0014;
-    public static final int TEMPLATES = 0x0015;
-    public static final int COMMON_STARTMENU = 0x0016;
-    public static final int COMMON_PROGRAMS = 0X0017;
-    public static final int COMMON_STARTUP = 0x0018;
-    public static final int COMMON_DESKTOPDIRECTORY = 0x0019;
-    public static final int APPDATA = 0x001a;
-    public static final int PRINTHOOD = 0x001b;
-    public static final int ALTSTARTUP = 0x001d;
-    public static final int COMMON_ALTSTARTUP = 0x001e;
-    public static final int COMMON_FAVORITES = 0x001f;
-    public static final int INTERNET_CACHE = 0x0020;
-    public static final int COOKIES = 0x0021;
-    public static final int HISTORY = 0x0022;
+    // Win32 Sifll Foldfr Constbnts
+    publid stbtid finbl int DESKTOP = 0x0000;
+    publid stbtid finbl int INTERNET = 0x0001;
+    publid stbtid finbl int PROGRAMS = 0x0002;
+    publid stbtid finbl int CONTROLS = 0x0003;
+    publid stbtid finbl int PRINTERS = 0x0004;
+    publid stbtid finbl int PERSONAL = 0x0005;
+    publid stbtid finbl int FAVORITES = 0x0006;
+    publid stbtid finbl int STARTUP = 0x0007;
+    publid stbtid finbl int RECENT = 0x0008;
+    publid stbtid finbl int SENDTO = 0x0009;
+    publid stbtid finbl int BITBUCKET = 0x000b;
+    publid stbtid finbl int STARTMENU = 0x000b;
+    publid stbtid finbl int DESKTOPDIRECTORY = 0x0010;
+    publid stbtid finbl int DRIVES = 0x0011;
+    publid stbtid finbl int NETWORK = 0x0012;
+    publid stbtid finbl int NETHOOD = 0x0013;
+    publid stbtid finbl int FONTS = 0x0014;
+    publid stbtid finbl int TEMPLATES = 0x0015;
+    publid stbtid finbl int COMMON_STARTMENU = 0x0016;
+    publid stbtid finbl int COMMON_PROGRAMS = 0X0017;
+    publid stbtid finbl int COMMON_STARTUP = 0x0018;
+    publid stbtid finbl int COMMON_DESKTOPDIRECTORY = 0x0019;
+    publid stbtid finbl int APPDATA = 0x001b;
+    publid stbtid finbl int PRINTHOOD = 0x001b;
+    publid stbtid finbl int ALTSTARTUP = 0x001d;
+    publid stbtid finbl int COMMON_ALTSTARTUP = 0x001f;
+    publid stbtid finbl int COMMON_FAVORITES = 0x001f;
+    publid stbtid finbl int INTERNET_CACHE = 0x0020;
+    publid stbtid finbl int COOKIES = 0x0021;
+    publid stbtid finbl int HISTORY = 0x0022;
 
-    // Win32 shell folder attributes
-    public static final int ATTRIB_CANCOPY          = 0x00000001;
-    public static final int ATTRIB_CANMOVE          = 0x00000002;
-    public static final int ATTRIB_CANLINK          = 0x00000004;
-    public static final int ATTRIB_CANRENAME        = 0x00000010;
-    public static final int ATTRIB_CANDELETE        = 0x00000020;
-    public static final int ATTRIB_HASPROPSHEET     = 0x00000040;
-    public static final int ATTRIB_DROPTARGET       = 0x00000100;
-    public static final int ATTRIB_LINK             = 0x00010000;
-    public static final int ATTRIB_SHARE            = 0x00020000;
-    public static final int ATTRIB_READONLY         = 0x00040000;
-    public static final int ATTRIB_GHOSTED          = 0x00080000;
-    public static final int ATTRIB_HIDDEN           = 0x00080000;
-    public static final int ATTRIB_FILESYSANCESTOR  = 0x10000000;
-    public static final int ATTRIB_FOLDER           = 0x20000000;
-    public static final int ATTRIB_FILESYSTEM       = 0x40000000;
-    public static final int ATTRIB_HASSUBFOLDER     = 0x80000000;
-    public static final int ATTRIB_VALIDATE         = 0x01000000;
-    public static final int ATTRIB_REMOVABLE        = 0x02000000;
-    public static final int ATTRIB_COMPRESSED       = 0x04000000;
-    public static final int ATTRIB_BROWSABLE        = 0x08000000;
-    public static final int ATTRIB_NONENUMERATED    = 0x00100000;
-    public static final int ATTRIB_NEWCONTENT       = 0x00200000;
+    // Win32 sifll foldfr bttributfs
+    publid stbtid finbl int ATTRIB_CANCOPY          = 0x00000001;
+    publid stbtid finbl int ATTRIB_CANMOVE          = 0x00000002;
+    publid stbtid finbl int ATTRIB_CANLINK          = 0x00000004;
+    publid stbtid finbl int ATTRIB_CANRENAME        = 0x00000010;
+    publid stbtid finbl int ATTRIB_CANDELETE        = 0x00000020;
+    publid stbtid finbl int ATTRIB_HASPROPSHEET     = 0x00000040;
+    publid stbtid finbl int ATTRIB_DROPTARGET       = 0x00000100;
+    publid stbtid finbl int ATTRIB_LINK             = 0x00010000;
+    publid stbtid finbl int ATTRIB_SHARE            = 0x00020000;
+    publid stbtid finbl int ATTRIB_READONLY         = 0x00040000;
+    publid stbtid finbl int ATTRIB_GHOSTED          = 0x00080000;
+    publid stbtid finbl int ATTRIB_HIDDEN           = 0x00080000;
+    publid stbtid finbl int ATTRIB_FILESYSANCESTOR  = 0x10000000;
+    publid stbtid finbl int ATTRIB_FOLDER           = 0x20000000;
+    publid stbtid finbl int ATTRIB_FILESYSTEM       = 0x40000000;
+    publid stbtid finbl int ATTRIB_HASSUBFOLDER     = 0x80000000;
+    publid stbtid finbl int ATTRIB_VALIDATE         = 0x01000000;
+    publid stbtid finbl int ATTRIB_REMOVABLE        = 0x02000000;
+    publid stbtid finbl int ATTRIB_COMPRESSED       = 0x04000000;
+    publid stbtid finbl int ATTRIB_BROWSABLE        = 0x08000000;
+    publid stbtid finbl int ATTRIB_NONENUMERATED    = 0x00100000;
+    publid stbtid finbl int ATTRIB_NEWCONTENT       = 0x00200000;
 
-    // IShellFolder::GetDisplayNameOf constants
-    public static final int SHGDN_NORMAL            = 0;
-    public static final int SHGDN_INFOLDER          = 1;
-    public static final int SHGDN_INCLUDE_NONFILESYS= 0x2000;
-    public static final int SHGDN_FORADDRESSBAR     = 0x4000;
-    public static final int SHGDN_FORPARSING        = 0x8000;
+    // ISifllFoldfr::GftDisplbyNbmfOf donstbnts
+    publid stbtid finbl int SHGDN_NORMAL            = 0;
+    publid stbtid finbl int SHGDN_INFOLDER          = 1;
+    publid stbtid finbl int SHGDN_INCLUDE_NONFILESYS= 0x2000;
+    publid stbtid finbl int SHGDN_FORADDRESSBAR     = 0x4000;
+    publid stbtid finbl int SHGDN_FORPARSING        = 0x8000;
 
-    // Values for system call LoadIcon()
-    public enum SystemIcon {
+    // Vblufs for systfm dbll LobdIdon()
+    publid fnum SystfmIdon {
         IDI_APPLICATION(32512),
         IDI_HAND(32513),
         IDI_ERROR(32513),
@@ -152,204 +152,204 @@ final class Win32ShellFolder2 extends ShellFolder {
         IDI_INFORMATION(32516),
         IDI_WINLOGO(32517);
 
-        private final int iconID;
+        privbtf finbl int idonID;
 
-        SystemIcon(int iconID) {
-            this.iconID = iconID;
+        SystfmIdon(int idonID) {
+            tiis.idonID = idonID;
         }
 
-        public int getIconID() {
-            return iconID;
+        publid int gftIdonID() {
+            rfturn idonID;
         }
     }
 
-    static class FolderDisposer implements sun.java2d.DisposerRecord {
+    stbtid dlbss FoldfrDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
         /*
-         * This is cached as a concession to getFolderType(), which needs
-         * an absolute PIDL.
+         * Tiis is dbdifd bs b dondfssion to gftFoldfrTypf(), wiidi nffds
+         * bn bbsolutf PIDL.
          */
-        long absolutePIDL;
+        long bbsolutfPIDL;
         /*
-         * We keep track of shell folders through the IShellFolder
-         * interface of their parents plus their relative PIDL.
+         * Wf kffp trbdk of sifll foldfrs tirougi tif ISifllFoldfr
+         * intfrfbdf of tifir pbrfnts plus tifir rflbtivf PIDL.
          */
-        long pIShellFolder;
-        long relativePIDL;
+        long pISifllFoldfr;
+        long rflbtivfPIDL;
 
-        boolean disposed;
-        public void dispose() {
-            if (disposed) return;
-            invoke(new Callable<Void>() {
-                public Void call() {
-                    if (relativePIDL != 0) {
-                        releasePIDL(relativePIDL);
+        boolfbn disposfd;
+        publid void disposf() {
+            if (disposfd) rfturn;
+            invokf(nfw Cbllbblf<Void>() {
+                publid Void dbll() {
+                    if (rflbtivfPIDL != 0) {
+                        rflfbsfPIDL(rflbtivfPIDL);
                     }
-                    if (absolutePIDL != 0) {
-                        releasePIDL(absolutePIDL);
+                    if (bbsolutfPIDL != 0) {
+                        rflfbsfPIDL(bbsolutfPIDL);
                     }
-                    if (pIShellFolder != 0) {
-                        releaseIShellFolder(pIShellFolder);
+                    if (pISifllFoldfr != 0) {
+                        rflfbsfISifllFoldfr(pISifllFoldfr);
                     }
-                    return null;
+                    rfturn null;
                 }
             });
-            disposed = true;
+            disposfd = truf;
         }
     }
-    FolderDisposer disposer = new FolderDisposer();
-    private void setIShellFolder(long pIShellFolder) {
-        disposer.pIShellFolder = pIShellFolder;
+    FoldfrDisposfr disposfr = nfw FoldfrDisposfr();
+    privbtf void sftISifllFoldfr(long pISifllFoldfr) {
+        disposfr.pISifllFoldfr = pISifllFoldfr;
     }
-    private void setRelativePIDL(long relativePIDL) {
-        disposer.relativePIDL = relativePIDL;
+    privbtf void sftRflbtivfPIDL(long rflbtivfPIDL) {
+        disposfr.rflbtivfPIDL = rflbtivfPIDL;
     }
     /*
-     * The following are for caching various shell folder properties.
+     * Tif following brf for dbdiing vbrious sifll foldfr propfrtifs.
      */
-    private long pIShellIcon = -1L;
-    private String folderType = null;
-    private String displayName = null;
-    private Image smallIcon = null;
-    private Image largeIcon = null;
-    private Boolean isDir = null;
+    privbtf long pISifllIdon = -1L;
+    privbtf String foldfrTypf = null;
+    privbtf String displbyNbmf = null;
+    privbtf Imbgf smbllIdon = null;
+    privbtf Imbgf lbrgfIdon = null;
+    privbtf Boolfbn isDir = null;
 
     /*
-     * The following is to identify the My Documents folder as being special
+     * Tif following is to idfntify tif My Dodumfnts foldfr bs bfing spfdibl
      */
-    private boolean isPersonal;
+    privbtf boolfbn isPfrsonbl;
 
-    private static String composePathForCsidl(int csidl) throws IOException, InterruptedException {
-        String path = getFileSystemPath(csidl);
-        return path == null
-                ? ("ShellFolder: 0x" + Integer.toHexString(csidl))
-                : path;
+    privbtf stbtid String domposfPbtiForCsidl(int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        String pbti = gftFilfSystfmPbti(dsidl);
+        rfturn pbti == null
+                ? ("SifllFoldfr: 0x" + Intfgfr.toHfxString(dsidl))
+                : pbti;
     }
 
     /**
-     * Create a system special shell folder, such as the
-     * desktop or Network Neighborhood.
+     * Crfbtf b systfm spfdibl sifll foldfr, sudi bs tif
+     * dfsktop or Nftwork Nfigiboriood.
      */
-    Win32ShellFolder2(final int csidl) throws IOException, InterruptedException {
-        // Desktop is parent of DRIVES and NETWORK, not necessarily
-        // other special shell folders.
-        super(null, composePathForCsidl(csidl));
+    Win32SifllFoldfr2(finbl int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        // Dfsktop is pbrfnt of DRIVES bnd NETWORK, not nfdfssbrily
+        // otifr spfdibl sifll foldfrs.
+        supfr(null, domposfPbtiForCsidl(dsidl));
 
-        invoke(new Callable<Void>() {
-            public Void call() throws InterruptedException {
-                if (csidl == DESKTOP) {
-                    initDesktop();
-                } else {
-                    initSpecial(getDesktop().getIShellFolder(), csidl);
-                    // At this point, the native method initSpecial() has set our relativePIDL
-                    // relative to the Desktop, which may not be our immediate parent. We need
-                    // to traverse this ID list and break it into a chain of shell folders from
-                    // the top, with each one having an immediate parent and a relativePIDL
-                    // relative to that parent.
-                    long pIDL = disposer.relativePIDL;
-                    parent = getDesktop();
-                    while (pIDL != 0) {
-                        // Get a child pidl relative to 'parent'
-                        long childPIDL = copyFirstPIDLEntry(pIDL);
-                        if (childPIDL != 0) {
-                            // Get a handle to the the rest of the ID list
-                            // i,e, parent's grandchilren and down
-                            pIDL = getNextPIDLEntry(pIDL);
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() tirows IntfrruptfdExdfption {
+                if (dsidl == DESKTOP) {
+                    initDfsktop();
+                } flsf {
+                    initSpfdibl(gftDfsktop().gftISifllFoldfr(), dsidl);
+                    // At tiis point, tif nbtivf mftiod initSpfdibl() ibs sft our rflbtivfPIDL
+                    // rflbtivf to tif Dfsktop, wiidi mby not bf our immfdibtf pbrfnt. Wf nffd
+                    // to trbvfrsf tiis ID list bnd brfbk it into b dibin of sifll foldfrs from
+                    // tif top, witi fbdi onf ibving bn immfdibtf pbrfnt bnd b rflbtivfPIDL
+                    // rflbtivf to tibt pbrfnt.
+                    long pIDL = disposfr.rflbtivfPIDL;
+                    pbrfnt = gftDfsktop();
+                    wiilf (pIDL != 0) {
+                        // Gft b diild pidl rflbtivf to 'pbrfnt'
+                        long diildPIDL = dopyFirstPIDLEntry(pIDL);
+                        if (diildPIDL != 0) {
+                            // Gft b ibndlf to tif tif rfst of tif ID list
+                            // i,f, pbrfnt's grbnddiilrfn bnd down
+                            pIDL = gftNfxtPIDLEntry(pIDL);
                             if (pIDL != 0) {
-                                // Now we know that parent isn't immediate to 'this' because it
-                                // has a continued ID list. Create a shell folder for this child
-                                // pidl and make it the new 'parent'.
-                                parent = new Win32ShellFolder2((Win32ShellFolder2) parent, childPIDL);
-                            } else {
-                                // No grandchildren means we have arrived at the parent of 'this',
-                                // and childPIDL is directly relative to parent.
-                                disposer.relativePIDL = childPIDL;
+                                // Now wf know tibt pbrfnt isn't immfdibtf to 'tiis' bfdbusf it
+                                // ibs b dontinufd ID list. Crfbtf b sifll foldfr for tiis diild
+                                // pidl bnd mbkf it tif nfw 'pbrfnt'.
+                                pbrfnt = nfw Win32SifllFoldfr2((Win32SifllFoldfr2) pbrfnt, diildPIDL);
+                            } flsf {
+                                // No grbnddiildrfn mfbns wf ibvf brrivfd bt tif pbrfnt of 'tiis',
+                                // bnd diildPIDL is dirfdtly rflbtivf to pbrfnt.
+                                disposfr.rflbtivfPIDL = diildPIDL;
                             }
-                        } else {
-                            break;
+                        } flsf {
+                            brfbk;
                         }
                     }
                 }
-                return null;
+                rfturn null;
             }
-        }, InterruptedException.class);
+        }, IntfrruptfdExdfption.dlbss);
 
-        sun.java2d.Disposer.addRecord(this, disposer);
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
     }
 
 
     /**
-     * Create a system shell folder
+     * Crfbtf b systfm sifll foldfr
      */
-    Win32ShellFolder2(Win32ShellFolder2 parent, long pIShellFolder, long relativePIDL, String path) {
-        super(parent, (path != null) ? path : "ShellFolder: ");
-        this.disposer.pIShellFolder = pIShellFolder;
-        this.disposer.relativePIDL = relativePIDL;
-        sun.java2d.Disposer.addRecord(this, disposer);
+    Win32SifllFoldfr2(Win32SifllFoldfr2 pbrfnt, long pISifllFoldfr, long rflbtivfPIDL, String pbti) {
+        supfr(pbrfnt, (pbti != null) ? pbti : "SifllFoldfr: ");
+        tiis.disposfr.pISifllFoldfr = pISifllFoldfr;
+        tiis.disposfr.rflbtivfPIDL = rflbtivfPIDL;
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
     }
 
 
     /**
-     * Creates a shell folder with a parent and relative PIDL
+     * Crfbtfs b sifll foldfr witi b pbrfnt bnd rflbtivf PIDL
      */
-    Win32ShellFolder2(final Win32ShellFolder2 parent, final long relativePIDL) throws InterruptedException {
-        super(parent,
-            invoke(new Callable<String>() {
-                public String call() {
-                    return getFileSystemPath(parent.getIShellFolder(), relativePIDL);
+    Win32SifllFoldfr2(finbl Win32SifllFoldfr2 pbrfnt, finbl long rflbtivfPIDL) tirows IntfrruptfdExdfption {
+        supfr(pbrfnt,
+            invokf(nfw Cbllbblf<String>() {
+                publid String dbll() {
+                    rfturn gftFilfSystfmPbti(pbrfnt.gftISifllFoldfr(), rflbtivfPIDL);
                 }
-            }, RuntimeException.class)
+            }, RuntimfExdfption.dlbss)
         );
-        this.disposer.relativePIDL = relativePIDL;
-        sun.java2d.Disposer.addRecord(this, disposer);
+        tiis.disposfr.rflbtivfPIDL = rflbtivfPIDL;
+        sun.jbvb2d.Disposfr.bddRfdord(tiis, disposfr);
     }
 
-    // Initializes the desktop shell folder
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native void initDesktop();
+    // Initiblizfs tif dfsktop sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void initDfsktop();
 
-    // Initializes a special, non-file system shell folder
-    // from one of the above constants
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native void initSpecial(long desktopIShellFolder, int csidl);
+    // Initiblizfs b spfdibl, non-filf systfm sifll foldfr
+    // from onf of tif bbovf donstbnts
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void initSpfdibl(long dfsktopISifllFoldfr, int dsidl);
 
-    /** Marks this folder as being the My Documents (Personal) folder */
-    public void setIsPersonal() {
-        isPersonal = true;
+    /** Mbrks tiis foldfr bs bfing tif My Dodumfnts (Pfrsonbl) foldfr */
+    publid void sftIsPfrsonbl() {
+        isPfrsonbl = truf;
     }
 
     /**
-     * This method is implemented to make sure that no instances
-     * of <code>ShellFolder</code> are ever serialized. If <code>isFileSystem()</code> returns
-     * <code>true</code>, then the object is representable with an instance of
-     * <code>java.io.File</code> instead. If not, then the object depends
-     * on native PIDL state and should not be serialized.
+     * Tiis mftiod is implfmfntfd to mbkf surf tibt no instbndfs
+     * of <dodf>SifllFoldfr</dodf> brf fvfr sfriblizfd. If <dodf>isFilfSystfm()</dodf> rfturns
+     * <dodf>truf</dodf>, tifn tif objfdt is rfprfsfntbblf witi bn instbndf of
+     * <dodf>jbvb.io.Filf</dodf> instfbd. If not, tifn tif objfdt dfpfnds
+     * on nbtivf PIDL stbtf bnd siould not bf sfriblizfd.
      *
-     * @return a <code>java.io.File</code> replacement object. If the folder
-     * is a not a normal directory, then returns the first non-removable
-     * drive (normally "C:\").
+     * @rfturn b <dodf>jbvb.io.Filf</dodf> rfplbdfmfnt objfdt. If tif foldfr
+     * is b not b normbl dirfdtory, tifn rfturns tif first non-rfmovbblf
+     * drivf (normblly "C:\").
      */
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return invoke(new Callable<File>() {
-            public File call() {
-                if (isFileSystem()) {
-                    return new File(getPath());
-                } else {
-                    Win32ShellFolder2 drives = Win32ShellFolderManager2.getDrives();
-                    if (drives != null) {
-                        File[] driveRoots = drives.listFiles();
-                        if (driveRoots != null) {
-                            for (int i = 0; i < driveRoots.length; i++) {
-                                if (driveRoots[i] instanceof Win32ShellFolder2) {
-                                    Win32ShellFolder2 sf = (Win32ShellFolder2) driveRoots[i];
-                                    if (sf.isFileSystem() && !sf.hasAttribute(ATTRIB_REMOVABLE)) {
-                                        return new File(sf.getPath());
+    protfdtfd Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn invokf(nfw Cbllbblf<Filf>() {
+            publid Filf dbll() {
+                if (isFilfSystfm()) {
+                    rfturn nfw Filf(gftPbti());
+                } flsf {
+                    Win32SifllFoldfr2 drivfs = Win32SifllFoldfrMbnbgfr2.gftDrivfs();
+                    if (drivfs != null) {
+                        Filf[] drivfRoots = drivfs.listFilfs();
+                        if (drivfRoots != null) {
+                            for (int i = 0; i < drivfRoots.lfngti; i++) {
+                                if (drivfRoots[i] instbndfof Win32SifllFoldfr2) {
+                                    Win32SifllFoldfr2 sf = (Win32SifllFoldfr2) drivfRoots[i];
+                                    if (sf.isFilfSystfm() && !sf.ibsAttributf(ATTRIB_REMOVABLE)) {
+                                        rfturn nfw Filf(sf.gftPbti());
                                     }
                                 }
                             }
                         }
                     }
-                    // Ouch, we have no hard drives. Return something "valid" anyway.
-                    return new File("C:\\");
+                    // Oudi, wf ibvf no ibrd drivfs. Rfturn somftiing "vblid" bnywby.
+                    rfturn nfw Filf("C:\\");
                 }
             }
         });
@@ -357,825 +357,825 @@ final class Win32ShellFolder2 extends ShellFolder {
 
 
     /**
-     * Finalizer to clean up any COM objects or PIDLs used by this object.
+     * Finblizfr to dlfbn up bny COM objfdts or PIDLs usfd by tiis objfdt.
      */
-    protected void dispose() {
-        disposer.dispose();
+    protfdtfd void disposf() {
+        disposfr.disposf();
     }
 
 
-    // Given a (possibly multi-level) relative PIDL (with respect to
-    // the desktop, at least in all of the usage cases in this code),
-    // return a pointer to the next entry. Does not mutate the PIDL in
-    // any way. Returns 0 if the null terminator is reached.
-    // Needs to be accessible to Win32ShellFolderManager2
-    static native long getNextPIDLEntry(long pIDL);
+    // Givfn b (possibly multi-lfvfl) rflbtivf PIDL (witi rfspfdt to
+    // tif dfsktop, bt lfbst in bll of tif usbgf dbsfs in tiis dodf),
+    // rfturn b pointfr to tif nfxt fntry. Dofs not mutbtf tif PIDL in
+    // bny wby. Rfturns 0 if tif null tfrminbtor is rfbdifd.
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf long gftNfxtPIDLEntry(long pIDL);
 
-    // Given a (possibly multi-level) relative PIDL (with respect to
-    // the desktop, at least in all of the usage cases in this code),
-    // copy the first entry into a newly-allocated PIDL. Returns 0 if
-    // the PIDL is at the end of the list.
-    // Needs to be accessible to Win32ShellFolderManager2
-    static native long copyFirstPIDLEntry(long pIDL);
+    // Givfn b (possibly multi-lfvfl) rflbtivf PIDL (witi rfspfdt to
+    // tif dfsktop, bt lfbst in bll of tif usbgf dbsfs in tiis dodf),
+    // dopy tif first fntry into b nfwly-bllodbtfd PIDL. Rfturns 0 if
+    // tif PIDL is bt tif fnd of tif list.
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf long dopyFirstPIDLEntry(long pIDL);
 
-    // Given a parent's absolute PIDL and our relative PIDL, build an absolute PIDL
-    private static native long combinePIDLs(long ppIDL, long pIDL);
+    // Givfn b pbrfnt's bbsolutf PIDL bnd our rflbtivf PIDL, build bn bbsolutf PIDL
+    privbtf stbtid nbtivf long dombinfPIDLs(long ppIDL, long pIDL);
 
-    // Release a PIDL object
-    // Needs to be accessible to Win32ShellFolderManager2
-    static native void releasePIDL(long pIDL);
+    // Rflfbsf b PIDL objfdt
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid nbtivf void rflfbsfPIDL(long pIDL);
 
-    // Release an IShellFolder object
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native void releaseIShellFolder(long pIShellFolder);
+    // Rflfbsf bn ISifllFoldfr objfdt
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf void rflfbsfISifllFoldfr(long pISifllFoldfr);
 
     /**
-     * Accessor for IShellFolder
+     * Addfssor for ISifllFoldfr
      */
-    private long getIShellFolder() {
-        if (disposer.pIShellFolder == 0) {
+    privbtf long gftISifllFoldfr() {
+        if (disposfr.pISifllFoldfr == 0) {
             try {
-                disposer.pIShellFolder = invoke(new Callable<Long>() {
-                    public Long call() {
-                        assert(isDirectory());
-                        assert(parent != null);
-                        long parentIShellFolder = getParentIShellFolder();
-                        if (parentIShellFolder == 0) {
-                            throw new InternalError("Parent IShellFolder was null for "
-                                    + getAbsolutePath());
+                disposfr.pISifllFoldfr = invokf(nfw Cbllbblf<Long>() {
+                    publid Long dbll() {
+                        bssfrt(isDirfdtory());
+                        bssfrt(pbrfnt != null);
+                        long pbrfntISifllFoldfr = gftPbrfntISifllFoldfr();
+                        if (pbrfntISifllFoldfr == 0) {
+                            tirow nfw IntfrnblError("Pbrfnt ISifllFoldfr wbs null for "
+                                    + gftAbsolutfPbti());
                         }
-                        // We are a directory with a parent and a relative PIDL.
-                        // We want to bind to the parent so we get an
-                        // IShellFolder instance associated with us.
-                        long pIShellFolder = bindToObject(parentIShellFolder,
-                                disposer.relativePIDL);
-                        if (pIShellFolder == 0) {
-                            throw new InternalError("Unable to bind "
-                                    + getAbsolutePath() + " to parent");
+                        // Wf brf b dirfdtory witi b pbrfnt bnd b rflbtivf PIDL.
+                        // Wf wbnt to bind to tif pbrfnt so wf gft bn
+                        // ISifllFoldfr instbndf bssodibtfd witi us.
+                        long pISifllFoldfr = bindToObjfdt(pbrfntISifllFoldfr,
+                                disposfr.rflbtivfPIDL);
+                        if (pISifllFoldfr == 0) {
+                            tirow nfw IntfrnblError("Unbblf to bind "
+                                    + gftAbsolutfPbti() + " to pbrfnt");
                         }
-                        return pIShellFolder;
+                        rfturn pISifllFoldfr;
                     }
-                }, RuntimeException.class);
-            } catch (InterruptedException e) {
-                // Ignore error
+                }, RuntimfExdfption.dlbss);
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
             }
         }
-        return disposer.pIShellFolder;
+        rfturn disposfr.pISifllFoldfr;
     }
 
     /**
-     * Get the parent ShellFolder's IShellFolder interface
+     * Gft tif pbrfnt SifllFoldfr's ISifllFoldfr intfrfbdf
      */
-    public long getParentIShellFolder() {
-        Win32ShellFolder2 parent = (Win32ShellFolder2)getParentFile();
-        if (parent == null) {
-            // Parent should only be null if this is the desktop, whose
-            // relativePIDL is relative to its own IShellFolder.
-            return getIShellFolder();
+    publid long gftPbrfntISifllFoldfr() {
+        Win32SifllFoldfr2 pbrfnt = (Win32SifllFoldfr2)gftPbrfntFilf();
+        if (pbrfnt == null) {
+            // Pbrfnt siould only bf null if tiis is tif dfsktop, wiosf
+            // rflbtivfPIDL is rflbtivf to its own ISifllFoldfr.
+            rfturn gftISifllFoldfr();
         }
-        return parent.getIShellFolder();
+        rfturn pbrfnt.gftISifllFoldfr();
     }
 
     /**
-     * Accessor for relative PIDL
+     * Addfssor for rflbtivf PIDL
      */
-    public long getRelativePIDL() {
-        if (disposer.relativePIDL == 0) {
-            throw new InternalError("Should always have a relative PIDL");
+    publid long gftRflbtivfPIDL() {
+        if (disposfr.rflbtivfPIDL == 0) {
+            tirow nfw IntfrnblError("Siould blwbys ibvf b rflbtivf PIDL");
         }
-        return disposer.relativePIDL;
+        rfturn disposfr.rflbtivfPIDL;
     }
 
-    private long getAbsolutePIDL() {
-        if (parent == null) {
-            // This is the desktop
-            return getRelativePIDL();
-        } else {
-            if (disposer.absolutePIDL == 0) {
-                disposer.absolutePIDL = combinePIDLs(((Win32ShellFolder2)parent).getAbsolutePIDL(), getRelativePIDL());
+    privbtf long gftAbsolutfPIDL() {
+        if (pbrfnt == null) {
+            // Tiis is tif dfsktop
+            rfturn gftRflbtivfPIDL();
+        } flsf {
+            if (disposfr.bbsolutfPIDL == 0) {
+                disposfr.bbsolutfPIDL = dombinfPIDLs(((Win32SifllFoldfr2)pbrfnt).gftAbsolutfPIDL(), gftRflbtivfPIDL());
             }
 
-            return disposer.absolutePIDL;
+            rfturn disposfr.bbsolutfPIDL;
         }
     }
 
     /**
-     * Helper function to return the desktop
+     * Hflpfr fundtion to rfturn tif dfsktop
      */
-    public Win32ShellFolder2 getDesktop() {
-        return Win32ShellFolderManager2.getDesktop();
+    publid Win32SifllFoldfr2 gftDfsktop() {
+        rfturn Win32SifllFoldfrMbnbgfr2.gftDfsktop();
     }
 
     /**
-     * Helper function to return the desktop IShellFolder interface
+     * Hflpfr fundtion to rfturn tif dfsktop ISifllFoldfr intfrfbdf
      */
-    public long getDesktopIShellFolder() {
-        return getDesktop().getIShellFolder();
+    publid long gftDfsktopISifllFoldfr() {
+        rfturn gftDfsktop().gftISifllFoldfr();
     }
 
-    private static boolean pathsEqual(String path1, String path2) {
-        // Same effective implementation as Win32FileSystem
-        return path1.equalsIgnoreCase(path2);
+    privbtf stbtid boolfbn pbtisEqubl(String pbti1, String pbti2) {
+        // Sbmf ffffdtivf implfmfntbtion bs Win32FilfSystfm
+        rfturn pbti1.fqublsIgnorfCbsf(pbti2);
     }
 
     /**
-     * Check to see if two ShellFolder objects are the same
+     * Cifdk to sff if two SifllFoldfr objfdts brf tif sbmf
      */
-    public boolean equals(Object o) {
-        if (o == null || !(o instanceof Win32ShellFolder2)) {
-            // Short-circuit circuitous delegation path
-            if (!(o instanceof File)) {
-                return super.equals(o);
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null || !(o instbndfof Win32SifllFoldfr2)) {
+            // Siort-dirduit dirduitous dflfgbtion pbti
+            if (!(o instbndfof Filf)) {
+                rfturn supfr.fqubls(o);
             }
-            return pathsEqual(getPath(), ((File) o).getPath());
+            rfturn pbtisEqubl(gftPbti(), ((Filf) o).gftPbti());
         }
-        Win32ShellFolder2 rhs = (Win32ShellFolder2) o;
-        if ((parent == null && rhs.parent != null) ||
-            (parent != null && rhs.parent == null)) {
-            return false;
-        }
-
-        if (isFileSystem() && rhs.isFileSystem()) {
-            // Only folders with identical parents can be equal
-            return (pathsEqual(getPath(), rhs.getPath()) &&
-                    (parent == rhs.parent || parent.equals(rhs.parent)));
+        Win32SifllFoldfr2 ris = (Win32SifllFoldfr2) o;
+        if ((pbrfnt == null && ris.pbrfnt != null) ||
+            (pbrfnt != null && ris.pbrfnt == null)) {
+            rfturn fblsf;
         }
 
-        if (parent == rhs.parent || parent.equals(rhs.parent)) {
+        if (isFilfSystfm() && ris.isFilfSystfm()) {
+            // Only foldfrs witi idfntidbl pbrfnts dbn bf fqubl
+            rfturn (pbtisEqubl(gftPbti(), ris.gftPbti()) &&
+                    (pbrfnt == ris.pbrfnt || pbrfnt.fqubls(ris.pbrfnt)));
+        }
+
+        if (pbrfnt == ris.pbrfnt || pbrfnt.fqubls(ris.pbrfnt)) {
             try {
-                return pidlsEqual(getParentIShellFolder(), disposer.relativePIDL, rhs.disposer.relativePIDL);
-            } catch (InterruptedException e) {
-                return false;
+                rfturn pidlsEqubl(gftPbrfntISifllFoldfr(), disposfr.rflbtivfPIDL, ris.disposfr.rflbtivfPIDL);
+            } dbtdi (IntfrruptfdExdfption f) {
+                rfturn fblsf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    private static boolean pidlsEqual(final long pIShellFolder, final long pidl1, final long pidl2)
-            throws InterruptedException {
-        return invoke(new Callable<Boolean>() {
-            public Boolean call() {
-                return compareIDs(pIShellFolder, pidl1, pidl2) == 0;
+    privbtf stbtid boolfbn pidlsEqubl(finbl long pISifllFoldfr, finbl long pidl1, finbl long pidl2)
+            tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() {
+                rfturn dompbrfIDs(pISifllFoldfr, pidl1, pidl2) == 0;
             }
-        }, RuntimeException.class);
+        }, RuntimfExdfption.dlbss);
     }
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native int compareIDs(long pParentIShellFolder, long pidl1, long pidl2);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int dompbrfIDs(long pPbrfntISifllFoldfr, long pidl1, long pidl2);
 
-    private volatile Boolean cachedIsFileSystem;
+    privbtf volbtilf Boolfbn dbdifdIsFilfSystfm;
 
     /**
-     * @return Whether this is a file system shell folder
+     * @rfturn Wiftifr tiis is b filf systfm sifll foldfr
      */
-    public boolean isFileSystem() {
-        if (cachedIsFileSystem == null) {
-            cachedIsFileSystem = hasAttribute(ATTRIB_FILESYSTEM);
+    publid boolfbn isFilfSystfm() {
+        if (dbdifdIsFilfSystfm == null) {
+            dbdifdIsFilfSystfm = ibsAttributf(ATTRIB_FILESYSTEM);
         }
 
-        return cachedIsFileSystem;
+        rfturn dbdifdIsFilfSystfm;
     }
 
     /**
-     * Return whether the given attribute flag is set for this object
+     * Rfturn wiftifr tif givfn bttributf flbg is sft for tiis objfdt
      */
-    public boolean hasAttribute(final int attribute) {
-        Boolean result = invoke(new Callable<Boolean>() {
-            public Boolean call() {
-                // Caching at this point doesn't seem to be cost efficient
-                return (getAttributes0(getParentIShellFolder(),
-                    getRelativePIDL(), attribute)
-                    & attribute) != 0;
+    publid boolfbn ibsAttributf(finbl int bttributf) {
+        Boolfbn rfsult = invokf(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() {
+                // Cbdiing bt tiis point dofsn't sffm to bf dost fffidifnt
+                rfturn (gftAttributfs0(gftPbrfntISifllFoldfr(),
+                    gftRflbtivfPIDL(), bttributf)
+                    & bttributf) != 0;
             }
         });
 
-        return result != null && result;
+        rfturn rfsult != null && rfsult;
     }
 
     /**
-     * Returns the queried attributes specified in attrsMask.
+     * Rfturns tif qufrifd bttributfs spfdififd in bttrsMbsk.
      *
-     * Could plausibly be used for attribute caching but have to be
-     * very careful not to touch network drives and file system roots
-     * with a full attrsMask
-     * NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
+     * Could plbusibly bf usfd for bttributf dbdiing but ibvf to bf
+     * vfry dbrfful not to toudi nftwork drivfs bnd filf systfm roots
+     * witi b full bttrsMbsk
+     * NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
      */
 
-    private static native int getAttributes0(long pParentIShellFolder, long pIDL, int attrsMask);
+    privbtf stbtid nbtivf int gftAttributfs0(long pPbrfntISifllFoldfr, long pIDL, int bttrsMbsk);
 
-    // Return the path to the underlying file system object
-    // Should be called from the COM thread
-    private static String getFileSystemPath(final long parentIShellFolder, final long relativePIDL) {
-        int linkedFolder = ATTRIB_LINK | ATTRIB_FOLDER;
-        if (parentIShellFolder == Win32ShellFolderManager2.getNetwork().getIShellFolder() &&
-                getAttributes0(parentIShellFolder, relativePIDL, linkedFolder) == linkedFolder) {
+    // Rfturn tif pbti to tif undfrlying filf systfm objfdt
+    // Siould bf dbllfd from tif COM tirfbd
+    privbtf stbtid String gftFilfSystfmPbti(finbl long pbrfntISifllFoldfr, finbl long rflbtivfPIDL) {
+        int linkfdFoldfr = ATTRIB_LINK | ATTRIB_FOLDER;
+        if (pbrfntISifllFoldfr == Win32SifllFoldfrMbnbgfr2.gftNftwork().gftISifllFoldfr() &&
+                gftAttributfs0(pbrfntISifllFoldfr, rflbtivfPIDL, linkfdFoldfr) == linkfdFoldfr) {
 
             String s =
-                    getFileSystemPath(Win32ShellFolderManager2.getDesktop().getIShellFolder(),
-                            getLinkLocation(parentIShellFolder, relativePIDL, false));
-            if (s != null && s.startsWith("\\\\")) {
-                return s;
+                    gftFilfSystfmPbti(Win32SifllFoldfrMbnbgfr2.gftDfsktop().gftISifllFoldfr(),
+                            gftLinkLodbtion(pbrfntISifllFoldfr, rflbtivfPIDL, fblsf));
+            if (s != null && s.stbrtsWiti("\\\\")) {
+                rfturn s;
             }
         }
-        return getDisplayNameOf(parentIShellFolder, relativePIDL, SHGDN_FORPARSING);
+        rfturn gftDisplbyNbmfOf(pbrfntISifllFoldfr, rflbtivfPIDL, SHGDN_FORPARSING);
     }
 
-    // Needs to be accessible to Win32ShellFolderManager2
-    static String getFileSystemPath(final int csidl) throws IOException, InterruptedException {
-        String path = invoke(new Callable<String>() {
-            public String call() throws IOException {
-                return getFileSystemPath0(csidl);
+    // Nffds to bf bddfssiblf to Win32SifllFoldfrMbnbgfr2
+    stbtid String gftFilfSystfmPbti(finbl int dsidl) tirows IOExdfption, IntfrruptfdExdfption {
+        String pbti = invokf(nfw Cbllbblf<String>() {
+            publid String dbll() tirows IOExdfption {
+                rfturn gftFilfSystfmPbti0(dsidl);
             }
-        }, IOException.class);
-        if (path != null) {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkRead(path);
+        }, IOExdfption.dlbss);
+        if (pbti != null) {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkRfbd(pbti);
             }
         }
-        return path;
+        rfturn pbti;
     }
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native String getFileSystemPath0(int csidl) throws IOException;
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftFilfSystfmPbti0(int dsidl) tirows IOExdfption;
 
-    // Return whether the path is a network root.
-    // Path is assumed to be non-null
-    private static boolean isNetworkRoot(String path) {
-        return (path.equals("\\\\") || path.equals("\\") || path.equals("//") || path.equals("/"));
+    // Rfturn wiftifr tif pbti is b nftwork root.
+    // Pbti is bssumfd to bf non-null
+    privbtf stbtid boolfbn isNftworkRoot(String pbti) {
+        rfturn (pbti.fqubls("\\\\") || pbti.fqubls("\\") || pbti.fqubls("//") || pbti.fqubls("/"));
     }
 
     /**
-     * @return The parent shell folder of this shell folder, null if
-     * there is no parent
+     * @rfturn Tif pbrfnt sifll foldfr of tiis sifll foldfr, null if
+     * tifrf is no pbrfnt
      */
-    public File getParentFile() {
-        return parent;
+    publid Filf gftPbrfntFilf() {
+        rfturn pbrfnt;
     }
 
-    public boolean isDirectory() {
+    publid boolfbn isDirfdtory() {
         if (isDir == null) {
-            // Folders with SFGAO_BROWSABLE have "shell extension" handlers and are
-            // not traversable in JFileChooser.
-            if (hasAttribute(ATTRIB_FOLDER) && !hasAttribute(ATTRIB_BROWSABLE)) {
-                isDir = Boolean.TRUE;
-            } else if (isLink()) {
-                ShellFolder linkLocation = getLinkLocation(false);
-                isDir = Boolean.valueOf(linkLocation != null && linkLocation.isDirectory());
-            } else {
-                isDir = Boolean.FALSE;
+            // Foldfrs witi SFGAO_BROWSABLE ibvf "sifll fxtfnsion" ibndlfrs bnd brf
+            // not trbvfrsbblf in JFilfCioosfr.
+            if (ibsAttributf(ATTRIB_FOLDER) && !ibsAttributf(ATTRIB_BROWSABLE)) {
+                isDir = Boolfbn.TRUE;
+            } flsf if (isLink()) {
+                SifllFoldfr linkLodbtion = gftLinkLodbtion(fblsf);
+                isDir = Boolfbn.vblufOf(linkLodbtion != null && linkLodbtion.isDirfdtory());
+            } flsf {
+                isDir = Boolfbn.FALSE;
             }
         }
-        return isDir.booleanValue();
+        rfturn isDir.boolfbnVbluf();
     }
 
     /*
-     * Functions for enumerating an IShellFolder's children
+     * Fundtions for fnumfrbting bn ISifllFoldfr's diildrfn
      */
-    // Returns an IEnumIDList interface for an IShellFolder.  The value
-    // returned must be released using releaseEnumObjects().
-    private long getEnumObjects(final boolean includeHiddenFiles) throws InterruptedException {
-        return invoke(new Callable<Long>() {
-            public Long call() {
-                boolean isDesktop = disposer.pIShellFolder == getDesktopIShellFolder();
+    // Rfturns bn IEnumIDList intfrfbdf for bn ISifllFoldfr.  Tif vbluf
+    // rfturnfd must bf rflfbsfd using rflfbsfEnumObjfdts().
+    privbtf long gftEnumObjfdts(finbl boolfbn indludfHiddfnFilfs) tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Long>() {
+            publid Long dbll() {
+                boolfbn isDfsktop = disposfr.pISifllFoldfr == gftDfsktopISifllFoldfr();
 
-                return getEnumObjects(disposer.pIShellFolder, isDesktop, includeHiddenFiles);
+                rfturn gftEnumObjfdts(disposfr.pISifllFoldfr, isDfsktop, indludfHiddfnFilfs);
             }
-        }, RuntimeException.class);
+        }, RuntimfExdfption.dlbss);
     }
 
-    // Returns an IEnumIDList interface for an IShellFolder.  The value
-    // returned must be released using releaseEnumObjects().
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native long getEnumObjects(long pIShellFolder, boolean isDesktop,
-                                       boolean includeHiddenFiles);
-    // Returns the next sequential child as a relative PIDL
-    // from an IEnumIDList interface.  The value returned must
-    // be released using releasePIDL().
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native long getNextChild(long pEnumObjects);
-    // Releases the IEnumIDList interface
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native void releaseEnumObjects(long pEnumObjects);
+    // Rfturns bn IEnumIDList intfrfbdf for bn ISifllFoldfr.  Tif vbluf
+    // rfturnfd must bf rflfbsfd using rflfbsfEnumObjfdts().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf long gftEnumObjfdts(long pISifllFoldfr, boolfbn isDfsktop,
+                                       boolfbn indludfHiddfnFilfs);
+    // Rfturns tif nfxt sfqufntibl diild bs b rflbtivf PIDL
+    // from bn IEnumIDList intfrfbdf.  Tif vbluf rfturnfd must
+    // bf rflfbsfd using rflfbsfPIDL().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf long gftNfxtCiild(long pEnumObjfdts);
+    // Rflfbsfs tif IEnumIDList intfrfbdf
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf void rflfbsfEnumObjfdts(long pEnumObjfdts);
 
-    // Returns the IShellFolder of a child from a parent IShellFolder
-    // and a relative PIDL.  The value returned must be released
-    // using releaseIShellFolder().
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native long bindToObject(long parentIShellFolder, long pIDL);
+    // Rfturns tif ISifllFoldfr of b diild from b pbrfnt ISifllFoldfr
+    // bnd b rflbtivf PIDL.  Tif vbluf rfturnfd must bf rflfbsfd
+    // using rflfbsfISifllFoldfr().
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long bindToObjfdt(long pbrfntISifllFoldfr, long pIDL);
 
     /**
-     * @return An array of shell folders that are children of this shell folder
-     *         object. The array will be empty if the folder is empty.  Returns
-     *         <code>null</code> if this shellfolder does not denote a directory.
+     * @rfturn An brrby of sifll foldfrs tibt brf diildrfn of tiis sifll foldfr
+     *         objfdt. Tif brrby will bf fmpty if tif foldfr is fmpty.  Rfturns
+     *         <dodf>null</dodf> if tiis sifllfoldfr dofs not dfnotf b dirfdtory.
      */
-    public File[] listFiles(final boolean includeHiddenFiles) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkRead(getPath());
+    publid Filf[] listFilfs(finbl boolfbn indludfHiddfnFilfs) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkRfbd(gftPbti());
         }
 
         try {
-            return invoke(new Callable<File[]>() {
-                public File[] call() throws InterruptedException {
-                    if (!isDirectory()) {
-                        return null;
+            rfturn invokf(nfw Cbllbblf<Filf[]>() {
+                publid Filf[] dbll() tirows IntfrruptfdExdfption {
+                    if (!isDirfdtory()) {
+                        rfturn null;
                     }
-                    // Links to directories are not directories and cannot be parents.
-                    // This does not apply to folders in My Network Places (NetHood)
-                    // because they are both links and real directories!
-                    if (isLink() && !hasAttribute(ATTRIB_FOLDER)) {
-                        return new File[0];
+                    // Links to dirfdtorifs brf not dirfdtorifs bnd dbnnot bf pbrfnts.
+                    // Tiis dofs not bpply to foldfrs in My Nftwork Plbdfs (NftHood)
+                    // bfdbusf tify brf boti links bnd rfbl dirfdtorifs!
+                    if (isLink() && !ibsAttributf(ATTRIB_FOLDER)) {
+                        rfturn nfw Filf[0];
                     }
 
-                    Win32ShellFolder2 desktop = Win32ShellFolderManager2.getDesktop();
-                    Win32ShellFolder2 personal = Win32ShellFolderManager2.getPersonal();
+                    Win32SifllFoldfr2 dfsktop = Win32SifllFoldfrMbnbgfr2.gftDfsktop();
+                    Win32SifllFoldfr2 pfrsonbl = Win32SifllFoldfrMbnbgfr2.gftPfrsonbl();
 
-                    // If we are a directory, we have a parent and (at least) a
-                    // relative PIDL. We must first ensure we are bound to the
-                    // parent so we have an IShellFolder to query.
-                    long pIShellFolder = getIShellFolder();
-                    // Now we can enumerate the objects in this folder.
-                    ArrayList<Win32ShellFolder2> list = new ArrayList<Win32ShellFolder2>();
-                    long pEnumObjects = getEnumObjects(includeHiddenFiles);
-                    if (pEnumObjects != 0) {
+                    // If wf brf b dirfdtory, wf ibvf b pbrfnt bnd (bt lfbst) b
+                    // rflbtivf PIDL. Wf must first fnsurf wf brf bound to tif
+                    // pbrfnt so wf ibvf bn ISifllFoldfr to qufry.
+                    long pISifllFoldfr = gftISifllFoldfr();
+                    // Now wf dbn fnumfrbtf tif objfdts in tiis foldfr.
+                    ArrbyList<Win32SifllFoldfr2> list = nfw ArrbyList<Win32SifllFoldfr2>();
+                    long pEnumObjfdts = gftEnumObjfdts(indludfHiddfnFilfs);
+                    if (pEnumObjfdts != 0) {
                         try {
-                            long childPIDL;
-                            int testedAttrs = ATTRIB_FILESYSTEM | ATTRIB_FILESYSANCESTOR;
+                            long diildPIDL;
+                            int tfstfdAttrs = ATTRIB_FILESYSTEM | ATTRIB_FILESYSANCESTOR;
                             do {
-                                childPIDL = getNextChild(pEnumObjects);
-                                boolean releasePIDL = true;
-                                if (childPIDL != 0 &&
-                                        (getAttributes0(pIShellFolder, childPIDL, testedAttrs) & testedAttrs) != 0) {
-                                    Win32ShellFolder2 childFolder;
-                                    if (Win32ShellFolder2.this.equals(desktop)
-                                            && personal != null
-                                            && pidlsEqual(pIShellFolder, childPIDL, personal.disposer.relativePIDL)) {
-                                        childFolder = personal;
-                                    } else {
-                                        childFolder = new Win32ShellFolder2(Win32ShellFolder2.this, childPIDL);
-                                        releasePIDL = false;
+                                diildPIDL = gftNfxtCiild(pEnumObjfdts);
+                                boolfbn rflfbsfPIDL = truf;
+                                if (diildPIDL != 0 &&
+                                        (gftAttributfs0(pISifllFoldfr, diildPIDL, tfstfdAttrs) & tfstfdAttrs) != 0) {
+                                    Win32SifllFoldfr2 diildFoldfr;
+                                    if (Win32SifllFoldfr2.tiis.fqubls(dfsktop)
+                                            && pfrsonbl != null
+                                            && pidlsEqubl(pISifllFoldfr, diildPIDL, pfrsonbl.disposfr.rflbtivfPIDL)) {
+                                        diildFoldfr = pfrsonbl;
+                                    } flsf {
+                                        diildFoldfr = nfw Win32SifllFoldfr2(Win32SifllFoldfr2.tiis, diildPIDL);
+                                        rflfbsfPIDL = fblsf;
                                     }
-                                    list.add(childFolder);
+                                    list.bdd(diildFoldfr);
                                 }
-                                if (releasePIDL) {
-                                    releasePIDL(childPIDL);
+                                if (rflfbsfPIDL) {
+                                    rflfbsfPIDL(diildPIDL);
                                 }
-                            } while (childPIDL != 0 && !Thread.currentThread().isInterrupted());
-                        } finally {
-                            releaseEnumObjects(pEnumObjects);
+                            } wiilf (diildPIDL != 0 && !Tirfbd.durrfntTirfbd().isIntfrruptfd());
+                        } finblly {
+                            rflfbsfEnumObjfdts(pEnumObjfdts);
                         }
                     }
-                    return Thread.currentThread().isInterrupted()
-                        ? new File[0]
-                        : list.toArray(new ShellFolder[list.size()]);
+                    rfturn Tirfbd.durrfntTirfbd().isIntfrruptfd()
+                        ? nfw Filf[0]
+                        : list.toArrby(nfw SifllFoldfr[list.sizf()]);
                 }
-            }, InterruptedException.class);
-        } catch (InterruptedException e) {
-            return new File[0];
+            }, IntfrruptfdExdfption.dlbss);
+        } dbtdi (IntfrruptfdExdfption f) {
+            rfturn nfw Filf[0];
         }
     }
 
 
     /**
-     * Look for (possibly special) child folder by it's path
+     * Look for (possibly spfdibl) diild foldfr by it's pbti
      *
-     * @return The child shellfolder, or null if not found.
+     * @rfturn Tif diild sifllfoldfr, or null if not found.
      */
-    Win32ShellFolder2 getChildByPath(final String filePath) throws InterruptedException {
-        return invoke(new Callable<Win32ShellFolder2>() {
-            public Win32ShellFolder2 call() throws InterruptedException {
-                long pIShellFolder = getIShellFolder();
-                long pEnumObjects = getEnumObjects(true);
-                Win32ShellFolder2 child = null;
-                long childPIDL;
+    Win32SifllFoldfr2 gftCiildByPbti(finbl String filfPbti) tirows IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Win32SifllFoldfr2>() {
+            publid Win32SifllFoldfr2 dbll() tirows IntfrruptfdExdfption {
+                long pISifllFoldfr = gftISifllFoldfr();
+                long pEnumObjfdts = gftEnumObjfdts(truf);
+                Win32SifllFoldfr2 diild = null;
+                long diildPIDL;
 
-                while ((childPIDL = getNextChild(pEnumObjects)) != 0) {
-                    if (getAttributes0(pIShellFolder, childPIDL, ATTRIB_FILESYSTEM) != 0) {
-                        String path = getFileSystemPath(pIShellFolder, childPIDL);
-                        if (path != null && path.equalsIgnoreCase(filePath)) {
-                            long childIShellFolder = bindToObject(pIShellFolder, childPIDL);
-                            child = new Win32ShellFolder2(Win32ShellFolder2.this,
-                                    childIShellFolder, childPIDL, path);
-                            break;
+                wiilf ((diildPIDL = gftNfxtCiild(pEnumObjfdts)) != 0) {
+                    if (gftAttributfs0(pISifllFoldfr, diildPIDL, ATTRIB_FILESYSTEM) != 0) {
+                        String pbti = gftFilfSystfmPbti(pISifllFoldfr, diildPIDL);
+                        if (pbti != null && pbti.fqublsIgnorfCbsf(filfPbti)) {
+                            long diildISifllFoldfr = bindToObjfdt(pISifllFoldfr, diildPIDL);
+                            diild = nfw Win32SifllFoldfr2(Win32SifllFoldfr2.tiis,
+                                    diildISifllFoldfr, diildPIDL, pbti);
+                            brfbk;
                         }
                     }
-                    releasePIDL(childPIDL);
+                    rflfbsfPIDL(diildPIDL);
                 }
-                releaseEnumObjects(pEnumObjects);
-                return child;
+                rflfbsfEnumObjfdts(pEnumObjfdts);
+                rfturn diild;
             }
-        }, InterruptedException.class);
+        }, IntfrruptfdExdfption.dlbss);
     }
 
-    private volatile Boolean cachedIsLink;
+    privbtf volbtilf Boolfbn dbdifdIsLink;
 
     /**
-     * @return Whether this shell folder is a link
+     * @rfturn Wiftifr tiis sifll foldfr is b link
      */
-    public boolean isLink() {
-        if (cachedIsLink == null) {
-            cachedIsLink = hasAttribute(ATTRIB_LINK);
+    publid boolfbn isLink() {
+        if (dbdifdIsLink == null) {
+            dbdifdIsLink = ibsAttributf(ATTRIB_LINK);
         }
 
-        return cachedIsLink;
+        rfturn dbdifdIsLink;
     }
 
     /**
-     * @return Whether this shell folder is marked as hidden
+     * @rfturn Wiftifr tiis sifll foldfr is mbrkfd bs iiddfn
      */
-    public boolean isHidden() {
-        return hasAttribute(ATTRIB_HIDDEN);
+    publid boolfbn isHiddfn() {
+        rfturn ibsAttributf(ATTRIB_HIDDEN);
     }
 
 
-    // Return the link location of a shell folder
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native long getLinkLocation(long parentIShellFolder,
-                                        long relativePIDL, boolean resolve);
+    // Rfturn tif link lodbtion of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long gftLinkLodbtion(long pbrfntISifllFoldfr,
+                                        long rflbtivfPIDL, boolfbn rfsolvf);
 
     /**
-     * @return The shell folder linked to by this shell folder, or null
-     * if this shell folder is not a link or is a broken or invalid link
+     * @rfturn Tif sifll foldfr linkfd to by tiis sifll foldfr, or null
+     * if tiis sifll foldfr is not b link or is b brokfn or invblid link
      */
-    public ShellFolder getLinkLocation()  {
-        return getLinkLocation(true);
+    publid SifllFoldfr gftLinkLodbtion()  {
+        rfturn gftLinkLodbtion(truf);
     }
 
-    private ShellFolder getLinkLocation(final boolean resolve) {
-        return invoke(new Callable<ShellFolder>() {
-            public ShellFolder call() {
+    privbtf SifllFoldfr gftLinkLodbtion(finbl boolfbn rfsolvf) {
+        rfturn invokf(nfw Cbllbblf<SifllFoldfr>() {
+            publid SifllFoldfr dbll() {
                 if (!isLink()) {
-                    return null;
+                    rfturn null;
                 }
 
-                ShellFolder location = null;
-                long linkLocationPIDL = getLinkLocation(getParentIShellFolder(),
-                        getRelativePIDL(), resolve);
-                if (linkLocationPIDL != 0) {
+                SifllFoldfr lodbtion = null;
+                long linkLodbtionPIDL = gftLinkLodbtion(gftPbrfntISifllFoldfr(),
+                        gftRflbtivfPIDL(), rfsolvf);
+                if (linkLodbtionPIDL != 0) {
                     try {
-                        location =
-                                Win32ShellFolderManager2.createShellFolderFromRelativePIDL(getDesktop(),
-                                        linkLocationPIDL);
-                    } catch (InterruptedException e) {
-                        // Return null
-                    } catch (InternalError e) {
-                        // Could be a link to a non-bindable object, such as a network connection
-                        // TODO: getIShellFolder() should throw FileNotFoundException instead
+                        lodbtion =
+                                Win32SifllFoldfrMbnbgfr2.drfbtfSifllFoldfrFromRflbtivfPIDL(gftDfsktop(),
+                                        linkLodbtionPIDL);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // Rfturn null
+                    } dbtdi (IntfrnblError f) {
+                        // Could bf b link to b non-bindbblf objfdt, sudi bs b nftwork donnfdtion
+                        // TODO: gftISifllFoldfr() siould tirow FilfNotFoundExdfption instfbd
                     }
                 }
-                return location;
+                rfturn lodbtion;
             }
         });
     }
 
-    // Parse a display name into a PIDL relative to the current IShellFolder.
-    long parseDisplayName(final String name) throws IOException, InterruptedException {
-        return invoke(new Callable<Long>() {
-            public Long call() throws IOException {
-                return parseDisplayName0(getIShellFolder(), name);
+    // Pbrsf b displby nbmf into b PIDL rflbtivf to tif durrfnt ISifllFoldfr.
+    long pbrsfDisplbyNbmf(finbl String nbmf) tirows IOExdfption, IntfrruptfdExdfption {
+        rfturn invokf(nfw Cbllbblf<Long>() {
+            publid Long dbll() tirows IOExdfption {
+                rfturn pbrsfDisplbyNbmf0(gftISifllFoldfr(), nbmf);
             }
-        }, IOException.class);
+        }, IOExdfption.dlbss);
     }
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native long parseDisplayName0(long pIShellFolder, String name) throws IOException;
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long pbrsfDisplbyNbmf0(long pISifllFoldfr, String nbmf) tirows IOExdfption;
 
-    // Return the display name of a shell folder
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native String getDisplayNameOf(long parentIShellFolder,
-                                                  long relativePIDL,
-                                                  int attrs);
+    // Rfturn tif displby nbmf of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftDisplbyNbmfOf(long pbrfntISifllFoldfr,
+                                                  long rflbtivfPIDL,
+                                                  int bttrs);
 
     /**
-     * @return The name used to display this shell folder
+     * @rfturn Tif nbmf usfd to displby tiis sifll foldfr
      */
-    public String getDisplayName() {
-        if (displayName == null) {
-            displayName =
-                invoke(new Callable<String>() {
-                    public String call() {
-                        return getDisplayNameOf(getParentIShellFolder(),
-                                getRelativePIDL(), SHGDN_NORMAL);
+    publid String gftDisplbyNbmf() {
+        if (displbyNbmf == null) {
+            displbyNbmf =
+                invokf(nfw Cbllbblf<String>() {
+                    publid String dbll() {
+                        rfturn gftDisplbyNbmfOf(gftPbrfntISifllFoldfr(),
+                                gftRflbtivfPIDL(), SHGDN_NORMAL);
                     }
                 });
         }
-        return displayName;
+        rfturn displbyNbmf;
     }
 
-    // Return the folder type of a shell folder
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native String getFolderType(long pIDL);
+    // Rfturn tif foldfr typf of b sifll foldfr
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf String gftFoldfrTypf(long pIDL);
 
     /**
-     * @return The type of shell folder as a string
+     * @rfturn Tif typf of sifll foldfr bs b string
      */
-    public String getFolderType() {
-        if (folderType == null) {
-            final long absolutePIDL = getAbsolutePIDL();
-            folderType =
-                invoke(new Callable<String>() {
-                    public String call() {
-                        return getFolderType(absolutePIDL);
+    publid String gftFoldfrTypf() {
+        if (foldfrTypf == null) {
+            finbl long bbsolutfPIDL = gftAbsolutfPIDL();
+            foldfrTypf =
+                invokf(nfw Cbllbblf<String>() {
+                    publid String dbll() {
+                        rfturn gftFoldfrTypf(bbsolutfPIDL);
                     }
                 });
         }
-        return folderType;
+        rfturn foldfrTypf;
     }
 
-    // Return the executable type of a file system shell folder
-    private native String getExecutableType(String path);
+    // Rfturn tif fxfdutbblf typf of b filf systfm sifll foldfr
+    privbtf nbtivf String gftExfdutbblfTypf(String pbti);
 
     /**
-     * @return The executable type as a string
+     * @rfturn Tif fxfdutbblf typf bs b string
      */
-    public String getExecutableType() {
-        if (!isFileSystem()) {
-            return null;
+    publid String gftExfdutbblfTypf() {
+        if (!isFilfSystfm()) {
+            rfturn null;
         }
-        return getExecutableType(getAbsolutePath());
+        rfturn gftExfdutbblfTypf(gftAbsolutfPbti());
     }
 
 
 
-    // Icons
+    // Idons
 
-    private static Map<Integer, Image> smallSystemImages = new HashMap<>();
-    private static Map<Integer, Image> largeSystemImages = new HashMap<>();
-    private static Map<Integer, Image> smallLinkedSystemImages = new HashMap<>();
-    private static Map<Integer, Image> largeLinkedSystemImages = new HashMap<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> smbllSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> lbrgfSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> smbllLinkfdSystfmImbgfs = nfw HbsiMbp<>();
+    privbtf stbtid Mbp<Intfgfr, Imbgf> lbrgfLinkfdSystfmImbgfs = nfw HbsiMbp<>();
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native long getIShellIcon(long pIShellFolder);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long gftISifllIdon(long pISifllFoldfr);
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native int getIconIndex(long parentIShellIcon, long relativePIDL);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int gftIdonIndfx(long pbrfntISifllIdon, long rflbtivfPIDL);
 
-    // Return the icon of a file system shell folder in the form of an HICON
-    private static native long getIcon(String absolutePath, boolean getLargeIcon);
+    // Rfturn tif idon of b filf systfm sifll foldfr in tif form of bn HICON
+    privbtf stbtid nbtivf long gftIdon(String bbsolutfPbti, boolfbn gftLbrgfIdon);
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native long extractIcon(long parentIShellFolder, long relativePIDL,
-                                           boolean getLargeIcon);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf long fxtrbdtIdon(long pbrfntISifllFoldfr, long rflbtivfPIDL,
+                                           boolfbn gftLbrgfIdon);
 
-    // Returns an icon from the Windows system icon list in the form of an HICON
-    private static native long getSystemIcon(int iconID);
-    private static native long getIconResource(String libName, int iconID,
-                                               int cxDesired, int cyDesired,
-                                               boolean useVGAColors);
-                                               // Note: useVGAColors is ignored on XP and later
+    // Rfturns bn idon from tif Windows systfm idon list in tif form of bn HICON
+    privbtf stbtid nbtivf long gftSystfmIdon(int idonID);
+    privbtf stbtid nbtivf long gftIdonRfsourdf(String libNbmf, int idonID,
+                                               int dxDfsirfd, int dyDfsirfd,
+                                               boolfbn usfVGAColors);
+                                               // Notf: usfVGAColors is ignorfd on XP bnd lbtfr
 
-    // Return the bits from an HICON.  This has a side effect of setting
-    // the imageHash variable for efficient caching / comparing.
-    private static native int[] getIconBits(long hIcon, int iconSize);
-    // Dispose the HICON
-    private static native void disposeIcon(long hIcon);
+    // Rfturn tif bits from bn HICON.  Tiis ibs b sidf ffffdt of sftting
+    // tif imbgfHbsi vbribblf for fffidifnt dbdiing / dompbring.
+    privbtf stbtid nbtivf int[] gftIdonBits(long iIdon, int idonSizf);
+    // Disposf tif HICON
+    privbtf stbtid nbtivf void disposfIdon(long iIdon);
 
-    static native int[] getStandardViewButton0(int iconIndex);
+    stbtid nbtivf int[] gftStbndbrdVifwButton0(int idonIndfx);
 
-    // Should be called from the COM thread
-    private long getIShellIcon() {
-        if (pIShellIcon == -1L) {
-            pIShellIcon = getIShellIcon(getIShellFolder());
+    // Siould bf dbllfd from tif COM tirfbd
+    privbtf long gftISifllIdon() {
+        if (pISifllIdon == -1L) {
+            pISifllIdon = gftISifllIdon(gftISifllFoldfr());
         }
 
-        return pIShellIcon;
+        rfturn pISifllIdon;
     }
 
-    private static Image makeIcon(long hIcon, boolean getLargeIcon) {
-        if (hIcon != 0L && hIcon != -1L) {
-            // Get the bits.  This has the side effect of setting the imageHash value for this object.
-            int size = getLargeIcon ? 32 : 16;
-            int[] iconBits = getIconBits(hIcon, size);
-            if (iconBits != null) {
-                BufferedImage img = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
-                img.setRGB(0, 0, size, size, iconBits, 0, size);
-                return img;
+    privbtf stbtid Imbgf mbkfIdon(long iIdon, boolfbn gftLbrgfIdon) {
+        if (iIdon != 0L && iIdon != -1L) {
+            // Gft tif bits.  Tiis ibs tif sidf ffffdt of sftting tif imbgfHbsi vbluf for tiis objfdt.
+            int sizf = gftLbrgfIdon ? 32 : 16;
+            int[] idonBits = gftIdonBits(iIdon, sizf);
+            if (idonBits != null) {
+                BufffrfdImbgf img = nfw BufffrfdImbgf(sizf, sizf, BufffrfdImbgf.TYPE_INT_ARGB);
+                img.sftRGB(0, 0, sizf, sizf, idonBits, 0, sizf);
+                rfturn img;
             }
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * @return The icon image used to display this shell folder
+     * @rfturn Tif idon imbgf usfd to displby tiis sifll foldfr
      */
-    public Image getIcon(final boolean getLargeIcon) {
-        Image icon = getLargeIcon ? largeIcon : smallIcon;
-        if (icon == null) {
-            icon =
-                invoke(new Callable<Image>() {
-                    public Image call() {
-                        Image newIcon = null;
-                        if (isFileSystem()) {
-                            long parentIShellIcon = (parent != null)
-                                ? ((Win32ShellFolder2) parent).getIShellIcon()
+    publid Imbgf gftIdon(finbl boolfbn gftLbrgfIdon) {
+        Imbgf idon = gftLbrgfIdon ? lbrgfIdon : smbllIdon;
+        if (idon == null) {
+            idon =
+                invokf(nfw Cbllbblf<Imbgf>() {
+                    publid Imbgf dbll() {
+                        Imbgf nfwIdon = null;
+                        if (isFilfSystfm()) {
+                            long pbrfntISifllIdon = (pbrfnt != null)
+                                ? ((Win32SifllFoldfr2) pbrfnt).gftISifllIdon()
                                 : 0L;
-                            long relativePIDL = getRelativePIDL();
+                            long rflbtivfPIDL = gftRflbtivfPIDL();
 
-                            // These are cached per type (using the index in the system image list)
-                            int index = getIconIndex(parentIShellIcon, relativePIDL);
-                            if (index > 0) {
-                                Map<Integer, Image> imageCache;
+                            // Tifsf brf dbdifd pfr typf (using tif indfx in tif systfm imbgf list)
+                            int indfx = gftIdonIndfx(pbrfntISifllIdon, rflbtivfPIDL);
+                            if (indfx > 0) {
+                                Mbp<Intfgfr, Imbgf> imbgfCbdif;
                                 if (isLink()) {
-                                    imageCache = getLargeIcon ? largeLinkedSystemImages : smallLinkedSystemImages;
-                                } else {
-                                    imageCache = getLargeIcon ? largeSystemImages : smallSystemImages;
+                                    imbgfCbdif = gftLbrgfIdon ? lbrgfLinkfdSystfmImbgfs : smbllLinkfdSystfmImbgfs;
+                                } flsf {
+                                    imbgfCbdif = gftLbrgfIdon ? lbrgfSystfmImbgfs : smbllSystfmImbgfs;
                                 }
-                                newIcon = imageCache.get(Integer.valueOf(index));
-                                if (newIcon == null) {
-                                    long hIcon = getIcon(getAbsolutePath(), getLargeIcon);
-                                    newIcon = makeIcon(hIcon, getLargeIcon);
-                                    disposeIcon(hIcon);
-                                    if (newIcon != null) {
-                                        imageCache.put(Integer.valueOf(index), newIcon);
+                                nfwIdon = imbgfCbdif.gft(Intfgfr.vblufOf(indfx));
+                                if (nfwIdon == null) {
+                                    long iIdon = gftIdon(gftAbsolutfPbti(), gftLbrgfIdon);
+                                    nfwIdon = mbkfIdon(iIdon, gftLbrgfIdon);
+                                    disposfIdon(iIdon);
+                                    if (nfwIdon != null) {
+                                        imbgfCbdif.put(Intfgfr.vblufOf(indfx), nfwIdon);
                                     }
                                 }
                             }
                         }
 
-                        if (newIcon == null) {
-                            // These are only cached per object
-                            long hIcon = extractIcon(getParentIShellFolder(),
-                                getRelativePIDL(), getLargeIcon);
-                            newIcon = makeIcon(hIcon, getLargeIcon);
-                            disposeIcon(hIcon);
+                        if (nfwIdon == null) {
+                            // Tifsf brf only dbdifd pfr objfdt
+                            long iIdon = fxtrbdtIdon(gftPbrfntISifllFoldfr(),
+                                gftRflbtivfPIDL(), gftLbrgfIdon);
+                            nfwIdon = mbkfIdon(iIdon, gftLbrgfIdon);
+                            disposfIdon(iIdon);
                         }
 
-                        if (newIcon == null) {
-                            newIcon = Win32ShellFolder2.super.getIcon(getLargeIcon);
+                        if (nfwIdon == null) {
+                            nfwIdon = Win32SifllFoldfr2.supfr.gftIdon(gftLbrgfIdon);
                         }
-                        return newIcon;
+                        rfturn nfwIdon;
                     }
                 });
-            if (getLargeIcon) {
-                largeIcon = icon;
-            } else {
-                smallIcon = icon;
+            if (gftLbrgfIdon) {
+                lbrgfIdon = idon;
+            } flsf {
+                smbllIdon = idon;
             }
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * Gets an icon from the Windows system icon list as an <code>Image</code>
+     * Gfts bn idon from tif Windows systfm idon list bs bn <dodf>Imbgf</dodf>
      */
-    static Image getSystemIcon(SystemIcon iconType) {
-        long hIcon = getSystemIcon(iconType.getIconID());
-        Image icon = makeIcon(hIcon, true);
-        disposeIcon(hIcon);
-        return icon;
+    stbtid Imbgf gftSystfmIdon(SystfmIdon idonTypf) {
+        long iIdon = gftSystfmIdon(idonTypf.gftIdonID());
+        Imbgf idon = mbkfIdon(iIdon, truf);
+        disposfIdon(iIdon);
+        rfturn idon;
     }
 
     /**
-     * Gets an icon from the Windows system icon list as an <code>Image</code>
+     * Gfts bn idon from tif Windows systfm idon list bs bn <dodf>Imbgf</dodf>
      */
-    static Image getShell32Icon(int iconID, boolean getLargeIcon) {
-        boolean useVGAColors = true; // Will be ignored on XP and later
+    stbtid Imbgf gftSifll32Idon(int idonID, boolfbn gftLbrgfIdon) {
+        boolfbn usfVGAColors = truf; // Will bf ignorfd on XP bnd lbtfr
 
-        int size = getLargeIcon ? 32 : 16;
+        int sizf = gftLbrgfIdon ? 32 : 16;
 
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        String shellIconBPP = (String)toolkit.getDesktopProperty("win.icon.shellIconBPP");
-        if (shellIconBPP != null) {
-            useVGAColors = shellIconBPP.equals("4");
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        String sifllIdonBPP = (String)toolkit.gftDfsktopPropfrty("win.idon.sifllIdonBPP");
+        if (sifllIdonBPP != null) {
+            usfVGAColors = sifllIdonBPP.fqubls("4");
         }
 
-        long hIcon = getIconResource("shell32.dll", iconID, size, size, useVGAColors);
-        if (hIcon != 0) {
-            Image icon = makeIcon(hIcon, getLargeIcon);
-            disposeIcon(hIcon);
-            return icon;
+        long iIdon = gftIdonRfsourdf("sifll32.dll", idonID, sizf, sizf, usfVGAColors);
+        if (iIdon != 0) {
+            Imbgf idon = mbkfIdon(iIdon, gftLbrgfIdon);
+            disposfIdon(iIdon);
+            rfturn idon;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the canonical form of this abstract pathname.  Equivalent to
-     * <code>new&nbsp;Win32ShellFolder2(getParentFile(), this.{@link java.io.File#getCanonicalPath}())</code>.
+     * Rfturns tif dbnonidbl form of tiis bbstrbdt pbtinbmf.  Equivblfnt to
+     * <dodf>nfw&nbsp;Win32SifllFoldfr2(gftPbrfntFilf(), tiis.{@link jbvb.io.Filf#gftCbnonidblPbti}())</dodf>.
      *
-     * @see java.io.File#getCanonicalFile
+     * @sff jbvb.io.Filf#gftCbnonidblFilf
      */
-    public File getCanonicalFile() throws IOException {
-        return this;
+    publid Filf gftCbnonidblFilf() tirows IOExdfption {
+        rfturn tiis;
     }
 
     /*
-     * Indicates whether this is a special folder (includes My Documents)
+     * Indidbtfs wiftifr tiis is b spfdibl foldfr (indludfs My Dodumfnts)
      */
-    public boolean isSpecial() {
-        return isPersonal || !isFileSystem() || (this == getDesktop());
+    publid boolfbn isSpfdibl() {
+        rfturn isPfrsonbl || !isFilfSystfm() || (tiis == gftDfsktop());
     }
 
     /**
-     * Compares this object with the specified object for order.
+     * Compbrfs tiis objfdt witi tif spfdififd objfdt for ordfr.
      *
-     * @see sun.awt.shell.ShellFolder#compareTo(File)
+     * @sff sun.bwt.sifll.SifllFoldfr#dompbrfTo(Filf)
      */
-    public int compareTo(File file2) {
-        if (!(file2 instanceof Win32ShellFolder2)) {
-            if (isFileSystem() && !isSpecial()) {
-                return super.compareTo(file2);
-            } else {
-                return -1; // Non-file shellfolders sort before files
+    publid int dompbrfTo(Filf filf2) {
+        if (!(filf2 instbndfof Win32SifllFoldfr2)) {
+            if (isFilfSystfm() && !isSpfdibl()) {
+                rfturn supfr.dompbrfTo(filf2);
+            } flsf {
+                rfturn -1; // Non-filf sifllfoldfrs sort bfforf filfs
             }
         }
-        return Win32ShellFolderManager2.compareShellFolders(this, (Win32ShellFolder2) file2);
+        rfturn Win32SifllFoldfrMbnbgfr2.dompbrfSifllFoldfrs(tiis, (Win32SifllFoldfr2) filf2);
     }
 
-    // native constants from commctrl.h
-    private static final int LVCFMT_LEFT = 0;
-    private static final int LVCFMT_RIGHT = 1;
-    private static final int LVCFMT_CENTER = 2;
+    // nbtivf donstbnts from dommdtrl.i
+    privbtf stbtid finbl int LVCFMT_LEFT = 0;
+    privbtf stbtid finbl int LVCFMT_RIGHT = 1;
+    privbtf stbtid finbl int LVCFMT_CENTER = 2;
 
-    public ShellFolderColumnInfo[] getFolderColumns() {
-        return invoke(new Callable<ShellFolderColumnInfo[]>() {
-            public ShellFolderColumnInfo[] call() {
-                ShellFolderColumnInfo[] columns = doGetColumnInfo(getIShellFolder());
+    publid SifllFoldfrColumnInfo[] gftFoldfrColumns() {
+        rfturn invokf(nfw Cbllbblf<SifllFoldfrColumnInfo[]>() {
+            publid SifllFoldfrColumnInfo[] dbll() {
+                SifllFoldfrColumnInfo[] dolumns = doGftColumnInfo(gftISifllFoldfr());
 
-                if (columns != null) {
-                    List<ShellFolderColumnInfo> notNullColumns =
-                            new ArrayList<ShellFolderColumnInfo>();
-                    for (int i = 0; i < columns.length; i++) {
-                        ShellFolderColumnInfo column = columns[i];
-                        if (column != null) {
-                            column.setAlignment(column.getAlignment() == LVCFMT_RIGHT
-                                    ? SwingConstants.RIGHT
-                                    : column.getAlignment() == LVCFMT_CENTER
-                                    ? SwingConstants.CENTER
-                                    : SwingConstants.LEADING);
+                if (dolumns != null) {
+                    List<SifllFoldfrColumnInfo> notNullColumns =
+                            nfw ArrbyList<SifllFoldfrColumnInfo>();
+                    for (int i = 0; i < dolumns.lfngti; i++) {
+                        SifllFoldfrColumnInfo dolumn = dolumns[i];
+                        if (dolumn != null) {
+                            dolumn.sftAlignmfnt(dolumn.gftAlignmfnt() == LVCFMT_RIGHT
+                                    ? SwingConstbnts.RIGHT
+                                    : dolumn.gftAlignmfnt() == LVCFMT_CENTER
+                                    ? SwingConstbnts.CENTER
+                                    : SwingConstbnts.LEADING);
 
-                            column.setComparator(new ColumnComparator(Win32ShellFolder2.this, i));
+                            dolumn.sftCompbrbtor(nfw ColumnCompbrbtor(Win32SifllFoldfr2.tiis, i));
 
-                            notNullColumns.add(column);
+                            notNullColumns.bdd(dolumn);
                         }
                     }
-                    columns = new ShellFolderColumnInfo[notNullColumns.size()];
-                    notNullColumns.toArray(columns);
+                    dolumns = nfw SifllFoldfrColumnInfo[notNullColumns.sizf()];
+                    notNullColumns.toArrby(dolumns);
                 }
-                return columns;
+                rfturn dolumns;
             }
         });
     }
 
-    public Object getFolderColumnValue(final int column) {
-        return invoke(new Callable<Object>() {
-            public Object call() {
-                return doGetColumnValue(getParentIShellFolder(), getRelativePIDL(), column);
+    publid Objfdt gftFoldfrColumnVbluf(finbl int dolumn) {
+        rfturn invokf(nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() {
+                rfturn doGftColumnVbluf(gftPbrfntISifllFoldfr(), gftRflbtivfPIDL(), dolumn);
             }
         });
     }
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native ShellFolderColumnInfo[] doGetColumnInfo(long iShellFolder2);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf SifllFoldfrColumnInfo[] doGftColumnInfo(long iSifllFoldfr2);
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private native Object doGetColumnValue(long parentIShellFolder2, long childPIDL, int columnIdx);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf nbtivf Objfdt doGftColumnVbluf(long pbrfntISifllFoldfr2, long diildPIDL, int dolumnIdx);
 
-    // NOTE: this method uses COM and must be called on the 'COM thread'. See ComInvoker for the details
-    private static native int compareIDsByColumn(long pParentIShellFolder, long pidl1, long pidl2, int columnIdx);
+    // NOTE: tiis mftiod usfs COM bnd must bf dbllfd on tif 'COM tirfbd'. Sff ComInvokfr for tif dftbils
+    privbtf stbtid nbtivf int dompbrfIDsByColumn(long pPbrfntISifllFoldfr, long pidl1, long pidl2, int dolumnIdx);
 
 
-    public void sortChildren(final List<? extends File> files) {
-        // To avoid loads of synchronizations with Invoker and improve performance we
-        // synchronize the whole code of the sort method once
-        invoke(new Callable<Void>() {
-            public Void call() {
-                Collections.sort(files, new ColumnComparator(Win32ShellFolder2.this, 0));
+    publid void sortCiildrfn(finbl List<? fxtfnds Filf> filfs) {
+        // To bvoid lobds of syndironizbtions witi Invokfr bnd improvf pfrformbndf wf
+        // syndironizf tif wiolf dodf of tif sort mftiod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                Collfdtions.sort(filfs, nfw ColumnCompbrbtor(Win32SifllFoldfr2.tiis, 0));
 
-                return null;
+                rfturn null;
             }
         });
     }
 
-    private static class ColumnComparator implements Comparator<File> {
-        private final Win32ShellFolder2 shellFolder;
+    privbtf stbtid dlbss ColumnCompbrbtor implfmfnts Compbrbtor<Filf> {
+        privbtf finbl Win32SifllFoldfr2 sifllFoldfr;
 
-        private final int columnIdx;
+        privbtf finbl int dolumnIdx;
 
-        public ColumnComparator(Win32ShellFolder2 shellFolder, int columnIdx) {
-            this.shellFolder = shellFolder;
-            this.columnIdx = columnIdx;
+        publid ColumnCompbrbtor(Win32SifllFoldfr2 sifllFoldfr, int dolumnIdx) {
+            tiis.sifllFoldfr = sifllFoldfr;
+            tiis.dolumnIdx = dolumnIdx;
         }
 
-        // compares 2 objects within this folder by the specified column
-        public int compare(final File o, final File o1) {
-            Integer result = invoke(new Callable<Integer>() {
-                public Integer call() {
-                    if (o instanceof Win32ShellFolder2
-                        && o1 instanceof Win32ShellFolder2) {
-                        // delegates comparison to native method
-                        return compareIDsByColumn(shellFolder.getIShellFolder(),
-                            ((Win32ShellFolder2) o).getRelativePIDL(),
-                            ((Win32ShellFolder2) o1).getRelativePIDL(),
-                            columnIdx);
+        // dompbrfs 2 objfdts witiin tiis foldfr by tif spfdififd dolumn
+        publid int dompbrf(finbl Filf o, finbl Filf o1) {
+            Intfgfr rfsult = invokf(nfw Cbllbblf<Intfgfr>() {
+                publid Intfgfr dbll() {
+                    if (o instbndfof Win32SifllFoldfr2
+                        && o1 instbndfof Win32SifllFoldfr2) {
+                        // dflfgbtfs dompbrison to nbtivf mftiod
+                        rfturn dompbrfIDsByColumn(sifllFoldfr.gftISifllFoldfr(),
+                            ((Win32SifllFoldfr2) o).gftRflbtivfPIDL(),
+                            ((Win32SifllFoldfr2) o1).gftRflbtivfPIDL(),
+                            dolumnIdx);
                     }
-                    return 0;
+                    rfturn 0;
                 }
             });
 
-            return result == null ? 0 : result;
+            rfturn rfsult == null ? 0 : rfsult;
         }
     }
 }

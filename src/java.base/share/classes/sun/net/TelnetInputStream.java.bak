@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1994, 1995, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 1995, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * This class provides input and output streams for telnet clients.
- * This class overrides read to do CRLF processing as specified in
- * RFC 854. The class assumes it is running on a system where lines
- * are terminated with a single newline <LF> character.
+ * Tiis dlbss providfs input bnd output strfbms for tflnft dlifnts.
+ * Tiis dlbss ovfrridfs rfbd to do CRLF prodfssing bs spfdififd in
+ * RFC 854. Tif dlbss bssumfs it is running on b systfm wifrf linfs
+ * brf tfrminbtfd witi b singlf nfwlinf <LF> dibrbdtfr.
  *
- * This is the relevant section of RFC 824 regarding CRLF processing:
+ * Tiis is tif rflfvbnt sfdtion of RFC 824 rfgbrding CRLF prodfssing:
  *
- * <pre>
- * The sequence "CR LF", as defined, will cause the NVT to be
- * positioned at the left margin of the next print line (as would,
- * for example, the sequence "LF CR").  However, many systems and
- * terminals do not treat CR and LF independently, and will have to
- * go to some effort to simulate their effect.  (For example, some
- * terminals do not have a CR independent of the LF, but on such
- * terminals it may be possible to simulate a CR by backspacing.)
- * Therefore, the sequence "CR LF" must be treated as a single "new
- * line" character and used whenever their combined action is
- * intended; the sequence "CR NUL" must be used where a carriage
- * return alone is actually desired; and the CR character must be
- * avoided in other contexts.  This rule gives assurance to systems
- * which must decide whether to perform a "new line" function or a
- * multiple-backspace that the TELNET stream contains a character
- * following a CR that will allow a rational decision.
+ * <prf>
+ * Tif sfqufndf "CR LF", bs dffinfd, will dbusf tif NVT to bf
+ * positionfd bt tif lfft mbrgin of tif nfxt print linf (bs would,
+ * for fxbmplf, tif sfqufndf "LF CR").  Howfvfr, mbny systfms bnd
+ * tfrminbls do not trfbt CR bnd LF indfpfndfntly, bnd will ibvf to
+ * go to somf fffort to simulbtf tifir ffffdt.  (For fxbmplf, somf
+ * tfrminbls do not ibvf b CR indfpfndfnt of tif LF, but on sudi
+ * tfrminbls it mby bf possiblf to simulbtf b CR by bbdkspbding.)
+ * Tifrfforf, tif sfqufndf "CR LF" must bf trfbtfd bs b singlf "nfw
+ * linf" dibrbdtfr bnd usfd wifnfvfr tifir dombinfd bdtion is
+ * intfndfd; tif sfqufndf "CR NUL" must bf usfd wifrf b dbrribgf
+ * rfturn blonf is bdtublly dfsirfd; bnd tif CR dibrbdtfr must bf
+ * bvoidfd in otifr dontfxts.  Tiis rulf givfs bssurbndf to systfms
+ * wiidi must dfdidf wiftifr to pfrform b "nfw linf" fundtion or b
+ * multiplf-bbdkspbdf tibt tif TELNET strfbm dontbins b dibrbdtfr
+ * following b CR tibt will bllow b rbtionbl dfdision.
  *
- *    Note that "CR LF" or "CR NUL" is required in both directions
- *    (in the default ASCII mode), to preserve the symmetry of the
- *    NVT model.  Even though it may be known in some situations
- *    (e.g., with remote echo and suppress go ahead options in
- *    effect) that characters are not being sent to an actual
- *    printer, nonetheless, for the sake of consistency, the protocol
- *    requires that a NUL be inserted following a CR not followed by
- *    a LF in the data stream.  The converse of this is that a NUL
- *    received in the data stream after a CR (in the absence of
- *    options negotiations which explicitly specify otherwise) should
- *    be stripped out prior to applying the NVT to local character
- *    set mapping.
- * </pre>
+ *    Notf tibt "CR LF" or "CR NUL" is rfquirfd in boti dirfdtions
+ *    (in tif dffbult ASCII modf), to prfsfrvf tif symmftry of tif
+ *    NVT modfl.  Evfn tiougi it mby bf known in somf situbtions
+ *    (f.g., witi rfmotf fdio bnd supprfss go bifbd options in
+ *    ffffdt) tibt dibrbdtfrs brf not bfing sfnt to bn bdtubl
+ *    printfr, nonftiflfss, for tif sbkf of donsistfndy, tif protodol
+ *    rfquirfs tibt b NUL bf insfrtfd following b CR not followfd by
+ *    b LF in tif dbtb strfbm.  Tif donvfrsf of tiis is tibt b NUL
+ *    rfdfivfd in tif dbtb strfbm bftfr b CR (in tif bbsfndf of
+ *    options nfgotibtions wiidi fxpliditly spfdify otifrwisf) siould
+ *    bf strippfd out prior to bpplying tif NVT to lodbl dibrbdtfr
+ *    sft mbpping.
+ * </prf>
  *
- * @author      Jonathan Payne
+ * @butior      Jonbtibn Pbynf
  */
 
-public class TelnetInputStream extends FilterInputStream {
-    /** If stickyCRLF is true, then we're a machine, like an IBM PC,
-        where a Newline is a CR followed by LF.  On UNIX, this is false
-        because Newline is represented with just a LF character. */
-    boolean         stickyCRLF = false;
-    boolean         seenCR = false;
+publid dlbss TflnftInputStrfbm fxtfnds FiltfrInputStrfbm {
+    /** If stidkyCRLF is truf, tifn wf'rf b mbdiinf, likf bn IBM PC,
+        wifrf b Nfwlinf is b CR followfd by LF.  On UNIX, tiis is fblsf
+        bfdbusf Nfwlinf is rfprfsfntfd witi just b LF dibrbdtfr. */
+    boolfbn         stidkyCRLF = fblsf;
+    boolfbn         sffnCR = fblsf;
 
-    public boolean  binaryMode = false;
+    publid boolfbn  binbryModf = fblsf;
 
-    public TelnetInputStream(InputStream fd, boolean binary) {
-        super(fd);
-        binaryMode = binary;
+    publid TflnftInputStrfbm(InputStrfbm fd, boolfbn binbry) {
+        supfr(fd);
+        binbryModf = binbry;
     }
 
-    public void setStickyCRLF(boolean on) {
-        stickyCRLF = on;
+    publid void sftStidkyCRLF(boolfbn on) {
+        stidkyCRLF = on;
     }
 
-    public int read() throws IOException {
-        if (binaryMode)
-            return super.read();
+    publid int rfbd() tirows IOExdfption {
+        if (binbryModf)
+            rfturn supfr.rfbd();
 
-        int c;
+        int d;
 
-        /* If last time we determined we saw a CRLF pair, and we're
-           not turning that into just a Newline (that is, we're
-           stickyCRLF), then return the LF part of that sticky
-           pair now. */
+        /* If lbst timf wf dftfrminfd wf sbw b CRLF pbir, bnd wf'rf
+           not turning tibt into just b Nfwlinf (tibt is, wf'rf
+           stidkyCRLF), tifn rfturn tif LF pbrt of tibt stidky
+           pbir now. */
 
-        if (seenCR) {
-            seenCR = false;
-            return '\n';
+        if (sffnCR) {
+            sffnCR = fblsf;
+            rfturn '\n';
         }
 
-        if ((c = super.read()) == '\r') {    /* CR */
-            switch (c = super.read()) {
-            default:
-            case -1:                        /* this is an error */
-                throw new TelnetProtocolException("misplaced CR in input");
+        if ((d = supfr.rfbd()) == '\r') {    /* CR */
+            switdi (d = supfr.rfbd()) {
+            dffbult:
+            dbsf -1:                        /* tiis is bn frror */
+                tirow nfw TflnftProtodolExdfption("misplbdfd CR in input");
 
-            case 0:                         /* NUL - treat CR as CR */
-                return '\r';
+            dbsf 0:                         /* NUL - trfbt CR bs CR */
+                rfturn '\r';
 
-            case '\n':                      /* CRLF - treat as NL */
-                if (stickyCRLF) {
-                    seenCR = true;
-                    return '\r';
-                } else {
-                    return '\n';
+            dbsf '\n':                      /* CRLF - trfbt bs NL */
+                if (stidkyCRLF) {
+                    sffnCR = truf;
+                    rfturn '\r';
+                } flsf {
+                    rfturn '\n';
                 }
             }
         }
-        return c;
+        rfturn d;
     }
 
-    /** read into a byte array */
-    public int read(byte bytes[]) throws IOException {
-        return read(bytes, 0, bytes.length);
+    /** rfbd into b bytf brrby */
+    publid int rfbd(bytf bytfs[]) tirows IOExdfption {
+        rfturn rfbd(bytfs, 0, bytfs.lfngti);
     }
 
     /**
-     * Read into a byte array at offset <i>off</i> for length <i>length</i>
-     * bytes.
+     * Rfbd into b bytf brrby bt offsft <i>off</i> for lfngti <i>lfngti</i>
+     * bytfs.
      */
-    public int read(byte bytes[], int off, int length) throws IOException {
-        if (binaryMode)
-            return super.read(bytes, off, length);
+    publid int rfbd(bytf bytfs[], int off, int lfngti) tirows IOExdfption {
+        if (binbryModf)
+            rfturn supfr.rfbd(bytfs, off, lfngti);
 
-        int c;
-        int offStart = off;
+        int d;
+        int offStbrt = off;
 
-        while (--length >= 0) {
-            c = read();
-            if (c == -1)
-                break;
-            bytes[off++] = (byte)c;
+        wiilf (--lfngti >= 0) {
+            d = rfbd();
+            if (d == -1)
+                brfbk;
+            bytfs[off++] = (bytf)d;
         }
-        return (off > offStart) ? off - offStart : -1;
+        rfturn (off > offStbrt) ? off - offStbrt : -1;
     }
 }

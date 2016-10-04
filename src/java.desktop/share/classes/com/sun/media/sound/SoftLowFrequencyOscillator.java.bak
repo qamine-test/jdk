@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * LFO control signal generator.
+ * LFO dontrol signbl gfnfrbtor.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftLowFrequencyOscillator implements SoftProcess {
+publid finbl dlbss SoftLowFrfqufndyOsdillbtor implfmfnts SoftProdfss {
 
-    private final int max_count = 10;
-    private int used_count = 0;
-    private final double[][] out = new double[max_count][1];
-    private final double[][] delay = new double[max_count][1];
-    private final double[][] delay2 = new double[max_count][1];
-    private final double[][] freq = new double[max_count][1];
-    private final int[] delay_counter = new int[max_count];
-    private final double[] sin_phase = new double[max_count];
-    private final double[] sin_stepfreq = new double[max_count];
-    private final double[] sin_step = new double[max_count];
-    private double control_time = 0;
-    private double sin_factor = 0;
-    private static final double PI2 = 2.0 * Math.PI;
+    privbtf finbl int mbx_dount = 10;
+    privbtf int usfd_dount = 0;
+    privbtf finbl doublf[][] out = nfw doublf[mbx_dount][1];
+    privbtf finbl doublf[][] dflby = nfw doublf[mbx_dount][1];
+    privbtf finbl doublf[][] dflby2 = nfw doublf[mbx_dount][1];
+    privbtf finbl doublf[][] frfq = nfw doublf[mbx_dount][1];
+    privbtf finbl int[] dflby_dountfr = nfw int[mbx_dount];
+    privbtf finbl doublf[] sin_pibsf = nfw doublf[mbx_dount];
+    privbtf finbl doublf[] sin_stfpfrfq = nfw doublf[mbx_dount];
+    privbtf finbl doublf[] sin_stfp = nfw doublf[mbx_dount];
+    privbtf doublf dontrol_timf = 0;
+    privbtf doublf sin_fbdtor = 0;
+    privbtf stbtid finbl doublf PI2 = 2.0 * Mbti.PI;
 
-    public SoftLowFrequencyOscillator() {
-        // If sin_step is 0 then sin_stepfreq must be -INF
-        for (int i = 0; i < sin_stepfreq.length; i++) {
-            sin_stepfreq[i] = Double.NEGATIVE_INFINITY;
+    publid SoftLowFrfqufndyOsdillbtor() {
+        // If sin_stfp is 0 tifn sin_stfpfrfq must bf -INF
+        for (int i = 0; i < sin_stfpfrfq.lfngti; i++) {
+            sin_stfpfrfq[i] = Doublf.NEGATIVE_INFINITY;
         }
     }
 
-    public void reset() {
-        for (int i = 0; i < used_count; i++) {
+    publid void rfsft() {
+        for (int i = 0; i < usfd_dount; i++) {
             out[i][0] = 0;
-            delay[i][0] = 0;
-            delay2[i][0] = 0;
-            freq[i][0] = 0;
-            delay_counter[i] = 0;
-            sin_phase[i] = 0;
-            // If sin_step is 0 then sin_stepfreq must be -INF
-            sin_stepfreq[i] = Double.NEGATIVE_INFINITY;
-            sin_step[i] = 0;
+            dflby[i][0] = 0;
+            dflby2[i][0] = 0;
+            frfq[i][0] = 0;
+            dflby_dountfr[i] = 0;
+            sin_pibsf[i] = 0;
+            // If sin_stfp is 0 tifn sin_stfpfrfq must bf -INF
+            sin_stfpfrfq[i] = Doublf.NEGATIVE_INFINITY;
+            sin_stfp[i] = 0;
         }
-        used_count = 0;
+        usfd_dount = 0;
     }
 
-    public void init(SoftSynthesizer synth) {
-        control_time = 1.0 / synth.getControlRate();
-        sin_factor = control_time * 2 * Math.PI;
-        for (int i = 0; i < used_count; i++) {
-            delay_counter[i] = (int)(Math.pow(2,
-                    this.delay[i][0] / 1200.0) / control_time);
-            delay_counter[i] += (int)(delay2[i][0] / (control_time * 1000));
+    publid void init(SoftSyntifsizfr synti) {
+        dontrol_timf = 1.0 / synti.gftControlRbtf();
+        sin_fbdtor = dontrol_timf * 2 * Mbti.PI;
+        for (int i = 0; i < usfd_dount; i++) {
+            dflby_dountfr[i] = (int)(Mbti.pow(2,
+                    tiis.dflby[i][0] / 1200.0) / dontrol_timf);
+            dflby_dountfr[i] += (int)(dflby2[i][0] / (dontrol_timf * 1000));
         }
-        processControlLogic();
+        prodfssControlLogid();
     }
 
-    public void processControlLogic() {
-        for (int i = 0; i < used_count; i++) {
-            if (delay_counter[i] > 0) {
-                delay_counter[i]--;
+    publid void prodfssControlLogid() {
+        for (int i = 0; i < usfd_dount; i++) {
+            if (dflby_dountfr[i] > 0) {
+                dflby_dountfr[i]--;
                 out[i][0] = 0.5;
-            } else {
-                double f = freq[i][0];
+            } flsf {
+                doublf f = frfq[i][0];
 
-                if (sin_stepfreq[i] != f) {
-                    sin_stepfreq[i] = f;
-                    double fr = 440.0 * Math.exp(
-                            (f - 6900.0) * (Math.log(2) / 1200.0));
-                    sin_step[i] = fr * sin_factor;
+                if (sin_stfpfrfq[i] != f) {
+                    sin_stfpfrfq[i] = f;
+                    doublf fr = 440.0 * Mbti.fxp(
+                            (f - 6900.0) * (Mbti.log(2) / 1200.0));
+                    sin_stfp[i] = fr * sin_fbdtor;
                 }
                 /*
-                double fr = 440.0 * Math.pow(2.0,
-                (freq[i][0] - 6900.0) / 1200.0);
-                sin_phase[i] += fr * sin_factor;
+                doublf fr = 440.0 * Mbti.pow(2.0,
+                (frfq[i][0] - 6900.0) / 1200.0);
+                sin_pibsf[i] += fr * sin_fbdtor;
                  */
                 /*
-                sin_phase[i] += sin_step[i];
-                while (sin_phase[i] > PI2)
-                sin_phase[i] -= PI2;
-                out[i][0] = 0.5 + Math.sin(sin_phase[i]) * 0.5;
+                sin_pibsf[i] += sin_stfp[i];
+                wiilf (sin_pibsf[i] > PI2)
+                sin_pibsf[i] -= PI2;
+                out[i][0] = 0.5 + Mbti.sin(sin_pibsf[i]) * 0.5;
                  */
-                double p = sin_phase[i];
-                p += sin_step[i];
-                while (p > PI2)
+                doublf p = sin_pibsf[i];
+                p += sin_stfp[i];
+                wiilf (p > PI2)
                     p -= PI2;
-                out[i][0] = 0.5 + Math.sin(p) * 0.5;
-                sin_phase[i] = p;
+                out[i][0] = 0.5 + Mbti.sin(p) * 0.5;
+                sin_pibsf[i] = p;
 
             }
         }
     }
 
-    public double[] get(int instance, String name) {
-        if (instance >= used_count)
-            used_count = instance + 1;
-        if (name == null)
-            return out[instance];
-        if (name.equals("delay"))
-            return delay[instance];
-        if (name.equals("delay2"))
-            return delay2[instance];
-        if (name.equals("freq"))
-            return freq[instance];
-        return null;
+    publid doublf[] gft(int instbndf, String nbmf) {
+        if (instbndf >= usfd_dount)
+            usfd_dount = instbndf + 1;
+        if (nbmf == null)
+            rfturn out[instbndf];
+        if (nbmf.fqubls("dflby"))
+            rfturn dflby[instbndf];
+        if (nbmf.fqubls("dflby2"))
+            rfturn dflby2[instbndf];
+        if (nbmf.fqubls("frfq"))
+            rfturn frfq[instbndf];
+        rfturn null;
     }
 }

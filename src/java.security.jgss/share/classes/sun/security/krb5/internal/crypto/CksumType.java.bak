@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.Config;
-import sun.security.krb5.Checksum;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.KrbException;
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.Cifdksum;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
 
-public abstract class CksumType {
+publid bbstrbdt dlbss CksumTypf {
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
 
-    public static CksumType getInstance(int cksumTypeConst)
-        throws KdcErrException {
-        CksumType cksumType = null;
-        String cksumTypeName = null;
-        switch (cksumTypeConst) {
-        case Checksum.CKSUMTYPE_CRC32:
-            cksumType = new Crc32CksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.Crc32CksumType";
-            break;
-        case Checksum.CKSUMTYPE_DES_MAC:
-            cksumType = new DesMacCksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.DesMacCksumType";
-            break;
-        case Checksum.CKSUMTYPE_DES_MAC_K:
-            cksumType = new DesMacKCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.DesMacKCksumType";
-            break;
-        case Checksum.CKSUMTYPE_RSA_MD5:
-            cksumType = new RsaMd5CksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.RsaMd5CksumType";
-            break;
-        case Checksum.CKSUMTYPE_RSA_MD5_DES:
-            cksumType = new RsaMd5DesCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.RsaMd5DesCksumType";
-            break;
+    publid stbtid CksumTypf gftInstbndf(int dksumTypfConst)
+        tirows KddErrExdfption {
+        CksumTypf dksumTypf = null;
+        String dksumTypfNbmf = null;
+        switdi (dksumTypfConst) {
+        dbsf Cifdksum.CKSUMTYPE_CRC32:
+            dksumTypf = nfw Crd32CksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.Crd32CksumTypf";
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_DES_MAC:
+            dksumTypf = nfw DfsMbdCksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.DfsMbdCksumTypf";
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_DES_MAC_K:
+            dksumTypf = nfw DfsMbdKCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.DfsMbdKCksumTypf";
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD5:
+            dksumTypf = nfw RsbMd5CksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd5CksumTypf";
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD5_DES:
+            dksumTypf = nfw RsbMd5DfsCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd5DfsCksumTypf";
+            brfbk;
 
-        case Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
-            cksumType = new HmacSha1Des3KdCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Des3KdCksumType";
-            break;
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
+            dksumTypf = nfw HmbdSib1Dfs3KdCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdSib1Dfs3KdCksumTypf";
+            brfbk;
 
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
-            cksumType = new HmacSha1Aes128CksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Aes128CksumType";
-            break;
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
-            cksumType = new HmacSha1Aes256CksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Aes256CksumType";
-            break;
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
+            dksumTypf = nfw HmbdSib1Afs128CksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdSib1Afs128CksumTypf";
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
+            dksumTypf = nfw HmbdSib1Afs256CksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdSib1Afs256CksumTypf";
+            brfbk;
 
-        case Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
-            cksumType = new HmacMd5ArcFourCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacMd5ArcFourCksumType";
-            break;
+        dbsf Cifdksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
+            dksumTypf = nfw HmbdMd5ArdFourCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdMd5ArdFourCksumTypf";
+            brfbk;
 
-            // currently we don't support MD4.
-        case Checksum.CKSUMTYPE_RSA_MD4_DES_K:
-            // cksumType = new RsaMd4DesKCksumType();
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4DesKCksumType";
-        case Checksum.CKSUMTYPE_RSA_MD4:
-            // cksumType = new RsaMd4CksumType();
-            // linux box support rsamd4, how to solve conflict?
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4CksumType";
-        case Checksum.CKSUMTYPE_RSA_MD4_DES:
-            // cksumType = new RsaMd4DesCksumType();
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4DesCksumType";
+            // durrfntly wf don't support MD4.
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4_DES_K:
+            // dksumTypf = nfw RsbMd4DfsKCksumTypf();
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4DfsKCksumTypf";
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4:
+            // dksumTypf = nfw RsbMd4CksumTypf();
+            // linux box support rsbmd4, iow to solvf donflidt?
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4CksumTypf";
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4_DES:
+            // dksumTypf = nfw RsbMd4DfsCksumTypf();
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4DfsCksumTypf";
 
-        default:
-            throw new KdcErrException(Krb5.KDC_ERR_SUMTYPE_NOSUPP);
+        dffbult:
+            tirow nfw KddErrExdfption(Krb5.KDC_ERR_SUMTYPE_NOSUPP);
         }
         if (DEBUG) {
-            System.out.println(">>> CksumType: " + cksumTypeName);
+            Systfm.out.println(">>> CksumTypf: " + dksumTypfNbmf);
         }
-        return cksumType;
+        rfturn dksumTypf;
     }
 
 
     /**
-     * Returns default checksum type.
+     * Rfturns dffbult difdksum typf.
      */
-    public static CksumType getInstance() throws KdcErrException {
-        // this method provided for Kerberos applications.
-        int cksumType = Checksum.CKSUMTYPE_RSA_MD5; // default
+    publid stbtid CksumTypf gftInstbndf() tirows KddErrExdfption {
+        // tiis mftiod providfd for Kfrbfros bpplidbtions.
+        int dksumTypf = Cifdksum.CKSUMTYPE_RSA_MD5; // dffbult
         try {
-            Config c = Config.getInstance();
-            if ((cksumType = (Config.getType(c.get("libdefaults",
-                    "ap_req_checksum_type")))) == - 1) {
-                if ((cksumType = Config.getType(c.get("libdefaults",
-                        "checksum_type"))) == -1) {
-                    cksumType = Checksum.CKSUMTYPE_RSA_MD5; // default
+            Config d = Config.gftInstbndf();
+            if ((dksumTypf = (Config.gftTypf(d.gft("libdffbults",
+                    "bp_rfq_difdksum_typf")))) == - 1) {
+                if ((dksumTypf = Config.gftTypf(d.gft("libdffbults",
+                        "difdksum_typf"))) == -1) {
+                    dksumTypf = Cifdksum.CKSUMTYPE_RSA_MD5; // dffbult
                 }
             }
-        } catch (KrbException e) {
+        } dbtdi (KrbExdfption f) {
         }
-        return getInstance(cksumType);
+        rfturn gftInstbndf(dksumTypf);
     }
 
-    public abstract int confounderSize();
+    publid bbstrbdt int donfoundfrSizf();
 
-    public abstract int cksumType();
+    publid bbstrbdt int dksumTypf();
 
-    public abstract boolean isSafe();
+    publid bbstrbdt boolfbn isSbff();
 
-    public abstract int cksumSize();
+    publid bbstrbdt int dksumSizf();
 
-    public abstract int keyType();
+    publid bbstrbdt int kfyTypf();
 
-    public abstract int keySize();
+    publid bbstrbdt int kfySizf();
 
-    public abstract byte[] calculateChecksum(byte[] data, int size)
-        throws KrbCryptoException;
+    publid bbstrbdt bytf[] dbldulbtfCifdksum(bytf[] dbtb, int sizf)
+        tirows KrbCryptoExdfption;
 
-    public abstract byte[] calculateKeyedChecksum(byte[] data, int size,
-        byte[] key, int usage) throws KrbCryptoException;
+    publid bbstrbdt bytf[] dbldulbtfKfyfdCifdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, int usbgf) tirows KrbCryptoExdfption;
 
-    public abstract boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException;
+    publid bbstrbdt boolfbn vfrifyKfyfdCifdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, bytf[] difdksum, int usbgf) tirows KrbCryptoExdfption;
 
-    public static boolean isChecksumEqual(byte[] cksum1, byte[] cksum2) {
-        if (cksum1 == cksum2)
-            return true;
-        if ((cksum1 == null && cksum2 != null) ||
-            (cksum1 != null && cksum2 == null))
-            return false;
-        if (cksum1.length != cksum2.length)
-            return false;
-        for (int i = 0; i < cksum1.length; i++)
-            if (cksum1[i] != cksum2[i])
-                return false;
-        return true;
+    publid stbtid boolfbn isCifdksumEqubl(bytf[] dksum1, bytf[] dksum2) {
+        if (dksum1 == dksum2)
+            rfturn truf;
+        if ((dksum1 == null && dksum2 != null) ||
+            (dksum1 != null && dksum2 == null))
+            rfturn fblsf;
+        if (dksum1.lfngti != dksum2.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < dksum1.lfngti; i++)
+            if (dksum1[i] != dksum2[i])
+                rfturn fblsf;
+        rfturn truf;
     }
 
 }

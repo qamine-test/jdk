@@ -1,0 +1,663 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+/**
+ * Thf <dodf>GridBbgConstrbints</dodf> dlbss spfdififs donstrbints
+ * for domponfnts thbt brf lbid out using thf
+ * <dodf>GridBbgLbyout</dodf> dlbss.
+ *
+ * @buthor Doug Stfin
+ * @buthor Bill Spitzbk (orignibl NfWS &bmp; OLIT implfmfntbtion)
+ * @sff jbvb.bwt.GridBbgLbyout
+ * @sindf 1.0
+ */
+publid dlbss GridBbgConstrbints implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
+
+    /**
+     * Spfdififs thbt this domponfnt is thf nfxt-to-lbst domponfnt in its
+     * dolumn or row (<dodf>gridwidth</dodf>, <dodf>gridhfight</dodf>),
+     * or thbt this domponfnt bf plbdfd nfxt to thf prfviously bddfd
+     * domponfnt (<dodf>gridx</dodf>, <dodf>gridy</dodf>).
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridwidth
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridhfight
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridx
+     * @sff      jbvb.bwt.GridBbgConstrbints#gridy
+     */
+    publid stbtid finbl int RELATIVE = -1;
+
+    /**
+     * Spfdififs thbt this domponfnt is thf
+     * lbst domponfnt in its dolumn or row.
+     */
+    publid stbtid finbl int REMAINDER = 0;
+
+    /**
+     * Do not rfsizf thf domponfnt.
+     */
+    publid stbtid finbl int NONE = 0;
+
+    /**
+     * Rfsizf thf domponfnt both horizontblly bnd vfrtidblly.
+     */
+    publid stbtid finbl int BOTH = 1;
+
+    /**
+     * Rfsizf thf domponfnt horizontblly but not vfrtidblly.
+     */
+    publid stbtid finbl int HORIZONTAL = 2;
+
+    /**
+     * Rfsizf thf domponfnt vfrtidblly but not horizontblly.
+     */
+    publid stbtid finbl int VERTICAL = 3;
+
+    /**
+     * Put thf domponfnt in thf dfntfr of its displby brfb.
+     */
+    publid stbtid finbl int CENTER = 10;
+
+    /**
+     * Put thf domponfnt bt thf top of its displby brfb,
+     * dfntfrfd horizontblly.
+     */
+    publid stbtid finbl int NORTH = 11;
+
+    /**
+     * Put thf domponfnt bt thf top-right dornfr of its displby brfb.
+     */
+    publid stbtid finbl int NORTHEAST = 12;
+
+    /**
+     * Put thf domponfnt on thf right sidf of its displby brfb,
+     * dfntfrfd vfrtidblly.
+     */
+    publid stbtid finbl int EAST = 13;
+
+    /**
+     * Put thf domponfnt bt thf bottom-right dornfr of its displby brfb.
+     */
+    publid stbtid finbl int SOUTHEAST = 14;
+
+    /**
+     * Put thf domponfnt bt thf bottom of its displby brfb, dfntfrfd
+     * horizontblly.
+     */
+    publid stbtid finbl int SOUTH = 15;
+
+    /**
+     * Put thf domponfnt bt thf bottom-lfft dornfr of its displby brfb.
+     */
+    publid stbtid finbl int SOUTHWEST = 16;
+
+    /**
+     * Put thf domponfnt on thf lfft sidf of its displby brfb,
+     * dfntfrfd vfrtidblly.
+     */
+    publid stbtid finbl int WEST = 17;
+
+    /**
+     * Put thf domponfnt bt thf top-lfft dornfr of its displby brfb.
+     */
+    publid stbtid finbl int NORTHWEST = 18;
+
+    /**
+     * Plbdf thf domponfnt dfntfrfd blong thf fdgf of its displby brfb
+     * bssodibtfd with thf stbrt of b pbgf for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTH for horizontbl
+     * orifntbtions.
+     */
+    publid stbtid finbl int PAGE_START = 19;
+
+    /**
+     * Plbdf thf domponfnt dfntfrfd blong thf fdgf of its displby brfb
+     * bssodibtfd with thf fnd of b pbgf for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTH for horizontbl
+     * orifntbtions.
+     */
+    publid stbtid finbl int PAGE_END = 20;
+
+    /**
+     * Plbdf thf domponfnt dfntfrfd blong thf fdgf of its displby brfb whfrf
+     * linfs of tfxt would normblly bfgin for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to WEST for horizontbl,
+     * lfft-to-right orifntbtions bnd EAST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int LINE_START = 21;
+
+    /**
+     * Plbdf thf domponfnt dfntfrfd blong thf fdgf of its displby brfb whfrf
+     * linfs of tfxt would normblly fnd for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to EAST for horizontbl,
+     * lfft-to-right orifntbtions bnd WEST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int LINE_END = 22;
+
+    /**
+     * Plbdf thf domponfnt in thf dornfr of its displby brfb whfrf
+     * thf first linf of tfxt on b pbgf would normblly bfgin for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTHWEST for horizontbl,
+     * lfft-to-right orifntbtions bnd NORTHEAST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int FIRST_LINE_START = 23;
+
+    /**
+     * Plbdf thf domponfnt in thf dornfr of its displby brfb whfrf
+     * thf first linf of tfxt on b pbgf would normblly fnd for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to NORTHEAST for horizontbl,
+     * lfft-to-right orifntbtions bnd NORTHWEST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int FIRST_LINE_END = 24;
+
+    /**
+     * Plbdf thf domponfnt in thf dornfr of its displby brfb whfrf
+     * thf lbst linf of tfxt on b pbgf would normblly stbrt for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTHWEST for horizontbl,
+     * lfft-to-right orifntbtions bnd SOUTHEAST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int LAST_LINE_START = 25;
+
+    /**
+     * Plbdf thf domponfnt in thf dornfr of its displby brfb whfrf
+     * thf lbst linf of tfxt on b pbgf would normblly fnd for thf durrfnt
+     * {@dodf ComponfntOrifntbtion}.  Equbl to SOUTHEAST for horizontbl,
+     * lfft-to-right orifntbtions bnd SOUTHWEST for horizontbl, right-to-lfft
+     * orifntbtions.
+     */
+    publid stbtid finbl int LAST_LINE_END = 26;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly dfntfrfd bnd
+     * vfrtidblly blignfd blong thf bbsflinf of thf prfvbiling row.
+     * If thf domponfnt dofs not hbvf b bbsflinf it will bf vfrtidblly
+     * dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BASELINE = 0x100;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * lfbding fdgf.  For domponfnts with b lfft-to-right orifntbtion,
+     * thf lfbding fdgf is thf lfft fdgf.  Vfrtidblly thf domponfnt is
+     * blignfd blong thf bbsflinf of thf prfvbiling row.  If thf
+     * domponfnt dofs not hbvf b bbsflinf it will bf vfrtidblly
+     * dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BASELINE_LEADING = 0x200;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * trbiling fdgf.  For domponfnts with b lfft-to-right
+     * orifntbtion, thf trbiling fdgf is thf right fdgf.  Vfrtidblly
+     * thf domponfnt is blignfd blong thf bbsflinf of thf prfvbiling
+     * row.  If thf domponfnt dofs not hbvf b bbsflinf it will bf
+     * vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BASELINE_TRAILING = 0x300;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly dfntfrfd.  Vfrtidblly
+     * thf domponfnt is positionfd so thbt its bottom fdgf toudhfs
+     * thf bbsflinf of thf stbrting row.  If thf stbrting row dofs not
+     * hbvf b bbsflinf it will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int ABOVE_BASELINE = 0x400;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * lfbding fdgf.  For domponfnts with b lfft-to-right orifntbtion,
+     * thf lfbding fdgf is thf lfft fdgf.  Vfrtidblly thf domponfnt is
+     * positionfd so thbt its bottom fdgf toudhfs thf bbsflinf of thf
+     * stbrting row.  If thf stbrting row dofs not hbvf b bbsflinf it
+     * will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int ABOVE_BASELINE_LEADING = 0x500;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * trbiling fdgf.  For domponfnts with b lfft-to-right
+     * orifntbtion, thf trbiling fdgf is thf right fdgf.  Vfrtidblly
+     * thf domponfnt is positionfd so thbt its bottom fdgf toudhfs
+     * thf bbsflinf of thf stbrting row.  If thf stbrting row dofs not
+     * hbvf b bbsflinf it will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int ABOVE_BASELINE_TRAILING = 0x600;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly dfntfrfd.  Vfrtidblly
+     * thf domponfnt is positionfd so thbt its top fdgf toudhfs thf
+     * bbsflinf of thf stbrting row.  If thf stbrting row dofs not
+     * hbvf b bbsflinf it will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BELOW_BASELINE = 0x700;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * lfbding fdgf.  For domponfnts with b lfft-to-right orifntbtion,
+     * thf lfbding fdgf is thf lfft fdgf.  Vfrtidblly thf domponfnt is
+     * positionfd so thbt its top fdgf toudhfs thf bbsflinf of thf
+     * stbrting row.  If thf stbrting row dofs not hbvf b bbsflinf it
+     * will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BELOW_BASELINE_LEADING = 0x800;
+
+    /**
+     * Possiblf vbluf for thf <dodf>bndhor</dodf> fifld.  Spfdififs
+     * thbt thf domponfnt should bf horizontblly plbdfd blong thf
+     * trbiling fdgf.  For domponfnts with b lfft-to-right
+     * orifntbtion, thf trbiling fdgf is thf right fdgf.  Vfrtidblly
+     * thf domponfnt is positionfd so thbt its top fdgf toudhfs thf
+     * bbsflinf of thf stbrting row.  If thf stbrting row dofs not
+     * hbvf b bbsflinf it will bf vfrtidblly dfntfrfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int BELOW_BASELINE_TRAILING = 0x900;
+
+    /**
+     * Spfdififs thf dfll dontbining thf lfbding fdgf of thf domponfnt's
+     * displby brfb, whfrf thf first dfll in b row hbs <dodf>gridx=0</dodf>.
+     * Thf lfbding fdgf of b domponfnt's displby brfb is its lfft fdgf for
+     * b horizontbl, lfft-to-right dontbinfr bnd its right fdgf for b
+     * horizontbl, right-to-lfft dontbinfr.
+     * Thf vbluf
+     * <dodf>RELATIVE</dodf> spfdififs thbt thf domponfnt bf plbdfd
+     * immfdibtfly following thf domponfnt thbt wbs bddfd to thf dontbinfr
+     * just bfforf this domponfnt wbs bddfd.
+     * <p>
+     * Thf dffbult vbluf is <dodf>RELATIVE</dodf>.
+     * <dodf>gridx</dodf> should bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridy
+     * @sff jbvb.bwt.ComponfntOrifntbtion
+     */
+    publid int gridx;
+
+    /**
+     * Spfdififs thf dfll bt thf top of thf domponfnt's displby brfb,
+     * whfrf thf topmost dfll hbs <dodf>gridy=0</dodf>. Thf vbluf
+     * <dodf>RELATIVE</dodf> spfdififs thbt thf domponfnt bf plbdfd just
+     * bflow thf domponfnt thbt wbs bddfd to thf dontbinfr just bfforf
+     * this domponfnt wbs bddfd.
+     * <p>
+     * Thf dffbult vbluf is <dodf>RELATIVE</dodf>.
+     * <dodf>gridy</dodf> should bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridx
+     */
+    publid int gridy;
+
+    /**
+     * Spfdififs thf numbfr of dflls in b row for thf domponfnt's
+     * displby brfb.
+     * <p>
+     * Usf <dodf>REMAINDER</dodf> to spfdify thbt thf domponfnt's
+     * displby brfb will bf from <dodf>gridx</dodf> to thf lbst
+     * dfll in thf row.
+     * Usf <dodf>RELATIVE</dodf> to spfdify thbt thf domponfnt's
+     * displby brfb will bf from <dodf>gridx</dodf> to thf nfxt
+     * to thf lbst onf in its row.
+     * <p>
+     * <dodf>gridwidth</dodf> should bf non-nfgbtivf bnd thf dffbult
+     * vbluf is 1.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridhfight
+     */
+    publid int gridwidth;
+
+    /**
+     * Spfdififs thf numbfr of dflls in b dolumn for thf domponfnt's
+     * displby brfb.
+     * <p>
+     * Usf <dodf>REMAINDER</dodf> to spfdify thbt thf domponfnt's
+     * displby brfb will bf from <dodf>gridy</dodf> to thf lbst
+     * dfll in thf dolumn.
+     * Usf <dodf>RELATIVE</dodf> to spfdify thbt thf domponfnt's
+     * displby brfb will bf from <dodf>gridy</dodf> to thf nfxt
+     * to thf lbst onf in its dolumn.
+     * <p>
+     * <dodf>gridhfight</dodf> should bf b non-nfgbtivf vbluf bnd thf
+     * dffbult vbluf is 1.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#gridwidth
+     */
+    publid int gridhfight;
+
+    /**
+     * Spfdififs how to distributf fxtrb horizontbl spbdf.
+     * <p>
+     * Thf grid bbg lbyout mbnbgfr dbldulbtfs thf wfight of b dolumn to
+     * bf thf mbximum <dodf>wfightx</dodf> of bll thf domponfnts in b
+     * dolumn. If thf rfsulting lbyout is smbllfr horizontblly thbn thf brfb
+     * it nffds to fill, thf fxtrb spbdf is distributfd to fbdh dolumn in
+     * proportion to its wfight. A dolumn thbt hbs b wfight of zfro rfdfivfs
+     * no fxtrb spbdf.
+     * <p>
+     * If bll thf wfights brf zfro, bll thf fxtrb spbdf bppfbrs bftwffn
+     * thf grids of thf dfll bnd thf lfft bnd right fdgfs.
+     * <p>
+     * Thf dffbult vbluf of this fifld is <dodf>0</dodf>.
+     * <dodf>wfightx</dodf> should bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#wfighty
+     */
+    publid doublf wfightx;
+
+    /**
+     * Spfdififs how to distributf fxtrb vfrtidbl spbdf.
+     * <p>
+     * Thf grid bbg lbyout mbnbgfr dbldulbtfs thf wfight of b row to bf
+     * thf mbximum <dodf>wfighty</dodf> of bll thf domponfnts in b row.
+     * If thf rfsulting lbyout is smbllfr vfrtidblly thbn thf brfb it
+     * nffds to fill, thf fxtrb spbdf is distributfd to fbdh row in
+     * proportion to its wfight. A row thbt hbs b wfight of zfro rfdfivfs no
+     * fxtrb spbdf.
+     * <p>
+     * If bll thf wfights brf zfro, bll thf fxtrb spbdf bppfbrs bftwffn
+     * thf grids of thf dfll bnd thf top bnd bottom fdgfs.
+     * <p>
+     * Thf dffbult vbluf of this fifld is <dodf>0</dodf>.
+     * <dodf>wfighty</dodf> should bf b non-nfgbtivf vbluf.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#wfightx
+     */
+    publid doublf wfighty;
+
+    /**
+     * This fifld is usfd whfn thf domponfnt is smbllfr thbn its
+     * displby brfb. It dftfrminfs whfrf, within thf displby brfb, to
+     * plbdf thf domponfnt.
+     * <p> Thfrf brf thrff kinds of possiblf vblufs: orifntbtion
+     * rflbtivf, bbsflinf rflbtivf bnd bbsolutf.  Orifntbtion rflbtivf
+     * vblufs brf intfrprftfd rflbtivf to thf dontbinfr's domponfnt
+     * orifntbtion propfrty, bbsflinf rflbtivf vblufs brf intfrprftfd
+     * rflbtivf to thf bbsflinf bnd bbsolutf vblufs brf not.  Thf
+     * bbsolutf vblufs brf:
+     * <dodf>CENTER</dodf>, <dodf>NORTH</dodf>, <dodf>NORTHEAST</dodf>,
+     * <dodf>EAST</dodf>, <dodf>SOUTHEAST</dodf>, <dodf>SOUTH</dodf>,
+     * <dodf>SOUTHWEST</dodf>, <dodf>WEST</dodf>, bnd <dodf>NORTHWEST</dodf>.
+     * Thf orifntbtion rflbtivf vblufs brf: <dodf>PAGE_START</dodf>,
+     * <dodf>PAGE_END</dodf>,
+     * <dodf>LINE_START</dodf>, <dodf>LINE_END</dodf>,
+     * <dodf>FIRST_LINE_START</dodf>, <dodf>FIRST_LINE_END</dodf>,
+     * <dodf>LAST_LINE_START</dodf> bnd <dodf>LAST_LINE_END</dodf>.  Thf
+     * bbsflinf rflbtivf vblufs brf:
+     * <dodf>BASELINE</dodf>, <dodf>BASELINE_LEADING</dodf>,
+     * <dodf>BASELINE_TRAILING</dodf>,
+     * <dodf>ABOVE_BASELINE</dodf>, <dodf>ABOVE_BASELINE_LEADING</dodf>,
+     * <dodf>ABOVE_BASELINE_TRAILING</dodf>,
+     * <dodf>BELOW_BASELINE</dodf>, <dodf>BELOW_BASELINE_LEADING</dodf>,
+     * bnd <dodf>BELOW_BASELINE_TRAILING</dodf>.
+     * Thf dffbult vbluf is <dodf>CENTER</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.ComponfntOrifntbtion
+     */
+    publid int bndhor;
+
+    /**
+     * This fifld is usfd whfn thf domponfnt's displby brfb is lbrgfr
+     * thbn thf domponfnt's rfqufstfd sizf. It dftfrminfs whfthfr to
+     * rfsizf thf domponfnt, bnd if so, how.
+     * <p>
+     * Thf following vblufs brf vblid for <dodf>fill</dodf>:
+     *
+     * <ul>
+     * <li>
+     * <dodf>NONE</dodf>: Do not rfsizf thf domponfnt.
+     * <li>
+     * <dodf>HORIZONTAL</dodf>: Mbkf thf domponfnt widf fnough to fill
+     *         its displby brfb horizontblly, but do not dhbngf its hfight.
+     * <li>
+     * <dodf>VERTICAL</dodf>: Mbkf thf domponfnt tbll fnough to fill its
+     *         displby brfb vfrtidblly, but do not dhbngf its width.
+     * <li>
+     * <dodf>BOTH</dodf>: Mbkf thf domponfnt fill its displby brfb
+     *         fntirfly.
+     * </ul>
+     * <p>
+     * Thf dffbult vbluf is <dodf>NONE</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid int fill;
+
+    /**
+     * This fifld spfdififs thf fxtfrnbl pbdding of thf domponfnt, thf
+     * minimum bmount of spbdf bftwffn thf domponfnt bnd thf fdgfs of its
+     * displby brfb.
+     * <p>
+     * Thf dffbult vbluf is <dodf>nfw Insfts(0, 0, 0, 0)</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid Insfts insfts;
+
+    /**
+     * This fifld spfdififs thf intfrnbl pbdding of thf domponfnt, how mudh
+     * spbdf to bdd to thf minimum width of thf domponfnt. Thf width of
+     * thf domponfnt is bt lfbst its minimum width plus
+     * <dodf>ipbdx</dodf> pixfls.
+     * <p>
+     * Thf dffbult vbluf is <dodf>0</dodf>.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdy
+     */
+    publid int ipbdx;
+
+    /**
+     * This fifld spfdififs thf intfrnbl pbdding, thbt is, how mudh
+     * spbdf to bdd to thf minimum hfight of thf domponfnt. Thf hfight of
+     * thf domponfnt is bt lfbst its minimum hfight plus
+     * <dodf>ipbdy</dodf> pixfls.
+     * <p>
+     * Thf dffbult vbluf is 0.
+     * @sfribl
+     * @sff #dlonf()
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdx
+     */
+    publid int ipbdy;
+
+    /**
+     * Tfmporbry plbdf holdfr for thf x doordinbtf.
+     * @sfribl
+     */
+    int tfmpX;
+    /**
+     * Tfmporbry plbdf holdfr for thf y doordinbtf.
+     * @sfribl
+     */
+    int tfmpY;
+    /**
+     * Tfmporbry plbdf holdfr for thf Width of thf domponfnt.
+     * @sfribl
+     */
+    int tfmpWidth;
+    /**
+     * Tfmporbry plbdf holdfr for thf Hfight of thf domponfnt.
+     * @sfribl
+     */
+    int tfmpHfight;
+    /**
+     * Thf minimum width of thf domponfnt.  It is usfd to dbldulbtf
+     * <dodf>ipbdy</dodf>, whfrf thf dffbult will bf 0.
+     * @sfribl
+     * @sff #ipbdy
+     */
+    int minWidth;
+    /**
+     * Thf minimum hfight of thf domponfnt. It is usfd to dbldulbtf
+     * <dodf>ipbdx</dodf>, whfrf thf dffbult will bf 0.
+     * @sfribl
+     * @sff #ipbdx
+     */
+    int minHfight;
+
+    // Thf following fiflds brf only usfd if thf bndhor is
+    // onf of BASELINE, BASELINE_LEADING or BASELINE_TRAILING.
+    // bsdfnt bnd dfsdfnt indludf thf insfts bnd ipbdy vblufs.
+    trbnsifnt int bsdfnt;
+    trbnsifnt int dfsdfnt;
+    trbnsifnt Componfnt.BbsflinfRfsizfBfhbvior bbsflinfRfsizfBfhbvior;
+    // Thf folllowing two fiflds brf usfd if thf bbsflinf typf is
+    // CENTER_OFFSET.
+    // dfntfrPbdding is fithfr 0 or 1 bnd indidbtfs if
+    // thf hfight nffds to bf pbddfd by onf whfn dbldulbting whfrf thf
+    // bbsflinf lbnds
+    trbnsifnt int dfntfrPbdding;
+    // Whfrf thf bbsflinf lbnds rflbtivf to thf dfntfr of thf domponfnt.
+    trbnsifnt int dfntfrOffsft;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1000070633030801713L;
+
+    /**
+     * Crfbtfs b <dodf>GridBbgConstrbint</dodf> objfdt with
+     * bll of its fiflds sft to thfir dffbult vbluf.
+     */
+    publid GridBbgConstrbints () {
+        gridx = RELATIVE;
+        gridy = RELATIVE;
+        gridwidth = 1;
+        gridhfight = 1;
+
+        wfightx = 0;
+        wfighty = 0;
+        bndhor = CENTER;
+        fill = NONE;
+
+        insfts = nfw Insfts(0, 0, 0, 0);
+        ipbdx = 0;
+        ipbdy = 0;
+    }
+
+    /**
+     * Crfbtfs b <dodf>GridBbgConstrbints</dodf> objfdt with
+     * bll of its fiflds sft to thf pbssfd-in brgumfnts.
+     *
+     * Notf: Bfdbusf thf usf of this donstrudtor hindfrs rfbdbbility
+     * of sourdf dodf, this donstrudtor should only bf usfd by
+     * butombtid sourdf dodf gfnfrbtion tools.
+     *
+     * @pbrbm gridx     Thf initibl gridx vbluf.
+     * @pbrbm gridy     Thf initibl gridy vbluf.
+     * @pbrbm gridwidth Thf initibl gridwidth vbluf.
+     * @pbrbm gridhfight        Thf initibl gridhfight vbluf.
+     * @pbrbm wfightx   Thf initibl wfightx vbluf.
+     * @pbrbm wfighty   Thf initibl wfighty vbluf.
+     * @pbrbm bndhor    Thf initibl bndhor vbluf.
+     * @pbrbm fill      Thf initibl fill vbluf.
+     * @pbrbm insfts    Thf initibl insfts vbluf.
+     * @pbrbm ipbdx     Thf initibl ipbdx vbluf.
+     * @pbrbm ipbdy     Thf initibl ipbdy vbluf.
+     *
+     * @sff jbvb.bwt.GridBbgConstrbints#gridx
+     * @sff jbvb.bwt.GridBbgConstrbints#gridy
+     * @sff jbvb.bwt.GridBbgConstrbints#gridwidth
+     * @sff jbvb.bwt.GridBbgConstrbints#gridhfight
+     * @sff jbvb.bwt.GridBbgConstrbints#wfightx
+     * @sff jbvb.bwt.GridBbgConstrbints#wfighty
+     * @sff jbvb.bwt.GridBbgConstrbints#bndhor
+     * @sff jbvb.bwt.GridBbgConstrbints#fill
+     * @sff jbvb.bwt.GridBbgConstrbints#insfts
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdx
+     * @sff jbvb.bwt.GridBbgConstrbints#ipbdy
+     *
+     * @sindf 1.2
+     */
+    publid GridBbgConstrbints(int gridx, int gridy,
+                              int gridwidth, int gridhfight,
+                              doublf wfightx, doublf wfighty,
+                              int bndhor, int fill,
+                              Insfts insfts, int ipbdx, int ipbdy) {
+        this.gridx = gridx;
+        this.gridy = gridy;
+        this.gridwidth = gridwidth;
+        this.gridhfight = gridhfight;
+        this.fill = fill;
+        this.ipbdx = ipbdx;
+        this.ipbdy = ipbdy;
+        this.insfts = insfts;
+        this.bndhor  = bndhor;
+        this.wfightx = wfightx;
+        this.wfighty = wfighty;
+    }
+
+    /**
+     * Crfbtfs b dopy of this grid bbg donstrbint.
+     * @rfturn     b dopy of this grid bbg donstrbint
+     */
+    publid Objfdt dlonf () {
+        try {
+            GridBbgConstrbints d = (GridBbgConstrbints)supfr.dlonf();
+            d.insfts = (Insfts)insfts.dlonf();
+            rfturn d;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    boolfbn isVfrtidbllyRfsizbblf() {
+        rfturn (fill == BOTH || fill == VERTICAL);
+    }
+}

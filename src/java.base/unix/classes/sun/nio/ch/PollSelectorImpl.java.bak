@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
-import sun.misc.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
 
 
 /**
- * An implementation of Selector for Solaris.
+ * An implfmfntbtion of Sflfdtor for Solbris.
  */
 
-class PollSelectorImpl
-    extends AbstractPollSelectorImpl
+dlbss PollSflfdtorImpl
+    fxtfnds AbstrbdtPollSflfdtorImpl
 {
 
-    // File descriptors used for interrupt
-    private int fd0;
-    private int fd1;
+    // Filf dfsdriptors usfd for intfrrupt
+    privbtf int fd0;
+    privbtf int fd1;
 
-    // Lock for interrupt triggering and clearing
-    private Object interruptLock = new Object();
-    private boolean interruptTriggered = false;
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf boolfbn intfrruptTriggfrfd = fblsf;
 
     /**
-     * Package private constructor called by factory method in
-     * the abstract superclass Selector.
+     * Pbdkbgf privbtf donstrudtor dbllfd by fbdtory mftiod in
+     * tif bbstrbdt supfrdlbss Sflfdtor.
      */
-    PollSelectorImpl(SelectorProvider sp) {
-        super(sp, 1, 1);
-        long pipeFds = IOUtil.makePipe(false);
-        fd0 = (int) (pipeFds >>> 32);
-        fd1 = (int) pipeFds;
-        pollWrapper = new PollArrayWrapper(INIT_CAP);
-        pollWrapper.initInterrupt(fd0, fd1);
-        channelArray = new SelectionKeyImpl[INIT_CAP];
+    PollSflfdtorImpl(SflfdtorProvidfr sp) {
+        supfr(sp, 1, 1);
+        long pipfFds = IOUtil.mbkfPipf(fblsf);
+        fd0 = (int) (pipfFds >>> 32);
+        fd1 = (int) pipfFds;
+        pollWrbppfr = nfw PollArrbyWrbppfr(INIT_CAP);
+        pollWrbppfr.initIntfrrupt(fd0, fd1);
+        dibnnflArrby = nfw SflfdtionKfyImpl[INIT_CAP];
     }
 
-    protected int doSelect(long timeout)
-        throws IOException
+    protfdtfd int doSflfdt(long timfout)
+        tirows IOExdfption
     {
-        if (channelArray == null)
-            throw new ClosedSelectorException();
-        processDeregisterQueue();
+        if (dibnnflArrby == null)
+            tirow nfw ClosfdSflfdtorExdfption();
+        prodfssDfrfgistfrQufuf();
         try {
-            begin();
-            pollWrapper.poll(totalChannels, 0, timeout);
-        } finally {
-            end();
+            bfgin();
+            pollWrbppfr.poll(totblCibnnfls, 0, timfout);
+        } finblly {
+            fnd();
         }
-        processDeregisterQueue();
-        int numKeysUpdated = updateSelectedKeys();
-        if (pollWrapper.getReventOps(0) != 0) {
-            // Clear the wakeup pipe
-            pollWrapper.putReventOps(0, 0);
-            synchronized (interruptLock) {
-                IOUtil.drain(fd0);
-                interruptTriggered = false;
+        prodfssDfrfgistfrQufuf();
+        int numKfysUpdbtfd = updbtfSflfdtfdKfys();
+        if (pollWrbppfr.gftRfvfntOps(0) != 0) {
+            // Clfbr tif wbkfup pipf
+            pollWrbppfr.putRfvfntOps(0, 0);
+            syndironizfd (intfrruptLodk) {
+                IOUtil.drbin(fd0);
+                intfrruptTriggfrfd = fblsf;
             }
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
-    protected void implCloseInterrupt() throws IOException {
-        // prevent further wakeup
-        synchronized (interruptLock) {
-            interruptTriggered = true;
+    protfdtfd void implClosfIntfrrupt() tirows IOExdfption {
+        // prfvfnt furtifr wbkfup
+        syndironizfd (intfrruptLodk) {
+            intfrruptTriggfrfd = truf;
         }
-        FileDispatcherImpl.closeIntFD(fd0);
-        FileDispatcherImpl.closeIntFD(fd1);
+        FilfDispbtdifrImpl.dlosfIntFD(fd0);
+        FilfDispbtdifrImpl.dlosfIntFD(fd1);
         fd0 = -1;
         fd1 = -1;
-        pollWrapper.release(0);
+        pollWrbppfr.rflfbsf(0);
     }
 
-    public Selector wakeup() {
-        synchronized (interruptLock) {
-            if (!interruptTriggered) {
-                pollWrapper.interrupt();
-                interruptTriggered = true;
+    publid Sflfdtor wbkfup() {
+        syndironizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                pollWrbppfr.intfrrupt();
+                intfrruptTriggfrfd = truf;
             }
         }
-        return this;
+        rfturn tiis;
     }
 
 }

@@ -1,0 +1,286 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.jbr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.nio.filf.StbndbrdCopyOption;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.util.zip.ZipFilf;
+import jbvb.util.zip.ZipEntry;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import sun.nft.www.PbrsfUtil;
+
+/* URL jbr filf is b dommon JbrFilf subtypf usfd for JbrURLConnfdtion */
+publid dlbss URLJbrFilf fxtfnds JbrFilf {
+
+    /*
+     * Intfrfbdf to bf bblf to dbll rftrifvf() in plugin if
+     * this vbribblf is sft.
+     */
+    privbtf stbtid URLJbrFilfCbllBbdk dbllbbdk = null;
+
+    /* Controllfr of thf Jbr Filf's dlosing */
+    privbtf URLJbrFilfClosfControllfr dlosfControllfr = null;
+
+    privbtf stbtid int BUF_SIZE = 2048;
+
+    privbtf Mbniffst supfrMbn;
+    privbtf Attributfs supfrAttr;
+    privbtf Mbp<String, Attributfs> supfrEntrifs;
+
+    stbtid JbrFilf gftJbrFilf(URL url) throws IOExdfption {
+        rfturn gftJbrFilf(url, null);
+    }
+
+    stbtid JbrFilf gftJbrFilf(URL url, URLJbrFilfClosfControllfr dlosfControllfr) throws IOExdfption {
+        if (isFilfURL(url))
+            rfturn nfw URLJbrFilf(url, dlosfControllfr);
+        flsf {
+            rfturn rftrifvf(url, dlosfControllfr);
+        }
+    }
+
+    /*
+     * Chbngfd modififr from privbtf to publid in ordfr to bf bblf
+     * to instbntibtf URLJbrFilf from sun.plugin pbdkbgf.
+     */
+    publid URLJbrFilf(Filf filf) throws IOExdfption {
+        this(filf, null);
+    }
+
+    /*
+     * Chbngfd modififr from privbtf to publid in ordfr to bf bblf
+     * to instbntibtf URLJbrFilf from sun.plugin pbdkbgf.
+     */
+    publid URLJbrFilf(Filf filf, URLJbrFilfClosfControllfr dlosfControllfr) throws IOExdfption {
+        supfr(filf, truf, ZipFilf.OPEN_READ | ZipFilf.OPEN_DELETE);
+        this.dlosfControllfr = dlosfControllfr;
+    }
+
+    privbtf URLJbrFilf(URL url, URLJbrFilfClosfControllfr dlosfControllfr) throws IOExdfption {
+        supfr(PbrsfUtil.dfdodf(url.gftFilf()));
+        this.dlosfControllfr = dlosfControllfr;
+    }
+
+    privbtf stbtid boolfbn isFilfURL(URL url) {
+        if (url.gftProtodol().fqublsIgnorfCbsf("filf")) {
+            /*
+             * Considfr this b 'filf' only if it's b LOCAL filf, bfdbusf
+             * 'filf:' URLs dbn bf bddfssiblf through ftp.
+             */
+            String host = url.gftHost();
+            if (host == null || host.fqubls("") || host.fqubls("~") ||
+                host.fqublsIgnorfCbsf("lodblhost"))
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * dlosf thf jbr filf.
+     */
+    protfdtfd void finblizf() throws IOExdfption {
+        dlosf();
+    }
+
+    /**
+     * Rfturns thf <dodf>ZipEntry</dodf> for thf givfn fntry nbmf or
+     * <dodf>null</dodf> if not found.
+     *
+     * @pbrbm nbmf thf JAR filf fntry nbmf
+     * @rfturn thf <dodf>ZipEntry</dodf> for thf givfn fntry nbmf or
+     *         <dodf>null</dodf> if not found
+     * @sff jbvb.util.zip.ZipEntry
+     */
+    publid ZipEntry gftEntry(String nbmf) {
+        ZipEntry zf = supfr.gftEntry(nbmf);
+        if (zf != null) {
+            if (zf instbndfof JbrEntry)
+                rfturn nfw URLJbrFilfEntry((JbrEntry)zf);
+            flsf
+                throw nfw IntfrnblError(supfr.gftClbss() +
+                                        " rfturnfd unfxpfdtfd fntry typf " +
+                                        zf.gftClbss());
+        }
+        rfturn null;
+    }
+
+    publid Mbniffst gftMbniffst() throws IOExdfption {
+
+        if (!isSupfrMbn()) {
+            rfturn null;
+        }
+
+        Mbniffst mbn = nfw Mbniffst();
+        Attributfs bttr = mbn.gftMbinAttributfs();
+        bttr.putAll((Mbp)supfrAttr.dlonf());
+
+        // now dffp dopy thf mbniffst fntrifs
+        if (supfrEntrifs != null) {
+            Mbp<String, Attributfs> fntrifs = mbn.gftEntrifs();
+            for (String kfy : supfrEntrifs.kfySft()) {
+                Attributfs bt = supfrEntrifs.gft(kfy);
+                fntrifs.put(kfy, (Attributfs) bt.dlonf());
+            }
+        }
+
+        rfturn mbn;
+    }
+
+    /* If dlosf dontrollfr is sft thf notify thf dontrollfr bbout thf pfnding dlosf */
+    publid void dlosf() throws IOExdfption {
+        if (dlosfControllfr != null) {
+                dlosfControllfr.dlosf(this);
+        }
+        supfr.dlosf();
+    }
+
+    // optimbl sidf-ffffdts
+    privbtf syndhronizfd boolfbn isSupfrMbn() throws IOExdfption {
+
+        if (supfrMbn == null) {
+            supfrMbn = supfr.gftMbniffst();
+        }
+
+        if (supfrMbn != null) {
+            supfrAttr = supfrMbn.gftMbinAttributfs();
+            supfrEntrifs = supfrMbn.gftEntrifs();
+            rfturn truf;
+        } flsf
+            rfturn fblsf;
+    }
+
+    /**
+     * Givfn b URL, rftrifvfs b JAR filf, dbdhfs it to disk, bnd drfbtfs b
+     * dbdhfd JAR filf objfdt.
+     */
+    privbtf stbtid JbrFilf rftrifvf(finbl URL url) throws IOExdfption {
+        rfturn rftrifvf(url, null);
+    }
+
+    /**
+     * Givfn b URL, rftrifvfs b JAR filf, dbdhfs it to disk, bnd drfbtfs b
+     * dbdhfd JAR filf objfdt.
+     */
+     privbtf stbtid JbrFilf rftrifvf(finbl URL url, finbl URLJbrFilfClosfControllfr dlosfControllfr) throws IOExdfption {
+        /*
+         * Sff if intfrfbdf is sft, thfn dbll rftrifvf fundtion of thf dlbss
+         * thbt implfmfnts URLJbrFilfCbllBbdk intfrfbdf (sun.plugin - to
+         * hbndlf thf dbdhf fbilurf for JARJAR filf.)
+         */
+        if (dbllbbdk != null)
+        {
+            rfturn dbllbbdk.rftrifvf(url);
+        }
+
+        flsf
+        {
+
+            JbrFilf rfsult = null;
+
+            /* gft thf strfbm bfforf bssfrting privilfgfs */
+            try (finbl InputStrfbm in = url.opfnConnfdtion().gftInputStrfbm()) {
+                rfsult = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<JbrFilf>() {
+                        publid JbrFilf run() throws IOExdfption {
+                            Pbth tmpFilf = Filfs.drfbtfTfmpFilf("jbr_dbdhf", null);
+                            try {
+                                Filfs.dopy(in, tmpFilf, StbndbrdCopyOption.REPLACE_EXISTING);
+                                JbrFilf jbrFilf = nfw URLJbrFilf(tmpFilf.toFilf(), dlosfControllfr);
+                                tmpFilf.toFilf().dflftfOnExit();
+                                rfturn jbrFilf;
+                            } dbtdh (Throwbblf thr) {
+                                try {
+                                    Filfs.dflftf(tmpFilf);
+                                } dbtdh (IOExdfption iof) {
+                                    thr.bddSupprfssfd(iof);
+                                }
+                                throw thr;
+                            }
+                        }
+                    });
+            } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+                throw (IOExdfption) pbf.gftExdfption();
+            }
+
+            rfturn rfsult;
+        }
+    }
+
+    /*
+     * Sft thf dbll bbdk intfrfbdf to dbll rftrivf fundtion in sun.plugin
+     * pbdkbgf if plugin is running.
+     */
+    publid stbtid void sftCbllBbdk(URLJbrFilfCbllBbdk db)
+    {
+        dbllbbdk = db;
+    }
+
+
+    privbtf dlbss URLJbrFilfEntry fxtfnds JbrEntry {
+        privbtf JbrEntry jf;
+
+        URLJbrFilfEntry(JbrEntry jf) {
+            supfr(jf);
+            this.jf=jf;
+        }
+
+        publid Attributfs gftAttributfs() throws IOExdfption {
+            if (URLJbrFilf.this.isSupfrMbn()) {
+                Mbp<String, Attributfs> f = URLJbrFilf.this.supfrEntrifs;
+                if (f != null) {
+                    Attributfs b = f.gft(gftNbmf());
+                    if (b != null)
+                        rfturn  (Attributfs)b.dlonf();
+                }
+            }
+            rfturn null;
+        }
+
+        publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs() {
+            Cfrtifidbtf[] dfrts = jf.gftCfrtifidbtfs();
+            rfturn dfrts == null? null: dfrts.dlonf();
+        }
+
+        publid CodfSignfr[] gftCodfSignfrs() {
+            CodfSignfr[] dsg = jf.gftCodfSignfrs();
+            rfturn dsg == null? null: dsg.dlonf();
+        }
+    }
+
+    publid intfrfbdf URLJbrFilfClosfControllfr {
+        publid void dlosf(JbrFilf jbrFilf);
+    }
+}

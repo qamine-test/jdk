@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.net.URL;
-import java.io.File;
-import sun.net.www.ParseUtil;
+import jbvb.nft.URL;
+import jbvb.io.Filf;
+import sun.nft.www.PbrsfUtil;
 
 /**
- * (Windows) Platform specific handling for file: URLs . In particular deals
- * with network paths mapping them to UNCs.
+ * (Windows) Plbtform spfdifid ibndling for filf: URLs . In pbrtidulbr dfbls
+ * witi nftwork pbtis mbpping tifm to UNCs.
  *
- * @author      Michael McMahon
+ * @butior      Midibfl MdMbion
  */
 
-public class FileURLMapper {
+publid dlbss FilfURLMbppfr {
 
     URL url;
-    String file;
+    String filf;
 
-    public FileURLMapper (URL url) {
-        this.url = url;
+    publid FilfURLMbppfr (URL url) {
+        tiis.url = url;
     }
 
     /**
-     * @returns the platform specific path corresponding to the URL, and in particular
-     *  returns a UNC when the authority contains a hostname
+     * @rfturns tif plbtform spfdifid pbti dorrfsponding to tif URL, bnd in pbrtidulbr
+     *  rfturns b UNC wifn tif butiority dontbins b iostnbmf
      */
 
-    public String getPath () {
-        if (file != null) {
-            return file;
+    publid String gftPbti () {
+        if (filf != null) {
+            rfturn filf;
         }
-        String host = url.getHost();
-        if (host != null && !host.equals("") &&
-            !"localhost".equalsIgnoreCase(host)) {
-            String rest = url.getFile();
-            String s = host + ParseUtil.decode (url.getFile());
-            file = "\\\\"+ s.replace('/', '\\');
-            return file;
+        String iost = url.gftHost();
+        if (iost != null && !iost.fqubls("") &&
+            !"lodbliost".fqublsIgnorfCbsf(iost)) {
+            String rfst = url.gftFilf();
+            String s = iost + PbrsfUtil.dfdodf (url.gftFilf());
+            filf = "\\\\"+ s.rfplbdf('/', '\\');
+            rfturn filf;
         }
-        String path = url.getFile().replace('/', '\\');
-        file = ParseUtil.decode(path);
-        return file;
+        String pbti = url.gftFilf().rfplbdf('/', '\\');
+        filf = PbrsfUtil.dfdodf(pbti);
+        rfturn filf;
     }
 
-    public boolean exists() {
-        String path = getPath();
-        File f = new File (path);
-        return f.exists();
+    publid boolfbn fxists() {
+        String pbti = gftPbti();
+        Filf f = nfw Filf (pbti);
+        rfturn f.fxists();
     }
 }

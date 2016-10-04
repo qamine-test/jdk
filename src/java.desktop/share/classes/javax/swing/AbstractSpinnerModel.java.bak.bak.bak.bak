@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * This dlbss providfs thf ChbngfListfnfr pbrt of thf
+ * SpinnfrModfl intfrfbdf thbt should bf suitbblf for most dondrftf SpinnfrModfl
+ * implfmfntbtions.  Subdlbssfs must providf bn implfmfntbtion of thf
+ * <dodf>sftVbluf</dodf>, <dodf>gftVbluf</dodf>, <dodf>gftNfxtVbluf</dodf> bnd
+ * <dodf>gftPrfviousVbluf</dodf> mfthods.
+ *
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Fifld dontfnts brf not sfriblizbblf bdross vfrsions
+publid bbstrbdt dlbss AbstrbdtSpinnfrModfl implfmfnts SpinnfrModfl, Sfriblizbblf
+{
+
+    /**
+     * Only onf ChbngfEvfnt is nffdfd pfr modfl instbndf sindf thf
+     * fvfnt's only (rfbd-only) stbtf is thf sourdf propfrty.  Thf sourdf
+     * of fvfnts gfnfrbtfd hfrf is blwbys "this".
+     */
+    privbtf trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+
+    /**
+     * Thf list of ChbngfListfnfrs for this modfl.  Subdlbssfs mby
+     * storf thfir own listfnfrs hfrf.
+     */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+
+    /**
+     * Adds b ChbngfListfnfr to thf modfl's listfnfr list.  Thf
+     * ChbngfListfnfrs must bf notififd whfn thf modfls vbluf dhbngfs.
+     *
+     * @pbrbm l thf ChbngfListfnfr to bdd
+     * @sff #rfmovfChbngfListfnfr
+     * @sff SpinnfrModfl#bddChbngfListfnfr
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+
+    /**
+     * Rfmovfs b ChbngfListfnfr from thf modfl's listfnfr list.
+     *
+     * @pbrbm l thf ChbngfListfnfr to rfmovf
+     * @sff #bddChbngfListfnfr
+     * @sff SpinnfrModfl#rfmovfChbngfListfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>ChbngfListfnfr</dodf>s bddfd
+     * to this AbstrbdtSpinnfrModfl with bddChbngfListfnfr().
+     *
+     * @rfturn bll of thf <dodf>ChbngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+
+    /**
+     * Run fbdh ChbngfListfnfrs stbtfChbngfd() mfthod.
+     *
+     * @sff #sftVbluf
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd()
+    {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -=2 ) {
+            if (listfnfrs[i] == ChbngfListfnfr.dlbss) {
+                if (dhbngfEvfnt == null) {
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                }
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturn bn brrby of bll thf listfnfrs of thf givfn typf thbt
+     * wfrf bddfd to this modfl.  For fxbmplf to find bll of thf
+     * ChbngfListfnfrs bddfd to this modfl:
+     * <prf>
+     * myAbstrbdtSpinnfrModfl.gftListfnfrs(ChbngfListfnfr.dlbss);
+     * </prf>
+     *
+     * @pbrbm <T> thf typf of rfqufstfd listfnfrs
+     * @pbrbm listfnfrTypf thf typf of listfnfrs to rfturn, f.g. ChbngfListfnfr.dlbss
+     * @rfturn bll of thf objfdts rfdfiving <fm>listfnfrTypf</fm> notifidbtions
+     *         from this modfl
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+}

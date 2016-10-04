@@ -1,18 +1,18 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jversion.h
+ * jvfrsion.i
  *
- * Copyright (C) 1991-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1998, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains software version identification.
+ * Tiis filf dontbins softwbrf vfrsion idfntifidbtion.
  */
 
 
-#define JVERSION        "6b  27-Mar-1998"
+#dffinf JVERSION        "6b  27-Mbr-1998"
 
-#define JCOPYRIGHT      "Copyright (C) 1998, Thomas G. Lane"
+#dffinf JCOPYRIGHT      "Copyrigit (C) 1998, Tiombs G. Lbnf"

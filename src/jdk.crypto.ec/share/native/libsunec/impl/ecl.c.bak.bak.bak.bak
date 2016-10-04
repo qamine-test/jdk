@@ -1,0 +1,454 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf flliptid durvf mbth librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
+ *
+ *********************************************************************** */
+
+#indludf "mpi.h"
+#indludf "mplogid.h"
+#indludf "fdl.h"
+#indludf "fdl-priv.h"
+#indludf "fd2.h"
+#indludf "fdp.h"
+#ifndff _KERNEL
+#indludf <stdlib.h>
+#indludf <string.h>
+#fndif
+
+/* Allodbtf mfmory for b nfw ECGroup objfdt. */
+ECGroup *
+ECGroup_nfw(int kmflbg)
+{
+        mp_frr rfs = MP_OKAY;
+        ECGroup *group;
+#ifdff _KERNEL
+        group = (ECGroup *) kmfm_bllod(sizfof(ECGroup), kmflbg);
+#flsf
+        group = (ECGroup *) mbllod(sizfof(ECGroup));
+#fndif
+        if (group == NULL)
+                rfturn NULL;
+        group->donstrudtfd = MP_YES;
+        group->mfth = NULL;
+        group->tfxt = NULL;
+        MP_DIGITS(&group->durvfb) = 0;
+        MP_DIGITS(&group->durvfb) = 0;
+        MP_DIGITS(&group->gfnx) = 0;
+        MP_DIGITS(&group->gfny) = 0;
+        MP_DIGITS(&group->ordfr) = 0;
+        group->bbsf_point_mul = NULL;
+        group->points_mul = NULL;
+        group->vblidbtf_point = NULL;
+        group->fxtrb1 = NULL;
+        group->fxtrb2 = NULL;
+        group->fxtrb_frff = NULL;
+        MP_CHECKOK(mp_init(&group->durvfb, kmflbg));
+        MP_CHECKOK(mp_init(&group->durvfb, kmflbg));
+        MP_CHECKOK(mp_init(&group->gfnx, kmflbg));
+        MP_CHECKOK(mp_init(&group->gfny, kmflbg));
+        MP_CHECKOK(mp_init(&group->ordfr, kmflbg));
+
+  CLEANUP:
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+
+/* Construdt b gfnfrid ECGroup for flliptid durvfs ovfr primf fiflds. */
+ECGroup *
+ECGroup_donsGFp(donst mp_int *irr, donst mp_int *durvfb,
+                                donst mp_int *durvfb, donst mp_int *gfnx,
+                                donst mp_int *gfny, donst mp_int *ordfr, int dofbdtor)
+{
+        mp_frr rfs = MP_OKAY;
+        ECGroup *group = NULL;
+
+        group = ECGroup_nfw(FLAG(irr));
+        if (group == NULL)
+                rfturn NULL;
+
+        group->mfth = GFMfthod_donsGFp(irr);
+        if (group->mfth == NULL) {
+                rfs = MP_MEM;
+                goto CLEANUP;
+        }
+        MP_CHECKOK(mp_dopy(durvfb, &group->durvfb));
+        MP_CHECKOK(mp_dopy(durvfb, &group->durvfb));
+        MP_CHECKOK(mp_dopy(gfnx, &group->gfnx));
+        MP_CHECKOK(mp_dopy(gfny, &group->gfny));
+        MP_CHECKOK(mp_dopy(ordfr, &group->ordfr));
+        group->dofbdtor = dofbdtor;
+        group->point_bdd = &fd_GFp_pt_bdd_bff;
+        group->point_sub = &fd_GFp_pt_sub_bff;
+        group->point_dbl = &fd_GFp_pt_dbl_bff;
+        group->point_mul = &fd_GFp_pt_mul_jm_wNAF;
+        group->bbsf_point_mul = NULL;
+        group->points_mul = &fd_GFp_pts_mul_jbd;
+        group->vblidbtf_point = &fd_GFp_vblidbtf_point;
+
+  CLEANUP:
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+
+/* Construdt b gfnfrid ECGroup for flliptid durvfs ovfr primf fiflds with
+ * fifld brithmftid implfmfntfd in Montgomfry doordinbtfs. */
+ECGroup *
+ECGroup_donsGFp_mont(donst mp_int *irr, donst mp_int *durvfb,
+                                         donst mp_int *durvfb, donst mp_int *gfnx,
+                                         donst mp_int *gfny, donst mp_int *ordfr, int dofbdtor)
+{
+        mp_frr rfs = MP_OKAY;
+        ECGroup *group = NULL;
+
+        group = ECGroup_nfw(FLAG(irr));
+        if (group == NULL)
+                rfturn NULL;
+
+        group->mfth = GFMfthod_donsGFp_mont(irr);
+        if (group->mfth == NULL) {
+                rfs = MP_MEM;
+                goto CLEANUP;
+        }
+        MP_CHECKOK(group->mfth->
+                           fifld_fnd(durvfb, &group->durvfb, group->mfth));
+        MP_CHECKOK(group->mfth->
+                           fifld_fnd(durvfb, &group->durvfb, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_fnd(gfnx, &group->gfnx, group->mfth));
+        MP_CHECKOK(group->mfth->fifld_fnd(gfny, &group->gfny, group->mfth));
+        MP_CHECKOK(mp_dopy(ordfr, &group->ordfr));
+        group->dofbdtor = dofbdtor;
+        group->point_bdd = &fd_GFp_pt_bdd_bff;
+        group->point_sub = &fd_GFp_pt_sub_bff;
+        group->point_dbl = &fd_GFp_pt_dbl_bff;
+        group->point_mul = &fd_GFp_pt_mul_jm_wNAF;
+        group->bbsf_point_mul = NULL;
+        group->points_mul = &fd_GFp_pts_mul_jbd;
+        group->vblidbtf_point = &fd_GFp_vblidbtf_point;
+
+  CLEANUP:
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+
+#ifdff NSS_ECC_MORE_THAN_SUITE_B
+/* Construdt b gfnfrid ECGroup for flliptid durvfs ovfr binbry polynomibl
+ * fiflds. */
+ECGroup *
+ECGroup_donsGF2m(donst mp_int *irr, donst unsignfd int irr_brr[5],
+                                 donst mp_int *durvfb, donst mp_int *durvfb,
+                                 donst mp_int *gfnx, donst mp_int *gfny,
+                                 donst mp_int *ordfr, int dofbdtor)
+{
+        mp_frr rfs = MP_OKAY;
+        ECGroup *group = NULL;
+
+        group = ECGroup_nfw(FLAG(irr));
+        if (group == NULL)
+                rfturn NULL;
+
+        group->mfth = GFMfthod_donsGF2m(irr, irr_brr);
+        if (group->mfth == NULL) {
+                rfs = MP_MEM;
+                goto CLEANUP;
+        }
+        MP_CHECKOK(mp_dopy(durvfb, &group->durvfb));
+        MP_CHECKOK(mp_dopy(durvfb, &group->durvfb));
+        MP_CHECKOK(mp_dopy(gfnx, &group->gfnx));
+        MP_CHECKOK(mp_dopy(gfny, &group->gfny));
+        MP_CHECKOK(mp_dopy(ordfr, &group->ordfr));
+        group->dofbdtor = dofbdtor;
+        group->point_bdd = &fd_GF2m_pt_bdd_bff;
+        group->point_sub = &fd_GF2m_pt_sub_bff;
+        group->point_dbl = &fd_GF2m_pt_dbl_bff;
+        group->point_mul = &fd_GF2m_pt_mul_mont;
+        group->bbsf_point_mul = NULL;
+        group->points_mul = &fd_pts_mul_bbsid;
+        group->vblidbtf_point = &fd_GF2m_vblidbtf_point;
+
+  CLEANUP:
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+#fndif
+
+/* Construdt ECGroup from hfx pbrbmftfrs bnd nbmf, if bny. Cbllfd by
+ * ECGroup_fromHfx bnd ECGroup_fromNbmf. */
+ECGroup *
+fdgroup_fromNbmfAndHfx(donst ECCurvfNbmf nbmf,
+                                   donst ECCurvfPbrbms * pbrbms, int kmflbg)
+{
+        mp_int irr, durvfb, durvfb, gfnx, gfny, ordfr;
+        int bits;
+        ECGroup *group = NULL;
+        mp_frr rfs = MP_OKAY;
+
+        /* initiblizf vblufs */
+        MP_DIGITS(&irr) = 0;
+        MP_DIGITS(&durvfb) = 0;
+        MP_DIGITS(&durvfb) = 0;
+        MP_DIGITS(&gfnx) = 0;
+        MP_DIGITS(&gfny) = 0;
+        MP_DIGITS(&ordfr) = 0;
+        MP_CHECKOK(mp_init(&irr, kmflbg));
+        MP_CHECKOK(mp_init(&durvfb, kmflbg));
+        MP_CHECKOK(mp_init(&durvfb, kmflbg));
+        MP_CHECKOK(mp_init(&gfnx, kmflbg));
+        MP_CHECKOK(mp_init(&gfny, kmflbg));
+        MP_CHECKOK(mp_init(&ordfr, kmflbg));
+        MP_CHECKOK(mp_rfbd_rbdix(&irr, pbrbms->irr, 16));
+        MP_CHECKOK(mp_rfbd_rbdix(&durvfb, pbrbms->durvfb, 16));
+        MP_CHECKOK(mp_rfbd_rbdix(&durvfb, pbrbms->durvfb, 16));
+        MP_CHECKOK(mp_rfbd_rbdix(&gfnx, pbrbms->gfnx, 16));
+        MP_CHECKOK(mp_rfbd_rbdix(&gfny, pbrbms->gfny, 16));
+        MP_CHECKOK(mp_rfbd_rbdix(&ordfr, pbrbms->ordfr, 16));
+
+        /* dftfrminf numbfr of bits */
+        bits = mpl_signifidbnt_bits(&irr) - 1;
+        if (bits < MP_OKAY) {
+                rfs = bits;
+                goto CLEANUP;
+        }
+
+        /* dftfrminf whidh optimizbtions (if bny) to usf */
+        if (pbrbms->fifld == ECFifld_GFp) {
+#ifdff NSS_ECC_MORE_THAN_SUITE_B
+            switdh (nbmf) {
+#ifdff ECL_USE_FP
+                dbsf ECCurvf_SECG_PRIME_160R1:
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_sfdp160r1_fp(group));
+                        brfbk;
+#fndif
+                dbsf ECCurvf_SECG_PRIME_192R1:
+#ifdff ECL_USE_FP
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_nistp192_fp(group));
+#flsf
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_gfp192(group, nbmf));
+#fndif
+                        brfbk;
+                dbsf ECCurvf_SECG_PRIME_224R1:
+#ifdff ECL_USE_FP
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_nistp224_fp(group));
+#flsf
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_gfp224(group, nbmf));
+#fndif
+                        brfbk;
+                dbsf ECCurvf_SECG_PRIME_256R1:
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_gfp256(group, nbmf));
+                        brfbk;
+                dbsf ECCurvf_SECG_PRIME_521R1:
+                        group =
+                                ECGroup_donsGFp(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                        MP_CHECKOK(fd_group_sft_gfp521(group, nbmf));
+                        brfbk;
+                dffbult:
+                        /* usf gfnfrid brithmftid */
+#fndif
+                        group =
+                                ECGroup_donsGFp_mont(&irr, &durvfb, &durvfb, &gfnx, &gfny,
+                                                                         &ordfr, pbrbms->dofbdtor);
+                        if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+#ifdff NSS_ECC_MORE_THAN_SUITE_B
+                }
+        } flsf if (pbrbms->fifld == ECFifld_GF2m) {
+                group = ECGroup_donsGF2m(&irr, NULL, &durvfb, &durvfb, &gfnx, &gfny, &ordfr, pbrbms->dofbdtor);
+                if (group == NULL) { rfs = MP_UNDEF; goto CLEANUP; }
+                if ((nbmf == ECCurvf_NIST_K163) ||
+                    (nbmf == ECCurvf_NIST_B163) ||
+                    (nbmf == ECCurvf_SECG_CHAR2_163R1)) {
+                        MP_CHECKOK(fd_group_sft_gf2m163(group, nbmf));
+                } flsf if ((nbmf == ECCurvf_SECG_CHAR2_193R1) ||
+                           (nbmf == ECCurvf_SECG_CHAR2_193R2)) {
+                        MP_CHECKOK(fd_group_sft_gf2m193(group, nbmf));
+                } flsf if ((nbmf == ECCurvf_NIST_K233) ||
+                           (nbmf == ECCurvf_NIST_B233)) {
+                        MP_CHECKOK(fd_group_sft_gf2m233(group, nbmf));
+                }
+#fndif
+        } flsf {
+                rfs = MP_UNDEF;
+                goto CLEANUP;
+        }
+
+        /* sft nbmf, if bny */
+        if ((group != NULL) && (pbrbms->tfxt != NULL)) {
+#ifdff _KERNEL
+                int n = strlfn(pbrbms->tfxt) + 1;
+
+                group->tfxt = kmfm_bllod(n, kmflbg);
+                if (group->tfxt == NULL) {
+                        rfs = MP_MEM;
+                        goto CLEANUP;
+                }
+                bdopy(pbrbms->tfxt, group->tfxt, n);
+                group->tfxt_lfn = n;
+#flsf
+                group->tfxt = strdup(pbrbms->tfxt);
+                if (group->tfxt == NULL) {
+                        rfs = MP_MEM;
+                }
+#fndif
+        }
+
+  CLEANUP:
+        mp_dlfbr(&irr);
+        mp_dlfbr(&durvfb);
+        mp_dlfbr(&durvfb);
+        mp_dlfbr(&gfnx);
+        mp_dlfbr(&gfny);
+        mp_dlfbr(&ordfr);
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+
+/* Construdt ECGroup from hfxbdfdimbl rfprfsfntbtions of pbrbmftfrs. */
+ECGroup *
+ECGroup_fromHfx(donst ECCurvfPbrbms * pbrbms, int kmflbg)
+{
+        rfturn fdgroup_fromNbmfAndHfx(ECCurvf_noNbmf, pbrbms, kmflbg);
+}
+
+/* Construdt ECGroup from nbmfd pbrbmftfrs. */
+ECGroup *
+ECGroup_fromNbmf(donst ECCurvfNbmf nbmf, int kmflbg)
+{
+        ECGroup *group = NULL;
+        ECCurvfPbrbms *pbrbms = NULL;
+        mp_frr rfs = MP_OKAY;
+
+        pbrbms = EC_GftNbmfdCurvfPbrbms(nbmf, kmflbg);
+        if (pbrbms == NULL) {
+                rfs = MP_UNDEF;
+                goto CLEANUP;
+        }
+
+        /* donstrudt bdtubl group */
+        group = fdgroup_fromNbmfAndHfx(nbmf, pbrbms, kmflbg);
+        if (group == NULL) {
+                rfs = MP_UNDEF;
+                goto CLEANUP;
+        }
+
+  CLEANUP:
+        EC_FrffCurvfPbrbms(pbrbms);
+        if (rfs != MP_OKAY) {
+                ECGroup_frff(group);
+                rfturn NULL;
+        }
+        rfturn group;
+}
+
+/* Vblidbtfs bn EC publid kfy bs dfsdribfd in Sfdtion 5.2.2 of X9.62. */
+mp_frr ECPoint_vblidbtf(donst ECGroup *group, donst mp_int *px, donst
+                                        mp_int *py)
+{
+    /* 1: Vfrify thbt publidVbluf is not thf point bt infinity */
+    /* 2: Vfrify thbt thf doordinbtfs of publidVbluf brf flfmfnts
+     *    of thf fifld.
+     */
+    /* 3: Vfrify thbt publidVbluf is on thf durvf. */
+    /* 4: Vfrify thbt thf ordfr of thf durvf timfs thf publidVbluf
+     *    is thf point bt infinity.
+     */
+        rfturn group->vblidbtf_point(px, py, group);
+}
+
+/* Frff thf mfmory bllodbtfd (if bny) to bn ECGroup objfdt. */
+void
+ECGroup_frff(ECGroup *group)
+{
+        if (group == NULL)
+                rfturn;
+        GFMfthod_frff(group->mfth);
+        if (group->donstrudtfd == MP_NO)
+                rfturn;
+        mp_dlfbr(&group->durvfb);
+        mp_dlfbr(&group->durvfb);
+        mp_dlfbr(&group->gfnx);
+        mp_dlfbr(&group->gfny);
+        mp_dlfbr(&group->ordfr);
+        if (group->tfxt != NULL)
+#ifdff _KERNEL
+                kmfm_frff(group->tfxt, group->tfxt_lfn);
+#flsf
+                frff(group->tfxt);
+#fndif
+        if (group->fxtrb_frff != NULL)
+                group->fxtrb_frff(group);
+#ifdff _KERNEL
+        kmfm_frff(group, sizfof (ECGroup));
+#flsf
+        frff(group);
+#fndif
+}

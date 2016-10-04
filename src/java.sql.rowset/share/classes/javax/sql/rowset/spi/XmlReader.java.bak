@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
 
-import java.sql.SQLException;
-import java.io.Reader;
+import jbvb.sql.SQLExdfption;
+import jbvb.io.Rfbdfr;
 
-import javax.sql.RowSetReader;
-import javax.sql.rowset.*;
+import jbvbx.sql.RowSftRfbdfr;
+import jbvbx.sql.rowsft.*;
 
 /**
- * A specialized interface that facilitates an extension of the
- * <code>SyncProvider</code> abstract class for XML orientated
- * synchronization providers.
+ * A spfdiblizfd intfrfbdf tibt fbdilitbtfs bn fxtfnsion of tif
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss for XML orifntbtfd
+ * syndironizbtion providfrs.
  * <P>
- * <code>SyncProvider</code>  implementations that supply XML data reader
- * capabilities such as output XML stream capabilities can implement this
- * interface to provide standard <code>XmlReader</code> objects to
- * <code>WebRowSet</code> implementations.
+ * <dodf>SyndProvidfr</dodf>  implfmfntbtions tibt supply XML dbtb rfbdfr
+ * dbpbbilitifs sudi bs output XML strfbm dbpbbilitifs dbn implfmfnt tiis
+ * intfrfbdf to providf stbndbrd <dodf>XmlRfbdfr</dodf> objfdts to
+ * <dodf>WfbRowSft</dodf> implfmfntbtions.
  * <p>
- * An <code>XmlReader</code> object is registered as the
- * XML reader for a <code>WebRowSet</code> by being assigned to the
- * rowset's <code>xmlReader</code> field. When the <code>WebRowSet</code>
- * object's <code>readXml</code> method is invoked, it in turn invokes
- * its XML reader's <code>readXML</code> method.
+ * An <dodf>XmlRfbdfr</dodf> objfdt is rfgistfrfd bs tif
+ * XML rfbdfr for b <dodf>WfbRowSft</dodf> by bfing bssignfd to tif
+ * rowsft's <dodf>xmlRfbdfr</dodf> fifld. Wifn tif <dodf>WfbRowSft</dodf>
+ * objfdt's <dodf>rfbdXml</dodf> mftiod is invokfd, it in turn invokfs
+ * its XML rfbdfr's <dodf>rfbdXML</dodf> mftiod.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface XmlReader extends RowSetReader {
+publid intfrfbdf XmlRfbdfr fxtfnds RowSftRfbdfr {
 
   /**
-   * Reads and parses the given <code>WebRowSet</code> object from the given
-   * input stream in XML format. The <code>xmlReader</code> field of the
-   * given <code>WebRowSet</code> object must contain this
-   * <code>XmlReader</code> object.
+   * Rfbds bnd pbrsfs tif givfn <dodf>WfbRowSft</dodf> objfdt from tif givfn
+   * input strfbm in XML formbt. Tif <dodf>xmlRfbdfr</dodf> fifld of tif
+   * givfn <dodf>WfbRowSft</dodf> objfdt must dontbin tiis
+   * <dodf>XmlRfbdfr</dodf> objfdt.
    * <P>
-   * If a parsing error occurs, the exception that is thrown will
-   * include information about the location of the error in the
-   * original XML document.
+   * If b pbrsing frror oddurs, tif fxdfption tibt is tirown will
+   * indludf informbtion bbout tif lodbtion of tif frror in tif
+   * originbl XML dodumfnt.
    *
-   * @param caller the <code>WebRowSet</code> object to be parsed, whose
-   *        <code>xmlReader</code> field must contain a reference to
-   *        this <code>XmlReader</code> object
-   * @param reader the <code>java.io.Reader</code> object from which
-   *        <code>caller</code> will be read
-   * @throws SQLException if a database access error occurs or
-   *            this <code>XmlReader</code> object is not the reader
-   *            for the given rowset
+   * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, wiosf
+   *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+   *        tiis <dodf>XmlRfbdfr</dodf> objfdt
+   * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt from wiidi
+   *        <dodf>dbllfr</dodf> will bf rfbd
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   *            tiis <dodf>XmlRfbdfr</dodf> objfdt is not tif rfbdfr
+   *            for tif givfn rowsft
    */
-  public void readXML(WebRowSet caller, java.io.Reader reader)
-    throws SQLException;
+  publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.Rfbdfr rfbdfr)
+    tirows SQLExdfption;
 
 }

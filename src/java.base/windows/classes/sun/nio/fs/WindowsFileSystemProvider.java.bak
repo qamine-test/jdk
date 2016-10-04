@@ -1,631 +1,631 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.*;
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
-import java.io.*;
-import java.util.*;
-import java.security.AccessController;
-import sun.misc.Unsafe;
-import sun.nio.ch.ThreadPool;
-import sun.security.util.SecurityConstants;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nft.URI;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.misd.Unsbff;
+import sun.nio.di.TirfbdPool;
+import sun.sfdurity.util.SfdurityConstbnts;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsSecurity.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsSfdurity.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
-public class WindowsFileSystemProvider
-    extends AbstractFileSystemProvider
+publid dlbss WindowsFilfSystfmProvidfr
+    fxtfnds AbstrbdtFilfSystfmProvidfr
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    private static final String USER_DIR = "user.dir";
-    private final WindowsFileSystem theFileSystem;
+    privbtf stbtid finbl String USER_DIR = "usfr.dir";
+    privbtf finbl WindowsFilfSystfm tifFilfSystfm;
 
-    public WindowsFileSystemProvider() {
-        theFileSystem = new WindowsFileSystem(this, System.getProperty(USER_DIR));
+    publid WindowsFilfSystfmProvidfr() {
+        tifFilfSystfm = nfw WindowsFilfSystfm(tiis, Systfm.gftPropfrty(USER_DIR));
     }
 
-    @Override
-    public String getScheme() {
-        return "file";
+    @Ovfrridf
+    publid String gftSdifmf() {
+        rfturn "filf";
     }
 
-    private void checkUri(URI uri) {
-        if (!uri.getScheme().equalsIgnoreCase(getScheme()))
-            throw new IllegalArgumentException("URI does not match this provider");
-        if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("Authority component present");
-        if (uri.getPath() == null)
-            throw new IllegalArgumentException("Path component is undefined");
-        if (!uri.getPath().equals("/"))
-            throw new IllegalArgumentException("Path component should be '/'");
-        if (uri.getQuery() != null)
-            throw new IllegalArgumentException("Query component present");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("Fragment component present");
+    privbtf void difdkUri(URI uri) {
+        if (!uri.gftSdifmf().fqublsIgnorfCbsf(gftSdifmf()))
+            tirow nfw IllfgblArgumfntExdfption("URI dofs not mbtdi tiis providfr");
+        if (uri.gftAutiority() != null)
+            tirow nfw IllfgblArgumfntExdfption("Autiority domponfnt prfsfnt");
+        if (uri.gftPbti() == null)
+            tirow nfw IllfgblArgumfntExdfption("Pbti domponfnt is undffinfd");
+        if (!uri.gftPbti().fqubls("/"))
+            tirow nfw IllfgblArgumfntExdfption("Pbti domponfnt siould bf '/'");
+        if (uri.gftQufry() != null)
+            tirow nfw IllfgblArgumfntExdfption("Qufry domponfnt prfsfnt");
+        if (uri.gftFrbgmfnt() != null)
+            tirow nfw IllfgblArgumfntExdfption("Frbgmfnt domponfnt prfsfnt");
     }
 
-    @Override
-    public FileSystem newFileSystem(URI uri, Map<String,?> env)
-        throws IOException
+    @Ovfrridf
+    publid FilfSystfm nfwFilfSystfm(URI uri, Mbp<String,?> fnv)
+        tirows IOExdfption
     {
-        checkUri(uri);
-        throw new FileSystemAlreadyExistsException();
+        difdkUri(uri);
+        tirow nfw FilfSystfmAlrfbdyExistsExdfption();
     }
 
-    @Override
-    public final FileSystem getFileSystem(URI uri) {
-        checkUri(uri);
-        return theFileSystem;
+    @Ovfrridf
+    publid finbl FilfSystfm gftFilfSystfm(URI uri) {
+        difdkUri(uri);
+        rfturn tifFilfSystfm;
     }
 
-    @Override
-    public Path getPath(URI uri) {
-        return WindowsUriSupport.fromUri(theFileSystem, uri);
+    @Ovfrridf
+    publid Pbti gftPbti(URI uri) {
+        rfturn WindowsUriSupport.fromUri(tifFilfSystfm, uri);
     }
 
-    @Override
-    public FileChannel newFileChannel(Path path,
-                                      Set<? extends OpenOption> options,
-                                      FileAttribute<?>... attrs)
-        throws IOException
+    @Ovfrridf
+    publid FilfCibnnfl nfwFilfCibnnfl(Pbti pbti,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        if (path == null)
-            throw new NullPointerException();
-        if (!(path instanceof WindowsPath))
-            throw new ProviderMismatchException();
-        WindowsPath file = (WindowsPath)path;
+        if (pbti == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(pbti instbndfof WindowsPbti))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        WindowsPbti filf = (WindowsPbti)pbti;
 
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(attrs);
+        WindowsSfdurityDfsdriptor sd = WindowsSfdurityDfsdriptor.fromAttributf(bttrs);
         try {
-            return WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            rfturn WindowsCibnnflFbdtory
+                .nfwFilfCibnnfl(filf.gftPbtiForWin32Cblls(),
+                                filf.gftPbtiForPfrmissionCifdk(),
                                 options,
-                                sd.address());
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
-            return null;
-        } finally {
+                                sd.bddrfss());
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;
+        } finblly {
             if (sd != null)
-                sd.release();
+                sd.rflfbsf();
         }
     }
 
-    @Override
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path path,
-                                                              Set<? extends OpenOption> options,
-                                                              ExecutorService executor,
-                                                              FileAttribute<?>... attrs)
-        throws IOException
+    @Ovfrridf
+    publid AsyndironousFilfCibnnfl nfwAsyndironousFilfCibnnfl(Pbti pbti,
+                                                              Sft<? fxtfnds OpfnOption> options,
+                                                              ExfdutorSfrvidf fxfdutor,
+                                                              FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        if (path == null)
-            throw new NullPointerException();
-        if (!(path instanceof WindowsPath))
-            throw new ProviderMismatchException();
-        WindowsPath file = (WindowsPath)path;
-        ThreadPool pool = (executor == null) ? null : ThreadPool.wrap(executor, 0);
-        WindowsSecurityDescriptor sd =
-            WindowsSecurityDescriptor.fromAttribute(attrs);
+        if (pbti == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(pbti instbndfof WindowsPbti))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        WindowsPbti filf = (WindowsPbti)pbti;
+        TirfbdPool pool = (fxfdutor == null) ? null : TirfbdPool.wrbp(fxfdutor, 0);
+        WindowsSfdurityDfsdriptor sd =
+            WindowsSfdurityDfsdriptor.fromAttributf(bttrs);
         try {
-            return WindowsChannelFactory
-                .newAsynchronousFileChannel(file.getPathForWin32Calls(),
-                                            file.getPathForPermissionCheck(),
+            rfturn WindowsCibnnflFbdtory
+                .nfwAsyndironousFilfCibnnfl(filf.gftPbtiForWin32Cblls(),
+                                            filf.gftPbtiForPfrmissionCifdk(),
                                             options,
-                                            sd.address(),
+                                            sd.bddrfss(),
                                             pool);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
-            return null;
-        } finally {
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;
+        } finblly {
             if (sd != null)
-                sd.release();
+                sd.rflfbsf();
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileAttributeView> V
-        getFileAttributeView(Path obj, Class<V> view, LinkOption... options)
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <V fxtfnds FilfAttributfVifw> V
+        gftFilfAttributfVifw(Pbti obj, Clbss<V> vifw, LinkOption... options)
     {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        if (view == null)
-            throw new NullPointerException();
-        boolean followLinks = Util.followLinks(options);
-        if (view == BasicFileAttributeView.class)
-            return (V) WindowsFileAttributeViews.createBasicView(file, followLinks);
-        if (view == DosFileAttributeView.class)
-            return (V) WindowsFileAttributeViews.createDosView(file, followLinks);
-        if (view == AclFileAttributeView.class)
-            return (V) new WindowsAclFileAttributeView(file, followLinks);
-        if (view == FileOwnerAttributeView.class)
-            return (V) new FileOwnerAttributeViewImpl(
-                new WindowsAclFileAttributeView(file, followLinks));
-        if (view == UserDefinedFileAttributeView.class)
-            return (V) new WindowsUserDefinedFileAttributeView(file, followLinks);
-        return (V) null;
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        if (vifw == null)
+            tirow nfw NullPointfrExdfption();
+        boolfbn followLinks = Util.followLinks(options);
+        if (vifw == BbsidFilfAttributfVifw.dlbss)
+            rfturn (V) WindowsFilfAttributfVifws.drfbtfBbsidVifw(filf, followLinks);
+        if (vifw == DosFilfAttributfVifw.dlbss)
+            rfturn (V) WindowsFilfAttributfVifws.drfbtfDosVifw(filf, followLinks);
+        if (vifw == AdlFilfAttributfVifw.dlbss)
+            rfturn (V) nfw WindowsAdlFilfAttributfVifw(filf, followLinks);
+        if (vifw == FilfOwnfrAttributfVifw.dlbss)
+            rfturn (V) nfw FilfOwnfrAttributfVifwImpl(
+                nfw WindowsAdlFilfAttributfVifw(filf, followLinks));
+        if (vifw == UsfrDffinfdFilfAttributfVifw.dlbss)
+            rfturn (V) nfw WindowsUsfrDffinfdFilfAttributfVifw(filf, followLinks);
+        rfturn (V) null;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <A extends BasicFileAttributes> A readAttributes(Path file,
-                                                            Class<A> type,
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <A fxtfnds BbsidFilfAttributfs> A rfbdAttributfs(Pbti filf,
+                                                            Clbss<A> typf,
                                                             LinkOption... options)
-        throws IOException
+        tirows IOExdfption
     {
-        Class<? extends BasicFileAttributeView> view;
-        if (type == BasicFileAttributes.class)
-            view = BasicFileAttributeView.class;
-        else if (type == DosFileAttributes.class)
-            view = DosFileAttributeView.class;
-        else if (type == null)
-            throw new NullPointerException();
-        else
-            throw new UnsupportedOperationException();
-        return (A) getFileAttributeView(file, view, options).readAttributes();
+        Clbss<? fxtfnds BbsidFilfAttributfVifw> vifw;
+        if (typf == BbsidFilfAttributfs.dlbss)
+            vifw = BbsidFilfAttributfVifw.dlbss;
+        flsf if (typf == DosFilfAttributfs.dlbss)
+            vifw = DosFilfAttributfVifw.dlbss;
+        flsf if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        flsf
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        rfturn (A) gftFilfAttributfVifw(filf, vifw, options).rfbdAttributfs();
     }
 
-    @Override
-    public DynamicFileAttributeView getFileAttributeView(Path obj, String name, LinkOption... options) {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        boolean followLinks = Util.followLinks(options);
-        if (name.equals("basic"))
-            return WindowsFileAttributeViews.createBasicView(file, followLinks);
-        if (name.equals("dos"))
-            return WindowsFileAttributeViews.createDosView(file, followLinks);
-        if (name.equals("acl"))
-            return new WindowsAclFileAttributeView(file, followLinks);
-        if (name.equals("owner"))
-            return new FileOwnerAttributeViewImpl(
-                new WindowsAclFileAttributeView(file, followLinks));
-        if (name.equals("user"))
-            return new WindowsUserDefinedFileAttributeView(file, followLinks);
-        return null;
+    @Ovfrridf
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj, String nbmf, LinkOption... options) {
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        boolfbn followLinks = Util.followLinks(options);
+        if (nbmf.fqubls("bbsid"))
+            rfturn WindowsFilfAttributfVifws.drfbtfBbsidVifw(filf, followLinks);
+        if (nbmf.fqubls("dos"))
+            rfturn WindowsFilfAttributfVifws.drfbtfDosVifw(filf, followLinks);
+        if (nbmf.fqubls("bdl"))
+            rfturn nfw WindowsAdlFilfAttributfVifw(filf, followLinks);
+        if (nbmf.fqubls("ownfr"))
+            rfturn nfw FilfOwnfrAttributfVifwImpl(
+                nfw WindowsAdlFilfAttributfVifw(filf, followLinks));
+        if (nbmf.fqubls("usfr"))
+            rfturn nfw WindowsUsfrDffinfdFilfAttributfVifw(filf, followLinks);
+        rfturn null;
     }
 
-    @Override
-    public SeekableByteChannel newByteChannel(Path obj,
-                                              Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
-         throws IOException
+    @Ovfrridf
+    publid SffkbblfBytfCibnnfl nfwBytfCibnnfl(Pbti obj,
+                                              Sft<? fxtfnds OpfnOption> options,
+                                              FilfAttributf<?>... bttrs)
+         tirows IOExdfption
     {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        WindowsSecurityDescriptor sd =
-            WindowsSecurityDescriptor.fromAttribute(attrs);
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        WindowsSfdurityDfsdriptor sd =
+            WindowsSfdurityDfsdriptor.fromAttributf(bttrs);
         try {
-            return WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            rfturn WindowsCibnnflFbdtory
+                .nfwFilfCibnnfl(filf.gftPbtiForWin32Cblls(),
+                                filf.gftPbtiForPfrmissionCifdk(),
                                 options,
-                                sd.address());
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
-            return null;  // keep compiler happy
-        } finally {
-            sd.release();
+                                sd.bddrfss());
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;  // kffp dompilfr ibppy
+        } finblly {
+            sd.rflfbsf();
         }
     }
 
-    @Override
-    boolean implDelete(Path obj, boolean failIfNotExists) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        file.checkDelete();
+    @Ovfrridf
+    boolfbn implDflftf(Pbti obj, boolfbn fbilIfNotExists) tirows IOExdfption {
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        filf.difdkDflftf();
 
-        WindowsFileAttributes attrs = null;
+        WindowsFilfAttributfs bttrs = null;
         try {
-             // need to know if file is a directory or junction
-             attrs = WindowsFileAttributes.get(file, false);
-             if (attrs.isDirectory() || attrs.isDirectoryLink()) {
-                RemoveDirectory(file.getPathForWin32Calls());
-             } else {
-                DeleteFile(file.getPathForWin32Calls());
+             // nffd to know if filf is b dirfdtory or jundtion
+             bttrs = WindowsFilfAttributfs.gft(filf, fblsf);
+             if (bttrs.isDirfdtory() || bttrs.isDirfdtoryLink()) {
+                RfmovfDirfdtory(filf.gftPbtiForWin32Cblls());
+             } flsf {
+                DflftfFilf(filf.gftPbtiForWin32Cblls());
              }
-             return true;
-        } catch (WindowsException x) {
+             rfturn truf;
+        } dbtdi (WindowsExdfption x) {
 
-            // no-op if file does not exist
-            if (!failIfNotExists &&
-                (x.lastError() == ERROR_FILE_NOT_FOUND ||
-                 x.lastError() == ERROR_PATH_NOT_FOUND)) return false;
+            // no-op if filf dofs not fxist
+            if (!fbilIfNotExists &&
+                (x.lbstError() == ERROR_FILE_NOT_FOUND ||
+                 x.lbstError() == ERROR_PATH_NOT_FOUND)) rfturn fblsf;
 
-            if (attrs != null && attrs.isDirectory()) {
-                // ERROR_ALREADY_EXISTS is returned when attempting to delete
-                // non-empty directory on SAMBA servers.
-                if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                    x.lastError() == ERROR_ALREADY_EXISTS)
+            if (bttrs != null && bttrs.isDirfdtory()) {
+                // ERROR_ALREADY_EXISTS is rfturnfd wifn bttfmpting to dflftf
+                // non-fmpty dirfdtory on SAMBA sfrvfrs.
+                if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                    x.lbstError() == ERROR_ALREADY_EXISTS)
                 {
-                    throw new DirectoryNotEmptyException(
-                        file.getPathForExceptionMessage());
+                    tirow nfw DirfdtoryNotEmptyExdfption(
+                        filf.gftPbtiForExdfptionMfssbgf());
                 }
             }
-            x.rethrowAsIOException(file);
-            return false;
+            x.rftirowAsIOExdfption(filf);
+            rfturn fblsf;
         }
     }
 
-    @Override
-    public void copy(Path source, Path target, CopyOption... options)
-        throws IOException
+    @Ovfrridf
+    publid void dopy(Pbti sourdf, Pbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        WindowsFileCopy.copy(WindowsPath.toWindowsPath(source),
-                             WindowsPath.toWindowsPath(target),
+        WindowsFilfCopy.dopy(WindowsPbti.toWindowsPbti(sourdf),
+                             WindowsPbti.toWindowsPbti(tbrgft),
                              options);
     }
 
-    @Override
-    public void move(Path source, Path target, CopyOption... options)
-        throws IOException
+    @Ovfrridf
+    publid void movf(Pbti sourdf, Pbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        WindowsFileCopy.move(WindowsPath.toWindowsPath(source),
-                             WindowsPath.toWindowsPath(target),
+        WindowsFilfCopy.movf(WindowsPbti.toWindowsPbti(sourdf),
+                             WindowsPbti.toWindowsPbti(tbrgft),
                              options);
     }
 
     /**
-     * Checks the file security against desired access.
+     * Cifdks tif filf sfdurity bgbinst dfsirfd bddfss.
      */
-    private static boolean hasDesiredAccess(WindowsPath file, int rights) throws IOException {
-        // read security descriptor containing ACL (symlinks are followed)
-        boolean hasRights = false;
-        String target = WindowsLinkSupport.getFinalPath(file, true);
-        NativeBuffer aclBuffer = WindowsAclFileAttributeView
-            .getFileSecurity(target,
+    privbtf stbtid boolfbn ibsDfsirfdAddfss(WindowsPbti filf, int rigits) tirows IOExdfption {
+        // rfbd sfdurity dfsdriptor dontbining ACL (symlinks brf followfd)
+        boolfbn ibsRigits = fblsf;
+        String tbrgft = WindowsLinkSupport.gftFinblPbti(filf, truf);
+        NbtivfBufffr bdlBufffr = WindowsAdlFilfAttributfVifw
+            .gftFilfSfdurity(tbrgft,
                 DACL_SECURITY_INFORMATION
                 | OWNER_SECURITY_INFORMATION
                 | GROUP_SECURITY_INFORMATION);
         try {
-            hasRights = checkAccessMask(aclBuffer.address(), rights,
+            ibsRigits = difdkAddfssMbsk(bdlBufffr.bddrfss(), rigits,
                 FILE_GENERIC_READ,
                 FILE_GENERIC_WRITE,
                 FILE_GENERIC_EXECUTE,
                 FILE_ALL_ACCESS);
-        } catch (WindowsException exc) {
-            exc.rethrowAsIOException(file);
-        } finally {
-            aclBuffer.release();
+        } dbtdi (WindowsExdfption fxd) {
+            fxd.rftirowAsIOExdfption(filf);
+        } finblly {
+            bdlBufffr.rflfbsf();
         }
-        return hasRights;
+        rfturn ibsRigits;
     }
 
     /**
-     * Checks if the given file(or directory) exists and is readable.
+     * Cifdks if tif givfn filf(or dirfdtory) fxists bnd is rfbdbblf.
      */
-    private void checkReadAccess(WindowsPath file) throws IOException {
+    privbtf void difdkRfbdAddfss(WindowsPbti filf) tirows IOExdfption {
         try {
-            Set<OpenOption> opts = Collections.emptySet();
-            FileChannel fc = WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            Sft<OpfnOption> opts = Collfdtions.fmptySft();
+            FilfCibnnfl fd = WindowsCibnnflFbdtory
+                .nfwFilfCibnnfl(filf.gftPbtiForWin32Cblls(),
+                                filf.gftPbtiForPfrmissionCifdk(),
                                 opts,
                                 0L);
-            fc.close();
-        } catch (WindowsException exc) {
-            // Windows errors are very inconsistent when the file is a directory
-            // (ERROR_PATH_NOT_FOUND returned for root directories for example)
-            // so we retry by attempting to open it as a directory.
+            fd.dlosf();
+        } dbtdi (WindowsExdfption fxd) {
+            // Windows frrors brf vfry indonsistfnt wifn tif filf is b dirfdtory
+            // (ERROR_PATH_NOT_FOUND rfturnfd for root dirfdtorifs for fxbmplf)
+            // so wf rftry by bttfmpting to opfn it bs b dirfdtory.
             try {
-                new WindowsDirectoryStream(file, null).close();
-            } catch (IOException ioe) {
-                // translate and throw original exception
-                exc.rethrowAsIOException(file);
+                nfw WindowsDirfdtoryStrfbm(filf, null).dlosf();
+            } dbtdi (IOExdfption iof) {
+                // trbnslbtf bnd tirow originbl fxdfption
+                fxd.rftirowAsIOExdfption(filf);
             }
         }
     }
 
-    @Override
-    public void checkAccess(Path obj, AccessMode... modes) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
+    @Ovfrridf
+    publid void difdkAddfss(Pbti obj, AddfssModf... modfs) tirows IOExdfption {
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
 
-        boolean r = false;
-        boolean w = false;
-        boolean x = false;
-        for (AccessMode mode: modes) {
-            switch (mode) {
-                case READ : r = true; break;
-                case WRITE : w = true; break;
-                case EXECUTE : x = true; break;
-                default: throw new AssertionError("Should not get here");
+        boolfbn r = fblsf;
+        boolfbn w = fblsf;
+        boolfbn x = fblsf;
+        for (AddfssModf modf: modfs) {
+            switdi (modf) {
+                dbsf READ : r = truf; brfbk;
+                dbsf WRITE : w = truf; brfbk;
+                dbsf EXECUTE : x = truf; brfbk;
+                dffbult: tirow nfw AssfrtionError("Siould not gft ifrf");
             }
         }
 
-        // special-case read access to avoid needing to determine effective
-        // access to file; default if modes not specified
+        // spfdibl-dbsf rfbd bddfss to bvoid nffding to dftfrminf ffffdtivf
+        // bddfss to filf; dffbult if modfs not spfdififd
         if (!w && !x) {
-            checkReadAccess(file);
-            return;
+            difdkRfbdAddfss(filf);
+            rfturn;
         }
 
-        int mask = 0;
+        int mbsk = 0;
         if (r) {
-            file.checkRead();
-            mask |= FILE_READ_DATA;
+            filf.difdkRfbd();
+            mbsk |= FILE_READ_DATA;
         }
         if (w) {
-            file.checkWrite();
-            mask |= FILE_WRITE_DATA;
+            filf.difdkWritf();
+            mbsk |= FILE_WRITE_DATA;
         }
         if (x) {
-            SecurityManager sm = System.getSecurityManager();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null)
-                sm.checkExec(file.getPathForPermissionCheck());
-            mask |= FILE_EXECUTE;
+                sm.difdkExfd(filf.gftPbtiForPfrmissionCifdk());
+            mbsk |= FILE_EXECUTE;
         }
 
-        if (!hasDesiredAccess(file, mask))
-            throw new AccessDeniedException(
-                file.getPathForExceptionMessage(), null,
-                "Permissions does not allow requested access");
+        if (!ibsDfsirfdAddfss(filf, mbsk))
+            tirow nfw AddfssDfnifdExdfption(
+                filf.gftPbtiForExdfptionMfssbgf(), null,
+                "Pfrmissions dofs not bllow rfqufstfd bddfss");
 
-        // for write access we need to check if the DOS readonly attribute
-        // and if the volume is read-only
+        // for writf bddfss wf nffd to difdk if tif DOS rfbdonly bttributf
+        // bnd if tif volumf is rfbd-only
         if (w) {
             try {
-                WindowsFileAttributes attrs = WindowsFileAttributes.get(file, true);
-                if (!attrs.isDirectory() && attrs.isReadOnly())
-                    throw new AccessDeniedException(
-                        file.getPathForExceptionMessage(), null,
-                        "DOS readonly attribute is set");
-            } catch (WindowsException exc) {
-                exc.rethrowAsIOException(file);
+                WindowsFilfAttributfs bttrs = WindowsFilfAttributfs.gft(filf, truf);
+                if (!bttrs.isDirfdtory() && bttrs.isRfbdOnly())
+                    tirow nfw AddfssDfnifdExdfption(
+                        filf.gftPbtiForExdfptionMfssbgf(), null,
+                        "DOS rfbdonly bttributf is sft");
+            } dbtdi (WindowsExdfption fxd) {
+                fxd.rftirowAsIOExdfption(filf);
             }
 
-            if (WindowsFileStore.create(file).isReadOnly()) {
-                throw new AccessDeniedException(
-                    file.getPathForExceptionMessage(), null, "Read-only file system");
+            if (WindowsFilfStorf.drfbtf(filf).isRfbdOnly()) {
+                tirow nfw AddfssDfnifdExdfption(
+                    filf.gftPbtiForExdfptionMfssbgf(), null, "Rfbd-only filf systfm");
             }
         }
     }
 
-    @Override
-    public boolean isSameFile(Path obj1, Path obj2) throws IOException {
-        WindowsPath file1 = WindowsPath.toWindowsPath(obj1);
-        if (file1.equals(obj2))
-            return true;
+    @Ovfrridf
+    publid boolfbn isSbmfFilf(Pbti obj1, Pbti obj2) tirows IOExdfption {
+        WindowsPbti filf1 = WindowsPbti.toWindowsPbti(obj1);
+        if (filf1.fqubls(obj2))
+            rfturn truf;
         if (obj2 == null)
-            throw new NullPointerException();
-        if (!(obj2 instanceof WindowsPath))
-            return false;
-        WindowsPath file2 = (WindowsPath)obj2;
+            tirow nfw NullPointfrExdfption();
+        if (!(obj2 instbndfof WindowsPbti))
+            rfturn fblsf;
+        WindowsPbti filf2 = (WindowsPbti)obj2;
 
-        // check security manager access to both files
-        file1.checkRead();
-        file2.checkRead();
+        // difdk sfdurity mbnbgfr bddfss to boti filfs
+        filf1.difdkRfbd();
+        filf2.difdkRfbd();
 
-        // open both files and see if they are the same
-        long h1 = 0L;
+        // opfn boti filfs bnd sff if tify brf tif sbmf
+        long i1 = 0L;
         try {
-            h1 = file1.openForReadAttributeAccess(true);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file1);
+            i1 = filf1.opfnForRfbdAttributfAddfss(truf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf1);
         }
         try {
-            WindowsFileAttributes attrs1 = null;
+            WindowsFilfAttributfs bttrs1 = null;
             try {
-                attrs1 = WindowsFileAttributes.readAttributes(h1);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(file1);
+                bttrs1 = WindowsFilfAttributfs.rfbdAttributfs(i1);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(filf1);
             }
-            long h2 = 0L;
+            long i2 = 0L;
             try {
-                h2 = file2.openForReadAttributeAccess(true);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(file2);
+                i2 = filf2.opfnForRfbdAttributfAddfss(truf);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(filf2);
             }
             try {
-                WindowsFileAttributes attrs2 = null;
+                WindowsFilfAttributfs bttrs2 = null;
                 try {
-                    attrs2 = WindowsFileAttributes.readAttributes(h2);
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(file2);
+                    bttrs2 = WindowsFilfAttributfs.rfbdAttributfs(i2);
+                } dbtdi (WindowsExdfption x) {
+                    x.rftirowAsIOExdfption(filf2);
                 }
-                return WindowsFileAttributes.isSameFile(attrs1, attrs2);
-            } finally {
-                CloseHandle(h2);
+                rfturn WindowsFilfAttributfs.isSbmfFilf(bttrs1, bttrs2);
+            } finblly {
+                ClosfHbndlf(i2);
             }
-        } finally {
-            CloseHandle(h1);
+        } finblly {
+            ClosfHbndlf(i1);
         }
     }
 
-    @Override
-    public boolean isHidden(Path obj) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        file.checkRead();
-        WindowsFileAttributes attrs = null;
+    @Ovfrridf
+    publid boolfbn isHiddfn(Pbti obj) tirows IOExdfption {
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        filf.difdkRfbd();
+        WindowsFilfAttributfs bttrs = null;
         try {
-            attrs = WindowsFileAttributes.get(file, true);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
+            bttrs = WindowsFilfAttributfs.gft(filf, truf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
         }
-        // DOS hidden attribute not meaningful when set on directories
-        if (attrs.isDirectory())
-            return false;
-        return attrs.isHidden();
+        // DOS iiddfn bttributf not mfbningful wifn sft on dirfdtorifs
+        if (bttrs.isDirfdtory())
+            rfturn fblsf;
+        rfturn bttrs.isHiddfn();
     }
 
-    @Override
-    public FileStore getFileStore(Path obj) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        SecurityManager sm = System.getSecurityManager();
+    @Ovfrridf
+    publid FilfStorf gftFilfStorf(Pbti obj) tirows IOExdfption {
+        WindowsPbti filf = WindowsPbti.toWindowsPbti(obj);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            file.checkRead();
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftFilfStorfAttributfs"));
+            filf.difdkRfbd();
         }
-        return WindowsFileStore.create(file);
+        rfturn WindowsFilfStorf.drfbtf(filf);
     }
 
 
-    @Override
-    public void createDirectory(Path obj, FileAttribute<?>... attrs)
-        throws IOException
+    @Ovfrridf
+    publid void drfbtfDirfdtory(Pbti obj, FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        WindowsPath dir = WindowsPath.toWindowsPath(obj);
-        dir.checkWrite();
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(attrs);
+        WindowsPbti dir = WindowsPbti.toWindowsPbti(obj);
+        dir.difdkWritf();
+        WindowsSfdurityDfsdriptor sd = WindowsSfdurityDfsdriptor.fromAttributf(bttrs);
         try {
-            CreateDirectory(dir.getPathForWin32Calls(), sd.address());
-        } catch (WindowsException x) {
-            // convert ERROR_ACCESS_DENIED to FileAlreadyExistsException if we can
-            // verify that the directory exists
-            if (x.lastError() == ERROR_ACCESS_DENIED) {
+            CrfbtfDirfdtory(dir.gftPbtiForWin32Cblls(), sd.bddrfss());
+        } dbtdi (WindowsExdfption x) {
+            // donvfrt ERROR_ACCESS_DENIED to FilfAlrfbdyExistsExdfption if wf dbn
+            // vfrify tibt tif dirfdtory fxists
+            if (x.lbstError() == ERROR_ACCESS_DENIED) {
                 try {
-                    if (WindowsFileAttributes.get(dir, false).isDirectory())
-                        throw new FileAlreadyExistsException(dir.toString());
-                } catch (WindowsException ignore) { }
+                    if (WindowsFilfAttributfs.gft(dir, fblsf).isDirfdtory())
+                        tirow nfw FilfAlrfbdyExistsExdfption(dir.toString());
+                } dbtdi (WindowsExdfption ignorf) { }
             }
-            x.rethrowAsIOException(dir);
-        } finally {
-            sd.release();
+            x.rftirowAsIOExdfption(dir);
+        } finblly {
+            sd.rflfbsf();
         }
     }
 
-    @Override
-    public DirectoryStream<Path> newDirectoryStream(Path obj, DirectoryStream.Filter<? super Path> filter)
-        throws IOException
+    @Ovfrridf
+    publid DirfdtoryStrfbm<Pbti> nfwDirfdtoryStrfbm(Pbti obj, DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr)
+        tirows IOExdfption
     {
-        WindowsPath dir = WindowsPath.toWindowsPath(obj);
-        dir.checkRead();
-        if (filter == null)
-            throw new NullPointerException();
-        return new WindowsDirectoryStream(dir, filter);
+        WindowsPbti dir = WindowsPbti.toWindowsPbti(obj);
+        dir.difdkRfbd();
+        if (filtfr == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn nfw WindowsDirfdtoryStrfbm(dir, filtfr);
     }
 
-    @Override
-    public void createSymbolicLink(Path obj1, Path obj2, FileAttribute<?>... attrs)
-        throws IOException
+    @Ovfrridf
+    publid void drfbtfSymbolidLink(Pbti obj1, Pbti obj2, FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
-        WindowsPath target = WindowsPath.toWindowsPath(obj2);
+        WindowsPbti link = WindowsPbti.toWindowsPbti(obj1);
+        WindowsPbti tbrgft = WindowsPbti.toWindowsPbti(obj2);
 
-        if (!link.getFileSystem().supportsLinks()) {
-            throw new UnsupportedOperationException("Symbolic links not supported "
-                + "on this operating system");
+        if (!link.gftFilfSystfm().supportsLinks()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Symbolid links not supportfd "
+                + "on tiis opfrbting systfm");
         }
 
-        // no attributes allowed
-        if (attrs.length > 0) {
-            WindowsSecurityDescriptor.fromAttribute(attrs);  // may throw NPE or UOE
-            throw new UnsupportedOperationException("Initial file attributes" +
-                "not supported when creating symbolic link");
+        // no bttributfs bllowfd
+        if (bttrs.lfngti > 0) {
+            WindowsSfdurityDfsdriptor.fromAttributf(bttrs);  // mby tirow NPE or UOE
+            tirow nfw UnsupportfdOpfrbtionExdfption("Initibl filf bttributfs" +
+                "not supportfd wifn drfbting symbolid link");
         }
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new LinkPermission("symbolic"));
-            link.checkWrite();
+            sm.difdkPfrmission(nfw LinkPfrmission("symbolid"));
+            link.difdkWritf();
         }
 
         /**
-         * Throw I/O exception for the drive-relative case because Windows
-         * creates a link with the resolved target for this case.
+         * Tirow I/O fxdfption for tif drivf-rflbtivf dbsf bfdbusf Windows
+         * drfbtfs b link witi tif rfsolvfd tbrgft for tiis dbsf.
          */
-        if (target.type() == WindowsPathType.DRIVE_RELATIVE) {
-            throw new IOException("Cannot create symbolic link to working directory relative target");
+        if (tbrgft.typf() == WindowsPbtiTypf.DRIVE_RELATIVE) {
+            tirow nfw IOExdfption("Cbnnot drfbtf symbolid link to working dirfdtory rflbtivf tbrgft");
         }
 
         /*
-         * Windows treats symbolic links to directories differently than it
-         * does to other file types. For that reason we need to check if the
-         * target is a directory (or a directory junction).
+         * Windows trfbts symbolid links to dirfdtorifs difffrfntly tibn it
+         * dofs to otifr filf typfs. For tibt rfbson wf nffd to difdk if tif
+         * tbrgft is b dirfdtory (or b dirfdtory jundtion).
          */
-        WindowsPath resolvedTarget;
-        if (target.type() == WindowsPathType.RELATIVE) {
-            WindowsPath parent = link.getParent();
-            resolvedTarget = (parent == null) ? target : parent.resolve(target);
-        } else {
-            resolvedTarget = link.resolve(target);
+        WindowsPbti rfsolvfdTbrgft;
+        if (tbrgft.typf() == WindowsPbtiTypf.RELATIVE) {
+            WindowsPbti pbrfnt = link.gftPbrfnt();
+            rfsolvfdTbrgft = (pbrfnt == null) ? tbrgft : pbrfnt.rfsolvf(tbrgft);
+        } flsf {
+            rfsolvfdTbrgft = link.rfsolvf(tbrgft);
         }
-        int flags = 0;
+        int flbgs = 0;
         try {
-            WindowsFileAttributes wattrs = WindowsFileAttributes.get(resolvedTarget, false);
-            if (wattrs.isDirectory() || wattrs.isDirectoryLink())
-                flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-        } catch (WindowsException x) {
-            // unable to access target so assume target is not a directory
+            WindowsFilfAttributfs wbttrs = WindowsFilfAttributfs.gft(rfsolvfdTbrgft, fblsf);
+            if (wbttrs.isDirfdtory() || wbttrs.isDirfdtoryLink())
+                flbgs |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+        } dbtdi (WindowsExdfption x) {
+            // unbblf to bddfss tbrgft so bssumf tbrgft is not b dirfdtory
         }
 
-        // create the link
+        // drfbtf tif link
         try {
-            CreateSymbolicLink(link.getPathForWin32Calls(),
-                               WindowsPath.addPrefixIfNeeded(target.toString()),
-                               flags);
-        } catch (WindowsException x) {
-            if (x.lastError() == ERROR_INVALID_REPARSE_DATA) {
-                x.rethrowAsIOException(link, target);
-            } else {
-                x.rethrowAsIOException(link);
+            CrfbtfSymbolidLink(link.gftPbtiForWin32Cblls(),
+                               WindowsPbti.bddPrffixIfNffdfd(tbrgft.toString()),
+                               flbgs);
+        } dbtdi (WindowsExdfption x) {
+            if (x.lbstError() == ERROR_INVALID_REPARSE_DATA) {
+                x.rftirowAsIOExdfption(link, tbrgft);
+            } flsf {
+                x.rftirowAsIOExdfption(link);
             }
         }
     }
 
-    @Override
-    public void createLink(Path obj1, Path obj2) throws IOException {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
-        WindowsPath existing = WindowsPath.toWindowsPath(obj2);
+    @Ovfrridf
+    publid void drfbtfLink(Pbti obj1, Pbti obj2) tirows IOExdfption {
+        WindowsPbti link = WindowsPbti.toWindowsPbti(obj1);
+        WindowsPbti fxisting = WindowsPbti.toWindowsPbti(obj2);
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new LinkPermission("hard"));
-            link.checkWrite();
-            existing.checkWrite();
+            sm.difdkPfrmission(nfw LinkPfrmission("ibrd"));
+            link.difdkWritf();
+            fxisting.difdkWritf();
         }
 
-        // create hard link
+        // drfbtf ibrd link
         try {
-            CreateHardLink(link.getPathForWin32Calls(),
-                           existing.getPathForWin32Calls());
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(link, existing);
+            CrfbtfHbrdLink(link.gftPbtiForWin32Cblls(),
+                           fxisting.gftPbtiForWin32Cblls());
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(link, fxisting);
         }
     }
 
-    @Override
-    public Path readSymbolicLink(Path obj1) throws IOException {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
-        WindowsFileSystem fs = link.getFileSystem();
+    @Ovfrridf
+    publid Pbti rfbdSymbolidLink(Pbti obj1) tirows IOExdfption {
+        WindowsPbti link = WindowsPbti.toWindowsPbti(obj1);
+        WindowsFilfSystfm fs = link.gftFilfSystfm();
         if (!fs.supportsLinks()) {
-            throw new UnsupportedOperationException("symbolic links not supported");
+            tirow nfw UnsupportfdOpfrbtionExdfption("symbolid links not supportfd");
         }
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            FilePermission perm = new FilePermission(link.getPathForPermissionCheck(),
-                SecurityConstants.FILE_READLINK_ACTION);
-            sm.checkPermission(perm);
+            FilfPfrmission pfrm = nfw FilfPfrmission(link.gftPbtiForPfrmissionCifdk(),
+                SfdurityConstbnts.FILE_READLINK_ACTION);
+            sm.difdkPfrmission(pfrm);
         }
 
-        String target = WindowsLinkSupport.readLink(link);
-        return WindowsPath.createFromNormalizedPath(fs, target);
+        String tbrgft = WindowsLinkSupport.rfbdLink(link);
+        rfturn WindowsPbti.drfbtfFromNormblizfdPbti(fs, tbrgft);
     }
 }

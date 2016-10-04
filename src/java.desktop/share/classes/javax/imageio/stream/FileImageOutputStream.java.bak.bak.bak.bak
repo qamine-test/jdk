@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import dom.sun.imbgfio.strfbm.ClosfbblfDisposfrRfdord;
+import dom.sun.imbgfio.strfbm.StrfbmFinblizfr;
+import sun.jbvb2d.Disposfr;
+
+/**
+ * An implfmfntbtion of <dodf>ImbgfOutputStrfbm</dodf> thbt writfs its
+ * output dirfdtly to b <dodf>Filf</dodf> or
+ * <dodf>RbndomAddfssFilf</dodf>.
+ *
+ */
+publid dlbss FilfImbgfOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf RbndomAddfssFilf rbf;
+
+    /** Thf rfffrfnt to bf rfgistfrfd with thf Disposfr. */
+    privbtf finbl Objfdt disposfrRfffrfnt;
+
+    /** Thf DisposfrRfdord thbt dlosfs thf undfrlying RbndomAddfssFilf. */
+    privbtf finbl ClosfbblfDisposfrRfdord disposfrRfdord;
+
+    /**
+     * Construdts b <dodf>FilfImbgfOutputStrfbm</dodf> thbt will writf
+     * to b givfn <dodf>Filf</dodf>.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> to writf to.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>f</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr fxists
+     * bnd dofs not bllow writf bddfss to thf filf.
+     * @fxdfption FilfNotFoundExdfption if <dodf>f</dodf> dofs not dfnotf
+     * b rfgulbr filf or it dbnnot bf opfnfd for rfbding bnd writing for bny
+     * othfr rfbson.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     */
+    publid FilfImbgfOutputStrfbm(Filf f)
+        throws FilfNotFoundExdfption, IOExdfption {
+        this(f == null ? null : nfw RbndomAddfssFilf(f, "rw"));
+    }
+
+    /**
+     * Construdts b <dodf>FilfImbgfOutputStrfbm</dodf> thbt will writf
+     * to b givfn <dodf>RbndomAddfssFilf</dodf>.
+     *
+     * @pbrbm rbf b <dodf>RbndomAddfssFilf</dodf> to writf to.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid FilfImbgfOutputStrfbm(RbndomAddfssFilf rbf) {
+        if (rbf == null) {
+            throw nfw IllfgblArgumfntExdfption("rbf == null!");
+        }
+        this.rbf = rbf;
+
+        disposfrRfdord = nfw ClosfbblfDisposfrRfdord(rbf);
+        if (gftClbss() == FilfImbgfOutputStrfbm.dlbss) {
+            disposfrRfffrfnt = nfw Objfdt();
+            Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
+        } flsf {
+            disposfrRfffrfnt = nfw StrfbmFinblizfr(this);
+        }
+    }
+
+    publid int rfbd() throws IOExdfption {
+        dhfdkClosfd();
+        bitOffsft = 0;
+        int vbl = rbf.rfbd();
+        if (vbl != -1) {
+            ++strfbmPos;
+        }
+        rfturn vbl;
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        dhfdkClosfd();
+        bitOffsft = 0;
+        int nbytfs = rbf.rfbd(b, off, lfn);
+        if (nbytfs != -1) {
+            strfbmPos += nbytfs;
+        }
+        rfturn nbytfs;
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        flushBits(); // this will dbll dhfdkClosfd() for us
+        rbf.writf(b);
+        ++strfbmPos;
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        flushBits(); // this will dbll dhfdkClosfd() for us
+        rbf.writf(b, off, lfn);
+        strfbmPos += lfn;
+    }
+
+    publid long lfngth() {
+        try {
+            dhfdkClosfd();
+            rfturn rbf.lfngth();
+        } dbtdh (IOExdfption f) {
+            rfturn -1L;
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt strfbm position bnd rfsfts thf bit offsft to
+     * 0.  It is lfgbl to sffking pbst thf fnd of thf filf; bn
+     * <dodf>EOFExdfption</dodf> will bf thrown only if b rfbd is
+     * pfrformfd.  Thf filf lfngth will not bf indrfbsfd until b writf
+     * is pfrformfd.
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> is smbllfr
+     * thbn thf flushfd position.
+     * @fxdfption IOExdfption if bny othfr I/O frror oddurs.
+     */
+    publid void sffk(long pos) throws IOExdfption {
+        dhfdkClosfd();
+        if (pos < flushfdPos) {
+            throw nfw IndfxOutOfBoundsExdfption("pos < flushfdPos!");
+        }
+        bitOffsft = 0;
+        rbf.sffk(pos);
+        strfbmPos = rbf.gftFilfPointfr();
+    }
+
+    publid void dlosf() throws IOExdfption {
+        supfr.dlosf();
+        disposfrRfdord.disposf(); // this dlosfs thf RbndomAddfssFilf
+        rbf = null;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        // Empty finblizfr: for pfrformbndf rfbsons wf instfbd usf thf
+        // Disposfr mfdhbnism for fnsuring thbt thf undfrlying
+        // RbndomAddfssFilf is dlosfd prior to gbrbbgf dollfdtion
+    }
+}

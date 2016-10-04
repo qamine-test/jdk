@@ -1,0 +1,889 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <windows.h>
+#indludf <winsodk2.h>           /* nffdfd for htonl */
+#indludf <iprtrmib.h>
+#indludf <bssfrt.h>
+
+#indludf "jbvb_nft_NftworkIntfrfbdf.h"
+#indludf "jni_util.h"
+
+#indludf "NftworkIntfrfbdf.h"
+#indludf "nft_util.h"
+
+/*
+ * Windows implfmfntbtion of thf jbvb.nft.NftworkIntfrfbdf nbtivf mfthods.
+ * This modulf providfs thf implfmfntbtions of gftAll, gftByNbmf, gftByIndfx,
+ * bnd gftByAddrfss.
+ */
+
+fxtfrn int fnumAddrfssfs_win(JNIEnv *fnv, nftif *nftifP, nftbddr **nftbddrPP);
+int gftAddrsFromAdbptfr(IP_ADAPTER_ADDRESSES *ptr, nftbddr **nftbddrPP);
+
+#ifdff DEBUG
+void printnif (nftif *nif) {
+#ifdff _WIN64
+        printf ("nif:0x%I64x nbmf:%s\n", nif,nif->nbmf);
+#flsf
+        printf ("nif:0x%x nbmf:%s\n", nif,nif->nbmf);
+#fndif
+        if (nif->dNbmfIsUnidodf) {
+            printf ("dNbmf:%S indfx:%d ", nif->displbyNbmf,nif->indfx);
+        } flsf {
+            printf ("dNbmf:%s indfx:%d ", nif->displbyNbmf,nif->indfx);
+        }
+        printf ("nbddrs:%d\n", nif->nbddrs);
+}
+
+void printnifs (nftif *nftifPP, dhbr *str) {
+    nftif *nif;
+    printf ("%s\n", str);
+    for (nif=nftifPP; nif!=NULL; nif=nif->nfxt) {
+        printnif (nif);
+    }
+    printf("-----------------\n");
+}
+
+#fndif
+
+stbtid int bufsizf = 1024;
+
+/*
+ * rfturn bn brrby of IP_ADAPTER_ADDRESSES dontbining onf flfmfnt
+ * for fbdh bdbptfr on thf systfm. Rfturnfd in *bdbptfrs.
+ * Bufffr is mbllod'd bnd must bf frffd (unlfss frror rfturnfd)
+ */
+stbtid int gftAdbptfrs (JNIEnv *fnv, IP_ADAPTER_ADDRESSES **bdbptfrs) {
+    DWORD rft, flbgs;
+    IP_ADAPTER_ADDRESSES *bdbptfrInfo;
+    ULONG lfn;
+    bdbptfrInfo = (IP_ADAPTER_ADDRESSES *)mbllod (bufsizf);
+    if (bdbptfrInfo == NULL) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", "Nbtivf hfbp bllodbtion fbilurf");
+        rfturn -1;
+    }
+
+    lfn = bufsizf;
+    flbgs = GAA_FLAG_SKIP_DNS_SERVER;
+    flbgs |= GAA_FLAG_SKIP_MULTICAST;
+    flbgs |= GAA_FLAG_INCLUDE_PREFIX;
+    rft = GftAdbptfrsAddrfssfs(AF_UNSPEC, flbgs, NULL, bdbptfrInfo, &lfn);
+
+    if (rft == ERROR_BUFFER_OVERFLOW) {
+        IP_ADAPTER_ADDRESSES * nfwAdbptfrInfo = (IP_ADAPTER_ADDRESSES *) rfbllod (bdbptfrInfo, lfn);
+        if (nfwAdbptfrInfo == NULL) {
+            frff(bdbptfrInfo);
+            JNU_ThrowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", "Nbtivf hfbp bllodbtion fbilurf");
+            rfturn -1;
+        }
+
+        bdbptfrInfo = nfwAdbptfrInfo;
+
+        bufsizf = lfn;
+        rft = GftAdbptfrsAddrfssfs(AF_UNSPEC, flbgs, NULL, bdbptfrInfo, &lfn);
+    }
+
+    if (rft != ERROR_SUCCESS) {
+        frff (bdbptfrInfo);
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/Error",
+                "IP Hflpfr Librbry GftAdbptfrsAddrfssfs fundtion fbilfd");
+        rfturn -1;
+    }
+    *bdbptfrs = bdbptfrInfo;
+    rfturn ERROR_SUCCESS;
+}
+
+/*
+ * rfturn bn brrby of IP_ADAPTER_ADDRESSES dontbining onf flfmfnt
+ * for fbdh bdbptfr on thf systfm. Rfturnfd in *bdbptfrs.
+ * Bufffr is mbllod'd bnd must bf frffd (unlfss frror rfturnfd)
+ */
+IP_ADAPTER_ADDRESSES *gftAdbptfr (JNIEnv *fnv,  jint indfx) {
+    DWORD flbgs, vbl;
+    IP_ADAPTER_ADDRESSES *bdbptfrInfo, *ptr, *rft;
+    ULONG lfn;
+    bdbptfrInfo = (IP_ADAPTER_ADDRESSES *)mbllod (bufsizf);
+    if (bdbptfrInfo == NULL) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", "Nbtivf hfbp bllodbtion fbilurf");
+        rfturn NULL;
+    }
+    lfn = bufsizf;
+    flbgs = GAA_FLAG_SKIP_DNS_SERVER;
+    flbgs |= GAA_FLAG_SKIP_MULTICAST;
+    flbgs |= GAA_FLAG_INCLUDE_PREFIX;
+    vbl = GftAdbptfrsAddrfssfs(AF_UNSPEC, flbgs, NULL, bdbptfrInfo, &lfn);
+    if (vbl == ERROR_BUFFER_OVERFLOW) {
+        IP_ADAPTER_ADDRESSES * nfwAdbptfrInfo = (IP_ADAPTER_ADDRESSES *) rfbllod (bdbptfrInfo, lfn);
+        if (nfwAdbptfrInfo == NULL) {
+            frff(bdbptfrInfo);
+            JNU_ThrowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", "Nbtivf hfbp bllodbtion fbilurf");
+            rfturn NULL;
+        }
+
+        bdbptfrInfo = nfwAdbptfrInfo;
+
+        bufsizf = lfn;
+        vbl = GftAdbptfrsAddrfssfs(AF_UNSPEC, flbgs, NULL, bdbptfrInfo, &lfn);
+    }
+
+    if (vbl != ERROR_SUCCESS) {
+        frff (bdbptfrInfo);
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/Error",
+                "IP Hflpfr Librbry GftAdbptfrsAddrfssfs fundtion fbilfd");
+        rfturn NULL;
+    }
+    ptr = bdbptfrInfo;
+    rft = NULL;
+    whilf (ptr != NULL) {
+      // in thfory thf IPv4 indfx bnd thf IPv6 indfx dbn bf thf sbmf
+      // whfrf bn intfrfbdf is fnbblfd for v4 bnd v6
+      // IfIndfx == 0 IPv4 not bvbilbblf on this intfrfbdf
+      // Ipv6IfIndfx == 0 IPv6 not bvbilbblf on this intfrfbdf
+      if (((ptr->IfIndfx != 0)&&(ptr->IfIndfx == indfx)) ||
+          ((ptr->Ipv6IfIndfx !=0) && (ptr->Ipv6IfIndfx == indfx))) {
+        rft = (IP_ADAPTER_ADDRESSES *) mbllod(sizfof(IP_ADAPTER_ADDRESSES));
+        if (rft == NULL) {
+            frff(bdbptfrInfo);
+            JNU_ThrowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", "Nbtivf hfbp bllodbtion fbilurf");
+            rfturn NULL;
+        }
+
+        //dopy thf mfmory bnd brfbk out of thf whilf loop.
+        mfmdpy(rft, ptr, sizfof(IP_ADAPTER_ADDRESSES));
+        brfbk;
+
+      }
+      ptr=ptr->Nfxt;
+    }
+    frff(bdbptfrInfo);
+    rfturn rft;
+}
+
+stbtid int ipinflfn = 2048;
+
+/*
+ */
+int gftAllIntfrfbdfsAndAddrfssfs (JNIEnv *fnv, nftif **nftifPP)
+{
+    DWORD rft;
+    IP_ADAPTER_ADDRESSES *ptr, *bdbptfrs=NULL;
+    ULONG lfn=ipinflfn, dount=0;
+    nftif *nif=NULL, *dup_nif, *lbst=NULL, *loopif=NULL, *durr;
+    int tun=0, nft=0;
+
+    *nftifPP = NULL;
+   /*
+    * Gft thf IPv4 intfrfbdfs. This informbtion is thf sbmf
+    * bs whbt prfvious JDK vfrsions would rfturn.
+    */
+
+    rft = fnumIntfrfbdfs(fnv, nftifPP);
+    if (rft == -1) {
+        rfturn -1;
+    } flsf {
+        dount = rft;
+    }
+
+    /* lodbtf thf loopbbdk (bnd thf lbst) intfrfbdf */
+    for (nif=*nftifPP, lbst=nif; nif!=NULL; nif=nif->nfxt) {
+        if (nif->ifTypf == MIB_IF_TYPE_LOOPBACK) {
+            loopif = nif;
+        }
+        lbst = nif;
+    }
+
+    // Rftrifvf IPv4 bddrfssfs with thf IP Hflpfr API
+    durr = *nftifPP;
+    whilf (durr != NULL) {
+        nftbddr *nftbddrP;
+        rft = fnumAddrfssfs_win(fnv, durr, &nftbddrP);
+        if (rft == -1) {
+            rfturn -1;
+        }
+        durr->bddrs = nftbddrP;
+        durr->nbddrs += rft;
+        durr = durr->nfxt;
+    }
+
+    rft = gftAdbptfrs (fnv, &bdbptfrs);
+    if (rft != ERROR_SUCCESS) {
+        goto frr;
+    }
+
+    /* Now gft thf IPv6 informbtion. This indludfs:
+     *  (b)  IPv6 informbtion bssodibtfd with intfrfbdfs blrfbdy found
+     *  (b)  IPv6 informbtion for IPv6 only intfrfbdfs (probbbly tunnfls)
+     *
+     * For dompbtibility with prfvious rflfbsfs wf usf thf nbming
+     * informbtion gottfn from fnumIntfrfbdfs() for (b) fntrifs
+     * Howfvfr, thf indfx numbfrs brf tbkfn from thf nfw API.
+     *
+     * Thf prodfdurf is to go through thf list of bdbptfrs rfturnfd
+     * by thf nfw API looking for fntrifs thbt dorrfspond to IPv4 intfrfbdfs
+     * blrfbdy found.
+     */
+
+    ptr = bdbptfrs;
+    whilf (ptr != NULL) {
+        int d;
+        nftif *nif0;
+        if (ptr->IfTypf == IF_TYPE_SOFTWARE_LOOPBACK && (loopif != NULL)) {
+            d = gftAddrsFromAdbptfr(ptr, &loopif->bddrs);
+            if (d == -1) {
+                goto frr;
+            }
+            loopif->nbddrs += d;
+        } flsf {
+            int indfx = ptr->IfIndfx;
+            if (indfx != 0) {
+                /* This fntry is bssodibtfd with bn IPv4 intfrfbdf */
+                for (nif=*nftifPP; nif!=NULL; nif=nif->nfxt) {
+                    if (nif->indfx == indfx) {
+                        /* found thf intfrfbdf fntry
+                         * sft thf indfx to thf IPv6 indfx bnd bdd thf
+                         * IPv6 bddrfssfs
+                         */
+                        nif->ipv6Indfx = ptr->Ipv6IfIndfx;
+                        d = gftAddrsFromAdbptfr(ptr, &nif->bddrs);
+                        nif->nbddrs += d;
+                        brfbk;
+                    }
+                }
+            } flsf {
+                /* This fntry is IPv6 only */
+                dhbr nfwnbmf [128];
+                int d;
+
+                /* Windows bllodbtfs duplidbtf bdbptfr fntrifs
+                 * for tunnfl intfrfbdfs whfn thfrf brf multiplf
+                 * physidbl bdbptfrs. Nffd to dhfdk
+                 * if this is b duplidbtf (ipv6Indfx is thf sbmf)
+                 */
+                dup_nif = 0;
+                for (nif0=*nftifPP; nif0!=NULL; nif0=nif0->nfxt) {
+                    if (nif0->hbsIpv6Addrfss &&
+                                ptr->Ipv6IfIndfx == nif0->ipv6Indfx) {
+                        dup_nif = nif0;
+                        brfbk;
+                    }
+                }
+                if (dup_nif == 0) {
+                    /* nfw intfrfbdf */
+                        nif = (nftif *) dbllod (1, sizfof(nftif));
+                        if (nif == 0) {
+                            goto frr;
+                        }
+                        if (ptr->IfTypf == IF_TYPE_TUNNEL) {
+                                sprintf (nfwnbmf, "tun%d", tun);
+                                tun ++;
+                        } flsf {
+                                sprintf (nfwnbmf, "nft%d", nft);
+                                nft ++;
+                        }
+                        nif->nbmf = mbllod (strlfn(nfwnbmf)+1);
+                        nif->displbyNbmf = mbllod (wdslfn(ptr->FrifndlyNbmf)*2+2);
+                        if (nif->nbmf == 0 || nif->displbyNbmf == 0) {
+                                goto frr;
+                        }
+                        strdpy (nif->nbmf, nfwnbmf);
+                        wdsdpy ((PWCHAR)nif->displbyNbmf, ptr->FrifndlyNbmf);
+                        nif->dNbmfIsUnidodf = TRUE;
+
+                        // thf jbvb.nft.NftworkIntfrfbdf bbstrbdtion only hbs indfx
+                        // so thf Ipv6IfIndfx nffds to mbp onto indfx
+                        nif->indfx = ptr->Ipv6IfIndfx;
+                        nif->ipv6Indfx = ptr->Ipv6IfIndfx;
+                        nif->hbsIpv6Addrfss = TRUE;
+
+                        lbst->nfxt = nif;
+                        lbst = nif;
+                        dount++;
+                        d = gftAddrsFromAdbptfr(ptr, &nif->bddrs);
+                        if (d == -1) {
+                                goto frr;
+                        }
+                        nif->nbddrs += d;
+                 } flsf {
+                        /* bdd thf bddrfssfs from this bdbptfr to thf
+                         * originbl (dup_nif)
+                         */
+                        d = gftAddrsFromAdbptfr(ptr, &dup_nif->bddrs);
+                        if (d == -1) {
+                                goto frr;
+                        }
+                        dup_nif->nbddrs += d;
+                }
+            }
+        }
+        ptr=ptr->Nfxt;
+    }
+
+    frff (bdbptfrs);
+    rfturn dount;
+
+frr:
+    if (*nftifPP) {
+        frff_nftif (*nftifPP);
+    }
+    if (bdbptfrs) {
+        frff (bdbptfrs);
+    }
+    rfturn -1;
+}
+
+/* If *nftbddrPP is null, thfn thf bddrfssfs brf bllodbtfd bnd thf bfginning
+ * of thf bllodbtfd dhbin is rfturnfd in *nftbddrPP.
+ * If *nftbddrPP is not null, thfn thf bddrfssfs bllodbtfd hfrf brf bppfndfd
+ * to thf fxisting dhbin.
+ *
+ * Rfturns dount of bddrfssfs or -1 on frror.
+ */
+
+stbtid int gftAddrsFromAdbptfr(IP_ADAPTER_ADDRESSES *ptr, nftbddr **nftbddrPP) {
+        LPSOCKADDR sodk;
+        int        dount = 0;
+        nftbddr    *durr, *stbrt = NULL, *prfv = NULL;
+        PIP_ADAPTER_UNICAST_ADDRESS uni_bddr;
+        PIP_ADAPTER_ANYCAST_ADDRESS bny_bddr;
+        PIP_ADAPTER_PREFIX prffix;
+
+        /* If dhbin pbssfd in, find fnd */
+        if (*nftbddrPP != NULL) {
+            for (stbrt=*nftbddrPP; stbrt->nfxt!=NULL; stbrt=stbrt->nfxt)
+                ;
+
+            prfv=stbrt;
+        }
+
+        prffix = ptr->FirstPrffix;
+        /* Unidbst */
+        uni_bddr = ptr->FirstUnidbstAddrfss;
+        whilf (uni_bddr != NULL) {
+        /* bddrfss is only usbblf if dbd stbtf is prfffrrfd or dfprfdbtfd */
+                if (uni_bddr->DbdStbtf == IpDbdStbtfDfprfdbtfd ||
+                                uni_bddr->DbdStbtf == IpDbdStbtfPrfffrrfd) {
+                        sodk = uni_bddr->Addrfss.lpSodkbddr;
+
+                        // IPv4 bddrfssfs blrfbdy rftrifvfd with fnumAddrfssfs_win
+                        if (sodk->sb_fbmily == AF_INET) {
+                                uni_bddr = uni_bddr->Nfxt;
+                                dontinuf;
+                        }
+
+            durr = (nftbddr *)dbllod (1, sizfof (nftbddr));
+
+            if (durr == NULL)
+                goto frffAllodbtfdMfmory;
+
+            if (stbrt == NULL)
+                stbrt = durr;
+
+            if (prfv != NULL)
+               prfv->nfxt = durr;
+
+            prfv = durr;
+            SOCKETADDRESS_COPY (&durr->bddr, sodk);
+            if (prffix != NULL) {
+              durr->mbsk = (short)prffix->PrffixLfngth;
+              prffix = prffix->Nfxt;
+            }
+            dount ++;
+        }
+        uni_bddr = uni_bddr->Nfxt;
+    }
+    /* Anydbst */
+    bny_bddr = ptr->FirstAnydbstAddrfss;
+    whilf (bny_bddr != NULL) {
+        durr = (nftbddr *)dbllod (1, sizfof (nftbddr));
+
+        if (durr == NULL)
+            goto frffAllodbtfdMfmory;
+
+        if (stbrt == NULL)
+            stbrt = durr;
+
+        if (prfv != NULL)
+            prfv->nfxt = durr;
+
+        prfv = durr;
+        sodk = bny_bddr->Addrfss.lpSodkbddr;
+        SOCKETADDRESS_COPY (&durr->bddr, sodk);
+        dount ++;
+        bny_bddr = bny_bddr->Nfxt;
+    }
+    if (*nftbddrPP == NULL) {
+        *nftbddrPP = stbrt;
+    }
+    rfturn dount;
+
+frffAllodbtfdMfmory:
+
+    if (*nftbddrPP != NULL) {
+        //N.B. thf vbribblf "stbrt" dbnnot bf NULL bt this point bfdbusf wf stbrtfd with bn
+        //fxisting list.
+        durr=stbrt->nfxt;
+        stbrt->nfxt = NULL;
+        stbrt = durr;
+    }
+    // othfrwisf, "stbrt" points to thf bfginning of bn indomplftf list thbt wf must dfbllodbtf.
+
+    whilf (stbrt != NULL) {
+        durr = stbrt->nfxt;
+        frff(stbrt);
+        stbrt = durr;
+    }
+
+    rfturn -1;
+}
+
+/*
+ * Crfbtf b NftworkIntfrfbdf objfdt, populbtf thf nbmf bnd indfx, bnd
+ * populbtf thf InftAddrfss brrby bbsfd on thf IP bddrfssfs for this
+ * intfrfbdf.
+ */
+stbtid jobjfdt drfbtfNftworkIntfrfbdfXP(JNIEnv *fnv, nftif *ifs)
+{
+    jobjfdt nftifObj;
+    jobjfdt nbmf, displbyNbmf;
+    jobjfdtArrby bddrArr, bindsArr, dhildArr;
+    nftbddr *bddrs;
+    jint bddr_indfx;
+    int nftbddrCount=ifs->nbddrs;
+    nftbddr *nftbddrP=ifs->bddrs;
+    jint bind_indfx;
+
+    /*
+     * Crfbtf b NftworkIntfrfbdf objfdt bnd populbtf it
+     */
+    nftifObj = (*fnv)->NfwObjfdt(fnv, ni_dlbss, ni_dtor);
+    nbmf = (*fnv)->NfwStringUTF(fnv, ifs->nbmf);
+    if (ifs->dNbmfIsUnidodf) {
+        displbyNbmf = (*fnv)->NfwString(fnv, (PWCHAR)ifs->displbyNbmf,
+                                        (jsizf)wdslfn ((PWCHAR)ifs->displbyNbmf));
+    } flsf {
+        displbyNbmf = (*fnv)->NfwStringUTF(fnv, ifs->displbyNbmf);
+    }
+    if (nftifObj == NULL || nbmf == NULL || displbyNbmf == NULL) {
+        rfturn NULL;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_nbmfID, nbmf);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_displbyNbmfID, displbyNbmf);
+    (*fnv)->SftIntFifld(fnv, nftifObj, ni_indfxID, ifs->indfx);
+    /*
+     * Gft thf IP bddrfssfs for this intfrfbdf if nfdfssbry
+     * Notf thbt 0 is b vblid numbfr of bddrfssfs.
+     */
+    if (nftbddrCount < 0) {
+        nftbddrCount = fnumAddrfssfs_win(fnv, ifs, &nftbddrP);
+        if (nftbddrCount == -1) {
+            rfturn NULL;
+        }
+    }
+
+    bddrArr = (*fnv)->NfwObjfdtArrby(fnv, nftbddrCount, ib_dlbss, NULL);
+    if (bddrArr == NULL) {
+        rfturn NULL;
+    }
+
+    bindsArr = (*fnv)->NfwObjfdtArrby(fnv, nftbddrCount, ni_ibdls, NULL);
+    if (bindsArr == NULL) {
+      frff_nftbddr(nftbddrP);
+      rfturn NULL;
+    }
+
+    bddrs = nftbddrP;
+    bddr_indfx = 0;
+    bind_indfx = 0;
+    whilf (bddrs != NULL) {
+        jobjfdt ibObj, ib2Obj;
+        jobjfdt ibObj = NULL;
+        if (bddrs->bddr.him.sb_fbmily == AF_INET) {
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (ibObj == NULL) {
+                rfturn NULL;
+            }
+            /* dffbult dtor will sft fbmily to AF_INET */
+
+            sftInftAddrfss_bddr(fnv, ibObj, ntohl(bddrs->bddr.him4.sin_bddr.s_bddr));
+
+            ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+            if (ibObj == NULL) {
+              frff_nftbddr(nftbddrP);
+              rfturn NULL;
+            }
+            (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+            ib2Obj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (ib2Obj == NULL) {
+              frff_nftbddr(nftbddrP);
+              rfturn NULL;
+            }
+            sftInftAddrfss_bddr(fnv, ib2Obj, ntohl(bddrs->brddbst.him4.sin_bddr.s_bddr));
+            (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbrobddbstID, ib2Obj);
+            (*fnv)->SftShortFifld(fnv, ibObj, ni_ibmbskID, bddrs->mbsk);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindsArr, bind_indfx++, ibObj);
+        } flsf /* AF_INET6 */ {
+            int sdopf;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib6_dlbss, ib6_dtrID);
+            if (ibObj) {
+                jboolfbn rft = sftInft6Addrfss_ipbddrfss(fnv, ibObj, (jbytf *)&(bddrs->bddr.him6.sin6_bddr.s6_bddr));
+                if (rft == JNI_FALSE) {
+                    rfturn NULL;
+                }
+                sdopf = bddrs->bddr.him6.sin6_sdopf_id;
+                if (sdopf != 0) { /* zfro is dffbult vbluf, no nffd to sft */
+                    sftInft6Addrfss_sdopfid(fnv, ibObj, sdopf);
+                    sftInft6Addrfss_sdopfifnbmf(fnv, ibObj, nftifObj);
+                }
+                ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+                if (ibObj == NULL) {
+                  frff_nftbddr(nftbddrP);
+                  rfturn NULL;
+                }
+                (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+                (*fnv)->SftShortFifld(fnv, ibObj, ni_ibmbskID, bddrs->mbsk);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindsArr, bind_indfx++, ibObj);
+            }
+        }
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrArr, bddr_indfx, ibObj);
+        bddrs = bddrs->nfxt;
+        bddr_indfx++;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bddrsID, bddrArr);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bindsID, bindsArr);
+
+    /*
+     * Windows dofsn't hbvf virtubl intfrfbdfs, so dhild brrby
+     * is blwbys fmpty.
+     */
+    dhildArr = (*fnv)->NfwObjfdtArrby(fnv, 0, ni_dlbss, NULL);
+    if (dhildArr == NULL) {
+      rfturn NULL;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_dhildsID, dhildArr);
+
+    /* rfturn thf NftworkIntfrfbdf */
+    rfturn nftifObj;
+}
+
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByNbmf0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf)
+{
+    nftif *ifList, *durr;
+    jboolfbn isCopy;
+    donst dhbr *nbmf_utf;
+    jobjfdt nftifObj = NULL;
+
+    if (gftAllIntfrfbdfsAndAddrfssfs (fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /* gft thf nbmf bs b C string */
+    nbmf_utf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+
+    /* Sfbrdh by nbmf */
+    durr = ifList;
+    whilf (durr != NULL) {
+        if (strdmp(nbmf_utf, durr->nbmf) == 0) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (durr != NULL) {;
+        nftifObj = drfbtfNftworkIntfrfbdfXP(fnv, durr);
+    }
+
+    /* rflfbsf thf UTF string */
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+
+    /* rflfbsf thf intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     NftworkIntfrfbdf
+ * Mfthod:    gftByIndfx0_XP
+ * Signbturf: (I)LNftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0_XP
+  (JNIEnv *fnv, jdlbss dls, jint indfx)
+{
+    nftif *ifList, *durr;
+    jobjfdt nftifObj = NULL;
+
+    if (gftAllIntfrfbdfsAndAddrfssfs (fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /* sfbrdh by indfx */
+    durr = ifList;
+    whilf (durr != NULL) {
+        if (indfx == durr->indfx) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (durr != NULL) {
+        nftifObj = drfbtfNftworkIntfrfbdfXP(fnv, durr);
+    }
+
+    /* rflfbsf thf intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftByInftAddrfss0
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0_XP
+    (JNIEnv *fnv, jdlbss dls, jobjfdt ibObj)
+{
+    nftif *ifList, *durr;
+    jobjfdt nftifObj = NULL;
+
+    /* gft thf list of intfrfbdfs */
+    if (gftAllIntfrfbdfsAndAddrfssfs (fnv, &ifList) < 0) {
+        rfturn NULL;
+    }
+
+    /*
+     * Enumfrbtf thf bddrfssfs on fbdh intfrfbdf until wf find b
+     * mbtdhing bddrfss.
+     */
+    durr = ifList;
+    whilf (durr != NULL) {
+        nftbddr *bddrList = durr->bddrs;
+        nftbddr *bddrP;
+
+        /* itfrbtf through fbdh bddrfss */
+        bddrP = bddrList;
+
+        whilf (bddrP != NULL) {
+            if (NET_SodkbddrEqublsInftAddrfss(fnv,
+                                (strudt sodkbddr*)&bddrP->bddr, ibObj)) {
+                brfbk;
+            }
+            bddrP = bddrP->nfxt;
+        }
+
+        /*
+         * Addrfss mbtdhfd so drfbtf NftworkIntfrfbdf for this intfrfbdf
+         * bnd bddrfss list.
+         */
+        if (bddrP != NULL) {
+            nftifObj = drfbtfNftworkIntfrfbdfXP(fnv, durr);
+            brfbk;
+        }
+
+        /* on nfxt intfrfbdf */
+        durr = durr->nfxt;
+    }
+
+    /* rflfbsf thf intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftifObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftAll
+ * Signbturf: ()[Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftAll_XP
+    (JNIEnv *fnv, jdlbss dls)
+{
+    int dount;
+    nftif *ifList, *durr;
+    jobjfdtArrby nftIFArr;
+    jint brr_indfx;
+
+    /*
+     * Gft list of intfrfbdfs
+     */
+    dount = gftAllIntfrfbdfsAndAddrfssfs (fnv, &ifList);
+    if (dount < 0) {
+        rfturn NULL;
+    }
+
+    /* bllodbtf b NftworkIntfrfbdf brrby */
+    nftIFArr = (*fnv)->NfwObjfdtArrby(fnv, dount, dls, NULL);
+    if (nftIFArr == NULL) {
+        rfturn NULL;
+    }
+
+    /*
+     * Itfrbtf through thf intfrfbdfs, drfbtf b NftworkIntfrfbdf instbndf
+     * for fbdh brrby flfmfnt bnd populbtf thf objfdt.
+     */
+    durr = ifList;
+    brr_indfx = 0;
+    whilf (durr != NULL) {
+        jobjfdt nftifObj;
+
+        nftifObj = drfbtfNftworkIntfrfbdfXP(fnv, durr);
+        if (nftifObj == NULL) {
+            rfturn NULL;
+        }
+
+        /* put thf NftworkIntfrfbdf into thf brrby */
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nftIFArr, brr_indfx++, nftifObj);
+        durr = durr->nfxt;
+    }
+
+    /* rflfbsf thf intfrfbdf list */
+    frff_nftif(ifList);
+
+    rfturn nftIFArr;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    supportsMultidbst0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_supportsMultidbst0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jboolfbn vbl = JNI_TRUE;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        vbl = ptr->Flbgs & IP_ADAPTER_NO_MULTICAST ? JNI_FALSE : JNI_TRUE;
+        frff(ptr);
+      }
+      rfturn vbl;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isUp0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isUp0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jboolfbn vbl = JNI_FALSE;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        vbl = ptr->OpfrStbtus == IfOpfrStbtusUp ? JNI_TRUE : JNI_FALSE;
+        frff(ptr);
+      }
+      rfturn vbl;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftMbdAddr0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMbdAddr0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jbytfArrby rft = NULL;
+      int lfn;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        lfn = ptr->PhysidblAddrfssLfngth;
+        if (lfn > 0) {
+          rft = (*fnv)->NfwBytfArrby(fnv, lfn);
+          if (!IS_NULL(rft)) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rft, 0, lfn,
+                                       (jbytf*) ptr->PhysidblAddrfss);
+          }
+        }
+        frff(ptr);
+      }
+      rfturn rft;
+}
+
+/*
+ * Clbss:       jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:      gftMTU0
+ * Signbturf:   ([bLjbvb/lbng/String;I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMTU0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jint rft = -1;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        rft = ptr->Mtu;
+        frff(ptr);
+      }
+      rfturn rft;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isLoopbbdk0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isLoopbbdk0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jboolfbn vbl = JNI_FALSE;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        vbl = ptr->IfTypf == IF_TYPE_SOFTWARE_LOOPBACK ? JNI_TRUE : JNI_FALSE;
+        frff(ptr);
+      }
+      rfturn vbl;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isP2P0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isP2P0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+      IP_ADAPTER_ADDRESSES *ptr;
+      jboolfbn vbl = JNI_FALSE;
+
+      ptr = gftAdbptfr(fnv, indfx);
+      if (ptr != NULL) {
+        if (ptr->IfTypf == IF_TYPE_PPP || ptr->IfTypf == IF_TYPE_SLIP ||
+           ptr->IfTypf == IF_TYPE_TUNNEL) {
+          vbl = JNI_TRUE;
+        }
+        frff(ptr);
+      }
+      rfturn vbl;
+}

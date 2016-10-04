@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * This dlbss spfdififs bn <i>initiblizbtion vfdtor</i> (IV).
+ * Exbmplfs whidh usf IVs brf diphfrs in fffdbbdk modf,
+ * f.g., DES in CBC modf bnd RSA diphfrs with OAEP fndoding
+ * opfrbtion.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+publid dlbss IvPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf bytf[] iv;
+
+    /**
+     * Crfbtfs bn IvPbrbmftfrSpfd objfdt using thf bytfs in <dodf>iv</dodf>
+     * bs thf IV.
+     *
+     * @pbrbm iv thf bufffr with thf IV. Thf dontfnts of thf
+     * bufffr brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @throws NullPointfrExdfption if <dodf>iv</dodf> is <dodf>null</dodf>
+     */
+    publid IvPbrbmftfrSpfd(bytf[] iv) {
+        this(iv, 0, iv.lfngth);
+    }
+
+    /**
+     * Crfbtfs bn IvPbrbmftfrSpfd objfdt using thf first <dodf>lfn</dodf>
+     * bytfs in <dodf>iv</dodf>, bfginning bt <dodf>offsft</dodf>
+     * indlusivf, bs thf IV.
+     *
+     * <p> Thf bytfs thbt donstitutf thf IV brf thosf bftwffn
+     * <dodf>iv[offsft]</dodf> bnd <dodf>iv[offsft+lfn-1]</dodf> indlusivf.
+     *
+     * @pbrbm iv thf bufffr with thf IV. Thf first <dodf>lfn</dodf>
+     * bytfs of thf bufffr bfginning bt <dodf>offsft</dodf> indlusivf
+     * brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft thf offsft in <dodf>iv</dodf> whfrf thf IV
+     * stbrts.
+     * @pbrbm lfn thf numbfr of IV bytfs.
+     * @throws IllfgblArgumfntExdfption if <dodf>iv</dodf> is <dodf>null</dodf>
+     * or {@dodf (iv.lfngth - offsft < lfn)}
+     * @throws ArrbyIndfxOutOfBoundsExdfption is thrown if <dodf>offsft</dodf>
+     * or <dodf>lfn</dodf> indfx bytfs outsidf thf <dodf>iv</dodf>.
+     */
+    publid IvPbrbmftfrSpfd(bytf[] iv, int offsft, int lfn) {
+        if (iv == null) {
+            throw nfw IllfgblArgumfntExdfption("IV missing");
+        }
+        if (iv.lfngth - offsft < lfn) {
+            throw nfw IllfgblArgumfntExdfption
+                ("IV bufffr too short for givfn offsft/lfngth dombinbtion");
+        }
+        if (lfn < 0) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption("lfn is nfgbtivf");
+        }
+        this.iv = nfw bytf[lfn];
+        Systfm.brrbydopy(iv, offsft, this.iv, 0, lfn);
+    }
+
+    /**
+     * Rfturns thf initiblizbtion vfdtor (IV).
+     *
+     * @rfturn thf initiblizbtion vfdtor (IV). Rfturns b nfw brrby
+     * fbdh timf this mfthod is dbllfd.
+     */
+    publid bytf[] gftIV() {
+        rfturn this.iv.dlonf();
+    }
+}

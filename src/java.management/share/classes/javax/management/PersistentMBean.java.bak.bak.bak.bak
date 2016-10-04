@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+
+/**
+ *  This dlbss is thf intfrfbdf to bf implfmfntfd by MBfbns thbt brf mfbnt to bf
+ *  pfrsistfnt.  MBfbns supporting this intfrfbdf should dbll thf lobd mfthod during
+ *  donstrudtion in ordfr to primf thf MBfbn from thf pfrsistfnt storf.
+ *  In thf dbsf of b ModflMBfbn, thf storf mfthod should bf dbllfd by thf MBfbnSfrvfr bbsfd on thf dfsdriptors in
+ *  thf ModflMBfbn or by thf MBfbn itsflf during normbl prodfssing of thf ModflMBfbn.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf PfrsistfntMBfbn {
+
+
+    /**
+     * Instbntibtfs thisMBfbn instbndf with thf dbtb found for
+     * thf MBfbn in thf pfrsistfnt storf.  Thf dbtb lobdfd dould indludf
+     * bttributf bnd opfrbtion vblufs.
+     *
+     * This mfthod should bf dbllfd during donstrudtion or initiblizbtion of this instbndf,
+     * bnd bfforf thf MBfbn is rfgistfrfd with thf MBfbnSfrvfr.
+     *
+     * @fxdfption MBfbnExdfption Wrbps bnothfr fxdfption or pfrsistfndf is not supportfd
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps fxdfptions from thf pfrsistfndf mfdhbnism
+     * @fxdfption InstbndfNotFoundExdfption Could not find or lobd this MBfbn from pfrsistfnt
+     *                                      storbgf
+     */
+    publid void lobd()
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Cbpturfs thf durrfnt stbtf of this MBfbn instbndf bnd
+     * writfs it out to thf pfrsistfnt storf.  Thf stbtf storfd dould indludf
+     * bttributf bnd opfrbtion vblufs. If onf of thfsf mfthods of pfrsistfndf is
+     * not supportfd b "sfrvidfNotFound" fxdfption will bf thrown.
+     * <P>
+     * Pfrsistfndf polidy from thf MBfbn bnd bttributf dfsdriptor is usfd to guidf fxfdution
+     * of this mfthod. Thf MBfbn should bf storfd if 'pfrsistPolidy' fifld is:
+     * <PRE>{@litfrbl  != "nfvfr"
+     *   = "blwbys"
+     *   = "onTimfr" bnd now > 'lbstPfrsistTimf' + 'pfrsistPfriod'
+     *   = "NoMorfOftfnThbn" bnd now > 'lbstPfrsistTimf' + 'pfrsistPfriod'
+     *   = "onUnrfgistfr"
+     * }</PRE>
+     * <p>
+     * Do not storf thf MBfbn if 'pfrsistPolidy' fifld is:
+     * <PRE>{@litfrbl
+     *    = "nfvfr"
+     *    = "onUpdbtf"
+     *    = "onTimfr" && now < 'lbstPfrsistTimf' + 'pfrsistPfriod'
+     * }</PRE>
+     *
+     * @fxdfption MBfbnExdfption Wrbps bnothfr fxdfption or pfrsistfndf is not supportfd
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps fxdfptions from thf pfrsistfndf mfdhbnism
+     * @fxdfption InstbndfNotFoundExdfption Could not find/bddfss thf pfrsistfnt storf
+     */
+    publid void storf()
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption, InstbndfNotFoundExdfption;
+
+}

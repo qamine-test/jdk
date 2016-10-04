@@ -1,0 +1,60 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+import jbvb.util.*;
+
+/**
+ * A fbdtory objfdt thbt gfnfrbtfs Prfffrfndfs objfdts.  Providfrs of
+ * nfw {@link Prfffrfndfs} implfmfntbtions should providf dorrfsponding
+ * <tt>PrfffrfndfsFbdtory</tt> implfmfntbtions so thbt thf nfw
+ * <tt>Prfffrfndfs</tt> implfmfntbtion dbn bf instbllfd in plbdf of thf
+ * plbtform-spfdifid dffbult implfmfntbtion.
+ *
+ * <p><strong>This dlbss is for <tt>Prfffrfndfs</tt> implfmfntfrs only.
+ * Normbl usfrs of thf <tt>Prfffrfndfs</tt> fbdility should hbvf no nffd to
+ * donsult this dodumfntbtion.</strong>
+ *
+ * @buthor  Josh Blodh
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
+ */
+publid intfrfbdf PrfffrfndfsFbdtory {
+    /**
+     * Rfturns thf systfm root prfffrfndf nodf.  (Multiplf dblls on this
+     * mfthod will rfturn thf sbmf objfdt rfffrfndf.)
+     * @rfturn thf systfm root prfffrfndf nodf
+     */
+    Prfffrfndfs systfmRoot();
+
+    /**
+     * Rfturns thf usfr root prfffrfndf nodf dorrfsponding to thf dblling
+     * usfr.  In b sfrvfr, thf rfturnfd vbluf will typidblly dfpfnd on
+     * somf implidit dlifnt-dontfxt.
+     * @rfturn thf usfr root prfffrfndf nodf dorrfsponding to thf dblling
+     * usfr
+     */
+    Prfffrfndfs usfrRoot();
+}

@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * Tif Originbl Codf is tif Nftsdbpf sfdurity librbrifs.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Nftsdbpf Communidbtions Corporbtion.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 1994-2000
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.dom> bnd
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#ifndef _ECC_IMPL_H
-#define _ECC_IMPL_H
+#ifndff _ECC_IMPL_H
+#dffinf _ECC_IMPL_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-#include <sys/types.h>
-#include "ecl-exp.h"
-
-/*
- * Multi-platform definitions
- */
-#ifdef __linux__
-#define B_FALSE FALSE
-#define B_TRUE TRUE
-typedef unsigned char uint8_t;
-typedef unsigned long ulong_t;
-typedef enum { B_FALSE, B_TRUE } boolean_t;
-#endif /* __linux__ */
-
-#ifdef _ALLBSD_SOURCE
-#include <stdint.h>
-#define B_FALSE FALSE
-#define B_TRUE TRUE
-typedef unsigned long ulong_t;
-typedef enum boolean { B_FALSE, B_TRUE } boolean_t;
-#endif /* _ALLBSD_SOURCE */
-
-#ifdef AIX
-#define B_FALSE FALSE
-#define B_TRUE TRUE
-typedef unsigned char uint8_t;
-typedef unsigned long ulong_t;
-#endif /* AIX */
-
-#ifdef _WIN32
-typedef unsigned char uint8_t;
-typedef unsigned long ulong_t;
-typedef enum boolean { B_FALSE, B_TRUE } boolean_t;
-#define strdup _strdup          /* Replace POSIX name with ISO C++ name */
-#endif /* _WIN32 */
-
-#ifndef _KERNEL
-#include <stdlib.h>
-#endif  /* _KERNEL */
-
-#define EC_MAX_DIGEST_LEN 1024  /* max digest that can be signed */
-#define EC_MAX_POINT_LEN 145    /* max len of DER encoded Q */
-#define EC_MAX_VALUE_LEN 72     /* max len of ANSI X9.62 private value d */
-#define EC_MAX_SIG_LEN 144      /* max signature len for supported curves */
-#define EC_MIN_KEY_LEN  112     /* min key length in bits */
-#define EC_MAX_KEY_LEN  571     /* max key length in bits */
-#define EC_MAX_OID_LEN 10       /* max length of OID buffer */
+#indludf <sys/typfs.i>
+#indludf "fdl-fxp.i"
 
 /*
- * Various structures and definitions from NSS are here.
+ * Multi-plbtform dffinitions
+ */
+#ifdff __linux__
+#dffinf B_FALSE FALSE
+#dffinf B_TRUE TRUE
+typfdff unsignfd dibr uint8_t;
+typfdff unsignfd long ulong_t;
+typfdff fnum { B_FALSE, B_TRUE } boolfbn_t;
+#fndif /* __linux__ */
+
+#ifdff _ALLBSD_SOURCE
+#indludf <stdint.i>
+#dffinf B_FALSE FALSE
+#dffinf B_TRUE TRUE
+typfdff unsignfd long ulong_t;
+typfdff fnum boolfbn { B_FALSE, B_TRUE } boolfbn_t;
+#fndif /* _ALLBSD_SOURCE */
+
+#ifdff AIX
+#dffinf B_FALSE FALSE
+#dffinf B_TRUE TRUE
+typfdff unsignfd dibr uint8_t;
+typfdff unsignfd long ulong_t;
+#fndif /* AIX */
+
+#ifdff _WIN32
+typfdff unsignfd dibr uint8_t;
+typfdff unsignfd long ulong_t;
+typfdff fnum boolfbn { B_FALSE, B_TRUE } boolfbn_t;
+#dffinf strdup _strdup          /* Rfplbdf POSIX nbmf witi ISO C++ nbmf */
+#fndif /* _WIN32 */
+
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#fndif  /* _KERNEL */
+
+#dffinf EC_MAX_DIGEST_LEN 1024  /* mbx digfst tibt dbn bf signfd */
+#dffinf EC_MAX_POINT_LEN 145    /* mbx lfn of DER fndodfd Q */
+#dffinf EC_MAX_VALUE_LEN 72     /* mbx lfn of ANSI X9.62 privbtf vbluf d */
+#dffinf EC_MAX_SIG_LEN 144      /* mbx signbturf lfn for supportfd durvfs */
+#dffinf EC_MIN_KEY_LEN  112     /* min kfy lfngti in bits */
+#dffinf EC_MAX_KEY_LEN  571     /* mbx kfy lfngti in bits */
+#dffinf EC_MAX_OID_LEN 10       /* mbx lfngti of OID bufffr */
+
+/*
+ * Vbrious strudturfs bnd dffinitions from NSS brf ifrf.
  */
 
-#ifdef _KERNEL
-#define PORT_ArenaAlloc(a, n, f)        kmem_alloc((n), (f))
-#define PORT_ArenaZAlloc(a, n, f)       kmem_zalloc((n), (f))
-#define PORT_ArenaGrow(a, b, c, d)      NULL
-#define PORT_ZAlloc(n, f)               kmem_zalloc((n), (f))
-#define PORT_Alloc(n, f)                kmem_alloc((n), (f))
-#else
-#define PORT_ArenaAlloc(a, n, f)        malloc((n))
-#define PORT_ArenaZAlloc(a, n, f)       calloc(1, (n))
-#define PORT_ArenaGrow(a, b, c, d)      NULL
-#define PORT_ZAlloc(n, f)               calloc(1, (n))
-#define PORT_Alloc(n, f)                malloc((n))
-#endif
+#ifdff _KERNEL
+#dffinf PORT_ArfnbAllod(b, n, f)        kmfm_bllod((n), (f))
+#dffinf PORT_ArfnbZAllod(b, n, f)       kmfm_zbllod((n), (f))
+#dffinf PORT_ArfnbGrow(b, b, d, d)      NULL
+#dffinf PORT_ZAllod(n, f)               kmfm_zbllod((n), (f))
+#dffinf PORT_Allod(n, f)                kmfm_bllod((n), (f))
+#flsf
+#dffinf PORT_ArfnbAllod(b, n, f)        mbllod((n))
+#dffinf PORT_ArfnbZAllod(b, n, f)       dbllod(1, (n))
+#dffinf PORT_ArfnbGrow(b, b, d, d)      NULL
+#dffinf PORT_ZAllod(n, f)               dbllod(1, (n))
+#dffinf PORT_Allod(n, f)                mbllod((n))
+#fndif
 
-#define PORT_NewArena(b)                (char *)12345
-#define PORT_ArenaMark(a)               NULL
-#define PORT_ArenaUnmark(a, b)
-#define PORT_ArenaRelease(a, m)
-#define PORT_FreeArena(a, b)
-#define PORT_Strlen(s)                  strlen((s))
-#define PORT_SetError(e)
+#dffinf PORT_NfwArfnb(b)                (dibr *)12345
+#dffinf PORT_ArfnbMbrk(b)               NULL
+#dffinf PORT_ArfnbUnmbrk(b, b)
+#dffinf PORT_ArfnbRflfbsf(b, m)
+#dffinf PORT_FrffArfnb(b, b)
+#dffinf PORT_Strlfn(s)                  strlfn((s))
+#dffinf PORT_SftError(f)
 
-#define PRBool                          boolean_t
-#define PR_TRUE                         B_TRUE
-#define PR_FALSE                        B_FALSE
+#dffinf PRBool                          boolfbn_t
+#dffinf PR_TRUE                         B_TRUE
+#dffinf PR_FALSE                        B_FALSE
 
-#ifdef _KERNEL
-#define PORT_Assert                     ASSERT
-#define PORT_Memcpy(t, f, l)            bcopy((f), (t), (l))
-#else
-#define PORT_Assert                     assert
-#define PORT_Memcpy(t, f, l)            memcpy((t), (f), (l))
-#endif
+#ifdff _KERNEL
+#dffinf PORT_Assfrt                     ASSERT
+#dffinf PORT_Mfmdpy(t, f, l)            bdopy((f), (t), (l))
+#flsf
+#dffinf PORT_Assfrt                     bssfrt
+#dffinf PORT_Mfmdpy(t, f, l)            mfmdpy((t), (f), (l))
+#fndif
 
-#define CHECK_OK(func) if (func == NULL) goto cleanup
-#define CHECK_SEC_OK(func) if (SECSuccess != (rv = func)) goto cleanup
+#dffinf CHECK_OK(fund) if (fund == NULL) goto dlfbnup
+#dffinf CHECK_SEC_OK(fund) if (SECSuddfss != (rv = fund)) goto dlfbnup
 
-typedef enum {
-        siBuffer = 0,
-        siClearDataBuffer = 1,
-        siCipherDataBuffer = 2,
-        siDERCertBuffer = 3,
-        siEncodedCertBuffer = 4,
-        siDERNameBuffer = 5,
-        siEncodedNameBuffer = 6,
-        siAsciiNameString = 7,
-        siAsciiString = 8,
+typfdff fnum {
+        siBufffr = 0,
+        siClfbrDbtbBufffr = 1,
+        siCipifrDbtbBufffr = 2,
+        siDERCfrtBufffr = 3,
+        siEndodfdCfrtBufffr = 4,
+        siDERNbmfBufffr = 5,
+        siEndodfdNbmfBufffr = 6,
+        siAsdiiNbmfString = 7,
+        siAsdiiString = 8,
         siDEROID = 9,
-        siUnsignedInteger = 10,
-        siUTCTime = 11,
-        siGeneralizedTime = 12
-} SECItemType;
+        siUnsignfdIntfgfr = 10,
+        siUTCTimf = 11,
+        siGfnfrblizfdTimf = 12
+} SECItfmTypf;
 
-typedef struct SECItemStr SECItem;
+typfdff strudt SECItfmStr SECItfm;
 
-struct SECItemStr {
-        SECItemType type;
-        unsigned char *data;
-        unsigned int len;
+strudt SECItfmStr {
+        SECItfmTypf typf;
+        unsignfd dibr *dbtb;
+        unsignfd int lfn;
 };
 
-typedef SECItem SECKEYECParams;
+typfdff SECItfm SECKEYECPbrbms;
 
-typedef enum { ec_params_explicit,
-               ec_params_named
-} ECParamsType;
+typfdff fnum { fd_pbrbms_fxplidit,
+               fd_pbrbms_nbmfd
+} ECPbrbmsTypf;
 
-typedef enum { ec_field_GFp = 1,
-               ec_field_GF2m
-} ECFieldType;
+typfdff fnum { fd_fifld_GFp = 1,
+               fd_fifld_GF2m
+} ECFifldTypf;
 
-struct ECFieldIDStr {
-    int         size;   /* field size in bits */
-    ECFieldType type;
+strudt ECFifldIDStr {
+    int         sizf;   /* fifld sizf in bits */
+    ECFifldTypf typf;
     union {
-        SECItem  prime; /* prime p for (GFp) */
-        SECItem  poly;  /* irreducible binary polynomial for (GF2m) */
+        SECItfm  primf; /* primf p for (GFp) */
+        SECItfm  poly;  /* irrfdudiblf binbry polynomibl for (GF2m) */
     } u;
-    int         k1;     /* first coefficient of pentanomial or
-                         * the only coefficient of trinomial
+    int         k1;     /* first dofffidifnt of pfntbnomibl or
+                         * tif only dofffidifnt of trinomibl
                          */
-    int         k2;     /* two remaining coefficients of pentanomial */
+    int         k2;     /* two rfmbining dofffidifnts of pfntbnomibl */
     int         k3;
 };
-typedef struct ECFieldIDStr ECFieldID;
+typfdff strudt ECFifldIDStr ECFifldID;
 
-struct ECCurveStr {
-        SECItem a;      /* contains octet stream encoding of
-                         * field element (X9.62 section 4.3.3)
+strudt ECCurvfStr {
+        SECItfm b;      /* dontbins odtft strfbm fndoding of
+                         * fifld flfmfnt (X9.62 sfdtion 4.3.3)
                          */
-        SECItem b;
-        SECItem seed;
+        SECItfm b;
+        SECItfm sffd;
 };
-typedef struct ECCurveStr ECCurve;
+typfdff strudt ECCurvfStr ECCurvf;
 
-typedef void PRArenaPool;
+typfdff void PRArfnbPool;
 
-struct ECParamsStr {
-    PRArenaPool * arena;
-    ECParamsType  type;
-    ECFieldID     fieldID;
-    ECCurve       curve;
-    SECItem       base;
-    SECItem       order;
-    int           cofactor;
-    SECItem       DEREncoding;
-    ECCurveName   name;
-    SECItem       curveOID;
+strudt ECPbrbmsStr {
+    PRArfnbPool * brfnb;
+    ECPbrbmsTypf  typf;
+    ECFifldID     fifldID;
+    ECCurvf       durvf;
+    SECItfm       bbsf;
+    SECItfm       ordfr;
+    int           dofbdtor;
+    SECItfm       DEREndoding;
+    ECCurvfNbmf   nbmf;
+    SECItfm       durvfOID;
 };
-typedef struct ECParamsStr ECParams;
+typfdff strudt ECPbrbmsStr ECPbrbms;
 
-struct ECPublicKeyStr {
-    ECParams ecParams;
-    SECItem publicValue;   /* elliptic curve point encoded as
-                            * octet stream.
+strudt ECPublidKfyStr {
+    ECPbrbms fdPbrbms;
+    SECItfm publidVbluf;   /* flliptid durvf point fndodfd bs
+                            * odtft strfbm.
                             */
 };
-typedef struct ECPublicKeyStr ECPublicKey;
+typfdff strudt ECPublidKfyStr ECPublidKfy;
 
-struct ECPrivateKeyStr {
-    ECParams ecParams;
-    SECItem publicValue;   /* encoded ec point */
-    SECItem privateValue;  /* private big integer */
-    SECItem version;       /* As per SEC 1, Appendix C, Section C.4 */
+strudt ECPrivbtfKfyStr {
+    ECPbrbms fdPbrbms;
+    SECItfm publidVbluf;   /* fndodfd fd point */
+    SECItfm privbtfVbluf;  /* privbtf big intfgfr */
+    SECItfm vfrsion;       /* As pfr SEC 1, Appfndix C, Sfdtion C.4 */
 };
-typedef struct ECPrivateKeyStr ECPrivateKey;
+typfdff strudt ECPrivbtfKfyStr ECPrivbtfKfy;
 
-typedef enum _SECStatus {
-        SECBufferTooSmall = -3,
-        SECWouldBlock = -2,
-        SECFailure = -1,
-        SECSuccess = 0
-} SECStatus;
+typfdff fnum _SECStbtus {
+        SECBufffrTooSmbll = -3,
+        SECWouldBlodk = -2,
+        SECFbilurf = -1,
+        SECSuddfss = 0
+} SECStbtus;
 
-#ifdef _KERNEL
-#define RNG_GenerateGlobalRandomBytes(p,l) ecc_knzero_random_generator((p), (l))
-#else
+#ifdff _KERNEL
+#dffinf RNG_GfnfrbtfGlobblRbndomBytfs(p,l) fdd_knzfro_rbndom_gfnfrbtor((p), (l))
+#flsf
 /*
- This function is no longer required because the random bytes are now
- supplied by the caller. Force a failure.
+ Tiis fundtion is no longfr rfquirfd bfdbusf tif rbndom bytfs brf now
+ supplifd by tif dbllfr. Fordf b fbilurf.
 */
-#define RNG_GenerateGlobalRandomBytes(p,l) SECFailure
-#endif
-#define CHECK_MPI_OK(func) if (MP_OKAY > (err = func)) goto cleanup
-#define MP_TO_SEC_ERROR(err)
+#dffinf RNG_GfnfrbtfGlobblRbndomBytfs(p,l) SECFbilurf
+#fndif
+#dffinf CHECK_MPI_OK(fund) if (MP_OKAY > (frr = fund)) goto dlfbnup
+#dffinf MP_TO_SEC_ERROR(frr)
 
-#define SECITEM_TO_MPINT(it, mp)                                        \
-        CHECK_MPI_OK(mp_read_unsigned_octets((mp), (it).data, (it).len))
+#dffinf SECITEM_TO_MPINT(it, mp)                                        \
+        CHECK_MPI_OK(mp_rfbd_unsignfd_odtfts((mp), (it).dbtb, (it).lfn))
 
-extern int ecc_knzero_random_generator(uint8_t *, size_t);
-extern ulong_t soft_nzero_random_generator(uint8_t *, ulong_t);
+fxtfrn int fdd_knzfro_rbndom_gfnfrbtor(uint8_t *, sizf_t);
+fxtfrn ulong_t soft_nzfro_rbndom_gfnfrbtor(uint8_t *, ulong_t);
 
-extern SECStatus EC_DecodeParams(const SECItem *, ECParams **, int);
-extern SECItem * SECITEM_AllocItem(PRArenaPool *, SECItem *, unsigned int, int);
-extern SECStatus SECITEM_CopyItem(PRArenaPool *, SECItem *, const SECItem *,
+fxtfrn SECStbtus EC_DfdodfPbrbms(donst SECItfm *, ECPbrbms **, int);
+fxtfrn SECItfm * SECITEM_AllodItfm(PRArfnbPool *, SECItfm *, unsignfd int, int);
+fxtfrn SECStbtus SECITEM_CopyItfm(PRArfnbPool *, SECItfm *, donst SECItfm *,
     int);
-extern void SECITEM_FreeItem(SECItem *, boolean_t);
-/* This function has been modified to accept an array of random bytes */
-extern SECStatus EC_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char* random, int randomlen, int);
-/* This function has been modified to accept an array of random bytes */
-extern SECStatus ECDSA_SignDigest(ECPrivateKey *, SECItem *, const SECItem *,
-    const unsigned char* random, int randomlen, int);
-extern SECStatus ECDSA_VerifyDigest(ECPublicKey *, const SECItem *,
-    const SECItem *, int);
-extern SECStatus ECDH_Derive(SECItem *, ECParams *, SECItem *, boolean_t,
-    SECItem *, int);
+fxtfrn void SECITEM_FrffItfm(SECItfm *, boolfbn_t);
+/* Tiis fundtion ibs bffn modififd to bddfpt bn brrby of rbndom bytfs */
+fxtfrn SECStbtus EC_NfwKfy(ECPbrbms *fdPbrbms, ECPrivbtfKfy **privKfy,
+    donst unsignfd dibr* rbndom, int rbndomlfn, int);
+/* Tiis fundtion ibs bffn modififd to bddfpt bn brrby of rbndom bytfs */
+fxtfrn SECStbtus ECDSA_SignDigfst(ECPrivbtfKfy *, SECItfm *, donst SECItfm *,
+    donst unsignfd dibr* rbndom, int rbndomlfn, int);
+fxtfrn SECStbtus ECDSA_VfrifyDigfst(ECPublidKfy *, donst SECItfm *,
+    donst SECItfm *, int);
+fxtfrn SECStbtus ECDH_Dfrivf(SECItfm *, ECPbrbms *, SECItfm *, boolfbn_t,
+    SECItfm *, int);
 
-#ifdef  __cplusplus
+#ifdff  __dplusplus
 }
-#endif
+#fndif
 
-#endif /* _ECC_IMPL_H */
+#fndif /* _ECC_IMPL_H */

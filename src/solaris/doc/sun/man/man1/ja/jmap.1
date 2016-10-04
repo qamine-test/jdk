@@ -1,49 +1,49 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jmbp
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: トラブルシューティング・ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jmbp
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
 .TH "jmbp" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
@@ -66,7 +66,7 @@ jmbp \- プロセスやコア・ファイルまたはリモート・デバッグ・サーバーの、共用オブジ
 .RS 4
 .\}
 .nf
-\fIjmbp\fR [ \fIoptions\fR ] \fIexecutbble\fR \fIcore\fR
+\fIjmbp\fR [ \fIoptions\fR ] \fIfxfdutbblf\fR \fIdorf\fR
 .fi
 .if n \{\
 .RE
@@ -76,7 +76,7 @@ jmbp \- プロセスやコア・ファイルまたはリモート・デバッグ・サーバーの、共用オブジ
 .RS 4
 .\}
 .nf
-\fIjmbp\fR [ \fIoptions\fR ] [ \fIpid\fR ] \fIserver\-id\fR@ ] \fIremote\-hostnbme\-or\-IP\fR
+\fIjmbp\fR [ \fIoptions\fR ] [ \fIpid\fR ] \fIsfrvfr\-id\fR@ ] \fIrfmotf\-iostnbmf\-or\-IP\fR
 .fi
 .if n \{\
 .RE
@@ -102,66 +102,66 @@ jmbp \- プロセスやコア・ファイルまたはリモート・デバッグ・サーバーの、共用オブジ
 出力するメモリー・マップのコア・ファイル。
 .RE
 .PP
-\fIremote\-hostnbme\-or\-IP\fR
+\fIrfmotf\-iostnbmf\-or\-IP\fR
 .RS 4
-リモート・デバッグ・サーバーの\fIホスト名\fRまたは\fIIP\fRアドレス。jsbdebugd(1)を参照してください。
+リモート・デバッグ・サーバーの\fIホスト名\fRまたは\fIIP\fRアドレス。jsbdfbugd(1)を参照してください。
 .RE
 .PP
-\fIserver\-id\fR
+\fIsfrvfr\-id\fR
 .RS 4
 複数のデバッグ・サーバーが同一のリモート・ホストで実行している場合の、オプション固有のID。
 .RE
 .SH "説明"
 .PP
 \fIjmbp\fRコマンドは、指定されたプロセスやコア・ファイルまたはリモート・デバッグ・サーバーの、共用オブジェクト・メモリー・マップまたはヒープ・メモリーの詳細を出力します。指定されたプロセスが64ビットJbvb仮想マシン(JVM)上で実行されている場合、\fI\-J\-d64\fRオプションを指定する必要がある場合があります。次に例を示します。\fIjmbp\fR
-\fI\-J\-d64 \-hebp pid\fR。
+\fI\-J\-d64 \-ifbp pid\fR。
 .PP
 \fB注意:\fR
-このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgeng\&.dll\fRファイルが存在していないWindowsシステムでは、Debugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用される\fIjvm\&.dll\fRの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。次に例を示します。\fIset PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR。
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRファイルが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用される\fIjvm\&.dll\fRの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。次に例を示します。\fIsft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR。
 .SH "オプション"
 .PP
 <オプションなし>
 .RS 4
-オプションを使用しない場合、\fIjmbp\fRコマンドは共用オブジェクト・マッピングを出力します。ターゲットJVMにロードされた共用オブジェクトごとに、開始アドレス、マッピングのサイズおよび共用オブジェクト・ファイルのフルパスが出力されます。この動作は、Orbcle Solbris
+オプションを使用しない場合、\fIjmbp\fRコマンドは共用オブジェクト・マッピングを出力します。ターゲットJVMにロードされた共用オブジェクトごとに、開始アドレス、マッピングのサイズおよび共用オブジェクト・ファイルのフルパスが出力されます。この動作は、Orbdlf Solbris
 \fIpmbp\fRユーティリティと類似しています。
 .RE
 .PP
-\-dump:[live,] formbt=b, file=\fIfilenbme\fR
+\-dump:[livf,] formbt=b, filf=\fIfilfnbmf\fR
 .RS 4
-Jbvbヒープを\fIhprof\fRバイナリ形式で\fIfilenbme\fRにダンプします。\fIlive\fRサブオプションはオプションですが、指定した場合、ヒープ内のアクティブなオブジェクトのみがダンプされます。ヒープ・ダンプを参照するには、jhbt(1)コマンドを使用して生成されたファイルを読み取ります。
+Jbvbヒープを\fIiprof\fRバイナリ形式で\fIfilfnbmf\fRにダンプします。\fIlivf\fRサブオプションはオプションですが、指定した場合、ヒープ内のアクティブなオブジェクトのみがダンプされます。ヒープ・ダンプを参照するには、jibt(1)コマンドを使用して生成されたファイルを読み取ります。
 .RE
 .PP
-\-finblizerinfo
+\-finblizfrinfo
 .RS 4
 ファイナライズを待っているオブジェクトに関する情報を出力します。
 .RE
 .PP
-\-hebp
+\-ifbp
 .RS 4
-使用されているガベージ・コレクションのヒープ・サマリー、ヘッダー構成、および世代関連のヒープ使用状況を出力します。さらに、internされた文字列の数とサイズも出力されます。
+使用されているガベージ・コレクションのヒープ・サマリー、ヘッダー構成、および世代関連のヒープ使用状況を出力します。さらに、intfrnされた文字列の数とサイズも出力されます。
 .RE
 .PP
-\-histo[:live]
+\-iisto[:livf]
 .RS 4
-ヒープのヒストグラムを出力します。Jbvbクラスごとに、オブジェクトの数、バイト単位でのメモリー・サイズ、および完全修飾クラス名が出力されます。JVMの内部クラス名はアスタリスク(*)の接頭辞を付けて出力されます。\fIlive\fRサブオプションが指定された場合、アクティブなオブジェクトのみがカウントされます。
+ヒープのヒストグラムを出力します。Jbvbクラスごとに、オブジェクトの数、バイト単位でのメモリー・サイズ、および完全修飾クラス名が出力されます。JVMの内部クラス名はアスタリスク(*)の接頭辞を付けて出力されます。\fIlivf\fRサブオプションが指定された場合、アクティブなオブジェクトのみがカウントされます。
 .RE
 .PP
-\-clstbts
+\-dlstbts
 .RS 4
 Jbvbヒープの、クラス・ローダー関連の統計データを出力します。クラス・ローダーごとに、その名前、状態、アドレス、親クラス・ローダー、およびクラス・ローダーがロードしたクラスの数とサイズが出力されます。
 .RE
 .PP
 \-F
 .RS 4
-強制します。PIDが応答しないときに、このオプションを\fIjmbp \-dump\fRまたは\fIjmbp \-histo\fRオプションとともに使用します。このモードでは、\fIlive\fRサブオプションはサポートされません。
+強制します。PIDが応答しないときに、このオプションを\fIjmbp \-dump\fRまたは\fIjmbp \-iisto\fRオプションとともに使用します。このモードでは、\fIlivf\fRサブオプションはサポートされません。
 .RE
 .PP
-\-h
+\-i
 .RS 4
 ヘルプ・メッセージが出力されます。
 .RE
 .PP
-\-help
+\-iflp
 .RS 4
 ヘルプ・メッセージが出力されます。
 .RE
@@ -173,21 +173,21 @@ Jbvbヒープの、クラス・ローダー関連の統計データを出力します。クラス・ローダーごと
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jhbt(1)
+jibt(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -195,14 +195,14 @@ jps(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jsbdebugd(1)
+jsbdfbugd(1)
 .RE
 .br
 'pl 8.5i

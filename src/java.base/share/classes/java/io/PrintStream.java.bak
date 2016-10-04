@@ -1,1129 +1,1129 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.util.Formatter;
-import java.util.Locale;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
+import jbvb.util.Formbttfr;
+import jbvb.util.Lodblf;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption;
 
 /**
- * A <code>PrintStream</code> adds functionality to another output stream,
- * namely the ability to print representations of various data values
- * conveniently.  Two other features are provided as well.  Unlike other output
- * streams, a <code>PrintStream</code> never throws an
- * <code>IOException</code>; instead, exceptional situations merely set an
- * internal flag that can be tested via the <code>checkError</code> method.
- * Optionally, a <code>PrintStream</code> can be created so as to flush
- * automatically; this means that the <code>flush</code> method is
- * automatically invoked after a byte array is written, one of the
- * <code>println</code> methods is invoked, or a newline character or byte
- * (<code>'\n'</code>) is written.
+ * A <dodf>PrintStrfbm</dodf> bdds fundtionblity to bnotifr output strfbm,
+ * nbmfly tif bbility to print rfprfsfntbtions of vbrious dbtb vblufs
+ * donvfnifntly.  Two otifr ffbturfs brf providfd bs wfll.  Unlikf otifr output
+ * strfbms, b <dodf>PrintStrfbm</dodf> nfvfr tirows bn
+ * <dodf>IOExdfption</dodf>; instfbd, fxdfptionbl situbtions mfrfly sft bn
+ * intfrnbl flbg tibt dbn bf tfstfd vib tif <dodf>difdkError</dodf> mftiod.
+ * Optionblly, b <dodf>PrintStrfbm</dodf> dbn bf drfbtfd so bs to flusi
+ * butombtidblly; tiis mfbns tibt tif <dodf>flusi</dodf> mftiod is
+ * butombtidblly invokfd bftfr b bytf brrby is writtfn, onf of tif
+ * <dodf>println</dodf> mftiods is invokfd, or b nfwlinf dibrbdtfr or bytf
+ * (<dodf>'\n'</dodf>) is writtfn.
  *
- * <p> All characters printed by a <code>PrintStream</code> are converted into
- * bytes using the platform's default character encoding.  The <code>{@link
- * PrintWriter}</code> class should be used in situations that require writing
- * characters rather than bytes.
+ * <p> All dibrbdtfrs printfd by b <dodf>PrintStrfbm</dodf> brf donvfrtfd into
+ * bytfs using tif plbtform's dffbult dibrbdtfr fndoding.  Tif <dodf>{@link
+ * PrintWritfr}</dodf> dlbss siould bf usfd in situbtions tibt rfquirf writing
+ * dibrbdtfrs rbtifr tibn bytfs.
  *
- * @author     Frank Yellin
- * @author     Mark Reinhold
- * @since      1.0
+ * @butior     Frbnk Yfllin
+ * @butior     Mbrk Rfiniold
+ * @sindf      1.0
  */
 
-public class PrintStream extends FilterOutputStream
-    implements Appendable, Closeable
+publid dlbss PrintStrfbm fxtfnds FiltfrOutputStrfbm
+    implfmfnts Appfndbblf, Closfbblf
 {
 
-    private final boolean autoFlush;
-    private boolean trouble = false;
-    private Formatter formatter;
+    privbtf finbl boolfbn butoFlusi;
+    privbtf boolfbn troublf = fblsf;
+    privbtf Formbttfr formbttfr;
 
     /**
-     * Track both the text- and character-output streams, so that their buffers
-     * can be flushed without flushing the entire stream.
+     * Trbdk boti tif tfxt- bnd dibrbdtfr-output strfbms, so tibt tifir bufffrs
+     * dbn bf flusifd witiout flusiing tif fntirf strfbm.
      */
-    private BufferedWriter textOut;
-    private OutputStreamWriter charOut;
+    privbtf BufffrfdWritfr tfxtOut;
+    privbtf OutputStrfbmWritfr dibrOut;
 
     /**
-     * requireNonNull is explicitly declared here so as not to create an extra
-     * dependency on java.util.Objects.requireNonNull. PrintStream is loaded
-     * early during system initialization.
+     * rfquirfNonNull is fxpliditly dfdlbrfd ifrf so bs not to drfbtf bn fxtrb
+     * dfpfndfndy on jbvb.util.Objfdts.rfquirfNonNull. PrintStrfbm is lobdfd
+     * fbrly during systfm initiblizbtion.
      */
-    private static <T> T requireNonNull(T obj, String message) {
+    privbtf stbtid <T> T rfquirfNonNull(T obj, String mfssbgf) {
         if (obj == null)
-            throw new NullPointerException(message);
-        return obj;
+            tirow nfw NullPointfrExdfption(mfssbgf);
+        rfturn obj;
     }
 
     /**
-     * Returns a charset object for the given charset name.
-     * @throws NullPointerException          is csn is null
-     * @throws UnsupportedEncodingException  if the charset is not supported
+     * Rfturns b dibrsft objfdt for tif givfn dibrsft nbmf.
+     * @tirows NullPointfrExdfption          is dsn is null
+     * @tirows UnsupportfdEndodingExdfption  if tif dibrsft is not supportfd
      */
-    private static Charset toCharset(String csn)
-        throws UnsupportedEncodingException
+    privbtf stbtid Cibrsft toCibrsft(String dsn)
+        tirows UnsupportfdEndodingExdfption
     {
-        requireNonNull(csn, "charsetName");
+        rfquirfNonNull(dsn, "dibrsftNbmf");
         try {
-            return Charset.forName(csn);
-        } catch (IllegalCharsetNameException|UnsupportedCharsetException unused) {
-            // UnsupportedEncodingException should be thrown
-            throw new UnsupportedEncodingException(csn);
+            rfturn Cibrsft.forNbmf(dsn);
+        } dbtdi (IllfgblCibrsftNbmfExdfption|UnsupportfdCibrsftExdfption unusfd) {
+            // UnsupportfdEndodingExdfption siould bf tirown
+            tirow nfw UnsupportfdEndodingExdfption(dsn);
         }
     }
 
-    /* Private constructors */
-    private PrintStream(boolean autoFlush, OutputStream out) {
-        super(out);
-        this.autoFlush = autoFlush;
-        this.charOut = new OutputStreamWriter(this);
-        this.textOut = new BufferedWriter(charOut);
+    /* Privbtf donstrudtors */
+    privbtf PrintStrfbm(boolfbn butoFlusi, OutputStrfbm out) {
+        supfr(out);
+        tiis.butoFlusi = butoFlusi;
+        tiis.dibrOut = nfw OutputStrfbmWritfr(tiis);
+        tiis.tfxtOut = nfw BufffrfdWritfr(dibrOut);
     }
 
-    private PrintStream(boolean autoFlush, OutputStream out, Charset charset) {
-        super(out);
-        this.autoFlush = autoFlush;
-        this.charOut = new OutputStreamWriter(this, charset);
-        this.textOut = new BufferedWriter(charOut);
+    privbtf PrintStrfbm(boolfbn butoFlusi, OutputStrfbm out, Cibrsft dibrsft) {
+        supfr(out);
+        tiis.butoFlusi = butoFlusi;
+        tiis.dibrOut = nfw OutputStrfbmWritfr(tiis, dibrsft);
+        tiis.tfxtOut = nfw BufffrfdWritfr(dibrOut);
     }
 
-    /* Variant of the private constructor so that the given charset name
-     * can be verified before evaluating the OutputStream argument. Used
-     * by constructors creating a FileOutputStream that also take a
-     * charset name.
+    /* Vbribnt of tif privbtf donstrudtor so tibt tif givfn dibrsft nbmf
+     * dbn bf vfrififd bfforf fvblubting tif OutputStrfbm brgumfnt. Usfd
+     * by donstrudtors drfbting b FilfOutputStrfbm tibt blso tbkf b
+     * dibrsft nbmf.
      */
-    private PrintStream(boolean autoFlush, Charset charset, OutputStream out)
-        throws UnsupportedEncodingException
+    privbtf PrintStrfbm(boolfbn butoFlusi, Cibrsft dibrsft, OutputStrfbm out)
+        tirows UnsupportfdEndodingExdfption
     {
-        this(autoFlush, out, charset);
+        tiis(butoFlusi, out, dibrsft);
     }
 
     /**
-     * Creates a new print stream.  This stream will not flush automatically.
+     * Crfbtfs b nfw print strfbm.  Tiis strfbm will not flusi butombtidblly.
      *
-     * @param  out        The output stream to which values and objects will be
-     *                    printed
+     * @pbrbm  out        Tif output strfbm to wiidi vblufs bnd objfdts will bf
+     *                    printfd
      *
-     * @see java.io.PrintWriter#PrintWriter(java.io.OutputStream)
+     * @sff jbvb.io.PrintWritfr#PrintWritfr(jbvb.io.OutputStrfbm)
      */
-    public PrintStream(OutputStream out) {
-        this(out, false);
+    publid PrintStrfbm(OutputStrfbm out) {
+        tiis(out, fblsf);
     }
 
     /**
-     * Creates a new print stream.
+     * Crfbtfs b nfw print strfbm.
      *
-     * @param  out        The output stream to which values and objects will be
-     *                    printed
-     * @param  autoFlush  A boolean; if true, the output buffer will be flushed
-     *                    whenever a byte array is written, one of the
-     *                    <code>println</code> methods is invoked, or a newline
-     *                    character or byte (<code>'\n'</code>) is written
+     * @pbrbm  out        Tif output strfbm to wiidi vblufs bnd objfdts will bf
+     *                    printfd
+     * @pbrbm  butoFlusi  A boolfbn; if truf, tif output bufffr will bf flusifd
+     *                    wifnfvfr b bytf brrby is writtfn, onf of tif
+     *                    <dodf>println</dodf> mftiods is invokfd, or b nfwlinf
+     *                    dibrbdtfr or bytf (<dodf>'\n'</dodf>) is writtfn
      *
-     * @see java.io.PrintWriter#PrintWriter(java.io.OutputStream, boolean)
+     * @sff jbvb.io.PrintWritfr#PrintWritfr(jbvb.io.OutputStrfbm, boolfbn)
      */
-    public PrintStream(OutputStream out, boolean autoFlush) {
-        this(autoFlush, requireNonNull(out, "Null output stream"));
+    publid PrintStrfbm(OutputStrfbm out, boolfbn butoFlusi) {
+        tiis(butoFlusi, rfquirfNonNull(out, "Null output strfbm"));
     }
 
     /**
-     * Creates a new print stream.
+     * Crfbtfs b nfw print strfbm.
      *
-     * @param  out        The output stream to which values and objects will be
-     *                    printed
-     * @param  autoFlush  A boolean; if true, the output buffer will be flushed
-     *                    whenever a byte array is written, one of the
-     *                    <code>println</code> methods is invoked, or a newline
-     *                    character or byte (<code>'\n'</code>) is written
-     * @param  encoding   The name of a supported
-     *                    <a href="../lang/package-summary.html#charenc">
-     *                    character encoding</a>
+     * @pbrbm  out        Tif output strfbm to wiidi vblufs bnd objfdts will bf
+     *                    printfd
+     * @pbrbm  butoFlusi  A boolfbn; if truf, tif output bufffr will bf flusifd
+     *                    wifnfvfr b bytf brrby is writtfn, onf of tif
+     *                    <dodf>println</dodf> mftiods is invokfd, or b nfwlinf
+     *                    dibrbdtfr or bytf (<dodf>'\n'</dodf>) is writtfn
+     * @pbrbm  fndoding   Tif nbmf of b supportfd
+     *                    <b irff="../lbng/pbdkbgf-summbry.itml#dibrfnd">
+     *                    dibrbdtfr fndoding</b>
      *
-     * @throws  UnsupportedEncodingException
-     *          If the named encoding is not supported
+     * @tirows  UnsupportfdEndodingExdfption
+     *          If tif nbmfd fndoding is not supportfd
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    public PrintStream(OutputStream out, boolean autoFlush, String encoding)
-        throws UnsupportedEncodingException
+    publid PrintStrfbm(OutputStrfbm out, boolfbn butoFlusi, String fndoding)
+        tirows UnsupportfdEndodingExdfption
     {
-        this(autoFlush,
-             requireNonNull(out, "Null output stream"),
-             toCharset(encoding));
+        tiis(butoFlusi,
+             rfquirfNonNull(out, "Null output strfbm"),
+             toCibrsft(fndoding));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file name.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the
-     * {@linkplain java.nio.charset.Charset#defaultCharset() default charset}
-     * for this instance of the Java virtual machine.
+     * Crfbtfs b nfw print strfbm, witiout butombtid linf flusiing, witi tif
+     * spfdififd filf nbmf.  Tiis donvfnifndf donstrudtor drfbtfs
+     * tif nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, wiidi will fndodf dibrbdtfrs using tif
+     * {@linkplbin jbvb.nio.dibrsft.Cibrsft#dffbultCibrsft() dffbult dibrsft}
+     * for tiis instbndf of tif Jbvb virtubl mbdiinf.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this print
-     *         stream.  If the file exists, then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  filfNbmf
+     *         Tif nbmf of tif filf to usf bs tif dfstinbtion of tiis print
+     *         strfbm.  If tif filf fxists, tifn it will bf trundbtfd to
+     *         zfro sizf; otifrwisf, b nfw filf will bf drfbtfd.  Tif output
+     *         will bf writtfn to tif filf bnd is bufffrfd.
      *
-     * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     * @tirows  FilfNotFoundExdfption
+     *          If tif givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of tibt nbmf dbnnot bf
+     *          drfbtfd, or if somf otifr frror oddurs wiilf opfning or
+     *          drfbting tif filf
      *
-     * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#difdkWritf difdkWritf(filfNbmf)} dfnifs writf
+     *          bddfss to tif filf
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream(String fileName) throws FileNotFoundException {
-        this(false, new FileOutputStream(fileName));
+    publid PrintStrfbm(String filfNbmf) tirows FilfNotFoundExdfption {
+        tiis(fblsf, nfw FilfOutputStrfbm(filfNbmf));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file name and charset.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the provided
-     * charset.
+     * Crfbtfs b nfw print strfbm, witiout butombtid linf flusiing, witi tif
+     * spfdififd filf nbmf bnd dibrsft.  Tiis donvfnifndf donstrudtor drfbtfs
+     * tif nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, wiidi will fndodf dibrbdtfrs using tif providfd
+     * dibrsft.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this print
-     *         stream.  If the file exists, then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  filfNbmf
+     *         Tif nbmf of tif filf to usf bs tif dfstinbtion of tiis print
+     *         strfbm.  If tif filf fxists, tifn it will bf trundbtfd to
+     *         zfro sizf; otifrwisf, b nfw filf will bf drfbtfd.  Tif output
+     *         will bf writtfn to tif filf bnd is bufffrfd.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  dsn
+     *         Tif nbmf of b supportfd {@linkplbin jbvb.nio.dibrsft.Cibrsft
+     *         dibrsft}
      *
-     * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     * @tirows  FilfNotFoundExdfption
+     *          If tif givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of tibt nbmf dbnnot bf
+     *          drfbtfd, or if somf otifr frror oddurs wiilf opfning or
+     *          drfbting tif filf
      *
-     * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#difdkWritf difdkWritf(filfNbmf)} dfnifs writf
+     *          bddfss to tif filf
      *
-     * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     * @tirows  UnsupportfdEndodingExdfption
+     *          If tif nbmfd dibrsft is not supportfd
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream(String fileName, String csn)
-        throws FileNotFoundException, UnsupportedEncodingException
+    publid PrintStrfbm(String filfNbmf, String dsn)
+        tirows FilfNotFoundExdfption, UnsupportfdEndodingExdfption
     {
-        // ensure charset is checked before the file is opened
-        this(false, toCharset(csn), new FileOutputStream(fileName));
+        // fnsurf dibrsft is difdkfd bfforf tif filf is opfnfd
+        tiis(fblsf, toCibrsft(dsn), nfw FilfOutputStrfbm(filfNbmf));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file.  This convenience constructor creates the necessary
-     * intermediate {@link java.io.OutputStreamWriter OutputStreamWriter},
-     * which will encode characters using the {@linkplain
-     * java.nio.charset.Charset#defaultCharset() default charset} for this
-     * instance of the Java virtual machine.
+     * Crfbtfs b nfw print strfbm, witiout butombtid linf flusiing, witi tif
+     * spfdififd filf.  Tiis donvfnifndf donstrudtor drfbtfs tif nfdfssbry
+     * intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr OutputStrfbmWritfr},
+     * wiidi will fndodf dibrbdtfrs using tif {@linkplbin
+     * jbvb.nio.dibrsft.Cibrsft#dffbultCibrsft() dffbult dibrsft} for tiis
+     * instbndf of tif Jbvb virtubl mbdiinf.
      *
-     * @param  file
-     *         The file to use as the destination of this print stream.  If the
-     *         file exists, then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  filf
+     *         Tif filf to usf bs tif dfstinbtion of tiis print strfbm.  If tif
+     *         filf fxists, tifn it will bf trundbtfd to zfro sizf; otifrwisf,
+     *         b nfw filf will bf drfbtfd.  Tif output will bf writtfn to tif
+     *         filf bnd is bufffrfd.
      *
-     * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     * @tirows  FilfNotFoundExdfption
+     *          If tif givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of tibt nbmf dbnnot bf
+     *          drfbtfd, or if somf otifr frror oddurs wiilf opfning or
+     *          drfbting tif filf
      *
-     * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())}
-     *          denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#difdkWritf difdkWritf(filf.gftPbti())}
+     *          dfnifs writf bddfss to tif filf
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream(File file) throws FileNotFoundException {
-        this(false, new FileOutputStream(file));
+    publid PrintStrfbm(Filf filf) tirows FilfNotFoundExdfption {
+        tiis(fblsf, nfw FilfOutputStrfbm(filf));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file and charset.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the provided
-     * charset.
+     * Crfbtfs b nfw print strfbm, witiout butombtid linf flusiing, witi tif
+     * spfdififd filf bnd dibrsft.  Tiis donvfnifndf donstrudtor drfbtfs
+     * tif nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, wiidi will fndodf dibrbdtfrs using tif providfd
+     * dibrsft.
      *
-     * @param  file
-     *         The file to use as the destination of this print stream.  If the
-     *         file exists, then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  filf
+     *         Tif filf to usf bs tif dfstinbtion of tiis print strfbm.  If tif
+     *         filf fxists, tifn it will bf trundbtfd to zfro sizf; otifrwisf,
+     *         b nfw filf will bf drfbtfd.  Tif output will bf writtfn to tif
+     *         filf bnd is bufffrfd.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  dsn
+     *         Tif nbmf of b supportfd {@linkplbin jbvb.nio.dibrsft.Cibrsft
+     *         dibrsft}
      *
-     * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     * @tirows  FilfNotFoundExdfption
+     *          If tif givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of tibt nbmf dbnnot bf
+     *          drfbtfd, or if somf otifr frror oddurs wiilf opfning or
+     *          drfbting tif filf
      *
-     * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())}
-     *          denies write access to the file
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#difdkWritf difdkWritf(filf.gftPbti())}
+     *          dfnifs writf bddfss to tif filf
      *
-     * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     * @tirows  UnsupportfdEndodingExdfption
+     *          If tif nbmfd dibrsft is not supportfd
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream(File file, String csn)
-        throws FileNotFoundException, UnsupportedEncodingException
+    publid PrintStrfbm(Filf filf, String dsn)
+        tirows FilfNotFoundExdfption, UnsupportfdEndodingExdfption
     {
-        // ensure charset is checked before the file is opened
-        this(false, toCharset(csn), new FileOutputStream(file));
+        // fnsurf dibrsft is difdkfd bfforf tif filf is opfnfd
+        tiis(fblsf, toCibrsft(dsn), nfw FilfOutputStrfbm(filf));
     }
 
-    /** Check to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
         if (out == null)
-            throw new IOException("Stream closed");
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
 
     /**
-     * Flushes the stream.  This is done by writing any buffered output bytes to
-     * the underlying output stream and then flushing that stream.
+     * Flusifs tif strfbm.  Tiis is donf by writing bny bufffrfd output bytfs to
+     * tif undfrlying output strfbm bnd tifn flusiing tibt strfbm.
      *
-     * @see        java.io.OutputStream#flush()
+     * @sff        jbvb.io.OutputStrfbm#flusi()
      */
-    public void flush() {
-        synchronized (this) {
+    publid void flusi() {
+        syndironizfd (tiis) {
             try {
-                ensureOpen();
-                out.flush();
+                fnsurfOpfn();
+                out.flusi();
             }
-            catch (IOException x) {
-                trouble = true;
+            dbtdi (IOExdfption x) {
+                troublf = truf;
             }
         }
     }
 
-    private boolean closing = false; /* To avoid recursive closing */
+    privbtf boolfbn dlosing = fblsf; /* To bvoid rfdursivf dlosing */
 
     /**
-     * Closes the stream.  This is done by flushing the stream and then closing
-     * the underlying output stream.
+     * Closfs tif strfbm.  Tiis is donf by flusiing tif strfbm bnd tifn dlosing
+     * tif undfrlying output strfbm.
      *
-     * @see        java.io.OutputStream#close()
+     * @sff        jbvb.io.OutputStrfbm#dlosf()
      */
-    public void close() {
-        synchronized (this) {
-            if (! closing) {
-                closing = true;
+    publid void dlosf() {
+        syndironizfd (tiis) {
+            if (! dlosing) {
+                dlosing = truf;
                 try {
-                    textOut.close();
-                    out.close();
+                    tfxtOut.dlosf();
+                    out.dlosf();
                 }
-                catch (IOException x) {
-                    trouble = true;
+                dbtdi (IOExdfption x) {
+                    troublf = truf;
                 }
-                textOut = null;
-                charOut = null;
+                tfxtOut = null;
+                dibrOut = null;
                 out = null;
             }
         }
     }
 
     /**
-     * Flushes the stream and checks its error state. The internal error state
-     * is set to <code>true</code> when the underlying output stream throws an
-     * <code>IOException</code> other than <code>InterruptedIOException</code>,
-     * and when the <code>setError</code> method is invoked.  If an operation
-     * on the underlying output stream throws an
-     * <code>InterruptedIOException</code>, then the <code>PrintStream</code>
-     * converts the exception back into an interrupt by doing:
-     * <pre>
-     *     Thread.currentThread().interrupt();
-     * </pre>
-     * or the equivalent.
+     * Flusifs tif strfbm bnd difdks its frror stbtf. Tif intfrnbl frror stbtf
+     * is sft to <dodf>truf</dodf> wifn tif undfrlying output strfbm tirows bn
+     * <dodf>IOExdfption</dodf> otifr tibn <dodf>IntfrruptfdIOExdfption</dodf>,
+     * bnd wifn tif <dodf>sftError</dodf> mftiod is invokfd.  If bn opfrbtion
+     * on tif undfrlying output strfbm tirows bn
+     * <dodf>IntfrruptfdIOExdfption</dodf>, tifn tif <dodf>PrintStrfbm</dodf>
+     * donvfrts tif fxdfption bbdk into bn intfrrupt by doing:
+     * <prf>
+     *     Tirfbd.durrfntTirfbd().intfrrupt();
+     * </prf>
+     * or tif fquivblfnt.
      *
-     * @return <code>true</code> if and only if this stream has encountered an
-     *         <code>IOException</code> other than
-     *         <code>InterruptedIOException</code>, or the
-     *         <code>setError</code> method has been invoked
+     * @rfturn <dodf>truf</dodf> if bnd only if tiis strfbm ibs fndountfrfd bn
+     *         <dodf>IOExdfption</dodf> otifr tibn
+     *         <dodf>IntfrruptfdIOExdfption</dodf>, or tif
+     *         <dodf>sftError</dodf> mftiod ibs bffn invokfd
      */
-    public boolean checkError() {
+    publid boolfbn difdkError() {
         if (out != null)
-            flush();
-        if (out instanceof java.io.PrintStream) {
-            PrintStream ps = (PrintStream) out;
-            return ps.checkError();
+            flusi();
+        if (out instbndfof jbvb.io.PrintStrfbm) {
+            PrintStrfbm ps = (PrintStrfbm) out;
+            rfturn ps.difdkError();
         }
-        return trouble;
+        rfturn troublf;
     }
 
     /**
-     * Sets the error state of the stream to <code>true</code>.
+     * Sfts tif frror stbtf of tif strfbm to <dodf>truf</dodf>.
      *
-     * <p> This method will cause subsequent invocations of {@link
-     * #checkError()} to return <tt>true</tt> until {@link
-     * #clearError()} is invoked.
+     * <p> Tiis mftiod will dbusf subsfqufnt invodbtions of {@link
+     * #difdkError()} to rfturn <tt>truf</tt> until {@link
+     * #dlfbrError()} is invokfd.
      *
-     * @since 1.1
+     * @sindf 1.1
      */
-    protected void setError() {
-        trouble = true;
+    protfdtfd void sftError() {
+        troublf = truf;
     }
 
     /**
-     * Clears the internal error state of this stream.
+     * Clfbrs tif intfrnbl frror stbtf of tiis strfbm.
      *
-     * <p> This method will cause subsequent invocations of {@link
-     * #checkError()} to return <tt>false</tt> until another write
-     * operation fails and invokes {@link #setError()}.
+     * <p> Tiis mftiod will dbusf subsfqufnt invodbtions of {@link
+     * #difdkError()} to rfturn <tt>fblsf</tt> until bnotifr writf
+     * opfrbtion fbils bnd invokfs {@link #sftError()}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    protected void clearError() {
-        trouble = false;
+    protfdtfd void dlfbrError() {
+        troublf = fblsf;
     }
 
     /*
-     * Exception-catching, synchronized output operations,
-     * which also implement the write() methods of OutputStream
+     * Exdfption-dbtdiing, syndironizfd output opfrbtions,
+     * wiidi blso implfmfnt tif writf() mftiods of OutputStrfbm
      */
 
     /**
-     * Writes the specified byte to this stream.  If the byte is a newline and
-     * automatic flushing is enabled then the <code>flush</code> method will be
-     * invoked.
+     * Writfs tif spfdififd bytf to tiis strfbm.  If tif bytf is b nfwlinf bnd
+     * butombtid flusiing is fnbblfd tifn tif <dodf>flusi</dodf> mftiod will bf
+     * invokfd.
      *
-     * <p> Note that the byte is written as given; to write a character that
-     * will be translated according to the platform's default character
-     * encoding, use the <code>print(char)</code> or <code>println(char)</code>
-     * methods.
+     * <p> Notf tibt tif bytf is writtfn bs givfn; to writf b dibrbdtfr tibt
+     * will bf trbnslbtfd bddording to tif plbtform's dffbult dibrbdtfr
+     * fndoding, usf tif <dodf>print(dibr)</dodf> or <dodf>println(dibr)</dodf>
+     * mftiods.
      *
-     * @param  b  The byte to be written
-     * @see #print(char)
-     * @see #println(char)
+     * @pbrbm  b  Tif bytf to bf writtfn
+     * @sff #print(dibr)
+     * @sff #println(dibr)
      */
-    public void write(int b) {
+    publid void writf(int b) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                out.write(b);
-                if ((b == '\n') && autoFlush)
-                    out.flush();
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                out.writf(b);
+                if ((b == '\n') && butoFlusi)
+                    out.flusi();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        catch (IOException x) {
-            trouble = true;
+        dbtdi (IOExdfption x) {
+            troublf = truf;
         }
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array starting at
-     * offset <code>off</code> to this stream.  If automatic flushing is
-     * enabled then the <code>flush</code> method will be invoked.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby stbrting bt
+     * offsft <dodf>off</dodf> to tiis strfbm.  If butombtid flusiing is
+     * fnbblfd tifn tif <dodf>flusi</dodf> mftiod will bf invokfd.
      *
-     * <p> Note that the bytes will be written as given; to write characters
-     * that will be translated according to the platform's default character
-     * encoding, use the <code>print(char)</code> or <code>println(char)</code>
-     * methods.
+     * <p> Notf tibt tif bytfs will bf writtfn bs givfn; to writf dibrbdtfrs
+     * tibt will bf trbnslbtfd bddording to tif plbtform's dffbult dibrbdtfr
+     * fndoding, usf tif <dodf>print(dibr)</dodf> or <dodf>println(dibr)</dodf>
+     * mftiods.
      *
-     * @param  buf   A byte array
-     * @param  off   Offset from which to start taking bytes
-     * @param  len   Number of bytes to write
+     * @pbrbm  buf   A bytf brrby
+     * @pbrbm  off   Offsft from wiidi to stbrt tbking bytfs
+     * @pbrbm  lfn   Numbfr of bytfs to writf
      */
-    public void write(byte buf[], int off, int len) {
+    publid void writf(bytf buf[], int off, int lfn) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                out.write(buf, off, len);
-                if (autoFlush)
-                    out.flush();
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                out.writf(buf, off, lfn);
+                if (butoFlusi)
+                    out.flusi();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        catch (IOException x) {
-            trouble = true;
+        dbtdi (IOExdfption x) {
+            troublf = truf;
         }
     }
 
     /*
-     * The following private methods on the text- and character-output streams
-     * always flush the stream buffers, so that writes to the underlying byte
-     * stream occur as promptly as with the original PrintStream.
+     * Tif following privbtf mftiods on tif tfxt- bnd dibrbdtfr-output strfbms
+     * blwbys flusi tif strfbm bufffrs, so tibt writfs to tif undfrlying bytf
+     * strfbm oddur bs promptly bs witi tif originbl PrintStrfbm.
      */
 
-    private void write(char buf[]) {
+    privbtf void writf(dibr buf[]) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                textOut.write(buf);
-                textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush) {
-                    for (int i = 0; i < buf.length; i++)
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                tfxtOut.writf(buf);
+                tfxtOut.flusiBufffr();
+                dibrOut.flusiBufffr();
+                if (butoFlusi) {
+                    for (int i = 0; i < buf.lfngti; i++)
                         if (buf[i] == '\n')
-                            out.flush();
+                            out.flusi();
                 }
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        catch (IOException x) {
-            trouble = true;
+        dbtdi (IOExdfption x) {
+            troublf = truf;
         }
     }
 
-    private void write(String s) {
+    privbtf void writf(String s) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                textOut.write(s);
-                textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush && (s.indexOf('\n') >= 0))
-                    out.flush();
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                tfxtOut.writf(s);
+                tfxtOut.flusiBufffr();
+                dibrOut.flusiBufffr();
+                if (butoFlusi && (s.indfxOf('\n') >= 0))
+                    out.flusi();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        catch (IOException x) {
-            trouble = true;
+        dbtdi (IOExdfption x) {
+            troublf = truf;
         }
     }
 
-    private void newLine() {
+    privbtf void nfwLinf() {
         try {
-            synchronized (this) {
-                ensureOpen();
-                textOut.newLine();
-                textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush)
-                    out.flush();
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                tfxtOut.nfwLinf();
+                tfxtOut.flusiBufffr();
+                dibrOut.flusiBufffr();
+                if (butoFlusi)
+                    out.flusi();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
         }
-        catch (IOException x) {
-            trouble = true;
+        dbtdi (IOExdfption x) {
+            troublf = truf;
         }
     }
 
-    /* Methods that do not terminate lines */
+    /* Mftiods tibt do not tfrminbtf linfs */
 
     /**
-     * Prints a boolean value.  The string produced by <code>{@link
-     * java.lang.String#valueOf(boolean)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints b boolfbn vbluf.  Tif string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(boolfbn)}</dodf> is trbnslbtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      b   The <code>boolean</code> to be printed
+     * @pbrbm      b   Tif <dodf>boolfbn</dodf> to bf printfd
      */
-    public void print(boolean b) {
-        write(b ? "true" : "false");
+    publid void print(boolfbn b) {
+        writf(b ? "truf" : "fblsf");
     }
 
     /**
-     * Prints a character.  The character is translated into one or more bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints b dibrbdtfr.  Tif dibrbdtfr is trbnslbtfd into onf or morf bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      c   The <code>char</code> to be printed
+     * @pbrbm      d   Tif <dodf>dibr</dodf> to bf printfd
      */
-    public void print(char c) {
-        write(String.valueOf(c));
+    publid void print(dibr d) {
+        writf(String.vblufOf(d));
     }
 
     /**
-     * Prints an integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(int)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints bn intfgfr.  Tif string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(int)}</dodf> is trbnslbtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      i   The <code>int</code> to be printed
-     * @see        java.lang.Integer#toString(int)
+     * @pbrbm      i   Tif <dodf>int</dodf> to bf printfd
+     * @sff        jbvb.lbng.Intfgfr#toString(int)
      */
-    public void print(int i) {
-        write(String.valueOf(i));
+    publid void print(int i) {
+        writf(String.vblufOf(i));
     }
 
     /**
-     * Prints a long integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(long)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints b long intfgfr.  Tif string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(long)}</dodf> is trbnslbtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      l   The <code>long</code> to be printed
-     * @see        java.lang.Long#toString(long)
+     * @pbrbm      l   Tif <dodf>long</dodf> to bf printfd
+     * @sff        jbvb.lbng.Long#toString(long)
      */
-    public void print(long l) {
-        write(String.valueOf(l));
+    publid void print(long l) {
+        writf(String.vblufOf(l));
     }
 
     /**
-     * Prints a floating-point number.  The string produced by <code>{@link
-     * java.lang.String#valueOf(float)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints b flobting-point numbfr.  Tif string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(flobt)}</dodf> is trbnslbtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      f   The <code>float</code> to be printed
-     * @see        java.lang.Float#toString(float)
+     * @pbrbm      f   Tif <dodf>flobt</dodf> to bf printfd
+     * @sff        jbvb.lbng.Flobt#toString(flobt)
      */
-    public void print(float f) {
-        write(String.valueOf(f));
+    publid void print(flobt f) {
+        writf(String.vblufOf(f));
     }
 
     /**
-     * Prints a double-precision floating-point number.  The string produced by
-     * <code>{@link java.lang.String#valueOf(double)}</code> is translated into
-     * bytes according to the platform's default character encoding, and these
-     * bytes are written in exactly the manner of the <code>{@link
-     * #write(int)}</code> method.
+     * Prints b doublf-prfdision flobting-point numbfr.  Tif string produdfd by
+     * <dodf>{@link jbvb.lbng.String#vblufOf(doublf)}</dodf> is trbnslbtfd into
+     * bytfs bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf
+     * bytfs brf writtfn in fxbdtly tif mbnnfr of tif <dodf>{@link
+     * #writf(int)}</dodf> mftiod.
      *
-     * @param      d   The <code>double</code> to be printed
-     * @see        java.lang.Double#toString(double)
+     * @pbrbm      d   Tif <dodf>doublf</dodf> to bf printfd
+     * @sff        jbvb.lbng.Doublf#toString(doublf)
      */
-    public void print(double d) {
-        write(String.valueOf(d));
+    publid void print(doublf d) {
+        writf(String.vblufOf(d));
     }
 
     /**
-     * Prints an array of characters.  The characters are converted into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints bn brrby of dibrbdtfrs.  Tif dibrbdtfrs brf donvfrtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      s   The array of chars to be printed
+     * @pbrbm      s   Tif brrby of dibrs to bf printfd
      *
-     * @throws  NullPointerException  If <code>s</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption  If <dodf>s</dodf> is <dodf>null</dodf>
      */
-    public void print(char s[]) {
-        write(s);
+    publid void print(dibr s[]) {
+        writf(s);
     }
 
     /**
-     * Prints a string.  If the argument is <code>null</code> then the string
-     * <code>"null"</code> is printed.  Otherwise, the string's characters are
-     * converted into bytes according to the platform's default character
-     * encoding, and these bytes are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints b string.  If tif brgumfnt is <dodf>null</dodf> tifn tif string
+     * <dodf>"null"</dodf> is printfd.  Otifrwisf, tif string's dibrbdtfrs brf
+     * donvfrtfd into bytfs bddording to tif plbtform's dffbult dibrbdtfr
+     * fndoding, bnd tifsf bytfs brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      s   The <code>String</code> to be printed
+     * @pbrbm      s   Tif <dodf>String</dodf> to bf printfd
      */
-    public void print(String s) {
+    publid void print(String s) {
         if (s == null) {
             s = "null";
         }
-        write(s);
+        writf(s);
     }
 
     /**
-     * Prints an object.  The string produced by the <code>{@link
-     * java.lang.String#valueOf(Object)}</code> method is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
-     * <code>{@link #write(int)}</code> method.
+     * Prints bn objfdt.  Tif string produdfd by tif <dodf>{@link
+     * jbvb.lbng.String#vblufOf(Objfdt)}</dodf> mftiod is trbnslbtfd into bytfs
+     * bddording to tif plbtform's dffbult dibrbdtfr fndoding, bnd tifsf bytfs
+     * brf writtfn in fxbdtly tif mbnnfr of tif
+     * <dodf>{@link #writf(int)}</dodf> mftiod.
      *
-     * @param      obj   The <code>Object</code> to be printed
-     * @see        java.lang.Object#toString()
+     * @pbrbm      obj   Tif <dodf>Objfdt</dodf> to bf printfd
+     * @sff        jbvb.lbng.Objfdt#toString()
      */
-    public void print(Object obj) {
-        write(String.valueOf(obj));
+    publid void print(Objfdt obj) {
+        writf(String.vblufOf(obj));
     }
 
 
-    /* Methods that do terminate lines */
+    /* Mftiods tibt do tfrminbtf linfs */
 
     /**
-     * Terminates the current line by writing the line separator string.  The
-     * line separator string is defined by the system property
-     * <code>line.separator</code>, and is not necessarily a single newline
-     * character (<code>'\n'</code>).
+     * Tfrminbtfs tif durrfnt linf by writing tif linf sfpbrbtor string.  Tif
+     * linf sfpbrbtor string is dffinfd by tif systfm propfrty
+     * <dodf>linf.sfpbrbtor</dodf>, bnd is not nfdfssbrily b singlf nfwlinf
+     * dibrbdtfr (<dodf>'\n'</dodf>).
      */
-    public void println() {
-        newLine();
+    publid void println() {
+        nfwLinf();
     }
 
     /**
-     * Prints a boolean and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(boolean)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b boolfbn bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(boolfbn)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>boolean</code> to be printed
+     * @pbrbm x  Tif <dodf>boolfbn</dodf> to bf printfd
      */
-    public void println(boolean x) {
-        synchronized (this) {
+    publid void println(boolfbn x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints a character and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(char)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b dibrbdtfr bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(dibr)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>char</code> to be printed.
+     * @pbrbm x  Tif <dodf>dibr</dodf> to bf printfd.
      */
-    public void println(char x) {
-        synchronized (this) {
+    publid void println(dibr x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints an integer and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(int)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints bn intfgfr bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(int)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>int</code> to be printed.
+     * @pbrbm x  Tif <dodf>int</dodf> to bf printfd.
      */
-    public void println(int x) {
-        synchronized (this) {
+    publid void println(int x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints a long and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(long)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b long bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(long)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  a The <code>long</code> to be printed.
+     * @pbrbm x  b Tif <dodf>long</dodf> to bf printfd.
      */
-    public void println(long x) {
-        synchronized (this) {
+    publid void println(long x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints a float and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(float)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b flobt bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(flobt)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>float</code> to be printed.
+     * @pbrbm x  Tif <dodf>flobt</dodf> to bf printfd.
      */
-    public void println(float x) {
-        synchronized (this) {
+    publid void println(flobt x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints a double and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(double)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b doublf bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(doublf)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>double</code> to be printed.
+     * @pbrbm x  Tif <dodf>doublf</dodf> to bf printfd.
      */
-    public void println(double x) {
-        synchronized (this) {
+    publid void println(doublf x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints an array of characters and then terminate the line.  This method
-     * behaves as though it invokes <code>{@link #print(char[])}</code> and
-     * then <code>{@link #println()}</code>.
+     * Prints bn brrby of dibrbdtfrs bnd tifn tfrminbtf tif linf.  Tiis mftiod
+     * bfibvfs bs tiougi it invokfs <dodf>{@link #print(dibr[])}</dodf> bnd
+     * tifn <dodf>{@link #println()}</dodf>.
      *
-     * @param x  an array of chars to print.
+     * @pbrbm x  bn brrby of dibrs to print.
      */
-    public void println(char x[]) {
-        synchronized (this) {
+    publid void println(dibr x[]) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints a String and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(String)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints b String bnd tifn tfrminbtf tif linf.  Tiis mftiod bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(String)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>String</code> to be printed.
+     * @pbrbm x  Tif <dodf>String</dodf> to bf printfd.
      */
-    public void println(String x) {
-        synchronized (this) {
+    publid void println(String x) {
+        syndironizfd (tiis) {
             print(x);
-            newLine();
+            nfwLinf();
         }
     }
 
     /**
-     * Prints an Object and then terminate the line.  This method calls
-     * at first String.valueOf(x) to get the printed object's string value,
-     * then behaves as
-     * though it invokes <code>{@link #print(String)}</code> and then
-     * <code>{@link #println()}</code>.
+     * Prints bn Objfdt bnd tifn tfrminbtf tif linf.  Tiis mftiod dblls
+     * bt first String.vblufOf(x) to gft tif printfd objfdt's string vbluf,
+     * tifn bfibvfs bs
+     * tiougi it invokfs <dodf>{@link #print(String)}</dodf> bnd tifn
+     * <dodf>{@link #println()}</dodf>.
      *
-     * @param x  The <code>Object</code> to be printed.
+     * @pbrbm x  Tif <dodf>Objfdt</dodf> to bf printfd.
      */
-    public void println(Object x) {
-        String s = String.valueOf(x);
-        synchronized (this) {
+    publid void println(Objfdt x) {
+        String s = String.vblufOf(x);
+        syndironizfd (tiis) {
             print(s);
-            newLine();
+            nfwLinf();
         }
     }
 
 
     /**
-     * A convenience method to write a formatted string to this output stream
-     * using the specified format string and arguments.
+     * A donvfnifndf mftiod to writf b formbttfd string to tiis output strfbm
+     * using tif spfdififd formbt string bnd brgumfnts.
      *
-     * <p> An invocation of this method of the form <tt>out.printf(format,
-     * args)</tt> behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.printf(formbt,
+     * brgs)</tt> bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.format(format, args) </pre>
+     * <prf>
+     *     out.formbt(formbt, brgs) </prf>
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         irff="../util/Formbttfr.itml#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by tif formbt spfdififrs in tif formbt
+     *         string.  If tifrf brf morf brgumfnts tibn formbt spfdififrs, tif
+     *         fxtrb brgumfnts brf ignorfd.  Tif numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Tif mbximum numbfr of brgumfnts is
+     *         limitfd by tif mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     *         Tif bfibviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on tif <b
+     *         irff="../util/Formbttfr.itml#syntbx">donvfrsion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @tirows  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr tibt is indompbtiblf witi tif givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn tif formbt string, or otifr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff tif <b
+     *          irff="../util/Formbttfr.itml#dftbil">Dftbils</b> sfdtion of tif
+     *          formbttfr dlbss spfdifidbtion.
      *
-     * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     * @tirows  NullPointfrExdfption
+     *          If tif <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream printf(String format, Object ... args) {
-        return format(format, args);
+    publid PrintStrfbm printf(String formbt, Objfdt ... brgs) {
+        rfturn formbt(formbt, brgs);
     }
 
     /**
-     * A convenience method to write a formatted string to this output stream
-     * using the specified format string and arguments.
+     * A donvfnifndf mftiod to writf b formbttfd string to tiis output strfbm
+     * using tif spfdififd formbt string bnd brgumfnts.
      *
-     * <p> An invocation of this method of the form <tt>out.printf(l, format,
-     * args)</tt> behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.printf(l, formbt,
+     * brgs)</tt> bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.format(l, format, args) </pre>
+     * <prf>
+     *     out.formbt(l, formbt, brgs) </prf>
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         Tif {@linkplbin jbvb.util.Lodblf lodblf} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> tifn no lodblizbtion
+     *         is bpplifd.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         irff="../util/Formbttfr.itml#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by tif formbt spfdififrs in tif formbt
+     *         string.  If tifrf brf morf brgumfnts tibn formbt spfdififrs, tif
+     *         fxtrb brgumfnts brf ignorfd.  Tif numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Tif mbximum numbfr of brgumfnts is
+     *         limitfd by tif mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     *         Tif bfibviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on tif <b
+     *         irff="../util/Formbttfr.itml#syntbx">donvfrsion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @tirows  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr tibt is indompbtiblf witi tif givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn tif formbt string, or otifr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff tif <b
+     *          irff="../util/Formbttfr.itml#dftbil">Dftbils</b> sfdtion of tif
+     *          formbttfr dlbss spfdifidbtion.
      *
-     * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     * @tirows  NullPointfrExdfption
+     *          If tif <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream printf(Locale l, String format, Object ... args) {
-        return format(l, format, args);
+    publid PrintStrfbm printf(Lodblf l, String formbt, Objfdt ... brgs) {
+        rfturn formbt(l, formbt, brgs);
     }
 
     /**
-     * Writes a formatted string to this output stream using the specified
-     * format string and arguments.
+     * Writfs b formbttfd string to tiis output strfbm using tif spfdififd
+     * formbt string bnd brgumfnts.
      *
-     * <p> The locale always used is the one returned by {@link
-     * java.util.Locale#getDefault() Locale.getDefault()}, regardless of any
-     * previous invocations of other formatting methods on this object.
+     * <p> Tif lodblf blwbys usfd is tif onf rfturnfd by {@link
+     * jbvb.util.Lodblf#gftDffbult() Lodblf.gftDffbult()}, rfgbrdlfss of bny
+     * prfvious invodbtions of otifr formbtting mftiods on tiis objfdt.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         irff="../util/Formbttfr.itml#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by tif formbt spfdififrs in tif formbt
+     *         string.  If tifrf brf morf brgumfnts tibn formbt spfdififrs, tif
+     *         fxtrb brgumfnts brf ignorfd.  Tif numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Tif mbximum numbfr of brgumfnts is
+     *         limitfd by tif mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     *         Tif bfibviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on tif <b
+     *         irff="../util/Formbttfr.itml#syntbx">donvfrsion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @tirows  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr tibt is indompbtiblf witi tif givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn tif formbt string, or otifr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff tif <b
+     *          irff="../util/Formbttfr.itml#dftbil">Dftbils</b> sfdtion of tif
+     *          formbttfr dlbss spfdifidbtion.
      *
-     * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     * @tirows  NullPointfrExdfption
+     *          If tif <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream format(String format, Object ... args) {
+    publid PrintStrfbm formbt(String formbt, Objfdt ... brgs) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                if ((formatter == null)
-                    || (formatter.locale() != Locale.getDefault()))
-                    formatter = new Formatter((Appendable) this);
-                formatter.format(Locale.getDefault(), format, args);
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                if ((formbttfr == null)
+                    || (formbttfr.lodblf() != Lodblf.gftDffbult()))
+                    formbttfr = nfw Formbttfr((Appfndbblf) tiis);
+                formbttfr.formbt(Lodblf.gftDffbult(), formbt, brgs);
             }
-        } catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
-        } catch (IOException x) {
-            trouble = true;
+        } dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
+        } dbtdi (IOExdfption x) {
+            troublf = truf;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Writes a formatted string to this output stream using the specified
-     * format string and arguments.
+     * Writfs b formbttfd string to tiis output strfbm using tif spfdififd
+     * formbt string bnd brgumfnts.
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         Tif {@linkplbin jbvb.util.Lodblf lodblf} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> tifn no lodblizbtion
+     *         is bpplifd.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         irff="../util/Formbttfr.itml#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by tif formbt spfdififrs in tif formbt
+     *         string.  If tifrf brf morf brgumfnts tibn formbt spfdififrs, tif
+     *         fxtrb brgumfnts brf ignorfd.  Tif numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Tif mbximum numbfr of brgumfnts is
+     *         limitfd by tif mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
+     *         Tif bfibviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on tif <b
+     *         irff="../util/Formbttfr.itml#syntbx">donvfrsion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @tirows  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr tibt is indompbtiblf witi tif givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn tif formbt string, or otifr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff tif <b
+     *          irff="../util/Formbttfr.itml#dftbil">Dftbils</b> sfdtion of tif
+     *          formbttfr dlbss spfdifidbtion.
      *
-     * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     * @tirows  NullPointfrExdfption
+     *          If tif <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream format(Locale l, String format, Object ... args) {
+    publid PrintStrfbm formbt(Lodblf l, String formbt, Objfdt ... brgs) {
         try {
-            synchronized (this) {
-                ensureOpen();
-                if ((formatter == null)
-                    || (formatter.locale() != l))
-                    formatter = new Formatter(this, l);
-                formatter.format(l, format, args);
+            syndironizfd (tiis) {
+                fnsurfOpfn();
+                if ((formbttfr == null)
+                    || (formbttfr.lodblf() != l))
+                    formbttfr = nfw Formbttfr(tiis, l);
+                formbttfr.formbt(l, formbt, brgs);
             }
-        } catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
-        } catch (IOException x) {
-            trouble = true;
+        } dbtdi (IntfrruptfdIOExdfption x) {
+            Tirfbd.durrfntTirfbd().intfrrupt();
+        } dbtdi (IOExdfption x) {
+            troublf = truf;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Appends the specified character sequence to this output stream.
+     * Appfnds tif spfdififd dibrbdtfr sfqufndf to tiis output strfbm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.print(csq.toString()) </pre>
+     * <prf>
+     *     out.print(dsq.toString()) </prf>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended.  For instance, invoking then <tt>toString</tt> method of a
-     * character buffer will return a subsequence whose content depends upon
-     * the buffer's position and limit.
+     * <p> Dfpfnding on tif spfdifidbtion of <tt>toString</tt> for tif
+     * dibrbdtfr sfqufndf <tt>dsq</tt>, tif fntirf sfqufndf mby not bf
+     * bppfndfd.  For instbndf, invoking tifn <tt>toString</tt> mftiod of b
+     * dibrbdtfr bufffr will rfturn b subsfqufndf wiosf dontfnt dfpfnds upon
+     * tif bufffr's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this output stream.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, tifn tif four dibrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to tiis output strfbm.
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream append(CharSequence csq) {
-        if (csq == null)
+    publid PrintStrfbm bppfnd(CibrSfqufndf dsq) {
+        if (dsq == null)
             print("null");
-        else
-            print(csq.toString());
-        return this;
+        flsf
+            print(dsq.toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends a subsequence of the specified character sequence to this output
-     * stream.
+     * Appfnds b subsfqufndf of tif spfdififd dibrbdtfr sfqufndf to tiis output
+     * strfbm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> wifn <tt>dsq</tt> is not <tt>null</tt>, bfibvfs in
+     * fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.print(csq.subSequence(start, end).toString()) </pre>
+     * <prf>
+     *     out.print(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, tifn dibrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd tif four
+     *         dibrbdtfrs <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         Tif indfx of tif first dibrbdtfr in tif subsfqufndf
      *
-     * @param  end
-     *         The index of the character following the last character in the
-     *         subsequence
+     * @pbrbm  fnd
+     *         Tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr in tif
+     *         subsfqufndf
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
-     *          <tt>csq.length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr tibn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr tibn
+     *          <tt>dsq.lfngti()</tt>
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        write(cs.subSequence(start, end).toString());
-        return this;
+    publid PrintStrfbm bppfnd(CibrSfqufndf dsq, int stbrt, int fnd) {
+        CibrSfqufndf ds = (dsq == null ? "null" : dsq);
+        writf(ds.subSfqufndf(stbrt, fnd).toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends the specified character to this output stream.
+     * Appfnds tif spfdififd dibrbdtfr to tiis output strfbm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(c)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(d)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.print(c) </pre>
+     * <prf>
+     *     out.print(d) </prf>
      *
-     * @param  c
-     *         The 16-bit character to append
+     * @pbrbm  d
+     *         Tif 16-bit dibrbdtfr to bppfnd
      *
-     * @return  This output stream
+     * @rfturn  Tiis output strfbm
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public PrintStream append(char c) {
-        print(c);
-        return this;
+    publid PrintStrfbm bppfnd(dibr d) {
+        print(d);
+        rfturn tiis;
     }
 
 }

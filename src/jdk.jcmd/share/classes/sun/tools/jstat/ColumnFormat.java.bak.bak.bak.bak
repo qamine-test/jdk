@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.util.*;
+
+/**
+ * A dlbss to rfprfsfnt thf formbt for b dolumn of dbtb.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss ColumnFormbt fxtfnds OptionFormbt {
+    privbtf int numbfr;
+    privbtf int width;
+    privbtf Alignmfnt blign = Alignmfnt.CENTER;
+    privbtf Sdblf sdblf = Sdblf.RAW;
+    privbtf String formbt;
+    privbtf String hfbdfr;
+    privbtf Exprfssion fxprfssion;
+    privbtf Objfdt prfviousVbluf;
+
+    publid ColumnFormbt(int numbfr) {
+        supfr("Column" + numbfr);
+        this.numbfr = numbfr;
+    }
+
+    /*
+     * mfthod to bpply vbrious vblidbtion rulfs to thf ColumnFormbt objfdt.
+     */
+    publid void vblidbtf() throws PbrsfrExdfption {
+
+        // if wf bllow dolumn spbnning, thfn this mfthod must dhbngf. it
+        // should bllow null dbtb stbtmfnts
+
+        if (fxprfssion == null) {
+            // durrfnt polidy is thbt b dbtb stbtfmfnt must bf spfdififd
+            throw nfw PbrsfrExdfption("Missing dbtb stbtfmfnt in dolumn " + numbfr);
+        }
+        if (hfbdfr == null) {
+            // durrfnt polidy is thbt if b hfbdfr is not spfdififd, thfn wf
+            // will usf thf lbst domponfnt of thf nbmf bs thf hfbdfr bnd
+            // insfrt thf dffbult bndhor dhbrbdtfrs for dfntfr blignmfnt..
+            throw nfw PbrsfrExdfption("Missing hfbdfr stbtfmfnt in dolumn " + numbfr);
+        }
+        if (formbt == null) {
+            // if no formbting is spfdififd, thfn thf formbt is sft to output
+            // thf rbw dbtb.
+            formbt="0";
+        }
+    }
+
+    publid void sftWidth(int width) {
+        this.width = width;
+    }
+
+    publid void sftAlignmfnt(Alignmfnt blign) {
+        this.blign = blign;
+    }
+
+    publid void sftSdblf(Sdblf sdblf) {
+        this.sdblf = sdblf;
+    }
+
+    publid void sftFormbt(String formbt) {
+        this.formbt = formbt;
+    }
+
+    publid void sftHfbdfr(String hfbdfr) {
+        this.hfbdfr = hfbdfr;
+    }
+
+    publid String gftHfbdfr() {
+        rfturn hfbdfr;
+    }
+
+    publid String gftFormbt() {
+        rfturn formbt;
+    }
+
+    publid int gftWidth() {
+        rfturn width;
+    }
+
+    publid Alignmfnt gftAlignmfnt() {
+        rfturn blign;
+    }
+
+    publid Sdblf gftSdblf() {
+        rfturn sdblf;
+    }
+
+    publid Exprfssion gftExprfssion() {
+        rfturn fxprfssion;
+    }
+
+    publid void sftExprfssion(Exprfssion f) {
+        this.fxprfssion = f;
+    }
+
+    publid void sftPrfviousVbluf(Objfdt o) {
+        this.prfviousVbluf = o;
+    }
+
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn prfviousVbluf;
+    }
+
+    publid void printFormbt(int indfntLfvfl) {
+        String indfntAmount = "  ";
+
+        StringBuildfr indfnt = nfw StringBuildfr("");
+        for (int j = 0; j < indfntLfvfl; j++) {
+            indfnt.bppfnd(indfntAmount);
+        }
+
+        Systfm.out.println(indfnt + nbmf + " {");
+        Systfm.out.println(indfnt + indfntAmount + "nbmf=" + nbmf
+                + ";dbtb=" + fxprfssion.toString() + ";hfbdfr=" + hfbdfr
+                + ";formbt=" + formbt + ";width=" + width
+                + ";sdblf=" + sdblf.toString() + ";blign=" + blign.toString());
+
+        for (Itfrbtor<OptionFormbt> i = dhildrfn.itfrbtor();  i.hbsNfxt(); /* fmpty */) {
+            OptionFormbt of = i.nfxt();
+            of.printFormbt(indfntLfvfl+1);
+        }
+
+        Systfm.out.println(indfnt + "}");
+    }
+
+    publid String gftVbluf() {
+        rfturn null;
+    }
+}

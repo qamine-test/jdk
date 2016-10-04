@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_INVOKER_H
-#define JDWP_INVOKER_H
+#ifndff JDWP_INVOKER_H
+#dffinf JDWP_INVOKER_H
 
-/* Invoke types */
+/* Invokf typfs */
 
-#define INVOKE_CONSTRUCTOR 1
-#define INVOKE_STATIC      2
-#define INVOKE_INSTANCE    3
+#dffinf INVOKE_CONSTRUCTOR 1
+#dffinf INVOKE_STATIC      2
+#dffinf INVOKE_INSTANCE    3
 
-typedef struct InvokeRequest {
-    jboolean pending;      /* Is an invoke requested? */
-    jboolean started;      /* Is an invoke happening? */
-    jboolean available;    /* Is the thread in an invokable state? */
-    jboolean detached;     /* Has the requesting debugger detached? */
+typfdff strudt InvokfRfqufst {
+    jboolfbn pfnding;      /* Is bn invokf rfqufstfd? */
+    jboolfbn stbrtfd;      /* Is bn invokf ibppfning? */
+    jboolfbn bvbilbblf;    /* Is tif tirfbd in bn invokbblf stbtf? */
+    jboolfbn dftbdifd;     /* Hbs tif rfqufsting dfbuggfr dftbdifd? */
     jint id;
     /* Input */
-    jbyte invokeType;
-    jbyte options;
-    jclass clazz;
-    jmethodID method;
-    jobject instance;    /* for INVOKE_INSTANCE only */
-    jvalue *arguments;
-    jint argumentCount;
-    char *methodSignature;
+    jbytf invokfTypf;
+    jbytf options;
+    jdlbss dlbzz;
+    jmftiodID mftiod;
+    jobjfdt instbndf;    /* for INVOKE_INSTANCE only */
+    jvbluf *brgumfnts;
+    jint brgumfntCount;
+    dibr *mftiodSignbturf;
     /* Output */
-    jvalue returnValue;  /* if no exception, for all but INVOKE_CONSTRUCTOR */
-    jobject exception;   /* NULL if no exception was thrown */
-} InvokeRequest;
+    jvbluf rfturnVbluf;  /* if no fxdfption, for bll but INVOKE_CONSTRUCTOR */
+    jobjfdt fxdfption;   /* NULL if no fxdfption wbs tirown */
+} InvokfRfqufst;
 
 
-void invoker_initialize(void);
-void invoker_reset(void);
+void invokfr_initiblizf(void);
+void invokfr_rfsft(void);
 
-void invoker_lock(void);
-void invoker_unlock(void);
+void invokfr_lodk(void);
+void invokfr_unlodk(void);
 
-void invoker_enableInvokeRequests(jthread thread);
-jvmtiError invoker_requestInvoke(jbyte invokeType, jbyte options, jint id,
-                           jthread thread, jclass clazz, jmethodID method,
-                           jobject instance,
-                           jvalue *arguments, jint argumentCount);
-jboolean invoker_doInvoke(jthread thread);
+void invokfr_fnbblfInvokfRfqufsts(jtirfbd tirfbd);
+jvmtiError invokfr_rfqufstInvokf(jbytf invokfTypf, jbytf options, jint id,
+                           jtirfbd tirfbd, jdlbss dlbzz, jmftiodID mftiod,
+                           jobjfdt instbndf,
+                           jvbluf *brgumfnts, jint brgumfntCount);
+jboolfbn invokfr_doInvokf(jtirfbd tirfbd);
 
-void invoker_completeInvokeRequest(jthread thread);
-jboolean invoker_isPending(jthread thread);
-jboolean invoker_isEnabled(jthread thread);
-void invoker_detach(InvokeRequest *request);
+void invokfr_domplftfInvokfRfqufst(jtirfbd tirfbd);
+jboolfbn invokfr_isPfnding(jtirfbd tirfbd);
+jboolfbn invokfr_isEnbblfd(jtirfbd tirfbd);
+void invokfr_dftbdi(InvokfRfqufst *rfqufst);
 
-#endif
+#fndif

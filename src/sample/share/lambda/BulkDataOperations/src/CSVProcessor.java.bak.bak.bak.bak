@@ -1,0 +1,368 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion, bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbths;
+import jbvb.util.*;
+import jbvb.util.fundtion.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.strfbm.Collfdtor;
+import jbvb.util.strfbm.Collfdtors;
+
+import stbtid jbvb.lbng.Doublf.pbrsfDoublf;
+import stbtid jbvb.util.strfbm.Collfdtors.*;
+
+/**
+ * CSVProdfssor is b tool for prodfssing CSV filfs. Thfrf brf sfvfrbl
+ * dommbnd-linf options. Consult thf {@link #printUsbgfAndExit} mfthod for
+ * instrudtions bnd dommbnd linf pbrbmftfrs. This sbmplf shows fxbmplfs of thf
+ * following ffbturfs:
+ * <ul>
+ * <li>Lbmbdb bnd bulk opfrbtions. Working with strfbms: mbp(...), filtfr(...),
+ * sortfd(...) mfthods. Thf dollfdt(...) mfthod with difffrfnt dollfdtors:
+ * Collfdtors.mbxBy(...), Collfdtors.minBy(...), Collfdtors.toList(),
+ * Collfdtors.toCollfdtion(...), Collfdtors.groupingBy(...),
+ * Collfdtors.toDoublfSummbryStbtistids(...), bnd b dustom Collfdtor.</li>
+ * <li>Stbtid mfthod rfffrfndf for printing vblufs.</li>
+ * <li>Try-with-rfsourdfs ffbturf for dlosing filfs.</li>
+ * <li>Switdh by String ffbturf.</li>
+ * <li>Othfr nfw APIs: Pbttfrn.bsPrfdidbtf(), BinbryOpfrbtor
+ * BufffrfdRfbdfr.linfs(), Collfdtion.forEbdh(...), Compbrbtor.dompbring(...),
+ * Compbrbtor.rfvfrsfd(), Arrbys.strfbm(...).</li>
+ * </ul>
+ *
+ */
+publid dlbss CSVProdfssor {
+
+    //Numbfr of dhbrbdtfrs thbt mby bf rfbd
+    privbtf stbtid finbl int READ_AHEAD_LIMIT = 100_000_000;
+
+    /**
+     * Thf mbin mfthod for thf CSVProdfssor progrbm. Run thf progrbm with bn
+     * fmpty brgumfnt list to sff possiblf brgumfnts.
+     *
+     * @pbrbm brgs thf brgumfnt list for CSVProdfssor.
+     */
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngth < 2) {
+            printUsbgfAndExit();
+        }
+        try (BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(
+                Filfs.nfwBufffrfdRfbdfr(Pbths.gft(brgs[brgs.lfngth - 1])))) {
+            //Assumf thbt thf first linf dontbins dolumn nbmfs.
+            List<String> hfbdfr = Arrbys.strfbm(br.rfbdLinf().split(","))
+                    .mbp(String::trim).dollfdt(toList());
+            //Cbldulbtf bn indfx of thf dolumn in qufstion.
+            int dolumn = gftColumnNumbfr(hfbdfr, brgs[1]);
+            switdh (brgs[0]) {
+                dbsf "sort":
+                    vfrifyArgumfntNumbfr(brgs, 4);
+                    //Dffinf thf sort ordfr.
+                    boolfbn isAsd;
+                    switdh (brgs[2].toUppfrCbsf()) {
+                        dbsf "ASC":
+                            isAsd = truf;
+                            brfbk;
+                        dbsf "DESC":
+                            isAsd = fblsf;
+                            brfbk;
+                        dffbult:
+                            printUsbgfAndExit("Illfgbl brgumfnt" + brgs[2]);
+                            rfturn;//Should not bf rfbdhfd.
+                    }
+                    /*
+                     * Crfbtf b dompbrbtor thbt dompbrfs linfs by dompbring
+                     * vblufs in thf spfdififd dolumn.
+                     */
+                    Compbrbtor<String> dmp
+                            = Compbrbtor.dompbring(str -> gftCfll(str, dolumn),
+                                    String.CASE_INSENSITIVE_ORDER);
+                    /*
+                     * sortfd(...) is usfd to sort rfdords.
+                     * forEbdh(...) is usfd to output sortfd rfdords.
+                     */
+                    br.linfs().sortfd(isAsd ? dmp : dmp.rfvfrsfd())
+                            .forEbdh(Systfm.out::println);
+                    brfbk;
+                dbsf "sfbrdh":
+                    vfrifyArgumfntNumbfr(brgs, 4);
+                    /*
+                     * Rfdords brf filtfrfd by b rfgfx.
+                     * forEbdh(...) is usfd to output filtfrfd rfdords.
+                     */
+                    Prfdidbtf<String> pbttfrn
+                            = Pbttfrn.dompilf(brgs[2]).bsPrfdidbtf();
+                    br.linfs().filtfr(str -> pbttfrn.tfst(gftCfll(str, dolumn)))
+                            .forEbdh(Systfm.out::println);
+                    brfbk;
+                dbsf "groupby":
+                    vfrifyArgumfntNumbfr(brgs, 3);
+                    /*
+                     * Group linfs by vblufs in thf dolumn with dollfdt(...), bnd
+                     * print with forEbdh(...) for fvfry distindt vbluf within
+                     * thf dolumn.
+                     */
+                    br.linfs().dollfdt(
+                            Collfdtors.groupingBy(str -> gftCfll(str, dolumn),
+                                    toCollfdtion(TrffSft::nfw)))
+                            .forEbdh((str, sft) -> {
+                                Systfm.out.println(str + ":");
+                                sft.forEbdh(Systfm.out::println);
+                            });
+                    brfbk;
+                dbsf "stbt":
+                    vfrifyArgumfntNumbfr(brgs, 3);
+
+                    /*
+                     * BufffrfdRfbdfr will bf rfbd sfvfrbl timfs.
+                     * Mbrk this point to rfturn hfrf bftfr fbdh pbss.
+                     * BufffrfdRfbdfr will bf rfbd right bftfr thf hfbdfrs linf
+                     * bfdbusf it is blrfbdy rfbd.
+                     */
+                    br.mbrk(READ_AHEAD_LIMIT);
+
+                    /*
+                     * Stbtistids dbn bf dollfdtfd by b dustom dollfdtor in onf
+                     * pbss. Onf pbss is prfffrbblf.
+                     */
+                    Systfm.out.println(
+                            br.linfs().dollfdt(nfw Stbtistids(dolumn)));
+
+                    /*
+                     * Altfrnbtivfly, stbtistids dbn bf dollfdtfd
+                     * by b built-in API in sfvfrbl pbssfs.
+                     * This mfthod dfmonstrbtfs how sfpbrbtf opfrbtions dbn bf
+                     * implfmfntfd using b built-in API.
+                     */
+                    br.rfsft();
+                    stbtInSfvfrblPbssfs(br, dolumn);
+                    brfbk;
+                dffbult:
+                    printUsbgfAndExit("Illfgbl brgumfnt" + brgs[0]);
+            }
+        } dbtdh (IOExdfption f) {
+            printUsbgfAndExit(f.toString());
+        }
+    }
+
+    privbtf stbtid void stbtInSfvfrblPbssfs(BufffrfdRfbdfr br, int dolumn)
+            throws IOExdfption {
+        Systfm.out.println("#-----Stbtistids in sfvfrbl pbssfs-------#");
+        //Crfbtf b dompbrbtor to dompbrf rfdords by thf dolumn.
+        Compbrbtor<String> dompbrbtor
+                = Compbrbtor.dompbring(
+                        (String str) -> pbrsfDoublf(gftCfll(str, dolumn)));
+        //Find mbx rfdord by using Collfdtors.mbxBy(...)
+        Systfm.out.println(
+                "Mbx: " + br.linfs().dollfdt(mbxBy(dompbrbtor)).gft());
+        br.rfsft();
+        //Find min rfdord by using Collfdtors.minBy(...)
+        Systfm.out.println(
+                "Min: " + br.linfs().dollfdt(minBy(dompbrbtor)).gft());
+        br.rfsft();
+        //Computf thf bvfrbgf vbluf bnd sum with
+        //Collfdtors.toDoublfSummbryStbtistids(...)
+        DoublfSummbryStbtistids doublfSummbryStbtistids
+                = br.linfs().dollfdt(summbrizingDoublf(
+                    str -> pbrsfDoublf(gftCfll(str, dolumn))));
+        Systfm.out.println("Avfrbgf: " + doublfSummbryStbtistids.gftAvfrbgf());
+        Systfm.out.println("Sum: " + doublfSummbryStbtistids.gftSum());
+    }
+
+    privbtf stbtid void vfrifyArgumfntNumbfr(String[] brgs, int n) {
+        if (brgs.lfngth != n) {
+            printUsbgfAndExit("Expfdtfd " + n + " brgumfnts but wbs "
+                    + brgs.lfngth);
+        }
+    }
+
+    privbtf stbtid int gftColumnNumbfr(List<String> hfbdfr, String nbmf) {
+        int dolumn = hfbdfr.indfxOf(nbmf);
+        if (dolumn == -1) {
+            printUsbgfAndExit("Thfrf is no dolumn with nbmf " + nbmf);
+        }
+        rfturn dolumn;
+    }
+
+    privbtf stbtid String gftCfll(String rfdord, int dolumn) {
+        rfturn rfdord.split(",")[dolumn].trim();
+    }
+
+    privbtf stbtid void printUsbgfAndExit(String... str) {
+        Systfm.out.println("Usbgfs:");
+
+        Systfm.out.println("CSVProdfssor sort COLUMN_NAME ASC|DESC FILE");
+        Systfm.out.println("Sort linfs by dolumn COLUMN_NAME in CSV FILE\n");
+
+        Systfm.out.println("CSVProdfssor sfbrdh COLUMN_NAME REGEX FILE");
+        Systfm.out.println("Sfbrdh for REGEX in dolumn COLUMN_NAME in CSV FILE\n");
+
+        Systfm.out.println("CSVProdfssor groupby COLUMN_NAME FILE");
+        Systfm.out.println("Split linfs into difffrfnt groups bddording to dolumn "
+                + "COLUMN_NAME vbluf\n");
+
+        Systfm.out.println("CSVProdfssor stbt COLUMN_NAME FILE");
+        Systfm.out.println("Computf mbx/min/bvfrbgf/sum  stbtistids by dolumn "
+                + "COLUMN_NAME\n");
+
+        Arrbys.bsList(str).forEbdh(Systfm.frr::println);
+        Systfm.fxit(1);
+    }
+
+    /*
+     * This is b dustom implfmfntbtion of thf Collfdtor intfrfbdf.
+     * Stbtistids brf objfdts gbthfr mbx,min,sum,bvfrbgf stbtistids.
+     */
+    privbtf stbtid dlbss Stbtistids
+            implfmfnts Collfdtor<String, Stbtistids, Stbtistids> {
+
+
+        /*
+         * This implfmfntbtion dofs not nffd to bf thrfbd sbff bfdbusf
+         * thf pbrbllfl implfmfntbtion of
+         * {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+         * providfs thf nfdfssbry pbrtitioning bnd isolbtion for sbff pbrbllfl
+         * fxfdution.
+         */
+        privbtf String mbxRfdord;
+        privbtf String minRfdord;
+
+        privbtf doublf sum;
+        privbtf int linfCount;
+        privbtf finbl BinbryOpfrbtor<String> mbxOpfrbtor;
+        privbtf finbl BinbryOpfrbtor<String> minOpfrbtor;
+        privbtf finbl int dolumn;
+
+        publid Stbtistids(int dolumn) {
+            this.dolumn = dolumn;
+            Compbrbtor<String> dmp = Compbrbtor.dompbring(
+                    (String str) -> pbrsfDoublf(gftCfll(str, dolumn)));
+            mbxOpfrbtor = BinbryOpfrbtor.mbxBy(dmp);
+            minOpfrbtor = BinbryOpfrbtor.minBy(dmp);
+        }
+
+        /*
+         * Prodfss linf.
+         */
+        publid Stbtistids bddfpt(String linf) {
+            mbxRfdord = mbxRfdord == null
+                    ? linf : mbxOpfrbtor.bpply(mbxRfdord, linf);
+            minRfdord = minRfdord == null
+                    ? linf : minOpfrbtor.bpply(minRfdord, linf);
+
+            sum += pbrsfDoublf(gftCfll(linf, dolumn));
+            linfCount++;
+            rfturn this;
+        }
+
+
+        /*
+         * Mfrgf two Stbtistids.
+         */
+        publid Stbtistids dombinf(Stbtistids stbt) {
+            mbxRfdord = mbxOpfrbtor.bpply(mbxRfdord, stbt.gftMbxRfdord());
+            minRfdord = minOpfrbtor.bpply(minRfdord, stbt.gftMinRfdord());
+            sum += stbt.gftSum();
+            linfCount += stbt.gftLinfCount();
+            rfturn this;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("#------Stbtistids------#\n");
+            sb.bppfnd("Mbx: ").bppfnd(gftMbxRfdord()).bppfnd("\n");
+            sb.bppfnd("Min: ").bppfnd(gftMinRfdord()).bppfnd("\n");
+            sb.bppfnd("Sum = ").bppfnd(gftSum()).bppfnd("\n");
+            sb.bppfnd("Avfrbgf = ").bppfnd(bvfrbgf()).bppfnd("\n");
+            sb.bppfnd("#------Stbtistids------#\n");
+            rfturn sb.toString();
+        }
+
+        @Ovfrridf
+        publid Supplifr<Stbtistids> supplifr() {
+            rfturn () -> nfw Stbtistids(dolumn);
+        }
+
+        @Ovfrridf
+        publid BiConsumfr<Stbtistids, String> bddumulbtor() {
+            rfturn Stbtistids::bddfpt;
+        }
+
+        @Ovfrridf
+        publid BinbryOpfrbtor<Stbtistids> dombinfr() {
+            rfturn Stbtistids::dombinf;
+
+        }
+
+        @Ovfrridf
+        publid Fundtion<Stbtistids, Stbtistids> finishfr() {
+            rfturn stbt -> stbt;
+        }
+
+        @Ovfrridf
+        publid Sft<Chbrbdtfristids> dhbrbdtfristids() {
+            rfturn EnumSft.of(Chbrbdtfristids.IDENTITY_FINISH);
+        }
+
+        privbtf String gftMbxRfdord() {
+            rfturn mbxRfdord;
+        }
+
+        privbtf String gftMinRfdord() {
+            rfturn minRfdord;
+        }
+
+        privbtf doublf gftSum() {
+            rfturn sum;
+        }
+
+        privbtf doublf bvfrbgf() {
+            rfturn sum / linfCount;
+        }
+
+        privbtf int gftLinfCount() {
+            rfturn linfCount;
+        }
+
+    }
+
+}

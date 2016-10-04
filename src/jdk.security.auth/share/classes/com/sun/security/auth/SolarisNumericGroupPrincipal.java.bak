@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * <p> This class implements the <code>Principal</code> interface
- * and represents a user's Solaris group identification number (GID).
+ * <p> Tiis dlbss implfmfnts tif <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts b usfr's Solbris group idfntifidbtion numbfr (GID).
  *
- * <p> Principals such as this <code>SolarisNumericGroupPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Prindipbls sudi bs tiis <dodf>SolbrisNumfridGroupPrindipbl</dodf>
+ * mby bf bssodibtfd witi b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl
+ * idfntity.  Rfffr to tif <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on iow to bdiifvf tiis.  Autiorizbtion dfdisions dbn tifn bf bbsfd upon
+ * tif Prindipbls bssodibtfd witi b <dodf>Subjfdt</dodf>.
 
- * @deprecated As of JDK&nbsp;1.4, replaced by
- *             {@link UnixNumericGroupPrincipal}.
- *             This class is entirely deprecated.
+ * @dfprfdbtfd As of JDK&nbsp;1.4, rfplbdfd by
+ *             {@link UnixNumfridGroupPrindipbl}.
+ *             Tiis dlbss is fntirfly dfprfdbtfd.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-@jdk.Exported(false)
-@Deprecated
-public class SolarisNumericGroupPrincipal implements
-                                        Principal,
-                                        java.io.Serializable {
+@jdk.Exportfd(fblsf)
+@Dfprfdbtfd
+publid dlbss SolbrisNumfridGroupPrindipbl implfmfnts
+                                        Prindipbl,
+                                        jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 2345199581042573224L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2345199581042573224L;
 
-    private static final java.util.ResourceBundle rb =
-          java.security.AccessController.doPrivileged
-          (new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-              public java.util.ResourceBundle run() {
-                  return (java.util.ResourceBundle.getBundle
-                                ("sun.security.util.AuthResources"));
+    privbtf stbtid finbl jbvb.util.RfsourdfBundlf rb =
+          jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+          (nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+              publid jbvb.util.RfsourdfBundlf run() {
+                  rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                                ("sun.sfdurity.util.AutiRfsourdfs"));
               }
           });
 
     /**
-     * @serial
+     * @sfribl
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * @serial
+     * @sfribl
      */
-    private boolean primaryGroup;
+    privbtf boolfbn primbryGroup;
 
     /**
-     * Create a <code>SolarisNumericGroupPrincipal</code> using a
-     * <code>String</code> representation of the user's
-     * group identification number (GID).
+     * Crfbtf b <dodf>SolbrisNumfridGroupPrindipbl</dodf> using b
+     * <dodf>String</dodf> rfprfsfntbtion of tif usfr's
+     * group idfntifidbtion numbfr (GID).
      *
      * <p>
      *
-     * @param name the user's group identification number (GID)
-     *                  for this user. <p>
+     * @pbrbm nbmf tif usfr's group idfntifidbtion numbfr (GID)
+     *                  for tiis usfr. <p>
      *
-     * @param primaryGroup true if the specified GID represents the
-     *                  primary group to which this user belongs.
+     * @pbrbm primbryGroup truf if tif spfdififd GID rfprfsfnts tif
+     *                  primbry group to wiidi tiis usfr bflongs.
      *
-     * @exception NullPointerException if the <code>name</code>
-     *                  is <code>null</code>.
+     * @fxdfption NullPointfrExdfption if tif <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
      */
-    public SolarisNumericGroupPrincipal(String name, boolean primaryGroup) {
-        if (name == null)
-            throw new NullPointerException(rb.getString("provided.null.name"));
+    publid SolbrisNumfridGroupPrindipbl(String nbmf, boolfbn primbryGroup) {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption(rb.gftString("providfd.null.nbmf"));
 
-        this.name = name;
-        this.primaryGroup = primaryGroup;
+        tiis.nbmf = nbmf;
+        tiis.primbryGroup = primbryGroup;
     }
 
     /**
-     * Create a <code>SolarisNumericGroupPrincipal</code> using a
-     * long representation of the user's group identification number (GID).
+     * Crfbtf b <dodf>SolbrisNumfridGroupPrindipbl</dodf> using b
+     * long rfprfsfntbtion of tif usfr's group idfntifidbtion numbfr (GID).
      *
      * <p>
      *
-     * @param name the user's group identification number (GID) for this user
-     *                  represented as a long. <p>
+     * @pbrbm nbmf tif usfr's group idfntifidbtion numbfr (GID) for tiis usfr
+     *                  rfprfsfntfd bs b long. <p>
      *
-     * @param primaryGroup true if the specified GID represents the
-     *                  primary group to which this user belongs.
+     * @pbrbm primbryGroup truf if tif spfdififd GID rfprfsfnts tif
+     *                  primbry group to wiidi tiis usfr bflongs.
      *
      */
-    public SolarisNumericGroupPrincipal(long name, boolean primaryGroup) {
-        this.name = Long.toString(name);
-        this.primaryGroup = primaryGroup;
+    publid SolbrisNumfridGroupPrindipbl(long nbmf, boolfbn primbryGroup) {
+        tiis.nbmf = Long.toString(nbmf);
+        tiis.primbryGroup = primbryGroup;
     }
 
     /**
-     * Return the user's group identification number (GID) for this
-     * <code>SolarisNumericGroupPrincipal</code>.
+     * Rfturn tif usfr's group idfntifidbtion numbfr (GID) for tiis
+     * <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return the user's group identification number (GID) for this
-     *          <code>SolarisNumericGroupPrincipal</code>
+     * @rfturn tif usfr's group idfntifidbtion numbfr (GID) for tiis
+     *          <dodf>SolbrisNumfridGroupPrindipbl</dodf>
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Return the user's group identification number (GID) for this
-     * <code>SolarisNumericGroupPrincipal</code> as a long.
+     * Rfturn tif usfr's group idfntifidbtion numbfr (GID) for tiis
+     * <dodf>SolbrisNumfridGroupPrindipbl</dodf> bs b long.
      *
      * <p>
      *
-     * @return the user's group identification number (GID) for this
-     *          <code>SolarisNumericGroupPrincipal</code> as a long.
+     * @rfturn tif usfr's group idfntifidbtion numbfr (GID) for tiis
+     *          <dodf>SolbrisNumfridGroupPrindipbl</dodf> bs b long.
      */
-    public long longValue() {
-        return Long.parseLong(name);
+    publid long longVbluf() {
+        rfturn Long.pbrsfLong(nbmf);
     }
 
     /**
-     * Return whether this group identification number (GID) represents
-     * the primary group to which this user belongs.
+     * Rfturn wiftifr tiis group idfntifidbtion numbfr (GID) rfprfsfnts
+     * tif primbry group to wiidi tiis usfr bflongs.
      *
      * <p>
      *
-     * @return true if this group identification number (GID) represents
-     *          the primary group to which this user belongs,
-     *          or false otherwise.
+     * @rfturn truf if tiis group idfntifidbtion numbfr (GID) rfprfsfnts
+     *          tif primbry group to wiidi tiis usfr bflongs,
+     *          or fblsf otifrwisf.
      */
-    public boolean isPrimaryGroup() {
-        return primaryGroup;
+    publid boolfbn isPrimbryGroup() {
+        rfturn primbryGroup;
     }
 
     /**
-     * Return a string representation of this
-     * <code>SolarisNumericGroupPrincipal</code>.
+     * Rfturn b string rfprfsfntbtion of tiis
+     * <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a string representation of this
-     *          <code>SolarisNumericGroupPrincipal</code>.
+     * @rfturn b string rfprfsfntbtion of tiis
+     *          <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      */
-    public String toString() {
-        return((primaryGroup ?
-            rb.getString
-            ("SolarisNumericGroupPrincipal.Primary.Group.") + name :
-            rb.getString
-            ("SolarisNumericGroupPrincipal.Supplementary.Group.") + name));
+    publid String toString() {
+        rfturn((primbryGroup ?
+            rb.gftString
+            ("SolbrisNumfridGroupPrindipbl.Primbry.Group.") + nbmf :
+            rb.gftString
+            ("SolbrisNumfridGroupPrindipbl.Supplfmfntbry.Group.") + nbmf));
     }
 
     /**
-     * Compares the specified Object with this
-     * <code>SolarisNumericGroupPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>SolarisNumericGroupPrincipal</code> and the two
-     * SolarisNumericGroupPrincipals
-     * have the same group identification number (GID).
+     * Compbrfs tif spfdififd Objfdt witi tiis
+     * <dodf>SolbrisNumfridGroupPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b
+     * <dodf>SolbrisNumfridGroupPrindipbl</dodf> bnd tif two
+     * SolbrisNumfridGroupPrindipbls
+     * ibvf tif sbmf group idfntifidbtion numbfr (GID).
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>SolarisNumericGroupPrincipal</code>.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>SolarisNumericGroupPrincipal</code>.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl fqubl to tiis
+     *          <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        if (this == o)
-            return true;
+        if (tiis == o)
+            rfturn truf;
 
-        if (!(o instanceof SolarisNumericGroupPrincipal))
-            return false;
-        SolarisNumericGroupPrincipal that = (SolarisNumericGroupPrincipal)o;
+        if (!(o instbndfof SolbrisNumfridGroupPrindipbl))
+            rfturn fblsf;
+        SolbrisNumfridGroupPrindipbl tibt = (SolbrisNumfridGroupPrindipbl)o;
 
-        if (this.getName().equals(that.getName()) &&
-            this.isPrimaryGroup() == that.isPrimaryGroup())
-            return true;
-        return false;
+        if (tiis.gftNbmf().fqubls(tibt.gftNbmf()) &&
+            tiis.isPrimbryGroup() == tibt.isPrimbryGroup())
+            rfturn truf;
+        rfturn fblsf;
     }
 
     /**
-     * Return a hash code for this <code>SolarisNumericGroupPrincipal</code>.
+     * Rfturn b ibsi dodf for tiis <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a hash code for this <code>SolarisNumericGroupPrincipal</code>.
+     * @rfturn b ibsi dodf for tiis <dodf>SolbrisNumfridGroupPrindipbl</dodf>.
      */
-    public int hashCode() {
-        return toString().hashCode();
+    publid int ibsiCodf() {
+        rfturn toString().ibsiCodf();
     }
 }

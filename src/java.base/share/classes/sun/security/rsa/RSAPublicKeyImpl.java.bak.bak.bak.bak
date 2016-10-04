@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.X509Kfy;
+
+/**
+ * Kfy implfmfntbtion for RSA publid kfys.
+ *
+ * Notf: RSA kfys must bf bt lfbst 512 bits long
+ *
+ * @sff RSAPrivbtfCrtKfyImpl
+ * @sff RSAKfyFbdtory
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RSAPublidKfyImpl fxtfnds X509Kfy implfmfnts RSAPublidKfy {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2644735423591199609L;
+
+    privbtf BigIntfgfr n;       // modulus
+    privbtf BigIntfgfr f;       // publid fxponfnt
+
+    /**
+     * Construdt b kfy from its domponfnts. Usfd by thf
+     * RSAKfyFbdtory bnd thf RSAKfyPbirGfnfrbtor.
+     */
+    publid RSAPublidKfyImpl(BigIntfgfr n, BigIntfgfr f)
+            throws InvblidKfyExdfption {
+        this.n = n;
+        this.f = f;
+        RSAKfyFbdtory.dhfdkRSAProvidfrKfyLfngths(n.bitLfngth(), f);
+        // gfnfrbtf thf fndoding
+        blgid = RSAPrivbtfCrtKfyImpl.rsbId;
+        try {
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putIntfgfr(n);
+            out.putIntfgfr(f);
+            bytf[] kfyArrby =
+                nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf,
+                             out.toBytfArrby()).toBytfArrby();
+            sftKfy(nfw BitArrby(kfyArrby.lfngth*8, kfyArrby));
+        } dbtdh (IOExdfption fxd) {
+            // should nfvfr oddur
+            throw nfw InvblidKfyExdfption(fxd);
+        }
+    }
+
+    /**
+     * Construdt b kfy from its fndoding. Usfd by RSAKfyFbdtory.
+     */
+    publid RSAPublidKfyImpl(bytf[] fndodfd) throws InvblidKfyExdfption {
+        dfdodf(fndodfd);
+        RSAKfyFbdtory.dhfdkRSAProvidfrKfyLfngths(n.bitLfngth(), f);
+    }
+
+    // sff JCA dod
+    publid String gftAlgorithm() {
+        rfturn "RSA";
+    }
+
+    // sff JCA dod
+    publid BigIntfgfr gftModulus() {
+        rfturn n;
+    }
+
+    // sff JCA dod
+    publid BigIntfgfr gftPublidExponfnt() {
+        rfturn f;
+    }
+
+    /**
+     * Pbrsf thf kfy. Cbllfd by X509Kfy.
+     */
+    protfdtfd void pbrsfKfyBits() throws InvblidKfyExdfption {
+        try {
+            DfrInputStrfbm in = nfw DfrInputStrfbm(gftKfy().toBytfArrby());
+            DfrVbluf dfrVbluf = in.gftDfrVbluf();
+            if (dfrVbluf.tbg != DfrVbluf.tbg_Sfqufndf) {
+                throw nfw IOExdfption("Not b SEQUENCE");
+            }
+            DfrInputStrfbm dbtb = dfrVbluf.dbtb;
+            n = RSAPrivbtfCrtKfyImpl.gftBigIntfgfr(dbtb);
+            f = RSAPrivbtfCrtKfyImpl.gftBigIntfgfr(dbtb);
+            if (dfrVbluf.dbtb.bvbilbblf() != 0) {
+                throw nfw IOExdfption("Extrb dbtb bvbilbblf");
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw InvblidKfyExdfption("Invblid RSA publid kfy", f);
+        }
+    }
+
+    // rfturn b string rfprfsfntbtion of this kfy for dfbugging
+    publid String toString() {
+        rfturn "Sun RSA publid kfy, " + n.bitLfngth() + " bits\n  modulus: "
+                + n + "\n  publid fxponfnt: " + f;
+    }
+
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+}

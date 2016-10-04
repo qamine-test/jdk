@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import sun.swing.SwingUtilities2;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.io.Sfriblizbblf;
+import sun.swing.SwingUtilitifs2;
 
 
 /**
- * The standard preview panel for the color chooser.
+ * Tif stbndbrd prfvifw pbnfl for tif dolor dioosfr.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Steve Wilson
- * @see JColorChooser
+ * @butior Stfvf Wilson
+ * @sff JColorCioosfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class DefaultPreviewPanel extends JPanel {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss DffbultPrfvifwPbnfl fxtfnds JPbnfl {
 
-    private int squareSize = 25;
-    private int squareGap = 5;
-    private int innerGap = 5;
+    privbtf int squbrfSizf = 25;
+    privbtf int squbrfGbp = 5;
+    privbtf int innfrGbp = 5;
 
 
-    private int textGap = 5;
-    private Font font = new Font(Font.DIALOG, Font.PLAIN, 12);
-    private String sampleText;
+    privbtf int tfxtGbp = 5;
+    privbtf Font font = nfw Font(Font.DIALOG, Font.PLAIN, 12);
+    privbtf String sbmplfTfxt;
 
-    private int swatchWidth = 50;
+    privbtf int swbtdiWidti = 50;
 
-    private Color oldColor = null;
+    privbtf Color oldColor = null;
 
-    private JColorChooser getColorChooser() {
-        return (JColorChooser)SwingUtilities.getAncestorOfClass(
-                                   JColorChooser.class, this);
+    privbtf JColorCioosfr gftColorCioosfr() {
+        rfturn (JColorCioosfr)SwingUtilitifs.gftAndfstorOfClbss(
+                                   JColorCioosfr.dlbss, tiis);
     }
 
-    public Dimension getPreferredSize() {
-        JComponent host = getColorChooser();
-        if (host == null) {
-            host = this;
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        JComponfnt iost = gftColorCioosfr();
+        if (iost == null) {
+            iost = tiis;
         }
-        FontMetrics fm = host.getFontMetrics(getFont());
+        FontMftrids fm = iost.gftFontMftrids(gftFont());
 
-        int ascent = fm.getAscent();
-        int height = fm.getHeight();
-        int width = SwingUtilities2.stringWidth(host, fm, getSampleText());
+        int bsdfnt = fm.gftAsdfnt();
+        int ifigit = fm.gftHfigit();
+        int widti = SwingUtilitifs2.stringWidti(iost, fm, gftSbmplfTfxt());
 
-        int y = height*3 + textGap*3;
-        int x = squareSize * 3 + squareGap*2 + swatchWidth + width + textGap*3;
-        return new Dimension( x,y );
+        int y = ifigit*3 + tfxtGbp*3;
+        int x = squbrfSizf * 3 + squbrfGbp*2 + swbtdiWidti + widti + tfxtGbp*3;
+        rfturn nfw Dimfnsion( x,y );
     }
 
-    public void paintComponent(Graphics g) {
+    publid void pbintComponfnt(Grbpiids g) {
         if (oldColor == null)
-            oldColor = getForeground();
+            oldColor = gftForfground();
 
-        g.setColor(getBackground());
-        g.fillRect(0,0,getWidth(),getHeight());
+        g.sftColor(gftBbdkground());
+        g.fillRfdt(0,0,gftWidti(),gftHfigit());
 
-        if (this.getComponentOrientation().isLeftToRight()) {
-            int squareWidth = paintSquares(g, 0);
-            int textWidth = paintText(g, squareWidth);
-            paintSwatch(g, squareWidth + textWidth);
-        } else {
-            int swatchWidth = paintSwatch(g, 0);
-            int textWidth = paintText(g, swatchWidth);
-            paintSquares(g , swatchWidth + textWidth);
+        if (tiis.gftComponfntOrifntbtion().isLfftToRigit()) {
+            int squbrfWidti = pbintSqubrfs(g, 0);
+            int tfxtWidti = pbintTfxt(g, squbrfWidti);
+            pbintSwbtdi(g, squbrfWidti + tfxtWidti);
+        } flsf {
+            int swbtdiWidti = pbintSwbtdi(g, 0);
+            int tfxtWidti = pbintTfxt(g, swbtdiWidti);
+            pbintSqubrfs(g , swbtdiWidti + tfxtWidti);
 
         }
     }
 
-    private int paintSwatch(Graphics g, int offsetX) {
-        int swatchX = offsetX;
-        g.setColor(oldColor);
-        g.fillRect(swatchX, 0, swatchWidth, (squareSize) + (squareGap/2));
-        g.setColor(getForeground());
-        g.fillRect(swatchX, (squareSize) + (squareGap/2), swatchWidth, (squareSize) + (squareGap/2) );
-        return (swatchX+swatchWidth);
+    privbtf int pbintSwbtdi(Grbpiids g, int offsftX) {
+        int swbtdiX = offsftX;
+        g.sftColor(oldColor);
+        g.fillRfdt(swbtdiX, 0, swbtdiWidti, (squbrfSizf) + (squbrfGbp/2));
+        g.sftColor(gftForfground());
+        g.fillRfdt(swbtdiX, (squbrfSizf) + (squbrfGbp/2), swbtdiWidti, (squbrfSizf) + (squbrfGbp/2) );
+        rfturn (swbtdiX+swbtdiWidti);
     }
 
-    private int paintText(Graphics g, int offsetX) {
-        g.setFont(getFont());
-        JComponent host = getColorChooser();
-        if (host == null) {
-            host = this;
+    privbtf int pbintTfxt(Grbpiids g, int offsftX) {
+        g.sftFont(gftFont());
+        JComponfnt iost = gftColorCioosfr();
+        if (iost == null) {
+            iost = tiis;
         }
-        FontMetrics fm = SwingUtilities2.getFontMetrics(host, g);
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(iost, g);
 
-        int ascent = fm.getAscent();
-        int height = fm.getHeight();
-        int width = SwingUtilities2.stringWidth(host, fm, getSampleText());
+        int bsdfnt = fm.gftAsdfnt();
+        int ifigit = fm.gftHfigit();
+        int widti = SwingUtilitifs2.stringWidti(iost, fm, gftSbmplfTfxt());
 
-        int textXOffset = offsetX + textGap;
+        int tfxtXOffsft = offsftX + tfxtGbp;
 
-        Color color = getForeground();
+        Color dolor = gftForfground();
 
-        g.setColor(color);
+        g.sftColor(dolor);
 
-        SwingUtilities2.drawString(host, g, getSampleText(),textXOffset+(textGap/2),
-                                   ascent+2);
+        SwingUtilitifs2.drbwString(iost, g, gftSbmplfTfxt(),tfxtXOffsft+(tfxtGbp/2),
+                                   bsdfnt+2);
 
-        g.fillRect(textXOffset,
-                   ( height) + textGap,
-                   width + (textGap),
-                   height +2);
+        g.fillRfdt(tfxtXOffsft,
+                   ( ifigit) + tfxtGbp,
+                   widti + (tfxtGbp),
+                   ifigit +2);
 
-        g.setColor(Color.black);
-        SwingUtilities2.drawString(host, g, getSampleText(),
-                     textXOffset+(textGap/2),
-                     height+ascent+textGap+2);
-
-
-        g.setColor(Color.white);
-
-        g.fillRect(textXOffset,
-                   ( height + textGap) * 2,
-                   width + (textGap),
-                   height +2);
-
-        g.setColor(color);
-        SwingUtilities2.drawString(host, g, getSampleText(),
-                     textXOffset+(textGap/2),
-                     ((height+textGap) * 2)+ascent+2);
-
-        return width + textGap*3;
-
-    }
-
-    private int paintSquares(Graphics g, int offsetX) {
-
-        int squareXOffset = offsetX;
-        Color color = getForeground();
-
-        g.setColor(Color.white);
-        g.fillRect(squareXOffset,0,squareSize,squareSize);
-        g.setColor(color);
-        g.fillRect(squareXOffset+innerGap,
-                   innerGap,
-                   squareSize - (innerGap*2),
-                   squareSize - (innerGap*2));
-        g.setColor(Color.white);
-        g.fillRect(squareXOffset+innerGap*2,
-                   innerGap*2,
-                   squareSize - (innerGap*4),
-                   squareSize - (innerGap*4));
-
-        g.setColor(color);
-        g.fillRect(squareXOffset,squareSize+squareGap,squareSize,squareSize);
-
-        g.translate(squareSize+squareGap, 0);
-        g.setColor(Color.black);
-        g.fillRect(squareXOffset,0,squareSize,squareSize);
-        g.setColor(color);
-        g.fillRect(squareXOffset+innerGap,
-                   innerGap,
-                   squareSize - (innerGap*2),
-                   squareSize - (innerGap*2));
-        g.setColor(Color.white);
-        g.fillRect(squareXOffset+innerGap*2,
-                   innerGap*2,
-                   squareSize - (innerGap*4),
-                   squareSize - (innerGap*4));
-        g.translate(-(squareSize+squareGap), 0);
-
-        g.translate(squareSize+squareGap, squareSize+squareGap);
-        g.setColor(Color.white);
-        g.fillRect(squareXOffset,0,squareSize,squareSize);
-        g.setColor(color);
-        g.fillRect(squareXOffset+innerGap,
-                   innerGap,
-                   squareSize - (innerGap*2),
-                   squareSize - (innerGap*2));
-        g.translate(-(squareSize+squareGap), -(squareSize+squareGap));
+        g.sftColor(Color.blbdk);
+        SwingUtilitifs2.drbwString(iost, g, gftSbmplfTfxt(),
+                     tfxtXOffsft+(tfxtGbp/2),
+                     ifigit+bsdfnt+tfxtGbp+2);
 
 
+        g.sftColor(Color.wiitf);
 
-        g.translate((squareSize+squareGap)*2, 0);
-        g.setColor(Color.white);
-        g.fillRect(squareXOffset,0,squareSize,squareSize);
-        g.setColor(color);
-        g.fillRect(squareXOffset+innerGap,
-                   innerGap,
-                   squareSize - (innerGap*2),
-                   squareSize - (innerGap*2));
-        g.setColor(Color.black);
-        g.fillRect(squareXOffset+innerGap*2,
-                   innerGap*2,
-                   squareSize - (innerGap*4),
-                   squareSize - (innerGap*4));
-        g.translate(-((squareSize+squareGap)*2), 0);
+        g.fillRfdt(tfxtXOffsft,
+                   ( ifigit + tfxtGbp) * 2,
+                   widti + (tfxtGbp),
+                   ifigit +2);
 
-        g.translate((squareSize+squareGap)*2, (squareSize+squareGap));
-        g.setColor(Color.black);
-        g.fillRect(squareXOffset,0,squareSize,squareSize);
-        g.setColor(color);
-        g.fillRect(squareXOffset+innerGap,
-                   innerGap,
-                   squareSize - (innerGap*2),
-                   squareSize - (innerGap*2));
-        g.translate(-((squareSize+squareGap)*2), -(squareSize+squareGap));
+        g.sftColor(dolor);
+        SwingUtilitifs2.drbwString(iost, g, gftSbmplfTfxt(),
+                     tfxtXOffsft+(tfxtGbp/2),
+                     ((ifigit+tfxtGbp) * 2)+bsdfnt+2);
 
-        return (squareSize*3+squareGap*2);
+        rfturn widti + tfxtGbp*3;
 
     }
 
-    private String getSampleText() {
-        if (this.sampleText == null) {
-            this.sampleText = UIManager.getString("ColorChooser.sampleText", getLocale());
+    privbtf int pbintSqubrfs(Grbpiids g, int offsftX) {
+
+        int squbrfXOffsft = offsftX;
+        Color dolor = gftForfground();
+
+        g.sftColor(Color.wiitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.wiitf);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft,squbrfSizf+squbrfGbp,squbrfSizf,squbrfSizf);
+
+        g.trbnslbtf(squbrfSizf+squbrfGbp, 0);
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.wiitf);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+        g.trbnslbtf(-(squbrfSizf+squbrfGbp), 0);
+
+        g.trbnslbtf(squbrfSizf+squbrfGbp, squbrfSizf+squbrfGbp);
+        g.sftColor(Color.wiitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.trbnslbtf(-(squbrfSizf+squbrfGbp), -(squbrfSizf+squbrfGbp));
+
+
+
+        g.trbnslbtf((squbrfSizf+squbrfGbp)*2, 0);
+        g.sftColor(Color.wiitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+        g.trbnslbtf(-((squbrfSizf+squbrfGbp)*2), 0);
+
+        g.trbnslbtf((squbrfSizf+squbrfGbp)*2, (squbrfSizf+squbrfGbp));
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.trbnslbtf(-((squbrfSizf+squbrfGbp)*2), -(squbrfSizf+squbrfGbp));
+
+        rfturn (squbrfSizf*3+squbrfGbp*2);
+
+    }
+
+    privbtf String gftSbmplfTfxt() {
+        if (tiis.sbmplfTfxt == null) {
+            tiis.sbmplfTfxt = UIMbnbgfr.gftString("ColorCioosfr.sbmplfTfxt", gftLodblf());
         }
-        return this.sampleText;
+        rfturn tiis.sbmplfTfxt;
     }
 }

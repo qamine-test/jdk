@@ -1,1358 +1,1358 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.Principal;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.Signature;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchProviderException;
-import java.security.SignatureException;
-import java.security.cert.Certificate;
-import java.security.cert.X509CRL;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CRLEntry;
-import java.security.cert.CRLException;
-import java.util.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CRL;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CRLEntry;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.util.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.provider.X509Factory;
-import sun.security.util.*;
-import sun.misc.HexDumpEncoder;
+import sun.sfdurity.providfr.X509Fbdtory;
+import sun.sfdurity.util.*;
+import sun.misd.HfxDumpEndodfr;
 
 /**
  * <p>
- * An implementation for X509 CRL (Certificate Revocation List).
+ * An implfmfntbtion for X509 CRL (Cfrtifidbtf Rfvodbtion List).
  * <p>
- * The X.509 v2 CRL format is described below in ASN.1:
- * <pre>
- * CertificateList  ::=  SEQUENCE  {
- *     tbsCertList          TBSCertList,
- *     signatureAlgorithm   AlgorithmIdentifier,
- *     signature            BIT STRING  }
- * </pre>
- * More information can be found in
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280: Internet X.509
- * Public Key Infrastructure Certificate and CRL Profile</a>.
+ * Tif X.509 v2 CRL formbt is dfsdribfd bflow in ASN.1:
+ * <prf>
+ * CfrtifidbtfList  ::=  SEQUENCE  {
+ *     tbsCfrtList          TBSCfrtList,
+ *     signbturfAlgoritim   AlgoritimIdfntififr,
+ *     signbturf            BIT STRING  }
+ * </prf>
+ * Morf informbtion dbn bf found in
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280: Intfrnft X.509
+ * Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>.
  * <p>
- * The ASN.1 definition of <code>tbsCertList</code> is:
- * <pre>
- * TBSCertList  ::=  SEQUENCE  {
- *     version                 Version OPTIONAL,
- *                             -- if present, must be v2
- *     signature               AlgorithmIdentifier,
- *     issuer                  Name,
- *     thisUpdate              ChoiceOfTime,
- *     nextUpdate              ChoiceOfTime OPTIONAL,
- *     revokedCertificates     SEQUENCE OF SEQUENCE  {
- *         userCertificate         CertificateSerialNumber,
- *         revocationDate          ChoiceOfTime,
- *         crlEntryExtensions      Extensions OPTIONAL
- *                                 -- if present, must be v2
+ * Tif ASN.1 dffinition of <dodf>tbsCfrtList</dodf> is:
+ * <prf>
+ * TBSCfrtList  ::=  SEQUENCE  {
+ *     vfrsion                 Vfrsion OPTIONAL,
+ *                             -- if prfsfnt, must bf v2
+ *     signbturf               AlgoritimIdfntififr,
+ *     issufr                  Nbmf,
+ *     tiisUpdbtf              CioidfOfTimf,
+ *     nfxtUpdbtf              CioidfOfTimf OPTIONAL,
+ *     rfvokfdCfrtifidbtfs     SEQUENCE OF SEQUENCE  {
+ *         usfrCfrtifidbtf         CfrtifidbtfSfriblNumbfr,
+ *         rfvodbtionDbtf          CioidfOfTimf,
+ *         drlEntryExtfnsions      Extfnsions OPTIONAL
+ *                                 -- if prfsfnt, must bf v2
  *         }  OPTIONAL,
- *     crlExtensions           [0]  EXPLICIT Extensions OPTIONAL
- *                                  -- if present, must be v2
+ *     drlExtfnsions           [0]  EXPLICIT Extfnsions OPTIONAL
+ *                                  -- if prfsfnt, must bf v2
  *     }
- * </pre>
+ * </prf>
  *
- * @author Hemma Prafullchandra
- * @see X509CRL
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff X509CRL
  */
-public class X509CRLImpl extends X509CRL implements DerEncoder {
+publid dlbss X509CRLImpl fxtfnds X509CRL implfmfnts DfrEndodfr {
 
-    // CRL data, and its envelope
-    private byte[]      signedCRL = null; // DER encoded crl
-    private byte[]      signature = null; // raw signature bits
-    private byte[]      tbsCertList = null; // DER encoded "to-be-signed" CRL
-    private AlgorithmId sigAlgId = null; // sig alg in CRL
+    // CRL dbtb, bnd its fnvflopf
+    privbtf bytf[]      signfdCRL = null; // DER fndodfd drl
+    privbtf bytf[]      signbturf = null; // rbw signbturf bits
+    privbtf bytf[]      tbsCfrtList = null; // DER fndodfd "to-bf-signfd" CRL
+    privbtf AlgoritimId sigAlgId = null; // sig blg in CRL
 
-    // crl information
-    private int              version;
-    private AlgorithmId      infoSigAlgId; // sig alg in "to-be-signed" crl
-    private X500Name         issuer = null;
-    private X500Principal    issuerPrincipal = null;
-    private Date             thisUpdate = null;
-    private Date             nextUpdate = null;
-    private Map<X509IssuerSerial,X509CRLEntry> revokedMap = new TreeMap<>();
-    private List<X509CRLEntry> revokedList = new LinkedList<>();
-    private CRLExtensions    extensions = null;
-    private final static boolean isExplicit = true;
-    private static final long YR_2050 = 2524636800000L;
+    // drl informbtion
+    privbtf int              vfrsion;
+    privbtf AlgoritimId      infoSigAlgId; // sig blg in "to-bf-signfd" drl
+    privbtf X500Nbmf         issufr = null;
+    privbtf X500Prindipbl    issufrPrindipbl = null;
+    privbtf Dbtf             tiisUpdbtf = null;
+    privbtf Dbtf             nfxtUpdbtf = null;
+    privbtf Mbp<X509IssufrSfribl,X509CRLEntry> rfvokfdMbp = nfw TrffMbp<>();
+    privbtf List<X509CRLEntry> rfvokfdList = nfw LinkfdList<>();
+    privbtf CRLExtfnsions    fxtfnsions = null;
+    privbtf finbl stbtid boolfbn isExplidit = truf;
+    privbtf stbtid finbl long YR_2050 = 2524636800000L;
 
-    private boolean readOnly = false;
+    privbtf boolfbn rfbdOnly = fblsf;
 
     /**
-     * PublicKey that has previously been used to successfully verify
-     * the signature of this CRL. Null if the CRL has not
-     * yet been verified (successfully).
+     * PublidKfy tibt ibs prfviously bffn usfd to suddfssfully vfrify
+     * tif signbturf of tiis CRL. Null if tif CRL ibs not
+     * yft bffn vfrififd (suddfssfully).
      */
-    private PublicKey verifiedPublicKey;
+    privbtf PublidKfy vfrififdPublidKfy;
     /**
-     * If verifiedPublicKey is not null, name of the provider used to
-     * successfully verify the signature of this CRL, or the
-     * empty String if no provider was explicitly specified.
+     * If vfrififdPublidKfy is not null, nbmf of tif providfr usfd to
+     * suddfssfully vfrify tif signbturf of tiis CRL, or tif
+     * fmpty String if no providfr wbs fxpliditly spfdififd.
      */
-    private String verifiedProvider;
+    privbtf String vfrififdProvidfr;
 
     /**
-     * Not to be used. As it would lead to cases of uninitialized
-     * CRL objects.
+     * Not to bf usfd. As it would lfbd to dbsfs of uninitiblizfd
+     * CRL objfdts.
      */
-    private X509CRLImpl() { }
+    privbtf X509CRLImpl() { }
 
     /**
-     * Unmarshals an X.509 CRL from its encoded form, parsing the encoded
-     * bytes.  This form of constructor is used by agents which
-     * need to examine and use CRL contents. Note that the buffer
-     * must include only one CRL, and no "garbage" may be left at
-     * the end.
+     * Unmbrsibls bn X.509 CRL from its fndodfd form, pbrsing tif fndodfd
+     * bytfs.  Tiis form of donstrudtor is usfd by bgfnts wiidi
+     * nffd to fxbminf bnd usf CRL dontfnts. Notf tibt tif bufffr
+     * must indludf only onf CRL, bnd no "gbrbbgf" mby bf lfft bt
+     * tif fnd.
      *
-     * @param crlData the encoded bytes, with no trailing padding.
-     * @exception CRLException on parsing errors.
+     * @pbrbm drlDbtb tif fndodfd bytfs, witi no trbiling pbdding.
+     * @fxdfption CRLExdfption on pbrsing frrors.
      */
-    public X509CRLImpl(byte[] crlData) throws CRLException {
+    publid X509CRLImpl(bytf[] drlDbtb) tirows CRLExdfption {
         try {
-            parse(new DerValue(crlData));
-        } catch (IOException e) {
-            signedCRL = null;
-            throw new CRLException("Parsing error: " + e.getMessage());
+            pbrsf(nfw DfrVbluf(drlDbtb));
+        } dbtdi (IOExdfption f) {
+            signfdCRL = null;
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Unmarshals an X.509 CRL from an DER value.
+     * Unmbrsibls bn X.509 CRL from bn DER vbluf.
      *
-     * @param val a DER value holding at least one CRL
-     * @exception CRLException on parsing errors.
+     * @pbrbm vbl b DER vbluf iolding bt lfbst onf CRL
+     * @fxdfption CRLExdfption on pbrsing frrors.
      */
-    public X509CRLImpl(DerValue val) throws CRLException {
+    publid X509CRLImpl(DfrVbluf vbl) tirows CRLExdfption {
         try {
-            parse(val);
-        } catch (IOException e) {
-            signedCRL = null;
-            throw new CRLException("Parsing error: " + e.getMessage());
+            pbrsf(vbl);
+        } dbtdi (IOExdfption f) {
+            signfdCRL = null;
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Unmarshals an X.509 CRL from an input stream. Only one CRL
-     * is expected at the end of the input stream.
+     * Unmbrsibls bn X.509 CRL from bn input strfbm. Only onf CRL
+     * is fxpfdtfd bt tif fnd of tif input strfbm.
      *
-     * @param inStrm an input stream holding at least one CRL
-     * @exception CRLException on parsing errors.
+     * @pbrbm inStrm bn input strfbm iolding bt lfbst onf CRL
+     * @fxdfption CRLExdfption on pbrsing frrors.
      */
-    public X509CRLImpl(InputStream inStrm) throws CRLException {
+    publid X509CRLImpl(InputStrfbm inStrm) tirows CRLExdfption {
         try {
-            parse(new DerValue(inStrm));
-        } catch (IOException e) {
-            signedCRL = null;
-            throw new CRLException("Parsing error: " + e.getMessage());
+            pbrsf(nfw DfrVbluf(inStrm));
+        } dbtdi (IOExdfption f) {
+            signfdCRL = null;
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Initial CRL constructor, no revoked certs, and no extensions.
+     * Initibl CRL donstrudtor, no rfvokfd dfrts, bnd no fxtfnsions.
      *
-     * @param issuer the name of the CA issuing this CRL.
-     * @param thisUpdate the Date of this issue.
-     * @param nextUpdate the Date of the next CRL.
+     * @pbrbm issufr tif nbmf of tif CA issuing tiis CRL.
+     * @pbrbm tiisUpdbtf tif Dbtf of tiis issuf.
+     * @pbrbm nfxtUpdbtf tif Dbtf of tif nfxt CRL.
      */
-    public X509CRLImpl(X500Name issuer, Date thisDate, Date nextDate) {
-        this.issuer = issuer;
-        this.thisUpdate = thisDate;
-        this.nextUpdate = nextDate;
+    publid X509CRLImpl(X500Nbmf issufr, Dbtf tiisDbtf, Dbtf nfxtDbtf) {
+        tiis.issufr = issufr;
+        tiis.tiisUpdbtf = tiisDbtf;
+        tiis.nfxtUpdbtf = nfxtDbtf;
     }
 
     /**
-     * CRL constructor, revoked certs, no extensions.
+     * CRL donstrudtor, rfvokfd dfrts, no fxtfnsions.
      *
-     * @param issuer the name of the CA issuing this CRL.
-     * @param thisUpdate the Date of this issue.
-     * @param nextUpdate the Date of the next CRL.
-     * @param badCerts the array of CRL entries.
+     * @pbrbm issufr tif nbmf of tif CA issuing tiis CRL.
+     * @pbrbm tiisUpdbtf tif Dbtf of tiis issuf.
+     * @pbrbm nfxtUpdbtf tif Dbtf of tif nfxt CRL.
+     * @pbrbm bbdCfrts tif brrby of CRL fntrifs.
      *
-     * @exception CRLException on parsing/construction errors.
+     * @fxdfption CRLExdfption on pbrsing/donstrudtion frrors.
      */
-    public X509CRLImpl(X500Name issuer, Date thisDate, Date nextDate,
-                       X509CRLEntry[] badCerts)
-        throws CRLException
+    publid X509CRLImpl(X500Nbmf issufr, Dbtf tiisDbtf, Dbtf nfxtDbtf,
+                       X509CRLEntry[] bbdCfrts)
+        tirows CRLExdfption
     {
-        this.issuer = issuer;
-        this.thisUpdate = thisDate;
-        this.nextUpdate = nextDate;
-        if (badCerts != null) {
-            X500Principal crlIssuer = getIssuerX500Principal();
-            X500Principal badCertIssuer = crlIssuer;
-            for (int i = 0; i < badCerts.length; i++) {
-                X509CRLEntryImpl badCert = (X509CRLEntryImpl)badCerts[i];
+        tiis.issufr = issufr;
+        tiis.tiisUpdbtf = tiisDbtf;
+        tiis.nfxtUpdbtf = nfxtDbtf;
+        if (bbdCfrts != null) {
+            X500Prindipbl drlIssufr = gftIssufrX500Prindipbl();
+            X500Prindipbl bbdCfrtIssufr = drlIssufr;
+            for (int i = 0; i < bbdCfrts.lfngti; i++) {
+                X509CRLEntryImpl bbdCfrt = (X509CRLEntryImpl)bbdCfrts[i];
                 try {
-                    badCertIssuer = getCertIssuer(badCert, badCertIssuer);
-                } catch (IOException ioe) {
-                    throw new CRLException(ioe);
+                    bbdCfrtIssufr = gftCfrtIssufr(bbdCfrt, bbdCfrtIssufr);
+                } dbtdi (IOExdfption iof) {
+                    tirow nfw CRLExdfption(iof);
                 }
-                badCert.setCertificateIssuer(crlIssuer, badCertIssuer);
-                X509IssuerSerial issuerSerial = new X509IssuerSerial
-                    (badCertIssuer, badCert.getSerialNumber());
-                this.revokedMap.put(issuerSerial, badCert);
-                this.revokedList.add(badCert);
-                if (badCert.hasExtensions()) {
-                    this.version = 1;
+                bbdCfrt.sftCfrtifidbtfIssufr(drlIssufr, bbdCfrtIssufr);
+                X509IssufrSfribl issufrSfribl = nfw X509IssufrSfribl
+                    (bbdCfrtIssufr, bbdCfrt.gftSfriblNumbfr());
+                tiis.rfvokfdMbp.put(issufrSfribl, bbdCfrt);
+                tiis.rfvokfdList.bdd(bbdCfrt);
+                if (bbdCfrt.ibsExtfnsions()) {
+                    tiis.vfrsion = 1;
                 }
             }
         }
     }
 
     /**
-     * CRL constructor, revoked certs and extensions.
+     * CRL donstrudtor, rfvokfd dfrts bnd fxtfnsions.
      *
-     * @param issuer the name of the CA issuing this CRL.
-     * @param thisUpdate the Date of this issue.
-     * @param nextUpdate the Date of the next CRL.
-     * @param badCerts the array of CRL entries.
-     * @param crlExts the CRL extensions.
+     * @pbrbm issufr tif nbmf of tif CA issuing tiis CRL.
+     * @pbrbm tiisUpdbtf tif Dbtf of tiis issuf.
+     * @pbrbm nfxtUpdbtf tif Dbtf of tif nfxt CRL.
+     * @pbrbm bbdCfrts tif brrby of CRL fntrifs.
+     * @pbrbm drlExts tif CRL fxtfnsions.
      *
-     * @exception CRLException on parsing/construction errors.
+     * @fxdfption CRLExdfption on pbrsing/donstrudtion frrors.
      */
-    public X509CRLImpl(X500Name issuer, Date thisDate, Date nextDate,
-               X509CRLEntry[] badCerts, CRLExtensions crlExts)
-        throws CRLException
+    publid X509CRLImpl(X500Nbmf issufr, Dbtf tiisDbtf, Dbtf nfxtDbtf,
+               X509CRLEntry[] bbdCfrts, CRLExtfnsions drlExts)
+        tirows CRLExdfption
     {
-        this(issuer, thisDate, nextDate, badCerts);
-        if (crlExts != null) {
-            this.extensions = crlExts;
-            this.version = 1;
+        tiis(issufr, tiisDbtf, nfxtDbtf, bbdCfrts);
+        if (drlExts != null) {
+            tiis.fxtfnsions = drlExts;
+            tiis.vfrsion = 1;
         }
     }
 
     /**
-     * Returned the encoding as an uncloned byte array. Callers must
-     * guarantee that they neither modify it nor expose it to untrusted
-     * code.
+     * Rfturnfd tif fndoding bs bn undlonfd bytf brrby. Cbllfrs must
+     * gubrbntff tibt tify nfitifr modify it nor fxposf it to untrustfd
+     * dodf.
      */
-    public byte[] getEncodedInternal() throws CRLException {
-        if (signedCRL == null) {
-            throw new CRLException("Null CRL to encode");
+    publid bytf[] gftEndodfdIntfrnbl() tirows CRLExdfption {
+        if (signfdCRL == null) {
+            tirow nfw CRLExdfption("Null CRL to fndodf");
         }
-        return signedCRL;
+        rfturn signfdCRL;
     }
 
     /**
-     * Returns the ASN.1 DER encoded form of this CRL.
+     * Rfturns tif ASN.1 DER fndodfd form of tiis CRL.
      *
-     * @exception CRLException if an encoding error occurs.
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
      */
-    public byte[] getEncoded() throws CRLException {
-        return getEncodedInternal().clone();
+    publid bytf[] gftEndodfd() tirows CRLExdfption {
+        rfturn gftEndodfdIntfrnbl().dlonf();
     }
 
     /**
-     * Encodes the "to-be-signed" CRL to the OutputStream.
+     * Endodfs tif "to-bf-signfd" CRL to tif OutputStrfbm.
      *
-     * @param out the OutputStream to write to.
-     * @exception CRLException on encoding errors.
+     * @pbrbm out tif OutputStrfbm to writf to.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public void encodeInfo(OutputStream out) throws CRLException {
+    publid void fndodfInfo(OutputStrfbm out) tirows CRLExdfption {
         try {
-            DerOutputStream tmp = new DerOutputStream();
-            DerOutputStream rCerts = new DerOutputStream();
-            DerOutputStream seq = new DerOutputStream();
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            DfrOutputStrfbm rCfrts = nfw DfrOutputStrfbm();
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
 
-            if (version != 0) // v2 crl encode version
-                tmp.putInteger(version);
-            infoSigAlgId.encode(tmp);
-            if ((version == 0) && (issuer.toString() == null))
-                throw new CRLException("Null Issuer DN not allowed in v1 CRL");
-            issuer.encode(tmp);
+            if (vfrsion != 0) // v2 drl fndodf vfrsion
+                tmp.putIntfgfr(vfrsion);
+            infoSigAlgId.fndodf(tmp);
+            if ((vfrsion == 0) && (issufr.toString() == null))
+                tirow nfw CRLExdfption("Null Issufr DN not bllowfd in v1 CRL");
+            issufr.fndodf(tmp);
 
-            if (thisUpdate.getTime() < YR_2050)
-                tmp.putUTCTime(thisUpdate);
-            else
-                tmp.putGeneralizedTime(thisUpdate);
+            if (tiisUpdbtf.gftTimf() < YR_2050)
+                tmp.putUTCTimf(tiisUpdbtf);
+            flsf
+                tmp.putGfnfrblizfdTimf(tiisUpdbtf);
 
-            if (nextUpdate != null) {
-                if (nextUpdate.getTime() < YR_2050)
-                    tmp.putUTCTime(nextUpdate);
-                else
-                    tmp.putGeneralizedTime(nextUpdate);
+            if (nfxtUpdbtf != null) {
+                if (nfxtUpdbtf.gftTimf() < YR_2050)
+                    tmp.putUTCTimf(nfxtUpdbtf);
+                flsf
+                    tmp.putGfnfrblizfdTimf(nfxtUpdbtf);
             }
 
-            if (!revokedList.isEmpty()) {
-                for (X509CRLEntry entry : revokedList) {
-                    ((X509CRLEntryImpl)entry).encode(rCerts);
+            if (!rfvokfdList.isEmpty()) {
+                for (X509CRLEntry fntry : rfvokfdList) {
+                    ((X509CRLEntryImpl)fntry).fndodf(rCfrts);
                 }
-                tmp.write(DerValue.tag_Sequence, rCerts);
+                tmp.writf(DfrVbluf.tbg_Sfqufndf, rCfrts);
             }
 
-            if (extensions != null)
-                extensions.encode(tmp, isExplicit);
+            if (fxtfnsions != null)
+                fxtfnsions.fndodf(tmp, isExplidit);
 
-            seq.write(DerValue.tag_Sequence, tmp);
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, tmp);
 
-            tbsCertList = seq.toByteArray();
-            out.write(tbsCertList);
-        } catch (IOException e) {
-             throw new CRLException("Encoding error: " + e.getMessage());
+            tbsCfrtList = sfq.toBytfArrby();
+            out.writf(tbsCfrtList);
+        } dbtdi (IOExdfption f) {
+             tirow nfw CRLExdfption("Endoding frror: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key.
+     * Vfrififs tibt tiis CRL wbs signfd using tif
+     * privbtf kfy tibt dorrfsponds to tif givfn publid kfy.
      *
-     * @param key the PublicKey used to carry out the verification.
+     * @pbrbm kfy tif PublidKfy usfd to dbrry out tif vfrifidbtion.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException if there's no default provider.
-     * @exception SignatureException on signature errors.
-     * @exception CRLException on encoding errors.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption if tifrf's no dffbult providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public void verify(PublicKey key)
-    throws CRLException, NoSuchAlgorithmException, InvalidKeyException,
-           NoSuchProviderException, SignatureException {
-        verify(key, "");
+    publid void vfrify(PublidKfy kfy)
+    tirows CRLExdfption, NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+           NoSudiProvidfrExdfption, SignbturfExdfption {
+        vfrify(kfy, "");
     }
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key,
-     * and that the signature verification was computed by
-     * the given provider.
+     * Vfrififs tibt tiis CRL wbs signfd using tif
+     * privbtf kfy tibt dorrfsponds to tif givfn publid kfy,
+     * bnd tibt tif signbturf vfrifidbtion wbs domputfd by
+     * tif givfn providfr.
      *
-     * @param key the PublicKey used to carry out the verification.
-     * @param sigProvider the name of the signature provider.
+     * @pbrbm kfy tif PublidKfy usfd to dbrry out tif vfrifidbtion.
+     * @pbrbm sigProvidfr tif nbmf of tif signbturf providfr.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException on incorrect provider.
-     * @exception SignatureException on signature errors.
-     * @exception CRLException on encoding errors.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public synchronized void verify(PublicKey key, String sigProvider)
-            throws CRLException, NoSuchAlgorithmException, InvalidKeyException,
-            NoSuchProviderException, SignatureException {
+    publid syndironizfd void vfrify(PublidKfy kfy, String sigProvidfr)
+            tirows CRLExdfption, NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+            NoSudiProvidfrExdfption, SignbturfExdfption {
 
-        if (sigProvider == null) {
-            sigProvider = "";
+        if (sigProvidfr == null) {
+            sigProvidfr = "";
         }
-        if ((verifiedPublicKey != null) && verifiedPublicKey.equals(key)) {
-            // this CRL has already been successfully verified using
-            // this public key. Make sure providers match, too.
-            if (sigProvider.equals(verifiedProvider)) {
-                return;
+        if ((vfrififdPublidKfy != null) && vfrififdPublidKfy.fqubls(kfy)) {
+            // tiis CRL ibs blrfbdy bffn suddfssfully vfrififd using
+            // tiis publid kfy. Mbkf surf providfrs mbtdi, too.
+            if (sigProvidfr.fqubls(vfrififdProvidfr)) {
+                rfturn;
             }
         }
-        if (signedCRL == null) {
-            throw new CRLException("Uninitialized CRL");
+        if (signfdCRL == null) {
+            tirow nfw CRLExdfption("Uninitiblizfd CRL");
         }
-        Signature   sigVerf = null;
-        if (sigProvider.length() == 0) {
-            sigVerf = Signature.getInstance(sigAlgId.getName());
-        } else {
-            sigVerf = Signature.getInstance(sigAlgId.getName(), sigProvider);
+        Signbturf   sigVfrf = null;
+        if (sigProvidfr.lfngti() == 0) {
+            sigVfrf = Signbturf.gftInstbndf(sigAlgId.gftNbmf());
+        } flsf {
+            sigVfrf = Signbturf.gftInstbndf(sigAlgId.gftNbmf(), sigProvidfr);
         }
-        sigVerf.initVerify(key);
+        sigVfrf.initVfrify(kfy);
 
-        if (tbsCertList == null) {
-            throw new CRLException("Uninitialized CRL");
+        if (tbsCfrtList == null) {
+            tirow nfw CRLExdfption("Uninitiblizfd CRL");
         }
 
-        sigVerf.update(tbsCertList, 0, tbsCertList.length);
+        sigVfrf.updbtf(tbsCfrtList, 0, tbsCfrtList.lfngti);
 
-        if (!sigVerf.verify(signature)) {
-            throw new SignatureException("Signature does not match.");
+        if (!sigVfrf.vfrify(signbturf)) {
+            tirow nfw SignbturfExdfption("Signbturf dofs not mbtdi.");
         }
-        verifiedPublicKey = key;
-        verifiedProvider = sigProvider;
+        vfrififdPublidKfy = kfy;
+        vfrififdProvidfr = sigProvidfr;
     }
 
     /**
-     * Verifies that this CRL was signed using the
-     * private key that corresponds to the given public key,
-     * and that the signature verification was computed by
-     * the given provider. Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * Vfrififs tibt tiis CRL wbs signfd using tif
+     * privbtf kfy tibt dorrfsponds to tif givfn publid kfy,
+     * bnd tibt tif signbturf vfrifidbtion wbs domputfd by
+     * tif givfn providfr. Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param key the PublicKey used to carry out the verification.
-     * @param sigProvider the signature provider.
+     * @pbrbm kfy tif PublidKfy usfd to dbrry out tif vfrifidbtion.
+     * @pbrbm sigProvidfr tif signbturf providfr.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception SignatureException on signature errors.
-     * @exception CRLException on encoding errors.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public synchronized void verify(PublicKey key, Provider sigProvider)
-            throws CRLException, NoSuchAlgorithmException, InvalidKeyException,
-            SignatureException {
+    publid syndironizfd void vfrify(PublidKfy kfy, Providfr sigProvidfr)
+            tirows CRLExdfption, NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+            SignbturfExdfption {
 
-        if (signedCRL == null) {
-            throw new CRLException("Uninitialized CRL");
+        if (signfdCRL == null) {
+            tirow nfw CRLExdfption("Uninitiblizfd CRL");
         }
-        Signature sigVerf = null;
-        if (sigProvider == null) {
-            sigVerf = Signature.getInstance(sigAlgId.getName());
-        } else {
-            sigVerf = Signature.getInstance(sigAlgId.getName(), sigProvider);
+        Signbturf sigVfrf = null;
+        if (sigProvidfr == null) {
+            sigVfrf = Signbturf.gftInstbndf(sigAlgId.gftNbmf());
+        } flsf {
+            sigVfrf = Signbturf.gftInstbndf(sigAlgId.gftNbmf(), sigProvidfr);
         }
-        sigVerf.initVerify(key);
+        sigVfrf.initVfrify(kfy);
 
-        if (tbsCertList == null) {
-            throw new CRLException("Uninitialized CRL");
+        if (tbsCfrtList == null) {
+            tirow nfw CRLExdfption("Uninitiblizfd CRL");
         }
 
-        sigVerf.update(tbsCertList, 0, tbsCertList.length);
+        sigVfrf.updbtf(tbsCfrtList, 0, tbsCfrtList.lfngti);
 
-        if (!sigVerf.verify(signature)) {
-            throw new SignatureException("Signature does not match.");
+        if (!sigVfrf.vfrify(signbturf)) {
+            tirow nfw SignbturfExdfption("Signbturf dofs not mbtdi.");
         }
-        verifiedPublicKey = key;
+        vfrififdPublidKfy = kfy;
     }
 
     /**
-     * This static method is the default implementation of the
-     * verify(PublicKey key, Provider sigProvider) method in X509CRL.
-     * Called from java.security.cert.X509CRL.verify(PublicKey key,
-     * Provider sigProvider)
+     * Tiis stbtid mftiod is tif dffbult implfmfntbtion of tif
+     * vfrify(PublidKfy kfy, Providfr sigProvidfr) mftiod in X509CRL.
+     * Cbllfd from jbvb.sfdurity.dfrt.X509CRL.vfrify(PublidKfy kfy,
+     * Providfr sigProvidfr)
      */
-    public static void verify(X509CRL crl, PublicKey key,
-            Provider sigProvider) throws CRLException,
-            NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        crl.verify(key, sigProvider);
+    publid stbtid void vfrify(X509CRL drl, PublidKfy kfy,
+            Providfr sigProvidfr) tirows CRLExdfption,
+            NoSudiAlgoritimExdfption, InvblidKfyExdfption, SignbturfExdfption {
+        drl.vfrify(kfy, sigProvidfr);
     }
 
     /**
-     * Encodes an X.509 CRL, and signs it using the given key.
+     * Endodfs bn X.509 CRL, bnd signs it using tif givfn kfy.
      *
-     * @param key the private key used for signing.
-     * @param algorithm the name of the signature algorithm used.
+     * @pbrbm kfy tif privbtf kfy usfd for signing.
+     * @pbrbm blgoritim tif nbmf of tif signbturf blgoritim usfd.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException on incorrect provider.
-     * @exception SignatureException on signature errors.
-     * @exception CRLException if any mandatory data was omitted.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption if bny mbndbtory dbtb wbs omittfd.
      */
-    public void sign(PrivateKey key, String algorithm)
-    throws CRLException, NoSuchAlgorithmException, InvalidKeyException,
-        NoSuchProviderException, SignatureException {
-        sign(key, algorithm, null);
+    publid void sign(PrivbtfKfy kfy, String blgoritim)
+    tirows CRLExdfption, NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+        NoSudiProvidfrExdfption, SignbturfExdfption {
+        sign(kfy, blgoritim, null);
     }
 
     /**
-     * Encodes an X.509 CRL, and signs it using the given key.
+     * Endodfs bn X.509 CRL, bnd signs it using tif givfn kfy.
      *
-     * @param key the private key used for signing.
-     * @param algorithm the name of the signature algorithm used.
-     * @param provider the name of the provider.
+     * @pbrbm kfy tif privbtf kfy usfd for signing.
+     * @pbrbm blgoritim tif nbmf of tif signbturf blgoritim usfd.
+     * @pbrbm providfr tif nbmf of tif providfr.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException on incorrect provider.
-     * @exception SignatureException on signature errors.
-     * @exception CRLException if any mandatory data was omitted.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption if bny mbndbtory dbtb wbs omittfd.
      */
-    public void sign(PrivateKey key, String algorithm, String provider)
-    throws CRLException, NoSuchAlgorithmException, InvalidKeyException,
-        NoSuchProviderException, SignatureException {
+    publid void sign(PrivbtfKfy kfy, String blgoritim, String providfr)
+    tirows CRLExdfption, NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+        NoSudiProvidfrExdfption, SignbturfExdfption {
         try {
-            if (readOnly)
-                throw new CRLException("cannot over-write existing CRL");
-            Signature sigEngine = null;
-            if ((provider == null) || (provider.length() == 0))
-                sigEngine = Signature.getInstance(algorithm);
-            else
-                sigEngine = Signature.getInstance(algorithm, provider);
+            if (rfbdOnly)
+                tirow nfw CRLExdfption("dbnnot ovfr-writf fxisting CRL");
+            Signbturf sigEnginf = null;
+            if ((providfr == null) || (providfr.lfngti() == 0))
+                sigEnginf = Signbturf.gftInstbndf(blgoritim);
+            flsf
+                sigEnginf = Signbturf.gftInstbndf(blgoritim, providfr);
 
-            sigEngine.initSign(key);
+            sigEnginf.initSign(kfy);
 
-                                // in case the name is reset
-            sigAlgId = AlgorithmId.get(sigEngine.getAlgorithm());
+                                // in dbsf tif nbmf is rfsft
+            sigAlgId = AlgoritimId.gft(sigEnginf.gftAlgoritim());
             infoSigAlgId = sigAlgId;
 
-            DerOutputStream out = new DerOutputStream();
-            DerOutputStream tmp = new DerOutputStream();
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-            // encode crl info
-            encodeInfo(tmp);
+            // fndodf drl info
+            fndodfInfo(tmp);
 
-            // encode algorithm identifier
-            sigAlgId.encode(tmp);
+            // fndodf blgoritim idfntififr
+            sigAlgId.fndodf(tmp);
 
-            // Create and encode the signature itself.
-            sigEngine.update(tbsCertList, 0, tbsCertList.length);
-            signature = sigEngine.sign();
-            tmp.putBitString(signature);
+            // Crfbtf bnd fndodf tif signbturf itsflf.
+            sigEnginf.updbtf(tbsCfrtList, 0, tbsCfrtList.lfngti);
+            signbturf = sigEnginf.sign();
+            tmp.putBitString(signbturf);
 
-            // Wrap the signed data in a SEQUENCE { data, algorithm, sig }
-            out.write(DerValue.tag_Sequence, tmp);
-            signedCRL = out.toByteArray();
-            readOnly = true;
+            // Wrbp tif signfd dbtb in b SEQUENCE { dbtb, blgoritim, sig }
+            out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+            signfdCRL = out.toBytfArrby();
+            rfbdOnly = truf;
 
-        } catch (IOException e) {
-            throw new CRLException("Error while encoding data: " +
-                                   e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw CRLExdfption("Error wiilf fndoding dbtb: " +
+                                   f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns a printable string of this CRL.
+     * Rfturns b printbblf string of tiis CRL.
      *
-     * @return value of this CRL in a printable form.
+     * @rfturn vbluf of tiis CRL in b printbblf form.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("X.509 CRL v" + (version+1) + "\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("X.509 CRL v" + (vfrsion+1) + "\n");
         if (sigAlgId != null)
-            sb.append("Signature Algorithm: " + sigAlgId.toString() +
-                  ", OID=" + (sigAlgId.getOID()).toString() + "\n");
-        if (issuer != null)
-            sb.append("Issuer: " + issuer.toString() + "\n");
-        if (thisUpdate != null)
-            sb.append("\nThis Update: " + thisUpdate.toString() + "\n");
-        if (nextUpdate != null)
-            sb.append("Next Update: " + nextUpdate.toString() + "\n");
-        if (revokedList.isEmpty())
-            sb.append("\nNO certificates have been revoked\n");
-        else {
-            sb.append("\nRevoked Certificates: " + revokedList.size());
+            sb.bppfnd("Signbturf Algoritim: " + sigAlgId.toString() +
+                  ", OID=" + (sigAlgId.gftOID()).toString() + "\n");
+        if (issufr != null)
+            sb.bppfnd("Issufr: " + issufr.toString() + "\n");
+        if (tiisUpdbtf != null)
+            sb.bppfnd("\nTiis Updbtf: " + tiisUpdbtf.toString() + "\n");
+        if (nfxtUpdbtf != null)
+            sb.bppfnd("Nfxt Updbtf: " + nfxtUpdbtf.toString() + "\n");
+        if (rfvokfdList.isEmpty())
+            sb.bppfnd("\nNO dfrtifidbtfs ibvf bffn rfvokfd\n");
+        flsf {
+            sb.bppfnd("\nRfvokfd Cfrtifidbtfs: " + rfvokfdList.sizf());
             int i = 1;
-            for (X509CRLEntry entry: revokedList) {
-                sb.append("\n[" + i++ + "] " + entry.toString());
+            for (X509CRLEntry fntry: rfvokfdList) {
+                sb.bppfnd("\n[" + i++ + "] " + fntry.toString());
             }
         }
-        if (extensions != null) {
-            Collection<Extension> allExts = extensions.getAllExtensions();
-            Object[] objs = allExts.toArray();
-            sb.append("\nCRL Extensions: " + objs.length);
-            for (int i = 0; i < objs.length; i++) {
-                sb.append("\n[" + (i+1) + "]: ");
-                Extension ext = (Extension)objs[i];
+        if (fxtfnsions != null) {
+            Collfdtion<Extfnsion> bllExts = fxtfnsions.gftAllExtfnsions();
+            Objfdt[] objs = bllExts.toArrby();
+            sb.bppfnd("\nCRL Extfnsions: " + objs.lfngti);
+            for (int i = 0; i < objs.lfngti; i++) {
+                sb.bppfnd("\n[" + (i+1) + "]: ");
+                Extfnsion fxt = (Extfnsion)objs[i];
                 try {
-                   if (OIDMap.getClass(ext.getExtensionId()) == null) {
-                       sb.append(ext.toString());
-                       byte[] extValue = ext.getExtensionValue();
-                       if (extValue != null) {
-                           DerOutputStream out = new DerOutputStream();
-                           out.putOctetString(extValue);
-                           extValue = out.toByteArray();
-                           HexDumpEncoder enc = new HexDumpEncoder();
-                           sb.append("Extension unknown: "
-                                     + "DER encoded OCTET string =\n"
-                                     + enc.encodeBuffer(extValue) + "\n");
+                   if (OIDMbp.gftClbss(fxt.gftExtfnsionId()) == null) {
+                       sb.bppfnd(fxt.toString());
+                       bytf[] fxtVbluf = fxt.gftExtfnsionVbluf();
+                       if (fxtVbluf != null) {
+                           DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+                           out.putOdtftString(fxtVbluf);
+                           fxtVbluf = out.toBytfArrby();
+                           HfxDumpEndodfr fnd = nfw HfxDumpEndodfr();
+                           sb.bppfnd("Extfnsion unknown: "
+                                     + "DER fndodfd OCTET string =\n"
+                                     + fnd.fndodfBufffr(fxtVbluf) + "\n");
                       }
-                   } else
-                       sb.append(ext.toString()); // sub-class exists
-                } catch (Exception e) {
-                    sb.append(", Error parsing this extension");
+                   } flsf
+                       sb.bppfnd(fxt.toString()); // sub-dlbss fxists
+                } dbtdi (Exdfption f) {
+                    sb.bppfnd(", Error pbrsing tiis fxtfnsion");
                 }
             }
         }
-        if (signature != null) {
-            HexDumpEncoder encoder = new HexDumpEncoder();
-            sb.append("\nSignature:\n" + encoder.encodeBuffer(signature)
+        if (signbturf != null) {
+            HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+            sb.bppfnd("\nSignbturf:\n" + fndodfr.fndodfBufffr(signbturf)
                       + "\n");
-        } else
-            sb.append("NOT signed yet\n");
-        return sb.toString();
+        } flsf
+            sb.bppfnd("NOT signfd yft\n");
+        rfturn sb.toString();
     }
 
     /**
-     * Checks whether the given certificate is on this CRL.
+     * Cifdks wiftifr tif givfn dfrtifidbtf is on tiis CRL.
      *
-     * @param cert the certificate to check for.
-     * @return true if the given certificate is on this CRL,
-     * false otherwise.
+     * @pbrbm dfrt tif dfrtifidbtf to difdk for.
+     * @rfturn truf if tif givfn dfrtifidbtf is on tiis CRL,
+     * fblsf otifrwisf.
      */
-    public boolean isRevoked(Certificate cert) {
-        if (revokedMap.isEmpty() || (!(cert instanceof X509Certificate))) {
-            return false;
+    publid boolfbn isRfvokfd(Cfrtifidbtf dfrt) {
+        if (rfvokfdMbp.isEmpty() || (!(dfrt instbndfof X509Cfrtifidbtf))) {
+            rfturn fblsf;
         }
-        X509Certificate xcert = (X509Certificate) cert;
-        X509IssuerSerial issuerSerial = new X509IssuerSerial(xcert);
-        return revokedMap.containsKey(issuerSerial);
+        X509Cfrtifidbtf xdfrt = (X509Cfrtifidbtf) dfrt;
+        X509IssufrSfribl issufrSfribl = nfw X509IssufrSfribl(xdfrt);
+        rfturn rfvokfdMbp.dontbinsKfy(issufrSfribl);
     }
 
     /**
-     * Gets the version number from this CRL.
-     * The ASN.1 definition for this is:
-     * <pre>
-     * Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
-     *             -- v3 does not apply to CRLs but appears for consistency
-     *             -- with definition of Version for certs
-     * </pre>
-     * @return the version number, i.e. 1 or 2.
+     * Gfts tif vfrsion numbfr from tiis CRL.
+     * Tif ASN.1 dffinition for tiis is:
+     * <prf>
+     * Vfrsion  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+     *             -- v3 dofs not bpply to CRLs but bppfbrs for donsistfndy
+     *             -- witi dffinition of Vfrsion for dfrts
+     * </prf>
+     * @rfturn tif vfrsion numbfr, i.f. 1 or 2.
      */
-    public int getVersion() {
-        return version+1;
+    publid int gftVfrsion() {
+        rfturn vfrsion+1;
     }
 
     /**
-     * Gets the issuer distinguished name from this CRL.
-     * The issuer name identifies the entity who has signed (and
-     * issued the CRL). The issuer name field contains an
-     * X.500 distinguished name (DN).
-     * The ASN.1 definition for this is:
-     * <pre>
-     * issuer    Name
+     * Gfts tif issufr distinguisifd nbmf from tiis CRL.
+     * Tif issufr nbmf idfntififs tif fntity wio ibs signfd (bnd
+     * issufd tif CRL). Tif issufr nbmf fifld dontbins bn
+     * X.500 distinguisifd nbmf (DN).
+     * Tif ASN.1 dffinition for tiis is:
+     * <prf>
+     * issufr    Nbmf
      *
-     * Name ::= CHOICE { RDNSequence }
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
-     * RelativeDistinguishedName ::=
-     *     SET OF AttributeValueAssertion
+     * Nbmf ::= CHOICE { RDNSfqufndf }
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguisifdNbmf
+     * RflbtivfDistinguisifdNbmf ::=
+     *     SET OF AttributfVblufAssfrtion
      *
-     * AttributeValueAssertion ::= SEQUENCE {
-     *                               AttributeType,
-     *                               AttributeValue }
-     * AttributeType ::= OBJECT IDENTIFIER
-     * AttributeValue ::= ANY
-     * </pre>
-     * The Name describes a hierarchical name composed of attributes,
-     * such as country name, and corresponding values, such as US.
-     * The type of the component AttributeValue is determined by the
-     * AttributeType; in general it will be a directoryString.
-     * A directoryString is usually one of PrintableString,
-     * TeletexString or UniversalString.
-     * @return the issuer name.
+     * AttributfVblufAssfrtion ::= SEQUENCE {
+     *                               AttributfTypf,
+     *                               AttributfVbluf }
+     * AttributfTypf ::= OBJECT IDENTIFIER
+     * AttributfVbluf ::= ANY
+     * </prf>
+     * Tif Nbmf dfsdribfs b iifrbrdiidbl nbmf domposfd of bttributfs,
+     * sudi bs dountry nbmf, bnd dorrfsponding vblufs, sudi bs US.
+     * Tif typf of tif domponfnt AttributfVbluf is dftfrminfd by tif
+     * AttributfTypf; in gfnfrbl it will bf b dirfdtoryString.
+     * A dirfdtoryString is usublly onf of PrintbblfString,
+     * TflftfxString or UnivfrsblString.
+     * @rfturn tif issufr nbmf.
      */
-    public Principal getIssuerDN() {
-        return (Principal)issuer;
+    publid Prindipbl gftIssufrDN() {
+        rfturn (Prindipbl)issufr;
     }
 
     /**
-     * Return the issuer as X500Principal. Overrides method in X509CRL
-     * to provide a slightly more efficient version.
+     * Rfturn tif issufr bs X500Prindipbl. Ovfrridfs mftiod in X509CRL
+     * to providf b sligitly morf fffidifnt vfrsion.
      */
-    public X500Principal getIssuerX500Principal() {
-        if (issuerPrincipal == null) {
-            issuerPrincipal = issuer.asX500Principal();
+    publid X500Prindipbl gftIssufrX500Prindipbl() {
+        if (issufrPrindipbl == null) {
+            issufrPrindipbl = issufr.bsX500Prindipbl();
         }
-        return issuerPrincipal;
+        rfturn issufrPrindipbl;
     }
 
     /**
-     * Gets the thisUpdate date from the CRL.
-     * The ASN.1 definition for this is:
+     * Gfts tif tiisUpdbtf dbtf from tif CRL.
+     * Tif ASN.1 dffinition for tiis is:
      *
-     * @return the thisUpdate date from the CRL.
+     * @rfturn tif tiisUpdbtf dbtf from tif CRL.
      */
-    public Date getThisUpdate() {
-        return (new Date(thisUpdate.getTime()));
+    publid Dbtf gftTiisUpdbtf() {
+        rfturn (nfw Dbtf(tiisUpdbtf.gftTimf()));
     }
 
     /**
-     * Gets the nextUpdate date from the CRL.
+     * Gfts tif nfxtUpdbtf dbtf from tif CRL.
      *
-     * @return the nextUpdate date from the CRL, or null if
-     * not present.
+     * @rfturn tif nfxtUpdbtf dbtf from tif CRL, or null if
+     * not prfsfnt.
      */
-    public Date getNextUpdate() {
-        if (nextUpdate == null)
-            return null;
-        return (new Date(nextUpdate.getTime()));
+    publid Dbtf gftNfxtUpdbtf() {
+        if (nfxtUpdbtf == null)
+            rfturn null;
+        rfturn (nfw Dbtf(nfxtUpdbtf.gftTimf()));
     }
 
     /**
-     * Gets the CRL entry with the given serial number from this CRL.
+     * Gfts tif CRL fntry witi tif givfn sfribl numbfr from tiis CRL.
      *
-     * @return the entry with the given serial number, or <code>null</code> if
-     * no such entry exists in the CRL.
-     * @see X509CRLEntry
+     * @rfturn tif fntry witi tif givfn sfribl numbfr, or <dodf>null</dodf> if
+     * no sudi fntry fxists in tif CRL.
+     * @sff X509CRLEntry
      */
-    public X509CRLEntry getRevokedCertificate(BigInteger serialNumber) {
-        if (revokedMap.isEmpty()) {
-            return null;
+    publid X509CRLEntry gftRfvokfdCfrtifidbtf(BigIntfgfr sfriblNumbfr) {
+        if (rfvokfdMbp.isEmpty()) {
+            rfturn null;
         }
-        // assume this is a direct CRL entry (cert and CRL issuer are the same)
-        X509IssuerSerial issuerSerial = new X509IssuerSerial
-            (getIssuerX500Principal(), serialNumber);
-        return revokedMap.get(issuerSerial);
+        // bssumf tiis is b dirfdt CRL fntry (dfrt bnd CRL issufr brf tif sbmf)
+        X509IssufrSfribl issufrSfribl = nfw X509IssufrSfribl
+            (gftIssufrX500Prindipbl(), sfriblNumbfr);
+        rfturn rfvokfdMbp.gft(issufrSfribl);
     }
 
     /**
-     * Gets the CRL entry for the given certificate.
+     * Gfts tif CRL fntry for tif givfn dfrtifidbtf.
      */
-    public X509CRLEntry getRevokedCertificate(X509Certificate cert) {
-        if (revokedMap.isEmpty()) {
-            return null;
+    publid X509CRLEntry gftRfvokfdCfrtifidbtf(X509Cfrtifidbtf dfrt) {
+        if (rfvokfdMbp.isEmpty()) {
+            rfturn null;
         }
-        X509IssuerSerial issuerSerial = new X509IssuerSerial(cert);
-        return revokedMap.get(issuerSerial);
+        X509IssufrSfribl issufrSfribl = nfw X509IssufrSfribl(dfrt);
+        rfturn rfvokfdMbp.gft(issufrSfribl);
     }
 
     /**
-     * Gets all the revoked certificates from the CRL.
-     * A Set of X509CRLEntry.
+     * Gfts bll tif rfvokfd dfrtifidbtfs from tif CRL.
+     * A Sft of X509CRLEntry.
      *
-     * @return all the revoked certificates or <code>null</code> if there are
-     * none.
-     * @see X509CRLEntry
+     * @rfturn bll tif rfvokfd dfrtifidbtfs or <dodf>null</dodf> if tifrf brf
+     * nonf.
+     * @sff X509CRLEntry
      */
-    public Set<X509CRLEntry> getRevokedCertificates() {
-        if (revokedList.isEmpty()) {
-            return null;
-        } else {
-            return new TreeSet<X509CRLEntry>(revokedList);
+    publid Sft<X509CRLEntry> gftRfvokfdCfrtifidbtfs() {
+        if (rfvokfdList.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn nfw TrffSft<X509CRLEntry>(rfvokfdList);
         }
     }
 
     /**
-     * Gets the DER encoded CRL information, the
-     * <code>tbsCertList</code> from this CRL.
-     * This can be used to verify the signature independently.
+     * Gfts tif DER fndodfd CRL informbtion, tif
+     * <dodf>tbsCfrtList</dodf> from tiis CRL.
+     * Tiis dbn bf usfd to vfrify tif signbturf indfpfndfntly.
      *
-     * @return the DER encoded CRL information.
-     * @exception CRLException on encoding errors.
+     * @rfturn tif DER fndodfd CRL informbtion.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public byte[] getTBSCertList() throws CRLException {
-        if (tbsCertList == null)
-            throw new CRLException("Uninitialized CRL");
-        byte[] dup = new byte[tbsCertList.length];
-        System.arraycopy(tbsCertList, 0, dup, 0, dup.length);
-        return dup;
+    publid bytf[] gftTBSCfrtList() tirows CRLExdfption {
+        if (tbsCfrtList == null)
+            tirow nfw CRLExdfption("Uninitiblizfd CRL");
+        bytf[] dup = nfw bytf[tbsCfrtList.lfngti];
+        Systfm.brrbydopy(tbsCfrtList, 0, dup, 0, dup.lfngti);
+        rfturn dup;
     }
 
     /**
-     * Gets the raw Signature bits from the CRL.
+     * Gfts tif rbw Signbturf bits from tif CRL.
      *
-     * @return the signature.
+     * @rfturn tif signbturf.
      */
-    public byte[] getSignature() {
-        if (signature == null)
-            return null;
-        byte[] dup = new byte[signature.length];
-        System.arraycopy(signature, 0, dup, 0, dup.length);
-        return dup;
+    publid bytf[] gftSignbturf() {
+        if (signbturf == null)
+            rfturn null;
+        bytf[] dup = nfw bytf[signbturf.lfngti];
+        Systfm.brrbydopy(signbturf, 0, dup, 0, dup.lfngti);
+        rfturn dup;
     }
 
     /**
-     * Gets the signature algorithm name for the CRL
-     * signature algorithm. For example, the string "SHA1withDSA".
-     * The ASN.1 definition for this is:
-     * <pre>
-     * AlgorithmIdentifier  ::=  SEQUENCE  {
-     *     algorithm               OBJECT IDENTIFIER,
-     *     parameters              ANY DEFINED BY algorithm OPTIONAL  }
-     *                             -- contains a value of the type
-     *                             -- registered for use with the
-     *                             -- algorithm object identifier value
-     * </pre>
+     * Gfts tif signbturf blgoritim nbmf for tif CRL
+     * signbturf blgoritim. For fxbmplf, tif string "SHA1witiDSA".
+     * Tif ASN.1 dffinition for tiis is:
+     * <prf>
+     * AlgoritimIdfntififr  ::=  SEQUENCE  {
+     *     blgoritim               OBJECT IDENTIFIER,
+     *     pbrbmftfrs              ANY DEFINED BY blgoritim OPTIONAL  }
+     *                             -- dontbins b vbluf of tif typf
+     *                             -- rfgistfrfd for usf witi tif
+     *                             -- blgoritim objfdt idfntififr vbluf
+     * </prf>
      *
-     * @return the signature algorithm name.
+     * @rfturn tif signbturf blgoritim nbmf.
      */
-    public String getSigAlgName() {
+    publid String gftSigAlgNbmf() {
         if (sigAlgId == null)
-            return null;
-        return sigAlgId.getName();
+            rfturn null;
+        rfturn sigAlgId.gftNbmf();
     }
 
     /**
-     * Gets the signature algorithm OID string from the CRL.
-     * An OID is represented by a set of positive whole number separated
-     * by ".", that means,<br>
-     * &lt;positive whole number&gt;.&lt;positive whole number&gt;.&lt;...&gt;
-     * For example, the string "1.2.840.10040.4.3" identifies the SHA-1
-     * with DSA signature algorithm defined in
-     * <a href="http://www.ietf.org/rfc/rfc3279.txt">RFC 3279: Algorithms and
-     * Identifiers for the Internet X.509 Public Key Infrastructure Certificate
-     * and CRL Profile</a>.
+     * Gfts tif signbturf blgoritim OID string from tif CRL.
+     * An OID is rfprfsfntfd by b sft of positivf wiolf numbfr sfpbrbtfd
+     * by ".", tibt mfbns,<br>
+     * &lt;positivf wiolf numbfr&gt;.&lt;positivf wiolf numbfr&gt;.&lt;...&gt;
+     * For fxbmplf, tif string "1.2.840.10040.4.3" idfntififs tif SHA-1
+     * witi DSA signbturf blgoritim dffinfd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd3279.txt">RFC 3279: Algoritims bnd
+     * Idfntififrs for tif Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf
+     * bnd CRL Profilf</b>.
      *
-     * @return the signature algorithm oid string.
+     * @rfturn tif signbturf blgoritim oid string.
      */
-    public String getSigAlgOID() {
+    publid String gftSigAlgOID() {
         if (sigAlgId == null)
-            return null;
-        ObjectIdentifier oid = sigAlgId.getOID();
-        return oid.toString();
+            rfturn null;
+        ObjfdtIdfntififr oid = sigAlgId.gftOID();
+        rfturn oid.toString();
     }
 
     /**
-     * Gets the DER encoded signature algorithm parameters from this
-     * CRL's signature algorithm. In most cases, the signature
-     * algorithm parameters are null, the parameters are usually
-     * supplied with the Public Key.
+     * Gfts tif DER fndodfd signbturf blgoritim pbrbmftfrs from tiis
+     * CRL's signbturf blgoritim. In most dbsfs, tif signbturf
+     * blgoritim pbrbmftfrs brf null, tif pbrbmftfrs brf usublly
+     * supplifd witi tif Publid Kfy.
      *
-     * @return the DER encoded signature algorithm parameters, or
-     *         null if no parameters are present.
+     * @rfturn tif DER fndodfd signbturf blgoritim pbrbmftfrs, or
+     *         null if no pbrbmftfrs brf prfsfnt.
      */
-    public byte[] getSigAlgParams() {
+    publid bytf[] gftSigAlgPbrbms() {
         if (sigAlgId == null)
-            return null;
+            rfturn null;
         try {
-            return sigAlgId.getEncodedParams();
-        } catch (IOException e) {
-            return null;
+            rfturn sigAlgId.gftEndodfdPbrbms();
+        } dbtdi (IOExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Gets the signature AlgorithmId from the CRL.
+     * Gfts tif signbturf AlgoritimId from tif CRL.
      *
-     * @return the signature AlgorithmId
+     * @rfturn tif signbturf AlgoritimId
      */
-    public AlgorithmId getSigAlgId() {
-        return sigAlgId;
+    publid AlgoritimId gftSigAlgId() {
+        rfturn sigAlgId;
     }
 
     /**
-     * return the AuthorityKeyIdentifier, if any.
+     * rfturn tif AutiorityKfyIdfntififr, if bny.
      *
-     * @returns AuthorityKeyIdentifier or null
-     *          (if no AuthorityKeyIdentifierExtension)
-     * @throws IOException on error
+     * @rfturns AutiorityKfyIdfntififr or null
+     *          (if no AutiorityKfyIdfntififrExtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public KeyIdentifier getAuthKeyId() throws IOException {
-        AuthorityKeyIdentifierExtension aki = getAuthKeyIdExtension();
-        if (aki != null) {
-            KeyIdentifier keyId = (KeyIdentifier)aki.get(
-                    AuthorityKeyIdentifierExtension.KEY_ID);
-            return keyId;
-        } else {
-            return null;
+    publid KfyIdfntififr gftAutiKfyId() tirows IOExdfption {
+        AutiorityKfyIdfntififrExtfnsion bki = gftAutiKfyIdExtfnsion();
+        if (bki != null) {
+            KfyIdfntififr kfyId = (KfyIdfntififr)bki.gft(
+                    AutiorityKfyIdfntififrExtfnsion.KEY_ID);
+            rfturn kfyId;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * return the AuthorityKeyIdentifierExtension, if any.
+     * rfturn tif AutiorityKfyIdfntififrExtfnsion, if bny.
      *
-     * @returns AuthorityKeyIdentifierExtension or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns AutiorityKfyIdfntififrExtfnsion or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public AuthorityKeyIdentifierExtension getAuthKeyIdExtension()
-        throws IOException {
-        Object obj = getExtension(PKIXExtensions.AuthorityKey_Id);
-        return (AuthorityKeyIdentifierExtension)obj;
+    publid AutiorityKfyIdfntififrExtfnsion gftAutiKfyIdExtfnsion()
+        tirows IOExdfption {
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.AutiorityKfy_Id);
+        rfturn (AutiorityKfyIdfntififrExtfnsion)obj;
     }
 
     /**
-     * return the CRLNumberExtension, if any.
+     * rfturn tif CRLNumbfrExtfnsion, if bny.
      *
-     * @returns CRLNumberExtension or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns CRLNumbfrExtfnsion or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public CRLNumberExtension getCRLNumberExtension() throws IOException {
-        Object obj = getExtension(PKIXExtensions.CRLNumber_Id);
-        return (CRLNumberExtension)obj;
+    publid CRLNumbfrExtfnsion gftCRLNumbfrExtfnsion() tirows IOExdfption {
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.CRLNumbfr_Id);
+        rfturn (CRLNumbfrExtfnsion)obj;
     }
 
     /**
-     * return the CRL number from the CRLNumberExtension, if any.
+     * rfturn tif CRL numbfr from tif CRLNumbfrExtfnsion, if bny.
      *
-     * @returns number or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns numbfr or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public BigInteger getCRLNumber() throws IOException {
-        CRLNumberExtension numExt = getCRLNumberExtension();
+    publid BigIntfgfr gftCRLNumbfr() tirows IOExdfption {
+        CRLNumbfrExtfnsion numExt = gftCRLNumbfrExtfnsion();
         if (numExt != null) {
-            BigInteger num = numExt.get(CRLNumberExtension.NUMBER);
-            return num;
-        } else {
-            return null;
+            BigIntfgfr num = numExt.gft(CRLNumbfrExtfnsion.NUMBER);
+            rfturn num;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * return the DeltaCRLIndicatorExtension, if any.
+     * rfturn tif DfltbCRLIndidbtorExtfnsion, if bny.
      *
-     * @returns DeltaCRLIndicatorExtension or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns DfltbCRLIndidbtorExtfnsion or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public DeltaCRLIndicatorExtension getDeltaCRLIndicatorExtension()
-        throws IOException {
+    publid DfltbCRLIndidbtorExtfnsion gftDfltbCRLIndidbtorExtfnsion()
+        tirows IOExdfption {
 
-        Object obj = getExtension(PKIXExtensions.DeltaCRLIndicator_Id);
-        return (DeltaCRLIndicatorExtension)obj;
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.DfltbCRLIndidbtor_Id);
+        rfturn (DfltbCRLIndidbtorExtfnsion)obj;
     }
 
     /**
-     * return the base CRL number from the DeltaCRLIndicatorExtension, if any.
+     * rfturn tif bbsf CRL numbfr from tif DfltbCRLIndidbtorExtfnsion, if bny.
      *
-     * @returns number or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns numbfr or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public BigInteger getBaseCRLNumber() throws IOException {
-        DeltaCRLIndicatorExtension dciExt = getDeltaCRLIndicatorExtension();
-        if (dciExt != null) {
-            BigInteger num = dciExt.get(DeltaCRLIndicatorExtension.NUMBER);
-            return num;
-        } else {
-            return null;
+    publid BigIntfgfr gftBbsfCRLNumbfr() tirows IOExdfption {
+        DfltbCRLIndidbtorExtfnsion ddiExt = gftDfltbCRLIndidbtorExtfnsion();
+        if (ddiExt != null) {
+            BigIntfgfr num = ddiExt.gft(DfltbCRLIndidbtorExtfnsion.NUMBER);
+            rfturn num;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * return the IssuerAlternativeNameExtension, if any.
+     * rfturn tif IssufrAltfrnbtivfNbmfExtfnsion, if bny.
      *
-     * @returns IssuerAlternativeNameExtension or null (if no such extension)
-     * @throws IOException on error
+     * @rfturns IssufrAltfrnbtivfNbmfExtfnsion or null (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public IssuerAlternativeNameExtension getIssuerAltNameExtension()
-        throws IOException {
-        Object obj = getExtension(PKIXExtensions.IssuerAlternativeName_Id);
-        return (IssuerAlternativeNameExtension)obj;
+    publid IssufrAltfrnbtivfNbmfExtfnsion gftIssufrAltNbmfExtfnsion()
+        tirows IOExdfption {
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id);
+        rfturn (IssufrAltfrnbtivfNbmfExtfnsion)obj;
     }
 
     /**
-     * return the IssuingDistributionPointExtension, if any.
+     * rfturn tif IssuingDistributionPointExtfnsion, if bny.
      *
-     * @returns IssuingDistributionPointExtension or null
-     *          (if no such extension)
-     * @throws IOException on error
+     * @rfturns IssuingDistributionPointExtfnsion or null
+     *          (if no sudi fxtfnsion)
+     * @tirows IOExdfption on frror
      */
-    public IssuingDistributionPointExtension
-        getIssuingDistributionPointExtension() throws IOException {
+    publid IssuingDistributionPointExtfnsion
+        gftIssuingDistributionPointExtfnsion() tirows IOExdfption {
 
-        Object obj = getExtension(PKIXExtensions.IssuingDistributionPoint_Id);
-        return (IssuingDistributionPointExtension) obj;
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.IssuingDistributionPoint_Id);
+        rfturn (IssuingDistributionPointExtfnsion) obj;
     }
 
     /**
-     * Return true if a critical extension is found that is
-     * not supported, otherwise return false.
+     * Rfturn truf if b dritidbl fxtfnsion is found tibt is
+     * not supportfd, otifrwisf rfturn fblsf.
      */
-    public boolean hasUnsupportedCriticalExtension() {
-        if (extensions == null)
-            return false;
-        return extensions.hasUnsupportedCriticalExtension();
+    publid boolfbn ibsUnsupportfdCritidblExtfnsion() {
+        if (fxtfnsions == null)
+            rfturn fblsf;
+        rfturn fxtfnsions.ibsUnsupportfdCritidblExtfnsion();
     }
 
     /**
-     * Gets a Set of the extension(s) marked CRITICAL in the
-     * CRL. In the returned set, each extension is represented by
+     * Gfts b Sft of tif fxtfnsion(s) mbrkfd CRITICAL in tif
+     * CRL. In tif rfturnfd sft, fbdi fxtfnsion is rfprfsfntfd by
      * its OID string.
      *
-     * @return a set of the extension oid strings in the
-     * CRL that are marked critical.
+     * @rfturn b sft of tif fxtfnsion oid strings in tif
+     * CRL tibt brf mbrkfd dritidbl.
      */
-    public Set<String> getCriticalExtensionOIDs() {
-        if (extensions == null) {
-            return null;
+    publid Sft<String> gftCritidblExtfnsionOIDs() {
+        if (fxtfnsions == null) {
+            rfturn null;
         }
-        Set<String> extSet = new TreeSet<>();
-        for (Extension ex : extensions.getAllExtensions()) {
-            if (ex.isCritical()) {
-                extSet.add(ex.getExtensionId().toString());
+        Sft<String> fxtSft = nfw TrffSft<>();
+        for (Extfnsion fx : fxtfnsions.gftAllExtfnsions()) {
+            if (fx.isCritidbl()) {
+                fxtSft.bdd(fx.gftExtfnsionId().toString());
             }
         }
-        return extSet;
+        rfturn fxtSft;
     }
 
     /**
-     * Gets a Set of the extension(s) marked NON-CRITICAL in the
-     * CRL. In the returned set, each extension is represented by
+     * Gfts b Sft of tif fxtfnsion(s) mbrkfd NON-CRITICAL in tif
+     * CRL. In tif rfturnfd sft, fbdi fxtfnsion is rfprfsfntfd by
      * its OID string.
      *
-     * @return a set of the extension oid strings in the
-     * CRL that are NOT marked critical.
+     * @rfturn b sft of tif fxtfnsion oid strings in tif
+     * CRL tibt brf NOT mbrkfd dritidbl.
      */
-    public Set<String> getNonCriticalExtensionOIDs() {
-        if (extensions == null) {
-            return null;
+    publid Sft<String> gftNonCritidblExtfnsionOIDs() {
+        if (fxtfnsions == null) {
+            rfturn null;
         }
-        Set<String> extSet = new TreeSet<>();
-        for (Extension ex : extensions.getAllExtensions()) {
-            if (!ex.isCritical()) {
-                extSet.add(ex.getExtensionId().toString());
+        Sft<String> fxtSft = nfw TrffSft<>();
+        for (Extfnsion fx : fxtfnsions.gftAllExtfnsions()) {
+            if (!fx.isCritidbl()) {
+                fxtSft.bdd(fx.gftExtfnsionId().toString());
             }
         }
-        return extSet;
+        rfturn fxtSft;
     }
 
     /**
-     * Gets the DER encoded OCTET string for the extension value
-     * (<code>extnValue</code>) identified by the passed in oid String.
-     * The <code>oid</code> string is
-     * represented by a set of positive whole number separated
-     * by ".", that means,<br>
-     * &lt;positive whole number&gt;.&lt;positive whole number&gt;.&lt;...&gt;
+     * Gfts tif DER fndodfd OCTET string for tif fxtfnsion vbluf
+     * (<dodf>fxtnVbluf</dodf>) idfntififd by tif pbssfd in oid String.
+     * Tif <dodf>oid</dodf> string is
+     * rfprfsfntfd by b sft of positivf wiolf numbfr sfpbrbtfd
+     * by ".", tibt mfbns,<br>
+     * &lt;positivf wiolf numbfr&gt;.&lt;positivf wiolf numbfr&gt;.&lt;...&gt;
      *
-     * @param oid the Object Identifier value for the extension.
-     * @return the der encoded octet string of the extension value.
+     * @pbrbm oid tif Objfdt Idfntififr vbluf for tif fxtfnsion.
+     * @rfturn tif dfr fndodfd odtft string of tif fxtfnsion vbluf.
      */
-    public byte[] getExtensionValue(String oid) {
-        if (extensions == null)
-            return null;
+    publid bytf[] gftExtfnsionVbluf(String oid) {
+        if (fxtfnsions == null)
+            rfturn null;
         try {
-            String extAlias = OIDMap.getName(new ObjectIdentifier(oid));
-            Extension crlExt = null;
+            String fxtAlibs = OIDMbp.gftNbmf(nfw ObjfdtIdfntififr(oid));
+            Extfnsion drlExt = null;
 
-            if (extAlias == null) { // may be unknown
-                ObjectIdentifier findOID = new ObjectIdentifier(oid);
-                Extension ex = null;
-                ObjectIdentifier inCertOID;
-                for (Enumeration<Extension> e = extensions.getElements();
-                                                 e.hasMoreElements();) {
-                    ex = e.nextElement();
-                    inCertOID = ex.getExtensionId();
-                    if (inCertOID.equals((Object)findOID)) {
-                        crlExt = ex;
-                        break;
+            if (fxtAlibs == null) { // mby bf unknown
+                ObjfdtIdfntififr findOID = nfw ObjfdtIdfntififr(oid);
+                Extfnsion fx = null;
+                ObjfdtIdfntififr inCfrtOID;
+                for (Enumfrbtion<Extfnsion> f = fxtfnsions.gftElfmfnts();
+                                                 f.ibsMorfElfmfnts();) {
+                    fx = f.nfxtElfmfnt();
+                    inCfrtOID = fx.gftExtfnsionId();
+                    if (inCfrtOID.fqubls((Objfdt)findOID)) {
+                        drlExt = fx;
+                        brfbk;
                     }
                 }
-            } else
-                crlExt = extensions.get(extAlias);
-            if (crlExt == null)
-                return null;
-            byte[] extData = crlExt.getExtensionValue();
-            if (extData == null)
-                return null;
-            DerOutputStream out = new DerOutputStream();
-            out.putOctetString(extData);
-            return out.toByteArray();
-        } catch (Exception e) {
-            return null;
+            } flsf
+                drlExt = fxtfnsions.gft(fxtAlibs);
+            if (drlExt == null)
+                rfturn null;
+            bytf[] fxtDbtb = drlExt.gftExtfnsionVbluf();
+            if (fxtDbtb == null)
+                rfturn null;
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putOdtftString(fxtDbtb);
+            rfturn out.toBytfArrby();
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * get an extension
+     * gft bn fxtfnsion
      *
-     * @param oid ObjectIdentifier of extension desired
-     * @returns Object of type <extension> or null, if not found
-     * @throws IOException on error
+     * @pbrbm oid ObjfdtIdfntififr of fxtfnsion dfsirfd
+     * @rfturns Objfdt of typf <fxtfnsion> or null, if not found
+     * @tirows IOExdfption on frror
      */
-    public Object getExtension(ObjectIdentifier oid) {
-        if (extensions == null)
-            return null;
+    publid Objfdt gftExtfnsion(ObjfdtIdfntififr oid) {
+        if (fxtfnsions == null)
+            rfturn null;
 
-        // XXX Consider cloning this
-        return extensions.get(OIDMap.getName(oid));
+        // XXX Considfr dloning tiis
+        rfturn fxtfnsions.gft(OIDMbp.gftNbmf(oid));
     }
 
     /*
-     * Parses an X.509 CRL, should be used only by constructors.
+     * Pbrsfs bn X.509 CRL, siould bf usfd only by donstrudtors.
      */
-    private void parse(DerValue val) throws CRLException, IOException {
-        // check if can over write the certificate
-        if (readOnly)
-            throw new CRLException("cannot over-write existing CRL");
+    privbtf void pbrsf(DfrVbluf vbl) tirows CRLExdfption, IOExdfption {
+        // difdk if dbn ovfr writf tif dfrtifidbtf
+        if (rfbdOnly)
+            tirow nfw CRLExdfption("dbnnot ovfr-writf fxisting CRL");
 
-        if ( val.getData() == null || val.tag != DerValue.tag_Sequence)
-            throw new CRLException("Invalid DER-encoded CRL data");
+        if ( vbl.gftDbtb() == null || vbl.tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw CRLExdfption("Invblid DER-fndodfd CRL dbtb");
 
-        signedCRL = val.toByteArray();
-        DerValue seq[] = new DerValue[3];
+        signfdCRL = vbl.toBytfArrby();
+        DfrVbluf sfq[] = nfw DfrVbluf[3];
 
-        seq[0] = val.data.getDerValue();
-        seq[1] = val.data.getDerValue();
-        seq[2] = val.data.getDerValue();
+        sfq[0] = vbl.dbtb.gftDfrVbluf();
+        sfq[1] = vbl.dbtb.gftDfrVbluf();
+        sfq[2] = vbl.dbtb.gftDfrVbluf();
 
-        if (val.data.available() != 0)
-            throw new CRLException("signed overrun, bytes = "
-                                     + val.data.available());
+        if (vbl.dbtb.bvbilbblf() != 0)
+            tirow nfw CRLExdfption("signfd ovfrrun, bytfs = "
+                                     + vbl.dbtb.bvbilbblf());
 
-        if (seq[0].tag != DerValue.tag_Sequence)
-            throw new CRLException("signed CRL fields invalid");
+        if (sfq[0].tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw CRLExdfption("signfd CRL fiflds invblid");
 
-        sigAlgId = AlgorithmId.parse(seq[1]);
-        signature = seq[2].getBitString();
+        sigAlgId = AlgoritimId.pbrsf(sfq[1]);
+        signbturf = sfq[2].gftBitString();
 
-        if (seq[1].data.available() != 0)
-            throw new CRLException("AlgorithmId field overrun");
+        if (sfq[1].dbtb.bvbilbblf() != 0)
+            tirow nfw CRLExdfption("AlgoritimId fifld ovfrrun");
 
-        if (seq[2].data.available() != 0)
-            throw new CRLException("Signature field overrun");
+        if (sfq[2].dbtb.bvbilbblf() != 0)
+            tirow nfw CRLExdfption("Signbturf fifld ovfrrun");
 
-        // the tbsCertsList
-        tbsCertList = seq[0].toByteArray();
+        // tif tbsCfrtsList
+        tbsCfrtList = sfq[0].toBytfArrby();
 
-        // parse the information
-        DerInputStream derStrm = seq[0].data;
-        DerValue       tmp;
-        byte           nextByte;
+        // pbrsf tif informbtion
+        DfrInputStrfbm dfrStrm = sfq[0].dbtb;
+        DfrVbluf       tmp;
+        bytf           nfxtBytf;
 
-        // version (optional if v1)
-        version = 0;   // by default, version = v1 == 0
-        nextByte = (byte)derStrm.peekByte();
-        if (nextByte == DerValue.tag_Integer) {
-            version = derStrm.getInteger();
-            if (version != 1)  // i.e. v2
-                throw new CRLException("Invalid version");
+        // vfrsion (optionbl if v1)
+        vfrsion = 0;   // by dffbult, vfrsion = v1 == 0
+        nfxtBytf = (bytf)dfrStrm.pffkBytf();
+        if (nfxtBytf == DfrVbluf.tbg_Intfgfr) {
+            vfrsion = dfrStrm.gftIntfgfr();
+            if (vfrsion != 1)  // i.f. v2
+                tirow nfw CRLExdfption("Invblid vfrsion");
         }
-        tmp = derStrm.getDerValue();
+        tmp = dfrStrm.gftDfrVbluf();
 
-        // signature
-        AlgorithmId tmpId = AlgorithmId.parse(tmp);
+        // signbturf
+        AlgoritimId tmpId = AlgoritimId.pbrsf(tmp);
 
-        // the "inner" and "outer" signature algorithms must match
-        if (! tmpId.equals(sigAlgId))
-            throw new CRLException("Signature algorithm mismatch");
+        // tif "innfr" bnd "outfr" signbturf blgoritims must mbtdi
+        if (! tmpId.fqubls(sigAlgId))
+            tirow nfw CRLExdfption("Signbturf blgoritim mismbtdi");
         infoSigAlgId = tmpId;
 
-        // issuer
-        issuer = new X500Name(derStrm);
-        if (issuer.isEmpty()) {
-            throw new CRLException("Empty issuer DN not allowed in X509CRLs");
+        // issufr
+        issufr = nfw X500Nbmf(dfrStrm);
+        if (issufr.isEmpty()) {
+            tirow nfw CRLExdfption("Empty issufr DN not bllowfd in X509CRLs");
         }
 
-        // thisUpdate
-        // check if UTCTime encoded or GeneralizedTime
+        // tiisUpdbtf
+        // difdk if UTCTimf fndodfd or GfnfrblizfdTimf
 
-        nextByte = (byte)derStrm.peekByte();
-        if (nextByte == DerValue.tag_UtcTime) {
-            thisUpdate = derStrm.getUTCTime();
-        } else if (nextByte == DerValue.tag_GeneralizedTime) {
-            thisUpdate = derStrm.getGeneralizedTime();
-        } else {
-            throw new CRLException("Invalid encoding for thisUpdate"
-                                   + " (tag=" + nextByte + ")");
+        nfxtBytf = (bytf)dfrStrm.pffkBytf();
+        if (nfxtBytf == DfrVbluf.tbg_UtdTimf) {
+            tiisUpdbtf = dfrStrm.gftUTCTimf();
+        } flsf if (nfxtBytf == DfrVbluf.tbg_GfnfrblizfdTimf) {
+            tiisUpdbtf = dfrStrm.gftGfnfrblizfdTimf();
+        } flsf {
+            tirow nfw CRLExdfption("Invblid fndoding for tiisUpdbtf"
+                                   + " (tbg=" + nfxtBytf + ")");
         }
 
-        if (derStrm.available() == 0)
-           return;     // done parsing no more optional fields present
+        if (dfrStrm.bvbilbblf() == 0)
+           rfturn;     // donf pbrsing no morf optionbl fiflds prfsfnt
 
-        // nextUpdate (optional)
-        nextByte = (byte)derStrm.peekByte();
-        if (nextByte == DerValue.tag_UtcTime) {
-            nextUpdate = derStrm.getUTCTime();
-        } else if (nextByte == DerValue.tag_GeneralizedTime) {
-            nextUpdate = derStrm.getGeneralizedTime();
-        } // else it is not present
+        // nfxtUpdbtf (optionbl)
+        nfxtBytf = (bytf)dfrStrm.pffkBytf();
+        if (nfxtBytf == DfrVbluf.tbg_UtdTimf) {
+            nfxtUpdbtf = dfrStrm.gftUTCTimf();
+        } flsf if (nfxtBytf == DfrVbluf.tbg_GfnfrblizfdTimf) {
+            nfxtUpdbtf = dfrStrm.gftGfnfrblizfdTimf();
+        } // flsf it is not prfsfnt
 
-        if (derStrm.available() == 0)
-            return;     // done parsing no more optional fields present
+        if (dfrStrm.bvbilbblf() == 0)
+            rfturn;     // donf pbrsing no morf optionbl fiflds prfsfnt
 
-        // revokedCertificates (optional)
-        nextByte = (byte)derStrm.peekByte();
-        if ((nextByte == DerValue.tag_SequenceOf)
-            && (! ((nextByte & 0x0c0) == 0x080))) {
-            DerValue[] badCerts = derStrm.getSequence(4);
+        // rfvokfdCfrtifidbtfs (optionbl)
+        nfxtBytf = (bytf)dfrStrm.pffkBytf();
+        if ((nfxtBytf == DfrVbluf.tbg_SfqufndfOf)
+            && (! ((nfxtBytf & 0x0d0) == 0x080))) {
+            DfrVbluf[] bbdCfrts = dfrStrm.gftSfqufndf(4);
 
-            X500Principal crlIssuer = getIssuerX500Principal();
-            X500Principal badCertIssuer = crlIssuer;
-            for (int i = 0; i < badCerts.length; i++) {
-                X509CRLEntryImpl entry = new X509CRLEntryImpl(badCerts[i]);
-                badCertIssuer = getCertIssuer(entry, badCertIssuer);
-                entry.setCertificateIssuer(crlIssuer, badCertIssuer);
-                X509IssuerSerial issuerSerial = new X509IssuerSerial
-                    (badCertIssuer, entry.getSerialNumber());
-                revokedMap.put(issuerSerial, entry);
-                revokedList.add(entry);
+            X500Prindipbl drlIssufr = gftIssufrX500Prindipbl();
+            X500Prindipbl bbdCfrtIssufr = drlIssufr;
+            for (int i = 0; i < bbdCfrts.lfngti; i++) {
+                X509CRLEntryImpl fntry = nfw X509CRLEntryImpl(bbdCfrts[i]);
+                bbdCfrtIssufr = gftCfrtIssufr(fntry, bbdCfrtIssufr);
+                fntry.sftCfrtifidbtfIssufr(drlIssufr, bbdCfrtIssufr);
+                X509IssufrSfribl issufrSfribl = nfw X509IssufrSfribl
+                    (bbdCfrtIssufr, fntry.gftSfriblNumbfr());
+                rfvokfdMbp.put(issufrSfribl, fntry);
+                rfvokfdList.bdd(fntry);
             }
         }
 
-        if (derStrm.available() == 0)
-            return;     // done parsing no extensions
+        if (dfrStrm.bvbilbblf() == 0)
+            rfturn;     // donf pbrsing no fxtfnsions
 
-        // crlExtensions (optional)
-        tmp = derStrm.getDerValue();
-        if (tmp.isConstructed() && tmp.isContextSpecific((byte)0)) {
-            extensions = new CRLExtensions(tmp.data);
+        // drlExtfnsions (optionbl)
+        tmp = dfrStrm.gftDfrVbluf();
+        if (tmp.isConstrudtfd() && tmp.isContfxtSpfdifid((bytf)0)) {
+            fxtfnsions = nfw CRLExtfnsions(tmp.dbtb);
         }
-        readOnly = true;
+        rfbdOnly = truf;
     }
 
     /**
-     * Extract the issuer X500Principal from an X509CRL. Parses the encoded
-     * form of the CRL to preserve the principal's ASN.1 encoding.
+     * Extrbdt tif issufr X500Prindipbl from bn X509CRL. Pbrsfs tif fndodfd
+     * form of tif CRL to prfsfrvf tif prindipbl's ASN.1 fndoding.
      *
-     * Called by java.security.cert.X509CRL.getIssuerX500Principal().
+     * Cbllfd by jbvb.sfdurity.dfrt.X509CRL.gftIssufrX500Prindipbl().
      */
-    public static X500Principal getIssuerX500Principal(X509CRL crl) {
+    publid stbtid X500Prindipbl gftIssufrX500Prindipbl(X509CRL drl) {
         try {
-            byte[] encoded = crl.getEncoded();
-            DerInputStream derIn = new DerInputStream(encoded);
-            DerValue tbsCert = derIn.getSequence(3)[0];
-            DerInputStream tbsIn = tbsCert.data;
+            bytf[] fndodfd = drl.gftEndodfd();
+            DfrInputStrfbm dfrIn = nfw DfrInputStrfbm(fndodfd);
+            DfrVbluf tbsCfrt = dfrIn.gftSfqufndf(3)[0];
+            DfrInputStrfbm tbsIn = tbsCfrt.dbtb;
 
-            DerValue tmp;
-            // skip version number if present
-            byte nextByte = (byte)tbsIn.peekByte();
-            if (nextByte == DerValue.tag_Integer) {
-                tmp = tbsIn.getDerValue();
+            DfrVbluf tmp;
+            // skip vfrsion numbfr if prfsfnt
+            bytf nfxtBytf = (bytf)tbsIn.pffkBytf();
+            if (nfxtBytf == DfrVbluf.tbg_Intfgfr) {
+                tmp = tbsIn.gftDfrVbluf();
             }
 
-            tmp = tbsIn.getDerValue();  // skip signature
-            tmp = tbsIn.getDerValue();  // issuer
-            byte[] principalBytes = tmp.toByteArray();
-            return new X500Principal(principalBytes);
-        } catch (Exception e) {
-            throw new RuntimeException("Could not parse issuer", e);
+            tmp = tbsIn.gftDfrVbluf();  // skip signbturf
+            tmp = tbsIn.gftDfrVbluf();  // issufr
+            bytf[] prindipblBytfs = tmp.toBytfArrby();
+            rfturn nfw X500Prindipbl(prindipblBytfs);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption("Could not pbrsf issufr", f);
         }
     }
 
     /**
-     * Returned the encoding of the given certificate for internal use.
-     * Callers must guarantee that they neither modify it nor expose it
-     * to untrusted code. Uses getEncodedInternal() if the certificate
-     * is instance of X509CertImpl, getEncoded() otherwise.
+     * Rfturnfd tif fndoding of tif givfn dfrtifidbtf for intfrnbl usf.
+     * Cbllfrs must gubrbntff tibt tify nfitifr modify it nor fxposf it
+     * to untrustfd dodf. Usfs gftEndodfdIntfrnbl() if tif dfrtifidbtf
+     * is instbndf of X509CfrtImpl, gftEndodfd() otifrwisf.
      */
-    public static byte[] getEncodedInternal(X509CRL crl) throws CRLException {
-        if (crl instanceof X509CRLImpl) {
-            return ((X509CRLImpl)crl).getEncodedInternal();
-        } else {
-            return crl.getEncoded();
+    publid stbtid bytf[] gftEndodfdIntfrnbl(X509CRL drl) tirows CRLExdfption {
+        if (drl instbndfof X509CRLImpl) {
+            rfturn ((X509CRLImpl)drl).gftEndodfdIntfrnbl();
+        } flsf {
+            rfturn drl.gftEndodfd();
         }
     }
 
     /**
-     * Utility method to convert an arbitrary instance of X509CRL
-     * to a X509CRLImpl. Does a cast if possible, otherwise reparses
-     * the encoding.
+     * Utility mftiod to donvfrt bn brbitrbry instbndf of X509CRL
+     * to b X509CRLImpl. Dofs b dbst if possiblf, otifrwisf rfpbrsfs
+     * tif fndoding.
      */
-    public static X509CRLImpl toImpl(X509CRL crl)
-            throws CRLException {
-        if (crl instanceof X509CRLImpl) {
-            return (X509CRLImpl)crl;
-        } else {
-            return X509Factory.intern(crl);
+    publid stbtid X509CRLImpl toImpl(X509CRL drl)
+            tirows CRLExdfption {
+        if (drl instbndfof X509CRLImpl) {
+            rfturn (X509CRLImpl)drl;
+        } flsf {
+            rfturn X509Fbdtory.intfrn(drl);
         }
     }
 
     /**
-     * Returns the X500 certificate issuer DN of a CRL entry.
+     * Rfturns tif X500 dfrtifidbtf issufr DN of b CRL fntry.
      *
-     * @param entry the entry to check
-     * @param prevCertIssuer the previous entry's certificate issuer
-     * @return the X500Principal in a CertificateIssuerExtension, or
-     *   prevCertIssuer if it does not exist
+     * @pbrbm fntry tif fntry to difdk
+     * @pbrbm prfvCfrtIssufr tif prfvious fntry's dfrtifidbtf issufr
+     * @rfturn tif X500Prindipbl in b CfrtifidbtfIssufrExtfnsion, or
+     *   prfvCfrtIssufr if it dofs not fxist
      */
-    private X500Principal getCertIssuer(X509CRLEntryImpl entry,
-        X500Principal prevCertIssuer) throws IOException {
+    privbtf X500Prindipbl gftCfrtIssufr(X509CRLEntryImpl fntry,
+        X500Prindipbl prfvCfrtIssufr) tirows IOExdfption {
 
-        CertificateIssuerExtension ciExt =
-            entry.getCertificateIssuerExtension();
-        if (ciExt != null) {
-            GeneralNames names = ciExt.get(CertificateIssuerExtension.ISSUER);
-            X500Name issuerDN = (X500Name) names.get(0).getName();
-            return issuerDN.asX500Principal();
-        } else {
-            return prevCertIssuer;
+        CfrtifidbtfIssufrExtfnsion diExt =
+            fntry.gftCfrtifidbtfIssufrExtfnsion();
+        if (diExt != null) {
+            GfnfrblNbmfs nbmfs = diExt.gft(CfrtifidbtfIssufrExtfnsion.ISSUER);
+            X500Nbmf issufrDN = (X500Nbmf) nbmfs.gft(0).gftNbmf();
+            rfturn issufrDN.bsX500Prindipbl();
+        } flsf {
+            rfturn prfvCfrtIssufr;
         }
     }
 
-    @Override
-    public void derEncode(OutputStream out) throws IOException {
-        if (signedCRL == null)
-            throw new IOException("Null CRL to encode");
-        out.write(signedCRL.clone());
+    @Ovfrridf
+    publid void dfrEndodf(OutputStrfbm out) tirows IOExdfption {
+        if (signfdCRL == null)
+            tirow nfw IOExdfption("Null CRL to fndodf");
+        out.writf(signfdCRL.dlonf());
     }
 
     /**
-     * Immutable X.509 Certificate Issuer DN and serial number pair
+     * Immutbblf X.509 Cfrtifidbtf Issufr DN bnd sfribl numbfr pbir
      */
-    private final static class X509IssuerSerial
-            implements Comparable<X509IssuerSerial> {
-        final X500Principal issuer;
-        final BigInteger serial;
-        volatile int hashcode = 0;
+    privbtf finbl stbtid dlbss X509IssufrSfribl
+            implfmfnts Compbrbblf<X509IssufrSfribl> {
+        finbl X500Prindipbl issufr;
+        finbl BigIntfgfr sfribl;
+        volbtilf int ibsidodf = 0;
 
         /**
-         * Create an X509IssuerSerial.
+         * Crfbtf bn X509IssufrSfribl.
          *
-         * @param issuer the issuer DN
-         * @param serial the serial number
+         * @pbrbm issufr tif issufr DN
+         * @pbrbm sfribl tif sfribl numbfr
          */
-        X509IssuerSerial(X500Principal issuer, BigInteger serial) {
-            this.issuer = issuer;
-            this.serial = serial;
+        X509IssufrSfribl(X500Prindipbl issufr, BigIntfgfr sfribl) {
+            tiis.issufr = issufr;
+            tiis.sfribl = sfribl;
         }
 
         /**
-         * Construct an X509IssuerSerial from an X509Certificate.
+         * Construdt bn X509IssufrSfribl from bn X509Cfrtifidbtf.
          */
-        X509IssuerSerial(X509Certificate cert) {
-            this(cert.getIssuerX500Principal(), cert.getSerialNumber());
+        X509IssufrSfribl(X509Cfrtifidbtf dfrt) {
+            tiis(dfrt.gftIssufrX500Prindipbl(), dfrt.gftSfriblNumbfr());
         }
 
         /**
-         * Returns the issuer.
+         * Rfturns tif issufr.
          *
-         * @return the issuer
+         * @rfturn tif issufr
          */
-        X500Principal getIssuer() {
-            return issuer;
+        X500Prindipbl gftIssufr() {
+            rfturn issufr;
         }
 
         /**
-         * Returns the serial number.
+         * Rfturns tif sfribl numbfr.
          *
-         * @return the serial number
+         * @rfturn tif sfribl numbfr
          */
-        BigInteger getSerial() {
-            return serial;
+        BigIntfgfr gftSfribl() {
+            rfturn sfribl;
         }
 
         /**
-         * Compares this X509Serial with another and returns true if they
-         * are equivalent.
+         * Compbrfs tiis X509Sfribl witi bnotifr bnd rfturns truf if tify
+         * brf fquivblfnt.
          *
-         * @param o the other object to compare with
-         * @return true if equal, false otherwise
+         * @pbrbm o tif otifr objfdt to dompbrf witi
+         * @rfturn truf if fqubl, fblsf otifrwisf
          */
-        public boolean equals(Object o) {
-            if (o == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == tiis) {
+                rfturn truf;
             }
 
-            if (!(o instanceof X509IssuerSerial)) {
-                return false;
+            if (!(o instbndfof X509IssufrSfribl)) {
+                rfturn fblsf;
             }
 
-            X509IssuerSerial other = (X509IssuerSerial) o;
-            if (serial.equals(other.getSerial()) &&
-                issuer.equals(other.getIssuer())) {
-                return true;
+            X509IssufrSfribl otifr = (X509IssufrSfribl) o;
+            if (sfribl.fqubls(otifr.gftSfribl()) &&
+                issufr.fqubls(otifr.gftIssufr())) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns a hash code value for this X509IssuerSerial.
+         * Rfturns b ibsi dodf vbluf for tiis X509IssufrSfribl.
          *
-         * @return the hash code value
+         * @rfturn tif ibsi dodf vbluf
          */
-        public int hashCode() {
-            if (hashcode == 0) {
-                int result = 17;
-                result = 37*result + issuer.hashCode();
-                result = 37*result + serial.hashCode();
-                hashcode = result;
+        publid int ibsiCodf() {
+            if (ibsidodf == 0) {
+                int rfsult = 17;
+                rfsult = 37*rfsult + issufr.ibsiCodf();
+                rfsult = 37*rfsult + sfribl.ibsiCodf();
+                ibsidodf = rfsult;
             }
-            return hashcode;
+            rfturn ibsidodf;
         }
 
-        @Override
-        public int compareTo(X509IssuerSerial another) {
-            int cissuer = issuer.toString()
-                    .compareTo(another.issuer.toString());
-            if (cissuer != 0) return cissuer;
-            return this.serial.compareTo(another.serial);
+        @Ovfrridf
+        publid int dompbrfTo(X509IssufrSfribl bnotifr) {
+            int dissufr = issufr.toString()
+                    .dompbrfTo(bnotifr.issufr.toString());
+            if (dissufr != 0) rfturn dissufr;
+            rfturn tiis.sfribl.dompbrfTo(bnotifr.sfribl);
         }
     }
 }

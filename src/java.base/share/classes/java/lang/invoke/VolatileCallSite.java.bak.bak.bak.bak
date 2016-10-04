@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+/**
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} whosf tbrgft bdts likf b volbtilf vbribblf.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if thf updbtf oddurs in bnothfr thrfbd.
+ * Thfrf mby bf b pfrformbndf pfnblty for sudh tight doupling bftwffn thrfbds.
+ * <p>
+ * Unlikf {@dodf MutbblfCbllSitf}, thfrf is no
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * syndhronizfd with rfbdfr thrfbds.
+ * <p>
+ * In othfr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdhbngfbblf
+ * with {@dodf MutbblfCbllSitf}.
+ * @sff MutbblfCbllSitf
+ * @buthor John Rosf, JSR 292 EG
+ */
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
+    /**
+     * Crfbtfs b dbll sitf with b volbtilf binding to its tbrgft.
+     * Thf initibl tbrgft is sft to b mfthod hbndlf
+     * of thf givfn typf whidh will throw bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * @pbrbm typf thf mfthod typf thbt this dbll sitf will hbvf
+     * @throws NullPointfrExdfption if thf proposfd typf is null
+     */
+    publid VolbtilfCbllSitf(MfthodTypf typf) {
+        supfr(typf);
+    }
+
+    /**
+     * Crfbtfs b dbll sitf with b volbtilf binding to its tbrgft.
+     * Thf tbrgft is sft to thf givfn vbluf.
+     * @pbrbm tbrgft thf mfthod hbndlf thbt will bf thf initibl tbrgft of thf dbll sitf
+     * @throws NullPointfrExdfption if thf proposfd tbrgft is null
+     */
+    publid VolbtilfCbllSitf(MfthodHbndlf tbrgft) {
+        supfr(tbrgft);
+    }
+
+    /**
+     * Rfturns thf tbrgft mfthod of thf dbll sitf, whidh bfhbvfs
+     * likf b {@dodf volbtilf} fifld of thf {@dodf VolbtilfCbllSitf}.
+     * <p>
+     * Thf intfrbdtions of {@dodf gftTbrgft} with mfmory brf thf sbmf
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
+     * <p>
+     * In pbrtidulbr, thf durrfnt thrfbd is rfquirfd to issuf b frfsh
+     * rfbd of thf tbrgft from mfmory, bnd must not fbil to sff
+     * b rfdfnt updbtf to thf tbrgft by bnothfr thrfbd.
+     *
+     * @rfturn thf linkbgf stbtf of this dbll sitf, b mfthod hbndlf whidh dbn dhbngf ovfr timf
+     * @sff #sftTbrgft
+     */
+    @Ovfrridf publid finbl MfthodHbndlf gftTbrgft() {
+        rfturn gftTbrgftVolbtilf();
+    }
+
+    /**
+     * Updbtfs thf tbrgft mfthod of this dbll sitf, bs b volbtilf vbribblf.
+     * Thf typf of thf nfw tbrgft must bgrff with thf typf of thf old tbrgft.
+     * <p>
+     * Thf intfrbdtions with mfmory brf thf sbmf bs of b writf to b volbtilf fifld.
+     * In pbrtidulbr, bny thrfbds is gubrbntffd to sff thf updbtfd tbrgft
+     * thf nfxt timf it dblls {@dodf gftTbrgft}.
+     * @pbrbm nfwTbrgft thf nfw tbrgft
+     * @throws NullPointfrExdfption if thf proposfd nfw tbrgft is null
+     * @throws WrongMfthodTypfExdfption if thf proposfd nfw tbrgft
+     *         hbs b mfthod typf thbt difffrs from thf prfvious tbrgft
+     * @sff #gftTbrgft
+     */
+    @Ovfrridf publid void sftTbrgft(MfthodHbndlf nfwTbrgft) {
+        dhfdkTbrgftChbngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid finbl MfthodHbndlf dynbmidInvokfr() {
+        rfturn mbkfDynbmidInvokfr();
+    }
+}

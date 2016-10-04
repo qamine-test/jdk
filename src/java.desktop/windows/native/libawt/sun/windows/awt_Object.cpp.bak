@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Object.h"
-#include "ObjectList.h"
+#indludf "bwt_Objfdt.i"
+#indludf "ObjfdtList.i"
 
-#ifdef DEBUG
-static BOOL reportEvents = FALSE;
-#endif
+#ifdff DEBUG
+stbtid BOOL rfportEvfnts = FALSE;
+#fndif
 
 
 /************************************************************************
- * AwtObject fields
+ * AwtObjfdt fiflds
  */
 
-jfieldID AwtObject::pDataID;
-jfieldID AwtObject::destroyedID;
-jfieldID AwtObject::targetID;
-jclass AwtObject::wObjectPeerClass;
-jmethodID AwtObject::getPeerForTargetMID;
-jfieldID AwtObject::createErrorID;
+jfifldID AwtObjfdt::pDbtbID;
+jfifldID AwtObjfdt::dfstroyfdID;
+jfifldID AwtObjfdt::tbrgftID;
+jdlbss AwtObjfdt::wObjfdtPffrClbss;
+jmftiodID AwtObjfdt::gftPffrForTbrgftMID;
+jfifldID AwtObjfdt::drfbtfErrorID;
 
 
 /************************************************************************
- * AwtObject methods
+ * AwtObjfdt mftiods
  */
 
-AwtObject::AwtObject()
+AwtObjfdt::AwtObjfdt()
 {
-    theAwtObjectList.Add(this);
-    m_peerObject = NULL;
-    m_callbacksEnabled = TRUE;
+    tifAwtObjfdtList.Add(tiis);
+    m_pffrObjfdt = NULL;
+    m_dbllbbdksEnbblfd = TRUE;
 }
 
-AwtObject::~AwtObject()
+AwtObjfdt::~AwtObjfdt()
 {
 }
 
-void AwtObject::Dispose()
+void AwtObjfdt::Disposf()
 {
-    AwtToolkit::GetInstance().PostMessage(WM_AWT_DELETEOBJECT, (WPARAM)this, (LPARAM)0);
+    AwtToolkit::GftInstbndf().PostMfssbgf(WM_AWT_DELETEOBJECT, (WPARAM)tiis, (LPARAM)0);
 }
 
-void AwtObject::_Dispose(jobject self)
+void AwtObjfdt::_Disposf(jobjfdt sflf)
 {
     TRY_NO_VERIFY;
 
-    CriticalSection::Lock l(AwtToolkit::GetInstance().GetSyncCS());
+    CritidblSfdtion::Lodk l(AwtToolkit::GftInstbndf().GftSyndCS());
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    // value 0 of lParam means that we should not attempt to enter the
-    // SyncCall critical section, as it was entered someshere earlier
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_DISPOSE, (WPARAM)selfGlobalRef, (LPARAM)0);
+    // vbluf 0 of lPbrbm mfbns tibt wf siould not bttfmpt to fntfr tif
+    // SyndCbll dritidbl sfdtion, bs it wbs fntfrfd somfsifrf fbrlifr
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_DISPOSE, (WPARAM)sflfGlobblRff, (LPARAM)0);
 
     CATCH_BAD_ALLOC;
 }
 
-void AwtObject::_Dispose(PDATA pData)
+void AwtObjfdt::_Disposf(PDATA pDbtb)
 {
     TRY_NO_VERIFY;
 
-    CriticalSection::Lock l(AwtToolkit::GetInstance().GetSyncCS());
+    CritidblSfdtion::Lodk l(AwtToolkit::GftInstbndf().GftSyndCS());
 
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_DISPOSEPDATA, (WPARAM)pData, (LPARAM)0);
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_DISPOSEPDATA, (WPARAM)pDbtb, (LPARAM)0);
 
     CATCH_BAD_ALLOC;
 }
 /*
- * Return the peer associated with some target.  This information is
- * maintained in a hashtable at the java level.
+ * Rfturn tif pffr bssodibtfd witi somf tbrgft.  Tiis informbtion is
+ * mbintbinfd in b ibsitbblf bt tif jbvb lfvfl.
  */
-jobject AwtObject::GetPeerForTarget(JNIEnv *env, jobject target)
+jobjfdt AwtObjfdt::GftPffrForTbrgft(JNIEnv *fnv, jobjfdt tbrgft)
 {
-    jobject result =
-        env->CallStaticObjectMethod(AwtObject::wObjectPeerClass,
-                                    AwtObject::getPeerForTargetMID,
-                                    target);
+    jobjfdt rfsult =
+        fnv->CbllStbtidObjfdtMftiod(AwtObjfdt::wObjfdtPffrClbss,
+                                    AwtObjfdt::gftPffrForTbrgftMID,
+                                    tbrgft);
 
-    DASSERT(!safe_ExceptionOccurred(env));
-    return result;
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    rfturn rfsult;
 }
 
-/* Execute a callback to the associated Java peer. */
+/* Exfdutf b dbllbbdk to tif bssodibtfd Jbvb pffr. */
 void
-AwtObject::DoCallback(const char* methodName, const char* methodSig, ...)
+AwtObjfdt::DoCbllbbdk(donst dibr* mftiodNbmf, donst dibr* mftiodSig, ...)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    /* don't callback during the create & initialization process */
-    if (m_peerObject != NULL && m_callbacksEnabled) {
-        va_list args;
-        va_start(args, methodSig);
-#ifdef DEBUG
-        if (reportEvents) {
-            jstring targetStr =
-                (jstring)JNU_CallMethodByName(env, NULL, GetTarget(env),
-                                              "getName",
-                                              "()Ljava/lang/String;").l;
-            DASSERT(!safe_ExceptionOccurred(env));
-            LPCWSTR targetStrW = JNU_GetStringPlatformChars(env, targetStr, NULL);
-            printf("Posting %s%s method to %S\n", methodName, methodSig, targetStrW);
-            JNU_ReleaseStringPlatformChars(env, targetStr, targetStrW);
+    /* don't dbllbbdk during tif drfbtf & initiblizbtion prodfss */
+    if (m_pffrObjfdt != NULL && m_dbllbbdksEnbblfd) {
+        vb_list brgs;
+        vb_stbrt(brgs, mftiodSig);
+#ifdff DEBUG
+        if (rfportEvfnts) {
+            jstring tbrgftStr =
+                (jstring)JNU_CbllMftiodByNbmf(fnv, NULL, GftTbrgft(fnv),
+                                              "gftNbmf",
+                                              "()Ljbvb/lbng/String;").l;
+            DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+            LPCWSTR tbrgftStrW = JNU_GftStringPlbtformCibrs(fnv, tbrgftStr, NULL);
+            printf("Posting %s%s mftiod to %S\n", mftiodNbmf, mftiodSig, tbrgftStrW);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, tbrgftStr, tbrgftStrW);
         }
-#endif
-        /* caching would do much good here */
-        JNU_CallMethodByNameV(env, NULL, GetPeer(env),
-                              methodName, methodSig, args);
+#fndif
+        /* dbdiing would do mudi good ifrf */
+        JNU_CbllMftiodByNbmfV(fnv, NULL, GftPffr(fnv),
+                              mftiodNbmf, mftiodSig, brgs);
         {
-            jthrowable exc = safe_ExceptionOccurred(env);
-            if (exc) {
-                env->DeleteLocalRef(exc);
-                env->ExceptionDescribe();
-                env->ExceptionClear();
+            jtirowbblf fxd = sbff_ExdfptionOddurrfd(fnv);
+            if (fxd) {
+                fnv->DflftfLodblRff(fxd);
+                fnv->ExdfptionDfsdribf();
+                fnv->ExdfptionClfbr();
             }
         }
-        DASSERT(!safe_ExceptionOccurred(env));
-        va_end(args);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        vb_fnd(brgs);
     }
 }
 
-void AwtObject::SendEvent(jobject event)
+void AwtObjfdt::SfndEvfnt(jobjfdt fvfnt)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-#ifdef DEBUG
-    if (reportEvents) {
-        jstring eventStr = JNU_ToString(env, event);
-        DASSERT(!safe_ExceptionOccurred(env));
-        jstring targetStr =
-            (jstring)JNU_CallMethodByName(env, NULL, GetTarget(env),"getName",
-                                          "()Ljava/lang/String;").l;
-        DASSERT(!safe_ExceptionOccurred(env));
-        LPCWSTR eventStrW = JNU_GetStringPlatformChars(env, eventStr, NULL);
-        LPCWSTR targetStrW = JNU_GetStringPlatformChars(env, targetStr, NULL);
-        printf("Posting %S to %S\n", eventStrW, targetStrW);
-        JNU_ReleaseStringPlatformChars(env, eventStr, eventStrW);
-        JNU_ReleaseStringPlatformChars(env, targetStr, targetStrW);
+#ifdff DEBUG
+    if (rfportEvfnts) {
+        jstring fvfntStr = JNU_ToString(fnv, fvfnt);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        jstring tbrgftStr =
+            (jstring)JNU_CbllMftiodByNbmf(fnv, NULL, GftTbrgft(fnv),"gftNbmf",
+                                          "()Ljbvb/lbng/String;").l;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        LPCWSTR fvfntStrW = JNU_GftStringPlbtformCibrs(fnv, fvfntStr, NULL);
+        LPCWSTR tbrgftStrW = JNU_GftStringPlbtformCibrs(fnv, tbrgftStr, NULL);
+        printf("Posting %S to %S\n", fvfntStrW, tbrgftStrW);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, fvfntStr, fvfntStrW);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, tbrgftStr, tbrgftStrW);
     }
-#endif
-    /* Post event to the system EventQueue. */
-    JNU_CallMethodByName(env, NULL, GetPeer(env), "postEvent",
-                         "(Ljava/awt/AWTEvent;)V", event);
+#fndif
+    /* Post fvfnt to tif systfm EvfntQufuf. */
+    JNU_CbllMftiodByNbmf(fnv, NULL, GftPffr(fnv), "postEvfnt",
+                         "(Ljbvb/bwt/AWTEvfnt;)V", fvfnt);
     {
-        jthrowable exc = safe_ExceptionOccurred(env);
-        if (exc) {
-            env->DeleteLocalRef(exc);
-            env->ExceptionDescribe();
+        jtirowbblf fxd = sbff_ExdfptionOddurrfd(fnv);
+        if (fxd) {
+            fnv->DflftfLodblRff(fxd);
+            fnv->ExdfptionDfsdribf();
         }
     }
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
 }
 
 //
-// (static)
-// Switches to Windows thread via SendMessage and synchronously
-// calls AwtObject::WinThreadExecProc with the given command id
-// and parameters.
+// (stbtid)
+// Switdifs to Windows tirfbd vib SfndMfssbgf bnd syndironously
+// dblls AwtObjfdt::WinTirfbdExfdProd witi tif givfn dommbnd id
+// bnd pbrbmftfrs.
 //
-// Useful for writing code that needs to be synchronized with
-// what's happening on the Windows thread.
+// Usfful for writing dodf tibt nffds to bf syndironizfd witi
+// wibt's ibppfning on tif Windows tirfbd.
 //
-LRESULT AwtObject::WinThreadExec(
-    jobject                             peerObject,
-    UINT                                cmdId,
-    LPARAM                              param1,
-    LPARAM                              param2,
-    LPARAM                              param3,
-    LPARAM                              param4 )
+LRESULT AwtObjfdt::WinTirfbdExfd(
+    jobjfdt                             pffrObjfdt,
+    UINT                                dmdId,
+    LPARAM                              pbrbm1,
+    LPARAM                              pbrbm2,
+    LPARAM                              pbrbm3,
+    LPARAM                              pbrbm4 )
 {
-    DASSERT( peerObject != NULL);
+    DASSERT( pffrObjfdt != NULL);
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    // since we pass peerObject to another thread we must
-    //   make a global ref
-    jobject peerObjectGlobalRef = env->NewGlobalRef(peerObject);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    // sindf wf pbss pffrObjfdt to bnotifr tirfbd wf must
+    //   mbkf b globbl rff
+    jobjfdt pffrObjfdtGlobblRff = fnv->NfwGlobblRff(pffrObjfdt);
 
-    ExecuteArgs         args;
-    LRESULT         retVal;
+    ExfdutfArgs         brgs;
+    LRESULT         rftVbl;
 
-    // setup arguments
-    args.cmdId = cmdId;
-    args.param1 = param1;
-    args.param2 = param2;
-    args.param3 = param3;
-    args.param4 = param4;
+    // sftup brgumfnts
+    brgs.dmdId = dmdId;
+    brgs.pbrbm1 = pbrbm1;
+    brgs.pbrbm2 = pbrbm2;
+    brgs.pbrbm3 = pbrbm3;
+    brgs.pbrbm4 = pbrbm4;
 
-    // call WinThreadExecProc on the toolkit thread
-    retVal = AwtToolkit::GetInstance().SendMessage(WM_AWT_EXECUTE_SYNC,
-                                                   (WPARAM)peerObjectGlobalRef,
-                                                   (LPARAM)&args);
-    return retVal;
+    // dbll WinTirfbdExfdProd on tif toolkit tirfbd
+    rftVbl = AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_EXECUTE_SYNC,
+                                                   (WPARAM)pffrObjfdtGlobblRff,
+                                                   (LPARAM)&brgs);
+    rfturn rftVbl;
 }
 
-LRESULT AwtObject::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtObjfdt::WinTirfbdExfdProd(ExfdutfArgs * brgs)
 {
-    DASSERT(FALSE); // no default handler
-    return 0L;
+    DASSERT(FALSE); // no dffbult ibndlfr
+    rfturn 0L;
 }
 
 /************************************************************************
- * WObjectPeer native methods
+ * WObjfdtPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WObjectPeer_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_sun_bwt_windows_WObjfdtPffr_initIDs(JNIEnv *fnv, jdlbss dls) {
     TRY;
 
-    AwtObject::wObjectPeerClass = (jclass)env->NewGlobalRef(cls);
-    DASSERT(AwtObject::wObjectPeerClass != NULL);
-    CHECK_NULL(AwtObject::wObjectPeerClass);
+    AwtObjfdt::wObjfdtPffrClbss = (jdlbss)fnv->NfwGlobblRff(dls);
+    DASSERT(AwtObjfdt::wObjfdtPffrClbss != NULL);
+    CHECK_NULL(AwtObjfdt::wObjfdtPffrClbss);
 
-    AwtObject::pDataID = env->GetFieldID(cls, "pData", "J");
-    DASSERT(AwtObject::pDataID != NULL);
-    CHECK_NULL(AwtObject::pDataID);
+    AwtObjfdt::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J");
+    DASSERT(AwtObjfdt::pDbtbID != NULL);
+    CHECK_NULL(AwtObjfdt::pDbtbID);
 
-    AwtObject::destroyedID = env->GetFieldID(cls, "destroyed", "Z");
-    DASSERT(AwtObject::destroyedID != NULL);
-    CHECK_NULL(AwtObject::destroyedID);
+    AwtObjfdt::dfstroyfdID = fnv->GftFifldID(dls, "dfstroyfd", "Z");
+    DASSERT(AwtObjfdt::dfstroyfdID != NULL);
+    CHECK_NULL(AwtObjfdt::dfstroyfdID);
 
-    AwtObject::targetID = env->GetFieldID(cls, "target",
-                                              "Ljava/lang/Object;");
-    DASSERT(AwtObject::targetID != NULL);
-    CHECK_NULL(AwtObject::targetID);
+    AwtObjfdt::tbrgftID = fnv->GftFifldID(dls, "tbrgft",
+                                              "Ljbvb/lbng/Objfdt;");
+    DASSERT(AwtObjfdt::tbrgftID != NULL);
+    CHECK_NULL(AwtObjfdt::tbrgftID);
 
-    AwtObject::getPeerForTargetMID =
-        env->GetStaticMethodID(cls, "getPeerForTarget",
-                         "(Ljava/lang/Object;)Lsun/awt/windows/WObjectPeer;");
-    DASSERT(AwtObject::getPeerForTargetMID != NULL);
-    CHECK_NULL(AwtObject::getPeerForTargetMID);
+    AwtObjfdt::gftPffrForTbrgftMID =
+        fnv->GftStbtidMftiodID(dls, "gftPffrForTbrgft",
+                         "(Ljbvb/lbng/Objfdt;)Lsun/bwt/windows/WObjfdtPffr;");
+    DASSERT(AwtObjfdt::gftPffrForTbrgftMID != NULL);
+    CHECK_NULL(AwtObjfdt::gftPffrForTbrgftMID);
 
-    AwtObject::createErrorID = env->GetFieldID(cls, "createError", "Ljava/lang/Error;");
-    DASSERT(AwtObject::createErrorID != NULL);
-    CHECK_NULL(AwtObject::createErrorID);
+    AwtObjfdt::drfbtfErrorID = fnv->GftFifldID(dls, "drfbtfError", "Ljbvb/lbng/Error;");
+    DASSERT(AwtObjfdt::drfbtfErrorID != NULL);
+    CHECK_NULL(AwtObjfdt::drfbtfErrorID);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

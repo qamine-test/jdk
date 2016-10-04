@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.X509TrustManager
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.X509TrustMbnbgfr
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.security.cert.X509Certificate;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * Instance of this interface manage which X509 certificates
- * may be used to authenticate the remote side of a secure
- * socket. Decisions may be based on trusted certificate
- * authorities, certificate revocation lists, online
- * status checking or other means.
+ * Instbndf of tiis intfrfbdf mbnbgf wiidi X509 dfrtifidbtfs
+ * mby bf usfd to butifntidbtf tif rfmotf sidf of b sfdurf
+ * sodkft. Dfdisions mby bf bbsfd on trustfd dfrtifidbtf
+ * butioritifs, dfrtifidbtf rfvodbtion lists, onlinf
+ * stbtus difdking or otifr mfbns.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.X509TrustManager}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.X509TrustMbnbgfr}.
  */
-@Deprecated
-public interface X509TrustManager extends TrustManager {
+@Dfprfdbtfd
+publid intfrfbdf X509TrustMbnbgfr fxtfnds TrustMbnbgfr {
     /**
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return true if it can be
-     * validated and is trusted for client SSL authentication.
+     * Givfn tif pbrtibl or domplftf dfrtifidbtf dibin
+     * providfd by tif pffr, build b dfrtifidbtf pbti
+     * to b trustfd root bnd rfturn truf if it dbn bf
+     * vblidbtfd bnd is trustfd for dlifnt SSL butifntidbtion.
      *
-     * @param chain the peer certificate chain
+     * @pbrbm dibin tif pffr dfrtifidbtf dibin
      */
-    public boolean isClientTrusted(X509Certificate[] chain);
+    publid boolfbn isClifntTrustfd(X509Cfrtifidbtf[] dibin);
 
     /**
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return true if it can be
-     * validated and is trusted for server SSL authentication.
+     * Givfn tif pbrtibl or domplftf dfrtifidbtf dibin
+     * providfd by tif pffr, build b dfrtifidbtf pbti
+     * to b trustfd root bnd rfturn truf if it dbn bf
+     * vblidbtfd bnd is trustfd for sfrvfr SSL butifntidbtion.
      *
-     * @param chain the peer certificate chain
+     * @pbrbm dibin tif pffr dfrtifidbtf dibin
      */
-    public boolean isServerTrusted(X509Certificate[] chain);
+    publid boolfbn isSfrvfrTrustfd(X509Cfrtifidbtf[] dibin);
 
     /**
-     * Return an array of certificate authority certificates
-     * which are trusted for authenticating peers.
+     * Rfturn bn brrby of dfrtifidbtf butiority dfrtifidbtfs
+     * wiidi brf trustfd for butifntidbting pffrs.
      *
-     * @return the acceptable CA issuer certificates
+     * @rfturn tif bddfptbblf CA issufr dfrtifidbtfs
      */
-    public X509Certificate[] getAcceptedIssuers();
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs();
 }

@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Thf bbstrbdt dlbss {@dodf ContfntHbndlfr} is thf supfrdlbss
+ * of bll dlbssfs thbt rfbd bn {@dodf Objfdt} from b
+ * {@dodf URLConnfdtion}.
+ * <p>
+ * An bpplidbtion dofs not gfnfrblly dbll thf
+ * {@dodf gftContfnt} mfthod in this dlbss dirfdtly. Instfbd, bn
+ * bpplidbtion dblls thf {@dodf gftContfnt} mfthod in dlbss
+ * {@dodf URL} or in {@dodf URLConnfdtion}.
+ * Thf bpplidbtion's dontfnt hbndlfr fbdtory (bn instbndf of b dlbss thbt
+ * implfmfnts thf intfrfbdf {@dodf ContfntHbndlfrFbdtory} sft
+ * up by b dbll to {@dodf sftContfntHbndlfr}) is
+ * dbllfd with b {@dodf String} giving thf MIME typf of thf
+ * objfdt bfing rfdfivfd on thf sodkft. Thf fbdtory rfturns bn
+ * instbndf of b subdlbss of {@dodf ContfntHbndlfr}, bnd its
+ * {@dodf gftContfnt} mfthod is dbllfd to drfbtf thf objfdt.
+ * <p>
+ * If no dontfnt hbndlfr dould bf found, URLConnfdtion will
+ * look for b dontfnt hbndlfr in b usfr-dffinfbblf sft of plbdfs.
+ * Usfrs dbn dffinf b vfrtidbl-bbr dflimitfd sft of dlbss prffixfs
+ * to sfbrdh through by dffining thf <i>jbvb.dontfnt.hbndlfr.pkgs</i>
+ * propfrty. Thf dlbss nbmf must bf of thf form:
+ * <blodkquotf>
+ *     <i>{pbdkbgf-prffix}.{mbjor}.{minor}</i>
+ *     <P>
+ *     whfrf <i>{mbjor}.{minor}</i> is formfd by tbking thf
+ *     dontfnt-typf string, rfplbding bll slbsh dhbrbdtfrs with b
+ *     {@dodf pfriod} ('.'), bnd bll othfr non-blphbnumfrid dhbrbdtfrs
+ *     with thf undfrsdorf dhbrbdtfr '{@dodf _}'. Thf blphbnumfrid
+ *     dhbrbdtfrs brf spfdifidblly thf 26 uppfrdbsf ASCII lfttfrs
+ *     '{@dodf A}' through '{@dodf Z}', thf 26 lowfrdbsf ASCII
+ *     lfttfrs '{@dodf b}' through '{@dodf z}', bnd thf 10 ASCII
+ *     digits '{@dodf 0}' through '{@dodf 9}'.
+ *     <p>
+ *     f.g.
+ *     YoyoDynf.fxpfrimfntbl.tfxt.plbin
+ * </blodkquotf>
+ * If no usfr-dffinfd dontfnt hbndlfr is found, thfn thf systfm
+ * trifs to lobd b spfdifid <i>dontfnt-typf</i> hbndlfr from onf
+ * of thf built-in hbndlfrs, if onf fxists.
+ * <p>
+ * If thf lobding of thf dontfnt hbndlfr dlbss would bf pfrformfd by
+ * b dlbsslobdfr thbt is outsidf of thf dflfgbtion dhbin of thf dbllfr,
+ * thf JVM will nffd thf RuntimfPfrmission "gftClbssLobdfr".
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.nft.ContfntHbndlfr#gftContfnt(jbvb.nft.URLConnfdtion)
+ * @sff     jbvb.nft.ContfntHbndlfrFbdtory
+ * @sff     jbvb.nft.URL#gftContfnt()
+ * @sff     jbvb.nft.URLConnfdtion
+ * @sff     jbvb.nft.URLConnfdtion#gftContfnt()
+ * @sff     jbvb.nft.URLConnfdtion#sftContfntHbndlfrFbdtory(jbvb.nft.ContfntHbndlfrFbdtory)
+ * @sindf   1.0
+ */
+bbstrbdt publid dlbss ContfntHbndlfr {
+    /**
+     * Givfn b URL donnfdt strfbm positionfd bt thf bfginning of thf
+     * rfprfsfntbtion of bn objfdt, this mfthod rfbds thbt strfbm bnd
+     * drfbtfs bn objfdt from it.
+     *
+     * @pbrbm      urld   b URL donnfdtion.
+     * @rfturn     thf objfdt rfbd by thf {@dodf ContfntHbndlfr}.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf rfbding thf objfdt.
+     */
+    bbstrbdt publid Objfdt gftContfnt(URLConnfdtion urld) throws IOExdfption;
+
+    /**
+     * Givfn b URL donnfdt strfbm positionfd bt thf bfginning of thf
+     * rfprfsfntbtion of bn objfdt, this mfthod rfbds thbt strfbm bnd
+     * drfbtfs bn objfdt thbt mbtdhfs onf of thf typfs spfdififd.
+     *
+     * Thf dffbult implfmfntbtion of this mfthod should dbll gftContfnt()
+     * bnd sdrffn thf rfturn typf for b mbtdh of thf suggfstfd typfs.
+     *
+     * @pbrbm      urld   b URL donnfdtion.
+     * @pbrbm      dlbssfs      bn brrby of typfs rfqufstfd
+     * @rfturn     thf objfdt rfbd by thf {@dodf ContfntHbndlfr} thbt is
+     *                 thf first mbtdh of thf suggfstfd typfs.
+     *                 null if nonf of thf rfqufstfd  brf supportfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf rfbding thf objfdt.
+     * @sindf 1.3
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid Objfdt gftContfnt(URLConnfdtion urld, Clbss[] dlbssfs) throws IOExdfption {
+        Objfdt obj = gftContfnt(urld);
+
+        for (int i = 0; i < dlbssfs.lfngth; i++) {
+          if (dlbssfs[i].isInstbndf(obj)) {
+                rfturn obj;
+          }
+        }
+        rfturn null;
+    }
+
+}

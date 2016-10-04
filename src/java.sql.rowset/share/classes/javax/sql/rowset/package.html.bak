@@ -1,304 +1,304 @@
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<itml>
+<ifbd>
                                     
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <mftb ittp-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/itml; dibrsft=iso-8859-1">
 <!--
-Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 
 -->
-  <title>javax.sql.rowset Package</title>
-</head>
-  <body bgcolor="#ffffff">
+  <titlf>jbvbx.sql.rowsft Pbdkbgf</titlf>
+</ifbd>
+  <body bgdolor="#ffffff">
 
-<!-- Description clause -->
-Standard interfaces and base classes for JDBC <code>RowSet</code>
-implementations. This package contains interfaces and classes 
-that a standard <code>RowSet</code> implementation either implements or extends.
+<!-- Dfsdription dlbusf -->
+Stbndbrd intfrfbdfs bnd bbsf dlbssfs for JDBC <dodf>RowSft</dodf>
+implfmfntbtions. Tiis pbdkbgf dontbins intfrfbdfs bnd dlbssfs 
+tibt b stbndbrd <dodf>RowSft</dodf> implfmfntbtion fitifr implfmfnts or fxtfnds.
 
 
-<h2>Table of Contents</h2>
+<i2>Tbblf of Contfnts</i2>
 <ul>
-<li><a href="#pkgspec">1.0 Package Specification</a>
-<li><a href="#stdrowset">2.0 Standard RowSet Definitions</a>
-<li><a href="#impl">3.0 Implementer's Guide</a>
-<li><a href="#relspec">4.0 Related Specifications</a>
-<li><a href="#reldocs">5.0 Related Documentation</a>
+<li><b irff="#pkgspfd">1.0 Pbdkbgf Spfdifidbtion</b>
+<li><b irff="#stdrowsft">2.0 Stbndbrd RowSft Dffinitions</b>
+<li><b irff="#impl">3.0 Implfmfntfr's Guidf</b>
+<li><b irff="#rflspfd">4.0 Rflbtfd Spfdifidbtions</b>
+<li><b irff="#rfldods">5.0 Rflbtfd Dodumfntbtion</b>
 </ul>
 
-<h3><a name="pkgspec">1.0 Package Specification</a></h3>
-This package specifies five standard JDBC <code>RowSet</code> interfaces.
- All five extend the 
-<a href="../RowSet.html">RowSet</a> interface described in the JDBC 3.0
-specification.  It is anticipated that additional definitions
-of more specialized JDBC <code>RowSet</code> types will emerge as this technology 
-matures. Future definitions <i>should</i> be specified as subinterfaces using 
-inheritance similar to the way it is used in this specification.
+<i3><b nbmf="pkgspfd">1.0 Pbdkbgf Spfdifidbtion</b></i3>
+Tiis pbdkbgf spfdififs fivf stbndbrd JDBC <dodf>RowSft</dodf> intfrfbdfs.
+ All fivf fxtfnd tif 
+<b irff="../RowSft.itml">RowSft</b> intfrfbdf dfsdribfd in tif JDBC 3.0
+spfdifidbtion.  It is bntidipbtfd tibt bdditionbl dffinitions
+of morf spfdiblizfd JDBC <dodf>RowSft</dodf> typfs will fmfrgf bs tiis tfdinology 
+mbturfs. Futurf dffinitions <i>siould</i> bf spfdififd bs subintfrfbdfs using 
+inifritbndf similbr to tif wby it is usfd in tiis spfdifidbtion.
 <p>
-<i>Note:</i> The interface definitions provided in this package form the basis for
-all compliant JDBC <code>RowSet</code> implementations. Vendors and more advanced
-developers who intend to provide their own compliant <code>RowSet</code> implementations 
-should pay particular attention to the assertions detailed in specification
-interfaces. 
+<i>Notf:</i> Tif intfrfbdf dffinitions providfd in tiis pbdkbgf form tif bbsis for
+bll domplibnt JDBC <dodf>RowSft</dodf> implfmfntbtions. Vfndors bnd morf bdvbndfd
+dfvflopfrs wio intfnd to providf tifir own domplibnt <dodf>RowSft</dodf> implfmfntbtions 
+siould pby pbrtidulbr bttfntion to tif bssfrtions dftbilfd in spfdifidbtion
+intfrfbdfs. 
 
-<h3><a name="stdrowset">2.0 Standard RowSet Definitions</a></h3>
+<i3><b nbmf="stdrowsft">2.0 Stbndbrd RowSft Dffinitions</b></i3>
 <ul>
-<li><a href="JdbcRowSet.html"><b><code>JdbcRowSet</code></b></a> - A wrapper around 
-a <tt>ResultSet</tt> object that makes it possible to use the result set as a 
-JavaBeans&trade; component. Thus,
-a <tt>JdbcRowSet</tt> object can be a Bean that any tool
-makes available for assembling an application as part of a component based
-architecture . A <tt>JdbcRowSet</tt> object is a connected <code>RowSet</code>
-object, that is, it 
-<b>must</b> continually maintain its connection to its data source using a JDBC
-technology-enabled driver ("JDBC driver"). In addition, a <code>JdbcRowSet</code>
-object provides a fully updatable and scrollable tabular 
-data structure as defined in the JDBC 3.0 specification.
+<li><b irff="JdbdRowSft.itml"><b><dodf>JdbdRowSft</dodf></b></b> - A wrbppfr bround 
+b <tt>RfsultSft</tt> objfdt tibt mbkfs it possiblf to usf tif rfsult sft bs b 
+JbvbBfbns&trbdf; domponfnt. Tius,
+b <tt>JdbdRowSft</tt> objfdt dbn bf b Bfbn tibt bny tool
+mbkfs bvbilbblf for bssfmbling bn bpplidbtion bs pbrt of b domponfnt bbsfd
+brdiitfdturf . A <tt>JdbdRowSft</tt> objfdt is b donnfdtfd <dodf>RowSft</dodf>
+objfdt, tibt is, it 
+<b>must</b> dontinublly mbintbin its donnfdtion to its dbtb sourdf using b JDBC
+tfdinology-fnbblfd drivfr ("JDBC drivfr"). In bddition, b <dodf>JdbdRowSft</dodf>
+objfdt providfs b fully updbtbblf bnd sdrollbblf tbbulbr 
+dbtb strudturf bs dffinfd in tif JDBC 3.0 spfdifidbtion.
 
-<li><a href="CachedRowSet.html">
-<b><code>CachedRowSet</code>&trade;</b></a>
- - A <tt>CachedRowSet</tt> object is a JavaBeans&trade;
- component that is scrollable, updatable, serializable, and generally disconnected from
- the source of its data. A <tt>CachedRowSet</tt> object
-typically contains rows from a result set, but it can also contain rows from any
-file with a tabular format, such as a spreadsheet. <tt>CachedRowSet</tt> implementations 
-<b>must</b> use the <tt>SyncFactory</tt> to manage and obtain pluggable
-<code>SyncProvider</code> objects to provide synchronization between the
-disconnected <code>RowSet</code> object and the originating data source. 
-Typically a <code>SyncProvider</code> implementation relies upon a JDBC
-driver to obtain connectivity to a particular data source.
-Further details on this mechanism are discussed in the <a
-href="spi/package-summary.html"><code>javax.sql.rowset.spi</code></a> package
-specification.
+<li><b irff="CbdifdRowSft.itml">
+<b><dodf>CbdifdRowSft</dodf>&trbdf;</b></b>
+ - A <tt>CbdifdRowSft</tt> objfdt is b JbvbBfbns&trbdf;
+ domponfnt tibt is sdrollbblf, updbtbblf, sfriblizbblf, bnd gfnfrblly disdonnfdtfd from
+ tif sourdf of its dbtb. A <tt>CbdifdRowSft</tt> objfdt
+typidblly dontbins rows from b rfsult sft, but it dbn blso dontbin rows from bny
+filf witi b tbbulbr formbt, sudi bs b sprfbdsifft. <tt>CbdifdRowSft</tt> implfmfntbtions 
+<b>must</b> usf tif <tt>SyndFbdtory</tt> to mbnbgf bnd obtbin pluggbblf
+<dodf>SyndProvidfr</dodf> objfdts to providf syndironizbtion bftwffn tif
+disdonnfdtfd <dodf>RowSft</dodf> objfdt bnd tif originbting dbtb sourdf. 
+Typidblly b <dodf>SyndProvidfr</dodf> implfmfntbtion rflifs upon b JDBC
+drivfr to obtbin donnfdtivity to b pbrtidulbr dbtb sourdf.
+Furtifr dftbils on tiis mfdibnism brf disdussfd in tif <b
+irff="spi/pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft.spi</dodf></b> pbdkbgf
+spfdifidbtion.
 
-<li><a href="WebRowSet.html"><b><code>WebRowSet</code></b></a> - A 
-<code>WebRowSet</code> object is an extension of <tt>CachedRowSet</tt>
-that can read and write a <code>RowSet</code> object in a well formed XML format.
-This class calls an <a href="spi/XmlReader.html"><code>XmlReader</code></a> object 
-(an extension of the <a href="../RowSetReader.html"><code>RowSetReader</code></a>
-interface) to read a rowset in XML format. It calls an 
-<a href="spi/XmlWriter.html"><code>XmlWriter</code></a> object (an extension of the 
-<a href="../RowSetWriter.html"><code>RowSetWriter</code></a> interface) 
-to write a rowset in XML format. The reader and writer required by
-<code>WebRowSet</code> objects are provided by the
-<code>SyncFactory</code> in the form of <code>SyncProvider</code>
-implementations. In order to ensure well formed XML usage, a standard generic XML
-Schema is defined and published at
-<a href="http://java.sun.com/xml/ns/jdbc/webrowset.xsd">
-<code>http://java.sun.com/xml/ns/jdbc/webrowset.xsd</code></a>.
+<li><b irff="WfbRowSft.itml"><b><dodf>WfbRowSft</dodf></b></b> - A 
+<dodf>WfbRowSft</dodf> objfdt is bn fxtfnsion of <tt>CbdifdRowSft</tt>
+tibt dbn rfbd bnd writf b <dodf>RowSft</dodf> objfdt in b wfll formfd XML formbt.
+Tiis dlbss dblls bn <b irff="spi/XmlRfbdfr.itml"><dodf>XmlRfbdfr</dodf></b> objfdt 
+(bn fxtfnsion of tif <b irff="../RowSftRfbdfr.itml"><dodf>RowSftRfbdfr</dodf></b>
+intfrfbdf) to rfbd b rowsft in XML formbt. It dblls bn 
+<b irff="spi/XmlWritfr.itml"><dodf>XmlWritfr</dodf></b> objfdt (bn fxtfnsion of tif 
+<b irff="../RowSftWritfr.itml"><dodf>RowSftWritfr</dodf></b> intfrfbdf) 
+to writf b rowsft in XML formbt. Tif rfbdfr bnd writfr rfquirfd by
+<dodf>WfbRowSft</dodf> objfdts brf providfd by tif
+<dodf>SyndFbdtory</dodf> in tif form of <dodf>SyndProvidfr</dodf>
+implfmfntbtions. In ordfr to fnsurf wfll formfd XML usbgf, b stbndbrd gfnfrid XML
+Sdifmb is dffinfd bnd publisifd bt
+<b irff="ittp://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd">
+<dodf>ittp://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd</dodf></b>.
 
-<li><a href="FilteredRowSet.html"><b><code>FilteredRowSet</code></b></a> - A
-<tt>FilteredRowSet</tt> object provides filtering functionality in a programmatic
-and extensible way. There are many instances when a <tt>RowSet</tt> <code>object</code>
-has a need to provide filtering in its contents without sacrificing the disconnected
-environment, thus saving the expense of having to create a connection to the data source.
-Solutions to this need vary from providing heavyweight full scale 
-SQL query abilities, to portable components, to more lightweight 
-approaches. A <code>FilteredRowSet</code> object consumes
-an implementation of the <a href="Predicate.html"><code>Predicate</code></a> 
-interface, which <b>may</b> define a filter at run time. In turn, a
-<code>FilteredRowSet</code> object is tasked with enforcing the set filter for both
-inbound and outbound read and write operations. That is, all filters can be
-considered as bi-directional. No standard filters are defined;
-however, sufficient mechanics are specified to permit any required filter to be
-implemented.
+<li><b irff="FiltfrfdRowSft.itml"><b><dodf>FiltfrfdRowSft</dodf></b></b> - A
+<tt>FiltfrfdRowSft</tt> objfdt providfs filtfring fundtionblity in b progrbmmbtid
+bnd fxtfnsiblf wby. Tifrf brf mbny instbndfs wifn b <tt>RowSft</tt> <dodf>objfdt</dodf>
+ibs b nffd to providf filtfring in its dontfnts witiout sbdrifiding tif disdonnfdtfd
+fnvironmfnt, tius sbving tif fxpfnsf of ibving to drfbtf b donnfdtion to tif dbtb sourdf.
+Solutions to tiis nffd vbry from providing ifbvywfigit full sdblf 
+SQL qufry bbilitifs, to portbblf domponfnts, to morf ligitwfigit 
+bpprobdifs. A <dodf>FiltfrfdRowSft</dodf> objfdt donsumfs
+bn implfmfntbtion of tif <b irff="Prfdidbtf.itml"><dodf>Prfdidbtf</dodf></b> 
+intfrfbdf, wiidi <b>mby</b> dffinf b filtfr bt run timf. In turn, b
+<dodf>FiltfrfdRowSft</dodf> objfdt is tbskfd witi fnfording tif sft filtfr for boti
+inbound bnd outbound rfbd bnd writf opfrbtions. Tibt is, bll filtfrs dbn bf
+donsidfrfd bs bi-dirfdtionbl. No stbndbrd filtfrs brf dffinfd;
+iowfvfr, suffidifnt mfdibnids brf spfdififd to pfrmit bny rfquirfd filtfr to bf
+implfmfntfd.
 
-<li><a href="JoinRowSet.html"><b><code>JoinRowSet</code></b></a> - The <tt>JoinRowSet</tt>
-interface  describes a mechanism by which relationships can be established between 
-two or more standard <code>RowSet</code> implementations. Any number of <tt>RowSet</tt>
- objects can be added to a <tt>JoinRowSet</tt> object provided  the <tt>RowSet</tt>objects 
-can be related  in a SQL <tt>JOIN</tt> like fashion. By definition, the SQL <tt>JOIN</tt> 
-statement  is used to combine the data contained in two (<i>or more</i>) relational
-database tables based upon a common attribute. By establishing and then enforcing
-column matches, a <tt>JoinRowSet</tt> object establishes relationships between
-<tt>RowSet</tt> instances without the need to touch the originating data source.     
+<li><b irff="JoinRowSft.itml"><b><dodf>JoinRowSft</dodf></b></b> - Tif <tt>JoinRowSft</tt>
+intfrfbdf  dfsdribfs b mfdibnism by wiidi rflbtionsiips dbn bf fstbblisifd bftwffn 
+two or morf stbndbrd <dodf>RowSft</dodf> implfmfntbtions. Any numbfr of <tt>RowSft</tt>
+ objfdts dbn bf bddfd to b <tt>JoinRowSft</tt> objfdt providfd  tif <tt>RowSft</tt>objfdts 
+dbn bf rflbtfd  in b SQL <tt>JOIN</tt> likf fbsiion. By dffinition, tif SQL <tt>JOIN</tt> 
+stbtfmfnt  is usfd to dombinf tif dbtb dontbinfd in two (<i>or morf</i>) rflbtionbl
+dbtbbbsf tbblfs bbsfd upon b dommon bttributf. By fstbblisiing bnd tifn fnfording
+dolumn mbtdifs, b <tt>JoinRowSft</tt> objfdt fstbblisifs rflbtionsiips bftwffn
+<tt>RowSft</tt> instbndfs witiout tif nffd to toudi tif originbting dbtb sourdf.     
 </ul>
 
-<h3><a name="impl">3.0 Implementer's Guide</a></h3>
-Compliant implementations of JDBC <code>RowSet</code> Implementations 
-<b>must</b> follow the assertions described in this specification. In accordance
-with the terms of the <a href="http://www.jcp.org">Java Community Process</a>, a
-Test Compatibility Kit (TCK) can be licensed to ensure compatibility with the
-specification. The following paragraphs outline a number of starting points for
-implementers of the standard JDBC <code>RowSet</code> definitions. Implementers
-should also consult the <i>Implementer's Guide</i> in the <a
-href="spi/package-summary.html">javax.sql.rowset.spi</a> package for guidelines
-on <a href="spi/SyncProvider.html"><code>SyncProvider</code></a> implementations.
+<i3><b nbmf="impl">3.0 Implfmfntfr's Guidf</b></i3>
+Complibnt implfmfntbtions of JDBC <dodf>RowSft</dodf> Implfmfntbtions 
+<b>must</b> follow tif bssfrtions dfsdribfd in tiis spfdifidbtion. In bddordbndf
+witi tif tfrms of tif <b irff="ittp://www.jdp.org">Jbvb Community Prodfss</b>, b
+Tfst Compbtibility Kit (TCK) dbn bf lidfnsfd to fnsurf dompbtibility witi tif
+spfdifidbtion. Tif following pbrbgrbpis outlinf b numbfr of stbrting points for
+implfmfntfrs of tif stbndbrd JDBC <dodf>RowSft</dodf> dffinitions. Implfmfntfrs
+siould blso donsult tif <i>Implfmfntfr's Guidf</i> in tif <b
+irff="spi/pbdkbgf-summbry.itml">jbvbx.sql.rowsft.spi</b> pbdkbgf for guidflinfs
+on <b irff="spi/SyndProvidfr.itml"><dodf>SyndProvidfr</dodf></b> implfmfntbtions.
 
 <ul>
-<li><b>3.1 Constructor</b>
+<li><b>3.1 Construdtor</b>
 <p>
-    All <code>RowSet</code> implementations <strong>must</strong> provide a
-no-argument constructor.
+    All <dodf>RowSft</dodf> implfmfntbtions <strong>must</strong> providf b
+no-brgumfnt donstrudtor.
 </li>
-<li><b>3.2 Role of the <code>BaseRowSet</code> Class</b>
+<li><b>3.2 Rolf of tif <dodf>BbsfRowSft</dodf> Clbss</b>
 <p>
-A compliant JDBC <code>RowSet</code> implementation <b>must</b> implement one or more 
-standard interfaces specified in this package and and <b>may</b> extend the 
-<a href="BaseRowSet.html"><code>BaseRowSet</code></a> abstract class. For example, a 
-<code>CachedRowSet</code> implementation must implement the <code>CachedRowSet</code>
-interface and extend the <code>BaseRowSet</code> abstract class. The
-<code>BaseRowSet</code> class provides the standard architecture on which all
-<code>RowSet</code> implementations should be built, regardless of whether the
-<code>RowSet</code> objects exist in a connected or disconnected environment.
-The <tt>BaseRowSet</tt> abstract class provides any <tt>RowSet</tt> implementation
-with its base functionality, including property manipulation and event notification
-that is fully compliant with <a href="http://java.sun.com/products/javabeans">JavaBeans</a> 
-component requirements. As an example, all implementations provided in the
-reference implementations (contained in the <tt>com.sun.rowset</tt> package) use
-the <tt>BaseRowSet</tt> class as a basis for their implementations.            
+A domplibnt JDBC <dodf>RowSft</dodf> implfmfntbtion <b>must</b> implfmfnt onf or morf 
+stbndbrd intfrfbdfs spfdififd in tiis pbdkbgf bnd bnd <b>mby</b> fxtfnd tif 
+<b irff="BbsfRowSft.itml"><dodf>BbsfRowSft</dodf></b> bbstrbdt dlbss. For fxbmplf, b 
+<dodf>CbdifdRowSft</dodf> implfmfntbtion must implfmfnt tif <dodf>CbdifdRowSft</dodf>
+intfrfbdf bnd fxtfnd tif <dodf>BbsfRowSft</dodf> bbstrbdt dlbss. Tif
+<dodf>BbsfRowSft</dodf> dlbss providfs tif stbndbrd brdiitfdturf on wiidi bll
+<dodf>RowSft</dodf> implfmfntbtions siould bf built, rfgbrdlfss of wiftifr tif
+<dodf>RowSft</dodf> objfdts fxist in b donnfdtfd or disdonnfdtfd fnvironmfnt.
+Tif <tt>BbsfRowSft</tt> bbstrbdt dlbss providfs bny <tt>RowSft</tt> implfmfntbtion
+witi its bbsf fundtionblity, indluding propfrty mbnipulbtion bnd fvfnt notifidbtion
+tibt is fully domplibnt witi <b irff="ittp://jbvb.sun.dom/produdts/jbvbbfbns">JbvbBfbns</b> 
+domponfnt rfquirfmfnts. As bn fxbmplf, bll implfmfntbtions providfd in tif
+rfffrfndf implfmfntbtions (dontbinfd in tif <tt>dom.sun.rowsft</tt> pbdkbgf) usf
+tif <tt>BbsfRowSft</tt> dlbss bs b bbsis for tifir implfmfntbtions.            
 <P>
-The following table illustrates the features that the <code>BaseRowSet</code>
-abstract class provides.
-  <blockquote>                    
-    <table cellpadding="2" cellspacing="2" border="1" width="75%">
+Tif following tbblf illustrbtfs tif ffbturfs tibt tif <dodf>BbsfRowSft</dodf>
+bbstrbdt dlbss providfs.
+  <blodkquotf>                    
+    <tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" widti="75%">
           <tbody>
             <tr>
-              <td valign="top"><b>Feature</b><br>
+              <td vblign="top"><b>Ffbturf</b><br>
               </td>
-              <td valign="top"><b>Details</b><br>
-              </td>
-            </tr>
-            <tr>
-              <td valign="top">Properties<br>
-              </td>
-              <td valign="top">Provides standard JavaBeans property manipulation
-  mechanisms to allow applications to get and set <code>RowSet</code> command and
-property  values. Refer to the   documentation of the <tt>javax.sql.RowSet</tt>
-interface  (available in the JDBC 3.0 specification) for more details on
-the standard  <code>RowSet</code> properties.<br>
+              <td vblign="top"><b>Dftbils</b><br>
               </td>
             </tr>
             <tr>
-              <td valign="top">Event notification<br>
+              <td vblign="top">Propfrtifs<br>
               </td>
-              <td valign="top">Provides standard JavaBeans event notifications
-  to registered event listeners. Refer to the documentation of <tt>javax.sql.RowSetEvent
-           </tt> interface (available in the JDBC 3.0 specification) for
-more  details on how  to register and handle standard RowSet events generated
-by  compliant implementations.<br>
-              </td>
-            </tr>
-            <tr>
-              <td valign="top">Setters for a RowSet object's command<br>
-              </td>
-              <td valign="top">Provides a complete set of setter methods
-                 for setting RowSet command parameters.<br>
+              <td vblign="top">Providfs stbndbrd JbvbBfbns propfrty mbnipulbtion
+  mfdibnisms to bllow bpplidbtions to gft bnd sft <dodf>RowSft</dodf> dommbnd bnd
+propfrty  vblufs. Rfffr to tif   dodumfntbtion of tif <tt>jbvbx.sql.RowSft</tt>
+intfrfbdf  (bvbilbblf in tif JDBC 3.0 spfdifidbtion) for morf dftbils on
+tif stbndbrd  <dodf>RowSft</dodf> propfrtifs.<br>
               </td>
             </tr>
             <tr>
-              <td valign="top">Streams<br>
+              <td vblign="top">Evfnt notifidbtion<br>
               </td>
-              <td valign="top">Provides fields for storing of stream instances
-  in addition to providing a set of constants for stream type designation.<br>
+              <td vblign="top">Providfs stbndbrd JbvbBfbns fvfnt notifidbtions
+  to rfgistfrfd fvfnt listfnfrs. Rfffr to tif dodumfntbtion of <tt>jbvbx.sql.RowSftEvfnt
+           </tt> intfrfbdf (bvbilbblf in tif JDBC 3.0 spfdifidbtion) for
+morf  dftbils on iow  to rfgistfr bnd ibndlf stbndbrd RowSft fvfnts gfnfrbtfd
+by  domplibnt implfmfntbtions.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Sfttfrs for b RowSft objfdt's dommbnd<br>
+              </td>
+              <td vblign="top">Providfs b domplftf sft of sfttfr mftiods
+                 for sftting RowSft dommbnd pbrbmftfrs.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Strfbms<br>
+              </td>
+              <td vblign="top">Providfs fiflds for storing of strfbm instbndfs
+  in bddition to providing b sft of donstbnts for strfbm typf dfsignbtion.<br>
               </td>
             </tr>
       </tbody>
-    </table>
-    </blockquote>
+    </tbblf>
+    </blodkquotf>
 
-<li><b>3.3 Connected RowSet Requirements</b>
+<li><b>3.3 Connfdtfd RowSft Rfquirfmfnts</b>
 <p>
-The <code>JdbcRowSet</code> describes a <code>RowSet</code> object that <b>must</b> always
-be connected to the originating data source. Implementations of the <code>JdbcRowSet</code>
-should ensure that this connection is provided solely by a JDBC driver. 
-Furthermore, <code>RowSet</code> objects that are implementations of the 
-<code>JdbcRowSet</code> interface and are therefore operating in a connected environment
-do not use the <code>SyncFactory</code> to obtain a <code>RowSetReader</code> object
-or a <code>RowSetWriter</code> object. They can safely rely on the JDBC driver to
-supply their needs by virtue of the presence of an underlying updatable and scrollable
-<code>ResultSet</code> implementation.
+Tif <dodf>JdbdRowSft</dodf> dfsdribfs b <dodf>RowSft</dodf> objfdt tibt <b>must</b> blwbys
+bf donnfdtfd to tif originbting dbtb sourdf. Implfmfntbtions of tif <dodf>JdbdRowSft</dodf>
+siould fnsurf tibt tiis donnfdtion is providfd solfly by b JDBC drivfr. 
+Furtifrmorf, <dodf>RowSft</dodf> objfdts tibt brf implfmfntbtions of tif 
+<dodf>JdbdRowSft</dodf> intfrfbdf bnd brf tifrfforf opfrbting in b donnfdtfd fnvironmfnt
+do not usf tif <dodf>SyndFbdtory</dodf> to obtbin b <dodf>RowSftRfbdfr</dodf> objfdt
+or b <dodf>RowSftWritfr</dodf> objfdt. Tify dbn sbffly rfly on tif JDBC drivfr to
+supply tifir nffds by virtuf of tif prfsfndf of bn undfrlying updbtbblf bnd sdrollbblf
+<dodf>RfsultSft</dodf> implfmfntbtion.
 
 <li>
-<b>3.4 Disconnected RowSet Requirements</b>
+<b>3.4 Disdonnfdtfd RowSft Rfquirfmfnts</b>
 <p> 
-A disconnected <code>RowSet</code> object, such as a <code>CachedRowSet</code> object, 
-<b>should</b> delegate  
-connection management to a <code>SyncProvider</code> object provided by the 
-<code>SyncFactory</code>. To ensure fully disconnected semantics, all 
-disconnected <code>RowSet</code> objects <b>must</b> ensure
-that the original connection made to the data source to populate the <code>RowSet</code> 
-object is closed to permit the garbage collector to recover and release resources. The
-<code>SyncProvider</code> object ensures that the critical JDBC properties are 
-maintained in order to re-establish a connection to the data source when a 
-synchronization is required. A disconnected <code>RowSet</code> object should 
-therefore ensure that no 
-extraneous references remain on the <code>Connection</code> object.
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt, sudi bs b <dodf>CbdifdRowSft</dodf> objfdt, 
+<b>siould</b> dflfgbtf  
+donnfdtion mbnbgfmfnt to b <dodf>SyndProvidfr</dodf> objfdt providfd by tif 
+<dodf>SyndFbdtory</dodf>. To fnsurf fully disdonnfdtfd sfmbntids, bll 
+disdonnfdtfd <dodf>RowSft</dodf> objfdts <b>must</b> fnsurf
+tibt tif originbl donnfdtion mbdf to tif dbtb sourdf to populbtf tif <dodf>RowSft</dodf> 
+objfdt is dlosfd to pfrmit tif gbrbbgf dollfdtor to rfdovfr bnd rflfbsf rfsourdfs. Tif
+<dodf>SyndProvidfr</dodf> objfdt fnsurfs tibt tif dritidbl JDBC propfrtifs brf 
+mbintbinfd in ordfr to rf-fstbblisi b donnfdtion to tif dbtb sourdf wifn b 
+syndironizbtion is rfquirfd. A disdonnfdtfd <dodf>RowSft</dodf> objfdt siould 
+tifrfforf fnsurf tibt no 
+fxtrbnfous rfffrfndfs rfmbin on tif <dodf>Connfdtion</dodf> objfdt.
 
-<li><b>3.5 Role of RowSetMetaDataImpl</b>
+<li><b>3.5 Rolf of RowSftMftbDbtbImpl</b>
 <p>
-The <code>RowsetMetaDataImpl</code> class is a utility class that provides an implementation of the
-<a href="../RowSetMetaData.html">RowSetMetaData</a> interface, supplying standard setter
-method implementations for metadata for both connected and disconnected 
-<code>RowSet</code> objects. All implementations are free to use this standard
-implementation but are not required to do so.
+Tif <dodf>RowsftMftbDbtbImpl</dodf> dlbss is b utility dlbss tibt providfs bn implfmfntbtion of tif
+<b irff="../RowSftMftbDbtb.itml">RowSftMftbDbtb</b> intfrfbdf, supplying stbndbrd sfttfr
+mftiod implfmfntbtions for mftbdbtb for boti donnfdtfd bnd disdonnfdtfd 
+<dodf>RowSft</dodf> objfdts. All implfmfntbtions brf frff to usf tiis stbndbrd
+implfmfntbtion but brf not rfquirfd to do so.
 
-<li><b>3.6 RowSetWarning Class</b>
+<li><b>3.6 RowSftWbrning Clbss</b>
 <p>
-The <code>RowSetWarning</code> class provides warnings that can be set
-on <code>RowSet</code> implementations.
-Similar to <a href="../../../java/sql/SQLWarning.html">SQLWarning</a> objects,
-<code>RowSetWarning</code>  objects are silently chained to the object whose method
-caused the warning to be thrown. All <code>RowSet</code> implementations <b>should</b>  
-ensure that this chaining occurs if a warning is generated and also ensure that the
-warnings are available via the <code>getRowSetWarnings</code> method defined in either
-the <code>JdbcRowSet</code> interface or the <code>CachedRowSet</code> interface. 
-After a warning has been retrieved with one of the
-<code>getRowSetWarnings</code> methods, the <code>RowSetWarning</code> method
-<code>getNextWarning</code> can be called on it to retrieve any warnings that might
-be chained on it.  If a warning is returned, <code>getNextWarning</code> can be called
-on it, and so on until there are no more warnings.
+Tif <dodf>RowSftWbrning</dodf> dlbss providfs wbrnings tibt dbn bf sft
+on <dodf>RowSft</dodf> implfmfntbtions.
+Similbr to <b irff="../../../jbvb/sql/SQLWbrning.itml">SQLWbrning</b> objfdts,
+<dodf>RowSftWbrning</dodf>  objfdts brf silfntly dibinfd to tif objfdt wiosf mftiod
+dbusfd tif wbrning to bf tirown. All <dodf>RowSft</dodf> implfmfntbtions <b>siould</b>  
+fnsurf tibt tiis dibining oddurs if b wbrning is gfnfrbtfd bnd blso fnsurf tibt tif
+wbrnings brf bvbilbblf vib tif <dodf>gftRowSftWbrnings</dodf> mftiod dffinfd in fitifr
+tif <dodf>JdbdRowSft</dodf> intfrfbdf or tif <dodf>CbdifdRowSft</dodf> intfrfbdf. 
+Aftfr b wbrning ibs bffn rftrifvfd witi onf of tif
+<dodf>gftRowSftWbrnings</dodf> mftiods, tif <dodf>RowSftWbrning</dodf> mftiod
+<dodf>gftNfxtWbrning</dodf> dbn bf dbllfd on it to rftrifvf bny wbrnings tibt migit
+bf dibinfd on it.  If b wbrning is rfturnfd, <dodf>gftNfxtWbrning</dodf> dbn bf dbllfd
+on it, bnd so on until tifrf brf no morf wbrnings.
 
-<li><b>3.7 The Joinable Interface</b>
+<li><b>3.7 Tif Joinbblf Intfrfbdf</b>
 <P>
-The <code>Joinable</code> interface provides both connected and disconnected 
-<code>RowSet</code> objects with the capability to be added to a 
-<code>JoinRowSet</code> object in an SQL <code>JOIN</code> operation.
-A <code>RowSet</code> object that has  implemented the <code>Joinable</code> 
-interface can set a match column, retrieve a match column, or unset a match column.
-A <code>JoinRowSet</code> object can then use the <code>RowSet</code> object's
-match column as a basis for adding the <code>RowSet</code> object.
+Tif <dodf>Joinbblf</dodf> intfrfbdf providfs boti donnfdtfd bnd disdonnfdtfd 
+<dodf>RowSft</dodf> objfdts witi tif dbpbbility to bf bddfd to b 
+<dodf>JoinRowSft</dodf> objfdt in bn SQL <dodf>JOIN</dodf> opfrbtion.
+A <dodf>RowSft</dodf> objfdt tibt ibs  implfmfntfd tif <dodf>Joinbblf</dodf> 
+intfrfbdf dbn sft b mbtdi dolumn, rftrifvf b mbtdi dolumn, or unsft b mbtdi dolumn.
+A <dodf>JoinRowSft</dodf> objfdt dbn tifn usf tif <dodf>RowSft</dodf> objfdt's
+mbtdi dolumn bs b bbsis for bdding tif <dodf>RowSft</dodf> objfdt.
 </li>
 
-<li><b>3.8 The RowSetFactory Interface</b>
+<li><b>3.8 Tif RowSftFbdtory Intfrfbdf</b>
     <p>
-        A <code>RowSetFactory</code> implementation <strong>must</strong>
-        be provided.
+        A <dodf>RowSftFbdtory</dodf> implfmfntbtion <strong>must</strong>
+        bf providfd.
 </li>
 </ul>
 
-<h3><a name="relspec">4.0 Related Specifications</a></h3>
+<i3><b nbmf="rflspfd">4.0 Rflbtfd Spfdifidbtions</b></i3>
 <ul>
-<li><a href="https://jcp.org/en/jsr/detail?id=221">JDBC 4.2 Specification</a>
-<li><a href="http://www.w3.org/XML/Schema">XML Schema</a>
+<li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+<li><b irff="ittp://www.w3.org/XML/Sdifmb">XML Sdifmb</b>
 </ul>
 
-<h3><a name="reldocs">5.0 Related Documentation</a></h3>
+<i3><b nbmf="rfldods">5.0 Rflbtfd Dodumfntbtion</b></i3>
 <ul>
-<li><a href="http://docs.oracle.com/javase/tutorial/jdbc/basics/rowset.html">
-JDBC RowSet Tutorial</a>      
+<li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/rowsft.itml">
+JDBC RowSft Tutoribl</b>      
 </ul>
 </body>
-</html>
+</itml>

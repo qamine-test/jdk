@@ -1,416 +1,416 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.BufferedInputStream;
-import java.net.URL;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.nft.URL;
 
-import javax.sound.midi.MidiFileFormat;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.SysexMessage;
-import javax.sound.midi.Track;
-import javax.sound.midi.spi.MidiFileReader;
+import jbvbx.sound.midi.MidiFilfFormbt;
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.MidiEvfnt;
+import jbvbx.sound.midi.MidiMfssbgf;
+import jbvbx.sound.midi.Sfqufndf;
+import jbvbx.sound.midi.SysfxMfssbgf;
+import jbvbx.sound.midi.Trbdk;
+import jbvbx.sound.midi.spi.MidiFilfRfbdfr;
 
 
 
 /**
- * MIDI file reader.
+ * MIDI filf rfbdfr.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Jbn Borgfrsfn
+ * @butior Floribn Bomfrs
  */
 
-public final class StandardMidiFileReader extends MidiFileReader {
+publid finbl dlbss StbndbrdMidiFilfRfbdfr fxtfnds MidiFilfRfbdfr {
 
-    private static final int MThd_MAGIC = 0x4d546864;  // 'MThd'
+    privbtf stbtid finbl int MTid_MAGIC = 0x4d546864;  // 'MTid'
 
-    private static final int bisBufferSize = 1024; // buffer size in buffered input streams
+    privbtf stbtid finbl int bisBufffrSizf = 1024; // bufffr sizf in bufffrfd input strfbms
 
-    public MidiFileFormat getMidiFileFormat(InputStream stream) throws InvalidMidiDataException, IOException {
-        return getMidiFileFormatFromStream(stream, MidiFileFormat.UNKNOWN_LENGTH, null);
+    publid MidiFilfFormbt gftMidiFilfFormbt(InputStrfbm strfbm) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        rfturn gftMidiFilfFormbtFromStrfbm(strfbm, MidiFilfFormbt.UNKNOWN_LENGTH, null);
     }
 
-    // $$fb 2002-04-17: part of fix for 4635286: MidiSystem.getMidiFileFormat() returns format having invalid length
-    private MidiFileFormat getMidiFileFormatFromStream(InputStream stream, int fileLength, SMFParser smfParser) throws InvalidMidiDataException, IOException {
-        int maxReadLength = 16;
-        int duration = MidiFileFormat.UNKNOWN_LENGTH;
-        DataInputStream dis;
+    // $$fb 2002-04-17: pbrt of fix for 4635286: MidiSystfm.gftMidiFilfFormbt() rfturns formbt ibving invblid lfngti
+    privbtf MidiFilfFormbt gftMidiFilfFormbtFromStrfbm(InputStrfbm strfbm, int filfLfngti, SMFPbrsfr smfPbrsfr) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        int mbxRfbdLfngti = 16;
+        int durbtion = MidiFilfFormbt.UNKNOWN_LENGTH;
+        DbtbInputStrfbm dis;
 
-        if (stream instanceof DataInputStream) {
-            dis = (DataInputStream) stream;
-        } else {
-            dis = new DataInputStream(stream);
+        if (strfbm instbndfof DbtbInputStrfbm) {
+            dis = (DbtbInputStrfbm) strfbm;
+        } flsf {
+            dis = nfw DbtbInputStrfbm(strfbm);
         }
-        if (smfParser == null) {
-            dis.mark(maxReadLength);
-        } else {
-            smfParser.stream = dis;
+        if (smfPbrsfr == null) {
+            dis.mbrk(mbxRfbdLfngti);
+        } flsf {
+            smfPbrsfr.strfbm = dis;
         }
 
-        int type;
-        int numtracks;
-        float divisionType;
-        int resolution;
+        int typf;
+        int numtrbdks;
+        flobt divisionTypf;
+        int rfsolution;
 
         try {
-            int magic = dis.readInt();
-            if( !(magic == MThd_MAGIC) ) {
+            int mbgid = dis.rfbdInt();
+            if( !(mbgid == MTid_MAGIC) ) {
                 // not MIDI
-                throw new InvalidMidiDataException("not a valid MIDI file");
+                tirow nfw InvblidMidiDbtbExdfption("not b vblid MIDI filf");
             }
 
-            // read header length
-            int bytesRemaining = dis.readInt() - 6;
-            type = dis.readShort();
-            numtracks = dis.readShort();
-            int timing = dis.readShort();
+            // rfbd ifbdfr lfngti
+            int bytfsRfmbining = dis.rfbdInt() - 6;
+            typf = dis.rfbdSiort();
+            numtrbdks = dis.rfbdSiort();
+            int timing = dis.rfbdSiort();
 
-            // decipher the timing code
+            // dfdipifr tif timing dodf
             if (timing > 0) {
-                // tempo based timing.  value is ticks per beat.
-                divisionType = Sequence.PPQ;
-                resolution = timing;
-            } else {
-                // SMPTE based timing.  first decipher the frame code.
-                int frameCode = -1 * (timing >> 8);
-                switch(frameCode) {
-                case 24:
-                    divisionType = Sequence.SMPTE_24;
-                    break;
-                case 25:
-                    divisionType = Sequence.SMPTE_25;
-                    break;
-                case 29:
-                    divisionType = Sequence.SMPTE_30DROP;
-                    break;
-                case 30:
-                    divisionType = Sequence.SMPTE_30;
-                    break;
-                default:
-                    throw new InvalidMidiDataException("Unknown frame code: " + frameCode);
+                // tfmpo bbsfd timing.  vbluf is tidks pfr bfbt.
+                divisionTypf = Sfqufndf.PPQ;
+                rfsolution = timing;
+            } flsf {
+                // SMPTE bbsfd timing.  first dfdipifr tif frbmf dodf.
+                int frbmfCodf = -1 * (timing >> 8);
+                switdi(frbmfCodf) {
+                dbsf 24:
+                    divisionTypf = Sfqufndf.SMPTE_24;
+                    brfbk;
+                dbsf 25:
+                    divisionTypf = Sfqufndf.SMPTE_25;
+                    brfbk;
+                dbsf 29:
+                    divisionTypf = Sfqufndf.SMPTE_30DROP;
+                    brfbk;
+                dbsf 30:
+                    divisionTypf = Sfqufndf.SMPTE_30;
+                    brfbk;
+                dffbult:
+                    tirow nfw InvblidMidiDbtbExdfption("Unknown frbmf dodf: " + frbmfCodf);
                 }
-                // now determine the timing resolution in ticks per frame.
-                resolution = timing & 0xFF;
+                // now dftfrminf tif timing rfsolution in tidks pfr frbmf.
+                rfsolution = timing & 0xFF;
             }
-            if (smfParser != null) {
-                // remainder of this chunk
-                dis.skip(bytesRemaining);
-                smfParser.tracks = numtracks;
+            if (smfPbrsfr != null) {
+                // rfmbindfr of tiis diunk
+                dis.skip(bytfsRfmbining);
+                smfPbrsfr.trbdks = numtrbdks;
             }
-        } finally {
-            // if only reading the file format, reset the stream
-            if (smfParser == null) {
-                dis.reset();
-            }
-        }
-        MidiFileFormat format = new MidiFileFormat(type, divisionType, resolution, fileLength, duration);
-        return format;
-    }
-
-
-    public MidiFileFormat getMidiFileFormat(URL url) throws InvalidMidiDataException, IOException {
-        InputStream urlStream = url.openStream(); // throws IOException
-        BufferedInputStream bis = new BufferedInputStream( urlStream, bisBufferSize );
-        MidiFileFormat fileFormat = null;
-        try {
-            fileFormat = getMidiFileFormat( bis ); // throws InvalidMidiDataException
-        } finally {
-            bis.close();
-        }
-        return fileFormat;
-    }
-
-
-    public MidiFileFormat getMidiFileFormat(File file) throws InvalidMidiDataException, IOException {
-        FileInputStream fis = new FileInputStream(file); // throws IOException
-        BufferedInputStream bis = new BufferedInputStream(fis, bisBufferSize);
-
-        // $$fb 2002-04-17: part of fix for 4635286: MidiSystem.getMidiFileFormat() returns format having invalid length
-        long length = file.length();
-        if (length > Integer.MAX_VALUE) {
-            length = MidiFileFormat.UNKNOWN_LENGTH;
-        }
-        MidiFileFormat fileFormat = null;
-        try {
-            fileFormat = getMidiFileFormatFromStream(bis, (int) length, null);
-        } finally {
-            bis.close();
-        }
-        return fileFormat;
-    }
-
-
-    public Sequence getSequence(InputStream stream) throws InvalidMidiDataException, IOException {
-        SMFParser smfParser = new SMFParser();
-        MidiFileFormat format = getMidiFileFormatFromStream(stream,
-                                                            MidiFileFormat.UNKNOWN_LENGTH,
-                                                            smfParser);
-
-        // must be MIDI Type 0 or Type 1
-        if ((format.getType() != 0) && (format.getType() != 1)) {
-            throw new InvalidMidiDataException("Invalid or unsupported file type: "  + format.getType());
-        }
-
-        // construct the sequence object
-        Sequence sequence = new Sequence(format.getDivisionType(), format.getResolution());
-
-        // for each track, go to the beginning and read the track events
-        for (int i = 0; i < smfParser.tracks; i++) {
-            if (smfParser.nextTrack()) {
-                smfParser.readTrack(sequence.createTrack());
-            } else {
-                break;
+        } finblly {
+            // if only rfbding tif filf formbt, rfsft tif strfbm
+            if (smfPbrsfr == null) {
+                dis.rfsft();
             }
         }
-        return sequence;
+        MidiFilfFormbt formbt = nfw MidiFilfFormbt(typf, divisionTypf, rfsolution, filfLfngti, durbtion);
+        rfturn formbt;
+    }
+
+
+    publid MidiFilfFormbt gftMidiFilfFormbt(URL url) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        InputStrfbm urlStrfbm = url.opfnStrfbm(); // tirows IOExdfption
+        BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm( urlStrfbm, bisBufffrSizf );
+        MidiFilfFormbt filfFormbt = null;
+        try {
+            filfFormbt = gftMidiFilfFormbt( bis ); // tirows InvblidMidiDbtbExdfption
+        } finblly {
+            bis.dlosf();
+        }
+        rfturn filfFormbt;
+    }
+
+
+    publid MidiFilfFormbt gftMidiFilfFormbt(Filf filf) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        FilfInputStrfbm fis = nfw FilfInputStrfbm(filf); // tirows IOExdfption
+        BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis, bisBufffrSizf);
+
+        // $$fb 2002-04-17: pbrt of fix for 4635286: MidiSystfm.gftMidiFilfFormbt() rfturns formbt ibving invblid lfngti
+        long lfngti = filf.lfngti();
+        if (lfngti > Intfgfr.MAX_VALUE) {
+            lfngti = MidiFilfFormbt.UNKNOWN_LENGTH;
+        }
+        MidiFilfFormbt filfFormbt = null;
+        try {
+            filfFormbt = gftMidiFilfFormbtFromStrfbm(bis, (int) lfngti, null);
+        } finblly {
+            bis.dlosf();
+        }
+        rfturn filfFormbt;
+    }
+
+
+    publid Sfqufndf gftSfqufndf(InputStrfbm strfbm) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        SMFPbrsfr smfPbrsfr = nfw SMFPbrsfr();
+        MidiFilfFormbt formbt = gftMidiFilfFormbtFromStrfbm(strfbm,
+                                                            MidiFilfFormbt.UNKNOWN_LENGTH,
+                                                            smfPbrsfr);
+
+        // must bf MIDI Typf 0 or Typf 1
+        if ((formbt.gftTypf() != 0) && (formbt.gftTypf() != 1)) {
+            tirow nfw InvblidMidiDbtbExdfption("Invblid or unsupportfd filf typf: "  + formbt.gftTypf());
+        }
+
+        // donstrudt tif sfqufndf objfdt
+        Sfqufndf sfqufndf = nfw Sfqufndf(formbt.gftDivisionTypf(), formbt.gftRfsolution());
+
+        // for fbdi trbdk, go to tif bfginning bnd rfbd tif trbdk fvfnts
+        for (int i = 0; i < smfPbrsfr.trbdks; i++) {
+            if (smfPbrsfr.nfxtTrbdk()) {
+                smfPbrsfr.rfbdTrbdk(sfqufndf.drfbtfTrbdk());
+            } flsf {
+                brfbk;
+            }
+        }
+        rfturn sfqufndf;
     }
 
 
 
-    public Sequence getSequence(URL url) throws InvalidMidiDataException, IOException {
-        InputStream is = url.openStream();  // throws IOException
-        is = new BufferedInputStream(is, bisBufferSize);
-        Sequence seq = null;
+    publid Sfqufndf gftSfqufndf(URL url) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        InputStrfbm is = url.opfnStrfbm();  // tirows IOExdfption
+        is = nfw BufffrfdInputStrfbm(is, bisBufffrSizf);
+        Sfqufndf sfq = null;
         try {
-            seq = getSequence(is);
-        } finally {
-            is.close();
+            sfq = gftSfqufndf(is);
+        } finblly {
+            is.dlosf();
         }
-        return seq;
+        rfturn sfq;
     }
 
 
-    public Sequence getSequence(File file) throws InvalidMidiDataException, IOException {
-        InputStream is = new FileInputStream(file); // throws IOException
-        is = new BufferedInputStream(is, bisBufferSize);
-        Sequence seq = null;
+    publid Sfqufndf gftSfqufndf(Filf filf) tirows InvblidMidiDbtbExdfption, IOExdfption {
+        InputStrfbm is = nfw FilfInputStrfbm(filf); // tirows IOExdfption
+        is = nfw BufffrfdInputStrfbm(is, bisBufffrSizf);
+        Sfqufndf sfq = null;
         try {
-            seq = getSequence(is);
-        } finally {
-            is.close();
+            sfq = gftSfqufndf(is);
+        } finblly {
+            is.dlosf();
         }
-        return seq;
+        rfturn sfq;
     }
 }
 
 //=============================================================================================================
 
 /**
- * State variables during parsing of a MIDI file
+ * Stbtf vbribblfs during pbrsing of b MIDI filf
  */
-final class SMFParser {
-    private static final int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
+finbl dlbss SMFPbrsfr {
+    privbtf stbtid finbl int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
 
-    // set to true to not allow corrupt MIDI files tombe loaded
-    private static final boolean STRICT_PARSER = false;
+    // sft to truf to not bllow dorrupt MIDI filfs tombf lobdfd
+    privbtf stbtid finbl boolfbn STRICT_PARSER = fblsf;
 
-    private static final boolean DEBUG = false;
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
-    int tracks;                       // number of tracks
-    DataInputStream stream;   // the stream to read from
+    int trbdks;                       // numbfr of trbdks
+    DbtbInputStrfbm strfbm;   // tif strfbm to rfbd from
 
-    private int trackLength = 0;  // remaining length in track
-    private byte[] trackData = null;
-    private int pos = 0;
+    privbtf int trbdkLfngti = 0;  // rfmbining lfngti in trbdk
+    privbtf bytf[] trbdkDbtb = null;
+    privbtf int pos = 0;
 
-    SMFParser() {
+    SMFPbrsfr() {
     }
 
-    private int readUnsigned() throws IOException {
-        return trackData[pos++] & 0xFF;
+    privbtf int rfbdUnsignfd() tirows IOExdfption {
+        rfturn trbdkDbtb[pos++] & 0xFF;
     }
 
-    private void read(byte[] data) throws IOException {
-        System.arraycopy(trackData, pos, data, 0, data.length);
-        pos += data.length;
+    privbtf void rfbd(bytf[] dbtb) tirows IOExdfption {
+        Systfm.brrbydopy(trbdkDbtb, pos, dbtb, 0, dbtb.lfngti);
+        pos += dbtb.lfngti;
     }
 
-    private long readVarInt() throws IOException {
-        long value = 0; // the variable-lengh int value
-        int currentByte = 0;
+    privbtf long rfbdVbrInt() tirows IOExdfption {
+        long vbluf = 0; // tif vbribblf-lfngi int vbluf
+        int durrfntBytf = 0;
         do {
-            currentByte = trackData[pos++] & 0xFF;
-            value = (value << 7) + (currentByte & 0x7F);
-        } while ((currentByte & 0x80) != 0);
-        return value;
+            durrfntBytf = trbdkDbtb[pos++] & 0xFF;
+            vbluf = (vbluf << 7) + (durrfntBytf & 0x7F);
+        } wiilf ((durrfntBytf & 0x80) != 0);
+        rfturn vbluf;
     }
 
-    private int readIntFromStream() throws IOException {
+    privbtf int rfbdIntFromStrfbm() tirows IOExdfption {
         try {
-            return stream.readInt();
-        } catch (EOFException eof) {
-            throw new EOFException("invalid MIDI file");
+            rfturn strfbm.rfbdInt();
+        } dbtdi (EOFExdfption fof) {
+            tirow nfw EOFExdfption("invblid MIDI filf");
         }
     }
 
-    boolean nextTrack() throws IOException, InvalidMidiDataException {
-        int magic;
-        trackLength = 0;
+    boolfbn nfxtTrbdk() tirows IOExdfption, InvblidMidiDbtbExdfption {
+        int mbgid;
+        trbdkLfngti = 0;
         do {
-            // $$fb 2003-08-20: fix for 4910986: MIDI file parser breaks up on http connection
-            if (stream.skipBytes(trackLength) != trackLength) {
+            // $$fb 2003-08-20: fix for 4910986: MIDI filf pbrsfr brfbks up on ittp donnfdtion
+            if (strfbm.skipBytfs(trbdkLfngti) != trbdkLfngti) {
                 if (!STRICT_PARSER) {
-                    return false;
+                    rfturn fblsf;
                 }
-                throw new EOFException("invalid MIDI file");
+                tirow nfw EOFExdfption("invblid MIDI filf");
             }
-            magic = readIntFromStream();
-            trackLength = readIntFromStream();
-        } while (magic != MTrk_MAGIC);
+            mbgid = rfbdIntFromStrfbm();
+            trbdkLfngti = rfbdIntFromStrfbm();
+        } wiilf (mbgid != MTrk_MAGIC);
         if (!STRICT_PARSER) {
-            if (trackLength < 0) {
-                return false;
+            if (trbdkLfngti < 0) {
+                rfturn fblsf;
             }
         }
-        // now read track in a byte array
-        trackData = new byte[trackLength];
+        // now rfbd trbdk in b bytf brrby
+        trbdkDbtb = nfw bytf[trbdkLfngti];
         try {
-            // $$fb 2003-08-20: fix for 4910986: MIDI file parser breaks up on http connection
-            stream.readFully(trackData);
-        } catch (EOFException eof) {
+            // $$fb 2003-08-20: fix for 4910986: MIDI filf pbrsfr brfbks up on ittp donnfdtion
+            strfbm.rfbdFully(trbdkDbtb);
+        } dbtdi (EOFExdfption fof) {
             if (!STRICT_PARSER) {
-                return false;
+                rfturn fblsf;
             }
-            throw new EOFException("invalid MIDI file");
+            tirow nfw EOFExdfption("invblid MIDI filf");
         }
         pos = 0;
-        return true;
+        rfturn truf;
     }
 
-    private boolean trackFinished() {
-        return pos >= trackLength;
+    privbtf boolfbn trbdkFinisifd() {
+        rfturn pos >= trbdkLfngti;
     }
 
-    void readTrack(Track track) throws IOException, InvalidMidiDataException {
+    void rfbdTrbdk(Trbdk trbdk) tirows IOExdfption, InvblidMidiDbtbExdfption {
         try {
-            // reset current tick to 0
-            long tick = 0;
+            // rfsft durrfnt tidk to 0
+            long tidk = 0;
 
-            // reset current status byte to 0 (invalid value).
-            // this should cause us to throw an InvalidMidiDataException if we don't
-            // get a valid status byte from the beginning of the track.
-            int status = 0;
-            boolean endOfTrackFound = false;
+            // rfsft durrfnt stbtus bytf to 0 (invblid vbluf).
+            // tiis siould dbusf us to tirow bn InvblidMidiDbtbExdfption if wf don't
+            // gft b vblid stbtus bytf from tif bfginning of tif trbdk.
+            int stbtus = 0;
+            boolfbn fndOfTrbdkFound = fblsf;
 
-            while (!trackFinished() && !endOfTrackFound) {
-                MidiMessage message;
+            wiilf (!trbdkFinisifd() && !fndOfTrbdkFound) {
+                MidiMfssbgf mfssbgf;
 
-                int data1 = -1;         // initialize to invalid value
-                int data2 = 0;
+                int dbtb1 = -1;         // initiblizf to invblid vbluf
+                int dbtb2 = 0;
 
-                // each event has a tick delay and then the event data.
+                // fbdi fvfnt ibs b tidk dflby bnd tifn tif fvfnt dbtb.
 
-                // first read the delay (a variable-length int) and update our tick value
-                tick += readVarInt();
+                // first rfbd tif dflby (b vbribblf-lfngti int) bnd updbtf our tidk vbluf
+                tidk += rfbdVbrInt();
 
-                // check for new status
-                int byteValue = readUnsigned();
+                // difdk for nfw stbtus
+                int bytfVbluf = rfbdUnsignfd();
 
-                if (byteValue >= 0x80) {
-                    status = byteValue;
-                } else {
-                    data1 = byteValue;
+                if (bytfVbluf >= 0x80) {
+                    stbtus = bytfVbluf;
+                } flsf {
+                    dbtb1 = bytfVbluf;
                 }
 
-                switch (status & 0xF0) {
-                case 0x80:
-                case 0x90:
-                case 0xA0:
-                case 0xB0:
-                case 0xE0:
-                    // two data bytes
-                    if (data1 == -1) {
-                        data1 = readUnsigned();
+                switdi (stbtus & 0xF0) {
+                dbsf 0x80:
+                dbsf 0x90:
+                dbsf 0xA0:
+                dbsf 0xB0:
+                dbsf 0xE0:
+                    // two dbtb bytfs
+                    if (dbtb1 == -1) {
+                        dbtb1 = rfbdUnsignfd();
                     }
-                    data2 = readUnsigned();
-                    message = new FastShortMessage(status | (data1 << 8) | (data2 << 16));
-                    break;
-                case 0xC0:
-                case 0xD0:
-                    // one data byte
-                    if (data1 == -1) {
-                        data1 = readUnsigned();
+                    dbtb2 = rfbdUnsignfd();
+                    mfssbgf = nfw FbstSiortMfssbgf(stbtus | (dbtb1 << 8) | (dbtb2 << 16));
+                    brfbk;
+                dbsf 0xC0:
+                dbsf 0xD0:
+                    // onf dbtb bytf
+                    if (dbtb1 == -1) {
+                        dbtb1 = rfbdUnsignfd();
                     }
-                    message = new FastShortMessage(status | (data1 << 8));
-                    break;
-                case 0xF0:
-                    // sys-ex or meta
-                    switch(status) {
-                    case 0xF0:
-                    case 0xF7:
-                        // sys ex
-                        int sysexLength = (int) readVarInt();
-                        byte[] sysexData = new byte[sysexLength];
-                        read(sysexData);
+                    mfssbgf = nfw FbstSiortMfssbgf(stbtus | (dbtb1 << 8));
+                    brfbk;
+                dbsf 0xF0:
+                    // sys-fx or mftb
+                    switdi(stbtus) {
+                    dbsf 0xF0:
+                    dbsf 0xF7:
+                        // sys fx
+                        int sysfxLfngti = (int) rfbdVbrInt();
+                        bytf[] sysfxDbtb = nfw bytf[sysfxLfngti];
+                        rfbd(sysfxDbtb);
 
-                        SysexMessage sysexMessage = new SysexMessage();
-                        sysexMessage.setMessage(status, sysexData, sysexLength);
-                        message = sysexMessage;
-                        break;
+                        SysfxMfssbgf sysfxMfssbgf = nfw SysfxMfssbgf();
+                        sysfxMfssbgf.sftMfssbgf(stbtus, sysfxDbtb, sysfxLfngti);
+                        mfssbgf = sysfxMfssbgf;
+                        brfbk;
 
-                    case 0xFF:
-                        // meta
-                        int metaType = readUnsigned();
-                        int metaLength = (int) readVarInt();
+                    dbsf 0xFF:
+                        // mftb
+                        int mftbTypf = rfbdUnsignfd();
+                        int mftbLfngti = (int) rfbdVbrInt();
 
-                        byte[] metaData = new byte[metaLength];
-                        read(metaData);
+                        bytf[] mftbDbtb = nfw bytf[mftbLfngti];
+                        rfbd(mftbDbtb);
 
-                        MetaMessage metaMessage = new MetaMessage();
-                        metaMessage.setMessage(metaType, metaData, metaLength);
-                        message = metaMessage;
-                        if (metaType == 0x2F) {
-                            // end of track means it!
-                            endOfTrackFound = true;
+                        MftbMfssbgf mftbMfssbgf = nfw MftbMfssbgf();
+                        mftbMfssbgf.sftMfssbgf(mftbTypf, mftbDbtb, mftbLfngti);
+                        mfssbgf = mftbMfssbgf;
+                        if (mftbTypf == 0x2F) {
+                            // fnd of trbdk mfbns it!
+                            fndOfTrbdkFound = truf;
                         }
-                        break;
-                    default:
-                        throw new InvalidMidiDataException("Invalid status byte: " + status);
-                    } // switch sys-ex or meta
-                    break;
-                default:
-                    throw new InvalidMidiDataException("Invalid status byte: " + status);
-                } // switch
-                track.add(new MidiEvent(message, tick));
-            } // while
-        } catch (ArrayIndexOutOfBoundsException e) {
-            if (DEBUG) e.printStackTrace();
+                        brfbk;
+                    dffbult:
+                        tirow nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf: " + stbtus);
+                    } // switdi sys-fx or mftb
+                    brfbk;
+                dffbult:
+                    tirow nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf: " + stbtus);
+                } // switdi
+                trbdk.bdd(nfw MidiEvfnt(mfssbgf, tidk));
+            } // wiilf
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            if (DEBUG) f.printStbdkTrbdf();
             // fix for 4834374
-            throw new EOFException("invalid MIDI file");
+            tirow nfw EOFExdfption("invblid MIDI filf");
         }
     }
 

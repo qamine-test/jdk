@@ -1,579 +1,579 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContfxt;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.UIDefaults;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.UIDffbults;
 
 /**
- * A distinct rendering area of a Swing component.  A component may
- * support one or more regions.  Specific component regions are defined
- * by the typesafe enumeration in this class.
+ * A distindt rfndfring brfb of b Swing domponfnt.  A domponfnt mby
+ * support onf or morf rfgions.  Spfdifid domponfnt rfgions brf dffinfd
+ * by tif typfsbff fnumfrbtion in tiis dlbss.
  * <p>
- * Regions are typically used as a way to identify the <code>Component</code>s
- * and areas a particular style is to apply to. Synth's file format allows you
- * to bind styles based on the name of a <code>Region</code>.
- * The name is derived from the field name of the constant:
+ * Rfgions brf typidblly usfd bs b wby to idfntify tif <dodf>Componfnt</dodf>s
+ * bnd brfbs b pbrtidulbr stylf is to bpply to. Synti's filf formbt bllows you
+ * to bind stylfs bbsfd on tif nbmf of b <dodf>Rfgion</dodf>.
+ * Tif nbmf is dfrivfd from tif fifld nbmf of tif donstbnt:
  * <ol>
- *  <li>Map all characters to lowercase.
- *  <li>Map the first character to uppercase.
- *  <li>Map the first character after underscores to uppercase.
- *  <li>Remove all underscores.
+ *  <li>Mbp bll dibrbdtfrs to lowfrdbsf.
+ *  <li>Mbp tif first dibrbdtfr to uppfrdbsf.
+ *  <li>Mbp tif first dibrbdtfr bftfr undfrsdorfs to uppfrdbsf.
+ *  <li>Rfmovf bll undfrsdorfs.
  * </ol>
- * For example, to identify the <code>SPLIT_PANE</code>
- * <code>Region</code> you would use <code>SplitPane</code>.
- * The following shows a custom <code>SynthStyleFactory</code>
- * that returns a specific style for split panes:
- * <pre>
- *    public SynthStyle getStyle(JComponent c, Region id) {
- *        if (id == Region.SPLIT_PANE) {
- *            return splitPaneStyle;
+ * For fxbmplf, to idfntify tif <dodf>SPLIT_PANE</dodf>
+ * <dodf>Rfgion</dodf> you would usf <dodf>SplitPbnf</dodf>.
+ * Tif following siows b dustom <dodf>SyntiStylfFbdtory</dodf>
+ * tibt rfturns b spfdifid stylf for split pbnfs:
+ * <prf>
+ *    publid SyntiStylf gftStylf(JComponfnt d, Rfgion id) {
+ *        if (id == Rfgion.SPLIT_PANE) {
+ *            rfturn splitPbnfStylf;
  *        }
  *        ...
  *    }
- * </pre>
- * The following <a href="doc-files/synthFileFormat.html">xml</a>
- * accomplishes the same thing:
- * <pre>
- * &lt;style id="splitPaneStyle"&gt;
+ * </prf>
+ * Tif following <b irff="dod-filfs/syntiFilfFormbt.itml">xml</b>
+ * bddomplisifs tif sbmf tiing:
+ * <prf>
+ * &lt;stylf id="splitPbnfStylf"&gt;
  *   ...
- * &lt;/style&gt;
- * &lt;bind style="splitPaneStyle" type="region" key="SplitPane"/&gt;
- * </pre>
+ * &lt;/stylf&gt;
+ * &lt;bind stylf="splitPbnfStylf" typf="rfgion" kfy="SplitPbnf"/&gt;
+ * </prf>
  *
- * @since 1.5
- * @author Scott Violet
+ * @sindf 1.5
+ * @butior Sdott Violft
  */
-public class Region {
-    private static final Object UI_TO_REGION_MAP_KEY = new Object();
-    private static final Object LOWER_CASE_NAME_MAP_KEY = new Object();
+publid dlbss Rfgion {
+    privbtf stbtid finbl Objfdt UI_TO_REGION_MAP_KEY = nfw Objfdt();
+    privbtf stbtid finbl Objfdt LOWER_CASE_NAME_MAP_KEY = nfw Objfdt();
 
     /**
-     * ArrowButton's are special types of buttons that also render a
-     * directional indicator, typically an arrow. ArrowButtons are used by
-     * composite components, for example ScrollBar's contain ArrowButtons.
-     * To bind a style to this <code>Region</code> use the name
-     * <code>ArrowButton</code>.
+     * ArrowButton's brf spfdibl typfs of buttons tibt blso rfndfr b
+     * dirfdtionbl indidbtor, typidblly bn brrow. ArrowButtons brf usfd by
+     * dompositf domponfnts, for fxbmplf SdrollBbr's dontbin ArrowButtons.
+     * To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>ArrowButton</dodf>.
      */
-    public static final Region ARROW_BUTTON = new Region("ArrowButton", false);
+    publid stbtid finbl Rfgion ARROW_BUTTON = nfw Rfgion("ArrowButton", fblsf);
 
     /**
-     * Button region. To bind a style to this <code>Region</code> use the name
-     * <code>Button</code>.
+     * Button rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Button</dodf>.
      */
-    public static final Region BUTTON = new Region("Button", false);
+    publid stbtid finbl Rfgion BUTTON = nfw Rfgion("Button", fblsf);
 
     /**
-     * CheckBox region. To bind a style to this <code>Region</code> use the name
-     * <code>CheckBox</code>.
+     * CifdkBox rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>CifdkBox</dodf>.
      */
-    public static final Region CHECK_BOX = new Region("CheckBox", false);
+    publid stbtid finbl Rfgion CHECK_BOX = nfw Rfgion("CifdkBox", fblsf);
 
     /**
-     * CheckBoxMenuItem region. To bind a style to this <code>Region</code> use
-     * the name <code>CheckBoxMenuItem</code>.
+     * CifdkBoxMfnuItfm rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>CifdkBoxMfnuItfm</dodf>.
      */
-    public static final Region CHECK_BOX_MENU_ITEM = new Region("CheckBoxMenuItem", false);
+    publid stbtid finbl Rfgion CHECK_BOX_MENU_ITEM = nfw Rfgion("CifdkBoxMfnuItfm", fblsf);
 
     /**
-     * ColorChooser region. To bind a style to this <code>Region</code> use
-     * the name <code>ColorChooser</code>.
+     * ColorCioosfr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>ColorCioosfr</dodf>.
      */
-    public static final Region COLOR_CHOOSER = new Region("ColorChooser", false);
+    publid stbtid finbl Rfgion COLOR_CHOOSER = nfw Rfgion("ColorCioosfr", fblsf);
 
     /**
-     * ComboBox region. To bind a style to this <code>Region</code> use
-     * the name <code>ComboBox</code>.
+     * ComboBox rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>ComboBox</dodf>.
      */
-    public static final Region COMBO_BOX = new Region("ComboBox", false);
+    publid stbtid finbl Rfgion COMBO_BOX = nfw Rfgion("ComboBox", fblsf);
 
     /**
-     * DesktopPane region. To bind a style to this <code>Region</code> use
-     * the name <code>DesktopPane</code>.
+     * DfsktopPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>DfsktopPbnf</dodf>.
      */
-    public static final Region DESKTOP_PANE = new Region("DesktopPane", false);
+    publid stbtid finbl Rfgion DESKTOP_PANE = nfw Rfgion("DfsktopPbnf", fblsf);
 
     /**
-     * DesktopIcon region. To bind a style to this <code>Region</code> use
-     * the name <code>DesktopIcon</code>.
+     * DfsktopIdon rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>DfsktopIdon</dodf>.
      */
-    public static final Region DESKTOP_ICON = new Region("DesktopIcon", false);
+    publid stbtid finbl Rfgion DESKTOP_ICON = nfw Rfgion("DfsktopIdon", fblsf);
 
     /**
-     * EditorPane region. To bind a style to this <code>Region</code> use
-     * the name <code>EditorPane</code>.
+     * EditorPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>EditorPbnf</dodf>.
      */
-    public static final Region EDITOR_PANE = new Region("EditorPane", false);
+    publid stbtid finbl Rfgion EDITOR_PANE = nfw Rfgion("EditorPbnf", fblsf);
 
     /**
-     * FileChooser region. To bind a style to this <code>Region</code> use
-     * the name <code>FileChooser</code>.
+     * FilfCioosfr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>FilfCioosfr</dodf>.
      */
-    public static final Region FILE_CHOOSER = new Region("FileChooser", false);
+    publid stbtid finbl Rfgion FILE_CHOOSER = nfw Rfgion("FilfCioosfr", fblsf);
 
     /**
-     * FormattedTextField region. To bind a style to this <code>Region</code> use
-     * the name <code>FormattedTextField</code>.
+     * FormbttfdTfxtFifld rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>FormbttfdTfxtFifld</dodf>.
      */
-    public static final Region FORMATTED_TEXT_FIELD = new Region("FormattedTextField", false);
+    publid stbtid finbl Rfgion FORMATTED_TEXT_FIELD = nfw Rfgion("FormbttfdTfxtFifld", fblsf);
 
     /**
-     * InternalFrame region. To bind a style to this <code>Region</code> use
-     * the name <code>InternalFrame</code>.
+     * IntfrnblFrbmf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>IntfrnblFrbmf</dodf>.
      */
-    public static final Region INTERNAL_FRAME = new Region("InternalFrame", false);
+    publid stbtid finbl Rfgion INTERNAL_FRAME = nfw Rfgion("IntfrnblFrbmf", fblsf);
 
     /**
-     * TitlePane of an InternalFrame. The TitlePane typically
-     * shows a menu, title, widgets to manipulate the internal frame.
-     * To bind a style to this <code>Region</code> use the name
-     * <code>InternalFrameTitlePane</code>.
+     * TitlfPbnf of bn IntfrnblFrbmf. Tif TitlfPbnf typidblly
+     * siows b mfnu, titlf, widgfts to mbnipulbtf tif intfrnbl frbmf.
+     * To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>IntfrnblFrbmfTitlfPbnf</dodf>.
      */
-    public static final Region INTERNAL_FRAME_TITLE_PANE = new Region("InternalFrameTitlePane", false);
+    publid stbtid finbl Rfgion INTERNAL_FRAME_TITLE_PANE = nfw Rfgion("IntfrnblFrbmfTitlfPbnf", fblsf);
 
     /**
-     * Label region. To bind a style to this <code>Region</code> use the name
-     * <code>Label</code>.
+     * Lbbfl rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Lbbfl</dodf>.
      */
-    public static final Region LABEL = new Region("Label", false);
+    publid stbtid finbl Rfgion LABEL = nfw Rfgion("Lbbfl", fblsf);
 
     /**
-     * List region. To bind a style to this <code>Region</code> use the name
-     * <code>List</code>.
+     * List rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>List</dodf>.
      */
-    public static final Region LIST = new Region("List", false);
+    publid stbtid finbl Rfgion LIST = nfw Rfgion("List", fblsf);
 
     /**
-     * Menu region. To bind a style to this <code>Region</code> use the name
-     * <code>Menu</code>.
+     * Mfnu rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Mfnu</dodf>.
      */
-    public static final Region MENU = new Region("Menu", false);
+    publid stbtid finbl Rfgion MENU = nfw Rfgion("Mfnu", fblsf);
 
     /**
-     * MenuBar region. To bind a style to this <code>Region</code> use the name
-     * <code>MenuBar</code>.
+     * MfnuBbr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>MfnuBbr</dodf>.
      */
-    public static final Region MENU_BAR = new Region("MenuBar", false);
+    publid stbtid finbl Rfgion MENU_BAR = nfw Rfgion("MfnuBbr", fblsf);
 
     /**
-     * MenuItem region. To bind a style to this <code>Region</code> use the name
-     * <code>MenuItem</code>.
+     * MfnuItfm rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>MfnuItfm</dodf>.
      */
-    public static final Region MENU_ITEM = new Region("MenuItem", false);
+    publid stbtid finbl Rfgion MENU_ITEM = nfw Rfgion("MfnuItfm", fblsf);
 
     /**
-     * Accelerator region of a MenuItem. To bind a style to this
-     * <code>Region</code> use the name <code>MenuItemAccelerator</code>.
+     * Addflfrbtor rfgion of b MfnuItfm. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>MfnuItfmAddflfrbtor</dodf>.
      */
-    public static final Region MENU_ITEM_ACCELERATOR = new Region("MenuItemAccelerator", true);
+    publid stbtid finbl Rfgion MENU_ITEM_ACCELERATOR = nfw Rfgion("MfnuItfmAddflfrbtor", truf);
 
     /**
-     * OptionPane region. To bind a style to this <code>Region</code> use
-     * the name <code>OptionPane</code>.
+     * OptionPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>OptionPbnf</dodf>.
      */
-    public static final Region OPTION_PANE = new Region("OptionPane", false);
+    publid stbtid finbl Rfgion OPTION_PANE = nfw Rfgion("OptionPbnf", fblsf);
 
     /**
-     * Panel region. To bind a style to this <code>Region</code> use the name
-     * <code>Panel</code>.
+     * Pbnfl rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Pbnfl</dodf>.
      */
-    public static final Region PANEL = new Region("Panel", false);
+    publid stbtid finbl Rfgion PANEL = nfw Rfgion("Pbnfl", fblsf);
 
     /**
-     * PasswordField region. To bind a style to this <code>Region</code> use
-     * the name <code>PasswordField</code>.
+     * PbsswordFifld rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>PbsswordFifld</dodf>.
      */
-    public static final Region PASSWORD_FIELD = new Region("PasswordField", false);
+    publid stbtid finbl Rfgion PASSWORD_FIELD = nfw Rfgion("PbsswordFifld", fblsf);
 
     /**
-     * PopupMenu region. To bind a style to this <code>Region</code> use
-     * the name <code>PopupMenu</code>.
+     * PopupMfnu rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>PopupMfnu</dodf>.
      */
-    public static final Region POPUP_MENU = new Region("PopupMenu", false);
+    publid stbtid finbl Rfgion POPUP_MENU = nfw Rfgion("PopupMfnu", fblsf);
 
     /**
-     * PopupMenuSeparator region. To bind a style to this <code>Region</code>
-     * use the name <code>PopupMenuSeparator</code>.
+     * PopupMfnuSfpbrbtor rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf>
+     * usf tif nbmf <dodf>PopupMfnuSfpbrbtor</dodf>.
      */
-    public static final Region POPUP_MENU_SEPARATOR = new Region("PopupMenuSeparator", false);
+    publid stbtid finbl Rfgion POPUP_MENU_SEPARATOR = nfw Rfgion("PopupMfnuSfpbrbtor", fblsf);
 
     /**
-     * ProgressBar region. To bind a style to this <code>Region</code>
-     * use the name <code>ProgressBar</code>.
+     * ProgrfssBbr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf>
+     * usf tif nbmf <dodf>ProgrfssBbr</dodf>.
      */
-    public static final Region PROGRESS_BAR = new Region("ProgressBar", false);
+    publid stbtid finbl Rfgion PROGRESS_BAR = nfw Rfgion("ProgrfssBbr", fblsf);
 
     /**
-     * RadioButton region. To bind a style to this <code>Region</code>
-     * use the name <code>RadioButton</code>.
+     * RbdioButton rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf>
+     * usf tif nbmf <dodf>RbdioButton</dodf>.
      */
-    public static final Region RADIO_BUTTON = new Region("RadioButton", false);
+    publid stbtid finbl Rfgion RADIO_BUTTON = nfw Rfgion("RbdioButton", fblsf);
 
     /**
-     * RegionButtonMenuItem region. To bind a style to this <code>Region</code>
-     * use the name <code>RadioButtonMenuItem</code>.
+     * RfgionButtonMfnuItfm rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf>
+     * usf tif nbmf <dodf>RbdioButtonMfnuItfm</dodf>.
      */
-    public static final Region RADIO_BUTTON_MENU_ITEM = new Region("RadioButtonMenuItem", false);
+    publid stbtid finbl Rfgion RADIO_BUTTON_MENU_ITEM = nfw Rfgion("RbdioButtonMfnuItfm", fblsf);
 
     /**
-     * RootPane region. To bind a style to this <code>Region</code> use
-     * the name <code>RootPane</code>.
+     * RootPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>RootPbnf</dodf>.
      */
-    public static final Region ROOT_PANE = new Region("RootPane", false);
+    publid stbtid finbl Rfgion ROOT_PANE = nfw Rfgion("RootPbnf", fblsf);
 
     /**
-     * ScrollBar region. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBar</code>.
+     * SdrollBbr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>SdrollBbr</dodf>.
      */
-    public static final Region SCROLL_BAR = new Region("ScrollBar", false);
+    publid stbtid finbl Rfgion SCROLL_BAR = nfw Rfgion("SdrollBbr", fblsf);
 
     /**
-     * Track of the ScrollBar. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBarTrack</code>.
+     * Trbdk of tif SdrollBbr. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>SdrollBbrTrbdk</dodf>.
      */
-    public static final Region SCROLL_BAR_TRACK = new Region("ScrollBarTrack", true);
+    publid stbtid finbl Rfgion SCROLL_BAR_TRACK = nfw Rfgion("SdrollBbrTrbdk", truf);
 
     /**
-     * Thumb of the ScrollBar. The thumb is the region of the ScrollBar
-     * that gives a graphical depiction of what percentage of the View is
-     * currently visible. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBarThumb</code>.
+     * Tiumb of tif SdrollBbr. Tif tiumb is tif rfgion of tif SdrollBbr
+     * tibt givfs b grbpiidbl dfpidtion of wibt pfrdfntbgf of tif Vifw is
+     * durrfntly visiblf. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>SdrollBbrTiumb</dodf>.
      */
-    public static final Region SCROLL_BAR_THUMB = new Region("ScrollBarThumb", true);
+    publid stbtid finbl Rfgion SCROLL_BAR_THUMB = nfw Rfgion("SdrollBbrTiumb", truf);
 
     /**
-     * ScrollPane region. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollPane</code>.
+     * SdrollPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>SdrollPbnf</dodf>.
      */
-    public static final Region SCROLL_PANE = new Region("ScrollPane", false);
+    publid stbtid finbl Rfgion SCROLL_PANE = nfw Rfgion("SdrollPbnf", fblsf);
 
     /**
-     * Separator region. To bind a style to this <code>Region</code> use
-     * the name <code>Separator</code>.
+     * Sfpbrbtor rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>Sfpbrbtor</dodf>.
      */
-    public static final Region SEPARATOR = new Region("Separator", false);
+    publid stbtid finbl Rfgion SEPARATOR = nfw Rfgion("Sfpbrbtor", fblsf);
 
     /**
-     * Slider region. To bind a style to this <code>Region</code> use
-     * the name <code>Slider</code>.
+     * Slidfr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>Slidfr</dodf>.
      */
-    public static final Region SLIDER = new Region("Slider", false);
+    publid stbtid finbl Rfgion SLIDER = nfw Rfgion("Slidfr", fblsf);
 
     /**
-     * Track of the Slider. To bind a style to this <code>Region</code> use
-     * the name <code>SliderTrack</code>.
+     * Trbdk of tif Slidfr. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>SlidfrTrbdk</dodf>.
      */
-    public static final Region SLIDER_TRACK = new Region("SliderTrack", true);
+    publid stbtid finbl Rfgion SLIDER_TRACK = nfw Rfgion("SlidfrTrbdk", truf);
 
     /**
-     * Thumb of the Slider. The thumb of the Slider identifies the current
-     * value. To bind a style to this <code>Region</code> use the name
-     * <code>SliderThumb</code>.
+     * Tiumb of tif Slidfr. Tif tiumb of tif Slidfr idfntififs tif durrfnt
+     * vbluf. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>SlidfrTiumb</dodf>.
      */
-    public static final Region SLIDER_THUMB = new Region("SliderThumb", true);
+    publid stbtid finbl Rfgion SLIDER_THUMB = nfw Rfgion("SlidfrTiumb", truf);
 
     /**
-     * Spinner region. To bind a style to this <code>Region</code> use the name
-     * <code>Spinner</code>.
+     * Spinnfr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Spinnfr</dodf>.
      */
-    public static final Region SPINNER = new Region("Spinner", false);
+    publid stbtid finbl Rfgion SPINNER = nfw Rfgion("Spinnfr", fblsf);
 
     /**
-     * SplitPane region. To bind a style to this <code>Region</code> use the name
-     * <code>SplitPane</code>.
+     * SplitPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>SplitPbnf</dodf>.
      */
-    public static final Region SPLIT_PANE = new Region("SplitPane", false);
+    publid stbtid finbl Rfgion SPLIT_PANE = nfw Rfgion("SplitPbnf", fblsf);
 
     /**
-     * Divider of the SplitPane. To bind a style to this <code>Region</code>
-     * use the name <code>SplitPaneDivider</code>.
+     * Dividfr of tif SplitPbnf. To bind b stylf to tiis <dodf>Rfgion</dodf>
+     * usf tif nbmf <dodf>SplitPbnfDividfr</dodf>.
      */
-    public static final Region SPLIT_PANE_DIVIDER = new Region("SplitPaneDivider", true);
+    publid stbtid finbl Rfgion SPLIT_PANE_DIVIDER = nfw Rfgion("SplitPbnfDividfr", truf);
 
     /**
-     * TabbedPane region. To bind a style to this <code>Region</code> use
-     * the name <code>TabbedPane</code>.
+     * TbbbfdPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TbbbfdPbnf</dodf>.
      */
-    public static final Region TABBED_PANE = new Region("TabbedPane", false);
+    publid stbtid finbl Rfgion TABBED_PANE = nfw Rfgion("TbbbfdPbnf", fblsf);
 
     /**
-     * Region of a TabbedPane for one tab. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneTab</code>.
+     * Rfgion of b TbbbfdPbnf for onf tbb. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>TbbbfdPbnfTbb</dodf>.
      */
-    public static final Region TABBED_PANE_TAB = new Region("TabbedPaneTab", true);
+    publid stbtid finbl Rfgion TABBED_PANE_TAB = nfw Rfgion("TbbbfdPbnfTbb", truf);
 
     /**
-     * Region of a TabbedPane containing the tabs. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneTabArea</code>.
+     * Rfgion of b TbbbfdPbnf dontbining tif tbbs. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>TbbbfdPbnfTbbArfb</dodf>.
      */
-    public static final Region TABBED_PANE_TAB_AREA = new Region("TabbedPaneTabArea", true);
+    publid stbtid finbl Rfgion TABBED_PANE_TAB_AREA = nfw Rfgion("TbbbfdPbnfTbbArfb", truf);
 
     /**
-     * Region of a TabbedPane containing the content. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneContent</code>.
+     * Rfgion of b TbbbfdPbnf dontbining tif dontfnt. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>TbbbfdPbnfContfnt</dodf>.
      */
-    public static final Region TABBED_PANE_CONTENT = new Region("TabbedPaneContent", true);
+    publid stbtid finbl Rfgion TABBED_PANE_CONTENT = nfw Rfgion("TbbbfdPbnfContfnt", truf);
 
     /**
-     * Table region. To bind a style to this <code>Region</code> use
-     * the name <code>Table</code>.
+     * Tbblf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>Tbblf</dodf>.
      */
-    public static final Region TABLE = new Region("Table", false);
+    publid stbtid finbl Rfgion TABLE = nfw Rfgion("Tbblf", fblsf);
 
     /**
-     * TableHeader region. To bind a style to this <code>Region</code> use
-     * the name <code>TableHeader</code>.
+     * TbblfHfbdfr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TbblfHfbdfr</dodf>.
      */
-    public static final Region TABLE_HEADER = new Region("TableHeader", false);
+    publid stbtid finbl Rfgion TABLE_HEADER = nfw Rfgion("TbblfHfbdfr", fblsf);
 
     /**
-     * TextArea region. To bind a style to this <code>Region</code> use
-     * the name <code>TextArea</code>.
+     * TfxtArfb rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TfxtArfb</dodf>.
      */
-    public static final Region TEXT_AREA = new Region("TextArea", false);
+    publid stbtid finbl Rfgion TEXT_AREA = nfw Rfgion("TfxtArfb", fblsf);
 
     /**
-     * TextField region. To bind a style to this <code>Region</code> use
-     * the name <code>TextField</code>.
+     * TfxtFifld rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TfxtFifld</dodf>.
      */
-    public static final Region TEXT_FIELD = new Region("TextField", false);
+    publid stbtid finbl Rfgion TEXT_FIELD = nfw Rfgion("TfxtFifld", fblsf);
 
     /**
-     * TextPane region. To bind a style to this <code>Region</code> use
-     * the name <code>TextPane</code>.
+     * TfxtPbnf rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TfxtPbnf</dodf>.
      */
-    public static final Region TEXT_PANE = new Region("TextPane", false);
+    publid stbtid finbl Rfgion TEXT_PANE = nfw Rfgion("TfxtPbnf", fblsf);
 
     /**
-     * ToggleButton region. To bind a style to this <code>Region</code> use
-     * the name <code>ToggleButton</code>.
+     * TogglfButton rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>TogglfButton</dodf>.
      */
-    public static final Region TOGGLE_BUTTON = new Region("ToggleButton", false);
+    publid stbtid finbl Rfgion TOGGLE_BUTTON = nfw Rfgion("TogglfButton", fblsf);
 
     /**
-     * ToolBar region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolBar</code>.
+     * ToolBbr rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>ToolBbr</dodf>.
      */
-    public static final Region TOOL_BAR = new Region("ToolBar", false);
+    publid stbtid finbl Rfgion TOOL_BAR = nfw Rfgion("ToolBbr", fblsf);
 
     /**
-     * Region of the ToolBar containing the content. To bind a style to this
-     * <code>Region</code> use the name <code>ToolBarContent</code>.
+     * Rfgion of tif ToolBbr dontbining tif dontfnt. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>ToolBbrContfnt</dodf>.
      */
-    public static final Region TOOL_BAR_CONTENT = new Region("ToolBarContent", true);
+    publid stbtid finbl Rfgion TOOL_BAR_CONTENT = nfw Rfgion("ToolBbrContfnt", truf);
 
     /**
-     * Region for the Window containing the ToolBar. To bind a style to this
-     * <code>Region</code> use the name <code>ToolBarDragWindow</code>.
+     * Rfgion for tif Window dontbining tif ToolBbr. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>ToolBbrDrbgWindow</dodf>.
      */
-    public static final Region TOOL_BAR_DRAG_WINDOW = new Region("ToolBarDragWindow", false);
+    publid stbtid finbl Rfgion TOOL_BAR_DRAG_WINDOW = nfw Rfgion("ToolBbrDrbgWindow", fblsf);
 
     /**
-     * ToolTip region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolTip</code>.
+     * ToolTip rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>ToolTip</dodf>.
      */
-    public static final Region TOOL_TIP = new Region("ToolTip", false);
+    publid stbtid finbl Rfgion TOOL_TIP = nfw Rfgion("ToolTip", fblsf);
 
     /**
-     * ToolBar separator region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolBarSeparator</code>.
+     * ToolBbr sfpbrbtor rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>ToolBbrSfpbrbtor</dodf>.
      */
-    public static final Region TOOL_BAR_SEPARATOR = new Region("ToolBarSeparator", false);
+    publid stbtid finbl Rfgion TOOL_BAR_SEPARATOR = nfw Rfgion("ToolBbrSfpbrbtor", fblsf);
 
     /**
-     * Tree region. To bind a style to this <code>Region</code> use the name
-     * <code>Tree</code>.
+     * Trff rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf tif nbmf
+     * <dodf>Trff</dodf>.
      */
-    public static final Region TREE = new Region("Tree", false);
+    publid stbtid finbl Rfgion TREE = nfw Rfgion("Trff", fblsf);
 
     /**
-     * Region of the Tree for one cell. To bind a style to this
-     * <code>Region</code> use the name <code>TreeCell</code>.
+     * Rfgion of tif Trff for onf dfll. To bind b stylf to tiis
+     * <dodf>Rfgion</dodf> usf tif nbmf <dodf>TrffCfll</dodf>.
      */
-    public static final Region TREE_CELL = new Region("TreeCell", true);
+    publid stbtid finbl Rfgion TREE_CELL = nfw Rfgion("TrffCfll", truf);
 
     /**
-     * Viewport region. To bind a style to this <code>Region</code> use
-     * the name <code>Viewport</code>.
+     * Vifwport rfgion. To bind b stylf to tiis <dodf>Rfgion</dodf> usf
+     * tif nbmf <dodf>Vifwport</dodf>.
      */
-    public static final Region VIEWPORT = new Region("Viewport", false);
+    publid stbtid finbl Rfgion VIEWPORT = nfw Rfgion("Vifwport", fblsf);
 
-    private static Map<String, Region> getUItoRegionMap() {
-        AppContext context = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        Map<String, Region> map = (Map<String, Region>) context.get(UI_TO_REGION_MAP_KEY);
-        if (map == null) {
-            map = new HashMap<String, Region>();
-            map.put("ArrowButtonUI", ARROW_BUTTON);
-            map.put("ButtonUI", BUTTON);
-            map.put("CheckBoxUI", CHECK_BOX);
-            map.put("CheckBoxMenuItemUI", CHECK_BOX_MENU_ITEM);
-            map.put("ColorChooserUI", COLOR_CHOOSER);
-            map.put("ComboBoxUI", COMBO_BOX);
-            map.put("DesktopPaneUI", DESKTOP_PANE);
-            map.put("DesktopIconUI", DESKTOP_ICON);
-            map.put("EditorPaneUI", EDITOR_PANE);
-            map.put("FileChooserUI", FILE_CHOOSER);
-            map.put("FormattedTextFieldUI", FORMATTED_TEXT_FIELD);
-            map.put("InternalFrameUI", INTERNAL_FRAME);
-            map.put("InternalFrameTitlePaneUI", INTERNAL_FRAME_TITLE_PANE);
-            map.put("LabelUI", LABEL);
-            map.put("ListUI", LIST);
-            map.put("MenuUI", MENU);
-            map.put("MenuBarUI", MENU_BAR);
-            map.put("MenuItemUI", MENU_ITEM);
-            map.put("OptionPaneUI", OPTION_PANE);
-            map.put("PanelUI", PANEL);
-            map.put("PasswordFieldUI", PASSWORD_FIELD);
-            map.put("PopupMenuUI", POPUP_MENU);
-            map.put("PopupMenuSeparatorUI", POPUP_MENU_SEPARATOR);
-            map.put("ProgressBarUI", PROGRESS_BAR);
-            map.put("RadioButtonUI", RADIO_BUTTON);
-            map.put("RadioButtonMenuItemUI", RADIO_BUTTON_MENU_ITEM);
-            map.put("RootPaneUI", ROOT_PANE);
-            map.put("ScrollBarUI", SCROLL_BAR);
-            map.put("ScrollPaneUI", SCROLL_PANE);
-            map.put("SeparatorUI", SEPARATOR);
-            map.put("SliderUI", SLIDER);
-            map.put("SpinnerUI", SPINNER);
-            map.put("SplitPaneUI", SPLIT_PANE);
-            map.put("TabbedPaneUI", TABBED_PANE);
-            map.put("TableUI", TABLE);
-            map.put("TableHeaderUI", TABLE_HEADER);
-            map.put("TextAreaUI", TEXT_AREA);
-            map.put("TextFieldUI", TEXT_FIELD);
-            map.put("TextPaneUI", TEXT_PANE);
-            map.put("ToggleButtonUI", TOGGLE_BUTTON);
-            map.put("ToolBarUI", TOOL_BAR);
-            map.put("ToolTipUI", TOOL_TIP);
-            map.put("ToolBarSeparatorUI", TOOL_BAR_SEPARATOR);
-            map.put("TreeUI", TREE);
-            map.put("ViewportUI", VIEWPORT);
-            context.put(UI_TO_REGION_MAP_KEY, map);
+    privbtf stbtid Mbp<String, Rfgion> gftUItoRfgionMbp() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        @SupprfssWbrnings("undifdkfd")
+        Mbp<String, Rfgion> mbp = (Mbp<String, Rfgion>) dontfxt.gft(UI_TO_REGION_MAP_KEY);
+        if (mbp == null) {
+            mbp = nfw HbsiMbp<String, Rfgion>();
+            mbp.put("ArrowButtonUI", ARROW_BUTTON);
+            mbp.put("ButtonUI", BUTTON);
+            mbp.put("CifdkBoxUI", CHECK_BOX);
+            mbp.put("CifdkBoxMfnuItfmUI", CHECK_BOX_MENU_ITEM);
+            mbp.put("ColorCioosfrUI", COLOR_CHOOSER);
+            mbp.put("ComboBoxUI", COMBO_BOX);
+            mbp.put("DfsktopPbnfUI", DESKTOP_PANE);
+            mbp.put("DfsktopIdonUI", DESKTOP_ICON);
+            mbp.put("EditorPbnfUI", EDITOR_PANE);
+            mbp.put("FilfCioosfrUI", FILE_CHOOSER);
+            mbp.put("FormbttfdTfxtFifldUI", FORMATTED_TEXT_FIELD);
+            mbp.put("IntfrnblFrbmfUI", INTERNAL_FRAME);
+            mbp.put("IntfrnblFrbmfTitlfPbnfUI", INTERNAL_FRAME_TITLE_PANE);
+            mbp.put("LbbflUI", LABEL);
+            mbp.put("ListUI", LIST);
+            mbp.put("MfnuUI", MENU);
+            mbp.put("MfnuBbrUI", MENU_BAR);
+            mbp.put("MfnuItfmUI", MENU_ITEM);
+            mbp.put("OptionPbnfUI", OPTION_PANE);
+            mbp.put("PbnflUI", PANEL);
+            mbp.put("PbsswordFifldUI", PASSWORD_FIELD);
+            mbp.put("PopupMfnuUI", POPUP_MENU);
+            mbp.put("PopupMfnuSfpbrbtorUI", POPUP_MENU_SEPARATOR);
+            mbp.put("ProgrfssBbrUI", PROGRESS_BAR);
+            mbp.put("RbdioButtonUI", RADIO_BUTTON);
+            mbp.put("RbdioButtonMfnuItfmUI", RADIO_BUTTON_MENU_ITEM);
+            mbp.put("RootPbnfUI", ROOT_PANE);
+            mbp.put("SdrollBbrUI", SCROLL_BAR);
+            mbp.put("SdrollPbnfUI", SCROLL_PANE);
+            mbp.put("SfpbrbtorUI", SEPARATOR);
+            mbp.put("SlidfrUI", SLIDER);
+            mbp.put("SpinnfrUI", SPINNER);
+            mbp.put("SplitPbnfUI", SPLIT_PANE);
+            mbp.put("TbbbfdPbnfUI", TABBED_PANE);
+            mbp.put("TbblfUI", TABLE);
+            mbp.put("TbblfHfbdfrUI", TABLE_HEADER);
+            mbp.put("TfxtArfbUI", TEXT_AREA);
+            mbp.put("TfxtFifldUI", TEXT_FIELD);
+            mbp.put("TfxtPbnfUI", TEXT_PANE);
+            mbp.put("TogglfButtonUI", TOGGLE_BUTTON);
+            mbp.put("ToolBbrUI", TOOL_BAR);
+            mbp.put("ToolTipUI", TOOL_TIP);
+            mbp.put("ToolBbrSfpbrbtorUI", TOOL_BAR_SEPARATOR);
+            mbp.put("TrffUI", TREE);
+            mbp.put("VifwportUI", VIEWPORT);
+            dontfxt.put(UI_TO_REGION_MAP_KEY, mbp);
         }
-        return map;
+        rfturn mbp;
     }
 
-    private static Map<Region, String> getLowerCaseNameMap() {
-        AppContext context = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        Map<Region, String> map = (Map<Region, String>) context.get(LOWER_CASE_NAME_MAP_KEY);
-        if (map == null) {
-            map = new HashMap<Region, String>();
-            context.put(LOWER_CASE_NAME_MAP_KEY, map);
+    privbtf stbtid Mbp<Rfgion, String> gftLowfrCbsfNbmfMbp() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        @SupprfssWbrnings("undifdkfd")
+        Mbp<Rfgion, String> mbp = (Mbp<Rfgion, String>) dontfxt.gft(LOWER_CASE_NAME_MAP_KEY);
+        if (mbp == null) {
+            mbp = nfw HbsiMbp<Rfgion, String>();
+            dontfxt.put(LOWER_CASE_NAME_MAP_KEY, mbp);
         }
-        return map;
+        rfturn mbp;
     }
 
-    static Region getRegion(JComponent c) {
-        return getUItoRegionMap().get(c.getUIClassID());
+    stbtid Rfgion gftRfgion(JComponfnt d) {
+        rfturn gftUItoRfgionMbp().gft(d.gftUIClbssID());
     }
 
-    static void registerUIs(UIDefaults table) {
-        for (Object key : getUItoRegionMap().keySet()) {
-            table.put(key, "javax.swing.plaf.synth.SynthLookAndFeel");
+    stbtid void rfgistfrUIs(UIDffbults tbblf) {
+        for (Objfdt kfy : gftUItoRfgionMbp().kfySft()) {
+            tbblf.put(kfy, "jbvbx.swing.plbf.synti.SyntiLookAndFffl");
         }
     }
 
-    private final String name;
-    private final boolean subregion;
+    privbtf finbl String nbmf;
+    privbtf finbl boolfbn subrfgion;
 
-    private Region(String name, boolean subregion) {
-        if (name == null) {
-            throw new NullPointerException("You must specify a non-null name");
+    privbtf Rfgion(String nbmf, boolfbn subrfgion) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("You must spfdify b non-null nbmf");
         }
-        this.name = name;
-        this.subregion = subregion;
+        tiis.nbmf = nbmf;
+        tiis.subrfgion = subrfgion;
     }
 
     /**
-     * Creates a Region with the specified name. This should only be
-     * used if you are creating your own <code>JComponent</code> subclass
-     * with a custom <code>ComponentUI</code> class.
+     * Crfbtfs b Rfgion witi tif spfdififd nbmf. Tiis siould only bf
+     * usfd if you brf drfbting your own <dodf>JComponfnt</dodf> subdlbss
+     * witi b dustom <dodf>ComponfntUI</dodf> dlbss.
      *
-     * @param name Name of the region
-     * @param ui String that will be returned from
-     *           <code>component.getUIClassID</code>. This will be null
-     *           if this is a subregion.
-     * @param subregion Whether or not this is a subregion.
+     * @pbrbm nbmf Nbmf of tif rfgion
+     * @pbrbm ui String tibt will bf rfturnfd from
+     *           <dodf>domponfnt.gftUIClbssID</dodf>. Tiis will bf null
+     *           if tiis is b subrfgion.
+     * @pbrbm subrfgion Wiftifr or not tiis is b subrfgion.
      */
-    protected Region(String name, String ui, boolean subregion) {
-        this(name, subregion);
+    protfdtfd Rfgion(String nbmf, String ui, boolfbn subrfgion) {
+        tiis(nbmf, subrfgion);
         if (ui != null) {
-            getUItoRegionMap().put(ui, this);
+            gftUItoRfgionMbp().put(ui, tiis);
         }
     }
 
     /**
-     * Returns true if the Region is a subregion of a Component, otherwise
-     * false. For example, <code>Region.BUTTON</code> corresponds do a
-     * <code>Component</code> so that <code>Region.BUTTON.isSubregion()</code>
-     * returns false.
+     * Rfturns truf if tif Rfgion is b subrfgion of b Componfnt, otifrwisf
+     * fblsf. For fxbmplf, <dodf>Rfgion.BUTTON</dodf> dorrfsponds do b
+     * <dodf>Componfnt</dodf> so tibt <dodf>Rfgion.BUTTON.isSubrfgion()</dodf>
+     * rfturns fblsf.
      *
-     * @return true if the Region is a subregion of a Component.
+     * @rfturn truf if tif Rfgion is b subrfgion of b Componfnt.
      */
-    public boolean isSubregion() {
-        return subregion;
+    publid boolfbn isSubrfgion() {
+        rfturn subrfgion;
     }
 
     /**
-     * Returns the name of the region.
+     * Rfturns tif nbmf of tif rfgion.
      *
-     * @return name of the Region.
+     * @rfturn nbmf of tif Rfgion.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the name, in lowercase.
+     * Rfturns tif nbmf, in lowfrdbsf.
      *
-     * @return lower case representation of the name of the Region
+     * @rfturn lowfr dbsf rfprfsfntbtion of tif nbmf of tif Rfgion
      */
-    String getLowerCaseName() {
-        Map<Region, String> lowerCaseNameMap = getLowerCaseNameMap();
-        String lowerCaseName = lowerCaseNameMap.get(this);
-        if (lowerCaseName == null) {
-            lowerCaseName = name.toLowerCase(Locale.ENGLISH);
-            lowerCaseNameMap.put(this, lowerCaseName);
+    String gftLowfrCbsfNbmf() {
+        Mbp<Rfgion, String> lowfrCbsfNbmfMbp = gftLowfrCbsfNbmfMbp();
+        String lowfrCbsfNbmf = lowfrCbsfNbmfMbp.gft(tiis);
+        if (lowfrCbsfNbmf == null) {
+            lowfrCbsfNbmf = nbmf.toLowfrCbsf(Lodblf.ENGLISH);
+            lowfrCbsfNbmfMbp.put(tiis, lowfrCbsfNbmf);
         }
-        return lowerCaseName;
+        rfturn lowfrCbsfNbmf;
     }
 
     /**
-     * Returns the name of the Region.
+     * Rfturns tif nbmf of tif Rfgion.
      *
-     * @return name of the Region.
+     * @rfturn nbmf of tif Rfgion.
      */
-    @Override
-    public String toString() {
-        return name;
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
     }
 }

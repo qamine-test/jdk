@@ -1,720 +1,720 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="twq"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Akan senni</language>
-			<language type="am">Amhaarik senni</language>
-			<language type="ar">Laaraw senni</language>
-			<language type="be">Belaruus senni</language>
-			<language type="bg">Bulagaari senni</language>
-			<language type="bn">Bengali senni</language>
-			<language type="cs">Cek senni</language>
-			<language type="de">Almaŋ senni</language>
-			<language type="el">Grek senni</language>
-			<language type="en">Inglisi senni</language>
-			<language type="es">Espaaɲe senni</language>
-			<language type="fa">Farsi senni</language>
-			<language type="fr">Fransee senni</language>
-			<language type="ha">Hawsance senni</language>
-			<language type="hi">Induu senni</language>
-			<language type="hu">Hungaari senni</language>
-			<language type="id">Indoneesi senni</language>
-			<language type="ig">Iboo senni</language>
-			<language type="it">Itaali senni</language>
-			<language type="ja">Japonee senni</language>
-			<language type="jv">Javanee senni</language>
-			<language type="km">Kmeer senni, Game here</language>
-			<language type="ko">Koree senni</language>
-			<language type="ms">Maleezi senni</language>
-			<language type="my">Burme senni</language>
-			<language type="ne">Neepal senni</language>
-			<language type="nl">Holandee senni</language>
-			<language type="pa">Punjaabi sennii</language>
-			<language type="pl">Polonee senni</language>
-			<language type="pt">Portugee senni</language>
-			<language type="ro">Rumaani senni</language>
-			<language type="ru">Ruusi senni</language>
-			<language type="rw">Rwanda senni</language>
-			<language type="so">Somaali senni</language>
-			<language type="sv">Suweede senni</language>
-			<language type="ta">Tamil senni</language>
-			<language type="th">Taailandu senni</language>
-			<language type="tr">Turku senni</language>
-			<language type="twq">Tasawaq senni</language>
-			<language type="uk">Ukreen senni</language>
-			<language type="ur">Urdu senni</language>
-			<language type="vi">Vietnaam senni</language>
-			<language type="yo">Yorbance senni</language>
-			<language type="zh">Sinuwa senni, Mandareŋ</language>
-			<language type="zu">Zulu senni</language>
-		</languages>
-		<territories>
-			<territory type="AD">Andoora</territory>
-			<territory type="AE">Laaraw Imaarawey Margantey</territory>
-			<territory type="AF">Afgaanistan</territory>
-			<territory type="AG">Antigua nda Barbuuda</territory>
-			<territory type="AI">Angiiya</territory>
-			<territory type="AL">Albaani</territory>
-			<territory type="AM">Armeeni</territory>
-			<territory type="AN">Hollandu Antiiyey Laboo</territory>
-			<territory type="AO">Angoola</territory>
-			<territory type="AR">Argentine</territory>
-			<territory type="AS">Ameriki Samoa</territory>
-			<territory type="AT">Otriši</territory>
-			<territory type="AU">Ostraali</territory>
-			<territory type="AW">Aruuba</territory>
-			<territory type="AZ">Azerbaayijaŋ</territory>
-			<territory type="BA">Bosni nda Herzegovine</territory>
-			<territory type="BB">Barbaados</territory>
-			<territory type="BD">Bangladeši</territory>
-			<territory type="BE">Belgiiki</territory>
-			<territory type="BF">Burkina faso</territory>
-			<territory type="BG">Bulgaari</territory>
-			<territory type="BH">Bahareen</territory>
-			<territory type="BI">Burundi</territory>
-			<territory type="BJ">Beniŋ</territory>
-			<territory type="BM">Bermuda</territory>
-			<territory type="BN">Bruunee</territory>
-			<territory type="BO">Boolivi</territory>
-			<territory type="BR">Breezil</territory>
-			<territory type="BS">Bahamas</territory>
-			<territory type="BT">Buutaŋ</territory>
-			<territory type="BW">Botswaana</territory>
-			<territory type="BY">Biloriši</territory>
-			<territory type="BZ">Beliizi</territory>
-			<territory type="CA">Kanaada</territory>
-			<territory type="CD">Kongoo demookaratiki laboo</territory>
-			<territory type="CF">Centraafriki koyra</territory>
-			<territory type="CG">Kongoo</territory>
-			<territory type="CH">Swisu</territory>
-			<territory type="CI">Kudwar</territory>
-			<territory type="CK">Kuuk gungey</territory>
-			<territory type="CL">Šiili</territory>
-			<territory type="CM">Kameruun</territory>
-			<territory type="CN">Šiin</territory>
-			<territory type="CO">Kolombi</territory>
-			<territory type="CR">Kosta rika</territory>
-			<territory type="CS">Serbi nda Montenegro</territory>
-			<territory type="CU">Kuuba</territory>
-			<territory type="CV">Kapuver gungey</territory>
-			<territory type="CY">Šiipur</territory>
-			<territory type="CZ">Cek labo</territory>
-			<territory type="DE">Almaaɲe</territory>
-			<territory type="DJ">Jibuuti</territory>
-			<territory type="DK">Danemark</territory>
-			<territory type="DM">Doominiki</territory>
-			<territory type="DO">Doominiki laboo</territory>
-			<territory type="DZ">Alžeeri</territory>
-			<territory type="EC">Ekwateer</territory>
-			<territory type="EE">Estooni</territory>
-			<territory type="EG">Misra</territory>
-			<territory type="ER">Eritree</territory>
-			<territory type="ES">Espaaɲe</territory>
-			<territory type="ET">Ecioopi</territory>
-			<territory type="FI">Finlandu</territory>
-			<territory type="FJ">Fiji</territory>
-			<territory type="FK">Kalkan gungey</territory>
-			<territory type="FM">Mikronezi</territory>
-			<territory type="FR">Faransi</territory>
-			<territory type="GA">Gaabon</territory>
-			<territory type="GB">Albaasalaama Marganta</territory>
-			<territory type="GD">Grenaada</territory>
-			<territory type="GE">Gorgi</territory>
-			<territory type="GF">Faransi Guyaan</territory>
-			<territory type="GH">Gaana</territory>
-			<territory type="GI">Gibraltar</territory>
-			<territory type="GL">Grinland</territory>
-			<territory type="GM">Gambi</territory>
-			<territory type="GN">Gine</territory>
-			<territory type="GP">Gwadeluup</territory>
-			<territory type="GQ">Ginee Ekwatorial</territory>
-			<territory type="GR">Greece</territory>
-			<territory type="GT">Gwatemaala</territory>
-			<territory type="GU">Guam</territory>
-			<territory type="GW">Gine-Bisso</territory>
-			<territory type="GY">Guyaane</territory>
-			<territory type="HN">Honduras</territory>
-			<territory type="HR">Krwaasi</territory>
-			<territory type="HT">Haiti</territory>
-			<territory type="HU">Hungaari</territory>
-			<territory type="ID">Indoneezi</territory>
-			<territory type="IE">Irlandu</territory>
-			<territory type="IL">Israyel</territory>
-			<territory type="IN">Indu laboo</territory>
-			<territory type="IO">Britiši Indu teekoo laama</territory>
-			<territory type="IQ">Iraak</territory>
-			<territory type="IR">Iraan</territory>
-			<territory type="IS">Ayseland</territory>
-			<territory type="IT">Itaali</territory>
-			<territory type="JM">Jamaayik</territory>
-			<territory type="JO">Urdun</territory>
-			<territory type="JP">Jaapoŋ</territory>
-			<territory type="KE">Keeniya</territory>
-			<territory type="KG">Kyrgyzstan</territory>
-			<territory type="KH">kamboogi</territory>
-			<territory type="KI">Kiribaati</territory>
-			<territory type="KM">Komoor</territory>
-			<territory type="KN">Seŋ Kitts nda Nevis</territory>
-			<territory type="KP">Kooree, Gurma</territory>
-			<territory type="KR">Kooree, Hawsa</territory>
-			<territory type="KW">Kuweet</territory>
-			<territory type="KY">Kayman gungey</territory>
-			<territory type="KZ">Kaazakstan</territory>
-			<territory type="LA">Laawos</territory>
-			<territory type="LB">Lubnaan</territory>
-			<territory type="LC">Seŋ Lussia</territory>
-			<territory type="LI">Liechtenstein</territory>
-			<territory type="LK">Srilanka</territory>
-			<territory type="LR">Liberia</territory>
-			<territory type="LS">Leesoto</territory>
-			<territory type="LT">Lituaani</territory>
-			<territory type="LU">Luxembourg</territory>
-			<territory type="LV">Letooni</territory>
-			<territory type="LY">Liibi</territory>
-			<territory type="MA">Maarok</territory>
-			<territory type="MC">Monako</territory>
-			<territory type="MD">Moldovi</territory>
-			<territory type="MG">Madagascar</territory>
-			<territory type="MH">Maršal gungey</territory>
-			<territory type="MK">Maacedooni</territory>
-			<territory type="ML">Maali</territory>
-			<territory type="MM">Maynamar</territory>
-			<territory type="MN">Mongooli</territory>
-			<territory type="MP">Mariana Gurma Gungey</territory>
-			<territory type="MQ">Martiniiki</territory>
-			<territory type="MR">Mooritaani</territory>
-			<territory type="MS">Montserrat</territory>
-			<territory type="MT">Malta</territory>
-			<territory type="MU">Mooris gungey</territory>
-			<territory type="MV">Maldiivu</territory>
-			<territory type="MW">Malaawi</territory>
-			<territory type="MX">Mexiki</territory>
-			<territory type="MY">Maleezi</territory>
-			<territory type="MZ">Mozambik</territory>
-			<territory type="NA">Naamibi</territory>
-			<territory type="NC">Kaaledooni Taagaa</territory>
-			<territory type="NE">Nižer</territory>
-			<territory type="NF">Norfolk Gungoo</territory>
-			<territory type="NG">Naajiriia</territory>
-			<territory type="NI">Nikaragwa</territory>
-			<territory type="NL">Hollandu</territory>
-			<territory type="NO">Norveej</territory>
-			<territory type="NP">Neepal</territory>
-			<territory type="NR">Nauru</territory>
-			<territory type="NU">Niue</territory>
-			<territory type="NZ">Zeelandu Taaga</territory>
-			<territory type="OM">Omaan</territory>
-			<territory type="PA">Panama</territory>
-			<territory type="PE">Peeru</territory>
-			<territory type="PF">Faransi Polineezi</territory>
-			<territory type="PG">Papua Ginee Taaga</territory>
-			<territory type="PH">Filipine</territory>
-			<territory type="PK">Paakistan</territory>
-			<territory type="PL">Poloɲe</territory>
-			<territory type="PM">Seŋ Piyer nda Mikelon</territory>
-			<territory type="PN">Pitikarin</territory>
-			<territory type="PR">Porto Riko</territory>
-			<territory type="PS">Palestine Dangay nda Gaaza</territory>
-			<territory type="PT">Portugaal</territory>
-			<territory type="PW">Palu</territory>
-			<territory type="PY">Paraguwey</territory>
-			<territory type="QA">Kataar</territory>
-			<territory type="RE">Reenioŋ</territory>
-			<territory type="RO">Rumaani</territory>
-			<territory type="RU">Iriši laboo</territory>
-			<territory type="RW">Rwanda</territory>
-			<territory type="SA">Saudiya</territory>
-			<territory type="SB">Solomon Gungey</territory>
-			<territory type="SC">Seešel</territory>
-			<territory type="SD">Suudaŋ</territory>
-			<territory type="SE">Sweede</territory>
-			<territory type="SG">Singapur</territory>
-			<territory type="SH">Seŋ Helena</territory>
-			<territory type="SI">Sloveeni</territory>
-			<territory type="SK">Slovaaki</territory>
-			<territory type="SL">Seera Leon</territory>
-			<territory type="SM">San Marino</territory>
-			<territory type="SN">Senegal</territory>
-			<territory type="SO">Somaali</territory>
-			<territory type="SR">Surinaam</territory>
-			<territory type="ST">Sao Tome nda Prinsipe</territory>
-			<territory type="SV">Salvador laboo</territory>
-			<territory type="SY">Suuria</territory>
-			<territory type="SZ">Swaziland</territory>
-			<territory type="TC">Turk nda Kayikos Gungey</territory>
-			<territory type="TD">Caadu</territory>
-			<territory type="TG">Togo</territory>
-			<territory type="TH">Taayiland</territory>
-			<territory type="TJ">Taažikistan</territory>
-			<territory type="TK">Tokelau</territory>
-			<territory type="TL">Timoor hawsa</territory>
-			<territory type="TM">Turkmenistaŋ</territory>
-			<territory type="TN">Tunizi</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Turki</territory>
-			<territory type="TT">Trinidad nda Tobaago</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Taayiwan</territory>
-			<territory type="TZ">Tanzaani</territory>
-			<territory type="UA">Ukreen</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="US">Ameriki Laabu Margantey</territory>
-			<territory type="UY">Uruguwey</territory>
-			<territory type="UZ">Uzbeekistan</territory>
-			<territory type="VA">Vaatikan Laama</territory>
-			<territory type="VC">Seŋvinsaŋ nda Grenadine</territory>
-			<territory type="VE">Veneezuyeela</territory>
-			<territory type="VG">Britiši Virgin gungey</territory>
-			<territory type="VI">Ameerik Virgin Gungey</territory>
-			<territory type="VN">Vietnaam</territory>
-			<territory type="VU">Vanautu</territory>
-			<territory type="WF">Wallis nda Futuna</territory>
-			<territory type="WS">Samoa</territory>
-			<territory type="YE">Yaman</territory>
-			<territory type="YT">Mayooti</territory>
-			<territory type="ZA">Hawsa Afriki Laboo</territory>
-			<territory type="ZM">Zambi</territory>
-			<territory type="ZW">Zimbabwe</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a ã b c d e ẽ f g h i j k l m n ŋ ɲ o õ p q r s š t u w x y z ž ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[v]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U W X Y Z]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Žan</month>
-							<month type="2">Fee</month>
-							<month type="3">Mar</month>
-							<month type="4">Awi</month>
-							<month type="5">Me</month>
-							<month type="6">Žuw</month>
-							<month type="7">Žuy</month>
-							<month type="8">Ut</month>
-							<month type="9">Sek</month>
-							<month type="10">Okt</month>
-							<month type="11">Noo</month>
-							<month type="12">Dee</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Žanwiye</month>
-							<month type="2">Feewiriye</month>
-							<month type="3">Marsi</month>
-							<month type="4">Awiril</month>
-							<month type="5">Me</month>
-							<month type="6">Žuweŋ</month>
-							<month type="7">Žuyye</month>
-							<month type="8">Ut</month>
-							<month type="9">Sektanbur</month>
-							<month type="10">Oktoobur</month>
-							<month type="11">Noowanbur</month>
-							<month type="12">Deesanbur</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">Ž</month>
-							<month type="2">F</month>
-							<month type="3">M</month>
-							<month type="4">A</month>
-							<month type="5">M</month>
-							<month type="6">Ž</month>
-							<month type="7">Ž</month>
-							<month type="8">U</month>
-							<month type="9">S</month>
-							<month type="10">O</month>
-							<month type="11">N</month>
-							<month type="12">D</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Alh</day>
-							<day type="mon">Ati</day>
-							<day type="tue">Ata</day>
-							<day type="wed">Ala</day>
-							<day type="thu">Alm</day>
-							<day type="fri">Alz</day>
-							<day type="sat">Asi</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Alhadi</day>
-							<day type="mon">Atinni</day>
-							<day type="tue">Atalaata</day>
-							<day type="wed">Alarba</day>
-							<day type="thu">Alhamiisa</day>
-							<day type="fri">Alzuma</day>
-							<day type="sat">Asibti</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">H</day>
-							<day type="mon">T</day>
-							<day type="tue">T</day>
-							<day type="wed">L</day>
-							<day type="thu">L</day>
-							<day type="fri">L</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">A1</quarter>
-							<quarter type="2">A2</quarter>
-							<quarter type="3">A3</quarter>
-							<quarter type="4">A4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Arrubu 1</quarter>
-							<quarter type="2">Arrubu 2</quarter>
-							<quarter type="3">Arrubu 3</quarter>
-							<quarter type="4">Arrubu 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<am>Subbaahi</am>
-				<pm>Zaarikay b</pm>
-				<eras>
-					<eraNames>
-						<era type="0">Isaa jine</era>
-						<era type="1">Isaa zamanoo</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">IJ</era>
-						<era type="1">IZ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E d/M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Zaman</displayName>
-					</field>
-					<field type="year">
-						<displayName>Jiiri</displayName>
-					</field>
-					<field type="month">
-						<displayName>Handu</displayName>
-					</field>
-					<field type="week">
-						<displayName>Hebu</displayName>
-					</field>
-					<field type="day">
-						<displayName>Zaari</displayName>
-						<relative type="-1">Bi</relative>
-						<relative type="0">Hõo</relative>
-						<relative type="1">Suba</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Zaari</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Subbaahi/Zaarikay banda</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Guuru</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Miniti</displayName>
-					</field>
-					<field type="second">
-						<displayName>Miti</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Leerazuu</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="twq"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bk">Akbn sfnni</lbngubgf>
+			<lbngubgf typf="bm">Amibbrik sfnni</lbngubgf>
+			<lbngubgf typf="br">Lbbrbw sfnni</lbngubgf>
+			<lbngubgf typf="bf">Bflbruus sfnni</lbngubgf>
+			<lbngubgf typf="bg">Bulbgbbri sfnni</lbngubgf>
+			<lbngubgf typf="bn">Bfngbli sfnni</lbngubgf>
+			<lbngubgf typf="ds">Cfk sfnni</lbngubgf>
+			<lbngubgf typf="df">Almbŋ sfnni</lbngubgf>
+			<lbngubgf typf="fl">Grfk sfnni</lbngubgf>
+			<lbngubgf typf="fn">Inglisi sfnni</lbngubgf>
+			<lbngubgf typf="fs">Espbbɲf sfnni</lbngubgf>
+			<lbngubgf typf="fb">Fbrsi sfnni</lbngubgf>
+			<lbngubgf typf="fr">Frbnsff sfnni</lbngubgf>
+			<lbngubgf typf="ib">Hbwsbndf sfnni</lbngubgf>
+			<lbngubgf typf="ii">Induu sfnni</lbngubgf>
+			<lbngubgf typf="iu">Hungbbri sfnni</lbngubgf>
+			<lbngubgf typf="id">Indonffsi sfnni</lbngubgf>
+			<lbngubgf typf="ig">Iboo sfnni</lbngubgf>
+			<lbngubgf typf="it">Itbbli sfnni</lbngubgf>
+			<lbngubgf typf="jb">Jbponff sfnni</lbngubgf>
+			<lbngubgf typf="jv">Jbvbnff sfnni</lbngubgf>
+			<lbngubgf typf="km">Kmffr sfnni, Gbmf ifrf</lbngubgf>
+			<lbngubgf typf="ko">Korff sfnni</lbngubgf>
+			<lbngubgf typf="ms">Mblffzi sfnni</lbngubgf>
+			<lbngubgf typf="my">Burmf sfnni</lbngubgf>
+			<lbngubgf typf="nf">Nffpbl sfnni</lbngubgf>
+			<lbngubgf typf="nl">Holbndff sfnni</lbngubgf>
+			<lbngubgf typf="pb">Punjbbbi sfnnii</lbngubgf>
+			<lbngubgf typf="pl">Polonff sfnni</lbngubgf>
+			<lbngubgf typf="pt">Portugff sfnni</lbngubgf>
+			<lbngubgf typf="ro">Rumbbni sfnni</lbngubgf>
+			<lbngubgf typf="ru">Ruusi sfnni</lbngubgf>
+			<lbngubgf typf="rw">Rwbndb sfnni</lbngubgf>
+			<lbngubgf typf="so">Sombbli sfnni</lbngubgf>
+			<lbngubgf typf="sv">Suwffdf sfnni</lbngubgf>
+			<lbngubgf typf="tb">Tbmil sfnni</lbngubgf>
+			<lbngubgf typf="ti">Tbbilbndu sfnni</lbngubgf>
+			<lbngubgf typf="tr">Turku sfnni</lbngubgf>
+			<lbngubgf typf="twq">Tbsbwbq sfnni</lbngubgf>
+			<lbngubgf typf="uk">Ukrffn sfnni</lbngubgf>
+			<lbngubgf typf="ur">Urdu sfnni</lbngubgf>
+			<lbngubgf typf="vi">Viftnbbm sfnni</lbngubgf>
+			<lbngubgf typf="yo">Yorbbndf sfnni</lbngubgf>
+			<lbngubgf typf="zi">Sinuwb sfnni, Mbndbrfŋ</lbngubgf>
+			<lbngubgf typf="zu">Zulu sfnni</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AD">Andoorb</tfrritory>
+			<tfrritory typf="AE">Lbbrbw Imbbrbwfy Mbrgbntfy</tfrritory>
+			<tfrritory typf="AF">Afgbbnistbn</tfrritory>
+			<tfrritory typf="AG">Antigub ndb Bbrbuudb</tfrritory>
+			<tfrritory typf="AI">Angiiyb</tfrritory>
+			<tfrritory typf="AL">Albbbni</tfrritory>
+			<tfrritory typf="AM">Armffni</tfrritory>
+			<tfrritory typf="AN">Hollbndu Antiiyfy Lbboo</tfrritory>
+			<tfrritory typf="AO">Angoolb</tfrritory>
+			<tfrritory typf="AR">Argfntinf</tfrritory>
+			<tfrritory typf="AS">Amfriki Sbmob</tfrritory>
+			<tfrritory typf="AT">Otriši</tfrritory>
+			<tfrritory typf="AU">Ostrbbli</tfrritory>
+			<tfrritory typf="AW">Aruubb</tfrritory>
+			<tfrritory typf="AZ">Azfrbbbyijbŋ</tfrritory>
+			<tfrritory typf="BA">Bosni ndb Hfrzfgovinf</tfrritory>
+			<tfrritory typf="BB">Bbrbbbdos</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfši</tfrritory>
+			<tfrritory typf="BE">Bflgiiki</tfrritory>
+			<tfrritory typf="BF">Burkinb fbso</tfrritory>
+			<tfrritory typf="BG">Bulgbbri</tfrritory>
+			<tfrritory typf="BH">Bbibrffn</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BJ">Bfniŋ</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BN">Bruunff</tfrritory>
+			<tfrritory typf="BO">Boolivi</tfrritory>
+			<tfrritory typf="BR">Brffzil</tfrritory>
+			<tfrritory typf="BS">Bbibmbs</tfrritory>
+			<tfrritory typf="BT">Buutbŋ</tfrritory>
+			<tfrritory typf="BW">Botswbbnb</tfrritory>
+			<tfrritory typf="BY">Biloriši</tfrritory>
+			<tfrritory typf="BZ">Bfliizi</tfrritory>
+			<tfrritory typf="CA">Kbnbbdb</tfrritory>
+			<tfrritory typf="CD">Kongoo dfmookbrbtiki lbboo</tfrritory>
+			<tfrritory typf="CF">Cfntrbbfriki koyrb</tfrritory>
+			<tfrritory typf="CG">Kongoo</tfrritory>
+			<tfrritory typf="CH">Swisu</tfrritory>
+			<tfrritory typf="CI">Kudwbr</tfrritory>
+			<tfrritory typf="CK">Kuuk gungfy</tfrritory>
+			<tfrritory typf="CL">Šiili</tfrritory>
+			<tfrritory typf="CM">Kbmfruun</tfrritory>
+			<tfrritory typf="CN">Šiin</tfrritory>
+			<tfrritory typf="CO">Kolombi</tfrritory>
+			<tfrritory typf="CR">Kostb rikb</tfrritory>
+			<tfrritory typf="CS">Sfrbi ndb Montfnfgro</tfrritory>
+			<tfrritory typf="CU">Kuubb</tfrritory>
+			<tfrritory typf="CV">Kbpuvfr gungfy</tfrritory>
+			<tfrritory typf="CY">Šiipur</tfrritory>
+			<tfrritory typf="CZ">Cfk lbbo</tfrritory>
+			<tfrritory typf="DE">Almbbɲf</tfrritory>
+			<tfrritory typf="DJ">Jibuuti</tfrritory>
+			<tfrritory typf="DK">Dbnfmbrk</tfrritory>
+			<tfrritory typf="DM">Doominiki</tfrritory>
+			<tfrritory typf="DO">Doominiki lbboo</tfrritory>
+			<tfrritory typf="DZ">Alžffri</tfrritory>
+			<tfrritory typf="EC">Ekwbtffr</tfrritory>
+			<tfrritory typf="EE">Estooni</tfrritory>
+			<tfrritory typf="EG">Misrb</tfrritory>
+			<tfrritory typf="ER">Eritrff</tfrritory>
+			<tfrritory typf="ES">Espbbɲf</tfrritory>
+			<tfrritory typf="ET">Edioopi</tfrritory>
+			<tfrritory typf="FI">Finlbndu</tfrritory>
+			<tfrritory typf="FJ">Fiji</tfrritory>
+			<tfrritory typf="FK">Kblkbn gungfy</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
+			<tfrritory typf="FR">Fbrbnsi</tfrritory>
+			<tfrritory typf="GA">Gbbbon</tfrritory>
+			<tfrritory typf="GB">Albbbsblbbmb Mbrgbntb</tfrritory>
+			<tfrritory typf="GD">Grfnbbdb</tfrritory>
+			<tfrritory typf="GE">Gorgi</tfrritory>
+			<tfrritory typf="GF">Fbrbnsi Guybbn</tfrritory>
+			<tfrritory typf="GH">Gbbnb</tfrritory>
+			<tfrritory typf="GI">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL">Grinlbnd</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
+			<tfrritory typf="GN">Ginf</tfrritory>
+			<tfrritory typf="GP">Gwbdfluup</tfrritory>
+			<tfrritory typf="GQ">Ginff Ekwbtoribl</tfrritory>
+			<tfrritory typf="GR">Grffdf</tfrritory>
+			<tfrritory typf="GT">Gwbtfmbblb</tfrritory>
+			<tfrritory typf="GU">Gubm</tfrritory>
+			<tfrritory typf="GW">Ginf-Bisso</tfrritory>
+			<tfrritory typf="GY">Guybbnf</tfrritory>
+			<tfrritory typf="HN">Hondurbs</tfrritory>
+			<tfrritory typf="HR">Krwbbsi</tfrritory>
+			<tfrritory typf="HT">Hbiti</tfrritory>
+			<tfrritory typf="HU">Hungbbri</tfrritory>
+			<tfrritory typf="ID">Indonffzi</tfrritory>
+			<tfrritory typf="IE">Irlbndu</tfrritory>
+			<tfrritory typf="IL">Isrbyfl</tfrritory>
+			<tfrritory typf="IN">Indu lbboo</tfrritory>
+			<tfrritory typf="IO">Britiši Indu tffkoo lbbmb</tfrritory>
+			<tfrritory typf="IQ">Irbbk</tfrritory>
+			<tfrritory typf="IR">Irbbn</tfrritory>
+			<tfrritory typf="IS">Aysflbnd</tfrritory>
+			<tfrritory typf="IT">Itbbli</tfrritory>
+			<tfrritory typf="JM">Jbmbbyik</tfrritory>
+			<tfrritory typf="JO">Urdun</tfrritory>
+			<tfrritory typf="JP">Jbbpoŋ</tfrritory>
+			<tfrritory typf="KE">Kffniyb</tfrritory>
+			<tfrritory typf="KG">Kyrgyzstbn</tfrritory>
+			<tfrritory typf="KH">kbmboogi</tfrritory>
+			<tfrritory typf="KI">Kiribbbti</tfrritory>
+			<tfrritory typf="KM">Komoor</tfrritory>
+			<tfrritory typf="KN">Sfŋ Kitts ndb Nfvis</tfrritory>
+			<tfrritory typf="KP">Koorff, Gurmb</tfrritory>
+			<tfrritory typf="KR">Koorff, Hbwsb</tfrritory>
+			<tfrritory typf="KW">Kuwfft</tfrritory>
+			<tfrritory typf="KY">Kbymbn gungfy</tfrritory>
+			<tfrritory typf="KZ">Kbbzbkstbn</tfrritory>
+			<tfrritory typf="LA">Lbbwos</tfrritory>
+			<tfrritory typf="LB">Lubnbbn</tfrritory>
+			<tfrritory typf="LC">Sfŋ Lussib</tfrritory>
+			<tfrritory typf="LI">Lifditfnstfin</tfrritory>
+			<tfrritory typf="LK">Srilbnkb</tfrritory>
+			<tfrritory typf="LR">Libfrib</tfrritory>
+			<tfrritory typf="LS">Lffsoto</tfrritory>
+			<tfrritory typf="LT">Litubbni</tfrritory>
+			<tfrritory typf="LU">Luxfmbourg</tfrritory>
+			<tfrritory typf="LV">Lftooni</tfrritory>
+			<tfrritory typf="LY">Liibi</tfrritory>
+			<tfrritory typf="MA">Mbbrok</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MD">Moldovi</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsdbr</tfrritory>
+			<tfrritory typf="MH">Mbršbl gungfy</tfrritory>
+			<tfrritory typf="MK">Mbbdfdooni</tfrritory>
+			<tfrritory typf="ML">Mbbli</tfrritory>
+			<tfrritory typf="MM">Mbynbmbr</tfrritory>
+			<tfrritory typf="MN">Mongooli</tfrritory>
+			<tfrritory typf="MP">Mbribnb Gurmb Gungfy</tfrritory>
+			<tfrritory typf="MQ">Mbrtiniiki</tfrritory>
+			<tfrritory typf="MR">Mooritbbni</tfrritory>
+			<tfrritory typf="MS">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT">Mbltb</tfrritory>
+			<tfrritory typf="MU">Mooris gungfy</tfrritory>
+			<tfrritory typf="MV">Mbldiivu</tfrritory>
+			<tfrritory typf="MW">Mblbbwi</tfrritory>
+			<tfrritory typf="MX">Mfxiki</tfrritory>
+			<tfrritory typf="MY">Mblffzi</tfrritory>
+			<tfrritory typf="MZ">Mozbmbik</tfrritory>
+			<tfrritory typf="NA">Nbbmibi</tfrritory>
+			<tfrritory typf="NC">Kbblfdooni Tbbgbb</tfrritory>
+			<tfrritory typf="NE">Nižfr</tfrritory>
+			<tfrritory typf="NF">Norfolk Gungoo</tfrritory>
+			<tfrritory typf="NG">Nbbjiriib</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NL">Hollbndu</tfrritory>
+			<tfrritory typf="NO">Norvffj</tfrritory>
+			<tfrritory typf="NP">Nffpbl</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NU">Niuf</tfrritory>
+			<tfrritory typf="NZ">Zfflbndu Tbbgb</tfrritory>
+			<tfrritory typf="OM">Ombbn</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PE">Pffru</tfrritory>
+			<tfrritory typf="PF">Fbrbnsi Polinffzi</tfrritory>
+			<tfrritory typf="PG">Pbpub Ginff Tbbgb</tfrritory>
+			<tfrritory typf="PH">Filipinf</tfrritory>
+			<tfrritory typf="PK">Pbbkistbn</tfrritory>
+			<tfrritory typf="PL">Poloɲf</tfrritory>
+			<tfrritory typf="PM">Sfŋ Piyfr ndb Mikflon</tfrritory>
+			<tfrritory typf="PN">Pitikbrin</tfrritory>
+			<tfrritory typf="PR">Porto Riko</tfrritory>
+			<tfrritory typf="PS">Pblfstinf Dbngby ndb Gbbzb</tfrritory>
+			<tfrritory typf="PT">Portugbbl</tfrritory>
+			<tfrritory typf="PW">Pblu</tfrritory>
+			<tfrritory typf="PY">Pbrbguwfy</tfrritory>
+			<tfrritory typf="QA">Kbtbbr</tfrritory>
+			<tfrritory typf="RE">Rffnioŋ</tfrritory>
+			<tfrritory typf="RO">Rumbbni</tfrritory>
+			<tfrritory typf="RU">Iriši lbboo</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="SA">Sbudiyb</tfrritory>
+			<tfrritory typf="SB">Solomon Gungfy</tfrritory>
+			<tfrritory typf="SC">Sffšfl</tfrritory>
+			<tfrritory typf="SD">Suudbŋ</tfrritory>
+			<tfrritory typf="SE">Swffdf</tfrritory>
+			<tfrritory typf="SG">Singbpur</tfrritory>
+			<tfrritory typf="SH">Sfŋ Hflfnb</tfrritory>
+			<tfrritory typf="SI">Slovffni</tfrritory>
+			<tfrritory typf="SK">Slovbbki</tfrritory>
+			<tfrritory typf="SL">Sffrb Lfon</tfrritory>
+			<tfrritory typf="SM">Sbn Mbrino</tfrritory>
+			<tfrritory typf="SN">Sfnfgbl</tfrritory>
+			<tfrritory typf="SO">Sombbli</tfrritory>
+			<tfrritory typf="SR">Surinbbm</tfrritory>
+			<tfrritory typf="ST">Sbo Tomf ndb Prinsipf</tfrritory>
+			<tfrritory typf="SV">Sblvbdor lbboo</tfrritory>
+			<tfrritory typf="SY">Suurib</tfrritory>
+			<tfrritory typf="SZ">Swbzilbnd</tfrritory>
+			<tfrritory typf="TC">Turk ndb Kbyikos Gungfy</tfrritory>
+			<tfrritory typf="TD">Cbbdu</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbbyilbnd</tfrritory>
+			<tfrritory typf="TJ">Tbbžikistbn</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TL">Timoor ibwsb</tfrritory>
+			<tfrritory typf="TM">Turkmfnistbŋ</tfrritory>
+			<tfrritory typf="TN">Tunizi</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TR">Turki</tfrritory>
+			<tfrritory typf="TT">Trinidbd ndb Tobbbgo</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbbyiwbn</tfrritory>
+			<tfrritory typf="TZ">Tbnzbbni</tfrritory>
+			<tfrritory typf="UA">Ukrffn</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="US">Amfriki Lbbbu Mbrgbntfy</tfrritory>
+			<tfrritory typf="UY">Uruguwfy</tfrritory>
+			<tfrritory typf="UZ">Uzbffkistbn</tfrritory>
+			<tfrritory typf="VA">Vbbtikbn Lbbmb</tfrritory>
+			<tfrritory typf="VC">Sfŋvinsbŋ ndb Grfnbdinf</tfrritory>
+			<tfrritory typf="VE">Vfnffzuyfflb</tfrritory>
+			<tfrritory typf="VG">Britiši Virgin gungfy</tfrritory>
+			<tfrritory typf="VI">Amffrik Virgin Gungfy</tfrritory>
+			<tfrritory typf="VN">Viftnbbm</tfrritory>
+			<tfrritory typf="VU">Vbnbutu</tfrritory>
+			<tfrritory typf="WF">Wbllis ndb Futunb</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="YE">Ybmbn</tfrritory>
+			<tfrritory typf="YT">Mbyooti</tfrritory>
+			<tfrritory typf="ZA">Hbwsb Afriki Lbboo</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b ã b d d f ẽ f g i i j k l m n ŋ ɲ o õ p q r s š t u w x y z ž ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[v]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Žbn</monti>
+							<monti typf="2">Fff</monti>
+							<monti typf="3">Mbr</monti>
+							<monti typf="4">Awi</monti>
+							<monti typf="5">Mf</monti>
+							<monti typf="6">Žuw</monti>
+							<monti typf="7">Žuy</monti>
+							<monti typf="8">Ut</monti>
+							<monti typf="9">Sfk</monti>
+							<monti typf="10">Okt</monti>
+							<monti typf="11">Noo</monti>
+							<monti typf="12">Dff</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Žbnwiyf</monti>
+							<monti typf="2">Fffwiriyf</monti>
+							<monti typf="3">Mbrsi</monti>
+							<monti typf="4">Awiril</monti>
+							<monti typf="5">Mf</monti>
+							<monti typf="6">Žuwfŋ</monti>
+							<monti typf="7">Žuyyf</monti>
+							<monti typf="8">Ut</monti>
+							<monti typf="9">Sfktbnbur</monti>
+							<monti typf="10">Oktoobur</monti>
+							<monti typf="11">Noowbnbur</monti>
+							<monti typf="12">Dffsbnbur</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">Ž</monti>
+							<monti typf="2">F</monti>
+							<monti typf="3">M</monti>
+							<monti typf="4">A</monti>
+							<monti typf="5">M</monti>
+							<monti typf="6">Ž</monti>
+							<monti typf="7">Ž</monti>
+							<monti typf="8">U</monti>
+							<monti typf="9">S</monti>
+							<monti typf="10">O</monti>
+							<monti typf="11">N</monti>
+							<monti typf="12">D</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Ali</dby>
+							<dby typf="mon">Ati</dby>
+							<dby typf="tuf">Atb</dby>
+							<dby typf="wfd">Alb</dby>
+							<dby typf="tiu">Alm</dby>
+							<dby typf="fri">Alz</dby>
+							<dby typf="sbt">Asi</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Alibdi</dby>
+							<dby typf="mon">Atinni</dby>
+							<dby typf="tuf">Atblbbtb</dby>
+							<dby typf="wfd">Albrbb</dby>
+							<dby typf="tiu">Alibmiisb</dby>
+							<dby typf="fri">Alzumb</dby>
+							<dby typf="sbt">Asibti</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">H</dby>
+							<dby typf="mon">T</dby>
+							<dby typf="tuf">T</dby>
+							<dby typf="wfd">L</dby>
+							<dby typf="tiu">L</dby>
+							<dby typf="fri">L</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">A1</qubrtfr>
+							<qubrtfr typf="2">A2</qubrtfr>
+							<qubrtfr typf="3">A3</qubrtfr>
+							<qubrtfr typf="4">A4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">Arrubu 1</qubrtfr>
+							<qubrtfr typf="2">Arrubu 2</qubrtfr>
+							<qubrtfr typf="3">Arrubu 3</qubrtfr>
+							<qubrtfr typf="4">Arrubu 4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<bm>Subbbbii</bm>
+				<pm>Zbbrikby b</pm>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Isbb jinf</frb>
+						<frb typf="1">Isbb zbmbnoo</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">IJ</frb>
+						<frb typf="1">IZ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Zbmbn</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Jiiri</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Hbndu</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Hfbu</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Zbbri</displbyNbmf>
+						<rflbtivf typf="-1">Bi</rflbtivf>
+						<rflbtivf typf="0">Hõo</rflbtivf>
+						<rflbtivf typf="1">Subb</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Zbbri</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>Subbbbii/Zbbrikby bbndb</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Guuru</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Miniti</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Miti</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Lffrbzuu</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="AED">
-				<displayName>Laaraw Immaara Margantey Dirham</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName>Angoola Kwanza</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName>Ostraali Dollar</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName>Bahareen Dinar</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName>Burundi Fraŋ</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName>Botswaana Pund</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName>Kanaada Dollar</displayName>
-			</currency>
-			<currency type="CDF">
-				<displayName>Kongo Fraŋ</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName>Swisu Fraŋ</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName>Sinwa Yuan Renminbi</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName>Kapuver Escudo</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName>Jibuuti Fraŋ</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName>Alžeeri Dinar</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName>Misra Pund</displayName>
-			</currency>
-			<currency type="ERN">
-				<displayName>Eritree Nafka</displayName>
-			</currency>
-			<currency type="ETB">
-				<displayName>Ecioopi Birr</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName>Eero</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName>Britin Pund</displayName>
-			</currency>
-			<currency type="GHC">
-				<displayName>Gaana Šiidi</displayName>
-			</currency>
-			<currency type="GMD">
-				<displayName>Gambi Dalasi</displayName>
-			</currency>
-			<currency type="GNS">
-				<displayName>Ginee Fraŋ</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>Indu Rupii</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName>Jaapoŋ Yen</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName>Keeniya Šiiliŋ</displayName>
-			</currency>
-			<currency type="KMF">
-				<displayName>Komoor Fraŋ</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName>Liberia Dollar</displayName>
-			</currency>
-			<currency type="LSL">
-				<displayName>Leezoto Loti</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName>Liibi Dinar</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName>Maarok Dirham</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName>Malgaaši Fraŋ</displayName>
-			</currency>
-			<currency type="MRO">
-				<displayName>Mooritaani Ugiya</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName>Mooris Rupii</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName>Malaawi Kwaca</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName>Mozambik Metikal</displayName>
-			</currency>
-			<currency type="NAD">
-				<displayName>Naamibi Dollar</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName>Naajiriya Neera</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName>Rwanda Fraŋ</displayName>
-			</currency>
-			<currency type="SAR">
-				<displayName>Saudiya Riyal</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName>Seešel Rupii</displayName>
-			</currency>
-			<currency type="SDG">
-				<displayName>Suudaŋ Dinar</displayName>
-			</currency>
-			<currency type="SDP">
-				<displayName>Suudaŋ Pund</displayName>
-			</currency>
-			<currency type="SHP">
-				<displayName>Seŋ Helena Fraŋ</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName>Leeon</displayName>
-			</currency>
-			<currency type="SOS">
-				<displayName>Somaali Šiiliŋ</displayName>
-			</currency>
-			<currency type="STD">
-				<displayName>Sao Tome nda Prinsipe Dobra</displayName>
-			</currency>
-			<currency type="SZL">
-				<displayName>Lilangeni</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName>Tunizi Dinar</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName>Tanzaani Šiiliŋ</displayName>
-			</currency>
-			<currency type="UGX">
-				<displayName>Uganda Šiiliŋ</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName>Ameriki Dollar</displayName>
-			</currency>
-			<currency type="XAF">
-				<displayName>CFA Fraŋ (BEAC)</displayName>
-			</currency>
-			<currency type="XOF">
-				<displayName>CFA Fraŋ (BCEAO)</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName>Hawasa Afriki Rand</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName>Zambi Kwaca</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName>Zimbabwe Dollar</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>Lbbrbw Immbbrb Mbrgbntfy Diribm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Angoolb Kwbnzb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Ostrbbli Dollbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Bbibrffn Dinbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Burundi Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Botswbbnb Pund</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Kbnbbdb Dollbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Kongo Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Swisu Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Sinwb Yubn Rfnminbi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Kbpuvfr Esdudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Jibuuti Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Alžffri Dinbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Misrb Pund</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Eritrff Nbfkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Edioopi Birr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Efro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Britin Pund</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Gbbnb Šiidi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Gbmbi Dblbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Ginff Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Indu Rupii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Jbbpoŋ Yfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Kffniyb Šiiliŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Komoor Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Libfrib Dollbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Lffzoto Loti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Liibi Dinbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Mbbrok Diribm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Mblgbbši Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Mooritbbni Ugiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Mooris Rupii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Mblbbwi Kwbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Mozbmbik Mftikbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Nbbmibi Dollbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Nbbjiriyb Nffrb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Rwbndb Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Sbudiyb Riybl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Sffšfl Rupii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>Suudbŋ Dinbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>Suudbŋ Pund</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Sfŋ Hflfnb Frbŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Lffon</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Sombbli Šiiliŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Sbo Tomf ndb Prinsipf Dobrb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Lilbngfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Tunizi Dinbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Tbnzbbni Šiiliŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Ugbndb Šiiliŋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Amfriki Dollbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>CFA Frbŋ (BEAC)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>CFA Frbŋ (BCEAO)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Hbwbsb Afriki Rbnd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Zbmbi Kwbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Zimbbbwf Dollbr</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>Ayyo:A</yesstr>
-			<nostr>Kala:K</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>Ayyo:A</yfsstr>
+			<nostr>Kblb:K</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

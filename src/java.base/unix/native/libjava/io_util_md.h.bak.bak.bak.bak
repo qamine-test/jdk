@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni_util.h"
+
+/*
+ * Mbdros to usf thf right dbtb typf for filf dfsdriptors
+ */
+#dffinf FD jint
+
+/*
+ * Prototypfs for fundtions in io_util_md.d dbllfd from io_util.d,
+ * FilfDfsdriptor.d, FilfInputStrfbm.d, FilfOutputStrfbm.d,
+ * UnixFilfSystfm_md.d
+ */
+ssizf_t hbndlfWritf(FD fd, donst void *buf, jint lfn);
+ssizf_t hbndlfRfbd(FD fd, void *buf, jint lfn);
+jint hbndlfAvbilbblf(FD fd, jlong *pbytfs);
+jint hbndlfSftLfngth(FD fd, jlong lfngth);
+
+FD hbndlfOpfn(donst dhbr *pbth, int oflbg, int modf);
+
+/*
+ * Mbdros to sft/gft fd from thf jbvb.io.FilfDfsdriptor.  Thfsf
+ * mbdros rfly on hbving bn bppropribtfly dffinfd 'this' objfdt
+ * within thf sdopf in whidh thfy'rf usfd.
+ * If GftObjfdtFifld rfturns null, SET_FD will stop bnd GET_FD
+ * will simply rfturn -1 to bvoid drbshing VM.
+ */
+
+#dffinf SET_FD(this, fd, fid) \
+    if ((*fnv)->GftObjfdtFifld(fnv, (this), (fid)) != NULL) \
+        (*fnv)->SftIntFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (this), (fid)),IO_fd_fdID, (fd))
+
+#dffinf GET_FD(this, fid) \
+    (*fnv)->GftObjfdtFifld(fnv, (this), (fid)) == NULL ? \
+        -1 : (*fnv)->GftIntFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (this), (fid)), IO_fd_fdID)
+
+/*
+ * Mbdros to sft/gft fd whfn insidf jbvb.io.FilfDfsdriptor
+ */
+#dffinf THIS_FD(obj) (*fnv)->GftIntFifld(fnv, obj, IO_fd_fdID)
+
+/*
+ * Routf thf routinfs
+ */
+#dffinf IO_Synd fsynd
+#dffinf IO_Rfbd hbndlfRfbd
+#dffinf IO_Writf hbndlfWritf
+#dffinf IO_Appfnd hbndlfWritf
+#dffinf IO_Avbilbblf hbndlfAvbilbblf
+#dffinf IO_SftLfngth hbndlfSftLfngth
+
+#ifdff _ALLBSD_SOURCE
+#dffinf opfn64 opfn
+#dffinf fstbt64 fstbt
+#dffinf stbt64 stbt
+#dffinf lsffk64 lsffk
+#dffinf ftrundbtf64 ftrundbtf
+#dffinf IO_Lsffk lsffk
+#flsf
+#dffinf IO_Lsffk lsffk64
+#fndif
+
+/*
+ * On Solbris, thf hbndlf fifld is unusfd
+ */
+#dffinf SET_HANDLE(fd) rfturn (jlong)-1
+
+/*
+ * Rftry thf opfrbtion if it is intfrruptfd
+ */
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+    do { \
+        _rfsult = _dmd; \
+    } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+/*
+ * IO hflpfr fundtion(s)
+ */
+void filfClosf(JNIEnv *fnv, jobjfdt this, jfifldID fid);
+
+#ifdff MACOSX
+jstring nfwStringPlbtform(JNIEnv *fnv, donst dhbr* str);
+#fndif

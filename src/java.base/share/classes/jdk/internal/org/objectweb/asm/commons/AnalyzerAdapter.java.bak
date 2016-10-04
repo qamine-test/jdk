@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,921 +56,921 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
 
 /**
- * A {@link MethodVisitor} that keeps track of stack map frame changes between
- * {@link #visitFrame(int, int, Object[], int, Object[]) visitFrame} calls. This
- * adapter must be used with the
- * {@link jdk.internal.org.objectweb.asm.ClassReader#EXPAND_FRAMES} option. Each
- * visit<i>X</i> instruction delegates to the next visitor in the chain, if any,
- * and then simulates the effect of this instruction on the stack map frame,
- * represented by {@link #locals} and {@link #stack}. The next visitor in the
- * chain can get the state of the stack map frame <i>before</i> each instruction
- * by reading the value of these fields in its visit<i>X</i> methods (this
- * requires a reference to the AnalyzerAdapter that is before it in the chain).
- * If this adapter is used with a class that does not contain stack map table
- * attributes (i.e., pre Java 6 classes) then this adapter may not be able to
- * compute the stack map frame for each instruction. In this case no exception
- * is thrown but the {@link #locals} and {@link #stack} fields will be null for
- * these instructions.
+ * A {@link MftiodVisitor} tibt kffps trbdk of stbdk mbp frbmf dibngfs bftwffn
+ * {@link #visitFrbmf(int, int, Objfdt[], int, Objfdt[]) visitFrbmf} dblls. Tiis
+ * bdbptfr must bf usfd witi tif
+ * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssRfbdfr#EXPAND_FRAMES} option. Ebdi
+ * visit<i>X</i> instrudtion dflfgbtfs to tif nfxt visitor in tif dibin, if bny,
+ * bnd tifn simulbtfs tif ffffdt of tiis instrudtion on tif stbdk mbp frbmf,
+ * rfprfsfntfd by {@link #lodbls} bnd {@link #stbdk}. Tif nfxt visitor in tif
+ * dibin dbn gft tif stbtf of tif stbdk mbp frbmf <i>bfforf</i> fbdi instrudtion
+ * by rfbding tif vbluf of tifsf fiflds in its visit<i>X</i> mftiods (tiis
+ * rfquirfs b rfffrfndf to tif AnblyzfrAdbptfr tibt is bfforf it in tif dibin).
+ * If tiis bdbptfr is usfd witi b dlbss tibt dofs not dontbin stbdk mbp tbblf
+ * bttributfs (i.f., prf Jbvb 6 dlbssfs) tifn tiis bdbptfr mby not bf bblf to
+ * domputf tif stbdk mbp frbmf for fbdi instrudtion. In tiis dbsf no fxdfption
+ * is tirown but tif {@link #lodbls} bnd {@link #stbdk} fiflds will bf null for
+ * tifsf instrudtions.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class AnalyzerAdapter extends MethodVisitor {
+publid dlbss AnblyzfrAdbptfr fxtfnds MftiodVisitor {
 
     /**
-     * <code>List</code> of the local variable slots for current execution
-     * frame. Primitive types are represented by {@link Opcodes#TOP},
-     * {@link Opcodes#INTEGER}, {@link Opcodes#FLOAT}, {@link Opcodes#LONG},
-     * {@link Opcodes#DOUBLE},{@link Opcodes#NULL} or
-     * {@link Opcodes#UNINITIALIZED_THIS} (long and double are represented by
-     * two elements, the second one being TOP). Reference types are represented
-     * by String objects (representing internal names), and uninitialized types
-     * by Label objects (this label designates the NEW instruction that created
-     * this uninitialized value). This field is <tt>null</tt> for unreachable
-     * instructions.
+     * <dodf>List</dodf> of tif lodbl vbribblf slots for durrfnt fxfdution
+     * frbmf. Primitivf typfs brf rfprfsfntfd by {@link Opdodfs#TOP},
+     * {@link Opdodfs#INTEGER}, {@link Opdodfs#FLOAT}, {@link Opdodfs#LONG},
+     * {@link Opdodfs#DOUBLE},{@link Opdodfs#NULL} or
+     * {@link Opdodfs#UNINITIALIZED_THIS} (long bnd doublf brf rfprfsfntfd by
+     * two flfmfnts, tif sfdond onf bfing TOP). Rfffrfndf typfs brf rfprfsfntfd
+     * by String objfdts (rfprfsfnting intfrnbl nbmfs), bnd uninitiblizfd typfs
+     * by Lbbfl objfdts (tiis lbbfl dfsignbtfs tif NEW instrudtion tibt drfbtfd
+     * tiis uninitiblizfd vbluf). Tiis fifld is <tt>null</tt> for unrfbdibblf
+     * instrudtions.
      */
-    public List<Object> locals;
+    publid List<Objfdt> lodbls;
 
     /**
-     * <code>List</code> of the operand stack slots for current execution frame.
-     * Primitive types are represented by {@link Opcodes#TOP},
-     * {@link Opcodes#INTEGER}, {@link Opcodes#FLOAT}, {@link Opcodes#LONG},
-     * {@link Opcodes#DOUBLE},{@link Opcodes#NULL} or
-     * {@link Opcodes#UNINITIALIZED_THIS} (long and double are represented by
-     * two elements, the second one being TOP). Reference types are represented
-     * by String objects (representing internal names), and uninitialized types
-     * by Label objects (this label designates the NEW instruction that created
-     * this uninitialized value). This field is <tt>null</tt> for unreachable
-     * instructions.
+     * <dodf>List</dodf> of tif opfrbnd stbdk slots for durrfnt fxfdution frbmf.
+     * Primitivf typfs brf rfprfsfntfd by {@link Opdodfs#TOP},
+     * {@link Opdodfs#INTEGER}, {@link Opdodfs#FLOAT}, {@link Opdodfs#LONG},
+     * {@link Opdodfs#DOUBLE},{@link Opdodfs#NULL} or
+     * {@link Opdodfs#UNINITIALIZED_THIS} (long bnd doublf brf rfprfsfntfd by
+     * two flfmfnts, tif sfdond onf bfing TOP). Rfffrfndf typfs brf rfprfsfntfd
+     * by String objfdts (rfprfsfnting intfrnbl nbmfs), bnd uninitiblizfd typfs
+     * by Lbbfl objfdts (tiis lbbfl dfsignbtfs tif NEW instrudtion tibt drfbtfd
+     * tiis uninitiblizfd vbluf). Tiis fifld is <tt>null</tt> for unrfbdibblf
+     * instrudtions.
      */
-    public List<Object> stack;
+    publid List<Objfdt> stbdk;
 
     /**
-     * The labels that designate the next instruction to be visited. May be
+     * Tif lbbfls tibt dfsignbtf tif nfxt instrudtion to bf visitfd. Mby bf
      * <tt>null</tt>.
      */
-    private List<Label> labels;
+    privbtf List<Lbbfl> lbbfls;
 
     /**
-     * Information about uninitialized types in the current execution frame.
-     * This map associates internal names to Label objects. Each label
-     * designates a NEW instruction that created the currently uninitialized
-     * types, and the associated internal name represents the NEW operand, i.e.
-     * the final, initialized type value.
+     * Informbtion bbout uninitiblizfd typfs in tif durrfnt fxfdution frbmf.
+     * Tiis mbp bssodibtfs intfrnbl nbmfs to Lbbfl objfdts. Ebdi lbbfl
+     * dfsignbtfs b NEW instrudtion tibt drfbtfd tif durrfntly uninitiblizfd
+     * typfs, bnd tif bssodibtfd intfrnbl nbmf rfprfsfnts tif NEW opfrbnd, i.f.
+     * tif finbl, initiblizfd typf vbluf.
      */
-    public Map<Object, Object> uninitializedTypes;
+    publid Mbp<Objfdt, Objfdt> uninitiblizfdTypfs;
 
     /**
-     * The maximum stack size of this method.
+     * Tif mbximum stbdk sizf of tiis mftiod.
      */
-    private int maxStack;
+    privbtf int mbxStbdk;
 
     /**
-     * The maximum number of local variables of this method.
+     * Tif mbximum numbfr of lodbl vbribblfs of tiis mftiod.
      */
-    private int maxLocals;
+    privbtf int mbxLodbls;
 
     /**
-     * The owner's class name.
+     * Tif ownfr's dlbss nbmf.
      */
-    private String owner;
+    privbtf String ownfr;
 
     /**
-     * Creates a new {@link AnalyzerAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #AnalyzerAdapter(int, String, int, String, String, MethodVisitor)}
-     * version.
+     * Crfbtfs b nfw {@link AnblyzfrAdbptfr}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #AnblyzfrAdbptfr(int, String, int, String, String, MftiodVisitor)}
+     * vfrsion.
      *
-     * @param owner
-     *            the owner's class name.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls. May
-     *            be <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm ownfr
+     *            tif ownfr's dlbss nbmf.
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr dflfgbtfs dblls. Mby
+     *            bf <tt>null</tt>.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public AnalyzerAdapter(final String owner, final int access,
-            final String name, final String desc, final MethodVisitor mv) {
-        this(Opcodes.ASM5, owner, access, name, desc, mv);
-        if (getClass() != AnalyzerAdapter.class) {
-            throw new IllegalStateException();
+    publid AnblyzfrAdbptfr(finbl String ownfr, finbl int bddfss,
+            finbl String nbmf, finbl String dfsd, finbl MftiodVisitor mv) {
+        tiis(Opdodfs.ASM5, ownfr, bddfss, nbmf, dfsd, mv);
+        if (gftClbss() != AnblyzfrAdbptfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Creates a new {@link AnalyzerAdapter}.
+     * Crfbtfs b nfw {@link AnblyzfrAdbptfr}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param owner
-     *            the owner's class name.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls. May
-     *            be <tt>null</tt>.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm ownfr
+     *            tif ownfr's dlbss nbmf.
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr dflfgbtfs dblls. Mby
+     *            bf <tt>null</tt>.
      */
-    protected AnalyzerAdapter(final int api, final String owner,
-            final int access, final String name, final String desc,
-            final MethodVisitor mv) {
-        super(api, mv);
-        this.owner = owner;
-        locals = new ArrayList<Object>();
-        stack = new ArrayList<Object>();
-        uninitializedTypes = new HashMap<Object, Object>();
+    protfdtfd AnblyzfrAdbptfr(finbl int bpi, finbl String ownfr,
+            finbl int bddfss, finbl String nbmf, finbl String dfsd,
+            finbl MftiodVisitor mv) {
+        supfr(bpi, mv);
+        tiis.ownfr = ownfr;
+        lodbls = nfw ArrbyList<Objfdt>();
+        stbdk = nfw ArrbyList<Objfdt>();
+        uninitiblizfdTypfs = nfw HbsiMbp<Objfdt, Objfdt>();
 
-        if ((access & Opcodes.ACC_STATIC) == 0) {
-            if ("<init>".equals(name)) {
-                locals.add(Opcodes.UNINITIALIZED_THIS);
-            } else {
-                locals.add(owner);
+        if ((bddfss & Opdodfs.ACC_STATIC) == 0) {
+            if ("<init>".fqubls(nbmf)) {
+                lodbls.bdd(Opdodfs.UNINITIALIZED_THIS);
+            } flsf {
+                lodbls.bdd(ownfr);
             }
         }
-        Type[] types = Type.getArgumentTypes(desc);
-        for (int i = 0; i < types.length; ++i) {
-            Type type = types[i];
-            switch (type.getSort()) {
-            case Type.BOOLEAN:
-            case Type.CHAR:
-            case Type.BYTE:
-            case Type.SHORT:
-            case Type.INT:
-                locals.add(Opcodes.INTEGER);
-                break;
-            case Type.FLOAT:
-                locals.add(Opcodes.FLOAT);
-                break;
-            case Type.LONG:
-                locals.add(Opcodes.LONG);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.DOUBLE:
-                locals.add(Opcodes.DOUBLE);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.ARRAY:
-                locals.add(types[i].getDescriptor());
-                break;
-            // case Type.OBJECT:
-            default:
-                locals.add(types[i].getInternalName());
+        Typf[] typfs = Typf.gftArgumfntTypfs(dfsd);
+        for (int i = 0; i < typfs.lfngti; ++i) {
+            Typf typf = typfs[i];
+            switdi (typf.gftSort()) {
+            dbsf Typf.BOOLEAN:
+            dbsf Typf.CHAR:
+            dbsf Typf.BYTE:
+            dbsf Typf.SHORT:
+            dbsf Typf.INT:
+                lodbls.bdd(Opdodfs.INTEGER);
+                brfbk;
+            dbsf Typf.FLOAT:
+                lodbls.bdd(Opdodfs.FLOAT);
+                brfbk;
+            dbsf Typf.LONG:
+                lodbls.bdd(Opdodfs.LONG);
+                lodbls.bdd(Opdodfs.TOP);
+                brfbk;
+            dbsf Typf.DOUBLE:
+                lodbls.bdd(Opdodfs.DOUBLE);
+                lodbls.bdd(Opdodfs.TOP);
+                brfbk;
+            dbsf Typf.ARRAY:
+                lodbls.bdd(typfs[i].gftDfsdriptor());
+                brfbk;
+            // dbsf Typf.OBJECT:
+            dffbult:
+                lodbls.bdd(typfs[i].gftIntfrnblNbmf());
             }
         }
-        maxLocals = locals.size();
+        mbxLodbls = lodbls.sizf();
     }
 
-    @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (type != Opcodes.F_NEW) { // uncompressed frame
-            throw new IllegalStateException(
-                    "ClassReader.accept() should be called with EXPAND_FRAMES flag");
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        if (typf != Opdodfs.F_NEW) { // undomprfssfd frbmf
+            tirow nfw IllfgblStbtfExdfption(
+                    "ClbssRfbdfr.bddfpt() siould bf dbllfd witi EXPAND_FRAMES flbg");
         }
 
         if (mv != null) {
-            mv.visitFrame(type, nLocal, local, nStack, stack);
+            mv.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
         }
 
-        if (this.locals != null) {
-            this.locals.clear();
-            this.stack.clear();
-        } else {
-            this.locals = new ArrayList<Object>();
-            this.stack = new ArrayList<Object>();
+        if (tiis.lodbls != null) {
+            tiis.lodbls.dlfbr();
+            tiis.stbdk.dlfbr();
+        } flsf {
+            tiis.lodbls = nfw ArrbyList<Objfdt>();
+            tiis.stbdk = nfw ArrbyList<Objfdt>();
         }
-        visitFrameTypes(nLocal, local, this.locals);
-        visitFrameTypes(nStack, stack, this.stack);
-        maxStack = Math.max(maxStack, this.stack.size());
+        visitFrbmfTypfs(nLodbl, lodbl, tiis.lodbls);
+        visitFrbmfTypfs(nStbdk, stbdk, tiis.stbdk);
+        mbxStbdk = Mbti.mbx(mbxStbdk, tiis.stbdk.sizf());
     }
 
-    private static void visitFrameTypes(final int n, final Object[] types,
-            final List<Object> result) {
+    privbtf stbtid void visitFrbmfTypfs(finbl int n, finbl Objfdt[] typfs,
+            finbl List<Objfdt> rfsult) {
         for (int i = 0; i < n; ++i) {
-            Object type = types[i];
-            result.add(type);
-            if (type == Opcodes.LONG || type == Opcodes.DOUBLE) {
-                result.add(Opcodes.TOP);
+            Objfdt typf = typfs[i];
+            rfsult.bdd(typf);
+            if (typf == Opdodfs.LONG || typf == Opdodfs.DOUBLE) {
+                rfsult.bdd(Opdodfs.TOP);
             }
         }
     }
 
-    @Override
-    public void visitInsn(final int opcode) {
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
         if (mv != null) {
-            mv.visitInsn(opcode);
+            mv.visitInsn(opdodf);
         }
-        execute(opcode, 0, null);
-        if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)
-                || opcode == Opcodes.ATHROW) {
-            this.locals = null;
-            this.stack = null;
+        fxfdutf(opdodf, 0, null);
+        if ((opdodf >= Opdodfs.IRETURN && opdodf <= Opdodfs.RETURN)
+                || opdodf == Opdodfs.ATHROW) {
+            tiis.lodbls = null;
+            tiis.stbdk = null;
         }
     }
 
-    @Override
-    public void visitIntInsn(final int opcode, final int operand) {
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
         if (mv != null) {
-            mv.visitIntInsn(opcode, operand);
+            mv.visitIntInsn(opdodf, opfrbnd);
         }
-        execute(opcode, operand, null);
+        fxfdutf(opdodf, opfrbnd, null);
     }
 
-    @Override
-    public void visitVarInsn(final int opcode, final int var) {
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
         if (mv != null) {
-            mv.visitVarInsn(opcode, var);
+            mv.visitVbrInsn(opdodf, vbr);
         }
-        execute(opcode, var, null);
+        fxfdutf(opdodf, vbr, null);
     }
 
-    @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        if (opcode == Opcodes.NEW) {
-            if (labels == null) {
-                Label l = new Label();
-                labels = new ArrayList<Label>(3);
-                labels.add(l);
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        if (opdodf == Opdodfs.NEW) {
+            if (lbbfls == null) {
+                Lbbfl l = nfw Lbbfl();
+                lbbfls = nfw ArrbyList<Lbbfl>(3);
+                lbbfls.bdd(l);
                 if (mv != null) {
-                    mv.visitLabel(l);
+                    mv.visitLbbfl(l);
                 }
             }
-            for (int i = 0; i < labels.size(); ++i) {
-                uninitializedTypes.put(labels.get(i), type);
+            for (int i = 0; i < lbbfls.sizf(); ++i) {
+                uninitiblizfdTypfs.put(lbbfls.gft(i), typf);
             }
         }
         if (mv != null) {
-            mv.visitTypeInsn(opcode, type);
+            mv.visitTypfInsn(opdodf, typf);
         }
-        execute(opcode, 0, type);
+        fxfdutf(opdodf, 0, typf);
     }
 
-    @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
         if (mv != null) {
-            mv.visitFieldInsn(opcode, owner, name, desc);
+            mv.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
         }
-        execute(opcode, 0, desc);
+        fxfdutf(opdodf, 0, dfsd);
     }
 
-    @Deprecated
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
-                opcode == Opcodes.INVOKEINTERFACE);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
     }
 
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
+    privbtf void doVisitMftiodInsn(int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
         }
-        if (this.locals == null) {
-            labels = null;
-            return;
+        if (tiis.lodbls == null) {
+            lbbfls = null;
+            rfturn;
         }
-        pop(desc);
-        if (opcode != Opcodes.INVOKESTATIC) {
-            Object t = pop();
-            if (opcode == Opcodes.INVOKESPECIAL && name.charAt(0) == '<') {
-                Object u;
-                if (t == Opcodes.UNINITIALIZED_THIS) {
-                    u = this.owner;
-                } else {
-                    u = uninitializedTypes.get(t);
+        pop(dfsd);
+        if (opdodf != Opdodfs.INVOKESTATIC) {
+            Objfdt t = pop();
+            if (opdodf == Opdodfs.INVOKESPECIAL && nbmf.dibrAt(0) == '<') {
+                Objfdt u;
+                if (t == Opdodfs.UNINITIALIZED_THIS) {
+                    u = tiis.ownfr;
+                } flsf {
+                    u = uninitiblizfdTypfs.gft(t);
                 }
-                for (int i = 0; i < locals.size(); ++i) {
-                    if (locals.get(i) == t) {
-                        locals.set(i, u);
+                for (int i = 0; i < lodbls.sizf(); ++i) {
+                    if (lodbls.gft(i) == t) {
+                        lodbls.sft(i, u);
                     }
                 }
-                for (int i = 0; i < stack.size(); ++i) {
-                    if (stack.get(i) == t) {
-                        stack.set(i, u);
+                for (int i = 0; i < stbdk.sizf(); ++i) {
+                    if (stbdk.gft(i) == t) {
+                        stbdk.sft(i, u);
                     }
                 }
             }
         }
-        pushDesc(desc);
-        labels = null;
+        pusiDfsd(dfsd);
+        lbbfls = null;
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
         if (mv != null) {
-            mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+            mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
         }
-        if (this.locals == null) {
-            labels = null;
-            return;
+        if (tiis.lodbls == null) {
+            lbbfls = null;
+            rfturn;
         }
-        pop(desc);
-        pushDesc(desc);
-        labels = null;
+        pop(dfsd);
+        pusiDfsd(dfsd);
+        lbbfls = null;
     }
 
-    @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
         if (mv != null) {
-            mv.visitJumpInsn(opcode, label);
+            mv.visitJumpInsn(opdodf, lbbfl);
         }
-        execute(opcode, 0, null);
-        if (opcode == Opcodes.GOTO) {
-            this.locals = null;
-            this.stack = null;
+        fxfdutf(opdodf, 0, null);
+        if (opdodf == Opdodfs.GOTO) {
+            tiis.lodbls = null;
+            tiis.stbdk = null;
         }
     }
 
-    @Override
-    public void visitLabel(final Label label) {
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
         if (mv != null) {
-            mv.visitLabel(label);
+            mv.visitLbbfl(lbbfl);
         }
-        if (labels == null) {
-            labels = new ArrayList<Label>(3);
+        if (lbbfls == null) {
+            lbbfls = nfw ArrbyList<Lbbfl>(3);
         }
-        labels.add(label);
+        lbbfls.bdd(lbbfl);
     }
 
-    @Override
-    public void visitLdcInsn(final Object cst) {
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
         if (mv != null) {
-            mv.visitLdcInsn(cst);
+            mv.visitLddInsn(dst);
         }
-        if (this.locals == null) {
-            labels = null;
-            return;
+        if (tiis.lodbls == null) {
+            lbbfls = null;
+            rfturn;
         }
-        if (cst instanceof Integer) {
-            push(Opcodes.INTEGER);
-        } else if (cst instanceof Long) {
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-        } else if (cst instanceof Float) {
-            push(Opcodes.FLOAT);
-        } else if (cst instanceof Double) {
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-        } else if (cst instanceof String) {
-            push("java/lang/String");
-        } else if (cst instanceof Type) {
-            int sort = ((Type) cst).getSort();
-            if (sort == Type.OBJECT || sort == Type.ARRAY) {
-                push("java/lang/Class");
-            } else if (sort == Type.METHOD) {
-                push("java/lang/invoke/MethodType");
-            } else {
-                throw new IllegalArgumentException();
+        if (dst instbndfof Intfgfr) {
+            pusi(Opdodfs.INTEGER);
+        } flsf if (dst instbndfof Long) {
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+        } flsf if (dst instbndfof Flobt) {
+            pusi(Opdodfs.FLOAT);
+        } flsf if (dst instbndfof Doublf) {
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+        } flsf if (dst instbndfof String) {
+            pusi("jbvb/lbng/String");
+        } flsf if (dst instbndfof Typf) {
+            int sort = ((Typf) dst).gftSort();
+            if (sort == Typf.OBJECT || sort == Typf.ARRAY) {
+                pusi("jbvb/lbng/Clbss");
+            } flsf if (sort == Typf.METHOD) {
+                pusi("jbvb/lbng/invokf/MftiodTypf");
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption();
             }
-        } else if (cst instanceof Handle) {
-            push("java/lang/invoke/MethodHandle");
-        } else {
-            throw new IllegalArgumentException();
+        } flsf if (dst instbndfof Hbndlf) {
+            pusi("jbvb/lbng/invokf/MftiodHbndlf");
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        labels = null;
+        lbbfls = null;
     }
 
-    @Override
-    public void visitIincInsn(final int var, final int increment) {
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
         if (mv != null) {
-            mv.visitIincInsn(var, increment);
+            mv.visitIindInsn(vbr, indrfmfnt);
         }
-        execute(Opcodes.IINC, var, null);
+        fxfdutf(Opdodfs.IINC, vbr, null);
     }
 
-    @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
         if (mv != null) {
-            mv.visitTableSwitchInsn(min, max, dflt, labels);
+            mv.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
         }
-        execute(Opcodes.TABLESWITCH, 0, null);
-        this.locals = null;
-        this.stack = null;
+        fxfdutf(Opdodfs.TABLESWITCH, 0, null);
+        tiis.lodbls = null;
+        tiis.stbdk = null;
     }
 
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
         if (mv != null) {
-            mv.visitLookupSwitchInsn(dflt, keys, labels);
+            mv.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
         }
-        execute(Opcodes.LOOKUPSWITCH, 0, null);
-        this.locals = null;
-        this.stack = null;
+        fxfdutf(Opdodfs.LOOKUPSWITCH, 0, null);
+        tiis.lodbls = null;
+        tiis.stbdk = null;
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
         if (mv != null) {
-            mv.visitMultiANewArrayInsn(desc, dims);
+            mv.visitMultiANfwArrbyInsn(dfsd, dims);
         }
-        execute(Opcodes.MULTIANEWARRAY, dims, desc);
+        fxfdutf(Opdodfs.MULTIANEWARRAY, dims, dfsd);
     }
 
-    @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
         if (mv != null) {
-            this.maxStack = Math.max(this.maxStack, maxStack);
-            this.maxLocals = Math.max(this.maxLocals, maxLocals);
-            mv.visitMaxs(this.maxStack, this.maxLocals);
+            tiis.mbxStbdk = Mbti.mbx(tiis.mbxStbdk, mbxStbdk);
+            tiis.mbxLodbls = Mbti.mbx(tiis.mbxLodbls, mbxLodbls);
+            mv.visitMbxs(tiis.mbxStbdk, tiis.mbxLodbls);
         }
     }
 
     // ------------------------------------------------------------------------
 
-    private Object get(final int local) {
-        maxLocals = Math.max(maxLocals, local + 1);
-        return local < locals.size() ? locals.get(local) : Opcodes.TOP;
+    privbtf Objfdt gft(finbl int lodbl) {
+        mbxLodbls = Mbti.mbx(mbxLodbls, lodbl + 1);
+        rfturn lodbl < lodbls.sizf() ? lodbls.gft(lodbl) : Opdodfs.TOP;
     }
 
-    private void set(final int local, final Object type) {
-        maxLocals = Math.max(maxLocals, local + 1);
-        while (local >= locals.size()) {
-            locals.add(Opcodes.TOP);
+    privbtf void sft(finbl int lodbl, finbl Objfdt typf) {
+        mbxLodbls = Mbti.mbx(mbxLodbls, lodbl + 1);
+        wiilf (lodbl >= lodbls.sizf()) {
+            lodbls.bdd(Opdodfs.TOP);
         }
-        locals.set(local, type);
+        lodbls.sft(lodbl, typf);
     }
 
-    private void push(final Object type) {
-        stack.add(type);
-        maxStack = Math.max(maxStack, stack.size());
+    privbtf void pusi(finbl Objfdt typf) {
+        stbdk.bdd(typf);
+        mbxStbdk = Mbti.mbx(mbxStbdk, stbdk.sizf());
     }
 
-    private void pushDesc(final String desc) {
-        int index = desc.charAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
-        switch (desc.charAt(index)) {
-        case 'V':
-            return;
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-            push(Opcodes.INTEGER);
-            return;
-        case 'F':
-            push(Opcodes.FLOAT);
-            return;
-        case 'J':
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            return;
-        case 'D':
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-            return;
-        case '[':
-            if (index == 0) {
-                push(desc);
-            } else {
-                push(desc.substring(index, desc.length()));
+    privbtf void pusiDfsd(finbl String dfsd) {
+        int indfx = dfsd.dibrAt(0) == '(' ? dfsd.indfxOf(')') + 1 : 0;
+        switdi (dfsd.dibrAt(indfx)) {
+        dbsf 'V':
+            rfturn;
+        dbsf 'Z':
+        dbsf 'C':
+        dbsf 'B':
+        dbsf 'S':
+        dbsf 'I':
+            pusi(Opdodfs.INTEGER);
+            rfturn;
+        dbsf 'F':
+            pusi(Opdodfs.FLOAT);
+            rfturn;
+        dbsf 'J':
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            rfturn;
+        dbsf 'D':
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+            rfturn;
+        dbsf '[':
+            if (indfx == 0) {
+                pusi(dfsd);
+            } flsf {
+                pusi(dfsd.substring(indfx, dfsd.lfngti()));
             }
-            break;
-        // case 'L':
-        default:
-            if (index == 0) {
-                push(desc.substring(1, desc.length() - 1));
-            } else {
-                push(desc.substring(index + 1, desc.length() - 1));
+            brfbk;
+        // dbsf 'L':
+        dffbult:
+            if (indfx == 0) {
+                pusi(dfsd.substring(1, dfsd.lfngti() - 1));
+            } flsf {
+                pusi(dfsd.substring(indfx + 1, dfsd.lfngti() - 1));
             }
         }
     }
 
-    private Object pop() {
-        return stack.remove(stack.size() - 1);
+    privbtf Objfdt pop() {
+        rfturn stbdk.rfmovf(stbdk.sizf() - 1);
     }
 
-    private void pop(final int n) {
-        int size = stack.size();
-        int end = size - n;
-        for (int i = size - 1; i >= end; --i) {
-            stack.remove(i);
+    privbtf void pop(finbl int n) {
+        int sizf = stbdk.sizf();
+        int fnd = sizf - n;
+        for (int i = sizf - 1; i >= fnd; --i) {
+            stbdk.rfmovf(i);
         }
     }
 
-    private void pop(final String desc) {
-        char c = desc.charAt(0);
-        if (c == '(') {
+    privbtf void pop(finbl String dfsd) {
+        dibr d = dfsd.dibrAt(0);
+        if (d == '(') {
             int n = 0;
-            Type[] types = Type.getArgumentTypes(desc);
-            for (int i = 0; i < types.length; ++i) {
-                n += types[i].getSize();
+            Typf[] typfs = Typf.gftArgumfntTypfs(dfsd);
+            for (int i = 0; i < typfs.lfngti; ++i) {
+                n += typfs[i].gftSizf();
             }
             pop(n);
-        } else if (c == 'J' || c == 'D') {
+        } flsf if (d == 'J' || d == 'D') {
             pop(2);
-        } else {
+        } flsf {
             pop(1);
         }
     }
 
-    private void execute(final int opcode, final int iarg, final String sarg) {
-        if (this.locals == null) {
-            labels = null;
-            return;
+    privbtf void fxfdutf(finbl int opdodf, finbl int ibrg, finbl String sbrg) {
+        if (tiis.lodbls == null) {
+            lbbfls = null;
+            rfturn;
         }
-        Object t1, t2, t3, t4;
-        switch (opcode) {
-        case Opcodes.NOP:
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-        case Opcodes.GOTO:
-        case Opcodes.RETURN:
-            break;
-        case Opcodes.ACONST_NULL:
-            push(Opcodes.NULL);
-            break;
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
-            push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
-            push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.ILOAD:
-        case Opcodes.FLOAD:
-        case Opcodes.ALOAD:
-            push(get(iarg));
-            break;
-        case Opcodes.LLOAD:
-        case Opcodes.DLOAD:
-            push(get(iarg));
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
+        Objfdt t1, t2, t3, t4;
+        switdi (opdodf) {
+        dbsf Opdodfs.NOP:
+        dbsf Opdodfs.INEG:
+        dbsf Opdodfs.LNEG:
+        dbsf Opdodfs.FNEG:
+        dbsf Opdodfs.DNEG:
+        dbsf Opdodfs.I2B:
+        dbsf Opdodfs.I2C:
+        dbsf Opdodfs.I2S:
+        dbsf Opdodfs.GOTO:
+        dbsf Opdodfs.RETURN:
+            brfbk;
+        dbsf Opdodfs.ACONST_NULL:
+            pusi(Opdodfs.NULL);
+            brfbk;
+        dbsf Opdodfs.ICONST_M1:
+        dbsf Opdodfs.ICONST_0:
+        dbsf Opdodfs.ICONST_1:
+        dbsf Opdodfs.ICONST_2:
+        dbsf Opdodfs.ICONST_3:
+        dbsf Opdodfs.ICONST_4:
+        dbsf Opdodfs.ICONST_5:
+        dbsf Opdodfs.BIPUSH:
+        dbsf Opdodfs.SIPUSH:
+            pusi(Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.LCONST_0:
+        dbsf Opdodfs.LCONST_1:
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.FCONST_0:
+        dbsf Opdodfs.FCONST_1:
+        dbsf Opdodfs.FCONST_2:
+            pusi(Opdodfs.FLOAT);
+            brfbk;
+        dbsf Opdodfs.DCONST_0:
+        dbsf Opdodfs.DCONST_1:
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.ILOAD:
+        dbsf Opdodfs.FLOAD:
+        dbsf Opdodfs.ALOAD:
+            pusi(gft(ibrg));
+            brfbk;
+        dbsf Opdodfs.LLOAD:
+        dbsf Opdodfs.DLOAD:
+            pusi(gft(ibrg));
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.IALOAD:
+        dbsf Opdodfs.BALOAD:
+        dbsf Opdodfs.CALOAD:
+        dbsf Opdodfs.SALOAD:
             pop(2);
-            push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LALOAD:
-        case Opcodes.D2L:
+            pusi(Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.LALOAD:
+        dbsf Opdodfs.D2L:
             pop(2);
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.FALOAD:
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.FALOAD:
             pop(2);
-            push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DALOAD:
-        case Opcodes.L2D:
+            pusi(Opdodfs.FLOAT);
+            brfbk;
+        dbsf Opdodfs.DALOAD:
+        dbsf Opdodfs.L2D:
             pop(2);
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.AALOAD:
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.AALOAD:
             pop(1);
             t1 = pop();
-            if (t1 instanceof String) {
-                pushDesc(((String) t1).substring(1));
-            } else {
-                push("java/lang/Object");
+            if (t1 instbndfof String) {
+                pusiDfsd(((String) t1).substring(1));
+            } flsf {
+                pusi("jbvb/lbng/Objfdt");
             }
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.ASTORE:
+            brfbk;
+        dbsf Opdodfs.ISTORE:
+        dbsf Opdodfs.FSTORE:
+        dbsf Opdodfs.ASTORE:
             t1 = pop();
-            set(iarg, t1);
-            if (iarg > 0) {
-                t2 = get(iarg - 1);
-                if (t2 == Opcodes.LONG || t2 == Opcodes.DOUBLE) {
-                    set(iarg - 1, Opcodes.TOP);
+            sft(ibrg, t1);
+            if (ibrg > 0) {
+                t2 = gft(ibrg - 1);
+                if (t2 == Opdodfs.LONG || t2 == Opdodfs.DOUBLE) {
+                    sft(ibrg - 1, Opdodfs.TOP);
                 }
             }
-            break;
-        case Opcodes.LSTORE:
-        case Opcodes.DSTORE:
+            brfbk;
+        dbsf Opdodfs.LSTORE:
+        dbsf Opdodfs.DSTORE:
             pop(1);
             t1 = pop();
-            set(iarg, t1);
-            set(iarg + 1, Opcodes.TOP);
-            if (iarg > 0) {
-                t2 = get(iarg - 1);
-                if (t2 == Opcodes.LONG || t2 == Opcodes.DOUBLE) {
-                    set(iarg - 1, Opcodes.TOP);
+            sft(ibrg, t1);
+            sft(ibrg + 1, Opdodfs.TOP);
+            if (ibrg > 0) {
+                t2 = gft(ibrg - 1);
+                if (t2 == Opdodfs.LONG || t2 == Opdodfs.DOUBLE) {
+                    sft(ibrg - 1, Opdodfs.TOP);
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.AASTORE:
+            brfbk;
+        dbsf Opdodfs.IASTORE:
+        dbsf Opdodfs.BASTORE:
+        dbsf Opdodfs.CASTORE:
+        dbsf Opdodfs.SASTORE:
+        dbsf Opdodfs.FASTORE:
+        dbsf Opdodfs.AASTORE:
             pop(3);
-            break;
-        case Opcodes.LASTORE:
-        case Opcodes.DASTORE:
+            brfbk;
+        dbsf Opdodfs.LASTORE:
+        dbsf Opdodfs.DASTORE:
             pop(4);
-            break;
-        case Opcodes.POP:
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-        case Opcodes.IRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.ARETURN:
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-        case Opcodes.ATHROW:
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
+            brfbk;
+        dbsf Opdodfs.POP:
+        dbsf Opdodfs.IFEQ:
+        dbsf Opdodfs.IFNE:
+        dbsf Opdodfs.IFLT:
+        dbsf Opdodfs.IFGE:
+        dbsf Opdodfs.IFGT:
+        dbsf Opdodfs.IFLE:
+        dbsf Opdodfs.IRETURN:
+        dbsf Opdodfs.FRETURN:
+        dbsf Opdodfs.ARETURN:
+        dbsf Opdodfs.TABLESWITCH:
+        dbsf Opdodfs.LOOKUPSWITCH:
+        dbsf Opdodfs.ATHROW:
+        dbsf Opdodfs.MONITORENTER:
+        dbsf Opdodfs.MONITOREXIT:
+        dbsf Opdodfs.IFNULL:
+        dbsf Opdodfs.IFNONNULL:
             pop(1);
-            break;
-        case Opcodes.POP2:
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-        case Opcodes.LRETURN:
-        case Opcodes.DRETURN:
+            brfbk;
+        dbsf Opdodfs.POP2:
+        dbsf Opdodfs.IF_ICMPEQ:
+        dbsf Opdodfs.IF_ICMPNE:
+        dbsf Opdodfs.IF_ICMPLT:
+        dbsf Opdodfs.IF_ICMPGE:
+        dbsf Opdodfs.IF_ICMPGT:
+        dbsf Opdodfs.IF_ICMPLE:
+        dbsf Opdodfs.IF_ACMPEQ:
+        dbsf Opdodfs.IF_ACMPNE:
+        dbsf Opdodfs.LRETURN:
+        dbsf Opdodfs.DRETURN:
             pop(2);
-            break;
-        case Opcodes.DUP:
+            brfbk;
+        dbsf Opdodfs.DUP:
             t1 = pop();
-            push(t1);
-            push(t1);
-            break;
-        case Opcodes.DUP_X1:
-            t1 = pop();
-            t2 = pop();
-            push(t1);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP_X2:
+            pusi(t1);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP_X1:
             t1 = pop();
             t2 = pop();
-            t3 = pop();
-            push(t1);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2:
-            t1 = pop();
-            t2 = pop();
-            push(t2);
-            push(t1);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2_X1:
+            pusi(t1);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
-            push(t2);
-            push(t1);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2_X2:
+            pusi(t1);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2:
+            t1 = pop();
+            t2 = pop();
+            pusi(t2);
+            pusi(t1);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2_X1:
+            t1 = pop();
+            t2 = pop();
+            t3 = pop();
+            pusi(t2);
+            pusi(t1);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
             t4 = pop();
-            push(t2);
-            push(t1);
-            push(t4);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.SWAP:
+            pusi(t2);
+            pusi(t1);
+            pusi(t4);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.SWAP:
             t1 = pop();
             t2 = pop();
-            push(t1);
-            push(t2);
-            break;
-        case Opcodes.IADD:
-        case Opcodes.ISUB:
-        case Opcodes.IMUL:
-        case Opcodes.IDIV:
-        case Opcodes.IREM:
-        case Opcodes.IAND:
-        case Opcodes.IOR:
-        case Opcodes.IXOR:
-        case Opcodes.ISHL:
-        case Opcodes.ISHR:
-        case Opcodes.IUSHR:
-        case Opcodes.L2I:
-        case Opcodes.D2I:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
+            pusi(t1);
+            pusi(t2);
+            brfbk;
+        dbsf Opdodfs.IADD:
+        dbsf Opdodfs.ISUB:
+        dbsf Opdodfs.IMUL:
+        dbsf Opdodfs.IDIV:
+        dbsf Opdodfs.IREM:
+        dbsf Opdodfs.IAND:
+        dbsf Opdodfs.IOR:
+        dbsf Opdodfs.IXOR:
+        dbsf Opdodfs.ISHL:
+        dbsf Opdodfs.ISHR:
+        dbsf Opdodfs.IUSHR:
+        dbsf Opdodfs.L2I:
+        dbsf Opdodfs.D2I:
+        dbsf Opdodfs.FCMPL:
+        dbsf Opdodfs.FCMPG:
             pop(2);
-            push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LADD:
-        case Opcodes.LSUB:
-        case Opcodes.LMUL:
-        case Opcodes.LDIV:
-        case Opcodes.LREM:
-        case Opcodes.LAND:
-        case Opcodes.LOR:
-        case Opcodes.LXOR:
+            pusi(Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.LADD:
+        dbsf Opdodfs.LSUB:
+        dbsf Opdodfs.LMUL:
+        dbsf Opdodfs.LDIV:
+        dbsf Opdodfs.LREM:
+        dbsf Opdodfs.LAND:
+        dbsf Opdodfs.LOR:
+        dbsf Opdodfs.LXOR:
             pop(4);
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.FADD:
-        case Opcodes.FSUB:
-        case Opcodes.FMUL:
-        case Opcodes.FDIV:
-        case Opcodes.FREM:
-        case Opcodes.L2F:
-        case Opcodes.D2F:
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.FADD:
+        dbsf Opdodfs.FSUB:
+        dbsf Opdodfs.FMUL:
+        dbsf Opdodfs.FDIV:
+        dbsf Opdodfs.FREM:
+        dbsf Opdodfs.L2F:
+        dbsf Opdodfs.D2F:
             pop(2);
-            push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DADD:
-        case Opcodes.DSUB:
-        case Opcodes.DMUL:
-        case Opcodes.DDIV:
-        case Opcodes.DREM:
+            pusi(Opdodfs.FLOAT);
+            brfbk;
+        dbsf Opdodfs.DADD:
+        dbsf Opdodfs.DSUB:
+        dbsf Opdodfs.DMUL:
+        dbsf Opdodfs.DDIV:
+        dbsf Opdodfs.DREM:
             pop(4);
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.LSHL:
-        case Opcodes.LSHR:
-        case Opcodes.LUSHR:
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.LSHL:
+        dbsf Opdodfs.LSHR:
+        dbsf Opdodfs.LUSHR:
             pop(3);
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.IINC:
-            set(iarg, Opcodes.INTEGER);
-            break;
-        case Opcodes.I2L:
-        case Opcodes.F2L:
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.IINC:
+            sft(ibrg, Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.I2L:
+        dbsf Opdodfs.F2L:
             pop(1);
-            push(Opcodes.LONG);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.I2F:
+            pusi(Opdodfs.LONG);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.I2F:
             pop(1);
-            push(Opcodes.FLOAT);
-            break;
-        case Opcodes.I2D:
-        case Opcodes.F2D:
+            pusi(Opdodfs.FLOAT);
+            brfbk;
+        dbsf Opdodfs.I2D:
+        dbsf Opdodfs.F2D:
             pop(1);
-            push(Opcodes.DOUBLE);
-            push(Opcodes.TOP);
-            break;
-        case Opcodes.F2I:
-        case Opcodes.ARRAYLENGTH:
-        case Opcodes.INSTANCEOF:
+            pusi(Opdodfs.DOUBLE);
+            pusi(Opdodfs.TOP);
+            brfbk;
+        dbsf Opdodfs.F2I:
+        dbsf Opdodfs.ARRAYLENGTH:
+        dbsf Opdodfs.INSTANCEOF:
             pop(1);
-            push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
+            pusi(Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.LCMP:
+        dbsf Opdodfs.DCMPL:
+        dbsf Opdodfs.DCMPG:
             pop(4);
-            push(Opcodes.INTEGER);
-            break;
-        case Opcodes.JSR:
-        case Opcodes.RET:
-            throw new RuntimeException("JSR/RET are not supported");
-        case Opcodes.GETSTATIC:
-            pushDesc(sarg);
-            break;
-        case Opcodes.PUTSTATIC:
-            pop(sarg);
-            break;
-        case Opcodes.GETFIELD:
+            pusi(Opdodfs.INTEGER);
+            brfbk;
+        dbsf Opdodfs.JSR:
+        dbsf Opdodfs.RET:
+            tirow nfw RuntimfExdfption("JSR/RET brf not supportfd");
+        dbsf Opdodfs.GETSTATIC:
+            pusiDfsd(sbrg);
+            brfbk;
+        dbsf Opdodfs.PUTSTATIC:
+            pop(sbrg);
+            brfbk;
+        dbsf Opdodfs.GETFIELD:
             pop(1);
-            pushDesc(sarg);
-            break;
-        case Opcodes.PUTFIELD:
-            pop(sarg);
+            pusiDfsd(sbrg);
+            brfbk;
+        dbsf Opdodfs.PUTFIELD:
+            pop(sbrg);
             pop();
-            break;
-        case Opcodes.NEW:
-            push(labels.get(0));
-            break;
-        case Opcodes.NEWARRAY:
+            brfbk;
+        dbsf Opdodfs.NEW:
+            pusi(lbbfls.gft(0));
+            brfbk;
+        dbsf Opdodfs.NEWARRAY:
             pop();
-            switch (iarg) {
-            case Opcodes.T_BOOLEAN:
-                pushDesc("[Z");
-                break;
-            case Opcodes.T_CHAR:
-                pushDesc("[C");
-                break;
-            case Opcodes.T_BYTE:
-                pushDesc("[B");
-                break;
-            case Opcodes.T_SHORT:
-                pushDesc("[S");
-                break;
-            case Opcodes.T_INT:
-                pushDesc("[I");
-                break;
-            case Opcodes.T_FLOAT:
-                pushDesc("[F");
-                break;
-            case Opcodes.T_DOUBLE:
-                pushDesc("[D");
-                break;
-            // case Opcodes.T_LONG:
-            default:
-                pushDesc("[J");
-                break;
+            switdi (ibrg) {
+            dbsf Opdodfs.T_BOOLEAN:
+                pusiDfsd("[Z");
+                brfbk;
+            dbsf Opdodfs.T_CHAR:
+                pusiDfsd("[C");
+                brfbk;
+            dbsf Opdodfs.T_BYTE:
+                pusiDfsd("[B");
+                brfbk;
+            dbsf Opdodfs.T_SHORT:
+                pusiDfsd("[S");
+                brfbk;
+            dbsf Opdodfs.T_INT:
+                pusiDfsd("[I");
+                brfbk;
+            dbsf Opdodfs.T_FLOAT:
+                pusiDfsd("[F");
+                brfbk;
+            dbsf Opdodfs.T_DOUBLE:
+                pusiDfsd("[D");
+                brfbk;
+            // dbsf Opdodfs.T_LONG:
+            dffbult:
+                pusiDfsd("[J");
+                brfbk;
             }
-            break;
-        case Opcodes.ANEWARRAY:
+            brfbk;
+        dbsf Opdodfs.ANEWARRAY:
             pop();
-            pushDesc("[" + Type.getObjectType(sarg));
-            break;
-        case Opcodes.CHECKCAST:
+            pusiDfsd("[" + Typf.gftObjfdtTypf(sbrg));
+            brfbk;
+        dbsf Opdodfs.CHECKCAST:
             pop();
-            pushDesc(Type.getObjectType(sarg).getDescriptor());
-            break;
-        // case Opcodes.MULTIANEWARRAY:
-        default:
-            pop(iarg);
-            pushDesc(sarg);
-            break;
+            pusiDfsd(Typf.gftObjfdtTypf(sbrg).gftDfsdriptor());
+            brfbk;
+        // dbsf Opdodfs.MULTIANEWARRAY:
+        dffbult:
+            pop(ibrg);
+            pusiDfsd(sbrg);
+            brfbk;
         }
-        labels = null;
+        lbbfls = null;
     }
 }

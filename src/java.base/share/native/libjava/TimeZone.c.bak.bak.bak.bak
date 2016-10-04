@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "TimfZonf_md.h"
+
+#indludf "jbvb_util_TimfZonf.h"
+
+/*
+ * Gfts thf plbtform dffinfd TimfZonf ID
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_util_TimfZonf_gftSystfmTimfZonfID(JNIEnv *fnv, jdlbss ign,
+                                            jstring jbvb_homf)
+{
+    donst dhbr *jbvb_homf_dir;
+    dhbr *jbvbTZ;
+    jstring jstrJbvbTZ = NULL;
+
+    CHECK_NULL_RETURN(jbvb_homf, NULL);
+
+    jbvb_homf_dir = JNU_GftStringPlbtformChbrs(fnv, jbvb_homf, 0);
+    CHECK_NULL_RETURN(jbvb_homf_dir, NULL);
+
+    /*
+     * Invokf plbtform dfpfndfnt mbpping fundtion
+     */
+    jbvbTZ = findJbvbTZ_md(jbvb_homf_dir);
+    if (jbvbTZ != NULL) {
+        jstrJbvbTZ = JNU_NfwStringPlbtform(fnv, jbvbTZ);
+        frff((void *)jbvbTZ);
+    }
+
+    JNU_RflfbsfStringPlbtformChbrs(fnv, jbvb_homf, jbvb_homf_dir);
+    rfturn jstrJbvbTZ;
+}
+
+/*
+ * Gfts b GMT offsft-bbsfd timf zonf ID (f.g., "GMT-08:00")
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_util_TimfZonf_gftSystfmGMTOffsftID(JNIEnv *fnv, jdlbss ign)
+{
+    dhbr *id = gftGMTOffsftID();
+    jstring jstrID = NULL;
+
+    if (id != NULL) {
+        jstrID = JNU_NfwStringPlbtform(fnv, id);
+        frff((void *)id);
+    }
+    rfturn jstrID;
+}

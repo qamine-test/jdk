@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.net;
+pbdkbgf jdk.nft;
 
-import java.net.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.lang.reflect.Field;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Collections;
-import sun.net.ExtendedOptionsImpl;
+import jbvb.nft.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Collfdtions;
+import sun.nft.ExtfndfdOptionsImpl;
 
 /**
- * Defines static methods to set and get socket options defined by the
- * {@link java.net.SocketOption} interface. All of the standard options defined
- * by {@link java.net.Socket}, {@link java.net.ServerSocket}, and
- * {@link java.net.DatagramSocket} can be set this way, as well as additional
- * or platform specific options supported by each socket type.
+ * Dffinfs stbtid mftiods to sft bnd gft sodkft options dffinfd by tif
+ * {@link jbvb.nft.SodkftOption} intfrfbdf. All of tif stbndbrd options dffinfd
+ * by {@link jbvb.nft.Sodkft}, {@link jbvb.nft.SfrvfrSodkft}, bnd
+ * {@link jbvb.nft.DbtbgrbmSodkft} dbn bf sft tiis wby, bs wfll bs bdditionbl
+ * or plbtform spfdifid options supportfd by fbdi sodkft typf.
  * <p>
- * The {@link #supportedOptions(Class)} method can be called to determine
- * the complete set of options available (per socket type) on the
- * current system.
+ * Tif {@link #supportfdOptions(Clbss)} mftiod dbn bf dbllfd to dftfrminf
+ * tif domplftf sft of options bvbilbblf (pfr sodkft typf) on tif
+ * durrfnt systfm.
  * <p>
- * When a security manager is installed, some non-standard socket options
- * may require a security permission before being set or get.
- * The details are specified in {@link ExtendedSocketOptions}. No permission
- * is required for {@link java.net.StandardSocketOptions}.
+ * Wifn b sfdurity mbnbgfr is instbllfd, somf non-stbndbrd sodkft options
+ * mby rfquirf b sfdurity pfrmission bfforf bfing sft or gft.
+ * Tif dftbils brf spfdififd in {@link ExtfndfdSodkftOptions}. No pfrmission
+ * is rfquirfd for {@link jbvb.nft.StbndbrdSodkftOptions}.
  *
- * @see java.nio.channels.NetworkChannel
+ * @sff jbvb.nio.dibnnfls.NftworkCibnnfl
  */
-@jdk.Exported
-public class Sockets {
+@jdk.Exportfd
+publid dlbss Sodkfts {
 
-    private final static HashMap<Class<?>,Set<SocketOption<?>>>
-        options = new HashMap<>();
+    privbtf finbl stbtid HbsiMbp<Clbss<?>,Sft<SodkftOption<?>>>
+        options = nfw HbsiMbp<>();
 
-    static {
-        initOptionSets();
+    stbtid {
+        initOptionSfts();
     }
 
-    private Sockets() {}
+    privbtf Sodkfts() {}
 
     /**
-     * Sets the value of a socket option on a {@link java.net.Socket}
+     * Sfts tif vbluf of b sodkft option on b {@link jbvb.nft.Sodkft}
      *
-     * @param s the socket
-     * @param name The socket option
-     * @param value The value of the socket option. May be null for some
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
+     * @pbrbm vbluf Tif vbluf of tif sodkft option. Mby bf null for somf
      *              options.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
-     *         the option.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf is not vblid for
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs, or socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or sodkft is dlosfd.
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> void setOption(Socket s, SocketOption<T> name, T value) throws IOException
+    publid stbtid <T> void sftOption(Sodkft s, SodkftOption<T> nbmf, T vbluf) tirows IOExdfption
     {
-        s.setOption(name, value);
+        s.sftOption(nbmf, vbluf);
     }
 
     /**
-     * Returns the value of a socket option from a {@link java.net.Socket}
+     * Rfturns tif vbluf of b sodkft option from b {@link jbvb.nft.Sodkft}
      *
-     * @param s the socket
-     * @param name The socket option
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return The value of the socket option.
+     * @rfturn Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs
+     * @tirows IOExdfption if bn I/O frror oddurs
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> T getOption(Socket s, SocketOption<T> name) throws IOException
+    publid stbtid <T> T gftOption(Sodkft s, SodkftOption<T> nbmf) tirows IOExdfption
     {
-        return s.getOption(name);
+        rfturn s.gftOption(nbmf);
     }
 
     /**
-     * Sets the value of a socket option on a {@link java.net.ServerSocket}
+     * Sfts tif vbluf of b sodkft option on b {@link jbvb.nft.SfrvfrSodkft}
      *
-     * @param s the socket
-     * @param name The socket option
-     * @param value The value of the socket option.
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
+     * @pbrbm vbluf Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
-     *         the option.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf is not vblid for
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs
+     * @tirows IOExdfption if bn I/O frror oddurs
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> void setOption(ServerSocket s, SocketOption<T> name, T value) throws IOException
+    publid stbtid <T> void sftOption(SfrvfrSodkft s, SodkftOption<T> nbmf, T vbluf) tirows IOExdfption
     {
-        s.setOption(name, value);
+        s.sftOption(nbmf, vbluf);
     }
 
     /**
-     * Returns the value of a socket option from a {@link java.net.ServerSocket}
+     * Rfturns tif vbluf of b sodkft option from b {@link jbvb.nft.SfrvfrSodkft}
      *
-     * @param s the socket
-     * @param name The socket option
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return The value of the socket option.
+     * @rfturn Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs
+     * @tirows IOExdfption if bn I/O frror oddurs
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> T getOption(ServerSocket s, SocketOption<T> name) throws IOException
+    publid stbtid <T> T gftOption(SfrvfrSodkft s, SodkftOption<T> nbmf) tirows IOExdfption
     {
-        return s.getOption(name);
+        rfturn s.gftOption(nbmf);
     }
 
     /**
-     * Sets the value of a socket option on a {@link java.net.DatagramSocket}
-     * or {@link java.net.MulticastSocket}
+     * Sfts tif vbluf of b sodkft option on b {@link jbvb.nft.DbtbgrbmSodkft}
+     * or {@link jbvb.nft.MultidbstSodkft}
      *
-     * @param s the socket
-     * @param name The socket option
-     * @param value The value of the socket option.
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
+     * @pbrbm vbluf Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
-     *         the option.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf is not vblid for
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs
+     * @tirows IOExdfption if bn I/O frror oddurs
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> void setOption(DatagramSocket s, SocketOption<T> name, T value) throws IOException
+    publid stbtid <T> void sftOption(DbtbgrbmSodkft s, SodkftOption<T> nbmf, T vbluf) tirows IOExdfption
     {
-        s.setOption(name, value);
+        s.sftOption(nbmf, vbluf);
     }
 
     /**
-     * Returns the value of a socket option from a
-     * {@link java.net.DatagramSocket} or {@link java.net.MulticastSocket}
+     * Rfturns tif vbluf of b sodkft option from b
+     * {@link jbvb.nft.DbtbgrbmSodkft} or {@link jbvb.nft.MultidbstSodkft}
      *
-     * @param s the socket
-     * @param name The socket option
+     * @pbrbm s tif sodkft
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return The value of the socket option.
+     * @rfturn Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
-     *         the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sodkft dofs not support
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs
+     * @tirows IOExdfption if bn I/O frror oddurs
      *
-     * @throws NullPointerException if name is null
+     * @tirows NullPointfrExdfption if nbmf is null
      *
-     * @throws SecurityException if a security manager is set and the
-     *         caller does not have any required permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *         dbllfr dofs not ibvf bny rfquirfd pfrmission.
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    public static <T> T getOption(DatagramSocket s, SocketOption<T> name) throws IOException
+    publid stbtid <T> T gftOption(DbtbgrbmSodkft s, SodkftOption<T> nbmf) tirows IOExdfption
     {
-        return s.getOption(name);
+        rfturn s.gftOption(nbmf);
     }
 
     /**
-     * Returns a set of {@link java.net.SocketOption}s supported by the
-     * given socket type. This set may include standard options and also
-     * non standard extended options.
+     * Rfturns b sft of {@link jbvb.nft.SodkftOption}s supportfd by tif
+     * givfn sodkft typf. Tiis sft mby indludf stbndbrd options bnd blso
+     * non stbndbrd fxtfndfd options.
      *
-     * @param socketType the type of java.net socket
+     * @pbrbm sodkftTypf tif typf of jbvb.nft sodkft
      *
-     * @throws IllegalArgumentException if socketType is not a valid
-     *         socket type from the java.net package.
+     * @tirows IllfgblArgumfntExdfption if sodkftTypf is not b vblid
+     *         sodkft typf from tif jbvb.nft pbdkbgf.
      */
-    public static Set<SocketOption<?>> supportedOptions(Class<?> socketType) {
-        Set<SocketOption<?>> set = options.get(socketType);
-        if (set == null) {
-            throw new IllegalArgumentException("unknown socket type");
+    publid stbtid Sft<SodkftOption<?>> supportfdOptions(Clbss<?> sodkftTypf) {
+        Sft<SodkftOption<?>> sft = options.gft(sodkftTypf);
+        if (sft == null) {
+            tirow nfw IllfgblArgumfntExdfption("unknown sodkft typf");
         }
-        return set;
+        rfturn sft;
     }
 
-    private static void checkValueType(Object value, Class<?> type) {
-        if (!type.isAssignableFrom(value.getClass())) {
-            String s = "Found: " + value.getClass().toString() + " Expected: "
-                        + type.toString();
-            throw new IllegalArgumentException(s);
+    privbtf stbtid void difdkVblufTypf(Objfdt vbluf, Clbss<?> typf) {
+        if (!typf.isAssignbblfFrom(vbluf.gftClbss())) {
+            String s = "Found: " + vbluf.gftClbss().toString() + " Expfdtfd: "
+                        + typf.toString();
+            tirow nfw IllfgblArgumfntExdfption(s);
         }
     }
 
-    private static void initOptionSets() {
-        boolean flowsupported = ExtendedOptionsImpl.flowSupported();
+    privbtf stbtid void initOptionSfts() {
+        boolfbn flowsupportfd = ExtfndfdOptionsImpl.flowSupportfd();
 
-        // Socket
+        // Sodkft
 
-        Set<SocketOption<?>> set = new HashSet<>();
-        set.add(StandardSocketOptions.SO_KEEPALIVE);
-        set.add(StandardSocketOptions.SO_SNDBUF);
-        set.add(StandardSocketOptions.SO_RCVBUF);
-        set.add(StandardSocketOptions.SO_REUSEADDR);
-        set.add(StandardSocketOptions.SO_LINGER);
-        set.add(StandardSocketOptions.IP_TOS);
-        set.add(StandardSocketOptions.TCP_NODELAY);
-        if (flowsupported) {
-            set.add(ExtendedSocketOptions.SO_FLOW_SLA);
+        Sft<SodkftOption<?>> sft = nfw HbsiSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.SO_LINGER);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
         }
-        set = Collections.unmodifiableSet(set);
-        options.put(Socket.class, set);
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(Sodkft.dlbss, sft);
 
-        // ServerSocket
+        // SfrvfrSodkft
 
-        set = new HashSet<>();
-        set.add(StandardSocketOptions.SO_RCVBUF);
-        set.add(StandardSocketOptions.SO_REUSEADDR);
-        set = Collections.unmodifiableSet(set);
-        options.put(ServerSocket.class, set);
+        sft = nfw HbsiSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(SfrvfrSodkft.dlbss, sft);
 
-        // DatagramSocket
+        // DbtbgrbmSodkft
 
-        set = new HashSet<>();
-        set.add(StandardSocketOptions.SO_SNDBUF);
-        set.add(StandardSocketOptions.SO_RCVBUF);
-        set.add(StandardSocketOptions.SO_REUSEADDR);
-        set.add(StandardSocketOptions.IP_TOS);
-        if (flowsupported) {
-            set.add(ExtendedSocketOptions.SO_FLOW_SLA);
+        sft = nfw HbsiSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
         }
-        set = Collections.unmodifiableSet(set);
-        options.put(DatagramSocket.class, set);
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(DbtbgrbmSodkft.dlbss, sft);
 
-        // MulticastSocket
+        // MultidbstSodkft
 
-        set = new HashSet<>();
-        set.add(StandardSocketOptions.SO_SNDBUF);
-        set.add(StandardSocketOptions.SO_RCVBUF);
-        set.add(StandardSocketOptions.SO_REUSEADDR);
-        set.add(StandardSocketOptions.IP_TOS);
-        set.add(StandardSocketOptions.IP_MULTICAST_IF);
-        set.add(StandardSocketOptions.IP_MULTICAST_TTL);
-        set.add(StandardSocketOptions.IP_MULTICAST_LOOP);
-        if (flowsupported) {
-            set.add(ExtendedSocketOptions.SO_FLOW_SLA);
+        sft = nfw HbsiSft<>();
+        sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_IF);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_TTL);
+        sft.bdd(StbndbrdSodkftOptions.IP_MULTICAST_LOOP);
+        if (flowsupportfd) {
+            sft.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
         }
-        set = Collections.unmodifiableSet(set);
-        options.put(MulticastSocket.class, set);
+        sft = Collfdtions.unmodifibblfSft(sft);
+        options.put(MultidbstSodkft.dlbss, sft);
     }
 }

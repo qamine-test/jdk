@@ -1,0 +1,865 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrPfrmission;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.StbndbrdEmittfrMBfbn;
+import jbvbx.mbnbgfmfnt.StbndbrdMBfbn;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.mbnbgfmfnt.JMX;
+import sun.mbnbgfmfnt.MbnbgfmfntFbdtoryHflpfr;
+
+/**
+ * Thf {@dodf MbnbgfmfntFbdtory} dlbss is b fbdtory dlbss for gftting
+ * mbnbgfd bfbns for thf Jbvb plbtform.
+ * This dlbss donsists of stbtid mfthods fbdh of whidh rfturns
+ * onf or morf <i>plbtform MXBfbns</i> rfprfsfnting
+ * thf mbnbgfmfnt intfrfbdf of b domponfnt of thf Jbvb virtubl
+ * mbdhinf.
+ *
+ * <h3><b nbmf="MXBfbn">Plbtform MXBfbns</b></h3>
+ * <p>
+ * A plbtform MXBfbn is b <i>mbnbgfd bfbn</i> thbt
+ * donforms to thf <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">JMX</b>
+ * Instrumfntbtion Spfdifidbtion bnd only usfs b sft of bbsid dbtb typfs.
+ * A JMX mbnbgfmfnt bpplidbtion bnd thf {@linkplbin
+ * #gftPlbtformMBfbnSfrvfr plbtform MBfbnSfrvfr}
+ * dbn intfropfrbtf without rfquiring dlbssfs for MXBfbn spfdifid
+ * dbtb typfs.
+ * Thf dbtb typfs bfing trbnsmittfd bftwffn thf JMX donnfdtor
+ * sfrvfr bnd thf donnfdtor dlifnt brf
+ * {@linkplbin jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf opfn typfs}
+ * bnd this bllows intfropfrbtion bdross vfrsions.
+ * Sff <b hrff="../../../jbvbx/mbnbgfmfnt/MXBfbn.html#MXBfbn-spfd">
+ * thf spfdifidbtion of MXBfbns</b> for dftbils.
+ *
+ * <b nbmf="MXBfbnNbmfs"></b>
+ * <p>Ebdh plbtform MXBfbn is b {@link PlbtformMbnbgfdObjfdt}
+ * bnd it hbs b uniquf
+ * {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} for
+ * rfgistrbtion in thf plbtform {@dodf MBfbnSfrvfr} bs rfturnfd by
+ * by thf {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf gftObjfdtNbmf}
+ * mfthod.
+ *
+ * <p>
+ * An bpplidbtion dbn bddfss b plbtform MXBfbn in thf following wbys:
+ * <h4>1. Dirfdt bddfss to bn MXBfbn intfrfbdf</h4>
+ * <blodkquotf>
+ * <ul>
+ *     <li>Gft bn MXBfbn instbndf by dblling thf
+ *         {@link #gftPlbtformMXBfbn(Clbss) gftPlbtformMXBfbn} or
+ *         {@link #gftPlbtformMXBfbns(Clbss) gftPlbtformMXBfbns} mfthod
+ *         bnd bddfss thf MXBfbn lodblly in thf running
+ *         virtubl mbdhinf.
+ *         </li>
+ *     <li>Construdt bn MXBfbn proxy instbndf thbt forwbrds thf
+ *         mfthod dblls to b givfn {@link MBfbnSfrvfr MBfbnSfrvfr} by dblling
+ *         thf {@link #gftPlbtformMXBfbn(MBfbnSfrvfrConnfdtion, Clbss)} or
+ *         {@link #gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion, Clbss)} mfthod.
+ *         Thf {@link #nfwPlbtformMXBfbnProxy nfwPlbtformMXBfbnProxy} mfthod
+ *         dbn blso bf usfd to donstrudt bn MXBfbn proxy instbndf of
+ *         b givfn {@dodf ObjfdtNbmf}.
+ *         A proxy is typidblly donstrudtfd to rfmotfly bddfss
+ *         bn MXBfbn of bnothfr running virtubl mbdhinf.
+ *         </li>
+ * </ul>
+ * <h4>2. Indirfdt bddfss to bn MXBfbn intfrfbdf vib MBfbnSfrvfr</h4>
+ * <ul>
+ *     <li>Go through thf plbtform {@dodf MBfbnSfrvfr} to bddfss MXBfbns
+ *         lodblly or b spfdifid <tt>MBfbnSfrvfrConnfdtion</tt> to bddfss
+ *         MXBfbns rfmotfly.
+ *         Thf bttributfs bnd opfrbtions of bn MXBfbn usf only
+ *         <fm>JMX opfn typfs</fm> whidh indludf bbsid dbtb typfs,
+ *         {@link jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb CompositfDbtb},
+ *         bnd {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+ *         dffinfd in
+ *         {@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf OpfnTypf}.
+ *         Thf mbpping is spfdififd in
+ *         thf {@linkplbin jbvbx.mbnbgfmfnt.MXBfbn MXBfbn} spfdifidbtion
+ *         for dftbils.
+ *        </li>
+ * </ul>
+ * </blodkquotf>
+ *
+ * <p>
+ * Thf {@link #gftPlbtformMbnbgfmfntIntfrfbdfs gftPlbtformMbnbgfmfntIntfrfbdfs}
+ * mfthod rfturns bll mbnbgfmfnt intfrfbdfs supportfd in thf Jbvb virtubl mbdhinf
+ * indluding thf stbndbrd mbnbgfmfnt intfrfbdfs listfd in thf tbblfs
+ * bflow bs wfll bs thf mbnbgfmfnt intfrfbdfs fxtfndfd by thf JDK implfmfntbtion.
+ * <p>
+ * A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf following mbnbgfmfnt
+ * intfrfbdfs:
+ *
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Thf list of Mbnbgfmfnt Intfrfbdfs bnd thfir singlf instbndfs">
+ * <tr>
+ * <th>Mbnbgfmfnt Intfrfbdf</th>
+ * <th>ObjfdtNbmf</th>
+ * </tr>
+ * <tr>
+ * <td> {@link ClbssLobdingMXBfbn} </td>
+ * <td> {@link #CLASS_LOADING_MXBEAN_NAME
+ *             jbvb.lbng:typf=ClbssLobding}</td>
+ * </tr>
+ * <tr>
+ * <td> {@link MfmoryMXBfbn} </td>
+ * <td> {@link #MEMORY_MXBEAN_NAME
+ *             jbvb.lbng:typf=Mfmory}</td>
+ * </tr>
+ * <tr>
+ * <td> {@link ThrfbdMXBfbn} </td>
+ * <td> {@link #THREAD_MXBEAN_NAME
+ *             jbvb.lbng:typf=Thrfbding}</td>
+ * </tr>
+ * <tr>
+ * <td> {@link RuntimfMXBfbn} </td>
+ * <td> {@link #RUNTIME_MXBEAN_NAME
+ *             jbvb.lbng:typf=Runtimf}</td>
+ * </tr>
+ * <tr>
+ * <td> {@link OpfrbtingSystfmMXBfbn} </td>
+ * <td> {@link #OPERATING_SYSTEM_MXBEAN_NAME
+ *             jbvb.lbng:typf=OpfrbtingSystfm}</td>
+ * </tr>
+ * <tr>
+ * <td> {@link PlbtformLoggingMXBfbn} </td>
+ * <td> {@link jbvb.util.logging.LogMbnbgfr#LOGGING_MXBEAN_NAME
+ *             jbvb.util.logging:typf=Logging}</td>
+ * </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p>
+ * A Jbvb virtubl mbdhinf hbs zfro or b singlf instbndf of
+ * thf following mbnbgfmfnt intfrfbdfs.
+ *
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Thf list of Mbnbgfmfnt Intfrfbdfs bnd thfir singlf instbndfs">
+ * <tr>
+ * <th>Mbnbgfmfnt Intfrfbdf</th>
+ * <th>ObjfdtNbmf</th>
+ * </tr>
+ * <tr>
+ * <td> {@link CompilbtionMXBfbn} </td>
+ * <td> {@link #COMPILATION_MXBEAN_NAME
+ *             jbvb.lbng:typf=Compilbtion}</td>
+ * </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p>
+ * A Jbvb virtubl mbdhinf mby hbvf onf or morf instbndfs of thf following
+ * mbnbgfmfnt intfrfbdfs.
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Thf list of Mbnbgfmfnt Intfrfbdfs bnd thfir singlf instbndfs">
+ * <tr>
+ * <th>Mbnbgfmfnt Intfrfbdf</th>
+ * <th>ObjfdtNbmf</th>
+ * </tr>
+ * <tr>
+ * <td> {@link GbrbbgfCollfdtorMXBfbn} </td>
+ * <td> {@link #GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
+ *             jbvb.lbng:typf=GbrbbgfCollfdtor}<tt>,nbmf=</tt><i>dollfdtor's nbmf</i></td>
+ * </tr>
+ * <tr>
+ * <td> {@link MfmoryMbnbgfrMXBfbn} </td>
+ * <td> {@link #MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE
+ *             jbvb.lbng:typf=MfmoryMbnbgfr}<tt>,nbmf=</tt><i>mbnbgfr's nbmf</i></td>
+ * </tr>
+ * <tr>
+ * <td> {@link MfmoryPoolMXBfbn} </td>
+ * <td> {@link #MEMORY_POOL_MXBEAN_DOMAIN_TYPE
+ *             jbvb.lbng:typf=MfmoryPool}<tt>,nbmf=</tt><i>pool's nbmf</i></td>
+ * </tr>
+ * <tr>
+ * <td> {@link BufffrPoolMXBfbn} </td>
+ * <td> {@dodf jbvb.nio:typf=BufffrPool,nbmf=}<i>pool nbmf</i></td>
+ * </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss Mbnbgfmfnt Mftrids</b>
+ * @sff jbvbx.mbnbgfmfnt.MXBfbn
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid dlbss MbnbgfmfntFbdtory {
+    // A dlbss with only stbtid fiflds bnd mfthods.
+    privbtf MbnbgfmfntFbdtory() {};
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link ClbssLobdingMXBfbn}.
+     */
+    publid finbl stbtid String CLASS_LOADING_MXBEAN_NAME =
+        "jbvb.lbng:typf=ClbssLobding";
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link CompilbtionMXBfbn}.
+     */
+    publid finbl stbtid String COMPILATION_MXBEAN_NAME =
+        "jbvb.lbng:typf=Compilbtion";
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link MfmoryMXBfbn}.
+     */
+    publid finbl stbtid String MEMORY_MXBEAN_NAME =
+        "jbvb.lbng:typf=Mfmory";
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link OpfrbtingSystfmMXBfbn}.
+     */
+    publid finbl stbtid String OPERATING_SYSTEM_MXBEAN_NAME =
+        "jbvb.lbng:typf=OpfrbtingSystfm";
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link RuntimfMXBfbn}.
+     */
+    publid finbl stbtid String RUNTIME_MXBEAN_NAME =
+        "jbvb.lbng:typf=Runtimf";
+
+    /**
+     * String rfprfsfntbtion of thf
+     * <tt>ObjfdtNbmf</tt> for thf {@link ThrfbdMXBfbn}.
+     */
+    publid finbl stbtid String THREAD_MXBEAN_NAME =
+        "jbvb.lbng:typf=Thrfbding";
+
+    /**
+     * Thf dombin nbmf bnd thf typf kfy propfrty in
+     * thf <tt>ObjfdtNbmf</tt> for b {@link GbrbbgfCollfdtorMXBfbn}.
+     * Thf uniquf <tt>ObjfdtNbmf</tt> for b <tt>GbrbbgfCollfdtorMXBfbn</tt>
+     * dbn bf formfd by bppfnding this string with
+     * "<tt>,nbmf=</tt><i>dollfdtor's nbmf</i>".
+     */
+    publid finbl stbtid String GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE =
+        "jbvb.lbng:typf=GbrbbgfCollfdtor";
+
+    /**
+     * Thf dombin nbmf bnd thf typf kfy propfrty in
+     * thf <tt>ObjfdtNbmf</tt> for b {@link MfmoryMbnbgfrMXBfbn}.
+     * Thf uniquf <tt>ObjfdtNbmf</tt> for b <tt>MfmoryMbnbgfrMXBfbn</tt>
+     * dbn bf formfd by bppfnding this string with
+     * "<tt>,nbmf=</tt><i>mbnbgfr's nbmf</i>".
+     */
+    publid finbl stbtid String MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE=
+        "jbvb.lbng:typf=MfmoryMbnbgfr";
+
+    /**
+     * Thf dombin nbmf bnd thf typf kfy propfrty in
+     * thf <tt>ObjfdtNbmf</tt> for b {@link MfmoryPoolMXBfbn}.
+     * Thf uniquf <tt>ObjfdtNbmf</tt> for b <tt>MfmoryPoolMXBfbn</tt>
+     * dbn bf formfd by bppfnding this string with
+     * <tt>,nbmf=</tt><i>pool's nbmf</i>.
+     */
+    publid finbl stbtid String MEMORY_POOL_MXBEAN_DOMAIN_TYPE=
+        "jbvb.lbng:typf=MfmoryPool";
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf dlbss lobding systfm of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn b {@link ClbssLobdingMXBfbn} objfdt for
+     * thf Jbvb virtubl mbdhinf.
+     */
+    publid stbtid ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftClbssLobdingMXBfbn();
+    }
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf mfmory systfm of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn b {@link MfmoryMXBfbn} objfdt for thf Jbvb virtubl mbdhinf.
+     */
+    publid stbtid MfmoryMXBfbn gftMfmoryMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryMXBfbn();
+    }
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf thrfbd systfm of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn b {@link ThrfbdMXBfbn} objfdt for thf Jbvb virtubl mbdhinf.
+     */
+    publid stbtid ThrfbdMXBfbn gftThrfbdMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftThrfbdMXBfbn();
+    }
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf runtimf systfm of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn b {@link RuntimfMXBfbn} objfdt for thf Jbvb virtubl mbdhinf.
+
+     */
+    publid stbtid RuntimfMXBfbn gftRuntimfMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftRuntimfMXBfbn();
+    }
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf dompilbtion systfm of
+     * thf Jbvb virtubl mbdhinf.  This mfthod rfturns <tt>null</tt>
+     * if thf Jbvb virtubl mbdhinf hbs no dompilbtion systfm.
+     *
+     * @rfturn b {@link CompilbtionMXBfbn} objfdt for thf Jbvb virtubl
+     *   mbdhinf or <tt>null</tt> if thf Jbvb virtubl mbdhinf hbs
+     *   no dompilbtion systfm.
+     */
+    publid stbtid CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftCompilbtionMXBfbn();
+    }
+
+    /**
+     * Rfturns thf mbnbgfd bfbn for thf opfrbting systfm on whidh
+     * thf Jbvb virtubl mbdhinf is running.
+     *
+     * @rfturn bn {@link OpfrbtingSystfmMXBfbn} objfdt for
+     * thf Jbvb virtubl mbdhinf.
+     */
+    publid stbtid OpfrbtingSystfmMXBfbn gftOpfrbtingSystfmMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftOpfrbtingSystfmMXBfbn();
+    }
+
+    /**
+     * Rfturns b list of {@link MfmoryPoolMXBfbn} objfdts in thf
+     * Jbvb virtubl mbdhinf.
+     * Thf Jbvb virtubl mbdhinf dbn hbvf onf or morf mfmory pools.
+     * It mby bdd or rfmovf mfmory pools during fxfdution.
+     *
+     * @rfturn b list of <tt>MfmoryPoolMXBfbn</tt> objfdts.
+     *
+     */
+    publid stbtid List<MfmoryPoolMXBfbn> gftMfmoryPoolMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryPoolMXBfbns();
+    }
+
+    /**
+     * Rfturns b list of {@link MfmoryMbnbgfrMXBfbn} objfdts
+     * in thf Jbvb virtubl mbdhinf.
+     * Thf Jbvb virtubl mbdhinf dbn hbvf onf or morf mfmory mbnbgfrs.
+     * It mby bdd or rfmovf mfmory mbnbgfrs during fxfdution.
+     *
+     * @rfturn b list of <tt>MfmoryMbnbgfrMXBfbn</tt> objfdts.
+     *
+     */
+    publid stbtid List<MfmoryMbnbgfrMXBfbn> gftMfmoryMbnbgfrMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryMbnbgfrMXBfbns();
+    }
+
+
+    /**
+     * Rfturns b list of {@link GbrbbgfCollfdtorMXBfbn} objfdts
+     * in thf Jbvb virtubl mbdhinf.
+     * Thf Jbvb virtubl mbdhinf mby hbvf onf or morf
+     * <tt>GbrbbgfCollfdtorMXBfbn</tt> objfdts.
+     * It mby bdd or rfmovf <tt>GbrbbgfCollfdtorMXBfbn</tt>
+     * during fxfdution.
+     *
+     * @rfturn b list of <tt>GbrbbgfCollfdtorMXBfbn</tt> objfdts.
+     *
+     */
+    publid stbtid List<GbrbbgfCollfdtorMXBfbn> gftGbrbbgfCollfdtorMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftGbrbbgfCollfdtorMXBfbns();
+    }
+
+    privbtf stbtid MBfbnSfrvfr plbtformMBfbnSfrvfr;
+    /**
+     * Rfturns thf plbtform {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}.
+     * On thf first dbll to this mfthod, it first drfbtfs thf plbtform
+     * {@dodf MBfbnSfrvfr} by dblling thf
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr
+     * MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr}
+     * mfthod bnd rfgistfrs fbdh plbtform MXBfbn in this plbtform
+     * {@dodf MBfbnSfrvfr} with its
+     * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf ObjfdtNbmf}.
+     * This mfthod, in subsfqufnt dblls, will simply rfturn thf
+     * initiblly drfbtfd plbtform {@dodf MBfbnSfrvfr}.
+     * <p>
+     * MXBfbns thbt gft drfbtfd bnd dfstroyfd dynbmidblly, for fxbmplf,
+     * mfmory {@link MfmoryPoolMXBfbn pools} bnd
+     * {@link MfmoryMbnbgfrMXBfbn mbnbgfrs},
+     * will butombtidblly bf rfgistfrfd bnd dfrfgistfrfd into thf plbtform
+     * {@dodf MBfbnSfrvfr}.
+     * <p>
+     * If thf systfm propfrty {@dodf jbvbx.mbnbgfmfnt.buildfr.initibl}
+     * is sft, thf plbtform {@dodf MBfbnSfrvfr} drfbtion will bf donf
+     * by thf spfdififd {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
+     * <p>
+     * It is rfdommfndfd thbt this plbtform MBfbnSfrvfr blso bf usfd
+     * to rfgistfr othfr bpplidbtion mbnbgfd bfbns
+     * bfsidfs thf plbtform MXBfbns.
+     * This will bllow bll MBfbns to bf publishfd through thf sbmf
+     * {@dodf MBfbnSfrvfr} bnd hfndf bllow for fbsifr nftwork publishing
+     * bnd disdovfry.
+     * Nbmf donflidts with thf plbtform MXBfbns should bf bvoidfd.
+     *
+     * @rfturn thf plbtform {@dodf MBfbnSfrvfr}; thf plbtform
+     *         MXBfbns brf rfgistfrfd into thf plbtform {@dodf MBfbnSfrvfr}
+     *         bt thf first timf this mfthod is dbllfd.
+     *
+     * @fxdfption SfdurityExdfption if thfrf is b sfdurity mbnbgfr
+     * bnd thf dbllfr dofs not hbvf thf pfrmission rfquirfd by
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr}.
+     *
+     * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory
+     * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr
+     */
+    publid stbtid syndhronizfd MBfbnSfrvfr gftPlbtformMBfbnSfrvfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            Pfrmission pfrm = nfw MBfbnSfrvfrPfrmission("drfbtfMBfbnSfrvfr");
+            sm.dhfdkPfrmission(pfrm);
+        }
+
+        if (plbtformMBfbnSfrvfr == null) {
+            plbtformMBfbnSfrvfr = MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr();
+            for (PlbtformComponfnt pd : PlbtformComponfnt.vblufs()) {
+                List<? fxtfnds PlbtformMbnbgfdObjfdt> list =
+                    pd.gftMXBfbns(pd.gftMXBfbnIntfrfbdf());
+                for (PlbtformMbnbgfdObjfdt o : list) {
+                    // Ebdh PlbtformComponfnt rfprfsfnts onf mbnbgfmfnt
+                    // intfrfbdf. Somf MXBfbn mby fxtfnd bnothfr onf.
+                    // Thf MXBfbn instbndfs for onf plbtform domponfnt
+                    // (rfturnfd by pd.gftMXBfbns()) might bf blso
+                    // thf MXBfbn instbndfs for bnothfr plbtform domponfnt.
+                    // f.g. dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn
+                    //
+                    // So nffd to dhfdk if bn MXBfbn instbndf is rfgistfrfd
+                    // bfforf rfgistfring into thf plbtform MBfbnSfrvfr
+                    if (!plbtformMBfbnSfrvfr.isRfgistfrfd(o.gftObjfdtNbmf())) {
+                        bddMXBfbn(plbtformMBfbnSfrvfr, o);
+                    }
+                }
+            }
+            HbshMbp<ObjfdtNbmf, DynbmidMBfbn> dynmbfbns =
+                    MbnbgfmfntFbdtoryHflpfr.gftPlbtformDynbmidMBfbns();
+            for (Mbp.Entry<ObjfdtNbmf, DynbmidMBfbn> f : dynmbfbns.fntrySft()) {
+                bddDynbmidMBfbn(plbtformMBfbnSfrvfr, f.gftVbluf(), f.gftKfy());
+            }
+        }
+        rfturn plbtformMBfbnSfrvfr;
+    }
+
+    /**
+     * Rfturns b proxy for b plbtform MXBfbn intfrfbdf of b
+     * givfn <b hrff="#MXBfbnNbmfs">MXBfbn nbmf</b>
+     * thbt forwbrds its mfthod dblls through thf givfn
+     * <tt>MBfbnSfrvfrConnfdtion</tt>.
+     *
+     * <p>This mfthod is fquivblfnt to:
+     * <blodkquotf>
+     * {@link jbvb.lbng.rfflfdt.Proxy#nfwProxyInstbndf
+     *        Proxy.nfwProxyInstbndf}<tt>(mxbfbnIntfrfbdf.gftClbssLobdfr(),
+     *        nfw Clbss[] { mxbfbnIntfrfbdf }, hbndlfr)</tt>
+     * </blodkquotf>
+     *
+     * whfrf <tt>hbndlfr</tt> is bn {@link jbvb.lbng.rfflfdt.InvodbtionHbndlfr
+     * InvodbtionHbndlfr} to whidh mfthod invodbtions to thf MXBfbn intfrfbdf
+     * brf dispbtdhfd. This <tt>hbndlfr</tt> donvfrts bn input pbrbmftfr
+     * from bn MXBfbn dbtb typf to its mbppfd opfn typf bfforf forwbrding
+     * to thf <tt>MBfbnSfrvfr</tt> bnd donvfrts b rfturn vbluf from
+     * bn MXBfbn mfthod dbll through thf <tt>MBfbnSfrvfr</tt>
+     * from bn opfn typf to thf dorrfsponding rfturn typf dfdlbrfd in
+     * thf MXBfbn intfrfbdf.
+     *
+     * <p>
+     * If thf MXBfbn is b notifidbtion fmittfr (i.f.,
+     * it implfmfnts
+     * {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}),
+     * both thf <tt>mxbfbnIntfrfbdf</tt> bnd <tt>NotifidbtionEmittfr</tt>
+     * will bf implfmfntfd by this proxy.
+     *
+     * <p>
+     * <b>Notfs:</b>
+     * <ol>
+     * <li>Using bn MXBfbn proxy is b donvfnifndf rfmotf bddfss to
+     * b plbtform MXBfbn of b running virtubl mbdhinf.  All mfthod
+     * dblls to thf MXBfbn proxy brf forwbrdfd to bn
+     * <tt>MBfbnSfrvfrConnfdtion</tt> whfrf
+     * {@link jbvb.io.IOExdfption IOExdfption} mby bf thrown
+     * whfn thf dommunidbtion problfm oddurs with thf donnfdtor sfrvfr.
+     * An bpplidbtion rfmotfly bddfssfs thf plbtform MXBfbns using
+     * proxy should prfpbrf to dbtdh <tt>IOExdfption</tt> bs if
+     * bddfssing with thf <tt>MBfbnSfrvfrConnfdtor</tt> intfrfbdf.</li>
+     *
+     * <li>Whfn b dlifnt bpplidbtion is dfsignfd to rfmotfly bddfss MXBfbns
+     * for b running virtubl mbdhinf whosf vfrsion is difffrfnt thbn
+     * thf vfrsion on whidh thf bpplidbtion is running,
+     * it should prfpbrf to dbtdh
+     * {@link jbvb.io.InvblidObjfdtExdfption InvblidObjfdtExdfption}
+     * whidh is thrown whfn bn MXBfbn proxy rfdfivfs b nbmf of bn
+     * fnum donstbnt whidh is missing in thf fnum dlbss lobdfd in
+     * thf dlifnt bpplidbtion. </li>
+     *
+     * <li>{@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr
+     * MBfbnSfrvfrInvodbtionHbndlfr} or its
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr#nfwProxyInstbndf
+     * nfwProxyInstbndf} mfthod dbnnot bf usfd to drfbtf
+     * b proxy for b plbtform MXBfbn. Thf proxy objfdt drfbtfd
+     * by <tt>MBfbnSfrvfrInvodbtionHbndlfr</tt> dofs not hbndlf
+     * thf propfrtifs of thf plbtform MXBfbns dfsdribfd in
+     * thf <b hrff="#MXBfbn">dlbss spfdifidbtion</b>.
+     *</li>
+     * </ol>
+     *
+     * @pbrbm donnfdtion thf <tt>MBfbnSfrvfrConnfdtion</tt> to forwbrd to.
+     * @pbrbm mxbfbnNbmf thf nbmf of b plbtform MXBfbn within
+     * <tt>donnfdtion</tt> to forwbrd to. <tt>mxbfbnNbmf</tt> must bf
+     * in thf formbt of {@link ObjfdtNbmf ObjfdtNbmf}.
+     * @pbrbm mxbfbnIntfrfbdf thf MXBfbn intfrfbdf to bf implfmfntfd
+     * by thf proxy.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
+     *
+     * @rfturn b proxy for b plbtform MXBfbn intfrfbdf of b
+     * givfn <b hrff="#MXBfbnNbmfs">MXBfbn nbmf</b>
+     * thbt forwbrds its mfthod dblls through thf givfn
+     * <tt>MBfbnSfrvfrConnfdtion</tt>, or {@dodf null} if not fxist.
+     *
+     * @throws IllfgblArgumfntExdfption if
+     * <ul>
+     * <li><tt>mxbfbnNbmf</tt> is not with b vblid
+     *     {@link ObjfdtNbmf ObjfdtNbmf} formbt, or</li>
+     * <li>thf nbmfd MXBfbn in thf <tt>donnfdtion</tt> is
+     *     not b MXBfbn providfd by thf plbtform, or</li>
+     * <li>thf nbmfd MXBfbn is not rfgistfrfd in thf
+     *     <tt>MBfbnSfrvfrConnfdtion</tt>, or</li>
+     * <li>thf nbmfd MXBfbn is not bn instbndf of thf givfn
+     *     <tt>mxbfbnIntfrfbdf</tt></li>
+     * </ul>
+     *
+     * @throws jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd whfn bddfssing thf <tt>MBfbnSfrvfrConnfdtion</tt>.
+     */
+    publid stbtid <T> T
+        nfwPlbtformMXBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                               String mxbfbnNbmf,
+                               Clbss<T> mxbfbnIntfrfbdf)
+            throws jbvb.io.IOExdfption {
+
+        // Only bllow MXBfbn intfrfbdfs from rt.jbr lobdfd by thf
+        // bootstrbp dlbss lobdfr
+        finbl Clbss<?> dls = mxbfbnIntfrfbdf;
+        ClbssLobdfr lobdfr =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dls.gftClbssLobdfr();
+                }
+            });
+        if (!sun.misd.VM.isSystfmDombinLobdfr(lobdfr)) {
+            throw nfw IllfgblArgumfntExdfption(mxbfbnNbmf +
+                " is not b plbtform MXBfbn");
+        }
+
+        try {
+            finbl ObjfdtNbmf objNbmf = nfw ObjfdtNbmf(mxbfbnNbmf);
+            // skip thf isInstbndfOf dhfdk for LoggingMXBfbn
+            String intfNbmf = mxbfbnIntfrfbdf.gftNbmf();
+            if (!donnfdtion.isInstbndfOf(objNbmf, intfNbmf)) {
+                throw nfw IllfgblArgumfntExdfption(mxbfbnNbmf +
+                    " is not bn instbndf of " + mxbfbnIntfrfbdf);
+            }
+
+            finbl Clbss<?>[] intfrfbdfs;
+            // dhfdk if thf rfgistfrfd MBfbn is b notifidbtion fmittfr
+            boolfbn fmittfr = donnfdtion.isInstbndfOf(objNbmf, NOTIF_EMITTER);
+
+            // drfbtf bn MXBfbn proxy
+            rfturn JMX.nfwMXBfbnProxy(donnfdtion, objNbmf, mxbfbnIntfrfbdf,
+                                      fmittfr);
+        } dbtdh (InstbndfNotFoundExdfption|MblformfdObjfdtNbmfExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturns thf plbtform MXBfbn implfmfnting
+     * thf givfn {@dodf mxbfbnIntfrfbdf} whidh is spfdififd
+     * to hbvf onf singlf instbndf in thf Jbvb virtubl mbdhinf.
+     * This mfthod mby rfturn {@dodf null} if thf mbnbgfmfnt intfrfbdf
+     * is not implfmfntfd in thf Jbvb virtubl mbdhinf (for fxbmplf,
+     * b Jbvb virtubl mbdhinf with no dompilbtion systfm dofs not
+     * implfmfnt {@link CompilbtionMXBfbn});
+     * othfrwisf, this mfthod is fquivblfnt to dblling:
+     * <prf>
+     *    {@link #gftPlbtformMXBfbns(Clbss)
+     *      gftPlbtformMXBfbns(mxbfbnIntfrfbdf)}.gft(0);
+     * </prf>
+     *
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *     MXBfbn with onf singlf instbndf in thf Jbvb virtubl mbdhinf
+     *     if implfmfntfd.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
+     *
+     * @rfturn thf plbtform MXBfbn thbt implfmfnts
+     * {@dodf mxbfbnIntfrfbdf}, or {@dodf null} if not fxist.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf or
+     * not b singlfton plbtform MXBfbn.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            T gftPlbtformMXBfbn(Clbss<T> mxbfbnIntfrfbdf) {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        if (!pd.isSinglfton())
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " dbn hbvf zfro or morf thbn onf instbndfs");
+
+        rfturn pd.gftSinglftonMXBfbn(mxbfbnIntfrfbdf);
+    }
+
+    /**
+     * Rfturns thf list of plbtform MXBfbns implfmfnting
+     * thf givfn {@dodf mxbfbnIntfrfbdf} in thf Jbvb
+     * virtubl mbdhinf.
+     * Thf rfturnfd list mby dontbin zfro, onf, or morf instbndfs.
+     * Thf numbfr of instbndfs in thf rfturnfd list is dffinfd
+     * in thf spfdifidbtion of thf givfn mbnbgfmfnt intfrfbdf.
+     * Thf ordfr is undffinfd bnd thfrf is no gubrbntff thbt
+     * thf list rfturnfd is in thf sbmf ordfr bs prfvious invodbtions.
+     *
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *                        MXBfbn
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
+     *
+     * @rfturn thf list of plbtform MXBfbns thbt implfmfnt
+     * {@dodf mxbfbnIntfrfbdf}.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt> List<T>
+            gftPlbtformMXBfbns(Clbss<T> mxbfbnIntfrfbdf) {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        rfturn Collfdtions.unmodifibblfList(pd.gftMXBfbns(mxbfbnIntfrfbdf));
+    }
+
+    /**
+     * Rfturns thf plbtform MXBfbn proxy for
+     * {@dodf mxbfbnIntfrfbdf} whidh is spfdififd to hbvf onf singlf
+     * instbndf in b Jbvb virtubl mbdhinf bnd thf proxy will
+     * forwbrd thf mfthod dblls through thf givfn {@dodf MBfbnSfrvfrConnfdtion}.
+     * This mfthod mby rfturn {@dodf null} if thf mbnbgfmfnt intfrfbdf
+     * is not implfmfntfd in thf Jbvb virtubl mbdhinf bfing monitorfd
+     * (for fxbmplf, b Jbvb virtubl mbdhinf with no dompilbtion systfm
+     * dofs not implfmfnt {@link CompilbtionMXBfbn});
+     * othfrwisf, this mfthod is fquivblfnt to dblling:
+     * <prf>
+     *     {@link #gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion, Clbss)
+     *        gftPlbtformMXBfbns(donnfdtion, mxbfbnIntfrfbdf)}.gft(0);
+     * </prf>
+     *
+     * @pbrbm donnfdtion thf {@dodf MBfbnSfrvfrConnfdtion} to forwbrd to.
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *     MXBfbn with onf singlf instbndf in thf Jbvb virtubl mbdhinf
+     *     bfing monitorfd, if implfmfntfd.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
+     *
+     * @rfturn thf plbtform MXBfbn proxy for
+     * forwbrding thf mfthod dblls of thf {@dodf mxbfbnIntfrfbdf}
+     * through thf givfn {@dodf MBfbnSfrvfrConnfdtion},
+     * or {@dodf null} if not fxist.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf or
+     * not b singlfton plbtform MXBfbn.
+     * @throws jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd whfn bddfssing thf {@dodf MBfbnSfrvfrConnfdtion}.
+     *
+     * @sff #nfwPlbtformMXBfbnProxy
+     * @sindf 1.7
+     */
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            T gftPlbtformMXBfbn(MBfbnSfrvfrConnfdtion donnfdtion,
+                                Clbss<T> mxbfbnIntfrfbdf)
+        throws jbvb.io.IOExdfption
+    {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        if (!pd.isSinglfton())
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " dbn hbvf zfro or morf thbn onf instbndfs");
+        rfturn pd.gftSinglftonMXBfbn(donnfdtion, mxbfbnIntfrfbdf);
+    }
+
+    /**
+     * Rfturns thf list of thf plbtform MXBfbn proxifs for
+     * forwbrding thf mfthod dblls of thf {@dodf mxbfbnIntfrfbdf}
+     * through thf givfn {@dodf MBfbnSfrvfrConnfdtion}.
+     * Thf rfturnfd list mby dontbin zfro, onf, or morf instbndfs.
+     * Thf numbfr of instbndfs in thf rfturnfd list is dffinfd
+     * in thf spfdifidbtion of thf givfn mbnbgfmfnt intfrfbdf.
+     * Thf ordfr is undffinfd bnd thfrf is no gubrbntff thbt
+     * thf list rfturnfd is in thf sbmf ordfr bs prfvious invodbtions.
+     *
+     * @pbrbm donnfdtion thf {@dodf MBfbnSfrvfrConnfdtion} to forwbrd to.
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *                        MXBfbn
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
+     *
+     * @rfturn thf list of plbtform MXBfbn proxifs for
+     * forwbrding thf mfthod dblls of thf {@dodf mxbfbnIntfrfbdf}
+     * through thf givfn {@dodf MBfbnSfrvfrConnfdtion}.
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf.
+     *
+     * @throws jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd whfn bddfssing thf {@dodf MBfbnSfrvfrConnfdtion}.
+     *
+     * @sff #nfwPlbtformMXBfbnProxy
+     * @sindf 1.7
+     */
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            List<T> gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion donnfdtion,
+                                       Clbss<T> mxbfbnIntfrfbdf)
+        throws jbvb.io.IOExdfption
+    {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null) {
+            throw nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        }
+        rfturn Collfdtions.unmodifibblfList(pd.gftMXBfbns(donnfdtion, mxbfbnIntfrfbdf));
+    }
+
+    /**
+     * Rfturns thf sft of {@dodf Clbss} objfdts, subintfrfbdf of
+     * {@link PlbtformMbnbgfdObjfdt}, rfprfsfnting
+     * bll mbnbgfmfnt intfrfbdfs for
+     * monitoring bnd mbnbging thf Jbvb plbtform.
+     *
+     * @rfturn thf sft of {@dodf Clbss} objfdts, subintfrfbdf of
+     * {@link PlbtformMbnbgfdObjfdt} rfprfsfnting
+     * thf mbnbgfmfnt intfrfbdfs for
+     * monitoring bnd mbnbging thf Jbvb plbtform.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Sft<Clbss<? fxtfnds PlbtformMbnbgfdObjfdt>>
+           gftPlbtformMbnbgfmfntIntfrfbdfs()
+    {
+        Sft<Clbss<? fxtfnds PlbtformMbnbgfdObjfdt>> rfsult =
+            nfw HbshSft<>();
+        for (PlbtformComponfnt domponfnt: PlbtformComponfnt.vblufs()) {
+            rfsult.bdd(domponfnt.gftMXBfbnIntfrfbdf());
+        }
+        rfturn Collfdtions.unmodifibblfSft(rfsult);
+    }
+
+    privbtf stbtid finbl String NOTIF_EMITTER =
+        "jbvbx.mbnbgfmfnt.NotifidbtionEmittfr";
+
+    /**
+     * Rfgistfrs bn MXBfbn.
+     */
+    privbtf stbtid void bddMXBfbn(finbl MBfbnSfrvfr mbs, finbl PlbtformMbnbgfdObjfdt pmo) {
+        // Mbkf DynbmidMBfbn out of MXBfbn by wrbpping it with b StbndbrdMBfbn
+        try {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() throws InstbndfAlrfbdyExistsExdfption,
+                                         MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
+                    finbl DynbmidMBfbn dmbfbn;
+                    if (pmo instbndfof DynbmidMBfbn) {
+                        dmbfbn = DynbmidMBfbn.dlbss.dbst(pmo);
+                    } flsf if (pmo instbndfof NotifidbtionEmittfr) {
+                        dmbfbn = nfw StbndbrdEmittfrMBfbn(pmo, null, truf, (NotifidbtionEmittfr) pmo);
+                    } flsf {
+                        dmbfbn = nfw StbndbrdMBfbn(pmo, null, truf);
+                    }
+
+                    mbs.rfgistfrMBfbn(dmbfbn, pmo.gftObjfdtNbmf());
+                    rfturn null;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw RuntimfExdfption(f.gftExdfption());
+        }
+    }
+
+    /**
+     * Rfgistfrs b DynbmidMBfbn.
+     */
+    privbtf stbtid void bddDynbmidMBfbn(finbl MBfbnSfrvfr mbs,
+                                        finbl DynbmidMBfbn dmbfbn,
+                                        finbl ObjfdtNbmf on) {
+        try {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() throws InstbndfAlrfbdyExistsExdfption,
+                                         MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
+                    mbs.rfgistfrMBfbn(dmbfbn, on);
+                    rfturn null;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw RuntimfExdfption(f.gftExdfption());
+        }
+    }
+}

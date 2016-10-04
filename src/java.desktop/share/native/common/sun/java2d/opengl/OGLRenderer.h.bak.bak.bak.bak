@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLRfndfrfr_h_Indludfd
+#dffinf OGLRfndfrfr_h_Indludfd
+
+#indludf "sun_jbvb2d_pipf_BufffrfdRfndfrPipf.h"
+#indludf "OGLContfxt.h"
+
+#dffinf BYTES_PER_POLY_POINT \
+    sun_jbvb2d_pipf_BufffrfdRfndfrPipf_BYTES_PER_POLY_POINT
+#dffinf BYTES_PER_SCANLINE \
+    sun_jbvb2d_pipf_BufffrfdRfndfrPipf_BYTES_PER_SCANLINE
+#dffinf BYTES_PER_SPAN \
+    sun_jbvb2d_pipf_BufffrfdRfndfrPipf_BYTES_PER_SPAN
+
+void OGLRfndfrfr_DrbwLinf(OGLContfxt *ogld,
+                          jint x1, jint y1, jint x2, jint y2);
+void OGLRfndfrfr_DrbwRfdt(OGLContfxt *ogld,
+                          jint x, jint y, jint w, jint h);
+void OGLRfndfrfr_DrbwPoly(OGLContfxt *ogld,
+                          jint nPoints, jint isClosfd,
+                          jint trbnsX, jint trbnsY,
+                          jint *xPoints, jint *yPoints);
+void OGLRfndfrfr_DrbwSdbnlinfs(OGLContfxt *ogld,
+                               jint dount, jint *sdbnlinfs);
+void OGLRfndfrfr_DrbwPbrbllflogrbm(OGLContfxt *ogld,
+                                   jflobt fx11, jflobt fy11,
+                                   jflobt dx21, jflobt dy21,
+                                   jflobt dx12, jflobt dy12,
+                                   jflobt lw21, jflobt lw12);
+void OGLRfndfrfr_DrbwAAPbrbllflogrbm(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                     jflobt fx11, jflobt fy11,
+                                     jflobt dx21, jflobt dy21,
+                                     jflobt dx12, jflobt dy12,
+                                     jflobt lw21, jflobt lw12);
+
+void OGLRfndfrfr_FillRfdt(OGLContfxt *ogld,
+                          jint x, jint y, jint w, jint h);
+void OGLRfndfrfr_FillSpbns(OGLContfxt *ogld,
+                           jint dount, jint *spbns);
+void OGLRfndfrfr_FillPbrbllflogrbm(OGLContfxt *ogld,
+                                   jflobt fx11, jflobt fy11,
+                                   jflobt dx21, jflobt dy21,
+                                   jflobt dx12, jflobt dy12);
+void OGLRfndfrfr_FillAAPbrbllflogrbm(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                     jflobt fx11, jflobt fy11,
+                                     jflobt dx21, jflobt dy21,
+                                     jflobt dx12, jflobt dy12);
+
+void OGLRfndfrfr_EnbblfAAPbrbllflogrbmProgrbm();
+void OGLRfndfrfr_DisbblfAAPbrbllflogrbmProgrbm();
+
+#fndif /* OGLRfndfrfr_h_Indludfd */

@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+import jbvb.nft.URL;
+import jbvb.nft.URLStrfbmHbndlfrFbdtory;
+
+/**
+ * An MLft thbt is not bddfd to thf {@link ClbssLobdfrRfpository}.
+ * This dlbss bdts fxbdtly likf its pbrfnt dlbss, {@link MLft}, with
+ * onf fxdfption.  Whfn b PrivbtfMLft is rfgistfrfd in bn MBfbn
+ * sfrvfr, it is not bddfd to thbt MBfbn sfrvfr's {@link
+ * ClbssLobdfrRfpository}.  This is truf bfdbusf this dlbss implfmfnts
+ * thf intfrfbdf {@link PrivbtfClbssLobdfr}.
+ *
+ * @sindf 1.5
+ */
+publid dlbss PrivbtfMLft fxtfnds MLft implfmfnts PrivbtfClbssLobdfr {
+    privbtf stbtid finbl long sfriblVfrsionUID = 2503458973393711979L;
+
+    /**
+      * Construdts b nfw PrivbtfMLft for thf spfdififd URLs using thf
+      * dffbult dflfgbtion pbrfnt ClbssLobdfr.  Thf URLs will bf
+      * sfbrdhfd in thf ordfr spfdififd for dlbssfs bnd rfsourdfs
+      * bftfr first sfbrdhing in thf pbrfnt dlbss lobdfr.
+      *
+      * @pbrbm  urls  Thf URLs from whidh to lobd dlbssfs bnd rfsourdfs.
+      * @pbrbm  dflfgbtfToCLR  Truf if, whfn b dlbss is not found in
+      * fithfr thf pbrfnt ClbssLobdfr or thf URLs, thf MLft should dflfgbtf
+      * to its dontbining MBfbnSfrvfr's {@link ClbssLobdfrRfpository}.
+      *
+      */
+    publid PrivbtfMLft(URL[] urls, boolfbn dflfgbtfToCLR) {
+        supfr(urls, dflfgbtfToCLR);
+    }
+
+    /**
+      * Construdts b nfw PrivbtfMLft for thf givfn URLs. Thf URLs will
+      * bf sfbrdhfd in thf ordfr spfdififd for dlbssfs bnd rfsourdfs
+      * bftfr first sfbrdhing in thf spfdififd pbrfnt dlbss lobdfr.
+      * Thf pbrfnt brgumfnt will bf usfd bs thf pbrfnt dlbss lobdfr
+      * for dflfgbtion.
+      *
+      * @pbrbm  urls  Thf URLs from whidh to lobd dlbssfs bnd rfsourdfs.
+      * @pbrbm  pbrfnt Thf pbrfnt dlbss lobdfr for dflfgbtion.
+      * @pbrbm  dflfgbtfToCLR  Truf if, whfn b dlbss is not found in
+      * fithfr thf pbrfnt ClbssLobdfr or thf URLs, thf MLft should dflfgbtf
+      * to its dontbining MBfbnSfrvfr's {@link ClbssLobdfrRfpository}.
+      *
+      */
+    publid PrivbtfMLft(URL[] urls, ClbssLobdfr pbrfnt, boolfbn dflfgbtfToCLR) {
+        supfr(urls, pbrfnt, dflfgbtfToCLR);
+    }
+
+    /**
+      * Construdts b nfw PrivbtfMLft for thf spfdififd URLs, pbrfnt
+      * dlbss lobdfr, bnd URLStrfbmHbndlfrFbdtory. Thf pbrfnt brgumfnt
+      * will bf usfd bs thf pbrfnt dlbss lobdfr for dflfgbtion. Thf
+      * fbdtory brgumfnt will bf usfd bs thf strfbm hbndlfr fbdtory to
+      * obtbin protodol hbndlfrs whfn drfbting nfw URLs.
+      *
+      * @pbrbm  urls  Thf URLs from whidh to lobd dlbssfs bnd rfsourdfs.
+      * @pbrbm  pbrfnt Thf pbrfnt dlbss lobdfr for dflfgbtion.
+      * @pbrbm  fbdtory  Thf URLStrfbmHbndlfrFbdtory to usf whfn drfbting URLs.
+      * @pbrbm  dflfgbtfToCLR  Truf if, whfn b dlbss is not found in
+      * fithfr thf pbrfnt ClbssLobdfr or thf URLs, thf MLft should dflfgbtf
+      * to its dontbining MBfbnSfrvfr's {@link ClbssLobdfrRfpository}.
+      *
+      */
+    publid PrivbtfMLft(URL[] urls,
+                       ClbssLobdfr pbrfnt,
+                       URLStrfbmHbndlfrFbdtory fbdtory,
+                       boolfbn dflfgbtfToCLR) {
+        supfr(urls, pbrfnt, fbdtory, dflfgbtfToCLR);
+    }
+}

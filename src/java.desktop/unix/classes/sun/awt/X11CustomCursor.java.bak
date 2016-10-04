@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import sun.awt.CustomCursor;
-import java.awt.*;
-import java.awt.image.*;
-import sun.awt.image.ImageRepresentation;
+import sun.bwt.CustomCursor;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
  *
- * @see Component#setCursor
- * @author      Thomas Ball
+ * @sff Componfnt#sftCursor
+ * @butior      Tiombs Bbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class X11CustomCursor extends CustomCursor {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss X11CustomCursor fxtfnds CustomCursor {
 
-    public X11CustomCursor(Image cursor, Point hotSpot, String name)
-            throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+    publid X11CustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+            tirows IndfxOutOfBoundsExdfption {
+        supfr(dursor, iotSpot, nbmf);
     }
 
-    protected void createNativeCursor(Image im, int[] pixels, int width, int height,
+    protfdtfd void drfbtfNbtivfCursor(Imbgf im, int[] pixfls, int widti, int ifigit,
                                       int xHotSpot, int yHotSpot) {
 
-        class CCount implements Comparable<CCount> {
-            int color;
-            int count;
+        dlbss CCount implfmfnts Compbrbblf<CCount> {
+            int dolor;
+            int dount;
 
-            public CCount(int cl, int ct) {
-                color = cl;
-                count = ct;
+            publid CCount(int dl, int dt) {
+                dolor = dl;
+                dount = dt;
             }
 
-            public int compareTo(CCount cc) {
-                return cc.count - count;
+            publid int dompbrfTo(CCount dd) {
+                rfturn dd.dount - dount;
             }
         }
 
-        int tmp[] = new int[pixels.length];
-        for (int i=0; i<pixels.length; i++) {
-            if ((pixels[i] & 0xff000000) == 0) {
+        int tmp[] = nfw int[pixfls.lfngti];
+        for (int i=0; i<pixfls.lfngti; i++) {
+            if ((pixfls[i] & 0xff000000) == 0) {
                 tmp[i] = -1;
-            } else {
-                tmp[i] = pixels[i] & 0x00ffffff;
+            } flsf {
+                tmp[i] = pixfls[i] & 0x00ffffff;
             }
         }
-        java.util.Arrays.sort(tmp);
+        jbvb.util.Arrbys.sort(tmp);
 
-        int fc = 0x000000;
-        int bc = 0xffffff;
-        CCount cols[] = new CCount[pixels.length];
+        int fd = 0x000000;
+        int bd = 0xffffff;
+        CCount dols[] = nfw CCount[pixfls.lfngti];
 
         int is = 0;
         int numColors = 0;
-        while ( is < pixels.length ) {
+        wiilf ( is < pixfls.lfngti ) {
             if (tmp[is] != -1) {
-                cols[numColors++] = new CCount(tmp[is], 1);
-                break;
+                dols[numColors++] = nfw CCount(tmp[is], 1);
+                brfbk;
             }
             is ++;
         }
 
-        for (int i = is+1; i < pixels.length; i++) {
-            if (tmp[i] != cols[numColors-1].color) {
-                cols[numColors++] = new CCount(tmp[i], 1);
-            } else {
-                cols[numColors-1].count ++;
+        for (int i = is+1; i < pixfls.lfngti; i++) {
+            if (tmp[i] != dols[numColors-1].dolor) {
+                dols[numColors++] = nfw CCount(tmp[i], 1);
+            } flsf {
+                dols[numColors-1].dount ++;
             }
         }
-        java.util.Arrays.sort(cols, 0, numColors);
+        jbvb.util.Arrbys.sort(dols, 0, numColors);
 
-        if (numColors > 0) fc = cols[0].color;
-        int fcr = (fc >> 16) & 0x000000ff;
-        int fcg = (fc >>  8) & 0x000000ff;
-        int fcb = (fc >>  0) & 0x000000ff;
+        if (numColors > 0) fd = dols[0].dolor;
+        int fdr = (fd >> 16) & 0x000000ff;
+        int fdg = (fd >>  8) & 0x000000ff;
+        int fdb = (fd >>  0) & 0x000000ff;
 
         int rdis = 0;
         int gdis = 0;
         int bdis = 0;
         for (int j = 1; j < numColors; j++) {
-            int rr = (cols[j].color >> 16) & 0x000000ff;
-            int gg = (cols[j].color >>  8) & 0x000000ff;
-            int bb = (cols[j].color >>  0) & 0x000000ff;
-            rdis = rdis + cols[j].count * rr;
-            gdis = gdis + cols[j].count * gg;
-            bdis = bdis + cols[j].count * bb;
+            int rr = (dols[j].dolor >> 16) & 0x000000ff;
+            int gg = (dols[j].dolor >>  8) & 0x000000ff;
+            int bb = (dols[j].dolor >>  0) & 0x000000ff;
+            rdis = rdis + dols[j].dount * rr;
+            gdis = gdis + dols[j].dount * gg;
+            bdis = bdis + dols[j].dount * bb;
         }
-        int rest = pixels.length - ((numColors > 0) ? cols[0].count : 0);
-    // 4653170 Avoid divide / zero exception
-    if (rest > 0) {
-        rdis = rdis / rest - fcr;
-        gdis = gdis / rest - fcg;
-        bdis = bdis / rest - fcb;
+        int rfst = pixfls.lfngti - ((numColors > 0) ? dols[0].dount : 0);
+    // 4653170 Avoid dividf / zfro fxdfption
+    if (rfst > 0) {
+        rdis = rdis / rfst - fdr;
+        gdis = gdis / rfst - fdg;
+        bdis = bdis / rfst - fdb;
     }
         rdis = (rdis*rdis + gdis*gdis + bdis*bdis) / 2;
-        // System.out.println(" rdis is "+ rdis);
+        // Systfm.out.println(" rdis is "+ rdis);
 
         for (int j = 1; j < numColors; j++) {
-            int rr = (cols[j].color >> 16) & 0x000000ff;
-            int gg = (cols[j].color >>  8) & 0x000000ff;
-            int bb = (cols[j].color >>  0) & 0x000000ff;
+            int rr = (dols[j].dolor >> 16) & 0x000000ff;
+            int gg = (dols[j].dolor >>  8) & 0x000000ff;
+            int bb = (dols[j].dolor >>  0) & 0x000000ff;
 
-            if ( (rr-fcr)*(rr-fcr) + (gg-fcg)*(gg-fcg) + (bb-fcb)*(bb-fcb)
+            if ( (rr-fdr)*(rr-fdr) + (gg-fdg)*(gg-fdg) + (bb-fdb)*(bb-fdb)
                  >= rdis )  {
-                bc = cols[j].color;
-                break;
+                bd = dols[j].dolor;
+                brfbk;
             }
         }
-        int bcr = (bc >> 16) & 0x000000ff;
-        int bcg = (bc >>  8) & 0x000000ff;
-        int bcb = (bc >>  0) & 0x000000ff;
+        int bdr = (bd >> 16) & 0x000000ff;
+        int bdg = (bd >>  8) & 0x000000ff;
+        int bdb = (bd >>  0) & 0x000000ff;
 
 
-        // On Solaris 2.5.x, the above code for cursor of any size runs fine
-        // but on Solaris 2.6, the width of a cursor has to be 8 divisible,
-        //   otherwise, the cursor could be displayed as garbaged.
-        // To work around the 2.6 problem, the following code pads any cursor
-        //   with a transparent area to make a new cursor of width 8 multiples.
+        // On Solbris 2.5.x, tif bbovf dodf for dursor of bny sizf runs finf
+        // but on Solbris 2.6, tif widti of b dursor ibs to bf 8 divisiblf,
+        //   otifrwisf, tif dursor dould bf displbyfd bs gbrbbgfd.
+        // To work bround tif 2.6 problfm, tif following dodf pbds bny dursor
+        //   witi b trbnspbrfnt brfb to mbkf b nfw dursor of widti 8 multiplfs.
         // --- Bug 4148455
-        int wNByte = (width + 7)/8;
-        int tNByte = wNByte * height;
-        byte[] xorMask = new byte[tNByte];
-        byte[] andMask = new byte[tNByte];
+        int wNBytf = (widti + 7)/8;
+        int tNBytf = wNBytf * ifigit;
+        bytf[] xorMbsk = nfw bytf[tNBytf];
+        bytf[] bndMbsk = nfw bytf[tNBytf];
 
-        for (int i = 0; i < width; i++) {
-            int omask = 1 << (i % 8);
-            for (int j = 0; j < height; j++) {
-                int ip = j*width + i;
-                int ibyte = j*wNByte + i/8;
+        for (int i = 0; i < widti; i++) {
+            int ombsk = 1 << (i % 8);
+            for (int j = 0; j < ifigit; j++) {
+                int ip = j*widti + i;
+                int ibytf = j*wNBytf + i/8;
 
-                if ((pixels[ip] & 0xff000000) != 0) {
-                    andMask[ibyte] |= omask;
+                if ((pixfls[ip] & 0xff000000) != 0) {
+                    bndMbsk[ibytf] |= ombsk;
                 }
 
-                int pr = (pixels[ip] >> 16) & 0x000000ff;
-                int pg = (pixels[ip] >>  8) & 0x000000ff;
-                int pb = (pixels[ip] >>  0) & 0x000000ff;
-                if ( (pr-fcr)*(pr-fcr) + (pg-fcg)*(pg-fcg) + (pb-fcb)*(pb-fcb)
-                  <= (pr-bcr)*(pr-bcr) + (pg-bcg)*(pg-bcg) + (pb-bcb)*(pb-bcb) ) {
-                    // show foreground color
-                    xorMask[ibyte] |= omask;
+                int pr = (pixfls[ip] >> 16) & 0x000000ff;
+                int pg = (pixfls[ip] >>  8) & 0x000000ff;
+                int pb = (pixfls[ip] >>  0) & 0x000000ff;
+                if ( (pr-fdr)*(pr-fdr) + (pg-fdg)*(pg-fdg) + (pb-fdb)*(pb-fdb)
+                  <= (pr-bdr)*(pr-bdr) + (pg-bdg)*(pg-bdg) + (pb-bdb)*(pb-bdb) ) {
+                    // siow forfground dolor
+                    xorMbsk[ibytf] |= ombsk;
                 }
             }
         }
 
-        createCursor(xorMask, andMask, 8*wNByte, height, fc, bc, xHotSpot, yHotSpot);
+        drfbtfCursor(xorMbsk, bndMbsk, 8*wNBytf, ifigit, fd, bd, xHotSpot, yHotSpot);
     }
 
-    protected abstract void createCursor(byte[] xorMask, byte[] andMask,
-                                     int width, int height,
-                                     int fcolor, int bcolor,
+    protfdtfd bbstrbdt void drfbtfCursor(bytf[] xorMbsk, bytf[] bndMbsk,
+                                     int widti, int ifigit,
+                                     int fdolor, int bdolor,
                                      int xHotSpot, int yHotSpot);
 
 }

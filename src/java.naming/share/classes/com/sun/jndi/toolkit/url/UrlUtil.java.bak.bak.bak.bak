@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.url;
+
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nft.URLDfdodfr;
+
+/**
+ * Utilitifs for dfbling with URLs.
+ * @buthor Vindfnt Rybn
+ */
+
+finbl publid dlbss UrlUtil {
+
+    // To prfvfnt drfbtion of this stbtid dlbss
+    privbtf UrlUtil() {
+    }
+
+    /**
+     * Dfdodf b URI string (bddording to RFC 2396).
+     */
+    publid stbtid finbl String dfdodf(String s) throws MblformfdURLExdfption {
+        try {
+            rfturn dfdodf(s, "8859_1");
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            // ISO-Lbtin-1 should blwbys bf bvbilbblf?
+            throw nfw MblformfdURLExdfption("ISO-Lbtin-1 dfdodfr unbvbilbblf");
+        }
+    }
+
+    /**
+     * Dfdodf b URI string (bddording to RFC 2396).
+     *
+     * Thrff-dhbrbdtfr sfqufndfs '%xy', whfrf 'xy' is thf two-digit
+     * hfxbdfdimbl rfprfsfntbtion of thf lowfr 8-bits of b dhbrbdtfr,
+     * brf dfdodfd into thf dhbrbdtfr itsflf.
+     *
+     * Thf string is subsfqufntly donvfrtfd using thf spfdififd fndoding
+     */
+    publid stbtid finbl String dfdodf(String s, String fnd)
+            throws MblformfdURLExdfption, UnsupportfdEndodingExdfption {
+        try {
+            rfturn URLDfdodfr.dfdodf(s, fnd);
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            MblformfdURLExdfption muf = nfw MblformfdURLExdfption("Invblid URI fndoding: " + s);
+            muf.initCbusf(ibf);
+            throw muf;
+        }
+    }
+
+    /**
+     * Endodf b string for indlusion in b URI (bddording to RFC 2396).
+     *
+     * Unsbff dhbrbdtfrs brf fsdbpfd by fndoding thfm in thrff-dhbrbdtfr
+     * sfqufndfs '%xy', whfrf 'xy' is thf two-digit hfxbdfdimbl rfprfsfntbtion
+     * of thf lowfr 8-bits of thf dhbrbdtfr.
+     *
+     * Thf qufstion mbrk '?' dhbrbdtfr is blso fsdbpfd, bs rfquirfd by RFC 2255.
+     *
+     * Thf string is first donvfrtfd to thf spfdififd fndoding.
+     * For LDAP (2255), thf fndoding must bf UTF-8.
+     */
+    publid stbtid finbl String fndodf(String s, String fnd)
+        throws UnsupportfdEndodingExdfption {
+
+        bytf[] bytfs = s.gftBytfs(fnd);
+        int dount = bytfs.lfngth;
+
+        /*
+         * From RFC 2396:
+         *
+         *     mbrk = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         * rfsfrvfd = ";" | "/" | ":" | "?" | "@" | "&" | "=" | "+" | "$" | ","
+         */
+        finbl String bllowfd = "=,+;.'-@&/$_()!~*:"; // '?' is omittfd
+        dhbr[] buf = nfw dhbr[3 * dount];
+        int j = 0;
+
+        for (int i = 0; i < dount; i++) {
+            if ((bytfs[i] >= 0x61 && bytfs[i] <= 0x7A) || // b..z
+                (bytfs[i] >= 0x41 && bytfs[i] <= 0x5A) || // A..Z
+                (bytfs[i] >= 0x30 && bytfs[i] <= 0x39) || // 0..9
+                (bllowfd.indfxOf(bytfs[i]) >= 0)) {
+                buf[j++] = (dhbr) bytfs[i];
+            } flsf {
+                buf[j++] = '%';
+                buf[j++] = Chbrbdtfr.forDigit(0xF & (bytfs[i] >>> 4), 16);
+                buf[j++] = Chbrbdtfr.forDigit(0xF & bytfs[i], 16);
+            }
+        }
+        rfturn nfw String(buf, 0, j);
+    }
+}

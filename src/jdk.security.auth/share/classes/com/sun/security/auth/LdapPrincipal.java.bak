@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
-import javax.naming.InvalidNameException;
-import javax.naming.ldap.LdapName;
+import jbvb.sfdurity.Prindipbl;
+import jbvbx.nbming.InvblidNbmfExdfption;
+import jbvbx.nbming.ldbp.LdbpNbmf;
 
 /**
- * A principal identified by a distinguished name as specified by
- * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
+ * A prindipbl idfntififd by b distinguisifd nbmf bs spfdififd by
+ * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
  *
  * <p>
- * After successful authentication, a user {@link java.security.Principal}
- * can be associated with a particular {@link javax.security.auth.Subject}
- * to augment that <code>Subject</code> with an additional identity.
- * Authorization decisions can then be based upon the
- * <code>Principal</code>s that are associated with a <code>Subject</code>.
+ * Aftfr suddfssful butifntidbtion, b usfr {@link jbvb.sfdurity.Prindipbl}
+ * dbn bf bssodibtfd witi b pbrtidulbr {@link jbvbx.sfdurity.buti.Subjfdt}
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl idfntity.
+ * Autiorizbtion dfdisions dbn tifn bf bbsfd upon tif
+ * <dodf>Prindipbl</dodf>s tibt brf bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
  * <p>
- * This class is immutable.
+ * Tiis dlbss is immutbblf.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@jdk.Exported
-public final class LdapPrincipal implements Principal, java.io.Serializable {
+@jdk.Exportfd
+publid finbl dlbss LdbpPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 6820120005580754861L;
-
-    /**
-     * The principal's string name
-     *
-     * @serial
-     */
-    private final String nameString;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6820120005580754861L;
 
     /**
-     * The principal's name
+     * Tif prindipbl's string nbmf
      *
-     * @serial
+     * @sfribl
      */
-    private final LdapName name;
+    privbtf finbl String nbmfString;
 
     /**
-     * Creates an LDAP principal.
+     * Tif prindipbl's nbmf
      *
-     * @param name The principal's string distinguished name.
-     * @throws InvalidNameException If a syntax violation is detected.
-     * @exception NullPointerException If the <code>name</code> is
-     * <code>null</code>.
+     * @sfribl
      */
-    public LdapPrincipal(String name) throws InvalidNameException {
-        if (name == null) {
-            throw new NullPointerException("null name is illegal");
+    privbtf finbl LdbpNbmf nbmf;
+
+    /**
+     * Crfbtfs bn LDAP prindipbl.
+     *
+     * @pbrbm nbmf Tif prindipbl's string distinguisifd nbmf.
+     * @tirows InvblidNbmfExdfption If b syntbx violbtion is dftfdtfd.
+     * @fxdfption NullPointfrExdfption If tif <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid LdbpPrindipbl(String nbmf) tirows InvblidNbmfExdfption {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("null nbmf is illfgbl");
         }
-        this.name = getLdapName(name);
-        nameString = name;
+        tiis.nbmf = gftLdbpNbmf(nbmf);
+        nbmfString = nbmf;
     }
 
     /**
-     * Compares this principal to the specified object.
+     * Compbrfs tiis prindipbl to tif spfdififd objfdt.
      *
-     * @param object The object to compare this principal against.
-     * @return true if they are equal; false otherwise.
+     * @pbrbm objfdt Tif objfdt to dompbrf tiis prindipbl bgbinst.
+     * @rfturn truf if tify brf fqubl; fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (tiis == objfdt) {
+            rfturn truf;
         }
-        if (object instanceof LdapPrincipal) {
+        if (objfdt instbndfof LdbpPrindipbl) {
             try {
 
-                return
-                    name.equals(getLdapName(((LdapPrincipal)object).getName()));
+                rfturn
+                    nbmf.fqubls(gftLdbpNbmf(((LdbpPrindipbl)objfdt).gftNbmf()));
 
-            } catch (InvalidNameException e) {
-                return false;
+            } dbtdi (InvblidNbmfExdfption f) {
+                rfturn fblsf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Computes the hash code for this principal.
+     * Computfs tif ibsi dodf for tiis prindipbl.
      *
-     * @return The principal's hash code.
+     * @rfturn Tif prindipbl's ibsi dodf.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 
     /**
-     * Returns the name originally used to create this principal.
+     * Rfturns tif nbmf originblly usfd to drfbtf tiis prindipbl.
      *
-     * @return The principal's string name.
+     * @rfturn Tif prindipbl's string nbmf.
      */
-    public String getName() {
-        return nameString;
+    publid String gftNbmf() {
+        rfturn nbmfString;
     }
 
     /**
-     * Creates a string representation of this principal's name in the format
-     * defined by <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
-     * If the name has zero components an empty string is returned.
+     * Crfbtfs b string rfprfsfntbtion of tiis prindipbl's nbmf in tif formbt
+     * dffinfd by <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+     * If tif nbmf ibs zfro domponfnts bn fmpty string is rfturnfd.
      *
-     * @return The principal's string name.
+     * @rfturn Tif prindipbl's string nbmf.
      */
-    public String toString() {
-        return name.toString();
+    publid String toString() {
+        rfturn nbmf.toString();
     }
 
-    // Create an LdapName object from a string distinguished name.
-    private LdapName getLdapName(String name) throws InvalidNameException {
-        return new LdapName(name);
+    // Crfbtf bn LdbpNbmf objfdt from b string distinguisifd nbmf.
+    privbtf LdbpNbmf gftLdbpNbmf(String nbmf) tirows InvblidNbmfExdfption {
+        rfturn nfw LdbpNbmf(nbmf);
     }
 }

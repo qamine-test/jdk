@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ConvfrtExprfssion fxtfnds UnbryExprfssion {
+    /**
+     * Construdtor
+     */
+    publid ConvfrtExprfssion(long whfrf, Typf typf, Exprfssion right) {
+        supfr(CONVERT, whfrf, typf, right);
+    }
+
+    /**
+     * Chfdk thf vbluf
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        rfturn right.dhfdkVbluf(fnv, dtx, vsft, fxp);
+    }
+
+    /**
+     * Simplify
+     */
+    Exprfssion simplify() {
+        switdh (right.op) {
+          dbsf BYTEVAL:
+          dbsf CHARVAL:
+          dbsf SHORTVAL:
+          dbsf INTVAL: {
+            int vbluf = ((IntfgfrExprfssion)right).vbluf;
+            switdh (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(right.whfrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw ChbrExprfssion(right.whfrf, (dhbr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw ShortExprfssion(right.whfrf, (short)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(right.whfrf, vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(right.whfrf, (long)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(right.whfrf, (flobt)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(right.whfrf, (doublf)vbluf);
+            }
+            brfbk;
+          }
+          dbsf LONGVAL: {
+            long vbluf = ((LongExprfssion)right).vbluf;
+            switdh (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(right.whfrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw ChbrExprfssion(right.whfrf, (dhbr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw ShortExprfssion(right.whfrf, (short)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(right.whfrf, (int)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(right.whfrf, (flobt)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(right.whfrf, (doublf)vbluf);
+            }
+            brfbk;
+          }
+          dbsf FLOATVAL: {
+            flobt vbluf = ((FlobtExprfssion)right).vbluf;
+            switdh (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(right.whfrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw ChbrExprfssion(right.whfrf, (dhbr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw ShortExprfssion(right.whfrf, (short)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(right.whfrf, (int)vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(right.whfrf, (long)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(right.whfrf, (doublf)vbluf);
+            }
+            brfbk;
+          }
+          dbsf DOUBLEVAL: {
+            doublf vbluf = ((DoublfExprfssion)right).vbluf;
+            switdh (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(right.whfrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw ChbrExprfssion(right.whfrf, (dhbr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw ShortExprfssion(right.whfrf, (short)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(right.whfrf, (int)vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(right.whfrf, (long)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(right.whfrf, (flobt)vbluf);
+            }
+            brfbk;
+          }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Chfdk if thf fxprfssion is fqubl to b vbluf
+     */
+    publid boolfbn fqubls(int i) {
+        rfturn right.fqubls(i);
+    }
+    publid boolfbn fqubls(boolfbn b) {
+        rfturn right.fqubls(b);
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        // supfr.inlinf throws bwby thf op.
+        // This is somftimfs indorrfdt, sindf dbsts dbn hbvf sidf ffffdts.
+        if (right.typf.inMbsk(TM_REFERENCE) && typf.inMbsk(TM_REFERENCE)) {
+            try {
+                if (!fnv.impliditCbst(right.typf, typf))
+                    rfturn inlinfVbluf(fnv, dtx);
+            } dbtdh (ClbssNotFound f) {
+                throw nfw CompilfrError(f);
+            }
+        }
+        rfturn supfr.inlinf(fnv, dtx);
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        right.dodfVbluf(fnv, dtx, bsm);
+        dodfConvfrsion(fnv, dtx, bsm, right.typf, typf);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " " + typf.toString() + " ");
+        right.print(out);
+        out.print(")");
+    }
+}

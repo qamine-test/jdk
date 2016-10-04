@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Sft;
+
+/**
+ * <dodf>AdtionMbp</dodf> providfs mbppings from
+ * <dodf>Objfdt</dodf>s
+ * (dbllfd <fm>kfys</fm> or <fm><dodf>Adtion</dodf> nbmfs</fm>)
+ * to <dodf>Adtion</dodf>s.
+ * An <dodf>AdtionMbp</dodf> is usublly usfd with bn <dodf>InputMbp</dodf>
+ * to lodbtf b pbrtidulbr bdtion
+ * whfn b kfy is prfssfd. As with <dodf>InputMbp</dodf>,
+ * bn <dodf>AdtionMbp</dodf> dbn hbvf b pbrfnt
+ * thbt is sfbrdhfd for kfys not dffinfd in thf <dodf>AdtionMbp</dodf>.
+ * <p>As with <dodf>InputMbp</dodf> if you drfbtf b dydlf, fg:
+ * <prf>
+ *   AdtionMbp bm = nfw AdtionMbp();
+ *   AdtionMbp bm = nfw AdtionMbp():
+ *   bm.sftPbrfnt(bm);
+ *   bm.sftPbrfnt(bm);
+ * </prf>
+ * somf of thf mfthods will dbusf b StbdkOvfrflowError to bf thrown.
+ *
+ * @sff InputMbp
+ *
+ * @buthor Sdott Violft
+ * @sindf 1.3
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss AdtionMbp implfmfnts Sfriblizbblf {
+    /** Hbndlfs thf mbpping bftwffn Adtion nbmf bnd Adtion. */
+    privbtf trbnsifnt ArrbyTbblf     brrbyTbblf;
+    /** Pbrfnt thbt hbndlfs bny bindings wf don't dontbin. */
+    privbtf AdtionMbp                               pbrfnt;
+
+
+    /**
+     * Crfbtfs bn <dodf>AdtionMbp</dodf> with no pbrfnt bnd no mbppings.
+     */
+    publid AdtionMbp() {
+    }
+
+    /**
+     * Sfts this <dodf>AdtionMbp</dodf>'s pbrfnt.
+     *
+     * @pbrbm mbp  thf <dodf>AdtionMbp</dodf> thbt is thf pbrfnt of this onf
+     */
+    publid void sftPbrfnt(AdtionMbp mbp) {
+        this.pbrfnt = mbp;
+    }
+
+    /**
+     * Rfturns this <dodf>AdtionMbp</dodf>'s pbrfnt.
+     *
+     * @rfturn thf <dodf>AdtionMbp</dodf> thbt is thf pbrfnt of this onf,
+     *         or null if this <dodf>AdtionMbp</dodf> hbs no pbrfnt
+     */
+    publid AdtionMbp gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Adds b binding for <dodf>kfy</dodf> to <dodf>bdtion</dodf>.
+     * If <dodf>bdtion</dodf> is null, this rfmovfs thf durrfnt binding
+     * for <dodf>kfy</dodf>.
+     * <p>In most instbndfs, <dodf>kfy</dodf> will bf
+     * <dodf>bdtion.gftVbluf(NAME)</dodf>.
+     *
+     * @pbrbm kfy b kfy
+     * @pbrbm bdtion b binding for {@dodf kfy}
+     */
+    publid void put(Objfdt kfy, Adtion bdtion) {
+        if (kfy == null) {
+            rfturn;
+        }
+        if (bdtion == null) {
+            rfmovf(kfy);
+        }
+        flsf {
+            if (brrbyTbblf == null) {
+                brrbyTbblf = nfw ArrbyTbblf();
+            }
+            brrbyTbblf.put(kfy, bdtion);
+        }
+    }
+
+    /**
+     * Rfturns thf binding for <dodf>kfy</dodf>, mfssbging thf
+     * pbrfnt <dodf>AdtionMbp</dodf> if thf binding is not lodblly dffinfd.
+     *
+     * @pbrbm kfy b kfy
+     * @rfturn thf binding for {@dodf kfy}
+     */
+    publid Adtion gft(Objfdt kfy) {
+        Adtion vbluf = (brrbyTbblf == null) ? null :
+                       (Adtion)brrbyTbblf.gft(kfy);
+
+        if (vbluf == null) {
+            AdtionMbp    pbrfnt = gftPbrfnt();
+
+            if (pbrfnt != null) {
+                rfturn pbrfnt.gft(kfy);
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfmovfs thf binding for <dodf>kfy</dodf> from this <dodf>AdtionMbp</dodf>.
+     *
+     * @pbrbm kfy b kfy
+     */
+    publid void rfmovf(Objfdt kfy) {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.rfmovf(kfy);
+        }
+    }
+
+    /**
+     * Rfmovfs bll thf mbppings from this <dodf>AdtionMbp</dodf>.
+     */
+    publid void dlfbr() {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.dlfbr();
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Adtion</dodf> nbmfs thbt brf bound in this <dodf>AdtionMbp</dodf>.
+     *
+     * @rfturn bn brrby of thf kfys
+     */
+    publid Objfdt[] kfys() {
+        if (brrbyTbblf == null) {
+            rfturn null;
+        }
+        rfturn brrbyTbblf.gftKfys(null);
+    }
+
+    /**
+     * Rfturns thf numbfr of bindings in this {@dodf AdtionMbp}.
+     *
+     * @rfturn thf numbfr of bindings in this {@dodf AdtionMbp}
+     */
+    publid int sizf() {
+        if (brrbyTbblf == null) {
+            rfturn 0;
+        }
+        rfturn brrbyTbblf.sizf();
+    }
+
+    /**
+     * Rfturns bn brrby of thf kfys dffinfd in this <dodf>AdtionMbp</dodf> bnd
+     * its pbrfnt. This mfthod difffrs from <dodf>kfys()</dodf> in thbt
+     * this mfthod indludfs thf kfys dffinfd in thf pbrfnt.
+     *
+     * @rfturn bn brrby of thf kfys
+     */
+    publid Objfdt[] bllKfys() {
+        int           dount = sizf();
+        AdtionMbp     pbrfnt = gftPbrfnt();
+
+        if (dount == 0) {
+            if (pbrfnt != null) {
+                rfturn pbrfnt.bllKfys();
+            }
+            rfturn kfys();
+        }
+        if (pbrfnt == null) {
+            rfturn kfys();
+        }
+        Objfdt[]    kfys = kfys();
+        Objfdt[]    pKfys =  pbrfnt.bllKfys();
+
+        if (pKfys == null) {
+            rfturn kfys;
+        }
+        if (kfys == null) {
+            // Should only hbppfn if sizf() != kfys.lfngth, whidh should only
+            // hbppfn if mutbtfd from multiplf thrfbds (or b bogus subdlbss).
+            rfturn pKfys;
+        }
+
+        HbshMbp<Objfdt, Objfdt> kfyMbp = nfw HbshMbp<Objfdt, Objfdt>();
+        int            dountfr;
+
+        for (dountfr = kfys.lfngth - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(kfys[dountfr], kfys[dountfr]);
+        }
+        for (dountfr = pKfys.lfngth - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(pKfys[dountfr], pKfys[dountfr]);
+        }
+        rfturn kfyMbp.kfySft().toArrby();
+    }
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+
+        ArrbyTbblf.writfArrbyTbblf(s, brrbyTbblf);
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws ClbssNotFoundExdfption,
+                                                 IOExdfption {
+        s.dffbultRfbdObjfdt();
+        for (int dountfr = s.rfbdInt() - 1; dountfr >= 0; dountfr--) {
+            put(s.rfbdObjfdt(), (Adtion)s.rfbdObjfdt());
+        }
+    }
+}

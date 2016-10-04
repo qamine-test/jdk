@@ -1,0 +1,604 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.Arrbys;
+
+
+/**
+ * A sfriblizfd mbpping in thf Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>BLOB</dodf> vbluf.
+ * <P>
+ * Thf <dodf>SfriblBlob</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Blob</dodf> objfdt.  Notf thbt thf
+ * <dodf>Blob</dodf>
+ * objfdt should hbvf brought thf SQL <dodf>BLOB</dodf> vbluf's dbtb ovfr
+ * to thf dlifnt bfforf b <dodf>SfriblBlob</dodf> objfdt
+ * is donstrudtfd from it.  Thf dbtb of bn SQL <dodf>BLOB</dodf> vbluf dbn
+ * bf mbtfriblizfd on thf dlifnt bs bn brrby of bytfs (using thf mfthod
+ * <dodf>Blob.gftBytfs</dodf>) or bs b strfbm of unintfrprftfd bytfs
+ * (using thf mfthod <dodf>Blob.gftBinbryStrfbm</dodf>).
+ * <P>
+ * <dodf>SfriblBlob</dodf> mfthods mbkf it possiblf to mbkf b dopy of b
+ * <dodf>SfriblBlob</dodf> objfdt bs bn brrby of bytfs or bs b strfbm.
+ * Thfy blso mbkf it possiblf to lodbtf b givfn pbttfrn of bytfs or b
+ * <dodf>Blob</dodf> objfdt within b <dodf>SfriblBlob</dodf> objfdt
+ * bnd to updbtf or trundbtf b <dodf>Blob</dodf> objfdt.
+ *
+ * <h3> Thrfbd sbffty </h3>
+ *
+ * <p> A SfriblBlob is not sbff for usf by multiplf dondurrfnt thrfbds.  If b
+ * SfriblBlob is to bf usfd by morf thbn onf thrfbd thfn bddfss to thf SfriblBlob
+ * should bf dontrollfd by bppropribtf syndhronizbtion.
+ *
+ * @buthor Jonbthbn Brudf
+ * @sindf 1.5
+ */
+publid dlbss SfriblBlob implfmfnts Blob, Sfriblizbblf, Clonfbblf {
+
+    /**
+     * A sfriblizfd brrby of unintfrprftfd bytfs rfprfsfnting thf
+     * vbluf of this <dodf>SfriblBlob</dodf> objfdt.
+     * @sfribl
+     */
+    privbtf bytf buf[];
+
+    /**
+     * Thf intfrnbl rfprfsfntbtion of thf <dodf>Blob</dodf> objfdt on whidh this
+     * <dodf>SfriblBlob</dodf> objfdt is bbsfd.
+     */
+    privbtf Blob blob;
+
+    /**
+     * Thf numbfr of bytfs in this <dodf>SfriblBlob</dodf> objfdt's
+     * brrby of bytfs.
+     * @sfribl
+     */
+    privbtf long lfn;
+
+    /**
+     * Thf originbl numbfr of bytfs in this <dodf>SfriblBlob</dodf> objfdt's
+     * brrby of bytfs whfn it wbs first fstbblishfd.
+     * @sfribl
+     */
+    privbtf long origLfn;
+
+    /**
+     * Construdts b <dodf>SfriblBlob</dodf> objfdt thbt is b sfriblizfd vfrsion of
+     * thf givfn <dodf>bytf</dodf> brrby.
+     * <p>
+     * Thf nfw <dodf>SfriblBlob</dodf> objfdt is initiblizfd with thf dbtb from thf
+     * <dodf>bytf</dodf> brrby, thus bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * objfdts to fstbblish sfriblizfd <dodf>Blob</dodf> objfdts without
+     * toudhing thf dbtb sourdf.
+     *
+     * @pbrbm b thf <dodf>bytf</dodf> brrby dontbining thf dbtb for thf
+     *        <dodf>Blob</dodf> objfdt to bf sfriblizfd
+     * @throws SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @throws SQLExdfption if b SQL frrors oddurs
+     */
+    publid SfriblBlob(bytf[] b) throws SfriblExdfption, SQLExdfption {
+
+        lfn = b.lfngth;
+        buf = nfw bytf[(int)lfn];
+        for(int i = 0; i < lfn; i++) {
+           buf[i] = b[i];
+        }
+        origLfn = lfn;
+    }
+
+
+    /**
+     * Construdts b <dodf>SfriblBlob</dodf> objfdt thbt is b sfriblizfd
+     * vfrsion of thf givfn <dodf>Blob</dodf> objfdt.
+     * <P>
+     * Thf nfw <dodf>SfriblBlob</dodf> objfdt is initiblizfd with thf
+     * dbtb from thf <dodf>Blob</dodf> objfdt; thfrfforf, thf
+     * <dodf>Blob</dodf> objfdt should hbvf prfviously brought thf
+     * SQL <dodf>BLOB</dodf> vbluf's dbtb ovfr to thf dlifnt from
+     * thf dbtbbbsf. Othfrwisf, thf nfw <dodf>SfriblBlob</dodf> objfdt
+     * will dontbin no dbtb.
+     *
+     * @pbrbm blob thf <dodf>Blob</dodf> objfdt from whidh this
+     *     <dodf>SfriblBlob</dodf> objfdt is to bf donstrudtfd;
+     *     dbnnot bf null.
+     * @throws SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @throws SQLExdfption if thf <dodf>Blob</dodf> pbssfd to this
+     *     to this donstrudtor is b <dodf>null</dodf>.
+     * @sff jbvb.sql.Blob
+     */
+    publid SfriblBlob (Blob blob) throws SfriblExdfption, SQLExdfption {
+
+        if (blob == null) {
+            throw nfw SQLExdfption("Cbnnot instbntibtf b SfriblBlob " +
+                 "objfdt with b null Blob objfdt");
+        }
+
+        lfn = blob.lfngth();
+        buf = blob.gftBytfs(1, (int)lfn );
+        this.blob = blob;
+
+         //if ( lfn < 10240000)
+         // lfn = 10240000;
+        origLfn = lfn;
+    }
+
+    /**
+     * Copifs thf spfdififd numbfr of bytfs, stbrting bt thf givfn
+     * position, from this <dodf>SfriblBlob</dodf> objfdt to
+     * bnothfr brrby of bytfs.
+     * <P>
+     * Notf thbt if thf givfn numbfr of bytfs to bf dopifd is lbrgfr thbn
+     * thf lfngth of this <dodf>SfriblBlob</dodf> objfdt's brrby of
+     * bytfs, thf givfn numbfr will bf shortfnfd to thf brrby's lfngth.
+     *
+     * @pbrbm pos thf ordinbl position of thf first bytf in this
+     *            <dodf>SfriblBlob</dodf> objfdt to bf dopifd;
+     *            numbfring stbrts bt <dodf>1</dodf>; must not bf lfss
+     *            thbn <dodf>1</dodf> bnd must bf lfss thbn or fqubl
+     *            to thf lfngth of this <dodf>SfriblBlob</dodf> objfdt
+     * @pbrbm lfngth thf numbfr of bytfs to bf dopifd
+     * @rfturn bn brrby of bytfs thbt is b dopy of b rfgion of this
+     *         <dodf>SfriblBlob</dodf> objfdt, stbrting bt thf givfn
+     *         position bnd dontbining thf givfn numbfr of donsfdutivf bytfs
+     * @throws SfriblExdfption if thf givfn stbrting position is out of bounds;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     */
+    publid bytf[] gftBytfs(long pos, int lfngth) throws SfriblExdfption {
+        isVblid();
+        if (lfngth > lfn) {
+            lfngth = (int)lfn;
+        }
+
+        if (pos < 1 || lfn - pos < 0 ) {
+            throw nfw SfriblExdfption("Invblid brgumfnts: position dbnnot bf "
+                    + "lfss thbn 1 or grfbtfr thbn thf lfngth of thf SfriblBlob");
+        }
+
+        pos--; // dorrfdt pos to brrby indfx
+
+        bytf[] b = nfw bytf[lfngth];
+
+        for (int i = 0; i < lfngth; i++) {
+            b[i] = this.buf[(int)pos];
+            pos++;
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rftrifvfs thf numbfr of bytfs in this <dodf>SfriblBlob</dodf>
+     * objfdt's brrby of bytfs.
+     *
+     * @rfturn b <dodf>long</dodf> indidbting thf lfngth in bytfs of this
+     *         <dodf>SfriblBlob</dodf> objfdt's brrby of bytfs
+     * @throws SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     */
+    publid long lfngth() throws SfriblExdfption {
+        isVblid();
+        rfturn lfn;
+    }
+
+    /**
+     * Rfturns this <dodf>SfriblBlob</dodf> objfdt bs bn input strfbm.
+     * Unlikf thf rflbtfd mfthod, <dodf>sftBinbryStrfbm</dodf>,
+     * b strfbm is produdfd rfgbrdlfss of whfthfr thf <dodf>SfriblBlob</dodf>
+     * wbs drfbtfd with b <dodf>Blob</dodf> objfdt or b <dodf>bytf</dodf> brrby.
+     *
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt thbt dontbins
+     *         this <dodf>SfriblBlob</dodf> objfdt's brrby of bytfs
+     * @throws SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @sff #sftBinbryStrfbm
+     */
+    publid jbvb.io.InputStrfbm gftBinbryStrfbm() throws SfriblExdfption {
+        isVblid();
+        InputStrfbm strfbm = nfw BytfArrbyInputStrfbm(buf);
+        rfturn strfbm;
+    }
+
+    /**
+     * Rfturns thf position in this <dodf>SfriblBlob</dodf> objfdt whfrf
+     * thf givfn pbttfrn of bytfs bfgins, stbrting thf sfbrdh bt thf
+     * spfdififd position.
+     *
+     * @pbrbm pbttfrn thf pbttfrn of bytfs for whidh to sfbrdh
+     * @pbrbm stbrt thf position of thf bytf in this
+     *              <dodf>SfriblBlob</dodf> objfdt from whidh to bfgin
+     *              thf sfbrdh; thf first position is <dodf>1</dodf>;
+     *              must not bf lfss thbn <dodf>1</dodf> nor grfbtfr thbn
+     *              thf lfngth of this <dodf>SfriblBlob</dodf> objfdt
+     * @rfturn thf position in this <dodf>SfriblBlob</dodf> objfdt
+     *         whfrf thf givfn pbttfrn bfgins, stbrting bt thf spfdififd
+     *         position; <dodf>-1</dodf> if thf pbttfrn is not found
+     *         or thf givfn stbrting position is out of bounds; position
+     *         numbfring for thf rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @throws SfriblExdfption if bn frror oddurs whfn sfriblizing thf blob;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @throws SQLExdfption if thfrf is bn frror bddfssing thf <dodf>BLOB</dodf>
+     *         vbluf from thf dbtbbbsf
+     */
+    publid long position(bytf[] pbttfrn, long stbrt)
+                throws SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (stbrt < 1 || stbrt > lfn) {
+            rfturn -1;
+        }
+
+        int pos = (int)stbrt-1; // intfrnblly Blobs brf storfd bs brrbys.
+        int i = 0;
+        long pbtlfn = pbttfrn.lfngth;
+
+        whilf (pos < lfn) {
+            if (pbttfrn[i] == buf[pos]) {
+                if (i + 1 == pbtlfn) {
+                    rfturn (pos + 1) - (pbtlfn - 1);
+                }
+                i++; pos++; // indrfmfnt pos, bnd i
+            } flsf if (pbttfrn[i] != buf[pos]) {
+                pos++; // indrfmfnt pos only
+            }
+        }
+        rfturn -1; // not found
+    }
+
+    /**
+     * Rfturns thf position in this <dodf>SfriblBlob</dodf> objfdt whfrf
+     * thf givfn <dodf>Blob</dodf> objfdt bfgins, stbrting thf sfbrdh bt thf
+     * spfdififd position.
+     *
+     * @pbrbm pbttfrn thf <dodf>Blob</dodf> objfdt for whidh to sfbrdh;
+     * @pbrbm stbrt thf position of thf bytf in this
+     *              <dodf>SfriblBlob</dodf> objfdt from whidh to bfgin
+     *              thf sfbrdh; thf first position is <dodf>1</dodf>;
+     *              must not bf lfss thbn <dodf>1</dodf> nor grfbtfr thbn
+     *              thf lfngth of this <dodf>SfriblBlob</dodf> objfdt
+     * @rfturn thf position in this <dodf>SfriblBlob</dodf> objfdt
+     *         whfrf thf givfn <dodf>Blob</dodf> objfdt bfgins, stbrting
+     *         bt thf spfdififd position; <dodf>-1</dodf> if thf pbttfrn is
+     *         not found or thf givfn stbrting position is out of bounds;
+     *         position numbfring for thf rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @throws SfriblExdfption if bn frror oddurs whfn sfriblizing thf blob;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @throws SQLExdfption if thfrf is bn frror bddfssing thf <dodf>BLOB</dodf>
+     *         vbluf from thf dbtbbbsf
+     */
+    publid long position(Blob pbttfrn, long stbrt)
+       throws SfriblExdfption, SQLExdfption {
+        isVblid();
+        rfturn position(pbttfrn.gftBytfs(1, (int)(pbttfrn.lfngth())), stbrt);
+    }
+
+    /**
+     * Writfs thf givfn brrby of bytfs to thf <dodf>BLOB</dodf> vbluf thbt
+     * this <dodf>Blob</dodf> objfdt rfprfsfnts, stbrting bt position
+     * <dodf>pos</dodf>, bnd rfturns thf numbfr of bytfs writtfn.
+     *
+     * @pbrbm pos thf position in thf SQL <dodf>BLOB</dodf> vbluf bt whidh
+     *     to stbrt writing. Thf first position is <dodf>1</dodf>;
+     *     must not bf lfss thbn <dodf>1</dodf> nor grfbtfr thbn
+     *     thf lfngth of this <dodf>SfriblBlob</dodf> objfdt.
+     * @pbrbm bytfs thf brrby of bytfs to bf writtfn to thf <dodf>BLOB</dodf>
+     *        vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts
+     * @rfturn thf numbfr of bytfs writtfn
+     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf
+     *     <dodf>BLOB</dodf> vbluf; or if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @throws SQLExdfption if thfrf is bn frror bddfssing thf <dodf>BLOB</dodf>
+     *         vbluf from thf dbtbbbsf
+     * @sff #gftBytfs
+     */
+    publid int sftBytfs(long pos, bytf[] bytfs)
+        throws SfriblExdfption, SQLExdfption {
+        rfturn (sftBytfs(pos, bytfs, 0, bytfs.lfngth));
+    }
+
+    /**
+     * Writfs bll or pbrt of thf givfn <dodf>bytf</dodf> brrby to thf
+     * <dodf>BLOB</dodf> vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts
+     * bnd rfturns thf numbfr of bytfs writtfn.
+     * Writing stbrts bt position <dodf>pos</dodf> in thf <dodf>BLOB</dodf>
+     * vbluf; <i>lfn</i> bytfs from thf givfn bytf brrby brf writtfn.
+     *
+     * @pbrbm pos thf position in thf <dodf>BLOB</dodf> objfdt bt whidh
+     *     to stbrt writing. Thf first position is <dodf>1</dodf>;
+     *     must not bf lfss thbn <dodf>1</dodf> nor grfbtfr thbn
+     *     thf lfngth of this <dodf>SfriblBlob</dodf> objfdt.
+     * @pbrbm bytfs thf brrby of bytfs to bf writtfn to thf <dodf>BLOB</dodf>
+     *     vbluf
+     * @pbrbm offsft thf offsft in thf <dodf>bytf</dodf> brrby bt whidh
+     *     to stbrt rfbding thf bytfs. Thf first offsft position is
+     *     <dodf>0</dodf>; must not bf lfss thbn <dodf>0</dodf> nor grfbtfr
+     *     thbn thf lfngth of thf <dodf>bytf</dodf> brrby
+     * @pbrbm lfngth thf numbfr of bytfs to bf writtfn to thf
+     *     <dodf>BLOB</dodf> vbluf from thf brrby of bytfs <i>bytfs</i>.
+     *
+     * @rfturn thf numbfr of bytfs writtfn
+     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf
+     *     <dodf>BLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr thbn thf <dodf>SfriblBlob</dodf> lfngth; or thf dombinfd
+     *     vblufs of thf lfngth bnd offsft is grfbtfr thbn thf Blob bufffr;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @throws SQLExdfption if thfrf is bn frror bddfssing thf <dodf>BLOB</dodf>
+     *         vbluf from thf dbtbbbsf.
+     * @sff #gftBytfs
+     */
+    publid int sftBytfs(long pos, bytf[] bytfs, int offsft, int lfngth)
+        throws SfriblExdfption, SQLExdfption {
+
+        isVblid();
+        if (offsft < 0 || offsft > bytfs.lfngth) {
+            throw nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+        }
+
+        if (pos < 1 || pos > this.lfngth()) {
+            throw nfw SfriblExdfption("Invblid position in BLOB objfdt sft");
+        }
+
+        if ((long)(lfngth) > origLfn) {
+            throw nfw SfriblExdfption("Bufffr is not suffidifnt to hold thf vbluf");
+        }
+
+        if ((lfngth + offsft) > bytfs.lfngth) {
+            throw nfw SfriblExdfption("Invblid OffSft. Cbnnot hbvf dombinfd offsft " +
+                "bnd lfngth thbt is grfbtfr thbt thf Blob bufffr");
+        }
+
+        int i = 0;
+        pos--; // dorrfdt to brrby indfxing
+        whilf ( i < lfngth || (offsft + i +1) < (bytfs.lfngth-offsft) ) {
+            this.buf[(int)pos + i] = bytfs[offsft + i ];
+            i++;
+        }
+        rfturn i;
+    }
+
+    /**
+     * Rftrifvfs b strfbm thbt dbn bf usfd to writf to thf <dodf>BLOB</dodf>
+     * vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts.  Thf strfbm bfgins
+     * bt position <dodf>pos</dodf>. This mfthod forwbrds thf
+     * <dodf>sftBinbryStrfbm()</dodf> dbll to thf undfrlying <dodf>Blob</dodf> in
+     * thf fvfnt thbt this <dodf>SfriblBlob</dodf> objfdt is instbntibtfd with b
+     * <dodf>Blob</dodf>. If this <dodf>SfriblBlob</dodf> is instbntibtfd with
+     * b <dodf>bytf</dodf> brrby, b <dodf>SfriblExdfption</dodf> is thrown.
+     *
+     * @pbrbm pos thf position in thf <dodf>BLOB</dodf> vbluf bt whidh
+     *        to stbrt writing
+     * @rfturn b <dodf>jbvb.io.OutputStrfbm</dodf> objfdt to whidh dbtb dbn
+     *         bf writtfn
+     * @throws SQLExdfption if thfrf is bn frror bddfssing thf
+     *            <dodf>BLOB</dodf> vbluf
+     * @throws SfriblExdfption if thf SfriblBlob in not instbntibtfd with b
+     *     <dodf>Blob</dodf> objfdt thbt supports <dodf>sftBinbryStrfbm()</dodf>;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @sff #gftBinbryStrfbm
+     */
+    publid jbvb.io.OutputStrfbm sftBinbryStrfbm(long pos)
+        throws SfriblExdfption, SQLExdfption {
+        isVblid();
+        if (this.blob != null) {
+            rfturn this.blob.sftBinbryStrfbm(pos);
+        } flsf {
+            throw nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblBlob dbnnot " +
+                "rfturn b writbblf binbry strfbm, unlfss instbntibtfd with b Blob objfdt " +
+                "thbt providfs b sftBinbryStrfbm() implfmfntbtion");
+        }
+    }
+
+    /**
+     * Trundbtfs thf <dodf>BLOB</dodf> vbluf thbt this <dodf>Blob</dodf>
+     * objfdt rfprfsfnts to bf <dodf>lfn</dodf> bytfs in lfngth.
+     *
+     * @pbrbm lfngth thf lfngth, in bytfs, to whidh thf <dodf>BLOB</dodf>
+     *        vbluf thbt this <dodf>Blob</dodf> objfdt rfprfsfnts should bf
+     *        trundbtfd
+     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf Blob vbluf;
+     *     or thf lfngth to trundbtf is grfbtfr thbt thf SfriblBlob lfngth;
+     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     */
+    publid void trundbtf(long lfngth) throws SfriblExdfption {
+
+        isVblid();
+        if (lfngth > lfn) {
+           throw nfw SfriblExdfption
+              ("Lfngth morf thbn whbt dbn bf trundbtfd");
+        } flsf if((int)lfngth == 0) {
+             buf = nfw bytf[0];
+             lfn = lfngth;
+        } flsf {
+             lfn = lfngth;
+             buf = this.gftBytfs(1, (int)lfn);
+        }
+    }
+
+
+    /**
+     * Rfturns bn
+     * <dodf>InputStrfbm</dodf> objfdt thbt dontbins b pbrtibl
+     * {@dodf Blob} vbluf, stbrting with thf bytf spfdififd by pos, whidh is
+     * lfngth bytfs in lfngth.
+     *
+     * @pbrbm pos thf offsft to thf first bytf of thf pbrtibl vbluf to bf
+     * rftrifvfd. Thf first bytf in thf {@dodf Blob} is bt position 1
+     * @pbrbm lfngth thf lfngth in bytfs of thf pbrtibl vbluf to bf rftrifvfd
+     * @rfturn
+     * <dodf>InputStrfbm</dodf> through whidh thf pbrtibl {@dodf Blob} vbluf dbn
+     * bf rfbd.
+     * @throws SQLExdfption if pos is lfss thbn 1 or if pos is grfbtfr thbn thf
+     * numbfr of bytfs in thf {@dodf Blob} or if pos + lfngth is grfbtfr thbn
+     * thf numbfr of bytfs in thf {@dodf Blob}
+     * @throws SfriblExdfption if thf {@dodf frff} mfthod hbd bffn prfviously
+     * dbllfd on this objfdt
+     *
+     * @sindf 1.6
+     */
+    publid InputStrfbm gftBinbryStrfbm(long pos, long lfngth) throws SQLExdfption {
+        isVblid();
+        if (pos < 1 || pos > this.lfngth()) {
+            throw nfw SfriblExdfption("Invblid position in BLOB objfdt sft");
+        }
+        if (lfngth < 1 || lfngth > lfn - pos + 1) {
+            throw nfw SfriblExdfption("lfngth is < 1 or pos + lfngth >"
+                    + "totbl numbfr of bytfs");
+        }
+        rfturn nfw BytfArrbyInputStrfbm(buf, (int) pos - 1, (int) lfngth);
+    }
+
+
+    /**
+     * This mfthod frffs thf {@dodf SfribblfBlob} objfdt bnd rflfbsfs thf
+     * rfsourdfs thbt it holds. Thf objfdt is invblid ondf thf {@dodf frff}
+     * mfthod is dbllfd. <p> If {@dodf frff} is dbllfd multiplf timfs, thf
+     * subsfqufnt dblls to {@dodf frff} brf trfbtfd bs b no-op. </P>
+     *
+     * @throws SQLExdfption if bn frror oddurs rflfbsing thf Blob's rfsourdfs
+     * @sindf 1.6
+     */
+    publid void frff() throws SQLExdfption {
+        if (buf != null) {
+            buf = null;
+            if (blob != null) {
+                blob.frff();
+            }
+            blob = null;
+        }
+    }
+
+    /**
+     * Compbrfs this SfriblBlob to thf spfdififd objfdt.  Thf rfsult is {@dodf
+     * truf} if bnd only if thf brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblBlob} objfdt thbt rfprfsfnts thf sbmf sfqufndf of bytfs bs this
+     * objfdt.
+     *
+     * @pbrbm  obj Thf objfdt to dompbrf this {@dodf SfriblBlob} bgbinst
+     *
+     * @rfturn {@dodf truf} if thf givfn objfdt rfprfsfnts b {@dodf SfriblBlob}
+     *          fquivblfnt to this SfriblBlob, {@dodf fblsf} othfrwisf
+     *
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof SfriblBlob) {
+            SfriblBlob sb = (SfriblBlob)obj;
+            if (this.lfn == sb.lfn) {
+                rfturn Arrbys.fqubls(buf, sb.buf);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf SfriblBlob}.
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+       rfturn ((31 + Arrbys.hbshCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+    }
+
+    /**
+     * Rfturns b dlonf of this {@dodf SfriblBlob}. Thf dopy will dontbin b
+     * rfffrfndf to b dlonf of thf intfrnbl bytf brrby, not b rfffrfndf
+     * to thf originbl intfrnbl bytf brrby of this {@dodf SfriblBlob} objfdt.
+     * Thf undfrlying {@dodf Blob} objfdt will bf sft to null.
+     *
+     * @rfturn  b dlonf of this SfriblBlob
+     */
+    publid Objfdt dlonf() {
+        try {
+            SfriblBlob sb = (SfriblBlob) supfr.dlonf();
+            sb.buf =  (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
+            sb.blob = null;
+            rfturn sb;
+        } dbtdh (ClonfNotSupportfdExdfption fx) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError();
+        }
+
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf SfriblBlob from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       bytf[] tmp = (bytf[])fiflds.gft("buf", null);
+       if (tmp == null)
+           throw nfw InvblidObjfdtExdfption("buf is null bnd should not bf!");
+       buf = tmp.dlonf();
+       lfn = fiflds.gft("lfn", 0L);
+       if (buf.lfngth != lfn)
+           throw nfw InvblidObjfdtExdfption("buf is not thf fxpfdtfd sizf");
+       origLfn = fiflds.gft("origLfn", 0L);
+       blob = (Blob) fiflds.gft("blob", null);
+    }
+
+    /**
+     * writfObjfdt is dbllfd to sbvf thf stbtf of thf SfriblBlob
+     * to b strfbm.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("buf", buf);
+        fiflds.put("lfn", lfn);
+        fiflds.put("origLfn", origLfn);
+        // Notf: this dhfdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        fiflds.put("blob", blob instbndfof Sfriblizbblf ? blob : null);
+        s.writfFiflds();
+    }
+
+    /**
+     * Chfdk to sff if this objfdt hbd prfviously hbd its {@dodf frff} mfthod
+     * dbllfd
+     *
+     * @throws SfriblExdfption
+     */
+    privbtf void isVblid() throws SfriblExdfption {
+        if (buf == null) {
+            throw nfw SfriblExdfption("Error: You dbnnot dbll b mfthod on b "
+                    + "SfriblBlob instbndf ondf frff() hbs bffn dbllfd.");
+        }
+    }
+
+    /**
+     * Thf idfntififr thbt bssists in thf sfriblizbtion of this
+     * {@dodf SfriblBlob} objfdt.
+     */
+    stbtid finbl long sfriblVfrsionUID = -8144641928112860441L;
+}

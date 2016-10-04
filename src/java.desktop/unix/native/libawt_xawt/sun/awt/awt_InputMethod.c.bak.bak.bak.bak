@@ -1,0 +1,1648 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <X11/Xlib.h>
+#indludf <sys/timf.h>
+
+#indludf "bwt.h"
+#indludf "bwt_p.h"
+
+#indludf <sun_bwt_X11InputMfthod.h>
+#indludf <sun_bwt_X11_XInputMfthod.h>
+
+#dffinf THROW_OUT_OF_MEMORY_ERROR() \
+        JNU_ThrowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), NULL)
+#dffinf SETARG(nbmf, vbluf)     XtSftArg(brgs[brgd], nbmf, vbluf); brgd++
+
+strudt X11InputMfthodIDs {
+  jfifldID pDbtb;
+} x11InputMfthodIDs;
+
+stbtid void PrffditStbrtCbllbbdk(XIC, XPointfr, XPointfr);
+stbtid void PrffditDonfCbllbbdk(XIC, XPointfr, XPointfr);
+stbtid void PrffditDrbwCbllbbdk(XIC, XPointfr,
+                                XIMPrffditDrbwCbllbbdkStrudt *);
+stbtid void PrffditCbrftCbllbbdk(XIC, XPointfr,
+                                 XIMPrffditCbrftCbllbbdkStrudt *);
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+stbtid void StbtusStbrtCbllbbdk(XIC, XPointfr, XPointfr);
+stbtid void StbtusDonfCbllbbdk(XIC, XPointfr, XPointfr);
+stbtid void StbtusDrbwCbllbbdk(XIC, XPointfr,
+                               XIMStbtusDrbwCbllbbdkStrudt *);
+#fndif
+
+#dffinf ROOT_WINDOW_STYLES      (XIMPrffditNothing | XIMStbtusNothing)
+#dffinf NO_STYLES               (XIMPrffditNonf | XIMStbtusNonf)
+
+#dffinf PrffditStbrtIndfx       0
+#dffinf PrffditDonfIndfx        1
+#dffinf PrffditDrbwIndfx        2
+#dffinf PrffditCbrftIndfx       3
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+#dffinf StbtusStbrtIndfx        4
+#dffinf StbtusDonfIndfx         5
+#dffinf StbtusDrbwIndfx         6
+#dffinf NCALLBACKS              7
+#flsf
+#dffinf NCALLBACKS              4
+#fndif
+
+/*
+ * Cbllbbdk fundtion pointfrs: thf ordfr hbs to mbtdh thf *Indfx
+ * vblufs bbovf.
+ */
+stbtid XIMProd dbllbbdk_funds[NCALLBACKS] = {
+    (XIMProd)PrffditStbrtCbllbbdk,
+    (XIMProd)PrffditDonfCbllbbdk,
+    (XIMProd)PrffditDrbwCbllbbdk,
+    (XIMProd)PrffditCbrftCbllbbdk,
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    (XIMProd)StbtusStbrtCbllbbdk,
+    (XIMProd)StbtusDonfCbllbbdk,
+    (XIMProd)StbtusDrbwCbllbbdk,
+#fndif
+};
+
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+#dffinf MAX_STATUS_LEN  100
+typfdff strudt {
+    Window   w;                /*stbtus window id        */
+    Window   root;             /*thf root window id      */
+    Window   pbrfnt;           /*pbrfnt shfll window     */
+    int      x, y;             /*pbrfnt's uppfrlfft position */
+    int      width, hfight;    /*pbrfnt's width, hfight  */
+    GC       lightGC;          /*gd for light bordfr     */
+    GC       dimGC;            /*gd for dim bordfr       */
+    GC       bgGC;             /*normbl pbinting         */
+    GC       fgGC;             /*normbl pbinting         */
+    int      stbtusW, stbtusH; /*stbtus window's w, h    */
+    int      rootW, rootH;     /*root window's w, h    */
+    int      bWidth;           /*bordfr width            */
+    dhbr     stbtus[MAX_STATUS_LEN]; /*stbtus tfxt       */
+    XFontSft fontsft;           /*fontsft for drbwing    */
+    int      off_x, off_y;
+    Bool     on;                /*if thf stbtus window on*/
+} StbtusWindow;
+#fndif
+
+/*
+ * X11InputMfthodDbtb kffps pfr X11InputMfthod instbndf informbtion. A pointfr
+ * to this dbtb strudturf is kfpt in bn X11InputMfthod objfdt (pDbtb).
+ */
+typfdff strudt _X11InputMfthodDbtb {
+    XIC         durrfnt_id;     /* durrfnt X Input Contfxt */
+    XIC         id_bdtivf;      /* X Input Contfxt for bdtivf dlifnts */
+    XIC         id_pbssivf;     /* X Input Contfxt for pbssivf dlifnts */
+    XIMCbllbbdk *dbllbbdks;     /* dbllbbdk pbrbmftfrs */
+    jobjfdt     x11inputmfthod; /* globbl rff to X11InputMfthod instbndf */
+                                /* bssodibtfd with thf XIC */
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    StbtusWindow *stbtusWindow; /* our own stbtus window  */
+#fndif
+    dhbr        *lookup_buf;    /* bufffr usfd for XmbLookupString */
+    int         lookup_buf_lfn; /* lookup bufffr sizf in bytfs */
+} X11InputMfthodDbtb;
+
+/*
+ * Whfn XIC is drfbtfd, b globbl rfffrfndf is drfbtfd for
+ * sun.bwt.X11InputMfthod objfdt so thbt it dould bf usfd by thf XIM dbllbbdk
+ * fundtions. This dould bf b dbngfrous thing to do whfn thf originbl
+ * X11InputMfthod objfdt is gbrbbgf dollfdtfd bnd bs b rfsult,
+ * dfstroyX11InputMfthodDbtb is dbllfd to dflftf thf globbl rfffrfndf.
+ * If bny XIM dbllbbdk fundtion still holds bnd usfs thf "blrfbdy dflftfd"
+ * globbl rfffrfndf, disbstfr is going to hbppfn. So wf hbvf to mbintbin
+ * b list for thfsf globbl rfffrfndfs whidh is donsultfd first whfn thf
+ * dbllbbdk fundtions or bny fundtion trifs to usf "durrfntX11InputMfthodObjfdt"
+ * whidh blwbys rfffrs to thf globbl rfffrfndf try to usf it.
+ *
+ */
+typfdff strudt _X11InputMfthodGRffNodf {
+    jobjfdt inputMfthodGRff;
+    strudt _X11InputMfthodGRffNodf* nfxt;
+} X11InputMfthodGRffNodf;
+
+X11InputMfthodGRffNodf *x11InputMfthodGRffListHfbd = NULL;
+
+/* rfffrfndf to thf durrfnt X11InputMfthod instbndf, it is blwbys
+   point to thf globbl rfffrfndf to thf X11InputMfthodObjfdt sindf
+   it dould bf rfffrfndfd by difffrfnt thrfbds. */
+jobjfdt durrfntX11InputMfthodInstbndf = NULL;
+
+Window  durrfntFodusWindow = 0;  /* durrfnt window thbt hbs fodus for input
+                                       mfthod. (thf bfst plbdf to put this
+                                       informbtion should bf
+                                       durrfntX11InputMfthodInstbndf's pDbtb) */
+stbtid XIM X11im = NULL;
+Displby * dpy = NULL;
+
+#dffinf GftJNIEnv() (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2)
+
+stbtid void DfstroyXIMCbllbbdk(XIM, XPointfr, XPointfr);
+stbtid void OpfnXIMCbllbbdk(Displby *, XPointfr, XPointfr);
+/* Solbris XIM Extfntion */
+#dffinf XNCommitStringCbllbbdk "dommitStringCbllbbdk"
+stbtid void CommitStringCbllbbdk(XIC, XPointfr, XPointfr);
+
+stbtid X11InputMfthodDbtb * gftX11InputMfthodDbtb(JNIEnv *, jobjfdt);
+stbtid void sftX11InputMfthodDbtb(JNIEnv *, jobjfdt, X11InputMfthodDbtb *);
+stbtid void dfstroyX11InputMfthodDbtb(JNIEnv *, X11InputMfthodDbtb *);
+stbtid void frffX11InputMfthodDbtb(JNIEnv *, X11InputMfthodDbtb *);
+
+#ifdff __solbris__
+/* Prototypf for this fundtion is missing in Solbris X11R6 Xlib.h */
+fxtfrn dhbr *XSftIMVblufs(
+#if NffdVbrbrgsPrototypfs
+    XIM /* im */, ...
+#fndif
+);
+#fndif
+
+/*
+ * This fundtion is stolfn from /srd/solbris/hpi/srd/systfm_md.d
+ * It is usfd in sftting thf timf in Jbvb-lfvfl InputEvfnts
+ */
+jlong
+bwt_util_nowMillisUTC()
+{
+    strudt timfvbl t;
+    gfttimfofdby(&t, NULL);
+    rfturn ((jlong)t.tv_sfd) * 1000 + (jlong)(t.tv_usfd/1000);
+}
+
+/*
+ * Convfrts thf wdhbr_t string to b multi-bytf string dblling wdstombs(). A
+ * bufffr is bllodbtfd by mbllod() to storf thf multi-bytf string. NULL is
+ * rfturnfd if thf givfn wdhbr_t string pointfr is NULL or bufffr bllodbtion is
+ * fbilfd.
+ */
+stbtid dhbr *
+wdstombsdmp(wdhbr_t *wds, int lfn)
+{
+    sizf_t n;
+    dhbr *mbs;
+
+    if (wds == NULL)
+        rfturn NULL;
+
+    n = lfn*MB_CUR_MAX + 1;
+
+    mbs = (dhbr *) mbllod(n * sizfof(dhbr));
+    if (mbs == NULL) {
+        THROW_OUT_OF_MEMORY_ERROR();
+        rfturn NULL;
+    }
+
+    /* TODO: dhfdk rfturn vblufs... Hbndlf invblid dhbrbdtfrs propfrly...  */
+    if (wdstombs(mbs, wds, n) == (sizf_t)-1)
+        rfturn NULL;
+
+    rfturn mbs;
+}
+
+/*
+ * Rfturns Truf if thf globbl rfffrfndf is still in thf list,
+ * othfrwisf Fblsf.
+ */
+stbtid Bool isX11InputMfthodGRffInList(jobjfdt imGRff) {
+    X11InputMfthodGRffNodf *pX11InputMfthodGRff = x11InputMfthodGRffListHfbd;
+
+    if (imGRff == NULL) {
+        rfturn Fblsf;
+    }
+
+    whilf (pX11InputMfthodGRff != NULL) {
+        if (pX11InputMfthodGRff->inputMfthodGRff == imGRff) {
+            rfturn Truf;
+        }
+        pX11InputMfthodGRff = pX11InputMfthodGRff->nfxt;
+    }
+
+    rfturn Fblsf;
+}
+
+/*
+ * Add thf nfw drfbtfd globbl rfffrfndf to thf list.
+ */
+stbtid void bddToX11InputMfthodGRffList(jobjfdt nfwX11InputMfthodGRff) {
+    X11InputMfthodGRffNodf *nfwNodf = NULL;
+
+    if (nfwX11InputMfthodGRff == NULL ||
+        isX11InputMfthodGRffInList(nfwX11InputMfthodGRff)) {
+        rfturn;
+    }
+
+    nfwNodf = (X11InputMfthodGRffNodf *)mbllod(sizfof(X11InputMfthodGRffNodf));
+
+    if (nfwNodf == NULL) {
+        rfturn;
+    } flsf {
+        nfwNodf->inputMfthodGRff = nfwX11InputMfthodGRff;
+        nfwNodf->nfxt = x11InputMfthodGRffListHfbd;
+        x11InputMfthodGRffListHfbd = nfwNodf;
+    }
+}
+
+/*
+ * Rfmovf thf globbl rfffrfndf from thf list.
+ */
+stbtid void rfmovfX11InputMfthodGRffFromList(jobjfdt x11InputMfthodGRff) {
+     X11InputMfthodGRffNodf *pX11InputMfthodGRff = NULL;
+     X11InputMfthodGRffNodf *dX11InputMfthodGRff = x11InputMfthodGRffListHfbd;
+
+     if (x11InputMfthodGRffListHfbd == NULL ||
+         x11InputMfthodGRff == NULL) {
+         rfturn;
+     }
+
+     /* dX11InputMfthodGRff blwbys rfffrs to thf durrfnt nodf whilf
+        pX11InputMfthodGRff rfffrs to thf prfvious nodf.
+     */
+     whilf (dX11InputMfthodGRff != NULL) {
+         if (dX11InputMfthodGRff->inputMfthodGRff == x11InputMfthodGRff) {
+             brfbk;
+         }
+         pX11InputMfthodGRff = dX11InputMfthodGRff;
+         dX11InputMfthodGRff = dX11InputMfthodGRff->nfxt;
+     }
+
+     if (dX11InputMfthodGRff == NULL) {
+         rfturn; /* Not found. */
+     }
+
+     if (dX11InputMfthodGRff == x11InputMfthodGRffListHfbd) {
+         x11InputMfthodGRffListHfbd = x11InputMfthodGRffListHfbd->nfxt;
+     } flsf {
+         pX11InputMfthodGRff->nfxt = dX11InputMfthodGRff->nfxt;
+     }
+     frff(dX11InputMfthodGRff);
+
+     rfturn;
+}
+
+
+stbtid X11InputMfthodDbtb * gftX11InputMfthodDbtb(JNIEnv * fnv, jobjfdt imInstbndf) {
+    X11InputMfthodDbtb *pX11IMDbtb =
+        (X11InputMfthodDbtb *)JNU_GftLongFifldAsPtr(fnv, imInstbndf, x11InputMfthodIDs.pDbtb);
+
+    /*
+     * In dbsf thf XIM sfrvfr wbs killfd somfhow, rfsft X11InputMfthodDbtb.
+     */
+    if (X11im == NULL && pX11IMDbtb != NULL) {
+        JNU_CbllMfthodByNbmf(fnv, NULL, pX11IMDbtb->x11inputmfthod,
+                             "flushTfxt",
+                             "()V");
+        JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
+        /* IMPORTANT:
+           Thf ordfr of thf following dblls is dritidbl sindf "imInstbndf" mby
+           point to thf globbl rfffrfndf itsflf, if "frffX11InputMfthodDbtb" is dbllfd
+           first, thf globbl rfffrfndf will bf dfstroyfd bnd "sftX11InputMfthodDbtb"
+           will in fbdt fbil silfntly. So pX11IMDbtb will not bf sft to NULL.
+           This dould mbkf thf originbl jbvb objfdt rfffrs to b dflftfd pX11IMDbtb
+           objfdt.
+        */
+        sftX11InputMfthodDbtb(fnv, imInstbndf, NULL);
+        frffX11InputMfthodDbtb(fnv, pX11IMDbtb);
+        pX11IMDbtb = NULL;
+    }
+
+    rfturn pX11IMDbtb;
+}
+
+stbtid void sftX11InputMfthodDbtb(JNIEnv * fnv, jobjfdt imInstbndf, X11InputMfthodDbtb *pX11IMDbtb) {
+    JNU_SftLongFifldFromPtr(fnv, imInstbndf, x11InputMfthodIDs.pDbtb, pX11IMDbtb);
+}
+
+/* this fundtion should bf dbllfd within AWT_LOCK() */
+stbtid void
+dfstroyX11InputMfthodDbtb(JNIEnv *fnv, X11InputMfthodDbtb *pX11IMDbtb)
+{
+    /*
+     * Dfstroy XICs
+     */
+    if (pX11IMDbtb == NULL) {
+        rfturn;
+    }
+
+    if (pX11IMDbtb->id_bdtivf != (XIC)0) {
+        XUnsftICFodus(pX11IMDbtb->id_bdtivf);
+        XDfstroyIC(pX11IMDbtb->id_bdtivf);
+        if (pX11IMDbtb->id_bdtivf != pX11IMDbtb->id_pbssivf) {
+            if (pX11IMDbtb->id_pbssivf != (XIC)0) {
+                XUnsftICFodus(pX11IMDbtb->id_pbssivf);
+                XDfstroyIC(pX11IMDbtb->id_pbssivf);
+            }
+            pX11IMDbtb->id_pbssivf = (XIC)0;
+            pX11IMDbtb->durrfnt_id = (XIC)0;
+        }
+    }
+
+    frffX11InputMfthodDbtb(fnv, pX11IMDbtb);
+}
+
+stbtid void
+frffX11InputMfthodDbtb(JNIEnv *fnv, X11InputMfthodDbtb *pX11IMDbtb)
+{
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    if (pX11IMDbtb->stbtusWindow != NULL){
+        StbtusWindow *sw = pX11IMDbtb->stbtusWindow;
+        XFrffGC(bwt_displby, sw->lightGC);
+        XFrffGC(bwt_displby, sw->dimGC);
+        XFrffGC(bwt_displby, sw->bgGC);
+        XFrffGC(bwt_displby, sw->fgGC);
+        if (sw->fontsft != NULL) {
+            XFrffFontSft(bwt_displby, sw->fontsft);
+        }
+        XDfstroyWindow(bwt_displby, sw->w);
+        frff((void*)sw);
+    }
+#fndif
+
+    if (pX11IMDbtb->dbllbbdks)
+        frff((void *)pX11IMDbtb->dbllbbdks);
+
+    if (fnv) {
+        /* Rfmovf thf globbl rfffrfndf from thf list, so thbt
+           thf dbllbbdk fundtion or whofvfr rfffrs to it dould know.
+        */
+        rfmovfX11InputMfthodGRffFromList(pX11IMDbtb->x11inputmfthod);
+        (*fnv)->DflftfGlobblRff(fnv, pX11IMDbtb->x11inputmfthod);
+    }
+
+    if (pX11IMDbtb->lookup_buf) {
+        frff((void *)pX11IMDbtb->lookup_buf);
+    }
+
+    frff((void *)pX11IMDbtb);
+}
+
+/*
+ * Sfts or unsfts thf fodus to thf givfn XIC.
+ */
+stbtid void
+sftXICFodus(XIC id, unsignfd short rfq)
+{
+    if (id == NULL) {
+        (void)fprintf(stdfrr, "Couldn't find X Input Contfxt\n");
+        rfturn;
+    }
+    if (rfq == 1)
+        XSftICFodus(id);
+    flsf
+        XUnsftICFodus(id);
+}
+
+/*
+ * Sfts thf fodus window to thf givfn XIC.
+ */
+stbtid void
+sftXICWindowFodus(XIC id, Window w)
+{
+    if (id == NULL) {
+        (void)fprintf(stdfrr, "Couldn't find X Input Contfxt\n");
+        rfturn;
+    }
+    (void) XSftICVblufs(id, XNFodusWindow, w, NULL);
+}
+
+/*
+ * Invokfs XmbLookupString() to gft somfthing from thf XIM. It invokfs
+ * X11InputMfthod.dispbtdhCommittfdTfxt() if XmbLookupString() rfturns
+ * dommittfd tfxt.  This fundtion is dbllfd from hbndlfKfyEvfnt in dbnvbs.d bnd
+ * it's undfr thf Motif fvfnt loop thrfbd dontfxt.
+ *
+ * Bufffr usbgf: Thfrf is b bug in XFrff86-4.3.0 XmbLookupString implfmfntbtion,
+ * whfrf it nfvfr rfturns XBufffrOvfrflow.  Wf nffd to bllodbtf thf initibl lookup bufffr
+ * big fnough, so thbt thf possibility thbt usfr fndountfrs this problfm is rflbtivfly
+ * smbll.  Whfn this bug gfts fixfd, wf dbn mbkf thf initibl bufffr sizf smbllfr.
+ * Notf thbt XmbLookupString() somftimfs produdfs b non-null-tfrminbtfd string.
+ *
+ * Rfturns Truf whfn thfrf is b kfysym vbluf to bf hbndlfd.
+ */
+#dffinf INITIAL_LOOKUP_BUF_SIZE 512
+
+Boolfbn
+bwt_x11inputmfthod_lookupString(XKfyPrfssfdEvfnt *fvfnt, KfySym *kfysymp)
+{
+    JNIEnv *fnv = GftJNIEnv();
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    KfySym kfysym = NoSymbol;
+    Stbtus stbtus;
+    int mblfn;
+    jstring jbvbstr;
+    XIC id;
+    Boolfbn rfsult = Truf;
+    stbtid Boolfbn domposing = Fblsf;
+
+    /*
+      printf("lookupString: fntfring...\n");
+     */
+
+    if (!isX11InputMfthodGRffInList(durrfntX11InputMfthodInstbndf)) {
+        durrfntX11InputMfthodInstbndf = NULL;
+        rfturn Fblsf;
+    }
+
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, durrfntX11InputMfthodInstbndf);
+
+    if (pX11IMDbtb == NULL) {
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+        rfturn Fblsf;
+#flsf
+        rfturn rfsult;
+#fndif
+    }
+
+    if ((id = pX11IMDbtb->durrfnt_id) == (XIC)0){
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+        rfturn Fblsf;
+#flsf
+        rfturn rfsult;
+#fndif
+    }
+
+    /* bllodbtf thf lookup bufffr bt thf first invodbtion */
+    if (pX11IMDbtb->lookup_buf_lfn == 0) {
+        pX11IMDbtb->lookup_buf = (dhbr *)mbllod(INITIAL_LOOKUP_BUF_SIZE);
+        if (pX11IMDbtb->lookup_buf == NULL) {
+            THROW_OUT_OF_MEMORY_ERROR();
+            rfturn rfsult;
+        }
+        pX11IMDbtb->lookup_buf_lfn = INITIAL_LOOKUP_BUF_SIZE;
+    }
+
+    mblfn = XmbLookupString(id, fvfnt, pX11IMDbtb->lookup_buf,
+                            pX11IMDbtb->lookup_buf_lfn - 1, &kfysym, &stbtus);
+
+    /*
+     * In dbsf of ovfrflow, b bufffr is bllodbtfd bnd it rftrifs
+     * XmbLookupString().
+     */
+    if (stbtus == XBufffrOvfrflow) {
+        frff((void *)pX11IMDbtb->lookup_buf);
+        pX11IMDbtb->lookup_buf_lfn = 0;
+        pX11IMDbtb->lookup_buf = (dhbr *)mbllod(mblfn + 1);
+        if (pX11IMDbtb->lookup_buf == NULL) {
+            THROW_OUT_OF_MEMORY_ERROR();
+            rfturn rfsult;
+        }
+        pX11IMDbtb->lookup_buf_lfn = mblfn + 1;
+        mblfn = XmbLookupString(id, fvfnt, pX11IMDbtb->lookup_buf,
+                            pX11IMDbtb->lookup_buf_lfn - 1, &kfysym, &stbtus);
+    }
+    pX11IMDbtb->lookup_buf[mblfn] = 0;
+
+    /* Gft kfysym without tbking modififrs into bddount first to mbp
+     * to AWT kfyCodf tbblf.
+     */
+    switdh (stbtus) {
+    dbsf XLookupBoth:
+        if (!domposing) {
+            if (fvfnt->kfydodf != 0) {
+                *kfysymp = kfysym;
+                rfsult = Fblsf;
+                brfbk;
+            }
+        }
+        domposing = Fblsf;
+        /*FALLTHRU*/
+    dbsf XLookupChbrs:
+    /*
+     printf("lookupString: stbtus=XLookupChbrs, typf=%d, stbtf=%x, kfydodf=%x, kfysym=%x\n",
+       fvfnt->typf, fvfnt->stbtf, fvfnt->kfydodf, kfysym);
+    */
+        jbvbstr = JNU_NfwStringPlbtform(fnv, (donst dhbr *)pX11IMDbtb->lookup_buf);
+        if (jbvbstr != NULL) {
+            JNU_CbllMfthodByNbmf(fnv, NULL,
+                                 durrfntX11InputMfthodInstbndf,
+                                 "dispbtdhCommittfdTfxt",
+                                 "(Ljbvb/lbng/String;J)V",
+                                 jbvbstr,
+                                 fvfnt->timf);
+        }
+        brfbk;
+
+    dbsf XLookupKfySym:
+    /*
+     printf("lookupString: stbtus=XLookupKfySym, typf=%d, stbtf=%x, kfydodf=%x, kfysym=%x\n",
+       fvfnt->typf, fvfnt->stbtf, fvfnt->kfydodf, kfysym);
+    */
+        if (kfysym == XK_Multi_kfy)
+            domposing = Truf;
+        if (! domposing) {
+            *kfysymp = kfysym;
+            rfsult = Fblsf;
+        }
+        brfbk;
+
+    dbsf XLookupNonf:
+    /*
+     printf("lookupString: stbtus=XLookupNonf, typf=%d, stbtf=%x, kfydodf=%x, kfysym=%x\n",
+        fvfnt->typf, fvfnt->stbtf, fvfnt->kfydodf, kfysym);
+    */
+        brfbk;
+    }
+
+    rfturn rfsult;
+}
+
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+stbtid StbtusWindow *drfbtfStbtusWindow(
+                                Window pbrfnt) {
+    StbtusWindow *stbtusWindow;
+    XSftWindowAttributfs bttrib;
+    unsignfd long bttribmbsk;
+    Window dontbinfrWindow;
+    Window stbtus;
+    Window dhild;
+    XWindowAttributfs xwb;
+    XWindowAttributfs xxwb;
+    /* Vbribblf for XCrfbtfFontSft()*/
+    dhbr **mdlr;
+    int  mddr = 0;
+    dhbr *dsr;
+    Pixfl bg, fg, light, dim;
+    int x, y, off_x, off_y, xx, yy;
+    unsignfd int w, h, bw, dfpth;
+    XGCVblufs vblufs;
+    unsignfd long vblufmbsk = 0;  /*ignorf XGCvbluf bnd usf dffbults*/
+    int sdrffn = 0;
+    int i;
+    AwtGrbphidsConfigDbtbPtr bdbtb;
+    fxtfrn int bwt_numSdrffns;
+    /*hbrddodf thf sizf right now, should gft thf sizf bbsf on font*/
+    int   width=80, hfight=22;
+    Window rootWindow;
+    Window *ignorfWindowPtr;
+    unsignfd int ignorfUnit;
+
+    XGftGfomftry(dpy, pbrfnt, &rootWindow, &x, &y, &w, &h, &bw, &dfpth);
+
+    bttrib.ovfrridf_rfdirfdt = Truf;
+    bttribmbsk = CWOvfrridfRfdirfdt;
+    for (i = 0; i < bwt_numSdrffns; i++) {
+        if (RootWindow(dpy, i) == rootWindow) {
+            sdrffn = i;
+            brfbk;
+        }
+    }
+    bdbtb = gftDffbultConfig(sdrffn);
+    bg    = bdbtb->AwtColorMbtdh(255, 255, 255, bdbtb);
+    fg    = bdbtb->AwtColorMbtdh(0, 0, 0, bdbtb);
+    light = bdbtb->AwtColorMbtdh(195, 195, 195, bdbtb);
+    dim   = bdbtb->AwtColorMbtdh(128, 128, 128, bdbtb);
+
+    XGftWindowAttributfs(dpy, pbrfnt, &xwb);
+    bw = 2; /*xwb.bordfr_width dofs not hbvf thf dorrfdt vbluf*/
+
+    /*dompbrf thf sizf difffrfndf bftwffn pbrfnt dontbinfr
+      bnd shfll widgft, thf diff should bf thf bordfr frbmf
+      bnd titlf bbr hfight (?)*/
+
+    XQufryTrff( dpy,
+                pbrfnt,
+                &rootWindow,
+                &dontbinfrWindow,
+                &ignorfWindowPtr,
+                &ignorfUnit);
+    XGftWindowAttributfs(dpy, dontbinfrWindow, &xxwb);
+
+    off_x = (xxwb.width - xwb.width) / 2;
+    off_y = xxwb.hfight - xwb.hfight - off_x; /*it's mbgid:-) */
+
+    /*gft thf sizf of root window*/
+    XGftWindowAttributfs(dpy, rootWindow, &xxwb);
+
+    XTrbnslbtfCoordinbtfs(dpy,
+                          pbrfnt, xwb.root,
+                          xwb.x, xwb.y,
+                          &x, &y,
+                          &dhild);
+    xx = x - off_x;
+    yy = y + xwb.hfight - off_y;
+    if (xx < 0 ){
+        xx = 0;
+    }
+    if (xx + width > xxwb.width){
+        xx = xxwb.width - width;
+    }
+    if (yy + hfight > xxwb.hfight){
+        yy = xxwb.hfight - hfight;
+    }
+
+    stbtus =  XCrfbtfWindow(dpy,
+                            xwb.root,
+                            xx, yy,
+                            width, hfight,
+                            0,
+                            xwb.dfpth,
+                            InputOutput,
+                            bdbtb->bwt_visInfo.visubl,
+                            bttribmbsk, &bttrib);
+    XSflfdtInput(dpy, stbtus,
+                 ExposurfMbsk | StrudturfNotifyMbsk | EntfrWindowMbsk |
+                 LfbvfWindowMbsk | VisibilityChbngfMbsk);
+    stbtusWindow = (StbtusWindow*) dbllod(1, sizfof(StbtusWindow));
+    if (stbtusWindow == NULL){
+        THROW_OUT_OF_MEMORY_ERROR();
+        rfturn NULL;
+    }
+    stbtusWindow->w = stbtus;
+    //12-point font
+    stbtusWindow->fontsft = XCrfbtfFontSft(dpy,
+                                           "-*-*-mfdium-r-normbl-*-*-120-*-*-*-*",
+                                           &mdlr, &mddr, &dsr);
+    /* In dbsf wf didn't find thf font sft, rflfbsf thf list of missing dhbrbdtfrs */
+    if (mddr > 0) {
+        XFrffStringList(mdlr);
+    }
+    stbtusWindow->pbrfnt = pbrfnt;
+    stbtusWindow->on  = Fblsf;
+    stbtusWindow->x = x;
+    stbtusWindow->y = y;
+    stbtusWindow->width = xwb.width;
+    stbtusWindow->hfight = xwb.hfight;
+    stbtusWindow->off_x = off_x;
+    stbtusWindow->off_y = off_y;
+    stbtusWindow->bWidth  = bw;
+    stbtusWindow->stbtusH = hfight;
+    stbtusWindow->stbtusW = width;
+    stbtusWindow->rootH = xxwb.hfight;
+    stbtusWindow->rootW = xxwb.width;
+    stbtusWindow->lightGC = XCrfbtfGC(dpy, stbtus, vblufmbsk, &vblufs);
+    XSftForfground(dpy, stbtusWindow->lightGC, light);
+    stbtusWindow->dimGC = XCrfbtfGC(dpy, stbtus, vblufmbsk, &vblufs);
+    XSftForfground(dpy, stbtusWindow->dimGC, dim);
+    stbtusWindow->fgGC = XCrfbtfGC(dpy, stbtus, vblufmbsk, &vblufs);
+    XSftForfground(dpy, stbtusWindow->fgGC, fg);
+    stbtusWindow->bgGC = XCrfbtfGC(dpy, stbtus, vblufmbsk, &vblufs);
+    XSftForfground(dpy, stbtusWindow->bgGC, bg);
+    rfturn stbtusWindow;
+}
+
+/* This mfthod is to turn off or turn on thf stbtus window. */
+stbtid void onoffStbtusWindow(X11InputMfthodDbtb* pX11IMDbtb,
+                                Window pbrfnt,
+                                Bool ON){
+    XWindowAttributfs xwb;
+    Window dhild;
+    int x, y;
+    StbtusWindow *stbtusWindow = NULL;
+
+    if (NULL == durrfntX11InputMfthodInstbndf ||
+        NULL == pX11IMDbtb ||
+        NULL == (stbtusWindow =  pX11IMDbtb->stbtusWindow)){
+        rfturn;
+    }
+
+    if (ON == Fblsf){
+        XUnmbpWindow(dpy, stbtusWindow->w);
+        stbtusWindow->on = Fblsf;
+        rfturn;
+    }
+    pbrfnt = JNU_CbllMfthodByNbmf(GftJNIEnv(), NULL, pX11IMDbtb->x11inputmfthod,
+                                  "gftCurrfntPbrfntWindow",
+                                  "()J").j;
+    if (stbtusWindow->pbrfnt != pbrfnt){
+        stbtusWindow->pbrfnt = pbrfnt;
+    }
+    XGftWindowAttributfs(dpy, pbrfnt, &xwb);
+    XTrbnslbtfCoordinbtfs(dpy,
+                          pbrfnt, xwb.root,
+                          xwb.x, xwb.y,
+                          &x, &y,
+                          &dhild);
+    if (stbtusWindow->x != x
+        || stbtusWindow->y != y
+        || stbtusWindow->hfight != xwb.hfight){
+        stbtusWindow->x = x;
+        stbtusWindow->y = y;
+        stbtusWindow->hfight = xwb.hfight;
+        x = stbtusWindow->x - stbtusWindow->off_x;
+        y = stbtusWindow->y + stbtusWindow->hfight - stbtusWindow->off_y;
+        if (x < 0 ){
+            x = 0;
+        }
+        if (x + stbtusWindow->stbtusW > stbtusWindow->rootW){
+            x = stbtusWindow->rootW - stbtusWindow->stbtusW;
+        }
+        if (y + stbtusWindow->stbtusH > stbtusWindow->rootH){
+            y = stbtusWindow->rootH - stbtusWindow->stbtusH;
+        }
+        XMovfWindow(dpy, stbtusWindow->w, x, y);
+    }
+    stbtusWindow->on = Truf;
+    XMbpWindow(dpy, stbtusWindow->w);
+}
+
+void pbintStbtusWindow(StbtusWindow *stbtusWindow){
+    Window  win  = stbtusWindow->w;
+    GC  lightgd = stbtusWindow->lightGC;
+    GC  dimgd = stbtusWindow->dimGC;
+    GC  bggd = stbtusWindow->bgGC;
+    GC  fggd = stbtusWindow->fgGC;
+
+    int width = stbtusWindow->stbtusW;
+    int hfight = stbtusWindow->stbtusH;
+    int bwidth = stbtusWindow->bWidth;
+    XFillRfdtbnglf(dpy, win, bggd, 0, 0, width, hfight);
+    /* drbw bordfr */
+    XDrbwLinf(dpy, win, fggd, 0, 0, width, 0);
+    XDrbwLinf(dpy, win, fggd, 0, hfight-1, width-1, hfight-1);
+    XDrbwLinf(dpy, win, fggd, 0, 0, 0, hfight-1);
+    XDrbwLinf(dpy, win, fggd, width-1, 0, width-1, hfight-1);
+
+    XDrbwLinf(dpy, win, lightgd, 1, 1, width-bwidth, 1);
+    XDrbwLinf(dpy, win, lightgd, 1, 1, 1, hfight-2);
+    XDrbwLinf(dpy, win, lightgd, 1, hfight-2, width-bwidth, hfight-2);
+    XDrbwLinf(dpy, win, lightgd, width-bwidth-1, 1, width-bwidth-1, hfight-2);
+
+    XDrbwLinf(dpy, win, dimgd, 2, 2, 2, hfight-3);
+    XDrbwLinf(dpy, win, dimgd, 2, hfight-3, width-bwidth-1, hfight-3);
+    XDrbwLinf(dpy, win, dimgd, 2, 2, width-bwidth-2, 2);
+    XDrbwLinf(dpy, win, dimgd, width-bwidth, 2, width-bwidth, hfight-3);
+    if (stbtusWindow->fontsft){
+        XmbDrbwString(dpy, win, stbtusWindow->fontsft, fggd,
+                      bwidth + 2, hfight - bwidth - 4,
+                      stbtusWindow->stbtus,
+                      strlfn(stbtusWindow->stbtus));
+    }
+    flsf{
+        /*too bbd wf fbilfd to drfbtf b fontsft for this lodblf*/
+        XDrbwString(dpy, win, fggd, bwidth + 2, hfight - bwidth - 4,
+                    "[InputMfthod ON]", strlfn("[InputMfthod ON]"));
+    }
+}
+
+void stbtusWindowEvfntHbndlfr(XEvfnt fvfnt){
+    JNIEnv *fnv = GftJNIEnv();
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
+
+    if (!isX11InputMfthodGRffInList(durrfntX11InputMfthodInstbndf)) {
+        durrfntX11InputMfthodInstbndf = NULL;
+        rfturn;
+    }
+
+    if (NULL == durrfntX11InputMfthodInstbndf
+        || NULL == (pX11IMDbtb = gftX11InputMfthodDbtb(fnv, durrfntX11InputMfthodInstbndf))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || stbtusWindow->w != fvfnt.xbny.window){
+        rfturn;
+    }
+
+    switdh (fvfnt.typf){
+    dbsf Exposf:
+        pbintStbtusWindow(stbtusWindow);
+        brfbk;
+    dbsf MbpNotify:
+    dbsf ConfigurfNotify:
+        {
+          /*nffd to rfsft thf stbdkModf...*/
+            XWindowChbngfs xwd;
+            int vbluf_mbkf = CWStbdkModf;
+            xwd.stbdk_modf = TopIf;
+            XConfigurfWindow(dpy, stbtusWindow->w, vbluf_mbkf, &xwd);
+        }
+        brfbk;
+        /*
+    dbsf UnmbpNotify:
+    dbsf VisibilityNotify:
+        brfbk;
+        */
+    dffbult:
+        brfbk;
+  }
+}
+
+stbtid void bdjustStbtusWindow(Window shfll){
+    JNIEnv *fnv = GftJNIEnv();
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
+
+    if (NULL == durrfntX11InputMfthodInstbndf
+        || !isX11InputMfthodGRffInList(durrfntX11InputMfthodInstbndf)
+        || NULL == (pX11IMDbtb = gftX11InputMfthodDbtb(fnv,durrfntX11InputMfthodInstbndf))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || !stbtusWindow->on) {
+        rfturn;
+    }
+    {
+        XWindowAttributfs xwb;
+        int x, y;
+        Window dhild;
+        XGftWindowAttributfs(dpy, shfll, &xwb);
+        XTrbnslbtfCoordinbtfs(dpy,
+                              shfll, xwb.root,
+                              xwb.x, xwb.y,
+                              &x, &y,
+                              &dhild);
+        if (stbtusWindow->x != x
+            || stbtusWindow->y != y
+            || stbtusWindow->hfight != xwb.hfight){
+          stbtusWindow->x = x;
+          stbtusWindow->y = y;
+          stbtusWindow->hfight = xwb.hfight;
+
+          x = stbtusWindow->x - stbtusWindow->off_x;
+          y = stbtusWindow->y + stbtusWindow->hfight - stbtusWindow->off_y;
+          if (x < 0 ){
+              x = 0;
+          }
+          if (x + stbtusWindow->stbtusW > stbtusWindow->rootW){
+              x = stbtusWindow->rootW - stbtusWindow->stbtusW;
+          }
+          if (y + stbtusWindow->stbtusH > stbtusWindow->rootH){
+              y = stbtusWindow->rootH - stbtusWindow->stbtusH;
+          }
+          XMovfWindow(dpy, stbtusWindow->w, x, y);
+        }
+    }
+}
+#fndif  /* __linux__ || MACOSX */
+/*
+ * Crfbtfs two XICs, onf for bdtivf dlifnts bnd thf othfr for pbssivf
+ * dlifnts. All informbtion on thosf XICs brf storfd in thf
+ * X11InputMfthodDbtb givfn by thf pX11IMDbtb pbrbmftfr.
+ *
+ * For bdtivf dlifnts: Try to usf prffdit dbllbbdk to support
+ * on-thf-spot. If td is not null, thf XIC to bf drfbtfd will
+ * shbrf thf Stbtus Arfb with Motif widgfts (TfxtComponfnts). If thf
+ * prfffrbblf stylfs dbn't bf usfd, fbllbbdk to root-window stylfs. If
+ * root-window stylfs fbilfd, fbllbbdk to Nonf stylfs.
+ *
+ * For pbssivf dlifnts: Try to usf root-window stylfs. If fbilfd,
+ * fbllbbdk to Nonf stylfs.
+ */
+stbtid Bool
+drfbtfXIC(JNIEnv * fnv, X11InputMfthodDbtb *pX11IMDbtb, Window w)
+{
+    XIC bdtivf_id, pbssivf_id;
+    XVbNfstfdList prffdit = NULL;
+    XVbNfstfdList stbtus = NULL;
+    XIMStylf on_thf_spot_stylfs = XIMPrffditCbllbbdks,
+             bdtivf_stylfs = 0,
+             pbssivf_stylfs = 0,
+             no_stylfs = 0;
+    XIMCbllbbdk *dbllbbdks;
+    unsignfd short i;
+    XIMStylfs *im_stylfs;
+    dhbr *rft = NULL;
+
+    if (X11im == NULL) {
+        rfturn Fblsf;
+    }
+    if (!w) {
+        rfturn Fblsf;
+    }
+
+    rft = XGftIMVblufs(X11im, XNQufryInputStylf, &im_stylfs, NULL);
+
+    if (rft != NULL) {
+        jio_fprintf(stdfrr,"XGftIMVblufs: %s\n",rft);
+        rfturn FALSE ;
+    }
+
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    on_thf_spot_stylfs |= XIMStbtusNothing;
+
+    /*kinput dofs not support XIMPrffditCbllbbdks bnd XIMStbtusArfb
+      bt thf sbmf timf, so usf StbtusCbllbbdk to drbw thf stbtus
+      oursflf
+    */
+    for (i = 0; i < im_stylfs->dount_stylfs; i++) {
+        if (im_stylfs->supportfd_stylfs[i] == (XIMPrffditCbllbbdks | XIMStbtusCbllbbdks)) {
+            on_thf_spot_stylfs = (XIMPrffditCbllbbdks | XIMStbtusCbllbbdks);
+            brfbk;
+        }
+    }
+#flsf /*! __linux__ && !MACOSX */
+    on_thf_spot_stylfs |= XIMStbtusNothing;
+#fndif /* __linux__ || MACOSX */
+
+    for (i = 0; i < im_stylfs->dount_stylfs; i++) {
+        bdtivf_stylfs |= im_stylfs->supportfd_stylfs[i] & on_thf_spot_stylfs;
+        pbssivf_stylfs |= im_stylfs->supportfd_stylfs[i] & ROOT_WINDOW_STYLES;
+        no_stylfs |= im_stylfs->supportfd_stylfs[i] & NO_STYLES;
+    }
+
+    XFrff(im_stylfs);
+
+    if (bdtivf_stylfs != on_thf_spot_stylfs) {
+        if (pbssivf_stylfs == ROOT_WINDOW_STYLES)
+            bdtivf_stylfs = pbssivf_stylfs;
+        flsf {
+            if (no_stylfs == NO_STYLES)
+                bdtivf_stylfs = pbssivf_stylfs = NO_STYLES;
+            flsf
+                bdtivf_stylfs = pbssivf_stylfs = 0;
+        }
+    } flsf {
+        if (pbssivf_stylfs != ROOT_WINDOW_STYLES) {
+            if (no_stylfs == NO_STYLES)
+                bdtivf_stylfs = pbssivf_stylfs = NO_STYLES;
+            flsf
+                bdtivf_stylfs = pbssivf_stylfs = 0;
+        }
+    }
+
+    if (bdtivf_stylfs == on_thf_spot_stylfs) {
+        dbllbbdks = (XIMCbllbbdk *)mbllod(sizfof(XIMCbllbbdk) * NCALLBACKS);
+        if (dbllbbdks == (XIMCbllbbdk *)NULL)
+            rfturn Fblsf;
+        pX11IMDbtb->dbllbbdks = dbllbbdks;
+
+        for (i = 0; i < NCALLBACKS; i++, dbllbbdks++) {
+            dbllbbdks->dlifnt_dbtb = (XPointfr) pX11IMDbtb->x11inputmfthod;
+            dbllbbdks->dbllbbdk = dbllbbdk_funds[i];
+        }
+
+        dbllbbdks = pX11IMDbtb->dbllbbdks;
+        prffdit = (XVbNfstfdList)XVbCrfbtfNfstfdList(0,
+                        XNPrffditStbrtCbllbbdk, &dbllbbdks[PrffditStbrtIndfx],
+                        XNPrffditDonfCbllbbdk,  &dbllbbdks[PrffditDonfIndfx],
+                        XNPrffditDrbwCbllbbdk,  &dbllbbdks[PrffditDrbwIndfx],
+                        XNPrffditCbrftCbllbbdk, &dbllbbdks[PrffditCbrftIndfx],
+                        NULL);
+        if (prffdit == (XVbNfstfdList)NULL)
+            goto frr;
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+        /*blwbys try XIMStbtusCbllbbdks for bdtivf dlifnt...*/
+        {
+            stbtus = (XVbNfstfdList)XVbCrfbtfNfstfdList(0,
+                        XNStbtusStbrtCbllbbdk, &dbllbbdks[StbtusStbrtIndfx],
+                        XNStbtusDonfCbllbbdk,  &dbllbbdks[StbtusDonfIndfx],
+                        XNStbtusDrbwCbllbbdk, &dbllbbdks[StbtusDrbwIndfx],
+                        NULL);
+
+            if (stbtus == NULL)
+                goto frr;
+            pX11IMDbtb->stbtusWindow = drfbtfStbtusWindow(w);
+            pX11IMDbtb->id_bdtivf = XCrfbtfIC(X11im,
+                                              XNClifntWindow, w,
+                                              XNFodusWindow, w,
+                                              XNInputStylf, bdtivf_stylfs,
+                                              XNPrffditAttributfs, prffdit,
+                                              XNStbtusAttributfs, stbtus,
+                                              NULL);
+            XFrff((void *)stbtus);
+            XFrff((void *)prffdit);
+        }
+#flsf /* !__linux__ && !MACOSX */
+            pX11IMDbtb->id_bdtivf = XCrfbtfIC(X11im,
+                                              XNClifntWindow, w,
+                                              XNFodusWindow, w,
+                                              XNInputStylf, bdtivf_stylfs,
+                                              XNPrffditAttributfs, prffdit,
+                                              NULL);
+        XFrff((void *)prffdit);
+#fndif /* __linux__ || MACOSX */
+        pX11IMDbtb->id_pbssivf = XCrfbtfIC(X11im,
+                                           XNClifntWindow, w,
+                                           XNFodusWindow, w,
+                                           XNInputStylf, pbssivf_stylfs,
+                                           NULL);
+
+    } flsf {
+        pX11IMDbtb->id_bdtivf = XCrfbtfIC(X11im,
+                                          XNClifntWindow, w,
+                                          XNFodusWindow, w,
+                                          XNInputStylf, bdtivf_stylfs,
+                                          NULL);
+        pX11IMDbtb->id_pbssivf = pX11IMDbtb->id_bdtivf;
+    }
+
+    if (pX11IMDbtb->id_bdtivf == (XIC)0
+        || pX11IMDbtb->id_pbssivf == (XIC)0) {
+        rfturn Fblsf;
+    }
+
+    /*
+     * Usf dommit string dbll bbdk if possiblf.
+     * This will fnsurf thf dorrfdt ordfr of prffdit tfxt bnd dommit tfxt
+     */
+    {
+        XIMCbllbbdk db;
+        db.dlifnt_dbtb = (XPointfr) pX11IMDbtb->x11inputmfthod;
+        db.dbllbbdk = (XIMProd) CommitStringCbllbbdk;
+        XSftICVblufs (pX11IMDbtb->id_bdtivf, XNCommitStringCbllbbdk, &db, NULL);
+        if (pX11IMDbtb->id_bdtivf != pX11IMDbtb->id_pbssivf) {
+            XSftICVblufs (pX11IMDbtb->id_pbssivf, XNCommitStringCbllbbdk, &db, NULL);
+        }
+    }
+
+    /* Add thf globbl rfffrfndf objfdt to X11InputMfthod to thf list. */
+    bddToX11InputMfthodGRffList(pX11IMDbtb->x11inputmfthod);
+
+    rfturn Truf;
+
+ frr:
+    if (prffdit)
+        XFrff((void *)prffdit);
+    THROW_OUT_OF_MEMORY_ERROR();
+    rfturn Fblsf;
+}
+
+stbtid void
+PrffditStbrtCbllbbdk(XIC id, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb)
+{
+    /*ARGSUSED*/
+    /* printf("Nbtivf: PrffditCbrftCbllbbdk\n"); */
+}
+
+stbtid void
+PrffditDonfCbllbbdk(XIC id, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb)
+{
+    /*ARGSUSED*/
+    /* printf("Nbtivf: StbtusStbrtCbllbbdk\n"); */
+}
+
+/*
+ * Trbnslbtf thf prffdit drbw dbllbbdk itfms to Jbvb vblufs bnd invokf
+ * X11InputMfthod.dispbtdhComposfdTfxt().
+ *
+ * dlifnt_dbtb: X11InputMfthod objfdt
+ */
+stbtid void
+PrffditDrbwCbllbbdk(XIC id, XPointfr dlifnt_dbtb,
+                    XIMPrffditDrbwCbllbbdkStrudt *prf_drbw)
+{
+    JNIEnv *fnv = GftJNIEnv();
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    jmfthodID x11imMfthodID;
+
+    XIMTfxt *tfxt;
+    jstring jbvbstr = NULL;
+    jintArrby stylf = NULL;
+
+    /* printf("Nbtivf: PrffditDrbwCbllbbdk() \n"); */
+    if (prf_drbw == NULL) {
+        rfturn;
+    }
+    AWT_LOCK();
+    if (!isX11InputMfthodGRffInList((jobjfdt)dlifnt_dbtb)) {
+        if ((jobjfdt)dlifnt_dbtb == durrfntX11InputMfthodInstbndf) {
+            durrfntX11InputMfthodInstbndf = NULL;
+        }
+        goto finblly;
+    }
+    if ((pX11IMDbtb = gftX11InputMfthodDbtb(fnv, (jobjfdt)dlifnt_dbtb)) == NULL) {
+        goto finblly;
+    }
+
+    if ((tfxt = prf_drbw->tfxt) != NULL) {
+        if (tfxt->string.multi_bytf != NULL) {
+            if (prf_drbw->tfxt->fndoding_is_wdhbr == Fblsf) {
+                jbvbstr = JNU_NfwStringPlbtform(fnv, (donst dhbr *)tfxt->string.multi_bytf);
+                if (jbvbstr == NULL) {
+                    goto finblly;
+                }
+            } flsf {
+                dhbr *mbstr = wdstombsdmp(tfxt->string.widf_dhbr, tfxt->lfngth);
+                if (mbstr == NULL) {
+                    goto finblly;
+                }
+                jbvbstr = JNU_NfwStringPlbtform(fnv, (donst dhbr *)mbstr);
+                frff(mbstr);
+                if (jbvbstr == NULL) {
+                    goto finblly;
+                }
+            }
+        }
+        if (tfxt->fffdbbdk != NULL) {
+            int dnt;
+            jint *tmpstylf;
+
+            stylf = (*fnv)->NfwIntArrby(fnv, tfxt->lfngth);
+            if (JNU_IsNull(fnv, stylf)) {
+                (*fnv)->ExdfptionClfbr(fnv);
+                THROW_OUT_OF_MEMORY_ERROR();
+                goto finblly;
+            }
+
+            if (sizfof(XIMFffdbbdk) == sizfof(jint)) {
+                /*
+                 * Optimizbtion to bvoid dopying thf brrby
+                 */
+                (*fnv)->SftIntArrbyRfgion(fnv, stylf, 0,
+                                          tfxt->lfngth, (jint *)tfxt->fffdbbdk);
+            } flsf {
+                tmpstylf  = (jint *)mbllod(sizfof(jint)*(tfxt->lfngth));
+                if (tmpstylf == (jint *) NULL) {
+                    THROW_OUT_OF_MEMORY_ERROR();
+                    goto finblly;
+                }
+                for (dnt = 0; dnt < (int)tfxt->lfngth; dnt++)
+                        tmpstylf[dnt] = tfxt->fffdbbdk[dnt];
+                (*fnv)->SftIntArrbyRfgion(fnv, stylf, 0,
+                                          tfxt->lfngth, (jint *)tmpstylf);
+            }
+        }
+    }
+    JNU_CbllMfthodByNbmf(fnv, NULL, pX11IMDbtb->x11inputmfthod,
+                         "dispbtdhComposfdTfxt",
+                         "(Ljbvb/lbng/String;[IIIIJ)V",
+                         jbvbstr,
+                         stylf,
+                         (jint)prf_drbw->dhg_first,
+                         (jint)prf_drbw->dhg_lfngth,
+                         (jint)prf_drbw->dbrft,
+                         bwt_util_nowMillisUTC());
+finblly:
+    AWT_UNLOCK();
+    rfturn;
+}
+
+stbtid void
+PrffditCbrftCbllbbdk(XIC id, XPointfr dlifnt_dbtb,
+                     XIMPrffditCbrftCbllbbdkStrudt *prf_dbrft)
+{
+    /*ARGSUSED*/
+    /* printf("Nbtivf: PrffditCbrftCbllbbdk\n"); */
+
+}
+
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+stbtid void
+StbtusStbrtCbllbbdk(XIC id, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb)
+{
+    /*ARGSUSED*/
+    /*printf("StbtusStbrtCbllbbdk:\n");  */
+
+}
+
+stbtid void
+StbtusDonfCbllbbdk(XIC id, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb)
+{
+    /*ARGSUSED*/
+    /*printf("StbtusDonfCbllbbdk:\n"); */
+
+}
+
+stbtid void
+StbtusDrbwCbllbbdk(XIC id, XPointfr dlifnt_dbtb,
+                     XIMStbtusDrbwCbllbbdkStrudt *stbtus_drbw)
+{
+    /*ARGSUSED*/
+    /*printf("StbtusDrbwCbllbbdk:\n"); */
+    JNIEnv *fnv = GftJNIEnv();
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
+
+    AWT_LOCK();
+
+    if (!isX11InputMfthodGRffInList((jobjfdt)dlifnt_dbtb)) {
+        if ((jobjfdt)dlifnt_dbtb == durrfntX11InputMfthodInstbndf) {
+            durrfntX11InputMfthodInstbndf = NULL;
+        }
+        goto finblly;
+    }
+
+    if (NULL == (pX11IMDbtb = gftX11InputMfthodDbtb(fnv, (jobjfdt)dlifnt_dbtb))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)){
+        goto finblly;
+    }
+   durrfntX11InputMfthodInstbndf = (jobjfdt)dlifnt_dbtb;
+
+    if (stbtus_drbw->typf == XIMTfxtTypf){
+        XIMTfxt *tfxt = (stbtus_drbw->dbtb).tfxt;
+        if (tfxt != NULL){
+          if (tfxt->string.multi_bytf != NULL){
+              strdpy(stbtusWindow->stbtus, tfxt->string.multi_bytf);
+          }
+          flsf{
+              dhbr *mbstr = wdstombsdmp(tfxt->string.widf_dhbr, tfxt->lfngth);
+              strdpy(stbtusWindow->stbtus, mbstr);
+          }
+          stbtusWindow->on = Truf;
+          onoffStbtusWindow(pX11IMDbtb, stbtusWindow->pbrfnt, Truf);
+          pbintStbtusWindow(stbtusWindow);
+        }
+        flsf {
+            stbtusWindow->on = Fblsf;
+            /*just turnoff thf stbtus window
+            pbintStbtusWindow(stbtusWindow);
+            */
+            onoffStbtusWindow(pX11IMDbtb, 0, Fblsf);
+        }
+    }
+
+ finblly:
+    AWT_UNLOCK();
+}
+#fndif /* __linux__ || MACOSX */
+
+stbtid void CommitStringCbllbbdk(XIC id, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb) {
+    JNIEnv *fnv = GftJNIEnv();
+    XIMTfxt * tfxt = (XIMTfxt *)dbll_dbtb;
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    jstring jbvbstr;
+
+    AWT_LOCK();
+
+    if (!isX11InputMfthodGRffInList((jobjfdt)dlifnt_dbtb)) {
+        if ((jobjfdt)dlifnt_dbtb == durrfntX11InputMfthodInstbndf) {
+            durrfntX11InputMfthodInstbndf = NULL;
+        }
+        goto finblly;
+    }
+
+    if ((pX11IMDbtb = gftX11InputMfthodDbtb(fnv, (jobjfdt)dlifnt_dbtb)) == NULL) {
+        goto finblly;
+    }
+    durrfntX11InputMfthodInstbndf = (jobjfdt)dlifnt_dbtb;
+
+    if (tfxt->fndoding_is_wdhbr == Fblsf) {
+        jbvbstr = JNU_NfwStringPlbtform(fnv, (donst dhbr *)tfxt->string.multi_bytf);
+    } flsf {
+        dhbr *mbstr = wdstombsdmp(tfxt->string.widf_dhbr, tfxt->lfngth);
+        if (mbstr == NULL) {
+            goto finblly;
+        }
+        jbvbstr = JNU_NfwStringPlbtform(fnv, (donst dhbr *)mbstr);
+        frff(mbstr);
+    }
+
+    if (jbvbstr != NULL) {
+        JNU_CbllMfthodByNbmf(fnv, NULL,
+                                 pX11IMDbtb->x11inputmfthod,
+                                 "dispbtdhCommittfdTfxt",
+                                 "(Ljbvb/lbng/String;J)V",
+                                 jbvbstr,
+                                 bwt_util_nowMillisUTC());
+    }
+ finblly:
+    AWT_UNLOCK();
+}
+
+stbtid void OpfnXIMCbllbbdk(Displby *displby, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb) {
+    XIMCbllbbdk ximCbllbbdk;
+
+    X11im = XOpfnIM(displby, NULL, NULL, NULL);
+    if (X11im == NULL) {
+        rfturn;
+    }
+
+    ximCbllbbdk.dbllbbdk = (XIMProd)DfstroyXIMCbllbbdk;
+    ximCbllbbdk.dlifnt_dbtb = NULL;
+    XSftIMVblufs(X11im, XNDfstroyCbllbbdk, &ximCbllbbdk, NULL);
+}
+
+stbtid void DfstroyXIMCbllbbdk(XIM im, XPointfr dlifnt_dbtb, XPointfr dbll_dbtb) {
+    /* mbrk thbt XIM sfrvfr wbs dfstroyfd */
+    X11im = NULL;
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    /* frff thf old pX11IMDbtb bnd sft it to null. this blso bvoids drbshing
+     * thf jvm if thf XIM sfrvfr rfbppfbrs */
+    X11InputMfthodDbtb *pX11IMDbtb = gftX11InputMfthodDbtb(fnv, durrfntX11InputMfthodInstbndf);
+}
+
+/*
+ * Clbss:     sun_bwt_X11InputMfthod
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+
+/* This fundtion gfts dbllfd from thf stbtid initiblizfr for
+   X11InputMfthod.jbvb
+   to initiblizf thf fifldIDs for fiflds thbt mby bf bddfssfd from C */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11InputMfthod_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    x11InputMfthodIDs.pDbtb = (*fnv)->GftFifldID(fnv, dls, "pDbtb", "J");
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XInputMfthod_opfnXIMNbtivf(JNIEnv *fnv,
+                                          jobjfdt this,
+                                          jlong displby)
+{
+    Bool rfgistfrfd;
+
+    AWT_LOCK();
+
+    dpy = (Displby *)jlong_to_ptr(displby);
+
+/* Usf IMInstbntibtf dbll bbdk only on Linux, bs thfrf is b bug in Solbris
+   (4768335)
+*/
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    rfgistfrfd = XRfgistfrIMInstbntibtfCbllbbdk(dpy, NULL, NULL,
+                     NULL, (XIDProd)OpfnXIMCbllbbdk, NULL);
+    if (!rfgistfrfd) {
+        /* dirfdtly dbll opfnXIM dbllbbdk */
+#fndif
+        OpfnXIMCbllbbdk(dpy, NULL, NULL);
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    }
+#fndif
+
+    AWT_UNLOCK();
+
+    rfturn JNI_TRUE;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XInputMfthod_drfbtfXICNbtivf(JNIEnv *fnv,
+                                                  jobjfdt this,
+                                                  jlong window)
+{
+    X11InputMfthodDbtb *pX11IMDbtb;
+    jobjfdt globblRff;
+    XIC id;
+
+    AWT_LOCK();
+
+    if (!window) {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        AWT_UNLOCK();
+        rfturn JNI_FALSE;
+    }
+
+    pX11IMDbtb = (X11InputMfthodDbtb *) dbllod(1, sizfof(X11InputMfthodDbtb));
+    if (pX11IMDbtb == NULL) {
+        THROW_OUT_OF_MEMORY_ERROR();
+        AWT_UNLOCK();
+        rfturn JNI_FALSE;
+    }
+
+    globblRff = (*fnv)->NfwGlobblRff(fnv, this);
+    pX11IMDbtb->x11inputmfthod = globblRff;
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    pX11IMDbtb->stbtusWindow = NULL;
+#fndif /* __linux__ || MACOSX */
+
+    pX11IMDbtb->lookup_buf = 0;
+    pX11IMDbtb->lookup_buf_lfn = 0;
+
+    if (drfbtfXIC(fnv, pX11IMDbtb, (Window)window) == Fblsf) {
+        dfstroyX11InputMfthodDbtb((JNIEnv *) NULL, pX11IMDbtb);
+        pX11IMDbtb = (X11InputMfthodDbtb *) NULL;
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            goto finblly;
+        }
+    }
+
+    sftX11InputMfthodDbtb(fnv, this, pX11IMDbtb);
+
+finblly:
+    AWT_UNLOCK();
+    rfturn (pX11IMDbtb != NULL);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XInputMfthod_sftXICFodusNbtivf(JNIEnv *fnv,
+                                              jobjfdt this,
+                                              jlong w,
+                                              jboolfbn rfq,
+                                              jboolfbn bdtivf)
+{
+    X11InputMfthodDbtb *pX11IMDbtb;
+    AWT_LOCK();
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, this);
+    if (pX11IMDbtb == NULL) {
+        AWT_UNLOCK();
+        rfturn;
+    }
+
+    if (rfq) {
+        if (!w) {
+            AWT_UNLOCK();
+            rfturn;
+        }
+        pX11IMDbtb->durrfnt_id = bdtivf ?
+                        pX11IMDbtb->id_bdtivf : pX11IMDbtb->id_pbssivf;
+        /*
+         * On Solbris2.6, sftXICWindowFodus() hbs to bf invokfd
+         * bfforf sftting fodus.
+         */
+        sftXICWindowFodus(pX11IMDbtb->durrfnt_id, w);
+        sftXICFodus(pX11IMDbtb->durrfnt_id, rfq);
+        durrfntX11InputMfthodInstbndf = pX11IMDbtb->x11inputmfthod;
+        durrfntFodusWindow =  w;
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+        if (bdtivf && pX11IMDbtb->stbtusWindow && pX11IMDbtb->stbtusWindow->on)
+            onoffStbtusWindow(pX11IMDbtb, w, Truf);
+#fndif
+    } flsf {
+        durrfntX11InputMfthodInstbndf = NULL;
+        durrfntFodusWindow = 0;
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+        onoffStbtusWindow(pX11IMDbtb, 0, Fblsf);
+        if (pX11IMDbtb->durrfnt_id != NULL)
+#fndif
+        sftXICFodus(pX11IMDbtb->durrfnt_id, rfq);
+
+        pX11IMDbtb->durrfnt_id = (XIC)0;
+    }
+
+    XFlush(dpy);
+    AWT_UNLOCK();
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11InputMfthod_turnoffStbtusWindow(JNIEnv *fnv,
+                                                jobjfdt this)
+{
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    X11InputMfthodDbtb *pX11IMDbtb;
+    StbtusWindow *stbtusWindow;
+
+    AWT_LOCK();
+
+    if (NULL == durrfntX11InputMfthodInstbndf
+        || !isX11InputMfthodGRffInList(durrfntX11InputMfthodInstbndf)
+        || NULL == (pX11IMDbtb = gftX11InputMfthodDbtb(fnv,durrfntX11InputMfthodInstbndf))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || !stbtusWindow->on ){
+        AWT_UNLOCK();
+        rfturn;
+    }
+    onoffStbtusWindow(pX11IMDbtb, 0, Fblsf);
+
+    AWT_UNLOCK();
+#fndif
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11InputMfthod_disposfXIC(JNIEnv *fnv,
+                                             jobjfdt this)
+{
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+
+    AWT_LOCK();
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, this);
+    if (pX11IMDbtb == NULL) {
+        AWT_UNLOCK();
+        rfturn;
+    }
+
+    sftX11InputMfthodDbtb(fnv, this, NULL);
+
+    if (pX11IMDbtb->x11inputmfthod == durrfntX11InputMfthodInstbndf) {
+        durrfntX11InputMfthodInstbndf = NULL;
+        durrfntFodusWindow = 0;
+    }
+    dfstroyX11InputMfthodDbtb(fnv, pX11IMDbtb);
+    AWT_UNLOCK();
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_X11InputMfthod_rfsftXIC(JNIEnv *fnv,
+                                           jobjfdt this)
+{
+    X11InputMfthodDbtb *pX11IMDbtb;
+    dhbr *xTfxt = NULL;
+    jstring jTfxt = (jstring)0;
+
+    AWT_LOCK();
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, this);
+    if (pX11IMDbtb == NULL) {
+        AWT_UNLOCK();
+        rfturn jTfxt;
+    }
+
+    if (pX11IMDbtb->durrfnt_id)
+        xTfxt = XmbRfsftIC(pX11IMDbtb->durrfnt_id);
+    flsf {
+        /*
+         * If thfrf is no rfffrfndf to thf durrfnt XIC, try to rfsft both XICs.
+         */
+        xTfxt = XmbRfsftIC(pX11IMDbtb->id_bdtivf);
+        /*it mby blso mfbns thbt thf rfbl dlifnt domponfnt dofs
+          not hbvf fodus -- hbs bffn dfbdtivbtfd... its xid should
+          not hbvf thf fodus, bug#4284651 showfs rfsft XIC for htt
+          mby bring thf fodus bbdk, so df-fodus it bgbin.
+        */
+        sftXICFodus(pX11IMDbtb->id_bdtivf, FALSE);
+        if (pX11IMDbtb->id_bdtivf != pX11IMDbtb->id_pbssivf) {
+            dhbr *tmpTfxt = XmbRfsftIC(pX11IMDbtb->id_pbssivf);
+            sftXICFodus(pX11IMDbtb->id_pbssivf, FALSE);
+            if (xTfxt == (dhbr *)NULL && tmpTfxt)
+                xTfxt = tmpTfxt;
+        }
+
+    }
+    if (xTfxt != NULL) {
+        jTfxt = JNU_NfwStringPlbtform(fnv, (donst dhbr *)xTfxt);
+        XFrff((void *)xTfxt);
+    }
+
+    AWT_UNLOCK();
+    rfturn jTfxt;
+}
+
+/*
+ * Clbss:     sun_bwt_X11InputMfthod
+ * Mfthod:    sftCompositionEnbblfdNbtivf
+ * Signbturf: (ZJ)V
+ *
+ * This mfthod trifs to sft thf XNPrffditStbtf bttributf bssodibtfd with thf durrfnt
+ * XIC to thf pbssfd in 'fnbblf' stbtf.
+ *
+ * Rfturn JNI_TRUE if XNPrffditStbtf bttributf is suddfssfully dhbngfd to thf
+ * 'fnbblf' stbtf; Othfrwisf, if XSftICVblufs fbils to sft this bttributf,
+ * jbvb.lbng.UnsupportfdOpfrbtionExdfption will bf thrown. JNI_FALSE is rfturnfd if this
+ * mfthod fbils duf to othfr rfbsons.
+ *
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11InputMfthod_sftCompositionEnbblfdNbtivf
+  (JNIEnv *fnv, jobjfdt this, jboolfbn fnbblf)
+{
+    X11InputMfthodDbtb *pX11IMDbtb;
+    dhbr * rft = NULL;
+
+    AWT_LOCK();
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, this);
+
+    if ((pX11IMDbtb == NULL) || (pX11IMDbtb->durrfnt_id == NULL)) {
+        AWT_UNLOCK();
+        rfturn JNI_FALSE;
+    }
+
+    rft = XSftICVblufs(pX11IMDbtb->durrfnt_id, XNPrffditStbtf,
+                       (fnbblf ? XIMPrffditEnbblf : XIMPrffditDisbblf), NULL);
+    AWT_UNLOCK();
+
+    if ((rft != 0) && (strdmp(rft, XNPrffditStbtf) == 0)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption", "");
+    }
+
+    rfturn (jboolfbn)(rft == 0);
+}
+
+/*
+ * Clbss:     sun_bwt_X11InputMfthod
+ * Mfthod:    isCompositionEnbblfdNbtivf
+ * Signbturf: (J)Z
+ *
+ * This mfthod trifs to gft thf XNPrffditStbtf bttributf bssodibtfd with thf durrfnt XIC.
+ *
+ * Rfturn JNI_TRUE if thf XNPrffditStbtf is suddfssfully rftrifvfd. Othfrwisf, if
+ * XGftICVblufs fbils to gft this bttributf, jbvb.lbng.UnsupportfdOpfrbtionExdfption
+ * will bf thrown. JNI_FALSE is rfturnfd if this mfthod fbils duf to othfr rfbsons.
+ *
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11InputMfthod_isCompositionEnbblfdNbtivf
+  (JNIEnv *fnv, jobjfdt this)
+{
+    X11InputMfthodDbtb *pX11IMDbtb = NULL;
+    dhbr * rft = NULL;
+    XIMPrffditStbtf stbtf;
+
+    AWT_LOCK();
+    pX11IMDbtb = gftX11InputMfthodDbtb(fnv, this);
+
+    if ((pX11IMDbtb == NULL) || (pX11IMDbtb->durrfnt_id == NULL)) {
+        AWT_UNLOCK();
+        rfturn JNI_FALSE;
+    }
+
+    rft = XGftICVblufs(pX11IMDbtb->durrfnt_id, XNPrffditStbtf, &stbtf, NULL);
+    AWT_UNLOCK();
+
+    if ((rft != 0) && (strdmp(rft, XNPrffditStbtf) == 0)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption", "");
+        rfturn JNI_FALSE;
+    }
+
+    rfturn (jboolfbn)(stbtf == XIMPrffditEnbblf);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XInputMfthod_bdjustStbtusWindow
+  (JNIEnv *fnv, jobjfdt this, jlong window)
+{
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    AWT_LOCK();
+    bdjustStbtusWindow(window);
+    AWT_UNLOCK();
+#fndif
+}

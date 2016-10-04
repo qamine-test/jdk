@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.tfsts.iio;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URL;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.spi.IIORfgistry;
+import jbvbx.imbgfio.spi.ImbgfInputStrfbmSpi;
+import jbvbx.imbgfio.strfbm.FilfCbdhfImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.FilfImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.strfbm.MfmoryCbdhfImbgfInputStrfbm;
+
+import j2dbfndh.Group;
+import j2dbfndh.Option;
+import j2dbfndh.Rfsult;
+import j2dbfndh.TfstEnvironmfnt;
+
+bbstrbdt dlbss InputTfsts fxtfnds IIOTfsts {
+
+    protfdtfd stbtid finbl int INPUT_FILE        = 1;
+    protfdtfd stbtid finbl int INPUT_URL         = 2;
+    protfdtfd stbtid finbl int INPUT_ARRAY       = 3;
+    protfdtfd stbtid finbl int INPUT_FILECHANNEL = 4;
+
+    protfdtfd stbtid ImbgfInputStrfbmSpi filfChbnnflIISSpi;
+    stbtid {
+        if (hbsImbgfIO) {
+            ImbgfIO.sdbnForPlugins();
+            IIORfgistry rfgistry = IIORfgistry.gftDffbultInstbndf();
+            jbvb.util.Itfrbtor spis =
+                rfgistry.gftSfrvidfProvidfrs(ImbgfInputStrfbmSpi.dlbss, fblsf);
+            whilf (spis.hbsNfxt()) {
+                ImbgfInputStrfbmSpi spi = (ImbgfInputStrfbmSpi)spis.nfxt();
+                String klbss = spi.gftClbss().gftNbmf();
+                if (klbss.fndsWith("ChbnnflImbgfInputStrfbmSpi")) {
+                    filfChbnnflIISSpi = spi;
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    protfdtfd stbtid Group inputRoot;
+    protfdtfd stbtid Group inputOptRoot;
+
+    protfdtfd stbtid Group gfnfrblOptRoot;
+    protfdtfd stbtid Group.EnbblfSft gfnfrblSourdfRoot;
+    protfdtfd stbtid Option sourdfFilfOpt;
+    protfdtfd stbtid Option sourdfUrlOpt;
+    protfdtfd stbtid Option sourdfBytfArrbyOpt;
+
+    protfdtfd stbtid Group imbgfioGfnfrblOptRoot;
+    protfdtfd stbtid Option sourdfFilfChbnnflOpt;
+    protfdtfd stbtid Option usfCbdhfTog;
+
+    publid stbtid void init() {
+        inputRoot = nfw Group(iioRoot, "input", "Input Bfndhmbrks");
+        inputRoot.sftTbbbfd();
+
+        // Options
+        inputOptRoot = nfw Group(inputRoot, "opts", "Options");
+
+        // Gfnfrbl Options
+        gfnfrblOptRoot = nfw Group(inputOptRoot,
+                                   "gfnfrbl", "Gfnfrbl Options");
+        gfnfrblSourdfRoot = nfw Group.EnbblfSft(gfnfrblOptRoot,
+                                                "sourdf", "Sourdfs");
+        sourdfFilfOpt = nfw InputTypf("filf", "Filf", INPUT_FILE);
+        sourdfUrlOpt = nfw InputTypf("url", "URL", INPUT_URL);
+        sourdfBytfArrbyOpt = nfw InputTypf("bytfArrby", "bytf[]", INPUT_ARRAY);
+
+        if (hbsImbgfIO) {
+            // Imbgf I/O Options
+            imbgfioGfnfrblOptRoot = nfw Group(inputOptRoot,
+                                              "imbgfio", "Imbgf I/O Options");
+            if (filfChbnnflIISSpi != null) {
+                sourdfFilfChbnnflOpt =
+                    nfw InputTypf("filfChbnnfl", "FilfChbnnfl",
+                                  INPUT_FILECHANNEL);
+            }
+            usfCbdhfTog = nfw Option.Togglf(imbgfioGfnfrblOptRoot, "usfCbdhf",
+                                            "ImbgfIO.sftUsfCbdhf()",
+                                            Option.Togglf.Off);
+        }
+
+        InputImbgfTfsts.init();
+        if (hbsImbgfIO) {
+            InputStrfbmTfsts.init();
+        }
+    }
+
+    protfdtfd InputTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+    }
+
+    protfdtfd stbtid dlbss InputTypf fxtfnds Option.Enbblf {
+        privbtf int typf;
+
+        publid InputTypf(String nodfNbmf, String dfsdription, int typf) {
+            supfr(gfnfrblSourdfRoot, nodfNbmf, dfsdription, fblsf);
+            this.typf = typf;
+        }
+
+        publid int gftTypf() {
+            rfturn typf;
+        }
+
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn gftModififrVblufNbmf(vbluf);
+        }
+
+        publid String gftModififrVblufNbmf(Objfdt vbl) {
+            rfturn gftNodfNbmf();
+        }
+    }
+
+    protfdtfd stbtid bbstrbdt dlbss Contfxt {
+        int sizf;
+        Objfdt input;
+        int inputTypf;
+        InputStrfbm origStrfbm;
+
+        Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            sizf = fnv.gftIntVbluf(sizfList);
+            if (hbsImbgfIO) {
+                if (fnv.gftModififr(usfCbdhfTog) != null) {
+                    ImbgfIO.sftUsfCbdhf(fnv.isEnbblfd(usfCbdhfTog));
+                }
+            }
+
+            InputTypf t = (InputTypf)fnv.gftModififr(gfnfrblSourdfRoot);
+            inputTypf = t.gftTypf();
+        }
+
+        void initInput() {
+            if ((inputTypf == INPUT_FILE) ||
+                (inputTypf == INPUT_URL) ||
+                (inputTypf == INPUT_FILECHANNEL))
+            {
+                try {
+                    // REMIND: this bpprobdh will fbil for GIF on prf-1.6 VM's
+                    //         (sindf fbrlifr rflfbsfs do not indludf b
+                    //         GIFImbgfWritfr in thf dorf JDK)
+                    Filf inputfilf = Filf.drfbtfTfmpFilf("iio", ".tmp");
+                    inputfilf.dflftfOnExit();
+                    initContfnts(inputfilf);
+                    if (inputTypf == INPUT_FILE) {
+                        input = inputfilf;
+                    } flsf if (inputTypf == INPUT_FILECHANNEL) {
+                        input = inputfilf;
+                    } flsf { // inputTypf == INPUT_URL
+                        try {
+                            input = inputfilf.toURI().toURL();
+                        } dbtdh (Exdfption f) {
+                            Systfm.frr.println("frror drfbting URL");
+                        }
+                    }
+                } dbtdh (IOExdfption f) {
+                    Systfm.frr.println("frror drfbting imbgf filf");
+                    f.printStbdkTrbdf();
+                }
+            } flsf {
+                BytfArrbyOutputStrfbm out;
+                try {
+                    out = nfw BytfArrbyOutputStrfbm();
+                    initContfnts(out);
+                } dbtdh (IOExdfption f) {
+                    Systfm.frr.println("frror drfbting imbgf brrby");
+                    f.printStbdkTrbdf();
+                    rfturn;
+                }
+                input = out.toBytfArrby();
+            }
+        }
+
+        bbstrbdt void initContfnts(Filf f) throws IOExdfption;
+        bbstrbdt void initContfnts(OutputStrfbm out) throws IOExdfption;
+
+        ImbgfInputStrfbm drfbtfImbgfInputStrfbm() throws IOExdfption {
+            ImbgfInputStrfbm iis;
+            BufffrfdInputStrfbm bis;
+            switdh (inputTypf) {
+            dbsf INPUT_FILE:
+                iis = nfw FilfImbgfInputStrfbm((Filf)input);
+                brfbk;
+            dbsf INPUT_URL:
+                origStrfbm = ((URL)input).opfnStrfbm();
+                bis = nfw BufffrfdInputStrfbm(origStrfbm);
+                if (ImbgfIO.gftUsfCbdhf()) {
+                    iis = nfw FilfCbdhfImbgfInputStrfbm(bis, null);
+                } flsf {
+                    iis = nfw MfmoryCbdhfImbgfInputStrfbm(bis);
+                }
+                brfbk;
+            dbsf INPUT_ARRAY:
+                origStrfbm = nfw BytfArrbyInputStrfbm((bytf[])input);
+                bis = nfw BufffrfdInputStrfbm(origStrfbm);
+                if (ImbgfIO.gftUsfCbdhf()) {
+                    iis = nfw FilfCbdhfImbgfInputStrfbm(bis, null);
+                } flsf {
+                    iis = nfw MfmoryCbdhfImbgfInputStrfbm(bis);
+                }
+                brfbk;
+            dbsf INPUT_FILECHANNEL:
+                FilfInputStrfbm fis = nfw FilfInputStrfbm((Filf)input);
+                origStrfbm = fis;
+                jbvb.nio.dhbnnfls.FilfChbnnfl fd = fis.gftChbnnfl();
+                iis = filfChbnnflIISSpi.drfbtfInputStrfbmInstbndf(fd, fblsf,
+                                                                  null);
+                brfbk;
+            dffbult:
+                iis = null;
+                brfbk;
+            }
+            rfturn iis;
+        }
+
+        void dlosfOriginblStrfbm() throws IOExdfption {
+            if (origStrfbm != null) {
+                origStrfbm.dlosf();
+                origStrfbm = null;
+            }
+        }
+
+        void dlfbnup(TfstEnvironmfnt fnv) {
+        }
+    }
+}

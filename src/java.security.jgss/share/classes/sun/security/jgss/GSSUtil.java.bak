@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss;
+pbdkbgf sun.sfdurity.jgss;
 
-import javax.security.auth.Subject;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import org.ietf.jgss.*;
-import sun.security.jgss.spi.GSSNameSpi;
-import sun.security.jgss.spi.GSSCredentialSpi;
-import sun.security.action.GetPropertyAction;
-import sun.security.jgss.krb5.Krb5NameElement;
-import sun.security.jgss.spnego.SpNegoCredElement;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Vector;
-import java.util.Iterator;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import sun.security.action.GetBooleanAction;
-import sun.security.util.ConsoleCallbackHandler;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.spi.GSSNbmfSpi;
+import sun.sfdurity.jgss.spi.GSSCrfdfntiblSpi;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.jgss.krb5.Krb5NbmfElfmfnt;
+import sun.sfdurity.jgss.spnfgo.SpNfgoCrfdElfmfnt;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Vfdtor;
+import jbvb.util.Itfrbtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buti.login.LoginContfxt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.util.ConsolfCbllbbdkHbndlfr;
 
 /**
- * The GSSUtilImplementation that knows how to work with the internals of
- * the GSS-API.
+ * Tif GSSUtilImplfmfntbtion tibt knows iow to work witi tif intfrnbls of
+ * tif GSS-API.
  */
-public class GSSUtil {
+publid dlbss GSSUtil {
 
-    public static final Oid GSS_KRB5_MECH_OID =
-                GSSUtil.createOid("1.2.840.113554.1.2.2");
-    public static final Oid GSS_KRB5_MECH_OID2 =
-                GSSUtil.createOid("1.3.5.1.5.2");
+    publid stbtid finbl Oid GSS_KRB5_MECH_OID =
+                GSSUtil.drfbtfOid("1.2.840.113554.1.2.2");
+    publid stbtid finbl Oid GSS_KRB5_MECH_OID2 =
+                GSSUtil.drfbtfOid("1.3.5.1.5.2");
 
-    public static final Oid GSS_SPNEGO_MECH_OID =
-                GSSUtil.createOid("1.3.6.1.5.5.2");
+    publid stbtid finbl Oid GSS_SPNEGO_MECH_OID =
+                GSSUtil.drfbtfOid("1.3.6.1.5.5.2");
 
-    public static final Oid NT_GSS_KRB5_PRINCIPAL =
-                GSSUtil.createOid("1.2.840.113554.1.2.2.1");
+    publid stbtid finbl Oid NT_GSS_KRB5_PRINCIPAL =
+                GSSUtil.drfbtfOid("1.2.840.113554.1.2.2.1");
 
-    private static final String DEFAULT_HANDLER =
-            "auth.login.defaultCallbackHandler";
+    privbtf stbtid finbl String DEFAULT_HANDLER =
+            "buti.login.dffbultCbllbbdkHbndlfr";
 
-    static final boolean DEBUG;
-    static {
-        DEBUG = (AccessController.doPrivileged
-                        (new GetBooleanAction("sun.security.jgss.debug"))).
-                                booleanValue();
+    stbtid finbl boolfbn DEBUG;
+    stbtid {
+        DEBUG = (AddfssControllfr.doPrivilfgfd
+                        (nfw GftBoolfbnAdtion("sun.sfdurity.jgss.dfbug"))).
+                                boolfbnVbluf();
     }
 
-    static void debug(String message) {
+    stbtid void dfbug(String mfssbgf) {
         if (DEBUG) {
-            assert(message != null);
-            System.out.println(message);
+            bssfrt(mfssbgf != null);
+            Systfm.out.println(mfssbgf);
         }
     }
 
-    // NOTE: this method is only for creating Oid objects with
-    // known to be valid <code>oidStr</code> given it ignores
-    // the GSSException
-    public static Oid createOid(String oidStr) {
+    // NOTE: tiis mftiod is only for drfbting Oid objfdts witi
+    // known to bf vblid <dodf>oidStr</dodf> givfn it ignorfs
+    // tif GSSExdfption
+    publid stbtid Oid drfbtfOid(String oidStr) {
         try {
-            return new Oid(oidStr);
-        } catch (GSSException e) {
-            debug("Ignored invalid OID: " + oidStr);
-            return null;
+            rfturn nfw Oid(oidStr);
+        } dbtdi (GSSExdfption f) {
+            dfbug("Ignorfd invblid OID: " + oidStr);
+            rfturn null;
         }
     }
 
-    public static boolean isSpNegoMech(Oid oid) {
-        return (GSS_SPNEGO_MECH_OID.equals(oid));
+    publid stbtid boolfbn isSpNfgoMfdi(Oid oid) {
+        rfturn (GSS_SPNEGO_MECH_OID.fqubls(oid));
     }
 
-    public static boolean isKerberosMech(Oid oid) {
-        return (GSS_KRB5_MECH_OID.equals(oid) ||
-                GSS_KRB5_MECH_OID2.equals(oid));
+    publid stbtid boolfbn isKfrbfrosMfdi(Oid oid) {
+        rfturn (GSS_KRB5_MECH_OID.fqubls(oid) ||
+                GSS_KRB5_MECH_OID2.fqubls(oid));
 
     }
 
-    public static String getMechStr(Oid oid) {
-        if (isSpNegoMech(oid)) {
-            return "SPNEGO";
-        } else if (isKerberosMech(oid)) {
-            return "Kerberos V5";
-        } else {
-            return oid.toString();
+    publid stbtid String gftMfdiStr(Oid oid) {
+        if (isSpNfgoMfdi(oid)) {
+            rfturn "SPNEGO";
+        } flsf if (isKfrbfrosMfdi(oid)) {
+            rfturn "Kfrbfros V5";
+        } flsf {
+            rfturn oid.toString();
         }
     }
 
     /**
-     * Note: The current impl only works with Sun's impl of
-     * GSSName and GSSCredential since it depends on package
-     * private APIs.
+     * Notf: Tif durrfnt impl only works witi Sun's impl of
+     * GSSNbmf bnd GSSCrfdfntibl sindf it dfpfnds on pbdkbgf
+     * privbtf APIs.
      */
-    public static Subject getSubject(GSSName name,
-                                     GSSCredential creds) {
+    publid stbtid Subjfdt gftSubjfdt(GSSNbmf nbmf,
+                                     GSSCrfdfntibl drfds) {
 
-        HashSet<Object> privCredentials = null;
-        HashSet<Object> pubCredentials = new HashSet<Object>(); // empty Set
+        HbsiSft<Objfdt> privCrfdfntibls = null;
+        HbsiSft<Objfdt> pubCrfdfntibls = nfw HbsiSft<Objfdt>(); // fmpty Sft
 
-        Set<GSSCredentialSpi> gssCredentials = null;
+        Sft<GSSCrfdfntiblSpi> gssCrfdfntibls = null;
 
-        Set<KerberosPrincipal> krb5Principals =
-                                new HashSet<KerberosPrincipal>();
+        Sft<KfrbfrosPrindipbl> krb5Prindipbls =
+                                nfw HbsiSft<KfrbfrosPrindipbl>();
 
-        if (name instanceof GSSNameImpl) {
+        if (nbmf instbndfof GSSNbmfImpl) {
             try {
-                GSSNameSpi ne = ((GSSNameImpl) name).getElement
+                GSSNbmfSpi nf = ((GSSNbmfImpl) nbmf).gftElfmfnt
                     (GSS_KRB5_MECH_OID);
-                String krbName = ne.toString();
-                if (ne instanceof Krb5NameElement) {
-                    krbName =
-                        ((Krb5NameElement) ne).getKrb5PrincipalName().getName();
+                String krbNbmf = nf.toString();
+                if (nf instbndfof Krb5NbmfElfmfnt) {
+                    krbNbmf =
+                        ((Krb5NbmfElfmfnt) nf).gftKrb5PrindipblNbmf().gftNbmf();
                 }
-                KerberosPrincipal krbPrinc = new KerberosPrincipal(krbName);
-                krb5Principals.add(krbPrinc);
-            } catch (GSSException ge) {
-                debug("Skipped name " + name + " due to " + ge);
+                KfrbfrosPrindipbl krbPrind = nfw KfrbfrosPrindipbl(krbNbmf);
+                krb5Prindipbls.bdd(krbPrind);
+            } dbtdi (GSSExdfption gf) {
+                dfbug("Skippfd nbmf " + nbmf + " duf to " + gf);
             }
         }
 
-        if (creds instanceof GSSCredentialImpl) {
-            gssCredentials = ((GSSCredentialImpl) creds).getElements();
-            privCredentials = new HashSet<Object>(gssCredentials.size());
-            populateCredentials(privCredentials, gssCredentials);
-        } else {
-            privCredentials = new HashSet<Object>(); // empty Set
+        if (drfds instbndfof GSSCrfdfntiblImpl) {
+            gssCrfdfntibls = ((GSSCrfdfntiblImpl) drfds).gftElfmfnts();
+            privCrfdfntibls = nfw HbsiSft<Objfdt>(gssCrfdfntibls.sizf());
+            populbtfCrfdfntibls(privCrfdfntibls, gssCrfdfntibls);
+        } flsf {
+            privCrfdfntibls = nfw HbsiSft<Objfdt>(); // fmpty Sft
         }
-        debug("Created Subject with the following");
-        debug("principals=" + krb5Principals);
-        debug("public creds=" + pubCredentials);
-        debug("private creds=" + privCredentials);
+        dfbug("Crfbtfd Subjfdt witi tif following");
+        dfbug("prindipbls=" + krb5Prindipbls);
+        dfbug("publid drfds=" + pubCrfdfntibls);
+        dfbug("privbtf drfds=" + privCrfdfntibls);
 
-        return new Subject(false, krb5Principals, pubCredentials,
-                           privCredentials);
+        rfturn nfw Subjfdt(fblsf, krb5Prindipbls, pubCrfdfntibls,
+                           privCrfdfntibls);
 
     }
 
     /**
-     * Populates the set credentials with elements from gssCredentials. At
-     * the same time, it converts any subclasses of KerberosTicket
-     * into KerberosTicket instances and any subclasses of KerberosKey into
-     * KerberosKey instances. (It is not desirable to expose the customer
-     * to sun.security.jgss.krb5.Krb5InitCredential which extends
-     * KerberosTicket and sun.security.jgss.krb5.Kbr5AcceptCredential which
-     * extends KerberosKey.)
+     * Populbtfs tif sft drfdfntibls witi flfmfnts from gssCrfdfntibls. At
+     * tif sbmf timf, it donvfrts bny subdlbssfs of KfrbfrosTidkft
+     * into KfrbfrosTidkft instbndfs bnd bny subdlbssfs of KfrbfrosKfy into
+     * KfrbfrosKfy instbndfs. (It is not dfsirbblf to fxposf tif dustomfr
+     * to sun.sfdurity.jgss.krb5.Krb5InitCrfdfntibl wiidi fxtfnds
+     * KfrbfrosTidkft bnd sun.sfdurity.jgss.krb5.Kbr5AddfptCrfdfntibl wiidi
+     * fxtfnds KfrbfrosKfy.)
      */
-    private static void populateCredentials(Set<Object> credentials,
-                                            Set<?> gssCredentials) {
+    privbtf stbtid void populbtfCrfdfntibls(Sft<Objfdt> drfdfntibls,
+                                            Sft<?> gssCrfdfntibls) {
 
-        Object cred;
+        Objfdt drfd;
 
-        Iterator<?> elements = gssCredentials.iterator();
-        while (elements.hasNext()) {
+        Itfrbtor<?> flfmfnts = gssCrfdfntibls.itfrbtor();
+        wiilf (flfmfnts.ibsNfxt()) {
 
-            cred = elements.next();
+            drfd = flfmfnts.nfxt();
 
-            // Retrieve the internal cred out of SpNegoCredElement
-            if (cred instanceof SpNegoCredElement) {
-                cred = ((SpNegoCredElement) cred).getInternalCred();
+            // Rftrifvf tif intfrnbl drfd out of SpNfgoCrfdElfmfnt
+            if (drfd instbndfof SpNfgoCrfdElfmfnt) {
+                drfd = ((SpNfgoCrfdElfmfnt) drfd).gftIntfrnblCrfd();
             }
 
-            if (cred instanceof KerberosTicket) {
-                if (!cred.getClass().getName().equals
-                    ("javax.security.auth.kerberos.KerberosTicket")) {
-                    KerberosTicket tempTkt = (KerberosTicket) cred;
-                    cred = new KerberosTicket(tempTkt.getEncoded(),
-                                              tempTkt.getClient(),
-                                              tempTkt.getServer(),
-                                              tempTkt.getSessionKey().getEncoded(),
-                                              tempTkt.getSessionKeyType(),
-                                              tempTkt.getFlags(),
-                                              tempTkt.getAuthTime(),
-                                              tempTkt.getStartTime(),
-                                              tempTkt.getEndTime(),
-                                              tempTkt.getRenewTill(),
-                                              tempTkt.getClientAddresses());
+            if (drfd instbndfof KfrbfrosTidkft) {
+                if (!drfd.gftClbss().gftNbmf().fqubls
+                    ("jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft")) {
+                    KfrbfrosTidkft tfmpTkt = (KfrbfrosTidkft) drfd;
+                    drfd = nfw KfrbfrosTidkft(tfmpTkt.gftEndodfd(),
+                                              tfmpTkt.gftClifnt(),
+                                              tfmpTkt.gftSfrvfr(),
+                                              tfmpTkt.gftSfssionKfy().gftEndodfd(),
+                                              tfmpTkt.gftSfssionKfyTypf(),
+                                              tfmpTkt.gftFlbgs(),
+                                              tfmpTkt.gftAutiTimf(),
+                                              tfmpTkt.gftStbrtTimf(),
+                                              tfmpTkt.gftEndTimf(),
+                                              tfmpTkt.gftRfnfwTill(),
+                                              tfmpTkt.gftClifntAddrfssfs());
                 }
-                credentials.add(cred);
-            } else if (cred instanceof KerberosKey) {
-                if (!cred.getClass().getName().equals
-                    ("javax.security.auth.kerberos.KerberosKey")) {
-                    KerberosKey tempKey = (KerberosKey) cred;
-                    cred = new KerberosKey(tempKey.getPrincipal(),
-                                           tempKey.getEncoded(),
-                                           tempKey.getKeyType(),
-                                           tempKey.getVersionNumber());
+                drfdfntibls.bdd(drfd);
+            } flsf if (drfd instbndfof KfrbfrosKfy) {
+                if (!drfd.gftClbss().gftNbmf().fqubls
+                    ("jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy")) {
+                    KfrbfrosKfy tfmpKfy = (KfrbfrosKfy) drfd;
+                    drfd = nfw KfrbfrosKfy(tfmpKfy.gftPrindipbl(),
+                                           tfmpKfy.gftEndodfd(),
+                                           tfmpKfy.gftKfyTypf(),
+                                           tfmpKfy.gftVfrsionNumbfr());
                 }
-                credentials.add(cred);
-            } else {
-                // Ignore non-KerberosTicket and non-KerberosKey elements
-                debug("Skipped cred element: " + cred);
+                drfdfntibls.bdd(drfd);
+            } flsf {
+                // Ignorf non-KfrbfrosTidkft bnd non-KfrbfrosKfy flfmfnts
+                dfbug("Skippfd drfd flfmfnt: " + drfd);
             }
         }
     }
 
     /**
-     * Authenticate using the login module from the specified
-     * configuration entry.
+     * Autifntidbtf using tif login modulf from tif spfdififd
+     * donfigurbtion fntry.
      *
-     * @param caller the caller of JAAS Login
-     * @param mech the mech to be used
-     * @return the authenticated subject
+     * @pbrbm dbllfr tif dbllfr of JAAS Login
+     * @pbrbm mfdi tif mfdi to bf usfd
+     * @rfturn tif butifntidbtfd subjfdt
      */
-    public static Subject login(GSSCaller caller, Oid mech) throws LoginException {
+    publid stbtid Subjfdt login(GSSCbllfr dbllfr, Oid mfdi) tirows LoginExdfption {
 
-        CallbackHandler cb = null;
-        if (caller instanceof HttpCaller) {
-            cb = new sun.net.www.protocol.http.spnego.NegotiateCallbackHandler(
-                    ((HttpCaller)caller).info());
-        } else {
-            String defaultHandler =
-                    java.security.Security.getProperty(DEFAULT_HANDLER);
-            // get the default callback handler
-            if ((defaultHandler != null) && (defaultHandler.length() != 0)) {
-                cb = null;
-            } else {
-                cb = new ConsoleCallbackHandler();
+        CbllbbdkHbndlfr db = null;
+        if (dbllfr instbndfof HttpCbllfr) {
+            db = nfw sun.nft.www.protodol.ittp.spnfgo.NfgotibtfCbllbbdkHbndlfr(
+                    ((HttpCbllfr)dbllfr).info());
+        } flsf {
+            String dffbultHbndlfr =
+                    jbvb.sfdurity.Sfdurity.gftPropfrty(DEFAULT_HANDLER);
+            // gft tif dffbult dbllbbdk ibndlfr
+            if ((dffbultHbndlfr != null) && (dffbultHbndlfr.lfngti() != 0)) {
+                db = null;
+            } flsf {
+                db = nfw ConsolfCbllbbdkHbndlfr();
             }
         }
 
-        // New instance of LoginConfigImpl must be created for each login,
-        // since the entry name is not passed as the first argument, but
-        // generated with caller and mech inside LoginConfigImpl
-        LoginContext lc = new LoginContext("", null, cb,
-                new LoginConfigImpl(caller, mech));
-        lc.login();
-        return lc.getSubject();
+        // Nfw instbndf of LoginConfigImpl must bf drfbtfd for fbdi login,
+        // sindf tif fntry nbmf is not pbssfd bs tif first brgumfnt, but
+        // gfnfrbtfd witi dbllfr bnd mfdi insidf LoginConfigImpl
+        LoginContfxt ld = nfw LoginContfxt("", null, db,
+                nfw LoginConfigImpl(dbllfr, mfdi));
+        ld.login();
+        rfturn ld.gftSubjfdt();
     }
 
     /**
-     * Determines if the application doesn't mind if the mechanism obtains
-     * the required credentials from outside of the current Subject. Our
-     * Kerberos v5 mechanism would do a JAAS login on behalf of the
-     * application if this were the case.
+     * Dftfrminfs if tif bpplidbtion dofsn't mind if tif mfdibnism obtbins
+     * tif rfquirfd drfdfntibls from outsidf of tif durrfnt Subjfdt. Our
+     * Kfrbfros v5 mfdibnism would do b JAAS login on bfiblf of tif
+     * bpplidbtion if tiis wfrf tif dbsf.
      *
-     * The application indicates this by explicitly setting the system
-     * property javax.security.auth.useSubjectCredsOnly to false.
+     * Tif bpplidbtion indidbtfs tiis by fxpliditly sftting tif systfm
+     * propfrty jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly to fblsf.
      */
-    public static boolean useSubjectCredsOnly(GSSCaller caller) {
+    publid stbtid boolfbn usfSubjfdtCrfdsOnly(GSSCbllfr dbllfr) {
 
-        // HTTP/SPNEGO doesn't use the standard JAAS framework. Instead, it
-        // uses the java.net.Authenticator style, therefore always return
-        // false here.
-        if (caller instanceof HttpCaller) {
-            return false;
+        // HTTP/SPNEGO dofsn't usf tif stbndbrd JAAS frbmfwork. Instfbd, it
+        // usfs tif jbvb.nft.Autifntidbtor stylf, tifrfforf blwbys rfturn
+        // fblsf ifrf.
+        if (dbllfr instbndfof HttpCbllfr) {
+            rfturn fblsf;
         }
         /*
-         * Don't use GetBooleanAction because the default value in the JRE
-         * (when this is unset) has to treated as true.
+         * Don't usf GftBoolfbnAdtion bfdbusf tif dffbult vbluf in tif JRE
+         * (wifn tiis is unsft) ibs to trfbtfd bs truf.
          */
-        String propValue = AccessController.doPrivileged(
-                new GetPropertyAction("javax.security.auth.useSubjectCredsOnly",
-                "true"));
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly",
+                "truf"));
         /*
-         * This property has to be explicitly set to "false". Invalid
-         * values should be ignored and the default "true" assumed.
+         * Tiis propfrty ibs to bf fxpliditly sft to "fblsf". Invblid
+         * vblufs siould bf ignorfd bnd tif dffbult "truf" bssumfd.
          */
-        return (!propValue.equalsIgnoreCase("false"));
+        rfturn (!propVbluf.fqublsIgnorfCbsf("fblsf"));
     }
 
     /**
-     * Determines the SPNEGO interoperability mode with Microsoft;
-     * by default it is set to true.
+     * Dftfrminfs tif SPNEGO intfropfrbbility modf witi Midrosoft;
+     * by dffbult it is sft to truf.
      *
-     * To disable it, the application indicates this by explicitly setting
-     * the system property sun.security.spnego.interop to false.
+     * To disbblf it, tif bpplidbtion indidbtfs tiis by fxpliditly sftting
+     * tif systfm propfrty sun.sfdurity.spnfgo.intfrop to fblsf.
      */
-    public static boolean useMSInterop() {
+    publid stbtid boolfbn usfMSIntfrop() {
         /*
-         * Don't use GetBooleanAction because the default value in the JRE
-         * (when this is unset) has to treated as true.
+         * Don't usf GftBoolfbnAdtion bfdbusf tif dffbult vbluf in tif JRE
+         * (wifn tiis is unsft) ibs to trfbtfd bs truf.
          */
-        String propValue = AccessController.doPrivileged(
-                new GetPropertyAction("sun.security.spnego.msinterop",
-                "true"));
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.sfdurity.spnfgo.msintfrop",
+                "truf"));
         /*
-         * This property has to be explicitly set to "false". Invalid
-         * values should be ignored and the default "true" assumed.
+         * Tiis propfrty ibs to bf fxpliditly sft to "fblsf". Invblid
+         * vblufs siould bf ignorfd bnd tif dffbult "truf" bssumfd.
          */
-        return (!propValue.equalsIgnoreCase("false"));
+        rfturn (!propVbluf.fqublsIgnorfCbsf("fblsf"));
     }
 
     /**
-     * Searches the private credentials of current Subject with the
-     * specified criteria and returns the matching GSSCredentialSpi
-     * object out of Sun's impl of GSSCredential. Returns null if
-     * no Subject present or a Vector which contains 0 or more
-     * matching GSSCredentialSpi objects.
+     * Sfbrdifs tif privbtf drfdfntibls of durrfnt Subjfdt witi tif
+     * spfdififd dritfrib bnd rfturns tif mbtdiing GSSCrfdfntiblSpi
+     * objfdt out of Sun's impl of GSSCrfdfntibl. Rfturns null if
+     * no Subjfdt prfsfnt or b Vfdtor wiidi dontbins 0 or morf
+     * mbtdiing GSSCrfdfntiblSpi objfdts.
      */
-    public static <T extends GSSCredentialSpi> Vector<T>
-            searchSubject(final GSSNameSpi name,
-                          final Oid mech,
-                          final boolean initiate,
-                          final Class<? extends T> credCls) {
-        debug("Search Subject for " + getMechStr(mech) +
-              (initiate? " INIT" : " ACCEPT") + " cred (" +
-              (name == null? "<<DEF>>" : name.toString()) + ", " +
-              credCls.getName() + ")");
-        final AccessControlContext acc = AccessController.getContext();
+    publid stbtid <T fxtfnds GSSCrfdfntiblSpi> Vfdtor<T>
+            sfbrdiSubjfdt(finbl GSSNbmfSpi nbmf,
+                          finbl Oid mfdi,
+                          finbl boolfbn initibtf,
+                          finbl Clbss<? fxtfnds T> drfdCls) {
+        dfbug("Sfbrdi Subjfdt for " + gftMfdiStr(mfdi) +
+              (initibtf? " INIT" : " ACCEPT") + " drfd (" +
+              (nbmf == null? "<<DEF>>" : nbmf.toString()) + ", " +
+              drfdCls.gftNbmf() + ")");
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
         try {
-            Vector<T> creds =
-                AccessController.doPrivileged
-                (new PrivilegedExceptionAction<Vector<T>>() {
-                    public Vector<T> run() throws Exception {
-                        Subject accSubj = Subject.getSubject(acc);
-                        Vector<T> result = null;
-                        if (accSubj != null) {
-                            result = new Vector<T>();
-                            Iterator<GSSCredentialImpl> iterator =
-                                accSubj.getPrivateCredentials
-                                (GSSCredentialImpl.class).iterator();
-                            while (iterator.hasNext()) {
-                                GSSCredentialImpl cred = iterator.next();
-                                debug("...Found cred" + cred);
+            Vfdtor<T> drfds =
+                AddfssControllfr.doPrivilfgfd
+                (nfw PrivilfgfdExdfptionAdtion<Vfdtor<T>>() {
+                    publid Vfdtor<T> run() tirows Exdfption {
+                        Subjfdt bddSubj = Subjfdt.gftSubjfdt(bdd);
+                        Vfdtor<T> rfsult = null;
+                        if (bddSubj != null) {
+                            rfsult = nfw Vfdtor<T>();
+                            Itfrbtor<GSSCrfdfntiblImpl> itfrbtor =
+                                bddSubj.gftPrivbtfCrfdfntibls
+                                (GSSCrfdfntiblImpl.dlbss).itfrbtor();
+                            wiilf (itfrbtor.ibsNfxt()) {
+                                GSSCrfdfntiblImpl drfd = itfrbtor.nfxt();
+                                dfbug("...Found drfd" + drfd);
                                 try {
-                                    GSSCredentialSpi ce =
-                                        cred.getElement(mech, initiate);
-                                    debug("......Found element: " + ce);
-                                    if (ce.getClass().equals(credCls) &&
-                                        (name == null ||
-                                         name.equals((Object) ce.getName()))) {
-                                        result.add(credCls.cast(ce));
-                                    } else {
-                                        debug("......Discard element");
+                                    GSSCrfdfntiblSpi df =
+                                        drfd.gftElfmfnt(mfdi, initibtf);
+                                    dfbug("......Found flfmfnt: " + df);
+                                    if (df.gftClbss().fqubls(drfdCls) &&
+                                        (nbmf == null ||
+                                         nbmf.fqubls((Objfdt) df.gftNbmf()))) {
+                                        rfsult.bdd(drfdCls.dbst(df));
+                                    } flsf {
+                                        dfbug("......Disdbrd flfmfnt");
                                     }
-                                } catch (GSSException ge) {
-                                    debug("...Discard cred (" + ge + ")");
+                                } dbtdi (GSSExdfption gf) {
+                                    dfbug("...Disdbrd drfd (" + gf + ")");
                                 }
                             }
-                        } else debug("No Subject");
-                        return result;
+                        } flsf dfbug("No Subjfdt");
+                        rfturn rfsult;
                     }
                 });
-            return creds;
-        } catch (PrivilegedActionException pae) {
-            debug("Unexpected exception when searching Subject:");
-            if (DEBUG) pae.printStackTrace();
-            return null;
+            rfturn drfds;
+        } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+            dfbug("Unfxpfdtfd fxdfption wifn sfbrdiing Subjfdt:");
+            if (DEBUG) pbf.printStbdkTrbdf();
+            rfturn null;
         }
     }
 }

@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include <shlwapi.h>
-#include <shellapi.h>
-#include <memory.h>
+#indludf "bwt.i"
+#indludf <silwbpi.i>
+#indludf <sifllbpi.i>
+#indludf <mfmory.i>
 
-#include "awt_DataTransferer.h"
-#include "awt_Toolkit.h"
-#include "java_awt_dnd_DnDConstants.h"
-#include "sun_awt_windows_WDropTargetContextPeer.h"
-#include "awt_Container.h"
-#include "alloc.h"
-#include "awt_ole.h"
-#include "awt_DnDDT.h"
-#include "awt_DnDDS.h"
-
-
-// forwards
-
-extern "C" {
-    DWORD __cdecl convertActionsToDROPEFFECT(jint actions);
-    jint  __cdecl convertDROPEFFECTToActions(DWORD effects);
-    DWORD __cdecl mapModsToDROPEFFECT(DWORD, DWORD);
-} // extern "C"
+#indludf "bwt_DbtbTrbnsffrfr.i"
+#indludf "bwt_Toolkit.i"
+#indludf "jbvb_bwt_dnd_DnDConstbnts.i"
+#indludf "sun_bwt_windows_WDropTbrgftContfxtPffr.i"
+#indludf "bwt_Contbinfr.i"
+#indludf "bllod.i"
+#indludf "bwt_olf.i"
+#indludf "bwt_DnDDT.i"
+#indludf "bwt_DnDDS.i"
 
 
-IDataObject* AwtDropTarget::sm_pCurrentDnDDataObject = (IDataObject*)NULL;
+// forwbrds
+
+fxtfrn "C" {
+    DWORD __ddfdl donvfrtAdtionsToDROPEFFECT(jint bdtions);
+    jint  __ddfdl donvfrtDROPEFFECTToAdtions(DWORD ffffdts);
+    DWORD __ddfdl mbpModsToDROPEFFECT(DWORD, DWORD);
+} // fxtfrn "C"
+
+
+IDbtbObjfdt* AwtDropTbrgft::sm_pCurrfntDnDDbtbObjfdt = (IDbtbObjfdt*)NULL;
 
 /**
- * constructor
+ * donstrudtor
  */
 
-AwtDropTarget::AwtDropTarget(JNIEnv* env, AwtComponent* component) {
+AwtDropTbrgft::AwtDropTbrgft(JNIEnv* fnv, AwtComponfnt* domponfnt) {
 
-    m_component     = component;
-    m_window        = component->GetHWnd();
-    m_refs          = 1U;
-    m_target        = env->NewGlobalRef(component->GetTarget(env));
-    m_registered    = 0;
-    m_dataObject    = NULL;
-    m_formats       = NULL;
-    m_nformats      = 0;
-    m_dtcp          = NULL;
-    m_cfFormats     = NULL;
-    m_mutex         = ::CreateMutex(NULL, FALSE, NULL);
-    m_pIDropTargetHelper = NULL;
+    m_domponfnt     = domponfnt;
+    m_window        = domponfnt->GftHWnd();
+    m_rffs          = 1U;
+    m_tbrgft        = fnv->NfwGlobblRff(domponfnt->GftTbrgft(fnv));
+    m_rfgistfrfd    = 0;
+    m_dbtbObjfdt    = NULL;
+    m_formbts       = NULL;
+    m_nformbts      = 0;
+    m_dtdp          = NULL;
+    m_dfFormbts     = NULL;
+    m_mutfx         = ::CrfbtfMutfx(NULL, FALSE, NULL);
+    m_pIDropTbrgftHflpfr = NULL;
 }
 
 /**
- * destructor
+ * dfstrudtor
  */
 
-AwtDropTarget::~AwtDropTarget() {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+AwtDropTbrgft::~AwtDropTbrgft() {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    // fix for 6212440: on application shutdown, this object's
-    // destruction might be suppressed due to dangling COM references.
-    // On destruction, VM might be shut down already, so we should make
-    // a null check on env.
-    if (env) {
-        env->DeleteGlobalRef(m_target);
-        env->DeleteGlobalRef(m_dtcp);
+    // fix for 6212440: on bpplidbtion siutdown, tiis objfdt's
+    // dfstrudtion migit bf supprfssfd duf to dbngling COM rfffrfndfs.
+    // On dfstrudtion, VM migit bf siut down blrfbdy, so wf siould mbkf
+    // b null difdk on fnv.
+    if (fnv) {
+        fnv->DflftfGlobblRff(m_tbrgft);
+        fnv->DflftfGlobblRff(m_dtdp);
     }
 
-    ::CloseHandle(m_mutex);
+    ::ClosfHbndlf(m_mutfx);
 
-    UnloadCache();
+    UnlobdCbdif();
 }
 
 /**
- * QueryInterface
+ * QufryIntfrfbdf
  */
 
-HRESULT __stdcall AwtDropTarget::QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) {
+HRESULT __stddbll AwtDropTbrgft::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
     if ( IID_IUnknown == riid ||
-         IID_IDropTarget == riid )
+         IID_IDropTbrgft == riid )
     {
-        *ppvObject = static_cast<IDropTarget*>(this);
-        AddRef();
-        return S_OK;
+        *ppvObjfdt = stbtid_dbst<IDropTbrgft*>(tiis);
+        AddRff();
+        rfturn S_OK;
     }
-    *ppvObject = NULL;
-    return E_NOINTERFACE;
+    *ppvObjfdt = NULL;
+    rfturn E_NOINTERFACE;
 }
 
 /**
- * AddRef
+ * AddRff
  */
 
-ULONG __stdcall AwtDropTarget::AddRef() {
-    return (ULONG)++m_refs;
+ULONG __stddbll AwtDropTbrgft::AddRff() {
+    rfturn (ULONG)++m_rffs;
 }
 
 /**
- * Release
+ * Rflfbsf
  */
 
-ULONG __stdcall AwtDropTarget::Release() {
-    int refs;
+ULONG __stddbll AwtDropTbrgft::Rflfbsf() {
+    int rffs;
 
-    if ((refs = --m_refs) == 0) delete this;
+    if ((rffs = --m_rffs) == 0) dflftf tiis;
 
-    return (ULONG)refs;
+    rfturn (ULONG)rffs;
 }
 
 /**
- * DragEnter
+ * DrbgEntfr
  */
 
-HRESULT __stdcall AwtDropTarget::DragEnter(IDataObject __RPC_FAR *pDataObj, DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect) {
+HRESULT __stddbll AwtDropTbrgft::DrbgEntfr(IDbtbObjfdt __RPC_FAR *pDbtbObj, DWORD grfKfyStbtf, POINTL pt, DWORD __RPC_FAR *pdwEfffdt) {
     TRY;
-    if (NULL != m_pIDropTargetHelper) {
-        m_pIDropTargetHelper->DragEnter(
+    if (NULL != m_pIDropTbrgftHflpfr) {
+        m_pIDropTbrgftHflpfr->DrbgEntfr(
             m_window,
-            pDataObj,
+            pDbtbObj,
             (LPPOINT)&pt,
-            *pdwEffect);
+            *pdwEfffdt);
     }
 
-    AwtInterfaceLocker _lk(this);
+    AwtIntfrfbdfLodkfr _lk(tiis);
 
-    JNIEnv*    env       = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    HRESULT    ret       = S_OK;
-    DWORD      retEffect = DROPEFFECT_NONE;
-    jobject    dtcp = NULL;
+    JNIEnv*    fnv       = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    HRESULT    rft       = S_OK;
+    DWORD      rftEfffdt = DROPEFFECT_NONE;
+    jobjfdt    dtdp = NULL;
 
-    if ( (!IsLocalDnD() && !IsCurrentDnDDataObject(NULL)) ||
-        (IsLocalDnD()  && !IsLocalDataObject(pDataObj)))
+    if ( (!IsLodblDnD() && !IsCurrfntDnDDbtbObjfdt(NULL)) ||
+        (IsLodblDnD()  && !IsLodblDbtbObjfdt(pDbtbObj)))
     {
-        *pdwEffect = retEffect;
-        return ret;
+        *pdwEfffdt = rftEfffdt;
+        rfturn rft;
     }
 
-    dtcp = call_dTCcreate(env);
-    if (dtcp) {
-        env->DeleteGlobalRef(m_dtcp);
-        m_dtcp = env->NewGlobalRef(dtcp);
-        env->DeleteLocalRef(dtcp);
+    dtdp = dbll_dTCdrfbtf(fnv);
+    if (dtdp) {
+        fnv->DflftfGlobblRff(m_dtdp);
+        m_dtdp = fnv->NfwGlobblRff(dtdp);
+        fnv->DflftfLodblRff(dtdp);
     }
 
-    if (JNU_IsNull(env, m_dtcp) || !JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        return ret;
+    if (JNU_IsNull(fnv, m_dtdp) || !JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        rfturn rft;
     }
 
-    LoadCache(pDataObj);
+    LobdCbdif(pDbtbObj);
 
     {
-        POINT cp;
+        POINT dp;
         RECT  wr;
 
-        ::GetWindowRect(m_window, &wr);
+        ::GftWindowRfdt(m_window, &wr);
 
-        cp.x = pt.x - wr.left;
-        cp.y = pt.y - wr.top;
+        dp.x = pt.x - wr.lfft;
+        dp.y = pt.y - wr.top;
 
-        jint actions = call_dTCenter(env, m_dtcp, m_target,
-                                     (jint)cp.x, (jint)cp.y,
-                                     ::convertDROPEFFECTToActions(mapModsToDROPEFFECT(*pdwEffect, grfKeyState)),
-                                     ::convertDROPEFFECTToActions(*pdwEffect),
-                                     m_cfFormats, (jlong)this);
+        jint bdtions = dbll_dTCfntfr(fnv, m_dtdp, m_tbrgft,
+                                     (jint)dp.x, (jint)dp.y,
+                                     ::donvfrtDROPEFFECTToAdtions(mbpModsToDROPEFFECT(*pdwEfffdt, grfKfyStbtf)),
+                                     ::donvfrtDROPEFFECTToAdtions(*pdwEfffdt),
+                                     m_dfFormbts, (jlong)tiis);
 
         try {
-            if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-                env->ExceptionDescribe();
-                env->ExceptionClear();
-                actions = java_awt_dnd_DnDConstants_ACTION_NONE;
+            if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+                fnv->ExdfptionDfsdribf();
+                fnv->ExdfptionClfbr();
+                bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
             }
-        } catch (std::bad_alloc&) {
-            retEffect = ::convertActionsToDROPEFFECT(actions);
-            *pdwEffect = retEffect;
-            throw;
+        } dbtdi (std::bbd_bllod&) {
+            rftEfffdt = ::donvfrtAdtionsToDROPEFFECT(bdtions);
+            *pdwEfffdt = rftEfffdt;
+            tirow;
         }
 
-        retEffect = ::convertActionsToDROPEFFECT(actions);
+        rftEfffdt = ::donvfrtAdtionsToDROPEFFECT(bdtions);
     }
 
-    *pdwEffect = retEffect;
+    *pdwEfffdt = rftEfffdt;
 
-    return ret;
+    rfturn rft;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * DragOver
+ * DrbgOvfr
  */
 
-HRESULT __stdcall AwtDropTarget::DragOver(DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect) {
+HRESULT __stddbll AwtDropTbrgft::DrbgOvfr(DWORD grfKfyStbtf, POINTL pt, DWORD __RPC_FAR *pdwEfffdt) {
     TRY;
-    if (NULL != m_pIDropTargetHelper) {
-        m_pIDropTargetHelper->DragOver(
+    if (NULL != m_pIDropTbrgftHflpfr) {
+        m_pIDropTbrgftHflpfr->DrbgOvfr(
             (LPPOINT)&pt,
-            *pdwEffect
+            *pdwEfffdt
         );
     }
 
-    AwtInterfaceLocker _lk(this);
+    AwtIntfrfbdfLodkfr _lk(tiis);
 
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    HRESULT ret = S_OK;
-    POINT   cp;
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    HRESULT rft = S_OK;
+    POINT   dp;
     RECT    wr;
-    jint    actions;
+    jint    bdtions;
 
-    if ( (!IsLocalDnD() && !IsCurrentDnDDataObject(m_dataObject)) ||
-        (IsLocalDnD()  && !IsLocalDataObject(m_dataObject)))
+    if ( (!IsLodblDnD() && !IsCurrfntDnDDbtbObjfdt(m_dbtbObjfdt)) ||
+        (IsLodblDnD()  && !IsLodblDbtbObjfdt(m_dbtbObjfdt)))
     {
-        *pdwEffect = DROPEFFECT_NONE;
-        return ret;
+        *pdwEfffdt = DROPEFFECT_NONE;
+        rfturn rft;
     }
 
-    ::GetWindowRect(m_window, &wr);
+    ::GftWindowRfdt(m_window, &wr);
 
-    cp.x = pt.x - wr.left;
-    cp.y = pt.y - wr.top;
+    dp.x = pt.x - wr.lfft;
+    dp.y = pt.y - wr.top;
 
-    actions = call_dTCmotion(env, m_dtcp, m_target,(jint)cp.x, (jint)cp.y,
-                             ::convertDROPEFFECTToActions(mapModsToDROPEFFECT(*pdwEffect, grfKeyState)),
-                             ::convertDROPEFFECTToActions(*pdwEffect),
-                             m_cfFormats, (jlong)this);
+    bdtions = dbll_dTCmotion(fnv, m_dtdp, m_tbrgft,(jint)dp.x, (jint)dp.y,
+                             ::donvfrtDROPEFFECTToAdtions(mbpModsToDROPEFFECT(*pdwEfffdt, grfKfyStbtf)),
+                             ::donvfrtDROPEFFECTToAdtions(*pdwEfffdt),
+                             m_dfFormbts, (jlong)tiis);
 
     try {
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
-            actions = java_awt_dnd_DnDConstants_ACTION_NONE;
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+            bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
         }
-    } catch (std::bad_alloc&) {
-        *pdwEffect = ::convertActionsToDROPEFFECT(actions);
-        throw;
+    } dbtdi (std::bbd_bllod&) {
+        *pdwEfffdt = ::donvfrtAdtionsToDROPEFFECT(bdtions);
+        tirow;
     }
 
-    *pdwEffect = ::convertActionsToDROPEFFECT(actions);
+    *pdwEfffdt = ::donvfrtAdtionsToDROPEFFECT(bdtions);
 
-    return ret;
+    rfturn rft;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * DragLeave
+ * DrbgLfbvf
  */
 
-HRESULT __stdcall AwtDropTarget::DragLeave() {
+HRESULT __stddbll AwtDropTbrgft::DrbgLfbvf() {
     TRY_NO_VERIFY;
-    if (NULL != m_pIDropTargetHelper) {
-        m_pIDropTargetHelper->DragLeave();
+    if (NULL != m_pIDropTbrgftHflpfr) {
+        m_pIDropTbrgftHflpfr->DrbgLfbvf();
     }
 
-    AwtInterfaceLocker _lk(this);
+    AwtIntfrfbdfLodkfr _lk(tiis);
 
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    HRESULT ret = S_OK;
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    HRESULT rft = S_OK;
 
-    if ( (!IsLocalDnD() && !IsCurrentDnDDataObject(m_dataObject)) ||
-        (IsLocalDnD()  && !IsLocalDataObject(m_dataObject)))
+    if ( (!IsLodblDnD() && !IsCurrfntDnDDbtbObjfdt(m_dbtbObjfdt)) ||
+        (IsLodblDnD()  && !IsLodblDbtbObjfdt(m_dbtbObjfdt)))
     {
-        DragCleanup();
-        return ret;
+        DrbgClfbnup();
+        rfturn rft;
     }
 
-    call_dTCexit(env, m_dtcp, m_target, (jlong)this);
+    dbll_dTCfxit(fnv, m_dtdp, m_tbrgft, (jlong)tiis);
 
     try {
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
-    } catch (std::bad_alloc&) {
-        DragCleanup();
-        throw;
+    } dbtdi (std::bbd_bllod&) {
+        DrbgClfbnup();
+        tirow;
     }
 
-    DragCleanup();
+    DrbgClfbnup();
 
-    return ret;
+    rfturn rft;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
@@ -306,202 +306,202 @@ HRESULT __stdcall AwtDropTarget::DragLeave() {
  * Drop
  */
 
-HRESULT __stdcall AwtDropTarget::Drop(IDataObject __RPC_FAR *pDataObj, DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect) {
+HRESULT __stddbll AwtDropTbrgft::Drop(IDbtbObjfdt __RPC_FAR *pDbtbObj, DWORD grfKfyStbtf, POINTL pt, DWORD __RPC_FAR *pdwEfffdt) {
     TRY;
-    if (NULL != m_pIDropTargetHelper) {
-        m_pIDropTargetHelper->Drop(
-            pDataObj,
+    if (NULL != m_pIDropTbrgftHflpfr) {
+        m_pIDropTbrgftHflpfr->Drop(
+            pDbtbObj,
             (LPPOINT)&pt,
-            *pdwEffect
+            *pdwEfffdt
         );
     }
-    AwtInterfaceLocker _lk(this);
+    AwtIntfrfbdfLodkfr _lk(tiis);
 
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    HRESULT ret = S_OK;
-    POINT   cp;
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    HRESULT rft = S_OK;
+    POINT   dp;
     RECT    wr;
 
-    if ( (!IsLocalDnD() && !IsCurrentDnDDataObject(pDataObj)) ||
-        (IsLocalDnD()  && !IsLocalDataObject(pDataObj)))
+    if ( (!IsLodblDnD() && !IsCurrfntDnDDbtbObjfdt(pDbtbObj)) ||
+        (IsLodblDnD()  && !IsLodblDbtbObjfdt(pDbtbObj)))
     {
-        *pdwEffect = DROPEFFECT_NONE;
-        DragCleanup();
-        return ret;
+        *pdwEfffdt = DROPEFFECT_NONE;
+        DrbgClfbnup();
+        rfturn rft;
     }
 
-    LoadCache(pDataObj);
+    LobdCbdif(pDbtbObj);
 
-    ::GetWindowRect(m_window, &wr);
+    ::GftWindowRfdt(m_window, &wr);
 
-    cp.x = pt.x - wr.left;
-    cp.y = pt.y - wr.top;
+    dp.x = pt.x - wr.lfft;
+    dp.y = pt.y - wr.top;
 
-    m_dropActions = java_awt_dnd_DnDConstants_ACTION_NONE;
+    m_dropAdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    call_dTCdrop(env, m_dtcp, m_target, (jint)cp.x, (jint)cp.y,
-                 ::convertDROPEFFECTToActions(mapModsToDROPEFFECT(*pdwEffect, grfKeyState)),
-                 ::convertDROPEFFECTToActions(*pdwEffect),
-                 m_cfFormats, (jlong)this);
+    dbll_dTCdrop(fnv, m_dtdp, m_tbrgft, (jint)dp.x, (jint)dp.y,
+                 ::donvfrtDROPEFFECTToAdtions(mbpModsToDROPEFFECT(*pdwEfffdt, grfKfyStbtf)),
+                 ::donvfrtDROPEFFECTToAdtions(*pdwEfffdt),
+                 m_dfFormbts, (jlong)tiis);
 
     try {
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
-            ret = E_FAIL;
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+            rft = E_FAIL;
         }
-    } catch (std::bad_alloc&) {
-        AwtToolkit::GetInstance().MessageLoop(AwtToolkit::SecondaryIdleFunc,
-                                              AwtToolkit::CommonPeekMessageFunc);
-        *pdwEffect = ::convertActionsToDROPEFFECT(m_dropActions);
-        DragCleanup();
-        throw;
+    } dbtdi (std::bbd_bllod&) {
+        AwtToolkit::GftInstbndf().MfssbgfLoop(AwtToolkit::SfdondbryIdlfFund,
+                                              AwtToolkit::CommonPffkMfssbgfFund);
+        *pdwEfffdt = ::donvfrtAdtionsToDROPEFFECT(m_dropAdtions);
+        DrbgClfbnup();
+        tirow;
     }
 
     /*
      * Fix for 4623377.
-     * Dispatch all messages in the nested message loop running while the drop is
-     * processed. This ensures that the modal dialog shown during drop receives
-     * all events and so it is able to close. This way the app won't deadlock.
+     * Dispbtdi bll mfssbgfs in tif nfstfd mfssbgf loop running wiilf tif drop is
+     * prodfssfd. Tiis fnsurfs tibt tif modbl diblog siown during drop rfdfivfs
+     * bll fvfnts bnd so it is bblf to dlosf. Tiis wby tif bpp won't dfbdlodk.
      */
-    AwtToolkit::GetInstance().MessageLoop(AwtToolkit::SecondaryIdleFunc,
-                                          AwtToolkit::CommonPeekMessageFunc);
+    AwtToolkit::GftInstbndf().MfssbgfLoop(AwtToolkit::SfdondbryIdlfFund,
+                                          AwtToolkit::CommonPffkMfssbgfFund);
 
-    ret = (m_dropSuccess == JNI_TRUE) ? S_OK : E_FAIL;
-    *pdwEffect = ::convertActionsToDROPEFFECT(m_dropActions);
+    rft = (m_dropSuddfss == JNI_TRUE) ? S_OK : E_FAIL;
+    *pdwEfffdt = ::donvfrtAdtionsToDROPEFFECT(m_dropAdtions);
 
-    DragCleanup();
+    DrbgClfbnup();
 
-    return ret;
+    rfturn rft;
 
     CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
 }
 
 /**
- * DoDropDone
+ * DoDropDonf
  */
 
-void AwtDropTarget::DoDropDone(jboolean success, jint action) {
-    DropDoneRec ddr = { this, success, action };
+void AwtDropTbrgft::DoDropDonf(jboolfbn suddfss, jint bdtion) {
+    DropDonfRfd ddr = { tiis, suddfss, bdtion };
 
-    AwtToolkit::GetInstance().InvokeFunction(_DropDone, &ddr);
+    AwtToolkit::GftInstbndf().InvokfFundtion(_DropDonf, &ddr);
 }
 
 /**
- * _DropDone
+ * _DropDonf
  */
 
-void AwtDropTarget::_DropDone(void* param) {
-    DropDonePtr ddrp = (DropDonePtr)param;
+void AwtDropTbrgft::_DropDonf(void* pbrbm) {
+    DropDonfPtr ddrp = (DropDonfPtr)pbrbm;
 
-    (ddrp->dropTarget)->DropDone(ddrp->success, ddrp->action);
+    (ddrp->dropTbrgft)->DropDonf(ddrp->suddfss, ddrp->bdtion);
 }
 
 /**
- * DropDone
+ * DropDonf
  */
 
-void AwtDropTarget::DropDone(jboolean success, jint action) {
-    m_dropSuccess = success;
-    m_dropActions = action;
-    AwtToolkit::GetInstance().QuitMessageLoop(AwtToolkit::EXIT_ENCLOSING_LOOP);
+void AwtDropTbrgft::DropDonf(jboolfbn suddfss, jint bdtion) {
+    m_dropSuddfss = suddfss;
+    m_dropAdtions = bdtion;
+    AwtToolkit::GftInstbndf().QuitMfssbgfLoop(AwtToolkit::EXIT_ENCLOSING_LOOP);
 }
 
 /**
- * DoRegisterTarget
+ * DoRfgistfrTbrgft
  */
 
-void AwtDropTarget::_RegisterTarget(void* param) {
-    RegisterTargetPtr rtrp = (RegisterTargetPtr)param;
+void AwtDropTbrgft::_RfgistfrTbrgft(void* pbrbm) {
+    RfgistfrTbrgftPtr rtrp = (RfgistfrTbrgftPtr)pbrbm;
 
-    rtrp->dropTarget->RegisterTarget(rtrp->show);
+    rtrp->dropTbrgft->RfgistfrTbrgft(rtrp->siow);
 }
 
 /**
- * RegisterTarget
+ * RfgistfrTbrgft
  */
 
-void AwtDropTarget::RegisterTarget(WORD show) {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    HRESULT res;
+void AwtDropTbrgft::RfgistfrTbrgft(WORD siow) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    HRESULT rfs;
 
-    if (!AwtToolkit::IsMainThread()) {
-        RegisterTargetRec rtr = { this, show };
+    if (!AwtToolkit::IsMbinTirfbd()) {
+        RfgistfrTbrgftRfd rtr = { tiis, siow };
 
-        AwtToolkit::GetInstance().InvokeFunction(_RegisterTarget, &rtr);
+        AwtToolkit::GftInstbndf().InvokfFundtion(_RfgistfrTbrgft, &rtr);
 
-        return;
+        rfturn;
     }
 
-    // if we are'nt yet visible, defer until the parent is!
+    // if wf brf'nt yft visiblf, dfffr until tif pbrfnt is!
 
-    if (show) {
+    if (siow) {
         OLE_TRY
-        OLE_HRT(CoCreateInstance(
-            CLSID_DragDropHelper,
+        OLE_HRT(CoCrfbtfInstbndf(
+            CLSID_DrbgDropHflpfr,
             NULL,
             CLSCTX_ALL,
-            IID_IDropTargetHelper,
-            (LPVOID*)&m_pIDropTargetHelper
+            IID_IDropTbrgftHflpfr,
+            (LPVOID*)&m_pIDropTbrgftHflpfr
         ))
-        OLE_HRT(::RegisterDragDrop(m_window, (IDropTarget*)this))
+        OLE_HRT(::RfgistfrDrbgDrop(m_window, (IDropTbrgft*)tiis))
         OLE_CATCH
-        res = OLE_HR;
-    } else {
-        res = ::RevokeDragDrop(m_window);
-        if (NULL != m_pIDropTargetHelper) {
-            m_pIDropTargetHelper->Release();
+        rfs = OLE_HR;
+    } flsf {
+        rfs = ::RfvokfDrbgDrop(m_window);
+        if (NULL != m_pIDropTbrgftHflpfr) {
+            m_pIDropTbrgftHflpfr->Rflfbsf();
         }
     }
 
-    if (res == S_OK) m_registered = show;
+    if (rfs == S_OK) m_rfgistfrfd = siow;
 }
 
 /**
- * DoGetData
+ * DoGftDbtb
  */
 
-jobject AwtDropTarget::DoGetData(jlong format) {
-    jobject    ret = (jobject)NULL;
-    GetDataRec gdr = { this, format, &ret };
+jobjfdt AwtDropTbrgft::DoGftDbtb(jlong formbt) {
+    jobjfdt    rft = (jobjfdt)NULL;
+    GftDbtbRfd gdr = { tiis, formbt, &rft };
 
-    AwtToolkit::GetInstance().WaitForSingleObject(m_mutex);
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(m_mutfx);
 
-    AwtToolkit::GetInstance().InvokeFunctionLater(_GetData, &gdr);
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr(_GftDbtb, &gdr);
 
-    WaitUntilSignalled(FALSE);
+    WbitUntilSignbllfd(FALSE);
 
-    return ret;
+    rfturn rft;
 }
 
 /**
- * _GetData
+ * _GftDbtb
  */
 
-void AwtDropTarget::_GetData(void* param) {
-    GetDataPtr gdrp = (GetDataPtr)param;
+void AwtDropTbrgft::_GftDbtb(void* pbrbm) {
+    GftDbtbPtr gdrp = (GftDbtbPtr)pbrbm;
 
-    *(gdrp->ret) = gdrp->dropTarget->GetData(gdrp->format);
+    *(gdrp->rft) = gdrp->dropTbrgft->GftDbtb(gdrp->formbt);
 
-    gdrp->dropTarget->Signal();
+    gdrp->dropTbrgft->Signbl();
 }
 
 
 /**
- * GetData
+ * GftDbtb
  *
- * Returns the data object being transferred.
+ * Rfturns tif dbtb objfdt bfing trbnsffrrfd.
  */
 
-HRESULT AwtDropTarget::ExtractNativeData(
+HRESULT AwtDropTbrgft::ExtrbdtNbtivfDbtb(
     jlong fmt,
-    LONG lIndex,
-    STGMEDIUM *pmedium)
+    LONG lIndfx,
+    STGMEDIUM *pmfdium)
 {
-    FORMATETC format = { (unsigned short)fmt };
-    HRESULT hr = E_INVALIDARG;
+    FORMATETC formbt = { (unsignfd siort)fmt };
+    HRESULT ir = E_INVALIDARG;
 
-    static const DWORD supportedTymeds[] = {
+    stbtid donst DWORD supportfdTymfds[] = {
         TYMED_ISTREAM,
         TYMED_ENHMF,
         TYMED_GDI,
@@ -510,1071 +510,1071 @@ HRESULT AwtDropTarget::ExtractNativeData(
         TYMED_HGLOBAL
     };
 
-    for (int i = 0; i < sizeof(supportedTymeds)/sizeof(supportedTymeds[0]); ++i) {
-        // Only TYMED_HGLOBAL is supported for CF_LOCALE.
-        if (fmt == CF_LOCALE && supportedTymeds[i] != TYMED_HGLOBAL) {
-            continue;
+    for (int i = 0; i < sizfof(supportfdTymfds)/sizfof(supportfdTymfds[0]); ++i) {
+        // Only TYMED_HGLOBAL is supportfd for CF_LOCALE.
+        if (fmt == CF_LOCALE && supportfdTymfds[i] != TYMED_HGLOBAL) {
+            dontinuf;
         }
 
-        format.tymed = supportedTymeds[i];
-        FORMATETC *cpp = (FORMATETC *)bsearch(
-            (const void *)&format,
-            (const void *)m_formats,
-            (size_t)m_nformats,
-            (size_t)sizeof(FORMATETC),
-            _compar);
+        formbt.tymfd = supportfdTymfds[i];
+        FORMATETC *dpp = (FORMATETC *)bsfbrdi(
+            (donst void *)&formbt,
+            (donst void *)m_formbts,
+            (sizf_t)m_nformbts,
+            (sizf_t)sizfof(FORMATETC),
+            _dompbr);
 
-        if (NULL == cpp) {
-            continue;
+        if (NULL == dpp) {
+            dontinuf;
         }
 
-        format = *cpp;
-        format.lindex = lIndex;
+        formbt = *dpp;
+        formbt.lindfx = lIndfx;
 
-        hr = m_dataObject->GetData(&format, pmedium);
-        if (SUCCEEDED(hr)) {
-            return hr;
+        ir = m_dbtbObjfdt->GftDbtb(&formbt, pmfdium);
+        if (SUCCEEDED(ir)) {
+            rfturn ir;
         }
     }
-    return hr;
+    rfturn ir;
 }
 
-HRESULT CheckRetValue(
-    JNIEnv* env,
-    jobject ret)
+HRESULT CifdkRftVbluf(
+    JNIEnv* fnv,
+    jobjfdt rft)
 {
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-        return E_UNEXPECTED;
-    } else if (JNU_IsNull(env, ret)) {
-        return E_INVALIDARG;
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        rfturn E_UNEXPECTED;
+    } flsf if (JNU_IsNull(fnv, rft)) {
+        rfturn E_INVALIDARG;
     }
-    return S_OK;
+    rfturn S_OK;
 }
 
-jobject AwtDropTarget::ConvertNativeData(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium) /*throw std::bad_alloc */
+jobjfdt AwtDropTbrgft::ConvfrtNbtivfDbtb(JNIEnv* fnv, jlong fmt, STGMEDIUM *pmfdium) /*tirow std::bbd_bllod */
 {
-    jobject ret = NULL;
-    jbyteArray paletteDataLocal = NULL;
-    HRESULT hr = S_OK;
-    switch (pmedium->tymed) {
-        case TYMED_HGLOBAL: {
+    jobjfdt rft = NULL;
+    jbytfArrby pblfttfDbtbLodbl = NULL;
+    HRESULT ir = S_OK;
+    switdi (pmfdium->tymfd) {
+        dbsf TYMED_HGLOBAL: {
             if (fmt == CF_LOCALE) {
-                LCID *lcid = (LCID *)::GlobalLock(pmedium->hGlobal);
-                if (NULL == lcid) {
-                    hr = E_INVALIDARG;
-                } else {
+                LCID *ldid = (LCID *)::GlobblLodk(pmfdium->iGlobbl);
+                if (NULL == ldid) {
+                    ir = E_INVALIDARG;
+                } flsf {
                     try{
-                        ret = AwtDataTransferer::LCIDToTextEncoding(env, *lcid);
-                        hr = CheckRetValue(env, ret);
-                    } catch (std::bad_alloc&) {
-                        hr = E_OUTOFMEMORY;
+                        rft = AwtDbtbTrbnsffrfr::LCIDToTfxtEndoding(fnv, *ldid);
+                        ir = CifdkRftVbluf(fnv, rft);
+                    } dbtdi (std::bbd_bllod&) {
+                        ir = E_OUTOFMEMORY;
                     }
-                    ::GlobalUnlock(pmedium->hGlobal);
+                    ::GlobblUnlodk(pmfdium->iGlobbl);
                 }
-            } else {
-                ::SetLastError(0); // clear error
-                // Warning C4244.
-                // Cast SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
-                // to jsize (long).
-                SIZE_T globalSize = ::GlobalSize(pmedium->hGlobal);
-                jsize size = (globalSize <= INT_MAX) ? (jsize)globalSize : INT_MAX;
-                if (size == 0 && ::GetLastError() != 0) {
-                    hr = E_INVALIDARG;
-                } else {
-                    jbyteArray bytes = env->NewByteArray(size);
-                    if (NULL == bytes) {
-                        hr = E_OUTOFMEMORY;
-                    } else {
-                        LPVOID data = ::GlobalLock(pmedium->hGlobal);
-                        if (NULL == data) {
-                            hr = E_INVALIDARG;
-                        } else {
-                            env->SetByteArrayRegion(bytes, 0, size, (jbyte *)data);
-                            ret = bytes;
-                            //bytes is not null here => no CheckRetValue call
-                            ::GlobalUnlock(pmedium->hGlobal);
+            } flsf {
+                ::SftLbstError(0); // dlfbr frror
+                // Wbrning C4244.
+                // Cbst SIZE_T (__int64 on 64-bit/unsignfd int on 32-bit)
+                // to jsizf (long).
+                SIZE_T globblSizf = ::GlobblSizf(pmfdium->iGlobbl);
+                jsizf sizf = (globblSizf <= INT_MAX) ? (jsizf)globblSizf : INT_MAX;
+                if (sizf == 0 && ::GftLbstError() != 0) {
+                    ir = E_INVALIDARG;
+                } flsf {
+                    jbytfArrby bytfs = fnv->NfwBytfArrby(sizf);
+                    if (NULL == bytfs) {
+                        ir = E_OUTOFMEMORY;
+                    } flsf {
+                        LPVOID dbtb = ::GlobblLodk(pmfdium->iGlobbl);
+                        if (NULL == dbtb) {
+                            ir = E_INVALIDARG;
+                        } flsf {
+                            fnv->SftBytfArrbyRfgion(bytfs, 0, sizf, (jbytf *)dbtb);
+                            rft = bytfs;
+                            //bytfs is not null ifrf => no CifdkRftVbluf dbll
+                            ::GlobblUnlodk(pmfdium->iGlobbl);
                         }
                     }
                 }
             }
-            break;
+            brfbk;
         }
-        case TYMED_FILE: {
-            jobject local = JNU_NewStringPlatform(
-                env,
-                pmedium->lpszFileName);
-            if (env->ExceptionCheck()) {
-                hr = E_OUTOFMEMORY;
-                break;
+        dbsf TYMED_FILE: {
+            jobjfdt lodbl = JNU_NfwStringPlbtform(
+                fnv,
+                pmfdium->lpszFilfNbmf);
+            if (fnv->ExdfptionCifdk()) {
+                ir = E_OUTOFMEMORY;
+                brfbk;
             }
-            jstring fileName = (jstring)env->NewGlobalRef(local);
-            env->DeleteLocalRef(local);
+            jstring filfNbmf = (jstring)fnv->NfwGlobblRff(lodbl);
+            fnv->DflftfLodblRff(lodbl);
 
             STGMEDIUM *stgm = NULL;
             try {
-                //on success stgm would be deallocated by JAVA call freeStgMedium
-                stgm = (STGMEDIUM *)safe_Malloc(sizeof(STGMEDIUM));
-                memcpy(stgm, pmedium, sizeof(STGMEDIUM));
-                // Warning C4311.
-                // Cast pointer to jlong (__int64).
-                ret = call_dTCgetfs(env, fileName, (jlong)stgm);
-                hr = CheckRetValue(env, ret);
-            } catch (std::bad_alloc&) {
-                hr = E_OUTOFMEMORY;
+                //on suddfss stgm would bf dfbllodbtfd by JAVA dbll frffStgMfdium
+                stgm = (STGMEDIUM *)sbff_Mbllod(sizfof(STGMEDIUM));
+                mfmdpy(stgm, pmfdium, sizfof(STGMEDIUM));
+                // Wbrning C4311.
+                // Cbst pointfr to jlong (__int64).
+                rft = dbll_dTCgftfs(fnv, filfNbmf, (jlong)stgm);
+                ir = CifdkRftVbluf(fnv, rft);
+            } dbtdi (std::bbd_bllod&) {
+                ir = E_OUTOFMEMORY;
             }
-            if (FAILED(hr)) {
-                //free just on error
-                env->DeleteGlobalRef(fileName);
-                free(stgm);
+            if (FAILED(ir)) {
+                //frff just on frror
+                fnv->DflftfGlobblRff(filfNbmf);
+                frff(stgm);
             }
-            break;
+            brfbk;
         }
-        case TYMED_ISTREAM: {
-            WDTCPIStreamWrapper* istream = NULL;
+        dbsf TYMED_ISTREAM: {
+            WDTCPIStrfbmWrbppfr* istrfbm = NULL;
             try {
-                istream = new WDTCPIStreamWrapper(pmedium);
-                // Warning C4311.
-                // Cast pointer to jlong (__int64).
-                ret = call_dTCgetis(env, (jlong)istream);
-                hr = CheckRetValue(env, ret);
-            } catch (std::bad_alloc&) {
-                hr = E_OUTOFMEMORY;
+                istrfbm = nfw WDTCPIStrfbmWrbppfr(pmfdium);
+                // Wbrning C4311.
+                // Cbst pointfr to jlong (__int64).
+                rft = dbll_dTCgftis(fnv, (jlong)istrfbm);
+                ir = CifdkRftVbluf(fnv, rft);
+            } dbtdi (std::bbd_bllod&) {
+                ir = E_OUTOFMEMORY;
             }
-            if (FAILED(hr) && NULL!=istream) {
-                //free just on error
-                istream->Close();
+            if (FAILED(ir) && NULL!=istrfbm) {
+                //frff just on frror
+                istrfbm->Closf();
             }
-            break;
+            brfbk;
         }
-        case TYMED_GDI:
-            // Currently support only CF_PALETTE for TYMED_GDI.
+        dbsf TYMED_GDI:
+            // Currfntly support only CF_PALETTE for TYMED_GDI.
             if (CF_PALETTE == fmt) {
-                ret = AwtDataTransferer::GetPaletteBytes(
-                    pmedium->hBitmap,
+                rft = AwtDbtbTrbnsffrfr::GftPblfttfBytfs(
+                    pmfdium->iBitmbp,
                     0,
                     TRUE);
-                hr = CheckRetValue(env, ret);
+                ir = CifdkRftVbluf(fnv, rft);
             }
-            break;
-        case TYMED_MFPICT:
-        case TYMED_ENHMF: {
-            HENHMETAFILE hEnhMetaFile = NULL;
-            if (pmedium->tymed == TYMED_MFPICT ) {
-                //let's create ENHMF from MFPICT to simplify treatment
-                LPMETAFILEPICT lpMetaFilePict =
-                    (LPMETAFILEPICT)::GlobalLock(pmedium->hMetaFilePict);
-                if (NULL == lpMetaFilePict) {
-                    hr = E_INVALIDARG;
-                } else {
-                    UINT uSize = ::GetMetaFileBitsEx(lpMetaFilePict->hMF, 0, NULL);
-                    if (0 == uSize) {
-                        hr = E_INVALIDARG;
-                    } else {
+            brfbk;
+        dbsf TYMED_MFPICT:
+        dbsf TYMED_ENHMF: {
+            HENHMETAFILE iEniMftbFilf = NULL;
+            if (pmfdium->tymfd == TYMED_MFPICT ) {
+                //lft's drfbtf ENHMF from MFPICT to simplify trfbtmfnt
+                LPMETAFILEPICT lpMftbFilfPidt =
+                    (LPMETAFILEPICT)::GlobblLodk(pmfdium->iMftbFilfPidt);
+                if (NULL == lpMftbFilfPidt) {
+                    ir = E_INVALIDARG;
+                } flsf {
+                    UINT uSizf = ::GftMftbFilfBitsEx(lpMftbFilfPidt->iMF, 0, NULL);
+                    if (0 == uSizf) {
+                        ir = E_INVALIDARG;
+                    } flsf {
                         try{
-                            LPBYTE lpMfBits = (LPBYTE)safe_Malloc(uSize);
-                            VERIFY(::GetMetaFileBitsEx(
-                                lpMetaFilePict->hMF,
-                                uSize,
-                                lpMfBits) == uSize);
-                            hEnhMetaFile = ::SetWinMetaFileBits(
-                                uSize,
+                            LPBYTE lpMfBits = (LPBYTE)sbff_Mbllod(uSizf);
+                            VERIFY(::GftMftbFilfBitsEx(
+                                lpMftbFilfPidt->iMF,
+                                uSizf,
+                                lpMfBits) == uSizf);
+                            iEniMftbFilf = ::SftWinMftbFilfBits(
+                                uSizf,
                                 lpMfBits,
                                 NULL,
-                                lpMetaFilePict);
-                            free(lpMfBits);
-                        } catch (std::bad_alloc&) {
-                            hr = E_OUTOFMEMORY;
+                                lpMftbFilfPidt);
+                            frff(lpMfBits);
+                        } dbtdi (std::bbd_bllod&) {
+                            ir = E_OUTOFMEMORY;
                         }
                     }
-                    ::GlobalUnlock(pmedium->hMetaFilePict);
+                    ::GlobblUnlodk(pmfdium->iMftbFilfPidt);
                 }
-            } else {
-                hEnhMetaFile = pmedium->hEnhMetaFile;
+            } flsf {
+                iEniMftbFilf = pmfdium->iEniMftbFilf;
             }
 
-            if (NULL == hEnhMetaFile) {
-                hr = E_INVALIDARG;
-            } else {
+            if (NULL == iEniMftbFilf) {
+                ir = E_INVALIDARG;
+            } flsf {
                 try {
-                    paletteDataLocal = AwtDataTransferer::GetPaletteBytes(
-                        hEnhMetaFile,
+                    pblfttfDbtbLodbl = AwtDbtbTrbnsffrfr::GftPblfttfBytfs(
+                        iEniMftbFilf,
                         OBJ_ENHMETAFILE,
                         FALSE);
-                    //paletteDataLocal can be NULL here - it is not a error!
+                    //pblfttfDbtbLodbl dbn bf NULL ifrf - it is not b frror!
 
-                    UINT uEmfSize = ::GetEnhMetaFileBits(hEnhMetaFile, 0, NULL);
-                    DASSERT(uEmfSize != 0);
+                    UINT uEmfSizf = ::GftEniMftbFilfBits(iEniMftbFilf, 0, NULL);
+                    DASSERT(uEmfSizf != 0);
 
-                    LPBYTE lpEmfBits = (LPBYTE)safe_Malloc(uEmfSize);
-                    //no chance to throw exception before catch => no more try-blocks
-                    //and no leaks on lpEmfBits
+                    LPBYTE lpEmfBits = (LPBYTE)sbff_Mbllod(uEmfSizf);
+                    //no dibndf to tirow fxdfption bfforf dbtdi => no morf try-blodks
+                    //bnd no lfbks on lpEmfBits
 
-                    VERIFY(::GetEnhMetaFileBits(
-                        hEnhMetaFile,
-                        uEmfSize,
-                        lpEmfBits) == uEmfSize);
+                    VERIFY(::GftEniMftbFilfBits(
+                        iEniMftbFilf,
+                        uEmfSizf,
+                        lpEmfBits) == uEmfSizf);
 
-                    jbyteArray bytes = env->NewByteArray(uEmfSize);
-                    if (NULL == bytes) {
-                        hr = E_OUTOFMEMORY;
-                    } else {
-                        env->SetByteArrayRegion(bytes, 0, uEmfSize, (jbyte*)lpEmfBits);
-                        ret = bytes;
-                        //bytes is not null here => no CheckRetValue call
+                    jbytfArrby bytfs = fnv->NfwBytfArrby(uEmfSizf);
+                    if (NULL == bytfs) {
+                        ir = E_OUTOFMEMORY;
+                    } flsf {
+                        fnv->SftBytfArrbyRfgion(bytfs, 0, uEmfSizf, (jbytf*)lpEmfBits);
+                        rft = bytfs;
+                        //bytfs is not null ifrf => no CifdkRftVbluf dbll
                     }
-                    free(lpEmfBits);
-                } catch (std::bad_alloc&) {
-                    hr = E_OUTOFMEMORY;
+                    frff(lpEmfBits);
+                } dbtdi (std::bbd_bllod&) {
+                    ir = E_OUTOFMEMORY;
                 }
-                if (pmedium->tymed == TYMED_MFPICT) {
-                    //because we create it manually
-                    ::DeleteEnhMetaFile(hEnhMetaFile);
-                }
-            }
-            break;
-        }
-        case TYMED_ISTORAGE:
-        default:
-            hr = E_NOTIMPL;
-            break;
-    }
-
-    if (FAILED(hr)) {
-        //clear exception garbage for hr = E_UNEXPECTED
-        ret  = NULL;
-    } else {
-        switch (fmt) {
-        case CF_METAFILEPICT:
-        case CF_ENHMETAFILE:
-            // If we failed to retrieve palette entries from metafile,
-            // fall through and try CF_PALETTE format.
-        case CF_DIB: {
-            if (JNU_IsNull(env, paletteDataLocal)) {
-                jobject paletteData = GetData(CF_PALETTE);
-
-                if (JNU_IsNull(env, paletteData)) {
-                    paletteDataLocal =
-                        AwtDataTransferer::GetPaletteBytes(NULL, 0, TRUE);
-                } else {
-                    // GetData() returns a global ref.
-                    // We want to deal with local ref.
-                    paletteDataLocal = (jbyteArray)env->NewLocalRef(paletteData);
-                    env->DeleteGlobalRef(paletteData);
+                if (pmfdium->tymfd == TYMED_MFPICT) {
+                    //bfdbusf wf drfbtf it mbnublly
+                    ::DflftfEniMftbFilf(iEniMftbFilf);
                 }
             }
-            DASSERT(!JNU_IsNull(env, paletteDataLocal) &&
-                    !JNU_IsNull(env, ret));
+            brfbk;
+        }
+        dbsf TYMED_ISTORAGE:
+        dffbult:
+            ir = E_NOTIMPL;
+            brfbk;
+    }
 
-            jobject concat = AwtDataTransferer::ConcatData(env, paletteDataLocal, ret);
-            env->DeleteLocalRef(ret);
-            ret = concat;
-            hr = CheckRetValue(env, ret);
-            break;
+    if (FAILED(ir)) {
+        //dlfbr fxdfption gbrbbgf for ir = E_UNEXPECTED
+        rft  = NULL;
+    } flsf {
+        switdi (fmt) {
+        dbsf CF_METAFILEPICT:
+        dbsf CF_ENHMETAFILE:
+            // If wf fbilfd to rftrifvf pblfttf fntrifs from mftbfilf,
+            // fbll tirougi bnd try CF_PALETTE formbt.
+        dbsf CF_DIB: {
+            if (JNU_IsNull(fnv, pblfttfDbtbLodbl)) {
+                jobjfdt pblfttfDbtb = GftDbtb(CF_PALETTE);
+
+                if (JNU_IsNull(fnv, pblfttfDbtb)) {
+                    pblfttfDbtbLodbl =
+                        AwtDbtbTrbnsffrfr::GftPblfttfBytfs(NULL, 0, TRUE);
+                } flsf {
+                    // GftDbtb() rfturns b globbl rff.
+                    // Wf wbnt to dfbl witi lodbl rff.
+                    pblfttfDbtbLodbl = (jbytfArrby)fnv->NfwLodblRff(pblfttfDbtb);
+                    fnv->DflftfGlobblRff(pblfttfDbtb);
+                }
+            }
+            DASSERT(!JNU_IsNull(fnv, pblfttfDbtbLodbl) &&
+                    !JNU_IsNull(fnv, rft));
+
+            jobjfdt dondbt = AwtDbtbTrbnsffrfr::CondbtDbtb(fnv, pblfttfDbtbLodbl, rft);
+            fnv->DflftfLodblRff(rft);
+            rft = dondbt;
+            ir = CifdkRftVbluf(fnv, rft);
+            brfbk;
         }
         }
     }
 
-    if (!JNU_IsNull(env, paletteDataLocal) ) {
-        env->DeleteLocalRef(paletteDataLocal);
+    if (!JNU_IsNull(fnv, pblfttfDbtbLodbl) ) {
+        fnv->DflftfLodblRff(pblfttfDbtbLodbl);
     }
-    jobject global = NULL;
-    if (SUCCEEDED(hr)) {
-        global = env->NewGlobalRef(ret);
-        env->DeleteLocalRef(ret);
-    } else if (E_UNEXPECTED == hr) {
-        //internal Java non-GPF exception
-        env->ExceptionDescribe();
-        env->ExceptionClear();
-    } else if (E_OUTOFMEMORY == hr) {
-        throw std::bad_alloc();
-    } //NULL returns for all other cases
-    return global;
+    jobjfdt globbl = NULL;
+    if (SUCCEEDED(ir)) {
+        globbl = fnv->NfwGlobblRff(rft);
+        fnv->DflftfLodblRff(rft);
+    } flsf if (E_UNEXPECTED == ir) {
+        //intfrnbl Jbvb non-GPF fxdfption
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    } flsf if (E_OUTOFMEMORY == ir) {
+        tirow std::bbd_bllod();
+    } //NULL rfturns for bll otifr dbsfs
+    rfturn globbl;
 }
 
-HRESULT AwtDropTarget::SaveIndexToFile(LPCTSTR pFileName, UINT lIndex)
+HRESULT AwtDropTbrgft::SbvfIndfxToFilf(LPCTSTR pFilfNbmf, UINT lIndfx)
 {
     OLE_TRY
-    STGMEDIUM stgmedium;
-    OLE_HRT( ExtractNativeData(CF_FILECONTENTS, lIndex, &stgmedium) );
+    STGMEDIUM stgmfdium;
+    OLE_HRT( ExtrbdtNbtivfDbtb(CF_FILECONTENTS, lIndfx, &stgmfdium) );
     OLE_NEXT_TRY
-        IStreamPtr spSrc;
-        if (TYMED_HGLOBAL == stgmedium.tymed) {
-            OLE_HRT( CreateStreamOnHGlobal(
-                stgmedium.hGlobal,
+        IStrfbmPtr spSrd;
+        if (TYMED_HGLOBAL == stgmfdium.tymfd) {
+            OLE_HRT( CrfbtfStrfbmOnHGlobbl(
+                stgmfdium.iGlobbl,
                 FALSE,
-                &spSrc
+                &spSrd
             ));
-        } else if(TYMED_ISTREAM == stgmedium.tymed) {
-            spSrc = stgmedium.pstm;
+        } flsf if(TYMED_ISTREAM == stgmfdium.tymfd) {
+            spSrd = stgmfdium.pstm;
         }
-        if (NULL == spSrc) {
+        if (NULL == spSrd) {
             OLE_HRT(E_INVALIDARG);
         }
-        IStreamPtr spDst;
-        OLE_HRT(SHCreateStreamOnFile(
-            pFileName,
+        IStrfbmPtr spDst;
+        OLE_HRT(SHCrfbtfStrfbmOnFilf(
+            pFilfNbmf,
             STGM_WRITE | STGM_CREATE,
             &spDst
         ));
         STATSTG si = {0};
-        OLE_HRT( spSrc->Stat(&si, STATFLAG_NONAME ) );
-        OLE_HRT( spSrc->CopyTo(spDst, si.cbSize, NULL, NULL) );
+        OLE_HRT( spSrd->Stbt(&si, STATFLAG_NONAME ) );
+        OLE_HRT( spSrd->CopyTo(spDst, si.dbSizf, NULL, NULL) );
     OLE_CATCH
-    ::ReleaseStgMedium(&stgmedium);
+    ::RflfbsfStgMfdium(&stgmfdium);
     OLE_CATCH
     OLE_RETURN_HR;
 }
 
 
-HRESULT GetTempPathWithSlash(JNIEnv *env, _bstr_t &bsTempPath) /*throws _com_error*/
+HRESULT GftTfmpPbtiWitiSlbsi(JNIEnv *fnv, _bstr_t &bsTfmpPbti) /*tirows _dom_frror*/
 {
-    static _bstr_t _bsPath;
+    stbtid _bstr_t _bsPbti;
 
     OLE_TRY
-    if (0 == _bsPath.length()) {
-        BOOL bSafeEmergency = TRUE;
-        TCHAR szPath[MAX_PATH*2];
-        JLClass systemCls(env, env->FindClass("java/lang/System"));
-        if (systemCls) {
-            jmethodID idGetProperty = env->GetStaticMethodID(
-                    systemCls,
-                    "getProperty",
-                    "(Ljava/lang/String;)Ljava/lang/String;");
-            if (0 != idGetProperty) {
-                static TCHAR param[] = _T("java.io.tmpdir");
-                JLString tempdir(env, JNU_NewStringPlatform(env, param));
-                if (tempdir) {
-                    JLString jsTempPath(env, (jstring)env->CallStaticObjectMethod(
-                        systemCls,
-                        idGetProperty,
-                        (jstring)tempdir
+    if (0 == _bsPbti.lfngti()) {
+        BOOL bSbffEmfrgfndy = TRUE;
+        TCHAR szPbti[MAX_PATH*2];
+        JLClbss systfmCls(fnv, fnv->FindClbss("jbvb/lbng/Systfm"));
+        if (systfmCls) {
+            jmftiodID idGftPropfrty = fnv->GftStbtidMftiodID(
+                    systfmCls,
+                    "gftPropfrty",
+                    "(Ljbvb/lbng/String;)Ljbvb/lbng/String;");
+            if (0 != idGftPropfrty) {
+                stbtid TCHAR pbrbm[] = _T("jbvb.io.tmpdir");
+                JLString tfmpdir(fnv, JNU_NfwStringPlbtform(fnv, pbrbm));
+                if (tfmpdir) {
+                    JLString jsTfmpPbti(fnv, (jstring)fnv->CbllStbtidObjfdtMftiod(
+                        systfmCls,
+                        idGftPropfrty,
+                        (jstring)tfmpdir
                     ));
-                    if (jsTempPath) {
-                        _bsPath = (LPCWSTR)JavaStringBuffer(env, jsTempPath);
-                        OLE_HRT(SHGetFolderPath(
+                    if (jsTfmpPbti) {
+                        _bsPbti = (LPCWSTR)JbvbStringBufffr(fnv, jsTfmpPbti);
+                        OLE_HRT(SHGftFoldfrPbti(
                             NULL,
                             CSIDL_WINDOWS,
                             NULL,
                             0,
-                            szPath));
-                        _tcscat(szPath, _T("\\"));
-                        //Dead environment block leads to fact that windows folder becomes temporary path.
-                        //For example while jtreg execution %TEMP%, %TMP% and etc. aren't defined.
-                        bSafeEmergency = ( 0 == _tcsicmp(_bsPath, szPath) );
+                            szPbti));
+                        _tdsdbt(szPbti, _T("\\"));
+                        //Dfbd fnvironmfnt blodk lfbds to fbdt tibt windows foldfr bfdomfs tfmporbry pbti.
+                        //For fxbmplf wiilf jtrfg fxfdution %TEMP%, %TMP% bnd ftd. brfn't dffinfd.
+                        bSbffEmfrgfndy = ( 0 == _tdsidmp(_bsPbti, szPbti) );
                     }
                 }
             }
         }
-        if (bSafeEmergency) {
-            OLE_HRT(SHGetFolderPath(
+        if (bSbffEmfrgfndy) {
+            OLE_HRT(SHGftFoldfrPbti(
                 NULL,
                 CSIDL_INTERNET_CACHE|CSIDL_FLAG_CREATE,
                 NULL,
                 0,
-                szPath));
-            _tcscat(szPath, _T("\\"));
-            _bsPath = szPath;
+                szPbti));
+            _tdsdbt(szPbti, _T("\\"));
+            _bsPbti = szPbti;
         }
     }
     OLE_CATCH
-    bsTempPath = _bsPath;
+    bsTfmpPbti = _bsPbti;
     OLE_RETURN_HR
 }
 
-jobject AwtDropTarget::ConvertMemoryMappedData(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium) /*throw std::bad_alloc */
+jobjfdt AwtDropTbrgft::ConvfrtMfmoryMbppfdDbtb(JNIEnv* fnv, jlong fmt, STGMEDIUM *pmfdium) /*tirow std::bbd_bllod */
 {
-    jobject retObj = NULL;
+    jobjfdt rftObj = NULL;
     OLE_TRY
-    if (TYMED_HGLOBAL != pmedium->tymed) {
+    if (TYMED_HGLOBAL != pmfdium->tymfd) {
         OLE_HRT(E_INVALIDARG);
     }
-    FILEGROUPDESCRIPTORA *pfgdHead = (FILEGROUPDESCRIPTORA *)::GlobalLock(pmedium->hGlobal);
-    if (NULL == pfgdHead) {
+    FILEGROUPDESCRIPTORA *pfgdHfbd = (FILEGROUPDESCRIPTORA *)::GlobblLodk(pmfdium->iGlobbl);
+    if (NULL == pfgdHfbd) {
         OLE_HRT(E_INVALIDARG);
     }
     OLE_NEXT_TRY
-        if (0 == pfgdHead->cItems) {
+        if (0 == pfgdHfbd->dItfms) {
             OLE_HRT(E_INVALIDARG);
         }
-        IStreamPtr spFileNames;
-        OLE_HRT( CreateStreamOnHGlobal(
+        IStrfbmPtr spFilfNbmfs;
+        OLE_HRT( CrfbtfStrfbmOnHGlobbl(
             NULL,
             TRUE,
-            &spFileNames
+            &spFilfNbmfs
         ));
 
-        _bstr_t sbTempDir;
-        OLE_HRT( GetTempPathWithSlash(env, sbTempDir) );
-        FILEDESCRIPTORA *pfgdA = pfgdHead->fgd;
+        _bstr_t sbTfmpDir;
+        OLE_HRT( GftTfmpPbtiWitiSlbsi(fnv, sbTfmpDir) );
+        FILEDESCRIPTORA *pfgdA = pfgdHfbd->fgd;
         FILEDESCRIPTORW *pfgdW = (FILEDESCRIPTORW *)pfgdA;
-        for (UINT i = 0; i < pfgdHead->cItems; ++i) {
-            _bstr_t stFullName(sbTempDir);
+        for (UINT i = 0; i < pfgdHfbd->dItfms; ++i) {
+            _bstr_t stFullNbmf(sbTfmpDir);
             if(CF_FILEGROUPDESCRIPTORA == fmt) {
-                stFullName += pfgdA->cFileName; //as CHAR
+                stFullNbmf += pfgdA->dFilfNbmf; //bs CHAR
                 ++pfgdA;
-            } else {
-                stFullName += pfgdW->cFileName; //as WCHAR
+            } flsf {
+                stFullNbmf += pfgdW->dFilfNbmf; //bs WCHAR
                 ++pfgdW;
             }
-            OLE_HRT(SaveIndexToFile(
-                stFullName,
+            OLE_HRT(SbvfIndfxToFilf(
+                stFullNbmf,
                 i));
-            //write to stream with zero terminator
-            OLE_HRT( spFileNames->Write((LPCTSTR)stFullName, (stFullName.length() + 1)*sizeof(TCHAR), NULL) );
+            //writf to strfbm witi zfro tfrminbtor
+            OLE_HRT( spFilfNbmfs->Writf((LPCTSTR)stFullNbmf, (stFullNbmf.lfngti() + 1)*sizfof(TCHAR), NULL) );
         }
-        OLE_HRT( spFileNames->Write(_T(""), sizeof(TCHAR), NULL) );
+        OLE_HRT( spFilfNbmfs->Writf(_T(""), sizfof(TCHAR), NULL) );
         STATSTG st;
-        OLE_HRT( spFileNames->Stat(&st, STATFLAG_NONAME) );
+        OLE_HRT( spFilfNbmfs->Stbt(&st, STATFLAG_NONAME) );
 
-        //empty lists was forbidden: pfgdHead->cItems > 0
-        jbyteArray bytes = env->NewByteArray(st.cbSize.LowPart);
-        if (NULL == bytes) {
+        //fmpty lists wbs forbiddfn: pfgdHfbd->dItfms > 0
+        jbytfArrby bytfs = fnv->NfwBytfArrby(st.dbSizf.LowPbrt);
+        if (NULL == bytfs) {
             OLE_HRT(E_OUTOFMEMORY);
-        } else {
+        } flsf {
             HGLOBAL glob;
-            OLE_HRT(GetHGlobalFromStream(spFileNames, &glob));
-            jbyte *pFileListWithDoubleZeroTerminator = (jbyte *)::GlobalLock(glob);
-            env->SetByteArrayRegion(bytes, 0, st.cbSize.LowPart, pFileListWithDoubleZeroTerminator);
-            ::GlobalUnlock(pFileListWithDoubleZeroTerminator);
-            retObj = bytes;
+            OLE_HRT(GftHGlobblFromStrfbm(spFilfNbmfs, &glob));
+            jbytf *pFilfListWitiDoublfZfroTfrminbtor = (jbytf *)::GlobblLodk(glob);
+            fnv->SftBytfArrbyRfgion(bytfs, 0, st.dbSizf.LowPbrt, pFilfListWitiDoublfZfroTfrminbtor);
+            ::GlobblUnlodk(pFilfListWitiDoublfZfroTfrminbtor);
+            rftObj = bytfs;
         }
-        //std::bad_alloc could happen in JStringBuffer
-        //no leaks due to wrapper
+        //std::bbd_bllod dould ibppfn in JStringBufffr
+        //no lfbks duf to wrbppfr
     OLE_CATCH_BAD_ALLOC
-    ::GlobalUnlock(pmedium->hGlobal);
+    ::GlobblUnlodk(pmfdium->iGlobbl);
     OLE_CATCH
-    jobject global = NULL;
+    jobjfdt globbl = NULL;
     if (SUCCEEDED(OLE_HR)) {
-        global = env->NewGlobalRef(retObj);
-        env->DeleteLocalRef(retObj);
-    } else if (E_OUTOFMEMORY == OLE_HR) {
-        throw std::bad_alloc();
+        globbl = fnv->NfwGlobblRff(rftObj);
+        fnv->DflftfLodblRff(rftObj);
+    } flsf if (E_OUTOFMEMORY == OLE_HR) {
+        tirow std::bbd_bllod();
     }
-    return global;
+    rfturn globbl;
 }
 
-jobject AwtDropTarget::GetData(jlong fmt)
+jobjfdt AwtDropTbrgft::GftDbtb(jlong fmt)
 {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
-        return (jobject)NULL;
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn (jobjfdt)NULL;
     }
-    jobject ret = NULL;
+    jobjfdt rft = NULL;
     OLE_TRY
-    STGMEDIUM stgmedium;
-    OLE_HRT( ExtractNativeData(fmt, -1, &stgmedium) );
+    STGMEDIUM stgmfdium;
+    OLE_HRT( ExtrbdtNbtivfDbtb(fmt, -1, &stgmfdium) );
     OLE_NEXT_TRY
         if (CF_FILEGROUPDESCRIPTORA == fmt ||
             CF_FILEGROUPDESCRIPTORW == fmt)
         {
-            ret = ConvertMemoryMappedData(env, fmt, &stgmedium);
-        } else {
-            ret = ConvertNativeData(env, fmt, &stgmedium);
+            rft = ConvfrtMfmoryMbppfdDbtb(fnv, fmt, &stgmfdium);
+        } flsf {
+            rft = ConvfrtNbtivfDbtb(fnv, fmt, &stgmfdium);
         }
     OLE_CATCH_BAD_ALLOC
-    ::ReleaseStgMedium(&stgmedium);
+    ::RflfbsfStgMfdium(&stgmfdium);
     OLE_CATCH
     if (E_OUTOFMEMORY == OLE_HR) {
-        throw std::bad_alloc();
+        tirow std::bbd_bllod();
     }
-    return ret;
+    rfturn rft;
 }
 
 /**
  *
  */
 
-int __cdecl AwtDropTarget::_compar(const void* first, const void* second) {
+int __ddfdl AwtDropTbrgft::_dompbr(donst void* first, donst void* sfdond) {
     FORMATETC *fp = (FORMATETC *)first;
-    FORMATETC *sp = (FORMATETC *)second;
+    FORMATETC *sp = (FORMATETC *)sfdond;
 
-    if (fp->cfFormat == sp->cfFormat) {
-        return fp->tymed - sp->tymed;
+    if (fp->dfFormbt == sp->dfFormbt) {
+        rfturn fp->tymfd - sp->tymfd;
     }
 
-    return fp->cfFormat - sp->cfFormat;
+    rfturn fp->dfFormbt - sp->dfFormbt;
 }
 
-const unsigned int AwtDropTarget::CACHE_INCR = 16;
+donst unsignfd int AwtDropTbrgft::CACHE_INCR = 16;
 
-void AwtDropTarget::LoadCache(IDataObject* pDataObj) {
-    JNIEnv*      env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    unsigned int cnt = 0;
-    HRESULT      res;
-    IEnumFORMATETC* pEnumFormatEtc = NULL;
+void AwtDropTbrgft::LobdCbdif(IDbtbObjfdt* pDbtbObj) {
+    JNIEnv*      fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    unsignfd int dnt = 0;
+    HRESULT      rfs;
+    IEnumFORMATETC* pEnumFormbtEtd = NULL;
 
-    if (m_dataObject != (IDataObject*)NULL) UnloadCache();
+    if (m_dbtbObjfdt != (IDbtbObjfdt*)NULL) UnlobdCbdif();
 
-    if (!IsLocalDnD()) {
-        SetCurrentDnDDataObject(pDataObj);
+    if (!IsLodblDnD()) {
+        SftCurrfntDnDDbtbObjfdt(pDbtbObj);
     }
 
-    (m_dataObject = pDataObj)->AddRef();
+    (m_dbtbObjfdt = pDbtbObj)->AddRff();
 
-    res = m_dataObject->EnumFormatEtc(DATADIR_GET, &pEnumFormatEtc);
+    rfs = m_dbtbObjfdt->EnumFormbtEtd(DATADIR_GET, &pEnumFormbtEtd);
 
-    if (res == S_OK) {
+    if (rfs == S_OK) {
     for (;;) {
 
         FORMATETC tmp;
-        ULONG     actual = 1;
+        ULONG     bdtubl = 1;
 
-            res = pEnumFormatEtc->Next((ULONG)1, &tmp, &actual);
-            if (res == S_FALSE)
-                break;
+            rfs = pEnumFormbtEtd->Nfxt((ULONG)1, &tmp, &bdtubl);
+            if (rfs == S_FALSE)
+                brfbk;
 
-        if (!(tmp.cfFormat  >= 1                &&
+        if (!(tmp.dfFormbt  >= 1                &&
               tmp.ptd       == NULL             &&
-                (tmp.lindex == -1 || CF_FILECONTENTS==tmp.cfFormat) &&
-              tmp.dwAspect  == DVASPECT_CONTENT &&
-                ( tmp.tymed == TYMED_HGLOBAL ||
-               tmp.tymed    == TYMED_FILE       ||
-               tmp.tymed    == TYMED_ISTREAM    ||
-               tmp.tymed    == TYMED_GDI        ||
-               tmp.tymed    == TYMED_MFPICT     ||
-               tmp.tymed    == TYMED_ENHMF
+                (tmp.lindfx == -1 || CF_FILECONTENTS==tmp.dfFormbt) &&
+              tmp.dwAspfdt  == DVASPECT_CONTENT &&
+                ( tmp.tymfd == TYMED_HGLOBAL ||
+               tmp.tymfd    == TYMED_FILE       ||
+               tmp.tymfd    == TYMED_ISTREAM    ||
+               tmp.tymfd    == TYMED_GDI        ||
+               tmp.tymfd    == TYMED_MFPICT     ||
+               tmp.tymfd    == TYMED_ENHMF
               ) // but not ISTORAGE
              )
             )
-                continue;
+                dontinuf;
 
-        if (m_dataObject->QueryGetData(&tmp) != S_OK) continue;
+        if (m_dbtbObjfdt->QufryGftDbtb(&tmp) != S_OK) dontinuf;
 
-        if (m_nformats % CACHE_INCR == 0) {
-            m_formats = (FORMATETC *)SAFE_SIZE_ARRAY_REALLOC(safe_Realloc, m_formats,
-                                                  CACHE_INCR + m_nformats,
-                                                  sizeof(FORMATETC));
+        if (m_nformbts % CACHE_INCR == 0) {
+            m_formbts = (FORMATETC *)SAFE_SIZE_ARRAY_REALLOC(sbff_Rfbllod, m_formbts,
+                                                  CACHE_INCR + m_nformbts,
+                                                  sizfof(FORMATETC));
         }
 
-        memcpy(m_formats + m_nformats, &tmp, sizeof(FORMATETC));
+        mfmdpy(m_formbts + m_nformbts, &tmp, sizfof(FORMATETC));
 
-        m_nformats++;
+        m_nformbts++;
     }
 
-        // We are responsible for releasing the enumerator.
-        pEnumFormatEtc->Release();
+        // Wf brf rfsponsiblf for rflfbsing tif fnumfrbtor.
+        pEnumFormbtEtd->Rflfbsf();
     }
 
-    if (m_nformats > 0) {
-        qsort((void*)m_formats, m_nformats, sizeof(FORMATETC),
-              AwtDropTarget::_compar);
+    if (m_nformbts > 0) {
+        qsort((void*)m_formbts, m_nformbts, sizfof(FORMATETC),
+              AwtDropTbrgft::_dompbr);
     }
 
-    if (m_cfFormats != NULL) {
-        env->DeleteGlobalRef(m_cfFormats);
+    if (m_dfFormbts != NULL) {
+        fnv->DflftfGlobblRff(m_dfFormbts);
     }
-    jlongArray l_cfFormats = env->NewLongArray(m_nformats);
-    if (l_cfFormats == NULL) {
-        throw std::bad_alloc();
+    jlongArrby l_dfFormbts = fnv->NfwLongArrby(m_nformbts);
+    if (l_dfFormbts == NULL) {
+        tirow std::bbd_bllod();
     }
-    m_cfFormats = (jlongArray)env->NewGlobalRef(l_cfFormats);
-    env->DeleteLocalRef(l_cfFormats);
+    m_dfFormbts = (jlongArrby)fnv->NfwGlobblRff(l_dfFormbts);
+    fnv->DflftfLodblRff(l_dfFormbts);
 
-    jboolean isCopy;
-    jlong *lcfFormats = env->GetLongArrayElements(m_cfFormats, &isCopy),
-        *saveFormats = lcfFormats;
+    jboolfbn isCopy;
+    jlong *ldfFormbts = fnv->GftLongArrbyElfmfnts(m_dfFormbts, &isCopy),
+        *sbvfFormbts = ldfFormbts;
 
-    for (unsigned int i = 0; i < m_nformats; i++, lcfFormats++) {
-        *lcfFormats = m_formats[i].cfFormat;
+    for (unsignfd int i = 0; i < m_nformbts; i++, ldfFormbts++) {
+        *ldfFormbts = m_formbts[i].dfFormbt;
     }
 
-    env->ReleaseLongArrayElements(m_cfFormats, saveFormats, 0);
+    fnv->RflfbsfLongArrbyElfmfnts(m_dfFormbts, sbvfFormbts, 0);
 }
 
 /**
- * UnloadCache
+ * UnlobdCbdif
  */
 
-void AwtDropTarget::UnloadCache() {
-    if (m_dataObject == (IDataObject*)NULL) return;
+void AwtDropTbrgft::UnlobdCbdif() {
+    if (m_dbtbObjfdt == (IDbtbObjfdt*)NULL) rfturn;
 
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    free((void*)m_formats);
-    m_formats  = (FORMATETC *)NULL;
-    m_nformats = 0;
+    frff((void*)m_formbts);
+    m_formbts  = (FORMATETC *)NULL;
+    m_nformbts = 0;
 
-    // fix for 6212440: on application shutdown, this object's
-    // destruction might be suppressed due to dangling COM references.
-    // This method is called from the destructor.
-    // On destruction, VM might be shut down already, so we should make
-    // a null check on env.
-    if (env) {
-        env->DeleteGlobalRef(m_cfFormats);
+    // fix for 6212440: on bpplidbtion siutdown, tiis objfdt's
+    // dfstrudtion migit bf supprfssfd duf to dbngling COM rfffrfndfs.
+    // Tiis mftiod is dbllfd from tif dfstrudtor.
+    // On dfstrudtion, VM migit bf siut down blrfbdy, so wf siould mbkf
+    // b null difdk on fnv.
+    if (fnv) {
+        fnv->DflftfGlobblRff(m_dfFormbts);
     }
-    m_cfFormats = NULL;
+    m_dfFormbts = NULL;
 
-    if (!IsLocalDnD()) {
-        DASSERT(IsCurrentDnDDataObject(m_dataObject));
-        SetCurrentDnDDataObject(NULL);
+    if (!IsLodblDnD()) {
+        DASSERT(IsCurrfntDnDDbtbObjfdt(m_dbtbObjfdt));
+        SftCurrfntDnDDbtbObjfdt(NULL);
     }
 
-    m_dataObject->Release();
-    m_dataObject = (IDataObject*)NULL;
+    m_dbtbObjfdt->Rflfbsf();
+    m_dbtbObjfdt = (IDbtbObjfdt*)NULL;
 }
 
 /**
- * DragCleanup
+ * DrbgClfbnup
  */
 
-void AwtDropTarget::DragCleanup(void) {
-    UnloadCache();
+void AwtDropTbrgft::DrbgClfbnup(void) {
+    UnlobdCbdif();
 }
 
-BOOL AwtDropTarget::IsLocalDataObject(IDataObject __RPC_FAR *pDataObject) {
-    BOOL local = FALSE;
+BOOL AwtDropTbrgft::IsLodblDbtbObjfdt(IDbtbObjfdt __RPC_FAR *pDbtbObjfdt) {
+    BOOL lodbl = FALSE;
 
-    if (pDataObject != NULL) {
-        FORMATETC format;
-        STGMEDIUM stgmedium;
+    if (pDbtbObjfdt != NULL) {
+        FORMATETC formbt;
+        STGMEDIUM stgmfdium;
 
-        format.cfFormat = AwtDragSource::PROCESS_ID_FORMAT;
-        format.ptd      = NULL;
-        format.dwAspect = DVASPECT_CONTENT;
-        format.lindex   = -1;
-        format.tymed    = TYMED_HGLOBAL;
+        formbt.dfFormbt = AwtDrbgSourdf::PROCESS_ID_FORMAT;
+        formbt.ptd      = NULL;
+        formbt.dwAspfdt = DVASPECT_CONTENT;
+        formbt.lindfx   = -1;
+        formbt.tymfd    = TYMED_HGLOBAL;
 
-        if (pDataObject->GetData(&format, &stgmedium) == S_OK) {
-            ::SetLastError(0); // clear error
-            // Warning C4244.
-            SIZE_T size = ::GlobalSize(stgmedium.hGlobal);
-            if (size < sizeof(DWORD) || ::GetLastError() != 0) {
-                ::SetLastError(0); // clear error
-            } else {
+        if (pDbtbObjfdt->GftDbtb(&formbt, &stgmfdium) == S_OK) {
+            ::SftLbstError(0); // dlfbr frror
+            // Wbrning C4244.
+            SIZE_T sizf = ::GlobblSizf(stgmfdium.iGlobbl);
+            if (sizf < sizfof(DWORD) || ::GftLbstError() != 0) {
+                ::SftLbstError(0); // dlfbr frror
+            } flsf {
 
-                DWORD id = ::CoGetCurrentProcess();
+                DWORD id = ::CoGftCurrfntProdfss();
 
-                LPVOID data = ::GlobalLock(stgmedium.hGlobal);
-                if (memcmp(data, &id, sizeof(id)) == 0) {
-                    local = TRUE;
+                LPVOID dbtb = ::GlobblLodk(stgmfdium.iGlobbl);
+                if (mfmdmp(dbtb, &id, sizfof(id)) == 0) {
+                    lodbl = TRUE;
                 }
-                ::GlobalUnlock(stgmedium.hGlobal);
+                ::GlobblUnlodk(stgmfdium.iGlobbl);
             }
-            ::ReleaseStgMedium(&stgmedium);
+            ::RflfbsfStgMfdium(&stgmfdium);
         }
     }
 
-    return local;
+    rfturn lodbl;
 }
 
-DECLARE_JAVA_CLASS(dTCClazz, "sun/awt/windows/WDropTargetContextPeer")
+DECLARE_JAVA_CLASS(dTCClbzz, "sun/bwt/windows/WDropTbrgftContfxtPffr")
 
-jobject
-AwtDropTarget::call_dTCcreate(JNIEnv* env) {
-    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCcreate, dTCClazz,
-                                      "getWDropTargetContextPeer",
-                                      "()Lsun/awt/windows/WDropTargetContextPeer;");
-    return env->CallStaticObjectMethod(clazz, dTCcreate);
-}
-
-jint
-AwtDropTarget::call_dTCenter(JNIEnv* env, jobject self, jobject component, jint x, jint y,
-              jint dropAction, jint actions, jlongArray formats,
-              jlong nativeCtxt) {
-    DECLARE_JINT_JAVA_METHOD(dTCenter, dTCClazz, "handleEnterMessage",
-                            "(Ljava/awt/Component;IIII[JJ)I");
-    DASSERT(!JNU_IsNull(env, self));
-    return env->CallIntMethod(self, dTCenter, component, x, y, dropAction,
-                              actions, formats, nativeCtxt);
-}
-
-void
-AwtDropTarget::call_dTCexit(JNIEnv* env, jobject self, jobject component, jlong nativeCtxt) {
-    DECLARE_VOID_JAVA_METHOD(dTCexit, dTCClazz, "handleExitMessage",
-                            "(Ljava/awt/Component;J)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dTCexit, component, nativeCtxt);
+jobjfdt
+AwtDropTbrgft::dbll_dTCdrfbtf(JNIEnv* fnv) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCdrfbtf, dTCClbzz,
+                                      "gftWDropTbrgftContfxtPffr",
+                                      "()Lsun/bwt/windows/WDropTbrgftContfxtPffr;");
+    rfturn fnv->CbllStbtidObjfdtMftiod(dlbzz, dTCdrfbtf);
 }
 
 jint
-AwtDropTarget::call_dTCmotion(JNIEnv* env, jobject self, jobject component, jint x, jint y,
-               jint dropAction, jint actions, jlongArray formats,
-               jlong nativeCtxt) {
-    DECLARE_JINT_JAVA_METHOD(dTCmotion, dTCClazz, "handleMotionMessage",
-                            "(Ljava/awt/Component;IIII[JJ)I");
-    DASSERT(!JNU_IsNull(env, self));
-    return env->CallIntMethod(self, dTCmotion, component, x, y,
-                                 dropAction, actions, formats, nativeCtxt);
+AwtDropTbrgft::dbll_dTCfntfr(JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jint x, jint y,
+              jint dropAdtion, jint bdtions, jlongArrby formbts,
+              jlong nbtivfCtxt) {
+    DECLARE_JINT_JAVA_METHOD(dTCfntfr, dTCClbzz, "ibndlfEntfrMfssbgf",
+                            "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    rfturn fnv->CbllIntMftiod(sflf, dTCfntfr, domponfnt, x, y, dropAdtion,
+                              bdtions, formbts, nbtivfCtxt);
 }
 
 void
-AwtDropTarget::call_dTCdrop(JNIEnv* env, jobject self, jobject component, jint x, jint y,
-             jint dropAction, jint actions, jlongArray formats,
-             jlong nativeCtxt) {
-    DECLARE_VOID_JAVA_METHOD(dTCdrop, dTCClazz, "handleDropMessage",
-                            "(Ljava/awt/Component;IIII[JJ)V");
-    DASSERT(!JNU_IsNull(env, self));
-    env->CallVoidMethod(self, dTCdrop, component, x, y,
-                           dropAction, actions, formats, nativeCtxt);
+AwtDropTbrgft::dbll_dTCfxit(JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jlong nbtivfCtxt) {
+    DECLARE_VOID_JAVA_METHOD(dTCfxit, dTCClbzz, "ibndlfExitMfssbgf",
+                            "(Ljbvb/bwt/Componfnt;J)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dTCfxit, domponfnt, nbtivfCtxt);
 }
 
-jobject
-AwtDropTarget::call_dTCgetfs(JNIEnv* env, jstring fileName, jlong stgmedium) {
-    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCgetfs, dTCClazz, "getFileStream",
-                                      "(Ljava/lang/String;J)Ljava/io/FileInputStream;");
-    return env->CallStaticObjectMethod(clazz, dTCgetfs, fileName, stgmedium);
+jint
+AwtDropTbrgft::dbll_dTCmotion(JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jint x, jint y,
+               jint dropAdtion, jint bdtions, jlongArrby formbts,
+               jlong nbtivfCtxt) {
+    DECLARE_JINT_JAVA_METHOD(dTCmotion, dTCClbzz, "ibndlfMotionMfssbgf",
+                            "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    rfturn fnv->CbllIntMftiod(sflf, dTCmotion, domponfnt, x, y,
+                                 dropAdtion, bdtions, formbts, nbtivfCtxt);
 }
 
-jobject
-AwtDropTarget::call_dTCgetis(JNIEnv* env, jlong istream) {
-    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCgetis, dTCClazz, "getIStream",
-                                      "(J)Ljava/lang/Object;");
-    return env->CallStaticObjectMethod(clazz, dTCgetis, istream);
+void
+AwtDropTbrgft::dbll_dTCdrop(JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jint x, jint y,
+             jint dropAdtion, jint bdtions, jlongArrby formbts,
+             jlong nbtivfCtxt) {
+    DECLARE_VOID_JAVA_METHOD(dTCdrop, dTCClbzz, "ibndlfDropMfssbgf",
+                            "(Ljbvb/bwt/Componfnt;IIII[JJ)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMftiod(sflf, dTCdrop, domponfnt, x, y,
+                           dropAdtion, bdtions, formbts, nbtivfCtxt);
+}
+
+jobjfdt
+AwtDropTbrgft::dbll_dTCgftfs(JNIEnv* fnv, jstring filfNbmf, jlong stgmfdium) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCgftfs, dTCClbzz, "gftFilfStrfbm",
+                                      "(Ljbvb/lbng/String;J)Ljbvb/io/FilfInputStrfbm;");
+    rfturn fnv->CbllStbtidObjfdtMftiod(dlbzz, dTCgftfs, filfNbmf, stgmfdium);
+}
+
+jobjfdt
+AwtDropTbrgft::dbll_dTCgftis(JNIEnv* fnv, jlong istrfbm) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(dTCgftis, dTCClbzz, "gftIStrfbm",
+                                      "(J)Ljbvb/lbng/Objfdt;");
+    rfturn fnv->CbllStbtidObjfdtMftiod(dlbzz, dTCgftis, istrfbm);
 }
 
 /*****************************************************************************/
 
 /**
- * construct a wrapper
+ * donstrudt b wrbppfr
  */
 
-WDTCPIStreamWrapper::WDTCPIStreamWrapper(STGMEDIUM* stgmedium) {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+WDTCPIStrfbmWrbppfr::WDTCPIStrfbmWrbppfr(STGMEDIUM* stgmfdium) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    m_stgmedium = *stgmedium;
-    m_istream   = stgmedium->pstm;
-    m_istream->AddRef();
-    m_mutex     = ::CreateMutex(NULL, FALSE, NULL);
+    m_stgmfdium = *stgmfdium;
+    m_istrfbm   = stgmfdium->pstm;
+    m_istrfbm->AddRff();
+    m_mutfx     = ::CrfbtfMutfx(NULL, FALSE, NULL);
 }
 
 /**
- * destroy a wrapper
+ * dfstroy b wrbppfr
  */
 
-WDTCPIStreamWrapper::~WDTCPIStreamWrapper() {
-    ::CloseHandle(m_mutex);
-    m_istream->Release();
-    ::ReleaseStgMedium(&m_stgmedium);
+WDTCPIStrfbmWrbppfr::~WDTCPIStrfbmWrbppfr() {
+    ::ClosfHbndlf(m_mutfx);
+    m_istrfbm->Rflfbsf();
+    ::RflfbsfStgMfdium(&m_stgmfdium);
 }
 
 /**
- * return available data
+ * rfturn bvbilbblf dbtb
  */
 
-jint WDTCPIStreamWrapper::DoAvailable(WDTCPIStreamWrapper* istream) {
-    WDTCPIStreamWrapperRec iswr = { istream, 0 };
+jint WDTCPIStrfbmWrbppfr::DoAvbilbblf(WDTCPIStrfbmWrbppfr* istrfbm) {
+    WDTCPIStrfbmWrbppfrRfd iswr = { istrfbm, 0 };
 
-    AwtToolkit::GetInstance().WaitForSingleObject(istream->m_mutex);
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(istrfbm->m_mutfx);
 
-    AwtToolkit::GetInstance().InvokeFunctionLater( _Available, &iswr);
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr( _Avbilbblf, &iswr);
 
-    istream->WaitUntilSignalled(FALSE);
+    istrfbm->WbitUntilSignbllfd(FALSE);
 
-    return iswr.ret;
+    rfturn iswr.rft;
 }
 
 /**
- * return available data
+ * rfturn bvbilbblf dbtb
  */
 
-void WDTCPIStreamWrapper::_Available(void *param) {
-    WDTCPIStreamWrapperPtr iswrp = (WDTCPIStreamWrapperPtr)param;
+void WDTCPIStrfbmWrbppfr::_Avbilbblf(void *pbrbm) {
+    WDTCPIStrfbmWrbppfrPtr iswrp = (WDTCPIStrfbmWrbppfrPtr)pbrbm;
 
-    iswrp->ret = (iswrp->istream)->Available();
+    iswrp->rft = (iswrp->istrfbm)->Avbilbblf();
 
-    iswrp->istream->Signal();
+    iswrp->istrfbm->Signbl();
 }
 
 /**
- * return available data
+ * rfturn bvbilbblf dbtb
  */
 
-jint WDTCPIStreamWrapper::Available() {
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+jint WDTCPIStrfbmWrbppfr::Avbilbblf() {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if (m_istream->Stat(&m_statstg, STATFLAG_NONAME) != S_OK) {
-        JNU_ThrowIOException(env, "IStream::Stat() failed");
-        return 0;
+    if (m_istrfbm->Stbt(&m_stbtstg, STATFLAG_NONAME) != S_OK) {
+        JNU_TirowIOExdfption(fnv, "IStrfbm::Stbt() fbilfd");
+        rfturn 0;
     }
 
-    if (m_statstg.cbSize.QuadPart > 0x7ffffffL) {
-        JNU_ThrowIOException(env, "IStream::Stat() cbSize > 0x7ffffff");
-        return 0;
+    if (m_stbtstg.dbSizf.QubdPbrt > 0x7ffffffL) {
+        JNU_TirowIOExdfption(fnv, "IStrfbm::Stbt() dbSizf > 0x7ffffff");
+        rfturn 0;
     }
 
-    return (jint)m_statstg.cbSize.LowPart;
+    rfturn (jint)m_stbtstg.dbSizf.LowPbrt;
 }
 
 /**
- * read 1 byte
+ * rfbd 1 bytf
  */
 
-jint WDTCPIStreamWrapper::DoRead(WDTCPIStreamWrapper* istream) {
-    WDTCPIStreamWrapperRec iswr = { istream, 0 };
+jint WDTCPIStrfbmWrbppfr::DoRfbd(WDTCPIStrfbmWrbppfr* istrfbm) {
+    WDTCPIStrfbmWrbppfrRfd iswr = { istrfbm, 0 };
 
-    AwtToolkit::GetInstance().WaitForSingleObject(istream->m_mutex);
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(istrfbm->m_mutfx);
 
-    AwtToolkit::GetInstance().InvokeFunctionLater(_Read, &iswr);
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr(_Rfbd, &iswr);
 
-    istream->WaitUntilSignalled(FALSE);
+    istrfbm->WbitUntilSignbllfd(FALSE);
 
-    return iswr.ret;
+    rfturn iswr.rft;
 }
 
 /**
- * read 1 byte
+ * rfbd 1 bytf
  */
 
-void WDTCPIStreamWrapper::_Read(void* param) {
-    WDTCPIStreamWrapperPtr iswrp = (WDTCPIStreamWrapperPtr)param;
+void WDTCPIStrfbmWrbppfr::_Rfbd(void* pbrbm) {
+    WDTCPIStrfbmWrbppfrPtr iswrp = (WDTCPIStrfbmWrbppfrPtr)pbrbm;
 
-    iswrp->ret = (iswrp->istream)->Read();
+    iswrp->rft = (iswrp->istrfbm)->Rfbd();
 
-    iswrp->istream->Signal();
+    iswrp->istrfbm->Signbl();
 }
 
 /**
- * read 1 byte
+ * rfbd 1 bytf
  */
 
-jint WDTCPIStreamWrapper::Read() {
-    JNIEnv* env    = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+jint WDTCPIStrfbmWrbppfr::Rfbd() {
+    JNIEnv* fnv    = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
     jint    b      = 0;
-    ULONG   actual = 0;
-    HRESULT res;
+    ULONG   bdtubl = 0;
+    HRESULT rfs;
 
-    switch (res = m_istream->Read((void *)&b, (ULONG)1, &actual)) {
-        case S_FALSE:
-            return (jint)-1;
+    switdi (rfs = m_istrfbm->Rfbd((void *)&b, (ULONG)1, &bdtubl)) {
+        dbsf S_FALSE:
+            rfturn (jint)-1;
 
-        case S_OK:
-            return (jint)(actual == 0 ? -1 : b);
+        dbsf S_OK:
+            rfturn (jint)(bdtubl == 0 ? -1 : b);
 
-        default:
-            JNU_ThrowIOException(env, "IStream::Read failed");
+        dffbult:
+            JNU_TirowIOExdfption(fnv, "IStrfbm::Rfbd fbilfd");
     }
-    return (jint)-1;
+    rfturn (jint)-1;
 }
 
 /**
- * read Buffer
+ * rfbd Bufffr
  */
 
-jint WDTCPIStreamWrapper::DoReadBytes(WDTCPIStreamWrapper* istream, jbyteArray array, jint off, jint len) {
-    WDTCPIStreamWrapperReadBytesRec iswrbr = { istream, 0, array, off, len };
+jint WDTCPIStrfbmWrbppfr::DoRfbdBytfs(WDTCPIStrfbmWrbppfr* istrfbm, jbytfArrby brrby, jint off, jint lfn) {
+    WDTCPIStrfbmWrbppfrRfbdBytfsRfd iswrbr = { istrfbm, 0, brrby, off, lfn };
 
-    AwtToolkit::GetInstance().WaitForSingleObject(istream->m_mutex);
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(istrfbm->m_mutfx);
 
-    AwtToolkit::GetInstance().InvokeFunctionLater(_ReadBytes, &iswrbr);
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr(_RfbdBytfs, &iswrbr);
 
-    istream->WaitUntilSignalled(FALSE);
+    istrfbm->WbitUntilSignbllfd(FALSE);
 
-    return iswrbr.ret;
+    rfturn iswrbr.rft;
 }
 
 /**
- * read buffer
+ * rfbd bufffr
  */
 
-void WDTCPIStreamWrapper::_ReadBytes(void*  param) {
-    WDTCPIStreamWrapperReadBytesPtr iswrbrp =
-        (WDTCPIStreamWrapperReadBytesPtr)param;
+void WDTCPIStrfbmWrbppfr::_RfbdBytfs(void*  pbrbm) {
+    WDTCPIStrfbmWrbppfrRfbdBytfsPtr iswrbrp =
+        (WDTCPIStrfbmWrbppfrRfbdBytfsPtr)pbrbm;
 
-    iswrbrp->ret = (iswrbrp->istream)->ReadBytes(iswrbrp->array,
+    iswrbrp->rft = (iswrbrp->istrfbm)->RfbdBytfs(iswrbrp->brrby,
                                                  iswrbrp->off,
-                                                 iswrbrp->len);
-    iswrbrp->istream->Signal();
+                                                 iswrbrp->lfn);
+    iswrbrp->istrfbm->Signbl();
 }
 
 /**
- * read buffer
+ * rfbd bufffr
  */
 
-jint WDTCPIStreamWrapper::ReadBytes(jbyteArray buf, jint off, jint len) {
-    JNIEnv*  env     = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jboolean isCopy  = JNI_FALSE;
-    ULONG    actual  = 0;
-    jbyte*   local   = env->GetByteArrayElements(buf, &isCopy);
-    HRESULT  res;
-    CHECK_NULL_RETURN(local, (jint)-1);
+jint WDTCPIStrfbmWrbppfr::RfbdBytfs(jbytfArrby buf, jint off, jint lfn) {
+    JNIEnv*  fnv     = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jboolfbn isCopy  = JNI_FALSE;
+    ULONG    bdtubl  = 0;
+    jbytf*   lodbl   = fnv->GftBytfArrbyElfmfnts(buf, &isCopy);
+    HRESULT  rfs;
+    CHECK_NULL_RETURN(lodbl, (jint)-1);
 
-    switch (res = m_istream->Read((void *)(local + off), (ULONG)len, &actual)) {
-        case S_FALSE:
-        case S_OK: {
-            int eof = (actual == 0);
+    switdi (rfs = m_istrfbm->Rfbd((void *)(lodbl + off), (ULONG)lfn, &bdtubl)) {
+        dbsf S_FALSE:
+        dbsf S_OK: {
+            int fof = (bdtubl == 0);
 
-            env->ReleaseByteArrayElements(buf, local, !eof ? 0 : JNI_ABORT);
-            return (jint)(!eof ? actual : -1);
+            fnv->RflfbsfBytfArrbyElfmfnts(buf, lodbl, !fof ? 0 : JNI_ABORT);
+            rfturn (jint)(!fof ? bdtubl : -1);
         }
 
-        default:
-            env->ReleaseByteArrayElements(buf, local, JNI_ABORT);
-            JNU_ThrowIOException(env, "IStream::Read failed");
+        dffbult:
+            fnv->RflfbsfBytfArrbyElfmfnts(buf, lodbl, JNI_ABORT);
+            JNU_TirowIOExdfption(fnv, "IStrfbm::Rfbd fbilfd");
     }
 
-    return (jint)-1;
+    rfturn (jint)-1;
 }
 
 /**
- * close
+ * dlosf
  */
 
-void WDTCPIStreamWrapper::DoClose(WDTCPIStreamWrapper* istream) {
-    AwtToolkit::GetInstance().InvokeFunctionLater(_Close, istream);
+void WDTCPIStrfbmWrbppfr::DoClosf(WDTCPIStrfbmWrbppfr* istrfbm) {
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr(_Closf, istrfbm);
 }
 
 /**
- * close
+ * dlosf
  */
 
-void WDTCPIStreamWrapper::_Close(void* param) {
-    ((WDTCPIStreamWrapper*)param)->Close();
+void WDTCPIStrfbmWrbppfr::_Closf(void* pbrbm) {
+    ((WDTCPIStrfbmWrbppfr*)pbrbm)->Closf();
 }
 
 /**
- * close
+ * dlosf
  */
 
-void WDTCPIStreamWrapper::Close() {
-    delete this;
+void WDTCPIStrfbmWrbppfr::Closf() {
+    dflftf tiis;
 }
 
 /*****************************************************************************/
 
-extern "C" {
+fxtfrn "C" {
 
 /**
- * awt_dnd_initialize: initial DnD system
+ * bwt_dnd_initiblizf: initibl DnD systfm
  */
 
-void awt_dnd_initialize() {
-    ::OleInitialize((LPVOID)NULL);
+void bwt_dnd_initiblizf() {
+    ::OlfInitiblizf((LPVOID)NULL);
 }
 
 /**
- * awt_dnd_uninitialize: deactivate DnD system
+ * bwt_dnd_uninitiblizf: dfbdtivbtf DnD systfm
  */
 
-void awt_dnd_uninitialize() {
-    ::OleUninitialize();
+void bwt_dnd_uninitiblizf() {
+    ::OlfUninitiblizf();
 }
 
 /**
- * convertActionsToDROPEFFECT
+ * donvfrtAdtionsToDROPEFFECT
  */
 
-DWORD convertActionsToDROPEFFECT(jint actions) {
-    DWORD effects = DROPEFFECT_NONE;
+DWORD donvfrtAdtionsToDROPEFFECT(jint bdtions) {
+    DWORD ffffdts = DROPEFFECT_NONE;
 
-    if (actions & java_awt_dnd_DnDConstants_ACTION_LINK) effects |= DROPEFFECT_LINK;
-    if (actions & java_awt_dnd_DnDConstants_ACTION_MOVE) effects |= DROPEFFECT_MOVE;
-    if (actions & java_awt_dnd_DnDConstants_ACTION_COPY) effects |= DROPEFFECT_COPY;
-    return effects;
+    if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK) ffffdts |= DROPEFFECT_LINK;
+    if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE) ffffdts |= DROPEFFECT_MOVE;
+    if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY) ffffdts |= DROPEFFECT_COPY;
+    rfturn ffffdts;
 }
 
 /**
- * convertDROPEFFECTToAction
+ * donvfrtDROPEFFECTToAdtion
  */
 
-jint convertDROPEFFECTToActions(DWORD effects) {
-    jint actions = java_awt_dnd_DnDConstants_ACTION_NONE;
+jint donvfrtDROPEFFECTToAdtions(DWORD ffffdts) {
+    jint bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    if (effects & DROPEFFECT_LINK) actions |= java_awt_dnd_DnDConstants_ACTION_LINK;
-    if (effects & DROPEFFECT_MOVE) actions |= java_awt_dnd_DnDConstants_ACTION_MOVE;
-    if (effects & DROPEFFECT_COPY) actions |= java_awt_dnd_DnDConstants_ACTION_COPY;
+    if (ffffdts & DROPEFFECT_LINK) bdtions |= jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
+    if (ffffdts & DROPEFFECT_MOVE) bdtions |= jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+    if (ffffdts & DROPEFFECT_COPY) bdtions |= jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
 
-    return actions;
+    rfturn bdtions;
 }
 
 /**
- * map keyboard modifiers to a DROPEFFECT
+ * mbp kfybobrd modififrs to b DROPEFFECT
  */
 
-DWORD mapModsToDROPEFFECT(DWORD effects, DWORD mods) {
-    DWORD ret = DROPEFFECT_NONE;
+DWORD mbpModsToDROPEFFECT(DWORD ffffdts, DWORD mods) {
+    DWORD rft = DROPEFFECT_NONE;
 
     /*
      * Fix for 4285634.
-     * Calculate the drop action to match Motif DnD behavior.
-     * If the user selects an operation (by pressing a modifier key),
-     * return the selected operation or DROPEFFECT_NONE if the selected
-     * operation is not supported by the drag source.
-     * If the user doesn't select an operation search the set of operations
-     * supported by the drag source for DROPEFFECT_MOVE, then for
-     * DROPEFFECT_COPY, then for DROPEFFECT_LINK and return the first operation
+     * Cbldulbtf tif drop bdtion to mbtdi Motif DnD bfibvior.
+     * If tif usfr sflfdts bn opfrbtion (by prfssing b modififr kfy),
+     * rfturn tif sflfdtfd opfrbtion or DROPEFFECT_NONE if tif sflfdtfd
+     * opfrbtion is not supportfd by tif drbg sourdf.
+     * If tif usfr dofsn't sflfdt bn opfrbtion sfbrdi tif sft of opfrbtions
+     * supportfd by tif drbg sourdf for DROPEFFECT_MOVE, tifn for
+     * DROPEFFECT_COPY, tifn for DROPEFFECT_LINK bnd rfturn tif first opfrbtion
      * found.
      */
-    switch (mods & (MK_CONTROL | MK_SHIFT)) {
-        case MK_CONTROL:
-            ret = DROPEFFECT_COPY;
-        break;
+    switdi (mods & (MK_CONTROL | MK_SHIFT)) {
+        dbsf MK_CONTROL:
+            rft = DROPEFFECT_COPY;
+        brfbk;
 
-        case MK_CONTROL | MK_SHIFT:
-            ret = DROPEFFECT_LINK;
-        break;
+        dbsf MK_CONTROL | MK_SHIFT:
+            rft = DROPEFFECT_LINK;
+        brfbk;
 
-        case MK_SHIFT:
-            ret = DROPEFFECT_MOVE;
-        break;
+        dbsf MK_SHIFT:
+            rft = DROPEFFECT_MOVE;
+        brfbk;
 
-        default:
-            if (effects & DROPEFFECT_MOVE) {
-                ret = DROPEFFECT_MOVE;
-            } else if (effects & DROPEFFECT_COPY) {
-                ret = DROPEFFECT_COPY;
-            } else if (effects & DROPEFFECT_LINK) {
-                ret = DROPEFFECT_LINK;
+        dffbult:
+            if (ffffdts & DROPEFFECT_MOVE) {
+                rft = DROPEFFECT_MOVE;
+            } flsf if (ffffdts & DROPEFFECT_COPY) {
+                rft = DROPEFFECT_COPY;
+            } flsf if (ffffdts & DROPEFFECT_LINK) {
+                rft = DROPEFFECT_LINK;
             }
-            break;
+            brfbk;
     }
 
-    return ret & effects;
+    rfturn rft & ffffdts;
 }
 
 /**
- * downcall to fetch data ... gets scheduled on message thread
+ * downdbll to fftdi dbtb ... gfts sdifdulfd on mfssbgf tirfbd
  */
 
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_WDropTargetContextPeer_getData(JNIEnv* env, jobject self, jlong dropTarget, jlong format) {
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffr_gftDbtb(JNIEnv* fnv, jobjfdt sflf, jlong dropTbrgft, jlong formbt) {
     TRY;
 
-    AwtDropTarget* pDropTarget = (AwtDropTarget*)dropTarget;
+    AwtDropTbrgft* pDropTbrgft = (AwtDropTbrgft*)dropTbrgft;
 
-    DASSERT(!::IsBadReadPtr(pDropTarget, sizeof(AwtDropTarget)));
-    return pDropTarget->DoGetData(format);
+    DASSERT(!::IsBbdRfbdPtr(pDropTbrgft, sizfof(AwtDropTbrgft)));
+    rfturn pDropTbrgft->DoGftDbtb(formbt);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /**
- * downcall to signal drop done ... gets scheduled on message thread
+ * downdbll to signbl drop donf ... gfts sdifdulfd on mfssbgf tirfbd
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDropTargetContextPeer_dropDone(JNIEnv* env, jobject self,
-                             jlong dropTarget, jboolean success, jint actions) {
+Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffr_dropDonf(JNIEnv* fnv, jobjfdt sflf,
+                             jlong dropTbrgft, jboolfbn suddfss, jint bdtions) {
     TRY_NO_HANG;
 
-    AwtDropTarget* pDropTarget = (AwtDropTarget*)dropTarget;
+    AwtDropTbrgft* pDropTbrgft = (AwtDropTbrgft*)dropTbrgft;
 
-    DASSERT(!::IsBadReadPtr(pDropTarget, sizeof(AwtDropTarget)));
-    pDropTarget->DoDropDone(success, actions);
-
-    CATCH_BAD_ALLOC;
-}
-
-/**
- * downcall to free up storage medium for FileStream
- */
-
-JNIEXPORT void JNICALL Java_sun_awt_windows_WDropTargetContextPeerFileStream_freeStgMedium(JNIEnv* env, jobject self, jlong stgmedium) {
-    TRY;
-
-    ::ReleaseStgMedium((STGMEDIUM*)stgmedium);
-
-    free((void*)stgmedium);
+    DASSERT(!::IsBbdRfbdPtr(pDropTbrgft, sizfof(AwtDropTbrgft)));
+    pDropTbrgft->DoDropDonf(suddfss, bdtions);
 
     CATCH_BAD_ALLOC;
 }
 
 /**
+ * downdbll to frff up storbgf mfdium for FilfStrfbm
+ */
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffrFilfStrfbm_frffStgMfdium(JNIEnv* fnv, jobjfdt sflf, jlong stgmfdium) {
+    TRY;
+
+    ::RflfbsfStgMfdium((STGMEDIUM*)stgmfdium);
+
+    frff((void*)stgmfdium);
+
+    CATCH_BAD_ALLOC;
+}
+
+/**
  *
  */
 
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_Available(JNIEnv* env, jobject self, jlong istream) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffrIStrfbm_Avbilbblf(JNIEnv* fnv, jobjfdt sflf, jlong istrfbm) {
     TRY;
 
-    return WDTCPIStreamWrapper::DoAvailable((WDTCPIStreamWrapper*)istream);
+    rfturn WDTCPIStrfbmWrbppfr::DoAvbilbblf((WDTCPIStrfbmWrbppfr*)istrfbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
@@ -1583,10 +1583,10 @@ JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_Availa
  *
  */
 
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_Read(JNIEnv* env, jobject self, jlong istream) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffrIStrfbm_Rfbd(JNIEnv* fnv, jobjfdt sflf, jlong istrfbm) {
     TRY;
 
-    return WDTCPIStreamWrapper::DoRead((WDTCPIStreamWrapper*)istream);
+    rfturn WDTCPIStrfbmWrbppfr::DoRfbd((WDTCPIStrfbmWrbppfr*)istrfbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
@@ -1595,10 +1595,10 @@ JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_Read(J
  *
  */
 
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_ReadBytes(JNIEnv* env, jobject self, jlong istream, jbyteArray buf, jint off, jint len) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffrIStrfbm_RfbdBytfs(JNIEnv* fnv, jobjfdt sflf, jlong istrfbm, jbytfArrby buf, jint off, jint lfn) {
     TRY;
 
-    return WDTCPIStreamWrapper::DoReadBytes((WDTCPIStreamWrapper*)istream, buf, off, len);
+    rfturn WDTCPIStrfbmWrbppfr::DoRfbdBytfs((WDTCPIStrfbmWrbppfr*)istrfbm, buf, off, lfn);
 
     CATCH_BAD_ALLOC_RET(0);
 }
@@ -1607,12 +1607,12 @@ JNIEXPORT jint JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_ReadBy
  *
  */
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WDropTargetContextPeerIStream_Close(JNIEnv* env, jobject self, jlong istream) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WDropTbrgftContfxtPffrIStrfbm_Closf(JNIEnv* fnv, jobjfdt sflf, jlong istrfbm) {
     TRY_NO_VERIFY;
 
-    WDTCPIStreamWrapper::DoClose((WDTCPIStreamWrapper*)istream);
+    WDTCPIStrfbmWrbppfr::DoClosf((WDTCPIStrfbmWrbppfr*)istrfbm);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

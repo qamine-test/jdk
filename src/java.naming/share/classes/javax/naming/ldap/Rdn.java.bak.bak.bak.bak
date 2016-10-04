@@ -1,0 +1,759 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Lodblf;
+import jbvb.util.Collfdtions;
+
+import jbvbx.nbming.InvblidNbmfExdfption;
+import jbvbx.nbming.dirfdtory.BbsidAttributfs;
+import jbvbx.nbming.dirfdtory.Attributfs;
+import jbvbx.nbming.dirfdtory.Attributf;
+import jbvbx.nbming.NbmingEnumfrbtion;
+import jbvbx.nbming.NbmingExdfption;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss rfprfsfnts b rflbtivf distinguishfd nbmf, or RDN, whidh is b
+ * domponfnt of b distinguishfd nbmf bs spfdififd by
+ * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+ * An fxbmplf of bn RDN is "OU=Sblfs+CN=J.Smith". In this fxbmplf,
+ * thf RDN donsist of multiplf bttributf typf/vbluf pbirs. Thf
+ * RDN is pbrsfd bs dfsdribfd in thf dlbss dfsdription for
+ * {@link jbvbx.nbming.ldbp.LdbpNbmf <tt>LdbpNbmf</tt>}.
+ * <p>
+ * Thf Rdn dlbss rfprfsfnts bn RDN bs bttributf typf/vbluf mbppings,
+ * whidh dbn bf vifwfd using
+ * {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}.
+ * In bddition, it dontbins donvfnifndf mfthods thbt bllow fbsy rftrifvbl
+ * of typf bnd vbluf whfn thf Rdn donsist of b singlf typf/vbluf pbir,
+ * whidh is how it bppfbrs in b typidbl usbgf.
+ * It blso dontbins hflpfr mfthods thbt bllow fsdbping of thf unformbttfd
+ * bttributf vbluf bnd unfsdbping of thf vbluf formbttfd bddording to thf
+ * fsdbping syntbx dffinfd in RFC2253. For mfthods thbt tbkf or rfturn
+ * bttributf vbluf bs bn Objfdt, thf vbluf is fithfr b String
+ * (in unfsdbpfd form) or b bytf brrby.
+ * <p>
+ * <dodf>Rdn</dodf> will propfrly pbrsf bll vblid RDNs, but
+ * dofs not bttfmpt to dftfdt bll possiblf violbtions whfn pbrsing
+ * invblid RDNs. It is "gfnfrous" in bddfpting invblid RDNs.
+ * Thf "vblidity" of b nbmf is dftfrminfd ultimbtfly whfn it
+ * is supplifd to bn LDAP sfrvfr, whidh mby bddfpt or
+ * rfjfdt thf nbmf bbsfd on fbdtors sudh bs its sdhfmb informbtion
+ * bnd intfropfrbbility donsidfrbtions.
+ *
+ * <p>
+ * Thf following dodf fxbmplf shows how to donstrudt bn Rdn using thf
+ * donstrudtor thbt tbkfs typf bnd vbluf bs brgumfnts:
+ * <prf>
+ *      Rdn rdn = nfw Rdn("dn", "Juidy, Fruit");
+ *      Systfm.out.println(rdn.toString());
+ * </prf>
+ * Thf lbst linf will print <tt>dn=Juidy\, Fruit</tt>. Thf
+ * {@link #unfsdbpfVbluf(String) <tt>unfsdbpfVbluf()</tt>} mfthod dbn bf
+ * usfd to unfsdbpf thf fsdbpfd dommb rfsulting in thf originbl
+ * vbluf <tt>"Juidy, Fruit"</tt>. Thf {@link #fsdbpfVbluf(Objfdt)
+ * <tt>fsdbpfVbluf()</tt>} mfthod bdds thf fsdbpf bbdk prfdfding thf dommb.
+ * <p>
+ * This dlbss dbn bf instbntibtfd by b string rfprfsfntbtion
+ * of thf RDN dffinfd in RFC 2253 bs shown in thf following dodf fxbmplf:
+ * <prf>
+ *      Rdn rdn = nfw Rdn("dn=Juidy\\, Fruit");
+ *      Systfm.out.println(rdn.toString());
+ * </prf>
+ * Thf lbst linf will print <tt>dn=Juidy\, Fruit</tt>.
+ * <p>
+ * Condurrfnt multithrfbdfd rfbd-only bddfss of bn instbndf of
+ * <tt>Rdn</tt> nffd not bf syndhronizfd.
+ * <p>
+ * Unlfss othfrwisf notfd, thf bfhbvior of pbssing b null brgumfnt
+ * to b donstrudtor or mfthod in this dlbss will dbusf NullPointfrExdfption
+ * to bf thrown.
+ *
+ * @sindf 1.5
+ */
+
+publid dlbss Rdn implfmfnts Sfriblizbblf, Compbrbblf<Objfdt> {
+
+    privbtf trbnsifnt ArrbyList<RdnEntry> fntrifs;
+
+    // Thf dommon dbsf.
+    privbtf stbtid finbl int DEFAULT_SIZE = 1;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5994465067210009656L;
+
+    /**
+     * Construdts bn Rdn from thf givfn bttributf sft. Sff
+     * {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}.
+     * <p>
+     * Thf string bttributf vblufs brf not intfrprftfd bs
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Thbt is, thf vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
+     *
+     * @pbrbm bttrSft Thf non-null bnd non-fmpty bttributfs dontbining
+     * typf/vbluf mbppings.
+     * @throws InvblidNbmfExdfption If dontfnts of <tt>bttrSft</tt> dbnnot
+     *          bf usfd to donstrudt b vblid RDN.
+     */
+    publid Rdn(Attributfs bttrSft) throws InvblidNbmfExdfption {
+        if (bttrSft.sizf() == 0) {
+            throw nfw InvblidNbmfExdfption("Attributfs dbnnot bf fmpty");
+        }
+        fntrifs = nfw ArrbyList<>(bttrSft.sizf());
+        NbmingEnumfrbtion<? fxtfnds Attributf> bttrs = bttrSft.gftAll();
+        try {
+            for (int nEntrifs = 0; bttrs.hbsMorf(); nEntrifs++) {
+                RdnEntry fntry = nfw RdnEntry();
+                Attributf bttr = bttrs.nfxt();
+                fntry.typf = bttr.gftID();
+                fntry.vbluf = bttr.gft();
+                fntrifs.bdd(nEntrifs, fntry);
+            }
+        } dbtdh (NbmingExdfption f) {
+            InvblidNbmfExdfption f2 = nfw InvblidNbmfExdfption(
+                                        f.gftMfssbgf());
+            f2.initCbusf(f);
+            throw f2;
+        }
+        sort(); // brrbngf fntrifs for dompbrison
+    }
+
+    /**
+     * Construdts bn Rdn from thf givfn string.
+     * This donstrudtor tbkfs b string formbttfd bddording to thf rulfs
+     * dffinfd in <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * bnd dfsdribfd in thf dlbss dfsdription for
+     * {@link jbvbx.nbming.ldbp.LdbpNbmf}.
+     *
+     * @pbrbm rdnString Thf non-null bnd non-fmpty RFC2253 formbttfd string.
+     * @throws InvblidNbmfExdfption If b syntbx frror oddurs during
+     *                  pbrsing of thf rdnString.
+     */
+    publid Rdn(String rdnString) throws InvblidNbmfExdfption {
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        (nfw Rfd2253Pbrsfr(rdnString)).pbrsfRdn(this);
+    }
+
+    /**
+     * Construdts bn Rdn from thf givfn <tt>rdn</tt>.
+     * Thf dontfnts of thf <tt>rdn</tt> brf simply dopifd into thf nfwly
+     * drfbtfd Rdn.
+     * @pbrbm rdn Thf non-null Rdn to bf dopifd.
+     */
+    publid Rdn(Rdn rdn) {
+        fntrifs = nfw ArrbyList<>(rdn.fntrifs.sizf());
+        fntrifs.bddAll(rdn.fntrifs);
+    }
+
+    /**
+     * Construdts bn Rdn from thf givfn bttributf typf bnd
+     * vbluf.
+     * Thf string bttributf vblufs brf not intfrprftfd bs
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Thbt is, thf vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
+     *
+     * @pbrbm typf Thf non-null bnd non-fmpty string bttributf typf.
+     * @pbrbm vbluf Thf non-null bnd non-fmpty bttributf vbluf.
+     * @throws InvblidNbmfExdfption If typf/vbluf dbnnot bf usfd to
+     *                  donstrudt b vblid RDN.
+     * @sff #toString()
+     */
+    publid Rdn(String typf, Objfdt vbluf) throws InvblidNbmfExdfption {
+        if (vbluf == null) {
+            throw nfw NullPointfrExdfption("Cbnnot sft vbluf to null");
+        }
+        if (typf.fqubls("") || isEmptyVbluf(vbluf)) {
+            throw nfw InvblidNbmfExdfption(
+                "typf or vbluf dbnnot bf fmpty, typf:" + typf +
+                " vbluf:" + vbluf);
+        }
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        put(typf, vbluf);
+    }
+
+    privbtf boolfbn isEmptyVbluf(Objfdt vbl) {
+        rfturn ((vbl instbndfof String) && vbl.fqubls("")) ||
+        ((vbl instbndfof bytf[]) && (((bytf[]) vbl).lfngth == 0));
+    }
+
+    // An fmpty donstrudtor usfd by thf pbrsfr
+    Rdn() {
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+    }
+
+    /*
+     * Adds thf givfn bttributf typf bnd vbluf to this Rdn.
+     * Thf string bttributf vblufs brf not intfrprftfd bs
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * formbttfd RDN strings. Thbt is thf vblufs brf usfd
+     * litfrblly (not pbrsfd) bnd bssumfd to bf unfsdbpfd.
+     *
+     * @pbrbm typf Thf non-null bnd non-fmpty string bttributf typf.
+     * @pbrbm vbluf Thf non-null bnd non-fmpty bttributf vbluf.
+     * @rfturn Thf updbtfd Rdn, not b nfw onf. Cbnnot bf null.
+     * @sff #toString()
+     */
+    Rdn put(String typf, Objfdt vbluf) {
+
+        // drfbtf nfw Entry
+        RdnEntry nfwEntry = nfw RdnEntry();
+        nfwEntry.typf =  typf;
+        if (vbluf instbndfof bytf[]) {  // dlonf thf bytf brrby
+            nfwEntry.vbluf = ((bytf[]) vbluf).dlonf();
+        } flsf {
+            nfwEntry.vbluf = vbluf;
+        }
+        fntrifs.bdd(nfwEntry);
+        rfturn this;
+    }
+
+    void sort() {
+        if (fntrifs.sizf() > 1) {
+            Collfdtions.sort(fntrifs);
+        }
+    }
+
+    /**
+     * Rftrifvfs onf of this Rdn's vbluf.
+     * This is b donvfnifndf mfthod for obtbining thf vbluf,
+     * whfn thf RDN dontbins b singlf typf bnd vbluf mbpping,
+     * whidh is thf dommon RDN usbgf.
+     * <p>
+     * For b multi-vblufd RDN, this mfthod rfturns vbluf dorrfsponding
+     * to thf typf rfturnfd by {@link #gftTypf() gftTypf()} mfthod.
+     *
+     * @rfturn Thf non-null bttributf vbluf.
+     */
+    publid Objfdt gftVbluf() {
+        rfturn fntrifs.gft(0).gftVbluf();
+    }
+
+    /**
+     * Rftrifvfs onf of this Rdn's typf.
+     * This is b donvfnifndf mfthod for obtbining thf typf,
+     * whfn thf RDN dontbins b singlf typf bnd vbluf mbpping,
+     * whidh is thf dommon RDN usbgf.
+     * <p>
+     * For b multi-vblufd RDN, thf typf/vbluf pbirs hbvf
+     * no spfdifid ordfr dffinfd on thfm. In thbt dbsf, this mfthod
+     * rfturns typf of onf of thf typf/vbluf pbirs.
+     * Thf {@link #gftVbluf() gftVbluf()} mfthod rfturns thf
+     * vbluf dorrfsponding to thf typf rfturnfd by this mfthod.
+     *
+     * @rfturn Thf non-null bttributf typf.
+     */
+    publid String gftTypf() {
+        rfturn fntrifs.gft(0).gftTypf();
+    }
+
+    /**
+     * Rfturns this Rdn bs b string rfprfsfntfd in b formbt dffinfd by
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b> bnd dfsdribfd
+     * in thf dlbss dfsdription for {@link jbvbx.nbming.ldbp.LdbpNbmf LdbpNbmf}.
+     *
+     * @rfturn Thf string rfprfsfntbtion of thf Rdn.
+     */
+    publid String toString() {
+        StringBuildfr buildfr = nfw StringBuildfr();
+        int sizf = fntrifs.sizf();
+        if (sizf > 0) {
+            buildfr.bppfnd(fntrifs.gft(0));
+        }
+        for (int nfxt = 1; nfxt < sizf; nfxt++) {
+            buildfr.bppfnd('+');
+            buildfr.bppfnd(fntrifs.gft(nfxt));
+        }
+        rfturn buildfr.toString();
+    }
+
+    /**
+     * Compbrfs this Rdn with thf spfdififd Objfdt for ordfr.
+     * Rfturns b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this
+     * Rdn is lfss thbn, fqubl to, or grfbtfr thbn thf givfn Objfdt.
+     * <p>
+     * If obj is null or not bn instbndf of Rdn, ClbssCbstExdfption
+     * is thrown.
+     * <p>
+     * Thf bttributf typf bnd vbluf pbirs of thf RDNs brf linfd up
+     * bgbinst fbdh othfr bnd dompbrfd lfxidogrbphidblly. Thf ordfr of
+     * domponfnts in multi-vblufd Rdns (sudh bs "ou=Sblfs+dn=Bob") is not
+     * signifidbnt.
+     *
+     * @pbrbm obj Thf non-null objfdt to dompbrf bgbinst.
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this Rdn
+     *          is lfss thbn, fqubl to, or grfbtfr thbn thf givfn Objfdt.
+     * @fxdfption ClbssCbstExdfption if obj is null or not b Rdn.
+     */
+    publid int dompbrfTo(Objfdt obj) {
+        if (!(obj instbndfof Rdn)) {
+            throw nfw ClbssCbstExdfption("Thf obj is not b Rdn");
+        }
+        if (obj == this) {
+            rfturn 0;
+        }
+        Rdn thbt = (Rdn) obj;
+        int minSizf = Mbth.min(fntrifs.sizf(), thbt.fntrifs.sizf());
+        for (int i = 0; i < minSizf; i++) {
+
+            // Compbrf b singlf pbir of typf/vbluf pbirs.
+            int diff = fntrifs.gft(i).dompbrfTo(thbt.fntrifs.gft(i));
+            if (diff != 0) {
+                rfturn diff;
+            }
+        }
+        rfturn (fntrifs.sizf() - thbt.fntrifs.sizf());  // longfr RDN wins
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this Rdn for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b Rdn bnd thf two Rdns
+     * rfprfsfnt thf sbmf bttributf typf bnd vbluf mbppings. Thf ordfr of
+     * domponfnts in multi-vblufd Rdns (sudh bs "ou=Sblfs+dn=Bob") is not
+     * signifidbnt.
+     * <p>
+     * Typf bnd vbluf fqublity mbtdhing is donf bs bflow:
+     * <ul>
+     * <li> Thf typfs brf dompbrfd for fqublity with thfir dbsf ignorfd.
+     * <li> String vblufs with difffrfnt but fquivblfnt usbgf of quoting,
+     * fsdbping, or UTF8-hfx-fndoding brf donsidfrfd fqubl.
+     * Thf dbsf of thf vblufs is ignorfd during thf dompbrison.
+     * </ul>
+     * <p>
+     * If obj is null or not bn instbndf of Rdn, fblsf is rfturnfd.
+     *
+     * @pbrbm obj objfdt to bf dompbrfd for fqublity with this Rdn.
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this Rdn.
+     * @sff #hbshCodf()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof Rdn)) {
+            rfturn fblsf;
+        }
+        Rdn thbt = (Rdn) obj;
+        if (fntrifs.sizf() != thbt.sizf()) {
+            rfturn fblsf;
+        }
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            if (!fntrifs.gft(i).fqubls(thbt.fntrifs.gft(i))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf of this RDN. Two RDNs thbt brf
+     * fqubl (bddording to thf fqubls mfthod) will hbvf thf sbmf
+     * hbsh dodf.
+     *
+     * @rfturn An int rfprfsfnting thf hbsh dodf of this Rdn.
+     * @sff #fqubls
+     */
+    publid int hbshCodf() {
+
+        // Sum up thf hbsh dodfs of thf domponfnts.
+        int hbsh = 0;
+
+        // For fbdh typf/vbluf pbir...
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            hbsh += fntrifs.gft(i).hbshCodf();
+        }
+        rfturn hbsh;
+    }
+
+    /**
+     * Rftrifvfs thf {@link jbvbx.nbming.dirfdtory.Attributfs Attributfs}
+     * vifw of thf typf/vbluf mbppings dontbinfd in this Rdn.
+     *
+     * @rfturn  Thf non-null bttributfs dontbining thf typf/vbluf
+     *          mbppings of this Rdn.
+     */
+    publid Attributfs toAttributfs() {
+        Attributfs bttrs = nfw BbsidAttributfs(truf);
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            RdnEntry fntry = fntrifs.gft(i);
+            Attributf bttr = bttrs.put(fntry.gftTypf(), fntry.gftVbluf());
+            if (bttr != null) {
+                bttr.bdd(fntry.gftVbluf());
+                bttrs.put(bttr);
+            }
+        }
+        rfturn bttrs;
+    }
+
+
+    privbtf stbtid dlbss RdnEntry implfmfnts Compbrbblf<RdnEntry> {
+        privbtf String typf;
+        privbtf Objfdt vbluf;
+
+        // If non-null, b dbnonidbl rfprfsfntbtion of thf vbluf suitbblf
+        // for dompbrison using String.dompbrfTo()
+        privbtf String dompbrbblf = null;
+
+        String gftTypf() {
+            rfturn typf;
+        }
+
+        Objfdt gftVbluf() {
+            rfturn vbluf;
+        }
+
+        publid int dompbrfTo(RdnEntry thbt) {
+            int diff = typf.dompbrfToIgnorfCbsf(thbt.typf);
+            if (diff != 0) {
+                rfturn diff;
+            }
+            if (vbluf.fqubls(thbt.vbluf)) {     // try shortdut
+                rfturn 0;
+            }
+            rfturn gftVblufCompbrbblf().dompbrfTo(
+                        thbt.gftVblufCompbrbblf());
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == this) {
+                rfturn truf;
+            }
+            if (!(obj instbndfof RdnEntry)) {
+                rfturn fblsf;
+            }
+
+            // Any dhbngf hfrf must bf rfflfdtfd in hbshCodf()
+            RdnEntry thbt = (RdnEntry) obj;
+            rfturn (typf.fqublsIgnorfCbsf(thbt.typf)) &&
+                        (gftVblufCompbrbblf().fqubls(
+                        thbt.gftVblufCompbrbblf()));
+        }
+
+        publid int hbshCodf() {
+            rfturn (typf.toUppfrCbsf(Lodblf.ENGLISH).hbshCodf() +
+                gftVblufCompbrbblf().hbshCodf());
+        }
+
+        publid String toString() {
+            rfturn typf + "=" + fsdbpfVbluf(vbluf);
+        }
+
+        privbtf String gftVblufCompbrbblf() {
+            if (dompbrbblf != null) {
+                rfturn dompbrbblf;              // rfturn dbdhfd rfsult
+            }
+
+            // dbdhf rfsult
+            if (vbluf instbndfof bytf[]) {
+                dompbrbblf = fsdbpfBinbryVbluf((bytf[]) vbluf);
+            } flsf {
+                dompbrbblf = ((String) vbluf).toUppfrCbsf(Lodblf.ENGLISH);
+            }
+            rfturn dompbrbblf;
+        }
+    }
+
+    /**
+     * Rftrifvfs thf numbfr of bttributf typf/vbluf pbirs in this Rdn.
+     * @rfturn Thf non-nfgbtivf numbfr of typf/vbluf pbirs in this Rdn.
+     */
+    publid int sizf() {
+        rfturn fntrifs.sizf();
+    }
+
+    /**
+     * Givfn thf vbluf of bn bttributf, rfturns b string fsdbpfd bddording
+     * to thf rulfs spfdififd in
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+     * <p>
+     * For fxbmplf, if thf vbl is "Suf, Grbbbit bnd Runn", thf fsdbpfd
+     * vbluf rfturnfd by this mfthod is "Suf\, Grbbbit bnd Runn".
+     * <p>
+     * A string vbluf is rfprfsfntfd bs b String bnd binbry vbluf
+     * bs b bytf brrby.
+     *
+     * @pbrbm vbl Thf non-null objfdt to bf fsdbpfd.
+     * @rfturn Esdbpfd string vbluf.
+     * @throws ClbssCbstExdfption if vbl is is not b String or bytf brrby.
+     */
+    publid stbtid String fsdbpfVbluf(Objfdt vbl) {
+        rfturn (vbl instbndfof bytf[])
+                ? fsdbpfBinbryVbluf((bytf[])vbl)
+                : fsdbpfStringVbluf((String)vbl);
+    }
+
+    /*
+     * Givfn thf vbluf of b string-vblufd bttributf, rfturns b
+     * string suitbblf for indlusion in b DN.  This is bddomplishfd by
+     * using bbdkslbsh (\) to fsdbpf thf following dhbrbdtfrs:
+     *  lfbding bnd trbiling whitfspbdf
+     *  , = + < > # ; " \
+     */
+    privbtf stbtid finbl String fsdbpffs = ",=+<>#;\"\\";
+
+    privbtf stbtid String fsdbpfStringVbluf(String vbl) {
+
+            dhbr[] dhbrs = vbl.toChbrArrby();
+            StringBuildfr buildfr = nfw StringBuildfr(2 * vbl.lfngth());
+
+            // Find lfbding bnd trbiling whitfspbdf.
+            int lfbd;   // indfx of first dhbr thbt is not lfbding whitfspbdf
+            for (lfbd = 0; lfbd < dhbrs.lfngth; lfbd++) {
+                if (!isWhitfspbdf(dhbrs[lfbd])) {
+                    brfbk;
+                }
+            }
+            int trbil;  // indfx of lbst dhbr thbt is not trbiling whitfspbdf
+            for (trbil = dhbrs.lfngth - 1; trbil >= 0; trbil--) {
+                if (!isWhitfspbdf(dhbrs[trbil])) {
+                    brfbk;
+                }
+            }
+
+            for (int i = 0; i < dhbrs.lfngth; i++) {
+                dhbr d = dhbrs[i];
+                if ((i < lfbd) || (i > trbil) || (fsdbpffs.indfxOf(d) >= 0)) {
+                    buildfr.bppfnd('\\');
+                }
+                buildfr.bppfnd(d);
+            }
+            rfturn buildfr.toString();
+    }
+
+    /*
+     * Givfn thf vbluf of b binbry bttributf, rfturns b string
+     * suitbblf for indlusion in b DN (sudh bs "#CEB1DF80").
+     * TBD: This mfthod should bdtublly gfnfrbtf thf bfr fndoding
+     * of thf binbry vbluf
+     */
+    privbtf stbtid String fsdbpfBinbryVbluf(bytf[] vbl) {
+
+        StringBuildfr buildfr = nfw StringBuildfr(1 + 2 * vbl.lfngth);
+        buildfr.bppfnd("#");
+
+        for (int i = 0; i < vbl.lfngth; i++) {
+            bytf b = vbl[i];
+            buildfr.bppfnd(Chbrbdtfr.forDigit(0xF & (b >>> 4), 16));
+            buildfr.bppfnd(Chbrbdtfr.forDigit(0xF & b, 16));
+        }
+        rfturn buildfr.toString();
+    }
+
+    /**
+     * Givfn bn bttributf vbluf string formbttfd bddording to thf rulfs
+     * spfdififd in
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>,
+     * rfturns thf unformbttfd vbluf.  Esdbpfs bnd quotfs brf
+     * strippfd bwby, bnd hfx-fndodfd UTF-8 is donvfrtfd to fquivblfnt
+     * UTF-16 dhbrbdtfrs. Rfturns b string vbluf bs b String, bnd b
+     * binbry vbluf bs b bytf brrby.
+     * <p>
+     * Lfgbl bnd illfgbl vblufs brf dffinfd in RFC 2253.
+     * This mfthod is gfnfrous in bddfpting thf vblufs bnd dofs not
+     * dbtdh bll illfgbl vblufs.
+     * Thfrfforf, pbssing in bn illfgbl vbluf might not nfdfssbrily
+     * triggfr bn <tt>IllfgblArgumfntExdfption</tt>.
+     *
+     * @pbrbm   vbl     Thf non-null string to bf unfsdbpfd.
+     * @rfturn          Unfsdbpfd vbluf.
+     * @throws          IllfgblArgumfntExdfption Whfn bn Illfgbl vbluf
+     *                  is providfd.
+     */
+    publid stbtid Objfdt unfsdbpfVbluf(String vbl) {
+
+            dhbr[] dhbrs = vbl.toChbrArrby();
+            int bfg = 0;
+            int fnd = dhbrs.lfngth;
+
+            // Trim off lfbding bnd trbiling whitfspbdf.
+            whilf ((bfg < fnd) && isWhitfspbdf(dhbrs[bfg])) {
+                ++bfg;
+            }
+
+            whilf ((bfg < fnd) && isWhitfspbdf(dhbrs[fnd - 1])) {
+                --fnd;
+            }
+
+            // Add bbdk thf trbiling whitfspbdf with b prfdfding '\'
+            // (fsdbpfd or unfsdbpfd) thbt wbs tbkfn off in thf bbovf
+            // loop. Whfthfr or not to rftbin this whitfspbdf is dfdidfd bflow.
+            if (fnd != dhbrs.lfngth &&
+                    (bfg < fnd) &&
+                    dhbrs[fnd - 1] == '\\') {
+                fnd++;
+            }
+            if (bfg >= fnd) {
+                rfturn "";
+            }
+
+            if (dhbrs[bfg] == '#') {
+                // Vbluf is binbry (fg: "#CEB1DF80").
+                rfturn dfdodfHfxPbirs(dhbrs, ++bfg, fnd);
+            }
+
+            // Trim off quotfs.
+            if ((dhbrs[bfg] == '\"') && (dhbrs[fnd - 1] == '\"')) {
+                ++bfg;
+                --fnd;
+            }
+
+            StringBuildfr buildfr = nfw StringBuildfr(fnd - bfg);
+            int fsd = -1; // indfx of thf lbst fsdbpfd dhbrbdtfr
+
+            for (int i = bfg; i < fnd; i++) {
+                if ((dhbrs[i] == '\\') && (i + 1 < fnd)) {
+                    if (!Chbrbdtfr.isLfttfrOrDigit(dhbrs[i + 1])) {
+                        ++i;                            // skip bbdkslbsh
+                        buildfr.bppfnd(dhbrs[i]);       // snbrf fsdbpfd dhbr
+                        fsd = i;
+                    } flsf {
+
+                        // Convfrt hfx-fndodfd UTF-8 to 16-bit dhbrs.
+                        bytf[] utf8 = gftUtf8Odtfts(dhbrs, i, fnd);
+                        if (utf8.lfngth > 0) {
+                            try {
+                                buildfr.bppfnd(nfw String(utf8, "UTF8"));
+                            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+                                // shouldn't hbppfn
+                            }
+                            i += utf8.lfngth * 3 - 1;
+                        } flsf { // no utf8 bytfs bvbilbblf, invblid DN
+
+                            // '/' hbs no mfbning, throw fxdfption
+                            throw nfw IllfgblArgumfntExdfption(
+                                "Not b vblid bttributf string vbluf:" +
+                                vbl + ",impropfr usbgf of bbdkslbsh");
+                        }
+                    }
+                } flsf {
+                    buildfr.bppfnd(dhbrs[i]);   // snbrf unfsdbpfd dhbr
+                }
+            }
+
+            // Gft rid of thf unfsdbpfd trbiling whitfspbdf with thf
+            // prfdfding '\' dhbrbdtfr thbt wbs prfviously bddfd bbdk.
+            int lfn = buildfr.lfngth();
+            if (isWhitfspbdf(buildfr.dhbrAt(lfn - 1)) && fsd != (fnd - 1)) {
+                buildfr.sftLfngth(lfn - 1);
+            }
+            rfturn buildfr.toString();
+        }
+
+
+        /*
+         * Givfn bn brrby of dhbrs (with stbrting bnd fnding indfxfs into it)
+         * rfprfsfnting bytfs fndodfd bs hfx-pbirs (sudh bs "CEB1DF80"),
+         * rfturns b bytf brrby dontbining thf dfdodfd bytfs.
+         */
+        privbtf stbtid bytf[] dfdodfHfxPbirs(dhbr[] dhbrs, int bfg, int fnd) {
+            bytf[] bytfs = nfw bytf[(fnd - bfg) / 2];
+            for (int i = 0; bfg + 1 < fnd; i++) {
+                int hi = Chbrbdtfr.digit(dhbrs[bfg], 16);
+                int lo = Chbrbdtfr.digit(dhbrs[bfg + 1], 16);
+                if (hi < 0 || lo < 0) {
+                    brfbk;
+                }
+                bytfs[i] = (bytf)((hi<<4) + lo);
+                bfg += 2;
+            }
+            if (bfg != fnd) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Illfgbl bttributf vbluf: " + nfw String(dhbrs));
+            }
+            rfturn bytfs;
+        }
+
+        /*
+         * Givfn bn brrby of dhbrs (with stbrting bnd fnding indfxfs into it),
+         * finds thf lbrgfst prffix donsisting of hfx-fndodfd UTF-8 odtfts,
+         * bnd rfturns b bytf brrby dontbining thf dorrfsponding UTF-8 odtfts.
+         *
+         * Hfx-fndodfd UTF-8 odtfts look likf this:
+         *      \03\B1\DF\80
+         */
+        privbtf stbtid bytf[] gftUtf8Odtfts(dhbr[] dhbrs, int bfg, int fnd) {
+            bytf[] utf8 = nfw bytf[(fnd - bfg) / 3];    // bllow fnough room
+            int lfn = 0;        // indfx of first unusfd bytf in utf8
+
+            whilf ((bfg + 2 < fnd) &&
+                   (dhbrs[bfg++] == '\\')) {
+                int hi = Chbrbdtfr.digit(dhbrs[bfg++], 16);
+                int lo = Chbrbdtfr.digit(dhbrs[bfg++], 16);
+                if (hi < 0 || lo < 0) {
+                   brfbk;
+                }
+                utf8[lfn++] = (bytf)((hi<<4) + lo);
+            }
+            if (lfn == utf8.lfngth) {
+                rfturn utf8;
+            } flsf {
+                bytf[] rfs = nfw bytf[lfn];
+                Systfm.brrbydopy(utf8, 0, rfs, 0, lfn);
+                rfturn rfs;
+            }
+        }
+
+    /*
+     * Bfst gufss bs to whbt RFC 2253 mfbns by "whitfspbdf".
+     */
+    privbtf stbtid boolfbn isWhitfspbdf(dhbr d) {
+        rfturn (d == ' ' || d == '\r');
+    }
+
+    /**
+     * Sfriblizfs only thf unpbrsfd RDN, for dompbdtnfss bnd to bvoid
+     * bny implfmfntbtion dfpfndfndy.
+     *
+     * @sfriblDbtb      Thf RDN string
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(toString());
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        fntrifs = nfw ArrbyList<>(DEFAULT_SIZE);
+        String unpbrsfd = (String) s.rfbdObjfdt();
+        try {
+            (nfw Rfd2253Pbrsfr(unpbrsfd)).pbrsfRdn(this);
+        } dbtdh (InvblidNbmfExdfption f) {
+            // shouldn't hbppfn
+            throw nfw jbvb.io.StrfbmCorruptfdExdfption(
+                    "Invblid nbmf: " + unpbrsfd);
+        }
+    }
+}

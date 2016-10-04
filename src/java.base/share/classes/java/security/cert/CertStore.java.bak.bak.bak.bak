@@ -1,0 +1,422 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Collfdtion;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * A dlbss for rftrifving {@dodf Cfrtifidbtf}s bnd {@dodf CRL}s
+ * from b rfpository.
+ * <p>
+ * This dlbss usfs b providfr-bbsfd brdhitfdturf.
+ * To drfbtf b {@dodf CfrtStorf}, dbll onf of thf stbtid
+ * {@dodf gftInstbndf} mfthods, pbssing in thf typf of
+ * {@dodf CfrtStorf} dfsirfd, bny bpplidbblf initiblizbtion pbrbmftfrs
+ * bnd optionblly thf nbmf of thf providfr dfsirfd.
+ * <p>
+ * Ondf thf {@dodf CfrtStorf} hbs bffn drfbtfd, it dbn bf usfd to
+ * rftrifvf {@dodf Cfrtifidbtf}s bnd {@dodf CRL}s by dblling its
+ * {@link #gftCfrtifidbtfs(CfrtSflfdtor sflfdtor) gftCfrtifidbtfs} bnd
+ * {@link #gftCRLs(CRLSflfdtor sflfdtor) gftCRLs} mfthods.
+ * <p>
+ * Unlikf b {@link jbvb.sfdurity.KfyStorf KfyStorf}, whidh providfs bddfss
+ * to b dbdhf of privbtf kfys bnd trustfd dfrtifidbtfs, b
+ * {@dodf CfrtStorf} is dfsignfd to providf bddfss to b potfntiblly
+ * vbst rfpository of untrustfd dfrtifidbtfs bnd CRLs. For fxbmplf, bn LDAP
+ * implfmfntbtion of {@dodf CfrtStorf} providfs bddfss to dfrtifidbtfs
+ * bnd CRLs storfd in onf or morf dirfdtorifs using thf LDAP protodol bnd thf
+ * sdhfmb bs dffinfd in thf RFC sfrvidf bttributf.
+ *
+ * <p> Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd {@dodf CfrtStorf} typf:
+ * <ul>
+ * <li>{@dodf Collfdtion}</li>
+ * </ul>
+ * This typf is dfsdribfd in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtStorf">
+ * CfrtStorf sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr typfs brf supportfd.
+ *
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * All publid mfthods of {@dodf CfrtStorf} objfdts must bf thrfbd-sbff.
+ * Thbt is, multiplf thrfbds mby dondurrfntly invokf thfsf mfthods on b
+ * singlf {@dodf CfrtStorf} objfdt (or morf thbn onf) with no
+ * ill ffffdts. This bllows b {@dodf CfrtPbthBuildfr} to sfbrdh for b
+ * CRL whilf simultbnfously sfbrdhing for furthfr dfrtifidbtfs, for instbndf.
+ * <p>
+ * Thf stbtid mfthods of this dlbss brf blso gubrbntffd to bf thrfbd-sbff.
+ * Multiplf thrfbds mby dondurrfntly invokf thf stbtid mfthods dffinfd in
+ * this dlbss with no ill ffffdts.
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn, Stfvf Hbnnb
+ */
+publid dlbss CfrtStorf {
+    /*
+     * Constbnt to lookup in thf Sfdurity propfrtifs filf to dftfrminf
+     * thf dffbult dfrtstorf typf. In thf Sfdurity propfrtifs filf, thf
+     * dffbult dfrtstorf typf is givfn bs:
+     * <prf>
+     * dfrtstorf.typf=LDAP
+     * </prf>
+     */
+    privbtf stbtid finbl String CERTSTORE_TYPE = "dfrtstorf.typf";
+    privbtf CfrtStorfSpi storfSpi;
+    privbtf Providfr providfr;
+    privbtf String typf;
+    privbtf CfrtStorfPbrbmftfrs pbrbms;
+
+    /**
+     * Crfbtfs b {@dodf CfrtStorf} objfdt of thf givfn typf, bnd
+     * fndbpsulbtfs thf givfn providfr implfmfntbtion (SPI objfdt) in it.
+     *
+     * @pbrbm storfSpi thf providfr implfmfntbtion
+     * @pbrbm providfr thf providfr
+     * @pbrbm typf thf typf
+     * @pbrbm pbrbms thf initiblizbtion pbrbmftfrs (mby bf {@dodf null})
+     */
+    protfdtfd CfrtStorf(CfrtStorfSpi storfSpi, Providfr providfr,
+                        String typf, CfrtStorfPbrbmftfrs pbrbms) {
+        this.storfSpi = storfSpi;
+        this.providfr = providfr;
+        this.typf = typf;
+        if (pbrbms != null)
+            this.pbrbms = (CfrtStorfPbrbmftfrs) pbrbms.dlonf();
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtion} of {@dodf Cfrtifidbtf}s thbt
+     * mbtdh thf spfdififd sflfdtor. If no {@dodf Cfrtifidbtf}s
+     * mbtdh thf sflfdtor, bn fmpty {@dodf Collfdtion} will bf rfturnfd.
+     * <p>
+     * For somf {@dodf CfrtStorf} typfs, thf rfsulting
+     * {@dodf Collfdtion} mby not dontbin <b>bll</b> of thf
+     * {@dodf Cfrtifidbtf}s thbt mbtdh thf sflfdtor. For instbndf,
+     * bn LDAP {@dodf CfrtStorf} mby not sfbrdh bll fntrifs in thf
+     * dirfdtory. Instfbd, it mby just sfbrdh fntrifs thbt brf likfly to
+     * dontbin thf {@dodf Cfrtifidbtf}s it is looking for.
+     * <p>
+     * Somf {@dodf CfrtStorf} implfmfntbtions (fspfdiblly LDAP
+     * {@dodf CfrtStorf}s) mby throw b {@dodf CfrtStorfExdfption}
+     * unlfss b non-null {@dodf CfrtSflfdtor} is providfd thbt
+     * indludfs spfdifid dritfrib thbt dbn bf usfd to find thf dfrtifidbtfs.
+     * Issufr bnd/or subjfdt nbmfs brf fspfdiblly usfful dritfrib.
+     *
+     * @pbrbm sflfdtor A {@dodf CfrtSflfdtor} usfd to sflfdt whidh
+     *  {@dodf Cfrtifidbtf}s should bf rfturnfd. Spfdify {@dodf null}
+     *  to rfturn bll {@dodf Cfrtifidbtf}s (if supportfd).
+     * @rfturn A {@dodf Collfdtion} of {@dodf Cfrtifidbtf}s thbt
+     *         mbtdh thf spfdififd sflfdtor (nfvfr {@dodf null})
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid finbl Collfdtion<? fxtfnds Cfrtifidbtf> gftCfrtifidbtfs
+            (CfrtSflfdtor sflfdtor) throws CfrtStorfExdfption {
+        rfturn storfSpi.fnginfGftCfrtifidbtfs(sflfdtor);
+    }
+
+    /**
+     * Rfturns b {@dodf Collfdtion} of {@dodf CRL}s thbt
+     * mbtdh thf spfdififd sflfdtor. If no {@dodf CRL}s
+     * mbtdh thf sflfdtor, bn fmpty {@dodf Collfdtion} will bf rfturnfd.
+     * <p>
+     * For somf {@dodf CfrtStorf} typfs, thf rfsulting
+     * {@dodf Collfdtion} mby not dontbin <b>bll</b> of thf
+     * {@dodf CRL}s thbt mbtdh thf sflfdtor. For instbndf,
+     * bn LDAP {@dodf CfrtStorf} mby not sfbrdh bll fntrifs in thf
+     * dirfdtory. Instfbd, it mby just sfbrdh fntrifs thbt brf likfly to
+     * dontbin thf {@dodf CRL}s it is looking for.
+     * <p>
+     * Somf {@dodf CfrtStorf} implfmfntbtions (fspfdiblly LDAP
+     * {@dodf CfrtStorf}s) mby throw b {@dodf CfrtStorfExdfption}
+     * unlfss b non-null {@dodf CRLSflfdtor} is providfd thbt
+     * indludfs spfdifid dritfrib thbt dbn bf usfd to find thf CRLs.
+     * Issufr nbmfs bnd/or thf dfrtifidbtf to bf dhfdkfd brf fspfdiblly usfful.
+     *
+     * @pbrbm sflfdtor A {@dodf CRLSflfdtor} usfd to sflfdt whidh
+     *  {@dodf CRL}s should bf rfturnfd. Spfdify {@dodf null}
+     *  to rfturn bll {@dodf CRL}s (if supportfd).
+     * @rfturn A {@dodf Collfdtion} of {@dodf CRL}s thbt
+     *         mbtdh thf spfdififd sflfdtor (nfvfr {@dodf null})
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid finbl Collfdtion<? fxtfnds CRL> gftCRLs(CRLSflfdtor sflfdtor)
+            throws CfrtStorfExdfption {
+        rfturn storfSpi.fnginfGftCRLs(sflfdtor);
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtStorf} objfdt thbt implfmfnts thf spfdififd
+     * {@dodf CfrtStorf} typf bnd is initiblizfd with thf spfdififd
+     * pbrbmftfrs.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw CfrtStorf objfdt fndbpsulbting thf
+     * CfrtStorfSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd typf is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p>Thf {@dodf CfrtStorf} thbt is rfturnfd is initiblizfd with thf
+     * spfdififd {@dodf CfrtStorfPbrbmftfrs}. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of {@dodf CfrtStorf}s.
+     * Notf thbt thf spfdififd {@dodf CfrtStorfPbrbmftfrs} objfdt is
+     * dlonfd.
+     *
+     * @pbrbm typf thf nbmf of thf rfqufstfd {@dodf CfrtStorf} typf.
+     * Sff thf CfrtStorf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtStorf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd typfs.
+     *
+     * @pbrbm pbrbms thf initiblizbtion pbrbmftfrs (mby bf {@dodf null}).
+     *
+     * @rfturn b {@dodf CfrtStorf} objfdt thbt implfmfnts thf spfdififd
+     *          {@dodf CfrtStorf} typf.
+     *
+     * @throws NoSudhAlgorithmExdfption if no Providfr supports b
+     *          CfrtStorfSpi implfmfntbtion for thf spfdififd typf.
+     *
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     *          initiblizbtion pbrbmftfrs brf inbppropribtf for this
+     *          {@dodf CfrtStorf}.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtStorf gftInstbndf(String typf, CfrtStorfPbrbmftfrs pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption,
+            NoSudhAlgorithmExdfption {
+        try {
+            Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtStorf",
+                CfrtStorfSpi.dlbss, typf, pbrbms);
+            rfturn nfw CfrtStorf((CfrtStorfSpi)instbndf.impl,
+                instbndf.providfr, typf, pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            rfturn hbndlfExdfption(f);
+        }
+    }
+
+    privbtf stbtid CfrtStorf hbndlfExdfption(NoSudhAlgorithmExdfption f)
+            throws NoSudhAlgorithmExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        Throwbblf dbusf = f.gftCbusf();
+        if (dbusf instbndfof InvblidAlgorithmPbrbmftfrExdfption) {
+            throw (InvblidAlgorithmPbrbmftfrExdfption)dbusf;
+        }
+        throw f;
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtStorf} objfdt thbt implfmfnts thf spfdififd
+     * {@dodf CfrtStorf} typf.
+     *
+     * <p> A nfw CfrtStorf objfdt fndbpsulbting thf
+     * CfrtStorfSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p>Thf {@dodf CfrtStorf} thbt is rfturnfd is initiblizfd with thf
+     * spfdififd {@dodf CfrtStorfPbrbmftfrs}. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of {@dodf CfrtStorf}s.
+     * Notf thbt thf spfdififd {@dodf CfrtStorfPbrbmftfrs} objfdt is
+     * dlonfd.
+     *
+     * @pbrbm typf thf rfqufstfd {@dodf CfrtStorf} typf.
+     * Sff thf CfrtStorf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtStorf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd typfs.
+     *
+     * @pbrbm pbrbms thf initiblizbtion pbrbmftfrs (mby bf {@dodf null}).
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn b {@dodf CfrtStorf} objfdt thbt implfmfnts thf
+     *          spfdififd typf.
+     *
+     * @throws NoSudhAlgorithmExdfption if b CfrtStorfSpi
+     *          implfmfntbtion for thf spfdififd typf is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     *          initiblizbtion pbrbmftfrs brf inbppropribtf for this
+     *          {@dodf CfrtStorf}.
+     *
+     * @throws NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf providfr} is
+     *          null or fmpty.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtStorf gftInstbndf(String typf,
+            CfrtStorfPbrbmftfrs pbrbms, String providfr)
+            throws InvblidAlgorithmPbrbmftfrExdfption,
+            NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        try {
+            Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtStorf",
+                CfrtStorfSpi.dlbss, typf, pbrbms, providfr);
+            rfturn nfw CfrtStorf((CfrtStorfSpi)instbndf.impl,
+                instbndf.providfr, typf, pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            rfturn hbndlfExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtStorf} objfdt thbt implfmfnts thf spfdififd
+     * {@dodf CfrtStorf} typf.
+     *
+     * <p> A nfw CfrtStorf objfdt fndbpsulbting thf
+     * CfrtStorfSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * <p>Thf {@dodf CfrtStorf} thbt is rfturnfd is initiblizfd with thf
+     * spfdififd {@dodf CfrtStorfPbrbmftfrs}. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of {@dodf CfrtStorf}s.
+     * Notf thbt thf spfdififd {@dodf CfrtStorfPbrbmftfrs} objfdt is
+     * dlonfd.
+     *
+     * @pbrbm typf thf rfqufstfd {@dodf CfrtStorf} typf.
+     * Sff thf CfrtStorf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtStorf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd typfs.
+     *
+     * @pbrbm pbrbms thf initiblizbtion pbrbmftfrs (mby bf {@dodf null}).
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn b {@dodf CfrtStorf} objfdt thbt implfmfnts thf
+     *          spfdififd typf.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b CfrtStorfSpi
+     *          implfmfntbtion for thf spfdififd typf is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     *          initiblizbtion pbrbmftfrs brf inbppropribtf for this
+     *          {@dodf CfrtStorf}
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf providfr} is
+     *          null.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtStorf gftInstbndf(String typf, CfrtStorfPbrbmftfrs pbrbms,
+            Providfr providfr) throws NoSudhAlgorithmExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        try {
+            Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtStorf",
+                CfrtStorfSpi.dlbss, typf, pbrbms, providfr);
+            rfturn nfw CfrtStorf((CfrtStorfSpi)instbndf.impl,
+                instbndf.providfr, typf, pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            rfturn hbndlfExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs usfd to initiblizf this {@dodf CfrtStorf}.
+     * Notf thbt thf {@dodf CfrtStorfPbrbmftfrs} objfdt is dlonfd bfforf
+     * it is rfturnfd.
+     *
+     * @rfturn thf pbrbmftfrs usfd to initiblizf this {@dodf CfrtStorf}
+     * (mby bf {@dodf null})
+     */
+    publid finbl CfrtStorfPbrbmftfrs gftCfrtStorfPbrbmftfrs() {
+        rfturn (pbrbms == null ? null : (CfrtStorfPbrbmftfrs) pbrbms.dlonf());
+    }
+
+    /**
+     * Rfturns thf typf of this {@dodf CfrtStorf}.
+     *
+     * @rfturn thf typf of this {@dodf CfrtStorf}
+     */
+    publid finbl String gftTypf() {
+        rfturn this.typf;
+    }
+
+    /**
+     * Rfturns thf providfr of this {@dodf CfrtStorf}.
+     *
+     * @rfturn thf providfr of this {@dodf CfrtStorf}
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn this.providfr;
+    }
+
+    /**
+     * Rfturns thf dffbult {@dodf CfrtStorf} typf bs spfdififd by thf
+     * {@dodf dfrtstorf.typf} sfdurity propfrty, or thf string
+     * {@litfrbl "LDAP"} if no sudh propfrty fxists.
+     *
+     * <p>Thf dffbult {@dodf CfrtStorf} typf dbn bf usfd by bpplidbtions
+     * thbt do not wbnt to usf b hbrd-dodfd typf whfn dblling onf of thf
+     * {@dodf gftInstbndf} mfthods, bnd wbnt to providf b dffbult
+     * {@dodf CfrtStorf} typf in dbsf b usfr dofs not spfdify its own.
+     *
+     * <p>Thf dffbult {@dodf CfrtStorf} typf dbn bf dhbngfd by sftting
+     * thf vbluf of thf {@dodf dfrtstorf.typf} sfdurity propfrty to thf
+     * dfsirfd typf.
+     *
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @rfturn thf dffbult {@dodf CfrtStorf} typf bs spfdififd by thf
+     * {@dodf dfrtstorf.typf} sfdurity propfrty, or thf string
+     * {@litfrbl "LDAP"} if no sudh propfrty fxists.
+     */
+    publid finbl stbtid String gftDffbultTypf() {
+        String dstypf;
+        dstypf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty(CERTSTORE_TYPE);
+            }
+        });
+        if (dstypf == null) {
+            dstypf = "LDAP";
+        }
+        rfturn dstypf;
+    }
+}

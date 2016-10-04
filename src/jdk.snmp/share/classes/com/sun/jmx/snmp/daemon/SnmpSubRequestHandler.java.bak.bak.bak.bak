@@ -1,0 +1,630 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+// jbvb import
+//
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+
+// jmx imports
+//
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
+
+// SNMP Runtimf import
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst;
+import dom.sun.jmx.snmp.ThrfbdContfxt;
+import dom.sun.jmx.snmp.intfrnbl.SnmpIndomingRfqufst;
+
+dlbss SnmpSubRfqufstHbndlfr implfmfnts SnmpDffinitions, Runnbblf {
+
+    protfdtfd SnmpIndomingRfqufst indRfqufst = null;
+    protfdtfd SnmpEnginf fnginf = null;
+    /**
+     * V3 fnbblfd Adbptor. Ebdh Oid is bddfd using updbtfRfqufst mfthod.
+     */
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpEnginf fnginf,
+                                    SnmpIndomingRfqufst indRfqufst,
+                                    SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq) {
+        this(bgfnt, rfq);
+        init(fnginf, indRfqufst);
+    }
+
+    /**
+     * V3 fnbblfd Adbptor.
+     */
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpEnginf fnginf,
+                                    SnmpIndomingRfqufst indRfqufst,
+                                    SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq,
+                                    boolfbn nousf) {
+        this(bgfnt, rfq, nousf);
+        init(fnginf, indRfqufst);
+    }
+    /**
+     * SNMP V1/V2 . To bf dbllfd with updbtfRfqufst.
+     */
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpMibAgfnt bgfnt, SnmpPdu rfq) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "donstrudtor", "drfbting instbndf for rfqufst " + String.vblufOf(rfq.rfqufstId));
+        }
+
+        vfrsion= rfq.vfrsion;
+        typf= rfq.typf;
+        this.bgfnt= bgfnt;
+
+        // Wf gft b rff on thf pdu in ordfr to pbss it to SnmpMibRfqufst.
+        rfqPdu = rfq;
+
+        //Prf-bllodbtf room for storing vbrbindlist bnd trbnslbtion tbblf.
+        //
+        int lfngth= rfq.vbrBindList.lfngth;
+        trbnslbtion= nfw int[lfngth];
+        vbrBind= nfw NonSyndVfdtor<SnmpVbrBind>(lfngth);
+    }
+
+    /**
+     * SNMP V1/V2 Thf donstrudtor initiblizf thf subrfqufst with thf wholf vbrbind list dontbinfd
+     * in thf originbl rfqufst.
+     */
+    @SupprfssWbrnings("undhfdkfd")  // dbst to NonSyndVfdtor<SnmpVbrBind>
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq,
+                                    boolfbn nousf) {
+        this(bgfnt,rfq);
+
+        // Thf trbnslbtion tbblf is fbsy in this dbsf ...
+        //
+        int mbx= trbnslbtion.lfngth;
+        SnmpVbrBind[] list= rfq.vbrBindList;
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            ((NonSyndVfdtor<SnmpVbrBind>)vbrBind).bddNonSyndElfmfnt(list[i]);
+        }
+    }
+
+    SnmpMibRfqufst drfbtfMibRfqufst(Vfdtor<SnmpVbrBind> vblist,
+                                    int protodolVfrsion,
+                                    Objfdt usfrDbtb) {
+
+        // This is bn optimizbtion:
+        //    Thf SnmpMibRfqufst drfbtfd in thf dhfdk() phbsf is
+        //    rfusfd in thf sft() phbsf.
+        //
+        if (typf == pduSftRfqufstPdu && mibRfqufst != null)
+            rfturn mibRfqufst;
+
+        //This is b rfqufst domming from bn SnmpV3AdbptorSfrvfr.
+        //Full powfr.
+        SnmpMibRfqufst rfsult = null;
+        if(indRfqufst != null) {
+            rfsult = SnmpMibAgfnt.nfwMibRfqufst(fnginf,
+                                                rfqPdu,
+                                                vblist,
+                                                protodolVfrsion,
+                                                usfrDbtb,
+                                                indRfqufst.gftPrindipbl(),
+                                                indRfqufst.gftSfdurityLfvfl(),
+                                                indRfqufst.gftSfdurityModfl(),
+                                                indRfqufst.gftContfxtNbmf(),
+                                                indRfqufst.gftAddfssContfxt());
+        } flsf {
+            rfsult = SnmpMibAgfnt.nfwMibRfqufst(rfqPdu,
+                                                vblist,
+                                                protodolVfrsion,
+                                                usfrDbtb);
+        }
+        // If wf'rf doing thf dhfdk() phbsf, wf storf thf SnmpMibRfqufst
+        // so thbt wf dbn rfusf it in thf sft() phbsf.
+        //
+        if (typf == pduWblkRfqufst)
+            mibRfqufst = rfsult;
+
+        rfturn rfsult;
+    }
+
+    void sftUsfrDbtb(Objfdt usfrDbtb) {
+        dbtb = usfrDbtb;
+    }
+
+    publid void run() {
+
+        try {
+            finbl ThrfbdContfxt oldContfxt =
+                ThrfbdContfxt.push("SnmpUsfrDbtb",dbtb);
+            try {
+                switdh(typf) {
+                dbsf pduGftRfqufstPdu:
+                    // Invokf b gft opfrbtion
+                    //
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Thrfbd.durrfntThrfbd() +
+                              "]:gft opfrbtion on " + bgfnt.gftMibNbmf());
+                    }
+
+                    bgfnt.gft(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
+
+                dbsf pduGftNfxtRfqufstPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Thrfbd.durrfntThrfbd() +
+                              "]:gftNfxt opfrbtion on " + bgfnt.gftMibNbmf());
+                    }
+                    //#ifdff DEBUG
+                    bgfnt.gftNfxt(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
+
+                dbsf pduSftRfqufstPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Thrfbd.durrfntThrfbd() +
+                            "]:sft opfrbtion on " + bgfnt.gftMibNbmf());
+                    }
+                    bgfnt.sft(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
+
+                dbsf pduWblkRfqufst:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Thrfbd.durrfntThrfbd() +
+                            "]:dhfdk opfrbtion on " + bgfnt.gftMibNbmf());
+                    }
+                    bgfnt.dhfdk(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
+
+                dffbult:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Thrfbd.durrfntThrfbd() +
+                              "]:unknown opfrbtion (" +  typf + ") on " +
+                              bgfnt.gftMibNbmf());
+                    }
+                    frrorStbtus= snmpRspGfnErr;
+                    frrorIndfx= 1;
+                    brfbk;
+
+                }// fnd of switdh
+
+            } finblly {
+                ThrfbdContfxt.rfstorf(oldContfxt);
+            }
+        } dbtdh(SnmpStbtusExdfption x) {
+            frrorStbtus = x.gftStbtus() ;
+            frrorIndfx=  x.gftErrorIndfx();
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Thrfbd.durrfntThrfbd() +
+                      "]:bn Snmp frror oddurrfd during thf opfrbtion", x);
+            }
+        }
+        dbtdh(Exdfption x) {
+            frrorStbtus = SnmpDffinitions.snmpRspGfnErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Thrfbd.durrfntThrfbd() +
+                      "]:b gfnfrid frror oddurrfd during thf opfrbtion", x);
+            }
+        }
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "run", "[" + Thrfbd.durrfntThrfbd() + "]:opfrbtion domplftfd");
+        }
+    }
+
+    // -------------------------------------------------------------
+    //
+    // This fundtion dofs b bfst-fffort to mbp globbl frror stbtus
+    // to SNMP v1 vblid globbl frror stbtus.
+    //
+    // An SnmpStbtusExdfption dbn dontbin fithfr:
+    // <li> v2 lodbl frror dodfs (thbt should bf storfd in thf vbrbind)</li>
+    // <li> v2 globbl frror dodfs </li>
+    // <li> v1 globbl frror dodfs </li>
+    //
+    // v2 lodbl frror dodfs (noSudhInstbndf, noSudhObjfdt) brf
+    // trbnsformfd in b globbl v1 snmpRspNoSudhNbmf frror.
+    //
+    // v2 globbl frror dodfs brf trbnsformfd in thf following wby:
+    //
+    //    If thf rfqufst wbs b GET/GETNEXT thfn fithfr
+    //         snmpRspNoSudhNbmf or snmpRspGfnErr is rfturnfd.
+    //
+    //    Othfrwisf:
+    //      snmpRspNoAddfss, snmpRspIndonsistfntNbmf
+    //               => snmpRspNoSudhNbmf
+    //      snmpRspAuthorizbtionError, snmpRspNotWritbblf, snmpRspNoCrfbtion
+    //               => snmpRspRfbdOnly  (snmpRspNoSudhNbmf for GET/GETNEXT)
+    //      snmpRspWrong*
+    //               => snmpRspBbdVbluf  (snmpRspNoSudhNbmf for GET/GETNEXT)
+    //      snmpRspRfsourdfUnbvbilbblf, snmpRspRspCommitFbilfd,
+    //      snmpRspUndoFbilfd
+    //                  => snmpRspGfnErr
+    //
+    // -------------------------------------------------------------
+    //
+    stbtid finbl int mbpErrorStbtusToV1(int frrorStbtus, int rfqPduTypf) {
+        // Mbp v2 dodfs onto v1 dodfs
+        //
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
+
+        if (frrorStbtus == SnmpDffinitions.snmpRspGfnErr)
+            rfturn SnmpDffinitions.snmpRspGfnErr;
+
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoSudhNbmf)
+            rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        if ((frrorStbtus == SnmpStbtusExdfption.noSudhInstbndf) ||
+            (frrorStbtus == SnmpStbtusExdfption.noSudhObjfdt)   ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNoAddfss)    ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntNbmf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspAuthorizbtionError)){
+
+            rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        } flsf if ((frrorStbtus ==
+                    SnmpDffinitions.snmpRspAuthorizbtionError)         ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspNotWritbblf)) {
+
+            if (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst)
+                rfturn SnmpDffinitions.snmpRspRfbdOnly;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        } flsf if ((frrorStbtus == SnmpDffinitions.snmpRspNoCrfbtion)) {
+
+                rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        } flsf if ((frrorStbtus == SnmpDffinitions.snmpRspWrongTypf)      ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngth)    ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongEndoding)  ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongVbluf)     ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngth)    ||
+                   (frrorStbtus ==
+                    SnmpDffinitions.snmpRspIndonsistfntVbluf)) {
+
+            if ((rfqPduTypf == SnmpDffinitions.pduSftRfqufstPdu) ||
+                (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst))
+                rfturn SnmpDffinitions.snmpRspBbdVbluf;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        } flsf if ((frrorStbtus ==
+                    SnmpDffinitions.snmpRspRfsourdfUnbvbilbblf) ||
+                   (frrorStbtus ==
+                    SnmpDffinitions.snmpRspCommitFbilfd)        ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspUndoFbilfd)) {
+
+            rfturn SnmpDffinitions.snmpRspGfnErr;
+
+        }
+
+        // At this point wf should hbvf b V1 frror dodf
+        //
+        if (frrorStbtus == SnmpDffinitions.snmpRspTooBig)
+            rfturn SnmpDffinitions.snmpRspTooBig;
+
+        if( (frrorStbtus == SnmpDffinitions.snmpRspBbdVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspRfbdOnly)) {
+            if ((rfqPduTypf == SnmpDffinitions.pduSftRfqufstPdu) ||
+                (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst))
+                rfturn frrorStbtus;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+        }
+
+        // Wf hbvf b snmpRspGfnErr, or somfthing whidh is not dffinfd
+        // in RFC1905 => rfturn b snmpRspGfnErr
+        //
+        rfturn SnmpDffinitions.snmpRspGfnErr;
+
+    }
+
+    // -------------------------------------------------------------
+    //
+    // This fundtion dofs b bfst-fffort to mbp globbl frror stbtus
+    // to SNMP v2 vblid globbl frror stbtus.
+    //
+    // An SnmpStbtusExdfption dbn dontbin fithfr:
+    // <li> v2 lodbl frror dodfs (thbt should bf storfd in thf vbrbind)</li>
+    // <li> v2 globbl frror dodfs </li>
+    // <li> v1 globbl frror dodfs </li>
+    //
+    // v2 lodbl frror dodfs (noSudhInstbndf, noSudhObjfdt)
+    // should not rbisf this lfvfl: thfy should hbvf bffn storfd in thf
+    // vbrbind fbrlifr. If thfy, do thfrf is nothing mudh wf dbn do fxdfpt
+    // to trbnsform thfm into:
+    // <li> b globbl snmpRspGfnErr (if thf rfqufst is b GET/GETNEXT) </li>
+    // <li> b globbl snmpRspNoSudhNbmf othfrwisf. </li>
+    //
+    // v2 globbl frror dodfs brf trbnsformfd in thf following wby:
+    //
+    //    If thf rfqufst wbs b GET/GETNEXT thfn snmpRspGfnErr is rfturnfd.
+    //    (snmpRspGfnErr is thf only globbl frror thbt is fxpfdtfd to bf
+    //     rbisfd by b GET/GETNEXT rfqufst).
+    //
+    //    Othfrwisf thf v2 dodf itsflf is rfturnfd
+    //
+    // v1 globbl frror dodfs brf trbnsformfd in thf following wby:
+    //
+    //      snmpRspNoSudhNbmf
+    //               => snmpRspNoAddfss  (snmpRspGfnErr for GET/GETNEXT)
+    //      snmpRspRfbdOnly
+    //               => snmpRspNotWritbblf (snmpRspGfnErr for GET/GETNEXT)
+    //      snmpRspBbdVbluf
+    //               => snmpRspWrongVbluf  (snmpRspGfnErr for GET/GETNEXT)
+    //
+    // -------------------------------------------------------------
+    //
+    stbtid finbl int mbpErrorStbtusToV2(int frrorStbtus, int rfqPduTypf) {
+        // Mbp v1 dodfs onto v2 dodfs
+        //
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
+
+        if (frrorStbtus == SnmpDffinitions.snmpRspGfnErr)
+            rfturn SnmpDffinitions.snmpRspGfnErr;
+
+        if (frrorStbtus == SnmpDffinitions.snmpRspTooBig)
+            rfturn SnmpDffinitions.snmpRspTooBig;
+
+        // For gft / gftNfxt / gftBulk thf only globbl frror
+        // (PDU-lfvfl) possiblf is gfnErr.
+        //
+        if ((rfqPduTypf != SnmpDffinitions.pduSftRfqufstPdu) &&
+            (rfqPduTypf != SnmpDffinitions.pduWblkRfqufst)) {
+            if(frrorStbtus == SnmpDffinitions.snmpRspAuthorizbtionError)
+                rfturn frrorStbtus;
+            flsf
+                rfturn SnmpDffinitions.snmpRspGfnErr;
+        }
+
+        // Mbp to noSudhNbmf
+        //      if ((frrorStbtus == SnmpDffinitions.snmpRspNoSudhNbmf) ||
+        //   (frrorStbtus == SnmpStbtusExdfption.noSudhInstbndf) ||
+        //  (frrorStbtus == SnmpStbtusExdfption.noSudhObjfdt))
+        //  rfturn SnmpDffinitions.snmpRspNoSudhNbmf;
+
+        // SnmpStbtusExdfption.noSudhInstbndf bnd
+        // SnmpStbtusExdfption.noSudhObjfdt dbn't hbppfn...
+
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoSudhNbmf)
+            rfturn SnmpDffinitions.snmpRspNoAddfss;
+
+        // Mbp to notWritbblf
+        if (frrorStbtus == SnmpDffinitions.snmpRspRfbdOnly)
+                rfturn SnmpDffinitions.snmpRspNotWritbblf;
+
+        // Mbp to wrongVbluf
+        if (frrorStbtus == SnmpDffinitions.snmpRspBbdVbluf)
+            rfturn SnmpDffinitions.snmpRspWrongVbluf;
+
+        // Othfr vblid V2 dodfs
+        if ((frrorStbtus == SnmpDffinitions.snmpRspNoAddfss) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntNbmf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspAuthorizbtionError) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNotWritbblf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNoCrfbtion) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongTypf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngth) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongEndoding) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngth) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspRfsourdfUnbvbilbblf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspCommitFbilfd) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspUndoFbilfd))
+            rfturn frrorStbtus;
+
+        // Ivblid V2 dodf => gfnErr
+        rfturn SnmpDffinitions.snmpRspGfnErr;
+    }
+
+    stbtid finbl int mbpErrorStbtus(int frrorStbtus,
+                                    int protodolVfrsion,
+                                    int rfqPduTypf) {
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
+
+        // Too bbd, bn frror oddurs ... wf nffd to trbnslbtf it ...
+        //
+        if (protodolVfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn mbpErrorStbtusToV1(frrorStbtus,rfqPduTypf);
+        if (protodolVfrsion == SnmpDffinitions.snmpVfrsionTwo ||
+            protodolVfrsion == SnmpDffinitions.snmpVfrsionThrff)
+            rfturn mbpErrorStbtusToV2(frrorStbtus,rfqPduTypf);
+
+        rfturn SnmpDffinitions.snmpRspGfnErr;
+    }
+
+    /**
+     * Thf mfthod rfturns thf frror stbtus of thf opfrbtion.
+     * Thf mfthod tbkfs into bddount thf protodol vfrsion.
+     */
+    protfdtfd int gftErrorStbtus() {
+        if (frrorStbtus == snmpRspNoError)
+            rfturn snmpRspNoError;
+
+        rfturn mbpErrorStbtus(frrorStbtus,vfrsion,typf);
+    }
+
+    /**
+     * Thf mfthod rfturns thf frror indfx bs b position in thf vbr bind list.
+     * Thf vbluf rfturnfd by thf mfthod dorrfsponds to thf indfx in thf originbl
+     * vbr bind list bs rfdfivfd by thf SNMP protodol bdbptor.
+     */
+    protfdtfd int gftErrorIndfx() {
+        if  (frrorStbtus == snmpRspNoError)
+            rfturn -1;
+
+        // An frror oddurs. Wf nffd to bf dbrffull bfdbusf thf indfx
+        // wf brf gftting is b vblid SNMP indfx (so rbngf stbrts bt 1).
+        // FIX ME: Shbll wf doublf-dhfdk thf rbngf hfrf ?
+        // Thf rfsponsf is : YES :
+        if ((frrorIndfx == 0) || (frrorIndfx == -1))
+            frrorIndfx = 1;
+
+        rfturn trbnslbtion[frrorIndfx -1];
+    }
+
+    /**
+     * Thf mfthod updbtfs thf vbrbind list of thf subrfqufst.
+     */
+    protfdtfd  void updbtfRfqufst(SnmpVbrBind vbr, int pos) {
+        int sizf= vbrBind.sizf();
+        trbnslbtion[sizf]= pos;
+        vbrBind.bddElfmfnt(vbr);
+    }
+
+    /**
+     * Thf mfthod updbtfs b givfn vbr bind list with thf rfsult of b
+     * prfvisouly invokfd opfrbtion.
+     * Prior to dblling thf mfthod, onf must mbkf surf thbt thf opfrbtion wbs
+     * suddfssful. As sudh thf mfthod gftErrorIndfx or gftErrorStbtus should bf
+     * dbllfd.
+     */
+    protfdtfd void updbtfRfsult(SnmpVbrBind[] rfsult) {
+
+        if (rfsult == null) rfturn;
+        finbl int mbx=vbrBind.sizf();
+        finbl int lfn=rfsult.lfngth;
+        for(int i= 0; i< mbx ; i++) {
+            // bugId 4641694: must dhfdk position in ordfr to bvoid
+            //       ArrbyIndfxOutOfBoundExdfption
+            finbl int pos=trbnslbtion[i];
+            if (pos < lfn) {
+                rfsult[pos] =
+                    (SnmpVbrBind)((NonSyndVfdtor)vbrBind).flfmfntAtNonSynd(i);
+            } flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "updbtfRfsult","Position `"+pos+"' is out of bound...");
+                }
+            }
+        }
+    }
+
+    privbtf void init(SnmpEnginf fnginf,
+                      SnmpIndomingRfqufst indRfqufst) {
+        this.indRfqufst = indRfqufst;
+        this.fnginf = fnginf;
+    }
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Storf thf protodol vfrsion to hbndlf
+     */
+    protfdtfd int vfrsion= snmpVfrsionOnf;
+
+    /**
+     * Storf thf opfrbtion typf. Rfmfmbfr if thf typf is Wblk, it mfbns
+     * thbt wf hbvf to invokf thf dhfdk mfthod ...
+     */
+    protfdtfd int typf= 0;
+
+    /**
+     * Agfnt dirfdtly hbndlfd by thf sub-rfqufst hbndlfr.
+     */
+    protfdtfd SnmpMibAgfnt bgfnt;
+
+    /**
+     * Error stbtus.
+     */
+    protfdtfd int frrorStbtus= snmpRspNoError;
+
+    /**
+     * Indfx of frror.
+     * A vbluf of -1 mfbns no frror.
+     */
+    protfdtfd int frrorIndfx= -1;
+
+    /**
+     * Thf vbrbind list spfdifid to thf durrfnt sub rfqufst.
+     * Thf vfdtor must dontbin objfdt of typf SnmpVbrBind.
+     */
+    protfdtfd Vfdtor<SnmpVbrBind> vbrBind;
+
+    /**
+     * Thf brrby giving thf indfx trbnslbtion bftwffn thf dontfnt of
+     * <VAR>vbrBind</VAR> bnd thf vbrbind list bs spfdififd in thf rfqufst.
+     */
+    protfdtfd int[] trbnslbtion;
+
+    /**
+     * Contfxtubl objfdt bllodbtfd by thf SnmpUsfrDbtbFbdtory.
+     **/
+    protfdtfd Objfdt dbtb;
+
+    /**
+     * Thf SnmpMibRfqufst thbt will bf pbssfd to thf bgfnt.
+     *
+     **/
+    privbtf   SnmpMibRfqufst mibRfqufst = null;
+
+    /**
+     * Thf SnmpPdu thbt will bf pbssfd to thf rfqufst.
+     *
+     **/
+    privbtf   SnmpPdu rfqPdu = null;
+
+    // All thf mfthods of thf Vfdtor dlbss brf syndhronizfd.
+    // Syndhronizbtion is b vfry fxpfnsivf opfrbtion. In our dbsf it is not blwbys
+    // rfquirfd...
+    //
+    @SupprfssWbrnings("sfribl")  // wf nfvfr sfriblizf this
+    dlbss NonSyndVfdtor<E> fxtfnds Vfdtor<E> {
+
+        publid NonSyndVfdtor(int sizf) {
+            supfr(sizf);
+        }
+
+        finbl void bddNonSyndElfmfnt(E obj) {
+            fnsurfCbpbdity(flfmfntCount + 1);
+            flfmfntDbtb[flfmfntCount++] = obj;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")  // dbst to E
+        finbl E flfmfntAtNonSynd(int indfx) {
+            rfturn (E) flfmfntDbtb[indfx];
+        }
+    };
+}

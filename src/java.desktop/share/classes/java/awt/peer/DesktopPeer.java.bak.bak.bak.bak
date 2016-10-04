@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.pffr;
+
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.bwt.Dfsktop.Adtion;
+
+/**
+ * Thf {@dodf DfsktopPffr} intfrfbdf providfs mfthods for thf opfrbtion
+ * of opfn, fdit, print, browsf bnd mbil with thf givfn URL or filf, by
+ * lbundhing thf bssodibtfd bpplidbtion.
+ * <p>
+ * Ebdh plbtform hbs bn implfmfntbtion dlbss for this intfrfbdf.
+ *
+ */
+publid intfrfbdf DfsktopPffr {
+
+    /**
+     * Rfturns whfthfr thf givfn bdtion is supportfd on thf durrfnt plbtform.
+     * @pbrbm bdtion thf bdtion typf to bf tfstfd if it's supportfd on thf
+     *        durrfnt plbtform.
+     * @rfturn {@dodf truf} if thf givfn bdtion is supportfd on
+     *         thf durrfnt plbtform; {@dodf fblsf} othfrwisf.
+     */
+    boolfbn isSupportfd(Adtion bdtion);
+
+    /**
+     * Lbundhfs thf bssodibtfd bpplidbtion to opfn thf givfn filf. Thf
+     * bssodibtfd bpplidbtion is rfgistfrfd to bf thf dffbult filf vifwfr for
+     * thf filf typf of thf givfn filf.
+     *
+     * @pbrbm filf thf givfn filf.
+     * @throws IOExdfption If thf givfn filf hbs no bssodibtfd bpplidbtion,
+     *         or thf bssodibtfd bpplidbtion fbils to bf lbundhfd.
+     */
+    void opfn(Filf filf) throws IOExdfption;
+
+    /**
+     * Lbundhfs thf bssodibtfd fditor bnd opfns thf givfn filf for fditing. Thf
+     * bssodibtfd fditor is rfgistfrfd to bf thf dffbult fditor for thf filf
+     * typf of thf givfn filf.
+     *
+     * @pbrbm filf thf givfn filf.
+     * @throws IOExdfption If thf givfn filf hbs no bssodibtfd fditor, or
+     *         thf bssodibtfd bpplidbtion fbils to bf lbundhfd.
+     */
+    void fdit(Filf filf) throws IOExdfption;
+
+    /**
+     * Prints thf givfn filf with thf nbtivf dfsktop printing fbdility, using
+     * thf bssodibtfd bpplidbtion's print dommbnd.
+     *
+     * @pbrbm filf thf givfn filf.
+     * @throws IOExdfption If thf givfn filf hbs no bssodibtfd bpplidbtion
+     *         thbt dbn bf usfd to print it.
+     */
+    void print(Filf filf) throws IOExdfption;
+
+    /**
+     * Lbundhfs thf mbil domposing window of thf usfr dffbult mbil dlifnt,
+     * filling thf mfssbgf fiflds indluding to, dd, ftd, with thf vblufs
+     * spfdififd by thf givfn mbilto URL.
+     *
+     * @pbrbm mbiltoURL rfprfsfnts b mbilto URL with spfdififd vblufs of thf mfssbgf.
+     *        Thf syntbx of mbilto URL is dffinfd by
+     *        <b hrff="http://www.iftf.org/rfd/rfd2368.txt">RFC2368: Thf mbilto
+     *        URL sdhfmf</b>
+     * @throws IOExdfption If thf usfr dffbult mbil dlifnt is not found,
+     *         or it fbils to bf lbundhfd.
+     */
+    void mbil(URI mbiltoURL) throws IOExdfption;
+
+    /**
+     * Lbundhfs thf usfr dffbult browsfr to displby thf givfn URI.
+     *
+     * @pbrbm uri thf givfn URI.
+     * @throws IOExdfption If thf usfr dffbult browsfr is not found,
+     *         or it fbils to bf lbundhfd.
+     */
+    void browsf(URI uri) throws IOExdfption;
+}

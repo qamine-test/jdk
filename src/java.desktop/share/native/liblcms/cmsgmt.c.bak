@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,567 +53,567 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
 
-// Auxiliar: append a Lab identity after the given sequence of profiles
-// and return the transform. Lab profile is closed, rest of profiles are kept open.
-cmsHTRANSFORM _cmsChain2Lab(cmsContext            ContextID,
-                            cmsUInt32Number        nProfiles,
-                            cmsUInt32Number        InputFormat,
-                            cmsUInt32Number        OutputFormat,
-                            const cmsUInt32Number  Intents[],
-                            const cmsHPROFILE      hProfiles[],
-                            const cmsBool          BPC[],
-                            const cmsFloat64Number AdaptationStates[],
-                            cmsUInt32Number        dwFlags)
+// Auxilibr: bppfnd b Lbb idfntity bftfr tif givfn sfqufndf of profilfs
+// bnd rfturn tif trbnsform. Lbb profilf is dlosfd, rfst of profilfs brf kfpt opfn.
+dmsHTRANSFORM _dmsCibin2Lbb(dmsContfxt            ContfxtID,
+                            dmsUInt32Numbfr        nProfilfs,
+                            dmsUInt32Numbfr        InputFormbt,
+                            dmsUInt32Numbfr        OutputFormbt,
+                            donst dmsUInt32Numbfr  Intfnts[],
+                            donst dmsHPROFILE      iProfilfs[],
+                            donst dmsBool          BPC[],
+                            donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                            dmsUInt32Numbfr        dwFlbgs)
 {
-    cmsHTRANSFORM xform;
-    cmsHPROFILE   hLab;
-    cmsHPROFILE   ProfileList[256];
-    cmsBool       BPCList[256];
-    cmsFloat64Number AdaptationList[256];
-    cmsUInt32Number IntentList[256];
-    cmsUInt32Number i;
+    dmsHTRANSFORM xform;
+    dmsHPROFILE   iLbb;
+    dmsHPROFILE   ProfilfList[256];
+    dmsBool       BPCList[256];
+    dmsFlobt64Numbfr AdbptbtionList[256];
+    dmsUInt32Numbfr IntfntList[256];
+    dmsUInt32Numbfr i;
 
-    // This is a rather big number and there is no need of dynamic memory
-    // since we are adding a profile, 254 + 1 = 255 and this is the limit
-    if (nProfiles > 254) return NULL;
+    // Tiis is b rbtifr big numbfr bnd tifrf is no nffd of dynbmid mfmory
+    // sindf wf brf bdding b profilf, 254 + 1 = 255 bnd tiis is tif limit
+    if (nProfilfs > 254) rfturn NULL;
 
-    // The output space
-    hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
-    if (hLab == NULL) return NULL;
+    // Tif output spbdf
+    iLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (iLbb == NULL) rfturn NULL;
 
-    // Create a copy of parameters
-    for (i=0; i < nProfiles; i++) {
+    // Crfbtf b dopy of pbrbmftfrs
+    for (i=0; i < nProfilfs; i++) {
 
-        ProfileList[i]    = hProfiles[i];
+        ProfilfList[i]    = iProfilfs[i];
         BPCList[i]        = BPC[i];
-        AdaptationList[i] = AdaptationStates[i];
-        IntentList[i]     = Intents[i];
+        AdbptbtionList[i] = AdbptbtionStbtfs[i];
+        IntfntList[i]     = Intfnts[i];
     }
 
-    // Place Lab identity at chain's end.
-    ProfileList[nProfiles]    = hLab;
-    BPCList[nProfiles]        = 0;
-    AdaptationList[nProfiles] = 1.0;
-    IntentList[nProfiles]     = INTENT_RELATIVE_COLORIMETRIC;
+    // Plbdf Lbb idfntity bt dibin's fnd.
+    ProfilfList[nProfilfs]    = iLbb;
+    BPCList[nProfilfs]        = 0;
+    AdbptbtionList[nProfilfs] = 1.0;
+    IntfntList[nProfilfs]     = INTENT_RELATIVE_COLORIMETRIC;
 
-    // Create the transform
-    xform = cmsCreateExtendedTransform(ContextID, nProfiles + 1, ProfileList,
+    // Crfbtf tif trbnsform
+    xform = dmsCrfbtfExtfndfdTrbnsform(ContfxtID, nProfilfs + 1, ProfilfList,
                                        BPCList,
-                                       IntentList,
-                                       AdaptationList,
+                                       IntfntList,
+                                       AdbptbtionList,
                                        NULL, 0,
-                                       InputFormat,
-                                       OutputFormat,
-                                       dwFlags);
+                                       InputFormbt,
+                                       OutputFormbt,
+                                       dwFlbgs);
 
-    cmsCloseProfile(hLab);
+    dmsClosfProfilf(iLbb);
 
-    return xform;
+    rfturn xform;
 }
 
 
-// Compute K -> L* relationship. Flags may include black point compensation. In this case,
-// the relationship is assumed from the profile with BPC to a black point zero.
-static
-cmsToneCurve* ComputeKToLstar(cmsContext            ContextID,
-                               cmsUInt32Number       nPoints,
-                               cmsUInt32Number       nProfiles,
-                               const cmsUInt32Number Intents[],
-                               const cmsHPROFILE     hProfiles[],
-                               const cmsBool         BPC[],
-                               const cmsFloat64Number AdaptationStates[],
-                               cmsUInt32Number dwFlags)
+// Computf K -> L* rflbtionsiip. Flbgs mby indludf blbdk point dompfnsbtion. In tiis dbsf,
+// tif rflbtionsiip is bssumfd from tif profilf witi BPC to b blbdk point zfro.
+stbtid
+dmsTonfCurvf* ComputfKToLstbr(dmsContfxt            ContfxtID,
+                               dmsUInt32Numbfr       nPoints,
+                               dmsUInt32Numbfr       nProfilfs,
+                               donst dmsUInt32Numbfr Intfnts[],
+                               donst dmsHPROFILE     iProfilfs[],
+                               donst dmsBool         BPC[],
+                               donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                               dmsUInt32Numbfr dwFlbgs)
 {
-    cmsToneCurve* out = NULL;
-    cmsUInt32Number i;
-    cmsHTRANSFORM xform;
-    cmsCIELab Lab;
-    cmsFloat32Number cmyk[4];
-    cmsFloat32Number* SampledPoints;
+    dmsTonfCurvf* out = NULL;
+    dmsUInt32Numbfr i;
+    dmsHTRANSFORM xform;
+    dmsCIELbb Lbb;
+    dmsFlobt32Numbfr dmyk[4];
+    dmsFlobt32Numbfr* SbmplfdPoints;
 
-    xform = _cmsChain2Lab(ContextID, nProfiles, TYPE_CMYK_FLT, TYPE_Lab_DBL, Intents, hProfiles, BPC, AdaptationStates, dwFlags);
-    if (xform == NULL) return NULL;
+    xform = _dmsCibin2Lbb(ContfxtID, nProfilfs, TYPE_CMYK_FLT, TYPE_Lbb_DBL, Intfnts, iProfilfs, BPC, AdbptbtionStbtfs, dwFlbgs);
+    if (xform == NULL) rfturn NULL;
 
-    SampledPoints = (cmsFloat32Number*) _cmsCalloc(ContextID, nPoints, sizeof(cmsFloat32Number));
-    if (SampledPoints  == NULL) goto Error;
+    SbmplfdPoints = (dmsFlobt32Numbfr*) _dmsCbllod(ContfxtID, nPoints, sizfof(dmsFlobt32Numbfr));
+    if (SbmplfdPoints  == NULL) goto Error;
 
     for (i=0; i < nPoints; i++) {
 
-        cmyk[0] = 0;
-        cmyk[1] = 0;
-        cmyk[2] = 0;
-        cmyk[3] = (cmsFloat32Number) ((i * 100.0) / (nPoints-1));
+        dmyk[0] = 0;
+        dmyk[1] = 0;
+        dmyk[2] = 0;
+        dmyk[3] = (dmsFlobt32Numbfr) ((i * 100.0) / (nPoints-1));
 
-        cmsDoTransform(xform, cmyk, &Lab, 1);
-        SampledPoints[i]= (cmsFloat32Number) (1.0 - Lab.L / 100.0); // Negate K for easier operation
+        dmsDoTrbnsform(xform, dmyk, &Lbb, 1);
+        SbmplfdPoints[i]= (dmsFlobt32Numbfr) (1.0 - Lbb.L / 100.0); // Nfgbtf K for fbsifr opfrbtion
     }
 
-    out = cmsBuildTabulatedToneCurveFloat(ContextID, nPoints, SampledPoints);
+    out = dmsBuildTbbulbtfdTonfCurvfFlobt(ContfxtID, nPoints, SbmplfdPoints);
 
 Error:
 
-    cmsDeleteTransform(xform);
-    if (SampledPoints) _cmsFree(ContextID, SampledPoints);
+    dmsDflftfTrbnsform(xform);
+    if (SbmplfdPoints) _dmsFrff(ContfxtID, SbmplfdPoints);
 
-    return out;
+    rfturn out;
 }
 
 
-// Compute Black tone curve on a CMYK -> CMYK transform. This is done by
-// using the proof direction on both profiles to find K->L* relationship
-// then joining both curves. dwFlags may include black point compensation.
-cmsToneCurve* _cmsBuildKToneCurve(cmsContext        ContextID,
-                                   cmsUInt32Number   nPoints,
-                                   cmsUInt32Number   nProfiles,
-                                   const cmsUInt32Number Intents[],
-                                   const cmsHPROFILE hProfiles[],
-                                   const cmsBool     BPC[],
-                                   const cmsFloat64Number AdaptationStates[],
-                                   cmsUInt32Number   dwFlags)
+// Computf Blbdk tonf durvf on b CMYK -> CMYK trbnsform. Tiis is donf by
+// using tif proof dirfdtion on boti profilfs to find K->L* rflbtionsiip
+// tifn joining boti durvfs. dwFlbgs mby indludf blbdk point dompfnsbtion.
+dmsTonfCurvf* _dmsBuildKTonfCurvf(dmsContfxt        ContfxtID,
+                                   dmsUInt32Numbfr   nPoints,
+                                   dmsUInt32Numbfr   nProfilfs,
+                                   donst dmsUInt32Numbfr Intfnts[],
+                                   donst dmsHPROFILE iProfilfs[],
+                                   donst dmsBool     BPC[],
+                                   donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                   dmsUInt32Numbfr   dwFlbgs)
 {
-    cmsToneCurve *in, *out, *KTone;
+    dmsTonfCurvf *in, *out, *KTonf;
 
-    // Make sure CMYK -> CMYK
-    if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        cmsGetColorSpace(hProfiles[nProfiles-1])!= cmsSigCmykData) return NULL;
+    // Mbkf surf CMYK -> CMYK
+    if (dmsGftColorSpbdf(iProfilfs[0]) != dmsSigCmykDbtb ||
+        dmsGftColorSpbdf(iProfilfs[nProfilfs-1])!= dmsSigCmykDbtb) rfturn NULL;
 
 
-    // Make sure last is an output profile
-    if (cmsGetDeviceClass(hProfiles[nProfiles - 1]) != cmsSigOutputClass) return NULL;
+    // Mbkf surf lbst is bn output profilf
+    if (dmsGftDfvidfClbss(iProfilfs[nProfilfs - 1]) != dmsSigOutputClbss) rfturn NULL;
 
-    // Create individual curves. BPC works also as each K to L* is
-    // computed as a BPC to zero black point in case of L*
-    in  = ComputeKToLstar(ContextID, nPoints, nProfiles - 1, Intents, hProfiles, BPC, AdaptationStates, dwFlags);
-    if (in == NULL) return NULL;
+    // Crfbtf individubl durvfs. BPC works blso bs fbdi K to L* is
+    // domputfd bs b BPC to zfro blbdk point in dbsf of L*
+    in  = ComputfKToLstbr(ContfxtID, nPoints, nProfilfs - 1, Intfnts, iProfilfs, BPC, AdbptbtionStbtfs, dwFlbgs);
+    if (in == NULL) rfturn NULL;
 
-    out = ComputeKToLstar(ContextID, nPoints, 1,
-                            Intents + (nProfiles - 1),
-                            hProfiles + (nProfiles - 1),
-                            BPC + (nProfiles - 1),
-                            AdaptationStates + (nProfiles - 1),
-                            dwFlags);
+    out = ComputfKToLstbr(ContfxtID, nPoints, 1,
+                            Intfnts + (nProfilfs - 1),
+                            iProfilfs + (nProfilfs - 1),
+                            BPC + (nProfilfs - 1),
+                            AdbptbtionStbtfs + (nProfilfs - 1),
+                            dwFlbgs);
     if (out == NULL) {
-        cmsFreeToneCurve(in);
-        return NULL;
+        dmsFrffTonfCurvf(in);
+        rfturn NULL;
     }
 
-    // Build the relationship. This effectively limits the maximum accuracy to 16 bits, but
-    // since this is used on black-preserving LUTs, we are not loosing  accuracy in any case
-    KTone = cmsJoinToneCurve(ContextID, in, out, nPoints);
+    // Build tif rflbtionsiip. Tiis ffffdtivfly limits tif mbximum bddurbdy to 16 bits, but
+    // sindf tiis is usfd on blbdk-prfsfrving LUTs, wf brf not loosing  bddurbdy in bny dbsf
+    KTonf = dmsJoinTonfCurvf(ContfxtID, in, out, nPoints);
 
-    // Get rid of components
-    cmsFreeToneCurve(in); cmsFreeToneCurve(out);
+    // Gft rid of domponfnts
+    dmsFrffTonfCurvf(in); dmsFrffTonfCurvf(out);
 
-    // Something went wrong...
-    if (KTone == NULL) return NULL;
+    // Somftiing wfnt wrong...
+    if (KTonf == NULL) rfturn NULL;
 
-    // Make sure it is monotonic
-    if (!cmsIsToneCurveMonotonic(KTone)) {
-        cmsFreeToneCurve(KTone);
-        return NULL;
+    // Mbkf surf it is monotonid
+    if (!dmsIsTonfCurvfMonotonid(KTonf)) {
+        dmsFrffTonfCurvf(KTonf);
+        rfturn NULL;
     }
 
-    return KTone;
+    rfturn KTonf;
 }
 
 
-// Gamut LUT Creation -----------------------------------------------------------------------------------------
+// Gbmut LUT Crfbtion -----------------------------------------------------------------------------------------
 
-// Used by gamut & softproofing
+// Usfd by gbmut & softproofing
 
-typedef struct {
+typfdff strudt {
 
-    cmsHTRANSFORM hInput;               // From whatever input color space. 16 bits to DBL
-    cmsHTRANSFORM hForward, hReverse;   // Transforms going from Lab to colorant and back
-    cmsFloat64Number Thereshold;        // The thereshold after which is considered out of gamut
+    dmsHTRANSFORM iInput;               // From wibtfvfr input dolor spbdf. 16 bits to DBL
+    dmsHTRANSFORM iForwbrd, iRfvfrsf;   // Trbnsforms going from Lbb to dolorbnt bnd bbdk
+    dmsFlobt64Numbfr Tifrfsiold;        // Tif tifrfsiold bftfr wiidi is donsidfrfd out of gbmut
 
     } GAMUTCHAIN;
 
-// This sampler does compute gamut boundaries by comparing original
-// values with a transform going back and forth. Values above ERR_THERESHOLD
-// of maximum are considered out of gamut.
+// Tiis sbmplfr dofs domputf gbmut boundbrifs by dompbring originbl
+// vblufs witi b trbnsform going bbdk bnd forti. Vblufs bbovf ERR_THERESHOLD
+// of mbximum brf donsidfrfd out of gbmut.
 
-#define ERR_THERESHOLD      5
+#dffinf ERR_THERESHOLD      5
 
 
-static
-int GamutSampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+stbtid
+int GbmutSbmplfr(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[], rfgistfr void* Cbrgo)
 {
-    GAMUTCHAIN*  t = (GAMUTCHAIN* ) Cargo;
-    cmsCIELab LabIn1, LabOut1;
-    cmsCIELab LabIn2, LabOut2;
-    cmsUInt16Number Proof[cmsMAXCHANNELS], Proof2[cmsMAXCHANNELS];
-    cmsFloat64Number dE1, dE2, ErrorRatio;
+    GAMUTCHAIN*  t = (GAMUTCHAIN* ) Cbrgo;
+    dmsCIELbb LbbIn1, LbbOut1;
+    dmsCIELbb LbbIn2, LbbOut2;
+    dmsUInt16Numbfr Proof[dmsMAXCHANNELS], Proof2[dmsMAXCHANNELS];
+    dmsFlobt64Numbfr dE1, dE2, ErrorRbtio;
 
-    // Assume in-gamut by default.
-    ErrorRatio = 1.0;
+    // Assumf in-gbmut by dffbult.
+    ErrorRbtio = 1.0;
 
-    // Convert input to Lab
-    cmsDoTransform(t -> hInput, In, &LabIn1, 1);
+    // Convfrt input to Lbb
+    dmsDoTrbnsform(t -> iInput, In, &LbbIn1, 1);
 
-    // converts from PCS to colorant. This always
-    // does return in-gamut values,
-    cmsDoTransform(t -> hForward, &LabIn1, Proof, 1);
+    // donvfrts from PCS to dolorbnt. Tiis blwbys
+    // dofs rfturn in-gbmut vblufs,
+    dmsDoTrbnsform(t -> iForwbrd, &LbbIn1, Proof, 1);
 
-    // Now, do the inverse, from colorant to PCS.
-    cmsDoTransform(t -> hReverse, Proof, &LabOut1, 1);
+    // Now, do tif invfrsf, from dolorbnt to PCS.
+    dmsDoTrbnsform(t -> iRfvfrsf, Proof, &LbbOut1, 1);
 
-    memmove(&LabIn2, &LabOut1, sizeof(cmsCIELab));
+    mfmmovf(&LbbIn2, &LbbOut1, sizfof(dmsCIELbb));
 
-    // Try again, but this time taking Check as input
-    cmsDoTransform(t -> hForward, &LabOut1, Proof2, 1);
-    cmsDoTransform(t -> hReverse, Proof2, &LabOut2, 1);
+    // Try bgbin, but tiis timf tbking Cifdk bs input
+    dmsDoTrbnsform(t -> iForwbrd, &LbbOut1, Proof2, 1);
+    dmsDoTrbnsform(t -> iRfvfrsf, Proof2, &LbbOut2, 1);
 
-    // Take difference of direct value
-    dE1 = cmsDeltaE(&LabIn1, &LabOut1);
+    // Tbkf difffrfndf of dirfdt vbluf
+    dE1 = dmsDfltbE(&LbbIn1, &LbbOut1);
 
-    // Take difference of converted value
-    dE2 = cmsDeltaE(&LabIn2, &LabOut2);
+    // Tbkf difffrfndf of donvfrtfd vbluf
+    dE2 = dmsDfltbE(&LbbIn2, &LbbOut2);
 
 
-    // if dE1 is small and dE2 is small, value is likely to be in gamut
-    if (dE1 < t->Thereshold && dE2 < t->Thereshold)
+    // if dE1 is smbll bnd dE2 is smbll, vbluf is likfly to bf in gbmut
+    if (dE1 < t->Tifrfsiold && dE2 < t->Tifrfsiold)
         Out[0] = 0;
-    else {
+    flsf {
 
-        // if dE1 is small and dE2 is big, undefined. Assume in gamut
-        if (dE1 < t->Thereshold && dE2 > t->Thereshold)
+        // if dE1 is smbll bnd dE2 is big, undffinfd. Assumf in gbmut
+        if (dE1 < t->Tifrfsiold && dE2 > t->Tifrfsiold)
             Out[0] = 0;
-        else
-            // dE1 is big and dE2 is small, clearly out of gamut
-            if (dE1 > t->Thereshold && dE2 < t->Thereshold)
-                Out[0] = (cmsUInt16Number) _cmsQuickFloor((dE1 - t->Thereshold) + .5);
-            else  {
+        flsf
+            // dE1 is big bnd dE2 is smbll, dlfbrly out of gbmut
+            if (dE1 > t->Tifrfsiold && dE2 < t->Tifrfsiold)
+                Out[0] = (dmsUInt16Numbfr) _dmsQuidkFloor((dE1 - t->Tifrfsiold) + .5);
+            flsf  {
 
-                // dE1 is big and dE2 is also big, could be due to perceptual mapping
-                // so take error ratio
+                // dE1 is big bnd dE2 is blso big, dould bf duf to pfrdfptubl mbpping
+                // so tbkf frror rbtio
                 if (dE2 == 0.0)
-                    ErrorRatio = dE1;
-                else
-                    ErrorRatio = dE1 / dE2;
+                    ErrorRbtio = dE1;
+                flsf
+                    ErrorRbtio = dE1 / dE2;
 
-                if (ErrorRatio > t->Thereshold)
-                    Out[0] = (cmsUInt16Number)  _cmsQuickFloor((ErrorRatio - t->Thereshold) + .5);
-                else
+                if (ErrorRbtio > t->Tifrfsiold)
+                    Out[0] = (dmsUInt16Numbfr)  _dmsQuidkFloor((ErrorRbtio - t->Tifrfsiold) + .5);
+                flsf
                     Out[0] = 0;
             }
     }
 
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Does compute a gamut LUT going back and forth across pcs -> relativ. colorimetric intent -> pcs
-// the dE obtained is then annotated on the LUT. Values truely out of gamut are clipped to dE = 0xFFFE
-// and values changed are supposed to be handled by any gamut remapping, so, are out of gamut as well.
+// Dofs domputf b gbmut LUT going bbdk bnd forti bdross pds -> rflbtiv. dolorimftrid intfnt -> pds
+// tif dE obtbinfd is tifn bnnotbtfd on tif LUT. Vblufs trufly out of gbmut brf dlippfd to dE = 0xFFFE
+// bnd vblufs dibngfd brf supposfd to bf ibndlfd by bny gbmut rfmbpping, so, brf out of gbmut bs wfll.
 //
-// **WARNING: This algorithm does assume that gamut remapping algorithms does NOT move in-gamut colors,
-// of course, many perceptual and saturation intents does not work in such way, but relativ. ones should.
+// **WARNING: Tiis blgoritim dofs bssumf tibt gbmut rfmbpping blgoritims dofs NOT movf in-gbmut dolors,
+// of doursf, mbny pfrdfptubl bnd sbturbtion intfnts dofs not work in sudi wby, but rflbtiv. onfs siould.
 
-cmsPipeline* _cmsCreateGamutCheckPipeline(cmsContext ContextID,
-                                          cmsHPROFILE hProfiles[],
-                                          cmsBool  BPC[],
-                                          cmsUInt32Number Intents[],
-                                          cmsFloat64Number AdaptationStates[],
-                                          cmsUInt32Number nGamutPCSposition,
-                                          cmsHPROFILE hGamut)
+dmsPipflinf* _dmsCrfbtfGbmutCifdkPipflinf(dmsContfxt ContfxtID,
+                                          dmsHPROFILE iProfilfs[],
+                                          dmsBool  BPC[],
+                                          dmsUInt32Numbfr Intfnts[],
+                                          dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                          dmsUInt32Numbfr nGbmutPCSposition,
+                                          dmsHPROFILE iGbmut)
 {
-    cmsHPROFILE hLab;
-    cmsPipeline* Gamut;
-    cmsStage* CLUT;
-    cmsUInt32Number dwFormat;
-    GAMUTCHAIN Chain;
-    int nChannels, nGridpoints;
-    cmsColorSpaceSignature ColorSpace;
-    cmsUInt32Number i;
-    cmsHPROFILE ProfileList[256];
-    cmsBool     BPCList[256];
-    cmsFloat64Number AdaptationList[256];
-    cmsUInt32Number IntentList[256];
+    dmsHPROFILE iLbb;
+    dmsPipflinf* Gbmut;
+    dmsStbgf* CLUT;
+    dmsUInt32Numbfr dwFormbt;
+    GAMUTCHAIN Cibin;
+    int nCibnnfls, nGridpoints;
+    dmsColorSpbdfSignbturf ColorSpbdf;
+    dmsUInt32Numbfr i;
+    dmsHPROFILE ProfilfList[256];
+    dmsBool     BPCList[256];
+    dmsFlobt64Numbfr AdbptbtionList[256];
+    dmsUInt32Numbfr IntfntList[256];
 
-    memset(&Chain, 0, sizeof(GAMUTCHAIN));
+    mfmsft(&Cibin, 0, sizfof(GAMUTCHAIN));
 
 
-    if (nGamutPCSposition <= 0 || nGamutPCSposition > 255) {
-        cmsSignalError(ContextID, cmsERROR_RANGE, "Wrong position of PCS. 1..255 expected, %d found.", nGamutPCSposition);
-        return NULL;
+    if (nGbmutPCSposition <= 0 || nGbmutPCSposition > 255) {
+        dmsSignblError(ContfxtID, dmsERROR_RANGE, "Wrong position of PCS. 1..255 fxpfdtfd, %d found.", nGbmutPCSposition);
+        rfturn NULL;
     }
 
-    hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
-    if (hLab == NULL) return NULL;
+    iLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (iLbb == NULL) rfturn NULL;
 
 
-    // The figure of merit. On matrix-shaper profiles, should be almost zero as
-    // the conversion is pretty exact. On LUT based profiles, different resolutions
-    // of input and output CLUT may result in differences.
+    // Tif figurf of mfrit. On mbtrix-sibpfr profilfs, siould bf blmost zfro bs
+    // tif donvfrsion is prftty fxbdt. On LUT bbsfd profilfs, difffrfnt rfsolutions
+    // of input bnd output CLUT mby rfsult in difffrfndfs.
 
-    if (cmsIsMatrixShaper(hGamut)) {
+    if (dmsIsMbtrixSibpfr(iGbmut)) {
 
-        Chain.Thereshold = 1.0;
+        Cibin.Tifrfsiold = 1.0;
     }
-    else {
-        Chain.Thereshold = ERR_THERESHOLD;
+    flsf {
+        Cibin.Tifrfsiold = ERR_THERESHOLD;
     }
 
 
-    // Create a copy of parameters
-    for (i=0; i < nGamutPCSposition; i++) {
-        ProfileList[i]    = hProfiles[i];
+    // Crfbtf b dopy of pbrbmftfrs
+    for (i=0; i < nGbmutPCSposition; i++) {
+        ProfilfList[i]    = iProfilfs[i];
         BPCList[i]        = BPC[i];
-        AdaptationList[i] = AdaptationStates[i];
-        IntentList[i]     = Intents[i];
+        AdbptbtionList[i] = AdbptbtionStbtfs[i];
+        IntfntList[i]     = Intfnts[i];
     }
 
-    // Fill Lab identity
-    ProfileList[nGamutPCSposition] = hLab;
-    BPCList[nGamutPCSposition] = 0;
-    AdaptationList[nGamutPCSposition] = 1.0;
-    IntentList[nGamutPCSposition] = INTENT_RELATIVE_COLORIMETRIC;
+    // Fill Lbb idfntity
+    ProfilfList[nGbmutPCSposition] = iLbb;
+    BPCList[nGbmutPCSposition] = 0;
+    AdbptbtionList[nGbmutPCSposition] = 1.0;
+    IntfntList[nGbmutPCSposition] = INTENT_RELATIVE_COLORIMETRIC;
 
 
-    ColorSpace  = cmsGetColorSpace(hGamut);
+    ColorSpbdf  = dmsGftColorSpbdf(iGbmut);
 
-    nChannels   = cmsChannelsOf(ColorSpace);
-    nGridpoints = _cmsReasonableGridpointsByColorspace(ColorSpace, cmsFLAGS_HIGHRESPRECALC);
-    dwFormat    = (CHANNELS_SH(nChannels)|BYTES_SH(2));
+    nCibnnfls   = dmsCibnnflsOf(ColorSpbdf);
+    nGridpoints = _dmsRfbsonbblfGridpointsByColorspbdf(ColorSpbdf, dmsFLAGS_HIGHRESPRECALC);
+    dwFormbt    = (CHANNELS_SH(nCibnnfls)|BYTES_SH(2));
 
-    // 16 bits to Lab double
-    Chain.hInput = cmsCreateExtendedTransform(ContextID,
-        nGamutPCSposition + 1,
-        ProfileList,
+    // 16 bits to Lbb doublf
+    Cibin.iInput = dmsCrfbtfExtfndfdTrbnsform(ContfxtID,
+        nGbmutPCSposition + 1,
+        ProfilfList,
         BPCList,
-        IntentList,
-        AdaptationList,
+        IntfntList,
+        AdbptbtionList,
         NULL, 0,
-        dwFormat, TYPE_Lab_DBL,
-        cmsFLAGS_NOCACHE);
+        dwFormbt, TYPE_Lbb_DBL,
+        dmsFLAGS_NOCACHE);
 
 
-    // Does create the forward step. Lab double to device
-    dwFormat    = (CHANNELS_SH(nChannels)|BYTES_SH(2));
-    Chain.hForward = cmsCreateTransformTHR(ContextID,
-        hLab, TYPE_Lab_DBL,
-        hGamut, dwFormat,
+    // Dofs drfbtf tif forwbrd stfp. Lbb doublf to dfvidf
+    dwFormbt    = (CHANNELS_SH(nCibnnfls)|BYTES_SH(2));
+    Cibin.iForwbrd = dmsCrfbtfTrbnsformTHR(ContfxtID,
+        iLbb, TYPE_Lbb_DBL,
+        iGbmut, dwFormbt,
         INTENT_RELATIVE_COLORIMETRIC,
-        cmsFLAGS_NOCACHE);
+        dmsFLAGS_NOCACHE);
 
-    // Does create the backwards step
-    Chain.hReverse = cmsCreateTransformTHR(ContextID, hGamut, dwFormat,
-        hLab, TYPE_Lab_DBL,
+    // Dofs drfbtf tif bbdkwbrds stfp
+    Cibin.iRfvfrsf = dmsCrfbtfTrbnsformTHR(ContfxtID, iGbmut, dwFormbt,
+        iLbb, TYPE_Lbb_DBL,
         INTENT_RELATIVE_COLORIMETRIC,
-        cmsFLAGS_NOCACHE);
+        dmsFLAGS_NOCACHE);
 
 
     // All ok?
-    if (Chain.hInput && Chain.hForward && Chain.hReverse) {
+    if (Cibin.iInput && Cibin.iForwbrd && Cibin.iRfvfrsf) {
 
-        // Go on, try to compute gamut LUT from PCS. This consist on a single channel containing
-        // dE when doing a transform back and forth on the colorimetric intent.
+        // Go on, try to domputf gbmut LUT from PCS. Tiis donsist on b singlf dibnnfl dontbining
+        // dE wifn doing b trbnsform bbdk bnd forti on tif dolorimftrid intfnt.
 
-        Gamut = cmsPipelineAlloc(ContextID, 3, 1);
-        if (Gamut != NULL) {
+        Gbmut = dmsPipflinfAllod(ContfxtID, 3, 1);
+        if (Gbmut != NULL) {
 
-            CLUT = cmsStageAllocCLut16bit(ContextID, nGridpoints, nChannels, 1, NULL);
-            if (!cmsPipelineInsertStage(Gamut, cmsAT_BEGIN, CLUT)) {
-                cmsPipelineFree(Gamut);
-                Gamut = NULL;
+            CLUT = dmsStbgfAllodCLut16bit(ContfxtID, nGridpoints, nCibnnfls, 1, NULL);
+            if (!dmsPipflinfInsfrtStbgf(Gbmut, dmsAT_BEGIN, CLUT)) {
+                dmsPipflinfFrff(Gbmut);
+                Gbmut = NULL;
             }
-            else {
-                cmsStageSampleCLut16bit(CLUT, GamutSampler, (void*) &Chain, 0);
+            flsf {
+                dmsStbgfSbmplfCLut16bit(CLUT, GbmutSbmplfr, (void*) &Cibin, 0);
             }
         }
     }
-    else
-        Gamut = NULL;   // Didn't work...
+    flsf
+        Gbmut = NULL;   // Didn't work...
 
-    // Free all needed stuff.
-    if (Chain.hInput)   cmsDeleteTransform(Chain.hInput);
-    if (Chain.hForward) cmsDeleteTransform(Chain.hForward);
-    if (Chain.hReverse) cmsDeleteTransform(Chain.hReverse);
-    if (hLab) cmsCloseProfile(hLab);
+    // Frff bll nffdfd stuff.
+    if (Cibin.iInput)   dmsDflftfTrbnsform(Cibin.iInput);
+    if (Cibin.iForwbrd) dmsDflftfTrbnsform(Cibin.iForwbrd);
+    if (Cibin.iRfvfrsf) dmsDflftfTrbnsform(Cibin.iRfvfrsf);
+    if (iLbb) dmsClosfProfilf(iLbb);
 
-    // And return computed hull
-    return Gamut;
+    // And rfturn domputfd iull
+    rfturn Gbmut;
 }
 
-// Total Area Coverage estimation ----------------------------------------------------------------
+// Totbl Arfb Covfrbgf fstimbtion ----------------------------------------------------------------
 
-typedef struct {
-    cmsUInt32Number  nOutputChans;
-    cmsHTRANSFORM    hRoundTrip;
-    cmsFloat32Number MaxTAC;
-    cmsFloat32Number MaxInput[cmsMAXCHANNELS];
+typfdff strudt {
+    dmsUInt32Numbfr  nOutputCibns;
+    dmsHTRANSFORM    iRoundTrip;
+    dmsFlobt32Numbfr MbxTAC;
+    dmsFlobt32Numbfr MbxInput[dmsMAXCHANNELS];
 
-} cmsTACestimator;
+} dmsTACfstimbtor;
 
 
-// This callback just accounts the maximum ink dropped in the given node. It does not populate any
-// memory, as the destination table is NULL. Its only purpose it to know the global maximum.
-static
-int EstimateTAC(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void * Cargo)
+// Tiis dbllbbdk just bddounts tif mbximum ink droppfd in tif givfn nodf. It dofs not populbtf bny
+// mfmory, bs tif dfstinbtion tbblf is NULL. Its only purposf it to know tif globbl mbximum.
+stbtid
+int EstimbtfTAC(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[], rfgistfr void * Cbrgo)
 {
-    cmsTACestimator* bp = (cmsTACestimator*) Cargo;
-    cmsFloat32Number RoundTrip[cmsMAXCHANNELS];
-    cmsUInt32Number i;
-    cmsFloat32Number Sum;
+    dmsTACfstimbtor* bp = (dmsTACfstimbtor*) Cbrgo;
+    dmsFlobt32Numbfr RoundTrip[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i;
+    dmsFlobt32Numbfr Sum;
 
 
-    // Evaluate the xform
-    cmsDoTransform(bp->hRoundTrip, In, RoundTrip, 1);
+    // Evblubtf tif xform
+    dmsDoTrbnsform(bp->iRoundTrip, In, RoundTrip, 1);
 
-    // All all amounts of ink
-    for (Sum=0, i=0; i < bp ->nOutputChans; i++)
+    // All bll bmounts of ink
+    for (Sum=0, i=0; i < bp ->nOutputCibns; i++)
             Sum += RoundTrip[i];
 
-    // If above maximum, keep track of input values
-    if (Sum > bp ->MaxTAC) {
+    // If bbovf mbximum, kffp trbdk of input vblufs
+    if (Sum > bp ->MbxTAC) {
 
-            bp ->MaxTAC = Sum;
+            bp ->MbxTAC = Sum;
 
-            for (i=0; i < bp ->nOutputChans; i++) {
-                bp ->MaxInput[i] = In[i];
+            for (i=0; i < bp ->nOutputCibns; i++) {
+                bp ->MbxInput[i] = In[i];
             }
     }
 
-    return TRUE;
+    rfturn TRUE;
 
-    cmsUNUSED_PARAMETER(Out);
+    dmsUNUSED_PARAMETER(Out);
 }
 
 
-// Detect Total area coverage of the profile
-cmsFloat64Number CMSEXPORT cmsDetectTAC(cmsHPROFILE hProfile)
+// Dftfdt Totbl brfb dovfrbgf of tif profilf
+dmsFlobt64Numbfr CMSEXPORT dmsDftfdtTAC(dmsHPROFILE iProfilf)
 {
-    cmsTACestimator bp;
-    cmsUInt32Number dwFormatter;
-    cmsUInt32Number GridPoints[MAX_INPUT_DIMENSIONS];
-    cmsHPROFILE hLab;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsTACfstimbtor bp;
+    dmsUInt32Numbfr dwFormbttfr;
+    dmsUInt32Numbfr GridPoints[MAX_INPUT_DIMENSIONS];
+    dmsHPROFILE iLbb;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    // TAC only works on output profiles
-    if (cmsGetDeviceClass(hProfile) != cmsSigOutputClass) {
-        return 0;
+    // TAC only works on output profilfs
+    if (dmsGftDfvidfClbss(iProfilf) != dmsSigOutputClbss) {
+        rfturn 0;
     }
 
-    // Create a fake formatter for result
-    dwFormatter = cmsFormatterForColorspaceOfProfile(hProfile, 4, TRUE);
+    // Crfbtf b fbkf formbttfr for rfsult
+    dwFormbttfr = dmsFormbttfrForColorspbdfOfProfilf(iProfilf, 4, TRUE);
 
-    bp.nOutputChans = T_CHANNELS(dwFormatter);
-    bp.MaxTAC = 0;    // Initial TAC is 0
+    bp.nOutputCibns = T_CHANNELS(dwFormbttfr);
+    bp.MbxTAC = 0;    // Initibl TAC is 0
 
-    //  for safety
-    if (bp.nOutputChans >= cmsMAXCHANNELS) return 0;
+    //  for sbffty
+    if (bp.nOutputCibns >= dmsMAXCHANNELS) rfturn 0;
 
-    hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
-    if (hLab == NULL) return 0;
-    // Setup a roundtrip on perceptual intent in output profile for TAC estimation
-    bp.hRoundTrip = cmsCreateTransformTHR(ContextID, hLab, TYPE_Lab_16,
-                                          hProfile, dwFormatter, INTENT_PERCEPTUAL, cmsFLAGS_NOOPTIMIZE|cmsFLAGS_NOCACHE);
+    iLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (iLbb == NULL) rfturn 0;
+    // Sftup b roundtrip on pfrdfptubl intfnt in output profilf for TAC fstimbtion
+    bp.iRoundTrip = dmsCrfbtfTrbnsformTHR(ContfxtID, iLbb, TYPE_Lbb_16,
+                                          iProfilf, dwFormbttfr, INTENT_PERCEPTUAL, dmsFLAGS_NOOPTIMIZE|dmsFLAGS_NOCACHE);
 
-    cmsCloseProfile(hLab);
-    if (bp.hRoundTrip == NULL) return 0;
+    dmsClosfProfilf(iLbb);
+    if (bp.iRoundTrip == NULL) rfturn 0;
 
-    // For L* we only need black and white. For C* we need many points
+    // For L* wf only nffd blbdk bnd wiitf. For C* wf nffd mbny points
     GridPoints[0] = 6;
     GridPoints[1] = 74;
     GridPoints[2] = 74;
 
 
-    if (!cmsSliceSpace16(3, GridPoints, EstimateTAC, &bp)) {
-        bp.MaxTAC = 0;
+    if (!dmsSlidfSpbdf16(3, GridPoints, EstimbtfTAC, &bp)) {
+        bp.MbxTAC = 0;
     }
 
-    cmsDeleteTransform(bp.hRoundTrip);
+    dmsDflftfTrbnsform(bp.iRoundTrip);
 
-    // Results in %
-    return bp.MaxTAC;
+    // Rfsults in %
+    rfturn bp.MbxTAC;
 }
 
 
-// Carefully,  clamp on CIELab space.
+// Cbrffully,  dlbmp on CIELbb spbdf.
 
-cmsBool CMSEXPORT cmsDesaturateLab(cmsCIELab* Lab,
-                                   double amax, double amin,
-                                   double bmax, double bmin)
+dmsBool CMSEXPORT dmsDfsbturbtfLbb(dmsCIELbb* Lbb,
+                                   doublf bmbx, doublf bmin,
+                                   doublf bmbx, doublf bmin)
 {
 
-    // Whole Luma surface to zero
+    // Wiolf Lumb surfbdf to zfro
 
-    if (Lab -> L < 0) {
+    if (Lbb -> L < 0) {
 
-        Lab-> L = Lab->a = Lab-> b = 0.0;
-        return FALSE;
+        Lbb-> L = Lbb->b = Lbb-> b = 0.0;
+        rfturn FALSE;
     }
 
-    // Clamp white, DISCARD HIGHLIGHTS. This is done
-    // in such way because icc spec doesn't allow the
-    // use of L>100 as a highlight means.
+    // Clbmp wiitf, DISCARD HIGHLIGHTS. Tiis is donf
+    // in sudi wby bfdbusf idd spfd dofsn't bllow tif
+    // usf of L>100 bs b iigiligit mfbns.
 
-    if (Lab->L > 100)
-        Lab -> L = 100;
+    if (Lbb->L > 100)
+        Lbb -> L = 100;
 
-    // Check out gamut prism, on a, b faces
+    // Cifdk out gbmut prism, on b, b fbdfs
 
-    if (Lab -> a < amin || Lab->a > amax||
-        Lab -> b < bmin || Lab->b > bmax) {
+    if (Lbb -> b < bmin || Lbb->b > bmbx||
+        Lbb -> b < bmin || Lbb->b > bmbx) {
 
-            cmsCIELCh LCh;
-            double h, slope;
+            dmsCIELCi LCi;
+            doublf i, slopf;
 
-            // Falls outside a, b limits. Transports to LCh space,
-            // and then do the clipping
+            // Fblls outsidf b, b limits. Trbnsports to LCi spbdf,
+            // bnd tifn do tif dlipping
 
 
-            if (Lab -> a == 0.0) { // Is hue exactly 90?
+            if (Lbb -> b == 0.0) { // Is iuf fxbdtly 90?
 
-                // atan will not work, so clamp here
-                Lab -> b = Lab->b < 0 ? bmin : bmax;
-                return TRUE;
+                // btbn will not work, so dlbmp ifrf
+                Lbb -> b = Lbb->b < 0 ? bmin : bmbx;
+                rfturn TRUE;
             }
 
-            cmsLab2LCh(&LCh, Lab);
+            dmsLbb2LCi(&LCi, Lbb);
 
-            slope = Lab -> b / Lab -> a;
-            h = LCh.h;
+            slopf = Lbb -> b / Lbb -> b;
+            i = LCi.i;
 
-            // There are 4 zones
+            // Tifrf brf 4 zonfs
 
-            if ((h >= 0. && h < 45.) ||
-                (h >= 315 && h <= 360.)) {
+            if ((i >= 0. && i < 45.) ||
+                (i >= 315 && i <= 360.)) {
 
-                    // clip by amax
-                    Lab -> a = amax;
-                    Lab -> b = amax * slope;
+                    // dlip by bmbx
+                    Lbb -> b = bmbx;
+                    Lbb -> b = bmbx * slopf;
             }
-            else
-                if (h >= 45. && h < 135.)
+            flsf
+                if (i >= 45. && i < 135.)
                 {
-                    // clip by bmax
-                    Lab -> b = bmax;
-                    Lab -> a = bmax / slope;
+                    // dlip by bmbx
+                    Lbb -> b = bmbx;
+                    Lbb -> b = bmbx / slopf;
                 }
-                else
-                    if (h >= 135. && h < 225.) {
-                        // clip by amin
-                        Lab -> a = amin;
-                        Lab -> b = amin * slope;
+                flsf
+                    if (i >= 135. && i < 225.) {
+                        // dlip by bmin
+                        Lbb -> b = bmin;
+                        Lbb -> b = bmin * slopf;
 
                     }
-                    else
-                        if (h >= 225. && h < 315.) {
-                            // clip by bmin
-                            Lab -> b = bmin;
-                            Lab -> a = bmin / slope;
+                    flsf
+                        if (i >= 225. && i < 315.) {
+                            // dlip by bmin
+                            Lbb -> b = bmin;
+                            Lbb -> b = bmin / slopf;
                         }
-                        else  {
-                            cmsSignalError(0, cmsERROR_RANGE, "Invalid angle");
-                            return FALSE;
+                        flsf  {
+                            dmsSignblError(0, dmsERROR_RANGE, "Invblid bnglf");
+                            rfturn FALSE;
                         }
 
     }
 
-    return TRUE;
+    rfturn TRUE;
 }

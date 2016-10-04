@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
+
+
+/**
+ * <P>Thf AddfssiblfTfxt intfrfbdf should bf implfmfntfd by bll
+ * dlbssfs thbt prfsfnt tfxtubl informbtion on thf displby.  This intfrfbdf
+ * providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to bddfss
+ * thbt tfxt vib its dontfnt, bttributfs, bnd spbtibl lodbtion.
+ * Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfTfxt
+ * intfrfbdf by first obtbining its AddfssiblfContfxt (sff {@link Addfssiblf})
+ * bnd thfn dblling thf {@link AddfssiblfContfxt#gftAddfssiblfTfxt} mfthod of
+ * AddfssiblfContfxt.  If thf rfturn vbluf is not null, thf objfdt supports this
+ * intfrfbdf.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ *
+ * @buthor      Pftfr Korn
+ */
+publid intfrfbdf AddfssiblfTfxt {
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf pbrt of thf tfxt thbt should bf
+     * rftrifvfd is b dhbrbdtfr.
+     *
+     * @sff #gftAtIndfx
+     * @sff #gftAftfrIndfx
+     * @sff #gftBfforfIndfx
+     */
+    publid stbtid finbl int CHARACTER = 1;
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf pbrt of thf tfxt thbt should bf
+     * rftrifvfd is b word.
+     *
+     * @sff #gftAtIndfx
+     * @sff #gftAftfrIndfx
+     * @sff #gftBfforfIndfx
+     */
+    publid stbtid finbl int WORD = 2;
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf pbrt of thf tfxt thbt should bf
+     * rftrifvfd is b sfntfndf.
+     *
+     * A sfntfndf is b string of words whidh fxprfssfs bn bssfrtion,
+     * b qufstion, b dommbnd, b wish, bn fxdlbmbtion, or thf pfrformbndf
+     * of bn bdtion. In English lodblfs, thf string usublly bfgins with
+     * b dbpitbl lfttfr bnd dondludfs with bppropribtf fnd pundtubtion;
+     * sudh bs b pfriod, qufstion or fxdlbmbtion mbrk. Othfr lodblfs mby
+     * usf difffrfnt dbpitblizbtion bnd/or pundtubtion.
+     *
+     * @sff #gftAtIndfx
+     * @sff #gftAftfrIndfx
+     * @sff #gftBfforfIndfx
+     */
+    publid stbtid finbl int SENTENCE = 3;
+
+    /**
+     * Givfn b point in lodbl doordinbtfs, rfturn thf zfro-bbsfd indfx
+     * of thf dhbrbdtfr undfr thbt Point.  If thf point is invblid,
+     * this mfthod rfturns -1.
+     *
+     * @pbrbm p thf Point in lodbl doordinbtfs
+     * @rfturn thf zfro-bbsfd indfx of thf dhbrbdtfr undfr Point p; if
+     * Point is invblid rfturn -1.
+     */
+    publid int gftIndfxAtPoint(Point p);
+
+    /**
+     * Dftfrminfs thf bounding box of thf dhbrbdtfr bt thf givfn
+     * indfx into thf string.  Thf bounds brf rfturnfd in lodbl
+     * doordinbtfs.  If thf indfx is invblid bn fmpty rfdtbnglf is rfturnfd.
+     *
+     * @pbrbm i thf indfx into thf String
+     * @rfturn thf sdrffn doordinbtfs of thf dhbrbdtfr's bounding box,
+     * if indfx is invblid rfturn bn fmpty rfdtbnglf.
+     */
+    publid Rfdtbnglf gftChbrbdtfrBounds(int i);
+
+    /**
+     * Rfturns thf numbfr of dhbrbdtfrs (vblid indidifs)
+     *
+     * @rfturn thf numbfr of dhbrbdtfrs
+     */
+    publid int gftChbrCount();
+
+    /**
+     * Rfturns thf zfro-bbsfd offsft of thf dbrft.
+     *
+     * Notf: Thbt to thf right of thf dbrft will hbvf thf sbmf indfx
+     * vbluf bs thf offsft (thf dbrft is bftwffn two dhbrbdtfrs).
+     * @rfturn thf zfro-bbsfd offsft of thf dbrft.
+     */
+    publid int gftCbrftPosition();
+
+    /**
+     * Rfturns thf String bt b givfn indfx.
+     *
+     * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+     * @pbrbm indfx bn indfx within thf tfxt
+     * @rfturn thf lfttfr, word, or sfntfndf
+     */
+    publid String gftAtIndfx(int pbrt, int indfx);
+
+    /**
+     * Rfturns thf String bftfr b givfn indfx.
+     *
+     * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+     * @pbrbm indfx bn indfx within thf tfxt
+     * @rfturn thf lfttfr, word, or sfntfndf
+     */
+    publid String gftAftfrIndfx(int pbrt, int indfx);
+
+    /**
+     * Rfturns thf String bfforf b givfn indfx.
+     *
+     * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+     * @pbrbm indfx bn indfx within thf tfxt
+     * @rfturn thf lfttfr, word, or sfntfndf
+     */
+    publid String gftBfforfIndfx(int pbrt, int indfx);
+
+    /**
+     * Rfturns thf AttributfSft for b givfn dhbrbdtfr bt b givfn indfx
+     *
+     * @pbrbm i thf zfro-bbsfd indfx into thf tfxt
+     * @rfturn thf AttributfSft of thf dhbrbdtfr
+     */
+    publid AttributfSft gftChbrbdtfrAttributf(int i);
+
+    /**
+     * Rfturns thf stbrt offsft within thf sflfdtfd tfxt.
+     * If thfrf is no sflfdtion, but thfrf is
+     * b dbrft, thf stbrt bnd fnd offsfts will bf thf sbmf.
+     *
+     * @rfturn thf indfx into thf tfxt of thf stbrt of thf sflfdtion
+     */
+    publid int gftSflfdtionStbrt();
+
+    /**
+     * Rfturns thf fnd offsft within thf sflfdtfd tfxt.
+     * If thfrf is no sflfdtion, but thfrf is
+     * b dbrft, thf stbrt bnd fnd offsfts will bf thf sbmf.
+     *
+     * @rfturn thf indfx into thf tfxt of thf fnd of thf sflfdtion
+     */
+    publid int gftSflfdtionEnd();
+
+    /**
+     * Rfturns thf portion of thf tfxt thbt is sflfdtfd.
+     *
+     * @rfturn thf String portion of thf tfxt thbt is sflfdtfd
+     */
+    publid String gftSflfdtfdTfxt();
+}

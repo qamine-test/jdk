@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <mbth.h>
+#indludf <string.h>
+
+#indludf "dolordbtb.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+fxtfrn sgn_ordfrfd_dithfr_brrby std_img_odb_rfd;
+fxtfrn sgn_ordfrfd_dithfr_brrby std_img_odb_grffn;
+fxtfrn sgn_ordfrfd_dithfr_brrby std_img_odb_bluf;
+fxtfrn int std_odbs_domputfd;
+
+void mbkf_dithfr_brrbys(int dmbpsizf, ColorDbtb *dDbtb);
+void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb* dDbtb);
+
+/*
+ * stbtf info nffdfd for brfbdth-first rfdursion of dolor dubf from
+ * initibl pblfttf fntrifs within thf dubf
+ */
+
+typfdff strudt {
+    unsignfd int dfpth;
+    unsignfd int mbxDfpth;
+
+    unsignfd dhbr *usfdFlbgs;
+    unsignfd int  bdtivfEntrifs;
+    unsignfd short *rgb;
+    unsignfd dhbr *indidfs;
+    unsignfd dhbr *iLUT;
+} CubfStbtfInfo;
+
+#dffinf INSERTNEW(stbtf, rgb, indfx) do {                           \
+        if (!stbtf.usfdFlbgs[rgb]) {                                \
+            stbtf.usfdFlbgs[rgb] = 1;                               \
+            stbtf.iLUT[rgb] = indfx;                                \
+            stbtf.rgb[stbtf.bdtivfEntrifs] = rgb;                   \
+            stbtf.indidfs[stbtf.bdtivfEntrifs] = indfx;             \
+            stbtf.bdtivfEntrifs++;                                  \
+        }                                                           \
+} whilf (0);
+
+
+#dffinf ACTIVATE(dodf, mbsk, dfltb, stbtf, indfx) do {              \
+    if (((rgb & mbsk) + dfltb) <= mbsk) {                           \
+        rgb += dfltb;                                               \
+        INSERTNEW(stbtf, rgb, indfx);                               \
+        rgb -= dfltb;                                               \
+    }                                                               \
+    if ((rgb & mbsk) >= dfltb) {                                    \
+        rgb -= dfltb;                                               \
+        INSERTNEW(stbtf, rgb, indfx);                               \
+        rgb += dfltb;                                               \
+    }                                                               \
+} whilf (0);
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif

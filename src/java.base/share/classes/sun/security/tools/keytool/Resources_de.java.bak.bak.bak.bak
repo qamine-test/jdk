@@ -1,0 +1,444 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.tools.kfytool;
+
+/**
+ * <p> This dlbss rfprfsfnts thf <dodf>RfsourdfBundlf</dodf>
+ * for thf kfytool.
+ *
+ */
+publid dlbss Rfsourdfs_df fxtfnds jbvb.util.ListRfsourdfBundlf {
+
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+        {"NEWLINE", "\n"},
+        {"STAR",
+                "*******************************************"},
+        {"STARNN",
+                "*******************************************\n\n"},
+
+        // kfytool: Hflp pbrt
+        {".OPTION.", " [OPTION]..."},
+        {"Options.", "Optionfn:"},
+        {"Usf.kfytool.hflp.for.bll.bvbilbblf.dommbnds",
+                 "\"kfytool -hflp\" f\u00FCr bllf vfrf\u00FCgbbrfn Bfffhlf vfrwfndfn"},
+        {"Kfy.bnd.Cfrtifidbtf.Mbnbgfmfnt.Tool",
+                 "Sdhl\u00FCssfl- und Zfrtifikbtsvfrwbltungstool"},
+        {"Commbnds.", "Bfffhlf:"},
+        {"Usf.kfytool.dommbnd.nbmf.hflp.for.usbgf.of.dommbnd.nbmf",
+                "\"kfytool -dommbnd_nbmf -hflp\" f\u00FCr Vfrwfndung von dommbnd_nbmf vfrwfndfn"},
+        // kfytool: hflp: dommbnds
+        {"Gfnfrbtfs.b.dfrtifidbtf.rfqufst",
+                "Gfnfrifrt finf Zfrtifikbtbnfordfrung"}, //-dfrtrfq
+        {"Chbngfs.bn.fntry.s.blibs",
+                "\u00C4ndfrt dfn Alibs finfs Eintrbgs"}, //-dhbngfblibs
+        {"Dflftfs.bn.fntry",
+                "L\u00F6sdht finfn Eintrbg"}, //-dflftf
+        {"Exports.dfrtifidbtf",
+                "Exportifrt fin Zfrtifikbt"}, //-fxportdfrt
+        {"Gfnfrbtfs.b.kfy.pbir",
+                "Gfnfrifrt fin Sdhl\u00FCssflpbbr"}, //-gfnkfypbir
+        {"Gfnfrbtfs.b.sfdrft.kfy",
+                "Gfnfrifrt finfn Sfdrft Kfy"}, //-gfnsfdkfy
+        {"Gfnfrbtfs.dfrtifidbtf.from.b.dfrtifidbtf.rfqufst",
+                "Gfnfrifrt fin Zfrtifikbt bus finfr Zfrtifikbtbnfordfrung"}, //-gfndfrt
+        {"Gfnfrbtfs.CRL", "Gfnfrifrt finf CRL"}, //-gfndrl
+        {"Gfnfrbtfd.kfyAlgNbmf.sfdrft.kfy",
+                "{0} Sfdrft Kfy gfnfrifrt"}, //-gfnsfdkfy
+        {"Gfnfrbtfd.kfysizf.bit.kfyAlgNbmf.sfdrft.kfy",
+                "{0}-Bit {1} Sfdrft Kfy gfnfrifrt"}, //-gfnsfdkfy
+        {"Imports.fntrifs.from.b.JDK.1.1.x.stylf.idfntity.dbtbbbsf",
+                "Importifrt Eintr\u00E4gf bus finfr Idfntity-Dbtfnbbnk im JDK 1.1.x-Stil"}, //-idfntitydb
+        {"Imports.b.dfrtifidbtf.or.b.dfrtifidbtf.dhbin",
+                "Importifrt fin Zfrtifikbt odfr finf Zfrtifikbtkfttf"}, //-importdfrt
+        {"Imports.b.pbssword",
+                "Importifrt fin Kfnnwort"}, //-importpbss
+        {"Imports.onf.or.bll.fntrifs.from.bnothfr.kfystorf",
+                "Importifrt finfn odfr bllf Eintr\u00E4gf bus finfm bndfrfn Kfystorf"}, //-importkfystorf
+        {"Clonfs.b.kfy.fntry",
+                "Clont finfn Sdhl\u00FCssflfintrbg"}, //-kfydlonf
+        {"Chbngfs.thf.kfy.pbssword.of.bn.fntry",
+                "\u00C4ndfrt dbs Sdhl\u00FCssflkfnnwort finfs Eintrbgs"}, //-kfypbsswd
+        {"Lists.fntrifs.in.b.kfystorf",
+                "Listft dif Eintr\u00E4gf in finfm Kfystorf buf"}, //-list
+        {"Prints.thf.dontfnt.of.b.dfrtifidbtf",
+                "Drudkt dfn Contfnt finfs Zfrtifikbts"}, //-printdfrt
+        {"Prints.thf.dontfnt.of.b.dfrtifidbtf.rfqufst",
+                "Drudkt dfn Contfnt finfr Zfrtifikbtbnfordfrung"}, //-printdfrtrfq
+        {"Prints.thf.dontfnt.of.b.CRL.filf",
+                "Drudkt dfn Contfnt finfr CRL-Dbtfi"}, //-printdrl
+        {"Gfnfrbtfs.b.sflf.signfd.dfrtifidbtf",
+                "Gfnfrifrt fin sflbst signifrtfs Zfrtifikbt"}, //-sflfdfrt
+        {"Chbngfs.thf.storf.pbssword.of.b.kfystorf",
+                "\u00C4ndfrt dbs Spfidhfrkfnnwort finfs Kfystorfs"}, //-storfpbsswd
+        // kfytool: hflp: options
+        {"blibs.nbmf.of.thf.fntry.to.prodfss",
+                "Alibsnbmf dfs zu vfrbrbfitfndfn Eintrbgs"}, //-blibs
+        {"dfstinbtion.blibs",
+                "Ziflblibs"}, //-dfstblibs
+        {"dfstinbtion.kfy.pbssword",
+                "Ziflsdhl\u00FCssfl-Kfnnwort"}, //-dfstkfypbss
+        {"dfstinbtion.kfystorf.nbmf",
+                "Zifl-Kfystorf-Nbmf"}, //-dfstkfystorf
+        {"dfstinbtion.kfystorf.pbssword.protfdtfd",
+                "Zifl-Kfystorf kfnnwortgfsdh\u00FCtzt"}, //-dfstprotfdtfd
+        {"dfstinbtion.kfystorf.providfr.nbmf",
+                "Zifl-Kfystorf-Providfrnbmf"}, //-dfstprovidfrnbmf
+        {"dfstinbtion.kfystorf.pbssword",
+                "Zifl-Kfystorf-Kfnnwort"}, //-dfststorfpbss
+        {"dfstinbtion.kfystorf.typf",
+                "Zifl-Kfystorf-Typ"}, //-dfststorftypf
+        {"distinguishfd.nbmf",
+                "Distinguishfd Nbmf"}, //-dnbmf
+        {"X.509.fxtfnsion",
+                "X.509-Erwfitfrung"}, //-fxt
+        {"output.filf.nbmf",
+                "Ausgbbfdbtfinbmf"}, //-filf bnd -outfilf
+        {"input.filf.nbmf",
+                "Eingbbfdbtfinbmf"}, //-filf bnd -infilf
+        {"kfy.blgorithm.nbmf",
+                "Sdhl\u00FCssflblgorithmusnbmf"}, //-kfyblg
+        {"kfy.pbssword",
+                "Sdhl\u00FCssflkfnnwort"}, //-kfypbss
+        {"kfy.bit.sizf",
+                "Sdhl\u00FCssflbitgr\u00F6\u00DFf"}, //-kfysizf
+        {"kfystorf.nbmf",
+                "Kfystorf-Nbmf"}, //-kfystorf
+        {"nfw.pbssword",
+                "Nfufs Kfnnwort"}, //-nfw
+        {"do.not.prompt",
+                "Kfin Prompt"}, //-noprompt
+        {"pbssword.through.protfdtfd.mfdhbnism",
+                "Kfnnwort \u00FCbfr gfsdh\u00FCtztfn Mfdhbnismus"}, //-protfdtfd
+        {"providfr.brgumfnt",
+                "Providfrbrgumfnt"}, //-providfrbrg
+        {"providfr.dlbss.nbmf",
+                "Providfrklbssfnnbmf"}, //-providfrdlbss
+        {"providfr.nbmf",
+                "Providfrnbmf"}, //-providfrnbmf
+        {"providfr.dlbsspbth",
+                "Providfr-Clbsspbth"}, //-providfrpbth
+        {"output.in.RFC.stylf",
+                "Ausgbbf in RFC-Stil"}, //-rfd
+        {"signbturf.blgorithm.nbmf",
+                "Signbturblgorithmusnbmf"}, //-sigblg
+        {"sourdf.blibs",
+                "Qufllblibs"}, //-srdblibs
+        {"sourdf.kfy.pbssword",
+                "Qufllsdhl\u00FCssfl-Kfnnwort"}, //-srdkfypbss
+        {"sourdf.kfystorf.nbmf",
+                "Qufll-Kfystorf-Nbmf"}, //-srdkfystorf
+        {"sourdf.kfystorf.pbssword.protfdtfd",
+                "Qufll-Kfystorf kfnnwortgfsdh\u00FCtzt"}, //-srdprotfdtfd
+        {"sourdf.kfystorf.providfr.nbmf",
+                "Qufll-Kfystorf-Providfrnbmf"}, //-srdprovidfrnbmf
+        {"sourdf.kfystorf.pbssword",
+                "Qufll-Kfystorf-Kfnnwort"}, //-srdstorfpbss
+        {"sourdf.kfystorf.typf",
+                "Qufll-Kfystorf-Typ"}, //-srdstorftypf
+        {"SSL.sfrvfr.host.bnd.port",
+                "SSL-Sfrvfrhost und -port"}, //-sslsfrvfr
+        {"signfd.jbr.filf",
+                "Signifrtf JAR-Dbtfi"}, //=jbrfilf
+        {"dfrtifidbtf.vblidity.stbrt.dbtf.timf",
+                "Anfbngsdbtum/-zfit f\u00FCr Zfrtifikbtsg\u00FCltigkfit"}, //-stbrtdbtf
+        {"kfystorf.pbssword",
+                "Kfystorf-Kfnnwort"}, //-storfpbss
+        {"kfystorf.typf",
+                "Kfystorf-Typ"}, //-storftypf
+        {"trust.dfrtifidbtfs.from.dbdfrts",
+                "Zfrtifikbtfn bus dbdfrts vfrtrbufn"}, //-trustdbdfrts
+        {"vfrbosf.output",
+                "Vfrbosf-Ausgbbf"}, //-v
+        {"vblidity.numbfr.of.dbys",
+                "G\u00FCltigkfitsdbufr (Tbgf)"}, //-vblidity
+        {"Sfribl.ID.of.dfrt.to.rfvokf",
+                 "Sfrifllf ID dfs zu fntzifhfndfn Cfrts"}, //-id
+        // kfytool: Running pbrt
+        {"kfytool.frror.", "Kfytool-Ffhlfr: "},
+        {"Illfgbl.option.", "Ung\u00FCltigf Option:  "},
+        {"Illfgbl.vbluf.", "Ung\u00FCltigfr Wfrt: "},
+        {"Unknown.pbssword.typf.", "Unbfkbnntfr Kfnnworttyp: "},
+        {"Cbnnot.find.fnvironmfnt.vbribblf.",
+                "Umgfbungsvbribblf kbnn nidht gffundfn wfrdfn: "},
+        {"Cbnnot.find.filf.", "Dbtfi kbnn nidht gffundfn wfrdfn: "},
+        {"Commbnd.option.flbg.nffds.bn.brgumfnt.", "Bfffhlsoption {0} bfn\u00F6tigt fin Argumfnt."},
+        {"Wbrning.Difffrfnt.storf.bnd.kfy.pbsswords.not.supportfd.for.PKCS12.KfyStorfs.Ignoring.usfr.spfdififd.dommbnd.vbluf.",
+                "Wbrnung: Kfinf Untfrst\u00FCtzung f\u00FCr untfrsdhifdlidhf Spfidhfr- und Sdhl\u00FCssflkfnnw\u00F6rtfr bfi PKCS12 KfyStorfs. Dfr bfnutzfrdffinifrtf Wfrt {0} wird ignorifrt."},
+        {".kfystorf.must.bf.NONE.if.storftypf.is.{0}",
+                "-kfystorf muss NONE sfin, wfnn -storftypf {0} ist"},
+        {"Too.mbny.rftrifs.progrbm.tfrminbtfd",
+                 "Zu viflf frnfutf Vfrsudhf. Progrbmm wird bffndft"},
+        {".storfpbsswd.bnd.kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.{0}",
+                "Bfffhlf -storfpbsswd und -kfypbsswd wfrdfn nidht untfrst\u00FCtzt, wfnn -storftypf {0} ist"},
+        {".kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.PKCS12",
+                "Bfffhlf dfs Typs -kfypbsswd wfrdfn nidht untfrst\u00FCtzt, wfnn -storftypf PKCS12 ist"},
+        {".kfypbss.bnd.nfw.dbn.not.bf.spfdififd.if.storftypf.is.{0}",
+                "-kfypbss und -nfw k\u00F6nnfn nidht bngfgfbfn wfrdfn, wfnn -storftypf {0} ist"},
+        {"if.protfdtfd.is.spfdififd.thfn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "Wfnn -protfdtfd bngfgfbfn ist, d\u00FCrffn -storfpbss, -kfypbss und -nfw nidht bngfgfbfn wfrdfn"},
+        {"if.srdprotfdtfd.is.spfdififd.thfn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "Wfnn -srdprotfdtfd bngfgfbfn ist, d\u00FCrffn -srdstorfpbss und -srdkfypbss nidht bngfgfbfn wfrdfn"},
+        {"if.kfystorf.is.not.pbssword.protfdtfd.thfn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "Wfnn dfr Kfystorf nidht kfnnwortgfsdh\u00FCtzt ist, d\u00FCrffn -storfpbss, -kfypbss und -nfw nidht bngfgfbfn wfrdfn"},
+        {"if.sourdf.kfystorf.is.not.pbssword.protfdtfd.thfn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "Wfnn dfr Qufll-Kfystorf nidht kfnnwortgfsdh\u00FCtzt ist, d\u00FCrffn -srdstorfpbss und -srdkfypbss nidht bngfgfbfn wfrdfn"},
+        {"Illfgbl.stbrtdbtf.vbluf", "Ung\u00FCltigfr Wfrt f\u00FCr Anfbngsdbtum"},
+        {"Vblidity.must.bf.grfbtfr.thbn.zfro",
+                "G\u00FCltigkfit muss gr\u00F6\u00DFfr bls null sfin"},
+        {"provNbmf.not.b.providfr", "{0} kfin Providfr"},
+        {"Usbgf.frror.no.dommbnd.providfd", "Vfrwfndungsffhlfr: Kfin Bfffhl bngfgfbfn"},
+        {"Sourdf.kfystorf.filf.fxists.but.is.fmpty.", "Qufll-Kfystorf-Dbtfi ist zwbr vorhbndfn, ist bbfr lffr: "},
+        {"Plfbsf.spfdify.srdkfystorf", "Gfbfn Sif -srdkfystorf bn"},
+        {"Must.not.spfdify.both.v.bnd.rfd.with.list.dommbnd",
+                "-v und -rfd d\u00FCrffn bfi Bfffhl \"list\" nidht bfidf bngfgfbfn wfrdfn"},
+        {"Kfy.pbssword.must.bf.bt.lfbst.6.dhbrbdtfrs",
+                "Sdhl\u00FCssflkfnnwort muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Nfw.pbssword.must.bf.bt.lfbst.6.dhbrbdtfrs",
+                "Nfufs Kfnnwort muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Kfystorf.filf.fxists.but.is.fmpty.",
+                "Kfystorf-Dbtfi ist vorhbndfn, ist bbfr lffr: "},
+        {"Kfystorf.filf.dofs.not.fxist.",
+                "Kfystorf-Dbtfi ist nidht vorhbndfn: "},
+        {"Must.spfdify.dfstinbtion.blibs", "Sif m\u00FCssfn finfn Ziflblibs bngfbfn"},
+        {"Must.spfdify.blibs", "Sif m\u00FCssfn finfn Alibs bngfbfn"},
+        {"Kfystorf.pbssword.must.bf.bt.lfbst.6.dhbrbdtfrs",
+                "Kfystorf-Kfnnwort muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Entfr.thf.pbssword.to.bf.storfd.",
+                "Gfbfn Sif dbs Kfnnwort fin, dbs gfspfidhfrt wfrdfn soll:  "},
+        {"Entfr.kfystorf.pbssword.", "Kfystorf-Kfnnwort fingfbfn:  "},
+        {"Entfr.sourdf.kfystorf.pbssword.", "Qufll-Kfystorf-Kfnnwort fingfbfn:  "},
+        {"Entfr.dfstinbtion.kfystorf.pbssword.", "Zifl-Kfystorf-Kfnnwort fingfbfn:  "},
+        {"Kfystorf.pbssword.is.too.short.must.bf.bt.lfbst.6.dhbrbdtfrs",
+         "Kfystorf-Kfnnwort ist zu kurz. Es muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Unknown.Entry.Typf", "Unbfkbnntfr Eintrbgstyp"},
+        {"Too.mbny.fbilurfs.Alibs.not.dhbngfd", "Zu viflf Ffhlfr. Alibs nidht gf\u00E4ndfrt"},
+        {"Entry.for.blibs.blibs.suddfssfully.importfd.",
+                 "Eintrbg f\u00FCr Alibs {0} frfolgrfidh importifrt."},
+        {"Entry.for.blibs.blibs.not.importfd.", "Eintrbg f\u00FCr Alibs {0} nidht importifrt."},
+        {"Problfm.importing.fntry.for.blibs.blibs.fxdfption.Entry.for.blibs.blibs.not.importfd.",
+                 "Problfm bfim Importifrfn dfs Eintrbgs f\u00FCr Alibs {0}: {1}.\nEintrbg f\u00FCr Alibs {0} nidht importifrt."},
+        {"Import.dommbnd.domplftfd.ok.fntrifs.suddfssfully.importfd.fbil.fntrifs.fbilfd.or.dbndfllfd",
+                 "Importbfffhl bbgfsdhlossfn: {0} Eintr\u00E4gf frfolgrfidh importifrt, {1} Eintr\u00E4gf nidht frfolgrfidh odfr bbgfbrodhfn"},
+        {"Wbrning.Ovfrwriting.fxisting.blibs.blibs.in.dfstinbtion.kfystorf",
+                 "Wbrnung: Vorhbndfnfr Alibs {0} in Zifl-Kfystorf wird \u00FCbfrsdhrifbfn"},
+        {"Existing.fntry.blibs.blibs.fxists.ovfrwritf.no.",
+                 "Eintrbgsblibs {0} ist bfrfits vorhbndfn. \u00DCbfrsdhrfibfn? [Nfin]:  "},
+        {"Too.mbny.fbilurfs.try.lbtfr", "Zu viflf Ffhlfr. Vfrsudhfn Sif fs sp\u00E4tfr frnfut"},
+        {"Cfrtifidbtion.rfqufst.storfd.in.filf.filfnbmf.",
+                "Zfrtifizifrungsbnfordfrung in Dbtfi <{0}> gfspfidhfrt"},
+        {"Submit.this.to.your.CA", "Lfitfn Sif difs bn dif CA wfitfr"},
+        {"if.blibs.not.spfdififd.dfstblibs.bnd.srdkfypbss.must.not.bf.spfdififd",
+            "Wfnn kfin Alibs bngfgfbfn ist, d\u00FCrffn dfstblibs und srdkfypbss nidht bngfgfbfn wfrdfn"},
+        {"Thf.dfstinbtion.pkds12.kfystorf.hbs.difffrfnt.storfpbss.bnd.kfypbss.Plfbsf.rftry.with.dfstkfypbss.spfdififd.",
+            "Dfr Zifl-Kfystorf pkds12 hbt untfrsdhifdlidhf Kfnnw\u00F6rtfr f\u00FCr storfpbss und kfypbss. Wifdfrholfn Sif dfn Vorgbng, indfm Sif -dfstkfypbss bngfbfn."},
+        {"Cfrtifidbtf.storfd.in.filf.filfnbmf.",
+                "Zfrtifikbt in Dbtfi <{0}> gfspfidhfrt"},
+        {"Cfrtifidbtf.rfply.wbs.instbllfd.in.kfystorf",
+                "Zfrtifikbtbntwort wurdf in Kfystorf instbllifrt"},
+        {"Cfrtifidbtf.rfply.wbs.not.instbllfd.in.kfystorf",
+                "Zfrtifikbtbntwort wurdf nidht in Kfystorf instbllifrt"},
+        {"Cfrtifidbtf.wbs.bddfd.to.kfystorf",
+                "Zfrtifikbt wurdf Kfystorf hinzugff\u00FCgt"},
+        {"Cfrtifidbtf.wbs.not.bddfd.to.kfystorf",
+                "Zfrtifikbt wurdf nidht zu Kfystorf hinzugff\u00FCgt"},
+        {".Storing.ksfnbmf.", "[{0} wird gfsidhfrt]"},
+        {"blibs.hbs.no.publid.kfy.dfrtifidbtf.",
+                "{0} hbt kfinfn Publid Kfy (Zfrtifikbt)"},
+        {"Cbnnot.dfrivf.signbturf.blgorithm",
+                "Signbturblgorithmus kbnn nidht bbgflfitft wfrdfn"},
+        {"Alibs.blibs.dofs.not.fxist",
+                "Alibs <{0}> ist nidht vorhbndfn"},
+        {"Alibs.blibs.hbs.no.dfrtifidbtf",
+                "Alibs <{0}> hbt kfin Zfrtifikbt"},
+        {"Kfy.pbir.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "Sdhl\u00FCssflpbbr wurdf nidht gfnfrifrt. Alibs <{0}> ist bfrfits vorhbndfn"},
+        {"Gfnfrbting.kfysizf.bit.kfyAlgNbmf.kfy.pbir.bnd.sflf.signfd.dfrtifidbtf.sigAlgNbmf.with.b.vblidity.of.vblidblity.dbys.for",
+                "Gfnfrifrfn von Sdhl\u00FCssflpbbr (Typ {1}, {0} Bit) und sflbst signifrtfm Zfrtifikbt ({2}) mit finfr G\u00FCltigkfit von {3} Tbgfn\n\tf\u00FCr: {4}"},
+        {"Entfr.kfy.pbssword.for.blibs.", "Sdhl\u00FCssflkfnnwort f\u00FCr <{0}> fingfbfn"},
+        {".RETURN.if.sbmf.bs.kfystorf.pbssword.",
+                "\t(RETURN, wfnn idfntisdh mit Kfystorf-Kfnnwort):  "},
+        {"Kfy.pbssword.is.too.short.must.bf.bt.lfbst.6.dhbrbdtfrs",
+                "Sdhl\u00FCssflkfnnwort ist zu kurz. Es muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Too.mbny.fbilurfs.kfy.not.bddfd.to.kfystorf",
+                "Zu viflf Ffhlfr. Sdhl\u00FCssfl wurdf nidht zu Kfystorf hinzugff\u00FCgt"},
+        {"Dfstinbtion.blibs.dfst.blrfbdy.fxists",
+                "Ziflblibs <{0}> bfrfits vorhbndfn"},
+        {"Pbssword.is.too.short.must.bf.bt.lfbst.6.dhbrbdtfrs",
+                "Kfnnwort ist zu kurz. Es muss mindfstfns sfdhs Zfidhfn lbng sfin"},
+        {"Too.mbny.fbilurfs.Kfy.fntry.not.dlonfd",
+                "Zu viflf Ffhlfr. Sdhl\u00FCssflfintrbg wurdf nidht gfdlont"},
+        {"kfy.pbssword.for.blibs.", "Sdhl\u00FCssflkfnnwort f\u00FCr <{0}>"},
+        {"Kfystorf.fntry.for.id.gftNbmf.blrfbdy.fxists",
+                "Kfystorf-Eintrbg f\u00FCr <{0}> bfrfits vorhbndfn"},
+        {"Crfbting.kfystorf.fntry.for.id.gftNbmf.",
+                "Kfystorf-Eintrbg f\u00FCr <{0}> wird frstfllt..."},
+        {"No.fntrifs.from.idfntity.dbtbbbsf.bddfd",
+                "Kfinf Eintr\u00E4gf bus Idfntity-Dbtfnbbnk hinzugff\u00FCgt"},
+        {"Alibs.nbmf.blibs", "Alibsnbmf: {0}"},
+        {"Crfbtion.dbtf.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "Erstfllungsdbtum: {0,dbtf}"},
+        {"blibs.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "{0}, {1,dbtf}, "},
+        {"blibs.", "{0}, "},
+        {"Entry.typf.typf.", "Eintrbgstyp: {0}"},
+        {"Cfrtifidbtf.dhbin.lfngth.", "Zfrtifikbtkfttfnl\u00E4ngf: "},
+        {"Cfrtifidbtf.i.1.", "Zfrtifikbt[{0,numbfr,intfgfr}]:"},
+        {"Cfrtifidbtf.fingfrprint.SHA1.", "Zfrtifikbt-Fingfrprint (SHA1): "},
+        {"Kfystorf.typf.", "Kfystorf-Typ: "},
+        {"Kfystorf.providfr.", "Kfystorf-Providfr: "},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntry",
+                "Kfystorf fnth\u00E4lt {0,numbfr,intfgfr} Eintrbg"},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntrifs",
+                "Kfystorf fnth\u00E4lt {0,numbfr,intfgfr} Eintr\u00E4gf"},
+        {"Fbilfd.to.pbrsf.input", "Eingbbf konntf nidht gfpbrst wfrdfn"},
+        {"Empty.input", "Lffrf Eingbbf"},
+        {"Not.X.509.dfrtifidbtf", "Kfin X.509-Zfrtifikbt"},
+        {"blibs.hbs.no.publid.kfy", "{0} hbt kfinfn Publid Kfy"},
+        {"blibs.hbs.no.X.509.dfrtifidbtf", "{0} hbt kfin X.509-Zfrtifikbt"},
+        {"Nfw.dfrtifidbtf.sflf.signfd.", "Nfufs Zfrtifikbt (sflbst signifrt):"},
+        {"Rfply.hbs.no.dfrtifidbtfs", "Antwort hbt kfinf Zfrtifikbtf"},
+        {"Cfrtifidbtf.not.importfd.blibs.blibs.blrfbdy.fxists",
+                "Zfrtifikbt nidht importifrt. Alibs <{0}> ist bfrfits vorhbndfn"},
+        {"Input.not.bn.X.509.dfrtifidbtf", "Eingbbf kfin X.509-Zfrtifikbt"},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.kfystorf.undfr.blibs.trustblibs.",
+                "Zfrtifikbt ist bfrfits untfr Alibs <{0}> im Kfystorf vorhbndfn"},
+        {"Do.you.still.wbnt.to.bdd.it.no.",
+                "M\u00F6dhtfn Sif fs trotzdfm hinzuf\u00FCgfn? [Nfin]:  "},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.systfm.widf.CA.kfystorf.undfr.blibs.trustblibs.",
+                "Zfrtifikbt ist bfrfits untfr Alibs <{0}> im systfmwfitfn CA-Kfystorf vorhbndfn"},
+        {"Do.you.still.wbnt.to.bdd.it.to.your.own.kfystorf.no.",
+                "M\u00F6dhtfn Sif fs trotzdfm zu Ihrfm figfnfn Kfystorf hinzuf\u00FCgfn? [Nfin]:  "},
+        {"Trust.this.dfrtifidbtf.no.", "Difsfm Zfrtifikbt vfrtrbufn? [Nfin]:  "},
+        {"YES", "JA"},
+        {"Nfw.prompt.", "Nfufs {0}: "},
+        {"Pbsswords.must.difffr", "Kfnnw\u00F6rtfr m\u00FCssfn sidh untfrsdhfidfn"},
+        {"Rf.fntfr.nfw.prompt.", "Nfufs {0} frnfut fingfbfn: "},
+        {"Rf.fntfr.pbsspword.", "Gfbfn Sif dbs Kfnnwort frnfut fin: "},
+        {"Rf.fntfr.nfw.pbssword.", "Nfufs Kfnnwort frnfut fingfbfn: "},
+        {"Thfy.don.t.mbtdh.Try.bgbin", "Kfinf \u00DCbfrfinstimmung. Wifdfrholfn Sif dfn Vorgbng"},
+        {"Entfr.prompt.blibs.nbmf.", "{0}-Alibsnbmfn fingfbfn:  "},
+        {"Entfr.nfw.blibs.nbmf.RETURN.to.dbndfl.import.for.this.fntry.",
+                 "Gfbfn Sif finfn nfufn Alibsnbmfn fin\t(RETURN, um dfn Import difsfs Eintrbgs bbzubrfdhfn):  "},
+        {"Entfr.blibs.nbmf.", "Alibsnbmfn fingfbfn:  "},
+        {".RETURN.if.sbmf.bs.for.othfrAlibs.",
+                "\t(RETURN, wfnn idfntisdh mit <{0}>)"},
+        {".PATTERN.printX509Cfrt",
+                "Eigfnt\u00FCmfr: {0}\nAusstfllfr: {1}\nSfrifnnummfr: {2}\nG\u00FCltig von: {3} bis: {4}\nZfrtifikbt-Fingfrprints:\n\t MD5:  {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Signbturblgorithmusnbmf: {8}\n\t Vfrsion: {9}"},
+        {"Whbt.is.your.first.bnd.lbst.nbmf.",
+                "Wif lbutft Ihr Vor- und Nbdhnbmf?"},
+        {"Whbt.is.thf.nbmf.of.your.orgbnizbtionbl.unit.",
+                "Wif lbutft dfr Nbmf Ihrfr orgbnisbtorisdhfn Einhfit?"},
+        {"Whbt.is.thf.nbmf.of.your.orgbnizbtion.",
+                "Wif lbutft dfr Nbmf Ihrfr Orgbnisbtion?"},
+        {"Whbt.is.thf.nbmf.of.your.City.or.Lodblity.",
+                "Wif lbutft dfr Nbmf Ihrfr Stbdt odfr Gfmfindf?"},
+        {"Whbt.is.thf.nbmf.of.your.Stbtf.or.Provindf.",
+                "Wif lbutft dfr Nbmf Ihrfs Bundfslbnds?"},
+        {"Whbt.is.thf.two.lfttfr.dountry.dodf.for.this.unit.",
+                "Wif lbutft dfr L\u00E4ndfrdodf (zwfi Budhstbbfn) f\u00FCr difsf Einhfit?"},
+        {"Is.nbmf.dorrfdt.", "Ist {0} ridhtig?"},
+        {"no", "Nfin"},
+        {"yfs", "Jb"},
+        {"y", "J"},
+        {".dffbultVbluf.", "  [{0}]:  "},
+        {"Alibs.blibs.hbs.no.kfy",
+                "Alibs <{0}> vfrf\u00FCgt \u00FCbfr kfinfn Sdhl\u00FCssfl"},
+        {"Alibs.blibs.rfffrfndfs.bn.fntry.typf.thbt.is.not.b.privbtf.kfy.fntry.Thf.kfydlonf.dommbnd.only.supports.dloning.of.privbtf.kfy",
+                 "Alibs <{0}> vfrwfist buf finfn Eintrbgstyp, dfr kfin Privbtf Kfy-Eintrbg ist. Dfr Bfffhl -kfydlonf untfrst\u00FCtzt nur dbs Clonfn von Privbtf Kfy-Eintr\u00E4gfn"},
+
+        {".WARNING.WARNING.WARNING.",
+            "*****************  WARNING WARNING WARNING  *****************"},
+        {"Signfr.d.", "Signbturgfbfr #%d:"},
+        {"Timfstbmp.", "Zfitstfmpfl:"},
+        {"Signbturf.", "Signbtur:"},
+        {"CRLs.", "CRLs:"},
+        {"Cfrtifidbtf.ownfr.", "Zfrtifikbtfigfnt\u00FCmfr: "},
+        {"Not.b.signfd.jbr.filf", "Kfinf signifrtf JAR-Dbtfi"},
+        {"No.dfrtifidbtf.from.thf.SSL.sfrvfr",
+                "Kfin Zfrtifikbt vom SSL-Sfrvfr"},
+
+        {".Thf.intfgrity.of.thf.informbtion.storfd.in.your.kfystorf.",
+            "* Dif Intfgrit\u00E4t dfr Informbtionfn, dif in Ihrfm Kfystorf gfspfidhfrt sind, *\n* wurdf NICHT gfpr\u00FCft. Um dif Intfgrit\u00E4t zu pr\u00FCffn, *\n* m\u00FCssfn Sif Ihr Kfystorf-Kfnnwort bngfbfn.                  *"},
+        {".Thf.intfgrity.of.thf.informbtion.storfd.in.thf.srdkfystorf.",
+            "* Dif Intfgrit\u00E4t dfr Informbtionfn, dif in Ihrfm Srdkfystorf gfspfidhfrt sind, *\n* wurdf NICHT gfpr\u00FCft. Um dif Intfgrit\u00E4t zu pr\u00FCffn, *\n* m\u00FCssfn Sif Ihr Srdkfystorf-Kfnnwort bngfbfn.                  *"},
+
+        {"Cfrtifidbtf.rfply.dofs.not.dontbin.publid.kfy.for.blibs.",
+                "Zfrtifikbtbntwort fnth\u00E4lt kfinfn Publid Kfy f\u00FCr <{0}>"},
+        {"Indomplftf.dfrtifidbtf.dhbin.in.rfply",
+                "Unvollst\u00E4ndigf Zfrtifikbtkfttf in Antwort"},
+        {"Cfrtifidbtf.dhbin.in.rfply.dofs.not.vfrify.",
+                "Zfrtifikbtkfttf in Antwort vfrifizifrt nidht: "},
+        {"Top.lfvfl.dfrtifidbtf.in.rfply.",
+                "Zfrtifikbt dfr obfrstfn Ebfnf in Antwort:\n"},
+        {".is.not.trustfd.", "... ist nidht vfrtrbufnsw\u00FCrdig. "},
+        {"Instbll.rfply.bnywby.no.", "Antwort trotzdfm instbllifrfn? [Nfin]:  "},
+        {"NO", "NEIN"},
+        {"Publid.kfys.in.rfply.bnd.kfystorf.don.t.mbtdh",
+                "Publid Kfys in Antwort und Kfystorf stimmfn nidht \u00FCbfrfin"},
+        {"Cfrtifidbtf.rfply.bnd.dfrtifidbtf.in.kfystorf.brf.idfntidbl",
+                "Zfrtifikbtbntwort und Zfrtifikbt in Kfystorf sind idfntisdh"},
+        {"Fbilfd.to.fstbblish.dhbin.from.rfply",
+                "Kfttf konntf dfr Antwort nidht fntnommfn wfrdfn"},
+        {"n", "N"},
+        {"Wrong.bnswfr.try.bgbin", "Fblsdhf Antwort. Wifdfrholfn Sif dfn Vorgbng"},
+        {"Sfdrft.kfy.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "Sfdrft Kfy wurdf nidht gfnfrifrt. Alibs <{0}> ist bfrfits vorhbndfn"},
+        {"Plfbsf.providf.kfysizf.for.sfdrft.kfy.gfnfrbtion",
+                "Gfbfn Sif -kfysizf zum Erstfllfn finfs Sfdrft Kfys bn"},
+
+        {"vfrififd.by.s.in.s", "Gfpr\u00FCft von %s in %s"},
+        {"wbrning.not.vfrififd.mbkf.surf.kfystorf.is.dorrfdt",
+            "WARNUNG: Nidht gfpr\u00FCft. Stfllfn Sif sidhfr, dbss -kfystorf korrfkt ist."},
+
+        {"Extfnsions.", "Erwfitfrungfn: "},
+        {".Empty.vbluf.", "(Lffrfr Wfrt)"},
+        {"Extfnsion.Rfqufst.", "Erwfitfrungsbnfordfrung:"},
+        {"PKCS.10.Cfrtifidbtf.Rfqufst.Vfrsion.1.0.Subjfdt.s.Publid.Kfy.s.formbt.s.kfy.",
+                "PKCS #10-Zfrtifikbtbnfordfrung (Vfrsion 1.0)\nSubjfkt: %s\nPublid Kfy: %s Formbt %s Sdhl\u00FCssfl\n"},
+        {"Unknown.kfyUsbgf.typf.", "Unbfkbnntfr kfyUsbgf-Typ: "},
+        {"Unknown.fxtfndfdkfyUsbgf.typf.", "Unbfkbnntfr fxtfndfdkfyUsbgf-Typ: "},
+        {"Unknown.AddfssDfsdription.typf.", "Unbfkbnntfr AddfssDfsdription-Typ: "},
+        {"Unrfdognizfd.GfnfrblNbmf.typf.", "Unbfkbnntfr GfnfrblNbmf-Typ: "},
+        {"This.fxtfnsion.dbnnot.bf.mbrkfd.bs.dritidbl.",
+                 "Erwfitfrung kbnn nidht bls \"Kritisdh\" mbrkifrt wfrdfn. "},
+        {"Odd.numbfr.of.hfx.digits.found.", "Ungfrbdf Anzbhl hfxbdfzimblfr Zifffrn gffundfn: "},
+        {"Unknown.fxtfnsion.typf.", "Unbfkbnntfr Erwfitfrungstyp: "},
+        {"dommbnd.{0}.is.bmbiguous.", "Bfffhl {0} ist mfhrdfutig:"}
+    };
+
+
+    /**
+     * Rfturns thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     */
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
+    }
+}

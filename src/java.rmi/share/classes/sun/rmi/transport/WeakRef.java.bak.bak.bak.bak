@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.lbng.rff.*;
+import sun.rmi.runtimf.Log;
+
+/**
+ * WfbkRff objfdts brf usfd by thf RMI runtimf to hold potfntiblly wfbk
+ * rfffrfndfs to fxportfd rfmotf objfdts in thf lodbl objfdt tbblf.
+ *
+ * This dlbss fxtfnds thf fundtionblity of jbvb.lbng.rff.WfbkRfffrfndf in
+ * sfvfrbl wbys.  Thf mfthods pin() bnd unpin() dbn bf usfd to sft
+ * whfthfr thf dontbinfd rfffrfndf is strong or wfbk (it is wfbk upon
+ * donstrudtion).  Thf hbshCodf() bnd fqubls() mfthods brf ovfrriddfn so
+ * thbt WfbkRff objfdts hbsh bnd dompbrf to fbdh othfr bddording to thf
+ * objfdt idfntity of thfir rfffrfnts.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ */
+dlbss WfbkRff fxtfnds WfbkRfffrfndf<Objfdt> {
+
+    /** vbluf of thf rfffrfnt's "idfntity" hbsh dodf */
+    privbtf int hbshVbluf;
+
+    /** strong rfffrfndf to thf rfffrfnt, for whfn this WfbkRff is "pinnfd" */
+    privbtf Objfdt strongRff = null;
+
+    /**
+     * Crfbtf b nfw WfbkRff to thf givfn objfdt.
+     */
+    publid WfbkRff(Objfdt obj) {
+        supfr(obj);
+        sftHbshVbluf(obj);      // dbdhf objfdt's "idfntity" hbsh dodf
+    }
+
+    /**
+     * Crfbtf b nfw WfbkRff to thf givfn objfdt, rfgistfrfd with b qufuf.
+     */
+    publid WfbkRff(Objfdt obj, RfffrfndfQufuf<Objfdt> q) {
+        supfr(obj, q);
+        sftHbshVbluf(obj);      // dbdhf objfdt's "idfntity" hbsh dodf
+    }
+
+    /**
+     * Pin thf dontbinfd rfffrfndf (mbkf this b strong rfffrfndf).
+     */
+    publid syndhronizfd void pin() {
+        if (strongRff == null) {
+            strongRff = gft();
+
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE,
+                                   "strongRff = " + strongRff);
+            }
+        }
+    }
+
+    /**
+     * Unpin thf dontbinfd rfffrfndf (mbkf this b wfbk rfffrfndf).
+     */
+    publid syndhronizfd void unpin() {
+        if (strongRff != null) {
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE,
+                                   "strongRff = " + strongRff);
+            }
+
+            strongRff = null;
+        }
+    }
+
+    /*
+     * Cbdhf rfffrfnt's "idfntity" hbsh dodf (so thbt wf still hbvf thf
+     * vbluf bftfr thf rfffrfnt gfts dlfbrfd).
+     *
+     * Wf dbnnot usf thf vbluf from thf objfdt's hbshCodf() mfthod, sindf
+     * if thf objfdt is of b rfmotf dlbss not fxtfndfd from RfmotfObjfdt
+     * bnd it is trying to implfmfnt hbshCodf() bnd fqubls() so thbt it
+     * dbn bf dompbrfd to stub objfdts, its own hbsh dodf dould not hbvf
+     * bffn initiblizfd yft (sff bugid 4102938).  Also, objfdt tbblf kfys
+     * bbsfd on sfrvfr objfdts brf indffd mbtdhfd on objfdt idfntity, so
+     * this is thf dorrfdt hbsh tfdhniquf rfgbrdlfss.
+     */
+    privbtf void sftHbshVbluf(Objfdt obj) {
+        if (obj != null) {
+            hbshVbluf = Systfm.idfntityHbshCodf(obj);
+        } flsf {
+            hbshVbluf = 0;
+        }
+    }
+
+    /**
+     * Alwbys rfturn thf "idfntity" hbsh dodf of thf originbl rfffrfnt.
+     */
+    publid int hbshCodf() {
+        rfturn hbshVbluf;
+    }
+
+    /**
+     * Rfturn truf if "obj" is this idfntidbl WfbkRff objfdt, or, if thf
+     * dontbinfd rfffrfndf hbs not bffn dlfbrfd, if "obj" is bnothfr WfbkRff
+     * objfdt with thf idfntidbl non-null rfffrfnt.  Othfrwisf, rfturn fblsf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof WfbkRff) {
+            if (obj == this)
+                rfturn truf;
+
+            Objfdt rfffrfnt = gft();
+            rfturn (rfffrfnt != null) && (rfffrfnt == ((WfbkRff) obj).gft());
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+}

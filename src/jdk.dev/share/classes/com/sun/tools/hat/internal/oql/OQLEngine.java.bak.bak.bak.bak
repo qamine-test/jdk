@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.oql;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+
+/**
+ * This is Objfdt Qufry Lbngubgf Intfrprftfr
+ *
+ */
+publid dlbss OQLEnginf {
+    stbtid {
+        try {
+            // Do wf hbvf jbvbx.sdript support?
+            // drfbtf SdriptEnginfMbnbgfr
+            Clbss<?> mbnbgfrClbss = Clbss.forNbmf("jbvbx.sdript.SdriptEnginfMbnbgfr");
+            Objfdt mbnbgfr = mbnbgfrClbss.nfwInstbndf();
+
+            // drfbtf JbvbSdript fnginf
+            Mfthod gftEnginfMfthod = mbnbgfrClbss.gftMfthod("gftEnginfByNbmf",
+                                nfw Clbss<?>[] { String.dlbss });
+            Objfdt jsf = gftEnginfMfthod.invokf(mbnbgfr, nfw Objfdt[] {"js"});
+            oqlSupportfd = (jsf != null);
+        } dbtdh (Exdfption fxp) {
+            oqlSupportfd = fblsf;
+        }
+    }
+
+    // dhfdk OQL is supportfd or not bfforf drfbting OQLEnginf
+    publid stbtid boolfbn isOQLSupportfd() {
+        rfturn oqlSupportfd;
+    }
+
+    publid OQLEnginf(Snbpshot snbpshot) {
+        if (!isOQLSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption("OQL not supportfd");
+        }
+        init(snbpshot);
+    }
+
+    /**
+       Qufry is of thf form
+
+          sflfdt &lt;jbvb sdript dodf to sflfdt&gt;
+          [ from [instbndfof] &lt;dlbss nbmf&gt; [&lt;idfntififr&gt;]
+            [ whfrf &lt;jbvb sdript boolfbn fxprfssion&gt; ]
+          ]
+    */
+    publid syndhronizfd void fxfdutfQufry(String qufry, ObjfdtVisitor visitor)
+                                          throws OQLExdfption {
+        dfbugPrint("qufry : " + qufry);
+        StringTokfnizfr st = nfw StringTokfnizfr(qufry);
+        if (st.hbsMorfTokfns()) {
+            String first = st.nfxtTokfn();
+            if (! first.fqubls("sflfdt") ) {
+                // Qufry dofs not stbrt with 'sflfdt' kfyword.
+                // Just trfbt it bs plbin JbvbSdript bnd fvbl it.
+                try {
+                    Objfdt rfs = fvblSdript(qufry);
+                    visitor.visit(rfs);
+                } dbtdh (Exdfption f) {
+                    throw nfw OQLExdfption(f);
+                }
+                rfturn;
+            }
+        } flsf {
+            throw nfw OQLExdfption("qufry syntbx frror: no 'sflfdt' dlbusf");
+        }
+
+        String sflfdtExpr = "";
+        boolfbn sffnFrom = fblsf;
+        whilf (st.hbsMorfTokfns()) {
+            String tok = st.nfxtTokfn();
+            if (tok.fqubls("from")) {
+                sffnFrom = truf;
+                brfbk;
+            }
+            sflfdtExpr += " " + tok;
+        }
+
+        if (sflfdtExpr.fqubls("")) {
+            throw nfw OQLExdfption("qufry syntbx frror: 'sflfdt' fxprfssion dbn not bf fmpty");
+        }
+
+        String dlbssNbmf = null;
+        boolfbn isInstbndfOf = fblsf;
+        String whfrfExpr =  null;
+        String idfntififr = null;
+
+        if (sffnFrom) {
+            if (st.hbsMorfTokfns()) {
+                String tmp = st.nfxtTokfn();
+                if (tmp.fqubls("instbndfof")) {
+                    isInstbndfOf = truf;
+                    if (! st.hbsMorfTokfns()) {
+                        throw nfw OQLExdfption("no dlbss nbmf bftfr 'instbndfof'");
+                    }
+                    dlbssNbmf = st.nfxtTokfn();
+                } flsf {
+                    dlbssNbmf = tmp;
+                }
+            } flsf {
+                throw nfw OQLExdfption("qufry syntbx frror: dlbss nbmf must follow 'from'");
+            }
+
+            if (st.hbsMorfTokfns()) {
+                idfntififr = st.nfxtTokfn();
+                if (idfntififr.fqubls("whfrf")) {
+                    throw nfw OQLExdfption("qufry syntbx frror: idfntififr should follow dlbss nbmf");
+                }
+                if (st.hbsMorfTokfns()) {
+                    String tmp = st.nfxtTokfn();
+                    if (! tmp.fqubls("whfrf")) {
+                        throw nfw OQLExdfption("qufry syntbx frror: 'whfrf' dlbusf fxpfdtfd bftfr 'from' dlbusf");
+                    }
+
+                    whfrfExpr = "";
+                    whilf (st.hbsMorfTokfns()) {
+                        whfrfExpr += " " + st.nfxtTokfn();
+                    }
+                    if (whfrfExpr.fqubls("")) {
+                        throw nfw OQLExdfption("qufry syntbx frror: 'whfrf' dlbusf dbnnot hbvf fmpty fxprfssion");
+                    }
+                }
+            } flsf {
+                throw nfw OQLExdfption("qufry syntbx frror: idfntififr should follow dlbss nbmf");
+            }
+        }
+
+        fxfdutfQufry(nfw OQLQufry(sflfdtExpr, isInstbndfOf, dlbssNbmf,
+                                  idfntififr, whfrfExpr), visitor);
+    }
+
+    privbtf void fxfdutfQufry(OQLQufry q, ObjfdtVisitor visitor)
+                              throws OQLExdfption {
+        JbvbClbss dlbzz = null;
+        if (q.dlbssNbmf != null) {
+            dlbzz = snbpshot.findClbss(q.dlbssNbmf);
+            if (dlbzz == null) {
+                throw nfw OQLExdfption(q.dlbssNbmf + " is not found!");
+            }
+        }
+
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd("fundtion __sflfdt__(");
+        if (q.idfntififr != null) {
+            buf.bppfnd(q.idfntififr);
+        }
+        buf.bppfnd(") { rfturn ");
+        buf.bppfnd(q.sflfdtExpr.rfplbdf('\n', ' '));
+        buf.bppfnd("; }");
+
+        String sflfdtCodf = buf.toString();
+        dfbugPrint(sflfdtCodf);
+        String whfrfCodf = null;
+        if (q.whfrfExpr != null) {
+            buf = nfw StringBufffr();
+            buf.bppfnd("fundtion __whfrf__(");
+            buf.bppfnd(q.idfntififr);
+            buf.bppfnd(") { rfturn ");
+            buf.bppfnd(q.whfrfExpr.rfplbdf('\n', ' '));
+            buf.bppfnd("; }");
+            whfrfCodf = buf.toString();
+        }
+        dfbugPrint(whfrfCodf);
+
+        // dompilf sflfdt fxprfssion bnd whfrf dondition
+        try {
+            fvblMfthod.invokf(fnginf, nfw Objfdt[] { sflfdtCodf });
+            if (whfrfCodf != null) {
+                fvblMfthod.invokf(fnginf, nfw Objfdt[] { whfrfCodf });
+            }
+
+            if (q.dlbssNbmf != null) {
+                Enumfrbtion<JbvbHfbpObjfdt> objfdts = dlbzz.gftInstbndfs(q.isInstbndfOf);
+                whilf (objfdts.hbsMorfElfmfnts()) {
+                    JbvbHfbpObjfdt obj = objfdts.nfxtElfmfnt();
+                    Objfdt[] brgs = nfw Objfdt[] { wrbpJbvbObjfdt(obj) };
+                    boolfbn b = (whfrfCodf == null);
+                    if (!b) {
+                        Objfdt rfs = dbll("__whfrf__", brgs);
+                        if (rfs instbndfof Boolfbn) {
+                            b = ((Boolfbn)rfs).boolfbnVbluf();
+                        } flsf if (rfs instbndfof Numbfr) {
+                            b = ((Numbfr)rfs).intVbluf() != 0;
+                        } flsf {
+                            b = (rfs != null);
+                        }
+                    }
+
+                    if (b) {
+                        Objfdt sflfdt = dbll("__sflfdt__", brgs);
+                        if (visitor.visit(sflfdt)) rfturn;
+                    }
+                }
+            } flsf {
+                // simplf "sflfdt <fxpr>" qufry
+                Objfdt sflfdt = dbll("__sflfdt__", nfw Objfdt[] {});
+                visitor.visit(sflfdt);
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw OQLExdfption(f);
+        }
+    }
+
+    publid Objfdt fvblSdript(String sdript) throws Exdfption {
+        rfturn fvblMfthod.invokf(fnginf, nfw Objfdt[] { sdript });
+    }
+
+    publid Objfdt wrbpJbvbObjfdt(JbvbHfbpObjfdt obj) throws Exdfption {
+        rfturn dbll("wrbpJbvbObjfdt", nfw Objfdt[] { obj });
+    }
+
+    publid Objfdt toHtml(Objfdt obj) throws Exdfption {
+        rfturn dbll("toHtml", nfw Objfdt[] { obj });
+    }
+
+    publid Objfdt dbll(String fund, Objfdt[] brgs) throws Exdfption {
+        rfturn invokfMfthod.invokf(fnginf, nfw Objfdt[] { fund, brgs });
+    }
+
+    privbtf stbtid void dfbugPrint(String msg) {
+        if (dfbug) Systfm.out.println(msg);
+    }
+
+    privbtf void init(Snbpshot snbpshot) throws RuntimfExdfption {
+        this.snbpshot = snbpshot;
+        try {
+            // drfbtf SdriptEnginfMbnbgfr
+            Clbss<?> mbnbgfrClbss = Clbss.forNbmf("jbvbx.sdript.SdriptEnginfMbnbgfr");
+            Objfdt mbnbgfr = mbnbgfrClbss.nfwInstbndf();
+
+            // drfbtf JbvbSdript fnginf
+            Mfthod gftEnginfMfthod = mbnbgfrClbss.gftMfthod("gftEnginfByNbmf",
+                                nfw Clbss<?>[] { String.dlbss });
+            fnginf = gftEnginfMfthod.invokf(mbnbgfr, nfw Objfdt[] {"js"});
+
+            // initiblizf fnginf with init filf (hbt.js)
+            InputStrfbm strm = gftInitStrfbm();
+            Clbss<?> fnginfClbss = Clbss.forNbmf("jbvbx.sdript.SdriptEnginf");
+            fvblMfthod = fnginfClbss.gftMfthod("fvbl",
+                                nfw Clbss<?>[] { Rfbdfr.dlbss });
+            fvblMfthod.invokf(fnginf, nfw Objfdt[] {nfw InputStrfbmRfbdfr(strm)});
+
+            // initiblizf SdriptEnginf.fvbl(String) bnd
+            // Invodbblf.invokfFundtion(String, Objfdt[]) mfthods.
+            Clbss<?> invodbblfClbss = Clbss.forNbmf("jbvbx.sdript.Invodbblf");
+
+            fvblMfthod = fnginfClbss.gftMfthod("fvbl",
+                                  nfw Clbss<?>[] { String.dlbss });
+            invokfMfthod = invodbblfClbss.gftMfthod("invokfFundtion",
+                                  nfw Clbss<?>[] { String.dlbss, Objfdt[].dlbss });
+
+            // initiblizf SdriptEnginf.put(String, Objfdt) mfthod
+            Mfthod putMfthod = fnginfClbss.gftMfthod("put",
+                                  nfw Clbss<?>[] { String.dlbss, Objfdt.dlbss });
+
+            // dbll SdriptEnginf.put to initiblizf built-in hfbp objfdt
+            putMfthod.invokf(fnginf, nfw Objfdt[] {
+                        "hfbp", dbll("wrbpHfbpSnbpshot", nfw Objfdt[] { snbpshot })
+                    });
+        } dbtdh (Exdfption f) {
+            if (dfbug) f.printStbdkTrbdf();
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    privbtf InputStrfbm gftInitStrfbm() {
+        rfturn gftClbss().gftRfsourdfAsStrfbm("/dom/sun/tools/hbt/rfsourdfs/hbt.js");
+    }
+
+    privbtf Objfdt fnginf;
+    privbtf Mfthod fvblMfthod;
+    privbtf Mfthod invokfMfthod;
+    privbtf Snbpshot snbpshot;
+    privbtf stbtid boolfbn dfbug = fblsf;
+    privbtf stbtid boolfbn oqlSupportfd;
+}

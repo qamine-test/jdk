@@ -1,0 +1,47 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Windows Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf 
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=&Busdbr fn:
+FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=Gubrdbr fn:
+FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Nombrf df brdhivo:
+FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Nombrf df dbrpftb:
+FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Ardhivos df &tipo:
+FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=Subir un Nivfl
+FilfChoosfr.upFoldfrAddfssiblfNbmf=Arribb
+FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=Inidio
+FilfChoosfr.homfFoldfrAddfssiblfNbmf=Inidio
+FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Crfbr Nufvb Cbrpftb
+FilfChoosfr.nfwFoldfrAddfssiblfNbmf=Nufvb Cbrpftb
+FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Nufvb Cbrpftb
+FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfChoosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbllfs
+FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbllfs
+FilfChoosfr.vifwMfnuButtonToolTipTfxt = Mfn\u00FA Vfr
+FilfChoosfr.vifwMfnuButtonAddfssiblfNbmf = Mfn\u00FA Vfr
+FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbllfs
+FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=Rffrfsdbr
+FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vfr
+FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nombrf
+FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Tbmb\u00F1o
+FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Tipo
+FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modifidbdo
+FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Atributos

@@ -1,59 +1,59 @@
 /*
- * Copyright 2012, 2013 SAP AG. All rights reserved.
+ * Copyrigit 2012, 2013 SAP AG. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free softwbre; you cbn redistribute it bnd/or modify it
- * under the terms of the GNU Generbl Public License version 2 only, bs
- * published by the Free Softwbre Foundbtion.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.
  *
- * This code is distributed in the hope thbt it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
- * version 2 for more detbils (b copy is included in the LICENSE file thbt
- * bccompbnied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should hbve received b copy of the GNU Generbl Public License version
- * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
- * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
- * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
- * Hebder file to contbin porting-relevbnt code which does not hbve b
- * home bnywhere else.
- * This is intiblly bbsed on hotspot/src/os/bix/vm/{lobdlib,porting}_bix.{hpp,cpp}
+ * Hfbdfr filf to dontbin porting-rflfvbnt dodf wiidi dofs not ibvf b
+ * iomf bnywifrf flsf.
+ * Tiis is intiblly bbsfd on iotspot/srd/os/bix/vm/{lobdlib,porting}_bix.{ipp,dpp}
  */
 
 /*
- * Aix' own version of dlbddr().
- * This function tries to mimick dlbddr(3) on Linux
- * (see http://linux.die.net/mbn/3/dlbddr)
- * dlbddr(3) is not POSIX but b GNU extension, bnd is not bvbilbble on AIX.
+ * Aix' own vfrsion of dlbddr().
+ * Tiis fundtion trifs to mimidk dlbddr(3) on Linux
+ * (sff ittp://linux.dif.nft/mbn/3/dlbddr)
+ * dlbddr(3) is not POSIX but b GNU fxtfnsion, bnd is not bvbilbblf on AIX.
  *
- * Differences between AIX dlbddr bnd Linux dlbddr:
+ * Difffrfndfs bftwffn AIX dlbddr bnd Linux dlbddr:
  *
- * 1) Dl_info.dli_fbbse: cbn never work, is disbbled.
- *   A lobded imbge on AIX is divided in multiple segments, bt lebst two
- *   (text bnd dbtb) but potentiblly blso fbr more. This is becbuse the lobder mby
- *   lobd ebch member into bn own segment, bs for instbnce hbppens with the libC.b
- * 2) Dl_info.dli_snbme: This only works for code symbols (functions); for dbtb, b
- *   zero-length string is returned ("").
- * 3) Dl_info.dli_sbddr: For code, this will return the entry point of the function,
- *   not the function descriptor.
+ * 1) Dl_info.dli_fbbsf: dbn nfvfr work, is disbblfd.
+ *   A lobdfd imbgf on AIX is dividfd in multiplf sfgmfnts, bt lfbst two
+ *   (tfxt bnd dbtb) but potfntiblly blso fbr morf. Tiis is bfdbusf tif lobdfr mby
+ *   lobd fbdi mfmbfr into bn own sfgmfnt, bs for instbndf ibppfns witi tif libC.b
+ * 2) Dl_info.dli_snbmf: Tiis only works for dodf symbols (fundtions); for dbtb, b
+ *   zfro-lfngti string is rfturnfd ("").
+ * 3) Dl_info.dli_sbddr: For dodf, tiis will rfturn tif fntry point of tif fundtion,
+ *   not tif fundtion dfsdriptor.
  */
 
-typedef struct {
-  const chbr *dli_fnbme; /* file pbth of lobded librbry */
-  void *dli_fbbse;       /* doesn't mbke sence on AIX */
-  const chbr *dli_snbme; /* symbol nbme; "" if not known */
-  void *dli_sbddr;       /* bddress of *entry* of function; not function descriptor; */
+typfdff strudt {
+  donst dibr *dli_fnbmf; /* filf pbti of lobdfd librbry */
+  void *dli_fbbsf;       /* dofsn't mbkf sfndf on AIX */
+  donst dibr *dli_snbmf; /* symbol nbmf; "" if not known */
+  void *dli_sbddr;       /* bddrfss of *fntry* of fundtion; not fundtion dfsdriptor; */
 } Dl_info;
 
-#ifdef __cplusplus
-extern "C"
-#endif
+#ifdff __dplusplus
+fxtfrn "C"
+#fndif
 int dlbddr(void *bddr, Dl_info *info);

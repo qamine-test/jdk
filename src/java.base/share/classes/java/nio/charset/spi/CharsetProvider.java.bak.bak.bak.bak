@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbrsft.spi;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.util.Itfrbtor;
+
+
+/**
+ * Chbrsft sfrvidf-providfr dlbss.
+ *
+ * <p> A dhbrsft providfr is b dondrftf subdlbss of this dlbss thbt hbs b
+ * zfro-brgumfnt donstrudtor bnd somf numbfr of bssodibtfd dhbrsft
+ * implfmfntbtion dlbssfs.  Chbrsft providfrs mby bf instbllfd in bn instbndf
+ * of thf Jbvb plbtform bs fxtfnsions, thbt is, jbr filfs plbdfd into bny of
+ * thf usubl fxtfnsion dirfdtorifs.  Providfrs mby blso bf mbdf bvbilbblf by
+ * bdding thfm to thf bpplft or bpplidbtion dlbss pbth or by somf othfr
+ * plbtform-spfdifid mfbns.  Chbrsft providfrs brf lookfd up vib thf durrfnt
+ * thrfbd's {@link jbvb.lbng.Thrfbd#gftContfxtClbssLobdfr() dontfxt dlbss
+ * lobdfr}.
+ *
+ * <p> A dhbrsft providfr idfntififs itsflf with b providfr-donfigurbtion filf
+ * nbmfd <tt>jbvb.nio.dhbrsft.spi.ChbrsftProvidfr</tt> in thf rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>.  Thf filf should dontbin b list of
+ * fully-qublififd dondrftf dhbrsft-providfr dlbss nbmfs, onf pfr linf.  A linf
+ * is tfrminbtfd by bny onf of b linf fffd (<tt>'\n'</tt>), b dbrribgf rfturn
+ * (<tt>'\r'</tt>), or b dbrribgf rfturn followfd immfdibtfly by b linf fffd.
+ * Spbdf bnd tbb dhbrbdtfrs surrounding fbdh nbmf, bs wfll bs blbnk linfs, brf
+ * ignorfd.  Thf dommfnt dhbrbdtfr is <tt>'#'</tt> (<tt>'&#92;u0023'</tt>); on
+ * fbdh linf bll dhbrbdtfrs following thf first dommfnt dhbrbdtfr brf ignorfd.
+ * Thf filf must bf fndodfd in UTF-8.
+ *
+ * <p> If b pbrtidulbr dondrftf dhbrsft providfr dlbss is nbmfd in morf thbn
+ * onf donfigurbtion filf, or is nbmfd in thf sbmf donfigurbtion filf morf thbn
+ * ondf, thfn thf duplidbtfs will bf ignorfd.  Thf donfigurbtion filf nbming b
+ * pbrtidulbr providfr nffd not bf in thf sbmf jbr filf or othfr distribution
+ * unit bs thf providfr itsflf.  Thf providfr must bf bddfssiblf from thf sbmf
+ * dlbss lobdfr thbt wbs initiblly qufrifd to lodbtf thf donfigurbtion filf;
+ * this is not nfdfssbrily thf dlbss lobdfr thbt lobdfd thf filf. </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff jbvb.nio.dhbrsft.Chbrsft
+ */
+
+publid bbstrbdt dlbss ChbrsftProvidfr {
+
+    privbtf stbtid Void dhfdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("dhbrsftProvidfr"));
+        rfturn null;
+    }
+    privbtf ChbrsftProvidfr(Void ignorf) { }
+
+    /**
+     * Initiblizfs b nfw dhbrsft providfr.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("dhbrsftProvidfr")</tt>
+     */
+    protfdtfd ChbrsftProvidfr() {
+        this(dhfdkPfrmission());
+    }
+
+    /**
+     * Crfbtfs bn itfrbtor thbt itfrbtfs ovfr thf dhbrsfts supportfd by this
+     * providfr.  This mfthod is usfd in thf implfmfntbtion of thf {@link
+     * jbvb.nio.dhbrsft.Chbrsft#bvbilbblfChbrsfts Chbrsft.bvbilbblfChbrsfts}
+     * mfthod.
+     *
+     * @rfturn  Thf nfw itfrbtor
+     */
+    publid bbstrbdt Itfrbtor<Chbrsft> dhbrsfts();
+
+    /**
+     * Rftrifvfs b dhbrsft for thf givfn dhbrsft nbmf.
+     *
+     * @pbrbm  dhbrsftNbmf
+     *         Thf nbmf of thf rfqufstfd dhbrsft; mby bf fithfr
+     *         b dbnonidbl nbmf or bn blibs
+     *
+     * @rfturn  A dhbrsft objfdt for thf nbmfd dhbrsft,
+     *          or <tt>null</tt> if thf nbmfd dhbrsft
+     *          is not supportfd by this providfr
+     */
+    publid bbstrbdt Chbrsft dhbrsftForNbmf(String dhbrsftNbmf);
+
+}

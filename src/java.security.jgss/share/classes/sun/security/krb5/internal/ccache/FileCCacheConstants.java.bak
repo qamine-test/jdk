@@ -1,63 +1,63 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ccache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ddbdif;
 
 /**
- * Constants used by file-based credential cache classes.
+ * Constbnts usfd by filf-bbsfd drfdfntibl dbdif dlbssfs.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  *
  */
-public interface FileCCacheConstants {
+publid intfrfbdf FilfCCbdifConstbnts {
     /*
-     * FCC version 2 contains type information for principals.  FCC
-     * version 1 does not.
+     * FCC vfrsion 2 dontbins typf informbtion for prindipbls.  FCC
+     * vfrsion 1 dofs not.
      *
-     * FCC version 3 contains keyblock encryption type information, and is
-     * architecture independent.  Previous versions are not. */
-    public final int KRB5_FCC_FVNO_1 = 0x501;
-    public final int KRB5_FCC_FVNO_2 = 0x502;
-    public final int KRB5_FCC_FVNO_3 = 0x503;
-    public final int KRB5_FCC_FVNO_4 = 0x504;
-    public final int FCC_TAG_DELTATIME = 1;
-    public final int KRB5_NT_UNKNOWN = 0;
-    public final int TKT_FLG_FORWARDABLE = 0x40000000;
-    public final int TKT_FLG_FORWARDED  =  0x20000000;
-    public final int TKT_FLG_PROXIABLE   = 0x10000000;
-    public final int TKT_FLG_PROXY        = 0x08000000;
-    public final int TKT_FLG_MAY_POSTDATE  = 0x04000000;
-    public final int TKT_FLG_POSTDATED     = 0x02000000;
-    public final int TKT_FLG_INVALID        = 0x01000000;
-    public final int TKT_FLG_RENEWABLE     = 0x00800000;
-    public final int TKT_FLG_INITIAL       = 0x00400000;
-    public final int TKT_FLG_PRE_AUTH      = 0x00200000;
-    public final int TKT_FLG_HW_AUTH       = 0x00100000;
+     * FCC vfrsion 3 dontbins kfyblodk fndryption typf informbtion, bnd is
+     * brdiitfdturf indfpfndfnt.  Prfvious vfrsions brf not. */
+    publid finbl int KRB5_FCC_FVNO_1 = 0x501;
+    publid finbl int KRB5_FCC_FVNO_2 = 0x502;
+    publid finbl int KRB5_FCC_FVNO_3 = 0x503;
+    publid finbl int KRB5_FCC_FVNO_4 = 0x504;
+    publid finbl int FCC_TAG_DELTATIME = 1;
+    publid finbl int KRB5_NT_UNKNOWN = 0;
+    publid finbl int TKT_FLG_FORWARDABLE = 0x40000000;
+    publid finbl int TKT_FLG_FORWARDED  =  0x20000000;
+    publid finbl int TKT_FLG_PROXIABLE   = 0x10000000;
+    publid finbl int TKT_FLG_PROXY        = 0x08000000;
+    publid finbl int TKT_FLG_MAY_POSTDATE  = 0x04000000;
+    publid finbl int TKT_FLG_POSTDATED     = 0x02000000;
+    publid finbl int TKT_FLG_INVALID        = 0x01000000;
+    publid finbl int TKT_FLG_RENEWABLE     = 0x00800000;
+    publid finbl int TKT_FLG_INITIAL       = 0x00400000;
+    publid finbl int TKT_FLG_PRE_AUTH      = 0x00200000;
+    publid finbl int TKT_FLG_HW_AUTH       = 0x00100000;
 }

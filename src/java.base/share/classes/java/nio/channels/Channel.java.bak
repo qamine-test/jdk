@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
-import java.io.Closeable;
+import jbvb.io.IOExdfption;
+import jbvb.io.Closfbblf;
 
 
 /**
- * A nexus for I/O operations.
+ * A nfxus for I/O opfrbtions.
  *
- * <p> A channel represents an open connection to an entity such as a hardware
- * device, a file, a network socket, or a program component that is capable of
- * performing one or more distinct I/O operations, for example reading or
+ * <p> A dibnnfl rfprfsfnts bn opfn donnfdtion to bn fntity sudi bs b ibrdwbrf
+ * dfvidf, b filf, b nftwork sodkft, or b progrbm domponfnt tibt is dbpbblf of
+ * pfrforming onf or morf distindt I/O opfrbtions, for fxbmplf rfbding or
  * writing.
  *
- * <p> A channel is either open or closed.  A channel is open upon creation,
- * and once closed it remains closed.  Once a channel is closed, any attempt to
- * invoke an I/O operation upon it will cause a {@link ClosedChannelException}
- * to be thrown.  Whether or not a channel is open may be tested by invoking
- * its {@link #isOpen isOpen} method.
+ * <p> A dibnnfl is fitifr opfn or dlosfd.  A dibnnfl is opfn upon drfbtion,
+ * bnd ondf dlosfd it rfmbins dlosfd.  Ondf b dibnnfl is dlosfd, bny bttfmpt to
+ * invokf bn I/O opfrbtion upon it will dbusf b {@link ClosfdCibnnflExdfption}
+ * to bf tirown.  Wiftifr or not b dibnnfl is opfn mby bf tfstfd by invoking
+ * its {@link #isOpfn isOpfn} mftiod.
  *
- * <p> Channels are, in general, intended to be safe for multithreaded access
- * as described in the specifications of the interfaces and classes that extend
- * and implement this interface.
+ * <p> Cibnnfls brf, in gfnfrbl, intfndfd to bf sbff for multitirfbdfd bddfss
+ * bs dfsdribfd in tif spfdifidbtions of tif intfrfbdfs bnd dlbssfs tibt fxtfnd
+ * bnd implfmfnt tiis intfrfbdf.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public interface Channel extends Closeable {
+publid intfrfbdf Cibnnfl fxtfnds Closfbblf {
 
     /**
-     * Tells whether or not this channel is open.
+     * Tflls wiftifr or not tiis dibnnfl is opfn.
      *
-     * @return <tt>true</tt> if, and only if, this channel is open
+     * @rfturn <tt>truf</tt> if, bnd only if, tiis dibnnfl is opfn
      */
-    public boolean isOpen();
+    publid boolfbn isOpfn();
 
     /**
-     * Closes this channel.
+     * Closfs tiis dibnnfl.
      *
-     * <p> After a channel is closed, any further attempt to invoke I/O
-     * operations upon it will cause a {@link ClosedChannelException} to be
-     * thrown.
+     * <p> Aftfr b dibnnfl is dlosfd, bny furtifr bttfmpt to invokf I/O
+     * opfrbtions upon it will dbusf b {@link ClosfdCibnnflExdfption} to bf
+     * tirown.
      *
-     * <p> If this channel is already closed then invoking this method has no
-     * effect.
+     * <p> If tiis dibnnfl is blrfbdy dlosfd tifn invoking tiis mftiod ibs no
+     * ffffdt.
      *
-     * <p> This method may be invoked at any time.  If some other thread has
-     * already invoked it, however, then another invocation will block until
-     * the first invocation is complete, after which it will return without
-     * effect. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If somf otifr tirfbd ibs
+     * blrfbdy invokfd it, iowfvfr, tifn bnotifr invodbtion will blodk until
+     * tif first invodbtion is domplftf, bftfr wiidi it will rfturn witiout
+     * ffffdt. </p>
      *
-     * @throws  IOException  If an I/O error occurs
+     * @tirows  IOExdfption  If bn I/O frror oddurs
      */
-    public void close() throws IOException;
+    publid void dlosf() tirows IOExdfption;
 
 }

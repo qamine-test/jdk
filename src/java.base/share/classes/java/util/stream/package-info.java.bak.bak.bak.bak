@@ -1,0 +1,740 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Clbssfs to support fundtionbl-stylf opfrbtions on strfbms of flfmfnts, sudh
+ * bs mbp-rfdudf trbnsformbtions on dollfdtions.  For fxbmplf:
+ *
+ * <prf>{@dodf
+ *     int sum = widgfts.strfbm()
+ *                      .filtfr(b -> b.gftColor() == RED)
+ *                      .mbpToInt(b -> b.gftWfight())
+ *                      .sum();
+ * }</prf>
+ *
+ * <p>Hfrf wf usf {@dodf widgfts}, b {@dodf Collfdtion<Widgft>},
+ * bs b sourdf for b strfbm, bnd thfn pfrform b filtfr-mbp-rfdudf on thf strfbm
+ * to obtbin thf sum of thf wfights of thf rfd widgfts.  (Summbtion is bn
+ * fxbmplf of b <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b>
+ * opfrbtion.)
+ *
+ * <p>Thf kfy bbstrbdtion introdudfd in this pbdkbgf is <fm>strfbm</fm>.  Thf
+ * dlbssfs {@link jbvb.util.strfbm.Strfbm}, {@link jbvb.util.strfbm.IntStrfbm},
+ * {@link jbvb.util.strfbm.LongStrfbm}, bnd {@link jbvb.util.strfbm.DoublfStrfbm}
+ * brf strfbms ovfr objfdts bnd thf primitivf {@dodf int}, {@dodf long} bnd
+ * {@dodf doublf} typfs.  Strfbms difffr from dollfdtions in sfvfrbl wbys:
+ *
+ * <ul>
+ *     <li>No storbgf.  A strfbm is not b dbtb strudturf thbt storfs flfmfnts;
+ *     instfbd, it donvfys flfmfnts from b sourdf sudh bs b dbtb strudturf,
+ *     bn brrby, b gfnfrbtor fundtion, or bn I/O dhbnnfl, through b pipflinf of
+ *     domputbtionbl opfrbtions.</li>
+ *     <li>Fundtionbl in nbturf.  An opfrbtion on b strfbm produdfs b rfsult,
+ *     but dofs not modify its sourdf.  For fxbmplf, filtfring b {@dodf Strfbm}
+ *     obtbinfd from b dollfdtion produdfs b nfw {@dodf Strfbm} without thf
+ *     filtfrfd flfmfnts, rbthfr thbn rfmoving flfmfnts from thf sourdf
+ *     dollfdtion.</li>
+ *     <li>Lbzinfss-sffking.  Mbny strfbm opfrbtions, sudh bs filtfring, mbpping,
+ *     or duplidbtf rfmovbl, dbn bf implfmfntfd lbzily, fxposing opportunitifs
+ *     for optimizbtion.  For fxbmplf, "find thf first {@dodf String} with
+ *     thrff donsfdutivf vowfls" nffd not fxbminf bll thf input strings.
+ *     Strfbm opfrbtions brf dividfd into intfrmfdibtf ({@dodf Strfbm}-produding)
+ *     opfrbtions bnd tfrminbl (vbluf- or sidf-ffffdt-produding) opfrbtions.
+ *     Intfrmfdibtf opfrbtions brf blwbys lbzy.</li>
+ *     <li>Possibly unboundfd.  Whilf dollfdtions hbvf b finitf sizf, strfbms
+ *     nffd not.  Short-dirduiting opfrbtions sudh bs {@dodf limit(n)} or
+ *     {@dodf findFirst()} dbn bllow domputbtions on infinitf strfbms to
+ *     domplftf in finitf timf.</li>
+ *     <li>Consumbblf. Thf flfmfnts of b strfbm brf only visitfd ondf during
+ *     thf liff of b strfbm. Likf bn {@link jbvb.util.Itfrbtor}, b nfw strfbm
+ *     must bf gfnfrbtfd to rfvisit thf sbmf flfmfnts of thf sourdf.
+ *     </li>
+ * </ul>
+ *
+ * Strfbms dbn bf obtbinfd in b numbfr of wbys. Somf fxbmplfs indludf:
+ * <ul>
+ *     <li>From b {@link jbvb.util.Collfdtion} vib thf {@dodf strfbm()} bnd
+ *     {@dodf pbrbllflStrfbm()} mfthods;</li>
+ *     <li>From bn brrby vib {@link jbvb.util.Arrbys#strfbm(Objfdt[])};</li>
+ *     <li>From stbtid fbdtory mfthods on thf strfbm dlbssfs, sudh bs
+ *     {@link jbvb.util.strfbm.Strfbm#of(Objfdt[])},
+ *     {@link jbvb.util.strfbm.IntStrfbm#rbngf(int, int)}
+ *     or {@link jbvb.util.strfbm.Strfbm#itfrbtf(Objfdt, UnbryOpfrbtor)};</li>
+ *     <li>Thf linfs of b filf dbn bf obtbinfd from {@link jbvb.io.BufffrfdRfbdfr#linfs()};</li>
+ *     <li>Strfbms of filf pbths dbn bf obtbinfd from mfthods in {@link jbvb.nio.filf.Filfs};</li>
+ *     <li>Strfbms of rbndom numbfrs dbn bf obtbinfd from {@link jbvb.util.Rbndom#ints()};</li>
+ *     <li>Numfrous othfr strfbm-bfbring mfthods in thf JDK, indluding
+ *     {@link jbvb.util.BitSft#strfbm()},
+ *     {@link jbvb.util.rfgfx.Pbttfrn#splitAsStrfbm(jbvb.lbng.ChbrSfqufndf)},
+ *     bnd {@link jbvb.util.jbr.JbrFilf#strfbm()}.</li>
+ * </ul>
+ *
+ * <p>Additionbl strfbm sourdfs dbn bf providfd by third-pbrty librbrifs using
+ * <b hrff="pbdkbgf-summbry.html#StrfbmSourdfs">thfsf tfdhniqufs</b>.
+ *
+ * <h2><b nbmf="StrfbmOps">Strfbm opfrbtions bnd pipflinfs</b></h2>
+ *
+ * <p>Strfbm opfrbtions brf dividfd into <fm>intfrmfdibtf</fm> bnd
+ * <fm>tfrminbl</fm> opfrbtions, bnd brf dombinfd to form <fm>strfbm
+ * pipflinfs</fm>.  A strfbm pipflinf donsists of b sourdf (sudh bs b
+ * {@dodf Collfdtion}, bn brrby, b gfnfrbtor fundtion, or bn I/O dhbnnfl);
+ * followfd by zfro or morf intfrmfdibtf opfrbtions sudh bs
+ * {@dodf Strfbm.filtfr} or {@dodf Strfbm.mbp}; bnd b tfrminbl opfrbtion sudh
+ * bs {@dodf Strfbm.forEbdh} or {@dodf Strfbm.rfdudf}.
+ *
+ * <p>Intfrmfdibtf opfrbtions rfturn b nfw strfbm.  Thfy brf blwbys
+ * <fm>lbzy</fm>; fxfduting bn intfrmfdibtf opfrbtion sudh bs
+ * {@dodf filtfr()} dofs not bdtublly pfrform bny filtfring, but instfbd
+ * drfbtfs b nfw strfbm thbt, whfn trbvfrsfd, dontbins thf flfmfnts of
+ * thf initibl strfbm thbt mbtdh thf givfn prfdidbtf.  Trbvfrsbl
+ * of thf pipflinf sourdf dofs not bfgin until thf tfrminbl opfrbtion of thf
+ * pipflinf is fxfdutfd.
+ *
+ * <p>Tfrminbl opfrbtions, sudh bs {@dodf Strfbm.forEbdh} or
+ * {@dodf IntStrfbm.sum}, mby trbvfrsf thf strfbm to produdf b rfsult or b
+ * sidf-ffffdt. Aftfr thf tfrminbl opfrbtion is pfrformfd, thf strfbm pipflinf
+ * is donsidfrfd donsumfd, bnd dbn no longfr bf usfd; if you nffd to trbvfrsf
+ * thf sbmf dbtb sourdf bgbin, you must rfturn to thf dbtb sourdf to gft b nfw
+ * strfbm.  In blmost bll dbsfs, tfrminbl opfrbtions brf <fm>fbgfr</fm>,
+ * domplfting thfir trbvfrsbl of thf dbtb sourdf bnd prodfssing of thf pipflinf
+ * bfforf rfturning.  Only thf tfrminbl opfrbtions {@dodf itfrbtor()} bnd
+ * {@dodf splitfrbtor()} brf not; thfsf brf providfd bs bn "fsdbpf hbtdh" to fnbblf
+ * brbitrbry dlifnt-dontrollfd pipflinf trbvfrsbls in thf fvfnt thbt thf
+ * fxisting opfrbtions brf not suffidifnt to thf tbsk.
+ *
+ * <p> Prodfssing strfbms lbzily bllows for signifidbnt fffidifndifs; in b
+ * pipflinf sudh bs thf filtfr-mbp-sum fxbmplf bbovf, filtfring, mbpping, bnd
+ * summing dbn bf fusfd into b singlf pbss on thf dbtb, with minimbl
+ * intfrmfdibtf stbtf. Lbzinfss blso bllows bvoiding fxbmining bll thf dbtb
+ * whfn it is not nfdfssbry; for opfrbtions sudh bs "find thf first string
+ * longfr thbn 1000 dhbrbdtfrs", it is only nfdfssbry to fxbminf just fnough
+ * strings to find onf thbt hbs thf dfsirfd dhbrbdtfristids without fxbmining
+ * bll of thf strings bvbilbblf from thf sourdf. (This bfhbvior bfdomfs fvfn
+ * morf importbnt whfn thf input strfbm is infinitf bnd not mfrfly lbrgf.)
+ *
+ * <p>Intfrmfdibtf opfrbtions brf furthfr dividfd into <fm>stbtflfss</fm>
+ * bnd <fm>stbtfful</fm> opfrbtions. Stbtflfss opfrbtions, sudh bs {@dodf filtfr}
+ * bnd {@dodf mbp}, rftbin no stbtf from prfviously sffn flfmfnt whfn prodfssing
+ * b nfw flfmfnt -- fbdh flfmfnt dbn bf prodfssfd
+ * indfpfndfntly of opfrbtions on othfr flfmfnts.  Stbtfful opfrbtions, sudh bs
+ * {@dodf distindt} bnd {@dodf sortfd}, mby indorporbtf stbtf from prfviously
+ * sffn flfmfnts whfn prodfssing nfw flfmfnts.
+ *
+ * <p>Stbtfful opfrbtions mby nffd to prodfss thf fntirf input
+ * bfforf produding b rfsult.  For fxbmplf, onf dbnnot produdf bny rfsults from
+ * sorting b strfbm until onf hbs sffn bll flfmfnts of thf strfbm.  As b rfsult,
+ * undfr pbrbllfl domputbtion, somf pipflinfs dontbining stbtfful intfrmfdibtf
+ * opfrbtions mby rfquirf multiplf pbssfs on thf dbtb or mby nffd to bufffr
+ * signifidbnt dbtb.  Pipflinfs dontbining fxdlusivfly stbtflfss intfrmfdibtf
+ * opfrbtions dbn bf prodfssfd in b singlf pbss, whfthfr sfqufntibl or pbrbllfl,
+ * with minimbl dbtb bufffring.
+ *
+ * <p>Furthfr, somf opfrbtions brf dffmfd <fm>short-dirduiting</fm> opfrbtions.
+ * An intfrmfdibtf opfrbtion is short-dirduiting if, whfn prfsfntfd with
+ * infinitf input, it mby produdf b finitf strfbm bs b rfsult.  A tfrminbl
+ * opfrbtion is short-dirduiting if, whfn prfsfntfd with infinitf input, it mby
+ * tfrminbtf in finitf timf.  Hbving b short-dirduiting opfrbtion in thf pipflinf
+ * is b nfdfssbry, but not suffidifnt, dondition for thf prodfssing of bn infinitf
+ * strfbm to tfrminbtf normblly in finitf timf.
+ *
+ * <h3>Pbrbllflism</h3>
+ *
+ * <p>Prodfssing flfmfnts with bn fxplidit {@dodf for-}loop is inhfrfntly sfribl.
+ * Strfbms fbdilitbtf pbrbllfl fxfdution by rffrbming thf domputbtion bs b pipflinf of
+ * bggrfgbtf opfrbtions, rbthfr thbn bs impfrbtivf opfrbtions on fbdh individubl
+ * flfmfnt.  All strfbms opfrbtions dbn fxfdutf fithfr in sfribl or in pbrbllfl.
+ * Thf strfbm implfmfntbtions in thf JDK drfbtf sfribl strfbms unlfss pbrbllflism is
+ * fxpliditly rfqufstfd.  For fxbmplf, {@dodf Collfdtion} hbs mfthods
+ * {@link jbvb.util.Collfdtion#strfbm} bnd {@link jbvb.util.Collfdtion#pbrbllflStrfbm},
+ * whidh produdf sfqufntibl bnd pbrbllfl strfbms rfspfdtivfly; othfr
+ * strfbm-bfbring mfthods sudh bs {@link jbvb.util.strfbm.IntStrfbm#rbngf(int, int)}
+ * produdf sfqufntibl strfbms but thfsf strfbms dbn bf fffidifntly pbrbllflizfd by
+ * invoking thfir {@link jbvb.util.strfbm.BbsfStrfbm#pbrbllfl()} mfthod.
+ * To fxfdutf thf prior "sum of wfights of widgfts" qufry in pbrbllfl, wf would
+ * do:
+ *
+ * <prf>{@dodf
+ *     int sumOfWfights = widgfts.}<dodf><b>pbrbllflStrfbm()</b></dodf>{@dodf
+ *                               .filtfr(b -> b.gftColor() == RED)
+ *                               .mbpToInt(b -> b.gftWfight())
+ *                               .sum();
+ * }</prf>
+ *
+ * <p>Thf only difffrfndf bftwffn thf sfribl bnd pbrbllfl vfrsions of this
+ * fxbmplf is thf drfbtion of thf initibl strfbm, using "{@dodf pbrbllflStrfbm()}"
+ * instfbd of "{@dodf strfbm()}".  Whfn thf tfrminbl opfrbtion is initibtfd,
+ * thf strfbm pipflinf is fxfdutfd sfqufntiblly or in pbrbllfl dfpfnding on thf
+ * orifntbtion of thf strfbm on whidh it is invokfd.  Whfthfr b strfbm will fxfdutf in sfribl or
+ * pbrbllfl dbn bf dftfrminfd with thf {@dodf isPbrbllfl()} mfthod, bnd thf
+ * orifntbtion of b strfbm dbn bf modififd with thf
+ * {@link jbvb.util.strfbm.BbsfStrfbm#sfqufntibl()} bnd
+ * {@link jbvb.util.strfbm.BbsfStrfbm#pbrbllfl()} opfrbtions.  Whfn thf tfrminbl
+ * opfrbtion is initibtfd, thf strfbm pipflinf is fxfdutfd sfqufntiblly or in
+ * pbrbllfl dfpfnding on thf modf of thf strfbm on whidh it is invokfd.
+ *
+ * <p>Exdfpt for opfrbtions idfntififd bs fxpliditly nondftfrministid, sudh
+ * bs {@dodf findAny()}, whfthfr b strfbm fxfdutfs sfqufntiblly or in pbrbllfl
+ * should not dhbngf thf rfsult of thf domputbtion.
+ *
+ * <p>Most strfbm opfrbtions bddfpt pbrbmftfrs thbt dfsdribf usfr-spfdififd
+ * bfhbvior, whidh brf oftfn lbmbdb fxprfssions.  To prfsfrvf dorrfdt bfhbvior,
+ * thfsf <fm>bfhbviorbl pbrbmftfrs</fm> must bf <fm>non-intfrffring</fm>, bnd in
+ * most dbsfs must bf <fm>stbtflfss</fm>.  Sudh pbrbmftfrs brf blwbys instbndfs
+ * of b <b hrff="../fundtion/pbdkbgf-summbry.html">fundtionbl intfrfbdf</b> sudh
+ * bs {@link jbvb.util.fundtion.Fundtion}, bnd brf oftfn lbmbdb fxprfssions or
+ * mfthod rfffrfndfs.
+ *
+ * <h3><b nbmf="NonIntfrffrfndf">Non-intfrffrfndf</b></h3>
+ *
+ * Strfbms fnbblf you to fxfdutf possibly-pbrbllfl bggrfgbtf opfrbtions ovfr b
+ * vbrifty of dbtb sourdfs, indluding fvfn non-thrfbd-sbff dollfdtions sudh bs
+ * {@dodf ArrbyList}. This is possiblf only if wf dbn prfvfnt
+ * <fm>intfrffrfndf</fm> with thf dbtb sourdf during thf fxfdution of b strfbm
+ * pipflinf.  Exdfpt for thf fsdbpf-hbtdh opfrbtions {@dodf itfrbtor()} bnd
+ * {@dodf splitfrbtor()}, fxfdution bfgins whfn thf tfrminbl opfrbtion is
+ * invokfd, bnd fnds whfn thf tfrminbl opfrbtion domplftfs.  For most dbtb
+ * sourdfs, prfvfnting intfrffrfndf mfbns fnsuring thbt thf dbtb sourdf is
+ * <fm>not modififd bt bll</fm> during thf fxfdution of thf strfbm pipflinf.
+ * Thf notbblf fxdfption to this brf strfbms whosf sourdfs brf dondurrfnt
+ * dollfdtions, whidh brf spfdifidblly dfsignfd to hbndlf dondurrfnt modifidbtion.
+ * Condurrfnt strfbm sourdfs brf thosf whosf {@dodf Splitfrbtor} rfports thf
+ * {@dodf CONCURRENT} dhbrbdtfristid.
+ *
+ * <p>Addordingly, bfhbviorbl pbrbmftfrs in strfbm pipflinfs whosf sourdf might
+ * not bf dondurrfnt should nfvfr modify thf strfbm's dbtb sourdf.
+ * A bfhbviorbl pbrbmftfr is sbid to <fm>intfrffrf</fm> with b non-dondurrfnt
+ * dbtb sourdf if it modififs, or dbusfs to bf
+ * modififd, thf strfbm's dbtb sourdf.  Thf nffd for non-intfrffrfndf bpplifs
+ * to bll pipflinfs, not just pbrbllfl onfs.  Unlfss thf strfbm sourdf is
+ * dondurrfnt, modifying b strfbm's dbtb sourdf during fxfdution of b strfbm
+ * pipflinf dbn dbusf fxdfptions, indorrfdt bnswfrs, or nondonformbnt bfhbvior.
+ *
+ * For wfll-bfhbvfd strfbm sourdfs, thf sourdf dbn bf modififd bfforf thf
+ * tfrminbl opfrbtion dommfndfs bnd thosf modifidbtions will bf rfflfdtfd in
+ * thf dovfrfd flfmfnts.  For fxbmplf, donsidfr thf following dodf:
+ *
+ * <prf>{@dodf
+ *     List<String> l = nfw ArrbyList(Arrbys.bsList("onf", "two"));
+ *     Strfbm<String> sl = l.strfbm();
+ *     l.bdd("thrff");
+ *     String s = sl.dollfdt(joining(" "));
+ * }</prf>
+ *
+ * First b list is drfbtfd donsisting of two strings: "onf"; bnd "two". Thfn b
+ * strfbm is drfbtfd from thbt list. Nfxt thf list is modififd by bdding b third
+ * string: "thrff". Finblly thf flfmfnts of thf strfbm brf dollfdtfd bnd joinfd
+ * togfthfr. Sindf thf list wbs modififd bfforf thf tfrminbl {@dodf dollfdt}
+ * opfrbtion dommfndfd thf rfsult will bf b string of "onf two thrff". All thf
+ * strfbms rfturnfd from JDK dollfdtions, bnd most othfr JDK dlbssfs,
+ * brf wfll-bfhbvfd in this mbnnfr; for strfbms gfnfrbtfd by othfr librbrifs, sff
+ * <b hrff="pbdkbgf-summbry.html#StrfbmSourdfs">Low-lfvfl strfbm
+ * donstrudtion</b> for rfquirfmfnts for building wfll-bfhbvfd strfbms.
+ *
+ * <h3><b nbmf="Stbtflfssnfss">Stbtflfss bfhbviors</b></h3>
+ *
+ * Strfbm pipflinf rfsults mby bf nondftfrministid or indorrfdt if thf bfhbviorbl
+ * pbrbmftfrs to thf strfbm opfrbtions brf <fm>stbtfful</fm>.  A stbtfful lbmbdb
+ * (or othfr objfdt implfmfnting thf bppropribtf fundtionbl intfrfbdf) is onf
+ * whosf rfsult dfpfnds on bny stbtf whidh might dhbngf during thf fxfdution
+ * of thf strfbm pipflinf.  An fxbmplf of b stbtfful lbmbdb is thf pbrbmftfr
+ * to {@dodf mbp()} in:
+ *
+ * <prf>{@dodf
+ *     Sft<Intfgfr> sffn = Collfdtions.syndhronizfdSft(nfw HbshSft<>());
+ *     strfbm.pbrbllfl().mbp(f -> { if (sffn.bdd(f)) rfturn 0; flsf rfturn f; })...
+ * }</prf>
+ *
+ * Hfrf, if thf mbpping opfrbtion is pfrformfd in pbrbllfl, thf rfsults for thf
+ * sbmf input dould vbry from run to run, duf to thrfbd sdhfduling difffrfndfs,
+ * whfrfbs, with b stbtflfss lbmbdb fxprfssion thf rfsults would blwbys bf thf
+ * sbmf.
+ *
+ * <p>Notf blso thbt bttfmpting to bddfss mutbblf stbtf from bfhbviorbl pbrbmftfrs
+ * prfsfnts you with b bbd dhoidf with rfspfdt to sbffty bnd pfrformbndf; if
+ * you do not syndhronizf bddfss to thbt stbtf, you hbvf b dbtb rbdf bnd
+ * thfrfforf your dodf is brokfn, but if you do syndhronizf bddfss to thbt
+ * stbtf, you risk hbving dontfntion undfrminf thf pbrbllflism you brf sffking
+ * to bfnffit from.  Thf bfst bpprobdh is to bvoid stbtfful bfhbviorbl
+ * pbrbmftfrs to strfbm opfrbtions fntirfly; thfrf is usublly b wby to
+ * rfstrudturf thf strfbm pipflinf to bvoid stbtffulnfss.
+ *
+ * <h3>Sidf-ffffdts</h3>
+ *
+ * Sidf-ffffdts in bfhbviorbl pbrbmftfrs to strfbm opfrbtions brf, in gfnfrbl,
+ * disdourbgfd, bs thfy dbn oftfn lfbd to unwitting violbtions of thf
+ * stbtflfssnfss rfquirfmfnt, bs wfll bs othfr thrfbd-sbffty hbzbrds.
+ *
+ * <p>If thf bfhbviorbl pbrbmftfrs do hbvf sidf-ffffdts, unlfss fxpliditly
+ * stbtfd, thfrf brf no gubrbntffs bs to thf
+ * <b hrff="../dondurrfnt/pbdkbgf-summbry.html#MfmoryVisibility"><i>visibility</i></b>
+ * of thosf sidf-ffffdts to othfr thrfbds, nor brf thfrf bny gubrbntffs thbt
+ * difffrfnt opfrbtions on thf "sbmf" flfmfnt within thf sbmf strfbm pipflinf
+ * brf fxfdutfd in thf sbmf thrfbd.  Furthfr, thf ordfring of thosf ffffdts
+ * mby bf surprising.  Evfn whfn b pipflinf is donstrbinfd to produdf b
+ * <fm>rfsult</fm> thbt is donsistfnt with thf fndountfr ordfr of thf strfbm
+ * sourdf (for fxbmplf, {@dodf IntStrfbm.rbngf(0,5).pbrbllfl().mbp(x -> x*2).toArrby()}
+ * must produdf {@dodf [0, 2, 4, 6, 8]}), no gubrbntffs brf mbdf bs to thf ordfr
+ * in whidh thf mbppfr fundtion is bpplifd to individubl flfmfnts, or in whbt
+ * thrfbd bny bfhbviorbl pbrbmftfr is fxfdutfd for b givfn flfmfnt.
+ *
+ * <p>Mbny domputbtions whfrf onf might bf tfmptfd to usf sidf ffffdts dbn bf morf
+ * sbffly bnd fffidifntly fxprfssfd without sidf-ffffdts, sudh bs using
+ * <b hrff="pbdkbgf-summbry.html#Rfdudtion">rfdudtion</b> instfbd of mutbblf
+ * bddumulbtors. Howfvfr, sidf-ffffdts sudh bs using {@dodf println()} for dfbugging
+ * purposfs brf usublly hbrmlfss.  A smbll numbfr of strfbm opfrbtions, sudh bs
+ * {@dodf forEbdh()} bnd {@dodf pffk()}, dbn opfrbtf only vib sidf-ffffdts;
+ * thfsf should bf usfd with dbrf.
+ *
+ * <p>As bn fxbmplf of how to trbnsform b strfbm pipflinf thbt inbppropribtfly
+ * usfs sidf-ffffdts to onf thbt dofs not, thf following dodf sfbrdhfs b strfbm
+ * of strings for thosf mbtdhing b givfn rfgulbr fxprfssion, bnd puts thf
+ * mbtdhfs in b list.
+ *
+ * <prf>{@dodf
+ *     ArrbyList<String> rfsults = nfw ArrbyList<>();
+ *     strfbm.filtfr(s -> pbttfrn.mbtdhfr(s).mbtdhfs())
+ *           .forEbdh(s -> rfsults.bdd(s));  // Unnfdfssbry usf of sidf-ffffdts!
+ * }</prf>
+ *
+ * This dodf unnfdfssbrily usfs sidf-ffffdts.  If fxfdutfd in pbrbllfl, thf
+ * non-thrfbd-sbffty of {@dodf ArrbyList} would dbusf indorrfdt rfsults, bnd
+ * bdding nffdfd syndhronizbtion would dbusf dontfntion, undfrmining thf
+ * bfnffit of pbrbllflism.  Furthfrmorf, using sidf-ffffdts hfrf is domplftfly
+ * unnfdfssbry; thf {@dodf forEbdh()} dbn simply bf rfplbdfd with b rfdudtion
+ * opfrbtion thbt is sbffr, morf fffidifnt, bnd morf bmfnbblf to
+ * pbrbllflizbtion:
+ *
+ * <prf>{@dodf
+ *     List<String>rfsults =
+ *         strfbm.filtfr(s -> pbttfrn.mbtdhfr(s).mbtdhfs())
+ *               .dollfdt(Collfdtors.toList());  // No sidf-ffffdts!
+ * }</prf>
+ *
+ * <h3><b nbmf="Ordfring">Ordfring</b></h3>
+ *
+ * <p>Strfbms mby or mby not hbvf b dffinfd <fm>fndountfr ordfr</fm>.  Whfthfr
+ * or not b strfbm hbs bn fndountfr ordfr dfpfnds on thf sourdf bnd thf
+ * intfrmfdibtf opfrbtions.  Cfrtbin strfbm sourdfs (sudh bs {@dodf List} or
+ * brrbys) brf intrinsidblly ordfrfd, whfrfbs othfrs (sudh bs {@dodf HbshSft})
+ * brf not.  Somf intfrmfdibtf opfrbtions, sudh bs {@dodf sortfd()}, mby imposf
+ * bn fndountfr ordfr on bn othfrwisf unordfrfd strfbm, bnd othfrs mby rfndfr bn
+ * ordfrfd strfbm unordfrfd, sudh bs {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd()}.
+ * Furthfr, somf tfrminbl opfrbtions mby ignorf fndountfr ordfr, sudh bs
+ * {@dodf forEbdh()}.
+ *
+ * <p>If b strfbm is ordfrfd, most opfrbtions brf donstrbinfd to opfrbtf on thf
+ * flfmfnts in thfir fndountfr ordfr; if thf sourdf of b strfbm is b {@dodf List}
+ * dontbining {@dodf [1, 2, 3]}, thfn thf rfsult of fxfduting {@dodf mbp(x -> x*2)}
+ * must bf {@dodf [2, 4, 6]}.  Howfvfr, if thf sourdf hbs no dffinfd fndountfr
+ * ordfr, thfn bny pfrmutbtion of thf vblufs {@dodf [2, 4, 6]} would bf b vblid
+ * rfsult.
+ *
+ * <p>For sfqufntibl strfbms, thf prfsfndf or bbsfndf of bn fndountfr ordfr dofs
+ * not bfffdt pfrformbndf, only dftfrminism.  If b strfbm is ordfrfd, rfpfbtfd
+ * fxfdution of idfntidbl strfbm pipflinfs on bn idfntidbl sourdf will produdf
+ * bn idfntidbl rfsult; if it is not ordfrfd, rfpfbtfd fxfdution might produdf
+ * difffrfnt rfsults.
+ *
+ * <p>For pbrbllfl strfbms, rflbxing thf ordfring donstrbint dbn somftimfs fnbblf
+ * morf fffidifnt fxfdution.  Cfrtbin bggrfgbtf opfrbtions,
+ * sudh bs filtfring duplidbtfs ({@dodf distindt()}) or groupfd rfdudtions
+ * ({@dodf Collfdtors.groupingBy()}) dbn bf implfmfntfd morf fffidifntly if ordfring of flfmfnts
+ * is not rflfvbnt.  Similbrly, opfrbtions thbt brf intrinsidblly tifd to fndountfr ordfr,
+ * sudh bs {@dodf limit()}, mby rfquirf
+ * bufffring to fnsurf propfr ordfring, undfrmining thf bfnffit of pbrbllflism.
+ * In dbsfs whfrf thf strfbm hbs bn fndountfr ordfr, but thf usfr dofs not
+ * pbrtidulbrly <fm>dbrf</fm> bbout thbt fndountfr ordfr, fxpliditly df-ordfring
+ * thf strfbm with {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd() unordfrfd()} mby
+ * improvf pbrbllfl pfrformbndf for somf stbtfful or tfrminbl opfrbtions.
+ * Howfvfr, most strfbm pipflinfs, sudh bs thf "sum of wfight of blodks" fxbmplf
+ * bbovf, still pbrbllflizf fffidifntly fvfn undfr ordfring donstrbints.
+ *
+ * <h2><b nbmf="Rfdudtion">Rfdudtion opfrbtions</b></h2>
+ *
+ * A <fm>rfdudtion</fm> opfrbtion (blso dbllfd b <fm>fold</fm>) tbkfs b sfqufndf
+ * of input flfmfnts bnd dombinfs thfm into b singlf summbry rfsult by rfpfbtfd
+ * bpplidbtion of b dombining opfrbtion, sudh bs finding thf sum or mbximum of
+ * b sft of numbfrs, or bddumulbting flfmfnts into b list.  Thf strfbms dlbssfs hbvf
+ * multiplf forms of gfnfrbl rfdudtion opfrbtions, dbllfd
+ * {@link jbvb.util.strfbm.Strfbm#rfdudf(jbvb.util.fundtion.BinbryOpfrbtor) rfdudf()}
+ * bnd {@link jbvb.util.strfbm.Strfbm#dollfdt(jbvb.util.strfbm.Collfdtor) dollfdt()},
+ * bs wfll bs multiplf spfdiblizfd rfdudtion forms sudh bs
+ * {@link jbvb.util.strfbm.IntStrfbm#sum() sum()}, {@link jbvb.util.strfbm.IntStrfbm#mbx() mbx()},
+ * or {@link jbvb.util.strfbm.IntStrfbm#dount() dount()}.
+ *
+ * <p>Of doursf, sudh opfrbtions dbn bf rfbdily implfmfntfd bs simplf sfqufntibl
+ * loops, bs in:
+ * <prf>{@dodf
+ *    int sum = 0;
+ *    for (int x : numbfrs) {
+ *       sum += x;
+ *    }
+ * }</prf>
+ * Howfvfr, thfrf brf good rfbsons to prfffr b rfdudf opfrbtion
+ * ovfr b mutbtivf bddumulbtion sudh bs thf bbovf.  Not only is b rfdudtion
+ * "morf bbstrbdt" -- it opfrbtfs on thf strfbm bs b wholf rbthfr thbn individubl
+ * flfmfnts -- but b propfrly donstrudtfd rfdudf opfrbtion is inhfrfntly
+ * pbrbllflizbblf, so long bs thf fundtion(s) usfd to prodfss thf flfmfnts
+ * brf <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b> bnd
+ * <b hrff="pbdkbgf-summbry.html#NonIntfrffring">stbtflfss</b>.
+ * For fxbmplf, givfn b strfbm of numbfrs for whidh wf wbnt to find thf sum, wf
+ * dbn writf:
+ * <prf>{@dodf
+ *    int sum = numbfrs.strfbm().rfdudf(0, (x,y) -> x+y);
+ * }</prf>
+ * or:
+ * <prf>{@dodf
+ *    int sum = numbfrs.strfbm().rfdudf(0, Intfgfr::sum);
+ * }</prf>
+ *
+ * <p>Thfsf rfdudtion opfrbtions dbn run sbffly in pbrbllfl with blmost no
+ * modifidbtion:
+ * <prf>{@dodf
+ *    int sum = numbfrs.pbrbllflStrfbm().rfdudf(0, Intfgfr::sum);
+ * }</prf>
+ *
+ * <p>Rfdudtion pbrbllfllizfs wfll bfdbusf thf implfmfntbtion
+ * dbn opfrbtf on subsfts of thf dbtb in pbrbllfl, bnd thfn dombinf thf
+ * intfrmfdibtf rfsults to gft thf finbl dorrfdt bnswfr.  (Evfn if thf lbngubgf
+ * hbd b "pbrbllfl for-fbdh" donstrudt, thf mutbtivf bddumulbtion bpprobdh would
+ * still rfquirfd thf dfvflopfr to providf
+ * thrfbd-sbff updbtfs to thf shbrfd bddumulbting vbribblf {@dodf sum}, bnd
+ * thf rfquirfd syndhronizbtion would thfn likfly fliminbtf bny pfrformbndf gbin from
+ * pbrbllflism.)  Using {@dodf rfdudf()} instfbd rfmovfs bll of thf
+ * burdfn of pbrbllflizing thf rfdudtion opfrbtion, bnd thf librbry dbn providf
+ * bn fffidifnt pbrbllfl implfmfntbtion with no bdditionbl syndhronizbtion
+ * rfquirfd.
+ *
+ * <p>Thf "widgfts" fxbmplfs shown fbrlifr shows how rfdudtion dombinfs with
+ * othfr opfrbtions to rfplbdf for loops with bulk opfrbtions.  If {@dodf widgfts}
+ * is b dollfdtion of {@dodf Widgft} objfdts, whidh hbvf b {@dodf gftWfight} mfthod,
+ * wf dbn find thf hfbvifst widgft with:
+ * <prf>{@dodf
+ *     OptionblInt hfbvifst = widgfts.pbrbllflStrfbm()
+ *                                   .mbpToInt(Widgft::gftWfight)
+ *                                   .mbx();
+ * }</prf>
+ *
+ * <p>In its morf gfnfrbl form, b {@dodf rfdudf} opfrbtion on flfmfnts of typf
+ * {@dodf <T>} yiflding b rfsult of typf {@dodf <U>} rfquirfs thrff pbrbmftfrs:
+ * <prf>{@dodf
+ * <U> U rfdudf(U idfntity,
+ *              BiFundtion<U, ? supfr T, U> bddumulbtor,
+ *              BinbryOpfrbtor<U> dombinfr);
+ * }</prf>
+ * Hfrf, thf <fm>idfntity</fm> flfmfnt is both bn initibl sffd vbluf for thf rfdudtion
+ * bnd b dffbult rfsult if thfrf brf no input flfmfnts. Thf <fm>bddumulbtor</fm>
+ * fundtion tbkfs b pbrtibl rfsult bnd thf nfxt flfmfnt, bnd produdfs b nfw
+ * pbrtibl rfsult. Thf <fm>dombinfr</fm> fundtion dombinfs two pbrtibl rfsults
+ * to produdf b nfw pbrtibl rfsult.  (Thf dombinfr is nfdfssbry in pbrbllfl
+ * rfdudtions, whfrf thf input is pbrtitionfd, b pbrtibl bddumulbtion domputfd
+ * for fbdh pbrtition, bnd thfn thf pbrtibl rfsults brf dombinfd to produdf b
+ * finbl rfsult.)
+ *
+ * <p>Morf formblly, thf {@dodf idfntity} vbluf must bf bn <fm>idfntity</fm> for
+ * thf dombinfr fundtion. This mfbns thbt for bll {@dodf u},
+ * {@dodf dombinfr.bpply(idfntity, u)} is fqubl to {@dodf u}. Additionblly, thf
+ * {@dodf dombinfr} fundtion must bf <b hrff="pbdkbgf-summbry.html#Assodibtivity">bssodibtivf</b> bnd
+ * must bf dompbtiblf with thf {@dodf bddumulbtor} fundtion: for bll {@dodf u}
+ * bnd {@dodf t}, {@dodf dombinfr.bpply(u, bddumulbtor.bpply(idfntity, t))} must
+ * bf {@dodf fqubls()} to {@dodf bddumulbtor.bpply(u, t)}.
+ *
+ * <p>Thf thrff-brgumfnt form is b gfnfrblizbtion of thf two-brgumfnt form,
+ * indorporbting b mbpping stfp into thf bddumulbtion stfp.  Wf dould
+ * rf-dbst thf simplf sum-of-wfights fxbmplf using thf morf gfnfrbl form bs
+ * follows:
+ * <prf>{@dodf
+ *     int sumOfWfights = widgfts.strfbm()
+ *                               .rfdudf(0,
+ *                                       (sum, b) -> sum + b.gftWfight(),
+ *                                       Intfgfr::sum);
+ * }</prf>
+ * though thf fxplidit mbp-rfdudf form is morf rfbdbblf bnd thfrfforf should
+ * usublly bf prfffrrfd. Thf gfnfrblizfd form is providfd for dbsfs whfrf
+ * signifidbnt work dbn bf optimizfd bwby by dombining mbpping bnd rfduding
+ * into b singlf fundtion.
+ *
+ * <h3><b nbmf="MutbblfRfdudtion">Mutbblf rfdudtion</b></h3>
+ *
+ * A <fm>mutbblf rfdudtion opfrbtion</fm> bddumulbtfs input flfmfnts into b
+ * mutbblf rfsult dontbinfr, sudh bs b {@dodf Collfdtion} or {@dodf StringBuildfr},
+ * bs it prodfssfs thf flfmfnts in thf strfbm.
+ *
+ * <p>If wf wbntfd to tbkf b strfbm of strings bnd dondbtfnbtf thfm into b
+ * singlf long string, wf <fm>dould</fm> bdhifvf this with ordinbry rfdudtion:
+ * <prf>{@dodf
+ *     String dondbtfnbtfd = strings.rfdudf("", String::dondbt)
+ * }</prf>
+ *
+ * <p>Wf would gft thf dfsirfd rfsult, bnd it would fvfn work in pbrbllfl.  Howfvfr,
+ * wf might not bf hbppy bbout thf pfrformbndf!  Sudh bn implfmfntbtion would do
+ * b grfbt dfbl of string dopying, bnd thf run timf would bf <fm>O(n^2)</fm> in
+ * thf numbfr of dhbrbdtfrs.  A morf pfrformbnt bpprobdh would bf to bddumulbtf
+ * thf rfsults into b {@link jbvb.lbng.StringBuildfr}, whidh is b mutbblf
+ * dontbinfr for bddumulbting strings.  Wf dbn usf thf sbmf tfdhniquf to
+ * pbrbllflizf mutbblf rfdudtion bs wf do with ordinbry rfdudtion.
+ *
+ * <p>Thf mutbblf rfdudtion opfrbtion is dbllfd
+ * {@link jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) dollfdt()},
+ * bs it dollfdts togfthfr thf dfsirfd rfsults into b rfsult dontbinfr sudh
+ * bs b {@dodf Collfdtion}.
+ * A {@dodf dollfdt} opfrbtion rfquirfs thrff fundtions:
+ * b supplifr fundtion to donstrudt nfw instbndfs of thf rfsult dontbinfr, bn
+ * bddumulbtor fundtion to indorporbtf bn input flfmfnt into b rfsult
+ * dontbinfr, bnd b dombining fundtion to mfrgf thf dontfnts of onf rfsult
+ * dontbinfr into bnothfr.  Thf form of this is vfry similbr to thf gfnfrbl
+ * form of ordinbry rfdudtion:
+ * <prf>{@dodf
+ * <R> R dollfdt(Supplifr<R> supplifr,
+ *               BiConsumfr<R, ? supfr T> bddumulbtor,
+ *               BiConsumfr<R, R> dombinfr);
+ * }</prf>
+ * <p>As with {@dodf rfdudf()}, b bfnffit of fxprfssing {@dodf dollfdt} in this
+ * bbstrbdt wby is thbt it is dirfdtly bmfnbblf to pbrbllflizbtion: wf dbn
+ * bddumulbtf pbrtibl rfsults in pbrbllfl bnd thfn dombinf thfm, so long bs thf
+ * bddumulbtion bnd dombining fundtions sbtisfy thf bppropribtf rfquirfmfnts.
+ * For fxbmplf, to dollfdt thf String rfprfsfntbtions of thf flfmfnts in b
+ * strfbm into bn {@dodf ArrbyList}, wf dould writf thf obvious sfqufntibl
+ * for-fbdh form:
+ * <prf>{@dodf
+ *     ArrbyList<String> strings = nfw ArrbyList<>();
+ *     for (T flfmfnt : strfbm) {
+ *         strings.bdd(flfmfnt.toString());
+ *     }
+ * }</prf>
+ * Or wf dould usf b pbrbllflizbblf dollfdt form:
+ * <prf>{@dodf
+ *     ArrbyList<String> strings = strfbm.dollfdt(() -> nfw ArrbyList<>(),
+ *                                                (d, f) -> d.bdd(f.toString()),
+ *                                                (d1, d2) -> d1.bddAll(d2));
+ * }</prf>
+ * or, pulling thf mbpping opfrbtion out of thf bddumulbtor fundtion, wf dould
+ * fxprfss it morf suddindtly bs:
+ * <prf>{@dodf
+ *     List<String> strings = strfbm.mbp(Objfdt::toString)
+ *                                  .dollfdt(ArrbyList::nfw, ArrbyList::bdd, ArrbyList::bddAll);
+ * }</prf>
+ * Hfrf, our supplifr is just thf {@link jbvb.util.ArrbyList#ArrbyList()
+ * ArrbyList donstrudtor}, thf bddumulbtor bdds thf stringififd flfmfnt to bn
+ * {@dodf ArrbyList}, bnd thf dombinfr simply usfs {@link jbvb.util.ArrbyList#bddAll bddAll}
+ * to dopy thf strings from onf dontbinfr into thf othfr.
+ *
+ * <p>Thf thrff bspfdts of {@dodf dollfdt} -- supplifr, bddumulbtor, bnd
+ * dombinfr -- brf tightly douplfd.  Wf dbn usf thf bbstrbdtion of b
+ * {@link jbvb.util.strfbm.Collfdtor} to dbpturf bll thrff bspfdts.  Thf
+ * bbovf fxbmplf for dollfdting strings into b {@dodf List} dbn bf rfwrittfn
+ * using b stbndbrd {@dodf Collfdtor} bs:
+ * <prf>{@dodf
+ *     List<String> strings = strfbm.mbp(Objfdt::toString)
+ *                                  .dollfdt(Collfdtors.toList());
+ * }</prf>
+ *
+ * <p>Pbdkbging mutbblf rfdudtions into b Collfdtor hbs bnothfr bdvbntbgf:
+ * domposbbility.  Thf dlbss {@link jbvb.util.strfbm.Collfdtors} dontbins b
+ * numbfr of prfdffinfd fbdtorifs for dollfdtors, indluding dombinbtors
+ * thbt trbnsform onf dollfdtor into bnothfr.  For fxbmplf, supposf wf hbvf b
+ * dollfdtor thbt domputfs thf sum of thf sblbrifs of b strfbm of
+ * fmployffs, bs follows:
+ *
+ * <prf>{@dodf
+ *     Collfdtor<Employff, ?, Intfgfr> summingSblbrifs
+ *         = Collfdtors.summingInt(Employff::gftSblbry);
+ * }</prf>
+ *
+ * (Thf {@dodf ?} for thf sfdond typf pbrbmftfr mfrfly indidbtfs thbt wf don't
+ * dbrf bbout thf intfrmfdibtf rfprfsfntbtion usfd by this dollfdtor.)
+ * If wf wbntfd to drfbtf b dollfdtor to tbbulbtf thf sum of sblbrifs by
+ * dfpbrtmfnt, wf dould rfusf {@dodf summingSblbrifs} using
+ * {@link jbvb.util.strfbm.Collfdtors#groupingBy(jbvb.util.fundtion.Fundtion, jbvb.util.strfbm.Collfdtor) groupingBy}:
+ *
+ * <prf>{@dodf
+ *     Mbp<Dfpbrtmfnt, Intfgfr> sblbrifsByDfpt
+ *         = fmployffs.strfbm().dollfdt(Collfdtors.groupingBy(Employff::gftDfpbrtmfnt,
+ *                                                            summingSblbrifs));
+ * }</prf>
+ *
+ * <p>As with thf rfgulbr rfdudtion opfrbtion, {@dodf dollfdt()} opfrbtions dbn
+ * only bf pbrbllflizfd if bppropribtf donditions brf mft.  For bny pbrtiblly
+ * bddumulbtfd rfsult, dombining it with bn fmpty rfsult dontbinfr must
+ * produdf bn fquivblfnt rfsult.  Thbt is, for b pbrtiblly bddumulbtfd rfsult
+ * {@dodf p} thbt is thf rfsult of bny sfrifs of bddumulbtor bnd dombinfr
+ * invodbtions, {@dodf p} must bf fquivblfnt to
+ * {@dodf dombinfr.bpply(p, supplifr.gft())}.
+ *
+ * <p>Furthfr, howfvfr thf domputbtion is split, it must produdf bn fquivblfnt
+ * rfsult.  For bny input flfmfnts {@dodf t1} bnd {@dodf t2}, thf rfsults
+ * {@dodf r1} bnd {@dodf r2} in thf domputbtion bflow must bf fquivblfnt:
+ * <prf>{@dodf
+ *     A b1 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b1, t1);
+ *     bddumulbtor.bddfpt(b1, t2);
+ *     R r1 = finishfr.bpply(b1);  // rfsult without splitting
+ *
+ *     A b2 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b2, t1);
+ *     A b3 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b3, t2);
+ *     R r2 = finishfr.bpply(dombinfr.bpply(b2, b3));  // rfsult with splitting
+ * }</prf>
+ *
+ * <p>Hfrf, fquivblfndf gfnfrblly mfbns bddording to {@link jbvb.lbng.Objfdt#fqubls(Objfdt)}.
+ * but in somf dbsfs fquivblfndf mby bf rflbxfd to bddount for difffrfndfs in
+ * ordfr.
+ *
+ * <h3><b nbmf="CondurrfntRfdudtion">Rfdudtion, dondurrfndy, bnd ordfring</b></h3>
+ *
+ * With somf domplfx rfdudtion opfrbtions, for fxbmplf b {@dodf dollfdt()} thbt
+ * produdfs b {@dodf Mbp}, sudh bs:
+ * <prf>{@dodf
+ *     Mbp<Buyfr, List<Trbnsbdtion>> sblfsByBuyfr
+ *         = txns.pbrbllflStrfbm()
+ *               .dollfdt(Collfdtors.groupingBy(Trbnsbdtion::gftBuyfr));
+ * }</prf>
+ * it mby bdtublly bf dountfrprodudtivf to pfrform thf opfrbtion in pbrbllfl.
+ * This is bfdbusf thf dombining stfp (mfrging onf {@dodf Mbp} into bnothfr by
+ * kfy) dbn bf fxpfnsivf for somf {@dodf Mbp} implfmfntbtions.
+ *
+ * <p>Supposf, howfvfr, thbt thf rfsult dontbinfr usfd in this rfdudtion
+ * wbs b dondurrfntly modifibblf dollfdtion -- sudh bs b
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbshMbp}. In thbt dbsf, thf pbrbllfl
+ * invodbtions of thf bddumulbtor dould bdtublly dfposit thfir rfsults
+ * dondurrfntly into thf sbmf shbrfd rfsult dontbinfr, fliminbting thf nffd for
+ * thf dombinfr to mfrgf distindt rfsult dontbinfrs. This potfntiblly providfs
+ * b boost to thf pbrbllfl fxfdution pfrformbndf. Wf dbll this b
+ * <fm>dondurrfnt</fm> rfdudtion.
+ *
+ * <p>A {@link jbvb.util.strfbm.Collfdtor} thbt supports dondurrfnt rfdudtion is
+ * mbrkfd with thf {@link jbvb.util.strfbm.Collfdtor.Chbrbdtfristids#CONCURRENT}
+ * dhbrbdtfristid.  Howfvfr, b dondurrfnt dollfdtion blso hbs b downsidf.  If
+ * multiplf thrfbds brf dfpositing rfsults dondurrfntly into b shbrfd dontbinfr,
+ * thf ordfr in whidh rfsults brf dfpositfd is non-dftfrministid. Consfqufntly,
+ * b dondurrfnt rfdudtion is only possiblf if ordfring is not importbnt for thf
+ * strfbm bfing prodfssfd. Thf {@link jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor)}
+ * implfmfntbtion will only pfrform b dondurrfnt rfdudtion if
+ * <ul>
+ * <li>Thf strfbm is pbrbllfl;</li>
+ * <li>Thf dollfdtor hbs thf
+ * {@link jbvb.util.strfbm.Collfdtor.Chbrbdtfristids#CONCURRENT} dhbrbdtfristid,
+ * bnd;</li>
+ * <li>Eithfr thf strfbm is unordfrfd, or thf dollfdtor hbs thf
+ * {@link jbvb.util.strfbm.Collfdtor.Chbrbdtfristids#UNORDERED} dhbrbdtfristid.
+ * </ul>
+ * You dbn fnsurf thf strfbm is unordfrfd by using thf
+ * {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd()} mfthod.  For fxbmplf:
+ * <prf>{@dodf
+ *     Mbp<Buyfr, List<Trbnsbdtion>> sblfsByBuyfr
+ *         = txns.pbrbllflStrfbm()
+ *               .unordfrfd()
+ *               .dollfdt(groupingByCondurrfnt(Trbnsbdtion::gftBuyfr));
+ * }</prf>
+ * (whfrf {@link jbvb.util.strfbm.Collfdtors#groupingByCondurrfnt} is thf
+ * dondurrfnt fquivblfnt of {@dodf groupingBy}).
+ *
+ * <p>Notf thbt if it is importbnt thbt thf flfmfnts for b givfn kfy bppfbr in
+ * thf ordfr thfy bppfbr in thf sourdf, thfn wf dbnnot usf b dondurrfnt
+ * rfdudtion, bs ordfring is onf of thf dbsubltifs of dondurrfnt insfrtion.
+ * Wf would thfn bf donstrbinfd to implfmfnt fithfr b sfqufntibl rfdudtion or
+ * b mfrgf-bbsfd pbrbllfl rfdudtion.
+ *
+ * <h3><b nbmf="Assodibtivity">Assodibtivity</b></h3>
+ *
+ * An opfrbtor or fundtion {@dodf op} is <fm>bssodibtivf</fm> if thf following
+ * holds:
+ * <prf>{@dodf
+ *     (b op b) op d == b op (b op d)
+ * }</prf>
+ * Thf importbndf of this to pbrbllfl fvblubtion dbn bf sffn if wf fxpbnd this
+ * to four tfrms:
+ * <prf>{@dodf
+ *     b op b op d op d == (b op b) op (d op d)
+ * }</prf>
+ * So wf dbn fvblubtf {@dodf (b op b)} in pbrbllfl with {@dodf (d op d)}, bnd
+ * thfn invokf {@dodf op} on thf rfsults.
+ *
+ * <p>Exbmplfs of bssodibtivf opfrbtions indludf numfrid bddition, min, bnd
+ * mbx, bnd string dondbtfnbtion.
+ *
+ * <h2><b nbmf="StrfbmSourdfs">Low-lfvfl strfbm donstrudtion</b></h2>
+ *
+ * So fbr, bll thf strfbm fxbmplfs hbvf usfd mfthods likf
+ * {@link jbvb.util.Collfdtion#strfbm()} or {@link jbvb.util.Arrbys#strfbm(Objfdt[])}
+ * to obtbin b strfbm.  How brf thosf strfbm-bfbring mfthods implfmfntfd?
+ *
+ * <p>Thf dlbss {@link jbvb.util.strfbm.StrfbmSupport} hbs b numbfr of
+ * low-lfvfl mfthods for drfbting b strfbm, bll using somf form of b
+ * {@link jbvb.util.Splitfrbtor}. A splitfrbtor is thf pbrbllfl bnbloguf of bn
+ * {@link jbvb.util.Itfrbtor}; it dfsdribfs b (possibly infinitf) dollfdtion of
+ * flfmfnts, with support for sfqufntiblly bdvbnding, bulk trbvfrsbl, bnd
+ * splitting off somf portion of thf input into bnothfr splitfrbtor whidh dbn
+ * bf prodfssfd in pbrbllfl.  At thf lowfst lfvfl, bll strfbms brf drivfn by b
+ * splitfrbtor.
+ *
+ * <p>Thfrf brf b numbfr of implfmfntbtion dhoidfs in implfmfnting b
+ * splitfrbtor, nfbrly bll of whidh brf trbdfoffs bftwffn simplidity of
+ * implfmfntbtion bnd runtimf pfrformbndf of strfbms using thbt splitfrbtor.
+ * Thf simplfst, but lfbst pfrformbnt, wby to drfbtf b splitfrbtor is to
+ * drfbtf onf from bn itfrbtor using
+ * {@link jbvb.util.Splitfrbtors#splitfrbtorUnknownSizf(jbvb.util.Itfrbtor, int)}.
+ * Whilf sudh b splitfrbtor will work, it will likfly offfr poor pbrbllfl
+ * pfrformbndf, sindf wf hbvf lost sizing informbtion (how big is thf
+ * undfrlying dbtb sft), bs wfll bs bfing donstrbinfd to b simplistid
+ * splitting blgorithm.
+ *
+ * <p>A highfr-qublity splitfrbtor will providf bblbndfd bnd known-sizf
+ * splits, bddurbtf sizing informbtion, bnd b numbfr of othfr
+ * {@link jbvb.util.Splitfrbtor#dhbrbdtfristids() dhbrbdtfristids} of thf
+ * splitfrbtor or dbtb thbt dbn bf usfd by implfmfntbtions to optimizf
+ * fxfdution.
+ *
+ * <p>Splitfrbtors for mutbblf dbtb sourdfs hbvf bn bdditionbl dhbllfngf;
+ * timing of binding to thf dbtb, sindf thf dbtb dould dhbngf bftwffn thf timf
+ * thf splitfrbtor is drfbtfd bnd thf timf thf strfbm pipflinf is fxfdutfd.
+ * Idfblly, b splitfrbtor for b strfbm would rfport b dhbrbdtfristid of
+
+ * {@dodf IMMUTABLE} or {@dodf CONCURRENT}; if not it should bf
+ * <b hrff="../Splitfrbtor.html#binding"><fm>lbtf-binding</fm></b>. If b sourdf
+ * dbnnot dirfdtly supply b rfdommfndfd splitfrbtor, it mby indirfdtly supply
+ * b splitfrbtor using b {@dodf Supplifr}, bnd donstrudt b strfbm vib thf
+ * {@dodf Supplifr}-bddfpting vfrsions of
+ * {@link jbvb.util.strfbm.StrfbmSupport#strfbm(Supplifr, int, boolfbn) strfbm()}.
+ * Thf splitfrbtor is obtbinfd from thf supplifr only bftfr thf tfrminbl
+ * opfrbtion of thf strfbm pipflinf dommfndfs.
+ *
+ * <p>Thfsf rfquirfmfnts signifidbntly rfdudf thf sdopf of potfntibl
+ * intfrffrfndf bftwffn mutbtions of thf strfbm sourdf bnd fxfdution of strfbm
+ * pipflinfs. Strfbms bbsfd on splitfrbtors with thf dfsirfd dhbrbdtfristids,
+ * or thosf using thf Supplifr-bbsfd fbdtory forms, brf immunf to
+ * modifidbtions of thf dbtb sourdf prior to dommfndfmfnt of thf tfrminbl
+ * opfrbtion (providfd thf bfhbviorbl pbrbmftfrs to thf strfbm opfrbtions mfft
+ * thf rfquirfd dritfrib for non-intfrffrfndf bnd stbtflfssnfss).  Sff
+ * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b>
+ * for morf dftbils.
+ *
+ * @sindf 1.8
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.UnbryOpfrbtor;

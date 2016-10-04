@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,127 +56,127 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
 
 /**
- * A node that represents a try catch block.
+ * A nodf tibt rfprfsfnts b try dbtdi blodk.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class TryCatchBlockNode {
+publid dlbss TryCbtdiBlodkNodf {
 
     /**
-     * Beginning of the exception handler's scope (inclusive).
+     * Bfginning of tif fxdfption ibndlfr's sdopf (indlusivf).
      */
-    public LabelNode start;
+    publid LbbflNodf stbrt;
 
     /**
-     * End of the exception handler's scope (exclusive).
+     * End of tif fxdfption ibndlfr's sdopf (fxdlusivf).
      */
-    public LabelNode end;
+    publid LbbflNodf fnd;
 
     /**
-     * Beginning of the exception handler's code.
+     * Bfginning of tif fxdfption ibndlfr's dodf.
      */
-    public LabelNode handler;
+    publid LbbflNodf ibndlfr;
 
     /**
-     * Internal name of the type of exceptions handled by the handler. May be
-     * <tt>null</tt> to catch any exceptions (for "finally" blocks).
+     * Intfrnbl nbmf of tif typf of fxdfptions ibndlfd by tif ibndlfr. Mby bf
+     * <tt>null</tt> to dbtdi bny fxdfptions (for "finblly" blodks).
      */
-    public String type;
+    publid String typf;
 
     /**
-     * The runtime visible type annotations on the exception handler type. This
-     * list is a list of {@link TypeAnnotationNode} objects. May be
+     * Tif runtimf visiblf typf bnnotbtions on tif fxdfption ibndlfr typf. Tiis
+     * list is b list of {@link TypfAnnotbtionNodf} objfdts. Mby bf
      * <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
 
     /**
-     * The runtime invisible type annotations on the exception handler type.
-     * This list is a list of {@link TypeAnnotationNode} objects. May be
+     * Tif runtimf invisiblf typf bnnotbtions on tif fxdfption ibndlfr typf.
+     * Tiis list is b list of {@link TypfAnnotbtionNodf} objfdts. Mby bf
      * <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
 
     /**
-     * Constructs a new {@link TryCatchBlockNode}.
+     * Construdts b nfw {@link TryCbtdiBlodkNodf}.
      *
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param handler
-     *            beginning of the exception handler's code.
-     * @param type
-     *            internal name of the type of exceptions handled by the
-     *            handler, or <tt>null</tt> to catch any exceptions (for
-     *            "finally" blocks).
+     * @pbrbm stbrt
+     *            bfginning of tif fxdfption ibndlfr's sdopf (indlusivf).
+     * @pbrbm fnd
+     *            fnd of tif fxdfption ibndlfr's sdopf (fxdlusivf).
+     * @pbrbm ibndlfr
+     *            bfginning of tif fxdfption ibndlfr's dodf.
+     * @pbrbm typf
+     *            intfrnbl nbmf of tif typf of fxdfptions ibndlfd by tif
+     *            ibndlfr, or <tt>null</tt> to dbtdi bny fxdfptions (for
+     *            "finblly" blodks).
      */
-    public TryCatchBlockNode(final LabelNode start, final LabelNode end,
-            final LabelNode handler, final String type) {
-        this.start = start;
-        this.end = end;
-        this.handler = handler;
-        this.type = type;
+    publid TryCbtdiBlodkNodf(finbl LbbflNodf stbrt, finbl LbbflNodf fnd,
+            finbl LbbflNodf ibndlfr, finbl String typf) {
+        tiis.stbrt = stbrt;
+        tiis.fnd = fnd;
+        tiis.ibndlfr = ibndlfr;
+        tiis.typf = typf;
     }
 
     /**
-     * Updates the index of this try catch block in the method's list of try
-     * catch block nodes. This index maybe stored in the 'target' field of the
-     * type annotations of this block.
+     * Updbtfs tif indfx of tiis try dbtdi blodk in tif mftiod's list of try
+     * dbtdi blodk nodfs. Tiis indfx mbybf storfd in tif 'tbrgft' fifld of tif
+     * typf bnnotbtions of tiis blodk.
      *
-     * @param index
-     *            the new index of this try catch block in the method's list of
-     *            try catch block nodes.
+     * @pbrbm indfx
+     *            tif nfw indfx of tiis try dbtdi blodk in tif mftiod's list of
+     *            try dbtdi blodk nodfs.
      */
-    public void updateIndex(final int index) {
-        int newTypeRef = 0x42000000 | (index << 8);
-        if (visibleTypeAnnotations != null) {
-            for (TypeAnnotationNode tan : visibleTypeAnnotations) {
-                tan.typeRef = newTypeRef;
+    publid void updbtfIndfx(finbl int indfx) {
+        int nfwTypfRff = 0x42000000 | (indfx << 8);
+        if (visiblfTypfAnnotbtions != null) {
+            for (TypfAnnotbtionNodf tbn : visiblfTypfAnnotbtions) {
+                tbn.typfRff = nfwTypfRff;
             }
         }
-        if (invisibleTypeAnnotations != null) {
-            for (TypeAnnotationNode tan : invisibleTypeAnnotations) {
-                tan.typeRef = newTypeRef;
+        if (invisiblfTypfAnnotbtions != null) {
+            for (TypfAnnotbtionNodf tbn : invisiblfTypfAnnotbtions) {
+                tbn.typfRff = nfwTypfRff;
             }
         }
     }
 
     /**
-     * Makes the given visitor visit this try catch block.
+     * Mbkfs tif givfn visitor visit tiis try dbtdi blodk.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b mftiod visitor.
      */
-    public void accept(final MethodVisitor mv) {
-        mv.visitTryCatchBlock(start.getLabel(), end.getLabel(),
-                handler == null ? null : handler.getLabel(), type);
-        int n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations
-                .size();
+    publid void bddfpt(finbl MftiodVisitor mv) {
+        mv.visitTryCbtdiBlodk(stbrt.gftLbbfl(), fnd.gftLbbfl(),
+                ibndlfr == null ? null : ibndlfr.gftLbbfl(), typf);
+        int n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions
+                .sizf();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitTryCatchAnnotation(an.typeRef, an.typePath,
-                    an.desc, true));
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitTryCbtdiAnnotbtion(bn.typfRff, bn.typfPbti,
+                    bn.dfsd, truf));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
-                .size();
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitTryCatchAnnotation(an.typeRef, an.typePath,
-                    an.desc, false));
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(mv.visitTryCbtdiAnnotbtion(bn.typfRff, bn.typfPbti,
+                    bn.dfsd, fblsf));
         }
     }
 }

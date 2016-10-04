@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
-import java.awt.image.*;
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import sun.awt.AppContext;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvbx.swing.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.bwt.AppContfxt;
 
 /**
- * Implements the bumps used throughout the Metal Look and Feel.
+ * Implfmfnts tif bumps usfd tirougiout tif Mftbl Look bnd Fffl.
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson
  */
 
 
-class MetalBumps implements Icon {
+dlbss MftblBumps implfmfnts Idon {
 
-    static final Color ALPHA = new Color(0, 0, 0, 0);
+    stbtid finbl Color ALPHA = nfw Color(0, 0, 0, 0);
 
-    protected int xBumps;
-    protected int yBumps;
-    protected Color topColor;
-    protected Color shadowColor;
-    protected Color backColor;
+    protfdtfd int xBumps;
+    protfdtfd int yBumps;
+    protfdtfd Color topColor;
+    protfdtfd Color sibdowColor;
+    protfdtfd Color bbdkColor;
 
-    private static final Object METAL_BUMPS = new Object();
-    protected BumpBuffer buffer;
+    privbtf stbtid finbl Objfdt METAL_BUMPS = nfw Objfdt();
+    protfdtfd BumpBufffr bufffr;
 
     /**
-     * Creates MetalBumps of the specified size with the specified colors.
-     * If <code>newBackColor</code> is null, the background will be
-     * transparent.
+     * Crfbtfs MftblBumps of tif spfdififd sizf witi tif spfdififd dolors.
+     * If <dodf>nfwBbdkColor</dodf> is null, tif bbdkground will bf
+     * trbnspbrfnt.
      */
-    public MetalBumps( int width, int height,
-                       Color newTopColor, Color newShadowColor, Color newBackColor ) {
-        setBumpArea( width, height );
-        setBumpColors( newTopColor, newShadowColor, newBackColor );
+    publid MftblBumps( int widti, int ifigit,
+                       Color nfwTopColor, Color nfwSibdowColor, Color nfwBbdkColor ) {
+        sftBumpArfb( widti, ifigit );
+        sftBumpColors( nfwTopColor, nfwSibdowColor, nfwBbdkColor );
     }
 
-    private static BumpBuffer createBuffer(GraphicsConfiguration gc,
-                                           Color topColor, Color shadowColor, Color backColor) {
-        AppContext context = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        List<BumpBuffer> buffers = (List<BumpBuffer>) context.get(METAL_BUMPS);
-        if (buffers == null) {
-            buffers = new ArrayList<BumpBuffer>();
-            context.put(METAL_BUMPS, buffers);
+    privbtf stbtid BumpBufffr drfbtfBufffr(GrbpiidsConfigurbtion gd,
+                                           Color topColor, Color sibdowColor, Color bbdkColor) {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        @SupprfssWbrnings("undifdkfd")
+        List<BumpBufffr> bufffrs = (List<BumpBufffr>) dontfxt.gft(METAL_BUMPS);
+        if (bufffrs == null) {
+            bufffrs = nfw ArrbyList<BumpBufffr>();
+            dontfxt.put(METAL_BUMPS, bufffrs);
         }
-        for (BumpBuffer buffer : buffers) {
-            if (buffer.hasSameConfiguration(gc, topColor, shadowColor, backColor)) {
-                return buffer;
+        for (BumpBufffr bufffr : bufffrs) {
+            if (bufffr.ibsSbmfConfigurbtion(gd, topColor, sibdowColor, bbdkColor)) {
+                rfturn bufffr;
             }
         }
-        BumpBuffer buffer = new BumpBuffer(gc, topColor, shadowColor, backColor);
-        buffers.add(buffer);
-        return buffer;
+        BumpBufffr bufffr = nfw BumpBufffr(gd, topColor, sibdowColor, bbdkColor);
+        bufffrs.bdd(bufffr);
+        rfturn bufffr;
     }
 
-    public void setBumpArea( Dimension bumpArea ) {
-        setBumpArea( bumpArea.width, bumpArea.height );
+    publid void sftBumpArfb( Dimfnsion bumpArfb ) {
+        sftBumpArfb( bumpArfb.widti, bumpArfb.ifigit );
     }
 
-    public void setBumpArea( int width, int height ) {
-        xBumps = width / 2;
-        yBumps = height / 2;
+    publid void sftBumpArfb( int widti, int ifigit ) {
+        xBumps = widti / 2;
+        yBumps = ifigit / 2;
     }
 
-    public void setBumpColors( Color newTopColor, Color newShadowColor, Color newBackColor ) {
-        topColor = newTopColor;
-        shadowColor = newShadowColor;
-        if (newBackColor == null) {
-            backColor = ALPHA;
+    publid void sftBumpColors( Color nfwTopColor, Color nfwSibdowColor, Color nfwBbdkColor ) {
+        topColor = nfwTopColor;
+        sibdowColor = nfwSibdowColor;
+        if (nfwBbdkColor == null) {
+            bbdkColor = ALPHA;
         }
-        else {
-            backColor = newBackColor;
+        flsf {
+            bbdkColor = nfwBbdkColor;
         }
     }
 
-    public void paintIcon( Component c, Graphics g, int x, int y ) {
-        GraphicsConfiguration gc = (g instanceof Graphics2D) ?
-                ((Graphics2D) g).getDeviceConfiguration() : null;
+    publid void pbintIdon( Componfnt d, Grbpiids g, int x, int y ) {
+        GrbpiidsConfigurbtion gd = (g instbndfof Grbpiids2D) ?
+                ((Grbpiids2D) g).gftDfvidfConfigurbtion() : null;
 
-        if ((buffer == null) || !buffer.hasSameConfiguration(gc, topColor, shadowColor, backColor)) {
-            buffer = createBuffer(gc, topColor, shadowColor, backColor);
+        if ((bufffr == null) || !bufffr.ibsSbmfConfigurbtion(gd, topColor, sibdowColor, bbdkColor)) {
+            bufffr = drfbtfBufffr(gd, topColor, sibdowColor, bbdkColor);
         }
 
-        int bufferWidth = BumpBuffer.IMAGE_SIZE;
-        int bufferHeight = BumpBuffer.IMAGE_SIZE;
-        int iconWidth = getIconWidth();
-        int iconHeight = getIconHeight();
-        int x2 = x + iconWidth;
-        int y2 = y + iconHeight;
-        int savex = x;
+        int bufffrWidti = BumpBufffr.IMAGE_SIZE;
+        int bufffrHfigit = BumpBufffr.IMAGE_SIZE;
+        int idonWidti = gftIdonWidti();
+        int idonHfigit = gftIdonHfigit();
+        int x2 = x + idonWidti;
+        int y2 = y + idonHfigit;
+        int sbvfx = x;
 
-        while (y < y2) {
-            int h = Math.min(y2 - y, bufferHeight);
-            for (x = savex; x < x2; x += bufferWidth) {
-                int w = Math.min(x2 - x, bufferWidth);
-                g.drawImage(buffer.getImage(),
-                            x, y, x+w, y+h,
-                            0, 0, w, h,
+        wiilf (y < y2) {
+            int i = Mbti.min(y2 - y, bufffrHfigit);
+            for (x = sbvfx; x < x2; x += bufffrWidti) {
+                int w = Mbti.min(x2 - x, bufffrWidti);
+                g.drbwImbgf(bufffr.gftImbgf(),
+                            x, y, x+w, y+i,
+                            0, 0, w, i,
                             null);
             }
-            y += bufferHeight;
+            y += bufffrHfigit;
         }
     }
 
-    public int getIconWidth() {
-        return xBumps * 2;
+    publid int gftIdonWidti() {
+        rfturn xBumps * 2;
     }
 
-    public int getIconHeight() {
-        return yBumps * 2;
+    publid int gftIdonHfigit() {
+        rfturn yBumps * 2;
     }
 }
 
 
-class BumpBuffer {
+dlbss BumpBufffr {
 
-    static final int IMAGE_SIZE = 64;
+    stbtid finbl int IMAGE_SIZE = 64;
 
-    transient Image image;
+    trbnsifnt Imbgf imbgf;
     Color topColor;
-    Color shadowColor;
-    Color backColor;
-    private GraphicsConfiguration gc;
+    Color sibdowColor;
+    Color bbdkColor;
+    privbtf GrbpiidsConfigurbtion gd;
 
-    public BumpBuffer(GraphicsConfiguration gc, Color aTopColor,
-                      Color aShadowColor, Color aBackColor) {
-        this.gc = gc;
-        topColor = aTopColor;
-        shadowColor = aShadowColor;
-        backColor = aBackColor;
-        createImage();
-        fillBumpBuffer();
+    publid BumpBufffr(GrbpiidsConfigurbtion gd, Color bTopColor,
+                      Color bSibdowColor, Color bBbdkColor) {
+        tiis.gd = gd;
+        topColor = bTopColor;
+        sibdowColor = bSibdowColor;
+        bbdkColor = bBbdkColor;
+        drfbtfImbgf();
+        fillBumpBufffr();
     }
 
-    public boolean hasSameConfiguration(GraphicsConfiguration gc,
-                                        Color aTopColor, Color aShadowColor,
-                                        Color aBackColor) {
-        if (this.gc != null) {
-            if (!this.gc.equals(gc)) {
-                return false;
+    publid boolfbn ibsSbmfConfigurbtion(GrbpiidsConfigurbtion gd,
+                                        Color bTopColor, Color bSibdowColor,
+                                        Color bBbdkColor) {
+        if (tiis.gd != null) {
+            if (!tiis.gd.fqubls(gd)) {
+                rfturn fblsf;
             }
         }
-        else if (gc != null) {
-            return false;
+        flsf if (gd != null) {
+            rfturn fblsf;
         }
-        return topColor.equals( aTopColor )       &&
-               shadowColor.equals( aShadowColor ) &&
-               backColor.equals( aBackColor );
+        rfturn topColor.fqubls( bTopColor )       &&
+               sibdowColor.fqubls( bSibdowColor ) &&
+               bbdkColor.fqubls( bBbdkColor );
     }
 
     /**
-     * Returns the Image containing the bumps appropriate for the passed in
-     * <code>GraphicsConfiguration</code>.
+     * Rfturns tif Imbgf dontbining tif bumps bppropribtf for tif pbssfd in
+     * <dodf>GrbpiidsConfigurbtion</dodf>.
      */
-    public Image getImage() {
-        return image;
+    publid Imbgf gftImbgf() {
+        rfturn imbgf;
     }
 
     /**
-     * Paints the bumps into the current image.
+     * Pbints tif bumps into tif durrfnt imbgf.
      */
-    private void fillBumpBuffer() {
-        Graphics g = image.getGraphics();
+    privbtf void fillBumpBufffr() {
+        Grbpiids g = imbgf.gftGrbpiids();
 
-        g.setColor( backColor );
-        g.fillRect( 0, 0, IMAGE_SIZE, IMAGE_SIZE );
+        g.sftColor( bbdkColor );
+        g.fillRfdt( 0, 0, IMAGE_SIZE, IMAGE_SIZE );
 
-        g.setColor(topColor);
+        g.sftColor(topColor);
         for (int x = 0; x < IMAGE_SIZE; x+=4) {
             for (int y = 0; y < IMAGE_SIZE; y+=4) {
-                g.drawLine( x, y, x, y );
-                g.drawLine( x+2, y+2, x+2, y+2);
+                g.drbwLinf( x, y, x, y );
+                g.drbwLinf( x+2, y+2, x+2, y+2);
             }
         }
 
-        g.setColor(shadowColor);
+        g.sftColor(sibdowColor);
         for (int x = 0; x < IMAGE_SIZE; x+=4) {
             for (int y = 0; y < IMAGE_SIZE; y+=4) {
-                g.drawLine( x+1, y+1, x+1, y+1 );
-                g.drawLine( x+3, y+3, x+3, y+3);
+                g.drbwLinf( x+1, y+1, x+1, y+1 );
+                g.drbwLinf( x+3, y+3, x+3, y+3);
             }
         }
-        g.dispose();
+        g.disposf();
     }
 
     /**
-     * Creates the image appropriate for the passed in
-     * <code>GraphicsConfiguration</code>, which may be null.
+     * Crfbtfs tif imbgf bppropribtf for tif pbssfd in
+     * <dodf>GrbpiidsConfigurbtion</dodf>, wiidi mby bf null.
      */
-    private void createImage() {
-        if (gc != null) {
-            image = gc.createCompatibleImage(IMAGE_SIZE, IMAGE_SIZE,
-                       (backColor != MetalBumps.ALPHA) ? Transparency.OPAQUE :
-                       Transparency.BITMASK);
+    privbtf void drfbtfImbgf() {
+        if (gd != null) {
+            imbgf = gd.drfbtfCompbtiblfImbgf(IMAGE_SIZE, IMAGE_SIZE,
+                       (bbdkColor != MftblBumps.ALPHA) ? Trbnspbrfndy.OPAQUE :
+                       Trbnspbrfndy.BITMASK);
         }
-        else {
-            int cmap[] = { backColor.getRGB(), topColor.getRGB(),
-                           shadowColor.getRGB() };
-            IndexColorModel icm = new IndexColorModel(8, 3, cmap, 0, false,
-                      (backColor == MetalBumps.ALPHA) ? 0 : -1,
-                      DataBuffer.TYPE_BYTE);
-            image = new BufferedImage(IMAGE_SIZE, IMAGE_SIZE,
-                                      BufferedImage.TYPE_BYTE_INDEXED, icm);
+        flsf {
+            int dmbp[] = { bbdkColor.gftRGB(), topColor.gftRGB(),
+                           sibdowColor.gftRGB() };
+            IndfxColorModfl idm = nfw IndfxColorModfl(8, 3, dmbp, 0, fblsf,
+                      (bbdkColor == MftblBumps.ALPHA) ? 0 : -1,
+                      DbtbBufffr.TYPE_BYTE);
+            imbgf = nfw BufffrfdImbgf(IMAGE_SIZE, IMAGE_SIZE,
+                                      BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
         }
     }
 }

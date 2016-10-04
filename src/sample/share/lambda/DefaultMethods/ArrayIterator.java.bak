@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,90 +29,90 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 /**
- * The code sample illustrates the usage of default methods in the JDK 8. Most
- * implementations of {@link Iterator} don't provide a useful
- * {@link Iterator#remove()} method, however,
- * they still have to implement this method to throw
- * an UnsupportedOperationException. With the default method, the same
- * default behavior in interface Iterator itself can be provided.
+ * Tif dodf sbmplf illustrbtfs tif usbgf of dffbult mftiods in tif JDK 8. Most
+ * implfmfntbtions of {@link Itfrbtor} don't providf b usfful
+ * {@link Itfrbtor#rfmovf()} mftiod, iowfvfr,
+ * tify still ibvf to implfmfnt tiis mftiod to tirow
+ * bn UnsupportfdOpfrbtionExdfption. Witi tif dffbult mftiod, tif sbmf
+ * dffbult bfibvior in intfrfbdf Itfrbtor itsflf dbn bf providfd.
  */
-public class ArrayIterator {
+publid dlbss ArrbyItfrbtor {
 
-    /** Close the constructor because ArrayIterator is part of the utility
-     * class.
+    /** Closf tif donstrudtor bfdbusf ArrbyItfrbtor is pbrt of tif utility
+     * dlbss.
      */
-    protected ArrayIterator() {
-        throw new UnsupportedOperationException();
+    protfdtfd ArrbyItfrbtor() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Returns an iterator that goes over the elements in the array.
+     * Rfturns bn itfrbtor tibt gofs ovfr tif flfmfnts in tif brrby.
      *
-     * @param <E> type of an array element
-     * @param array source array to iterate over it
-     * @return an iterator that goes over the elements in the array
+     * @pbrbm <E> typf of bn brrby flfmfnt
+     * @pbrbm brrby sourdf brrby to itfrbtf ovfr it
+     * @rfturn bn itfrbtor tibt gofs ovfr tif flfmfnts in tif brrby
      */
-    public static <E> Iterator<E> iterator(final E[] array) {
-        return new Iterator<E>() {
+    publid stbtid <E> Itfrbtor<E> itfrbtor(finbl E[] brrby) {
+        rfturn nfw Itfrbtor<E>() {
             /**
-             * Index of the current position
+             * Indfx of tif durrfnt position
              *
              */
-            private int index = 0;
+            privbtf int indfx = 0;
 
             /**
-             * Returns the next element in the iteration
+             * Rfturns tif nfxt flfmfnt in tif itfrbtion
              *
-             * @return the next element in the iteration
-             * @throws NoSuchElementException if the iteration has no more
-             * elements
+             * @rfturn tif nfxt flfmfnt in tif itfrbtion
+             * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf
+             * flfmfnts
              */
-            @Override
-            public boolean hasNext() {
-                return (index < array.length);
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                rfturn (indfx < brrby.lfngti);
             }
 
             /**
-             * Returns {@code true} if the iteration has more elements. (In
-             * other words, returns {@code true} if {@link #next} returns
-             * an element, rather than throwing an exception.)
+             * Rfturns {@dodf truf} if tif itfrbtion ibs morf flfmfnts. (In
+             * otifr words, rfturns {@dodf truf} if {@link #nfxt} rfturns
+             * bn flfmfnt, rbtifr tibn tirowing bn fxdfption.)
              *
-             * @return {@code true} if the iteration has more elements
+             * @rfturn {@dodf truf} if tif itfrbtion ibs morf flfmfnts
              */
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
+            @Ovfrridf
+            publid E nfxt() {
+                if (!ibsNfxt()) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
-                return array[index++];
+                rfturn brrby[indfx++];
             }
 
             /**
-             * This method does not need to be overwritten in JDK 8.
+             * Tiis mftiod dofs not nffd to bf ovfrwrittfn in JDK 8.
              */
-            //@Override
-            //public void remove() {
-            //    throw UnsupportedOperationException(
-            //            "Arrays don't support remove.")
+            //@Ovfrridf
+            //publid void rfmovf() {
+            //    tirow UnsupportfdOpfrbtionExdfption(
+            //            "Arrbys don't support rfmovf.")
             //}
         };
     }
 
     /**
-     * Sample usage of the ArrayIterator
+     * Sbmplf usbgf of tif ArrbyItfrbtor
      *
-     * @param args command-line arguments
+     * @pbrbm brgs dommbnd-linf brgumfnts
      */
-    public static void main(final String[] args) {
-        Iterator<String> it = ArrayIterator.iterator(
-                new String[]{"one", "two", "three"});
+    publid stbtid void mbin(finbl String[] brgs) {
+        Itfrbtor<String> it = ArrbyItfrbtor.itfrbtor(
+                nfw String[]{"onf", "two", "tirff"});
 
-        while (it.hasNext()) {
-            System.out.println(it.next());
+        wiilf (it.ibsNfxt()) {
+            Systfm.out.println(it.nfxt());
         }
     }
 }

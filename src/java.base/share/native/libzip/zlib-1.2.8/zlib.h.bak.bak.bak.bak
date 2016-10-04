@@ -1,0 +1,1792 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* zlib.h -- intfrfbdf of thf 'zlib' gfnfrbl purposf domprfssion librbry
+  vfrsion 1.2.8, April 28th, 2013
+
+  Copyright (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+
+  This softwbrf is providfd 'bs-is', without bny fxprfss or implifd
+  wbrrbnty.  In no fvfnt will thf buthors bf hfld libblf for bny dbmbgfs
+  brising from thf usf of this softwbrf.
+
+  Pfrmission is grbntfd to bnyonf to usf this softwbrf for bny purposf,
+  indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
+  frffly, subjfdt to thf following rfstridtions:
+
+  1. Thf origin of this softwbrf must not bf misrfprfsfntfd; you must not
+     dlbim thbt you wrotf thf originbl softwbrf. If you usf this softwbrf
+     in b produdt, bn bdknowlfdgmfnt in thf produdt dodumfntbtion would bf
+     bpprfdibtfd but is not rfquirfd.
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudh, bnd must not bf
+     misrfprfsfntfd bs bfing thf originbl softwbrf.
+  3. This notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+
+  Jfbn-loup Gbilly        Mbrk Adlfr
+  jloup@gzip.org          mbdlfr@blumni.dbltfdh.fdu
+
+
+  Thf dbtb formbt usfd by thf zlib librbry is dfsdribfd by RFCs (Rfqufst for
+  Commfnts) 1950 to 1952 in thf filfs http://tools.iftf.org/html/rfd1950
+  (zlib formbt), rfd1951 (dfflbtf formbt) bnd rfd1952 (gzip formbt).
+*/
+
+#ifndff ZLIB_H
+#dffinf ZLIB_H
+
+#indludf "zdonf.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#dffinf ZLIB_VERSION "1.2.8"
+#dffinf ZLIB_VERNUM 0x1280
+#dffinf ZLIB_VER_MAJOR 1
+#dffinf ZLIB_VER_MINOR 2
+#dffinf ZLIB_VER_REVISION 8
+#dffinf ZLIB_VER_SUBREVISION 0
+
+/*
+    Thf 'zlib' domprfssion librbry providfs in-mfmory domprfssion bnd
+  dfdomprfssion fundtions, indluding intfgrity dhfdks of thf undomprfssfd dbtb.
+  This vfrsion of thf librbry supports only onf domprfssion mfthod (dfflbtion)
+  but othfr blgorithms will bf bddfd lbtfr bnd will hbvf thf sbmf strfbm
+  intfrfbdf.
+
+    Comprfssion dbn bf donf in b singlf stfp if thf bufffrs brf lbrgf fnough,
+  or dbn bf donf by rfpfbtfd dblls of thf domprfssion fundtion.  In thf lbttfr
+  dbsf, thf bpplidbtion must providf morf input bnd/or donsumf thf output
+  (providing morf output spbdf) bfforf fbdh dbll.
+
+    Thf domprfssfd dbtb formbt usfd by dffbult by thf in-mfmory fundtions is
+  thf zlib formbt, whidh is b zlib wrbppfr dodumfntfd in RFC 1950, wrbppfd
+  bround b dfflbtf strfbm, whidh is itsflf dodumfntfd in RFC 1951.
+
+    Thf librbry blso supports rfbding bnd writing filfs in gzip (.gz) formbt
+  with bn intfrfbdf similbr to thbt of stdio using thf fundtions thbt stbrt
+  with "gz".  Thf gzip formbt is difffrfnt from thf zlib formbt.  gzip is b
+  gzip wrbppfr, dodumfntfd in RFC 1952, wrbppfd bround b dfflbtf strfbm.
+
+    This librbry dbn optionblly rfbd bnd writf gzip strfbms in mfmory bs wfll.
+
+    Thf zlib formbt wbs dfsignfd to bf dompbdt bnd fbst for usf in mfmory
+  bnd on dommunidbtions dhbnnfls.  Thf gzip formbt wbs dfsignfd for singlf-
+  filf domprfssion on filf systfms, hbs b lbrgfr hfbdfr thbn zlib to mbintbin
+  dirfdtory informbtion, bnd usfs b difffrfnt, slowfr dhfdk mfthod thbn zlib.
+
+    Thf librbry dofs not instbll bny signbl hbndlfr.  Thf dfdodfr dhfdks
+  thf donsistfndy of thf domprfssfd dbtb, so thf librbry should nfvfr drbsh
+  fvfn in dbsf of dorruptfd input.
+*/
+
+typfdff voidpf (*bllod_fund) OF((voidpf opbquf, uInt itfms, uInt sizf));
+typfdff void   (*frff_fund)  OF((voidpf opbquf, voidpf bddrfss));
+
+strudt intfrnbl_stbtf;
+
+typfdff strudt z_strfbm_s {
+    z_donst Bytff *nfxt_in;     /* nfxt input bytf */
+    uInt     bvbil_in;  /* numbfr of bytfs bvbilbblf bt nfxt_in */
+    uLong    totbl_in;  /* totbl numbfr of input bytfs rfbd so fbr */
+
+    Bytff    *nfxt_out; /* nfxt output bytf should bf put thfrf */
+    uInt     bvbil_out; /* rfmbining frff spbdf bt nfxt_out */
+    uLong    totbl_out; /* totbl numbfr of bytfs output so fbr */
+
+    z_donst dhbr *msg;  /* lbst frror mfssbgf, NULL if no frror */
+    strudt intfrnbl_stbtf FAR *stbtf; /* not visiblf by bpplidbtions */
+
+    bllod_fund zbllod;  /* usfd to bllodbtf thf intfrnbl stbtf */
+    frff_fund  zfrff;   /* usfd to frff thf intfrnbl stbtf */
+    voidpf     opbquf;  /* privbtf dbtb objfdt pbssfd to zbllod bnd zfrff */
+
+    int     dbtb_typf;  /* bfst gufss bbout thf dbtb typf: binbry or tfxt */
+    uLong   bdlfr;      /* bdlfr32 vbluf of thf undomprfssfd dbtb */
+    uLong   rfsfrvfd;   /* rfsfrvfd for futurf usf */
+} z_strfbm;
+
+typfdff z_strfbm FAR *z_strfbmp;
+
+/*
+     gzip hfbdfr informbtion pbssfd to bnd from zlib routinfs.  Sff RFC 1952
+  for morf dftbils on thf mfbnings of thfsf fiflds.
+*/
+typfdff strudt gz_hfbdfr_s {
+    int     tfxt;       /* truf if domprfssfd dbtb bflifvfd to bf tfxt */
+    uLong   timf;       /* modifidbtion timf */
+    int     xflbgs;     /* fxtrb flbgs (not usfd whfn writing b gzip filf) */
+    int     os;         /* opfrbting systfm */
+    Bytff   *fxtrb;     /* pointfr to fxtrb fifld or Z_NULL if nonf */
+    uInt    fxtrb_lfn;  /* fxtrb fifld lfngth (vblid if fxtrb != Z_NULL) */
+    uInt    fxtrb_mbx;  /* spbdf bt fxtrb (only whfn rfbding hfbdfr) */
+    Bytff   *nbmf;      /* pointfr to zfro-tfrminbtfd filf nbmf or Z_NULL */
+    uInt    nbmf_mbx;   /* spbdf bt nbmf (only whfn rfbding hfbdfr) */
+    Bytff   *dommfnt;   /* pointfr to zfro-tfrminbtfd dommfnt or Z_NULL */
+    uInt    domm_mbx;   /* spbdf bt dommfnt (only whfn rfbding hfbdfr) */
+    int     hdrd;       /* truf if thfrf wbs or will bf b hfbdfr drd */
+    int     donf;       /* truf whfn donf rfbding gzip hfbdfr (not usfd
+                           whfn writing b gzip filf) */
+} gz_hfbdfr;
+
+typfdff gz_hfbdfr FAR *gz_hfbdfrp;
+
+/*
+     Thf bpplidbtion must updbtf nfxt_in bnd bvbil_in whfn bvbil_in hbs droppfd
+   to zfro.  It must updbtf nfxt_out bnd bvbil_out whfn bvbil_out hbs droppfd
+   to zfro.  Thf bpplidbtion must initiblizf zbllod, zfrff bnd opbquf bfforf
+   dblling thf init fundtion.  All othfr fiflds brf sft by thf domprfssion
+   librbry bnd must not bf updbtfd by thf bpplidbtion.
+
+     Thf opbquf vbluf providfd by thf bpplidbtion will bf pbssfd bs thf first
+   pbrbmftfr for dblls of zbllod bnd zfrff.  This dbn bf usfful for dustom
+   mfmory mbnbgfmfnt.  Thf domprfssion librbry bttbdhfs no mfbning to thf
+   opbquf vbluf.
+
+     zbllod must rfturn Z_NULL if thfrf is not fnough mfmory for thf objfdt.
+   If zlib is usfd in b multi-thrfbdfd bpplidbtion, zbllod bnd zfrff must bf
+   thrfbd sbff.
+
+     On 16-bit systfms, thf fundtions zbllod bnd zfrff must bf bblf to bllodbtf
+   fxbdtly 65536 bytfs, but will not bf rfquirfd to bllodbtf morf thbn this if
+   thf symbol MAXSEG_64K is dffinfd (sff zdonf.h).  WARNING: On MSDOS, pointfrs
+   rfturnfd by zbllod for objfdts of fxbdtly 65536 bytfs *must* hbvf thfir
+   offsft normblizfd to zfro.  Thf dffbult bllodbtion fundtion providfd by this
+   librbry fnsurfs this (sff zutil.d).  To rfdudf mfmory rfquirfmfnts bnd bvoid
+   bny bllodbtion of 64K objfdts, bt thf fxpfnsf of domprfssion rbtio, dompilf
+   thf librbry with -DMAX_WBITS=14 (sff zdonf.h).
+
+     Thf fiflds totbl_in bnd totbl_out dbn bf usfd for stbtistids or progrfss
+   rfports.  Aftfr domprfssion, totbl_in holds thf totbl sizf of thf
+   undomprfssfd dbtb bnd mby bf sbvfd for usf in thf dfdomprfssor (pbrtidulbrly
+   if thf dfdomprfssor wbnts to dfdomprfss fvfrything in b singlf stfp).
+*/
+
+                        /* donstbnts */
+
+#dffinf Z_NO_FLUSH      0
+#dffinf Z_PARTIAL_FLUSH 1
+#dffinf Z_SYNC_FLUSH    2
+#dffinf Z_FULL_FLUSH    3
+#dffinf Z_FINISH        4
+#dffinf Z_BLOCK         5
+#dffinf Z_TREES         6
+/* Allowfd flush vblufs; sff dfflbtf() bnd inflbtf() bflow for dftbils */
+
+#dffinf Z_OK            0
+#dffinf Z_STREAM_END    1
+#dffinf Z_NEED_DICT     2
+#dffinf Z_ERRNO        (-1)
+#dffinf Z_STREAM_ERROR (-2)
+#dffinf Z_DATA_ERROR   (-3)
+#dffinf Z_MEM_ERROR    (-4)
+#dffinf Z_BUF_ERROR    (-5)
+#dffinf Z_VERSION_ERROR (-6)
+/* Rfturn dodfs for thf domprfssion/dfdomprfssion fundtions. Nfgbtivf vblufs
+ * brf frrors, positivf vblufs brf usfd for spfdibl but normbl fvfnts.
+ */
+
+#dffinf Z_NO_COMPRESSION         0
+#dffinf Z_BEST_SPEED             1
+#dffinf Z_BEST_COMPRESSION       9
+#dffinf Z_DEFAULT_COMPRESSION  (-1)
+/* domprfssion lfvfls */
+
+#dffinf Z_FILTERED            1
+#dffinf Z_HUFFMAN_ONLY        2
+#dffinf Z_RLE                 3
+#dffinf Z_FIXED               4
+#dffinf Z_DEFAULT_STRATEGY    0
+/* domprfssion strbtfgy; sff dfflbtfInit2() bflow for dftbils */
+
+#dffinf Z_BINARY   0
+#dffinf Z_TEXT     1
+#dffinf Z_ASCII    Z_TEXT   /* for dompbtibility with 1.2.2 bnd fbrlifr */
+#dffinf Z_UNKNOWN  2
+/* Possiblf vblufs of thf dbtb_typf fifld (though sff inflbtf()) */
+
+#dffinf Z_DEFLATED   8
+/* Thf dfflbtf domprfssion mfthod (thf only onf supportfd in this vfrsion) */
+
+#dffinf Z_NULL  0  /* for initiblizing zbllod, zfrff, opbquf */
+
+#dffinf zlib_vfrsion zlibVfrsion()
+/* for dompbtibility with vfrsions < 1.0.2 */
+
+
+                        /* bbsid fundtions */
+
+ZEXTERN donst dhbr * ZEXPORT zlibVfrsion OF((void));
+/* Thf bpplidbtion dbn dompbrf zlibVfrsion bnd ZLIB_VERSION for donsistfndy.
+   If thf first dhbrbdtfr difffrs, thf librbry dodf bdtublly usfd is not
+   dompbtiblf with thf zlib.h hfbdfr filf usfd by thf bpplidbtion.  This dhfdk
+   is butombtidblly mbdf by dfflbtfInit bnd inflbtfInit.
+ */
+
+/*
+ZEXTERN int ZEXPORT dfflbtfInit OF((z_strfbmp strm, int lfvfl));
+
+     Initiblizfs thf intfrnbl strfbm stbtf for domprfssion.  Thf fiflds
+   zbllod, zfrff bnd opbquf must bf initiblizfd bfforf by thf dbllfr.  If
+   zbllod bnd zfrff brf sft to Z_NULL, dfflbtfInit updbtfs thfm to usf dffbult
+   bllodbtion fundtions.
+
+     Thf domprfssion lfvfl must bf Z_DEFAULT_COMPRESSION, or bftwffn 0 bnd 9:
+   1 givfs bfst spffd, 9 givfs bfst domprfssion, 0 givfs no domprfssion bt bll
+   (thf input dbtb is simply dopifd b blodk bt b timf).  Z_DEFAULT_COMPRESSION
+   rfqufsts b dffbult dompromisf bftwffn spffd bnd domprfssion (durrfntly
+   fquivblfnt to lfvfl 6).
+
+     dfflbtfInit rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_STREAM_ERROR if lfvfl is not b vblid domprfssion lfvfl, or
+   Z_VERSION_ERROR if thf zlib librbry vfrsion (zlib_vfrsion) is indompbtiblf
+   with thf vfrsion bssumfd by thf dbllfr (ZLIB_VERSION).  msg is sft to null
+   if thfrf is no frror mfssbgf.  dfflbtfInit dofs not pfrform bny domprfssion:
+   this will bf donf by dfflbtf().
+*/
+
+
+ZEXTERN int ZEXPORT dfflbtf OF((z_strfbmp strm, int flush));
+/*
+    dfflbtf domprfssfs bs mudh dbtb bs possiblf, bnd stops whfn thf input
+  bufffr bfdomfs fmpty or thf output bufffr bfdomfs full.  It mby introdudf
+  somf output lbtfndy (rfbding input without produding bny output) fxdfpt whfn
+  fordfd to flush.
+
+    Thf dftbilfd sfmbntids brf bs follows.  dfflbtf pfrforms onf or both of thf
+  following bdtions:
+
+  - Comprfss morf input stbrting bt nfxt_in bnd updbtf nfxt_in bnd bvbil_in
+    bddordingly.  If not bll input dbn bf prodfssfd (bfdbusf thfrf is not
+    fnough room in thf output bufffr), nfxt_in bnd bvbil_in brf updbtfd bnd
+    prodfssing will rfsumf bt this point for thf nfxt dbll of dfflbtf().
+
+  - Providf morf output stbrting bt nfxt_out bnd updbtf nfxt_out bnd bvbil_out
+    bddordingly.  This bdtion is fordfd if thf pbrbmftfr flush is non zfro.
+    Fording flush frfqufntly dfgrbdfs thf domprfssion rbtio, so this pbrbmftfr
+    should bf sft only whfn nfdfssbry (in intfrbdtivf bpplidbtions).  Somf
+    output mby bf providfd fvfn if flush is not sft.
+
+    Bfforf thf dbll of dfflbtf(), thf bpplidbtion should fnsurf thbt bt lfbst
+  onf of thf bdtions is possiblf, by providing morf input bnd/or donsuming morf
+  output, bnd updbting bvbil_in or bvbil_out bddordingly; bvbil_out should
+  nfvfr bf zfro bfforf thf dbll.  Thf bpplidbtion dbn donsumf thf domprfssfd
+  output whfn it wbnts, for fxbmplf whfn thf output bufffr is full (bvbil_out
+  == 0), or bftfr fbdh dbll of dfflbtf().  If dfflbtf rfturns Z_OK bnd with
+  zfro bvbil_out, it must bf dbllfd bgbin bftfr mbking room in thf output
+  bufffr bfdbusf thfrf might bf morf output pfnding.
+
+    Normblly thf pbrbmftfr flush is sft to Z_NO_FLUSH, whidh bllows dfflbtf to
+  dfdidf how mudh dbtb to bddumulbtf bfforf produding output, in ordfr to
+  mbximizf domprfssion.
+
+    If thf pbrbmftfr flush is sft to Z_SYNC_FLUSH, bll pfnding output is
+  flushfd to thf output bufffr bnd thf output is blignfd on b bytf boundbry, so
+  thbt thf dfdomprfssor dbn gft bll input dbtb bvbilbblf so fbr.  (In
+  pbrtidulbr bvbil_in is zfro bftfr thf dbll if fnough output spbdf hbs bffn
+  providfd bfforf thf dbll.) Flushing mby dfgrbdf domprfssion for somf
+  domprfssion blgorithms bnd so it should bf usfd only whfn nfdfssbry.  This
+  domplftfs thf durrfnt dfflbtf blodk bnd follows it with bn fmpty storfd blodk
+  thbt is thrff bits plus fillfr bits to thf nfxt bytf, followfd by four bytfs
+  (00 00 ff ff).
+
+    If flush is sft to Z_PARTIAL_FLUSH, bll pfnding output is flushfd to thf
+  output bufffr, but thf output is not blignfd to b bytf boundbry.  All of thf
+  input dbtb so fbr will bf bvbilbblf to thf dfdomprfssor, bs for Z_SYNC_FLUSH.
+  This domplftfs thf durrfnt dfflbtf blodk bnd follows it with bn fmpty fixfd
+  dodfs blodk thbt is 10 bits long.  This bssurfs thbt fnough bytfs brf output
+  in ordfr for thf dfdomprfssor to finish thf blodk bfforf thf fmpty fixfd dodf
+  blodk.
+
+    If flush is sft to Z_BLOCK, b dfflbtf blodk is domplftfd bnd fmittfd, bs
+  for Z_SYNC_FLUSH, but thf output is not blignfd on b bytf boundbry, bnd up to
+  sfvfn bits of thf durrfnt blodk brf hfld to bf writtfn bs thf nfxt bytf bftfr
+  thf nfxt dfflbtf blodk is domplftfd.  In this dbsf, thf dfdomprfssor mby not
+  bf providfd fnough bits bt this point in ordfr to domplftf dfdomprfssion of
+  thf dbtb providfd so fbr to thf domprfssor.  It mby nffd to wbit for thf nfxt
+  blodk to bf fmittfd.  This is for bdvbndfd bpplidbtions thbt nffd to dontrol
+  thf fmission of dfflbtf blodks.
+
+    If flush is sft to Z_FULL_FLUSH, bll output is flushfd bs with
+  Z_SYNC_FLUSH, bnd thf domprfssion stbtf is rfsft so thbt dfdomprfssion dbn
+  rfstbrt from this point if prfvious domprfssfd dbtb hbs bffn dbmbgfd or if
+  rbndom bddfss is dfsirfd.  Using Z_FULL_FLUSH too oftfn dbn sfriously dfgrbdf
+  domprfssion.
+
+    If dfflbtf rfturns with bvbil_out == 0, this fundtion must bf dbllfd bgbin
+  with thf sbmf vbluf of thf flush pbrbmftfr bnd morf output spbdf (updbtfd
+  bvbil_out), until thf flush is domplftf (dfflbtf rfturns with non-zfro
+  bvbil_out).  In thf dbsf of b Z_FULL_FLUSH or Z_SYNC_FLUSH, mbkf surf thbt
+  bvbil_out is grfbtfr thbn six to bvoid rfpfbtfd flush mbrkfrs duf to
+  bvbil_out == 0 on rfturn.
+
+    If thf pbrbmftfr flush is sft to Z_FINISH, pfnding input is prodfssfd,
+  pfnding output is flushfd bnd dfflbtf rfturns with Z_STREAM_END if thfrf wbs
+  fnough output spbdf; if dfflbtf rfturns with Z_OK, this fundtion must bf
+  dbllfd bgbin with Z_FINISH bnd morf output spbdf (updbtfd bvbil_out) but no
+  morf input dbtb, until it rfturns with Z_STREAM_END or bn frror.  Aftfr
+  dfflbtf hbs rfturnfd Z_STREAM_END, thf only possiblf opfrbtions on thf strfbm
+  brf dfflbtfRfsft or dfflbtfEnd.
+
+    Z_FINISH dbn bf usfd immfdibtfly bftfr dfflbtfInit if bll thf domprfssion
+  is to bf donf in b singlf stfp.  In this dbsf, bvbil_out must bf bt lfbst thf
+  vbluf rfturnfd by dfflbtfBound (sff bflow).  Thfn dfflbtf is gubrbntffd to
+  rfturn Z_STREAM_END.  If not fnough output spbdf is providfd, dfflbtf will
+  not rfturn Z_STREAM_END, bnd it must bf dbllfd bgbin bs dfsdribfd bbovf.
+
+    dfflbtf() sfts strm->bdlfr to thf bdlfr32 dhfdksum of bll input rfbd
+  so fbr (thbt is, totbl_in bytfs).
+
+    dfflbtf() mby updbtf strm->dbtb_typf if it dbn mbkf b good gufss bbout
+  thf input dbtb typf (Z_BINARY or Z_TEXT).  In doubt, thf dbtb is donsidfrfd
+  binbry.  This fifld is only for informbtion purposfs bnd dofs not bfffdt thf
+  domprfssion blgorithm in bny mbnnfr.
+
+    dfflbtf() rfturns Z_OK if somf progrfss hbs bffn mbdf (morf input
+  prodfssfd or morf output produdfd), Z_STREAM_END if bll input hbs bffn
+  donsumfd bnd bll output hbs bffn produdfd (only whfn flush is sft to
+  Z_FINISH), Z_STREAM_ERROR if thf strfbm stbtf wbs indonsistfnt (for fxbmplf
+  if nfxt_in or nfxt_out wbs Z_NULL), Z_BUF_ERROR if no progrfss is possiblf
+  (for fxbmplf bvbil_in or bvbil_out wbs zfro).  Notf thbt Z_BUF_ERROR is not
+  fbtbl, bnd dfflbtf() dbn bf dbllfd bgbin with morf input bnd morf output
+  spbdf to dontinuf domprfssing.
+*/
+
+
+ZEXTERN int ZEXPORT dfflbtfEnd OF((z_strfbmp strm));
+/*
+     All dynbmidblly bllodbtfd dbtb strudturfs for this strfbm brf frffd.
+   This fundtion disdbrds bny unprodfssfd input bnd dofs not flush bny pfnding
+   output.
+
+     dfflbtfEnd rfturns Z_OK if suddfss, Z_STREAM_ERROR if thf
+   strfbm stbtf wbs indonsistfnt, Z_DATA_ERROR if thf strfbm wbs frffd
+   prfmbturfly (somf input or output wbs disdbrdfd).  In thf frror dbsf, msg
+   mby bf sft but thfn points to b stbtid string (whidh must not bf
+   dfbllodbtfd).
+*/
+
+
+/*
+ZEXTERN int ZEXPORT inflbtfInit OF((z_strfbmp strm));
+
+     Initiblizfs thf intfrnbl strfbm stbtf for dfdomprfssion.  Thf fiflds
+   nfxt_in, bvbil_in, zbllod, zfrff bnd opbquf must bf initiblizfd bfforf by
+   thf dbllfr.  If nfxt_in is not Z_NULL bnd bvbil_in is lbrgf fnough (thf
+   fxbdt vbluf dfpfnds on thf domprfssion mfthod), inflbtfInit dftfrminfs thf
+   domprfssion mfthod from thf zlib hfbdfr bnd bllodbtfs bll dbtb strudturfs
+   bddordingly; othfrwisf thf bllodbtion will bf dfffrrfd to thf first dbll of
+   inflbtf.  If zbllod bnd zfrff brf sft to Z_NULL, inflbtfInit updbtfs thfm to
+   usf dffbult bllodbtion fundtions.
+
+     inflbtfInit rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_VERSION_ERROR if thf zlib librbry vfrsion is indompbtiblf with thf
+   vfrsion bssumfd by thf dbllfr, or Z_STREAM_ERROR if thf pbrbmftfrs brf
+   invblid, sudh bs b null pointfr to thf strudturf.  msg is sft to null if
+   thfrf is no frror mfssbgf.  inflbtfInit dofs not pfrform bny dfdomprfssion
+   bpbrt from possibly rfbding thf zlib hfbdfr if prfsfnt: bdtubl dfdomprfssion
+   will bf donf by inflbtf().  (So nfxt_in bnd bvbil_in mby bf modififd, but
+   nfxt_out bnd bvbil_out brf unusfd bnd undhbngfd.) Thf durrfnt implfmfntbtion
+   of inflbtfInit() dofs not prodfss bny hfbdfr informbtion -- thbt is dfffrrfd
+   until inflbtf() is dbllfd.
+*/
+
+
+ZEXTERN int ZEXPORT inflbtf OF((z_strfbmp strm, int flush));
+/*
+    inflbtf dfdomprfssfs bs mudh dbtb bs possiblf, bnd stops whfn thf input
+  bufffr bfdomfs fmpty or thf output bufffr bfdomfs full.  It mby introdudf
+  somf output lbtfndy (rfbding input without produding bny output) fxdfpt whfn
+  fordfd to flush.
+
+  Thf dftbilfd sfmbntids brf bs follows.  inflbtf pfrforms onf or both of thf
+  following bdtions:
+
+  - Dfdomprfss morf input stbrting bt nfxt_in bnd updbtf nfxt_in bnd bvbil_in
+    bddordingly.  If not bll input dbn bf prodfssfd (bfdbusf thfrf is not
+    fnough room in thf output bufffr), nfxt_in is updbtfd bnd prodfssing will
+    rfsumf bt this point for thf nfxt dbll of inflbtf().
+
+  - Providf morf output stbrting bt nfxt_out bnd updbtf nfxt_out bnd bvbil_out
+    bddordingly.  inflbtf() providfs bs mudh output bs possiblf, until thfrf is
+    no morf input dbtb or no morf spbdf in thf output bufffr (sff bflow bbout
+    thf flush pbrbmftfr).
+
+    Bfforf thf dbll of inflbtf(), thf bpplidbtion should fnsurf thbt bt lfbst
+  onf of thf bdtions is possiblf, by providing morf input bnd/or donsuming morf
+  output, bnd updbting thf nfxt_* bnd bvbil_* vblufs bddordingly.  Thf
+  bpplidbtion dbn donsumf thf undomprfssfd output whfn it wbnts, for fxbmplf
+  whfn thf output bufffr is full (bvbil_out == 0), or bftfr fbdh dbll of
+  inflbtf().  If inflbtf rfturns Z_OK bnd with zfro bvbil_out, it must bf
+  dbllfd bgbin bftfr mbking room in thf output bufffr bfdbusf thfrf might bf
+  morf output pfnding.
+
+    Thf flush pbrbmftfr of inflbtf() dbn bf Z_NO_FLUSH, Z_SYNC_FLUSH, Z_FINISH,
+  Z_BLOCK, or Z_TREES.  Z_SYNC_FLUSH rfqufsts thbt inflbtf() flush bs mudh
+  output bs possiblf to thf output bufffr.  Z_BLOCK rfqufsts thbt inflbtf()
+  stop if bnd whfn it gfts to thf nfxt dfflbtf blodk boundbry.  Whfn dfdoding
+  thf zlib or gzip formbt, this will dbusf inflbtf() to rfturn immfdibtfly
+  bftfr thf hfbdfr bnd bfforf thf first blodk.  Whfn doing b rbw inflbtf,
+  inflbtf() will go bhfbd bnd prodfss thf first blodk, bnd will rfturn whfn it
+  gfts to thf fnd of thbt blodk, or whfn it runs out of dbtb.
+
+    Thf Z_BLOCK option bssists in bppfnding to or dombining dfflbtf strfbms.
+  Also to bssist in this, on rfturn inflbtf() will sft strm->dbtb_typf to thf
+  numbfr of unusfd bits in thf lbst bytf tbkfn from strm->nfxt_in, plus 64 if
+  inflbtf() is durrfntly dfdoding thf lbst blodk in thf dfflbtf strfbm, plus
+  128 if inflbtf() rfturnfd immfdibtfly bftfr dfdoding bn fnd-of-blodk dodf or
+  dfdoding thf domplftf hfbdfr up to just bfforf thf first bytf of thf dfflbtf
+  strfbm.  Thf fnd-of-blodk will not bf indidbtfd until bll of thf undomprfssfd
+  dbtb from thbt blodk hbs bffn writtfn to strm->nfxt_out.  Thf numbfr of
+  unusfd bits mby in gfnfrbl bf grfbtfr thbn sfvfn, fxdfpt whfn bit 7 of
+  dbtb_typf is sft, in whidh dbsf thf numbfr of unusfd bits will bf lfss thbn
+  fight.  dbtb_typf is sft bs notfd hfrf fvfry timf inflbtf() rfturns for bll
+  flush options, bnd so dbn bf usfd to dftfrminf thf bmount of durrfntly
+  donsumfd input in bits.
+
+    Thf Z_TREES option bfhbvfs bs Z_BLOCK dofs, but it blso rfturns whfn thf
+  fnd of fbdh dfflbtf blodk hfbdfr is rfbdhfd, bfforf bny bdtubl dbtb in thbt
+  blodk is dfdodfd.  This bllows thf dbllfr to dftfrminf thf lfngth of thf
+  dfflbtf blodk hfbdfr for lbtfr usf in rbndom bddfss within b dfflbtf blodk.
+  256 is bddfd to thf vbluf of strm->dbtb_typf whfn inflbtf() rfturns
+  immfdibtfly bftfr rfbdhing thf fnd of thf dfflbtf blodk hfbdfr.
+
+    inflbtf() should normblly bf dbllfd until it rfturns Z_STREAM_END or bn
+  frror.  Howfvfr if bll dfdomprfssion is to bf pfrformfd in b singlf stfp (b
+  singlf dbll of inflbtf), thf pbrbmftfr flush should bf sft to Z_FINISH.  In
+  this dbsf bll pfnding input is prodfssfd bnd bll pfnding output is flushfd;
+  bvbil_out must bf lbrgf fnough to hold bll of thf undomprfssfd dbtb for thf
+  opfrbtion to domplftf.  (Thf sizf of thf undomprfssfd dbtb mby hbvf bffn
+  sbvfd by thf domprfssor for this purposf.) Thf usf of Z_FINISH is not
+  rfquirfd to pfrform bn inflbtion in onf stfp.  Howfvfr it mby bf usfd to
+  inform inflbtf thbt b fbstfr bpprobdh dbn bf usfd for thf singlf inflbtf()
+  dbll.  Z_FINISH blso informs inflbtf to not mbintbin b sliding window if thf
+  strfbm domplftfs, whidh rfdudfs inflbtf's mfmory footprint.  If thf strfbm
+  dofs not domplftf, fithfr bfdbusf not bll of thf strfbm is providfd or not
+  fnough output spbdf is providfd, thfn b sliding window will bf bllodbtfd bnd
+  inflbtf() dbn bf dbllfd bgbin to dontinuf thf opfrbtion bs if Z_NO_FLUSH hbd
+  bffn usfd.
+
+     In this implfmfntbtion, inflbtf() blwbys flushfs bs mudh output bs
+  possiblf to thf output bufffr, bnd blwbys usfs thf fbstfr bpprobdh on thf
+  first dbll.  So thf ffffdts of thf flush pbrbmftfr in this implfmfntbtion brf
+  on thf rfturn vbluf of inflbtf() bs notfd bflow, whfn inflbtf() rfturns fbrly
+  whfn Z_BLOCK or Z_TREES is usfd, bnd whfn inflbtf() bvoids thf bllodbtion of
+  mfmory for b sliding window whfn Z_FINISH is usfd.
+
+     If b prfsft didtionbry is nffdfd bftfr this dbll (sff inflbtfSftDidtionbry
+  bflow), inflbtf sfts strm->bdlfr to thf Adlfr-32 dhfdksum of thf didtionbry
+  dhosfn by thf domprfssor bnd rfturns Z_NEED_DICT; othfrwisf it sfts
+  strm->bdlfr to thf Adlfr-32 dhfdksum of bll output produdfd so fbr (thbt is,
+  totbl_out bytfs) bnd rfturns Z_OK, Z_STREAM_END or bn frror dodf bs dfsdribfd
+  bflow.  At thf fnd of thf strfbm, inflbtf() dhfdks thbt its domputfd bdlfr32
+  dhfdksum is fqubl to thbt sbvfd by thf domprfssor bnd rfturns Z_STREAM_END
+  only if thf dhfdksum is dorrfdt.
+
+    inflbtf() dbn dfdomprfss bnd dhfdk fithfr zlib-wrbppfd or gzip-wrbppfd
+  dfflbtf dbtb.  Thf hfbdfr typf is dftfdtfd butombtidblly, if rfqufstfd whfn
+  initiblizing with inflbtfInit2().  Any informbtion dontbinfd in thf gzip
+  hfbdfr is not rftbinfd, so bpplidbtions thbt nffd thbt informbtion should
+  instfbd usf rbw inflbtf, sff inflbtfInit2() bflow, or inflbtfBbdk() bnd
+  pfrform thfir own prodfssing of thf gzip hfbdfr bnd trbilfr.  Whfn prodfssing
+  gzip-wrbppfd dfflbtf dbtb, strm->bdlfr32 is sft to thf CRC-32 of thf output
+  produdtfd so fbr.  Thf CRC-32 is dhfdkfd bgbinst thf gzip trbilfr.
+
+    inflbtf() rfturns Z_OK if somf progrfss hbs bffn mbdf (morf input prodfssfd
+  or morf output produdfd), Z_STREAM_END if thf fnd of thf domprfssfd dbtb hbs
+  bffn rfbdhfd bnd bll undomprfssfd output hbs bffn produdfd, Z_NEED_DICT if b
+  prfsft didtionbry is nffdfd bt this point, Z_DATA_ERROR if thf input dbtb wbs
+  dorruptfd (input strfbm not donforming to thf zlib formbt or indorrfdt dhfdk
+  vbluf), Z_STREAM_ERROR if thf strfbm strudturf wbs indonsistfnt (for fxbmplf
+  nfxt_in or nfxt_out wbs Z_NULL), Z_MEM_ERROR if thfrf wbs not fnough mfmory,
+  Z_BUF_ERROR if no progrfss is possiblf or if thfrf wbs not fnough room in thf
+  output bufffr whfn Z_FINISH is usfd.  Notf thbt Z_BUF_ERROR is not fbtbl, bnd
+  inflbtf() dbn bf dbllfd bgbin with morf input bnd morf output spbdf to
+  dontinuf dfdomprfssing.  If Z_DATA_ERROR is rfturnfd, thf bpplidbtion mby
+  thfn dbll inflbtfSynd() to look for b good domprfssion blodk if b pbrtibl
+  rfdovfry of thf dbtb is dfsirfd.
+*/
+
+
+ZEXTERN int ZEXPORT inflbtfEnd OF((z_strfbmp strm));
+/*
+     All dynbmidblly bllodbtfd dbtb strudturfs for this strfbm brf frffd.
+   This fundtion disdbrds bny unprodfssfd input bnd dofs not flush bny pfnding
+   output.
+
+     inflbtfEnd rfturns Z_OK if suddfss, Z_STREAM_ERROR if thf strfbm stbtf
+   wbs indonsistfnt.  In thf frror dbsf, msg mby bf sft but thfn points to b
+   stbtid string (whidh must not bf dfbllodbtfd).
+*/
+
+
+                        /* Advbndfd fundtions */
+
+/*
+    Thf following fundtions brf nffdfd only in somf spfdibl bpplidbtions.
+*/
+
+/*
+ZEXTERN int ZEXPORT dfflbtfInit2 OF((z_strfbmp strm,
+                                     int  lfvfl,
+                                     int  mfthod,
+                                     int  windowBits,
+                                     int  mfmLfvfl,
+                                     int  strbtfgy));
+
+     This is bnothfr vfrsion of dfflbtfInit with morf domprfssion options.  Thf
+   fiflds nfxt_in, zbllod, zfrff bnd opbquf must bf initiblizfd bfforf by thf
+   dbllfr.
+
+     Thf mfthod pbrbmftfr is thf domprfssion mfthod.  It must bf Z_DEFLATED in
+   this vfrsion of thf librbry.
+
+     Thf windowBits pbrbmftfr is thf bbsf two logbrithm of thf window sizf
+   (thf sizf of thf history bufffr).  It should bf in thf rbngf 8..15 for this
+   vfrsion of thf librbry.  Lbrgfr vblufs of this pbrbmftfr rfsult in bfttfr
+   domprfssion bt thf fxpfnsf of mfmory usbgf.  Thf dffbult vbluf is 15 if
+   dfflbtfInit is usfd instfbd.
+
+     windowBits dbn blso bf -8..-15 for rbw dfflbtf.  In this dbsf, -windowBits
+   dftfrminfs thf window sizf.  dfflbtf() will thfn gfnfrbtf rbw dfflbtf dbtb
+   with no zlib hfbdfr or trbilfr, bnd will not domputf bn bdlfr32 dhfdk vbluf.
+
+     windowBits dbn blso bf grfbtfr thbn 15 for optionbl gzip fndoding.  Add
+   16 to windowBits to writf b simplf gzip hfbdfr bnd trbilfr bround thf
+   domprfssfd dbtb instfbd of b zlib wrbppfr.  Thf gzip hfbdfr will hbvf no
+   filf nbmf, no fxtrb dbtb, no dommfnt, no modifidbtion timf (sft to zfro), no
+   hfbdfr drd, bnd thf opfrbting systfm will bf sft to 255 (unknown).  If b
+   gzip strfbm is bfing writtfn, strm->bdlfr is b drd32 instfbd of bn bdlfr32.
+
+     Thf mfmLfvfl pbrbmftfr spfdififs how mudh mfmory should bf bllodbtfd
+   for thf intfrnbl domprfssion stbtf.  mfmLfvfl=1 usfs minimum mfmory but is
+   slow bnd rfdudfs domprfssion rbtio; mfmLfvfl=9 usfs mbximum mfmory for
+   optimbl spffd.  Thf dffbult vbluf is 8.  Sff zdonf.h for totbl mfmory usbgf
+   bs b fundtion of windowBits bnd mfmLfvfl.
+
+     Thf strbtfgy pbrbmftfr is usfd to tunf thf domprfssion blgorithm.  Usf thf
+   vbluf Z_DEFAULT_STRATEGY for normbl dbtb, Z_FILTERED for dbtb produdfd by b
+   filtfr (or prfdidtor), Z_HUFFMAN_ONLY to fordf Huffmbn fndoding only (no
+   string mbtdh), or Z_RLE to limit mbtdh distbndfs to onf (run-lfngth
+   fndoding).  Filtfrfd dbtb donsists mostly of smbll vblufs with b somfwhbt
+   rbndom distribution.  In this dbsf, thf domprfssion blgorithm is tunfd to
+   domprfss thfm bfttfr.  Thf ffffdt of Z_FILTERED is to fordf morf Huffmbn
+   doding bnd lfss string mbtdhing; it is somfwhbt intfrmfdibtf bftwffn
+   Z_DEFAULT_STRATEGY bnd Z_HUFFMAN_ONLY.  Z_RLE is dfsignfd to bf blmost bs
+   fbst bs Z_HUFFMAN_ONLY, but givf bfttfr domprfssion for PNG imbgf dbtb.  Thf
+   strbtfgy pbrbmftfr only bfffdts thf domprfssion rbtio but not thf
+   dorrfdtnfss of thf domprfssfd output fvfn if it is not sft bppropribtfly.
+   Z_FIXED prfvfnts thf usf of dynbmid Huffmbn dodfs, bllowing for b simplfr
+   dfdodfr for spfdibl bpplidbtions.
+
+     dfflbtfInit2 rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_STREAM_ERROR if bny pbrbmftfr is invblid (sudh bs bn invblid
+   mfthod), or Z_VERSION_ERROR if thf zlib librbry vfrsion (zlib_vfrsion) is
+   indompbtiblf with thf vfrsion bssumfd by thf dbllfr (ZLIB_VERSION).  msg is
+   sft to null if thfrf is no frror mfssbgf.  dfflbtfInit2 dofs not pfrform bny
+   domprfssion: this will bf donf by dfflbtf().
+*/
+
+ZEXTERN int ZEXPORT dfflbtfSftDidtionbry OF((z_strfbmp strm,
+                                             donst Bytff *didtionbry,
+                                             uInt  didtLfngth));
+/*
+     Initiblizfs thf domprfssion didtionbry from thf givfn bytf sfqufndf
+   without produding bny domprfssfd output.  Whfn using thf zlib formbt, this
+   fundtion must bf dbllfd immfdibtfly bftfr dfflbtfInit, dfflbtfInit2 or
+   dfflbtfRfsft, bnd bfforf bny dbll of dfflbtf.  Whfn doing rbw dfflbtf, this
+   fundtion must bf dbllfd fithfr bfforf bny dbll of dfflbtf, or immfdibtfly
+   bftfr thf domplftion of b dfflbtf blodk, i.f. bftfr bll input hbs bffn
+   donsumfd bnd bll output hbs bffn dflivfrfd whfn using bny of thf flush
+   options Z_BLOCK, Z_PARTIAL_FLUSH, Z_SYNC_FLUSH, or Z_FULL_FLUSH.  Thf
+   domprfssor bnd dfdomprfssor must usf fxbdtly thf sbmf didtionbry (sff
+   inflbtfSftDidtionbry).
+
+     Thf didtionbry should donsist of strings (bytf sfqufndfs) thbt brf likfly
+   to bf fndountfrfd lbtfr in thf dbtb to bf domprfssfd, with thf most dommonly
+   usfd strings prfffrbbly put towbrds thf fnd of thf didtionbry.  Using b
+   didtionbry is most usfful whfn thf dbtb to bf domprfssfd is short bnd dbn bf
+   prfdidtfd with good bddurbdy; thf dbtb dbn thfn bf domprfssfd bfttfr thbn
+   with thf dffbult fmpty didtionbry.
+
+     Dfpfnding on thf sizf of thf domprfssion dbtb strudturfs sflfdtfd by
+   dfflbtfInit or dfflbtfInit2, b pbrt of thf didtionbry mby in ffffdt bf
+   disdbrdfd, for fxbmplf if thf didtionbry is lbrgfr thbn thf window sizf
+   providfd in dfflbtfInit or dfflbtfInit2.  Thus thf strings most likfly to bf
+   usfful should bf put bt thf fnd of thf didtionbry, not bt thf front.  In
+   bddition, thf durrfnt implfmfntbtion of dfflbtf will usf bt most thf window
+   sizf minus 262 bytfs of thf providfd didtionbry.
+
+     Upon rfturn of this fundtion, strm->bdlfr is sft to thf bdlfr32 vbluf
+   of thf didtionbry; thf dfdomprfssor mby lbtfr usf this vbluf to dftfrminf
+   whidh didtionbry hbs bffn usfd by thf domprfssor.  (Thf bdlfr32 vbluf
+   bpplifs to thf wholf didtionbry fvfn if only b subsft of thf didtionbry is
+   bdtublly usfd by thf domprfssor.) If b rbw dfflbtf wbs rfqufstfd, thfn thf
+   bdlfr32 vbluf is not domputfd bnd strm->bdlfr is not sft.
+
+     dfflbtfSftDidtionbry rfturns Z_OK if suddfss, or Z_STREAM_ERROR if b
+   pbrbmftfr is invblid (f.g.  didtionbry bfing Z_NULL) or thf strfbm stbtf is
+   indonsistfnt (for fxbmplf if dfflbtf hbs blrfbdy bffn dbllfd for this strfbm
+   or if not bt b blodk boundbry for rbw dfflbtf).  dfflbtfSftDidtionbry dofs
+   not pfrform bny domprfssion: this will bf donf by dfflbtf().
+*/
+
+ZEXTERN int ZEXPORT dfflbtfCopy OF((z_strfbmp dfst,
+                                    z_strfbmp sourdf));
+/*
+     Sfts thf dfstinbtion strfbm bs b domplftf dopy of thf sourdf strfbm.
+
+     This fundtion dbn bf usfful whfn sfvfrbl domprfssion strbtfgifs will bf
+   trifd, for fxbmplf whfn thfrf brf sfvfrbl wbys of prf-prodfssing thf input
+   dbtb with b filtfr.  Thf strfbms thbt will bf disdbrdfd should thfn bf frffd
+   by dblling dfflbtfEnd.  Notf thbt dfflbtfCopy duplidbtfs thf intfrnbl
+   domprfssion stbtf whidh dbn bf quitf lbrgf, so this strbtfgy is slow bnd dbn
+   donsumf lots of mfmory.
+
+     dfflbtfCopy rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not
+   fnough mfmory, Z_STREAM_ERROR if thf sourdf strfbm stbtf wbs indonsistfnt
+   (sudh bs zbllod bfing Z_NULL).  msg is lfft undhbngfd in both sourdf bnd
+   dfstinbtion.
+*/
+
+ZEXTERN int ZEXPORT dfflbtfRfsft OF((z_strfbmp strm));
+/*
+     This fundtion is fquivblfnt to dfflbtfEnd followfd by dfflbtfInit,
+   but dofs not frff bnd rfbllodbtf bll thf intfrnbl domprfssion stbtf.  Thf
+   strfbm will kffp thf sbmf domprfssion lfvfl bnd bny othfr bttributfs thbt
+   mby hbvf bffn sft by dfflbtfInit2.
+
+     dfflbtfRfsft rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt (sudh bs zbllod or stbtf bfing Z_NULL).
+*/
+
+ZEXTERN int ZEXPORT dfflbtfPbrbms OF((z_strfbmp strm,
+                                      int lfvfl,
+                                      int strbtfgy));
+/*
+     Dynbmidblly updbtf thf domprfssion lfvfl bnd domprfssion strbtfgy.  Thf
+   intfrprftbtion of lfvfl bnd strbtfgy is bs in dfflbtfInit2.  This dbn bf
+   usfd to switdh bftwffn domprfssion bnd strbight dopy of thf input dbtb, or
+   to switdh to b difffrfnt kind of input dbtb rfquiring b difffrfnt strbtfgy.
+   If thf domprfssion lfvfl is dhbngfd, thf input bvbilbblf so fbr is
+   domprfssfd with thf old lfvfl (bnd mby bf flushfd); thf nfw lfvfl will tbkf
+   ffffdt only bt thf nfxt dbll of dfflbtf().
+
+     Bfforf thf dbll of dfflbtfPbrbms, thf strfbm stbtf must bf sft bs for
+   b dbll of dfflbtf(), sindf thf durrfntly bvbilbblf input mby hbvf to bf
+   domprfssfd bnd flushfd.  In pbrtidulbr, strm->bvbil_out must bf non-zfro.
+
+     dfflbtfPbrbms rfturns Z_OK if suddfss, Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt or if b pbrbmftfr wbs invblid, Z_BUF_ERROR if
+   strm->bvbil_out wbs zfro.
+*/
+
+ZEXTERN int ZEXPORT dfflbtfTunf OF((z_strfbmp strm,
+                                    int good_lfngth,
+                                    int mbx_lbzy,
+                                    int nidf_lfngth,
+                                    int mbx_dhbin));
+/*
+     Finf tunf dfflbtf's intfrnbl domprfssion pbrbmftfrs.  This should only bf
+   usfd by somfonf who undfrstbnds thf blgorithm usfd by zlib's dfflbtf for
+   sfbrdhing for thf bfst mbtdhing string, bnd fvfn thfn only by thf most
+   fbnbtid optimizfr trying to squffzf out thf lbst domprfssfd bit for thfir
+   spfdifid input dbtb.  Rfbd thf dfflbtf.d sourdf dodf for thf mfbning of thf
+   mbx_lbzy, good_lfngth, nidf_lfngth, bnd mbx_dhbin pbrbmftfrs.
+
+     dfflbtfTunf() dbn bf dbllfd bftfr dfflbtfInit() or dfflbtfInit2(), bnd
+   rfturns Z_OK on suddfss, or Z_STREAM_ERROR for bn invblid dfflbtf strfbm.
+ */
+
+ZEXTERN uLong ZEXPORT dfflbtfBound OF((z_strfbmp strm,
+                                       uLong sourdfLfn));
+/*
+     dfflbtfBound() rfturns bn uppfr bound on thf domprfssfd sizf bftfr
+   dfflbtion of sourdfLfn bytfs.  It must bf dbllfd bftfr dfflbtfInit() or
+   dfflbtfInit2(), bnd bftfr dfflbtfSftHfbdfr(), if usfd.  This would bf usfd
+   to bllodbtf bn output bufffr for dfflbtion in b singlf pbss, bnd so would bf
+   dbllfd bfforf dfflbtf().  If thbt first dfflbtf() dbll is providfd thf
+   sourdfLfn input bytfs, bn output bufffr bllodbtfd to thf sizf rfturnfd by
+   dfflbtfBound(), bnd thf flush vbluf Z_FINISH, thfn dfflbtf() is gubrbntffd
+   to rfturn Z_STREAM_END.  Notf thbt it is possiblf for thf domprfssfd sizf to
+   bf lbrgfr thbn thf vbluf rfturnfd by dfflbtfBound() if flush options othfr
+   thbn Z_FINISH or Z_NO_FLUSH brf usfd.
+*/
+
+ZEXTERN int ZEXPORT dfflbtfPfnding OF((z_strfbmp strm,
+                                       unsignfd *pfnding,
+                                       int *bits));
+/*
+     dfflbtfPfnding() rfturns thf numbfr of bytfs bnd bits of output thbt hbvf
+   bffn gfnfrbtfd, but not yft providfd in thf bvbilbblf output.  Thf bytfs not
+   providfd would bf duf to thf bvbilbblf output spbdf hbving bfing donsumfd.
+   Thf numbfr of bits of output not providfd brf bftwffn 0 bnd 7, whfrf thfy
+   bwbit morf bits to join thfm in ordfr to fill out b full bytf.  If pfnding
+   or bits brf Z_NULL, thfn thosf vblufs brf not sft.
+
+     dfflbtfPfnding rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt.
+ */
+
+ZEXTERN int ZEXPORT dfflbtfPrimf OF((z_strfbmp strm,
+                                     int bits,
+                                     int vbluf));
+/*
+     dfflbtfPrimf() insfrts bits in thf dfflbtf output strfbm.  Thf intfnt
+   is thbt this fundtion is usfd to stbrt off thf dfflbtf output with thf bits
+   lfftovfr from b prfvious dfflbtf strfbm whfn bppfnding to it.  As sudh, this
+   fundtion dbn only bf usfd for rbw dfflbtf, bnd must bf usfd bfforf thf first
+   dfflbtf() dbll bftfr b dfflbtfInit2() or dfflbtfRfsft().  bits must bf lfss
+   thbn or fqubl to 16, bnd thbt mbny of thf lfbst signifidbnt bits of vbluf
+   will bf insfrtfd in thf output.
+
+     dfflbtfPrimf rfturns Z_OK if suddfss, Z_BUF_ERROR if thfrf wbs not fnough
+   room in thf intfrnbl bufffr to insfrt thf bits, or Z_STREAM_ERROR if thf
+   sourdf strfbm stbtf wbs indonsistfnt.
+*/
+
+ZEXTERN int ZEXPORT dfflbtfSftHfbdfr OF((z_strfbmp strm,
+                                         gz_hfbdfrp hfbd));
+/*
+     dfflbtfSftHfbdfr() providfs gzip hfbdfr informbtion for whfn b gzip
+   strfbm is rfqufstfd by dfflbtfInit2().  dfflbtfSftHfbdfr() mby bf dbllfd
+   bftfr dfflbtfInit2() or dfflbtfRfsft() bnd bfforf thf first dbll of
+   dfflbtf().  Thf tfxt, timf, os, fxtrb fifld, nbmf, bnd dommfnt informbtion
+   in thf providfd gz_hfbdfr strudturf brf writtfn to thf gzip hfbdfr (xflbg is
+   ignorfd -- thf fxtrb flbgs brf sft bddording to thf domprfssion lfvfl).  Thf
+   dbllfr must bssurf thbt, if not Z_NULL, nbmf bnd dommfnt brf tfrminbtfd with
+   b zfro bytf, bnd thbt if fxtrb is not Z_NULL, thbt fxtrb_lfn bytfs brf
+   bvbilbblf thfrf.  If hdrd is truf, b gzip hfbdfr drd is indludfd.  Notf thbt
+   thf durrfnt vfrsions of thf dommbnd-linf vfrsion of gzip (up through vfrsion
+   1.3.x) do not support hfbdfr drd's, bnd will rfport thbt it is b "multi-pbrt
+   gzip filf" bnd givf up.
+
+     If dfflbtfSftHfbdfr is not usfd, thf dffbult gzip hfbdfr hbs tfxt fblsf,
+   thf timf sft to zfro, bnd os sft to 255, with no fxtrb, nbmf, or dommfnt
+   fiflds.  Thf gzip hfbdfr is rfturnfd to thf dffbult stbtf by dfflbtfRfsft().
+
+     dfflbtfSftHfbdfr rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt.
+*/
+
+/*
+ZEXTERN int ZEXPORT inflbtfInit2 OF((z_strfbmp strm,
+                                     int  windowBits));
+
+     This is bnothfr vfrsion of inflbtfInit with bn fxtrb pbrbmftfr.  Thf
+   fiflds nfxt_in, bvbil_in, zbllod, zfrff bnd opbquf must bf initiblizfd
+   bfforf by thf dbllfr.
+
+     Thf windowBits pbrbmftfr is thf bbsf two logbrithm of thf mbximum window
+   sizf (thf sizf of thf history bufffr).  It should bf in thf rbngf 8..15 for
+   this vfrsion of thf librbry.  Thf dffbult vbluf is 15 if inflbtfInit is usfd
+   instfbd.  windowBits must bf grfbtfr thbn or fqubl to thf windowBits vbluf
+   providfd to dfflbtfInit2() whilf domprfssing, or it must bf fqubl to 15 if
+   dfflbtfInit2() wbs not usfd.  If b domprfssfd strfbm with b lbrgfr window
+   sizf is givfn bs input, inflbtf() will rfturn with thf frror dodf
+   Z_DATA_ERROR instfbd of trying to bllodbtf b lbrgfr window.
+
+     windowBits dbn blso bf zfro to rfqufst thbt inflbtf usf thf window sizf in
+   thf zlib hfbdfr of thf domprfssfd strfbm.
+
+     windowBits dbn blso bf -8..-15 for rbw inflbtf.  In this dbsf, -windowBits
+   dftfrminfs thf window sizf.  inflbtf() will thfn prodfss rbw dfflbtf dbtb,
+   not looking for b zlib or gzip hfbdfr, not gfnfrbting b dhfdk vbluf, bnd not
+   looking for bny dhfdk vblufs for dompbrison bt thf fnd of thf strfbm.  This
+   is for usf with othfr formbts thbt usf thf dfflbtf domprfssfd dbtb formbt
+   sudh bs zip.  Thosf formbts providf thfir own dhfdk vblufs.  If b dustom
+   formbt is dfvflopfd using thf rbw dfflbtf formbt for domprfssfd dbtb, it is
+   rfdommfndfd thbt b dhfdk vbluf sudh bs bn bdlfr32 or b drd32 bf bpplifd to
+   thf undomprfssfd dbtb bs is donf in thf zlib, gzip, bnd zip formbts.  For
+   most bpplidbtions, thf zlib formbt should bf usfd bs is.  Notf thbt dommfnts
+   bbovf on thf usf in dfflbtfInit2() bpplifs to thf mbgnitudf of windowBits.
+
+     windowBits dbn blso bf grfbtfr thbn 15 for optionbl gzip dfdoding.  Add
+   32 to windowBits to fnbblf zlib bnd gzip dfdoding with butombtid hfbdfr
+   dftfdtion, or bdd 16 to dfdodf only thf gzip formbt (thf zlib formbt will
+   rfturn b Z_DATA_ERROR).  If b gzip strfbm is bfing dfdodfd, strm->bdlfr is b
+   drd32 instfbd of bn bdlfr32.
+
+     inflbtfInit2 rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_VERSION_ERROR if thf zlib librbry vfrsion is indompbtiblf with thf
+   vfrsion bssumfd by thf dbllfr, or Z_STREAM_ERROR if thf pbrbmftfrs brf
+   invblid, sudh bs b null pointfr to thf strudturf.  msg is sft to null if
+   thfrf is no frror mfssbgf.  inflbtfInit2 dofs not pfrform bny dfdomprfssion
+   bpbrt from possibly rfbding thf zlib hfbdfr if prfsfnt: bdtubl dfdomprfssion
+   will bf donf by inflbtf().  (So nfxt_in bnd bvbil_in mby bf modififd, but
+   nfxt_out bnd bvbil_out brf unusfd bnd undhbngfd.) Thf durrfnt implfmfntbtion
+   of inflbtfInit2() dofs not prodfss bny hfbdfr informbtion -- thbt is
+   dfffrrfd until inflbtf() is dbllfd.
+*/
+
+ZEXTERN int ZEXPORT inflbtfSftDidtionbry OF((z_strfbmp strm,
+                                             donst Bytff *didtionbry,
+                                             uInt  didtLfngth));
+/*
+     Initiblizfs thf dfdomprfssion didtionbry from thf givfn undomprfssfd bytf
+   sfqufndf.  This fundtion must bf dbllfd immfdibtfly bftfr b dbll of inflbtf,
+   if thbt dbll rfturnfd Z_NEED_DICT.  Thf didtionbry dhosfn by thf domprfssor
+   dbn bf dftfrminfd from thf bdlfr32 vbluf rfturnfd by thbt dbll of inflbtf.
+   Thf domprfssor bnd dfdomprfssor must usf fxbdtly thf sbmf didtionbry (sff
+   dfflbtfSftDidtionbry).  For rbw inflbtf, this fundtion dbn bf dbllfd bt bny
+   timf to sft thf didtionbry.  If thf providfd didtionbry is smbllfr thbn thf
+   window bnd thfrf is blrfbdy dbtb in thf window, thfn thf providfd didtionbry
+   will bmfnd whbt's thfrf.  Thf bpplidbtion must insurf thbt thf didtionbry
+   thbt wbs usfd for domprfssion is providfd.
+
+     inflbtfSftDidtionbry rfturns Z_OK if suddfss, Z_STREAM_ERROR if b
+   pbrbmftfr is invblid (f.g.  didtionbry bfing Z_NULL) or thf strfbm stbtf is
+   indonsistfnt, Z_DATA_ERROR if thf givfn didtionbry dofsn't mbtdh thf
+   fxpfdtfd onf (indorrfdt bdlfr32 vbluf).  inflbtfSftDidtionbry dofs not
+   pfrform bny dfdomprfssion: this will bf donf by subsfqufnt dblls of
+   inflbtf().
+*/
+
+ZEXTERN int ZEXPORT inflbtfGftDidtionbry OF((z_strfbmp strm,
+                                             Bytff *didtionbry,
+                                             uInt  *didtLfngth));
+/*
+     Rfturns thf sliding didtionbry bfing mbintbinfd by inflbtf.  didtLfngth is
+   sft to thf numbfr of bytfs in thf didtionbry, bnd thbt mbny bytfs brf dopifd
+   to didtionbry.  didtionbry must hbvf fnough spbdf, whfrf 32768 bytfs is
+   blwbys fnough.  If inflbtfGftDidtionbry() is dbllfd with didtionbry fqubl to
+   Z_NULL, thfn only thf didtionbry lfngth is rfturnfd, bnd nothing is dopifd.
+   Similbry, if didtLfngth is Z_NULL, thfn it is not sft.
+
+     inflbtfGftDidtionbry rfturns Z_OK on suddfss, or Z_STREAM_ERROR if thf
+   strfbm stbtf is indonsistfnt.
+*/
+
+ZEXTERN int ZEXPORT inflbtfSynd OF((z_strfbmp strm));
+/*
+     Skips invblid domprfssfd dbtb until b possiblf full flush point (sff bbovf
+   for thf dfsdription of dfflbtf with Z_FULL_FLUSH) dbn bf found, or until bll
+   bvbilbblf input is skippfd.  No output is providfd.
+
+     inflbtfSynd sfbrdhfs for b 00 00 FF FF pbttfrn in thf domprfssfd dbtb.
+   All full flush points hbvf this pbttfrn, but not bll oddurrfndfs of this
+   pbttfrn brf full flush points.
+
+     inflbtfSynd rfturns Z_OK if b possiblf full flush point hbs bffn found,
+   Z_BUF_ERROR if no morf input wbs providfd, Z_DATA_ERROR if no flush point
+   hbs bffn found, or Z_STREAM_ERROR if thf strfbm strudturf wbs indonsistfnt.
+   In thf suddfss dbsf, thf bpplidbtion mby sbvf thf durrfnt durrfnt vbluf of
+   totbl_in whidh indidbtfs whfrf vblid domprfssfd dbtb wbs found.  In thf
+   frror dbsf, thf bpplidbtion mby rfpfbtfdly dbll inflbtfSynd, providing morf
+   input fbdh timf, until suddfss or fnd of thf input dbtb.
+*/
+
+ZEXTERN int ZEXPORT inflbtfCopy OF((z_strfbmp dfst,
+                                    z_strfbmp sourdf));
+/*
+     Sfts thf dfstinbtion strfbm bs b domplftf dopy of thf sourdf strfbm.
+
+     This fundtion dbn bf usfful whfn rbndomly bddfssing b lbrgf strfbm.  Thf
+   first pbss through thf strfbm dbn pfriodidblly rfdord thf inflbtf stbtf,
+   bllowing rfstbrting inflbtf bt thosf points whfn rbndomly bddfssing thf
+   strfbm.
+
+     inflbtfCopy rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not
+   fnough mfmory, Z_STREAM_ERROR if thf sourdf strfbm stbtf wbs indonsistfnt
+   (sudh bs zbllod bfing Z_NULL).  msg is lfft undhbngfd in both sourdf bnd
+   dfstinbtion.
+*/
+
+ZEXTERN int ZEXPORT inflbtfRfsft OF((z_strfbmp strm));
+/*
+     This fundtion is fquivblfnt to inflbtfEnd followfd by inflbtfInit,
+   but dofs not frff bnd rfbllodbtf bll thf intfrnbl dfdomprfssion stbtf.  Thf
+   strfbm will kffp bttributfs thbt mby hbvf bffn sft by inflbtfInit2.
+
+     inflbtfRfsft rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt (sudh bs zbllod or stbtf bfing Z_NULL).
+*/
+
+ZEXTERN int ZEXPORT inflbtfRfsft2 OF((z_strfbmp strm,
+                                      int windowBits));
+/*
+     This fundtion is thf sbmf bs inflbtfRfsft, but it blso pfrmits dhbnging
+   thf wrbp bnd window sizf rfqufsts.  Thf windowBits pbrbmftfr is intfrprftfd
+   thf sbmf bs it is for inflbtfInit2.
+
+     inflbtfRfsft2 rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt (sudh bs zbllod or stbtf bfing Z_NULL), or if
+   thf windowBits pbrbmftfr is invblid.
+*/
+
+ZEXTERN int ZEXPORT inflbtfPrimf OF((z_strfbmp strm,
+                                     int bits,
+                                     int vbluf));
+/*
+     This fundtion insfrts bits in thf inflbtf input strfbm.  Thf intfnt is
+   thbt this fundtion is usfd to stbrt inflbting bt b bit position in thf
+   middlf of b bytf.  Thf providfd bits will bf usfd bfforf bny bytfs brf usfd
+   from nfxt_in.  This fundtion should only bf usfd with rbw inflbtf, bnd
+   should bf usfd bfforf thf first inflbtf() dbll bftfr inflbtfInit2() or
+   inflbtfRfsft().  bits must bf lfss thbn or fqubl to 16, bnd thbt mbny of thf
+   lfbst signifidbnt bits of vbluf will bf insfrtfd in thf input.
+
+     If bits is nfgbtivf, thfn thf input strfbm bit bufffr is fmptifd.  Thfn
+   inflbtfPrimf() dbn bf dbllfd bgbin to put bits in thf bufffr.  This is usfd
+   to dlfbr out bits lfftovfr bftfr fffding inflbtf b blodk dfsdription prior
+   to fffding inflbtf dodfs.
+
+     inflbtfPrimf rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt.
+*/
+
+ZEXTERN long ZEXPORT inflbtfMbrk OF((z_strfbmp strm));
+/*
+     This fundtion rfturns two vblufs, onf in thf lowfr 16 bits of thf rfturn
+   vbluf, bnd thf othfr in thf rfmbining uppfr bits, obtbinfd by shifting thf
+   rfturn vbluf down 16 bits.  If thf uppfr vbluf is -1 bnd thf lowfr vbluf is
+   zfro, thfn inflbtf() is durrfntly dfdoding informbtion outsidf of b blodk.
+   If thf uppfr vbluf is -1 bnd thf lowfr vbluf is non-zfro, thfn inflbtf is in
+   thf middlf of b storfd blodk, with thf lowfr vbluf fqubling thf numbfr of
+   bytfs from thf input rfmbining to dopy.  If thf uppfr vbluf is not -1, thfn
+   it is thf numbfr of bits bbdk from thf durrfnt bit position in thf input of
+   thf dodf (litfrbl or lfngth/distbndf pbir) durrfntly bfing prodfssfd.  In
+   thbt dbsf thf lowfr vbluf is thf numbfr of bytfs blrfbdy fmittfd for thbt
+   dodf.
+
+     A dodf is bfing prodfssfd if inflbtf is wbiting for morf input to domplftf
+   dfdoding of thf dodf, or if it hbs domplftfd dfdoding but is wbiting for
+   morf output spbdf to writf thf litfrbl or mbtdh dbtb.
+
+     inflbtfMbrk() is usfd to mbrk lodbtions in thf input dbtb for rbndom
+   bddfss, whidh mby bf bt bit positions, bnd to notf thosf dbsfs whfrf thf
+   output of b dodf mby spbn boundbrifs of rbndom bddfss blodks.  Thf durrfnt
+   lodbtion in thf input strfbm dbn bf dftfrminfd from bvbil_in bnd dbtb_typf
+   bs notfd in thf dfsdription for thf Z_BLOCK flush pbrbmftfr for inflbtf.
+
+     inflbtfMbrk rfturns thf vbluf notfd bbovf or -1 << 16 if thf providfd
+   sourdf strfbm stbtf wbs indonsistfnt.
+*/
+
+ZEXTERN int ZEXPORT inflbtfGftHfbdfr OF((z_strfbmp strm,
+                                         gz_hfbdfrp hfbd));
+/*
+     inflbtfGftHfbdfr() rfqufsts thbt gzip hfbdfr informbtion bf storfd in thf
+   providfd gz_hfbdfr strudturf.  inflbtfGftHfbdfr() mby bf dbllfd bftfr
+   inflbtfInit2() or inflbtfRfsft(), bnd bfforf thf first dbll of inflbtf().
+   As inflbtf() prodfssfs thf gzip strfbm, hfbd->donf is zfro until thf hfbdfr
+   is domplftfd, bt whidh timf hfbd->donf is sft to onf.  If b zlib strfbm is
+   bfing dfdodfd, thfn hfbd->donf is sft to -1 to indidbtf thbt thfrf will bf
+   no gzip hfbdfr informbtion forthdoming.  Notf thbt Z_BLOCK or Z_TREES dbn bf
+   usfd to fordf inflbtf() to rfturn immfdibtfly bftfr hfbdfr prodfssing is
+   domplftf bnd bfforf bny bdtubl dbtb is dfdomprfssfd.
+
+     Thf tfxt, timf, xflbgs, bnd os fiflds brf fillfd in with thf gzip hfbdfr
+   dontfnts.  hdrd is sft to truf if thfrf is b hfbdfr CRC.  (Thf hfbdfr CRC
+   wbs vblid if donf is sft to onf.) If fxtrb is not Z_NULL, thfn fxtrb_mbx
+   dontbins thf mbximum numbfr of bytfs to writf to fxtrb.  Ondf donf is truf,
+   fxtrb_lfn dontbins thf bdtubl fxtrb fifld lfngth, bnd fxtrb dontbins thf
+   fxtrb fifld, or thbt fifld trundbtfd if fxtrb_mbx is lfss thbn fxtrb_lfn.
+   If nbmf is not Z_NULL, thfn up to nbmf_mbx dhbrbdtfrs brf writtfn thfrf,
+   tfrminbtfd with b zfro unlfss thf lfngth is grfbtfr thbn nbmf_mbx.  If
+   dommfnt is not Z_NULL, thfn up to domm_mbx dhbrbdtfrs brf writtfn thfrf,
+   tfrminbtfd with b zfro unlfss thf lfngth is grfbtfr thbn domm_mbx.  Whfn bny
+   of fxtrb, nbmf, or dommfnt brf not Z_NULL bnd thf rfspfdtivf fifld is not
+   prfsfnt in thf hfbdfr, thfn thbt fifld is sft to Z_NULL to signbl its
+   bbsfndf.  This bllows thf usf of dfflbtfSftHfbdfr() with thf rfturnfd
+   strudturf to duplidbtf thf hfbdfr.  Howfvfr if thosf fiflds brf sft to
+   bllodbtfd mfmory, thfn thf bpplidbtion will nffd to sbvf thosf pointfrs
+   flsfwhfrf so thbt thfy dbn bf fvfntublly frffd.
+
+     If inflbtfGftHfbdfr is not usfd, thfn thf hfbdfr informbtion is simply
+   disdbrdfd.  Thf hfbdfr is blwbys dhfdkfd for vblidity, indluding thf hfbdfr
+   CRC if prfsfnt.  inflbtfRfsft() will rfsft thf prodfss to disdbrd thf hfbdfr
+   informbtion.  Thf bpplidbtion would nffd to dbll inflbtfGftHfbdfr() bgbin to
+   rftrifvf thf hfbdfr from thf nfxt gzip strfbm.
+
+     inflbtfGftHfbdfr rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf sourdf
+   strfbm stbtf wbs indonsistfnt.
+*/
+
+/*
+ZEXTERN int ZEXPORT inflbtfBbdkInit OF((z_strfbmp strm, int windowBits,
+                                        unsignfd dhbr FAR *window));
+
+     Initiblizf thf intfrnbl strfbm stbtf for dfdomprfssion using inflbtfBbdk()
+   dblls.  Thf fiflds zbllod, zfrff bnd opbquf in strm must bf initiblizfd
+   bfforf thf dbll.  If zbllod bnd zfrff brf Z_NULL, thfn thf dffbult librbry-
+   dfrivfd mfmory bllodbtion routinfs brf usfd.  windowBits is thf bbsf two
+   logbrithm of thf window sizf, in thf rbngf 8..15.  window is b dbllfr
+   supplifd bufffr of thbt sizf.  Exdfpt for spfdibl bpplidbtions whfrf it is
+   bssurfd thbt dfflbtf wbs usfd with smbll window sizfs, windowBits must bf 15
+   bnd b 32K bytf window must bf supplifd to bf bblf to dfdomprfss gfnfrbl
+   dfflbtf strfbms.
+
+     Sff inflbtfBbdk() for thf usbgf of thfsf routinfs.
+
+     inflbtfBbdkInit will rfturn Z_OK on suddfss, Z_STREAM_ERROR if bny of
+   thf pbrbmftfrs brf invblid, Z_MEM_ERROR if thf intfrnbl stbtf dould not bf
+   bllodbtfd, or Z_VERSION_ERROR if thf vfrsion of thf librbry dofs not mbtdh
+   thf vfrsion of thf hfbdfr filf.
+*/
+
+typfdff unsignfd (*in_fund) OF((void FAR *,
+                                z_donst unsignfd dhbr FAR * FAR *));
+typfdff int (*out_fund) OF((void FAR *, unsignfd dhbr FAR *, unsignfd));
+
+ZEXTERN int ZEXPORT inflbtfBbdk OF((z_strfbmp strm,
+                                    in_fund in, void FAR *in_dfsd,
+                                    out_fund out, void FAR *out_dfsd));
+/*
+     inflbtfBbdk() dofs b rbw inflbtf with b singlf dbll using b dbll-bbdk
+   intfrfbdf for input bnd output.  This is potfntiblly morf fffidifnt thbn
+   inflbtf() for filf i/o bpplidbtions, in thbt it bvoids dopying bftwffn thf
+   output bnd thf sliding window by simply mbking thf window itsflf thf output
+   bufffr.  inflbtf() dbn bf fbstfr on modfrn CPUs whfn usfd with lbrgf
+   bufffrs.  inflbtfBbdk() trusts thf bpplidbtion to not dhbngf thf output
+   bufffr pbssfd by thf output fundtion, bt lfbst until inflbtfBbdk() rfturns.
+
+     inflbtfBbdkInit() must bf dbllfd first to bllodbtf thf intfrnbl stbtf
+   bnd to initiblizf thf stbtf with thf usfr-providfd window bufffr.
+   inflbtfBbdk() mby thfn bf usfd multiplf timfs to inflbtf b domplftf, rbw
+   dfflbtf strfbm with fbdh dbll.  inflbtfBbdkEnd() is thfn dbllfd to frff thf
+   bllodbtfd stbtf.
+
+     A rbw dfflbtf strfbm is onf with no zlib or gzip hfbdfr or trbilfr.
+   This routinf would normblly bf usfd in b utility thbt rfbds zip or gzip
+   filfs bnd writfs out undomprfssfd filfs.  Thf utility would dfdodf thf
+   hfbdfr bnd prodfss thf trbilfr on its own, hfndf this routinf fxpfdts only
+   thf rbw dfflbtf strfbm to dfdomprfss.  This is difffrfnt from thf normbl
+   bfhbvior of inflbtf(), whidh fxpfdts fithfr b zlib or gzip hfbdfr bnd
+   trbilfr bround thf dfflbtf strfbm.
+
+     inflbtfBbdk() usfs two subroutinfs supplifd by thf dbllfr thbt brf thfn
+   dbllfd by inflbtfBbdk() for input bnd output.  inflbtfBbdk() dblls thosf
+   routinfs until it rfbds b domplftf dfflbtf strfbm bnd writfs out bll of thf
+   undomprfssfd dbtb, or until it fndountfrs bn frror.  Thf fundtion's
+   pbrbmftfrs bnd rfturn typfs brf dffinfd bbovf in thf in_fund bnd out_fund
+   typfdffs.  inflbtfBbdk() will dbll in(in_dfsd, &buf) whidh should rfturn thf
+   numbfr of bytfs of providfd input, bnd b pointfr to thbt input in buf.  If
+   thfrf is no input bvbilbblf, in() must rfturn zfro--buf is ignorfd in thbt
+   dbsf--bnd inflbtfBbdk() will rfturn b bufffr frror.  inflbtfBbdk() will dbll
+   out(out_dfsd, buf, lfn) to writf thf undomprfssfd dbtb buf[0..lfn-1].  out()
+   should rfturn zfro on suddfss, or non-zfro on fbilurf.  If out() rfturns
+   non-zfro, inflbtfBbdk() will rfturn with bn frror.  Nfithfr in() nor out()
+   brf pfrmittfd to dhbngf thf dontfnts of thf window providfd to
+   inflbtfBbdkInit(), whidh is blso thf bufffr thbt out() usfs to writf from.
+   Thf lfngth writtfn by out() will bf bt most thf window sizf.  Any non-zfro
+   bmount of input mby bf providfd by in().
+
+     For donvfnifndf, inflbtfBbdk() dbn bf providfd input on thf first dbll by
+   sftting strm->nfxt_in bnd strm->bvbil_in.  If thbt input is fxhbustfd, thfn
+   in() will bf dbllfd.  Thfrfforf strm->nfxt_in must bf initiblizfd bfforf
+   dblling inflbtfBbdk().  If strm->nfxt_in is Z_NULL, thfn in() will bf dbllfd
+   immfdibtfly for input.  If strm->nfxt_in is not Z_NULL, thfn strm->bvbil_in
+   must blso bf initiblizfd, bnd thfn if strm->bvbil_in is not zfro, input will
+   initiblly bf tbkfn from strm->nfxt_in[0 ..  strm->bvbil_in - 1].
+
+     Thf in_dfsd bnd out_dfsd pbrbmftfrs of inflbtfBbdk() is pbssfd bs thf
+   first pbrbmftfr of in() bnd out() rfspfdtivfly whfn thfy brf dbllfd.  Thfsf
+   dfsdriptors dbn bf optionblly usfd to pbss bny informbtion thbt thf dbllfr-
+   supplifd in() bnd out() fundtions nffd to do thfir job.
+
+     On rfturn, inflbtfBbdk() will sft strm->nfxt_in bnd strm->bvbil_in to
+   pbss bbdk bny unusfd input thbt wbs providfd by thf lbst in() dbll.  Thf
+   rfturn vblufs of inflbtfBbdk() dbn bf Z_STREAM_END on suddfss, Z_BUF_ERROR
+   if in() or out() rfturnfd bn frror, Z_DATA_ERROR if thfrf wbs b formbt frror
+   in thf dfflbtf strfbm (in whidh dbsf strm->msg is sft to indidbtf thf nbturf
+   of thf frror), or Z_STREAM_ERROR if thf strfbm wbs not propfrly initiblizfd.
+   In thf dbsf of Z_BUF_ERROR, bn input or output frror dbn bf distinguishfd
+   using strm->nfxt_in whidh will bf Z_NULL only if in() rfturnfd bn frror.  If
+   strm->nfxt_in is not Z_NULL, thfn thf Z_BUF_ERROR wbs duf to out() rfturning
+   non-zfro.  (in() will blwbys bf dbllfd bfforf out(), so strm->nfxt_in is
+   bssurfd to bf dffinfd if out() rfturns non-zfro.) Notf thbt inflbtfBbdk()
+   dbnnot rfturn Z_OK.
+*/
+
+ZEXTERN int ZEXPORT inflbtfBbdkEnd OF((z_strfbmp strm));
+/*
+     All mfmory bllodbtfd by inflbtfBbdkInit() is frffd.
+
+     inflbtfBbdkEnd() rfturns Z_OK on suddfss, or Z_STREAM_ERROR if thf strfbm
+   stbtf wbs indonsistfnt.
+*/
+
+ZEXTERN uLong ZEXPORT zlibCompilfFlbgs OF((void));
+/* Rfturn flbgs indidbting dompilf-timf options.
+
+    Typf sizfs, two bits fbdh, 00 = 16 bits, 01 = 32, 10 = 64, 11 = othfr:
+     1.0: sizf of uInt
+     3.2: sizf of uLong
+     5.4: sizf of voidpf (pointfr)
+     7.6: sizf of z_off_t
+
+    Compilfr, bssfmblfr, bnd dfbug options:
+     8: DEBUG
+     9: ASMV or ASMINF -- usf ASM dodf
+     10: ZLIB_WINAPI -- fxportfd fundtions usf thf WINAPI dblling donvfntion
+     11: 0 (rfsfrvfd)
+
+    Onf-timf tbblf building (smbllfr dodf, but not thrfbd-sbff if truf):
+     12: BUILDFIXED -- build stbtid blodk dfdoding tbblfs whfn nffdfd
+     13: DYNAMIC_CRC_TABLE -- build CRC dbldulbtion tbblfs whfn nffdfd
+     14,15: 0 (rfsfrvfd)
+
+    Librbry dontfnt (indidbtfs missing fundtionblity):
+     16: NO_GZCOMPRESS -- gz* fundtions dbnnot domprfss (to bvoid linking
+                          dfflbtf dodf whfn not nffdfd)
+     17: NO_GZIP -- dfflbtf dbn't writf gzip strfbms, bnd inflbtf dbn't dftfdt
+                    bnd dfdodf gzip strfbms (to bvoid linking drd dodf)
+     18-19: 0 (rfsfrvfd)
+
+    Opfrbtion vbribtions (dhbngfs in librbry fundtionblity):
+     20: PKZIP_BUG_WORKAROUND -- slightly morf pfrmissivf inflbtf
+     21: FASTEST -- dfflbtf blgorithm with only onf, lowfst domprfssion lfvfl
+     22,23: 0 (rfsfrvfd)
+
+    Thf sprintf vbribnt usfd by gzprintf (zfro is bfst):
+     24: 0 = vs*, 1 = s* -- 1 mfbns limitfd to 20 brgumfnts bftfr thf formbt
+     25: 0 = *nprintf, 1 = *printf -- 1 mfbns gzprintf() not sfdurf!
+     26: 0 = rfturns vbluf, 1 = void -- 1 mfbns inffrrfd string lfngth rfturnfd
+
+    Rfmbindfr:
+     27-31: 0 (rfsfrvfd)
+ */
+
+#ifndff Z_SOLO
+
+                        /* utility fundtions */
+
+/*
+     Thf following utility fundtions brf implfmfntfd on top of thf bbsid
+   strfbm-orifntfd fundtions.  To simplify thf intfrfbdf, somf dffbult options
+   brf bssumfd (domprfssion lfvfl bnd mfmory usbgf, stbndbrd mfmory bllodbtion
+   fundtions).  Thf sourdf dodf of thfsf utility fundtions dbn bf modififd if
+   you nffd spfdibl options.
+*/
+
+ZEXTERN int ZEXPORT domprfss OF((Bytff *dfst,   uLongf *dfstLfn,
+                                 donst Bytff *sourdf, uLong sourdfLfn));
+/*
+     Comprfssfs thf sourdf bufffr into thf dfstinbtion bufffr.  sourdfLfn is
+   thf bytf lfngth of thf sourdf bufffr.  Upon fntry, dfstLfn is thf totbl sizf
+   of thf dfstinbtion bufffr, whidh must bf bt lfbst thf vbluf rfturnfd by
+   domprfssBound(sourdfLfn).  Upon fxit, dfstLfn is thf bdtubl sizf of thf
+   domprfssfd bufffr.
+
+     domprfss rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not
+   fnough mfmory, Z_BUF_ERROR if thfrf wbs not fnough room in thf output
+   bufffr.
+*/
+
+ZEXTERN int ZEXPORT domprfss2 OF((Bytff *dfst,   uLongf *dfstLfn,
+                                  donst Bytff *sourdf, uLong sourdfLfn,
+                                  int lfvfl));
+/*
+     Comprfssfs thf sourdf bufffr into thf dfstinbtion bufffr.  Thf lfvfl
+   pbrbmftfr hbs thf sbmf mfbning bs in dfflbtfInit.  sourdfLfn is thf bytf
+   lfngth of thf sourdf bufffr.  Upon fntry, dfstLfn is thf totbl sizf of thf
+   dfstinbtion bufffr, whidh must bf bt lfbst thf vbluf rfturnfd by
+   domprfssBound(sourdfLfn).  Upon fxit, dfstLfn is thf bdtubl sizf of thf
+   domprfssfd bufffr.
+
+     domprfss2 rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_BUF_ERROR if thfrf wbs not fnough room in thf output bufffr,
+   Z_STREAM_ERROR if thf lfvfl pbrbmftfr is invblid.
+*/
+
+ZEXTERN uLong ZEXPORT domprfssBound OF((uLong sourdfLfn));
+/*
+     domprfssBound() rfturns bn uppfr bound on thf domprfssfd sizf bftfr
+   domprfss() or domprfss2() on sourdfLfn bytfs.  It would bf usfd bfforf b
+   domprfss() or domprfss2() dbll to bllodbtf thf dfstinbtion bufffr.
+*/
+
+ZEXTERN int ZEXPORT undomprfss OF((Bytff *dfst,   uLongf *dfstLfn,
+                                   donst Bytff *sourdf, uLong sourdfLfn));
+/*
+     Dfdomprfssfs thf sourdf bufffr into thf dfstinbtion bufffr.  sourdfLfn is
+   thf bytf lfngth of thf sourdf bufffr.  Upon fntry, dfstLfn is thf totbl sizf
+   of thf dfstinbtion bufffr, whidh must bf lbrgf fnough to hold thf fntirf
+   undomprfssfd dbtb.  (Thf sizf of thf undomprfssfd dbtb must hbvf bffn sbvfd
+   prfviously by thf domprfssor bnd trbnsmittfd to thf dfdomprfssor by somf
+   mfdhbnism outsidf thf sdopf of this domprfssion librbry.) Upon fxit, dfstLfn
+   is thf bdtubl sizf of thf undomprfssfd bufffr.
+
+     undomprfss rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not
+   fnough mfmory, Z_BUF_ERROR if thfrf wbs not fnough room in thf output
+   bufffr, or Z_DATA_ERROR if thf input dbtb wbs dorruptfd or indomplftf.  In
+   thf dbsf whfrf thfrf is not fnough room, undomprfss() will fill thf output
+   bufffr with thf undomprfssfd dbtb up to thbt point.
+*/
+
+                        /* gzip filf bddfss fundtions */
+
+/*
+     This librbry supports rfbding bnd writing filfs in gzip (.gz) formbt with
+   bn intfrfbdf similbr to thbt of stdio, using thf fundtions thbt stbrt with
+   "gz".  Thf gzip formbt is difffrfnt from thf zlib formbt.  gzip is b gzip
+   wrbppfr, dodumfntfd in RFC 1952, wrbppfd bround b dfflbtf strfbm.
+*/
+
+typfdff strudt gzFilf_s *gzFilf;    /* sfmi-opbquf gzip filf dfsdriptor */
+
+/*
+ZEXTERN gzFilf ZEXPORT gzopfn OF((donst dhbr *pbth, donst dhbr *modf));
+
+     Opfns b gzip (.gz) filf for rfbding or writing.  Thf modf pbrbmftfr is bs
+   in fopfn ("rb" or "wb") but dbn blso indludf b domprfssion lfvfl ("wb9") or
+   b strbtfgy: 'f' for filtfrfd dbtb bs in "wb6f", 'h' for Huffmbn-only
+   domprfssion bs in "wb1h", 'R' for run-lfngth fndoding bs in "wb1R", or 'F'
+   for fixfd dodf domprfssion bs in "wb9F".  (Sff thf dfsdription of
+   dfflbtfInit2 for morf informbtion bbout thf strbtfgy pbrbmftfr.)  'T' will
+   rfqufst trbnspbrfnt writing or bppfnding with no domprfssion bnd not using
+   thf gzip formbt.
+
+     "b" dbn bf usfd instfbd of "w" to rfqufst thbt thf gzip strfbm thbt will
+   bf writtfn bf bppfndfd to thf filf.  "+" will rfsult in bn frror, sindf
+   rfbding bnd writing to thf sbmf gzip filf is not supportfd.  Thf bddition of
+   "x" whfn writing will drfbtf thf filf fxdlusivfly, whidh fbils if thf filf
+   blrfbdy fxists.  On systfms thbt support it, thf bddition of "f" whfn
+   rfbding or writing will sft thf flbg to dlosf thf filf on bn fxfdvf() dbll.
+
+     Thfsf fundtions, bs wfll bs gzip, will rfbd bnd dfdodf b sfqufndf of gzip
+   strfbms in b filf.  Thf bppfnd fundtion of gzopfn() dbn bf usfd to drfbtf
+   sudh b filf.  (Also sff gzflush() for bnothfr wby to do this.)  Whfn
+   bppfnding, gzopfn dofs not tfst whfthfr thf filf bfgins with b gzip strfbm,
+   nor dofs it look for thf fnd of thf gzip strfbms to bfgin bppfnding.  gzopfn
+   will simply bppfnd b gzip strfbm to thf fxisting filf.
+
+     gzopfn dbn bf usfd to rfbd b filf whidh is not in gzip formbt; in this
+   dbsf gzrfbd will dirfdtly rfbd from thf filf without dfdomprfssion.  Whfn
+   rfbding, this will bf dftfdtfd butombtidblly by looking for thf mbgid two-
+   bytf gzip hfbdfr.
+
+     gzopfn rfturns NULL if thf filf dould not bf opfnfd, if thfrf wbs
+   insuffidifnt mfmory to bllodbtf thf gzFilf stbtf, or if bn invblid modf wbs
+   spfdififd (bn 'r', 'w', or 'b' wbs not providfd, or '+' wbs providfd).
+   frrno dbn bf dhfdkfd to dftfrminf if thf rfbson gzopfn fbilfd wbs thbt thf
+   filf dould not bf opfnfd.
+*/
+
+ZEXTERN gzFilf ZEXPORT gzdopfn OF((int fd, donst dhbr *modf));
+/*
+     gzdopfn bssodibtfs b gzFilf with thf filf dfsdriptor fd.  Filf dfsdriptors
+   brf obtbinfd from dblls likf opfn, dup, drfbt, pipf or filfno (if thf filf
+   hbs bffn prfviously opfnfd with fopfn).  Thf modf pbrbmftfr is bs in gzopfn.
+
+     Thf nfxt dbll of gzdlosf on thf rfturnfd gzFilf will blso dlosf thf filf
+   dfsdriptor fd, just likf fdlosf(fdopfn(fd, modf)) dlosfs thf filf dfsdriptor
+   fd.  If you wbnt to kffp fd opfn, usf fd = dup(fd_kffp); gz = gzdopfn(fd,
+   modf);.  Thf duplidbtfd dfsdriptor should bf sbvfd to bvoid b lfbk, sindf
+   gzdopfn dofs not dlosf fd if it fbils.  If you brf using filfno() to gft thf
+   filf dfsdriptor from b FILE *, thfn you will hbvf to usf dup() to bvoid
+   doublf-dlosf()ing thf filf dfsdriptor.  Both gzdlosf() bnd fdlosf() will
+   dlosf thf bssodibtfd filf dfsdriptor, so thfy nffd to hbvf difffrfnt filf
+   dfsdriptors.
+
+     gzdopfn rfturns NULL if thfrf wbs insuffidifnt mfmory to bllodbtf thf
+   gzFilf stbtf, if bn invblid modf wbs spfdififd (bn 'r', 'w', or 'b' wbs not
+   providfd, or '+' wbs providfd), or if fd is -1.  Thf filf dfsdriptor is not
+   usfd until thf nfxt gz* rfbd, writf, sffk, or dlosf opfrbtion, so gzdopfn
+   will not dftfdt if fd is invblid (unlfss fd is -1).
+*/
+
+ZEXTERN int ZEXPORT gzbufffr OF((gzFilf filf, unsignfd sizf));
+/*
+     Sft thf intfrnbl bufffr sizf usfd by this librbry's fundtions.  Thf
+   dffbult bufffr sizf is 8192 bytfs.  This fundtion must bf dbllfd bftfr
+   gzopfn() or gzdopfn(), bnd bfforf bny othfr dblls thbt rfbd or writf thf
+   filf.  Thf bufffr mfmory bllodbtion is blwbys dfffrrfd to thf first rfbd or
+   writf.  Two bufffrs brf bllodbtfd, fithfr both of thf spfdififd sizf whfn
+   writing, or onf of thf spfdififd sizf bnd thf othfr twidf thbt sizf whfn
+   rfbding.  A lbrgfr bufffr sizf of, for fxbmplf, 64K or 128K bytfs will
+   notidfbbly indrfbsf thf spffd of dfdomprfssion (rfbding).
+
+     Thf nfw bufffr sizf blso bfffdts thf mbximum lfngth for gzprintf().
+
+     gzbufffr() rfturns 0 on suddfss, or -1 on fbilurf, sudh bs bfing dbllfd
+   too lbtf.
+*/
+
+ZEXTERN int ZEXPORT gzsftpbrbms OF((gzFilf filf, int lfvfl, int strbtfgy));
+/*
+     Dynbmidblly updbtf thf domprfssion lfvfl or strbtfgy.  Sff thf dfsdription
+   of dfflbtfInit2 for thf mfbning of thfsf pbrbmftfrs.
+
+     gzsftpbrbms rfturns Z_OK if suddfss, or Z_STREAM_ERROR if thf filf wbs not
+   opfnfd for writing.
+*/
+
+ZEXTERN int ZEXPORT gzrfbd OF((gzFilf filf, voidp buf, unsignfd lfn));
+/*
+     Rfbds thf givfn numbfr of undomprfssfd bytfs from thf domprfssfd filf.  If
+   thf input filf is not in gzip formbt, gzrfbd dopifs thf givfn numbfr of
+   bytfs into thf bufffr dirfdtly from thf filf.
+
+     Aftfr rfbdhing thf fnd of b gzip strfbm in thf input, gzrfbd will dontinuf
+   to rfbd, looking for bnothfr gzip strfbm.  Any numbfr of gzip strfbms mby bf
+   dondbtfnbtfd in thf input filf, bnd will bll bf dfdomprfssfd by gzrfbd().
+   If somfthing othfr thbn b gzip strfbm is fndountfrfd bftfr b gzip strfbm,
+   thbt rfmbining trbiling gbrbbgf is ignorfd (bnd no frror is rfturnfd).
+
+     gzrfbd dbn bf usfd to rfbd b gzip filf thbt is bfing dondurrfntly writtfn.
+   Upon rfbdhing thf fnd of thf input, gzrfbd will rfturn with thf bvbilbblf
+   dbtb.  If thf frror dodf rfturnfd by gzfrror is Z_OK or Z_BUF_ERROR, thfn
+   gzdlfbrfrr dbn bf usfd to dlfbr thf fnd of filf indidbtor in ordfr to pfrmit
+   gzrfbd to bf trifd bgbin.  Z_OK indidbtfs thbt b gzip strfbm wbs domplftfd
+   on thf lbst gzrfbd.  Z_BUF_ERROR indidbtfs thbt thf input filf fndfd in thf
+   middlf of b gzip strfbm.  Notf thbt gzrfbd dofs not rfturn -1 in thf fvfnt
+   of bn indomplftf gzip strfbm.  This frror is dfffrrfd until gzdlosf(), whidh
+   will rfturn Z_BUF_ERROR if thf lbst gzrfbd fndfd in thf middlf of b gzip
+   strfbm.  Altfrnbtivfly, gzfrror dbn bf usfd bfforf gzdlosf to dftfdt this
+   dbsf.
+
+     gzrfbd rfturns thf numbfr of undomprfssfd bytfs bdtublly rfbd, lfss thbn
+   lfn for fnd of filf, or -1 for frror.
+*/
+
+ZEXTERN int ZEXPORT gzwritf OF((gzFilf filf,
+                                voidpd buf, unsignfd lfn));
+/*
+     Writfs thf givfn numbfr of undomprfssfd bytfs into thf domprfssfd filf.
+   gzwritf rfturns thf numbfr of undomprfssfd bytfs writtfn or 0 in dbsf of
+   frror.
+*/
+
+ZEXTERN int ZEXPORTVA gzprintf Z_ARG((gzFilf filf, donst dhbr *formbt, ...));
+/*
+     Convfrts, formbts, bnd writfs thf brgumfnts to thf domprfssfd filf undfr
+   dontrol of thf formbt string, bs in fprintf.  gzprintf rfturns thf numbfr of
+   undomprfssfd bytfs bdtublly writtfn, or 0 in dbsf of frror.  Thf numbfr of
+   undomprfssfd bytfs writtfn is limitfd to 8191, or onf lfss thbn thf bufffr
+   sizf givfn to gzbufffr().  Thf dbllfr should bssurf thbt this limit is not
+   fxdffdfd.  If it is fxdffdfd, thfn gzprintf() will rfturn bn frror (0) with
+   nothing writtfn.  In this dbsf, thfrf mby blso bf b bufffr ovfrflow with
+   unprfdidtbblf donsfqufndfs, whidh is possiblf only if zlib wbs dompilfd with
+   thf insfdurf fundtions sprintf() or vsprintf() bfdbusf thf sfdurf snprintf()
+   or vsnprintf() fundtions wfrf not bvbilbblf.  This dbn bf dftfrminfd using
+   zlibCompilfFlbgs().
+*/
+
+ZEXTERN int ZEXPORT gzputs OF((gzFilf filf, donst dhbr *s));
+/*
+     Writfs thf givfn null-tfrminbtfd string to thf domprfssfd filf, fxdluding
+   thf tfrminbting null dhbrbdtfr.
+
+     gzputs rfturns thf numbfr of dhbrbdtfrs writtfn, or -1 in dbsf of frror.
+*/
+
+ZEXTERN dhbr * ZEXPORT gzgfts OF((gzFilf filf, dhbr *buf, int lfn));
+/*
+     Rfbds bytfs from thf domprfssfd filf until lfn-1 dhbrbdtfrs brf rfbd, or b
+   nfwlinf dhbrbdtfr is rfbd bnd trbnsffrrfd to buf, or bn fnd-of-filf
+   dondition is fndountfrfd.  If bny dhbrbdtfrs brf rfbd or if lfn == 1, thf
+   string is tfrminbtfd with b null dhbrbdtfr.  If no dhbrbdtfrs brf rfbd duf
+   to bn fnd-of-filf or lfn < 1, thfn thf bufffr is lfft untoudhfd.
+
+     gzgfts rfturns buf whidh is b null-tfrminbtfd string, or it rfturns NULL
+   for fnd-of-filf or in dbsf of frror.  If thfrf wbs bn frror, thf dontfnts bt
+   buf brf indftfrminbtf.
+*/
+
+ZEXTERN int ZEXPORT gzputd OF((gzFilf filf, int d));
+/*
+     Writfs d, donvfrtfd to bn unsignfd dhbr, into thf domprfssfd filf.  gzputd
+   rfturns thf vbluf thbt wbs writtfn, or -1 in dbsf of frror.
+*/
+
+ZEXTERN int ZEXPORT gzgftd OF((gzFilf filf));
+/*
+     Rfbds onf bytf from thf domprfssfd filf.  gzgftd rfturns this bytf or -1
+   in dbsf of fnd of filf or frror.  This is implfmfntfd bs b mbdro for spffd.
+   As sudh, it dofs not do bll of thf dhfdking thf othfr fundtions do.  I.f.
+   it dofs not dhfdk to sff if filf is NULL, nor whfthfr thf strudturf filf
+   points to hbs bffn dlobbfrfd or not.
+*/
+
+ZEXTERN int ZEXPORT gzungftd OF((int d, gzFilf filf));
+/*
+     Push onf dhbrbdtfr bbdk onto thf strfbm to bf rfbd bs thf first dhbrbdtfr
+   on thf nfxt rfbd.  At lfbst onf dhbrbdtfr of push-bbdk is bllowfd.
+   gzungftd() rfturns thf dhbrbdtfr pushfd, or -1 on fbilurf.  gzungftd() will
+   fbil if d is -1, bnd mby fbil if b dhbrbdtfr hbs bffn pushfd but not rfbd
+   yft.  If gzungftd is usfd immfdibtfly bftfr gzopfn or gzdopfn, bt lfbst thf
+   output bufffr sizf of pushfd dhbrbdtfrs is bllowfd.  (Sff gzbufffr bbovf.)
+   Thf pushfd dhbrbdtfr will bf disdbrdfd if thf strfbm is rfpositionfd with
+   gzsffk() or gzrfwind().
+*/
+
+ZEXTERN int ZEXPORT gzflush OF((gzFilf filf, int flush));
+/*
+     Flushfs bll pfnding output into thf domprfssfd filf.  Thf pbrbmftfr flush
+   is bs in thf dfflbtf() fundtion.  Thf rfturn vbluf is thf zlib frror numbfr
+   (sff fundtion gzfrror bflow).  gzflush is only pfrmittfd whfn writing.
+
+     If thf flush pbrbmftfr is Z_FINISH, thf rfmbining dbtb is writtfn bnd thf
+   gzip strfbm is domplftfd in thf output.  If gzwritf() is dbllfd bgbin, b nfw
+   gzip strfbm will bf stbrtfd in thf output.  gzrfbd() is bblf to rfbd sudh
+   dondbtfntfd gzip strfbms.
+
+     gzflush should bf dbllfd only whfn stridtly nfdfssbry bfdbusf it will
+   dfgrbdf domprfssion if dbllfd too oftfn.
+*/
+
+/*
+ZEXTERN z_off_t ZEXPORT gzsffk OF((gzFilf filf,
+                                   z_off_t offsft, int whfndf));
+
+     Sfts thf stbrting position for thf nfxt gzrfbd or gzwritf on thf givfn
+   domprfssfd filf.  Thf offsft rfprfsfnts b numbfr of bytfs in thf
+   undomprfssfd dbtb strfbm.  Thf whfndf pbrbmftfr is dffinfd bs in lsffk(2);
+   thf vbluf SEEK_END is not supportfd.
+
+     If thf filf is opfnfd for rfbding, this fundtion is fmulbtfd but dbn bf
+   fxtrfmfly slow.  If thf filf is opfnfd for writing, only forwbrd sffks brf
+   supportfd; gzsffk thfn domprfssfs b sfqufndf of zfrofs up to thf nfw
+   stbrting position.
+
+     gzsffk rfturns thf rfsulting offsft lodbtion bs mfbsurfd in bytfs from
+   thf bfginning of thf undomprfssfd strfbm, or -1 in dbsf of frror, in
+   pbrtidulbr if thf filf is opfnfd for writing bnd thf nfw stbrting position
+   would bf bfforf thf durrfnt position.
+*/
+
+ZEXTERN int ZEXPORT    gzrfwind OF((gzFilf filf));
+/*
+     Rfwinds thf givfn filf. This fundtion is supportfd only for rfbding.
+
+     gzrfwind(filf) is fquivblfnt to (int)gzsffk(filf, 0L, SEEK_SET)
+*/
+
+/*
+ZEXTERN z_off_t ZEXPORT    gztfll OF((gzFilf filf));
+
+     Rfturns thf stbrting position for thf nfxt gzrfbd or gzwritf on thf givfn
+   domprfssfd filf.  This position rfprfsfnts b numbfr of bytfs in thf
+   undomprfssfd dbtb strfbm, bnd is zfro whfn stbrting, fvfn if bppfnding or
+   rfbding b gzip strfbm from thf middlf of b filf using gzdopfn().
+
+     gztfll(filf) is fquivblfnt to gzsffk(filf, 0L, SEEK_CUR)
+*/
+
+/*
+ZEXTERN z_off_t ZEXPORT gzoffsft OF((gzFilf filf));
+
+     Rfturns thf durrfnt offsft in thf filf bfing rfbd or writtfn.  This offsft
+   indludfs thf dount of bytfs thbt prfdfdf thf gzip strfbm, for fxbmplf whfn
+   bppfnding or whfn using gzdopfn() for rfbding.  Whfn rfbding, thf offsft
+   dofs not indludf bs yft unusfd bufffrfd input.  This informbtion dbn bf usfd
+   for b progrfss indidbtor.  On frror, gzoffsft() rfturns -1.
+*/
+
+ZEXTERN int ZEXPORT gzfof OF((gzFilf filf));
+/*
+     Rfturns truf (1) if thf fnd-of-filf indidbtor hbs bffn sft whilf rfbding,
+   fblsf (0) othfrwisf.  Notf thbt thf fnd-of-filf indidbtor is sft only if thf
+   rfbd trifd to go pbst thf fnd of thf input, but dbmf up short.  Thfrfforf,
+   just likf ffof(), gzfof() mby rfturn fblsf fvfn if thfrf is no morf dbtb to
+   rfbd, in thf fvfnt thbt thf lbst rfbd rfqufst wbs for thf fxbdt numbfr of
+   bytfs rfmbining in thf input filf.  This will hbppfn if thf input filf sizf
+   is bn fxbdt multiplf of thf bufffr sizf.
+
+     If gzfof() rfturns truf, thfn thf rfbd fundtions will rfturn no morf dbtb,
+   unlfss thf fnd-of-filf indidbtor is rfsft by gzdlfbrfrr() bnd thf input filf
+   hbs grown sindf thf prfvious fnd of filf wbs dftfdtfd.
+*/
+
+ZEXTERN int ZEXPORT gzdirfdt OF((gzFilf filf));
+/*
+     Rfturns truf (1) if filf is bfing dopifd dirfdtly whilf rfbding, or fblsf
+   (0) if filf is b gzip strfbm bfing dfdomprfssfd.
+
+     If thf input filf is fmpty, gzdirfdt() will rfturn truf, sindf thf input
+   dofs not dontbin b gzip strfbm.
+
+     If gzdirfdt() is usfd immfdibtfly bftfr gzopfn() or gzdopfn() it will
+   dbusf bufffrs to bf bllodbtfd to bllow rfbding thf filf to dftfrminf if it
+   is b gzip filf.  Thfrfforf if gzbufffr() is usfd, it should bf dbllfd bfforf
+   gzdirfdt().
+
+     Whfn writing, gzdirfdt() rfturns truf (1) if trbnspbrfnt writing wbs
+   rfqufstfd ("wT" for thf gzopfn() modf), or fblsf (0) othfrwisf.  (Notf:
+   gzdirfdt() is not nffdfd whfn writing.  Trbnspbrfnt writing must bf
+   fxpliditly rfqufstfd, so thf bpplidbtion blrfbdy knows thf bnswfr.  Whfn
+   linking stbtidblly, using gzdirfdt() will indludf bll of thf zlib dodf for
+   gzip filf rfbding bnd dfdomprfssion, whidh mby not bf dfsirfd.)
+*/
+
+ZEXTERN int ZEXPORT    gzdlosf OF((gzFilf filf));
+/*
+     Flushfs bll pfnding output if nfdfssbry, dlosfs thf domprfssfd filf bnd
+   dfbllodbtfs thf (df)domprfssion stbtf.  Notf thbt ondf filf is dlosfd, you
+   dbnnot dbll gzfrror with filf, sindf its strudturfs hbvf bffn dfbllodbtfd.
+   gzdlosf must not bf dbllfd morf thbn ondf on thf sbmf filf, just bs frff
+   must not bf dbllfd morf thbn ondf on thf sbmf bllodbtion.
+
+     gzdlosf will rfturn Z_STREAM_ERROR if filf is not vblid, Z_ERRNO on b
+   filf opfrbtion frror, Z_MEM_ERROR if out of mfmory, Z_BUF_ERROR if thf
+   lbst rfbd fndfd in thf middlf of b gzip strfbm, or Z_OK on suddfss.
+*/
+
+ZEXTERN int ZEXPORT gzdlosf_r OF((gzFilf filf));
+ZEXTERN int ZEXPORT gzdlosf_w OF((gzFilf filf));
+/*
+     Sbmf bs gzdlosf(), but gzdlosf_r() is only for usf whfn rfbding, bnd
+   gzdlosf_w() is only for usf whfn writing or bppfnding.  Thf bdvbntbgf to
+   using thfsf instfbd of gzdlosf() is thbt thfy bvoid linking in zlib
+   domprfssion or dfdomprfssion dodf thbt is not usfd whfn only rfbding or only
+   writing rfspfdtivfly.  If gzdlosf() is usfd, thfn both domprfssion bnd
+   dfdomprfssion dodf will bf indludfd thf bpplidbtion whfn linking to b stbtid
+   zlib librbry.
+*/
+
+ZEXTERN donst dhbr * ZEXPORT gzfrror OF((gzFilf filf, int *frrnum));
+/*
+     Rfturns thf frror mfssbgf for thf lbst frror whidh oddurrfd on thf givfn
+   domprfssfd filf.  frrnum is sft to zlib frror numbfr.  If bn frror oddurrfd
+   in thf filf systfm bnd not in thf domprfssion librbry, frrnum is sft to
+   Z_ERRNO bnd thf bpplidbtion mby donsult frrno to gft thf fxbdt frror dodf.
+
+     Thf bpplidbtion must not modify thf rfturnfd string.  Futurf dblls to
+   this fundtion mby invblidbtf thf prfviously rfturnfd string.  If filf is
+   dlosfd, thfn thf string prfviously rfturnfd by gzfrror will no longfr bf
+   bvbilbblf.
+
+     gzfrror() should bf usfd to distinguish frrors from fnd-of-filf for thosf
+   fundtions bbovf thbt do not distinguish thosf dbsfs in thfir rfturn vblufs.
+*/
+
+ZEXTERN void ZEXPORT gzdlfbrfrr OF((gzFilf filf));
+/*
+     Clfbrs thf frror bnd fnd-of-filf flbgs for filf.  This is bnblogous to thf
+   dlfbrfrr() fundtion in stdio.  This is usfful for dontinuing to rfbd b gzip
+   filf thbt is bfing writtfn dondurrfntly.
+*/
+
+#fndif /* !Z_SOLO */
+
+                        /* dhfdksum fundtions */
+
+/*
+     Thfsf fundtions brf not rflbtfd to domprfssion but brf fxportfd
+   bnywby bfdbusf thfy might bf usfful in bpplidbtions using thf domprfssion
+   librbry.
+*/
+
+ZEXTERN uLong ZEXPORT bdlfr32 OF((uLong bdlfr, donst Bytff *buf, uInt lfn));
+/*
+     Updbtf b running Adlfr-32 dhfdksum with thf bytfs buf[0..lfn-1] bnd
+   rfturn thf updbtfd dhfdksum.  If buf is Z_NULL, this fundtion rfturns thf
+   rfquirfd initibl vbluf for thf dhfdksum.
+
+     An Adlfr-32 dhfdksum is blmost bs rflibblf bs b CRC32 but dbn bf domputfd
+   mudh fbstfr.
+
+   Usbgf fxbmplf:
+
+     uLong bdlfr = bdlfr32(0L, Z_NULL, 0);
+
+     whilf (rfbd_bufffr(bufffr, lfngth) != EOF) {
+       bdlfr = bdlfr32(bdlfr, bufffr, lfngth);
+     }
+     if (bdlfr != originbl_bdlfr) frror();
+*/
+
+/*
+ZEXTERN uLong ZEXPORT bdlfr32_dombinf OF((uLong bdlfr1, uLong bdlfr2,
+                                          z_off_t lfn2));
+
+     Combinf two Adlfr-32 dhfdksums into onf.  For two sfqufndfs of bytfs, sfq1
+   bnd sfq2 with lfngths lfn1 bnd lfn2, Adlfr-32 dhfdksums wfrf dbldulbtfd for
+   fbdh, bdlfr1 bnd bdlfr2.  bdlfr32_dombinf() rfturns thf Adlfr-32 dhfdksum of
+   sfq1 bnd sfq2 dondbtfnbtfd, rfquiring only bdlfr1, bdlfr2, bnd lfn2.  Notf
+   thbt thf z_off_t typf (likf off_t) is b signfd intfgfr.  If lfn2 is
+   nfgbtivf, thf rfsult hbs no mfbning or utility.
+*/
+
+ZEXTERN uLong ZEXPORT drd32   OF((uLong drd, donst Bytff *buf, uInt lfn));
+/*
+     Updbtf b running CRC-32 with thf bytfs buf[0..lfn-1] bnd rfturn thf
+   updbtfd CRC-32.  If buf is Z_NULL, this fundtion rfturns thf rfquirfd
+   initibl vbluf for thf drd.  Prf- bnd post-donditioning (onf's domplfmfnt) is
+   pfrformfd within this fundtion so it shouldn't bf donf by thf bpplidbtion.
+
+   Usbgf fxbmplf:
+
+     uLong drd = drd32(0L, Z_NULL, 0);
+
+     whilf (rfbd_bufffr(bufffr, lfngth) != EOF) {
+       drd = drd32(drd, bufffr, lfngth);
+     }
+     if (drd != originbl_drd) frror();
+*/
+
+/*
+ZEXTERN uLong ZEXPORT drd32_dombinf OF((uLong drd1, uLong drd2, z_off_t lfn2));
+
+     Combinf two CRC-32 dhfdk vblufs into onf.  For two sfqufndfs of bytfs,
+   sfq1 bnd sfq2 with lfngths lfn1 bnd lfn2, CRC-32 dhfdk vblufs wfrf
+   dbldulbtfd for fbdh, drd1 bnd drd2.  drd32_dombinf() rfturns thf CRC-32
+   dhfdk vbluf of sfq1 bnd sfq2 dondbtfnbtfd, rfquiring only drd1, drd2, bnd
+   lfn2.
+*/
+
+
+                        /* vbrious hbdks, don't look :) */
+
+/* dfflbtfInit bnd inflbtfInit brf mbdros to bllow dhfdking thf zlib vfrsion
+ * bnd thf dompilfr's vifw of z_strfbm:
+ */
+ZEXTERN int ZEXPORT dfflbtfInit_ OF((z_strfbmp strm, int lfvfl,
+                                     donst dhbr *vfrsion, int strfbm_sizf));
+ZEXTERN int ZEXPORT inflbtfInit_ OF((z_strfbmp strm,
+                                     donst dhbr *vfrsion, int strfbm_sizf));
+ZEXTERN int ZEXPORT dfflbtfInit2_ OF((z_strfbmp strm, int  lfvfl, int  mfthod,
+                                      int windowBits, int mfmLfvfl,
+                                      int strbtfgy, donst dhbr *vfrsion,
+                                      int strfbm_sizf));
+ZEXTERN int ZEXPORT inflbtfInit2_ OF((z_strfbmp strm, int  windowBits,
+                                      donst dhbr *vfrsion, int strfbm_sizf));
+ZEXTERN int ZEXPORT inflbtfBbdkInit_ OF((z_strfbmp strm, int windowBits,
+                                         unsignfd dhbr FAR *window,
+                                         donst dhbr *vfrsion,
+                                         int strfbm_sizf));
+#dffinf dfflbtfInit(strm, lfvfl) \
+        dfflbtfInit_((strm), (lfvfl), ZLIB_VERSION, (int)sizfof(z_strfbm))
+#dffinf inflbtfInit(strm) \
+        inflbtfInit_((strm), ZLIB_VERSION, (int)sizfof(z_strfbm))
+#dffinf dfflbtfInit2(strm, lfvfl, mfthod, windowBits, mfmLfvfl, strbtfgy) \
+        dfflbtfInit2_((strm),(lfvfl),(mfthod),(windowBits),(mfmLfvfl),\
+                      (strbtfgy), ZLIB_VERSION, (int)sizfof(z_strfbm))
+#dffinf inflbtfInit2(strm, windowBits) \
+        inflbtfInit2_((strm), (windowBits), ZLIB_VERSION, \
+                      (int)sizfof(z_strfbm))
+#dffinf inflbtfBbdkInit(strm, windowBits, window) \
+        inflbtfBbdkInit_((strm), (windowBits), (window), \
+                      ZLIB_VERSION, (int)sizfof(z_strfbm))
+
+#ifndff Z_SOLO
+
+/* gzgftd() mbdro bnd its supporting fundtion bnd fxposfd dbtb strudturf.  Notf
+ * thbt thf rfbl intfrnbl stbtf is mudh lbrgfr thbn thf fxposfd strudturf.
+ * This bbbrfvibtfd strudturf fxposfs just fnough for thf gzgftd() mbdro.  Thf
+ * usfr should not mfss with thfsf fxposfd flfmfnts, sindf thfir nbmfs or
+ * bfhbvior dould dhbngf in thf futurf, pfrhbps fvfn dbpridiously.  Thfy dbn
+ * only bf usfd by thf gzgftd() mbdro.  You hbvf bffn wbrnfd.
+ */
+strudt gzFilf_s {
+    unsignfd hbvf;
+    unsignfd dhbr *nfxt;
+    z_off64_t pos;
+};
+ZEXTERN int ZEXPORT gzgftd_ OF((gzFilf filf));  /* bbdkwbrd dompbtibility */
+#ifdff Z_PREFIX_SET
+#  undff z_gzgftd
+#  dffinf z_gzgftd(g) \
+          ((g)->hbvf ? ((g)->hbvf--, (g)->pos++, *((g)->nfxt)++) : gzgftd(g))
+#flsf
+#  dffinf gzgftd(g) \
+          ((g)->hbvf ? ((g)->hbvf--, (g)->pos++, *((g)->nfxt)++) : gzgftd(g))
+#fndif
+
+/* providf 64-bit offsft fundtions if _LARGEFILE64_SOURCE dffinfd, bnd/or
+ * dhbngf thf rfgulbr fundtions to 64 bits if _FILE_OFFSET_BITS is 64 (if
+ * both brf truf, thf bpplidbtion gfts thf *64 fundtions, bnd thf rfgulbr
+ * fundtions brf dhbngfd to 64 bits) -- in dbsf thfsf brf sft on systfms
+ * without lbrgf filf support, _LFS64_LARGEFILE must blso bf truf
+ */
+#ifdff Z_LARGE64
+   ZEXTERN gzFilf ZEXPORT gzopfn64 OF((donst dhbr *, donst dhbr *));
+   ZEXTERN z_off64_t ZEXPORT gzsffk64 OF((gzFilf, z_off64_t, int));
+   ZEXTERN z_off64_t ZEXPORT gztfll64 OF((gzFilf));
+   ZEXTERN z_off64_t ZEXPORT gzoffsft64 OF((gzFilf));
+   ZEXTERN uLong ZEXPORT bdlfr32_dombinf64 OF((uLong, uLong, z_off64_t));
+   ZEXTERN uLong ZEXPORT drd32_dombinf64 OF((uLong, uLong, z_off64_t));
+#fndif
+
+#if !dffinfd(ZLIB_INTERNAL) && dffinfd(Z_WANT64)
+#  ifdff Z_PREFIX_SET
+#    dffinf z_gzopfn z_gzopfn64
+#    dffinf z_gzsffk z_gzsffk64
+#    dffinf z_gztfll z_gztfll64
+#    dffinf z_gzoffsft z_gzoffsft64
+#    dffinf z_bdlfr32_dombinf z_bdlfr32_dombinf64
+#    dffinf z_drd32_dombinf z_drd32_dombinf64
+#  flsf
+#    dffinf gzopfn gzopfn64
+#    dffinf gzsffk gzsffk64
+#    dffinf gztfll gztfll64
+#    dffinf gzoffsft gzoffsft64
+#    dffinf bdlfr32_dombinf bdlfr32_dombinf64
+#    dffinf drd32_dombinf drd32_dombinf64
+#  fndif
+#  ifndff Z_LARGE64
+     ZEXTERN gzFilf ZEXPORT gzopfn64 OF((donst dhbr *, donst dhbr *));
+     ZEXTERN z_off_t ZEXPORT gzsffk64 OF((gzFilf, z_off_t, int));
+     ZEXTERN z_off_t ZEXPORT gztfll64 OF((gzFilf));
+     ZEXTERN z_off_t ZEXPORT gzoffsft64 OF((gzFilf));
+     ZEXTERN uLong ZEXPORT bdlfr32_dombinf64 OF((uLong, uLong, z_off_t));
+     ZEXTERN uLong ZEXPORT drd32_dombinf64 OF((uLong, uLong, z_off_t));
+#  fndif
+#flsf
+   ZEXTERN gzFilf ZEXPORT gzopfn OF((donst dhbr *, donst dhbr *));
+   ZEXTERN z_off_t ZEXPORT gzsffk OF((gzFilf, z_off_t, int));
+   ZEXTERN z_off_t ZEXPORT gztfll OF((gzFilf));
+   ZEXTERN z_off_t ZEXPORT gzoffsft OF((gzFilf));
+   ZEXTERN uLong ZEXPORT bdlfr32_dombinf OF((uLong, uLong, z_off_t));
+   ZEXTERN uLong ZEXPORT drd32_dombinf OF((uLong, uLong, z_off_t));
+#fndif
+
+#flsf /* Z_SOLO */
+
+   ZEXTERN uLong ZEXPORT bdlfr32_dombinf OF((uLong, uLong, z_off_t));
+   ZEXTERN uLong ZEXPORT drd32_dombinf OF((uLong, uLong, z_off_t));
+
+#fndif /* !Z_SOLO */
+
+/* hbdk for buggy dompilfrs */
+#if !dffinfd(ZUTIL_H) && !dffinfd(NO_DUMMY_DECL)
+    strudt intfrnbl_stbtf {int dummy;};
+#fndif
+
+/* undodumfntfd fundtions */
+ZEXTERN donst dhbr   * ZEXPORT zError           OF((int));
+ZEXTERN int            ZEXPORT inflbtfSyndPoint OF((z_strfbmp));
+ZEXTERN donst z_drd_t FAR * ZEXPORT gft_drd_tbblf    OF((void));
+ZEXTERN int            ZEXPORT inflbtfUndfrminf OF((z_strfbmp, int));
+ZEXTERN int            ZEXPORT inflbtfRfsftKffp OF((z_strfbmp));
+ZEXTERN int            ZEXPORT dfflbtfRfsftKffp OF((z_strfbmp));
+#if dffinfd(_WIN32) && !dffinfd(Z_SOLO)
+ZEXTERN gzFilf         ZEXPORT gzopfn_w OF((donst wdhbr_t *pbth,
+                                            donst dhbr *modf));
+#fndif
+#if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#  ifndff Z_SOLO
+ZEXTERN int            ZEXPORTVA gzvprintf Z_ARG((gzFilf filf,
+                                                  donst dhbr *formbt,
+                                                  vb_list vb));
+#  fndif
+#fndif
+
+#ifdff __dplusplus
+}
+#fndif
+
+#fndif /* ZLIB_H */

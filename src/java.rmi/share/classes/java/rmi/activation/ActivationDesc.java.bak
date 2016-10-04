@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.activation;
+pbdkbgf jbvb.rmi.bdtivbtion;
 
-import java.io.Serializable;
-import java.rmi.MarshalledObject;
+import jbvb.io.Sfriblizbblf;
+import jbvb.rmi.MbrsibllfdObjfdt;
 
 /**
- * An activation descriptor contains the information necessary to
- * activate an object: <ul>
- * <li> the object's group identifier,
- * <li> the object's fully-qualified class name,
- * <li> the object's code location (the location of the class), a codebase URL
- * path,
- * <li> the object's restart "mode", and,
- * <li> a "marshalled" object that can contain object specific
- * initialization data. </ul>
+ * An bdtivbtion dfsdriptor dontbins tif informbtion nfdfssbry to
+ * bdtivbtf bn objfdt: <ul>
+ * <li> tif objfdt's group idfntififr,
+ * <li> tif objfdt's fully-qublififd dlbss nbmf,
+ * <li> tif objfdt's dodf lodbtion (tif lodbtion of tif dlbss), b dodfbbsf URL
+ * pbti,
+ * <li> tif objfdt's rfstbrt "modf", bnd,
+ * <li> b "mbrsibllfd" objfdt tibt dbn dontbin objfdt spfdifid
+ * initiblizbtion dbtb. </ul>
  *
- * <p>A descriptor registered with the activation system can be used to
- * recreate/activate the object specified by the descriptor. The
- * <code>MarshalledObject</code> in the object's descriptor is passed
- * as the second argument to the remote object's constructor for
- * object to use during reinitialization/activation.
+ * <p>A dfsdriptor rfgistfrfd witi tif bdtivbtion systfm dbn bf usfd to
+ * rfdrfbtf/bdtivbtf tif objfdt spfdififd by tif dfsdriptor. Tif
+ * <dodf>MbrsibllfdObjfdt</dodf> in tif objfdt's dfsdriptor is pbssfd
+ * bs tif sfdond brgumfnt to tif rfmotf objfdt's donstrudtor for
+ * objfdt to usf during rfinitiblizbtion/bdtivbtion.
  *
- * @author      Ann Wollrath
- * @since       1.2
- * @see         java.rmi.activation.Activatable
+ * @butior      Ann Wollrbti
+ * @sindf       1.2
+ * @sff         jbvb.rmi.bdtivbtion.Adtivbtbblf
  */
-public final class ActivationDesc implements Serializable {
+publid finbl dlbss AdtivbtionDfsd implfmfnts Sfriblizbblf {
 
     /**
-     * @serial the group's identifier
+     * @sfribl tif group's idfntififr
      */
-    private ActivationGroupID groupID;
+    privbtf AdtivbtionGroupID groupID;
 
     /**
-     * @serial the object's class name
+     * @sfribl tif objfdt's dlbss nbmf
      */
-    private String className;
+    privbtf String dlbssNbmf;
 
     /**
-     * @serial the object's code location
+     * @sfribl tif objfdt's dodf lodbtion
      */
-    private String location;
+    privbtf String lodbtion;
 
     /**
-     * @serial the object's initialization data
+     * @sfribl tif objfdt's initiblizbtion dbtb
      */
-    private MarshalledObject<?> data;
+    privbtf MbrsibllfdObjfdt<?> dbtb;
 
     /**
-     * @serial indicates whether the object should be restarted
+     * @sfribl indidbtfs wiftifr tif objfdt siould bf rfstbrtfd
      */
-    private boolean restart;
+    privbtf boolfbn rfstbrt;
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = 7455834104417690957L;
+    /** indidbtf dompbtibility witi tif Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7455834104417690957L;
 
     /**
-     * Constructs an object descriptor for an object whose class name
-     * is <code>className</code>, that can be loaded from the
-     * code <code>location</code> and whose initialization
-     * information is <code>data</code>. If this form of the constructor
-     * is used, the <code>groupID</code> defaults to the current id for
-     * <code>ActivationGroup</code> for this VM. All objects with the
-     * same <code>ActivationGroupID</code> are activated in the same VM.
+     * Construdts bn objfdt dfsdriptor for bn objfdt wiosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf>, tibt dbn bf lobdfd from tif
+     * dodf <dodf>lodbtion</dodf> bnd wiosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. If tiis form of tif donstrudtor
+     * is usfd, tif <dodf>groupID</dodf> dffbults to tif durrfnt id for
+     * <dodf>AdtivbtionGroup</dodf> for tiis VM. All objfdts witi tif
+     * sbmf <dodf>AdtivbtionGroupID</dodf> brf bdtivbtfd in tif sbmf VM.
      *
-     * <p>Note that objects specified by a descriptor created with this
-     * constructor will only be activated on demand (by default, the restart
-     * mode is <code>false</code>).  If an activatable object requires restart
-     * services, use one of the <code>ActivationDesc</code> constructors that
-     * takes a boolean parameter, <code>restart</code>.
+     * <p>Notf tibt objfdts spfdififd by b dfsdriptor drfbtfd witi tiis
+     * donstrudtor will only bf bdtivbtfd on dfmbnd (by dffbult, tif rfstbrt
+     * modf is <dodf>fblsf</dodf>).  If bn bdtivbtbblf objfdt rfquirfs rfstbrt
+     * sfrvidfs, usf onf of tif <dodf>AdtivbtionDfsd</dodf> donstrudtors tibt
+     * tbkfs b boolfbn pbrbmftfr, <dodf>rfstbrt</dodf>.
      *
-     * <p> This constructor will throw <code>ActivationException</code> if
-     * there is no current activation group for this VM.  To create an
-     * <code>ActivationGroup</code> use the
-     * <code>ActivationGroup.createGroup</code> method.
+     * <p> Tiis donstrudtor will tirow <dodf>AdtivbtionExdfption</dodf> if
+     * tifrf is no durrfnt bdtivbtion group for tiis VM.  To drfbtf bn
+     * <dodf>AdtivbtionGroup</dodf> usf tif
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod.
      *
-     * @param className the object's fully package qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data the object's initialization (activation) data contained
-     * in marshalled form.
-     * @exception ActivationException if the current group is nonexistent
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm dlbssNbmf tif objfdt's fully pbdkbgf qublififd dlbss nbmf
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion (from wifrf tif dlbss is
+     * lobdfd)
+     * @pbrbm dbtb tif objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrsibllfd form.
+     * @fxdfption AdtivbtionExdfption if tif durrfnt group is nonfxistfnt
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationDesc(String className,
-                          String location,
-                          MarshalledObject<?> data)
-        throws ActivationException
+    publid AdtivbtionDfsd(String dlbssNbmf,
+                          String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb)
+        tirows AdtivbtionExdfption
     {
-        this(ActivationGroup.internalCurrentGroupID(),
-             className, location, data, false);
+        tiis(AdtivbtionGroup.intfrnblCurrfntGroupID(),
+             dlbssNbmf, lodbtion, dbtb, fblsf);
     }
 
     /**
-     * Constructs an object descriptor for an object whose class name
-     * is <code>className</code>, that can be loaded from the
-     * code <code>location</code> and whose initialization
-     * information is <code>data</code>. If this form of the constructor
-     * is used, the <code>groupID</code> defaults to the current id for
-     * <code>ActivationGroup</code> for this VM. All objects with the
-     * same <code>ActivationGroupID</code> are activated in the same VM.
+     * Construdts bn objfdt dfsdriptor for bn objfdt wiosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf>, tibt dbn bf lobdfd from tif
+     * dodf <dodf>lodbtion</dodf> bnd wiosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. If tiis form of tif donstrudtor
+     * is usfd, tif <dodf>groupID</dodf> dffbults to tif durrfnt id for
+     * <dodf>AdtivbtionGroup</dodf> for tiis VM. All objfdts witi tif
+     * sbmf <dodf>AdtivbtionGroupID</dodf> brf bdtivbtfd in tif sbmf VM.
      *
-     * <p>This constructor will throw <code>ActivationException</code> if
-     * there is no current activation group for this VM.  To create an
-     * <code>ActivationGroup</code> use the
-     * <code>ActivationGroup.createGroup</code> method.
+     * <p>Tiis donstrudtor will tirow <dodf>AdtivbtionExdfption</dodf> if
+     * tifrf is no durrfnt bdtivbtion group for tiis VM.  To drfbtf bn
+     * <dodf>AdtivbtionGroup</dodf> usf tif
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod.
      *
-     * @param className the object's fully package qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data the object's initialization (activation) data contained
-     * in marshalled form.
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception ActivationException if the current group is nonexistent
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm dlbssNbmf tif objfdt's fully pbdkbgf qublififd dlbss nbmf
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion (from wifrf tif dlbss is
+     * lobdfd)
+     * @pbrbm dbtb tif objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrsibllfd form.
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption AdtivbtionExdfption if tif durrfnt group is nonfxistfnt
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationDesc(String className,
-                          String location,
-                          MarshalledObject<?> data,
-                          boolean restart)
-        throws ActivationException
+    publid AdtivbtionDfsd(String dlbssNbmf,
+                          String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt)
+        tirows AdtivbtionExdfption
     {
-        this(ActivationGroup.internalCurrentGroupID(),
-             className, location, data, restart);
+        tiis(AdtivbtionGroup.intfrnblCurrfntGroupID(),
+             dlbssNbmf, lodbtion, dbtb, rfstbrt);
     }
 
     /**
-     * Constructs an object descriptor for an object whose class name
-     * is <code>className</code> that can be loaded from the
-     * code <code>location</code> and whose initialization
-     * information is <code>data</code>. All objects with the same
-     * <code>groupID</code> are activated in the same Java VM.
+     * Construdts bn objfdt dfsdriptor for bn objfdt wiosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf> tibt dbn bf lobdfd from tif
+     * dodf <dodf>lodbtion</dodf> bnd wiosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. All objfdts witi tif sbmf
+     * <dodf>groupID</dodf> brf bdtivbtfd in tif sbmf Jbvb VM.
      *
-     * <p>Note that objects specified by a descriptor created with this
-     * constructor will only be activated on demand (by default, the restart
-     * mode is <code>false</code>).  If an activatable object requires restart
-     * services, use one of the <code>ActivationDesc</code> constructors that
-     * takes a boolean parameter, <code>restart</code>.
+     * <p>Notf tibt objfdts spfdififd by b dfsdriptor drfbtfd witi tiis
+     * donstrudtor will only bf bdtivbtfd on dfmbnd (by dffbult, tif rfstbrt
+     * modf is <dodf>fblsf</dodf>).  If bn bdtivbtbblf objfdt rfquirfs rfstbrt
+     * sfrvidfs, usf onf of tif <dodf>AdtivbtionDfsd</dodf> donstrudtors tibt
+     * tbkfs b boolfbn pbrbmftfr, <dodf>rfstbrt</dodf>.
      *
-     * @param groupID the group's identifier (obtained from registering
-     * <code>ActivationSystem.registerGroup</code> method). The group
-     * indicates the VM in which the object should be activated.
-     * @param className the object's fully package-qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data  the object's initialization (activation) data contained
-     * in marshalled form.
-     * @exception IllegalArgumentException if <code>groupID</code> is null
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm groupID tif group's idfntififr (obtbinfd from rfgistfring
+     * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> mftiod). Tif group
+     * indidbtfs tif VM in wiidi tif objfdt siould bf bdtivbtfd.
+     * @pbrbm dlbssNbmf tif objfdt's fully pbdkbgf-qublififd dlbss nbmf
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion (from wifrf tif dlbss is
+     * lobdfd)
+     * @pbrbm dbtb  tif objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrsibllfd form.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>groupID</dodf> is null
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationDesc(ActivationGroupID groupID,
-                          String className,
-                          String location,
-                          MarshalledObject<?> data)
+    publid AdtivbtionDfsd(AdtivbtionGroupID groupID,
+                          String dlbssNbmf,
+                          String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb)
     {
-        this(groupID, className, location, data, false);
+        tiis(groupID, dlbssNbmf, lodbtion, dbtb, fblsf);
     }
 
     /**
-     * Constructs an object descriptor for an object whose class name
-     * is <code>className</code> that can be loaded from the
-     * code <code>location</code> and whose initialization
-     * information is <code>data</code>. All objects with the same
-     * <code>groupID</code> are activated in the same Java VM.
+     * Construdts bn objfdt dfsdriptor for bn objfdt wiosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf> tibt dbn bf lobdfd from tif
+     * dodf <dodf>lodbtion</dodf> bnd wiosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. All objfdts witi tif sbmf
+     * <dodf>groupID</dodf> brf bdtivbtfd in tif sbmf Jbvb VM.
      *
-     * @param groupID the group's identifier (obtained from registering
-     * <code>ActivationSystem.registerGroup</code> method). The group
-     * indicates the VM in which the object should be activated.
-     * @param className the object's fully package-qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data  the object's initialization (activation) data contained
-     * in marshalled form.
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception IllegalArgumentException if <code>groupID</code> is null
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @since 1.2
+     * @pbrbm groupID tif group's idfntififr (obtbinfd from rfgistfring
+     * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> mftiod). Tif group
+     * indidbtfs tif VM in wiidi tif objfdt siould bf bdtivbtfd.
+     * @pbrbm dlbssNbmf tif objfdt's fully pbdkbgf-qublififd dlbss nbmf
+     * @pbrbm lodbtion tif objfdt's dodf lodbtion (from wifrf tif dlbss is
+     * lobdfd)
+     * @pbrbm dbtb  tif objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrsibllfd form.
+     * @pbrbm rfstbrt if truf, tif objfdt is rfstbrtfd (rfbdtivbtfd) wifn
+     * fitifr tif bdtivbtor is rfstbrtfd or tif objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; if fblsf, tif objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>groupID</dodf> is null
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationDesc(ActivationGroupID groupID,
-                          String className,
-                          String location,
-                          MarshalledObject<?> data,
-                          boolean restart)
+    publid AdtivbtionDfsd(AdtivbtionGroupID groupID,
+                          String dlbssNbmf,
+                          String lodbtion,
+                          MbrsibllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt)
     {
         if (groupID == null)
-            throw new IllegalArgumentException("groupID can't be null");
-        this.groupID = groupID;
-        this.className = className;
-        this.location = location;
-        this.data = data;
-        this.restart = restart;
+            tirow nfw IllfgblArgumfntExdfption("groupID dbn't bf null");
+        tiis.groupID = groupID;
+        tiis.dlbssNbmf = dlbssNbmf;
+        tiis.lodbtion = lodbtion;
+        tiis.dbtb = dbtb;
+        tiis.rfstbrt = rfstbrt;
     }
 
     /**
-     * Returns the group identifier for the object specified by this
-     * descriptor. A group provides a way to aggregate objects into a
-     * single Java virtual machine. RMI creates/activates objects with
-     * the same <code>groupID</code> in the same virtual machine.
+     * Rfturns tif group idfntififr for tif objfdt spfdififd by tiis
+     * dfsdriptor. A group providfs b wby to bggrfgbtf objfdts into b
+     * singlf Jbvb virtubl mbdiinf. RMI drfbtfs/bdtivbtfs objfdts witi
+     * tif sbmf <dodf>groupID</dodf> in tif sbmf virtubl mbdiinf.
      *
-     * @return the group identifier
-     * @since 1.2
+     * @rfturn tif group idfntififr
+     * @sindf 1.2
      */
-    public ActivationGroupID getGroupID() {
-        return groupID;
+    publid AdtivbtionGroupID gftGroupID() {
+        rfturn groupID;
     }
 
     /**
-     * Returns the class name for the object specified by this
-     * descriptor.
-     * @return the class name
-     * @since 1.2
+     * Rfturns tif dlbss nbmf for tif objfdt spfdififd by tiis
+     * dfsdriptor.
+     * @rfturn tif dlbss nbmf
+     * @sindf 1.2
      */
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Returns the code location for the object specified by
-     * this descriptor.
-     * @return the code location
-     * @since 1.2
+     * Rfturns tif dodf lodbtion for tif objfdt spfdififd by
+     * tiis dfsdriptor.
+     * @rfturn tif dodf lodbtion
+     * @sindf 1.2
      */
-    public String getLocation() {
-        return location;
+    publid String gftLodbtion() {
+        rfturn lodbtion;
     }
 
     /**
-     * Returns a "marshalled object" containing intialization/activation
-     * data for the object specified by this descriptor.
-     * @return the object specific "initialization" data
-     * @since 1.2
+     * Rfturns b "mbrsibllfd objfdt" dontbining intiblizbtion/bdtivbtion
+     * dbtb for tif objfdt spfdififd by tiis dfsdriptor.
+     * @rfturn tif objfdt spfdifid "initiblizbtion" dbtb
+     * @sindf 1.2
      */
-    public MarshalledObject<?> getData() {
-        return data;
+    publid MbrsibllfdObjfdt<?> gftDbtb() {
+        rfturn dbtb;
     }
 
     /**
-     * Returns the "restart" mode of the object associated with
-     * this activation descriptor.
+     * Rfturns tif "rfstbrt" modf of tif objfdt bssodibtfd witi
+     * tiis bdtivbtion dfsdriptor.
      *
-     * @return true if the activatable object associated with this
-     * activation descriptor is restarted via the activation
-     * daemon when either the daemon comes up or the object's group
-     * is restarted after an unexpected crash; otherwise it returns false,
-     * meaning that the object is only activated on demand via a
-     * method call.  Note that if the restart mode is <code>true</code>, the
-     * activator does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @since 1.2
+     * @rfturn truf if tif bdtivbtbblf objfdt bssodibtfd witi tiis
+     * bdtivbtion dfsdriptor is rfstbrtfd vib tif bdtivbtion
+     * dbfmon wifn fitifr tif dbfmon domfs up or tif objfdt's group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsi; otifrwisf it rfturns fblsf,
+     * mfbning tibt tif objfdt is only bdtivbtfd on dfmbnd vib b
+     * mftiod dbll.  Notf tibt if tif rfstbrt modf is <dodf>truf</dodf>, tif
+     * bdtivbtor dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @sindf 1.2
      */
-    public boolean getRestartMode() {
-        return restart;
+    publid boolfbn gftRfstbrtModf() {
+        rfturn rfstbrt;
     }
 
     /**
-     * Compares two activation descriptors for content equality.
+     * Compbrfs two bdtivbtion dfsdriptors for dontfnt fqublity.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
-     * @since 1.2
+     * @pbrbm   obj     tif Objfdt to dompbrf witi
+     * @rfturn  truf if tifsf Objfdts brf fqubl; fblsf otifrwisf.
+     * @sff             jbvb.util.Hbsitbblf
+     * @sindf 1.2
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        if (obj instanceof ActivationDesc) {
-            ActivationDesc desc = (ActivationDesc) obj;
-            return
-                ((groupID == null ? desc.groupID == null :
-                  groupID.equals(desc.groupID)) &&
-                 (className == null ? desc.className == null :
-                  className.equals(desc.className)) &&
-                 (location == null ? desc.location == null:
-                  location.equals(desc.location)) &&
-                 (data == null ? desc.data == null :
-                  data.equals(desc.data)) &&
-                 (restart == desc.restart));
+        if (obj instbndfof AdtivbtionDfsd) {
+            AdtivbtionDfsd dfsd = (AdtivbtionDfsd) obj;
+            rfturn
+                ((groupID == null ? dfsd.groupID == null :
+                  groupID.fqubls(dfsd.groupID)) &&
+                 (dlbssNbmf == null ? dfsd.dlbssNbmf == null :
+                  dlbssNbmf.fqubls(dfsd.dlbssNbmf)) &&
+                 (lodbtion == null ? dfsd.lodbtion == null:
+                  lodbtion.fqubls(dfsd.lodbtion)) &&
+                 (dbtb == null ? dfsd.dbtb == null :
+                  dbtb.fqubls(dfsd.dbtb)) &&
+                 (rfstbrt == dfsd.rfstbrt));
 
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Return the same hashCode for similar <code>ActivationDesc</code>s.
-     * @return an integer
-     * @see java.util.Hashtable
+     * Rfturn tif sbmf ibsiCodf for similbr <dodf>AdtivbtionDfsd</dodf>s.
+     * @rfturn bn intfgfr
+     * @sff jbvb.util.Hbsitbblf
      */
-    public int hashCode() {
-        return ((location == null
+    publid int ibsiCodf() {
+        rfturn ((lodbtion == null
                     ? 0
-                    : location.hashCode() << 24) ^
+                    : lodbtion.ibsiCodf() << 24) ^
                 (groupID == null
                     ? 0
-                    : groupID.hashCode() << 16) ^
-                (className == null
+                    : groupID.ibsiCodf() << 16) ^
+                (dlbssNbmf == null
                     ? 0
-                    : className.hashCode() << 9) ^
-                (data == null
+                    : dlbssNbmf.ibsiCodf() << 9) ^
+                (dbtb == null
                     ? 0
-                    : data.hashCode() << 1) ^
-                (restart
+                    : dbtb.ibsiCodf() << 1) ^
+                (rfstbrt
                     ? 1
                     : 0));
     }

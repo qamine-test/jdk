@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss;
+pbdkbgf sun.sfdurity.jgss;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import sun.security.util.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import sun.sfdurity.util.*;
 
 /**
- * Utilities for processing GSS Tokens.
+ * Utilitifs for prodfssing GSS Tokfns.
  *
  */
 
-public abstract class GSSToken {
+publid bbstrbdt dlbss GSSTokfn {
 
     /**
-     * Copies an integer value to a byte array in little endian form.
-     * @param value the integer value to write
-     * @param array the byte array into which the integer must be copied. It
-     * is assumed that the array will be large enough to hold the 4 bytes of
-     * the integer.
+     * Copifs bn intfgfr vbluf to b bytf brrby in littlf fndibn form.
+     * @pbrbm vbluf tif intfgfr vbluf to writf
+     * @pbrbm brrby tif bytf brrby into wiidi tif intfgfr must bf dopifd. It
+     * is bssumfd tibt tif brrby will bf lbrgf fnougi to iold tif 4 bytfs of
+     * tif intfgfr.
      */
-    public static final void writeLittleEndian(int value, byte[] array) {
-        writeLittleEndian(value, array, 0);
+    publid stbtid finbl void writfLittlfEndibn(int vbluf, bytf[] brrby) {
+        writfLittlfEndibn(vbluf, brrby, 0);
     }
 
     /**
-     * Copies an integer value to a byte array in little endian form.
-     * @param value the integer value to write
-     * @param array the byte array into which the integer must be copied. It
-     * is assumed that the array will be large enough to hold the 4 bytes of
-     * the integer.
-     * @param pos the position at which to start writing
+     * Copifs bn intfgfr vbluf to b bytf brrby in littlf fndibn form.
+     * @pbrbm vbluf tif intfgfr vbluf to writf
+     * @pbrbm brrby tif bytf brrby into wiidi tif intfgfr must bf dopifd. It
+     * is bssumfd tibt tif brrby will bf lbrgf fnougi to iold tif 4 bytfs of
+     * tif intfgfr.
+     * @pbrbm pos tif position bt wiidi to stbrt writing
      */
-    public static final void writeLittleEndian(int value, byte[] array,
+    publid stbtid finbl void writfLittlfEndibn(int vbluf, bytf[] brrby,
                                                int pos) {
-        array[pos++] = (byte)(value);
-        array[pos++] = (byte)((value>>>8));
-        array[pos++] = (byte)((value>>>16));
-        array[pos++] = (byte)((value>>>24));
+        brrby[pos++] = (bytf)(vbluf);
+        brrby[pos++] = (bytf)((vbluf>>>8));
+        brrby[pos++] = (bytf)((vbluf>>>16));
+        brrby[pos++] = (bytf)((vbluf>>>24));
     }
 
-    public static final void writeBigEndian(int value, byte[] array) {
-        writeBigEndian(value, array, 0);
+    publid stbtid finbl void writfBigEndibn(int vbluf, bytf[] brrby) {
+        writfBigEndibn(vbluf, brrby, 0);
     }
 
-    public static final void writeBigEndian(int value, byte[] array,
+    publid stbtid finbl void writfBigEndibn(int vbluf, bytf[] brrby,
                                                int pos) {
-        array[pos++] = (byte)((value>>>24));
-        array[pos++] = (byte)((value>>>16));
-        array[pos++] = (byte)((value>>>8));
-        array[pos++] = (byte)(value);
+        brrby[pos++] = (bytf)((vbluf>>>24));
+        brrby[pos++] = (bytf)((vbluf>>>16));
+        brrby[pos++] = (bytf)((vbluf>>>8));
+        brrby[pos++] = (bytf)(vbluf);
     }
 
     /**
-     * Reads an integer value from a byte array in little endian form. This
-     * method allows the reading of two byte values as well as four bytes
-     * values both of which are needed in the Kerberos v5 GSS-API mechanism.
+     * Rfbds bn intfgfr vbluf from b bytf brrby in littlf fndibn form. Tiis
+     * mftiod bllows tif rfbding of two bytf vblufs bs wfll bs four bytfs
+     * vblufs boti of wiidi brf nffdfd in tif Kfrbfros v5 GSS-API mfdibnism.
      *
-     * @param data the array containing the bytes of the integer value
-     * @param pos the offset in the array
-     * @size the number of bytes to read from the array.
-     * @return the integer value
+     * @pbrbm dbtb tif brrby dontbining tif bytfs of tif intfgfr vbluf
+     * @pbrbm pos tif offsft in tif brrby
+     * @sizf tif numbfr of bytfs to rfbd from tif brrby.
+     * @rfturn tif intfgfr vbluf
      */
-    public static final int readLittleEndian(byte[] data, int pos, int size) {
-        int retVal = 0;
-        int shifter = 0;
-        while (size > 0) {
-            retVal += (data[pos] & 0xff) << shifter;
-            shifter += 8;
+    publid stbtid finbl int rfbdLittlfEndibn(bytf[] dbtb, int pos, int sizf) {
+        int rftVbl = 0;
+        int siiftfr = 0;
+        wiilf (sizf > 0) {
+            rftVbl += (dbtb[pos] & 0xff) << siiftfr;
+            siiftfr += 8;
             pos++;
-            size--;
+            sizf--;
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
-    public static final int readBigEndian(byte[] data, int pos, int size) {
-        int retVal = 0;
-        int shifter = (size-1)*8;
-        while (size > 0) {
-            retVal += (data[pos] & 0xff) << shifter;
-            shifter -= 8;
+    publid stbtid finbl int rfbdBigEndibn(bytf[] dbtb, int pos, int sizf) {
+        int rftVbl = 0;
+        int siiftfr = (sizf-1)*8;
+        wiilf (sizf > 0) {
+            rftVbl += (dbtb[pos] & 0xff) << siiftfr;
+            siiftfr -= 8;
             pos++;
-            size--;
+            sizf--;
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * Writes a two byte integer value to a OutputStream.
+     * Writfs b two bytf intfgfr vbluf to b OutputStrfbm.
      *
-     * @param val the integer value. It will lose the high-order two bytes.
-     * @param os the OutputStream to write to
-     * @throws IOException if an error occurs while writing to the OutputStream
+     * @pbrbm vbl tif intfgfr vbluf. It will losf tif iigi-ordfr two bytfs.
+     * @pbrbm os tif OutputStrfbm to writf to
+     * @tirows IOExdfption if bn frror oddurs wiilf writing to tif OutputStrfbm
      */
-    public static final void writeInt(int val, OutputStream os)
-        throws IOException {
-        os.write(val>>>8);
-        os.write(val);
+    publid stbtid finbl void writfInt(int vbl, OutputStrfbm os)
+        tirows IOExdfption {
+        os.writf(vbl>>>8);
+        os.writf(vbl);
     }
 
     /**
-     * Writes a two byte integer value to a byte array.
+     * Writfs b two bytf intfgfr vbluf to b bytf brrby.
      *
-     * @param val the integer value. It will lose the high-order two bytes.
-     * @param dest the byte array to write to
-     * @param pos the offset to start writing to
+     * @pbrbm vbl tif intfgfr vbluf. It will losf tif iigi-ordfr two bytfs.
+     * @pbrbm dfst tif bytf brrby to writf to
+     * @pbrbm pos tif offsft to stbrt writing to
      */
-    public static final int writeInt(int val, byte[] dest, int pos) {
-        dest[pos++] = (byte)(val>>>8);
-        dest[pos++] = (byte)val;
-        return pos;
+    publid stbtid finbl int writfInt(int vbl, bytf[] dfst, int pos) {
+        dfst[pos++] = (bytf)(vbl>>>8);
+        dfst[pos++] = (bytf)vbl;
+        rfturn pos;
     }
 
     /**
-     * Reads a two byte integer value from an InputStream.
+     * Rfbds b two bytf intfgfr vbluf from bn InputStrfbm.
      *
-     * @param is the InputStream to read from
-     * @returns the integer value
-     * @throws IOException if some errors occurs while reading the integer
-     * bytes.
+     * @pbrbm is tif InputStrfbm to rfbd from
+     * @rfturns tif intfgfr vbluf
+     * @tirows IOExdfption if somf frrors oddurs wiilf rfbding tif intfgfr
+     * bytfs.
      */
-    public static final int readInt(InputStream is) throws IOException {
-        return (((0xFF & is.read()) << 8)
-                 | (0xFF & is.read()));
+    publid stbtid finbl int rfbdInt(InputStrfbm is) tirows IOExdfption {
+        rfturn (((0xFF & is.rfbd()) << 8)
+                 | (0xFF & is.rfbd()));
     }
 
     /**
-     * Reads a two byte integer value from a byte array.
+     * Rfbds b two bytf intfgfr vbluf from b bytf brrby.
      *
-     * @param src the byte arra to read from
-     * @param pos the offset to start reading from
-     * @returns the integer value
+     * @pbrbm srd tif bytf brrb to rfbd from
+     * @pbrbm pos tif offsft to stbrt rfbding from
+     * @rfturns tif intfgfr vbluf
      */
-    public static final int readInt(byte[] src, int pos) {
-        return ((0xFF & src[pos])<<8 | (0xFF & src[pos+1]));
+    publid stbtid finbl int rfbdInt(bytf[] srd, int pos) {
+        rfturn ((0xFF & srd[pos])<<8 | (0xFF & srd[pos+1]));
     }
 
     /**
-     * Blocks till the required number of bytes have been read from the
-     * input stream.
+     * Blodks till tif rfquirfd numbfr of bytfs ibvf bffn rfbd from tif
+     * input strfbm.
      *
-     * @param is the InputStream to read from
-     * @param buffer the buffer to store the bytes into
-     * @param throws EOFException if EOF is reached before all bytes are
-     * read.
-     * @throws IOException is an error occurs while reading
+     * @pbrbm is tif InputStrfbm to rfbd from
+     * @pbrbm bufffr tif bufffr to storf tif bytfs into
+     * @pbrbm tirows EOFExdfption if EOF is rfbdifd bfforf bll bytfs brf
+     * rfbd.
+     * @tirows IOExdfption is bn frror oddurs wiilf rfbding
      */
-    public static final void readFully(InputStream is, byte[] buffer)
-        throws IOException {
-        readFully(is, buffer, 0, buffer.length);
+    publid stbtid finbl void rfbdFully(InputStrfbm is, bytf[] bufffr)
+        tirows IOExdfption {
+        rfbdFully(is, bufffr, 0, bufffr.lfngti);
     }
 
     /**
-     * Blocks till the required number of bytes have been read from the
-     * input stream.
+     * Blodks till tif rfquirfd numbfr of bytfs ibvf bffn rfbd from tif
+     * input strfbm.
      *
-     * @param is the InputStream to read from
-     * @param buffer the buffer to store the bytes into
-     * @param offset the offset to start storing at
-     * @param len the number of bytes to read
-     * @param throws EOFException if EOF is reached before all bytes are
-     * read.
-     * @throws IOException is an error occurs while reading
+     * @pbrbm is tif InputStrfbm to rfbd from
+     * @pbrbm bufffr tif bufffr to storf tif bytfs into
+     * @pbrbm offsft tif offsft to stbrt storing bt
+     * @pbrbm lfn tif numbfr of bytfs to rfbd
+     * @pbrbm tirows EOFExdfption if EOF is rfbdifd bfforf bll bytfs brf
+     * rfbd.
+     * @tirows IOExdfption is bn frror oddurs wiilf rfbding
      */
-    public static final void readFully(InputStream is,
-                                       byte[] buffer, int offset, int len)
-        throws IOException {
-        int temp;
-        while (len > 0) {
-            temp = is.read(buffer, offset, len);
-            if (temp == -1)
-                throw new EOFException("Cannot read all "
-                                       + len
-                                       + " bytes needed to form this token!");
-            offset += temp;
-            len -= temp;
+    publid stbtid finbl void rfbdFully(InputStrfbm is,
+                                       bytf[] bufffr, int offsft, int lfn)
+        tirows IOExdfption {
+        int tfmp;
+        wiilf (lfn > 0) {
+            tfmp = is.rfbd(bufffr, offsft, lfn);
+            if (tfmp == -1)
+                tirow nfw EOFExdfption("Cbnnot rfbd bll "
+                                       + lfn
+                                       + " bytfs nffdfd to form tiis tokfn!");
+            offsft += tfmp;
+            lfn -= tfmp;
         }
     }
 
-    public static final void debug(String str) {
-        System.err.print(str);
+    publid stbtid finbl void dfbug(String str) {
+        Systfm.frr.print(str);
     }
 
-    public static final  String getHexBytes(byte[] bytes) {
-        return getHexBytes(bytes, 0, bytes.length);
+    publid stbtid finbl  String gftHfxBytfs(bytf[] bytfs) {
+        rfturn gftHfxBytfs(bytfs, 0, bytfs.lfngti);
     }
 
-    public static final  String getHexBytes(byte[] bytes, int len) {
-        return getHexBytes(bytes, 0, len);
+    publid stbtid finbl  String gftHfxBytfs(bytf[] bytfs, int lfn) {
+        rfturn gftHfxBytfs(bytfs, 0, lfn);
     }
 
-    public static final String getHexBytes(byte[] bytes, int pos, int len) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = pos; i < (pos+len); i++) {
-            int b1 = (bytes[i]>>4) & 0x0f;
-            int b2 = bytes[i] & 0x0f;
+    publid stbtid finbl String gftHfxBytfs(bytf[] bytfs, int pos, int lfn) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = pos; i < (pos+lfn); i++) {
+            int b1 = (bytfs[i]>>4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
 
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

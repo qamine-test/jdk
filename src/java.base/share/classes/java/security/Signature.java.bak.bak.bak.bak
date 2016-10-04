@@ -1,0 +1,1296 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import jbvb.nio.BytfBufffr;
+
+import jbvb.sfdurity.Providfr.Sfrvidf;
+
+import jbvbx.drypto.Ciphfr;
+import jbvbx.drypto.CiphfrSpi;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.drypto.NoSudhPbddingExdfption;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * Thf Signbturf dlbss is usfd to providf bpplidbtions thf fundtionblity
+ * of b digitbl signbturf blgorithm. Digitbl signbturfs brf usfd for
+ * buthfntidbtion bnd intfgrity bssurbndf of digitbl dbtb.
+ *
+ * <p> Thf signbturf blgorithm dbn bf, bmong othfrs, thf NIST stbndbrd
+ * DSA, using DSA bnd SHA-1. Thf DSA blgorithm using thf
+ * SHA-1 mfssbgf digfst blgorithm dbn bf spfdififd bs {@dodf SHA1withDSA}.
+ * In thf dbsf of RSA, thfrf brf multiplf dhoidfs for thf mfssbgf digfst
+ * blgorithm, so thf signing blgorithm dould bf spfdififd bs, for fxbmplf,
+ * {@dodf MD2withRSA}, {@dodf MD5withRSA}, or {@dodf SHA1withRSA}.
+ * Thf blgorithm nbmf must bf spfdififd, bs thfrf is no dffbult.
+ *
+ * <p> A Signbturf objfdt dbn bf usfd to gfnfrbtf bnd vfrify digitbl
+ * signbturfs.
+ *
+ * <p> Thfrf brf thrff phbsfs to thf usf of b Signbturf objfdt for
+ * fithfr signing dbtb or vfrifying b signbturf:<ol>
+ *
+ * <li>Initiblizbtion, with fithfr
+ *
+ *     <ul>
+ *
+ *     <li>b publid kfy, whidh initiblizfs thf signbturf for
+ *     vfrifidbtion (sff {@link #initVfrify(PublidKfy) initVfrify}), or
+ *
+ *     <li>b privbtf kfy (bnd optionblly b Sfdurf Rbndom Numbfr Gfnfrbtor),
+ *     whidh initiblizfs thf signbturf for signing
+ *     (sff {@link #initSign(PrivbtfKfy)}
+ *     bnd {@link #initSign(PrivbtfKfy, SfdurfRbndom)}).
+ *
+ *     </ul>
+ *
+ * <li>Updbting
+ *
+ * <p>Dfpfnding on thf typf of initiblizbtion, this will updbtf thf
+ * bytfs to bf signfd or vfrififd. Sff thf
+ * {@link #updbtf(bytf) updbtf} mfthods.
+ *
+ * <li>Signing or Vfrifying b signbturf on bll updbtfd bytfs. Sff thf
+ * {@link #sign() sign} mfthods bnd thf {@link #vfrify(bytf[]) vfrify}
+ * mfthod.
+ *
+ * </ol>
+ *
+ * <p>Notf thbt this dlbss is bbstrbdt bnd fxtfnds from
+ * {@dodf SignbturfSpi} for historidbl rfbsons.
+ * Applidbtion dfvflopfrs should only tbkf notidf of thf mfthods dffinfd in
+ * this {@dodf Signbturf} dlbss; bll thf mfthods in
+ * thf supfrdlbss brf intfndfd for dryptogrbphid sfrvidf providfrs who wish to
+ * supply thfir own implfmfntbtions of digitbl signbturf blgorithms.
+ *
+ * <p> Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd {@dodf Signbturf} blgorithms:
+ * <ul>
+ * <li>{@dodf SHA1withDSA}</li>
+ * <li>{@dodf SHA1withRSA}</li>
+ * <li>{@dodf SHA256withRSA}</li>
+ * </ul>
+ * Thfsf blgorithms brf dfsdribfd in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Signbturf">
+ * Signbturf sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr blgorithms brf supportfd.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ */
+
+publid bbstrbdt dlbss Signbturf fxtfnds SignbturfSpi {
+
+    privbtf stbtid finbl Dfbug dfbug =
+                        Dfbug.gftInstbndf("jdb", "Signbturf");
+
+    /*
+     * Thf blgorithm for this signbturf objfdt.
+     * This vbluf is usfd to mbp bn OID to thf pbrtidulbr blgorithm.
+     * Thf mbpping is donf in AlgorithmObjfdt.blgOID(String blgorithm)
+     */
+    privbtf String blgorithm;
+
+    // Thf providfr
+    Providfr providfr;
+
+    /**
+     * Possiblf {@link #stbtf} vbluf, signifying thbt
+     * this signbturf objfdt hbs not yft bffn initiblizfd.
+     */
+    protfdtfd finbl stbtid int UNINITIALIZED = 0;
+
+    /**
+     * Possiblf {@link #stbtf} vbluf, signifying thbt
+     * this signbturf objfdt hbs bffn initiblizfd for signing.
+     */
+    protfdtfd finbl stbtid int SIGN = 2;
+
+    /**
+     * Possiblf {@link #stbtf} vbluf, signifying thbt
+     * this signbturf objfdt hbs bffn initiblizfd for vfrifidbtion.
+     */
+    protfdtfd finbl stbtid int VERIFY = 3;
+
+    /**
+     * Currfnt stbtf of this signbturf objfdt.
+     */
+    protfdtfd int stbtf = UNINITIALIZED;
+
+    /**
+     * Crfbtfs b Signbturf objfdt for thf spfdififd blgorithm.
+     *
+     * @pbrbm blgorithm thf stbndbrd string nbmf of thf blgorithm.
+     * Sff thf Signbturf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Signbturf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     */
+    protfdtfd Signbturf(String blgorithm) {
+        this.blgorithm = blgorithm;
+    }
+
+    // nbmf of thf spfdibl signbturf blg
+    privbtf finbl stbtid String RSA_SIGNATURE = "NONEwithRSA";
+
+    // nbmf of thf fquivblfnt diphfr blg
+    privbtf finbl stbtid String RSA_CIPHER = "RSA/ECB/PKCS1Pbdding";
+
+    // bll thf sfrvidfs wf nffd to lookup for dompbtibility with Ciphfr
+    privbtf finbl stbtid List<SfrvidfId> rsbIds = Arrbys.bsList(
+        nfw SfrvidfId[] {
+            nfw SfrvidfId("Signbturf", "NONEwithRSA"),
+            nfw SfrvidfId("Ciphfr", "RSA/ECB/PKCS1Pbdding"),
+            nfw SfrvidfId("Ciphfr", "RSA/ECB"),
+            nfw SfrvidfId("Ciphfr", "RSA//PKCS1Pbdding"),
+            nfw SfrvidfId("Ciphfr", "RSA"),
+        }
+    );
+
+    /**
+     * Rfturns b Signbturf objfdt thbt implfmfnts thf spfdififd signbturf
+     * blgorithm.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw Signbturf objfdt fndbpsulbting thf
+     * SignbturfSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf stbndbrd nbmf of thf blgorithm rfqufstfd.
+     * Sff thf Signbturf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Signbturf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nfw Signbturf objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
+     *          Signbturf implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @sff Providfr
+     */
+    publid stbtid Signbturf gftInstbndf(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        List<Sfrvidf> list;
+        if (blgorithm.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            list = GftInstbndf.gftSfrvidfs(rsbIds);
+        } flsf {
+            list = GftInstbndf.gftSfrvidfs("Signbturf", blgorithm);
+        }
+        Itfrbtor<Sfrvidf> t = list.itfrbtor();
+        if (t.hbsNfxt() == fblsf) {
+            throw nfw NoSudhAlgorithmExdfption
+                (blgorithm + " Signbturf not bvbilbblf");
+        }
+        // try sfrvidfs until wf find bn Spi or b working Signbturf subdlbss
+        NoSudhAlgorithmExdfption fbilurf;
+        do {
+            Sfrvidf s = t.nfxt();
+            if (isSpi(s)) {
+                rfturn nfw Dflfgbtf(s, t, blgorithm);
+            } flsf {
+                // must bf b subdlbss of Signbturf, disbblf dynbmid sflfdtion
+                try {
+                    Instbndf instbndf =
+                        GftInstbndf.gftInstbndf(s, SignbturfSpi.dlbss);
+                    rfturn gftInstbndf(instbndf, blgorithm);
+                } dbtdh (NoSudhAlgorithmExdfption f) {
+                    fbilurf = f;
+                }
+            }
+        } whilf (t.hbsNfxt());
+        throw fbilurf;
+    }
+
+    privbtf stbtid Signbturf gftInstbndf(Instbndf instbndf, String blgorithm) {
+        Signbturf sig;
+        if (instbndf.impl instbndfof Signbturf) {
+            sig = (Signbturf)instbndf.impl;
+            sig.blgorithm = blgorithm;
+        } flsf {
+            SignbturfSpi spi = (SignbturfSpi)instbndf.impl;
+            sig = nfw Dflfgbtf(spi, blgorithm);
+        }
+        sig.providfr = instbndf.providfr;
+        rfturn sig;
+    }
+
+    privbtf finbl stbtid Mbp<String,Boolfbn> signbturfInfo;
+
+    stbtid {
+        signbturfInfo = nfw CondurrfntHbshMbp<String,Boolfbn>();
+        Boolfbn TRUE = Boolfbn.TRUE;
+        // prf-initiblizf with vblufs for our SignbturfSpi implfmfntbtions
+        signbturfInfo.put("sun.sfdurity.providfr.DSA$RbwDSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.providfr.DSA$SHA1withDSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$MD2withRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$MD5withRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA1withRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA256withRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA384withRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA512withRSA", TRUE);
+        signbturfInfo.put("dom.sun.nft.ssl.intfrnbl.ssl.RSASignbturf", TRUE);
+        signbturfInfo.put("sun.sfdurity.pkds11.P11Signbturf", TRUE);
+    }
+
+    privbtf stbtid boolfbn isSpi(Sfrvidf s) {
+        if (s.gftTypf().fqubls("Ciphfr")) {
+            // must bf b CiphfrSpi, whidh wf dbn wrbp with thf CiphfrAdbptfr
+            rfturn truf;
+        }
+        String dlbssNbmf = s.gftClbssNbmf();
+        Boolfbn rfsult = signbturfInfo.gft(dlbssNbmf);
+        if (rfsult == null) {
+            try {
+                Objfdt instbndf = s.nfwInstbndf(null);
+                // Signbturf fxtfnds SignbturfSpi
+                // so it is b "rfbl" Spi if it is bn
+                // instbndf of SignbturfSpi but not Signbturf
+                boolfbn r = (instbndf instbndfof SignbturfSpi)
+                                && (instbndf instbndfof Signbturf == fblsf);
+                if ((dfbug != null) && (r == fblsf)) {
+                    dfbug.println("Not b SignbturfSpi " + dlbssNbmf);
+                    dfbug.println("Dflbyfd providfr sflfdtion mby not bf "
+                        + "bvbilbblf for blgorithm " + s.gftAlgorithm());
+                }
+                rfsult = Boolfbn.vblufOf(r);
+                signbturfInfo.put(dlbssNbmf, rfsult);
+            } dbtdh (Exdfption f) {
+                // somfthing is wrong, bssumf not bn SPI
+                rfturn fblsf;
+            }
+        }
+        rfturn rfsult.boolfbnVbluf();
+    }
+
+    /**
+     * Rfturns b Signbturf objfdt thbt implfmfnts thf spfdififd signbturf
+     * blgorithm.
+     *
+     * <p> A nfw Signbturf objfdt fndbpsulbting thf
+     * SignbturfSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf nbmf of thf blgorithm rfqufstfd.
+     * Sff thf Signbturf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Signbturf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn thf nfw Signbturf objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b SignbturfSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr nbmf is null
+     *          or fmpty.
+     *
+     * @sff Providfr
+     */
+    publid stbtid Signbturf gftInstbndf(String blgorithm, String providfr)
+            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        if (blgorithm.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            // fxdfption dompbtibility with fxisting dodf
+            if ((providfr == null) || (providfr.lfngth() == 0)) {
+                throw nfw IllfgblArgumfntExdfption("missing providfr");
+            }
+            Providfr p = Sfdurity.gftProvidfr(providfr);
+            if (p == null) {
+                throw nfw NoSudhProvidfrExdfption
+                    ("no sudh providfr: " + providfr);
+            }
+            rfturn gftInstbndfRSA(p);
+        }
+        Instbndf instbndf = GftInstbndf.gftInstbndf
+                ("Signbturf", SignbturfSpi.dlbss, blgorithm, providfr);
+        rfturn gftInstbndf(instbndf, blgorithm);
+    }
+
+    /**
+     * Rfturns b Signbturf objfdt thbt implfmfnts thf spfdififd
+     * signbturf blgorithm.
+     *
+     * <p> A nfw Signbturf objfdt fndbpsulbting thf
+     * SignbturfSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * @pbrbm blgorithm thf nbmf of thf blgorithm rfqufstfd.
+     * Sff thf Signbturf sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Signbturf">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn thf nfw Signbturf objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b SignbturfSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr is null.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.4
+     */
+    publid stbtid Signbturf gftInstbndf(String blgorithm, Providfr providfr)
+            throws NoSudhAlgorithmExdfption {
+        if (blgorithm.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            // fxdfption dompbtibility with fxisting dodf
+            if (providfr == null) {
+                throw nfw IllfgblArgumfntExdfption("missing providfr");
+            }
+            rfturn gftInstbndfRSA(providfr);
+        }
+        Instbndf instbndf = GftInstbndf.gftInstbndf
+                ("Signbturf", SignbturfSpi.dlbss, blgorithm, providfr);
+        rfturn gftInstbndf(instbndf, blgorithm);
+    }
+
+    // rfturn bn implfmfntbtion for NONEwithRSA, whidh is b spfdibl dbsf
+    // bfdbusf of thf Ciphfr.RSA/ECB/PKCS1Pbdding dompbtibility wrbppfr
+    privbtf stbtid Signbturf gftInstbndfRSA(Providfr p)
+            throws NoSudhAlgorithmExdfption {
+        // try Signbturf first
+        Sfrvidf s = p.gftSfrvidf("Signbturf", RSA_SIGNATURE);
+        if (s != null) {
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, SignbturfSpi.dlbss);
+            rfturn gftInstbndf(instbndf, RSA_SIGNATURE);
+        }
+        // dhfdk Ciphfr
+        try {
+            Ciphfr d = Ciphfr.gftInstbndf(RSA_CIPHER, p);
+            rfturn nfw Dflfgbtf(nfw CiphfrAdbptfr(d), RSA_SIGNATURE);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            // throw Signbturf stylf fxdfption mfssbgf to bvoid donfusion,
+            // but bppfnd Ciphfr fxdfption bs dbusf
+            throw nfw NoSudhAlgorithmExdfption("no sudh blgorithm: "
+                + RSA_SIGNATURE + " for providfr " + p.gftNbmf(), f);
+        }
+    }
+
+    /**
+     * Rfturns thf providfr of this signbturf objfdt.
+     *
+     * @rfturn thf providfr of this signbturf objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        dhoosfFirstProvidfr();
+        rfturn this.providfr;
+    }
+
+    void dhoosfFirstProvidfr() {
+        // fmpty, ovfrriddfn in Dflfgbtf
+    }
+
+    /**
+     * Initiblizfs this objfdt for vfrifidbtion. If this mfthod is dbllfd
+     * bgbin with b difffrfnt brgumfnt, it nfgbtfs thf ffffdt
+     * of this dbll.
+     *
+     * @pbrbm publidKfy thf publid kfy of thf idfntity whosf signbturf is
+     * going to bf vfrififd.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     */
+    publid finbl void initVfrify(PublidKfy publidKfy)
+            throws InvblidKfyExdfption {
+        fnginfInitVfrify(publidKfy);
+        stbtf = VERIFY;
+    }
+
+    /**
+     * Initiblizfs this objfdt for vfrifidbtion, using thf publid kfy from
+     * thf givfn dfrtifidbtf.
+     * <p>If thf dfrtifidbtf is of typf X.509 bnd hbs b <i>kfy usbgf</i>
+     * fxtfnsion fifld mbrkfd bs dritidbl, bnd thf vbluf of thf <i>kfy usbgf</i>
+     * fxtfnsion fifld implifs thbt thf publid kfy in
+     * thf dfrtifidbtf bnd its dorrfsponding privbtf kfy brf not
+     * supposfd to bf usfd for digitbl signbturfs, bn
+     * {@dodf InvblidKfyExdfption} is thrown.
+     *
+     * @pbrbm dfrtifidbtf thf dfrtifidbtf of thf idfntity whosf signbturf is
+     * going to bf vfrififd.
+     *
+     * @fxdfption InvblidKfyExdfption  if thf publid kfy in thf dfrtifidbtf
+     * is not fndodfd propfrly or dofs not indludf rfquirfd  pbrbmftfr
+     * informbtion or dbnnot bf usfd for digitbl signbturf purposfs.
+     * @sindf 1.3
+     */
+    publid finbl void initVfrify(Cfrtifidbtf dfrtifidbtf)
+            throws InvblidKfyExdfption {
+        // If thf dfrtifidbtf is of typf X509Cfrtifidbtf,
+        // wf should dhfdk whfthfr it hbs b Kfy Usbgf
+        // fxtfnsion mbrkfd bs dritidbl.
+        if (dfrtifidbtf instbndfof jbvb.sfdurity.dfrt.X509Cfrtifidbtf) {
+            // Chfdk whfthfr thf dfrt hbs b kfy usbgf fxtfnsion
+            // mbrkfd bs b dritidbl fxtfnsion.
+            // Thf OID for KfyUsbgf fxtfnsion is 2.5.29.15.
+            X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)dfrtifidbtf;
+            Sft<String> dritSft = dfrt.gftCritidblExtfnsionOIDs();
+
+            if (dritSft != null && !dritSft.isEmpty()
+                && dritSft.dontbins("2.5.29.15")) {
+                boolfbn[] kfyUsbgfInfo = dfrt.gftKfyUsbgf();
+                // kfyUsbgfInfo[0] is for digitblSignbturf.
+                if ((kfyUsbgfInfo != null) && (kfyUsbgfInfo[0] == fblsf))
+                    throw nfw InvblidKfyExdfption("Wrong kfy usbgf");
+            }
+        }
+
+        PublidKfy publidKfy = dfrtifidbtf.gftPublidKfy();
+        fnginfInitVfrify(publidKfy);
+        stbtf = VERIFY;
+    }
+
+    /**
+     * Initiblizf this objfdt for signing. If this mfthod is dbllfd
+     * bgbin with b difffrfnt brgumfnt, it nfgbtfs thf ffffdt
+     * of this dbll.
+     *
+     * @pbrbm privbtfKfy thf privbtf kfy of thf idfntity whosf signbturf
+     * is going to bf gfnfrbtfd.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     */
+    publid finbl void initSign(PrivbtfKfy privbtfKfy)
+            throws InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy);
+        stbtf = SIGN;
+    }
+
+    /**
+     * Initiblizf this objfdt for signing. If this mfthod is dbllfd
+     * bgbin with b difffrfnt brgumfnt, it nfgbtfs thf ffffdt
+     * of this dbll.
+     *
+     * @pbrbm privbtfKfy thf privbtf kfy of thf idfntity whosf signbturf
+     * is going to bf gfnfrbtfd.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this signbturf.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     */
+    publid finbl void initSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, rbndom);
+        stbtf = SIGN;
+    }
+
+    /**
+     * Rfturns thf signbturf bytfs of bll thf dbtb updbtfd.
+     * Thf formbt of thf signbturf dfpfnds on thf undfrlying
+     * signbturf sdhfmf.
+     *
+     * <p>A dbll to this mfthod rfsfts this signbturf objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd for signing vib b
+     * dbll to {@dodf initSign(PrivbtfKfy)}. Thbt is, thf objfdt is
+     * rfsft bnd bvbilbblf to gfnfrbtf bnothfr signbturf from thf sbmf
+     * signfr, if dfsirfd, vib nfw dblls to {@dodf updbtf} bnd
+     * {@dodf sign}.
+     *
+     * @rfturn thf signbturf bytfs of thf signing opfrbtion's rfsult.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly or if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     */
+    publid finbl bytf[] sign() throws SignbturfExdfption {
+        if (stbtf == SIGN) {
+            rfturn fnginfSign();
+        }
+        throw nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                     "signing");
+    }
+
+    /**
+     * Finishfs thf signbturf opfrbtion bnd storfs thf rfsulting signbturf
+     * bytfs in thf providfd bufffr {@dodf outbuf}, stbrting bt
+     * {@dodf offsft}.
+     * Thf formbt of thf signbturf dfpfnds on thf undfrlying
+     * signbturf sdhfmf.
+     *
+     * <p>This signbturf objfdt is rfsft to its initibl stbtf (thf stbtf it
+     * wbs in bftfr b dbll to onf of thf {@dodf initSign} mfthods) bnd
+     * dbn bf rfusfd to gfnfrbtf furthfr signbturfs with thf sbmf privbtf kfy.
+     *
+     * @pbrbm outbuf bufffr for thf signbturf rfsult.
+     *
+     * @pbrbm offsft offsft into {@dodf outbuf} whfrf thf signbturf is
+     * storfd.
+     *
+     * @pbrbm lfn numbfr of bytfs within {@dodf outbuf} bllottfd for thf
+     * signbturf.
+     *
+     * @rfturn thf numbfr of bytfs plbdfd into {@dodf outbuf}.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, or if {@dodf lfn} is lfss
+     * thbn thf bdtubl signbturf lfngth.
+     *
+     * @sindf 1.2
+     */
+    publid finbl int sign(bytf[] outbuf, int offsft, int lfn)
+        throws SignbturfExdfption {
+        if (outbuf == null) {
+            throw nfw IllfgblArgumfntExdfption("No output bufffr givfn");
+        }
+        if (outbuf.lfngth - offsft < lfn) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Output bufffr too smbll for spfdififd offsft bnd lfngth");
+        }
+        if (stbtf != SIGN) {
+            throw nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                         "signing");
+        }
+        rfturn fnginfSign(outbuf, offsft, lfn);
+    }
+
+    /**
+     * Vfrififs thf pbssfd-in signbturf.
+     *
+     * <p>A dbll to this mfthod rfsfts this signbturf objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd for vfrifidbtion vib b
+     * dbll to {@dodf initVfrify(PublidKfy)}. Thbt is, thf objfdt is
+     * rfsft bnd bvbilbblf to vfrify bnothfr signbturf from thf idfntity
+     * whosf publid kfy wbs spfdififd in thf dbll to {@dodf initVfrify}.
+     *
+     * @pbrbm signbturf thf signbturf bytfs to bf vfrififd.
+     *
+     * @rfturn truf if thf signbturf wbs vfrififd, fblsf if not.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly, thf pbssfd-in signbturf is impropfrly
+     * fndodfd or of thf wrong typf, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, ftd.
+     */
+    publid finbl boolfbn vfrify(bytf[] signbturf) throws SignbturfExdfption {
+        if (stbtf == VERIFY) {
+            rfturn fnginfVfrify(signbturf);
+        }
+        throw nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                     "vfrifidbtion");
+    }
+
+    /**
+     * Vfrififs thf pbssfd-in signbturf in thf spfdififd brrby
+     * of bytfs, stbrting bt thf spfdififd offsft.
+     *
+     * <p>A dbll to this mfthod rfsfts this signbturf objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd for vfrifidbtion vib b
+     * dbll to {@dodf initVfrify(PublidKfy)}. Thbt is, thf objfdt is
+     * rfsft bnd bvbilbblf to vfrify bnothfr signbturf from thf idfntity
+     * whosf publid kfy wbs spfdififd in thf dbll to {@dodf initVfrify}.
+     *
+     *
+     * @pbrbm signbturf thf signbturf bytfs to bf vfrififd.
+     * @pbrbm offsft thf offsft to stbrt from in thf brrby of bytfs.
+     * @pbrbm lfngth thf numbfr of bytfs to usf, stbrting bt offsft.
+     *
+     * @rfturn truf if thf signbturf wbs vfrififd, fblsf if not.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly, thf pbssfd-in signbturf is impropfrly
+     * fndodfd or of thf wrong typf, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, ftd.
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf signbturf}
+     * bytf brrby is null, or thf {@dodf offsft} or {@dodf lfngth}
+     * is lfss thbn 0, or thf sum of thf {@dodf offsft} bnd
+     * {@dodf lfngth} is grfbtfr thbn thf lfngth of thf
+     * {@dodf signbturf} bytf brrby.
+     * @sindf 1.4
+     */
+    publid finbl boolfbn vfrify(bytf[] signbturf, int offsft, int lfngth)
+        throws SignbturfExdfption {
+        if (stbtf == VERIFY) {
+            if ((signbturf == null) || (offsft < 0) || (lfngth < 0) ||
+                (lfngth > signbturf.lfngth - offsft)) {
+                throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+            }
+
+            rfturn fnginfVfrify(signbturf, offsft, lfngth);
+        }
+        throw nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                     "vfrifidbtion");
+    }
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd by b bytf.
+     *
+     * @pbrbm b thf bytf to usf for thf updbtf.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly.
+     */
+    publid finbl void updbtf(bytf b) throws SignbturfExdfption {
+        if (stbtf == VERIFY || stbtf == SIGN) {
+            fnginfUpdbtf(b);
+        } flsf {
+            throw nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
+        }
+    }
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd, using thf spfdififd
+     * brrby of bytfs.
+     *
+     * @pbrbm dbtb thf bytf brrby to usf for thf updbtf.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly.
+     */
+    publid finbl void updbtf(bytf[] dbtb) throws SignbturfExdfption {
+        updbtf(dbtb, 0, dbtb.lfngth);
+    }
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd, using thf spfdififd
+     * brrby of bytfs, stbrting bt thf spfdififd offsft.
+     *
+     * @pbrbm dbtb thf brrby of bytfs.
+     * @pbrbm off thf offsft to stbrt from in thf brrby of bytfs.
+     * @pbrbm lfn thf numbfr of bytfs to usf, stbrting bt offsft.
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly.
+     */
+    publid finbl void updbtf(bytf[] dbtb, int off, int lfn)
+            throws SignbturfExdfption {
+        if (stbtf == SIGN || stbtf == VERIFY) {
+            fnginfUpdbtf(dbtb, off, lfn);
+        } flsf {
+            throw nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
+        }
+    }
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd using thf spfdififd
+     * BytfBufffr. Prodfssfs thf {@dodf dbtb.rfmbining()} bytfs
+     * stbrting bt bt {@dodf dbtb.position()}.
+     * Upon rfturn, thf bufffr's position will bf fqubl to its limit;
+     * its limit will not hbvf dhbngfd.
+     *
+     * @pbrbm dbtb thf BytfBufffr
+     *
+     * @fxdfption SignbturfExdfption if this signbturf objfdt is not
+     * initiblizfd propfrly.
+     * @sindf 1.5
+     */
+    publid finbl void updbtf(BytfBufffr dbtb) throws SignbturfExdfption {
+        if ((stbtf != SIGN) && (stbtf != VERIFY)) {
+            throw nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
+        }
+        if (dbtb == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        fnginfUpdbtf(dbtb);
+    }
+
+    /**
+     * Rfturns thf nbmf of thf blgorithm for this signbturf objfdt.
+     *
+     * @rfturn thf nbmf of thf blgorithm for this signbturf objfdt.
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.blgorithm;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this signbturf objfdt,
+     * providing informbtion thbt indludfs thf stbtf of thf objfdt
+     * bnd thf nbmf of thf blgorithm usfd.
+     *
+     * @rfturn b string rfprfsfntbtion of this signbturf objfdt.
+     */
+    publid String toString() {
+        String initStbtf = "";
+        switdh (stbtf) {
+        dbsf UNINITIALIZED:
+            initStbtf = "<not initiblizfd>";
+            brfbk;
+        dbsf VERIFY:
+            initStbtf = "<initiblizfd for vfrifying>";
+            brfbk;
+        dbsf SIGN:
+            initStbtf = "<initiblizfd for signing>";
+            brfbk;
+        }
+        rfturn "Signbturf objfdt: " + gftAlgorithm() + initStbtf;
+    }
+
+    /**
+     * Sfts thf spfdififd blgorithm pbrbmftfr to thf spfdififd vbluf.
+     * This mfthod supplifs b gfnfrbl-purposf mfdhbnism through
+     * whidh it is possiblf to sft thf vbrious pbrbmftfrs of this objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for thf blgorithm, sudh bs
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of whfthfr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgorithm-spfdifid
+     * nbming sdhfmf for fbdh pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt this timf.
+     *
+     * @pbrbm pbrbm thf string idfntififr of thf pbrbmftfr.
+     * @pbrbm vbluf thf pbrbmftfr vbluf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for this signbturf blgorithm fnginf,
+     * thf pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     *
+     * @sff #gftPbrbmftfr
+     *
+     * @dfprfdbtfd Usf
+     * {@link #sftPbrbmftfr(jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)
+     * sftPbrbmftfr}.
+     */
+    @Dfprfdbtfd
+    publid finbl void sftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            throws InvblidPbrbmftfrExdfption {
+        fnginfSftPbrbmftfr(pbrbm, vbluf);
+    }
+
+    /**
+     * Initiblizfs this signbturf fnginf with thf spfdififd pbrbmftfr sft.
+     *
+     * @pbrbm pbrbms thf pbrbmftfrs
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfrs
+     * brf inbppropribtf for this signbturf fnginf
+     *
+     * @sff #gftPbrbmftfrs
+     */
+    publid finbl void sftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        fnginfSftPbrbmftfr(pbrbms);
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs usfd with this signbturf objfdt.
+     *
+     * <p>Thf rfturnfd pbrbmftfrs mby bf thf sbmf thbt wfrf usfd to initiblizf
+     * this signbturf, or mby dontbin b dombinbtion of dffbult bnd rbndomly
+     * gfnfrbtfd pbrbmftfr vblufs usfd by thf undfrlying signbturf
+     * implfmfntbtion if this signbturf rfquirfs blgorithm pbrbmftfrs but
+     * wbs not initiblizfd with bny.
+     *
+     * @rfturn thf pbrbmftfrs usfd with this signbturf, or null if this
+     * signbturf dofs not usf bny pbrbmftfrs.
+     *
+     * @sff #sftPbrbmftfr(AlgorithmPbrbmftfrSpfd)
+     * @sindf 1.4
+     */
+    publid finbl AlgorithmPbrbmftfrs gftPbrbmftfrs() {
+        rfturn fnginfGftPbrbmftfrs();
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd blgorithm pbrbmftfr. This mfthod
+     * supplifs b gfnfrbl-purposf mfdhbnism through whidh it is possiblf to
+     * gft thf vbrious pbrbmftfrs of this objfdt. A pbrbmftfr mby bf bny
+     * sfttbblf pbrbmftfr for thf blgorithm, sudh bs b pbrbmftfr sizf, or
+     * b sourdf of rbndom bits for signbturf gfnfrbtion (if bppropribtf),
+     * or bn indidbtion of whfthfr or not to pfrform b spfdifid but optionbl
+     * domputbtion. A uniform blgorithm-spfdifid nbming sdhfmf for fbdh
+     * pbrbmftfr is dfsirbblf but lfft unspfdififd bt this timf.
+     *
+     * @pbrbm pbrbm thf string nbmf of thf pbrbmftfr.
+     *
+     * @rfturn thf objfdt thbt rfprfsfnts thf pbrbmftfr vbluf, or null if
+     * thfrf is nonf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn invblid
+     * pbrbmftfr for this fnginf, or bnothfr fxdfption oddurs whilf
+     * trying to gft this pbrbmftfr.
+     *
+     * @sff #sftPbrbmftfr(String, Objfdt)
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid finbl Objfdt gftPbrbmftfr(String pbrbm)
+            throws InvblidPbrbmftfrExdfption {
+        rfturn fnginfGftPbrbmftfr(pbrbm);
+    }
+
+    /**
+     * Rfturns b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @rfturn b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if this is dbllfd
+     * on bn implfmfntbtion thbt dofs not support {@dodf Clonfbblf}.
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        if (this instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            throw nfw ClonfNotSupportfdExdfption();
+        }
+    }
+
+    /*
+     * Thf following dlbss bllows providfrs to fxtfnd from SignbturfSpi
+     * rbthfr thbn from Signbturf. It rfprfsfnts b Signbturf with bn
+     * fndbpsulbtfd, providfr-supplifd SPI objfdt (of typf SignbturfSpi).
+     * If thf providfr implfmfntbtion is bn instbndf of SignbturfSpi, thf
+     * gftInstbndf() mfthods bbovf rfturn bn instbndf of this dlbss, with
+     * thf SPI objfdt fndbpsulbtfd.
+     *
+     * Notf: All SPI mfthods from thf originbl Signbturf dlbss hbvf bffn
+     * movfd up thf hifrbrdhy into b nfw dlbss (SignbturfSpi), whidh hbs
+     * bffn intfrposfd in thf hifrbrdhy bftwffn thf API (Signbturf)
+     * bnd its originbl pbrfnt (Objfdt).
+     */
+
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid dlbss Dflfgbtf fxtfnds Signbturf {
+
+        // Thf providfr implfmfntbtion (dflfgbtf)
+        // fillfd in ondf thf providfr is sflfdtfd
+        privbtf SignbturfSpi sigSpi;
+
+        // lodk for mutfx during providfr sflfdtion
+        privbtf finbl Objfdt lodk;
+
+        // nfxt sfrvidf to try in providfr sflfdtion
+        // null ondf providfr is sflfdtfd
+        privbtf Sfrvidf firstSfrvidf;
+
+        // rfmbining sfrvidfs to try in providfr sflfdtion
+        // null ondf providfr is sflfdtfd
+        privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
+
+        // donstrudtor
+        Dflfgbtf(SignbturfSpi sigSpi, String blgorithm) {
+            supfr(blgorithm);
+            this.sigSpi = sigSpi;
+            this.lodk = null; // no lodk nffdfd
+        }
+
+        // usfd with dflbyfd providfr sflfdtion
+        Dflfgbtf(Sfrvidf sfrvidf,
+                        Itfrbtor<Sfrvidf> itfrbtor, String blgorithm) {
+            supfr(blgorithm);
+            this.firstSfrvidf = sfrvidf;
+            this.sfrvidfItfrbtor = itfrbtor;
+            this.lodk = nfw Objfdt();
+        }
+
+        /**
+         * Rfturns b dlonf if thf dflfgbtf is dlonfbblf.
+         *
+         * @rfturn b dlonf if thf dflfgbtf is dlonfbblf.
+         *
+         * @fxdfption ClonfNotSupportfdExdfption if this is dbllfd on b
+         * dflfgbtf thbt dofs not support {@dodf Clonfbblf}.
+         */
+        publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+            dhoosfFirstProvidfr();
+            if (sigSpi instbndfof Clonfbblf) {
+                SignbturfSpi sigSpiClonf = (SignbturfSpi)sigSpi.dlonf();
+                // Bfdbusf 'blgorithm' bnd 'providfr' brf privbtf
+                // mfmbfrs of our supfrtypf, wf must pfrform b dbst to
+                // bddfss thfm.
+                Signbturf thbt =
+                    nfw Dflfgbtf(sigSpiClonf, ((Signbturf)this).blgorithm);
+                thbt.providfr = ((Signbturf)this).providfr;
+                rfturn thbt;
+            } flsf {
+                throw nfw ClonfNotSupportfdExdfption();
+            }
+        }
+
+        privbtf stbtid SignbturfSpi nfwInstbndf(Sfrvidf s)
+                throws NoSudhAlgorithmExdfption {
+            if (s.gftTypf().fqubls("Ciphfr")) {
+                // must bf NONEwithRSA
+                try {
+                    Ciphfr d = Ciphfr.gftInstbndf(RSA_CIPHER, s.gftProvidfr());
+                    rfturn nfw CiphfrAdbptfr(d);
+                } dbtdh (NoSudhPbddingExdfption f) {
+                    throw nfw NoSudhAlgorithmExdfption(f);
+                }
+            } flsf {
+                Objfdt o = s.nfwInstbndf(null);
+                if (o instbndfof SignbturfSpi == fblsf) {
+                    throw nfw NoSudhAlgorithmExdfption
+                        ("Not b SignbturfSpi: " + o.gftClbss().gftNbmf());
+                }
+                rfturn (SignbturfSpi)o;
+            }
+        }
+
+        // mbx numbfr of dfbug wbrnings to print from dhoosfFirstProvidfr()
+        privbtf stbtid int wbrnCount = 10;
+
+        /**
+         * Choosf thf Spi from thf first providfr bvbilbblf. Usfd if
+         * dflbyfd providfr sflfdtion is not possiblf bfdbusf initSign()/
+         * initVfrify() is not thf first mfthod dbllfd.
+         */
+        void dhoosfFirstProvidfr() {
+            if (sigSpi != null) {
+                rfturn;
+            }
+            syndhronizfd (lodk) {
+                if (sigSpi != null) {
+                    rfturn;
+                }
+                if (dfbug != null) {
+                    int w = --wbrnCount;
+                    if (w >= 0) {
+                        dfbug.println("Signbturf.init() not first mfthod "
+                            + "dbllfd, disbbling dflbyfd providfr sflfdtion");
+                        if (w == 0) {
+                            dfbug.println("Furthfr wbrnings of this typf will "
+                                + "bf supprfssfd");
+                        }
+                        nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
+                    }
+                }
+                Exdfption lbstExdfption = null;
+                whilf ((firstSfrvidf != null) || sfrvidfItfrbtor.hbsNfxt()) {
+                    Sfrvidf s;
+                    if (firstSfrvidf != null) {
+                        s = firstSfrvidf;
+                        firstSfrvidf = null;
+                    } flsf {
+                        s = sfrvidfItfrbtor.nfxt();
+                    }
+                    if (isSpi(s) == fblsf) {
+                        dontinuf;
+                    }
+                    try {
+                        sigSpi = nfwInstbndf(s);
+                        providfr = s.gftProvidfr();
+                        // not nffdfd bny morf
+                        firstSfrvidf = null;
+                        sfrvidfItfrbtor = null;
+                        rfturn;
+                    } dbtdh (NoSudhAlgorithmExdfption f) {
+                        lbstExdfption = f;
+                    }
+                }
+                ProvidfrExdfption f = nfw ProvidfrExdfption
+                        ("Could not donstrudt SignbturfSpi instbndf");
+                if (lbstExdfption != null) {
+                    f.initCbusf(lbstExdfption);
+                }
+                throw f;
+            }
+        }
+
+        privbtf void dhoosfProvidfr(int typf, Kfy kfy, SfdurfRbndom rbndom)
+                throws InvblidKfyExdfption {
+            syndhronizfd (lodk) {
+                if (sigSpi != null) {
+                    init(sigSpi, typf, kfy, rbndom);
+                    rfturn;
+                }
+                Exdfption lbstExdfption = null;
+                whilf ((firstSfrvidf != null) || sfrvidfItfrbtor.hbsNfxt()) {
+                    Sfrvidf s;
+                    if (firstSfrvidf != null) {
+                        s = firstSfrvidf;
+                        firstSfrvidf = null;
+                    } flsf {
+                        s = sfrvidfItfrbtor.nfxt();
+                    }
+                    // if providfr sbys it dofs not support this kfy, ignorf it
+                    if (s.supportsPbrbmftfr(kfy) == fblsf) {
+                        dontinuf;
+                    }
+                    // if instbndf is not b SignbturfSpi, ignorf it
+                    if (isSpi(s) == fblsf) {
+                        dontinuf;
+                    }
+                    try {
+                        SignbturfSpi spi = nfwInstbndf(s);
+                        init(spi, typf, kfy, rbndom);
+                        providfr = s.gftProvidfr();
+                        sigSpi = spi;
+                        firstSfrvidf = null;
+                        sfrvidfItfrbtor = null;
+                        rfturn;
+                    } dbtdh (Exdfption f) {
+                        // NoSudhAlgorithmExdfption from nfwInstbndf()
+                        // InvblidKfyExdfption from init()
+                        // RuntimfExdfption (ProvidfrExdfption) from init()
+                        if (lbstExdfption == null) {
+                            lbstExdfption = f;
+                        }
+                    }
+                }
+                // no working providfr found, fbil
+                if (lbstExdfption instbndfof InvblidKfyExdfption) {
+                    throw (InvblidKfyExdfption)lbstExdfption;
+                }
+                if (lbstExdfption instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption)lbstExdfption;
+                }
+                String k = (kfy != null) ? kfy.gftClbss().gftNbmf() : "(null)";
+                throw nfw InvblidKfyExdfption
+                    ("No instbllfd providfr supports this kfy: "
+                    + k, lbstExdfption);
+            }
+        }
+
+        privbtf finbl stbtid int I_PUB     = 1;
+        privbtf finbl stbtid int I_PRIV    = 2;
+        privbtf finbl stbtid int I_PRIV_SR = 3;
+
+        privbtf void init(SignbturfSpi spi, int typf, Kfy  kfy,
+                SfdurfRbndom rbndom) throws InvblidKfyExdfption {
+            switdh (typf) {
+            dbsf I_PUB:
+                spi.fnginfInitVfrify((PublidKfy)kfy);
+                brfbk;
+            dbsf I_PRIV:
+                spi.fnginfInitSign((PrivbtfKfy)kfy);
+                brfbk;
+            dbsf I_PRIV_SR:
+                spi.fnginfInitSign((PrivbtfKfy)kfy, rbndom);
+                brfbk;
+            dffbult:
+                throw nfw AssfrtionError("Intfrnbl frror: " + typf);
+            }
+        }
+
+        protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+                throws InvblidKfyExdfption {
+            if (sigSpi != null) {
+                sigSpi.fnginfInitVfrify(publidKfy);
+            } flsf {
+                dhoosfProvidfr(I_PUB, publidKfy, null);
+            }
+        }
+
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+                throws InvblidKfyExdfption {
+            if (sigSpi != null) {
+                sigSpi.fnginfInitSign(privbtfKfy);
+            } flsf {
+                dhoosfProvidfr(I_PRIV, privbtfKfy, null);
+            }
+        }
+
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom sr)
+                throws InvblidKfyExdfption {
+            if (sigSpi != null) {
+                sigSpi.fnginfInitSign(privbtfKfy, sr);
+            } flsf {
+                dhoosfProvidfr(I_PRIV_SR, privbtfKfy, sr);
+            }
+        }
+
+        protfdtfd void fnginfUpdbtf(bytf b) throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(b);
+        }
+
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(b, off, lfn);
+        }
+
+        protfdtfd void fnginfUpdbtf(BytfBufffr dbtb) {
+            dhoosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(dbtb);
+        }
+
+        protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfSign();
+        }
+
+        protfdtfd int fnginfSign(bytf[] outbuf, int offsft, int lfn)
+                throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfSign(outbuf, offsft, lfn);
+        }
+
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+                throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfVfrify(sigBytfs);
+        }
+
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs, int offsft, int lfngth)
+                throws SignbturfExdfption {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfVfrify(sigBytfs, offsft, lfngth);
+        }
+
+        protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+                throws InvblidPbrbmftfrExdfption {
+            dhoosfFirstProvidfr();
+            sigSpi.fnginfSftPbrbmftfr(pbrbm, vbluf);
+        }
+
+        protfdtfd void fnginfSftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms)
+                throws InvblidAlgorithmPbrbmftfrExdfption {
+            dhoosfFirstProvidfr();
+            sigSpi.fnginfSftPbrbmftfr(pbrbms);
+        }
+
+        protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+                throws InvblidPbrbmftfrExdfption {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfGftPbrbmftfr(pbrbm);
+        }
+
+        protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+            dhoosfFirstProvidfr();
+            rfturn sigSpi.fnginfGftPbrbmftfrs();
+        }
+    }
+
+    // bdbptfr for RSA/ECB/PKCS1Pbdding diphfrs
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid dlbss CiphfrAdbptfr fxtfnds SignbturfSpi {
+
+        privbtf finbl Ciphfr diphfr;
+
+        privbtf BytfArrbyOutputStrfbm dbtb;
+
+        CiphfrAdbptfr(Ciphfr diphfr) {
+            this.diphfr = diphfr;
+        }
+
+        protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+                throws InvblidKfyExdfption {
+            diphfr.init(Ciphfr.DECRYPT_MODE, publidKfy);
+            if (dbtb == null) {
+                dbtb = nfw BytfArrbyOutputStrfbm(128);
+            } flsf {
+                dbtb.rfsft();
+            }
+        }
+
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+                throws InvblidKfyExdfption {
+            diphfr.init(Ciphfr.ENCRYPT_MODE, privbtfKfy);
+            dbtb = null;
+        }
+
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy,
+                SfdurfRbndom rbndom) throws InvblidKfyExdfption {
+            diphfr.init(Ciphfr.ENCRYPT_MODE, privbtfKfy, rbndom);
+            dbtb = null;
+        }
+
+        protfdtfd void fnginfUpdbtf(bytf b) throws SignbturfExdfption {
+            fnginfUpdbtf(nfw bytf[] {b}, 0, 1);
+        }
+
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                throws SignbturfExdfption {
+            if (dbtb != null) {
+                dbtb.writf(b, off, lfn);
+                rfturn;
+            }
+            bytf[] out = diphfr.updbtf(b, off, lfn);
+            if ((out != null) && (out.lfngth != 0)) {
+                throw nfw SignbturfExdfption
+                    ("Ciphfr unfxpfdtfdly rfturnfd dbtb");
+            }
+        }
+
+        protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+            try {
+                rfturn diphfr.doFinbl();
+            } dbtdh (IllfgblBlodkSizfExdfption f) {
+                throw nfw SignbturfExdfption("doFinbl() fbilfd", f);
+            } dbtdh (BbdPbddingExdfption f) {
+                throw nfw SignbturfExdfption("doFinbl() fbilfd", f);
+            }
+        }
+
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+                throws SignbturfExdfption {
+            try {
+                bytf[] out = diphfr.doFinbl(sigBytfs);
+                bytf[] dbtbBytfs = dbtb.toBytfArrby();
+                dbtb.rfsft();
+                rfturn Arrbys.fqubls(out, dbtbBytfs);
+            } dbtdh (BbdPbddingExdfption f) {
+                // f.g. wrong publid kfy usfd
+                // rfturn fblsf rbthfr thbn throwing fxdfption
+                rfturn fblsf;
+            } dbtdh (IllfgblBlodkSizfExdfption f) {
+                throw nfw SignbturfExdfption("doFinbl() fbilfd", f);
+            }
+        }
+
+        protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+                throws InvblidPbrbmftfrExdfption {
+            throw nfw InvblidPbrbmftfrExdfption("Pbrbmftfrs not supportfd");
+        }
+
+        protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+                throws InvblidPbrbmftfrExdfption {
+            throw nfw InvblidPbrbmftfrExdfption("Pbrbmftfrs not supportfd");
+        }
+
+    }
+
+}

@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1994, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * Thf <dodf>Stbdk</dodf> dlbss rfprfsfnts b lbst-in-first-out
+ * (LIFO) stbdk of objfdts. It fxtfnds dlbss <tt>Vfdtor</tt> with fivf
+ * opfrbtions thbt bllow b vfdtor to bf trfbtfd bs b stbdk. Thf usubl
+ * <tt>push</tt> bnd <tt>pop</tt> opfrbtions brf providfd, bs wfll bs b
+ * mfthod to <tt>pffk</tt> bt thf top itfm on thf stbdk, b mfthod to tfst
+ * for whfthfr thf stbdk is <tt>fmpty</tt>, bnd b mfthod to <tt>sfbrdh</tt>
+ * thf stbdk for bn itfm bnd disdovfr how fbr it is from thf top.
+ * <p>
+ * Whfn b stbdk is first drfbtfd, it dontbins no itfms.
+ *
+ * <p>A morf domplftf bnd donsistfnt sft of LIFO stbdk opfrbtions is
+ * providfd by thf {@link Dfquf} intfrfbdf bnd its implfmfntbtions, whidh
+ * should bf usfd in prfffrfndf to this dlbss.  For fxbmplf:
+ * <prf>   {@dodf
+ *   Dfquf<Intfgfr> stbdk = nfw ArrbyDfquf<Intfgfr>();}</prf>
+ *
+ * @buthor  Jonbthbn Pbynf
+ * @sindf   1.0
+ */
+publid
+dlbss Stbdk<E> fxtfnds Vfdtor<E> {
+    /**
+     * Crfbtfs bn fmpty Stbdk.
+     */
+    publid Stbdk() {
+    }
+
+    /**
+     * Pushfs bn itfm onto thf top of this stbdk. This hbs fxbdtly
+     * thf sbmf ffffdt bs:
+     * <blodkquotf><prf>
+     * bddElfmfnt(itfm)</prf></blodkquotf>
+     *
+     * @pbrbm   itfm   thf itfm to bf pushfd onto this stbdk.
+     * @rfturn  thf <dodf>itfm</dodf> brgumfnt.
+     * @sff     jbvb.util.Vfdtor#bddElfmfnt
+     */
+    publid E push(E itfm) {
+        bddElfmfnt(itfm);
+
+        rfturn itfm;
+    }
+
+    /**
+     * Rfmovfs thf objfdt bt thf top of this stbdk bnd rfturns thbt
+     * objfdt bs thf vbluf of this fundtion.
+     *
+     * @rfturn  Thf objfdt bt thf top of this stbdk (thf lbst itfm
+     *          of thf <tt>Vfdtor</tt> objfdt).
+     * @throws  EmptyStbdkExdfption  if this stbdk is fmpty.
+     */
+    publid syndhronizfd E pop() {
+        E       obj;
+        int     lfn = sizf();
+
+        obj = pffk();
+        rfmovfElfmfntAt(lfn - 1);
+
+        rfturn obj;
+    }
+
+    /**
+     * Looks bt thf objfdt bt thf top of this stbdk without rfmoving it
+     * from thf stbdk.
+     *
+     * @rfturn  thf objfdt bt thf top of this stbdk (thf lbst itfm
+     *          of thf <tt>Vfdtor</tt> objfdt).
+     * @throws  EmptyStbdkExdfption  if this stbdk is fmpty.
+     */
+    publid syndhronizfd E pffk() {
+        int     lfn = sizf();
+
+        if (lfn == 0)
+            throw nfw EmptyStbdkExdfption();
+        rfturn flfmfntAt(lfn - 1);
+    }
+
+    /**
+     * Tfsts if this stbdk is fmpty.
+     *
+     * @rfturn  <dodf>truf</dodf> if bnd only if this stbdk dontbins
+     *          no itfms; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fmpty() {
+        rfturn sizf() == 0;
+    }
+
+    /**
+     * Rfturns thf 1-bbsfd position whfrf bn objfdt is on this stbdk.
+     * If thf objfdt <tt>o</tt> oddurs bs bn itfm in this stbdk, this
+     * mfthod rfturns thf distbndf from thf top of thf stbdk of thf
+     * oddurrfndf nfbrfst thf top of thf stbdk; thf topmost itfm on thf
+     * stbdk is donsidfrfd to bf bt distbndf <tt>1</tt>. Thf <tt>fqubls</tt>
+     * mfthod is usfd to dompbrf <tt>o</tt> to thf
+     * itfms in this stbdk.
+     *
+     * @pbrbm   o   thf dfsirfd objfdt.
+     * @rfturn  thf 1-bbsfd position from thf top of thf stbdk whfrf
+     *          thf objfdt is lodbtfd; thf rfturn vbluf <dodf>-1</dodf>
+     *          indidbtfs thbt thf objfdt is not on thf stbdk.
+     */
+    publid syndhronizfd int sfbrdh(Objfdt o) {
+        int i = lbstIndfxOf(o);
+
+        if (i >= 0) {
+            rfturn sizf() - i;
+        }
+        rfturn -1;
+    }
+
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1224463164541339165L;
+}

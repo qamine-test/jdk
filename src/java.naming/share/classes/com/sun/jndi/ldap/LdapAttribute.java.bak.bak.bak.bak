@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+
+/**
+  * This subdlbss is usfd by LDAP to implfmfnt thf sdhfmb dblls.
+  * Bbsidblly, it kffps trbdk of whidh dontfxt it is bn bttributf of
+  * so it dbn gft thf sdhfmb for thbt dontfxt.
+  *
+  * @buthor Jon Ruiz
+  */
+finbl dlbss LdbpAttributf fxtfnds BbsidAttributf {
+
+    stbtid finbl long sfriblVfrsionUID = -4288716561020779584L;
+
+    privbtf trbnsifnt DirContfxt bbsfCtx = null;
+    privbtf Nbmf rdn = nfw CompositfNbmf();
+
+    // thfsf two brf usfd to rfdonstrudt thf bbsfCtx if this bttributf hbs
+    // bffn sfriblizfd (
+    privbtf String bbsfCtxURL;
+    privbtf Hbshtbblf<String, ? supfr String> bbsfCtxEnv;
+
+    @SupprfssWbrnings("undhfdkfd") // dlonf()
+    publid Objfdt dlonf() {
+        LdbpAttributf bttr = nfw LdbpAttributf(this.bttrID, bbsfCtx, rdn);
+        bttr.vblufs = (Vfdtor<Objfdt>)vblufs.dlonf();
+        rfturn bttr;
+    }
+
+    /**
+      * Adds b nfw vbluf to this bttributf.
+      *
+      * @pbrbm bttrVbl Thf vbluf to bf bddfd. If null, b null vbluf is bddfd to
+      *                thf bttributf.
+      * @rfturn truf Alwbys rfturns truf.
+      */
+    publid boolfbn bdd(Objfdt bttrVbl) {
+        // LDAP bttributfs don't dontbin duplidbtf vblufs so thfrf's no nffd
+        // to dhfdk if thf vbluf blrfbdy fxists bfforf bdding it.
+        vblufs.bddElfmfnt(bttrVbl);
+        rfturn truf;
+    }
+
+    /**
+      * Construdts b nfw instbndf of bn bttributf.
+      *
+      * @pbrbm id Thf bttributf's id. It dbnnot bf null.
+      */
+    LdbpAttributf(String id) {
+        supfr(id);
+    }
+
+    /**
+      * Construdts b nfw instbndf of bn bttributf.
+      *
+      * @pbrbm id Thf bttributf's id. It dbnnot bf null.
+      * @pbrbm bbsfCtx  thf bbsfCtx objfdt of this bttributf
+      * @pbrbm rdn      thf RDN of thf fntry (rflbtivf to bbsfCtx)
+      */
+    privbtf LdbpAttributf(String id, DirContfxt bbsfCtx, Nbmf rdn) {
+        supfr(id);
+        this.bbsfCtx = bbsfCtx;
+        this.rdn = rdn;
+    }
+
+     /**
+      * Sfts thf bbsfCtx bnd rdn usfd to find thf bttributf's sdhfmb
+      * Usfd by LdbpCtx.sftPbrfnts().
+      */
+    void sftPbrfnt(DirContfxt bbsfCtx, Nbmf rdn) {
+        this.bbsfCtx = bbsfCtx;
+        this.rdn = rdn;
+    }
+
+    /**
+     * rfturns thf dtx this bttributf dbmf from. This dbll bllows
+     * LDAPAttributf to bf sfriblizbblf. 'bbsfCtx' is trbnsifnt so if
+     * it is null, thf `bbsfCtxURL` is usfd to rfdonstrudt thf dontfxt
+     * to whidh dblls brf mbdf.
+     */
+    privbtf DirContfxt gftBbsfCtx() throws NbmingExdfption {
+        if(bbsfCtx == null) {
+            if (bbsfCtxEnv == null) {
+                bbsfCtxEnv = nfw Hbshtbblf<String, String>(3);
+            }
+            bbsfCtxEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+                             "dom.sun.jndi.ldbp.LdbpCtxFbdtory");
+            bbsfCtxEnv.put(Contfxt.PROVIDER_URL,bbsfCtxURL);
+            bbsfCtx = (nfw InitiblDirContfxt(bbsfCtxEnv));
+        }
+        rfturn bbsfCtx;
+    }
+
+    /**
+     * This is dbllfd whfn thf objfdt is sfriblizfd. It is
+     * ovfrriddfn so thbt thf bppropribtf dlbss vbribblfs dbn bf sft
+     * to rf-donstrudt thf bbsfCtx whfn dfsfriblizfd. Sftting thfsf
+     * vbribblfs is dostly, so it is only donf if thf objfdt
+     * is bdtublly sfriblizfd.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+        throws IOExdfption {
+
+        // sftup intfrnbl stbtf
+        this.sftBbsfCtxInfo();
+
+        // lft thf ObjfdtOutputStrfbm do thf rfbl work of sfriblizbtion
+        out.dffbultWritfObjfdt();
+    }
+
+    /**
+     * sfts thf informbtion nffdfd to rfdonstrudt thf bbsfCtx if
+     * wf brf sfriblizfd. This must bf dbllfd _bfforf_ thf objfdt is
+     * sfriblizfd!!!
+     */
+    @SupprfssWbrnings("undhfdkfd") // dlonf()
+    privbtf void sftBbsfCtxInfo() {
+        Hbshtbblf<String, Objfdt> rfblEnv = null;
+        Hbshtbblf<String, Objfdt> sfdurfEnv = null;
+
+        if (bbsfCtx != null) {
+            rfblEnv = ((LdbpCtx)bbsfCtx).fnvprops;
+            this.bbsfCtxURL = ((LdbpCtx)bbsfCtx).gftURL();
+        }
+
+        if(rfblEnv != null && rfblEnv.sizf() > 0 ) {
+            // rfmovf bny sfdurity drfdfntibls - othfrwisf thf sfriblizfd form
+            // would storf thfm in thf dlfbr
+            for (String kfy : rfblEnv.kfySft()){
+                if (kfy.indfxOf("sfdurity") != -1 ) {
+
+                    //if wf nffd to rfmovf props, wf must do it to b dlonf
+                    //of thf fnvironmfnt. dloning is fxpfnsivf, so wf only do
+                    //it if wf hbvf to.
+                    if(sfdurfEnv == null) {
+                        sfdurfEnv = (Hbshtbblf<String, Objfdt>)rfblEnv.dlonf();
+                    }
+                    sfdurfEnv.rfmovf(kfy);
+                }
+            }
+        }
+
+        // sft bbsfCtxEnv dfpfnding on whfthfr wf rfmovfd props or not
+        this.bbsfCtxEnv = (sfdurfEnv == null ? rfblEnv : sfdurfEnv);
+    }
+
+    /**
+      * Rftrifvfs thf syntbx dffinition bssodibtfd with this bttributf.
+      * @rfturn This bttributf's syntbx dffinition.
+      */
+    publid DirContfxt gftAttributfSyntbxDffinition() throws NbmingExdfption {
+        // gft thf syntbx id from thf bttributf dff
+        DirContfxt sdhfmb = gftBbsfCtx().gftSdhfmb(rdn);
+        DirContfxt bttrDff = (DirContfxt)sdhfmb.lookup(
+            LdbpSdhfmbPbrsfr.ATTRIBUTE_DEFINITION_NAME + "/" + gftID());
+
+        Attributf syntbxAttr = bttrDff.gftAttributfs("").gft("SYNTAX");
+
+        if(syntbxAttr == null || syntbxAttr.sizf() == 0) {
+            throw nfw NbmfNotFoundExdfption(
+                gftID() + " dofs not hbvf b syntbx bssodibtfd with it");
+        }
+
+        String syntbxNbmf = (String)syntbxAttr.gft();
+
+        // look in thf sdhfmb trff for thf syntbx dffinition
+        rfturn (DirContfxt)sdhfmb.lookup(
+            LdbpSdhfmbPbrsfr.SYNTAX_DEFINITION_NAME + "/" + syntbxNbmf);
+    }
+
+    /**
+      * Rftrifvfs this bttributf's sdhfmb dffinition.
+      *
+      * @rfturn This bttributf's sdhfmb dffinition.
+      */
+    publid DirContfxt gftAttributfDffinition() throws NbmingExdfption {
+        DirContfxt sdhfmb = gftBbsfCtx().gftSdhfmb(rdn);
+
+        rfturn (DirContfxt)sdhfmb.lookup(
+            LdbpSdhfmbPbrsfr.ATTRIBUTE_DEFINITION_NAME + "/" + gftID());
+    }
+}

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Graphics2D;
+import jbvb.bwt.Grbpiids2D;
 
 /**
- * <p>A painting delegate. The Painter interface defines exactly one method,
- * <code>paint</code>. It is used in situations where the developer can change
- * the painting routine of a component without having to resort to subclassing
- * the component. It is also generically useful when doing any form of painting
- * delegation.</p>
+ * <p>A pbinting dflfgbtf. Tif Pbintfr intfrfbdf dffinfs fxbdtly onf mftiod,
+ * <dodf>pbint</dodf>. It is usfd in situbtions wifrf tif dfvflopfr dbn dibngf
+ * tif pbinting routinf of b domponfnt witiout ibving to rfsort to subdlbssing
+ * tif domponfnt. It is blso gfnfridblly usfful wifn doing bny form of pbinting
+ * dflfgbtion.</p>
  *
- * <p><code>Painter</code>s are simply encapsulations of Java2D code and make
- * it fairly trivial to reuse existing <code>Painter</code>s or to combine
- * them together. Implementations of this interface are also trivial to write,
- * such that if you can't find a <code>Painter</code> that does what you need,
- * you can write one with minimal effort. Writing a <code>Painter</code> requires
- * knowledge of Java2D.</p>
+ * <p><dodf>Pbintfr</dodf>s brf simply fndbpsulbtions of Jbvb2D dodf bnd mbkf
+ * it fbirly trivibl to rfusf fxisting <dodf>Pbintfr</dodf>s or to dombinf
+ * tifm togftifr. Implfmfntbtions of tiis intfrfbdf brf blso trivibl to writf,
+ * sudi tibt if you dbn't find b <dodf>Pbintfr</dodf> tibt dofs wibt you nffd,
+ * you dbn writf onf witi minimbl fffort. Writing b <dodf>Pbintfr</dodf> rfquirfs
+ * knowlfdgf of Jbvb2D.</p>
  *
- * <p>A <code>Painter</code> may be created with a type parameter. This type will be
- * expected in the <code>paint</code> method. For example, you may wish to write a
- * <code>Painter</code> that only works with subclasses of {@link java.awt.Component}.
- * In that case, when the <code>Painter</code> is declared, you may declare that
- * it requires a <code>Component</code>, allowing the paint method to be type safe. Ex:
- * <pre>
- * {@code
- * Painter<Component> p = new Painter<Component>() {
- *     public void paint(Graphics2D g, Component c, int width, int height) {
- *         g.setColor(c.getBackground());
- *         //and so forth
+ * <p>A <dodf>Pbintfr</dodf> mby bf drfbtfd witi b typf pbrbmftfr. Tiis typf will bf
+ * fxpfdtfd in tif <dodf>pbint</dodf> mftiod. For fxbmplf, you mby wisi to writf b
+ * <dodf>Pbintfr</dodf> tibt only works witi subdlbssfs of {@link jbvb.bwt.Componfnt}.
+ * In tibt dbsf, wifn tif <dodf>Pbintfr</dodf> is dfdlbrfd, you mby dfdlbrf tibt
+ * it rfquirfs b <dodf>Componfnt</dodf>, bllowing tif pbint mftiod to bf typf sbff. Ex:
+ * <prf>
+ * {@dodf
+ * Pbintfr<Componfnt> p = nfw Pbintfr<Componfnt>() {
+ *     publid void pbint(Grbpiids2D g, Componfnt d, int widti, int ifigit) {
+ *         g.sftColor(d.gftBbdkground());
+ *         //bnd so forti
  *     }
  * }
  * }
- * </pre>
+ * </prf>
  *
- * <p>This interface makes no guarantees of threadsafety.</p>
+ * <p>Tiis intfrfbdf mbkfs no gubrbntffs of tirfbdsbffty.</p>
  *
- * @author rbair
- * @since 1.7
+ * @butior rbbir
+ * @sindf 1.7
  */
-public interface Painter<T> {
+publid intfrfbdf Pbintfr<T> {
     /**
-     * <p>Renders to the given {@link java.awt.Graphics2D} object. Implementations
-     * of this method <em>may</em> modify state on the <code>Graphics2D</code>, and are not
-     * required to restore that state upon completion. In most cases, it is recommended
-     * that the caller pass in a scratch graphics object. The <code>Graphics2D</code>
-     * must never be null.</p>
+     * <p>Rfndfrs to tif givfn {@link jbvb.bwt.Grbpiids2D} objfdt. Implfmfntbtions
+     * of tiis mftiod <fm>mby</fm> modify stbtf on tif <dodf>Grbpiids2D</dodf>, bnd brf not
+     * rfquirfd to rfstorf tibt stbtf upon domplftion. In most dbsfs, it is rfdommfndfd
+     * tibt tif dbllfr pbss in b sdrbtdi grbpiids objfdt. Tif <dodf>Grbpiids2D</dodf>
+     * must nfvfr bf null.</p>
      *
-     * <p>State on the graphics object may be honored by the <code>paint</code> method,
-     * but may not be. For instance, setting the antialiasing rendering hint on the
-     * graphics may or may not be respected by the <code>Painter</code> implementation.</p>
+     * <p>Stbtf on tif grbpiids objfdt mby bf ionorfd by tif <dodf>pbint</dodf> mftiod,
+     * but mby not bf. For instbndf, sftting tif bntiblibsing rfndfring iint on tif
+     * grbpiids mby or mby not bf rfspfdtfd by tif <dodf>Pbintfr</dodf> implfmfntbtion.</p>
      *
-     * <p>The supplied object parameter acts as an optional configuration argument.
-     * For example, it could be of type <code>Component</code>. A <code>Painter</code>
-     * that expected it could then read state from that <code>Component</code> and
-     * use the state for painting. For example, an implementation may read the
-     * backgroundColor and use that.</p>
+     * <p>Tif supplifd objfdt pbrbmftfr bdts bs bn optionbl donfigurbtion brgumfnt.
+     * For fxbmplf, it dould bf of typf <dodf>Componfnt</dodf>. A <dodf>Pbintfr</dodf>
+     * tibt fxpfdtfd it dould tifn rfbd stbtf from tibt <dodf>Componfnt</dodf> bnd
+     * usf tif stbtf for pbinting. For fxbmplf, bn implfmfntbtion mby rfbd tif
+     * bbdkgroundColor bnd usf tibt.</p>
      *
-     * <p>Generally, to enhance reusability, most standard <code>Painter</code>s ignore
-     * this parameter. They can thus be reused in any context. The <code>object</code>
-     * may be null. Implementations must not throw a NullPointerException if the object
-     * parameter is null.</p>
+     * <p>Gfnfrblly, to fnibndf rfusbbility, most stbndbrd <dodf>Pbintfr</dodf>s ignorf
+     * tiis pbrbmftfr. Tify dbn tius bf rfusfd in bny dontfxt. Tif <dodf>objfdt</dodf>
+     * mby bf null. Implfmfntbtions must not tirow b NullPointfrExdfption if tif objfdt
+     * pbrbmftfr is null.</p>
      *
-     * <p>Finally, the <code>width</code> and <code>height</code> arguments specify the
-     * width and height that the <code>Painter</code> should paint into. More
-     * specifically, the specified width and height instruct the painter that it should
-     * paint fully within this width and height. Any specified clip on the
-     * <code>g</code> param will further constrain the region.</p>
+     * <p>Finblly, tif <dodf>widti</dodf> bnd <dodf>ifigit</dodf> brgumfnts spfdify tif
+     * widti bnd ifigit tibt tif <dodf>Pbintfr</dodf> siould pbint into. Morf
+     * spfdifidblly, tif spfdififd widti bnd ifigit instrudt tif pbintfr tibt it siould
+     * pbint fully witiin tiis widti bnd ifigit. Any spfdififd dlip on tif
+     * <dodf>g</dodf> pbrbm will furtifr donstrbin tif rfgion.</p>
      *
-     * <p>For example, suppose I have a <code>Painter</code> implementation that draws
-     * a gradient. The gradient goes from white to black. It "stretches" to fill the
-     * painted region. Thus, if I use this <code>Painter</code> to paint a 500 x 500
-     * region, the far left would be black, the far right would be white, and a smooth
-     * gradient would be painted between. I could then, without modification, reuse the
-     * <code>Painter</code> to paint a region that is 20x20 in size. This region would
-     * also be black on the left, white on the right, and a smooth gradient painted
-     * between.</p>
+     * <p>For fxbmplf, supposf I ibvf b <dodf>Pbintfr</dodf> implfmfntbtion tibt drbws
+     * b grbdifnt. Tif grbdifnt gofs from wiitf to blbdk. It "strftdifs" to fill tif
+     * pbintfd rfgion. Tius, if I usf tiis <dodf>Pbintfr</dodf> to pbint b 500 x 500
+     * rfgion, tif fbr lfft would bf blbdk, tif fbr rigit would bf wiitf, bnd b smooti
+     * grbdifnt would bf pbintfd bftwffn. I dould tifn, witiout modifidbtion, rfusf tif
+     * <dodf>Pbintfr</dodf> to pbint b rfgion tibt is 20x20 in sizf. Tiis rfgion would
+     * blso bf blbdk on tif lfft, wiitf on tif rigit, bnd b smooti grbdifnt pbintfd
+     * bftwffn.</p>
      *
-     * @param g The Graphics2D to render to. This must not be null.
-     * @param object an optional configuration parameter. This may be null.
-     * @param width width of the area to paint.
-     * @param height height of the area to paint.
+     * @pbrbm g Tif Grbpiids2D to rfndfr to. Tiis must not bf null.
+     * @pbrbm objfdt bn optionbl donfigurbtion pbrbmftfr. Tiis mby bf null.
+     * @pbrbm widti widti of tif brfb to pbint.
+     * @pbrbm ifigit ifigit of tif brfb to pbint.
      */
-    public void paint(Graphics2D g, T object, int width, int height);
+    publid void pbint(Grbpiids2D g, T objfdt, int widti, int ifigit);
 }

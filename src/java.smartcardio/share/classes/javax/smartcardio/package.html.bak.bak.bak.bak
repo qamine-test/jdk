@@ -1,0 +1,103 @@
+<!--
+ Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<html>
+<body>
+<h2>Jbvb&#x2122; Smbrt Cbrd I/O API</h2>
+
+This spfdifidbtion dfsdribfs thf Jbvb Smbrt Cbrd I/O API dffinfd by
+<b hrff="http://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+
+It dffinfs b Jbvb API for dommunidbtion with Smbrt Cbrds
+using ISO/IEC 7816-4 APDUs. It thfrfby bllows Jbvb bpplidbtions to intfrbdt with
+bpplidbtions running on thf Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+on thf dbrd, ftd.
+
+<p>
+Thf API is dffinfd by dlbssfs in thf pbdkbgf
+<dodf>jbvbx.smbrtdbrdio</dodf>. Thfy dbn bf dlbssififd bs follows:
+
+<dl>
+<dt>Clbssfs dfsdribing thf dorrfsponding Smbrt Cbrd strudturfs 
+<dd>
+<b hrff="ATR.html">ATR</b>, 
+<b hrff="CommbndAPDU.html">CommbndAPDU</b>, 
+<b hrff="RfsponsfAPDU.html">RfsponsfAPDU</b>
+
+<p>
+<dt>Fbdtory to obtbin implfmfntbtions
+<dd>
+<b hrff="TfrminblFbdtory.html">TfrminblFbdtory</b>
+
+<p>
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
+<dd>
+<b hrff="CbrdTfrminbls.html">CbrdTfrminbls</b>, 
+<b hrff="CbrdTfrminbl.html">CbrdTfrminbl</b>, 
+<b hrff="Cbrd.html">Cbrd</b>, 
+<b hrff="CbrdChbnnfl.html">CbrdChbnnfl</b>
+
+<p>
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
+<dd>
+<b hrff="CbrdPfrmission.html">CbrdPfrmission</b>, 
+<b hrff="CbrdExdfption.html">CbrdExdfption</b>, 
+<b hrff="CbrdNotPrfsfntExdfption.html">CbrdNotPrfsfntExdfption</b>
+
+<p>
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
+<dd>
+<b hrff="TfrminblFbdtorySpi.html">TfrminblFbdtorySpi</b>
+
+</dl>
+
+
+<h3>API Exbmplf</h3>
+
+A simplf fxbmplf of using thf API is:
+<prf>
+	// show thf list of bvbilbblf tfrminbls
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	// gft thf first tfrminbl
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	// fstbblish b donnfdtion with thf dbrd
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
+	Systfm.out.println("dbrd: " + dbrd);
+	CbrdChbnnfl dhbnnfl = dbrd.gftBbsidChbnnfl();
+	RfsponsfAPDU r = dhbnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
+	// disdonnfdt
+	dbrd.disdonnfdt(fblsf);
+</prf>
+
+<P>
+@sindf   1.6
+@buthor  Andrfbs Stfrbfnz
+@buthor  JSR 268 Expfrt Group
+
+</body>
+</html>

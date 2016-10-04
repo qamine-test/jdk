@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 /**
- * Constants used with the JScrollPane component.
+ * Constbnts usfd witi tif JSdrollPbnf domponfnt.
  *
- * @author Hans Muller
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-public interface ScrollPaneConstants
+publid intfrfbdf SdrollPbnfConstbnts
 {
     /**
-     * Identifies a "viewport" or display area, within which
-     * scrolled contents are visible.
+     * Idfntififs b "vifwport" or displby brfb, witiin wiidi
+     * sdrollfd dontfnts brf visiblf.
      */
     String VIEWPORT = "VIEWPORT";
-    /** Identifies a vertical scrollbar. */
+    /** Idfntififs b vfrtidbl sdrollbbr. */
     String VERTICAL_SCROLLBAR = "VERTICAL_SCROLLBAR";
-    /** Identifies a horizontal scrollbar. */
+    /** Idfntififs b iorizontbl sdrollbbr. */
     String HORIZONTAL_SCROLLBAR = "HORIZONTAL_SCROLLBAR";
     /**
-     * Identifies the area along the left side of the viewport between the
-     * upper left corner and the lower left corner.
+     * Idfntififs tif brfb blong tif lfft sidf of tif vifwport bftwffn tif
+     * uppfr lfft dornfr bnd tif lowfr lfft dornfr.
      */
     String ROW_HEADER = "ROW_HEADER";
     /**
-     * Identifies the area at the top the viewport between the
-     * upper left corner and the upper right corner.
+     * Idfntififs tif brfb bt tif top tif vifwport bftwffn tif
+     * uppfr lfft dornfr bnd tif uppfr rigit dornfr.
      */
     String COLUMN_HEADER = "COLUMN_HEADER";
-    /** Identifies the lower left corner of the viewport. */
+    /** Idfntififs tif lowfr lfft dornfr of tif vifwport. */
     String LOWER_LEFT_CORNER = "LOWER_LEFT_CORNER";
-    /** Identifies the lower right corner of the viewport. */
+    /** Idfntififs tif lowfr rigit dornfr of tif vifwport. */
     String LOWER_RIGHT_CORNER = "LOWER_RIGHT_CORNER";
-    /** Identifies the upper left corner of the viewport. */
+    /** Idfntififs tif uppfr lfft dornfr of tif vifwport. */
     String UPPER_LEFT_CORNER = "UPPER_LEFT_CORNER";
-    /** Identifies the upper right corner of the viewport. */
+    /** Idfntififs tif uppfr rigit dornfr of tif vifwport. */
     String UPPER_RIGHT_CORNER = "UPPER_RIGHT_CORNER";
 
-    /** Identifies the lower leading edge corner of the viewport. The leading edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Idfntififs tif lowfr lfbding fdgf dornfr of tif vifwport. Tif lfbding fdgf
+     * is dftfrminfd rflbtivf to tif Sdroll Pbnf's ComponfntOrifntbtion propfrty.
      */
     String LOWER_LEADING_CORNER = "LOWER_LEADING_CORNER";
-    /** Identifies the lower trailing edge corner of the viewport. The trailing edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Idfntififs tif lowfr trbiling fdgf dornfr of tif vifwport. Tif trbiling fdgf
+     * is dftfrminfd rflbtivf to tif Sdroll Pbnf's ComponfntOrifntbtion propfrty.
      */
     String LOWER_TRAILING_CORNER = "LOWER_TRAILING_CORNER";
-    /** Identifies the upper leading edge corner of the viewport.  The leading edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Idfntififs tif uppfr lfbding fdgf dornfr of tif vifwport.  Tif lfbding fdgf
+     * is dftfrminfd rflbtivf to tif Sdroll Pbnf's ComponfntOrifntbtion propfrty.
      */
     String UPPER_LEADING_CORNER = "UPPER_LEADING_CORNER";
-    /** Identifies the upper trailing edge corner of the viewport. The trailing edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Idfntififs tif uppfr trbiling fdgf dornfr of tif vifwport. Tif trbiling fdgf
+     * is dftfrminfd rflbtivf to tif Sdroll Pbnf's ComponfntOrifntbtion propfrty.
      */
     String UPPER_TRAILING_CORNER = "UPPER_TRAILING_CORNER";
 
-    /** Identifies the vertical scroll bar policy property. */
+    /** Idfntififs tif vfrtidbl sdroll bbr polidy propfrty. */
     String VERTICAL_SCROLLBAR_POLICY = "VERTICAL_SCROLLBAR_POLICY";
-    /** Identifies the horizontal scroll bar policy property. */
+    /** Idfntififs tif iorizontbl sdroll bbr polidy propfrty. */
     String HORIZONTAL_SCROLLBAR_POLICY = "HORIZONTAL_SCROLLBAR_POLICY";
 
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are displayed only when needed.
+     * Usfd to sft tif vfrtidbl sdroll bbr polidy so tibt
+     * vfrtidbl sdrollbbrs brf displbyfd only wifn nffdfd.
      */
     int VERTICAL_SCROLLBAR_AS_NEEDED = 20;
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are never displayed.
+     * Usfd to sft tif vfrtidbl sdroll bbr polidy so tibt
+     * vfrtidbl sdrollbbrs brf nfvfr displbyfd.
      */
     int VERTICAL_SCROLLBAR_NEVER = 21;
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are always displayed.
+     * Usfd to sft tif vfrtidbl sdroll bbr polidy so tibt
+     * vfrtidbl sdrollbbrs brf blwbys displbyfd.
      */
     int VERTICAL_SCROLLBAR_ALWAYS = 22;
 
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are displayed only when needed.
+     * Usfd to sft tif iorizontbl sdroll bbr polidy so tibt
+     * iorizontbl sdrollbbrs brf displbyfd only wifn nffdfd.
      */
     int HORIZONTAL_SCROLLBAR_AS_NEEDED = 30;
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are never displayed.
+     * Usfd to sft tif iorizontbl sdroll bbr polidy so tibt
+     * iorizontbl sdrollbbrs brf nfvfr displbyfd.
      */
     int HORIZONTAL_SCROLLBAR_NEVER = 31;
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are always displayed.
+     * Usfd to sft tif iorizontbl sdroll bbr polidy so tibt
+     * iorizontbl sdrollbbrs brf blwbys displbyfd.
      */
     int HORIZONTAL_SCROLLBAR_ALWAYS = 32;
 }

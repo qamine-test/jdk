@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _VDrbwingArfbP_h_
+#dffinf _VDrbwingArfbP_h_
+
+#indludf <Xm/DrbwingAP.h>
+#indludf "VDrbwingArfb.h"
+
+
+/***************************************************************
+ * VDrbwingArfb Widgft Dbtb Strudturfs
+ *
+ *
+ **************************************************************/
+
+/* Dffinf pbrt dlbss strudturf */
+typfdff strudt _VDrbwingArfbClbss {
+        XtPointfr                       fxtfnsion;
+} VDrbwingArfbClbssPbrt;
+
+/* Dffinf thf full dlbss rfdord */
+typfdff strudt _VDrbwingArfbClbssRfd {
+        CorfClbssPbrt           dorf_dlbss;
+        CompositfClbssPbrt      dompositf_dlbss;
+        ConstrbintClbssPbrt     donstrbint_dlbss;
+        XmMbnbgfrClbssPbrt      mbnbgfr_dlbss;
+        XmDrbwingArfbClbssPbrt  drbwing_brfb_dlbss;
+        VDrbwingArfbClbssPbrt   vdrbwingbrfb_dlbss;
+} VDrbwingArfbClbssRfd;
+
+/* Extfrnbl dffinition for dlbss rfdord */
+fxtfrn VDrbwingArfbClbssRfd vDrbwingArfbClbssRfd;
+
+typfdff strudt {
+        Visubl *visubl;
+} VDrbwingArfbPbrt;
+
+/****************************************************************
+ *
+ * Full instbndf rfdord dfdlbrbtion
+ *
+ ****************************************************************/
+
+typfdff strudt _VDrbwingArfbRfd
+{
+        CorfPbrt                dorf;
+        CompositfPbrt           dompositf;
+        ConstrbintPbrt          donstrbint;
+        XmMbnbgfrPbrt           mbnbgfr;
+        XmDrbwingArfbPbrt       drbwing_brfb;
+        VDrbwingArfbPbrt        vdrbwing_brfb;
+} VDrbwingArfbRfd;
+
+
+
+#fndif /* !_VDrbwingArfbP_h_ */

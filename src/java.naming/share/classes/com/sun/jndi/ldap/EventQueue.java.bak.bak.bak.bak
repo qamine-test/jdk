@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.EvfntObjfdt;
+
+import jbvbx.nbming.fvfnt.NbmingEvfnt;
+import jbvbx.nbming.fvfnt.NbmingExdfptionEvfnt;
+import jbvbx.nbming.fvfnt.NbmingListfnfr;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionEvfnt;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionListfnfr;
+
+/**
+ * Pbdkbgf privbtf dlbss usfd by EvfntSupport to dispbtdh fvfnts.
+ * This dlbss implfmfnts bn fvfnt qufuf, bnd b dispbtdhfr thrfbd thbt
+ * dfqufufs bnd dispbtdhfs fvfnts from thf qufuf.
+ *
+ * Pifdfs stolfn from sun.misd.Qufuf.
+ *
+ * @buthor      Bill Shbnnon (from jbvbx.mbil.fvfnt)
+ * @buthor      Rosbnnb Lff (modififd for JNDI-rflbtfd fvfnts)
+ */
+finbl dlbss EvfntQufuf implfmfnts Runnbblf {
+    finbl stbtid privbtf boolfbn dfbug = fblsf;
+
+    privbtf stbtid dlbss QufufElfmfnt {
+        QufufElfmfnt nfxt = null;
+        QufufElfmfnt prfv = null;
+        EvfntObjfdt fvfnt = null;
+        Vfdtor<NbmingListfnfr> vfdtor = null;
+
+        QufufElfmfnt(EvfntObjfdt fvfnt, Vfdtor<NbmingListfnfr> vfdtor) {
+            this.fvfnt = fvfnt;
+            this.vfdtor = vfdtor;
+        }
+    }
+
+    privbtf QufufElfmfnt hfbd = null;
+    privbtf QufufElfmfnt tbil = null;
+    privbtf Thrfbd qThrfbd;
+
+    // pbdkbgf privbtf
+    EvfntQufuf() {
+        qThrfbd = Obj.hflpfr.drfbtfThrfbd(this);
+        qThrfbd.sftDbfmon(truf);  // not b usfr thrfbd
+        qThrfbd.stbrt();
+    }
+
+    // pbdkbgf privbtf;
+    /**
+     * Enqufuf bn fvfnt.
+     * @pbrbm fvfnt Eithfr b <tt>NbmingExdfptionEvfnt</tt> or b subdlbss
+     *              of <tt>NbmingEvfnt</tt> or
+     * <tt>UnsoliditfdNotifidbtionEvfnt</tt>.
+     * If it is b subdlbss of <tt>NbmingEvfnt</tt>, bll listfnfrs must implfmfnt
+     * thf dorrfsponding subintfrfbdf of <tt>NbmingListfnfr</tt>.
+     * For fxbmplf, for b <tt>ObjfdtAddfdEvfnt</tt>, bll listfnfrs <fm>must</fm>
+     * implfmfnt thf <tt>ObjfdtAddfdListfnfr</tt> intfrfbdf.
+     * <fm>Thf durrfnt implfmfntbtion dofs not dhfdk this bfforf dispbtdhing
+     * thf fvfnt.</fm>
+     * If thf fvfnt is b <tt>NbmingExdfptionEvfnt</tt>, thfn bll listfnfrs
+     * brf notififd.
+     * @pbrbm vfdtor List of NbmingListfnfrs thbt will bf notififd of fvfnt.
+     */
+    syndhronizfd void fnqufuf(EvfntObjfdt fvfnt, Vfdtor<NbmingListfnfr> vfdtor) {
+        QufufElfmfnt nfwElt = nfw QufufElfmfnt(fvfnt, vfdtor);
+
+        if (hfbd == null) {
+            hfbd = nfwElt;
+            tbil = nfwElt;
+        } flsf {
+            nfwElt.nfxt = hfbd;
+            hfbd.prfv = nfwElt;
+            hfbd = nfwElt;
+        }
+        notify();
+    }
+
+    /**
+     * Dfqufuf thf oldfst objfdt on thf qufuf.
+     * Usfd only by thf run() mfthod.
+     *
+     * @rfturn    thf oldfst objfdt on thf qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny thrfbd hbs
+     *              intfrruptfd this thrfbd.
+     */
+    privbtf syndhronizfd QufufElfmfnt dfqufuf()
+                                throws IntfrruptfdExdfption {
+        whilf (tbil == null)
+            wbit();
+        QufufElfmfnt flt = tbil;
+        tbil = flt.prfv;
+        if (tbil == null) {
+            hfbd = null;
+        } flsf {
+            tbil.nfxt = null;
+        }
+        flt.prfv = flt.nfxt = null;
+        rfturn flt;
+    }
+
+    /**
+     * Pull fvfnts off thf qufuf bnd dispbtdh thfm.
+     */
+    publid void run() {
+        QufufElfmfnt qf;
+
+        try {
+            whilf ((qf = dfqufuf()) != null) {
+                EvfntObjfdt f = qf.fvfnt;
+                Vfdtor<NbmingListfnfr> v = qf.vfdtor;
+
+                for (int i = 0; i < v.sizf(); i++) {
+
+                    // Dispbtdh to dorrfsponding NbmingListfnfr
+                    // Thf listfnfr should only bf gftting thf fvfnt thbt
+                    // it is intfrfstfd in. (No nffd to dhfdk mbsk or
+                    // instbndfof subintfrfbdfs.)
+                    // It is thf rfsponsibility of thf fnqufufr to
+                    // only fnqufuf fvfnts with listfnfrs of thf dorrfdt typf.
+
+                    if (f instbndfof NbmingEvfnt) {
+                        ((NbmingEvfnt)f).dispbtdh(v.flfmfntAt(i));
+
+                    // An fxdfption oddurrfd: if notify bll nbming listfnfrs
+                    } flsf if (f instbndfof NbmingExdfptionEvfnt) {
+                        ((NbmingExdfptionEvfnt)f).dispbtdh(v.flfmfntAt(i));
+                    } flsf if (f instbndfof UnsoliditfdNotifidbtionEvfnt) {
+                        ((UnsoliditfdNotifidbtionEvfnt)f).dispbtdh(
+                            (UnsoliditfdNotifidbtionListfnfr)v.flfmfntAt(i));
+                    }
+                }
+
+                qf = null; f = null; v = null;
+            }
+        } dbtdh (IntfrruptfdExdfption f) {
+            // just dif
+        }
+    }
+
+    // pbdkbgf privbtf; usfd by EvfntSupport;
+    /**
+     * Stop thf dispbtdhfr so wf dbn bf dfstroyfd.
+     */
+    void stop() {
+        if (dfbug) Systfm.frr.println("EvfntQufuf stopping");
+        if (qThrfbd != null) {
+            qThrfbd.intfrrupt();        // kill our thrfbd
+            qThrfbd = null;
+        }
+    }
+}

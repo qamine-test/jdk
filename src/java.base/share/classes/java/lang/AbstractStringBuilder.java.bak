@@ -1,1441 +1,1441 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import sun.misc.FloatingDecimal;
-import java.util.Arrays;
+import sun.misd.FlobtingDfdimbl;
+import jbvb.util.Arrbys;
 
 /**
- * A mutable sequence of characters.
+ * A mutbblf sfqufndf of dibrbdtfrs.
  * <p>
- * Implements a modifiable string. At any point in time it contains some
- * particular sequence of characters, but the length and content of the
- * sequence can be changed through certain method calls.
+ * Implfmfnts b modifibblf string. At bny point in timf it dontbins somf
+ * pbrtidulbr sfqufndf of dibrbdtfrs, but tif lfngti bnd dontfnt of tif
+ * sfqufndf dbn bf dibngfd tirougi dfrtbin mftiod dblls.
  *
- * <p>Unless otherwise noted, passing a {@code null} argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
- * thrown.
+ * <p>Unlfss otifrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mftiod in tiis dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * tirown.
  *
- * @author      Michael McCloskey
- * @author      Martin Buchholz
- * @author      Ulf Zibis
- * @since       1.5
+ * @butior      Midibfl MdCloskfy
+ * @butior      Mbrtin Budiiolz
+ * @butior      Ulf Zibis
+ * @sindf       1.5
  */
-abstract class AbstractStringBuilder implements Appendable, CharSequence {
+bbstrbdt dlbss AbstrbdtStringBuildfr implfmfnts Appfndbblf, CibrSfqufndf {
     /**
-     * The value is used for character storage.
+     * Tif vbluf is usfd for dibrbdtfr storbgf.
      */
-    char[] value;
+    dibr[] vbluf;
 
     /**
-     * The count is the number of characters used.
+     * Tif dount is tif numbfr of dibrbdtfrs usfd.
      */
-    int count;
+    int dount;
 
     /**
-     * This no-arg constructor is necessary for serialization of subclasses.
+     * Tiis no-brg donstrudtor is nfdfssbry for sfriblizbtion of subdlbssfs.
      */
-    AbstractStringBuilder() {
+    AbstrbdtStringBuildfr() {
     }
 
     /**
-     * Creates an AbstractStringBuilder of the specified capacity.
+     * Crfbtfs bn AbstrbdtStringBuildfr of tif spfdififd dbpbdity.
      */
-    AbstractStringBuilder(int capacity) {
-        value = new char[capacity];
+    AbstrbdtStringBuildfr(int dbpbdity) {
+        vbluf = nfw dibr[dbpbdity];
     }
 
     /**
-     * Returns the length (character count).
+     * Rfturns tif lfngti (dibrbdtfr dount).
      *
-     * @return  the length of the sequence of characters currently
-     *          represented by this object
+     * @rfturn  tif lfngti of tif sfqufndf of dibrbdtfrs durrfntly
+     *          rfprfsfntfd by tiis objfdt
      */
-    @Override
-    public int length() {
-        return count;
+    @Ovfrridf
+    publid int lfngti() {
+        rfturn dount;
     }
 
     /**
-     * Returns the current capacity. The capacity is the amount of storage
-     * available for newly inserted characters, beyond which an allocation
-     * will occur.
+     * Rfturns tif durrfnt dbpbdity. Tif dbpbdity is tif bmount of storbgf
+     * bvbilbblf for nfwly insfrtfd dibrbdtfrs, bfyond wiidi bn bllodbtion
+     * will oddur.
      *
-     * @return  the current capacity
+     * @rfturn  tif durrfnt dbpbdity
      */
-    public int capacity() {
-        return value.length;
+    publid int dbpbdity() {
+        rfturn vbluf.lfngti;
     }
 
     /**
-     * Ensures that the capacity is at least equal to the specified minimum.
-     * If the current capacity is less than the argument, then a new internal
-     * array is allocated with greater capacity. The new capacity is the
-     * larger of:
+     * Ensurfs tibt tif dbpbdity is bt lfbst fqubl to tif spfdififd minimum.
+     * If tif durrfnt dbpbdity is lfss tibn tif brgumfnt, tifn b nfw intfrnbl
+     * brrby is bllodbtfd witi grfbtfr dbpbdity. Tif nfw dbpbdity is tif
+     * lbrgfr of:
      * <ul>
-     * <li>The {@code minimumCapacity} argument.
-     * <li>Twice the old capacity, plus {@code 2}.
+     * <li>Tif {@dodf minimumCbpbdity} brgumfnt.
+     * <li>Twidf tif old dbpbdity, plus {@dodf 2}.
      * </ul>
-     * If the {@code minimumCapacity} argument is nonpositive, this
-     * method takes no action and simply returns.
-     * Note that subsequent operations on this object can reduce the
-     * actual capacity below that requested here.
+     * If tif {@dodf minimumCbpbdity} brgumfnt is nonpositivf, tiis
+     * mftiod tbkfs no bdtion bnd simply rfturns.
+     * Notf tibt subsfqufnt opfrbtions on tiis objfdt dbn rfdudf tif
+     * bdtubl dbpbdity bflow tibt rfqufstfd ifrf.
      *
-     * @param   minimumCapacity   the minimum desired capacity.
+     * @pbrbm   minimumCbpbdity   tif minimum dfsirfd dbpbdity.
      */
-    public void ensureCapacity(int minimumCapacity) {
-        if (minimumCapacity > 0)
-            ensureCapacityInternal(minimumCapacity);
+    publid void fnsurfCbpbdity(int minimumCbpbdity) {
+        if (minimumCbpbdity > 0)
+            fnsurfCbpbdityIntfrnbl(minimumCbpbdity);
     }
 
     /**
-     * This method has the same contract as ensureCapacity, but is
-     * never synchronized.
+     * Tiis mftiod ibs tif sbmf dontrbdt bs fnsurfCbpbdity, but is
+     * nfvfr syndironizfd.
      */
-    private void ensureCapacityInternal(int minimumCapacity) {
-        // overflow-conscious code
-        if (minimumCapacity - value.length > 0)
-            expandCapacity(minimumCapacity);
+    privbtf void fnsurfCbpbdityIntfrnbl(int minimumCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minimumCbpbdity - vbluf.lfngti > 0)
+            fxpbndCbpbdity(minimumCbpbdity);
     }
 
     /**
-     * This implements the expansion semantics of ensureCapacity with no
-     * size check or synchronization.
+     * Tiis implfmfnts tif fxpbnsion sfmbntids of fnsurfCbpbdity witi no
+     * sizf difdk or syndironizbtion.
      */
-    void expandCapacity(int minimumCapacity) {
-        int newCapacity = value.length * 2 + 2;
-        if (newCapacity - minimumCapacity < 0)
-            newCapacity = minimumCapacity;
-        if (newCapacity < 0) {
-            if (minimumCapacity < 0) // overflow
-                throw new OutOfMemoryError();
-            newCapacity = Integer.MAX_VALUE;
+    void fxpbndCbpbdity(int minimumCbpbdity) {
+        int nfwCbpbdity = vbluf.lfngti * 2 + 2;
+        if (nfwCbpbdity - minimumCbpbdity < 0)
+            nfwCbpbdity = minimumCbpbdity;
+        if (nfwCbpbdity < 0) {
+            if (minimumCbpbdity < 0) // ovfrflow
+                tirow nfw OutOfMfmoryError();
+            nfwCbpbdity = Intfgfr.MAX_VALUE;
         }
-        value = Arrays.copyOf(value, newCapacity);
+        vbluf = Arrbys.dopyOf(vbluf, nfwCbpbdity);
     }
 
     /**
-     * Attempts to reduce storage used for the character sequence.
-     * If the buffer is larger than necessary to hold its current sequence of
-     * characters, then it may be resized to become more space efficient.
-     * Calling this method may, but is not required to, affect the value
-     * returned by a subsequent call to the {@link #capacity()} method.
+     * Attfmpts to rfdudf storbgf usfd for tif dibrbdtfr sfqufndf.
+     * If tif bufffr is lbrgfr tibn nfdfssbry to iold its durrfnt sfqufndf of
+     * dibrbdtfrs, tifn it mby bf rfsizfd to bfdomf morf spbdf fffidifnt.
+     * Cblling tiis mftiod mby, but is not rfquirfd to, bfffdt tif vbluf
+     * rfturnfd by b subsfqufnt dbll to tif {@link #dbpbdity()} mftiod.
      */
-    public void trimToSize() {
-        if (count < value.length) {
-            value = Arrays.copyOf(value, count);
+    publid void trimToSizf() {
+        if (dount < vbluf.lfngti) {
+            vbluf = Arrbys.dopyOf(vbluf, dount);
         }
     }
 
     /**
-     * Sets the length of the character sequence.
-     * The sequence is changed to a new character sequence
-     * whose length is specified by the argument. For every nonnegative
-     * index <i>k</i> less than {@code newLength}, the character at
-     * index <i>k</i> in the new character sequence is the same as the
-     * character at index <i>k</i> in the old sequence if <i>k</i> is less
-     * than the length of the old character sequence; otherwise, it is the
-     * null character {@code '\u005Cu0000'}.
+     * Sfts tif lfngti of tif dibrbdtfr sfqufndf.
+     * Tif sfqufndf is dibngfd to b nfw dibrbdtfr sfqufndf
+     * wiosf lfngti is spfdififd by tif brgumfnt. For fvfry nonnfgbtivf
+     * indfx <i>k</i> lfss tibn {@dodf nfwLfngti}, tif dibrbdtfr bt
+     * indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is tif sbmf bs tif
+     * dibrbdtfr bt indfx <i>k</i> in tif old sfqufndf if <i>k</i> is lfss
+     * tibn tif lfngti of tif old dibrbdtfr sfqufndf; otifrwisf, it is tif
+     * null dibrbdtfr {@dodf '\u005Cu0000'}.
      *
-     * In other words, if the {@code newLength} argument is less than
-     * the current length, the length is changed to the specified length.
+     * In otifr words, if tif {@dodf nfwLfngti} brgumfnt is lfss tibn
+     * tif durrfnt lfngti, tif lfngti is dibngfd to tif spfdififd lfngti.
      * <p>
-     * If the {@code newLength} argument is greater than or equal
-     * to the current length, sufficient null characters
-     * ({@code '\u005Cu0000'}) are appended so that
-     * length becomes the {@code newLength} argument.
+     * If tif {@dodf nfwLfngti} brgumfnt is grfbtfr tibn or fqubl
+     * to tif durrfnt lfngti, suffidifnt null dibrbdtfrs
+     * ({@dodf '\u005Cu0000'}) brf bppfndfd so tibt
+     * lfngti bfdomfs tif {@dodf nfwLfngti} brgumfnt.
      * <p>
-     * The {@code newLength} argument must be greater than or equal
-     * to {@code 0}.
+     * Tif {@dodf nfwLfngti} brgumfnt must bf grfbtfr tibn or fqubl
+     * to {@dodf 0}.
      *
-     * @param      newLength   the new length
-     * @throws     IndexOutOfBoundsException  if the
-     *               {@code newLength} argument is negative.
+     * @pbrbm      nfwLfngti   tif nfw lfngti
+     * @tirows     IndfxOutOfBoundsExdfption  if tif
+     *               {@dodf nfwLfngti} brgumfnt is nfgbtivf.
      */
-    public void setLength(int newLength) {
-        if (newLength < 0)
-            throw new StringIndexOutOfBoundsException(newLength);
-        ensureCapacityInternal(newLength);
+    publid void sftLfngti(int nfwLfngti) {
+        if (nfwLfngti < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(nfwLfngti);
+        fnsurfCbpbdityIntfrnbl(nfwLfngti);
 
-        if (count < newLength) {
-            Arrays.fill(value, count, newLength, '\0');
+        if (dount < nfwLfngti) {
+            Arrbys.fill(vbluf, dount, nfwLfngti, '\0');
         }
 
-        count = newLength;
+        dount = nfwLfngti;
     }
 
     /**
-     * Returns the {@code char} value in this sequence at the specified index.
-     * The first {@code char} value is at index {@code 0}, the next at index
-     * {@code 1}, and so on, as in array indexing.
+     * Rfturns tif {@dodf dibr} vbluf in tiis sfqufndf bt tif spfdififd indfx.
+     * Tif first {@dodf dibr} vbluf is bt indfx {@dodf 0}, tif nfxt bt indfx
+     * {@dodf 1}, bnd so on, bs in brrby indfxing.
      * <p>
-     * The index argument must be greater than or equal to
-     * {@code 0}, and less than the length of this sequence.
+     * Tif indfx brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn tif lfngti of tiis sfqufndf.
      *
-     * <p>If the {@code char} value specified by the index is a
-     * <a href="Character.html#unicode">surrogate</a>, the surrogate
-     * value is returned.
+     * <p>If tif {@dodf dibr} vbluf spfdififd by tif indfx is b
+     * <b irff="Cibrbdtfr.itml#unidodf">surrogbtf</b>, tif surrogbtf
+     * vbluf is rfturnfd.
      *
-     * @param      index   the index of the desired {@code char} value.
-     * @return     the {@code char} value at the specified index.
-     * @throws     IndexOutOfBoundsException  if {@code index} is
-     *             negative or greater than or equal to {@code length()}.
+     * @pbrbm      indfx   tif indfx of tif dfsirfd {@dodf dibr} vbluf.
+     * @rfturn     tif {@dodf dibr} vbluf bt tif spfdififd indfx.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr tibn or fqubl to {@dodf lfngti()}.
      */
-    @Override
-    public char charAt(int index) {
-        if ((index < 0) || (index >= count))
-            throw new StringIndexOutOfBoundsException(index);
-        return value[index];
+    @Ovfrridf
+    publid dibr dibrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        rfturn vbluf[indfx];
     }
 
     /**
-     * Returns the character (Unicode code point) at the specified
-     * index. The index refers to {@code char} values
-     * (Unicode code units) and ranges from {@code 0} to
-     * {@link #length()}{@code  - 1}.
+     * Rfturns tif dibrbdtfr (Unidodf dodf point) bt tif spfdififd
+     * indfx. Tif indfx rfffrs to {@dodf dibr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 0} to
+     * {@link #lfngti()}{@dodf  - 1}.
      *
-     * <p> If the {@code char} value specified at the given index
-     * is in the high-surrogate range, the following index is less
-     * than the length of this sequence, and the
-     * {@code char} value at the following index is in the
-     * low-surrogate range, then the supplementary code point
-     * corresponding to this surrogate pair is returned. Otherwise,
-     * the {@code char} value at the given index is returned.
+     * <p> If tif {@dodf dibr} vbluf spfdififd bt tif givfn indfx
+     * is in tif iigi-surrogbtf rbngf, tif following indfx is lfss
+     * tibn tif lfngti of tiis sfqufndf, bnd tif
+     * {@dodf dibr} vbluf bt tif following indfx is in tif
+     * low-surrogbtf rbngf, tifn tif supplfmfntbry dodf point
+     * dorrfsponding to tiis surrogbtf pbir is rfturnfd. Otifrwisf,
+     * tif {@dodf dibr} vbluf bt tif givfn indfx is rfturnfd.
      *
-     * @param      index the index to the {@code char} values
-     * @return     the code point value of the character at the
-     *             {@code index}
-     * @exception  IndexOutOfBoundsException  if the {@code index}
-     *             argument is negative or not less than the length of this
-     *             sequence.
+     * @pbrbm      indfx tif indfx to tif {@dodf dibr} vblufs
+     * @rfturn     tif dodf point vbluf of tif dibrbdtfr bt tif
+     *             {@dodf indfx}
+     * @fxdfption  IndfxOutOfBoundsExdfption  if tif {@dodf indfx}
+     *             brgumfnt is nfgbtivf or not lfss tibn tif lfngti of tiis
+     *             sfqufndf.
      */
-    public int codePointAt(int index) {
-        if ((index < 0) || (index >= count)) {
-            throw new StringIndexOutOfBoundsException(index);
+    publid int dodfPointAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount)) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
         }
-        return Character.codePointAtImpl(value, index, count);
+        rfturn Cibrbdtfr.dodfPointAtImpl(vbluf, indfx, dount);
     }
 
     /**
-     * Returns the character (Unicode code point) before the specified
-     * index. The index refers to {@code char} values
-     * (Unicode code units) and ranges from {@code 1} to {@link
-     * #length()}.
+     * Rfturns tif dibrbdtfr (Unidodf dodf point) bfforf tif spfdififd
+     * indfx. Tif indfx rfffrs to {@dodf dibr} vblufs
+     * (Unidodf dodf units) bnd rbngfs from {@dodf 1} to {@link
+     * #lfngti()}.
      *
-     * <p> If the {@code char} value at {@code (index - 1)}
-     * is in the low-surrogate range, {@code (index - 2)} is not
-     * negative, and the {@code char} value at {@code (index -
-     * 2)} is in the high-surrogate range, then the
-     * supplementary code point value of the surrogate pair is
-     * returned. If the {@code char} value at {@code index -
-     * 1} is an unpaired low-surrogate or a high-surrogate, the
-     * surrogate value is returned.
+     * <p> If tif {@dodf dibr} vbluf bt {@dodf (indfx - 1)}
+     * is in tif low-surrogbtf rbngf, {@dodf (indfx - 2)} is not
+     * nfgbtivf, bnd tif {@dodf dibr} vbluf bt {@dodf (indfx -
+     * 2)} is in tif iigi-surrogbtf rbngf, tifn tif
+     * supplfmfntbry dodf point vbluf of tif surrogbtf pbir is
+     * rfturnfd. If tif {@dodf dibr} vbluf bt {@dodf indfx -
+     * 1} is bn unpbirfd low-surrogbtf or b iigi-surrogbtf, tif
+     * surrogbtf vbluf is rfturnfd.
      *
-     * @param     index the index following the code point that should be returned
-     * @return    the Unicode code point value before the given index.
-     * @exception IndexOutOfBoundsException if the {@code index}
-     *            argument is less than 1 or greater than the length
-     *            of this sequence.
+     * @pbrbm     indfx tif indfx following tif dodf point tibt siould bf rfturnfd
+     * @rfturn    tif Unidodf dodf point vbluf bfforf tif givfn indfx.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif {@dodf indfx}
+     *            brgumfnt is lfss tibn 1 or grfbtfr tibn tif lfngti
+     *            of tiis sfqufndf.
      */
-    public int codePointBefore(int index) {
-        int i = index - 1;
-        if ((i < 0) || (i >= count)) {
-            throw new StringIndexOutOfBoundsException(index);
+    publid int dodfPointBfforf(int indfx) {
+        int i = indfx - 1;
+        if ((i < 0) || (i >= dount)) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
         }
-        return Character.codePointBeforeImpl(value, index, 0);
+        rfturn Cibrbdtfr.dodfPointBfforfImpl(vbluf, indfx, 0);
     }
 
     /**
-     * Returns the number of Unicode code points in the specified text
-     * range of this sequence. The text range begins at the specified
-     * {@code beginIndex} and extends to the {@code char} at
-     * index {@code endIndex - 1}. Thus the length (in
-     * {@code char}s) of the text range is
-     * {@code endIndex-beginIndex}. Unpaired surrogates within
-     * this sequence count as one code point each.
+     * Rfturns tif numbfr of Unidodf dodf points in tif spfdififd tfxt
+     * rbngf of tiis sfqufndf. Tif tfxt rbngf bfgins bt tif spfdififd
+     * {@dodf bfginIndfx} bnd fxtfnds to tif {@dodf dibr} bt
+     * indfx {@dodf fndIndfx - 1}. Tius tif lfngti (in
+     * {@dodf dibr}s) of tif tfxt rbngf is
+     * {@dodf fndIndfx-bfginIndfx}. Unpbirfd surrogbtfs witiin
+     * tiis sfqufndf dount bs onf dodf point fbdi.
      *
-     * @param beginIndex the index to the first {@code char} of
-     * the text range.
-     * @param endIndex the index after the last {@code char} of
-     * the text range.
-     * @return the number of Unicode code points in the specified text
-     * range
-     * @exception IndexOutOfBoundsException if the
-     * {@code beginIndex} is negative, or {@code endIndex}
-     * is larger than the length of this sequence, or
-     * {@code beginIndex} is larger than {@code endIndex}.
+     * @pbrbm bfginIndfx tif indfx to tif first {@dodf dibr} of
+     * tif tfxt rbngf.
+     * @pbrbm fndIndfx tif indfx bftfr tif lbst {@dodf dibr} of
+     * tif tfxt rbngf.
+     * @rfturn tif numbfr of Unidodf dodf points in tif spfdififd tfxt
+     * rbngf
+     * @fxdfption IndfxOutOfBoundsExdfption if tif
+     * {@dodf bfginIndfx} is nfgbtivf, or {@dodf fndIndfx}
+     * is lbrgfr tibn tif lfngti of tiis sfqufndf, or
+     * {@dodf bfginIndfx} is lbrgfr tibn {@dodf fndIndfx}.
      */
-    public int codePointCount(int beginIndex, int endIndex) {
-        if (beginIndex < 0 || endIndex > count || beginIndex > endIndex) {
-            throw new IndexOutOfBoundsException();
+    publid int dodfPointCount(int bfginIndfx, int fndIndfx) {
+        if (bfginIndfx < 0 || fndIndfx > dount || bfginIndfx > fndIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        return Character.codePointCountImpl(value, beginIndex, endIndex-beginIndex);
+        rfturn Cibrbdtfr.dodfPointCountImpl(vbluf, bfginIndfx, fndIndfx-bfginIndfx);
     }
 
     /**
-     * Returns the index within this sequence that is offset from the
-     * given {@code index} by {@code codePointOffset} code
-     * points. Unpaired surrogates within the text range given by
-     * {@code index} and {@code codePointOffset} count as
-     * one code point each.
+     * Rfturns tif indfx witiin tiis sfqufndf tibt is offsft from tif
+     * givfn {@dodf indfx} by {@dodf dodfPointOffsft} dodf
+     * points. Unpbirfd surrogbtfs witiin tif tfxt rbngf givfn by
+     * {@dodf indfx} bnd {@dodf dodfPointOffsft} dount bs
+     * onf dodf point fbdi.
      *
-     * @param index the index to be offset
-     * @param codePointOffset the offset in code points
-     * @return the index within this sequence
-     * @exception IndexOutOfBoundsException if {@code index}
-     *   is negative or larger then the length of this sequence,
-     *   or if {@code codePointOffset} is positive and the subsequence
-     *   starting with {@code index} has fewer than
-     *   {@code codePointOffset} code points,
-     *   or if {@code codePointOffset} is negative and the subsequence
-     *   before {@code index} has fewer than the absolute value of
-     *   {@code codePointOffset} code points.
+     * @pbrbm indfx tif indfx to bf offsft
+     * @pbrbm dodfPointOffsft tif offsft in dodf points
+     * @rfturn tif indfx witiin tiis sfqufndf
+     * @fxdfption IndfxOutOfBoundsExdfption if {@dodf indfx}
+     *   is nfgbtivf or lbrgfr tifn tif lfngti of tiis sfqufndf,
+     *   or if {@dodf dodfPointOffsft} is positivf bnd tif subsfqufndf
+     *   stbrting witi {@dodf indfx} ibs ffwfr tibn
+     *   {@dodf dodfPointOffsft} dodf points,
+     *   or if {@dodf dodfPointOffsft} is nfgbtivf bnd tif subsfqufndf
+     *   bfforf {@dodf indfx} ibs ffwfr tibn tif bbsolutf vbluf of
+     *   {@dodf dodfPointOffsft} dodf points.
      */
-    public int offsetByCodePoints(int index, int codePointOffset) {
-        if (index < 0 || index > count) {
-            throw new IndexOutOfBoundsException();
+    publid int offsftByCodfPoints(int indfx, int dodfPointOffsft) {
+        if (indfx < 0 || indfx > dount) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        return Character.offsetByCodePointsImpl(value, 0, count,
-                                                index, codePointOffset);
+        rfturn Cibrbdtfr.offsftByCodfPointsImpl(vbluf, 0, dount,
+                                                indfx, dodfPointOffsft);
     }
 
     /**
-     * Characters are copied from this sequence into the
-     * destination character array {@code dst}. The first character to
-     * be copied is at index {@code srcBegin}; the last character to
-     * be copied is at index {@code srcEnd-1}. The total number of
-     * characters to be copied is {@code srcEnd-srcBegin}. The
-     * characters are copied into the subarray of {@code dst} starting
-     * at index {@code dstBegin} and ending at index:
-     * <pre>{@code
-     * dstbegin + (srcEnd-srcBegin) - 1
-     * }</pre>
+     * Cibrbdtfrs brf dopifd from tiis sfqufndf into tif
+     * dfstinbtion dibrbdtfr brrby {@dodf dst}. Tif first dibrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdBfgin}; tif lbst dibrbdtfr to
+     * bf dopifd is bt indfx {@dodf srdEnd-1}. Tif totbl numbfr of
+     * dibrbdtfrs to bf dopifd is {@dodf srdEnd-srdBfgin}. Tif
+     * dibrbdtfrs brf dopifd into tif subbrrby of {@dodf dst} stbrting
+     * bt indfx {@dodf dstBfgin} bnd fnding bt indfx:
+     * <prf>{@dodf
+     * dstbfgin + (srdEnd-srdBfgin) - 1
+     * }</prf>
      *
-     * @param      srcBegin   start copying at this offset.
-     * @param      srcEnd     stop copying at this offset.
-     * @param      dst        the array to copy the data into.
-     * @param      dstBegin   offset into {@code dst}.
-     * @throws     IndexOutOfBoundsException  if any of the following is true:
+     * @pbrbm      srdBfgin   stbrt dopying bt tiis offsft.
+     * @pbrbm      srdEnd     stop dopying bt tiis offsft.
+     * @pbrbm      dst        tif brrby to dopy tif dbtb into.
+     * @pbrbm      dstBfgin   offsft into {@dodf dst}.
+     * @tirows     IndfxOutOfBoundsExdfption  if bny of tif following is truf:
      *             <ul>
-     *             <li>{@code srcBegin} is negative
-     *             <li>{@code dstBegin} is negative
-     *             <li>the {@code srcBegin} argument is greater than
-     *             the {@code srcEnd} argument.
-     *             <li>{@code srcEnd} is greater than
-     *             {@code this.length()}.
-     *             <li>{@code dstBegin+srcEnd-srcBegin} is greater than
-     *             {@code dst.length}
+     *             <li>{@dodf srdBfgin} is nfgbtivf
+     *             <li>{@dodf dstBfgin} is nfgbtivf
+     *             <li>tif {@dodf srdBfgin} brgumfnt is grfbtfr tibn
+     *             tif {@dodf srdEnd} brgumfnt.
+     *             <li>{@dodf srdEnd} is grfbtfr tibn
+     *             {@dodf tiis.lfngti()}.
+     *             <li>{@dodf dstBfgin+srdEnd-srdBfgin} is grfbtfr tibn
+     *             {@dodf dst.lfngti}
      *             </ul>
      */
-    public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
+    publid void gftCibrs(int srdBfgin, int srdEnd, dibr[] dst, int dstBfgin)
     {
-        if (srcBegin < 0)
-            throw new StringIndexOutOfBoundsException(srcBegin);
-        if ((srcEnd < 0) || (srcEnd > count))
-            throw new StringIndexOutOfBoundsException(srcEnd);
-        if (srcBegin > srcEnd)
-            throw new StringIndexOutOfBoundsException("srcBegin > srcEnd");
-        System.arraycopy(value, srcBegin, dst, dstBegin, srcEnd - srcBegin);
+        if (srdBfgin < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(srdBfgin);
+        if ((srdEnd < 0) || (srdEnd > dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(srdEnd);
+        if (srdBfgin > srdEnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption("srdBfgin > srdEnd");
+        Systfm.brrbydopy(vbluf, srdBfgin, dst, dstBfgin, srdEnd - srdBfgin);
     }
 
     /**
-     * The character at the specified index is set to {@code ch}. This
-     * sequence is altered to represent a new character sequence that is
-     * identical to the old character sequence, except that it contains the
-     * character {@code ch} at position {@code index}.
+     * Tif dibrbdtfr bt tif spfdififd indfx is sft to {@dodf di}. Tiis
+     * sfqufndf is bltfrfd to rfprfsfnt b nfw dibrbdtfr sfqufndf tibt is
+     * idfntidbl to tif old dibrbdtfr sfqufndf, fxdfpt tibt it dontbins tif
+     * dibrbdtfr {@dodf di} bt position {@dodf indfx}.
      * <p>
-     * The index argument must be greater than or equal to
-     * {@code 0}, and less than the length of this sequence.
+     * Tif indfx brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn tif lfngti of tiis sfqufndf.
      *
-     * @param      index   the index of the character to modify.
-     * @param      ch      the new character.
-     * @throws     IndexOutOfBoundsException  if {@code index} is
-     *             negative or greater than or equal to {@code length()}.
+     * @pbrbm      indfx   tif indfx of tif dibrbdtfr to modify.
+     * @pbrbm      di      tif nfw dibrbdtfr.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf indfx} is
+     *             nfgbtivf or grfbtfr tibn or fqubl to {@dodf lfngti()}.
      */
-    public void setCharAt(int index, char ch) {
-        if ((index < 0) || (index >= count))
-            throw new StringIndexOutOfBoundsException(index);
-        value[index] = ch;
+    publid void sftCibrAt(int indfx, dibr di) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        vbluf[indfx] = di;
     }
 
     /**
-     * Appends the string representation of the {@code Object} argument.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf Objfdt} brgumfnt.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(Object)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(Objfdt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   obj   an {@code Object}.
-     * @return  a reference to this object.
+     * @pbrbm   obj   bn {@dodf Objfdt}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(Object obj) {
-        return append(String.valueOf(obj));
+    publid AbstrbdtStringBuildfr bppfnd(Objfdt obj) {
+        rfturn bppfnd(String.vblufOf(obj));
     }
 
     /**
-     * Appends the specified string to this character sequence.
+     * Appfnds tif spfdififd string to tiis dibrbdtfr sfqufndf.
      * <p>
-     * The characters of the {@code String} argument are appended, in
-     * order, increasing the length of this sequence by the length of the
-     * argument. If {@code str} is {@code null}, then the four
-     * characters {@code "null"} are appended.
+     * Tif dibrbdtfrs of tif {@dodf String} brgumfnt brf bppfndfd, in
+     * ordfr, indrfbsing tif lfngti of tiis sfqufndf by tif lfngti of tif
+     * brgumfnt. If {@dodf str} is {@dodf null}, tifn tif four
+     * dibrbdtfrs {@dodf "null"} brf bppfndfd.
      * <p>
-     * Let <i>n</i> be the length of this character sequence just prior to
-     * execution of the {@code append} method. Then the character at
-     * index <i>k</i> in the new character sequence is equal to the character
-     * at index <i>k</i> in the old character sequence, if <i>k</i> is less
-     * than <i>n</i>; otherwise, it is equal to the character at index
-     * <i>k-n</i> in the argument {@code str}.
+     * Lft <i>n</i> bf tif lfngti of tiis dibrbdtfr sfqufndf just prior to
+     * fxfdution of tif {@dodf bppfnd} mftiod. Tifn tif dibrbdtfr bt
+     * indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is fqubl to tif dibrbdtfr
+     * bt indfx <i>k</i> in tif old dibrbdtfr sfqufndf, if <i>k</i> is lfss
+     * tibn <i>n</i>; otifrwisf, it is fqubl to tif dibrbdtfr bt indfx
+     * <i>k-n</i> in tif brgumfnt {@dodf str}.
      *
-     * @param   str   a string.
-     * @return  a reference to this object.
+     * @pbrbm   str   b string.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(String str) {
+    publid AbstrbdtStringBuildfr bppfnd(String str) {
         if (str == null)
-            return appendNull();
-        int len = str.length();
-        ensureCapacityInternal(count + len);
-        str.getChars(0, len, value, count);
-        count += len;
-        return this;
+            rfturn bppfndNull();
+        int lfn = str.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        str.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
     }
 
-    // Documentation in subclasses because of synchro difference
-    public AbstractStringBuilder append(StringBuffer sb) {
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndiro difffrfndf
+    publid AbstrbdtStringBuildfr bppfnd(StringBufffr sb) {
         if (sb == null)
-            return appendNull();
-        int len = sb.length();
-        ensureCapacityInternal(count + len);
-        sb.getChars(0, len, value, count);
-        count += len;
-        return this;
+            rfturn bppfndNull();
+        int lfn = sb.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        sb.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * @since 1.8
+     * @sindf 1.8
      */
-    AbstractStringBuilder append(AbstractStringBuilder asb) {
-        if (asb == null)
-            return appendNull();
-        int len = asb.length();
-        ensureCapacityInternal(count + len);
-        asb.getChars(0, len, value, count);
-        count += len;
-        return this;
+    AbstrbdtStringBuildfr bppfnd(AbstrbdtStringBuildfr bsb) {
+        if (bsb == null)
+            rfturn bppfndNull();
+        int lfn = bsb.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        bsb.gftCibrs(0, lfn, vbluf, dount);
+        dount += lfn;
+        rfturn tiis;
     }
 
-    // Documentation in subclasses because of synchro difference
-    @Override
-    public AbstractStringBuilder append(CharSequence s) {
+    // Dodumfntbtion in subdlbssfs bfdbusf of syndiro difffrfndf
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(CibrSfqufndf s) {
         if (s == null)
-            return appendNull();
-        if (s instanceof String)
-            return this.append((String)s);
-        if (s instanceof AbstractStringBuilder)
-            return this.append((AbstractStringBuilder)s);
+            rfturn bppfndNull();
+        if (s instbndfof String)
+            rfturn tiis.bppfnd((String)s);
+        if (s instbndfof AbstrbdtStringBuildfr)
+            rfturn tiis.bppfnd((AbstrbdtStringBuildfr)s);
 
-        return this.append(s, 0, s.length());
+        rfturn tiis.bppfnd(s, 0, s.lfngti());
     }
 
-    private AbstractStringBuilder appendNull() {
-        int c = count;
-        ensureCapacityInternal(c + 4);
-        final char[] value = this.value;
-        value[c++] = 'n';
-        value[c++] = 'u';
-        value[c++] = 'l';
-        value[c++] = 'l';
-        count = c;
-        return this;
+    privbtf AbstrbdtStringBuildfr bppfndNull() {
+        int d = dount;
+        fnsurfCbpbdityIntfrnbl(d + 4);
+        finbl dibr[] vbluf = tiis.vbluf;
+        vbluf[d++] = 'n';
+        vbluf[d++] = 'u';
+        vbluf[d++] = 'l';
+        vbluf[d++] = 'l';
+        dount = d;
+        rfturn tiis;
     }
 
     /**
-     * Appends a subsequence of the specified {@code CharSequence} to this
-     * sequence.
+     * Appfnds b subsfqufndf of tif spfdififd {@dodf CibrSfqufndf} to tiis
+     * sfqufndf.
      * <p>
-     * Characters of the argument {@code s}, starting at
-     * index {@code start}, are appended, in order, to the contents of
-     * this sequence up to the (exclusive) index {@code end}. The length
-     * of this sequence is increased by the value of {@code end - start}.
+     * Cibrbdtfrs of tif brgumfnt {@dodf s}, stbrting bt
+     * indfx {@dodf stbrt}, brf bppfndfd, in ordfr, to tif dontfnts of
+     * tiis sfqufndf up to tif (fxdlusivf) indfx {@dodf fnd}. Tif lfngti
+     * of tiis sfqufndf is indrfbsfd by tif vbluf of {@dodf fnd - stbrt}.
      * <p>
-     * Let <i>n</i> be the length of this character sequence just prior to
-     * execution of the {@code append} method. Then the character at
-     * index <i>k</i> in this character sequence becomes equal to the
-     * character at index <i>k</i> in this sequence, if <i>k</i> is less than
-     * <i>n</i>; otherwise, it is equal to the character at index
-     * <i>k+start-n</i> in the argument {@code s}.
+     * Lft <i>n</i> bf tif lfngti of tiis dibrbdtfr sfqufndf just prior to
+     * fxfdution of tif {@dodf bppfnd} mftiod. Tifn tif dibrbdtfr bt
+     * indfx <i>k</i> in tiis dibrbdtfr sfqufndf bfdomfs fqubl to tif
+     * dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf, if <i>k</i> is lfss tibn
+     * <i>n</i>; otifrwisf, it is fqubl to tif dibrbdtfr bt indfx
+     * <i>k+stbrt-n</i> in tif brgumfnt {@dodf s}.
      * <p>
-     * If {@code s} is {@code null}, then this method appends
-     * characters as if the s parameter was a sequence containing the four
-     * characters {@code "null"}.
+     * If {@dodf s} is {@dodf null}, tifn tiis mftiod bppfnds
+     * dibrbdtfrs bs if tif s pbrbmftfr wbs b sfqufndf dontbining tif four
+     * dibrbdtfrs {@dodf "null"}.
      *
-     * @param   s the sequence to append.
-     * @param   start   the starting index of the subsequence to be appended.
-     * @param   end     the end index of the subsequence to be appended.
-     * @return  a reference to this object.
-     * @throws     IndexOutOfBoundsException if
-     *             {@code start} is negative, or
-     *             {@code start} is greater than {@code end} or
-     *             {@code end} is greater than {@code s.length()}
+     * @pbrbm   s tif sfqufndf to bppfnd.
+     * @pbrbm   stbrt   tif stbrting indfx of tif subsfqufndf to bf bppfndfd.
+     * @pbrbm   fnd     tif fnd indfx of tif subsfqufndf to bf bppfndfd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption if
+     *             {@dodf stbrt} is nfgbtivf, or
+     *             {@dodf stbrt} is grfbtfr tibn {@dodf fnd} or
+     *             {@dodf fnd} is grfbtfr tibn {@dodf s.lfngti()}
      */
-    @Override
-    public AbstractStringBuilder append(CharSequence s, int start, int end) {
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(CibrSfqufndf s, int stbrt, int fnd) {
         if (s == null)
             s = "null";
-        if ((start < 0) || (start > end) || (end > s.length()))
-            throw new IndexOutOfBoundsException(
-                "start " + start + ", end " + end + ", s.length() "
-                + s.length());
-        int len = end - start;
-        ensureCapacityInternal(count + len);
-        for (int i = start, j = count; i < end; i++, j++)
-            value[j] = s.charAt(i);
-        count += len;
-        return this;
+        if ((stbrt < 0) || (stbrt > fnd) || (fnd > s.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngti() "
+                + s.lfngti());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        for (int i = stbrt, j = dount; i < fnd; i++, j++)
+            vbluf[j] = s.dibrAt(i);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code char} array
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dibr} brrby
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The characters of the array argument are appended, in order, to
-     * the contents of this sequence. The length of this sequence
-     * increases by the length of the argument.
+     * Tif dibrbdtfrs of tif brrby brgumfnt brf bppfndfd, in ordfr, to
+     * tif dontfnts of tiis sfqufndf. Tif lfngti of tiis sfqufndf
+     * indrfbsfs by tif lfngti of tif brgumfnt.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(char[])},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr[])},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   str   the characters to be appended.
-     * @return  a reference to this object.
+     * @pbrbm   str   tif dibrbdtfrs to bf bppfndfd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(char[] str) {
-        int len = str.length;
-        ensureCapacityInternal(count + len);
-        System.arraycopy(str, 0, value, count, len);
-        count += len;
-        return this;
+    publid AbstrbdtStringBuildfr bppfnd(dibr[] str) {
+        int lfn = str.lfngti;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, 0, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of a subarray of the
-     * {@code char} array argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of b subbrrby of tif
+     * {@dodf dibr} brrby brgumfnt to tiis sfqufndf.
      * <p>
-     * Characters of the {@code char} array {@code str}, starting at
-     * index {@code offset}, are appended, in order, to the contents
-     * of this sequence. The length of this sequence increases
-     * by the value of {@code len}.
+     * Cibrbdtfrs of tif {@dodf dibr} brrby {@dodf str}, stbrting bt
+     * indfx {@dodf offsft}, brf bppfndfd, in ordfr, to tif dontfnts
+     * of tiis sfqufndf. Tif lfngti of tiis sfqufndf indrfbsfs
+     * by tif vbluf of {@dodf lfn}.
      * <p>
-     * The overall effect is exactly as if the arguments were converted
-     * to a string by the method {@link String#valueOf(char[],int,int)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnts wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr[],int,int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   str      the characters to be appended.
-     * @param   offset   the index of the first {@code char} to append.
-     * @param   len      the number of {@code char}s to append.
-     * @return  a reference to this object.
-     * @throws IndexOutOfBoundsException
-     *         if {@code offset < 0} or {@code len < 0}
-     *         or {@code offset+len > str.length}
+     * @pbrbm   str      tif dibrbdtfrs to bf bppfndfd.
+     * @pbrbm   offsft   tif indfx of tif first {@dodf dibr} to bppfnd.
+     * @pbrbm   lfn      tif numbfr of {@dodf dibr}s to bppfnd.
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @tirows IndfxOutOfBoundsExdfption
+     *         if {@dodf offsft < 0} or {@dodf lfn < 0}
+     *         or {@dodf offsft+lfn > str.lfngti}
      */
-    public AbstractStringBuilder append(char str[], int offset, int len) {
-        if (len > 0)                // let arraycopy report AIOOBE for len < 0
-            ensureCapacityInternal(count + len);
-        System.arraycopy(str, offset, value, count, len);
-        count += len;
-        return this;
+    publid AbstrbdtStringBuildfr bppfnd(dibr str[], int offsft, int lfn) {
+        if (lfn > 0)                // lft brrbydopy rfport AIOOBE for lfn < 0
+            fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(str, offsft, vbluf, dount, lfn);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code boolean}
-     * argument to the sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf boolfbn}
+     * brgumfnt to tif sfqufndf.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(boolean)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(boolfbn)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   b   a {@code boolean}.
-     * @return  a reference to this object.
+     * @pbrbm   b   b {@dodf boolfbn}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(boolean b) {
+    publid AbstrbdtStringBuildfr bppfnd(boolfbn b) {
         if (b) {
-            ensureCapacityInternal(count + 4);
-            value[count++] = 't';
-            value[count++] = 'r';
-            value[count++] = 'u';
-            value[count++] = 'e';
-        } else {
-            ensureCapacityInternal(count + 5);
-            value[count++] = 'f';
-            value[count++] = 'a';
-            value[count++] = 'l';
-            value[count++] = 's';
-            value[count++] = 'e';
+            fnsurfCbpbdityIntfrnbl(dount + 4);
+            vbluf[dount++] = 't';
+            vbluf[dount++] = 'r';
+            vbluf[dount++] = 'u';
+            vbluf[dount++] = 'f';
+        } flsf {
+            fnsurfCbpbdityIntfrnbl(dount + 5);
+            vbluf[dount++] = 'f';
+            vbluf[dount++] = 'b';
+            vbluf[dount++] = 'l';
+            vbluf[dount++] = 's';
+            vbluf[dount++] = 'f';
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code char}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dibr}
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The argument is appended to the contents of this sequence.
-     * The length of this sequence increases by {@code 1}.
+     * Tif brgumfnt is bppfndfd to tif dontfnts of tiis sfqufndf.
+     * Tif lfngti of tiis sfqufndf indrfbsfs by {@dodf 1}.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(char)},
-     * and the character in that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(dibr)},
+     * bnd tif dibrbdtfr in tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   c   a {@code char}.
-     * @return  a reference to this object.
+     * @pbrbm   d   b {@dodf dibr}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    @Override
-    public AbstractStringBuilder append(char c) {
-        ensureCapacityInternal(count + 1);
-        value[count++] = c;
-        return this;
+    @Ovfrridf
+    publid AbstrbdtStringBuildfr bppfnd(dibr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        vbluf[dount++] = d;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code int}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf int}
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(int)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   i   an {@code int}.
-     * @return  a reference to this object.
+     * @pbrbm   i   bn {@dodf int}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(int i) {
-        if (i == Integer.MIN_VALUE) {
-            append("-2147483648");
-            return this;
+    publid AbstrbdtStringBuildfr bppfnd(int i) {
+        if (i == Intfgfr.MIN_VALUE) {
+            bppfnd("-2147483648");
+            rfturn tiis;
         }
-        int appendedLength = (i < 0) ? Integer.stringSize(-i) + 1
-                                     : Integer.stringSize(i);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Integer.getChars(i, spaceNeeded, value);
-        count = spaceNeeded;
-        return this;
+        int bppfndfdLfngti = (i < 0) ? Intfgfr.stringSizf(-i) + 1
+                                     : Intfgfr.stringSizf(i);
+        int spbdfNffdfd = dount + bppfndfdLfngti;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Intfgfr.gftCibrs(i, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code long}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf long}
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(long)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(long)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   l   a {@code long}.
-     * @return  a reference to this object.
+     * @pbrbm   l   b {@dodf long}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(long l) {
+    publid AbstrbdtStringBuildfr bppfnd(long l) {
         if (l == Long.MIN_VALUE) {
-            append("-9223372036854775808");
-            return this;
+            bppfnd("-9223372036854775808");
+            rfturn tiis;
         }
-        int appendedLength = (l < 0) ? Long.stringSize(-l) + 1
-                                     : Long.stringSize(l);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Long.getChars(l, spaceNeeded, value);
-        count = spaceNeeded;
-        return this;
+        int bppfndfdLfngti = (l < 0) ? Long.stringSizf(-l) + 1
+                                     : Long.stringSizf(l);
+        int spbdfNffdfd = dount + bppfndfdLfngti;
+        fnsurfCbpbdityIntfrnbl(spbdfNffdfd);
+        Long.gftCibrs(l, spbdfNffdfd, vbluf);
+        dount = spbdfNffdfd;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code float}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf flobt}
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(float)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(flobt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   f   a {@code float}.
-     * @return  a reference to this object.
+     * @pbrbm   f   b {@dodf flobt}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(float f) {
-        FloatingDecimal.appendTo(f,this);
-        return this;
+    publid AbstrbdtStringBuildfr bppfnd(flobt f) {
+        FlobtingDfdimbl.bppfndTo(f,tiis);
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code double}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf doublf}
+     * brgumfnt to tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the argument were converted
-     * to a string by the method {@link String#valueOf(double)},
-     * and the characters of that string were then
-     * {@link #append(String) appended} to this character sequence.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf donvfrtfd
+     * to b string by tif mftiod {@link String#vblufOf(doublf)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #bppfnd(String) bppfndfd} to tiis dibrbdtfr sfqufndf.
      *
-     * @param   d   a {@code double}.
-     * @return  a reference to this object.
+     * @pbrbm   d   b {@dodf doublf}.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder append(double d) {
-        FloatingDecimal.appendTo(d,this);
-        return this;
+    publid AbstrbdtStringBuildfr bppfnd(doublf d) {
+        FlobtingDfdimbl.bppfndTo(d,tiis);
+        rfturn tiis;
     }
 
     /**
-     * Removes the characters in a substring of this sequence.
-     * The substring begins at the specified {@code start} and extends to
-     * the character at index {@code end - 1} or to the end of the
-     * sequence if no such character exists. If
-     * {@code start} is equal to {@code end}, no changes are made.
+     * Rfmovfs tif dibrbdtfrs in b substring of tiis sfqufndf.
+     * Tif substring bfgins bt tif spfdififd {@dodf stbrt} bnd fxtfnds to
+     * tif dibrbdtfr bt indfx {@dodf fnd - 1} or to tif fnd of tif
+     * sfqufndf if no sudi dibrbdtfr fxists. If
+     * {@dodf stbrt} is fqubl to {@dodf fnd}, no dibngfs brf mbdf.
      *
-     * @param      start  The beginning index, inclusive.
-     * @param      end    The ending index, exclusive.
-     * @return     This object.
-     * @throws     StringIndexOutOfBoundsException  if {@code start}
-     *             is negative, greater than {@code length()}, or
-     *             greater than {@code end}.
+     * @pbrbm      stbrt  Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd    Tif fnding indfx, fxdlusivf.
+     * @rfturn     Tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr tibn {@dodf lfngti()}, or
+     *             grfbtfr tibn {@dodf fnd}.
      */
-    public AbstractStringBuilder delete(int start, int end) {
-        if (start < 0)
-            throw new StringIndexOutOfBoundsException(start);
-        if (end > count)
-            end = count;
-        if (start > end)
-            throw new StringIndexOutOfBoundsException();
-        int len = end - start;
-        if (len > 0) {
-            System.arraycopy(value, start+len, value, start, count-end);
-            count -= len;
+    publid AbstrbdtStringBuildfr dflftf(int stbrt, int fnd) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            fnd = dount;
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption();
+        int lfn = fnd - stbrt;
+        if (lfn > 0) {
+            Systfm.brrbydopy(vbluf, stbrt+lfn, vbluf, stbrt, dount-fnd);
+            dount -= lfn;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Appends the string representation of the {@code codePoint}
-     * argument to this sequence.
+     * Appfnds tif string rfprfsfntbtion of tif {@dodf dodfPoint}
+     * brgumfnt to tiis sfqufndf.
      *
-     * <p> The argument is appended to the contents of this sequence.
-     * The length of this sequence increases by
-     * {@link Character#charCount(int) Character.charCount(codePoint)}.
+     * <p> Tif brgumfnt is bppfndfd to tif dontfnts of tiis sfqufndf.
+     * Tif lfngti of tiis sfqufndf indrfbsfs by
+     * {@link Cibrbdtfr#dibrCount(int) Cibrbdtfr.dibrCount(dodfPoint)}.
      *
-     * <p> The overall effect is exactly as if the argument were
-     * converted to a {@code char} array by the method
-     * {@link Character#toChars(int)} and the character in that array
-     * were then {@link #append(char[]) appended} to this character
-     * sequence.
+     * <p> Tif ovfrbll ffffdt is fxbdtly bs if tif brgumfnt wfrf
+     * donvfrtfd to b {@dodf dibr} brrby by tif mftiod
+     * {@link Cibrbdtfr#toCibrs(int)} bnd tif dibrbdtfr in tibt brrby
+     * wfrf tifn {@link #bppfnd(dibr[]) bppfndfd} to tiis dibrbdtfr
+     * sfqufndf.
      *
-     * @param   codePoint   a Unicode code point
-     * @return  a reference to this object.
-     * @exception IllegalArgumentException if the specified
-     * {@code codePoint} isn't a valid Unicode code point
+     * @pbrbm   dodfPoint   b Unidodf dodf point
+     * @rfturn  b rfffrfndf to tiis objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd
+     * {@dodf dodfPoint} isn't b vblid Unidodf dodf point
      */
-    public AbstractStringBuilder appendCodePoint(int codePoint) {
-        final int count = this.count;
+    publid AbstrbdtStringBuildfr bppfndCodfPoint(int dodfPoint) {
+        finbl int dount = tiis.dount;
 
-        if (Character.isBmpCodePoint(codePoint)) {
-            ensureCapacityInternal(count + 1);
-            value[count] = (char) codePoint;
-            this.count = count + 1;
-        } else if (Character.isValidCodePoint(codePoint)) {
-            ensureCapacityInternal(count + 2);
-            Character.toSurrogates(codePoint, value, count);
-            this.count = count + 2;
-        } else {
-            throw new IllegalArgumentException();
+        if (Cibrbdtfr.isBmpCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 1);
+            vbluf[dount] = (dibr) dodfPoint;
+            tiis.dount = dount + 1;
+        } flsf if (Cibrbdtfr.isVblidCodfPoint(dodfPoint)) {
+            fnsurfCbpbdityIntfrnbl(dount + 2);
+            Cibrbdtfr.toSurrogbtfs(dodfPoint, vbluf, dount);
+            tiis.dount = dount + 2;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Removes the {@code char} at the specified position in this
-     * sequence. This sequence is shortened by one {@code char}.
+     * Rfmovfs tif {@dodf dibr} bt tif spfdififd position in tiis
+     * sfqufndf. Tiis sfqufndf is siortfnfd by onf {@dodf dibr}.
      *
-     * <p>Note: If the character at the given index is a supplementary
-     * character, this method does not remove the entire character. If
-     * correct handling of supplementary characters is required,
-     * determine the number of {@code char}s to remove by calling
-     * {@code Character.charCount(thisSequence.codePointAt(index))},
-     * where {@code thisSequence} is this sequence.
+     * <p>Notf: If tif dibrbdtfr bt tif givfn indfx is b supplfmfntbry
+     * dibrbdtfr, tiis mftiod dofs not rfmovf tif fntirf dibrbdtfr. If
+     * dorrfdt ibndling of supplfmfntbry dibrbdtfrs is rfquirfd,
+     * dftfrminf tif numbfr of {@dodf dibr}s to rfmovf by dblling
+     * {@dodf Cibrbdtfr.dibrCount(tiisSfqufndf.dodfPointAt(indfx))},
+     * wifrf {@dodf tiisSfqufndf} is tiis sfqufndf.
      *
-     * @param       index  Index of {@code char} to remove
-     * @return      This object.
-     * @throws      StringIndexOutOfBoundsException  if the {@code index}
-     *              is negative or greater than or equal to
-     *              {@code length()}.
+     * @pbrbm       indfx  Indfx of {@dodf dibr} to rfmovf
+     * @rfturn      Tiis objfdt.
+     * @tirows      StringIndfxOutOfBoundsExdfption  if tif {@dodf indfx}
+     *              is nfgbtivf or grfbtfr tibn or fqubl to
+     *              {@dodf lfngti()}.
      */
-    public AbstractStringBuilder deleteCharAt(int index) {
-        if ((index < 0) || (index >= count))
-            throw new StringIndexOutOfBoundsException(index);
-        System.arraycopy(value, index+1, value, index, count-index-1);
-        count--;
-        return this;
+    publid AbstrbdtStringBuildfr dflftfCibrAt(int indfx) {
+        if ((indfx < 0) || (indfx >= dount))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        Systfm.brrbydopy(vbluf, indfx+1, vbluf, indfx, dount-indfx-1);
+        dount--;
+        rfturn tiis;
     }
 
     /**
-     * Replaces the characters in a substring of this sequence
-     * with characters in the specified {@code String}. The substring
-     * begins at the specified {@code start} and extends to the character
-     * at index {@code end - 1} or to the end of the
-     * sequence if no such character exists. First the
-     * characters in the substring are removed and then the specified
-     * {@code String} is inserted at {@code start}. (This
-     * sequence will be lengthened to accommodate the
-     * specified String if necessary.)
+     * Rfplbdfs tif dibrbdtfrs in b substring of tiis sfqufndf
+     * witi dibrbdtfrs in tif spfdififd {@dodf String}. Tif substring
+     * bfgins bt tif spfdififd {@dodf stbrt} bnd fxtfnds to tif dibrbdtfr
+     * bt indfx {@dodf fnd - 1} or to tif fnd of tif
+     * sfqufndf if no sudi dibrbdtfr fxists. First tif
+     * dibrbdtfrs in tif substring brf rfmovfd bnd tifn tif spfdififd
+     * {@dodf String} is insfrtfd bt {@dodf stbrt}. (Tiis
+     * sfqufndf will bf lfngtifnfd to bddommodbtf tif
+     * spfdififd String if nfdfssbry.)
      *
-     * @param      start    The beginning index, inclusive.
-     * @param      end      The ending index, exclusive.
-     * @param      str   String that will replace previous contents.
-     * @return     This object.
-     * @throws     StringIndexOutOfBoundsException  if {@code start}
-     *             is negative, greater than {@code length()}, or
-     *             greater than {@code end}.
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Tif fnding indfx, fxdlusivf.
+     * @pbrbm      str   String tibt will rfplbdf prfvious dontfnts.
+     * @rfturn     Tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             is nfgbtivf, grfbtfr tibn {@dodf lfngti()}, or
+     *             grfbtfr tibn {@dodf fnd}.
      */
-    public AbstractStringBuilder replace(int start, int end, String str) {
-        if (start < 0)
-            throw new StringIndexOutOfBoundsException(start);
-        if (start > count)
-            throw new StringIndexOutOfBoundsException("start > length()");
-        if (start > end)
-            throw new StringIndexOutOfBoundsException("start > end");
+    publid AbstrbdtStringBuildfr rfplbdf(int stbrt, int fnd, String str) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (stbrt > dount)
+            tirow nfw StringIndfxOutOfBoundsExdfption("stbrt > lfngti()");
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption("stbrt > fnd");
 
-        if (end > count)
-            end = count;
-        int len = str.length();
-        int newCount = count + len - (end - start);
-        ensureCapacityInternal(newCount);
+        if (fnd > dount)
+            fnd = dount;
+        int lfn = str.lfngti();
+        int nfwCount = dount + lfn - (fnd - stbrt);
+        fnsurfCbpbdityIntfrnbl(nfwCount);
 
-        System.arraycopy(value, end, value, start + len, count - end);
-        str.getChars(value, start);
-        count = newCount;
-        return this;
+        Systfm.brrbydopy(vbluf, fnd, vbluf, stbrt + lfn, dount - fnd);
+        str.gftCibrs(vbluf, stbrt);
+        dount = nfwCount;
+        rfturn tiis;
     }
 
     /**
-     * Returns a new {@code String} that contains a subsequence of
-     * characters currently contained in this character sequence. The
-     * substring begins at the specified index and extends to the end of
-     * this sequence.
+     * Rfturns b nfw {@dodf String} tibt dontbins b subsfqufndf of
+     * dibrbdtfrs durrfntly dontbinfd in tiis dibrbdtfr sfqufndf. Tif
+     * substring bfgins bt tif spfdififd indfx bnd fxtfnds to tif fnd of
+     * tiis sfqufndf.
      *
-     * @param      start    The beginning index, inclusive.
-     * @return     The new string.
-     * @throws     StringIndexOutOfBoundsException  if {@code start} is
-     *             less than zero, or greater than the length of this object.
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @rfturn     Tif nfw string.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt} is
+     *             lfss tibn zfro, or grfbtfr tibn tif lfngti of tiis objfdt.
      */
-    public String substring(int start) {
-        return substring(start, count);
+    publid String substring(int stbrt) {
+        rfturn substring(stbrt, dount);
     }
 
     /**
-     * Returns a new character sequence that is a subsequence of this sequence.
+     * Rfturns b nfw dibrbdtfr sfqufndf tibt is b subsfqufndf of tiis sfqufndf.
      *
-     * <p> An invocation of this method of the form
+     * <p> An invodbtion of tiis mftiod of tif form
      *
-     * <pre>{@code
-     * sb.subSequence(begin,&nbsp;end)}</pre>
+     * <prf>{@dodf
+     * sb.subSfqufndf(bfgin,&nbsp;fnd)}</prf>
      *
-     * behaves in exactly the same way as the invocation
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>{@code
-     * sb.substring(begin,&nbsp;end)}</pre>
+     * <prf>{@dodf
+     * sb.substring(bfgin,&nbsp;fnd)}</prf>
      *
-     * This method is provided so that this class can
-     * implement the {@link CharSequence} interface.
+     * Tiis mftiod is providfd so tibt tiis dlbss dbn
+     * implfmfnt tif {@link CibrSfqufndf} intfrfbdf.
      *
-     * @param      start   the start index, inclusive.
-     * @param      end     the end index, exclusive.
-     * @return     the specified subsequence.
+     * @pbrbm      stbrt   tif stbrt indfx, indlusivf.
+     * @pbrbm      fnd     tif fnd indfx, fxdlusivf.
+     * @rfturn     tif spfdififd subsfqufndf.
      *
-     * @throws  IndexOutOfBoundsException
-     *          if {@code start} or {@code end} are negative,
-     *          if {@code end} is greater than {@code length()},
-     *          or if {@code start} is greater than {@code end}
-     * @spec JSR-51
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if {@dodf stbrt} or {@dodf fnd} brf nfgbtivf,
+     *          if {@dodf fnd} is grfbtfr tibn {@dodf lfngti()},
+     *          or if {@dodf stbrt} is grfbtfr tibn {@dodf fnd}
+     * @spfd JSR-51
      */
-    @Override
-    public CharSequence subSequence(int start, int end) {
-        return substring(start, end);
+    @Ovfrridf
+    publid CibrSfqufndf subSfqufndf(int stbrt, int fnd) {
+        rfturn substring(stbrt, fnd);
     }
 
     /**
-     * Returns a new {@code String} that contains a subsequence of
-     * characters currently contained in this sequence. The
-     * substring begins at the specified {@code start} and
-     * extends to the character at index {@code end - 1}.
+     * Rfturns b nfw {@dodf String} tibt dontbins b subsfqufndf of
+     * dibrbdtfrs durrfntly dontbinfd in tiis sfqufndf. Tif
+     * substring bfgins bt tif spfdififd {@dodf stbrt} bnd
+     * fxtfnds to tif dibrbdtfr bt indfx {@dodf fnd - 1}.
      *
-     * @param      start    The beginning index, inclusive.
-     * @param      end      The ending index, exclusive.
-     * @return     The new string.
-     * @throws     StringIndexOutOfBoundsException  if {@code start}
-     *             or {@code end} are negative or greater than
-     *             {@code length()}, or {@code start} is
-     *             greater than {@code end}.
+     * @pbrbm      stbrt    Tif bfginning indfx, indlusivf.
+     * @pbrbm      fnd      Tif fnding indfx, fxdlusivf.
+     * @rfturn     Tif nfw string.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf stbrt}
+     *             or {@dodf fnd} brf nfgbtivf or grfbtfr tibn
+     *             {@dodf lfngti()}, or {@dodf stbrt} is
+     *             grfbtfr tibn {@dodf fnd}.
      */
-    public String substring(int start, int end) {
-        if (start < 0)
-            throw new StringIndexOutOfBoundsException(start);
-        if (end > count)
-            throw new StringIndexOutOfBoundsException(end);
-        if (start > end)
-            throw new StringIndexOutOfBoundsException(end - start);
-        return new String(value, start, end - start);
+    publid String substring(int stbrt, int fnd) {
+        if (stbrt < 0)
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        if (fnd > dount)
+            tirow nfw StringIndfxOutOfBoundsExdfption(fnd);
+        if (stbrt > fnd)
+            tirow nfw StringIndfxOutOfBoundsExdfption(fnd - stbrt);
+        rfturn nfw String(vbluf, stbrt, fnd - stbrt);
     }
 
     /**
-     * Inserts the string representation of a subarray of the {@code str}
-     * array argument into this sequence. The subarray begins at the
-     * specified {@code offset} and extends {@code len} {@code char}s.
-     * The characters of the subarray are inserted into this sequence at
-     * the position indicated by {@code index}. The length of this
-     * sequence increases by {@code len} {@code char}s.
+     * Insfrts tif string rfprfsfntbtion of b subbrrby of tif {@dodf str}
+     * brrby brgumfnt into tiis sfqufndf. Tif subbrrby bfgins bt tif
+     * spfdififd {@dodf offsft} bnd fxtfnds {@dodf lfn} {@dodf dibr}s.
+     * Tif dibrbdtfrs of tif subbrrby brf insfrtfd into tiis sfqufndf bt
+     * tif position indidbtfd by {@dodf indfx}. Tif lfngti of tiis
+     * sfqufndf indrfbsfs by {@dodf lfn} {@dodf dibr}s.
      *
-     * @param      index    position at which to insert subarray.
-     * @param      str       A {@code char} array.
-     * @param      offset   the index of the first {@code char} in subarray to
-     *             be inserted.
-     * @param      len      the number of {@code char}s in the subarray to
-     *             be inserted.
-     * @return     This object
-     * @throws     StringIndexOutOfBoundsException  if {@code index}
-     *             is negative or greater than {@code length()}, or
-     *             {@code offset} or {@code len} are negative, or
-     *             {@code (offset+len)} is greater than
-     *             {@code str.length}.
+     * @pbrbm      indfx    position bt wiidi to insfrt subbrrby.
+     * @pbrbm      str       A {@dodf dibr} brrby.
+     * @pbrbm      offsft   tif indfx of tif first {@dodf dibr} in subbrrby to
+     *             bf insfrtfd.
+     * @pbrbm      lfn      tif numbfr of {@dodf dibr}s in tif subbrrby to
+     *             bf insfrtfd.
+     * @rfturn     Tiis objfdt
+     * @tirows     StringIndfxOutOfBoundsExdfption  if {@dodf indfx}
+     *             is nfgbtivf or grfbtfr tibn {@dodf lfngti()}, or
+     *             {@dodf offsft} or {@dodf lfn} brf nfgbtivf, or
+     *             {@dodf (offsft+lfn)} is grfbtfr tibn
+     *             {@dodf str.lfngti}.
      */
-    public AbstractStringBuilder insert(int index, char[] str, int offset,
-                                        int len)
+    publid AbstrbdtStringBuildfr insfrt(int indfx, dibr[] str, int offsft,
+                                        int lfn)
     {
-        if ((index < 0) || (index > length()))
-            throw new StringIndexOutOfBoundsException(index);
-        if ((offset < 0) || (len < 0) || (offset > str.length - len))
-            throw new StringIndexOutOfBoundsException(
-                "offset " + offset + ", len " + len + ", str.length "
-                + str.length);
-        ensureCapacityInternal(count + len);
-        System.arraycopy(value, index, value, index + len, count - index);
-        System.arraycopy(str, offset, value, index, len);
-        count += len;
-        return this;
+        if ((indfx < 0) || (indfx > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(indfx);
+        if ((offsft < 0) || (lfn < 0) || (offsft > str.lfngti - lfn))
+            tirow nfw StringIndfxOutOfBoundsExdfption(
+                "offsft " + offsft + ", lfn " + lfn + ", str.lfngti "
+                + str.lfngti);
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, indfx, vbluf, indfx + lfn, dount - indfx);
+        Systfm.brrbydopy(str, offsft, vbluf, indfx, lfn);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Inserts the string representation of the {@code Object}
-     * argument into this character sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf Objfdt}
+     * brgumfnt into tiis dibrbdtfr sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(Object)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(Objfdt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      obj      an {@code Object}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      obj      bn {@dodf Objfdt}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, Object obj) {
-        return insert(offset, String.valueOf(obj));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, Objfdt obj) {
+        rfturn insfrt(offsft, String.vblufOf(obj));
     }
 
     /**
-     * Inserts the string into this character sequence.
+     * Insfrts tif string into tiis dibrbdtfr sfqufndf.
      * <p>
-     * The characters of the {@code String} argument are inserted, in
-     * order, into this sequence at the indicated offset, moving up any
-     * characters originally above that position and increasing the length
-     * of this sequence by the length of the argument. If
-     * {@code str} is {@code null}, then the four characters
-     * {@code "null"} are inserted into this sequence.
+     * Tif dibrbdtfrs of tif {@dodf String} brgumfnt brf insfrtfd, in
+     * ordfr, into tiis sfqufndf bt tif indidbtfd offsft, moving up bny
+     * dibrbdtfrs originblly bbovf tibt position bnd indrfbsing tif lfngti
+     * of tiis sfqufndf by tif lfngti of tif brgumfnt. If
+     * {@dodf str} is {@dodf null}, tifn tif four dibrbdtfrs
+     * {@dodf "null"} brf insfrtfd into tiis sfqufndf.
      * <p>
-     * The character at index <i>k</i> in the new character sequence is
-     * equal to:
+     * Tif dibrbdtfr bt indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is
+     * fqubl to:
      * <ul>
-     * <li>the character at index <i>k</i> in the old character sequence, if
-     * <i>k</i> is less than {@code offset}
-     * <li>the character at index <i>k</i>{@code -offset} in the
-     * argument {@code str}, if <i>k</i> is not less than
-     * {@code offset} but is less than {@code offset+str.length()}
-     * <li>the character at index <i>k</i>{@code -str.length()} in the
-     * old character sequence, if <i>k</i> is not less than
-     * {@code offset+str.length()}
+     * <li>tif dibrbdtfr bt indfx <i>k</i> in tif old dibrbdtfr sfqufndf, if
+     * <i>k</i> is lfss tibn {@dodf offsft}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -offsft} in tif
+     * brgumfnt {@dodf str}, if <i>k</i> is not lfss tibn
+     * {@dodf offsft} but is lfss tibn {@dodf offsft+str.lfngti()}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -str.lfngti()} in tif
+     * old dibrbdtfr sfqufndf, if <i>k</i> is not lfss tibn
+     * {@dodf offsft+str.lfngti()}
      * </ul><p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      str      a string.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      str      b string.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, String str) {
-        if ((offset < 0) || (offset > length()))
-            throw new StringIndexOutOfBoundsException(offset);
+    publid AbstrbdtStringBuildfr insfrt(int offsft, String str) {
+        if ((offsft < 0) || (offsft > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(offsft);
         if (str == null)
             str = "null";
-        int len = str.length();
-        ensureCapacityInternal(count + len);
-        System.arraycopy(value, offset, value, offset + len, count - offset);
-        str.getChars(value, offset);
-        count += len;
-        return this;
+        int lfn = str.lfngti();
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        str.gftCibrs(vbluf, offsft);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Inserts the string representation of the {@code char} array
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf dibr} brrby
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The characters of the array argument are inserted into the
-     * contents of this sequence at the position indicated by
-     * {@code offset}. The length of this sequence increases by
-     * the length of the argument.
+     * Tif dibrbdtfrs of tif brrby brgumfnt brf insfrtfd into tif
+     * dontfnts of tiis sfqufndf bt tif position indidbtfd by
+     * {@dodf offsft}. Tif lfngti of tiis sfqufndf indrfbsfs by
+     * tif lfngti of tif brgumfnt.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(char[])},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(dibr[])},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      str      a character array.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      str      b dibrbdtfr brrby.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, char[] str) {
-        if ((offset < 0) || (offset > length()))
-            throw new StringIndexOutOfBoundsException(offset);
-        int len = str.length;
-        ensureCapacityInternal(count + len);
-        System.arraycopy(value, offset, value, offset + len, count - offset);
-        System.arraycopy(str, 0, value, offset, len);
-        count += len;
-        return this;
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dibr[] str) {
+        if ((offsft < 0) || (offsft > lfngti()))
+            tirow nfw StringIndfxOutOfBoundsExdfption(offsft);
+        int lfn = str.lfngti;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + lfn, dount - offsft);
+        Systfm.brrbydopy(str, 0, vbluf, offsft, lfn);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Inserts the specified {@code CharSequence} into this sequence.
+     * Insfrts tif spfdififd {@dodf CibrSfqufndf} into tiis sfqufndf.
      * <p>
-     * The characters of the {@code CharSequence} argument are inserted,
-     * in order, into this sequence at the indicated offset, moving up
-     * any characters originally above that position and increasing the length
-     * of this sequence by the length of the argument s.
+     * Tif dibrbdtfrs of tif {@dodf CibrSfqufndf} brgumfnt brf insfrtfd,
+     * in ordfr, into tiis sfqufndf bt tif indidbtfd offsft, moving up
+     * bny dibrbdtfrs originblly bbovf tibt position bnd indrfbsing tif lfngti
+     * of tiis sfqufndf by tif lfngti of tif brgumfnt s.
      * <p>
-     * The result of this method is exactly the same as if it were an
-     * invocation of this object's
-     * {@link #insert(int,CharSequence,int,int) insert}(dstOffset, s, 0, s.length())
-     * method.
+     * Tif rfsult of tiis mftiod is fxbdtly tif sbmf bs if it wfrf bn
+     * invodbtion of tiis objfdt's
+     * {@link #insfrt(int,CibrSfqufndf,int,int) insfrt}(dstOffsft, s, 0, s.lfngti())
+     * mftiod.
      *
-     * <p>If {@code s} is {@code null}, then the four characters
-     * {@code "null"} are inserted into this sequence.
+     * <p>If {@dodf s} is {@dodf null}, tifn tif four dibrbdtfrs
+     * {@dodf "null"} brf insfrtfd into tiis sfqufndf.
      *
-     * @param      dstOffset   the offset.
-     * @param      s the sequence to be inserted
-     * @return     a reference to this object.
-     * @throws     IndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      dstOffsft   tif offsft.
+     * @pbrbm      s tif sfqufndf to bf insfrtfd
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int dstOffset, CharSequence s) {
+    publid AbstrbdtStringBuildfr insfrt(int dstOffsft, CibrSfqufndf s) {
         if (s == null)
             s = "null";
-        if (s instanceof String)
-            return this.insert(dstOffset, (String)s);
-        return this.insert(dstOffset, s, 0, s.length());
+        if (s instbndfof String)
+            rfturn tiis.insfrt(dstOffsft, (String)s);
+        rfturn tiis.insfrt(dstOffsft, s, 0, s.lfngti());
     }
 
     /**
-     * Inserts a subsequence of the specified {@code CharSequence} into
-     * this sequence.
+     * Insfrts b subsfqufndf of tif spfdififd {@dodf CibrSfqufndf} into
+     * tiis sfqufndf.
      * <p>
-     * The subsequence of the argument {@code s} specified by
-     * {@code start} and {@code end} are inserted,
-     * in order, into this sequence at the specified destination offset, moving
-     * up any characters originally above that position. The length of this
-     * sequence is increased by {@code end - start}.
+     * Tif subsfqufndf of tif brgumfnt {@dodf s} spfdififd by
+     * {@dodf stbrt} bnd {@dodf fnd} brf insfrtfd,
+     * in ordfr, into tiis sfqufndf bt tif spfdififd dfstinbtion offsft, moving
+     * up bny dibrbdtfrs originblly bbovf tibt position. Tif lfngti of tiis
+     * sfqufndf is indrfbsfd by {@dodf fnd - stbrt}.
      * <p>
-     * The character at index <i>k</i> in this sequence becomes equal to:
+     * Tif dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf bfdomfs fqubl to:
      * <ul>
-     * <li>the character at index <i>k</i> in this sequence, if
-     * <i>k</i> is less than {@code dstOffset}
-     * <li>the character at index <i>k</i>{@code +start-dstOffset} in
-     * the argument {@code s}, if <i>k</i> is greater than or equal to
-     * {@code dstOffset} but is less than {@code dstOffset+end-start}
-     * <li>the character at index <i>k</i>{@code -(end-start)} in this
-     * sequence, if <i>k</i> is greater than or equal to
-     * {@code dstOffset+end-start}
+     * <li>tif dibrbdtfr bt indfx <i>k</i> in tiis sfqufndf, if
+     * <i>k</i> is lfss tibn {@dodf dstOffsft}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf +stbrt-dstOffsft} in
+     * tif brgumfnt {@dodf s}, if <i>k</i> is grfbtfr tibn or fqubl to
+     * {@dodf dstOffsft} but is lfss tibn {@dodf dstOffsft+fnd-stbrt}
+     * <li>tif dibrbdtfr bt indfx <i>k</i>{@dodf -(fnd-stbrt)} in tiis
+     * sfqufndf, if <i>k</i> is grfbtfr tibn or fqubl to
+     * {@dodf dstOffsft+fnd-stbrt}
      * </ul><p>
-     * The {@code dstOffset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
-     * <p>The start argument must be nonnegative, and not greater than
-     * {@code end}.
-     * <p>The end argument must be greater than or equal to
-     * {@code start}, and less than or equal to the length of s.
+     * Tif {@dodf dstOffsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
+     * <p>Tif stbrt brgumfnt must bf nonnfgbtivf, bnd not grfbtfr tibn
+     * {@dodf fnd}.
+     * <p>Tif fnd brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf stbrt}, bnd lfss tibn or fqubl to tif lfngti of s.
      *
-     * <p>If {@code s} is {@code null}, then this method inserts
-     * characters as if the s parameter was a sequence containing the four
-     * characters {@code "null"}.
+     * <p>If {@dodf s} is {@dodf null}, tifn tiis mftiod insfrts
+     * dibrbdtfrs bs if tif s pbrbmftfr wbs b sfqufndf dontbining tif four
+     * dibrbdtfrs {@dodf "null"}.
      *
-     * @param      dstOffset   the offset in this sequence.
-     * @param      s       the sequence to be inserted.
-     * @param      start   the starting index of the subsequence to be inserted.
-     * @param      end     the end index of the subsequence to be inserted.
-     * @return     a reference to this object.
-     * @throws     IndexOutOfBoundsException  if {@code dstOffset}
-     *             is negative or greater than {@code this.length()}, or
-     *              {@code start} or {@code end} are negative, or
-     *              {@code start} is greater than {@code end} or
-     *              {@code end} is greater than {@code s.length()}
+     * @pbrbm      dstOffsft   tif offsft in tiis sfqufndf.
+     * @pbrbm      s       tif sfqufndf to bf insfrtfd.
+     * @pbrbm      stbrt   tif stbrting indfx of tif subsfqufndf to bf insfrtfd.
+     * @pbrbm      fnd     tif fnd indfx of tif subsfqufndf to bf insfrtfd.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if {@dodf dstOffsft}
+     *             is nfgbtivf or grfbtfr tibn {@dodf tiis.lfngti()}, or
+     *              {@dodf stbrt} or {@dodf fnd} brf nfgbtivf, or
+     *              {@dodf stbrt} is grfbtfr tibn {@dodf fnd} or
+     *              {@dodf fnd} is grfbtfr tibn {@dodf s.lfngti()}
      */
-     public AbstractStringBuilder insert(int dstOffset, CharSequence s,
-                                         int start, int end) {
+     publid AbstrbdtStringBuildfr insfrt(int dstOffsft, CibrSfqufndf s,
+                                         int stbrt, int fnd) {
         if (s == null)
             s = "null";
-        if ((dstOffset < 0) || (dstOffset > this.length()))
-            throw new IndexOutOfBoundsException("dstOffset "+dstOffset);
-        if ((start < 0) || (end < 0) || (start > end) || (end > s.length()))
-            throw new IndexOutOfBoundsException(
-                "start " + start + ", end " + end + ", s.length() "
-                + s.length());
-        int len = end - start;
-        ensureCapacityInternal(count + len);
-        System.arraycopy(value, dstOffset, value, dstOffset + len,
-                         count - dstOffset);
-        for (int i=start; i<end; i++)
-            value[dstOffset++] = s.charAt(i);
-        count += len;
-        return this;
+        if ((dstOffsft < 0) || (dstOffsft > tiis.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption("dstOffsft "+dstOffsft);
+        if ((stbrt < 0) || (fnd < 0) || (stbrt > fnd) || (fnd > s.lfngti()))
+            tirow nfw IndfxOutOfBoundsExdfption(
+                "stbrt " + stbrt + ", fnd " + fnd + ", s.lfngti() "
+                + s.lfngti());
+        int lfn = fnd - stbrt;
+        fnsurfCbpbdityIntfrnbl(dount + lfn);
+        Systfm.brrbydopy(vbluf, dstOffsft, vbluf, dstOffsft + lfn,
+                         dount - dstOffsft);
+        for (int i=stbrt; i<fnd; i++)
+            vbluf[dstOffsft++] = s.dibrAt(i);
+        dount += lfn;
+        rfturn tiis;
     }
 
     /**
-     * Inserts the string representation of the {@code boolean}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf boolfbn}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(boolean)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(boolfbn)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      b        a {@code boolean}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      b        b {@dodf boolfbn}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, boolean b) {
-        return insert(offset, String.valueOf(b));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, boolfbn b) {
+        rfturn insfrt(offsft, String.vblufOf(b));
     }
 
     /**
-     * Inserts the string representation of the {@code char}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf dibr}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(char)},
-     * and the character in that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(dibr)},
+     * bnd tif dibrbdtfr in tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      c        a {@code char}.
-     * @return     a reference to this object.
-     * @throws     IndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      d        b {@dodf dibr}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     IndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, char c) {
-        ensureCapacityInternal(count + 1);
-        System.arraycopy(value, offset, value, offset + 1, count - offset);
-        value[offset] = c;
-        count += 1;
-        return this;
+    publid AbstrbdtStringBuildfr insfrt(int offsft, dibr d) {
+        fnsurfCbpbdityIntfrnbl(dount + 1);
+        Systfm.brrbydopy(vbluf, offsft, vbluf, offsft + 1, dount - offsft);
+        vbluf[offsft] = d;
+        dount += 1;
+        rfturn tiis;
     }
 
     /**
-     * Inserts the string representation of the second {@code int}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif sfdond {@dodf int}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(int)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(int)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      i        an {@code int}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      i        bn {@dodf int}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, int i) {
-        return insert(offset, String.valueOf(i));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, int i) {
+        rfturn insfrt(offsft, String.vblufOf(i));
     }
 
     /**
-     * Inserts the string representation of the {@code long}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf long}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(long)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(long)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      l        a {@code long}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      l        b {@dodf long}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, long l) {
-        return insert(offset, String.valueOf(l));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, long l) {
+        rfturn insfrt(offsft, String.vblufOf(l));
     }
 
     /**
-     * Inserts the string representation of the {@code float}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf flobt}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(float)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(flobt)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      f        a {@code float}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      f        b {@dodf flobt}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, float f) {
-        return insert(offset, String.valueOf(f));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, flobt f) {
+        rfturn insfrt(offsft, String.vblufOf(f));
     }
 
     /**
-     * Inserts the string representation of the {@code double}
-     * argument into this sequence.
+     * Insfrts tif string rfprfsfntbtion of tif {@dodf doublf}
+     * brgumfnt into tiis sfqufndf.
      * <p>
-     * The overall effect is exactly as if the second argument were
-     * converted to a string by the method {@link String#valueOf(double)},
-     * and the characters of that string were then
-     * {@link #insert(int,String) inserted} into this character
-     * sequence at the indicated offset.
+     * Tif ovfrbll ffffdt is fxbdtly bs if tif sfdond brgumfnt wfrf
+     * donvfrtfd to b string by tif mftiod {@link String#vblufOf(doublf)},
+     * bnd tif dibrbdtfrs of tibt string wfrf tifn
+     * {@link #insfrt(int,String) insfrtfd} into tiis dibrbdtfr
+     * sfqufndf bt tif indidbtfd offsft.
      * <p>
-     * The {@code offset} argument must be greater than or equal to
-     * {@code 0}, and less than or equal to the {@linkplain #length() length}
-     * of this sequence.
+     * Tif {@dodf offsft} brgumfnt must bf grfbtfr tibn or fqubl to
+     * {@dodf 0}, bnd lfss tibn or fqubl to tif {@linkplbin #lfngti() lfngti}
+     * of tiis sfqufndf.
      *
-     * @param      offset   the offset.
-     * @param      d        a {@code double}.
-     * @return     a reference to this object.
-     * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+     * @pbrbm      offsft   tif offsft.
+     * @pbrbm      d        b {@dodf doublf}.
+     * @rfturn     b rfffrfndf to tiis objfdt.
+     * @tirows     StringIndfxOutOfBoundsExdfption  if tif offsft is invblid.
      */
-    public AbstractStringBuilder insert(int offset, double d) {
-        return insert(offset, String.valueOf(d));
+    publid AbstrbdtStringBuildfr insfrt(int offsft, doublf d) {
+        rfturn insfrt(offsft, String.vblufOf(d));
     }
 
     /**
-     * Returns the index within this string of the first occurrence of the
-     * specified substring.
+     * Rfturns tif indfx witiin tiis string of tif first oddurrfndf of tif
+     * spfdififd substring.
      *
-     * <p>The returned index is the smallest value {@code k} for which:
-     * <pre>{@code
-     * this.toString().startsWith(str, k)
-     * }</pre>
-     * If no such value of {@code k} exists, then {@code -1} is returned.
+     * <p>Tif rfturnfd indfx is tif smbllfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     * tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
      *
-     * @param   str   the substring to search for.
-     * @return  the index of the first occurrence of the specified substring,
-     *          or {@code -1} if there is no such occurrence.
+     * @pbrbm   str   tif substring to sfbrdi for.
+     * @rfturn  tif indfx of tif first oddurrfndf of tif spfdififd substring,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
      */
-    public int indexOf(String str) {
-        return indexOf(str, 0);
+    publid int indfxOf(String str) {
+        rfturn indfxOf(str, 0);
     }
 
     /**
-     * Returns the index within this string of the first occurrence of the
-     * specified substring, starting at the specified index.
+     * Rfturns tif indfx witiin tiis string of tif first oddurrfndf of tif
+     * spfdififd substring, stbrting bt tif spfdififd indfx.
      *
-     * <p>The returned index is the smallest value {@code k} for which:
-     * <pre>{@code
-     *     k >= Math.min(fromIndex, this.length()) &&
-     *                   this.toString().startsWith(str, k)
-     * }</pre>
-     * If no such value of {@code k} exists, then {@code -1} is returned.
+     * <p>Tif rfturnfd indfx is tif smbllfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     *     k >= Mbti.min(fromIndfx, tiis.lfngti()) &&
+     *                   tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
      *
-     * @param   str         the substring to search for.
-     * @param   fromIndex   the index from which to start the search.
-     * @return  the index of the first occurrence of the specified substring,
-     *          starting at the specified index,
-     *          or {@code -1} if there is no such occurrence.
+     * @pbrbm   str         tif substring to sfbrdi for.
+     * @pbrbm   fromIndfx   tif indfx from wiidi to stbrt tif sfbrdi.
+     * @rfturn  tif indfx of tif first oddurrfndf of tif spfdififd substring,
+     *          stbrting bt tif spfdififd indfx,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
      */
-    public int indexOf(String str, int fromIndex) {
-        return String.indexOf(value, 0, count, str, fromIndex);
+    publid int indfxOf(String str, int fromIndfx) {
+        rfturn String.indfxOf(vbluf, 0, dount, str, fromIndfx);
     }
 
     /**
-     * Returns the index within this string of the last occurrence of the
-     * specified substring.  The last occurrence of the empty string "" is
-     * considered to occur at the index value {@code this.length()}.
+     * Rfturns tif indfx witiin tiis string of tif lbst oddurrfndf of tif
+     * spfdififd substring.  Tif lbst oddurrfndf of tif fmpty string "" is
+     * donsidfrfd to oddur bt tif indfx vbluf {@dodf tiis.lfngti()}.
      *
-     * <p>The returned index is the largest value {@code k} for which:
-     * <pre>{@code
-     * this.toString().startsWith(str, k)
-     * }</pre>
-     * If no such value of {@code k} exists, then {@code -1} is returned.
+     * <p>Tif rfturnfd indfx is tif lbrgfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     * tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
      *
-     * @param   str   the substring to search for.
-     * @return  the index of the last occurrence of the specified substring,
-     *          or {@code -1} if there is no such occurrence.
+     * @pbrbm   str   tif substring to sfbrdi for.
+     * @rfturn  tif indfx of tif lbst oddurrfndf of tif spfdififd substring,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
      */
-    public int lastIndexOf(String str) {
-        return lastIndexOf(str, count);
+    publid int lbstIndfxOf(String str) {
+        rfturn lbstIndfxOf(str, dount);
     }
 
     /**
-     * Returns the index within this string of the last occurrence of the
-     * specified substring, searching backward starting at the specified index.
+     * Rfturns tif indfx witiin tiis string of tif lbst oddurrfndf of tif
+     * spfdififd substring, sfbrdiing bbdkwbrd stbrting bt tif spfdififd indfx.
      *
-     * <p>The returned index is the largest value {@code k} for which:
-     * <pre>{@code
-     *     k <= Math.min(fromIndex, this.length()) &&
-     *                   this.toString().startsWith(str, k)
-     * }</pre>
-     * If no such value of {@code k} exists, then {@code -1} is returned.
+     * <p>Tif rfturnfd indfx is tif lbrgfst vbluf {@dodf k} for wiidi:
+     * <prf>{@dodf
+     *     k <= Mbti.min(fromIndfx, tiis.lfngti()) &&
+     *                   tiis.toString().stbrtsWiti(str, k)
+     * }</prf>
+     * If no sudi vbluf of {@dodf k} fxists, tifn {@dodf -1} is rfturnfd.
      *
-     * @param   str         the substring to search for.
-     * @param   fromIndex   the index to start the search from.
-     * @return  the index of the last occurrence of the specified substring,
-     *          searching backward from the specified index,
-     *          or {@code -1} if there is no such occurrence.
+     * @pbrbm   str         tif substring to sfbrdi for.
+     * @pbrbm   fromIndfx   tif indfx to stbrt tif sfbrdi from.
+     * @rfturn  tif indfx of tif lbst oddurrfndf of tif spfdififd substring,
+     *          sfbrdiing bbdkwbrd from tif spfdififd indfx,
+     *          or {@dodf -1} if tifrf is no sudi oddurrfndf.
      */
-    public int lastIndexOf(String str, int fromIndex) {
-        return String.lastIndexOf(value, 0, count, str, fromIndex);
+    publid int lbstIndfxOf(String str, int fromIndfx) {
+        rfturn String.lbstIndfxOf(vbluf, 0, dount, str, fromIndfx);
     }
 
     /**
-     * Causes this character sequence to be replaced by the reverse of
-     * the sequence. If there are any surrogate pairs included in the
-     * sequence, these are treated as single characters for the
-     * reverse operation. Thus, the order of the high-low surrogates
-     * is never reversed.
+     * Cbusfs tiis dibrbdtfr sfqufndf to bf rfplbdfd by tif rfvfrsf of
+     * tif sfqufndf. If tifrf brf bny surrogbtf pbirs indludfd in tif
+     * sfqufndf, tifsf brf trfbtfd bs singlf dibrbdtfrs for tif
+     * rfvfrsf opfrbtion. Tius, tif ordfr of tif iigi-low surrogbtfs
+     * is nfvfr rfvfrsfd.
      *
-     * Let <i>n</i> be the character length of this character sequence
-     * (not the length in {@code char} values) just prior to
-     * execution of the {@code reverse} method. Then the
-     * character at index <i>k</i> in the new character sequence is
-     * equal to the character at index <i>n-k-1</i> in the old
-     * character sequence.
+     * Lft <i>n</i> bf tif dibrbdtfr lfngti of tiis dibrbdtfr sfqufndf
+     * (not tif lfngti in {@dodf dibr} vblufs) just prior to
+     * fxfdution of tif {@dodf rfvfrsf} mftiod. Tifn tif
+     * dibrbdtfr bt indfx <i>k</i> in tif nfw dibrbdtfr sfqufndf is
+     * fqubl to tif dibrbdtfr bt indfx <i>n-k-1</i> in tif old
+     * dibrbdtfr sfqufndf.
      *
-     * <p>Note that the reverse operation may result in producing
-     * surrogate pairs that were unpaired low-surrogates and
-     * high-surrogates before the operation. For example, reversing
-     * "\u005CuDC00\u005CuD800" produces "\u005CuD800\u005CuDC00" which is
-     * a valid surrogate pair.
+     * <p>Notf tibt tif rfvfrsf opfrbtion mby rfsult in produding
+     * surrogbtf pbirs tibt wfrf unpbirfd low-surrogbtfs bnd
+     * iigi-surrogbtfs bfforf tif opfrbtion. For fxbmplf, rfvfrsing
+     * "\u005CuDC00\u005CuD800" produdfs "\u005CuD800\u005CuDC00" wiidi is
+     * b vblid surrogbtf pbir.
      *
-     * @return  a reference to this object.
+     * @rfturn  b rfffrfndf to tiis objfdt.
      */
-    public AbstractStringBuilder reverse() {
-        boolean hasSurrogates = false;
-        int n = count - 1;
+    publid AbstrbdtStringBuildfr rfvfrsf() {
+        boolfbn ibsSurrogbtfs = fblsf;
+        int n = dount - 1;
         for (int j = (n-1) >> 1; j >= 0; j--) {
             int k = n - j;
-            char cj = value[j];
-            char ck = value[k];
-            value[j] = ck;
-            value[k] = cj;
-            if (Character.isSurrogate(cj) ||
-                Character.isSurrogate(ck)) {
-                hasSurrogates = true;
+            dibr dj = vbluf[j];
+            dibr dk = vbluf[k];
+            vbluf[j] = dk;
+            vbluf[k] = dj;
+            if (Cibrbdtfr.isSurrogbtf(dj) ||
+                Cibrbdtfr.isSurrogbtf(dk)) {
+                ibsSurrogbtfs = truf;
             }
         }
-        if (hasSurrogates) {
-            reverseAllValidSurrogatePairs();
+        if (ibsSurrogbtfs) {
+            rfvfrsfAllVblidSurrogbtfPbirs();
         }
-        return this;
+        rfturn tiis;
     }
 
-    /** Outlined helper method for reverse() */
-    private void reverseAllValidSurrogatePairs() {
-        for (int i = 0; i < count - 1; i++) {
-            char c2 = value[i];
-            if (Character.isLowSurrogate(c2)) {
-                char c1 = value[i + 1];
-                if (Character.isHighSurrogate(c1)) {
-                    value[i++] = c1;
-                    value[i] = c2;
+    /** Outlinfd iflpfr mftiod for rfvfrsf() */
+    privbtf void rfvfrsfAllVblidSurrogbtfPbirs() {
+        for (int i = 0; i < dount - 1; i++) {
+            dibr d2 = vbluf[i];
+            if (Cibrbdtfr.isLowSurrogbtf(d2)) {
+                dibr d1 = vbluf[i + 1];
+                if (Cibrbdtfr.isHigiSurrogbtf(d1)) {
+                    vbluf[i++] = d1;
+                    vbluf[i] = d2;
                 }
             }
         }
     }
 
     /**
-     * Returns a string representing the data in this sequence.
-     * A new {@code String} object is allocated and initialized to
-     * contain the character sequence currently represented by this
-     * object. This {@code String} is then returned. Subsequent
-     * changes to this sequence do not affect the contents of the
-     * {@code String}.
+     * Rfturns b string rfprfsfnting tif dbtb in tiis sfqufndf.
+     * A nfw {@dodf String} objfdt is bllodbtfd bnd initiblizfd to
+     * dontbin tif dibrbdtfr sfqufndf durrfntly rfprfsfntfd by tiis
+     * objfdt. Tiis {@dodf String} is tifn rfturnfd. Subsfqufnt
+     * dibngfs to tiis sfqufndf do not bfffdt tif dontfnts of tif
+     * {@dodf String}.
      *
-     * @return  a string representation of this sequence of characters.
+     * @rfturn  b string rfprfsfntbtion of tiis sfqufndf of dibrbdtfrs.
      */
-    @Override
-    public abstract String toString();
+    @Ovfrridf
+    publid bbstrbdt String toString();
 
     /**
-     * Needed by {@code String} for the contentEquals method.
+     * Nffdfd by {@dodf String} for tif dontfntEqubls mftiod.
      */
-    final char[] getValue() {
-        return value;
+    finbl dibr[] gftVbluf() {
+        rfturn vbluf;
     }
 
 }

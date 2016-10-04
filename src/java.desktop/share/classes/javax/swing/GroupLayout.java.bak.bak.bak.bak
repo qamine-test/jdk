@@ -1,0 +1,3746 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr2;
+import jbvb.util.*;
+import stbtid jbvb.bwt.Componfnt.BbsflinfRfsizfBfhbvior;
+import stbtid jbvbx.swing.LbyoutStylf.ComponfntPlbdfmfnt;
+import stbtid jbvbx.swing.SwingConstbnts.HORIZONTAL;
+import stbtid jbvbx.swing.SwingConstbnts.VERTICAL;
+
+/**
+ * {@dodf GroupLbyout} is b {@dodf LbyoutMbnbgfr} thbt hifrbrdhidblly
+ * groups domponfnts in ordfr to position thfm in b {@dodf Contbinfr}.
+ * {@dodf GroupLbyout} is intfndfd for usf by buildfrs, but mby bf
+ * hbnd-dodfd bs wfll.
+ * Grouping is donf by instbndfs of thf {@link Group Group} dlbss. {@dodf
+ * GroupLbyout} supports two typfs of groups. A sfqufntibl group
+ * positions its dhild flfmfnts sfqufntiblly, onf bftfr bnothfr. A
+ * pbrbllfl group bligns its dhild flfmfnts in onf of four wbys.
+ * <p>
+ * Ebdh group mby dontbin bny numbfr of flfmfnts, whfrf bn flfmfnt is
+ * b {@dodf Group}, {@dodf Componfnt}, or gbp. A gbp dbn bf thought
+ * of bs bn invisiblf domponfnt with b minimum, prfffrrfd bnd mbximum
+ * sizf. In bddition {@dodf GroupLbyout} supports b prfffrrfd gbp,
+ * whosf vbluf domfs from {@dodf LbyoutStylf}.
+ * <p>
+ * Elfmfnts brf similbr to b spring. Ebdh flfmfnt hbs b rbngf bs
+ * spfdififd by b minimum, prfffrrfd bnd mbximum.  Gbps hbvf fithfr b
+ * dfvflopfr-spfdififd rbngf, or b rbngf dftfrminfd by {@dodf
+ * LbyoutStylf}. Thf rbngf for {@dodf Componfnt}s is dftfrminfd from
+ * thf {@dodf Componfnt}'s {@dodf gftMinimumSizf}, {@dodf
+ * gftPrfffrrfdSizf} bnd {@dodf gftMbximumSizf} mfthods. In bddition,
+ * whfn bdding {@dodf Componfnt}s you mby spfdify b pbrtidulbr rbngf
+ * to usf instfbd of thbt from thf domponfnt. Thf rbngf for b {@dodf
+ * Group} is dftfrminfd by thf typf of group. A {@dodf PbrbllflGroup}'s
+ * rbngf is thf mbximum of thf rbngfs of its flfmfnts. A {@dodf
+ * SfqufntiblGroup}'s rbngf is thf sum of thf rbngfs of its flfmfnts.
+ * <p>
+ * {@dodf GroupLbyout} trfbts fbdh bxis indfpfndfntly.  Thbt is, thfrf
+ * is b group rfprfsfnting thf horizontbl bxis, bnd b group
+ * rfprfsfnting thf vfrtidbl bxis.  Thf horizontbl group is
+ * rfsponsiblf for dftfrmining thf minimum, prfffrrfd bnd mbximum sizf
+ * blong thf horizontbl bxis bs wfll bs sftting thf x bnd width of thf
+ * domponfnts dontbinfd in it. Thf vfrtidbl group is rfsponsiblf for
+ * dftfrmining thf minimum, prfffrrfd bnd mbximum sizf blong thf
+ * vfrtidbl bxis bs wfll bs sftting thf y bnd hfight of thf
+ * domponfnts dontbinfd in it. Ebdh {@dodf Componfnt} must fxist in both
+ * b horizontbl bnd vfrtidbl group, othfrwisf bn {@dodf IllfgblStbtfExdfption}
+ * is thrown during lbyout, or whfn thf minimum, prfffrrfd or
+ * mbximum sizf is rfqufstfd.
+ * <p>
+ * Thf following dibgrbm shows b sfqufntibl group blong thf horizontbl
+ * bxis. Thf sfqufntibl group dontbins thrff domponfnts. A pbrbllfl group
+ * wbs usfd blong thf vfrtidbl bxis.
+ * <p stylf="tfxt-blign:dfntfr">
+ * <img srd="dod-filfs/groupLbyout.1.gif" blt="Sfqufntibl group blong thf horizontbl bxis in thrff domponfnts">
+ * <p>
+ * To rfinfordf thbt fbdh bxis is trfbtfd indfpfndfntly thf dibgrbm shows
+ * thf rbngf of fbdh group bnd flfmfnt blong fbdh bxis. Thf
+ * rbngf of fbdh domponfnt hbs bffn projfdtfd onto thf bxfs,
+ * bnd thf groups brf rfndfrfd in bluf (horizontbl) bnd rfd (vfrtidbl).
+ * For rfbdbbility thfrf is b gbp bftwffn fbdh of thf flfmfnts in thf
+ * sfqufntibl group.
+ * <p>
+ * Thf sfqufntibl group blong thf horizontbl bxis is rfndfrfd bs b solid
+ * bluf linf. Notidf thf sfqufntibl group is thf sum of thf dhildrfn flfmfnts
+ * it dontbins.
+ * <p>
+ * Along thf vfrtidbl bxis thf pbrbllfl group is thf mbximum of thf hfight
+ * of fbdh of thf domponfnts. As bll thrff domponfnts hbvf thf sbmf hfight,
+ * thf pbrbllfl group hbs thf sbmf hfight.
+ * <p>
+ * Thf following dibgrbm shows thf sbmf thrff domponfnts, but with thf
+ * pbrbllfl group blong thf horizontbl bxis bnd thf sfqufntibl group blong
+ * thf vfrtidbl bxis.
+ *
+ * <p stylf="tfxt-blign:dfntfr">
+ * <img srd="dod-filfs/groupLbyout.2.gif" blt="Sfqufntibl group blong thf vfrtidbl bxis in thrff domponfnts">
+ * <p>
+ * As {@dodf d1} is thf lbrgfst of thf thrff domponfnts, thf pbrbllfl
+ * group is sizfd to {@dodf d1}. As {@dodf d2} bnd {@dodf d3} brf smbllfr
+ * thbn {@dodf d1} thfy brf blignfd bbsfd on thf blignmfnt spfdififd
+ * for thf domponfnt (if spfdififd) or thf dffbult blignmfnt of thf
+ * pbrbllfl group. In thf dibgrbm {@dodf d2} bnd {@dodf d3} wfrf drfbtfd
+ * with bn blignmfnt of {@dodf LEADING}. If thf domponfnt orifntbtion wfrf
+ * right-to-lfft thfn {@dodf d2} bnd {@dodf d3} would bf positionfd on
+ * thf oppositf sidf.
+ * <p>
+ * Thf following dibgrbm shows b sfqufntibl group blong both thf horizontbl
+ * bnd vfrtidbl bxis.
+ * <p stylf="tfxt-blign:dfntfr">
+ * <img srd="dod-filfs/groupLbyout.3.gif" blt="Sfqufntibl group blong both thf horizontbl bnd vfrtidbl bxis in thrff domponfnts">
+ * <p>
+ * {@dodf GroupLbyout} providfs thf bbility to insfrt gbps bftwffn
+ * {@dodf Componfnt}s. Thf sizf of thf gbp is dftfrminfd by bn
+ * instbndf of {@dodf LbyoutStylf}. This mby bf turnfd on using thf
+ * {@dodf sftAutoCrfbtfGbps} mfthod.  Similbrly, you mby usf
+ * thf {@dodf sftAutoCrfbtfContbinfrGbps} mfthod to insfrt gbps
+ * bftwffn domponfnts thbt toudh thf fdgf of thf pbrfnt dontbinfr bnd thf
+ * dontbinfr.
+ * <p>
+ * Thf following builds b pbnfl donsisting of two lbbfls in
+ * onf dolumn, followfd by two tfxtfiflds in thf nfxt dolumn:
+ * <prf>
+ *   JComponfnt pbnfl = ...;
+ *   GroupLbyout lbyout = nfw GroupLbyout(pbnfl);
+ *   pbnfl.sftLbyout(lbyout);
+ *
+ *   // Turn on butombtidblly bdding gbps bftwffn domponfnts
+ *   lbyout.sftAutoCrfbtfGbps(truf);
+ *
+ *   // Turn on butombtidblly drfbting gbps bftwffn domponfnts thbt toudh
+ *   // thf fdgf of thf dontbinfr bnd thf dontbinfr.
+ *   lbyout.sftAutoCrfbtfContbinfrGbps(truf);
+ *
+ *   // Crfbtf b sfqufntibl group for thf horizontbl bxis.
+ *
+ *   GroupLbyout.SfqufntiblGroup hGroup = lbyout.drfbtfSfqufntiblGroup();
+ *
+ *   // Thf sfqufntibl group in turn dontbins two pbrbllfl groups.
+ *   // Onf pbrbllfl group dontbins thf lbbfls, thf othfr thf tfxt fiflds.
+ *   // Putting thf lbbfls in b pbrbllfl group blong thf horizontbl bxis
+ *   // positions thfm bt thf sbmf x lodbtion.
+ *   //
+ *   // Vbribblf indfntbtion is usfd to rfinfordf thf lfvfl of grouping.
+ *   hGroup.bddGroup(lbyout.drfbtfPbrbllflGroup().
+ *            bddComponfnt(lbbfl1).bddComponfnt(lbbfl2));
+ *   hGroup.bddGroup(lbyout.drfbtfPbrbllflGroup().
+ *            bddComponfnt(tf1).bddComponfnt(tf2));
+ *   lbyout.sftHorizontblGroup(hGroup);
+ *
+ *   // Crfbtf b sfqufntibl group for thf vfrtidbl bxis.
+ *   GroupLbyout.SfqufntiblGroup vGroup = lbyout.drfbtfSfqufntiblGroup();
+ *
+ *   // Thf sfqufntibl group dontbins two pbrbllfl groups thbt blign
+ *   // thf dontfnts blong thf bbsflinf. Thf first pbrbllfl group dontbins
+ *   // thf first lbbfl bnd tfxt fifld, bnd thf sfdond pbrbllfl group dontbins
+ *   // thf sfdond lbbfl bnd tfxt fifld. By using b sfqufntibl group
+ *   // thf lbbfls bnd tfxt fiflds brf positionfd vfrtidblly bftfr onf bnothfr.
+ *   vGroup.bddGroup(lbyout.drfbtfPbrbllflGroup(Alignmfnt.BASELINE).
+ *            bddComponfnt(lbbfl1).bddComponfnt(tf1));
+ *   vGroup.bddGroup(lbyout.drfbtfPbrbllflGroup(Alignmfnt.BASELINE).
+ *            bddComponfnt(lbbfl2).bddComponfnt(tf2));
+ *   lbyout.sftVfrtidblGroup(vGroup);
+ * </prf>
+ * <p>
+ * Whfn run thf following is produdfd.
+ * <p stylf="tfxt-blign:dfntfr">
+ * <img srd="dod-filfs/groupLbyout.fxbmplf.png" blt="Produdfd horizontbl/vfrtidbl form">
+ * <p>
+ * This lbyout donsists of thf following.
+ * <ul><li>Thf horizontbl bxis donsists of b sfqufntibl group dontbining two
+ *         pbrbllfl groups.  Thf first pbrbllfl group dontbins thf lbbfls,
+ *         bnd thf sfdond pbrbllfl group dontbins thf tfxt fiflds.
+ *     <li>Thf vfrtidbl bxis donsists of b sfqufntibl group
+ *         dontbining two pbrbllfl groups.  Thf pbrbllfl groups brf donfigurfd
+ *         to blign thfir domponfnts blong thf bbsflinf. Thf first pbrbllfl
+ *         group dontbins thf first lbbfl bnd first tfxt fifld, bnd
+ *         thf sfdond group donsists of thf sfdond lbbfl bnd sfdond
+ *         tfxt fifld.
+ * </ul>
+ * Thfrf brf b douplf of things to notidf in this dodf:
+ * <ul>
+ *   <li>You nffd not fxpliditly bdd thf domponfnts to thf dontbinfr; this
+ *       is indirfdtly donf by using onf of thf {@dodf bdd} mfthods of
+ *       {@dodf Group}.
+ *   <li>Thf vbrious {@dodf bdd} mfthods rfturn
+ *       thf dbllfr.  This bllows for fbsy dhbining of invodbtions.  For
+ *       fxbmplf, {@dodf group.bddComponfnt(lbbfl1).bddComponfnt(lbbfl2);} is
+ *       fquivblfnt to
+ *       {@dodf group.bddComponfnt(lbbfl1); group.bddComponfnt(lbbfl2);}.
+ *   <li>Thfrf brf no publid donstrudtors for {@dodf Group}s; instfbd
+ *       usf thf drfbtf mfthods of {@dodf GroupLbyout}.
+ * </ul>
+ *
+ * @buthor Tombs Pbvfk
+ * @buthor Jbn Stolb
+ * @buthor Sdott Violft
+ * @sindf 1.6
+ */
+publid dlbss GroupLbyout implfmfnts LbyoutMbnbgfr2 {
+    // Usfd in sizf dbldulbtions
+    privbtf stbtid finbl int MIN_SIZE = 0;
+
+    privbtf stbtid finbl int PREF_SIZE = 1;
+
+    privbtf stbtid finbl int MAX_SIZE = 2;
+
+    // Usfd by prfpbrf, indidbtfs min, prff or mbx isn't going to bf usfd.
+    privbtf stbtid finbl int SPECIFIC_SIZE = 3;
+
+    privbtf stbtid finbl int UNSET = Intfgfr.MIN_VALUE;
+
+    /**
+     * Indidbtfs thf sizf from thf domponfnt or gbp should bf usfd for b
+     * pbrtidulbr rbngf vbluf.
+     *
+     * @sff Group
+     */
+    publid stbtid finbl int DEFAULT_SIZE = -1;
+
+    /**
+     * Indidbtfs thf prfffrrfd sizf from thf domponfnt or gbp should
+     * bf usfd for b pbrtidulbr rbngf vbluf.
+     *
+     * @sff Group
+     */
+    publid stbtid finbl int PREFERRED_SIZE = -2;
+
+    // Whfthfr or not wf butombtidblly try bnd drfbtf thf prfffrrfd
+    // pbdding bftwffn domponfnts.
+    privbtf boolfbn butodrfbtfPbdding;
+
+    // Whfthfr or not wf butombtidblly try bnd drfbtf thf prfffrrfd
+    // pbdding bftwffn domponfnts thf toudh thf fdgf of thf dontbinfr bnd
+    // thf dontbinfr.
+    privbtf boolfbn butodrfbtfContbinfrPbdding;
+
+    /**
+     * Group rfsponsiblf for lbyout blong thf horizontbl bxis.  This is NOT
+     * thf usfr spfdififd group, usf gftHorizontblGroup to dig thbt out.
+     */
+    privbtf Group horizontblGroup;
+
+    /**
+     * Group rfsponsiblf for lbyout blong thf vfrtidbl bxis.  This is NOT
+     * thf usfr spfdififd group, usf gftVfrtidblGroup to dig thbt out.
+     */
+    privbtf Group vfrtidblGroup;
+
+    // Mbps from Componfnt to ComponfntInfo.  This is usfd for trbdking
+    // informbtion spfdifid to b Componfnt.
+    privbtf Mbp<Componfnt,ComponfntInfo> domponfntInfos;
+
+    // Contbinfr wf'rf doing lbyout for.
+    privbtf Contbinfr host;
+
+    // Usfd by brfPbrbllflSiblings, dbdhfd to bvoid fxdfssivf gbrbbgf.
+    privbtf Sft<Spring> tmpPbrbllflSft;
+
+    // Indidbtfs Springs hbvf dhbngfd in somf wby sindf lbst dhbngf.
+    privbtf boolfbn springsChbngfd;
+
+    // Indidbtfs invblidbtfLbyout hbs bffn invokfd.
+    privbtf boolfbn isVblid;
+
+    // Whfthfr or not bny prfffrrfd pbdding (or dontbinfr pbdding) springs
+    // fxist
+    privbtf boolfbn hbsPrfffrrfdPbddingSprings;
+
+    /**
+     * Thf LbyoutStylf instbndf to usf, if null thf shbrfdInstbndf is usfd.
+     */
+    privbtf LbyoutStylf lbyoutStylf;
+
+    /**
+     * If truf, domponfnts thbt brf not visiblf brf trfbtfd bs though thfy
+     * brfn't thfrf.
+     */
+    privbtf boolfbn honorsVisibility;
+
+
+    /**
+     * Enumfrbtion of thf possiblf wbys {@dodf PbrbllflGroup} dbn blign
+     * its dhildrfn.
+     *
+     * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+     * @sindf 1.6
+     */
+    publid fnum Alignmfnt {
+        /**
+         * Indidbtfs thf flfmfnts should bf
+         * blignfd to thf origin.  For thf horizontbl bxis with b lfft to
+         * right orifntbtion this mfbns blignfd to thf lfft fdgf. For thf
+         * vfrtidbl bxis lfbding mfbns blignfd to thf top fdgf.
+         *
+         * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+         */
+        LEADING,
+
+        /**
+         * Indidbtfs thf flfmfnts should bf blignfd to thf fnd of thf
+         * rfgion.  For thf horizontbl bxis with b lfft to right
+         * orifntbtion this mfbns blignfd to thf right fdgf. For thf
+         * vfrtidbl bxis trbiling mfbns blignfd to thf bottom fdgf.
+         *
+         * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+         */
+        TRAILING,
+
+        /**
+         * Indidbtfs thf flfmfnts should bf dfntfrfd in
+         * thf rfgion.
+         *
+         * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+         */
+        CENTER,
+
+        /**
+         * Indidbtfs thf flfmfnts should bf blignfd blong
+         * thfir bbsflinf.
+         *
+         * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+         * @sff #drfbtfBbsflinfGroup(boolfbn,boolfbn)
+         */
+        BASELINE
+    }
+
+
+    privbtf stbtid void dhfdkSizf(int min, int prff, int mbx,
+            boolfbn isComponfntSpring) {
+        dhfdkRfsizfTypf(min, isComponfntSpring);
+        if (!isComponfntSpring && prff < 0) {
+            throw nfw IllfgblArgumfntExdfption("Prff must bf >= 0");
+        } flsf if (isComponfntSpring) {
+            dhfdkRfsizfTypf(prff, truf);
+        }
+        dhfdkRfsizfTypf(mbx, isComponfntSpring);
+        dhfdkLfssThbn(min, prff);
+        dhfdkLfssThbn(prff, mbx);
+    }
+
+    privbtf stbtid void dhfdkRfsizfTypf(int typf, boolfbn isComponfntSpring) {
+        if (typf < 0 && ((isComponfntSpring && typf != DEFAULT_SIZE &&
+                typf != PREFERRED_SIZE) ||
+                (!isComponfntSpring && typf != PREFERRED_SIZE))) {
+            throw nfw IllfgblArgumfntExdfption("Invblid sizf");
+        }
+    }
+
+    privbtf stbtid void dhfdkLfssThbn(int min, int mbx) {
+        if (min >= 0 && mbx >= 0 && min > mbx) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Following is not mft: min<=prff<=mbx");
+        }
+    }
+
+    /**
+     * Crfbtfs b {@dodf GroupLbyout} for thf spfdififd {@dodf Contbinfr}.
+     *
+     * @pbrbm host thf {@dodf Contbinfr} thf {@dodf GroupLbyout} is
+     *        thf {@dodf LbyoutMbnbgfr} for
+     * @throws IllfgblArgumfntExdfption if host is {@dodf null}
+     */
+    publid GroupLbyout(Contbinfr host) {
+        if (host == null) {
+            throw nfw IllfgblArgumfntExdfption("Contbinfr must bf non-null");
+        }
+        honorsVisibility = truf;
+        this.host = host;
+        sftHorizontblGroup(drfbtfPbrbllflGroup(Alignmfnt.LEADING, truf));
+        sftVfrtidblGroup(drfbtfPbrbllflGroup(Alignmfnt.LEADING, truf));
+        domponfntInfos = nfw HbshMbp<Componfnt,ComponfntInfo>();
+        tmpPbrbllflSft = nfw HbshSft<Spring>();
+    }
+
+    /**
+     * Sfts whfthfr domponfnt visibility is donsidfrfd whfn sizing bnd
+     * positioning domponfnts. A vbluf of {@dodf truf} indidbtfs thbt
+     * non-visiblf domponfnts should not bf trfbtfd bs pbrt of thf
+     * lbyout. A vbluf of {@dodf fblsf} indidbtfs thbt domponfnts should bf
+     * positionfd bnd sizfd rfgbrdlfss of visibility.
+     * <p>
+     * A vbluf of {@dodf fblsf} is usfful whfn thf visibility of domponfnts
+     * is dynbmidblly bdjustfd bnd you don't wbnt surrounding domponfnts bnd
+     * thf sizing to dhbngf.
+     * <p>
+     * Thf spfdififd vbluf is usfd for domponfnts thbt do not hbvf bn
+     * fxplidit visibility spfdififd.
+     * <p>
+     * Thf dffbult is {@dodf truf}.
+     *
+     * @pbrbm honorsVisibility whfthfr domponfnt visibility is donsidfrfd whfn
+     *                         sizing bnd positioning domponfnts
+     * @sff #sftHonorsVisibility(Componfnt,Boolfbn)
+     */
+    publid void sftHonorsVisibility(boolfbn honorsVisibility) {
+        if (this.honorsVisibility != honorsVisibility) {
+            this.honorsVisibility = honorsVisibility;
+            springsChbngfd = truf;
+            isVblid = fblsf;
+            invblidbtfHost();
+        }
+    }
+
+    /**
+     * Rfturns whfthfr domponfnt visibility is donsidfrfd whfn sizing bnd
+     * positioning domponfnts.
+     *
+     * @rfturn whfthfr domponfnt visibility is donsidfrfd whfn sizing bnd
+     *         positioning domponfnts
+     */
+    publid boolfbn gftHonorsVisibility() {
+        rfturn honorsVisibility;
+    }
+
+    /**
+     * Sfts whfthfr thf domponfnt's visibility is donsidfrfd for
+     * sizing bnd positioning. A vbluf of {@dodf Boolfbn.TRUE}
+     * indidbtfs thbt if {@dodf domponfnt} is not visiblf it should
+     * not bf trfbtfd bs pbrt of thf lbyout. A vbluf of {@dodf fblsf}
+     * indidbtfs thbt {@dodf domponfnt} is positionfd bnd sizfd
+     * rfgbrdlfss of it's visibility.  A vbluf of {@dodf null}
+     * indidbtfs thf vbluf spfdififd by thf singlf brgumfnt mfthod {@dodf
+     * sftHonorsVisibility} should bf usfd.
+     * <p>
+     * If {@dodf domponfnt} is not b dhild of thf {@dodf Contbinfr} this
+     * {@dodf GroupLbyout} is mbnbging, it will bf bddfd to thf
+     * {@dodf Contbinfr}.
+     *
+     * @pbrbm domponfnt thf domponfnt
+     * @pbrbm honorsVisibility whfthfr visibility of this {@dodf domponfnt} should bf
+     *              donsidfrfd for sizing bnd positioning
+     * @throws IllfgblArgumfntExdfption if {@dodf domponfnt} is {@dodf null}
+     * @sff #sftHonorsVisibility(Componfnt,Boolfbn)
+     */
+    publid void sftHonorsVisibility(Componfnt domponfnt,
+            Boolfbn honorsVisibility) {
+        if (domponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("Componfnt must bf non-null");
+        }
+        gftComponfntInfo(domponfnt).sftHonorsVisibility(honorsVisibility);
+        springsChbngfd = truf;
+        isVblid = fblsf;
+        invblidbtfHost();
+    }
+
+    /**
+     * Sfts whfthfr b gbp bftwffn domponfnts should butombtidblly bf
+     * drfbtfd.  For fxbmplf, if this is {@dodf truf} bnd you bdd two
+     * domponfnts to b {@dodf SfqufntiblGroup} b gbp bftwffn thf
+     * two domponfnts is butombtidblly bf drfbtfd.  Thf dffbult is
+     * {@dodf fblsf}.
+     *
+     * @pbrbm butoCrfbtfPbdding whfthfr b gbp bftwffn domponfnts is
+     *        butombtidblly drfbtfd
+     */
+    publid void sftAutoCrfbtfGbps(boolfbn butoCrfbtfPbdding) {
+        if (this.butodrfbtfPbdding != butoCrfbtfPbdding) {
+            this.butodrfbtfPbdding = butoCrfbtfPbdding;
+            invblidbtfHost();
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if gbps bftwffn domponfnts brf butombtidblly
+     * drfbtfd.
+     *
+     * @rfturn {@dodf truf} if gbps bftwffn domponfnts brf butombtidblly
+     *         drfbtfd
+     */
+    publid boolfbn gftAutoCrfbtfGbps() {
+        rfturn butodrfbtfPbdding;
+    }
+
+    /**
+     * Sfts whfthfr b gbp bftwffn thf dontbinfr bnd domponfnts thbt
+     * toudh thf bordfr of thf dontbinfr should butombtidblly bf
+     * drfbtfd. Thf dffbult is {@dodf fblsf}.
+     *
+     * @pbrbm butoCrfbtfContbinfrPbdding whfthfr b gbp bftwffn thf dontbinfr bnd
+     *        domponfnts thbt toudh thf bordfr of thf dontbinfr should
+     *        butombtidblly bf drfbtfd
+     */
+    publid void sftAutoCrfbtfContbinfrGbps(boolfbn butoCrfbtfContbinfrPbdding){
+        if (this.butodrfbtfContbinfrPbdding != butoCrfbtfContbinfrPbdding) {
+            this.butodrfbtfContbinfrPbdding = butoCrfbtfContbinfrPbdding;
+            horizontblGroup = drfbtfTopLfvflGroup(gftHorizontblGroup());
+            vfrtidblGroup = drfbtfTopLfvflGroup(gftVfrtidblGroup());
+            invblidbtfHost();
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if gbps bftwffn thf dontbinfr bnd domponfnts thbt
+     * bordfr thf dontbinfr brf butombtidblly drfbtfd.
+     *
+     * @rfturn {@dodf truf} if gbps bftwffn thf dontbinfr bnd domponfnts thbt
+     *         bordfr thf dontbinfr brf butombtidblly drfbtfd
+     */
+    publid boolfbn gftAutoCrfbtfContbinfrGbps() {
+        rfturn butodrfbtfContbinfrPbdding;
+    }
+
+    /**
+     * Sfts thf {@dodf Group} thbt positions bnd sizfs
+     * domponfnts blong thf horizontbl bxis.
+     *
+     * @pbrbm group thf {@dodf Group} thbt positions bnd sizfs
+     *        domponfnts blong thf horizontbl bxis
+     * @throws IllfgblArgumfntExdfption if group is {@dodf null}
+     */
+    publid void sftHorizontblGroup(Group group) {
+        if (group == null) {
+            throw nfw IllfgblArgumfntExdfption("Group must bf non-null");
+        }
+        horizontblGroup = drfbtfTopLfvflGroup(group);
+        invblidbtfHost();
+    }
+
+    /**
+     * Rfturns thf {@dodf Group} thbt positions bnd sizfs domponfnts
+     * blong thf horizontbl bxis.
+     *
+     * @rfturn thf {@dodf Group} rfsponsiblf for positioning bnd
+     *         sizing domponfnt blong thf horizontbl bxis
+     */
+    privbtf Group gftHorizontblGroup() {
+        int indfx = 0;
+        if (horizontblGroup.springs.sizf() > 1) {
+            indfx = 1;
+        }
+        rfturn (Group)horizontblGroup.springs.gft(indfx);
+    }
+
+    /**
+     * Sfts thf {@dodf Group} thbt positions bnd sizfs
+     * domponfnts blong thf vfrtidbl bxis.
+     *
+     * @pbrbm group thf {@dodf Group} thbt positions bnd sizfs
+     *        domponfnts blong thf vfrtidbl bxis
+     * @throws IllfgblArgumfntExdfption if group is {@dodf null}
+     */
+    publid void sftVfrtidblGroup(Group group) {
+        if (group == null) {
+            throw nfw IllfgblArgumfntExdfption("Group must bf non-null");
+        }
+        vfrtidblGroup = drfbtfTopLfvflGroup(group);
+        invblidbtfHost();
+    }
+
+    /**
+     * Rfturns thf {@dodf Group} thbt positions bnd sizfs domponfnts
+     * blong thf vfrtidbl bxis.
+     *
+     * @rfturn thf {@dodf Group} rfsponsiblf for positioning bnd
+     *         sizing domponfnt blong thf vfrtidbl bxis
+     */
+    privbtf Group gftVfrtidblGroup() {
+        int indfx = 0;
+        if (vfrtidblGroup.springs.sizf() > 1) {
+            indfx = 1;
+        }
+        rfturn (Group)vfrtidblGroup.springs.gft(indfx);
+    }
+
+    /**
+     * Wrbps thf usfr spfdififd group in b sfqufntibl group.  If
+     * dontbinfr gbps should bf gfnfrbtfd thf nfdfssbry springs brf
+     * bddfd.
+     */
+    privbtf Group drfbtfTopLfvflGroup(Group spfdififdGroup) {
+        SfqufntiblGroup group = drfbtfSfqufntiblGroup();
+        if (gftAutoCrfbtfContbinfrGbps()) {
+            group.bddSpring(nfw ContbinfrAutoPrfffrrfdGbpSpring());
+            group.bddGroup(spfdififdGroup);
+            group.bddSpring(nfw ContbinfrAutoPrfffrrfdGbpSpring());
+        } flsf {
+            group.bddGroup(spfdififdGroup);
+        }
+        rfturn group;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@dodf SfqufntiblGroup}.
+     *
+     * @rfturn b nfw {@dodf SfqufntiblGroup}
+     */
+    publid SfqufntiblGroup drfbtfSfqufntiblGroup() {
+        rfturn nfw SfqufntiblGroup();
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@dodf PbrbllflGroup} with bn blignmfnt of
+     * {@dodf Alignmfnt.LEADING}.  This is b dovfr mfthod for thf morf
+     * gfnfrbl {@dodf drfbtfPbrbllflGroup(Alignmfnt)} mfthod.
+     *
+     * @rfturn b nfw {@dodf PbrbllflGroup}
+     * @sff #drfbtfPbrbllflGroup(Alignmfnt)
+     */
+    publid PbrbllflGroup drfbtfPbrbllflGroup() {
+        rfturn drfbtfPbrbllflGroup(Alignmfnt.LEADING);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@dodf PbrbllflGroup} with thf spfdififd
+     * blignmfnt.  This is b dovfr mfthod for thf morf gfnfrbl {@dodf
+     * drfbtfPbrbllflGroup(Alignmfnt,boolfbn)} mfthod with {@dodf truf}
+     * supplifd for thf sfdond brgumfnt.
+     *
+     * @pbrbm blignmfnt thf blignmfnt for thf flfmfnts of thf group
+     * @throws IllfgblArgumfntExdfption if {@dodf blignmfnt} is {@dodf null}
+     * @rfturn b nfw {@dodf PbrbllflGroup}
+     * @sff #drfbtfBbsflinfGroup
+     * @sff PbrbllflGroup
+     */
+    publid PbrbllflGroup drfbtfPbrbllflGroup(Alignmfnt blignmfnt) {
+        rfturn drfbtfPbrbllflGroup(blignmfnt, truf);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@dodf PbrbllflGroup} with thf spfdififd
+     * blignmfnt bnd rfsizf bfhbvior. Thf {@dodf
+     * blignmfnt} brgumfnt spfdififs how dhildrfn flfmfnts brf
+     * positionfd thbt do not fill thf group. For fxbmplf, if b {@dodf
+     * PbrbllflGroup} with bn blignmfnt of {@dodf TRAILING} is givfn
+     * 100 bnd b dhild only nffds 50, thf dhild is
+     * positionfd bt thf position 50 (with b domponfnt orifntbtion of
+     * lfft-to-right).
+     * <p>
+     * Bbsflinf blignmfnt is only usfful whfn usfd blong thf vfrtidbl
+     * bxis. A {@dodf PbrbllflGroup} drfbtfd with b bbsflinf blignmfnt
+     * blong thf horizontbl bxis is trfbtfd bs {@dodf LEADING}.
+     * <p>
+     * Rfffr to {@link GroupLbyout.PbrbllflGroup PbrbllflGroup} for dftbils on
+     * thf bfhbvior of bbsflinf groups.
+     *
+     * @pbrbm blignmfnt thf blignmfnt for thf flfmfnts of thf group
+     * @pbrbm rfsizbblf {@dodf truf} if thf group is rfsizbblf; if thf group
+     *        is not rfsizbblf thf prfffrrfd sizf is usfd for thf
+     *        minimum bnd mbximum sizf of thf group
+     * @throws IllfgblArgumfntExdfption if {@dodf blignmfnt} is {@dodf null}
+     * @rfturn b nfw {@dodf PbrbllflGroup}
+     * @sff #drfbtfBbsflinfGroup
+     * @sff GroupLbyout.PbrbllflGroup
+     */
+    publid PbrbllflGroup drfbtfPbrbllflGroup(Alignmfnt blignmfnt,
+            boolfbn rfsizbblf){
+        if (blignmfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("blignmfnt must bf non null");
+        }
+
+        if (blignmfnt == Alignmfnt.BASELINE) {
+            rfturn nfw BbsflinfGroup(rfsizbblf);
+        }
+        rfturn nfw PbrbllflGroup(blignmfnt, rfsizbblf);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@dodf PbrbllflGroup} thbt bligns it's
+     * flfmfnts blong thf bbsflinf.
+     *
+     * @pbrbm rfsizbblf whfthfr thf group is rfsizbblf
+     * @pbrbm bndhorBbsflinfToTop whfthfr thf bbsflinf is bndhorfd to
+     *        thf top or bottom of thf group
+     * @rfturn thf {@dodf PbrbllflGroup}
+     * @sff #drfbtfBbsflinfGroup
+     * @sff PbrbllflGroup
+     */
+    publid PbrbllflGroup drfbtfBbsflinfGroup(boolfbn rfsizbblf,
+            boolfbn bndhorBbsflinfToTop) {
+        rfturn nfw BbsflinfGroup(rfsizbblf, bndhorBbsflinfToTop);
+    }
+
+    /**
+     * Fordfs thf spfdififd domponfnts to hbvf thf sbmf sizf
+     * rfgbrdlfss of thfir prfffrrfd, minimum or mbximum sizfs. Componfnts thbt
+     * brf linkfd brf givfn thf mbximum of thf prfffrrfd sizf of fbdh of
+     * thf linkfd domponfnts. For fxbmplf, if you link two domponfnts with
+     * b prfffrrfd width of 10 bnd 20, both domponfnts brf givfn b width of 20.
+     * <p>
+     * This dbn bf usfd multiplf timfs to fordf bny numbfr of
+     * domponfnts to shbrf thf sbmf sizf.
+     * <p>
+     * Linkfd Componfnts brf not bf rfsizbblf.
+     *
+     * @pbrbm domponfnts thf {@dodf Componfnt}s thbt brf to hbvf thf sbmf sizf
+     * @throws IllfgblArgumfntExdfption if {@dodf domponfnts} is
+     *         {@dodf null}, or dontbins {@dodf null}
+     * @sff #linkSizf(int,Componfnt[])
+     */
+    publid void linkSizf(Componfnt... domponfnts) {
+        linkSizf(SwingConstbnts.HORIZONTAL, domponfnts);
+        linkSizf(SwingConstbnts.VERTICAL, domponfnts);
+    }
+
+    /**
+     * Fordfs thf spfdififd domponfnts to hbvf thf sbmf sizf blong thf
+     * spfdififd bxis rfgbrdlfss of thfir prfffrrfd, minimum or
+     * mbximum sizfs. Componfnts thbt brf linkfd brf givfn thf mbximum
+     * of thf prfffrrfd sizf of fbdh of thf linkfd domponfnts. For
+     * fxbmplf, if you link two domponfnts blong thf horizontbl bxis
+     * bnd thf prfffrrfd width is 10 bnd 20, both domponfnts brf givfn
+     * b width of 20.
+     * <p>
+     * This dbn bf usfd multiplf timfs to fordf bny numbfr of
+     * domponfnts to shbrf thf sbmf sizf.
+     * <p>
+     * Linkfd {@dodf Componfnt}s brf not bf rfsizbblf.
+     *
+     * @pbrbm domponfnts thf {@dodf Componfnt}s thbt brf to hbvf thf sbmf sizf
+     * @pbrbm bxis thf bxis to link thf sizf blong; onf of
+     *             {@dodf SwingConstbnts.HORIZONTAL} or
+     *             {@dodf SwingConstbns.VERTICAL}
+     * @throws IllfgblArgumfntExdfption if {@dodf domponfnts} is
+     *         {@dodf null}, or dontbins {@dodf null}; or {@dodf bxis}
+     *          is not {@dodf SwingConstbnts.HORIZONTAL} or
+     *          {@dodf SwingConstbnts.VERTICAL}
+     */
+    publid void linkSizf(int bxis, Componfnt... domponfnts) {
+        if (domponfnts == null) {
+            throw nfw IllfgblArgumfntExdfption("Componfnts must bf non-null");
+        }
+        for (int dountfr = domponfnts.lfngth - 1; dountfr >= 0; dountfr--) {
+            Componfnt d = domponfnts[dountfr];
+            if (domponfnts[dountfr] == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Componfnts must bf non-null");
+            }
+            // Fordf thf domponfnt to bf bddfd
+            gftComponfntInfo(d);
+        }
+        int glAxis;
+        if (bxis == SwingConstbnts.HORIZONTAL) {
+            glAxis = HORIZONTAL;
+        } flsf if (bxis == SwingConstbnts.VERTICAL) {
+            glAxis = VERTICAL;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Axis must bf onf of " +
+                    "SwingConstbnts.HORIZONTAL or SwingConstbnts.VERTICAL");
+        }
+        LinkInfo mbstfr = gftComponfntInfo(
+                domponfnts[domponfnts.lfngth - 1]).gftLinkInfo(glAxis);
+        for (int dountfr = domponfnts.lfngth - 2; dountfr >= 0; dountfr--) {
+            mbstfr.bdd(gftComponfntInfo(domponfnts[dountfr]));
+        }
+        invblidbtfHost();
+    }
+
+    /**
+     * Rfplbdfs bn fxisting domponfnt with b nfw onf.
+     *
+     * @pbrbm fxistingComponfnt thf domponfnt thbt should bf rfmovfd
+     *        bnd rfplbdfd with {@dodf nfwComponfnt}
+     * @pbrbm nfwComponfnt thf domponfnt to put in
+     *        {@dodf fxistingComponfnt}'s plbdf
+     * @throws IllfgblArgumfntExdfption if fithfr of thf domponfnts brf
+     *         {@dodf null} or {@dodf fxistingComponfnt} is not bfing mbnbgfd
+     *         by this lbyout mbnbgfr
+     */
+    publid void rfplbdf(Componfnt fxistingComponfnt, Componfnt nfwComponfnt) {
+        if (fxistingComponfnt == null || nfwComponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("Componfnts must bf non-null");
+        }
+        // Mbkf surf bll thf domponfnts hbvf bffn rfgistfrfd, othfrwisf wf mby
+        // not updbtf thf dorrfdt Springs.
+        if (springsChbngfd) {
+            rfgistfrComponfnts(horizontblGroup, HORIZONTAL);
+            rfgistfrComponfnts(vfrtidblGroup, VERTICAL);
+        }
+        ComponfntInfo info = domponfntInfos.rfmovf(fxistingComponfnt);
+        if (info == null) {
+            throw nfw IllfgblArgumfntExdfption("Componfnt must blrfbdy fxist");
+        }
+        host.rfmovf(fxistingComponfnt);
+        if (nfwComponfnt.gftPbrfnt() != host) {
+            host.bdd(nfwComponfnt);
+        }
+        info.sftComponfnt(nfwComponfnt);
+        domponfntInfos.put(nfwComponfnt, info);
+        invblidbtfHost();
+    }
+
+    /**
+     * Sfts thf {@dodf LbyoutStylf} usfd to dbldulbtf thf prfffrrfd
+     * gbps bftwffn domponfnts. A vbluf of {@dodf null} indidbtfs thf
+     * shbrfd instbndf of {@dodf LbyoutStylf} should bf usfd.
+     *
+     * @pbrbm lbyoutStylf thf {@dodf LbyoutStylf} to usf
+     * @sff LbyoutStylf
+     */
+    publid void sftLbyoutStylf(LbyoutStylf lbyoutStylf) {
+        this.lbyoutStylf = lbyoutStylf;
+        invblidbtfHost();
+    }
+
+    /**
+     * Rfturns thf {@dodf LbyoutStylf} usfd for dbldulbting thf prfffrrfd
+     * gbp bftwffn domponfnts. This rfturns thf vbluf spfdififd to
+     * {@dodf sftLbyoutStylf}, whidh mby bf {@dodf null}.
+     *
+     * @rfturn thf {@dodf LbyoutStylf} usfd for dbldulbting thf prfffrrfd
+     *         gbp bftwffn domponfnts
+     */
+    publid LbyoutStylf gftLbyoutStylf() {
+        rfturn lbyoutStylf;
+    }
+
+    privbtf LbyoutStylf gftLbyoutStylf0() {
+        LbyoutStylf lbyoutStylf = gftLbyoutStylf();
+        if (lbyoutStylf == null) {
+            lbyoutStylf = LbyoutStylf.gftInstbndf();
+        }
+        rfturn lbyoutStylf;
+    }
+
+    privbtf void invblidbtfHost() {
+        if (host instbndfof JComponfnt) {
+            ((JComponfnt)host).rfvblidbtf();
+        } flsf {
+            host.invblidbtf();
+        }
+        host.rfpbint();
+    }
+
+    //
+    // LbyoutMbnbgfr
+    //
+    /**
+     * Notifidbtion thbt b {@dodf Componfnt} hbs bffn bddfd to
+     * thf pbrfnt dontbinfr.  You should not invokf this mfthod
+     * dirfdtly, instfbd you should usf onf of thf {@dodf Group}
+     * mfthods to bdd b {@dodf Componfnt}.
+     *
+     * @pbrbm nbmf thf string to bf bssodibtfd with thf domponfnt
+     * @pbrbm domponfnt thf {@dodf Componfnt} to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domponfnt) {
+    }
+
+    /**
+     * Notifidbtion thbt b {@dodf Componfnt} hbs bffn rfmovfd from
+     * thf pbrfnt dontbinfr.  You should not invokf this mfthod
+     * dirfdtly, instfbd invokf {@dodf rfmovf} on thf pbrfnt
+     * {@dodf Contbinfr}.
+     *
+     * @pbrbm domponfnt thf domponfnt to bf rfmovfd
+     * @sff jbvb.bwt.Componfnt#rfmovf
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domponfnt) {
+        ComponfntInfo info = domponfntInfos.rfmovf(domponfnt);
+        if (info != null) {
+            info.disposf();
+            springsChbngfd = truf;
+            isVblid = fblsf;
+        }
+    }
+
+    /**
+     * Rfturns thf prfffrrfd sizf for thf spfdififd dontbinfr.
+     *
+     * @pbrbm pbrfnt thf dontbinfr to rfturn thf prfffrrfd sizf for
+     * @rfturn thf prfffrrfd sizf for {@dodf pbrfnt}
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} this wbs drfbtfd with
+     * @throws IllfgblStbtfExdfption if bny of thf domponfnts bddfd to
+     *         this lbyout brf not in both b horizontbl bnd vfrtidbl group
+     * @sff jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        prfpbrf(PREF_SIZE);
+        rfturn bdjustSizf(horizontblGroup.gftPrfffrrfdSizf(HORIZONTAL),
+                vfrtidblGroup.gftPrfffrrfdSizf(VERTICAL));
+    }
+
+    /**
+     * Rfturns thf minimum sizf for thf spfdififd dontbinfr.
+     *
+     * @pbrbm pbrfnt thf dontbinfr to rfturn thf sizf for
+     * @rfturn thf minimum sizf for {@dodf pbrfnt}
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} thbt this wbs drfbtfd with
+     * @throws IllfgblStbtfExdfption if bny of thf domponfnts bddfd to
+     *         this lbyout brf not in both b horizontbl bnd vfrtidbl group
+     * @sff jbvb.bwt.Contbinfr#gftMinimumSizf
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        prfpbrf(MIN_SIZE);
+        rfturn bdjustSizf(horizontblGroup.gftMinimumSizf(HORIZONTAL),
+                vfrtidblGroup.gftMinimumSizf(VERTICAL));
+    }
+
+    /**
+     * Lbys out thf spfdififd dontbinfr.
+     *
+     * @pbrbm pbrfnt thf dontbinfr to bf lbid out
+     * @throws IllfgblStbtfExdfption if bny of thf domponfnts bddfd to
+     *         this lbyout brf not in both b horizontbl bnd vfrtidbl group
+     */
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        // Stfp 1: Prfpbrf for lbyout.
+        prfpbrf(SPECIFIC_SIZE);
+        Insfts insfts = pbrfnt.gftInsfts();
+        int width = pbrfnt.gftWidth() - insfts.lfft - insfts.right;
+        int hfight = pbrfnt.gftHfight() - insfts.top - insfts.bottom;
+        boolfbn ltr = isLfftToRight();
+        if (gftAutoCrfbtfGbps() || gftAutoCrfbtfContbinfrGbps() ||
+                hbsPrfffrrfdPbddingSprings) {
+            // Stfp 2: Cbldulbtf butopbdding springs
+            dbldulbtfAutopbdding(horizontblGroup, HORIZONTAL, SPECIFIC_SIZE, 0,
+                    width);
+            dbldulbtfAutopbdding(vfrtidblGroup, VERTICAL, SPECIFIC_SIZE, 0,
+                    hfight);
+        }
+        // Stfp 3: sft thf sizf of thf groups.
+        horizontblGroup.sftSizf(HORIZONTAL, 0, width);
+        vfrtidblGroup.sftSizf(VERTICAL, 0, hfight);
+        // Stfp 4: bpply thf sizf to thf domponfnts.
+        for (ComponfntInfo info : domponfntInfos.vblufs()) {
+            info.sftBounds(insfts, width, ltr);
+        }
+    }
+
+    //
+    // LbyoutMbnbgfr2
+    //
+    /**
+     * Notifidbtion thbt b {@dodf Componfnt} hbs bffn bddfd to
+     * thf pbrfnt dontbinfr.  You should not invokf this mfthod
+     * dirfdtly, instfbd you should usf onf of thf {@dodf Group}
+     * mfthods to bdd b {@dodf Componfnt}.
+     *
+     * @pbrbm domponfnt thf domponfnt bddfd
+     * @pbrbm donstrbints dfsdription of whfrf to plbdf thf domponfnt
+     */
+    publid void bddLbyoutComponfnt(Componfnt domponfnt, Objfdt donstrbints) {
+    }
+
+    /**
+     * Rfturns thf mbximum sizf for thf spfdififd dontbinfr.
+     *
+     * @pbrbm pbrfnt thf dontbinfr to rfturn thf sizf for
+     * @rfturn thf mbximum sizf for {@dodf pbrfnt}
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} thbt this wbs drfbtfd with
+     * @throws IllfgblStbtfExdfption if bny of thf domponfnts bddfd to
+     *         this lbyout brf not in both b horizontbl bnd vfrtidbl group
+     * @sff jbvb.bwt.Contbinfr#gftMbximumSizf
+     */
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        prfpbrf(MAX_SIZE);
+        rfturn bdjustSizf(horizontblGroup.gftMbximumSizf(HORIZONTAL),
+                vfrtidblGroup.gftMbximumSizf(VERTICAL));
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf x bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     *
+     * @pbrbm pbrfnt thf {@dodf Contbinfr} hosting this {@dodf LbyoutMbnbgfr}
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} thbt this wbs drfbtfd with
+     * @rfturn thf blignmfnt; this implfmfntbtion rfturns {@dodf .5}
+     */
+    publid flobt gftLbyoutAlignmfntX(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        rfturn .5f;
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf y bxis.  This spfdififs how
+     * thf domponfnt would likf to bf blignfd rflbtivf to othfr
+     * domponfnts.  Thf vbluf should bf b numbfr bftwffn 0 bnd 1
+     * whfrf 0 rfprfsfnts blignmfnt blong thf origin, 1 is blignfd
+     * thf furthfst bwby from thf origin, 0.5 is dfntfrfd, ftd.
+     *
+     * @pbrbm pbrfnt thf {@dodf Contbinfr} hosting this {@dodf LbyoutMbnbgfr}
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} thbt this wbs drfbtfd with
+     * @rfturn blignmfnt; this implfmfntbtion rfturns {@dodf .5}
+     */
+    publid flobt gftLbyoutAlignmfntY(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        rfturn .5f;
+    }
+
+    /**
+     * Invblidbtfs thf lbyout, indidbting thbt if thf lbyout mbnbgfr
+     * hbs dbdhfd informbtion it should bf disdbrdfd.
+     *
+     * @pbrbm pbrfnt thf {@dodf Contbinfr} hosting this LbyoutMbnbgfr
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrfnt} is not
+     *         thf sbmf {@dodf Contbinfr} thbt this wbs drfbtfd with
+     */
+    publid void invblidbtfLbyout(Contbinfr pbrfnt) {
+        dhfdkPbrfnt(pbrfnt);
+        // invblidbtfLbyout is dbllfd from Contbinfr.invblidbtf, whidh
+        // dofs NOT grbb thf trfflodk.  All othfr mfthods do.  To mbkf surf
+        // thfrf brfn't bny possiblf thrfbding problfms wf grbb thf trff lodk
+        // hfrf.
+        syndhronizfd(pbrfnt.gftTrffLodk()) {
+            isVblid = fblsf;
+        }
+    }
+
+    privbtf void prfpbrf(int sizfTypf) {
+        boolfbn visChbngfd = fblsf;
+        // Stfp 1: If not-vblid, dlfbr springs bnd updbtf visibility.
+        if (!isVblid) {
+            isVblid = truf;
+            horizontblGroup.sftSizf(HORIZONTAL, UNSET, UNSET);
+            vfrtidblGroup.sftSizf(VERTICAL, UNSET, UNSET);
+            for (ComponfntInfo di : domponfntInfos.vblufs()) {
+                if (di.updbtfVisibility()) {
+                    visChbngfd = truf;
+                }
+                di.dlfbrCbdhfdSizf();
+            }
+        }
+        // Stfp 2: Mbkf surf domponfnts brf bound to ComponfntInfos
+        if (springsChbngfd) {
+            rfgistfrComponfnts(horizontblGroup, HORIZONTAL);
+            rfgistfrComponfnts(vfrtidblGroup, VERTICAL);
+        }
+        // Stfp 3: Adjust thf butopbdding. This rfmovfs fxisting
+        // butopbdding, thfn rfdbldulbtfs whfrf it should go.
+        if (springsChbngfd || visChbngfd) {
+            dhfdkComponfnts();
+            horizontblGroup.rfmovfAutopbdding();
+            vfrtidblGroup.rfmovfAutopbdding();
+            if (gftAutoCrfbtfGbps()) {
+                insfrtAutopbdding(truf);
+            } flsf if (hbsPrfffrrfdPbddingSprings ||
+                    gftAutoCrfbtfContbinfrGbps()) {
+                insfrtAutopbdding(fblsf);
+            }
+            springsChbngfd = fblsf;
+        }
+        // Stfp 4: (for min/prff/mbx sizf dbldulbtions only) dbldulbtf thf
+        // butopbdding. This invokfs for unsftting thf dbldulbtfd vblufs, thfn
+        // rfdbldulbting thfm.
+        // If sizfTypf == SPECIFIC_SIZE, it indidbtfs wf'rf doing lbyout, this
+        // stfp will bf donf lbtfr on.
+        if (sizfTypf != SPECIFIC_SIZE && (gftAutoCrfbtfGbps() ||
+                gftAutoCrfbtfContbinfrGbps() || hbsPrfffrrfdPbddingSprings)) {
+            dbldulbtfAutopbdding(horizontblGroup, HORIZONTAL, sizfTypf, 0, 0);
+            dbldulbtfAutopbdding(vfrtidblGroup, VERTICAL, sizfTypf, 0, 0);
+        }
+    }
+
+    privbtf void dbldulbtfAutopbdding(Group group, int bxis, int sizfTypf,
+            int origin, int sizf) {
+        group.unsftAutopbdding();
+        switdh(sizfTypf) {
+            dbsf MIN_SIZE:
+                sizf = group.gftMinimumSizf(bxis);
+                brfbk;
+            dbsf PREF_SIZE:
+                sizf = group.gftPrfffrrfdSizf(bxis);
+                brfbk;
+            dbsf MAX_SIZE:
+                sizf = group.gftMbximumSizf(bxis);
+                brfbk;
+            dffbult:
+                brfbk;
+        }
+        group.sftSizf(bxis, origin, sizf);
+        group.dbldulbtfAutopbdding(bxis);
+    }
+
+    privbtf void dhfdkComponfnts() {
+        for (ComponfntInfo info : domponfntInfos.vblufs()) {
+            if (info.horizontblSpring == null) {
+                throw nfw IllfgblStbtfExdfption(info.domponfnt +
+                        " is not bttbdhfd to b horizontbl group");
+            }
+            if (info.vfrtidblSpring == null) {
+                throw nfw IllfgblStbtfExdfption(info.domponfnt +
+                        " is not bttbdhfd to b vfrtidbl group");
+            }
+        }
+    }
+
+    privbtf void rfgistfrComponfnts(Group group, int bxis) {
+        List<Spring> springs = group.springs;
+        for (int dountfr = springs.sizf() - 1; dountfr >= 0; dountfr--) {
+            Spring spring = springs.gft(dountfr);
+            if (spring instbndfof ComponfntSpring) {
+                ((ComponfntSpring)spring).instbllIfNfdfssbry(bxis);
+            } flsf if (spring instbndfof Group) {
+                rfgistfrComponfnts((Group)spring, bxis);
+            }
+        }
+    }
+
+    privbtf Dimfnsion bdjustSizf(int width, int hfight) {
+        Insfts insfts = host.gftInsfts();
+        rfturn nfw Dimfnsion(width + insfts.lfft + insfts.right,
+                hfight + insfts.top + insfts.bottom);
+    }
+
+    privbtf void dhfdkPbrfnt(Contbinfr pbrfnt) {
+        if (pbrfnt != host) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "GroupLbyout dbn only bf usfd with onf Contbinfr bt b timf");
+        }
+    }
+
+    /**
+     * Rfturns thf {@dodf ComponfntInfo} for thf spfdififd Componfnt,
+     * drfbting onf if nfdfssbry.
+     */
+    privbtf ComponfntInfo gftComponfntInfo(Componfnt domponfnt) {
+        ComponfntInfo info = domponfntInfos.gft(domponfnt);
+        if (info == null) {
+            info = nfw ComponfntInfo(domponfnt);
+            domponfntInfos.put(domponfnt, info);
+            if (domponfnt.gftPbrfnt() != host) {
+                host.bdd(domponfnt);
+            }
+        }
+        rfturn info;
+    }
+
+    /**
+     * Adjusts thf butopbdding springs for thf horizontbl bnd vfrtidbl
+     * groups.  If {@dodf insfrt} is {@dodf truf} this will insfrt buto pbdding
+     * springs, othfrwisf this will only bdjust thf springs thbt
+     * domprisf buto prfffrrfd pbdding springs.
+     */
+    privbtf void insfrtAutopbdding(boolfbn insfrt) {
+        horizontblGroup.insfrtAutopbdding(HORIZONTAL,
+                nfw ArrbyList<AutoPrfffrrfdGbpSpring>(1),
+                nfw ArrbyList<AutoPrfffrrfdGbpSpring>(1),
+                nfw ArrbyList<ComponfntSpring>(1),
+                nfw ArrbyList<ComponfntSpring>(1), insfrt);
+        vfrtidblGroup.insfrtAutopbdding(VERTICAL,
+                nfw ArrbyList<AutoPrfffrrfdGbpSpring>(1),
+                nfw ArrbyList<AutoPrfffrrfdGbpSpring>(1),
+                nfw ArrbyList<ComponfntSpring>(1),
+                nfw ArrbyList<ComponfntSpring>(1), insfrt);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf two Componfnts hbvf b dommon PbrbllflGroup
+     * bndfstor blong thf pbrtidulbr bxis.
+     */
+    privbtf boolfbn brfPbrbllflSiblings(Componfnt sourdf, Componfnt tbrgft,
+            int bxis) {
+        ComponfntInfo sourdfInfo = gftComponfntInfo(sourdf);
+        ComponfntInfo tbrgftInfo = gftComponfntInfo(tbrgft);
+        Spring sourdfSpring;
+        Spring tbrgftSpring;
+        if (bxis == HORIZONTAL) {
+            sourdfSpring = sourdfInfo.horizontblSpring;
+            tbrgftSpring = tbrgftInfo.horizontblSpring;
+        } flsf {
+            sourdfSpring = sourdfInfo.vfrtidblSpring;
+            tbrgftSpring = tbrgftInfo.vfrtidblSpring;
+        }
+        Sft<Spring> sourdfPbth = tmpPbrbllflSft;
+        sourdfPbth.dlfbr();
+        Spring spring = sourdfSpring.gftPbrfnt();
+        whilf (spring != null) {
+            sourdfPbth.bdd(spring);
+            spring = spring.gftPbrfnt();
+        }
+        spring = tbrgftSpring.gftPbrfnt();
+        whilf (spring != null) {
+            if (sourdfPbth.dontbins(spring)) {
+                sourdfPbth.dlfbr();
+                whilf (spring != null) {
+                    if (spring instbndfof PbrbllflGroup) {
+                        rfturn truf;
+                    }
+                    spring = spring.gftPbrfnt();
+                }
+                rfturn fblsf;
+            }
+            spring = spring.gftPbrfnt();
+        }
+        sourdfPbth.dlfbr();
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn isLfftToRight() {
+        rfturn host.gftComponfntOrifntbtion().isLfftToRight();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this {@dodf GroupLbyout}.
+     * This mfthod is intfndfd to bf usfd for dfbugging purposfs,
+     * bnd thf dontfnt bnd formbt of thf rfturnfd string mby vbry
+     * bftwffn implfmfntbtions.
+     *
+     * @rfturn b string rfprfsfntbtion of this {@dodf GroupLbyout}
+     **/
+    publid String toString() {
+        if (springsChbngfd) {
+            rfgistfrComponfnts(horizontblGroup, HORIZONTAL);
+            rfgistfrComponfnts(vfrtidblGroup, VERTICAL);
+        }
+        StringBufffr bufffr = nfw StringBufffr();
+        bufffr.bppfnd("HORIZONTAL\n");
+        drfbtfSpringDfsdription(bufffr, horizontblGroup, "  ", HORIZONTAL);
+        bufffr.bppfnd("\nVERTICAL\n");
+        drfbtfSpringDfsdription(bufffr, vfrtidblGroup, "  ", VERTICAL);
+        rfturn bufffr.toString();
+    }
+
+    privbtf void drfbtfSpringDfsdription(StringBufffr bufffr, Spring spring,
+            String indfnt, int bxis) {
+        String origin = "";
+        String pbdding = "";
+        if (spring instbndfof ComponfntSpring) {
+            ComponfntSpring dSpring = (ComponfntSpring)spring;
+            origin = Intfgfr.toString(dSpring.gftOrigin()) + " ";
+            String nbmf = dSpring.gftComponfnt().gftNbmf();
+            if (nbmf != null) {
+                origin = "nbmf=" + nbmf + ", ";
+            }
+        }
+        if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+            AutoPrfffrrfdGbpSpring pbddingSpring =
+                    (AutoPrfffrrfdGbpSpring)spring;
+            pbdding = ", usfrCrfbtfd=" + pbddingSpring.gftUsfrCrfbtfd() +
+                    ", mbtdhfs=" + pbddingSpring.gftMbtdhDfsdription();
+        }
+        bufffr.bppfnd(indfnt + spring.gftClbss().gftNbmf() + " " +
+                Intfgfr.toHfxString(spring.hbshCodf()) + " " +
+                origin +
+                ", sizf=" + spring.gftSizf() +
+                ", blignmfnt=" + spring.gftAlignmfnt() +
+                " prffs=[" + spring.gftMinimumSizf(bxis) +
+                " " + spring.gftPrfffrrfdSizf(bxis) +
+                " " + spring.gftMbximumSizf(bxis) +
+                pbdding + "]\n");
+        if (spring instbndfof Group) {
+            List<Spring> springs = ((Group)spring).springs;
+            indfnt += "  ";
+            for (int dountfr = 0; dountfr < springs.sizf(); dountfr++) {
+                drfbtfSpringDfsdription(bufffr, springs.gft(dountfr), indfnt,
+                        bxis);
+            }
+        }
+    }
+
+
+    /**
+     * Spring donsists of b rbngf: min, prff bnd mbx, b vbluf somf whfrf in
+     * thf middlf of thbt, bnd b lodbtion. Spring dbdhfs thf
+     * min/mbx/prff.  If thf min/prff/mbx hbs intfrnblly dhbngfs, or nffds
+     * to bf updbtfd you must invokf dlfbr.
+     */
+    privbtf bbstrbdt dlbss Spring {
+        privbtf int sizf;
+        privbtf int min;
+        privbtf int mbx;
+        privbtf int prff;
+        privbtf Spring pbrfnt;
+
+        privbtf Alignmfnt blignmfnt;
+
+        Spring() {
+            min = prff = mbx = UNSET;
+        }
+
+        /**
+         * Cbldulbtfs bnd rfturns thf minimum sizf.
+         *
+         * @pbrbm bxis thf bxis of lbyout; onf of HORIZONTAL or VERTICAL
+         * @rfturn thf minimum sizf
+         */
+        bbstrbdt int dbldulbtfMinimumSizf(int bxis);
+
+        /**
+         * Cbldulbtfs bnd rfturns thf prfffrrfd sizf.
+         *
+         * @pbrbm bxis thf bxis of lbyout; onf of HORIZONTAL or VERTICAL
+         * @rfturn thf prfffrrfd sizf
+         */
+        bbstrbdt int dbldulbtfPrfffrrfdSizf(int bxis);
+
+        /**
+         * Cbldulbtfs bnd rfturns thf minimum sizf.
+         *
+         * @pbrbm bxis thf bxis of lbyout; onf of HORIZONTAL or VERTICAL
+         * @rfturn thf minimum sizf
+         */
+        bbstrbdt int dbldulbtfMbximumSizf(int bxis);
+
+        /**
+         * Sfts thf pbrfnt of this Spring.
+         */
+        void sftPbrfnt(Spring pbrfnt) {
+            this.pbrfnt = pbrfnt;
+        }
+
+        /**
+         * Rfturns thf pbrfnt of this spring.
+         */
+        Spring gftPbrfnt() {
+            rfturn pbrfnt;
+        }
+
+        // This is hfrf purfly bs b donvfnifndf for PbrbllflGroup to bvoid
+        // hbving to trbdk blignmfnt sfpbrbtfly.
+        void sftAlignmfnt(Alignmfnt blignmfnt) {
+            this.blignmfnt = blignmfnt;
+        }
+
+        /**
+         * Alignmfnt for this Spring, this mby bf null.
+         */
+        Alignmfnt gftAlignmfnt() {
+            rfturn blignmfnt;
+        }
+
+        /**
+         * Rfturns thf minimum sizf.
+         */
+        finbl int gftMinimumSizf(int bxis) {
+            if (min == UNSET) {
+                min = donstrbin(dbldulbtfMinimumSizf(bxis));
+            }
+            rfturn min;
+        }
+
+        /**
+         * Rfturns thf prfffrrfd sizf.
+         */
+        finbl int gftPrfffrrfdSizf(int bxis) {
+            if (prff == UNSET) {
+                prff = donstrbin(dbldulbtfPrfffrrfdSizf(bxis));
+            }
+            rfturn prff;
+        }
+
+        /**
+         * Rfturns thf mbximum sizf.
+         */
+        finbl int gftMbximumSizf(int bxis) {
+            if (mbx == UNSET) {
+                mbx = donstrbin(dbldulbtfMbximumSizf(bxis));
+            }
+            rfturn mbx;
+        }
+
+        /**
+         * Sfts thf vbluf bnd lodbtion of thf spring.  Subdlbssfs
+         * will wbnt to invokf supfr, thfn do bny bdditionbl sizing.
+         *
+         * @pbrbm bxis HORIZONTAL or VERTICAL
+         * @pbrbm origin of this Spring
+         * @pbrbm sizf of thf Spring.  If sizf is UNSET, this invokfs
+         *        dlfbr.
+         */
+        void sftSizf(int bxis, int origin, int sizf) {
+            this.sizf = sizf;
+            if (sizf == UNSET) {
+                unsft();
+            }
+        }
+
+        /**
+         * Rfsfts thf dbdhfd min/mbx/prff.
+         */
+        void unsft() {
+            sizf = min = prff = mbx = UNSET;
+        }
+
+        /**
+         * Rfturns thf durrfnt sizf.
+         */
+        int gftSizf() {
+            rfturn sizf;
+        }
+
+        int donstrbin(int vbluf) {
+            rfturn Mbth.min(vbluf, Short.MAX_VALUE);
+        }
+
+        int gftBbsflinf() {
+            rfturn -1;
+        }
+
+        BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior() {
+            rfturn BbsflinfRfsizfBfhbvior.OTHER;
+        }
+
+        finbl boolfbn isRfsizbblf(int bxis) {
+            int min = gftMinimumSizf(bxis);
+            int prff = gftPrfffrrfdSizf(bxis);
+            rfturn (min != prff || prff != gftMbximumSizf(bxis));
+        }
+
+        /**
+         * Rfturns {@dodf truf} if this spring will ALWAYS hbvf b zfro
+         * sizf. This should NOT dhfdk thf durrfnt sizf, rbthfr it's
+         * mfbnt to quidkly tfst if this Spring will blwbys hbvf b
+         * zfro sizf.
+         *
+         * @pbrbm trfbtAutopbddingAsZfroSizfd if {@dodf truf}, buto pbdding
+         *        springs should bf trfbtfd bs hbving b sizf of {@dodf 0}
+         * @rfturn {@dodf truf} if this spring will hbvf b zfro sizf,
+         *         {@dodf fblsf} othfrwisf
+         */
+        bbstrbdt boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd);
+    }
+
+    /**
+     * {@dodf Group} providfs thf bbsis for thf two typfs of
+     * opfrbtions supportfd by {@dodf GroupLbyout}: lbying out
+     * domponfnts onf bftfr bnothfr ({@link SfqufntiblGroup SfqufntiblGroup})
+     * or blignfd ({@link PbrbllflGroup PbrbllflGroup}). {@dodf Group} bnd
+     * its subdlbssfs hbvf no publid donstrudtor; to drfbtf onf usf
+     * onf of {@dodf drfbtfSfqufntiblGroup} or
+     * {@dodf drfbtfPbrbllflGroup}. Additionblly, tbking b {@dodf Group}
+     * drfbtfd from onf {@dodf GroupLbyout} bnd using it with bnothfr
+     * will produdf undffinfd rfsults.
+     * <p>
+     * Vbrious mfthods in {@dodf Group} bnd its subdlbssfs bllow you
+     * to fxpliditly spfdify thf rbngf. Thf brgumfnts to thfsf mfthods
+     * dbn tbkf two forms, fithfr b vbluf grfbtfr thbn or fqubl to 0,
+     * or onf of {@dodf DEFAULT_SIZE} or {@dodf PREFERRED_SIZE}. A
+     * vbluf grfbtfr thbn or fqubl to {@dodf 0} indidbtfs b spfdifid
+     * sizf. {@dodf DEFAULT_SIZE} indidbtfs thf dorrfsponding sizf
+     * from thf domponfnt should bf usfd.  For fxbmplf, if {@dodf
+     * DEFAULT_SIZE} is pbssfd bs thf minimum sizf brgumfnt, thf
+     * minimum sizf is obtbinfd from invoking {@dodf gftMinimumSizf}
+     * on thf domponfnt. Likfwisf, {@dodf PREFERRED_SIZE} indidbtfs
+     * thf vbluf from {@dodf gftPrfffrrfdSizf} should bf usfd.
+     * Thf following fxbmplf bdds {@dodf myComponfnt} to {@dodf group}
+     * with spfdifid vblufs for thf rbngf. Thbt is, thf minimum is
+     * fxpliditly spfdififd bs 100, prfffrrfd bs 200, bnd mbximum bs
+     * 300.
+     * <prf>
+     *   group.bddComponfnt(myComponfnt, 100, 200, 300);
+     * </prf>
+     * Thf following fxbmplf bdds {@dodf myComponfnt} to {@dodf group} using
+     * b dombinbtion of thf forms. Thf minimum sizf is fordfd to bf thf
+     * sbmf bs thf prfffrrfd sizf, thf prfffrrfd sizf is dftfrminfd by
+     * using {@dodf myComponfnt.gftPrfffrrfdSizf} bnd thf mbximum is
+     * dftfrminfd by invoking {@dodf gftMbximumSizf} on thf domponfnt.
+     * <prf>
+     *   group.bddComponfnt(myComponfnt, GroupLbyout.PREFERRED_SIZE,
+     *             GroupLbyout.PREFERRED_SIZE, GroupLbyout.DEFAULT_SIZE);
+     * </prf>
+     * <p>
+     * Unlfss othfrwisf spfdififd bll thf mfthods of {@dodf Group} bnd
+     * its subdlbssfs thbt bllow you to spfdify b rbngf throw bn
+     * {@dodf IllfgblArgumfntExdfption} if pbssfd bn invblid rbngf. An
+     * invblid rbngf is onf in whidh bny of thf vblufs brf &lt; 0 bnd
+     * not onf of {@dodf PREFERRED_SIZE} or {@dodf DEFAULT_SIZE}, or
+     * thf following is not mft (for spfdifid vblufs): {@dodf min}
+     * &lt;= {@dodf prff} &lt;= {@dodf mbx}.
+     * <p>
+     * Similbrly bny mfthods thbt tbkf b {@dodf Componfnt} throw b
+     * {@dodf IllfgblArgumfntExdfption} if pbssfd {@dodf null} bnd bny mfthods
+     * thbt tbkf b {@dodf Group} throw bn {@dodf NullPointfrExdfption} if
+     * pbssfd {@dodf null}.
+     *
+     * @sff #drfbtfSfqufntiblGroup
+     * @sff #drfbtfPbrbllflGroup
+     * @sindf 1.6
+     */
+    publid bbstrbdt dlbss Group fxtfnds Spring {
+        // privbtf int origin;
+        // privbtf int sizf;
+        List<Spring> springs;
+
+        Group() {
+            springs = nfw ArrbyList<Spring>();
+        }
+
+        /**
+         * Adds b {@dodf Group} to this {@dodf Group}.
+         *
+         * @pbrbm group thf {@dodf Group} to bdd
+         * @rfturn this {@dodf Group}
+         */
+        publid Group bddGroup(Group group) {
+            rfturn bddSpring(group);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf Group}.
+         *
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @rfturn this {@dodf Group}
+         */
+        publid Group bddComponfnt(Componfnt domponfnt) {
+            rfturn bddComponfnt(domponfnt, DEFAULT_SIZE, DEFAULT_SIZE,
+                    DEFAULT_SIZE);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf Group}
+         * with thf spfdififd sizf.
+         *
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @pbrbm min thf minimum sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @pbrbm prff thf prfffrrfd sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @pbrbm mbx thf mbximum sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @rfturn this {@dodf Group}
+         */
+        publid Group bddComponfnt(Componfnt domponfnt, int min, int prff,
+                int mbx) {
+            rfturn bddSpring(nfw ComponfntSpring(domponfnt, min, prff, mbx));
+        }
+
+        /**
+         * Adds b rigid gbp to this {@dodf Group}.
+         *
+         * @pbrbm sizf thf sizf of thf gbp
+         * @rfturn this {@dodf Group}
+         * @throws IllfgblArgumfntExdfption if {@dodf sizf} is lfss thbn
+         *         {@dodf 0}
+         */
+        publid Group bddGbp(int sizf) {
+            rfturn bddGbp(sizf, sizf, sizf);
+        }
+
+        /**
+         * Adds b gbp to this {@dodf Group} with thf spfdififd sizf.
+         *
+         * @pbrbm min thf minimum sizf of thf gbp
+         * @pbrbm prff thf prfffrrfd sizf of thf gbp
+         * @pbrbm mbx thf mbximum sizf of thf gbp
+         * @throws IllfgblArgumfntExdfption if bny of thf vblufs brf
+         *         lfss thbn {@dodf 0}
+         * @rfturn this {@dodf Group}
+         */
+        publid Group bddGbp(int min, int prff, int mbx) {
+            rfturn bddSpring(nfw GbpSpring(min, prff, mbx));
+        }
+
+        Spring gftSpring(int indfx) {
+            rfturn springs.gft(indfx);
+        }
+
+        int indfxOf(Spring spring) {
+            rfturn springs.indfxOf(spring);
+        }
+
+        /**
+         * Adds thf Spring to thf list of {@dodf Spring}s bnd rfturns
+         * thf rfdfivfr.
+         */
+        Group bddSpring(Spring spring) {
+            springs.bdd(spring);
+            spring.sftPbrfnt(this);
+            if (!(spring instbndfof AutoPrfffrrfdGbpSpring) ||
+                    !((AutoPrfffrrfdGbpSpring)spring).gftUsfrCrfbtfd()) {
+                springsChbngfd = truf;
+            }
+            rfturn this;
+        }
+
+        //
+        // Spring mfthods
+        //
+
+        void sftSizf(int bxis, int origin, int sizf) {
+            supfr.sftSizf(bxis, origin, sizf);
+            if (sizf == UNSET) {
+                for (int dountfr = springs.sizf() - 1; dountfr >= 0;
+                dountfr--) {
+                    gftSpring(dountfr).sftSizf(bxis, origin, sizf);
+                }
+            } flsf {
+                sftVblidSizf(bxis, origin, sizf);
+            }
+        }
+
+        /**
+         * This is invokfd from {@dodf sftSizf} if pbssfd b vbluf
+         * othfr thbn UNSET.
+         */
+        bbstrbdt void sftVblidSizf(int bxis, int origin, int sizf);
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            rfturn dbldulbtfSizf(bxis, MIN_SIZE);
+        }
+
+        int dbldulbtfPrfffrrfdSizf(int bxis) {
+            rfturn dbldulbtfSizf(bxis, PREF_SIZE);
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            rfturn dbldulbtfSizf(bxis, MAX_SIZE);
+        }
+
+        /**
+         * Cbldulbtfs thf spfdififd sizf.  This is dbllfd from
+         * onf of thf {@dodf gftMinimumSizf0},
+         * {@dodf gftPrfffrrfdSizf0} or
+         * {@dodf gftMbximumSizf0} mfthods.  This will invokf
+         * to {@dodf opfrbtor} to dombinf thf vblufs.
+         */
+        int dbldulbtfSizf(int bxis, int typf) {
+            int dount = springs.sizf();
+            if (dount == 0) {
+                rfturn 0;
+            }
+            if (dount == 1) {
+                rfturn gftSpringSizf(gftSpring(0), bxis, typf);
+            }
+            int sizf = donstrbin(opfrbtor(gftSpringSizf(gftSpring(0), bxis,
+                    typf), gftSpringSizf(gftSpring(1), bxis, typf)));
+            for (int dountfr = 2; dountfr < dount; dountfr++) {
+                sizf = donstrbin(opfrbtor(sizf, gftSpringSizf(
+                        gftSpring(dountfr), bxis, typf)));
+            }
+            rfturn sizf;
+        }
+
+        int gftSpringSizf(Spring spring, int bxis, int typf) {
+            switdh(typf) {
+                dbsf MIN_SIZE:
+                    rfturn spring.gftMinimumSizf(bxis);
+                dbsf PREF_SIZE:
+                    rfturn spring.gftPrfffrrfdSizf(bxis);
+                dbsf MAX_SIZE:
+                    rfturn spring.gftMbximumSizf(bxis);
+            }
+            bssfrt fblsf;
+            rfturn 0;
+        }
+
+        /**
+         * Usfd to domputf how thf two vblufs rfprfsfnting two springs
+         * will bf dombinfd.  For fxbmplf, b group thbt lbyfd things out
+         * onf bftfr thf nfxt would rfturn {@dodf b + b}.
+         */
+        bbstrbdt int opfrbtor(int b, int b);
+
+        //
+        // Pbdding
+        //
+
+        /**
+         * Adjusts thf butopbdding springs in this group bnd its dhildrfn.
+         * If {@dodf insfrt} is truf this will insfrt buto pbdding
+         * springs, othfrwisf this will only bdjust thf springs thbt
+         * domprisf buto prfffrrfd pbdding springs.
+         *
+         * @pbrbm bxis thf bxis of thf springs; HORIZONTAL or VERTICAL
+         * @pbrbm lfbdingPbdding List of AutopbddingSprings thbt oddur bfforf
+         *                       this Group
+         * @pbrbm trbilingPbdding bny trbiling butopbdding springs brf bddfd
+         *                        to this on fxit
+         * @pbrbm lfbding List of ComponfntSprings thbt oddur bfforf this Group
+         * @pbrbm trbiling bny trbiling ComponfntSpring brf bddfd to this
+         *                 List
+         * @pbrbm insfrt Whfthfr or not to insfrt AutopbddingSprings or just
+         *               bdjust bny fxisting AutopbddingSprings.
+         */
+        bbstrbdt void insfrtAutopbdding(int bxis,
+                List<AutoPrfffrrfdGbpSpring> lfbdingPbdding,
+                List<AutoPrfffrrfdGbpSpring> trbilingPbdding,
+                List<ComponfntSpring> lfbding, List<ComponfntSpring> trbiling,
+                boolfbn insfrt);
+
+        /**
+         * Rfmovfs bny AutopbddingSprings for this Group bnd its dhildrfn.
+         */
+        void rfmovfAutopbdding() {
+            unsft();
+            for (int dountfr = springs.sizf() - 1; dountfr >= 0; dountfr--) {
+                Spring spring = springs.gft(dountfr);
+                if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+                    if (((AutoPrfffrrfdGbpSpring)spring).gftUsfrCrfbtfd()) {
+                        ((AutoPrfffrrfdGbpSpring)spring).rfsft();
+                    } flsf {
+                        springs.rfmovf(dountfr);
+                    }
+                } flsf if (spring instbndfof Group) {
+                    ((Group)spring).rfmovfAutopbdding();
+                }
+            }
+        }
+
+        void unsftAutopbdding() {
+            // Clfbr dbdhfd prff/min/mbx.
+            unsft();
+            for (int dountfr = springs.sizf() - 1; dountfr >= 0; dountfr--) {
+                Spring spring = springs.gft(dountfr);
+                if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+                    spring.unsft();
+                } flsf if (spring instbndfof Group) {
+                    ((Group)spring).unsftAutopbdding();
+                }
+            }
+        }
+
+        void dbldulbtfAutopbdding(int bxis) {
+            for (int dountfr = springs.sizf() - 1; dountfr >= 0; dountfr--) {
+                Spring spring = springs.gft(dountfr);
+                if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+                    // Fordf sizf to bf rfsft.
+                    spring.unsft();
+                    ((AutoPrfffrrfdGbpSpring)spring).dbldulbtfPbdding(bxis);
+                } flsf if (spring instbndfof Group) {
+                    ((Group)spring).dbldulbtfAutopbdding(bxis);
+                }
+            }
+            // Clfbr dbdhfd prff/min/mbx.
+            unsft();
+        }
+
+        @Ovfrridf
+        boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd) {
+            for (int i = springs.sizf() - 1; i >= 0; i--) {
+                Spring spring = springs.gft(i);
+                if (!spring.willHbvfZfroSizf(trfbtAutopbddingAsZfroSizfd)) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+    }
+
+
+    /**
+     * A {@dodf Group} thbt positions bnd sizfs its flfmfnts
+     * sfqufntiblly, onf bftfr bnothfr.  This dlbss hbs no publid
+     * donstrudtor, usf thf {@dodf drfbtfSfqufntiblGroup} mfthod
+     * to drfbtf onf.
+     * <p>
+     * In ordfr to blign b {@dodf SfqufntiblGroup} blong thf bbsflinf
+     * of b bbsflinf blignfd {@dodf PbrbllflGroup} you nffd to spfdify
+     * whidh of thf flfmfnts of thf {@dodf SfqufntiblGroup} is usfd to
+     * dftfrminf thf bbsflinf.  Thf flfmfnt usfd to dbldulbtf thf
+     * bbsflinf is spfdififd using onf of thf {@dodf bdd} mfthods thbt
+     * tbkf b {@dodf boolfbn}. Thf lbst flfmfnt bddfd with b vbluf of
+     * {@dodf truf} for {@dodf usfAsBbsflinf} is usfd to dbldulbtf thf
+     * bbsflinf.
+     *
+     * @sff #drfbtfSfqufntiblGroup
+     * @sindf 1.6
+     */
+    publid dlbss SfqufntiblGroup fxtfnds Group {
+        privbtf Spring bbsflinfSpring;
+
+        SfqufntiblGroup() {
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid SfqufntiblGroup bddGroup(Group group) {
+            rfturn (SfqufntiblGroup)supfr.bddGroup(group);
+        }
+
+        /**
+         * Adds b {@dodf Group} to this {@dodf Group}.
+         *
+         * @pbrbm group thf {@dodf Group} to bdd
+         * @pbrbm usfAsBbsflinf whfthfr thf spfdififd {@dodf Group} should
+         *        bf usfd to dbldulbtf thf bbsflinf for this {@dodf Group}
+         * @rfturn this {@dodf Group}
+         */
+        publid SfqufntiblGroup bddGroup(boolfbn usfAsBbsflinf, Group group) {
+            supfr.bddGroup(group);
+            if (usfAsBbsflinf) {
+                bbsflinfSpring = group;
+            }
+            rfturn this;
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid SfqufntiblGroup bddComponfnt(Componfnt domponfnt) {
+            rfturn (SfqufntiblGroup)supfr.bddComponfnt(domponfnt);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf Group}.
+         *
+         * @pbrbm usfAsBbsflinf whfthfr thf spfdififd {@dodf Componfnt} should
+         *        bf usfd to dbldulbtf thf bbsflinf for this {@dodf Group}
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @rfturn this {@dodf Group}
+         */
+        publid SfqufntiblGroup bddComponfnt(boolfbn usfAsBbsflinf,
+                Componfnt domponfnt) {
+            supfr.bddComponfnt(domponfnt);
+            if (usfAsBbsflinf) {
+                bbsflinfSpring = springs.gft(springs.sizf() - 1);
+            }
+            rfturn this;
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid SfqufntiblGroup bddComponfnt(Componfnt domponfnt, int min,
+                int prff, int mbx) {
+            rfturn (SfqufntiblGroup)supfr.bddComponfnt(
+                    domponfnt, min, prff, mbx);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf Group}
+         * with thf spfdififd sizf.
+         *
+         * @pbrbm usfAsBbsflinf whfthfr thf spfdififd {@dodf Componfnt} should
+         *        bf usfd to dbldulbtf thf bbsflinf for this {@dodf Group}
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @pbrbm min thf minimum sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @pbrbm prff thf prfffrrfd sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @pbrbm mbx thf mbximum sizf or onf of {@dodf DEFAULT_SIZE} or
+         *            {@dodf PREFERRED_SIZE}
+         * @rfturn this {@dodf Group}
+         */
+        publid SfqufntiblGroup bddComponfnt(boolfbn usfAsBbsflinf,
+                Componfnt domponfnt, int min, int prff, int mbx) {
+            supfr.bddComponfnt(domponfnt, min, prff, mbx);
+            if (usfAsBbsflinf) {
+                bbsflinfSpring = springs.gft(springs.sizf() - 1);
+            }
+            rfturn this;
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid SfqufntiblGroup bddGbp(int sizf) {
+            rfturn (SfqufntiblGroup)supfr.bddGbp(sizf);
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid SfqufntiblGroup bddGbp(int min, int prff, int mbx) {
+            rfturn (SfqufntiblGroup)supfr.bddGbp(min, prff, mbx);
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn two
+         * domponfnts. Thf flfmfnt drfbtfd to rfprfsfnt thf gbp is not
+         * rfsizbblf.
+         *
+         * @pbrbm domp1 thf first domponfnt
+         * @pbrbm domp2 thf sfdond domponfnt
+         * @pbrbm typf thf typf of gbp; onf of thf donstbnts dffinfd by
+         *        {@dodf LbyoutStylf}
+         * @rfturn this {@dodf SfqufntiblGroup}
+         * @throws IllfgblArgumfntExdfption if {@dodf typf}, {@dodf domp1} or
+         *         {@dodf domp2} is {@dodf null}
+         * @sff LbyoutStylf
+         */
+        publid SfqufntiblGroup bddPrfffrrfdGbp(JComponfnt domp1,
+                JComponfnt domp2, ComponfntPlbdfmfnt typf) {
+            rfturn bddPrfffrrfdGbp(domp1, domp2, typf, DEFAULT_SIZE,
+                    PREFERRED_SIZE);
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn two
+         * domponfnts.
+         *
+         * @pbrbm domp1 thf first domponfnt
+         * @pbrbm domp2 thf sfdond domponfnt
+         * @pbrbm typf thf typf of gbp
+         * @pbrbm prff thf prfffrrfd sizf of thf grbp; onf of
+         *        {@dodf DEFAULT_SIZE} or b vbluf &gt;= 0
+         * @pbrbm mbx thf mbximum sizf of thf gbp; onf of
+         *        {@dodf DEFAULT_SIZE}, {@dodf PREFERRED_SIZE}
+         *        or b vbluf &gt;= 0
+         * @rfturn this {@dodf SfqufntiblGroup}
+         * @throws IllfgblArgumfntExdfption if {@dodf typf}, {@dodf domp1} or
+         *         {@dodf domp2} is {@dodf null}
+         * @sff LbyoutStylf
+         */
+        publid SfqufntiblGroup bddPrfffrrfdGbp(JComponfnt domp1,
+                JComponfnt domp2, ComponfntPlbdfmfnt typf, int prff,
+                int mbx) {
+            if (typf == null) {
+                throw nfw IllfgblArgumfntExdfption("Typf must bf non-null");
+            }
+            if (domp1 == null || domp2 == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Componfnts must bf non-null");
+            }
+            dhfdkPrfffrrfdGbpVblufs(prff, mbx);
+            rfturn (SfqufntiblGroup)bddSpring(nfw PrfffrrfdGbpSpring(
+                    domp1, domp2, typf, prff, mbx));
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn thf
+         * nfbrfst domponfnts.  During lbyout, nfighboring
+         * domponfnts brf found, bnd thf sizf of thf bddfd gbp is sft
+         * bbsfd on thf prfffrrfd gbp bftwffn thf domponfnts.  If no
+         * nfighboring domponfnts brf found thf gbp hbs b sizf of {@dodf 0}.
+         * <p>
+         * Thf flfmfnt drfbtfd to rfprfsfnt thf gbp is not
+         * rfsizbblf.
+         *
+         * @pbrbm typf thf typf of gbp; onf of
+         *        {@dodf LbyoutStylf.ComponfntPlbdfmfnt.RELATED} or
+         *        {@dodf LbyoutStylf.ComponfntPlbdfmfnt.UNRELATED}
+         * @rfturn this {@dodf SfqufntiblGroup}
+         * @sff LbyoutStylf
+         * @throws IllfgblArgumfntExdfption if {@dodf typf} is not onf of
+         *         {@dodf LbyoutStylf.ComponfntPlbdfmfnt.RELATED} or
+         *         {@dodf LbyoutStylf.ComponfntPlbdfmfnt.UNRELATED}
+         */
+        publid SfqufntiblGroup bddPrfffrrfdGbp(ComponfntPlbdfmfnt typf) {
+            rfturn bddPrfffrrfdGbp(typf, DEFAULT_SIZE, DEFAULT_SIZE);
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn thf
+         * nfbrfst domponfnts.  During lbyout, nfighboring
+         * domponfnts brf found, bnd thf minimum of this
+         * gbp is sft bbsfd on thf sizf of thf prfffrrfd gbp bftwffn thf
+         * nfighboring domponfnts.  If no nfighboring domponfnts brf found thf
+         * minimum sizf is sft to 0.
+         *
+         * @pbrbm typf thf typf of gbp; onf of
+         *        {@dodf LbyoutStylf.ComponfntPlbdfmfnt.RELATED} or
+         *        {@dodf LbyoutStylf.ComponfntPlbdfmfnt.UNRELATED}
+         * @pbrbm prff thf prfffrrfd sizf of thf grbp; onf of
+         *        {@dodf DEFAULT_SIZE} or b vbluf &gt;= 0
+         * @pbrbm mbx thf mbximum sizf of thf gbp; onf of
+         *        {@dodf DEFAULT_SIZE}, {@dodf PREFERRED_SIZE}
+         *        or b vbluf &gt;= 0
+         * @rfturn this {@dodf SfqufntiblGroup}
+         * @throws IllfgblArgumfntExdfption if {@dodf typf} is not onf of
+         *         {@dodf LbyoutStylf.ComponfntPlbdfmfnt.RELATED} or
+         *         {@dodf LbyoutStylf.ComponfntPlbdfmfnt.UNRELATED}
+         * @sff LbyoutStylf
+         */
+        publid SfqufntiblGroup bddPrfffrrfdGbp(ComponfntPlbdfmfnt typf,
+                int prff, int mbx) {
+            if (typf != ComponfntPlbdfmfnt.RELATED &&
+                    typf != ComponfntPlbdfmfnt.UNRELATED) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Typf must bf onf of " +
+                        "LbyoutStylf.ComponfntPlbdfmfnt.RELATED or " +
+                        "LbyoutStylf.ComponfntPlbdfmfnt.UNRELATED");
+            }
+            dhfdkPrfffrrfdGbpVblufs(prff, mbx);
+            hbsPrfffrrfdPbddingSprings = truf;
+            rfturn (SfqufntiblGroup)bddSpring(nfw AutoPrfffrrfdGbpSpring(
+                    typf, prff, mbx));
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn bn fdgf
+         * thf dontbinfr bnd domponfnts thbt toudh thf bordfr of thf
+         * dontbinfr. This hbs no ffffdt if thf bddfd gbp dofs not
+         * toudh bn fdgf of thf pbrfnt dontbinfr.
+         * <p>
+         * Thf flfmfnt drfbtfd to rfprfsfnt thf gbp is not
+         * rfsizbblf.
+         *
+         * @rfturn this {@dodf SfqufntiblGroup}
+         */
+        publid SfqufntiblGroup bddContbinfrGbp() {
+            rfturn bddContbinfrGbp(DEFAULT_SIZE, DEFAULT_SIZE);
+        }
+
+        /**
+         * Adds bn flfmfnt rfprfsfnting thf prfffrrfd gbp bftwffn onf
+         * fdgf of thf dontbinfr bnd thf nfxt or prfvious {@dodf
+         * Componfnt} with thf spfdififd sizf. This hbs no
+         * ffffdt if thf nfxt or prfvious flfmfnt is not b {@dodf
+         * Componfnt} bnd dofs not toudh onf fdgf of thf pbrfnt
+         * dontbinfr.
+         *
+         * @pbrbm prff thf prfffrrfd sizf; onf of {@dodf DEFAULT_SIZE} or b
+         *              vbluf &gt;= 0
+         * @pbrbm mbx thf mbximum sizf; onf of {@dodf DEFAULT_SIZE},
+         *        {@dodf PREFERRED_SIZE} or b vbluf &gt;= 0
+         * @rfturn this {@dodf SfqufntiblGroup}
+         */
+        publid SfqufntiblGroup bddContbinfrGbp(int prff, int mbx) {
+            if ((prff < 0 && prff != DEFAULT_SIZE) ||
+                    (mbx < 0 && mbx != DEFAULT_SIZE && mbx != PREFERRED_SIZE)||
+                    (prff >= 0 && mbx >= 0 && prff > mbx)) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Prff bnd mbx must bf fithfr DEFAULT_VALUE " +
+                        "or >= 0 bnd prff <= mbx");
+            }
+            hbsPrfffrrfdPbddingSprings = truf;
+            rfturn (SfqufntiblGroup)bddSpring(
+                    nfw ContbinfrAutoPrfffrrfdGbpSpring(prff, mbx));
+        }
+
+        int opfrbtor(int b, int b) {
+            rfturn donstrbin(b) + donstrbin(b);
+        }
+
+        void sftVblidSizf(int bxis, int origin, int sizf) {
+            int prff = gftPrfffrrfdSizf(bxis);
+            if (sizf == prff) {
+                // Lbyout bt prfffrrfd sizf
+                for (Spring spring : springs) {
+                    int springPrff = spring.gftPrfffrrfdSizf(bxis);
+                    spring.sftSizf(bxis, origin, springPrff);
+                    origin += springPrff;
+                }
+            } flsf if (springs.sizf() == 1) {
+                Spring spring = gftSpring(0);
+                spring.sftSizf(bxis, origin, Mbth.min(
+                        Mbth.mbx(sizf, spring.gftMinimumSizf(bxis)),
+                        spring.gftMbximumSizf(bxis)));
+            } flsf if (springs.sizf() > 1) {
+                // Adjust bftwffn min/prff
+                sftVblidSizfNotPrfffrrfd(bxis, origin, sizf);
+            }
+        }
+
+        privbtf void sftVblidSizfNotPrfffrrfd(int bxis, int origin, int sizf) {
+            int dfltb = sizf - gftPrfffrrfdSizf(bxis);
+            bssfrt dfltb != 0;
+            boolfbn usfMin = (dfltb < 0);
+            int springCount = springs.sizf();
+            if (usfMin) {
+                dfltb *= -1;
+            }
+
+            // Thf following blgorithm if usfd for rfsizing springs:
+            // 1. Cbldulbtf thf rfsizbbility of fbdh spring (prff - min or
+            //    mbx - prff) into b list.
+            // 2. Sort thf list in bsdfnding ordfr
+            // 3. Itfrbtf through fbdh of thf rfsizbblf Springs, bttfmpting
+            //    to givf thfm (prff - sizf) / rfsizfCount
+            // 4. For bny Springs thbt dbn not bddommodbtf thbt mudh spbdf
+            //    bdd thf rfmbindfr bbdk to thf bmount to distributf bnd
+            //    rfdbldulbtf how must spbdf thf rfmbining springs will gft.
+            // 5. Sft thf sizf of thf springs.
+
+            // First pbss, sort thf rfsizbblf springs into thf List rfsizbblf
+            List<SpringDfltb> rfsizbblf = buildRfsizbblfList(bxis, usfMin);
+            int rfsizbblfCount = rfsizbblf.sizf();
+
+            if (rfsizbblfCount > 0) {
+                // How mudh wf would likf to givf fbdh Spring.
+                int sDfltb = dfltb / rfsizbblfCount;
+                // Rfmbining spbdf.
+                int slop = dfltb - sDfltb * rfsizbblfCount;
+                int[] sizfs = nfw int[springCount];
+                int sign = usfMin ? -1 : 1;
+                // Sfdond pbss, bddumulbtf thf rfsulting dfltbs (rflbtivf to
+                // prfffrrfd) into sizfs.
+                for (int dountfr = 0; dountfr < rfsizbblfCount; dountfr++) {
+                    SpringDfltb springDfltb = rfsizbblf.gft(dountfr);
+                    if ((dountfr + 1) == rfsizbblfCount) {
+                        sDfltb += slop;
+                    }
+                    springDfltb.dfltb = Mbth.min(sDfltb, springDfltb.dfltb);
+                    dfltb -= springDfltb.dfltb;
+                    if (springDfltb.dfltb != sDfltb && dountfr + 1 <
+                            rfsizbblfCount) {
+                        // Spring didn't tbkf bll thf spbdf, rfsft how mudh
+                        // fbdh spring will gft.
+                        sDfltb = dfltb / (rfsizbblfCount - dountfr - 1);
+                        slop = dfltb - sDfltb * (rfsizbblfCount - dountfr - 1);
+                    }
+                    sizfs[springDfltb.indfx] = sign * springDfltb.dfltb;
+                }
+
+                // And finblly sft thf sizf of fbdh spring
+                for (int dountfr = 0; dountfr < springCount; dountfr++) {
+                    Spring spring = gftSpring(dountfr);
+                    int sSizf = spring.gftPrfffrrfdSizf(bxis) + sizfs[dountfr];
+                    spring.sftSizf(bxis, origin, sSizf);
+                    origin += sSizf;
+                }
+            } flsf {
+                // Nothing rfsizbblf, usf thf min or mbx of fbdh of thf
+                // springs.
+                for (int dountfr = 0; dountfr < springCount; dountfr++) {
+                    Spring spring = gftSpring(dountfr);
+                    int sSizf;
+                    if (usfMin) {
+                        sSizf = spring.gftMinimumSizf(bxis);
+                    } flsf {
+                        sSizf = spring.gftMbximumSizf(bxis);
+                    }
+                    spring.sftSizf(bxis, origin, sSizf);
+                    origin += sSizf;
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf sortfd list of SpringDfltb's for thf durrfnt sft of
+         * Springs. Thf list is ordfrfd bbsfd on thf bmount of flfxibility of
+         * thf springs.
+         */
+        privbtf List<SpringDfltb> buildRfsizbblfList(int bxis,
+                boolfbn usfMin) {
+            // First pbss, figurf out whbt is rfsizbblf
+            int sizf = springs.sizf();
+            List<SpringDfltb> sortfd = nfw ArrbyList<SpringDfltb>(sizf);
+            for (int dountfr = 0; dountfr < sizf; dountfr++) {
+                Spring spring = gftSpring(dountfr);
+                int sDfltb;
+                if (usfMin) {
+                    sDfltb = spring.gftPrfffrrfdSizf(bxis) -
+                            spring.gftMinimumSizf(bxis);
+                } flsf {
+                    sDfltb = spring.gftMbximumSizf(bxis) -
+                            spring.gftPrfffrrfdSizf(bxis);
+                }
+                if (sDfltb > 0) {
+                    sortfd.bdd(nfw SpringDfltb(dountfr, sDfltb));
+                }
+            }
+            Collfdtions.sort(sortfd);
+            rfturn sortfd;
+        }
+
+        privbtf int indfxOfNfxtNonZfroSpring(
+                int indfx, boolfbn trfbtAutopbddingAsZfroSizfd) {
+            whilf (indfx < springs.sizf()) {
+                Spring spring = springs.gft(indfx);
+                if (!spring.willHbvfZfroSizf(trfbtAutopbddingAsZfroSizfd)) {
+                    rfturn indfx;
+                }
+                indfx++;
+            }
+            rfturn indfx;
+        }
+
+        @Ovfrridf
+        void insfrtAutopbdding(int bxis,
+                List<AutoPrfffrrfdGbpSpring> lfbdingPbdding,
+                List<AutoPrfffrrfdGbpSpring> trbilingPbdding,
+                List<ComponfntSpring> lfbding, List<ComponfntSpring> trbiling,
+                boolfbn insfrt) {
+            List<AutoPrfffrrfdGbpSpring> nfwLfbdingPbdding =
+                    nfw ArrbyList<AutoPrfffrrfdGbpSpring>(lfbdingPbdding);
+            List<AutoPrfffrrfdGbpSpring> nfwTrbilingPbdding =
+                    nfw ArrbyList<AutoPrfffrrfdGbpSpring>(1);
+            List<ComponfntSpring> nfwLfbding =
+                    nfw ArrbyList<ComponfntSpring>(lfbding);
+            List<ComponfntSpring> nfwTrbiling = null;
+            int dountfr = 0;
+            // Wbrning, this must usf springs.sizf, bs it mby dhbngf during thf
+            // loop.
+            whilf (dountfr < springs.sizf()) {
+                Spring spring = gftSpring(dountfr);
+                if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+                    if (nfwLfbdingPbdding.sizf() == 0) {
+                        // Autopbdding spring. Sft thf sourdfs of thf
+                        // butopbdding spring bbsfd on nfwLfbding.
+                        AutoPrfffrrfdGbpSpring pbdding =
+                            (AutoPrfffrrfdGbpSpring)spring;
+                        pbdding.sftSourdfs(nfwLfbding);
+                        nfwLfbding.dlfbr();
+                        dountfr = indfxOfNfxtNonZfroSpring(dountfr + 1, truf);
+                        if (dountfr == springs.sizf()) {
+                            // Lbst spring in thf list, bdd it to
+                            // trbilingPbdding.
+                            if (!(pbdding instbndfof
+                                  ContbinfrAutoPrfffrrfdGbpSpring)) {
+                                trbilingPbdding.bdd(pbdding);
+                            }
+                        } flsf {
+                            nfwLfbdingPbdding.dlfbr();
+                            nfwLfbdingPbdding.bdd(pbdding);
+                        }
+                    } flsf {
+                        dountfr = indfxOfNfxtNonZfroSpring(dountfr + 1, truf);
+                    }
+                } flsf {
+                    // Not b pbdding spring
+                    if (nfwLfbding.sizf() > 0 && insfrt) {
+                        // Thfrf's lfbding ComponfntSprings, drfbtf bn
+                        // butopbdding spring.
+                        AutoPrfffrrfdGbpSpring pbdding =
+                                nfw AutoPrfffrrfdGbpSpring();
+                        // Fordf thf nfwly drfbtfd spring to bf donsidfrfd
+                        // by NOT indrfmfnting dountfr
+                        springs.bdd(dountfr, pbdding);
+                        dontinuf;
+                    }
+                    if (spring instbndfof ComponfntSpring) {
+                        // Spring is b Componfnt, mbkf it thf tbrgft of bny
+                        // lfbding AutopbddingSpring.
+                        ComponfntSpring dSpring = (ComponfntSpring)spring;
+                        if (!dSpring.isVisiblf()) {
+                            dountfr++;
+                            dontinuf;
+                        }
+                        for (AutoPrfffrrfdGbpSpring gbpSpring : nfwLfbdingPbdding) {
+                            gbpSpring.bddTbrgft(dSpring, bxis);
+                        }
+                        nfwLfbding.dlfbr();
+                        nfwLfbdingPbdding.dlfbr();
+                        dountfr = indfxOfNfxtNonZfroSpring(dountfr + 1, fblsf);
+                        if (dountfr == springs.sizf()) {
+                            // Lbst Spring, bdd it to trbiling
+                            trbiling.bdd(dSpring);
+                        } flsf {
+                            // Not thbt lbst Spring, bdd it to lfbding
+                            nfwLfbding.bdd(dSpring);
+                        }
+                    } flsf if (spring instbndfof Group) {
+                        // Forwbrd dbll to dhild Group
+                        if (nfwTrbiling == null) {
+                            nfwTrbiling = nfw ArrbyList<ComponfntSpring>(1);
+                        } flsf {
+                            nfwTrbiling.dlfbr();
+                        }
+                        nfwTrbilingPbdding.dlfbr();
+                        ((Group)spring).insfrtAutopbdding(bxis,
+                                nfwLfbdingPbdding, nfwTrbilingPbdding,
+                                nfwLfbding, nfwTrbiling, insfrt);
+                        nfwLfbding.dlfbr();
+                        nfwLfbdingPbdding.dlfbr();
+                        dountfr = indfxOfNfxtNonZfroSpring(
+                                    dountfr + 1, (nfwTrbiling.sizf() == 0));
+                        if (dountfr == springs.sizf()) {
+                            trbiling.bddAll(nfwTrbiling);
+                            trbilingPbdding.bddAll(nfwTrbilingPbdding);
+                        } flsf {
+                            nfwLfbding.bddAll(nfwTrbiling);
+                            nfwLfbdingPbdding.bddAll(nfwTrbilingPbdding);
+                        }
+                    } flsf {
+                        // Gbp
+                        nfwLfbdingPbdding.dlfbr();
+                        nfwLfbding.dlfbr();
+                        dountfr++;
+                    }
+                }
+            }
+        }
+
+        int gftBbsflinf() {
+            if (bbsflinfSpring != null) {
+                int bbsflinf = bbsflinfSpring.gftBbsflinf();
+                if (bbsflinf >= 0) {
+                    int sizf = 0;
+                    for (Spring spring : springs) {
+                        if (spring == bbsflinfSpring) {
+                            rfturn sizf + bbsflinf;
+                        } flsf {
+                            sizf += spring.gftPrfffrrfdSizf(VERTICAL);
+                        }
+                    }
+                }
+            }
+            rfturn -1;
+        }
+
+        BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior() {
+            if (isRfsizbblf(VERTICAL)) {
+                if (!bbsflinfSpring.isRfsizbblf(VERTICAL)) {
+                    // Spring to usf for bbsflinf isn't rfsizbblf. In this dbsf
+                    // bbsflinf rfsizf bfhbvior dbn bf dftfrminfd bbsfd on how
+                    // prfdfding springs rfsizf.
+                    boolfbn lfbdingRfsizbblf = fblsf;
+                    for (Spring spring : springs) {
+                        if (spring == bbsflinfSpring) {
+                            brfbk;
+                        } flsf if (spring.isRfsizbblf(VERTICAL)) {
+                            lfbdingRfsizbblf = truf;
+                            brfbk;
+                        }
+                    }
+                    boolfbn trbilingRfsizbblf = fblsf;
+                    for (int i = springs.sizf() - 1; i >= 0; i--) {
+                        Spring spring = springs.gft(i);
+                        if (spring == bbsflinfSpring) {
+                            brfbk;
+                        }
+                        if (spring.isRfsizbblf(VERTICAL)) {
+                            trbilingRfsizbblf = truf;
+                            brfbk;
+                        }
+                    }
+                    if (lfbdingRfsizbblf && !trbilingRfsizbblf) {
+                        rfturn BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT;
+                    } flsf if (!lfbdingRfsizbblf && trbilingRfsizbblf) {
+                        rfturn BbsflinfRfsizfBfhbvior.CONSTANT_ASCENT;
+                    }
+                    // If wf gft hfrf, both lfbding bnd trbiling springs brf
+                    // rfsizbblf. Fbll through to OTHER.
+                } flsf {
+                    BbsflinfRfsizfBfhbvior brb = bbsflinfSpring.gftBbsflinfRfsizfBfhbvior();
+                    if (brb == BbsflinfRfsizfBfhbvior.CONSTANT_ASCENT) {
+                        for (Spring spring : springs) {
+                            if (spring == bbsflinfSpring) {
+                                rfturn BbsflinfRfsizfBfhbvior.CONSTANT_ASCENT;
+                            }
+                            if (spring.isRfsizbblf(VERTICAL)) {
+                                rfturn BbsflinfRfsizfBfhbvior.OTHER;
+                            }
+                        }
+                    } flsf if (brb == BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT) {
+                        for (int i = springs.sizf() - 1; i >= 0; i--) {
+                            Spring spring = springs.gft(i);
+                            if (spring == bbsflinfSpring) {
+                                rfturn BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT;
+                            }
+                            if (spring.isRfsizbblf(VERTICAL)) {
+                                rfturn BbsflinfRfsizfBfhbvior.OTHER;
+                            }
+                        }
+                    }
+                }
+                rfturn BbsflinfRfsizfBfhbvior.OTHER;
+            }
+            // Not rfsizbblf, trfbt bs donstbnt_bsdfnt
+            rfturn BbsflinfRfsizfBfhbvior.CONSTANT_ASCENT;
+        }
+
+        privbtf void dhfdkPrfffrrfdGbpVblufs(int prff, int mbx) {
+            if ((prff < 0 && prff != DEFAULT_SIZE && prff != PREFERRED_SIZE) ||
+                    (mbx < 0 && mbx != DEFAULT_SIZE && mbx != PREFERRED_SIZE)||
+                    (prff >= 0 && mbx >= 0 && prff > mbx)) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Prff bnd mbx must bf fithfr DEFAULT_SIZE, " +
+                        "PREFERRED_SIZE, or >= 0 bnd prff <= mbx");
+            }
+        }
+    }
+
+
+    /**
+     * Usfd by SfqufntiblGroup in dbldulbting rfsizbbility of springs.
+     */
+    privbtf stbtid finbl dlbss SpringDfltb implfmfnts Compbrbblf<SpringDfltb> {
+        // Originbl indfx.
+        publid finbl int indfx;
+        // Dfltb, onf of prff - min or mbx - prff.
+        publid int dfltb;
+
+        publid SpringDfltb(int indfx, int dfltb) {
+            this.indfx = indfx;
+            this.dfltb = dfltb;
+        }
+
+        publid int dompbrfTo(SpringDfltb o) {
+            rfturn dfltb - o.dfltb;
+        }
+
+        publid String toString() {
+            rfturn supfr.toString() + "[indfx=" + indfx + ", dfltb=" +
+                    dfltb + "]";
+        }
+    }
+
+
+    /**
+     * A {@dodf Group} thbt bligns bnd sizfs it's dhildrfn.
+     * {@dodf PbrbllflGroup} bligns it's dhildrfn in
+     * four possiblf wbys: blong thf bbsflinf, dfntfrfd, bndhorfd to thf
+     * lfbding fdgf, or bndhorfd to thf trbiling fdgf.
+     * <h3>Bbsflinf</h3>
+     * A {@dodf PbrbllflGroup} thbt bligns it's dhildrfn blong thf
+     * bbsflinf must first dfdidf whfrf thf bbsflinf is
+     * bndhorfd. Thf bbsflinf dbn fithfr bf bndhorfd to thf top, or
+     * bndhorfd to thf bottom of thf group. Thbt is, thf distbndf bftwffn thf
+     * bbsflinf bnd thf bfginning of thf group dbn bf b donstbnt
+     * distbndf, or thf distbndf bftwffn thf fnd of thf group bnd thf
+     * bbsflinf dbn bf b donstbnt distbndf. Thf possiblf dhoidfs
+     * dorrfspond to thf {@dodf BbsflinfRfsizfBfhbvior} donstbnts
+     * {@link
+     * jbvb.bwt.Componfnt.BbsflinfRfsizfBfhbvior#CONSTANT_ASCENT CONSTANT_ASCENT} bnd
+     * {@link
+     * jbvb.bwt.Componfnt.BbsflinfRfsizfBfhbvior#CONSTANT_DESCENT CONSTANT_DESCENT}.
+     * <p>
+     * Thf bbsflinf bndhor mby bf fxpliditly spfdififd by thf
+     * {@dodf drfbtfBbsflinfGroup} mfthod, or dftfrminfd bbsfd on thf flfmfnts.
+     * If not fxpliditly spfdififd, thf bbsflinf will bf bndhorfd to
+     * thf bottom if bll thf flfmfnts with b bbsflinf, bnd thbt brf
+     * blignfd to thf bbsflinf, hbvf b bbsflinf rfsizf bfhbvior of
+     * {@dodf CONSTANT_DESCENT}; othfrwisf thf bbsflinf is bndhorfd to thf top
+     * of thf group.
+     * <p>
+     * Elfmfnts blignfd to thf bbsflinf brf rfsizbblf if thfy hbvf hbvf
+     * b bbsflinf rfsizf bfhbvior of {@dodf CONSTANT_ASCENT} or
+     * {@dodf CONSTANT_DESCENT}. Elfmfnts with b bbsflinf rfsizf
+     * bfhbvior of {@dodf OTHER} or {@dodf CENTER_OFFSET} brf not rfsizbblf.
+     * <p>
+     * Thf bbsflinf is dbldulbtfd bbsfd on thf prfffrrfd hfight of fbdh
+     * of thf flfmfnts thbt hbvf b bbsflinf. Thf bbsflinf is
+     * dbldulbtfd using thf following blgorithm:
+     * {@dodf mbx(mbxNonBbsflinfHfight, mbxAsdfnt + mbxDfsdfnt)}, whfrf thf
+     * {@dodf mbxNonBbsflinfHfight} is thf mbximum hfight of bll flfmfnts
+     * thbt do not hbvf b bbsflinf, or brf not blignfd blong thf bbsflinf.
+     * {@dodf mbxAsdfnt} is thf mbximum bsdfnt (bbsflinf) of bll flfmfnts thbt
+     * hbvf b bbsflinf bnd brf blignfd blong thf bbsflinf.
+     * {@dodf mbxDfsdfnt} is thf mbximum dfsdfnt (prfffrrfd hfight - bbsflinf)
+     * of bll flfmfnts thbt hbvf b bbsflinf bnd brf blignfd blong thf bbsflinf.
+     * <p>
+     * A {@dodf PbrbllflGroup} thbt bligns it's flfmfnts blong thf bbsflinf
+     * is only usfful blong thf vfrtidbl bxis. If you drfbtf b
+     * bbsflinf group bnd usf it blong thf horizontbl bxis bn
+     * {@dodf IllfgblStbtfExdfption} is thrown whfn you bsk
+     * {@dodf GroupLbyout} for thf minimum, prfffrrfd or mbximum sizf or
+     * bttfmpt to lbyout thf domponfnts.
+     * <p>
+     * Elfmfnts thbt brf not blignfd to thf bbsflinf bnd smbllfr thbn thf sizf
+     * of thf {@dodf PbrbllflGroup} brf positionfd in onf of thrff
+     * wbys: dfntfrfd, bndhorfd to thf lfbding fdgf, or bndhorfd to thf
+     * trbiling fdgf.
+     *
+     * <h3>Non-bbsflinf {@dodf PbrbllflGroup}</h3>
+     * {@dodf PbrbllflGroup}s drfbtfd with bn blignmfnt othfr thbn
+     * {@dodf BASELINE} blign flfmfnts thbt brf smbllfr thbn thf sizf
+     * of thf group in onf of thrff wbys: dfntfrfd, bndhorfd to thf
+     * lfbding fdgf, or bndhorfd to thf trbiling fdgf.
+     * <p>
+     * Thf lfbding fdgf is bbsfd on thf bxis bnd {@dodf
+     * ComponfntOrifntbtion}.  For thf vfrtidbl bxis thf top fdgf is
+     * blwbys thf lfbding fdgf, bnd thf bottom fdgf is blwbys thf
+     * trbiling fdgf. Whfn thf {@dodf ComponfntOrifntbtion} is {@dodf
+     * LEFT_TO_RIGHT}, thf lfbding fdgf is thf lfft fdgf bnd thf
+     * trbiling fdgf thf right fdgf. A {@dodf ComponfntOrifntbtion} of
+     * {@dodf RIGHT_TO_LEFT} flips thf lfft bnd right fdgfs. Child
+     * flfmfnts brf blignfd bbsfd on thf spfdififd blignmfnt thf
+     * flfmfnt wbs bddfd with. If you do not spfdify bn blignmfnt, thf
+     * blignmfnt spfdififd for thf {@dodf PbrbllflGroup} is usfd.
+     * <p>
+     * To blign flfmfnts blong thf bbsflinf you {@dodf drfbtfBbsflinfGroup},
+     * or {@dodf drfbtfPbrbllflGroup} with bn blignmfnt of {@dodf BASELINE}.
+     * If thf group wbs not drfbtfd with b bbsflinf blignmfnt, bnd you bttfmpt
+     * to bdd bn flfmfnt spfdifying b bbsflinf blignmfnt, bn
+     * {@dodf IllfgblArgumfntExdfption} is thrown.
+     *
+     * @sff #drfbtfPbrbllflGroup()
+     * @sff #drfbtfBbsflinfGroup(boolfbn,boolfbn)
+     * @sindf 1.6
+     */
+    publid dlbss PbrbllflGroup fxtfnds Group {
+        // How dhildrfn brf lbyfd out.
+        privbtf finbl Alignmfnt dhildAlignmfnt;
+        // Whfthfr or not wf'rf rfsizbblf.
+        privbtf finbl boolfbn rfsizbblf;
+
+        PbrbllflGroup(Alignmfnt dhildAlignmfnt, boolfbn rfsizbblf) {
+            this.dhildAlignmfnt = dhildAlignmfnt;
+            this.rfsizbblf = rfsizbblf;
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid PbrbllflGroup bddGroup(Group group) {
+            rfturn (PbrbllflGroup)supfr.bddGroup(group);
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid PbrbllflGroup bddComponfnt(Componfnt domponfnt) {
+            rfturn (PbrbllflGroup)supfr.bddComponfnt(domponfnt);
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid PbrbllflGroup bddComponfnt(Componfnt domponfnt, int min, int prff,
+                int mbx) {
+            rfturn (PbrbllflGroup)supfr.bddComponfnt(domponfnt, min, prff, mbx);
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid PbrbllflGroup bddGbp(int prff) {
+            rfturn (PbrbllflGroup)supfr.bddGbp(prff);
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        publid PbrbllflGroup bddGbp(int min, int prff, int mbx) {
+            rfturn (PbrbllflGroup)supfr.bddGbp(min, prff, mbx);
+        }
+
+        /**
+         * Adds b {@dodf Group} to this {@dodf PbrbllflGroup} with thf
+         * spfdififd blignmfnt. If thf dhild is smbllfr thbn thf
+         * {@dodf Group} it is blignfd bbsfd on thf spfdififd
+         * blignmfnt.
+         *
+         * @pbrbm blignmfnt thf blignmfnt
+         * @pbrbm group thf {@dodf Group} to bdd
+         * @rfturn this {@dodf PbrbllflGroup}
+         * @throws IllfgblArgumfntExdfption if {@dodf blignmfnt} is
+         *         {@dodf null}
+         */
+        publid PbrbllflGroup bddGroup(Alignmfnt blignmfnt, Group group) {
+            dhfdkChildAlignmfnt(blignmfnt);
+            group.sftAlignmfnt(blignmfnt);
+            rfturn (PbrbllflGroup)bddSpring(group);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf PbrbllflGroup} with
+         * thf spfdififd blignmfnt.
+         *
+         * @pbrbm blignmfnt thf blignmfnt
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @rfturn this {@dodf Group}
+         * @throws IllfgblArgumfntExdfption if {@dodf blignmfnt} is
+         *         {@dodf null}
+         */
+        publid PbrbllflGroup bddComponfnt(Componfnt domponfnt,
+                Alignmfnt blignmfnt) {
+            rfturn bddComponfnt(domponfnt, blignmfnt, DEFAULT_SIZE, DEFAULT_SIZE,
+                    DEFAULT_SIZE);
+        }
+
+        /**
+         * Adds b {@dodf Componfnt} to this {@dodf PbrbllflGroup} with thf
+         * spfdififd blignmfnt bnd sizf.
+         *
+         * @pbrbm blignmfnt thf blignmfnt
+         * @pbrbm domponfnt thf {@dodf Componfnt} to bdd
+         * @pbrbm min thf minimum sizf
+         * @pbrbm prff thf prfffrrfd sizf
+         * @pbrbm mbx thf mbximum sizf
+         * @throws IllfgblArgumfntExdfption if {@dodf blignmfnt} is
+         *         {@dodf null}
+         * @rfturn this {@dodf Group}
+         */
+        publid PbrbllflGroup bddComponfnt(Componfnt domponfnt,
+                Alignmfnt blignmfnt, int min, int prff, int mbx) {
+            dhfdkChildAlignmfnt(blignmfnt);
+            ComponfntSpring spring = nfw ComponfntSpring(domponfnt,
+                    min, prff, mbx);
+            spring.sftAlignmfnt(blignmfnt);
+            rfturn (PbrbllflGroup)bddSpring(spring);
+        }
+
+        boolfbn isRfsizbblf() {
+            rfturn rfsizbblf;
+        }
+
+        int opfrbtor(int b, int b) {
+            rfturn Mbth.mbx(b, b);
+        }
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            if (!isRfsizbblf()) {
+                rfturn gftPrfffrrfdSizf(bxis);
+            }
+            rfturn supfr.dbldulbtfMinimumSizf(bxis);
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            if (!isRfsizbblf()) {
+                rfturn gftPrfffrrfdSizf(bxis);
+            }
+            rfturn supfr.dbldulbtfMbximumSizf(bxis);
+        }
+
+        void sftVblidSizf(int bxis, int origin, int sizf) {
+            for (Spring spring : springs) {
+                sftChildSizf(spring, bxis, origin, sizf);
+            }
+        }
+
+        void sftChildSizf(Spring spring, int bxis, int origin, int sizf) {
+            Alignmfnt blignmfnt = spring.gftAlignmfnt();
+            int springSizf = Mbth.min(
+                    Mbth.mbx(spring.gftMinimumSizf(bxis), sizf),
+                    spring.gftMbximumSizf(bxis));
+            if (blignmfnt == null) {
+                blignmfnt = dhildAlignmfnt;
+            }
+            switdh (blignmfnt) {
+                dbsf TRAILING:
+                    spring.sftSizf(bxis, origin + sizf - springSizf,
+                            springSizf);
+                    brfbk;
+                dbsf CENTER:
+                    spring.sftSizf(bxis, origin +
+                            (sizf - springSizf) / 2,springSizf);
+                    brfbk;
+                dffbult: // LEADING, or BASELINE
+                    spring.sftSizf(bxis, origin, springSizf);
+                    brfbk;
+            }
+        }
+
+        @Ovfrridf
+        void insfrtAutopbdding(int bxis,
+                List<AutoPrfffrrfdGbpSpring> lfbdingPbdding,
+                List<AutoPrfffrrfdGbpSpring> trbilingPbdding,
+                List<ComponfntSpring> lfbding, List<ComponfntSpring> trbiling,
+                boolfbn insfrt) {
+            for (Spring spring : springs) {
+                if (spring instbndfof ComponfntSpring) {
+                    if (((ComponfntSpring)spring).isVisiblf()) {
+                        for (AutoPrfffrrfdGbpSpring gbpSpring :
+                                 lfbdingPbdding) {
+                            gbpSpring.bddTbrgft((ComponfntSpring)spring, bxis);
+                        }
+                        trbiling.bdd((ComponfntSpring)spring);
+                    }
+                } flsf if (spring instbndfof Group) {
+                    ((Group)spring).insfrtAutopbdding(bxis, lfbdingPbdding,
+                            trbilingPbdding, lfbding, trbiling, insfrt);
+                } flsf if (spring instbndfof AutoPrfffrrfdGbpSpring) {
+                    ((AutoPrfffrrfdGbpSpring)spring).sftSourdfs(lfbding);
+                    trbilingPbdding.bdd((AutoPrfffrrfdGbpSpring)spring);
+                }
+            }
+        }
+
+        privbtf void dhfdkChildAlignmfnt(Alignmfnt blignmfnt) {
+            dhfdkChildAlignmfnt(blignmfnt, (this instbndfof BbsflinfGroup));
+        }
+
+        privbtf void dhfdkChildAlignmfnt(Alignmfnt blignmfnt,
+                boolfbn bllowsBbsflinf) {
+            if (blignmfnt == null) {
+                throw nfw IllfgblArgumfntExdfption("Alignmfnt must bf non-null");
+            }
+            if (!bllowsBbsflinf && blignmfnt == Alignmfnt.BASELINE) {
+                throw nfw IllfgblArgumfntExdfption("Alignmfnt must bf onf of:" +
+                        "LEADING, TRAILING or CENTER");
+            }
+        }
+    }
+
+
+    /**
+     * An fxtfnsion of {@dodf PbrbllflGroup} thbt bligns its
+     * donstitufnt {@dodf Spring}s blong thf bbsflinf.
+     */
+    privbtf dlbss BbsflinfGroup fxtfnds PbrbllflGroup {
+        // Whfthfr or not bll dhild springs hbvf b bbsflinf
+        privbtf boolfbn bllSpringsHbvfBbsflinf;
+
+        // mbx(spring.gftBbsflinf()) of bll springs blignfd blong thf bbsflinf
+        // thbt hbvf b bbsflinf
+        privbtf int prffAsdfnt;
+
+        // mbx(spring.gftPrfffrrfdSizf().hfight - spring.gftBbsflinf()) of bll
+        // springs blignfd blong thf bbsflinf thbt hbvf b bbsflinf
+        privbtf int prffDfsdfnt;
+
+        // Whfthfr bbsflinfAndhorfdToTop wbs fxpliditly sft
+        privbtf boolfbn bbsflinfAndhorSft;
+
+        // Whfthfr thf bbsflinf is bndhorfd to thf top or thf bottom.
+        // If bndhorfd to thf top thf bbsflinf is blwbys bt prffAsdfnt,
+        // othfrwisf thf bbsflinf is bt (hfight - prffDfsdfnt)
+        privbtf boolfbn bbsflinfAndhorfdToTop;
+
+        // Whfthfr or not thf bbsflinf hbs bffn dbldulbtfd.
+        privbtf boolfbn dbldfdBbsflinf;
+
+        BbsflinfGroup(boolfbn rfsizbblf) {
+            supfr(Alignmfnt.LEADING, rfsizbblf);
+            prffAsdfnt = prffDfsdfnt = -1;
+            dbldfdBbsflinf = fblsf;
+        }
+
+        BbsflinfGroup(boolfbn rfsizbblf, boolfbn bbsflinfAndhorfdToTop) {
+            this(rfsizbblf);
+            this.bbsflinfAndhorfdToTop = bbsflinfAndhorfdToTop;
+            bbsflinfAndhorSft = truf;
+        }
+
+        void unsft() {
+            supfr.unsft();
+            prffAsdfnt = prffDfsdfnt = -1;
+            dbldfdBbsflinf = fblsf;
+        }
+
+        void sftVblidSizf(int bxis, int origin, int sizf) {
+            dhfdkAxis(bxis);
+            if (prffAsdfnt == -1) {
+                supfr.sftVblidSizf(bxis, origin, sizf);
+            } flsf {
+                // do bbsflinf lbyout
+                bbsflinfLbyout(origin, sizf);
+            }
+        }
+
+        int dbldulbtfSizf(int bxis, int typf) {
+            dhfdkAxis(bxis);
+            if (!dbldfdBbsflinf) {
+                dbldulbtfBbsflinfAndRfsizfBfhbvior();
+            }
+            if (typf == MIN_SIZE) {
+                rfturn dbldulbtfMinSizf();
+            }
+            if (typf == MAX_SIZE) {
+                rfturn dbldulbtfMbxSizf();
+            }
+            if (bllSpringsHbvfBbsflinf) {
+                rfturn prffAsdfnt + prffDfsdfnt;
+            }
+            rfturn Mbth.mbx(prffAsdfnt + prffDfsdfnt,
+                    supfr.dbldulbtfSizf(bxis, typf));
+        }
+
+        privbtf void dbldulbtfBbsflinfAndRfsizfBfhbvior() {
+            // dbldulbtf bbsflinf
+            prffAsdfnt = 0;
+            prffDfsdfnt = 0;
+            int bbsflinfSpringCount = 0;
+            BbsflinfRfsizfBfhbvior rfsizfBfhbvior = null;
+            for (Spring spring : springs) {
+                if (spring.gftAlignmfnt() == null ||
+                        spring.gftAlignmfnt() == Alignmfnt.BASELINE) {
+                    int bbsflinf = spring.gftBbsflinf();
+                    if (bbsflinf >= 0) {
+                        if (spring.isRfsizbblf(VERTICAL)) {
+                            BbsflinfRfsizfBfhbvior brb = spring.
+                                    gftBbsflinfRfsizfBfhbvior();
+                            if (rfsizfBfhbvior == null) {
+                                rfsizfBfhbvior = brb;
+                            } flsf if (brb != rfsizfBfhbvior) {
+                                rfsizfBfhbvior = BbsflinfRfsizfBfhbvior.
+                                        CONSTANT_ASCENT;
+                            }
+                        }
+                        prffAsdfnt = Mbth.mbx(prffAsdfnt, bbsflinf);
+                        prffDfsdfnt = Mbth.mbx(prffDfsdfnt, spring.
+                                gftPrfffrrfdSizf(VERTICAL) - bbsflinf);
+                        bbsflinfSpringCount++;
+                    }
+                }
+            }
+            if (!bbsflinfAndhorSft) {
+                if (rfsizfBfhbvior == BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT){
+                    this.bbsflinfAndhorfdToTop = fblsf;
+                } flsf {
+                    this.bbsflinfAndhorfdToTop = truf;
+                }
+            }
+            bllSpringsHbvfBbsflinf = (bbsflinfSpringCount == springs.sizf());
+            dbldfdBbsflinf = truf;
+        }
+
+        privbtf int dbldulbtfMbxSizf() {
+            int mbxAsdfnt = prffAsdfnt;
+            int mbxDfsdfnt = prffDfsdfnt;
+            int nonBbsflinfMbx = 0;
+            for (Spring spring : springs) {
+                int bbsflinf;
+                int springMbx = spring.gftMbximumSizf(VERTICAL);
+                if ((spring.gftAlignmfnt() == null ||
+                        spring.gftAlignmfnt() == Alignmfnt.BASELINE) &&
+                        (bbsflinf = spring.gftBbsflinf()) >= 0) {
+                    int springPrff = spring.gftPrfffrrfdSizf(VERTICAL);
+                    if (springPrff != springMbx) {
+                        switdh (spring.gftBbsflinfRfsizfBfhbvior()) {
+                            dbsf CONSTANT_ASCENT:
+                                if (bbsflinfAndhorfdToTop) {
+                                    mbxDfsdfnt = Mbth.mbx(mbxDfsdfnt,
+                                            springMbx - bbsflinf);
+                                }
+                                brfbk;
+                            dbsf CONSTANT_DESCENT:
+                                if (!bbsflinfAndhorfdToTop) {
+                                    mbxAsdfnt = Mbth.mbx(mbxAsdfnt,
+                                            springMbx - springPrff + bbsflinf);
+                                }
+                                brfbk;
+                            dffbult: // CENTER_OFFSET bnd OTHER, not rfsizbblf
+                                brfbk;
+                        }
+                    }
+                } flsf {
+                    // Not blignfd blong thf bbsflinf, or no bbsflinf.
+                    nonBbsflinfMbx = Mbth.mbx(nonBbsflinfMbx, springMbx);
+                }
+            }
+            rfturn Mbth.mbx(nonBbsflinfMbx, mbxAsdfnt + mbxDfsdfnt);
+        }
+
+        privbtf int dbldulbtfMinSizf() {
+            int minAsdfnt = 0;
+            int minDfsdfnt = 0;
+            int nonBbsflinfMin = 0;
+            if (bbsflinfAndhorfdToTop) {
+                minAsdfnt = prffAsdfnt;
+            } flsf {
+                minDfsdfnt = prffDfsdfnt;
+            }
+            for (Spring spring : springs) {
+                int springMin = spring.gftMinimumSizf(VERTICAL);
+                int bbsflinf;
+                if ((spring.gftAlignmfnt() == null ||
+                        spring.gftAlignmfnt() == Alignmfnt.BASELINE) &&
+                        (bbsflinf = spring.gftBbsflinf()) >= 0) {
+                    int springPrff = spring.gftPrfffrrfdSizf(VERTICAL);
+                    BbsflinfRfsizfBfhbvior brb = spring.
+                            gftBbsflinfRfsizfBfhbvior();
+                    switdh (brb) {
+                        dbsf CONSTANT_ASCENT:
+                            if (bbsflinfAndhorfdToTop) {
+                                minDfsdfnt = Mbth.mbx(springMin - bbsflinf,
+                                        minDfsdfnt);
+                            } flsf {
+                                minAsdfnt = Mbth.mbx(bbsflinf, minAsdfnt);
+                            }
+                            brfbk;
+                        dbsf CONSTANT_DESCENT:
+                            if (!bbsflinfAndhorfdToTop) {
+                                minAsdfnt = Mbth.mbx(
+                                        bbsflinf - (springPrff - springMin),
+                                        minAsdfnt);
+                            } flsf {
+                                minDfsdfnt = Mbth.mbx(springPrff - bbsflinf,
+                                        minDfsdfnt);
+                            }
+                            brfbk;
+                        dffbult:
+                            // CENTER_OFFSET bnd OTHER brf !rfsizbblf, usf
+                            // thf prfffrrfd sizf.
+                            minAsdfnt = Mbth.mbx(bbsflinf, minAsdfnt);
+                            minDfsdfnt = Mbth.mbx(springPrff - bbsflinf,
+                                    minDfsdfnt);
+                            brfbk;
+                    }
+                } flsf {
+                    // Not blignfd blong thf bbsflinf, or no bbsflinf.
+                    nonBbsflinfMin = Mbth.mbx(nonBbsflinfMin, springMin);
+                }
+            }
+            rfturn Mbth.mbx(nonBbsflinfMin, minAsdfnt + minDfsdfnt);
+        }
+
+        /**
+         * Lbys out springs thbt hbvf b bbsflinf blong thf bbsflinf.  All
+         * othfrs brf dfntfrfd.
+         */
+        privbtf void bbsflinfLbyout(int origin, int sizf) {
+            int bsdfnt;
+            int dfsdfnt;
+            if (bbsflinfAndhorfdToTop) {
+                bsdfnt = prffAsdfnt;
+                dfsdfnt = sizf - bsdfnt;
+            } flsf {
+                bsdfnt = sizf - prffDfsdfnt;
+                dfsdfnt = prffDfsdfnt;
+            }
+            for (Spring spring : springs) {
+                Alignmfnt blignmfnt = spring.gftAlignmfnt();
+                if (blignmfnt == null || blignmfnt == Alignmfnt.BASELINE) {
+                    int bbsflinf = spring.gftBbsflinf();
+                    if (bbsflinf >= 0) {
+                        int springMbx = spring.gftMbximumSizf(VERTICAL);
+                        int springPrff = spring.gftPrfffrrfdSizf(VERTICAL);
+                        int hfight = springPrff;
+                        int y;
+                        switdh(spring.gftBbsflinfRfsizfBfhbvior()) {
+                            dbsf CONSTANT_ASCENT:
+                                y = origin + bsdfnt - bbsflinf;
+                                hfight = Mbth.min(dfsdfnt, springMbx -
+                                        bbsflinf) + bbsflinf;
+                                brfbk;
+                            dbsf CONSTANT_DESCENT:
+                                hfight = Mbth.min(bsdfnt, springMbx -
+                                        springPrff + bbsflinf) +
+                                        (springPrff - bbsflinf);
+                                y = origin + bsdfnt +
+                                        (springPrff - bbsflinf) - hfight;
+                                brfbk;
+                            dffbult: // CENTER_OFFSET & OTHER, not rfsizbblf
+                                y = origin + bsdfnt - bbsflinf;
+                                brfbk;
+                        }
+                        spring.sftSizf(VERTICAL, y, hfight);
+                    } flsf {
+                        sftChildSizf(spring, VERTICAL, origin, sizf);
+                    }
+                } flsf {
+                    sftChildSizf(spring, VERTICAL, origin, sizf);
+                }
+            }
+        }
+
+        int gftBbsflinf() {
+            if (springs.sizf() > 1) {
+                // Fordf thf bbsflinf to bf dbldulbtfd
+                gftPrfffrrfdSizf(VERTICAL);
+                rfturn prffAsdfnt;
+            } flsf if (springs.sizf() == 1) {
+                rfturn springs.gft(0).gftBbsflinf();
+            }
+            rfturn -1;
+        }
+
+        BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior() {
+            if (springs.sizf() == 1) {
+                rfturn springs.gft(0).gftBbsflinfRfsizfBfhbvior();
+            }
+            if (bbsflinfAndhorfdToTop) {
+                rfturn BbsflinfRfsizfBfhbvior.CONSTANT_ASCENT;
+            }
+            rfturn BbsflinfRfsizfBfhbvior.CONSTANT_DESCENT;
+        }
+
+        // If thf bxis is VERTICAL, throws bn IllfgblStbtfExdfption
+        privbtf void dhfdkAxis(int bxis) {
+            if (bxis == HORIZONTAL) {
+                throw nfw IllfgblStbtfExdfption(
+                        "Bbsflinf must bf usfd blong vfrtidbl bxis");
+            }
+        }
+    }
+
+
+    privbtf finbl dlbss ComponfntSpring fxtfnds Spring {
+        privbtf Componfnt domponfnt;
+        privbtf int origin;
+
+        // min/prff/mbx brf fithfr b vbluf >= 0 or onf of
+        // DEFAULT_SIZE or PREFERRED_SIZE
+        privbtf finbl int min;
+        privbtf finbl int prff;
+        privbtf finbl int mbx;
+
+        // Bbsflinf for thf domponfnt, domputfd bs nfdfssbry.
+        privbtf int bbsflinf = -1;
+
+        // Whfthfr or not thf sizf hbs bffn rfqufstfd yft.
+        privbtf boolfbn instbllfd;
+
+        privbtf ComponfntSpring(Componfnt domponfnt, int min, int prff,
+                int mbx) {
+            this.domponfnt = domponfnt;
+            if (domponfnt == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Componfnt must bf non-null");
+            }
+
+            dhfdkSizf(min, prff, mbx, truf);
+
+            this.min = min;
+            this.mbx = mbx;
+            this.prff = prff;
+
+            // gftComponfntInfo mbkfs surf domponfnt is b dhild of thf
+            // Contbinfr GroupLbyout is thf LbyoutMbnbgfr for.
+            gftComponfntInfo(domponfnt);
+        }
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            if (isLinkfd(bxis)) {
+                rfturn gftLinkSizf(bxis, MIN_SIZE);
+            }
+            rfturn dbldulbtfNonlinkfdMinimumSizf(bxis);
+        }
+
+        int dbldulbtfPrfffrrfdSizf(int bxis) {
+            if (isLinkfd(bxis)) {
+                rfturn gftLinkSizf(bxis, PREF_SIZE);
+            }
+            int min = gftMinimumSizf(bxis);
+            int prff = dbldulbtfNonlinkfdPrfffrrfdSizf(bxis);
+            int mbx = gftMbximumSizf(bxis);
+            rfturn Mbth.min(mbx, Mbth.mbx(min, prff));
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            if (isLinkfd(bxis)) {
+                rfturn gftLinkSizf(bxis, MAX_SIZE);
+            }
+            rfturn Mbth.mbx(gftMinimumSizf(bxis),
+                    dbldulbtfNonlinkfdMbximumSizf(bxis));
+        }
+
+        boolfbn isVisiblf() {
+            rfturn gftComponfntInfo(gftComponfnt()).isVisiblf();
+        }
+
+        int dbldulbtfNonlinkfdMinimumSizf(int bxis) {
+            if (!isVisiblf()) {
+                rfturn 0;
+            }
+            if (min >= 0) {
+                rfturn min;
+            }
+            if (min == PREFERRED_SIZE) {
+                rfturn dbldulbtfNonlinkfdPrfffrrfdSizf(bxis);
+            }
+            bssfrt (min == DEFAULT_SIZE);
+            rfturn gftSizfAlongAxis(bxis, domponfnt.gftMinimumSizf());
+        }
+
+        int dbldulbtfNonlinkfdPrfffrrfdSizf(int bxis) {
+            if (!isVisiblf()) {
+                rfturn 0;
+            }
+            if (prff >= 0) {
+                rfturn prff;
+            }
+            bssfrt (prff == DEFAULT_SIZE || prff == PREFERRED_SIZE);
+            rfturn gftSizfAlongAxis(bxis, domponfnt.gftPrfffrrfdSizf());
+        }
+
+        int dbldulbtfNonlinkfdMbximumSizf(int bxis) {
+            if (!isVisiblf()) {
+                rfturn 0;
+            }
+            if (mbx >= 0) {
+                rfturn mbx;
+            }
+            if (mbx == PREFERRED_SIZE) {
+                rfturn dbldulbtfNonlinkfdPrfffrrfdSizf(bxis);
+            }
+            bssfrt (mbx == DEFAULT_SIZE);
+            rfturn gftSizfAlongAxis(bxis, domponfnt.gftMbximumSizf());
+        }
+
+        privbtf int gftSizfAlongAxis(int bxis, Dimfnsion sizf) {
+            rfturn (bxis == HORIZONTAL) ? sizf.width : sizf.hfight;
+        }
+
+        privbtf int gftLinkSizf(int bxis, int typf) {
+            if (!isVisiblf()) {
+                rfturn 0;
+            }
+            ComponfntInfo di = gftComponfntInfo(domponfnt);
+            rfturn di.gftLinkSizf(bxis, typf);
+        }
+
+        void sftSizf(int bxis, int origin, int sizf) {
+            supfr.sftSizf(bxis, origin, sizf);
+            this.origin = origin;
+            if (sizf == UNSET) {
+                bbsflinf = -1;
+            }
+        }
+
+        int gftOrigin() {
+            rfturn origin;
+        }
+
+        void sftComponfnt(Componfnt domponfnt) {
+            this.domponfnt = domponfnt;
+        }
+
+        Componfnt gftComponfnt() {
+            rfturn domponfnt;
+        }
+
+        int gftBbsflinf() {
+            if (bbsflinf == -1) {
+                Spring horizontblSpring = gftComponfntInfo(domponfnt).
+                        horizontblSpring;
+                int width = horizontblSpring.gftPrfffrrfdSizf(HORIZONTAL);
+                int hfight = gftPrfffrrfdSizf(VERTICAL);
+                if (width > 0 && hfight > 0) {
+                    bbsflinf = domponfnt.gftBbsflinf(width, hfight);
+                }
+            }
+            rfturn bbsflinf;
+        }
+
+        BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior() {
+            rfturn gftComponfnt().gftBbsflinfRfsizfBfhbvior();
+        }
+
+        privbtf boolfbn isLinkfd(int bxis) {
+            rfturn gftComponfntInfo(domponfnt).isLinkfd(bxis);
+        }
+
+        void instbllIfNfdfssbry(int bxis) {
+            if (!instbllfd) {
+                instbllfd = truf;
+                if (bxis == HORIZONTAL) {
+                    gftComponfntInfo(domponfnt).horizontblSpring = this;
+                } flsf {
+                    gftComponfntInfo(domponfnt).vfrtidblSpring = this;
+                }
+            }
+        }
+
+        @Ovfrridf
+        boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd) {
+            rfturn !isVisiblf();
+        }
+    }
+
+
+    /**
+     * Spring rfprfsfnting thf prfffrrfd distbndf bftwffn two domponfnts.
+     */
+    privbtf dlbss PrfffrrfdGbpSpring fxtfnds Spring {
+        privbtf finbl JComponfnt sourdf;
+        privbtf finbl JComponfnt tbrgft;
+        privbtf finbl ComponfntPlbdfmfnt typf;
+        privbtf finbl int prff;
+        privbtf finbl int mbx;
+
+        PrfffrrfdGbpSpring(JComponfnt sourdf, JComponfnt tbrgft,
+                ComponfntPlbdfmfnt typf, int prff, int mbx) {
+            this.sourdf = sourdf;
+            this.tbrgft = tbrgft;
+            this.typf = typf;
+            this.prff = prff;
+            this.mbx = mbx;
+        }
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            rfturn gftPbdding(bxis);
+        }
+
+        int dbldulbtfPrfffrrfdSizf(int bxis) {
+            if (prff == DEFAULT_SIZE || prff == PREFERRED_SIZE) {
+                rfturn gftMinimumSizf(bxis);
+            }
+            int min = gftMinimumSizf(bxis);
+            int mbx = gftMbximumSizf(bxis);
+            rfturn Mbth.min(mbx, Mbth.mbx(min, prff));
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            if (mbx == PREFERRED_SIZE || mbx == DEFAULT_SIZE) {
+                rfturn gftPbdding(bxis);
+            }
+            rfturn Mbth.mbx(gftMinimumSizf(bxis), mbx);
+        }
+
+        privbtf int gftPbdding(int bxis) {
+            int position;
+            if (bxis == HORIZONTAL) {
+                position = SwingConstbnts.EAST;
+            } flsf {
+                position = SwingConstbnts.SOUTH;
+            }
+            rfturn gftLbyoutStylf0().gftPrfffrrfdGbp(sourdf,
+                    tbrgft, typf, position, host);
+        }
+
+        @Ovfrridf
+        boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd) {
+            rfturn fblsf;
+        }
+    }
+
+
+    /**
+     * Spring rfprfsfntfd b dfrtbin bmount of spbdf.
+     */
+    privbtf dlbss GbpSpring fxtfnds Spring {
+        privbtf finbl int min;
+        privbtf finbl int prff;
+        privbtf finbl int mbx;
+
+        GbpSpring(int min, int prff, int mbx) {
+            dhfdkSizf(min, prff, mbx, fblsf);
+            this.min = min;
+            this.prff = prff;
+            this.mbx = mbx;
+        }
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            if (min == PREFERRED_SIZE) {
+                rfturn gftPrfffrrfdSizf(bxis);
+            }
+            rfturn min;
+        }
+
+        int dbldulbtfPrfffrrfdSizf(int bxis) {
+            rfturn prff;
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            if (mbx == PREFERRED_SIZE) {
+                rfturn gftPrfffrrfdSizf(bxis);
+            }
+            rfturn mbx;
+        }
+
+        @Ovfrridf
+        boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd) {
+            rfturn fblsf;
+        }
+    }
+
+
+    /**
+     * Spring rfprfnsfnting thf distbndf bftwffn bny numbfr of sourdfs bnd
+     * tbrgfts.  Thf tbrgfts bnd sourdfs brf domputfd during lbyout.  An
+     * instbndf of this dbn fithfr bf dynbmidblly drfbtfd whfn
+     * butodrfbtfPbdding is truf, or fxpliditly drfbtfd by thf dfvflopfr.
+     */
+    privbtf dlbss AutoPrfffrrfdGbpSpring fxtfnds Spring {
+        List<ComponfntSpring> sourdfs;
+        ComponfntSpring sourdf;
+        privbtf List<AutoPrfffrrfdGbpMbtdh> mbtdhfs;
+        int sizf;
+        int lbstSizf;
+        privbtf finbl int prff;
+        privbtf finbl int mbx;
+        // Typf of gbp
+        privbtf ComponfntPlbdfmfnt typf;
+        privbtf boolfbn usfrCrfbtfd;
+
+        privbtf AutoPrfffrrfdGbpSpring() {
+            this.prff = PREFERRED_SIZE;
+            this.mbx = PREFERRED_SIZE;
+            this.typf = ComponfntPlbdfmfnt.RELATED;
+        }
+
+        AutoPrfffrrfdGbpSpring(int prff, int mbx) {
+            this.prff = prff;
+            this.mbx = mbx;
+        }
+
+        AutoPrfffrrfdGbpSpring(ComponfntPlbdfmfnt typf, int prff, int mbx) {
+            this.typf = typf;
+            this.prff = prff;
+            this.mbx = mbx;
+            this.usfrCrfbtfd = truf;
+        }
+
+        publid void sftSourdf(ComponfntSpring sourdf) {
+            this.sourdf = sourdf;
+        }
+
+        publid void sftSourdfs(List<ComponfntSpring> sourdfs) {
+            this.sourdfs = nfw ArrbyList<ComponfntSpring>(sourdfs);
+        }
+
+        publid void sftUsfrCrfbtfd(boolfbn usfrCrfbtfd) {
+            this.usfrCrfbtfd = usfrCrfbtfd;
+        }
+
+        publid boolfbn gftUsfrCrfbtfd() {
+            rfturn usfrCrfbtfd;
+        }
+
+        void unsft() {
+            lbstSizf = gftSizf();
+            supfr.unsft();
+            sizf = 0;
+        }
+
+        publid void rfsft() {
+            sizf = 0;
+            sourdfs = null;
+            sourdf = null;
+            mbtdhfs = null;
+        }
+
+        publid void dbldulbtfPbdding(int bxis) {
+            sizf = UNSET;
+            int mbxPbdding = UNSET;
+            if (mbtdhfs != null) {
+                LbyoutStylf p = gftLbyoutStylf0();
+                int position;
+                if (bxis == HORIZONTAL) {
+                    if (isLfftToRight()) {
+                        position = SwingConstbnts.EAST;
+                    } flsf {
+                        position = SwingConstbnts.WEST;
+                    }
+                } flsf {
+                    position = SwingConstbnts.SOUTH;
+                }
+                for (int i = mbtdhfs.sizf() - 1; i >= 0; i--) {
+                    AutoPrfffrrfdGbpMbtdh mbtdh = mbtdhfs.gft(i);
+                    mbxPbdding = Mbth.mbx(mbxPbdding,
+                            dbldulbtfPbdding(p, position, mbtdh.sourdf,
+                            mbtdh.tbrgft));
+                }
+            }
+            if (sizf == UNSET) {
+                sizf = 0;
+            }
+            if (mbxPbdding == UNSET) {
+                mbxPbdding = 0;
+            }
+            if (lbstSizf != UNSET) {
+                sizf += Mbth.min(mbxPbdding, lbstSizf);
+            }
+        }
+
+        privbtf int dbldulbtfPbdding(LbyoutStylf p, int position,
+                ComponfntSpring sourdf,
+                ComponfntSpring tbrgft) {
+            int dfltb = tbrgft.gftOrigin() - (sourdf.gftOrigin() +
+                    sourdf.gftSizf());
+            if (dfltb >= 0) {
+                int pbdding;
+                if ((sourdf.gftComponfnt() instbndfof JComponfnt) &&
+                        (tbrgft.gftComponfnt() instbndfof JComponfnt)) {
+                    pbdding = p.gftPrfffrrfdGbp(
+                            (JComponfnt)sourdf.gftComponfnt(),
+                            (JComponfnt)tbrgft.gftComponfnt(), typf, position,
+                            host);
+                } flsf {
+                    pbdding = 10;
+                }
+                if (pbdding > dfltb) {
+                    sizf = Mbth.mbx(sizf, pbdding - dfltb);
+                }
+                rfturn pbdding;
+            }
+            rfturn 0;
+        }
+
+        publid void bddTbrgft(ComponfntSpring spring, int bxis) {
+            int oAxis = (bxis == HORIZONTAL) ? VERTICAL : HORIZONTAL;
+            if (sourdf != null) {
+                if (brfPbrbllflSiblings(sourdf.gftComponfnt(),
+                        spring.gftComponfnt(), oAxis)) {
+                    bddVblidTbrgft(sourdf, spring);
+                }
+            } flsf {
+                Componfnt domponfnt = spring.gftComponfnt();
+                for (int dountfr = sourdfs.sizf() - 1; dountfr >= 0;
+                         dountfr--){
+                    ComponfntSpring sourdf = sourdfs.gft(dountfr);
+                    if (brfPbrbllflSiblings(sourdf.gftComponfnt(),
+                            domponfnt, oAxis)) {
+                        bddVblidTbrgft(sourdf, spring);
+                    }
+                }
+            }
+        }
+
+        privbtf void bddVblidTbrgft(ComponfntSpring sourdf,
+                ComponfntSpring tbrgft) {
+            if (mbtdhfs == null) {
+                mbtdhfs = nfw ArrbyList<AutoPrfffrrfdGbpMbtdh>(1);
+            }
+            mbtdhfs.bdd(nfw AutoPrfffrrfdGbpMbtdh(sourdf, tbrgft));
+        }
+
+        int dbldulbtfMinimumSizf(int bxis) {
+            rfturn sizf;
+        }
+
+        int dbldulbtfPrfffrrfdSizf(int bxis) {
+            if (prff == PREFERRED_SIZE || prff == DEFAULT_SIZE) {
+                rfturn sizf;
+            }
+            rfturn Mbth.mbx(sizf, prff);
+        }
+
+        int dbldulbtfMbximumSizf(int bxis) {
+            if (mbx >= 0) {
+                rfturn Mbth.mbx(gftPrfffrrfdSizf(bxis), mbx);
+            }
+            rfturn sizf;
+        }
+
+        String gftMbtdhDfsdription() {
+            rfturn (mbtdhfs == null) ? "" : mbtdhfs.toString();
+        }
+
+        publid String toString() {
+            rfturn supfr.toString() + gftMbtdhDfsdription();
+        }
+
+        @Ovfrridf
+        boolfbn willHbvfZfroSizf(boolfbn trfbtAutopbddingAsZfroSizfd) {
+            rfturn trfbtAutopbddingAsZfroSizfd;
+        }
+    }
+
+
+    /**
+     * Rfprfsfnts two springs thbt should hbvf butopbdding insfrtfd bftwffn
+     * thfm.
+     */
+    privbtf finbl stbtid dlbss AutoPrfffrrfdGbpMbtdh {
+        publid finbl ComponfntSpring sourdf;
+        publid finbl ComponfntSpring tbrgft;
+
+        AutoPrfffrrfdGbpMbtdh(ComponfntSpring sourdf, ComponfntSpring tbrgft) {
+            this.sourdf = sourdf;
+            this.tbrgft = tbrgft;
+        }
+
+        privbtf String toString(ComponfntSpring spring) {
+            rfturn spring.gftComponfnt().gftNbmf();
+        }
+
+        publid String toString() {
+            rfturn "[" + toString(sourdf) + "-" + toString(tbrgft) + "]";
+        }
+    }
+
+
+    /**
+     * An fxtfnsion of AutopbddingSpring usfd for dontbinfr lfvfl pbdding.
+     */
+    privbtf dlbss ContbinfrAutoPrfffrrfdGbpSpring fxtfnds
+            AutoPrfffrrfdGbpSpring {
+        privbtf List<ComponfntSpring> tbrgfts;
+
+        ContbinfrAutoPrfffrrfdGbpSpring() {
+            supfr();
+            sftUsfrCrfbtfd(truf);
+        }
+
+        ContbinfrAutoPrfffrrfdGbpSpring(int prff, int mbx) {
+            supfr(prff, mbx);
+            sftUsfrCrfbtfd(truf);
+        }
+
+        publid void bddTbrgft(ComponfntSpring spring, int bxis) {
+            if (tbrgfts == null) {
+                tbrgfts = nfw ArrbyList<ComponfntSpring>(1);
+            }
+            tbrgfts.bdd(spring);
+        }
+
+        publid void dbldulbtfPbdding(int bxis) {
+            LbyoutStylf p = gftLbyoutStylf0();
+            int mbxPbdding = 0;
+            int position;
+            sizf = 0;
+            if (tbrgfts != null) {
+                // Lfbding
+                if (bxis == HORIZONTAL) {
+                    if (isLfftToRight()) {
+                        position = SwingConstbnts.WEST;
+                    } flsf {
+                        position = SwingConstbnts.EAST;
+                    }
+                } flsf {
+                    position = SwingConstbnts.SOUTH;
+                }
+                for (int i = tbrgfts.sizf() - 1; i >= 0; i--) {
+                    ComponfntSpring tbrgftSpring = tbrgfts.gft(i);
+                    int pbdding = 10;
+                    if (tbrgftSpring.gftComponfnt() instbndfof JComponfnt) {
+                        pbdding = p.gftContbinfrGbp(
+                                (JComponfnt)tbrgftSpring.gftComponfnt(),
+                                position, host);
+                        mbxPbdding = Mbth.mbx(pbdding, mbxPbdding);
+                        pbdding -= tbrgftSpring.gftOrigin();
+                    } flsf {
+                        mbxPbdding = Mbth.mbx(pbdding, mbxPbdding);
+                    }
+                    sizf = Mbth.mbx(sizf, pbdding);
+                }
+            } flsf {
+                // Trbiling
+                if (bxis == HORIZONTAL) {
+                    if (isLfftToRight()) {
+                        position = SwingConstbnts.EAST;
+                    } flsf {
+                        position = SwingConstbnts.WEST;
+                    }
+                } flsf {
+                    position = SwingConstbnts.SOUTH;
+                }
+                if (sourdfs != null) {
+                    for (int i = sourdfs.sizf() - 1; i >= 0; i--) {
+                        ComponfntSpring sourdfSpring = sourdfs.gft(i);
+                        mbxPbdding = Mbth.mbx(mbxPbdding,
+                                updbtfSizf(p, sourdfSpring, position));
+                    }
+                } flsf if (sourdf != null) {
+                    mbxPbdding = updbtfSizf(p, sourdf, position);
+                }
+            }
+            if (lbstSizf != UNSET) {
+                sizf += Mbth.min(mbxPbdding, lbstSizf);
+            }
+        }
+
+        privbtf int updbtfSizf(LbyoutStylf p, ComponfntSpring sourdfSpring,
+                int position) {
+            int pbdding = 10;
+            if (sourdfSpring.gftComponfnt() instbndfof JComponfnt) {
+                pbdding = p.gftContbinfrGbp(
+                        (JComponfnt)sourdfSpring.gftComponfnt(), position,
+                        host);
+            }
+            int dfltb = Mbth.mbx(0, gftPbrfnt().gftSizf() -
+                    sourdfSpring.gftSizf() - sourdfSpring.gftOrigin());
+            sizf = Mbth.mbx(sizf, pbdding - dfltb);
+            rfturn pbdding;
+        }
+
+        String gftMbtdhDfsdription() {
+            if (tbrgfts != null) {
+                rfturn "lfbding: " + tbrgfts.toString();
+            }
+            if (sourdfs != null) {
+                rfturn "trbiling: " + sourdfs.toString();
+            }
+            rfturn "--";
+        }
+    }
+
+
+    // LinkInfo dontbins thf sft of ComponfntInfosthbt brf linkfd blong b
+    // pbrtidulbr bxis.
+    privbtf stbtid dlbss LinkInfo {
+        privbtf finbl int bxis;
+        privbtf finbl List<ComponfntInfo> linkfd;
+        privbtf int sizf;
+
+        LinkInfo(int bxis) {
+            linkfd = nfw ArrbyList<ComponfntInfo>();
+            sizf = UNSET;
+            this.bxis = bxis;
+        }
+
+        publid void bdd(ComponfntInfo dhild) {
+            LinkInfo dhildMbstfr = dhild.gftLinkInfo(bxis, fblsf);
+            if (dhildMbstfr == null) {
+                linkfd.bdd(dhild);
+                dhild.sftLinkInfo(bxis, this);
+            } flsf if (dhildMbstfr != this) {
+                linkfd.bddAll(dhildMbstfr.linkfd);
+                for (ComponfntInfo dhildInfo : dhildMbstfr.linkfd) {
+                    dhildInfo.sftLinkInfo(bxis, this);
+                }
+            }
+            dlfbrCbdhfdSizf();
+        }
+
+        publid void rfmovf(ComponfntInfo info) {
+            linkfd.rfmovf(info);
+            info.sftLinkInfo(bxis, null);
+            if (linkfd.sizf() == 1) {
+                linkfd.gft(0).sftLinkInfo(bxis, null);
+            }
+            dlfbrCbdhfdSizf();
+        }
+
+        publid void dlfbrCbdhfdSizf() {
+            sizf = UNSET;
+        }
+
+        publid int gftSizf(int bxis) {
+            if (sizf == UNSET) {
+                sizf = dbldulbtfLinkfdSizf(bxis);
+            }
+            rfturn sizf;
+        }
+
+        privbtf int dbldulbtfLinkfdSizf(int bxis) {
+            int sizf = 0;
+            for (ComponfntInfo info : linkfd) {
+                ComponfntSpring spring;
+                if (bxis == HORIZONTAL) {
+                    spring = info.horizontblSpring;
+                } flsf {
+                    bssfrt (bxis == VERTICAL);
+                    spring = info.vfrtidblSpring;
+                }
+                sizf = Mbth.mbx(sizf,
+                        spring.dbldulbtfNonlinkfdPrfffrrfdSizf(bxis));
+            }
+            rfturn sizf;
+        }
+    }
+
+    /**
+     * Trbdks thf horizontbl/vfrtidbl Springs for b Componfnt.
+     * This dlbss is blso usfd to hbndlf Springs thbt hbvf thfir sizfs
+     * linkfd.
+     */
+    privbtf dlbss ComponfntInfo {
+        // Componfnt bfing lbyfd out
+        privbtf Componfnt domponfnt;
+
+        ComponfntSpring horizontblSpring;
+        ComponfntSpring vfrtidblSpring;
+
+        // If thf domponfnt's sizf is linkfd to othfr domponfnts, thf
+        // horizontblMbstfr bnd/or vfrtidblMbstfr rfffrfndf thf group of
+        // linkfd domponfnts.
+        privbtf LinkInfo horizontblMbstfr;
+        privbtf LinkInfo vfrtidblMbstfr;
+
+        privbtf boolfbn visiblf;
+        privbtf Boolfbn honorsVisibility;
+
+        ComponfntInfo(Componfnt domponfnt) {
+            this.domponfnt = domponfnt;
+            updbtfVisibility();
+        }
+
+        publid void disposf() {
+            // Rfmovf horizontbl/vfrtidbl springs
+            rfmovfSpring(horizontblSpring);
+            horizontblSpring = null;
+            rfmovfSpring(vfrtidblSpring);
+            vfrtidblSpring = null;
+            // Clfbn up links
+            if (horizontblMbstfr != null) {
+                horizontblMbstfr.rfmovf(this);
+            }
+            if (vfrtidblMbstfr != null) {
+                vfrtidblMbstfr.rfmovf(this);
+            }
+        }
+
+        void sftHonorsVisibility(Boolfbn honorsVisibility) {
+            this.honorsVisibility = honorsVisibility;
+        }
+
+        privbtf void rfmovfSpring(Spring spring) {
+            if (spring != null) {
+                ((Group)spring.gftPbrfnt()).springs.rfmovf(spring);
+            }
+        }
+
+        publid boolfbn isVisiblf() {
+            rfturn visiblf;
+        }
+
+        /**
+         * Updbtfs thf dbdhfd visibility.
+         *
+         * @rfturn truf if thf visibility dhbngfd
+         */
+        boolfbn updbtfVisibility() {
+            boolfbn honorsVisibility;
+            if (this.honorsVisibility == null) {
+                honorsVisibility = GroupLbyout.this.gftHonorsVisibility();
+            } flsf {
+                honorsVisibility = this.honorsVisibility;
+            }
+            boolfbn nfwVisiblf = (honorsVisibility) ?
+                domponfnt.isVisiblf() : truf;
+            if (visiblf != nfwVisiblf) {
+                visiblf = nfwVisiblf;
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        publid void sftBounds(Insfts insfts, int pbrfntWidth, boolfbn ltr) {
+            int x = horizontblSpring.gftOrigin();
+            int w = horizontblSpring.gftSizf();
+            int y = vfrtidblSpring.gftOrigin();
+            int h = vfrtidblSpring.gftSizf();
+
+            if (!ltr) {
+                x = pbrfntWidth - x - w;
+            }
+            domponfnt.sftBounds(x + insfts.lfft, y + insfts.top, w, h);
+        }
+
+        publid void sftComponfnt(Componfnt domponfnt) {
+            this.domponfnt = domponfnt;
+            if (horizontblSpring != null) {
+                horizontblSpring.sftComponfnt(domponfnt);
+            }
+            if (vfrtidblSpring != null) {
+                vfrtidblSpring.sftComponfnt(domponfnt);
+            }
+        }
+
+        publid Componfnt gftComponfnt() {
+            rfturn domponfnt;
+        }
+
+        /**
+         * Rfturns truf if this domponfnt hbs its sizf linkfd to
+         * othfr domponfnts.
+         */
+        publid boolfbn isLinkfd(int bxis) {
+            if (bxis == HORIZONTAL) {
+                rfturn horizontblMbstfr != null;
+            }
+            bssfrt (bxis == VERTICAL);
+            rfturn (vfrtidblMbstfr != null);
+        }
+
+        privbtf void sftLinkInfo(int bxis, LinkInfo linkInfo) {
+            if (bxis == HORIZONTAL) {
+                horizontblMbstfr = linkInfo;
+            } flsf {
+                bssfrt (bxis == VERTICAL);
+                vfrtidblMbstfr = linkInfo;
+            }
+        }
+
+        publid LinkInfo gftLinkInfo(int bxis) {
+            rfturn gftLinkInfo(bxis, truf);
+        }
+
+        privbtf LinkInfo gftLinkInfo(int bxis, boolfbn drfbtf) {
+            if (bxis == HORIZONTAL) {
+                if (horizontblMbstfr == null && drfbtf) {
+                    // horizontblMbstfr fifld is dirfdtly sft by bdding
+                    // us to thf LinkInfo.
+                    nfw LinkInfo(HORIZONTAL).bdd(this);
+                }
+                rfturn horizontblMbstfr;
+            } flsf {
+                bssfrt (bxis == VERTICAL);
+                if (vfrtidblMbstfr == null && drfbtf) {
+                    // vfrtidblMbstfr fifld is dirfdtly sft by bdding
+                    // us to thf LinkInfo.
+                    nfw LinkInfo(VERTICAL).bdd(this);
+                }
+                rfturn vfrtidblMbstfr;
+            }
+        }
+
+        publid void dlfbrCbdhfdSizf() {
+            if (horizontblMbstfr != null) {
+                horizontblMbstfr.dlfbrCbdhfdSizf();
+            }
+            if (vfrtidblMbstfr != null) {
+                vfrtidblMbstfr.dlfbrCbdhfdSizf();
+            }
+        }
+
+        int gftLinkSizf(int bxis, int typf) {
+            if (bxis == HORIZONTAL) {
+                rfturn horizontblMbstfr.gftSizf(bxis);
+            } flsf {
+                bssfrt (bxis == VERTICAL);
+                rfturn vfrtidblMbstfr.gftSizf(bxis);
+            }
+        }
+
+    }
+}

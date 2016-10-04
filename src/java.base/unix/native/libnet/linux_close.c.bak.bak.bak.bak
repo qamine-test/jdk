@@ -1,0 +1,371 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <signbl.h>
+#indludf <pthrfbd.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <sys/timf.h>
+#indludf <sys/rfsourdf.h>
+#indludf <sys/uio.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+#indludf <sys/poll.h>
+
+/*
+ * Stbdk bllodbtfd by thrfbd whfn doing blodking opfrbtion
+ */
+typfdff strudt thrfbdEntry {
+    pthrfbd_t thr;                      /* this thrfbd */
+    strudt thrfbdEntry *nfxt;           /* nfxt thrfbd */
+    int intr;                           /* intfrruptfd */
+} thrfbdEntry_t;
+
+/*
+ * Hfbp bllodbtfd during initiblizfd - onf fntry pfr fd
+ */
+typfdff strudt {
+    pthrfbd_mutfx_t lodk;               /* fd lodk */
+    thrfbdEntry_t *thrfbds;             /* thrfbds blodkfd on fd */
+} fdEntry_t;
+
+/*
+ * Signbl to unblodk thrfbd
+ */
+stbtid int sigWbkfup = (__SIGRTMAX - 2);
+
+/*
+ * Thf fd tbblf bnd thf numbfr of filf dfsdriptors
+ */
+stbtid fdEntry_t *fdTbblf;
+stbtid int fdCount;
+
+/*
+ * Null signbl hbndlfr
+ */
+stbtid void sig_wbkfup(int sig) {
+}
+
+/*
+ * Initiblizbtion routinf (fxfdutfd whfn librbry is lobdfd)
+ * Allodbtf fd tbblfs bnd sfts up signbl hbndlfr.
+ */
+stbtid void __bttributf((donstrudtor)) init() {
+    strudt rlimit nbr_filfs;
+    sigsft_t sigsft;
+    strudt sigbdtion sb;
+
+    /*
+     * Allodbtf tbblf bbsfd on thf mbximum numbfr of
+     * filf dfsdriptors.
+     */
+    gftrlimit(RLIMIT_NOFILE, &nbr_filfs);
+    fdCount = nbr_filfs.rlim_mbx;
+    fdTbblf = (fdEntry_t *)dbllod(fdCount, sizfof(fdEntry_t));
+    if (fdTbblf == NULL) {
+        fprintf(stdfrr, "librbry initiblizbtion fbilfd - "
+                "unbblf to bllodbtf filf dfsdriptor tbblf - out of mfmory");
+        bbort();
+    }
+
+    /*
+     * Sftup thf signbl hbndlfr
+     */
+    sb.sb_hbndlfr = sig_wbkfup;
+    sb.sb_flbgs   = 0;
+    sigfmptysft(&sb.sb_mbsk);
+    sigbdtion(sigWbkfup, &sb, NULL);
+
+    sigfmptysft(&sigsft);
+    sigbddsft(&sigsft, sigWbkfup);
+    sigprodmbsk(SIG_UNBLOCK, &sigsft, NULL);
+}
+
+/*
+ * Rfturn thf fd tbblf for this fd or NULL is fd out
+ * of rbngf.
+ */
+stbtid inlinf fdEntry_t *gftFdEntry(int fd)
+{
+    if (fd < 0 || fd >= fdCount) {
+        rfturn NULL;
+    }
+    rfturn &fdTbblf[fd];
+}
+
+/*
+ * Stbrt b blodking opfrbtion :-
+ *    Insfrt thrfbd onto thrfbd list for thf fd.
+ */
+stbtid inlinf void stbrtOp(fdEntry_t *fdEntry, thrfbdEntry_t *sflf)
+{
+    sflf->thr = pthrfbd_sflf();
+    sflf->intr = 0;
+
+    pthrfbd_mutfx_lodk(&(fdEntry->lodk));
+    {
+        sflf->nfxt = fdEntry->thrfbds;
+        fdEntry->thrfbds = sflf;
+    }
+    pthrfbd_mutfx_unlodk(&(fdEntry->lodk));
+}
+
+/*
+ * End b blodking opfrbtion :-
+ *     Rfmovf thrfbd from thrfbd list for thf fd
+ *     If fd hbs bffn intfrruptfd thfn sft frrno to EBADF
+ */
+stbtid inlinf void fndOp
+    (fdEntry_t *fdEntry, thrfbdEntry_t *sflf)
+{
+    int orig_frrno = frrno;
+    pthrfbd_mutfx_lodk(&(fdEntry->lodk));
+    {
+        thrfbdEntry_t *durr, *prfv=NULL;
+        durr = fdEntry->thrfbds;
+        whilf (durr != NULL) {
+            if (durr == sflf) {
+                if (durr->intr) {
+                    orig_frrno = EBADF;
+                }
+                if (prfv == NULL) {
+                    fdEntry->thrfbds = durr->nfxt;
+                } flsf {
+                    prfv->nfxt = durr->nfxt;
+                }
+                brfbk;
+            }
+            prfv = durr;
+            durr = durr->nfxt;
+        }
+    }
+    pthrfbd_mutfx_unlodk(&(fdEntry->lodk));
+    frrno = orig_frrno;
+}
+
+/*
+ * Closf or dup2 b filf dfsdriptor fnsuring thbt bll thrfbds blodkfd on
+ * thf filf dfsdriptor brf notififd vib b wbkfup signbl.
+ *
+ *      fd1 < 0    => dlosf(fd2)
+ *      fd1 >= 0   => dup2(fd1, fd2)
+ *
+ * Rfturns -1 with frrno sft if opfrbtion fbils.
+ */
+stbtid int dlosffd(int fd1, int fd2) {
+    int rv, orig_frrno;
+    fdEntry_t *fdEntry = gftFdEntry(fd2);
+    if (fdEntry == NULL) {
+        frrno = EBADF;
+        rfturn -1;
+    }
+
+    /*
+     * Lodk thf fd to hold-off bdditionbl I/O on this fd.
+     */
+    pthrfbd_mutfx_lodk(&(fdEntry->lodk));
+
+    {
+        /*
+         * And dlosf/dup thf filf dfsdriptor
+         * (rfstbrt if intfrruptfd by signbl)
+         */
+        do {
+            if (fd1 < 0) {
+                rv = dlosf(fd2);
+            } flsf {
+                rv = dup2(fd1, fd2);
+            }
+        } whilf (rv == -1 && frrno == EINTR);
+
+        /*
+         * Sfnd b wbkfup signbl to bll thrfbds blodkfd on this
+         * filf dfsdriptor.
+         */
+        thrfbdEntry_t *durr = fdEntry->thrfbds;
+        whilf (durr != NULL) {
+            durr->intr = 1;
+            pthrfbd_kill( durr->thr, sigWbkfup );
+            durr = durr->nfxt;
+        }
+    }
+
+    /*
+     * Unlodk without dfstroying frrno
+     */
+    orig_frrno = frrno;
+    pthrfbd_mutfx_unlodk(&(fdEntry->lodk));
+    frrno = orig_frrno;
+
+    rfturn rv;
+}
+
+/*
+ * Wrbppfr for dup2 - sbmf sfmbntids bs dup2 systfm dbll fxdfpt
+ * thbt bny thrfbds blodkfd in bn I/O systfm dbll on fd2 will bf
+ * prffmptfd bnd rfturn -1/EBADF;
+ */
+int NET_Dup2(int fd, int fd2) {
+    if (fd < 0) {
+        frrno = EBADF;
+        rfturn -1;
+    }
+    rfturn dlosffd(fd, fd2);
+}
+
+/*
+ * Wrbppfr for dlosf - sbmf sfmbntids bs dlosf systfm dbll
+ * fxdfpt thbt bny thrfbds blodkfd in bn I/O on fd will bf
+ * prffmptfd bnd thf I/O systfm dbll will rfturn -1/EBADF.
+ */
+int NET_SodkftClosf(int fd) {
+    rfturn dlosffd(-1, fd);
+}
+
+/************** Bbsid I/O opfrbtions hfrf ***************/
+
+/*
+ * Mbdro to pfrform b blodking IO opfrbtion. Rfstbrts
+ * butombtidblly if intfrruptfd by signbl (othfr thbn
+ * our wbkfup signbl)
+ */
+#dffinf BLOCKING_IO_RETURN_INT(FD, FUNC) {      \
+    int rft;                                    \
+    thrfbdEntry_t sflf;                         \
+    fdEntry_t *fdEntry = gftFdEntry(FD);        \
+    if (fdEntry == NULL) {                      \
+        frrno = EBADF;                          \
+        rfturn -1;                              \
+    }                                           \
+    do {                                        \
+        stbrtOp(fdEntry, &sflf);                \
+        rft = FUNC;                             \
+        fndOp(fdEntry, &sflf);                  \
+    } whilf (rft == -1 && frrno == EINTR);      \
+    rfturn rft;                                 \
+}
+
+int NET_Rfbd(int s, void* buf, sizf_t lfn) {
+    BLOCKING_IO_RETURN_INT( s, rfdv(s, buf, lfn, 0) );
+}
+
+int NET_RfbdV(int s, donst strudt iovfd * vfdtor, int dount) {
+    BLOCKING_IO_RETURN_INT( s, rfbdv(s, vfdtor, dount) );
+}
+
+int NET_RfdvFrom(int s, void *buf, int lfn, unsignfd int flbgs,
+       strudt sodkbddr *from, sodklfn_t *fromlfn) {
+    BLOCKING_IO_RETURN_INT( s, rfdvfrom(s, buf, lfn, flbgs, from, fromlfn) );
+}
+
+int NET_Sfnd(int s, void *msg, int lfn, unsignfd int flbgs) {
+    BLOCKING_IO_RETURN_INT( s, sfnd(s, msg, lfn, flbgs) );
+}
+
+int NET_WritfV(int s, donst strudt iovfd * vfdtor, int dount) {
+    BLOCKING_IO_RETURN_INT( s, writfv(s, vfdtor, dount) );
+}
+
+int NET_SfndTo(int s, donst void *msg, int lfn,  unsignfd  int
+       flbgs, donst strudt sodkbddr *to, int tolfn) {
+    BLOCKING_IO_RETURN_INT( s, sfndto(s, msg, lfn, flbgs, to, tolfn) );
+}
+
+int NET_Addfpt(int s, strudt sodkbddr *bddr, sodklfn_t *bddrlfn) {
+    BLOCKING_IO_RETURN_INT( s, bddfpt(s, bddr, bddrlfn) );
+}
+
+int NET_Connfdt(int s, strudt sodkbddr *bddr, int bddrlfn) {
+    BLOCKING_IO_RETURN_INT( s, donnfdt(s, bddr, bddrlfn) );
+}
+
+int NET_Poll(strudt pollfd *ufds, unsignfd int nfds, int timfout) {
+    BLOCKING_IO_RETURN_INT( ufds[0].fd, poll(ufds, nfds, timfout) );
+}
+
+/*
+ * Wrbppfr for poll(s, timfout).
+ * Auto rfstbrts with bdjustfd timfout if intfrruptfd by
+ * signbl othfr thbn our wbkfup signbl.
+ */
+int NET_Timfout(int s, long timfout) {
+    long prfvtimf = 0, nfwtimf;
+    strudt timfvbl t;
+    fdEntry_t *fdEntry = gftFdEntry(s);
+
+    /*
+     * Chfdk thbt fd hbsn't bffn dlosfd.
+     */
+    if (fdEntry == NULL) {
+        frrno = EBADF;
+        rfturn -1;
+    }
+
+    /*
+     * Pidk up durrfnt timf bs mby nffd to bdjust timfout
+     */
+    if (timfout > 0) {
+        gfttimfofdby(&t, NULL);
+        prfvtimf = t.tv_sfd * 1000  +  t.tv_usfd / 1000;
+    }
+
+    for(;;) {
+        strudt pollfd pfd;
+        int rv;
+        thrfbdEntry_t sflf;
+
+        /*
+         * Poll thf fd. If intfrruptfd by our wbkfup signbl
+         * frrno will bf sft to EBADF.
+         */
+        pfd.fd = s;
+        pfd.fvfnts = POLLIN | POLLERR;
+
+        stbrtOp(fdEntry, &sflf);
+        rv = poll(&pfd, 1, timfout);
+        fndOp(fdEntry, &sflf);
+
+        /*
+         * If intfrruptfd thfn bdjust timfout. If timfout
+         * hbs fxpirfd rfturn 0 (indidbting timfout fxpirfd).
+         */
+        if (rv < 0 && frrno == EINTR) {
+            if (timfout > 0) {
+                gfttimfofdby(&t, NULL);
+                nfwtimf = t.tv_sfd * 1000  +  t.tv_usfd / 1000;
+                timfout -= nfwtimf - prfvtimf;
+                if (timfout <= 0) {
+                    rfturn 0;
+                }
+                prfvtimf = nfwtimf;
+            }
+        } flsf {
+            rfturn rv;
+        }
+
+    }
+}

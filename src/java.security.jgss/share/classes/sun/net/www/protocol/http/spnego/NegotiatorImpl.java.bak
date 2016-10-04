@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http.spnego;
+pbdkbgf sun.nft.www.protodol.ittp.spnfgo;
 
-import com.sun.security.jgss.ExtendedGSSContext;
-import java.io.IOException;
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import jbvb.io.IOExdfption;
 
-import org.ietf.jgss.GSSContext;
-import org.ietf.jgss.GSSException;
-import org.ietf.jgss.GSSName;
-import org.ietf.jgss.Oid;
+import org.iftf.jgss.GSSContfxt;
+import org.iftf.jgss.GSSExdfption;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.Oid;
 
-import sun.net.www.protocol.http.HttpCallerInfo;
-import sun.net.www.protocol.http.Negotiator;
-import sun.security.jgss.GSSManagerImpl;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.HttpCaller;
+import sun.nft.www.protodol.ittp.HttpCbllfrInfo;
+import sun.nft.www.protodol.ittp.Nfgotibtor;
+import sun.sfdurity.jgss.GSSMbnbgfrImpl;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.HttpCbllfr;
 
 /**
- * This class encapsulates all JAAS and JGSS API calls in a separate class
- * outside NegotiateAuthentication.java so that J2SE build can go smoothly
- * without the presence of it.
+ * Tiis dlbss fndbpsulbtfs bll JAAS bnd JGSS API dblls in b sfpbrbtf dlbss
+ * outsidf NfgotibtfAutifntidbtion.jbvb so tibt J2SE build dbn go smootily
+ * witiout tif prfsfndf of it.
  *
- * @author weijun.wang@sun.com
- * @since 1.6
+ * @butior wfijun.wbng@sun.dom
+ * @sindf 1.6
  */
-public class NegotiatorImpl extends Negotiator {
+publid dlbss NfgotibtorImpl fxtfnds Nfgotibtor {
 
-    private static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-              new sun.security.action.GetBooleanAction("sun.security.krb5.debug"));
+    privbtf stbtid finbl boolfbn DEBUG =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+              nfw sun.sfdurity.bdtion.GftBoolfbnAdtion("sun.sfdurity.krb5.dfbug"));
 
-    private GSSContext context;
-    private byte[] oneToken;
+    privbtf GSSContfxt dontfxt;
+    privbtf bytf[] onfTokfn;
 
     /**
-     * Initialize the object, which includes:<ul>
-     * <li>Find out what GSS mechanism to use from the system property
-     * <code>http.negotiate.mechanism.oid</code>, defaults SPNEGO
-     * <li>Creating the GSSName for the target host, "HTTP/"+hostname
-     * <li>Creating GSSContext
-     * <li>A first call to initSecContext</ul>
+     * Initiblizf tif objfdt, wiidi indludfs:<ul>
+     * <li>Find out wibt GSS mfdibnism to usf from tif systfm propfrty
+     * <dodf>ittp.nfgotibtf.mfdibnism.oid</dodf>, dffbults SPNEGO
+     * <li>Crfbting tif GSSNbmf for tif tbrgft iost, "HTTP/"+iostnbmf
+     * <li>Crfbting GSSContfxt
+     * <li>A first dbll to initSfdContfxt</ul>
      */
-    private void init(HttpCallerInfo hci) throws GSSException {
-        final Oid oid;
+    privbtf void init(HttpCbllfrInfo idi) tirows GSSExdfption {
+        finbl Oid oid;
 
-        if (hci.scheme.equalsIgnoreCase("Kerberos")) {
-            // we can only use Kerberos mech when the scheme is kerberos
+        if (idi.sdifmf.fqublsIgnorfCbsf("Kfrbfros")) {
+            // wf dbn only usf Kfrbfros mfdi wifn tif sdifmf is kfrbfros
             oid = GSSUtil.GSS_KRB5_MECH_OID;
-        } else {
-            String pref = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
-                        public String run() {
-                            return System.getProperty(
-                                "http.auth.preference",
-                                "spnego");
+        } flsf {
+            String prff = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty(
+                                "ittp.buti.prfffrfndf",
+                                "spnfgo");
                         }
                     });
-            if (pref.equalsIgnoreCase("kerberos")) {
+            if (prff.fqublsIgnorfCbsf("kfrbfros")) {
                 oid = GSSUtil.GSS_KRB5_MECH_OID;
-            } else {
-                // currently there is no 3rd mech we can use
+            } flsf {
+                // durrfntly tifrf is no 3rd mfdi wf dbn usf
                 oid = GSSUtil.GSS_SPNEGO_MECH_OID;
             }
         }
 
-        GSSManagerImpl manager = new GSSManagerImpl(
-                new HttpCaller(hci));
+        GSSMbnbgfrImpl mbnbgfr = nfw GSSMbnbgfrImpl(
+                nfw HttpCbllfr(idi));
 
-        // RFC 4559 4.1 uses uppercase service name "HTTP".
-        // RFC 4120 6.2.1 demands the host be lowercase
-        String peerName = "HTTP@" + hci.host.toLowerCase();
+        // RFC 4559 4.1 usfs uppfrdbsf sfrvidf nbmf "HTTP".
+        // RFC 4120 6.2.1 dfmbnds tif iost bf lowfrdbsf
+        String pffrNbmf = "HTTP@" + idi.iost.toLowfrCbsf();
 
-        GSSName serverName = manager.createName(peerName,
-                GSSName.NT_HOSTBASED_SERVICE);
-        context = manager.createContext(serverName,
+        GSSNbmf sfrvfrNbmf = mbnbgfr.drfbtfNbmf(pffrNbmf,
+                GSSNbmf.NT_HOSTBASED_SERVICE);
+        dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
                                         oid,
                                         null,
-                                        GSSContext.DEFAULT_LIFETIME);
+                                        GSSContfxt.DEFAULT_LIFETIME);
 
-        // Always respect delegation policy in HTTP/SPNEGO.
-        if (context instanceof ExtendedGSSContext) {
-            ((ExtendedGSSContext)context).requestDelegPolicy(true);
+        // Alwbys rfspfdt dflfgbtion polidy in HTTP/SPNEGO.
+        if (dontfxt instbndfof ExtfndfdGSSContfxt) {
+            ((ExtfndfdGSSContfxt)dontfxt).rfqufstDflfgPolidy(truf);
         }
-        oneToken = context.initSecContext(new byte[0], 0, 0);
+        onfTokfn = dontfxt.initSfdContfxt(nfw bytf[0], 0, 0);
     }
 
     /**
-     * Constructor
-     * @throws java.io.IOException If negotiator cannot be constructed
+     * Construdtor
+     * @tirows jbvb.io.IOExdfption If nfgotibtor dbnnot bf donstrudtfd
      */
-    public NegotiatorImpl(HttpCallerInfo hci) throws IOException {
+    publid NfgotibtorImpl(HttpCbllfrInfo idi) tirows IOExdfption {
         try {
-            init(hci);
-        } catch (GSSException e) {
+            init(idi);
+        } dbtdi (GSSExdfption f) {
             if (DEBUG) {
-                System.out.println("Negotiate support not initiated, will " +
-                        "fallback to other scheme if allowed. Reason:");
-                e.printStackTrace();
+                Systfm.out.println("Nfgotibtf support not initibtfd, will " +
+                        "fbllbbdk to otifr sdifmf if bllowfd. Rfbson:");
+                f.printStbdkTrbdf();
             }
-            IOException ioe = new IOException("Negotiate support not initiated");
-            ioe.initCause(e);
-            throw ioe;
+            IOExdfption iof = nfw IOExdfption("Nfgotibtf support not initibtfd");
+            iof.initCbusf(f);
+            tirow iof;
         }
     }
 
     /**
-     * Return the first token of GSS, in SPNEGO, it's called NegTokenInit
-     * @return the first token
+     * Rfturn tif first tokfn of GSS, in SPNEGO, it's dbllfd NfgTokfnInit
+     * @rfturn tif first tokfn
      */
-    @Override
-    public byte[] firstToken() {
-        return oneToken;
+    @Ovfrridf
+    publid bytf[] firstTokfn() {
+        rfturn onfTokfn;
     }
 
     /**
-     * Return the rest tokens of GSS, in SPNEGO, it's called NegTokenTarg
-     * @param token the token received from server
-     * @return the next token
-     * @throws java.io.IOException if the token cannot be created successfully
+     * Rfturn tif rfst tokfns of GSS, in SPNEGO, it's dbllfd NfgTokfnTbrg
+     * @pbrbm tokfn tif tokfn rfdfivfd from sfrvfr
+     * @rfturn tif nfxt tokfn
+     * @tirows jbvb.io.IOExdfption if tif tokfn dbnnot bf drfbtfd suddfssfully
      */
-    @Override
-    public byte[] nextToken(byte[] token) throws IOException {
+    @Ovfrridf
+    publid bytf[] nfxtTokfn(bytf[] tokfn) tirows IOExdfption {
         try {
-            return context.initSecContext(token, 0, token.length);
-        } catch (GSSException e) {
+            rfturn dontfxt.initSfdContfxt(tokfn, 0, tokfn.lfngti);
+        } dbtdi (GSSExdfption f) {
             if (DEBUG) {
-                System.out.println("Negotiate support cannot continue. Reason:");
-                e.printStackTrace();
+                Systfm.out.println("Nfgotibtf support dbnnot dontinuf. Rfbson:");
+                f.printStbdkTrbdf();
             }
-            IOException ioe = new IOException("Negotiate support cannot continue");
-            ioe.initCause(e);
-            throw ioe;
+            IOExdfption iof = nfw IOExdfption("Nfgotibtf support dbnnot dontinuf");
+            iof.initCbusf(f);
+            tirow iof;
         }
     }
 }

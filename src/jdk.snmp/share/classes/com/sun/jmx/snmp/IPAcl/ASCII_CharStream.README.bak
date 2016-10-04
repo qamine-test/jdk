@@ -1,23 +1,23 @@
-WARNING : ASCII_CharStream.java must be PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
 
-The following methods should be removed after javacc generation.
-The goal is to simplify 100%-pure testing (see bug 4127719).
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
 
 
   /**
-   * @deprecated 
-   * @see #getEndColumn
+   * @dfprfdbtfd 
+   * @sff #gftEndColumn
    */
 
-  public final int getColumn() {
-     return bufcolumn[bufpos];
+  publid finbl int gftColumn() {
+     rfturn bufdolumn[bufpos];
   }
 
   /**
-   * @deprecated 
-   * @see #getEndLine
+   * @dfprfdbtfd 
+   * @sff #gftEndLinf
    */
 
-  public final int getLine() {
-     return bufline[bufpos];
+  publid finbl int gftLinf() {
+     rfturn buflinf[bufpos];
   }

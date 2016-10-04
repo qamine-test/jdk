@@ -1,22 +1,22 @@
-main.dir=${basedir}/../../../management/JTop
+mbin.dir=${bbsfdir}/../../../mbnbgfmfnt/JTop
 
-src.dir=${main.dir}/src
+srd.dir=${mbin.dir}/srd
 
 build.dir=build
-classes.dir=${build.dir}/classes
-jar=${main.dir}/JTop.jar
-javadoc.dir=${build.dir}/javadoc
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/JTop.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
 
-build.sysclasspath=ignore
+build.sysdlbsspbti=ignorf
 
-nbjdk.home=${basedir}/../../../..
-# E.g.: cp=lib/x.jar:lib/y.jar
-cp=${nbjdk.home}/lib/jconsole.jar
-extra.run.cp=
+nbjdk.iomf=${bbsfdir}/../../../..
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=${nbjdk.iomf}/lib/jdonsolf.jbr
+fxtrb.run.dp=
 
-main.class=JTop
+mbin.dlbss=JTop
 
-run.cp=${cp}:${classes.dir}:${extra.run.cp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 
-debug=true
-deprecation=false
+dfbug=truf
+dfprfdbtion=fblsf

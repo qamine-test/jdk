@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
 /**
  */
-public class ResourcesMgr {
+publid dlbss RfsourdfsMgr {
 
-    // intended for java.security, javax.security and sun.security resources
-    private static java.util.ResourceBundle bundle;
+    // intfndfd for jbvb.sfdurity, jbvbx.sfdurity bnd sun.sfdurity rfsourdfs
+    privbtf stbtid jbvb.util.RfsourdfBundlf bundlf;
 
-    // intended for com.sun.security resources
-    private static java.util.ResourceBundle altBundle;
+    // intfndfd for dom.sun.sfdurity rfsourdfs
+    privbtf stbtid jbvb.util.RfsourdfBundlf bltBundlf;
 
-    public static String getString(String s) {
+    publid stbtid String gftString(String s) {
 
-        if (bundle == null) {
+        if (bundlf == null) {
 
-            // only load if/when needed
-            bundle = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-                public java.util.ResourceBundle run() {
-                    return (java.util.ResourceBundle.getBundle
-                                ("sun.security.util.Resources"));
+            // only lobd if/wifn nffdfd
+            bundlf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+                publid jbvb.util.RfsourdfBundlf run() {
+                    rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                                ("sun.sfdurity.util.Rfsourdfs"));
                 }
             });
         }
 
-        return bundle.getString(s);
+        rfturn bundlf.gftString(s);
     }
 
-    public static String getString(String s, final String altBundleName) {
+    publid stbtid String gftString(String s, finbl String bltBundlfNbmf) {
 
-        if (altBundle == null) {
+        if (bltBundlf == null) {
 
-            // only load if/when needed
-            altBundle = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-                public java.util.ResourceBundle run() {
-                    return (java.util.ResourceBundle.getBundle(altBundleName));
+            // only lobd if/wifn nffdfd
+            bltBundlf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+                publid jbvb.util.RfsourdfBundlf run() {
+                    rfturn (jbvb.util.RfsourdfBundlf.gftBundlf(bltBundlfNbmf));
                 }
             });
         }
 
-        return altBundle.getString(s);
+        rfturn bltBundlf.gftString(s);
     }
 }

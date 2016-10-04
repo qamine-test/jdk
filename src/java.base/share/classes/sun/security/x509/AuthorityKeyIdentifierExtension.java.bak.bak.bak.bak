@@ -1,0 +1,310 @@
+/*
+ * Copyright (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss rfprfsfnts thf Authority Kfy Idfntififr Extfnsion.
+ *
+ * <p>Thf buthority kfy idfntififr fxtfnsion providfs b mfbns of
+ * idfntifying thf pbrtidulbr publid kfy usfd to sign b dfrtifidbtf.
+ * This fxtfnsion would bf usfd whfrf bn issufr hbs multiplf signing
+ * kfys (fithfr duf to multiplf dondurrfnt kfy pbirs or duf to
+ * dhbngfovfr).
+ * <p>
+ * Thf ASN.1 syntbx for this is:
+ * <prf>
+ * AuthorityKfyIdfntififr ::= SEQUENCE {
+ *    kfyIdfntififr             [0] KfyIdfntififr           OPTIONAL,
+ *    buthorityCfrtIssufr       [1] GfnfrblNbmfs            OPTIONAL,
+ *    buthorityCfrtSfriblNumbfr [2] CfrtifidbtfSfriblNumbfr OPTIONAL
+ * }
+ * KfyIdfntififr ::= OCTET STRING
+ * </prf>
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss AuthorityKfyIdfntififrExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                         "x509.info.fxtfnsions.AuthorityKfyIdfntififr";
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "AuthorityKfyIdfntififr";
+    publid stbtid finbl String KEY_ID = "kfy_id";
+    publid stbtid finbl String AUTH_NAME = "buth_nbmf";
+    publid stbtid finbl String SERIAL_NUMBER = "sfribl_numbfr";
+
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_ID = 0;
+    privbtf stbtid finbl bytf TAG_NAMES = 1;
+    privbtf stbtid finbl bytf TAG_SERIAL_NUM = 2;
+
+    privbtf KfyIdfntififr       id = null;
+    privbtf GfnfrblNbmfs        nbmfs = null;
+    privbtf SfriblNumbfr        sfriblNum = null;
+
+    // Endodf only thf fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        if (id == null && nbmfs == null && sfriblNum == null) {
+            this.fxtfnsionVbluf = null;
+            rfturn;
+        }
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (id != null) {
+            DfrOutputStrfbm tmp1 = nfw DfrOutputStrfbm();
+            id.fndodf(tmp1);
+            tmp.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              fblsf, TAG_ID), tmp1);
+        }
+        try {
+            if (nbmfs != null) {
+                DfrOutputStrfbm tmp1 = nfw DfrOutputStrfbm();
+                nbmfs.fndodf(tmp1);
+                tmp.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                  truf, TAG_NAMES), tmp1);
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw IOExdfption(f.toString());
+        }
+        if (sfriblNum != null) {
+            DfrOutputStrfbm tmp1 = nfw DfrOutputStrfbm();
+            sfriblNum.fndodf(tmp1);
+            tmp.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                              fblsf, TAG_SERIAL_NUM), tmp1);
+        }
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        this.fxtfnsionVbluf = sfq.toBytfArrby();
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this fxtfnsion.  Null pbrbmftfrs mbkf
+     * thf flfmfnt optionbl (not prfsfnt).
+     *
+     * @pbrbm id thf KfyIdfntififr bssodibtfd with this fxtfnsion.
+     * @pbrbm nbmfs thf GfnfrblNbmfs bssodibtfd with this fxtfnsion
+     * @pbrbm sfriblNum thf CfrtifidbtfSfriblNumbfr bssodibtfd with
+     *         this fxtfnsion.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid AuthorityKfyIdfntififrExtfnsion(KfyIdfntififr kid, GfnfrblNbmfs nbmf,
+                                           SfriblNumbfr sn)
+    throws IOExdfption {
+        this.id = kid;
+        this.nbmfs = nbmf;
+        this.sfriblNum = sn;
+
+        this.fxtfnsionId = PKIXExtfnsions.AuthorityKfy_Id;
+        this.dritidbl = fblsf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid AuthorityKfyIdfntififrExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.AuthorityKfy_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for " +
+                                  "AuthorityKfyIdfntififrExtfnsion.");
+        }
+
+        // Notf thbt bll thf fiflds in AuthorityKfyIdfntififr brf dffinfd bs
+        // bfing OPTIONAL, i.f., thfrf dould bf bn fmpty SEQUENCE, rfsulting
+        // in vbl.dbtb bfing null.
+        whilf ((vbl.dbtb != null) && (vbl.dbtb.bvbilbblf() != 0)) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+
+            // NB. this is blwbys fndodfd with thf IMPLICIT tbg
+            // Thf dhfdks only mbkf sfnsf if wf bssumf implidit tbgging,
+            // with fxplidit tbgging thf form is blwbys donstrudtfd.
+            if (opt.isContfxtSpfdifid(TAG_ID) && !opt.isConstrudtfd()) {
+                if (id != null)
+                    throw nfw IOExdfption("Duplidbtf KfyIdfntififr in " +
+                                          "AuthorityKfyIdfntififr.");
+                opt.rfsftTbg(DfrVbluf.tbg_OdtftString);
+                id = nfw KfyIdfntififr(opt);
+
+            } flsf if (opt.isContfxtSpfdifid(TAG_NAMES) &&
+                       opt.isConstrudtfd()) {
+                if (nbmfs != null)
+                    throw nfw IOExdfption("Duplidbtf GfnfrblNbmfs in " +
+                                          "AuthorityKfyIdfntififr.");
+                opt.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                nbmfs = nfw GfnfrblNbmfs(opt);
+
+            } flsf if (opt.isContfxtSpfdifid(TAG_SERIAL_NUM) &&
+                       !opt.isConstrudtfd()) {
+                if (sfriblNum != null)
+                    throw nfw IOExdfption("Duplidbtf SfriblNumbfr in " +
+                                          "AuthorityKfyIdfntififr.");
+                opt.rfsftTbg(DfrVbluf.tbg_Intfgfr);
+                sfriblNum = nfw SfriblNumbfr(opt);
+            } flsf
+                throw nfw IOExdfption("Invblid fndoding of " +
+                                      "AuthorityKfyIdfntififrExtfnsion.");
+        }
+    }
+
+    /**
+     * Rfturn thf objfdt bs b string.
+     */
+    publid String toString() {
+        String s = supfr.toString() + "AuthorityKfyIdfntififr [\n";
+        if (id != null) {
+            s += id.toString();     // id blrfbdy hbs b nfwlinf
+        }
+        if (nbmfs != null) {
+            s += nbmfs.toString() + "\n";
+        }
+        if (sfriblNum != null) {
+            s += sfriblNum.toString() + "\n";
+        }
+        rfturn (s + "]\n");
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf OutputStrfbm.
+     *
+     * @pbrbm out thf OutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (this.fxtfnsionVbluf == null) {
+            fxtfnsionId = PKIXExtfnsions.AuthorityKfy_Id;
+            dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(KEY_ID)) {
+            if (!(obj instbndfof KfyIdfntififr)) {
+              throw nfw IOExdfption("Attributf vbluf should bf of " +
+                                    "typf KfyIdfntififr.");
+            }
+            id = (KfyIdfntififr)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(AUTH_NAME)) {
+            if (!(obj instbndfof GfnfrblNbmfs)) {
+              throw nfw IOExdfption("Attributf vbluf should bf of " +
+                                    "typf GfnfrblNbmfs.");
+            }
+            nbmfs = (GfnfrblNbmfs)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(SERIAL_NUMBER)) {
+            if (!(obj instbndfof SfriblNumbfr)) {
+              throw nfw IOExdfption("Attributf vbluf should bf of " +
+                                    "typf SfriblNumbfr.");
+            }
+            sfriblNum = (SfriblNumbfr)obj;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:AuthorityKfyIdfntififr.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(KEY_ID)) {
+            rfturn (id);
+        } flsf if (nbmf.fqublsIgnorfCbsf(AUTH_NAME)) {
+            rfturn (nbmfs);
+        } flsf if (nbmf.fqublsIgnorfCbsf(SERIAL_NUMBER)) {
+            rfturn (sfriblNum);
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:AuthorityKfyIdfntififr.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(KEY_ID)) {
+            id = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(AUTH_NAME)) {
+            nbmfs = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(SERIAL_NUMBER)) {
+            sfriblNum = null;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:AuthorityKfyIdfntififr.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(KEY_ID);
+        flfmfnts.bddElfmfnt(AUTH_NAME);
+        flfmfnts.bddElfmfnt(SERIAL_NUMBER);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+}

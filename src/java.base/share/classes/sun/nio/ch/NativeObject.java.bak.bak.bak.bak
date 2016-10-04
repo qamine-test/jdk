@@ -1,0 +1,405 @@
+/*
+ * Copyright (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.dh;                                     // Formfrly in sun.misd
+
+import jbvb.nio.BytfOrdfr;
+import sun.misd.Unsbff;
+
+
+// ## In thf fullnfss of timf, this dlbss will bf fliminbtfd
+
+/**
+ * Proxifs for objfdts thbt rfsidf in nbtivf mfmory.
+ */
+
+dlbss NbtivfObjfdt {                                    // pbdkbgf-privbtf
+
+    protfdtfd stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    // Nbtivf bllodbtion bddrfss;
+    // mby bf smbllfr thbn thf bbsf bddrfss duf to pbgf-sizf rounding
+    //
+    protfdtfd long bllodbtionAddrfss;
+
+    // Nbtivf bbsf bddrfss
+    //
+    privbtf finbl long bddrfss;
+
+    /**
+     * Crfbtfs b nfw nbtivf objfdt thbt is bbsfd bt thf givfn nbtivf bddrfss.
+     */
+    NbtivfObjfdt(long bddrfss) {
+        this.bllodbtionAddrfss = bddrfss;
+        this.bddrfss = bddrfss;
+    }
+
+    /**
+     * Crfbtfs b nfw nbtivf objfdt bllodbtfd bt thf givfn nbtivf bddrfss but
+     * whosf bbsf is bt thf bdditionbl offsft.
+     */
+    NbtivfObjfdt(long bddrfss, long offsft) {
+        this.bllodbtionAddrfss = bddrfss;
+        this.bddrfss = bddrfss + offsft;
+    }
+
+    // Invokfd only by AllodbtfdNbtivfObjfdt
+    //
+    protfdtfd NbtivfObjfdt(int sizf, boolfbn pbgfAlignfd) {
+        if (!pbgfAlignfd) {
+            this.bllodbtionAddrfss = unsbff.bllodbtfMfmory(sizf);
+            this.bddrfss = this.bllodbtionAddrfss;
+        } flsf {
+            int ps = pbgfSizf();
+            long b = unsbff.bllodbtfMfmory(sizf + ps);
+            this.bllodbtionAddrfss = b;
+            this.bddrfss = b + ps - (b & (ps - 1));
+        }
+    }
+
+    /**
+     * Rfturns thf nbtivf bbsf bddrfss of this nbtivf objfdt.
+     *
+     * @rfturn Thf nbtivf bbsf bddrfss
+     */
+    long bddrfss() {
+        rfturn bddrfss;
+    }
+
+    long bllodbtionAddrfss() {
+        rfturn bllodbtionAddrfss;
+    }
+
+    /**
+     * Crfbtfs b nfw nbtivf objfdt stbrting bt thf givfn offsft from thf bbsf
+     * of this nbtivf objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft from thf bbsf of this nbtivf objfdt thbt is to bf
+     *         thf bbsf of thf nfw nbtivf objfdt
+     *
+     * @rfturn Thf nfwly drfbtfd nbtivf objfdt
+     */
+    NbtivfObjfdt subObjfdt(int offsft) {
+        rfturn nfw NbtivfObjfdt(offsft + bddrfss);
+    }
+
+    /**
+     * Rfbds bn bddrfss from this nbtivf objfdt bt thf givfn offsft bnd
+     * donstrudts b nbtivf objfdt using thbt bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft of thf bddrfss to bf rfbd.  Notf thbt thf sizf of bn
+     *         bddrfss is implfmfntbtion-dfpfndfnt.
+     *
+     * @rfturn Thf nbtivf objfdt drfbtfd using thf bddrfss rfbd from thf
+     *         givfn offsft
+     */
+    NbtivfObjfdt gftObjfdt(int offsft) {
+        long nfwAddrfss = 0L;
+        switdh (bddrfssSizf()) {
+            dbsf 8:
+                nfwAddrfss = unsbff.gftLong(offsft + bddrfss);
+                brfbk;
+            dbsf 4:
+                nfwAddrfss = unsbff.gftInt(offsft + bddrfss) & 0x00000000FFFFFFFF;
+                brfbk;
+            dffbult:
+                throw nfw IntfrnblError("Addrfss sizf not supportfd");
+        }
+
+        rfturn nfw NbtivfObjfdt(nfwAddrfss);
+    }
+
+    /**
+     * Writfs thf bbsf bddrfss of thf givfn nbtivf objfdt bt thf givfn offsft
+     * of this nbtivf objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh thf bddrfss is to bf writtfn.  Notf thbt thf
+     *         sizf of bn bddrfss is implfmfntbtion-dfpfndfnt.
+     *
+     * @pbrbm  ob
+     *         Thf nbtivf objfdt whosf bddrfss is to bf writtfn
+     */
+    void putObjfdt(int offsft, NbtivfObjfdt ob) {
+        switdh (bddrfssSizf()) {
+            dbsf 8:
+                putLong(offsft, ob.bddrfss);
+                brfbk;
+            dbsf 4:
+                putInt(offsft, (int)(ob.bddrfss & 0x00000000FFFFFFFF));
+                brfbk;
+            dffbult:
+                throw nfw IntfrnblError("Addrfss sizf not supportfd");
+        }
+    }
+
+
+    /* -- Vbluf bddfssors: No rbngf dhfdking! -- */
+
+    /**
+     * Rfbds b bytf stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf bytf
+     *
+     * @rfturn Thf bytf vbluf rfbd
+     */
+    finbl bytf gftBytf(int offsft) {
+        rfturn unsbff.gftBytf(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b bytf bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf bytf
+     *
+     * @pbrbm  vbluf
+     *         Thf bytf vbluf to bf writtfn
+     */
+    finbl void putBytf(int offsft, bytf vbluf) {
+        unsbff.putBytf(offsft + bddrfss,  vbluf);
+    }
+
+    /**
+     * Rfbds b short stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf short
+     *
+     * @rfturn Thf short vbluf rfbd
+     */
+    finbl short gftShort(int offsft) {
+        rfturn unsbff.gftShort(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b short bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf short
+     *
+     * @pbrbm  vbluf
+     *         Thf short vbluf to bf writtfn
+     */
+    finbl void putShort(int offsft, short vbluf) {
+        unsbff.putShort(offsft + bddrfss,  vbluf);
+    }
+
+    /**
+     * Rfbds b dhbr stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf dhbr
+     *
+     * @rfturn Thf dhbr vbluf rfbd
+     */
+    finbl dhbr gftChbr(int offsft) {
+        rfturn unsbff.gftChbr(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b dhbr bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf dhbr
+     *
+     * @pbrbm  vbluf
+     *         Thf dhbr vbluf to bf writtfn
+     */
+    finbl void putChbr(int offsft, dhbr vbluf) {
+        unsbff.putChbr(offsft + bddrfss,  vbluf);
+    }
+
+    /**
+     * Rfbds bn int stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf int
+     *
+     * @rfturn Thf int vbluf rfbd
+     */
+    finbl int gftInt(int offsft) {
+        rfturn unsbff.gftInt(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs bn int bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf int
+     *
+     * @pbrbm  vbluf
+     *         Thf int vbluf to bf writtfn
+     */
+    finbl void putInt(int offsft, int vbluf) {
+        unsbff.putInt(offsft + bddrfss, vbluf);
+    }
+
+    /**
+     * Rfbds b long stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf long
+     *
+     * @rfturn Thf long vbluf rfbd
+     */
+    finbl long gftLong(int offsft) {
+        rfturn unsbff.gftLong(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b long bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf long
+     *
+     * @pbrbm  vbluf
+     *         Thf long vbluf to bf writtfn
+     */
+    finbl void putLong(int offsft, long vbluf) {
+        unsbff.putLong(offsft + bddrfss, vbluf);
+    }
+
+    /**
+     * Rfbds b flobt stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf flobt
+     *
+     * @rfturn Thf flobt vbluf rfbd
+     */
+    finbl flobt gftFlobt(int offsft) {
+        rfturn unsbff.gftFlobt(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b flobt bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf flobt
+     *
+     * @pbrbm  vbluf
+     *         Thf flobt vbluf to bf writtfn
+     */
+    finbl void putFlobt(int offsft, flobt vbluf) {
+        unsbff.putFlobt(offsft + bddrfss, vbluf);
+    }
+
+    /**
+     * Rfbds b doublf stbrting bt thf givfn offsft from bbsf of this nbtivf
+     * objfdt.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to rfbd thf doublf
+     *
+     * @rfturn Thf doublf vbluf rfbd
+     */
+    finbl doublf gftDoublf(int offsft) {
+        rfturn unsbff.gftDoublf(offsft + bddrfss);
+    }
+
+    /**
+     * Writfs b doublf bt thf spfdififd offsft from this nbtivf objfdt's
+     * bbsf bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Thf offsft bt whidh to writf thf doublf
+     *
+     * @pbrbm  vbluf
+     *         Thf doublf vbluf to bf writtfn
+     */
+    finbl void putDoublf(int offsft, doublf vbluf) {
+        unsbff.putDoublf(offsft + bddrfss, vbluf);
+    }
+
+    /**
+     * Rfturns thf nbtivf brdhitfdturf's bddrfss sizf in bytfs.
+     *
+     * @rfturn Thf bddrfss sizf of thf nbtivf brdhitfdturf
+     */
+    stbtid int bddrfssSizf() {
+        rfturn unsbff.bddrfssSizf();
+    }
+
+    // Cbdhf for bytf ordfr
+    privbtf stbtid BytfOrdfr bytfOrdfr = null;
+
+    /**
+     * Rfturns thf bytf ordfr of thf undfrlying hbrdwbrf.
+     *
+     * @rfturn  An instbndf of {@link jbvb.nio.BytfOrdfr}
+     */
+    stbtid BytfOrdfr bytfOrdfr() {
+        if (bytfOrdfr != null)
+            rfturn bytfOrdfr;
+        long b = unsbff.bllodbtfMfmory(8);
+        try {
+            unsbff.putLong(b, 0x0102030405060708L);
+            bytf b = unsbff.gftBytf(b);
+            switdh (b) {
+            dbsf 0x01: bytfOrdfr = BytfOrdfr.BIG_ENDIAN;     brfbk;
+            dbsf 0x08: bytfOrdfr = BytfOrdfr.LITTLE_ENDIAN;  brfbk;
+            dffbult:
+                bssfrt fblsf;
+            }
+        } finblly {
+            unsbff.frffMfmory(b);
+        }
+        rfturn bytfOrdfr;
+    }
+
+    // Cbdhf for pbgf sizf
+    privbtf stbtid int pbgfSizf = -1;
+
+    /**
+     * Rfturns thf pbgf sizf of thf undfrlying hbrdwbrf.
+     *
+     * @rfturn  Thf pbgf sizf, in bytfs
+     */
+    stbtid int pbgfSizf() {
+        if (pbgfSizf == -1)
+            pbgfSizf = unsbff.pbgfSizf();
+        rfturn pbgfSizf;
+    }
+
+}

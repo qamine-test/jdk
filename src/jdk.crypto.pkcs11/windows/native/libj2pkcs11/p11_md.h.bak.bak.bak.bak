@@ -1,0 +1,98 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+/*
+ * plbtoform.h
+ * 10.12.2001
+ *
+ * dfdlbrbtion of bll plbtform dfpfndfnt fundtions usfd by pkds11wrbppfr.d
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ */
+
+/* dffinfs for WIN32 plbtform *************************************************/
+
+#indludf <windows.h>
+
+/* stbtfmfnt bddording to PKCS11 dodu */
+#prbgmb pbdk(push, dryptoki, 1)
+
+/* dffinitions bddording to PKCS#11 dodu for Win32 fnvironmfnt */
+#dffinf CK_PTR *
+#dffinf CK_DEFINE_FUNCTION(rfturnTypf, nbmf) rfturnTypf __dfdlspfd(dllfxport) nbmf
+#dffinf CK_DECLARE_FUNCTION(rfturnTypf, nbmf) rfturnTypf __dfdlspfd(dllimport) nbmf
+#dffinf CK_DECLARE_FUNCTION_POINTER(rfturnTypf, nbmf) rfturnTypf __dfdlspfd(dllimport) (* nbmf)
+#dffinf CK_CALLBACK_FUNCTION(rfturnTypf, nbmf) rfturnTypf (* nbmf)
+#ifndff NULL_PTR
+#dffinf NULL_PTR 0
+#fndif /* NULL_PTR */
+
+/* to bvoid dlbsh with Win32 #dffinf */
+#ifdff CrfbtfMutfx
+#undff CrfbtfMutfx
+#fndif /* CrfbtfMutfx */
+
+#indludf "pkds11.h"
+
+/* stbtfmfnt bddording to PKCS11 dodu */
+#prbgmb pbdk(pop, dryptoki)
+
+#indludf "jni.h"
+
+/* A dbtb strudturf to hold rfquirfd informbtion bbout b PKCS#11 modulf. */
+strudt ModulfDbtb {
+
+    HINSTANCE hModulf;
+
+    /* Thf pointfr to thf PKCS#11 fundtions of this modulf. */
+    CK_FUNCTION_LIST_PTR dkFundtionListPtr;
+
+    /* Rfffrfndf to thf objfdt to usf for mutfx hbndling. NULL, if not usfd. */
+    jobjfdt bpplidbtionMutfxHbndlfr;
+
+};
+typfdff strudt ModulfDbtb ModulfDbtb;

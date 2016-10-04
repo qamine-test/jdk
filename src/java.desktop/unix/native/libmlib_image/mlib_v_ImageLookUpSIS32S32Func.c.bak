@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-#include "mlib_image.h"
-#include "mlib_v_ImageLookUpFunc.h"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
 
 /***************************************************************/
-#define HALF_U64        (MLIB_U64_CONST(2147483648) * sizeof(table[0][0]))
+#dffinf HALF_U64        (MLIB_U64_CONST(2147483648) * sizfof(tbblf[0][0]))
 
 /***************************************************************/
-void mlib_v_ImageLookUpSI_S32_S32(const mlib_s32 *src,
+void mlib_v_ImbgfLookUpSI_S32_S32(donst mlib_s32 *srd,
                                   mlib_s32       slb,
                                   mlib_s32       *dst,
                                   mlib_s32       dlb,
-                                  mlib_s32       xsize,
-                                  mlib_s32       ysize,
-                                  const mlib_s32 **table,
-                                  mlib_s32       csize)
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  donst mlib_s32 **tbblf,
+                                  mlib_s32       dsizf)
 {
   mlib_s32 i, j, k;
 
   dlb >>= 2; slb >>= 2;
 
-  if (xsize < 2) {
-    for(j = 0; j < ysize; j++, dst += dlb, src += slb){
-      for(k = 0; k < csize; k++) {
-        mlib_s32 *da = dst + k;
-        mlib_s32 *sa = (void *)src;
-        const mlib_s32 *tab = (void *)&(((mlib_u8 **)table)[k][HALF_U64]);
+  if (xsizf < 2) {
+    for(j = 0; j < ysizf; j++, dst += dlb, srd += slb){
+      for(k = 0; k < dsizf; k++) {
+        mlib_s32 *db = dst + k;
+        mlib_s32 *sb = (void *)srd;
+        donst mlib_s32 *tbb = (void *)&(((mlib_u8 **)tbblf)[k][HALF_U64]);
 
-        for(i = 0; i < xsize; i++, da += csize, sa++)
-        *da=tab[*sa];
+        for(i = 0; i < xsizf; i++, db += dsizf, sb++)
+        *db=tbb[*sb];
       }
     }
 
-  } else {
-    for(j = 0; j < ysize; j++, dst += dlb, src += slb) {
-#pragma pipeloop(0)
-      for(k = 0; k < csize; k++) {
-        mlib_s32 *da = dst + k;
-        mlib_s32 *sa = (void *)src;
-        const mlib_s32 *tab = (void *)&(((mlib_u8 **)table)[k][HALF_U64]);
+  } flsf {
+    for(j = 0; j < ysizf; j++, dst += dlb, srd += slb) {
+#prbgmb pipfloop(0)
+      for(k = 0; k < dsizf; k++) {
+        mlib_s32 *db = dst + k;
+        mlib_s32 *sb = (void *)srd;
+        donst mlib_s32 *tbb = (void *)&(((mlib_u8 **)tbblf)[k][HALF_U64]);
         mlib_s32 s0, t0, s1, t1;
 
-        s0 = sa[0];
-        s1 = sa[1];
-        sa += 2;
+        s0 = sb[0];
+        s1 = sb[1];
+        sb += 2;
 
-        for(i = 0; i < xsize - 3; i+=2, da += 2*csize, sa += 2) {
-          t0 = tab[s0];
-          t1 = tab[s1];
-          s0 = sa[0];
-          s1 = sa[1];
-          da[0] = t0;
-          da[csize] = t1;
+        for(i = 0; i < xsizf - 3; i+=2, db += 2*dsizf, sb += 2) {
+          t0 = tbb[s0];
+          t1 = tbb[s1];
+          s0 = sb[0];
+          s1 = sb[1];
+          db[0] = t0;
+          db[dsizf] = t1;
         }
 
-        t0 = tab[s0];
-        t1 = tab[s1];
-        da[0] = t0;
-        da[csize] = t1;
+        t0 = tbb[s0];
+        t1 = tbb[s1];
+        db[0] = t0;
+        db[dsizf] = t1;
 
-        if (xsize & 1) da[2*csize] = tab[sa[0]];
+        if (xsizf & 1) db[2*dsizf] = tbb[sb[0]];
       }
     }
   }

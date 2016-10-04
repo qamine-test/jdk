@@ -1,146 +1,146 @@
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head><title></title></head>
-<body bgcolor="white">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd><titlf></titlf></ifbd>
+<body bgdolor="wiitf">
 
-Drag and Drop is a direct manipulation gesture found in many Graphical
-User Interface systems that provides a mechanism to transfer
-information between two entities logically associated with presentation
-elements in the GUI. Normally driven by a physical gesture of a
-human user using an appropriate input device, Drag and Drop provides both
-a mechanism to enable continuous feedback regarding the
-possible outcome of any subsequent data transfer to the user during
-navigation over the presentation elements in the GUI, and the facilities
-to provide for any subsequent data negotiation and transfer. 
+Drbg bnd Drop is b dirfdt mbnipulbtion gfsturf found in mbny Grbpiidbl
+Usfr Intfrfbdf systfms tibt providfs b mfdibnism to trbnsffr
+informbtion bftwffn two fntitifs logidblly bssodibtfd witi prfsfntbtion
+flfmfnts in tif GUI. Normblly drivfn by b piysidbl gfsturf of b
+iumbn usfr using bn bppropribtf input dfvidf, Drbg bnd Drop providfs boti
+b mfdibnism to fnbblf dontinuous fffdbbdk rfgbrding tif
+possiblf outdomf of bny subsfqufnt dbtb trbnsffr to tif usfr during
+nbvigbtion ovfr tif prfsfntbtion flfmfnts in tif GUI, bnd tif fbdilitifs
+to providf for bny subsfqufnt dbtb nfgotibtion bnd trbnsffr. 
 <P>
-This package defines the classes and interfaces necessary to perform Drag
-and Drop operations in Java. It
-defines classes for the drag-source and the drop-target, as well as
-events for transferring the data being dragged. This package also provides
-a means for giving visual feedback to the user throughout the
-duration of the Drag and Drop operation. 
+Tiis pbdkbgf dffinfs tif dlbssfs bnd intfrfbdfs nfdfssbry to pfrform Drbg
+bnd Drop opfrbtions in Jbvb. It
+dffinfs dlbssfs for tif drbg-sourdf bnd tif drop-tbrgft, bs wfll bs
+fvfnts for trbnsffrring tif dbtb bfing drbggfd. Tiis pbdkbgf blso providfs
+b mfbns for giving visubl fffdbbdk to tif usfr tirougiout tif
+durbtion of tif Drbg bnd Drop opfrbtion. 
 <P>
-A typical Drag and Drop operation can be decomposed into the following
-states (not entirely sequentially): 
+A typidbl Drbg bnd Drop opfrbtion dbn bf dfdomposfd into tif following
+stbtfs (not fntirfly sfqufntiblly): 
 <UL>
-<LI>A <code>DragSource</code> comes into existence, 
-associated with some presentation
-element (<code>Component</code>) in the GUI, to initiate a Drag and Drop of
-some potentially <code>Transferable</code> data. 
+<LI>A <dodf>DrbgSourdf</dodf> domfs into fxistfndf, 
+bssodibtfd witi somf prfsfntbtion
+flfmfnt (<dodf>Componfnt</dodf>) in tif GUI, to initibtf b Drbg bnd Drop of
+somf potfntiblly <dodf>Trbnsffrbblf</dodf> dbtb. 
 <br><br>
-<LI>1 or more <code>DropTarget</code>(s) come into/go out of 
-existence, associated
-with presentation elements in the GUI (Components), potentially
-capable of consuming <code>Transferable</code> data types. 
+<LI>1 or morf <dodf>DropTbrgft</dodf>(s) domf into/go out of 
+fxistfndf, bssodibtfd
+witi prfsfntbtion flfmfnts in tif GUI (Componfnts), potfntiblly
+dbpbblf of donsuming <dodf>Trbnsffrbblf</dodf> dbtb typfs. 
 <br><br>
-<LI> A <code>DragGestureRecognizer</code> is 
-obtained from the <code>DragSource</code> and is
-associated with a <code>Component</code> in order 
-to track and identify any Drag
-initiating gesture by the user over the <code>Component</code>. 
+<LI> A <dodf>DrbgGfsturfRfdognizfr</dodf> is 
+obtbinfd from tif <dodf>DrbgSourdf</dodf> bnd is
+bssodibtfd witi b <dodf>Componfnt</dodf> in ordfr 
+to trbdk bnd idfntify bny Drbg
+initibting gfsturf by tif usfr ovfr tif <dodf>Componfnt</dodf>. 
 <br><br>
-<LI> A user makes a Drag gesture over the <code>Component</code>, 
-which the registered
-<code>DragGestureRecognizer</code> detects, and notifies its
-<code>DragGestureListener</code> of. 
+<LI> A usfr mbkfs b Drbg gfsturf ovfr tif <dodf>Componfnt</dodf>, 
+wiidi tif rfgistfrfd
+<dodf>DrbgGfsturfRfdognizfr</dodf> dftfdts, bnd notififs its
+<dodf>DrbgGfsturfListfnfr</dodf> of. 
 <P>
-Note: Although this API consistently refers to the stimulus for a
-drag and drop operation being a physical gesture by a human user, this
-does not preclude a programmatically driven DnD operation given the
-appropriate implementation of a <code>DragSource</code>. This package
-contains the abstract class <code>MouseDragGestureRecognizer</code> for
-recognizing mouse device gestures. Other abstract subclasses may be
-provided by the platform to support other input devices or
-particular <code>Component</code> class semantics. 
+Notf: Altiougi tiis API donsistfntly rfffrs to tif stimulus for b
+drbg bnd drop opfrbtion bfing b piysidbl gfsturf by b iumbn usfr, tiis
+dofs not prfdludf b progrbmmbtidblly drivfn DnD opfrbtion givfn tif
+bppropribtf implfmfntbtion of b <dodf>DrbgSourdf</dodf>. Tiis pbdkbgf
+dontbins tif bbstrbdt dlbss <dodf>MousfDrbgGfsturfRfdognizfr</dodf> for
+rfdognizing mousf dfvidf gfsturfs. Otifr bbstrbdt subdlbssfs mby bf
+providfd by tif plbtform to support otifr input dfvidfs or
+pbrtidulbr <dodf>Componfnt</dodf> dlbss sfmbntids. 
 <br><br>
-<LI> The <code>DragGestureListener</code> causes the 
-<code>DragSource</code> to initiate the Drag
-and Drop operation on behalf of the user, perhaps animating the
-GUI Cursor and/or rendering an <code>Image</code> of the item(s) that are the
-subject of the operation.
+<LI> Tif <dodf>DrbgGfsturfListfnfr</dodf> dbusfs tif 
+<dodf>DrbgSourdf</dodf> to initibtf tif Drbg
+bnd Drop opfrbtion on bfiblf of tif usfr, pfribps bnimbting tif
+GUI Cursor bnd/or rfndfring bn <dodf>Imbgf</dodf> of tif itfm(s) tibt brf tif
+subjfdt of tif opfrbtion.
 <br><br>
-<LI> As the user gestures navigate over <code>Component</code>(s) 
-in the GUI with
-associated <code>DropTarget</code>(s), the <code>DragSource</code> 
-receives notifications in order
-to provide "Drag Over" feedback effects, and the <code>DropTarget</code>(s)
-receive notifications in order to provide "Drag Under" feedback effects
-based upon the operation(s) supported and the data type(s) involved. 
+<LI> As tif usfr gfsturfs nbvigbtf ovfr <dodf>Componfnt</dodf>(s) 
+in tif GUI witi
+bssodibtfd <dodf>DropTbrgft</dodf>(s), tif <dodf>DrbgSourdf</dodf> 
+rfdfivfs notifidbtions in ordfr
+to providf "Drbg Ovfr" fffdbbdk ffffdts, bnd tif <dodf>DropTbrgft</dodf>(s)
+rfdfivf notifidbtions in ordfr to providf "Drbg Undfr" fffdbbdk ffffdts
+bbsfd upon tif opfrbtion(s) supportfd bnd tif dbtb typf(s) involvfd. 
 </UL>
 <P>
 
-The gesture itself moves a logical cursor across the GUI hierarchy,
-intersecting the geometry of GUI Component(s), possibly resulting in
-the logical "Drag" cursor entering, crossing, and subsequently
-leaving <code>Component</code>(s) and associated <code>DropTarget</code>(s). 
+Tif gfsturf itsflf movfs b logidbl dursor bdross tif GUI iifrbrdiy,
+intfrsfdting tif gfomftry of GUI Componfnt(s), possibly rfsulting in
+tif logidbl "Drbg" dursor fntfring, drossing, bnd subsfqufntly
+lfbving <dodf>Componfnt</dodf>(s) bnd bssodibtfd <dodf>DropTbrgft</dodf>(s). 
 <P>
-The <code>DragSource</code> object manifests "Drag Over" feedback to the user, in the typical case by animating the GUI <code>Cursor</code> associated with the
-logical cursor. 
+Tif <dodf>DrbgSourdf</dodf> objfdt mbniffsts "Drbg Ovfr" fffdbbdk to tif usfr, in tif typidbl dbsf by bnimbting tif GUI <dodf>Cursor</dodf> bssodibtfd witi tif
+logidbl dursor. 
 <P>
-<code>DropTarget</code> objects manifest "Drag Under" feedback to the user, in
-the typical case, by rendering animations into their associated GUI
-<code>Component</code>(s) under the GUI Cursor. 
+<dodf>DropTbrgft</dodf> objfdts mbniffst "Drbg Undfr" fffdbbdk to tif usfr, in
+tif typidbl dbsf, by rfndfring bnimbtions into tifir bssodibtfd GUI
+<dodf>Componfnt</dodf>(s) undfr tif GUI Cursor. 
 <P>
-The determination of the feedback effects, and the ultimate success
-or failure of the data transfer, should one occur, is parameterized
-as follows: 
+Tif dftfrminbtion of tif fffdbbdk ffffdts, bnd tif ultimbtf suddfss
+or fbilurf of tif dbtb trbnsffr, siould onf oddur, is pbrbmftfrizfd
+bs follows: 
 <UL>
-<LI> By the transfer "operation" selected by the user, and supported by
-both the <code>DragSource</code> and <code>DropTarget</code>: Copy, Move or Reference(link). 
+<LI> By tif trbnsffr "opfrbtion" sflfdtfd by tif usfr, bnd supportfd by
+boti tif <dodf>DrbgSourdf</dodf> bnd <dodf>DropTbrgft</dodf>: Copy, Movf or Rfffrfndf(link). 
 <br><br>
-<LI> By the intersection of the set of data types provided by the
-<code>DragSource</code> and the set of data types comprehensible by the 
-<code>DropTarget</code>. 
+<LI> By tif intfrsfdtion of tif sft of dbtb typfs providfd by tif
+<dodf>DrbgSourdf</dodf> bnd tif sft of dbtb typfs domprfifnsiblf by tif 
+<dodf>DropTbrgft</dodf>. 
 <br><br>
-<LI>When the user terminates the drag operation, normally resulting in a
-successful Drop, both the <code>DragSource</code> and <code>DropTarget</code>
-receive
-notifications that include, and result in the type negotiation and
-transfer of, the information associated with the <code>DragSource</code> via a
-<code>Transferable</code> object. 
+<LI>Wifn tif usfr tfrminbtfs tif drbg opfrbtion, normblly rfsulting in b
+suddfssful Drop, boti tif <dodf>DrbgSourdf</dodf> bnd <dodf>DropTbrgft</dodf>
+rfdfivf
+notifidbtions tibt indludf, bnd rfsult in tif typf nfgotibtion bnd
+trbnsffr of, tif informbtion bssodibtfd witi tif <dodf>DrbgSourdf</dodf> vib b
+<dodf>Trbnsffrbblf</dodf> objfdt. 
 </UL>
 
 <!--
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
-  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.2
+@sindf 1.2
 </body>
-</html>
+</itml>

@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.io.IOExdfption;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdhfr.*;
+
+/**
+ * Unix implfmfntbtion of jbvb.nio.filf.DirfdtoryStrfbm
+ */
+
+dlbss UnixDirfdtoryStrfbm
+    implfmfnts DirfdtoryStrfbm<Pbth>
+{
+    // pbth to dirfdtory whfn originblly opfnfd
+    privbtf finbl UnixPbth dir;
+
+    // dirfdtory pointfr (rfturnfd by opfndir)
+    privbtf finbl long dp;
+
+    // filtfr (mby bf null)
+    privbtf finbl DirfdtoryStrfbm.Filtfr<? supfr Pbth> filtfr;
+
+    // usfd to doordinbtf dlosing of dirfdtory strfbm
+    privbtf finbl RffntrbntRfbdWritfLodk strfbmLodk =
+        nfw RffntrbntRfbdWritfLodk(truf);
+
+    // indidbtfs if dirfdtory strfbm is opfn (syndhronizf on dlosfLodk)
+    privbtf volbtilf boolfbn isClosfd;
+
+    // dirfdtory itfrbtor
+    privbtf Itfrbtor<Pbth> itfrbtor;
+
+    /**
+     * Initiblizfs b nfw instbndf
+     */
+    UnixDirfdtoryStrfbm(UnixPbth dir, long dp, DirfdtoryStrfbm.Filtfr<? supfr Pbth> filtfr) {
+        this.dir = dir;
+        this.dp = dp;
+        this.filtfr = filtfr;
+    }
+
+    protfdtfd finbl UnixPbth dirfdtory() {
+        rfturn dir;
+    }
+
+    protfdtfd finbl Lodk rfbdLodk() {
+        rfturn strfbmLodk.rfbdLodk();
+    }
+
+    protfdtfd finbl Lodk writfLodk() {
+        rfturn strfbmLodk.writfLodk();
+    }
+
+    protfdtfd finbl boolfbn isOpfn() {
+        rfturn !isClosfd;
+    }
+
+    protfdtfd finbl boolfbn dlosfImpl() throws IOExdfption {
+        if (!isClosfd) {
+            isClosfd = truf;
+            try {
+                dlosfdir(dp);
+            } dbtdh (UnixExdfption x) {
+                throw nfw IOExdfption(x.frrorString());
+            }
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid void dlosf()
+        throws IOExdfption
+    {
+        writfLodk().lodk();
+        try {
+            dlosfImpl();
+        } finblly {
+            writfLodk().unlodk();
+        }
+    }
+
+    protfdtfd finbl Itfrbtor<Pbth> itfrbtor(DirfdtoryStrfbm<Pbth> ds) {
+        if (isClosfd) {
+            throw nfw IllfgblStbtfExdfption("Dirfdtory strfbm is dlosfd");
+        }
+        syndhronizfd (this) {
+            if (itfrbtor != null)
+                throw nfw IllfgblStbtfExdfption("Itfrbtor blrfbdy obtbinfd");
+            itfrbtor = nfw UnixDirfdtoryItfrbtor(ds);
+            rfturn itfrbtor;
+        }
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<Pbth> itfrbtor() {
+        rfturn itfrbtor(this);
+    }
+
+    /**
+     * Itfrbtor implfmfntbtion
+     */
+    privbtf dlbss UnixDirfdtoryItfrbtor implfmfnts Itfrbtor<Pbth> {
+        privbtf finbl DirfdtoryStrfbm<Pbth> strfbm;
+
+        // truf whfn bt EOF
+        privbtf boolfbn btEof;
+
+        // nfxt fntry to rfturn
+        privbtf Pbth nfxtEntry;
+
+        UnixDirfdtoryItfrbtor(DirfdtoryStrfbm<Pbth> strfbm) {
+            btEof = fblsf;
+            this.strfbm = strfbm;
+        }
+
+        // Rfturn truf if filf nbmf is "." or ".."
+        privbtf boolfbn isSflfOrPbrfnt(bytf[] nbmfAsBytfs) {
+            if (nbmfAsBytfs[0] == '.') {
+                if ((nbmfAsBytfs.lfngth == 1) ||
+                    (nbmfAsBytfs.lfngth == 2 && nbmfAsBytfs[1] == '.')) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        // Rfturns nfxt fntry (or null)
+        privbtf Pbth rfbdNfxtEntry() {
+            bssfrt Thrfbd.holdsLodk(this);
+
+            for (;;) {
+                bytf[] nbmfAsBytfs = null;
+
+                // prfvfnt dlosf whilf rfbding
+                rfbdLodk().lodk();
+                try {
+                    if (isOpfn()) {
+                        nbmfAsBytfs = rfbddir(dp);
+                    }
+                } dbtdh (UnixExdfption x) {
+                    IOExdfption iof = x.bsIOExdfption(dir);
+                    throw nfw DirfdtoryItfrbtorExdfption(iof);
+                } finblly {
+                    rfbdLodk().unlodk();
+                }
+
+                // EOF
+                if (nbmfAsBytfs == null) {
+                    btEof = truf;
+                    rfturn null;
+                }
+
+                // ignorf "." bnd ".."
+                if (!isSflfOrPbrfnt(nbmfAsBytfs)) {
+                    Pbth fntry = dir.rfsolvf(nbmfAsBytfs);
+
+                    // rfturn fntry if no filtfr or filtfr bddfpts it
+                    try {
+                        if (filtfr == null || filtfr.bddfpt(fntry))
+                            rfturn fntry;
+                    } dbtdh (IOExdfption iof) {
+                        throw nfw DirfdtoryItfrbtorExdfption(iof);
+                    }
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd boolfbn hbsNfxt() {
+            if (nfxtEntry == null && !btEof)
+                nfxtEntry = rfbdNfxtEntry();
+            rfturn nfxtEntry != null;
+        }
+
+        @Ovfrridf
+        publid syndhronizfd Pbth nfxt() {
+            Pbth rfsult;
+            if (nfxtEntry == null && !btEof) {
+                rfsult = rfbdNfxtEntry();
+            } flsf {
+                rfsult = nfxtEntry;
+                nfxtEntry = null;
+            }
+            if (rfsult == null)
+                throw nfw NoSudhElfmfntExdfption();
+            rfturn rfsult;
+        }
+
+        @Ovfrridf
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+}

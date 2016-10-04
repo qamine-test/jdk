@@ -1,342 +1,342 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.DOMExdfption;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NodfList;
 
 /**
- * Holder of the {@link com.sun.org.apache.xml.internal.security.transforms.Transform} steps to
- * be performed on the data.
- * The input to the first Transform is the result of dereferencing the
- * <code>URI</code> attribute of the <code>Reference</code> element.
- * The output from the last Transform is the input for the
- * <code>DigestMethod algorithm</code>
+ * Holdfr of tif {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform} stfps to
+ * bf pfrformfd on tif dbtb.
+ * Tif input to tif first Trbnsform is tif rfsult of dfrfffrfnding tif
+ * <dodf>URI</dodf> bttributf of tif <dodf>Rfffrfndf</dodf> flfmfnt.
+ * Tif output from tif lbst Trbnsform is tif input for tif
+ * <dodf>DigfstMftiod blgoritim</dodf>
  *
- * @author Christian Geuer-Pollmann
- * @see Transform
- * @see com.sun.org.apache.xml.internal.security.signature.Reference
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @sff Trbnsform
+ * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf
  */
-public class Transforms extends SignatureElementProxy {
+publid dlbss Trbnsforms fxtfnds SignbturfElfmfntProxy {
 
-    /** Canonicalization - Required Canonical XML (omits comments) */
-    public static final String TRANSFORM_C14N_OMIT_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS;
+    /** Cbnonidblizbtion - Rfquirfd Cbnonidbl XML (omits dommfnts) */
+    publid stbtid finbl String TRANSFORM_C14N_OMIT_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS;
 
-    /** Canonicalization - Recommended Canonical XML with Comments */
-    public static final String TRANSFORM_C14N_WITH_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS;
+    /** Cbnonidblizbtion - Rfdommfndfd Cbnonidbl XML witi Commfnts */
+    publid stbtid finbl String TRANSFORM_C14N_WITH_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N_WITH_COMMENTS;
 
-    /** Canonicalization - Required Canonical XML 1.1 (omits comments) */
-    public static final String TRANSFORM_C14N11_OMIT_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N11_OMIT_COMMENTS;
+    /** Cbnonidblizbtion - Rfquirfd Cbnonidbl XML 1.1 (omits dommfnts) */
+    publid stbtid finbl String TRANSFORM_C14N11_OMIT_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N11_OMIT_COMMENTS;
 
-    /** Canonicalization - Recommended Canonical XML 1.1 with Comments */
-    public static final String TRANSFORM_C14N11_WITH_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N11_WITH_COMMENTS;
+    /** Cbnonidblizbtion - Rfdommfndfd Cbnonidbl XML 1.1 witi Commfnts */
+    publid stbtid finbl String TRANSFORM_C14N11_WITH_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N11_WITH_COMMENTS;
 
-    /** Canonicalization - Required Exclusive Canonicalization (omits comments) */
-    public static final String TRANSFORM_C14N_EXCL_OMIT_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS;
+    /** Cbnonidblizbtion - Rfquirfd Exdlusivf Cbnonidblizbtion (omits dommfnts) */
+    publid stbtid finbl String TRANSFORM_C14N_EXCL_OMIT_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N_EXCL_OMIT_COMMENTS;
 
-    /** Canonicalization - Recommended Exclusive Canonicalization with Comments */
-    public static final String TRANSFORM_C14N_EXCL_WITH_COMMENTS
-        = Canonicalizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS;
+    /** Cbnonidblizbtion - Rfdommfndfd Exdlusivf Cbnonidblizbtion witi Commfnts */
+    publid stbtid finbl String TRANSFORM_C14N_EXCL_WITH_COMMENTS
+        = Cbnonidblizfr.ALGO_ID_C14N_EXCL_WITH_COMMENTS;
 
-    /** Transform - Optional XSLT */
-    public static final String TRANSFORM_XSLT
-        = "http://www.w3.org/TR/1999/REC-xslt-19991116";
+    /** Trbnsform - Optionbl XSLT */
+    publid stbtid finbl String TRANSFORM_XSLT
+        = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
 
-    /** Transform - Required base64 decoding */
-    public static final String TRANSFORM_BASE64_DECODE
-        = Constants.SignatureSpecNS + "base64";
+    /** Trbnsform - Rfquirfd bbsf64 dfdoding */
+    publid stbtid finbl String TRANSFORM_BASE64_DECODE
+        = Constbnts.SignbturfSpfdNS + "bbsf64";
 
-    /** Transform - Recommended XPath */
-    public static final String TRANSFORM_XPATH
-        = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+    /** Trbnsform - Rfdommfndfd XPbti */
+    publid stbtid finbl String TRANSFORM_XPATH
+        = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
 
-    /** Transform - Required Enveloped Signature */
-    public static final String TRANSFORM_ENVELOPED_SIGNATURE
-        = Constants.SignatureSpecNS + "enveloped-signature";
+    /** Trbnsform - Rfquirfd Envflopfd Signbturf */
+    publid stbtid finbl String TRANSFORM_ENVELOPED_SIGNATURE
+        = Constbnts.SignbturfSpfdNS + "fnvflopfd-signbturf";
 
-    /** Transform - XPointer */
-    public static final String TRANSFORM_XPOINTER
-        = "http://www.w3.org/TR/2001/WD-xptr-20010108";
+    /** Trbnsform - XPointfr */
+    publid stbtid finbl String TRANSFORM_XPOINTER
+        = "ittp://www.w3.org/TR/2001/WD-xptr-20010108";
 
-    /** Transform - XPath Filter */
-    public static final String TRANSFORM_XPATH2FILTER
-        = "http://www.w3.org/2002/06/xmldsig-filter2";
+    /** Trbnsform - XPbti Filtfr */
+    publid stbtid finbl String TRANSFORM_XPATH2FILTER
+        = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Transforms.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(Trbnsforms.dlbss.gftNbmf());
 
-    private Element[] transforms;
+    privbtf Elfmfnt[] trbnsforms;
 
-    protected Transforms() { };
+    protfdtfd Trbnsforms() { };
 
-    private boolean secureValidation;
+    privbtf boolfbn sfdurfVblidbtion;
 
     /**
-     * Constructs {@link Transforms}.
+     * Construdts {@link Trbnsforms}.
      *
-     * @param doc the {@link Document} in which <code>XMLSignature</code> will
-     * be placed
+     * @pbrbm dod tif {@link Dodumfnt} in wiidi <dodf>XMLSignbturf</dodf> will
+     * bf plbdfd
      */
-    public Transforms(Document doc) {
-        super(doc);
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid Trbnsforms(Dodumfnt dod) {
+        supfr(dod);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructs {@link Transforms} from {@link Element} which is
-     * <code>Transforms</code> Element
+     * Construdts {@link Trbnsforms} from {@link Elfmfnt} wiidi is
+     * <dodf>Trbnsforms</dodf> Elfmfnt
      *
-     * @param element  is <code>Transforms</code> element
-     * @param BaseURI the URI where the XML instance was stored
-     * @throws DOMException
-     * @throws InvalidTransformException
-     * @throws TransformationException
-     * @throws XMLSecurityException
-     * @throws XMLSignatureException
+     * @pbrbm flfmfnt  is <dodf>Trbnsforms</dodf> flfmfnt
+     * @pbrbm BbsfURI tif URI wifrf tif XML instbndf wbs storfd
+     * @tirows DOMExdfption
+     * @tirows InvblidTrbnsformExdfption
+     * @tirows TrbnsformbtionExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    public Transforms(Element element, String BaseURI)
-        throws DOMException, XMLSignatureException, InvalidTransformException,
-            TransformationException, XMLSecurityException {
-        super(element, BaseURI);
+    publid Trbnsforms(Elfmfnt flfmfnt, String BbsfURI)
+        tirows DOMExdfption, XMLSignbturfExdfption, InvblidTrbnsformExdfption,
+            TrbnsformbtionExdfption, XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
 
-        int numberOfTransformElems = this.getLength();
+        int numbfrOfTrbnsformElfms = tiis.gftLfngti();
 
-        if (numberOfTransformElems == 0) {
-            // At least one Transform element must be present. Bad.
-            Object exArgs[] = { Constants._TAG_TRANSFORM, Constants._TAG_TRANSFORMS };
+        if (numbfrOfTrbnsformElfms == 0) {
+            // At lfbst onf Trbnsform flfmfnt must bf prfsfnt. Bbd.
+            Objfdt fxArgs[] = { Constbnts._TAG_TRANSFORM, Constbnts._TAG_TRANSFORMS };
 
-            throw new TransformationException("xml.WrongContent", exArgs);
+            tirow nfw TrbnsformbtionExdfption("xml.WrongContfnt", fxArgs);
         }
     }
 
     /**
-     * Set whether secure validation is enabled or not. The default is false.
+     * Sft wiftifr sfdurf vblidbtion is fnbblfd or not. Tif dffbult is fblsf.
      */
-    public void setSecureValidation(boolean secureValidation) {
-        this.secureValidation = secureValidation;
+    publid void sftSfdurfVblidbtion(boolfbn sfdurfVblidbtion) {
+        tiis.sfdurfVblidbtion = sfdurfVblidbtion;
     }
 
     /**
-     * Adds the <code>Transform</code> with the specified <code>Transform
-     * algorithm URI</code>
+     * Adds tif <dodf>Trbnsform</dodf> witi tif spfdififd <dodf>Trbnsform
+     * blgoritim URI</dodf>
      *
-     * @param transformURI the URI form of transform that indicates which
-     * transformation is applied to data
-     * @throws TransformationException
+     * @pbrbm trbnsformURI tif URI form of trbnsform tibt indidbtfs wiidi
+     * trbnsformbtion is bpplifd to dbtb
+     * @tirows TrbnsformbtionExdfption
      */
-    public void addTransform(String transformURI) throws TransformationException {
+    publid void bddTrbnsform(String trbnsformURI) tirows TrbnsformbtionExdfption {
         try {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Transforms.addTransform(" + transformURI + ")");
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Trbnsforms.bddTrbnsform(" + trbnsformURI + ")");
             }
 
-            Transform transform = new Transform(this.doc, transformURI);
+            Trbnsform trbnsform = nfw Trbnsform(tiis.dod, trbnsformURI);
 
-            this.addTransform(transform);
-        } catch (InvalidTransformException ex) {
-            throw new TransformationException("empty", ex);
+            tiis.bddTrbnsform(trbnsform);
+        } dbtdi (InvblidTrbnsformExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Adds the <code>Transform</code> with the specified <code>Transform
-     * algorithm URI</code>
+     * Adds tif <dodf>Trbnsform</dodf> witi tif spfdififd <dodf>Trbnsform
+     * blgoritim URI</dodf>
      *
-     * @param transformURI the URI form of transform that indicates which
-     * transformation is applied to data
-     * @param contextElement
-     * @throws TransformationException
+     * @pbrbm trbnsformURI tif URI form of trbnsform tibt indidbtfs wiidi
+     * trbnsformbtion is bpplifd to dbtb
+     * @pbrbm dontfxtElfmfnt
+     * @tirows TrbnsformbtionExdfption
      */
-    public void addTransform(String transformURI, Element contextElement)
-       throws TransformationException {
+    publid void bddTrbnsform(String trbnsformURI, Elfmfnt dontfxtElfmfnt)
+       tirows TrbnsformbtionExdfption {
         try {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Transforms.addTransform(" + transformURI + ")");
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Trbnsforms.bddTrbnsform(" + trbnsformURI + ")");
             }
 
-            Transform transform = new Transform(this.doc, transformURI, contextElement);
+            Trbnsform trbnsform = nfw Trbnsform(tiis.dod, trbnsformURI, dontfxtElfmfnt);
 
-            this.addTransform(transform);
-        } catch (InvalidTransformException ex) {
-            throw new TransformationException("empty", ex);
+            tiis.bddTrbnsform(trbnsform);
+        } dbtdi (InvblidTrbnsformExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Adds the <code>Transform</code> with the specified <code>Transform
-     * algorithm URI</code>.
+     * Adds tif <dodf>Trbnsform</dodf> witi tif spfdififd <dodf>Trbnsform
+     * blgoritim URI</dodf>.
      *
-     * @param transformURI the URI form of transform that indicates which
-     * transformation is applied to data
-     * @param contextNodes
-     * @throws TransformationException
+     * @pbrbm trbnsformURI tif URI form of trbnsform tibt indidbtfs wiidi
+     * trbnsformbtion is bpplifd to dbtb
+     * @pbrbm dontfxtNodfs
+     * @tirows TrbnsformbtionExdfption
      */
-    public void addTransform(String transformURI, NodeList contextNodes)
-       throws TransformationException {
+    publid void bddTrbnsform(String trbnsformURI, NodfList dontfxtNodfs)
+       tirows TrbnsformbtionExdfption {
 
         try {
-            Transform transform = new Transform(this.doc, transformURI, contextNodes);
-            this.addTransform(transform);
-        } catch (InvalidTransformException ex) {
-            throw new TransformationException("empty", ex);
+            Trbnsform trbnsform = nfw Trbnsform(tiis.dod, trbnsformURI, dontfxtNodfs);
+            tiis.bddTrbnsform(trbnsform);
+        } dbtdi (InvblidTrbnsformExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Adds a user-provided Transform step.
+     * Adds b usfr-providfd Trbnsform stfp.
      *
-     * @param transform {@link Transform} object
+     * @pbrbm trbnsform {@link Trbnsform} objfdt
      */
-    private void addTransform(Transform transform) {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Transforms.addTransform(" + transform.getURI() + ")");
+    privbtf void bddTrbnsform(Trbnsform trbnsform) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Trbnsforms.bddTrbnsform(" + trbnsform.gftURI() + ")");
         }
 
-        Element transformElement = transform.getElement();
+        Elfmfnt trbnsformElfmfnt = trbnsform.gftElfmfnt();
 
-        this.constructionElement.appendChild(transformElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(trbnsformElfmfnt);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Applies all included <code>Transform</code>s to xmlSignatureInput and
-     * returns the result of these transformations.
+     * Applifs bll indludfd <dodf>Trbnsform</dodf>s to xmlSignbturfInput bnd
+     * rfturns tif rfsult of tifsf trbnsformbtions.
      *
-     * @param xmlSignatureInput the input for the <code>Transform</code>s
-     * @return the result of the <code>Transforms</code>
-     * @throws TransformationException
+     * @pbrbm xmlSignbturfInput tif input for tif <dodf>Trbnsform</dodf>s
+     * @rfturn tif rfsult of tif <dodf>Trbnsforms</dodf>
+     * @tirows TrbnsformbtionExdfption
      */
-    public XMLSignatureInput performTransforms(
-        XMLSignatureInput xmlSignatureInput
-    ) throws TransformationException {
-        return performTransforms(xmlSignatureInput, null);
+    publid XMLSignbturfInput pfrformTrbnsforms(
+        XMLSignbturfInput xmlSignbturfInput
+    ) tirows TrbnsformbtionExdfption {
+        rfturn pfrformTrbnsforms(xmlSignbturfInput, null);
     }
 
     /**
-     * Applies all included <code>Transform</code>s to xmlSignatureInput and
-     * returns the result of these transformations.
+     * Applifs bll indludfd <dodf>Trbnsform</dodf>s to xmlSignbturfInput bnd
+     * rfturns tif rfsult of tifsf trbnsformbtions.
      *
-     * @param xmlSignatureInput the input for the <code>Transform</code>s
-     * @param os where to output the last transformation.
-     * @return the result of the <code>Transforms</code>
-     * @throws TransformationException
+     * @pbrbm xmlSignbturfInput tif input for tif <dodf>Trbnsform</dodf>s
+     * @pbrbm os wifrf to output tif lbst trbnsformbtion.
+     * @rfturn tif rfsult of tif <dodf>Trbnsforms</dodf>
+     * @tirows TrbnsformbtionExdfption
      */
-    public XMLSignatureInput performTransforms(
-        XMLSignatureInput xmlSignatureInput, OutputStream os
-    ) throws TransformationException {
+    publid XMLSignbturfInput pfrformTrbnsforms(
+        XMLSignbturfInput xmlSignbturfInput, OutputStrfbm os
+    ) tirows TrbnsformbtionExdfption {
         try {
-            int last = this.getLength() - 1;
-            for (int i = 0; i < last; i++) {
-                Transform t = this.item(i);
-                String uri = t.getURI();
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Perform the (" + i + ")th " + uri + " transform");
+            int lbst = tiis.gftLfngti() - 1;
+            for (int i = 0; i < lbst; i++) {
+                Trbnsform t = tiis.itfm(i);
+                String uri = t.gftURI();
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Pfrform tif (" + i + ")ti " + uri + " trbnsform");
                 }
-                checkSecureValidation(t);
-                xmlSignatureInput = t.performTransform(xmlSignatureInput);
+                difdkSfdurfVblidbtion(t);
+                xmlSignbturfInput = t.pfrformTrbnsform(xmlSignbturfInput);
             }
-            if (last >= 0) {
-                Transform t = this.item(last);
-                checkSecureValidation(t);
-                xmlSignatureInput = t.performTransform(xmlSignatureInput, os);
+            if (lbst >= 0) {
+                Trbnsform t = tiis.itfm(lbst);
+                difdkSfdurfVblidbtion(t);
+                xmlSignbturfInput = t.pfrformTrbnsform(xmlSignbturfInput, os);
             }
 
-            return xmlSignatureInput;
-        } catch (IOException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new TransformationException("empty", ex);
+            rfturn xmlSignbturfInput;
+        } dbtdi (IOExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdi (CbnonidblizbtionExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdi (InvblidCbnonidblizfrExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
-    private void checkSecureValidation(Transform transform) throws TransformationException {
-        String uri = transform.getURI();
-        if (secureValidation && Transforms.TRANSFORM_XSLT.equals(uri)) {
-            Object exArgs[] = { uri };
+    privbtf void difdkSfdurfVblidbtion(Trbnsform trbnsform) tirows TrbnsformbtionExdfption {
+        String uri = trbnsform.gftURI();
+        if (sfdurfVblidbtion && Trbnsforms.TRANSFORM_XSLT.fqubls(uri)) {
+            Objfdt fxArgs[] = { uri };
 
-            throw new TransformationException(
-                "signature.Transform.ForbiddenTransform", exArgs
+            tirow nfw TrbnsformbtionExdfption(
+                "signbturf.Trbnsform.ForbiddfnTrbnsform", fxArgs
             );
         }
     }
 
     /**
-     * Return the nonnegative number of transformations.
+     * Rfturn tif nonnfgbtivf numbfr of trbnsformbtions.
      *
-     * @return the number of transformations
+     * @rfturn tif numbfr of trbnsformbtions
      */
-    public int getLength() {
-        if (transforms == null) {
-            transforms =
-                XMLUtils.selectDsNodes(this.constructionElement.getFirstChild(), "Transform");
+    publid int gftLfngti() {
+        if (trbnsforms == null) {
+            trbnsforms =
+                XMLUtils.sflfdtDsNodfs(tiis.donstrudtionElfmfnt.gftFirstCiild(), "Trbnsform");
         }
-        return transforms.length;
+        rfturn trbnsforms.lfngti;
     }
 
     /**
-     * Return the <it>i</it><sup>th</sup> <code>{@link Transform}</code>.
-     * Valid <code>i</code> values are 0 to <code>{@link #getLength}-1</code>.
+     * Rfturn tif <it>i</it><sup>ti</sup> <dodf>{@link Trbnsform}</dodf>.
+     * Vblid <dodf>i</dodf> vblufs brf 0 to <dodf>{@link #gftLfngti}-1</dodf>.
      *
-     * @param i index of {@link Transform} to return
-     * @return the <it>i</it><sup>th</sup> Transform
-     * @throws TransformationException
+     * @pbrbm i indfx of {@link Trbnsform} to rfturn
+     * @rfturn tif <it>i</it><sup>ti</sup> Trbnsform
+     * @tirows TrbnsformbtionExdfption
      */
-    public Transform item(int i) throws TransformationException {
+    publid Trbnsform itfm(int i) tirows TrbnsformbtionExdfption {
         try {
-            if (transforms == null) {
-                transforms =
-                    XMLUtils.selectDsNodes(this.constructionElement.getFirstChild(), "Transform");
+            if (trbnsforms == null) {
+                trbnsforms =
+                    XMLUtils.sflfdtDsNodfs(tiis.donstrudtionElfmfnt.gftFirstCiild(), "Trbnsform");
             }
-            return new Transform(transforms[i], this.baseURI);
-        } catch (XMLSecurityException ex) {
-            throw new TransformationException("empty", ex);
+            rfturn nfw Trbnsform(trbnsforms[i], tiis.bbsfURI);
+        } dbtdi (XMLSfdurityExdfption fx) {
+            tirow nfw TrbnsformbtionExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_TRANSFORMS;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_TRANSFORMS;
     }
 }

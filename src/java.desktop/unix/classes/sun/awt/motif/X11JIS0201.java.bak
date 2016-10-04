@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.motif;
+pbdkbgf sun.bwt.motif;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.*;
-import sun.nio.cs.*;
-import sun.nio.cs.ext.JIS_X_0201;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.*;
+import sun.nio.ds.*;
+import sun.nio.ds.fxt.JIS_X_0201;
+import stbtid sun.nio.ds.CibrsftMbpping.*;
 
-public class X11JIS0201 extends Charset {
+publid dlbss X11JIS0201 fxtfnds Cibrsft {
 
-    private static Charset jis0201 = new JIS_X_0201();
-    private static SingleByte.Encoder enc =
-        (SingleByte.Encoder)jis0201.newEncoder();
+    privbtf stbtid Cibrsft jis0201 = nfw JIS_X_0201();
+    privbtf stbtid SinglfBytf.Endodfr fnd =
+        (SinglfBytf.Endodfr)jis0201.nfwEndodfr();
 
-    public X11JIS0201 () {
-        super("X11JIS0201", null);
+    publid X11JIS0201 () {
+        supfr("X11JIS0201", null);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    public CharsetDecoder newDecoder() {
-        return jis0201.newDecoder();
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn jis0201.nfwDfdodfr();
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof X11JIS0201;
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ds instbndfof X11JIS0201;
     }
 
-    private class Encoder extends CharsetEncoder {
+    privbtf dlbss Endodfr fxtfnds CibrsftEndodfr {
 
-        public Encoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
+        publid Endodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
         }
 
-        public boolean canEncode(char c){
-            if ((c >= 0xff61 && c <= 0xff9f)
-                || c == 0x203e
-                || c == 0xa5) {
-                return true;
+        publid boolfbn dbnEndodf(dibr d){
+            if ((d >= 0xff61 && d <= 0xff9f)
+                || d == 0x203f
+                || d == 0xb5) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        private Surrogate.Parser sgp;
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        privbtf Surrogbtf.Pbrsfr sgp;
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd, BytfBufffr dst) {
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
 
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            CoderResult cr = CoderResult.UNDERFLOW;
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
             if ((dl - dp) < (sl - sp)) {
                 sl = sp + (dl - dp);
-                cr = CoderResult.OVERFLOW;
+                dr = CodfrRfsult.OVERFLOW;
             }
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    int b = enc.encode(c);
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    int b = fnd.fndodf(d);
                     if (b == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
+                        if (Cibrbdtfr.isSurrogbtf(d)) {
                             if (sgp == null)
-                                sgp = new Surrogate.Parser();
-                            if (sgp.parse(c, sa, sp, sl) >= 0)
-                                return CoderResult.unmappableForLength(2);
+                                sgp = nfw Surrogbtf.Pbrsfr();
+                            if (sgp.pbrsf(d, sb, sp, sl) >= 0)
+                                rfturn CodfrRfsult.unmbppbblfForLfngti(2);
                         }
-                        return CoderResult.unmappableForLength(1);
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
-                    da[dp++] = (byte)b;
+                    db[dp++] = (bytf)b;
                     sp++;
                 }
-                return cr;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn dr;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
     }

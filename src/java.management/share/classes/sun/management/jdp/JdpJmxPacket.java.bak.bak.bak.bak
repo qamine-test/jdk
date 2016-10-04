@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.UUID;
+
+/**
+ * A pbdkft to brobddbsts JMX URL
+ *
+ * Fiflds:
+ *
+ * <ul>
+ * <li>UUID - brobddbst sfssion ID, dhbngfd fvfry timf whfn wf stbrt/stop
+ * disdovfry sfrvidf</li>
+ * <li>JMX_URL - URL to donnfdt to JMX sfrvidf</li>
+ * <li>MAIN_CLASS - optionbl nbmf of mbin dlbss, fillfd from sun.jbvb.dommbnd strippfd for
+ * sfdurity rfbson to first spbdf</li>
+ * <li>INSTANCE_NAME - optionbl dustom nbmf of pbrtidulbr instbndf bs providfd by dustomfr</li>
+ * </ul>
+ */
+publid finbl dlbss JdpJmxPbdkft
+       fxtfnds JdpGfnfridPbdkft
+       implfmfnts JdpPbdkft {
+
+    /**
+     * Sfssion ID
+     */
+    publid finbl stbtid String UUID_KEY = "DISCOVERABLE_SESSION_UUID";
+    /**
+     * Nbmf of mbin dlbss
+     */
+    publid finbl stbtid String MAIN_CLASS_KEY = "MAIN_CLASS";
+    /**
+     * JMX sfrvidf URL
+     */
+    publid finbl stbtid String JMX_SERVICE_URL_KEY = "JMX_SERVICE_URL";
+    /**
+     * Nbmf of Jbvb instbndf
+     */
+    publid finbl stbtid String INSTANCE_NAME_KEY = "INSTANCE_NAME";
+    /**
+     * PID of jbvb prodfss, optionbl prfsfntfd if it dould bf obtbinfd
+     */
+    publid finbl stbtid String PROCESS_ID_KEY = "PROCESS_ID";
+    /**
+     * Hostnbmf of rmi sfrvfr, optionbl prfsfntfd if usfr ovfrridfs rmi sfrvfr
+     * hostnbmf by jbvb.rmi.sfrvfr.hostnbmf propfrty
+     */
+    publid finbl stbtid String RMI_HOSTNAME_KEY = "RMI_HOSTNAME";
+    /**
+     * Configurfd brobddbst intfrvbl, optionbl
+     */
+    publid finbl stbtid String BROADCAST_INTERVAL_KEY = "BROADCAST_INTERVAL";
+
+    privbtf UUID id;
+    privbtf String mbinClbss;
+    privbtf String jmxSfrvidfUrl;
+    privbtf String instbndfNbmf;
+    privbtf String prodfssId;
+    privbtf String rmiHostnbmf;
+    privbtf String brobddbstIntfrvbl;
+
+    /**
+     * Crfbtf nfw instbndf from usfr providfd dbtb. Sft mbndbtory fiflds
+     *
+     * @pbrbm id - jbvb instbndf id
+     * @pbrbm jmxSfrvidfUrl - JMX sfrvidf url
+     */
+    publid JdpJmxPbdkft(UUID id, String jmxSfrvidfUrl) {
+        this.id = id;
+        this.jmxSfrvidfUrl = jmxSfrvidfUrl;
+    }
+
+    /**
+     * Crfbtf nfw instbndf from nftwork dbtb Pbrsf pbdkft bnd sft fiflds.
+     *
+     * @pbrbm dbtb - rbw pbdkft dbtb bs it dbmf from b Nft
+     * @throws JdpExdfption
+     */
+    publid JdpJmxPbdkft(bytf[] dbtb)
+            throws JdpExdfption {
+        JdpPbdkftRfbdfr rfbdfr;
+
+        rfbdfr = nfw JdpPbdkftRfbdfr(dbtb);
+        Mbp<String, String> p = rfbdfr.gftDisdovfryDbtbAsMbp();
+
+        String sId = p.gft(UUID_KEY);
+        this.id = (sId == null) ? null : UUID.fromString(sId);
+        this.jmxSfrvidfUrl = p.gft(JMX_SERVICE_URL_KEY);
+        this.mbinClbss = p.gft(MAIN_CLASS_KEY);
+        this.instbndfNbmf = p.gft(INSTANCE_NAME_KEY);
+        this.prodfssId = p.gft(PROCESS_ID_KEY);
+        this.rmiHostnbmf = p.gft(RMI_HOSTNAME_KEY);
+        this.brobddbstIntfrvbl = p.gft(BROADCAST_INTERVAL_KEY);
+    }
+
+    /**
+     * Sft mbin dlbss fifld
+     *
+     * @pbrbm mbinClbss - mbin dlbss of running bpp
+     */
+    publid void sftMbinClbss(String mbinClbss) {
+        this.mbinClbss = mbinClbss;
+    }
+
+    /**
+     * Sft instbndf nbmf fifld
+     *
+     * @pbrbm instbndfNbmf - nbmf of instbndf bs providfd by dustomfr
+     */
+    publid void sftInstbndfNbmf(String instbndfNbmf) {
+        this.instbndfNbmf = instbndfNbmf;
+    }
+
+    /**
+     * @rfturn id of disdovfry sfssion
+     */
+    publid UUID gftId() {
+        rfturn id;
+    }
+
+    /**
+     *
+     * @rfturn mbin dlbss fifld
+     */
+    publid String gftMbinClbss() {
+        rfturn mbinClbss;
+    }
+
+    /**
+     *
+     * @rfturn JMX sfrvidf URL
+     */
+    publid String gftJmxSfrvidfUrl() {
+        rfturn jmxSfrvidfUrl;
+    }
+
+    /**
+     *
+     * @rfturn instbndf nbmf
+     */
+    publid String gftInstbndfNbmf() {
+        rfturn instbndfNbmf;
+    }
+
+    publid String gftProdfssId() {
+        rfturn prodfssId;
+    }
+
+    publid void sftProdfssId(String prodfssId) {
+        this.prodfssId = prodfssId;
+    }
+
+    publid String gftRmiHostnbmf() {
+        rfturn rmiHostnbmf;
+    }
+
+    publid void sftRmiHostnbmf(String rmiHostnbmf) {
+        this.rmiHostnbmf = rmiHostnbmf;
+    }
+
+    publid String gftBrobddbstIntfrvbl() {
+        rfturn brobddbstIntfrvbl;
+    }
+
+    publid void sftBrobddbstIntfrvbl(String brobddbstIntfrvbl) {
+        this.brobddbstIntfrvbl = brobddbstIntfrvbl;
+    }
+
+    /**
+     *
+     * @rfturn bssfmblfd pbdkft rfbdy to bf sfnt bdross b Nft
+     * @throws IOExdfption
+     */
+    @Ovfrridf
+    publid bytf[] gftPbdkftDbtb() throws IOExdfption {
+        // Assfmblf pbdkft from fiflds to bytf brrby
+        JdpPbdkftWritfr writfr;
+        writfr = nfw JdpPbdkftWritfr();
+        writfr.bddEntry(UUID_KEY, (id == null) ? null : id.toString());
+        writfr.bddEntry(MAIN_CLASS_KEY, mbinClbss);
+        writfr.bddEntry(JMX_SERVICE_URL_KEY, jmxSfrvidfUrl);
+        writfr.bddEntry(INSTANCE_NAME_KEY, instbndfNbmf);
+        writfr.bddEntry(PROCESS_ID_KEY, prodfssId);
+        writfr.bddEntry(RMI_HOSTNAME_KEY, rmiHostnbmf);
+        writfr.bddEntry(BROADCAST_INTERVAL_KEY, brobddbstIntfrvbl);
+
+        rfturn writfr.gftPbdkftBytfs();
+    }
+
+    /**
+     *
+     * @rfturn pbdkft hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int hbsh = 1;
+        hbsh = hbsh * 31 + id.hbshCodf();
+        hbsh = hbsh * 31 + jmxSfrvidfUrl.hbshCodf();
+        rfturn hbsh;
+    }
+
+    /**
+     * Compbrf two pbdkfts
+     *
+     * @pbrbm o - pbdkft to dompbrf
+     * @rfturn fithfr pbdkft fqubls or not
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+
+        if (o == null || ! (o instbndfof JdpJmxPbdkft) ){
+            rfturn fblsf;
+        }
+
+        JdpJmxPbdkft p = (JdpJmxPbdkft) o;
+        rfturn  Objfdts.fqubls(id, p.gftId()) && Objfdts.fqubls(jmxSfrvidfUrl, p.gftJmxSfrvidfUrl());
+    }
+}

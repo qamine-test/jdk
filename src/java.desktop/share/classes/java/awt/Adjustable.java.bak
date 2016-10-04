@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * The interface for objects which have an adjustable numeric value
- * contained within a bounded range of values.
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * dontbinfd witiin b boundfd rbngf of vblufs.
  *
- * @author Amy Fowler
- * @author Tim Prinzing
+ * @butior Amy Fowlfr
+ * @butior Tim Prinzing
  */
-public interface Adjustable {
+publid intfrfbdf Adjustbblf {
 
     /**
-     * Indicates that the <code>Adjustable</code> has horizontal orientation.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
      */
-    @Native public static final int HORIZONTAL = 0;
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
 
     /**
-     * Indicates that the <code>Adjustable</code> has vertical orientation.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
      */
-    @Native public static final int VERTICAL = 1;
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
 
     /**
-     * Indicates that the <code>Adjustable</code> has no orientation.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
      */
-    @Native public static final int NO_ORIENTATION = 2;
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
 
     /**
-     * Gets the orientation of the adjustable object.
-     * @return the orientation of the adjustable object;
-     *   either <code>HORIZONTAL</code>, <code>VERTICAL</code>,
-     *   or <code>NO_ORIENTATION</code>
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   or <dodf>NO_ORIENTATION</dodf>
      */
-    int getOrientation();
+    int gftOrifntbtion();
 
     /**
-     * Sets the minimum value of the adjustable object.
-     * @param min the minimum value
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * @pbrbm min tif minimum vbluf
      */
-    void setMinimum(int min);
+    void sftMinimum(int min);
 
     /**
-     * Gets the minimum value of the adjustable object.
-     * @return the minimum value of the adjustable object
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
      */
-    int getMinimum();
+    int gftMinimum();
 
     /**
-     * Sets the maximum value of the adjustable object.
-     * @param max the maximum value
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * @pbrbm mbx tif mbximum vbluf
      */
-    void setMaximum(int max);
+    void sftMbximum(int mbx);
 
     /**
-     * Gets the maximum value of the adjustable object.
-     * @return the maximum value of the adjustable object
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
      */
-    int getMaximum();
+    int gftMbximum();
 
     /**
-     * Sets the unit value increment for the adjustable object.
-     * @param u the unit increment
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @pbrbm u tif unit indrfmfnt
      */
-    void setUnitIncrement(int u);
+    void sftUnitIndrfmfnt(int u);
 
     /**
-     * Gets the unit value increment for the adjustable object.
-     * @return the unit value increment for the adjustable object
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
      */
-    int getUnitIncrement();
+    int gftUnitIndrfmfnt();
 
     /**
-     * Sets the block value increment for the adjustable object.
-     * @param b the block increment
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @pbrbm b tif blodk indrfmfnt
      */
-    void setBlockIncrement(int b);
+    void sftBlodkIndrfmfnt(int b);
 
     /**
-     * Gets the block value increment for the adjustable object.
-     * @return the block value increment for the adjustable object
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
      */
-    int getBlockIncrement();
+    int gftBlodkIndrfmfnt();
 
     /**
-     * Sets the length of the proportional indicator of the
-     * adjustable object.
-     * @param v the length of the indicator
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
+     * bdjustbblf objfdt.
+     * @pbrbm v tif lfngti of tif indidbtor
      */
-    void setVisibleAmount(int v);
+    void sftVisiblfAmount(int v);
 
     /**
-     * Gets the length of the proportional indicator.
-     * @return the length of the proportional indicator
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * @rfturn tif lfngti of tif proportionbl indidbtor
      */
-    int getVisibleAmount();
+    int gftVisiblfAmount();
 
     /**
-     * Sets the current value of the adjustable object. If
-     * the value supplied is less than <code>minimum</code>
-     * or greater than <code>maximum</code> - <code>visibleAmount</code>,
-     * then one of those values is substituted, as appropriate.
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
      * <p>
-     * Calling this method does not fire an
-     * <code>AdjustmentEvent</code>.
+     * Cblling tiis mftiod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
      *
-     * @param v the current value, between <code>minimum</code>
-     *    and <code>maximum</code> - <code>visibleAmount</code>
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
      */
-    void setValue(int v);
+    void sftVbluf(int v);
 
     /**
-     * Gets the current value of the adjustable object.
-     * @return the current value of the adjustable object
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
      */
-    int getValue();
+    int gftVbluf();
 
     /**
-     * Adds a listener to receive adjustment events when the value of
-     * the adjustable object changes.
-     * @param l the listener to receive events
-     * @see AdjustmentEvent
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * tif bdjustbblf objfdt dibngfs.
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
+     * @sff AdjustmfntEvfnt
      */
-    void addAdjustmentListener(AdjustmentListener l);
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
 
     /**
-     * Removes an adjustment listener.
-     * @param l the listener being removed
-     * @see AdjustmentEvent
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @sff AdjustmfntEvfnt
      */
-    void removeAdjustmentListener(AdjustmentListener l);
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
 
 }

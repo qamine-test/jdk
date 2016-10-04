@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.dhfdkPbdkbgfAddfss;
+
+/**
+ * This is utility dlbss thbt providfs {@dodf stbtid} mfthods
+ * to find b dlbss with thf spfdififd nbmf using thf spfdififd dlbss lobdfr.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss ClbssFindfr {
+
+    /**
+     * Rfturns thf {@dodf Clbss} objfdt bssodibtfd
+     * with thf dlbss or intfrfbdf with thf givfn string nbmf,
+     * using thf dffbult dlbss lobdfr.
+     * <p>
+     * Thf {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
+     *
+     * @pbrbm nbmf  fully qublififd nbmf of thf dfsirfd dlbss
+     * @rfturn dlbss objfdt rfprfsfnting thf dfsirfd dlbss
+     *
+     * @throws ClbssNotFoundExdfption  if thf dlbss dbnnot bf lodbtfd
+     *                                 by thf spfdififd dlbss lobdfr
+     *
+     * @sff Clbss#forNbmf(String)
+     * @sff Clbss#forNbmf(String,boolfbn,ClbssLobdfr)
+     * @sff ClbssLobdfr#gftSystfmClbssLobdfr()
+     * @sff Thrfbd#gftContfxtClbssLobdfr()
+     */
+    publid stbtid Clbss<?> findClbss(String nbmf) throws ClbssNotFoundExdfption {
+        dhfdkPbdkbgfAddfss(nbmf);
+        try {
+            ClbssLobdfr lobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+            if (lobdfr == null) {
+                // dbn bf null in IE (sff 6204697)
+                lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+            }
+            if (lobdfr != null) {
+                rfturn Clbss.forNbmf(nbmf, fblsf, lobdfr);
+            }
+
+        } dbtdh (ClbssNotFoundExdfption fxdfption) {
+            // usf durrfnt dlbss lobdfr instfbd
+        } dbtdh (SfdurityExdfption fxdfption) {
+            // usf durrfnt dlbss lobdfr instfbd
+        }
+        rfturn Clbss.forNbmf(nbmf);
+    }
+
+    /**
+     * Rfturns thf {@dodf Clbss} objfdt bssodibtfd with
+     * thf dlbss or intfrfbdf with thf givfn string nbmf,
+     * using thf givfn dlbss lobdfr.
+     * <p>
+     * Thf {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
+     * <p>
+     * If thf pbrbmftfr {@dodf lobdfr} is null,
+     * thf dlbss is lobdfd through thf dffbult dlbss lobdfr.
+     *
+     * @pbrbm nbmf    fully qublififd nbmf of thf dfsirfd dlbss
+     * @pbrbm lobdfr  dlbss lobdfr from whidh thf dlbss must bf lobdfd
+     * @rfturn dlbss objfdt rfprfsfnting thf dfsirfd dlbss
+     *
+     * @throws ClbssNotFoundExdfption  if thf dlbss dbnnot bf lodbtfd
+     *                                 by thf spfdififd dlbss lobdfr
+     *
+     * @sff #findClbss(String,ClbssLobdfr)
+     * @sff Clbss#forNbmf(String,boolfbn,ClbssLobdfr)
+     */
+    publid stbtid Clbss<?> findClbss(String nbmf, ClbssLobdfr lobdfr) throws ClbssNotFoundExdfption {
+        dhfdkPbdkbgfAddfss(nbmf);
+        if (lobdfr != null) {
+            try {
+                rfturn Clbss.forNbmf(nbmf, fblsf, lobdfr);
+            } dbtdh (ClbssNotFoundExdfption fxdfption) {
+                // usf dffbult dlbss lobdfr instfbd
+            } dbtdh (SfdurityExdfption fxdfption) {
+                // usf dffbult dlbss lobdfr instfbd
+            }
+        }
+        rfturn findClbss(nbmf);
+    }
+
+    /**
+     * Rfturns thf {@dodf Clbss} objfdt bssodibtfd
+     * with thf dlbss or intfrfbdf with thf givfn string nbmf,
+     * using thf dffbult dlbss lobdfr.
+     * <p>
+     * Thf {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
+     * <p>
+     * This mfthod dbn bf usfd to obtbin
+     * bny of thf {@dodf Clbss} objfdts
+     * rfprfsfnting {@dodf void} or primitivf Jbvb typfs:
+     * {@dodf dhbr}, {@dodf bytf}, {@dodf short},
+     * {@dodf int}, {@dodf long}, {@dodf flobt},
+     * {@dodf doublf} bnd {@dodf boolfbn}.
+     *
+     * @pbrbm nbmf  fully qublififd nbmf of thf dfsirfd dlbss
+     * @rfturn dlbss objfdt rfprfsfnting thf dfsirfd dlbss
+     *
+     * @throws ClbssNotFoundExdfption  if thf dlbss dbnnot bf lodbtfd
+     *                                 by thf spfdififd dlbss lobdfr
+     *
+     * @sff #rfsolvfClbss(String,ClbssLobdfr)
+     */
+    publid stbtid Clbss<?> rfsolvfClbss(String nbmf) throws ClbssNotFoundExdfption {
+        rfturn rfsolvfClbss(nbmf, null);
+    }
+
+    /**
+     * Rfturns thf {@dodf Clbss} objfdt bssodibtfd with
+     * thf dlbss or intfrfbdf with thf givfn string nbmf,
+     * using thf givfn dlbss lobdfr.
+     * <p>
+     * Thf {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
+     * <p>
+     * If thf pbrbmftfr {@dodf lobdfr} is null,
+     * thf dlbss is lobdfd through thf dffbult dlbss lobdfr.
+     * <p>
+     * This mfthod dbn bf usfd to obtbin
+     * bny of thf {@dodf Clbss} objfdts
+     * rfprfsfnting {@dodf void} or primitivf Jbvb typfs:
+     * {@dodf dhbr}, {@dodf bytf}, {@dodf short},
+     * {@dodf int}, {@dodf long}, {@dodf flobt},
+     * {@dodf doublf} bnd {@dodf boolfbn}.
+     *
+     * @pbrbm nbmf    fully qublififd nbmf of thf dfsirfd dlbss
+     * @pbrbm lobdfr  dlbss lobdfr from whidh thf dlbss must bf lobdfd
+     * @rfturn dlbss objfdt rfprfsfnting thf dfsirfd dlbss
+     *
+     * @throws ClbssNotFoundExdfption  if thf dlbss dbnnot bf lodbtfd
+     *                                 by thf spfdififd dlbss lobdfr
+     *
+     * @sff #findClbss(String,ClbssLobdfr)
+     * @sff PrimitivfTypfMbp#gftTypf(String)
+     */
+    publid stbtid Clbss<?> rfsolvfClbss(String nbmf, ClbssLobdfr lobdfr) throws ClbssNotFoundExdfption {
+        Clbss<?> typf = PrimitivfTypfMbp.gftTypf(nbmf);
+        rfturn (typf == null)
+                ? findClbss(nbmf, lobdfr)
+                : typf;
+    }
+
+    /**
+     * Disbblf instbntibtion.
+     */
+    privbtf ClbssFindfr() {
+    }
+}

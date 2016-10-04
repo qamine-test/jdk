@@ -1,0 +1,166 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+
+
+/**
+ * A dhbnnfl thbt dbn writf bytfs from b sfqufndf of bufffrs.
+ *
+ * <p> A <i>gbthfring</i> writf opfrbtion writfs, in b singlf invodbtion, b
+ * sfqufndf of bytfs from onf or morf of b givfn sfqufndf of bufffrs.
+ * Gbthfring writfs brf oftfn usfful whfn implfmfnting nftwork protodols or
+ * filf formbts thbt, for fxbmplf, group dbtb into sfgmfnts donsisting of onf
+ * or morf fixfd-lfngth hfbdfrs followfd by b vbribblf-lfngth body.  Similbr
+ * <i>sdbttfring</i> rfbd opfrbtions brf dffinfd in thf {@link
+ * SdbttfringBytfChbnnfl} intfrfbdf.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid intfrfbdf GbthfringBytfChbnnfl
+    fxtfnds WritbblfBytfChbnnfl
+{
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from b subsfqufndf of thf
+     * givfn bufffrs.
+     *
+     * <p> An bttfmpt is mbdf to writf up to <i>r</i> bytfs to this dhbnnfl,
+     * whfrf <i>r</i> is thf totbl numbfr of bytfs rfmbining in thf spfdififd
+     * subsfqufndf of thf givfn bufffr brrby, thbt is,
+     *
+     * <blodkquotf><prf>
+     * srds[offsft].rfmbining()
+     *     + srds[offsft+1].rfmbining()
+     *     + ... + srds[offsft+lfngth-1].rfmbining()</prf></blodkquotf>
+     *
+     * bt thf momfnt thbt this mfthod is invokfd.
+     *
+     * <p> Supposf thbt b bytf sfqufndf of lfngth <i>n</i> is writtfn, whfrf
+     * <tt>0</tt>&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
+     * Up to thf first <tt>srds[offsft].rfmbining()</tt> bytfs of this sfqufndf
+     * brf writtfn from bufffr <tt>srds[offsft]</tt>, up to thf nfxt
+     * <tt>srds[offsft+1].rfmbining()</tt> bytfs brf writtfn from bufffr
+     * <tt>srds[offsft+1]</tt>, bnd so forth, until thf fntirf bytf sfqufndf is
+     * writtfn.  As mbny bytfs bs possiblf brf writtfn from fbdh bufffr, hfndf
+     * thf finbl position of fbdh updbtfd bufffr, fxdfpt thf lbst updbtfd
+     * bufffr, is gubrbntffd to bf fqubl to thbt bufffr's limit.
+     *
+     * <p> Unlfss othfrwisf spfdififd, b writf opfrbtion will rfturn only bftfr
+     * writing bll of thf <i>r</i> rfqufstfd bytfs.  Somf typfs of dhbnnfls,
+     * dfpfnding upon thfir stbtf, mby writf only somf of thf bytfs or possibly
+     * nonf bt bll.  A sodkft dhbnnfl in non-blodking modf, for fxbmplf, dbnnot
+     * writf bny morf bytfs thbn brf frff in thf sodkft's output bufffr.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  If bnothfr thrfbd hbs
+     * blrfbdy initibtfd b writf opfrbtion upon this dhbnnfl, howfvfr, thfn bn
+     * invodbtion of this mfthod will blodk until thf first opfrbtion is
+     * domplftf. </p>
+     *
+     * @pbrbm  srds
+     *         Thf bufffrs from whidh bytfs brf to bf rftrifvfd
+     *
+     * @pbrbm  offsft
+     *         Thf offsft within thf bufffr brrby of thf first bufffr from
+     *         whidh bytfs brf to bf rftrifvfd; must bf non-nfgbtivf bnd no
+     *         lbrgfr thbn <tt>srds.lfngth</tt>
+     *
+     * @pbrbm  lfngth
+     *         Thf mbximum numbfr of bufffrs to bf bddfssfd; must bf
+     *         non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>srds.lfngth</tt>&nbsp;-&nbsp;<tt>offsft</tt>
+     *
+     * @rfturn  Thf numbfr of bytfs writtfn, possibly zfro
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>offsft</tt> bnd <tt>lfngth</tt>
+     *          pbrbmftfrs do not hold
+     *
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf writf opfrbtion is in progrfss
+     *
+     * @throws  ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf writf opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid long writf(BytfBufffr[] srds, int offsft, int lfngth)
+        throws IOExdfption;
+
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffrs.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>d.writf(srds)</tt>
+     * bfhbvfs in fxbdtly thf sbmf mbnnfr bs thf invodbtion
+     *
+     * <blodkquotf><prf>
+     * d.writf(srds, 0, srds.lfngth);</prf></blodkquotf>
+     *
+     * @pbrbm  srds
+     *         Thf bufffrs from whidh bytfs brf to bf rftrifvfd
+     *
+     * @rfturn  Thf numbfr of bytfs writtfn, possibly zfro
+     *
+     * @throws  NonWritbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for writing
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf writf opfrbtion is in progrfss
+     *
+     * @throws  ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf writf opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid long writf(BytfBufffr[] srds) throws IOExdfption;
+
+}

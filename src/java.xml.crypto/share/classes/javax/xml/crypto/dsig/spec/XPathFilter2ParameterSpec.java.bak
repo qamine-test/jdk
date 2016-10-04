@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: XPathFilter2ParameterSpec.java,v 1.7 2005/05/13 18:45:42 mullan Exp $
+ * $Id: XPbtiFiltfr2PbrbmftfrSpfd.jbvb,v 1.7 2005/05/13 18:45:42 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.xml.crypto.dsig.Transform;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvbx.xml.drypto.dsig.Trbnsform;
 
 /**
- * Parameters for the W3C Recommendation
- * <a href="http://www.w3.org/TR/xmldsig-filter2/">
- * XPath Filter 2.0 Transform Algorithm</a>.
- * The parameters include a list of one or more {@link XPathType} objects.
+ * Pbrbmftfrs for tif W3C Rfdommfndbtion
+ * <b irff="ittp://www.w3.org/TR/xmldsig-filtfr2/">
+ * XPbti Filtfr 2.0 Trbnsform Algoritim</b>.
+ * Tif pbrbmftfrs indludf b list of onf or morf {@link XPbtiTypf} objfdts.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see Transform
- * @see XPathFilterParameterSpec
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
+ * @sff XPbtiFiltfrPbrbmftfrSpfd
  */
-public final class XPathFilter2ParameterSpec implements TransformParameterSpec {
+publid finbl dlbss XPbtiFiltfr2PbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd {
 
-    private final List<XPathType> xPathList;
+    privbtf finbl List<XPbtiTypf> xPbtiList;
 
     /**
-     * Creates an <code>XPathFilter2ParameterSpec</code>.
+     * Crfbtfs bn <dodf>XPbtiFiltfr2PbrbmftfrSpfd</dodf>.
      *
-     * @param xPathList a list of one or more {@link XPathType} objects. The
-     *    list is defensively copied to protect against subsequent modification.
-     * @throws ClassCastException if <code>xPathList</code> contains any
-     *    entries that are not of type {@link XPathType}
-     * @throws IllegalArgumentException if <code>xPathList</code> is empty
-     * @throws NullPointerException if <code>xPathList</code> is
-     *    <code>null</code>
+     * @pbrbm xPbtiList b list of onf or morf {@link XPbtiTypf} objfdts. Tif
+     *    list is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @tirows ClbssCbstExdfption if <dodf>xPbtiList</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link XPbtiTypf}
+     * @tirows IllfgblArgumfntExdfption if <dodf>xPbtiList</dodf> is fmpty
+     * @tirows NullPointfrExdfption if <dodf>xPbtiList</dodf> is
+     *    <dodf>null</dodf>
      */
-    @SuppressWarnings("rawtypes")
-    public XPathFilter2ParameterSpec(List xPathList) {
-        if (xPathList == null) {
-            throw new NullPointerException("xPathList cannot be null");
+    @SupprfssWbrnings("rbwtypfs")
+    publid XPbtiFiltfr2PbrbmftfrSpfd(List xPbtiList) {
+        if (xPbtiList == null) {
+            tirow nfw NullPointfrExdfption("xPbtiList dbnnot bf null");
         }
-        List<?> xPathListCopy = new ArrayList<>((List<?>)xPathList);
-        if (xPathListCopy.isEmpty()) {
-            throw new IllegalArgumentException("xPathList cannot be empty");
+        List<?> xPbtiListCopy = nfw ArrbyList<>((List<?>)xPbtiList);
+        if (xPbtiListCopy.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption("xPbtiList dbnnot bf fmpty");
         }
-        int size = xPathListCopy.size();
-        for (int i = 0; i < size; i++) {
-            if (!(xPathListCopy.get(i) instanceof XPathType)) {
-                throw new ClassCastException
-                    ("xPathList["+i+"] is not a valid type");
+        int sizf = xPbtiListCopy.sizf();
+        for (int i = 0; i < sizf; i++) {
+            if (!(xPbtiListCopy.gft(i) instbndfof XPbtiTypf)) {
+                tirow nfw ClbssCbstExdfption
+                    ("xPbtiList["+i+"] is not b vblid typf");
             }
         }
 
-        @SuppressWarnings("unchecked")
-        List<XPathType> temp = (List<XPathType>)xPathListCopy;
+        @SupprfssWbrnings("undifdkfd")
+        List<XPbtiTypf> tfmp = (List<XPbtiTypf>)xPbtiListCopy;
 
-        this.xPathList = Collections.unmodifiableList(temp);
+        tiis.xPbtiList = Collfdtions.unmodifibblfList(tfmp);
     }
 
     /**
-     * Returns a list of one or more {@link XPathType} objects.
+     * Rfturns b list of onf or morf {@link XPbtiTypf} objfdts.
      * <p>
-     * This implementation returns an {@link Collections#unmodifiableList
-     * unmodifiable list}.
+     * Tiis implfmfntbtion rfturns bn {@link Collfdtions#unmodifibblfList
+     * unmodifibblf list}.
      *
-     * @return a <code>List</code> of <code>XPathType</code> objects
-     *    (never <code>null</code> or empty)
+     * @rfturn b <dodf>List</dodf> of <dodf>XPbtiTypf</dodf> objfdts
+     *    (nfvfr <dodf>null</dodf> or fmpty)
      */
-    @SuppressWarnings("rawtypes")
-    public List getXPathList() {
-        return xPathList;
+    @SupprfssWbrnings("rbwtypfs")
+    publid List gftXPbtiList() {
+        rfturn xPbtiList;
     }
 }

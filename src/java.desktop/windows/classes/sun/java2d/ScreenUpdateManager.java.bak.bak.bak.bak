@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import sun.bwt.Win32GrbphidsConfig;
+import sun.bwt.windows.WComponfntPffr;
+import sun.jbvb2d.d3d.D3DSdrffnUpdbtfMbnbgfr;
+import sun.jbvb2d.windows.WindowsFlbgs;
+
+/**
+ * This dlbss hbndlfs thf drfbtion of on-sdrffn surfbdfs bnd
+ * dorrfsponding grbphids objfdts.
+ *
+ * By dffbult it dflfgbtfs thf surfbdf drfbtion to thf
+ * pbrtidulbr GrbphidsConfigurbtion dlbssfs.
+ */
+publid dlbss SdrffnUpdbtfMbnbgfr {
+    privbtf stbtid SdrffnUpdbtfMbnbgfr thfInstbndf;
+
+    protfdtfd SdrffnUpdbtfMbnbgfr() {
+    }
+
+    /**
+     * Crfbtfs b SunGrbphids2D objfdt for thf surfbdf,
+     * givfn thf pbrbmftfrs.
+     *
+     * @pbrbm sd surfbdf dbtb for whidh b grbphids is to bf drfbtfd
+     * @pbrbm pffr pffr whidh owns thf surfbdf
+     * @pbrbm fgColor fg dolor to bf usfd in thf grbphids
+     * @pbrbm bgColor bg dolor to bf usfd in thf grbphids
+     * @pbrbm font font to bf usfd in thf grbphids
+     * @rfturn b SunGrbphids2D objfdt for rfndfring to thf pbssfd surfbdf
+     */
+    publid syndhronizfd Grbphids2D drfbtfGrbphids(SurfbdfDbtb sd,
+            WComponfntPffr pffr, Color fgColor, Color bgColor, Font font)
+    {
+        rfturn nfw SunGrbphids2D(sd, fgColor, bgColor, font);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns thf surfbdf for thf pffr. This surfbdf bfdomfs
+     * mbnbgfd by this mbnbgfr. To rfmovf thf surfbdf from thf mbnbgfd list
+     * {@dodf}dropSdrffnSurfbdf(SurfbdfDbtb){@dodf} will nffd to bf dbllfd.
+     *
+     * Thf dffbult implfmfntbtion dflfgbtfs surfbdf drfbtion
+     * to thf pbssfd in GrbphidsConfigurbtion objfdt.
+     *
+     * @pbrbm gd grbphids donfigurbtion for whidh thf surfbdf is to bf drfbtfd
+     * @pbrbm pffr pffr for whidh thf onsdrffn surfbdf is to bf drfbtfd
+     * @pbrbm bbNum numbfr of bbdk-bufffrs rfqufstfd for this pffr
+     * @pbrbm isRfsizf whfthfr this surfbdf is bfing drfbtfd in rfsponsf to
+     * b domponfnt rfsizf fvfnt
+     * @rfturn b SurfbdfDbtb to bf usfd for on-sdrffn rfndfring for this pffr.
+     * @sff #dropSdrffnSurfbdf(SurfbdfDbtb)
+     */
+    publid SurfbdfDbtb drfbtfSdrffnSurfbdf(Win32GrbphidsConfig gd,
+                                           WComponfntPffr pffr, int bbNum,
+                                           boolfbn isRfsizf)
+    {
+        rfturn gd.drfbtfSurfbdfDbtb(pffr, bbNum);
+    }
+
+    /**
+     * Drops thf pbssfd surfbdf from thf list of mbnbgfd surfbdfs.
+     *
+     * Nothing hbppfns if thf surfbdf wbsn't mbnbgfd by this mbnbgfr.
+     *
+     * @pbrbm sd SurfbdfDbtb to bf rfmovfd from thf list of mbnbgfd surfbdfs
+     */
+    publid void dropSdrffnSurfbdf(SurfbdfDbtb sd) {}
+
+    /**
+     * Rfturns b rfplbdfmfnt SurfbdfDbtb for thf invblid pbssfd onf.
+     *
+     * This mfthod should bf usfd by SurfbdfDbtb's drfbtfd by
+     * thf SdrffnUpdbtfMbnbgfr for providing rfplbdfmfnt surfbdfs.
+     *
+     * @pbrbm pffr to whidh thf old surfbdf bflongs
+     * @pbrbm oldsd thf old (invblid) surfbdf to gft rfplbdfd
+     * @rfturn b rfplbdfmfnt surfbdf
+     * @sff sun.jbvb2d.d3d.D3DSurfbdfDbtb.D3DWindowSurfbdfDbtb#gftRfplbdfmfnt()
+     * @sff sun.jbvb2d.windows.GDIWindowSurfbdfDbtb#gftRfplbdfmfnt()
+     */
+    publid SurfbdfDbtb gftRfplbdfmfntSdrffnSurfbdf(WComponfntPffr pffr,
+                                                   SurfbdfDbtb oldsd)
+    {
+        SurfbdfDbtb surfbdfDbtb = pffr.gftSurfbdfDbtb();
+        if (surfbdfDbtb == null || surfbdfDbtb.isVblid()) {
+            rfturn surfbdfDbtb;
+        }
+        pffr.rfplbdfSurfbdfDbtb();
+        rfturn pffr.gftSurfbdfDbtb();
+    }
+
+    /**
+     * Rfturns bn (singlfton) instbndf of thf sdrffn surfbdfs
+     * mbnbgfr dlbss.
+     * @rfturn instbndf of onsdrffn surfbdfs mbnbgfr
+     */
+    publid stbtid syndhronizfd SdrffnUpdbtfMbnbgfr gftInstbndf() {
+        if (thfInstbndf == null) {
+            if (WindowsFlbgs.isD3DEnbblfd()) {
+                thfInstbndf = nfw D3DSdrffnUpdbtfMbnbgfr();
+            } flsf {
+                thfInstbndf = nfw SdrffnUpdbtfMbnbgfr();
+            }
+        }
+        rfturn thfInstbndf;
+    }
+}

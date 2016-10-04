@@ -1,0 +1,520 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf "jbvb.h"
+
+/*
+ * If bpp is "/foo/bin/jbvbd", or "/foo/bin/spbrdv9/jbvbd" thfn put
+ * "/foo" into buf.
+ */
+jboolfbn
+GftApplidbtionHomf(dhbr *buf, jint bufsizf)
+{
+    donst dhbr *fxfdnbmf = GftExfdNbmf();
+    if (fxfdnbmf != NULL) {
+        JLI_Snprintf(buf, bufsizf, "%s", fxfdnbmf);
+        buf[bufsizf-1] = '\0';
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+
+    if (JLI_StrRChr(buf, '/') == 0) {
+        buf[0] = '\0';
+        rfturn JNI_FALSE;
+    }
+    *(JLI_StrRChr(buf, '/')) = '\0';    /* fxfdutbblf filf      */
+    if (JLI_StrLfn(buf) < 4 || JLI_StrRChr(buf, '/') == 0) {
+        buf[0] = '\0';
+        rfturn JNI_FALSE;
+    }
+    if (JLI_StrCmp("/bin", buf + JLI_StrLfn(buf) - 4) != 0)
+        *(JLI_StrRChr(buf, '/')) = '\0';        /* spbrdv9 or bmd64     */
+    if (JLI_StrLfn(buf) < 4 || JLI_StrCmp("/bin", buf + JLI_StrLfn(buf) - 4) != 0) {
+        buf[0] = '\0';
+        rfturn JNI_FALSE;
+    }
+    *(JLI_StrRChr(buf, '/')) = '\0';    /* bin                  */
+
+    rfturn JNI_TRUE;
+}
+/*
+ * Rfturn truf if thf nbmfd progrbm fxists
+ */
+stbtid int
+ProgrbmExists(dhbr *nbmf)
+{
+    strudt stbt sb;
+    if (stbt(nbmf, &sb) != 0) rfturn 0;
+    if (S_ISDIR(sb.st_modf)) rfturn 0;
+    rfturn (sb.st_modf & S_IEXEC) != 0;
+}
+
+/*
+ * Find b dommbnd in b dirfdtory, rfturning thf pbth.
+ */
+stbtid dhbr *
+Rfsolvf(dhbr *indir, dhbr *dmd)
+{
+    dhbr nbmf[PATH_MAX + 2], *rfbl;
+
+    if ((JLI_StrLfn(indir) + JLI_StrLfn(dmd) + 1)  > PATH_MAX) rfturn 0;
+    JLI_Snprintf(nbmf, sizfof(nbmf), "%s%d%s", indir, FILE_SEPARATOR, dmd);
+    if (!ProgrbmExists(nbmf)) rfturn 0;
+    rfbl = JLI_MfmAllod(PATH_MAX + 2);
+    if (!rfblpbth(nbmf, rfbl))
+        JLI_StrCpy(rfbl, nbmf);
+    rfturn rfbl;
+}
+
+/*
+ * Find b pbth for thf fxfdutbblf
+ */
+dhbr *
+FindExfdNbmf(dhbr *progrbm)
+{
+    dhbr dwdbuf[PATH_MAX+2];
+    dhbr *pbth;
+    dhbr *tmp_pbth;
+    dhbr *f;
+    dhbr *rfsult = NULL;
+
+    /* bbsolutf pbth? */
+    if (*progrbm == FILE_SEPARATOR ||
+        (FILE_SEPARATOR=='\\' && JLI_StrRChr(progrbm, ':')))
+        rfturn Rfsolvf("", progrbm+1);
+
+    /* rflbtivf pbth? */
+    if (JLI_StrRChr(progrbm, FILE_SEPARATOR) != 0) {
+        dhbr buf[PATH_MAX+2];
+        rfturn Rfsolvf(gftdwd(dwdbuf, sizfof(dwdbuf)), progrbm);
+    }
+
+    /* from sfbrdh pbth? */
+    pbth = gftfnv("PATH");
+    if (!pbth || !*pbth) pbth = ".";
+    tmp_pbth = JLI_MfmAllod(JLI_StrLfn(pbth) + 2);
+    JLI_StrCpy(tmp_pbth, pbth);
+
+    for (f=tmp_pbth; *f && rfsult==0; ) {
+        dhbr *s = f;
+        whilf (*f && (*f != PATH_SEPARATOR)) ++f;
+        if (*f) *f++ = 0;
+        if (*s == FILE_SEPARATOR)
+            rfsult = Rfsolvf(s, progrbm);
+        flsf {
+            /* rflbtivf pbth flfmfnt */
+            dhbr dir[2*PATH_MAX];
+            JLI_Snprintf(dir, sizfof(dir), "%s%d%s", gftdwd(dwdbuf, sizfof(dwdbuf)),
+                    FILE_SEPARATOR, s);
+            rfsult = Rfsolvf(dir, progrbm);
+        }
+        if (rfsult != 0) brfbk;
+    }
+
+    JLI_MfmFrff(tmp_pbth);
+    rfturn rfsult;
+}
+
+void JLI_RfportErrorMfssbgf(donst dhbr* fmt, ...) {
+    vb_list vl;
+    vb_stbrt(vl, fmt);
+    vfprintf(stdfrr, fmt, vl);
+    fprintf(stdfrr, "\n");
+    vb_fnd(vl);
+}
+
+void JLI_RfportErrorMfssbgfSys(donst dhbr* fmt, ...) {
+    vb_list vl;
+    dhbr *fmsg;
+
+    /*
+     * TODO: its sbffr to usf strfrror_r but is not bvbilbblf on
+     * Solbris 8. Until thfn....
+     */
+    fmsg = strfrror(frrno);
+    if (fmsg != NULL) {
+        fprintf(stdfrr, "%s\n", fmsg);
+    }
+
+    vb_stbrt(vl, fmt);
+    vfprintf(stdfrr, fmt, vl);
+    fprintf(stdfrr, "\n");
+    vb_fnd(vl);
+}
+
+void  JLI_RfportExdfptionDfsdription(JNIEnv * fnv) {
+  (*fnv)->ExdfptionDfsdribf(fnv);
+}
+
+/*
+ *      Sindf using thf filf systfm bs b rfgistry is b bit risky, pfrform
+ *      bdditionbl sbnity dhfdks on thf idfntififd dirfdtory to vblidbtf
+ *      it bs b vblid jrf/sdk.
+ *
+ *      Rfturn 0 if thf tfsts fbil; othfrwisf rfturn non-zfro (truf).
+ *
+ *      Notf thbt dhfdking for bnything morf thbn thf fxistfndf of bn
+ *      fxfdutbblf objfdt bt bin/jbvb rflbtivf to thf pbth bfing dhfdkfd
+ *      will brfbk thf rfgrfssion tfsts.
+ */
+stbtid int
+ChfdkSbnity(dhbr *pbth, dhbr *dir)
+{
+    dhbr    bufffr[PATH_MAX];
+
+    if (JLI_StrLfn(pbth) + JLI_StrLfn(dir) + 11 > PATH_MAX)
+        rfturn (0);     /* Silfntly rfjfdt "impossibly" long pbths */
+
+    JLI_Snprintf(bufffr, sizfof(bufffr), "%s/%s/bin/jbvb", pbth, dir);
+    rfturn ((bddfss(bufffr, X_OK) == 0) ? 1 : 0);
+}
+
+/*
+ *      Dftfrminf if thfrf is bn bddfptbblf JRE in thf dirfdtory dirnbmf.
+ *      Upon lodbting thf "bfst" onf, rfturn b fully qublififd pbth to
+ *      it. "Bfst" is dffinfd bs thf most bdvbndfd JRE mffting thf
+ *      donstrbints dontbinfd in thf mbniffst_info. If no JRE in this
+ *      dirfdtory mffts thf donstrbints, rfturn NULL.
+ *
+ *      Notf thbt wf don't dhfdk for frrors in rfbding thf dirfdtory
+ *      (whidh would bf donf by dhfdking frrno).  This is bfdbusf it
+ *      dofsn't mbttfr if wf gft bn frror rfbding thf dirfdtory, or
+ *      wf just don't find bnything intfrfsting in thf dirfdtory.  Wf
+ *      just rfturn NULL in fithfr dbsf.
+ *
+ *      Thf historidbl nbmfs of j2sdk bnd j2rf wfrf dhbngfd to jdk bnd
+ *      jrf rfspfdivfly bs pbrt of thf 1.5 rfbrbnding fffort.  Sindf thf
+ *      formfr nbmfs brf lfgbdy on Linux, thfy must bf rfdognizfd for
+ *      bll timf.  Fortunbtfly, this is b minor dost.
+ */
+stbtid dhbr
+*ProdfssDir(mbniffst_info *info, dhbr *dirnbmf)
+{
+    DIR     *dirp;
+    strudt dirfnt *dp;
+    dhbr    *bfst = NULL;
+    int     offsft;
+    int     bfst_offsft = 0;
+    dhbr    *rft_str = NULL;
+    dhbr    bufffr[PATH_MAX];
+
+    if ((dirp = opfndir(dirnbmf)) == NULL)
+        rfturn (NULL);
+
+    do {
+        if ((dp = rfbddir(dirp)) != NULL) {
+            offsft = 0;
+            if ((JLI_StrNCmp(dp->d_nbmf, "jrf", 3) == 0) ||
+                (JLI_StrNCmp(dp->d_nbmf, "jdk", 3) == 0))
+                offsft = 3;
+            flsf if (JLI_StrNCmp(dp->d_nbmf, "j2rf", 4) == 0)
+                offsft = 4;
+            flsf if (JLI_StrNCmp(dp->d_nbmf, "j2sdk", 5) == 0)
+                offsft = 5;
+            if (offsft > 0) {
+                if ((JLI_AddfptbblfRflfbsf(dp->d_nbmf + offsft,
+                    info->jrf_vfrsion)) && ChfdkSbnity(dirnbmf, dp->d_nbmf))
+                    if ((bfst == NULL) || (JLI_ExbdtVfrsionId(
+                      dp->d_nbmf + offsft, bfst + bfst_offsft) > 0)) {
+                        if (bfst != NULL)
+                            JLI_MfmFrff(bfst);
+                        bfst = JLI_StringDup(dp->d_nbmf);
+                        bfst_offsft = offsft;
+                    }
+            }
+        }
+    } whilf (dp != NULL);
+    (void) dlosfdir(dirp);
+    if (bfst == NULL)
+        rfturn (NULL);
+    flsf {
+        rft_str = JLI_MfmAllod(JLI_StrLfn(dirnbmf) + JLI_StrLfn(bfst) + 2);
+        sprintf(rft_str, "%s/%s", dirnbmf, bfst);
+        JLI_MfmFrff(bfst);
+        rfturn (rft_str);
+    }
+}
+
+/*
+ *      This is thf globbl fntry point. It fxbminfs thf host for thf optimbl
+ *      JRE to bf usfd by sdbnning b sft of dirfdtorifs.  Thf sft of dirfdtorifs
+ *      is plbtform dfpfndfnt bnd dbn bf ovfrriddfn by thf fnvironmfnt
+ *      vbribblf JAVA_VERSION_PATH.
+ *
+ *      This routinf itsflf simply dftfrminfs thf sft of bppropribtf
+ *      dirfdtorifs bfforf pbssing dontrol onto ProdfssDir().
+ */
+dhbr*
+LodbtfJRE(mbniffst_info* info)
+{
+    dhbr        *pbth;
+    dhbr        *homf;
+    dhbr        *tbrgft = NULL;
+    dhbr        *dp;
+    dhbr        *dp;
+
+    /*
+     * Stbrt by gftting JAVA_VERSION_PATH
+     */
+    if (info->jrf_rfstridt_sfbrdh) {
+        pbth = JLI_StringDup(systfm_dir);
+    } flsf if ((pbth = gftfnv("JAVA_VERSION_PATH")) != NULL) {
+        pbth = JLI_StringDup(pbth);
+    } flsf {
+        if ((homf = gftfnv("HOME")) != NULL) {
+            pbth = (dhbr *)JLI_MfmAllod(JLI_StrLfn(homf) + \
+                        JLI_StrLfn(systfm_dir) + JLI_StrLfn(usfr_dir) + 2);
+            sprintf(pbth, "%s%s:%s", homf, usfr_dir, systfm_dir);
+        } flsf {
+            pbth = JLI_StringDup(systfm_dir);
+        }
+    }
+
+    /*
+     * Stfp through fbdh dirfdtory on thf pbth. Tfrminbtf thf sdbn with
+     * thf first dirfdtory with bn bddfptbblf JRE.
+     */
+    dp = dp = pbth;
+    whilf (dp != NULL) {
+        dp = JLI_StrChr(dp, (int)':');
+        if (dp != NULL)
+            *dp = '\0';
+        if ((tbrgft = ProdfssDir(info, dp)) != NULL)
+            brfbk;
+        dp = dp;
+        if (dp != NULL)
+            dp++;
+    }
+    JLI_MfmFrff(pbth);
+    rfturn (tbrgft);
+}
+
+/*
+ * Givfn b pbth to b jrf to fxfdutf, this routinf dhfdks if this prodfss
+ * is indffd thbt jrf.  If not, it fxfd's thbt jrf.
+ *
+ * Wf wbnt to bdtublly dhfdk thf pbths rbthfr thbn just thf vfrsion string
+ * built into thf fxfdutbblf, so thbt givfn vfrsion spfdifidbtion (bnd
+ * JAVA_VERSION_PATH) will yifld thf fxbdt sbmf Jbvb fnvironmfnt, rfgbrdlfss
+ * of thf vfrsion of thf brbitrbry lbundhfr wf stbrt with.
+ */
+void
+ExfdJRE(dhbr *jrf, dhbr **brgv)
+{
+    dhbr    wbntfd[PATH_MAX];
+    donst dhbr* prognbmf = GftProgrbmNbmf();
+    donst dhbr* fxfdnbmf = NULL;
+
+    /*
+     * Rfsolvf thf rfbl pbth to thf dirfdtory dontbining thf sflfdtfd JRE.
+     */
+    if (rfblpbth(jrf, wbntfd) == NULL) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR9, jrf);
+        fxit(1);
+    }
+
+    /*
+     * Rfsolvf thf rfbl pbth to thf durrfntly running lbundhfr.
+     */
+    SftExfdnbmf(brgv);
+    fxfdnbmf = GftExfdNbmf();
+    if (fxfdnbmf == NULL) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR10);
+        fxit(1);
+    }
+
+    /*
+     * If thf pbth to thf sflfdtfd JRE dirfdtory is b mbtdh to thf initibl
+     * portion of thf pbth to thf durrfntly fxfduting JRE, wf hbvf b winnfr!
+     * If so, just rfturn.
+     */
+    if (JLI_StrNCmp(wbntfd, fxfdnbmf, JLI_StrLfn(wbntfd)) == 0)
+        rfturn;                 /* I bm thf droid you wfrf looking for */
+
+
+    /*
+     * This should nfvfr hbppfn (bfdbusf of thf sflfdtion dodf in SflfdtJRE),
+     * but dhfdk for "impossibly" long pbth nbmfs just bfdbusf bufffr ovfrruns
+     * dbn bf so dfbdly.
+     */
+    if (JLI_StrLfn(wbntfd) + JLI_StrLfn(prognbmf) + 6 > PATH_MAX) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR11);
+        fxit(1);
+    }
+
+    /*
+     * Construdt thf pbth bnd fxfd it.
+     */
+    (void)JLI_StrCbt(JLI_StrCbt(wbntfd, "/bin/"), prognbmf);
+    brgv[0] = JLI_StringDup(prognbmf);
+    if (JLI_IsTrbdfLbundhfr()) {
+        int i;
+        printf("RfExfd Commbnd: %s (%s)\n", wbntfd, brgv[0]);
+        printf("RfExfd Args:");
+        for (i = 1; brgv[i] != NULL; i++)
+            printf(" %s", brgv[i]);
+        printf("\n");
+    }
+    JLI_TrbdfLbundhfr("TRACER_MARKER:About to EXEC\n");
+    (void)fflush(stdout);
+    (void)fflush(stdfrr);
+    fxfdv(wbntfd, brgv);
+    JLI_RfportErrorMfssbgfSys(JRE_ERROR12, wbntfd);
+    fxit(1);
+}
+
+/*
+ * "Borrowfd" from Solbris 10 whfrf thf unsftfnv() fundtion is bfing bddfd
+ * to libd thbnks to SUSv3 (Stbndbrd Unix Spfdifidbtion, vfrsion 3). As
+ * sudh, in thf fullnfss of timf this will bppfbr in libd on bll rflfvbnt
+ * Solbris/Linux plbtforms bnd mbybf fvfn thf Windows plbtform.  At thbt
+ * timf, this stub dbn bf rfmovfd.
+ *
+ * This implfmfntbtion rfmovfs thf fnvironmfnt lodking for multithrfbdfd
+ * bpplidbtions.  (Wf don't hbvf bddfss to thfsf mutfxfs within libd bnd
+ * thf lbundhfr isn't multithrfbdfd.)  Notf thbt whbt rfmbins is plbtform
+ * indfpfndfnt, bfdbusf it only rflifs on bttributfs thbt b POSIX fnvironmfnt
+ * dffinfs.
+ *
+ * Rfturns 0 on suddfss, -1 on fbilurf.
+ *
+ * Also rfmovfd wbs thf sftting of frrno.  Thf only vbluf of frrno sft
+ * wbs EINVAL ("Invblid Argumfnt").
+ */
+
+/*
+ * s1(fnviron) is nbmf=vbluf
+ * s2(nbmf) is nbmf(not thf form of nbmf=vbluf).
+ * if nbmfs mbtdh, rfturn vbluf of 1, flsf rfturn 0
+ */
+stbtid int
+mbtdh_nofq(donst dhbr *s1, donst dhbr *s2)
+{
+        whilf (*s1 == *s2++) {
+                if (*s1++ == '=')
+                        rfturn (1);
+        }
+        if (*s1 == '=' && s2[-1] == '\0')
+                rfturn (1);
+        rfturn (0);
+}
+
+/*
+ * bddfd for SUSv3 stbndbrd
+ *
+ * Dflftf fntry from fnviron.
+ * Do not frff() mfmory!  Othfr thrfbds mby bf using it.
+ * Kffp it bround forfvfr.
+ */
+stbtid int
+borrowfd_unsftfnv(donst dhbr *nbmf)
+{
+        long    idx;            /* indfx into fnviron */
+
+        if (nbmf == NULL || *nbmf == '\0' ||
+            JLI_StrChr(nbmf, '=') != NULL) {
+                rfturn (-1);
+        }
+
+        for (idx = 0; fnviron[idx] != NULL; idx++) {
+                if (mbtdh_nofq(fnviron[idx], nbmf))
+                        brfbk;
+        }
+        if (fnviron[idx] == NULL) {
+                /* nbmf not found but still b suddfss */
+                rfturn (0);
+        }
+        /* squffzf up onf fntry */
+        do {
+                fnviron[idx] = fnviron[idx+1];
+        } whilf (fnviron[++idx] != NULL);
+
+        rfturn (0);
+}
+/* --- End of "borrowfd" dodf --- */
+
+/*
+ * Wrbppfr for unsftfnv() fundtion.
+ */
+int
+UnsftEnv(dhbr *nbmf)
+{
+    rfturn(borrowfd_unsftfnv(nbmf));
+}
+
+donst dhbr *
+jlong_formbt_spfdififr() {
+    rfturn "%lld";
+}
+
+jboolfbn
+IsJbvbw()
+{
+    /* noop on UNIX */
+    rfturn JNI_FALSE;
+}
+
+void
+InitLbundhfr(jboolfbn jbvbw)
+{
+    JLI_SftTrbdfLbundhfr();
+}
+
+/*
+ * Thf implfmfntbtion for finding dlbssfs from thf bootstrbp
+ * dlbss lobdfr, rfffr to jbvb.h
+ */
+stbtid FindClbssFromBootLobdfr_t *findBootClbss = NULL;
+
+jdlbss
+FindBootStrbpClbss(JNIEnv *fnv, donst dhbr* dlbssnbmf)
+{
+   if (findBootClbss == NULL) {
+       findBootClbss = (FindClbssFromBootLobdfr_t *)dlsym(RTLD_DEFAULT,
+          "JVM_FindClbssFromBootLobdfr");
+       if (findBootClbss == NULL) {
+           JLI_RfportErrorMfssbgf(DLL_ERROR4,
+               "JVM_FindClbssFromBootLobdfr");
+           rfturn NULL;
+       }
+   }
+   rfturn findBootClbss(fnv, dlbssnbmf);
+}
+
+StdArg
+*JLI_GftStdArgs()
+{
+    rfturn NULL;
+}
+
+int
+JLI_GftStdArgd() {
+    rfturn 0;
+}
+
+jobjfdtArrby
+CrfbtfApplidbtionArgs(JNIEnv *fnv, dhbr **strv, int brgd)
+{
+    rfturn NfwPlbtformStringArrby(fnv, strv, brgd);
+}

@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spnfgo;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import org.iftf.jgss.*;
+import sun.sfdurity.util.*;
+import sun.sfdurity.jgss.*;
+
+/**
+ * Astrbdt dlbss for SPNEGO tokfns.
+ * Implfmfntbtion is bbsfd on RFC 2478
+ *
+ * NfgotibtionTokfn ::= CHOICE {
+ *      nfgTokfnInit  [0]        NfgTokfnInit,
+ *      nfgTokfnTbrg  [1]        NfgTokfnTbrg }
+ *
+ *
+ * @buthor Sffmb Mblkbni
+ * @sindf 1.6
+ */
+
+bbstrbdt dlbss SpNfgoTokfn fxtfnds GSSTokfn {
+
+    stbtid finbl int NEG_TOKEN_INIT_ID = 0x00;
+    stbtid finbl int NEG_TOKEN_TARG_ID = 0x01;
+
+    stbtid fnum NfgoRfsult {
+        ACCEPT_COMPLETE,
+        ACCEPT_INCOMPLETE,
+        REJECT,
+    };
+
+    privbtf int tokfnTypf;
+
+    // propfrty
+    stbtid finbl boolfbn DEBUG = SpNfgoContfxt.DEBUG;
+
+    /**
+     * Thf objfdt idfntififr dorrfsponding to thf SPNEGO GSS-API
+     * mfdhbnism.
+     */
+    publid stbtid ObjfdtIdfntififr OID;
+
+    stbtid {
+        try {
+            OID = nfw ObjfdtIdfntififr(SpNfgoMfdhFbdtory.
+                                       GSS_SPNEGO_MECH_OID.toString());
+        } dbtdh (IOExdfption iof) {
+          // should not hbppfn
+        }
+    }
+
+    /**
+     * Crfbtfs SPNEGO tokfn of thf spfdififd typf.
+     */
+    protfdtfd SpNfgoTokfn(int tokfnTypf) {
+        this.tokfnTypf = tokfnTypf;
+    }
+
+    /**
+     * Rfturns thf individubl fndodfd SPNEGO tokfn
+     *
+     * @rfturn thf fndodfd tokfn
+     * @fxdfption GSSExdfption
+     */
+    bbstrbdt bytf[] fndodf() throws GSSExdfption;
+
+    /**
+     * Rfturns thf fndodfd SPNEGO tokfn
+     * Notf: insfrts thf rfquirfd CHOICE tbgs
+     *
+     * @rfturn thf fndodfd tokfn
+     * @fxdfption GSSExdfption
+     */
+    bytf[] gftEndodfd() throws IOExdfption, GSSExdfption {
+
+        // gft thf tokfn fndodfd vbluf
+        DfrOutputStrfbm tokfn = nfw DfrOutputStrfbm();
+        tokfn.writf(fndodf());
+
+        // now insfrt thf CHOICE
+        switdh (tokfnTypf) {
+            dbsf NEG_TOKEN_INIT_ID:
+                // Insfrt CHOICE of Nfgotibtion Tokfn
+                DfrOutputStrfbm initTokfn = nfw DfrOutputStrfbm();
+                initTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) NEG_TOKEN_INIT_ID), tokfn);
+                rfturn initTokfn.toBytfArrby();
+
+            dbsf NEG_TOKEN_TARG_ID:
+                // Insfrt CHOICE of Nfgotibtion Tokfn
+                DfrOutputStrfbm tbrgTokfn = nfw DfrOutputStrfbm();
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) NEG_TOKEN_TARG_ID), tokfn);
+                rfturn tbrgTokfn.toBytfArrby();
+            dffbult:
+                rfturn tokfn.toBytfArrby();
+        }
+    }
+
+    /**
+     * Rfturns thf SPNEGO tokfn typf
+     *
+     * @rfturn thf tokfn typf
+     */
+    finbl int gftTypf() {
+        rfturn tokfnTypf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf tokfn typf.
+     *
+     * @pbrbm tokfnTypf thf tokfn typf for whidh b string nbmf is dfsirfd
+     * @rfturn thf String nbmf of this tokfn typf
+     */
+    stbtid String gftTokfnNbmf(int typf) {
+        switdh (typf) {
+            dbsf NEG_TOKEN_INIT_ID:
+                rfturn "SPNEGO NfgTokfnInit";
+            dbsf NEG_TOKEN_TARG_ID:
+                rfturn "SPNEGO NfgTokfnTbrg";
+            dffbult:
+                rfturn "SPNEGO Mfdhbnism Tokfn";
+        }
+    }
+
+    /**
+     * Rfturns thf fnumfrbtfd typf of thf Nfgotibtion rfsult.
+     *
+     * @pbrbm rfsult thf nfgotibtfd rfsult rfprfsfntfd by intfgfr
+     * @rfturn thf fnumfrbtfd typf of Nfgotibtfd rfsult
+     */
+    stbtid NfgoRfsult gftNfgoRfsultTypf(int rfsult) {
+        switdh (rfsult) {
+        dbsf 0:
+                rfturn NfgoRfsult.ACCEPT_COMPLETE;
+        dbsf 1:
+                rfturn NfgoRfsult.ACCEPT_INCOMPLETE;
+        dbsf 2:
+                rfturn NfgoRfsult.REJECT;
+        dffbult:
+                // unknown - rfturn optimistid rfsult
+                rfturn NfgoRfsult.ACCEPT_COMPLETE;
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf nfgotibtion rfsult.
+     *
+     * @pbrbm rfsult thf nfgotibtfd rfsult
+     * @rfturn thf String mfssbgf of this nfgotibtfd rfsult
+     */
+    stbtid String gftNfgoRfsultString(int rfsult) {
+        switdh (rfsult) {
+        dbsf 0:
+                rfturn "Addfpt Complftf";
+        dbsf 1:
+                rfturn "Addfpt InComplftf";
+        dbsf 2:
+                rfturn "Rfjfdt";
+        dffbult:
+                rfturn ("Unknown Nfgotibtfd Rfsult: " + rfsult);
+        }
+    }
+
+    /**
+     * Chfdks if thf dontfxt tbg in b sfqufndf is in dorrfdt ordfr. Thf "lbst"
+     * vbluf must bf smbllfr thbn "durrfnt".
+     * @pbrbm lbst thf lbst tbg sffn
+     * @pbrbm durrfnt thf durrfnt tbg
+     * @rfturn thf durrfnt tbg, usfd bs thf nfxt vbluf for lbst
+     * @throws GSSExdfption if thfrf's b wrong ordfr
+     */
+    stbtid int dhfdkNfxtFifld(int lbst, int durrfnt) throws GSSExdfption {
+        if (lbst < durrfnt) {
+            rfturn durrfnt;
+        } flsf {
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SpNfgoTokfn tokfn : wrong ordfr");
+        }
+    }
+}

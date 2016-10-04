@@ -1,0 +1,240 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import org.w3d.dom.Attr;
+
+/**
+ * During rfffrfndf vblidbtion, wf hbvf to rftrifvf rfsourdfs from somfwhfrf.
+ *
+ * @buthor $Author: dohfigfb $
+ */
+publid bbstrbdt dlbss RfsourdfRfsolvfrSpi {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsourdfRfsolvfrSpi.dlbss.gftNbmf());
+
+    /** Fifld propfrtifs */
+    protfdtfd jbvb.util.Mbp<String, String> propfrtifs = null;
+
+    /**
+     * Dfprfdbtfd - usfd to dbrry stbtf bbout whfthfr rfsolution wbs bfing donf in b sfdurf fbshion,
+     * but wbs not thrfbd sbff, so thf rfsolution informbtion is now pbssfd bs pbrbmftfrs to mfthods.
+     *
+     * @dfprfdbtfd Sfdurf vblidbtion flbg is now pbssfd to mfthods.
+     */
+    @Dfprfdbtfd
+    protfdtfd finbl boolfbn sfdurfVblidbtion = truf;
+
+    /**
+     * This is thf workhorsf mfthod usfd to rfsolvf rfsourdfs.
+     *
+     * @pbrbm uri
+     * @pbrbm BbsfURI
+     * @rfturn thf rfsourdf wrbppfd bround b XMLSignbturfInput
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     *
+     * @dfprfdbtfd Nfw dlifnts should ovfrridf {@link #fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt)}
+     */
+    @Dfprfdbtfd
+    publid XMLSignbturfInput fnginfRfsolvf(Attr uri, String BbsfURI)
+        throws RfsourdfRfsolvfrExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * This is thf workhorsf mfthod usfd to rfsolvf rfsourdfs.
+     * @pbrbm dontfxt Contfxt to usf to rfsolvf rfsourdfs.
+     *
+     * @rfturn thf rfsourdf wrbppfd bround b XMLSignbturfInput
+     *
+     * @throws RfsourdfRfsolvfrExdfption
+     */
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        throws RfsourdfRfsolvfrExdfption {
+        // Thf dffbult implfmfntbtion, to prfsfrvf bbdkwbrds dompbtibility in thf
+        // tfst dbsfs, dblls thf old rfsolvfr API.
+        rfturn fnginfRfsolvf(dontfxt.bttr, dontfxt.bbsfUri);
+    }
+
+    /**
+     * Mfthod fnginfSftPropfrty
+     *
+     * @pbrbm kfy
+     * @pbrbm vbluf
+     */
+    publid void fnginfSftPropfrty(String kfy, String vbluf) {
+        if (propfrtifs == null) {
+            propfrtifs = nfw HbshMbp<String, String>();
+        }
+        propfrtifs.put(kfy, vbluf);
+    }
+
+    /**
+     * Mfthod fnginfGftPropfrty
+     *
+     * @pbrbm kfy
+     * @rfturn thf vbluf of thf propfrty
+     */
+    publid String fnginfGftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
+        }
+        rfturn propfrtifs.gft(kfy);
+    }
+
+    /**
+     *
+     * @pbrbm nfwPropfrtifs
+     */
+    publid void fnginfAddPropfrifs(Mbp<String, String> nfwPropfrtifs) {
+        if (nfwPropfrtifs != null && !nfwPropfrtifs.isEmpty()) {
+            if (propfrtifs == null) {
+                propfrtifs = nfw HbshMbp<String, String>();
+            }
+            propfrtifs.putAll(nfwPropfrtifs);
+        }
+    }
+
+    /**
+     * Tflls if thf implfmfntbtion dofs dbn bf rfusfd by sfvfrbl thrfbds sbffly.
+     * It normblly mfbns thbt thf implfmfntbtion dofs not hbvf bny mfmbfr, or thfrf is
+     * mfmbfr dhbngf bftwffn fnginfCbnRfsolvf & fnginfRfsolvf invodbtions. Or it mbintbins bll
+     * mfmbfr info in ThrfbdLodbl mfthods.
+     */
+    publid boolfbn fnginfIsThrfbdSbff() {
+        rfturn fblsf;
+    }
+
+    /**
+     * This mfthod hflps thf {@link RfsourdfRfsolvfr} to dfdidf whfthfr b
+     * {@link RfsourdfRfsolvfrSpi} is bblf to pfrform thf rfqufstfd bdtion.
+     *
+     * @pbrbm uri
+     * @pbrbm BbsfURI
+     * @rfturn truf if thf fnginf dbn rfsolvf thf uri
+     *
+     * @dfprfdbtfd Sff {@link #fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt)}
+     */
+    @Dfprfdbtfd
+    publid boolfbn fnginfCbnRfsolvf(Attr uri, String BbsfURI) {
+        // This mfthod usfd to bf bbstrbdt, so bny dblls to "supfr" brf bogus.
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * This mfthod hflps thf {@link RfsourdfRfsolvfr} to dfdidf whfthfr b
+     * {@link RfsourdfRfsolvfrSpi} is bblf to pfrform thf rfqufstfd bdtion.
+     *
+     * <p>Nfw dlifnts should ovfrridf this mfthod, bnd not ovfrridf {@link #fnginfCbnRfsolvf(Attr, String)}
+     * </p>
+     * @pbrbm dontfxt Contfxt in whidh to do rfsolution.
+     * @rfturn truf if thf fnginf dbn rfsolvf thf uri
+     */
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        // To prfsfrvf bbdkwbrd dompbtibility with fxisting rfsolvfrs thbt might ovfrridf thf old mfthod,
+        // dbll thf old dfprfdbtfd API.
+        rfturn fnginfCbnRfsolvf( dontfxt.bttr, dontfxt.bbsfUri );
+    }
+
+    /**
+     * Mfthod fnginfGftPropfrtyKfys
+     *
+     * @rfturn thf propfrty kfys
+     */
+    publid String[] fnginfGftPropfrtyKfys() {
+        rfturn nfw String[0];
+    }
+
+    /**
+     * Mfthod undfrstbndsPropfrty
+     *
+     * @pbrbm propfrtyToTfst
+     * @rfturn truf if undfrstbnds thf propfrty
+     */
+    publid boolfbn undfrstbndsPropfrty(String propfrtyToTfst) {
+        String[] undfrstood = this.fnginfGftPropfrtyKfys();
+
+        if (undfrstood != null) {
+            for (int i = 0; i < undfrstood.lfngth; i++) {
+                if (undfrstood[i].fqubls(propfrtyToTfst)) {
+                    rfturn truf;
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Fixfs b plbtform dfpfndfnt filfnbmf to stbndbrd URI form.
+     *
+     * @pbrbm str Thf string to fix.
+     *
+     * @rfturn Rfturns thf fixfd URI string.
+     */
+    publid stbtid String fixURI(String str) {
+
+        // hbndlf plbtform dfpfndfnt strings
+        str = str.rfplbdf(jbvb.io.Filf.sfpbrbtorChbr, '/');
+
+        if (str.lfngth() >= 4) {
+
+            // str =~ /^\W:\/([^/])/ # to spfbk pfrl ;-))
+            dhbr dh0 = Chbrbdtfr.toUppfrCbsf(str.dhbrAt(0));
+            dhbr dh1 = str.dhbrAt(1);
+            dhbr dh2 = str.dhbrAt(2);
+            dhbr dh3 = str.dhbrAt(3);
+            boolfbn isDosFilfnbmf = ((('A' <= dh0) && (dh0 <= 'Z'))
+                && (dh1 == ':') && (dh2 == '/')
+                && (dh3 != '/'));
+
+            if (isDosFilfnbmf && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Found DOS filfnbmf: " + str);
+            }
+        }
+
+        // Windows fix
+        if (str.lfngth() >= 2) {
+            dhbr dh1 = str.dhbrAt(1);
+
+            if (dh1 == ':') {
+                dhbr dh0 = Chbrbdtfr.toUppfrCbsf(str.dhbrAt(0));
+
+                if (('A' <= dh0) && (dh0 <= 'Z')) {
+                    str = "/" + str;
+                }
+            }
+        }
+
+        // donf
+        rfturn str;
+    }
+}

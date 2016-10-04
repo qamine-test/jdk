@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
 
-import java.lang.annotation.*;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.TypeAnnotationParser;
-import sun.reflect.annotation.AnnotationType;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.tree.FieldTypeSignature;
-import sun.reflect.generics.visitor.Reifier;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.AnnotbtfdTypf;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.GfnfridDfdlbrbtion;
+import jbvb.lbng.rfflfdt.Mfmbfr;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtionPbrsfr;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Implementation of <tt>java.lang.reflect.TypeVariable</tt> interface
- * for core reflection.
+ * Implfmfntbtion of <tt>jbvb.lbng.rfflfdt.TypfVbribblf</tt> intfrfbdf
+ * for dorf rfflfdtion.
  */
-public class TypeVariableImpl<D extends GenericDeclaration>
-    extends LazyReflectiveObjectGenerator implements TypeVariable<D> {
-    D genericDeclaration;
-    private String name;
-    // upper bounds - evaluated lazily
-    private Type[] bounds;
+publid dlbss TypfVbribblfImpl<D fxtfnds GfnfridDfdlbrbtion>
+    fxtfnds LbzyRfflfdtivfObjfdtGfnfrbtor implfmfnts TypfVbribblf<D> {
+    D gfnfridDfdlbrbtion;
+    privbtf String nbmf;
+    // uppfr bounds - fvblubtfd lbzily
+    privbtf Typf[] bounds;
 
-    // The ASTs for the bounds. We are required to evaluate the bounds
-    // lazily, so we store these at least until we are first asked
-    // for the bounds. This also neatly solves the
-    // problem with F-bounds - you can't reify them before the formal
-    // is defined.
-    private FieldTypeSignature[] boundASTs;
+    // Tif ASTs for tif bounds. Wf brf rfquirfd to fvblubtf tif bounds
+    // lbzily, so wf storf tifsf bt lfbst until wf brf first bskfd
+    // for tif bounds. Tiis blso nfbtly solvfs tif
+    // problfm witi F-bounds - you dbn't rfify tifm bfforf tif formbl
+    // is dffinfd.
+    privbtf FifldTypfSignbturf[] boundASTs;
 
-    // constructor is private to enforce access through static factory
-    private TypeVariableImpl(D decl, String n, FieldTypeSignature[] bs,
-                             GenericsFactory f) {
-        super(f);
-        genericDeclaration = decl;
-        name = n;
+    // donstrudtor is privbtf to fnfordf bddfss tirougi stbtid fbdtory
+    privbtf TypfVbribblfImpl(D dfdl, String n, FifldTypfSignbturf[] bs,
+                             GfnfridsFbdtory f) {
+        supfr(f);
+        gfnfridDfdlbrbtion = dfdl;
+        nbmf = n;
         boundASTs = bs;
     }
 
-    // Accessors
+    // Addfssors
 
-    // accessor for ASTs for bounds. Must not be called after
-    // bounds have been evaluated, because we might throw the ASTs
-    // away (but that is not thread-safe, is it?)
-    private FieldTypeSignature[] getBoundASTs() {
-        // check that bounds were not evaluated yet
-        assert(bounds == null);
-        return boundASTs;
+    // bddfssor for ASTs for bounds. Must not bf dbllfd bftfr
+    // bounds ibvf bffn fvblubtfd, bfdbusf wf migit tirow tif ASTs
+    // bwby (but tibt is not tirfbd-sbff, is it?)
+    privbtf FifldTypfSignbturf[] gftBoundASTs() {
+        // difdk tibt bounds wfrf not fvblubtfd yft
+        bssfrt(bounds == null);
+        rfturn boundASTs;
     }
 
     /**
-     * Factory method.
-     * @param decl - the reflective object that declared the type variable
-     * that this method should create
-     * @param name - the name of the type variable to be returned
-     * @param bs - an array of ASTs representing the bounds for the type
-     * variable to be created
-     * @param f - a factory that can be used to manufacture reflective
-     * objects that represent the bounds of this type variable
-     * @return A type variable with name, bounds, declaration and factory
-     * specified
+     * Fbdtory mftiod.
+     * @pbrbm dfdl - tif rfflfdtivf objfdt tibt dfdlbrfd tif typf vbribblf
+     * tibt tiis mftiod siould drfbtf
+     * @pbrbm nbmf - tif nbmf of tif typf vbribblf to bf rfturnfd
+     * @pbrbm bs - bn brrby of ASTs rfprfsfnting tif bounds for tif typf
+     * vbribblf to bf drfbtfd
+     * @pbrbm f - b fbdtory tibt dbn bf usfd to mbnufbdturf rfflfdtivf
+     * objfdts tibt rfprfsfnt tif bounds of tiis typf vbribblf
+     * @rfturn A typf vbribblf witi nbmf, bounds, dfdlbrbtion bnd fbdtory
+     * spfdififd
      */
-    public static <T extends GenericDeclaration>
-                             TypeVariableImpl<T> make(T decl, String name,
-                                                      FieldTypeSignature[] bs,
-                                                      GenericsFactory f) {
+    publid stbtid <T fxtfnds GfnfridDfdlbrbtion>
+                             TypfVbribblfImpl<T> mbkf(T dfdl, String nbmf,
+                                                      FifldTypfSignbturf[] bs,
+                                                      GfnfridsFbdtory f) {
 
-        if (!((decl instanceof Class) ||
-                (decl instanceof Method) ||
-                (decl instanceof Constructor))) {
-            throw new AssertionError("Unexpected kind of GenericDeclaration" +
-                    decl.getClass().toString());
+        if (!((dfdl instbndfof Clbss) ||
+                (dfdl instbndfof Mftiod) ||
+                (dfdl instbndfof Construdtor))) {
+            tirow nfw AssfrtionError("Unfxpfdtfd kind of GfnfridDfdlbrbtion" +
+                    dfdl.gftClbss().toString());
         }
-        return new TypeVariableImpl<T>(decl, name, bs, f);
+        rfturn nfw TypfVbribblfImpl<T>(dfdl, nbmf, bs, f);
     }
 
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the
-     * upper bound(s) of this type variable.  Note that if no upper bound is
-     * explicitly declared, the upper bound is <tt>Object</tt>.
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting tif
+     * uppfr bound(s) of tiis typf vbribblf.  Notf tibt if no uppfr bound is
+     * fxpliditly dfdlbrfd, tif uppfr bound is <tt>Objfdt</tt>.
      *
-     * <p>For each upper bound B:
+     * <p>For fbdi uppfr bound B:
      * <ul>
-     *  <li>if B is a parameterized type or a type variable, it is created,
-     *  (see {@link #ParameterizedType} for the details of the creation
-     *  process for parameterized types).
-     *  <li>Otherwise, B is resolved.
+     *  <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *  (sff {@link #PbrbmftfrizfdTypf} for tif dftbils of tif drfbtion
+     *  prodfss for pbrbmftfrizfd typfs).
+     *  <li>Otifrwisf, B is rfsolvfd.
      * </ul>
      *
-     * @throws <tt>TypeNotPresentException</tt>  if any of the
-     *     bounds refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     bounds refer to a parameterized type that cannot be instantiated
-     *     for any reason
-     * @return an array of Types representing the upper bound(s) of this
-     *     type variable
+     * @tirows <tt>TypfNotPrfsfntExdfption</tt>  if bny of tif
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of tif
+     *     bounds rfffr to b pbrbmftfrizfd typf tibt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     * @rfturn bn brrby of Typfs rfprfsfnting tif uppfr bound(s) of tiis
+     *     typf vbribblf
     */
-    public Type[] getBounds() {
-        // lazily initialize bounds if necessary
+    publid Typf[] gftBounds() {
+        // lbzily initiblizf bounds if nfdfssbry
         if (bounds == null) {
-            FieldTypeSignature[] fts = getBoundASTs(); // get AST
-            // allocate result array; note that
-            // keeping ts and bounds separate helps with threads
-            Type[] ts = new Type[fts.length];
-            // iterate over bound trees, reifying each in turn
-            for ( int j = 0; j  < fts.length; j++) {
-                Reifier r = getReifier();
-                fts[j].accept(r);
-                ts[j] = r.getResult();
+            FifldTypfSignbturf[] fts = gftBoundASTs(); // gft AST
+            // bllodbtf rfsult brrby; notf tibt
+            // kffping ts bnd bounds sfpbrbtf iflps witi tirfbds
+            Typf[] ts = nfw Typf[fts.lfngti];
+            // itfrbtf ovfr bound trffs, rfifying fbdi in turn
+            for ( int j = 0; j  < fts.lfngti; j++) {
+                Rfififr r = gftRfififr();
+                fts[j].bddfpt(r);
+                ts[j] = r.gftRfsult();
             }
-            // cache result
+            // dbdif rfsult
             bounds = ts;
-            // could throw away bound ASTs here; thread safety?
+            // dould tirow bwby bound ASTs ifrf; tirfbd sbffty?
         }
-        return bounds.clone(); // return cached bounds
+        rfturn bounds.dlonf(); // rfturn dbdifd bounds
     }
 
     /**
-     * Returns the <tt>GenericDeclaration</tt>  object representing the
-     * generic declaration that declared this type variable.
+     * Rfturns tif <tt>GfnfridDfdlbrbtion</tt>  objfdt rfprfsfnting tif
+     * gfnfrid dfdlbrbtion tibt dfdlbrfd tiis typf vbribblf.
      *
-     * @return the generic declaration that declared this type variable.
+     * @rfturn tif gfnfrid dfdlbrbtion tibt dfdlbrfd tiis typf vbribblf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public D getGenericDeclaration(){
-        if (genericDeclaration instanceof Class)
-            ReflectUtil.checkPackageAccess((Class)genericDeclaration);
-        else if ((genericDeclaration instanceof Method) ||
-                (genericDeclaration instanceof Constructor))
-            ReflectUtil.conservativeCheckMemberAccess((Member)genericDeclaration);
-        else
-            throw new AssertionError("Unexpected kind of GenericDeclaration");
-        return genericDeclaration;
+    publid D gftGfnfridDfdlbrbtion(){
+        if (gfnfridDfdlbrbtion instbndfof Clbss)
+            RfflfdtUtil.difdkPbdkbgfAddfss((Clbss)gfnfridDfdlbrbtion);
+        flsf if ((gfnfridDfdlbrbtion instbndfof Mftiod) ||
+                (gfnfridDfdlbrbtion instbndfof Construdtor))
+            RfflfdtUtil.donsfrvbtivfCifdkMfmbfrAddfss((Mfmbfr)gfnfridDfdlbrbtion);
+        flsf
+            tirow nfw AssfrtionError("Unfxpfdtfd kind of GfnfridDfdlbrbtion");
+        rfturn gfnfridDfdlbrbtion;
     }
 
 
     /**
-     * Returns the name of this type variable, as it occurs in the source code.
+     * Rfturns tif nbmf of tiis typf vbribblf, bs it oddurs in tif sourdf dodf.
      *
-     * @return the name of this type variable, as it appears in the source code
+     * @rfturn tif nbmf of tiis typf vbribblf, bs it bppfbrs in tif sourdf dodf
      */
-    public String getName()   { return name; }
+    publid String gftNbmf()   { rfturn nbmf; }
 
-    public String toString() {return getName();}
+    publid String toString() {rfturn gftNbmf();}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof TypeVariable &&
-                o.getClass() == TypeVariableImpl.class) {
-            TypeVariable<?> that = (TypeVariable<?>) o;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof TypfVbribblf &&
+                o.gftClbss() == TypfVbribblfImpl.dlbss) {
+            TypfVbribblf<?> tibt = (TypfVbribblf<?>) o;
 
-            GenericDeclaration thatDecl = that.getGenericDeclaration();
-            String thatName = that.getName();
+            GfnfridDfdlbrbtion tibtDfdl = tibt.gftGfnfridDfdlbrbtion();
+            String tibtNbmf = tibt.gftNbmf();
 
-            return Objects.equals(genericDeclaration, thatDecl) &&
-                Objects.equals(name, thatName);
+            rfturn Objfdts.fqubls(gfnfridDfdlbrbtion, tibtDfdl) &&
+                Objfdts.fqubls(nbmf, tibtNbmf);
 
-        } else
-            return false;
+        } flsf
+            rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return genericDeclaration.hashCode() ^ name.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn gfnfridDfdlbrbtion.ibsiCodf() ^ nbmf.ibsiCodf();
     }
 
-    // Implementations of AnnotatedElement methods.
-    @SuppressWarnings("unchecked")
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        // T is an Annotation type, the return value of get will be an annotation
-        return (T)mapAnnotations(getAnnotations()).get(annotationClass);
+    // Implfmfntbtions of AnnotbtfdElfmfnt mftiods.
+    @SupprfssWbrnings("undifdkfd")
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        // T is bn Annotbtion typf, tif rfturn vbluf of gft will bf bn bnnotbtion
+        rfturn (T)mbpAnnotbtions(gftAnnotbtions()).gft(bnnotbtionClbss);
     }
 
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return getAnnotation(annotationClass);
+    publid <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn gftAnnotbtion(bnnotbtionClbss);
     }
 
-    @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(mapAnnotations(getAnnotations()), annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(mbpAnnotbtions(gftAnnotbtions()), bnnotbtionClbss);
     }
 
-    @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return getAnnotationsByType(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn gftAnnotbtionsByTypf(bnnotbtionClbss);
     }
 
-    public Annotation[] getAnnotations() {
-        int myIndex = typeVarIndex();
-        if (myIndex < 0)
-            throw new AssertionError("Index must be non-negative.");
-        return TypeAnnotationParser.parseTypeVariableAnnotations(getGenericDeclaration(), myIndex);
+    publid Annotbtion[] gftAnnotbtions() {
+        int myIndfx = typfVbrIndfx();
+        if (myIndfx < 0)
+            tirow nfw AssfrtionError("Indfx must bf non-nfgbtivf.");
+        rfturn TypfAnnotbtionPbrsfr.pbrsfTypfVbribblfAnnotbtions(gftGfnfridDfdlbrbtion(), myIndfx);
     }
 
-    public Annotation[] getDeclaredAnnotations() {
-        return getAnnotations();
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions() {
+        rfturn gftAnnotbtions();
     }
 
-    public AnnotatedType[] getAnnotatedBounds() {
-        return TypeAnnotationParser.parseAnnotatedBounds(getBounds(),
-                                                         getGenericDeclaration(),
-                                                         typeVarIndex());
+    publid AnnotbtfdTypf[] gftAnnotbtfdBounds() {
+        rfturn TypfAnnotbtionPbrsfr.pbrsfAnnotbtfdBounds(gftBounds(),
+                                                         gftGfnfridDfdlbrbtion(),
+                                                         typfVbrIndfx());
     }
 
-    private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
+    privbtf stbtid finbl Annotbtion[] EMPTY_ANNOTATION_ARRAY = nfw Annotbtion[0];
 
-    // Helpers for annotation methods
-    private int typeVarIndex() {
-        TypeVariable<?>[] tVars = getGenericDeclaration().getTypeParameters();
+    // Hflpfrs for bnnotbtion mftiods
+    privbtf int typfVbrIndfx() {
+        TypfVbribblf<?>[] tVbrs = gftGfnfridDfdlbrbtion().gftTypfPbrbmftfrs();
         int i = -1;
-        for (TypeVariable<?> v : tVars) {
+        for (TypfVbribblf<?> v : tVbrs) {
             i++;
-            if (equals(v))
-                return i;
+            if (fqubls(v))
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
-    private static Map<Class<? extends Annotation>, Annotation> mapAnnotations(Annotation[] annos) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<>();
-        for (Annotation a : annos) {
-            Class<? extends Annotation> klass = a.annotationType();
-            AnnotationType type = AnnotationType.getInstance(klass);
-            if (type.retention() == RetentionPolicy.RUNTIME)
-                if (result.put(klass, a) != null)
-                    throw new AnnotationFormatError("Duplicate annotation for class: "+klass+": " + a);
+    privbtf stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> mbpAnnotbtions(Annotbtion[] bnnos) {
+        Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> rfsult =
+            nfw LinkfdHbsiMbp<>();
+        for (Annotbtion b : bnnos) {
+            Clbss<? fxtfnds Annotbtion> klbss = b.bnnotbtionTypf();
+            AnnotbtionTypf typf = AnnotbtionTypf.gftInstbndf(klbss);
+            if (typf.rftfntion() == RftfntionPolidy.RUNTIME)
+                if (rfsult.put(klbss, b) != null)
+                    tirow nfw AnnotbtionFormbtError("Duplidbtf bnnotbtion for dlbss: "+klbss+": " + b);
         }
-        return result;
+        rfturn rfsult;
     }
 }

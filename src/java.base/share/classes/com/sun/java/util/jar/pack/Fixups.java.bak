@@ -1,568 +1,568 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import java.util.AbstractCollection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Objects;
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Entry;
+import jbvb.util.AbstrbdtCollfdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Objfdts;
 
 /**
- * Collection of relocatable constant pool references.
- * It operates with respect to a particular byte array,
- * and stores some of its state in the bytes themselves.
+ * Collfdtion of rflodbtbblf donstbnt pool rfffrfndfs.
+ * It opfrbtfs witi rfspfdt to b pbrtidulbr bytf brrby,
+ * bnd storfs somf of its stbtf in tif bytfs tifmsflvfs.
  * <p>
- * As a Collection, it can be iterated over, but it is not a List,
- * since it does not natively support indexed access.
+ * As b Collfdtion, it dbn bf itfrbtfd ovfr, but it is not b List,
+ * sindf it dofs not nbtivfly support indfxfd bddfss.
  * <p>
  *
- * @author John Rose
+ * @butior Join Rosf
  */
-final class Fixups extends AbstractCollection<Fixups.Fixup> {
-    byte[] bytes;    // the subject of the relocations
-    int head;        // desc locating first reloc
-    int tail;        // desc locating last reloc
-    int size;        // number of relocations
-    Entry[] entries; // [0..size-1] relocations
-    int[] bigDescs;  // descs which cannot be stored in the bytes
+finbl dlbss Fixups fxtfnds AbstrbdtCollfdtion<Fixups.Fixup> {
+    bytf[] bytfs;    // tif subjfdt of tif rflodbtions
+    int ifbd;        // dfsd lodbting first rflod
+    int tbil;        // dfsd lodbting lbst rflod
+    int sizf;        // numbfr of rflodbtions
+    Entry[] fntrifs; // [0..sizf-1] rflodbtions
+    int[] bigDfsds;  // dfsds wiidi dbnnot bf storfd in tif bytfs
 
-    // A "desc" (descriptor) is a bit-encoded pair of a location
-    // and format.  Every fixup occurs at a "desc".  Until final
-    // patching, bytes addressed by descs may also be used to
-    // link this data structure together.  If the bytes are missing,
-    // or if the "desc" is too large to encode in the bytes,
-    // it is kept in the bigDescs array.
+    // A "dfsd" (dfsdriptor) is b bit-fndodfd pbir of b lodbtion
+    // bnd formbt.  Evfry fixup oddurs bt b "dfsd".  Until finbl
+    // pbtdiing, bytfs bddrfssfd by dfsds mby blso bf usfd to
+    // link tiis dbtb strudturf togftifr.  If tif bytfs brf missing,
+    // or if tif "dfsd" is too lbrgf to fndodf in tif bytfs,
+    // it is kfpt in tif bigDfsds brrby.
 
-    Fixups(byte[] bytes) {
-        this.bytes = bytes;
-        entries = new Entry[3];
-        bigDescs = noBigDescs;
+    Fixups(bytf[] bytfs) {
+        tiis.bytfs = bytfs;
+        fntrifs = nfw Entry[3];
+        bigDfsds = noBigDfsds;
     }
     Fixups() {
-        // If there are no bytes, all descs are kept in bigDescs.
-        this((byte[])null);
+        // If tifrf brf no bytfs, bll dfsds brf kfpt in bigDfsds.
+        tiis((bytf[])null);
     }
-    Fixups(byte[] bytes, Collection<Fixup> fixups) {
-        this(bytes);
-        addAll(fixups);
+    Fixups(bytf[] bytfs, Collfdtion<Fixup> fixups) {
+        tiis(bytfs);
+        bddAll(fixups);
     }
-    Fixups(Collection<Fixup> fixups) {
-        this((byte[])null);
-        addAll(fixups);
-    }
-
-    private static final int MINBIGSIZE = 1;
-    // cleverly share empty bigDescs:
-    private static final int[] noBigDescs = {MINBIGSIZE};
-
-    @Override
-    public int size() {
-        return size;
+    Fixups(Collfdtion<Fixup> fixups) {
+        tiis((bytf[])null);
+        bddAll(fixups);
     }
 
-    public void trimToSize() {
-        if (size != entries.length) {
-            Entry[] oldEntries = entries;
-            entries = new Entry[size];
-            System.arraycopy(oldEntries, 0, entries, 0, size);
+    privbtf stbtid finbl int MINBIGSIZE = 1;
+    // dlfvfrly sibrf fmpty bigDfsds:
+    privbtf stbtid finbl int[] noBigDfsds = {MINBIGSIZE};
+
+    @Ovfrridf
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    publid void trimToSizf() {
+        if (sizf != fntrifs.lfngti) {
+            Entry[] oldEntrifs = fntrifs;
+            fntrifs = nfw Entry[sizf];
+            Systfm.brrbydopy(oldEntrifs, 0, fntrifs, 0, sizf);
         }
-        int bigSize = bigDescs[BIGSIZE];
-        if (bigSize == MINBIGSIZE) {
-            bigDescs = noBigDescs;
-        } else if (bigSize != bigDescs.length) {
-            int[] oldBigDescs = bigDescs;
-            bigDescs = new int[bigSize];
-            System.arraycopy(oldBigDescs, 0, bigDescs, 0, bigSize);
-        }
-    }
-
-    public void visitRefs(Collection<Entry> refs) {
-        for (int i = 0; i < size; i++) {
-            refs.add(entries[i]);
+        int bigSizf = bigDfsds[BIGSIZE];
+        if (bigSizf == MINBIGSIZE) {
+            bigDfsds = noBigDfsds;
+        } flsf if (bigSizf != bigDfsds.lfngti) {
+            int[] oldBigDfsds = bigDfsds;
+            bigDfsds = nfw int[bigSizf];
+            Systfm.brrbydopy(oldBigDfsds, 0, bigDfsds, 0, bigSizf);
         }
     }
 
-    @Override
-    public void clear() {
-        if (bytes != null) {
-            // Clean the bytes:
-            for (Fixup fx : this) {
-                //System.out.println("clean "+fx);
-                storeIndex(fx.location(), fx.format(), 0);
+    publid void visitRffs(Collfdtion<Entry> rffs) {
+        for (int i = 0; i < sizf; i++) {
+            rffs.bdd(fntrifs[i]);
+        }
+    }
+
+    @Ovfrridf
+    publid void dlfbr() {
+        if (bytfs != null) {
+            // Clfbn tif bytfs:
+            for (Fixup fx : tiis) {
+                //Systfm.out.println("dlfbn "+fx);
+                storfIndfx(fx.lodbtion(), fx.formbt(), 0);
             }
         }
-        size = 0;
-        if (bigDescs != noBigDescs)
-            bigDescs[BIGSIZE] = MINBIGSIZE;
-        // do not trim to size, however
+        sizf = 0;
+        if (bigDfsds != noBigDfsds)
+            bigDfsds[BIGSIZE] = MINBIGSIZE;
+        // do not trim to sizf, iowfvfr
     }
 
-    public byte[] getBytes() {
-        return bytes;
+    publid bytf[] gftBytfs() {
+        rfturn bytfs;
     }
 
-    public void setBytes(byte[] newBytes) {
-        if (bytes == newBytes)  return;
-        ArrayList<Fixup> old = null;
-        assert((old = new ArrayList<>(this)) != null);
-        if (bytes == null || newBytes == null) {
-            // One or the other representations is deficient.
-            // Construct a checkpoint.
-            ArrayList<Fixup> save = new ArrayList<>(this);
-            clear();
-            bytes = newBytes;
-            addAll(save);
-        } else {
-            // assume newBytes is some sort of bitwise copy of the old bytes
-            bytes = newBytes;
+    publid void sftBytfs(bytf[] nfwBytfs) {
+        if (bytfs == nfwBytfs)  rfturn;
+        ArrbyList<Fixup> old = null;
+        bssfrt((old = nfw ArrbyList<>(tiis)) != null);
+        if (bytfs == null || nfwBytfs == null) {
+            // Onf or tif otifr rfprfsfntbtions is dffidifnt.
+            // Construdt b difdkpoint.
+            ArrbyList<Fixup> sbvf = nfw ArrbyList<>(tiis);
+            dlfbr();
+            bytfs = nfwBytfs;
+            bddAll(sbvf);
+        } flsf {
+            // bssumf nfwBytfs is somf sort of bitwisf dopy of tif old bytfs
+            bytfs = nfwBytfs;
         }
-        assert(old.equals(new ArrayList<>(this)));
+        bssfrt(old.fqubls(nfw ArrbyList<>(tiis)));
     }
 
-    private static final int LOC_SHIFT = 1;
-    private static final int FMT_MASK = 0x1;
-    private static final byte UNUSED_BYTE = 0;
-    private static final byte OVERFLOW_BYTE = -1;
-    // fill pointer of bigDescs array is in element [0]
-    private static final int BIGSIZE = 0;
+    privbtf stbtid finbl int LOC_SHIFT = 1;
+    privbtf stbtid finbl int FMT_MASK = 0x1;
+    privbtf stbtid finbl bytf UNUSED_BYTE = 0;
+    privbtf stbtid finbl bytf OVERFLOW_BYTE = -1;
+    // fill pointfr of bigDfsds brrby is in flfmfnt [0]
+    privbtf stbtid finbl int BIGSIZE = 0;
 
-    // Format values:
-    private static final int U2_FORMAT = 0;
-    private static final int U1_FORMAT = 1;
+    // Formbt vblufs:
+    privbtf stbtid finbl int U2_FORMAT = 0;
+    privbtf stbtid finbl int U1_FORMAT = 1;
 
-    // Special values for the static methods.
-    private static final int SPECIAL_LOC = 0;
-    private static final int SPECIAL_FMT = U2_FORMAT;
+    // Spfdibl vblufs for tif stbtid mftiods.
+    privbtf stbtid finbl int SPECIAL_LOC = 0;
+    privbtf stbtid finbl int SPECIAL_FMT = U2_FORMAT;
 
-    static int fmtLen(int fmt) { return 1+(fmt-U1_FORMAT)/(U2_FORMAT-U1_FORMAT); }
-    static int descLoc(int desc) { return desc >>> LOC_SHIFT; }
-    static int descFmt(int desc) { return desc  &  FMT_MASK; }
-    static int descEnd(int desc) { return descLoc(desc) + fmtLen(descFmt(desc)); }
-    static int makeDesc(int loc, int fmt) {
-        int desc = (loc << LOC_SHIFT) | fmt;
-        assert(descLoc(desc) == loc);
-        assert(descFmt(desc) == fmt);
-        return desc;
+    stbtid int fmtLfn(int fmt) { rfturn 1+(fmt-U1_FORMAT)/(U2_FORMAT-U1_FORMAT); }
+    stbtid int dfsdLod(int dfsd) { rfturn dfsd >>> LOC_SHIFT; }
+    stbtid int dfsdFmt(int dfsd) { rfturn dfsd  &  FMT_MASK; }
+    stbtid int dfsdEnd(int dfsd) { rfturn dfsdLod(dfsd) + fmtLfn(dfsdFmt(dfsd)); }
+    stbtid int mbkfDfsd(int lod, int fmt) {
+        int dfsd = (lod << LOC_SHIFT) | fmt;
+        bssfrt(dfsdLod(dfsd) == lod);
+        bssfrt(dfsdFmt(dfsd) == fmt);
+        rfturn dfsd;
     }
-    int fetchDesc(int loc, int fmt) {
-        byte b1 = bytes[loc];
-        assert(b1 != OVERFLOW_BYTE);
-        int value;
+    int fftdiDfsd(int lod, int fmt) {
+        bytf b1 = bytfs[lod];
+        bssfrt(b1 != OVERFLOW_BYTE);
+        int vbluf;
         if (fmt == U2_FORMAT) {
-            byte b2 = bytes[loc+1];
-            value = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
-        } else {
-            value = (b1 & 0xFF);
+            bytf b2 = bytfs[lod+1];
+            vbluf = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
+        } flsf {
+            vbluf = (b1 & 0xFF);
         }
-        // Stored loc field is difference between its own loc and next loc.
-        return value + (loc << LOC_SHIFT);
+        // Storfd lod fifld is difffrfndf bftwffn its own lod bnd nfxt lod.
+        rfturn vbluf + (lod << LOC_SHIFT);
     }
-    boolean storeDesc(int loc, int fmt, int desc) {
-        if (bytes == null)
-            return false;
-        int value = desc - (loc << LOC_SHIFT);
-        byte b1, b2;
-        switch (fmt) {
-        case U2_FORMAT:
-            assert(bytes[loc+0] == UNUSED_BYTE);
-            assert(bytes[loc+1] == UNUSED_BYTE);
-            b1 = (byte)(value >> 8);
-            b2 = (byte)(value >> 0);
-            if (value == (value & 0xFFFF) && b1 != OVERFLOW_BYTE) {
-                bytes[loc+0] = b1;
-                bytes[loc+1] = b2;
-                assert(fetchDesc(loc, fmt) == desc);
-                return true;
+    boolfbn storfDfsd(int lod, int fmt, int dfsd) {
+        if (bytfs == null)
+            rfturn fblsf;
+        int vbluf = dfsd - (lod << LOC_SHIFT);
+        bytf b1, b2;
+        switdi (fmt) {
+        dbsf U2_FORMAT:
+            bssfrt(bytfs[lod+0] == UNUSED_BYTE);
+            bssfrt(bytfs[lod+1] == UNUSED_BYTE);
+            b1 = (bytf)(vbluf >> 8);
+            b2 = (bytf)(vbluf >> 0);
+            if (vbluf == (vbluf & 0xFFFF) && b1 != OVERFLOW_BYTE) {
+                bytfs[lod+0] = b1;
+                bytfs[lod+1] = b2;
+                bssfrt(fftdiDfsd(lod, fmt) == dfsd);
+                rfturn truf;
             }
-            break;
-        case U1_FORMAT:
-            assert(bytes[loc] == UNUSED_BYTE);
-            b1 = (byte)value;
-            if (value == (value & 0xFF) && b1 != OVERFLOW_BYTE) {
-                bytes[loc] = b1;
-                assert(fetchDesc(loc, fmt) == desc);
-                return true;
+            brfbk;
+        dbsf U1_FORMAT:
+            bssfrt(bytfs[lod] == UNUSED_BYTE);
+            b1 = (bytf)vbluf;
+            if (vbluf == (vbluf & 0xFF) && b1 != OVERFLOW_BYTE) {
+                bytfs[lod] = b1;
+                bssfrt(fftdiDfsd(lod, fmt) == dfsd);
+                rfturn truf;
             }
-            break;
-        default: assert(false);
+            brfbk;
+        dffbult: bssfrt(fblsf);
         }
-        // Failure.  Caller must allocate a bigDesc.
-        bytes[loc] = OVERFLOW_BYTE;
-        assert(fmt==U1_FORMAT || (bytes[loc+1]=(byte)bigDescs[BIGSIZE])!=999);
-        return false;
+        // Fbilurf.  Cbllfr must bllodbtf b bigDfsd.
+        bytfs[lod] = OVERFLOW_BYTE;
+        bssfrt(fmt==U1_FORMAT || (bytfs[lod+1]=(bytf)bigDfsds[BIGSIZE])!=999);
+        rfturn fblsf;
     }
-    void storeIndex(int loc, int fmt, int value) {
-        storeIndex(bytes, loc, fmt, value);
+    void storfIndfx(int lod, int fmt, int vbluf) {
+        storfIndfx(bytfs, lod, fmt, vbluf);
     }
-    static
-    void storeIndex(byte[] bytes, int loc, int fmt, int value) {
-        switch (fmt) {
-        case U2_FORMAT:
-            assert(value == (value & 0xFFFF)) : (value);
-            bytes[loc+0] = (byte)(value >> 8);
-            bytes[loc+1] = (byte)(value >> 0);
-            break;
-        case U1_FORMAT:
-            assert(value == (value & 0xFF)) : (value);
-            bytes[loc] = (byte)value;
-            break;
-        default: assert(false);
-        }
-    }
-
-    void addU1(int pc, Entry ref) {
-        add(pc, U1_FORMAT, ref);
-    }
-
-    void addU2(int pc, Entry ref) {
-        add(pc, U2_FORMAT, ref);
-    }
-
-    /** Simple and necessary tuple to present each fixup. */
-    public static
-    class Fixup implements Comparable<Fixup> {
-        int desc;         // location and format of reloc
-        Entry entry;      // which entry to plug into the bytes
-        Fixup(int desc, Entry entry) {
-            this.desc = desc;
-            this.entry = entry;
-        }
-        public Fixup(int loc, int fmt, Entry entry) {
-            this.desc = makeDesc(loc, fmt);
-            this.entry = entry;
-        }
-        public int location() { return descLoc(desc); }
-        public int format() { return descFmt(desc); }
-        public Entry entry() { return entry; }
-        @Override
-        public int compareTo(Fixup that) {
-            // Ordering depends only on location.
-            return this.location() - that.location();
-        }
-        @Override
-        public boolean equals(Object x) {
-            if (!(x instanceof Fixup))  return false;
-            Fixup that = (Fixup) x;
-            return this.desc == that.desc && this.entry == that.entry;
-        }
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 59 * hash + this.desc;
-            hash = 59 * hash + Objects.hashCode(this.entry);
-            return hash;
-        }
-        @Override
-        public String toString() {
-            return "@"+location()+(format()==U1_FORMAT?".1":"")+"="+entry;
+    stbtid
+    void storfIndfx(bytf[] bytfs, int lod, int fmt, int vbluf) {
+        switdi (fmt) {
+        dbsf U2_FORMAT:
+            bssfrt(vbluf == (vbluf & 0xFFFF)) : (vbluf);
+            bytfs[lod+0] = (bytf)(vbluf >> 8);
+            bytfs[lod+1] = (bytf)(vbluf >> 0);
+            brfbk;
+        dbsf U1_FORMAT:
+            bssfrt(vbluf == (vbluf & 0xFF)) : (vbluf);
+            bytfs[lod] = (bytf)vbluf;
+            brfbk;
+        dffbult: bssfrt(fblsf);
         }
     }
 
-    private
-    class Itr implements Iterator<Fixup> {
-        int index = 0;               // index into entries
-        int bigIndex = BIGSIZE+1;    // index into bigDescs
-        int next = head;             // desc pointing to next fixup
-        @Override
-        public boolean hasNext() { return index < size; }
-        @Override
-        public void remove() { throw new UnsupportedOperationException(); }
-        @Override
-        public Fixup next() {
-            int thisIndex = index;
-            return new Fixup(nextDesc(), entries[thisIndex]);
+    void bddU1(int pd, Entry rff) {
+        bdd(pd, U1_FORMAT, rff);
+    }
+
+    void bddU2(int pd, Entry rff) {
+        bdd(pd, U2_FORMAT, rff);
+    }
+
+    /** Simplf bnd nfdfssbry tuplf to prfsfnt fbdi fixup. */
+    publid stbtid
+    dlbss Fixup implfmfnts Compbrbblf<Fixup> {
+        int dfsd;         // lodbtion bnd formbt of rflod
+        Entry fntry;      // wiidi fntry to plug into tif bytfs
+        Fixup(int dfsd, Entry fntry) {
+            tiis.dfsd = dfsd;
+            tiis.fntry = fntry;
         }
-        int nextDesc() {
-            index++;
-            int thisDesc = next;
-            if (index < size) {
-                // Fetch next desc eagerly, in case this fixup gets finalized.
-                int loc = descLoc(thisDesc);
-                int fmt = descFmt(thisDesc);
-                if (bytes != null && bytes[loc] != OVERFLOW_BYTE) {
-                    next = fetchDesc(loc, fmt);
-                } else {
-                    // The unused extra byte is "asserted" to be equal to BI.
-                    // This helps keep the overflow descs in sync.
-                    assert(fmt==U1_FORMAT || bytes == null || bytes[loc+1]==(byte)bigIndex);
-                    next = bigDescs[bigIndex++];
+        publid Fixup(int lod, int fmt, Entry fntry) {
+            tiis.dfsd = mbkfDfsd(lod, fmt);
+            tiis.fntry = fntry;
+        }
+        publid int lodbtion() { rfturn dfsdLod(dfsd); }
+        publid int formbt() { rfturn dfsdFmt(dfsd); }
+        publid Entry fntry() { rfturn fntry; }
+        @Ovfrridf
+        publid int dompbrfTo(Fixup tibt) {
+            // Ordfring dfpfnds only on lodbtion.
+            rfturn tiis.lodbtion() - tibt.lodbtion();
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt x) {
+            if (!(x instbndfof Fixup))  rfturn fblsf;
+            Fixup tibt = (Fixup) x;
+            rfturn tiis.dfsd == tibt.dfsd && tiis.fntry == tibt.fntry;
+        }
+        @Ovfrridf
+        publid int ibsiCodf() {
+            int ibsi = 7;
+            ibsi = 59 * ibsi + tiis.dfsd;
+            ibsi = 59 * ibsi + Objfdts.ibsiCodf(tiis.fntry);
+            rfturn ibsi;
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "@"+lodbtion()+(formbt()==U1_FORMAT?".1":"")+"="+fntry;
+        }
+    }
+
+    privbtf
+    dlbss Itr implfmfnts Itfrbtor<Fixup> {
+        int indfx = 0;               // indfx into fntrifs
+        int bigIndfx = BIGSIZE+1;    // indfx into bigDfsds
+        int nfxt = ifbd;             // dfsd pointing to nfxt fixup
+        @Ovfrridf
+        publid boolfbn ibsNfxt() { rfturn indfx < sizf; }
+        @Ovfrridf
+        publid void rfmovf() { tirow nfw UnsupportfdOpfrbtionExdfption(); }
+        @Ovfrridf
+        publid Fixup nfxt() {
+            int tiisIndfx = indfx;
+            rfturn nfw Fixup(nfxtDfsd(), fntrifs[tiisIndfx]);
+        }
+        int nfxtDfsd() {
+            indfx++;
+            int tiisDfsd = nfxt;
+            if (indfx < sizf) {
+                // Fftdi nfxt dfsd fbgfrly, in dbsf tiis fixup gfts finblizfd.
+                int lod = dfsdLod(tiisDfsd);
+                int fmt = dfsdFmt(tiisDfsd);
+                if (bytfs != null && bytfs[lod] != OVERFLOW_BYTE) {
+                    nfxt = fftdiDfsd(lod, fmt);
+                } flsf {
+                    // Tif unusfd fxtrb bytf is "bssfrtfd" to bf fqubl to BI.
+                    // Tiis iflps kffp tif ovfrflow dfsds in synd.
+                    bssfrt(fmt==U1_FORMAT || bytfs == null || bytfs[lod+1]==(bytf)bigIndfx);
+                    nfxt = bigDfsds[bigIndfx++];
                 }
             }
-            return thisDesc;
+            rfturn tiisDfsd;
         }
     }
 
-    @Override
-    public Iterator<Fixup> iterator() {
-        return new Itr();
+    @Ovfrridf
+    publid Itfrbtor<Fixup> itfrbtor() {
+        rfturn nfw Itr();
     }
-    public void add(int location, int format, Entry entry) {
-        addDesc(makeDesc(location, format), entry);
+    publid void bdd(int lodbtion, int formbt, Entry fntry) {
+        bddDfsd(mbkfDfsd(lodbtion, formbt), fntry);
     }
-    @Override
-    public boolean add(Fixup f) {
-        addDesc(f.desc, f.entry);
-        return true;
+    @Ovfrridf
+    publid boolfbn bdd(Fixup f) {
+        bddDfsd(f.dfsd, f.fntry);
+        rfturn truf;
     }
 
-    @Override
-    public boolean addAll(Collection<? extends Fixup> c) {
-        if (c instanceof Fixups) {
-            // Use knowledge of Itr structure to avoid building little structs.
-            Fixups that = (Fixups) c;
-            if (that.size == 0)  return false;
-            if (this.size == 0 && entries.length < that.size)
-                growEntries(that.size);  // presize exactly
-            Entry[] thatEntries = that.entries;
-            for (Itr i = that.new Itr(); i.hasNext(); ) {
-                int ni = i.index;
-                addDesc(i.nextDesc(), thatEntries[ni]);
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<? fxtfnds Fixup> d) {
+        if (d instbndfof Fixups) {
+            // Usf knowlfdgf of Itr strudturf to bvoid building littlf strudts.
+            Fixups tibt = (Fixups) d;
+            if (tibt.sizf == 0)  rfturn fblsf;
+            if (tiis.sizf == 0 && fntrifs.lfngti < tibt.sizf)
+                growEntrifs(tibt.sizf);  // prfsizf fxbdtly
+            Entry[] tibtEntrifs = tibt.fntrifs;
+            for (Itr i = tibt.nfw Itr(); i.ibsNfxt(); ) {
+                int ni = i.indfx;
+                bddDfsd(i.nfxtDfsd(), tibtEntrifs[ni]);
             }
-            return true;
-        } else {
-            return super.addAll(c);
+            rfturn truf;
+        } flsf {
+            rfturn supfr.bddAll(d);
         }
     }
-    // Here is how things get added:
-    private void addDesc(int thisDesc, Entry entry) {
-        if (entries.length == size)
-            growEntries(size * 2);
-        entries[size] = entry;
-        if (size == 0) {
-            head = tail = thisDesc;
-        } else {
-            int prevDesc = tail;
-            // Store new desc in previous tail.
-            int prevLoc = descLoc(prevDesc);
-            int prevFmt = descFmt(prevDesc);
-            int prevLen = fmtLen(prevFmt);
-            int thisLoc = descLoc(thisDesc);
-            // The collection must go in ascending order, and not overlap.
-            if (thisLoc < prevLoc + prevLen)
-                badOverlap(thisLoc);
-            tail = thisDesc;
-            if (!storeDesc(prevLoc, prevFmt, thisDesc)) {
-                // overflow
-                int bigSize = bigDescs[BIGSIZE];
-                if (bigDescs.length == bigSize)
-                    growBigDescs();
-                //System.out.println("bigDescs["+bigSize+"] = "+thisDesc);
-                bigDescs[bigSize++] = thisDesc;
-                bigDescs[BIGSIZE] = bigSize;
+    // Hfrf is iow tiings gft bddfd:
+    privbtf void bddDfsd(int tiisDfsd, Entry fntry) {
+        if (fntrifs.lfngti == sizf)
+            growEntrifs(sizf * 2);
+        fntrifs[sizf] = fntry;
+        if (sizf == 0) {
+            ifbd = tbil = tiisDfsd;
+        } flsf {
+            int prfvDfsd = tbil;
+            // Storf nfw dfsd in prfvious tbil.
+            int prfvLod = dfsdLod(prfvDfsd);
+            int prfvFmt = dfsdFmt(prfvDfsd);
+            int prfvLfn = fmtLfn(prfvFmt);
+            int tiisLod = dfsdLod(tiisDfsd);
+            // Tif dollfdtion must go in bsdfnding ordfr, bnd not ovfrlbp.
+            if (tiisLod < prfvLod + prfvLfn)
+                bbdOvfrlbp(tiisLod);
+            tbil = tiisDfsd;
+            if (!storfDfsd(prfvLod, prfvFmt, tiisDfsd)) {
+                // ovfrflow
+                int bigSizf = bigDfsds[BIGSIZE];
+                if (bigDfsds.lfngti == bigSizf)
+                    growBigDfsds();
+                //Systfm.out.println("bigDfsds["+bigSizf+"] = "+tiisDfsd);
+                bigDfsds[bigSizf++] = tiisDfsd;
+                bigDfsds[BIGSIZE] = bigSizf;
             }
         }
-        size += 1;
+        sizf += 1;
     }
-    private void badOverlap(int thisLoc) {
-        throw new IllegalArgumentException("locs must be ascending and must not overlap:  "+thisLoc+" >> "+this);
-    }
-
-    private void growEntries(int newSize) {
-        Entry[] oldEntries = entries;
-        entries = new Entry[Math.max(3, newSize)];
-        System.arraycopy(oldEntries, 0, entries, 0, oldEntries.length);
-    }
-    private void growBigDescs() {
-        int[] oldBigDescs = bigDescs;
-        bigDescs = new int[oldBigDescs.length * 2];
-        System.arraycopy(oldBigDescs, 0, bigDescs, 0, oldBigDescs.length);
+    privbtf void bbdOvfrlbp(int tiisLod) {
+        tirow nfw IllfgblArgumfntExdfption("lods must bf bsdfnding bnd must not ovfrlbp:  "+tiisLod+" >> "+tiis);
     }
 
-    /// Static methods that optimize the use of this class.
-    static Object addRefWithBytes(Object f, byte[] bytes, Entry e) {
-        return add(f, bytes, 0, U2_FORMAT, e);
+    privbtf void growEntrifs(int nfwSizf) {
+        Entry[] oldEntrifs = fntrifs;
+        fntrifs = nfw Entry[Mbti.mbx(3, nfwSizf)];
+        Systfm.brrbydopy(oldEntrifs, 0, fntrifs, 0, oldEntrifs.lfngti);
     }
-    static Object addRefWithLoc(Object f, int loc, Entry entry) {
-        return add(f, null, loc, U2_FORMAT, entry);
+    privbtf void growBigDfsds() {
+        int[] oldBigDfsds = bigDfsds;
+        bigDfsds = nfw int[oldBigDfsds.lfngti * 2];
+        Systfm.brrbydopy(oldBigDfsds, 0, bigDfsds, 0, oldBigDfsds.lfngti);
     }
-    private static
-    Object add(Object prevFixups,
-               byte[] bytes, int loc, int fmt,
-               Entry e) {
+
+    /// Stbtid mftiods tibt optimizf tif usf of tiis dlbss.
+    stbtid Objfdt bddRffWitiBytfs(Objfdt f, bytf[] bytfs, Entry f) {
+        rfturn bdd(f, bytfs, 0, U2_FORMAT, f);
+    }
+    stbtid Objfdt bddRffWitiLod(Objfdt f, int lod, Entry fntry) {
+        rfturn bdd(f, null, lod, U2_FORMAT, fntry);
+    }
+    privbtf stbtid
+    Objfdt bdd(Objfdt prfvFixups,
+               bytf[] bytfs, int lod, int fmt,
+               Entry f) {
         Fixups f;
-        if (prevFixups == null) {
-            if (loc == SPECIAL_LOC && fmt == SPECIAL_FMT) {
-                // Special convention:  If the attribute has a
-                // U2 relocation at position zero, store the Entry
-                // rather than building a Fixups structure.
-                return e;
+        if (prfvFixups == null) {
+            if (lod == SPECIAL_LOC && fmt == SPECIAL_FMT) {
+                // Spfdibl donvfntion:  If tif bttributf ibs b
+                // U2 rflodbtion bt position zfro, storf tif Entry
+                // rbtifr tibn building b Fixups strudturf.
+                rfturn f;
             }
-            f = new Fixups(bytes);
-        } else if (!(prevFixups instanceof Fixups)) {
-            // Recognize the special convention:
-            Entry firstEntry = (Entry) prevFixups;
-            f = new Fixups(bytes);
-            f.add(SPECIAL_LOC, SPECIAL_FMT, firstEntry);
-        } else {
-            f = (Fixups) prevFixups;
-            assert(f.bytes == bytes);
+            f = nfw Fixups(bytfs);
+        } flsf if (!(prfvFixups instbndfof Fixups)) {
+            // Rfdognizf tif spfdibl donvfntion:
+            Entry firstEntry = (Entry) prfvFixups;
+            f = nfw Fixups(bytfs);
+            f.bdd(SPECIAL_LOC, SPECIAL_FMT, firstEntry);
+        } flsf {
+            f = (Fixups) prfvFixups;
+            bssfrt(f.bytfs == bytfs);
         }
-        f.add(loc, fmt, e);
-        return f;
+        f.bdd(lod, fmt, f);
+        rfturn f;
     }
 
-    public static
-    void setBytes(Object fixups, byte[] bytes) {
-        if (fixups instanceof Fixups) {
+    publid stbtid
+    void sftBytfs(Objfdt fixups, bytf[] bytfs) {
+        if (fixups instbndfof Fixups) {
             Fixups f = (Fixups) fixups;
-            f.setBytes(bytes);
+            f.sftBytfs(bytfs);
         }
     }
 
-    public static
-    Object trimToSize(Object fixups) {
-        if (fixups instanceof Fixups) {
+    publid stbtid
+    Objfdt trimToSizf(Objfdt fixups) {
+        if (fixups instbndfof Fixups) {
             Fixups f = (Fixups) fixups;
-            f.trimToSize();
-            if (f.size() == 0)
+            f.trimToSizf();
+            if (f.sizf() == 0)
                 fixups = null;
         }
-        return fixups;
+        rfturn fixups;
     }
 
-    // Iterate over all the references in this set of fixups.
-    public static
-    void visitRefs(Object fixups, Collection<Entry> refs) {
+    // Itfrbtf ovfr bll tif rfffrfndfs in tiis sft of fixups.
+    publid stbtid
+    void visitRffs(Objfdt fixups, Collfdtion<Entry> rffs) {
         if (fixups == null) {
-        } else if (!(fixups instanceof Fixups)) {
-            // Special convention; see above.
-            refs.add((Entry) fixups);
-        } else {
+        } flsf if (!(fixups instbndfof Fixups)) {
+            // Spfdibl donvfntion; sff bbovf.
+            rffs.bdd((Entry) fixups);
+        } flsf {
             Fixups f = (Fixups) fixups;
-            f.visitRefs(refs);
+            f.visitRffs(rffs);
         }
     }
 
-    // Clear out this set of fixups by replacing each reference
-    // by a hardcoded coding of its reference, drawn from ix.
-    public static
-    void finishRefs(Object fixups, byte[] bytes, ConstantPool.Index ix) {
+    // Clfbr out tiis sft of fixups by rfplbding fbdi rfffrfndf
+    // by b ibrddodfd doding of its rfffrfndf, drbwn from ix.
+    publid stbtid
+    void finisiRffs(Objfdt fixups, bytf[] bytfs, ConstbntPool.Indfx ix) {
         if (fixups == null)
-            return;
-        if (!(fixups instanceof Fixups)) {
-            // Special convention; see above.
-            int index = ix.indexOf((Entry) fixups);
-            storeIndex(bytes, SPECIAL_LOC, SPECIAL_FMT, index);
-            return;
+            rfturn;
+        if (!(fixups instbndfof Fixups)) {
+            // Spfdibl donvfntion; sff bbovf.
+            int indfx = ix.indfxOf((Entry) fixups);
+            storfIndfx(bytfs, SPECIAL_LOC, SPECIAL_FMT, indfx);
+            rfturn;
         }
         Fixups f = (Fixups) fixups;
-        assert(f.bytes == bytes);
-        f.finishRefs(ix);
+        bssfrt(f.bytfs == bytfs);
+        f.finisiRffs(ix);
     }
 
-    void finishRefs(ConstantPool.Index ix) {
+    void finisiRffs(ConstbntPool.Indfx ix) {
         if (isEmpty())
-            return;
-        for (Fixup fx : this) {
-            int index = ix.indexOf(fx.entry);
-            //System.out.println("finish "+fx+" = "+index);
-            // Note that the iterator has already fetched the
-            // bytes we are about to overwrite.
-            storeIndex(fx.location(), fx.format(), index);
+            rfturn;
+        for (Fixup fx : tiis) {
+            int indfx = ix.indfxOf(fx.fntry);
+            //Systfm.out.println("finisi "+fx+" = "+indfx);
+            // Notf tibt tif itfrbtor ibs blrfbdy fftdifd tif
+            // bytfs wf brf bbout to ovfrwritf.
+            storfIndfx(fx.lodbtion(), fx.formbt(), indfx);
         }
-        // Further iterations should do nothing:
-        bytes = null;  // do not clean them
-        clear();
+        // Furtifr itfrbtions siould do notiing:
+        bytfs = null;  // do not dlfbn tifm
+        dlfbr();
     }
 
 /*
-    /// Testing.
-    public static void main(String[] av) {
-        byte[] bytes = new byte[1 << 20];
-        ConstantPool cp = new ConstantPool();
-        Fixups f = new Fixups(bytes);
-        boolean isU1 = false;
-        int span = 3;
-        int nextLoc = 0;
-        int[] locs = new int[100];
-        final int[] indexes = new int[100];
+    /// Tfsting.
+    publid stbtid void mbin(String[] bv) {
+        bytf[] bytfs = nfw bytf[1 << 20];
+        ConstbntPool dp = nfw ConstbntPool();
+        Fixups f = nfw Fixups(bytfs);
+        boolfbn isU1 = fblsf;
+        int spbn = 3;
+        int nfxtLod = 0;
+        int[] lods = nfw int[100];
+        finbl int[] indfxfs = nfw int[100];
         int iptr = 1;
-        for (int loc = 0; loc < bytes.length; loc++) {
-            if (loc == nextLoc && loc+1 < bytes.length) {
+        for (int lod = 0; lod < bytfs.lfngti; lod++) {
+            if (lod == nfxtLod && lod+1 < bytfs.lfngti) {
                 int fmt = (isU1 ? U1_FORMAT : U2_FORMAT);
-                Entry e = ConstantPool.getUtf8Entry("L"+loc);
-                f.add(loc, fmt, e);
-                isU1 ^= true;
+                Entry f = ConstbntPool.gftUtf8Entry("L"+lod);
+                f.bdd(lod, fmt, f);
+                isU1 ^= truf;
                 if (iptr < 10) {
-                    // Make it close in.
-                    nextLoc += fmtLen(fmt) + (iptr < 5 ? 0 : 1);
-                } else {
-                    nextLoc += span;
-                    span = (int)(span * 1.77);
+                    // Mbkf it dlosf in.
+                    nfxtLod += fmtLfn(fmt) + (iptr < 5 ? 0 : 1);
+                } flsf {
+                    nfxtLod += spbn;
+                    spbn = (int)(spbn * 1.77);
                 }
-                // Here are the bytes that would have gone here:
-                locs[iptr] = loc;
+                // Hfrf brf tif bytfs tibt would ibvf gonf ifrf:
+                lods[iptr] = lod;
                 if (fmt == U1_FORMAT) {
-                    indexes[iptr++] = (loc & 0xFF);
-                } else {
-                    indexes[iptr++] = ((loc & 0xFF) << 8) | ((loc+1) & 0xFF);
-                    ++loc;  // skip a byte
+                    indfxfs[iptr++] = (lod & 0xFF);
+                } flsf {
+                    indfxfs[iptr++] = ((lod & 0xFF) << 8) | ((lod+1) & 0xFF);
+                    ++lod;  // skip b bytf
                 }
-                continue;
+                dontinuf;
             }
-            bytes[loc] = (byte)loc;
+            bytfs[lod] = (bytf)lod;
         }
-        System.out.println("size="+f.size()
-                           +" overflow="+(f.bigDescs[BIGSIZE]-1));
-        System.out.println("Fixups: "+f);
-        // Test collection contents.
-        assert(iptr == 1+f.size());
-        List l = new ArrayList(f);
-        Collections.sort(l);  // should not change the order
-        if (!l.equals(new ArrayList(f)))  System.out.println("** disordered");
-        f.setBytes(null);
-        if (!l.equals(new ArrayList(f)))  System.out.println("** bad set 1");
-        f.setBytes(bytes);
-        if (!l.equals(new ArrayList(f)))  System.out.println("** bad set 2");
-        Fixups f3 = new Fixups(f);
-        if (!l.equals(new ArrayList(f3))) System.out.println("** bad set 3");
-        Iterator fi = f.iterator();
+        Systfm.out.println("sizf="+f.sizf()
+                           +" ovfrflow="+(f.bigDfsds[BIGSIZE]-1));
+        Systfm.out.println("Fixups: "+f);
+        // Tfst dollfdtion dontfnts.
+        bssfrt(iptr == 1+f.sizf());
+        List l = nfw ArrbyList(f);
+        Collfdtions.sort(l);  // siould not dibngf tif ordfr
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** disordfrfd");
+        f.sftBytfs(null);
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** bbd sft 1");
+        f.sftBytfs(bytfs);
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** bbd sft 2");
+        Fixups f3 = nfw Fixups(f);
+        if (!l.fqubls(nfw ArrbyList(f3))) Systfm.out.println("** bbd sft 3");
+        Itfrbtor fi = f.itfrbtor();
         for (int i = 1; i < iptr; i++) {
-            Fixup fx = (Fixup) fi.next();
-            if (fx.location() != locs[i]) {
-                System.out.println("** "+fx+" != "+locs[i]);
+            Fixup fx = (Fixup) fi.nfxt();
+            if (fx.lodbtion() != lods[i]) {
+                Systfm.out.println("** "+fx+" != "+lods[i]);
             }
-            if (fx.format() == U1_FORMAT)
-                System.out.println(fx+" -> "+bytes[locs[i]]);
-            else
-                System.out.println(fx+" -> "+bytes[locs[i]]+" "+bytes[locs[i]+1]);
+            if (fx.formbt() == U1_FORMAT)
+                Systfm.out.println(fx+" -> "+bytfs[lods[i]]);
+            flsf
+                Systfm.out.println(fx+" -> "+bytfs[lods[i]]+" "+bytfs[lods[i]+1]);
         }
-        assert(!fi.hasNext());
-        indexes[0] = 1;  // like iptr
-        Index ix = new Index("ix") {
-            public int indexOf(Entry e) {
-                return indexes[indexes[0]++];
+        bssfrt(!fi.ibsNfxt());
+        indfxfs[0] = 1;  // likf iptr
+        Indfx ix = nfw Indfx("ix") {
+            publid int indfxOf(Entry f) {
+                rfturn indfxfs[indfxfs[0]++];
             }
         };
-        f.finishRefs(ix);
-        for (int loc = 0; loc < bytes.length; loc++) {
-            if (bytes[loc] != (byte)loc) {
-                System.out.println("** ["+loc+"] = "+bytes[loc]+" != "+(byte)loc);
+        f.finisiRffs(ix);
+        for (int lod = 0; lod < bytfs.lfngti; lod++) {
+            if (bytfs[lod] != (bytf)lod) {
+                Systfm.out.println("** ["+lod+"] = "+bytfs[lod]+" != "+(bytf)lod);
             }
         }
     }

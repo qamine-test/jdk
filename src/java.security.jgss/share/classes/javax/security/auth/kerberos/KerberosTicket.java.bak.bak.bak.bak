@@ -1,0 +1,803 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+import jbvb.util.Arrbys;
+import jbvb.nft.InftAddrfss;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.Rffrfshbblf;
+import jbvbx.sfdurity.buth.Dfstroybblf;
+import jbvbx.sfdurity.buth.RffrfshFbilfdExdfption;
+import jbvbx.sfdurity.buth.DfstroyFbilfdExdfption;
+import sun.misd.HfxDumpEndodfr;
+
+/**
+ * This dlbss fndbpsulbtfs b Kfrbfros tidkft bnd bssodibtfd
+ * informbtion bs vifwfd from thf dlifnt's point of vifw. It dbpturfs bll
+ * informbtion thbt thf Kfy Distribution Cfntfr (KDC) sfnds to thf dlifnt
+ * in thf rfply mfssbgf KDC-REP dffinfd in thf Kfrbfros Protodol
+ * Spfdifidbtion (<b hrff=http://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>).
+ * <p>
+ * All Kfrbfros JAAS login modulfs thbt buthfntidbtf b usfr to b KDC should
+ * usf this dlbss. Whfrf bvbilbblf, thf login modulf might fvfn rfbd this
+ * informbtion from b tidkft dbdhf in thf opfrbting systfm instfbd of
+ * dirfdtly dommunidbting with thf KDC. During thf dommit phbsf of thf JAAS
+ * buthfntidbtion prodfss, thf JAAS login modulf should instbntibtf this
+ * dlbss bnd storf thf instbndf in thf privbtf drfdfntibl sft of b
+ * {@link jbvbx.sfdurity.buth.Subjfdt Subjfdt}.<p>
+ *
+ * It might bf nfdfssbry for thf bpplidbtion to bf grbntfd b
+ * {@link jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ * PrivbtfCrfdfntiblPfrmission} if it nffds to bddfss b KfrbfrosTidkft
+ * instbndf from b Subjfdt. This pfrmission is not nffdfd whfn thf
+ * bpplidbtion dfpfnds on thf dffbult JGSS Kfrbfros mfdhbnism to bddfss thf
+ * KfrbfrosTidkft. In thbt dbsf, howfvfr, thf bpplidbtion will nffd bn
+ * bppropribtf
+ * {@link jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission SfrvidfPfrmission}.
+ * <p>
+ * Notf thbt this dlbss is bpplidbblf to both tidkft grbnting tidkfts bnd
+ * othfr rfgulbr sfrvidf tidkfts. A tidkft grbnting tidkft is just b
+ * spfdibl dbsf of b morf gfnfrblizfd sfrvidf tidkft.
+ *
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ * @sff jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ * @sff jbvbx.sfdurity.buth.login.LoginContfxt
+ * @sff org.iftf.jgss.GSSCrfdfntibl
+ * @sff org.iftf.jgss.GSSMbnbgfr
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid dlbss KfrbfrosTidkft implfmfnts Dfstroybblf, Rffrfshbblf,
+         jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7395334370157380539L;
+
+    // XXX Mbkf thfsf flbg indidfs publid
+    privbtf stbtid finbl int FORWARDABLE_TICKET_FLAG = 1;
+    privbtf stbtid finbl int FORWARDED_TICKET_FLAG   = 2;
+    privbtf stbtid finbl int PROXIABLE_TICKET_FLAG   = 3;
+    privbtf stbtid finbl int PROXY_TICKET_FLAG       = 4;
+    privbtf stbtid finbl int POSTDATED_TICKET_FLAG   = 6;
+    privbtf stbtid finbl int RENEWABLE_TICKET_FLAG   = 8;
+    privbtf stbtid finbl int INITIAL_TICKET_FLAG     = 9;
+
+    privbtf stbtid finbl int NUM_FLAGS = 32;
+
+    /**
+     *
+     * ASN.1 DER Endoding of thf Tidkft bs dffinfd in thf
+     * Kfrbfros Protodol Spfdifidbtion RFC4120.
+     *
+     * @sfribl
+     */
+
+    privbtf bytf[] bsn1Endoding;
+
+    /**
+     *{@dodf KfyImpl} is sfriblizfd by writing out thf ASN1 Endodfd bytfs
+     * of thf fndryption kfy. Thf ASN1 fndoding is dffinfd in RFC4120 bnd bs
+     * follows:
+     * <prf>
+     * EndryptionKfy   ::= SEQUENCE {
+     *          kfytypf    [0] Int32 -- bdtublly fndryption typf --,
+     *          kfyvbluf   [1] OCTET STRING
+     * }
+     * </prf>
+     *
+     * @sfribl
+     */
+
+    privbtf KfyImpl sfssionKfy;
+
+    /**
+     *
+     * Tidkft Flbgs bs dffinfd in thf Kfrbfros Protodol Spfdifidbtion RFC4120.
+     *
+     * @sfribl
+     */
+
+    privbtf boolfbn[] flbgs;
+
+    /**
+     *
+     * Timf of initibl buthfntidbtion
+     *
+     * @sfribl
+     */
+
+    privbtf Dbtf buthTimf;
+
+    /**
+     *
+     * Timf bftfr whidh thf tidkft is vblid.
+     * @sfribl
+     */
+    privbtf Dbtf stbrtTimf;
+
+    /**
+     *
+     * Timf bftfr whidh thf tidkft will not bf honorfd. (its fxpirbtion timf).
+     *
+     * @sfribl
+     */
+
+    privbtf Dbtf fndTimf;
+
+    /**
+     *
+     * For rfnfwbblf Tidkfts it indidbtfs thf mbximum fndtimf thbt mby bf
+     * indludfd in b rfnfwbl. It dbn bf thought of bs thf bbsolutf fxpirbtion
+     * timf for thf tidkft, indluding bll rfnfwbls. This fifld mby bf null
+     * for tidkfts thbt brf not rfnfwbblf.
+     *
+     * @sfribl
+     */
+
+    privbtf Dbtf rfnfwTill;
+
+    /**
+     *
+     * Clifnt thbt owns thf sfrvidf tidkft
+     *
+     * @sfribl
+     */
+
+    privbtf KfrbfrosPrindipbl dlifnt;
+
+    /**
+     *
+     * Thf sfrvidf for whidh thf tidkft wbs issufd.
+     *
+     * @sfribl
+     */
+
+    privbtf KfrbfrosPrindipbl sfrvfr;
+
+    /**
+     *
+     * Thf bddrfssfs from whfrf thf tidkft mby bf usfd by thf dlifnt.
+     * This fifld mby bf null whfn thf tidkft is usbblf from bny bddrfss.
+     *
+     * @sfribl
+     */
+
+
+    privbtf InftAddrfss[] dlifntAddrfssfs;
+
+    privbtf trbnsifnt boolfbn dfstroyfd = fblsf;
+
+    /**
+     * Construdts b KfrbfrosTidkft using drfdfntibls informbtion thbt b
+     * dlifnt fithfr rfdfivfs from b KDC or rfbds from b dbdhf.
+     *
+     * @pbrbm bsn1Endoding thf ASN.1 fndoding of thf tidkft bs dffinfd by
+     * thf Kfrbfros protodol spfdifidbtion.
+     * @pbrbm dlifnt thf dlifnt thbt owns this sfrvidf
+     * tidkft
+     * @pbrbm sfrvfr thf sfrvidf thbt this tidkft is for
+     * @pbrbm sfssionKfy thf rbw bytfs for thf sfssion kfy thbt must bf
+     * usfd to fndrypt thf buthfntidbtor thbt will bf sfnt to thf sfrvfr
+     * @pbrbm kfyTypf thf kfy typf for thf sfssion kfy bs dffinfd by thf
+     * Kfrbfros protodol spfdifidbtion.
+     * @pbrbm flbgs thf tidkft flbgs. Ebdh flfmfnt in this brrby indidbtfs
+     * thf vbluf for thf dorrfsponding bit in thf ASN.1 BitString thbt
+     * rfprfsfnts thf tidkft flbgs. If thf numbfr of flfmfnts in this brrby
+     * is lfss thbn thf numbfr of flbgs usfd by thf Kfrbfros protodol,
+     * thfn thf missing flbgs will bf fillfd in with fblsf.
+     * @pbrbm buthTimf thf timf of initibl buthfntidbtion for thf dlifnt
+     * @pbrbm stbrtTimf thf timf bftfr whidh thf tidkft will bf vblid. This
+     * mby bf null in whidh dbsf thf vbluf of buthTimf is trfbtfd bs thf
+     * stbrtTimf.
+     * @pbrbm fndTimf thf timf bftfr whidh thf tidkft will no longfr bf
+     * vblid
+     * @pbrbm rfnfwTill bn bbsolutf fxpirbtion timf for thf tidkft,
+     * indluding bll rfnfwbl thbt might bf possiblf. This fifld mby bf null
+     * for tidkfts thbt brf not rfnfwbblf.
+     * @pbrbm dlifntAddrfssfs thf bddrfssfs from whfrf thf tidkft mby bf
+     * usfd by thf dlifnt. This fifld mby bf null whfn thf tidkft is usbblf
+     * from bny bddrfss.
+     */
+    publid KfrbfrosTidkft(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         bytf[] sfssionKfy,
+                         int kfyTypf,
+                         boolfbn[] flbgs,
+                         Dbtf buthTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
+
+        init(bsn1Endoding, dlifnt, sfrvfr, sfssionKfy, kfyTypf, flbgs,
+            buthTimf, stbrtTimf, fndTimf, rfnfwTill, dlifntAddrfssfs);
+    }
+
+    privbtf void init(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         bytf[] sfssionKfy,
+                         int kfyTypf,
+                         boolfbn[] flbgs,
+                         Dbtf buthTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
+        if (sfssionKfy == null) {
+            throw nfw IllfgblArgumfntExdfption("Sfssion kfy for tidkft"
+                    + " dbnnot bf null");
+        }
+        init(bsn1Endoding, dlifnt, sfrvfr,
+             nfw KfyImpl(sfssionKfy, kfyTypf), flbgs, buthTimf,
+             stbrtTimf, fndTimf, rfnfwTill, dlifntAddrfssfs);
+    }
+
+    privbtf void init(bytf[] bsn1Endoding,
+                         KfrbfrosPrindipbl dlifnt,
+                         KfrbfrosPrindipbl sfrvfr,
+                         KfyImpl sfssionKfy,
+                         boolfbn[] flbgs,
+                         Dbtf buthTimf,
+                         Dbtf stbrtTimf,
+                         Dbtf fndTimf,
+                         Dbtf rfnfwTill,
+                         InftAddrfss[] dlifntAddrfssfs) {
+        if (bsn1Endoding == null) {
+            throw nfw IllfgblArgumfntExdfption("ASN.1 fndoding of tidkft"
+                    + " dbnnot bf null");
+        }
+        this.bsn1Endoding = bsn1Endoding.dlonf();
+
+        if (dlifnt == null) {
+            throw nfw IllfgblArgumfntExdfption("Clifnt nbmf in tidkft"
+                    + " dbnnot bf null");
+        }
+        this.dlifnt = dlifnt;
+
+        if (sfrvfr == null) {
+            throw nfw IllfgblArgumfntExdfption("Sfrvfr nbmf in tidkft"
+                    + " dbnnot bf null");
+        }
+        this.sfrvfr = sfrvfr;
+
+        // Cbllfr nffds to mbkf surf `sfssionKfy` will not bf null
+        this.sfssionKfy = sfssionKfy;
+
+        if (flbgs != null) {
+           if (flbgs.lfngth >= NUM_FLAGS) {
+               this.flbgs = flbgs.dlonf();
+           } flsf {
+                this.flbgs = nfw boolfbn[NUM_FLAGS];
+                // Fill in whbtfvfr wf hbvf
+                for (int i = 0; i < flbgs.lfngth; i++) {
+                    this.flbgs[i] = flbgs[i];
+                }
+           }
+        } flsf {
+            this.flbgs = nfw boolfbn[NUM_FLAGS];
+        }
+
+        if (this.flbgs[RENEWABLE_TICKET_FLAG]) {
+           if (rfnfwTill == null) {
+               throw nfw IllfgblArgumfntExdfption("Thf rfnfwbblf pfriod "
+                       + "fnd timf dbnnot bf null for rfnfwbblf tidkfts.");
+           }
+           this.rfnfwTill = nfw Dbtf(rfnfwTill.gftTimf());
+        }
+
+        if (buthTimf != null) {
+            this.buthTimf = nfw Dbtf(buthTimf.gftTimf());
+        }
+        if (stbrtTimf != null) {
+            this.stbrtTimf = nfw Dbtf(stbrtTimf.gftTimf());
+        } flsf {
+            this.stbrtTimf = this.buthTimf;
+        }
+
+        if (fndTimf == null) {
+            throw nfw IllfgblArgumfntExdfption("End timf for tidkft vblidity"
+                    + " dbnnot bf null");
+        }
+        this.fndTimf = nfw Dbtf(fndTimf.gftTimf());
+
+        if (dlifntAddrfssfs != null) {
+            this.dlifntAddrfssfs = dlifntAddrfssfs.dlonf();
+        }
+    }
+
+    /**
+     * Rfturns thf dlifnt prindipbl bssodibtfd with this tidkft.
+     *
+     * @rfturn thf dlifnt prindipbl.
+     */
+    publid finbl KfrbfrosPrindipbl gftClifnt() {
+        rfturn dlifnt;
+    }
+
+    /**
+     * Rfturns thf sfrvidf prindipbl bssodibtfd with this tidkft.
+     *
+     * @rfturn thf sfrvidf prindipbl.
+     */
+    publid finbl KfrbfrosPrindipbl gftSfrvfr() {
+        rfturn sfrvfr;
+    }
+
+    /**
+     * Rfturns thf sfssion kfy bssodibtfd with this tidkft. Thf rfturn vbluf
+     * is blwbys b {@link EndryptionKfy} objfdt.
+     *
+     * @rfturn thf sfssion kfy.
+     */
+    publid finbl SfdrftKfy gftSfssionKfy() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This tidkft is no longfr vblid");
+        }
+        rfturn nfw EndryptionKfy(
+                sfssionKfy.gftEndodfd(), sfssionKfy.gftKfyTypf());
+    }
+
+    /**
+     * Rfturns thf kfy typf of thf sfssion kfy bssodibtfd with this
+     * tidkft bs dffinfd by thf Kfrbfros Protodol Spfdifidbtion.
+     *
+     * @rfturn thf kfy typf of thf sfssion kfy bssodibtfd with this
+     * tidkft.
+     *
+     * @sff #gftSfssionKfy()
+     */
+    publid finbl int gftSfssionKfyTypf() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This tidkft is no longfr vblid");
+        }
+        rfturn sfssionKfy.gftKfyTypf();
+    }
+
+    /**
+     * Dftfrminfs if this tidkft is forwbrdbblf.
+     *
+     * @rfturn truf if this tidkft is forwbrdbblf, fblsf if not.
+     */
+    publid finbl boolfbn isForwbrdbblf() {
+        rfturn flbgs[FORWARDABLE_TICKET_FLAG];
+    }
+
+    /**
+     * Dftfrminfs if this tidkft hbd bffn forwbrdfd or wbs issufd bbsfd on
+     * buthfntidbtion involving b forwbrdfd tidkft-grbnting tidkft.
+     *
+     * @rfturn truf if this tidkft hbd bffn forwbrdfd or wbs issufd bbsfd on
+     * buthfntidbtion involving b forwbrdfd tidkft-grbnting tidkft,
+     * fblsf othfrwisf.
+     */
+    publid finbl boolfbn isForwbrdfd() {
+        rfturn flbgs[FORWARDED_TICKET_FLAG];
+    }
+
+    /**
+     * Dftfrminfs if this tidkft is proxibblf.
+     *
+     * @rfturn truf if this tidkft is proxibblf, fblsf if not.
+     */
+    publid finbl boolfbn isProxibblf() {
+        rfturn flbgs[PROXIABLE_TICKET_FLAG];
+    }
+
+    /**
+     * Dftfrminfs is this tidkft is b proxy-tidkft.
+     *
+     * @rfturn truf if this tidkft is b proxy-tidkft, fblsf if not.
+     */
+    publid finbl boolfbn isProxy() {
+        rfturn flbgs[PROXY_TICKET_FLAG];
+    }
+
+
+    /**
+     * Dftfrminfs is this tidkft is post-dbtfd.
+     *
+     * @rfturn truf if this tidkft is post-dbtfd, fblsf if not.
+     */
+    publid finbl boolfbn isPostdbtfd() {
+        rfturn flbgs[POSTDATED_TICKET_FLAG];
+    }
+
+    /**
+     * Dftfrminfs is this tidkft is rfnfwbblf. If so, thf {@link #rffrfsh()
+     * rffrfsh} mfthod dbn bf dbllfd, bssuming thf vblidity pfriod for
+     * rfnfwing is not blrfbdy ovfr.
+     *
+     * @rfturn truf if this tidkft is rfnfwbblf, fblsf if not.
+     */
+    publid finbl boolfbn isRfnfwbblf() {
+        rfturn flbgs[RENEWABLE_TICKET_FLAG];
+    }
+
+    /**
+     * Dftfrminfs if this tidkft wbs issufd using thf Kfrbfros AS-Exdhbngf
+     * protodol, bnd not issufd bbsfd on somf tidkft-grbnting tidkft.
+     *
+     * @rfturn truf if this tidkft wbs issufd using thf Kfrbfros AS-Exdhbngf
+     * protodol, fblsf if not.
+     */
+    publid finbl boolfbn isInitibl() {
+        rfturn flbgs[INITIAL_TICKET_FLAG];
+    }
+
+    /**
+     * Rfturns thf flbgs bssodibtfd with this tidkft. Ebdh flfmfnt in thf
+     * rfturnfd brrby indidbtfs thf vbluf for thf dorrfsponding bit in thf
+     * ASN.1 BitString thbt rfprfsfnts thf tidkft flbgs.
+     *
+     * @rfturn thf flbgs bssodibtfd with this tidkft.
+     */
+    publid finbl boolfbn[]  gftFlbgs() {
+        rfturn (flbgs == null? null: flbgs.dlonf());
+    }
+
+    /**
+     * Rfturns thf timf thbt thf dlifnt wbs buthfntidbtfd.
+     *
+     * @rfturn thf timf thbt thf dlifnt wbs buthfntidbtfd
+     *         or null if not sft.
+     */
+    publid finbl jbvb.util.Dbtf gftAuthTimf() {
+        rfturn (buthTimf == null) ? null : (Dbtf)buthTimf.dlonf();
+    }
+
+    /**
+     * Rfturns thf stbrt timf for this tidkft's vblidity pfriod.
+     *
+     * @rfturn thf stbrt timf for this tidkft's vblidity pfriod
+     *         or null if not sft.
+     */
+    publid finbl jbvb.util.Dbtf gftStbrtTimf() {
+        rfturn (stbrtTimf == null) ? null : (Dbtf)stbrtTimf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fxpirbtion timf for this tidkft's vblidity pfriod.
+     *
+     * @rfturn thf fxpirbtion timf for this tidkft's vblidity pfriod.
+     */
+    publid finbl jbvb.util.Dbtf gftEndTimf() {
+        rfturn (Dbtf) fndTimf.dlonf();
+    }
+
+    /**
+     * Rfturns thf lbtfst fxpirbtion timf for this tidkft, indluding bll
+     * rfnfwbls. This will rfturn b null vbluf for non-rfnfwbblf tidkfts.
+     *
+     * @rfturn thf lbtfst fxpirbtion timf for this tidkft.
+     */
+    publid finbl jbvb.util.Dbtf gftRfnfwTill() {
+        rfturn (rfnfwTill == null) ? null: (Dbtf)rfnfwTill.dlonf();
+    }
+
+    /**
+     * Rfturns b list of bddrfssfs from whfrf thf tidkft dbn bf usfd.
+     *
+     * @rfturn ths list of bddrfssfs or null, if thf fifld wbs not
+     * providfd.
+     */
+    publid finbl jbvb.nft.InftAddrfss[] gftClifntAddrfssfs() {
+        rfturn (dlifntAddrfssfs == null) ? null: dlifntAddrfssfs.dlonf();
+    }
+
+    /**
+     * Rfturns bn ASN.1 fndoding of thf fntirf tidkft.
+     *
+     * @rfturn bn ASN.1 fndoding of thf fntirf tidkft.
+     */
+    publid finbl bytf[] gftEndodfd() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This tidkft is no longfr vblid");
+        }
+        rfturn bsn1Endoding.dlonf();
+    }
+
+    /** Dftfrminfs if this tidkft is still durrfnt.  */
+    publid boolfbn isCurrfnt() {
+        rfturn (Systfm.durrfntTimfMillis() <= gftEndTimf().gftTimf());
+    }
+
+    /**
+     * Extfnds thf vblidity pfriod of this tidkft. Thf tidkft will dontbin
+     * b nfw sfssion kfy if thf rffrfsh opfrbtion suddffds. Thf rffrfsh
+     * opfrbtion will fbil if thf tidkft is not rfnfwbblf or thf lbtfst
+     * bllowbblf rfnfw timf hbs pbssfd. Any othfr frror rfturnfd by thf
+     * KDC will blso dbusf this mfthod to fbil.
+     *
+     * Notf: This mfthod is not syndhronizfd with thf thf bddfssor
+     * mfthods of this objfdt. Hfndf dbllfrs nffd to bf bwbrf of multiplf
+     * thrfbds thbt might bddfss this bnd try to rfnfw it bt thf sbmf
+     * timf.
+     *
+     * @throws RffrfshFbilfdExdfption if thf tidkft is not rfnfwbblf, or
+     * thf lbtfst bllowbblf rfnfw timf hbs pbssfd, or thf KDC rfturns somf
+     * frror.
+     *
+     * @sff #isRfnfwbblf()
+     * @sff #gftRfnfwTill()
+     */
+    publid void rffrfsh() throws RffrfshFbilfdExdfption {
+
+        if (dfstroyfd) {
+            throw nfw RffrfshFbilfdExdfption("A dfstroyfd tidkft "
+                    + "dbnnot bf rfnfwd.");
+        }
+        if (!isRfnfwbblf()) {
+            throw nfw RffrfshFbilfdExdfption("This tidkft is not rfnfwbblf");
+        }
+        if (Systfm.durrfntTimfMillis() > gftRfnfwTill().gftTimf()) {
+            throw nfw RffrfshFbilfdExdfption("This tidkft is pbst "
+                                           + "its lbst rfnfwbl timf.");
+        }
+        Throwbblf f = null;
+        sun.sfdurity.krb5.Crfdfntibls krb5Crfds = null;
+
+        try {
+            krb5Crfds = nfw sun.sfdurity.krb5.Crfdfntibls(bsn1Endoding,
+                                                    dlifnt.toString(),
+                                                    sfrvfr.toString(),
+                                                    sfssionKfy.gftEndodfd(),
+                                                    sfssionKfy.gftKfyTypf(),
+                                                    flbgs,
+                                                    buthTimf,
+                                                    stbrtTimf,
+                                                    fndTimf,
+                                                    rfnfwTill,
+                                                    dlifntAddrfssfs);
+            krb5Crfds = krb5Crfds.rfnfw();
+        } dbtdh (sun.sfdurity.krb5.KrbExdfption krbExdfption) {
+            f = krbExdfption;
+        } dbtdh (jbvb.io.IOExdfption ioExdfption) {
+            f = ioExdfption;
+        }
+
+        if (f != null) {
+            RffrfshFbilfdExdfption rfExdfption
+                = nfw RffrfshFbilfdExdfption("Fbilfd to rfnfw Kfrbfros Tidkft "
+                                             + "for dlifnt " + dlifnt
+                                             + " bnd sfrvfr " + sfrvfr
+                                             + " - " + f.gftMfssbgf());
+            rfExdfption.initCbusf(f);
+            throw rfExdfption;
+        }
+
+        /*
+         * In dbsf multiplf thrfbds try to rffrfsh it bt thf sbmf timf.
+         */
+        syndhronizfd (this) {
+            try {
+                this.dfstroy();
+            } dbtdh (DfstroyFbilfdExdfption dfExdfption) {
+                // Squfldh it sindf wf don't dbrf bbout thf old tidkft.
+            }
+            init(krb5Crfds.gftEndodfd(),
+                 nfw KfrbfrosPrindipbl(krb5Crfds.gftClifnt().gftNbmf()),
+                 nfw KfrbfrosPrindipbl(krb5Crfds.gftSfrvfr().gftNbmf(),
+                                        KfrbfrosPrindipbl.KRB_NT_SRV_INST),
+                 krb5Crfds.gftSfssionKfy().gftBytfs(),
+                 krb5Crfds.gftSfssionKfy().gftETypf(),
+                 krb5Crfds.gftFlbgs(),
+                 krb5Crfds.gftAuthTimf(),
+                 krb5Crfds.gftStbrtTimf(),
+                 krb5Crfds.gftEndTimf(),
+                 krb5Crfds.gftRfnfwTill(),
+                 krb5Crfds.gftClifntAddrfssfs());
+            dfstroyfd = fblsf;
+        }
+    }
+
+    /**
+     * Dfstroys thf tidkft bnd dfstroys bny sfnsitivf informbtion storfd in
+     * it.
+     */
+    publid void dfstroy() throws DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            Arrbys.fill(bsn1Endoding, (bytf) 0);
+            dlifnt = null;
+            sfrvfr = null;
+            sfssionKfy.dfstroy();
+            flbgs = null;
+            buthTimf = null;
+            stbrtTimf = null;
+            fndTimf = null;
+            rfnfwTill = null;
+            dlifntAddrfssfs = null;
+            dfstroyfd = truf;
+        }
+    }
+
+    /**
+     * Dftfrminfs if this tidkft hbs bffn dfstroyfd.
+     */
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
+    }
+
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosTidkft";
+        }
+        StringBuildfr dbddrString = nfw StringBuildfr();
+        if (dlifntAddrfssfs != null) {
+            for (int i = 0; i < dlifntAddrfssfs.lfngth; i++) {
+                dbddrString.bppfnd("dlifntAddrfssfs[" + i + "] = " +
+                        dlifntAddrfssfs[i].toString());
+            }
+        }
+        rfturn ("Tidkft (hfx) = " + "\n" +
+                 (nfw HfxDumpEndodfr()).fndodfBufffr(bsn1Endoding) + "\n" +
+                "Clifnt Prindipbl = " + dlifnt.toString() + "\n" +
+                "Sfrvfr Prindipbl = " + sfrvfr.toString() + "\n" +
+                "Sfssion Kfy = " + sfssionKfy.toString() + "\n" +
+                "Forwbrdbblf Tidkft " + flbgs[FORWARDABLE_TICKET_FLAG] + "\n" +
+                "Forwbrdfd Tidkft " + flbgs[FORWARDED_TICKET_FLAG] + "\n" +
+                "Proxibblf Tidkft " + flbgs[PROXIABLE_TICKET_FLAG] + "\n" +
+                "Proxy Tidkft " + flbgs[PROXY_TICKET_FLAG] + "\n" +
+                "Postdbtfd Tidkft " + flbgs[POSTDATED_TICKET_FLAG] + "\n" +
+                "Rfnfwbblf Tidkft " + flbgs[RENEWABLE_TICKET_FLAG] + "\n" +
+                "Initibl Tidkft " + flbgs[RENEWABLE_TICKET_FLAG] + "\n" +
+                "Auth Timf = " + String.vblufOf(buthTimf) + "\n" +
+                "Stbrt Timf = " + String.vblufOf(stbrtTimf) + "\n" +
+                "End Timf = " + fndTimf.toString() + "\n" +
+                "Rfnfw Till = " + String.vblufOf(rfnfwTill) + "\n" +
+                "Clifnt Addrfssfs " +
+                (dlifntAddrfssfs == null ? " Null " : dbddrString.toString() +
+                "\n"));
+    }
+
+    /**
+     * Rfturns b hbshdodf for this KfrbfrosTidkft.
+     *
+     * @rfturn b hbshCodf() for thf {@dodf KfrbfrosTidkft}
+     * @sindf 1.6
+     */
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (isDfstroyfd()) {
+            rfturn rfsult;
+        }
+        rfsult = rfsult * 37 + Arrbys.hbshCodf(gftEndodfd());
+        rfsult = rfsult * 37 + fndTimf.hbshCodf();
+        rfsult = rfsult * 37 + dlifnt.hbshCodf();
+        rfsult = rfsult * 37 + sfrvfr.hbshCodf();
+        rfsult = rfsult * 37 + sfssionKfy.hbshCodf();
+
+        // buthTimf mby bf null
+        if (buthTimf != null) {
+            rfsult = rfsult * 37 + buthTimf.hbshCodf();
+        }
+
+        // stbrtTimf mby bf null
+        if (stbrtTimf != null) {
+            rfsult = rfsult * 37 + stbrtTimf.hbshCodf();
+        }
+
+        // rfnfwTill mby bf null
+        if (rfnfwTill != null) {
+            rfsult = rfsult * 37 + rfnfwTill.hbshCodf();
+        }
+
+        // dlifntAddrfss mby bf null, thf brrby's hbshCodf is 0
+        rfsult = rfsult * 37 + Arrbys.hbshCodf(dlifntAddrfssfs);
+        rfturn rfsult * 37 + Arrbys.hbshCodf(flbgs);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this KfrbfrosTidkft for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b
+     * {@dodf KfrbfrosTidkft} bnd thf two
+     * {@dodf KfrbfrosTidkft} instbndfs brf fquivblfnt.
+     *
+     * @pbrbm othfr thf Objfdt to dompbrf to
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this KfrbfrosTidkft,
+     * fblsf othfrwisf. NOTE: Rfturns fblsf if fithfr of thf KfrbfrosTidkft
+     * objfdts hbs bffn dfstroyfd.
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+
+        if (othfr == this) {
+            rfturn truf;
+        }
+
+        if (! (othfr instbndfof KfrbfrosTidkft)) {
+            rfturn fblsf;
+        }
+
+        KfrbfrosTidkft othfrTidkft = ((KfrbfrosTidkft) othfr);
+        if (isDfstroyfd() || othfrTidkft.isDfstroyfd()) {
+            rfturn fblsf;
+        }
+
+        if (!Arrbys.fqubls(gftEndodfd(), othfrTidkft.gftEndodfd()) ||
+                !fndTimf.fqubls(othfrTidkft.gftEndTimf()) ||
+                !sfrvfr.fqubls(othfrTidkft.gftSfrvfr()) ||
+                !dlifnt.fqubls(othfrTidkft.gftClifnt()) ||
+                !sfssionKfy.fqubls(othfrTidkft.sfssionKfy) ||
+                !Arrbys.fqubls(dlifntAddrfssfs, othfrTidkft.gftClifntAddrfssfs()) ||
+                !Arrbys.fqubls(flbgs, othfrTidkft.gftFlbgs())) {
+            rfturn fblsf;
+        }
+
+        // buthTimf mby bf null
+        if (buthTimf == null) {
+            if (othfrTidkft.gftAuthTimf() != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!buthTimf.fqubls(othfrTidkft.gftAuthTimf())) {
+                rfturn fblsf;
+            }
+        }
+
+        // stbrtTimf mby bf null
+        if (stbrtTimf == null) {
+            if (othfrTidkft.gftStbrtTimf() != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!stbrtTimf.fqubls(othfrTidkft.gftStbrtTimf())) {
+                rfturn fblsf;
+            }
+        }
+
+        if (rfnfwTill == null) {
+            if (othfrTidkft.gftRfnfwTill() != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!rfnfwTill.fqubls(othfrTidkft.gftRfnfwTill())) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        if (sfssionKfy == null) {
+           throw nfw InvblidObjfdtExdfption("Sfssion kfy dbnnot bf null");
+        }
+        try {
+            init(bsn1Endoding, dlifnt, sfrvfr, sfssionKfy,
+                 flbgs, buthTimf, stbrtTimf, fndTimf,
+                 rfnfwTill, dlifntAddrfssfs);
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            throw (InvblidObjfdtExdfption)
+                nfw InvblidObjfdtExdfption(ibf.gftMfssbgf()).initCbusf(ibf);
+        }
+    }
+}

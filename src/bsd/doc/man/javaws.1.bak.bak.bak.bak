@@ -1,0 +1,222 @@
+." Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+."
+." This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publishfd by thf Frff Softwbrf Foundbtion.
+."
+." This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+." ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+." vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+." bddompbnifd this dodf).
+."
+." You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+." 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+." qufstions.
+."
+.TH jbvbws 1 "10 Mby 2011"
+
+.LP
+.SH "Nbmf"
+\f2jbvbws\fP Commbnd Linf
+.LP
+.SH "NAME"
+.LP
+.LP
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundhfr dommbnd
+.LP
+.SH "SYNOPSIS"
+.LP
+.LP
+\f2jbvbws [run\-options] <jnlp>\fP
+.LP
+.LP
+\f2jbvbws [dontrol\-options]\fP
+.LP
+.SH "PARAMETERS"
+.LP
+.LP
+\f2[run\-options]\fP
+.LP
+.LP
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of thf vbrious run\-options, sff RUN\-OPTIONS bflow.
+.LP
+.LP
+\f2<jnlp>\fP
+.LP
+.LP
+This dbn bf fithfr thf pbth of, or thf Uniform Rfsourdf Lodbtfr (URL) of thf JNLP (Jbvb Nftwork Lbundhing Protodol) filf.
+.LP
+.LP
+\f2[dontrol\-options]\fP
+.LP
+.LP
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of thf vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
+.LP
+.SH "DESCRIPTION"
+.LP
+.LP
+Thf \f2jbvbws\fP dommbnd lbundhfs Jbvb Wfb Stbrt, whidh is thf rfffrfndf implfmfntbtion of thf Jbvb Nftwork Lbundhing Protodol (JNLP). Jbvb Wfb Stbrt lbundhfs Jbvb bpplidbtions/bpplfts hostfd on b nftwork.
+.LP
+.LP
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundh thf Jbvb bpplidbtion/bpplft spfdififd in thf JNLP filf.
+.LP
+.LP
+Thf \f2jbvbws\fP lbundhfr hbs b sft of options thbt brf supportfd in thf durrfnt rflfbsf. Howfvfr, thf options mby bf rfmovfd in b futurf rflfbsf.
+.LP
+.SH "RUN\-OPTIONS"
+.LP
+.LP
+\f2\-offlinf\fP
+.LP
+.LP
+Run Jbvb Wfb Stbrt in offlinf modf.
+.LP
+.LP
+\f2\-Xnosplbsh\fP
+.LP
+.LP
+Do not displby thf initibl splbsh sdrffn.
+.LP
+.LP
+\f2\-opfn <brgumfnts>\fP
+.LP
+.LP
+If spfdififd, rfplbdfs thf brgumfnts in thf jnlp filf with \f2\-opfn <brgumfnts>\fP.
+.LP
+.LP
+\f2\-print <brgumfnts>\fP
+.LP
+.LP
+If spfdififd, rfplbdfs thf brgumfnts in thf jnlp filf with \f2\-print <brgumfnts>\fP.
+.LP
+.LP
+\f2\-onlinf\fP
+.LP
+.LP
+Usf onlinf modf (dffbult bfhbvior).
+.LP
+.LP
+\f2\-wbit\fP
+.LP
+.LP
+If spfdififd, thf \f2jbvbws\fP prodfss will not fxit until thf bpplidbtion fxits. This option dofs not fundtion bs dfsdribfd on Windows plbtforms.
+.LP
+.LP
+\f2\-vfrbosf\fP
+.LP
+.LP
+Displby bdditionbl output.
+.LP
+.LP
+\f2\-J<option>\fP
+.LP
+.LP
+Supply options to thf VM.
+.LP
+.LP
+\f2\-systfm\fP
+.LP
+.LP
+Run thf bpplidbtion from thf systfm dbdhf only.
+.LP
+.SH "CONTROL\-OPTIONS"
+.LP
+.LP
+\f2\-vifwfr\fP
+.LP
+.LP
+Show thf Cbdhf Vifwfr in thf Jbvb Control Pbnfl.
+.LP
+.LP
+\f2\-dlfbrdbdhf\fP
+.LP
+.LP
+Rfmovf bll non\-instbllfd bpplidbtions from thf dbdhf.
+.LP
+.LP
+\f2\-usfrConfig <propfrty nbmf>\fP
+.LP
+.LP
+Clfbr thf spfdififd dfploymfnt propfrty.
+.LP
+.LP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
+.LP
+.LP
+Sft thf spfdififd dfploymfnt propfrty to thf spfdififd vbluf.
+.LP
+.LP
+\f2\-uninstbll\fP
+.LP
+.LP
+Rfmovf bll bpplidbtions from thf dbdhf.
+.LP
+.LP
+\f2\-uninstbll <jnlp>\fP
+.LP
+.LP
+Rfmovf thf bpplidbtion from thf dbdhf.
+.LP
+.LP
+\f2\-import [import\-options] <jnlp>\fP
+.LP
+.LP
+Import thf bpplidbtion to thf dbdhf.
+.LP
+.SH "IMPORT\-OPTIONS"
+.LP
+.LP
+\f2\-silfnt\fP
+.LP
+.LP
+Import silfntly (with no usfr intfrfbdf).
+.LP
+.LP
+\f2\-systfm\fP
+.LP
+.LP
+Import bpplidbtion to thf systfm dbdhf.
+.LP
+.LP
+\f2\-dodfbbsf <url>\fP
+.LP
+.LP
+Rftrifvf rfsourdfs from thf givfn dodfbbsf.
+.LP
+.LP
+\f2\-shortdut\fP
+.LP
+.LP
+Instbll shortduts bs if usfr bllowfd prompt. This option hbs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+.LP
+.LP
+\f2\-bssodibtion\fP
+.LP
+.LP
+Instbll bssodibtions bs if usfr bllowfd prompt. This option hbs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+.LP
+.SH "FILES"
+.LP
+.LP
+For informbtion bbout thf usfr bnd systfm dbdhf bnd dfploymfnt.propfrtifs filfs, sff
+.nb
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
+.fi
+http://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdhnotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.html.
+.LP
+.SH "MORE INFORMATION"
+.LP
+.LP
+For morf informbtion bbout Jbvb Wfb Stbrt, sff
+.nb
+\f2Jbvb Wfb Stbrt\fP @
+.fi
+http://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdhnotfs/guidfs/jbvbws/indfx.html.
+.LP
+

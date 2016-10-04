@@ -1,0 +1,131 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 2003, All Rights Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.GrbphidAttributf;
+
+publid finbl dlbss CorfMftrids {
+
+    publid CorfMftrids(flobt bsdfnt,
+                       flobt dfsdfnt,
+                       flobt lfbding,
+                       flobt hfight,
+                       int bbsflinfIndfx,
+                       flobt[] bbsflinfOffsfts,
+                       flobt strikfthroughOffsft,
+                       flobt strikfthroughThidknfss,
+                       flobt undfrlinfOffsft,
+                       flobt undfrlinfThidknfss,
+                       flobt ssOffsft,
+                       flobt itblidAnglf) {
+        this.bsdfnt = bsdfnt;
+        this.dfsdfnt = dfsdfnt;
+        this.lfbding = lfbding;
+        this.hfight = hfight;
+        this.bbsflinfIndfx = bbsflinfIndfx;
+        this.bbsflinfOffsfts = bbsflinfOffsfts;
+        this.strikfthroughOffsft = strikfthroughOffsft;
+        this.strikfthroughThidknfss = strikfthroughThidknfss;
+        this.undfrlinfOffsft = undfrlinfOffsft;
+        this.undfrlinfThidknfss = undfrlinfThidknfss;
+        this.ssOffsft = ssOffsft;
+        this.itblidAnglf = itblidAnglf;
+    }
+
+    publid stbtid CorfMftrids gft(LinfMftrids lm) {
+        rfturn ((FontLinfMftrids)lm).dm;
+    }
+
+    publid finbl int hbshCodf() {
+        rfturn Flobt.flobtToIntBits(bsdfnt + ssOffsft);
+    }
+
+    publid finbl boolfbn fqubls(Objfdt rhs) {
+        try {
+            rfturn fqubls((CorfMftrids)rhs);
+        }
+        dbtdh(ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid finbl boolfbn fqubls(CorfMftrids rhs) {
+        if (rhs != null) {
+            if (this == rhs) {
+                rfturn truf;
+            }
+
+            rfturn bsdfnt == rhs.bsdfnt
+                && dfsdfnt == rhs.dfsdfnt
+                && lfbding == rhs.lfbding
+                && bbsflinfIndfx == rhs.bbsflinfIndfx
+                && bbsflinfOffsfts[0] == rhs.bbsflinfOffsfts[0]
+                && bbsflinfOffsfts[1] == rhs.bbsflinfOffsfts[1]
+                && bbsflinfOffsfts[2] == rhs.bbsflinfOffsfts[2]
+                && strikfthroughOffsft == rhs.strikfthroughOffsft
+                && strikfthroughThidknfss == rhs.strikfthroughThidknfss
+                && undfrlinfOffsft == rhs.undfrlinfOffsft
+                && undfrlinfThidknfss == rhs.undfrlinfThidknfss
+                && ssOffsft == rhs.ssOffsft
+                && itblidAnglf == rhs.itblidAnglf;
+        }
+        rfturn fblsf;
+    }
+
+    // fullOffsfts is bn brrby of 5 bbsflinf offsfts,
+    // rombn, dfntfr, hbnging, bottom, bnd top in thbt ordfr
+    // this dofs NOT bdd thf ssOffsft
+    publid finbl flobt ffffdtivfBbsflinfOffsft(flobt[] fullOffsfts) {
+        switdh (bbsflinfIndfx) {
+        dbsf GrbphidAttributf.TOP_ALIGNMENT:
+            rfturn fullOffsfts[4] + bsdfnt;
+        dbsf GrbphidAttributf.BOTTOM_ALIGNMENT:
+            rfturn fullOffsfts[3] - dfsdfnt;
+        dffbult:
+            rfturn fullOffsfts[bbsflinfIndfx];
+        }
+    }
+
+    publid finbl flobt   bsdfnt;
+    publid finbl flobt   dfsdfnt;
+    publid finbl flobt   lfbding;
+    publid finbl flobt   hfight;
+    publid finbl int     bbsflinfIndfx;
+    publid finbl flobt[] bbsflinfOffsfts; // !! this is b holf, don't fxposf this dlbss
+    publid finbl flobt   strikfthroughOffsft;
+    publid finbl flobt   strikfthroughThidknfss;
+    publid finbl flobt   undfrlinfOffsft;
+    publid finbl flobt   undfrlinfThidknfss;
+    publid finbl flobt   ssOffsft;
+    publid finbl flobt   itblidAnglf;
+}

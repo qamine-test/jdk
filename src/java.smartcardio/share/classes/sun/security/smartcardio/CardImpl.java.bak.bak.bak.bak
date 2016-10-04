@@ -1,0 +1,273 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.smbrtdbrdio;
+
+import jbvb.nio.BytfBufffr;
+
+import jbvbx.smbrtdbrdio.*;
+
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
+
+/**
+ * Cbrd implfmfntbtion.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss CbrdImpl fxtfnds Cbrd {
+
+    privbtf stbtid fnum Stbtf { OK, REMOVED, DISCONNECTED };
+
+    // thf tfrminbl thbt drfbtfd this dbrd
+    privbtf finbl TfrminblImpl tfrminbl;
+
+    // thf nbtivf SCARDHANDLE
+    finbl long dbrdId;
+
+    // btr of this dbrd
+    privbtf finbl ATR btr;
+
+    // protodol in usf, onf of SCARD_PROTOCOL_T0 bnd SCARD_PROTOCOL_T1
+    finbl int protodol;
+
+    // thf bbsid logidbl dhbnnfl (dhbnnfl 0)
+    privbtf finbl ChbnnflImpl bbsidChbnnfl;
+
+    // stbtf of this dbrd donnfdtion
+    privbtf volbtilf Stbtf stbtf;
+
+    // thrfbd holding fxdlusivf bddfss to thf dbrd, or null
+    privbtf volbtilf Thrfbd fxdlusivfThrfbd;
+
+    CbrdImpl(TfrminblImpl tfrminbl, String protodol) throws PCSCExdfption {
+        this.tfrminbl = tfrminbl;
+        int shbringModf = SCARD_SHARE_SHARED;
+        int donnfdtProtodol;
+        if (protodol.fqubls("*")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1;
+        } flsf if (protodol.fqublsIgnorfCbsf("T=0")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T0;
+        } flsf if (protodol.fqublsIgnorfCbsf("T=1")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T1;
+        } flsf if (protodol.fqublsIgnorfCbsf("dirfdt")) {
+            // tfsting
+            donnfdtProtodol = 0;
+            shbringModf = SCARD_SHARE_DIRECT;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd protodol " + protodol);
+        }
+        dbrdId = SCbrdConnfdt(tfrminbl.dontfxtId, tfrminbl.nbmf,
+                    shbringModf, donnfdtProtodol);
+        bytf[] stbtus = nfw bytf[2];
+        bytf[] btrBytfs = SCbrdStbtus(dbrdId, stbtus);
+        btr = nfw ATR(btrBytfs);
+        this.protodol = stbtus[1] & 0xff;
+        bbsidChbnnfl = nfw ChbnnflImpl(this, 0);
+        stbtf = Stbtf.OK;
+    }
+
+    void dhfdkStbtf()  {
+        Stbtf s = stbtf;
+        if (s == Stbtf.DISCONNECTED) {
+            throw nfw IllfgblStbtfExdfption("Cbrd hbs bffn disdonnfdtfd");
+        } flsf if (s == Stbtf.REMOVED) {
+            throw nfw IllfgblStbtfExdfption("Cbrd hbs bffn rfmovfd");
+        }
+    }
+
+    boolfbn isVblid() {
+        if (stbtf != Stbtf.OK) {
+            rfturn fblsf;
+        }
+        // ping dbrd vib SCbrdStbtus
+        try {
+            SCbrdStbtus(dbrdId, nfw bytf[2]);
+            rfturn truf;
+        } dbtdh (PCSCExdfption f) {
+            stbtf = Stbtf.REMOVED;
+            rfturn fblsf;
+        }
+    }
+
+    privbtf void dhfdkSfdurity(String bdtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw CbrdPfrmission(tfrminbl.nbmf, bdtion));
+        }
+    }
+
+    void hbndlfError(PCSCExdfption f) {
+        if (f.dodf == SCARD_W_REMOVED_CARD) {
+            stbtf = Stbtf.REMOVED;
+        }
+    }
+
+    publid ATR gftATR() {
+        rfturn btr;
+    }
+
+    publid String gftProtodol() {
+        switdh (protodol) {
+        dbsf SCARD_PROTOCOL_T0:
+            rfturn "T=0";
+        dbsf SCARD_PROTOCOL_T1:
+            rfturn "T=1";
+        dffbult:
+            // should nfvfr oddur
+            rfturn "Unknown protodol " + protodol;
+        }
+    }
+
+    publid CbrdChbnnfl gftBbsidChbnnfl() {
+        dhfdkSfdurity("gftBbsidChbnnfl");
+        dhfdkStbtf();
+        rfturn bbsidChbnnfl;
+    }
+
+    privbtf stbtid int gftSW(bytf[] b) {
+        if (b.lfngth < 2) {
+            rfturn -1;
+        }
+        int sw1 = b[b.lfngth - 2] & 0xff;
+        int sw2 = b[b.lfngth - 1] & 0xff;
+        rfturn (sw1 << 8) | sw2;
+    }
+
+    privbtf stbtid bytf[] dommbndOpfnChbnnfl = nfw bytf[] {0, 0x70, 0, 0, 1};
+
+    publid CbrdChbnnfl opfnLogidblChbnnfl() throws CbrdExdfption {
+        dhfdkSfdurity("opfnLogidblChbnnfl");
+        dhfdkStbtf();
+        dhfdkExdlusivf();
+        try {
+            bytf[] rfsponsf = SCbrdTrbnsmit
+                (dbrdId, protodol, dommbndOpfnChbnnfl, 0, dommbndOpfnChbnnfl.lfngth);
+            if ((rfsponsf.lfngth != 3) || (gftSW(rfsponsf) != 0x9000)) {
+                throw nfw CbrdExdfption
+                        ("opfnLogidblChbnnfl() fbilfd, dbrd rfsponsf: "
+                        + PCSC.toString(rfsponsf));
+            }
+            rfturn nfw ChbnnflImpl(this, rfsponsf[0]);
+        } dbtdh (PCSCExdfption f) {
+            hbndlfError(f);
+            throw nfw CbrdExdfption("opfnLogidblChbnnfl() fbilfd", f);
+        }
+    }
+
+    void dhfdkExdlusivf() throws CbrdExdfption {
+        Thrfbd t = fxdlusivfThrfbd;
+        if (t == null) {
+            rfturn;
+        }
+        if (t != Thrfbd.durrfntThrfbd()) {
+            throw nfw CbrdExdfption("Exdlusivf bddfss fstbblishfd by bnothfr Thrfbd");
+        }
+    }
+
+    publid syndhronizfd void bfginExdlusivf() throws CbrdExdfption {
+        dhfdkSfdurity("fxdlusivf");
+        dhfdkStbtf();
+        if (fxdlusivfThrfbd != null) {
+            throw nfw CbrdExdfption
+                    ("Exdlusivf bddfss hbs blrfbdy bffn bssignfd to Thrfbd "
+                    + fxdlusivfThrfbd.gftNbmf());
+        }
+        try {
+            SCbrdBfginTrbnsbdtion(dbrdId);
+        } dbtdh (PCSCExdfption f) {
+            hbndlfError(f);
+            throw nfw CbrdExdfption("bfginExdlusivf() fbilfd", f);
+        }
+        fxdlusivfThrfbd = Thrfbd.durrfntThrfbd();
+    }
+
+    publid syndhronizfd void fndExdlusivf() throws CbrdExdfption {
+        dhfdkStbtf();
+        if (fxdlusivfThrfbd != Thrfbd.durrfntThrfbd()) {
+            throw nfw IllfgblStbtfExdfption
+                    ("Exdlusivf bddfss not bssignfd to durrfnt Thrfbd");
+        }
+        try {
+            SCbrdEndTrbnsbdtion(dbrdId, SCARD_LEAVE_CARD);
+        } dbtdh (PCSCExdfption f) {
+            hbndlfError(f);
+            throw nfw CbrdExdfption("fndExdlusivf() fbilfd", f);
+        } finblly {
+            fxdlusivfThrfbd = null;
+        }
+    }
+
+    publid bytf[] trbnsmitControlCommbnd(int dontrolCodf, bytf[] dommbnd)
+            throws CbrdExdfption {
+        dhfdkSfdurity("trbnsmitControl");
+        dhfdkStbtf();
+        dhfdkExdlusivf();
+        if (dommbnd == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        try {
+            bytf[] r = SCbrdControl(dbrdId, dontrolCodf, dommbnd);
+            rfturn r;
+        } dbtdh (PCSCExdfption f) {
+            hbndlfError(f);
+            throw nfw CbrdExdfption("trbnsmitControlCommbnd() fbilfd", f);
+        }
+    }
+
+    publid void disdonnfdt(boolfbn rfsft) throws CbrdExdfption {
+        if (rfsft) {
+            dhfdkSfdurity("rfsft");
+        }
+        if (stbtf != Stbtf.OK) {
+            rfturn;
+        }
+        dhfdkExdlusivf();
+        try {
+            SCbrdDisdonnfdt(dbrdId, (rfsft ? SCARD_RESET_CARD : SCARD_LEAVE_CARD));
+        } dbtdh (PCSCExdfption f) {
+            throw nfw CbrdExdfption("disdonnfdt() fbilfd", f);
+        } finblly {
+            stbtf = Stbtf.DISCONNECTED;
+            fxdlusivfThrfbd = null;
+        }
+    }
+
+    publid String toString() {
+        rfturn "PC/SC dbrd in " + tfrminbl.gftNbmf()
+            + ", protodol " + gftProtodol() + ", stbtf " + stbtf;
+    }
+
+    protfdtfd void finblizf() throws Throwbblf {
+        try {
+            if (stbtf == Stbtf.OK) {
+                SCbrdDisdonnfdt(dbrdId, SCARD_LEAVE_CARD);
+            }
+        } finblly {
+            supfr.finblizf();
+        }
+    }
+
+}

@@ -1,0 +1,1233 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.ColorModfl;
+
+import sun.bwt.*;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SunGrbphids2D;
+
+/**
+ * Thf bbstrbdt dlbss XBbsfMfnuWindow is thf supfrdlbss
+ * of bll mfnu windows.
+ */
+bbstrbdt publid dlbss XBbsfMfnuWindow fxtfnds XWindow {
+
+    /************************************************
+     *
+     * Dbtb mfmbfrs
+     *
+     ************************************************/
+
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XBbsfMfnuWindow");
+
+    /*
+     * Colors brf dbldulbtfd using MotifColorUtilitifs dlbss
+     * from bbdkgroundColor bnd brf dontbinfd in thfsf vbrs.
+     */
+    privbtf Color bbdkgroundColor;
+    privbtf Color forfgroundColor;
+    privbtf Color lightShbdowColor;
+    privbtf Color dbrkShbdowColor;
+    privbtf Color sflfdtfdColor;
+    privbtf Color disbblfdColor;
+
+    /**
+     * Arrby of itfms.
+     */
+    privbtf ArrbyList<XMfnuItfmPffr> itfms;
+
+    /**
+     * Indfx of sflfdtfd itfm in brrby of itfms
+     */
+    privbtf int sflfdtfdIndfx = -1;
+
+    /**
+     * Spfdififs durrfntly showing submfnu.
+     */
+    privbtf XMfnuPffr showingSubmfnu = null;
+
+    /**
+     * Stbtid syndhronizbtionbl objfdt.
+     * Following opfrbtions should bf syndhronizfd
+     * using this objfdt:
+     * 1. Addfss to itfms vfdtor
+     * 2. Addfss to sflfdtion
+     * 3. Addfss to showing mfnu window mfmbfr
+     *
+     * This is lowfst lfvfl lodk,
+     * no othfr lodks should bf tbkfn whfn
+     * thrfbd own this lodk.
+     */
+    stbtid privbtf Objfdt mfnuTrffLodk = nfw Objfdt();
+
+    /************************************************
+     *
+     * Evfnt prodfssing
+     *
+     ************************************************/
+
+    /**
+     * If mousf button is dlidkfd on itfm showing submfnu
+     * wf hbvf to hidf its submfnu.
+     * And if mousf button is prfssfd on sudh itfm bnd
+     * drbggfd to bnothfr, gftShowingSubmfnu() is dhbngfd.
+     * So this mfmbfr sbvfs thf itfm thbt thf usfr
+     * prfssfs mousf button on _only_ if it's showing submfnu.
+     */
+    privbtf XMfnuPffr showingMousfPrfssfdSubmfnu = null;
+
+    /**
+     * If thf PopupMfnu is invokfd bs b rfsult of right button dlidk
+     * first mousf fvfnt bftfr grbbInput would bf MousfRflfbsfd.
+     * Wf nffd to dhfdk if thf usfr hbs movfd mousf bftfr input grbb.
+     * If yfs - hidf thf PopupMfnu. If no - do nothing
+     */
+    protfdtfd Point grbbInputPoint = null;
+    protfdtfd boolfbn hbsPointfrMovfd = fblsf;
+
+    privbtf AppContfxt disposfAppContfxt;
+
+    /************************************************
+     *
+     * Mbpping dbtb
+     *
+     ************************************************/
+
+    /**
+     * Mbpping dbtb thbt is fillfd in gftMbppfdItfms fundtion
+     * bnd rfsft in rfsftSizf fundtion. It dontbins brrby of
+     * itfms in ordfr thbt thfy bppfbr on sdrffn bnd mby dontbin
+     * bdditionbl dbtb dffinfd by dfsdfndbnts.
+     */
+    privbtf MbppingDbtb mbppingDbtb;
+
+    stbtid dlbss MbppingDbtb implfmfnts Clonfbblf {
+
+        /**
+         * Arrby of itfm in ordfr thbt thfy bppfbr on sdrffn
+         */
+        privbtf XMfnuItfmPffr[] itfms;
+
+        /**
+         * Construdts MbppingDbtb objfdt with list
+         * of mfnu itfms
+         */
+        MbppingDbtb(XMfnuItfmPffr[] itfms) {
+            this.itfms = itfms;
+        }
+
+        /**
+         * Construdts MbppingDbtb without itfms
+         * This donstrudtor should bf usfd in dbsf of frrors
+         */
+        MbppingDbtb() {
+            this.itfms = nfw XMfnuItfmPffr[0];
+        }
+
+        publid Objfdt dlonf() {
+            try {
+                rfturn supfr.dlonf();
+            } dbtdh (ClonfNotSupportfdExdfption fx) {
+                throw nfw IntfrnblError(fx);
+            }
+        }
+
+        publid XMfnuItfmPffr[] gftItfms() {
+            rfturn this.itfms;
+        }
+    }
+
+    /************************************************
+     *
+     * Construdtion
+     *
+     ************************************************/
+    XBbsfMfnuWindow() {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            DELAYED, Boolfbn.TRUE}));
+
+        disposfAppContfxt = AppContfxt.gftAppContfxt();
+    }
+
+    /************************************************
+     *
+     * Abstrbdt mfthods
+     *
+     ************************************************/
+
+    /**
+     * Rfturns pbrfnt mfnu window (not thf X-hifrbrdhy pbrfnt window)
+     */
+    protfdtfd bbstrbdt XBbsfMfnuWindow gftPbrfntMfnuWindow();
+
+    /**
+     * Pfrforms mbpping of itfms in window.
+     * This fundtion drfbtfs bnd fills spfdifid
+     * dfsdfndbnt of MbppingDbtb
+     * bnd sfts mbpping doordinbtfs of itfms
+     * This fundtion should rfturn dffbult mfnu dbtb
+     * if frrors oddur
+     */
+    protfdtfd bbstrbdt MbppingDbtb mbp();
+
+    /**
+     * Cbldulbtfs plbdfmfnt of submfnu window
+     * givfn bounds of itfm with submfnu bnd
+     * sizf of submfnu window. Rfturns suggfstfd
+     * rfdtbnglf for submfnu window in globbl doordinbtfs
+     * @pbrbm itfmBounds thf bounding rfdtbnglf of itfm
+     * in lodbl doordinbtfs
+     * @pbrbm windowSizf thf dfsirfd sizf of submfnu's window
+     */
+    protfdtfd bbstrbdt Rfdtbnglf gftSubmfnuBounds(Rfdtbnglf itfmBounds, Dimfnsion windowSizf);
+
+
+    /**
+     * This fundtion is to bf dbllfd if it's likfly thbt sizf
+     * of itfms wbs dhbngfd. It dbn bf dbllfd from bny thrfbd
+     * in bny lodkfd stbtf, so it should not tbkf lodks
+     */
+    protfdtfd bbstrbdt void updbtfSizf();
+
+    /************************************************
+     *
+     * Initiblizbtion
+     *
+     ************************************************/
+
+    /**
+     * Ovfrridfs XBbsfWindow.instbntPrfInit
+     */
+    void instbntPrfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.instbntPrfInit(pbrbms);
+        itfms = nfw ArrbyList<>();
+    }
+
+    /************************************************
+     *
+     * Gfnfrbl-purposf fundtions
+     *
+     ************************************************/
+
+    /**
+     * Rfturns stbtid lodk usfd for mfnus
+     */
+    stbtid Objfdt gftMfnuTrffLodk() {
+        rfturn mfnuTrffLodk;
+    }
+
+    /**
+     * This fundtion is dbllfd to dlfbr bll sbvfd
+     * sizf dbtb.
+     */
+    protfdtfd void rfsftMbpping() {
+        mbppingDbtb = null;
+    }
+
+    /**
+     * Invokfs rfpbint prodfdurf on fvfntHbndlfrThrfbd
+     */
+    void postPbintEvfnt() {
+        if (isShowing()) {
+            PbintEvfnt pf = nfw PbintEvfnt(tbrgft, PbintEvfnt.PAINT,
+                                           nfw Rfdtbnglf(0, 0, width, hfight));
+            postEvfnt(pf);
+        }
+    }
+
+    /************************************************
+     *
+     * Utility fundtions for mbnipulbting itfms
+     *
+     ************************************************/
+
+    /**
+     * Thrfbd-sbffly rfturns itfm bt spfdififd indfx
+     * @pbrbm indfx thf position of thf itfm to bf rfturnfd.
+     */
+    XMfnuItfmPffr gftItfm(int indfx) {
+        if (indfx >= 0) {
+            syndhronizfd(gftMfnuTrffLodk()) {
+                if (itfms.sizf() > indfx) {
+                    rfturn itfms.gft(indfx);
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Thrfbd-sbffly drfbtfs b dopy of thf itfms vfdtor
+     */
+    XMfnuItfmPffr[] dopyItfms() {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            rfturn itfms.toArrby(nfw XMfnuItfmPffr[] {});
+        }
+    }
+
+
+    /**
+     * Thrfbd-sbffly rfturns sflfdtfd itfm
+     */
+    XMfnuItfmPffr gftSflfdtfdItfm() {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            if (sflfdtfdIndfx >= 0) {
+                if (itfms.sizf() > sflfdtfdIndfx) {
+                    rfturn itfms.gft(sflfdtfdIndfx);
+                }
+            }
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns showing submfnu, if bny
+     */
+    XMfnuPffr gftShowingSubmfnu() {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            rfturn showingSubmfnu;
+        }
+    }
+
+    /**
+     * Adds itfm to fnd of itfms vfdtor.
+     * Notf thbt this fundtion dofs not pfrform
+     * dhfdk for bdding duplidbtf itfms
+     * @pbrbm itfm itfm to bdd
+     */
+    publid void bddItfm(MfnuItfm itfm) {
+        XMfnuItfmPffr mp = (XMfnuItfmPffr)itfm.gftPffr();
+        if (mp != null) {
+            mp.sftContbinfr(this);
+            syndhronizfd(gftMfnuTrffLodk()) {
+                itfms.bdd(mp);
+            }
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("WARNING: Attfmpt to bdd mfnu itfm without b pffr");
+            }
+        }
+        updbtfSizf();
+    }
+
+    /**
+     * Rfmovfs itfm bt thf spfdififd indfx from itfms vfdtor.
+     * @pbrbm indfx thf position of thf itfm to bf rfmovfd
+     */
+    publid void dflItfm(int indfx) {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            if (sflfdtfdIndfx == indfx) {
+                sflfdtItfm(null, fblsf);
+            } flsf if (sflfdtfdIndfx > indfx) {
+                sflfdtfdIndfx--;
+            }
+            if (indfx < itfms.sizf()) {
+                itfms.rfmovf(indfx);
+            } flsf {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("WARNING: Attfmpt to rfmovf non-fxisting mfnu itfm, indfx : " + indfx + ", itfm dount : " + itfms.sizf());
+                }
+            }
+        }
+        updbtfSizf();
+    }
+
+    /**
+     * Clfbrs itfms vfdtor bnd lobds spfdififd vfdtor
+     * @pbrbm itfms vfdtor to bf lobdfd
+     */
+    publid void rflobdItfms(Vfdtor<? fxtfnds MfnuItfm> itfms) {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            this.itfms.dlfbr();
+            MfnuItfm[] itfmArrby = itfms.toArrby(nfw MfnuItfm[] {});
+            int itfmCnt = itfmArrby.lfngth;
+            for(int i = 0; i < itfmCnt; i++) {
+                bddItfm(itfmArrby[i]);
+            }
+        }
+    }
+
+    /**
+     * Sflfdt spfdififd itfm bnd shows/hidfs submfnus if nfdfssbry
+     * Wf dbn not sflfdt by indfx, so wf nffd to sflfdt by rff.
+     * @pbrbm itfm thf itfm to bf sflfdtfd, null to dlfbr sflfdtion
+     * @pbrbm showWindowIfMfnu if thf itfm is XMfnuPffr thfn its
+     * window is shown/hiddfn bddording to this pbrbm.
+     */
+    void sflfdtItfm(XMfnuItfmPffr itfm, boolfbn showWindowIfMfnu) {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            XMfnuPffr showingSubmfnu = gftShowingSubmfnu();
+            int nfwSflfdtfdIndfx = (itfm != null) ? itfms.indfxOf(itfm) : -1;
+            if (this.sflfdtfdIndfx != nfwSflfdtfdIndfx) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Sflfdtfd indfx dhbngfd, wbs : " + this.sflfdtfdIndfx + ", nfw : " + nfwSflfdtfdIndfx);
+                }
+                this.sflfdtfdIndfx = nfwSflfdtfdIndfx;
+                postPbintEvfnt();
+            }
+            finbl XMfnuPffr submfnuToShow = (showWindowIfMfnu && (itfm instbndfof XMfnuPffr)) ? (XMfnuPffr)itfm : null;
+            if (submfnuToShow != showingSubmfnu) {
+                XToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, nfw Runnbblf() {
+                        publid void run() {
+                            doShowSubmfnu(submfnuToShow);
+                        }
+                    });
+            }
+        }
+    }
+
+    /**
+     * Pfrforms hiding of durrfntly showing submfnu
+     * bnd showing of submfnuToShow.
+     * This fundtion should bf fxfdutfd on fvfntHbndlfrThrfbd
+     * @pbrbm submfnuToShow submfnu to bf shown or null
+     * to hidf durrfntly showing submfnu
+     */
+    privbtf void doShowSubmfnu(XMfnuPffr submfnuToShow) {
+        XMfnuWindow mfnuWindowToShow = (submfnuToShow != null) ? submfnuToShow.gftMfnuWindow() : null;
+        Dimfnsion dim = null;
+        Rfdtbnglf bounds = null;
+        //fnsurfCrfbtfd dbn invokf XWindowPffr.init() ->
+        //XWindowPffr.initGrbphidsConfigurbtion() ->
+        //Window.gftGrbphidsConfigurbtion()
+        //thbt trifs to obtbin Componfnt.AWTTrffLodk.
+        //So it should bf dbllfd outsidf bwtLodk()
+        if (mfnuWindowToShow != null) {
+            mfnuWindowToShow.fnsurfCrfbtfd();
+        }
+        XToolkit.bwtLodk();
+        try {
+            syndhronizfd(gftMfnuTrffLodk()) {
+                if (showingSubmfnu != submfnuToShow) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Chbnging showing submfnu");
+                    }
+                    if (showingSubmfnu != null) {
+                        XMfnuWindow showingSubmfnuWindow = showingSubmfnu.gftMfnuWindow();
+                        if (showingSubmfnuWindow != null) {
+                            showingSubmfnuWindow.hidf();
+                        }
+                    }
+                    if (submfnuToShow != null) {
+                        dim = mfnuWindowToShow.gftDfsirfdSizf();
+                        bounds = mfnuWindowToShow.gftPbrfntMfnuWindow().gftSubmfnuBounds(submfnuToShow.gftBounds(), dim);
+                        mfnuWindowToShow.show(bounds);
+                    }
+                    showingSubmfnu = submfnuToShow;
+                }
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    finbl void sftItfmsFont( Font font ) {
+        XMfnuItfmPffr[] itfms = dopyItfms();
+        int itfmCnt = itfms.lfngth;
+        for (int i = 0; i < itfmCnt; i++) {
+            itfms[i].sftFont(font);
+        }
+    }
+
+    /************************************************
+     *
+     * Utility fundtions for mbnipulbting mbppfd itfms
+     *
+     ************************************************/
+
+    /**
+     * Rfturns brrby of mbppfd itfms, null if frror
+     * This fundtion hbs to bf not syndhronizfd
+     * bnd wf hbvf to gubrbntff thbt wf rfturn
+     * somf MbppingDbtb to usfr. It's OK if
+     * this.mbppingDbtb is rfplbdfd mfbnwhilf
+     */
+    MbppingDbtb gftMbppingDbtb() {
+        MbppingDbtb mbppingDbtb = this.mbppingDbtb;
+        if (mbppingDbtb == null) {
+            mbppingDbtb = mbp();
+            this.mbppingDbtb = mbppingDbtb;
+        }
+        rfturn (MbppingDbtb)mbppingDbtb.dlonf();
+    }
+
+    /**
+     * rfturns itfm thbts mbppfd doordinbtfs dontbin
+     * spfdififd point, null of nonf.
+     * @pbrbm pt thf point in this window's doordinbtf systfm
+     */
+    XMfnuItfmPffr gftItfmFromPoint(Point pt) {
+        XMfnuItfmPffr[] itfms = gftMbppingDbtb().gftItfms();
+        int dnt = itfms.lfngth;
+        for (int i = 0; i < dnt; i++) {
+            if (itfms[i].gftBounds().dontbins(pt)) {
+                rfturn itfms[i];
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns first itfm bftfr durrfntly sflfdtfd
+     * itfm thbt dbn bf sflfdtfd bddording to mbpping brrby.
+     * (no sfpbrbtors bnd no disbblfd itfms).
+     * Currfntly sflfdtfd itfm if it's only sflfdtbblf,
+     * null if no itfm dbn bf sflfdtfd
+     */
+    XMfnuItfmPffr gftNfxtSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        int dnt = mbppfdItfms.lfngth;
+        //Find indfx of sflfdtfd itfm
+        int sflIdx = -1;
+        for (int i = 0; i < dnt; i++) {
+            if (mbppfdItfms[i] == sflfdtfdItfm) {
+                sflIdx = i;
+                brfbk;
+            }
+        }
+        int idx = (sflIdx == dnt - 1) ? 0 : sflIdx + 1;
+        //dydlf through mbppfdItfms to find sflfdtbblf itfm
+        //bfginning from thf nfxt itfm bnd moving to thf
+        //bfginning of brrby whfn fnd is rfbdhfd.
+        //Cydlf is finishfd on sflfdtfd itfm itsflf
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[idx];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
+            }
+            idx++;
+            if (idx >= dnt) {
+                idx = 0;
+            }
+        }
+        //rfturn null if no sflfdtbblf itfm wbs found
+        rfturn null;
+    }
+
+    /**
+     * Rfturns first itfm bfforf durrfntly sflfdtfd
+     * sff gftNfxtSflfdtbblfItfm() for dommfnts
+     */
+    XMfnuItfmPffr gftPrfvSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        XMfnuItfmPffr sflfdtfdItfm = gftSflfdtfdItfm();
+        int dnt = mbppfdItfms.lfngth;
+        //Find indfx of sflfdtfd itfm
+        int sflIdx = -1;
+        for (int i = 0; i < dnt; i++) {
+            if (mbppfdItfms[i] == sflfdtfdItfm) {
+                sflIdx = i;
+                brfbk;
+            }
+        }
+        int idx = (sflIdx <= 0) ? dnt - 1 : sflIdx - 1;
+        //dydlf through mbppfdItfms to find sflfdtbblf itfm
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[idx];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
+            }
+            idx--;
+            if (idx < 0) {
+                idx = dnt - 1;
+            }
+        }
+        //rfturn null if no sflfdtbblf itfm wbs found
+        rfturn null;
+    }
+
+    /**
+     * Rfturns first sflfdtbblf itfm
+     * This fundtion is intfndfd for dlfbring sflfdtion
+     */
+    XMfnuItfmPffr gftFirstSflfdtbblfItfm() {
+        XMfnuItfmPffr[] mbppfdItfms = gftMbppingDbtb().gftItfms();
+        int dnt = mbppfdItfms.lfngth;
+        for (int i = 0; i < dnt; i++) {
+            XMfnuItfmPffr itfm = mbppfdItfms[i];
+            if (!itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                rfturn itfm;
+            }
+        }
+
+        rfturn null;
+    }
+
+    /************************************************
+     *
+     * Utility fundtions for mbnipulbting
+     * hifrbrdhy of windows
+     *
+     ************************************************/
+
+    /**
+     * rfturns lfbf mfnu window or
+     * this if no dhildrfn brf showing
+     */
+    XBbsfMfnuWindow gftShowingLfbf() {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow lfbf = this;
+            XMfnuPffr lfbfdhild = lfbf.gftShowingSubmfnu();
+            whilf (lfbfdhild != null) {
+                lfbf = lfbfdhild.gftMfnuWindow();
+                lfbfdhild = lfbf.gftShowingSubmfnu();
+            }
+            rfturn lfbf;
+        }
+    }
+
+    /**
+     * rfturns root mfnu window
+     * or this if this window is topmost
+     */
+    XBbsfMfnuWindow gftRootMfnuWindow() {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow t = this;
+            XBbsfMfnuWindow tpbrfnt = t.gftPbrfntMfnuWindow();
+            whilf (tpbrfnt != null) {
+                t = tpbrfnt;
+                tpbrfnt = t.gftPbrfntMfnuWindow();
+            }
+            rfturn t;
+        }
+    }
+
+    /**
+     * Rfturns window thbt dontbins pt.
+     * sfbrdh is stbrtfd from lfbf window
+     * to rfturn first window in Z-ordfr
+     * @pbrbm pt point in globbl doordinbtfs
+     */
+    XBbsfMfnuWindow gftMfnuWindowFromPoint(Point pt) {
+        syndhronizfd(gftMfnuTrffLodk()) {
+            XBbsfMfnuWindow t = gftShowingLfbf();
+            whilf (t != null) {
+                Rfdtbnglf r = nfw Rfdtbnglf(t.toGlobbl(nfw Point(0, 0)), t.gftSizf());
+                if (r.dontbins(pt)) {
+                    rfturn t;
+                }
+                t = t.gftPbrfntMfnuWindow();
+            }
+            rfturn null;
+        }
+    }
+
+    /************************************************
+     *
+     * Primitivfs for gftSubmfnuBounds
+     *
+     * Thfsf fundtions brf invokfd from gftSubmfnuBounds
+     * implfmfntbtions in difffrfnt ordfr. Thfy dhfdk if window
+     * of sizf windowSizf fits to thf spfdififd fdgf of
+     * rfdtbnglf itfmBounds on thf sdrffn of sdrffnSizf.
+     * Rfturn rfdtbnglf thbt oddupifs thf window if it fits or null.
+     *
+     ************************************************/
+
+    /**
+     * Chfdks if window fits bflow spfdififd itfm
+     * rfturns rfdtbnglf thbt thf window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
+     */
+    Rfdtbnglf fitWindowBflow(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int width = windowSizf.width;
+        int hfight = windowSizf.hfight;
+        //Fix for 6267162: PIT: Popup Mfnu gfts hiddfn bflow thf sdrffn whfn opfnfd
+        //nfbr thf pfriphfry of thf sdrffn, XToolkit
+        //Window should bf movfd if it's outsidf top-lfft sdrffn bounds
+        int x = (itfmBounds.x > 0) ? itfmBounds.x : 0;
+        int y = (itfmBounds.y + itfmBounds.hfight > 0) ? itfmBounds.y + itfmBounds.hfight : 0;
+        if (y + hfight <= sdrffnSizf.hfight) {
+            //movf it to thf lfft if nffdfd
+            if (width > sdrffnSizf.width) {
+                width = sdrffnSizf.width;
+            }
+            if (x + width > sdrffnSizf.width) {
+                x = sdrffnSizf.width - width;
+            }
+            rfturn nfw Rfdtbnglf(x, y, width, hfight);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Chfdks if window fits bbovf spfdififd itfm
+     * rfturns rfdtbnglf thbt thf window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
+     */
+    Rfdtbnglf fitWindowAbovf(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int width = windowSizf.width;
+        int hfight = windowSizf.hfight;
+        //Fix for 6267162: PIT: Popup Mfnu gfts hiddfn bflow thf sdrffn whfn opfnfd
+        //nfbr thf pfriphfry of thf sdrffn, XToolkit
+        //Window should bf movfd if it's outsidf bottom-lfft sdrffn bounds
+        int x = (itfmBounds.x > 0) ? itfmBounds.x : 0;
+        int y = (itfmBounds.y > sdrffnSizf.hfight) ? sdrffnSizf.hfight - hfight : itfmBounds.y - hfight;
+        if (y >= 0) {
+            //movf it to thf lfft if nffdfd
+            if (width > sdrffnSizf.width) {
+                width = sdrffnSizf.width;
+            }
+            if (x + width > sdrffnSizf.width) {
+                x = sdrffnSizf.width - width;
+            }
+            rfturn nfw Rfdtbnglf(x, y, width, hfight);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Chfdks if window fits to thf right spfdififd itfm
+     * rfturns rfdtbnglf thbt thf window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
+     */
+    Rfdtbnglf fitWindowRight(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int width = windowSizf.width;
+        int hfight = windowSizf.hfight;
+        //Fix for 6267162: PIT: Popup Mfnu gfts hiddfn bflow thf sdrffn whfn opfnfd
+        //nfbr thf pfriphfry of thf sdrffn, XToolkit
+        //Window should bf movfd if it's outsidf top-lfft sdrffn bounds
+        int x = (itfmBounds.x + itfmBounds.width > 0) ? itfmBounds.x + itfmBounds.width : 0;
+        int y = (itfmBounds.y > 0) ? itfmBounds.y : 0;
+        if (x + width <= sdrffnSizf.width) {
+            //movf it to thf top if nffdfd
+            if (hfight > sdrffnSizf.hfight) {
+                hfight = sdrffnSizf.hfight;
+            }
+            if (y + hfight > sdrffnSizf.hfight) {
+                y = sdrffnSizf.hfight - hfight;
+            }
+            rfturn nfw Rfdtbnglf(x, y, width, hfight);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Chfdks if window fits to thf lfft spfdififd itfm
+     * rfturns rfdtbnglf thbt thf window fits to or null.
+     * @pbrbm itfmBounds rfdtbnglf of itfm in globbl doordinbtfs
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
+     */
+    Rfdtbnglf fitWindowLfft(Rfdtbnglf itfmBounds, Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int width = windowSizf.width;
+        int hfight = windowSizf.hfight;
+        //Fix for 6267162: PIT: Popup Mfnu gfts hiddfn bflow thf sdrffn whfn opfnfd
+        //nfbr thf pfriphfry of thf sdrffn, XToolkit
+        //Window should bf movfd if it's outsidf top-right sdrffn bounds
+        int x = (itfmBounds.x < sdrffnSizf.width) ? itfmBounds.x - width : sdrffnSizf.width - width;
+        int y = (itfmBounds.y > 0) ? itfmBounds.y : 0;
+        if (x >= 0) {
+            //movf it to thf top if nffdfd
+            if (hfight > sdrffnSizf.hfight) {
+                hfight = sdrffnSizf.hfight;
+            }
+            if (y + hfight > sdrffnSizf.hfight) {
+                y = sdrffnSizf.hfight - hfight;
+            }
+            rfturn nfw Rfdtbnglf(x, y, width, hfight);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Thf lbst thing wf dbn do with thf window
+     * to fit it on sdrffn - movf it to thf
+     * top-lfft fdgf bnd dut by sdrffn dimfnsions
+     * @pbrbm windowSizf sizf of submfnu window to fit
+     * @pbrbm sdrffnSizf sizf of sdrffn
+     */
+    Rfdtbnglf fitWindowToSdrffn(Dimfnsion windowSizf, Dimfnsion sdrffnSizf) {
+        int width = (windowSizf.width < sdrffnSizf.width) ? windowSizf.width : sdrffnSizf.width;
+        int hfight = (windowSizf.hfight < sdrffnSizf.hfight) ? windowSizf.hfight : sdrffnSizf.hfight;
+        rfturn nfw Rfdtbnglf(0, 0, width, hfight);
+    }
+
+
+    /************************************************
+     *
+     * Utility fundtions for mbnipulbting dolors
+     *
+     ************************************************/
+
+    /**
+     * This fundtion is dbllfd bfforf fvfry pbinting.
+     * TODO:It would bf bfttfr to bdd PropfrtyChbngfListfnfr
+     * to tbrgft domponfnt
+     * TODO:It would bf bfttfr to bddfss bbdkground dolor
+     * not invoking usfr-ovfrridbblf fundtion
+     */
+    void rfsftColors() {
+        rfplbdfColors((tbrgft == null) ? SystfmColor.window : tbrgft.gftBbdkground());
+    }
+
+    /**
+     * Cbldulbtfs dolors of vbrious flfmfnts givfn
+     * bbdkground dolor. Usfs MotifColorUtilitifs
+     * @pbrbm bbdkgroundColor thf dolor of mfnu window's
+     * bbdkground.
+     */
+    void rfplbdfColors(Color bbdkgroundColor) {
+        if (bbdkgroundColor != this.bbdkgroundColor) {
+            this.bbdkgroundColor = bbdkgroundColor;
+
+            int rfd = bbdkgroundColor.gftRfd();
+            int grffn = bbdkgroundColor.gftGrffn();
+            int bluf = bbdkgroundColor.gftBluf();
+
+            forfgroundColor = nfw Color(MotifColorUtilitifs.dbldulbtfForfgroundFromBbdkground(rfd,grffn,bluf));
+            lightShbdowColor = nfw Color(MotifColorUtilitifs.dbldulbtfTopShbdowFromBbdkground(rfd,grffn,bluf));
+            dbrkShbdowColor = nfw Color(MotifColorUtilitifs.dbldulbtfBottomShbdowFromBbdkground(rfd,grffn,bluf));
+            sflfdtfdColor = nfw Color(MotifColorUtilitifs.dbldulbtfSflfdtFromBbdkground(rfd,grffn,bluf));
+            disbblfdColor = (bbdkgroundColor.fqubls(Color.BLACK)) ? forfgroundColor.dbrkfr() : bbdkgroundColor.dbrkfr();
+        }
+    }
+
+    Color gftBbdkgroundColor() {
+        rfturn bbdkgroundColor;
+    }
+
+    Color gftForfgroundColor() {
+        rfturn forfgroundColor;
+    }
+
+    Color gftLightShbdowColor() {
+        rfturn lightShbdowColor;
+    }
+
+    Color gftDbrkShbdowColor() {
+        rfturn dbrkShbdowColor;
+    }
+
+    Color gftSflfdtfdColor() {
+        rfturn sflfdtfdColor;
+    }
+
+    Color gftDisbblfdColor() {
+        rfturn disbblfdColor;
+    }
+
+    /************************************************
+     *
+     * Pbinting utility fundtions
+     *
+     ************************************************/
+
+    /**
+     * Drbws rbisfd or sunkfn rfdtbnglf on spfdififd grbphids
+     * @pbrbm g thf grbphids on whidh to drbw
+     * @pbrbm x thf doordinbtf of lfft fdgf in doordinbtfs of grbphids
+     * @pbrbm y thf doordinbtf of top fdgf in doordinbtfs of grbphids
+     * @pbrbm width thf width of rfdtbnglf
+     * @pbrbm hfight thf hfight of rfdtbnglf
+     * @pbrbm rbisfd truf to drbw rbisfd rfdtbnglf, fblsf to drbw sunkfn
+     */
+    void drbw3DRfdt(Grbphids g, int x, int y, int width, int hfight, boolfbn rbisfd) {
+        if ((width <= 0) || (hfight <= 0)) {
+            rfturn;
+        }
+        Color d = g.gftColor();
+        g.sftColor(rbisfd ? gftLightShbdowColor() : gftDbrkShbdowColor());
+        g.drbwLinf(x, y, x, y + hfight - 1);
+        g.drbwLinf(x + 1, y, x + width - 1, y);
+        g.sftColor(rbisfd ? gftDbrkShbdowColor() : gftLightShbdowColor());
+        g.drbwLinf(x + 1, y + hfight - 1, x + width - 1, y + hfight - 1);
+        g.drbwLinf(x + width - 1, y + 1, x + width - 1, y + hfight - 1);
+        g.sftColor(d);
+    }
+
+    /************************************************
+     *
+     * Ovfrridfn utility fundtions of XWindow
+     *
+     ************************************************/
+
+    /**
+     * Filtfrs X fvfnts
+     */
+     protfdtfd boolfbn isEvfntDisbblfd(XEvfnt f) {
+        switdh (f.gft_typf()) {
+          dbsf XConstbnts.Exposf :
+          dbsf XConstbnts.GrbphidsExposf :
+          dbsf XConstbnts.ButtonPrfss:
+          dbsf XConstbnts.ButtonRflfbsf:
+          dbsf XConstbnts.MotionNotify:
+          dbsf XConstbnts.KfyPrfss:
+          dbsf XConstbnts.KfyRflfbsf:
+          dbsf XConstbnts.DfstroyNotify:
+              rfturn supfr.isEvfntDisbblfd(f);
+          dffbult:
+              rfturn truf;
+        }
+    }
+
+    /**
+     * Invokfs disposbl prodfdurf on fvfntHbndlfrThrfbd
+     */
+    publid void disposf() {
+        sftDisposfd(truf);
+
+        SunToolkit.invokfLbtfrOnAppContfxt(disposfAppContfxt, nfw Runnbblf()  {
+            publid void run() {
+                doDisposf();
+            }
+        });
+    }
+
+    /**
+     * Pfrforms disposbl of mfnu window.
+     * Should bf dbllfd only on fvfntHbndlfrThrfbd
+     */
+    protfdtfd void doDisposf() {
+        xSftVisiblf(fblsf);
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        surfbdfDbtb = null;
+        if (oldDbtb != null) {
+            oldDbtb.invblidbtf();
+        }
+        dfstroy();
+    }
+
+    /**
+     * Invokfs fvfnt prodfssing on fvfntHbndlfrThrfbd
+     * This fundtion nffds to bf ovfrridfn sindf
+     * XBbsfMfnuWindow hbs no dorrfsponding domponfnt
+     * so fvfnts dbn not bf prodfssfd using stbndbrt mfbns
+     */
+    void postEvfnt(finbl AWTEvfnt fvfnt) {
+        InvodbtionEvfnt fv = nfw InvodbtionEvfnt(fvfnt.gftSourdf(), nfw Runnbblf() {
+            publid void run() {
+                hbndlfEvfnt(fvfnt);
+            }
+        });
+        supfr.postEvfnt(fv);
+    }
+
+    /**
+     * Thf implfmfntbtion of bbsf window pfrforms prodfssing
+     * of pbint fvfnts only. This bfhbviour is dhbngfd in
+     * dfsdfndbnts.
+     */
+    protfdtfd void hbndlfEvfnt(AWTEvfnt fvfnt) {
+        switdh(fvfnt.gftID()) {
+        dbsf PbintEvfnt.PAINT:
+            doHbndlfJbvbPbintEvfnt((PbintEvfnt)fvfnt);
+            brfbk;
+        }
+    }
+
+    /**
+     * Sbvf lodbtion of pointfr for furthfr usf
+     * thfn invokf supfrdlbss
+     */
+    publid boolfbn grbbInput() {
+        int rootX;
+        int rootY;
+        boolfbn rfs;
+        XToolkit.bwtLodk();
+        try {
+            long root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(),
+                    gftSdrffnNumbfr());
+            rfs = XlibWrbppfr.XQufryPointfr(XToolkit.gftDisplby(), root,
+                                            XlibWrbppfr.lbrg1, //root
+                                            XlibWrbppfr.lbrg2, //dhild
+                                            XlibWrbppfr.lbrg3, //root_x
+                                            XlibWrbppfr.lbrg4, //root_y
+                                            XlibWrbppfr.lbrg5, //dhild_x
+                                            XlibWrbppfr.lbrg6, //dhild_y
+                                            XlibWrbppfr.lbrg7);//mbsk
+            rootX = Nbtivf.gftInt(XlibWrbppfr.lbrg3);
+            rootY = Nbtivf.gftInt(XlibWrbppfr.lbrg4);
+            rfs &= supfr.grbbInput();
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        if (rfs) {
+            //Mousf pointfr is on thf sbmf displby
+            this.grbbInputPoint = nfw Point(rootX, rootY);
+            this.hbsPointfrMovfd = fblsf;
+        } flsf {
+            this.grbbInputPoint = null;
+            this.hbsPointfrMovfd = truf;
+        }
+        rfturn rfs;
+    }
+    /************************************************
+     *
+     * Ovfrridbblf fvfnt prodfssing fundtions
+     *
+     ************************************************/
+
+    /**
+     * Pfrforms rfpbinting
+     */
+    void doHbndlfJbvbPbintEvfnt(PbintEvfnt fvfnt) {
+        Rfdtbnglf rfdt = fvfnt.gftUpdbtfRfdt();
+        rfpbint(rfdt.x, rfdt.y, rfdt.width, rfdt.hfight);
+    }
+
+    /************************************************
+     *
+     * Usfr input hbndling utility fundtions
+     *
+     ************************************************/
+
+    /**
+     * Pfrforms hbndling of jbvb mousf fvfnt
+     * Notf thbt this fundtion should bf invokfd
+     * only from root of mfnu window's hifrbrdhy
+     * thbt grbbs input fodus
+     */
+    void doHbndlfJbvbMousfEvfnt( MousfEvfnt mousfEvfnt ) {
+        if (!XToolkit.isLfftMousfButton(mousfEvfnt) && !XToolkit.isRightMousfButton(mousfEvfnt)) {
+            rfturn;
+        }
+        //Window thbt owns input
+        XBbsfWindow grbbWindow = XAwtStbtf.gftGrbbWindow();
+        //Point of mousf fvfnt in globbl doordinbtfs
+        Point ptGlobbl = mousfEvfnt.gftLodbtionOnSdrffn();
+        if (!hbsPointfrMovfd) {
+            //Fix for 6301307: NullPointfrExdfption whilf dispbtdhing mousf fvfnts, XToolkit
+            if (grbbInputPoint == null ||
+                (Mbth.bbs(ptGlobbl.x - grbbInputPoint.x) > gftMousfMovfmfntSmudgf()) ||
+                (Mbth.bbs(ptGlobbl.y - grbbInputPoint.y) > gftMousfMovfmfntSmudgf())) {
+                hbsPointfrMovfd = truf;
+            }
+        }
+        //Z-ordfr first dfsdfndbnt of durrfnt mfnu window
+        //hifrbrdhy thbt dontbin mousf point
+        XBbsfMfnuWindow wnd = gftMfnuWindowFromPoint(ptGlobbl);
+        //Itfm in wnd thbt dontbins mousf point, if bny
+        XMfnuItfmPffr itfm = (wnd != null) ? wnd.gftItfmFromPoint(wnd.toLodbl(ptGlobbl)) : null;
+        //Currfntly showing lfbf window
+        XBbsfMfnuWindow dwnd = gftShowingLfbf();
+        switdh (mousfEvfnt.gftID()) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              //This linf is to gft rid of possiblf problfms
+              //Thbt mby oddur if mousf fvfnts brf lost
+              showingMousfPrfssfdSubmfnu = null;
+              if ((grbbWindow == this) && (wnd == null)) {
+                  //Mfnus grbb input bnd thf usfr
+                  //prfssfs mousf button outsidf
+                  ungrbbInput();
+              } flsf {
+                  //Mfnus grbb input OR mousf is prfssfd on mfnu window
+                  grbbInput();
+                  if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                      //Button is prfssfd on fnbblfd itfm
+                      if (wnd.gftShowingSubmfnu() == itfm) {
+                          //Button is prfssfd on itfm thbt shows
+                          //submfnu. Wf hbvf to hidf its submfnu
+                          //if usfr dlidks on it
+                          showingMousfPrfssfdSubmfnu = (XMfnuPffr)itfm;
+                      }
+                      wnd.sflfdtItfm(itfm, truf);
+                  } flsf {
+                      //Button is prfssfd on disbblfd itfm or fmpty spbdf
+                      if (wnd != null) {
+                          wnd.sflfdtItfm(null, fblsf);
+                      }
+                  }
+              }
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              //Notf thbt if itfm is not null, wnd hbs to bf not null
+              if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                  if  (itfm instbndfof XMfnuPffr) {
+                      if (showingMousfPrfssfdSubmfnu == itfm) {
+                          //Usfr dlidks on itfm thbt shows submfnu.
+                          //Hidf thf submfnu
+                          if (wnd instbndfof XMfnuBbrPffr) {
+                              ungrbbInput();
+                          } flsf {
+                              wnd.sflfdtItfm(itfm, fblsf);
+                          }
+                      }
+                  } flsf {
+                      //Invokf bdtion fvfnt
+                      itfm.bdtion(mousfEvfnt.gftWhfn());
+                      ungrbbInput();
+                  }
+              } flsf {
+                  //Mousf is rflfbsfd outsidf mfnu itfms
+                  if (hbsPointfrMovfd || (wnd instbndfof XMfnuBbrPffr)) {
+                      ungrbbInput();
+                  }
+              }
+              showingMousfPrfssfdSubmfnu = null;
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              if (wnd != null) {
+                  //Mousf is drbggfd ovfr mfnu window
+                  //Movf sflfdtion to itfm undfr dursor
+                  if (itfm != null && !itfm.isSfpbrbtor() && itfm.isTbrgftItfmEnbblfd()) {
+                      if (grbbWindow == this){
+                          wnd.sflfdtItfm(itfm, truf);
+                      }
+                  } flsf {
+                      wnd.sflfdtItfm(null, fblsf);
+                  }
+              } flsf {
+                  //Mousf is drbggfd outsidf mfnu windows
+                  //dlfbr sflfdtion in lfbf to rfflfdt it
+                  if (dwnd != null) {
+                      dwnd.sflfdtItfm(null, fblsf);
+                  }
+              }
+              brfbk;
+        }
+    }
+
+    /**
+     * Pfrforms hbndling of jbvb kfybobrd fvfnt
+     * Notf thbt this fundtion should bf invokfd
+     * only from root of mfnu window's hifrbrdhy
+     * thbt grbbs input fodus
+     */
+    void doHbndlfJbvbKfyEvfnt(KfyEvfnt fvfnt) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr(fvfnt.toString());
+        }
+        if (fvfnt.gftID() != KfyEvfnt.KEY_PRESSED) {
+            rfturn;
+        }
+        finbl int kfyCodf = fvfnt.gftKfyCodf();
+        XBbsfMfnuWindow dwnd = gftShowingLfbf();
+        XMfnuItfmPffr ditfm = dwnd.gftSflfdtfdItfm();
+        switdh(kfyCodf) {
+          dbsf KfyEvfnt.VK_UP:
+          dbsf KfyEvfnt.VK_KP_UP:
+              if (!(dwnd instbndfof XMfnuBbrPffr)) {
+                  //If bdtivf window is not mfnu bbr,
+                  //movf sflfdtion up
+                  dwnd.sflfdtItfm(dwnd.gftPrfvSflfdtbblfItfm(), fblsf);
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_DOWN:
+          dbsf KfyEvfnt.VK_KP_DOWN:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //If bdtivf window is mfnu bbr show durrfnt submfnu
+                  sflfdtItfm(gftSflfdtfdItfm(), truf);
+              } flsf {
+                  //movf sflfdtion down
+                  dwnd.sflfdtItfm(dwnd.gftNfxtSflfdtbblfItfm(), fblsf);
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_LEFT:
+          dbsf KfyEvfnt.VK_KP_LEFT:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //lfbf window is mfnu bbr
+                  //sflfdt prfvious itfm
+                  sflfdtItfm(gftPrfvSflfdtbblfItfm(), fblsf);
+              } flsf if (dwnd.gftPbrfntMfnuWindow() instbndfof XMfnuBbrPffr) {
+                  //lfbf window is dirfdt dhild of mfnu bbr
+                  //sflfdt prfvious itfm of mfnu bbr
+                  //bnd show its submfnu
+                  sflfdtItfm(gftPrfvSflfdtbblfItfm(), truf);
+              } flsf {
+                  //hidf lfbf moving fodus to its pbrfnt
+                  //(fquvivblfnt of prfssing ESC)
+                  XBbsfMfnuWindow pwnd = dwnd.gftPbrfntMfnuWindow();
+                  //Fix for 6272952: PIT: Prfssing LEFT ARROW on b popup mfnu throws NullPointfrExdfption, XToolkit
+                  if (pwnd != null) {
+                      pwnd.sflfdtItfm(pwnd.gftSflfdtfdItfm(), fblsf);
+                  }
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_RIGHT:
+          dbsf KfyEvfnt.VK_KP_RIGHT:
+              if (dwnd instbndfof XMfnuBbrPffr) {
+                  //lfbf window is mfnu bbr
+                  //sflfdt nfxt itfm
+                  sflfdtItfm(gftNfxtSflfdtbblfItfm(), fblsf);
+              } flsf if (ditfm instbndfof XMfnuPffr) {
+                  //durrfnt itfm is mfnu, show its window
+                  //(fquivblfnt of ENTER)
+                  dwnd.sflfdtItfm(ditfm, truf);
+              } flsf if (this instbndfof XMfnuBbrPffr) {
+                  //if this is mfnu bbr (not popup mfnu)
+                  //bnd thf usfr prfssfs RIGHT on itfm (not submfnu)
+                  //sflfdt nfxt top-lfvfl mfnu
+                  sflfdtItfm(gftNfxtSflfdtbblfItfm(), truf);
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_SPACE:
+          dbsf KfyEvfnt.VK_ENTER:
+              //If thf durrfnt itfm hbs submfnu show it
+              //Pfrform bdtion othfrwisf
+              if (ditfm instbndfof XMfnuPffr) {
+                  dwnd.sflfdtItfm(ditfm, truf);
+              } flsf if (ditfm != null) {
+                  ditfm.bdtion(fvfnt.gftWhfn());
+                  ungrbbInput();
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_ESCAPE:
+              //If durrfnt window is mfnu bbr or its dhild - dlosf it
+              //If durrfnt window is popup mfnu - dlosf it
+              //go onf lfvfl up othfrwisf
+
+              //Fixfd 6266513: Indorrfdt kfy hbndling in XAWT popup mfnu
+              //Popup mfnu should bf dlosfd on 'ESC'
+              if ((dwnd instbndfof XMfnuBbrPffr) || (dwnd.gftPbrfntMfnuWindow() instbndfof XMfnuBbrPffr)) {
+                  ungrbbInput();
+              } flsf if (dwnd instbndfof XPopupMfnuPffr) {
+                  ungrbbInput();
+              } flsf {
+                  XBbsfMfnuWindow pwnd = dwnd.gftPbrfntMfnuWindow();
+                  pwnd.sflfdtItfm(pwnd.gftSflfdtfdItfm(), fblsf);
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_F10:
+              //Fixfd 6266513: Indorrfdt kfy hbndling in XAWT popup mfnu
+              //All mfnus should bf dlosfd on 'F10'
+              ungrbbInput();
+              brfbk;
+          dffbult:
+              brfbk;
+        }
+    }
+
+} //dlbss XBbsfMfnuWindow

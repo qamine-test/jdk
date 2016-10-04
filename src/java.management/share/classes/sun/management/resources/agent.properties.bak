@@ -1,93 +1,93 @@
 #
 #
-# Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# Localizations for Level names.  For the US locale
-# these are the same as the non-localized level name.
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
 
-agent.err.error			   = Error
-agent.err.exception                = Exception thrown by the agent 
-agent.err.warning		   = Warning
+bgfnt.frr.frror			   = Error
+bgfnt.frr.fxdfption                = Exdfption tirown by tif bgfnt 
+bgfnt.frr.wbrning		   = Wbrning
 
-agent.err.configfile.notfound      = Config file not found
-agent.err.configfile.failed        = Failed in reading the config file
-agent.err.configfile.closed.failed = Failed in closing the config file
-agent.err.configfile.access.denied = Access to the config file is denied
+bgfnt.frr.donfigfilf.notfound      = Config filf not found
+bgfnt.frr.donfigfilf.fbilfd        = Fbilfd in rfbding tif donfig filf
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbilfd in dlosing tif donfig filf
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfss to tif donfig filf is dfnifd
 
-agent.err.exportaddress.failed	   = Export of JMX connector address to instrumentation buffer failed
+bgfnt.frr.fxportbddrfss.fbilfd	   = Export of JMX donnfdtor bddrfss to instrumfntbtion bufffr fbilfd
 
-agent.err.agentclass.notfound      = Management agent class not found
-agent.err.agentclass.failed        = Management agent class failed 
-agent.err.premain.notfound         = premain(String) does not exist in agent class
-agent.err.agentclass.access.denied = Access to premain(String) is denied
-agent.err.invalid.agentclass       = Invalid com.sun.management.agent.class property value
-agent.err.invalid.state            = Invalid agent state: {0}
-agent.err.invalid.jmxremote.port   = Invalid com.sun.management.jmxremote.port number
-agent.err.invalid.jmxremote.rmi.port = Invalid com.sun.management.jmxremote.rmi.port number
+bgfnt.frr.bgfntdlbss.notfound      = Mbnbgfmfnt bgfnt dlbss not found
+bgfnt.frr.bgfntdlbss.fbilfd        = Mbnbgfmfnt bgfnt dlbss fbilfd 
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) dofs not fxist in bgfnt dlbss
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfss to prfmbin(String) is dfnifd
+bgfnt.frr.invblid.bgfntdlbss       = Invblid dom.sun.mbnbgfmfnt.bgfnt.dlbss propfrty vbluf
+bgfnt.frr.invblid.stbtf            = Invblid bgfnt stbtf: {0}
+bgfnt.frr.invblid.jmxrfmotf.port   = Invblid dom.sun.mbnbgfmfnt.jmxrfmotf.port numbfr
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = Invblid dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port numbfr
 
-agent.err.file.not.set               = File not specified
-agent.err.file.not.readable          = File not readable
-agent.err.file.read.failed           = Failed in reading the file
-agent.err.file.not.found             = File not found
-agent.err.file.access.not.restricted = File read access must be restricted
+bgfnt.frr.filf.not.sft               = Filf not spfdififd
+bgfnt.frr.filf.not.rfbdbblf          = Filf not rfbdbblf
+bgfnt.frr.filf.rfbd.fbilfd           = Fbilfd in rfbding tif filf
+bgfnt.frr.filf.not.found             = Filf not found
+bgfnt.frr.filf.bddfss.not.rfstridtfd = Filf rfbd bddfss must bf rfstridtfd
 
-agent.err.password.file.notset     = Password file is not specified but com.sun.management.jmxremote.authenticate=true
-agent.err.password.file.not.readable = Password file not readable
-agent.err.password.file.read.failed = Failed in reading the password file
-agent.err.password.file.notfound   = Password file not found
-agent.err.password.file.access.notrestricted = Password file read access must be restricted
+bgfnt.frr.pbssword.filf.notsft     = Pbssword filf is not spfdififd but dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.not.rfbdbblf = Pbssword filf not rfbdbblf
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbilfd in rfbding tif pbssword filf
+bgfnt.frr.pbssword.filf.notfound   = Pbssword filf not found
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Pbssword filf rfbd bddfss must bf rfstridtfd
 
-agent.err.access.file.notset       = Access file is not specified but com.sun.management.jmxremote.authenticate=true
-agent.err.access.file.not.readable = Access file not readable
-agent.err.access.file.read.failed  = Failed in reading the access file
-agent.err.access.file.notfound     = Access file not found
+bgfnt.frr.bddfss.filf.notsft       = Addfss filf is not spfdififd but dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.not.rfbdbblf = Addfss filf not rfbdbblf
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbilfd in rfbding tif bddfss filf
+bgfnt.frr.bddfss.filf.notfound     = Addfss filf not found
 
-agent.err.connector.server.io.error = JMX connector server communication error
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX donnfdtor sfrvfr dommunidbtion frror
 
-agent.err.invalid.option	   = Invalid option specified
-agent.err.invalid.snmp.port        = Invalid com.sun.management.snmp.port number
-agent.err.invalid.snmp.trap.port   = Invalid com.sun.management.snmp.trap number
-agent.err.unknown.snmp.interface   = Unknown SNMP interface
-agent.err.acl.file.notset          = No SNMP ACL file is specified but com.sun.management.snmp.acl=true
-agent.err.acl.file.notfound        = SNMP ACL file not found
-agent.err.acl.file.not.readable    = SNMP ACL file not readable
-agent.err.acl.file.read.failed     = Failed in reading SNMP ACL file
-agent.err.acl.file.access.notrestricted = Password file read access must be restricted
+bgfnt.frr.invblid.option	   = Invblid option spfdififd
+bgfnt.frr.invblid.snmp.port        = Invblid dom.sun.mbnbgfmfnt.snmp.port numbfr
+bgfnt.frr.invblid.snmp.trbp.port   = Invblid dom.sun.mbnbgfmfnt.snmp.trbp numbfr
+bgfnt.frr.unknown.snmp.intfrfbdf   = Unknown SNMP intfrfbdf
+bgfnt.frr.bdl.filf.notsft          = No SNMP ACL filf is spfdififd but dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL filf not found
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL filf not rfbdbblf
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbilfd in rfbding SNMP ACL filf
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Pbssword filf rfbd bddfss must bf rfstridtfd
 
-agent.err.snmp.adaptor.start.failed = Failed to start SNMP adaptor with address
-agent.err.snmp.mib.init.failed     = Failed to initialize SNMP MIB with error
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbilfd to stbrt SNMP bdbptor witi bddrfss
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbilfd to initiblizf SNMP MIB witi frror
 
-jmxremote.ConnectorBootstrap.starting = Starting JMX Connector Server:
-jmxremote.ConnectorBootstrap.noAuthentication = No Authentication
-jmxremote.ConnectorBootstrap.ready = JMX Connector ready at: {0}
-jmxremote.ConnectorBootstrap.password.readonly = Password file read access must be restricted: {0}
-jmxremote.ConnectorBootstrap.file.readonly = File read access must be restricted: {0}
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Stbrting JMX Connfdtor Sfrvfr:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = No Autifntidbtion
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX Connfdtor rfbdy bt: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Pbssword filf rfbd bddfss must bf rfstridtfd: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = Filf rfbd bddfss must bf rfstridtfd: {0}
 
-jmxremote.AdaptorBootstrap.getTargetList.processing = Processing ACL
-jmxremote.AdaptorBootstrap.getTargetList.adding = Adding target: {0}
-jmxremote.AdaptorBootstrap.getTargetList.starting = Starting Adaptor Server:
-jmxremote.AdaptorBootstrap.getTargetList.initialize1 = Adaptor ready.
-jmxremote.AdaptorBootstrap.getTargetList.initialize2 = SNMP Adaptor ready on: {0}:{1}
-jmxremote.AdaptorBootstrap.getTargetList.terminate = terminate {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfssing ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Adding tbrgft: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Stbrting Adbptor Sfrvfr:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptor rfbdy.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP Adbptor rfbdy on: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbtf {0}

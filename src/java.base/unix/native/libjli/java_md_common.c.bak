@@ -1,520 +1,520 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include "java.h"
+#indludf "jbvb.i"
 
 /*
- * If app is "/foo/bin/javac", or "/foo/bin/sparcv9/javac" then put
+ * If bpp is "/foo/bin/jbvbd", or "/foo/bin/spbrdv9/jbvbd" tifn put
  * "/foo" into buf.
  */
-jboolean
-GetApplicationHome(char *buf, jint bufsize)
+jboolfbn
+GftApplidbtionHomf(dibr *buf, jint bufsizf)
 {
-    const char *execname = GetExecName();
-    if (execname != NULL) {
-        JLI_Snprintf(buf, bufsize, "%s", execname);
-        buf[bufsize-1] = '\0';
-    } else {
-        return JNI_FALSE;
+    donst dibr *fxfdnbmf = GftExfdNbmf();
+    if (fxfdnbmf != NULL) {
+        JLI_Snprintf(buf, bufsizf, "%s", fxfdnbmf);
+        buf[bufsizf-1] = '\0';
+    } flsf {
+        rfturn JNI_FALSE;
     }
 
-    if (JLI_StrRChr(buf, '/') == 0) {
+    if (JLI_StrRCir(buf, '/') == 0) {
         buf[0] = '\0';
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-    *(JLI_StrRChr(buf, '/')) = '\0';    /* executable file      */
-    if (JLI_StrLen(buf) < 4 || JLI_StrRChr(buf, '/') == 0) {
+    *(JLI_StrRCir(buf, '/')) = '\0';    /* fxfdutbblf filf      */
+    if (JLI_StrLfn(buf) < 4 || JLI_StrRCir(buf, '/') == 0) {
         buf[0] = '\0';
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-    if (JLI_StrCmp("/bin", buf + JLI_StrLen(buf) - 4) != 0)
-        *(JLI_StrRChr(buf, '/')) = '\0';        /* sparcv9 or amd64     */
-    if (JLI_StrLen(buf) < 4 || JLI_StrCmp("/bin", buf + JLI_StrLen(buf) - 4) != 0) {
+    if (JLI_StrCmp("/bin", buf + JLI_StrLfn(buf) - 4) != 0)
+        *(JLI_StrRCir(buf, '/')) = '\0';        /* spbrdv9 or bmd64     */
+    if (JLI_StrLfn(buf) < 4 || JLI_StrCmp("/bin", buf + JLI_StrLfn(buf) - 4) != 0) {
         buf[0] = '\0';
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-    *(JLI_StrRChr(buf, '/')) = '\0';    /* bin                  */
+    *(JLI_StrRCir(buf, '/')) = '\0';    /* bin                  */
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 /*
- * Return true if the named program exists
+ * Rfturn truf if tif nbmfd progrbm fxists
  */
-static int
-ProgramExists(char *name)
+stbtid int
+ProgrbmExists(dibr *nbmf)
 {
-    struct stat sb;
-    if (stat(name, &sb) != 0) return 0;
-    if (S_ISDIR(sb.st_mode)) return 0;
-    return (sb.st_mode & S_IEXEC) != 0;
-}
-
-/*
- * Find a command in a directory, returning the path.
- */
-static char *
-Resolve(char *indir, char *cmd)
-{
-    char name[PATH_MAX + 2], *real;
-
-    if ((JLI_StrLen(indir) + JLI_StrLen(cmd) + 1)  > PATH_MAX) return 0;
-    JLI_Snprintf(name, sizeof(name), "%s%c%s", indir, FILE_SEPARATOR, cmd);
-    if (!ProgramExists(name)) return 0;
-    real = JLI_MemAlloc(PATH_MAX + 2);
-    if (!realpath(name, real))
-        JLI_StrCpy(real, name);
-    return real;
+    strudt stbt sb;
+    if (stbt(nbmf, &sb) != 0) rfturn 0;
+    if (S_ISDIR(sb.st_modf)) rfturn 0;
+    rfturn (sb.st_modf & S_IEXEC) != 0;
 }
 
 /*
- * Find a path for the executable
+ * Find b dommbnd in b dirfdtory, rfturning tif pbti.
  */
-char *
-FindExecName(char *program)
+stbtid dibr *
+Rfsolvf(dibr *indir, dibr *dmd)
 {
-    char cwdbuf[PATH_MAX+2];
-    char *path;
-    char *tmp_path;
-    char *f;
-    char *result = NULL;
+    dibr nbmf[PATH_MAX + 2], *rfbl;
 
-    /* absolute path? */
-    if (*program == FILE_SEPARATOR ||
-        (FILE_SEPARATOR=='\\' && JLI_StrRChr(program, ':')))
-        return Resolve("", program+1);
+    if ((JLI_StrLfn(indir) + JLI_StrLfn(dmd) + 1)  > PATH_MAX) rfturn 0;
+    JLI_Snprintf(nbmf, sizfof(nbmf), "%s%d%s", indir, FILE_SEPARATOR, dmd);
+    if (!ProgrbmExists(nbmf)) rfturn 0;
+    rfbl = JLI_MfmAllod(PATH_MAX + 2);
+    if (!rfblpbti(nbmf, rfbl))
+        JLI_StrCpy(rfbl, nbmf);
+    rfturn rfbl;
+}
 
-    /* relative path? */
-    if (JLI_StrRChr(program, FILE_SEPARATOR) != 0) {
-        char buf[PATH_MAX+2];
-        return Resolve(getcwd(cwdbuf, sizeof(cwdbuf)), program);
+/*
+ * Find b pbti for tif fxfdutbblf
+ */
+dibr *
+FindExfdNbmf(dibr *progrbm)
+{
+    dibr dwdbuf[PATH_MAX+2];
+    dibr *pbti;
+    dibr *tmp_pbti;
+    dibr *f;
+    dibr *rfsult = NULL;
+
+    /* bbsolutf pbti? */
+    if (*progrbm == FILE_SEPARATOR ||
+        (FILE_SEPARATOR=='\\' && JLI_StrRCir(progrbm, ':')))
+        rfturn Rfsolvf("", progrbm+1);
+
+    /* rflbtivf pbti? */
+    if (JLI_StrRCir(progrbm, FILE_SEPARATOR) != 0) {
+        dibr buf[PATH_MAX+2];
+        rfturn Rfsolvf(gftdwd(dwdbuf, sizfof(dwdbuf)), progrbm);
     }
 
-    /* from search path? */
-    path = getenv("PATH");
-    if (!path || !*path) path = ".";
-    tmp_path = JLI_MemAlloc(JLI_StrLen(path) + 2);
-    JLI_StrCpy(tmp_path, path);
+    /* from sfbrdi pbti? */
+    pbti = gftfnv("PATH");
+    if (!pbti || !*pbti) pbti = ".";
+    tmp_pbti = JLI_MfmAllod(JLI_StrLfn(pbti) + 2);
+    JLI_StrCpy(tmp_pbti, pbti);
 
-    for (f=tmp_path; *f && result==0; ) {
-        char *s = f;
-        while (*f && (*f != PATH_SEPARATOR)) ++f;
+    for (f=tmp_pbti; *f && rfsult==0; ) {
+        dibr *s = f;
+        wiilf (*f && (*f != PATH_SEPARATOR)) ++f;
         if (*f) *f++ = 0;
         if (*s == FILE_SEPARATOR)
-            result = Resolve(s, program);
-        else {
-            /* relative path element */
-            char dir[2*PATH_MAX];
-            JLI_Snprintf(dir, sizeof(dir), "%s%c%s", getcwd(cwdbuf, sizeof(cwdbuf)),
+            rfsult = Rfsolvf(s, progrbm);
+        flsf {
+            /* rflbtivf pbti flfmfnt */
+            dibr dir[2*PATH_MAX];
+            JLI_Snprintf(dir, sizfof(dir), "%s%d%s", gftdwd(dwdbuf, sizfof(dwdbuf)),
                     FILE_SEPARATOR, s);
-            result = Resolve(dir, program);
+            rfsult = Rfsolvf(dir, progrbm);
         }
-        if (result != 0) break;
+        if (rfsult != 0) brfbk;
     }
 
-    JLI_MemFree(tmp_path);
-    return result;
+    JLI_MfmFrff(tmp_pbti);
+    rfturn rfsult;
 }
 
-void JLI_ReportErrorMessage(const char* fmt, ...) {
-    va_list vl;
-    va_start(vl, fmt);
-    vfprintf(stderr, fmt, vl);
-    fprintf(stderr, "\n");
-    va_end(vl);
+void JLI_RfportErrorMfssbgf(donst dibr* fmt, ...) {
+    vb_list vl;
+    vb_stbrt(vl, fmt);
+    vfprintf(stdfrr, fmt, vl);
+    fprintf(stdfrr, "\n");
+    vb_fnd(vl);
 }
 
-void JLI_ReportErrorMessageSys(const char* fmt, ...) {
-    va_list vl;
-    char *emsg;
+void JLI_RfportErrorMfssbgfSys(donst dibr* fmt, ...) {
+    vb_list vl;
+    dibr *fmsg;
 
     /*
-     * TODO: its safer to use strerror_r but is not available on
-     * Solaris 8. Until then....
+     * TODO: its sbffr to usf strfrror_r but is not bvbilbblf on
+     * Solbris 8. Until tifn....
      */
-    emsg = strerror(errno);
-    if (emsg != NULL) {
-        fprintf(stderr, "%s\n", emsg);
+    fmsg = strfrror(frrno);
+    if (fmsg != NULL) {
+        fprintf(stdfrr, "%s\n", fmsg);
     }
 
-    va_start(vl, fmt);
-    vfprintf(stderr, fmt, vl);
-    fprintf(stderr, "\n");
-    va_end(vl);
+    vb_stbrt(vl, fmt);
+    vfprintf(stdfrr, fmt, vl);
+    fprintf(stdfrr, "\n");
+    vb_fnd(vl);
 }
 
-void  JLI_ReportExceptionDescription(JNIEnv * env) {
-  (*env)->ExceptionDescribe(env);
+void  JLI_RfportExdfptionDfsdription(JNIEnv * fnv) {
+  (*fnv)->ExdfptionDfsdribf(fnv);
 }
 
 /*
- *      Since using the file system as a registry is a bit risky, perform
- *      additional sanity checks on the identified directory to validate
- *      it as a valid jre/sdk.
+ *      Sindf using tif filf systfm bs b rfgistry is b bit risky, pfrform
+ *      bdditionbl sbnity difdks on tif idfntififd dirfdtory to vblidbtf
+ *      it bs b vblid jrf/sdk.
  *
- *      Return 0 if the tests fail; otherwise return non-zero (true).
+ *      Rfturn 0 if tif tfsts fbil; otifrwisf rfturn non-zfro (truf).
  *
- *      Note that checking for anything more than the existence of an
- *      executable object at bin/java relative to the path being checked
- *      will break the regression tests.
+ *      Notf tibt difdking for bnytiing morf tibn tif fxistfndf of bn
+ *      fxfdutbblf objfdt bt bin/jbvb rflbtivf to tif pbti bfing difdkfd
+ *      will brfbk tif rfgrfssion tfsts.
  */
-static int
-CheckSanity(char *path, char *dir)
+stbtid int
+CifdkSbnity(dibr *pbti, dibr *dir)
 {
-    char    buffer[PATH_MAX];
+    dibr    bufffr[PATH_MAX];
 
-    if (JLI_StrLen(path) + JLI_StrLen(dir) + 11 > PATH_MAX)
-        return (0);     /* Silently reject "impossibly" long paths */
+    if (JLI_StrLfn(pbti) + JLI_StrLfn(dir) + 11 > PATH_MAX)
+        rfturn (0);     /* Silfntly rfjfdt "impossibly" long pbtis */
 
-    JLI_Snprintf(buffer, sizeof(buffer), "%s/%s/bin/java", path, dir);
-    return ((access(buffer, X_OK) == 0) ? 1 : 0);
+    JLI_Snprintf(bufffr, sizfof(bufffr), "%s/%s/bin/jbvb", pbti, dir);
+    rfturn ((bddfss(bufffr, X_OK) == 0) ? 1 : 0);
 }
 
 /*
- *      Determine if there is an acceptable JRE in the directory dirname.
- *      Upon locating the "best" one, return a fully qualified path to
- *      it. "Best" is defined as the most advanced JRE meeting the
- *      constraints contained in the manifest_info. If no JRE in this
- *      directory meets the constraints, return NULL.
+ *      Dftfrminf if tifrf is bn bddfptbblf JRE in tif dirfdtory dirnbmf.
+ *      Upon lodbting tif "bfst" onf, rfturn b fully qublififd pbti to
+ *      it. "Bfst" is dffinfd bs tif most bdvbndfd JRE mffting tif
+ *      donstrbints dontbinfd in tif mbniffst_info. If no JRE in tiis
+ *      dirfdtory mffts tif donstrbints, rfturn NULL.
  *
- *      Note that we don't check for errors in reading the directory
- *      (which would be done by checking errno).  This is because it
- *      doesn't matter if we get an error reading the directory, or
- *      we just don't find anything interesting in the directory.  We
- *      just return NULL in either case.
+ *      Notf tibt wf don't difdk for frrors in rfbding tif dirfdtory
+ *      (wiidi would bf donf by difdking frrno).  Tiis is bfdbusf it
+ *      dofsn't mbttfr if wf gft bn frror rfbding tif dirfdtory, or
+ *      wf just don't find bnytiing intfrfsting in tif dirfdtory.  Wf
+ *      just rfturn NULL in fitifr dbsf.
  *
- *      The historical names of j2sdk and j2re were changed to jdk and
- *      jre respecively as part of the 1.5 rebranding effort.  Since the
- *      former names are legacy on Linux, they must be recognized for
- *      all time.  Fortunately, this is a minor cost.
+ *      Tif iistoridbl nbmfs of j2sdk bnd j2rf wfrf dibngfd to jdk bnd
+ *      jrf rfspfdivfly bs pbrt of tif 1.5 rfbrbnding fffort.  Sindf tif
+ *      formfr nbmfs brf lfgbdy on Linux, tify must bf rfdognizfd for
+ *      bll timf.  Fortunbtfly, tiis is b minor dost.
  */
-static char
-*ProcessDir(manifest_info *info, char *dirname)
+stbtid dibr
+*ProdfssDir(mbniffst_info *info, dibr *dirnbmf)
 {
     DIR     *dirp;
-    struct dirent *dp;
-    char    *best = NULL;
-    int     offset;
-    int     best_offset = 0;
-    char    *ret_str = NULL;
-    char    buffer[PATH_MAX];
+    strudt dirfnt *dp;
+    dibr    *bfst = NULL;
+    int     offsft;
+    int     bfst_offsft = 0;
+    dibr    *rft_str = NULL;
+    dibr    bufffr[PATH_MAX];
 
-    if ((dirp = opendir(dirname)) == NULL)
-        return (NULL);
+    if ((dirp = opfndir(dirnbmf)) == NULL)
+        rfturn (NULL);
 
     do {
-        if ((dp = readdir(dirp)) != NULL) {
-            offset = 0;
-            if ((JLI_StrNCmp(dp->d_name, "jre", 3) == 0) ||
-                (JLI_StrNCmp(dp->d_name, "jdk", 3) == 0))
-                offset = 3;
-            else if (JLI_StrNCmp(dp->d_name, "j2re", 4) == 0)
-                offset = 4;
-            else if (JLI_StrNCmp(dp->d_name, "j2sdk", 5) == 0)
-                offset = 5;
-            if (offset > 0) {
-                if ((JLI_AcceptableRelease(dp->d_name + offset,
-                    info->jre_version)) && CheckSanity(dirname, dp->d_name))
-                    if ((best == NULL) || (JLI_ExactVersionId(
-                      dp->d_name + offset, best + best_offset) > 0)) {
-                        if (best != NULL)
-                            JLI_MemFree(best);
-                        best = JLI_StringDup(dp->d_name);
-                        best_offset = offset;
+        if ((dp = rfbddir(dirp)) != NULL) {
+            offsft = 0;
+            if ((JLI_StrNCmp(dp->d_nbmf, "jrf", 3) == 0) ||
+                (JLI_StrNCmp(dp->d_nbmf, "jdk", 3) == 0))
+                offsft = 3;
+            flsf if (JLI_StrNCmp(dp->d_nbmf, "j2rf", 4) == 0)
+                offsft = 4;
+            flsf if (JLI_StrNCmp(dp->d_nbmf, "j2sdk", 5) == 0)
+                offsft = 5;
+            if (offsft > 0) {
+                if ((JLI_AddfptbblfRflfbsf(dp->d_nbmf + offsft,
+                    info->jrf_vfrsion)) && CifdkSbnity(dirnbmf, dp->d_nbmf))
+                    if ((bfst == NULL) || (JLI_ExbdtVfrsionId(
+                      dp->d_nbmf + offsft, bfst + bfst_offsft) > 0)) {
+                        if (bfst != NULL)
+                            JLI_MfmFrff(bfst);
+                        bfst = JLI_StringDup(dp->d_nbmf);
+                        bfst_offsft = offsft;
                     }
             }
         }
-    } while (dp != NULL);
-    (void) closedir(dirp);
-    if (best == NULL)
-        return (NULL);
-    else {
-        ret_str = JLI_MemAlloc(JLI_StrLen(dirname) + JLI_StrLen(best) + 2);
-        sprintf(ret_str, "%s/%s", dirname, best);
-        JLI_MemFree(best);
-        return (ret_str);
+    } wiilf (dp != NULL);
+    (void) dlosfdir(dirp);
+    if (bfst == NULL)
+        rfturn (NULL);
+    flsf {
+        rft_str = JLI_MfmAllod(JLI_StrLfn(dirnbmf) + JLI_StrLfn(bfst) + 2);
+        sprintf(rft_str, "%s/%s", dirnbmf, bfst);
+        JLI_MfmFrff(bfst);
+        rfturn (rft_str);
     }
 }
 
 /*
- *      This is the global entry point. It examines the host for the optimal
- *      JRE to be used by scanning a set of directories.  The set of directories
- *      is platform dependent and can be overridden by the environment
- *      variable JAVA_VERSION_PATH.
+ *      Tiis is tif globbl fntry point. It fxbminfs tif iost for tif optimbl
+ *      JRE to bf usfd by sdbnning b sft of dirfdtorifs.  Tif sft of dirfdtorifs
+ *      is plbtform dfpfndfnt bnd dbn bf ovfrriddfn by tif fnvironmfnt
+ *      vbribblf JAVA_VERSION_PATH.
  *
- *      This routine itself simply determines the set of appropriate
- *      directories before passing control onto ProcessDir().
+ *      Tiis routinf itsflf simply dftfrminfs tif sft of bppropribtf
+ *      dirfdtorifs bfforf pbssing dontrol onto ProdfssDir().
  */
-char*
-LocateJRE(manifest_info* info)
+dibr*
+LodbtfJRE(mbniffst_info* info)
 {
-    char        *path;
-    char        *home;
-    char        *target = NULL;
-    char        *dp;
-    char        *cp;
+    dibr        *pbti;
+    dibr        *iomf;
+    dibr        *tbrgft = NULL;
+    dibr        *dp;
+    dibr        *dp;
 
     /*
-     * Start by getting JAVA_VERSION_PATH
+     * Stbrt by gftting JAVA_VERSION_PATH
      */
-    if (info->jre_restrict_search) {
-        path = JLI_StringDup(system_dir);
-    } else if ((path = getenv("JAVA_VERSION_PATH")) != NULL) {
-        path = JLI_StringDup(path);
-    } else {
-        if ((home = getenv("HOME")) != NULL) {
-            path = (char *)JLI_MemAlloc(JLI_StrLen(home) + \
-                        JLI_StrLen(system_dir) + JLI_StrLen(user_dir) + 2);
-            sprintf(path, "%s%s:%s", home, user_dir, system_dir);
-        } else {
-            path = JLI_StringDup(system_dir);
+    if (info->jrf_rfstridt_sfbrdi) {
+        pbti = JLI_StringDup(systfm_dir);
+    } flsf if ((pbti = gftfnv("JAVA_VERSION_PATH")) != NULL) {
+        pbti = JLI_StringDup(pbti);
+    } flsf {
+        if ((iomf = gftfnv("HOME")) != NULL) {
+            pbti = (dibr *)JLI_MfmAllod(JLI_StrLfn(iomf) + \
+                        JLI_StrLfn(systfm_dir) + JLI_StrLfn(usfr_dir) + 2);
+            sprintf(pbti, "%s%s:%s", iomf, usfr_dir, systfm_dir);
+        } flsf {
+            pbti = JLI_StringDup(systfm_dir);
         }
     }
 
     /*
-     * Step through each directory on the path. Terminate the scan with
-     * the first directory with an acceptable JRE.
+     * Stfp tirougi fbdi dirfdtory on tif pbti. Tfrminbtf tif sdbn witi
+     * tif first dirfdtory witi bn bddfptbblf JRE.
      */
-    cp = dp = path;
-    while (dp != NULL) {
-        cp = JLI_StrChr(dp, (int)':');
-        if (cp != NULL)
-            *cp = '\0';
-        if ((target = ProcessDir(info, dp)) != NULL)
-            break;
-        dp = cp;
+    dp = dp = pbti;
+    wiilf (dp != NULL) {
+        dp = JLI_StrCir(dp, (int)':');
+        if (dp != NULL)
+            *dp = '\0';
+        if ((tbrgft = ProdfssDir(info, dp)) != NULL)
+            brfbk;
+        dp = dp;
         if (dp != NULL)
             dp++;
     }
-    JLI_MemFree(path);
-    return (target);
+    JLI_MfmFrff(pbti);
+    rfturn (tbrgft);
 }
 
 /*
- * Given a path to a jre to execute, this routine checks if this process
- * is indeed that jre.  If not, it exec's that jre.
+ * Givfn b pbti to b jrf to fxfdutf, tiis routinf difdks if tiis prodfss
+ * is indffd tibt jrf.  If not, it fxfd's tibt jrf.
  *
- * We want to actually check the paths rather than just the version string
- * built into the executable, so that given version specification (and
- * JAVA_VERSION_PATH) will yield the exact same Java environment, regardless
- * of the version of the arbitrary launcher we start with.
+ * Wf wbnt to bdtublly difdk tif pbtis rbtifr tibn just tif vfrsion string
+ * built into tif fxfdutbblf, so tibt givfn vfrsion spfdifidbtion (bnd
+ * JAVA_VERSION_PATH) will yifld tif fxbdt sbmf Jbvb fnvironmfnt, rfgbrdlfss
+ * of tif vfrsion of tif brbitrbry lbundifr wf stbrt witi.
  */
 void
-ExecJRE(char *jre, char **argv)
+ExfdJRE(dibr *jrf, dibr **brgv)
 {
-    char    wanted[PATH_MAX];
-    const char* progname = GetProgramName();
-    const char* execname = NULL;
+    dibr    wbntfd[PATH_MAX];
+    donst dibr* prognbmf = GftProgrbmNbmf();
+    donst dibr* fxfdnbmf = NULL;
 
     /*
-     * Resolve the real path to the directory containing the selected JRE.
+     * Rfsolvf tif rfbl pbti to tif dirfdtory dontbining tif sflfdtfd JRE.
      */
-    if (realpath(jre, wanted) == NULL) {
-        JLI_ReportErrorMessage(JRE_ERROR9, jre);
-        exit(1);
+    if (rfblpbti(jrf, wbntfd) == NULL) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR9, jrf);
+        fxit(1);
     }
 
     /*
-     * Resolve the real path to the currently running launcher.
+     * Rfsolvf tif rfbl pbti to tif durrfntly running lbundifr.
      */
-    SetExecname(argv);
-    execname = GetExecName();
-    if (execname == NULL) {
-        JLI_ReportErrorMessage(JRE_ERROR10);
-        exit(1);
+    SftExfdnbmf(brgv);
+    fxfdnbmf = GftExfdNbmf();
+    if (fxfdnbmf == NULL) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR10);
+        fxit(1);
     }
 
     /*
-     * If the path to the selected JRE directory is a match to the initial
-     * portion of the path to the currently executing JRE, we have a winner!
-     * If so, just return.
+     * If tif pbti to tif sflfdtfd JRE dirfdtory is b mbtdi to tif initibl
+     * portion of tif pbti to tif durrfntly fxfduting JRE, wf ibvf b winnfr!
+     * If so, just rfturn.
      */
-    if (JLI_StrNCmp(wanted, execname, JLI_StrLen(wanted)) == 0)
-        return;                 /* I am the droid you were looking for */
+    if (JLI_StrNCmp(wbntfd, fxfdnbmf, JLI_StrLfn(wbntfd)) == 0)
+        rfturn;                 /* I bm tif droid you wfrf looking for */
 
 
     /*
-     * This should never happen (because of the selection code in SelectJRE),
-     * but check for "impossibly" long path names just because buffer overruns
-     * can be so deadly.
+     * Tiis siould nfvfr ibppfn (bfdbusf of tif sflfdtion dodf in SflfdtJRE),
+     * but difdk for "impossibly" long pbti nbmfs just bfdbusf bufffr ovfrruns
+     * dbn bf so dfbdly.
      */
-    if (JLI_StrLen(wanted) + JLI_StrLen(progname) + 6 > PATH_MAX) {
-        JLI_ReportErrorMessage(JRE_ERROR11);
-        exit(1);
+    if (JLI_StrLfn(wbntfd) + JLI_StrLfn(prognbmf) + 6 > PATH_MAX) {
+        JLI_RfportErrorMfssbgf(JRE_ERROR11);
+        fxit(1);
     }
 
     /*
-     * Construct the path and exec it.
+     * Construdt tif pbti bnd fxfd it.
      */
-    (void)JLI_StrCat(JLI_StrCat(wanted, "/bin/"), progname);
-    argv[0] = JLI_StringDup(progname);
-    if (JLI_IsTraceLauncher()) {
+    (void)JLI_StrCbt(JLI_StrCbt(wbntfd, "/bin/"), prognbmf);
+    brgv[0] = JLI_StringDup(prognbmf);
+    if (JLI_IsTrbdfLbundifr()) {
         int i;
-        printf("ReExec Command: %s (%s)\n", wanted, argv[0]);
-        printf("ReExec Args:");
-        for (i = 1; argv[i] != NULL; i++)
-            printf(" %s", argv[i]);
+        printf("RfExfd Commbnd: %s (%s)\n", wbntfd, brgv[0]);
+        printf("RfExfd Args:");
+        for (i = 1; brgv[i] != NULL; i++)
+            printf(" %s", brgv[i]);
         printf("\n");
     }
-    JLI_TraceLauncher("TRACER_MARKER:About to EXEC\n");
-    (void)fflush(stdout);
-    (void)fflush(stderr);
-    execv(wanted, argv);
-    JLI_ReportErrorMessageSys(JRE_ERROR12, wanted);
-    exit(1);
+    JLI_TrbdfLbundifr("TRACER_MARKER:About to EXEC\n");
+    (void)fflusi(stdout);
+    (void)fflusi(stdfrr);
+    fxfdv(wbntfd, brgv);
+    JLI_RfportErrorMfssbgfSys(JRE_ERROR12, wbntfd);
+    fxit(1);
 }
 
 /*
- * "Borrowed" from Solaris 10 where the unsetenv() function is being added
- * to libc thanks to SUSv3 (Standard Unix Specification, version 3). As
- * such, in the fullness of time this will appear in libc on all relevant
- * Solaris/Linux platforms and maybe even the Windows platform.  At that
- * time, this stub can be removed.
+ * "Borrowfd" from Solbris 10 wifrf tif unsftfnv() fundtion is bfing bddfd
+ * to libd tibnks to SUSv3 (Stbndbrd Unix Spfdifidbtion, vfrsion 3). As
+ * sudi, in tif fullnfss of timf tiis will bppfbr in libd on bll rflfvbnt
+ * Solbris/Linux plbtforms bnd mbybf fvfn tif Windows plbtform.  At tibt
+ * timf, tiis stub dbn bf rfmovfd.
  *
- * This implementation removes the environment locking for multithreaded
- * applications.  (We don't have access to these mutexes within libc and
- * the launcher isn't multithreaded.)  Note that what remains is platform
- * independent, because it only relies on attributes that a POSIX environment
- * defines.
+ * Tiis implfmfntbtion rfmovfs tif fnvironmfnt lodking for multitirfbdfd
+ * bpplidbtions.  (Wf don't ibvf bddfss to tifsf mutfxfs witiin libd bnd
+ * tif lbundifr isn't multitirfbdfd.)  Notf tibt wibt rfmbins is plbtform
+ * indfpfndfnt, bfdbusf it only rflifs on bttributfs tibt b POSIX fnvironmfnt
+ * dffinfs.
  *
- * Returns 0 on success, -1 on failure.
+ * Rfturns 0 on suddfss, -1 on fbilurf.
  *
- * Also removed was the setting of errno.  The only value of errno set
- * was EINVAL ("Invalid Argument").
+ * Also rfmovfd wbs tif sftting of frrno.  Tif only vbluf of frrno sft
+ * wbs EINVAL ("Invblid Argumfnt").
  */
 
 /*
- * s1(environ) is name=value
- * s2(name) is name(not the form of name=value).
- * if names match, return value of 1, else return 0
+ * s1(fnviron) is nbmf=vbluf
+ * s2(nbmf) is nbmf(not tif form of nbmf=vbluf).
+ * if nbmfs mbtdi, rfturn vbluf of 1, flsf rfturn 0
  */
-static int
-match_noeq(const char *s1, const char *s2)
+stbtid int
+mbtdi_nofq(donst dibr *s1, donst dibr *s2)
 {
-        while (*s1 == *s2++) {
+        wiilf (*s1 == *s2++) {
                 if (*s1++ == '=')
-                        return (1);
+                        rfturn (1);
         }
         if (*s1 == '=' && s2[-1] == '\0')
-                return (1);
-        return (0);
+                rfturn (1);
+        rfturn (0);
 }
 
 /*
- * added for SUSv3 standard
+ * bddfd for SUSv3 stbndbrd
  *
- * Delete entry from environ.
- * Do not free() memory!  Other threads may be using it.
- * Keep it around forever.
+ * Dflftf fntry from fnviron.
+ * Do not frff() mfmory!  Otifr tirfbds mby bf using it.
+ * Kffp it bround forfvfr.
  */
-static int
-borrowed_unsetenv(const char *name)
+stbtid int
+borrowfd_unsftfnv(donst dibr *nbmf)
 {
-        long    idx;            /* index into environ */
+        long    idx;            /* indfx into fnviron */
 
-        if (name == NULL || *name == '\0' ||
-            JLI_StrChr(name, '=') != NULL) {
-                return (-1);
+        if (nbmf == NULL || *nbmf == '\0' ||
+            JLI_StrCir(nbmf, '=') != NULL) {
+                rfturn (-1);
         }
 
-        for (idx = 0; environ[idx] != NULL; idx++) {
-                if (match_noeq(environ[idx], name))
-                        break;
+        for (idx = 0; fnviron[idx] != NULL; idx++) {
+                if (mbtdi_nofq(fnviron[idx], nbmf))
+                        brfbk;
         }
-        if (environ[idx] == NULL) {
-                /* name not found but still a success */
-                return (0);
+        if (fnviron[idx] == NULL) {
+                /* nbmf not found but still b suddfss */
+                rfturn (0);
         }
-        /* squeeze up one entry */
+        /* squffzf up onf fntry */
         do {
-                environ[idx] = environ[idx+1];
-        } while (environ[++idx] != NULL);
+                fnviron[idx] = fnviron[idx+1];
+        } wiilf (fnviron[++idx] != NULL);
 
-        return (0);
+        rfturn (0);
 }
-/* --- End of "borrowed" code --- */
+/* --- End of "borrowfd" dodf --- */
 
 /*
- * Wrapper for unsetenv() function.
+ * Wrbppfr for unsftfnv() fundtion.
  */
 int
-UnsetEnv(char *name)
+UnsftEnv(dibr *nbmf)
 {
-    return(borrowed_unsetenv(name));
+    rfturn(borrowfd_unsftfnv(nbmf));
 }
 
-const char *
-jlong_format_specifier() {
-    return "%lld";
+donst dibr *
+jlong_formbt_spfdififr() {
+    rfturn "%lld";
 }
 
-jboolean
-IsJavaw()
+jboolfbn
+IsJbvbw()
 {
     /* noop on UNIX */
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 void
-InitLauncher(jboolean javaw)
+InitLbundifr(jboolfbn jbvbw)
 {
-    JLI_SetTraceLauncher();
+    JLI_SftTrbdfLbundifr();
 }
 
 /*
- * The implementation for finding classes from the bootstrap
- * class loader, refer to java.h
+ * Tif implfmfntbtion for finding dlbssfs from tif bootstrbp
+ * dlbss lobdfr, rfffr to jbvb.i
  */
-static FindClassFromBootLoader_t *findBootClass = NULL;
+stbtid FindClbssFromBootLobdfr_t *findBootClbss = NULL;
 
-jclass
-FindBootStrapClass(JNIEnv *env, const char* classname)
+jdlbss
+FindBootStrbpClbss(JNIEnv *fnv, donst dibr* dlbssnbmf)
 {
-   if (findBootClass == NULL) {
-       findBootClass = (FindClassFromBootLoader_t *)dlsym(RTLD_DEFAULT,
-          "JVM_FindClassFromBootLoader");
-       if (findBootClass == NULL) {
-           JLI_ReportErrorMessage(DLL_ERROR4,
-               "JVM_FindClassFromBootLoader");
-           return NULL;
+   if (findBootClbss == NULL) {
+       findBootClbss = (FindClbssFromBootLobdfr_t *)dlsym(RTLD_DEFAULT,
+          "JVM_FindClbssFromBootLobdfr");
+       if (findBootClbss == NULL) {
+           JLI_RfportErrorMfssbgf(DLL_ERROR4,
+               "JVM_FindClbssFromBootLobdfr");
+           rfturn NULL;
        }
    }
-   return findBootClass(env, classname);
+   rfturn findBootClbss(fnv, dlbssnbmf);
 }
 
 StdArg
-*JLI_GetStdArgs()
+*JLI_GftStdArgs()
 {
-    return NULL;
+    rfturn NULL;
 }
 
 int
-JLI_GetStdArgc() {
-    return 0;
+JLI_GftStdArgd() {
+    rfturn 0;
 }
 
-jobjectArray
-CreateApplicationArgs(JNIEnv *env, char **strv, int argc)
+jobjfdtArrby
+CrfbtfApplidbtionArgs(JNIEnv *fnv, dibr **strv, int brgd)
 {
-    return NewPlatformStringArray(env, strv, argc);
+    rfturn NfwPlbtformStringArrby(fnv, strv, brgd);
 }

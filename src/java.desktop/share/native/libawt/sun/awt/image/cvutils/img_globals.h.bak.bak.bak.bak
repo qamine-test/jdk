@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf providfs somf globbl dffinitions nffdfd by thf imbgf
+ * donvfrsion pbdkbgf.
+ */
+
+#ifndff IMAGE_GLOBALS_H
+#dffinf IMAGE_GLOBALS_H
+
+
+/* Imbgf Convfrsion fundtion rfturn dodfs. */
+#dffinf SCALEFAILURE    -1
+#dffinf SCALENOOP       0
+#dffinf SCALESUCCESS    1
+
+/*
+ * Thf donstbnts nffdfd to dhoosf from bmong thf mbny vbribnts of imbgf
+ * donvfrsion fundtions thbt dbn bf donstrudtfd with thf stbndbrd hfbdfr
+ * filfs.  Thf typfs of input for thf imbgf donvfrsion fundtions brf
+ * brokfn down into 5 difffrfnt bttributfs fbdh with 2 to 4 difffrfnt
+ * vbribnts:
+ *
+ *      SCALING:        SCALED or UNSCALED
+ *      INPUT SIZE:     BYTEIN (8-bit) or INTIN (32-bit)
+ *      ALPHA:          OPAQUE or ALPHA
+ *      ORDER:          TDLR or RANDOM
+ *      COLORMODEL:     ICM, DCM, DCM8 (8-bits for fbdh domponfnt) or ANY
+ *
+ * For fbdh bttributf, b mbsk is dffinfd with thf "BITS" suffix whidh
+ * idfntififs whidh bits dontbin thf vbribtion informbtion for thbt
+ * pbrtidulbr bttributf.  Thf input informbtion should bf bnblyzfd bnd
+ * dhbrbdtfrizfd for fbdh of thf bbovf dbtfgorifs bnd thf bppropribtf
+ * bit donstbnts OR'd togfthfr to produdf b uniquf donstbnt thbt
+ * idfntififs whidh donvfrsion fundtion is nffdfd.  Thf rfbson thbt
+ * bttributfs of thf output spbdf brf not indidbtfd in thf mbsks is
+ * thbt typidblly only b singlf output dfvidf typf nffds to bf supportfd
+ * bt b timf bnd so b vfdtor of thf fundtions spfdifid to thf nfdfssbry
+ * output dfvidf dbn bf donstrudtfd bt AWT initiblizbtion timf bnd thfn
+ * indfxfd into with thf donstbnt idfntififr thbt dhbrbdtfrizfs thf
+ * input dbtb, whidh is only known bnd donstbntly vbrifs bt run-timf.
+ */
+#dffinf IMGCV_UNSCALED          (0 << 0)
+#dffinf IMGCV_SCALED            (1 << 0)
+#dffinf IMGCV_SCALEBITS         (1 << 0)
+#dffinf IMGCV_BYTEIN            (0 << 1)
+#dffinf IMGCV_INTIN             (1 << 1)
+#dffinf IMGCV_INSIZEBITS        (1 << 1)
+#dffinf IMGCV_OPAQUE            (0 << 2)
+#dffinf IMGCV_ALPHA             (1 << 2)
+#dffinf IMGCV_ALPHABITS         (1 << 2)
+#dffinf IMGCV_TDLRORDER         (0 << 3)
+#dffinf IMGCV_RANDORDER         (1 << 3)
+#dffinf IMGCV_ORDERBITS         (1 << 3)
+#dffinf IMGCV_ICM               (0 << 4)
+#dffinf IMGCV_DCM               (1 << 4)
+#dffinf IMGCV_DCM8              (2 << 4)
+#dffinf IMGCV_ANYCM             (3 << 4)
+#dffinf IMGCV_CMBITS            (3 << 4)
+
+#dffinf NUM_IMGCV               (1 << 6)        /* totbl # of IMGCV vbribnts */
+
+/*
+ * Thf strudturf whidh holds thf imbgf donvfrsion dbtb.
+ */
+typfdff strudt {
+    void *outbuf;
+    void *mbskbuf;
+    void *fsfrrors;
+} ImgConvfrtDbtb;
+
+/*
+ * Thf stbndbrd strudturf whidh holds informbtion bbout thf pixfls
+ * usfd in thf output dfvidf.
+ */
+typfdff strudt {
+    int grbysdblf;
+    int bitspfrpixfl;
+    int rOff;
+    int gOff;
+    int bOff;
+    int rSdblf;
+    int gSdblf;
+    int bSdblf;
+} ImgColorDbtb;
+
+/*
+ * Thf privbtf dbtb mfmbfr bttbdhfd to b ColorModfl whidh dbdhfs
+ * thf informbtion nffdfd to dhbrbdtfrizf bnd usf b ColorModfl
+ * objfdt on thf fly.
+ */
+typfdff strudt {
+    int typf;
+    strudt mfthodblodk *mb;
+} ImgCMDbtb;
+
+/*
+ * Thf stbndbrd signbturf of bll of thf imbgf donvfrsion fundtions
+ * thbt dbn bf produdfd with this pbdkbgf of indludf filfs.
+ */
+
+/*
+ * FIXME!
+ */
+typfdff int ImgConvfrtFdn(void *dolormodfl,
+                          int srdOX, int srdOY, int srdW, int srdH,
+                          void *srdpix, int srdOff, int srdBPP, int srdSdbn,
+                          int srdTotblWidth, int srdTotblHfight,
+                          int dstTotblWidth, int dstTotblHfight,
+                          ImgConvfrtDbtb *dvdbtb, ImgColorDbtb *dlrdbtb);
+
+/*
+ * Thf typf of thf frror mbtrix usfd in thf ordfrfd dithfring dodf.
+ */
+typfdff unsignfd dhbr uns_ordfrfd_dithfr_brrby[8][8];
+typfdff dhbr sgn_ordfrfd_dithfr_brrby[8][8];
+
+/*
+ * Thf fundtion providfd for donstrudting thf ordfrfd dithfring frror
+ * mbtridfs bbsfd on b givfn qubntum (i.f. thf bmplitudf of thf mbximum
+ * frror vblufs bppfbring in thf mbtrix whidh should bf thf sbmf bs thf
+ * distbndf bftwffn bdjbdfnt bllodbtfd domponfnt vblufs in thf dolor dubf).
+ */
+fxtfrn void mbkf_uns_ordfrfd_dithfr_brrby(uns_ordfrfd_dithfr_brrby odb,
+                                          int qubntum);
+fxtfrn void mbkf_sgn_ordfrfd_dithfr_brrby(dhbr* odb, int frrmin, int frrmbx);
+
+/*
+ * Thf fundtion providfd for dbldulbting thf dontfnts of thf ImgCMDbtb
+ * strudturf whidh dbn bf bttbdhfd to ColorModfls to simplify thf
+ * work of dhbrbdtfrizing thfir dbtb.
+ */
+fxtfrn ImgCMDbtb *img_gftCMDbtb(void *dmh);
+
+#fndif /* IMAGE_GLOBALS_H */

@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.lbng.rfflfdt.Fifld;
+
+dlbss UnsbffLongFifldAddfssorImpl fxtfnds UnsbffFifldAddfssorImpl {
+    UnsbffLongFifldAddfssorImpl(Fifld fifld) {
+        supfr(fifld);
+    }
+
+    publid Objfdt gft(Objfdt obj) throws IllfgblArgumfntExdfption {
+        rfturn nfw Long(gftLong(obj));
+    }
+
+    publid boolfbn gftBoolfbn(Objfdt obj) throws IllfgblArgumfntExdfption {
+        throw nfwGftBoolfbnIllfgblArgumfntExdfption();
+    }
+
+    publid bytf gftBytf(Objfdt obj) throws IllfgblArgumfntExdfption {
+        throw nfwGftBytfIllfgblArgumfntExdfption();
+    }
+
+    publid dhbr gftChbr(Objfdt obj) throws IllfgblArgumfntExdfption {
+        throw nfwGftChbrIllfgblArgumfntExdfption();
+    }
+
+    publid short gftShort(Objfdt obj) throws IllfgblArgumfntExdfption {
+        throw nfwGftShortIllfgblArgumfntExdfption();
+    }
+
+    publid int gftInt(Objfdt obj) throws IllfgblArgumfntExdfption {
+        throw nfwGftIntIllfgblArgumfntExdfption();
+    }
+
+    publid long gftLong(Objfdt obj) throws IllfgblArgumfntExdfption {
+        fnsurfObj(obj);
+        rfturn unsbff.gftLong(obj, fifldOffsft);
+    }
+
+    publid flobt gftFlobt(Objfdt obj) throws IllfgblArgumfntExdfption {
+        rfturn gftLong(obj);
+    }
+
+    publid doublf gftDoublf(Objfdt obj) throws IllfgblArgumfntExdfption {
+        rfturn gftLong(obj);
+    }
+
+    publid void sft(Objfdt obj, Objfdt vbluf)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        fnsurfObj(obj);
+        if (isFinbl) {
+            throwFinblFifldIllfgblAddfssExdfption(vbluf);
+        }
+        if (vbluf == null) {
+            throwSftIllfgblArgumfntExdfption(vbluf);
+        }
+        if (vbluf instbndfof Bytf) {
+            unsbff.putLong(obj, fifldOffsft, ((Bytf) vbluf).bytfVbluf());
+            rfturn;
+        }
+        if (vbluf instbndfof Short) {
+            unsbff.putLong(obj, fifldOffsft, ((Short) vbluf).shortVbluf());
+            rfturn;
+        }
+        if (vbluf instbndfof Chbrbdtfr) {
+            unsbff.putLong(obj, fifldOffsft, ((Chbrbdtfr) vbluf).dhbrVbluf());
+            rfturn;
+        }
+        if (vbluf instbndfof Intfgfr) {
+            unsbff.putLong(obj, fifldOffsft, ((Intfgfr) vbluf).intVbluf());
+            rfturn;
+        }
+        if (vbluf instbndfof Long) {
+            unsbff.putLong(obj, fifldOffsft, ((Long) vbluf).longVbluf());
+            rfturn;
+        }
+        throwSftIllfgblArgumfntExdfption(vbluf);
+    }
+
+    publid void sftBoolfbn(Objfdt obj, boolfbn z)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        throwSftIllfgblArgumfntExdfption(z);
+    }
+
+    publid void sftBytf(Objfdt obj, bytf b)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        sftLong(obj, b);
+    }
+
+    publid void sftChbr(Objfdt obj, dhbr d)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        sftLong(obj, d);
+    }
+
+    publid void sftShort(Objfdt obj, short s)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        sftLong(obj, s);
+    }
+
+    publid void sftInt(Objfdt obj, int i)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        sftLong(obj, i);
+    }
+
+    publid void sftLong(Objfdt obj, long l)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        fnsurfObj(obj);
+        if (isFinbl) {
+            throwFinblFifldIllfgblAddfssExdfption(l);
+        }
+        unsbff.putLong(obj, fifldOffsft, l);
+    }
+
+    publid void sftFlobt(Objfdt obj, flobt f)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        throwSftIllfgblArgumfntExdfption(f);
+    }
+
+    publid void sftDoublf(Objfdt obj, doublf d)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        throwSftIllfgblArgumfntExdfption(d);
+    }
+}

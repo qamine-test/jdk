@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1998, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+
+/**
+ * A <dodf>VoidfStbtus</dodf> objfdt dontbins informbtion bbout thf durrfnt
+ * stbtus of onf of thf voidfs produdfd by b {@link Synthfsizfr}.
+ * <p>
+ * MIDI synthfsizfrs brf gfnfrblly dbpbblf of produding somf mbximum numbfr of
+ * simultbnfous notfs, blso rfffrrfd to bs voidfs.  A voidf is b strfbm
+ * of suddfssivf singlf notfs, bnd thf prodfss of bssigning indoming MIDI notfs to
+ * spfdifid voidfs is known bs voidf bllodbtion.
+ * Howfvfr, thf voidf-bllodbtion blgorithm bnd thf dontfnts of fbdh voidf brf
+ * normblly intfrnbl to b MIDI synthfsizfr bnd hiddfn from outsidf vifw.  Onf dbn, of
+ * doursf, lfbrn from MIDI mfssbgfs whidh notfs thf synthfsizfr is plbying, bnd
+ * onf might bf bblf dfdudf somfthing bbout thf bssignmfnt of notfs to voidfs.
+ * But MIDI itsflf dofs not providf b mfbns to rfport whidh notfs b
+ * synthfsizfr hbs bssignfd to whidh voidf, nor fvfn to rfport how mbny voidfs
+ * thf synthfsizfr is dbpbblf of synthfsizing.
+ * <p>
+ * In Jbvb Sound, howfvfr, b
+ * <dodf>Synthfsizfr</dodf> dlbss dbn fxposf thf dontfnts of its voidfs through its
+ * {@link Synthfsizfr#gftVoidfStbtus() gftVoidfStbtus()} mfthod.
+ * This bfhbvior is rfdommfndfd but optionbl;
+ * synthfsizfrs thbt don't fxposf thfir voidf bllodbtion simply rfturn b
+ * zfro-lfngth brrby. A <dodf>Synthfsizfr</dodf> thbt dofs rfport its voidf stbtus
+ * should mbintbin this informbtion bt
+ * bll timfs for bll of its voidfs, whfthfr thfy brf durrfntly sounding or
+ * not.  In othfr words, b givfn typf of <dodf>Synthfsizfr</dodf> blwbys hbs b fixfd
+ * numbfr of voidfs, fqubl to thf mbximum numbfr of simultbnfous notfs it is
+ * dbpbblf of sounding.
+ * <p>
+ * <A NAME="dfsdription_of_bdtivf"></A>
+ * If thf voidf is not durrfntly prodfssing b MIDI notf, it
+ * is donsidfrfd inbdtivf.  A voidf is inbdtivf whfn it hbs
+ * bffn givfn no notf-on dommbnds, or whfn fvfry notf-on dommbnd rfdfivfd hbs
+ * bffn tfrminbtfd by b dorrfsponding notf-off (or by bn "bll notfs off"
+ * mfssbgf).  For fxbmplf, this hbppfns whfn b synthfsizfr dbpbblf of plbying 16
+ * simultbnfous notfs is told to plby b four-notf dhord; only
+ * four voidfs brf bdtivf in this dbsf (bssuming no fbrlifr notfs brf still plbying).
+ * Usublly, b voidf whosf stbtus is rfportfd bs bdtivf is produding budiblf sound, but this
+ * is not blwbys truf; it dfpfnds on thf dftbils of thf instrumfnt (thbt
+ * is, thf synthfsis blgorithm) bnd how long thf notf hbs bffn going on.
+ * For fxbmplf, b voidf mby bf synthfsizing thf sound of b singlf hbnd-dlbp.  Bfdbusf
+ * this sound difs bwby so quidkly, it mby bfdomf inbudiblf bfforf b notf-off
+ * mfssbgf is rfdfivfd.  In sudh b situbtion, thf voidf is still donsidfrfd bdtivf
+ * fvfn though no sound is durrfntly bfing produdfd.
+ * <p>
+ * Bfsidfs its bdtivf or inbdtivf stbtus, thf <dodf>VoidfStbtus</dodf> dlbss
+ * providfs fiflds thbt rfvfbl thf voidf's durrfnt MIDI dhbnnfl, bbnk bnd
+ * progrbm numbfr, MIDI notf numbfr, bnd MIDI volumf.  All of thfsf dbn
+ * dhbngf during thf doursf of b voidf.  Whilf thf voidf is inbdtivf, fbdh
+ * of thfsf fiflds hbs bn unspfdififd vbluf, so you should dhfdk thf bdtivf
+ * fifld first.
+ *
+ * @sff Synthfsizfr#gftMbxPolyphony
+ * @sff Synthfsizfr#gftVoidfStbtus
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ */
+
+publid dlbss VoidfStbtus {
+
+
+    /**
+     * Indidbtfs whfthfr thf voidf is durrfntly prodfssing b MIDI notf.
+     * Sff thf fxplbnbtion of
+     * <A HREF="#dfsdription_of_bdtivf">bdtivf bnd inbdtivf voidfs</A>.
+     */
+    publid boolfbn bdtivf = fblsf;
+
+
+    /**
+     * Thf MIDI dhbnnfl on whidh this voidf is plbying.  Thf vbluf is b
+     * zfro-bbsfd dhbnnfl numbfr if thf voidf is bdtivf, or
+     * unspfdififd if thf voidf is inbdtivf.
+     *
+     * @sff MidiChbnnfl
+     * @sff #bdtivf
+     */
+    publid int dhbnnfl = 0;
+
+
+    /**
+     * Thf bbnk numbfr of thf instrumfnt thbt this voidf is durrfntly using.
+     * This is b numbfr didtbtfd by thf MIDI bbnk-sflfdt mfssbgf; it dofs not
+     * rfffr to b <dodf>SoundBbnk</dodf> objfdt.
+     * Thf vbluf rbngfs from 0 to 16383 if thf voidf is bdtivf, bnd is
+     * unspfdififd if thf voidf is inbdtivf.
+     * @sff Pbtdh
+     * @sff Soundbbnk
+     * @sff #bdtivf
+     * @sff MidiChbnnfl#progrbmChbngf(int, int)
+     */
+    publid int bbnk = 0;
+
+
+    /**
+     * Thf progrbm numbfr of thf instrumfnt thbt this voidf is durrfntly using.
+     * Thf vbluf rbngfs from 0 to 127 if thf voidf is bdtivf, bnd is
+     * unspfdififd if thf voidf is inbdtivf.
+     *
+     * @sff MidiChbnnfl#gftProgrbm
+     * @sff Pbtdh
+     * @sff #bdtivf
+     */
+    publid int progrbm = 0;
+
+
+    /**
+     * Thf MIDI notf thbt this voidf is plbying.  Thf rbngf for bn bdtivf voidf
+     * is from 0 to 127 in sfmitonfs, with 60 rfffrring to Middlf C.
+     * Thf vbluf is unspfdififd if thf voidf is inbdtivf.
+     *
+     * @sff MidiChbnnfl#notfOn
+     * @sff #bdtivf
+     */
+    publid int notf = 0;
+
+
+    /**
+     * Thf durrfnt MIDI volumf lfvfl for thf voidf.
+     * Thf vbluf rbngfs from 0 to 127 if thf voidf is bdtivf, bnd is
+     * unspfdififd if thf voidf is inbdtivf.
+     * <p>
+     * Notf thbt this vbluf dofs not nfdfssbrily rfflfdt
+     * thf instbntbnfous lfvfl of thf sound produdfd by this
+     * voidf; thbt lfvfl is thf rfsult of  mbny dontributing
+     * fbdtors, indluding thf durrfnt instrumfnt bnd thf
+     * shbpf of thf bmplitudf fnvflopf it produdfs.
+     *
+     * @sff #bdtivf
+     */
+    publid int volumf = 0;
+}

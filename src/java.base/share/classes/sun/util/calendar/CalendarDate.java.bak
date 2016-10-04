@@ -1,505 +1,505 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.lang.Cloneable;
-import java.util.Locale;
-import java.util.TimeZone;
+import jbvb.lbng.Clonfbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.TimfZonf;
 
 /**
- * The <code>CalendarDate</code> class represents a specific instant
- * in time by calendar date and time fields that are multiple cycles
- * in different time unites. The semantics of each calendar field is
- * given by a concrete calendar system rather than this
- * <code>CalendarDate</code> class that holds calendar field values
- * without interpreting them. Therefore, this class can be used to
- * represent an amount of time, such as 2 years and 3 months.
+ * Tif <dodf>CblfndbrDbtf</dodf> dlbss rfprfsfnts b spfdifid instbnt
+ * in timf by dblfndbr dbtf bnd timf fiflds tibt brf multiplf dydlfs
+ * in difffrfnt timf unitfs. Tif sfmbntids of fbdi dblfndbr fifld is
+ * givfn by b dondrftf dblfndbr systfm rbtifr tibn tiis
+ * <dodf>CblfndbrDbtf</dodf> dlbss tibt iolds dblfndbr fifld vblufs
+ * witiout intfrprfting tifm. Tifrfforf, tiis dlbss dbn bf usfd to
+ * rfprfsfnt bn bmount of timf, sudi bs 2 yfbrs bnd 3 montis.
  *
- * <p>A <code>CalendarDate</code> instance can be created by calling
- * the <code>newCalendarDate</code> or <code>getCalendarDate</code>
- * methods in <code>CalendarSystem</code>. A
- * <code>CalendarSystem</code> instance is obtained by calling one of
- * the factory methods in <code>CalendarSystem</code>. Manipulations
- * of calendar dates must be handled by the calendar system by which
- * <code>CalendarDate</code> instances have been created.
+ * <p>A <dodf>CblfndbrDbtf</dodf> instbndf dbn bf drfbtfd by dblling
+ * tif <dodf>nfwCblfndbrDbtf</dodf> or <dodf>gftCblfndbrDbtf</dodf>
+ * mftiods in <dodf>CblfndbrSystfm</dodf>. A
+ * <dodf>CblfndbrSystfm</dodf> instbndf is obtbinfd by dblling onf of
+ * tif fbdtory mftiods in <dodf>CblfndbrSystfm</dodf>. Mbnipulbtions
+ * of dblfndbr dbtfs must bf ibndlfd by tif dblfndbr systfm by wiidi
+ * <dodf>CblfndbrDbtf</dodf> instbndfs ibvf bffn drfbtfd.
  *
- * <p>Some calendar fields can be modified through method calls. Any
- * modification of a calendar field brings the state of a
- * <code>CalendarDate</code> to <I>not normalized</I>. The
- * normalization must be performed to make all the calendar fields
- * consistent with a calendar system.
+ * <p>Somf dblfndbr fiflds dbn bf modififd tirougi mftiod dblls. Any
+ * modifidbtion of b dblfndbr fifld brings tif stbtf of b
+ * <dodf>CblfndbrDbtf</dodf> to <I>not normblizfd</I>. Tif
+ * normblizbtion must bf pfrformfd to mbkf bll tif dblfndbr fiflds
+ * donsistfnt witi b dblfndbr systfm.
  *
- * <p>The <code>protected</code> methods are intended to be used for
- * implementing a concrete calendar system, not for general use as an
+ * <p>Tif <dodf>protfdtfd</dodf> mftiods brf intfndfd to bf usfd for
+ * implfmfnting b dondrftf dblfndbr systfm, not for gfnfrbl usf bs bn
  * API.
  *
- * @see CalendarSystem
- * @author Masayoshi Okutsu
- * @since 1.5
+ * @sff CblfndbrSystfm
+ * @butior Mbsbyosii Okutsu
+ * @sindf 1.5
  */
-public abstract class CalendarDate implements Cloneable {
-    public static final int FIELD_UNDEFINED = Integer.MIN_VALUE;
-    public static final long TIME_UNDEFINED = Long.MIN_VALUE;
+publid bbstrbdt dlbss CblfndbrDbtf implfmfnts Clonfbblf {
+    publid stbtid finbl int FIELD_UNDEFINED = Intfgfr.MIN_VALUE;
+    publid stbtid finbl long TIME_UNDEFINED = Long.MIN_VALUE;
 
-    private Era era;
-    private int year;
-    private int month;
-    private int dayOfMonth;
-    private int dayOfWeek = FIELD_UNDEFINED;
-    private boolean leapYear;
+    privbtf Erb frb;
+    privbtf int yfbr;
+    privbtf int monti;
+    privbtf int dbyOfMonti;
+    privbtf int dbyOfWffk = FIELD_UNDEFINED;
+    privbtf boolfbn lfbpYfbr;
 
-    private int hours;
-    private int minutes;
-    private int seconds;
-    private int millis;         // fractional part of the second
-    private long fraction;      // time of day value in millisecond
+    privbtf int iours;
+    privbtf int minutfs;
+    privbtf int sfdonds;
+    privbtf int millis;         // frbdtionbl pbrt of tif sfdond
+    privbtf long frbdtion;      // timf of dby vbluf in millisfdond
 
-    private boolean normalized;
+    privbtf boolfbn normblizfd;
 
-    private TimeZone zoneinfo;
-    private int zoneOffset;
-    private int daylightSaving;
-    private boolean forceStandardTime;
+    privbtf TimfZonf zonfinfo;
+    privbtf int zonfOffsft;
+    privbtf int dbyligitSbving;
+    privbtf boolfbn fordfStbndbrdTimf;
 
-    private Locale locale;
+    privbtf Lodblf lodblf;
 
-    protected CalendarDate() {
-        this(TimeZone.getDefault());
+    protfdtfd CblfndbrDbtf() {
+        tiis(TimfZonf.gftDffbult());
     }
 
-    protected CalendarDate(TimeZone zone) {
-        zoneinfo = zone;
+    protfdtfd CblfndbrDbtf(TimfZonf zonf) {
+        zonfinfo = zonf;
     }
 
-    public Era getEra() {
-        return era;
+    publid Erb gftErb() {
+        rfturn frb;
     }
 
     /**
-     * Sets the era of the date to the specified era. The default
-     * implementation of this method accepts any Era value, including
-     * <code>null</code>.
+     * Sfts tif frb of tif dbtf to tif spfdififd frb. Tif dffbult
+     * implfmfntbtion of tiis mftiod bddfpts bny Erb vbluf, indluding
+     * <dodf>null</dodf>.
      *
-     * @exception NullPointerException if the calendar system for this
-     * <code>CalendarDate</code> requires eras and the specified era
+     * @fxdfption NullPointfrExdfption if tif dblfndbr systfm for tiis
+     * <dodf>CblfndbrDbtf</dodf> rfquirfs frbs bnd tif spfdififd frb
      * is null.
-     * @exception IllegalArgumentException if the specified
-     * <code>era</code> is unknown to the calendar
-     * system for this <code>CalendarDate</code>.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd
+     * <dodf>frb</dodf> is unknown to tif dblfndbr
+     * systfm for tiis <dodf>CblfndbrDbtf</dodf>.
      */
-    public CalendarDate setEra(Era era) {
-        if (this.era == era) {
-            return this;
+    publid CblfndbrDbtf sftErb(Erb frb) {
+        if (tiis.frb == frb) {
+            rfturn tiis;
         }
-        this.era = era;
-        normalized = false;
-        return this;
+        tiis.frb = frb;
+        normblizfd = fblsf;
+        rfturn tiis;
     }
 
-    public int getYear() {
-        return year;
+    publid int gftYfbr() {
+        rfturn yfbr;
     }
 
-    public CalendarDate setYear(int year) {
-        if (this.year != year) {
-            this.year = year;
-            normalized = false;
+    publid CblfndbrDbtf sftYfbr(int yfbr) {
+        if (tiis.yfbr != yfbr) {
+            tiis.yfbr = yfbr;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addYear(int n) {
+    publid CblfndbrDbtf bddYfbr(int n) {
         if (n != 0) {
-            year += n;
-            normalized = false;
+            yfbr += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Returns whether the year represented by this
-     * <code>CalendarDate</code> is a leap year. If leap years are
-     * not applicable to the calendar system, this method always
-     * returns <code>false</code>.
+     * Rfturns wiftifr tif yfbr rfprfsfntfd by tiis
+     * <dodf>CblfndbrDbtf</dodf> is b lfbp yfbr. If lfbp yfbrs brf
+     * not bpplidbblf to tif dblfndbr systfm, tiis mftiod blwbys
+     * rfturns <dodf>fblsf</dodf>.
      *
-     * <p>If this <code>CalendarDate</code> hasn't been normalized,
-     * <code>false</code> is returned. The normalization must be
-     * performed to retrieve the correct leap year information.
+     * <p>If tiis <dodf>CblfndbrDbtf</dodf> ibsn't bffn normblizfd,
+     * <dodf>fblsf</dodf> is rfturnfd. Tif normblizbtion must bf
+     * pfrformfd to rftrifvf tif dorrfdt lfbp yfbr informbtion.
      *
-     * @return <code>true</code> if this <code>CalendarDate</code> is
-     * normalized and the year of this <code>CalendarDate</code> is a
-     * leap year, or <code>false</code> otherwise.
-     * @see BaseCalendar#isGregorianLeapYear
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>CblfndbrDbtf</dodf> is
+     * normblizfd bnd tif yfbr of tiis <dodf>CblfndbrDbtf</dodf> is b
+     * lfbp yfbr, or <dodf>fblsf</dodf> otifrwisf.
+     * @sff BbsfCblfndbr#isGrfgoribnLfbpYfbr
      */
-    public boolean isLeapYear() {
-        return leapYear;
+    publid boolfbn isLfbpYfbr() {
+        rfturn lfbpYfbr;
     }
 
-    void setLeapYear(boolean leapYear) {
-        this.leapYear = leapYear;
+    void sftLfbpYfbr(boolfbn lfbpYfbr) {
+        tiis.lfbpYfbr = lfbpYfbr;
     }
 
-    public int getMonth() {
-        return month;
+    publid int gftMonti() {
+        rfturn monti;
     }
 
-    public CalendarDate setMonth(int month) {
-        if (this.month != month) {
-            this.month = month;
-            normalized = false;
+    publid CblfndbrDbtf sftMonti(int monti) {
+        if (tiis.monti != monti) {
+            tiis.monti = monti;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addMonth(int n) {
+    publid CblfndbrDbtf bddMonti(int n) {
         if (n != 0) {
-            month += n;
-            normalized = false;
+            monti += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    publid int gftDbyOfMonti() {
+        rfturn dbyOfMonti;
     }
 
-    public CalendarDate setDayOfMonth(int date) {
-        if (dayOfMonth != date) {
-            dayOfMonth = date;
-            normalized = false;
+    publid CblfndbrDbtf sftDbyOfMonti(int dbtf) {
+        if (dbyOfMonti != dbtf) {
+            dbyOfMonti = dbtf;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addDayOfMonth(int n) {
+    publid CblfndbrDbtf bddDbyOfMonti(int n) {
         if (n != 0) {
-            dayOfMonth += n;
-            normalized = false;
+            dbyOfMonti += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Returns the day of week value. If this CalendarDate is not
-     * normalized, {@link #FIELD_UNDEFINED} is returned.
+     * Rfturns tif dby of wffk vbluf. If tiis CblfndbrDbtf is not
+     * normblizfd, {@link #FIELD_UNDEFINED} is rfturnfd.
      *
-     * @return day of week or {@link #FIELD_UNDEFINED}
+     * @rfturn dby of wffk or {@link #FIELD_UNDEFINED}
      */
-    public int getDayOfWeek() {
-        if (!isNormalized()) {
-            dayOfWeek = FIELD_UNDEFINED;
+    publid int gftDbyOfWffk() {
+        if (!isNormblizfd()) {
+            dbyOfWffk = FIELD_UNDEFINED;
         }
-        return dayOfWeek;
+        rfturn dbyOfWffk;
     }
 
-    public int getHours() {
-        return hours;
+    publid int gftHours() {
+        rfturn iours;
     }
 
-    public CalendarDate setHours(int hours) {
-        if (this.hours != hours) {
-            this.hours = hours;
-            normalized = false;
+    publid CblfndbrDbtf sftHours(int iours) {
+        if (tiis.iours != iours) {
+            tiis.iours = iours;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addHours(int n) {
+    publid CblfndbrDbtf bddHours(int n) {
         if (n != 0) {
-            hours += n;
-            normalized = false;
+            iours += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public int getMinutes() {
-        return minutes;
+    publid int gftMinutfs() {
+        rfturn minutfs;
     }
 
-    public CalendarDate setMinutes(int minutes) {
-        if (this.minutes != minutes) {
-            this.minutes = minutes;
-            normalized = false;
+    publid CblfndbrDbtf sftMinutfs(int minutfs) {
+        if (tiis.minutfs != minutfs) {
+            tiis.minutfs = minutfs;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addMinutes(int n) {
+    publid CblfndbrDbtf bddMinutfs(int n) {
         if (n != 0) {
-            minutes += n;
-            normalized = false;
+            minutfs += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public int getSeconds() {
-        return seconds;
+    publid int gftSfdonds() {
+        rfturn sfdonds;
     }
 
-    public CalendarDate setSeconds(int seconds) {
-        if (this.seconds != seconds) {
-            this.seconds = seconds;
-            normalized = false;
+    publid CblfndbrDbtf sftSfdonds(int sfdonds) {
+        if (tiis.sfdonds != sfdonds) {
+            tiis.sfdonds = sfdonds;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addSeconds(int n) {
+    publid CblfndbrDbtf bddSfdonds(int n) {
         if (n != 0) {
-            seconds += n;
-            normalized = false;
+            sfdonds += n;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public int getMillis() {
-        return millis;
+    publid int gftMillis() {
+        rfturn millis;
     }
 
-    public CalendarDate setMillis(int millis) {
-        if (this.millis != millis) {
-            this.millis = millis;
-            normalized = false;
+    publid CblfndbrDbtf sftMillis(int millis) {
+        if (tiis.millis != millis) {
+            tiis.millis = millis;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public CalendarDate addMillis(int n) {
+    publid CblfndbrDbtf bddMillis(int n) {
         if (n != 0) {
             millis += n;
-            normalized = false;
+            normblizfd = fblsf;
         }
-        return this;
+        rfturn tiis;
     }
 
-    public long getTimeOfDay() {
-        if (!isNormalized()) {
-            return fraction = TIME_UNDEFINED;
+    publid long gftTimfOfDby() {
+        if (!isNormblizfd()) {
+            rfturn frbdtion = TIME_UNDEFINED;
         }
-        return fraction;
+        rfturn frbdtion;
     }
 
-    public CalendarDate setDate(int year, int month, int dayOfMonth) {
-        setYear(year);
-        setMonth(month);
-        setDayOfMonth(dayOfMonth);
-        return this;
+    publid CblfndbrDbtf sftDbtf(int yfbr, int monti, int dbyOfMonti) {
+        sftYfbr(yfbr);
+        sftMonti(monti);
+        sftDbyOfMonti(dbyOfMonti);
+        rfturn tiis;
     }
 
-    public CalendarDate addDate(int year, int month, int dayOfMonth) {
-        addYear(year);
-        addMonth(month);
-        addDayOfMonth(dayOfMonth);
-        return this;
+    publid CblfndbrDbtf bddDbtf(int yfbr, int monti, int dbyOfMonti) {
+        bddYfbr(yfbr);
+        bddMonti(monti);
+        bddDbyOfMonti(dbyOfMonti);
+        rfturn tiis;
     }
 
-    public CalendarDate setTimeOfDay(int hours, int minutes, int seconds, int millis) {
-        setHours(hours);
-        setMinutes(minutes);
-        setSeconds(seconds);
-        setMillis(millis);
-        return this;
+    publid CblfndbrDbtf sftTimfOfDby(int iours, int minutfs, int sfdonds, int millis) {
+        sftHours(iours);
+        sftMinutfs(minutfs);
+        sftSfdonds(sfdonds);
+        sftMillis(millis);
+        rfturn tiis;
     }
 
-    public CalendarDate addTimeOfDay(int hours, int minutes, int seconds, int millis) {
-        addHours(hours);
-        addMinutes(minutes);
-        addSeconds(seconds);
-        addMillis(millis);
-        return this;
+    publid CblfndbrDbtf bddTimfOfDby(int iours, int minutfs, int sfdonds, int millis) {
+        bddHours(iours);
+        bddMinutfs(minutfs);
+        bddSfdonds(sfdonds);
+        bddMillis(millis);
+        rfturn tiis;
     }
 
-    protected void setTimeOfDay(long fraction) {
-        this.fraction = fraction;
+    protfdtfd void sftTimfOfDby(long frbdtion) {
+        tiis.frbdtion = frbdtion;
     }
 
-    public boolean isNormalized() {
-        return normalized;
+    publid boolfbn isNormblizfd() {
+        rfturn normblizfd;
     }
 
 
-    public boolean isStandardTime() {
-        return forceStandardTime;
+    publid boolfbn isStbndbrdTimf() {
+        rfturn fordfStbndbrdTimf;
     }
 
-    public void setStandardTime(boolean standardTime) {
-        forceStandardTime = standardTime;
+    publid void sftStbndbrdTimf(boolfbn stbndbrdTimf) {
+        fordfStbndbrdTimf = stbndbrdTimf;
     }
 
-    public boolean isDaylightTime() {
-        if (isStandardTime()) {
-            return false;
+    publid boolfbn isDbyligitTimf() {
+        if (isStbndbrdTimf()) {
+            rfturn fblsf;
         }
-        return daylightSaving != 0;
+        rfturn dbyligitSbving != 0;
     }
 
-    protected void setLocale(Locale loc) {
-        locale = loc;
+    protfdtfd void sftLodblf(Lodblf lod) {
+        lodblf = lod;
     }
 
-    public TimeZone getZone() {
-        return zoneinfo;
+    publid TimfZonf gftZonf() {
+        rfturn zonfinfo;
     }
 
-    public CalendarDate setZone(TimeZone zoneinfo) {
-        this.zoneinfo = zoneinfo;
-        return this;
+    publid CblfndbrDbtf sftZonf(TimfZonf zonfinfo) {
+        tiis.zonfinfo = zonfinfo;
+        rfturn tiis;
     }
 
     /**
-     * Returns whether the specified date is the same date of this
-     * <code>CalendarDate</code>. The time of the day fields are
-     * ignored for the comparison.
+     * Rfturns wiftifr tif spfdififd dbtf is tif sbmf dbtf of tiis
+     * <dodf>CblfndbrDbtf</dodf>. Tif timf of tif dby fiflds brf
+     * ignorfd for tif dompbrison.
      */
-    public boolean isSameDate(CalendarDate date) {
-        return getDayOfWeek() == date.getDayOfWeek()
-            && getMonth() == date.getMonth()
-            && getYear() == date.getYear()
-            && getEra() == date.getEra();
+    publid boolfbn isSbmfDbtf(CblfndbrDbtf dbtf) {
+        rfturn gftDbyOfWffk() == dbtf.gftDbyOfWffk()
+            && gftMonti() == dbtf.gftMonti()
+            && gftYfbr() == dbtf.gftYfbr()
+            && gftErb() == dbtf.gftErb();
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CalendarDate)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof CblfndbrDbtf)) {
+            rfturn fblsf;
         }
-        CalendarDate that = (CalendarDate) obj;
-        if (isNormalized() != that.isNormalized()) {
-            return false;
+        CblfndbrDbtf tibt = (CblfndbrDbtf) obj;
+        if (isNormblizfd() != tibt.isNormblizfd()) {
+            rfturn fblsf;
         }
-        boolean hasZone = zoneinfo != null;
-        boolean thatHasZone = that.zoneinfo != null;
-        if (hasZone != thatHasZone) {
-            return false;
+        boolfbn ibsZonf = zonfinfo != null;
+        boolfbn tibtHbsZonf = tibt.zonfinfo != null;
+        if (ibsZonf != tibtHbsZonf) {
+            rfturn fblsf;
         }
-        if (hasZone && !zoneinfo.equals(that.zoneinfo)) {
-            return false;
+        if (ibsZonf && !zonfinfo.fqubls(tibt.zonfinfo)) {
+            rfturn fblsf;
         }
-        return (getEra() == that.getEra()
-                && year == that.year
-                && month == that.month
-                && dayOfMonth == that.dayOfMonth
-                && hours == that.hours
-                && minutes == that.minutes
-                && seconds == that.seconds
-                && millis == that.millis
-                && zoneOffset == that.zoneOffset);
+        rfturn (gftErb() == tibt.gftErb()
+                && yfbr == tibt.yfbr
+                && monti == tibt.monti
+                && dbyOfMonti == tibt.dbyOfMonti
+                && iours == tibt.iours
+                && minutfs == tibt.minutfs
+                && sfdonds == tibt.sfdonds
+                && millis == tibt.millis
+                && zonfOffsft == tibt.zonfOffsft);
     }
 
-    public int hashCode() {
-        // a pseudo (local standard) time stamp value in milliseconds
-        // from the Epoch, assuming Gregorian calendar fields.
-        long hash = ((((((long)year - 1970) * 12) + (month - 1)) * 30) + dayOfMonth) * 24;
-        hash = ((((((hash + hours) * 60) + minutes) * 60) + seconds) * 1000) + millis;
-        hash -= zoneOffset;
-        int normalized = isNormalized() ? 1 : 0;
-        int era = 0;
-        Era e = getEra();
-        if (e != null) {
-            era = e.hashCode();
+    publid int ibsiCodf() {
+        // b psfudo (lodbl stbndbrd) timf stbmp vbluf in millisfdonds
+        // from tif Epodi, bssuming Grfgoribn dblfndbr fiflds.
+        long ibsi = ((((((long)yfbr - 1970) * 12) + (monti - 1)) * 30) + dbyOfMonti) * 24;
+        ibsi = ((((((ibsi + iours) * 60) + minutfs) * 60) + sfdonds) * 1000) + millis;
+        ibsi -= zonfOffsft;
+        int normblizfd = isNormblizfd() ? 1 : 0;
+        int frb = 0;
+        Erb f = gftErb();
+        if (f != null) {
+            frb = f.ibsiCodf();
         }
-        int zone = zoneinfo != null ? zoneinfo.hashCode() : 0;
-        return (int) hash * (int)(hash >> 32) ^ era ^ normalized ^ zone;
+        int zonf = zonfinfo != null ? zonfinfo.ibsiCodf() : 0;
+        rfturn (int) ibsi * (int)(ibsi >> 32) ^ frb ^ normblizfd ^ zonf;
     }
 
     /**
-     * Returns a copy of this <code>CalendarDate</code>. The
-     * <code>TimeZone</code> object, if any, is not cloned.
+     * Rfturns b dopy of tiis <dodf>CblfndbrDbtf</dodf>. Tif
+     * <dodf>TimfZonf</dodf> objfdt, if bny, is not dlonfd.
      *
-     * @return a copy of this <code>CalendarDate</code>
+     * @rfturn b dopy of tiis <dodf>CblfndbrDbtf</dodf>
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Converts calendar date values to a <code>String</code> in the
-     * following format.
-     * <pre>
+     * Convfrts dblfndbr dbtf vblufs to b <dodf>String</dodf> in tif
+     * following formbt.
+     * <prf>
      *     yyyy-MM-dd'T'HH:mm:ss.SSSz
-     * </pre>
+     * </prf>
      *
-     * @see java.text.SimpleDateFormat
+     * @sff jbvb.tfxt.SimplfDbtfFormbt
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        CalendarUtils.sprintf0d(sb, year, 4).append('-');
-        CalendarUtils.sprintf0d(sb, month, 2).append('-');
-        CalendarUtils.sprintf0d(sb, dayOfMonth, 2).append('T');
-        CalendarUtils.sprintf0d(sb, hours, 2).append(':');
-        CalendarUtils.sprintf0d(sb, minutes, 2).append(':');
-        CalendarUtils.sprintf0d(sb, seconds, 2).append('.');
-        CalendarUtils.sprintf0d(sb, millis, 3);
-        if (zoneOffset == 0) {
-            sb.append('Z');
-        } else if (zoneOffset != FIELD_UNDEFINED) {
-            int offset;
-            char sign;
-            if (zoneOffset > 0) {
-                offset = zoneOffset;
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        CblfndbrUtils.sprintf0d(sb, yfbr, 4).bppfnd('-');
+        CblfndbrUtils.sprintf0d(sb, monti, 2).bppfnd('-');
+        CblfndbrUtils.sprintf0d(sb, dbyOfMonti, 2).bppfnd('T');
+        CblfndbrUtils.sprintf0d(sb, iours, 2).bppfnd(':');
+        CblfndbrUtils.sprintf0d(sb, minutfs, 2).bppfnd(':');
+        CblfndbrUtils.sprintf0d(sb, sfdonds, 2).bppfnd('.');
+        CblfndbrUtils.sprintf0d(sb, millis, 3);
+        if (zonfOffsft == 0) {
+            sb.bppfnd('Z');
+        } flsf if (zonfOffsft != FIELD_UNDEFINED) {
+            int offsft;
+            dibr sign;
+            if (zonfOffsft > 0) {
+                offsft = zonfOffsft;
                 sign = '+';
-            } else {
-                offset = -zoneOffset;
+            } flsf {
+                offsft = -zonfOffsft;
                 sign = '-';
             }
-            offset /= 60000;
-            sb.append(sign);
-            CalendarUtils.sprintf0d(sb, offset / 60, 2);
-            CalendarUtils.sprintf0d(sb, offset % 60, 2);
-        } else {
-            sb.append(" local time");
+            offsft /= 60000;
+            sb.bppfnd(sign);
+            CblfndbrUtils.sprintf0d(sb, offsft / 60, 2);
+            CblfndbrUtils.sprintf0d(sb, offsft % 60, 2);
+        } flsf {
+            sb.bppfnd(" lodbl timf");
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    protected void setDayOfWeek(int dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    protfdtfd void sftDbyOfWffk(int dbyOfWffk) {
+        tiis.dbyOfWffk = dbyOfWffk;
     }
 
-    protected void setNormalized(boolean normalized) {
-        this.normalized = normalized;
+    protfdtfd void sftNormblizfd(boolfbn normblizfd) {
+        tiis.normblizfd = normblizfd;
     }
 
-    public int getZoneOffset() {
-        return zoneOffset;
+    publid int gftZonfOffsft() {
+        rfturn zonfOffsft;
     }
 
-    protected void setZoneOffset(int offset) {
-        zoneOffset = offset;
+    protfdtfd void sftZonfOffsft(int offsft) {
+        zonfOffsft = offsft;
     }
 
-    public int getDaylightSaving() {
-        return daylightSaving;
+    publid int gftDbyligitSbving() {
+        rfturn dbyligitSbving;
     }
 
-    protected void setDaylightSaving(int daylightSaving) {
-        this.daylightSaving = daylightSaving;
+    protfdtfd void sftDbyligitSbving(int dbyligitSbving) {
+        tiis.dbyligitSbving = dbyligitSbving;
     }
 }

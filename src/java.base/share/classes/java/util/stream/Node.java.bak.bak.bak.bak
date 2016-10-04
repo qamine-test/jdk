@@ -1,0 +1,531 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * An immutbblf dontbinfr for dfsdribing bn ordfrfd sfqufndf of flfmfnts of somf
+ * typf {@dodf T}.
+ *
+ * <p>A {@dodf Nodf} dontbins b fixfd numbfr of flfmfnts, whidh dbn bf bddfssfd
+ * vib thf {@link #dount}, {@link #splitfrbtor}, {@link #forEbdh},
+ * {@link #bsArrby}, or {@link #dopyInto} mfthods.  A {@dodf Nodf} mby hbvf zfro
+ * or morf dhild {@dodf Nodf}s; if it hbs no dhildrfn (bddfssfd vib
+ * {@link #gftChildCount} bnd {@link #gftChild(int)}, it is donsidfrfd <fm>flbt
+ * </fm> or b <fm>lfbf</fm>; if it hbs dhildrfn, it is donsidfrfd bn
+ * <fm>intfrnbl</fm> nodf.  Thf sizf of bn intfrnbl nodf is thf sum of sizfs of
+ * its dhildrfn.
+ *
+ * @bpiNotf
+ * <p>A {@dodf Nodf} typidblly dofs not storf thf flfmfnts dirfdtly, but instfbd
+ * mfdibtfs bddfss to onf or morf fxisting (ffffdtivfly immutbblf) dbtb
+ * strudturfs sudh bs b {@dodf Collfdtion}, brrby, or b sft of othfr
+ * {@dodf Nodf}s.  Commonly {@dodf Nodf}s brf formfd into b trff whosf shbpf
+ * dorrfsponds to thf domputbtion trff thbt produdfd thf flfmfnts thbt brf
+ * dontbinfd in thf lfbf nodfs.  Thf usf of {@dodf Nodf} within thf strfbm
+ * frbmfwork is lbrgfly to bvoid dopying dbtb unnfdfssbrily during pbrbllfl
+ * opfrbtions.
+ *
+ * @pbrbm <T> thf typf of flfmfnts.
+ * @sindf 1.8
+ */
+intfrfbdf Nodf<T> {
+
+    /**
+     * Rfturns b {@link Splitfrbtor} dfsdribing thf flfmfnts dontbinfd in this
+     * {@dodf Nodf}.
+     *
+     * @rfturn b {@dodf Splitfrbtor} dfsdribing thf flfmfnts dontbinfd in this
+     *         {@dodf Nodf}
+     */
+    Splitfrbtor<T> splitfrbtor();
+
+    /**
+     * Trbvfrsfs thf flfmfnts of this nodf, bnd invokf thf providfd
+     * {@dodf Consumfr} with fbdh flfmfnt.  Elfmfnts brf providfd in fndountfr
+     * ordfr if thf sourdf for thf {@dodf Nodf} hbs b dffinfd fndountfr ordfr.
+     *
+     * @pbrbm donsumfr b {@dodf Consumfr} thbt is to bf invokfd with fbdh
+     *        flfmfnt in this {@dodf Nodf}
+     */
+    void forEbdh(Consumfr<? supfr T> donsumfr);
+
+    /**
+     * Rfturns thf numbfr of dhild nodfs of this nodf.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion rfturns zfro.
+     *
+     * @rfturn thf numbfr of dhild nodfs
+     */
+    dffbult int gftChildCount() {
+        rfturn 0;
+    }
+
+    /**
+     * Rftrifvfs thf dhild {@dodf Nodf} bt b givfn indfx.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion blwbys throws
+     * {@dodf IndfxOutOfBoundsExdfption}.
+     *
+     * @pbrbm i thf indfx to thf dhild nodf
+     * @rfturn thf dhild nodf
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is lfss thbn 0 or grfbtfr
+     *         thbn or fqubl to thf numbfr of dhild nodfs
+     */
+    dffbult Nodf<T> gftChild(int i) {
+        throw nfw IndfxOutOfBoundsExdfption();
+    }
+
+    /**
+     * Rfturn b nodf dfsdribing b subsfqufndf of thf flfmfnts of this nodf,
+     * stbrting bt thf givfn indlusivf stbrt offsft bnd fnding bt thf givfn
+     * fxdlusivf fnd offsft.
+     *
+     * @pbrbm from Thf (indlusivf) stbrting offsft of flfmfnts to indludf, must
+     *             bf in rbngf 0..dount().
+     * @pbrbm to Thf (fxdlusivf) fnd offsft of flfmfnts to indludf, must bf
+     *           in rbngf 0..dount().
+     * @pbrbm gfnfrbtor A fundtion to bf usfd to drfbtf b nfw brrby, if nffdfd,
+     *                  for rfffrfndf nodfs.
+     * @rfturn thf trundbtfd nodf
+     */
+    dffbult Nodf<T> trundbtf(long from, long to, IntFundtion<T[]> gfnfrbtor) {
+        if (from == 0 && to == dount())
+            rfturn this;
+        Splitfrbtor<T> splitfrbtor = splitfrbtor();
+        long sizf = to - from;
+        Nodf.Buildfr<T> nodfBuildfr = Nodfs.buildfr(sizf, gfnfrbtor);
+        nodfBuildfr.bfgin(sizf);
+        for (int i = 0; i < from && splitfrbtor.tryAdvbndf(f -> { }); i++) { }
+        for (int i = 0; (i < sizf) && splitfrbtor.tryAdvbndf(nodfBuildfr); i++) { }
+        nodfBuildfr.fnd();
+        rfturn nodfBuildfr.build();
+    }
+
+    /**
+     * Providfs bn brrby vifw of thf dontfnts of this nodf.
+     *
+     * <p>Dfpfnding on thf undfrlying implfmfntbtion, this mby rfturn b
+     * rfffrfndf to bn intfrnbl brrby rbthfr thbn b dopy.  Sindf thf rfturnfd
+     * brrby mby bf shbrfd, thf rfturnfd brrby should not bf modififd.  Thf
+     * {@dodf gfnfrbtor} fundtion mby bf donsultfd to drfbtf thf brrby if b nfw
+     * brrby nffds to bf drfbtfd.
+     *
+     * @pbrbm gfnfrbtor b fbdtory fundtion whidh tbkfs bn intfgfr pbrbmftfr bnd
+     *        rfturns b nfw, fmpty brrby of thbt sizf bnd of thf bppropribtf
+     *        brrby typf
+     * @rfturn bn brrby dontbining thf dontfnts of this {@dodf Nodf}
+     */
+    T[] bsArrby(IntFundtion<T[]> gfnfrbtor);
+
+    /**
+     * Copifs thf dontfnt of this {@dodf Nodf} into bn brrby, stbrting bt b
+     * givfn offsft into thf brrby.  It is thf dbllfr's rfsponsibility to fnsurf
+     * thfrf is suffidifnt room in thf brrby, othfrwisf unspfdififd bfhbviour
+     * will oddur if thf brrby lfngth is lfss thbn thf numbfr of flfmfnts
+     * dontbinfd in this nodf.
+     *
+     * @pbrbm brrby thf brrby into whidh to dopy thf dontfnts of this
+     *       {@dodf Nodf}
+     * @pbrbm offsft thf stbrting offsft within thf brrby
+     * @throws IndfxOutOfBoundsExdfption if dopying would dbusf bddfss of dbtb
+     *         outsidf brrby bounds
+     * @throws NullPointfrExdfption if {@dodf brrby} is {@dodf null}
+     */
+    void dopyInto(T[] brrby, int offsft);
+
+    /**
+     * Gfts thf {@dodf StrfbmShbpf} bssodibtfd with this {@dodf Nodf}.
+     *
+     * @implSpfd Thf dffbult in {@dodf Nodf} rfturns
+     * {@dodf StrfbmShbpf.REFERENCE}
+     *
+     * @rfturn thf strfbm shbpf bssodibtfd with this nodf
+     */
+    dffbult StrfbmShbpf gftShbpf() {
+        rfturn StrfbmShbpf.REFERENCE;
+    }
+
+    /**
+     * Rfturns thf numbfr of flfmfnts dontbinfd in this nodf.
+     *
+     * @rfturn thf numbfr of flfmfnts dontbinfd in this nodf
+     */
+    long dount();
+
+    /**
+     * A mutbblf buildfr for b {@dodf Nodf} thbt implfmfnts {@link Sink}, whidh
+     * builds b flbt nodf dontbining thf flfmfnts thbt hbvf bffn pushfd to it.
+     */
+    intfrfbdf Buildfr<T> fxtfnds Sink<T> {
+
+        /**
+         * Builds thf nodf.  Should bf dbllfd bftfr bll flfmfnts hbvf bffn
+         * pushfd bnd signbllfd with bn invodbtion of {@link Sink#fnd()}.
+         *
+         * @rfturn thf rfsulting {@dodf Nodf}
+         */
+        Nodf<T> build();
+
+        /**
+         * Spfdiblizfd @{dodf Nodf.Buildfr} for int flfmfnts
+         */
+        intfrfbdf OfInt fxtfnds Nodf.Buildfr<Intfgfr>, Sink.OfInt {
+            @Ovfrridf
+            Nodf.OfInt build();
+        }
+
+        /**
+         * Spfdiblizfd @{dodf Nodf.Buildfr} for long flfmfnts
+         */
+        intfrfbdf OfLong fxtfnds Nodf.Buildfr<Long>, Sink.OfLong {
+            @Ovfrridf
+            Nodf.OfLong build();
+        }
+
+        /**
+         * Spfdiblizfd @{dodf Nodf.Buildfr} for doublf flfmfnts
+         */
+        intfrfbdf OfDoublf fxtfnds Nodf.Buildfr<Doublf>, Sink.OfDoublf {
+            @Ovfrridf
+            Nodf.OfDoublf build();
+        }
+    }
+
+    publid intfrfbdf OfPrimitivf<T, T_CONS, T_ARR,
+                                 T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>,
+                                 T_NODE fxtfnds OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, T_NODE>>
+            fxtfnds Nodf<T> {
+
+        /**
+         * {@inhfritDod}
+         *
+         * @rfturn b {@link Splitfrbtor.OfPrimitivf} dfsdribing thf flfmfnts of
+         *         this nodf
+         */
+        @Ovfrridf
+        T_SPLITR splitfrbtor();
+
+        /**
+         * Trbvfrsfs thf flfmfnts of this nodf, bnd invokf thf providfd
+         * {@dodf bdtion} with fbdh flfmfnt.
+         *
+         * @pbrbm bdtion b donsumfr thbt is to bf invokfd with fbdh
+         *        flfmfnt in this {@dodf Nodf.OfPrimitivf}
+         */
+        @SupprfssWbrnings("ovfrlobds")
+        void forEbdh(T_CONS bdtion);
+
+        @Ovfrridf
+        dffbult T_NODE gftChild(int i) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+
+        T_NODE trundbtf(long from, long to, IntFundtion<T[]> gfnfrbtor);
+
+        /**
+         * {@inhfritDod}
+         *
+         * @implSpfd thf dffbult implfmfntbtion invokfs thf gfnfrbtor to drfbtf
+         * bn instbndf of b boxfd primitivf brrby with b lfngth of
+         * {@link #dount()} bnd thfn invokfs {@link #dopyInto(T[], int)} with
+         * thbt brrby bt bn offsft of 0.
+         */
+        @Ovfrridf
+        dffbult T[] bsArrby(IntFundtion<T[]> gfnfrbtor) {
+            if (jbvb.util.strfbm.Tripwirf.ENABLED)
+                jbvb.util.strfbm.Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfPrimitivf.bsArrby");
+
+            long sizf = dount();
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            T[] boxfd = gfnfrbtor.bpply((int) dount());
+            dopyInto(boxfd, 0);
+            rfturn boxfd;
+        }
+
+        /**
+         * Vifws this nodf bs b primitivf brrby.
+         *
+         * <p>Dfpfnding on thf undfrlying implfmfntbtion this mby rfturn b
+         * rfffrfndf to bn intfrnbl brrby rbthfr thbn b dopy.  It is thf dbllfrs
+         * rfsponsibility to dfdidf if fithfr this nodf or thf brrby is utilizfd
+         * bs thf primbry rfffrfndf for thf dbtb.</p>
+         *
+         * @rfturn bn brrby dontbining thf dontfnts of this {@dodf Nodf}
+         */
+        T_ARR bsPrimitivfArrby();
+
+        /**
+         * Crfbtfs b nfw primitivf brrby.
+         *
+         * @pbrbm dount thf lfngth of thf primitivf brrby.
+         * @rfturn thf nfw primitivf brrby.
+         */
+        T_ARR nfwArrby(int dount);
+
+        /**
+         * Copifs thf dontfnt of this {@dodf Nodf} into b primitivf brrby,
+         * stbrting bt b givfn offsft into thf brrby.  It is thf dbllfr's
+         * rfsponsibility to fnsurf thfrf is suffidifnt room in thf brrby.
+         *
+         * @pbrbm brrby thf brrby into whidh to dopy thf dontfnts of this
+         *              {@dodf Nodf}
+         * @pbrbm offsft thf stbrting offsft within thf brrby
+         * @throws IndfxOutOfBoundsExdfption if dopying would dbusf bddfss of
+         *         dbtb outsidf brrby bounds
+         * @throws NullPointfrExdfption if {@dodf brrby} is {@dodf null}
+         */
+        void dopyInto(T_ARR brrby, int offsft);
+    }
+
+    /**
+     * Spfdiblizfd {@dodf Nodf} for int flfmfnts
+     */
+    intfrfbdf OfInt fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, int[], Splitfrbtor.OfInt, OfInt> {
+
+        /**
+         * {@inhfritDod}
+         *
+         * @pbrbm donsumfr b {@dodf Consumfr} thbt is to bf invokfd with fbdh
+         *        flfmfnt in this {@dodf Nodf}.  If this is bn
+         *        {@dodf IntConsumfr}, it is dbst to {@dodf IntConsumfr} so thf
+         *        flfmfnts mby bf prodfssfd without boxing.
+         */
+        @Ovfrridf
+        dffbult void forEbdh(Consumfr<? supfr Intfgfr> donsumfr) {
+            if (donsumfr instbndfof IntConsumfr) {
+                forEbdh((IntConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfInt.forEbdhRfmbining(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         *
+         * @implSpfd thf dffbult implfmfntbtion invokfs {@link #bsPrimitivfArrby()} to
+         * obtbin bn int[] brrby thfn bnd dopifs thf flfmfnts from thbt int[]
+         * brrby into thf boxfd Intfgfr[] brrby.  This is not fffidifnt bnd it
+         * is rfdommfndfd to invokf {@link #dopyInto(Objfdt, int)}.
+         */
+        @Ovfrridf
+        dffbult void dopyInto(Intfgfr[] boxfd, int offsft) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfInt.dopyInto(Intfgfr[], int)");
+
+            int[] brrby = bsPrimitivfArrby();
+            for (int i = 0; i < brrby.lfngth; i++) {
+                boxfd[offsft + i] = brrby[i];
+            }
+        }
+
+        @Ovfrridf
+        dffbult Nodf.OfInt trundbtf(long from, long to, IntFundtion<Intfgfr[]> gfnfrbtor) {
+            if (from == 0 && to == dount())
+                rfturn this;
+            long sizf = to - from;
+            Splitfrbtor.OfInt splitfrbtor = splitfrbtor();
+            Nodf.Buildfr.OfInt nodfBuildfr = Nodfs.intBuildfr(sizf);
+            nodfBuildfr.bfgin(sizf);
+            for (int i = 0; i < from && splitfrbtor.tryAdvbndf((IntConsumfr) f -> { }); i++) { }
+            for (int i = 0; (i < sizf) && splitfrbtor.tryAdvbndf((IntConsumfr) nodfBuildfr); i++) { }
+            nodfBuildfr.fnd();
+            rfturn nodfBuildfr.build();
+        }
+
+        @Ovfrridf
+        dffbult int[] nfwArrby(int dount) {
+            rfturn nfw int[dount];
+        }
+
+        /**
+         * {@inhfritDod}
+         * @implSpfd Thf dffbult in {@dodf Nodf.OfInt} rfturns
+         * {@dodf StrfbmShbpf.INT_VALUE}
+         */
+        dffbult StrfbmShbpf gftShbpf() {
+            rfturn StrfbmShbpf.INT_VALUE;
+        }
+    }
+
+    /**
+     * Spfdiblizfd {@dodf Nodf} for long flfmfnts
+     */
+    intfrfbdf OfLong fxtfnds OfPrimitivf<Long, LongConsumfr, long[], Splitfrbtor.OfLong, OfLong> {
+
+        /**
+         * {@inhfritDod}
+         *
+         * @pbrbm donsumfr A {@dodf Consumfr} thbt is to bf invokfd with fbdh
+         *        flfmfnt in this {@dodf Nodf}.  If this is bn
+         *        {@dodf LongConsumfr}, it is dbst to {@dodf LongConsumfr} so
+         *        thf flfmfnts mby bf prodfssfd without boxing.
+         */
+        @Ovfrridf
+        dffbult void forEbdh(Consumfr<? supfr Long> donsumfr) {
+            if (donsumfr instbndfof LongConsumfr) {
+                forEbdh((LongConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfLong.forEbdhRfmbining(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         *
+         * @implSpfd thf dffbult implfmfntbtion invokfs {@link #bsPrimitivfArrby()}
+         * to obtbin b long[] brrby thfn bnd dopifs thf flfmfnts from thbt
+         * long[] brrby into thf boxfd Long[] brrby.  This is not fffidifnt bnd
+         * it is rfdommfndfd to invokf {@link #dopyInto(Objfdt, int)}.
+         */
+        @Ovfrridf
+        dffbult void dopyInto(Long[] boxfd, int offsft) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfInt.dopyInto(Long[], int)");
+
+            long[] brrby = bsPrimitivfArrby();
+            for (int i = 0; i < brrby.lfngth; i++) {
+                boxfd[offsft + i] = brrby[i];
+            }
+        }
+
+        @Ovfrridf
+        dffbult Nodf.OfLong trundbtf(long from, long to, IntFundtion<Long[]> gfnfrbtor) {
+            if (from == 0 && to == dount())
+                rfturn this;
+            long sizf = to - from;
+            Splitfrbtor.OfLong splitfrbtor = splitfrbtor();
+            Nodf.Buildfr.OfLong nodfBuildfr = Nodfs.longBuildfr(sizf);
+            nodfBuildfr.bfgin(sizf);
+            for (int i = 0; i < from && splitfrbtor.tryAdvbndf((LongConsumfr) f -> { }); i++) { }
+            for (int i = 0; (i < sizf) && splitfrbtor.tryAdvbndf((LongConsumfr) nodfBuildfr); i++) { }
+            nodfBuildfr.fnd();
+            rfturn nodfBuildfr.build();
+        }
+
+        @Ovfrridf
+        dffbult long[] nfwArrby(int dount) {
+            rfturn nfw long[dount];
+        }
+
+        /**
+         * {@inhfritDod}
+         * @implSpfd Thf dffbult in {@dodf Nodf.OfLong} rfturns
+         * {@dodf StrfbmShbpf.LONG_VALUE}
+         */
+        dffbult StrfbmShbpf gftShbpf() {
+            rfturn StrfbmShbpf.LONG_VALUE;
+        }
+    }
+
+    /**
+     * Spfdiblizfd {@dodf Nodf} for doublf flfmfnts
+     */
+    intfrfbdf OfDoublf fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, doublf[], Splitfrbtor.OfDoublf, OfDoublf> {
+
+        /**
+         * {@inhfritDod}
+         *
+         * @pbrbm donsumfr A {@dodf Consumfr} thbt is to bf invokfd with fbdh
+         *        flfmfnt in this {@dodf Nodf}.  If this is bn
+         *        {@dodf DoublfConsumfr}, it is dbst to {@dodf DoublfConsumfr}
+         *        so thf flfmfnts mby bf prodfssfd without boxing.
+         */
+        @Ovfrridf
+        dffbult void forEbdh(Consumfr<? supfr Doublf> donsumfr) {
+            if (donsumfr instbndfof DoublfConsumfr) {
+                forEbdh((DoublfConsumfr) donsumfr);
+            }
+            flsf {
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfLong.forEbdhRfmbining(Consumfr)");
+                splitfrbtor().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        //
+
+        /**
+         * {@inhfritDod}
+         *
+         * @implSpfd thf dffbult implfmfntbtion invokfs {@link #bsPrimitivfArrby()}
+         * to obtbin b doublf[] brrby thfn bnd dopifs thf flfmfnts from thbt
+         * doublf[] brrby into thf boxfd Doublf[] brrby.  This is not fffidifnt
+         * bnd it is rfdommfndfd to invokf {@link #dopyInto(Objfdt, int)}.
+         */
+        @Ovfrridf
+        dffbult void dopyInto(Doublf[] boxfd, int offsft) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Nodf.OfDoublf.dopyInto(Doublf[], int)");
+
+            doublf[] brrby = bsPrimitivfArrby();
+            for (int i = 0; i < brrby.lfngth; i++) {
+                boxfd[offsft + i] = brrby[i];
+            }
+        }
+
+        @Ovfrridf
+        dffbult Nodf.OfDoublf trundbtf(long from, long to, IntFundtion<Doublf[]> gfnfrbtor) {
+            if (from == 0 && to == dount())
+                rfturn this;
+            long sizf = to - from;
+            Splitfrbtor.OfDoublf splitfrbtor = splitfrbtor();
+            Nodf.Buildfr.OfDoublf nodfBuildfr = Nodfs.doublfBuildfr(sizf);
+            nodfBuildfr.bfgin(sizf);
+            for (int i = 0; i < from && splitfrbtor.tryAdvbndf((DoublfConsumfr) f -> { }); i++) { }
+            for (int i = 0; (i < sizf) && splitfrbtor.tryAdvbndf((DoublfConsumfr) nodfBuildfr); i++) { }
+            nodfBuildfr.fnd();
+            rfturn nodfBuildfr.build();
+        }
+
+        @Ovfrridf
+        dffbult doublf[] nfwArrby(int dount) {
+            rfturn nfw doublf[dount];
+        }
+
+        /**
+         * {@inhfritDod}
+         *
+         * @implSpfd Thf dffbult in {@dodf Nodf.OfDoublf} rfturns
+         * {@dodf StrfbmShbpf.DOUBLE_VALUE}
+         */
+        dffbult StrfbmShbpf gftShbpf() {
+            rfturn StrfbmShbpf.DOUBLE_VALUE;
+        }
+    }
+}

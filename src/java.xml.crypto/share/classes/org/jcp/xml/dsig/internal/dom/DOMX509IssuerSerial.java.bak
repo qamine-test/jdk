@@ -1,139 +1,139 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMX509IssuerSerial.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMX509IssufrSfribl.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.X509IssuerSerial;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.kfyinfo.X509IssufrSfribl;
 
-import java.math.BigInteger;
-import javax.security.auth.x500.X500Principal;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import jbvb.mbti.BigIntfgfr;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * DOM-based implementation of X509IssuerSerial.
+ * DOM-bbsfd implfmfntbtion of X509IssufrSfribl.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMX509IssuerSerial extends DOMStructure
-    implements X509IssuerSerial {
+publid finbl dlbss DOMX509IssufrSfribl fxtfnds DOMStrudturf
+    implfmfnts X509IssufrSfribl {
 
-    private final String issuerName;
-    private final BigInteger serialNumber;
-
-    /**
-     * Creates a <code>DOMX509IssuerSerial</code> containing the specified
-     * issuer distinguished name/serial number pair.
-     *
-     * @param issuerName the X.509 issuer distinguished name in RFC 2253
-     *    String format
-     * @param serialNumber the serial number
-     * @throws IllegalArgumentException if the format of <code>issuerName</code>
-     *    is not RFC 2253 compliant
-     * @throws NullPointerException if <code>issuerName</code> or
-     *    <code>serialNumber</code> is <code>null</code>
-     */
-    public DOMX509IssuerSerial(String issuerName, BigInteger serialNumber) {
-        if (issuerName == null) {
-            throw new NullPointerException("issuerName cannot be null");
-        }
-        if (serialNumber == null) {
-            throw new NullPointerException("serialNumber cannot be null");
-        }
-        // check that issuer distinguished name conforms to RFC 2253
-        new X500Principal(issuerName);
-        this.issuerName = issuerName;
-        this.serialNumber = serialNumber;
-    }
+    privbtf finbl String issufrNbmf;
+    privbtf finbl BigIntfgfr sfriblNumbfr;
 
     /**
-     * Creates a <code>DOMX509IssuerSerial</code> from an element.
+     * Crfbtfs b <dodf>DOMX509IssufrSfribl</dodf> dontbining tif spfdififd
+     * issufr distinguisifd nbmf/sfribl numbfr pbir.
      *
-     * @param isElem an X509IssuerSerial element
+     * @pbrbm issufrNbmf tif X.509 issufr distinguisifd nbmf in RFC 2253
+     *    String formbt
+     * @pbrbm sfriblNumbfr tif sfribl numbfr
+     * @tirows IllfgblArgumfntExdfption if tif formbt of <dodf>issufrNbmf</dodf>
+     *    is not RFC 2253 domplibnt
+     * @tirows NullPointfrExdfption if <dodf>issufrNbmf</dodf> or
+     *    <dodf>sfriblNumbfr</dodf> is <dodf>null</dodf>
      */
-    public DOMX509IssuerSerial(Element isElem) throws MarshalException {
-        Element iNElem = DOMUtils.getFirstChildElement(isElem,
-                                                       "X509IssuerName");
-        Element sNElem = DOMUtils.getNextSiblingElement(iNElem,
-                                                        "X509SerialNumber");
-        issuerName = iNElem.getFirstChild().getNodeValue();
-        serialNumber = new BigInteger(sNElem.getFirstChild().getNodeValue());
+    publid DOMX509IssufrSfribl(String issufrNbmf, BigIntfgfr sfriblNumbfr) {
+        if (issufrNbmf == null) {
+            tirow nfw NullPointfrExdfption("issufrNbmf dbnnot bf null");
+        }
+        if (sfriblNumbfr == null) {
+            tirow nfw NullPointfrExdfption("sfriblNumbfr dbnnot bf null");
+        }
+        // difdk tibt issufr distinguisifd nbmf donforms to RFC 2253
+        nfw X500Prindipbl(issufrNbmf);
+        tiis.issufrNbmf = issufrNbmf;
+        tiis.sfriblNumbfr = sfriblNumbfr;
     }
 
-    public String getIssuerName() {
-        return issuerName;
+    /**
+     * Crfbtfs b <dodf>DOMX509IssufrSfribl</dodf> from bn flfmfnt.
+     *
+     * @pbrbm isElfm bn X509IssufrSfribl flfmfnt
+     */
+    publid DOMX509IssufrSfribl(Elfmfnt isElfm) tirows MbrsiblExdfption {
+        Elfmfnt iNElfm = DOMUtils.gftFirstCiildElfmfnt(isElfm,
+                                                       "X509IssufrNbmf");
+        Elfmfnt sNElfm = DOMUtils.gftNfxtSiblingElfmfnt(iNElfm,
+                                                        "X509SfriblNumbfr");
+        issufrNbmf = iNElfm.gftFirstCiild().gftNodfVbluf();
+        sfriblNumbfr = nfw BigIntfgfr(sNElfm.gftFirstCiild().gftNodfVbluf());
     }
 
-    public BigInteger getSerialNumber() {
-        return serialNumber;
+    publid String gftIssufrNbmf() {
+        rfturn issufrNbmf;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn sfriblNumbfr;
+    }
+
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
 
-        Element isElem = DOMUtils.createElement(ownerDoc, "X509IssuerSerial",
-                                                XMLSignature.XMLNS, dsPrefix);
-        Element inElem = DOMUtils.createElement(ownerDoc, "X509IssuerName",
-                                                XMLSignature.XMLNS, dsPrefix);
-        Element snElem = DOMUtils.createElement(ownerDoc, "X509SerialNumber",
-                                                XMLSignature.XMLNS, dsPrefix);
-        inElem.appendChild(ownerDoc.createTextNode(issuerName));
-        snElem.appendChild(ownerDoc.createTextNode(serialNumber.toString()));
-        isElem.appendChild(inElem);
-        isElem.appendChild(snElem);
-        parent.appendChild(isElem);
+        Elfmfnt isElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509IssufrSfribl",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        Elfmfnt inElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509IssufrNbmf",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        Elfmfnt snElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509SfriblNumbfr",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        inElfm.bppfndCiild(ownfrDod.drfbtfTfxtNodf(issufrNbmf));
+        snElfm.bppfndCiild(ownfrDod.drfbtfTfxtNodf(sfriblNumbfr.toString()));
+        isElfm.bppfndCiild(inElfm);
+        isElfm.bppfndCiild(snElfm);
+        pbrfnt.bppfndCiild(isElfm);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof X509IssuerSerial)) {
-            return false;
+        if (!(obj instbndfof X509IssufrSfribl)) {
+            rfturn fblsf;
         }
-        X509IssuerSerial ois = (X509IssuerSerial)obj;
-        return (issuerName.equals(ois.getIssuerName()) &&
-                serialNumber.equals(ois.getSerialNumber()));
+        X509IssufrSfribl ois = (X509IssufrSfribl)obj;
+        rfturn (issufrNbmf.fqubls(ois.gftIssufrNbmf()) &&
+                sfriblNumbfr.fqubls(ois.gftSfriblNumbfr()));
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + issuerName.hashCode();
-        result = 31 * result + serialNumber.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + issufrNbmf.ibsiCodf();
+        rfsult = 31 * rfsult + sfriblNumbfr.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 }

@@ -1,548 +1,548 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
-import java.io.ObjectStreamException;
+import jbvb.io.ObjfdtStrfbmExdfption;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * A class to encapsulate symbolic colors representing the color of
- * native GUI objects on a system.  For systems which support the dynamic
- * update of the system colors (when the user changes the colors)
- * the actual RGB values of these symbolic colors will also change
- * dynamically.  In order to compare the "current" RGB value of a
- * <code>SystemColor</code> object with a non-symbolic Color object,
- * <code>getRGB</code> should be used rather than <code>equals</code>.
+ * A dlbss to fndbpsulbtf symbolid dolors rfprfsfnting tif dolor of
+ * nbtivf GUI objfdts on b systfm.  For systfms wiidi support tif dynbmid
+ * updbtf of tif systfm dolors (wifn tif usfr dibngfs tif dolors)
+ * tif bdtubl RGB vblufs of tifsf symbolid dolors will blso dibngf
+ * dynbmidblly.  In ordfr to dompbrf tif "durrfnt" RGB vbluf of b
+ * <dodf>SystfmColor</dodf> objfdt witi b non-symbolid Color objfdt,
+ * <dodf>gftRGB</dodf> siould bf usfd rbtifr tibn <dodf>fqubls</dodf>.
  * <p>
- * Note that the way in which these system colors are applied to GUI objects
- * may vary slightly from platform to platform since GUI objects may be
- * rendered differently on each platform.
+ * Notf tibt tif wby in wiidi tifsf systfm dolors brf bpplifd to GUI objfdts
+ * mby vbry sligitly from plbtform to plbtform sindf GUI objfdts mby bf
+ * rfndfrfd difffrfntly on fbdi plbtform.
  * <p>
- * System color values may also be available through the <code>getDesktopProperty</code>
- * method on <code>java.awt.Toolkit</code>.
+ * Systfm dolor vblufs mby blso bf bvbilbblf tirougi tif <dodf>gftDfsktopPropfrty</dodf>
+ * mftiod on <dodf>jbvb.bwt.Toolkit</dodf>.
  *
- * @see Toolkit#getDesktopProperty
+ * @sff Toolkit#gftDfsktopPropfrty
  *
- * @author      Carl Quinn
- * @author      Amy Fowler
+ * @butior      Cbrl Quinn
+ * @butior      Amy Fowlfr
  */
-public final class SystemColor extends Color implements java.io.Serializable {
+publid finbl dlbss SystfmColor fxtfnds Color implfmfnts jbvb.io.Sfriblizbblf {
 
    /**
-     * The array index for the
-     * {@link #desktop} system color.
-     * @see SystemColor#desktop
+     * Tif brrby indfx for tif
+     * {@link #dfsktop} systfm dolor.
+     * @sff SystfmColor#dfsktop
      */
-    @Native public final static int DESKTOP = 0;
+    @Nbtivf publid finbl stbtid int DESKTOP = 0;
 
     /**
-     * The array index for the
-     * {@link #activeCaption} system color.
-     * @see SystemColor#activeCaption
+     * Tif brrby indfx for tif
+     * {@link #bdtivfCbption} systfm dolor.
+     * @sff SystfmColor#bdtivfCbption
      */
-    @Native public final static int ACTIVE_CAPTION = 1;
+    @Nbtivf publid finbl stbtid int ACTIVE_CAPTION = 1;
 
     /**
-     * The array index for the
-     * {@link #activeCaptionText} system color.
-     * @see SystemColor#activeCaptionText
+     * Tif brrby indfx for tif
+     * {@link #bdtivfCbptionTfxt} systfm dolor.
+     * @sff SystfmColor#bdtivfCbptionTfxt
      */
-    @Native public final static int ACTIVE_CAPTION_TEXT = 2;
+    @Nbtivf publid finbl stbtid int ACTIVE_CAPTION_TEXT = 2;
 
     /**
-     * The array index for the
-     * {@link #activeCaptionBorder} system color.
-     * @see SystemColor#activeCaptionBorder
+     * Tif brrby indfx for tif
+     * {@link #bdtivfCbptionBordfr} systfm dolor.
+     * @sff SystfmColor#bdtivfCbptionBordfr
      */
-    @Native public final static int ACTIVE_CAPTION_BORDER = 3;
+    @Nbtivf publid finbl stbtid int ACTIVE_CAPTION_BORDER = 3;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaption} system color.
-     * @see SystemColor#inactiveCaption
+     * Tif brrby indfx for tif
+     * {@link #inbdtivfCbption} systfm dolor.
+     * @sff SystfmColor#inbdtivfCbption
      */
-    @Native public final static int INACTIVE_CAPTION = 4;
+    @Nbtivf publid finbl stbtid int INACTIVE_CAPTION = 4;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaptionText} system color.
-     * @see SystemColor#inactiveCaptionText
+     * Tif brrby indfx for tif
+     * {@link #inbdtivfCbptionTfxt} systfm dolor.
+     * @sff SystfmColor#inbdtivfCbptionTfxt
      */
-    @Native public final static int INACTIVE_CAPTION_TEXT = 5;
+    @Nbtivf publid finbl stbtid int INACTIVE_CAPTION_TEXT = 5;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaptionBorder} system color.
-     * @see SystemColor#inactiveCaptionBorder
+     * Tif brrby indfx for tif
+     * {@link #inbdtivfCbptionBordfr} systfm dolor.
+     * @sff SystfmColor#inbdtivfCbptionBordfr
      */
-    @Native public final static int INACTIVE_CAPTION_BORDER = 6;
+    @Nbtivf publid finbl stbtid int INACTIVE_CAPTION_BORDER = 6;
 
     /**
-     * The array index for the
-     * {@link #window} system color.
-     * @see SystemColor#window
+     * Tif brrby indfx for tif
+     * {@link #window} systfm dolor.
+     * @sff SystfmColor#window
      */
-    @Native public final static int WINDOW = 7;
+    @Nbtivf publid finbl stbtid int WINDOW = 7;
 
     /**
-     * The array index for the
-     * {@link #windowBorder} system color.
-     * @see SystemColor#windowBorder
+     * Tif brrby indfx for tif
+     * {@link #windowBordfr} systfm dolor.
+     * @sff SystfmColor#windowBordfr
      */
-    @Native public final static int WINDOW_BORDER = 8;
+    @Nbtivf publid finbl stbtid int WINDOW_BORDER = 8;
 
     /**
-     * The array index for the
-     * {@link #windowText} system color.
-     * @see SystemColor#windowText
+     * Tif brrby indfx for tif
+     * {@link #windowTfxt} systfm dolor.
+     * @sff SystfmColor#windowTfxt
      */
-    @Native public final static int WINDOW_TEXT = 9;
+    @Nbtivf publid finbl stbtid int WINDOW_TEXT = 9;
 
     /**
-     * The array index for the
-     * {@link #menu} system color.
-     * @see SystemColor#menu
+     * Tif brrby indfx for tif
+     * {@link #mfnu} systfm dolor.
+     * @sff SystfmColor#mfnu
      */
-    @Native public final static int MENU = 10;
+    @Nbtivf publid finbl stbtid int MENU = 10;
 
     /**
-     * The array index for the
-     * {@link #menuText} system color.
-     * @see SystemColor#menuText
+     * Tif brrby indfx for tif
+     * {@link #mfnuTfxt} systfm dolor.
+     * @sff SystfmColor#mfnuTfxt
      */
-    @Native public final static int MENU_TEXT = 11;
+    @Nbtivf publid finbl stbtid int MENU_TEXT = 11;
 
     /**
-     * The array index for the
-     * {@link #text} system color.
-     * @see SystemColor#text
+     * Tif brrby indfx for tif
+     * {@link #tfxt} systfm dolor.
+     * @sff SystfmColor#tfxt
      */
-    @Native public final static int TEXT = 12;
+    @Nbtivf publid finbl stbtid int TEXT = 12;
 
     /**
-     * The array index for the
-     * {@link #textText} system color.
-     * @see SystemColor#textText
+     * Tif brrby indfx for tif
+     * {@link #tfxtTfxt} systfm dolor.
+     * @sff SystfmColor#tfxtTfxt
      */
-    @Native public final static int TEXT_TEXT = 13;
+    @Nbtivf publid finbl stbtid int TEXT_TEXT = 13;
 
     /**
-     * The array index for the
-     * {@link #textHighlight} system color.
-     * @see SystemColor#textHighlight
+     * Tif brrby indfx for tif
+     * {@link #tfxtHigiligit} systfm dolor.
+     * @sff SystfmColor#tfxtHigiligit
      */
-    @Native public final static int TEXT_HIGHLIGHT = 14;
+    @Nbtivf publid finbl stbtid int TEXT_HIGHLIGHT = 14;
 
     /**
-     * The array index for the
-     * {@link #textHighlightText} system color.
-     * @see SystemColor#textHighlightText
+     * Tif brrby indfx for tif
+     * {@link #tfxtHigiligitTfxt} systfm dolor.
+     * @sff SystfmColor#tfxtHigiligitTfxt
      */
-    @Native public final static int TEXT_HIGHLIGHT_TEXT = 15;
+    @Nbtivf publid finbl stbtid int TEXT_HIGHLIGHT_TEXT = 15;
 
     /**
-     * The array index for the
-     * {@link #textInactiveText} system color.
-     * @see SystemColor#textInactiveText
+     * Tif brrby indfx for tif
+     * {@link #tfxtInbdtivfTfxt} systfm dolor.
+     * @sff SystfmColor#tfxtInbdtivfTfxt
      */
-    @Native public final static int TEXT_INACTIVE_TEXT = 16;
+    @Nbtivf publid finbl stbtid int TEXT_INACTIVE_TEXT = 16;
 
     /**
-     * The array index for the
-     * {@link #control} system color.
-     * @see SystemColor#control
+     * Tif brrby indfx for tif
+     * {@link #dontrol} systfm dolor.
+     * @sff SystfmColor#dontrol
      */
-    @Native public final static int CONTROL = 17;
+    @Nbtivf publid finbl stbtid int CONTROL = 17;
 
     /**
-     * The array index for the
-     * {@link #controlText} system color.
-     * @see SystemColor#controlText
+     * Tif brrby indfx for tif
+     * {@link #dontrolTfxt} systfm dolor.
+     * @sff SystfmColor#dontrolTfxt
      */
-    @Native public final static int CONTROL_TEXT = 18;
+    @Nbtivf publid finbl stbtid int CONTROL_TEXT = 18;
 
     /**
-     * The array index for the
-     * {@link #controlHighlight} system color.
-     * @see SystemColor#controlHighlight
+     * Tif brrby indfx for tif
+     * {@link #dontrolHigiligit} systfm dolor.
+     * @sff SystfmColor#dontrolHigiligit
      */
-    @Native public final static int CONTROL_HIGHLIGHT = 19;
+    @Nbtivf publid finbl stbtid int CONTROL_HIGHLIGHT = 19;
 
     /**
-     * The array index for the
-     * {@link #controlLtHighlight} system color.
-     * @see SystemColor#controlLtHighlight
+     * Tif brrby indfx for tif
+     * {@link #dontrolLtHigiligit} systfm dolor.
+     * @sff SystfmColor#dontrolLtHigiligit
      */
-    @Native public final static int CONTROL_LT_HIGHLIGHT = 20;
+    @Nbtivf publid finbl stbtid int CONTROL_LT_HIGHLIGHT = 20;
 
     /**
-     * The array index for the
-     * {@link #controlShadow} system color.
-     * @see SystemColor#controlShadow
+     * Tif brrby indfx for tif
+     * {@link #dontrolSibdow} systfm dolor.
+     * @sff SystfmColor#dontrolSibdow
      */
-    @Native public final static int CONTROL_SHADOW = 21;
+    @Nbtivf publid finbl stbtid int CONTROL_SHADOW = 21;
 
     /**
-     * The array index for the
-     * {@link #controlDkShadow} system color.
-     * @see SystemColor#controlDkShadow
+     * Tif brrby indfx for tif
+     * {@link #dontrolDkSibdow} systfm dolor.
+     * @sff SystfmColor#dontrolDkSibdow
      */
-    @Native public final static int CONTROL_DK_SHADOW = 22;
+    @Nbtivf publid finbl stbtid int CONTROL_DK_SHADOW = 22;
 
     /**
-     * The array index for the
-     * {@link #scrollbar} system color.
-     * @see SystemColor#scrollbar
+     * Tif brrby indfx for tif
+     * {@link #sdrollbbr} systfm dolor.
+     * @sff SystfmColor#sdrollbbr
      */
-    @Native public final static int SCROLLBAR = 23;
+    @Nbtivf publid finbl stbtid int SCROLLBAR = 23;
 
     /**
-     * The array index for the
-     * {@link #info} system color.
-     * @see SystemColor#info
+     * Tif brrby indfx for tif
+     * {@link #info} systfm dolor.
+     * @sff SystfmColor#info
      */
-    @Native public final static int INFO = 24;
+    @Nbtivf publid finbl stbtid int INFO = 24;
 
     /**
-     * The array index for the
-     * {@link #infoText} system color.
-     * @see SystemColor#infoText
+     * Tif brrby indfx for tif
+     * {@link #infoTfxt} systfm dolor.
+     * @sff SystfmColor#infoTfxt
      */
-    @Native public final static int INFO_TEXT = 25;
+    @Nbtivf publid finbl stbtid int INFO_TEXT = 25;
 
     /**
-     * The number of system colors in the array.
+     * Tif numbfr of systfm dolors in tif brrby.
      */
-    @Native public final static int NUM_COLORS = 26;
+    @Nbtivf publid finbl stbtid int NUM_COLORS = 26;
 
     /******************************************************************************************/
 
     /*
-     * System colors with default initial values, overwritten by toolkit if
-     * system values differ and are available.
-     * Should put array initialization above first field that is using
-     * SystemColor constructor to initialize.
+     * Systfm dolors witi dffbult initibl vblufs, ovfrwrittfn by toolkit if
+     * systfm vblufs difffr bnd brf bvbilbblf.
+     * Siould put brrby initiblizbtion bbovf first fifld tibt is using
+     * SystfmColor donstrudtor to initiblizf.
      */
-    private static int[] systemColors = {
-        0xFF005C5C,  // desktop = new Color(0,92,92);
-        0xFF000080,  // activeCaption = new Color(0,0,128);
-        0xFFFFFFFF,  // activeCaptionText = Color.white;
-        0xFFC0C0C0,  // activeCaptionBorder = Color.lightGray;
-        0xFF808080,  // inactiveCaption = Color.gray;
-        0xFFC0C0C0,  // inactiveCaptionText = Color.lightGray;
-        0xFFC0C0C0,  // inactiveCaptionBorder = Color.lightGray;
-        0xFFFFFFFF,  // window = Color.white;
-        0xFF000000,  // windowBorder = Color.black;
-        0xFF000000,  // windowText = Color.black;
-        0xFFC0C0C0,  // menu = Color.lightGray;
-        0xFF000000,  // menuText = Color.black;
-        0xFFC0C0C0,  // text = Color.lightGray;
-        0xFF000000,  // textText = Color.black;
-        0xFF000080,  // textHighlight = new Color(0,0,128);
-        0xFFFFFFFF,  // textHighlightText = Color.white;
-        0xFF808080,  // textInactiveText = Color.gray;
-        0xFFC0C0C0,  // control = Color.lightGray;
-        0xFF000000,  // controlText = Color.black;
-        0xFFFFFFFF,  // controlHighlight = Color.white;
-        0xFFE0E0E0,  // controlLtHighlight = new Color(224,224,224);
-        0xFF808080,  // controlShadow = Color.gray;
-        0xFF000000,  // controlDkShadow = Color.black;
-        0xFFE0E0E0,  // scrollbar = new Color(224,224,224);
-        0xFFE0E000,  // info = new Color(224,224,0);
-        0xFF000000,  // infoText = Color.black;
+    privbtf stbtid int[] systfmColors = {
+        0xFF005C5C,  // dfsktop = nfw Color(0,92,92);
+        0xFF000080,  // bdtivfCbption = nfw Color(0,0,128);
+        0xFFFFFFFF,  // bdtivfCbptionTfxt = Color.wiitf;
+        0xFFC0C0C0,  // bdtivfCbptionBordfr = Color.ligitGrby;
+        0xFF808080,  // inbdtivfCbption = Color.grby;
+        0xFFC0C0C0,  // inbdtivfCbptionTfxt = Color.ligitGrby;
+        0xFFC0C0C0,  // inbdtivfCbptionBordfr = Color.ligitGrby;
+        0xFFFFFFFF,  // window = Color.wiitf;
+        0xFF000000,  // windowBordfr = Color.blbdk;
+        0xFF000000,  // windowTfxt = Color.blbdk;
+        0xFFC0C0C0,  // mfnu = Color.ligitGrby;
+        0xFF000000,  // mfnuTfxt = Color.blbdk;
+        0xFFC0C0C0,  // tfxt = Color.ligitGrby;
+        0xFF000000,  // tfxtTfxt = Color.blbdk;
+        0xFF000080,  // tfxtHigiligit = nfw Color(0,0,128);
+        0xFFFFFFFF,  // tfxtHigiligitTfxt = Color.wiitf;
+        0xFF808080,  // tfxtInbdtivfTfxt = Color.grby;
+        0xFFC0C0C0,  // dontrol = Color.ligitGrby;
+        0xFF000000,  // dontrolTfxt = Color.blbdk;
+        0xFFFFFFFF,  // dontrolHigiligit = Color.wiitf;
+        0xFFE0E0E0,  // dontrolLtHigiligit = nfw Color(224,224,224);
+        0xFF808080,  // dontrolSibdow = Color.grby;
+        0xFF000000,  // dontrolDkSibdow = Color.blbdk;
+        0xFFE0E0E0,  // sdrollbbr = nfw Color(224,224,224);
+        0xFFE0E000,  // info = nfw Color(224,224,0);
+        0xFF000000,  // infoTfxt = Color.blbdk;
     };
 
    /**
-     * The color rendered for the background of the desktop.
+     * Tif dolor rfndfrfd for tif bbdkground of tif dfsktop.
      */
-    public final static SystemColor desktop = new SystemColor((byte)DESKTOP);
+    publid finbl stbtid SystfmColor dfsktop = nfw SystfmColor((bytf)DESKTOP);
 
     /**
-     * The color rendered for the window-title background of the currently active window.
+     * Tif dolor rfndfrfd for tif window-titlf bbdkground of tif durrfntly bdtivf window.
      */
-    public final static SystemColor activeCaption = new SystemColor((byte)ACTIVE_CAPTION);
+    publid finbl stbtid SystfmColor bdtivfCbption = nfw SystfmColor((bytf)ACTIVE_CAPTION);
 
     /**
-     * The color rendered for the window-title text of the currently active window.
+     * Tif dolor rfndfrfd for tif window-titlf tfxt of tif durrfntly bdtivf window.
      */
-    public final static SystemColor activeCaptionText = new SystemColor((byte)ACTIVE_CAPTION_TEXT);
+    publid finbl stbtid SystfmColor bdtivfCbptionTfxt = nfw SystfmColor((bytf)ACTIVE_CAPTION_TEXT);
 
     /**
-     * The color rendered for the border around the currently active window.
+     * Tif dolor rfndfrfd for tif bordfr bround tif durrfntly bdtivf window.
      */
-    public final static SystemColor activeCaptionBorder = new SystemColor((byte)ACTIVE_CAPTION_BORDER);
+    publid finbl stbtid SystfmColor bdtivfCbptionBordfr = nfw SystfmColor((bytf)ACTIVE_CAPTION_BORDER);
 
     /**
-     * The color rendered for the window-title background of inactive windows.
+     * Tif dolor rfndfrfd for tif window-titlf bbdkground of inbdtivf windows.
      */
-    public final static SystemColor inactiveCaption = new SystemColor((byte)INACTIVE_CAPTION);
+    publid finbl stbtid SystfmColor inbdtivfCbption = nfw SystfmColor((bytf)INACTIVE_CAPTION);
 
     /**
-     * The color rendered for the window-title text of inactive windows.
+     * Tif dolor rfndfrfd for tif window-titlf tfxt of inbdtivf windows.
      */
-    public final static SystemColor inactiveCaptionText = new SystemColor((byte)INACTIVE_CAPTION_TEXT);
+    publid finbl stbtid SystfmColor inbdtivfCbptionTfxt = nfw SystfmColor((bytf)INACTIVE_CAPTION_TEXT);
 
     /**
-     * The color rendered for the border around inactive windows.
+     * Tif dolor rfndfrfd for tif bordfr bround inbdtivf windows.
      */
-    public final static SystemColor inactiveCaptionBorder = new SystemColor((byte)INACTIVE_CAPTION_BORDER);
+    publid finbl stbtid SystfmColor inbdtivfCbptionBordfr = nfw SystfmColor((bytf)INACTIVE_CAPTION_BORDER);
 
     /**
-     * The color rendered for the background of interior regions inside windows.
+     * Tif dolor rfndfrfd for tif bbdkground of intfrior rfgions insidf windows.
      */
-    public final static SystemColor window = new SystemColor((byte)WINDOW);
+    publid finbl stbtid SystfmColor window = nfw SystfmColor((bytf)WINDOW);
 
     /**
-     * The color rendered for the border around interior regions inside windows.
+     * Tif dolor rfndfrfd for tif bordfr bround intfrior rfgions insidf windows.
      */
-    public final static SystemColor windowBorder = new SystemColor((byte)WINDOW_BORDER);
+    publid finbl stbtid SystfmColor windowBordfr = nfw SystfmColor((bytf)WINDOW_BORDER);
 
     /**
-     * The color rendered for text of interior regions inside windows.
+     * Tif dolor rfndfrfd for tfxt of intfrior rfgions insidf windows.
      */
-    public final static SystemColor windowText = new SystemColor((byte)WINDOW_TEXT);
+    publid finbl stbtid SystfmColor windowTfxt = nfw SystfmColor((bytf)WINDOW_TEXT);
 
     /**
-     * The color rendered for the background of menus.
+     * Tif dolor rfndfrfd for tif bbdkground of mfnus.
      */
-    public final static SystemColor menu = new SystemColor((byte)MENU);
+    publid finbl stbtid SystfmColor mfnu = nfw SystfmColor((bytf)MENU);
 
     /**
-     * The color rendered for the text of menus.
+     * Tif dolor rfndfrfd for tif tfxt of mfnus.
      */
-    public final static SystemColor menuText = new SystemColor((byte)MENU_TEXT);
+    publid finbl stbtid SystfmColor mfnuTfxt = nfw SystfmColor((bytf)MENU_TEXT);
 
     /**
-     * The color rendered for the background of text control objects, such as
-     * textfields and comboboxes.
+     * Tif dolor rfndfrfd for tif bbdkground of tfxt dontrol objfdts, sudi bs
+     * tfxtfiflds bnd domboboxfs.
      */
-    public final static SystemColor text = new SystemColor((byte)TEXT);
+    publid finbl stbtid SystfmColor tfxt = nfw SystfmColor((bytf)TEXT);
 
     /**
-     * The color rendered for the text of text control objects, such as textfields
-     * and comboboxes.
+     * Tif dolor rfndfrfd for tif tfxt of tfxt dontrol objfdts, sudi bs tfxtfiflds
+     * bnd domboboxfs.
      */
-    public final static SystemColor textText = new SystemColor((byte)TEXT_TEXT);
+    publid finbl stbtid SystfmColor tfxtTfxt = nfw SystfmColor((bytf)TEXT_TEXT);
 
     /**
-     * The color rendered for the background of selected items, such as in menus,
-     * comboboxes, and text.
+     * Tif dolor rfndfrfd for tif bbdkground of sflfdtfd itfms, sudi bs in mfnus,
+     * domboboxfs, bnd tfxt.
      */
-    public final static SystemColor textHighlight = new SystemColor((byte)TEXT_HIGHLIGHT);
+    publid finbl stbtid SystfmColor tfxtHigiligit = nfw SystfmColor((bytf)TEXT_HIGHLIGHT);
 
     /**
-     * The color rendered for the text of selected items, such as in menus, comboboxes,
-     * and text.
+     * Tif dolor rfndfrfd for tif tfxt of sflfdtfd itfms, sudi bs in mfnus, domboboxfs,
+     * bnd tfxt.
      */
-    public final static SystemColor textHighlightText = new SystemColor((byte)TEXT_HIGHLIGHT_TEXT);
+    publid finbl stbtid SystfmColor tfxtHigiligitTfxt = nfw SystfmColor((bytf)TEXT_HIGHLIGHT_TEXT);
 
     /**
-     * The color rendered for the text of inactive items, such as in menus.
+     * Tif dolor rfndfrfd for tif tfxt of inbdtivf itfms, sudi bs in mfnus.
      */
-    public final static SystemColor textInactiveText = new SystemColor((byte)TEXT_INACTIVE_TEXT);
+    publid finbl stbtid SystfmColor tfxtInbdtivfTfxt = nfw SystfmColor((bytf)TEXT_INACTIVE_TEXT);
 
     /**
-     * The color rendered for the background of control panels and control objects,
-     * such as pushbuttons.
+     * Tif dolor rfndfrfd for tif bbdkground of dontrol pbnfls bnd dontrol objfdts,
+     * sudi bs pusibuttons.
      */
-    public final static SystemColor control = new SystemColor((byte)CONTROL);
+    publid finbl stbtid SystfmColor dontrol = nfw SystfmColor((bytf)CONTROL);
 
     /**
-     * The color rendered for the text of control panels and control objects,
-     * such as pushbuttons.
+     * Tif dolor rfndfrfd for tif tfxt of dontrol pbnfls bnd dontrol objfdts,
+     * sudi bs pusibuttons.
      */
-    public final static SystemColor controlText = new SystemColor((byte)CONTROL_TEXT);
+    publid finbl stbtid SystfmColor dontrolTfxt = nfw SystfmColor((bytf)CONTROL_TEXT);
 
     /**
-     * The color rendered for light areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * Tif dolor rfndfrfd for ligit brfbs of 3D dontrol objfdts, sudi bs pusibuttons.
+     * Tiis dolor is typidblly dfrivfd from tif <dodf>dontrol</dodf> bbdkground dolor
+     * to providf b 3D ffffdt.
      */
-    public final static SystemColor controlHighlight = new SystemColor((byte)CONTROL_HIGHLIGHT);
+    publid finbl stbtid SystfmColor dontrolHigiligit = nfw SystfmColor((bytf)CONTROL_HIGHLIGHT);
 
     /**
-     * The color rendered for highlight areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * Tif dolor rfndfrfd for iigiligit brfbs of 3D dontrol objfdts, sudi bs pusibuttons.
+     * Tiis dolor is typidblly dfrivfd from tif <dodf>dontrol</dodf> bbdkground dolor
+     * to providf b 3D ffffdt.
      */
-    public final static SystemColor controlLtHighlight = new SystemColor((byte)CONTROL_LT_HIGHLIGHT);
+    publid finbl stbtid SystfmColor dontrolLtHigiligit = nfw SystfmColor((bytf)CONTROL_LT_HIGHLIGHT);
 
     /**
-     * The color rendered for shadow areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * Tif dolor rfndfrfd for sibdow brfbs of 3D dontrol objfdts, sudi bs pusibuttons.
+     * Tiis dolor is typidblly dfrivfd from tif <dodf>dontrol</dodf> bbdkground dolor
+     * to providf b 3D ffffdt.
      */
-    public final static SystemColor controlShadow = new SystemColor((byte)CONTROL_SHADOW);
+    publid finbl stbtid SystfmColor dontrolSibdow = nfw SystfmColor((bytf)CONTROL_SHADOW);
 
     /**
-     * The color rendered for dark shadow areas on 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * Tif dolor rfndfrfd for dbrk sibdow brfbs on 3D dontrol objfdts, sudi bs pusibuttons.
+     * Tiis dolor is typidblly dfrivfd from tif <dodf>dontrol</dodf> bbdkground dolor
+     * to providf b 3D ffffdt.
      */
-    public final static SystemColor controlDkShadow = new SystemColor((byte)CONTROL_DK_SHADOW);
+    publid finbl stbtid SystfmColor dontrolDkSibdow = nfw SystfmColor((bytf)CONTROL_DK_SHADOW);
 
     /**
-     * The color rendered for the background of scrollbars.
+     * Tif dolor rfndfrfd for tif bbdkground of sdrollbbrs.
      */
-    public final static SystemColor scrollbar = new SystemColor((byte)SCROLLBAR);
+    publid finbl stbtid SystfmColor sdrollbbr = nfw SystfmColor((bytf)SCROLLBAR);
 
     /**
-     * The color rendered for the background of tooltips or spot help.
+     * Tif dolor rfndfrfd for tif bbdkground of tooltips or spot iflp.
      */
-    public final static SystemColor info = new SystemColor((byte)INFO);
+    publid finbl stbtid SystfmColor info = nfw SystfmColor((bytf)INFO);
 
     /**
-     * The color rendered for the text of tooltips or spot help.
+     * Tif dolor rfndfrfd for tif tfxt of tooltips or spot iflp.
      */
-    public final static SystemColor infoText = new SystemColor((byte)INFO_TEXT);
+    publid finbl stbtid SystfmColor infoTfxt = nfw SystfmColor((bytf)INFO_TEXT);
 
     /*
-     * JDK 1.1 serialVersionUID.
+     * JDK 1.1 sfriblVfrsionUID.
      */
-    private static final long serialVersionUID = 4503142729533789064L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4503142729533789064L;
 
     /*
-     * An index into either array of SystemColor objects or values.
+     * An indfx into fitifr brrby of SystfmColor objfdts or vblufs.
      */
-    private transient int index;
+    privbtf trbnsifnt int indfx;
 
-    private static SystemColor systemColorObjects [] = {
-        SystemColor.desktop,
-        SystemColor.activeCaption,
-        SystemColor.activeCaptionText,
-        SystemColor.activeCaptionBorder,
-        SystemColor.inactiveCaption,
-        SystemColor.inactiveCaptionText,
-        SystemColor.inactiveCaptionBorder,
-        SystemColor.window,
-        SystemColor.windowBorder,
-        SystemColor.windowText,
-        SystemColor.menu,
-        SystemColor.menuText,
-        SystemColor.text,
-        SystemColor.textText,
-        SystemColor.textHighlight,
-        SystemColor.textHighlightText,
-        SystemColor.textInactiveText,
-        SystemColor.control,
-        SystemColor.controlText,
-        SystemColor.controlHighlight,
-        SystemColor.controlLtHighlight,
-        SystemColor.controlShadow,
-        SystemColor.controlDkShadow,
-        SystemColor.scrollbar,
-        SystemColor.info,
-        SystemColor.infoText
+    privbtf stbtid SystfmColor systfmColorObjfdts [] = {
+        SystfmColor.dfsktop,
+        SystfmColor.bdtivfCbption,
+        SystfmColor.bdtivfCbptionTfxt,
+        SystfmColor.bdtivfCbptionBordfr,
+        SystfmColor.inbdtivfCbption,
+        SystfmColor.inbdtivfCbptionTfxt,
+        SystfmColor.inbdtivfCbptionBordfr,
+        SystfmColor.window,
+        SystfmColor.windowBordfr,
+        SystfmColor.windowTfxt,
+        SystfmColor.mfnu,
+        SystfmColor.mfnuTfxt,
+        SystfmColor.tfxt,
+        SystfmColor.tfxtTfxt,
+        SystfmColor.tfxtHigiligit,
+        SystfmColor.tfxtHigiligitTfxt,
+        SystfmColor.tfxtInbdtivfTfxt,
+        SystfmColor.dontrol,
+        SystfmColor.dontrolTfxt,
+        SystfmColor.dontrolHigiligit,
+        SystfmColor.dontrolLtHigiligit,
+        SystfmColor.dontrolSibdow,
+        SystfmColor.dontrolDkSibdow,
+        SystfmColor.sdrollbbr,
+        SystfmColor.info,
+        SystfmColor.infoTfxt
     };
 
-    static {
-        AWTAccessor.setSystemColorAccessor(SystemColor::updateSystemColors);
-        updateSystemColors();
+    stbtid {
+        AWTAddfssor.sftSystfmColorAddfssor(SystfmColor::updbtfSystfmColors);
+        updbtfSystfmColors();
     }
 
     /**
-     * Called from {@code <init>} and toolkit to update the above systemColors cache.
+     * Cbllfd from {@dodf <init>} bnd toolkit to updbtf tif bbovf systfmColors dbdif.
      */
-    private static void updateSystemColors() {
-        if (!GraphicsEnvironment.isHeadless()) {
-            Toolkit.getDefaultToolkit().loadSystemColors(systemColors);
+    privbtf stbtid void updbtfSystfmColors() {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            Toolkit.gftDffbultToolkit().lobdSystfmColors(systfmColors);
         }
-        for (int i = 0; i < systemColors.length; i++) {
-            systemColorObjects[i].value = systemColors[i];
+        for (int i = 0; i < systfmColors.lfngti; i++) {
+            systfmColorObjfdts[i].vbluf = systfmColors[i];
         }
     }
 
     /**
-     * Creates a symbolic color that represents an indexed entry into system
-     * color cache. Used by above static system colors.
+     * Crfbtfs b symbolid dolor tibt rfprfsfnts bn indfxfd fntry into systfm
+     * dolor dbdif. Usfd by bbovf stbtid systfm dolors.
      */
-    private SystemColor(byte index) {
-        super(systemColors[index]);
-        this.index = index;
+    privbtf SystfmColor(bytf indfx) {
+        supfr(systfmColors[indfx]);
+        tiis.indfx = indfx;
     }
 
     /**
-     * Returns a string representation of this <code>Color</code>'s values.
-     * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations.
-     * The returned string may be empty but may not be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>Color</dodf>'s vblufs.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions.
+     * Tif rfturnfd string mby bf fmpty but mby not bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>Color</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>Color</dodf>
      */
-    public String toString() {
-        return getClass().getName() + "[i=" + (index) + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[i=" + (indfx) + "]";
     }
 
     /**
-     * The design of the {@code SystemColor} class assumes that
-     * the {@code SystemColor} object instances stored in the
-     * static final fields above are the only instances that can
-     * be used by developers.
-     * This method helps maintain those limits on instantiation
-     * by using the index stored in the value field of the
-     * serialized form of the object to replace the serialized
-     * object with the equivalent static object constant field
-     * of {@code SystemColor}.
-     * See the {@link #writeReplace} method for more information
-     * on the serialized form of these objects.
-     * @return one of the {@code SystemColor} static object
-     *         fields that refers to the same system color.
+     * Tif dfsign of tif {@dodf SystfmColor} dlbss bssumfs tibt
+     * tif {@dodf SystfmColor} objfdt instbndfs storfd in tif
+     * stbtid finbl fiflds bbovf brf tif only instbndfs tibt dbn
+     * bf usfd by dfvflopfrs.
+     * Tiis mftiod iflps mbintbin tiosf limits on instbntibtion
+     * by using tif indfx storfd in tif vbluf fifld of tif
+     * sfriblizfd form of tif objfdt to rfplbdf tif sfriblizfd
+     * objfdt witi tif fquivblfnt stbtid objfdt donstbnt fifld
+     * of {@dodf SystfmColor}.
+     * Sff tif {@link #writfRfplbdf} mftiod for morf informbtion
+     * on tif sfriblizfd form of tifsf objfdts.
+     * @rfturn onf of tif {@dodf SystfmColor} stbtid objfdt
+     *         fiflds tibt rfffrs to tif sbmf systfm dolor.
      */
-    private Object readResolve() {
-        // The instances of SystemColor are tightly controlled and
-        // only the canonical instances appearing above as static
-        // constants are allowed.  The serial form of SystemColor
-        // objects stores the color index as the value.  Here we
-        // map that index back into the canonical instance.
-        return systemColorObjects[value];
+    privbtf Objfdt rfbdRfsolvf() {
+        // Tif instbndfs of SystfmColor brf tigitly dontrollfd bnd
+        // only tif dbnonidbl instbndfs bppfbring bbovf bs stbtid
+        // donstbnts brf bllowfd.  Tif sfribl form of SystfmColor
+        // objfdts storfs tif dolor indfx bs tif vbluf.  Hfrf wf
+        // mbp tibt indfx bbdk into tif dbnonidbl instbndf.
+        rfturn systfmColorObjfdts[vbluf];
     }
 
     /**
-     * Returns a specialized version of the {@code SystemColor}
-     * object for writing to the serialized stream.
-     * @serialData
-     * The value field of a serialized {@code SystemColor} object
-     * contains the array index of the system color instead of the
-     * rgb data for the system color.
-     * This index is used by the {@link #readResolve} method to
-     * resolve the deserialized objects back to the original
-     * static constant versions to ensure unique instances of
-     * each {@code SystemColor} object.
-     * @return a proxy {@code SystemColor} object with its value
-     *         replaced by the corresponding system color index.
+     * Rfturns b spfdiblizfd vfrsion of tif {@dodf SystfmColor}
+     * objfdt for writing to tif sfriblizfd strfbm.
+     * @sfriblDbtb
+     * Tif vbluf fifld of b sfriblizfd {@dodf SystfmColor} objfdt
+     * dontbins tif brrby indfx of tif systfm dolor instfbd of tif
+     * rgb dbtb for tif systfm dolor.
+     * Tiis indfx is usfd by tif {@link #rfbdRfsolvf} mftiod to
+     * rfsolvf tif dfsfriblizfd objfdts bbdk to tif originbl
+     * stbtid donstbnt vfrsions to fnsurf uniquf instbndfs of
+     * fbdi {@dodf SystfmColor} objfdt.
+     * @rfturn b proxy {@dodf SystfmColor} objfdt witi its vbluf
+     *         rfplbdfd by tif dorrfsponding systfm dolor indfx.
      */
-    private Object writeReplace() throws ObjectStreamException
+    privbtf Objfdt writfRfplbdf() tirows ObjfdtStrfbmExdfption
     {
-        // we put an array index in the SystemColor.value while serialize
-        // to keep compatibility.
-        SystemColor color = new SystemColor((byte)index);
-        color.value = index;
-        return color;
+        // wf put bn brrby indfx in tif SystfmColor.vbluf wiilf sfriblizf
+        // to kffp dompbtibility.
+        SystfmColor dolor = nfw SystfmColor((bytf)indfx);
+        dolor.vbluf = indfx;
+        rfturn dolor;
     }
 }

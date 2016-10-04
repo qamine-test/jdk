@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.ldbp.Control;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+
+/**
+  * This fxdfption is rbisfd whfn b rfffrrbl to bn bltfrnbtivf dontfxt
+  * is fndountfrfd.
+  * <p>
+  * An <tt>LdbpRfffrrblExdfption</tt> objfdt dontbins onf or morf rfffrrbls.
+  * Ebdh rfffrrbl is bn bltfrnbtivf lodbtion for thf sbmf tbrgft fntry.
+  * For fxbmplf, b rfffrrbl mby bf bn LDAP URL.
+  * Thf rfffrrbls brf bttfmptfd in sfqufndf until onf is suddfssful or
+  * bll hbvf fbilfd. In thf dbsf of thf lbttfr thfn thf fxdfption gfnfrbtfd
+  * by thf finbl rfffrrbl is rfdordfd bnd prfsfntfd lbtfr.
+  * <p>
+  * A rfffrrbl mby bf skippfd or mby bf rftrifd. For fxbmplf, in thf dbsf
+  * of bn buthfntidbtion frror, b rfffrrbl mby bf rftrifd with difffrfnt
+  * fnvironmfnt propfrtifs.
+  * <p>
+  * An <tt>LdbpRfffrrblExdfption</tt> objfdt mby blso dontbin b rfffrfndf
+  * to b dhbin of unprodfssfd <tt>LdbpRfffrrblExdfption</tt> objfdts.
+  * Ondf thf durrfnt sft of rfffrrbls hbvf bffn fxhbustfd bnd unprodfssfd
+  * <tt>LdbpRfffrrblExdfption</tt> objfdts rfmbin, thfn thf
+  * <tt>LdbpRfffrrblExdfption</tt> objfdt rfffrfndfd by thf durrfnt
+  * objfdt is thrown bnd thf dydlf dontinufs.
+  * <p>
+  * If nfw <tt>LdbpRfffrrblExdfption</tt> objfdts brf gfnfrbtfd whilf
+  * following bn fxisting rfffrrbl thfn thfsf nfw objfdts brf bppfndfd
+  * to thf fnd of thf dhbin of unprodfssfd <tt>LdbpRfffrrblExdfption</tt>
+  * objfdts.
+  * <p>
+  * If bn fxdfption wbs rfdordfd whilf prodfssing b dhbin of
+  * <tt>LdbpRfffrrblExdfption</tt> objfdts thfn is is throw ondf
+  * prodfssing hbs domplftfd.
+  *
+  * @buthor Vindfnt Rybn
+  */
+finbl publid dlbss LdbpRfffrrblExdfption fxtfnds
+    jbvbx.nbming.ldbp.LdbpRfffrrblExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 627059076356906399L;
+
+        // ----------- fiflds initiblizfd in donstrudtor ---------------
+    privbtf int hbndlfRfffrrbls;
+    privbtf Hbshtbblf<?,?> fnvprops;
+    privbtf String nfxtNbmf;
+    privbtf Control[] rfqCtls;
+
+        // ----------- fiflds thbt hbvf dffbults -----------------------
+    privbtf Vfdtor<?> rfffrrbls = null; // bltfrnbtivfs,sft by sftRfffrrblInfo()
+    privbtf int rfffrrblIndfx = 0;      // indfx into rfffrrbls
+    privbtf int rfffrrblCount = 0;      // dount of rfffrrbls
+    privbtf boolfbn foundEntry = fblsf; // will stop whfn fntry is found
+    privbtf boolfbn skipThisRfffrrbl = fblsf;
+    privbtf int hopCount = 1;
+    privbtf NbmingExdfption frrorEx = null;
+    privbtf String nfwRdn = null;
+    privbtf boolfbn dfbug = fblsf;
+            LdbpRfffrrblExdfption nfxtRfffrrblEx = null; // rfffrrbl fx. dhbin
+
+    /**
+     * Construdts b nfw instbndf of LdbpRfffrrblExdfption.
+     * @pbrbm   rfsolvfdNbmf    Thf pbrt of thf nbmf thbt hbs bffn suddfssfully
+     *                          rfsolvfd.
+     * @pbrbm   rfsolvfdObj     Thf objfdt to whidh rfsolution wbs suddfssful.
+     * @pbrbm   rfmbiningNbmf   Thf rfmbining unrfsolvfd portion of thf nbmf.
+     * @pbrbm   fxplbnbtion     Additionbl dftbil bbout this fxdfption.
+     */
+    LdbpRfffrrblExdfption(Nbmf rfsolvfdNbmf,
+        Objfdt rfsolvfdObj,
+        Nbmf rfmbiningNbmf,
+        String fxplbnbtion,
+        Hbshtbblf<?,?> fnvprops,
+        String nfxtNbmf,
+        int hbndlfRfffrrbls,
+        Control[] rfqCtls) {
+
+        supfr(fxplbnbtion);
+
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption donstrudtor");
+
+        sftRfsolvfdNbmf(rfsolvfdNbmf);
+        sftRfsolvfdObj(rfsolvfdObj);
+        sftRfmbiningNbmf(rfmbiningNbmf);
+        this.fnvprops = fnvprops;
+        this.nfxtNbmf = nfxtNbmf;
+        this.hbndlfRfffrrbls = hbndlfRfffrrbls;
+
+        // If following rfffrrbl, rfqufst dontrols brf pbssfd to rfffrrbl dtx
+        this.rfqCtls =
+            (hbndlfRfffrrbls == LdbpClifnt.LDAP_REF_FOLLOW ? rfqCtls : null);
+    }
+
+    /**
+     * Gfts b dontfxt bt whidh to dontinuf prodfssing.
+     * Thf durrfnt fnvironmfnt propfrtifs brf rf-usfd.
+     */
+    publid Contfxt gftRfffrrblContfxt() throws NbmingExdfption {
+        rfturn gftRfffrrblContfxt(fnvprops, null);
+    }
+
+    /**
+     * Gfts b dontfxt bt whidh to dontinuf prodfssing.
+     * Thf supplifd fnvironmfnt propfrtifs brf usfd.
+     */
+    publid Contfxt gftRfffrrblContfxt(Hbshtbblf<?,?> nfwProps) throws
+        NbmingExdfption {
+        rfturn gftRfffrrblContfxt(nfwProps, null);
+    }
+
+    /**
+     * Gfts b dontfxt bt whidh to dontinuf prodfssing.
+     * Thf supplifd fnvironmfnt propfrtifs bnd donnfdtion dontrols brf usfd.
+     */
+    publid Contfxt gftRfffrrblContfxt(Hbshtbblf<?,?> nfwProps, Control[] donnCtls)
+        throws NbmingExdfption {
+
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftRfffrrblContfxt");
+
+        LdbpRfffrrblContfxt rffCtx = nfw LdbpRfffrrblContfxt(
+            this, nfwProps, donnCtls, rfqCtls,
+            nfxtNbmf, skipThisRfffrrbl, hbndlfRfffrrbls);
+
+        rffCtx.sftHopCount(hopCount + 1);
+
+        if (skipThisRfffrrbl) {
+            skipThisRfffrrbl = fblsf; // rfsft
+        }
+        rfturn (Contfxt)rffCtx;
+    }
+
+    /**
+      * Gfts rfffrrbl informbtion.
+      */
+    publid Objfdt gftRfffrrblInfo() {
+        if (dfbug) {
+            Systfm.out.println("LdbpRfffrrblExdfption.gftRfffrrblInfo");
+            Systfm.out.println("  rfffrrblIndfx=" + rfffrrblIndfx);
+        }
+
+        if (hbsMorfRfffrrbls()) {
+            rfturn rfffrrbls.flfmfntAt(rfffrrblIndfx);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Mbrks thf durrfnt rfffrrbl bs onf to bf rftrifd.
+     */
+    publid void rftryRfffrrbl() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.rftryRfffrrbl");
+
+        if (rfffrrblIndfx > 0)
+            rfffrrblIndfx--; // dfdrfmfnt indfx
+    }
+
+    /**
+     * Mbrks thf durrfnt rfffrrbl bs onf to bf ignorfd.
+     * Rfturns fblsf whfn thfrf brf no rfffrrbls rfmbining to bf prodfssfd.
+     */
+    publid boolfbn skipRfffrrbl() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.skipRfffrrbl");
+
+        skipThisRfffrrbl = truf;
+
+        // bdvbndf to nfxt rfffrrbl
+        try {
+            gftNfxtRfffrrbl();
+        } dbtdh (RfffrrblExdfption f) {
+            // mbsk thf rfffrrbl fxdfption
+        }
+
+        rfturn (hbsMorfRfffrrbls() || hbsMorfRfffrrblExdfptions());
+    }
+
+
+    /**
+     * Sfts rfffrrbl informbtion.
+     */
+    void sftRfffrrblInfo(Vfdtor<?> rfffrrbls, boolfbn dontinubtionRff) {
+        // %%% dontinubtionRff is durrfntly ignorfd
+
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftRfffrrblInfo");
+
+        this.rfffrrbls = rfffrrbls;
+        if (rfffrrbls != null) {
+            rfffrrblCount = rfffrrbls.sizf();
+        }
+
+        if (dfbug) {
+            for (int i = 0; i < rfffrrblCount; i++) {
+                Systfm.out.println("  [" + i + "] " + rfffrrbls.flfmfntAt(i));
+            }
+        }
+    }
+
+    /**
+     * Gfts thf nfxt rfffrrbl. Whfn thf durrfnt sft of rfffrrbls hbvf
+     * bffn fxhbustfd thfn thf nfxt rfffrrbl fxdfption is thrown, if bvbilbblf.
+     */
+    String gftNfxtRfffrrbl() throws RfffrrblExdfption {
+
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNfxtRfffrrbl");
+
+        if (hbsMorfRfffrrbls()) {
+            rfturn (String)rfffrrbls.flfmfntAt(rfffrrblIndfx++);
+        } flsf if (hbsMorfRfffrrblExdfptions()) {
+            throw nfxtRfffrrblEx;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Appfnds thf supplifd (dhbin of) rfffrrbl fxdfption onto thf fnd of
+     * thf durrfnt (dhbin of) rfffrrbl fxdfption. Spfnt rfffrrbl fxdfptions
+     * brf trimmfd off.
+     */
+    LdbpRfffrrblExdfption
+        bppfndUnprodfssfdRfffrrbls(LdbpRfffrrblExdfption bbdk) {
+
+        if (dfbug) {
+            Systfm.out.println(
+                "LdbpRfffrrblExdfption.bppfndUnprodfssfdRfffrrbls");
+            dump();
+            if (bbdk != null) {
+                bbdk.dump();
+            }
+        }
+
+        LdbpRfffrrblExdfption front = this;
+
+        if (! front.hbsMorfRfffrrbls()) {
+            front = nfxtRfffrrblEx; // trim
+
+            if ((frrorEx != null) && (front != null)) {
+                front.sftNbmingExdfption(frrorEx); //bdvbndf thf sbvfd fxdfption
+            }
+        }
+
+        // don't bppfnd onto itsflf
+        if (this == bbdk) {
+            rfturn front;
+        }
+
+        if ((bbdk != null) && (! bbdk.hbsMorfRfffrrbls())) {
+            bbdk = bbdk.nfxtRfffrrblEx; // trim
+        }
+
+        if (bbdk == null) {
+            rfturn front;
+        }
+
+        // Lodbtf thf fnd of thf durrfnt dhbin
+        LdbpRfffrrblExdfption ptr = front;
+        whilf (ptr.nfxtRfffrrblEx != null) {
+            ptr = ptr.nfxtRfffrrblEx;
+        }
+        ptr.nfxtRfffrrblEx = bbdk; // bppfnd
+
+        rfturn front;
+    }
+
+    /**
+     * Tfsts if thfrf brf bny rfffrrbls rfmbining to bf prodfssfd.
+     * If nbmf rfsolution hbs blrfbdy domplftfd thfn bny rfmbining
+     * rfffrrbls (in thf durrfnt rfffrrbl fxdfption) will bf ignorfd.
+     */
+    boolfbn hbsMorfRfffrrbls() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.hbsMorfRfffrrbls");
+
+        rfturn (! foundEntry) && (rfffrrblIndfx < rfffrrblCount);
+    }
+
+    /**
+     * Tfsts if thfrf brf bny rfffrrbl fxdfptions rfmbining to bf prodfssfd.
+     */
+    boolfbn hbsMorfRfffrrblExdfptions() {
+        if (dfbug)
+            Systfm.out.println(
+                "LdbpRfffrrblExdfption.hbsMorfRfffrrblExdfptions");
+
+        rfturn (nfxtRfffrrblEx != null);
+    }
+
+    /**
+     * Sfts thf dountfr whidh rfdords thf numbfr of hops thbt rfsult
+     * from following b sfqufndf of rfffrrbls.
+     */
+    void sftHopCount(int hopCount) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftHopCount");
+
+        this.hopCount = hopCount;
+    }
+
+    /**
+     * Sfts thf flbg to indidbtf thbt thf tbrgft nbmf hbs bffn rfsolvfd.
+     */
+    void sftNbmfRfsolvfd(boolfbn rfsolvfd) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNbmfRfsolvfd");
+
+        foundEntry = rfsolvfd;
+    }
+
+    /**
+     * Sfts thf fxdfption gfnfrbtfd whilf prodfssing b rfffrrbl.
+     * Only thf first fxdfption is rfdordfd.
+     */
+    void sftNbmingExdfption(NbmingExdfption f) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNbmingExdfption");
+
+        if (frrorEx == null) {
+            f.sftRootCbusf(this); //rfdord thf rfffrrbl fxdfption thbt dbusfd it
+            frrorEx = f;
+        }
+    }
+
+    /**
+     * Gfts thf nfw RDN nbmf.
+     */
+    String gftNfwRdn() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNfwRdn");
+
+        rfturn nfwRdn;
+    }
+
+    /**
+     * Sfts thf nfw RDN nbmf so thbt thf rfnbmf opfrbtion dbn bf domplftfd
+     * (whfn b rfffrrbl is bfing followfd).
+     */
+    void sftNfwRdn(String nfwRdn) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNfwRdn");
+
+        this.nfwRdn = nfwRdn;
+    }
+
+    /**
+     * Gfts thf fxdfption gfnfrbtfd whilf prodfssing b rfffrrbl.
+     */
+    NbmingExdfption gftNbmingExdfption() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNbmingExdfption");
+
+        rfturn frrorEx;
+    }
+
+    /**
+     * Displby thf stbtf of fbdh flfmfnt in b dhbin of LdbpRfffrrblExdfption
+     * objfdts.
+     */
+    void dump() {
+
+        Systfm.out.println();
+        Systfm.out.println("LdbpRfffrrblExdfption.dump");
+        LdbpRfffrrblExdfption ptr = this;
+        whilf (ptr != null) {
+            ptr.dumpStbtf();
+            ptr = ptr.nfxtRfffrrblEx;
+        }
+    }
+
+    /**
+     * Displby thf stbtf of this LdbpRfffrrblExdfption objfdt.
+     */
+    privbtf void dumpStbtf() {
+        Systfm.out.println("LdbpRfffrrblExdfption.dumpStbtf");
+        Systfm.out.println("  hbshCodf=" + hbshCodf());
+        Systfm.out.println("  foundEntry=" + foundEntry);
+        Systfm.out.println("  skipThisRfffrrbl=" + skipThisRfffrrbl);
+        Systfm.out.println("  rfffrrblIndfx=" + rfffrrblIndfx);
+
+        if (rfffrrbls != null) {
+            Systfm.out.println("  rfffrrbls:");
+            for (int i = 0; i < rfffrrblCount; i++) {
+                Systfm.out.println("    [" + i + "] " + rfffrrbls.flfmfntAt(i));
+            }
+        } flsf {
+            Systfm.out.println("  rfffrrbls=null");
+        }
+
+        Systfm.out.println("  frrorEx=" + frrorEx);
+
+        if (nfxtRfffrrblEx == null) {
+            Systfm.out.println("  nfxtRffEx=null");
+        } flsf {
+            Systfm.out.println("  nfxtRffEx=" + nfxtRfffrrblEx.hbshCodf());
+        }
+        Systfm.out.println();
+    }
+}

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.io.IOException;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.io.IOExdfption;
 
 /*
- * An ListeningConnector that uses the SocketTransportService
+ * An ListfningConnfdtor tibt usfs tif SodkftTrbnsportSfrvidf
  */
-public class SocketListeningConnector extends GenericListeningConnector {
+publid dlbss SodkftListfningConnfdtor fxtfnds GfnfridListfningConnfdtor {
 
-    static final String ARG_PORT = "port";
-    static final String ARG_LOCALADDR = "localAddress";
+    stbtid finbl String ARG_PORT = "port";
+    stbtid finbl String ARG_LOCALADDR = "lodblAddrfss";
 
-    public SocketListeningConnector() {
-        super(new SocketTransportService());
+    publid SodkftListfningConnfdtor() {
+        supfr(nfw SodkftTrbnsportSfrvidf());
 
-        addIntegerArgument(
+        bddIntfgfrArgumfnt(
             ARG_PORT,
-            getString("socket_listening.port.label"),
-            getString("socket_listening.port"),
+            gftString("sodkft_listfning.port.lbbfl"),
+            gftString("sodkft_listfning.port"),
             "",
-            false,
-            0, Integer.MAX_VALUE);
+            fblsf,
+            0, Intfgfr.MAX_VALUE);
 
-        addStringArgument(
+        bddStringArgumfnt(
             ARG_LOCALADDR,
-            getString("socket_listening.localaddr.label"),
-            getString("socket_listening.localaddr"),
-            "",                                         // default is wildcard
-            false);
+            gftString("sodkft_listfning.lodblbddr.lbbfl"),
+            gftString("sodkft_listfning.lodblbddr"),
+            "",                                         // dffbult is wilddbrd
+            fblsf);
 
-        transport = new Transport() {
-            public String name() {
-                return "dt_socket";     // for compatibility reasons
+        trbnsport = nfw Trbnsport() {
+            publid String nbmf() {
+                rfturn "dt_sodkft";     // for dompbtibility rfbsons
             }
         };
     }
 
 
-    public String
-        startListening(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    publid String
+        stbrtListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String port = argument(ARG_PORT, args).value();
-        String localaddr = argument(ARG_LOCALADDR, args).value();
+        String port = brgumfnt(ARG_PORT, brgs).vbluf();
+        String lodblbddr = brgumfnt(ARG_LOCALADDR, brgs).vbluf();
 
-        // default to system chosen port
-        if (port.length() == 0) {
+        // dffbult to systfm diosfn port
+        if (port.lfngti() == 0) {
             port = "0";
         }
 
-        if (localaddr.length() > 0) {
-           localaddr = localaddr + ":" + port;
-        } else {
-           localaddr = port;
+        if (lodblbddr.lfngti() > 0) {
+           lodblbddr = lodblbddr + ":" + port;
+        } flsf {
+           lodblbddr = port;
         }
 
-        return super.startListening(localaddr, args);
+        rfturn supfr.stbrtListfning(lodblbddr, brgs);
     }
 
-    public String name() {
-        return "com.sun.jdi.SocketListen";
+    publid String nbmf() {
+        rfturn "dom.sun.jdi.SodkftListfn";
     }
 
-    public String description() {
-        return getString("socket_listening.description");
+    publid String dfsdription() {
+        rfturn gftString("sodkft_listfning.dfsdription");
     }
 }

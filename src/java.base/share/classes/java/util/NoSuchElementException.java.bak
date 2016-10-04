@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * Thrown by various accessor methods to indicate that the element being requested
- * does not exist.
+ * Tirown by vbrious bddfssor mftiods to indidbtf tibt tif flfmfnt bfing rfqufstfd
+ * dofs not fxist.
  *
- * @author  unascribed
- * @see     java.util.Enumeration#nextElement()
- * @see     java.util.Iterator#next()
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.util.Enumfrbtion#nfxtElfmfnt()
+ * @sff     jbvb.util.Itfrbtor#nfxt()
+ * @sindf   1.0
  */
-public
-class NoSuchElementException extends RuntimeException {
-    private static final long serialVersionUID = 6769829250639411880L;
+publid
+dlbss NoSudiElfmfntExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6769829250639411880L;
 
     /**
-     * Constructs a <code>NoSuchElementException</code> with <tt>null</tt>
-     * as its error message string.
+     * Construdts b <dodf>NoSudiElfmfntExdfption</dodf> witi <tt>null</tt>
+     * bs its frror mfssbgf string.
      */
-    public NoSuchElementException() {
-        super();
+    publid NoSudiElfmfntExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs a <code>NoSuchElementException</code>, saving a reference
-     * to the error message string <tt>s</tt> for later retrieval by the
-     * <tt>getMessage</tt> method.
+     * Construdts b <dodf>NoSudiElfmfntExdfption</dodf>, sbving b rfffrfndf
+     * to tif frror mfssbgf string <tt>s</tt> for lbtfr rftrifvbl by tif
+     * <tt>gftMfssbgf</tt> mftiod.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public NoSuchElementException(String s) {
-        super(s);
+    publid NoSudiElfmfntExdfption(String s) {
+        supfr(s);
     }
 }

@@ -1,0 +1,453 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import jbvbx.sfdurity.buth.kfrbfros.DflfgbtionPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+
+bbstrbdt dlbss InitiblTokfn fxtfnds Krb5Tokfn {
+
+    privbtf stbtid finbl int CHECKSUM_TYPE = 0x8003;
+
+    privbtf stbtid finbl int CHECKSUM_LENGTH_SIZE     = 4;
+    privbtf stbtid finbl int CHECKSUM_BINDINGS_SIZE   = 16;
+    privbtf stbtid finbl int CHECKSUM_FLAGS_SIZE      = 4;
+    privbtf stbtid finbl int CHECKSUM_DELEG_OPT_SIZE  = 2;
+    privbtf stbtid finbl int CHECKSUM_DELEG_LGTH_SIZE = 2;
+
+    privbtf stbtid finbl int CHECKSUM_DELEG_FLAG    = 1;
+    privbtf stbtid finbl int CHECKSUM_MUTUAL_FLAG   = 2;
+    privbtf stbtid finbl int CHECKSUM_REPLAY_FLAG   = 4;
+    privbtf stbtid finbl int CHECKSUM_SEQUENCE_FLAG = 8;
+    privbtf stbtid finbl int CHECKSUM_CONF_FLAG     = 16;
+    privbtf stbtid finbl int CHECKSUM_INTEG_FLAG    = 32;
+
+    privbtf finbl bytf[] CHECKSUM_FIRST_BYTES =
+    {(bytf)0x10, (bytf)0x00, (bytf)0x00, (bytf)0x00};
+
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_INET = 2;
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_INET6 = 24;
+    privbtf stbtid finbl int CHANNEL_BINDING_AF_NULL_ADDR = 255;
+
+    privbtf stbtid finbl int Inft4_ADDRSZ = 4;
+    privbtf stbtid finbl int Inft6_ADDRSZ = 16;
+
+    protfdtfd dlbss OvfrlobdfdChfdksum {
+
+        privbtf bytf[] dhfdksumBytfs = null;
+        privbtf Crfdfntibls dflfgCrfds = null;
+        privbtf int flbgs = 0;
+
+        /**
+         * Cbllfd on thf initibtor sidf whfn drfbting thf
+         * InitSfdContfxtTokfn.
+         */
+        publid OvfrlobdfdChfdksum(Krb5Contfxt dontfxt,
+                                  Crfdfntibls tgt,
+                                  Crfdfntibls sfrvidfTidkft)
+            throws KrbExdfption, IOExdfption, GSSExdfption {
+
+            bytf[] krbCrfdMfssbgf = null;
+            int pos = 0;
+            int sizf = CHECKSUM_LENGTH_SIZE + CHECKSUM_BINDINGS_SIZE +
+                CHECKSUM_FLAGS_SIZE;
+
+            if (!tgt.isForwbrdbblf()) {
+                dontfxt.sftCrfdDflfgStbtf(fblsf);
+                dontfxt.sftDflfgPolidyStbtf(fblsf);
+            } flsf if (dontfxt.gftCrfdDflfgStbtf()) {
+                if (dontfxt.gftDflfgPolidyStbtf()) {
+                    if (!sfrvidfTidkft.dhfdkDflfgbtf()) {
+                        // dflfgbtion not pfrmittfd by sfrvfr polidy, mbrk it
+                        dontfxt.sftDflfgPolidyStbtf(fblsf);
+                    }
+                }
+            } flsf if (dontfxt.gftDflfgPolidyStbtf()) {
+                if (sfrvidfTidkft.dhfdkDflfgbtf()) {
+                    dontfxt.sftCrfdDflfgStbtf(truf);
+                } flsf {
+                    dontfxt.sftDflfgPolidyStbtf(fblsf);
+                }
+            }
+
+            if (dontfxt.gftCrfdDflfgStbtf()) {
+                KrbCrfd krbCrfd = null;
+                CiphfrHflpfr diphfrHflpfr =
+                    dontfxt.gftCiphfrHflpfr(sfrvidfTidkft.gftSfssionKfy());
+                if (usfNullKfy(diphfrHflpfr)) {
+                    krbCrfd = nfw KrbCrfd(tgt, sfrvidfTidkft,
+                                              EndryptionKfy.NULL_KEY);
+                } flsf {
+                    krbCrfd = nfw KrbCrfd(tgt, sfrvidfTidkft,
+                                    sfrvidfTidkft.gftSfssionKfy());
+                }
+                krbCrfdMfssbgf = krbCrfd.gftMfssbgf();
+                sizf += CHECKSUM_DELEG_OPT_SIZE +
+                        CHECKSUM_DELEG_LGTH_SIZE +
+                        krbCrfdMfssbgf.lfngth;
+            }
+
+            dhfdksumBytfs = nfw bytf[sizf];
+
+            dhfdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[0];
+            dhfdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[1];
+            dhfdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[2];
+            dhfdksumBytfs[pos++] = CHECKSUM_FIRST_BYTES[3];
+
+            ChbnnflBinding lodblBindings = dontfxt.gftChbnnflBinding();
+            if (lodblBindings != null) {
+                bytf[] lodblBindingsBytfs =
+                    domputfChbnnflBinding(dontfxt.gftChbnnflBinding());
+                Systfm.brrbydopy(lodblBindingsBytfs, 0,
+                             dhfdksumBytfs, pos, lodblBindingsBytfs.lfngth);
+                //              Systfm.out.println("ChbnnflBinding hbsh: "
+                //         + gftHfxBytfs(lodblBindingsBytfs));
+            }
+
+            pos += CHECKSUM_BINDINGS_SIZE;
+
+            if (dontfxt.gftCrfdDflfgStbtf())
+                flbgs |= CHECKSUM_DELEG_FLAG;
+            if (dontfxt.gftMutublAuthStbtf())
+                flbgs |= CHECKSUM_MUTUAL_FLAG;
+            if (dontfxt.gftRfplbyDftStbtf())
+                flbgs |= CHECKSUM_REPLAY_FLAG;
+            if (dontfxt.gftSfqufndfDftStbtf())
+                flbgs |= CHECKSUM_SEQUENCE_FLAG;
+            if (dontfxt.gftIntfgStbtf())
+                flbgs |= CHECKSUM_INTEG_FLAG;
+            if (dontfxt.gftConfStbtf())
+                flbgs |= CHECKSUM_CONF_FLAG;
+
+            bytf[] tfmp = nfw bytf[4];
+            writfLittlfEndibn(flbgs, tfmp);
+            dhfdksumBytfs[pos++] = tfmp[0];
+            dhfdksumBytfs[pos++] = tfmp[1];
+            dhfdksumBytfs[pos++] = tfmp[2];
+            dhfdksumBytfs[pos++] = tfmp[3];
+
+            if (dontfxt.gftCrfdDflfgStbtf()) {
+
+                PrindipblNbmf dflfgbtfTo =
+                    sfrvidfTidkft.gftSfrvfr();
+                // Cbnnot usf '\"' instfbd of "\"" in donstrudtor bfdbusf
+                // it is intfrprftfd bs suggfstfd lfngth!
+                StringBuildfr sb = nfw StringBuildfr("\"");
+                sb.bppfnd(dflfgbtfTo.gftNbmf()).bppfnd('\"');
+                String rfblm = dflfgbtfTo.gftRfblmAsString();
+                sb.bppfnd(" \"krbtgt/").bppfnd(rfblm).bppfnd('@');
+                sb.bppfnd(rfblm).bppfnd('\"');
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    DflfgbtionPfrmission pfrm =
+                        nfw DflfgbtionPfrmission(sb.toString());
+                    sm.dhfdkPfrmission(pfrm);
+                }
+
+
+                /*
+                 * Writf 1 in littlf fndibn but in two bytfs
+                 * for DlgOpt
+                 */
+
+                dhfdksumBytfs[pos++] = (bytf)0x01;
+                dhfdksumBytfs[pos++] = (bytf)0x00;
+
+                /*
+                 * Writf thf lfngth of thf dflfgbtfd drfdfntibl in littlf
+                 * fndibn but in two bytfs for Dlgth
+                 */
+
+                if (krbCrfdMfssbgf.lfngth > 0x0000ffff)
+                    throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt mfssbgf lfngth");
+
+                writfLittlfEndibn(krbCrfdMfssbgf.lfngth, tfmp);
+                dhfdksumBytfs[pos++] = tfmp[0];
+                dhfdksumBytfs[pos++] = tfmp[1];
+                Systfm.brrbydopy(krbCrfdMfssbgf, 0,
+                                 dhfdksumBytfs, pos, krbCrfdMfssbgf.lfngth);
+            }
+
+        }
+
+        /**
+         * Cbllfd on thf bddfptor sidf whfn rfbding bn InitSfdContfxtTokfn.
+         */
+        // XXX Pbssing in Chfdksum is not rfquirfd. bytf[] dbn
+        // bf pbssfd in if this dhfdksum typf dfnotfs b
+        // rbw_dhfdksum. In thbt dbsf, mbkf Chfdksum dlbss krb5
+        // intfrnbl.
+        publid OvfrlobdfdChfdksum(Krb5Contfxt dontfxt, Chfdksum dhfdksum,
+                                  EndryptionKfy kfy, EndryptionKfy subKfy)
+            throws GSSExdfption, KrbExdfption, IOExdfption {
+
+            int pos = 0;
+
+            if (dhfdksum == null) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "No dksum in AP_REQ's buthfntidbtor");
+                gf.initCbusf(nfw KrbExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM));
+                throw gf;
+            }
+            dhfdksumBytfs = dhfdksum.gftBytfs();
+
+            if ((dhfdksumBytfs[0] != CHECKSUM_FIRST_BYTES[0]) ||
+                (dhfdksumBytfs[1] != CHECKSUM_FIRST_BYTES[1]) ||
+                (dhfdksumBytfs[2] != CHECKSUM_FIRST_BYTES[2]) ||
+                (dhfdksumBytfs[3] != CHECKSUM_FIRST_BYTES[3])) {
+                throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt dhfdksum");
+            }
+
+            ChbnnflBinding lodblBindings = dontfxt.gftChbnnflBinding();
+
+            // Ignorf rfmotf dhbnnfl binding info whfn not rfqufstfd bt
+            // lodbl sidf (RFC 4121 4.1.1.2: thf bddfptor MAY ignorf...).
+            //
+            // All mbjor krb5 implfmfntors implfmfnt this "MAY",
+            // bnd somf bpplidbtions dfpfnd on it bs b workbround
+            // for not hbving b wby to nfgotibtf thf usf of dhbnnfl
+            // binding -- thf initibtor bpplidbtion blwbys usfs CB
+            // bnd hopfs thf bddfptor will ignorf thf CB if thf
+            // bddfptor dofsn't support CB.
+            if (lodblBindings != null) {
+                bytf[] rfmotfBindingBytfs = nfw bytf[CHECKSUM_BINDINGS_SIZE];
+                Systfm.brrbydopy(dhfdksumBytfs, 4, rfmotfBindingBytfs, 0,
+                                 CHECKSUM_BINDINGS_SIZE);
+
+                bytf[] noBindings = nfw bytf[CHECKSUM_BINDINGS_SIZE];
+                if (!Arrbys.fqubls(noBindings, rfmotfBindingBytfs)) {
+                    bytf[] lodblBindingsBytfs =
+                        domputfChbnnflBinding(lodblBindings);
+                    if (!Arrbys.fqubls(lodblBindingsBytfs,
+                                                rfmotfBindingBytfs)) {
+                        throw nfw GSSExdfption(GSSExdfption.BAD_BINDINGS, -1,
+                                               "Bytfs mismbtdh!");
+                    }
+                } flsf {
+                    throw nfw GSSExdfption(GSSExdfption.BAD_BINDINGS, -1,
+                                           "Tokfn missing ChbnnflBinding!");
+                }
+            }
+
+            flbgs = rfbdLittlfEndibn(dhfdksumBytfs, 20, 4);
+
+            if ((flbgs & CHECKSUM_DELEG_FLAG) > 0) {
+
+                /*
+                 * XXX
+                 * if ((dhfdksumBytfs[24] != (bytf)0x01) &&
+                 * (dhfdksumBytfs[25] != (bytf)0x00))
+                 */
+
+                int drfdLfn = rfbdLittlfEndibn(dhfdksumBytfs, 26, 2);
+                bytf[] drfdBytfs = nfw bytf[drfdLfn];
+                Systfm.brrbydopy(dhfdksumBytfs, 28, drfdBytfs, 0, drfdLfn);
+
+                KrbCrfd drfd;
+                try {
+                    drfd = nfw KrbCrfd(drfdBytfs, kfy);
+                } dbtdh (KrbExdfption kf) {
+                    if (subKfy != null) {
+                        drfd = nfw KrbCrfd(drfdBytfs, subKfy);
+                    } flsf {
+                        throw kf;
+                    }
+                }
+                dflfgCrfds = drfd.gftDflfgbtfdCrfds()[0];
+            }
+        }
+
+        // dhfdk if KRB-CRED mfssbgf should usf NULL_KEY for fndryption
+        privbtf boolfbn usfNullKfy(CiphfrHflpfr dh) {
+            boolfbn flbg = truf;
+            // for "nfwfr" ftypfs bnd RC4-HMAC do not usf NULL KEY
+            if ((dh.gftProto() == 1) || dh.isArdFour()) {
+                flbg = fblsf;
+            }
+            rfturn flbg;
+        }
+
+        publid Chfdksum gftChfdksum() throws KrbExdfption {
+            rfturn nfw Chfdksum(dhfdksumBytfs, CHECKSUM_TYPE);
+        }
+
+        publid Crfdfntibls gftDflfgbtfdCrfds() {
+            rfturn dflfgCrfds;
+        }
+
+        // Only dbllfd by bddfptor
+        publid void sftContfxtFlbgs(Krb5Contfxt dontfxt) {
+                // dffbult for drfd dflfgbtion is fblsf
+            if ((flbgs & CHECKSUM_DELEG_FLAG) > 0)
+                dontfxt.sftCrfdDflfgStbtf(truf);
+                // dffbult for thf following brf truf
+            if ((flbgs & CHECKSUM_MUTUAL_FLAG) == 0) {
+                dontfxt.sftMutublAuthStbtf(fblsf);
+            }
+            if ((flbgs & CHECKSUM_REPLAY_FLAG) == 0) {
+                dontfxt.sftRfplbyDftStbtf(fblsf);
+            }
+            if ((flbgs & CHECKSUM_SEQUENCE_FLAG) == 0) {
+                dontfxt.sftSfqufndfDftStbtf(fblsf);
+            }
+            if ((flbgs & CHECKSUM_CONF_FLAG) == 0) {
+                dontfxt.sftConfStbtf(fblsf);
+            }
+            if ((flbgs & CHECKSUM_INTEG_FLAG) == 0) {
+                dontfxt.sftIntfgStbtf(fblsf);
+            }
+        }
+    }
+
+    privbtf int gftAddrTypf(InftAddrfss bddr) {
+        int bddrfssTypf = CHANNEL_BINDING_AF_NULL_ADDR;
+
+        if (bddr instbndfof Inft4Addrfss)
+            bddrfssTypf = CHANNEL_BINDING_AF_INET;
+        flsf if (bddr instbndfof Inft6Addrfss)
+            bddrfssTypf = CHANNEL_BINDING_AF_INET6;
+        rfturn (bddrfssTypf);
+    }
+
+    privbtf bytf[] gftAddrBytfs(InftAddrfss bddr) throws GSSExdfption {
+        int bddrfssTypf = gftAddrTypf(bddr);
+        bytf[] bddrfssBytfs = bddr.gftAddrfss();
+        if (bddrfssBytfs != null) {
+            switdh (bddrfssTypf) {
+                dbsf CHANNEL_BINDING_AF_INET:
+                    if (bddrfssBytfs.lfngth != Inft4_ADDRSZ) {
+                        throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt AF-INET bddrfss lfngth in ChbnnflBinding.");
+                    }
+                    rfturn (bddrfssBytfs);
+                dbsf CHANNEL_BINDING_AF_INET6:
+                    if (bddrfssBytfs.lfngth != Inft6_ADDRSZ) {
+                        throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Indorrfdt AF-INET6 bddrfss lfngth in ChbnnflBinding.");
+                    }
+                    rfturn (bddrfssBytfs);
+                dffbult:
+                    throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Cbnnot hbndlf non AF-INET bddrfssfs in ChbnnflBinding.");
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf bytf[] domputfChbnnflBinding(ChbnnflBinding dhbnnflBinding)
+        throws GSSExdfption {
+
+        InftAddrfss initibtorAddrfss = dhbnnflBinding.gftInitibtorAddrfss();
+        InftAddrfss bddfptorAddrfss = dhbnnflBinding.gftAddfptorAddrfss();
+        int sizf = 5*4;
+
+        int initibtorAddrfssTypf = gftAddrTypf(initibtorAddrfss);
+        int bddfptorAddrfssTypf = gftAddrTypf(bddfptorAddrfss);
+
+        bytf[] initibtorAddrfssBytfs = null;
+        if (initibtorAddrfss != null) {
+            initibtorAddrfssBytfs = gftAddrBytfs(initibtorAddrfss);
+            sizf += initibtorAddrfssBytfs.lfngth;
+        }
+
+        bytf[] bddfptorAddrfssBytfs = null;
+        if (bddfptorAddrfss != null) {
+            bddfptorAddrfssBytfs = gftAddrBytfs(bddfptorAddrfss);
+            sizf += bddfptorAddrfssBytfs.lfngth;
+        }
+
+        bytf[] bppDbtbBytfs = dhbnnflBinding.gftApplidbtionDbtb();
+        if (bppDbtbBytfs != null) {
+            sizf += bppDbtbBytfs.lfngth;
+        }
+
+        bytf[] dbtb = nfw bytf[sizf];
+
+        int pos = 0;
+
+        writfLittlfEndibn(initibtorAddrfssTypf, dbtb, pos);
+        pos += 4;
+
+        if (initibtorAddrfssBytfs != null) {
+            writfLittlfEndibn(initibtorAddrfssBytfs.lfngth, dbtb, pos);
+            pos += 4;
+            Systfm.brrbydopy(initibtorAddrfssBytfs, 0,
+                             dbtb, pos, initibtorAddrfssBytfs.lfngth);
+            pos += initibtorAddrfssBytfs.lfngth;
+        } flsf {
+            // Writf lfngth 0
+            pos += 4;
+        }
+
+        writfLittlfEndibn(bddfptorAddrfssTypf, dbtb, pos);
+        pos += 4;
+
+        if (bddfptorAddrfssBytfs != null) {
+            writfLittlfEndibn(bddfptorAddrfssBytfs.lfngth, dbtb, pos);
+            pos += 4;
+            Systfm.brrbydopy(bddfptorAddrfssBytfs, 0,
+                             dbtb, pos, bddfptorAddrfssBytfs.lfngth);
+            pos += bddfptorAddrfssBytfs.lfngth;
+        } flsf {
+            // Writf lfngth 0
+            pos += 4;
+        }
+
+        if (bppDbtbBytfs != null) {
+            writfLittlfEndibn(bppDbtbBytfs.lfngth, dbtb, pos);
+            pos += 4;
+            Systfm.brrbydopy(bppDbtbBytfs, 0, dbtb, pos,
+                             bppDbtbBytfs.lfngth);
+            pos += bppDbtbBytfs.lfngth;
+        } flsf {
+            // Writf 0
+            pos += 4;
+        }
+
+        try {
+            MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
+            rfturn md5.digfst(dbtb);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+                throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "Could not gft MD5 Mfssbgf Digfst - "
+                                       + f.gftMfssbgf());
+        }
+    }
+
+    publid bbstrbdt bytf[] fndodf() throws IOExdfption;
+
+}

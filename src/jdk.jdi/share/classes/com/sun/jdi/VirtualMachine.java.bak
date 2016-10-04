@@ -1,864 +1,864 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import com.sun.jdi.event.EventQueue;
-import com.sun.jdi.request.EventRequestManager;
+import dom.sun.jdi.fvfnt.EvfntQufuf;
+import dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * A virtual machine targeted for debugging.
- * More precisely, a {@link Mirror mirror} representing the
- * composite state of the target VM.
- * All other mirrors are associated with an instance of this
- * interface.  Access to all other mirrors is achieved
- * directly or indirectly through an instance of this
- * interface.
- * Access to global VM properties and control of VM execution
- * are supported directly by this interface.
+ * A virtubl mbdiinf tbrgftfd for dfbugging.
+ * Morf prfdisfly, b {@link Mirror mirror} rfprfsfnting tif
+ * dompositf stbtf of tif tbrgft VM.
+ * All otifr mirrors brf bssodibtfd witi bn instbndf of tiis
+ * intfrfbdf.  Addfss to bll otifr mirrors is bdiifvfd
+ * dirfdtly or indirfdtly tirougi bn instbndf of tiis
+ * intfrfbdf.
+ * Addfss to globbl VM propfrtifs bnd dontrol of VM fxfdution
+ * brf supportfd dirfdtly by tiis intfrfbdf.
  * <P>
- * Instances of this interface are created by instances of
- * {@link com.sun.jdi.connect.Connector}. For example,
- * an {@link com.sun.jdi.connect.AttachingConnector AttachingConnector}
- * attaches to a target VM and returns its virtual machine mirror.
- * A Connector will typically create a VirtualMachine by invoking
- * the VirtualMachineManager's {@link
- * com.sun.jdi.VirtualMachineManager#createVirtualMachine(Connection)}
- * createVirtualMachine(Connection) method.
+ * Instbndfs of tiis intfrfbdf brf drfbtfd by instbndfs of
+ * {@link dom.sun.jdi.donnfdt.Connfdtor}. For fxbmplf,
+ * bn {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor AttbdiingConnfdtor}
+ * bttbdifs to b tbrgft VM bnd rfturns its virtubl mbdiinf mirror.
+ * A Connfdtor will typidblly drfbtf b VirtublMbdiinf by invoking
+ * tif VirtublMbdiinfMbnbgfr's {@link
+ * dom.sun.jdi.VirtublMbdiinfMbnbgfr#drfbtfVirtublMbdiinf(Connfdtion)}
+ * drfbtfVirtublMbdiinf(Connfdtion) mftiod.
  * <p>
- * Note that a target VM launched by a launching connector is not
- * guaranteed to be stable until after the {@link com.sun.jdi.event.VMStartEvent} has been
- * received.
+ * Notf tibt b tbrgft VM lbundifd by b lbundiing donnfdtor is not
+ * gubrbntffd to bf stbblf until bftfr tif {@link dom.sun.jdi.fvfnt.VMStbrtEvfnt} ibs bffn
+ * rfdfivfd.
  * <p>
- * Any method on <code>VirtualMachine</code> which
- * takes <code>VirtualMachine</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any mftiod on <dodf>VirtublMbdiinf</dodf> wiidi
+ * tbkfs <dodf>VirtublMbdiinf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if tif tbrgft VM is
+ * disdonnfdtfd bnd tif {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} ibs bffn or is
+ * bvbilbblf to bf rfbd from tif {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
  * <p>
- * Any method on <code>VirtualMachine</code> which
- * takes <code>VirtualMachine</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any mftiod on <dodf>VirtublMbdiinf</dodf> wiidi
+ * tbkfs <dodf>VirtublMbdiinf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if tif tbrgft VM ibs run out of mfmory.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface VirtualMachine extends Mirror {
+@jdk.Exportfd
+publid intfrfbdf VirtublMbdiinf fxtfnds Mirror {
 
     /**
-     * Returns the loaded reference types that
-     * match a given name. The name must be fully qualified
-     * (for example, java.lang.String). The returned list
-     * will contain a {@link ReferenceType} for each class
-     * or interface found with the given name. The search
-     * is confined to loaded classes only; no attempt is made
-     * to load a class of the given name.
+     * Rfturns tif lobdfd rfffrfndf typfs tibt
+     * mbtdi b givfn nbmf. Tif nbmf must bf fully qublififd
+     * (for fxbmplf, jbvb.lbng.String). Tif rfturnfd list
+     * will dontbin b {@link RfffrfndfTypf} for fbdi dlbss
+     * or intfrfbdf found witi tif givfn nbmf. Tif sfbrdi
+     * is donfinfd to lobdfd dlbssfs only; no bttfmpt is mbdf
+     * to lobd b dlbss of tif givfn nbmf.
      * <P>
-     * The returned list will include reference types
-     * loaded at least to the point of preparation and
-     * types (like array) for which preparation is
-     * not defined.
+     * Tif rfturnfd list will indludf rfffrfndf typfs
+     * lobdfd bt lfbst to tif point of prfpbrbtion bnd
+     * typfs (likf brrby) for wiidi prfpbrbtion is
+     * not dffinfd.
      *
-     * @param className the class/interface name to search for
-     * @return a list of {@link ReferenceType} objects, each
-     * mirroring a type in the target VM with the given name.
+     * @pbrbm dlbssNbmf tif dlbss/intfrfbdf nbmf to sfbrdi for
+     * @rfturn b list of {@link RfffrfndfTypf} objfdts, fbdi
+     * mirroring b typf in tif tbrgft VM witi tif givfn nbmf.
      */
-    List<ReferenceType> classesByName(String className);
+    List<RfffrfndfTypf> dlbssfsByNbmf(String dlbssNbmf);
 
     /**
-     * Returns all loaded types. For each loaded type in the target
-     * VM a {@link ReferenceType} will be placed in the returned list.
-     * The list will include ReferenceTypes which mirror classes,
-     * interfaces, and array types.
+     * Rfturns bll lobdfd typfs. For fbdi lobdfd typf in tif tbrgft
+     * VM b {@link RfffrfndfTypf} will bf plbdfd in tif rfturnfd list.
+     * Tif list will indludf RfffrfndfTypfs wiidi mirror dlbssfs,
+     * intfrfbdfs, bnd brrby typfs.
      * <P>
-     * The returned list will include reference types
-     * loaded at least to the point of preparation and
-     * types (like array) for which preparation is
-     * not defined.
+     * Tif rfturnfd list will indludf rfffrfndf typfs
+     * lobdfd bt lfbst to tif point of prfpbrbtion bnd
+     * typfs (likf brrby) for wiidi prfpbrbtion is
+     * not dffinfd.
      *
-     * @return a list of {@link ReferenceType} objects, each mirroring
-     * a loaded type in the target VM.
+     * @rfturn b list of {@link RfffrfndfTypf} objfdts, fbdi mirroring
+     * b lobdfd typf in tif tbrgft VM.
      */
-    List<ReferenceType> allClasses();
+    List<RfffrfndfTypf> bllClbssfs();
 
     /**
-     * All classes given are redefined according to the
-     * definitions supplied.  A method in a redefined class
-     * is called 'equivalent' (to the old version of the
-     * method) if
+     * All dlbssfs givfn brf rfdffinfd bddording to tif
+     * dffinitions supplifd.  A mftiod in b rfdffinfd dlbss
+     * is dbllfd 'fquivblfnt' (to tif old vfrsion of tif
+     * mftiod) if
      * <UL>
-     * <LI>their bytecodes are the same except for indicies into
-     *   the constant pool, and
-     * <LI>the referenced constants are equal.
+     * <LI>tifir bytfdodfs brf tif sbmf fxdfpt for indidifs into
+     *   tif donstbnt pool, bnd
+     * <LI>tif rfffrfndfd donstbnts brf fqubl.
      * </UL>
-     * Otherwise, the new method is called 'non-equivalent'.
-     * If a redefined method has active stack frames, those active
-     * frames continue to run the bytecodes of the previous version of the
-     * method.  If the new version of such a method is non-equivalent,
-     * then a method from one of these active frames is called 'obsolete' and
-     * {@link Method#isObsolete Method.isObsolete()}
-     * will return true when called on one of these methods.
-     * If resetting such a frame is desired, use
-     * {@link ThreadReference#popFrames ThreadReference.popFrames(StackFrame)}
-     * to pop the old obsolete method execution from the stack.
-     * New invocations of redefined methods will always invoke the new versions.
+     * Otifrwisf, tif nfw mftiod is dbllfd 'non-fquivblfnt'.
+     * If b rfdffinfd mftiod ibs bdtivf stbdk frbmfs, tiosf bdtivf
+     * frbmfs dontinuf to run tif bytfdodfs of tif prfvious vfrsion of tif
+     * mftiod.  If tif nfw vfrsion of sudi b mftiod is non-fquivblfnt,
+     * tifn b mftiod from onf of tifsf bdtivf frbmfs is dbllfd 'obsolftf' bnd
+     * {@link Mftiod#isObsolftf Mftiod.isObsolftf()}
+     * will rfturn truf wifn dbllfd on onf of tifsf mftiods.
+     * If rfsftting sudi b frbmf is dfsirfd, usf
+     * {@link TirfbdRfffrfndf#popFrbmfs TirfbdRfffrfndf.popFrbmfs(StbdkFrbmf)}
+     * to pop tif old obsolftf mftiod fxfdution from tif stbdk.
+     * Nfw invodbtions of rfdffinfd mftiods will blwbys invokf tif nfw vfrsions.
      * <p>
-     * This function does not cause any initialization except
-     * that which would occur under the customary JVM semantics.
-     * In other words, redefining a class does not cause
-     * its initializers to be run. The values of preexisting
-     * static variables will remain as they were prior to the
-     * call. However, completely uninitialized (new) static
-     * variables will be assigned their default value.
+     * Tiis fundtion dofs not dbusf bny initiblizbtion fxdfpt
+     * tibt wiidi would oddur undfr tif dustombry JVM sfmbntids.
+     * In otifr words, rfdffining b dlbss dofs not dbusf
+     * its initiblizfrs to bf run. Tif vblufs of prffxisting
+     * stbtid vbribblfs will rfmbin bs tify wfrf prior to tif
+     * dbll. Howfvfr, domplftfly uninitiblizfd (nfw) stbtid
+     * vbribblfs will bf bssignfd tifir dffbult vbluf.
      * <p>
-     * If a redefined class has instances then all those
-     * instances will have the fields defined by the redefined
-     * class at the completion of the call. Preexisting fields
-     * will retain their previous values. Any new fields will
-     * have their default values; no instance initializers or
-     * constructors are run.
+     * If b rfdffinfd dlbss ibs instbndfs tifn bll tiosf
+     * instbndfs will ibvf tif fiflds dffinfd by tif rfdffinfd
+     * dlbss bt tif domplftion of tif dbll. Prffxisting fiflds
+     * will rftbin tifir prfvious vblufs. Any nfw fiflds will
+     * ibvf tifir dffbult vblufs; no instbndf initiblizfrs or
+     * donstrudtors brf run.
      * <p>
-     * Threads need not be suspended.
+     * Tirfbds nffd not bf suspfndfd.
      * <p>
-     * No events are generated by this function.
+     * No fvfnts brf gfnfrbtfd by tiis fundtion.
      * <p>
-     * All breakpoints in the redefined classes are deleted.
+     * All brfbkpoints in tif rfdffinfd dlbssfs brf dflftfd.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link #canRedefineClasses() canRedefineClasses()}
-     * to determine if the operation is supported.
-     * Use {@link #canAddMethod() canAddMethod()}
-     * to determine if the redefinition can add methods.
-     * Use {@link #canUnrestrictedlyRedefineClasses() canUnrestrictedlyRedefineClasses()}
-     * to determine if the redefinition can change the schema,
-     * delete methods, change the class hierarchy, etc.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link #dbnRfdffinfClbssfs() dbnRfdffinfClbssfs()}
+     * to dftfrminf if tif opfrbtion is supportfd.
+     * Usf {@link #dbnAddMftiod() dbnAddMftiod()}
+     * to dftfrminf if tif rfdffinition dbn bdd mftiods.
+     * Usf {@link #dbnUnrfstridtfdlyRfdffinfClbssfs() dbnUnrfstridtfdlyRfdffinfClbssfs()}
+     * to dftfrminf if tif rfdffinition dbn dibngf tif sdifmb,
+     * dflftf mftiods, dibngf tif dlbss iifrbrdiy, ftd.
      *
-     * @param classToBytes A map from {@link ReferenceType}
-     * to array of byte.
-     * The bytes represent the new class definition and
-     * are in Java Virtual Machine class file format.
+     * @pbrbm dlbssToBytfs A mbp from {@link RfffrfndfTypf}
+     * to brrby of bytf.
+     * Tif bytfs rfprfsfnt tif nfw dlbss dffinition bnd
+     * brf in Jbvb Virtubl Mbdiinf dlbss filf formbt.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
      * <UL>
-     * <LI>If {@link #canRedefineClasses() canRedefineClasses()}
-     * is false any call of this method will throw this exception.
-     * <LI>If {@link #canAddMethod() canAddMethod()} is false
-     * attempting to add a method will throw this exception.
-     * <LI>If {@link #canUnrestrictedlyRedefineClasses()
-     *            canUnrestrictedlyRedefineClasses()}
-     * is false, attempting any of the following will throw
-     * this exception
+     * <LI>If {@link #dbnRfdffinfClbssfs() dbnRfdffinfClbssfs()}
+     * is fblsf bny dbll of tiis mftiod will tirow tiis fxdfption.
+     * <LI>If {@link #dbnAddMftiod() dbnAddMftiod()} is fblsf
+     * bttfmpting to bdd b mftiod will tirow tiis fxdfption.
+     * <LI>If {@link #dbnUnrfstridtfdlyRfdffinfClbssfs()
+     *            dbnUnrfstridtfdlyRfdffinfClbssfs()}
+     * is fblsf, bttfmpting bny of tif following will tirow
+     * tiis fxdfption
      *   <UL>
-     *   <LI>changing the schema (the fields)
-     *   <LI>changing the hierarchy (subclasses, interfaces)
-     *   <LI>deleting a method
-     *   <LI>changing class modifiers
-     *   <LI>changing method modifiers
+     *   <LI>dibnging tif sdifmb (tif fiflds)
+     *   <LI>dibnging tif iifrbrdiy (subdlbssfs, intfrfbdfs)
+     *   <LI>dflfting b mftiod
+     *   <LI>dibnging dlbss modififrs
+     *   <LI>dibnging mftiod modififrs
      *   </UL>
      * </UL>
      *
-     * @throws java.lang.NoClassDefFoundError if the bytes
-     * don't correspond to the reference type (the names
-     * don't match).
+     * @tirows jbvb.lbng.NoClbssDffFoundError if tif bytfs
+     * don't dorrfspond to tif rfffrfndf typf (tif nbmfs
+     * don't mbtdi).
      *
-     * @throws java.lang.VerifyError if a "verifier" detects
-     * that a class, though well formed, contains an internal
-     * inconsistency or security problem.
+     * @tirows jbvb.lbng.VfrifyError if b "vfrififr" dftfdts
+     * tibt b dlbss, tiougi wfll formfd, dontbins bn intfrnbl
+     * indonsistfndy or sfdurity problfm.
      *
-     * @throws java.lang.ClassFormatError if the bytes
-     * do not represent a valid class.
+     * @tirows jbvb.lbng.ClbssFormbtError if tif bytfs
+     * do not rfprfsfnt b vblid dlbss.
      *
-     * @throws java.lang.ClassCircularityError if a
-     * circularity has been detected while initializing a class.
+     * @tirows jbvb.lbng.ClbssCirdulbrityError if b
+     * dirdulbrity ibs bffn dftfdtfd wiilf initiblizing b dlbss.
      *
-     * @throws java.lang.UnsupportedClassVersionError if the
-     * major and minor version numbers in bytes
-     * are not supported by the VM.
+     * @tirows jbvb.lbng.UnsupportfdClbssVfrsionError if tif
+     * mbjor bnd minor vfrsion numbfrs in bytfs
+     * brf not supportfd by tif VM.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @see Method#isObsolete
-     * @see ThreadReference#popFrames
-     * @see #canRedefineClasses
-     * @see #canAddMethod
-     * @see #canUnrestrictedlyRedefineClasses
+     * @sff Mftiod#isObsolftf
+     * @sff TirfbdRfffrfndf#popFrbmfs
+     * @sff #dbnRfdffinfClbssfs
+     * @sff #dbnAddMftiod
+     * @sff #dbnUnrfstridtfdlyRfdffinfClbssfs
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    void redefineClasses(Map<? extends ReferenceType,byte[]> classToBytes);
+    void rfdffinfClbssfs(Mbp<? fxtfnds RfffrfndfTypf,bytf[]> dlbssToBytfs);
 
     /**
-     * Returns a list of the currently running threads. For each
-     * running thread in the target VM, a {@link ThreadReference}
-     * that mirrors it is placed in the list.
-     * The returned list contains threads created through
-     * java.lang.Thread, all native threads attached to
-     * the target VM through JNI, and system threads created
-     * by the target VM. Thread objects that have
-     * not yet been started
-     * (see {@link java.lang.Thread#start Thread.start()})
-     * and thread objects that have
-     * completed their execution are not included in the returned list.
+     * Rfturns b list of tif durrfntly running tirfbds. For fbdi
+     * running tirfbd in tif tbrgft VM, b {@link TirfbdRfffrfndf}
+     * tibt mirrors it is plbdfd in tif list.
+     * Tif rfturnfd list dontbins tirfbds drfbtfd tirougi
+     * jbvb.lbng.Tirfbd, bll nbtivf tirfbds bttbdifd to
+     * tif tbrgft VM tirougi JNI, bnd systfm tirfbds drfbtfd
+     * by tif tbrgft VM. Tirfbd objfdts tibt ibvf
+     * not yft bffn stbrtfd
+     * (sff {@link jbvb.lbng.Tirfbd#stbrt Tirfbd.stbrt()})
+     * bnd tirfbd objfdts tibt ibvf
+     * domplftfd tifir fxfdution brf not indludfd in tif rfturnfd list.
      *
-     * @return a list of {@link ThreadReference} objects, one for each
-     * running thread in the mirrored VM.
+     * @rfturn b list of {@link TirfbdRfffrfndf} objfdts, onf for fbdi
+     * running tirfbd in tif mirrorfd VM.
      */
-    List<ThreadReference> allThreads();
+    List<TirfbdRfffrfndf> bllTirfbds();
 
     /**
-     * Suspends the execution of the application running in this
-     * virtual machine. All threads currently running will be suspended.
+     * Suspfnds tif fxfdution of tif bpplidbtion running in tiis
+     * virtubl mbdiinf. All tirfbds durrfntly running will bf suspfndfd.
      * <p>
-     * Unlike {@link java.lang.Thread#suspend Thread.suspend()},
-     * suspends of both the virtual machine and individual threads are
-     * counted. Before a thread will run again, it must be resumed
-     * (through {@link #resume} or {@link ThreadReference#resume})
-     * the same number of times it has been suspended.
+     * Unlikf {@link jbvb.lbng.Tirfbd#suspfnd Tirfbd.suspfnd()},
+     * suspfnds of boti tif virtubl mbdiinf bnd individubl tirfbds brf
+     * dountfd. Bfforf b tirfbd will run bgbin, it must bf rfsumfd
+     * (tirougi {@link #rfsumf} or {@link TirfbdRfffrfndf#rfsumf})
+     * tif sbmf numbfr of timfs it ibs bffn suspfndfd.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void suspend();
+    void suspfnd();
 
     /**
-     * Continues the execution of the application running in this
-     * virtual machine. All threads are resumed as documented in
-     * {@link ThreadReference#resume}.
+     * Continufs tif fxfdution of tif bpplidbtion running in tiis
+     * virtubl mbdiinf. All tirfbds brf rfsumfd bs dodumfntfd in
+     * {@link TirfbdRfffrfndf#rfsumf}.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @see #suspend
+     * @sff #suspfnd
      */
-    void resume();
+    void rfsumf();
 
     /**
-     * Returns each thread group which does not have a parent. For each
-     * top level thread group a {@link ThreadGroupReference} is placed in the
-     * returned list.
+     * Rfturns fbdi tirfbd group wiidi dofs not ibvf b pbrfnt. For fbdi
+     * top lfvfl tirfbd group b {@link TirfbdGroupRfffrfndf} is plbdfd in tif
+     * rfturnfd list.
      * <p>
-     * This command may be used as the first step in building a tree
-     * (or trees) of the existing thread groups.
+     * Tiis dommbnd mby bf usfd bs tif first stfp in building b trff
+     * (or trffs) of tif fxisting tirfbd groups.
      *
-     * @return a list of {@link ThreadGroupReference} objects, one for each
-     * top level thread group.
+     * @rfturn b list of {@link TirfbdGroupRfffrfndf} objfdts, onf for fbdi
+     * top lfvfl tirfbd group.
      */
-    List<ThreadGroupReference> topLevelThreadGroups();
+    List<TirfbdGroupRfffrfndf> topLfvflTirfbdGroups();
 
     /**
-     * Returns the event queue for this virtual machine.
-     * A virtual machine has only one {@link EventQueue} object, this
-     * method will return the same instance each time it
-     * is invoked.
+     * Rfturns tif fvfnt qufuf for tiis virtubl mbdiinf.
+     * A virtubl mbdiinf ibs only onf {@link EvfntQufuf} objfdt, tiis
+     * mftiod will rfturn tif sbmf instbndf fbdi timf it
+     * is invokfd.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @return the {@link EventQueue} for this virtual machine.
+     * @rfturn tif {@link EvfntQufuf} for tiis virtubl mbdiinf.
      */
-    EventQueue eventQueue();
+    EvfntQufuf fvfntQufuf();
 
     /**
-     * Returns the event request manager for this virtual machine.
-     * The {@link EventRequestManager} controls user settable events
-     * such as breakpoints.
-     * A virtual machine has only one {@link EventRequestManager} object,
-     * this method will return the same instance each time it
-     * is invoked.
+     * Rfturns tif fvfnt rfqufst mbnbgfr for tiis virtubl mbdiinf.
+     * Tif {@link EvfntRfqufstMbnbgfr} dontrols usfr sfttbblf fvfnts
+     * sudi bs brfbkpoints.
+     * A virtubl mbdiinf ibs only onf {@link EvfntRfqufstMbnbgfr} objfdt,
+     * tiis mftiod will rfturn tif sbmf instbndf fbdi timf it
+     * is invokfd.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @return the {@link EventRequestManager} for this virtual machine.
+     * @rfturn tif {@link EvfntRfqufstMbnbgfr} for tiis virtubl mbdiinf.
      */
-    EventRequestManager eventRequestManager();
+    EvfntRfqufstMbnbgfr fvfntRfqufstMbnbgfr();
 
     /**
-     * Creates a {@link BooleanValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link BoolfbnVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a boolean for which to create the value
-     * @return the {@link BooleanValue} for the given boolean.
+     * @pbrbm vbluf b boolfbn for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link BoolfbnVbluf} for tif givfn boolfbn.
      */
-    BooleanValue mirrorOf(boolean value);
+    BoolfbnVbluf mirrorOf(boolfbn vbluf);
 
     /**
-     * Creates a {@link ByteValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link BytfVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a byte for which to create the value
-     * @return the {@link ByteValue} for the given byte.
+     * @pbrbm vbluf b bytf for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link BytfVbluf} for tif givfn bytf.
      */
-    ByteValue mirrorOf(byte value);
+    BytfVbluf mirrorOf(bytf vbluf);
 
     /**
-     * Creates a {@link CharValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link CibrVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a char for which to create the value
-     * @return the {@link CharValue} for the given char.
+     * @pbrbm vbluf b dibr for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link CibrVbluf} for tif givfn dibr.
      */
-    CharValue mirrorOf(char value);
+    CibrVbluf mirrorOf(dibr vbluf);
 
     /**
-     * Creates a {@link ShortValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link SiortVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a short for which to create the value
-     * @return the {@link ShortValue} for the given short.
+     * @pbrbm vbluf b siort for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link SiortVbluf} for tif givfn siort.
      */
-    ShortValue mirrorOf(short value);
+    SiortVbluf mirrorOf(siort vbluf);
 
     /**
-     * Creates an {@link IntegerValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs bn {@link IntfgfrVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value an int for which to create the value
-     * @return the {@link IntegerValue} for the given int.
+     * @pbrbm vbluf bn int for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link IntfgfrVbluf} for tif givfn int.
      */
-    IntegerValue mirrorOf(int value);
+    IntfgfrVbluf mirrorOf(int vbluf);
 
     /**
-     * Creates a {@link LongValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link LongVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a long for which to create the value
-     * @return the {@link LongValue} for the given long.
+     * @pbrbm vbluf b long for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link LongVbluf} for tif givfn long.
      */
-    LongValue mirrorOf(long value);
+    LongVbluf mirrorOf(long vbluf);
 
     /**
-     * Creates a {@link FloatValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link FlobtVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a float for which to create the value
-     * @return the {@link FloatValue} for the given float.
+     * @pbrbm vbluf b flobt for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link FlobtVbluf} for tif givfn flobt.
      */
-    FloatValue mirrorOf(float value);
+    FlobtVbluf mirrorOf(flobt vbluf);
 
     /**
-     * Creates a {@link DoubleValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crfbtfs b {@link DoublfVbluf} for tif givfn vbluf. Tiis vbluf
+     * dbn bf usfd for sftting bnd dompbring bgbinst b vbluf rftrifvfd
+     * from b vbribblf or fifld in tiis virtubl mbdiinf.
      *
-     * @param value a double for which to create the value
-     * @return the {@link DoubleValue} for the given double.
+     * @pbrbm vbluf b doublf for wiidi to drfbtf tif vbluf
+     * @rfturn tif {@link DoublfVbluf} for tif givfn doublf.
      */
-    DoubleValue mirrorOf(double value);
+    DoublfVbluf mirrorOf(doublf vbluf);
 
     /**
-     * Creates a string in this virtual machine.
-     * The created string can be used for setting and comparing against
-     * a string value retrieved from a variable or field in this
-     * virtual machine.
+     * Crfbtfs b string in tiis virtubl mbdiinf.
+     * Tif drfbtfd string dbn bf usfd for sftting bnd dompbring bgbinst
+     * b string vbluf rftrifvfd from b vbribblf or fifld in tiis
+     * virtubl mbdiinf.
      *
-     * @param value the string to be created
-     * @return a {@link StringReference} that mirrors the newly created
-     * string in the target VM.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vbluf tif string to bf drfbtfd
+     * @rfturn b {@link StringRfffrfndf} tibt mirrors tif nfwly drfbtfd
+     * string in tif tbrgft VM.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only
+     * -sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    StringReference mirrorOf(String value);
+    StringRfffrfndf mirrorOf(String vbluf);
 
 
     /**
-     * Creates a {@link VoidValue}.  This value
-     * can be passed to {@link ThreadReference#forceEarlyReturn}
-     * when a void method is to be exited.
+     * Crfbtfs b {@link VoidVbluf}.  Tiis vbluf
+     * dbn bf pbssfd to {@link TirfbdRfffrfndf#fordfEbrlyRfturn}
+     * wifn b void mftiod is to bf fxitfd.
      *
-     * @return the {@link VoidValue}.
+     * @rfturn tif {@link VoidVbluf}.
      */
-    VoidValue mirrorOfVoid();
+    VoidVbluf mirrorOfVoid();
 
     /**
-     * Returns the {@link java.lang.Process} object for this
-     * virtual machine if launched
-     * by a {@link com.sun.jdi.connect.LaunchingConnector}
+     * Rfturns tif {@link jbvb.lbng.Prodfss} objfdt for tiis
+     * virtubl mbdiinf if lbundifd
+     * by b {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor}
      *
-     * @return the {@link java.lang.Process} object for this virtual
-     * machine, or null if it was not launched by a
-     * {@link com.sun.jdi.connect.LaunchingConnector}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @rfturn tif {@link jbvb.lbng.Prodfss} objfdt for tiis virtubl
+     * mbdiinf, or null if it wbs not lbundifd by b
+     * {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only
+     * -sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    Process process();
+    Prodfss prodfss();
 
     /**
-     * Invalidates this virtual machine mirror.
-     * The communication channel to the target VM is closed, and
-     * the target VM prepares to accept another subsequent connection
-     * from this debugger or another debugger, including the
-     * following tasks:
+     * Invblidbtfs tiis virtubl mbdiinf mirror.
+     * Tif dommunidbtion dibnnfl to tif tbrgft VM is dlosfd, bnd
+     * tif tbrgft VM prfpbrfs to bddfpt bnotifr subsfqufnt donnfdtion
+     * from tiis dfbuggfr or bnotifr dfbuggfr, indluding tif
+     * following tbsks:
      * <ul>
-     * <li>All event requests are cancelled.
-     * <li>All threads suspended by {@link #suspend} or by
-     * {@link ThreadReference#suspend} are resumed as many
-     * times as necessary for them to run.
-     * <li>Garbage collection is re-enabled in all cases where it was
-     * disabled through {@link ObjectReference#disableCollection}.
+     * <li>All fvfnt rfqufsts brf dbndfllfd.
+     * <li>All tirfbds suspfndfd by {@link #suspfnd} or by
+     * {@link TirfbdRfffrfndf#suspfnd} brf rfsumfd bs mbny
+     * timfs bs nfdfssbry for tifm to run.
+     * <li>Gbrbbgf dollfdtion is rf-fnbblfd in bll dbsfs wifrf it wbs
+     * disbblfd tirougi {@link ObjfdtRfffrfndf#disbblfCollfdtion}.
      * </ul>
-     * Any current method invocations executing in the target VM
-     * are continued after the disconnection. Upon completion of any such
-     * method invocation, the invoking thread continues from the
-     * location where it was originally stopped.
+     * Any durrfnt mftiod invodbtions fxfduting in tif tbrgft VM
+     * brf dontinufd bftfr tif disdonnfdtion. Upon domplftion of bny sudi
+     * mftiod invodbtion, tif invoking tirfbd dontinufs from tif
+     * lodbtion wifrf it wbs originblly stoppfd.
      * <p>
-     * Resources originating in
-     * this VirtualMachine (ObjectReferences, ReferenceTypes, etc.)
-     * will become invalid.
+     * Rfsourdfs originbting in
+     * tiis VirtublMbdiinf (ObjfdtRfffrfndfs, RfffrfndfTypfs, ftd.)
+     * will bfdomf invblid.
      */
-    void dispose();
+    void disposf();
 
     /**
-     * Causes the mirrored VM to terminate with the given error code.
-     * All resources associated with this VirtualMachine are freed.
-     * If the mirrored VM is remote, the communication channel
-     * to it will be closed. Resources originating in
-     * this VirtualMachine (ObjectReferences, ReferenceTypes, etc.)
-     * will become invalid.
+     * Cbusfs tif mirrorfd VM to tfrminbtf witi tif givfn frror dodf.
+     * All rfsourdfs bssodibtfd witi tiis VirtublMbdiinf brf frffd.
+     * If tif mirrorfd VM is rfmotf, tif dommunidbtion dibnnfl
+     * to it will bf dlosfd. Rfsourdfs originbting in
+     * tiis VirtublMbdiinf (ObjfdtRfffrfndfs, RfffrfndfTypfs, ftd.)
+     * will bfdomf invblid.
      * <p>
-     * Threads running in the mirrored VM are abruptly terminated.
-     * A thread death exception is not thrown and
-     * finally blocks are not run.
+     * Tirfbds running in tif mirrorfd VM brf bbruptly tfrminbtfd.
+     * A tirfbd dfbti fxdfption is not tirown bnd
+     * finblly blodks brf not run.
      *
-     * @param exitCode the exit code for the target VM.  On some platforms,
-     * the exit code might be truncated, for example, to the lower order 8 bits.
+     * @pbrbm fxitCodf tif fxit dodf for tif tbrgft VM.  On somf plbtforms,
+     * tif fxit dodf migit bf trundbtfd, for fxbmplf, to tif lowfr ordfr 8 bits.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void exit(int exitCode);
+    void fxit(int fxitCodf);
 
     /**
-     * Determines if the target VM supports watchpoints
-     * for field modification.
+     * Dftfrminfs if tif tbrgft VM supports wbtdipoints
+     * for fifld modifidbtion.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canWatchFieldModification();
+    boolfbn dbnWbtdiFifldModifidbtion();
 
     /**
-     * Determines if the target VM supports watchpoints
-     * for field access.
+     * Dftfrminfs if tif tbrgft VM supports wbtdipoints
+     * for fifld bddfss.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canWatchFieldAccess();
+    boolfbn dbnWbtdiFifldAddfss();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of a method's bytecodes.
+     * Dftfrminfs if tif tbrgft VM supports tif rftrifvbl
+     * of b mftiod's bytfdodfs.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canGetBytecodes();
+    boolfbn dbnGftBytfdodfs();
 
     /**
-     * Determines if the target VM supports the query
-     * of the synthetic attribute of a method or field.
+     * Dftfrminfs if tif tbrgft VM supports tif qufry
+     * of tif syntiftid bttributf of b mftiod or fifld.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canGetSyntheticAttribute();
+    boolfbn dbnGftSyntiftidAttributf();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitors owned by a thread.
+     * Dftfrminfs if tif tbrgft VM supports tif rftrifvbl
+     * of tif monitors ownfd by b tirfbd.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canGetOwnedMonitorInfo();
+    boolfbn dbnGftOwnfdMonitorInfo();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitor for which a thread is currently waiting.
+     * Dftfrminfs if tif tbrgft VM supports tif rftrifvbl
+     * of tif monitor for wiidi b tirfbd is durrfntly wbiting.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canGetCurrentContendedMonitor();
+    boolfbn dbnGftCurrfntContfndfdMonitor();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitor information for an object.
+     * Dftfrminfs if tif tbrgft VM supports tif rftrifvbl
+     * of tif monitor informbtion for bn objfdt.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canGetMonitorInfo();
+    boolfbn dbnGftMonitorInfo();
 
     /**
-     * Determines if the target VM supports filtering
-     * events by specific instance object.  For example,
-     * see {@link com.sun.jdi.request.BreakpointRequest#addInstanceFilter}.
+     * Dftfrminfs if tif tbrgft VM supports filtfring
+     * fvfnts by spfdifid instbndf objfdt.  For fxbmplf,
+     * sff {@link dom.sun.jdi.rfqufst.BrfbkpointRfqufst#bddInstbndfFiltfr}.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean canUseInstanceFilters();
+    boolfbn dbnUsfInstbndfFiltfrs();
 
     /**
-     * Determines if the target VM supports any level
-     * of class redefinition.
-     * @see #redefineClasses
+     * Dftfrminfs if tif tbrgft VM supports bny lfvfl
+     * of dlbss rfdffinition.
+     * @sff #rfdffinfClbssfs
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canRedefineClasses();
+    boolfbn dbnRfdffinfClbssfs();
 
     /**
-     * Determines if the target VM supports the addition
-     * of methods when performing class redefinition.
-     * @see #redefineClasses
+     * Dftfrminfs if tif tbrgft VM supports tif bddition
+     * of mftiods wifn pfrforming dlbss rfdffinition.
+     * @sff #rfdffinfClbssfs
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canAddMethod();
+    boolfbn dbnAddMftiod();
 
     /**
-     * Determines if the target VM supports unrestricted
-     * changes when performing class redefinition.
-     * @see #redefineClasses
+     * Dftfrminfs if tif tbrgft VM supports unrfstridtfd
+     * dibngfs wifn pfrforming dlbss rfdffinition.
+     * @sff #rfdffinfClbssfs
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canUnrestrictedlyRedefineClasses();
+    boolfbn dbnUnrfstridtfdlyRfdffinfClbssfs();
 
     /**
-     * Determines if the target VM supports popping
-     * frames of a threads stack.
-     * @see ThreadReference#popFrames
+     * Dftfrminfs if tif tbrgft VM supports popping
+     * frbmfs of b tirfbds stbdk.
+     * @sff TirfbdRfffrfndf#popFrbmfs
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canPopFrames();
+    boolfbn dbnPopFrbmfs();
 
     /**
-     * Determines if the target VM supports getting
-     * the source debug extension.
-     * @see ReferenceType#sourceDebugExtension
+     * Dftfrminfs if tif tbrgft VM supports gftting
+     * tif sourdf dfbug fxtfnsion.
+     * @sff RfffrfndfTypf#sourdfDfbugExtfnsion
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canGetSourceDebugExtension();
+    boolfbn dbnGftSourdfDfbugExtfnsion();
 
     /**
-     * Determines if the target VM supports the creation of
-     * {@link com.sun.jdi.request.VMDeathRequest}s.
-     * @see com.sun.jdi.request.EventRequestManager#createVMDeathRequest
+     * Dftfrminfs if tif tbrgft VM supports tif drfbtion of
+     * {@link dom.sun.jdi.rfqufst.VMDfbtiRfqufst}s.
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfVMDfbtiRfqufst
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean canRequestVMDeathEvent();
+    boolfbn dbnRfqufstVMDfbtiEvfnt();
 
     /**
-     * Determines if the target VM supports the inclusion of return values
+     * Dftfrminfs if tif tbrgft VM supports tif indlusion of rfturn vblufs
      * in
-     * {@link com.sun.jdi.event.MethodExitEvent}s.
-     * @see com.sun.jdi.request.EventRequestManager#createMethodExitRequest
+     * {@link dom.sun.jdi.fvfnt.MftiodExitEvfnt}s.
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfMftiodExitRfqufst
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    boolean canGetMethodReturnValues();
+    boolfbn dbnGftMftiodRfturnVblufs();
 
     /**
-     * Determines if the target VM supports the accessing of class instances,
-     * instance counts, and referring objects.
+     * Dftfrminfs if tif tbrgft VM supports tif bddfssing of dlbss instbndfs,
+     * instbndf dounts, bnd rfffrring objfdts.
      *
-     * @see #instanceCounts
-     * @see ReferenceType#instances(long)
-     * @see ObjectReference#referringObjects(long)
+     * @sff #instbndfCounts
+     * @sff RfffrfndfTypf#instbndfs(long)
+     * @sff ObjfdtRfffrfndf#rfffrringObjfdts(long)
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    boolean canGetInstanceInfo();
-
-
-    /**
-     * Determines if the target VM supports the filtering of
-     * class prepare events by source name.
-     *
-     * see {@link com.sun.jdi.request.ClassPrepareRequest#addSourceNameFilter}.
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
-     */
-    boolean canUseSourceNameFilters();
-
-    /**
-     * Determines if the target VM supports the forcing of a method to
-     * return early.
-     *
-     * @see ThreadReference#forceEarlyReturn(Value)
-     *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
-     */
-    boolean canForceEarlyReturn();
-
-    /**
-     * Determines if the target VM is a read-only VM.  If a method which
-     * would modify the state of the VM is called on a read-only VM,
-     * then {@link VMCannotBeModifiedException} is thrown.
-     *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.5
-     */
-
-    boolean canBeModified();
-
-    /**
-     * Determines if the target VM supports the creation of
-     * {@link com.sun.jdi.request.MonitorContendedEnterRequest}s.
-     * {@link com.sun.jdi.request.MonitorContendedEnteredRequest}s.
-     * {@link com.sun.jdi.request.MonitorWaitRequest}s.
-     * {@link com.sun.jdi.request.MonitorWaitedRequest}s.
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorContendedEnterRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorContendedEnteredRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorWaitRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorWaitedRequest
-     *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
-     */
-
-    boolean canRequestMonitorEvents();
-
-    /**
-     * Determines if the target VM supports getting which
-     * frame has acquired a monitor.
-     * @see com.sun.jdi.ThreadReference#ownedMonitorsAndFrames
-     *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
-     */
-
-     boolean canGetMonitorFrameInfo();
+    boolfbn dbnGftInstbndfInfo();
 
 
     /**
-     * Determines if the target VM supports reading class file
-     * major and minor versions.
+     * Dftfrminfs if tif tbrgft VM supports tif filtfring of
+     * dlbss prfpbrf fvfnts by sourdf nbmf.
      *
-     * @see ReferenceType#majorVersion()
-     * @see ReferenceType#minorVersion()
+     * sff {@link dom.sun.jdi.rfqufst.ClbssPrfpbrfRfqufst#bddSourdfNbmfFiltfr}.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
+     * @sindf 1.6
      */
-    boolean canGetClassFileVersion();
+    boolfbn dbnUsfSourdfNbmfFiltfrs();
 
     /**
-     * Determines if the target VM supports getting constant pool
-     * information of a class.
+     * Dftfrminfs if tif tbrgft VM supports tif fording of b mftiod to
+     * rfturn fbrly.
      *
-     * @see ReferenceType#constantPoolCount()
-     * @see ReferenceType#constantPool()
+     * @sff TirfbdRfffrfndf#fordfEbrlyRfturn(Vbluf)
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    boolean canGetConstantPool();
+    boolfbn dbnFordfEbrlyRfturn();
 
     /**
-     * Set this VM's default stratum (see {@link Location} for a
-     * discussion of strata).  Overrides the per-class default set
-     * in the class file.
+     * Dftfrminfs if tif tbrgft VM is b rfbd-only VM.  If b mftiod wiidi
+     * would modify tif stbtf of tif VM is dbllfd on b rfbd-only VM,
+     * tifn {@link VMCbnnotBfModififdExdfption} is tirown.
+     *
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @sindf 1.5
+     */
+
+    boolfbn dbnBfModififd();
+
+    /**
+     * Dftfrminfs if tif tbrgft VM supports tif drfbtion of
+     * {@link dom.sun.jdi.rfqufst.MonitorContfndfdEntfrRfqufst}s.
+     * {@link dom.sun.jdi.rfqufst.MonitorContfndfdEntfrfdRfqufst}s.
+     * {@link dom.sun.jdi.rfqufst.MonitorWbitRfqufst}s.
+     * {@link dom.sun.jdi.rfqufst.MonitorWbitfdRfqufst}s.
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfMonitorContfndfdEntfrRfqufst
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfMonitorContfndfdEntfrfdRfqufst
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfMonitorWbitRfqufst
+     * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr#drfbtfMonitorWbitfdRfqufst
+     *
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @sindf 1.6
+     */
+
+    boolfbn dbnRfqufstMonitorEvfnts();
+
+    /**
+     * Dftfrminfs if tif tbrgft VM supports gftting wiidi
+     * frbmf ibs bdquirfd b monitor.
+     * @sff dom.sun.jdi.TirfbdRfffrfndf#ownfdMonitorsAndFrbmfs
+     *
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @sindf 1.6
+     */
+
+     boolfbn dbnGftMonitorFrbmfInfo();
+
+
+    /**
+     * Dftfrminfs if tif tbrgft VM supports rfbding dlbss filf
+     * mbjor bnd minor vfrsions.
+     *
+     * @sff RfffrfndfTypf#mbjorVfrsion()
+     * @sff RfffrfndfTypf#minorVfrsion()
+     *
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @sindf 1.6
+     */
+    boolfbn dbnGftClbssFilfVfrsion();
+
+    /**
+     * Dftfrminfs if tif tbrgft VM supports gftting donstbnt pool
+     * informbtion of b dlbss.
+     *
+     * @sff RfffrfndfTypf#donstbntPoolCount()
+     * @sff RfffrfndfTypf#donstbntPool()
+     *
+     * @rfturn <dodf>truf</dodf> if tif ffbturf is supportfd,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @sindf 1.6
+     */
+    boolfbn dbnGftConstbntPool();
+
+    /**
+     * Sft tiis VM's dffbult strbtum (sff {@link Lodbtion} for b
+     * disdussion of strbtb).  Ovfrridfs tif pfr-dlbss dffbult sft
+     * in tif dlbss filf.
      * <P>
-     * Affects location queries (such as,
-     * {@link Location#sourceName()})
-     * and the line boundaries used in
-     * single stepping.
+     * Afffdts lodbtion qufrifs (sudi bs,
+     * {@link Lodbtion#sourdfNbmf()})
+     * bnd tif linf boundbrifs usfd in
+     * singlf stfpping.
      *
-     * @param stratum the stratum to set as VM default,
-     * or null to use per-class defaults.
+     * @pbrbm strbtum tif strbtum to sft bs VM dffbult,
+     * or null to usf pfr-dlbss dffbults.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target virtual machine does not support this operation.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif
+     * tbrgft virtubl mbdiinf dofs not support tiis opfrbtion.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    void setDefaultStratum(String stratum);
+    void sftDffbultStrbtum(String strbtum);
 
     /**
-     * Return this VM's default stratum.
+     * Rfturn tiis VM's dffbult strbtum.
      *
-     * @see #setDefaultStratum(String)
-     * @see ReferenceType#defaultStratum()
-     * @return <code>null</code> (meaning that the per-class
-     * default - {@link ReferenceType#defaultStratum()} -
-     * should be used) unless the default stratum has been
-     * set with
-     * {@link #setDefaultStratum(String)}.
+     * @sff #sftDffbultStrbtum(String)
+     * @sff RfffrfndfTypf#dffbultStrbtum()
+     * @rfturn <dodf>null</dodf> (mfbning tibt tif pfr-dlbss
+     * dffbult - {@link RfffrfndfTypf#dffbultStrbtum()} -
+     * siould bf usfd) unlfss tif dffbult strbtum ibs bffn
+     * sft witi
+     * {@link #sftDffbultStrbtum(String)}.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    String getDefaultStratum();
+    String gftDffbultStrbtum();
 
     /**
-     * Returns the number of instances of each ReferenceType in the 'refTypes'
+     * Rfturns tif numbfr of instbndfs of fbdi RfffrfndfTypf in tif 'rffTypfs'
      * list.
-     * Only instances that are reachable for the purposes of garbage collection
-     * are counted.
+     * Only instbndfs tibt brf rfbdibblf for tif purposfs of gbrbbgf dollfdtion
+     * brf dountfd.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftInstbndfInfo()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @see ReferenceType#instances(long)
-     * @see ObjectReference#referringObjects(long)
-     * @param refTypes the list of {@link ReferenceType} objects for which counts
-     *        are to be obtained.
+     * @sff RfffrfndfTypf#instbndfs(long)
+     * @sff ObjfdtRfffrfndf#rfffrringObjfdts(long)
+     * @pbrbm rffTypfs tif list of {@link RfffrfndfTypf} objfdts for wiidi dounts
+     *        brf to bf obtbinfd.
      *
-     * @return an array of <code>long</code> containing one element for each
-     *         element in the 'refTypes' list.  Element i of the array contains
-     *         the number of instances in the target VM of the ReferenceType at
-     *         position i in the 'refTypes' list.
-     *         If the 'refTypes' list is empty, a zero-length array is returned.
-     *         If a ReferenceType in refTypes has been garbage collected, zero
-     *         is returned for its instance count.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
-     * @throws NullPointerException if the 'refTypes' list is null.
-     * @since 1.6
+     * @rfturn bn brrby of <dodf>long</dodf> dontbining onf flfmfnt for fbdi
+     *         flfmfnt in tif 'rffTypfs' list.  Elfmfnt i of tif brrby dontbins
+     *         tif numbfr of instbndfs in tif tbrgft VM of tif RfffrfndfTypf bt
+     *         position i in tif 'rffTypfs' list.
+     *         If tif 'rffTypfs' list is fmpty, b zfro-lfngti brrby is rfturnfd.
+     *         If b RfffrfndfTypf in rffTypfs ibs bffn gbrbbgf dollfdtfd, zfro
+     *         is rfturnfd for its instbndf dount.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftInstbndfInfo() dbnGftInstbndfInfo()}
+     * @tirows NullPointfrExdfption if tif 'rffTypfs' list is null.
+     * @sindf 1.6
      */
-    long[] instanceCounts(List<? extends ReferenceType> refTypes);
+    long[] instbndfCounts(List<? fxtfnds RfffrfndfTypf> rffTypfs);
 
     /**
-     * Returns text information on the target VM and the
-     * debugger support that mirrors it. No specific format
-     * for this information is guaranteed.
-     * Typically, this string contains version information for the
-     * target VM and debugger interfaces.
-     * More precise information
-     * on VM and JDI versions is available through
-     * {@link #version}, {@link VirtualMachineManager#majorInterfaceVersion},
-     * and {@link VirtualMachineManager#minorInterfaceVersion}
+     * Rfturns tfxt informbtion on tif tbrgft VM bnd tif
+     * dfbuggfr support tibt mirrors it. No spfdifid formbt
+     * for tiis informbtion is gubrbntffd.
+     * Typidblly, tiis string dontbins vfrsion informbtion for tif
+     * tbrgft VM bnd dfbuggfr intfrfbdfs.
+     * Morf prfdisf informbtion
+     * on VM bnd JDI vfrsions is bvbilbblf tirougi
+     * {@link #vfrsion}, {@link VirtublMbdiinfMbnbgfr#mbjorIntfrfbdfVfrsion},
+     * bnd {@link VirtublMbdiinfMbnbgfr#minorIntfrfbdfVfrsion}
      *
-     * @return the description.
+     * @rfturn tif dfsdription.
      */
-    String description();
+    String dfsdription();
 
     /**
-     * Returns the version of the Java Runtime Environment in the target
-     * VM as reported by the property <code>java.version</code>.
-     * For obtaining the JDI interface version, use
-     * {@link VirtualMachineManager#majorInterfaceVersion}
-     * and {@link VirtualMachineManager#minorInterfaceVersion}
+     * Rfturns tif vfrsion of tif Jbvb Runtimf Environmfnt in tif tbrgft
+     * VM bs rfportfd by tif propfrty <dodf>jbvb.vfrsion</dodf>.
+     * For obtbining tif JDI intfrfbdf vfrsion, usf
+     * {@link VirtublMbdiinfMbnbgfr#mbjorIntfrfbdfVfrsion}
+     * bnd {@link VirtublMbdiinfMbnbgfr#minorIntfrfbdfVfrsion}
      *
-     * @return the target VM version.
+     * @rfturn tif tbrgft VM vfrsion.
      */
-    String version();
+    String vfrsion();
 
     /**
-     * Returns the name of the target VM as reported by the
-     * property <code>java.vm.name</code>.
+     * Rfturns tif nbmf of tif tbrgft VM bs rfportfd by tif
+     * propfrty <dodf>jbvb.vm.nbmf</dodf>.
      *
-     * @return the target VM name.
+     * @rfturn tif tbrgft VM nbmf.
      */
-    String name();
+    String nbmf();
 
-    /** All tracing is disabled. */
+    /** All trbding is disbblfd. */
     int TRACE_NONE        = 0x00000000;
-    /** Tracing enabled for JDWP packets sent to target VM. */
+    /** Trbding fnbblfd for JDWP pbdkfts sfnt to tbrgft VM. */
     int TRACE_SENDS       = 0x00000001;
-    /** Tracing enabled for JDWP packets received from target VM. */
+    /** Trbding fnbblfd for JDWP pbdkfts rfdfivfd from tbrgft VM. */
     int TRACE_RECEIVES    = 0x00000002;
-    /** Tracing enabled for internal event handling. */
+    /** Trbding fnbblfd for intfrnbl fvfnt ibndling. */
     int TRACE_EVENTS      = 0x00000004;
-    /** Tracing enabled for internal managment of reference types. */
+    /** Trbding fnbblfd for intfrnbl mbnbgmfnt of rfffrfndf typfs. */
     int TRACE_REFTYPES    = 0x00000008;
-    /** Tracing enabled for internal management of object references. */
+    /** Trbding fnbblfd for intfrnbl mbnbgfmfnt of objfdt rfffrfndfs. */
     int TRACE_OBJREFS      = 0x00000010;
-    /** All tracing is enabled. */
+    /** All trbding is fnbblfd. */
     int TRACE_ALL         = 0x00ffffff;
 
     /**
-     * Traces the activities performed by the com.sun.jdi implementation.
-     * All trace information is output to System.err. The given trace
-     * flags are used to limit the output to only the information
-     * desired. The given flags are in effect and the corresponding
-     * trace will continue until the next call to
-     * this method.
+     * Trbdfs tif bdtivitifs pfrformfd by tif dom.sun.jdi implfmfntbtion.
+     * All trbdf informbtion is output to Systfm.frr. Tif givfn trbdf
+     * flbgs brf usfd to limit tif output to only tif informbtion
+     * dfsirfd. Tif givfn flbgs brf in ffffdt bnd tif dorrfsponding
+     * trbdf will dontinuf until tif nfxt dbll to
+     * tiis mftiod.
      * <p>
-     * Output is implementation dependent and trace mode may be ignored.
+     * Output is implfmfntbtion dfpfndfnt bnd trbdf modf mby bf ignorfd.
      *
-     * @param traceFlags identifies which kinds of tracing to enable.
+     * @pbrbm trbdfFlbgs idfntififs wiidi kinds of trbding to fnbblf.
      */
-    void setDebugTraceMode(int traceFlags);
+    void sftDfbugTrbdfModf(int trbdfFlbgs);
 }

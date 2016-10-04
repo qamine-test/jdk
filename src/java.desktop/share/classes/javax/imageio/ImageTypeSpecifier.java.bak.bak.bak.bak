@@ -1,0 +1,1241 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BbndfdSbmplfModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * A dlbss thbt bllows thf formbt of bn imbgf (in pbrtidulbr, its
+ * <dodf>SbmplfModfl</dodf> bnd <dodf>ColorModfl</dodf>) to bf
+ * spfdififd in b donvfnifnt mbnnfr.
+ *
+ */
+publid dlbss ImbgfTypfSpfdififr {
+
+    /**
+     * Thf <dodf>ColorModfl</dodf> to bf usfd bs b prototypf.
+     */
+    protfdtfd ColorModfl dolorModfl;
+
+    /**
+     * A <dodf>SbmplfModfl</dodf> to bf usfd bs b prototypf.
+     */
+    protfdtfd SbmplfModfl sbmplfModfl;
+
+    /**
+     * Cbdhfd spfdififrs for bll of thf stbndbrd
+     * <dodf>BufffrfdImbgf</dodf> typfs.
+     */
+    privbtf stbtid ImbgfTypfSpfdififr[] BISpfdififr;
+    privbtf stbtid ColorSpbdf sRGB;
+    // Initiblizf thf stbndbrd spfdififrs
+    stbtid {
+        sRGB = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+
+        BISpfdififr =
+            nfw ImbgfTypfSpfdififr[BufffrfdImbgf.TYPE_BYTE_INDEXED + 1];
+    }
+
+    /**
+     * A donstrudtor to bf usfd by innfr subdlbssfs only.
+     */
+    privbtf ImbgfTypfSpfdififr() {}
+
+    /**
+     * Construdts bn <dodf>ImbgfTypfSpfdififr</dodf> dirfdtly
+     * from b <dodf>ColorModfl</dodf> bnd b <dodf>SbmplfModfl</dodf>.
+     * It is thf dbllfr's rfsponsibility to supply dompbtiblf
+     * pbrbmftfrs.
+     *
+     * @pbrbm dolorModfl b <dodf>ColorModfl</dodf>.
+     * @pbrbm sbmplfModfl b <dodf>SbmplfModfl</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr pbrbmftfr is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sbmplfModfl</dodf>
+     * is not dompbtiblf with <dodf>dolorModfl</dodf>.
+     */
+    publid ImbgfTypfSpfdififr(ColorModfl dolorModfl, SbmplfModfl sbmplfModfl) {
+        if (dolorModfl == null) {
+            throw nfw IllfgblArgumfntExdfption("dolorModfl == null!");
+        }
+        if (sbmplfModfl == null) {
+            throw nfw IllfgblArgumfntExdfption("sbmplfModfl == null!");
+        }
+        if (!dolorModfl.isCompbtiblfSbmplfModfl(sbmplfModfl)) {
+            throw nfw IllfgblArgumfntExdfption
+                ("sbmplfModfl is indompbtiblf with dolorModfl!");
+        }
+        this.dolorModfl = dolorModfl;
+        this.sbmplfModfl = sbmplfModfl;
+    }
+
+    /**
+     * Construdts bn <dodf>ImbgfTypfSpfdififr</dodf> from b
+     * <dodf>RfndfrfdImbgf</dodf>.  If b <dodf>BufffrfdImbgf</dodf> is
+     * bfing usfd, onf of thf fbdtory mfthods
+     * <dodf>drfbtfFromRfndfrfdImbgf</dodf> or
+     * <dodf>drfbtfFromBufffrfdImbgfTypf</dodf> should bf usfd instfbd in
+     * ordfr to gft b morf bddurbtf rfsult.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf brgumfnt is
+     * <dodf>null</dodf>.
+     */
+    publid ImbgfTypfSpfdififr(RfndfrfdImbgf imbgf) {
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+        }
+        dolorModfl = imbgf.gftColorModfl();
+        sbmplfModfl = imbgf.gftSbmplfModfl();
+    }
+
+    // Pbdkfd
+
+    stbtid dlbss Pbdkfd fxtfnds ImbgfTypfSpfdififr {
+        ColorSpbdf dolorSpbdf;
+        int rfdMbsk;
+        int grffnMbsk;
+        int blufMbsk;
+        int blphbMbsk;
+        int trbnsffrTypf;
+        boolfbn isAlphbPrfmultiplifd;
+
+        publid Pbdkfd(ColorSpbdf dolorSpbdf,
+                      int rfdMbsk,
+                      int grffnMbsk,
+                      int blufMbsk,
+                      int blphbMbsk, // 0 if no blphb
+                      int trbnsffrTypf,
+                      boolfbn isAlphbPrfmultiplifd) {
+            if (dolorSpbdf == null) {
+                throw nfw IllfgblArgumfntExdfption("dolorSpbdf == null!");
+            }
+            if (dolorSpbdf.gftTypf() != ColorSpbdf.TYPE_RGB) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("dolorSpbdf is not of typf TYPE_RGB!");
+            }
+            if (trbnsffrTypf != DbtbBufffr.TYPE_BYTE &&
+                trbnsffrTypf != DbtbBufffr.TYPE_USHORT &&
+                trbnsffrTypf != DbtbBufffr.TYPE_INT) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Bbd vbluf for trbnsffrTypf!");
+            }
+            if (rfdMbsk == 0 && grffnMbsk == 0 &&
+                blufMbsk == 0 && blphbMbsk == 0) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("No mbsk hbs bt lfbst 1 bit sft!");
+            }
+            this.dolorSpbdf = dolorSpbdf;
+            this.rfdMbsk = rfdMbsk;
+            this.grffnMbsk = grffnMbsk;
+            this.blufMbsk = blufMbsk;
+            this.blphbMbsk = blphbMbsk;
+            this.trbnsffrTypf = trbnsffrTypf;
+            this.isAlphbPrfmultiplifd = isAlphbPrfmultiplifd;
+
+            int bits = 32;
+            this.dolorModfl =
+                nfw DirfdtColorModfl(dolorSpbdf,
+                                     bits,
+                                     rfdMbsk, grffnMbsk, blufMbsk,
+                                     blphbMbsk, isAlphbPrfmultiplifd,
+                                     trbnsffrTypf);
+            this.sbmplfModfl = dolorModfl.drfbtfCompbtiblfSbmplfModfl(1, 1);
+        }
+    }
+
+    /**
+     * Rfturns b spfdififr for b pbdkfd imbgf formbt thbt will usf b
+     * <dodf>DirfdtColorModfl</dodf> bnd b pbdkfd
+     * <dodf>SbmplfModfl</dodf> to storf fbdh pixfl pbdkfd into in b
+     * singlf bytf, short, or int.
+     *
+     * @pbrbm dolorSpbdf thf dfsirfd <dodf>ColorSpbdf</dodf>.
+     * @pbrbm rfdMbsk b dontiguous mbsk indidbtfd thf position of thf
+     * rfd dhbnnfl.
+     * @pbrbm grffnMbsk b dontiguous mbsk indidbtfd thf position of thf
+     * grffn dhbnnfl.
+     * @pbrbm blufMbsk b dontiguous mbsk indidbtfd thf position of thf
+     * bluf dhbnnfl.
+     * @pbrbm blphbMbsk b dontiguous mbsk indidbtfd thf position of thf
+     * blphb dhbnnfl.
+     * @pbrbm trbnsffrTypf thf dfsirfd <dodf>SbmplfModfl</dodf> trbnsffr typf.
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if thf dolor dhbnnfls
+     * will bf prfmultiplfd by thf blphb dhbnnfl.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolorSpbdf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolorSpbdf</dodf>
+     * is not of typf <dodf>TYPE_RGB</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if no mbsk hbs bt lfbst 1
+     * bit sft.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>trbnsffrTypf</dodf> if not onf of
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfPbdkfd(ColorSpbdf dolorSpbdf,
+                     int rfdMbsk,
+                     int grffnMbsk,
+                     int blufMbsk,
+                     int blphbMbsk, // 0 if no blphb
+                     int trbnsffrTypf,
+                     boolfbn isAlphbPrfmultiplifd) {
+        rfturn nfw ImbgfTypfSpfdififr.Pbdkfd(dolorSpbdf,
+                                             rfdMbsk,
+                                             grffnMbsk,
+                                             blufMbsk,
+                                             blphbMbsk, // 0 if no blphb
+                                             trbnsffrTypf,
+                                             isAlphbPrfmultiplifd);
+    }
+
+    stbtid ColorModfl drfbtfComponfntCM(ColorSpbdf dolorSpbdf,
+                                        int numBbnds,
+                                        int dbtbTypf,
+                                        boolfbn hbsAlphb,
+                                        boolfbn isAlphbPrfmultiplifd) {
+        int trbnspbrfndy =
+            hbsAlphb ? Trbnspbrfndy.TRANSLUCENT : Trbnspbrfndy.OPAQUE;
+
+        int[] numBits = nfw int[numBbnds];
+        int bits = DbtbBufffr.gftDbtbTypfSizf(dbtbTypf);
+
+        for (int i = 0; i < numBbnds; i++) {
+            numBits[i] = bits;
+        }
+
+        rfturn nfw ComponfntColorModfl(dolorSpbdf,
+                                       numBits,
+                                       hbsAlphb,
+                                       isAlphbPrfmultiplifd,
+                                       trbnspbrfndy,
+                                       dbtbTypf);
+    }
+
+    // Intfrlfbvfd
+
+    stbtid dlbss Intfrlfbvfd fxtfnds ImbgfTypfSpfdififr {
+        ColorSpbdf dolorSpbdf;
+        int[] bbndOffsfts;
+        int dbtbTypf;
+        boolfbn hbsAlphb;
+        boolfbn isAlphbPrfmultiplifd;
+
+        publid Intfrlfbvfd(ColorSpbdf dolorSpbdf,
+                           int[] bbndOffsfts,
+                           int dbtbTypf,
+                           boolfbn hbsAlphb,
+                           boolfbn isAlphbPrfmultiplifd) {
+            if (dolorSpbdf == null) {
+                throw nfw IllfgblArgumfntExdfption("dolorSpbdf == null!");
+            }
+            if (bbndOffsfts == null) {
+                throw nfw IllfgblArgumfntExdfption("bbndOffsfts == null!");
+            }
+            int numBbnds = dolorSpbdf.gftNumComponfnts() +
+                (hbsAlphb ? 1 : 0);
+            if (bbndOffsfts.lfngth != numBbnds) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("bbndOffsfts.lfngth is wrong!");
+            }
+            if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+                dbtbTypf != DbtbBufffr.TYPE_SHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_INT &&
+                dbtbTypf != DbtbBufffr.TYPE_FLOAT &&
+                dbtbTypf != DbtbBufffr.TYPE_DOUBLE) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Bbd vbluf for dbtbTypf!");
+            }
+            this.dolorSpbdf = dolorSpbdf;
+            this.bbndOffsfts = bbndOffsfts.dlonf();
+            this.dbtbTypf = dbtbTypf;
+            this.hbsAlphb = hbsAlphb;
+            this.isAlphbPrfmultiplifd = isAlphbPrfmultiplifd;
+
+            this.dolorModfl =
+                ImbgfTypfSpfdififr.drfbtfComponfntCM(dolorSpbdf,
+                                                     bbndOffsfts.lfngth,
+                                                     dbtbTypf,
+                                                     hbsAlphb,
+                                                     isAlphbPrfmultiplifd);
+
+            int minBbndOffsft = bbndOffsfts[0];
+            int mbxBbndOffsft = minBbndOffsft;
+            for (int i = 0; i < bbndOffsfts.lfngth; i++) {
+                int offsft = bbndOffsfts[i];
+                minBbndOffsft = Mbth.min(offsft, minBbndOffsft);
+                mbxBbndOffsft = Mbth.mbx(offsft, mbxBbndOffsft);
+            }
+            int pixflStridf = mbxBbndOffsft - minBbndOffsft + 1;
+
+            int w = 1;
+            int h = 1;
+            this.sbmplfModfl =
+                nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf,
+                                                w, h,
+                                                pixflStridf,
+                                                w*pixflStridf,
+                                                bbndOffsfts);
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if ((o == null) ||
+                !(o instbndfof ImbgfTypfSpfdififr.Intfrlfbvfd)) {
+                rfturn fblsf;
+            }
+
+            ImbgfTypfSpfdififr.Intfrlfbvfd thbt =
+                (ImbgfTypfSpfdififr.Intfrlfbvfd)o;
+
+            if ((!(this.dolorSpbdf.fqubls(thbt.dolorSpbdf))) ||
+                (this.dbtbTypf != thbt.dbtbTypf) ||
+                (this.hbsAlphb != thbt.hbsAlphb) ||
+                (this.isAlphbPrfmultiplifd != thbt.isAlphbPrfmultiplifd) ||
+                (this.bbndOffsfts.lfngth != thbt.bbndOffsfts.lfngth)) {
+                rfturn fblsf;
+            }
+
+            for (int i = 0; i < bbndOffsfts.lfngth; i++) {
+                if (this.bbndOffsfts[i] != thbt.bbndOffsfts[i]) {
+                    rfturn fblsf;
+                }
+            }
+
+            rfturn truf;
+        }
+
+        publid int hbshCodf() {
+            rfturn (supfr.hbshCodf() +
+                    (4 * bbndOffsfts.lfngth) +
+                    (25 * dbtbTypf) +
+                    (hbsAlphb ? 17 : 18));
+        }
+    }
+
+    /**
+     * Rfturns b spfdififr for bn intfrlfbvfd imbgf formbt thbt will
+     * usf b <dodf>ComponfntColorModfl</dodf> bnd b
+     * <dodf>PixflIntfrlfbvfdSbmplfModfl</dodf> to storf fbdh pixfl
+     * domponfnt in b sfpbrbtf bytf, short, or int.
+     *
+     * @pbrbm dolorSpbdf thf dfsirfd <dodf>ColorSpbdf</dodf>.
+     * @pbrbm bbndOffsfts bn brrby of <dodf>int</dodf>s indidbting thf
+     * offsfts for fbdh bbnd.
+     * @pbrbm dbtbTypf thf dfsirfd dbtb typf, bs onf of thf fnumfrbtions
+     * from thf <dodf>DbtbBufffr</dodf> dlbss.
+     * @pbrbm hbsAlphb <dodf>truf</dodf> if bn blphb dhbnnfl is dfsirfd.
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if thf dolor dhbnnfls
+     * will bf prfmultiplfd by thf blphb dhbnnfl.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolorSpbdf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbndOffsfts</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf lfgbl <dodf>DbtbBufffr.TYPE_*</dodf> donstbnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>bbndOffsfts.lfngth</dodf> dofs not fqubl thf numbfr of
+     * dolor spbdf domponfnts, plus 1 if <dodf>hbsAlphb</dodf> is
+     * <dodf>truf</dodf>.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfIntfrlfbvfd(ColorSpbdf dolorSpbdf,
+                          int[] bbndOffsfts,
+                          int dbtbTypf,
+                          boolfbn hbsAlphb,
+                          boolfbn isAlphbPrfmultiplifd) {
+        rfturn nfw ImbgfTypfSpfdififr.Intfrlfbvfd(dolorSpbdf,
+                                                  bbndOffsfts,
+                                                  dbtbTypf,
+                                                  hbsAlphb,
+                                                  isAlphbPrfmultiplifd);
+    }
+
+    // Bbndfd
+
+    stbtid dlbss Bbndfd fxtfnds ImbgfTypfSpfdififr {
+        ColorSpbdf dolorSpbdf;
+        int[] bbnkIndidfs;
+        int[] bbndOffsfts;
+        int dbtbTypf;
+        boolfbn hbsAlphb;
+        boolfbn isAlphbPrfmultiplifd;
+
+        publid Bbndfd(ColorSpbdf dolorSpbdf,
+                      int[] bbnkIndidfs,
+                      int[] bbndOffsfts,
+                      int dbtbTypf,
+                      boolfbn hbsAlphb,
+                      boolfbn isAlphbPrfmultiplifd) {
+            if (dolorSpbdf == null) {
+                throw nfw IllfgblArgumfntExdfption("dolorSpbdf == null!");
+            }
+            if (bbnkIndidfs == null) {
+                throw nfw IllfgblArgumfntExdfption("bbnkIndidfs == null!");
+            }
+            if (bbndOffsfts == null) {
+                throw nfw IllfgblArgumfntExdfption("bbndOffsfts == null!");
+            }
+            if (bbnkIndidfs.lfngth != bbndOffsfts.lfngth) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("bbnkIndidfs.lfngth != bbndOffsfts.lfngth!");
+            }
+            if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+                dbtbTypf != DbtbBufffr.TYPE_SHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_INT &&
+                dbtbTypf != DbtbBufffr.TYPE_FLOAT &&
+                dbtbTypf != DbtbBufffr.TYPE_DOUBLE) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Bbd vbluf for dbtbTypf!");
+            }
+            int numBbnds = dolorSpbdf.gftNumComponfnts() +
+                (hbsAlphb ? 1 : 0);
+            if (bbndOffsfts.lfngth != numBbnds) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("bbndOffsfts.lfngth is wrong!");
+            }
+
+            this.dolorSpbdf = dolorSpbdf;
+            this.bbnkIndidfs = bbnkIndidfs.dlonf();
+            this.bbndOffsfts = bbndOffsfts.dlonf();
+            this.dbtbTypf = dbtbTypf;
+            this.hbsAlphb = hbsAlphb;
+            this.isAlphbPrfmultiplifd = isAlphbPrfmultiplifd;
+
+            this.dolorModfl =
+                ImbgfTypfSpfdififr.drfbtfComponfntCM(dolorSpbdf,
+                                                     bbnkIndidfs.lfngth,
+                                                     dbtbTypf,
+                                                     hbsAlphb,
+                                                     isAlphbPrfmultiplifd);
+
+            int w = 1;
+            int h = 1;
+            this.sbmplfModfl = nfw BbndfdSbmplfModfl(dbtbTypf,
+                                                     w, h,
+                                                     w,
+                                                     bbnkIndidfs,
+                                                     bbndOffsfts);
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if ((o == null) ||
+                !(o instbndfof ImbgfTypfSpfdififr.Bbndfd)) {
+                rfturn fblsf;
+            }
+
+            ImbgfTypfSpfdififr.Bbndfd thbt =
+                (ImbgfTypfSpfdififr.Bbndfd)o;
+
+            if ((!(this.dolorSpbdf.fqubls(thbt.dolorSpbdf))) ||
+                (this.dbtbTypf != thbt.dbtbTypf) ||
+                (this.hbsAlphb != thbt.hbsAlphb) ||
+                (this.isAlphbPrfmultiplifd != thbt.isAlphbPrfmultiplifd) ||
+                (this.bbnkIndidfs.lfngth != thbt.bbnkIndidfs.lfngth) ||
+                (this.bbndOffsfts.lfngth != thbt.bbndOffsfts.lfngth)) {
+                rfturn fblsf;
+            }
+
+            for (int i = 0; i < bbnkIndidfs.lfngth; i++) {
+                if (this.bbnkIndidfs[i] != thbt.bbnkIndidfs[i]) {
+                    rfturn fblsf;
+                }
+            }
+
+            for (int i = 0; i < bbndOffsfts.lfngth; i++) {
+                if (this.bbndOffsfts[i] != thbt.bbndOffsfts[i]) {
+                    rfturn fblsf;
+                }
+            }
+
+            rfturn truf;
+        }
+
+        publid int hbshCodf() {
+            rfturn (supfr.hbshCodf() +
+                    (3 * bbndOffsfts.lfngth) +
+                    (7 * bbnkIndidfs.lfngth) +
+                    (21 * dbtbTypf) +
+                    (hbsAlphb ? 19 : 29));
+        }
+    }
+
+    /**
+     * Rfturns b spfdififr for b bbndfd imbgf formbt thbt will usf b
+     * <dodf>ComponfntColorModfl</dodf> bnd b
+     * <dodf>BbndfdSbmplfModfl</dodf> to storf fbdh dhbnnfl in b
+     * sfpbrbtf brrby.
+     *
+     * @pbrbm dolorSpbdf thf dfsirfd <dodf>ColorSpbdf</dodf>.
+     * @pbrbm bbnkIndidfs bn brrby of <dodf>int</dodf>s indidbting thf
+     * bbnk in whidh fbdh bbnd will bf storfd.
+     * @pbrbm bbndOffsfts bn brrby of <dodf>int</dodf>s indidbting thf
+     * stbrting offsft of fbdh bbnd within its bbnk.
+     * @pbrbm dbtbTypf thf dfsirfd dbtb typf, bs onf of thf fnumfrbtions
+     * from thf <dodf>DbtbBufffr</dodf> dlbss.
+     * @pbrbm hbsAlphb <dodf>truf</dodf> if bn blphb dhbnnfl is dfsirfd.
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if thf dolor dhbnnfls
+     * will bf prfmultiplfd by thf blphb dhbnnfl.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolorSpbdf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbnkIndidfs</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbndOffsfts</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf lfngths of
+     * <dodf>bbnkIndidfs</dodf> bnd <dodf>bbndOffsfts</dodf> difffr.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>bbndOffsfts.lfngth</dodf> dofs not fqubl thf numbfr of
+     * dolor spbdf domponfnts, plus 1 if <dodf>hbsAlphb</dodf> is
+     * <dodf>truf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf lfgbl <dodf>DbtbBufffr.TYPE_*</dodf> donstbnts.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfBbndfd(ColorSpbdf dolorSpbdf,
+                     int[] bbnkIndidfs,
+                     int[] bbndOffsfts,
+                     int dbtbTypf,
+                     boolfbn hbsAlphb,
+                     boolfbn isAlphbPrfmultiplifd) {
+        rfturn nfw ImbgfTypfSpfdififr.Bbndfd(dolorSpbdf,
+                                             bbnkIndidfs,
+                                             bbndOffsfts,
+                                             dbtbTypf,
+                                             hbsAlphb,
+                                             isAlphbPrfmultiplifd);
+    }
+
+    // Grbysdblf
+
+    stbtid dlbss Grbysdblf fxtfnds ImbgfTypfSpfdififr {
+        int bits;
+        int dbtbTypf;
+        boolfbn isSignfd;
+        boolfbn hbsAlphb;
+        boolfbn isAlphbPrfmultiplifd;
+
+        publid Grbysdblf(int bits,
+                         int dbtbTypf,
+                         boolfbn isSignfd,
+                         boolfbn hbsAlphb,
+                         boolfbn isAlphbPrfmultiplifd)
+        {
+            if (bits != 1 && bits != 2 && bits != 4 &&
+                bits != 8 && bits != 16)
+            {
+                throw nfw IllfgblArgumfntExdfption("Bbd vbluf for bits!");
+            }
+            if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+                dbtbTypf != DbtbBufffr.TYPE_SHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_USHORT)
+            {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Bbd vbluf for dbtbTypf!");
+            }
+            if (bits > 8 && dbtbTypf == DbtbBufffr.TYPE_BYTE) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Too mbny bits for dbtbTypf!");
+            }
+
+            this.bits = bits;
+            this.dbtbTypf = dbtbTypf;
+            this.isSignfd = isSignfd;
+            this.hbsAlphb = hbsAlphb;
+            this.isAlphbPrfmultiplifd = isAlphbPrfmultiplifd;
+
+            ColorSpbdf dolorSpbdf = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_GRAY);
+
+            if ((bits == 8 && dbtbTypf == DbtbBufffr.TYPE_BYTE) ||
+                (bits == 16 &&
+                 (dbtbTypf == DbtbBufffr.TYPE_SHORT ||
+                  dbtbTypf == DbtbBufffr.TYPE_USHORT))) {
+                // Usf domponfnt dolor modfl & sbmplf modfl
+
+                int numBbnds = hbsAlphb ? 2 : 1;
+                int trbnspbrfndy =
+                    hbsAlphb ? Trbnspbrfndy.TRANSLUCENT : Trbnspbrfndy.OPAQUE;
+
+
+                int[] nBits = nfw int[numBbnds];
+                nBits[0] = bits;
+                if (numBbnds == 2) {
+                    nBits[1] = bits;
+                }
+                this.dolorModfl =
+                    nfw ComponfntColorModfl(dolorSpbdf,
+                                            nBits,
+                                            hbsAlphb,
+                                            isAlphbPrfmultiplifd,
+                                            trbnspbrfndy,
+                                            dbtbTypf);
+
+                int[] bbndOffsfts = nfw int[numBbnds];
+                bbndOffsfts[0] = 0;
+                if (numBbnds == 2) {
+                    bbndOffsfts[1] = 1;
+                }
+
+                int w = 1;
+                int h = 1;
+                this.sbmplfModfl =
+                    nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf,
+                                                    w, h,
+                                                    numBbnds, w*numBbnds,
+                                                    bbndOffsfts);
+            } flsf {
+                int numEntrifs = 1 << bits;
+                bytf[] brr = nfw bytf[numEntrifs];
+                for (int i = 0; i < numEntrifs; i++) {
+                    brr[i] = (bytf)(i*255/(numEntrifs - 1));
+                }
+                this.dolorModfl =
+                    nfw IndfxColorModfl(bits, numEntrifs, brr, brr, brr);
+
+                this.sbmplfModfl =
+                    nfw MultiPixflPbdkfdSbmplfModfl(dbtbTypf, 1, 1, bits);
+            }
+        }
+    }
+
+    /**
+     * Rfturns b spfdififr for b grbysdblf imbgf formbt thbt will pbdk
+     * pixfls of thf givfn bit dfpth into brrby flfmfnts of
+     * thf spfdififd dbtb typf.
+     *
+     * @pbrbm bits thf numbfr of bits pfr grby vbluf (1, 2, 4, 8, or 16).
+     * @pbrbm dbtbTypf thf dfsirfd dbtb typf, bs onf of thf fnumfrbtions
+     * from thf <dodf>DbtbBufffr</dodf> dlbss.
+     * @pbrbm isSignfd <dodf>truf</dodf> if nfgbtivf vblufs brf to
+     * bf rfprfsfntfd.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * not onf of 1, 2, 4, 8, or 16.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_SHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * lbrgfr thbn thf bit sizf of thf givfn <dodf>dbtbTypf</dodf>.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfGrbysdblf(int bits,
+                        int dbtbTypf,
+                        boolfbn isSignfd) {
+        rfturn nfw ImbgfTypfSpfdififr.Grbysdblf(bits,
+                                                dbtbTypf,
+                                                isSignfd,
+                                                fblsf,
+                                                fblsf);
+    }
+
+    /**
+     * Rfturns b spfdififr for b grbysdblf plus blphb imbgf formbt
+     * thbt will pbdk pixfls of thf givfn bit dfpth into brrby
+     * flfmfnts of thf spfdififd dbtb typf.
+     *
+     * @pbrbm bits thf numbfr of bits pfr grby vbluf (1, 2, 4, 8, or 16).
+     * @pbrbm dbtbTypf thf dfsirfd dbtb typf, bs onf of thf fnumfrbtions
+     * from thf <dodf>DbtbBufffr</dodf> dlbss.
+     * @pbrbm isSignfd <dodf>truf</dodf> if nfgbtivf vblufs brf to
+     * bf rfprfsfntfd.
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if thf luminbndf dhbnnfl
+     * will bf prfmultiplfd by thf blphb dhbnnfl.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * not onf of 1, 2, 4, 8, or 16.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_SHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * lbrgfr thbn thf bit sizf of thf givfn <dodf>dbtbTypf</dodf>.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfGrbysdblf(int bits,
+                        int dbtbTypf,
+                        boolfbn isSignfd,
+                        boolfbn isAlphbPrfmultiplifd) {
+        rfturn nfw ImbgfTypfSpfdififr.Grbysdblf(bits,
+                                                dbtbTypf,
+                                                isSignfd,
+                                                truf,
+                                                isAlphbPrfmultiplifd);
+    }
+
+    // Indfxfd
+
+    stbtid dlbss Indfxfd fxtfnds ImbgfTypfSpfdififr {
+        bytf[] rfdLUT;
+        bytf[] grffnLUT;
+        bytf[] blufLUT;
+        bytf[] blphbLUT = null;
+        int bits;
+        int dbtbTypf;
+
+        publid Indfxfd(bytf[] rfdLUT,
+                       bytf[] grffnLUT,
+                       bytf[] blufLUT,
+                       bytf[] blphbLUT,
+                       int bits,
+                       int dbtbTypf) {
+            if (rfdLUT == null || grffnLUT == null || blufLUT == null) {
+                throw nfw IllfgblArgumfntExdfption("LUT is null!");
+            }
+            if (bits != 1 && bits != 2 && bits != 4 &&
+                bits != 8 && bits != 16) {
+                throw nfw IllfgblArgumfntExdfption("Bbd vbluf for bits!");
+            }
+            if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+                dbtbTypf != DbtbBufffr.TYPE_SHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+                dbtbTypf != DbtbBufffr.TYPE_INT) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Bbd vbluf for dbtbTypf!");
+            }
+            if ((bits > 8 && dbtbTypf == DbtbBufffr.TYPE_BYTE) ||
+                (bits > 16 && dbtbTypf != DbtbBufffr.TYPE_INT)) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Too mbny bits for dbtbTypf!");
+            }
+
+            int lfn = 1 << bits;
+            if (rfdLUT.lfngth != lfn ||
+                grffnLUT.lfngth != lfn ||
+                blufLUT.lfngth != lfn ||
+                (blphbLUT != null && blphbLUT.lfngth != lfn)) {
+                throw nfw IllfgblArgumfntExdfption("LUT hbs impropfr lfngth!");
+            }
+            this.rfdLUT = rfdLUT.dlonf();
+            this.grffnLUT = grffnLUT.dlonf();
+            this.blufLUT = blufLUT.dlonf();
+            if (blphbLUT != null) {
+                this.blphbLUT = blphbLUT.dlonf();
+            }
+            this.bits = bits;
+            this.dbtbTypf = dbtbTypf;
+
+            if (blphbLUT == null) {
+                this.dolorModfl = nfw IndfxColorModfl(bits,
+                                                      rfdLUT.lfngth,
+                                                      rfdLUT,
+                                                      grffnLUT,
+                                                      blufLUT);
+            } flsf {
+                this.dolorModfl = nfw IndfxColorModfl(bits,
+                                                      rfdLUT.lfngth,
+                                                      rfdLUT,
+                                                      grffnLUT,
+                                                      blufLUT,
+                                                      blphbLUT);
+            }
+
+            if ((bits == 8 && dbtbTypf == DbtbBufffr.TYPE_BYTE) ||
+                (bits == 16 &&
+                 (dbtbTypf == DbtbBufffr.TYPE_SHORT ||
+                  dbtbTypf == DbtbBufffr.TYPE_USHORT))) {
+                int[] bbndOffsfts = { 0 };
+                this.sbmplfModfl =
+                    nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf,
+                                                    1, 1, 1, 1,
+                                                    bbndOffsfts);
+            } flsf {
+                this.sbmplfModfl =
+                    nfw MultiPixflPbdkfdSbmplfModfl(dbtbTypf, 1, 1, bits);
+            }
+        }
+    }
+
+    /**
+     * Rfturns b spfdififr for bn indfxfd-dolor imbgf formbt thbt will pbdk
+     * indfx vblufs of thf givfn bit dfpth into brrby flfmfnts of
+     * thf spfdififd dbtb typf.
+     *
+     * @pbrbm rfdLUT bn brrby of <dodf>bytf</dodf>s dontbining
+     * thf rfd vblufs for fbdh indfx.
+     * @pbrbm grffnLUT bn brrby of <dodf>bytf</dodf>s dontbining * thf
+     *  grffn vblufs for fbdh indfx.
+     * @pbrbm blufLUT bn brrby of <dodf>bytf</dodf>s dontbining thf
+     * bluf vblufs for fbdh indfx.
+     * @pbrbm blphbLUT bn brrby of <dodf>bytf</dodf>s dontbining thf
+     * blphb vblufs for fbdh indfx, or <dodf>null</dodf> to drfbtf b
+     * fully opbquf LUT.
+     * @pbrbm bits thf numbfr of bits in fbdh indfx.
+     * @pbrbm dbtbTypf thf dfsirfd output typf, bs onf of thf fnumfrbtions
+     * from thf <dodf>DbtbBufffr</dodf> dlbss.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rfdLUT</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>grffnLUT</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>blufLUT</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * not onf of 1, 2, 4, 8, or 16.
+     * @fxdfption IllfgblArgumfntExdfption if thf
+     * non-<dodf>null</dodf> LUT pbrbmftfrs do not hbvf lfngths of
+     * fxbdtly {@dodf 1 << bits}.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_SHORT</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>,
+     * or <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bits</dodf> is
+     * lbrgfr thbn thf bit sizf of thf givfn <dodf>dbtbTypf</dodf>.
+     */
+    publid stbtid ImbgfTypfSpfdififr
+        drfbtfIndfxfd(bytf[] rfdLUT,
+                      bytf[] grffnLUT,
+                      bytf[] blufLUT,
+                      bytf[] blphbLUT,
+                      int bits,
+                      int dbtbTypf) {
+        rfturn nfw ImbgfTypfSpfdififr.Indfxfd(rfdLUT,
+                                              grffnLUT,
+                                              blufLUT,
+                                              blphbLUT,
+                                              bits,
+                                              dbtbTypf);
+    }
+
+    /**
+     * Rfturns bn <dodf>ImbgfTypfSpfdififr</dodf> thbt fndodfs
+     * onf of thf stbndbrd <dodf>BufffrfdImbgf</dodf> typfs
+     * (othfr thbn <dodf>TYPE_CUSTOM</dodf>).
+     *
+     * @pbrbm bufffrfdImbgfTypf bn int rfprfsfnting onf of thf stbndbrd
+     * <dodf>BufffrfdImbgf</dodf> typfs.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>bufffrfdImbgfTypf</dodf> is not onf of thf stbndbrd
+     * typfs, or is fqubl to <dodf>TYPE_CUSTOM</dodf>.
+     *
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_ARGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_ARGB_PRE
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_BGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_3BYTE_BGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_4BYTE_ABGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_4BYTE_ABGR_PRE
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_565_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_555_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_GRAY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_GRAY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_BINARY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_INDEXED
+     */
+    publid stbtid
+        ImbgfTypfSpfdififr drfbtfFromBufffrfdImbgfTypf(int bufffrfdImbgfTypf) {
+        if (bufffrfdImbgfTypf >= BufffrfdImbgf.TYPE_INT_RGB &&
+            bufffrfdImbgfTypf <= BufffrfdImbgf.TYPE_BYTE_INDEXED) {
+            rfturn gftSpfdififr(bufffrfdImbgfTypf);
+        } flsf if (bufffrfdImbgfTypf == BufffrfdImbgf.TYPE_CUSTOM) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot drfbtf from TYPE_CUSTOM!");
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Invblid BufffrfdImbgf typf!");
+        }
+    }
+
+    /**
+     * Rfturns bn <dodf>ImbgfTypfSpfdififr</dodf> thbt fndodfs thf
+     * lbyout of b <dodf>RfndfrfdImbgf</dodf> (whidh mby bf b
+     * <dodf>BufffrfdImbgf</dodf>).
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> with thf dfsirfd
+     * dhbrbdtfristids.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid stbtid
+        ImbgfTypfSpfdififr drfbtfFromRfndfrfdImbgf(RfndfrfdImbgf imbgf) {
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+        }
+
+        if (imbgf instbndfof BufffrfdImbgf) {
+            int bufffrfdImbgfTypf = ((BufffrfdImbgf)imbgf).gftTypf();
+            if (bufffrfdImbgfTypf != BufffrfdImbgf.TYPE_CUSTOM) {
+                rfturn gftSpfdififr(bufffrfdImbgfTypf);
+            }
+        }
+
+        rfturn nfw ImbgfTypfSpfdififr(imbgf);
+    }
+
+    /**
+     * Rfturns bn int dontbining onf of thf fnumfrbtfd donstbnt vblufs
+     * dfsdribing imbgf formbts from <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting b
+     * <dodf>BufffrfdImbgf</dodf> typf.
+     *
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_CUSTOM
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_ARGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_ARGB_PRE
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_INT_BGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_3BYTE_BGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_4BYTE_ABGR
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_4BYTE_ABGR_PRE
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_565_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_555_RGB
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_GRAY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_USHORT_GRAY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_BINARY
+     * @sff jbvb.bwt.imbgf.BufffrfdImbgf#TYPE_BYTE_INDEXED
+     */
+    publid int gftBufffrfdImbgfTypf() {
+        BufffrfdImbgf bi = drfbtfBufffrfdImbgf(1, 1);
+        rfturn bi.gftTypf();
+    }
+
+    /**
+     * Rfturn thf numbfr of dolor domponfnts
+     * spfdififd by this objfdt.  This is thf sbmf vbluf bs rfturnfd by
+     * <dodf>ColorModfl.gftNumComponfnts</dodf>
+     *
+     * @rfturn thf numbfr of domponfnts in thf imbgf.
+     */
+    publid int gftNumComponfnts() {
+        rfturn dolorModfl.gftNumComponfnts();
+    }
+
+    /**
+     * Rfturn thf numbfr of bbnds
+     * spfdififd by this objfdt.  This is thf sbmf vbluf bs rfturnfd by
+     * <dodf>SbmplfModfl.gftNumBbnds</dodf>
+     *
+     * @rfturn thf numbfr of bbnds in thf imbgf.
+     */
+    publid int gftNumBbnds() {
+        rfturn sbmplfModfl.gftNumBbnds();
+    }
+
+    /**
+     * Rfturn thf numbfr of bits usfd to rfprfsfnt sbmplfs of thf givfn bbnd.
+     *
+     * @pbrbm bbnd thf indfx of thf bbnd to bf qufrifd, bs bn
+     * int.
+     *
+     * @rfturn bn int spfdifying b numbfr of bits.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbnd</dodf> is
+     * nfgbtivf or grfbtfr thbn thf lbrgfst bbnd indfx.
+     */
+    publid int gftBitsPfrBbnd(int bbnd) {
+        if (bbnd < 0 | bbnd >= gftNumBbnds()) {
+            throw nfw IllfgblArgumfntExdfption("bbnd out of rbngf!");
+        }
+        rfturn sbmplfModfl.gftSbmplfSizf(bbnd);
+    }
+
+    /**
+     * Rfturns b <dodf>SbmplfModfl</dodf> bbsfd on thf sfttings
+     * fndbpsulbtfd within this objfdt.  Thf width bnd hfight of thf
+     * <dodf>SbmplfModfl</dodf> will bf sft to brbitrbry vblufs.
+     *
+     * @rfturn b <dodf>SbmplfModfl</dodf> with brbitrbry dimfnsions.
+     */
+    publid SbmplfModfl gftSbmplfModfl() {
+        rfturn sbmplfModfl;
+    }
+
+    /**
+     * Rfturns b <dodf>SbmplfModfl</dodf> bbsfd on thf sfttings
+     * fndbpsulbtfd within this objfdt.  Thf width bnd hfight of thf
+     * <dodf>SbmplfModfl</dodf> will bf sft to thf supplifd vblufs.
+     *
+     * @pbrbm width thf dfsirfd width of thf rfturnfd <dodf>SbmplfModfl</dodf>.
+     * @pbrbm hfight thf dfsirfd hfight of thf rfturnfd
+     * <dodf>SbmplfModfl</dodf>.
+     *
+     * @rfturn b <dodf>SbmplfModfl</dodf> with thf givfn dimfnsions.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr <dodf>width</dodf> or
+     * <dodf>hfight</dodf> brf nfgbtivf or zfro.
+     * @fxdfption IllfgblArgumfntExdfption if thf produdt of
+     * <dodf>width</dodf> bnd <dodf>hfight</dodf> is grfbtfr thbn
+     * <dodf>Intfgfr.MAX_VALUE</dodf>
+     */
+    publid SbmplfModfl gftSbmplfModfl(int width, int hfight) {
+        if ((long)width*hfight > Intfgfr.MAX_VALUE) {
+            throw nfw IllfgblArgumfntExdfption
+                ("width*hfight > Intfgfr.MAX_VALUE!");
+        }
+        rfturn sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(width, hfight);
+    }
+
+    /**
+     * Rfturns thf <dodf>ColorModfl</dodf> spfdififd by this objfdt.
+     *
+     * @rfturn b <dodf>ColorModfl</dodf>.
+     */
+    publid ColorModfl gftColorModfl() {
+        rfturn dolorModfl;
+    }
+
+    /**
+     * Crfbtfs b <dodf>BufffrfdImbgf</dodf> with b givfn width bnd
+     * hfight bddording to thf spfdifidbtion fmbodifd in this objfdt.
+     *
+     * @pbrbm width thf dfsirfd width of thf rfturnfd
+     * <dodf>BufffrfdImbgf</dodf>.
+     * @pbrbm hfight thf dfsirfd hfight of thf rfturnfd
+     * <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @rfturn b nfw <dodf>BufffrfdImbgf</dodf>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr <dodf>width</dodf> or
+     * <dodf>hfight</dodf> brf nfgbtivf or zfro.
+     * @fxdfption IllfgblArgumfntExdfption if thf produdt of
+     * <dodf>width</dodf> bnd <dodf>hfight</dodf> is grfbtfr thbn
+     * <dodf>Intfgfr.MAX_VALUE</dodf>, or if thf numbfr of brrby
+     * flfmfnts nffdfd to storf thf imbgf is grfbtfr thbn
+     * <dodf>Intfgfr.MAX_VALUE</dodf>.
+     */
+    publid BufffrfdImbgf drfbtfBufffrfdImbgf(int width, int hfight) {
+        try {
+            SbmplfModfl sbmplfModfl = gftSbmplfModfl(width, hfight);
+            WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfWritbblfRbstfr(sbmplfModfl,
+                                            nfw Point(0, 0));
+            rfturn nfw BufffrfdImbgf(dolorModfl, rbstfr,
+                                     dolorModfl.isAlphbPrfmultiplifd(),
+                                     nfw Hbshtbblf<>());
+        } dbtdh (NfgbtivfArrbySizfExdfption f) {
+            // Exdfption most likfly thrown from b DbtbBufffr donstrudtor
+            throw nfw IllfgblArgumfntExdfption
+                ("Arrby sizf > Intfgfr.MAX_VALUE!");
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf givfn <dodf>Objfdt</dodf> is
+     * bn <dodf>ImbgfTypfSpfdififr</dodf> bnd hbs b
+     * <dodf>SbmplfModfl</dodf> bnd <dodf>ColorModfl</dodf> thbt brf
+     * fqubl to thosf of this objfdt.
+     *
+     * @pbrbm o thf <dodf>Objfdt</dodf> to bf dompbrfd for fqublity.
+     *
+     * @rfturn <dodf>truf</dodf> if thf givfn objfdt is bn fquivblfnt
+     * <dodf>ImbgfTypfSpfdififr</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if ((o == null) || !(o instbndfof ImbgfTypfSpfdififr)) {
+            rfturn fblsf;
+        }
+
+        ImbgfTypfSpfdififr thbt = (ImbgfTypfSpfdififr)o;
+        rfturn (dolorModfl.fqubls(thbt.dolorModfl)) &&
+            (sbmplfModfl.fqubls(thbt.sbmplfModfl));
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this ImbgfTypfSpfdififr.
+     *
+     * @rfturn b hbsh dodf for this ImbgfTypfSpfdififr
+     */
+    publid int hbshCodf() {
+        rfturn (9 * dolorModfl.hbshCodf()) + (14 * sbmplfModfl.hbshCodf());
+    }
+
+    privbtf stbtid ImbgfTypfSpfdififr gftSpfdififr(int typf) {
+        if (BISpfdififr[typf] == null) {
+            BISpfdififr[typf] = drfbtfSpfdififr(typf);
+        }
+        rfturn BISpfdififr[typf];
+    }
+
+    privbtf stbtid ImbgfTypfSpfdififr drfbtfSpfdififr(int typf) {
+        switdh(typf) {
+          dbsf BufffrfdImbgf.TYPE_INT_RGB:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0x00ff0000,
+                                  0x0000ff00,
+                                  0x000000ff,
+                                  0x0,
+                                  DbtbBufffr.TYPE_INT,
+                                  fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_INT_ARGB:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0x00ff0000,
+                                  0x0000ff00,
+                                  0x000000ff,
+                                  0xff000000,
+                                  DbtbBufffr.TYPE_INT,
+                                  fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_INT_ARGB_PRE:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0x00ff0000,
+                                  0x0000ff00,
+                                  0x000000ff,
+                                  0xff000000,
+                                  DbtbBufffr.TYPE_INT,
+                                  truf);
+
+          dbsf BufffrfdImbgf.TYPE_INT_BGR:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0x000000ff,
+                                  0x0000ff00,
+                                  0x00ff0000,
+                                  0x0,
+                                  DbtbBufffr.TYPE_INT,
+                                  fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_3BYTE_BGR:
+              rfturn drfbtfIntfrlfbvfd(sRGB,
+                                       nfw int[] { 2, 1, 0 },
+                                       DbtbBufffr.TYPE_BYTE,
+                                       fblsf,
+                                       fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR:
+              rfturn drfbtfIntfrlfbvfd(sRGB,
+                                       nfw int[] { 3, 2, 1, 0 },
+                                       DbtbBufffr.TYPE_BYTE,
+                                       truf,
+                                       fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR_PRE:
+              rfturn drfbtfIntfrlfbvfd(sRGB,
+                                       nfw int[] { 3, 2, 1, 0 },
+                                       DbtbBufffr.TYPE_BYTE,
+                                       truf,
+                                       truf);
+
+          dbsf BufffrfdImbgf.TYPE_USHORT_565_RGB:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0xF800,
+                                  0x07E0,
+                                  0x001F,
+                                  0x0,
+                                  DbtbBufffr.TYPE_USHORT,
+                                  fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_USHORT_555_RGB:
+              rfturn drfbtfPbdkfd(sRGB,
+                                  0x7C00,
+                                  0x03E0,
+                                  0x001F,
+                                  0x0,
+                                  DbtbBufffr.TYPE_USHORT,
+                                  fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_BYTE_GRAY:
+            rfturn drfbtfGrbysdblf(8,
+                                   DbtbBufffr.TYPE_BYTE,
+                                   fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_USHORT_GRAY:
+            rfturn drfbtfGrbysdblf(16,
+                                   DbtbBufffr.TYPE_USHORT,
+                                   fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_BYTE_BINARY:
+              rfturn drfbtfGrbysdblf(1,
+                                     DbtbBufffr.TYPE_BYTE,
+                                     fblsf);
+
+          dbsf BufffrfdImbgf.TYPE_BYTE_INDEXED:
+          {
+
+              BufffrfdImbgf bi =
+                  nfw BufffrfdImbgf(1, 1, BufffrfdImbgf.TYPE_BYTE_INDEXED);
+              IndfxColorModfl idm = (IndfxColorModfl)bi.gftColorModfl();
+              int mbpSizf = idm.gftMbpSizf();
+              bytf[] rfdLUT = nfw bytf[mbpSizf];
+              bytf[] grffnLUT = nfw bytf[mbpSizf];
+              bytf[] blufLUT = nfw bytf[mbpSizf];
+              bytf[] blphbLUT = nfw bytf[mbpSizf];
+
+              idm.gftRfds(rfdLUT);
+              idm.gftGrffns(grffnLUT);
+              idm.gftBlufs(blufLUT);
+              idm.gftAlphbs(blphbLUT);
+
+              rfturn drfbtfIndfxfd(rfdLUT, grffnLUT, blufLUT, blphbLUT,
+                                   8,
+                                   DbtbBufffr.TYPE_BYTE);
+          }
+          dffbult:
+              throw nfw IllfgblArgumfntExdfption("Invblid BufffrfdImbgf typf!");
+        }
+    }
+
+}

@@ -1,0 +1,244 @@
+#==============================================================================
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
+#==============================================================================
+
+In this dirfdtory:
+------------------
+
+README:              this filf
+dommbnds.fnv:        b filf dontbining somf ksh vbribblfs & fundtions
+                     thbt I hbvf usfd to gfnfrbtf & dompilf bll thf 
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+logging.propfrtifs:  logging.propfrtifs filf thbt dbn bf usfd to obtbin
+                     trbdf informbtion.
+*.jbvb:              utility bnd dustom dlbssfs for thf JVM Mbnbgfmfnt MIB.
+                     Thfsf dlbssfs show how to providf instrumfntbtion for
+                     b mibgfn gfnfrbtfd MIB, how to simulbtf virtubl tbblfs,
+		     bnd how to mbkf usf of thf SnmpUsfrDbtbFbdtory.
+		     Only thf jvmMfmory group bnd its tbblfs brf instrumfntfd.
+
+Dfpfndfndy
+----------
+
+    jvmMbnbgfmfntMib.txt : thf JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf thfsf
+                           dlbssfs dould bf pbrt of thf JMX dflivfry
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+    JDMK 5.1 : Thf jdmktk.jbr dontbins thf dom.sun.jdmk.tools.MibGfn dlbss
+               usfd to dompilf thf MIB. JDMK blso hbs b mibgfn.sh sdript
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf thbt dbn
+               intfgrbtf with JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               dodf thbt intfgrbtf with Tigfr SNMP runtimf, you nffd to
+	       stbrt mibgfn with b non-dffbult rfsourdf filf. 
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+    Custom Instrumfntbtion Codf: thf filfs in this dirfdtory.
+
+How to prodffd:
+---------------
+
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn with mibgfn rfsourdf filf for
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+on thf Jbvb dommbnd linf.
+
+Usf mibgfn to gfnfrbtf dodf for thf jvmMbnbgfmfntMib.txt filf. Notf thbt
+thf dustom dlbssfs providfd in this dirfdtory brf bll in thf 
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt thf gfnfrbtfd dlbssfs to
+bf in bnothfr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
+
+If this pbdkbgf nbmf dofs not suit you, simply dhbngf it to somfthing flsf,
+both in thf dustom dlbssfs bflow (you might usf 'sfd' or do it mbnublly) 
+bnd in thf -tp option thbt you will pbss to mibgfn.
+
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+you rfbd dommbnd.fnv you will sff thbt I hbvf put thf dustom dlbssfs
+in b "dustom" dirfdtory, bnd thf gfnfrbtfd dlbssfs in b "pbrsfd" 
+dirfdtory. This mbkfs it fbsifr to dlfbnup thf mib. You dbn sbffly
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
+
+Thfn dompilf thf gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+runtimf dlbssfs in your dlbsspbth - if you dompilf with b tigfr build thbt
+blrfbdy hbvf thfm thfn you don't nffd to spfdify bnything spfdibl.
+
+Thfn mbkf your dlbsspbth point to thf dompilfd gfnfrbtfd dlbssfs, bnd
+dompilf thf dustom dodf in this dirfdtory.
+
+Thfn you dbn usf thf SnmpDbfmonTfst dlbss to stbrt b JVM with thf
+intsrumfntfd MIB, bnd you dbn usf f.g. thf fbsymbnbgfr dontrib of
+JDMK to vifw thf MIB through SNMP. 
+
+#==============================================================================
+#  Clbssfs Dftbils
+#==============================================================================
+
+Utility Clbssfs dfvfloppfd for thf JVM Mbnbgfmfnt MIB:
+------------------------------------------------------
+JvmContfxtFbdtory.jbvb        : Thf dontfxt fbdtory bllodbtfs b Mbp thbt
+                                sfrvfs bs rfqufst dontfxtubl dbdhf.
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                dbdhfd in this objfdt.
+                                A rfqufst dontfxtubl dbdhf is bllodbtfd
+                                fbdh timf b rfqufst is bfing prodfssfd,
+                                bnd is rflfbsfd bt thf fnd of prodfssing.
+				Objfdt: 1) prfsfrvf btomidity
+                                        2) minimizf API dblls
+					3) fnsurf donsistfndy of thf
+					   vbrious pifdfs of dbtb rfturnfd.
+
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
+
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
+
+SnmpCbdhfdDbtb.jbvb           : This objfdt dbn bf usf to dbdhf b snbpshot
+                                of thf dbtb dontbinfd in b tbblf. 
+
+SnmpTbblfCbdhf.jbvb           : A wfbk dbdhf for tbblf dbtb. Thf dbtb is
+                                domputfd on dfmbnd bnd dbdhfd in b 
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                b vblidity pfriod for thf dbdhf dbtb.
+
+SnmpListTbblfCbdhf.jbvb       : Extfnds SnmpTbblfCbdhf - for tbblfs whosf
+                                dbtb is rfturnfd in b List objfdt.
+
+SnmpNbmfdListTbblfCbdhf.jbvb  : Extfnds SnmpListTbblfCbdhf - for tbblfs whosf
+                                flfmfnts dbn bf nbmfd by b uniquf string.
+
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt thbt rfgistfrs
+                                thf JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                bdbptor.  This is thf "mbin". Notf thbt
+                                this not thf dlbss thbt will bf usfd to
+			        stbrt thf bdbptor in thf finbl Tigfr - it is
+                                just b dummy tfst mbin.
+
+JVM Mbnbgfmfnt MIB
+------------------
+
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs thf gfnfrbtfd JVM_MANAGEMENT_MIB
+                                dlbss. 
+				Objfdt: ovfrriding fbdtory mfthod in ordfr
+                                        to instbntibtf dustom dodf instfbd
+				        of gfnfrbtfd dodf.
+
+
+JVM Mfmory Group
+----------------
+
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for thf jvmMfmory
+                                group. Rfplbdfs thf gfnfrbtfd JvmMfmory dlbss,
+                                whidh is not usfd bnd dbn bf thrown bwby.
+                                Implfmfnts thf gfnfrbtfd JvmMfmoryMBfbn 
+                                intfrfbdf (whidh wbs blso implfmfntfd by
+                                thf gfnfrbtfd JvmMfmory skflfton dlbss)
+                                Usf  thf rfqufst dontfxtubl dbdhf
+				in ordfr to fnsurf donsistfndy whfn
+				rfturning MfmoryUsbgf dbtbs. Notf thbt bll
+                                tbblfs in this group hbvf bffn implfmfntfd
+                                bs virtubl tbblfs. As b donsfqufndf, thf
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
+                                brf not nffdfd.
+
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for thf jvmMfmory group.
+			        Subdlbssfs thf gfnfrbtfd JvmMfmoryMftb dlbss.
+                                Objfdt: ovfrridfs thf fbdtory mfthods in ordfr
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        for thf jvmMfmMbnbgfrTbblf,
+						jvmMfmGCTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmMgrPoolRflTbblf.
+
+JVM Mfmory Mbnbgfr Tbblf
+------------------------
+
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for thf 
+                                  jvmMfmMbnbgfrTbblf. This MftbDbtb trbps
+				  bll thf SNMP Runtimf dblls mbdf to thf 
+                                  tbblf - in ordfr to mbkf thf Mfmory Mbnbgfr
+				  tbblf virtubl: i.f. thf tbblf dofs not hbvf
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  Instfbd, thf tbblf is domputfd "on dfmbnd",
+                                  bnd thf dbtb is dbdhfd in b wfbk dbdhf
+                                  (sff SnmpNbmfdListTbblfCbdhf) whidh rfmbins
+				  vblid for b ffw ms. If thf dbtb is found
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  thf tbblf is rfdomputfd.
+
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+				  Entrifs brf drfbtfd on thf fly whfn it
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  Mfmory Mbnbgfrs. Thfy brf tfmporbry objfdts
+				  thbt wrbp thf MfmoryMbnbgfr just for thf
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
+
+JVM Mfmory GC Tbblf
+-------------------
+
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for thf 
+                                 jvmMfmGCTbblf. This MftbDbtb trbps
+				 bll thf SNMP Runtimf dblls mbdf to thf 
+                                 tbblf - in ordfr to mbkf thf GC
+				 tbblf virtubl: thf GC tbblf rfusfs thf
+			         dbdhfd dbtb domputfd for thf 
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 filtfr thbt only shows thosf flfmfnts thbt
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 In othfr words it implfmfnts b fitfrfd vifw
+                                 of thf jvmMfmMbnbgfrTbblf.
+
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to thf dbtb spfdifid to
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 of this dlbssfs brf drfbtfd on thf fly,
+				 whfn dbtb nffds to bf rfturnfd from b 
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Thfy brf not kfpt in
+				 mfmory.
+
+JVM Mfmory Pool Tbblf
+---------------------
+
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for thf jvmMfmPoolTbblf.
+			         This is quitf similbr to whbt wbs donf for
+                                 thf jvmMfmMbnbgfrTbblf in 
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of thf dodf
+                                 hfrf wbs obtbin by dut&pbstf-ing from
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 "Mbnbgfr" with "Pool".
+
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to thf dbtb spfdifid to
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 of this dlbssfs brf drfbtfd on thf fly,
+				 whfn dbtb nffds to bf rfturnfd from b 
+				 MfmoryPoolMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Thfy brf not kfpt in
+				 mfmory. Usf  thf rfqufst dontfxtubl dbdhf
+				 in ordfr to fnsurf donsistfndy whfn
+				 rfturning MfmoryUsbgf dbtbs. 
+
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+------------------------------------------------
+
+
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for thf 
+                                 jvmMfmMgrPoolRflTbblf. This mftb dbtb
+			         usfs thf JvmMfmMbnbgfrTbblfMftbImpl bnd
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 find out thf dontfnt of thf 
+			         jvmMfmMbnbgfrTbblf bnd thf mbpping bftwffn 
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 For fbdh flfmfnt of thf jvmMfmMbnbgfrTbblf
+                                 it dblls thf JSR 163 APIs to find thf
+				 rflbtfd Mfmory Pool, thfn finds out thfir
+				 indfx, bnd thfn drfbtfs thf dorrfsponding
+				 row in thf jvmMfmMgrPoolRflTbblf dbdhfd dbtb.
+				 Likf bll thf othfr tbblfs, this tbblf is
+				 virtubl: thf dbtb is kfpt on b wfbk dbdhf
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bs fxpirfd or if it hbs bffn gd'fd.
+
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+                                 Modfls b row in thf jvmMfmMgrPoolRflTbblf.
+				 Objfdts of this typf brf dbdhfd in thf
+				 jvmMfmMgrPoolRflTbblf dbdhfd dbtb.
+
+#==============================================================================
+#==============================================================================

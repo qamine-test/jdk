@@ -1,0 +1,71 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+
+/**
+ * A Fbdtory to rfturn bn XPbthAPI instbndf. If Xblbn is bvbilbblf it rfturns XblbnXPbthAPI. If not, thfn
+ * it rfturns JDKXPbthAPI.
+ */
+publid bbstrbdt dlbss XPbthFbdtory {
+
+    privbtf stbtid boolfbn xblbnInstbllfd;
+
+    stbtid {
+        try {
+            Clbss<?> fundTbblfClbss =
+                ClbssLobdfrUtils.lobdClbss("dom.sun.org.bpbdhf.xpbth.intfrnbl.dompilfr.FundtionTbblf", XPbthFbdtory.dlbss);
+            if (fundTbblfClbss != null) {
+                xblbnInstbllfd = truf;
+            }
+        } dbtdh (Exdfption f) {
+            //ignorf
+        }
+    }
+
+    protfdtfd syndhronizfd stbtid boolfbn isXblbnInstbllfd() {
+        rfturn xblbnInstbllfd;
+    }
+
+    /**
+     * Gft b nfw XPbthFbdtory instbndf
+     */
+    publid stbtid XPbthFbdtory nfwInstbndf() {
+        if (!isXblbnInstbllfd()) {
+            rfturn nfw JDKXPbthFbdtory();
+        }
+        // Xblbn is bvbilbblf
+        if (XblbnXPbthAPI.isInstbllfd()) {
+            rfturn nfw XblbnXPbthFbdtory();
+        }
+        // Somf problfm wbs fndountfrfd in fixing up thf Xblbn FundtionTbblf so fbll bbdk to thf
+        // JDK implfmfntbtion
+        rfturn nfw JDKXPbthFbdtory();
+    }
+
+    /**
+     * Gft b nfw XPbthAPI instbndf
+     */
+    publid bbstrbdt XPbthAPI nfwXPbthAPI();
+
+}

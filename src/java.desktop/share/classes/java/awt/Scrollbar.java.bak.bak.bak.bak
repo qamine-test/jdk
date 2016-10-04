@@ -1,0 +1,1360 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.SdrollbbrPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
+
+
+/**
+ * Thf <dodf>Sdrollbbr</dodf> dlbss fmbodifs b sdroll bbr, b
+ * fbmilibr usfr-intfrfbdf objfdt. A sdroll bbr providfs b
+ * donvfnifnt mfbns for bllowing b usfr to sflfdt from b
+ * rbngf of vblufs. Thf following thrff vfrtidbl
+ * sdroll bbrs dould bf usfd bs slidfr dontrols to pidk
+ * thf rfd, grffn, bnd bluf domponfnts of b dolor:
+ * <p>
+ * <img srd="dod-filfs/Sdrollbbr-1.gif" blt="Imbgf shows 3 vfrtidbl slidfrs, sidf-by-sidf."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Ebdh sdroll bbr in this fxbmplf dould bf drfbtfd with
+ * dodf similbr to thf following:
+ *
+ * <hr><blodkquotf><prf>
+ * rfdSlidfr=nfw Sdrollbbr(Sdrollbbr.VERTICAL, 0, 1, 0, 255);
+ * bdd(rfdSlidfr);
+ * </prf></blodkquotf><hr>
+ * <p>
+ * Altfrnbtivfly, b sdroll bbr dbn rfprfsfnt b rbngf of vblufs. For
+ * fxbmplf, if b sdroll bbr is usfd for sdrolling through tfxt, thf
+ * width of thf "bubblf" (blso dbllfd thf "thumb" or "sdroll box")
+ * dbn bf usfd to rfprfsfnt thf bmount of tfxt thbt is visiblf.
+ * Hfrf is bn fxbmplf of b sdroll bbr thbt rfprfsfnts b rbngf:
+ * <p>
+ * <img srd="dod-filfs/Sdrollbbr-2.gif"
+ * blt="Imbgf shows horizontbl slidfr with stbrting rbngf of 0 bnd fnding rbngf of 300. Thf slidfr thumb is lbbflfd 60."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Thf vbluf rbngf rfprfsfntfd by thf bubblf in this fxbmplf
+ * is thf <fm>visiblf bmount</fm>. Thf horizontbl sdroll bbr
+ * in this fxbmplf dould bf drfbtfd with dodf likf thf following:
+ *
+ * <hr><blodkquotf><prf>
+ * rbngfr = nfw Sdrollbbr(Sdrollbbr.HORIZONTAL, 0, 60, 0, 300);
+ * bdd(rbngfr);
+ * </prf></blodkquotf><hr>
+ * <p>
+ * Notf thbt thf bdtubl mbximum vbluf of thf sdroll bbr is thf
+ * <dodf>mbximum</dodf> minus thf <dodf>visiblf bmount</dodf>.
+ * In thf prfvious fxbmplf, bfdbusf thf <dodf>mbximum</dodf> is
+ * 300 bnd thf <dodf>visiblf bmount</dodf> is 60, thf bdtubl mbximum
+ * vbluf is 240.  Thf rbngf of thf sdrollbbr trbdk is 0 - 300.
+ * Thf lfft sidf of thf bubblf indidbtfs thf vbluf of thf
+ * sdroll bbr.
+ * <p>
+ * Normblly, thf usfr dhbngfs thf vbluf of thf sdroll bbr by
+ * mbking b gfsturf with thf mousf. For fxbmplf, thf usfr dbn
+ * drbg thf sdroll bbr's bubblf up bnd down, or dlidk in thf
+ * sdroll bbr's unit indrfmfnt or blodk indrfmfnt brfbs. Kfybobrd
+ * gfsturfs dbn blso bf mbppfd to thf sdroll bbr. By donvfntion,
+ * thf <b>Pbgf&nbsp;Up</b> bnd <b>Pbgf&nbsp;Down</b>
+ * kfys brf fquivblfnt to dlidking in thf sdroll bbr's blodk
+ * indrfmfnt bnd blodk dfdrfmfnt brfbs.
+ * <p>
+ * Whfn thf usfr dhbngfs thf vbluf of thf sdroll bbr, thf sdroll bbr
+ * rfdfivfs bn instbndf of <dodf>AdjustmfntEvfnt</dodf>.
+ * Thf sdroll bbr prodfssfs this fvfnt, pbssing it blong to
+ * bny rfgistfrfd listfnfrs.
+ * <p>
+ * Any objfdt thbt wishfs to bf notififd of dhbngfs to thf
+ * sdroll bbr's vbluf should implfmfnt
+ * <dodf>AdjustmfntListfnfr</dodf>, bn intfrfbdf dffinfd in
+ * thf pbdkbgf <dodf>jbvb.bwt.fvfnt</dodf>.
+ * Listfnfrs dbn bf bddfd bnd rfmovfd dynbmidblly by dblling
+ * thf mfthods <dodf>bddAdjustmfntListfnfr</dodf> bnd
+ * <dodf>rfmovfAdjustmfntListfnfr</dodf>.
+ * <p>
+ * Thf <dodf>AdjustmfntEvfnt</dodf> dlbss dffinfs fivf typfs
+ * of bdjustmfnt fvfnt, listfd hfrf:
+ *
+ * <ul>
+ * <li><dodf>AdjustmfntEvfnt.TRACK</dodf> is sfnt out whfn thf
+ * usfr drbgs thf sdroll bbr's bubblf.
+ * <li><dodf>AdjustmfntEvfnt.UNIT_INCREMENT</dodf> is sfnt out
+ * whfn thf usfr dlidks in thf lfft brrow of b horizontbl sdroll
+ * bbr, or thf top brrow of b vfrtidbl sdroll bbr, or mbkfs thf
+ * fquivblfnt gfsturf from thf kfybobrd.
+ * <li><dodf>AdjustmfntEvfnt.UNIT_DECREMENT</dodf> is sfnt out
+ * whfn thf usfr dlidks in thf right brrow of b horizontbl sdroll
+ * bbr, or thf bottom brrow of b vfrtidbl sdroll bbr, or mbkfs thf
+ * fquivblfnt gfsturf from thf kfybobrd.
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_INCREMENT</dodf> is sfnt out
+ * whfn thf usfr dlidks in thf trbdk, to thf lfft of thf bubblf
+ * on b horizontbl sdroll bbr, or bbovf thf bubblf on b vfrtidbl
+ * sdroll bbr. By donvfntion, thf <b>Pbgf&nbsp;Up</b>
+ * kfy is fquivblfnt, if thf usfr is using b kfybobrd thbt
+ * dffinfs b <b>Pbgf&nbsp;Up</b> kfy.
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_DECREMENT</dodf> is sfnt out
+ * whfn thf usfr dlidks in thf trbdk, to thf right of thf bubblf
+ * on b horizontbl sdroll bbr, or bflow thf bubblf on b vfrtidbl
+ * sdroll bbr. By donvfntion, thf <b>Pbgf&nbsp;Down</b>
+ * kfy is fquivblfnt, if thf usfr is using b kfybobrd thbt
+ * dffinfs b <b>Pbgf&nbsp;Down</b> kfy.
+ * </ul>
+ * <p>
+ * Thf JDK&nbsp;1.0 fvfnt systfm is supportfd for bbdkwbrds
+ * dompbtibility, but its usf with nfwfr vfrsions of thf plbtform is
+ * disdourbgfd. Thf fivf typfs of bdjustmfnt fvfnts introdudfd
+ * with JDK&nbsp;1.1 dorrfspond to thf fivf fvfnt typfs
+ * thbt brf bssodibtfd with sdroll bbrs in prfvious plbtform vfrsions.
+ * Thf following list givfs thf bdjustmfnt fvfnt typf,
+ * bnd thf dorrfsponding JDK&nbsp;1.0 fvfnt typf it rfplbdfs.
+ *
+ * <ul>
+ * <li><dodf>AdjustmfntEvfnt.TRACK</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_ABSOLUTE</dodf>
+ * <li><dodf>AdjustmfntEvfnt.UNIT_INCREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_LINE_UP</dodf>
+ * <li><dodf>AdjustmfntEvfnt.UNIT_DECREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_LINE_DOWN</dodf>
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_INCREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_PAGE_UP</dodf>
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_DECREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_PAGE_DOWN</dodf>
+ * </ul>
+ * <p>
+ * <b>Notf</b>: Wf rfdommfnd using b <dodf>Sdrollbbr</dodf>
+ * for vbluf sflfdtion only.  If you wbnt to implfmfnt
+ * b sdrollbblf domponfnt insidf b dontbinfr, wf rfdommfnd you usf
+ * b {@link SdrollPbnf SdrollPbnf}. If you usf b
+ * <dodf>Sdrollbbr</dodf> for this purposf, you brf likfly to
+ * fndountfr issufs with pbinting, kfy hbndling, sizing bnd
+ * positioning.
+ *
+ * @buthor      Sbmi Shbio
+ * @sff         jbvb.bwt.fvfnt.AdjustmfntEvfnt
+ * @sff         jbvb.bwt.fvfnt.AdjustmfntListfnfr
+ * @sindf       1.0
+ */
+publid dlbss Sdrollbbr fxtfnds Componfnt implfmfnts Adjustbblf, Addfssiblf {
+
+    /**
+     * A donstbnt thbt indidbtfs b horizontbl sdroll bbr.
+     */
+    publid stbtid finbl int     HORIZONTAL = 0;
+
+    /**
+     * A donstbnt thbt indidbtfs b vfrtidbl sdroll bbr.
+     */
+    publid stbtid finbl int     VERTICAL   = 1;
+
+    /**
+     * Thf vbluf of thf <dodf>Sdrollbbr</dodf>.
+     * This propfrty must bf grfbtfr thbn or fqubl to <dodf>minimum</dodf>
+     * bnd lfss thbn or fqubl to
+     * <dodf>mbximum - visiblfAmount</dodf>
+     *
+     * @sfribl
+     * @sff #gftVbluf
+     * @sff #sftVbluf
+     */
+    int vbluf;
+
+    /**
+     * Thf mbximum vbluf of thf <dodf>Sdrollbbr</dodf>.
+     * This vbluf must bf grfbtfr thbn thf <dodf>minimum</dodf>
+     * vbluf.<br>
+     *
+     * @sfribl
+     * @sff #gftMbximum
+     * @sff #sftMbximum
+     */
+    int mbximum;
+
+    /**
+     * Thf minimum vbluf of thf <dodf>Sdrollbbr</dodf>.
+     * This vbluf must bf lfss thbn thf <dodf>mbximum</dodf>
+     * vbluf.<br>
+     *
+     * @sfribl
+     * @sff #gftMinimum
+     * @sff #sftMinimum
+     */
+    int minimum;
+
+    /**
+     * Thf sizf of thf <dodf>Sdrollbbr</dodf>'s bubblf.
+     * Whfn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * thf visiblfAmount rfprfsfnts thf sizf of this rbngf.
+     * Dfpfnding on plbtform, this mby bf visublly indidbtfd
+     * by thf sizf of thf bubblf.
+     *
+     * @sfribl
+     * @sff #gftVisiblfAmount
+     * @sff #sftVisiblfAmount
+     */
+    int visiblfAmount;
+
+    /**
+     * Thf <dodf>Sdrollbbr</dodf>'s orifntbtion--bfing fithfr horizontbl
+     * or vfrtidbl.
+     * This vbluf should bf spfdififd whfn thf sdrollbbr is drfbtfd.<BR>
+     * orifntbtion dbn bf fithfr : <dodf>VERTICAL</dodf> or
+     * <dodf>HORIZONTAL</dodf> only.
+     *
+     * @sfribl
+     * @sff #gftOrifntbtion
+     * @sff #sftOrifntbtion
+     */
+    int orifntbtion;
+
+    /**
+     * Thf bmount by whidh thf sdrollbbr vbluf will dhbngf whfn going
+     * up or down by b linf.
+     * This vbluf must bf grfbtfr thbn zfro.
+     *
+     * @sfribl
+     * @sff #gftLinfIndrfmfnt
+     * @sff #sftLinfIndrfmfnt
+     */
+    int linfIndrfmfnt = 1;
+
+    /**
+     * Thf bmount by whidh thf sdrollbbr vbluf will dhbngf whfn going
+     * up or down by b pbgf.
+     * This vbluf must bf grfbtfr thbn zfro.
+     *
+     * @sfribl
+     * @sff #gftPbgfIndrfmfnt
+     * @sff #sftPbgfIndrfmfnt
+     */
+    int pbgfIndrfmfnt = 10;
+
+    /**
+     * Thf bdjusting stbtus of thf <dodf>Sdrollbbr</dodf>.
+     * Truf if thf vbluf is in thf prodfss of dhbnging bs b rfsult of
+     * bdtions bfing tbkfn by thf usfr.
+     *
+     * @sff #gftVblufIsAdjusting
+     * @sff #sftVblufIsAdjusting
+     * @sindf 1.4
+     */
+    trbnsifnt boolfbn isAdjusting;
+
+    trbnsifnt AdjustmfntListfnfr bdjustmfntListfnfr;
+
+    privbtf stbtid finbl String bbsf = "sdrollbbr";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8451667562882310543L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Construdts b nfw vfrtidbl sdroll bbr.
+     * Thf dffbult propfrtifs of thf sdroll bbr brf listfd in
+     * thf following tbblf:
+     *
+     * <tbblf bordfr=1 summbry="Sdrollbbr dffbult propfrtifs">
+     * <tr>
+     *   <th>Propfrty</th>
+     *   <th>Dfsdription</th>
+     *   <th>Dffbult Vbluf</th>
+     * </tr>
+     * <tr>
+     *   <td>orifntbtion</td>
+     *   <td>indidbtfs whfthfr thf sdroll bbr is vfrtidbl
+     *   <br>or horizontbl</td>
+     *   <td><dodf>Sdrollbbr.VERTICAL</dodf></td>
+     * </tr>
+     * <tr>
+     *   <td>vbluf</td>
+     *   <td>vbluf whidh dontrols thf lodbtion
+     *   <br>of thf sdroll bbr's bubblf</td>
+     *   <td>0</td>
+     * </tr>
+     * <tr>
+     *   <td>visiblf bmount</td>
+     *   <td>visiblf bmount of thf sdroll bbr's rbngf,
+     *   <br>typidblly rfprfsfntfd by thf sizf of thf
+     *   <br>sdroll bbr's bubblf</td>
+     *   <td>10</td>
+     * </tr>
+     * <tr>
+     *   <td>minimum</td>
+     *   <td>minimum vbluf of thf sdroll bbr</td>
+     *   <td>0</td>
+     * </tr>
+     * <tr>
+     *   <td>mbximum</td>
+     *   <td>mbximum vbluf of thf sdroll bbr</td>
+     *   <td>100</td>
+     * </tr>
+     * <tr>
+     *   <td>unit indrfmfnt</td>
+     *   <td>bmount thf vbluf dhbngfs whfn thf
+     *   <br>Linf Up or Linf Down kfy is prfssfd,
+     *   <br>or whfn thf fnd brrows of thf sdrollbbr
+     *   <br>brf dlidkfd </td>
+     *   <td>1</td>
+     * </tr>
+     * <tr>
+     *   <td>blodk indrfmfnt</td>
+     *   <td>bmount thf vbluf dhbngfs whfn thf
+     *   <br>Pbgf Up or Pbgf Down kfy is prfssfd,
+     *   <br>or whfn thf sdrollbbr trbdk is dlidkfd
+     *   <br>on fithfr sidf of thf bubblf </td>
+     *   <td>10</td>
+     * </tr>
+     * </tbblf>
+     *
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Sdrollbbr() throws HfbdlfssExdfption {
+        this(VERTICAL, 0, 10, 0, 100);
+    }
+
+    /**
+     * Construdts b nfw sdroll bbr with thf spfdififd orifntbtion.
+     * <p>
+     * Thf <dodf>orifntbtion</dodf> brgumfnt must tbkf onf of thf two
+     * vblufs <dodf>Sdrollbbr.HORIZONTAL</dodf>,
+     * or <dodf>Sdrollbbr.VERTICAL</dodf>,
+     * indidbting b horizontbl or vfrtidbl sdroll bbr, rfspfdtivfly.
+     *
+     * @pbrbm       orifntbtion   indidbtfs thf orifntbtion of thf sdroll bbr
+     * @fxdfption   IllfgblArgumfntExdfption    whfn bn illfgbl vbluf for
+     *                    thf <dodf>orifntbtion</dodf> brgumfnt is supplifd
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Sdrollbbr(int orifntbtion) throws HfbdlfssExdfption {
+        this(orifntbtion, 0, 10, 0, 100);
+    }
+
+    /**
+     * Construdts b nfw sdroll bbr with thf spfdififd orifntbtion,
+     * initibl vbluf, visiblf bmount, bnd minimum bnd mbximum vblufs.
+     * <p>
+     * Thf <dodf>orifntbtion</dodf> brgumfnt must tbkf onf of thf two
+     * vblufs <dodf>Sdrollbbr.HORIZONTAL</dodf>,
+     * or <dodf>Sdrollbbr.VERTICAL</dodf>,
+     * indidbting b horizontbl or vfrtidbl sdroll bbr, rfspfdtivfly.
+     * <p>
+     * Thf pbrbmftfrs supplifd to this donstrudtor brf subjfdt to thf
+     * donstrbints dfsdribfd in {@link #sftVblufs(int, int, int, int)}.
+     *
+     * @pbrbm     orifntbtion   indidbtfs thf orifntbtion of thf sdroll bbr.
+     * @pbrbm     vbluf     thf initibl vbluf of thf sdroll bbr
+     * @pbrbm     visiblf   thf visiblf bmount of thf sdroll bbr, typidblly
+     *                      rfprfsfntfd by thf sizf of thf bubblf
+     * @pbrbm     minimum   thf minimum vbluf of thf sdroll bbr
+     * @pbrbm     mbximum   thf mbximum vbluf of thf sdroll bbr
+     * @fxdfption IllfgblArgumfntExdfption    whfn bn illfgbl vbluf for
+     *                    thf <dodf>orifntbtion</dodf> brgumfnt is supplifd
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff #sftVblufs
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Sdrollbbr(int orifntbtion, int vbluf, int visiblf, int minimum,
+        int mbximum) throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        switdh (orifntbtion) {
+          dbsf HORIZONTAL:
+          dbsf VERTICAL:
+            this.orifntbtion = orifntbtion;
+            brfbk;
+          dffbult:
+            throw nfw IllfgblArgumfntExdfption("illfgbl sdrollbbr orifntbtion");
+        }
+        sftVblufs(vbluf, visiblf, minimum, mbximum);
+    }
+
+    /**
+     * Construdts b nbmf for this domponfnt.  Cbllfd by <dodf>gftNbmf</dodf>
+     * whfn thf nbmf is <dodf>null</dodf>.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (Sdrollbbr.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf <dodf>Sdrollbbr</dodf>'s pffr.  Thf pffr bllows you to modify
+     * thf bppfbrbndf of thf <dodf>Sdrollbbr</dodf> without dhbnging bny of its
+     * fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfSdrollbbr(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Rfturns thf orifntbtion of this sdroll bbr.
+     *
+     * @rfturn    thf orifntbtion of this sdroll bbr, fithfr
+     *               <dodf>Sdrollbbr.HORIZONTAL</dodf> or
+     *               <dodf>Sdrollbbr.VERTICAL</dodf>
+     * @sff       jbvb.bwt.Sdrollbbr#sftOrifntbtion
+     */
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
+    }
+
+    /**
+     * Sfts thf orifntbtion for this sdroll bbr.
+     *
+     * @pbrbm orifntbtion  thf orifntbtion of this sdroll bbr, fithfr
+     *               <dodf>Sdrollbbr.HORIZONTAL</dodf> or
+     *               <dodf>Sdrollbbr.VERTICAL</dodf>
+     * @sff       jbvb.bwt.Sdrollbbr#gftOrifntbtion
+     * @fxdfption   IllfgblArgumfntExdfption  if thf vbluf supplifd
+     *                   for <dodf>orifntbtion</dodf> is not b
+     *                   lfgbl vbluf
+     * @sindf     1.1
+     */
+    publid void sftOrifntbtion(int orifntbtion) {
+        syndhronizfd (gftTrffLodk()) {
+            if (orifntbtion == this.orifntbtion) {
+                rfturn;
+            }
+            switdh (orifntbtion) {
+                dbsf HORIZONTAL:
+                dbsf VERTICAL:
+                    this.orifntbtion = orifntbtion;
+                    brfbk;
+                dffbult:
+                    throw nfw IllfgblArgumfntExdfption("illfgbl sdrollbbr orifntbtion");
+            }
+            /* Crfbtf b nfw pffr with thf spfdififd orifntbtion. */
+            if (pffr != null) {
+                rfmovfNotify();
+                bddNotify();
+                invblidbtf();
+            }
+        }
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyChbngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((orifntbtion == VERTICAL)
+                     ? AddfssiblfStbtf.HORIZONTAL : AddfssiblfStbtf.VERTICAL),
+                    ((orifntbtion == VERTICAL)
+                     ? AddfssiblfStbtf.VERTICAL : AddfssiblfStbtf.HORIZONTAL));
+        }
+    }
+
+    /**
+     * Gfts thf durrfnt vbluf of this sdroll bbr.
+     *
+     * @rfturn      thf durrfnt vbluf of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts thf vbluf of this sdroll bbr to thf spfdififd vbluf.
+     * <p>
+     * If thf vbluf supplifd is lfss thbn thf durrfnt <dodf>minimum</dodf>
+     * or grfbtfr thbn thf durrfnt <dodf>mbximum - visiblfAmount</dodf>,
+     * thfn fithfr <dodf>minimum</dodf> or <dodf>mbximum - visiblfAmount</dodf>
+     * is substitutfd, bs bppropribtf.
+     * <p>
+     * Normblly, b progrbm should dhbngf b sdroll bbr's
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Thf <dodf>sftVblufs</dodf> mfthod simultbnfously
+     * bnd syndhronously sfts thf minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so thbt thfy brf
+     * mutublly donsistfnt.
+     * <p>
+     * Cblling this mfthod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     *
+     * @pbrbm       nfwVbluf   thf nfw vbluf of thf sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
+     */
+    publid void sftVbluf(int nfwVbluf) {
+        // Usf sftVblufs so thbt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(nfwVbluf, visiblfAmount, minimum, mbximum);
+    }
+
+    /**
+     * Gfts thf minimum vbluf of this sdroll bbr.
+     *
+     * @rfturn      thf minimum vbluf of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
+     */
+    publid int gftMinimum() {
+        rfturn minimum;
+    }
+
+    /**
+     * Sfts thf minimum vbluf of this sdroll bbr.
+     * <p>
+     * Whfn <dodf>sftMinimum</dodf> is dbllfd, thf minimum vbluf
+     * is dhbngfd, bnd othfr vblufs (indluding thf mbximum, thf
+     * visiblf bmount, bnd thf durrfnt sdroll bbr vbluf)
+     * brf dhbngfd to bf donsistfnt with thf nfw minimum.
+     * <p>
+     * Normblly, b progrbm should dhbngf b sdroll bbr's minimum
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Thf <dodf>sftVblufs</dodf> mfthod simultbnfously
+     * bnd syndhronously sfts thf minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so thbt thfy brf
+     * mutublly donsistfnt.
+     * <p>
+     * Notf thbt sftting thf minimum vbluf to <dodf>Intfgfr.MAX_VALUE</dodf>
+     * will rfsult in thf nfw minimum vbluf bfing sft to
+     * <dodf>Intfgfr.MAX_VALUE - 1</dodf>.
+     *
+     * @pbrbm       nfwMinimum   thf nfw minimum vbluf for this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#sftMbximum
+     * @sindf       1.1
+     */
+    publid void sftMinimum(int nfwMinimum) {
+        // No dhfdks brf nfdfssbry in this mfthod sindf minimum is
+        // thf first vbribblf dhfdkfd in thf sftVblufs fundtion.
+
+        // Usf sftVblufs so thbt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, visiblfAmount, nfwMinimum, mbximum);
+    }
+
+    /**
+     * Gfts thf mbximum vbluf of this sdroll bbr.
+     *
+     * @rfturn      thf mbximum vbluf of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
+     */
+    publid int gftMbximum() {
+        rfturn mbximum;
+    }
+
+    /**
+     * Sfts thf mbximum vbluf of this sdroll bbr.
+     * <p>
+     * Whfn <dodf>sftMbximum</dodf> is dbllfd, thf mbximum vbluf
+     * is dhbngfd, bnd othfr vblufs (indluding thf minimum, thf
+     * visiblf bmount, bnd thf durrfnt sdroll bbr vbluf)
+     * brf dhbngfd to bf donsistfnt with thf nfw mbximum.
+     * <p>
+     * Normblly, b progrbm should dhbngf b sdroll bbr's mbximum
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Thf <dodf>sftVblufs</dodf> mfthod simultbnfously
+     * bnd syndhronously sfts thf minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so thbt thfy brf
+     * mutublly donsistfnt.
+     * <p>
+     * Notf thbt sftting thf mbximum vbluf to <dodf>Intfgfr.MIN_VALUE</dodf>
+     * will rfsult in thf nfw mbximum vbluf bfing sft to
+     * <dodf>Intfgfr.MIN_VALUE + 1</dodf>.
+     *
+     * @pbrbm       nfwMbximum   thf nfw mbximum vbluf
+     *                     for this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#sftMinimum
+     * @sindf       1.1
+     */
+    publid void sftMbximum(int nfwMbximum) {
+        // minimum is dhfdkfd first in sftVblufs, so wf nffd to
+        // fnfordf minimum bnd mbximum dhfdks hfrf.
+        if (nfwMbximum == Intfgfr.MIN_VALUE) {
+            nfwMbximum = Intfgfr.MIN_VALUE + 1;
+        }
+
+        if (minimum >= nfwMbximum) {
+            minimum = nfwMbximum - 1;
+        }
+
+        // Usf sftVblufs so thbt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, visiblfAmount, minimum, nfwMbximum);
+    }
+
+    /**
+     * Gfts thf visiblf bmount of this sdroll bbr.
+     * <p>
+     * Whfn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * thf visiblf bmount is usfd to rfprfsfnt thf rbngf of vblufs
+     * thbt brf durrfntly visiblf.  Thf sizf of thf sdroll bbr's
+     * bubblf (blso dbllfd b thumb or sdroll box), usublly givfs b
+     * visubl rfprfsfntbtion of thf rflbtionship of thf visiblf
+     * bmount to thf rbngf of thf sdroll bbr.
+     * Notf thbt dfpfnding on plbtform, thf vbluf of thf visiblf bmount propfrty
+     * mby not bf visublly indidbtfd by thf sizf of thf bubblf.
+     * <p>
+     * Thf sdroll bbr's bubblf mby not bf displbyfd whfn it is not
+     * movfbblf (f.g. whfn it tbkfs up thf fntirf lfngth of thf
+     * sdroll bbr's trbdk, or whfn thf sdroll bbr is disbblfd).
+     * Whfthfr thf bubblf is displbyfd or not will not bfffdt
+     * thf vbluf rfturnfd by <dodf>gftVisiblfAmount</dodf>.
+     *
+     * @rfturn      thf visiblf bmount of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVisiblfAmount
+     * @sindf       1.1
+     */
+    publid int gftVisiblfAmount() {
+        rfturn gftVisiblf();
+    }
+
+    /**
+     * Rfturns thf visiblf bmount of this sdroll bbr.
+     *
+     * @rfturn thf visiblf bmount of this sdroll bbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftVisiblfAmount()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid int gftVisiblf() {
+        rfturn visiblfAmount;
+    }
+
+    /**
+     * Sfts thf visiblf bmount of this sdroll bbr.
+     * <p>
+     * Whfn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * thf visiblf bmount is usfd to rfprfsfnt thf rbngf of vblufs
+     * thbt brf durrfntly visiblf.  Thf sizf of thf sdroll bbr's
+     * bubblf (blso dbllfd b thumb or sdroll box), usublly givfs b
+     * visubl rfprfsfntbtion of thf rflbtionship of thf visiblf
+     * bmount to thf rbngf of thf sdroll bbr.
+     * Notf thbt dfpfnding on plbtform, thf vbluf of thf visiblf bmount propfrty
+     * mby not bf visublly indidbtfd by thf sizf of thf bubblf.
+     * <p>
+     * Thf sdroll bbr's bubblf mby not bf displbyfd whfn it is not
+     * movfbblf (f.g. whfn it tbkfs up thf fntirf lfngth of thf
+     * sdroll bbr's trbdk, or whfn thf sdroll bbr is disbblfd).
+     * Whfthfr thf bubblf is displbyfd or not will not bfffdt
+     * thf vbluf rfturnfd by <dodf>gftVisiblfAmount</dodf>.
+     * <p>
+     * If thf visiblf bmount supplifd is lfss thbn <dodf>onf</dodf>
+     * or grfbtfr thbn thf durrfnt <dodf>mbximum - minimum</dodf>,
+     * thfn fithfr <dodf>onf</dodf> or <dodf>mbximum - minimum</dodf>
+     * is substitutfd, bs bppropribtf.
+     * <p>
+     * Normblly, b progrbm should dhbngf b sdroll bbr's
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Thf <dodf>sftVblufs</dodf> mfthod simultbnfously
+     * bnd syndhronously sfts thf minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so thbt thfy brf
+     * mutublly donsistfnt.
+     *
+     * @pbrbm       nfwAmount thf nfw visiblf bmount
+     * @sff         jbvb.bwt.Sdrollbbr#gftVisiblfAmount
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sindf       1.1
+     */
+    publid void sftVisiblfAmount(int nfwAmount) {
+        // Usf sftVblufs so thbt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, nfwAmount, minimum, mbximum);
+    }
+
+    /**
+     * Sfts thf unit indrfmfnt for this sdroll bbr.
+     * <p>
+     * Thf unit indrfmfnt is thf vbluf thbt is bddfd or subtrbdtfd
+     * whfn thf usfr bdtivbtfs thf unit indrfmfnt brfb of thf
+     * sdroll bbr, gfnfrblly through b mousf or kfybobrd gfsturf
+     * thbt thf sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Thf unit indrfmfnt must bf grfbtfr thbn zfro.
+     * Attfpts to sft thf unit indrfmfnt to b vbluf lowfr thbn 1
+     * will rfsult in b vbluf of 1 bfing sft.
+     * <p>
+     * In somf opfrbting systfms, this propfrty
+     * dbn bf ignorfd by thf undfrlying dontrols.
+     *
+     * @pbrbm        v  thf bmount by whidh to indrfmfnt or dfdrfmfnt
+     *                         thf sdroll bbr's vbluf
+     * @sff          jbvb.bwt.Sdrollbbr#gftUnitIndrfmfnt
+     * @sindf        1.1
+     */
+    publid void sftUnitIndrfmfnt(int v) {
+        sftLinfIndrfmfnt(v);
+    }
+
+    /**
+     * Sfts thf unit indrfmfnt for this sdroll bbr.
+     *
+     * @pbrbm  v thf indrfmfnt vbluf
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftUnitIndrfmfnt(int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftLinfIndrfmfnt(int v) {
+        int tmp = (v < 1) ? 1 : v;
+
+        if (linfIndrfmfnt == tmp) {
+            rfturn;
+        }
+        linfIndrfmfnt = tmp;
+
+        SdrollbbrPffr pffr = (SdrollbbrPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftLinfIndrfmfnt(linfIndrfmfnt);
+        }
+    }
+
+    /**
+     * Gfts thf unit indrfmfnt for this sdrollbbr.
+     * <p>
+     * Thf unit indrfmfnt is thf vbluf thbt is bddfd or subtrbdtfd
+     * whfn thf usfr bdtivbtfs thf unit indrfmfnt brfb of thf
+     * sdroll bbr, gfnfrblly through b mousf or kfybobrd gfsturf
+     * thbt thf sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Thf unit indrfmfnt must bf grfbtfr thbn zfro.
+     * <p>
+     * In somf opfrbting systfms, this propfrty
+     * dbn bf ignorfd by thf undfrlying dontrols.
+     *
+     * @rfturn      thf unit indrfmfnt of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftUnitIndrfmfnt
+     * @sindf       1.1
+     */
+    publid int gftUnitIndrfmfnt() {
+        rfturn gftLinfIndrfmfnt();
+    }
+
+    /**
+     * Rfturns thf unit indrfmfnt for this sdrollbbr.
+     *
+     * @rfturn thf unit indrfmfnt for this sdrollbbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftUnitIndrfmfnt()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid int gftLinfIndrfmfnt() {
+        rfturn linfIndrfmfnt;
+    }
+
+    /**
+     * Sfts thf blodk indrfmfnt for this sdroll bbr.
+     * <p>
+     * Thf blodk indrfmfnt is thf vbluf thbt is bddfd or subtrbdtfd
+     * whfn thf usfr bdtivbtfs thf blodk indrfmfnt brfb of thf
+     * sdroll bbr, gfnfrblly through b mousf or kfybobrd gfsturf
+     * thbt thf sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Thf blodk indrfmfnt must bf grfbtfr thbn zfro.
+     * Attfpts to sft thf blodk indrfmfnt to b vbluf lowfr thbn 1
+     * will rfsult in b vbluf of 1 bfing sft.
+     *
+     * @pbrbm        v  thf bmount by whidh to indrfmfnt or dfdrfmfnt
+     *                         thf sdroll bbr's vbluf
+     * @sff          jbvb.bwt.Sdrollbbr#gftBlodkIndrfmfnt
+     * @sindf        1.1
+     */
+    publid void sftBlodkIndrfmfnt(int v) {
+        sftPbgfIndrfmfnt(v);
+    }
+
+    /**
+     * Sfts thf blodk indrfmfnt for this sdroll bbr.
+     *
+     * @pbrbm  v thf blodk indrfmfnt
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftBlodkIndrfmfnt()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftPbgfIndrfmfnt(int v) {
+        int tmp = (v < 1) ? 1 : v;
+
+        if (pbgfIndrfmfnt == tmp) {
+            rfturn;
+        }
+        pbgfIndrfmfnt = tmp;
+
+        SdrollbbrPffr pffr = (SdrollbbrPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftPbgfIndrfmfnt(pbgfIndrfmfnt);
+        }
+    }
+
+    /**
+     * Gfts thf blodk indrfmfnt of this sdroll bbr.
+     * <p>
+     * Thf blodk indrfmfnt is thf vbluf thbt is bddfd or subtrbdtfd
+     * whfn thf usfr bdtivbtfs thf blodk indrfmfnt brfb of thf
+     * sdroll bbr, gfnfrblly through b mousf or kfybobrd gfsturf
+     * thbt thf sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Thf blodk indrfmfnt must bf grfbtfr thbn zfro.
+     *
+     * @rfturn      thf blodk indrfmfnt of this sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftBlodkIndrfmfnt
+     * @sindf       1.1
+     */
+    publid int gftBlodkIndrfmfnt() {
+        rfturn gftPbgfIndrfmfnt();
+    }
+
+    /**
+     * Rfturns thf blodk indrfmfnt of this sdroll bbr.
+     *
+     * @rfturn thf blodk indrfmfnt of this sdroll bbr
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftBlodkIndrfmfnt()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid int gftPbgfIndrfmfnt() {
+        rfturn pbgfIndrfmfnt;
+    }
+
+    /**
+     * Sfts thf vblufs of four propfrtifs for this sdroll bbr:
+     * <dodf>vbluf</dodf>, <dodf>visiblfAmount</dodf>,
+     * <dodf>minimum</dodf>, bnd <dodf>mbximum</dodf>.
+     * If thf vblufs supplifd for thfsf propfrtifs brf indonsistfnt
+     * or indorrfdt, thfy will bf dhbngfd to fnsurf donsistfndy.
+     * <p>
+     * This mfthod simultbnfously bnd syndhronously sfts thf vblufs
+     * of four sdroll bbr propfrtifs, bssuring thbt thf vblufs of
+     * thfsf propfrtifs brf mutublly donsistfnt. It fnfordfs thf
+     * following donstrbints:
+     * <dodf>mbximum</dodf> must bf grfbtfr thbn <dodf>minimum</dodf>,
+     * <dodf>mbximum - minimum</dodf> must not bf grfbtfr
+     *     thbn <dodf>Intfgfr.MAX_VALUE</dodf>,
+     * <dodf>visiblfAmount</dodf> must bf grfbtfr thbn zfro.
+     * <dodf>visiblfAmount</dodf> must not bf grfbtfr thbn
+     *     <dodf>mbximum - minimum</dodf>,
+     * <dodf>vbluf</dodf> must not bf lfss thbn <dodf>minimum</dodf>,
+     * bnd <dodf>vbluf</dodf> must not bf grfbtfr thbn
+     *     <dodf>mbximum - visiblfAmount</dodf>
+     * <p>
+     * Cblling this mfthod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     *
+     * @pbrbm      vbluf is thf position in thf durrfnt window
+     * @pbrbm      visiblf is thf visiblf bmount of thf sdroll bbr
+     * @pbrbm      minimum is thf minimum vbluf of thf sdroll bbr
+     * @pbrbm      mbximum is thf mbximum vbluf of thf sdroll bbr
+     * @sff        #sftMinimum
+     * @sff        #sftMbximum
+     * @sff        #sftVisiblfAmount
+     * @sff        #sftVbluf
+     */
+    publid void sftVblufs(int vbluf, int visiblf, int minimum, int mbximum) {
+        int oldVbluf;
+        syndhronizfd (this) {
+            if (minimum == Intfgfr.MAX_VALUE) {
+                minimum = Intfgfr.MAX_VALUE - 1;
+            }
+            if (mbximum <= minimum) {
+                mbximum = minimum + 1;
+            }
+
+            long mbxMinusMin = (long) mbximum - (long) minimum;
+            if (mbxMinusMin > Intfgfr.MAX_VALUE) {
+                mbxMinusMin = Intfgfr.MAX_VALUE;
+                mbximum = minimum + (int) mbxMinusMin;
+            }
+            if (visiblf > (int) mbxMinusMin) {
+                visiblf = (int) mbxMinusMin;
+            }
+            if (visiblf < 1) {
+                visiblf = 1;
+            }
+
+            if (vbluf < minimum) {
+                vbluf = minimum;
+            }
+            if (vbluf > mbximum - visiblf) {
+                vbluf = mbximum - visiblf;
+            }
+
+            oldVbluf = this.vbluf;
+            this.vbluf = vbluf;
+            this.visiblfAmount = visiblf;
+            this.minimum = minimum;
+            this.mbximum = mbximum;
+            SdrollbbrPffr pffr = (SdrollbbrPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftVblufs(vbluf, visiblfAmount, minimum, mbximum);
+            }
+        }
+
+        if ((oldVbluf != vbluf) && (bddfssiblfContfxt != null))  {
+            bddfssiblfContfxt.firfPropfrtyChbngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(vbluf));
+        }
+    }
+
+    /**
+     * Rfturns truf if thf vbluf is in thf prodfss of dhbnging bs b
+     * rfsult of bdtions bfing tbkfn by thf usfr.
+     *
+     * @rfturn thf vbluf of thf <dodf>vblufIsAdjusting</dodf> propfrty
+     * @sff #sftVblufIsAdjusting
+     * @sindf 1.4
+     */
+    publid boolfbn gftVblufIsAdjusting() {
+        rfturn isAdjusting;
+    }
+
+    /**
+     * Sfts thf <dodf>vblufIsAdjusting</dodf> propfrty.
+     *
+     * @pbrbm b nfw bdjustmfnt-in-progrfss stbtus
+     * @sff #gftVblufIsAdjusting
+     * @sindf 1.4
+     */
+    publid void sftVblufIsAdjusting(boolfbn b) {
+        boolfbn oldVbluf;
+
+        syndhronizfd (this) {
+            oldVbluf = isAdjusting;
+            isAdjusting = b;
+        }
+
+        if ((oldVbluf != b) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyChbngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((oldVbluf) ? AddfssiblfStbtf.BUSY : null),
+                    ((b) ? AddfssiblfStbtf.BUSY : null));
+        }
+    }
+
+
+
+    /**
+     * Adds thf spfdififd bdjustmfnt listfnfr to rfdfivf instbndfs of
+     * <dodf>AdjustmfntEvfnt</dodf> from this sdroll bbr.
+     * If l is <dodf>null</dodf>, no fxdfption is thrown bnd no
+     * bdtion is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm        l thf bdjustmfnt listfnfr
+     * @sff          #rfmovfAdjustmfntListfnfr
+     * @sff          #gftAdjustmfntListfnfrs
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf        1.1
+     */
+    publid syndhronizfd void bddAdjustmfntListfnfr(AdjustmfntListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdjustmfntListfnfr = AWTEvfntMultidbstfr.bdd(bdjustmfntListfnfr, l);
+        nfwEvfntsOnly = truf;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd bdjustmfnt listfnfr so thbt it no longfr
+     * rfdfivfs instbndfs of <dodf>AdjustmfntEvfnt</dodf> from this sdroll bbr.
+     * If l is <dodf>null</dodf>, no fxdfption is thrown bnd no bdtion
+     * is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm           l    thf bdjustmfnt listfnfr
+     * @sff             #bddAdjustmfntListfnfr
+     * @sff             #gftAdjustmfntListfnfrs
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf           1.1
+     */
+    publid syndhronizfd void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdjustmfntListfnfr = AWTEvfntMultidbstfr.rfmovf(bdjustmfntListfnfr, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf bdjustmfnt listfnfrs
+     * rfgistfrfd on this sdrollbbr.
+     *
+     * @rfturn bll of this sdrollbbr's <dodf>AdjustmfntListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdjustmfnt
+     *         listfnfrs brf durrfntly rfgistfrfd
+     * @sff             #bddAdjustmfntListfnfr
+     * @sff             #rfmovfAdjustmfntListfnfr
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf 1.4
+     */
+    publid syndhronizfd AdjustmfntListfnfr[] gftAdjustmfntListfnfrs() {
+        rfturn gftListfnfrs(AdjustmfntListfnfr.dlbss);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this <dodf>Sdrollbbr</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl,  sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Sdrollbbr</dodf> <dodf>d</dodf>
+     * for its mousf listfnfrs with thf following dodf:
+     *
+     * <prf>MousfListfnfr[] mls = (MousfListfnfr[])(d.gftListfnfrs(MousfListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this domponfnt,
+     *          or bn fmpty brrby if no sudh listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdjustmfntListfnfr.dlbss) {
+            l = bdjustmfntListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
+        }
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
+    }
+
+    // REMIND: rfmovf whfn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.ADJUSTMENT_EVENT_MASK) != 0 ||
+                bdjustmfntListfnfr != null) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        rfturn supfr.fvfntEnbblfd(f);
+    }
+
+    /**
+     * Prodfssfs fvfnts on this sdroll bbr. If thf fvfnt is bn
+     * instbndf of <dodf>AdjustmfntEvfnt</dodf>, it invokfs thf
+     * <dodf>prodfssAdjustmfntEvfnt</dodf> mfthod.
+     * Othfrwisf, it invokfs its supfrdlbss's
+     * <dodf>prodfssEvfnt</dodf> mfthod.
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm        f thf fvfnt
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff          jbvb.bwt.Sdrollbbr#prodfssAdjustmfntEvfnt
+     * @sindf        1.1
+     */
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdjustmfntEvfnt) {
+            prodfssAdjustmfntEvfnt((AdjustmfntEvfnt)f);
+            rfturn;
+        }
+        supfr.prodfssEvfnt(f);
+    }
+
+    /**
+     * Prodfssfs bdjustmfnt fvfnts oddurring on this
+     * sdrollbbr by dispbtdhing thfm to bny rfgistfrfd
+     * <dodf>AdjustmfntListfnfr</dodf> objfdts.
+     * <p>
+     * This mfthod is not dbllfd unlfss bdjustmfnt fvfnts brf
+     * fnbblfd for this domponfnt. Adjustmfnt fvfnts brf fnbblfd
+     * whfn onf of thf following oddurs:
+     * <ul>
+     * <li>An <dodf>AdjustmfntListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdjustmfntListfnfr</dodf>.
+     * <li>Adjustmfnt fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
+     * </ul>
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm       f thf bdjustmfnt fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff         jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sff         jbvb.bwt.Sdrollbbr#bddAdjustmfntListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
+     */
+    protfdtfd void prodfssAdjustmfntEvfnt(AdjustmfntEvfnt f) {
+        AdjustmfntListfnfr listfnfr = bdjustmfntListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdjustmfntVblufChbngfd(f);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>Sdrollbbr</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn      thf pbrbmftfr string of this sdroll bbr
+     */
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString() +
+            ",vbl=" + vbluf +
+            ",vis=" + visiblfAmount +
+            ",min=" + minimum +
+            ",mbx=" + mbximum +
+            ((orifntbtion == VERTICAL) ? ",vfrt" : ",horz") +
+            ",isAdjusting=" + isAdjusting;
+    }
+
+
+    /* Sfriblizbtion support.
+     */
+
+    /**
+     * Thf sdroll bbr's sfriblizfd Dbtb Vfrsion.
+     *
+     * @sfribl
+     */
+    privbtf int sdrollbbrSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>AdjustmfntListfnfrs</dodf>
+     * bs optionbl dbtb. Thf non-sfriblizbblf listfnfrs brf
+     * dftfdtfd bnd no bttfmpt is mbdf to sfriblizf thfm.
+     *
+     * @pbrbm s thf <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; thf pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; thf <dodf>String</dodf> indidbtfs
+     *   thf typf of objfdt bnd is onf of thf following:
+     *   <dodf>bdjustmfntListfnfrK</dodf> indidbting bn
+     *     <dodf>AdjustmfntListfnfr</dodf> objfdt
+     *
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#bdjustmfntListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      throws IOExdfption
+    {
+      s.dffbultWritfObjfdt();
+
+      AWTEvfntMultidbstfr.sbvf(s, bdjustmfntListfnfrK, bdjustmfntListfnfr);
+      s.writfObjfdt(null);
+    }
+
+    /**
+     * Rfbds thf <dodf>ObjfdtInputStrfbm</dodf> bnd if
+     * it isn't <dodf>null</dodf> bdds b listfnfr to
+     * rfdfivf bdjustmfnt fvfnts firfd by thf
+     * <dodf>Sdrollbbr</dodf>.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
+     *
+     * @pbrbm s thf <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+      GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
+
+      Objfdt kfyOrNull;
+      whilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
+
+        if (bdjustmfntListfnfrK == kfy)
+          bddAdjustmfntListfnfr((AdjustmfntListfnfr)(s.rfbdObjfdt()));
+
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
+      }
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf <dodf>AddfssiblfContfxt</dodf> bssodibtfd with this
+     * <dodf>Sdrollbbr</dodf>. For sdrollbbrs, thf
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs thf form of bn
+     * <dodf>AddfssiblfAWTSdrollBbr</dodf>. A nfw
+     * <dodf>AddfssiblfAWTSdrollBbr</dodf> instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn <dodf>AddfssiblfAWTSdrollBbr</dodf> thbt sfrvfs bs thf
+     *         <dodf>AddfssiblfContfxt</dodf> of this <dodf>SdrollBbr</dodf>
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTSdrollBbr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Sdrollbbr</dodf> dlbss.  It providfs bn implfmfntbtion of
+     * thf Jbvb Addfssibility API bppropribtf to sdrollbbr
+     * usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTSdrollBbr fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfVbluf
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -344337268523697807L;
+
+        /**
+         * Gft thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of <dodf>AddfssiblfStbtf</dodf>
+         *     dontbining thf durrfnt stbtf of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftVblufIsAdjusting()) {
+                stbtfs.bdd(AddfssiblfStbtf.BUSY);
+            }
+            if (gftOrifntbtion() == VERTICAL) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
+            }
+            rfturn stbtfs;
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of <dodf>AddfssiblfRolf</dodf>
+         *     dfsdribing thf rolf of thf objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SCROLL_BAR;
+        }
+
+        /**
+         * Gft thf <dodf>AddfssiblfVbluf</dodf> bssodibtfd with this
+         * objfdt.  In thf implfmfntbtion of thf Jbvb Addfssibility
+         * API for this dlbss, rfturn this objfdt, whidh is
+         * rfsponsiblf for implfmfnting thf
+         * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn this;
+        }
+
+        /**
+         * Gft thf bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn Thf durrfnt vbluf of this objfdt.
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftVbluf());
+        }
+
+        /**
+         * Sft thf vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Truf if thf vbluf wbs sft.
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            if (n instbndfof Intfgfr) {
+                sftVbluf(n.intVbluf());
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        /**
+         * Gft thf minimum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn Thf minimum vbluf of this objfdt.
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMinimum());
+        }
+
+        /**
+         * Gft thf mbximum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn Thf mbximum vbluf of this objfdt.
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMbximum());
+        }
+
+    } // AddfssiblfAWTSdrollBbr
+
+}

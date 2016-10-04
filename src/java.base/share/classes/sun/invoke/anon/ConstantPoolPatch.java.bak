@@ -1,503 +1,503 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.invoke.anon;
+pbdkbgf sun.invokf.bnon;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiSft;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.Mbp;
 
-import static sun.invoke.anon.ConstantPoolVisitor.*;
+import stbtid sun.invokf.bnon.ConstbntPoolVisitor.*;
 
-/** A class and its patched constant pool.
+/** A dlbss bnd its pbtdifd donstbnt pool.
  *
- *  This class allow to modify (patch) a constant pool
- *  by changing the value of its entry.
- *  Entry are referenced using index that can be get
- *  by parsing the constant pool using
- *  {@link ConstantPoolParser#parse(ConstantPoolVisitor)}.
+ *  Tiis dlbss bllow to modify (pbtdi) b donstbnt pool
+ *  by dibnging tif vbluf of its fntry.
+ *  Entry brf rfffrfndfd using indfx tibt dbn bf gft
+ *  by pbrsing tif donstbnt pool using
+ *  {@link ConstbntPoolPbrsfr#pbrsf(ConstbntPoolVisitor)}.
  *
- * @see ConstantPoolVisitor
- * @see ConstantPoolParser#createPatch()
+ * @sff ConstbntPoolVisitor
+ * @sff ConstbntPoolPbrsfr#drfbtfPbtdi()
  */
-public class ConstantPoolPatch {
-    final ConstantPoolParser outer;
-    final Object[] patchArray;
+publid dlbss ConstbntPoolPbtdi {
+    finbl ConstbntPoolPbrsfr outfr;
+    finbl Objfdt[] pbtdiArrby;
 
-    ConstantPoolPatch(ConstantPoolParser outer) {
-        this.outer      = outer;
-        this.patchArray = new Object[outer.getLength()];
+    ConstbntPoolPbtdi(ConstbntPoolPbrsfr outfr) {
+        tiis.outfr      = outfr;
+        tiis.pbtdiArrby = nfw Objfdt[outfr.gftLfngti()];
     }
 
-    /** Create a {@link ConstantPoolParser} and
-     *  a {@link ConstantPoolPatch} in one step.
-     *  Equivalent to {@code new ConstantPoolParser(classFile).createPatch()}.
+    /** Crfbtf b {@link ConstbntPoolPbrsfr} bnd
+     *  b {@link ConstbntPoolPbtdi} in onf stfp.
+     *  Equivblfnt to {@dodf nfw ConstbntPoolPbrsfr(dlbssFilf).drfbtfPbtdi()}.
      *
-     * @param classFile an array of bytes containing a class.
-     * @see #ConstantPoolParser(Class)
+     * @pbrbm dlbssFilf bn brrby of bytfs dontbining b dlbss.
+     * @sff #ConstbntPoolPbrsfr(Clbss)
      */
-    public ConstantPoolPatch(byte[] classFile) throws InvalidConstantPoolFormatException {
-        this(new ConstantPoolParser(classFile));
+    publid ConstbntPoolPbtdi(bytf[] dlbssFilf) tirows InvblidConstbntPoolFormbtExdfption {
+        tiis(nfw ConstbntPoolPbrsfr(dlbssFilf));
     }
 
-    /** Create a {@link ConstantPoolParser} and
-     *  a {@link ConstantPoolPatch} in one step.
-     *  Equivalent to {@code new ConstantPoolParser(templateClass).createPatch()}.
+    /** Crfbtf b {@link ConstbntPoolPbrsfr} bnd
+     *  b {@link ConstbntPoolPbtdi} in onf stfp.
+     *  Equivblfnt to {@dodf nfw ConstbntPoolPbrsfr(tfmplbtfClbss).drfbtfPbtdi()}.
      *
-     * @param templateClass the class to parse.
-     * @see #ConstantPoolParser(Class)
+     * @pbrbm tfmplbtfClbss tif dlbss to pbrsf.
+     * @sff #ConstbntPoolPbrsfr(Clbss)
      */
-    public ConstantPoolPatch(Class<?> templateClass) throws IOException, InvalidConstantPoolFormatException {
-        this(new ConstantPoolParser(templateClass));
+    publid ConstbntPoolPbtdi(Clbss<?> tfmplbtfClbss) tirows IOExdfption, InvblidConstbntPoolFormbtExdfption {
+        tiis(nfw ConstbntPoolPbrsfr(tfmplbtfClbss));
     }
 
 
-    /** Creates a patch from an existing patch.
-     *  All changes are copied from that patch.
-     * @param patch a patch
+    /** Crfbtfs b pbtdi from bn fxisting pbtdi.
+     *  All dibngfs brf dopifd from tibt pbtdi.
+     * @pbrbm pbtdi b pbtdi
      *
-     * @see ConstantPoolParser#createPatch()
+     * @sff ConstbntPoolPbrsfr#drfbtfPbtdi()
      */
-    public ConstantPoolPatch(ConstantPoolPatch patch) {
-        outer      = patch.outer;
-        patchArray = patch.patchArray.clone();
+    publid ConstbntPoolPbtdi(ConstbntPoolPbtdi pbtdi) {
+        outfr      = pbtdi.outfr;
+        pbtdiArrby = pbtdi.pbtdiArrby.dlonf();
     }
 
-    /** Which parser built this patch? */
-    public ConstantPoolParser getParser() {
-        return outer;
+    /** Wiidi pbrsfr built tiis pbtdi? */
+    publid ConstbntPoolPbrsfr gftPbrsfr() {
+        rfturn outfr;
     }
 
-    /** Report the tag at the given index in the constant pool. */
-    public byte getTag(int index) {
-        return outer.getTag(index);
+    /** Rfport tif tbg bt tif givfn indfx in tif donstbnt pool. */
+    publid bytf gftTbg(int indfx) {
+        rfturn outfr.gftTbg(indfx);
     }
 
-    /** Report the current patch at the given index of the constant pool.
-     *  Null means no patch will be made.
-     *  To observe the unpatched entry at the given index, use
-     *  {@link #getParser()}{@code .}@link ConstantPoolParser#parse(ConstantPoolVisitor)}
+    /** Rfport tif durrfnt pbtdi bt tif givfn indfx of tif donstbnt pool.
+     *  Null mfbns no pbtdi will bf mbdf.
+     *  To obsfrvf tif unpbtdifd fntry bt tif givfn indfx, usf
+     *  {@link #gftPbrsfr()}{@dodf .}@link ConstbntPoolPbrsfr#pbrsf(ConstbntPoolVisitor)}
      */
-    public Object getPatch(int index) {
-        Object value = patchArray[index];
-        if (value == null)  return null;
-        switch (getTag(index)) {
-        case CONSTANT_Fieldref:
-        case CONSTANT_Methodref:
-        case CONSTANT_InterfaceMethodref:
-            if (value instanceof String)
-                value = stripSemis(2, (String) value);
-            break;
-        case CONSTANT_NameAndType:
-            if (value instanceof String)
-                value = stripSemis(1, (String) value);
-            break;
+    publid Objfdt gftPbtdi(int indfx) {
+        Objfdt vbluf = pbtdiArrby[indfx];
+        if (vbluf == null)  rfturn null;
+        switdi (gftTbg(indfx)) {
+        dbsf CONSTANT_Fifldrff:
+        dbsf CONSTANT_Mftiodrff:
+        dbsf CONSTANT_IntfrfbdfMftiodrff:
+            if (vbluf instbndfof String)
+                vbluf = stripSfmis(2, (String) vbluf);
+            brfbk;
+        dbsf CONSTANT_NbmfAndTypf:
+            if (vbluf instbndfof String)
+                vbluf = stripSfmis(1, (String) vbluf);
+            brfbk;
         }
-        return value;
+        rfturn vbluf;
     }
 
-    /** Clear all patches. */
-    public void clear() {
-        Arrays.fill(patchArray, null);
+    /** Clfbr bll pbtdifs. */
+    publid void dlfbr() {
+        Arrbys.fill(pbtdiArrby, null);
     }
 
-    /** Clear one patch. */
-    public void clear(int index) {
-        patchArray[index] = null;
+    /** Clfbr onf pbtdi. */
+    publid void dlfbr(int indfx) {
+        pbtdiArrby[indfx] = null;
     }
 
-    /** Produce the patches as an array. */
-    public Object[] getPatches() {
-        return patchArray.clone();
+    /** Produdf tif pbtdifs bs bn brrby. */
+    publid Objfdt[] gftPbtdifs() {
+        rfturn pbtdiArrby.dlonf();
     }
 
-    /** Produce the original constant pool as an array. */
-    public Object[] getOriginalCP() throws InvalidConstantPoolFormatException {
-        return getOriginalCP(0, patchArray.length, -1);
+    /** Produdf tif originbl donstbnt pool bs bn brrby. */
+    publid Objfdt[] gftOriginblCP() tirows InvblidConstbntPoolFormbtExdfption {
+        rfturn gftOriginblCP(0, pbtdiArrby.lfngti, -1);
     }
 
-    /** Walk the constant pool, applying patches using the given map.
+    /** Wblk tif donstbnt pool, bpplying pbtdifs using tif givfn mbp.
      *
-     * @param utf8Map Utf8 strings to modify, if encountered
-     * @param classMap Classes (or their names) to modify, if encountered
-     * @param valueMap Constant values to modify, if encountered
-     * @param deleteUsedEntries if true, delete map entries that are used
+     * @pbrbm utf8Mbp Utf8 strings to modify, if fndountfrfd
+     * @pbrbm dlbssMbp Clbssfs (or tifir nbmfs) to modify, if fndountfrfd
+     * @pbrbm vblufMbp Constbnt vblufs to modify, if fndountfrfd
+     * @pbrbm dflftfUsfdEntrifs if truf, dflftf mbp fntrifs tibt brf usfd
      */
-    public void putPatches(final Map<String,String> utf8Map,
-                           final Map<String,Object> classMap,
-                           final Map<Object,Object> valueMap,
-                           boolean deleteUsedEntries) throws InvalidConstantPoolFormatException {
-        final HashSet<String> usedUtf8Keys;
-        final HashSet<String> usedClassKeys;
-        final HashSet<Object> usedValueKeys;
-        if (deleteUsedEntries) {
-            usedUtf8Keys  = (utf8Map  == null) ? null : new HashSet<String>();
-            usedClassKeys = (classMap == null) ? null : new HashSet<String>();
-            usedValueKeys = (valueMap == null) ? null : new HashSet<Object>();
-        } else {
-            usedUtf8Keys = null;
-            usedClassKeys = null;
-            usedValueKeys = null;
+    publid void putPbtdifs(finbl Mbp<String,String> utf8Mbp,
+                           finbl Mbp<String,Objfdt> dlbssMbp,
+                           finbl Mbp<Objfdt,Objfdt> vblufMbp,
+                           boolfbn dflftfUsfdEntrifs) tirows InvblidConstbntPoolFormbtExdfption {
+        finbl HbsiSft<String> usfdUtf8Kfys;
+        finbl HbsiSft<String> usfdClbssKfys;
+        finbl HbsiSft<Objfdt> usfdVblufKfys;
+        if (dflftfUsfdEntrifs) {
+            usfdUtf8Kfys  = (utf8Mbp  == null) ? null : nfw HbsiSft<String>();
+            usfdClbssKfys = (dlbssMbp == null) ? null : nfw HbsiSft<String>();
+            usfdVblufKfys = (vblufMbp == null) ? null : nfw HbsiSft<Objfdt>();
+        } flsf {
+            usfdUtf8Kfys = null;
+            usfdClbssKfys = null;
+            usfdVblufKfys = null;
         }
 
-        outer.parse(new ConstantPoolVisitor() {
+        outfr.pbrsf(nfw ConstbntPoolVisitor() {
 
-            @Override
-            public void visitUTF8(int index, byte tag, String utf8) {
-                putUTF8(index, utf8Map.get(utf8));
-                if (usedUtf8Keys != null)  usedUtf8Keys.add(utf8);
+            @Ovfrridf
+            publid void visitUTF8(int indfx, bytf tbg, String utf8) {
+                putUTF8(indfx, utf8Mbp.gft(utf8));
+                if (usfdUtf8Kfys != null)  usfdUtf8Kfys.bdd(utf8);
             }
 
-            @Override
-            public void visitConstantValue(int index, byte tag, Object value) {
-                putConstantValue(index, tag, valueMap.get(value));
-                if (usedValueKeys != null)  usedValueKeys.add(value);
+            @Ovfrridf
+            publid void visitConstbntVbluf(int indfx, bytf tbg, Objfdt vbluf) {
+                putConstbntVbluf(indfx, tbg, vblufMbp.gft(vbluf));
+                if (usfdVblufKfys != null)  usfdVblufKfys.bdd(vbluf);
             }
 
-            @Override
-            public void visitConstantString(int index, byte tag, String name, int nameIndex) {
-                if (tag == CONSTANT_Class) {
-                    putConstantValue(index, tag, classMap.get(name));
-                    if (usedClassKeys != null)  usedClassKeys.add(name);
-                } else {
-                    assert(tag == CONSTANT_String);
-                    visitConstantValue(index, tag, name);
+            @Ovfrridf
+            publid void visitConstbntString(int indfx, bytf tbg, String nbmf, int nbmfIndfx) {
+                if (tbg == CONSTANT_Clbss) {
+                    putConstbntVbluf(indfx, tbg, dlbssMbp.gft(nbmf));
+                    if (usfdClbssKfys != null)  usfdClbssKfys.bdd(nbmf);
+                } flsf {
+                    bssfrt(tbg == CONSTANT_String);
+                    visitConstbntVbluf(indfx, tbg, nbmf);
                 }
             }
         });
-        if (usedUtf8Keys != null)   utf8Map.keySet().removeAll(usedUtf8Keys);
-        if (usedClassKeys != null)  classMap.keySet().removeAll(usedClassKeys);
-        if (usedValueKeys != null)  valueMap.keySet().removeAll(usedValueKeys);
+        if (usfdUtf8Kfys != null)   utf8Mbp.kfySft().rfmovfAll(usfdUtf8Kfys);
+        if (usfdClbssKfys != null)  dlbssMbp.kfySft().rfmovfAll(usfdClbssKfys);
+        if (usfdVblufKfys != null)  vblufMbp.kfySft().rfmovfAll(usfdVblufKfys);
     }
 
-    Object[] getOriginalCP(final int startIndex,
-                           final int endIndex,
-                           final int tagMask) throws InvalidConstantPoolFormatException {
-        final Object[] cpArray = new Object[endIndex - startIndex];
-        outer.parse(new ConstantPoolVisitor() {
+    Objfdt[] gftOriginblCP(finbl int stbrtIndfx,
+                           finbl int fndIndfx,
+                           finbl int tbgMbsk) tirows InvblidConstbntPoolFormbtExdfption {
+        finbl Objfdt[] dpArrby = nfw Objfdt[fndIndfx - stbrtIndfx];
+        outfr.pbrsf(nfw ConstbntPoolVisitor() {
 
-            void show(int index, byte tag, Object value) {
-                if (index < startIndex || index >= endIndex)  return;
-                if (((1 << tag) & tagMask) == 0)  return;
-                cpArray[index - startIndex] = value;
+            void siow(int indfx, bytf tbg, Objfdt vbluf) {
+                if (indfx < stbrtIndfx || indfx >= fndIndfx)  rfturn;
+                if (((1 << tbg) & tbgMbsk) == 0)  rfturn;
+                dpArrby[indfx - stbrtIndfx] = vbluf;
             }
 
-            @Override
-            public void visitUTF8(int index, byte tag, String utf8) {
-                show(index, tag, utf8);
+            @Ovfrridf
+            publid void visitUTF8(int indfx, bytf tbg, String utf8) {
+                siow(indfx, tbg, utf8);
             }
 
-            @Override
-            public void visitConstantValue(int index, byte tag, Object value) {
-                assert(tag != CONSTANT_String);
-                show(index, tag, value);
+            @Ovfrridf
+            publid void visitConstbntVbluf(int indfx, bytf tbg, Objfdt vbluf) {
+                bssfrt(tbg != CONSTANT_String);
+                siow(indfx, tbg, vbluf);
             }
 
-            @Override
-            public void visitConstantString(int index, byte tag,
-                                            String value, int j) {
-                show(index, tag, value);
+            @Ovfrridf
+            publid void visitConstbntString(int indfx, bytf tbg,
+                                            String vbluf, int j) {
+                siow(indfx, tbg, vbluf);
             }
 
-            @Override
-            public void visitMemberRef(int index, byte tag,
-                    String className, String memberName,
-                    String signature,
+            @Ovfrridf
+            publid void visitMfmbfrRff(int indfx, bytf tbg,
+                    String dlbssNbmf, String mfmbfrNbmf,
+                    String signbturf,
                     int j, int k) {
-                show(index, tag, new String[]{ className, memberName, signature });
+                siow(indfx, tbg, nfw String[]{ dlbssNbmf, mfmbfrNbmf, signbturf });
             }
 
-            @Override
-            public void visitDescriptor(int index, byte tag,
-                    String memberName, String signature,
+            @Ovfrridf
+            publid void visitDfsdriptor(int indfx, bytf tbg,
+                    String mfmbfrNbmf, String signbturf,
                     int j, int k) {
-                show(index, tag, new String[]{ memberName, signature });
+                siow(indfx, tbg, nfw String[]{ mfmbfrNbmf, signbturf });
             }
         });
-        return cpArray;
+        rfturn dpArrby;
     }
 
-    /** Write the head (header plus constant pool)
-     *  of the patched class file to the indicated stream.
+    /** Writf tif ifbd (ifbdfr plus donstbnt pool)
+     *  of tif pbtdifd dlbss filf to tif indidbtfd strfbm.
      */
-    void writeHead(OutputStream out) throws IOException {
-        outer.writePatchedHead(out, patchArray);
+    void writfHfbd(OutputStrfbm out) tirows IOExdfption {
+        outfr.writfPbtdifdHfbd(out, pbtdiArrby);
     }
 
-    /** Write the tail (everything after the constant pool)
-     *  of the patched class file to the indicated stream.
+    /** Writf tif tbil (fvfrytiing bftfr tif donstbnt pool)
+     *  of tif pbtdifd dlbss filf to tif indidbtfd strfbm.
      */
-    void writeTail(OutputStream out) throws IOException {
-        outer.writeTail(out);
+    void writfTbil(OutputStrfbm out) tirows IOExdfption {
+        outfr.writfTbil(out);
     }
 
-    private void checkConstantTag(byte tag, Object value) {
-        if (value == null)
-            throw new IllegalArgumentException(
-                    "invalid null constant value");
-        if (classForTag(tag) != value.getClass())
-            throw new IllegalArgumentException(
-                    "invalid constant value"
-                    + (tag == CONSTANT_None ? ""
-                        : " for tag "+tagName(tag))
-                    + " of class "+value.getClass());
+    privbtf void difdkConstbntTbg(bytf tbg, Objfdt vbluf) {
+        if (vbluf == null)
+            tirow nfw IllfgblArgumfntExdfption(
+                    "invblid null donstbnt vbluf");
+        if (dlbssForTbg(tbg) != vbluf.gftClbss())
+            tirow nfw IllfgblArgumfntExdfption(
+                    "invblid donstbnt vbluf"
+                    + (tbg == CONSTANT_Nonf ? ""
+                        : " for tbg "+tbgNbmf(tbg))
+                    + " of dlbss "+vbluf.gftClbss());
     }
 
-    private void checkTag(int index, byte putTag) {
-        byte tag = outer.tags[index];
-        if (tag != putTag)
-            throw new IllegalArgumentException(
-                "invalid put operation"
-                + " for " + tagName(putTag)
-                + " at index " + index + " found " + tagName(tag));
+    privbtf void difdkTbg(int indfx, bytf putTbg) {
+        bytf tbg = outfr.tbgs[indfx];
+        if (tbg != putTbg)
+            tirow nfw IllfgblArgumfntExdfption(
+                "invblid put opfrbtion"
+                + " for " + tbgNbmf(putTbg)
+                + " bt indfx " + indfx + " found " + tbgNbmf(tbg));
     }
 
-    private void checkTagMask(int index, int tagBitMask) {
-        byte tag = outer.tags[index];
-        int tagBit = ((tag & 0x1F) == tag) ? (1 << tag) : 0;
-        if ((tagBit & tagBitMask) == 0)
-            throw new IllegalArgumentException(
-                "invalid put operation"
-                + " at index " + index + " found " + tagName(tag));
+    privbtf void difdkTbgMbsk(int indfx, int tbgBitMbsk) {
+        bytf tbg = outfr.tbgs[indfx];
+        int tbgBit = ((tbg & 0x1F) == tbg) ? (1 << tbg) : 0;
+        if ((tbgBit & tbgBitMbsk) == 0)
+            tirow nfw IllfgblArgumfntExdfption(
+                "invblid put opfrbtion"
+                + " bt indfx " + indfx + " found " + tbgNbmf(tbg));
     }
 
-    private static void checkMemberName(String memberName) {
-        if (memberName.indexOf(';') >= 0)
-            throw new IllegalArgumentException("memberName " + memberName + " contains a ';'");
+    privbtf stbtid void difdkMfmbfrNbmf(String mfmbfrNbmf) {
+        if (mfmbfrNbmf.indfxOf(';') >= 0)
+            tirow nfw IllfgblArgumfntExdfption("mfmbfrNbmf " + mfmbfrNbmf + " dontbins b ';'");
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new string.
+    /** Sft tif fntry of tif donstbnt pool indfxfd by indfx to
+     *  b nfw string.
      *
-     * @param index an index to a constant pool entry containing a
-     *        {@link ConstantPoolVisitor#CONSTANT_Utf8} value.
-     * @param utf8 a string
+     * @pbrbm indfx bn indfx to b donstbnt pool fntry dontbining b
+     *        {@link ConstbntPoolVisitor#CONSTANT_Utf8} vbluf.
+     * @pbrbm utf8 b string
      *
-     * @see ConstantPoolVisitor#visitUTF8(int, byte, String)
+     * @sff ConstbntPoolVisitor#visitUTF8(int, bytf, String)
      */
-    public void putUTF8(int index, String utf8) {
-        if (utf8 == null) { clear(index); return; }
-        checkTag(index, CONSTANT_Utf8);
-        patchArray[index] = utf8;
+    publid void putUTF8(int indfx, String utf8) {
+        if (utf8 == null) { dlfbr(indfx); rfturn; }
+        difdkTbg(indfx, CONSTANT_Utf8);
+        pbtdiArrby[indfx] = utf8;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new value, depending on its dynamic type.
+    /** Sft tif fntry of tif donstbnt pool indfxfd by indfx to
+     *  b nfw vbluf, dfpfnding on its dynbmid typf.
      *
-     * @param index an index to a constant pool entry containing a
-     *        one of the following structures:
-     *        {@link ConstantPoolVisitor#CONSTANT_Integer},
-     *        {@link ConstantPoolVisitor#CONSTANT_Float},
-     *        {@link ConstantPoolVisitor#CONSTANT_Long},
-     *        {@link ConstantPoolVisitor#CONSTANT_Double},
-     *        {@link ConstantPoolVisitor#CONSTANT_String}, or
-     *        {@link ConstantPoolVisitor#CONSTANT_Class}
-     * @param value a boxed int, float, long or double; or a string or class object
-     * @throws IllegalArgumentException if the type of the constant does not
-     *         match the constant pool entry type,
-     *         as reported by {@link #getTag(int)}
+     * @pbrbm indfx bn indfx to b donstbnt pool fntry dontbining b
+     *        onf of tif following strudturfs:
+     *        {@link ConstbntPoolVisitor#CONSTANT_Intfgfr},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Flobt},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Long},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Doublf},
+     *        {@link ConstbntPoolVisitor#CONSTANT_String}, or
+     *        {@link ConstbntPoolVisitor#CONSTANT_Clbss}
+     * @pbrbm vbluf b boxfd int, flobt, long or doublf; or b string or dlbss objfdt
+     * @tirows IllfgblArgumfntExdfption if tif typf of tif donstbnt dofs not
+     *         mbtdi tif donstbnt pool fntry typf,
+     *         bs rfportfd by {@link #gftTbg(int)}
      *
-     * @see #putConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantString(int, byte, String, int)
+     * @sff #putConstbntVbluf(int, bytf, Objfdt)
+     * @sff ConstbntPoolVisitor#visitConstbntVbluf(int, bytf, Objfdt)
+     * @sff ConstbntPoolVisitor#visitConstbntString(int, bytf, String, int)
      */
-    public void putConstantValue(int index, Object value) {
-        if (value == null) { clear(index); return; }
-        byte tag = tagForConstant(value.getClass());
-        checkConstantTag(tag, value);
-        checkTag(index, tag);
-        patchArray[index] = value;
+    publid void putConstbntVbluf(int indfx, Objfdt vbluf) {
+        if (vbluf == null) { dlfbr(indfx); rfturn; }
+        bytf tbg = tbgForConstbnt(vbluf.gftClbss());
+        difdkConstbntTbg(tbg, vbluf);
+        difdkTbg(indfx, tbg);
+        pbtdiArrby[indfx] = vbluf;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new value.
+    /** Sft tif fntry of tif donstbnt pool indfxfd by indfx to
+     *  b nfw vbluf.
      *
-     * @param index an index to a constant pool entry matching the given tag
-     * @param tag one of the following values:
-     *        {@link ConstantPoolVisitor#CONSTANT_Integer},
-     *        {@link ConstantPoolVisitor#CONSTANT_Float},
-     *        {@link ConstantPoolVisitor#CONSTANT_Long},
-     *        {@link ConstantPoolVisitor#CONSTANT_Double},
-     *        {@link ConstantPoolVisitor#CONSTANT_String}, or
-     *        {@link ConstantPoolVisitor#CONSTANT_Class}
-     * @param value a boxed number, string, or class object
-     * @throws IllegalArgumentException if the type of the constant does not
-     *         match the constant pool entry type, or if a class name contains
+     * @pbrbm indfx bn indfx to b donstbnt pool fntry mbtdiing tif givfn tbg
+     * @pbrbm tbg onf of tif following vblufs:
+     *        {@link ConstbntPoolVisitor#CONSTANT_Intfgfr},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Flobt},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Long},
+     *        {@link ConstbntPoolVisitor#CONSTANT_Doublf},
+     *        {@link ConstbntPoolVisitor#CONSTANT_String}, or
+     *        {@link ConstbntPoolVisitor#CONSTANT_Clbss}
+     * @pbrbm vbluf b boxfd numbfr, string, or dlbss objfdt
+     * @tirows IllfgblArgumfntExdfption if tif typf of tif donstbnt dofs not
+     *         mbtdi tif donstbnt pool fntry typf, or if b dlbss nbmf dontbins
      *         '/' or ';'
      *
-     * @see #putConstantValue(int, Object)
-     * @see ConstantPoolVisitor#visitConstantValue(int, byte, Object)
-     * @see ConstantPoolVisitor#visitConstantString(int, byte, String, int)
+     * @sff #putConstbntVbluf(int, Objfdt)
+     * @sff ConstbntPoolVisitor#visitConstbntVbluf(int, bytf, Objfdt)
+     * @sff ConstbntPoolVisitor#visitConstbntString(int, bytf, String, int)
      */
-    public void putConstantValue(int index, byte tag, Object value) {
-        if (value == null) { clear(index); return; }
-        checkTag(index, tag);
-        if (tag == CONSTANT_Class && value instanceof String) {
-            checkClassName((String) value);
-        } else if (tag == CONSTANT_String) {
-            // the JVM accepts any object as a patch for a string
-        } else {
-            // make sure the incoming value is the right type
-            checkConstantTag(tag, value);
+    publid void putConstbntVbluf(int indfx, bytf tbg, Objfdt vbluf) {
+        if (vbluf == null) { dlfbr(indfx); rfturn; }
+        difdkTbg(indfx, tbg);
+        if (tbg == CONSTANT_Clbss && vbluf instbndfof String) {
+            difdkClbssNbmf((String) vbluf);
+        } flsf if (tbg == CONSTANT_String) {
+            // tif JVM bddfpts bny objfdt bs b pbtdi for b string
+        } flsf {
+            // mbkf surf tif indoming vbluf is tif rigit typf
+            difdkConstbntTbg(tbg, vbluf);
         }
-        checkTag(index, tag);
-        patchArray[index] = value;
+        difdkTbg(indfx, tbg);
+        pbtdiArrby[indfx] = vbluf;
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new {@link ConstantPoolVisitor#CONSTANT_NameAndType} value.
+    /** Sft tif fntry of tif donstbnt pool indfxfd by indfx to
+     *  b nfw {@link ConstbntPoolVisitor#CONSTANT_NbmfAndTypf} vbluf.
      *
-     * @param index an index to a constant pool entry containing a
-     *        {@link ConstantPoolVisitor#CONSTANT_NameAndType} value.
-     * @param memberName a memberName
-     * @param signature a signature
-     * @throws IllegalArgumentException if memberName contains the character ';'
+     * @pbrbm indfx bn indfx to b donstbnt pool fntry dontbining b
+     *        {@link ConstbntPoolVisitor#CONSTANT_NbmfAndTypf} vbluf.
+     * @pbrbm mfmbfrNbmf b mfmbfrNbmf
+     * @pbrbm signbturf b signbturf
+     * @tirows IllfgblArgumfntExdfption if mfmbfrNbmf dontbins tif dibrbdtfr ';'
      *
-     * @see ConstantPoolVisitor#visitDescriptor(int, byte, String, String, int, int)
+     * @sff ConstbntPoolVisitor#visitDfsdriptor(int, bytf, String, String, int, int)
      */
-    public void putDescriptor(int index, String memberName, String signature) {
-        checkTag(index, CONSTANT_NameAndType);
-        checkMemberName(memberName);
-        patchArray[index] = addSemis(memberName, signature);
+    publid void putDfsdriptor(int indfx, String mfmbfrNbmf, String signbturf) {
+        difdkTbg(indfx, CONSTANT_NbmfAndTypf);
+        difdkMfmbfrNbmf(mfmbfrNbmf);
+        pbtdiArrby[indfx] = bddSfmis(mfmbfrNbmf, signbturf);
     }
 
-    /** Set the entry of the constant pool indexed by index to
-     *  a new {@link ConstantPoolVisitor#CONSTANT_Fieldref},
-     *  {@link ConstantPoolVisitor#CONSTANT_Methodref}, or
-     *  {@link ConstantPoolVisitor#CONSTANT_InterfaceMethodref} value.
+    /** Sft tif fntry of tif donstbnt pool indfxfd by indfx to
+     *  b nfw {@link ConstbntPoolVisitor#CONSTANT_Fifldrff},
+     *  {@link ConstbntPoolVisitor#CONSTANT_Mftiodrff}, or
+     *  {@link ConstbntPoolVisitor#CONSTANT_IntfrfbdfMftiodrff} vbluf.
      *
-     * @param index an index to a constant pool entry containing a member reference
-     * @param className a class name
-     * @param memberName a field or method name
-     * @param signature a field or method signature
-     * @throws IllegalArgumentException if memberName contains the character ';'
-     *             or signature is not a correct signature
+     * @pbrbm indfx bn indfx to b donstbnt pool fntry dontbining b mfmbfr rfffrfndf
+     * @pbrbm dlbssNbmf b dlbss nbmf
+     * @pbrbm mfmbfrNbmf b fifld or mftiod nbmf
+     * @pbrbm signbturf b fifld or mftiod signbturf
+     * @tirows IllfgblArgumfntExdfption if mfmbfrNbmf dontbins tif dibrbdtfr ';'
+     *             or signbturf is not b dorrfdt signbturf
      *
-     * @see ConstantPoolVisitor#visitMemberRef(int, byte, String, String, String, int, int)
+     * @sff ConstbntPoolVisitor#visitMfmbfrRff(int, bytf, String, String, String, int, int)
      */
-    public void putMemberRef(int index, byte tag,
-                    String className, String memberName, String signature) {
-        checkTagMask(tag, CONSTANT_MemberRef_MASK);
-        checkTag(index, tag);
-        checkClassName(className);
-        checkMemberName(memberName);
-        if (signature.startsWith("(") == (tag == CONSTANT_Fieldref))
-            throw new IllegalArgumentException("bad signature: "+signature);
-        patchArray[index] = addSemis(className, memberName, signature);
+    publid void putMfmbfrRff(int indfx, bytf tbg,
+                    String dlbssNbmf, String mfmbfrNbmf, String signbturf) {
+        difdkTbgMbsk(tbg, CONSTANT_MfmbfrRff_MASK);
+        difdkTbg(indfx, tbg);
+        difdkClbssNbmf(dlbssNbmf);
+        difdkMfmbfrNbmf(mfmbfrNbmf);
+        if (signbturf.stbrtsWiti("(") == (tbg == CONSTANT_Fifldrff))
+            tirow nfw IllfgblArgumfntExdfption("bbd signbturf: "+signbturf);
+        pbtdiArrby[indfx] = bddSfmis(dlbssNbmf, mfmbfrNbmf, signbturf);
     }
 
-    static private final int CONSTANT_MemberRef_MASK =
-              CONSTANT_Fieldref
-            | CONSTANT_Methodref
-            | CONSTANT_InterfaceMethodref;
+    stbtid privbtf finbl int CONSTANT_MfmbfrRff_MASK =
+              CONSTANT_Fifldrff
+            | CONSTANT_Mftiodrff
+            | CONSTANT_IntfrfbdfMftiodrff;
 
-    private static final Map<Class<?>, Byte> CONSTANT_VALUE_CLASS_TAG
-        = new IdentityHashMap<Class<?>, Byte>();
-    private static final Class<?>[] CONSTANT_VALUE_CLASS = new Class<?>[16];
-    static {
-        Object[][] values = {
-            {Integer.class, CONSTANT_Integer},
-            {Long.class, CONSTANT_Long},
-            {Float.class, CONSTANT_Float},
-            {Double.class, CONSTANT_Double},
-            {String.class, CONSTANT_String},
-            {Class.class, CONSTANT_Class}
+    privbtf stbtid finbl Mbp<Clbss<?>, Bytf> CONSTANT_VALUE_CLASS_TAG
+        = nfw IdfntityHbsiMbp<Clbss<?>, Bytf>();
+    privbtf stbtid finbl Clbss<?>[] CONSTANT_VALUE_CLASS = nfw Clbss<?>[16];
+    stbtid {
+        Objfdt[][] vblufs = {
+            {Intfgfr.dlbss, CONSTANT_Intfgfr},
+            {Long.dlbss, CONSTANT_Long},
+            {Flobt.dlbss, CONSTANT_Flobt},
+            {Doublf.dlbss, CONSTANT_Doublf},
+            {String.dlbss, CONSTANT_String},
+            {Clbss.dlbss, CONSTANT_Clbss}
         };
-        for (Object[] value : values) {
-            Class<?> cls = (Class<?>)value[0];
-            Byte     tag = (Byte) value[1];
-            CONSTANT_VALUE_CLASS_TAG.put(cls, tag);
-            CONSTANT_VALUE_CLASS[(byte)tag] = cls;
+        for (Objfdt[] vbluf : vblufs) {
+            Clbss<?> dls = (Clbss<?>)vbluf[0];
+            Bytf     tbg = (Bytf) vbluf[1];
+            CONSTANT_VALUE_CLASS_TAG.put(dls, tbg);
+            CONSTANT_VALUE_CLASS[(bytf)tbg] = dls;
         }
     }
 
-    static Class<?> classForTag(byte tag) {
-        if ((tag & 0xFF) >= CONSTANT_VALUE_CLASS.length)
-            return null;
-        return CONSTANT_VALUE_CLASS[tag];
+    stbtid Clbss<?> dlbssForTbg(bytf tbg) {
+        if ((tbg & 0xFF) >= CONSTANT_VALUE_CLASS.lfngti)
+            rfturn null;
+        rfturn CONSTANT_VALUE_CLASS[tbg];
     }
 
-    static byte tagForConstant(Class<?> cls) {
-        Byte tag = CONSTANT_VALUE_CLASS_TAG.get(cls);
-        return (tag == null) ? CONSTANT_None : (byte)tag;
+    stbtid bytf tbgForConstbnt(Clbss<?> dls) {
+        Bytf tbg = CONSTANT_VALUE_CLASS_TAG.gft(dls);
+        rfturn (tbg == null) ? CONSTANT_Nonf : (bytf)tbg;
     }
 
-    private static void checkClassName(String className) {
-        if (className.indexOf('/') >= 0 || className.indexOf(';') >= 0)
-            throw new IllegalArgumentException("invalid class name " + className);
+    privbtf stbtid void difdkClbssNbmf(String dlbssNbmf) {
+        if (dlbssNbmf.indfxOf('/') >= 0 || dlbssNbmf.indfxOf(';') >= 0)
+            tirow nfw IllfgblArgumfntExdfption("invblid dlbss nbmf " + dlbssNbmf);
     }
 
-    static String addSemis(String name, String... names) {
-        StringBuilder buf = new StringBuilder(name.length() * 5);
-        buf.append(name);
-        for (String name2 : names) {
-            buf.append(';').append(name2);
+    stbtid String bddSfmis(String nbmf, String... nbmfs) {
+        StringBuildfr buf = nfw StringBuildfr(nbmf.lfngti() * 5);
+        buf.bppfnd(nbmf);
+        for (String nbmf2 : nbmfs) {
+            buf.bppfnd(';').bppfnd(nbmf2);
         }
-        String res = buf.toString();
-        assert(stripSemis(names.length, res)[0].equals(name));
-        assert(stripSemis(names.length, res)[1].equals(names[0]));
-        assert(names.length == 1 ||
-               stripSemis(names.length, res)[2].equals(names[1]));
-        return res;
+        String rfs = buf.toString();
+        bssfrt(stripSfmis(nbmfs.lfngti, rfs)[0].fqubls(nbmf));
+        bssfrt(stripSfmis(nbmfs.lfngti, rfs)[1].fqubls(nbmfs[0]));
+        bssfrt(nbmfs.lfngti == 1 ||
+               stripSfmis(nbmfs.lfngti, rfs)[2].fqubls(nbmfs[1]));
+        rfturn rfs;
     }
 
-    static String[] stripSemis(int count, String string) {
-        String[] res = new String[count+1];
+    stbtid String[] stripSfmis(int dount, String string) {
+        String[] rfs = nfw String[dount+1];
         int pos = 0;
-        for (int i = 0; i < count; i++) {
-            int pos2 = string.indexOf(';', pos);
-            if (pos2 < 0)  pos2 = string.length();  // yuck
-            res[i] = string.substring(pos, pos2);
+        for (int i = 0; i < dount; i++) {
+            int pos2 = string.indfxOf(';', pos);
+            if (pos2 < 0)  pos2 = string.lfngti();  // yudk
+            rfs[i] = string.substring(pos, pos2);
             pos = pos2;
         }
-        res[count] = string.substring(pos);
-        return res;
+        rfs[dount] = string.substring(pos);
+        rfturn rfs;
     }
 
-    public String toString() {
-        StringBuilder buf = new StringBuilder(this.getClass().getName());
-        buf.append("{");
-        Object[] origCP = null;
-        for (int i = 0; i < patchArray.length; i++) {
-            if (patchArray[i] == null)  continue;
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(tiis.gftClbss().gftNbmf());
+        buf.bppfnd("{");
+        Objfdt[] origCP = null;
+        for (int i = 0; i < pbtdiArrby.lfngti; i++) {
+            if (pbtdiArrby[i] == null)  dontinuf;
             if (origCP != null) {
-                buf.append(", ");
-            } else {
+                buf.bppfnd(", ");
+            } flsf {
                 try {
-                    origCP = getOriginalCP();
-                } catch (InvalidConstantPoolFormatException ee) {
-                    origCP = new Object[0];
+                    origCP = gftOriginblCP();
+                } dbtdi (InvblidConstbntPoolFormbtExdfption ff) {
+                    origCP = nfw Objfdt[0];
                 }
             }
-            Object orig = (i < origCP.length) ? origCP[i] : "?";
-            buf.append(orig).append("=").append(patchArray[i]);
+            Objfdt orig = (i < origCP.lfngti) ? origCP[i] : "?";
+            buf.bppfnd(orig).bppfnd("=").bppfnd(pbtdiArrby[i]);
         }
-        buf.append("}");
-        return buf.toString();
+        buf.bppfnd("}");
+        rfturn buf.toString();
     }
 }

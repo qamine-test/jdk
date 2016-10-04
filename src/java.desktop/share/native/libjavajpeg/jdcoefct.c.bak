@@ -1,740 +1,740 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdcoefct.c
+ * jddoffdt.d
  *
- * Copyright (C) 1994-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains the coefficient buffer controller for decompression.
- * This controller is the top level of the JPEG decompressor proper.
- * The coefficient buffer lies between entropy decoding and inverse-DCT steps.
+ * Tiis filf dontbins tif dofffidifnt bufffr dontrollfr for dfdomprfssion.
+ * Tiis dontrollfr is tif top lfvfl of tif JPEG dfdomprfssor propfr.
+ * Tif dofffidifnt bufffr lifs bftwffn fntropy dfdoding bnd invfrsf-DCT stfps.
  *
- * In buffered-image mode, this controller is the interface between
- * input-oriented processing and output-oriented processing.
- * Also, the input side (only) is used when reading a file for transcoding.
+ * In bufffrfd-imbgf modf, tiis dontrollfr is tif intfrfbdf bftwffn
+ * input-orifntfd prodfssing bnd output-orifntfd prodfssing.
+ * Also, tif input sidf (only) is usfd wifn rfbding b filf for trbnsdoding.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
-/* Block smoothing is only applicable for progressive JPEG, so: */
-#ifndef D_PROGRESSIVE_SUPPORTED
-#undef BLOCK_SMOOTHING_SUPPORTED
-#endif
+/* Blodk smootiing is only bpplidbblf for progrfssivf JPEG, so: */
+#ifndff D_PROGRESSIVE_SUPPORTED
+#undff BLOCK_SMOOTHING_SUPPORTED
+#fndif
 
-/* Private buffer controller object */
+/* Privbtf bufffr dontrollfr objfdt */
 
-typedef struct {
-  struct jpeg_d_coef_controller pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_d_doff_dontrollfr pub; /* publid fiflds */
 
-  /* These variables keep track of the current location of the input side. */
-  /* cinfo->input_iMCU_row is also used for this. */
-  JDIMENSION MCU_ctr;           /* counts MCUs processed in current row */
-  int MCU_vert_offset;          /* counts MCU rows within iMCU row */
-  int MCU_rows_per_iMCU_row;    /* number of such rows needed */
+  /* Tifsf vbribblfs kffp trbdk of tif durrfnt lodbtion of tif input sidf. */
+  /* dinfo->input_iMCU_row is blso usfd for tiis. */
+  JDIMENSION MCU_dtr;           /* dounts MCUs prodfssfd in durrfnt row */
+  int MCU_vfrt_offsft;          /* dounts MCU rows witiin iMCU row */
+  int MCU_rows_pfr_iMCU_row;    /* numbfr of sudi rows nffdfd */
 
-  /* The output side's location is represented by cinfo->output_iMCU_row. */
+  /* Tif output sidf's lodbtion is rfprfsfntfd by dinfo->output_iMCU_row. */
 
-  /* In single-pass modes, it's sufficient to buffer just one MCU.
-   * We allocate a workspace of D_MAX_BLOCKS_IN_MCU coefficient blocks,
-   * and let the entropy decoder write into that workspace each time.
-   * (On 80x86, the workspace is FAR even though it's not really very big;
-   * this is to keep the module interfaces unchanged when a large coefficient
-   * buffer is necessary.)
-   * In multi-pass modes, this array points to the current MCU's blocks
-   * within the virtual arrays; it is used only by the input side.
+  /* In singlf-pbss modfs, it's suffidifnt to bufffr just onf MCU.
+   * Wf bllodbtf b workspbdf of D_MAX_BLOCKS_IN_MCU dofffidifnt blodks,
+   * bnd lft tif fntropy dfdodfr writf into tibt workspbdf fbdi timf.
+   * (On 80x86, tif workspbdf is FAR fvfn tiougi it's not rfblly vfry big;
+   * tiis is to kffp tif modulf intfrfbdfs undibngfd wifn b lbrgf dofffidifnt
+   * bufffr is nfdfssbry.)
+   * In multi-pbss modfs, tiis brrby points to tif durrfnt MCU's blodks
+   * witiin tif virtubl brrbys; it is usfd only by tif input sidf.
    */
-  JBLOCKROW MCU_buffer[D_MAX_BLOCKS_IN_MCU];
+  JBLOCKROW MCU_bufffr[D_MAX_BLOCKS_IN_MCU];
 
-#ifdef D_MULTISCAN_FILES_SUPPORTED
-  /* In multi-pass modes, we need a virtual block array for each component. */
-  jvirt_barray_ptr whole_image[MAX_COMPONENTS];
-#endif
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+  /* In multi-pbss modfs, wf nffd b virtubl blodk brrby for fbdi domponfnt. */
+  jvirt_bbrrby_ptr wiolf_imbgf[MAX_COMPONENTS];
+#fndif
 
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-  /* When doing block smoothing, we latch coefficient Al values here */
-  int * coef_bits_latch;
-#define SAVED_COEFS  6          /* we save coef_bits[0..5] */
-#endif
-} my_coef_controller;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  /* Wifn doing blodk smootiing, wf lbtdi dofffidifnt Al vblufs ifrf */
+  int * doff_bits_lbtdi;
+#dffinf SAVED_COEFS  6          /* wf sbvf doff_bits[0..5] */
+#fndif
+} my_doff_dontrollfr;
 
-typedef my_coef_controller * my_coef_ptr;
+typfdff my_doff_dontrollfr * my_doff_ptr;
 
-/* Forward declarations */
-METHODDEF(int) decompress_onepass
-        JPP((j_decompress_ptr cinfo, JSAMPIMAGE output_buf));
-#ifdef D_MULTISCAN_FILES_SUPPORTED
-METHODDEF(int) decompress_data
-        JPP((j_decompress_ptr cinfo, JSAMPIMAGE output_buf));
-#endif
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-LOCAL(boolean) smoothing_ok JPP((j_decompress_ptr cinfo));
-METHODDEF(int) decompress_smooth_data
-        JPP((j_decompress_ptr cinfo, JSAMPIMAGE output_buf));
-#endif
+/* Forwbrd dfdlbrbtions */
+METHODDEF(int) dfdomprfss_onfpbss
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+METHODDEF(int) dfdomprfss_dbtb
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#fndif
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+LOCAL(boolfbn) smootiing_ok JPP((j_dfdomprfss_ptr dinfo));
+METHODDEF(int) dfdomprfss_smooti_dbtb
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#fndif
 
 
 LOCAL(void)
-start_iMCU_row (j_decompress_ptr cinfo)
-/* Reset within-iMCU-row counters for a new row (input side) */
+stbrt_iMCU_row (j_dfdomprfss_ptr dinfo)
+/* Rfsft witiin-iMCU-row dountfrs for b nfw row (input sidf) */
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
 
-  /* In an interleaved scan, an MCU row is the same as an iMCU row.
-   * In a noninterleaved scan, an iMCU row has v_samp_factor MCU rows.
-   * But at the bottom of the image, process only what's left.
+  /* In bn intfrlfbvfd sdbn, bn MCU row is tif sbmf bs bn iMCU row.
+   * In b nonintfrlfbvfd sdbn, bn iMCU row ibs v_sbmp_fbdtor MCU rows.
+   * But bt tif bottom of tif imbgf, prodfss only wibt's lfft.
    */
-  if (cinfo->comps_in_scan > 1) {
-    coef->MCU_rows_per_iMCU_row = 1;
-  } else {
-    if (cinfo->input_iMCU_row < (cinfo->total_iMCU_rows-1))
-      coef->MCU_rows_per_iMCU_row = cinfo->cur_comp_info[0]->v_samp_factor;
-    else
-      coef->MCU_rows_per_iMCU_row = cinfo->cur_comp_info[0]->last_row_height;
+  if (dinfo->domps_in_sdbn > 1) {
+    doff->MCU_rows_pfr_iMCU_row = 1;
+  } flsf {
+    if (dinfo->input_iMCU_row < (dinfo->totbl_iMCU_rows-1))
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->v_sbmp_fbdtor;
+    flsf
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->lbst_row_ifigit;
   }
 
-  coef->MCU_ctr = 0;
-  coef->MCU_vert_offset = 0;
+  doff->MCU_dtr = 0;
+  doff->MCU_vfrt_offsft = 0;
 }
 
 
 /*
- * Initialize for an input processing pass.
+ * Initiblizf for bn input prodfssing pbss.
  */
 
 METHODDEF(void)
-start_input_pass (j_decompress_ptr cinfo)
+stbrt_input_pbss (j_dfdomprfss_ptr dinfo)
 {
-  cinfo->input_iMCU_row = 0;
-  start_iMCU_row(cinfo);
+  dinfo->input_iMCU_row = 0;
+  stbrt_iMCU_row(dinfo);
 }
 
 
 /*
- * Initialize for an output processing pass.
+ * Initiblizf for bn output prodfssing pbss.
  */
 
 METHODDEF(void)
-start_output_pass (j_decompress_ptr cinfo)
+stbrt_output_pbss (j_dfdomprfss_ptr dinfo)
 {
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
 
-  /* If multipass, check to see whether to use block smoothing on this pass */
-  if (coef->pub.coef_arrays != NULL) {
-    if (cinfo->do_block_smoothing && smoothing_ok(cinfo))
-      coef->pub.decompress_data = decompress_smooth_data;
-    else
-      coef->pub.decompress_data = decompress_data;
+  /* If multipbss, difdk to sff wiftifr to usf blodk smootiing on tiis pbss */
+  if (doff->pub.doff_brrbys != NULL) {
+    if (dinfo->do_blodk_smootiing && smootiing_ok(dinfo))
+      doff->pub.dfdomprfss_dbtb = dfdomprfss_smooti_dbtb;
+    flsf
+      doff->pub.dfdomprfss_dbtb = dfdomprfss_dbtb;
   }
-#endif
-  cinfo->output_iMCU_row = 0;
+#fndif
+  dinfo->output_iMCU_row = 0;
 }
 
 
 /*
- * Decompress and return some data in the single-pass case.
- * Always attempts to emit one fully interleaved MCU row ("iMCU" row).
- * Input and output must run in lockstep since we have only a one-MCU buffer.
- * Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ * Dfdomprfss bnd rfturn somf dbtb in tif singlf-pbss dbsf.
+ * Alwbys bttfmpts to fmit onf fully intfrlfbvfd MCU row ("iMCU" row).
+ * Input bnd output must run in lodkstfp sindf wf ibvf only b onf-MCU bufffr.
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
  *
- * NB: output_buf contains a plane for each component in image,
- * which we index according to the component's SOF position.
+ * NB: output_buf dontbins b plbnf for fbdi domponfnt in imbgf,
+ * wiidi wf indfx bddording to tif domponfnt's SOF position.
  */
 
 METHODDEF(int)
-decompress_onepass (j_decompress_ptr cinfo, JSAMPIMAGE output_buf)
+dfdomprfss_onfpbss (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  JDIMENSION MCU_col_num;       /* index of current MCU within row */
-  JDIMENSION last_MCU_col = cinfo->MCUs_per_row - 1;
-  JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
-  int blkn, ci, xindex, yindex, yoffset, useful_width;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU witiin row */
+  JDIMENSION lbst_MCU_dol = dinfo->MCUs_pfr_row - 1;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  int blkn, di, xindfx, yindfx, yoffsft, usfful_widti;
   JSAMPARRAY output_ptr;
-  JDIMENSION start_col, output_col;
-  jpeg_component_info *compptr;
-  inverse_DCT_method_ptr inverse_DCT;
+  JDIMENSION stbrt_dol, output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mftiod_ptr invfrsf_DCT;
 
-  /* Loop to process as much as one whole iMCU row */
-  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
-       yoffset++) {
-    for (MCU_col_num = coef->MCU_ctr; MCU_col_num <= last_MCU_col;
-         MCU_col_num++) {
-      /* Try to fetch an MCU.  Entropy decoder expects buffer to be zeroed. */
-      jzero_far((void FAR *) coef->MCU_buffer[0],
-                (size_t) (cinfo->blocks_in_MCU * SIZEOF(JBLOCK)));
-      if (! (*cinfo->entropy->decode_mcu) (cinfo, coef->MCU_buffer)) {
-        /* Suspension forced; update state counters and exit */
-        coef->MCU_vert_offset = yoffset;
-        coef->MCU_ctr = MCU_col_num;
-        return JPEG_SUSPENDED;
+  /* Loop to prodfss bs mudi bs onf wiolf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->MCU_dtr; MCU_dol_num <= lbst_MCU_dol;
+         MCU_dol_num++) {
+      /* Try to fftdi bn MCU.  Entropy dfdodfr fxpfdts bufffr to bf zfrofd. */
+      jzfro_fbr((void FAR *) doff->MCU_bufffr[0],
+                (sizf_t) (dinfo->blodks_in_MCU * SIZEOF(JBLOCK)));
+      if (! (*dinfo->fntropy->dfdodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->MCU_dtr = MCU_dol_num;
+        rfturn JPEG_SUSPENDED;
       }
-      /* Determine where data should go in output_buf and do the IDCT thing.
-       * We skip dummy blocks at the right and bottom edges (but blkn gets
-       * incremented past them!).  Note the inner loop relies on having
-       * allocated the MCU_buffer[] blocks sequentially.
+      /* Dftfrminf wifrf dbtb siould go in output_buf bnd do tif IDCT tiing.
+       * Wf skip dummy blodks bt tif rigit bnd bottom fdgfs (but blkn gfts
+       * indrfmfntfd pbst tifm!).  Notf tif innfr loop rflifs on ibving
+       * bllodbtfd tif MCU_bufffr[] blodks sfqufntiblly.
        */
-      blkn = 0;                 /* index of current DCT block within MCU */
-      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-        compptr = cinfo->cur_comp_info[ci];
-        /* Don't bother to IDCT an uninteresting component. */
-        if (! compptr->component_needed) {
-          blkn += compptr->MCU_blocks;
-          continue;
+      blkn = 0;                 /* indfx of durrfnt DCT blodk witiin MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        /* Don't botifr to IDCT bn unintfrfsting domponfnt. */
+        if (! dompptr->domponfnt_nffdfd) {
+          blkn += dompptr->MCU_blodks;
+          dontinuf;
         }
-        inverse_DCT = cinfo->idct->inverse_DCT[compptr->component_index];
-        useful_width = (MCU_col_num < last_MCU_col) ? compptr->MCU_width
-                                                    : compptr->last_col_width;
-        output_ptr = output_buf[compptr->component_index] +
-          yoffset * compptr->DCT_scaled_size;
-        start_col = MCU_col_num * compptr->MCU_sample_width;
-        for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
-          if (cinfo->input_iMCU_row < last_iMCU_row ||
-              yoffset+yindex < compptr->last_row_height) {
-            output_col = start_col;
-            for (xindex = 0; xindex < useful_width; xindex++) {
-              (*inverse_DCT) (cinfo, compptr,
-                              (JCOEFPTR) coef->MCU_buffer[blkn+xindex],
-                              output_ptr, output_col);
-              output_col += compptr->DCT_scaled_size;
+        invfrsf_DCT = dinfo->iddt->invfrsf_DCT[dompptr->domponfnt_indfx];
+        usfful_widti = (MCU_dol_num < lbst_MCU_dol) ? dompptr->MCU_widti
+                                                    : dompptr->lbst_dol_widti;
+        output_ptr = output_buf[dompptr->domponfnt_indfx] +
+          yoffsft * dompptr->DCT_sdblfd_sizf;
+        stbrt_dol = MCU_dol_num * dompptr->MCU_sbmplf_widti;
+        for (yindfx = 0; yindfx < dompptr->MCU_ifigit; yindfx++) {
+          if (dinfo->input_iMCU_row < lbst_iMCU_row ||
+              yoffsft+yindfx < dompptr->lbst_row_ifigit) {
+            output_dol = stbrt_dol;
+            for (xindfx = 0; xindfx < usfful_widti; xindfx++) {
+              (*invfrsf_DCT) (dinfo, dompptr,
+                              (JCOEFPTR) doff->MCU_bufffr[blkn+xindfx],
+                              output_ptr, output_dol);
+              output_dol += dompptr->DCT_sdblfd_sizf;
             }
           }
-          blkn += compptr->MCU_width;
-          output_ptr += compptr->DCT_scaled_size;
+          blkn += dompptr->MCU_widti;
+          output_ptr += dompptr->DCT_sdblfd_sizf;
         }
       }
     }
-    /* Completed an MCU row, but perhaps not an iMCU row */
-    coef->MCU_ctr = 0;
+    /* Complftfd bn MCU row, but pfribps not bn iMCU row */
+    doff->MCU_dtr = 0;
   }
-  /* Completed the iMCU row, advance counters for next one */
-  cinfo->output_iMCU_row++;
-  if (++(cinfo->input_iMCU_row) < cinfo->total_iMCU_rows) {
-    start_iMCU_row(cinfo);
-    return JPEG_ROW_COMPLETED;
+  /* Complftfd tif iMCU row, bdvbndf dountfrs for nfxt onf */
+  dinfo->output_iMCU_row++;
+  if (++(dinfo->input_iMCU_row) < dinfo->totbl_iMCU_rows) {
+    stbrt_iMCU_row(dinfo);
+    rfturn JPEG_ROW_COMPLETED;
   }
-  /* Completed the scan */
-  (*cinfo->inputctl->finish_input_pass) (cinfo);
-  return JPEG_SCAN_COMPLETED;
+  /* Complftfd tif sdbn */
+  (*dinfo->inputdtl->finisi_input_pbss) (dinfo);
+  rfturn JPEG_SCAN_COMPLETED;
 }
 
 
 /*
- * Dummy consume-input routine for single-pass operation.
+ * Dummy donsumf-input routinf for singlf-pbss opfrbtion.
  */
 
 METHODDEF(int)
-dummy_consume_data (j_decompress_ptr cinfo)
+dummy_donsumf_dbtb (j_dfdomprfss_ptr dinfo)
 {
-  return JPEG_SUSPENDED;        /* Always indicate nothing was done */
+  rfturn JPEG_SUSPENDED;        /* Alwbys indidbtf notiing wbs donf */
 }
 
 
-#ifdef D_MULTISCAN_FILES_SUPPORTED
+#ifdff D_MULTISCAN_FILES_SUPPORTED
 
 /*
- * Consume input data and store it in the full-image coefficient buffer.
- * We read as much as one fully interleaved MCU row ("iMCU" row) per call,
- * ie, v_samp_factor block rows for each component in the scan.
- * Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ * Consumf input dbtb bnd storf it in tif full-imbgf dofffidifnt bufffr.
+ * Wf rfbd bs mudi bs onf fully intfrlfbvfd MCU row ("iMCU" row) pfr dbll,
+ * if, v_sbmp_fbdtor blodk rows for fbdi domponfnt in tif sdbn.
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
  */
 
 METHODDEF(int)
-consume_data (j_decompress_ptr cinfo)
+donsumf_dbtb (j_dfdomprfss_ptr dinfo)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  JDIMENSION MCU_col_num;       /* index of current MCU within row */
-  int blkn, ci, xindex, yindex, yoffset;
-  JDIMENSION start_col;
-  JBLOCKARRAY buffer[MAX_COMPS_IN_SCAN];
-  JBLOCKROW buffer_ptr;
-  jpeg_component_info *compptr;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU witiin row */
+  int blkn, di, xindfx, yindfx, yoffsft;
+  JDIMENSION stbrt_dol;
+  JBLOCKARRAY bufffr[MAX_COMPS_IN_SCAN];
+  JBLOCKROW bufffr_ptr;
+  jpfg_domponfnt_info *dompptr;
 
-  /* Align the virtual buffers for the components used in this scan. */
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-    compptr = cinfo->cur_comp_info[ci];
-    buffer[ci] = (*cinfo->mem->access_virt_barray)
-      ((j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
-       cinfo->input_iMCU_row * compptr->v_samp_factor,
-       (JDIMENSION) compptr->v_samp_factor, TRUE);
-    /* Note: entropy decoder expects buffer to be zeroed,
-     * but this is handled automatically by the memory manager
-     * because we requested a pre-zeroed array.
+  /* Align tif virtubl bufffrs for tif domponfnts usfd in tiis sdbn. */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    bufffr[di] = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wiolf_imbgf[dompptr->domponfnt_indfx],
+       dinfo->input_iMCU_row * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, TRUE);
+    /* Notf: fntropy dfdodfr fxpfdts bufffr to bf zfrofd,
+     * but tiis is ibndlfd butombtidblly by tif mfmory mbnbgfr
+     * bfdbusf wf rfqufstfd b prf-zfrofd brrby.
      */
   }
 
-  /* Loop to process one whole iMCU row */
-  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
-       yoffset++) {
-    for (MCU_col_num = coef->MCU_ctr; MCU_col_num < cinfo->MCUs_per_row;
-         MCU_col_num++) {
-      /* Construct list of pointers to DCT blocks belonging to this MCU */
-      blkn = 0;                 /* index of current DCT block within MCU */
-      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-        compptr = cinfo->cur_comp_info[ci];
-        start_col = MCU_col_num * compptr->MCU_width;
-        for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
-          buffer_ptr = buffer[ci][yindex+yoffset] + start_col;
-          for (xindex = 0; xindex < compptr->MCU_width; xindex++) {
-            coef->MCU_buffer[blkn++] = buffer_ptr++;
+  /* Loop to prodfss onf wiolf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->MCU_dtr; MCU_dol_num < dinfo->MCUs_pfr_row;
+         MCU_dol_num++) {
+      /* Construdt list of pointfrs to DCT blodks bflonging to tiis MCU */
+      blkn = 0;                 /* indfx of durrfnt DCT blodk witiin MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        stbrt_dol = MCU_dol_num * dompptr->MCU_widti;
+        for (yindfx = 0; yindfx < dompptr->MCU_ifigit; yindfx++) {
+          bufffr_ptr = bufffr[di][yindfx+yoffsft] + stbrt_dol;
+          for (xindfx = 0; xindfx < dompptr->MCU_widti; xindfx++) {
+            doff->MCU_bufffr[blkn++] = bufffr_ptr++;
           }
         }
       }
-      /* Try to fetch the MCU. */
-      if (! (*cinfo->entropy->decode_mcu) (cinfo, coef->MCU_buffer)) {
-        /* Suspension forced; update state counters and exit */
-        coef->MCU_vert_offset = yoffset;
-        coef->MCU_ctr = MCU_col_num;
-        return JPEG_SUSPENDED;
+      /* Try to fftdi tif MCU. */
+      if (! (*dinfo->fntropy->dfdodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->MCU_dtr = MCU_dol_num;
+        rfturn JPEG_SUSPENDED;
       }
     }
-    /* Completed an MCU row, but perhaps not an iMCU row */
-    coef->MCU_ctr = 0;
+    /* Complftfd bn MCU row, but pfribps not bn iMCU row */
+    doff->MCU_dtr = 0;
   }
-  /* Completed the iMCU row, advance counters for next one */
-  if (++(cinfo->input_iMCU_row) < cinfo->total_iMCU_rows) {
-    start_iMCU_row(cinfo);
-    return JPEG_ROW_COMPLETED;
+  /* Complftfd tif iMCU row, bdvbndf dountfrs for nfxt onf */
+  if (++(dinfo->input_iMCU_row) < dinfo->totbl_iMCU_rows) {
+    stbrt_iMCU_row(dinfo);
+    rfturn JPEG_ROW_COMPLETED;
   }
-  /* Completed the scan */
-  (*cinfo->inputctl->finish_input_pass) (cinfo);
-  return JPEG_SCAN_COMPLETED;
+  /* Complftfd tif sdbn */
+  (*dinfo->inputdtl->finisi_input_pbss) (dinfo);
+  rfturn JPEG_SCAN_COMPLETED;
 }
 
 
 /*
- * Decompress and return some data in the multi-pass case.
- * Always attempts to emit one fully interleaved MCU row ("iMCU" row).
- * Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ * Dfdomprfss bnd rfturn somf dbtb in tif multi-pbss dbsf.
+ * Alwbys bttfmpts to fmit onf fully intfrlfbvfd MCU row ("iMCU" row).
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
  *
- * NB: output_buf contains a plane for each component in image.
+ * NB: output_buf dontbins b plbnf for fbdi domponfnt in imbgf.
  */
 
 METHODDEF(int)
-decompress_data (j_decompress_ptr cinfo, JSAMPIMAGE output_buf)
+dfdomprfss_dbtb (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
-  JDIMENSION block_num;
-  int ci, block_row, block_rows;
-  JBLOCKARRAY buffer;
-  JBLOCKROW buffer_ptr;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  JDIMENSION blodk_num;
+  int di, blodk_row, blodk_rows;
+  JBLOCKARRAY bufffr;
+  JBLOCKROW bufffr_ptr;
   JSAMPARRAY output_ptr;
-  JDIMENSION output_col;
-  jpeg_component_info *compptr;
-  inverse_DCT_method_ptr inverse_DCT;
+  JDIMENSION output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mftiod_ptr invfrsf_DCT;
 
-  /* Force some input to be done if we are getting ahead of the input. */
-  while (cinfo->input_scan_number < cinfo->output_scan_number ||
-         (cinfo->input_scan_number == cinfo->output_scan_number &&
-          cinfo->input_iMCU_row <= cinfo->output_iMCU_row)) {
-    if ((*cinfo->inputctl->consume_input)(cinfo) == JPEG_SUSPENDED)
-      return JPEG_SUSPENDED;
+  /* Fordf somf input to bf donf if wf brf gftting bifbd of tif input. */
+  wiilf (dinfo->input_sdbn_numbfr < dinfo->output_sdbn_numbfr ||
+         (dinfo->input_sdbn_numbfr == dinfo->output_sdbn_numbfr &&
+          dinfo->input_iMCU_row <= dinfo->output_iMCU_row)) {
+    if ((*dinfo->inputdtl->donsumf_input)(dinfo) == JPEG_SUSPENDED)
+      rfturn JPEG_SUSPENDED;
   }
 
-  /* OK, output from the virtual arrays. */
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* Don't bother to IDCT an uninteresting component. */
-    if (! compptr->component_needed)
-      continue;
-    /* Align the virtual buffer for this component. */
-    buffer = (*cinfo->mem->access_virt_barray)
-      ((j_common_ptr) cinfo, coef->whole_image[ci],
-       cinfo->output_iMCU_row * compptr->v_samp_factor,
-       (JDIMENSION) compptr->v_samp_factor, FALSE);
-    /* Count non-dummy DCT block rows in this iMCU row. */
-    if (cinfo->output_iMCU_row < last_iMCU_row)
-      block_rows = compptr->v_samp_factor;
-    else {
-      /* NB: can't use last_row_height here; it is input-side-dependent! */
-      block_rows = (int) (compptr->height_in_blocks % compptr->v_samp_factor);
-      if (block_rows == 0) block_rows = compptr->v_samp_factor;
+  /* OK, output from tif virtubl brrbys. */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Don't botifr to IDCT bn unintfrfsting domponfnt. */
+    if (! dompptr->domponfnt_nffdfd)
+      dontinuf;
+    /* Align tif virtubl bufffr for tiis domponfnt. */
+    bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wiolf_imbgf[di],
+       dinfo->output_iMCU_row * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, FALSE);
+    /* Count non-dummy DCT blodk rows in tiis iMCU row. */
+    if (dinfo->output_iMCU_row < lbst_iMCU_row)
+      blodk_rows = dompptr->v_sbmp_fbdtor;
+    flsf {
+      /* NB: dbn't usf lbst_row_ifigit ifrf; it is input-sidf-dfpfndfnt! */
+      blodk_rows = (int) (dompptr->ifigit_in_blodks % dompptr->v_sbmp_fbdtor);
+      if (blodk_rows == 0) blodk_rows = dompptr->v_sbmp_fbdtor;
     }
-    inverse_DCT = cinfo->idct->inverse_DCT[ci];
-    output_ptr = output_buf[ci];
-    /* Loop over all DCT blocks to be processed. */
-    for (block_row = 0; block_row < block_rows; block_row++) {
-      buffer_ptr = buffer[block_row];
-      output_col = 0;
-      for (block_num = 0; block_num < compptr->width_in_blocks; block_num++) {
-        (*inverse_DCT) (cinfo, compptr, (JCOEFPTR) buffer_ptr,
-                        output_ptr, output_col);
-        buffer_ptr++;
-        output_col += compptr->DCT_scaled_size;
+    invfrsf_DCT = dinfo->iddt->invfrsf_DCT[di];
+    output_ptr = output_buf[di];
+    /* Loop ovfr bll DCT blodks to bf prodfssfd. */
+    for (blodk_row = 0; blodk_row < blodk_rows; blodk_row++) {
+      bufffr_ptr = bufffr[blodk_row];
+      output_dol = 0;
+      for (blodk_num = 0; blodk_num < dompptr->widti_in_blodks; blodk_num++) {
+        (*invfrsf_DCT) (dinfo, dompptr, (JCOEFPTR) bufffr_ptr,
+                        output_ptr, output_dol);
+        bufffr_ptr++;
+        output_dol += dompptr->DCT_sdblfd_sizf;
       }
-      output_ptr += compptr->DCT_scaled_size;
+      output_ptr += dompptr->DCT_sdblfd_sizf;
     }
   }
 
-  if (++(cinfo->output_iMCU_row) < cinfo->total_iMCU_rows)
-    return JPEG_ROW_COMPLETED;
-  return JPEG_SCAN_COMPLETED;
+  if (++(dinfo->output_iMCU_row) < dinfo->totbl_iMCU_rows)
+    rfturn JPEG_ROW_COMPLETED;
+  rfturn JPEG_SCAN_COMPLETED;
 }
 
-#endif /* D_MULTISCAN_FILES_SUPPORTED */
+#fndif /* D_MULTISCAN_FILES_SUPPORTED */
 
 
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-
-/*
- * This code applies interblock smoothing as described by section K.8
- * of the JPEG standard: the first 5 AC coefficients are estimated from
- * the DC values of a DCT block and its 8 neighboring blocks.
- * We apply smoothing only for progressive JPEG decoding, and only if
- * the coefficients it can estimate are not yet known to full precision.
- */
-
-/* Natural-order array positions of the first 5 zigzag-order coefficients */
-#define Q01_POS  1
-#define Q10_POS  8
-#define Q20_POS  16
-#define Q11_POS  9
-#define Q02_POS  2
+#ifdff BLOCK_SMOOTHING_SUPPORTED
 
 /*
- * Determine whether block smoothing is applicable and safe.
- * We also latch the current states of the coef_bits[] entries for the
- * AC coefficients; otherwise, if the input side of the decompressor
- * advances into a new scan, we might think the coefficients are known
- * more accurately than they really are.
+ * Tiis dodf bpplifs intfrblodk smootiing bs dfsdribfd by sfdtion K.8
+ * of tif JPEG stbndbrd: tif first 5 AC dofffidifnts brf fstimbtfd from
+ * tif DC vblufs of b DCT blodk bnd its 8 nfigiboring blodks.
+ * Wf bpply smootiing only for progrfssivf JPEG dfdoding, bnd only if
+ * tif dofffidifnts it dbn fstimbtf brf not yft known to full prfdision.
  */
 
-LOCAL(boolean)
-smoothing_ok (j_decompress_ptr cinfo)
+/* Nbturbl-ordfr brrby positions of tif first 5 zigzbg-ordfr dofffidifnts */
+#dffinf Q01_POS  1
+#dffinf Q10_POS  8
+#dffinf Q20_POS  16
+#dffinf Q11_POS  9
+#dffinf Q02_POS  2
+
+/*
+ * Dftfrminf wiftifr blodk smootiing is bpplidbblf bnd sbff.
+ * Wf blso lbtdi tif durrfnt stbtfs of tif doff_bits[] fntrifs for tif
+ * AC dofffidifnts; otifrwisf, if tif input sidf of tif dfdomprfssor
+ * bdvbndfs into b nfw sdbn, wf migit tiink tif dofffidifnts brf known
+ * morf bddurbtfly tibn tify rfblly brf.
+ */
+
+LOCAL(boolfbn)
+smootiing_ok (j_dfdomprfss_ptr dinfo)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  boolean smoothing_useful = FALSE;
-  int ci, coefi;
-  jpeg_component_info *compptr;
-  JQUANT_TBL * qtable;
-  int * coef_bits;
-  int * coef_bits_latch;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  boolfbn smootiing_usfful = FALSE;
+  int di, doffi;
+  jpfg_domponfnt_info *dompptr;
+  JQUANT_TBL * qtbblf;
+  int * doff_bits;
+  int * doff_bits_lbtdi;
 
-  if (! cinfo->progressive_mode || cinfo->coef_bits == NULL)
-    return FALSE;
+  if (! dinfo->progrfssivf_modf || dinfo->doff_bits == NULL)
+    rfturn FALSE;
 
-  /* Allocate latch area if not already done */
-  if (coef->coef_bits_latch == NULL)
-    coef->coef_bits_latch = (int *)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                  cinfo->num_components *
+  /* Allodbtf lbtdi brfb if not blrfbdy donf */
+  if (doff->doff_bits_lbtdi == NULL)
+    doff->doff_bits_lbtdi = (int *)
+      (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  dinfo->num_domponfnts *
                                   (SAVED_COEFS * SIZEOF(int)));
-  coef_bits_latch = coef->coef_bits_latch;
+  doff_bits_lbtdi = doff->doff_bits_lbtdi;
 
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* All components' quantization values must already be latched. */
-    if ((qtable = compptr->quant_table) == NULL)
-      return FALSE;
-    /* Verify DC & first 5 AC quantizers are nonzero to avoid zero-divide. */
-    if (qtable->quantval[0] == 0 ||
-        qtable->quantval[Q01_POS] == 0 ||
-        qtable->quantval[Q10_POS] == 0 ||
-        qtable->quantval[Q20_POS] == 0 ||
-        qtable->quantval[Q11_POS] == 0 ||
-        qtable->quantval[Q02_POS] == 0)
-      return FALSE;
-    /* DC values must be at least partly known for all components. */
-    coef_bits = cinfo->coef_bits[ci];
-    if (coef_bits[0] < 0)
-      return FALSE;
-    /* Block smoothing is helpful if some AC coefficients remain inaccurate. */
-    for (coefi = 1; coefi <= 5; coefi++) {
-      coef_bits_latch[coefi] = coef_bits[coefi];
-      if (coef_bits[coefi] != 0)
-        smoothing_useful = TRUE;
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* All domponfnts' qubntizbtion vblufs must blrfbdy bf lbtdifd. */
+    if ((qtbblf = dompptr->qubnt_tbblf) == NULL)
+      rfturn FALSE;
+    /* Vfrify DC & first 5 AC qubntizfrs brf nonzfro to bvoid zfro-dividf. */
+    if (qtbblf->qubntvbl[0] == 0 ||
+        qtbblf->qubntvbl[Q01_POS] == 0 ||
+        qtbblf->qubntvbl[Q10_POS] == 0 ||
+        qtbblf->qubntvbl[Q20_POS] == 0 ||
+        qtbblf->qubntvbl[Q11_POS] == 0 ||
+        qtbblf->qubntvbl[Q02_POS] == 0)
+      rfturn FALSE;
+    /* DC vblufs must bf bt lfbst pbrtly known for bll domponfnts. */
+    doff_bits = dinfo->doff_bits[di];
+    if (doff_bits[0] < 0)
+      rfturn FALSE;
+    /* Blodk smootiing is iflpful if somf AC dofffidifnts rfmbin inbddurbtf. */
+    for (doffi = 1; doffi <= 5; doffi++) {
+      doff_bits_lbtdi[doffi] = doff_bits[doffi];
+      if (doff_bits[doffi] != 0)
+        smootiing_usfful = TRUE;
     }
-    coef_bits_latch += SAVED_COEFS;
+    doff_bits_lbtdi += SAVED_COEFS;
   }
 
-  return smoothing_useful;
+  rfturn smootiing_usfful;
 }
 
 
 /*
- * Variant of decompress_data for use when doing block smoothing.
+ * Vbribnt of dfdomprfss_dbtb for usf wifn doing blodk smootiing.
  */
 
 METHODDEF(int)
-decompress_smooth_data (j_decompress_ptr cinfo, JSAMPIMAGE output_buf)
+dfdomprfss_smooti_dbtb (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
 {
-  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
-  JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
-  JDIMENSION block_num, last_block_column;
-  int ci, block_row, block_rows, access_rows;
-  JBLOCKARRAY buffer;
-  JBLOCKROW buffer_ptr, prev_block_row, next_block_row;
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  JDIMENSION blodk_num, lbst_blodk_dolumn;
+  int di, blodk_row, blodk_rows, bddfss_rows;
+  JBLOCKARRAY bufffr;
+  JBLOCKROW bufffr_ptr, prfv_blodk_row, nfxt_blodk_row;
   JSAMPARRAY output_ptr;
-  JDIMENSION output_col;
-  jpeg_component_info *compptr;
-  inverse_DCT_method_ptr inverse_DCT;
-  boolean first_row, last_row;
-  JBLOCK workspace;
-  int *coef_bits;
-  JQUANT_TBL *quanttbl;
+  JDIMENSION output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mftiod_ptr invfrsf_DCT;
+  boolfbn first_row, lbst_row;
+  JBLOCK workspbdf;
+  int *doff_bits;
+  JQUANT_TBL *qubnttbl;
   INT32 Q00,Q01,Q02,Q10,Q11,Q20, num;
   int DC1,DC2,DC3,DC4,DC5,DC6,DC7,DC8,DC9;
-  int Al, pred;
+  int Al, prfd;
 
-  /* Force some input to be done if we are getting ahead of the input. */
-  while (cinfo->input_scan_number <= cinfo->output_scan_number &&
-         ! cinfo->inputctl->eoi_reached) {
-    if (cinfo->input_scan_number == cinfo->output_scan_number) {
-      /* If input is working on current scan, we ordinarily want it to
-       * have completed the current row.  But if input scan is DC,
-       * we want it to keep one row ahead so that next block row's DC
-       * values are up to date.
+  /* Fordf somf input to bf donf if wf brf gftting bifbd of tif input. */
+  wiilf (dinfo->input_sdbn_numbfr <= dinfo->output_sdbn_numbfr &&
+         ! dinfo->inputdtl->foi_rfbdifd) {
+    if (dinfo->input_sdbn_numbfr == dinfo->output_sdbn_numbfr) {
+      /* If input is working on durrfnt sdbn, wf ordinbrily wbnt it to
+       * ibvf domplftfd tif durrfnt row.  But if input sdbn is DC,
+       * wf wbnt it to kffp onf row bifbd so tibt nfxt blodk row's DC
+       * vblufs brf up to dbtf.
        */
-      JDIMENSION delta = (cinfo->Ss == 0) ? 1 : 0;
-      if (cinfo->input_iMCU_row > cinfo->output_iMCU_row+delta)
-        break;
+      JDIMENSION dfltb = (dinfo->Ss == 0) ? 1 : 0;
+      if (dinfo->input_iMCU_row > dinfo->output_iMCU_row+dfltb)
+        brfbk;
     }
-    if ((*cinfo->inputctl->consume_input)(cinfo) == JPEG_SUSPENDED)
-      return JPEG_SUSPENDED;
+    if ((*dinfo->inputdtl->donsumf_input)(dinfo) == JPEG_SUSPENDED)
+      rfturn JPEG_SUSPENDED;
   }
 
-  /* OK, output from the virtual arrays. */
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* Don't bother to IDCT an uninteresting component. */
-    if (! compptr->component_needed)
-      continue;
-    /* Count non-dummy DCT block rows in this iMCU row. */
-    if (cinfo->output_iMCU_row < last_iMCU_row) {
-      block_rows = compptr->v_samp_factor;
-      access_rows = block_rows * 2; /* this and next iMCU row */
-      last_row = FALSE;
-    } else {
-      /* NB: can't use last_row_height here; it is input-side-dependent! */
-      block_rows = (int) (compptr->height_in_blocks % compptr->v_samp_factor);
-      if (block_rows == 0) block_rows = compptr->v_samp_factor;
-      access_rows = block_rows; /* this iMCU row only */
-      last_row = TRUE;
+  /* OK, output from tif virtubl brrbys. */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Don't botifr to IDCT bn unintfrfsting domponfnt. */
+    if (! dompptr->domponfnt_nffdfd)
+      dontinuf;
+    /* Count non-dummy DCT blodk rows in tiis iMCU row. */
+    if (dinfo->output_iMCU_row < lbst_iMCU_row) {
+      blodk_rows = dompptr->v_sbmp_fbdtor;
+      bddfss_rows = blodk_rows * 2; /* tiis bnd nfxt iMCU row */
+      lbst_row = FALSE;
+    } flsf {
+      /* NB: dbn't usf lbst_row_ifigit ifrf; it is input-sidf-dfpfndfnt! */
+      blodk_rows = (int) (dompptr->ifigit_in_blodks % dompptr->v_sbmp_fbdtor);
+      if (blodk_rows == 0) blodk_rows = dompptr->v_sbmp_fbdtor;
+      bddfss_rows = blodk_rows; /* tiis iMCU row only */
+      lbst_row = TRUE;
     }
-    /* Align the virtual buffer for this component. */
-    if (cinfo->output_iMCU_row > 0) {
-      access_rows += compptr->v_samp_factor; /* prior iMCU row too */
-      buffer = (*cinfo->mem->access_virt_barray)
-        ((j_common_ptr) cinfo, coef->whole_image[ci],
-         (cinfo->output_iMCU_row - 1) * compptr->v_samp_factor,
-         (JDIMENSION) access_rows, FALSE);
-      buffer += compptr->v_samp_factor; /* point to current iMCU row */
+    /* Align tif virtubl bufffr for tiis domponfnt. */
+    if (dinfo->output_iMCU_row > 0) {
+      bddfss_rows += dompptr->v_sbmp_fbdtor; /* prior iMCU row too */
+      bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, doff->wiolf_imbgf[di],
+         (dinfo->output_iMCU_row - 1) * dompptr->v_sbmp_fbdtor,
+         (JDIMENSION) bddfss_rows, FALSE);
+      bufffr += dompptr->v_sbmp_fbdtor; /* point to durrfnt iMCU row */
       first_row = FALSE;
-    } else {
-      buffer = (*cinfo->mem->access_virt_barray)
-        ((j_common_ptr) cinfo, coef->whole_image[ci],
-         (JDIMENSION) 0, (JDIMENSION) access_rows, FALSE);
+    } flsf {
+      bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, doff->wiolf_imbgf[di],
+         (JDIMENSION) 0, (JDIMENSION) bddfss_rows, FALSE);
       first_row = TRUE;
     }
-    /* Fetch component-dependent info */
-    coef_bits = coef->coef_bits_latch + (ci * SAVED_COEFS);
-    quanttbl = compptr->quant_table;
-    Q00 = quanttbl->quantval[0];
-    Q01 = quanttbl->quantval[Q01_POS];
-    Q10 = quanttbl->quantval[Q10_POS];
-    Q20 = quanttbl->quantval[Q20_POS];
-    Q11 = quanttbl->quantval[Q11_POS];
-    Q02 = quanttbl->quantval[Q02_POS];
-    inverse_DCT = cinfo->idct->inverse_DCT[ci];
-    output_ptr = output_buf[ci];
-    /* Loop over all DCT blocks to be processed. */
-    for (block_row = 0; block_row < block_rows; block_row++) {
-      buffer_ptr = buffer[block_row];
-      if (first_row && block_row == 0)
-        prev_block_row = buffer_ptr;
-      else
-        prev_block_row = buffer[block_row-1];
-      if (last_row && block_row == block_rows-1)
-        next_block_row = buffer_ptr;
-      else
-        next_block_row = buffer[block_row+1];
-      /* We fetch the surrounding DC values using a sliding-register approach.
-       * Initialize all nine here so as to do the right thing on narrow pics.
+    /* Fftdi domponfnt-dfpfndfnt info */
+    doff_bits = doff->doff_bits_lbtdi + (di * SAVED_COEFS);
+    qubnttbl = dompptr->qubnt_tbblf;
+    Q00 = qubnttbl->qubntvbl[0];
+    Q01 = qubnttbl->qubntvbl[Q01_POS];
+    Q10 = qubnttbl->qubntvbl[Q10_POS];
+    Q20 = qubnttbl->qubntvbl[Q20_POS];
+    Q11 = qubnttbl->qubntvbl[Q11_POS];
+    Q02 = qubnttbl->qubntvbl[Q02_POS];
+    invfrsf_DCT = dinfo->iddt->invfrsf_DCT[di];
+    output_ptr = output_buf[di];
+    /* Loop ovfr bll DCT blodks to bf prodfssfd. */
+    for (blodk_row = 0; blodk_row < blodk_rows; blodk_row++) {
+      bufffr_ptr = bufffr[blodk_row];
+      if (first_row && blodk_row == 0)
+        prfv_blodk_row = bufffr_ptr;
+      flsf
+        prfv_blodk_row = bufffr[blodk_row-1];
+      if (lbst_row && blodk_row == blodk_rows-1)
+        nfxt_blodk_row = bufffr_ptr;
+      flsf
+        nfxt_blodk_row = bufffr[blodk_row+1];
+      /* Wf fftdi tif surrounding DC vblufs using b sliding-rfgistfr bpprobdi.
+       * Initiblizf bll ninf ifrf so bs to do tif rigit tiing on nbrrow pids.
        */
-      DC1 = DC2 = DC3 = (int) prev_block_row[0][0];
-      DC4 = DC5 = DC6 = (int) buffer_ptr[0][0];
-      DC7 = DC8 = DC9 = (int) next_block_row[0][0];
-      output_col = 0;
-      last_block_column = compptr->width_in_blocks - 1;
-      for (block_num = 0; block_num <= last_block_column; block_num++) {
-        /* Fetch current DCT block into workspace so we can modify it. */
-        jcopy_block_row(buffer_ptr, (JBLOCKROW) workspace, (JDIMENSION) 1);
-        /* Update DC values */
-        if (block_num < last_block_column) {
-          DC3 = (int) prev_block_row[1][0];
-          DC6 = (int) buffer_ptr[1][0];
-          DC9 = (int) next_block_row[1][0];
+      DC1 = DC2 = DC3 = (int) prfv_blodk_row[0][0];
+      DC4 = DC5 = DC6 = (int) bufffr_ptr[0][0];
+      DC7 = DC8 = DC9 = (int) nfxt_blodk_row[0][0];
+      output_dol = 0;
+      lbst_blodk_dolumn = dompptr->widti_in_blodks - 1;
+      for (blodk_num = 0; blodk_num <= lbst_blodk_dolumn; blodk_num++) {
+        /* Fftdi durrfnt DCT blodk into workspbdf so wf dbn modify it. */
+        jdopy_blodk_row(bufffr_ptr, (JBLOCKROW) workspbdf, (JDIMENSION) 1);
+        /* Updbtf DC vblufs */
+        if (blodk_num < lbst_blodk_dolumn) {
+          DC3 = (int) prfv_blodk_row[1][0];
+          DC6 = (int) bufffr_ptr[1][0];
+          DC9 = (int) nfxt_blodk_row[1][0];
         }
-        /* Compute coefficient estimates per K.8.
-         * An estimate is applied only if coefficient is still zero,
-         * and is not known to be fully accurate.
+        /* Computf dofffidifnt fstimbtfs pfr K.8.
+         * An fstimbtf is bpplifd only if dofffidifnt is still zfro,
+         * bnd is not known to bf fully bddurbtf.
          */
         /* AC01 */
-        if ((Al=coef_bits[1]) != 0 && workspace[1] == 0) {
+        if ((Al=doff_bits[1]) != 0 && workspbdf[1] == 0) {
           num = 36 * Q00 * (DC4 - DC6);
           if (num >= 0) {
-            pred = (int) (((Q01<<7) + num) / (Q01<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-          } else {
-            pred = (int) (((Q01<<7) - num) / (Q01<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-            pred = -pred;
+            prfd = (int) (((Q01<<7) + num) / (Q01<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q01<<7) - num) / (Q01<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
           }
-          workspace[1] = (JCOEF) pred;
+          workspbdf[1] = (JCOEF) prfd;
         }
         /* AC10 */
-        if ((Al=coef_bits[2]) != 0 && workspace[8] == 0) {
+        if ((Al=doff_bits[2]) != 0 && workspbdf[8] == 0) {
           num = 36 * Q00 * (DC2 - DC8);
           if (num >= 0) {
-            pred = (int) (((Q10<<7) + num) / (Q10<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-          } else {
-            pred = (int) (((Q10<<7) - num) / (Q10<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-            pred = -pred;
+            prfd = (int) (((Q10<<7) + num) / (Q10<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q10<<7) - num) / (Q10<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
           }
-          workspace[8] = (JCOEF) pred;
+          workspbdf[8] = (JCOEF) prfd;
         }
         /* AC20 */
-        if ((Al=coef_bits[3]) != 0 && workspace[16] == 0) {
+        if ((Al=doff_bits[3]) != 0 && workspbdf[16] == 0) {
           num = 9 * Q00 * (DC2 + DC8 - 2*DC5);
           if (num >= 0) {
-            pred = (int) (((Q20<<7) + num) / (Q20<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-          } else {
-            pred = (int) (((Q20<<7) - num) / (Q20<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-            pred = -pred;
+            prfd = (int) (((Q20<<7) + num) / (Q20<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q20<<7) - num) / (Q20<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
           }
-          workspace[16] = (JCOEF) pred;
+          workspbdf[16] = (JCOEF) prfd;
         }
         /* AC11 */
-        if ((Al=coef_bits[4]) != 0 && workspace[9] == 0) {
+        if ((Al=doff_bits[4]) != 0 && workspbdf[9] == 0) {
           num = 5 * Q00 * (DC1 - DC3 - DC7 + DC9);
           if (num >= 0) {
-            pred = (int) (((Q11<<7) + num) / (Q11<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-          } else {
-            pred = (int) (((Q11<<7) - num) / (Q11<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-            pred = -pred;
+            prfd = (int) (((Q11<<7) + num) / (Q11<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q11<<7) - num) / (Q11<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
           }
-          workspace[9] = (JCOEF) pred;
+          workspbdf[9] = (JCOEF) prfd;
         }
         /* AC02 */
-        if ((Al=coef_bits[5]) != 0 && workspace[2] == 0) {
+        if ((Al=doff_bits[5]) != 0 && workspbdf[2] == 0) {
           num = 9 * Q00 * (DC4 + DC6 - 2*DC5);
           if (num >= 0) {
-            pred = (int) (((Q02<<7) + num) / (Q02<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-          } else {
-            pred = (int) (((Q02<<7) - num) / (Q02<<8));
-            if (Al > 0 && pred >= (1<<Al))
-              pred = (1<<Al)-1;
-            pred = -pred;
+            prfd = (int) (((Q02<<7) + num) / (Q02<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q02<<7) - num) / (Q02<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
           }
-          workspace[2] = (JCOEF) pred;
+          workspbdf[2] = (JCOEF) prfd;
         }
-        /* OK, do the IDCT */
-        (*inverse_DCT) (cinfo, compptr, (JCOEFPTR) workspace,
-                        output_ptr, output_col);
-        /* Advance for next column */
+        /* OK, do tif IDCT */
+        (*invfrsf_DCT) (dinfo, dompptr, (JCOEFPTR) workspbdf,
+                        output_ptr, output_dol);
+        /* Advbndf for nfxt dolumn */
         DC1 = DC2; DC2 = DC3;
         DC4 = DC5; DC5 = DC6;
         DC7 = DC8; DC8 = DC9;
-        buffer_ptr++, prev_block_row++, next_block_row++;
-        output_col += compptr->DCT_scaled_size;
+        bufffr_ptr++, prfv_blodk_row++, nfxt_blodk_row++;
+        output_dol += dompptr->DCT_sdblfd_sizf;
       }
-      output_ptr += compptr->DCT_scaled_size;
+      output_ptr += dompptr->DCT_sdblfd_sizf;
     }
   }
 
-  if (++(cinfo->output_iMCU_row) < cinfo->total_iMCU_rows)
-    return JPEG_ROW_COMPLETED;
-  return JPEG_SCAN_COMPLETED;
+  if (++(dinfo->output_iMCU_row) < dinfo->totbl_iMCU_rows)
+    rfturn JPEG_ROW_COMPLETED;
+  rfturn JPEG_SCAN_COMPLETED;
 }
 
-#endif /* BLOCK_SMOOTHING_SUPPORTED */
+#fndif /* BLOCK_SMOOTHING_SUPPORTED */
 
 
 /*
- * Initialize coefficient buffer controller.
+ * Initiblizf dofffidifnt bufffr dontrollfr.
  */
 
 GLOBAL(void)
-jinit_d_coef_controller (j_decompress_ptr cinfo, boolean need_full_buffer)
+jinit_d_doff_dontrollfr (j_dfdomprfss_ptr dinfo, boolfbn nffd_full_bufffr)
 {
-  my_coef_ptr coef;
+  my_doff_ptr doff;
 
-  coef = (my_coef_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_coef_controller));
-  cinfo->coef = (struct jpeg_d_coef_controller *) coef;
-  coef->pub.start_input_pass = start_input_pass;
-  coef->pub.start_output_pass = start_output_pass;
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-  coef->coef_bits_latch = NULL;
-#endif
+  doff = (my_doff_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_doff_dontrollfr));
+  dinfo->doff = (strudt jpfg_d_doff_dontrollfr *) doff;
+  doff->pub.stbrt_input_pbss = stbrt_input_pbss;
+  doff->pub.stbrt_output_pbss = stbrt_output_pbss;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  doff->doff_bits_lbtdi = NULL;
+#fndif
 
-  /* Create the coefficient buffer. */
-  if (need_full_buffer) {
-#ifdef D_MULTISCAN_FILES_SUPPORTED
-    /* Allocate a full-image virtual array for each component, */
-    /* padded to a multiple of samp_factor DCT blocks in each direction. */
-    /* Note we ask for a pre-zeroed array. */
-    int ci, access_rows;
-    jpeg_component_info *compptr;
+  /* Crfbtf tif dofffidifnt bufffr. */
+  if (nffd_full_bufffr) {
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+    /* Allodbtf b full-imbgf virtubl brrby for fbdi domponfnt, */
+    /* pbddfd to b multiplf of sbmp_fbdtor DCT blodks in fbdi dirfdtion. */
+    /* Notf wf bsk for b prf-zfrofd brrby. */
+    int di, bddfss_rows;
+    jpfg_domponfnt_info *dompptr;
 
-    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-         ci++, compptr++) {
-      access_rows = compptr->v_samp_factor;
-#ifdef BLOCK_SMOOTHING_SUPPORTED
-      /* If block smoothing could be used, need a bigger window */
-      if (cinfo->progressive_mode)
-        access_rows *= 3;
-#endif
-      coef->whole_image[ci] = (*cinfo->mem->request_virt_barray)
-        ((j_common_ptr) cinfo, JPOOL_IMAGE, TRUE,
-         (JDIMENSION) jround_up((long) compptr->width_in_blocks,
-                                (long) compptr->h_samp_factor),
-         (JDIMENSION) jround_up((long) compptr->height_in_blocks,
-                                (long) compptr->v_samp_factor),
-         (JDIMENSION) access_rows);
+    for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+         di++, dompptr++) {
+      bddfss_rows = dompptr->v_sbmp_fbdtor;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+      /* If blodk smootiing dould bf usfd, nffd b biggfr window */
+      if (dinfo->progrfssivf_modf)
+        bddfss_rows *= 3;
+#fndif
+      doff->wiolf_imbgf[di] = (*dinfo->mfm->rfqufst_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, JPOOL_IMAGE, TRUE,
+         (JDIMENSION) jround_up((long) dompptr->widti_in_blodks,
+                                (long) dompptr->i_sbmp_fbdtor),
+         (JDIMENSION) jround_up((long) dompptr->ifigit_in_blodks,
+                                (long) dompptr->v_sbmp_fbdtor),
+         (JDIMENSION) bddfss_rows);
     }
-    coef->pub.consume_data = consume_data;
-    coef->pub.decompress_data = decompress_data;
-    coef->pub.coef_arrays = coef->whole_image; /* link to virtual arrays */
-#else
-    ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-  } else {
-    /* We only need a single-MCU buffer. */
-    JBLOCKROW buffer;
+    doff->pub.donsumf_dbtb = donsumf_dbtb;
+    doff->pub.dfdomprfss_dbtb = dfdomprfss_dbtb;
+    doff->pub.doff_brrbys = doff->wiolf_imbgf; /* link to virtubl brrbys */
+#flsf
+    ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+  } flsf {
+    /* Wf only nffd b singlf-MCU bufffr. */
+    JBLOCKROW bufffr;
     int i;
 
-    buffer = (JBLOCKROW)
-      (*cinfo->mem->alloc_large) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+    bufffr = (JBLOCKROW)
+      (*dinfo->mfm->bllod_lbrgf) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                   D_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
     for (i = 0; i < D_MAX_BLOCKS_IN_MCU; i++) {
-      coef->MCU_buffer[i] = buffer + i;
+      doff->MCU_bufffr[i] = bufffr + i;
     }
-    coef->pub.consume_data = dummy_consume_data;
-    coef->pub.decompress_data = decompress_onepass;
-    coef->pub.coef_arrays = NULL; /* flag for no virtual arrays */
+    doff->pub.donsumf_dbtb = dummy_donsumf_dbtb;
+    doff->pub.dfdomprfss_dbtb = dfdomprfss_onfpbss;
+    doff->pub.doff_brrbys = NULL; /* flbg for no virtubl brrbys */
   }
 }

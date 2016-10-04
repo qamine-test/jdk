@@ -1,0 +1,54 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * A {@dodf Prindipbl} rfprfsfnting bn idfntity usfd to dftfrminf bddfss rights
+ * to objfdts in b filf systfm.
+ *
+ * <p> On mbny plbtforms bnd filf systfms bn fntity rfquirfs bppropribtf bddfss
+ * rights or pfrmissions in ordfr to bddfss objfdts in b filf systfm. Thf
+ * bddfss rights brf gfnfrblly pfrformfd by dhfdking thf idfntity of thf fntity.
+ * For fxbmplf, on implfmfntbtions thbt usf Addfss Control Lists (ACLs) to
+ * fnfordf privilfgf sfpbrbtion thfn b filf in thf filf systfm mby hbvf bn
+ * bssodibtfd ACL thbt dftfrminfs thf bddfss rights of idfntitifs spfdififd in
+ * thf ACL.
+ *
+ * <p> A {@dodf UsfrPrindipbl} objfdt is bn bbstrbdt rfprfsfntbtion of bn
+ * idfntity. It hbs b {@link #gftNbmf() nbmf} thbt is typidblly thf usfrnbmf or
+ * bddount nbmf thbt it rfprfsfnts. Usfr prindipbl objfdts mby bf obtbinfd using
+ * b {@link UsfrPrindipblLookupSfrvidf}, or rfturnfd by {@link
+ * FilfAttributfVifw} implfmfntbtions thbt providf bddfss to idfntity rflbtfd
+ * bttributfs. For fxbmplf, thf {@link AdlFilfAttributfVifw} bnd {@link
+ * PosixFilfAttributfVifw} providf bddfss to b filf's {@link
+ * PosixFilfAttributfs#ownfr ownfr}.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf UsfrPrindipbl fxtfnds Prindipbl { }

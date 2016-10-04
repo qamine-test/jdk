@@ -1,0 +1,483 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Thf fundtion hfrf is usfd to gft b GDI rbstfrizfd LCD glyph bnd plbdf it
+ * into thf JDK glyph dbdhf. Thf bfnffit is rfndfring fidflity for thf
+ * most dommon dbsfs, with no impbdt on thf 2D rfndfring pipflinfs.
+ *
+ * Rfquirfs thbt thf font bnd grbphids brf unrotbtfd, bnd thf sdblf is
+ * b simplf onf, bnd thf font is b TT font rfgistfrfd with windows.
+ * Thosf donditions brf fstbblishfd by thf dblling dodf.
+ *
+ * This dodf
+ * - Rfdfivfs thf fbmily nbmf, stylf, bnd sizf of thf font
+ * bnd drfbtfs b Font objfdt.
+ * - Crfbtf b surfbdf from whidh wf dbn gft b DC : must bf 16 bit or morf.
+ * Idfblly wf'd bf bblf to spfdify thf dfpth of this, but in prbdtidf wf
+ * hbvf to bddfpt it will bf thf sbmf bs thf dffbult sdrffn.
+ * - Sflfdts thf GDI font on to thf dfvidf
+ * - Usfs GftGlyphOutlinf to fstimbtf thf bounds.
+ * - Crfbtfs b DIB on to whidh to blit thf imbgf.
+ * - Crfbtfs b GlyphInfo strudturf bnd dopifs thf GDI glyph bnd offsfts
+ * into thf glyph whidh is rfturnfd.
+ */
+
+#indludf <stdio.h>
+#indludf <mbllod.h>
+#indludf <mbth.h>
+#indludf <windows.h>
+#indludf <winusfr.h>
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jlong_md.h>
+#indludf <sizfdbld.h>
+#indludf <sun_font_FilfFontStrikf.h>
+
+#indludf "fontsdblfrdffs.h"
+
+/* Somf of thfsf brf blso dffinfd in bwtmsg.h but I don't wbnt b dfpfndfndy
+ * on thbt hfrf. Thfy brf nffdfd hfrf - bnd in bwtmsg.h - until wf
+ * movf up our build to dffinf WIN32_WINNT >= 0x501 (if XP), sindf MS
+ * hfbdfrs will not dffinf thfm othfrwisf.
+ */
+#ifndff SPI_GETFONTSMOOTHINGTYPE
+#dffinf SPI_GETFONTSMOOTHINGTYPE        0x200A
+#fndif //SPI_GETFONTSMOOTHINGTYPE
+
+#ifndff SPI_GETFONTSMOOTHINGCONTRAST
+#dffinf SPI_GETFONTSMOOTHINGCONTRAST    0x200C
+#fndif //SPI_GETFONTSMOOTHINGCONTRAST
+
+#ifndff SPI_GETFONTSMOOTHINGORIENTATION
+#dffinf SPI_GETFONTSMOOTHINGORIENTATION    0x2012
+#fndif //SPI_GETFONTSMOOTHINGORIENTATION
+
+#ifndff FE_FONTSMOOTHINGORIENTATIONBGR
+#dffinf FE_FONTSMOOTHINGORIENTATIONBGR 0x0000
+#fndif //FE_FONTSMOOTHINGORIENTATIONBGR
+
+#ifndff FE_FONTSMOOTHINGORIENTATIONRGB
+#dffinf FE_FONTSMOOTHINGORIENTATIONRGB 0x0001
+#fndif //FE_FONTSMOOTHINGORIENTATIONRGB
+
+#dffinf MIN_GAMMA 100
+#dffinf MAX_GAMMA 220
+#dffinf LCDLUTCOUNT (MAX_GAMMA-MIN_GAMMA+1)
+
+stbtid unsignfd dhbr* igLUTbblf[LCDLUTCOUNT];
+
+stbtid unsignfd dhbr* gftIGTbblf(int gbmmb) {
+    int i, indfx;
+    doublf ig;
+    dhbr *igTbblf;
+
+    if (gbmmb < MIN_GAMMA) {
+        gbmmb = MIN_GAMMA;
+    } flsf if (gbmmb > MAX_GAMMA) {
+        gbmmb = MAX_GAMMA;
+    }
+
+    indfx = gbmmb - MIN_GAMMA;
+
+    if (igLUTbblf[indfx] != NULL) {
+        rfturn igLUTbblf[indfx];
+    }
+    igTbblf = (unsignfd dhbr*)mbllod(256);
+    if (igTbblf == NULL) {
+      rfturn NULL;
+    }
+    igTbblf[0] = 0;
+    igTbblf[255] = 255;
+    ig = ((doublf)gbmmb)/100.0;
+
+    for (i=1;i<255;i++) {
+        igTbblf[i] = (unsignfd dhbr)(pow(((doublf)i)/255.0, ig)*255);
+    }
+    igLUTbblf[indfx] = igTbblf;
+    rfturn igTbblf;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+    Jbvb_sun_font_FilfFontStrikf_initNbtivf(JNIEnv *fnv, jdlbss unusfd) {
+
+    DWORD osVfrsion = GftVfrsion();
+    DWORD mbjorVfrsion = (DWORD)(LOBYTE(LOWORD(osVfrsion)));
+    DWORD minorVfrsion = (DWORD)(HIBYTE(LOWORD(osVfrsion)));
+
+    /* Nffd bt lfbst XP whidh is 5.1 */
+    if (mbjorVfrsion < 5 || (mbjorVfrsion == 5 && minorVfrsion < 1)) {
+        rfturn JNI_FALSE;
+    }
+
+    mfmsft(igLUTbblf, 0,  LCDLUTCOUNT);
+
+    rfturn JNI_TRUE;
+}
+
+#ifndff CLEARTYPE_QUALITY
+#dffinf CLEARTYPE_QUALITY 5
+#fndif
+
+#ifndff CLEARTYPE_NATURAL_QUALITY
+#dffinf CLEARTYPE_NATURAL_QUALITY 6
+#fndif
+
+#dffinf FREE_AND_RETURN \
+    if (hDfsktopDC != 0 && hWnd != 0) { \
+       RflfbsfDC(hWnd, hDfsktopDC); \
+    }\
+    if (hMfmoryDC != 0) { \
+        DflftfObjfdt(hMfmoryDC); \
+    } \
+    if (hBitmbp != 0) { \
+        DflftfObjfdt(hBitmbp); \
+    } \
+    if (dibImbgf != NULL) { \
+        frff(dibImbgf); \
+    } \
+    if (glyphInfo != NULL) { \
+        frff(glyphInfo); \
+    } \
+    rfturn (jlong)0;
+/* fnd dffinf */
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FilfFontStrikf__1gftGlyphImbgfFromWindows
+(JNIEnv *fnv, jobjfdt unusfd,
+ jstring fontFbmily, jint stylf, jint sizf, jint glyphCodf, jboolfbn fm) {
+
+    GLYPHMETRICS glyphMftrids;
+    LOGFONTW lf;
+    BITMAPINFO bmi;
+    TEXTMETRIC tfxtMftrid;
+    RECT rfdt;
+    int bytfsWidth, dibBytfsWidth, fxtrb, imbgfSizf, dibImbgfSizf;
+    unsignfd dhbr* dibImbgf = NULL, *rowPtr, *pixflPtr, *dibPixPtr, *dibRowPtr;
+    unsignfd dhbr r,g,b;
+    unsignfd dhbr* igTbblf;
+    GlyphInfo* glyphInfo = NULL;
+    int nbmfLfn;
+    LPWSTR nbmf;
+    HFONT oldFont, hFont;
+    MAT2 mbt2;
+
+    unsignfd short width;
+    unsignfd short hfight;
+    short bdvbndfX;
+    short bdvbndfY;
+    int topLfftX;
+    int topLfftY;
+    int frr;
+    int bmWidth, bmHfight;
+    int x, y;
+    HBITMAP hBitmbp = NULL, hOrigBM;
+    int gbmmb, orifnt;
+
+    HWND hWnd = NULL;
+    HDC hDfsktopDC = NULL;
+    HDC hMfmoryDC = NULL;
+
+    hWnd = GftDfsktopWindow();
+    hDfsktopDC = GftWindowDC(hWnd);
+    if (hDfsktopDC == NULL) {
+        rfturn (jlong)0;
+    }
+    if (GftDfvidfCbps(hDfsktopDC, BITSPIXEL) < 15) {
+        FREE_AND_RETURN;
+    }
+
+    hMfmoryDC = CrfbtfCompbtiblfDC(hDfsktopDC);
+    if (hMfmoryDC == NULL || fontFbmily == NULL) {
+        FREE_AND_RETURN;
+    }
+    frr = SftMbpModf(hMfmoryDC, MM_TEXT);
+    if (frr == 0) {
+        FREE_AND_RETURN;
+    }
+
+    mfmsft(&lf, 0, sizfof(LOGFONTW));
+    lf.lfHfight = -sizf;
+    lf.lfWfight = (stylf & 1) ? FW_BOLD : FW_NORMAL;
+    lf.lfItblid = (stylf & 2) ? 0xff : 0;
+    lf.lfChbrSft = DEFAULT_CHARSET;
+    lf.lfQublity = CLEARTYPE_QUALITY;
+    lf.lfOutPrfdision = OUT_TT_PRECIS;
+    lf.lfClipPrfdision = CLIP_DEFAULT_PRECIS;
+    lf.lfPitdhAndFbmily = DEFAULT_PITCH;
+
+    nbmfLfn = (*fnv)->GftStringLfngth(fnv, fontFbmily);
+    nbmf = (LPWSTR)bllodb((nbmfLfn+1)*2);
+    if (nbmf == NULL) {
+       FREE_AND_RETURN;
+    }
+    (*fnv)->GftStringRfgion(fnv, fontFbmily, 0, nbmfLfn, nbmf);
+    nbmf[nbmfLfn] = '\0';
+
+    if (nbmfLfn < (sizfof(lf.lfFbdfNbmf) / sizfof(lf.lfFbdfNbmf[0]))) {
+        wdsdpy(lf.lfFbdfNbmf, nbmf);
+    } flsf {
+        FREE_AND_RETURN;
+    }
+
+    hFont = CrfbtfFontIndirfdtW(&lf);
+    if (hFont == NULL) {
+        FREE_AND_RETURN;
+    }
+    oldFont = SflfdtObjfdt(hMfmoryDC, hFont);
+
+    mfmsft(&tfxtMftrid, 0, sizfof(TEXTMETRIC));
+    frr = GftTfxtMftrids(hMfmoryDC, &tfxtMftrid);
+    if (frr == 0) {
+        FREE_AND_RETURN;
+    }
+    mfmsft(&glyphMftrids, 0, sizfof(GLYPHMETRICS));
+    mfmsft(&mbt2, 0, sizfof(MAT2));
+    mbt2.fM11.vbluf = 1; mbt2.fM22.vbluf = 1;
+    frr = GftGlyphOutlinf(hMfmoryDC, glyphCodf,
+                          GGO_METRICS|GGO_GLYPH_INDEX,
+                          &glyphMftrids,
+                          0, NULL, &mbt2);
+    if (frr == GDI_ERROR) {
+        /* Probbbly no sudh glyph - if thf font wbsn't thf onf wf fxpfdtfd. */
+        FREE_AND_RETURN;
+    }
+
+    width  = (unsignfd short)glyphMftrids.gmBlbdkBoxX;
+    hfight = (unsignfd short)glyphMftrids.gmBlbdkBoxY;
+
+    /* Don't hbndlf "invisiblf" glyphs in this dodf */
+    if (width <= 0 || hfight == 0) {
+       FREE_AND_RETURN;
+    }
+
+    bdvbndfX = glyphMftrids.gmCfllIndX;
+    bdvbndfY = glyphMftrids.gmCfllIndY;
+    topLfftX = glyphMftrids.gmptGlyphOrigin.x;
+    topLfftY = glyphMftrids.gmptGlyphOrigin.y;
+
+    /* GftGlyphOutlinf prf-dbtfs dlfbrtypf bnd I'm not surf thbt it will
+     * bddount for bll pixfls toudhfd by thf rfndfring. Nffd to widfn,
+     * bnd blso bdjust by onf thf x position bt whidh it is rfndfrfd.
+     * Thf fxtrb pixfls of width brf usfd bs follows :
+     * Onf fxtrb pixfl bt thf lfft bnd thf right will bf nffdfd to bbsorb
+     * thf pixfls thbt will bf toudhfd by filtfring by GDI to dompfnsbtf
+     * for dolour fringing.
+     * Howfvfr thfrf sffm to bf somf dbsfs whfrf GDI rfndfrs two fxtrb
+     * pixfls to thf right, so wf bdd onf bdditionbl pixfl to thf right,
+     * bnd in thf dodf thbt dopifs this to thf imbgf dbdhf wf tfst for
+     * thf (rbrf) dbsfs whfn this is toudhfd, bnd if its not rfdudf thf
+     * stbtfd imbgf width for thf blitting loops.
+     * For frbdtionbl mftrids :
+     * Onf fxtrb pixfl bt fbdh fnd to bddount for sub-pixfl positioning usfd
+     * whfn frbdtionbl mftrids is on in LCD modf.
+     * Thf pixfl bt thf lfft is nffdfd so thf blitting loop dbn indfx into
+     * thbt b bytf bt b timf to morf bddurbtfly position thf glyph.
+     * Thf pixfl bt thf right is nffdfd so thbt whfn sudh indfxing hbppfns,
+     * thf blitting still dbn usf thf sbmf width.
+     * Consfqufntly thf width thbt is spfdififd for thf glyph is onf lfss
+     * thbn thbt of thf bdtubl imbgf.
+     * Notf thbt in thf FM dbsf bs b donsfqufndf wf nffd to bdjust thf
+     * position bt whidh GDI rfndfrs, bnd thf dfdlbrfd width of thf glyph
+     * Sff thf if (fm) {} dbsfs in thf dodf.
+     * For thf non-FM dbsf, wf not only sbvf 3 bytfs pfr row, but this
+     * prfvfnts bppbrfnt glyph ovfrlbpping whidh bfffdts thf rfndfring
+     * pfrformbndf of bddflfrbtfd pipflinfs sindf it bdds bdditionbl
+     * rfbd-bbdk rfquirfmfnts.
+     */
+    width+=3;
+    if (fm) {
+        width+=1;
+    }
+    /* DIB sdbnlinf must fnd on b DWORD boundbry. Wf spfdify 3 bytfs pfr pixfl,
+     * so must round up bs nffdfd to b multiplf of 4 bytfs.
+     */
+    dibBytfsWidth = bytfsWidth = width*3;
+    fxtrb = dibBytfsWidth % 4;
+    if (fxtrb != 0) {
+        dibBytfsWidth += (4-fxtrb);
+    }
+    /* Thf glyph dbdhf imbgf must bf b multiplf of 3 bytfs widf. */
+    fxtrb = bytfsWidth % 3;
+    if (fxtrb != 0) {
+        bytfsWidth += (3-fxtrb);
+    }
+    bmWidth = width;
+    bmHfight = hfight;
+
+    /* Must usf dfsktop DC to drfbtf b bitmbp of thbt dfpth */
+    hBitmbp = CrfbtfCompbtiblfBitmbp(hDfsktopDC, bmWidth, bmHfight);
+    if (hBitmbp == NULL) {
+        FREE_AND_RETURN;
+    }
+    hOrigBM = (HBITMAP)SflfdtObjfdt(hMfmoryDC, hBitmbp);
+
+    /* Fill in blbdk */
+    rfdt.lfft = 0;
+    rfdt.top = 0;
+    rfdt.right = bmWidth;
+    rfdt.bottom = bmHfight;
+    FillRfdt(hMfmoryDC, (LPRECT)&rfdt, GftStodkObjfdt(BLACK_BRUSH));
+
+    /* Sft tfxt dolor to whitf, bbdkground to blbdk. */
+    SftBkColor(hMfmoryDC, RGB(0,0,0));
+    SftTfxtColor(hMfmoryDC, RGB(255,255,255));
+
+    /* bdjust rfndfring position */
+    x = -topLfftX+1;
+    if (fm) {
+        x += 1;
+    }
+    y = topLfftY - tfxtMftrid.tmAsdfnt;
+    frr = ExtTfxtOutW(hMfmoryDC, x, y, ETO_GLYPH_INDEX|ETO_OPAQUE,
+                (LPRECT)&rfdt, (LPCWSTR)&glyphCodf, 1, NULL);
+    if (frr == 0) {
+        FREE_AND_RETURN;
+    }
+
+    /* Now gft thf imbgf into b DIB.
+     * MS dods for GftDIBits sbys thf dompbtiblf bitmbp must not bf
+     * sflfdtfd into b DC, so rfstorf thf originbl first.
+     */
+    SflfdtObjfdt(hMfmoryDC, hOrigBM);
+    SflfdtObjfdt(hMfmoryDC, oldFont);
+    DflftfObjfdt(hFont);
+
+    mfmsft(&bmi, 0, sizfof(BITMAPINFO));
+    bmi.bmiHfbdfr.biSizf = sizfof(bmi.bmiHfbdfr);
+    bmi.bmiHfbdfr.biWidth = width;
+    bmi.bmiHfbdfr.biHfight = -hfight;
+    bmi.bmiHfbdfr.biPlbnfs = 1;
+    bmi.bmiHfbdfr.biBitCount = 24;
+    bmi.bmiHfbdfr.biComprfssion = BI_RGB;
+
+    dibImbgf = SAFE_SIZE_ARRAY_ALLOC(mbllod, dibBytfsWidth, hfight);
+    if (dibImbgf == NULL) {
+        FREE_AND_RETURN;
+    }
+    dibImbgfSizf = dibBytfsWidth*hfight;
+    mfmsft(dibImbgf, 0, dibImbgfSizf);
+
+    frr = GftDIBits(hMfmoryDC, hBitmbp, 0, hfight, dibImbgf,
+                    &bmi, DIB_RGB_COLORS);
+
+    if (frr == 0) {        /* GftDIBits fbilfd. */
+        FREE_AND_RETURN;
+    }
+
+    frr = SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGORIENTATION, 0, &orifnt, 0);
+    if (frr == 0) {
+        FREE_AND_RETURN;
+    }
+    frr = SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0, &gbmmb, 0);
+    if (frr == 0) {
+        FREE_AND_RETURN;
+    }
+    igTbblf = gftIGTbblf(gbmmb/10);
+    if (igTbblf == NULL) {
+        FREE_AND_RETURN;
+    }
+
+    /* Now dopy glyph imbgf into b GlyphInfo strudturf bnd rfturn it.
+     * NB thf xbdvbndf dbldulbtfd hfrf mby bf ovfrwrittfn by thf dbllfr.
+     * 1 is subtrbdtfd from thf bitmbp width to gft thf glyph width, sindf
+     * thbt fxtrb "1" wbs bddfd bs pbdding, so thf sub-pixfl positioning of
+     * frbdtionbl mftrids dould indfx into it.
+     */
+    glyphInfo = (GlyphInfo*)SAFE_SIZE_STRUCT_ALLOC(mbllod, sizfof(GlyphInfo),
+            bytfsWidth, hfight);
+    if (glyphInfo == NULL) {
+        FREE_AND_RETURN;
+    }
+    imbgfSizf = bytfsWidth*hfight;
+    glyphInfo->dfllInfo = NULL;
+    glyphInfo->rowBytfs = bytfsWidth;
+    glyphInfo->width = width;
+    if (fm) {
+        glyphInfo->width -= 1; // must subtrbdt 1
+    }
+    glyphInfo->hfight = hfight;
+    glyphInfo->bdvbndfX = bdvbndfX;
+    glyphInfo->bdvbndfY = bdvbndfY;
+    glyphInfo->topLfftX = (flobt)(topLfftX-1);
+    if (fm) {
+        glyphInfo->topLfftX -= 1;
+    }
+    glyphInfo->topLfftY = (flobt)-topLfftY;
+    glyphInfo->imbgf = (unsignfd dhbr*)glyphInfo+sizfof(GlyphInfo);
+    mfmsft(glyphInfo->imbgf, 0, imbgfSizf);
+
+    /* DIB 24bpp dbtb is blwbys storfd in BGR ordfr, but wf usublly
+     * nffd this in RGB, so wf dbn't just mfmdpy bnd nffd to swbp B bnd R.
+     * Also nffd to bpply invfrsf gbmmb bdjustmfnt hfrf.
+     * Wf rf-usf thf vbribblf "fxtrb" to sff if thf lbst pixfl is toudhfd
+     * bt bll. If its not wf dbn rfdudf thf glyph imbgf width. This domfs
+     * into plby in somf dbsfs whfrf GDI toudhfs morf pixfls thbn bddountfd
+     * for by indrfbsing width by two pixfls ovfr thf B&W imbgf. Whilst
+     * thf bytfs brf in thf dbdhf, it dofsn't bfffdt rfndfring pfrformbndf
+     * of thf hbrdwbrf pipflinfs.
+     */
+    fxtrb = 0;
+    if (fm) {
+        fxtrb = 1; // blwbys nffd it.
+    }
+    dibRowPtr = dibImbgf;
+    rowPtr = glyphInfo->imbgf;
+    for (y=0;y<hfight;y++) {
+        pixflPtr = rowPtr;
+        dibPixPtr = dibRowPtr;
+        for (x=0;x<width;x++) {
+            if (orifnt == FE_FONTSMOOTHINGORIENTATIONRGB) {
+                b = *dibPixPtr++;
+                g = *dibPixPtr++;
+                r = *dibPixPtr++;
+            } flsf {
+                r = *dibPixPtr++;
+                g = *dibPixPtr++;
+                b = *dibPixPtr++;
+            }
+            *pixflPtr++ = igTbblf[r];
+            *pixflPtr++ = igTbblf[g];
+            *pixflPtr++ = igTbblf[b];
+            if (!fm && (x==(width-1)) && (r|g|b)) {
+                fxtrb = 1;
+            }
+        }
+        dibRowPtr += dibBytfsWidth;
+        rowPtr  += bytfsWidth;
+    }
+    if (!fxtrb) {
+        glyphInfo->width -= 1;
+    }
+
+    frff(dibImbgf);
+    RflfbsfDC(hWnd, hDfsktopDC);
+    DflftfObjfdt(hMfmoryDC);
+    DflftfObjfdt(hBitmbp);
+
+    rfturn ptr_to_jlong(glyphInfo);
+}

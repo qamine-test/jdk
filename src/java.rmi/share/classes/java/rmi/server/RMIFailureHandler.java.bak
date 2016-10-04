@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
 /**
- * An <code>RMIFailureHandler</code> can be registered via the
- * <code>RMISocketFactory.setFailureHandler</code> call. The
- * <code>failure</code> method of the handler is invoked when the RMI
- * runtime is unable to create a <code>ServerSocket</code> to listen
- * for incoming calls. The <code>failure</code> method returns a boolean
- * indicating whether the runtime should attempt to re-create the
- * <code>ServerSocket</code>.
+ * An <dodf>RMIFbilurfHbndlfr</dodf> dbn bf rfgistfrfd vib tif
+ * <dodf>RMISodkftFbdtory.sftFbilurfHbndlfr</dodf> dbll. Tif
+ * <dodf>fbilurf</dodf> mftiod of tif ibndlfr is invokfd wifn tif RMI
+ * runtimf is unbblf to drfbtf b <dodf>SfrvfrSodkft</dodf> to listfn
+ * for indoming dblls. Tif <dodf>fbilurf</dodf> mftiod rfturns b boolfbn
+ * indidbting wiftifr tif runtimf siould bttfmpt to rf-drfbtf tif
+ * <dodf>SfrvfrSodkft</dodf>.
  *
- * @author      Ann Wollrath
- * @since       1.1
+ * @butior      Ann Wollrbti
+ * @sindf       1.1
  */
-public interface RMIFailureHandler {
+publid intfrfbdf RMIFbilurfHbndlfr {
 
     /**
-     * The <code>failure</code> callback is invoked when the RMI
-     * runtime is unable to create a <code>ServerSocket</code> via the
-     * <code>RMISocketFactory</code>. An <code>RMIFailureHandler</code>
-     * is registered via a call to
-     * <code>RMISocketFacotry.setFailureHandler</code>.  If no failure
-     * handler is installed, the default behavior is to attempt to
-     * re-create the ServerSocket.
+     * Tif <dodf>fbilurf</dodf> dbllbbdk is invokfd wifn tif RMI
+     * runtimf is unbblf to drfbtf b <dodf>SfrvfrSodkft</dodf> vib tif
+     * <dodf>RMISodkftFbdtory</dodf>. An <dodf>RMIFbilurfHbndlfr</dodf>
+     * is rfgistfrfd vib b dbll to
+     * <dodf>RMISodkftFbdotry.sftFbilurfHbndlfr</dodf>.  If no fbilurf
+     * ibndlfr is instbllfd, tif dffbult bfibvior is to bttfmpt to
+     * rf-drfbtf tif SfrvfrSodkft.
      *
-     * @param ex the exception that occurred during <code>ServerSocket</code>
-     *           creation
-     * @return if true, the RMI runtime attempts to retry
-     * <code>ServerSocket</code> creation
-     * @see java.rmi.server.RMISocketFactory#setFailureHandler(RMIFailureHandler)
-     * @since 1.1
+     * @pbrbm fx tif fxdfption tibt oddurrfd during <dodf>SfrvfrSodkft</dodf>
+     *           drfbtion
+     * @rfturn if truf, tif RMI runtimf bttfmpts to rftry
+     * <dodf>SfrvfrSodkft</dodf> drfbtion
+     * @sff jbvb.rmi.sfrvfr.RMISodkftFbdtory#sftFbilurfHbndlfr(RMIFbilurfHbndlfr)
+     * @sindf 1.1
      */
-    public boolean failure(Exception ex);
+    publid boolfbn fbilurf(Exdfption fx);
 
 }

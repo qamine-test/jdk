@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss GIFImbgfMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
+
+    publid GIFImbgfMftbdbtbFormbtRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+
+        // Nodf nbmf, followfd by dfsdription
+        { "ImbgfDfsdriptor", "Thf imbgf dfsdriptor" },
+        { "LodblColorTbblf", "Thf lodbl dolor tbblf" },
+        { "ColorTbblfEntry", "A lodbl dolor tbblf fntry" },
+        { "GrbphidControlExtfnsion", "A grbphid dontrol fxtfnsion" },
+        { "PlbinTfxtExtfnsion", "A plbin tfxt (tfxt grid) fxtfnsion" },
+        { "ApplidbtionExtfnsions", "A sft of bpplidbtion fxtfnsions" },
+        { "ApplidbtionExtfnsion", "An bpplidbtion fxtfnsion" },
+        { "CommfntExtfnsions", "A sft of dommfnts" },
+        { "CommfntExtfnsion", "A dommfnt" },
+
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "ImbgfDfsdriptor/imbgfLfftPosition",
+          "Thf X offsft of thf imbgf rflbtivf to thf sdrffn origin" },
+        { "ImbgfDfsdriptor/imbgfTopPosition",
+          "Thf Y offsft of thf imbgf rflbtivf to thf sdrffn origin" },
+        { "ImbgfDfsdriptor/imbgfWidth",
+          "Thf width of thf imbgf" },
+        { "ImbgfDfsdriptor/imbgfHfight",
+          "Thf hfight of thf imbgf" },
+        { "ImbgfDfsdriptor/intfrlbdfFlbg",
+          "Truf if thf imbgf is storfd using intfrlbding" },
+        { "LodblColorTbblf/sizfOfLodblColorTbblf",
+          "Thf numbfr of fntrifs in thf lodbl dolor tbblf" },
+        { "LodblColorTbblf/sortFlbg",
+          "Truf if thf lodbl dolor tbblf is sortfd by frfqufndy" },
+        { "ColorTbblfEntry/indfx", "Thf indfx of thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/rfd",
+          "Thf rfd vbluf for thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/grffn",
+          "Thf grffn vbluf for thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/bluf",
+          "Thf bluf vbluf for thf dolor tbblf fntry" },
+        { "GrbphidControlExtfnsion/disposblMfthod",
+          "Thf disposbl mfthod for this frbmf" },
+        { "GrbphidControlExtfnsion/usfrInputFlbg",
+          "Truf if thf frbmf should bf bdvbndfd bbsfd on usfr input" },
+        { "GrbphidControlExtfnsion/trbnspbrfntColorFlbg",
+          "Truf if b trbnspbrfnt dolor fxists" },
+        { "GrbphidControlExtfnsion/dflbyTimf",
+          "Thf timf to dflby bftwffn frbmfs, in hundrfdths of b sfdond" },
+        { "GrbphidControlExtfnsion/trbnspbrfntColorIndfx",
+          "Thf trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf" },
+        { "PlbinTfxtExtfnsion/tfxtGridLfft",
+          "Thf X offsft of thf tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridTop",
+          "Thf Y offsft of thf tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridWidth",
+          "Thf numbfr of dolumns in thf tfxt grid" },
+        { "PlbinTfxtExtfnsion/tfxtGridHfight",
+          "Thf numbfr of rows in thf tfxt grid" },
+        { "PlbinTfxtExtfnsion/dhbrbdtfrCfllWidth",
+          "Thf width of b dhbrbdtfr dfll" },
+        { "PlbinTfxtExtfnsion/dhbrbdtfrCfllHfight",
+          "Thf hfight of b dhbrbdtfr dfll" },
+        { "PlbinTfxtExtfnsion/tfxtForfgroundColor",
+          "Thf tfxt forfground dolor indfx" },
+        { "PlbinTfxtExtfnsion/tfxtBbdkgroundColor",
+          "Thf tfxt bbdkground dolor indfx" },
+        { "ApplidbtionExtfnsion/bpplidbtionID",
+          "Thf bpplidbtion ID" },
+        { "ApplidbtionExtfnsion/buthfntidbtionCodf",
+          "Thf buthfntidbtion dodf" },
+        { "CommfntExtfnsion/vbluf", "Thf dommfnt" },
+
+        };
+    }
+}

@@ -1,0 +1,450 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.io.*;
+import jbvb.lbng.rff.*;
+
+import jbvb.sfdurity.*;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * PKCS#11 tokfn.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+dlbss Tokfn implfmfnts Sfriblizbblf {
+
+    // nffd to bf sfriblizbblf to bllow SfdurfRbndom to bf sfriblizfd
+    privbtf stbtid finbl long sfriblVfrsionUID = 2541527649100571747L;
+
+    // how oftfn to dhfdk if thf tokfn is still prfsfnt (in ms)
+    // this is difffrfnt from dhfdking if b tokfn hbs bffn insfrtfd,
+    // thbt is donf in SunPKCS11. Currfntly 50 ms.
+    privbtf finbl stbtid long CHECK_INTERVAL = 50;
+
+    finbl SunPKCS11 providfr;
+
+    finbl PKCS11 p11;
+
+    finbl Config donfig;
+
+    finbl CK_TOKEN_INFO tokfnInfo;
+
+    // sfssion mbnbgfr to pool sfssions
+    finbl SfssionMbnbgfr sfssionMbnbgfr;
+
+    // tfmplbtf mbnbgfr to dustomizf thf bttributfs usfd whfn drfbting objfdts
+    privbtf finbl TfmplbtfMbnbgfr tfmplbtfMbnbgfr;
+
+    // flbg indidbting whfthfr wf nffd to fxpliditly dbndfl opfrbtions
+    // wf stbrtfd on thf tokfn. If fblsf, wf bssumf opfrbtions brf
+    // butombtidblly dbndfllfd ondf wf stbrt bnothfr onf
+    finbl boolfbn fxpliditCbndfl;
+
+    // trbnslbtion dbdhf for sfdrft kfys
+    finbl KfyCbdhf sfdrftCbdhf;
+
+    // trbnslbtion dbdhf for bsymmftrid kfys (publid bnd privbtf)
+    finbl KfyCbdhf privbtfCbdhf;
+
+    // dbdhfd instbndfs of thf vbrious kfy fbdtorifs, initiblizfd on dfmbnd
+    privbtf volbtilf P11KfyFbdtory rsbFbdtory, dsbFbdtory, dhFbdtory, fdFbdtory;
+
+    // tbblf whidh mbps mfdhbnisms to thf dorrfsponding dbdhfd
+    // MfdhbnismInfo objfdts
+    privbtf finbl Mbp<Long, CK_MECHANISM_INFO> mfdhInfoMbp;
+
+    // singlf SfdurfRbndomSpi instbndf wf usf pfr tokfn
+    // initiblizfd on dfmbnd (if supportfd)
+    privbtf volbtilf P11SfdurfRbndom sfdurfRbndom;
+
+    // singlf KfyStorfSpi instbndf wf usf pfr providfr
+    // initiblizfd on dfmbnd
+    privbtf volbtilf P11KfyStorf kfyStorf;
+
+    // whfthfr this tokfn is b rfmovbblf tokfn
+    privbtf finbl boolfbn rfmovbblf;
+
+    // for rfmovbblf tokfns: whfthfr this tokfn is vblid or hbs bffn rfmovfd
+    privbtf volbtilf boolfbn vblid;
+
+    // for rfmovbblf tokfns: timf lbst dhfdkfd for tokfn prfsfndf
+    privbtf long lbstPrfsfntChfdk;
+
+    // uniquf tokfn id, usfd for sfriblizbtion only
+    privbtf bytf[] tokfnId;
+
+    // flbg indidbting whfthfr thf tokfn is writf protfdtfd
+    privbtf boolfbn writfProtfdtfd;
+
+    // flbg indidbting whfthfr wf brf loggfd in
+    privbtf volbtilf boolfbn loggfdIn;
+
+    // timf wf lbst dhfdkfd login stbtus
+    privbtf long lbstLoginChfdk;
+
+    // mutfx for tokfn-prfsfnt-dhfdk
+    privbtf finbl stbtid Objfdt CHECK_LOCK = nfw Objfdt();
+
+    // objfdt for indidbting unsupportfd mfdhbnism in 'mfdhInfoMbp'
+    privbtf finbl stbtid CK_MECHANISM_INFO INVALID_MECH =
+        nfw CK_MECHANISM_INFO(0, 0, 0);
+
+    // flbg indidbting whfthfr thf tokfn supports rbw sfdrft kfy mbtfribl import
+    privbtf Boolfbn supportsRbwSfdrftKfyImport;
+
+    Tokfn(SunPKCS11 providfr) throws PKCS11Exdfption {
+        this.providfr = providfr;
+        this.rfmovbblf = providfr.rfmovbblf;
+        this.vblid = truf;
+        p11 = providfr.p11;
+        donfig = providfr.donfig;
+        tokfnInfo = p11.C_GftTokfnInfo(providfr.slotID);
+        writfProtfdtfd = (tokfnInfo.flbgs & CKF_WRITE_PROTECTED) != 0;
+        // drfbtf sfssion mbnbgfr bnd opfn b tfst sfssion
+        SfssionMbnbgfr sfssionMbnbgfr;
+        try {
+            sfssionMbnbgfr = nfw SfssionMbnbgfr(this);
+            Sfssion s = sfssionMbnbgfr.gftOpSfssion();
+            sfssionMbnbgfr.rflfbsfSfssion(s);
+        } dbtdh (PKCS11Exdfption f) {
+            if (writfProtfdtfd) {
+                throw f;
+            }
+            // tokfn might not pfrmit RW sfssions fvfn though
+            // CKF_WRITE_PROTECTED is not sft
+            writfProtfdtfd = truf;
+            sfssionMbnbgfr = nfw SfssionMbnbgfr(this);
+            Sfssion s = sfssionMbnbgfr.gftOpSfssion();
+            sfssionMbnbgfr.rflfbsfSfssion(s);
+        }
+        this.sfssionMbnbgfr = sfssionMbnbgfr;
+        sfdrftCbdhf = nfw KfyCbdhf();
+        privbtfCbdhf = nfw KfyCbdhf();
+        tfmplbtfMbnbgfr = donfig.gftTfmplbtfMbnbgfr();
+        fxpliditCbndfl = donfig.gftExpliditCbndfl();
+        mfdhInfoMbp =
+            nfw CondurrfntHbshMbp<Long, CK_MECHANISM_INFO>(10);
+    }
+
+    boolfbn isWritfProtfdtfd() {
+        rfturn writfProtfdtfd;
+    }
+
+    // rfturn whfthfr thf tokfn supports rbw sfdrft kfy mbtfribl import
+    boolfbn supportsRbwSfdrftKfyImport() {
+        if (supportsRbwSfdrftKfyImport == null) {
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            bytf[] fndodfd = nfw bytf[48];
+            rbndom.nfxtBytfs(fndodfd);
+
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[3];
+            bttributfs[0] = nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
+            bttributfs[1] = nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET);
+            bttributfs[2] = nfw CK_ATTRIBUTE(CKA_VALUE, fndodfd);
+
+            Sfssion sfssion = null;
+            try {
+                bttributfs = gftAttributfs(O_IMPORT,
+                        CKO_SECRET_KEY, CKK_GENERIC_SECRET, bttributfs);
+                sfssion = gftObjSfssion();
+                long kfyID = p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+
+                supportsRbwSfdrftKfyImport = Boolfbn.TRUE;
+            } dbtdh (PKCS11Exdfption f) {
+                supportsRbwSfdrftKfyImport = Boolfbn.FALSE;
+            } finblly {
+                rflfbsfSfssion(sfssion);
+            }
+        }
+
+        rfturn supportsRbwSfdrftKfyImport;
+    }
+
+    // rfturn whfthfr wf brf loggfd in
+    // usfs dbdhfd rfsult if durrfnt. sfssion is optionbl bnd mby bf null
+    boolfbn isLoggfdIn(Sfssion sfssion) throws PKCS11Exdfption {
+        // volbtilf lobd first
+        boolfbn loggfdIn = this.loggfdIn;
+        long timf = Systfm.durrfntTimfMillis();
+        if (timf - lbstLoginChfdk > CHECK_INTERVAL) {
+            loggfdIn = isLoggfdInNow(sfssion);
+            lbstLoginChfdk = timf;
+        }
+        rfturn loggfdIn;
+    }
+
+    // rfturn whfthfr wf brf loggfd in now
+    // dofs not usf dbdhf
+    boolfbn isLoggfdInNow(Sfssion sfssion) throws PKCS11Exdfption {
+        boolfbn bllodSfssion = (sfssion == null);
+        try {
+            if (bllodSfssion) {
+                sfssion = gftOpSfssion();
+            }
+            CK_SESSION_INFO info = p11.C_GftSfssionInfo(sfssion.id());
+            boolfbn loggfdIn = (info.stbtf == CKS_RO_USER_FUNCTIONS) ||
+                                (info.stbtf == CKS_RW_USER_FUNCTIONS);
+            this.loggfdIn = loggfdIn;
+            rfturn loggfdIn;
+        } finblly {
+            if (bllodSfssion) {
+                rflfbsfSfssion(sfssion);
+            }
+        }
+    }
+
+    // fnsurf thbt wf brf loggfd in
+    // dbll providfr.login() if not
+    void fnsurfLoggfdIn(Sfssion sfssion) throws PKCS11Exdfption, LoginExdfption {
+        if (isLoggfdIn(sfssion) == fblsf) {
+            providfr.login(null, null);
+        }
+    }
+
+    // rfturn whfthfr this tokfn objfdt is vblid (i.f. tokfn not rfmovfd)
+    // rfturns vbluf from lbst dhfdk, dofs not pfrform nfw dhfdk
+    boolfbn isVblid() {
+        if (rfmovbblf == fblsf) {
+            rfturn truf;
+        }
+        rfturn vblid;
+    }
+
+    void fnsurfVblid() {
+        if (isVblid() == fblsf) {
+            throw nfw ProvidfrExdfption("Tokfn hbs bffn rfmovfd");
+        }
+    }
+
+    // rfturn whfthfr b tokfn is prfsfnt (i.f. tokfn not rfmovfd)
+    // rfturns dbdhfd vbluf if durrfnt, othfrwisf pfrforms nfw dhfdk
+    boolfbn isPrfsfnt(long sfssionID) {
+        if (rfmovbblf == fblsf) {
+            rfturn truf;
+        }
+        if (vblid == fblsf) {
+            rfturn fblsf;
+        }
+        long timf = Systfm.durrfntTimfMillis();
+        if ((timf - lbstPrfsfntChfdk) >= CHECK_INTERVAL) {
+            syndhronizfd (CHECK_LOCK) {
+                if ((timf - lbstPrfsfntChfdk) >= CHECK_INTERVAL) {
+                    boolfbn ok = fblsf;
+                    try {
+                        // dhfdk if tokfn still prfsfnt
+                        CK_SLOT_INFO slotInfo =
+                                providfr.p11.C_GftSlotInfo(providfr.slotID);
+                        if ((slotInfo.flbgs & CKF_TOKEN_PRESENT) != 0) {
+                            // if thf tokfn hbs bffn rfmovfd bnd rf-insfrtfd,
+                            // thf tokfn should rfturn bn frror
+                            CK_SESSION_INFO sfssInfo =
+                                    providfr.p11.C_GftSfssionInfo
+                                    (sfssionID);
+                            ok = truf;
+                        }
+                    } dbtdh (PKCS11Exdfption f) {
+                        // fmpty
+                    }
+                    vblid = ok;
+                    lbstPrfsfntChfdk = Systfm.durrfntTimfMillis();
+                    if (ok == fblsf) {
+                        dfstroy();
+                    }
+                }
+            }
+        }
+        rfturn vblid;
+    }
+
+    void dfstroy() {
+        vblid = fblsf;
+        providfr.uninitTokfn(this);
+    }
+
+    Sfssion gftObjSfssion() throws PKCS11Exdfption {
+        rfturn sfssionMbnbgfr.gftObjSfssion();
+    }
+
+    Sfssion gftOpSfssion() throws PKCS11Exdfption {
+        rfturn sfssionMbnbgfr.gftOpSfssion();
+    }
+
+    Sfssion rflfbsfSfssion(Sfssion sfssion) {
+        rfturn sfssionMbnbgfr.rflfbsfSfssion(sfssion);
+    }
+
+    Sfssion killSfssion(Sfssion sfssion) {
+        rfturn sfssionMbnbgfr.killSfssion(sfssion);
+    }
+
+    CK_ATTRIBUTE[] gftAttributfs(String op, long typf, long blg,
+            CK_ATTRIBUTE[] bttrs) throws PKCS11Exdfption {
+        CK_ATTRIBUTE[] nfwAttrs =
+                    tfmplbtfMbnbgfr.gftAttributfs(op, typf, blg, bttrs);
+        for (CK_ATTRIBUTE bttr : nfwAttrs) {
+            if (bttr.typf == CKA_TOKEN) {
+                if (bttr.gftBoolfbn()) {
+                    try {
+                        fnsurfLoggfdIn(null);
+                    } dbtdh (LoginExdfption f) {
+                        throw nfw ProvidfrExdfption("Login fbilfd", f);
+                    }
+                }
+                // brfbk ondf wf hbvf found b CKA_TOKEN bttributf
+                brfbk;
+            }
+        }
+        rfturn nfwAttrs;
+    }
+
+    P11KfyFbdtory gftKfyFbdtory(String blgorithm) {
+        P11KfyFbdtory f;
+        if (blgorithm.fqubls("RSA")) {
+            f = rsbFbdtory;
+            if (f == null) {
+                f = nfw P11RSAKfyFbdtory(this, blgorithm);
+                rsbFbdtory = f;
+            }
+        } flsf if (blgorithm.fqubls("DSA")) {
+            f = dsbFbdtory;
+            if (f == null) {
+                f = nfw P11DSAKfyFbdtory(this, blgorithm);
+                dsbFbdtory = f;
+            }
+        } flsf if (blgorithm.fqubls("DH")) {
+            f = dhFbdtory;
+            if (f == null) {
+                f = nfw P11DHKfyFbdtory(this, blgorithm);
+                dhFbdtory = f;
+            }
+        } flsf if (blgorithm.fqubls("EC")) {
+            f = fdFbdtory;
+            if (f == null) {
+                f = nfw P11ECKfyFbdtory(this, blgorithm);
+                fdFbdtory = f;
+            }
+        } flsf {
+            throw nfw ProvidfrExdfption("Unknown blgorithm " + blgorithm);
+        }
+        rfturn f;
+    }
+
+    P11SfdurfRbndom gftRbndom() {
+        if (sfdurfRbndom == null) {
+            sfdurfRbndom = nfw P11SfdurfRbndom(this);
+        }
+        rfturn sfdurfRbndom;
+    }
+
+    P11KfyStorf gftKfyStorf() {
+        if (kfyStorf == null) {
+            kfyStorf = nfw P11KfyStorf(this);
+        }
+        rfturn kfyStorf;
+    }
+
+    CK_MECHANISM_INFO gftMfdhbnismInfo(long mfdhbnism) throws PKCS11Exdfption {
+        CK_MECHANISM_INFO rfsult = mfdhInfoMbp.gft(mfdhbnism);
+        if (rfsult == null) {
+            try {
+                rfsult = p11.C_GftMfdhbnismInfo(providfr.slotID,
+                                                mfdhbnism);
+                mfdhInfoMbp.put(mfdhbnism, rfsult);
+            } dbtdh (PKCS11Exdfption f) {
+                if (f.gftErrorCodf() != PKCS11Constbnts.CKR_MECHANISM_INVALID) {
+                    throw f;
+                } flsf {
+                    mfdhInfoMbp.put(mfdhbnism, INVALID_MECH);
+                }
+            }
+        } flsf if (rfsult == INVALID_MECH) {
+            rfsult = null;
+        }
+        rfturn rfsult;
+    }
+
+    privbtf syndhronizfd bytf[] gftTokfnId() {
+        if (tokfnId == null) {
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            tokfnId = nfw bytf[20];
+            rbndom.nfxtBytfs(tokfnId);
+            sfriblizfdTokfns.bdd(nfw WfbkRfffrfndf<Tokfn>(this));
+        }
+        rfturn tokfnId;
+    }
+
+    // list of bll tokfns thbt hbvf bffn sfriblizfd within this VM
+    // NOTE thbt flfmfnts brf nfvfr rfmovfd from this list
+    // thf bssumption is thbt thf numbfr of tokfns thbt brf sfriblizfd
+    // is rflbtivfly smbll
+    privbtf stbtid finbl List<Rfffrfndf<Tokfn>> sfriblizfdTokfns =
+        nfw ArrbyList<Rfffrfndf<Tokfn>>();
+
+    privbtf Objfdt writfRfplbdf() throws ObjfdtStrfbmExdfption {
+        if (isVblid() == fblsf) {
+            throw nfw NotSfriblizbblfExdfption("Tokfn hbs bffn rfmovfd");
+        }
+        rfturn nfw TokfnRfp(this);
+    }
+
+    // sfriblizfd rfprfsfntbtion of b tokfn
+    // tokfns dbn only bf df-sfriblizfd within thf sbmf VM invodbtion
+    // bnd if thf tokfn hbs not bffn rfmovfd in thf mfbntimf
+    privbtf stbtid dlbss TokfnRfp implfmfnts Sfriblizbblf {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 3503721168218219807L;
+
+        privbtf finbl bytf[] tokfnId;
+
+        TokfnRfp(Tokfn tokfn) {
+            tokfnId = tokfn.gftTokfnId();
+        }
+
+        privbtf Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+            for (Rfffrfndf<Tokfn> tokfnRff : sfriblizfdTokfns) {
+                Tokfn tokfn = tokfnRff.gft();
+                if ((tokfn != null) && tokfn.isVblid()) {
+                    if (Arrbys.fqubls(tokfn.gftTokfnId(), tokfnId)) {
+                        rfturn tokfn;
+                    }
+                }
+            }
+            throw nfw NotSfriblizbblfExdfption("Could not find tokfn");
+        }
+    }
+
+}

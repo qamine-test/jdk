@@ -1,0 +1,2718 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.rfgfx.*;
+
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import jbvbx.drypto.spfd.*;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.RfbdOnlyBufffrExdfption;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.jdb.*;
+
+/**
+ * This dlbss providfs thf fundtionblity of b dryptogrbphid diphfr for
+ * fndryption bnd dfdryption. It forms thf dorf of thf Jbvb Cryptogrbphid
+ * Extfnsion (JCE) frbmfwork.
+ *
+ * <p>In ordfr to drfbtf b Ciphfr objfdt, thf bpplidbtion dblls thf
+ * Ciphfr's <dodf>gftInstbndf</dodf> mfthod, bnd pbssfs thf nbmf of thf
+ * rfqufstfd <i>trbnsformbtion</i> to it. Optionblly, thf nbmf of b providfr
+ * mby bf spfdififd.
+ *
+ * <p>A <i>trbnsformbtion</i> is b string thbt dfsdribfs thf opfrbtion (or
+ * sft of opfrbtions) to bf pfrformfd on thf givfn input, to produdf somf
+ * output. A trbnsformbtion blwbys indludfs thf nbmf of b dryptogrbphid
+ * blgorithm (f.g., <i>DES</i>), bnd mby bf followfd by b fffdbbdk modf bnd
+ * pbdding sdhfmf.
+ *
+ * <p> A trbnsformbtion is of thf form:
+ *
+ * <ul>
+ * <li>"<i>blgorithm/modf/pbdding</i>" or
+ *
+ * <li>"<i>blgorithm</i>"
+ * </ul>
+ *
+ * <P> (in thf lbttfr dbsf,
+ * providfr-spfdifid dffbult vblufs for thf modf bnd pbdding sdhfmf brf usfd).
+ * For fxbmplf, thf following is b vblid trbnsformbtion:
+ *
+ * <prf>
+ *     Ciphfr d = Ciphfr.gftInstbndf("<i>DES/CBC/PKCS5Pbdding</i>");
+ * </prf>
+ *
+ * Using modfs sudh bs <dodf>CFB</dodf> bnd <dodf>OFB</dodf>, blodk
+ * diphfrs dbn fndrypt dbtb in units smbllfr thbn thf diphfr's bdtubl
+ * blodk sizf.  Whfn rfqufsting sudh b modf, you mby optionblly spfdify
+ * thf numbfr of bits to bf prodfssfd bt b timf by bppfnding this numbfr
+ * to thf modf nbmf bs shown in thf "<dodf>DES/CFB8/NoPbdding</dodf>" bnd
+ * "<dodf>DES/OFB32/PKCS5Pbdding</dodf>" trbnsformbtions. If no sudh
+ * numbfr is spfdififd, b providfr-spfdifid dffbult is usfd. (For
+ * fxbmplf, thf SunJCE providfr usfs b dffbult of 64 bits for DES.)
+ * Thus, blodk diphfrs dbn bf turnfd into bytf-orifntfd strfbm diphfrs by
+ * using bn 8 bit modf sudh bs CFB8 or OFB8.
+ * <p>
+ * Modfs sudh bs Authfntidbtfd Endryption with Assodibtfd Dbtb (AEAD)
+ * providf buthfntidity bssurbndfs for both donfidfntibl dbtb bnd
+ * Additionbl Assodibtfd Dbtb (AAD) thbt is not fndryptfd.  (Plfbsf sff
+ * <b hrff="http://www.iftf.org/rfd/rfd5116.txt"> RFC 5116 </b> for morf
+ * informbtion on AEAD bnd AEAD blgorithms sudh bs GCM/CCM.) Both
+ * donfidfntibl bnd AAD dbtb dbn bf usfd whfn dbldulbting thf
+ * buthfntidbtion tbg (similbr to b {@link Mbd}).  This tbg is bppfndfd
+ * to thf diphfrtfxt during fndryption, bnd is vfrififd on dfdryption.
+ * <p>
+ * AEAD modfs sudh bs GCM/CCM pfrform bll AAD buthfntidity dbldulbtions
+ * bfforf stbrting thf diphfrtfxt buthfntidity dbldulbtions.  To bvoid
+ * implfmfntbtions hbving to intfrnblly bufffr diphfrtfxt, bll AAD dbtb
+ * must bf supplifd to GCM/CCM implfmfntbtions (vib thf {@dodf
+ * updbtfAAD} mfthods) <b>bfforf</b> thf diphfrtfxt is prodfssfd (vib
+ * thf {@dodf updbtf} bnd {@dodf doFinbl} mfthods).
+ * <p>
+ * Notf thbt GCM modf hbs b uniqufnfss rfquirfmfnt on IVs usfd in
+ * fndryption with b givfn kfy. Whfn IVs brf rfpfbtfd for GCM
+ * fndryption, sudh usbgfs brf subjfdt to forgfry bttbdks. Thus, bftfr
+ * fbdh fndryption opfrbtion using GCM modf, dbllfrs should rf-initiblizf
+ * thf diphfr objfdts with GCM pbrbmftfrs whidh hbs b difffrfnt IV vbluf.
+ * <prf>
+ *     GCMPbrbmftfrSpfd s = ...;
+ *     diphfr.init(..., s);
+ *
+ *     // If thf GCM pbrbmftfrs wfrf gfnfrbtfd by thf providfr, it dbn
+ *     // bf rftrifvfd by:
+ *     // diphfr.gftPbrbmftfrs().gftPbrbmftfrSpfd(GCMPbrbmftfrSpfd.dlbss);
+ *
+ *     diphfr.updbtfAAD(...);  // AAD
+ *     diphfr.updbtf(...);     // Multi-pbrt updbtf
+ *     diphfr.doFinbl(...);    // dondlusion of opfrbtion
+ *
+ *     // Usf b difffrfnt IV vbluf for fvfry fndryption
+ *     bytf[] nfwIv = ...;
+ *     s = nfw GCMPbrbmftfrSpfd(s.gftTLfn(), nfwIv);
+ *     diphfr.init(..., s);
+ *     ...
+ *
+ * </prf>
+ * Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support
+ * thf following stbndbrd <dodf>Ciphfr</dodf> trbnsformbtions with thf kfysizfs
+ * in pbrfnthfsfs:
+ * <ul>
+ * <li><tt>AES/CBC/NoPbdding</tt> (128)</li>
+ * <li><tt>AES/CBC/PKCS5Pbdding</tt> (128)</li>
+ * <li><tt>AES/ECB/NoPbdding</tt> (128)</li>
+ * <li><tt>AES/ECB/PKCS5Pbdding</tt> (128)</li>
+ * <li><tt>DES/CBC/NoPbdding</tt> (56)</li>
+ * <li><tt>DES/CBC/PKCS5Pbdding</tt> (56)</li>
+ * <li><tt>DES/ECB/NoPbdding</tt> (56)</li>
+ * <li><tt>DES/ECB/PKCS5Pbdding</tt> (56)</li>
+ * <li><tt>DESfdf/CBC/NoPbdding</tt> (168)</li>
+ * <li><tt>DESfdf/CBC/PKCS5Pbdding</tt> (168)</li>
+ * <li><tt>DESfdf/ECB/NoPbdding</tt> (168)</li>
+ * <li><tt>DESfdf/ECB/PKCS5Pbdding</tt> (168)</li>
+ * <li><tt>RSA/ECB/PKCS1Pbdding</tt> (1024, 2048)</li>
+ * <li><tt>RSA/ECB/OAEPWithSHA-1AndMGF1Pbdding</tt> (1024, 2048)</li>
+ * <li><tt>RSA/ECB/OAEPWithSHA-256AndMGF1Pbdding</tt> (1024, 2048)</li>
+ * </ul>
+ * Thfsf trbnsformbtions brf dfsdribfd in thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Ciphfr">
+ * Ciphfr sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr trbnsformbtions brf supportfd.
+ *
+ * @buthor Jbn Lufhf
+ * @sff KfyGfnfrbtor
+ * @sff SfdrftKfy
+ * @sindf 1.4
+ */
+
+publid dlbss Ciphfr {
+
+    privbtf stbtid finbl Dfbug dfbug =
+                        Dfbug.gftInstbndf("jdb", "Ciphfr");
+
+    /**
+     * Constbnt usfd to initiblizf diphfr to fndryption modf.
+     */
+    publid stbtid finbl int ENCRYPT_MODE = 1;
+
+    /**
+     * Constbnt usfd to initiblizf diphfr to dfdryption modf.
+     */
+    publid stbtid finbl int DECRYPT_MODE = 2;
+
+    /**
+     * Constbnt usfd to initiblizf diphfr to kfy-wrbpping modf.
+     */
+    publid stbtid finbl int WRAP_MODE = 3;
+
+    /**
+     * Constbnt usfd to initiblizf diphfr to kfy-unwrbpping modf.
+     */
+    publid stbtid finbl int UNWRAP_MODE = 4;
+
+    /**
+     * Constbnt usfd to indidbtf thf to-bf-unwrbppfd kfy is b "publid kfy".
+     */
+    publid stbtid finbl int PUBLIC_KEY = 1;
+
+    /**
+     * Constbnt usfd to indidbtf thf to-bf-unwrbppfd kfy is b "privbtf kfy".
+     */
+    publid stbtid finbl int PRIVATE_KEY = 2;
+
+    /**
+     * Constbnt usfd to indidbtf thf to-bf-unwrbppfd kfy is b "sfdrft kfy".
+     */
+    publid stbtid finbl int SECRET_KEY = 3;
+
+    // Thf providfr
+    privbtf Providfr providfr;
+
+    // Thf providfr implfmfntbtion (dflfgbtf)
+    privbtf CiphfrSpi spi;
+
+    // Thf trbnsformbtion
+    privbtf String trbnsformbtion;
+
+    // Crypto pfrmission rfprfsfnting thf mbximum bllowbblf dryptogrbphid
+    // strfngth thbt this Ciphfr objfdt dbn bf usfd for. (Thf dryptogrbphid
+    // strfngth is b fundtion of thf kfysizf bnd blgorithm pbrbmftfrs fndodfd
+    // in thf drypto pfrmission.)
+    privbtf CryptoPfrmission dryptoPfrm;
+
+    // Thf fxfmption mfdhbnism thbt nffds to bf fnfordfd
+    privbtf ExfmptionMfdhbnism fxmfdh;
+
+    // Flbg whidh indidbtfs whfthfr or not this diphfr hbs bffn initiblizfd
+    privbtf boolfbn initiblizfd = fblsf;
+
+    // Thf opfrbtion modf - storf thf opfrbtion modf bftfr thf
+    // diphfr hbs bffn initiblizfd.
+    privbtf int opmodf = 0;
+
+    // Thf OID for thf KfyUsbgf fxtfnsion in bn X.509 v3 dfrtifidbtf
+    privbtf stbtid finbl String KEY_USAGE_EXTENSION_OID = "2.5.29.15";
+
+    // nfxt SPI  to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf CiphfrSpi firstSpi;
+
+    // nfxt sfrvidf to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf Sfrvidf firstSfrvidf;
+
+    // rfmbining sfrvidfs to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
+
+    // list of trbnsform Strings to lookup in thf providfr
+    privbtf List<Trbnsform> trbnsforms;
+
+    privbtf finbl Objfdt lodk;
+
+    /**
+     * Crfbtfs b Ciphfr objfdt.
+     *
+     * @pbrbm diphfrSpi thf dflfgbtf
+     * @pbrbm providfr thf providfr
+     * @pbrbm trbnsformbtion thf trbnsformbtion
+     */
+    protfdtfd Ciphfr(CiphfrSpi diphfrSpi,
+                     Providfr providfr,
+                     String trbnsformbtion) {
+        // Sff bug 4341369 & 4334690 for morf info.
+        // If thf dbllfr is trustfd, thfn okfy.
+        // Othfrwisf throw b NullPointfrExdfption.
+        if (!JdfSfdurityMbnbgfr.INSTANCE.isCbllfrTrustfd()) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.spi = diphfrSpi;
+        this.providfr = providfr;
+        this.trbnsformbtion = trbnsformbtion;
+        this.dryptoPfrm = CryptoAllPfrmission.INSTANCE;
+        this.lodk = null;
+    }
+
+    /**
+     * Crfbtfs b Ciphfr objfdt. Cbllfd intfrnblly bnd by NullCiphfr.
+     *
+     * @pbrbm diphfrSpi thf dflfgbtf
+     * @pbrbm trbnsformbtion thf trbnsformbtion
+     */
+    Ciphfr(CiphfrSpi diphfrSpi, String trbnsformbtion) {
+        this.spi = diphfrSpi;
+        this.trbnsformbtion = trbnsformbtion;
+        this.dryptoPfrm = CryptoAllPfrmission.INSTANCE;
+        this.lodk = null;
+    }
+
+    privbtf Ciphfr(CiphfrSpi firstSpi, Sfrvidf firstSfrvidf,
+            Itfrbtor<Sfrvidf> sfrvidfItfrbtor, String trbnsformbtion,
+            List<Trbnsform> trbnsforms) {
+        this.firstSpi = firstSpi;
+        this.firstSfrvidf = firstSfrvidf;
+        this.sfrvidfItfrbtor = sfrvidfItfrbtor;
+        this.trbnsforms = trbnsforms;
+        this.trbnsformbtion = trbnsformbtion;
+        this.lodk = nfw Objfdt();
+    }
+
+    privbtf stbtid String[] tokfnizfTrbnsformbtion(String trbnsformbtion)
+            throws NoSudhAlgorithmExdfption {
+        if (trbnsformbtion == null) {
+            throw nfw NoSudhAlgorithmExdfption("No trbnsformbtion givfn");
+        }
+        /*
+         * brrby dontbining thf domponfnts of b Ciphfr trbnsformbtion:
+         *
+         * indfx 0: blgorithm domponfnt (f.g., DES)
+         * indfx 1: fffdbbdk domponfnt (f.g., CFB)
+         * indfx 2: pbdding domponfnt (f.g., PKCS5Pbdding)
+         */
+        String[] pbrts = nfw String[3];
+        int dount = 0;
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(trbnsformbtion, "/");
+        try {
+            whilf (pbrsfr.hbsMorfTokfns() && dount < 3) {
+                pbrts[dount++] = pbrsfr.nfxtTokfn().trim();
+            }
+            if (dount == 0 || dount == 2 || pbrsfr.hbsMorfTokfns()) {
+                throw nfw NoSudhAlgorithmExdfption("Invblid trbnsformbtion"
+                                               + " formbt:" +
+                                               trbnsformbtion);
+            }
+        } dbtdh (NoSudhElfmfntExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption("Invblid trbnsformbtion " +
+                                           "formbt:" + trbnsformbtion);
+        }
+        if ((pbrts[0] == null) || (pbrts[0].lfngth() == 0)) {
+            throw nfw NoSudhAlgorithmExdfption("Invblid trbnsformbtion:" +
+                                   "blgorithm not spfdififd-"
+                                   + trbnsformbtion);
+        }
+        rfturn pbrts;
+    }
+
+    // Providfr bttributf nbmf for supportfd dhbining modf
+    privbtf finbl stbtid String ATTR_MODE = "SupportfdModfs";
+    // Providfr bttributf nbmf for supportfd pbdding nbmfs
+    privbtf finbl stbtid String ATTR_PAD  = "SupportfdPbddings";
+
+    // donstbnts indidbting whfthfr thf providfr supports
+    // b givfn modf or pbdding
+    privbtf finbl stbtid int S_NO    = 0;       // dofs not support
+    privbtf finbl stbtid int S_MAYBE = 1;       // unbblf to dftfrminf
+    privbtf finbl stbtid int S_YES   = 2;       // dofs support
+
+    /**
+     * Nfstfd dlbss to dfbl with modfs bnd pbddings.
+     */
+    privbtf stbtid dlbss Trbnsform {
+        // trbnsform string to lookup in thf providfr
+        finbl String trbnsform;
+        // thf modf/pbdding suffix in uppfr dbsf. for fxbmplf, if thf blgorithm
+        // to lookup is "DES/CBC/PKCS5Pbdding" suffix is "/CBC/PKCS5PADDING"
+        // if loopup is "DES", suffix is thf fmpty string
+        // nffdfd bfdbusf blibsfs prfvfnt strbight trbnsform.fqubls()
+        finbl String suffix;
+        // vbluf to pbss to sftModf() or null if no sudh dbll rfquirfd
+        finbl String modf;
+        // vbluf to pbss to sftPbdding() or null if no sudh dbll rfquirfd
+        finbl String pbd;
+        Trbnsform(String blg, String suffix, String modf, String pbd) {
+            this.trbnsform = blg + suffix;
+            this.suffix = suffix.toUppfrCbsf(Lodblf.ENGLISH);
+            this.modf = modf;
+            this.pbd = pbd;
+        }
+        // sft modf bnd pbdding for thf givfn SPI
+        void sftModfPbdding(CiphfrSpi spi) throws NoSudhAlgorithmExdfption,
+                NoSudhPbddingExdfption {
+            if (modf != null) {
+                spi.fnginfSftModf(modf);
+            }
+            if (pbd != null) {
+                spi.fnginfSftPbdding(pbd);
+            }
+        }
+        // dhfdk whfthfr thf givfn sfrvidfs supports thf modf bnd
+        // pbdding dfsdribfd by this Trbnsform
+        int supportsModfPbdding(Sfrvidf s) {
+            int smodf = supportsModf(s);
+            if (smodf == S_NO) {
+                rfturn smodf;
+            }
+            int spbd = supportsPbdding(s);
+            // our donstbnts brf dffinfd so thbt Mbth.min() is b tri-vblufd AND
+            rfturn Mbth.min(smodf, spbd);
+        }
+
+        // sfpbrbtf mfthods for modf bnd pbdding
+        // dbllfd dirfdtly by Ciphfr only to throw thf dorrfdt fxdfption
+        int supportsModf(Sfrvidf s) {
+            rfturn supports(s, ATTR_MODE, modf);
+        }
+        int supportsPbdding(Sfrvidf s) {
+            rfturn supports(s, ATTR_PAD, pbd);
+        }
+
+        privbtf stbtid int supports(Sfrvidf s, String bttrNbmf, String vbluf) {
+            if (vbluf == null) {
+                rfturn S_YES;
+            }
+            String rfgfxp = s.gftAttributf(bttrNbmf);
+            if (rfgfxp == null) {
+                rfturn S_MAYBE;
+            }
+            rfturn mbtdhfs(rfgfxp, vbluf) ? S_YES : S_NO;
+        }
+
+        // CondurrfntMbp<String,Pbttfrn> for prfviously dompilfd pbttfrns
+        privbtf finbl stbtid CondurrfntMbp<String, Pbttfrn> pbttfrnCbdhf =
+            nfw CondurrfntHbshMbp<String, Pbttfrn>();
+
+        privbtf stbtid boolfbn mbtdhfs(String rfgfxp, String str) {
+            Pbttfrn pbttfrn = pbttfrnCbdhf.gft(rfgfxp);
+            if (pbttfrn == null) {
+                pbttfrn = Pbttfrn.dompilf(rfgfxp);
+                pbttfrnCbdhf.putIfAbsfnt(rfgfxp, pbttfrn);
+            }
+            rfturn pbttfrn.mbtdhfr(str.toUppfrCbsf(Lodblf.ENGLISH)).mbtdhfs();
+        }
+
+    }
+
+    privbtf stbtid List<Trbnsform> gftTrbnsforms(String trbnsformbtion)
+            throws NoSudhAlgorithmExdfption {
+        String[] pbrts = tokfnizfTrbnsformbtion(trbnsformbtion);
+
+        String blg = pbrts[0];
+        String modf = pbrts[1];
+        String pbd = pbrts[2];
+        if ((modf != null) && (modf.lfngth() == 0)) {
+            modf = null;
+        }
+        if ((pbd != null) && (pbd.lfngth() == 0)) {
+            pbd = null;
+        }
+
+        if ((modf == null) && (pbd == null)) {
+            // DES
+            Trbnsform tr = nfw Trbnsform(blg, "", null, null);
+            rfturn Collfdtions.singlftonList(tr);
+        } flsf { // if ((modf != null) && (pbd != null)) {
+            // DES/CBC/PKCS5Pbdding
+            List<Trbnsform> list = nfw ArrbyList<>(4);
+            list.bdd(nfw Trbnsform(blg, "/" + modf + "/" + pbd, null, null));
+            list.bdd(nfw Trbnsform(blg, "/" + modf, null, pbd));
+            list.bdd(nfw Trbnsform(blg, "//" + pbd, modf, null));
+            list.bdd(nfw Trbnsform(blg, "", modf, pbd));
+            rfturn list;
+        }
+    }
+
+    // gft thf trbnsform mbtdhing thf spfdififd sfrvidf
+    privbtf stbtid Trbnsform gftTrbnsform(Sfrvidf s,
+                                          List<Trbnsform> trbnsforms) {
+        String blg = s.gftAlgorithm().toUppfrCbsf(Lodblf.ENGLISH);
+        for (Trbnsform tr : trbnsforms) {
+            if (blg.fndsWith(tr.suffix)) {
+                rfturn tr;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b <dodf>Ciphfr</dodf> objfdt thbt implfmfnts thf spfdififd
+     * trbnsformbtion.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw Ciphfr objfdt fndbpsulbting thf
+     * CiphfrSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm trbnsformbtion thf nbmf of thf trbnsformbtion, f.g.,
+     * <i>DES/CBC/PKCS5Pbdding</i>.
+     * Sff thf Ciphfr sfdtion in thf <b hrff=
+     *   "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Ciphfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmfs.
+     *
+     * @rfturn b diphfr thbt implfmfnts thf rfqufstfd trbnsformbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if <dodf>trbnsformbtion</dodf>
+     *          is null, fmpty, in bn invblid formbt,
+     *          or if no Providfr supports b CiphfrSpi implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @fxdfption NoSudhPbddingExdfption if <dodf>trbnsformbtion</dodf>
+     *          dontbins b pbdding sdhfmf thbt is not bvbilbblf.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid finbl Ciphfr gftInstbndf(String trbnsformbtion)
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption
+    {
+        List<Trbnsform> trbnsforms = gftTrbnsforms(trbnsformbtion);
+        List<SfrvidfId> diphfrSfrvidfs = nfw ArrbyList<>(trbnsforms.sizf());
+        for (Trbnsform trbnsform : trbnsforms) {
+            diphfrSfrvidfs.bdd(nfw SfrvidfId("Ciphfr", trbnsform.trbnsform));
+        }
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs(diphfrSfrvidfs);
+        // mbkf surf thfrf is bt lfbst onf sfrvidf from b signfd providfr
+        // bnd thbt it dbn usf thf spfdififd modf bnd pbdding
+        Itfrbtor<Sfrvidf> t = sfrvidfs.itfrbtor();
+        Exdfption fbilurf = null;
+        whilf (t.hbsNfxt()) {
+            Sfrvidf s = t.nfxt();
+            if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                dontinuf;
+            }
+            Trbnsform tr = gftTrbnsform(s, trbnsforms);
+            if (tr == null) {
+                // should nfvfr hbppfn
+                dontinuf;
+            }
+            int dbnusf = tr.supportsModfPbdding(s);
+            if (dbnusf == S_NO) {
+                // dofs not support modf or pbdding wf nffd, ignorf
+                dontinuf;
+            }
+            if (dbnusf == S_YES) {
+                rfturn nfw Ciphfr(null, s, t, trbnsformbtion, trbnsforms);
+            } flsf { // S_MAYBE, try out if it works
+                try {
+                    CiphfrSpi spi = (CiphfrSpi)s.nfwInstbndf(null);
+                    tr.sftModfPbdding(spi);
+                    rfturn nfw Ciphfr(spi, s, t, trbnsformbtion, trbnsforms);
+                } dbtdh (Exdfption f) {
+                    fbilurf = f;
+                }
+            }
+        }
+        throw nfw NoSudhAlgorithmExdfption
+            ("Cbnnot find bny providfr supporting " + trbnsformbtion, fbilurf);
+    }
+
+    /**
+     * Rfturns b <dodf>Ciphfr</dodf> objfdt thbt implfmfnts thf spfdififd
+     * trbnsformbtion.
+     *
+     * <p> A nfw Ciphfr objfdt fndbpsulbting thf
+     * CiphfrSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm trbnsformbtion thf nbmf of thf trbnsformbtion,
+     * f.g., <i>DES/CBC/PKCS5Pbdding</i>.
+     * Sff thf Ciphfr sfdtion in thf <b hrff=
+     *   "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Ciphfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn b diphfr thbt implfmfnts thf rfqufstfd trbnsformbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if <dodf>trbnsformbtion</dodf>
+     *          is null, fmpty, in bn invblid formbt,
+     *          or if b CiphfrSpi implfmfntbtion for thf spfdififd blgorithm
+     *          is not bvbilbblf from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption NoSudhPbddingExdfption if <dodf>trbnsformbtion</dodf>
+     *          dontbins b pbdding sdhfmf thbt is not bvbilbblf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>providfr</dodf>
+     *          is null or fmpty.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid finbl Ciphfr gftInstbndf(String trbnsformbtion,
+                                           String providfr)
+            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption,
+            NoSudhPbddingExdfption
+    {
+        if ((providfr == null) || (providfr.lfngth() == 0)) {
+            throw nfw IllfgblArgumfntExdfption("Missing providfr");
+        }
+        Providfr p = Sfdurity.gftProvidfr(providfr);
+        if (p == null) {
+            throw nfw NoSudhProvidfrExdfption("No sudh providfr: " +
+                                              providfr);
+        }
+        rfturn gftInstbndf(trbnsformbtion, p);
+    }
+
+    /**
+     * Rfturns b <dodf>Ciphfr</dodf> objfdt thbt implfmfnts thf spfdififd
+     * trbnsformbtion.
+     *
+     * <p> A nfw Ciphfr objfdt fndbpsulbting thf
+     * CiphfrSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * @pbrbm trbnsformbtion thf nbmf of thf trbnsformbtion,
+     * f.g., <i>DES/CBC/PKCS5Pbdding</i>.
+     * Sff thf Ciphfr sfdtion in thf <b hrff=
+     *   "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Ciphfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmfs.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn b diphfr thbt implfmfnts thf rfqufstfd trbnsformbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if <dodf>trbnsformbtion</dodf>
+     *          is null, fmpty, in bn invblid formbt,
+     *          or if b CiphfrSpi implfmfntbtion for thf spfdififd blgorithm
+     *          is not bvbilbblf from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption NoSudhPbddingExdfption if <dodf>trbnsformbtion</dodf>
+     *          dontbins b pbdding sdhfmf thbt is not bvbilbblf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>providfr</dodf>
+     *          is null.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid finbl Ciphfr gftInstbndf(String trbnsformbtion,
+                                           Providfr providfr)
+            throws NoSudhAlgorithmExdfption, NoSudhPbddingExdfption
+    {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("Missing providfr");
+        }
+        Exdfption fbilurf = null;
+        List<Trbnsform> trbnsforms = gftTrbnsforms(trbnsformbtion);
+        boolfbn providfrChfdkfd = fblsf;
+        String pbddingError = null;
+        for (Trbnsform tr : trbnsforms) {
+            Sfrvidf s = providfr.gftSfrvidf("Ciphfr", tr.trbnsform);
+            if (s == null) {
+                dontinuf;
+            }
+            if (providfrChfdkfd == fblsf) {
+                // for dompbtibility, first do thf lookup bnd thfn vfrify
+                // thf providfr. this mbkfs thf difffrfndf bftwffn b NSAE
+                // bnd b SfdurityExdfption if thf
+                // providfr dofs not support thf blgorithm.
+                Exdfption vf = JdfSfdurity.gftVfrifidbtionRfsult(providfr);
+                if (vf != null) {
+                    String msg = "JCE dbnnot buthfntidbtf thf providfr "
+                        + providfr.gftNbmf();
+                    throw nfw SfdurityExdfption(msg, vf);
+                }
+                providfrChfdkfd = truf;
+            }
+            if (tr.supportsModf(s) == S_NO) {
+                dontinuf;
+            }
+            if (tr.supportsPbdding(s) == S_NO) {
+                pbddingError = tr.pbd;
+                dontinuf;
+            }
+            try {
+                CiphfrSpi spi = (CiphfrSpi)s.nfwInstbndf(null);
+                tr.sftModfPbdding(spi);
+                Ciphfr diphfr = nfw Ciphfr(spi, trbnsformbtion);
+                diphfr.providfr = s.gftProvidfr();
+                diphfr.initCryptoPfrmission();
+                rfturn diphfr;
+            } dbtdh (Exdfption f) {
+                fbilurf = f;
+            }
+        }
+
+        // throw NoSudhPbddingExdfption if thf problfm is with pbdding
+        if (fbilurf instbndfof NoSudhPbddingExdfption) {
+            throw (NoSudhPbddingExdfption)fbilurf;
+        }
+        if (pbddingError != null) {
+            throw nfw NoSudhPbddingExdfption
+                ("Pbdding not supportfd: " + pbddingError);
+        }
+        throw nfw NoSudhAlgorithmExdfption
+                ("No sudh blgorithm: " + trbnsformbtion, fbilurf);
+    }
+
+    // If thf rfqufstfd drypto sfrvidf is fxport-dontrollfd,
+    // dftfrminf thf mbximum bllowbblf kfysizf.
+    privbtf void initCryptoPfrmission() throws NoSudhAlgorithmExdfption {
+        if (JdfSfdurity.isRfstridtfd() == fblsf) {
+            dryptoPfrm = CryptoAllPfrmission.INSTANCE;
+            fxmfdh = null;
+            rfturn;
+        }
+        dryptoPfrm = gftConfigurfdPfrmission(trbnsformbtion);
+        // Instbntibtf thf fxfmption mfdhbnism (if rfquirfd)
+        String fxmfdhNbmf = dryptoPfrm.gftExfmptionMfdhbnism();
+        if (fxmfdhNbmf != null) {
+            fxmfdh = ExfmptionMfdhbnism.gftInstbndf(fxmfdhNbmf);
+        }
+    }
+
+    // mbx numbfr of dfbug wbrnings to print from dhoosfFirstProvidfr()
+    privbtf stbtid int wbrnCount = 10;
+
+    /**
+     * Choosf thf Spi from thf first providfr bvbilbblf. Usfd if
+     * dflbyfd providfr sflfdtion is not possiblf bfdbusf init()
+     * is not thf first mfthod dbllfd.
+     */
+    void dhoosfFirstProvidfr() {
+        if (spi != null) {
+            rfturn;
+        }
+        syndhronizfd (lodk) {
+            if (spi != null) {
+                rfturn;
+            }
+            if (dfbug != null) {
+                int w = --wbrnCount;
+                if (w >= 0) {
+                    dfbug.println("Ciphfr.init() not first mfthod "
+                        + "dbllfd, disbbling dflbyfd providfr sflfdtion");
+                    if (w == 0) {
+                        dfbug.println("Furthfr wbrnings of this typf will "
+                            + "bf supprfssfd");
+                    }
+                    nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
+                }
+            }
+            Exdfption lbstExdfption = null;
+            whilf ((firstSfrvidf != null) || sfrvidfItfrbtor.hbsNfxt()) {
+                Sfrvidf s;
+                CiphfrSpi thisSpi;
+                if (firstSfrvidf != null) {
+                    s = firstSfrvidf;
+                    thisSpi = firstSpi;
+                    firstSfrvidf = null;
+                    firstSpi = null;
+                } flsf {
+                    s = sfrvidfItfrbtor.nfxt();
+                    thisSpi = null;
+                }
+                if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                    dontinuf;
+                }
+                Trbnsform tr = gftTrbnsform(s, trbnsforms);
+                if (tr == null) {
+                    // should nfvfr hbppfn
+                    dontinuf;
+                }
+                if (tr.supportsModfPbdding(s) == S_NO) {
+                    dontinuf;
+                }
+                try {
+                    if (thisSpi == null) {
+                        Objfdt obj = s.nfwInstbndf(null);
+                        if (obj instbndfof CiphfrSpi == fblsf) {
+                            dontinuf;
+                        }
+                        thisSpi = (CiphfrSpi)obj;
+                    }
+                    tr.sftModfPbdding(thisSpi);
+                    initCryptoPfrmission();
+                    spi = thisSpi;
+                    providfr = s.gftProvidfr();
+                    // not nffdfd bny morf
+                    firstSfrvidf = null;
+                    sfrvidfItfrbtor = null;
+                    trbnsforms = null;
+                    rfturn;
+                } dbtdh (Exdfption f) {
+                    lbstExdfption = f;
+                }
+            }
+            ProvidfrExdfption f = nfw ProvidfrExdfption
+                    ("Could not donstrudt CiphfrSpi instbndf");
+            if (lbstExdfption != null) {
+                f.initCbusf(lbstExdfption);
+            }
+            throw f;
+        }
+    }
+
+    privbtf finbl stbtid int I_KEY       = 1;
+    privbtf finbl stbtid int I_PARAMSPEC = 2;
+    privbtf finbl stbtid int I_PARAMS    = 3;
+    privbtf finbl stbtid int I_CERT      = 4;
+
+    privbtf void implInit(CiphfrSpi thisSpi, int typf, int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrSpfd pbrbmSpfd, AlgorithmPbrbmftfrs pbrbms,
+            SfdurfRbndom rbndom) throws InvblidKfyExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        switdh (typf) {
+        dbsf I_KEY:
+            dhfdkCryptoPfrm(thisSpi, kfy);
+            thisSpi.fnginfInit(opmodf, kfy, rbndom);
+            brfbk;
+        dbsf I_PARAMSPEC:
+            dhfdkCryptoPfrm(thisSpi, kfy, pbrbmSpfd);
+            thisSpi.fnginfInit(opmodf, kfy, pbrbmSpfd, rbndom);
+            brfbk;
+        dbsf I_PARAMS:
+            dhfdkCryptoPfrm(thisSpi, kfy, pbrbms);
+            thisSpi.fnginfInit(opmodf, kfy, pbrbms, rbndom);
+            brfbk;
+        dbsf I_CERT:
+            dhfdkCryptoPfrm(thisSpi, kfy);
+            thisSpi.fnginfInit(opmodf, kfy, rbndom);
+            brfbk;
+        dffbult:
+            throw nfw AssfrtionError("Intfrnbl Ciphfr frror: " + typf);
+        }
+    }
+
+    privbtf void dhoosfProvidfr(int initTypf, int opmodf, Kfy kfy,
+            AlgorithmPbrbmftfrSpfd pbrbmSpfd,
+            AlgorithmPbrbmftfrs pbrbms, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        syndhronizfd (lodk) {
+            if (spi != null) {
+                implInit(spi, initTypf, opmodf, kfy, pbrbmSpfd, pbrbms, rbndom);
+                rfturn;
+            }
+            Exdfption lbstExdfption = null;
+            whilf ((firstSfrvidf != null) || sfrvidfItfrbtor.hbsNfxt()) {
+                Sfrvidf s;
+                CiphfrSpi thisSpi;
+                if (firstSfrvidf != null) {
+                    s = firstSfrvidf;
+                    thisSpi = firstSpi;
+                    firstSfrvidf = null;
+                    firstSpi = null;
+                } flsf {
+                    s = sfrvidfItfrbtor.nfxt();
+                    thisSpi = null;
+                }
+                // if providfr sbys it dofs not support this kfy, ignorf it
+                if (s.supportsPbrbmftfr(kfy) == fblsf) {
+                    dontinuf;
+                }
+                if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                    dontinuf;
+                }
+                Trbnsform tr = gftTrbnsform(s, trbnsforms);
+                if (tr == null) {
+                    // should nfvfr hbppfn
+                    dontinuf;
+                }
+                if (tr.supportsModfPbdding(s) == S_NO) {
+                    dontinuf;
+                }
+                try {
+                    if (thisSpi == null) {
+                        thisSpi = (CiphfrSpi)s.nfwInstbndf(null);
+                    }
+                    tr.sftModfPbdding(thisSpi);
+                    initCryptoPfrmission();
+                    implInit(thisSpi, initTypf, opmodf, kfy, pbrbmSpfd,
+                                                        pbrbms, rbndom);
+                    providfr = s.gftProvidfr();
+                    this.spi = thisSpi;
+                    firstSfrvidf = null;
+                    sfrvidfItfrbtor = null;
+                    trbnsforms = null;
+                    rfturn;
+                } dbtdh (Exdfption f) {
+                    // NoSudhAlgorithmExdfption from nfwInstbndf()
+                    // InvblidKfyExdfption from init()
+                    // RuntimfExdfption (ProvidfrExdfption) from init()
+                    // SfdurityExdfption from drypto pfrmission dhfdk
+                    if (lbstExdfption == null) {
+                        lbstExdfption = f;
+                    }
+                }
+            }
+            // no working providfr found, fbil
+            if (lbstExdfption instbndfof InvblidKfyExdfption) {
+                throw (InvblidKfyExdfption)lbstExdfption;
+            }
+            if (lbstExdfption instbndfof InvblidAlgorithmPbrbmftfrExdfption) {
+                throw (InvblidAlgorithmPbrbmftfrExdfption)lbstExdfption;
+            }
+            if (lbstExdfption instbndfof RuntimfExdfption) {
+                throw (RuntimfExdfption)lbstExdfption;
+            }
+            String kNbmf = (kfy != null) ? kfy.gftClbss().gftNbmf() : "(null)";
+            throw nfw InvblidKfyExdfption
+                ("No instbllfd providfr supports this kfy: "
+                + kNbmf, lbstExdfption);
+        }
+    }
+
+    /**
+     * Rfturns thf providfr of this <dodf>Ciphfr</dodf> objfdt.
+     *
+     * @rfturn thf providfr of this <dodf>Ciphfr</dodf> objfdt
+     */
+    publid finbl Providfr gftProvidfr() {
+        dhoosfFirstProvidfr();
+        rfturn this.providfr;
+    }
+
+    /**
+     * Rfturns thf blgorithm nbmf of this <dodf>Ciphfr</dodf> objfdt.
+     *
+     * <p>This is thf sbmf nbmf thbt wbs spfdififd in onf of thf
+     * <dodf>gftInstbndf</dodf> dblls thbt drfbtfd this <dodf>Ciphfr</dodf>
+     * objfdt..
+     *
+     * @rfturn thf blgorithm nbmf of this <dodf>Ciphfr</dodf> objfdt.
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.trbnsformbtion;
+    }
+
+    /**
+     * Rfturns thf blodk sizf (in bytfs).
+     *
+     * @rfturn thf blodk sizf (in bytfs), or 0 if thf undfrlying blgorithm is
+     * not b blodk diphfr
+     */
+    publid finbl int gftBlodkSizf() {
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfGftBlodkSizf();
+    }
+
+    /**
+     * Rfturns thf lfngth in bytfs thbt bn output bufffr would nffd to bf in
+     * ordfr to hold thf rfsult of thf nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> opfrbtion, givfn thf input lfngth
+     * <dodf>inputLfn</dodf> (in bytfs).
+     *
+     * <p>This dbll tbkfs into bddount bny unprodfssfd (bufffrfd) dbtb from b
+     * prfvious <dodf>updbtf</dodf> dbll, pbdding, bnd AEAD tbgging.
+     *
+     * <p>Thf bdtubl output lfngth of thf nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> dbll mby bf smbllfr thbn thf lfngth rfturnfd by
+     * this mfthod.
+     *
+     * @pbrbm inputLfn thf input lfngth (in bytfs)
+     *
+     * @rfturn thf rfquirfd output bufffr sizf (in bytfs)
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not yft bffn initiblizfd)
+     */
+    publid finbl int gftOutputSizf(int inputLfn) {
+
+        if (!initiblizfd && !(this instbndfof NullCiphfr)) {
+            throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd");
+        }
+        if (inputLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("Input sizf must bf fqubl " +
+                                               "to or grfbtfr thbn zfro");
+        }
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfGftOutputSizf(inputLfn);
+    }
+
+    /**
+     * Rfturns thf initiblizbtion vfdtor (IV) in b nfw bufffr.
+     *
+     * <p>This is usfful in thf dbsf whfrf b rbndom IV wbs drfbtfd,
+     * or in thf dontfxt of pbssword-bbsfd fndryption or
+     * dfdryption, whfrf thf IV is dfrivfd from b usfr-supplifd pbssword.
+     *
+     * @rfturn thf initiblizbtion vfdtor in b nfw bufffr, or null if thf
+     * undfrlying blgorithm dofs not usf bn IV, or if thf IV hbs not yft
+     * bffn sft.
+     */
+    publid finbl bytf[] gftIV() {
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfGftIV();
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs usfd with this diphfr.
+     *
+     * <p>Thf rfturnfd pbrbmftfrs mby bf thf sbmf thbt wfrf usfd to initiblizf
+     * this diphfr, or mby dontbin b dombinbtion of dffbult bnd rbndom
+     * pbrbmftfr vblufs usfd by thf undfrlying diphfr implfmfntbtion if this
+     * diphfr rfquirfs blgorithm pbrbmftfrs but wbs not initiblizfd with bny.
+     *
+     * @rfturn thf pbrbmftfrs usfd with this diphfr, or null if this diphfr
+     * dofs not usf bny pbrbmftfrs.
+     */
+    publid finbl AlgorithmPbrbmftfrs gftPbrbmftfrs() {
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfGftPbrbmftfrs();
+    }
+
+    /**
+     * Rfturns thf fxfmption mfdhbnism objfdt usfd with this diphfr.
+     *
+     * @rfturn thf fxfmption mfdhbnism objfdt usfd with this diphfr, or
+     * null if this diphfr dofs not usf bny fxfmption mfdhbnism.
+     */
+    publid finbl ExfmptionMfdhbnism gftExfmptionMfdhbnism() {
+        dhoosfFirstProvidfr();
+        rfturn fxmfdh;
+    }
+
+    //
+    // Crypto pfrmission dhfdk dodf bflow
+    //
+    privbtf void dhfdkCryptoPfrm(CiphfrSpi dhfdkSpi, Kfy kfy)
+            throws InvblidKfyExdfption {
+        if (dryptoPfrm == CryptoAllPfrmission.INSTANCE) {
+            rfturn;
+        }
+        // Chfdk if kfy sizf bnd dffbult pbrbmftfrs brf within lfgbl limits
+        AlgorithmPbrbmftfrSpfd pbrbms;
+        try {
+            pbrbms = gftAlgorithmPbrbmftfrSpfd(dhfdkSpi.fnginfGftPbrbmftfrs());
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            throw nfw InvblidKfyExdfption
+                ("Unsupportfd dffbult blgorithm pbrbmftfrs");
+        }
+        if (!pbssCryptoPfrmChfdk(dhfdkSpi, kfy, pbrbms)) {
+            throw nfw InvblidKfyExdfption(
+                "Illfgbl kfy sizf or dffbult pbrbmftfrs");
+        }
+    }
+
+    privbtf void dhfdkCryptoPfrm(CiphfrSpi dhfdkSpi, Kfy kfy,
+            AlgorithmPbrbmftfrSpfd pbrbms) throws InvblidKfyExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        if (dryptoPfrm == CryptoAllPfrmission.INSTANCE) {
+            rfturn;
+        }
+        // Dftfrminf kfysizf bnd dhfdk if it is within lfgbl limits
+        if (!pbssCryptoPfrmChfdk(dhfdkSpi, kfy, null)) {
+            throw nfw InvblidKfyExdfption("Illfgbl kfy sizf");
+        }
+        if ((pbrbms != null) && (!pbssCryptoPfrmChfdk(dhfdkSpi, kfy, pbrbms))) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("Illfgbl pbrbmftfrs");
+        }
+    }
+
+    privbtf void dhfdkCryptoPfrm(CiphfrSpi dhfdkSpi, Kfy kfy,
+            AlgorithmPbrbmftfrs pbrbms)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (dryptoPfrm == CryptoAllPfrmission.INSTANCE) {
+            rfturn;
+        }
+        // Convfrt thf spfdififd pbrbmftfrs into spfds bnd thfn dflfgbtf.
+        AlgorithmPbrbmftfrSpfd pSpfd;
+        try {
+            pSpfd = gftAlgorithmPbrbmftfrSpfd(pbrbms);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Fbilfd to rftrifvf blgorithm pbrbmftfr spfdifidbtion");
+        }
+        dhfdkCryptoPfrm(dhfdkSpi, kfy, pSpfd);
+    }
+
+    privbtf boolfbn pbssCryptoPfrmChfdk(CiphfrSpi dhfdkSpi, Kfy kfy,
+                                        AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidKfyExdfption {
+        String fm = dryptoPfrm.gftExfmptionMfdhbnism();
+        int kfySizf = dhfdkSpi.fnginfGftKfySizf(kfy);
+        // Usf thf "blgorithm" domponfnt of thf diphfr
+        // trbnsformbtion so thbt thf pfrm dhfdk would
+        // work whfn thf kfy hbs thf "blibsfd" blgo.
+        String blgComponfnt;
+        int indfx = trbnsformbtion.indfxOf('/');
+        if (indfx != -1) {
+            blgComponfnt = trbnsformbtion.substring(0, indfx);
+        } flsf {
+            blgComponfnt = trbnsformbtion;
+        }
+        CryptoPfrmission dhfdkPfrm =
+            nfw CryptoPfrmission(blgComponfnt, kfySizf, pbrbms, fm);
+
+        if (!dryptoPfrm.implifs(dhfdkPfrm)) {
+            if (dfbug != null) {
+                dfbug.println("Crypto Pfrmission dhfdk fbilfd");
+                dfbug.println("grbntfd: " + dryptoPfrm);
+                dfbug.println("rfqufsting: " + dhfdkPfrm);
+            }
+            rfturn fblsf;
+        }
+        if (fxmfdh == null) {
+            rfturn truf;
+        }
+        try {
+            if (!fxmfdh.isCryptoAllowfd(kfy)) {
+                if (dfbug != null) {
+                    dfbug.println(fxmfdh.gftNbmf() + " isn't fnfordfd");
+                }
+                rfturn fblsf;
+            }
+        } dbtdh (ExfmptionMfdhbnismExdfption fmf) {
+            if (dfbug != null) {
+                dfbug.println("Cbnnot dftfrminf whfthfr "+
+                              fxmfdh.gftNbmf() + " hbs bffn fnfordfd");
+                fmf.printStbdkTrbdf();
+            }
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    // dhfdk if opmodf is onf of thf dffinfd donstbnts
+    // throw InvblidPbrbmftfrExfption if not
+    privbtf stbtid void dhfdkOpmodf(int opmodf) {
+        if ((opmodf < ENCRYPT_MODE) || (opmodf > UNWRAP_MODE)) {
+            throw nfw InvblidPbrbmftfrExdfption("Invblid opfrbtion modf");
+        }
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf givfn <dodf>kfy</dodf>, thf undfrlying diphfr
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf
+     * (using providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidKfyExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm using thf {@link jbvb.sfdurity.SfdurfRbndom}
+     * implfmfntbtion of thf highfst-priority
+     * instbllfd providfr bs thf sourdf of rbndomnfss.
+     * (If nonf of thf instbllfd providfrs supply bn implfmfntbtion of
+     * SfdurfRbndom, b systfm-providfd sourdf of rbndomnfss will bf usfd.)
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of
+     * thf following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or rfquirfs
+     * blgorithm pbrbmftfrs thbt dbnnot bf
+     * dftfrminfd from thf givfn kfy, or if thf givfn kfy hbs b kfysizf thbt
+     * fxdffds thf mbximum bllowbblf kfysizf (bs dftfrminfd from thf
+     * donfigurfd jurisdidtion polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy) throws InvblidKfyExdfption {
+        init(opmodf, kfy, JdfSfdurity.RANDOM);
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy bnd b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf givfn <dodf>kfy</dodf>, thf undfrlying diphfr
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf
+     * (using providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidKfyExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm from <dodf>rbndom</dodf>.
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or rfquirfs
+     * blgorithm pbrbmftfrs thbt dbnnot bf
+     * dftfrminfd from thf givfn kfy, or if thf givfn kfy hbs b kfysizf thbt
+     * fxdffds thf mbximum bllowbblf kfysizf (bs dftfrminfd from thf
+     * donfigurfd jurisdidtion polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption
+    {
+        initiblizfd = fblsf;
+        dhfdkOpmodf(opmodf);
+
+        if (spi != null) {
+            dhfdkCryptoPfrm(spi, kfy);
+            spi.fnginfInit(opmodf, kfy, rbndom);
+        } flsf {
+            try {
+                dhoosfProvidfr(I_KEY, opmodf, kfy, null, null, rbndom);
+            } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+                // should nfvfr oddur
+                throw nfw InvblidKfyExdfption(f);
+            }
+        }
+
+        initiblizfd = truf;
+        this.opmodf = opmodf;
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy bnd b sft of blgorithm
+     * pbrbmftfrs.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, thf undfrlying diphfr implfmfntbtion is
+     * supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf (using
+     * providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm using thf {@link jbvb.sfdurity.SfdurfRbndom}
+     * implfmfntbtion of thf highfst-priority
+     * instbllfd providfr bs thf sourdf of rbndomnfss.
+     * (If nonf of thf instbllfd providfrs supply bn implfmfntbtion of
+     * SfdurfRbndom, b systfm-providfd sourdf of rbndomnfss will bf usfd.)
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or its kfysizf fxdffds thf mbximum bllowbblf
+     * kfysizf (bs dftfrminfd from thf donfigurfd jurisdidtion polidy filfs).
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this diphfr,
+     * or this diphfr rfquirfs
+     * blgorithm pbrbmftfrs bnd <dodf>pbrbms</dodf> is null, or thf givfn
+     * blgorithm pbrbmftfrs imply b dryptogrbphid strfngth thbt would fxdffd
+     * thf lfgbl limits (bs dftfrminfd from thf donfigurfd jurisdidtion
+     * polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        init(opmodf, kfy, pbrbms, JdfSfdurity.RANDOM);
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy, b sft of blgorithm
+     * pbrbmftfrs, bnd b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, thf undfrlying diphfr implfmfntbtion is
+     * supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf (using
+     * providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm from <dodf>rbndom</dodf>.
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or its kfysizf fxdffds thf mbximum bllowbblf
+     * kfysizf (bs dftfrminfd from thf donfigurfd jurisdidtion polidy filfs).
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this diphfr,
+     * or this diphfr rfquirfs
+     * blgorithm pbrbmftfrs bnd <dodf>pbrbms</dodf> is null, or thf givfn
+     * blgorithm pbrbmftfrs imply b dryptogrbphid strfngth thbt would fxdffd
+     * thf lfgbl limits (bs dftfrminfd from thf donfigurfd jurisdidtion
+     * polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms,
+                           SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        initiblizfd = fblsf;
+        dhfdkOpmodf(opmodf);
+
+        if (spi != null) {
+            dhfdkCryptoPfrm(spi, kfy, pbrbms);
+            spi.fnginfInit(opmodf, kfy, pbrbms, rbndom);
+        } flsf {
+            dhoosfProvidfr(I_PARAMSPEC, opmodf, kfy, pbrbms, null, rbndom);
+        }
+
+        initiblizfd = truf;
+        this.opmodf = opmodf;
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy bnd b sft of blgorithm
+     * pbrbmftfrs.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, thf undfrlying diphfr implfmfntbtion is
+     * supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf (using
+     * providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm using thf {@link jbvb.sfdurity.SfdurfRbndom}
+     * implfmfntbtion of thf highfst-priority
+     * instbllfd providfr bs thf sourdf of rbndomnfss.
+     * (If nonf of thf instbllfd providfrs supply bn implfmfntbtion of
+     * SfdurfRbndom, b systfm-providfd sourdf of rbndomnfss will bf usfd.)
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following: <dodf>ENCRYPT_MODE</dodf>,
+     * <dodf>DECRYPT_MODE</dodf>, <dodf>WRAP_MODE</dodf>
+     * or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or its kfysizf fxdffds thf mbximum bllowbblf
+     * kfysizf (bs dftfrminfd from thf donfigurfd jurisdidtion polidy filfs).
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this diphfr,
+     * or this diphfr rfquirfs
+     * blgorithm pbrbmftfrs bnd <dodf>pbrbms</dodf> is null, or thf givfn
+     * blgorithm pbrbmftfrs imply b dryptogrbphid strfngth thbt would fxdffd
+     * thf lfgbl limits (bs dftfrminfd from thf donfigurfd jurisdidtion
+     * polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy, AlgorithmPbrbmftfrs pbrbms)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        init(opmodf, kfy, pbrbms, JdfSfdurity.RANDOM);
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy, b sft of blgorithm
+     * pbrbmftfrs, bnd b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, thf undfrlying diphfr implfmfntbtion is
+     * supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf (using
+     * providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm from <dodf>rbndom</dodf>.
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following: <dodf>ENCRYPT_MODE</dodf>,
+     * <dodf>DECRYPT_MODE</dodf>, <dodf>WRAP_MODE</dodf>
+     * or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr, or its kfysizf fxdffds thf mbximum bllowbblf
+     * kfysizf (bs dftfrminfd from thf donfigurfd jurisdidtion polidy filfs).
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this diphfr,
+     * or this diphfr rfquirfs
+     * blgorithm pbrbmftfrs bnd <dodf>pbrbms</dodf> is null, or thf givfn
+     * blgorithm pbrbmftfrs imply b dryptogrbphid strfngth thbt would fxdffd
+     * thf lfgbl limits (bs dftfrminfd from thf donfigurfd jurisdidtion
+     * polidy filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Kfy kfy, AlgorithmPbrbmftfrs pbrbms,
+                           SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        initiblizfd = fblsf;
+        dhfdkOpmodf(opmodf);
+
+        if (spi != null) {
+            dhfdkCryptoPfrm(spi, kfy, pbrbms);
+            spi.fnginfInit(opmodf, kfy, pbrbms, rbndom);
+        } flsf {
+            dhoosfProvidfr(I_PARAMS, opmodf, kfy, null, pbrbms, rbndom);
+        }
+
+        initiblizfd = truf;
+        this.opmodf = opmodf;
+    }
+
+    /**
+     * Initiblizfs this diphfr with thf publid kfy from thf givfn dfrtifidbtf.
+     * <p> Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or  kfy unwrbpping, dfpfnding
+     * on thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If thf dfrtifidbtf is of typf X.509 bnd hbs b <i>kfy usbgf</i>
+     * fxtfnsion fifld mbrkfd bs dritidbl, bnd thf vbluf of thf <i>kfy usbgf</i>
+     * fxtfnsion fifld implifs thbt thf publid kfy in
+     * thf dfrtifidbtf bnd its dorrfsponding privbtf kfy brf not
+     * supposfd to bf usfd for thf opfrbtion rfprfsfntfd by thf vbluf
+     * of <dodf>opmodf</dodf>,
+     * bn <dodf>InvblidKfyExdfption</dodf>
+     * is thrown.
+     *
+     * <p> If this diphfr rfquirfs bny blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf publid kfy in thf givfn dfrtifidbtf, thf undfrlying
+     * diphfr
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf
+     * (using providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn <dodf>
+     * InvblidKfyExdfption</dodf> if it is bfing initiblizfd for dfdryption or
+     * kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm using thf
+     * <dodf>SfdurfRbndom</dodf>
+     * implfmfntbtion of thf highfst-priority
+     * instbllfd providfr bs thf sourdf of rbndomnfss.
+     * (If nonf of thf instbllfd providfrs supply bn implfmfntbtion of
+     * SfdurfRbndom, b systfm-providfd sourdf of rbndomnfss will bf usfd.)
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm dfrtifidbtf thf dfrtifidbtf
+     *
+     * @fxdfption InvblidKfyExdfption if thf publid kfy in thf givfn
+     * dfrtifidbtf is inbppropribtf for initiblizing this diphfr, or this
+     * diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf dftfrminfd from thf
+     * publid kfy in thf givfn dfrtifidbtf, or thf kfysizf of thf publid kfy
+     * in thf givfn dfrtifidbtf hbs b kfysizf thbt fxdffds thf mbximum
+     * bllowbblf kfysizf (bs dftfrminfd by thf donfigurfd jurisdidtion polidy
+     * filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Cfrtifidbtf dfrtifidbtf)
+            throws InvblidKfyExdfption
+    {
+        init(opmodf, dfrtifidbtf, JdfSfdurity.RANDOM);
+    }
+
+    /**
+     * Initiblizfs this diphfr with thf publid kfy from thf givfn dfrtifidbtf
+     * bnd
+     * b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping
+     * or kfy unwrbpping, dfpfnding on
+     * thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If thf dfrtifidbtf is of typf X.509 bnd hbs b <i>kfy usbgf</i>
+     * fxtfnsion fifld mbrkfd bs dritidbl, bnd thf vbluf of thf <i>kfy usbgf</i>
+     * fxtfnsion fifld implifs thbt thf publid kfy in
+     * thf dfrtifidbtf bnd its dorrfsponding privbtf kfy brf not
+     * supposfd to bf usfd for thf opfrbtion rfprfsfntfd by thf vbluf of
+     * <dodf>opmodf</dodf>,
+     * bn <dodf>InvblidKfyExdfption</dodf>
+     * is thrown.
+     *
+     * <p>If this diphfr rfquirfs bny blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf publid kfy in thf givfn <dodf>dfrtifidbtf</dodf>,
+     * thf undfrlying diphfr
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs itsflf
+     * (using providfr-spfdifid dffbult or rbndom vblufs) if it is bfing
+     * initiblizfd for fndryption or kfy wrbpping, bnd rbisf bn
+     * <dodf>InvblidKfyExdfption</dodf> if it is bfing
+     * initiblizfd for dfdryption or kfy unwrbpping.
+     * Thf gfnfrbtfd pbrbmftfrs dbn bf rftrifvfd using
+     * {@link #gftPbrbmftfrs() gftPbrbmftfrs} or
+     * {@link #gftIV() gftIV} (if thf pbrbmftfr is bn IV).
+     *
+     * <p>If this diphfr rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf
+     * dfrivfd from thf input pbrbmftfrs, bnd thfrf brf no rfbsonbblf
+     * providfr-spfdifid dffbult vblufs, initiblizbtion will
+     * nfdfssbrily fbil.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs (f.g., for pbrbmftfr gfnfrbtion), it will gft
+     * thfm from <dodf>rbndom</dodf>.
+     *
+     * <p>Notf thbt whfn b Ciphfr objfdt is initiblizfd, it losfs bll
+     * prfviously-bdquirfd stbtf. In othfr words, initiblizing b Ciphfr is
+     * fquivblfnt to drfbting b nfw instbndf of thbt Ciphfr bnd initiblizing
+     * it.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     * following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm dfrtifidbtf thf dfrtifidbtf
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf publid kfy in thf givfn
+     * dfrtifidbtf is inbppropribtf for initiblizing this diphfr, or this
+     * diphfr
+     * rfquirfs blgorithm pbrbmftfrs thbt dbnnot bf dftfrminfd from thf
+     * publid kfy in thf givfn dfrtifidbtf, or thf kfysizf of thf publid kfy
+     * in thf givfn dfrtifidbtf hbs b kfysizf thbt fxdffds thf mbximum
+     * bllowbblf kfysizf (bs dftfrminfd by thf donfigurfd jurisdidtion polidy
+     * filfs).
+     * @throws UnsupportfdOpfrbtionExdfption if (@dodf opmodf} is
+     * {@dodf WRAP_MODE} or {@dodf UNWRAP_MODE} but thf modf is not implfmfntfd
+     * by thf undfrlying {@dodf CiphfrSpi}.
+     */
+    publid finbl void init(int opmodf, Cfrtifidbtf dfrtifidbtf,
+                           SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption
+    {
+        initiblizfd = fblsf;
+        dhfdkOpmodf(opmodf);
+
+        // Chfdk kfy usbgf if thf dfrtifidbtf is of
+        // typf X.509.
+        if (dfrtifidbtf instbndfof jbvb.sfdurity.dfrt.X509Cfrtifidbtf) {
+            // Chfdk whfthfr thf dfrt hbs b kfy usbgf fxtfnsion
+            // mbrkfd bs b dritidbl fxtfnsion.
+            X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)dfrtifidbtf;
+            Sft<String> dritSft = dfrt.gftCritidblExtfnsionOIDs();
+
+            if (dritSft != null && !dritSft.isEmpty()
+                && dritSft.dontbins(KEY_USAGE_EXTENSION_OID)) {
+                boolfbn[] kfyUsbgfInfo = dfrt.gftKfyUsbgf();
+                // kfyUsbgfInfo[2] is for kfyEndiphfrmfnt;
+                // kfyUsbgfInfo[3] is for dbtbEndiphfrmfnt.
+                if ((kfyUsbgfInfo != null) &&
+                    (((opmodf == Ciphfr.ENCRYPT_MODE) &&
+                      (kfyUsbgfInfo.lfngth > 3) &&
+                      (kfyUsbgfInfo[3] == fblsf)) ||
+                     ((opmodf == Ciphfr.WRAP_MODE) &&
+                      (kfyUsbgfInfo.lfngth > 2) &&
+                      (kfyUsbgfInfo[2] == fblsf)))) {
+                    throw nfw InvblidKfyExdfption("Wrong kfy usbgf");
+                }
+            }
+        }
+
+        PublidKfy publidKfy =
+            (dfrtifidbtf==null? null:dfrtifidbtf.gftPublidKfy());
+
+        if (spi != null) {
+            dhfdkCryptoPfrm(spi, publidKfy);
+            spi.fnginfInit(opmodf, publidKfy, rbndom);
+        } flsf {
+            try {
+                dhoosfProvidfr(I_CERT, opmodf, publidKfy, null, null, rbndom);
+            } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+                // should nfvfr oddur
+                throw nfw InvblidKfyExdfption(f);
+            }
+        }
+
+        initiblizfd = truf;
+        this.opmodf = opmodf;
+    }
+
+    /**
+     * Ensurfs thbt Ciphfr is in b vblid stbtf for updbtf() bnd doFinbl()
+     * dblls - should bf initiblizfd bnd in ENCRYPT_MODE or DECRYPT_MODE.
+     * @throws IllfgblStbtfExdfption if Ciphfr objfdt is not in vblid stbtf.
+     */
+    privbtf void dhfdkCiphfrStbtf() {
+        if (!(this instbndfof NullCiphfr)) {
+            if (!initiblizfd) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd");
+            }
+            if ((opmodf != Ciphfr.ENCRYPT_MODE) &&
+                (opmodf != Ciphfr.DECRYPT_MODE)) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd " +
+                                                "for fndryption/dfdryption");
+            }
+        }
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf bytfs in thf <dodf>input</dodf> bufffr brf prodfssfd, bnd thf
+     * rfsult is storfd in b nfw bufffr.
+     *
+     * <p>If <dodf>input</dodf> hbs b lfngth of zfro, this mfthod rfturns
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm input thf input bufffr
+     *
+     * @rfturn thf nfw bufffr with thf rfsult, or null if thf undfrlying
+     * diphfr is b blodk diphfr bnd thf input dbtb is too short to rfsult in b
+     * nfw blodk.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     */
+    publid finbl bytf[] updbtf(bytf[] input) {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null) {
+            throw nfw IllfgblArgumfntExdfption("Null input bufffr");
+        }
+
+        dhoosfFirstProvidfr();
+        if (input.lfngth == 0) {
+            rfturn null;
+        }
+        rfturn spi.fnginfUpdbtf(input, 0, input.lfngth);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, brf prodfssfd,
+     * bnd thf rfsult is storfd in b nfw bufffr.
+     *
+     * <p>If <dodf>inputLfn</dodf> is zfro, this mfthod rfturns
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     *
+     * @rfturn thf nfw bufffr with thf rfsult, or null if thf undfrlying
+     * diphfr is b blodk diphfr bnd thf input dbtb is too short to rfsult in b
+     * nfw blodk.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     */
+    publid finbl bytf[] updbtf(bytf[] input, int inputOffsft, int inputLfn) {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        if (inputLfn == 0) {
+            rfturn null;
+        }
+        rfturn spi.fnginfUpdbtf(input, inputOffsft, inputLfn);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, brf prodfssfd,
+     * bnd thf rfsult is storfd in thf <dodf>output</dodf> bufffr.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>If <dodf>inputLfn</dodf> is zfro, this mfthod rfturns
+     * b lfngth of zfro.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf bytf brrby bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     */
+    publid finbl int updbtf(bytf[] input, int inputOffsft, int inputLfn,
+                            bytf[] output)
+            throws ShortBufffrExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        if (inputLfn == 0) {
+            rfturn 0;
+        }
+        rfturn spi.fnginfUpdbtf(input, inputOffsft, inputLfn,
+                                      output, 0);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, brf prodfssfd,
+     * bnd thf rfsult is storfd in thf <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf> indlusivf.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>If <dodf>inputLfn</dodf> is zfro, this mfthod rfturns
+     * b lfngth of zfro.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf bytf brrby bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     */
+    publid finbl int updbtf(bytf[] input, int inputOffsft, int inputLfn,
+                            bytf[] output, int outputOffsft)
+            throws ShortBufffrExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0
+            || outputOffsft < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        if (inputLfn == 0) {
+            rfturn 0;
+        }
+        rfturn spi.fnginfUpdbtf(input, inputOffsft, inputLfn,
+                                      output, outputOffsft);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>All <dodf>input.rfmbining()</dodf> bytfs stbrting bt
+     * <dodf>input.position()</dodf> brf prodfssfd. Thf rfsult is storfd
+     * in thf output bufffr.
+     * Upon rfturn, thf input bufffr's position will bf fqubl
+     * to its limit; its limit will not hbvf dhbngfd. Thf output bufffr's
+     * position will hbvf bdvbndfd by n, whfrf n is thf vbluf rfturnfd
+     * by this mfthod; thf output bufffr's limit will not hbvf dhbngfd.
+     *
+     * <p>If <dodf>output.rfmbining()</dodf> bytfs brf insuffidifnt to
+     * hold thf rfsult, b <dodf>ShortBufffrExdfption</dodf> is thrown.
+     * In this dbsf, rfpfbt this dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf blodk of mfmory bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input BytfBufffr
+     * @pbrbm output thf output BytfByfffr
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblArgumfntExdfption if input bnd output brf thf
+     *   sbmf objfdt
+     * @fxdfption RfbdOnlyBufffrExdfption if thf output bufffr is rfbd-only
+     * @fxdfption ShortBufffrExdfption if thfrf is insuffidifnt spbdf in thf
+     * output bufffr
+     * @sindf 1.5
+     */
+    publid finbl int updbtf(BytfBufffr input, BytfBufffr output)
+            throws ShortBufffrExdfption {
+        dhfdkCiphfrStbtf();
+
+        if ((input == null) || (output == null)) {
+            throw nfw IllfgblArgumfntExdfption("Bufffrs must not bf null");
+        }
+        if (input == output) {
+            throw nfw IllfgblArgumfntExdfption("Input bnd output bufffrs must "
+                + "not bf thf sbmf objfdt, donsidfr using bufffr.duplidbtf()");
+        }
+        if (output.isRfbdOnly()) {
+            throw nfw RfbdOnlyBufffrExdfption();
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfUpdbtf(input, output);
+    }
+
+    /**
+     * Finishfs b multiplf-pbrt fndryption or dfdryption opfrbtion, dfpfnding
+     * on how this diphfr wbs initiblizfd.
+     *
+     * <p>Input dbtb thbt mby hbvf bffn bufffrfd during b prfvious
+     * <dodf>updbtf</dodf> opfrbtion is prodfssfd, with pbdding (if rfqufstfd)
+     * bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in b nfw bufffr.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * @rfturn thf nfw bufffr with thf rfsult
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl bytf[] doFinbl()
+            throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(null, 0, 0);
+    }
+
+    /**
+     * Finishfs b multiplf-pbrt fndryption or dfdryption opfrbtion, dfpfnding
+     * on how this diphfr wbs initiblizfd.
+     *
+     * <p>Input dbtb thbt mby hbvf bffn bufffrfd during b prfvious
+     * <dodf>updbtf</dodf> opfrbtion is prodfssfd, with pbdding (if rfqufstfd)
+     * bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in thf <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf> indlusivf.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl int doFinbl(bytf[] output, int outputOffsft)
+            throws IllfgblBlodkSizfExdfption, ShortBufffrExdfption,
+               BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if ((output == null) || (outputOffsft < 0)) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(null, 0, 0, output, outputOffsft);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion, or finishfs b
+     * multiplf-pbrt opfrbtion. Thf dbtb is fndryptfd or dfdryptfd,
+     * dfpfnding on how this diphfr wbs initiblizfd.
+     *
+     * <p>Thf bytfs in thf <dodf>input</dodf> bufffr, bnd bny input bytfs thbt
+     * mby hbvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf> opfrbtion,
+     * brf prodfssfd, with pbdding (if rfqufstfd) bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in b nfw bufffr.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * @pbrbm input thf input bufffr
+     *
+     * @rfturn thf nfw bufffr with thf rfsult
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl bytf[] doFinbl(bytf[] input)
+            throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null) {
+            throw nfw IllfgblArgumfntExdfption("Null input bufffr");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(input, 0, input.lfngth);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion, or finishfs b
+     * multiplf-pbrt opfrbtion. Thf dbtb is fndryptfd or dfdryptfd,
+     * dfpfnding on how this diphfr wbs initiblizfd.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, bnd bny input
+     * bytfs thbt mby hbvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf>
+     * opfrbtion, brf prodfssfd, with pbdding (if rfqufstfd) bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in b nfw bufffr.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     *
+     * @rfturn thf nfw bufffr with thf rfsult
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl bytf[] doFinbl(bytf[] input, int inputOffsft, int inputLfn)
+            throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(input, inputOffsft, inputLfn);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion, or finishfs b
+     * multiplf-pbrt opfrbtion. Thf dbtb is fndryptfd or dfdryptfd,
+     * dfpfnding on how this diphfr wbs initiblizfd.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, bnd bny input
+     * bytfs thbt mby hbvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf>
+     * opfrbtion, brf prodfssfd, with pbdding (if rfqufstfd) bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in thf <dodf>output</dodf> bufffr.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf bytf brrby bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl int doFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                             bytf[] output)
+            throws ShortBufffrExdfption, IllfgblBlodkSizfExdfption,
+            BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(input, inputOffsft, inputLfn,
+                                       output, 0);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion, or finishfs b
+     * multiplf-pbrt opfrbtion. Thf dbtb is fndryptfd or dfdryptfd,
+     * dfpfnding on how this diphfr wbs initiblizfd.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf> indlusivf, bnd bny input
+     * bytfs thbt mby hbvf bffn bufffrfd during b prfvious
+     * <dodf>updbtf</dodf> opfrbtion, brf prodfssfd, with pbdding
+     * (if rfqufstfd) bfing bpplifd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in thf <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf> indlusivf.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf bytf brrby bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     */
+    publid finbl int doFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                             bytf[] output, int outputOffsft)
+            throws ShortBufffrExdfption, IllfgblBlodkSizfExdfption,
+            BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (input == null || inputOffsft < 0
+            || inputLfn > (input.lfngth - inputOffsft) || inputLfn < 0
+            || outputOffsft < 0) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(input, inputOffsft, inputLfn,
+                                       output, outputOffsft);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion, or finishfs b
+     * multiplf-pbrt opfrbtion. Thf dbtb is fndryptfd or dfdryptfd,
+     * dfpfnding on how this diphfr wbs initiblizfd.
+     *
+     * <p>All <dodf>input.rfmbining()</dodf> bytfs stbrting bt
+     * <dodf>input.position()</dodf> brf prodfssfd.
+     * If bn AEAD modf sudh bs GCM/CCM is bfing usfd, thf buthfntidbtion
+     * tbg is bppfndfd in thf dbsf of fndryption, or vfrififd in thf
+     * dbsf of dfdryption.
+     * Thf rfsult is storfd in thf output bufffr.
+     * Upon rfturn, thf input bufffr's position will bf fqubl
+     * to its limit; its limit will not hbvf dhbngfd. Thf output bufffr's
+     * position will hbvf bdvbndfd by n, whfrf n is thf vbluf rfturnfd
+     * by this mfthod; thf output bufffr's limit will not hbvf dhbngfd.
+     *
+     * <p>If <dodf>output.rfmbining()</dodf> bytfs brf insuffidifnt to
+     * hold thf rfsult, b <dodf>ShortBufffrExdfption</dodf> is thrown.
+     * In this dbsf, rfpfbt this dbll with b lbrgfr output bufffr. Usf
+     * {@link #gftOutputSizf(int) gftOutputSizf} to dftfrminf how big
+     * thf output bufffr should bf.
+     *
+     * <p>Upon finishing, this mfthod rfsfts this diphfr objfdt to thf stbtf
+     * it wbs in whfn prfviously initiblizfd vib b dbll to <dodf>init</dodf>.
+     * Thbt is, thf objfdt is rfsft bnd bvbilbblf to fndrypt or dfdrypt
+     * (dfpfnding on thf opfrbtion modf thbt wbs spfdififd in thf dbll to
+     * <dodf>init</dodf>) morf dbtb.
+     *
+     * <p>Notf: if bny fxdfption is thrown, this diphfr objfdt mby nffd to
+     * bf rfsft bfforf it dbn bf usfd bgbin.
+     *
+     * <p>Notf: this mfthod should bf dopy-sbff, whidh mfbns thf
+     * <dodf>input</dodf> bnd <dodf>output</dodf> bufffrs dbn rfffrfndf
+     * thf sbmf bytf brrby bnd no unprodfssfd input dbtb is ovfrwrittfn
+     * whfn thf rfsult is dopifd into thf output bufffr.
+     *
+     * @pbrbm input thf input BytfBufffr
+     * @pbrbm output thf output BytfBufffr
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     * @fxdfption IllfgblArgumfntExdfption if input bnd output brf thf
+     *   sbmf objfdt
+     * @fxdfption RfbdOnlyBufffrExdfption if thf output bufffr is rfbd-only
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf; or if this fndryption blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     * @fxdfption ShortBufffrExdfption if thfrf is insuffidifnt spbdf in thf
+     * output bufffr
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     * @fxdfption AEADBbdTbgExdfption if this diphfr is dfdrypting in bn
+     * AEAD modf (sudh bs GCM/CCM), bnd thf rfdfivfd buthfntidbtion tbg
+     * dofs not mbtdh thf dbldulbtfd vbluf
+     *
+     * @sindf 1.5
+     */
+    publid finbl int doFinbl(BytfBufffr input, BytfBufffr output)
+            throws ShortBufffrExdfption, IllfgblBlodkSizfExdfption,
+            BbdPbddingExdfption {
+        dhfdkCiphfrStbtf();
+
+        if ((input == null) || (output == null)) {
+            throw nfw IllfgblArgumfntExdfption("Bufffrs must not bf null");
+        }
+        if (input == output) {
+            throw nfw IllfgblArgumfntExdfption("Input bnd output bufffrs must "
+                + "not bf thf sbmf objfdt, donsidfr using bufffr.duplidbtf()");
+        }
+        if (output.isRfbdOnly()) {
+            throw nfw RfbdOnlyBufffrExdfption();
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfDoFinbl(input, output);
+    }
+
+    /**
+     * Wrbp b kfy.
+     *
+     * @pbrbm kfy thf kfy to bf wrbppfd.
+     *
+     * @rfturn thf wrbppfd kfy.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong
+     * stbtf (f.g., hbs not bffn initiblizfd).
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk
+     * diphfr, no pbdding hbs bffn rfqufstfd, bnd thf lfngth of thf
+     * fndoding of thf kfy to bf wrbppfd is not b
+     * multiplf of thf blodk sizf.
+     *
+     * @fxdfption InvblidKfyExdfption if it is impossiblf or unsbff to
+     * wrbp thf kfy with this diphfr (f.g., b hbrdwbrf protfdtfd kfy is
+     * bfing pbssfd to b softwbrf-only diphfr).
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf dorrfsponding mfthod in thf
+     * {@dodf CiphfrSpi} is not supportfd.
+     */
+    publid finbl bytf[] wrbp(Kfy kfy)
+            throws IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        if (!(this instbndfof NullCiphfr)) {
+            if (!initiblizfd) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd");
+            }
+            if (opmodf != Ciphfr.WRAP_MODE) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd " +
+                                                "for wrbpping kfys");
+            }
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfWrbp(kfy);
+    }
+
+    /**
+     * Unwrbp b prfviously wrbppfd kfy.
+     *
+     * @pbrbm wrbppfdKfy thf kfy to bf unwrbppfd.
+     *
+     * @pbrbm wrbppfdKfyAlgorithm thf blgorithm bssodibtfd with thf wrbppfd
+     * kfy.
+     *
+     * @pbrbm wrbppfdKfyTypf thf typf of thf wrbppfd kfy. This must bf onf of
+     * <dodf>SECRET_KEY</dodf>, <dodf>PRIVATE_KEY</dodf>, or
+     * <dodf>PUBLIC_KEY</dodf>.
+     *
+     * @rfturn thf unwrbppfd kfy.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd).
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no instbllfd providfrs
+     * dbn drfbtf kfys of typf <dodf>wrbppfdKfyTypf</dodf> for thf
+     * <dodf>wrbppfdKfyAlgorithm</dodf>.
+     *
+     * @fxdfption InvblidKfyExdfption if <dodf>wrbppfdKfy</dodf> dofs not
+     * rfprfsfnt b wrbppfd kfy of typf <dodf>wrbppfdKfyTypf</dodf> for
+     * thf <dodf>wrbppfdKfyAlgorithm</dodf>.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf dorrfsponding mfthod in thf
+     * {@dodf CiphfrSpi} is not supportfd.
+     */
+    publid finbl Kfy unwrbp(bytf[] wrbppfdKfy,
+                            String wrbppfdKfyAlgorithm,
+                            int wrbppfdKfyTypf)
+            throws InvblidKfyExdfption, NoSudhAlgorithmExdfption {
+
+        if (!(this instbndfof NullCiphfr)) {
+            if (!initiblizfd) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd");
+            }
+            if (opmodf != Ciphfr.UNWRAP_MODE) {
+                throw nfw IllfgblStbtfExdfption("Ciphfr not initiblizfd " +
+                                                "for unwrbpping kfys");
+            }
+        }
+        if ((wrbppfdKfyTypf != SECRET_KEY) &&
+            (wrbppfdKfyTypf != PRIVATE_KEY) &&
+            (wrbppfdKfyTypf != PUBLIC_KEY)) {
+            throw nfw InvblidPbrbmftfrExdfption("Invblid kfy typf");
+        }
+
+        dhoosfFirstProvidfr();
+        rfturn spi.fnginfUnwrbp(wrbppfdKfy,
+                                      wrbppfdKfyAlgorithm,
+                                      wrbppfdKfyTypf);
+    }
+
+    privbtf AlgorithmPbrbmftfrSpfd gftAlgorithmPbrbmftfrSpfd(
+                                      AlgorithmPbrbmftfrs pbrbms)
+            throws InvblidPbrbmftfrSpfdExdfption {
+        if (pbrbms == null) {
+            rfturn null;
+        }
+
+        String blg = pbrbms.gftAlgorithm().toUppfrCbsf(Lodblf.ENGLISH);
+
+        if (blg.fqublsIgnorfCbsf("RC2")) {
+            rfturn pbrbms.gftPbrbmftfrSpfd(RC2PbrbmftfrSpfd.dlbss);
+        }
+
+        if (blg.fqublsIgnorfCbsf("RC5")) {
+            rfturn pbrbms.gftPbrbmftfrSpfd(RC5PbrbmftfrSpfd.dlbss);
+        }
+
+        if (blg.stbrtsWith("PBE")) {
+            rfturn pbrbms.gftPbrbmftfrSpfd(PBEPbrbmftfrSpfd.dlbss);
+        }
+
+        if (blg.stbrtsWith("DES")) {
+            rfturn pbrbms.gftPbrbmftfrSpfd(IvPbrbmftfrSpfd.dlbss);
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid CryptoPfrmission gftConfigurfdPfrmission(
+            String trbnsformbtion) throws NullPointfrExdfption,
+            NoSudhAlgorithmExdfption {
+        if (trbnsformbtion == null) throw nfw NullPointfrExdfption();
+        String[] pbrts = tokfnizfTrbnsformbtion(trbnsformbtion);
+        rfturn JdfSfdurityMbnbgfr.INSTANCE.gftCryptoPfrmission(pbrts[0]);
+    }
+
+    /**
+     * Rfturns thf mbximum kfy lfngth for thf spfdififd trbnsformbtion
+     * bddording to thf instbllfd JCE jurisdidtion polidy filfs. If
+     * JCE unlimitfd strfngth jurisdidtion polidy filfs brf instbllfd,
+     * Intfgfr.MAX_VALUE will bf rfturnfd.
+     * For morf informbtion on dffbult kfy sizf in JCE jurisdidtion
+     * polidy filfs, plfbsf sff Appfndix E in thf
+     * <b hrff=
+     *   "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#AppC">
+     * Jbvb Cryptogrbphy Ardhitfdturf Rfffrfndf Guidf</b>.
+     *
+     * @pbrbm trbnsformbtion thf diphfr trbnsformbtion.
+     * @rfturn thf mbximum kfy lfngth in bits or Intfgfr.MAX_VALUE.
+     * @fxdfption NullPointfrExdfption if <dodf>trbnsformbtion</dodf> is null.
+     * @fxdfption NoSudhAlgorithmExdfption if <dodf>trbnsformbtion</dodf>
+     * is not b vblid trbnsformbtion, i.f. in thf form of "blgorithm" or
+     * "blgorithm/modf/pbdding".
+     * @sindf 1.5
+     */
+    publid stbtid finbl int gftMbxAllowfdKfyLfngth(String trbnsformbtion)
+            throws NoSudhAlgorithmExdfption {
+        CryptoPfrmission dp = gftConfigurfdPfrmission(trbnsformbtion);
+        rfturn dp.gftMbxKfySizf();
+    }
+
+    /**
+     * Rfturns bn AlgorithmPbrbmftfrSpfd objfdt whidh dontbins
+     * thf mbximum diphfr pbrbmftfr vbluf bddording to thf
+     * jurisdidtion polidy filf. If JCE unlimitfd strfngth jurisdidtion
+     * polidy filfs brf instbllfd or thfrf is no mbximum limit on thf
+     * pbrbmftfrs for thf spfdififd trbnsformbtion in thf polidy filf,
+     * null will bf rfturnfd.
+     *
+     * @pbrbm trbnsformbtion thf diphfr trbnsformbtion.
+     * @rfturn bn AlgorithmPbrbmftfrSpfd whidh holds thf mbximum
+     * vbluf or null.
+     * @fxdfption NullPointfrExdfption if <dodf>trbnsformbtion</dodf>
+     * is null.
+     * @fxdfption NoSudhAlgorithmExdfption if <dodf>trbnsformbtion</dodf>
+     * is not b vblid trbnsformbtion, i.f. in thf form of "blgorithm" or
+     * "blgorithm/modf/pbdding".
+     * @sindf 1.5
+     */
+    publid stbtid finbl AlgorithmPbrbmftfrSpfd gftMbxAllowfdPbrbmftfrSpfd(
+            String trbnsformbtion) throws NoSudhAlgorithmExdfption {
+        CryptoPfrmission dp = gftConfigurfdPfrmission(trbnsformbtion);
+        rfturn dp.gftAlgorithmPbrbmftfrSpfd();
+    }
+
+    /**
+     * Continufs b multi-pbrt updbtf of thf Additionbl Authfntidbtion
+     * Dbtb (AAD).
+     * <p>
+     * Cblls to this mfthod providf AAD to thf diphfr whfn opfrbting in
+     * modfs sudh bs AEAD (GCM/CCM).  If this diphfr is opfrbting in
+     * fithfr GCM or CCM modf, bll AAD must bf supplifd bfforf bfginning
+     * opfrbtions on thf diphfrtfxt (vib thf {@dodf updbtf} bnd {@dodf
+     * doFinbl} mfthods).
+     *
+     * @pbrbm srd thf bufffr dontbining thf Additionbl Authfntidbtion Dbtb
+     *
+     * @throws IllfgblArgumfntExdfption if thf {@dodf srd}
+     * bytf brrby is null
+     * @throws IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fithfr GCM or CCM modf bnd onf of thf {@dodf updbtf}
+     * mfthods hbs blrfbdy bffn dbllfd for thf bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @throws UnsupportfdOpfrbtionExdfption if thf dorrfsponding mfthod
+     * in thf {@dodf CiphfrSpi} hbs not bffn ovfrriddfn by bn
+     * implfmfntbtion
+     *
+     * @sindf 1.7
+     */
+    publid finbl void updbtfAAD(bytf[] srd) {
+        if (srd == null) {
+            throw nfw IllfgblArgumfntExdfption("srd bufffr is null");
+        }
+
+        updbtfAAD(srd, 0, srd.lfngth);
+    }
+
+    /**
+     * Continufs b multi-pbrt updbtf of thf Additionbl Authfntidbtion
+     * Dbtb (AAD), using b subsft of thf providfd bufffr.
+     * <p>
+     * Cblls to this mfthod providf AAD to thf diphfr whfn opfrbting in
+     * modfs sudh bs AEAD (GCM/CCM).  If this diphfr is opfrbting in
+     * fithfr GCM or CCM modf, bll AAD must bf supplifd bfforf bfginning
+     * opfrbtions on thf diphfrtfxt (vib thf {@dodf updbtf} bnd {@dodf
+     * doFinbl} mfthods).
+     *
+     * @pbrbm srd thf bufffr dontbining thf AAD
+     * @pbrbm offsft thf offsft in {@dodf srd} whfrf thf AAD input stbrts
+     * @pbrbm lfn thf numbfr of AAD bytfs
+     *
+     * @throws IllfgblArgumfntExdfption if thf {@dodf srd}
+     * bytf brrby is null, or thf {@dodf offsft} or {@dodf lfngth}
+     * is lfss thbn 0, or thf sum of thf {@dodf offsft} bnd
+     * {@dodf lfn} is grfbtfr thbn thf lfngth of thf
+     * {@dodf srd} bytf brrby
+     * @throws IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fithfr GCM or CCM modf bnd onf of thf {@dodf updbtf}
+     * mfthods hbs blrfbdy bffn dbllfd for thf bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @throws UnsupportfdOpfrbtionExdfption if thf dorrfsponding mfthod
+     * in thf {@dodf CiphfrSpi} hbs not bffn ovfrriddfn by bn
+     * implfmfntbtion
+     *
+     * @sindf 1.7
+     */
+    publid finbl void updbtfAAD(bytf[] srd, int offsft, int lfn) {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if ((srd == null) || (offsft < 0) || (lfn < 0)
+                || ((lfn + offsft) > srd.lfngth)) {
+            throw nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+        }
+
+        dhoosfFirstProvidfr();
+        if (lfn == 0) {
+            rfturn;
+        }
+        spi.fnginfUpdbtfAAD(srd, offsft, lfn);
+    }
+
+    /**
+     * Continufs b multi-pbrt updbtf of thf Additionbl Authfntidbtion
+     * Dbtb (AAD).
+     * <p>
+     * Cblls to this mfthod providf AAD to thf diphfr whfn opfrbting in
+     * modfs sudh bs AEAD (GCM/CCM).  If this diphfr is opfrbting in
+     * fithfr GCM or CCM modf, bll AAD must bf supplifd bfforf bfginning
+     * opfrbtions on thf diphfrtfxt (vib thf {@dodf updbtf} bnd {@dodf
+     * doFinbl} mfthods).
+     * <p>
+     * All {@dodf srd.rfmbining()} bytfs stbrting bt
+     * {@dodf srd.position()} brf prodfssfd.
+     * Upon rfturn, thf input bufffr's position will bf fqubl
+     * to its limit; its limit will not hbvf dhbngfd.
+     *
+     * @pbrbm srd thf bufffr dontbining thf AAD
+     *
+     * @throws IllfgblArgumfntExdfption if thf {@dodf srd BytfBufffr}
+     * is null
+     * @throws IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fithfr GCM or CCM modf bnd onf of thf {@dodf updbtf}
+     * mfthods hbs blrfbdy bffn dbllfd for thf bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @throws UnsupportfdOpfrbtionExdfption if thf dorrfsponding mfthod
+     * in thf {@dodf CiphfrSpi} hbs not bffn ovfrriddfn by bn
+     * implfmfntbtion
+     *
+     * @sindf 1.7
+     */
+    publid finbl void updbtfAAD(BytfBufffr srd) {
+        dhfdkCiphfrStbtf();
+
+        // Input sbnity dhfdk
+        if (srd == null) {
+            throw nfw IllfgblArgumfntExdfption("srd BytfBufffr is null");
+        }
+
+        dhoosfFirstProvidfr();
+        if (srd.rfmbining() == 0) {
+            rfturn;
+        }
+        spi.fnginfUpdbtfAAD(srd);
+    }
+}

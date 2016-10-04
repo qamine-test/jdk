@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * The Key interface is the top-level interface for all keys. It
- * defines the functionality shared by all key objects. All keys
- * have three characteristics:
+ * Tif Kfy intfrfbdf is tif top-lfvfl intfrfbdf for bll kfys. It
+ * dffinfs tif fundtionblity sibrfd by bll kfy objfdts. All kfys
+ * ibvf tirff dibrbdtfristids:
  *
  * <UL>
  *
- * <LI>An Algorithm
+ * <LI>An Algoritim
  *
- * <P>This is the key algorithm for that key. The key algorithm is usually
- * an encryption or asymmetric operation algorithm (such as DSA or
- * RSA), which will work with those algorithms and with related
- * algorithms (such as MD5 with RSA, SHA-1 with RSA, Raw DSA, etc.)
- * The name of the algorithm of a key is obtained using the
- * {@link #getAlgorithm() getAlgorithm} method.
+ * <P>Tiis is tif kfy blgoritim for tibt kfy. Tif kfy blgoritim is usublly
+ * bn fndryption or bsymmftrid opfrbtion blgoritim (sudi bs DSA or
+ * RSA), wiidi will work witi tiosf blgoritims bnd witi rflbtfd
+ * blgoritims (sudi bs MD5 witi RSA, SHA-1 witi RSA, Rbw DSA, ftd.)
+ * Tif nbmf of tif blgoritim of b kfy is obtbinfd using tif
+ * {@link #gftAlgoritim() gftAlgoritim} mftiod.
  *
- * <LI>An Encoded Form
+ * <LI>An Endodfd Form
  *
- * <P>This is an external encoded form for the key used when a standard
- * representation of the key is needed outside the Java Virtual Machine,
- * as when transmitting the key to some other party. The key
- * is encoded according to a standard format (such as
- * X.509 {@code SubjectPublicKeyInfo} or PKCS#8), and
- * is returned using the {@link #getEncoded() getEncoded} method.
- * Note: The syntax of the ASN.1 type {@code SubjectPublicKeyInfo}
- * is defined as follows:
+ * <P>Tiis is bn fxtfrnbl fndodfd form for tif kfy usfd wifn b stbndbrd
+ * rfprfsfntbtion of tif kfy is nffdfd outsidf tif Jbvb Virtubl Mbdiinf,
+ * bs wifn trbnsmitting tif kfy to somf otifr pbrty. Tif kfy
+ * is fndodfd bddording to b stbndbrd formbt (sudi bs
+ * X.509 {@dodf SubjfdtPublidKfyInfo} or PKCS#8), bnd
+ * is rfturnfd using tif {@link #gftEndodfd() gftEndodfd} mftiod.
+ * Notf: Tif syntbx of tif ASN.1 typf {@dodf SubjfdtPublidKfyInfo}
+ * is dffinfd bs follows:
  *
- * <pre>
- * SubjectPublicKeyInfo ::= SEQUENCE {
- *   algorithm AlgorithmIdentifier,
- *   subjectPublicKey BIT STRING }
+ * <prf>
+ * SubjfdtPublidKfyInfo ::= SEQUENCE {
+ *   blgoritim AlgoritimIdfntififr,
+ *   subjfdtPublidKfy BIT STRING }
  *
- * AlgorithmIdentifier ::= SEQUENCE {
- *   algorithm OBJECT IDENTIFIER,
- *   parameters ANY DEFINED BY algorithm OPTIONAL }
- * </pre>
+ * AlgoritimIdfntififr ::= SEQUENCE {
+ *   blgoritim OBJECT IDENTIFIER,
+ *   pbrbmftfrs ANY DEFINED BY blgoritim OPTIONAL }
+ * </prf>
  *
- * For more information, see
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
- * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a>.
+ * For morf informbtion, sff
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280:
+ * Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>.
  *
- * <LI>A Format
+ * <LI>A Formbt
  *
- * <P>This is the name of the format of the encoded key. It is returned
- * by the {@link #getFormat() getFormat} method.
+ * <P>Tiis is tif nbmf of tif formbt of tif fndodfd kfy. It is rfturnfd
+ * by tif {@link #gftFormbt() gftFormbt} mftiod.
  *
  * </UL>
  *
- * Keys are generally obtained through key generators, certificates,
- * or various Identity classes used to manage keys.
- * Keys may also be obtained from key specifications (transparent
- * representations of the underlying key material) through the use of a key
- * factory (see {@link KeyFactory}).
+ * Kfys brf gfnfrblly obtbinfd tirougi kfy gfnfrbtors, dfrtifidbtfs,
+ * or vbrious Idfntity dlbssfs usfd to mbnbgf kfys.
+ * Kfys mby blso bf obtbinfd from kfy spfdifidbtions (trbnspbrfnt
+ * rfprfsfntbtions of tif undfrlying kfy mbtfribl) tirougi tif usf of b kfy
+ * fbdtory (sff {@link KfyFbdtory}).
  *
- * <p> A Key should use KeyRep as its serialized representation.
- * Note that a serialized Key may contain sensitive information
- * which should not be exposed in untrusted environments.  See the
- * <a href="../../../platform/serialization/spec/security.html">
- * Security Appendix</a>
- * of the Serialization Specification for more information.
+ * <p> A Kfy siould usf KfyRfp bs its sfriblizfd rfprfsfntbtion.
+ * Notf tibt b sfriblizfd Kfy mby dontbin sfnsitivf informbtion
+ * wiidi siould not bf fxposfd in untrustfd fnvironmfnts.  Sff tif
+ * <b irff="../../../plbtform/sfriblizbtion/spfd/sfdurity.itml">
+ * Sfdurity Appfndix</b>
+ * of tif Sfriblizbtion Spfdifidbtion for morf informbtion.
  *
- * @see PublicKey
- * @see PrivateKey
- * @see KeyPair
- * @see KeyPairGenerator
- * @see KeyFactory
- * @see KeyRep
- * @see java.security.spec.KeySpec
- * @see Identity
- * @see Signer
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
+ * @sff KfyPbir
+ * @sff KfyPbirGfnfrbtor
+ * @sff KfyFbdtory
+ * @sff KfyRfp
+ * @sff jbvb.sfdurity.spfd.KfySpfd
+ * @sff Idfntity
+ * @sff Signfr
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
 
-public interface Key extends java.io.Serializable {
+publid intfrfbdf Kfy fxtfnds jbvb.io.Sfriblizbblf {
 
-    // Declare serialVersionUID to be compatible with JDK1.1
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
 
    /**
-    * The class fingerprint that is set to indicate
-    * serialization compatibility with a previous
-    * version of the class.
+    * Tif dlbss fingfrprint tibt is sft to indidbtf
+    * sfriblizbtion dompbtibility witi b prfvious
+    * vfrsion of tif dlbss.
     */
-    static final long serialVersionUID = 6603384152749567654L;
+    stbtid finbl long sfriblVfrsionUID = 6603384152749567654L;
 
     /**
-     * Returns the standard algorithm name for this key. For
-     * example, "DSA" would indicate that this key is a DSA key.
-     * See Appendix A in the <a href=
-     * "../../../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Rfturns tif stbndbrd blgoritim nbmf for tiis kfy. For
+     * fxbmplf, "DSA" would indidbtf tibt tiis kfy is b DSA kfy.
+     * Sff Appfndix A in tif <b irff=
+     * "../../../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return the name of the algorithm associated with this key.
+     * @rfturn tif nbmf of tif blgoritim bssodibtfd witi tiis kfy.
      */
-    public String getAlgorithm();
+    publid String gftAlgoritim();
 
     /**
-     * Returns the name of the primary encoding format of this key,
-     * or null if this key does not support encoding.
-     * The primary encoding format is
-     * named in terms of the appropriate ASN.1 data format, if an
-     * ASN.1 specification for this key exists.
-     * For example, the name of the ASN.1 data format for public
-     * keys is <I>SubjectPublicKeyInfo</I>, as
-     * defined by the X.509 standard; in this case, the returned format is
-     * {@code "X.509"}. Similarly,
-     * the name of the ASN.1 data format for private keys is
-     * <I>PrivateKeyInfo</I>,
-     * as defined by the PKCS #8 standard; in this case, the returned format is
-     * {@code "PKCS#8"}.
+     * Rfturns tif nbmf of tif primbry fndoding formbt of tiis kfy,
+     * or null if tiis kfy dofs not support fndoding.
+     * Tif primbry fndoding formbt is
+     * nbmfd in tfrms of tif bppropribtf ASN.1 dbtb formbt, if bn
+     * ASN.1 spfdifidbtion for tiis kfy fxists.
+     * For fxbmplf, tif nbmf of tif ASN.1 dbtb formbt for publid
+     * kfys is <I>SubjfdtPublidKfyInfo</I>, bs
+     * dffinfd by tif X.509 stbndbrd; in tiis dbsf, tif rfturnfd formbt is
+     * {@dodf "X.509"}. Similbrly,
+     * tif nbmf of tif ASN.1 dbtb formbt for privbtf kfys is
+     * <I>PrivbtfKfyInfo</I>,
+     * bs dffinfd by tif PKCS #8 stbndbrd; in tiis dbsf, tif rfturnfd formbt is
+     * {@dodf "PKCS#8"}.
      *
-     * @return the primary encoding format of the key.
+     * @rfturn tif primbry fndoding formbt of tif kfy.
      */
-    public String getFormat();
+    publid String gftFormbt();
 
     /**
-     * Returns the key in its primary encoding format, or null
-     * if this key does not support encoding.
+     * Rfturns tif kfy in its primbry fndoding formbt, or null
+     * if tiis kfy dofs not support fndoding.
      *
-     * @return the encoded key, or null if the key does not support
-     * encoding.
+     * @rfturn tif fndodfd kfy, or null if tif kfy dofs not support
+     * fndoding.
      */
-    public byte[] getEncoded();
+    publid bytf[] gftEndodfd();
 }

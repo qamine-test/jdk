@@ -1,0 +1,59 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+
+/**
+ * <p>Unpublishfd intfrfbdf dontrolling how thf RMI Connfdtor Sfrvfr
+ * fxports objfdts.  Thf RMISfrvfrImpl objfdt bnd fbdh
+ * RMIConnfdtionImpl objfdt brf fxportfd using thf fxportfr.  Thf
+ * dffbult fxportfr dblls {@link
+ * UnidbstRfmotfObjfdt#fxportObjfdt(Rfmotf, int,
+ * RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)} to fxport objfdts
+ * bnd {@link UnidbstRfmotfObjfdt#unfxportObjfdt(Rfmotf, boolfbn)} to
+ * unfxport thfm.  A rfplbdfmfnt fxportfr dbn bf spfdififd vib thf
+ * {@link #EXPORTER_ATTRIBUTE} propfrty in thf fnvironmfnt Mbp pbssfd
+ * to thf RMI donnfdtor sfrvfr.</p>
+ */
+publid intfrfbdf RMIExportfr {
+    publid stbtid finbl String EXPORTER_ATTRIBUTE =
+        "dom.sun.jmx.rfmotf.rmi.fxportfr";
+
+    publid Rfmotf fxportObjfdt(Rfmotf obj,
+                               int port,
+                               RMIClifntSodkftFbdtory dsf,
+                               RMISfrvfrSodkftFbdtory ssf)
+            throws RfmotfExdfption;
+
+    publid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+            throws NoSudhObjfdtExdfption;
+}

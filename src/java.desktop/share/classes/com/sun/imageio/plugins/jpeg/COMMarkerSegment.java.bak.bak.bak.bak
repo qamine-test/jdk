@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+import org.w3d.dom.Nodf;
+
+/**
+ * A Commfnt mbrkfr sfgmfnt.  Rftbins bn brrby of bytfs rfprfsfnting thf
+ * dommfnt dbtb bs it is rfbd from thf strfbm.  If thf mbrkfr sfgmfnt is
+ * donstrudtfd from b String, thfn lodbl dffbult fndoding is bssumfd
+ * whfn drfbting thf bytf brrby.  If thf mbrkfr sfgmfnt is drfbtfd from
+ * bn <dodf>IIOMftbdbtbNodf</dodf>, thf usfr objfdt, if prfsfnt is
+ * bssumfd to bf b bytf brrby dontbining thf dommfnt dbtb.  If thfrf is
+ * no usfr objfdt thfn thf dommfnt bttributf is usfd to drfbtf thf
+ * bytf brrby, bgbin bssuming thf dffbult lodbl fndoding.
+ */
+dlbss COMMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    privbtf stbtid finbl String ENCODING = "ISO-8859-1";
+
+    /**
+     * Construdts b mbrkfr sfgmfnt from thf givfn bufffr, whidh dontbins
+     * dbtb from bn <dodf>ImbgfInputStrfbm</dodf>.  This is usfd whfn
+     * rfbding mftbdbtb from b strfbm.
+     */
+    COMMbrkfrSfgmfnt(JPEGBufffr bufffr) throws IOExdfption {
+        supfr(bufffr);
+        lobdDbtb(bufffr);
+    }
+
+    /**
+     * Construdts b mbrkfr sfgmfnt from b String.  This is usfd whfn
+     * modifying mftbdbtb from b non-nbtivf trff bnd whfn trbnsdoding.
+     * Thf dffbult fndoding is usfd to donstrudt thf bytf brrby.
+     */
+    COMMbrkfrSfgmfnt(String dommfnt) {
+        supfr(JPEG.COM);
+        dbtb = dommfnt.gftBytfs(); // Dffbult fndoding
+    }
+
+    /**
+     * Construdts b mbrkfr sfgmfnt from b nbtivf trff nodf.  If thf nodf
+     * is bn <dodf>IIOMftbdbtbNodf</dodf> bnd dontbins b usfr objfdt,
+     * thbt objfdt is usfd rbthfr thbn thf string bttributf.  If thf
+     * string bttributf is usfd, thf dffbult fndoding is usfd.
+     */
+    COMMbrkfrSfgmfnt(Nodf nodf) throws IIOInvblidTrffExdfption{
+        supfr(JPEG.COM);
+        if (nodf instbndfof IIOMftbdbtbNodf) {
+            IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+            dbtb = (bytf []) ourNodf.gftUsfrObjfdt();
+        }
+        if (dbtb == null) {
+            String dommfnt =
+                nodf.gftAttributfs().gftNbmfdItfm("dommfnt").gftNodfVbluf();
+            if (dommfnt != null) {
+                dbtb = dommfnt.gftBytfs(); // Dffbult fndoding
+            } flsf {
+                throw nfw IIOInvblidTrffExdfption("Empty dommfnt nodf!", nodf);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf brrby fndodfd bs b String, using ISO-Lbtin-1 fndoding.
+     * If bn bpplidbtion nffds bnothfr fndoding, thf dbtb brrby must bf
+     * donsultfd dirfdtly.
+     */
+    String gftCommfnt() {
+        try {
+            rfturn nfw String (dbtb, ENCODING);
+        } dbtdh (UnsupportfdEndodingExdfption f) {}  // Won't hbppfn
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> dontbining thf dbtb brrby
+     * bs b usfr objfdt bnd b string fndodfd using ISO-8895-1, bs bn
+     * bttributf.
+     */
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dom");
+        nodf.sftAttributf("dommfnt", gftCommfnt());
+        if (dbtb != null) {
+            nodf.sftUsfrObjfdt(dbtb.dlonf());
+        }
+        rfturn nodf;
+    }
+
+    /**
+     * Writfs thf dbtb for this sfgmfnt to thf strfbm in
+     * vblid JPEG formbt, dirfdtly from thf dbtb brrby.
+     */
+    void writf(ImbgfOutputStrfbm ios) throws IOExdfption {
+        lfngth = 2 + dbtb.lfngth;
+        writfTbg(ios);
+        ios.writf(dbtb);
+    }
+
+    void print() {
+        printTbg("COM");
+        Systfm.out.println("<" + gftCommfnt() + ">");
+    }
+}

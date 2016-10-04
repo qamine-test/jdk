@@ -1,240 +1,240 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import org.w3c.dom.Attr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import org.w3d.dom.Attr;
 
 /**
- * During reference validation, we have to retrieve resources from somewhere.
+ * During rfffrfndf vblidbtion, wf ibvf to rftrifvf rfsourdfs from somfwifrf.
  *
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public abstract class ResourceResolverSpi {
+publid bbstrbdt dlbss RfsourdfRfsolvfrSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResourceResolverSpi.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsourdfRfsolvfrSpi.dlbss.gftNbmf());
 
-    /** Field properties */
-    protected java.util.Map<String, String> properties = null;
-
-    /**
-     * Deprecated - used to carry state about whether resolution was being done in a secure fashion,
-     * but was not thread safe, so the resolution information is now passed as parameters to methods.
-     *
-     * @deprecated Secure validation flag is now passed to methods.
-     */
-    @Deprecated
-    protected final boolean secureValidation = true;
+    /** Fifld propfrtifs */
+    protfdtfd jbvb.util.Mbp<String, String> propfrtifs = null;
 
     /**
-     * This is the workhorse method used to resolve resources.
+     * Dfprfdbtfd - usfd to dbrry stbtf bbout wiftifr rfsolution wbs bfing donf in b sfdurf fbsiion,
+     * but wbs not tirfbd sbff, so tif rfsolution informbtion is now pbssfd bs pbrbmftfrs to mftiods.
      *
-     * @param uri
-     * @param BaseURI
-     * @return the resource wrapped around a XMLSignatureInput
-     *
-     * @throws ResourceResolverException
-     *
-     * @deprecated New clients should override {@link #engineResolveURI(ResourceResolverContext)}
+     * @dfprfdbtfd Sfdurf vblidbtion flbg is now pbssfd to mftiods.
      */
-    @Deprecated
-    public XMLSignatureInput engineResolve(Attr uri, String BaseURI)
-        throws ResourceResolverException {
-        throw new UnsupportedOperationException();
+    @Dfprfdbtfd
+    protfdtfd finbl boolfbn sfdurfVblidbtion = truf;
+
+    /**
+     * Tiis is tif workiorsf mftiod usfd to rfsolvf rfsourdfs.
+     *
+     * @pbrbm uri
+     * @pbrbm BbsfURI
+     * @rfturn tif rfsourdf wrbppfd bround b XMLSignbturfInput
+     *
+     * @tirows RfsourdfRfsolvfrExdfption
+     *
+     * @dfprfdbtfd Nfw dlifnts siould ovfrridf {@link #fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt)}
+     */
+    @Dfprfdbtfd
+    publid XMLSignbturfInput fnginfRfsolvf(Attr uri, String BbsfURI)
+        tirows RfsourdfRfsolvfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * This is the workhorse method used to resolve resources.
-     * @param context Context to use to resolve resources.
+     * Tiis is tif workiorsf mftiod usfd to rfsolvf rfsourdfs.
+     * @pbrbm dontfxt Contfxt to usf to rfsolvf rfsourdfs.
      *
-     * @return the resource wrapped around a XMLSignatureInput
+     * @rfturn tif rfsourdf wrbppfd bround b XMLSignbturfInput
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
-        throws ResourceResolverException {
-        // The default implementation, to preserve backwards compatibility in the
-        // test cases, calls the old resolver API.
-        return engineResolve(context.attr, context.baseUri);
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        tirows RfsourdfRfsolvfrExdfption {
+        // Tif dffbult implfmfntbtion, to prfsfrvf bbdkwbrds dompbtibility in tif
+        // tfst dbsfs, dblls tif old rfsolvfr API.
+        rfturn fnginfRfsolvf(dontfxt.bttr, dontfxt.bbsfUri);
     }
 
     /**
-     * Method engineSetProperty
+     * Mftiod fnginfSftPropfrty
      *
-     * @param key
-     * @param value
+     * @pbrbm kfy
+     * @pbrbm vbluf
      */
-    public void engineSetProperty(String key, String value) {
-        if (properties == null) {
-            properties = new HashMap<String, String>();
+    publid void fnginfSftPropfrty(String kfy, String vbluf) {
+        if (propfrtifs == null) {
+            propfrtifs = nfw HbsiMbp<String, String>();
         }
-        properties.put(key, value);
+        propfrtifs.put(kfy, vbluf);
     }
 
     /**
-     * Method engineGetProperty
+     * Mftiod fnginfGftPropfrty
      *
-     * @param key
-     * @return the value of the property
+     * @pbrbm kfy
+     * @rfturn tif vbluf of tif propfrty
      */
-    public String engineGetProperty(String key) {
-        if (properties == null) {
-            return null;
+    publid String fnginfGftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
         }
-        return properties.get(key);
+        rfturn propfrtifs.gft(kfy);
     }
 
     /**
      *
-     * @param newProperties
+     * @pbrbm nfwPropfrtifs
      */
-    public void engineAddProperies(Map<String, String> newProperties) {
-        if (newProperties != null && !newProperties.isEmpty()) {
-            if (properties == null) {
-                properties = new HashMap<String, String>();
+    publid void fnginfAddPropfrifs(Mbp<String, String> nfwPropfrtifs) {
+        if (nfwPropfrtifs != null && !nfwPropfrtifs.isEmpty()) {
+            if (propfrtifs == null) {
+                propfrtifs = nfw HbsiMbp<String, String>();
             }
-            properties.putAll(newProperties);
+            propfrtifs.putAll(nfwPropfrtifs);
         }
     }
 
     /**
-     * Tells if the implementation does can be reused by several threads safely.
-     * It normally means that the implementation does not have any member, or there is
-     * member change between engineCanResolve & engineResolve invocations. Or it maintains all
-     * member info in ThreadLocal methods.
+     * Tflls if tif implfmfntbtion dofs dbn bf rfusfd by sfvfrbl tirfbds sbffly.
+     * It normblly mfbns tibt tif implfmfntbtion dofs not ibvf bny mfmbfr, or tifrf is
+     * mfmbfr dibngf bftwffn fnginfCbnRfsolvf & fnginfRfsolvf invodbtions. Or it mbintbins bll
+     * mfmbfr info in TirfbdLodbl mftiods.
      */
-    public boolean engineIsThreadSafe() {
-        return false;
+    publid boolfbn fnginfIsTirfbdSbff() {
+        rfturn fblsf;
     }
 
     /**
-     * This method helps the {@link ResourceResolver} to decide whether a
-     * {@link ResourceResolverSpi} is able to perform the requested action.
+     * Tiis mftiod iflps tif {@link RfsourdfRfsolvfr} to dfdidf wiftifr b
+     * {@link RfsourdfRfsolvfrSpi} is bblf to pfrform tif rfqufstfd bdtion.
      *
-     * @param uri
-     * @param BaseURI
-     * @return true if the engine can resolve the uri
+     * @pbrbm uri
+     * @pbrbm BbsfURI
+     * @rfturn truf if tif fnginf dbn rfsolvf tif uri
      *
-     * @deprecated See {@link #engineCanResolveURI(ResourceResolverContext)}
+     * @dfprfdbtfd Sff {@link #fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt)}
      */
-    @Deprecated
-    public boolean engineCanResolve(Attr uri, String BaseURI) {
-        // This method used to be abstract, so any calls to "super" are bogus.
-        throw new UnsupportedOperationException();
+    @Dfprfdbtfd
+    publid boolfbn fnginfCbnRfsolvf(Attr uri, String BbsfURI) {
+        // Tiis mftiod usfd to bf bbstrbdt, so bny dblls to "supfr" brf bogus.
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * This method helps the {@link ResourceResolver} to decide whether a
-     * {@link ResourceResolverSpi} is able to perform the requested action.
+     * Tiis mftiod iflps tif {@link RfsourdfRfsolvfr} to dfdidf wiftifr b
+     * {@link RfsourdfRfsolvfrSpi} is bblf to pfrform tif rfqufstfd bdtion.
      *
-     * <p>New clients should override this method, and not override {@link #engineCanResolve(Attr, String)}
+     * <p>Nfw dlifnts siould ovfrridf tiis mftiod, bnd not ovfrridf {@link #fnginfCbnRfsolvf(Attr, String)}
      * </p>
-     * @param context Context in which to do resolution.
-     * @return true if the engine can resolve the uri
+     * @pbrbm dontfxt Contfxt in wiidi to do rfsolution.
+     * @rfturn truf if tif fnginf dbn rfsolvf tif uri
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        // To preserve backward compatibility with existing resolvers that might override the old method,
-        // call the old deprecated API.
-        return engineCanResolve( context.attr, context.baseUri );
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        // To prfsfrvf bbdkwbrd dompbtibility witi fxisting rfsolvfrs tibt migit ovfrridf tif old mftiod,
+        // dbll tif old dfprfdbtfd API.
+        rfturn fnginfCbnRfsolvf( dontfxt.bttr, dontfxt.bbsfUri );
     }
 
     /**
-     * Method engineGetPropertyKeys
+     * Mftiod fnginfGftPropfrtyKfys
      *
-     * @return the property keys
+     * @rfturn tif propfrty kfys
      */
-    public String[] engineGetPropertyKeys() {
-        return new String[0];
+    publid String[] fnginfGftPropfrtyKfys() {
+        rfturn nfw String[0];
     }
 
     /**
-     * Method understandsProperty
+     * Mftiod undfrstbndsPropfrty
      *
-     * @param propertyToTest
-     * @return true if understands the property
+     * @pbrbm propfrtyToTfst
+     * @rfturn truf if undfrstbnds tif propfrty
      */
-    public boolean understandsProperty(String propertyToTest) {
-        String[] understood = this.engineGetPropertyKeys();
+    publid boolfbn undfrstbndsPropfrty(String propfrtyToTfst) {
+        String[] undfrstood = tiis.fnginfGftPropfrtyKfys();
 
-        if (understood != null) {
-            for (int i = 0; i < understood.length; i++) {
-                if (understood[i].equals(propertyToTest)) {
-                    return true;
+        if (undfrstood != null) {
+            for (int i = 0; i < undfrstood.lfngti; i++) {
+                if (undfrstood[i].fqubls(propfrtyToTfst)) {
+                    rfturn truf;
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Fixes a platform dependent filename to standard URI form.
+     * Fixfs b plbtform dfpfndfnt filfnbmf to stbndbrd URI form.
      *
-     * @param str The string to fix.
+     * @pbrbm str Tif string to fix.
      *
-     * @return Returns the fixed URI string.
+     * @rfturn Rfturns tif fixfd URI string.
      */
-    public static String fixURI(String str) {
+    publid stbtid String fixURI(String str) {
 
-        // handle platform dependent strings
-        str = str.replace(java.io.File.separatorChar, '/');
+        // ibndlf plbtform dfpfndfnt strings
+        str = str.rfplbdf(jbvb.io.Filf.sfpbrbtorCibr, '/');
 
-        if (str.length() >= 4) {
+        if (str.lfngti() >= 4) {
 
-            // str =~ /^\W:\/([^/])/ # to speak perl ;-))
-            char ch0 = Character.toUpperCase(str.charAt(0));
-            char ch1 = str.charAt(1);
-            char ch2 = str.charAt(2);
-            char ch3 = str.charAt(3);
-            boolean isDosFilename = ((('A' <= ch0) && (ch0 <= 'Z'))
-                && (ch1 == ':') && (ch2 == '/')
-                && (ch3 != '/'));
+            // str =~ /^\W:\/([^/])/ # to spfbk pfrl ;-))
+            dibr di0 = Cibrbdtfr.toUppfrCbsf(str.dibrAt(0));
+            dibr di1 = str.dibrAt(1);
+            dibr di2 = str.dibrAt(2);
+            dibr di3 = str.dibrAt(3);
+            boolfbn isDosFilfnbmf = ((('A' <= di0) && (di0 <= 'Z'))
+                && (di1 == ':') && (di2 == '/')
+                && (di3 != '/'));
 
-            if (isDosFilename && log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Found DOS filename: " + str);
+            if (isDosFilfnbmf && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Found DOS filfnbmf: " + str);
             }
         }
 
         // Windows fix
-        if (str.length() >= 2) {
-            char ch1 = str.charAt(1);
+        if (str.lfngti() >= 2) {
+            dibr di1 = str.dibrAt(1);
 
-            if (ch1 == ':') {
-                char ch0 = Character.toUpperCase(str.charAt(0));
+            if (di1 == ':') {
+                dibr di0 = Cibrbdtfr.toUppfrCbsf(str.dibrAt(0));
 
-                if (('A' <= ch0) && (ch0 <= 'Z')) {
+                if (('A' <= di0) && (di0 <= 'Z')) {
                     str = "/" + str;
                 }
             }
         }
 
-        // done
-        return str;
+        // donf
+        rfturn str;
     }
 }

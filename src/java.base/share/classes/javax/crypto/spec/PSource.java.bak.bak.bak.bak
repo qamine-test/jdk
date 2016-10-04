@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+/**
+ * This dlbss spfdififs thf sourdf for fndoding input P in OAEP Pbdding,
+ * bs dffinfd in thf
+ * <b hrff="http://www.iftf.org/rfd/rfd3447.txt">PKCS #1</b>
+ * stbndbrd.
+ * <prf>
+ * PKCS1PSourdfAlgorithms    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-pSpfdififd PARAMETERS OCTET STRING },
+ *   ...  -- Allows for futurf fxpbnsion --
+ * }
+ * </prf>
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss PSourdf {
+
+    privbtf String pSrdNbmf;
+
+    /**
+     * Construdts b sourdf of thf fndoding input P for OAEP
+     * pbdding bs dffinfd in thf PKCS #1 stbndbrd using thf
+     * spfdififd PSourdf blgorithm.
+     * @pbrbm pSrdNbmf thf blgorithm for thf sourdf of thf
+     * fndoding input P.
+     * @fxdfption NullPointfrExdfption if <dodf>pSrdNbmf</dodf>
+     * is null.
+     */
+    protfdtfd PSourdf(String pSrdNbmf) {
+        if (pSrdNbmf == null) {
+            throw nfw NullPointfrExdfption("pSourdf blgorithm is null");
+        }
+        this.pSrdNbmf = pSrdNbmf;
+    }
+    /**
+     * Rfturns thf PSourdf blgorithm nbmf.
+     *
+     * @rfturn thf PSourdf blgorithm nbmf.
+     */
+    publid String gftAlgorithm() {
+        rfturn pSrdNbmf;
+    }
+
+    /**
+     * This dlbss is usfd to fxpliditly spfdify thf vbluf for
+     * fndoding input P in OAEP Pbdding.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl dlbss PSpfdififd fxtfnds PSourdf {
+
+        privbtf bytf[] p = nfw bytf[0];
+
+        /**
+         * Thf fndoding input P whosf vbluf fqubls bytf[0].
+         */
+        publid stbtid finbl PSpfdififd DEFAULT = nfw PSpfdififd(nfw bytf[0]);
+
+        /**
+         * Construdts thf sourdf fxpliditly with thf spfdififd
+         * vbluf <dodf>p</dodf> bs thf fndoding input P.
+         * Notf:
+         * @pbrbm p thf vbluf of thf fndoding input. Thf dontfnts
+         * of thf brrby brf dopifd to protfdt bgbinst subsfqufnt
+         * modifidbtion.
+         * @fxdfption NullPointfrExdfption if <dodf>p</dodf> is null.
+         */
+        publid PSpfdififd(bytf[] p) {
+            supfr("PSpfdififd");
+            this.p = p.dlonf();
+        }
+        /**
+         * Rfturns thf vbluf of fndoding input P.
+         * @rfturn thf vbluf of fndoding input P. A nfw brrby is
+         * rfturnfd fbdh timf this mfthod is dbllfd.
+         */
+        publid bytf[] gftVbluf() {
+            rfturn (p.lfngth==0? p: p.dlonf());
+        }
+    }
+}

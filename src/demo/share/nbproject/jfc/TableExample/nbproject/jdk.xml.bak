@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,68 +31,68 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project name="jdk" basedir=".">
+<projfdt nbmf="jdk" bbsfdir=".">
 
-    <target name="-jdk-preinit">
-        <condition property=".exe" value=".exe">
-            <os family="windows"/>
-        </condition>
-        <property name=".exe" value=""/>
-        <property name="nbjdk.javac" value="${nbjdk.home}/bin/javac${.exe}"/>
-        <property name="nbjdk.java" value="${nbjdk.home}/bin/java${.exe}"/>
-        <property name="nbjdk.javadoc" value="${nbjdk.home}/bin/javadoc${.exe}"/>
-        <property name="nbjdk.appletviewer" value="${nbjdk.home}/bin/appletviewer${.exe}"/>
-        <property name="nbjdk.bootclasspath" value="${nbjdk.home}/jre/lib/rt.jar"/>
-    </target>
+    <tbrgft nbmf="-jdk-prfinit">
+        <dondition propfrty=".fxf" vbluf=".fxf">
+            <os fbmily="windows"/>
+        </dondition>
+        <propfrty nbmf=".fxf" vbluf=""/>
+        <propfrty nbmf="nbjdk.jbvbd" vbluf="${nbjdk.iomf}/bin/jbvbd${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvb" vbluf="${nbjdk.iomf}/bin/jbvb${.fxf}"/>
+        <propfrty nbmf="nbjdk.jbvbdod" vbluf="${nbjdk.iomf}/bin/jbvbdod${.fxf}"/>
+        <propfrty nbmf="nbjdk.bpplftvifwfr" vbluf="${nbjdk.iomf}/bin/bpplftvifwfr${.fxf}"/>
+        <propfrty nbmf="nbjdk.bootdlbsspbti" vbluf="${nbjdk.iomf}/jrf/lib/rt.jbr"/>
+    </tbrgft>
 
-    <target name="-jdk-presetdef-basic" depends="-jdk-preinit" unless="nbjdk.presetdef.basic.done">
-        <macrodef name="javac-presetdef">
-            <attribute name="javacval"/>
-            <sequential>
-                <presetdef name="javac">
-                    <javac fork="yes" executable="@{javacval}"/>
-                </presetdef>
-            </sequential>
-        </macrodef>
-        <javac-presetdef javacval="${nbjdk.javac}"/>
-        <macrodef name="java-presetdef">
-            <attribute name="javaval"/>
-            <sequential>
-                <presetdef name="java">
-                    <java fork="yes" jvm="@{javaval}"/>
-                </presetdef>
-            </sequential>
-        </macrodef>
-        <java-presetdef javaval="${nbjdk.java}"/>
-        <macrodef name="javadoc-presetdef">
-            <attribute name="javadocval"/>
-            <sequential>
-                <presetdef name="javadoc">
-                    <javadoc executable="@{javadocval}"/>
-                </presetdef>
-            </sequential>
-        </macrodef>
-        <javadoc-presetdef javadocval="${nbjdk.javadoc}"/>
-        <property name="nbjdk.presetdef.basic.done" value="true"/>
-    </target>
+    <tbrgft nbmf="-jdk-prfsftdff-bbsid" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.bbsid.donf">
+        <mbdrodff nbmf="jbvbd-prfsftdff">
+            <bttributf nbmf="jbvbdvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbd">
+                    <jbvbd fork="yfs" fxfdutbblf="@{jbvbdvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbd-prfsftdff jbvbdvbl="${nbjdk.jbvbd}"/>
+        <mbdrodff nbmf="jbvb-prfsftdff">
+            <bttributf nbmf="jbvbvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvb">
+                    <jbvb fork="yfs" jvm="@{jbvbvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvb-prfsftdff jbvbvbl="${nbjdk.jbvb}"/>
+        <mbdrodff nbmf="jbvbdod-prfsftdff">
+            <bttributf nbmf="jbvbdodvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="jbvbdod">
+                    <jbvbdod fxfdutbblf="@{jbvbdodvbl}"/>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <jbvbdod-prfsftdff jbvbdodvbl="${nbjdk.jbvbdod}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.bbsid.donf" vbluf="truf"/>
+    </tbrgft>
 
-    <target name="-jdk-presetdef-nbjpdastart" depends="-jdk-preinit" unless="nbjdk.presetdef.nbjpdastart.done">
-        <macrodef name="nbjpdastart-presetdef">
-            <attribute name="bootcpval"/>
-            <sequential>
-                <presetdef name="nbjpdastart">
-                    <nbjpdastart>
-                        <bootclasspath>
-                            <path path="@{bootcpval}"/>
-                        </bootclasspath>
-                    </nbjpdastart>
-                </presetdef>
-            </sequential>
-        </macrodef>
-        <nbjpdastart-presetdef bootcpval="${nbjdk.bootclasspath}"/>
-        <property name="nbjdk.presetdef.nbjpdastart.done" value="true"/>
-    </target>
+    <tbrgft nbmf="-jdk-prfsftdff-nbjpdbstbrt" dfpfnds="-jdk-prfinit" unlfss="nbjdk.prfsftdff.nbjpdbstbrt.donf">
+        <mbdrodff nbmf="nbjpdbstbrt-prfsftdff">
+            <bttributf nbmf="bootdpvbl"/>
+            <sfqufntibl>
+                <prfsftdff nbmf="nbjpdbstbrt">
+                    <nbjpdbstbrt>
+                        <bootdlbsspbti>
+                            <pbti pbti="@{bootdpvbl}"/>
+                        </bootdlbsspbti>
+                    </nbjpdbstbrt>
+                </prfsftdff>
+            </sfqufntibl>
+        </mbdrodff>
+        <nbjpdbstbrt-prfsftdff bootdpvbl="${nbjdk.bootdlbsspbti}"/>
+        <propfrty nbmf="nbjdk.prfsftdff.nbjpdbstbrt.donf" vbluf="truf"/>
+    </tbrgft>
 
-    <target name="-jdk-init" depends="-jdk-preinit,-jdk-presetdef-basic"/>
+    <tbrgft nbmf="-jdk-init" dfpfnds="-jdk-prfinit,-jdk-prfsftdff-bbsid"/>
 
-</project>
+</projfdt>

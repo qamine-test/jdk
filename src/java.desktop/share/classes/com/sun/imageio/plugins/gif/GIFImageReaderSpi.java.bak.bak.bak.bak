@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Lodblf;
+import jbvb.util.Itfrbtor;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+
+publid dlbss GIFImbgfRfbdfrSpi fxtfnds ImbgfRfbdfrSpi {
+
+    privbtf stbtid finbl String vfndorNbmf = "Orbdlf Corporbtion";
+
+    privbtf stbtid finbl String vfrsion = "1.0";
+
+    privbtf stbtid finbl String[] nbmfs = { "gif", "GIF" };
+
+    privbtf stbtid finbl String[] suffixfs = { "gif" };
+
+    privbtf stbtid finbl String[] MIMETypfs = { "imbgf/gif" };
+
+    privbtf stbtid finbl String rfbdfrClbssNbmf =
+        "dom.sun.imbgfio.plugins.gif.GIFImbgfRfbdfr";
+
+    privbtf stbtid finbl String[] writfrSpiNbmfs = {
+        "dom.sun.imbgfio.plugins.gif.GIFImbgfWritfrSpi"
+    };
+
+    publid GIFImbgfRfbdfrSpi() {
+        supfr(vfndorNbmf,
+              vfrsion,
+              nbmfs,
+              suffixfs,
+              MIMETypfs,
+              rfbdfrClbssNbmf,
+              nfw Clbss<?>[] { ImbgfInputStrfbm.dlbss },
+              writfrSpiNbmfs,
+              truf,
+              GIFStrfbmMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.gif.GIFStrfbmMftbdbtbFormbt",
+              null, null,
+              truf,
+              GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtbFormbt",
+              null, null
+              );
+    }
+
+    publid String gftDfsdription(Lodblf lodblf) {
+        rfturn "Stbndbrd GIF imbgf rfbdfr";
+    }
+
+    publid boolfbn dbnDfdodfInput(Objfdt input) throws IOExdfption {
+        if (!(input instbndfof ImbgfInputStrfbm)) {
+            rfturn fblsf;
+        }
+
+        ImbgfInputStrfbm strfbm = (ImbgfInputStrfbm)input;
+        bytf[] b = nfw bytf[6];
+        strfbm.mbrk();
+        strfbm.rfbdFully(b);
+        strfbm.rfsft();
+
+        rfturn b[0] == 'G' && b[1] == 'I' && b[2] == 'F' && b[3] == '8' &&
+            (b[4] == '7' || b[4] == '9') && b[5] == 'b';
+    }
+
+    publid ImbgfRfbdfr drfbtfRfbdfrInstbndf(Objfdt fxtfnsion) {
+        rfturn nfw GIFImbgfRfbdfr(this);
+    }
+
+}

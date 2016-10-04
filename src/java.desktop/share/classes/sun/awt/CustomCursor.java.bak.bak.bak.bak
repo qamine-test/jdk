@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
+ *
+ * @buthor      ThombsBbll
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss CustomCursor fxtfnds Cursor {
+
+    protfdtfd Imbgf imbgf;
+
+    publid CustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+            throws IndfxOutOfBoundsExdfption {
+        supfr(nbmf);
+        imbgf = dursor;
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+
+        // Mbkf surf imbgf is fully lobdfd.
+        Componfnt d = nfw Cbnvbs(); // for its imbgfUpdbtf mfthod
+        MfdibTrbdkfr trbdkfr = nfw MfdibTrbdkfr(d);
+        trbdkfr.bddImbgf(dursor, 0);
+        try {
+            trbdkfr.wbitForAll();
+        } dbtdh (IntfrruptfdExdfption f) {
+        }
+        int width = dursor.gftWidth(d);
+        int hfight = dursor.gftHfight(d);
+
+        // Fix for bug 4212593 Thf Toolkit.drfbtfCustomCursor dofs not
+        //                     dhfdk bbsfndf of thf imbgf of dursor
+        // If thf imbgf is invblid, thf dursor will bf hiddfn (mbdf domplftfly
+        // trbnspbrfnt). In this dbsf, gftBfstCursorSizf() will bdjust nfgbtivf w bnd h,
+        // but wf nffd to sft thf hotspot insidf thf imbgf hfrf.
+        if (trbdkfr.isErrorAny() || width < 0 || hfight < 0) {
+              hotSpot.x = hotSpot.y = 0;
+        }
+
+        // Sdblf imbgf to nfbrfst supportfd sizf.
+        Dimfnsion nbtivfSizf = toolkit.gftBfstCursorSizf(width, hfight);
+        if (nbtivfSizf.width != width || nbtivfSizf.hfight != hfight) {
+            dursor = dursor.gftSdblfdInstbndf(nbtivfSizf.width,
+                                              nbtivfSizf.hfight,
+                                              Imbgf.SCALE_DEFAULT);
+            width = nbtivfSizf.width;
+            hfight = nbtivfSizf.hfight;
+        }
+
+        // Vfrify thbt thf hotspot is within dursor bounds.
+        if (hotSpot.x >= width || hotSpot.y >= hfight || hotSpot.x < 0 || hotSpot.y < 0) {
+            throw nfw IndfxOutOfBoundsExdfption("invblid hotSpot");
+        }
+
+        /* Extrbdt ARGB brrby from imbgf.
+         *
+         * A trbnspbrfndy mbsk dbn bf drfbtfd in nbtivf dodf by dhfdking
+         * fbdh pixfl's top bytf -- b 0 vbluf mfbns thf pixfl's trbnspbrfnt.
+         * Sindf fbdh plbtform's formbt of thf bitmbp bnd mbsk brf likfly to
+         * bf difffrfnt, thfir drfbtion shouldn't bf hfrf.
+         */
+        int[] pixfls = nfw int[width * hfight];
+        ImbgfProdudfr ip = dursor.gftSourdf();
+        PixflGrbbbfr pg = nfw PixflGrbbbfr(ip, 0, 0, width, hfight,
+                                           pixfls, 0, width);
+        try {
+            pg.grbbPixfls();
+        } dbtdh (IntfrruptfdExdfption f) {
+        }
+
+        drfbtfNbtivfCursor(imbgf, pixfls, width, hfight, hotSpot.x, hotSpot.y);
+    }
+
+    protfdtfd bbstrbdt void drfbtfNbtivfCursor(Imbgf im,  int[] pixfls,
+                                               int width, int hfight,
+                                               int xHotSpot, int yHotSpot);
+}

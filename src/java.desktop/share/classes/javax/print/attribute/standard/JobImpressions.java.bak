@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class JobImpressions is an integer valued printing attribute class that
- * specifies the total size in number of impressions of the document(s) being
- * submitted. An "impression" is the image (possibly many print-stream pages in
- * different configurations) imposed onto a single media page.
+ * Clbss JobImprfssions is bn intfgfr vblufd printing bttributf dlbss tibt
+ * spfdififs tif totbl sizf in numbfr of imprfssions of tif dodumfnt(s) bfing
+ * submittfd. An "imprfssion" is tif imbgf (possibly mbny print-strfbm pbgfs in
+ * difffrfnt donfigurbtions) imposfd onto b singlf mfdib pbgf.
  * <P>
- * The JobImpressions attribute describes the size of the job. This attribute is
- * not intended to be a counter; it is intended to be useful routing and
- * scheduling information if known. The printer may try to compute the
- * JobImpressions attribute's value if it is not supplied in the Print Request.
- * Even if the client does supply a value for the JobImpressions attribute in
- * the Print Request, the printer may choose to change the value if the printer
- * is able to compute a value which is more accurate than the client supplied
- * value. The printer may be able to determine the correct value for the
- * JobImpressions attribute either right at job submission time or at any later
- * point in time.
+ * Tif JobImprfssions bttributf dfsdribfs tif sizf of tif job. Tiis bttributf is
+ * not intfndfd to bf b dountfr; it is intfndfd to bf usfful routing bnd
+ * sdifduling informbtion if known. Tif printfr mby try to domputf tif
+ * JobImprfssions bttributf's vbluf if it is not supplifd in tif Print Rfqufst.
+ * Evfn if tif dlifnt dofs supply b vbluf for tif JobImprfssions bttributf in
+ * tif Print Rfqufst, tif printfr mby dioosf to dibngf tif vbluf if tif printfr
+ * is bblf to domputf b vbluf wiidi is morf bddurbtf tibn tif dlifnt supplifd
+ * vbluf. Tif printfr mby bf bblf to dftfrminf tif dorrfdt vbluf for tif
+ * JobImprfssions bttributf fitifr rigit bt job submission timf or bt bny lbtfr
+ * point in timf.
  * <P>
- * As with {@link JobKOctets JobKOctets}, the JobImpressions value must not
- * include the multiplicative factors contributed by the number of copies
- * specified by the {@link Copies Copies} attribute, independent of whether the
- * device can process multiple copies without making multiple passes over the
- * job or document data and independent of whether the output is collated or
- * not. Thus the value is independent of the implementation and reflects the
- * size of the document(s) measured in impressions independent of the number of
- * copies.
+ * As witi {@link JobKOdtfts JobKOdtfts}, tif JobImprfssions vbluf must not
+ * indludf tif multiplidbtivf fbdtors dontributfd by tif numbfr of dopifs
+ * spfdififd by tif {@link Copifs Copifs} bttributf, indfpfndfnt of wiftifr tif
+ * dfvidf dbn prodfss multiplf dopifs witiout mbking multiplf pbssfs ovfr tif
+ * job or dodumfnt dbtb bnd indfpfndfnt of wiftifr tif output is dollbtfd or
+ * not. Tius tif vbluf is indfpfndfnt of tif implfmfntbtion bnd rfflfdts tif
+ * sizf of tif dodumfnt(s) mfbsurfd in imprfssions indfpfndfnt of tif numbfr of
+ * dopifs.
  * <P>
- * As with {@link JobKOctets JobKOctets}, the JobImpressions value must also not
- * include the multiplicative factor due to a copies instruction embedded in the
- * document data. If the document data actually includes replications of the
- * document data, this value will include such replication. In other words, this
- * value is always the number of impressions in the source document data, rather
- * than a measure of the number of impressions to be produced by the job.
+ * As witi {@link JobKOdtfts JobKOdtfts}, tif JobImprfssions vbluf must blso not
+ * indludf tif multiplidbtivf fbdtor duf to b dopifs instrudtion fmbfddfd in tif
+ * dodumfnt dbtb. If tif dodumfnt dbtb bdtublly indludfs rfplidbtions of tif
+ * dodumfnt dbtb, tiis vbluf will indludf sudi rfplidbtion. In otifr words, tiis
+ * vbluf is blwbys tif numbfr of imprfssions in tif sourdf dodumfnt dbtb, rbtifr
+ * tibn b mfbsurf of tif numbfr of imprfssions to bf produdfd by tif job.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @see JobImpressionsSupported
- * @see JobImpressionsCompleted
- * @see JobKOctets
- * @see JobMediaSheets
+ * @sff JobImprfssionsSupportfd
+ * @sff JobImprfssionsComplftfd
+ * @sff JobKOdtfts
+ * @sff JobMfdibSiffts
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class JobImpressions extends IntegerSyntax
-    implements PrintRequestAttribute, PrintJobAttribute {
+publid finbl dlbss JobImprfssions fxtfnds IntfgfrSyntbx
+    implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
 
-    private static final long serialVersionUID = 8225537206784322464L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8225537206784322464L;
 
 
     /**
-     * Construct a new job impressions attribute with the given integer value.
+     * Construdt b nfw job imprfssions bttributf witi tif givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 0.
      */
-    public JobImpressions(int value) {
-        super(value, 0, Integer.MAX_VALUE);
+    publid JobImprfssions(int vbluf) {
+        supfr(vbluf, 0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job impressions attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions must
-     * be true:
+     * Rfturns wiftifr tiis job imprfssions bttributf is fquivblfnt to tif
+     * pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions must
+     * bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobImpressions.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobImprfssions.
      * <LI>
-     * This job impressions attribute's value and <CODE>object</CODE>'s value
-     * are equal.
+     * Tiis job imprfssions bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf
+     * brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job
-     *          impressions attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job
+     *          imprfssions bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return super.equals (object) && object instanceof JobImpressions;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn supfr.fqubls (objfdt) && objfdt instbndfof JobImprfssions;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobImpressions, the category is class JobImpressions itself.
+     * For dlbss JobImprfssions, tif dbtfgory is dlbss JobImprfssions itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobImpressions.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobImprfssions.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobImpressions, the category name is
-     * <CODE>"job-impressions"</CODE>.
+     * For dlbss JobImprfssions, tif dbtfgory nbmf is
+     * <CODE>"job-imprfssions"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-impressions";
+    publid finbl String gftNbmf() {
+        rfturn "job-imprfssions";
     }
 
 }

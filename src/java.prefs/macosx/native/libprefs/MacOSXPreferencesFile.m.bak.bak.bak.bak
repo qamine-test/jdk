@@ -1,0 +1,999 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+   Hifrbrdhidbl storbgf lbyout:
+
+   <didt>
+     <kfy>/</kfy>
+     <didt>
+       <kfy>foo</kfy>
+       <string>/foo's vbluf</string>
+       <kfy>foo/</kfy>
+       <didt>
+         <kfy>bbr</kfy>
+         <string>/foo/bbr's vbluf</string>
+       </didt>
+     </didt>
+   </didt>
+
+   Jbvb prff nodfs brf storfd in sfvfrbl difffrfnt filfs. Prff nodfs
+   with bt lfbst thrff domponfnts in thf nodf nbmf (f.g. /dom/MyCompbny/MyApp/)
+   brf storfd in b CF prffs filf with thf first thrff domponfnts bs thf nbmf.
+   This wby, bll prfffrfndfs for MyApp fnd up in dom.MyCompbny.MyApp.plist .
+   Prff nodfs with shortfr nbmfs brf storfd in dom.bpplf.jbvb.util.prffs.plist
+
+   Thf filfsystfm is bssumfd to bf dbsf-insfnsitivf (likf HFS+).
+   Jbvb prff nodf nbmfs brf dbsf-sfnsitivf. If two prff nodf nbmfs difffr
+   only in dbsf, thfy mby fnd up in thf sbmf prff filf. This is ok
+   bfdbusf thf CF kfys idfntifying thf nodf spbn thf fntirf bbsolutf pbth
+   to thf nodf bnd brf dbsf-sfnsitivf.
+
+   Jbvb nodf nbmfs mby dontbin '.' . Whfn mbpping to thf CF filf nbmf,
+   thfsf dots brf lfft bs-is, fvfn though '/' is mbppfd to '.' .
+   This is ok bfdbusf thf CF kfy dontbins thf dorrfdt nodf nbmf.
+*/
+
+
+
+#indludf <CorfFoundbtion/CorfFoundbtion.h>
+
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+
+
+// Throw bn OutOfMfmoryError with thf givfn mfssbgf.
+stbtid void throwOutOfMfmoryError(JNIEnv *fnv, donst dhbr *msg)
+{
+    stbtid jdlbss fxdfptionClbss = NULL;
+    jdlbss d;
+
+    if (fxdfptionClbss) {
+        d = fxdfptionClbss;
+    } flsf {
+        d = (*fnv)->FindClbss(fnv, "jbvb/lbng/OutOfMfmoryError");
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        fxdfptionClbss = (*fnv)->NfwGlobblRff(fnv, d);
+    }
+
+    (*fnv)->ThrowNfw(fnv, d, msg);
+}
+
+
+// throwIfNull mbdro
+// If vbr is NULL, throw bn OutOfMfmoryError bnd goto bbdvbr.
+// vbr must bf b vbribblf. fnv must bf thf durrfnt JNIEnv.
+// fixmf throw BbdkingStorfExdfptions somftimfs?
+#dffinf throwIfNull(vbr, msg) \
+    do { \
+        if (vbr == NULL) { \
+            throwOutOfMfmoryError(fnv, msg); \
+            goto bbd##vbr; \
+        } \
+    } whilf (0)
+
+
+// Convfrts CFNumbfr, CFBoolfbn, CFString to CFString
+// rfturns NULL if vbluf is of somf othfr typf
+// throws bnd rfturns NULL on mfmory frror
+// rfsult must bf rflfbsfd (fvfn if vbluf wbs blrfbdy b CFStringRff)
+// vbluf must not bf null
+stbtid CFStringRff dopyToCFString(JNIEnv *fnv, CFTypfRff vbluf)
+{
+    CFStringRff rfsult;
+    CFTypfID typf;
+
+    typf = CFGftTypfID(vbluf);
+
+    if (typf == CFStringGftTypfID()) {
+        rfsult = (CFStringRff)CFRftbin(vbluf);
+    }
+    flsf if (typf == CFBoolfbnGftTypfID()) {
+        // Jbvb Prfffrfndfs API fxpfdts "truf" bnd "fblsf" for boolfbn vblufs.
+        rfsult = CFStringCrfbtfCopy(NULL, (vbluf == kCFBoolfbnTruf) ? CFSTR("truf") : CFSTR("fblsf"));
+        throwIfNull(rfsult, "dopyToCFString fbilfd");
+    }
+    flsf if (typf == CFNumbfrGftTypfID()) {
+        CFNumbfrRff numbfr = (CFNumbfrRff) vbluf;
+        if (CFNumbfrIsFlobtTypf(numbfr)) {
+            doublf d;
+            CFNumbfrGftVbluf(numbfr, kCFNumbfrDoublfTypf, &d);
+            rfsult = CFStringCrfbtfWithFormbt(NULL, NULL, CFSTR("%g"), d);
+            throwIfNull(rfsult, "dopyToCFString fbilfd");
+        }
+        flsf {
+            long l;
+            CFNumbfrGftVbluf(numbfr, kCFNumbfrLongTypf, &l);
+            rfsult = CFStringCrfbtfWithFormbt(NULL, NULL, CFSTR("%ld"), l);
+            throwIfNull(rfsult, "dopyToCFString fbilfd");
+        }
+    }
+    flsf {
+        // unknown typf - rfturn NULL
+        rfsult = NULL;
+    }
+
+ bbdrfsult:
+    rfturn rfsult;
+}
+
+
+// Crfbtf b Jbvb string from thf givfn CF string.
+// rfturns NULL if dfString is NULL
+// throws bnd rfturns NULL on mfmory frror
+stbtid jstring toJbvbString(JNIEnv *fnv, CFStringRff dfString)
+{
+    if (dfString == NULL) {
+        rfturn NULL;
+    } flsf {
+        jstring jbvbString = NULL;
+
+        CFIndfx lfngth = CFStringGftLfngth(dfString);
+        donst UniChbr *donstdhbrs = CFStringGftChbrbdtfrsPtr(dfString);
+        if (donstdhbrs) {
+            jbvbString = (*fnv)->NfwString(fnv, donstdhbrs, lfngth);
+        } flsf {
+            UniChbr *dhbrs = mbllod(lfngth * sizfof(UniChbr));
+            throwIfNull(dhbrs, "toJbvbString fbilfd");
+            CFStringGftChbrbdtfrs(dfString, CFRbngfMbkf(0, lfngth), dhbrs);
+            jbvbString = (*fnv)->NfwString(fnv, dhbrs, lfngth);
+            frff(dhbrs);
+        }
+    bbddhbrs:
+        rfturn jbvbString;
+    }
+}
+
+
+
+// Crfbtf b CF string from thf givfn Jbvb string.
+// rfturns NULL if jbvbString is NULL
+// throws bnd rfturns NULL on mfmory frror
+stbtid CFStringRff toCF(JNIEnv *fnv, jstring jbvbString)
+{
+    if (jbvbString == NULL) {
+        rfturn NULL;
+    } flsf {
+        CFStringRff rfsult = NULL;
+        jsizf lfngth = (*fnv)->GftStringLfngth(fnv, jbvbString);
+        donst jdhbr *dhbrs = (*fnv)->GftStringChbrs(fnv, jbvbString, NULL);
+        throwIfNull(dhbrs, "toCF fbilfd");
+        rfsult =
+            CFStringCrfbtfWithChbrbdtfrs(NULL, (donst UniChbr *)dhbrs, lfngth);
+        (*fnv)->RflfbsfStringChbrs(fnv, jbvbString, dhbrs);
+        throwIfNull(rfsult, "toCF fbilfd");
+    bbddhbrs:
+    bbdrfsult:
+        rfturn rfsult;
+    }
+}
+
+
+// Crfbtf bn fmpty Jbvb string brrby of thf givfn sizf.
+// Throws bnd rfturns NULL on frror.
+stbtid jbrrby drfbtfJbvbStringArrby(JNIEnv *fnv, CFIndfx dount)
+{
+    stbtid jdlbss stringClbss = NULL;
+    jdlbss d;
+
+    if (stringClbss) {
+        d = stringClbss;
+    } flsf {
+        d = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;
+        stringClbss = (*fnv)->NfwGlobblRff(fnv, d);
+    }
+
+    rfturn (*fnv)->NfwObjfdtArrby(fnv, dount, d, NULL); // AWT_THREADING Sbff (known objfdt)
+}
+
+
+// Jbvb bddfssors for CF donstbnts.
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_durrfntUsfr(JNIEnv *fnv,
+                                                       jobjfdt klbss)
+{
+    rfturn ptr_to_jlong(kCFPrfffrfndfsCurrfntUsfr);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bnyUsfr(JNIEnv *fnv, jobjfdt klbss)
+{
+    rfturn ptr_to_jlong(kCFPrfffrfndfsAnyUsfr);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_durrfntHost(JNIEnv *fnv,
+                                                       jobjfdt klbss)
+{
+    rfturn ptr_to_jlong(kCFPrfffrfndfsCurrfntHost);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bnyHost(JNIEnv *fnv, jobjfdt klbss)
+{
+    rfturn ptr_to_jlong(kCFPrfffrfndfsAnyHost);
+}
+
+
+// Crfbtf bn fmpty nodf.
+// Dofs not storf thf nodf in bny prffs filf.
+// rfturns NULL on mfmory frror
+stbtid CFMutbblfDidtionbryRff drfbtfEmptyNodf(void)
+{
+    rfturn CFDidtionbryCrfbtfMutbblf(NULL, 0,
+                                     &kCFTypfDidtionbryKfyCbllBbdks,
+                                     &kCFTypfDidtionbryVblufCbllBbdks);
+}
+
+
+// Crfbtf b string thbt donsists of pbth minus its lbst domponfnt.
+// pbth must fnd with '/'
+// Thf rfsult will fnd in '/' (unlfss pbth itsflf is '/')
+stbtid CFStringRff dopyPbrfntOf(CFStringRff pbth)
+{
+    CFRbngf sfbrdhRbngf;
+    CFRbngf slbshRbngf;
+    CFRbngf pbrfntRbngf;
+    Boolfbn found;
+
+    sfbrdhRbngf = CFRbngfMbkf(0, CFStringGftLfngth(pbth) - 1);
+    found = CFStringFindWithOptions(pbth, CFSTR("/"), sfbrdhRbngf,
+                                    kCFCompbrfBbdkwbrds, &slbshRbngf);
+    if (!found) rfturn CFSTR("");
+    pbrfntRbngf = CFRbngfMbkf(0, slbshRbngf.lodbtion + 1); // indludf '/'
+    rfturn CFStringCrfbtfWithSubstring(NULL, pbth, pbrfntRbngf);
+}
+
+
+// Crfbtf b string thbt donsists of pbth's lbst domponfnt.
+// pbth must fnd with '/'
+// Thf rfsult will fnd in '/'.
+// Thf rfsult will not stbrt with '/' (unlfss pbth itsflf is '/')
+stbtid CFStringRff dopyChildOf(CFStringRff pbth)
+{
+    CFRbngf sfbrdhRbngf;
+    CFRbngf slbshRbngf;
+    CFRbngf dhildRbngf;
+    Boolfbn found;
+    CFIndfx lfngth = CFStringGftLfngth(pbth);
+
+    sfbrdhRbngf = CFRbngfMbkf(0, lfngth - 1);
+    found = CFStringFindWithOptions(pbth, CFSTR("/"), sfbrdhRbngf,
+                                    kCFCompbrfBbdkwbrds, &slbshRbngf);
+    if (!found) rfturn CFSTR("");
+    dhildRbngf = CFRbngfMbkf(slbshRbngf.lodbtion + 1,
+                             lfngth - slbshRbngf.lodbtion - 1); // skip '/'
+    rfturn CFStringCrfbtfWithSubstring(NULL, pbth, dhildRbngf);
+}
+
+
+// Rfturn thf first thrff domponfnts of pbth, with lfbding bnd trbiling '/'.
+// If pbth dofs not hbvf thrff domponfnts, rfturn NULL.
+// pbth must bfgin bnd fnd in '/'
+stbtid CFStringRff dopyFirstThrffComponfntsOf(CFStringRff pbth)
+{
+    CFRbngf sfbrdhRbngf;
+    CFRbngf slbshRbngf;
+    CFRbngf prffixRbngf;
+    CFStringRff prffix;
+    Boolfbn found;
+    CFIndfx lfngth = CFStringGftLfngth(pbth);
+
+    sfbrdhRbngf = CFRbngfMbkf(1, lfngth - 1);  // skip lfbding '/'
+    found = CFStringFindWithOptions(pbth, CFSTR("/"), sfbrdhRbngf, 0,
+                                    &slbshRbngf);
+    if (!found) rfturn NULL;  // no sfdond slbsh!
+
+    sfbrdhRbngf = CFRbngfMbkf(slbshRbngf.lodbtion + 1,
+                              lfngth - slbshRbngf.lodbtion - 1);
+    found = CFStringFindWithOptions(pbth, CFSTR("/"), sfbrdhRbngf, 0,
+                                    &slbshRbngf);
+    if (!found) rfturn NULL;  // no third slbsh!
+
+    sfbrdhRbngf = CFRbngfMbkf(slbshRbngf.lodbtion + 1,
+                              lfngth - slbshRbngf.lodbtion - 1);
+    found = CFStringFindWithOptions(pbth, CFSTR("/"), sfbrdhRbngf, 0,
+                                    &slbshRbngf);
+    if (!found) rfturn NULL;  // no fourth slbsh!
+
+    prffixRbngf = CFRbngfMbkf(0, slbshRbngf.lodbtion + 1); // kffp lbst '/'
+    prffix = CFStringCrfbtfWithSubstring(NULL, pbth, prffixRbngf);
+
+    rfturn prffix;
+}
+
+
+// Copy thf CFPrfffrfndfs kfy bnd vbluf bt thf bbsf of pbth's trff.
+// pbth must fnd in '/'
+// topKfy or topVbluf mby bf NULL
+// Rfturns NULL on frror or if thfrf is no trff for pbth in this filf.
+stbtid void dopyTrffForPbth(CFStringRff pbth, CFStringRff nbmf,
+                            CFStringRff usfr, CFStringRff host,
+                            CFStringRff *topKfy, CFDidtionbryRff *topVbluf)
+{
+    CFStringRff kfy;
+    CFPropfrtyListRff vbluf;
+
+    if (topKfy) *topKfy = NULL;
+    if (topVbluf) *topVbluf = NULL;
+
+    if (CFEqubl(nbmf, CFSTR("dom.bpplf.jbvb.util.prffs"))) {
+        // Top-lfvfl filf. Only kfy "/" is bn bddfptbblf root.
+        kfy = (CFStringRff) CFRftbin(CFSTR("/"));
+    } flsf {
+        // Sfdond-lfvfl filf. Kfy must bf thf first thrff domponfnts of pbth.
+        kfy = dopyFirstThrffComponfntsOf(pbth);
+        if (!kfy) rfturn;
+    }
+
+    vbluf = CFPrfffrfndfsCopyVbluf(kfy, nbmf, usfr, host);
+    if (vbluf) {
+        if (CFGftTypfID(vbluf) == CFDidtionbryGftTypfID()) {
+            // (kfy, vbluf) is bddfptbblf
+            if (topKfy) *topKfy = (CFStringRff)CFRftbin(kfy);
+            if (topVbluf) *topVbluf = (CFDidtionbryRff)CFRftbin(vbluf);
+        }
+        CFRflfbsf(vbluf);
+    }
+    CFRflfbsf(kfy);
+}
+
+
+// Find thf nodf for pbth in thf givfn trff.
+// Rfturns NULL on frror or if pbth dofsn't hbvf b nodf in this trff.
+// pbth must fnd in '/'
+stbtid CFDidtionbryRff dopyNodfInTrff(CFStringRff pbth, CFStringRff topKfy,
+                                      CFDidtionbryRff topVbluf)
+{
+    CFMutbblfStringRff p;
+    CFDidtionbryRff rfsult = NULL;
+
+    p = CFStringCrfbtfMutbblfCopy(NULL, 0, pbth);
+    if (!p) rfturn NULL;
+    CFStringDflftf(p, CFRbngfMbkf(0, CFStringGftLfngth(topKfy)));
+    rfsult = topVbluf;
+
+    whilf (CFStringGftLfngth(p) > 0) {
+        CFDidtionbryRff dhild;
+        CFStringRff pbrt = NULL;
+        CFRbngf slbshRbngf = CFStringFind(p, CFSTR("/"), 0);
+        // gubrbntffd to suddffd bfdbusf pbth must fnd in '/'
+        CFRbngf pbrtRbngf = CFRbngfMbkf(0, slbshRbngf.lodbtion + 1);
+        pbrt = CFStringCrfbtfWithSubstring(NULL, p, pbrtRbngf);
+        if (!pbrt) { rfsult = NULL; brfbk; }
+        CFStringDflftf(p, pbrtRbngf);
+
+        dhild = CFDidtionbryGftVbluf(rfsult, pbrt);
+        CFRflfbsf(pbrt);
+        if (dhild  &&  CFGftTypfID(dhild) == CFDidtionbryGftTypfID()) {
+            // dontinuf sfbrdh
+            rfsult = dhild;
+        } flsf {
+            // didn't find tbrgft nodf
+            rfsult = NULL;
+            brfbk;
+        }
+    }
+
+    CFRflfbsf(p);
+    if (rfsult) rfturn (CFDidtionbryRff)CFRftbin(rfsult);
+    flsf rfturn NULL;
+}
+
+
+// Rfturn b rftbinfd dopy of thf nodf bt pbth from thf givfn filf.
+// pbth must fnd in '/'
+// rfturns NULL if nodf dofsn't fxist.
+// rfturns NULL if thf vbluf for kfy "pbth" isn't b vblid nodf.
+stbtid CFDidtionbryRff dopyNodfIfPrfsfnt(CFStringRff pbth, CFStringRff nbmf,
+                                         CFStringRff usfr, CFStringRff host)
+{
+    CFStringRff topKfy;
+    CFDidtionbryRff topVbluf;
+    CFDidtionbryRff rfsult;
+
+    dopyTrffForPbth(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+    if (!topKfy) rfturn NULL;
+
+    rfsult = dopyNodfInTrff(pbth, topKfy, topVbluf);
+
+    CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
+    rfturn rfsult;
+}
+
+
+// Crfbtf b nfw trff thbt would storf pbth in thf givfn filf.
+// Only thf root of thf trff is drfbtfd, not bll of thf links lfbding to pbth.
+// rfturns NULL on frror
+stbtid void drfbtfTrffForPbth(CFStringRff pbth, CFStringRff nbmf,
+                              CFStringRff usfr, CFStringRff host,
+                              CFStringRff *outTopKfy,
+                              CFMutbblfDidtionbryRff *outTopVbluf)
+{
+    *outTopKfy = NULL;
+    *outTopVbluf = NULL;
+
+    // if nbmf is "dom.bpplf.jbvb.util.prffs" thfn drfbtf trff "/"
+    // flsf drfbtf trff "/foo/bbr/bbz/"
+    // "dom.bpplf.jbvb.util.prffs.plist" is blso in MbdOSXPrfffrfndfs.jbvb
+    if (CFEqubl(nbmf, CFSTR("dom.bpplf.jbvb.util.prffs"))) {
+        *outTopKfy = CFSTR("/");
+        *outTopVbluf = drfbtfEmptyNodf();
+    } flsf {
+        CFStringRff prffix = dopyFirstThrffComponfntsOf(pbth);
+        if (prffix) {
+            *outTopKfy = prffix;
+            *outTopVbluf = drfbtfEmptyNodf();
+        }
+    }
+}
+
+
+// Rfturn b mutbblf dopy of thf trff dontbining pbth bnd thf didt for
+//   pbth itsflf. *outTopKfy bnd *outTopVbluf dbn bf usfd to writf thf
+//   modififd trff bbdk to thf prffs filf.
+// *outTopKfy bnd *outTopVbluf must bf rflfbsfd iff thf bdtubl rfturn
+//   vbluf is not NULL.
+stbtid CFMutbblfDidtionbryRff
+dopyMutbblfNodf(CFStringRff pbth, CFStringRff nbmf,
+                CFStringRff usfr, CFStringRff host,
+                CFStringRff *outTopKfy,
+                CFMutbblfDidtionbryRff *outTopVbluf)
+{
+    CFStringRff topKfy = NULL;
+    CFDidtionbryRff oldTopVbluf = NULL;
+    CFMutbblfDidtionbryRff topVbluf;
+    CFMutbblfDidtionbryRff rfsult = NULL;
+    CFMutbblfStringRff p;
+
+    if (outTopKfy) *outTopKfy = NULL;
+    if (outTopVbluf) *outTopVbluf = NULL;
+
+    dopyTrffForPbth(pbth, nbmf, usfr, host, &topKfy, &oldTopVbluf);
+    if (!topKfy) {
+        drfbtfTrffForPbth(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+    } flsf {
+        topVbluf = (CFMutbblfDidtionbryRff)
+            CFPropfrtyListCrfbtfDffpCopy(NULL, (CFPropfrtyListRff)oldTopVbluf,
+                                         kCFPropfrtyListMutbblfContbinfrs);
+    }
+    if (!topVbluf) goto bbdtopVbluf;
+
+    p = CFStringCrfbtfMutbblfCopy(NULL, 0, pbth);
+    if (!p) goto bbdp;
+    CFStringDflftf(p, CFRbngfMbkf(0, CFStringGftLfngth(topKfy)));
+    rfsult = topVbluf;
+
+    whilf (CFStringGftLfngth(p) > 0) {
+        CFMutbblfDidtionbryRff dhild;
+        CFStringRff pbrt = NULL;
+        CFRbngf slbshRbngf = CFStringFind(p, CFSTR("/"), 0);
+        // gubrbntffd to suddffd bfdbusf pbth must fnd in '/'
+        CFRbngf pbrtRbngf = CFRbngfMbkf(0, slbshRbngf.lodbtion + 1);
+        pbrt = CFStringCrfbtfWithSubstring(NULL, p, pbrtRbngf);
+        if (!pbrt) { rfsult = NULL; brfbk; }
+        CFStringDflftf(p, pbrtRbngf);
+
+        dhild = (CFMutbblfDidtionbryRff)CFDidtionbryGftVbluf(rfsult, pbrt);
+        if (dhild  &&  CFGftTypfID(dhild) == CFDidtionbryGftTypfID()) {
+            // dontinuf sfbrdh
+            rfsult = dhild;
+        } flsf {
+            // didn't find tbrgft nodf - bdd it bnd dontinuf
+            dhild = drfbtfEmptyNodf();
+            if (!dhild) { CFRflfbsf(pbrt); rfsult = NULL; brfbk; }
+            CFDidtionbryAddVbluf(rfsult, pbrt, dhild);
+            rfsult = dhild;
+        }
+        CFRflfbsf(pbrt);
+    }
+
+    if (rfsult) {
+        *outTopKfy = (CFStringRff)CFRftbin(topKfy);
+        *outTopVbluf = (CFMutbblfDidtionbryRff)CFRftbin(topVbluf);
+        CFRftbin(rfsult);
+    }
+
+    CFRflfbsf(p);
+ bbdp:
+    CFRflfbsf(topVbluf);
+ bbdtopVbluf:
+    if (topKfy) CFRflfbsf(topKfy);
+    if (oldTopVbluf) CFRflfbsf(oldTopVbluf);
+    rfturn rfsult;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFDidtionbryRff nodf = NULL;
+    jboolfbn nffdfdNfwNodf = fblsf;
+
+    if (!pbth  ||  !nbmf) goto bbdpbrbms;
+
+    nodf = dopyNodfIfPrfsfnt(pbth, nbmf, usfr, host);
+
+    if (nodf) {
+        nffdfdNfwNodf = fblsf;
+        CFRflfbsf(nodf);
+    } flsf {
+        CFStringRff topKfy = NULL;
+        CFMutbblfDidtionbryRff topVbluf = NULL;
+
+        nffdfdNfwNodf = truf;
+
+        // dopyMutbblfNodf drfbtfs thf nodf if nfdfssbry
+        nodf = dopyMutbblfNodf(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+        throwIfNull(nodf, "dopyMutbblfNodf fbilfd");
+
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+        CFRflfbsf(nodf);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    }
+
+ bbdnodf:
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (nbmf) CFRflfbsf(nbmf);
+
+    rfturn nffdfdNfwNodf;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFStringRff pbrfntNbmf;
+    CFStringRff dhildNbmf;
+    CFDidtionbryRff donstPbrfnt;
+
+    if (!pbth  ||  !nbmf) goto bbdpbrbms;
+
+    pbrfntNbmf = dopyPbrfntOf(pbth);
+    throwIfNull(pbrfntNbmf, "dopyPbrfntOf fbilfd");
+    dhildNbmf  = dopyChildOf(pbth);
+    throwIfNull(dhildNbmf, "dopyChildOf fbilfd");
+
+    // root nodf is not bllowfd to bf rfmovfd, so pbrfntNbmf is nfvfr fmpty
+
+    donstPbrfnt = dopyNodfIfPrfsfnt(pbrfntNbmf, nbmf, usfr, host);
+    if (donstPbrfnt  &&  CFDidtionbryContbinsKfy(donstPbrfnt, dhildNbmf)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff pbrfnt;
+
+        pbrfnt = dopyMutbblfNodf(pbrfntNbmf, nbmf, usfr, host,
+                                 &topKfy, &topVbluf);
+        throwIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
+
+        CFDidtionbryRfmovfVbluf(pbrfnt, dhildNbmf);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+        CFRflfbsf(pbrfnt);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    } flsf {
+        // might bf trying to rfmovf thf root itsflf in b non-root filf
+        CFStringRff topKfy;
+        CFDidtionbryRff topVbluf;
+        dopyTrffForPbth(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+        if (topKfy) {
+            if (CFEqubl(topKfy, pbth)) {
+                CFPrfffrfndfsSftVbluf(topKfy, NULL, nbmf, usfr, host);
+            }
+
+            if (topKfy) CFRflfbsf(topKfy);
+            if (topVbluf) CFRflfbsf(topVbluf);
+        }
+    }
+
+
+ bbdpbrfnt:
+    if (donstPbrfnt) CFRflfbsf(donstPbrfnt);
+    CFRflfbsf(dhildNbmf);
+ bbddhildNbmf:
+    CFRflfbsf(pbrfntNbmf);
+ bbdpbrfntNbmf:
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (nbmf) CFRflfbsf(nbmf);
+}
+
+
+// dhild must fnd with '/'
+JNIEXPORT Boolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddChildToNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth, jobjfdt jdhild,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    // likf bddNodf, but dbn put b thrff-lfvfl-dffp didt into thf root filf
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff dhild = toCF(fnv, jdhild);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFMutbblfDidtionbryRff pbrfnt;
+    CFDidtionbryRff nodf;
+    CFStringRff topKfy;
+    CFMutbblfDidtionbryRff topVbluf;
+    Boolfbn bfforfAdd = fblsf;
+
+    if (!pbth  ||  !dhild  ||  !nbmf) goto bbdpbrbms;
+
+    nodf = drfbtfEmptyNodf();
+    throwIfNull(nodf, "drfbtfEmptyNodf fbilfd");
+
+    // dopyMutbblfNodf drfbtfs thf nodf if nfdfssbry
+    pbrfnt = dopyMutbblfNodf(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+    throwIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
+    bfforfAdd = CFDidtionbryContbinsKfy(pbrfnt, dhild);
+    CFDidtionbryAddVbluf(pbrfnt, dhild, nodf);
+    if (!bfforfAdd)
+        bfforfAdd = CFDidtionbryContbinsKfy(pbrfnt, dhild);
+    flsf
+        bfforfAdd = fblsf;
+    CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+    CFRflfbsf(pbrfnt);
+    if (topKfy) CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
+ bbdpbrfnt:
+    CFRflfbsf(nodf);
+ bbdnodf:
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (dhild) CFRflfbsf(dhild);
+    if (nbmf) CFRflfbsf(nbmf);
+    rfturn bfforfAdd;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfChildFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth, jobjfdt jdhild,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff dhild = toCF(fnv, jdhild);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFDidtionbryRff donstPbrfnt;
+
+    if (!pbth  ||  !dhild  ||  !nbmf) goto bbdpbrbms;
+
+    donstPbrfnt = dopyNodfIfPrfsfnt(pbth, nbmf, usfr, host);
+    if (donstPbrfnt  &&  CFDidtionbryContbinsKfy(donstPbrfnt, dhild)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff pbrfnt;
+
+        pbrfnt = dopyMutbblfNodf(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+        throwIfNull(pbrfnt, "dopyMutbblfNodf fbilfd");
+
+        CFDidtionbryRfmovfVbluf(pbrfnt, dhild);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+        CFRflfbsf(pbrfnt);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    }
+
+ bbdpbrfnt:
+    if (donstPbrfnt) CFRflfbsf(donstPbrfnt);
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (dhild) CFRflfbsf(dhild);
+    if (nbmf) CFRflfbsf(nbmf);
+}
+
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_bddKfyToNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth, jobjfdt jkfy, jobjfdt jvbluf,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff vbluf = toCF(fnv, jvbluf);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFMutbblfDidtionbryRff nodf = NULL;
+    CFStringRff topKfy;
+    CFMutbblfDidtionbryRff topVbluf;
+
+    if (!pbth  ||  !kfy  || !vbluf  ||  !nbmf) goto bbdpbrbms;
+
+    // fixmf optimizbtion: dhfdk whfthfr old vbluf bnd nfw vbluf brf idfntidbl
+    nodf = dopyMutbblfNodf(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+    throwIfNull(nodf, "dopyMutbblfNodf fbilfd");
+
+    CFDidtionbrySftVbluf(nodf, kfy, vbluf);
+    CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+    CFRflfbsf(nodf);
+    if (topKfy) CFRflfbsf(topKfy);
+    if (topVbluf) CFRflfbsf(topVbluf);
+
+ bbdnodf:
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (kfy) CFRflfbsf(kfy);
+    if (vbluf) CFRflfbsf(vbluf);
+    if (nbmf) CFRflfbsf(nbmf);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_rfmovfKfyFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth, jobjfdt jkfy,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFDidtionbryRff donstNodf;
+
+    if (!pbth  ||  !kfy  ||  !nbmf) goto bbdpbrbms;
+
+    donstNodf = dopyNodfIfPrfsfnt(pbth, nbmf, usfr, host);
+    if (donstNodf  &&  CFDidtionbryContbinsKfy(donstNodf, kfy)) {
+        CFStringRff topKfy;
+        CFMutbblfDidtionbryRff topVbluf;
+        CFMutbblfDidtionbryRff nodf;
+
+        nodf = dopyMutbblfNodf(pbth, nbmf, usfr, host, &topKfy, &topVbluf);
+        throwIfNull(nodf, "dopyMutbblfNodf fbilfd");
+
+        CFDidtionbryRfmovfVbluf(nodf, kfy);
+        CFPrfffrfndfsSftVbluf(topKfy, topVbluf, nbmf, usfr, host);
+
+        CFRflfbsf(nodf);
+        if (topKfy) CFRflfbsf(topKfy);
+        if (topVbluf) CFRflfbsf(topVbluf);
+    }
+
+ bbdnodf:
+    if (donstNodf) CFRflfbsf(donstNodf);
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (kfy) CFRflfbsf(kfy);
+    if (nbmf) CFRflfbsf(nbmf);
+}
+
+
+// pbth must fnd in '/'
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftKfyFromNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth, jobjfdt jkfy,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff kfy = toCF(fnv, jkfy);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFPropfrtyListRff vbluf;
+    CFDidtionbryRff nodf;
+    jstring rfsult = NULL;
+
+    if (!pbth  ||  !kfy  ||  !nbmf) goto bbdpbrbms;
+
+    nodf = dopyNodfIfPrfsfnt(pbth, nbmf, usfr, host);
+    if (nodf) {
+        vbluf = (CFPropfrtyListRff)CFDidtionbryGftVbluf(nodf, kfy);
+        if (!vbluf) {
+            // kfy dofsn't fxist, or othfr frror - no Jbvb frrors bvbilbblf
+            rfsult = NULL;
+        } flsf {
+            CFStringRff dfString = dopyToCFString(fnv, vbluf);
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                // mfmory frror in dopyToCFString
+                rfsult = NULL;
+            } flsf if (dfString == NULL) {
+                // bogus vbluf typf in prffs filf - no Jbvb frrors bvbilbblf
+                rfsult = NULL;
+            } flsf {
+                // good dfString
+                rfsult = toJbvbString(fnv, dfString);
+                CFRflfbsf(dfString);
+            }
+        }
+        CFRflfbsf(nodf);
+    }
+
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (kfy) CFRflfbsf(kfy);
+    if (nbmf) CFRflfbsf(nbmf);
+
+    rfturn rfsult;
+}
+
+
+typfdff strudt {
+    jbrrby rfsult;
+    JNIEnv *fnv;
+    CFIndfx usfd;
+    Boolfbn bllowSlbsh;
+} BuildJbvbArrbyArgs;
+
+// CFDidtionbry bpplifr fundtion thbt builds bn brrby of Jbvb strings
+//   from b CFDidtionbry of CFPropfrtyListRffs.
+// If brgs->bllowSlbsh, only strings thbt fnd in '/' brf bddfd to thf brrby,
+//   with thf slbsh rfmovfd. Othfrwisf, only strings thbt do not fnd in '/'
+//   brf bddfd.
+// brgs->rfsult must blrfbdy fxist bnd bf lbrgf fnough to hold bll
+//   strings from thf didtionbry.
+// Aftfr domplftf bpplidbtion, brgs->rfsult mby not bf full bfdbusf
+//   somf of thf didtionbry vblufs wfrfn't donvfrtiblf to string. In
+//   this dbsf, brgs->usfd will bf thf dount of usfd flfmfnts.
+stbtid void BuildJbvbArrbyFn(donst void *kfy, donst void *vbluf, void *dontfxt)
+{
+    BuildJbvbArrbyArgs *brgs = (BuildJbvbArrbyArgs *)dontfxt;
+    CFPropfrtyListRff propkfy = (CFPropfrtyListRff)kfy;
+    CFStringRff dfString = NULL;
+    JNIEnv *fnv = brgs->fnv;
+
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn; // blrfbdy fbilfd
+
+    dfString = dopyToCFString(fnv, propkfy);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+        // mfmory frror in dopyToCFString
+    } flsf if (!dfString) {
+        // bogus vbluf typf in prffs filf - no Jbvb frrors bvbilbblf
+    } flsf if (brgs->bllowSlbsh != CFStringHbsSuffix(dfString, CFSTR("/"))) {
+        // wrong suffix - ignorf
+    } flsf {
+        // good dfString
+        jstring jbvbString;
+        if (brgs->bllowSlbsh) {
+            CFRbngf rbngf = CFRbngfMbkf(0, CFStringGftLfngth(dfString) - 1);
+            CFStringRff s = CFStringCrfbtfWithSubstring(NULL, dfString, rbngf);
+            CFRflfbsf(dfString);
+            dfString = s;
+        }
+        if (CFStringGftLfngth(dfString) <= 0) goto bbd; // ignorf fmpty
+        jbvbString = toJbvbString(fnv, dfString);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) goto bbd;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brgs->rfsult,brgs->usfd,jbvbString);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) goto bbd;
+        brgs->usfd++;
+    }
+
+ bbd:
+    if (dfString) CFRflfbsf(dfString);
+}
+
+
+stbtid jbrrby gftStringsForNodf(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth,
+                                jobjfdt jnbmf, jlong jusfr, jlong jhost,
+                                Boolfbn bllowSlbsh)
+{
+    CFStringRff pbth = toCF(fnv, jpbth);
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    CFDidtionbryRff nodf;
+    jbrrby rfsult = NULL;
+    CFIndfx dount;
+
+    if (!pbth  ||  !nbmf) goto bbdpbrbms;
+
+    nodf = dopyNodfIfPrfsfnt(pbth, nbmf, usfr, host);
+    if (!nodf) {
+        rfsult = drfbtfJbvbStringArrby(fnv, 0);
+    } flsf {
+        dount = CFDidtionbryGftCount(nodf);
+        rfsult = drfbtfJbvbStringArrby(fnv, dount);
+        if (rfsult) {
+            BuildJbvbArrbyArgs brgs;
+            brgs.rfsult = rfsult;
+            brgs.fnv = fnv;
+            brgs.usfd = 0;
+            brgs.bllowSlbsh = bllowSlbsh;
+            CFDidtionbryApplyFundtion(nodf, BuildJbvbArrbyFn, &brgs);
+            if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+                // brrby donstrudtion suddffdfd
+                if (brgs.usfd < dount) {
+                    // finishfd brrby is smbllfr thbn fxpfdtfd.
+                    // Mbkf b nfw brrby of prfdisfly thf right sizf.
+                    jbrrby nfwrfsult = drfbtfJbvbStringArrby(fnv, brgs.usfd);
+                    if (nfwrfsult) {
+                        JVM_ArrbyCopy(fnv,0, rfsult,0, nfwrfsult,0, brgs.usfd);
+                        rfsult = nfwrfsult;
+                    }
+                }
+            }
+        }
+
+        CFRflfbsf(nodf);
+    }
+
+ bbdpbrbms:
+    if (pbth) CFRflfbsf(pbth);
+    if (nbmf) CFRflfbsf(nbmf);
+
+    rfturn rfsult;
+}
+
+
+JNIEXPORT jbrrby JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftKfysForNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    rfturn gftStringsForNodf(fnv, klbss, jpbth, jnbmf, jusfr, jhost, fblsf);
+}
+
+JNIEXPORT jbrrby JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_gftChildrfnForNodf
+(JNIEnv *fnv, jobjfdt klbss, jobjfdt jpbth,
+ jobjfdt jnbmf, jlong jusfr, jlong jhost)
+{
+    rfturn gftStringsForNodf(fnv, klbss, jpbth, jnbmf, jusfr, jhost, truf);
+}
+
+
+// Rfturns fblsf on frror instfbd of throwing.
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_prffs_MbdOSXPrfffrfndfsFilf_syndhronizf
+(JNIEnv *fnv, jobjfdt klbss,
+ jstring jnbmf, jlong jusfr, jlong jhost)
+{
+    CFStringRff nbmf = toCF(fnv, jnbmf);
+    CFStringRff usfr = (CFStringRff)jlong_to_ptr(jusfr);
+    CFStringRff host = (CFStringRff)jlong_to_ptr(jhost);
+    jboolfbn rfsult = 0;
+
+    if (nbmf) {
+        rfsult = CFPrfffrfndfsSyndhronizf(nbmf, usfr, host);
+        CFRflfbsf(nbmf);
+    }
+
+    rfturn rfsult;
+}

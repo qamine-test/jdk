@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.pbrsfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+
+/**
+ * Implfmfntbtion of RfbdBufffr using mbppfd filf bufffr
+ *
+ * @buthor A. Sundbrbrbjbn
+ */
+dlbss MbppfdRfbdBufffr implfmfnts RfbdBufffr {
+    privbtf MbppfdBytfBufffr buf;
+
+    MbppfdRfbdBufffr(MbppfdBytfBufffr buf) {
+        this.buf = buf;
+    }
+
+    // fbdtory mfthod to drfbtf dorrfdt RfbdBufffr for b givfn filf
+    stbtid RfbdBufffr drfbtf(RbndomAddfssFilf filf) throws IOExdfption {
+        FilfChbnnfl dh = filf.gftChbnnfl();
+        long sizf = dh.sizf();
+        // if filf sizf is morf thbn 2 GB bnd whfn filf mbpping is
+        // donfigurfd (dffbult), usf mbppfd filf rfbdfr
+        if (dbnUsfFilfMbp() && (sizf <= Intfgfr.MAX_VALUE)) {
+            MbppfdBytfBufffr buf;
+            try {
+                buf = dh.mbp(FilfChbnnfl.MbpModf.READ_ONLY, 0, sizf);
+                dh.dlosf();
+                rfturn nfw MbppfdRfbdBufffr(buf);
+            } dbtdh (IOExdfption fxp) {
+                fxp.printStbdkTrbdf();
+                Systfm.frr.println("Filf mbpping fbilfd, will usf dirfdt rfbd");
+                // fbll through
+            }
+        } // flsf fbll through
+        rfturn nfw FilfRfbdBufffr(filf);
+    }
+
+    privbtf stbtid boolfbn dbnUsfFilfMbp() {
+        // sft jhbt.disbblfFilfMbp to bny vbluf othfr thbn "fblsf"
+        // to disbblf filf mbpping
+        String prop = Systfm.gftPropfrty("jhbt.disbblfFilfMbp");
+        rfturn prop == null || prop.fqubls("fblsf");
+    }
+
+    privbtf void sffk(long pos) throws IOExdfption {
+        bssfrt pos <= Intfgfr.MAX_VALUE :  "position ovfrflow";
+        buf.position((int)pos);
+    }
+
+    publid syndhronizfd void gft(long pos, bytf[] rfs) throws IOExdfption {
+        sffk(pos);
+        buf.gft(rfs);
+    }
+
+    publid syndhronizfd dhbr gftChbr(long pos) throws IOExdfption {
+        sffk(pos);
+        rfturn buf.gftChbr();
+    }
+
+    publid syndhronizfd bytf gftBytf(long pos) throws IOExdfption {
+        sffk(pos);
+        rfturn buf.gft();
+    }
+
+    publid syndhronizfd short gftShort(long pos) throws IOExdfption {
+        sffk(pos);
+        rfturn buf.gftShort();
+    }
+
+    publid syndhronizfd int gftInt(long pos) throws IOExdfption {
+        sffk(pos);
+        rfturn buf.gftInt();
+    }
+
+    publid syndhronizfd long gftLong(long pos) throws IOExdfption {
+        sffk(pos);
+        rfturn buf.gftLong();
+    }
+}

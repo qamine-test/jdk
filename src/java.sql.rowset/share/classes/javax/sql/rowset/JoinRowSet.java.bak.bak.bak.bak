@@ -1,0 +1,537 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
+
+import jbvbx.sql.rowsft.*;
+
+/**
+ * Thf <dodf>JoinRowSft</dodf> intfrfbdf providfs b mfdhbnism for dombining rflbtfd
+ * dbtb from difffrfnt <dodf>RowSft</dodf> objfdts into onf <dodf>JoinRowSft</dodf>
+ * objfdt, whidh rfprfsfnts bn SQL <dodf>JOIN</dodf>.
+ * In othfr words, b <dodf>JoinRowSft</dodf> objfdt bdts bs b
+ * dontbinfr for thf dbtb from <dodf>RowSft</dodf> objfdts thbt form bn SQL
+ * <dodf>JOIN</dodf> rflbtionship.
+ * <P>
+ * Thf <dodf>Joinbblf</dodf> intfrfbdf providfs thf mfthods for sftting,
+ * rftrifving, bnd unsftting b mbtdh dolumn, thf bbsis for
+ * fstbblishing bn SQL <dodf>JOIN</dodf> rflbtionship. Thf mbtdh dolumn mby
+ * bltfrnbtivfly bf sft by supplying it to thf bppropribtf vfrsion of thf
+ * <dodf>JointRowSft</dodf> mfthod <dodf>bddRowSft</dodf>.
+ *
+ * <h3>1.0 Ovfrvifw</h3>
+ * Disdonnfdtfd <dodf>RowSft</dodf> objfdts (<dodf>CbdhfdRowSft</dodf> objfdts
+ * bnd implfmfntbtions fxtfnding thf <dodf>CbdhfdRowSft</dodf> intfrfbdf)
+ * do not hbvf b stbndbrd wby to fstbblish bn SQL <dodf>JOIN</dodf> bftwffn
+ * <dodf>RowSft</dodf> objfdts without thf fxpfnsivf opfrbtion of
+ * rfdonnfdting to thf dbtb sourdf. Thf <dodf>JoinRowSft</dodf>
+ * intfrfbdf is spfdifidblly dfsignfd to bddrfss this nffd.
+ * <P>
+ * Any <dodf>RowSft</dodf> objfdt
+ * dbn bf bddfd to b <dodf>JoinRowSft</dodf> objfdt to bfdomf
+ * pbrt of bn SQL <dodf>JOIN</dodf> rflbtionship. This mfbns thbt both donnfdtfd
+ * bnd disdonnfdtfd <dodf>RowSft</dodf> objfdts dbn bf pbrt of b <dodf>JOIN</dodf>.
+ * <dodf>RowSft</dodf> objfdts opfrbting in b donnfdtfd fnvironmfnt
+ * (<dodf>JdbdRowSft</dodf> objfdts) brf
+ * fndourbgfd to usf thf dbtbbbsf to whidh thfy brf blrfbdy
+ * donnfdtfd to fstbblish SQL <dodf>JOIN</dodf> rflbtionships bftwffn
+ * tbblfs dirfdtly. Howfvfr, it is possiblf for b
+ * <dodf>JdbdRowSft</dodf> objfdt to bf bddfd to b <dodf>JoinRowSft</dodf> objfdt
+ * if nfdfssbry.
+ * <P>
+ * Any numbfr of <dodf>RowSft</dodf> objfdts dbn bf bddfd to bn
+ * instbndf of <dodf>JoinRowSft</dodf> providfd thbt thfy
+ * dbn bf rflbtfd in bn SQL <dodf>JOIN</dodf>.
+ * By dffinition, thf SQL <dodf>JOIN</dodf> stbtfmfnt is usfd to
+ * dombinf thf dbtb dontbinfd in two or morf rflbtionbl dbtbbbsf tbblfs bbsfd
+ * upon b dommon bttributf. Thf <dodf>Joinbblf</dodf> intfrfbdf providfs thf mfthods
+ * for fstbblishing b dommon bttributf, whidh is donf by sftting b
+ * <i>mbtdh dolumn</i>. Thf mbtdh dolumn dommonly doindidfs with
+ * thf primbry kfy, but thfrf is
+ * no rfquirfmfnt thbt thf mbtdh dolumn bf thf sbmf bs thf primbry kfy.
+ * By fstbblishing bnd thfn fnfording dolumn mbtdhfs,
+ * b <dodf>JoinRowSft</dodf> objfdt fstbblishfs <dodf>JOIN</dodf> rflbtionships
+ * bftwffn <dodf>RowSft</dodf> objfdts without thf bssistbndf of bn bvbilbblf
+ * rflbtionbl dbtbbbsf.
+ * <P>
+ * Thf typf of <dodf>JOIN</dodf> to bf fstbblishfd is dftfrminfd by sftting
+ * onf of thf <dodf>JoinRowSft</dodf> donstbnts using thf mfthod
+ * <dodf>sftJoinTypf</dodf>. Thf following SQL <dodf>JOIN</dodf> typfs dbn bf sft:
+ * <UL>
+ *  <LI><dodf>CROSS_JOIN</dodf>
+ *  <LI><dodf>FULL_JOIN</dodf>
+ *  <LI><dodf>INNER_JOIN</dodf> - thf dffbult if no <dodf>JOIN</dodf> typf hbs bffn sft
+ *  <LI><dodf>LEFT_OUTER_JOIN</dodf>
+ *  <LI><dodf>RIGHT_OUTER_JOIN</dodf>
+ * </UL>
+ * Notf thbt if no typf is sft, thf <dodf>JOIN</dodf> will butombtidblly bf bn
+ * innfr join. Thf dommfnts for thf fiflds in thf
+ * <dodf>JoinRowSft</dodf> intfrfbdf fxplbin thfsf <dodf>JOIN</dodf> typfs, whidh brf
+ * stbndbrd SQL <dodf>JOIN</dodf> typfs.
+ *
+ * <h3>2.0 Using b <dodf>JoinRowSft</dodf> Objfdt for Crfbting b <dodf>JOIN</dodf></h3>
+ * Whfn b <dodf>JoinRowSft</dodf> objfdt is drfbtfd, it is fmpty.
+ * Thf first <dodf>RowSft</dodf> objfdt to bf bddfd bfdomfs thf bbsis for thf
+ * <dodf>JOIN</dodf> rflbtionship.
+ * Applidbtions must dftfrminf whidh dolumn in fbdh of thf
+ * <dodf>RowSft</dodf> objfdts to bf bddfd to thf <dodf>JoinRowSft</dodf> objfdt
+ * should bf thf mbtdh dolumn. All of thf
+ * <dodf>RowSft</dodf> objfdts must dontbin b mbtdh dolumn, bnd thf vblufs in
+ * fbdh mbtdh dolumn must bf onfs thbt dbn bf dompbrfd to vblufs in thf othfr mbtdh
+ * dolumns. Thf dolumns do not hbvf to hbvf thf sbmf nbmf, though thfy oftfn do,
+ * bnd thfy do not hbvf to storf thf fxbdt sbmf dbtb typf bs long bs thf dbtb typfs
+ * dbn bf dompbrfd.
+ * <P>
+ * A mbtdh dolumn dbn bf bf sft in two wbys:
+ * <ul>
+ *  <li>By dblling thf <dodf>Joinbblf</dodf> mfthod <dodf>sftMbtdhColumn</dodf><br>
+ *  This is thf only mfthod thbt dbn sft thf mbtdh dolumn bfforf b <dodf>RowSft</dodf>
+ *  objfdt is bddfd to b <dodf>JoinRowSft</dodf> objfdt. Thf <dodf>RowSft</dodf> objfdt
+ *  must hbvf implfmfntfd thf <dodf>Joinbblf</dodf> intfrfbdf in ordfr to usf thf mfthod
+ *  <dodf>sftMbtdhColumn</dodf>. Ondf thf mbtdh dolumn vbluf
+ *  hbs bffn sft, this mfthod dbn bf usfd to rfsft thf mbtdh dolumn bt bny timf.
+ *  <li>By dblling onf of thf vfrsions of thf <dodf>JoinRowSft</dodf> mfthod
+ *  <dodf>bddRowSft</dodf> thbt tbkfs b dolumn nbmf or numbfr (or bn brrby of
+ *  dolumn nbmfs or numbfrs)<BR>
+ *  Four of thf fivf <dodf>bddRowSft</dodf> mfthods tbkf b mbtdh dolumn bs b pbrbmftfr.
+ *  Thfsf four mfthods sft or rfsft thf mbtdh dolumn bt thf timf b <dodf>RowSft</dodf>
+ *  objfdt is bfing bddfd to b <dodf>JoinRowSft</dodf> objfdt.
+ * </ul>
+ * <h3>3.0 Sbmplf Usbgf</h3>
+ * <p>
+ * Thf following dodf frbgmfnt bdds two <dodf>CbdhfdRowSft</dodf>
+ * objfdts to b <dodf>JoinRowSft</dodf> objfdt. Notf thbt in this fxbmplf,
+ * no SQL <dodf>JOIN</dodf> typf is sft, so thf dffbult <dodf>JOIN</dodf> typf,
+ * whidh is <i>INNER_JOIN</i>, is fstbblishfd.
+ * <p>
+ * In thf following dodf frbgmfnt, thf tbblf <dodf>EMPLOYEES</dodf>, whosf mbtdh
+ * dolumn is sft to thf first dolumn (<dodf>EMP_ID</dodf>), is bddfd to thf
+ * <dodf>JoinRowSft</dodf> objfdt <i>jrs</i>. Thfn
+ * thf tbblf <dodf>ESSP_BONUS_PLAN</dodf>, whosf mbtdh dolumn is likfwisf
+ * thf <dodf>EMP_ID</dodf> dolumn, is bddfd. Whfn this sfdond
+ * tbblf is bddfd to <i>jrs</i>, only thf rows in
+ * <dodf>ESSP_BONUS_PLAN</dodf> whosf <dodf>EMP_ID</dodf> vbluf mbtdhfs bn
+ * <dodf>EMP_ID</dodf> vbluf in thf <dodf>EMPLOYEES</dodf> tbblf brf bddfd.
+ * In this dbsf, fvfryonf in thf bonus plbn is bn fmployff, so bll of thf rows
+ * in thf tbblf <dodf>ESSP_BONUS_PLAN</dodf> brf bddfd to thf <dodf>JoinRowSft</dodf>
+ * objfdt.  In this fxbmplf, both <dodf>CbdhfdRowSft</dodf> objfdts bfing bddfd
+ * hbvf implfmfntfd thf <dodf>Joinbblf</dodf> intfrfbdf bnd dbn thfrfforf dbll
+ * thf <dodf>Joinbblf</dodf> mfthod <dodf>sftMbtdhColumn</dodf>.
+ * <PRE>
+ *     JoinRowSft jrs = nfw JoinRowSftImpl();
+ *
+ *     RfsultSft rs1 = stmt.fxfdutfQufry("SELECT * FROM EMPLOYEES");
+ *     CbdhfdRowSft fmpl = nfw CbdhfdRowSftImpl();
+ *     fmpl.populbtf(rs1);
+ *     fmpl.sftMbtdhColumn(1);
+ *     jrs.bddRowSft(fmpl);
+ *
+ *     RfsultSft rs2 = stmt.fxfdutfQufry("SELECT * FROM ESSP_BONUS_PLAN");
+ *     CbdhfdRowSft bonus = nfw CbdhfdRowSftImpl();
+ *     bonus.populbtf(rs2);
+ *     bonus.sftMbtdhColumn(1); // EMP_ID is thf first dolumn
+ *     jrs.bddRowSft(bonus);
+ * </PRE>
+ * <P>
+ * At this point, <i>jrs</i> is bn insidf JOIN of thf two <dodf>RowSft</dodf> objfdts
+ * bbsfd on thfir <dodf>EMP_ID</dodf> dolumns. Thf bpplidbtion dbn now browsf thf
+ * dombinfd dbtb bs if it wfrf browsing onf singlf <dodf>RowSft</dodf> objfdt.
+ * Bfdbusf <i>jrs</i> is itsflf b <dodf>RowSft</dodf> objfdt, bn bpplidbtion dbn
+ * nbvigbtf or modify it using <dodf>RowSft</dodf> mfthods.
+ * <PRE>
+ *     jrs.first();
+ *     int fmployffID = jrs.gftInt(1);
+ *     String fmployffNbmf = jrs.gftString(2);
+ * </PRE>
+ * <P>
+ * Notf thbt bfdbusf thf SQL <dodf>JOIN</dodf> must bf fnfordfd whfn bn bpplidbtion
+ * bdds b sfdond or subsfqufnt <dodf>RowSft</dodf> objfdt, thfrf
+ * mby bf bn initibl dfgrbdbtion in pfrformbndf whilf thf <dodf>JOIN</dodf> is
+ * bfing pfrformfd.
+ * <P>
+ * Thf following dodf frbgmfnt bdds bn bdditionbl <dodf>CbdhfdRowSft</dodf> objfdt.
+ * In this dbsf, thf mbtdh dolumn (<dodf>EMP_ID</dodf>) is sft whfn thf
+ * <dodf>CbdhfdRowSft</dodf> objfdt is bddfd to thf <dodf>JoinRowSft</dodf> objfdt.
+ * <PRE>
+ *     RfsultSft rs3 = stmt.fxfdutfQufry("SELECT * FROM 401K_CONTRIB");
+ *     CbdhfdRowSft fourO1k = nfw CbdhfdRowSftImpl();
+ *     four01k.populbtf(rs3);
+ *     jrs.bddRowSft(four01k, 1);
+ * </PRE>
+ * <P>
+ * Thf <dodf>JoinRowSft</dodf> objfdt <i>jrs</i> now dontbins vblufs from bll thrff
+ * tbblfs. Thf dbtb in fbdh row in <i>four01k</i> in whidh thf vbluf for thf
+ * <dodf>EMP_ID</dodf> dolumn mbtdhfs b vbluf for thf <dodf>EMP_ID</dodf> dolumn
+ * in <i>jrs</i> hbs bffn bddfd to <i>jrs</i>.
+ *
+ * <h3>4.0 <dodf>JoinRowSft</dodf> Mfthods</h3>
+ * Thf <dodf>JoinRowSft</dodf> intfrfbdf supplifs sfvfrbl mfthods for bdding
+ * <dodf>RowSft</dodf> objfdts bnd for gftting informbtion bbout thf
+ * <dodf>JoinRowSft</dodf> objfdt.
+ * <UL>
+ *   <LI>Mfthods for bdding onf or morf <dodf>RowSft</dodf> objfdts<BR>
+ *       Thfsf mfthods bllow bn bpplidbtion to bdd onf <dodf>RowSft</dodf> objfdt
+ *       bt b timf or to bdd multiplf <dodf>RowSft</dodf> objfdts bt onf timf. In
+ *       fithfr dbsf, thf mfthods mby spfdify thf mbtdh dolumn for fbdh
+ *       <dodf>RowSft</dodf> objfdt bfing bddfd.
+ *   <LI>Mfthods for gftting informbtion<BR>
+ *       Onf mfthod rftrifvfs thf <dodf>RowSft</dodf> objfdts in thf
+ *       <dodf>JoinRowSft</dodf> objfdt, bnd bnothfr mfthod rftrifvfs thf
+ *       <dodf>RowSft</dodf> nbmfs.  A third mfthod rftrifvfs fithfr thf SQL
+ *       <dodf>WHERE</dodf> dlbusf usfd bfhind thf sdfnfs to form thf
+ *       <dodf>JOIN</dodf> or b tfxt dfsdription of whbt thf <dodf>WHERE</dodf>
+ *       dlbusf dofs.
+ *   <LI>Mfthods rflbtfd to thf typf of <dodf>JOIN</dodf><BR>
+ *       Onf mfthod sfts thf <dodf>JOIN</dodf> typf, bnd fivf mfthods find out whfthfr
+ *       thf <dodf>JoinRowSft</dodf> objfdt supports b givfn typf.
+ *   <LI>A mfthod to mbkf b sfpbrbtf dopy of thf <dodf>JoinRowSft</dodf> objfdt<BR>
+ *       This mfthod drfbtfs b dopy thbt dbn bf pfrsistfd to thf dbtb sourdf.
+ * </UL>
+ *
+ * @sindf 1.5
+ */
+
+publid intfrfbdf JoinRowSft fxtfnds WfbRowSft {
+
+    /**
+     * Adds thf givfn <dodf>RowSft</dodf> objfdt to this <dodf>JoinRowSft</dodf>
+     * objfdt. If thf <dodf>RowSft</dodf> objfdt
+     * is thf first to bf bddfd to this <dodf>JoinRowSft</dodf>
+     * objfdt, it forms thf bbsis of thf <dodf>JOIN</dodf> rflbtionship to bf
+     * fstbblishfd.
+     * <P>
+     * This mfthod should bf usfd only whfn thf givfn <dodf>RowSft</dodf>
+     * objfdt blrfbdy hbs b mbtdh dolumn thbt wbs sft with thf <dodf>Joinbblf</dodf>
+     * mfthod <dodf>sftMbtdhColumn</dodf>.
+     * <p>
+     * Notf: A <dodf>Joinbblf</dodf> objfdt is bny <dodf>RowSft</dodf> objfdt
+     * thbt hbs implfmfntfd thf <dodf>Joinbblf</dodf> intfrfbdf.
+     *
+     * @pbrbm rowsft thf <dodf>RowSft</dodf> objfdt thbt is to bf bddfd to this
+     *        <dodf>JoinRowSft</dodf> objfdt; it must implfmfnt thf
+     *        <dodf>Joinbblf</dodf> intfrfbdf bnd hbvf b mbtdh dolumn sft
+     * @throws SQLExdfption if (1) bn fmpty rowsft is bddfd to thf to this
+     *         <dodf>JoinRowSft</dodf> objfdt, (2) b mbtdh dolumn hbs not bffn
+     *         sft for <i>rowsft</i>, or (3) <i>rowsft</i>
+     *         violbtfs thf bdtivf <dodf>JOIN</dodf>
+     * @sff Joinbblf#sftMbtdhColumn
+     */
+    publid void bddRowSft(Joinbblf rowsft) throws SQLExdfption;
+
+    /**
+     * Adds thf givfn <dodf>RowSft</dodf> objfdt to this <dodf>JoinRowSft</dodf>
+     * objfdt bnd sfts thf dfsignbtfd dolumn bs thf mbtdh dolumn for
+     * thf <dodf>RowSft</dodf> objfdt. If thf <dodf>RowSft</dodf> objfdt
+     * is thf first to bf bddfd to this <dodf>JoinRowSft</dodf>
+     * objfdt, it forms thf bbsis of thf <dodf>JOIN</dodf> rflbtionship to bf
+     * fstbblishfd.
+     * <P>
+     * This mfthod should bf usfd whfn <i>RowSft</i> dofs not blrfbdy hbvf b mbtdh
+     * dolumn sft.
+     *
+     * @pbrbm rowsft thf <dodf>RowSft</dodf> objfdt thbt is to bf bddfd to this
+     *        <dodf>JoinRowSft</dodf> objfdt; it mby implfmfnt thf
+     *        <dodf>Joinbblf</dodf> intfrfbdf
+     * @pbrbm dolumnIdx bn <dodf>int</dodf> thbt idfntififs thf dolumn to bfdomf thf
+     *         mbtdh dolumn
+     * @throws SQLExdfption if (1) <i>rowsft</i> is bn fmpty rowsft or
+     *         (2) <i>rowsft</i> violbtfs thf bdtivf <dodf>JOIN</dodf>
+     * @sff Joinbblf#unsftMbtdhColumn
+     */
+    publid void bddRowSft(RowSft rowsft, int dolumnIdx) throws SQLExdfption;
+
+    /**
+     * Adds <i>rowsft</i> to this <dodf>JoinRowSft</dodf> objfdt bnd
+     * sfts thf dfsignbtfd dolumn bs thf mbtdh dolumn. If <i>rowsft</i>
+     * is thf first to bf bddfd to this <dodf>JoinRowSft</dodf>
+     * objfdt, it forms thf bbsis for thf <dodf>JOIN</dodf> rflbtionship to bf
+     * fstbblishfd.
+     * <P>
+     * This mfthod should bf usfd whfn thf givfn <dodf>RowSft</dodf> objfdt
+     * dofs not blrfbdy hbvf b mbtdh dolumn.
+     *
+     * @pbrbm rowsft thf <dodf>RowSft</dodf> objfdt thbt is to bf bddfd to this
+     *        <dodf>JoinRowSft</dodf> objfdt; it mby implfmfnt thf
+     *        <dodf>Joinbblf</dodf> intfrfbdf
+     * @pbrbm dolumnNbmf thf <dodf>String</dodf> objfdt giving thf nbmf of thf
+     *        dolumn to bf sft bs thf mbtdh dolumn
+     * @throws SQLExdfption if (1) <i>rowsft</i> is bn fmpty rowsft or
+     *         (2) thf mbtdh dolumn for <i>rowsft</i> dofs not sbtisfy thf
+     *         donditions of thf <dodf>JOIN</dodf>
+     */
+     publid void bddRowSft(RowSft rowsft,
+                           String dolumnNbmf) throws SQLExdfption;
+
+    /**
+     * Adds onf or morf <dodf>RowSft</dodf> objfdts dontbinfd in thf givfn
+     * brrby of <dodf>RowSft</dodf> objfdts to this <dodf>JoinRowSft</dodf>
+     * objfdt bnd sfts thf mbtdh dolumn for
+     * fbdh of thf <dodf>RowSft</dodf> objfdts to thf mbtdh dolumns
+     * in thf givfn brrby of dolumn indfxfs. Thf first flfmfnt in
+     * <i>dolumnIdx</i> is sft bs thf mbtdh dolumn for thf first
+     * <dodf>RowSft</dodf> objfdt in <i>rowsft</i>, thf sfdond flfmfnt of
+     * <i>dolumnIdx</i> is sft bs thf mbtdh dolumn for thf sfdond flfmfnt
+     * in <i>rowsft</i>, bnd so on.
+     * <P>
+     * Thf first <dodf>RowSft</dodf> objfdt bddfd to this <dodf>JoinRowSft</dodf>
+     * objfdt forms thf bbsis for thf <dodf>JOIN</dodf> rflbtionship.
+     * <P>
+     * This mfthod should bf usfd whfn thf givfn <dodf>RowSft</dodf> objfdt
+     * dofs not blrfbdy hbvf b mbtdh dolumn.
+     *
+     * @pbrbm rowsft bn brrby of onf or morf <dodf>RowSft</dodf> objfdts
+     *        to bf bddfd to thf <dodf>JOIN</dodf>; it mby implfmfnt thf
+     *        <dodf>Joinbblf</dodf> intfrfbdf
+     * @pbrbm dolumnIdx bn brrby of <dodf>int</dodf> vblufs indidbting thf indfx(fs)
+     *        of thf dolumns to bf sft bs thf mbtdh dolumns for thf <dodf>RowSft</dodf>
+     *        objfdts in <i>rowsft</i>
+     * @throws SQLExdfption if (1) bn fmpty rowsft is bddfd to this
+     *         <dodf>JoinRowSft</dodf> objfdt, (2) b mbtdh dolumn is not sft
+     *         for b <dodf>RowSft</dodf> objfdt in <i>rowsft</i>, or (3)
+     *         b <dodf>RowSft</dodf> objfdt bfing bddfd violbtfs thf bdtivf
+     *         <dodf>JOIN</dodf>
+     */
+    publid void bddRowSft(RowSft[] rowsft,
+                          int[] dolumnIdx) throws SQLExdfption;
+
+    /**
+     * Adds onf or morf <dodf>RowSft</dodf> objfdts dontbinfd in thf givfn
+     * brrby of <dodf>RowSft</dodf> objfdts to this <dodf>JoinRowSft</dodf>
+     * objfdt bnd sfts thf mbtdh dolumn for
+     * fbdh of thf <dodf>RowSft</dodf> objfdts to thf mbtdh dolumns
+     * in thf givfn brrby of dolumn nbmfs. Thf first flfmfnt in
+     * <i>dolumnNbmf</i> is sft bs thf mbtdh dolumn for thf first
+     * <dodf>RowSft</dodf> objfdt in <i>rowsft</i>, thf sfdond flfmfnt of
+     * <i>dolumnNbmf</i> is sft bs thf mbtdh dolumn for thf sfdond flfmfnt
+     * in <i>rowsft</i>, bnd so on.
+     * <P>
+     * Thf first <dodf>RowSft</dodf> objfdt bddfd to this <dodf>JoinRowSft</dodf>
+     * objfdt forms thf bbsis for thf <dodf>JOIN</dodf> rflbtionship.
+     * <P>
+     * This mfthod should bf usfd whfn thf givfn <dodf>RowSft</dodf> objfdt(s)
+     * dofs not blrfbdy hbvf b mbtdh dolumn.
+     *
+     * @pbrbm rowsft bn brrby of onf or morf <dodf>RowSft</dodf> objfdts
+     *        to bf bddfd to thf <dodf>JOIN</dodf>; it mby implfmfnt thf
+     *        <dodf>Joinbblf</dodf> intfrfbdf
+     * @pbrbm dolumnNbmf bn brrby of <dodf>String</dodf> vblufs indidbting thf
+     *        nbmfs of thf dolumns to bf sft bs thf mbtdh dolumns for thf
+     *        <dodf>RowSft</dodf> objfdts in <i>rowsft</i>
+     * @throws SQLExdfption if (1) bn fmpty rowsft is bddfd to this
+     *         <dodf>JoinRowSft</dodf> objfdt, (2) b mbtdh dolumn is not sft
+     *         for b <dodf>RowSft</dodf> objfdt in <i>rowsft</i>, or (3)
+     *         b <dodf>RowSft</dodf> objfdt bfing bddfd violbtfs thf bdtivf
+     *         <dodf>JOIN</dodf>
+     */
+    publid void bddRowSft(RowSft[] rowsft,
+                          String[] dolumnNbmf) throws SQLExdfption;
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> objfdt dontbining thf
+     * <dodf>RowSft</dodf> objfdts thbt hbvf bffn bddfd to this
+     * <dodf>JoinRowSft</dodf> objfdt.
+     * This should rfturn thf 'n' numbfr of RowSft dontbinfd
+     * within thf <dodf>JOIN</dodf> bnd mbintbin bny updbtfs thbt hbvf oddurrfd whilf in
+     * this union.
+     *
+     * @rfturn b <dodf>Collfdtion</dodf> objfdt donsisting of thf
+     *        <dodf>RowSft</dodf> objfdts bddfd to this <dodf>JoinRowSft</dodf>
+     *        objfdt
+     * @throws SQLExdfption if bn frror oddurs gfnfrbting thf
+     *         <dodf>Collfdtion</dodf> objfdt to bf rfturnfd
+     */
+    publid Collfdtion<?> gftRowSfts() throws jbvb.sql.SQLExdfption;
+
+    /**
+     * Rfturns b <dodf>String</dodf> brrby dontbining thf nbmfs of thf
+     *         <dodf>RowSft</dodf> objfdts bddfd to this <dodf>JoinRowSft</dodf>
+     *         objfdt.
+     *
+     * @rfturn b <dodf>String</dodf> brrby of thf nbmfs of thf
+     *         <dodf>RowSft</dodf> objfdts in this <dodf>JoinRowSft</dodf>
+     *         objfdt
+     * @throws SQLExdfption if bn frror oddurs rftrifving thf nbmfs of
+     *         thf <dodf>RowSft</dodf> objfdts
+     * @sff CbdhfdRowSft#sftTbblfNbmf
+     */
+    publid String[] gftRowSftNbmfs() throws jbvb.sql.SQLExdfption;
+
+    /**
+     * Crfbtfs b nfw <dodf>CbdhfdRowSft</dodf> objfdt dontbining thf
+     * dbtb in this <dodf>JoinRowSft</dodf> objfdt, whidh dbn bf sbvfd
+     * to b dbtb sourdf using thf <dodf>SyndProvidfr</dodf> objfdt for
+     * thf <dodf>CbdhfdRowSft</dodf> objfdt.
+     * <P>
+     * If bny updbtfs or modifidbtions hbvf bffn bpplifd to thf JoinRowSft
+     * thf CbdhfdRowSft rfturnfd by thf mfthod will not bf bblf to pfrsist
+     * it's dhbngfs bbdk to thf originbting rows bnd tbblfs in thf
+     * in thf dbtbsourdf. Thf CbdhfdRowSft instbndf rfturnfd should not
+     * dontbin modifidbtion dbtb bnd it should dlfbr bll propfrtifs of
+     * it's originbting SQL stbtfmfnt. An bpplidbtion should rfsft thf
+     * SQL stbtfmfnt using thf <dodf>RowSft.sftCommbnd</dodf> mfthod.
+     * <p>
+     * In ordfr to bllow dhbngfs to bf pfrsistfd bbdk to thf dbtbsourdf
+     * to thf originbting tbblfs, thf <dodf>bddfptChbngfs</dodf> mfthod
+     * should bf usfd bnd dbllfd on b JoinRowSft objfdt instbndf. Implfmfntbtions
+     * dbn lfvfrbgf thf intfrnbl dbtb bnd updbtf trbdking in thfir
+     * implfmfntbtions to intfrbdt with thf SyndProvidfr to pfrsist bny
+     * dhbngfs.
+     *
+     * @rfturn b CbdhfdRowSft dontbining thf dontfnts of thf JoinRowSft
+     * @throws SQLExdfption if bn frror oddurs bssfmbling thf CbdhfdRowSft
+     * objfdt
+     * @sff jbvbx.sql.RowSft
+     * @sff jbvbx.sql.rowsft.CbdhfdRowSft
+     * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+     */
+    publid CbdhfdRowSft toCbdhfdRowSft() throws jbvb.sql.SQLExdfption;
+
+    /**
+     * Indidbtfs if CROSS_JOIN is supportfd by b JoinRowSft
+     * implfmfntbtion
+     *
+     * @rfturn truf if thf CROSS_JOIN is supportfd; fblsf othfrwisf
+     */
+    publid boolfbn supportsCrossJoin();
+
+    /**
+     * Indidbtfs if INNER_JOIN is supportfd by b JoinRowSft
+     * implfmfntbtion
+     *
+     * @rfturn truf is thf INNER_JOIN is supportfd; fblsf othfrwisf
+     */
+    publid boolfbn supportsInnfrJoin();
+
+    /**
+     * Indidbtfs if LEFT_OUTER_JOIN is supportfd by b JoinRowSft
+     * implfmfntbtion
+     *
+     * @rfturn truf is thf LEFT_OUTER_JOIN is supportfd; fblsf othfrwisf
+     */
+    publid boolfbn supportsLfftOutfrJoin();
+
+    /**
+     * Indidbtfs if RIGHT_OUTER_JOIN is supportfd by b JoinRowSft
+     * implfmfntbtion
+     *
+     * @rfturn truf is thf RIGHT_OUTER_JOIN is supportfd; fblsf othfrwisf
+     */
+    publid boolfbn supportsRightOutfrJoin();
+
+    /**
+     * Indidbtfs if FULL_JOIN is supportfd by b JoinRowSft
+     * implfmfntbtion
+     *
+     * @rfturn truf is thf FULL_JOIN is supportfd; fblsf othfrwisf
+     */
+    publid boolfbn supportsFullJoin();
+
+    /**
+     * Allow thf bpplidbtion to bdjust thf typf of <dodf>JOIN</dodf> imposfd
+     * on tbblfs dontbinfd within thf JoinRowSft objfdt instbndf.
+     * Implfmfntbtions should throw b SQLExdfption if thfy do
+     * not support b givfn <dodf>JOIN</dodf> typf.
+     *
+     * @pbrbm joinTypf thf stbndbrd JoinRowSft.XXX stbtid fifld dffinition
+     * of b SQL <dodf>JOIN</dodf> to rf-donfigurf b JoinRowSft instbndf on
+     * thf fly.
+     * @throws SQLExdfption if bn unsupportfd <dodf>JOIN</dodf> typf is sft
+     * @sff #gftJoinTypf
+     */
+    publid void sftJoinTypf(int joinTypf) throws SQLExdfption;
+
+    /**
+     * Rfturn b SQL-likf dfsdription of thf WHERE dlbusf bfing usfd
+     * in b JoinRowSft objfdt. An implfmfntbtion dbn dfsdribf
+     * thf WHERE dlbusf of thf SQL <dodf>JOIN</dodf> by supplying b SQL
+     * strings dfsdription of <dodf>JOIN</dodf> or providf b tfxtubl
+     * dfsdription to bssist bpplidbtions using b <dodf>JoinRowSft</dodf>
+     *
+     * @rfturn whfrfClbusf b tfxtubl or SQL dfsdription of thf logidbl
+     * WHERE dlbusf usfd in thf JoinRowSft instbndf
+     * @throws SQLExdfption if bn frror oddurs in gfnfrbting b rfprfsfntbtion
+     * of thf WHERE dlbusf.
+     */
+    publid String gftWhfrfClbusf() throws SQLExdfption;
+
+    /**
+     * Rfturns b <dodf>int</dodf> dfsdribing thf sft SQL <dodf>JOIN</dodf> typf
+     * govfrning this JoinRowSft instbndf. Thf rfturnfd typf will bf onf of
+     * stbndbrd JoinRowSft typfs: <dodf>CROSS_JOIN</dodf>, <dodf>INNER_JOIN</dodf>,
+     * <dodf>LEFT_OUTER_JOIN</dodf>, <dodf>RIGHT_OUTER_JOIN</dodf> or
+     * <dodf>FULL_JOIN</dodf>.
+     *
+     * @rfturn joinTypf onf of thf stbndbrd JoinRowSft stbtid fifld
+     *     dffinitions of b SQL <dodf>JOIN</dodf>. <dodf>JoinRowSft.INNER_JOIN</dodf>
+     *     is rfturnfd bs thf dffbult <dodf>JOIN</dodf> typf is no typf hbs bffn
+     *     fxpliditly sft.
+     * @throws SQLExdfption if bn frror oddurs dftfrmining thf SQL <dodf>JOIN</dodf>
+     *     typf supportfd by thf JoinRowSft instbndf.
+     * @sff #sftJoinTypf
+     */
+    publid int gftJoinTypf() throws SQLExdfption;
+
+    /**
+     * An ANSI-stylf <dodf>JOIN</dodf> providing b dross produdt of two tbblfs
+     */
+    publid stbtid int CROSS_JOIN = 0;
+
+    /**
+     * An ANSI-stylf <dodf>JOIN</dodf> providing b innfr join bftwffn two tbblfs. Any
+     * unmbtdhfd rows in fithfr tbblf of thf join should bf disdbrdfd.
+     */
+    publid stbtid int INNER_JOIN = 1;
+
+    /**
+     * An ANSI-stylf <dodf>JOIN</dodf> providing b lfft outfr join bftwffn two
+     * tbblfs. In SQL, this is dfsdribfd whfrf bll rfdords should bf
+     * rfturnfd from thf lfft sidf of thf JOIN stbtfmfnt.
+     */
+    publid stbtid int LEFT_OUTER_JOIN = 2;
+
+    /**
+     * An ANSI-stylf <dodf>JOIN</dodf> providing b right outfr join bftwffn
+     * two tbblfs. In SQL, this is dfsdribfd whfrf bll rfdords from thf
+     * tbblf on thf right sidf of thf JOIN stbtfmfnt fvfn if thf tbblf
+     * on thf lfft hbs no mbtdhing rfdord.
+     */
+    publid stbtid int RIGHT_OUTER_JOIN = 3;
+
+    /**
+     * An ANSI-stylf <dodf>JOIN</dodf> providing b b full JOIN. Spfdififs thbt bll
+     * rows from fithfr tbblf bf rfturnfd rfgbrdlfss of mbtdhing
+     * rfdords on thf othfr tbblf.
+     */
+    publid stbtid int FULL_JOIN = 4;
+
+
+}

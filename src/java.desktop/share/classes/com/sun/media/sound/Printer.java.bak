@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * Printer allows you to set up global debugging status and print
- * messages accordingly.
+ * Printfr bllows you to sft up globbl dfbugging stbtus bnd print
+ * mfssbgfs bddordingly.
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
  */
-final class Printer {
+finbl dlbss Printfr {
 
-    static final boolean err = false;
-    static final boolean debug = false;
-    static final boolean trace = false;
-    static final boolean verbose = false;
-    static final boolean release = false;
+    stbtid finbl boolfbn frr = fblsf;
+    stbtid finbl boolfbn dfbug = fblsf;
+    stbtid finbl boolfbn trbdf = fblsf;
+    stbtid finbl boolfbn vfrbosf = fblsf;
+    stbtid finbl boolfbn rflfbsf = fblsf;
 
-    static final boolean SHOW_THREADID = false;
-    static final boolean SHOW_TIMESTAMP = false;
+    stbtid finbl boolfbn SHOW_THREADID = fblsf;
+    stbtid finbl boolfbn SHOW_TIMESTAMP = fblsf;
 
-    /*static void setErrorPrint(boolean on) {
+    /*stbtid void sftErrorPrint(boolfbn on) {
 
-      err = on;
+      frr = on;
       }
 
-      static void setDebugPrint(boolean on) {
+      stbtid void sftDfbugPrint(boolfbn on) {
 
-      debug = on;
+      dfbug = on;
       }
 
-      static void setTracePrint(boolean on) {
+      stbtid void sftTrbdfPrint(boolfbn on) {
 
-      trace = on;
+      trbdf = on;
       }
 
-      static void setVerbosePrint(boolean on) {
+      stbtid void sftVfrbosfPrint(boolfbn on) {
 
-      verbose = on;
+      vfrbosf = on;
       }
 
-      static void setReleasePrint(boolean on) {
+      stbtid void sftRflfbsfPrint(boolfbn on) {
 
-      release = on;
+      rflfbsf = on;
       }*/
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
      */
-    private Printer() {
+    privbtf Printfr() {
     }
 
-    public static void err(String str) {
+    publid stbtid void frr(String str) {
 
-        if (err)
+        if (frr)
             println(str);
     }
 
-    public static void debug(String str) {
+    publid stbtid void dfbug(String str) {
 
-        if (debug)
+        if (dfbug)
             println(str);
     }
 
-    public static void trace(String str) {
+    publid stbtid void trbdf(String str) {
 
-        if (trace)
+        if (trbdf)
             println(str);
     }
 
-    public static void verbose(String str) {
+    publid stbtid void vfrbosf(String str) {
 
-        if (verbose)
+        if (vfrbosf)
             println(str);
     }
 
-    public static void release(String str) {
+    publid stbtid void rflfbsf(String str) {
 
-        if (release)
+        if (rflfbsf)
             println(str);
     }
 
-    private static long startTime = 0;
+    privbtf stbtid long stbrtTimf = 0;
 
-    public static void println(String s) {
-        String prepend = "";
+    publid stbtid void println(String s) {
+        String prfpfnd = "";
         if (SHOW_THREADID) {
-            prepend = "thread "  + Thread.currentThread().getId() + " " + prepend;
+            prfpfnd = "tirfbd "  + Tirfbd.durrfntTirfbd().gftId() + " " + prfpfnd;
         }
         if (SHOW_TIMESTAMP) {
-            if (startTime == 0) {
-                startTime = System.nanoTime() / 1000000l;
+            if (stbrtTimf == 0) {
+                stbrtTimf = Systfm.nbnoTimf() / 1000000l;
             }
-            prepend = prepend + ((System.nanoTime()/1000000l) - startTime) + "millis: ";
+            prfpfnd = prfpfnd + ((Systfm.nbnoTimf()/1000000l) - stbrtTimf) + "millis: ";
         }
-        System.out.println(prepend + s);
+        Systfm.out.println(prfpfnd + s);
     }
 
-    public static void println() {
-        System.out.println();
+    publid stbtid void println() {
+        Systfm.out.println();
     }
 
 }

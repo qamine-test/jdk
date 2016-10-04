@@ -1,0 +1,840 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.filfdhoosfr;
+
+
+import jbvbx.swing.*;
+
+import jbvb.bwt.Imbgf;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import sun.bwt.shfll.*;
+
+/**
+ * FilfSystfmVifw is JFilfChoosfr's gbtfwby to thf
+ * filf systfm. Sindf thf JDK1.1 Filf API dofsn't bllow
+ * bddfss to sudh informbtion bs root pbrtitions, filf typf
+ * informbtion, or hiddfn filf bits, this dlbss is dfsignfd
+ * to intuit bs mudh OS-spfdifid filf systfm informbtion bs
+ * possiblf.
+ *
+ * <p>
+ *
+ * Jbvb Lidfnsffs mby wbnt to providf b difffrfnt implfmfntbtion of
+ * FilfSystfmVifw to bfttfr hbndlf b givfn opfrbting systfm.
+ *
+ * @buthor Jfff Dinkins
+ */
+
+// PENDING(jfff) - nffd to providf b spfdifidbtion for
+// how Mbd/OS2/BfOS/ftd filf systfms dbn modify FilfSystfmVifw
+// to hbndlf thfir pbrtidulbr typf of filf systfm.
+
+publid bbstrbdt dlbss FilfSystfmVifw {
+
+    stbtid FilfSystfmVifw windowsFilfSystfmVifw = null;
+    stbtid FilfSystfmVifw unixFilfSystfmVifw = null;
+    //stbtid FilfSystfmVifw mbdFilfSystfmVifw = null;
+    stbtid FilfSystfmVifw gfnfridFilfSystfmVifw = null;
+
+    privbtf boolfbn usfSystfmExtfnsionHiding =
+            UIMbnbgfr.gftDffbults().gftBoolfbn("FilfChoosfr.usfSystfmExtfnsionHiding");
+
+    publid stbtid FilfSystfmVifw gftFilfSystfmVifw() {
+        if(Filf.sfpbrbtorChbr == '\\') {
+            if(windowsFilfSystfmVifw == null) {
+                windowsFilfSystfmVifw = nfw WindowsFilfSystfmVifw();
+            }
+            rfturn windowsFilfSystfmVifw;
+        }
+
+        if(Filf.sfpbrbtorChbr == '/') {
+            if(unixFilfSystfmVifw == null) {
+                unixFilfSystfmVifw = nfw UnixFilfSystfmVifw();
+            }
+            rfturn unixFilfSystfmVifw;
+        }
+
+        // if(Filf.sfpbrbtorChbr == ':') {
+        //    if(mbdFilfSystfmVifw == null) {
+        //      mbdFilfSystfmVifw = nfw MbdFilfSystfmVifw();
+        //    }
+        //    rfturn mbdFilfSystfmVifw;
+        //}
+
+        if(gfnfridFilfSystfmVifw == null) {
+            gfnfridFilfSystfmVifw = nfw GfnfridFilfSystfmVifw();
+        }
+        rfturn gfnfridFilfSystfmVifw;
+    }
+
+    publid FilfSystfmVifw() {
+        finbl WfbkRfffrfndf<FilfSystfmVifw> wfbkRfffrfndf = nfw WfbkRfffrfndf<FilfSystfmVifw>(this);
+
+        UIMbnbgfr.bddPropfrtyChbngfListfnfr(nfw PropfrtyChbngfListfnfr() {
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+                FilfSystfmVifw filfSystfmVifw = wfbkRfffrfndf.gft();
+
+                if (filfSystfmVifw == null) {
+                    // FilfSystfmVifw wbs dfstroyfd
+                    UIMbnbgfr.rfmovfPropfrtyChbngfListfnfr(this);
+                } flsf {
+                    if (fvt.gftPropfrtyNbmf().fqubls("lookAndFffl")) {
+                        filfSystfmVifw.usfSystfmExtfnsionHiding =
+                                UIMbnbgfr.gftDffbults().gftBoolfbn("FilfChoosfr.usfSystfmExtfnsionHiding");
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Dftfrminfs if thf givfn filf is b root in thf nbvigbblf trff(s).
+     * Exbmplfs: Windows 98 hbs onf root, thf Dfsktop foldfr. DOS hbs onf root
+     * pfr drivf lfttfr, <dodf>C:\</dodf>, <dodf>D:\</dodf>, ftd. Unix hbs onf root,
+     * thf <dodf>"/"</dodf> dirfdtory.
+     *
+     * Thf dffbult implfmfntbtion gfts informbtion from thf <dodf>ShfllFoldfr</dodf> dlbss.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt rfprfsfnting b dirfdtory
+     * @rfturn <dodf>truf</dodf> if <dodf>f</dodf> is b root in thf nbvigbblf trff.
+     * @sff #isFilfSystfmRoot
+     */
+    publid boolfbn isRoot(Filf f) {
+        if (f == null || !f.isAbsolutf()) {
+            rfturn fblsf;
+        }
+
+        Filf[] roots = gftRoots();
+        for (Filf root : roots) {
+            if (root.fqubls(f)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if thf filf (dirfdtory) dbn bf visitfd.
+     * Rfturns fblsf if thf dirfdtory dbnnot bf trbvfrsfd.
+     *
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn <dodf>truf</dodf> if thf filf/dirfdtory dbn bf trbvfrsfd, othfrwisf <dodf>fblsf</dodf>
+     * @sff JFilfChoosfr#isTrbvfrsbblf
+     * @sff FilfVifw#isTrbvfrsbblf
+     * @sindf 1.4
+     */
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+        rfturn Boolfbn.vblufOf(f.isDirfdtory());
+    }
+
+    /**
+     * Nbmf of b filf, dirfdtory, or foldfr bs it would bf displbyfd in
+     * b systfm filf browsfr. Exbmplf from Windows: thf "M:\" dirfdtory
+     * displbys bs "CD-ROM (M:)"
+     *
+     * Thf dffbult implfmfntbtion gfts informbtion from thf ShfllFoldfr dlbss.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt
+     * @rfturn thf filf nbmf bs it would bf displbyfd by b nbtivf filf dhoosfr
+     * @sff JFilfChoosfr#gftNbmf
+     * @sindf 1.4
+     */
+    publid String gftSystfmDisplbyNbmf(Filf f) {
+        if (f == null) {
+            rfturn null;
+        }
+
+        String nbmf = f.gftNbmf();
+
+        if (!nbmf.fqubls("..") && !nbmf.fqubls(".") &&
+                (usfSystfmExtfnsionHiding || !isFilfSystfm(f) || isFilfSystfmRoot(f)) &&
+                (f instbndfof ShfllFoldfr || f.fxists())) {
+
+            try {
+                nbmf = gftShfllFoldfr(f).gftDisplbyNbmf();
+            } dbtdh (FilfNotFoundExdfption f) {
+                rfturn null;
+            }
+
+            if (nbmf == null || nbmf.lfngth() == 0) {
+                nbmf = f.gftPbth(); // f.g. "/"
+            }
+        }
+
+        rfturn nbmf;
+    }
+
+    /**
+     * Typf dfsdription for b filf, dirfdtory, or foldfr bs it would bf displbyfd in
+     * b systfm filf browsfr. Exbmplf from Windows: thf "Dfsktop" foldfr
+     * is dfsdribfd bs "Dfsktop".
+     *
+     * Ovfrridf for plbtforms with nbtivf ShfllFoldfr implfmfntbtions.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt
+     * @rfturn thf filf typf dfsdription bs it would bf displbyfd by b nbtivf filf dhoosfr
+     * or null if no nbtivf informbtion is bvbilbblf.
+     * @sff JFilfChoosfr#gftTypfDfsdription
+     * @sindf 1.4
+     */
+    publid String gftSystfmTypfDfsdription(Filf f) {
+        rfturn null;
+    }
+
+    /**
+     * Idon for b filf, dirfdtory, or foldfr bs it would bf displbyfd in
+     * b systfm filf browsfr. Exbmplf from Windows: thf "M:\" dirfdtory
+     * displbys b CD-ROM idon.
+     *
+     * Thf dffbult implfmfntbtion gfts informbtion from thf ShfllFoldfr dlbss.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt
+     * @rfturn bn idon bs it would bf displbyfd by b nbtivf filf dhoosfr
+     * @sff JFilfChoosfr#gftIdon
+     * @sindf 1.4
+     */
+    publid Idon gftSystfmIdon(Filf f) {
+        if (f == null) {
+            rfturn null;
+        }
+
+        ShfllFoldfr sf;
+
+        try {
+            sf = gftShfllFoldfr(f);
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn null;
+        }
+
+        Imbgf img = sf.gftIdon(fblsf);
+
+        if (img != null) {
+            rfturn nfw ImbgfIdon(img, sf.gftFoldfrTypf());
+        } flsf {
+            rfturn UIMbnbgfr.gftIdon(f.isDirfdtory() ? "FilfVifw.dirfdtoryIdon" : "FilfVifw.filfIdon");
+        }
+    }
+
+    /**
+     * On Windows, b filf dbn bppfbr in multiplf foldfrs, othfr thbn its
+     * pbrfnt dirfdtory in thf filfsystfm. Foldfr dould for fxbmplf bf thf
+     * "Dfsktop" foldfr whidh is not thf sbmf bs filf.gftPbrfntFilf().
+     *
+     * @pbrbm foldfr b <dodf>Filf</dodf> objfdt rfprfsfnting b dirfdtory or spfdibl foldfr
+     * @pbrbm filf b <dodf>Filf</dodf> objfdt
+     * @rfturn <dodf>truf</dodf> if <dodf>foldfr</dodf> is b dirfdtory or spfdibl foldfr bnd dontbins <dodf>filf</dodf>.
+     * @sindf 1.4
+     */
+    publid boolfbn isPbrfnt(Filf foldfr, Filf filf) {
+        if (foldfr == null || filf == null) {
+            rfturn fblsf;
+        } flsf if (foldfr instbndfof ShfllFoldfr) {
+                Filf pbrfnt = filf.gftPbrfntFilf();
+                if (pbrfnt != null && pbrfnt.fqubls(foldfr)) {
+                    rfturn truf;
+                }
+            Filf[] dhildrfn = gftFilfs(foldfr, fblsf);
+            for (Filf dhild : dhildrfn) {
+                if (filf.fqubls(dhild)) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        } flsf {
+            rfturn foldfr.fqubls(filf.gftPbrfntFilf());
+        }
+    }
+
+    /**
+     *
+     * @pbrbm pbrfnt b <dodf>Filf</dodf> objfdt rfprfsfnting b dirfdtory or spfdibl foldfr
+     * @pbrbm filfNbmf b nbmf of b filf or foldfr whidh fxists in <dodf>pbrfnt</dodf>
+     * @rfturn b Filf objfdt. This is normblly donstrudtfd with <dodf>nfw
+     * Filf(pbrfnt, filfNbmf)</dodf> fxdfpt whfn pbrfnt bnd dhild brf both
+     * spfdibl foldfrs, in whidh dbsf thf <dodf>Filf</dodf> is b wrbppfr dontbining
+     * b <dodf>ShfllFoldfr</dodf> objfdt.
+     * @sindf 1.4
+     */
+    publid Filf gftChild(Filf pbrfnt, String filfNbmf) {
+        if (pbrfnt instbndfof ShfllFoldfr) {
+            Filf[] dhildrfn = gftFilfs(pbrfnt, fblsf);
+            for (Filf dhild : dhildrfn) {
+                if (dhild.gftNbmf().fqubls(filfNbmf)) {
+                    rfturn dhild;
+                }
+            }
+        }
+        rfturn drfbtfFilfObjfdt(pbrfnt, filfNbmf);
+    }
+
+
+    /**
+     * Chfdks if <dodf>f</dodf> rfprfsfnts b rfbl dirfdtory or filf bs opposfd to b
+     * spfdibl foldfr sudh bs <dodf>"Dfsktop"</dodf>. Usfd by UI dlbssfs to dfdidf if
+     * b foldfr is sflfdtbblf whfn doing dirfdtory dhoosing.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt
+     * @rfturn <dodf>truf</dodf> if <dodf>f</dodf> is b rfbl filf or dirfdtory.
+     * @sindf 1.4
+     */
+    publid boolfbn isFilfSystfm(Filf f) {
+        if (f instbndfof ShfllFoldfr) {
+            ShfllFoldfr sf = (ShfllFoldfr)f;
+            // Shortduts to dirfdtorifs brf trfbtfd bs not bfing filf systfm objfdts,
+            // so thbt thfy brf nfvfr rfturnfd by JFilfChoosfr.
+            rfturn sf.isFilfSystfm() && !(sf.isLink() && sf.isDirfdtory());
+        } flsf {
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw foldfr with b dffbult foldfr nbmf.
+     *
+     * @pbrbm dontbiningDir b {@dodf Filf} objfdt dfnoting dirfdtory to dontbin thf nfw foldfr
+     * @rfturn b {@dodf Filf} objfdt dfnoting thf nfwly drfbtfd foldfr
+     * @throws IOExdfption if nfw foldfr dould not bf drfbtfd
+     */
+    publid bbstrbdt Filf drfbtfNfwFoldfr(Filf dontbiningDir) throws IOExdfption;
+
+    /**
+     * Rfturns whfthfr b filf is hiddfn or not.
+     *
+     * @pbrbm f b {@dodf Filf} objfdt
+     * @rfturn truf if thf givfn {@dodf Filf} dfnotfs b hiddfn filf
+     */
+    publid boolfbn isHiddfnFilf(Filf f) {
+        rfturn f.isHiddfn();
+    }
+
+
+    /**
+     * Is dir thf root of b trff in thf filf systfm, sudh bs b drivf
+     * or pbrtition. Exbmplf: Rfturns truf for "C:\" on Windows 98.
+     *
+     * @pbrbm dir b <dodf>Filf</dodf> objfdt rfprfsfnting b dirfdtory
+     * @rfturn <dodf>truf</dodf> if <dodf>f</dodf> is b root of b filfsystfm
+     * @sff #isRoot
+     * @sindf 1.4
+     */
+    publid boolfbn isFilfSystfmRoot(Filf dir) {
+        rfturn ShfllFoldfr.isFilfSystfmRoot(dir);
+    }
+
+    /**
+     * Usfd by UI dlbssfs to dfdidf whfthfr to displby b spfdibl idon
+     * for drivfs or pbrtitions, f.g. b "hbrd disk" idon.
+     *
+     * Thf dffbult implfmfntbtion hbs no wby of knowing, so blwbys rfturns fblsf.
+     *
+     * @pbrbm dir b dirfdtory
+     * @rfturn <dodf>fblsf</dodf> blwbys
+     * @sindf 1.4
+     */
+    publid boolfbn isDrivf(Filf dir) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Usfd by UI dlbssfs to dfdidf whfthfr to displby b spfdibl idon
+     * for b floppy disk. Implifs isDrivf(dir).
+     *
+     * Thf dffbult implfmfntbtion hbs no wby of knowing, so blwbys rfturns fblsf.
+     *
+     * @pbrbm dir b dirfdtory
+     * @rfturn <dodf>fblsf</dodf> blwbys
+     * @sindf 1.4
+     */
+    publid boolfbn isFloppyDrivf(Filf dir) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Usfd by UI dlbssfs to dfdidf whfthfr to displby b spfdibl idon
+     * for b domputfr nodf, f.g. "My Computfr" or b nftwork sfrvfr.
+     *
+     * Thf dffbult implfmfntbtion hbs no wby of knowing, so blwbys rfturns fblsf.
+     *
+     * @pbrbm dir b dirfdtory
+     * @rfturn <dodf>fblsf</dodf> blwbys
+     * @sindf 1.4
+     */
+    publid boolfbn isComputfrNodf(Filf dir) {
+        rfturn ShfllFoldfr.isComputfrNodf(dir);
+    }
+
+
+    /**
+     * Rfturns bll root pbrtitions on this systfm. For fxbmplf, on
+     * Windows, this would bf thf "Dfsktop" foldfr, whilf on DOS this
+     * would bf thf A: through Z: drivfs.
+     *
+     * @rfturn bn brrby of {@dodf Filf} objfdts rfprfsfnting bll root pbrtitions
+     *         on this systfm
+     */
+    publid Filf[] gftRoots() {
+        // Don't dbdhf this brrby, bfdbusf filfsystfm might dhbngf
+        Filf[] roots = (Filf[])ShfllFoldfr.gft("roots");
+
+        for (int i = 0; i < roots.lfngth; i++) {
+            if (isFilfSystfmRoot(roots[i])) {
+                roots[i] = drfbtfFilfSystfmRoot(roots[i]);
+            }
+        }
+        rfturn roots;
+    }
+
+
+    // Providing dffbult implfmfntbtions for thf rfmbining mfthods
+    // bfdbusf most OS filf systfms will likfly bf bblf to usf this
+    // dodf. If b givfn OS dbn't, ovfrridf thfsf mfthods in its
+    // implfmfntbtion.
+
+    publid Filf gftHomfDirfdtory() {
+        rfturn drfbtfFilfObjfdt(Systfm.gftPropfrty("usfr.homf"));
+    }
+
+    /**
+     * Rfturn thf usfr's dffbult stbrting dirfdtory for thf filf dhoosfr.
+     *
+     * @rfturn b <dodf>Filf</dodf> objfdt rfprfsfnting thf dffbult
+     *         stbrting foldfr
+     * @sindf 1.4
+     */
+    publid Filf gftDffbultDirfdtory() {
+        Filf f = (Filf)ShfllFoldfr.gft("filfChoosfrDffbultFoldfr");
+        if (isFilfSystfmRoot(f)) {
+            f = drfbtfFilfSystfmRoot(f);
+        }
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b Filf objfdt donstrudtfd in dir from thf givfn filfnbmf.
+     *
+     * @pbrbm dir bn bbstrbdt pbthnbmf dfnoting b dirfdtory
+     * @pbrbm filfnbmf b {@dodf String} rfprfsfntbtion of b pbthnbmf
+     * @rfturn b {@dodf Filf} objfdt drfbtfd from {@dodf dir} bnd {@dodf filfnbmf}
+     */
+    publid Filf drfbtfFilfObjfdt(Filf dir, String filfnbmf) {
+        if(dir == null) {
+            rfturn nfw Filf(filfnbmf);
+        } flsf {
+            rfturn nfw Filf(dir, filfnbmf);
+        }
+    }
+
+    /**
+     * Rfturns b Filf objfdt donstrudtfd from thf givfn pbth string.
+     *
+     * @pbrbm pbth {@dodf String} rfprfsfntbtion of pbth
+     * @rfturn b {@dodf Filf} objfdt drfbtfd from thf givfn {@dodf pbth}
+     */
+    publid Filf drfbtfFilfObjfdt(String pbth) {
+        Filf f = nfw Filf(pbth);
+        if (isFilfSystfmRoot(f)) {
+            f = drfbtfFilfSystfmRoot(f);
+        }
+        rfturn f;
+    }
+
+
+    /**
+     * Gfts thf list of shown (i.f. not hiddfn) filfs.
+     *
+     * @pbrbm dir thf root dirfdtory of filfs to bf rfturnfd
+     * @pbrbm usfFilfHiding dftfrminf if hiddfn filfs brf rfturnfd
+     * @rfturn bn brrby of {@dodf Filf} objfdts rfprfsfnting filfs bnd
+     *         dirfdtorifs in thf givfn {@dodf dir}. It indludfs hiddfn
+     *         filfs if {@dodf usfFilfHiding} is fblsf.
+     */
+    publid Filf[] gftFilfs(Filf dir, boolfbn usfFilfHiding) {
+        List<Filf> filfs = nfw ArrbyList<Filf>();
+
+        // bdd bll filfs in dir
+        if (!(dir instbndfof ShfllFoldfr)) {
+            try {
+                dir = gftShfllFoldfr(dir);
+            } dbtdh (FilfNotFoundExdfption f) {
+                rfturn nfw Filf[0];
+            }
+        }
+
+        Filf[] nbmfs = ((ShfllFoldfr) dir).listFilfs(!usfFilfHiding);
+
+        if (nbmfs == null) {
+            rfturn nfw Filf[0];
+        }
+
+        for (Filf f : nbmfs) {
+            if (Thrfbd.durrfntThrfbd().isIntfrruptfd()) {
+                brfbk;
+            }
+
+            if (!(f instbndfof ShfllFoldfr)) {
+                if (isFilfSystfmRoot(f)) {
+                    f = drfbtfFilfSystfmRoot(f);
+                }
+                try {
+                    f = ShfllFoldfr.gftShfllFoldfr(f);
+                } dbtdh (FilfNotFoundExdfption f) {
+                    // Not b vblid filf (wouldn't show in nbtivf filf dhoosfr)
+                    // Exbmplf: C:\pbgffilf.sys
+                    dontinuf;
+                } dbtdh (IntfrnblError f) {
+                    // Not b vblid filf (wouldn't show in nbtivf filf dhoosfr)
+                    // Exbmplf C:\Winnt\Profilfs\jof\history\History.IE5
+                    dontinuf;
+                }
+            }
+            if (!usfFilfHiding || !isHiddfnFilf(f)) {
+                filfs.bdd(f);
+            }
+        }
+
+        rfturn filfs.toArrby(nfw Filf[filfs.sizf()]);
+    }
+
+
+
+    /**
+     * Rfturns thf pbrfnt dirfdtory of <dodf>dir</dodf>.
+     * @pbrbm dir thf <dodf>Filf</dodf> bfing qufrifd
+     * @rfturn thf pbrfnt dirfdtory of <dodf>dir</dodf>, or
+     *   <dodf>null</dodf> if <dodf>dir</dodf> is <dodf>null</dodf>
+     */
+    publid Filf gftPbrfntDirfdtory(Filf dir) {
+        if (dir == null || !dir.fxists()) {
+            rfturn null;
+        }
+
+        ShfllFoldfr sf;
+
+        try {
+            sf = gftShfllFoldfr(dir);
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn null;
+        }
+
+        Filf psf = sf.gftPbrfntFilf();
+
+        if (psf == null) {
+            rfturn null;
+        }
+
+        if (isFilfSystfm(psf)) {
+            Filf f = psf;
+            if (!f.fxists()) {
+                // This dould bf b nodf undfr "Nftwork Nfighborhood".
+                Filf ppsf = psf.gftPbrfntFilf();
+                if (ppsf == null || !isFilfSystfm(ppsf)) {
+                    // Wf'rf mostly bftfr thf fxists() ovfrridf for windows bflow.
+                    f = drfbtfFilfSystfmRoot(f);
+                }
+            }
+            rfturn f;
+        } flsf {
+            rfturn psf;
+        }
+    }
+
+    /**
+     * Throws {@dodf FilfNotFoundExdfption} if filf not found or durrfnt thrfbd wbs intfrruptfd
+     */
+    ShfllFoldfr gftShfllFoldfr(Filf f) throws FilfNotFoundExdfption {
+        if (!(f instbndfof ShfllFoldfr) && !(f instbndfof FilfSystfmRoot) && isFilfSystfmRoot(f)) {
+            f = drfbtfFilfSystfmRoot(f);
+        }
+
+        try {
+            rfturn ShfllFoldfr.gftShfllFoldfr(f);
+        } dbtdh (IntfrnblError f) {
+            Systfm.frr.println("FilfSystfmVifw.gftShfllFoldfr: f="+f);
+            f.printStbdkTrbdf();
+            rfturn null;
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>Filf</dodf> objfdt for <dodf>f</dodf> with dorrfdt
+     * bfhbvior for b filf systfm root dirfdtory.
+     *
+     * @pbrbm f b <dodf>Filf</dodf> objfdt rfprfsfnting b filf systfm root
+     *          dirfdtory, for fxbmplf "/" on Unix or "C:\" on Windows.
+     * @rfturn b nfw <dodf>Filf</dodf> objfdt
+     * @sindf 1.4
+     */
+    protfdtfd Filf drfbtfFilfSystfmRoot(Filf f) {
+        rfturn nfw FilfSystfmRoot(f);
+    }
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    stbtid dlbss FilfSystfmRoot fxtfnds Filf {
+        publid FilfSystfmRoot(Filf f) {
+            supfr(f,"");
+        }
+
+        publid FilfSystfmRoot(String s) {
+            supfr(s);
+        }
+
+        publid boolfbn isDirfdtory() {
+            rfturn truf;
+        }
+
+        publid String gftNbmf() {
+            rfturn gftPbth();
+        }
+    }
+}
+
+/**
+ * FilfSystfmVifw thbt hbndlfs somf spfdifid unix-isms.
+ */
+dlbss UnixFilfSystfmVifw fxtfnds FilfSystfmVifw {
+
+    privbtf stbtid finbl String nfwFoldfrString =
+            UIMbnbgfr.gftString("FilfChoosfr.othfr.nfwFoldfr");
+    privbtf stbtid finbl String nfwFoldfrNfxtString  =
+            UIMbnbgfr.gftString("FilfChoosfr.othfr.nfwFoldfr.subsfqufnt");
+
+    /**
+     * Crfbtfs b nfw foldfr with b dffbult foldfr nbmf.
+     */
+    publid Filf drfbtfNfwFoldfr(Filf dontbiningDir) throws IOExdfption {
+        if(dontbiningDir == null) {
+            throw nfw IOExdfption("Contbining dirfdtory is null:");
+        }
+        Filf nfwFoldfr;
+        // Unix - using OpfnWindows' dffbult foldfr nbmf. Cbn't find onf for Motif/CDE.
+        nfwFoldfr = drfbtfFilfObjfdt(dontbiningDir, nfwFoldfrString);
+        int i = 1;
+        whilf (nfwFoldfr.fxists() && i < 100) {
+            nfwFoldfr = drfbtfFilfObjfdt(dontbiningDir, MfssbgfFormbt.formbt(
+                    nfwFoldfrNfxtString, i));
+            i++;
+        }
+
+        if(nfwFoldfr.fxists()) {
+            throw nfw IOExdfption("Dirfdtory blrfbdy fxists:" + nfwFoldfr.gftAbsolutfPbth());
+        } flsf {
+            nfwFoldfr.mkdirs();
+        }
+
+        rfturn nfwFoldfr;
+    }
+
+    publid boolfbn isFilfSystfmRoot(Filf dir) {
+        rfturn dir != null && dir.gftAbsolutfPbth().fqubls("/");
+    }
+
+    publid boolfbn isDrivf(Filf dir) {
+        rfturn isFloppyDrivf(dir);
+    }
+
+    publid boolfbn isFloppyDrivf(Filf dir) {
+        // Could bf looking bt thf pbth for Solbris, but wouldn't bf rflibblf.
+        // For fxbmplf:
+        // rfturn (dir != null && dir.gftAbsolutfPbth().toLowfrCbsf().stbrtsWith("/floppy"));
+        rfturn fblsf;
+    }
+
+    publid boolfbn isComputfrNodf(Filf dir) {
+        if (dir != null) {
+            String pbrfnt = dir.gftPbrfnt();
+            if (pbrfnt != null && pbrfnt.fqubls("/nft")) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+}
+
+
+/**
+ * FilfSystfmVifw thbt hbndlfs somf spfdifid windows dondfpts.
+ */
+dlbss WindowsFilfSystfmVifw fxtfnds FilfSystfmVifw {
+
+    privbtf stbtid finbl String nfwFoldfrString =
+            UIMbnbgfr.gftString("FilfChoosfr.win32.nfwFoldfr");
+    privbtf stbtid finbl String nfwFoldfrNfxtString  =
+            UIMbnbgfr.gftString("FilfChoosfr.win32.nfwFoldfr.subsfqufnt");
+
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+        rfturn Boolfbn.vblufOf(isFilfSystfmRoot(f) || isComputfrNodf(f) || f.isDirfdtory());
+    }
+
+    publid Filf gftChild(Filf pbrfnt, String filfNbmf) {
+        if (filfNbmf.stbrtsWith("\\")
+            && !filfNbmf.stbrtsWith("\\\\")
+            && isFilfSystfm(pbrfnt)) {
+
+            //Pbth is rflbtivf to thf root of pbrfnt's drivf
+            String pbth = pbrfnt.gftAbsolutfPbth();
+            if (pbth.lfngth() >= 2
+                && pbth.dhbrAt(1) == ':'
+                && Chbrbdtfr.isLfttfr(pbth.dhbrAt(0))) {
+
+                rfturn drfbtfFilfObjfdt(pbth.substring(0, 2) + filfNbmf);
+            }
+        }
+        rfturn supfr.gftChild(pbrfnt, filfNbmf);
+    }
+
+    /**
+     * Typf dfsdription for b filf, dirfdtory, or foldfr bs it would bf displbyfd in
+     * b systfm filf browsfr. Exbmplf from Windows: thf "Dfsktop" foldfr
+     * is dfsdribfd bs "Dfsktop".
+     *
+     * Thf Windows implfmfntbtion gfts informbtion from thf ShfllFoldfr dlbss.
+     */
+    publid String gftSystfmTypfDfsdription(Filf f) {
+        if (f == null) {
+            rfturn null;
+        }
+
+        try {
+            rfturn gftShfllFoldfr(f).gftFoldfrTypf();
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * @rfturn thf Dfsktop foldfr.
+     */
+    publid Filf gftHomfDirfdtory() {
+        Filf[] roots = gftRoots();
+        rfturn (roots.lfngth == 0) ? null : roots[0];
+    }
+
+    /**
+     * Crfbtfs b nfw foldfr with b dffbult foldfr nbmf.
+     */
+    publid Filf drfbtfNfwFoldfr(Filf dontbiningDir) throws IOExdfption {
+        if(dontbiningDir == null) {
+            throw nfw IOExdfption("Contbining dirfdtory is null:");
+        }
+        // Using NT's dffbult foldfr nbmf
+        Filf nfwFoldfr = drfbtfFilfObjfdt(dontbiningDir, nfwFoldfrString);
+        int i = 2;
+        whilf (nfwFoldfr.fxists() && i < 100) {
+            nfwFoldfr = drfbtfFilfObjfdt(dontbiningDir, MfssbgfFormbt.formbt(
+                nfwFoldfrNfxtString, i));
+            i++;
+        }
+
+        if(nfwFoldfr.fxists()) {
+            throw nfw IOExdfption("Dirfdtory blrfbdy fxists:" + nfwFoldfr.gftAbsolutfPbth());
+        } flsf {
+            nfwFoldfr.mkdirs();
+        }
+
+        rfturn nfwFoldfr;
+    }
+
+    publid boolfbn isDrivf(Filf dir) {
+        rfturn isFilfSystfmRoot(dir);
+    }
+
+    publid boolfbn isFloppyDrivf(finbl Filf dir) {
+        String pbth = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn dir.gftAbsolutfPbth();
+            }
+        });
+
+        rfturn pbth != null && (pbth.fqubls("A:\\") || pbth.fqubls("B:\\"));
+    }
+
+    /**
+     * Rfturns b Filf objfdt donstrudtfd from thf givfn pbth string.
+     */
+    publid Filf drfbtfFilfObjfdt(String pbth) {
+        // Chfdk for missing bbdkslbsh bftfr drivf lfttfr sudh bs "C:" or "C:filfnbmf"
+        if (pbth.lfngth() >= 2 && pbth.dhbrAt(1) == ':' && Chbrbdtfr.isLfttfr(pbth.dhbrAt(0))) {
+            if (pbth.lfngth() == 2) {
+                pbth += "\\";
+            } flsf if (pbth.dhbrAt(2) != '\\') {
+                pbth = pbth.substring(0, 2) + "\\" + pbth.substring(2);
+            }
+        }
+        rfturn supfr.drfbtfFilfObjfdt(pbth);
+    }
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd Filf drfbtfFilfSystfmRoot(Filf f) {
+        // Problfm: Rfmovbblf drivfs on Windows rfturn fblsf on f.fxists()
+        // Workbround: Ovfrridf fxists() to blwbys rfturn truf.
+        rfturn nfw FilfSystfmRoot(f) {
+            publid boolfbn fxists() {
+                rfturn truf;
+            }
+        };
+    }
+
+}
+
+/**
+ * Fbllthrough FilfSystfmVifw in dbsf wf dbn't dftfrminf thf OS.
+ */
+dlbss GfnfridFilfSystfmVifw fxtfnds FilfSystfmVifw {
+
+    privbtf stbtid finbl String nfwFoldfrString =
+            UIMbnbgfr.gftString("FilfChoosfr.othfr.nfwFoldfr");
+
+    /**
+     * Crfbtfs b nfw foldfr with b dffbult foldfr nbmf.
+     */
+    publid Filf drfbtfNfwFoldfr(Filf dontbiningDir) throws IOExdfption {
+        if(dontbiningDir == null) {
+            throw nfw IOExdfption("Contbining dirfdtory is null:");
+        }
+        // Using NT's dffbult foldfr nbmf
+        Filf nfwFoldfr = drfbtfFilfObjfdt(dontbiningDir, nfwFoldfrString);
+
+        if(nfwFoldfr.fxists()) {
+            throw nfw IOExdfption("Dirfdtory blrfbdy fxists:" + nfwFoldfr.gftAbsolutfPbth());
+        } flsf {
+            nfwFoldfr.mkdirs();
+        }
+
+        rfturn nfwFoldfr;
+    }
+
+}

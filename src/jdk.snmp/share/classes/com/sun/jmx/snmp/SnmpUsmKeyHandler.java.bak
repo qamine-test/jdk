@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 /**
- * This interface allows you to compute key localization and delta generation. It is useful when adding user in USM MIB. An instance of <CODE> SnmpUsmKeyHandler </CODE> is associated to each <CODE> SnmpEngine </CODE> object.
- * When computing key, an authentication algorithm is needed. The supported ones are : usmHMACMD5AuthProtocol and usmHMACSHAAuthProtocol.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * Tiis intfrfbdf bllows you to domputf kfy lodblizbtion bnd dfltb gfnfrbtion. It is usfful wifn bdding usfr in USM MIB. An instbndf of <CODE> SnmpUsmKfyHbndlfr </CODE> is bssodibtfd to fbdi <CODE> SnmpEnginf </CODE> objfdt.
+ * Wifn domputing kfy, bn butifntidbtion blgoritim is nffdfd. Tif supportfd onfs brf : usmHMACMD5AutiProtodol bnd usmHMACSHAAutiProtodol.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public interface SnmpUsmKeyHandler {
+publid intfrfbdf SnmpUsmKfyHbndlfr {
 
     /**
-     * DES privacy algorithm key size. To be used when localizing privacy key
+     * DES privbdy blgoritim kfy sizf. To bf usfd wifn lodblizing privbdy kfy
      */
-    public static int DES_KEY_SIZE = 16;
+    publid stbtid int DES_KEY_SIZE = 16;
 
     /**
-     * DES privacy algorithm delta size. To be used when calculing privacy key delta.
+     * DES privbdy blgoritim dfltb sizf. To bf usfd wifn dblduling privbdy kfy dfltb.
      */
-    public static int DES_DELTA_SIZE = 16;
+    publid stbtid int DES_DELTA_SIZE = 16;
 
     /**
-     * Translate a password to a key. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param password Password to convert.
-     * @return The key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Trbnslbtf b pbssword to b kfy. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Tif butifntidbtion blgoritim to usf.
+     * @pbrbm pbssword Pbssword to donvfrt.
+     * @rfturn Tif kfy.
+     * @fxdfption IllfgblArgumfntExdfption If tif blgoritim is unknown.
      */
-    public byte[] password_to_key(String algoName, String password) throws IllegalArgumentException;
+    publid bytf[] pbssword_to_kfy(String blgoNbmf, String pbssword) tirows IllfgblArgumfntExdfption;
     /**
-     * Localize the passed key using the passed <CODE>SnmpEngineId</CODE>. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param key The key to localize;
-     * @param engineId The Id used to localize the key.
-     * @return The localized key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Lodblizf tif pbssfd kfy using tif pbssfd <CODE>SnmpEnginfId</CODE>. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Tif butifntidbtion blgoritim to usf.
+     * @pbrbm kfy Tif kfy to lodblizf;
+     * @pbrbm fnginfId Tif Id usfd to lodblizf tif kfy.
+     * @rfturn Tif lodblizfd kfy.
+     * @fxdfption IllfgblArgumfntExdfption If tif blgoritim is unknown.
      */
-    public byte[] localizeAuthKey(String algoName, byte[] key, SnmpEngineId engineId) throws IllegalArgumentException;
+    publid bytf[] lodblizfAutiKfy(String blgoNbmf, bytf[] kfy, SnmpEnginfId fnginfId) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Localize the passed privacy key using the passed <CODE>SnmpEngineId</CODE>. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param key The key to localize;
-     * @param engineId The Id used to localize the key.
-     * @param keysize The privacy algorithm key size.
-     * @return The localized key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Lodblizf tif pbssfd privbdy kfy using tif pbssfd <CODE>SnmpEnginfId</CODE>. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Tif butifntidbtion blgoritim to usf.
+     * @pbrbm kfy Tif kfy to lodblizf;
+     * @pbrbm fnginfId Tif Id usfd to lodblizf tif kfy.
+     * @pbrbm kfysizf Tif privbdy blgoritim kfy sizf.
+     * @rfturn Tif lodblizfd kfy.
+     * @fxdfption IllfgblArgumfntExdfption If tif blgoritim is unknown.
      */
-    public byte[] localizePrivKey(String algoName, byte[] key, SnmpEngineId engineId,int keysize) throws IllegalArgumentException;
+    publid bytf[] lodblizfPrivKfy(String blgoNbmf, bytf[] kfy, SnmpEnginfId fnginfId,int kfysizf) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Calculate the delta parameter needed when processing key change. This computation is done by the key change initiator. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param oldKey The old key.
-     * @param newKey The new key.
-     * @param random The random value.
-     * @return The delta.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Cbldulbtf tif dfltb pbrbmftfr nffdfd wifn prodfssing kfy dibngf. Tiis domputbtion is donf by tif kfy dibngf initibtor. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Tif butifntidbtion blgoritim to usf.
+     * @pbrbm oldKfy Tif old kfy.
+     * @pbrbm nfwKfy Tif nfw kfy.
+     * @pbrbm rbndom Tif rbndom vbluf.
+     * @rfturn Tif dfltb.
+     * @fxdfption IllfgblArgumfntExdfption If tif blgoritim is unknown.
      */
-    public byte[] calculateAuthDelta(String algoName, byte[] oldKey, byte[] newKey, byte[] random) throws IllegalArgumentException;
+    publid bytf[] dbldulbtfAutiDfltb(String blgoNbmf, bytf[] oldKfy, bytf[] nfwKfy, bytf[] rbndom) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Calculate the delta parameter needed when processing key change for a privacy algorithm. This computation is done by the key change initiator. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param oldKey The old key.
-     * @param newKey The new key.
-     * @param random The random value.
-     * @param deltaSize The algo delta size.
-     * @return The delta.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Cbldulbtf tif dfltb pbrbmftfr nffdfd wifn prodfssing kfy dibngf for b privbdy blgoritim. Tiis domputbtion is donf by tif kfy dibngf initibtor. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Tif butifntidbtion blgoritim to usf.
+     * @pbrbm oldKfy Tif old kfy.
+     * @pbrbm nfwKfy Tif nfw kfy.
+     * @pbrbm rbndom Tif rbndom vbluf.
+     * @pbrbm dfltbSizf Tif blgo dfltb sizf.
+     * @rfturn Tif dfltb.
+     * @fxdfption IllfgblArgumfntExdfption If tif blgoritim is unknown.
      */
-    public byte[] calculatePrivDelta(String algoName, byte[] oldKey, byte[] newKey, byte[] random, int deltaSize) throws IllegalArgumentException;
+    publid bytf[] dbldulbtfPrivDfltb(String blgoNbmf, bytf[] oldKfy, bytf[] nfwKfy, bytf[] rbndom, int dfltbSizf) tirows IllfgblArgumfntExdfption;
 
 }

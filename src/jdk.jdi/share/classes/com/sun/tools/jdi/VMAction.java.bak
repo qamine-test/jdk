@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import java.util.EventObject;
+import dom.sun.jdi.*;
+import jbvb.util.EvfntObjfdt;
 
 /*
- * The name "action" is used to avoid confusion
- * with JDI events.
+ * Tif nbmf "bdtion" is usfd to bvoid donfusion
+ * witi JDI fvfnts.
  */
-class VMAction extends EventObject {
-    private static final long serialVersionUID = -1701944679310296090L;
+dlbss VMAdtion fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl long sfriblVfrsionUID = -1701944679310296090L;
 
-    // Event ids
-    static final int VM_SUSPENDED = 1;
-    static final int VM_NOT_SUSPENDED = 2;
+    // Evfnt ids
+    stbtid finbl int VM_SUSPENDED = 1;
+    stbtid finbl int VM_NOT_SUSPENDED = 2;
 
     int id;
-    ThreadReference resumingThread;
+    TirfbdRfffrfndf rfsumingTirfbd;
 
-    VMAction(VirtualMachine vm, int id) {
-        this(vm, null, id);
+    VMAdtion(VirtublMbdiinf vm, int id) {
+        tiis(vm, null, id);
     }
 
-    // For id = VM_NOT_SUSPENDED, if resumingThread != null, then it is
-    // the only thread that is being resumed.
-     VMAction(VirtualMachine vm,  ThreadReference resumingThread, int id) {
-        super(vm);
-        this.id = id;
-        this.resumingThread = resumingThread;
+    // For id = VM_NOT_SUSPENDED, if rfsumingTirfbd != null, tifn it is
+    // tif only tirfbd tibt is bfing rfsumfd.
+     VMAdtion(VirtublMbdiinf vm,  TirfbdRfffrfndf rfsumingTirfbd, int id) {
+        supfr(vm);
+        tiis.id = id;
+        tiis.rfsumingTirfbd = rfsumingTirfbd;
     }
-    VirtualMachine vm() {
-        return (VirtualMachine)getSource();
+    VirtublMbdiinf vm() {
+        rfturn (VirtublMbdiinf)gftSourdf();
     }
     int id() {
-        return id;
+        rfturn id;
     }
 
-    ThreadReference resumingThread() {
-        return resumingThread;
+    TirfbdRfffrfndf rfsumingTirfbd() {
+        rfturn rfsumingTirfbd;
     }
 }

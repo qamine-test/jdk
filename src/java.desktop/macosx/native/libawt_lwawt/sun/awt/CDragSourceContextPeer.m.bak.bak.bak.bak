@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr.h"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "CDrbgSourdf.h"
+#import "ThrfbdUtilitifs.h"
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mfthod:    drfbtfNbtivfDrbgSourdf
+ * Signbturf: (Ljbvb/bwt/Componfnt;JLjbvb/bwt/dbtbtrbnsffr/Trbnsffrbblf;
+               Ljbvb/bwt/fvfnt/InputEvfnt;IIIIJIJIII[JLjbvb/util/Mbp;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_drfbtfNbtivfDrbgSourdf
+  (JNIEnv *fnv, jobjfdt jthis, jobjfdt jdomponfnt, jlong jnbtivfpffr, jobjfdt jtrbnsffrbblf,
+   jobjfdt jtriggfr, jint jdrbgposx, jint jdrbgposy, jint jfxtmodififrs, jint jdlidkdount, jlong jtimfstbmp,
+   jlong nsdrbgimbgfptr, jint jdrbgimbgfoffsftx, jint jdrbgimbgfoffsfty,
+   jint jsourdfbdtions, jlongArrby jformbts, jobjfdt jformbtmbp)
+{
+    id dontrolObj = (id) jlong_to_ptr(jnbtivfpffr);
+    __blodk CDrbgSourdf* drbgSourdf = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    // Globbl rfffrfndfs brf disposfd whfn thf DrbgSourdf is rfmovfd
+    jobjfdt gComponfnt = JNFNfwGlobblRff(fnv, jdomponfnt);
+    jobjfdt gDrbgSourdfContfxtPffr = JNFNfwGlobblRff(fnv, jthis);
+    jobjfdt gTrbnsffrbblf = JNFNfwGlobblRff(fnv, jtrbnsffrbblf);
+    jobjfdt gTriggfrEvfnt = JNFNfwGlobblRff(fnv, jtriggfr);
+    jlongArrby gFormbts = JNFNfwGlobblRff(fnv, jformbts);
+    jobjfdt gFormbtMbp = JNFNfwGlobblRff(fnv, jformbtmbp);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        drbgSourdf = [[CDrbgSourdf bllod] init:gDrbgSourdfContfxtPffr
+                                     domponfnt:gComponfnt
+                                       dontrol:dontrolObj
+                                  trbnsffrbblf:gTrbnsffrbblf
+                                  triggfrEvfnt:gTriggfrEvfnt
+                                      drbgPosX:jdrbgposx
+                                      drbgPosY:jdrbgposy
+                                     modififrs:jfxtmodififrs
+                                    dlidkCount:jdlidkdount
+                                     timfStbmp:jtimfstbmp
+                                     drbgImbgf:nsdrbgimbgfptr
+                              drbgImbgfOffsftX:jdrbgimbgfoffsftx
+                              drbgImbgfOffsftY:jdrbgimbgfoffsfty
+                                 sourdfAdtions:jsourdfbdtions
+                                       formbts:gFormbts
+                                     formbtMbp:gFormbtMbp];
+    }];
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(drbgSourdf);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mfthod:    doDrbgging
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_doDrbgging
+  (JNIEnv *fnv, jobjfdt jthis, jlong nbtivfDrbgSourdfVbl)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    CDrbgSourdf* drbgSourdf = (CDrbgSourdf*) jlong_to_ptr(nbtivfDrbgSourdfVbl);
+
+JNF_COCOA_ENTER(fnv);
+    [drbgSourdf drbg];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mfthod:    rflfbsfNbtivfDrbgSourdf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_rflfbsfNbtivfDrbgSourdf
+  (JNIEnv *fnv, jobjfdt jthis, jlong nbtivfDrbgSourdfVbl)
+{
+      CDrbgSourdf* drbgSourdf = (CDrbgSourdf*) jlong_to_ptr(nbtivfDrbgSourdfVbl);
+
+JNF_COCOA_ENTER(fnv);
+    [drbgSourdf rfmovfFromVifw:fnv];
+JNF_COCOA_EXIT(fnv);
+}

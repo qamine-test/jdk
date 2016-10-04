@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.Itfrbtor;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.loops.CompositfTypf;
+
+/**
+ * Thf bbstrbdt bbsf dlbss thbt mbnbgfs thf vbrious SurfbdfDbtb objfdts thbt
+ * rfprfsfnt bn Imbgf's dontfnts.  Subdlbssfs dbn dustomizf how thf surfbdfs
+ * brf orgbnizfd, whfthfr to dbdhf thf originbl dontfnts in bn bddflfrbtfd
+ * surfbdf, bnd so on.
+ * <p>
+ * Thf SurfbdfMbnbgfr blso mbintbins bn brbitrbry "dbdhf" mfdhbnism whidh
+ * bllows othfr bgfnts to storf dbtb in it spfdifid to thfir usf of this
+ * imbgf.  Thf most dommon usf of thf dbdhing mfdhbnism is for dfstinbtion
+ * SurfbdfDbtb objfdts to storf dbdhfd dopifs of thf sourdf imbgf.
+ */
+publid bbstrbdt dlbss SurfbdfMbnbgfr {
+
+    publid stbtid bbstrbdt dlbss ImbgfAddfssor {
+        publid bbstrbdt SurfbdfMbnbgfr gftSurfbdfMbnbgfr(Imbgf img);
+        publid bbstrbdt void sftSurfbdfMbnbgfr(Imbgf img, SurfbdfMbnbgfr mgr);
+    }
+
+    privbtf stbtid ImbgfAddfssor imgbddfssor;
+
+    publid stbtid void sftImbgfAddfssor(ImbgfAddfssor ib) {
+        if (imgbddfssor != null) {
+            throw nfw IntfrnblError("Attfmpt to sft ImbgfAddfssor twidf");
+        }
+        imgbddfssor = ib;
+    }
+
+    /**
+     * Rfturns thf SurfbdfMbnbgfr objfdt dontbinfd within thf givfn Imbgf.
+     */
+    publid stbtid SurfbdfMbnbgfr gftMbnbgfr(Imbgf img) {
+        SurfbdfMbnbgfr sMgr = imgbddfssor.gftSurfbdfMbnbgfr(img);
+        if (sMgr == null) {
+            /*
+             * In prbdtidf only b BufffrfdImbgf will gft hfrf.
+             */
+            try {
+                BufffrfdImbgf bi = (BufffrfdImbgf) img;
+                sMgr = nfw BufImgSurfbdfMbnbgfr(bi);
+                sftMbnbgfr(bi, sMgr);
+            } dbtdh (ClbssCbstExdfption f) {
+                throw nfw IllfgblArgumfntExdfption("Invblid Imbgf vbribnt");
+            }
+        }
+        rfturn sMgr;
+    }
+
+    publid stbtid void sftMbnbgfr(Imbgf img, SurfbdfMbnbgfr mgr) {
+        imgbddfssor.sftSurfbdfMbnbgfr(img, mgr);
+    }
+
+    privbtf CondurrfntHbshMbp<Objfdt,Objfdt> dbdhfMbp;
+
+    /**
+     * Rfturn bn brbitrbry dbdhfd objfdt for bn brbitrbry dbdhf kfy.
+     * Othfr objfdts dbn usf this mfdhbnism to storf dbdhfd dbtb bbout
+     * thf sourdf imbgf thbt will lft thfm sbvf timf whfn using or
+     * mbnipulbting thf imbgf in thf futurf.
+     * <p>
+     * Notf thbt thf dbdhf is mbintbinfd bs b simplf Mbp with no
+     * bttfmpts to kffp it up to dbtf or invblidbtf it so bny dbtb
+     * storfd hfrf must fithfr not bf dfpfndfnt on thf stbtf of thf
+     * imbgf or it must bf individublly trbdkfd to sff if it is
+     * outdbtfd or obsolftf.
+     * <p>
+     * Thf SurfbdfDbtb objfdt of thf primbry (dfstinbtion) surfbdf
+     * hbs b StbtfTrbdkfr mfdhbnism whidh dbn hflp trbdk thf vblidity
+     * bnd "durrfntnfss" of bny dbtb storfd hfrf.
+     * For donvfnifndf bnd fxpfdifndy bn objfdt storfd bs dbdhfd
+     * dbtb mby implfmfnt thf FlushbblfCbdhfDbtb intfrfbdf spfdififd
+     * bflow so thbt it mby bf notififd immfdibtfly if thf flush()
+     * mfthod is fvfr dbllfd.
+     */
+    publid Objfdt gftCbdhfDbtb(Objfdt kfy) {
+        rfturn (dbdhfMbp == null) ? null : dbdhfMbp.gft(kfy);
+    }
+
+    /**
+     * Storf bn brbitrbry dbdhfd objfdt for bn brbitrbry dbdhf kfy.
+     * Sff thf gftCbdhfDbtb() mfthod for notfs on trbdking thf
+     * vblidity of dbtb storfd using this mfdhbnism.
+     */
+    publid void sftCbdhfDbtb(Objfdt kfy, Objfdt vbluf) {
+        if (dbdhfMbp == null) {
+            syndhronizfd (this) {
+                if (dbdhfMbp == null) {
+                    dbdhfMbp = nfw CondurrfntHbshMbp<>(2);
+                }
+            }
+        }
+        dbdhfMbp.put(kfy, vbluf);
+    }
+
+    /**
+     * Rfturns thf mbin SurfbdfDbtb objfdt thbt "owns" thf pixfls for
+     * this SurfbdfMbnbgfr.  This SurfbdfDbtb is usfd bs thf dfstinbtion
+     * surfbdf in b rfndfring opfrbtion bnd is thf most buthoritbtivf
+     * storbgf for thf durrfnt stbtf of thf pixfls, though othfr
+     * vfrsions might bf dbdhfd in othfr lodbtions for fffidifndy.
+     */
+    publid bbstrbdt SurfbdfDbtb gftPrimbrySurfbdfDbtb();
+
+    /**
+     * Rfstorfs thf primbry surfbdf bfing mbnbgfd, bnd thfn rfturns thf
+     * rfplbdfmfnt surfbdf.  This is dbllfd whfn bn bddflfrbtfd surfbdf hbs
+     * bffn "lost", in bn bttfmpt to buto-rfstorf its dontfnts.
+     */
+    publid bbstrbdt SurfbdfDbtb rfstorfContfnts();
+
+    /**
+     * Notifidbtion thbt bny bddflfrbtfd surfbdfs bssodibtfd with this mbnbgfr
+     * hbvf bffn "lost", whidh might mfbn thbt thfy nffd to bf mbnublly
+     * rfstorfd or rfdrfbtfd.
+     *
+     * Thf dffbult implfmfntbtion dofs nothing, but plbtform-spfdifid
+     * vbribnts whidh hbvf bddflfrbtfd surfbdfs should pfrform bny nfdfssbry
+     * bdtions.
+     */
+    publid void bddflfrbtfdSurfbdfLost() {}
+
+    /**
+     * Rfturns bn ImbgfCbpbbilitifs objfdt whidh dbn bf
+     * inquirfd bs to thf spfdifid dbpbbilitifs of this
+     * Imbgf.  Thf dbpbbilitifs objfdt will rfturn truf for
+     * isAddflfrbtfd() if thf imbgf hbs b durrfnt bnd vblid
+     * SurfbdfDbtbProxy objfdt dbdhfd for thf spfdififd
+     * GrbphidsConfigurbtion pbrbmftfr.
+     * <p>
+     * This dlbss providfs b dffbult implfmfntbtion of thf
+     * ImbgfCbpbbilitifs thbt will try to dftfrminf if thfrf
+     * is bn bssodibtfd SurfbdfDbtbProxy objfdt bnd if it is
+     * up to dbtf, but only works for GrbphidsConfigurbtion
+     * objfdts whidh implfmfnt thf ProxifdGrbphidsConfig
+     * intfrfbdf dffinfd bflow.  In prbdtidf, bll donfigs
+     * whidh dbn bf bddflfrbtfd brf durrfntly implfmfnting
+     * thbt intfrfbdf.
+     * <p>
+     * A null GrbphidsConfigurbtion rfturns b vbluf bbsfd on whfthfr thf
+     * imbgf is durrfntly bddflfrbtfd on its dffbult GrbphidsConfigurbtion.
+     *
+     * @sff jbvb.bwt.Imbgf#gftCbpbbilitifs
+     * @sindf 1.5
+     */
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbphidsConfigurbtion gd) {
+        rfturn nfw ImbgfCbpbbilitifsGd(gd);
+    }
+
+    dlbss ImbgfCbpbbilitifsGd fxtfnds ImbgfCbpbbilitifs {
+        GrbphidsConfigurbtion gd;
+
+        publid ImbgfCbpbbilitifsGd(GrbphidsConfigurbtion gd) {
+            supfr(fblsf);
+            this.gd = gd;
+        }
+
+        publid boolfbn isAddflfrbtfd() {
+            // Notf thbt whfn img.gftAddflfrbtionPriority() gfts sft to 0
+            // wf rfmovf SurfbdfDbtbProxy objfdts from thf dbdhf bnd thf
+            // bnswfr will bf fblsf.
+            GrbphidsConfigurbtion tmpGd = gd;
+            if (tmpGd == null) {
+                tmpGd = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().
+                    gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+            }
+            if (tmpGd instbndfof ProxifdGrbphidsConfig) {
+                Objfdt proxyKfy =
+                    ((ProxifdGrbphidsConfig) tmpGd).gftProxyKfy();
+                if (proxyKfy != null) {
+                    SurfbdfDbtbProxy sdp =
+                        (SurfbdfDbtbProxy) gftCbdhfDbtb(proxyKfy);
+                    rfturn (sdp != null && sdp.isAddflfrbtfd());
+                }
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * An intfrfbdf for GrbphidsConfigurbtion objfdts to implfmfnt if
+     * thfir surfbdfs bddflfrbtf imbgfs using SurfbdfDbtbProxy objfdts.
+     *
+     * Implfmfnting this intfrfbdf fbdilitbtfs thf dffbult
+     * implfmfntbtion of gftImbgfCbpbbilitifs() bbovf.
+     */
+    publid stbtid intfrfbdf ProxifdGrbphidsConfig {
+        /**
+         * Rfturn thf kfy thbt dfstinbtion surfbdfs drfbtfd on thf
+         * givfn GrbphidsConfigurbtion usf to storf SurfbdfDbtbProxy
+         * objfdts for thfir dbdhfd dopifs.
+         */
+        publid Objfdt gftProxyKfy();
+    }
+
+    /**
+     * Rflfbsfs systfm rfsourdfs in usf by bndillbry SurfbdfDbtb objfdts,
+     * sudh bs surfbdfs dbdhfd in bddflfrbtfd mfmory.  Subdlbssfs should
+     * ovfrridf to rflfbsf bny of thfir flushbblf dbtb.
+     * <p>
+     * Thf dffbult implfmfntbtion will visit bll of thf vbluf objfdts
+     * in thf dbdhfMbp bnd flush thfm if thfy implfmfnt thf
+     * FlushbblfCbdhfDbtb intfrfbdf.
+     */
+    publid syndhronizfd void flush() {
+        flush(fblsf);
+    }
+
+    syndhronizfd void flush(boolfbn dfbddflfrbtf) {
+        if (dbdhfMbp != null) {
+            Itfrbtor<Objfdt> i = dbdhfMbp.vblufs().itfrbtor();
+            whilf (i.hbsNfxt()) {
+                Objfdt o = i.nfxt();
+                if (o instbndfof FlushbblfCbdhfDbtb) {
+                    if (((FlushbblfCbdhfDbtb) o).flush(dfbddflfrbtf)) {
+                        i.rfmovf();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * An intfrfbdf for Objfdts usfd in thf SurfbdfMbnbgfr dbdhf
+     * to implfmfnt if thfy hbvf dbtb thbt should bf flushfd whfn
+     * thf Imbgf is flushfd.
+     */
+    publid stbtid intfrfbdf FlushbblfCbdhfDbtb {
+        /**
+         * Flush bll dbdhfd rfsourdfs.
+         * Thf dfbddflfrbtfd pbrbmftfr indidbtfs if thf flush is
+         * hbppfning bfdbusf thf bssodibtfd surfbdf is no longfr
+         * bfing bddflfrbtfd (for instbndf thf bddflfrbtion priority
+         * is sft bflow thf thrfshold nffdfd for bddflfrbtion).
+         * Rfturns b boolfbn thbt indidbtfs if thf dbdhfd objfdt is
+         * no longfr nffdfd bnd should bf rfmovfd from thf dbdhf.
+         */
+        publid boolfbn flush(boolfbn dfbddflfrbtfd);
+    }
+
+    /**
+     * Cbllfd whfn imbgf's bddflfrbtion priority is dhbngfd.
+     * <p>
+     * Thf dffbult implfmfntbtion will visit bll of thf vbluf objfdts
+     * in thf dbdhfMbp whfn thf priority gfts sft to 0.0 bnd flush thfm
+     * if thfy implfmfnt thf FlushbblfCbdhfDbtb intfrfbdf.
+     */
+    publid void sftAddflfrbtionPriority(flobt priority) {
+        if (priority == 0.0f) {
+            flush(truf);
+        }
+    }
+
+    /**
+     * Rfturns b sdblf fbdtor of thf imbgf. This is utility mfthod, whidh
+     * fftdhfs informbtion from thf SurfbdfDbtb of thf imbgf.
+     *
+     * @sff SurfbdfDbtb#gftDffbultSdblf
+     */
+    publid stbtid int gftImbgfSdblf(finbl Imbgf img) {
+        if (!(img instbndfof VolbtilfImbgf)) {
+            rfturn 1;
+        }
+        finbl SurfbdfMbnbgfr sm = gftMbnbgfr(img);
+        rfturn sm.gftPrimbrySurfbdfDbtb().gftDffbultSdblf();
+    }
+}

@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import dom.sun.bfbns.TypfRfsolvfr;
+import dom.sun.bfbns.util.Cbdhf;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.Arrbys;
+
+import stbtid dom.sun.bfbns.util.Cbdhf.Kind.SOFT;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
+
+/**
+ * This utility dlbss providfs {@dodf stbtid} mfthods
+ * to find b publid mfthod with spfdififd nbmf bnd pbrbmftfr typfs
+ * in spfdififd dlbss.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss MfthodFindfr fxtfnds AbstrbdtFindfr<Mfthod> {
+    privbtf stbtid finbl Cbdhf<Signbturf, Mfthod> CACHE = nfw Cbdhf<Signbturf, Mfthod>(SOFT, SOFT) {
+        @Ovfrridf
+        publid Mfthod drfbtf(Signbturf signbturf) {
+            try {
+                MfthodFindfr findfr = nfw MfthodFindfr(signbturf.gftNbmf(), signbturf.gftArgs());
+                rfturn findAddfssiblfMfthod(findfr.find(signbturf.gftTypf().gftMfthods()));
+            }
+            dbtdh (Exdfption fxdfption) {
+                throw nfw SignbturfExdfption(fxdfption);
+            }
+        }
+    };
+
+    /**
+     * Finds publid mfthod (stbtid or non-stbtid)
+     * thbt is bddfssiblf from publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf mfthod
+     * @pbrbm nbmf  thf nbmf of mfthod to find
+     * @pbrbm brgs  pbrbmftfr typfs thbt is usfd to find mfthod
+     * @rfturn objfdt thbt rfprfsfnts found mfthod
+     * @throws NoSudhMfthodExdfption if mfthod dould not bf found
+     *                               or somf mfthods brf found
+     */
+    publid stbtid Mfthod findMfthod(Clbss<?> typf, String nbmf, Clbss<?>...brgs) throws NoSudhMfthodExdfption {
+        if (nbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Mfthod nbmf is not sft");
+        }
+        PrimitivfWrbppfrMbp.rfplbdfPrimitivfsWithWrbppfrs(brgs);
+        Signbturf signbturf = nfw Signbturf(typf, nbmf, brgs);
+
+        try {
+            Mfthod mfthod = CACHE.gft(signbturf);
+            rfturn (mfthod == null) || isPbdkbgfAddfssiblf(mfthod.gftDfdlbringClbss()) ? mfthod : CACHE.drfbtf(signbturf);
+        }
+        dbtdh (SignbturfExdfption fxdfption) {
+            throw fxdfption.toNoSudhMfthodExdfption("Mfthod '" + nbmf + "' is not found");
+        }
+    }
+
+    /**
+     * Finds publid non-stbtid mfthod
+     * thbt is bddfssiblf from publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf mfthod
+     * @pbrbm nbmf  thf nbmf of mfthod to find
+     * @pbrbm brgs  pbrbmftfr typfs thbt is usfd to find mfthod
+     * @rfturn objfdt thbt rfprfsfnts found mfthod
+     * @throws NoSudhMfthodExdfption if mfthod dould not bf found
+     *                               or somf mfthods brf found
+     */
+    publid stbtid Mfthod findInstbndfMfthod(Clbss<?> typf, String nbmf, Clbss<?>... brgs) throws NoSudhMfthodExdfption {
+        Mfthod mfthod = findMfthod(typf, nbmf, brgs);
+        if (Modififr.isStbtid(mfthod.gftModififrs())) {
+            throw nfw NoSudhMfthodExdfption("Mfthod '" + nbmf + "' is stbtid");
+        }
+        rfturn mfthod;
+    }
+
+    /**
+     * Finds publid stbtid mfthod
+     * thbt is bddfssiblf from publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf mfthod
+     * @pbrbm nbmf  thf nbmf of mfthod to find
+     * @pbrbm brgs  pbrbmftfr typfs thbt is usfd to find mfthod
+     * @rfturn objfdt thbt rfprfsfnts found mfthod
+     * @throws NoSudhMfthodExdfption if mfthod dould not bf found
+     *                               or somf mfthods brf found
+     */
+    publid stbtid Mfthod findStbtidMfthod(Clbss<?> typf, String nbmf, Clbss<?>...brgs) throws NoSudhMfthodExdfption {
+        Mfthod mfthod = findMfthod(typf, nbmf, brgs);
+        if (!Modififr.isStbtid(mfthod.gftModififrs())) {
+            throw nfw NoSudhMfthodExdfption("Mfthod '" + nbmf + "' is not stbtid");
+        }
+        rfturn mfthod;
+    }
+
+    /**
+     * Finds mfthod thbt is bddfssiblf from publid dlbss or intfrfbdf through dlbss hifrbrdhy.
+     *
+     * @pbrbm mfthod  objfdt thbt rfprfsfnts found mfthod
+     * @rfturn objfdt thbt rfprfsfnts bddfssiblf mfthod
+     * @throws NoSudhMfthodExdfption if mfthod is not bddfssiblf or is not found
+     *                               in spfdififd supfrdlbss or intfrfbdf
+     */
+    publid stbtid Mfthod findAddfssiblfMfthod(Mfthod mfthod) throws NoSudhMfthodExdfption {
+        Clbss<?> typf = mfthod.gftDfdlbringClbss();
+        if (Modififr.isPublid(typf.gftModififrs()) && isPbdkbgfAddfssiblf(typf)) {
+            rfturn mfthod;
+        }
+        if (Modififr.isStbtid(mfthod.gftModififrs())) {
+            throw nfw NoSudhMfthodExdfption("Mfthod '" + mfthod.gftNbmf() + "' is not bddfssiblf");
+        }
+        for (Typf gfnfrid : typf.gftGfnfridIntfrfbdfs()) {
+            try {
+                rfturn findAddfssiblfMfthod(mfthod, gfnfrid);
+            }
+            dbtdh (NoSudhMfthodExdfption fxdfption) {
+                // try to find in supfrdlbss or bnothfr intfrfbdf
+            }
+        }
+        rfturn findAddfssiblfMfthod(mfthod, typf.gftGfnfridSupfrdlbss());
+    }
+
+    /**
+     * Finds mfthod thbt bddfssiblf from spfdififd dlbss.
+     *
+     * @pbrbm mfthod  objfdt thbt rfprfsfnts found mfthod
+     * @pbrbm gfnfrid gfnfrid typf thbt is usfd to find bddfssiblf mfthod
+     * @rfturn objfdt thbt rfprfsfnts bddfssiblf mfthod
+     * @throws NoSudhMfthodExdfption if mfthod is not bddfssiblf or is not found
+     *                               in spfdififd supfrdlbss or intfrfbdf
+     */
+    privbtf stbtid Mfthod findAddfssiblfMfthod(Mfthod mfthod, Typf gfnfrid) throws NoSudhMfthodExdfption {
+        String nbmf = mfthod.gftNbmf();
+        Clbss<?>[] pbrbms = mfthod.gftPbrbmftfrTypfs();
+        if (gfnfrid instbndfof Clbss) {
+            Clbss<?> typf = (Clbss<?>) gfnfrid;
+            rfturn findAddfssiblfMfthod(typf.gftMfthod(nbmf, pbrbms));
+        }
+        if (gfnfrid instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf pt = (PbrbmftfrizfdTypf) gfnfrid;
+            Clbss<?> typf = (Clbss<?>) pt.gftRbwTypf();
+            for (Mfthod m : typf.gftMfthods()) {
+                if (m.gftNbmf().fqubls(nbmf)) {
+                    Clbss<?>[] pts = m.gftPbrbmftfrTypfs();
+                    if (pts.lfngth == pbrbms.lfngth) {
+                        if (Arrbys.fqubls(pbrbms, pts)) {
+                            rfturn findAddfssiblfMfthod(m);
+                        }
+                        Typf[] gpts = m.gftGfnfridPbrbmftfrTypfs();
+                        if (pbrbms.lfngth == gpts.lfngth) {
+                            if (Arrbys.fqubls(pbrbms, TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvf(pt, gpts)))) {
+                                rfturn findAddfssiblfMfthod(m);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        throw nfw NoSudhMfthodExdfption("Mfthod '" + nbmf + "' is not bddfssiblf");
+    }
+
+
+    privbtf finbl String nbmf;
+
+    /**
+     * Crfbtfs mfthod findfr with spfdififd brrby of pbrbmftfr typfs.
+     *
+     * @pbrbm nbmf  thf nbmf of mfthod to find
+     * @pbrbm brgs  thf brrby of pbrbmftfr typfs
+     */
+    privbtf MfthodFindfr(String nbmf, Clbss<?>[] brgs) {
+        supfr(brgs);
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Chfdks vblidnfss of thf mfthod.
+     * Thf vblid mfthod should bf publid bnd
+     * should hbvf thf spfdififd nbmf.
+     *
+     * @pbrbm mfthod  thf objfdt thbt rfprfsfnts mfthod
+     * @rfturn {@dodf truf} if thf mfthod is vblid,
+     *         {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    protfdtfd boolfbn isVblid(Mfthod mfthod) {
+        rfturn supfr.isVblid(mfthod) && mfthod.gftNbmf().fqubls(this.nbmf);
+    }
+}

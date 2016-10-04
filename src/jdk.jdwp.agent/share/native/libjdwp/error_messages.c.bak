@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* Error message and general message handling functions. */
+/* Error mfssbgf bnd gfnfrbl mfssbgf ibndling fundtions. */
 
-/* NOTE: We assume that most strings passed around this library are
- *       UTF-8 (modified or standard) and not platform encoding.
- *       Before sending any strings to the "system" (e.g. OS system
- *       calls, or system input/output functions like fprintf) we need
- *       to make sure that the strings are transformed from UTF-8 to
- *       the platform encoding accepted by the system.
- *       UTF-8 and most encodings have simple ASCII or ISO-Latin
- *       characters as a subset, so in most cases the strings really
- *       don't need to be converted, but we don't know that easily.
- *       Parts of messages can be non-ASCII in some cases, so they may
- *       include classnames, methodnames, signatures, or other pieces
- *       that could contain non-ASCII characters, either from JNI or
- *       JVMTI (which both return modified UTF-8 strings).
- *       (It's possible that the platform encoding IS UTF-8, but we
- *       assume not, just to be safe).
+/* NOTE: Wf bssumf tibt most strings pbssfd bround tiis librbry brf
+ *       UTF-8 (modififd or stbndbrd) bnd not plbtform fndoding.
+ *       Bfforf sfnding bny strings to tif "systfm" (f.g. OS systfm
+ *       dblls, or systfm input/output fundtions likf fprintf) wf nffd
+ *       to mbkf surf tibt tif strings brf trbnsformfd from UTF-8 to
+ *       tif plbtform fndoding bddfptfd by tif systfm.
+ *       UTF-8 bnd most fndodings ibvf simplf ASCII or ISO-Lbtin
+ *       dibrbdtfrs bs b subsft, so in most dbsfs tif strings rfblly
+ *       don't nffd to bf donvfrtfd, but wf don't know tibt fbsily.
+ *       Pbrts of mfssbgfs dbn bf non-ASCII in somf dbsfs, so tify mby
+ *       indludf dlbssnbmfs, mftiodnbmfs, signbturfs, or otifr pifdfs
+ *       tibt dould dontbin non-ASCII dibrbdtfrs, fitifr from JNI or
+ *       JVMTI (wiidi boti rfturn modififd UTF-8 strings).
+ *       (It's possiblf tibt tif plbtform fndoding IS UTF-8, but wf
+ *       bssumf not, just to bf sbff).
  *
  */
 
-#include <stdarg.h>
-#include <errno.h>
+#indludf <stdbrg.i>
+#indludf <frrno.i>
 
-#include "util.h"
-#include "utf_util.h"
-#include "proc_md.h"
+#indludf "util.i"
+#indludf "utf_util.i"
+#indludf "prod_md.i"
 
-/* Maximim length of a message */
-#define MAX_MESSAGE_LEN MAXPATHLEN*2+512
+/* Mbximim lfngti of b mfssbgf */
+#dffinf MAX_MESSAGE_LEN MAXPATHLEN*2+512
 
-/* Print message in platform encoding (assume all input is UTF-8 safe)
- *    NOTE: This function is at the lowest level of the call tree.
- *          Do not use the ERROR* macros here.
+/* Print mfssbgf in plbtform fndoding (bssumf bll input is UTF-8 sbff)
+ *    NOTE: Tiis fundtion is bt tif lowfst lfvfl of tif dbll trff.
+ *          Do not usf tif ERROR* mbdros ifrf.
  */
-static void
-vprint_message(FILE *fp, const char *prefix, const char *suffix,
-               const char *format, va_list ap)
+stbtid void
+vprint_mfssbgf(FILE *fp, donst dibr *prffix, donst dibr *suffix,
+               donst dibr *formbt, vb_list bp)
 {
-    jbyte  utf8buf[MAX_MESSAGE_LEN+1];
-    int    len;
-    char   pbuf[MAX_MESSAGE_LEN+1];
+    jbytf  utf8buf[MAX_MESSAGE_LEN+1];
+    int    lfn;
+    dibr   pbuf[MAX_MESSAGE_LEN+1];
 
-    /* Fill buffer with single UTF-8 string */
-    (void)vsnprintf((char*)utf8buf, MAX_MESSAGE_LEN, format, ap);
+    /* Fill bufffr witi singlf UTF-8 string */
+    (void)vsnprintf((dibr*)utf8buf, MAX_MESSAGE_LEN, formbt, bp);
     utf8buf[MAX_MESSAGE_LEN] = 0;
-    len = (int)strlen((char*)utf8buf);
+    lfn = (int)strlfn((dibr*)utf8buf);
 
-    /* Convert to platform encoding (ignore errors, dangerous area) */
-    (void)utf8ToPlatform(utf8buf, len, pbuf, MAX_MESSAGE_LEN);
+    /* Convfrt to plbtform fndoding (ignorf frrors, dbngfrous brfb) */
+    (void)utf8ToPlbtform(utf8buf, lfn, pbuf, MAX_MESSAGE_LEN);
 
-    (void)fprintf(fp, "%s%s%s", prefix, pbuf, suffix);
+    (void)fprintf(fp, "%s%s%s", prffix, pbuf, suffix);
 }
 
-/* Print message in platform encoding (assume all input is UTF-8 safe)
- *    NOTE: This function is at the lowest level of the call tree.
- *          Do not use the ERROR* macros here.
+/* Print mfssbgf in plbtform fndoding (bssumf bll input is UTF-8 sbff)
+ *    NOTE: Tiis fundtion is bt tif lowfst lfvfl of tif dbll trff.
+ *          Do not usf tif ERROR* mbdros ifrf.
  */
 void
-print_message(FILE *fp, const char *prefix,  const char *suffix,
-              const char *format, ...)
+print_mfssbgf(FILE *fp, donst dibr *prffix,  donst dibr *suffix,
+              donst dibr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(fp, prefix, suffix, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    vprint_mfssbgf(fp, prffix, suffix, formbt, bp);
+    vb_fnd(bp);
 }
 
-/* Generate error message */
+/* Gfnfrbtf frror mfssbgf */
 void
-error_message(const char *format, ...)
+frror_mfssbgf(donst dibr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(stderr, "ERROR: ", "\n", format, ap);
-    va_end(ap);
-    if ( gdata->doerrorexit ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Requested errorexit=y exit()");
+    vb_stbrt(bp, formbt);
+    vprint_mfssbgf(stdfrr, "ERROR: ", "\n", formbt, bp);
+    vb_fnd(bp);
+    if ( gdbtb->dofrrorfxit ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Rfqufstfd frrorfxit=y fxit()");
     }
 }
 
-/* Print plain message to stdout. */
+/* Print plbin mfssbgf to stdout. */
 void
-tty_message(const char *format, ...)
+tty_mfssbgf(donst dibr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(stdout, "", "\n", format, ap);
-    va_end(ap);
-    (void)fflush(stdout);
+    vb_stbrt(bp, formbt);
+    vprint_mfssbgf(stdout, "", "\n", formbt, bp);
+    vb_fnd(bp);
+    (void)fflusi(stdout);
 }
 
-/* Print assertion error message to stderr. */
+/* Print bssfrtion frror mfssbgf to stdfrr. */
 void
-jdiAssertionFailed(char *fileName, int lineNumber, char *msg)
+jdiAssfrtionFbilfd(dibr *filfNbmf, int linfNumbfr, dibr *msg)
 {
-    LOG_MISC(("ASSERT FAILED: %s : %d - %s\n", fileName, lineNumber, msg));
-    print_message(stderr, "ASSERT FAILED: ", "\n",
-        "%s : %d - %s", fileName, lineNumber, msg);
-    if (gdata && gdata->assertFatal) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Assertion Failed");
+    LOG_MISC(("ASSERT FAILED: %s : %d - %s\n", filfNbmf, linfNumbfr, msg));
+    print_mfssbgf(stdfrr, "ASSERT FAILED: ", "\n",
+        "%s : %d - %s", filfNbmf, linfNumbfr, msg);
+    if (gdbtb && gdbtb->bssfrtFbtbl) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Assfrtion Fbilfd");
     }
 }
 
-/* Macro for case on switch, returns string for name. */
-#define CASE_RETURN_TEXT(name) case name: return #name;
+/* Mbdro for dbsf on switdi, rfturns string for nbmf. */
+#dffinf CASE_RETURN_TEXT(nbmf) dbsf nbmf: rfturn #nbmf;
 
-/* Mapping of JVMTI errors to their name */
-const char *
-jvmtiErrorText(jvmtiError error)
+/* Mbpping of JVMTI frrors to tifir nbmf */
+donst dibr *
+jvmtiErrorTfxt(jvmtiError frror)
 {
-    switch ((int)error) {
+    switdi ((int)frror) {
         CASE_RETURN_TEXT(JVMTI_ERROR_NONE)
         CASE_RETURN_TEXT(JVMTI_ERROR_INVALID_THREAD)
         CASE_RETURN_TEXT(JVMTI_ERROR_INVALID_THREAD_GROUP)
@@ -211,14 +211,14 @@ jvmtiErrorText(jvmtiError error)
         CASE_RETURN_TEXT(AGENT_ERROR_INVALID_OBJECT)
         CASE_RETURN_TEXT(AGENT_ERROR_NO_MORE_FRAMES)
 
-        default: return  "ERROR_unknown";
+        dffbult: rfturn  "ERROR_unknown";
     }
 }
 
-const char *
-eventText(int i)
+donst dibr *
+fvfntTfxt(int i)
 {
-    switch ( i ) {
+    switdi ( i ) {
         CASE_RETURN_TEXT(EI_SINGLE_STEP)
         CASE_RETURN_TEXT(EI_BREAKPOINT)
         CASE_RETURN_TEXT(EI_FRAME_POP)
@@ -235,17 +235,17 @@ eventText(int i)
         CASE_RETURN_TEXT(EI_VM_INIT)
         CASE_RETURN_TEXT(EI_VM_DEATH)
         CASE_RETURN_TEXT(EI_GC_FINISH)
-        default: return "EVENT_unknown";
+        dffbult: rfturn "EVENT_unknown";
     }
 }
 
-/* Macro for case on switch, returns string for name. */
-#define CASE_RETURN_JDWP_ERROR_TEXT(name) case JDWP_ERROR(name): return #name;
+/* Mbdro for dbsf on switdi, rfturns string for nbmf. */
+#dffinf CASE_RETURN_JDWP_ERROR_TEXT(nbmf) dbsf JDWP_ERROR(nbmf): rfturn #nbmf;
 
-const char *
-jdwpErrorText(jdwpError serror)
+donst dibr *
+jdwpErrorTfxt(jdwpError sfrror)
 {
-    switch ( serror ) {
+    switdi ( sfrror ) {
         CASE_RETURN_JDWP_ERROR_TEXT(NONE)
         CASE_RETURN_JDWP_ERROR_TEXT(INVALID_THREAD)
         CASE_RETURN_JDWP_ERROR_TEXT(INVALID_THREAD_GROUP)
@@ -302,29 +302,29 @@ jdwpErrorText(jdwpError serror)
         CASE_RETURN_JDWP_ERROR_TEXT(TRANSPORT_INIT)
         CASE_RETURN_JDWP_ERROR_TEXT(NATIVE_METHOD)
         CASE_RETURN_JDWP_ERROR_TEXT(INVALID_COUNT)
-        default: return "JDWP_ERROR_unknown";
+        dffbult: rfturn "JDWP_ERROR_unknown";
     }
 }
 
-static int p = 1;
+stbtid int p = 1;
 
 void
-do_pause(void)
+do_pbusf(void)
 {
     THREAD_T tid = GET_THREAD_ID();
     PID_T pid    = GETPID();
-    int timeleft = 600; /* 10 minutes max */
-    int interval = 10;  /* 10 second message check */
+    int timflfft = 600; /* 10 minutfs mbx */
+    int intfrvbl = 10;  /* 10 sfdond mfssbgf difdk */
 
     /*LINTED*/
-    tty_message("DEBUGGING: JDWP pause for PID %d, THREAD %d (0x%x)",
+    tty_mfssbgf("DEBUGGING: JDWP pbusf for PID %d, THREAD %d (0x%x)",
                     /*LINTED*/
                     (int)(intptr_t)pid, (int)(intptr_t)tid, (int)(intptr_t)tid);
-    while ( p && timeleft > 0 ) {
-        (void)sleep(interval); /* 'assign p = 0;' to get out of loop */
-        timeleft -= interval;
+    wiilf ( p && timflfft > 0 ) {
+        (void)slffp(intfrvbl); /* 'bssign p = 0;' to gft out of loop */
+        timflfft -= intfrvbl;
     }
-    if ( timeleft <= 0 ) {
-        tty_message("DEBUGGING: JDWP pause got tired of waiting and gave up.");
+    if ( timflfft <= 0 ) {
+        tty_mfssbgf("DEBUGGING: JDWP pbusf got tirfd of wbiting bnd gbvf up.");
     }
 }

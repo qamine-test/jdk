@@ -1,391 +1,391 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "splashscreen_impl.h"
-#include "splashscreen_gfx_impl.h"
+#indludf "splbsisdrffn_impl.i"
+#indludf "splbsisdrffn_gfx_impl.i"
 
-int splashIsVisible = 0;
+int splbsiIsVisiblf = 0;
 
-Splash *
-SplashGetInstance()
+Splbsi *
+SplbsiGftInstbndf()
 {
-    static Splash splash;
-    static int preInitialized = 0;
-    if (!preInitialized) {
-        memset(&splash, 0, sizeof(Splash));
-        splash.currentFrame = -1;
-        preInitialized = 1;
+    stbtid Splbsi splbsi;
+    stbtid int prfInitiblizfd = 0;
+    if (!prfInitiblizfd) {
+        mfmsft(&splbsi, 0, sizfof(Splbsi));
+        splbsi.durrfntFrbmf = -1;
+        prfInitiblizfd = 1;
     }
-    return &splash;
+    rfturn &splbsi;
 }
 
 SPLASHEXPORT void
-SplashSetFileJarName(const char* fileName, const char* jarName) {
-    Splash *splash = SplashGetInstance();
+SplbsiSftFilfJbrNbmf(donst dibr* filfNbmf, donst dibr* jbrNbmf) {
+    Splbsi *splbsi = SplbsiGftInstbndf();
 
-    free(splash->fileName);
-    splash->fileName = SplashConvertStringAlloc(fileName, &splash->fileNameLen);
+    frff(splbsi->filfNbmf);
+    splbsi->filfNbmf = SplbsiConvfrtStringAllod(filfNbmf, &splbsi->filfNbmfLfn);
 
-    free(splash->jarName);
-    splash->jarName = SplashConvertStringAlloc(jarName, &splash->jarNameLen);
+    frff(splbsi->jbrNbmf);
+    splbsi->jbrNbmf = SplbsiConvfrtStringAllod(jbrNbmf, &splbsi->jbrNbmfLfn);
 }
 
 SPLASHEXPORT void
-SplashInit()
+SplbsiInit()
 {
-    Splash *splash = SplashGetInstance();
+    Splbsi *splbsi = SplbsiGftInstbndf();
 
-    memset(splash, 0, sizeof(Splash));
-    splash->currentFrame = -1;
-    splash->scaleFactor = 1;
-    initFormat(&splash->imageFormat, QUAD_RED_MASK, QUAD_GREEN_MASK,
+    mfmsft(splbsi, 0, sizfof(Splbsi));
+    splbsi->durrfntFrbmf = -1;
+    splbsi->sdblfFbdtor = 1;
+    initFormbt(&splbsi->imbgfFormbt, QUAD_RED_MASK, QUAD_GREEN_MASK,
         QUAD_BLUE_MASK, QUAD_ALPHA_MASK);
-    SplashInitPlatform(splash);
+    SplbsiInitPlbtform(splbsi);
 }
 
 SPLASHEXPORT void
-SplashClose()
+SplbsiClosf()
 {
-    Splash *splash = SplashGetInstance();
+    Splbsi *splbsi = SplbsiGftInstbndf();
 
-    if (splash->isVisible > 0) {
-        SplashLock(splash);
-        splash->isVisible = -1;
-        SplashClosePlatform(splash);
-        SplashUnlock(splash);
+    if (splbsi->isVisiblf > 0) {
+        SplbsiLodk(splbsi);
+        splbsi->isVisiblf = -1;
+        SplbsiClosfPlbtform(splbsi);
+        SplbsiUnlodk(splbsi);
     }
 }
 
 void
-SplashCleanup(Splash * splash)
+SplbsiClfbnup(Splbsi * splbsi)
 {
     int i;
 
-    splash->currentFrame = -1;
-    SplashCleanupPlatform(splash);
-    if (splash->frames) {
-        for (i = 0; i < splash->frameCount; i++) {
-            if (splash->frames[i].bitmapBits) {
-                free(splash->frames[i].bitmapBits);
-                splash->frames[i].bitmapBits = NULL;
+    splbsi->durrfntFrbmf = -1;
+    SplbsiClfbnupPlbtform(splbsi);
+    if (splbsi->frbmfs) {
+        for (i = 0; i < splbsi->frbmfCount; i++) {
+            if (splbsi->frbmfs[i].bitmbpBits) {
+                frff(splbsi->frbmfs[i].bitmbpBits);
+                splbsi->frbmfs[i].bitmbpBits = NULL;
             }
         }
-        free(splash->frames);
-        splash->frames = NULL;
+        frff(splbsi->frbmfs);
+        splbsi->frbmfs = NULL;
     }
-    if (splash->overlayData) {
-        free(splash->overlayData);
-        splash->overlayData = NULL;
+    if (splbsi->ovfrlbyDbtb) {
+        frff(splbsi->ovfrlbyDbtb);
+        splbsi->ovfrlbyDbtb = NULL;
     }
-    SplashSetFileJarName(NULL, NULL);
+    SplbsiSftFilfJbrNbmf(NULL, NULL);
 }
 
 SPLASHEXPORT void
-SplashSetScaleFactor(float scaleFactor)
+SplbsiSftSdblfFbdtor(flobt sdblfFbdtor)
 {
-    Splash *splash = SplashGetInstance();
-    splash->scaleFactor = scaleFactor;
+    Splbsi *splbsi = SplbsiGftInstbndf();
+    splbsi->sdblfFbdtor = sdblfFbdtor;
 }
 
 void
-SplashDone(Splash * splash)
+SplbsiDonf(Splbsi * splbsi)
 {
-    SplashCleanup(splash);
-    SplashDonePlatform(splash);
+    SplbsiClfbnup(splbsi);
+    SplbsiDonfPlbtform(splbsi);
 }
 
 int
-SplashIsStillLooping(Splash * splash)
+SplbsiIsStillLooping(Splbsi * splbsi)
 {
-    if (splash->currentFrame < 0) {
-        return 0;
+    if (splbsi->durrfntFrbmf < 0) {
+        rfturn 0;
     }
-    return splash->loopCount != 1 ||
-        splash->currentFrame + 1 < splash->frameCount;
+    rfturn splbsi->loopCount != 1 ||
+        splbsi->durrfntFrbmf + 1 < splbsi->frbmfCount;
 }
 
 void
-SplashUpdateScreenData(Splash * splash)
+SplbsiUpdbtfSdrffnDbtb(Splbsi * splbsi)
 {
-    ImageRect srcRect, dstRect;
-    if (splash->currentFrame < 0) {
-        return;
+    ImbgfRfdt srdRfdt, dstRfdt;
+    if (splbsi->durrfntFrbmf < 0) {
+        rfturn;
     }
 
-    initRect(&srcRect, 0, 0, splash->width, splash->height, 1,
-        splash->width * sizeof(rgbquad_t),
-        splash->frames[splash->currentFrame].bitmapBits, &splash->imageFormat);
-    if (splash->screenData) {
-        free(splash->screenData);
+    initRfdt(&srdRfdt, 0, 0, splbsi->widti, splbsi->ifigit, 1,
+        splbsi->widti * sizfof(rgbqubd_t),
+        splbsi->frbmfs[splbsi->durrfntFrbmf].bitmbpBits, &splbsi->imbgfFormbt);
+    if (splbsi->sdrffnDbtb) {
+        frff(splbsi->sdrffnDbtb);
     }
-    splash->screenStride = splash->width * splash->screenFormat.depthBytes;
-    if (splash->byteAlignment > 1) {
-        splash->screenStride =
-            (splash->screenStride + splash->byteAlignment - 1) &
-            ~(splash->byteAlignment - 1);
+    splbsi->sdrffnStridf = splbsi->widti * splbsi->sdrffnFormbt.dfptiBytfs;
+    if (splbsi->bytfAlignmfnt > 1) {
+        splbsi->sdrffnStridf =
+            (splbsi->sdrffnStridf + splbsi->bytfAlignmfnt - 1) &
+            ~(splbsi->bytfAlignmfnt - 1);
     }
-    splash->screenData = malloc(splash->height * splash->screenStride);
-    initRect(&dstRect, 0, 0, splash->width, splash->height, 1,
-        splash->screenStride, splash->screenData, &splash->screenFormat);
-    if (splash->overlayData) {
-        convertRect2(&srcRect, &dstRect, CVT_BLEND, &splash->overlayRect);
+    splbsi->sdrffnDbtb = mbllod(splbsi->ifigit * splbsi->sdrffnStridf);
+    initRfdt(&dstRfdt, 0, 0, splbsi->widti, splbsi->ifigit, 1,
+        splbsi->sdrffnStridf, splbsi->sdrffnDbtb, &splbsi->sdrffnFormbt);
+    if (splbsi->ovfrlbyDbtb) {
+        donvfrtRfdt2(&srdRfdt, &dstRfdt, CVT_BLEND, &splbsi->ovfrlbyRfdt);
     }
-    else {
-        convertRect(&srcRect, &dstRect, CVT_COPY);
+    flsf {
+        donvfrtRfdt(&srdRfdt, &dstRfdt, CVT_COPY);
     }
 }
 
 void
-SplashNextFrame(Splash * splash)
+SplbsiNfxtFrbmf(Splbsi * splbsi)
 {
-    if (splash->currentFrame < 0) {
-        return;
+    if (splbsi->durrfntFrbmf < 0) {
+        rfturn;
     }
     do {
-        if (!SplashIsStillLooping(splash)) {
-            return;
+        if (!SplbsiIsStillLooping(splbsi)) {
+            rfturn;
         }
-        splash->time += splash->frames[splash->currentFrame].delay;
-        if (++splash->currentFrame >= splash->frameCount) {
-            splash->currentFrame = 0;
-            if (splash->loopCount > 0) {
-                splash->loopCount--;
+        splbsi->timf += splbsi->frbmfs[splbsi->durrfntFrbmf].dflby;
+        if (++splbsi->durrfntFrbmf >= splbsi->frbmfCount) {
+            splbsi->durrfntFrbmf = 0;
+            if (splbsi->loopCount > 0) {
+                splbsi->loopCount--;
             }
         }
-    } while (splash->time + splash->frames[splash->currentFrame].delay -
-        SplashTime() <= 0);
+    } wiilf (splbsi->timf + splbsi->frbmfs[splbsi->durrfntFrbmf].dflby -
+        SplbsiTimf() <= 0);
 }
 
 int
-BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
+BitmbpToYXBbndfdRfdtbnglfs(ImbgfRfdt * pSrdRfdt, RECT_T * out)
 {
-    RECT_T *pPrevLine = NULL, *pFirst = out, *pThis = pFirst;
+    RECT_T *pPrfvLinf = NULL, *pFirst = out, *pTiis = pFirst;
     int i, j, i0;
-    int length;
+    int lfngti;
 
-    for (j = 0; j < pSrcRect->numLines; j++) {
+    for (j = 0; j < pSrdRfdt->numLinfs; j++) {
 
-        /* generate data for a scanline */
+        /* gfnfrbtf dbtb for b sdbnlinf */
 
-        byte_t *pSrc = (byte_t *) pSrcRect->pBits + j * pSrcRect->stride;
-        RECT_T *pLine = pThis;
+        bytf_t *pSrd = (bytf_t *) pSrdRfdt->pBits + j * pSrdRfdt->stridf;
+        RECT_T *pLinf = pTiis;
 
         i = 0;
 
         do {
-            while (i < pSrcRect->numSamples &&
-                   getRGBA(pSrc, pSrcRect->format) < ALPHA_THRESHOLD) {
-                pSrc += pSrcRect->depthBytes;
+            wiilf (i < pSrdRfdt->numSbmplfs &&
+                   gftRGBA(pSrd, pSrdRfdt->formbt) < ALPHA_THRESHOLD) {
+                pSrd += pSrdRfdt->dfptiBytfs;
                 ++i;
             }
-            if (i >= pSrcRect->numSamples) {
-                break;
+            if (i >= pSrdRfdt->numSbmplfs) {
+                brfbk;
             }
             i0 = i;
-            while (i < pSrcRect->numSamples &&
-                   getRGBA(pSrc, pSrcRect->format) >= ALPHA_THRESHOLD) {
-                pSrc += pSrcRect->depthBytes;
+            wiilf (i < pSrdRfdt->numSbmplfs &&
+                   gftRGBA(pSrd, pSrdRfdt->formbt) >= ALPHA_THRESHOLD) {
+                pSrd += pSrdRfdt->dfptiBytfs;
                 ++i;
             }
-            RECT_SET(*pThis, i0, j, i - i0, 1);
-            ++pThis;
-        } while (i < pSrcRect->numSamples);
+            RECT_SET(*pTiis, i0, j, i - i0, 1);
+            ++pTiis;
+        } wiilf (i < pSrdRfdt->numSbmplfs);
 
-        /*  check if the previous scanline is exactly the same, merge if so
-           (this is the only optimization we can use for YXBanded rectangles, and win32 supports
-           YXBanded only */
+        /*  difdk if tif prfvious sdbnlinf is fxbdtly tif sbmf, mfrgf if so
+           (tiis is tif only optimizbtion wf dbn usf for YXBbndfd rfdtbnglfs, bnd win32 supports
+           YXBbndfd only */
 
-        length = pThis - pLine;
-        if (pPrevLine && pLine - pPrevLine == length) {
-            for (i = 0; i < length && RECT_EQ_X(pPrevLine[i], pLine[i]); ++i) {
+        lfngti = pTiis - pLinf;
+        if (pPrfvLinf && pLinf - pPrfvLinf == lfngti) {
+            for (i = 0; i < lfngti && RECT_EQ_X(pPrfvLinf[i], pLinf[i]); ++i) {
             }
-            if (i == pLine - pPrevLine) {
-                // do merge
-                for (i = 0; i < length; i++) {
-                    RECT_INC_HEIGHT(pPrevLine[i]);
+            if (i == pLinf - pPrfvLinf) {
+                // do mfrgf
+                for (i = 0; i < lfngti; i++) {
+                    RECT_INC_HEIGHT(pPrfvLinf[i]);
                 }
-                pThis = pLine;
-                continue;
+                pTiis = pLinf;
+                dontinuf;
             }
         }
-        /* or else use the generated scanline */
+        /* or flsf usf tif gfnfrbtfd sdbnlinf */
 
-        pPrevLine = pLine;
+        pPrfvLinf = pLinf;
     }
-    return pThis - pFirst;
+    rfturn pTiis - pFirst;
 }
 
-typedef struct FILEFORMAT
+typfdff strudt FILEFORMAT
 {
     int sign;
-    int (*decodeStream) (Splash * splash, SplashStream * stream);
+    int (*dfdodfStrfbm) (Splbsi * splbsi, SplbsiStrfbm * strfbm);
 } FILEFORMAT;
 
-static const FILEFORMAT formats[] = {
-    {0x47, SplashDecodeGifStream},
-    {0x89, SplashDecodePngStream},
-    {0xFF, SplashDecodeJpegStream}
+stbtid donst FILEFORMAT formbts[] = {
+    {0x47, SplbsiDfdodfGifStrfbm},
+    {0x89, SplbsiDfdodfPngStrfbm},
+    {0xFF, SplbsiDfdodfJpfgStrfbm}
 };
 
-static int
-SplashLoadStream(SplashStream * stream)
+stbtid int
+SplbsiLobdStrfbm(SplbsiStrfbm * strfbm)
 {
-    int success = 0;
-    int c;
-    size_t i;
+    int suddfss = 0;
+    int d;
+    sizf_t i;
 
-    Splash *splash = SplashGetInstance();
-    if (splash->isVisible < 0) {
-        return 0;
+    Splbsi *splbsi = SplbsiGftInstbndf();
+    if (splbsi->isVisiblf < 0) {
+        rfturn 0;
     }
 
-    SplashLock(splash);
+    SplbsiLodk(splbsi);
 
-    /* the formats we support can be easily distinguished by the first byte */
-    c = stream->peek(stream);
-    if (c != -1) {
-        for (i = 0; i < sizeof(formats) / sizeof(FILEFORMAT); i++) {
-            if (c == formats[i].sign) {
-                success = formats[i].decodeStream(splash, stream);
-                break;
+    /* tif formbts wf support dbn bf fbsily distinguisifd by tif first bytf */
+    d = strfbm->pffk(strfbm);
+    if (d != -1) {
+        for (i = 0; i < sizfof(formbts) / sizfof(FILEFORMAT); i++) {
+            if (d == formbts[i].sign) {
+                suddfss = formbts[i].dfdodfStrfbm(splbsi, strfbm);
+                brfbk;
             }
         }
     }
-    stream->close(stream);
+    strfbm->dlosf(strfbm);
 
-    if (!success) {             // failed to decode
-        if (splash->isVisible == 0) {
-            SplashCleanup(splash);
+    if (!suddfss) {             // fbilfd to dfdodf
+        if (splbsi->isVisiblf == 0) {
+            SplbsiClfbnup(splbsi);
         }
-        SplashUnlock(splash);   // SplashClose locks
-        if (splash->isVisible == 0) {
-            SplashClose();
+        SplbsiUnlodk(splbsi);   // SplbsiClosf lodks
+        if (splbsi->isVisiblf == 0) {
+            SplbsiClosf();
         }
     }
-    else {
-        splash->currentFrame = 0;
-        if (splash->isVisible == 0) {
-            SplashStart(splash);
-        } else {
-            SplashReconfigure(splash);
-            splash->time = SplashTime();
+    flsf {
+        splbsi->durrfntFrbmf = 0;
+        if (splbsi->isVisiblf == 0) {
+            SplbsiStbrt(splbsi);
+        } flsf {
+            SplbsiRfdonfigurf(splbsi);
+            splbsi->timf = SplbsiTimf();
         }
-        SplashUnlock(splash);
+        SplbsiUnlodk(splbsi);
     }
-    return success;
+    rfturn suddfss;
 }
 
 SPLASHEXPORT int
-SplashLoadFile(const char *filename)
+SplbsiLobdFilf(donst dibr *filfnbmf)
 {
-    SplashStream stream;
-    return SplashStreamInitFile(&stream, filename) &&
-                SplashLoadStream(&stream);
+    SplbsiStrfbm strfbm;
+    rfturn SplbsiStrfbmInitFilf(&strfbm, filfnbmf) &&
+                SplbsiLobdStrfbm(&strfbm);
 }
 
 SPLASHEXPORT int
-SplashLoadMemory(void *data, int size)
+SplbsiLobdMfmory(void *dbtb, int sizf)
 {
-    SplashStream stream;
-    return SplashStreamInitMemory(&stream, data, size) &&
-                SplashLoadStream(&stream);
+    SplbsiStrfbm strfbm;
+    rfturn SplbsiStrfbmInitMfmory(&strfbm, dbtb, sizf) &&
+                SplbsiLobdStrfbm(&strfbm);
 }
 
-/* SplashStart MUST be called from under the lock */
+/* SplbsiStbrt MUST bf dbllfd from undfr tif lodk */
 
 void
-SplashStart(Splash * splash)
+SplbsiStbrt(Splbsi * splbsi)
 {
-    if (splash->isVisible == 0) {
-        SplashCreateThread(splash);
-        splash->isVisible = 1;
+    if (splbsi->isVisiblf == 0) {
+        SplbsiCrfbtfTirfbd(splbsi);
+        splbsi->isVisiblf = 1;
     }
 }
 
-/* SplashStream functions */
+/* SplbsiStrfbm fundtions */
 
-static int readFile(void* pStream, void* pData, int nBytes) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
-    return fread(pData, 1, nBytes, f);
+stbtid int rfbdFilf(void* pStrfbm, void* pDbtb, int nBytfs) {
+    FILE* f = ((SplbsiStrfbm*)pStrfbm)->brg.stdio.f;
+    rfturn frfbd(pDbtb, 1, nBytfs, f);
 }
-static int peekFile(void* pStream) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
-    int c = fgetc(f);
-    if (c != EOF) {
-        ungetc(c, f);
-        return c;
-    } else {
-        return -1;
+stbtid int pffkFilf(void* pStrfbm) {
+    FILE* f = ((SplbsiStrfbm*)pStrfbm)->brg.stdio.f;
+    int d = fgftd(f);
+    if (d != EOF) {
+        ungftd(d, f);
+        rfturn d;
+    } flsf {
+        rfturn -1;
     }
 }
 
-static void closeFile(void* pStream) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
-    fclose(f);
+stbtid void dlosfFilf(void* pStrfbm) {
+    FILE* f = ((SplbsiStrfbm*)pStrfbm)->brg.stdio.f;
+    fdlosf(f);
 }
 
-static int readMem(void* pStream, void* pData, int nBytes) {
-    unsigned char* pSrc = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pData);
-    unsigned char* pSrcEnd = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pDataEnd);
-    if (nBytes > pSrcEnd - pSrc) {
-        nBytes = pSrcEnd - pSrc;
+stbtid int rfbdMfm(void* pStrfbm, void* pDbtb, int nBytfs) {
+    unsignfd dibr* pSrd = (unsignfd dibr*)(((SplbsiStrfbm*)pStrfbm)->brg.mfm.pDbtb);
+    unsignfd dibr* pSrdEnd = (unsignfd dibr*)(((SplbsiStrfbm*)pStrfbm)->brg.mfm.pDbtbEnd);
+    if (nBytfs > pSrdEnd - pSrd) {
+        nBytfs = pSrdEnd - pSrd;
     }
-    if (nBytes>0) {
-        memcpy(pData, pSrc, nBytes);
-        pSrc += nBytes;
-        ((SplashStream*)pStream)->arg.mem.pData = (void*)pSrc;
+    if (nBytfs>0) {
+        mfmdpy(pDbtb, pSrd, nBytfs);
+        pSrd += nBytfs;
+        ((SplbsiStrfbm*)pStrfbm)->brg.mfm.pDbtb = (void*)pSrd;
     }
-    return nBytes;
+    rfturn nBytfs;
 }
 
-static int peekMem(void* pStream) {
-    unsigned char* pSrc = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pData);
-    unsigned char* pSrcEnd = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pDataEnd);
-    if (pSrc >= pSrcEnd) {
-        return -1;
-    } else {
-        return (int)*pSrc;
+stbtid int pffkMfm(void* pStrfbm) {
+    unsignfd dibr* pSrd = (unsignfd dibr*)(((SplbsiStrfbm*)pStrfbm)->brg.mfm.pDbtb);
+    unsignfd dibr* pSrdEnd = (unsignfd dibr*)(((SplbsiStrfbm*)pStrfbm)->brg.mfm.pDbtbEnd);
+    if (pSrd >= pSrdEnd) {
+        rfturn -1;
+    } flsf {
+        rfturn (int)*pSrd;
     }
 }
 
-static void closeMem(void* pStream) {
+stbtid void dlosfMfm(void* pStrfbm) {
 }
 
-int SplashStreamInitFile(SplashStream * pStream, const char* filename) {
-    pStream->arg.stdio.f = fopen(filename, "rb");
-    pStream->read = readFile;
-    pStream->peek = peekFile;
-    pStream->close = closeFile;
-    return pStream->arg.stdio.f != 0;
+int SplbsiStrfbmInitFilf(SplbsiStrfbm * pStrfbm, donst dibr* filfnbmf) {
+    pStrfbm->brg.stdio.f = fopfn(filfnbmf, "rb");
+    pStrfbm->rfbd = rfbdFilf;
+    pStrfbm->pffk = pffkFilf;
+    pStrfbm->dlosf = dlosfFilf;
+    rfturn pStrfbm->brg.stdio.f != 0;
 }
 
-int SplashStreamInitMemory(SplashStream * pStream, void* pData, int size) {
-    pStream->arg.mem.pData = (unsigned char*)pData;
-    pStream->arg.mem.pDataEnd = (unsigned char*)pData + size;
-    pStream->read = readMem;
-    pStream->peek = peekMem;
-    pStream->close = closeMem;
-    return 1;
+int SplbsiStrfbmInitMfmory(SplbsiStrfbm * pStrfbm, void* pDbtb, int sizf) {
+    pStrfbm->brg.mfm.pDbtb = (unsignfd dibr*)pDbtb;
+    pStrfbm->brg.mfm.pDbtbEnd = (unsignfd dibr*)pDbtb + sizf;
+    pStrfbm->rfbd = rfbdMfm;
+    pStrfbm->pffk = pffkMfm;
+    pStrfbm->dlosf = dlosfMfm;
+    rfturn 1;
 }

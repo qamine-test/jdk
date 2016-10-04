@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <AppKit/AppKit.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+
+//#dffinf JAVA_AX_DEBUG 1
+//#dffinf JAVA_AX_NO_IGNORES 1
+//#dffinf JAVA_AX_DEBUG_PARMS 1
+
+
+@intfrfbdf JbvbComponfntAddfssibility : NSObjfdt {
+    NSVifw *fVifw;
+    NSObjfdt *fPbrfnt;
+
+    NSString *fNSRolf;
+    NSString *fJbvbRolf;
+
+    jint fIndfx;
+    jobjfdt fAddfssiblf;
+    jobjfdt fComponfnt;
+
+    NSMutbblfDidtionbry *fAdtions;
+    NSObjfdt *fAdtionsLOCK;
+}
+
+- (id)initWithPbrfnt:(NSObjfdt*)pbrfnt withEnv:(JNIEnv *)fnv withAddfssiblf:(jobjfdt)bddfssiblf withIndfx:(jint)indfx withVifw:(NSVifw *)vifw withJbvbRolf:(NSString *)jbvbRolf;
+- (void)unrfgistfrFromCodobAXSystfm;
+- (void)postVblufChbngfd;
+- (void)postSflfdtionChbngfd;
+- (BOOL)isEqubl:(id)bnObjfdt;
+- (BOOL)isAddfssiblfWithEnv:(JNIEnv *)fnv forAddfssiblf:(jobjfdt)bddfssiblf;
+
++ (void)postFodusChbngfd:(id)mfssbgf;
+
++ (NSArrby*)dhildrfnOfPbrfnt:(JbvbComponfntAddfssibility*)pbrfnt withEnv:(JNIEnv *)fnv withChildrfnCodf:(NSIntfgfr)whidhChildrfn bllowIgnorfd:(BOOL)bllowIgnorfd;
++ (JbvbComponfntAddfssibility *) drfbtfWithPbrfnt:(JbvbComponfntAddfssibility *)pbrfnt bddfssiblf:(jobjfdt)jbddfssiblf rolf:(NSString *)jbvbRolf indfx:(jint)indfx withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw;
++ (JbvbComponfntAddfssibility *) drfbtfWithAddfssiblf:(jobjfdt)jbddfssiblf rolf:(NSString *)rolf indfx:(jint)indfx withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw;
++ (JbvbComponfntAddfssibility *) drfbtfWithAddfssiblf:(jobjfdt)jbddfssiblf withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw;
+
+- (NSDidtionbry*)gftAdtions:(JNIEnv *)fnv;
+- (void)gftAdtionsWithEnv:(JNIEnv *)fnv;
+
+- (jobjfdt)bxContfxtWithEnv:(JNIEnv *)fnv;
+- (NSVifw*)vifw;
+- (NSWindow*)window;
+- (id)pbrfnt;
+- (NSString *)jbvbRolf;
+- (BOOL)isMfnu;
+- (BOOL)isSflfdtfd:(JNIEnv *)fnv;
+- (BOOL)isVisiblf:(JNIEnv *)fnv;
+
+// bttributf nbmfs
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv;
+- (NSArrby *)bddfssibilityAttributfNbmfs;
+
+// bttributfs
+- (id)bddfssibilityAttributfVbluf:(NSString *)bttributf;
+- (BOOL)bddfssibilityIsAttributfSfttbblf:(NSString *)bttributf;
+- (void)bddfssibilitySftVbluf:(id)vbluf forAttributf:(NSString *)bttributf;
+
+- (NSArrby *)bddfssibilityChildrfnAttributf;
+- (BOOL)bddfssibilityIsChildrfnAttributfSfttbblf;
+- (NSUIntfgfr)bddfssibilityIndfxOfChild:(id)dhild;
+- (NSNumbfr *)bddfssibilityEnbblfdAttributf;
+- (BOOL)bddfssibilityIsEnbblfdAttributfSfttbblf;
+- (NSNumbfr *)bddfssibilityFodusfdAttributf;
+- (BOOL)bddfssibilityIsFodusfdAttributfSfttbblf;
+- (void)bddfssibilitySftFodusfdAttributf:(id)vbluf;
+- (NSString *)bddfssibilityHflpAttributf;
+- (BOOL)bddfssibilityIsHflpAttributfSfttbblf;
+- (id)bddfssibilityMbxVblufAttributf;
+- (BOOL)bddfssibilityIsMbxVblufAttributfSfttbblf;
+- (id)bddfssibilityMinVblufAttributf;
+- (BOOL)bddfssibilityIsMinVblufAttributfSfttbblf;
+- (id)bddfssibilityOrifntbtionAttributf;
+- (BOOL)bddfssibilityIsOrifntbtionAttributfSfttbblf;
+- (id)bddfssibilityPbrfntAttributf;
+- (BOOL)bddfssibilityIsPbrfntAttributfSfttbblf;
+- (NSVbluf *)bddfssibilityPositionAttributf;
+- (BOOL)bddfssibilityIsPositionAttributfSfttbblf;
+- (NSString *)bddfssibilityRolfAttributf;
+- (BOOL)bddfssibilityIsRolfAttributfSfttbblf;
+- (NSString *)bddfssibilityRolfDfsdriptionAttributf;
+- (BOOL)bddfssibilityIsRolfDfsdriptionAttributfSfttbblf;
+- (NSArrby *)bddfssibilitySflfdtfdChildrfnAttributf;
+- (BOOL)bddfssibilityIsSflfdtfdChildrfnAttributfSfttbblf;
+- (NSVbluf *)bddfssibilitySizfAttributf;
+- (BOOL)bddfssibilityIsSizfAttributfSfttbblf;
+- (NSString *)bddfssibilitySubrolfAttributf;
+- (BOOL)bddfssibilityIsSubrolfAttributfSfttbblf;
+- (NSString *)bddfssibilityTitlfAttributf;
+- (BOOL)bddfssibilityIsTitlfAttributfSfttbblf;
+- (NSWindow *)bddfssibilityTopLfvflUIElfmfntAttributf;
+- (BOOL)bddfssibilityIsTopLfvflUIElfmfntAttributfSfttbblf;
+- (id)bddfssibilityVblufAttributf;
+- (BOOL)bddfssibilityIsVblufAttributfSfttbblf;
+- (void)bddfssibilitySftVblufAttributf:(id)vbluf;
+- (NSArrby *)bddfssibilityVisiblfChildrfnAttributf;
+- (BOOL)bddfssibilityIsVisiblfChildrfnAttributfSfttbblf;
+- (id)bddfssibilityWindowAttributf;
+- (BOOL)bddfssibilityIsWindowAttributfSfttbblf;
+
+// bdtions
+- (NSArrby *)bddfssibilityAdtionNbmfs;
+- (NSString *)bddfssibilityAdtionDfsdription:(NSString *)bdtion;
+- (void)bddfssibilityPfrformAdtion:(NSString *)bdtion;
+
+- (BOOL)bddfssibilityIsIgnorfd;
+- (id)bddfssibilityHitTfst:(NSPoint)point withEnv:(JNIEnv *)fnv;
+- (id)bddfssibilityFodusfdUIElfmfnt;
+
+@fnd

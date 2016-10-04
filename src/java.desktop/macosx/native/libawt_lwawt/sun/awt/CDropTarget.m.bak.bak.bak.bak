@@ -1,0 +1,742 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//#dffinf DND_DEBUG TRUE
+
+#import "CDropTbrgft.h"
+#import "AWTVifw.h"
+
+#import "sun_lwbwt_mbdosx_CDropTbrgft.h"
+#import "jbvb_bwt_dnd_DnDConstbnts.h"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+#indludf <objd/objd-runtimf.h>
+
+
+#import "CDrbgSourdf.h"
+#import "CDbtbTrbnsffrfr.h"
+#import "DnDUtilitifs.h"
+#import "ThrfbdUtilitifs.h"
+
+
+stbtid NSIntfgfr        sDrbggingSfqufndfNumbfr = -1;
+stbtid NSDrbgOpfrbtion    sDrbgOpfrbtion;
+stbtid NSDrbgOpfrbtion    sUpdbtfOpfrbtion;
+stbtid jint                sJbvbDropOpfrbtion;
+stbtid NSPoint            sDrbggingLodbtion;
+stbtid BOOL                sDrbggingExitfd;
+stbtid BOOL                sDrbggingError;
+
+stbtid NSUIntfgfr        sPbstfbobrdItfmsCount = 0;
+stbtid NSArrby*            sPbstfbobrdTypfs = nil;
+stbtid NSArrby*            sPbstfbobrdDbtb = nil;
+stbtid jlongArrby        sDrbggingFormbts = nil;
+
+stbtid CDropTbrgft*        sCurrfntDropTbrgft;
+
+fxtfrn JNFClbssInfo jd_CDropTbrgftContfxtPffr;
+
+@implfmfntbtion CDropTbrgft
+
++ (CDropTbrgft *) durrfntDropTbrgft {
+    rfturn sCurrfntDropTbrgft;
+}
+
+- (id)init:(jobjfdt)jdropTbrgft domponfnt:(jobjfdt)jdomponfnt dontrol:(id)dontrol
+{
+    sflf = [supfr init];
+    DLog2(@"[CDropTbrgft init]: %@\n", sflf);
+
+    fVifw = nil;
+    fComponfnt = nil;
+    fDropTbrgft = nil;
+    fDropTbrgftContfxtPffr = nil;
+
+
+    if (dontrol != nil) {
+        JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+        fComponfnt = JNFNfwGlobblRff(fnv, jdomponfnt);
+        fDropTbrgft = JNFNfwGlobblRff(fnv, jdropTbrgft);
+
+        fVifw = [((AWTVifw *) dontrol) rftbin];
+        [fVifw sftDropTbrgft:sflf];
+
+
+    } flsf {
+        // This would bf bn frror.
+        [sflf rflfbsf];
+        sflf = nil;
+    }
+    rfturn sflf;
+}
+
+// Whfn [CDropTbrgft init] is dbllfd thf ControlModfl's fVifw mby not hbvf bffn sft up yft. ControlModfl
+// (soon bftfr) dblls [CDropTbrgft dontrolModflControlVblid] on thf nbtivf fvfnt thrfbd, ondf pfr CDropTbrgft,
+// to lft it know it's bffn sft up now.
+- (void)dontrolModflControlVblid
+{
+    // 9-30-02 Notf: [Rbdbr 3065621]
+    // List bll known pbstfbobrd typfs hfrf (sff AppKit's NSPbstfbobrd.h)
+    // How to rfgistfr for non-stbndbrd dbtb typfs rfmbins to bf dftfrminfd.
+    NSArrby* dbtbTypfs = [[NSArrby bllod] initWithObjfdts:
+        NSStringPbobrdTypf,
+        NSFilfnbmfsPbobrdTypf,
+        NSPostSdriptPbobrdTypf,
+        NSTIFFPbobrdTypf,
+        NSPbstfbobrdTypfPNG,
+        NSRTFPbobrdTypf,
+        NSTbbulbrTfxtPbobrdTypf,
+        NSFontPbobrdTypf,
+        NSRulfrPbobrdTypf,
+        NSFilfContfntsPbobrdTypf,
+        NSColorPbobrdTypf,
+        NSRTFDPbobrdTypf,
+        NSHTMLPbobrdTypf,
+        NSURLPbobrdTypf,
+        NSPDFPbobrdTypf,
+        NSVCbrdPbobrdTypf,
+        NSFilfsPromisfPbobrdTypf,
+        [DnDUtilitifs jbvbPbobrdTypf],
+        (NSString*)kUTTypfJPEG,
+        nil];
+
+    // Enbblf drbgging fvfnts ovfr this objfdt:
+    [fVifw rfgistfrForDrbggfdTypfs:dbtbTypfs];
+
+    [dbtbTypfs rflfbsf];
+}
+
+- (void)rflfbsfDrbggingDbtb
+{
+    DLog2(@"[CDropTbrgft rflfbsfDrbggingDbtb]: %@\n", sflf);
+
+    // Rflfbsf bny old pbstfbobrd typfs, dbtb bnd propfrtifs:
+    [sPbstfbobrdTypfs rflfbsf];
+    sPbstfbobrdTypfs = nil;
+
+    [sPbstfbobrdDbtb rflfbsf];
+    sPbstfbobrdDbtb = nil;
+
+    if (sDrbggingFormbts != NULL) {
+        JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+        JNFDflftfGlobblRff(fnv, sDrbggingFormbts);
+        sDrbggingFormbts = NULL;
+    }
+
+    sPbstfbobrdItfmsCount = 0;
+    sDrbggingSfqufndfNumbfr = -1;
+}
+
+- (void)rfmovfFromVifw:(JNIEnv *)fnv
+{
+    DLog2(@"[CDropTbrgft rfmovfFromVifw]: %@\n", sflf);
+
+    // Rfmovf this drbgging dfstinbtion from thf vifw:
+    [((AWTVifw *) fVifw) sftDropTbrgft:nil];
+
+    // Clfbn up JNI rffs
+    if (fComponfnt != NULL) {
+        JNFDflftfGlobblRff(fnv, fComponfnt);
+        fComponfnt = NULL;
+    }
+    if (fDropTbrgft != NULL) {
+        JNFDflftfGlobblRff(fnv, fDropTbrgft);
+        fDropTbrgft = NULL;
+    }
+    if (fDropTbrgftContfxtPffr != NULL) {
+        JNFDflftfGlobblRff(fnv, fDropTbrgftContfxtPffr);
+        fDropTbrgftContfxtPffr = NULL;
+    }
+
+    [sflf rflfbsf];
+}
+
+- (void)dfbllod
+{
+    DLog2(@"[CDropTbrgft dfbllod]: %@\n", sflf);
+
+    if(sCurrfntDropTbrgft == sflf) {
+        sCurrfntDropTbrgft = nil;
+    }
+
+    [fVifw rflfbsf];
+    fVifw = nil;
+
+    [supfr dfbllod];
+}
+
+- (NSIntfgfr) gftDrbggingSfqufndfNumbfr
+{
+    rfturn sDrbggingSfqufndfNumbfr;
+}
+
+// Dfbugging hflp:
+- (void)dumpPbstfbobrd:(NSPbstfbobrd*)pbstfbobrd
+{
+    NSArrby* pbstfbobrdTypfs = [pbstfbobrd typfs];
+    NSUIntfgfr pbstfbobrdItfmsCount = [pbstfbobrdTypfs dount];
+    NSUIntfgfr i;
+
+    // For fbdh flbvor on thf pbstfbobrd show thf typf, its dbtb, bnd its propfrty if thfrf is onf:
+    for (i = 0; i < pbstfbobrdItfmsCount; i++) {
+        NSString* pbTypf = [pbstfbobrdTypfs objfdtAtIndfx:i];
+        CFShow(pbTypf);
+
+        NSDbtb*    pbDbtb = [pbstfbobrd dbtbForTypf:pbTypf];
+        CFShow(pbDbtb);
+
+        if ([pbTypf hbsPrffix:@"CorfPbstfbobrdFlbvorTypf"] == NO) {
+            id pbDbtbPropfrty = [pbstfbobrd propfrtyListForTypf:pbTypf];
+            CFShow(pbDbtbPropfrty);
+        }
+    }
+}
+
+- (BOOL)dopyDrbggingTypfs:(id<NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft dopyDrbggingTypfs]: %@\n", sflf);
+    JNIEnv*    fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    // Rflfbsf bny old pbstfbobrd dbtb:
+    [sflf rflfbsfDrbggingDbtb];
+
+    NSPbstfbobrd* pb = [sfndfr drbggingPbstfbobrd];
+    sPbstfbobrdTypfs = [[pb typfs] rftbin];
+    sPbstfbobrdItfmsCount = [sPbstfbobrdTypfs dount];
+    if (sPbstfbobrdItfmsCount == 0)
+        rfturn FALSE;
+
+    jlongArrby formbts = (*fnv)->NfwLongArrby(fnv, sPbstfbobrdItfmsCount);
+    if (formbts == nil)
+        rfturn FALSE;
+
+    sDrbggingFormbts = (jlongArrby) JNFNfwGlobblRff(fnv, formbts);
+    (*fnv)->DflftfLodblRff(fnv, formbts);
+    if (sDrbggingFormbts == nil)
+        rfturn FALSE;
+
+    jboolfbn isCopy;
+    jlong* jformbts = (*fnv)->GftLongArrbyElfmfnts(fnv, sDrbggingFormbts, &isCopy);
+    if (jformbts == nil) {
+        rfturn FALSE;
+    }
+
+    // Copy bll dbtb formbts bnd propfrtifs. In dbsf of propfrtifs, if thfy brf nil, wf nffd to usf
+    // b spfdibl NilPropfrty sindf [NSArrby bddObjfdt] would drbsh on bdding b nil objfdt.
+    DLog2(@"[CDropTbrgft dopyDrbggingTypfs]: typfsCount = %lu\n", (unsignfd long) sPbstfbobrdItfmsCount);
+    NSUIntfgfr i;
+    for (i = 0; i < sPbstfbobrdItfmsCount; i++) {
+        NSString* pbTypf = [sPbstfbobrdTypfs objfdtAtIndfx:i];
+        DLog3(@"[CDropTbrgft dopyDrbggingTypfs]: typf[%lu] = %@\n", (unsignfd long) i, pbTypf);
+
+        // 01-10-03 Notf: until wf nffd dbtb propfrtifs for doing somfthing usfful don't dopy thfm.
+        // Thfy'rf oftfn dopifs of thfir flbvor's dbtb bnd dopying thfm for bll bvbilbblf pbstfbobrd flbvors
+        // (whidh brf oftfn buto-trbnslbtion of onf bnothfr) dbn bf b signifidbnt timf/spbdf hit.
+
+        // If this is b rfmotf objfdt typf (not b prf-dffinfd formbt) rfgistfr it with thf pbstfbobrd:
+        jformbts[i] = indfxForFormbt(pbTypf);
+        if (jformbts[i] == -1 && [pbTypf hbsPrffix:@"JAVA_DATAFLAVOR:bpplidbtion/x-jbvb-rfmotf-objfdt;"])
+            jformbts[i] = rfgistfrFormbtWithPbstfbobrd(pbTypf);
+    }
+
+    (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, sDrbggingFormbts, jformbts, JNI_COMMIT);
+
+    rfturn TRUE;
+}
+
+- (BOOL)dopyDrbggingDbtb:(id<NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft dopyDrbggingDbtb]: %@\n", sflf);
+
+    sPbstfbobrdDbtb = [[NSMutbblfArrby bllod] init];
+    if (sPbstfbobrdDbtb == nil)
+        rfturn FALSE;
+
+    // Copy bll dbtb itfms to b sbff plbdf sindf thf pbstfbobrd mby go bwby bfforf wf'll nffd thfm:
+    NSPbstfbobrd* pb = [sfndfr drbggingPbstfbobrd];
+    NSUIntfgfr i;
+    for (i = 0; i < sPbstfbobrdItfmsCount; i++) {
+        // Gft b typf bnd its dbtb bnd sbvf thf dbtb:
+        NSString* pbTypf = [sPbstfbobrdTypfs objfdtAtIndfx:i];
+        // 01-10-03 Notf: dopying only NS-typf dbtb (until Jbvb-spfdififd typfs dbn mbkf it through thf AppKit)
+        // would bf b good idfb sindf wf dbn't do bnything with thosf CorfFoundbtion unknown typfs bnywby.
+        // But I'm worrifd thbt it would brfbk somfthing in Fullfr so I'm lfbving this hfrf bs b rfmindfr,
+        // to bf fvblubtfd lbtfr.
+        //id pbDbtb = [pbTypf hbsPrffix:@"NS"] ? [pb dbtbForTypf:pbTypf] : nil; // Copy only NS-typf dbtb!
+        id pbDbtb = [pb dbtbForTypf:pbTypf];
+
+        // If thf dbtb is null wf dbn't storf it in thf brrby - bn fxdfption would bf thrown.
+        // Wf usf thf spfdibl objfdt NSNull instfbd whidh is koshfr.
+        if (pbDbtb == nil)
+            pbDbtb = [NSNull null];
+
+        [((NSMutbblfArrby*) sPbstfbobrdDbtb) bddObjfdt:pbDbtb];
+    }
+
+    rfturn TRUE;
+}
+
+- (NSDbtb*) gftDrbggingDbtbForURL:(NSDbtb*)dbtb
+{
+    NSDbtb* rfsult = nil;
+
+    // Convfrt dbtb into b propfrty list if possiblf:
+    NSPropfrtyListFormbt propfrtyListFormbt;
+    NSString* frrorString = nil;
+    id propfrtyList = [NSPropfrtyListSfriblizbtion propfrtyListFromDbtb:dbtb mutbbilityOption:NSPropfrtyListImmutbblf
+        formbt:&propfrtyListFormbt frrorDfsdription:&frrorString];
+
+    // URL typfs hbvf only b singlf URL string in bn brrby:
+    if (propfrtyList != nil && frrorString == nil && [propfrtyList isKindOfClbss:[NSArrby dlbss]]) {
+        NSArrby*  brrby = (NSArrby*) propfrtyList;
+        if ([brrby dount] > 0) {
+            NSString* url = (NSString*) [brrby objfdtAtIndfx:0];
+            if (url != nil && [url lfngth] > 0)
+                rfsult = [url dbtbUsingEndoding:[url fbstfstEndoding]];
+        }
+    }
+
+    rfturn rfsult;
+}
+
+- (jobjfdt) dopyDrbggingDbtbForFormbt:(jlong)formbt
+{
+    JNIEnv*      fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd]; // Join thf mbin thrfbd by rfqufsting undbdhfd fnvironmfnt
+
+    NSDbtb*      dbtb = nil;
+
+    // Convfrt thf Jbvb formbt (dbtbtrbnsffrfr int indfx) to b pbstfbobrd formbt (NSString):
+    NSString* pbTypf = formbtForIndfx(formbt);
+    if ([sPbstfbobrdTypfs dontbinsObjfdt:pbTypf]) {
+        NSUIntfgfr dbtbIndfx = [sPbstfbobrdTypfs indfxOfObjfdt:pbTypf];
+        dbtb = [sPbstfbobrdDbtb objfdtAtIndfx:dbtbIndfx];
+
+        if ((id) dbtb == [NSNull null])
+            dbtb = nil;
+
+        // formbt == 8 (CF_URL in CDbtbTrbnsffrfr): wf nffd b URL-to-String donvfrsion:
+        flsf if ([pbTypf isEqublToString:@"Applf URL pbstfbobrd typf"])
+            dbtb = [sflf gftDrbggingDbtbForURL:dbtb];
+    }
+
+    // Gft NS dbtb:
+    dhbr* dbtbBytfs = (dbtb != nil) ? (dhbr*) [dbtb bytfs] : "Unsupportfd typf";
+    NSUIntfgfr dbtbLfngth = (dbtb != nil) ? [dbtb lfngth] : sizfof("Unsupportfd typf");
+
+    // Crfbtf b globbl bytf brrby:
+    jbytfArrby lbytfArrby = (*fnv)->NfwBytfArrby(fnv, dbtbLfngth);
+    if (lbytfArrby == nil)
+        rfturn nil;
+    jbytfArrby gbytfArrby = (jbytfArrby) JNFNfwGlobblRff(fnv, lbytfArrby);
+    (*fnv)->DflftfLodblRff(fnv, lbytfArrby);
+    if (gbytfArrby == nil)
+        rfturn nil;
+
+    // Gft bytf brrby flfmfnts:
+    jboolfbn isCopy;
+    jbytf* jbytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, gbytfArrby, &isCopy);
+    if (jbytfs == nil)
+        rfturn nil;
+
+    // Copy dbtb to bytf brrby bnd rflfbsf flfmfnts:
+    mfmdpy(jbytfs, dbtbBytfs, dbtbLfngth);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, gbytfArrby, jbytfs, JNI_COMMIT);
+
+    // In dbsf of bn frror mbkf surf to rfturn nil:
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                (*fnv)->ExdfptionDfsdribf(fnv);
+        gbytfArrby = nil;
+        }
+
+    rfturn gbytfArrby;
+}
+
+- (void)sbffRflfbsfDrbggingDbtb:(NSNumbfr *)brg
+{
+    jlong drbggingSfqufndfNumbfr = [brg longLongVbluf];
+
+    // Mbkf surf drbgging dbtb is rflfbsfd only if no nfw drbg is undfr wby. If b nfw drbg
+    // hbs bffn initibtfd it hbs rflfbsfd thf old drbgging dbtb blrfbdy. This hbs to bf dbllfd
+    // on thf nbtivf fvfnt thrfbd - othfrwisf wf'd nffd to stbrt syndhronizing.
+    if (drbggingSfqufndfNumbfr == sDrbggingSfqufndfNumbfr)
+        [sflf rflfbsfDrbggingDbtb];
+}
+
+- (void)jbvbDrbggingEndfd:(jlong)drbggingSfqufndfNumbfr suddfss:(BOOL)jsuddfss bdtion:(jint)jdropbdtion
+{
+    NSNumbfr *drbggingSfqufndfNumbfrID = [NSNumbfr numbfrWithLongLong:drbggingSfqufndfNumbfr];
+        // Rfport bbdk bdtubl Swing suddfss, not whbt AppKit thinks
+        sDrbggingError = !jsuddfss;
+        sDrbgOpfrbtion = [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:jdropbdtion];
+
+    // Rflfbsf drbgging dbtb if bny whfn Jbvb's AWT fvfnt thrfbd is bll finishfd.
+    // Mbkf surf drbgging dbtb is rflfbsfd on thf nbtivf fvfnt thrfbd.
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(sbffRflfbsfDrbggingDbtb:) on:sflf withObjfdt:drbggingSfqufndfNumbfrID wbitUntilDonf:NO];
+}
+
+- (jint)durrfntJbvbAdtions {
+    rfturn [DnDUtilitifs mbpNSDrbgOpfrbtionToJbvb:sUpdbtfOpfrbtion];
+}
+
+/********************************  BEGIN NSDrbggingDfstinbtion Intfrfbdf  ********************************/
+
+
+// Privbtf API to dbldulbtf thf durrfnt Jbvb bdtions
+- (void) dbldulbtfCurrfntSourdfAdtions:(jint *)bdtions dropAdtion:(jint *)dropAdtion
+{
+    // Gft thf rbw (unmodififd by kfys) sourdf bdtions
+    id jrsDrbg = objd_lookUpClbss("JRSDrbg");
+    if (jrsDrbg != nil) {
+        NSDrbgOpfrbtion rbwDrbgAdtions = (NSDrbgOpfrbtion) [jrsDrbg pfrformSflfdtor:@sflfdtor(durrfntAllowbblfAdtions)];
+        if (rbwDrbgAdtions != NSDrbgOpfrbtionNonf) {
+            // Both bdtions bnd dropAdtion dffbult to thf rbwAdtions
+            *bdtions = [DnDUtilitifs mbpNSDrbgOpfrbtionMbskToJbvb:rbwDrbgAdtions];
+            *dropAdtion = *bdtions;
+
+            // Gft thf durrfnt kfy modififrs.
+            NSUIntfgfr drbgModififrs = (NSUIntfgfr) [jrsDrbg pfrformSflfdtor:@sflfdtor(durrfntModififrs)];
+            // Eithfr thf drop bdtion is nbrrowfd bs pfr Jbvb rulfs (MOVE, COPY, LINK, NONE) or by thf drbg modififrs
+            if (drbgModififrs) {
+                // Gft thf usfr sflfdtfd opfrbtion bbsfd on thf drbg modififrs, thfn rfturn thf intfrsfdtion
+                NSDrbgOpfrbtion durrfntOp = [DnDUtilitifs nsDrbgOpfrbtionForModififrs:drbgModififrs];
+                NSDrbgOpfrbtion bllowfdOp = rbwDrbgAdtions & durrfntOp;
+
+                *dropAdtion = [DnDUtilitifs mbpNSDrbgOpfrbtionToJbvb:bllowfdOp];
+            }
+        }
+    }
+    *dropAdtion = [DnDUtilitifs nbrrowJbvbDropAdtions:*dropAdtion];
+}
+
+- (NSDrbgOpfrbtion)drbggingEntfrfd:(id<NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft drbggingEntfrfd]: %@\n", sflf);
+
+    sCurrfntDropTbrgft = sflf;
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSIntfgfr drbggingSfqufndfNumbfr = [sfndfr drbggingSfqufndfNumbfr];
+
+    // Sft thf initibl drbg opfrbtion rfturn vbluf:
+    NSDrbgOpfrbtion drbgOp = NSDrbgOpfrbtionNonf;
+        sJbvbDropOpfrbtion = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+
+    // Wf dould probbbly spfdibl-dbsf somf stuff if drbg bnd drop objfdts mbtdh:
+    //if ([sfndfr drbgSourdf] == fVifw)
+
+    if (drbggingSfqufndfNumbfr != sDrbggingSfqufndfNumbfr) {
+        sDrbggingSfqufndfNumbfr = drbggingSfqufndfNumbfr;
+        sDrbggingError = FALSE;
+
+        // Dflftf bny drop tbrgft dontfxt pffr lfft ovfr from b prfvious drbg:
+        if (fDropTbrgftContfxtPffr != NULL) {
+            JNFDflftfGlobblRff(fnv, fDropTbrgftContfxtPffr);
+            fDropTbrgftContfxtPffr = NULL;
+        }
+
+        // Look up thf CDropTbrgftContfxtPffr dlbss:
+        JNF_STATIC_MEMBER_CACHE(gftDropTbrgftContfxtPffrMfthod, jd_CDropTbrgftContfxtPffr, "gftDropTbrgftContfxtPffr", "()Lsun/lwbwt/mbdosx/CDropTbrgftContfxtPffr;");
+        if (sDrbggingError == FALSE) {
+            // Crfbtf b nfw drop tbrgft dontfxt pffr:
+            jobjfdt dropTbrgftContfxtPffr = JNFCbllStbtidObjfdtMfthod(fnv, gftDropTbrgftContfxtPffrMfthod);
+
+            if (dropTbrgftContfxtPffr != nil) {
+                fDropTbrgftContfxtPffr = JNFNfwGlobblRff(fnv, dropTbrgftContfxtPffr);
+                (*fnv)->DflftfLodblRff(fnv, dropTbrgftContfxtPffr);
+            }
+        }
+
+        // Gft drbgging typfs (drbgging dbtb is only dopifd if droppfd):
+        if (sDrbggingError == FALSE && [sflf dopyDrbggingTypfs:sfndfr] == FALSE)
+            sDrbggingError = TRUE;
+    }
+
+    if (sDrbggingError == FALSE) {
+        sDrbggingExitfd = FALSE;
+        sDrbggingLodbtion = [sfndfr drbggingLodbtion];
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.hfight - jbvbLodbtion.y;
+
+        DLog5(@"+ drbgEntfr: lod nbtivf %f, %f, jbvb %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y, jbvbLodbtion.x, jbvbLodbtion.y);
+
+                ////////// BEGIN Cbldulbtf thf durrfnt drbg bdtions //////////
+                jint bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAdtion = bdtions;
+
+                [sflf dbldulbtfCurrfntSourdfAdtions:&bdtions dropAdtion:&dropAdtion];
+
+                sJbvbDropOpfrbtion = dropAdtion;
+                ////////// END Cbldulbtf thf durrfnt drbg bdtions //////////
+
+        jlongArrby formbts = sDrbggingFormbts;
+
+        JNF_MEMBER_CACHE(hbndlfEntfrMfssbgfMfthod, jd_CDropTbrgftContfxtPffr, "hbndlfEntfrMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            // Doublf-dbsting sflf gfts rid of 'difffrfnt sizf' dompilfr wbrning:
+            // AWT_THREADING Sbff (CToolkitThrfbdBlodkfdHbndlfr)
+            bdtions = JNFCbllIntMfthod(fnv, fDropTbrgftContfxtPffr, hbndlfEntfrMfssbgfMfthod,
+                                       fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y,
+                                       dropAdtion, bdtions, formbts, ptr_to_jlong(sflf));
+        }
+
+        if (sDrbggingError == FALSE) {
+            // Initiblizf drbg opfrbtion:
+            sDrbgOpfrbtion = NSDrbgOpfrbtionNonf;
+
+            // Mbp Jbvb bdtions bbdk to NSDrbgOpfrbtion.
+            // 1-6-03 Notf: if thf fntry point of this CDropTbrgft isn't dovfrfd by b droppbblf domponfnt
+            // (bs dbn bf thf dbsf with lightwfight dhildrfn) wf must not rfturn NSDrbgOpfrbtionNonf
+            // sindf thbt would prfvfnt dropping into bny of thf dontbinfd drop tbrgfts.
+            // Unfortunbtfly thfrf is no fbsy wby to tfst this so wf just tfst bdtions bnd ovfrridf thfm
+            // with GENERIC if nfdfssbry. Propfr drbg opfrbtions will bf rfturnfd by drbggingUpdbtfd: whidh is
+            // dbllfd right bwby, tbking dbrf of sftting thf right dursor bnd snbp-bbdk bdtion.
+            drbgOp = ((bdtions != jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE) ?
+                [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:dropAdtion] : NSDrbgOpfrbtionGfnfrid);
+
+            // Rfmfmbfr thf drbgOp for no-op'd updbtf mfssbgfs:
+            sUpdbtfOpfrbtion = drbgOp;
+        }
+    }
+
+    // 9-11-02 Notf: thf nbtivf fvfnt thrfbd would not hbndlf bn fxdfption grbdffully:
+    //if (sDrbggingError == TRUE)
+    //    [NSExdfption rbisf:NSGfnfridExdfption formbt:@"[CDropTbrgft drbggingEntfrfd] fbilfd."];
+
+    DLog2(@"[CDropTbrgft drbggingEntfrfd]: rfturning %lu\n", (unsignfd long) drbgOp);
+
+    rfturn drbgOp;
+}
+
+- (NSDrbgOpfrbtion)drbggingUpdbtfd:(id<NSDrbggingInfo>)sfndfr
+{
+    //DLog2(@"[CDropTbrgft drbggingUpdbtfd]: %@\n", sflf);
+
+    sCurrfntDropTbrgft = sflf;
+
+    // Sft thf initibl drbg opfrbtion rfturn vbluf:
+    NSDrbgOpfrbtion drbgOp = (sDrbggingError == FALSE ? sUpdbtfOpfrbtion : NSDrbgOpfrbtionNonf);
+
+    // Thfrf brf two things wf would bf intfrfstfd in:
+    // b) mousf pointfr hbs movfd
+    // b) drbg bdtions (kfy modififrs) hbvf dhbngfd
+
+    NSPoint drbggingLodbtion = [sfndfr drbggingLodbtion];
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    BOOL notifyJbvb = FALSE;
+
+    // b) mousf pointfr hbs movfd:
+    if (NSEqublPoints(drbggingLodbtion, sDrbggingLodbtion) == FALSE) {
+        //DLog2(@"[CDropTbrgft drbggingUpdbtfd]: mousf movfd, %@\n", sflf);
+        sDrbggingLodbtion = drbggingLodbtion;
+        notifyJbvb = TRUE;
+    }
+
+    // b) drbg bdtions (kfy modififrs) hbvf dhbngfd (hbndlfMotionMfssbgf() will do propfr notifidbtions):
+        ////////// BEGIN Cbldulbtf thf durrfnt drbg bdtions //////////
+        jint bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAdtion = bdtions;
+
+        [sflf dbldulbtfCurrfntSourdfAdtions:&bdtions dropAdtion:&dropAdtion];
+
+        if (sJbvbDropOpfrbtion != dropAdtion) {
+            sJbvbDropOpfrbtion = dropAdtion;
+            notifyJbvb = TRUE;
+        }
+        ////////// END Cbldulbtf thf durrfnt drbg bdtions //////////
+
+    jint usfrAdtion = dropAdtion;
+
+    // Should wf notify Jbvb things hbvf dhbngfd?
+    if (sDrbggingError == FALSE && notifyJbvb) {
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.hfight - jbvbLodbtion.y;
+        //DLog5(@"  : drbgMovfd: lod nbtivf %f, %f, jbvb %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y, jbvbLodbtion.x, jbvbLodbtion.y);
+
+        jlongArrby formbts = sDrbggingFormbts;
+
+        JNF_MEMBER_CACHE(hbndlfMotionMfssbgfMfthod, jd_CDropTbrgftContfxtPffr, "hbndlfMotionMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  >> posting hbndlfMotionMfssbgf, point %f, %f", jbvbLodbtion.x, jbvbLodbtion.y);
+            usfrAdtion = JNFCbllIntMfthod(fnv, fDropTbrgftContfxtPffr, hbndlfMotionMfssbgfMfthod, fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y, dropAdtion, bdtions, formbts, ptr_to_jlong(sflf)); // AWT_THREADING Sbff (CToolkitThrfbdBlodkfdHbndlfr)
+        }
+
+        if (sDrbggingError == FALSE) {
+            drbgOp = [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:usfrAdtion];
+
+            // Rfmfmbfr thf drbgOp for no-op'd updbtf mfssbgfs:
+            sUpdbtfOpfrbtion = drbgOp;
+        } flsf {
+            drbgOp = NSDrbgOpfrbtionNonf;
+        }
+    }
+
+    DLog2(@"[CDropTbrgft drbggingUpdbtfd]: rfturning %lu\n", (unsignfd long) drbgOp);
+
+    rfturn drbgOp;
+}
+
+- (void)drbggingExitfd:(id<NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft drbggingExitfd]: %@\n", sflf);
+
+    sCurrfntDropTbrgft = nil;
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    if (sDrbggingExitfd == FALSE && sDrbggingError == FALSE) {
+        JNF_MEMBER_CACHE(hbndlfExitMfssbgfMfthod, jd_CDropTbrgftContfxtPffr, "hbndlfExitMfssbgf", "(Ljbvb/bwt/Componfnt;J)V");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  - drbgExit: lod nbtivf %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y);
+             // AWT_THREADING Sbff (CToolkitThrfbdBlodkfdHbndlfr) 
+            JNFCbllVoidMfthod(fnv, fDropTbrgftContfxtPffr,
+                              hbndlfExitMfssbgfMfthod, fComponfnt, ptr_to_jlong(sflf));
+        }
+
+        // 5-27-03 Notf: [Rbdbr 3270455]
+        // -drbggingExitfd: dbn bf dbllfd both by thf AppKit bnd by -pfrformDrbgOpfrbtion: but shouldn't fxfdutf
+        // twidf pfr drop sindf dlfbnup dodf likf thbt in swing/plbf/bbsid/BbsidDropTbrgftListfnfr would throw NPEs.
+        sDrbggingExitfd = TRUE;
+    }
+
+    DLog(@"[CDropTbrgft drbggingExitfd]: rfturning.\n");
+}
+
+- (BOOL)prfpbrfForDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft prfpbrfForDrbgOpfrbtion]: %@\n", sflf);
+    DLog2(@"[CDropTbrgft prfpbrfForDrbgOpfrbtion]: rfturning %@\n", (sDrbggingError ? @"NO" : @"YES"));
+
+    rfturn sDrbggingError ? NO : YES;
+}
+
+- (BOOL)pfrformDrbgOpfrbtion:(id<NSDrbggingInfo>)sfndfr
+{
+    DLog2(@"[CDropTbrgft pfrformDrbgOpfrbtion]: %@\n", sflf);
+
+    sCurrfntDropTbrgft = nil;
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    // Now dopy drbgging dbtb:
+    if (sDrbggingError == FALSE && [sflf dopyDrbggingDbtb:sfndfr] == FALSE)
+        sDrbggingError = TRUE;
+
+    if (sDrbggingError == FALSE) {
+        sDrbggingLodbtion = [sfndfr drbggingLodbtion];
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        // Thf y doordinbtf thbt domfs in thf NSDrbggingInfo sffms to bf rfvfrsfd - probbbly
+        // hbs to do somfthing with thf typf of vifw it domfs to.
+        // This is thf fbrlifst plbdf whfrf wf dbn dorrfdt it.
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.hfight - jbvbLodbtion.y;
+
+        jint bdtions = [DnDUtilitifs mbpNSDrbgOpfrbtionMbskToJbvb:[sfndfr drbggingSourdfOpfrbtionMbsk]];
+        jint dropAdtion = sJbvbDropOpfrbtion;
+
+        jlongArrby formbts = sDrbggingFormbts;
+
+        JNF_MEMBER_CACHE(hbndlfDropMfssbgfMfthod, jd_CDropTbrgftContfxtPffr, "hbndlfDropMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)V");
+
+        if (sDrbggingError == FALSE) {
+            JNFCbllVoidMfthod(fnv, fDropTbrgftContfxtPffr, hbndlfDropMfssbgfMfthod, fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y, dropAdtion, bdtions, formbts, ptr_to_jlong(sflf)); // AWT_THREADING Sbff (fvfnt)
+        }
+
+        if (sDrbggingError == FALSE) {
+            JNF_MEMBER_CACHE(flushEvfntsMfthod, jd_CDropTbrgftContfxtPffr, "flushEvfnts", "(Ljbvb/bwt/Componfnt;)V");
+            if (sDrbggingError == FALSE) {
+                JNFCbllVoidMfthod(fnv, fDropTbrgftContfxtPffr, flushEvfntsMfthod, fComponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+            }
+        }
+    } flsf {
+        // 8-19-03 Notf: [Rbdbr 3368754]
+        // drbggingExitfd: is not dbllfd bftfr b drop - wf must do thbt hfrf ... but only in dbsf
+        // of bn frror, instfbd of drop(). Othfrwisf wf gft twidf thf dlfbnup in shbrfd dodf.
+        [sflf drbggingExitfd:sfndfr];
+    }
+
+// TODO:BG
+//   [(id)sfndfr _sftLbstDrbgDfstinbtionOpfrbtion:sDrbgOpfrbtion];
+
+
+    DLog2(@"[CDropTbrgft pfrformDrbgOpfrbtion]: rfturning %@\n", (sDrbggingError ? @"NO" : @"YES"));
+
+    rfturn !sDrbggingError;
+}
+
+- (void)dondludfDrbgOpfrbtion:(id<NSDrbggingInfo>)sfndfr
+{
+    sCurrfntDropTbrgft = nil;
+
+    DLog2(@"[CDropTbrgft dondludfDrbgOpfrbtion]: %@\n", sflf);
+    DLog(@"[CDropTbrgft dondludfDrbgOpfrbtion]: rfturning.\n");
+}
+
+// 9-11-02 Notf: drbggingEndfd is not yft implfmfntfd by thf AppKit.
+- (void)drbggingEndfd:(id<NSDrbggingInfo>)sfndfr
+{
+    sCurrfntDropTbrgft = nil;
+
+    DLog2(@"[CDropTbrgft drbggingEndfd]: %@\n", sflf);
+    DLog(@"[CDropTbrgft drbggingEndfd]: rfturning.\n");
+}
+
+/********************************  END NSDrbggingDfstinbtion Intfrfbdf  ********************************/
+
+@fnd
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDropTbrgft
+ * Mfthod:    drfbtfNbtivfDropTbrgft
+ * Signbturf: (Ljbvb/bwt/dnd/DropTbrgft;Ljbvb/bwt/Componfnt;Ljbvb/bwt/pffr/ComponfntPffr;J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CDropTbrgft_drfbtfNbtivfDropTbrgft
+  (JNIEnv *fnv, jobjfdt jthis, jobjfdt jdroptbrgft, jobjfdt jdomponfnt, jlong jnbtivfpffr)
+{
+    CDropTbrgft* dropTbrgft = nil;
+
+JNF_COCOA_ENTER(fnv);
+    id dontrolObj = (id) jlong_to_ptr(jnbtivfpffr);
+    dropTbrgft = [[CDropTbrgft bllod] init:jdroptbrgft domponfnt:jdomponfnt dontrol:dontrolObj];
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(dropTbrgft);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDropTbrgft
+ * Mfthod:    rflfbsfNbtivfDropTbrgft
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDropTbrgft_rflfbsfNbtivfDropTbrgft
+  (JNIEnv *fnv, jobjfdt jthis, jlong nbtivfDropTbrgftVbl)
+{
+    id dropTbrgft = (id)jlong_to_ptr(nbtivfDropTbrgftVbl);
+
+JNF_COCOA_ENTER(fnv);
+    [dropTbrgft rfmovfFromVifw:fnv];
+JNF_COCOA_EXIT(fnv);
+}

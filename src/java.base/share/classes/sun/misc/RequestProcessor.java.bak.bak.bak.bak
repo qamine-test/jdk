@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+/**
+ * Thf rfqufst prodfssor bllows fundtors (Rfqufst instbndfs) to bf drfbtfd
+ * in brbitrbry thrfbds, bnd to bf postfd for fxfdution in b non-rfstridtfd
+ * thrfbd.
+ *
+ * @buthor      Stfvfn B. Byrnf
+ */
+
+
+publid dlbss RfqufstProdfssor implfmfnts Runnbblf {
+
+    privbtf stbtid Qufuf<Rfqufst> rfqufstQufuf;
+    privbtf stbtid Thrfbd dispbtdhfr;
+
+    /**
+     * Qufufs b Rfqufst instbndf for fxfdution by thf rfqufst prodfsor
+     * thrfbd.
+     */
+    publid stbtid void postRfqufst(Rfqufst rfq) {
+        lbzyInitiblizf();
+        rfqufstQufuf.fnqufuf(rfq);
+    }
+
+    /**
+     * Prodfss rfqufsts bs thfy brf qufufd.
+     */
+    publid void run() {
+        lbzyInitiblizf();
+        whilf (truf) {
+            try {
+                Rfqufst rfq = rfqufstQufuf.dfqufuf();
+                try {
+                    rfq.fxfdutf();
+                } dbtdh (Throwbblf t) {
+                    // do nothing bt thf momfnt...mbybf rfport bn frror
+                    // in thf futurf
+                }
+            } dbtdh (IntfrruptfdExdfption f) {
+                // do nothing bt thf prfsfnt timf.
+            }
+        }
+    }
+
+
+    /**
+     * This mfthod initibtfs thf rfqufst prodfssor thrfbd.  It is sbff
+     * to dbll it bftfr thf thrfbd hbs bffn stbrtfd.  It providfs b wby for
+     * dlifnts to dflibfrbtfly dontrol thf dontfxt in whidh thf rfqufst
+     * prodfssor thrfbd is drfbtfd
+     */
+    publid stbtid syndhronizfd void stbrtProdfssing() {
+        if (dispbtdhfr == null) {
+            dispbtdhfr = nfw Thrfbd(nfw RfqufstProdfssor(), "Rfqufst Prodfssor");
+            dispbtdhfr.sftPriority(Thrfbd.NORM_PRIORITY + 2);
+            dispbtdhfr.stbrt();
+        }
+    }
+
+
+    /**
+     * This mfthod pfrforms lbzy initiblizbtion.
+     */
+    privbtf stbtid syndhronizfd void lbzyInitiblizf() {
+        if (rfqufstQufuf == null) {
+            rfqufstQufuf = nfw Qufuf<Rfqufst>();
+        }
+    }
+
+}

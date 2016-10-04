@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * An itfrbtor ovfr b dollfdtion.  {@dodf Itfrbtor} tbkfs thf plbdf of
+ * {@link Enumfrbtion} in thf Jbvb Collfdtions Frbmfwork.  Itfrbtors
+ * difffr from fnumfrbtions in two wbys:
+ *
+ * <ul>
+ *      <li> Itfrbtors bllow thf dbllfr to rfmovf flfmfnts from thf
+ *           undfrlying dollfdtion during thf itfrbtion with wfll-dffinfd
+ *           sfmbntids.
+ *      <li> Mfthod nbmfs hbvf bffn improvfd.
+ * </ul>
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <E> thf typf of flfmfnts rfturnfd by this itfrbtor
+ *
+ * @buthor  Josh Blodh
+ * @sff Collfdtion
+ * @sff ListItfrbtor
+ * @sff Itfrbblf
+ * @sindf 1.2
+ */
+publid intfrfbdf Itfrbtor<E> {
+    /**
+     * Rfturns {@dodf truf} if thf itfrbtion hbs morf flfmfnts.
+     * (In othfr words, rfturns {@dodf truf} if {@link #nfxt} would
+     * rfturn bn flfmfnt rbthfr thbn throwing bn fxdfption.)
+     *
+     * @rfturn {@dodf truf} if thf itfrbtion hbs morf flfmfnts
+     */
+    boolfbn hbsNfxt();
+
+    /**
+     * Rfturns thf nfxt flfmfnt in thf itfrbtion.
+     *
+     * @rfturn thf nfxt flfmfnt in thf itfrbtion
+     * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no morf flfmfnts
+     */
+    E nfxt();
+
+    /**
+     * Rfmovfs from thf undfrlying dollfdtion thf lbst flfmfnt rfturnfd
+     * by this itfrbtor (optionbl opfrbtion).  This mfthod dbn bf dbllfd
+     * only ondf pfr dbll to {@link #nfxt}.  Thf bfhbvior of bn itfrbtor
+     * is unspfdififd if thf undfrlying dollfdtion is modififd whilf thf
+     * itfrbtion is in progrfss in bny wby othfr thbn by dblling this
+     * mfthod.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion throws bn instbndf of
+     * {@link UnsupportfdOpfrbtionExdfption} bnd pfrforms no othfr bdtion.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf rfmovf}
+     *         opfrbtion is not supportfd by this itfrbtor
+     *
+     * @throws IllfgblStbtfExdfption if thf {@dodf nfxt} mfthod hbs not
+     *         yft bffn dbllfd, or thf {@dodf rfmovf} mfthod hbs blrfbdy
+     *         bffn dbllfd bftfr thf lbst dbll to thf {@dodf nfxt}
+     *         mfthod
+     */
+    dffbult void rfmovf() {
+        throw nfw UnsupportfdOpfrbtionExdfption("rfmovf");
+    }
+
+    /**
+     * Pfrforms thf givfn bdtion for fbdh rfmbining flfmfnt until bll flfmfnts
+     * hbvf bffn prodfssfd or thf bdtion throws bn fxdfption.  Adtions brf
+     * pfrformfd in thf ordfr of itfrbtion, if thbt ordfr is spfdififd.
+     * Exdfptions thrown by thf bdtion brf rflbyfd to thf dbllfr.
+     *
+     * @implSpfd
+     * <p>Thf dffbult implfmfntbtion bfhbvfs bs if:
+     * <prf>{@dodf
+     *     whilf (hbsNfxt())
+     *         bdtion.bddfpt(nfxt());
+     * }</prf>
+     *
+     * @pbrbm bdtion Thf bdtion to bf pfrformfd for fbdh flfmfnt
+     * @throws NullPointfrExdfption if thf spfdififd bdtion is null
+     * @sindf 1.8
+     */
+    dffbult void forEbdhRfmbining(Consumfr<? supfr E> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        whilf (hbsNfxt())
+            bdtion.bddfpt(nfxt());
+    }
+}

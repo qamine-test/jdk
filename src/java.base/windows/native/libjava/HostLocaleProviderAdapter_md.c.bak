@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_util_locale_provider_HostLocaleProviderAdapterImpl.h"
-#include "jni_util.h"
-#include <windows.h>
-#include <gdefs.h>
-#include <stdlib.h>
+#indludf "sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl.i"
+#indludf "jni_util.i"
+#indludf <windows.i>
+#indludf <gdffs.i>
+#indludf <stdlib.i>
 
-#define BUFLEN 256
+#dffinf BUFLEN 256
 
-// global variables
-typedef int (WINAPI *PGLIE)(const jchar *, LCTYPE, LPWSTR, int);
-typedef int (WINAPI *PGCIE)(const jchar *, CALID, LPCWSTR, CALTYPE, LPWSTR, int, LPDWORD);
-PGLIE pGetLocaleInfoEx;
-PGCIE pGetCalendarInfoEx;
-BOOL initialized = FALSE;
+// globbl vbribblfs
+typfdff int (WINAPI *PGLIE)(donst jdibr *, LCTYPE, LPWSTR, int);
+typfdff int (WINAPI *PGCIE)(donst jdibr *, CALID, LPCWSTR, CALTYPE, LPWSTR, int, LPDWORD);
+PGLIE pGftLodblfInfoEx;
+PGCIE pGftCblfndbrInfoEx;
+BOOL initiblizfd = FALSE;
 
-// prototypes
-int getLocaleInfoWrapper(const jchar *langtag, LCTYPE type, LPWSTR data, int buflen);
-int getCalendarInfoWrapper(const jchar *langtag, CALID id, LPCWSTR reserved, CALTYPE type, LPWSTR data, int buflen, LPDWORD val);
-jint getCalendarID(const jchar *langtag);
-void replaceCalendarArrayElems(JNIEnv *env, jstring jlangtag, jobjectArray jarray,
-                       CALTYPE* pCalTypes, int offset, int length);
-WCHAR * getNumberPattern(const jchar * langtag, const jint numberStyle);
-void getNumberPart(const jchar * langtag, const jint numberStyle, WCHAR * number);
-void getFixPart(const jchar * langtag, const jint numberStyle, BOOL positive, BOOL prefix, WCHAR * ret);
+// prototypfs
+int gftLodblfInfoWrbppfr(donst jdibr *lbngtbg, LCTYPE typf, LPWSTR dbtb, int buflfn);
+int gftCblfndbrInfoWrbppfr(donst jdibr *lbngtbg, CALID id, LPCWSTR rfsfrvfd, CALTYPE typf, LPWSTR dbtb, int buflfn, LPDWORD vbl);
+jint gftCblfndbrID(donst jdibr *lbngtbg);
+void rfplbdfCblfndbrArrbyElfms(JNIEnv *fnv, jstring jlbngtbg, jobjfdtArrby jbrrby,
+                       CALTYPE* pCblTypfs, int offsft, int lfngti);
+WCHAR * gftNumbfrPbttfrn(donst jdibr * lbngtbg, donst jint numbfrStylf);
+void gftNumbfrPbrt(donst jdibr * lbngtbg, donst jint numbfrStylf, WCHAR * numbfr);
+void gftFixPbrt(donst jdibr * lbngtbg, donst jint numbfrStylf, BOOL positivf, BOOL prffix, WCHAR * rft);
 
-// from java_props_md.c
-extern __declspec(dllexport) const char * getJavaIDFromLangID(LANGID langID);
+// from jbvb_props_md.d
+fxtfrn __dfdlspfd(dllfxport) donst dibr * gftJbvbIDFromLbngID(LANGID lbngID);
 
-CALTYPE monthsType[] = {
+CALTYPE montisTypf[] = {
     CAL_SMONTHNAME1,
     CAL_SMONTHNAME2,
     CAL_SMONTHNAME3,
@@ -67,7 +67,7 @@ CALTYPE monthsType[] = {
     CAL_SMONTHNAME13,
 };
 
-CALTYPE sMonthsType[] = {
+CALTYPE sMontisTypf[] = {
     CAL_SABBREVMONTHNAME1,
     CAL_SABBREVMONTHNAME2,
     CAL_SABBREVMONTHNAME3,
@@ -83,7 +83,7 @@ CALTYPE sMonthsType[] = {
     CAL_SABBREVMONTHNAME13,
 };
 
-CALTYPE wDaysType[] = {
+CALTYPE wDbysTypf[] = {
     CAL_SDAYNAME7,
     CAL_SDAYNAME1,
     CAL_SDAYNAME2,
@@ -93,7 +93,7 @@ CALTYPE wDaysType[] = {
     CAL_SDAYNAME6,
 };
 
-CALTYPE sWDaysType[] = {
+CALTYPE sWDbysTypf[] = {
     CAL_SABBREVDAYNAME7,
     CAL_SABBREVDAYNAME1,
     CAL_SABBREVDAYNAME2,
@@ -103,52 +103,52 @@ CALTYPE sWDaysType[] = {
     CAL_SABBREVDAYNAME6,
 };
 
-WCHAR * fixes[2][2][3][16] =
+WCHAR * fixfs[2][2][3][16] =
 {
-    { //prefix
-        { //positive
-            { // number
+    { //prffix
+        { //positivf
+            { // numbfr
                 L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             },
-            { // currency
+            { // durrfndy
                 L"\xA4", L"", L"\xA4 ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             },
-            { // percent
+            { // pfrdfnt
                 L"", L"", L"%", L"% ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             }
         },
-        { // negative
-            { // number
+        { // nfgbtivf
+            { // numbfr
                 L"(", L"-", L"- ", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             },
-            { //currency
+            { //durrfndy
                 L"(\xA4", L"-\xA4", L"\xA4-", L"\xA4", L"(", L"-", L"", L"", L"-", L"-\xA4 ", L"", L"\xA4 ", L"\xA4 -", L"", L"(\xA4 ", L"("
             },
-            { // percent
+            { // pfrdfnt
                 L"-", L"-", L"-%", L"%-", L"%", L"", L"", L"-% ", L"", L"% ", L"% -", L"", L"", L"", L"", L"",
             }
         }
     },
     { // suffix
-        { //positive
-            { // number
+        { //positivf
+            { // numbfr
                 L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L""
             },
-            { // currency
+            { // durrfndy
                 L"", L"\xA4 ", L"", L" \xA4", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             },
-            { // percent
+            { // pfrdfnt
                 L" %", L"%", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             }
         },
-        { // negative
-            { // number
+        { // nfgbtivf
+            { // numbfr
                 L")", L"", L" ", L"-", L" -", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"", L"",
             },
-            { //currency
+            { //durrfndy
                 L")", L"", L"", L"-", L"\xA4)", L"\xA4", L"-\xA4", L"\xA4-", L" \xA4", L"", L" \xA4-", L"-", L"", L"- \xA4", L")", L" \xA4)"
             },
-            { // percent
+            { // pfrdfnt
                 L" %", L"%", L"", L"", L"-", L"-%", L"%-", L"", L" %-", L"-", L"", L"- %", L"", L"", L"", L"",
             }
         }
@@ -156,771 +156,771 @@ WCHAR * fixes[2][2][3][16] =
 };
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    initialize
- * Signature: ()Z
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    initiblizf
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_initialize
-  (JNIEnv *env, jclass cls) {
-    if (!initialized) {
-        pGetLocaleInfoEx = (PGLIE)GetProcAddress(
-            GetModuleHandle("kernel32.dll"),
-            "GetLocaleInfoEx");
-        pGetCalendarInfoEx = (PGCIE)GetProcAddress(
-            GetModuleHandle("kernel32.dll"),
-            "GetCalendarInfoEx");
-        initialized =TRUE;
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_initiblizf
+  (JNIEnv *fnv, jdlbss dls) {
+    if (!initiblizfd) {
+        pGftLodblfInfoEx = (PGLIE)GftProdAddrfss(
+            GftModulfHbndlf("kfrnfl32.dll"),
+            "GftLodblfInfoEx");
+        pGftCblfndbrInfoEx = (PGCIE)GftProdAddrfss(
+            GftModulfHbndlf("kfrnfl32.dll"),
+            "GftCblfndbrInfoEx");
+        initiblizfd =TRUE;
     }
 
-    return pGetLocaleInfoEx != NULL &&
-           pGetCalendarInfoEx != NULL;
+    rfturn pGftLodblfInfoEx != NULL &&
+           pGftCblfndbrInfoEx != NULL;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getDefaultLocale
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftDffbultLodblf
+ * Signbturf: (I)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getDefaultLocale
-  (JNIEnv *env, jclass cls, jint cat) {
-    char * localeString = NULL;
-    LANGID langid;
-    jstring ret;
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDffbultLodblf
+  (JNIEnv *fnv, jdlbss dls, jint dbt) {
+    dibr * lodblfString = NULL;
+    LANGID lbngid;
+    jstring rft;
 
-    switch (cat) {
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_CAT_DISPLAY:
-            langid = LANGIDFROMLCID(GetUserDefaultUILanguage());
-            break;
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_CAT_FORMAT:
-        default:
-            langid = LANGIDFROMLCID(GetUserDefaultLCID());
-            break;
+    switdi (dbt) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CAT_DISPLAY:
+            lbngid = LANGIDFROMLCID(GftUsfrDffbultUILbngubgf());
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CAT_FORMAT:
+        dffbult:
+            lbngid = LANGIDFROMLCID(GftUsfrDffbultLCID());
+            brfbk;
     }
 
-    localeString = (char *)getJavaIDFromLangID(langid);
-    if (localeString != NULL) {
-        ret = (*env)->NewStringUTF(env, localeString);
-        free(localeString);
-    } else {
-        JNU_ThrowOutOfMemoryError(env, "memory allocation error");
-        ret = NULL;
+    lodblfString = (dibr *)gftJbvbIDFromLbngID(lbngid);
+    if (lodblfString != NULL) {
+        rft = (*fnv)->NfwStringUTF(fnv, lodblfString);
+        frff(lodblfString);
+    } flsf {
+        JNU_TirowOutOfMfmoryError(fnv, "mfmory bllodbtion frror");
+        rft = NULL;
     }
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getDateTimePattern
- * Signature: (IILjava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftDbtfTimfPbttfrn
+ * Signbturf: (IILjbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getDateTimePattern
-  (JNIEnv *env, jclass cls, jint dateStyle, jint timeStyle, jstring jlangtag) {
-    WCHAR pattern[BUFLEN];
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, NULL);
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDbtfTimfPbttfrn
+  (JNIEnv *fnv, jdlbss dls, jint dbtfStylf, jint timfStylf, jstring jlbngtbg) {
+    WCHAR pbttfrn[BUFLEN];
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
 
-    pattern[0] = L'\0';
+    pbttfrn[0] = L'\0';
 
-    if (dateStyle == 0 || dateStyle == 1) {
-        getLocaleInfoWrapper(langtag, LOCALE_SLONGDATE, pattern, BUFLEN);
-    } else if (dateStyle == 2 || dateStyle == 3) {
-        getLocaleInfoWrapper(langtag, LOCALE_SSHORTDATE, pattern, BUFLEN);
+    if (dbtfStylf == 0 || dbtfStylf == 1) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SLONGDATE, pbttfrn, BUFLEN);
+    } flsf if (dbtfStylf == 2 || dbtfStylf == 3) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SSHORTDATE, pbttfrn, BUFLEN);
     }
 
-    if (timeStyle == 0 || timeStyle == 1) {
-        getLocaleInfoWrapper(langtag, LOCALE_STIMEFORMAT, pattern, BUFLEN);
-    } else if (timeStyle == 2 || timeStyle == 3) {
-        getLocaleInfoWrapper(langtag, LOCALE_SSHORTTIME, pattern, BUFLEN);
+    if (timfStylf == 0 || timfStylf == 1) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_STIMEFORMAT, pbttfrn, BUFLEN);
+    } flsf if (timfStylf == 2 || timfStylf == 3) {
+        gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SSHORTTIME, pbttfrn, BUFLEN);
     }
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
-    return (*env)->NewString(env, pattern, (jsize)wcslen(pattern));
+    rfturn (*fnv)->NfwString(fnv, pbttfrn, (jsizf)wdslfn(pbttfrn));
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getCalendarID
- * Signature: (Ljava/lang/String;)I
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftCblfndbrID
+ * Signbturf: (Ljbvb/lbng/String;)I
  */
-JNIEXPORT jint JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getCalendarID
-  (JNIEnv *env, jclass cls, jstring jlangtag) {
-    const jchar *langtag;
-    jint ret;
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, 0);
-    ret = getCalendarID(langtag);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
-    return ret;
+JNIEXPORT jint JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCblfndbrID
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg) {
+    donst jdibr *lbngtbg;
+    jint rft;
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, 0);
+    rft = gftCblfndbrID(lbngtbg);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
+    rfturn rft;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getAmPmStrings
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftAmPmStrings
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getAmPmStrings
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray ampms) {
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftAmPmStrings
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby bmpms) {
     WCHAR buf[BUFLEN];
-    const jchar *langtag;
+    donst jdibr *lbngtbg;
     jstring tmp_string;
 
     // AM
     int got;
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, NULL);
-    got = getLocaleInfoWrapper(langtag, LOCALE_S1159, buf, BUFLEN);
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_S1159, buf, BUFLEN);
     if (got) {
-        tmp_string = (*env)->NewString(env, buf, (jsize)wcslen(buf));
+        tmp_string = (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
         if (tmp_string != NULL) {
-            (*env)->SetObjectArrayElement(env, ampms, 0, tmp_string);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bmpms, 0, tmp_string);
         }
     }
 
-    if (!(*env)->ExceptionCheck(env)){
+    if (!(*fnv)->ExdfptionCifdk(fnv)){
         // PM
-        got = getLocaleInfoWrapper(langtag, LOCALE_S2359, buf, BUFLEN);
+        got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_S2359, buf, BUFLEN);
         if (got) {
-            tmp_string = (*env)->NewString(env, buf, (jsize)wcslen(buf));
+            tmp_string = (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
             if (tmp_string != NULL) {
-                (*env)->SetObjectArrayElement(env, ampms, 1, tmp_string);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bmpms, 1, tmp_string);
             }
         }
     }
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
-    return ampms;
+    rfturn bmpms;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getEras
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftErbs
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getEras
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray eras) {
-    WCHAR ad[BUFLEN];
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftErbs
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby frbs) {
+    WCHAR bd[BUFLEN];
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
     jstring tmp_string;
-    CHECK_NULL_RETURN(langtag, eras);
+    CHECK_NULL_RETURN(lbngtbg, frbs);
 
-    getCalendarInfoWrapper(langtag, getCalendarID(langtag), NULL,
-                      CAL_SERASTRING, ad, BUFLEN, NULL);
+    gftCblfndbrInfoWrbppfr(lbngtbg, gftCblfndbrID(lbngtbg), NULL,
+                      CAL_SERASTRING, bd, BUFLEN, NULL);
 
-    // Windows does not provide B.C. era.
-    tmp_string = (*env)->NewString(env, ad, (jsize)wcslen(ad));
+    // Windows dofs not providf B.C. frb.
+    tmp_string = (*fnv)->NfwString(fnv, bd, (jsizf)wdslfn(bd));
     if (tmp_string != NULL) {
-        (*env)->SetObjectArrayElement(env, eras, 1, tmp_string);
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, frbs, 1, tmp_string);
     }
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
-    return eras;
+    rfturn frbs;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getMonths
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftMontis
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getMonths
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray months) {
-    replaceCalendarArrayElems(env, jlangtag, months, monthsType,
-                      0, sizeof(monthsType)/sizeof(CALTYPE));
-    return months;
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMontis
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby montis) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, montis, montisTypf,
+                      0, sizfof(montisTypf)/sizfof(CALTYPE));
+    rfturn montis;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getShortMonths
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftSiortMontis
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getShortMonths
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray smonths) {
-    replaceCalendarArrayElems(env, jlangtag, smonths, sMonthsType,
-                      0, sizeof(sMonthsType)/sizeof(CALTYPE));
-    return smonths;
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftSiortMontis
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby smontis) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, smontis, sMontisTypf,
+                      0, sizfof(sMontisTypf)/sizfof(CALTYPE));
+    rfturn smontis;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getWeekdays
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftWffkdbys
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getWeekdays
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray wdays) {
-    replaceCalendarArrayElems(env, jlangtag, wdays, wDaysType,
-                      1, sizeof(wDaysType)/sizeof(CALTYPE));
-    return wdays;
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftWffkdbys
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby wdbys) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, wdbys, wDbysTypf,
+                      1, sizfof(wDbysTypf)/sizfof(CALTYPE));
+    rfturn wdbys;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getShortWeekdays
- * Signature: (Ljava/lang/String;[Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftSiortWffkdbys
+ * Signbturf: (Ljbvb/lbng/String;[Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getShortWeekdays
-  (JNIEnv *env, jclass cls, jstring jlangtag, jobjectArray swdays) {
-    replaceCalendarArrayElems(env, jlangtag, swdays, sWDaysType,
-                      1, sizeof(sWDaysType)/sizeof(CALTYPE));
-    return swdays;
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftSiortWffkdbys
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jobjfdtArrby swdbys) {
+    rfplbdfCblfndbrArrbyElfms(fnv, jlbngtbg, swdbys, sWDbysTypf,
+                      1, sizfof(sWDbysTypf)/sizfof(CALTYPE));
+    rfturn swdbys;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getNumberPattern
- * Signature: (ILjava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftNumbfrPbttfrn
+ * Signbturf: (ILjbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getNumberPattern
-  (JNIEnv *env, jclass cls, jint numberStyle, jstring jlangtag) {
-    const jchar *langtag;
-    jstring ret;
-    WCHAR * pattern;
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftNumbfrPbttfrn
+  (JNIEnv *fnv, jdlbss dls, jint numbfrStylf, jstring jlbngtbg) {
+    donst jdibr *lbngtbg;
+    jstring rft;
+    WCHAR * pbttfrn;
 
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, NULL);
-    pattern = getNumberPattern(langtag, numberStyle);
-    CHECK_NULL_RETURN(pattern, NULL);
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, NULL);
+    pbttfrn = gftNumbfrPbttfrn(lbngtbg, numbfrStylf);
+    CHECK_NULL_RETURN(pbttfrn, NULL);
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
-    ret = (*env)->NewString(env, pattern, (jsize)wcslen(pattern));
-    free(pattern);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
+    rft = (*fnv)->NfwString(fnv, pbttfrn, (jsizf)wdslfn(pbttfrn));
+    frff(pbttfrn);
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    isNativeDigit
- * Signature: (Ljava/lang/String;)Z
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    isNbtivfDigit
+ * Signbturf: (Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_isNativeDigit
-  (JNIEnv *env, jclass cls, jstring jlangtag) {
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_isNbtivfDigit
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg) {
     DWORD num;
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, JNI_FALSE);
-    got = getLocaleInfoWrapper(langtag,
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, JNI_FALSE);
+    got = gftLodblfInfoWrbppfr(lbngtbg,
         LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER,
-        (LPWSTR)&num, sizeof(num));
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+        (LPWSTR)&num, sizfof(num));
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
-    return got && num == 2; // 2: native digit substitution
+    rfturn got && num == 2; // 2: nbtivf digit substitution
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getCurrencySymbol
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftCurrfndySymbol
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getCurrencySymbol
-  (JNIEnv *env, jclass cls, jstring jlangtag, jstring currencySymbol) {
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCurrfndySymbol
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring durrfndySymbol) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, currencySymbol);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SCURRENCY, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, durrfndySymbol);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SCURRENCY, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return (*env)->NewString(env, buf, (jsize)wcslen(buf));
-    } else {
-        return currencySymbol;
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn durrfndySymbol;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getDecimalSeparator
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftDfdimblSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getDecimalSeparator
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar decimalSeparator) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDfdimblSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr dfdimblSfpbrbtor) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, decimalSeparator);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SDECIMAL, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, dfdimblSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SDECIMAL, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return decimalSeparator;
+        rfturn buf[0];
+    } flsf {
+        rfturn dfdimblSfpbrbtor;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getGroupingSeparator
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftGroupingSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getGroupingSeparator
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar groupingSeparator) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftGroupingSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr groupingSfpbrbtor) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, groupingSeparator);
-    got = getLocaleInfoWrapper(langtag, LOCALE_STHOUSAND, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, groupingSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_STHOUSAND, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return groupingSeparator;
+        rfturn buf[0];
+    } flsf {
+        rfturn groupingSfpbrbtor;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getInfinity
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftInfinity
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getInfinity
-  (JNIEnv *env, jclass cls, jstring jlangtag, jstring infinity) {
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftInfinity
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring infinity) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, infinity);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SPOSINFINITY, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, infinity);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPOSINFINITY, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return (*env)->NewString(env, buf, (jsize)wcslen(buf));
-    } else {
-        return infinity;
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn infinity;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getInternationalCurrencySymbol
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftIntfrnbtionblCurrfndySymbol
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getInternationalCurrencySymbol
-  (JNIEnv *env, jclass cls, jstring jlangtag, jstring internationalCurrencySymbol) {
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftIntfrnbtionblCurrfndySymbol
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring intfrnbtionblCurrfndySymbol) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, internationalCurrencySymbol);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SINTLSYMBOL, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, intfrnbtionblCurrfndySymbol);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SINTLSYMBOL, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return (*env)->NewString(env, buf, (jsize)wcslen(buf));
-    } else {
-        return internationalCurrencySymbol;
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn intfrnbtionblCurrfndySymbol;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getMinusSign
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftMinusSign
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getMinusSign
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar minusSign) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMinusSign
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr minusSign) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, minusSign);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SNEGATIVESIGN, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, minusSign);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNEGATIVESIGN, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return minusSign;
+        rfturn buf[0];
+    } flsf {
+        rfturn minusSign;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getMonetaryDecimalSeparator
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftMonftbryDfdimblSfpbrbtor
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getMonetaryDecimalSeparator
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar monetaryDecimalSeparator) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftMonftbryDfdimblSfpbrbtor
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr monftbryDfdimblSfpbrbtor) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, monetaryDecimalSeparator);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SMONDECIMALSEP, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, monftbryDfdimblSfpbrbtor);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SMONDECIMALSEP, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return monetaryDecimalSeparator;
+        rfturn buf[0];
+    } flsf {
+        rfturn monftbryDfdimblSfpbrbtor;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getNaN
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftNbN
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getNaN
-  (JNIEnv *env, jclass cls, jstring jlangtag, jstring nan) {
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftNbN
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jstring nbn) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, nan);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SNAN, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, nbn);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNAN, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return (*env)->NewString(env, buf, (jsize)wcslen(buf));
-    } else {
-        return nan;
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn nbn;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getPercent
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftPfrdfnt
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getPercent
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar percent) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftPfrdfnt
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr pfrdfnt) {
     WCHAR buf[BUFLEN];
     int got;
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, percent);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SPERCENT, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, pfrdfnt);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPERCENT, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return percent;
+        rfturn buf[0];
+    } flsf {
+        rfturn pfrdfnt;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getPerMill
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftPfrMill
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getPerMill
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar perMill) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftPfrMill
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr pfrMill) {
     WCHAR buf[BUFLEN];
-    const jchar *langtag;
+    donst jdibr *lbngtbg;
     int got;
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, perMill);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SPERMILLE, buf, BUFLEN);
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, pfrMill);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SPERMILLE, buf, BUFLEN);
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return perMill;
+        rfturn buf[0];
+    } flsf {
+        rfturn pfrMill;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getZeroDigit
- * Signature: (Ljava/lang/String;C)C
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftZfroDigit
+ * Signbturf: (Ljbvb/lbng/String;C)C
  */
-JNIEXPORT jchar JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getZeroDigit
-  (JNIEnv *env, jclass cls, jstring jlangtag, jchar zeroDigit) {
+JNIEXPORT jdibr JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftZfroDigit
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jdibr zfroDigit) {
     WCHAR buf[BUFLEN];
-    const jchar *langtag;
+    donst jdibr *lbngtbg;
     int got;
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, zeroDigit);
-    got = getLocaleInfoWrapper(langtag, LOCALE_SNATIVEDIGITS, buf, BUFLEN);
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, zfroDigit);
+    got = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SNATIVEDIGITS, buf, BUFLEN);
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return buf[0];
-    } else {
-        return zeroDigit;
+        rfturn buf[0];
+    } flsf {
+        rfturn zfroDigit;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getCalendarDataValue
- * Signature: (Ljava/lang/String;I)I
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftCblfndbrDbtbVbluf
+ * Signbturf: (Ljbvb/lbng/String;I)I
  */
-JNIEXPORT jint JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getCalendarDataValue
-  (JNIEnv *env, jclass cls, jstring jlangtag, jint type) {
+JNIEXPORT jint JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftCblfndbrDbtbVbluf
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jint typf) {
     DWORD num;
-    const jchar *langtag;
+    donst jdibr *lbngtbg;
     int got = 0;
 
-    langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    CHECK_NULL_RETURN(langtag, -1);
-    switch (type) {
-    case sun_util_locale_provider_HostLocaleProviderAdapterImpl_CD_FIRSTDAYOFWEEK:
-        got = getLocaleInfoWrapper(langtag,
+    lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    CHECK_NULL_RETURN(lbngtbg, -1);
+    switdi (typf) {
+    dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_CD_FIRSTDAYOFWEEK:
+        got = gftLodblfInfoWrbppfr(lbngtbg,
             LOCALE_IFIRSTDAYOFWEEK | LOCALE_RETURN_NUMBER,
-            (LPWSTR)&num, sizeof(num));
-        break;
+            (LPWSTR)&num, sizfof(num));
+        brfbk;
     }
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 
     if (got) {
-        return num;
-    } else {
-        return -1;
+        rfturn num;
+    } flsf {
+        rfturn -1;
     }
 }
 
 /*
- * Class:     sun_util_locale_provider_HostLocaleProviderAdapterImpl
- * Method:    getDisplayString
- * Signature: (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl
+ * Mftiod:    gftDisplbyString
+ * Signbturf: (Ljbvb/lbng/String;ILjbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_util_locale_provider_HostLocaleProviderAdapterImpl_getDisplayString
-  (JNIEnv *env, jclass cls, jstring jlangtag, jint type, jstring jvalue) {
-    LCTYPE lcType;
+JNIEXPORT jstring JNICALL Jbvb_sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_gftDisplbyString
+  (JNIEnv *fnv, jdlbss dls, jstring jlbngtbg, jint typf, jstring jvbluf) {
+    LCTYPE ldTypf;
     jstring jStr;
-    const jchar * pjChar;
+    donst jdibr * pjCibr;
     WCHAR buf[BUFLEN];
     int got = 0;
 
-    switch (type) {
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_DN_CURRENCY_NAME:
-            lcType = LOCALE_SNATIVECURRNAME;
-            jStr = jlangtag;
-            break;
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_DN_CURRENCY_SYMBOL:
-            lcType = LOCALE_SCURRENCY;
-            jStr = jlangtag;
-            break;
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_DN_LOCALE_LANGUAGE:
-            lcType = LOCALE_SLOCALIZEDLANGUAGENAME;
-            jStr = jvalue;
-            break;
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_DN_LOCALE_REGION:
-            lcType = LOCALE_SLOCALIZEDCOUNTRYNAME;
-            jStr = jvalue;
-            break;
-        default:
-            return NULL;
+    switdi (typf) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_CURRENCY_NAME:
+            ldTypf = LOCALE_SNATIVECURRNAME;
+            jStr = jlbngtbg;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_CURRENCY_SYMBOL:
+            ldTypf = LOCALE_SCURRENCY;
+            jStr = jlbngtbg;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_LOCALE_LANGUAGE:
+            ldTypf = LOCALE_SLOCALIZEDLANGUAGENAME;
+            jStr = jvbluf;
+            brfbk;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_DN_LOCALE_REGION:
+            ldTypf = LOCALE_SLOCALIZEDCOUNTRYNAME;
+            jStr = jvbluf;
+            brfbk;
+        dffbult:
+            rfturn NULL;
     }
 
-    pjChar = (*env)->GetStringChars(env, jStr, JNI_FALSE);
-    CHECK_NULL_RETURN(pjChar, NULL);
-    got = getLocaleInfoWrapper(pjChar, lcType, buf, BUFLEN);
-    (*env)->ReleaseStringChars(env, jStr, pjChar);
+    pjCibr = (*fnv)->GftStringCibrs(fnv, jStr, JNI_FALSE);
+    CHECK_NULL_RETURN(pjCibr, NULL);
+    got = gftLodblfInfoWrbppfr(pjCibr, ldTypf, buf, BUFLEN);
+    (*fnv)->RflfbsfStringCibrs(fnv, jStr, pjCibr);
 
     if (got) {
-        return (*env)->NewString(env, buf, (jsize)wcslen(buf));
-    } else {
-        return NULL;
+        rfturn (*fnv)->NfwString(fnv, buf, (jsizf)wdslfn(buf));
+    } flsf {
+        rfturn NULL;
     }
 }
 
-int getLocaleInfoWrapper(const jchar *langtag, LCTYPE type, LPWSTR data, int buflen) {
-    if (pGetLocaleInfoEx) {
-        if (wcscmp(L"und", (LPWSTR)langtag) == 0) {
-            // defaults to "en"
-            return pGetLocaleInfoEx(L"en", type, data, buflen);
-        } else {
-            return pGetLocaleInfoEx((LPWSTR)langtag, type, data, buflen);
+int gftLodblfInfoWrbppfr(donst jdibr *lbngtbg, LCTYPE typf, LPWSTR dbtb, int buflfn) {
+    if (pGftLodblfInfoEx) {
+        if (wdsdmp(L"und", (LPWSTR)lbngtbg) == 0) {
+            // dffbults to "fn"
+            rfturn pGftLodblfInfoEx(L"fn", typf, dbtb, buflfn);
+        } flsf {
+            rfturn pGftLodblfInfoEx((LPWSTR)lbngtbg, typf, dbtb, buflfn);
         }
-    } else {
-        // If we ever wanted to support WinXP, we will need extra module from
+    } flsf {
+        // If wf fvfr wbntfd to support WinXP, wf will nffd fxtrb modulf from
         // MS...
-        // return GetLocaleInfo(DownlevelLocaleNameToLCID(langtag, 0), type, data, buflen);
-        return 0;
+        // rfturn GftLodblfInfo(DownlfvflLodblfNbmfToLCID(lbngtbg, 0), typf, dbtb, buflfn);
+        rfturn 0;
     }
 }
 
-int getCalendarInfoWrapper(const jchar *langtag, CALID id, LPCWSTR reserved, CALTYPE type, LPWSTR data, int buflen, LPDWORD val) {
-    if (pGetCalendarInfoEx) {
-        if (wcscmp(L"und", (LPWSTR)langtag) == 0) {
-            // defaults to "en"
-            return pGetCalendarInfoEx(L"en", id, reserved, type, data, buflen, val);
-        } else {
-            return pGetCalendarInfoEx((LPWSTR)langtag, id, reserved, type, data, buflen, val);
+int gftCblfndbrInfoWrbppfr(donst jdibr *lbngtbg, CALID id, LPCWSTR rfsfrvfd, CALTYPE typf, LPWSTR dbtb, int buflfn, LPDWORD vbl) {
+    if (pGftCblfndbrInfoEx) {
+        if (wdsdmp(L"und", (LPWSTR)lbngtbg) == 0) {
+            // dffbults to "fn"
+            rfturn pGftCblfndbrInfoEx(L"fn", id, rfsfrvfd, typf, dbtb, buflfn, vbl);
+        } flsf {
+            rfturn pGftCblfndbrInfoEx((LPWSTR)lbngtbg, id, rfsfrvfd, typf, dbtb, buflfn, vbl);
         }
-    } else {
-        // If we ever wanted to support WinXP, we will need extra module from
+    } flsf {
+        // If wf fvfr wbntfd to support WinXP, wf will nffd fxtrb modulf from
         // MS...
-        // return GetCalendarInfo(DownlevelLocaleNameToLCID(langtag, 0), ...);
-        return 0;
+        // rfturn GftCblfndbrInfo(DownlfvflLodblfNbmfToLCID(lbngtbg, 0), ...);
+        rfturn 0;
     }
 }
 
-jint getCalendarID(const jchar *langtag) {
-    DWORD type;
-    int got = getLocaleInfoWrapper(langtag,
+jint gftCblfndbrID(donst jdibr *lbngtbg) {
+    DWORD typf;
+    int got = gftLodblfInfoWrbppfr(lbngtbg,
         LOCALE_ICALENDARTYPE | LOCALE_RETURN_NUMBER,
-        (LPWSTR)&type, sizeof(type));
+        (LPWSTR)&typf, sizfof(typf));
 
     if (got) {
-        return type;
-    } else {
-        return 0;
+        rfturn typf;
+    } flsf {
+        rfturn 0;
     }
 }
 
-void replaceCalendarArrayElems(JNIEnv *env, jstring jlangtag, jobjectArray jarray, CALTYPE* pCalTypes, int offset, int length) {
-    WCHAR name[BUFLEN];
-    const jchar *langtag = (*env)->GetStringChars(env, jlangtag, JNI_FALSE);
-    int calid;
+void rfplbdfCblfndbrArrbyElfms(JNIEnv *fnv, jstring jlbngtbg, jobjfdtArrby jbrrby, CALTYPE* pCblTypfs, int offsft, int lfngti) {
+    WCHAR nbmf[BUFLEN];
+    donst jdibr *lbngtbg = (*fnv)->GftStringCibrs(fnv, jlbngtbg, JNI_FALSE);
+    int dblid;
     jstring tmp_string;
 
-    CHECK_NULL(langtag);
-    calid = getCalendarID(langtag);
+    CHECK_NULL(lbngtbg);
+    dblid = gftCblfndbrID(lbngtbg);
 
-    if (calid != -1) {
+    if (dblid != -1) {
         int i;
-        for (i = 0; i < length; i++) {
-            getCalendarInfoWrapper(langtag, calid, NULL,
-                              pCalTypes[i], name, BUFLEN, NULL);
-            tmp_string = (*env)->NewString(env, name, (jsize)wcslen(name));
+        for (i = 0; i < lfngti; i++) {
+            gftCblfndbrInfoWrbppfr(lbngtbg, dblid, NULL,
+                              pCblTypfs[i], nbmf, BUFLEN, NULL);
+            tmp_string = (*fnv)->NfwString(fnv, nbmf, (jsizf)wdslfn(nbmf));
             if (tmp_string != NULL) {
-                (*env)->SetObjectArrayElement(env, jarray, i + offset, tmp_string);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jbrrby, i + offsft, tmp_string);
             }
         }
     }
 
-    (*env)->ReleaseStringChars(env, jlangtag, langtag);
+    (*fnv)->RflfbsfStringCibrs(fnv, jlbngtbg, lbngtbg);
 }
 
-WCHAR * getNumberPattern(const jchar * langtag, const jint numberStyle) {
-    WCHAR ret[BUFLEN];
-    WCHAR number[BUFLEN];
+WCHAR * gftNumbfrPbttfrn(donst jdibr * lbngtbg, donst jint numbfrStylf) {
+    WCHAR rft[BUFLEN];
+    WCHAR numbfr[BUFLEN];
     WCHAR fix[BUFLEN];
 
-    getFixPart(langtag, numberStyle, TRUE, TRUE, ret); // "+"
-    getNumberPart(langtag, numberStyle, number);
-    wcscat_s(ret, BUFLEN-wcslen(ret), number);      // "+12.34"
-    getFixPart(langtag, numberStyle, TRUE, FALSE, fix);
-    wcscat_s(ret, BUFLEN-wcslen(ret), fix);         // "+12.34$"
-    wcscat_s(ret, BUFLEN-wcslen(ret), L";");        // "+12.34$;"
-    getFixPart(langtag, numberStyle, FALSE, TRUE, fix);
-    wcscat_s(ret, BUFLEN-wcslen(ret), fix);         // "+12.34$;("
-    wcscat_s(ret, BUFLEN-wcslen(ret), number);      // "+12.34$;(12.34"
-    getFixPart(langtag, numberStyle, FALSE, FALSE, fix);
-    wcscat_s(ret, BUFLEN-wcslen(ret), fix);         // "+12.34$;(12.34$)"
+    gftFixPbrt(lbngtbg, numbfrStylf, TRUE, TRUE, rft); // "+"
+    gftNumbfrPbrt(lbngtbg, numbfrStylf, numbfr);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), numbfr);      // "+12.34"
+    gftFixPbrt(lbngtbg, numbfrStylf, TRUE, FALSE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$"
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), L";");        // "+12.34$;"
+    gftFixPbrt(lbngtbg, numbfrStylf, FALSE, TRUE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$;("
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), numbfr);      // "+12.34$;(12.34"
+    gftFixPbrt(lbngtbg, numbfrStylf, FALSE, FALSE, fix);
+    wdsdbt_s(rft, BUFLEN-wdslfn(rft), fix);         // "+12.34$;(12.34$)"
 
-    return _wcsdup(ret);
+    rfturn _wdsdup(rft);
 }
 
-void getNumberPart(const jchar * langtag, const jint numberStyle, WCHAR * number) {
+void gftNumbfrPbrt(donst jdibr * lbngtbg, donst jint numbfrStylf, WCHAR * numbfr) {
     DWORD digits = 0;
-    DWORD leadingZero = 0;
+    DWORD lfbdingZfro = 0;
     WCHAR grouping[BUFLEN];
-    int groupingLen;
-    WCHAR fractionPattern[BUFLEN];
-    WCHAR * integerPattern = number;
-    WCHAR * pDest;
+    int groupingLfn;
+    WCHAR frbdtionPbttfrn[BUFLEN];
+    WCHAR * intfgfrPbttfrn = numbfr;
+    WCHAR * pDfst;
 
-    // Get info from Windows
-    switch (numberStyle) {
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_CURRENCY:
-            getLocaleInfoWrapper(langtag,
+    // Gft info from Windows
+    switdi (numbfrStylf) {
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY:
+            gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&digits, sizeof(digits));
-            break;
+                (LPWSTR)&digits, sizfof(digits));
+            brfbk;
 
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_INTEGER:
-            break;
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_INTEGER:
+            brfbk;
 
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_NUMBER:
-        case sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_PERCENT:
-        default:
-            getLocaleInfoWrapper(langtag,
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_NUMBER:
+        dbsf sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT:
+        dffbult:
+            gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_IDIGITS | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&digits, sizeof(digits));
-            break;
+                (LPWSTR)&digits, sizfof(digits));
+            brfbk;
     }
 
-    getLocaleInfoWrapper(langtag,
+    gftLodblfInfoWrbppfr(lbngtbg,
         LOCALE_ILZERO | LOCALE_RETURN_NUMBER,
-        (LPWSTR)&leadingZero, sizeof(leadingZero));
-    groupingLen = getLocaleInfoWrapper(langtag, LOCALE_SGROUPING, grouping, BUFLEN);
+        (LPWSTR)&lfbdingZfro, sizfof(lfbdingZfro));
+    groupingLfn = gftLodblfInfoWrbppfr(lbngtbg, LOCALE_SGROUPING, grouping, BUFLEN);
 
-    // fraction pattern
+    // frbdtion pbttfrn
     if (digits > 0) {
         int i;
         for(i = digits;  i > 0; i--) {
-            fractionPattern[i] = L'0';
+            frbdtionPbttfrn[i] = L'0';
         }
-        fractionPattern[0] = L'.';
-        fractionPattern[digits+1] = L'\0';
-    } else {
-        fractionPattern[0] = L'\0';
+        frbdtionPbttfrn[0] = L'.';
+        frbdtionPbttfrn[digits+1] = L'\0';
+    } flsf {
+        frbdtionPbttfrn[0] = L'\0';
     }
 
-    // integer pattern
-    pDest = integerPattern;
-    if (groupingLen > 0) {
-        int cur = groupingLen - 1;// subtracting null terminator
-        while (--cur >= 0) {
-            int repnum;
+    // intfgfr pbttfrn
+    pDfst = intfgfrPbttfrn;
+    if (groupingLfn > 0) {
+        int dur = groupingLfn - 1;// subtrbdting null tfrminbtor
+        wiilf (--dur >= 0) {
+            int rfpnum;
 
-            if (grouping[cur] == L';') {
-                continue;
+            if (grouping[dur] == L';') {
+                dontinuf;
             }
 
-            repnum = grouping[cur] - 0x30;
-            if (repnum > 0) {
-                *pDest++ = L'#';
-                *pDest++ = L',';
-                while(--repnum > 0) {
-                    *pDest++ = L'#';
+            rfpnum = grouping[dur] - 0x30;
+            if (rfpnum > 0) {
+                *pDfst++ = L'#';
+                *pDfst++ = L',';
+                wiilf(--rfpnum > 0) {
+                    *pDfst++ = L'#';
                 }
             }
         }
     }
 
-    if (leadingZero != 0) {
-        *pDest++ = L'0';
-    } else {
-        *pDest++ = L'#';
+    if (lfbdingZfro != 0) {
+        *pDfst++ = L'0';
+    } flsf {
+        *pDfst++ = L'#';
     }
-    *pDest = L'\0';
+    *pDfst = L'\0';
 
-    wcscat_s(integerPattern, BUFLEN, fractionPattern);
+    wdsdbt_s(intfgfrPbttfrn, BUFLEN, frbdtionPbttfrn);
 }
 
-void getFixPart(const jchar * langtag, const jint numberStyle, BOOL positive, BOOL prefix, WCHAR * ret) {
-    DWORD pattern = 0;
-    int style = numberStyle;
+void gftFixPbrt(donst jdibr * lbngtbg, donst jint numbfrStylf, BOOL positivf, BOOL prffix, WCHAR * rft) {
+    DWORD pbttfrn = 0;
+    int stylf = numbfrStylf;
     int got = 0;
 
-    if (positive) {
-        if (style == sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_CURRENCY) {
-            got = getLocaleInfoWrapper(langtag,
+    if (positivf) {
+        if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&pattern, sizeof(pattern));
-        } else if (style == sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_PERCENT) {
-            got = getLocaleInfoWrapper(langtag,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&pattern, sizeof(pattern));
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
         }
-    } else {
-        if (style == sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_CURRENCY) {
-            got = getLocaleInfoWrapper(langtag,
+    } flsf {
+        if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_CURRENCY) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_INEGCURR | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&pattern, sizeof(pattern));
-        } else if (style == sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_PERCENT) {
-            got = getLocaleInfoWrapper(langtag,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf if (stylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_PERCENT) {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&pattern, sizeof(pattern));
-        } else {
-            got = getLocaleInfoWrapper(langtag,
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
+        } flsf {
+            got = gftLodblfInfoWrbppfr(lbngtbg,
                 LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER,
-                (LPWSTR)&pattern, sizeof(pattern));
+                (LPWSTR)&pbttfrn, sizfof(pbttfrn));
         }
     }
 
-    if (numberStyle == sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_INTEGER) {
-        style = sun_util_locale_provider_HostLocaleProviderAdapterImpl_NF_NUMBER;
+    if (numbfrStylf == sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_INTEGER) {
+        stylf = sun_util_lodblf_providfr_HostLodblfProvidfrAdbptfrImpl_NF_NUMBER;
     }
 
-    wcscpy(ret, fixes[!prefix][!positive][style][pattern]);
+    wdsdpy(rft, fixfs[!prffix][!positivf][stylf][pbttfrn]);
 }

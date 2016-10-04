@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
-import javax.naming.CommunicationException;
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.InvblidNbmfExdfption;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.nio.charset.StandardCharsets;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
 
 
 /**
- * The ResourceRecord class represents a DNS resource record.
- * The string format is based on the master file representation in
+ * Tif RfsourdfRfdord dlbss rfprfsfnts b DNS rfsourdf rfdord.
+ * Tif string formbt is bbsfd on tif mbstfr filf rfprfsfntbtion in
  * RFC 1035.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public class ResourceRecord {
+publid dlbss RfsourdfRfdord {
 
     /*
-     * Resource record type codes
+     * Rfsourdf rfdord typf dodfs
      */
-    static final int TYPE_A     =  1;
-    static final int TYPE_NS    =  2;
-    static final int TYPE_CNAME =  5;
-    static final int TYPE_SOA   =  6;
-    static final int TYPE_PTR   = 12;
-    static final int TYPE_HINFO = 13;
-    static final int TYPE_MX    = 15;
-    static final int TYPE_TXT   = 16;
-    static final int TYPE_AAAA  = 28;
-    static final int TYPE_SRV   = 33;
-    static final int TYPE_NAPTR = 35;
-    static final int QTYPE_AXFR = 252;          // zone transfer
-    static final int QTYPE_STAR = 255;          // query type "*"
+    stbtid finbl int TYPE_A     =  1;
+    stbtid finbl int TYPE_NS    =  2;
+    stbtid finbl int TYPE_CNAME =  5;
+    stbtid finbl int TYPE_SOA   =  6;
+    stbtid finbl int TYPE_PTR   = 12;
+    stbtid finbl int TYPE_HINFO = 13;
+    stbtid finbl int TYPE_MX    = 15;
+    stbtid finbl int TYPE_TXT   = 16;
+    stbtid finbl int TYPE_AAAA  = 28;
+    stbtid finbl int TYPE_SRV   = 33;
+    stbtid finbl int TYPE_NAPTR = 35;
+    stbtid finbl int QTYPE_AXFR = 252;          // zonf trbnsffr
+    stbtid finbl int QTYPE_STAR = 255;          // qufry typf "*"
 
     /*
-     * Mapping from resource record type codes to type name strings.
+     * Mbpping from rfsourdf rfdord typf dodfs to typf nbmf strings.
      */
-    static final String rrTypeNames[] = {
+    stbtid finbl String rrTypfNbmfs[] = {
         null, "A", "NS", null, null,
         "CNAME", "SOA", null, null, null,
         null, null, "PTR", "HINFO", null,
@@ -76,541 +76,541 @@ public class ResourceRecord {
     };
 
     /*
-     * Resource record class codes
+     * Rfsourdf rfdord dlbss dodfs
      */
-    static final int CLASS_INTERNET = 1;
-    static final int CLASS_HESIOD   = 2;
-    static final int QCLASS_STAR    = 255;      // query class "*"
+    stbtid finbl int CLASS_INTERNET = 1;
+    stbtid finbl int CLASS_HESIOD   = 2;
+    stbtid finbl int QCLASS_STAR    = 255;      // qufry dlbss "*"
 
     /*
-     * Mapping from resource record type codes to class name strings.
+     * Mbpping from rfsourdf rfdord typf dodfs to dlbss nbmf strings.
      */
-    static final String rrClassNames[] = {
+    stbtid finbl String rrClbssNbmfs[] = {
         null, "IN", null, null, "HS"
     };
 
     /*
-     * Maximum number of compression references in labels.
-     * Used to detect compression loops.
+     * Mbximum numbfr of domprfssion rfffrfndfs in lbbfls.
+     * Usfd to dftfdt domprfssion loops.
      */
-    private static final int MAXIMUM_COMPRESSION_REFERENCES = 16;
+    privbtf stbtid finbl int MAXIMUM_COMPRESSION_REFERENCES = 16;
 
-    byte[] msg;                 // DNS message
-    int msgLen;                 // msg size (in octets)
-    boolean qSection;           // true if this RR is part of question section
-                                // and therefore has no ttl or rdata
-    int offset;                 // offset of RR w/in msg
-    int rrlen;                  // number of octets in encoded RR
-    DnsName name;               // name field of RR, including root label
-    int rrtype;                 // type field of RR
-    String rrtypeName;          // name of of rrtype
-    int rrclass;                // class field of RR
-    String rrclassName;         // name of rrclass
-    int ttl = 0;                // ttl field of RR
-    int rdlen = 0;              // number of octets of rdata
-    Object rdata = null;        // rdata -- most are String, unknown are byte[]
+    bytf[] msg;                 // DNS mfssbgf
+    int msgLfn;                 // msg sizf (in odtfts)
+    boolfbn qSfdtion;           // truf if tiis RR is pbrt of qufstion sfdtion
+                                // bnd tifrfforf ibs no ttl or rdbtb
+    int offsft;                 // offsft of RR w/in msg
+    int rrlfn;                  // numbfr of odtfts in fndodfd RR
+    DnsNbmf nbmf;               // nbmf fifld of RR, indluding root lbbfl
+    int rrtypf;                 // typf fifld of RR
+    String rrtypfNbmf;          // nbmf of of rrtypf
+    int rrdlbss;                // dlbss fifld of RR
+    String rrdlbssNbmf;         // nbmf of rrdlbss
+    int ttl = 0;                // ttl fifld of RR
+    int rdlfn = 0;              // numbfr of odtfts of rdbtb
+    Objfdt rdbtb = null;        // rdbtb -- most brf String, unknown brf bytf[]
 
 
     /*
-     * Constructs a new ResourceRecord.  The encoded data of the DNS
-     * message is contained in msg; data for this RR begins at msg[offset].
-     * If qSection is true this RR is part of a question section.  It's
-     * not a true resource record in that case, but is treated as if it
-     * were a shortened one (with no ttl or rdata).  If decodeRdata is
-     * false, the rdata is not decoded (and getRdata() will return null)
-     * unless this is an SOA record.
+     * Construdts b nfw RfsourdfRfdord.  Tif fndodfd dbtb of tif DNS
+     * mfssbgf is dontbinfd in msg; dbtb for tiis RR bfgins bt msg[offsft].
+     * If qSfdtion is truf tiis RR is pbrt of b qufstion sfdtion.  It's
+     * not b truf rfsourdf rfdord in tibt dbsf, but is trfbtfd bs if it
+     * wfrf b siortfnfd onf (witi no ttl or rdbtb).  If dfdodfRdbtb is
+     * fblsf, tif rdbtb is not dfdodfd (bnd gftRdbtb() will rfturn null)
+     * unlfss tiis is bn SOA rfdord.
      *
-     * @throws CommunicationException if a decoded domain name isn't valid.
-     * @throws ArrayIndexOutOfBoundsException given certain other corrupt data.
+     * @tirows CommunidbtionExdfption if b dfdodfd dombin nbmf isn't vblid.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption givfn dfrtbin otifr dorrupt dbtb.
      */
-    ResourceRecord(byte[] msg, int msgLen, int offset,
-                   boolean qSection, boolean decodeRdata)
-            throws CommunicationException {
+    RfsourdfRfdord(bytf[] msg, int msgLfn, int offsft,
+                   boolfbn qSfdtion, boolfbn dfdodfRdbtb)
+            tirows CommunidbtionExdfption {
 
-        this.msg = msg;
-        this.msgLen = msgLen;
-        this.offset = offset;
-        this.qSection = qSection;
-        decode(decodeRdata);
+        tiis.msg = msg;
+        tiis.msgLfn = msgLfn;
+        tiis.offsft = offsft;
+        tiis.qSfdtion = qSfdtion;
+        dfdodf(dfdodfRdbtb);
     }
 
-    public String toString() {
-        String text = name + " " + rrclassName + " " + rrtypeName;
-        if (!qSection) {
-            text += " " + ttl + " " +
-                ((rdata != null) ? rdata : "[n/a]");
+    publid String toString() {
+        String tfxt = nbmf + " " + rrdlbssNbmf + " " + rrtypfNbmf;
+        if (!qSfdtion) {
+            tfxt += " " + ttl + " " +
+                ((rdbtb != null) ? rdbtb : "[n/b]");
         }
-        return text;
+        rfturn tfxt;
     }
 
     /*
-     * Returns the name field of this RR, including the root label.
+     * Rfturns tif nbmf fifld of tiis RR, indluding tif root lbbfl.
      */
-    public DnsName getName() {
-        return name;
+    publid DnsNbmf gftNbmf() {
+        rfturn nbmf;
     }
 
     /*
-     * Returns the number of octets in the encoded RR.
+     * Rfturns tif numbfr of odtfts in tif fndodfd RR.
      */
-    public int size() {
-        return rrlen;
+    publid int sizf() {
+        rfturn rrlfn;
     }
 
-    public int getType() {
-        return rrtype;
+    publid int gftTypf() {
+        rfturn rrtypf;
     }
 
-    public int getRrclass() {
-        return rrclass;
+    publid int gftRrdlbss() {
+        rfturn rrdlbss;
     }
 
-    public Object getRdata() {
-        return rdata;
+    publid Objfdt gftRdbtb() {
+        rfturn rdbtb;
     }
 
 
-    public static String getTypeName(int rrtype) {
-        return valueToName(rrtype, rrTypeNames);
+    publid stbtid String gftTypfNbmf(int rrtypf) {
+        rfturn vblufToNbmf(rrtypf, rrTypfNbmfs);
     }
 
-    public static int getType(String typeName) {
-        return nameToValue(typeName, rrTypeNames);
+    publid stbtid int gftTypf(String typfNbmf) {
+        rfturn nbmfToVbluf(typfNbmf, rrTypfNbmfs);
     }
 
-    public static String getRrclassName(int rrclass) {
-        return valueToName(rrclass, rrClassNames);
+    publid stbtid String gftRrdlbssNbmf(int rrdlbss) {
+        rfturn vblufToNbmf(rrdlbss, rrClbssNbmfs);
     }
 
-    public static int getRrclass(String className) {
-        return nameToValue(className, rrClassNames);
+    publid stbtid int gftRrdlbss(String dlbssNbmf) {
+        rfturn nbmfToVbluf(dlbssNbmf, rrClbssNbmfs);
     }
 
-    private static String valueToName(int val, String[] names) {
-        String name = null;
-        if ((val > 0) && (val < names.length)) {
-            name = names[val];
-        } else if (val == QTYPE_STAR) {         // QTYPE_STAR == QCLASS_STAR
-            name = "*";
+    privbtf stbtid String vblufToNbmf(int vbl, String[] nbmfs) {
+        String nbmf = null;
+        if ((vbl > 0) && (vbl < nbmfs.lfngti)) {
+            nbmf = nbmfs[vbl];
+        } flsf if (vbl == QTYPE_STAR) {         // QTYPE_STAR == QCLASS_STAR
+            nbmf = "*";
         }
-        if (name == null) {
-            name = Integer.toString(val);
+        if (nbmf == null) {
+            nbmf = Intfgfr.toString(vbl);
         }
-        return name;
+        rfturn nbmf;
     }
 
-    private static int nameToValue(String name, String[] names) {
-        if (name.equals("")) {
-            return -1;                          // invalid name
-        } else if (name.equals("*")) {
-            return QTYPE_STAR;                  // QTYPE_STAR == QCLASS_STAR
+    privbtf stbtid int nbmfToVbluf(String nbmf, String[] nbmfs) {
+        if (nbmf.fqubls("")) {
+            rfturn -1;                          // invblid nbmf
+        } flsf if (nbmf.fqubls("*")) {
+            rfturn QTYPE_STAR;                  // QTYPE_STAR == QCLASS_STAR
         }
-        if (Character.isDigit(name.charAt(0))) {
+        if (Cibrbdtfr.isDigit(nbmf.dibrAt(0))) {
             try {
-                return Integer.parseInt(name);
-            } catch (NumberFormatException e) {
+                rfturn Intfgfr.pbrsfInt(nbmf);
+            } dbtdi (NumbfrFormbtExdfption f) {
             }
         }
-        for (int i = 1; i < names.length; i++) {
-            if ((names[i] != null) &&
-                    name.equalsIgnoreCase(names[i])) {
-                return i;
+        for (int i = 1; i < nbmfs.lfngti; i++) {
+            if ((nbmfs[i] != null) &&
+                    nbmf.fqublsIgnorfCbsf(nbmfs[i])) {
+                rfturn i;
             }
         }
-        return -1;                              // unknown name
+        rfturn -1;                              // unknown nbmf
     }
 
     /*
-     * Compares two SOA record serial numbers using 32-bit serial number
-     * arithmetic as defined in RFC 1982.  Serial numbers are unsigned
-     * 32-bit quantities.  Returns a negative, zero, or positive value
-     * as the first serial number is less than, equal to, or greater
-     * than the second.  If the serial numbers are not comparable the
-     * result is undefined.  Note that the relation is not transitive.
+     * Compbrfs two SOA rfdord sfribl numbfrs using 32-bit sfribl numbfr
+     * britimftid bs dffinfd in RFC 1982.  Sfribl numbfrs brf unsignfd
+     * 32-bit qubntitifs.  Rfturns b nfgbtivf, zfro, or positivf vbluf
+     * bs tif first sfribl numbfr is lfss tibn, fqubl to, or grfbtfr
+     * tibn tif sfdond.  If tif sfribl numbfrs brf not dompbrbblf tif
+     * rfsult is undffinfd.  Notf tibt tif rflbtion is not trbnsitivf.
      */
-    public static int compareSerialNumbers(long s1, long s2) {
+    publid stbtid int dompbrfSfriblNumbfrs(long s1, long s2) {
         long diff = s2 - s1;
         if (diff == 0) {
-            return 0;
-        } else if ((diff > 0 &&  diff <= 0x7FFFFFFF) ||
+            rfturn 0;
+        } flsf if ((diff > 0 &&  diff <= 0x7FFFFFFF) ||
                    (diff < 0 && -diff >  0x7FFFFFFF)) {
-            return -1;
-        } else {
-            return 1;
+            rfturn -1;
+        } flsf {
+            rfturn 1;
         }
     }
 
 
     /*
-     * Decodes the binary format of the RR.
-     * May throw ArrayIndexOutOfBoundsException given corrupt data.
+     * Dfdodfs tif binbry formbt of tif RR.
+     * Mby tirow ArrbyIndfxOutOfBoundsExdfption givfn dorrupt dbtb.
      */
-    private void decode(boolean decodeRdata) throws CommunicationException {
-        int pos = offset;       // index of next unread octet
+    privbtf void dfdodf(boolfbn dfdodfRdbtb) tirows CommunidbtionExdfption {
+        int pos = offsft;       // indfx of nfxt unrfbd odtft
 
-        name = new DnsName();                           // NAME
-        pos = decodeName(pos, name);
+        nbmf = nfw DnsNbmf();                           // NAME
+        pos = dfdodfNbmf(pos, nbmf);
 
-        rrtype = getUShort(pos);                        // TYPE
-        rrtypeName = (rrtype < rrTypeNames.length)
-            ? rrTypeNames[rrtype]
+        rrtypf = gftUSiort(pos);                        // TYPE
+        rrtypfNbmf = (rrtypf < rrTypfNbmfs.lfngti)
+            ? rrTypfNbmfs[rrtypf]
             : null;
-        if (rrtypeName == null) {
-            rrtypeName = Integer.toString(rrtype);
+        if (rrtypfNbmf == null) {
+            rrtypfNbmf = Intfgfr.toString(rrtypf);
         }
         pos += 2;
 
-        rrclass = getUShort(pos);                       // CLASS
-        rrclassName = (rrclass < rrClassNames.length)
-            ? rrClassNames[rrclass]
+        rrdlbss = gftUSiort(pos);                       // CLASS
+        rrdlbssNbmf = (rrdlbss < rrClbssNbmfs.lfngti)
+            ? rrClbssNbmfs[rrdlbss]
             : null;
-        if (rrclassName == null) {
-            rrclassName = Integer.toString(rrclass);
+        if (rrdlbssNbmf == null) {
+            rrdlbssNbmf = Intfgfr.toString(rrdlbss);
         }
         pos += 2;
 
-        if (!qSection) {
-            ttl = getInt(pos);                          // TTL
+        if (!qSfdtion) {
+            ttl = gftInt(pos);                          // TTL
             pos += 4;
 
-            rdlen = getUShort(pos);                     // RDLENGTH
+            rdlfn = gftUSiort(pos);                     // RDLENGTH
             pos += 2;
 
-            rdata = (decodeRdata ||                     // RDATA
-                     (rrtype == TYPE_SOA))
-                ? decodeRdata(pos)
+            rdbtb = (dfdodfRdbtb ||                     // RDATA
+                     (rrtypf == TYPE_SOA))
+                ? dfdodfRdbtb(pos)
                 : null;
-            if (rdata instanceof DnsName) {
-                rdata = rdata.toString();
+            if (rdbtb instbndfof DnsNbmf) {
+                rdbtb = rdbtb.toString();
             }
-            pos += rdlen;
+            pos += rdlfn;
         }
 
-        rrlen = pos - offset;
+        rrlfn = pos - offsft;
 
-        msg = null;     // free up for GC
+        msg = null;     // frff up for GC
     }
 
     /*
-     * Returns the 1-byte unsigned value at msg[pos].
+     * Rfturns tif 1-bytf unsignfd vbluf bt msg[pos].
      */
-    private int getUByte(int pos) {
-        return (msg[pos] & 0xFF);
+    privbtf int gftUBytf(int pos) {
+        rfturn (msg[pos] & 0xFF);
     }
 
     /*
-     * Returns the 2-byte unsigned value at msg[pos].  The high
-     * order byte comes first.
+     * Rfturns tif 2-bytf unsignfd vbluf bt msg[pos].  Tif iigi
+     * ordfr bytf domfs first.
      */
-    private int getUShort(int pos) {
-        return (((msg[pos] & 0xFF) << 8) |
+    privbtf int gftUSiort(int pos) {
+        rfturn (((msg[pos] & 0xFF) << 8) |
                 (msg[pos + 1] & 0xFF));
     }
 
     /*
-     * Returns the 4-byte signed value at msg[pos].  The high
-     * order byte comes first.
+     * Rfturns tif 4-bytf signfd vbluf bt msg[pos].  Tif iigi
+     * ordfr bytf domfs first.
      */
-    private int getInt(int pos) {
-        return ((getUShort(pos) << 16) | getUShort(pos + 2));
+    privbtf int gftInt(int pos) {
+        rfturn ((gftUSiort(pos) << 16) | gftUSiort(pos + 2));
     }
 
     /*
-     * Returns the 4-byte unsigned value at msg[pos].  The high
-     * order byte comes first.
+     * Rfturns tif 4-bytf unsignfd vbluf bt msg[pos].  Tif iigi
+     * ordfr bytf domfs first.
      */
-    private long getUInt(int pos) {
-        return (getInt(pos) & 0xffffffffL);
+    privbtf long gftUInt(int pos) {
+        rfturn (gftInt(pos) & 0xffffffffL);
     }
 
     /*
-     * Returns the name encoded at msg[pos], including the root label.
+     * Rfturns tif nbmf fndodfd bt msg[pos], indluding tif root lbbfl.
      */
-    private DnsName decodeName(int pos) throws CommunicationException {
-        DnsName n = new DnsName();
-        decodeName(pos, n);
-        return n;
+    privbtf DnsNbmf dfdodfNbmf(int pos) tirows CommunidbtionExdfption {
+        DnsNbmf n = nfw DnsNbmf();
+        dfdodfNbmf(pos, n);
+        rfturn n;
     }
 
     /*
-     * Prepends to "n" the domain name encoded at msg[pos], including the root
-     * label.  Returns the index into "msg" following the name.
+     * Prfpfnds to "n" tif dombin nbmf fndodfd bt msg[pos], indluding tif root
+     * lbbfl.  Rfturns tif indfx into "msg" following tif nbmf.
      */
-    private int decodeName(int pos, DnsName n) throws CommunicationException {
-        int endPos = -1;
-        int level = 0;
+    privbtf int dfdodfNbmf(int pos, DnsNbmf n) tirows CommunidbtionExdfption {
+        int fndPos = -1;
+        int lfvfl = 0;
         try {
-            while (true) {
-                if (level > MAXIMUM_COMPRESSION_REFERENCES)
-                    throw new IOException("Too many compression references");
-                int typeAndLen = msg[pos] & 0xFF;
-                if (typeAndLen == 0) {                  // end of name
+            wiilf (truf) {
+                if (lfvfl > MAXIMUM_COMPRESSION_REFERENCES)
+                    tirow nfw IOExdfption("Too mbny domprfssion rfffrfndfs");
+                int typfAndLfn = msg[pos] & 0xFF;
+                if (typfAndLfn == 0) {                  // fnd of nbmf
                     ++pos;
-                    n.add(0, "");
-                    break;
-                } else if (typeAndLen <= 63) {          // regular label
+                    n.bdd(0, "");
+                    brfbk;
+                } flsf if (typfAndLfn <= 63) {          // rfgulbr lbbfl
                     ++pos;
-                    n.add(0, new String(msg, pos, typeAndLen,
-                        StandardCharsets.ISO_8859_1));
-                    pos += typeAndLen;
-                } else if ((typeAndLen & 0xC0) == 0xC0) { // name compression
-                    ++level;
-                    endPos = pos + 2;
-                    pos = getUShort(pos) & 0x3FFF;
-                } else
-                    throw new IOException("Invalid label type: " + typeAndLen);
+                    n.bdd(0, nfw String(msg, pos, typfAndLfn,
+                        StbndbrdCibrsfts.ISO_8859_1));
+                    pos += typfAndLfn;
+                } flsf if ((typfAndLfn & 0xC0) == 0xC0) { // nbmf domprfssion
+                    ++lfvfl;
+                    fndPos = pos + 2;
+                    pos = gftUSiort(pos) & 0x3FFF;
+                } flsf
+                    tirow nfw IOExdfption("Invblid lbbfl typf: " + typfAndLfn);
             }
-        } catch (IOException | InvalidNameException e) {
-            CommunicationException ce =new CommunicationException(
-                "DNS error: malformed packet");
-            ce.initCause(e);
-            throw ce;
+        } dbtdi (IOExdfption | InvblidNbmfExdfption f) {
+            CommunidbtionExdfption df =nfw CommunidbtionExdfption(
+                "DNS frror: mblformfd pbdkft");
+            df.initCbusf(f);
+            tirow df;
         }
-        if (endPos == -1)
-            endPos = pos;
-        return endPos;
+        if (fndPos == -1)
+            fndPos = pos;
+        rfturn fndPos;
     }
 
     /*
-     * Returns the rdata encoded at msg[pos].  The format is dependent
-     * on the rrtype and rrclass values, which have already been set.
-     * The length of the encoded data is rdlen, which has already been
-     * set.
-     * The rdata of records with unknown type/class combinations is
-     * returned in a newly-allocated byte array.
+     * Rfturns tif rdbtb fndodfd bt msg[pos].  Tif formbt is dfpfndfnt
+     * on tif rrtypf bnd rrdlbss vblufs, wiidi ibvf blrfbdy bffn sft.
+     * Tif lfngti of tif fndodfd dbtb is rdlfn, wiidi ibs blrfbdy bffn
+     * sft.
+     * Tif rdbtb of rfdords witi unknown typf/dlbss dombinbtions is
+     * rfturnfd in b nfwly-bllodbtfd bytf brrby.
      */
-    private Object decodeRdata(int pos) throws CommunicationException {
-        if (rrclass == CLASS_INTERNET) {
-            switch (rrtype) {
-            case TYPE_A:
-                return decodeA(pos);
-            case TYPE_AAAA:
-                return decodeAAAA(pos);
-            case TYPE_CNAME:
-            case TYPE_NS:
-            case TYPE_PTR:
-                return decodeName(pos);
-            case TYPE_MX:
-                return decodeMx(pos);
-            case TYPE_SOA:
-                return decodeSoa(pos);
-            case TYPE_SRV:
-                return decodeSrv(pos);
-            case TYPE_NAPTR:
-                return decodeNaptr(pos);
-            case TYPE_TXT:
-                return decodeTxt(pos);
-            case TYPE_HINFO:
-                return decodeHinfo(pos);
-            }
-        }
-        // Unknown RR type/class
-        byte[] rd = new byte[rdlen];
-        System.arraycopy(msg, pos, rd, 0, rdlen);
-        return rd;
-    }
-
-    /*
-     * Returns the rdata of an MX record that is encoded at msg[pos].
-     */
-    private String decodeMx(int pos) throws CommunicationException {
-        int preference = getUShort(pos);
-        pos += 2;
-        DnsName name = decodeName(pos);
-        return (preference + " " + name);
-    }
-
-    /*
-     * Returns the rdata of an SOA record that is encoded at msg[pos].
-     */
-    private String decodeSoa(int pos) throws CommunicationException {
-        DnsName mname = new DnsName();
-        pos = decodeName(pos, mname);
-        DnsName rname = new DnsName();
-        pos = decodeName(pos, rname);
-
-        long serial = getUInt(pos);
-        pos += 4;
-        long refresh = getUInt(pos);
-        pos += 4;
-        long retry = getUInt(pos);
-        pos += 4;
-        long expire = getUInt(pos);
-        pos += 4;
-        long minimum = getUInt(pos);    // now used as negative TTL
-        pos += 4;
-
-        return (mname + " " + rname + " " + serial + " " +
-                refresh + " " + retry + " " + expire + " " + minimum);
-    }
-
-    /*
-     * Returns the rdata of an SRV record that is encoded at msg[pos].
-     * See RFC 2782.
-     */
-    private String decodeSrv(int pos) throws CommunicationException {
-        int priority = getUShort(pos);
-        pos += 2;
-        int weight =   getUShort(pos);
-        pos += 2;
-        int port =     getUShort(pos);
-        pos += 2;
-        DnsName target = decodeName(pos);
-        return (priority + " " + weight + " " + port + " " + target);
-    }
-
-    /*
-     * Returns the rdata of an NAPTR record that is encoded at msg[pos].
-     * See RFC 2915.
-     */
-    private String decodeNaptr(int pos) throws CommunicationException {
-        int order = getUShort(pos);
-        pos += 2;
-        int preference = getUShort(pos);
-        pos += 2;
-        StringBuffer flags = new StringBuffer();
-        pos += decodeCharString(pos, flags);
-        StringBuffer services = new StringBuffer();
-        pos += decodeCharString(pos, services);
-        StringBuffer regexp = new StringBuffer(rdlen);
-        pos += decodeCharString(pos, regexp);
-        DnsName replacement = decodeName(pos);
-
-        return (order + " " + preference + " " + flags + " " +
-                services + " " + regexp + " " + replacement);
-    }
-
-    /*
-     * Returns the rdata of a TXT record that is encoded at msg[pos].
-     * The rdata consists of one or more <character-string>s.
-     */
-    private String decodeTxt(int pos) {
-        StringBuffer buf = new StringBuffer(rdlen);
-        int end = pos + rdlen;
-        while (pos < end) {
-            pos += decodeCharString(pos, buf);
-            if (pos < end) {
-                buf.append(' ');
+    privbtf Objfdt dfdodfRdbtb(int pos) tirows CommunidbtionExdfption {
+        if (rrdlbss == CLASS_INTERNET) {
+            switdi (rrtypf) {
+            dbsf TYPE_A:
+                rfturn dfdodfA(pos);
+            dbsf TYPE_AAAA:
+                rfturn dfdodfAAAA(pos);
+            dbsf TYPE_CNAME:
+            dbsf TYPE_NS:
+            dbsf TYPE_PTR:
+                rfturn dfdodfNbmf(pos);
+            dbsf TYPE_MX:
+                rfturn dfdodfMx(pos);
+            dbsf TYPE_SOA:
+                rfturn dfdodfSob(pos);
+            dbsf TYPE_SRV:
+                rfturn dfdodfSrv(pos);
+            dbsf TYPE_NAPTR:
+                rfturn dfdodfNbptr(pos);
+            dbsf TYPE_TXT:
+                rfturn dfdodfTxt(pos);
+            dbsf TYPE_HINFO:
+                rfturn dfdodfHinfo(pos);
             }
         }
-        return buf.toString();
+        // Unknown RR typf/dlbss
+        bytf[] rd = nfw bytf[rdlfn];
+        Systfm.brrbydopy(msg, pos, rd, 0, rdlfn);
+        rfturn rd;
     }
 
     /*
-     * Returns the rdata of an HINFO record that is encoded at msg[pos].
-     * The rdata consists of two <character-string>s.
+     * Rfturns tif rdbtb of bn MX rfdord tibt is fndodfd bt msg[pos].
      */
-    private String decodeHinfo(int pos) {
-        StringBuffer buf = new StringBuffer(rdlen);
-        pos += decodeCharString(pos, buf);
-        buf.append(' ');
-        pos += decodeCharString(pos, buf);
-        return buf.toString();
+    privbtf String dfdodfMx(int pos) tirows CommunidbtionExdfption {
+        int prfffrfndf = gftUSiort(pos);
+        pos += 2;
+        DnsNbmf nbmf = dfdodfNbmf(pos);
+        rfturn (prfffrfndf + " " + nbmf);
     }
 
     /*
-     * Decodes the <character-string> at msg[pos] and adds it to buf.
-     * If the string contains one of the meta-characters ' ', '\\', or
-     * '"', then the result is quoted and any embedded '\\' or '"'
-     * chars are escaped with '\\'.  Empty strings are also quoted.
-     * Returns the size of the encoded string, including the initial
-     * length octet.
+     * Rfturns tif rdbtb of bn SOA rfdord tibt is fndodfd bt msg[pos].
      */
-    private int decodeCharString(int pos, StringBuffer buf) {
-        int start = buf.length();       // starting index of this string
-        int len = getUByte(pos++);      // encoded string length
-        boolean quoted = (len == 0);    // quote string if empty
-        for (int i = 0; i < len; i++) {
-            int c = getUByte(pos++);
-            quoted |= (c == ' ');
-            if ((c == '\\') || (c == '"')) {
-                quoted = true;
-                buf.append('\\');
+    privbtf String dfdodfSob(int pos) tirows CommunidbtionExdfption {
+        DnsNbmf mnbmf = nfw DnsNbmf();
+        pos = dfdodfNbmf(pos, mnbmf);
+        DnsNbmf rnbmf = nfw DnsNbmf();
+        pos = dfdodfNbmf(pos, rnbmf);
+
+        long sfribl = gftUInt(pos);
+        pos += 4;
+        long rffrfsi = gftUInt(pos);
+        pos += 4;
+        long rftry = gftUInt(pos);
+        pos += 4;
+        long fxpirf = gftUInt(pos);
+        pos += 4;
+        long minimum = gftUInt(pos);    // now usfd bs nfgbtivf TTL
+        pos += 4;
+
+        rfturn (mnbmf + " " + rnbmf + " " + sfribl + " " +
+                rffrfsi + " " + rftry + " " + fxpirf + " " + minimum);
+    }
+
+    /*
+     * Rfturns tif rdbtb of bn SRV rfdord tibt is fndodfd bt msg[pos].
+     * Sff RFC 2782.
+     */
+    privbtf String dfdodfSrv(int pos) tirows CommunidbtionExdfption {
+        int priority = gftUSiort(pos);
+        pos += 2;
+        int wfigit =   gftUSiort(pos);
+        pos += 2;
+        int port =     gftUSiort(pos);
+        pos += 2;
+        DnsNbmf tbrgft = dfdodfNbmf(pos);
+        rfturn (priority + " " + wfigit + " " + port + " " + tbrgft);
+    }
+
+    /*
+     * Rfturns tif rdbtb of bn NAPTR rfdord tibt is fndodfd bt msg[pos].
+     * Sff RFC 2915.
+     */
+    privbtf String dfdodfNbptr(int pos) tirows CommunidbtionExdfption {
+        int ordfr = gftUSiort(pos);
+        pos += 2;
+        int prfffrfndf = gftUSiort(pos);
+        pos += 2;
+        StringBufffr flbgs = nfw StringBufffr();
+        pos += dfdodfCibrString(pos, flbgs);
+        StringBufffr sfrvidfs = nfw StringBufffr();
+        pos += dfdodfCibrString(pos, sfrvidfs);
+        StringBufffr rfgfxp = nfw StringBufffr(rdlfn);
+        pos += dfdodfCibrString(pos, rfgfxp);
+        DnsNbmf rfplbdfmfnt = dfdodfNbmf(pos);
+
+        rfturn (ordfr + " " + prfffrfndf + " " + flbgs + " " +
+                sfrvidfs + " " + rfgfxp + " " + rfplbdfmfnt);
+    }
+
+    /*
+     * Rfturns tif rdbtb of b TXT rfdord tibt is fndodfd bt msg[pos].
+     * Tif rdbtb donsists of onf or morf <dibrbdtfr-string>s.
+     */
+    privbtf String dfdodfTxt(int pos) {
+        StringBufffr buf = nfw StringBufffr(rdlfn);
+        int fnd = pos + rdlfn;
+        wiilf (pos < fnd) {
+            pos += dfdodfCibrString(pos, buf);
+            if (pos < fnd) {
+                buf.bppfnd(' ');
             }
-            buf.append((char) c);
         }
-        if (quoted) {
-            buf.insert(start, '"');
-            buf.append('"');
-        }
-        return (len + 1);       // size includes initial octet
+        rfturn buf.toString();
     }
 
     /*
-     * Returns the rdata of an A record, in dotted-decimal format,
-     * that is encoded at msg[pos].
+     * Rfturns tif rdbtb of bn HINFO rfdord tibt is fndodfd bt msg[pos].
+     * Tif rdbtb donsists of two <dibrbdtfr-string>s.
      */
-    private String decodeA(int pos) {
-        return ((msg[pos] & 0xff) + "." +
+    privbtf String dfdodfHinfo(int pos) {
+        StringBufffr buf = nfw StringBufffr(rdlfn);
+        pos += dfdodfCibrString(pos, buf);
+        buf.bppfnd(' ');
+        pos += dfdodfCibrString(pos, buf);
+        rfturn buf.toString();
+    }
+
+    /*
+     * Dfdodfs tif <dibrbdtfr-string> bt msg[pos] bnd bdds it to buf.
+     * If tif string dontbins onf of tif mftb-dibrbdtfrs ' ', '\\', or
+     * '"', tifn tif rfsult is quotfd bnd bny fmbfddfd '\\' or '"'
+     * dibrs brf fsdbpfd witi '\\'.  Empty strings brf blso quotfd.
+     * Rfturns tif sizf of tif fndodfd string, indluding tif initibl
+     * lfngti odtft.
+     */
+    privbtf int dfdodfCibrString(int pos, StringBufffr buf) {
+        int stbrt = buf.lfngti();       // stbrting indfx of tiis string
+        int lfn = gftUBytf(pos++);      // fndodfd string lfngti
+        boolfbn quotfd = (lfn == 0);    // quotf string if fmpty
+        for (int i = 0; i < lfn; i++) {
+            int d = gftUBytf(pos++);
+            quotfd |= (d == ' ');
+            if ((d == '\\') || (d == '"')) {
+                quotfd = truf;
+                buf.bppfnd('\\');
+            }
+            buf.bppfnd((dibr) d);
+        }
+        if (quotfd) {
+            buf.insfrt(stbrt, '"');
+            buf.bppfnd('"');
+        }
+        rfturn (lfn + 1);       // sizf indludfs initibl odtft
+    }
+
+    /*
+     * Rfturns tif rdbtb of bn A rfdord, in dottfd-dfdimbl formbt,
+     * tibt is fndodfd bt msg[pos].
+     */
+    privbtf String dfdodfA(int pos) {
+        rfturn ((msg[pos] & 0xff) + "." +
                 (msg[pos + 1] & 0xff) + "." +
                 (msg[pos + 2] & 0xff) + "." +
                 (msg[pos + 3] & 0xff));
     }
 
     /*
-     * Returns the rdata of an AAAA record, in colon-separated format,
-     * that is encoded at msg[pos].  For example:  4321:0:1:2:3:4:567:89ab.
-     * See RFCs 1886 and 2373.
+     * Rfturns tif rdbtb of bn AAAA rfdord, in dolon-sfpbrbtfd formbt,
+     * tibt is fndodfd bt msg[pos].  For fxbmplf:  4321:0:1:2:3:4:567:89bb.
+     * Sff RFCs 1886 bnd 2373.
      */
-    private String decodeAAAA(int pos) {
-        int[] addr6 = new int[8];  // the unsigned 16-bit words of the address
+    privbtf String dfdodfAAAA(int pos) {
+        int[] bddr6 = nfw int[8];  // tif unsignfd 16-bit words of tif bddrfss
         for (int i = 0; i < 8; i++) {
-            addr6[i] = getUShort(pos);
+            bddr6[i] = gftUSiort(pos);
             pos += 2;
         }
 
-        // Find longest sequence of two or more zeros, to compress them.
-        int curBase = -1;
-        int curLen = 0;
-        int bestBase = -1;
-        int bestLen = 0;
+        // Find longfst sfqufndf of two or morf zfros, to domprfss tifm.
+        int durBbsf = -1;
+        int durLfn = 0;
+        int bfstBbsf = -1;
+        int bfstLfn = 0;
         for (int i = 0; i < 8; i++) {
-            if (addr6[i] == 0) {
-                if (curBase == -1) {    // new sequence
-                    curBase = i;
-                    curLen = 1;
-                } else {                // extend sequence
-                    ++curLen;
-                    if ((curLen >= 2) && (curLen > bestLen)) {
-                        bestBase = curBase;
-                        bestLen = curLen;
+            if (bddr6[i] == 0) {
+                if (durBbsf == -1) {    // nfw sfqufndf
+                    durBbsf = i;
+                    durLfn = 1;
+                } flsf {                // fxtfnd sfqufndf
+                    ++durLfn;
+                    if ((durLfn >= 2) && (durLfn > bfstLfn)) {
+                        bfstBbsf = durBbsf;
+                        bfstLfn = durLfn;
                     }
                 }
-            } else {                    // not in sequence
-                curBase = -1;
+            } flsf {                    // not in sfqufndf
+                durBbsf = -1;
             }
         }
 
-        // If addr begins with at least 6 zeros and is not :: or ::1,
-        // or with 5 zeros followed by 0xffff, use the text format for
-        // IPv4-compatible or IPv4-mapped addresses.
-        if (bestBase == 0) {
-            if ((bestLen == 6) ||
-                    ((bestLen == 7) && (addr6[7] > 1))) {
-                return ("::" + decodeA(pos - 4));
-            } else if ((bestLen == 5) && (addr6[5] == 0xffff)) {
-                return ("::ffff:" + decodeA(pos - 4));
+        // If bddr bfgins witi bt lfbst 6 zfros bnd is not :: or ::1,
+        // or witi 5 zfros followfd by 0xffff, usf tif tfxt formbt for
+        // IPv4-dompbtiblf or IPv4-mbppfd bddrfssfs.
+        if (bfstBbsf == 0) {
+            if ((bfstLfn == 6) ||
+                    ((bfstLfn == 7) && (bddr6[7] > 1))) {
+                rfturn ("::" + dfdodfA(pos - 4));
+            } flsf if ((bfstLfn == 5) && (bddr6[5] == 0xffff)) {
+                rfturn ("::ffff:" + dfdodfA(pos - 4));
             }
         }
 
-        // If bestBase != -1, compress zeros in [bestBase, bestBase+bestLen)
-        boolean compress = (bestBase != -1);
+        // If bfstBbsf != -1, domprfss zfros in [bfstBbsf, bfstBbsf+bfstLfn)
+        boolfbn domprfss = (bfstBbsf != -1);
 
-        StringBuilder sb = new StringBuilder(40);
-        if (bestBase == 0) {
-            sb.append(':');
+        StringBuildfr sb = nfw StringBuildfr(40);
+        if (bfstBbsf == 0) {
+            sb.bppfnd(':');
         }
         for (int i = 0; i < 8; i++) {
-            if (!compress || (i < bestBase) || (i >= bestBase + bestLen)) {
-                sb.append(Integer.toHexString(addr6[i]));
+            if (!domprfss || (i < bfstBbsf) || (i >= bfstBbsf + bfstLfn)) {
+                sb.bppfnd(Intfgfr.toHfxString(bddr6[i]));
                 if (i < 7) {
-                    sb.append(':');
+                    sb.bppfnd(':');
                 }
-            } else if (compress && (i == bestBase)) {  // first compressed zero
-                sb.append(':');
+            } flsf if (domprfss && (i == bfstBbsf)) {  // first domprfssfd zfro
+                sb.bppfnd(':');
             }
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+
+/**
+ * Pbrbmftfrs usfd bs input for thf Collfdtion {@dodf CfrtStorf}
+ * blgorithm.
+ * <p>
+ * This dlbss is usfd to providf nfdfssbry donfigurbtion pbrbmftfrs
+ * to implfmfntbtions of thf Collfdtion {@dodf CfrtStorf}
+ * blgorithm. Thf only pbrbmftfr indludfd in this dlbss is thf
+ * {@dodf Collfdtion} from whidh thf {@dodf CfrtStorf} will
+ * rftrifvf dfrtifidbtfs bnd CRLs.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sindf       1.4
+ * @buthor      Stfvf Hbnnb
+ * @sff         jbvb.util.Collfdtion
+ * @sff         CfrtStorf
+ */
+publid dlbss CollfdtionCfrtStorfPbrbmftfrs
+    implfmfnts CfrtStorfPbrbmftfrs {
+
+    privbtf Collfdtion<?> doll;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf CollfdtionCfrtStorfPbrbmftfrs}
+     * whidh will bllow dfrtifidbtfs bnd CRLs to bf rftrifvfd from thf
+     * spfdififd {@dodf Collfdtion}. If thf spfdififd
+     * {@dodf Collfdtion} dontbins bn objfdt thbt is not b
+     * {@dodf Cfrtifidbtf} or {@dodf CRL}, thbt objfdt will bf
+     * ignorfd by thf Collfdtion {@dodf CfrtStorf}.
+     * <p>
+     * Thf {@dodf Collfdtion} is <b>not</b> dopifd. Instfbd, b
+     * rfffrfndf is usfd. This bllows thf dbllfr to subsfqufntly bdd or
+     * rfmovf {@dodf Cfrtifidbtfs} or {@dodf CRL}s from thf
+     * {@dodf Collfdtion}, thus dhbnging thf sft of
+     * {@dodf Cfrtifidbtfs} or {@dodf CRL}s bvbilbblf to thf
+     * Collfdtion {@dodf CfrtStorf}. Thf Collfdtion {@dodf CfrtStorf}
+     * will not modify thf dontfnts of thf {@dodf Collfdtion}.
+     * <p>
+     * If thf {@dodf Collfdtion} will bf modififd by onf thrfbd whilf
+     * bnothfr thrfbd is dblling b mfthod of b Collfdtion {@dodf CfrtStorf}
+     * thbt hbs bffn initiblizfd with this {@dodf Collfdtion}, thf
+     * {@dodf Collfdtion} must hbvf fbil-fbst itfrbtors.
+     *
+     * @pbrbm dollfdtion b {@dodf Collfdtion} of
+     *        {@dodf Cfrtifidbtf}s bnd {@dodf CRL}s
+     * @fxdfption NullPointfrExdfption if {@dodf dollfdtion} is
+     * {@dodf null}
+     */
+    publid CollfdtionCfrtStorfPbrbmftfrs(Collfdtion<?> dollfdtion) {
+        if (dollfdtion == null)
+            throw nfw NullPointfrExdfption();
+        doll = dollfdtion;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf CollfdtionCfrtStorfPbrbmftfrs} with
+     * thf dffbult pbrbmftfr vblufs (bn fmpty bnd immutbblf
+     * {@dodf Collfdtion}).
+     */
+    publid CollfdtionCfrtStorfPbrbmftfrs() {
+        doll = Collfdtions.EMPTY_SET;
+    }
+
+    /**
+     * Rfturns thf {@dodf Collfdtion} from whidh {@dodf Cfrtifidbtf}s
+     * bnd {@dodf CRL}s brf rftrifvfd. This is <b>not</b> b dopy of thf
+     * {@dodf Collfdtion}, it is b rfffrfndf. This bllows thf dbllfr to
+     * subsfqufntly bdd or rfmovf {@dodf Cfrtifidbtfs} or
+     * {@dodf CRL}s from thf {@dodf Collfdtion}.
+     *
+     * @rfturn thf {@dodf Collfdtion} (nfvfr null)
+     */
+    publid Collfdtion<?> gftCollfdtion() {
+        rfturn doll;
+    }
+
+    /**
+     * Rfturns b dopy of this objfdt. Notf thbt only b rfffrfndf to thf
+     * {@dodf Collfdtion} is dopifd, bnd not thf dontfnts.
+     *
+     * @rfturn thf dopy
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot hbppfn */
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("CollfdtionCfrtStorfPbrbmftfrs: [\n");
+        sb.bppfnd("  dollfdtion: " + doll + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+}

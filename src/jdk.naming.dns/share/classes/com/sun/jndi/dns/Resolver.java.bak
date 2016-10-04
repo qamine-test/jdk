@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 
 /**
- * The Resolver class performs DNS client operations in support of DnsContext.
+ * Tif Rfsolvfr dlbss pfrforms DNS dlifnt opfrbtions in support of DnsContfxt.
  *
- * <p> Every DnsName instance passed to or returned from a method of
- * this class should be fully-qualified and contain a root label (an
- * empty component at position 0).
+ * <p> Evfry DnsNbmf instbndf pbssfd to or rfturnfd from b mftiod of
+ * tiis dlbss siould bf fully-qublififd bnd dontbin b root lbbfl (bn
+ * fmpty domponfnt bt position 0).
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
-class Resolver {
+dlbss Rfsolvfr {
 
-    private DnsClient dnsClient;
-    private int timeout;                // initial timeout on UDP queries in ms
-    private int retries;                // number of UDP retries
-
-
-    /*
-     * Constructs a new Resolver given its servers and timeout parameters.
-     * Each server is of the form "server[:port]".
-     * IPv6 literal host names include delimiting brackets.
-     * There must be at least one server.
-     * "timeout" is the initial timeout interval (in ms) for UDP queries,
-     * and "retries" gives the number of retries per server.
-     */
-    Resolver(String[] servers, int timeout, int retries)
-            throws NamingException {
-        this.timeout = timeout;
-        this.retries = retries;
-        dnsClient = new DnsClient(servers, timeout, retries);
-    }
-
-    public void close() {
-        dnsClient.close();
-        dnsClient = null;
-    }
+    privbtf DnsClifnt dnsClifnt;
+    privbtf int timfout;                // initibl timfout on UDP qufrifs in ms
+    privbtf int rftrifs;                // numbfr of UDP rftrifs
 
 
     /*
-     * Queries resource records of a particular class and type for a
-     * given domain name.
-     * Useful values of rrclass are ResourceRecord.[Q]CLASS_xxx.
-     * Useful values of rrtype are ResourceRecord.[Q]TYPE_xxx.
-     * If recursion is true, recursion is requested on the query.
-     * If auth is true, only authoritative responses are accepted.
+     * Construdts b nfw Rfsolvfr givfn its sfrvfrs bnd timfout pbrbmftfrs.
+     * Ebdi sfrvfr is of tif form "sfrvfr[:port]".
+     * IPv6 litfrbl iost nbmfs indludf dflimiting brbdkfts.
+     * Tifrf must bf bt lfbst onf sfrvfr.
+     * "timfout" is tif initibl timfout intfrvbl (in ms) for UDP qufrifs,
+     * bnd "rftrifs" givfs tif numbfr of rftrifs pfr sfrvfr.
      */
-    ResourceRecords query(DnsName fqdn, int rrclass, int rrtype,
-                          boolean recursion, boolean auth)
-            throws NamingException {
-        return dnsClient.query(fqdn, rrclass, rrtype, recursion, auth);
+    Rfsolvfr(String[] sfrvfrs, int timfout, int rftrifs)
+            tirows NbmingExdfption {
+        tiis.timfout = timfout;
+        tiis.rftrifs = rftrifs;
+        dnsClifnt = nfw DnsClifnt(sfrvfrs, timfout, rftrifs);
+    }
+
+    publid void dlosf() {
+        dnsClifnt.dlosf();
+        dnsClifnt = null;
+    }
+
+
+    /*
+     * Qufrifs rfsourdf rfdords of b pbrtidulbr dlbss bnd typf for b
+     * givfn dombin nbmf.
+     * Usfful vblufs of rrdlbss brf RfsourdfRfdord.[Q]CLASS_xxx.
+     * Usfful vblufs of rrtypf brf RfsourdfRfdord.[Q]TYPE_xxx.
+     * If rfdursion is truf, rfdursion is rfqufstfd on tif qufry.
+     * If buti is truf, only butioritbtivf rfsponsfs brf bddfptfd.
+     */
+    RfsourdfRfdords qufry(DnsNbmf fqdn, int rrdlbss, int rrtypf,
+                          boolfbn rfdursion, boolfbn buti)
+            tirows NbmingExdfption {
+        rfturn dnsClifnt.qufry(fqdn, rrdlbss, rrtypf, rfdursion, buti);
     }
 
     /*
-     * Queries all resource records of a zone given its domain name and class.
-     * If recursion is true, recursion is requested on the query to find
-     * the name server (and also on the zone transfer, but it won't matter).
+     * Qufrifs bll rfsourdf rfdords of b zonf givfn its dombin nbmf bnd dlbss.
+     * If rfdursion is truf, rfdursion is rfqufstfd on tif qufry to find
+     * tif nbmf sfrvfr (bnd blso on tif zonf trbnsffr, but it won't mbttfr).
      */
-    ResourceRecords queryZone(DnsName zone, int rrclass, boolean recursion)
-            throws NamingException {
+    RfsourdfRfdords qufryZonf(DnsNbmf zonf, int rrdlbss, boolfbn rfdursion)
+            tirows NbmingExdfption {
 
-        DnsClient cl =
-            new DnsClient(findNameServers(zone, recursion), timeout, retries);
+        DnsClifnt dl =
+            nfw DnsClifnt(findNbmfSfrvfrs(zonf, rfdursion), timfout, rftrifs);
         try {
-            return cl.queryZone(zone, rrclass, recursion);
-        } finally {
-            cl.close();
+            rfturn dl.qufryZonf(zonf, rrdlbss, rfdursion);
+        } finblly {
+            dl.dlosf();
         }
     }
 
     /*
-     * Finds the zone of a given domain name.  The method is to look
-     * for the first SOA record on the path from the given domain to
-     * the root.  This search may be partially bypassed if the zone's
-     * SOA record is received in the authority section of a response.
-     * If recursion is true, recursion is requested on any queries.
+     * Finds tif zonf of b givfn dombin nbmf.  Tif mftiod is to look
+     * for tif first SOA rfdord on tif pbti from tif givfn dombin to
+     * tif root.  Tiis sfbrdi mby bf pbrtiblly bypbssfd if tif zonf's
+     * SOA rfdord is rfdfivfd in tif butiority sfdtion of b rfsponsf.
+     * If rfdursion is truf, rfdursion is rfqufstfd on bny qufrifs.
      */
-    DnsName findZoneName(DnsName fqdn, int rrclass, boolean recursion)
-            throws NamingException {
+    DnsNbmf findZonfNbmf(DnsNbmf fqdn, int rrdlbss, boolfbn rfdursion)
+            tirows NbmingExdfption {
 
-        fqdn = (DnsName) fqdn.clone();
-        while (fqdn.size() > 1) {       // while below root
-            ResourceRecords rrs = null;
+        fqdn = (DnsNbmf) fqdn.dlonf();
+        wiilf (fqdn.sizf() > 1) {       // wiilf bflow root
+            RfsourdfRfdords rrs = null;
             try {
-                rrs = query(fqdn, rrclass, ResourceRecord.TYPE_SOA,
-                            recursion, false);
-            } catch (NameNotFoundException e) {
-                throw e;
-            } catch (NamingException e) {
-                // Ignore error and keep searching up the tree.
+                rrs = qufry(fqdn, rrdlbss, RfsourdfRfdord.TYPE_SOA,
+                            rfdursion, fblsf);
+            } dbtdi (NbmfNotFoundExdfption f) {
+                tirow f;
+            } dbtdi (NbmingExdfption f) {
+                // Ignorf frror bnd kffp sfbrdiing up tif trff.
             }
             if (rrs != null) {
-                if (rrs.answer.size() > 0) {    // found zone's SOA
-                    return fqdn;
+                if (rrs.bnswfr.sizf() > 0) {    // found zonf's SOA
+                    rfturn fqdn;
                 }
-                // Look for an SOA record giving the zone's top node.
-                for (int i = 0; i < rrs.authority.size(); i++) {
-                    ResourceRecord rr = rrs.authority.elementAt(i);
-                    if (rr.getType() == ResourceRecord.TYPE_SOA) {
-                        DnsName zone = rr.getName();
-                        if (fqdn.endsWith(zone)) {
-                            return zone;
+                // Look for bn SOA rfdord giving tif zonf's top nodf.
+                for (int i = 0; i < rrs.butiority.sizf(); i++) {
+                    RfsourdfRfdord rr = rrs.butiority.flfmfntAt(i);
+                    if (rr.gftTypf() == RfsourdfRfdord.TYPE_SOA) {
+                        DnsNbmf zonf = rr.gftNbmf();
+                        if (fqdn.fndsWiti(zonf)) {
+                            rfturn zonf;
                         }
                     }
                 }
             }
-            fqdn.remove(fqdn.size() - 1);       // one step rootward
+            fqdn.rfmovf(fqdn.sizf() - 1);       // onf stfp rootwbrd
         }
-        return fqdn;                    // no SOA found below root, so
-                                        // return root
+        rfturn fqdn;                    // no SOA found bflow root, so
+                                        // rfturn root
     }
 
     /*
-     * Finds a zone's SOA record.  Returns null if no SOA is found (in
-     * which case "zone" is not actually a zone).
-     * If recursion is true, recursion is requested on the query.
+     * Finds b zonf's SOA rfdord.  Rfturns null if no SOA is found (in
+     * wiidi dbsf "zonf" is not bdtublly b zonf).
+     * If rfdursion is truf, rfdursion is rfqufstfd on tif qufry.
      */
-     ResourceRecord findSoa(DnsName zone, int rrclass, boolean recursion)
-            throws NamingException {
+     RfsourdfRfdord findSob(DnsNbmf zonf, int rrdlbss, boolfbn rfdursion)
+            tirows NbmingExdfption {
 
-        ResourceRecords rrs = query(zone, rrclass, ResourceRecord.TYPE_SOA,
-                                    recursion, false);
-        for (int i = 0; i < rrs.answer.size(); i++) {
-            ResourceRecord rr = rrs.answer.elementAt(i);
-            if (rr.getType() == ResourceRecord.TYPE_SOA) {
-                return rr;
+        RfsourdfRfdords rrs = qufry(zonf, rrdlbss, RfsourdfRfdord.TYPE_SOA,
+                                    rfdursion, fblsf);
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            if (rr.gftTypf() == RfsourdfRfdord.TYPE_SOA) {
+                rfturn rr;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Finds the name servers of a zone.  <tt>zone</tt> is a fully-qualified
-     * domain name at the top of a zone.
-     * If recursion is true, recursion is requested on the query.
+     * Finds tif nbmf sfrvfrs of b zonf.  <tt>zonf</tt> is b fully-qublififd
+     * dombin nbmf bt tif top of b zonf.
+     * If rfdursion is truf, rfdursion is rfqufstfd on tif qufry.
      */
-    private String[] findNameServers(DnsName zone, boolean recursion)
-            throws NamingException {
+    privbtf String[] findNbmfSfrvfrs(DnsNbmf zonf, boolfbn rfdursion)
+            tirows NbmingExdfption {
 
-        // %%% As an optimization, could look in authority section of
-        // findZoneName() response first.
-        ResourceRecords rrs =
-            query(zone, ResourceRecord.CLASS_INTERNET, ResourceRecord.TYPE_NS,
-                  recursion, false);
-        String[] ns = new String[rrs.answer.size()];
-        for (int i = 0; i < ns.length; i++) {
-            ResourceRecord rr = rrs.answer.elementAt(i);
-            if (rr.getType() != ResourceRecord.TYPE_NS) {
-                throw new CommunicationException("Corrupted DNS message");
+        // %%% As bn optimizbtion, dould look in butiority sfdtion of
+        // findZonfNbmf() rfsponsf first.
+        RfsourdfRfdords rrs =
+            qufry(zonf, RfsourdfRfdord.CLASS_INTERNET, RfsourdfRfdord.TYPE_NS,
+                  rfdursion, fblsf);
+        String[] ns = nfw String[rrs.bnswfr.sizf()];
+        for (int i = 0; i < ns.lfngti; i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            if (rr.gftTypf() != RfsourdfRfdord.TYPE_NS) {
+                tirow nfw CommunidbtionExdfption("Corruptfd DNS mfssbgf");
             }
-            ns[i] = (String) rr.getRdata();
+            ns[i] = (String) rr.gftRdbtb();
 
-            // Server name will be passed to InetAddress.getByName(), which
-            // may not be able to handle a trailing dot.
-            // assert ns[i].endsWith(".");
-            ns[i] = ns[i].substring(0, ns[i].length() - 1);
+            // Sfrvfr nbmf will bf pbssfd to InftAddrfss.gftByNbmf(), wiidi
+            // mby not bf bblf to ibndlf b trbiling dot.
+            // bssfrt ns[i].fndsWiti(".");
+            ns[i] = ns[i].substring(0, ns[i].lfngti() - 1);
         }
-        return ns;
+        rfturn ns;
     }
 }

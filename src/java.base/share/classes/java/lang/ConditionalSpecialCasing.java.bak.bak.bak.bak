@@ -1,0 +1,471 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.util.HbshSft;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import sun.tfxt.Normblizfr;
+
+
+/**
+ * This is b utility dlbss for <dodf>String.toLowfrCbsf()</dodf> bnd
+ * <dodf>String.toUppfrCbsf()</dodf>, thbt hbndlfs spfdibl dbsing with
+ * donditions.  In othfr words, it hbndlfs thf mbppings with donditions
+ * thbt brf dffinfd in
+ * <b hrff="http://www.unidodf.org/Publid/UNIDATA/SpfdiblCbsing.txt">Spfdibl
+ * Cbsing Propfrtifs</b> filf.
+ * <p>
+ * Notf thbt thf undonditionbl dbsf mbppings (indluding 1:M mbppings)
+ * brf hbndlfd in <dodf>Chbrbdtfr.toLowfr/UppfrCbsf()</dodf>.
+ */
+finbl dlbss ConditionblSpfdiblCbsing {
+
+    // dontfxt donditions.
+    finbl stbtid int FINAL_CASED =              1;
+    finbl stbtid int AFTER_SOFT_DOTTED =        2;
+    finbl stbtid int MORE_ABOVE =               3;
+    finbl stbtid int AFTER_I =                  4;
+    finbl stbtid int NOT_BEFORE_DOT =           5;
+
+    // dombining dlbss dffinitions
+    finbl stbtid int COMBINING_CLASS_ABOVE = 230;
+
+    // Spfdibl dbsf mbpping fntrifs
+    stbtid Entry[] fntry = {
+        //# ================================================================================
+        //# Conditionbl mbppings
+        //# ================================================================================
+        nfw Entry(0x03A3, nfw dhbr[]{0x03C2}, nfw dhbr[]{0x03A3}, null, FINAL_CASED), // # GREEK CAPITAL LETTER SIGMA
+        nfw Entry(0x0130, nfw dhbr[]{0x0069, 0x0307}, nfw dhbr[]{0x0130}, null, 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+
+        //# ================================================================================
+        //# Lodblf-sfnsitivf mbppings
+        //# ================================================================================
+        //# Lithubnibn
+        nfw Entry(0x0307, nfw dhbr[]{0x0307}, nfw dhbr[]{}, "lt",  AFTER_SOFT_DOTTED), // # COMBINING DOT ABOVE
+        nfw Entry(0x0049, nfw dhbr[]{0x0069, 0x0307}, nfw dhbr[]{0x0049}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x004A, nfw dhbr[]{0x006A, 0x0307}, nfw dhbr[]{0x004A}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER J
+        nfw Entry(0x012E, nfw dhbr[]{0x012F, 0x0307}, nfw dhbr[]{0x012E}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I WITH OGONEK
+        nfw Entry(0x00CC, nfw dhbr[]{0x0069, 0x0307, 0x0300}, nfw dhbr[]{0x00CC}, "lt", 0), // # LATIN CAPITAL LETTER I WITH GRAVE
+        nfw Entry(0x00CD, nfw dhbr[]{0x0069, 0x0307, 0x0301}, nfw dhbr[]{0x00CD}, "lt", 0), // # LATIN CAPITAL LETTER I WITH ACUTE
+        nfw Entry(0x0128, nfw dhbr[]{0x0069, 0x0307, 0x0303}, nfw dhbr[]{0x0128}, "lt", 0), // # LATIN CAPITAL LETTER I WITH TILDE
+
+        //# ================================================================================
+        //# Turkish bnd Azfri
+        nfw Entry(0x0130, nfw dhbr[]{0x0069}, nfw dhbr[]{0x0130}, "tr", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        nfw Entry(0x0130, nfw dhbr[]{0x0069}, nfw dhbr[]{0x0130}, "bz", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        nfw Entry(0x0307, nfw dhbr[]{}, nfw dhbr[]{0x0307}, "tr", AFTER_I), // # COMBINING DOT ABOVE
+        nfw Entry(0x0307, nfw dhbr[]{}, nfw dhbr[]{0x0307}, "bz", AFTER_I), // # COMBINING DOT ABOVE
+        nfw Entry(0x0049, nfw dhbr[]{0x0131}, nfw dhbr[]{0x0049}, "tr", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x0049, nfw dhbr[]{0x0131}, nfw dhbr[]{0x0049}, "bz", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        nfw Entry(0x0069, nfw dhbr[]{0x0069}, nfw dhbr[]{0x0130}, "tr", 0), // # LATIN SMALL LETTER I
+        nfw Entry(0x0069, nfw dhbr[]{0x0069}, nfw dhbr[]{0x0130}, "bz", 0)  // # LATIN SMALL LETTER I
+    };
+
+    // A hbsh tbblf thbt dontbins thf bbovf fntrifs
+    stbtid Hbshtbblf<Intfgfr, HbshSft<Entry>> fntryTbblf = nfw Hbshtbblf<>();
+    stbtid {
+        // drfbtf hbshtbblf from thf fntry
+        for (Entry dur : fntry) {
+            Intfgfr dp = dur.gftCodfPoint();
+            HbshSft<Entry> sft = fntryTbblf.gft(dp);
+            if (sft == null) {
+                sft = nfw HbshSft<>();
+                fntryTbblf.put(dp, sft);
+            }
+            sft.bdd(dur);
+        }
+    }
+
+    stbtid int toLowfrCbsfEx(String srd, int indfx, Lodblf lodblf) {
+        dhbr[] rfsult = lookUpTbblf(srd, indfx, lodblf, truf);
+
+        if (rfsult != null) {
+            if (rfsult.lfngth == 1) {
+                rfturn rfsult[0];
+            } flsf {
+                rfturn Chbrbdtfr.ERROR;
+            }
+        } flsf {
+            // dffbult to Chbrbdtfr dlbss' onf
+            rfturn Chbrbdtfr.toLowfrCbsf(srd.dodfPointAt(indfx));
+        }
+    }
+
+    stbtid int toUppfrCbsfEx(String srd, int indfx, Lodblf lodblf) {
+        dhbr[] rfsult = lookUpTbblf(srd, indfx, lodblf, fblsf);
+
+        if (rfsult != null) {
+            if (rfsult.lfngth == 1) {
+                rfturn rfsult[0];
+            } flsf {
+                rfturn Chbrbdtfr.ERROR;
+            }
+        } flsf {
+            // dffbult to Chbrbdtfr dlbss' onf
+            rfturn Chbrbdtfr.toUppfrCbsfEx(srd.dodfPointAt(indfx));
+        }
+    }
+
+    stbtid dhbr[] toLowfrCbsfChbrArrby(String srd, int indfx, Lodblf lodblf) {
+        rfturn lookUpTbblf(srd, indfx, lodblf, truf);
+    }
+
+    stbtid dhbr[] toUppfrCbsfChbrArrby(String srd, int indfx, Lodblf lodblf) {
+        dhbr[] rfsult = lookUpTbblf(srd, indfx, lodblf, fblsf);
+        if (rfsult != null) {
+            rfturn rfsult;
+        } flsf {
+            rfturn Chbrbdtfr.toUppfrCbsfChbrArrby(srd.dodfPointAt(indfx));
+        }
+    }
+
+    privbtf stbtid dhbr[] lookUpTbblf(String srd, int indfx, Lodblf lodblf, boolfbn bLowfrCbsing) {
+        HbshSft<Entry> sft = fntryTbblf.gft(srd.dodfPointAt(indfx));
+        dhbr[] rft = null;
+
+        if (sft != null) {
+            Itfrbtor<Entry> itfr = sft.itfrbtor();
+            String durrfntLbng = lodblf.gftLbngubgf();
+            whilf (itfr.hbsNfxt()) {
+                Entry fntry = itfr.nfxt();
+                String donditionLbng = fntry.gftLbngubgf();
+                if (((donditionLbng == null) || (donditionLbng.fqubls(durrfntLbng))) &&
+                        isConditionMft(srd, indfx, lodblf, fntry.gftCondition())) {
+                    rft = bLowfrCbsing ? fntry.gftLowfrCbsf() : fntry.gftUppfrCbsf();
+                    if (donditionLbng != null) {
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        rfturn rft;
+    }
+
+    privbtf stbtid boolfbn isConditionMft(String srd, int indfx, Lodblf lodblf, int dondition) {
+        switdh (dondition) {
+        dbsf FINAL_CASED:
+            rfturn isFinblCbsfd(srd, indfx, lodblf);
+
+        dbsf AFTER_SOFT_DOTTED:
+            rfturn isAftfrSoftDottfd(srd, indfx);
+
+        dbsf MORE_ABOVE:
+            rfturn isMorfAbovf(srd, indfx);
+
+        dbsf AFTER_I:
+            rfturn isAftfrI(srd, indfx);
+
+        dbsf NOT_BEFORE_DOT:
+            rfturn !isBfforfDot(srd, indfx);
+
+        dffbult:
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Implfmfnts thf "Finbl_Cbsfd" dondition
+     *
+     * Spfdifidbtion: Within thf dlosfst word boundbrifs dontbining C, thfrf is b dbsfd
+     * lfttfr bfforf C, bnd thfrf is no dbsfd lfttfr bftfr C.
+     *
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [{dbsfd==truf}][{wordBoundbry!=truf}]*
+     *   Aftfr C: !([{wordBoundbry!=truf}]*[{dbsfd}])
+     */
+    privbtf stbtid boolfbn isFinblCbsfd(String srd, int indfx, Lodblf lodblf) {
+        BrfbkItfrbtor wordBoundbry = BrfbkItfrbtor.gftWordInstbndf(lodblf);
+        wordBoundbry.sftTfxt(srd);
+        int dh;
+
+        // Look for b prfdfding 'dbsfd' lfttfr
+        for (int i = indfx; (i >= 0) && !wordBoundbry.isBoundbry(i);
+                i -= Chbrbdtfr.dhbrCount(dh)) {
+
+            dh = srd.dodfPointBfforf(i);
+            if (isCbsfd(dh)) {
+
+                int lfn = srd.lfngth();
+                // Chfdk thbt thfrf is no 'dbsfd' lfttfr bftfr thf indfx
+                for (i = indfx + Chbrbdtfr.dhbrCount(srd.dodfPointAt(indfx));
+                        (i < lfn) && !wordBoundbry.isBoundbry(i);
+                        i += Chbrbdtfr.dhbrCount(dh)) {
+
+                    dh = srd.dodfPointAt(i);
+                    if (isCbsfd(dh)) {
+                        rfturn fblsf;
+                    }
+                }
+
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Implfmfnts thf "Aftfr_I" dondition
+     *
+     * Spfdifidbtion: Thf lbst prfdfding bbsf dhbrbdtfr wbs bn uppfrdbsf I,
+     * bnd thfrf is no intfrvfning dombining dhbrbdtfr dlbss 230 (ABOVE).
+     *
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [I]([{dd!=230}&{dd!=0}])*
+     */
+    privbtf stbtid boolfbn isAftfrI(String srd, int indfx) {
+        int dh;
+        int dd;
+
+        // Look for thf lbst prfdfding bbsf dhbrbdtfr
+        for (int i = indfx; i > 0; i -= Chbrbdtfr.dhbrCount(dh)) {
+
+            dh = srd.dodfPointBfforf(i);
+
+            if (dh == 'I') {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(dh);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Implfmfnts thf "Aftfr_Soft_Dottfd" dondition
+     *
+     * Spfdifidbtion: Thf lbst prfdfding dhbrbdtfr with dombining dlbss
+     * of zfro bfforf C wbs Soft_Dottfd, bnd thfrf is no intfrvfning
+     * dombining dhbrbdtfr dlbss 230 (ABOVE).
+     *
+     * Rfgulbr Exprfssion:
+     *   Bfforf C: [{Soft_Dottfd==truf}]([{dd!=230}&{dd!=0}])*
+     */
+    privbtf stbtid boolfbn isAftfrSoftDottfd(String srd, int indfx) {
+        int dh;
+        int dd;
+
+        // Look for thf lbst prfdfding dhbrbdtfr
+        for (int i = indfx; i > 0; i -= Chbrbdtfr.dhbrCount(dh)) {
+
+            dh = srd.dodfPointBfforf(i);
+
+            if (isSoftDottfd(dh)) {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(dh);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Implfmfnts thf "Morf_Abovf" dondition
+     *
+     * Spfdifidbtion: C is followfd by onf or morf dhbrbdtfrs of dombining
+     * dlbss 230 (ABOVE) in thf dombining dhbrbdtfr sfqufndf.
+     *
+     * Rfgulbr Exprfssion:
+     *   Aftfr C: [{dd!=0}]*[{dd==230}]
+     */
+    privbtf stbtid boolfbn isMorfAbovf(String srd, int indfx) {
+        int dh;
+        int dd;
+        int lfn = srd.lfngth();
+
+        // Look for b following ABOVE dombining dlbss dhbrbdtfr
+        for (int i = indfx + Chbrbdtfr.dhbrCount(srd.dodfPointAt(indfx));
+                i < lfn; i += Chbrbdtfr.dhbrCount(dh)) {
+
+            dh = srd.dodfPointAt(i);
+            dd = Normblizfr.gftCombiningClbss(dh);
+
+            if (dd == COMBINING_CLASS_ABOVE) {
+                rfturn truf;
+            } flsf if (dd == 0) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Implfmfnts thf "Bfforf_Dot" dondition
+     *
+     * Spfdifidbtion: C is followfd by <dodf>U+0307 COMBINING DOT ABOVE</dodf>.
+     * Any sfqufndf of dhbrbdtfrs with b dombining dlbss thbt is
+     * nfithfr 0 nor 230 mby intfrvfnf bftwffn thf durrfnt dhbrbdtfr
+     * bnd thf dombining dot bbovf.
+     *
+     * Rfgulbr Exprfssion:
+     *   Aftfr C: ([{dd!=230}&{dd!=0}])*[\u0307]
+     */
+    privbtf stbtid boolfbn isBfforfDot(String srd, int indfx) {
+        int dh;
+        int dd;
+        int lfn = srd.lfngth();
+
+        // Look for b following COMBINING DOT ABOVE
+        for (int i = indfx + Chbrbdtfr.dhbrCount(srd.dodfPointAt(indfx));
+                i < lfn; i += Chbrbdtfr.dhbrCount(dh)) {
+
+            dh = srd.dodfPointAt(i);
+
+            if (dh == '\u0307') {
+                rfturn truf;
+            } flsf {
+                dd = Normblizfr.gftCombiningClbss(dh);
+                if ((dd == 0) || (dd == COMBINING_CLASS_ABOVE)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Exbminfs whfthfr b dhbrbdtfr is 'dbsfd'.
+     *
+     * A dhbrbdtfr C is dffinfd to bf 'dbsfd' if bnd only if bt lfbst onf of
+     * following brf truf for C: uppfrdbsf==truf, or lowfrdbsf==truf, or
+     * gfnfrbl_dbtfgory==titlfdbsf_lfttfr.
+     *
+     * Thf uppfrdbsf bnd lowfrdbsf propfrty vblufs brf spfdififd in thf dbtb
+     * filf DfrivfdCorfPropfrtifs.txt in thf Unidodf Chbrbdtfr Dbtbbbsf.
+     */
+    privbtf stbtid boolfbn isCbsfd(int dh) {
+        int typf = Chbrbdtfr.gftTypf(dh);
+        if (typf == Chbrbdtfr.LOWERCASE_LETTER ||
+                typf == Chbrbdtfr.UPPERCASE_LETTER ||
+                typf == Chbrbdtfr.TITLECASE_LETTER) {
+            rfturn truf;
+        } flsf {
+            // Chfdk for Othfr_Lowfrdbsf bnd Othfr_Uppfrdbsf
+            //
+            if ((dh >= 0x02B0) && (dh <= 0x02B8)) {
+                // MODIFIER LETTER SMALL H..MODIFIER LETTER SMALL Y
+                rfturn truf;
+            } flsf if ((dh >= 0x02C0) && (dh <= 0x02C1)) {
+                // MODIFIER LETTER GLOTTAL STOP..MODIFIER LETTER REVERSED GLOTTAL STOP
+                rfturn truf;
+            } flsf if ((dh >= 0x02E0) && (dh <= 0x02E4)) {
+                // MODIFIER LETTER SMALL GAMMA..MODIFIER LETTER SMALL REVERSED GLOTTAL STOP
+                rfturn truf;
+            } flsf if (dh == 0x0345) {
+                // COMBINING GREEK YPOGEGRAMMENI
+                rfturn truf;
+            } flsf if (dh == 0x037A) {
+                // GREEK YPOGEGRAMMENI
+                rfturn truf;
+            } flsf if ((dh >= 0x1D2C) && (dh <= 0x1D61)) {
+                // MODIFIER LETTER CAPITAL A..MODIFIER LETTER SMALL CHI
+                rfturn truf;
+            } flsf if ((dh >= 0x2160) && (dh <= 0x217F)) {
+                // ROMAN NUMERAL ONE..ROMAN NUMERAL ONE THOUSAND
+                // SMALL ROMAN NUMERAL ONE..SMALL ROMAN NUMERAL ONE THOUSAND
+                rfturn truf;
+            } flsf if ((dh >= 0x24B6) && (dh <= 0x24E9)) {
+                // CIRCLED LATIN CAPITAL LETTER A..CIRCLED LATIN CAPITAL LETTER Z
+                // CIRCLED LATIN SMALL LETTER A..CIRCLED LATIN SMALL LETTER Z
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    privbtf stbtid boolfbn isSoftDottfd(int dh) {
+        switdh (dh) {
+        dbsf 0x0069: // Soft_Dottfd # L&       LATIN SMALL LETTER I
+        dbsf 0x006A: // Soft_Dottfd # L&       LATIN SMALL LETTER J
+        dbsf 0x012F: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH OGONEK
+        dbsf 0x0268: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH STROKE
+        dbsf 0x0456: // Soft_Dottfd # L&       CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
+        dbsf 0x0458: // Soft_Dottfd # L&       CYRILLIC SMALL LETTER JE
+        dbsf 0x1D62: // Soft_Dottfd # L&       LATIN SUBSCRIPT SMALL LETTER I
+        dbsf 0x1E2D: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH TILDE BELOW
+        dbsf 0x1ECB: // Soft_Dottfd # L&       LATIN SMALL LETTER I WITH DOT BELOW
+        dbsf 0x2071: // Soft_Dottfd # L&       SUPERSCRIPT LATIN SMALL LETTER I
+            rfturn truf;
+        dffbult:
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * An intfrnbl dlbss thbt rfprfsfnts bn fntry in thf Spfdibl Cbsing Propfrtifs.
+     */
+    stbtid dlbss Entry {
+        int dh;
+        dhbr [] lowfr;
+        dhbr [] uppfr;
+        String lbng;
+        int dondition;
+
+        Entry(int dh, dhbr[] lowfr, dhbr[] uppfr, String lbng, int dondition) {
+            this.dh = dh;
+            this.lowfr = lowfr;
+            this.uppfr = uppfr;
+            this.lbng = lbng;
+            this.dondition = dondition;
+        }
+
+        int gftCodfPoint() {
+            rfturn dh;
+        }
+
+        dhbr[] gftLowfrCbsf() {
+            rfturn lowfr;
+        }
+
+        dhbr[] gftUppfrCbsf() {
+            rfturn uppfr;
+        }
+
+        String gftLbngubgf() {
+            rfturn lbng;
+        }
+
+        int gftCondition() {
+            rfturn dondition;
+        }
+    }
+}

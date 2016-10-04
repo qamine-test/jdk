@@ -1,0 +1,580 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2007 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
+
+#indludf "LETypfs.h"
+/**
+ * \filf
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
+ */
+
+U_NAMESPACE_BEGIN
+
+/**
+ * Instbndfs of this dlbss brf usfd by <dodf>LEFontInstbndf::mbpChbrsToGlyphs</dodf> bnd
+ * <dodf>LEFontInstbndf::mbpChbrToGlyph</dodf> to bdjust dhbrbdtfr dodfs bfforf thf dhbrbdtfr
+ * to glyph mbpping prodfss. Exbmplfs of this brf filtfring out dontrol dhbrbdtfrs
+ * bnd dhbrbdtfr mirroring - rfplbding b dhbrbdtfr whidh hbs both b lfft bnd b right
+ * hbnd form with thf oppositf form.
+ *
+ * @stbblf ICU 3.2
+ */
+dlbss LEChbrMbppfr /* not : publid UObjfdt bfdbusf this is bn intfrfbdf/mixin dlbss */
+{
+publid:
+    /**
+     * Dfstrudtor.
+     * @stbblf ICU 3.2
+     */
+    virtubl ~LEChbrMbppfr();
+
+    /**
+     * This mfthod dofs thf bdjustmfnts.
+     *
+     * @pbrbm dh - thf input dhbrbdtfr
+     *
+     * @rfturn thf bdjustfd dhbrbdtfr
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl LEUnidodf32 mbpChbr(LEUnidodf32 dh) donst = 0;
+};
+
+/**
+ * This is b forwbrd rfffrfndf to thf dlbss whidh holds thf pfr-glyph
+ * storbgf.
+ *
+ * @stbblf ICU 3.0
+ */
+dlbss LEGlyphStorbgf;
+
+/**
+ * This is b virtubl bbsf dlbss thbt sfrvfs bs thf intfrfbdf bftwffn b LbyoutEnginf
+ * bnd thf plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * dhbrbdtfr to glyph mbpping, bnd obtbin mftrids informbtion without knowing bny plbtform
+ * spfdifid dftbils. Thfrf brf blso b ffw utility mfthods for donvfrting bftwffn points,
+ * pixfls bnd funits. (font dfsign units)
+ *
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * sizf. Ebdh instbndf dbn rfprfsfnt fithfr b singlf physidbl font, or b dompositf font.
+ * A dompositf font is b dollfdtion of physidbl fonts, fbdh of whidh dontbins b subsft of
+ * thf dhbrbdtfrs dontbinfd in thf dompositf font.
+ *
+ * Notf: with thf fxdfption of <dodf>gftSubFont</dodf>, thf mfthods in this dlbss only
+ * mbkf sfnsf for b physidbl font. If you hbvf bn <dodf>LEFontInstbndf</dodf> whidh
+ * rfprfsfnts b dompositf font you should only dbll thf mfthods bflow whidh hbvf
+ * bn <dodf>LEGlyphID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bs onf of thf brgumfnts bfdbusf thfsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ *
+ * Subdlbssfs whidh implfmfnt dompositf fonts should supply bn implfmfntbtion of thfsf
+ * mfthods with somf dffbult bfhbvior sudh bs rfturning donstbnt vblufs, or using thf
+ * vblufs from thf first subfont.
+ *
+ * @stbblf ICU 3.0
+ */
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+{
+publid:
+
+    /**
+     * This virtubl dfstrudtor is hfrf so thbt thf subdlbss
+     * dfstrudtors dbn bf invokfd through thf bbsf dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl ~LEFontInstbndf();
+
+    /**
+     * Gft b physidbl font whidh dbn rfndfr thf givfn tfxt. For dompositf fonts,
+     * if thfrf is no singlf physidbl font whidh dbn rfndfr bll of thf tfxt,
+     * rfturn b physidbl font whidh dbn rfndfr bn initibl substring of thf tfxt,
+     * bnd sft thf <dodf>offsft</dodf> pbrbmftfr to thf fnd of thbt substring.
+     *
+     * Intfrnblly, thf LbyoutEnginf works with runs of tfxt bll in thf sbmf
+     * font bnd sdript, so it is bfst to dbll this mfthod with tfxt whidh is
+     * in b singlf sdript, pbssing thf sdript dodf in bs b hint. If you don't
+     * know thf sdript of thf tfxt, you dbn usf zfro, whidh is thf sdript dodf
+     * for dhbrbdtfrs usfd in morf thbn onf sdript.
+     *
+     * Thf dffbult implfmfntbtion of this mfthod is intfndfd for instbndfs of
+     * <dodf>LEFontInstbndf</dodf> whidh rfprfsfnt b physidbl font. It rfturns
+     * <dodf>this</dodf> bnd indidbtfs thbt thf fntirf string dbn bf rfndfrfd.
+     *
+     * This mfthod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * hbvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror hbs bffn fndountfrfd.
+     * For dompositf fonts, it mby rfturn thf wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * to indidbtf thbt thf rfturnfd font mby not bf bblf to rfndfr bll of
+     * thf tfxt. Whfnfvfr b vblid font is rfturnfd, thf <dodf>offsft</dodf> pbrbmftfr
+     * will bf bdvbndfd by bt lfbst onf.
+     *
+     * Subdlbssfs whidh implfmfnt dompositf fonts must ovfrridf this mfthod.
+     * Whfrf it mbkfs sfnsf, thfy should usf thf sdript dodf bs b hint to rfndfr
+     * dhbrbdtfrs from thf COMMON sdript in thf font whidh is usfd for thf givfn
+     * sdript. For fxbmplf, if thf input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * by spbdfs, bnd thf sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * should rfturn thf font usfd for Arbbid dhbrbdtfrs for bll of thf input tfxt,
+     * indluding thf spbdfs. If, on thf othfr hbnd, thf input tfxt dontbins dhbrbdtfrs
+     * whidh dbnnot bf rfndfrfd by thf font usfd for Arbbid dhbrbdtfrs, but whidh dbn
+     * bf rfndfrfd by bnothfr font, you should rfturn thbt font for thosf dhbrbdtfrs.
+     *
+     * @pbrbm dhbrs   - thf brrby of Unidodf dhbrbdtfrs.
+     * @pbrbm offsft  - b pointfr to thf stbrting offsft in thf tfxt. On fxit this
+     *                  will bf sft thf thf limit offsft of thf tfxt whidh dbn bf
+     *                  rfndfrfd using thf rfturnfd font.
+     * @pbrbm limit   - thf limit offsft for thf input tfxt.
+     * @pbrbm sdript  - thf sdript hint.
+     * @pbrbm suddfss - sft to bn frror dodf if thf brgumfnts brf illfgbl, or no font
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if thf subfont whidh
+     *                  wbs rfturnfd dbnnot rfndfr bll of thf tfxt.
+     *
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for thf sub font whidh dbn rfndfr thf dhbrbdtfrs, or
+     *         <dodf>NULL</dodf> if thfrf is bn frror.
+     *
+     * @sff LESdripts.h
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dhbrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+
+    //
+    // Font filf bddfss
+    //
+
+    /**
+     * This mfthod rfbds b tbblf from thf font. Notf thbt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll this mfthod on bn <dodf>LEFontInstbndf</dodf>
+     * whidh rfprfsfnts b physidbl font - i.f. onf whidh hbs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. This is bfdbusf fbdh subfont in b dompositf font
+     * will hbvf difffrfnt tbblfs, bnd thfrf's no wby to know whidh subfont to bddfss.
+     *
+     * Subdlbssfs whidh rfprfsfnt dompositf fonts should blwbys rfturn <dodf>NULL</dodf>.
+     *
+     * Notf thbt implfmfnting this fundtion dofs not bllow for rbngf dhfdking.
+     * Subdlbssfs thbt dfsirf thf sbffty of rbngf dhfdking must implfmfnt thf
+     * vbribtion whidh hbs b lfngth pbrbmftfr.
+     *
+     * @pbrbm tbblfTbg - thf four bytf tbblf tbg. (f.g. 'dmbp')
+     *
+     * @rfturn thf bddrfss of thf tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if thf tbblf dofsn't fxist.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+
+    /**
+     * This mfthod rfbds b tbblf from thf font. Notf thbt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll this mfthod on bn <dodf>LEFontInstbndf</dodf>
+     * whidh rfprfsfnts b physidbl font - i.f. onf whidh hbs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. This is bfdbusf fbdh subfont in b dompositf font
+     * will hbvf difffrfnt tbblfs, bnd thfrf's no wby to know whidh subfont to bddfss.
+     *
+     * Subdlbssfs whidh rfprfsfnt dompositf fonts should blwbys rfturn <dodf>NULL</dodf>.
+     *
+     * This vfrsion sfts b lfngth, for rbngf dhfdking.
+     * Notf thbt rbngf dhfdking dbn only bf bddomplishfd if this fundtion is
+     * implfmfntfd in subdlbssfs.
+     *
+     * @pbrbm tbblfTbg - thf four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm lfngth - ignorfd on fntry, on fxit will bf thf lfngth of thf tbblf if known, or -1 if unknown.
+     * @rfturn thf bddrfss of thf tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if thf tbblf dofsn't fxist.
+     * @intfrnbl
+     */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngth) donst { lfngth=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngth */
+
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
+
+    /**
+     * This mfthod is usfd to dftfrminf if thf font dbn
+     * rfndfr thf givfn dhbrbdtfr. This dbn usublly bf donf
+     * by looking thf dhbrbdtfr up in thf font's dhbrbdtfr
+     * to glyph mbpping.
+     *
+     * Thf dffbult implfmfntbtion of this mfthod will rfturn
+     * <dodf>TRUE</dodf> if <dodf>mbpChbrToGlyph(dh)</dodf>
+     * rfturns b non-zfro vbluf.
+     *
+     * @pbrbm dh - thf dhbrbdtfr to bf tfstfd
+     *
+     * @rfturn <dodf>TRUE</dodf> if thf font dbn rfndfr dh.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_bool dbnDisplby(LEUnidodf32 dh) donst;
+
+    /**
+     * This mfthod rfturns thf numbfr of dfsign units in
+     * thf font's EM squbrf.
+     *
+     * @rfturn thf numbfr of dfsign units prf EM.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+
+    /**
+     * This mfthod mbps bn brrby of dhbrbdtfr dodfs to bn brrby of glyph
+     * indidfs, using thf font's dhbrbdtfr to glyph mbp.
+     *
+     * Thf dffbult implfmfntbtion itfrbtfs ovfr bll of thf dhbrbdtfrs bnd dblls
+     * <dodf>mbpChbrToGlyph(dh, mbppfr)</dodf> on fbdh onf. It blso hbndlfs surrogbtf
+     * dhbrbdtfrs, storing thf glyph ID for thf high surrogbtf, bnd b dflftfd glyph (0xFFFF)
+     * for thf low surrogbtf.
+     *
+     * Most subldbssfs will not nffd to implfmfnt this mfthod.
+     *
+     * @pbrbm dhbrs - thf dhbrbdtfr brrby
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf thf glyph indidfs in rfvfrsf ordfr.
+     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr.
+     * @pbrbm filtfrZfroWidth - <dodf>TRUE</dodf> if ZWJ / ZWNJ dhbrbdtfrs should mbp to b glyph w/ no dontours.
+     * @pbrbm glyphStorbgf - thf objfdt whidh dontbins thf output glyph brrby
+     *
+     * @sff LEChbrMbppfr
+     *
+     * @stbblf ICU 3.6
+     */
+    virtubl void mbpChbrsToGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LEChbrMbppfr *mbppfr, lf_bool filtfrZfroWidth, LEGlyphStorbgf &glyphStorbgf) donst;
+
+    /**
+     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
+     * font's dhbrbdtfr to glyph mbp. Thf dffbult implfmfntbtion of this
+     * mfthod dblls thf mbppfr, bnd thfn dblls <dodf>mbpChbrToGlyph(mbppfdCh)</dodf>.
+     *
+     * @pbrbm dh - thf dhbrbdtfr
+     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr
+     * @pbrbm filtfrZfroWidth - <dodf>TRUE</dodf> if ZWJ / ZWNJ dhbrbdtfrs should mbp to b glyph w/ no dontours.
+     *
+     * @rfturn thf glyph indfx
+     *
+     * @sff LEChbrMbppfr
+     *
+     * @stbblf ICU 3.6
+     */
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh, donst LEChbrMbppfr *mbppfr, lf_bool filtfrZfroWidth) donst;
+
+    /**
+     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
+     * font's dhbrbdtfr to glyph mbp. Thf dffbult implfmfntbtion of this
+     * mfthod dblls thf mbppfr, bnd thfn dblls <dodf>mbpChbrToGlyph(mbppfdCh)</dodf>.
+     *
+     * @pbrbm dh - thf dhbrbdtfr
+     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr
+     *
+     * @rfturn thf glyph indfx
+     *
+     * @sff LEChbrMbppfr
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh, donst LEChbrMbppfr *mbppfr) donst;
+
+    /**
+     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
+     * font's dhbrbdtfr to glyph mbp. Thfrf is no dffbult implfmfntbtion
+     * of this mfthod bfdbusf it rfquirfs informbtion bbout thf plbtform
+     * font implfmfntbtion.
+     *
+     * @pbrbm dh - thf dhbrbdtfr
+     *
+     * @rfturn thf glyph indfx
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh) donst = 0;
+
+    //
+    // Mftrids
+    //
+
+    /**
+     * This mfthod gfts thf X bnd Y bdvbndf of b pbrtidulbr glyph, in pixfls.
+     *
+     * @pbrbm glyph - thf glyph indfx
+     * @pbrbm bdvbndf - thf X bnd Y pixfl vblufs will bf storfd hfrf
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void gftGlyphAdvbndf(LEGlyphID glyph, LEPoint &bdvbndf) donst = 0;
+
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+
+    /**
+     * This mfthod gfts thf hintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * point in thf outlinf of thf givfn glyph.
+     *
+     * @pbrbm glyph - thf glyph indfx
+     * @pbrbm pointNumbfr - thf numbfr of thf point
+     * @pbrbm point - thf point's X bnd Y pixfl vblufs will bf storfd hfrf
+     *
+     * @rfturn <dodf>TRUE</dodf> if thf point doordinbtfs dould bf storfd.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl lf_bool gftGlyphPoint(LEGlyphID glyph, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+
+    /**
+     * This mfthod rfturns thf width of thf font's EM squbrf
+     * in pixfls.
+     *
+     * @rfturn thf pixfl width of thf EM squbrf
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
+
+    /**
+     * This mfthod rfturns thf hfight of thf font's EM squbrf
+     * in pixfls.
+     *
+     * @rfturn thf pixfl hfight of thf EM squbrf
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
+
+    /**
+     * This mfthod donvfrts font dfsign units in thf
+     * X dirfdtion to points.
+     *
+     * @pbrbm xUnits - dfsign units in thf X dirfdtion
+     *
+     * @rfturn points in thf X dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+
+    /**
+     * This mfthod donvfrts font dfsign units in thf
+     * Y dirfdtion to points.
+     *
+     * @pbrbm yUnits - dfsign units in thf Y dirfdtion
+     *
+     * @rfturn points in thf Y dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+
+    /**
+     * This mfthod donvfrts font dfsign units to points.
+     *
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm points - sft to X bnd Y points
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+
+    /**
+     * This mfthod donvfrts pixfls in thf
+     * X dirfdtion to font dfsign units.
+     *
+     * @pbrbm xPixfls - pixfls in thf X dirfdtion
+     *
+     * @rfturn font dfsign units in thf X dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+
+    /**
+     * This mfthod donvfrts pixfls in thf
+     * Y dirfdtion to font dfsign units.
+     *
+     * @pbrbm yPixfls - pixfls in thf Y dirfdtion
+     *
+     * @rfturn font dfsign units in thf Y dirfdtion
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+
+    /**
+     * This mfthod donvfrts pixfls to font dfsign units.
+     *
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm units - sft to X bnd Y font dfsign units
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+
+    /**
+     * Gft thf X sdblf fbdtor from thf font's trbnsform. Thf dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll this mfthod.
+     *
+     * @rfturn thf X sdblf fbdtor.
+     *
+     *
+     * @sff trbnsformFunits
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+
+    /**
+     * Gft thf Y sdblf fbdtor from thf font's trbnsform. Thf dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll this mfthod.
+     *
+     * @rfturn thf Ysdblf fbdtor.
+     *
+     * @sff trbnsformFunits
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+
+    /**
+     * This mfthod trbnsforms bn X, Y point in font dfsign units to b
+     * pixfl doordinbtf, bpplying thf font's trbnsform. Thf dffbult
+     * implfmfntbtion of this mfthod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
+     *
+     * @pbrbm xFunits - thf X doordinbtf in font dfsign units
+     * @pbrbm yFunits - thf Y doordinbtf in font dfsign units
+     * @pbrbm pixfls - thf trbnformfd do-ordinbtf in pixfls
+     *
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorY
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+
+    /**
+     * This is b donvfnifndf mfthod usfd to donvfrt
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
+     *
+     * @pbrbm fixfd - thf fixfd point vbluf
+     *
+     * @rfturn thf flobting point vbluf
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+
+    /**
+     * This is b donvfnifndf mfthod usfd to donvfrt
+     * flobting point vblufs to 16.16 fixfd point formbt.
+     *
+     * @pbrbm thfFlobt - thf flobting point vbluf
+     *
+     * @rfturn thf fixfd point vbluf
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid inlinf lf_int32 flobtToFixfd(flobt thfFlobt);
+
+    //
+    // Thfsf mfthods won't fvfr bf dbllfd by thf LbyoutEnginf,
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> who
+    // nffd to rfndfr tfxt.
+    //
+
+    /**
+     * Gft thf font's bsdfnt.
+     *
+     * @rfturn thf font's bsdfnt, in points. This vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+
+    /**
+     * Gft thf font's dfsdfnt.
+     *
+     * @rfturn thf font's dfsdfnt, in points. This vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+
+    /**
+     * Gft thf font's lfbding.
+     *
+     * @rfturn thf font's lfbding, in points. This vbluf
+     * will blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftLfbding() donst = 0;
+
+    /**
+     * Gft thf linf hfight rfquirfd to displby tfxt in
+     * this font. Thf dffbult implfmfntbtion of this mfthod
+     * rfturns thf sum of thf bsdfnt, dfsdfnt, bnd lfbding.
+     *
+     * @rfturn thf linf hfight, in points. This vbulf will
+     * blwbys bf positivf.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl lf_int32 gftLinfHfight() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 3.2
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 3.2
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+};
+
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+{
+    rfturn (flobt) (fixfd / 65536.0);
+}
+
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt thfFlobt)
+{
+    rfturn (lf_int32) (thfFlobt * 65536.0);
+}
+
+U_NAMESPACE_END
+#fndif

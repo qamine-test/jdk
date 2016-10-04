@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.bwt.fvfnt.*;
+
+
+/**
+ * A Mftbl L&bmp;F implfmfntbtion of SdrollPbnfUI.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblSdrollPbnfUI fxtfnds BbsidSdrollPbnfUI
+{
+
+    privbtf PropfrtyChbngfListfnfr sdrollBbrSwbpListfnfr;
+
+    /**
+     * Construdts b nfw {@dodf MftblSdrollPbnfUI}.
+     *
+     * @pbrbm x b domponfnt
+     * @rfturn b nfw {@dodf MftblSdrollPbnfUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MftblSdrollPbnfUI();
+    }
+
+    publid void instbllUI(JComponfnt d) {
+
+        supfr.instbllUI(d);
+
+        JSdrollPbnf sp = (JSdrollPbnf)d;
+        updbtfSdrollbbrsFrffStbnding();
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+
+        JSdrollPbnf sp = (JSdrollPbnf)d;
+        JSdrollBbr hsb = sp.gftHorizontblSdrollBbr();
+        JSdrollBbr vsb = sp.gftVfrtidblSdrollBbr();
+        if (hsb != null) {
+            hsb.putClifntPropfrty( MftblSdrollBbrUI.FREE_STANDING_PROP, null);
+        }
+        if (vsb != null) {
+            vsb.putClifntPropfrty( MftblSdrollBbrUI.FREE_STANDING_PROP, null);
+        }
+    }
+
+    publid void instbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+        supfr.instbllListfnfrs(sdrollPbnf);
+        sdrollBbrSwbpListfnfr = drfbtfSdrollBbrSwbpListfnfr();
+        sdrollPbnf.bddPropfrtyChbngfListfnfr(sdrollBbrSwbpListfnfr);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd void uninstbllListfnfrs(JComponfnt d) {
+        supfr.uninstbllListfnfrs(d);
+        d.rfmovfPropfrtyChbngfListfnfr(sdrollBbrSwbpListfnfr);
+    }
+
+    /**
+     * @pbrbm sdrollPbnf bn instbndf of thf {@dodf JSdrollPbnf}
+     * @dfprfdbtfd - Rfplbdfd by {@link #uninstbllListfnfrs(JComponfnt)}
+     */
+    @Dfprfdbtfd
+    publid void uninstbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+        supfr.uninstbllListfnfrs(sdrollPbnf);
+        sdrollPbnf.rfmovfPropfrtyChbngfListfnfr(sdrollBbrSwbpListfnfr);
+    }
+
+    /**
+     * If thf bordfr of thf sdrollpbnf is bn instbndf of
+     * <dodf>MftblBordfrs.SdrollPbnfBordfr</dodf>, thf dlifnt propfrty
+     * <dodf>FREE_STANDING_PROP</dodf> of thf sdrollbbrs
+     * is sft to fblsf, othfrwisf it is sft to truf.
+     */
+    privbtf void updbtfSdrollbbrsFrffStbnding() {
+        if (sdrollpbnf == null) {
+            rfturn;
+        }
+        Bordfr bordfr = sdrollpbnf.gftBordfr();
+        Objfdt vbluf;
+
+        if (bordfr instbndfof MftblBordfrs.SdrollPbnfBordfr) {
+            vbluf = Boolfbn.FALSE;
+        }
+        flsf {
+            vbluf = Boolfbn.TRUE;
+        }
+        JSdrollBbr sb = sdrollpbnf.gftHorizontblSdrollBbr();
+        if (sb != null) {
+            sb.putClifntPropfrty
+                   (MftblSdrollBbrUI.FREE_STANDING_PROP, vbluf);
+        }
+        sb = sdrollpbnf.gftVfrtidblSdrollBbr();
+        if (sb != null) {
+            sb.putClifntPropfrty
+                   (MftblSdrollBbrUI.FREE_STANDING_PROP, vbluf);
+        }
+    }
+
+    /**
+     * Rfturns b nfw {@dodf PropfrtyChbngfListfnfr} for sdroll bbr swbp fvfnts.
+     *
+     * @rfturn b nfw {@dodf PropfrtyChbngfListfnfr} for sdroll bbr swbp fvfnts.
+     */
+    protfdtfd PropfrtyChbngfListfnfr drfbtfSdrollBbrSwbpListfnfr() {
+        rfturn nfw PropfrtyChbngfListfnfr() {
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+                  String propfrtyNbmf = f.gftPropfrtyNbmf();
+                  if (propfrtyNbmf.fqubls("vfrtidblSdrollBbr") ||
+                      propfrtyNbmf.fqubls("horizontblSdrollBbr")) {
+                      JSdrollBbr oldSB = (JSdrollBbr)f.gftOldVbluf();
+                      if (oldSB != null) {
+                          oldSB.putClifntPropfrty(
+                              MftblSdrollBbrUI.FREE_STANDING_PROP, null);
+                      }
+                      JSdrollBbr nfwSB = (JSdrollBbr)f.gftNfwVbluf();
+                      if (nfwSB != null) {
+                          nfwSB.putClifntPropfrty(
+                              MftblSdrollBbrUI.FREE_STANDING_PROP,
+                              Boolfbn.FALSE);
+                      }
+                  }
+                  flsf if ("bordfr".fqubls(propfrtyNbmf)) {
+                      updbtfSdrollbbrsFrffStbnding();
+                  }
+        }};
+    }
+
+}

@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 1995, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.io.*;
+
+/**
+ * A pipfd output strfbm dbn bf donnfdtfd to b pipfd input strfbm
+ * to drfbtf b dommunidbtions pipf. Thf pipfd output strfbm is thf
+ * sfnding fnd of thf pipf. Typidblly, dbtb is writtfn to b
+ * <dodf>PipfdOutputStrfbm</dodf> objfdt by onf thrfbd bnd dbtb is
+ * rfbd from thf donnfdtfd <dodf>PipfdInputStrfbm</dodf> by somf
+ * othfr thrfbd. Attfmpting to usf both objfdts from b singlf thrfbd
+ * is not rfdommfndfd bs it mby dfbdlodk thf thrfbd.
+ * Thf pipf is sbid to bf <b nbmf=BROKEN> <i>brokfn</i> </b> if b
+ * thrfbd thbt wbs rfbding dbtb bytfs from thf donnfdtfd pipfd input
+ * strfbm is no longfr blivf.
+ *
+ * @buthor  Jbmfs Gosling
+ * @sff     jbvb.io.PipfdInputStrfbm
+ * @sindf   1.0
+ */
+publid
+dlbss PipfdOutputStrfbm fxtfnds OutputStrfbm {
+
+        /* REMIND: idfntifidbtion of thf rfbd bnd writf sidfs nffds to bf
+           morf sophistidbtfd.  Eithfr using thrfbd groups (but whbt bbout
+           pipfs within b thrfbd?) or using finblizbtion (but it mby bf b
+           long timf until thf nfxt GC). */
+    privbtf PipfdInputStrfbm sink;
+
+    /**
+     * Crfbtfs b pipfd output strfbm donnfdtfd to thf spfdififd pipfd
+     * input strfbm. Dbtb bytfs writtfn to this strfbm will thfn bf
+     * bvbilbblf bs input from <dodf>snk</dodf>.
+     *
+     * @pbrbm      snk   Thf pipfd input strfbm to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid PipfdOutputStrfbm(PipfdInputStrfbm snk)  throws IOExdfption {
+        donnfdt(snk);
+    }
+
+    /**
+     * Crfbtfs b pipfd output strfbm thbt is not yft donnfdtfd to b
+     * pipfd input strfbm. It must bf donnfdtfd to b pipfd input strfbm,
+     * fithfr by thf rfdfivfr or thf sfndfr, bfforf bfing usfd.
+     *
+     * @sff     jbvb.io.PipfdInputStrfbm#donnfdt(jbvb.io.PipfdOutputStrfbm)
+     * @sff     jbvb.io.PipfdOutputStrfbm#donnfdt(jbvb.io.PipfdInputStrfbm)
+     */
+    publid PipfdOutputStrfbm() {
+    }
+
+    /**
+     * Connfdts this pipfd output strfbm to b rfdfivfr. If this objfdt
+     * is blrfbdy donnfdtfd to somf othfr pipfd input strfbm, bn
+     * <dodf>IOExdfption</dodf> is thrown.
+     * <p>
+     * If <dodf>snk</dodf> is bn undonnfdtfd pipfd input strfbm bnd
+     * <dodf>srd</dodf> is bn undonnfdtfd pipfd output strfbm, thfy mby
+     * bf donnfdtfd by fithfr thf dbll:
+     * <blodkquotf><prf>
+     * srd.donnfdt(snk)</prf></blodkquotf>
+     * or thf dbll:
+     * <blodkquotf><prf>
+     * snk.donnfdt(srd)</prf></blodkquotf>
+     * Thf two dblls hbvf thf sbmf ffffdt.
+     *
+     * @pbrbm      snk   thf pipfd input strfbm to donnfdt to.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void donnfdt(PipfdInputStrfbm snk) throws IOExdfption {
+        if (snk == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (sink != null || snk.donnfdtfd) {
+            throw nfw IOExdfption("Alrfbdy donnfdtfd");
+        }
+        sink = snk;
+        snk.in = -1;
+        snk.out = 0;
+        snk.donnfdtfd = truf;
+    }
+
+    /**
+     * Writfs thf spfdififd <dodf>bytf</dodf> to thf pipfd output strfbm.
+     * <p>
+     * Implfmfnts thf <dodf>writf</dodf> mfthod of <dodf>OutputStrfbm</dodf>.
+     *
+     * @pbrbm      b   thf <dodf>bytf</dodf> to bf writtfn.
+     * @fxdfption IOExdfption if thf pipf is <b hrff=#BROKEN> brokfn</b>,
+     *          {@link #donnfdt(jbvb.io.PipfdInputStrfbm) undonnfdtfd},
+     *          dlosfd, or if bn I/O frror oddurs.
+     */
+    publid void writf(int b)  throws IOExdfption {
+        if (sink == null) {
+            throw nfw IOExdfption("Pipf not donnfdtfd");
+        }
+        sink.rfdfivf(b);
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to this pipfd output strfbm.
+     * This mfthod blodks until bll thf bytfs brf writtfn to thf output
+     * strfbm.
+     *
+     * @pbrbm      b     thf dbtb.
+     * @pbrbm      off   thf stbrt offsft in thf dbtb.
+     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     * @fxdfption IOExdfption if thf pipf is <b hrff=#BROKEN> brokfn</b>,
+     *          {@link #donnfdt(jbvb.io.PipfdInputStrfbm) undonnfdtfd},
+     *          dlosfd, or if bn I/O frror oddurs.
+     */
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
+        if (sink == null) {
+            throw nfw IOExdfption("Pipf not donnfdtfd");
+        } flsf if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+                   ((off + lfn) > b.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+        sink.rfdfivf(b, off, lfn);
+    }
+
+    /**
+     * Flushfs this output strfbm bnd fordfs bny bufffrfd output bytfs
+     * to bf writtfn out.
+     * This will notify bny rfbdfrs thbt bytfs brf wbiting in thf pipf.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void flush() throws IOExdfption {
+        if (sink != null) {
+            syndhronizfd (sink) {
+                sink.notifyAll();
+            }
+        }
+    }
+
+    /**
+     * Closfs this pipfd output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd with this strfbm. This strfbm mby no longfr bf usfd for
+     * writing bytfs.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid void dlosf()  throws IOExdfption {
+        if (sink != null) {
+            sink.rfdfivfdLbst();
+        }
+    }
+}

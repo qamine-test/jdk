@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 1995, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.util.*;
-import java.io.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.awt.*;
-import java.applet.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.bwt.*;
+import jbvb.bpplft.*;
 
 
 /**
- * Sample applet panel class. The panel manages and manipulates the
- * applet as it is being loaded. It forks a seperate thread in a new
- * thread group to call the applet's init(), start(), stop(), and
- * destroy() methods.
+ * Sbmplf bpplft pbnfl dlbss. Tif pbnfl mbnbgfs bnd mbnipulbtfs tif
+ * bpplft bs it is bfing lobdfd. It forks b sfpfrbtf tirfbd in b nfw
+ * tirfbd group to dbll tif bpplft's init(), stbrt(), stop(), bnd
+ * dfstroy() mftiods.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
-class AppletViewerPanel extends AppletPanel {
+dlbss ApplftVifwfrPbnfl fxtfnds ApplftPbnfl {
 
-    /* Are we debugging? */
-    static boolean debug = false;
-
-    /**
-     * The document url.
-     */
-    URL documentURL;
+    /* Arf wf dfbugging? */
+    stbtid boolfbn dfbug = fblsf;
 
     /**
-     * The base url.
+     * Tif dodumfnt url.
      */
-    URL baseURL;
+    URL dodumfntURL;
 
     /**
-     * The attributes of the applet.
+     * Tif bbsf url.
      */
-    Hashtable<String, String> atts;
+    URL bbsfURL;
+
+    /**
+     * Tif bttributfs of tif bpplft.
+     */
+    Hbsitbblf<String, String> btts;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 8890989370785545619L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8890989370785545619L;
 
     /**
-     * Construct an applet viewer and start the applet.
+     * Construdt bn bpplft vifwfr bnd stbrt tif bpplft.
      */
-    AppletViewerPanel(URL documentURL, Hashtable<String, String> atts) {
-        this.documentURL = documentURL;
-        this.atts = atts;
+    ApplftVifwfrPbnfl(URL dodumfntURL, Hbsitbblf<String, String> btts) {
+        tiis.dodumfntURL = dodumfntURL;
+        tiis.btts = btts;
 
-        String att = getParameter("codebase");
-        if (att != null) {
-            if (!att.endsWith("/")) {
-                att += "/";
+        String btt = gftPbrbmftfr("dodfbbsf");
+        if (btt != null) {
+            if (!btt.fndsWiti("/")) {
+                btt += "/";
             }
             try {
-                baseURL = new URL(documentURL, att);
-            } catch (MalformedURLException e) {
+                bbsfURL = nfw URL(dodumfntURL, btt);
+            } dbtdi (MblformfdURLExdfption f) {
             }
         }
-        if (baseURL == null) {
-            String file = documentURL.getFile();
-            int i = file.lastIndexOf('/');
-            if (i >= 0 && i < file.length() - 1) {
+        if (bbsfURL == null) {
+            String filf = dodumfntURL.gftFilf();
+            int i = filf.lbstIndfxOf('/');
+            if (i >= 0 && i < filf.lfngti() - 1) {
                 try {
-                    baseURL = new URL(documentURL, file.substring(0, i + 1));
-                } catch (MalformedURLException e) {
+                    bbsfURL = nfw URL(dodumfntURL, filf.substring(0, i + 1));
+                } dbtdi (MblformfdURLExdfption f) {
                 }
             }
         }
 
-        // when all is said & done, baseURL shouldn't be null
-        if (baseURL == null)
-                baseURL = documentURL;
+        // wifn bll is sbid & donf, bbsfURL siouldn't bf null
+        if (bbsfURL == null)
+                bbsfURL = dodumfntURL;
 
 
     }
 
     /**
-     * Get an applet parameter.
+     * Gft bn bpplft pbrbmftfr.
      */
-    public String getParameter(String name) {
-        return atts.get(name.toLowerCase());
+    publid String gftPbrbmftfr(String nbmf) {
+        rfturn btts.gft(nbmf.toLowfrCbsf());
     }
 
     /**
-     * Get the document url.
+     * Gft tif dodumfnt url.
      */
-    public URL getDocumentBase() {
-        return documentURL;
+    publid URL gftDodumfntBbsf() {
+        rfturn dodumfntURL;
 
     }
 
     /**
-     * Get the base url.
+     * Gft tif bbsf url.
      */
-    public URL getCodeBase() {
-        return baseURL;
+    publid URL gftCodfBbsf() {
+        rfturn bbsfURL;
     }
 
     /**
-     * Get the width.
+     * Gft tif widti.
      */
-    public int getWidth() {
-        String w = getParameter("width");
+    publid int gftWidti() {
+        String w = gftPbrbmftfr("widti");
         if (w != null) {
-            return Integer.valueOf(w).intValue();
+            rfturn Intfgfr.vblufOf(w).intVbluf();
         }
-        return 0;
+        rfturn 0;
     }
 
 
     /**
-     * Get the height.
+     * Gft tif ifigit.
      */
-    public int getHeight() {
-        String h = getParameter("height");
-        if (h != null) {
-            return Integer.valueOf(h).intValue();
+    publid int gftHfigit() {
+        String i = gftPbrbmftfr("ifigit");
+        if (i != null) {
+            rfturn Intfgfr.vblufOf(i).intVbluf();
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Get initial_focus
+     * Gft initibl_fodus
      */
-    public boolean hasInitialFocus()
+    publid boolfbn ibsInitiblFodus()
     {
 
-        // 6234219: Do not set initial focus on an applet
-        // during startup if applet is targeted for
-        // JDK 1.1/1.2. [stanley.ho]
-        if (isJDK11Applet() || isJDK12Applet())
-            return false;
+        // 6234219: Do not sft initibl fodus on bn bpplft
+        // during stbrtup if bpplft is tbrgftfd for
+        // JDK 1.1/1.2. [stbnlfy.io]
+        if (isJDK11Applft() || isJDK12Applft())
+            rfturn fblsf;
 
-        String initialFocus = getParameter("initial_focus");
+        String initiblFodus = gftPbrbmftfr("initibl_fodus");
 
-        if (initialFocus != null)
+        if (initiblFodus != null)
         {
-            if (initialFocus.toLowerCase().equals("false"))
-                return false;
+            if (initiblFodus.toLowfrCbsf().fqubls("fblsf"))
+                rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Get the code parameter
+     * Gft tif dodf pbrbmftfr
      */
-    public String getCode() {
-        return getParameter("code");
-    }
-
-
-    /**
-     * Return the list of jar files if specified.
-     * Otherwise return null.
-     */
-    public String getJarFiles() {
-        return getParameter("archive");
-    }
-
-    /**
-     * Return the value of the object param
-     */
-    public String getSerializedObject() {
-        return getParameter("object");// another name?
+    publid String gftCodf() {
+        rfturn gftPbrbmftfr("dodf");
     }
 
 
     /**
-     * Get the applet context. For now this is
-     * also implemented by the AppletPanel class.
+     * Rfturn tif list of jbr filfs if spfdififd.
+     * Otifrwisf rfturn null.
      */
-    public AppletContext getAppletContext() {
-        return (AppletContext)getParent();
+    publid String gftJbrFilfs() {
+        rfturn gftPbrbmftfr("brdiivf");
     }
 
-    static void debug(String s) {
-        if(debug)
-            System.err.println("AppletViewerPanel:::" + s);
+    /**
+     * Rfturn tif vbluf of tif objfdt pbrbm
+     */
+    publid String gftSfriblizfdObjfdt() {
+        rfturn gftPbrbmftfr("objfdt");// bnotifr nbmf?
     }
 
-    static void debug(String s, Throwable t) {
-        if(debug) {
-            t.printStackTrace();
-            debug(s);
+
+    /**
+     * Gft tif bpplft dontfxt. For now tiis is
+     * blso implfmfntfd by tif ApplftPbnfl dlbss.
+     */
+    publid ApplftContfxt gftApplftContfxt() {
+        rfturn (ApplftContfxt)gftPbrfnt();
+    }
+
+    stbtid void dfbug(String s) {
+        if(dfbug)
+            Systfm.frr.println("ApplftVifwfrPbnfl:::" + s);
+    }
+
+    stbtid void dfbug(String s, Tirowbblf t) {
+        if(dfbug) {
+            t.printStbdkTrbdf();
+            dfbug(s);
         }
     }
 }

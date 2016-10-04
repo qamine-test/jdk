@@ -1,0 +1,662 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+/*
+ * This sdript drfbtfs b simplf Notfpbd-likf intfrfbdf, whidh
+ * sfrvfs bs b simplf sdript fditor, runnfr.
+ *
+ * Filf dfpfndfndy:
+ *
+ *    gui.js -> for bbsid GUI fundtions
+ */
+
+/*
+ * globblThis is usfd for bdtionHflpGlobbls() bnd showFrbmf().
+ */
+vbr globblThis = this;
+
+/*
+ * JbvbImportfr hflps in bvoiding pollution of JbvbSdript
+ * globbl nbmfspbdf. Wf dbn import multiplf Jbvb pbdkbgfs
+ * with this bnd usf thf JbvbImportfr objfdt with "with"
+ * stbtfmfnt.
+ */
+vbr guiPkgs = nfw JbvbImportfr(jbvb.bwt, jbvb.bwt.fvfnt,
+                               jbvbx.swing, jbvbx.swing.undo,
+                               jbvbx.swing.fvfnt, jbvbx.swing.tfxt);
+
+// mbin fntry point of thf sdriptpbd bpplidbtion
+vbr mbin = fundtion() {
+    fundtion drfbtfEditor() {
+        vbr d = nfw guiPkgs.JTfxtArfb();
+        d.sftDrbgEnbblfd(truf);
+        d.sftFont(nfw guiPkgs.Font("monospbdfd", guiPkgs.Font.PLAIN, 12));
+        rfturn d;
+    }
+
+    /*donst*/ vbr titlfSuffix = "- Sdriptpbd";
+    /*donst*/ vbr dffbultTitlf = "Untitlfd" + titlfSuffix;
+
+    // Sdriptpbd's mbin frbmf
+    vbr frbmf;
+    // Sdriptpbd's mbin fditor
+    vbr fditor;
+
+    // To trbdk thf durrfnt filf nbmf
+    vbr durFilfNbmf = null;
+
+    // To trbdk whfthfr thf durrfnt dodumfnt
+    // hbs bffn modififd or not
+    vbr dodChbngfd = fblsf;
+
+    // dhfdk bnd blfrt usfr for unsbvfd
+    // but modififd dodumfnt
+    fundtion dhfdkDodChbngfd() {
+        if (dodChbngfd) {
+            // ignorf zfro-dontfnt untitlfd dodumfnt
+            if (durFilfNbmf == null &&
+                fditor.dodumfnt.lfngth == 0) {
+                rfturn;
+            }
+
+            if (donfirm("Do you wbnt to sbvf thf dhbngfs?",
+                        "Thf dodumfnt hbs dhbngfd")) {
+                bdtionSbvf();
+            }
+        }
+    }
+
+    // sft b dodumfnt listfnfr to trbdk
+    // whfthfr thbt is modififd or not
+    fundtion sftDodListfnfr() {
+        vbr dod = fditor.gftDodumfnt();
+        dodChbngfd = fblsf;
+        dod.bddDodumfntListfnfr( nfw guiPkgs.DodumfntListfnfr() {
+                                     fqubls: fundtion(o) {
+                                         rfturn this === o; },
+                                     toString: fundtion() {
+                                         rfturn "dod listfnfr"; },
+                                     dhbngfUpdbtf: fundtion() {
+                                         dodChbngfd = truf; },
+                                     insfrtUpdbtf: fundtion() {
+                                         dodChbngfd = truf; },
+                                     rfmovfUpdbtf: fundtion() {
+                                         dodChbngfd = truf; }
+                                 });
+    }
+
+    // mfnu bdtion fundtions
+
+    // "Filf" mfnu
+
+    // drfbtf b "nfw" dodumfnt
+    fundtion bdtionNfw() {
+        dhfdkDodChbngfd();
+        durFilfNbmf = null;
+        fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+        sftDodListfnfr();
+        frbmf.sftTitlf(dffbultTitlf);
+        fditor.rfvblidbtf();
+    }
+
+    // opfn bn fxisting filf
+    fundtion bdtionOpfn() {
+        dhfdkDodChbngfd();
+        vbr f = filfDiblog();
+        if (f == null) {
+            rfturn;
+        }
+
+        if (f.isFilf() && f.dbnRfbd()) {
+            frbmf.sftTitlf(f.gftNbmf() + titlfSuffix);
+            fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+            vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+            progrfss.sftMinimum(0);
+            progrfss.sftMbximum(f.lfngth());
+            vbr dod = fditor.gftDodumfnt();
+            vbr inp = nfw jbvb.io.FilfRfbdfr(f);
+            vbr buff = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                jbvb.lbng.Chbrbdtfr.TYPE, 4096);
+            vbr ndh;
+            whilf ((ndh = inp.rfbd(buff, 0, buff.lfngth)) != -1) {
+                dod.insfrtString(dod.gftLfngth(),
+                                 nfw jbvb.lbng.String(buff, 0, ndh), null);
+                progrfss.sftVbluf(progrfss.gftVbluf() + ndh);
+            }
+            inp.dlosf();
+            durFilfNbmf = f.gftAbsolutfPbth();
+            sftDodListfnfr();
+        } flsf {
+            frror("Cbn not opfn filf: " + f,
+                  "Error opfning filf: " + f);
+        }
+    }
+
+    // opfn sdript from b URL
+    fundtion bdtionOpfnURL() {
+        dhfdkDodChbngfd();
+        vbr url = prompt("Addrfss:");
+        if (url == null) {
+            rfturn;
+        }
+
+        try {
+            vbr u = nfw jbvb.nft.URL(url);
+            fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+            frbmf.sftTitlf(url + titlfSuffix);
+            vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+            progrfss.sftMinimum(0);
+            progrfss.sftIndftfrminbtf(truf);
+            vbr dod = fditor.gftDodumfnt();
+            vbr inp = nfw jbvb.io.InputStrfbmRfbdfr(u.opfnStrfbm());
+            vbr buff = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                jbvb.lbng.Chbrbdtfr.TYPE, 4096);
+            vbr ndh;
+            whilf ((ndh = inp.rfbd(buff, 0, buff.lfngth)) != -1) {
+                dod.insfrtString(dod.gftLfngth(),
+                                 nfw jbvb.lbng.String(buff, 0, ndh), null);
+                progrfss.sftVbluf(progrfss.gftVbluf() + ndh);
+            }
+            durFilfNbmf = null;
+            sftDodListfnfr();
+        } dbtdh (f) {
+            frror("Error opfning URL: " + f,
+                  "Cbn not opfn URL: " + url);
+        }
+    }
+
+    // fbdtorfd out "sbvf" fundtion usfd by
+    // sbvf, sbvf bs mfnu bdtions
+    fundtion sbvf(filf) {
+        vbr dod = fditor.gftDodumfnt();
+        frbmf.sftTitlf(filf.gftNbmf() + titlfSuffix);
+        durFilfNbmf = filf;
+        vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+        progrfss.sftMinimum(0);
+        progrfss.sftMbximum(filf.lfngth());
+        vbr out = nfw jbvb.io.FilfWritfr(filf);
+        vbr tfxt = nfw guiPkgs.Sfgmfnt();
+        tfxt.sftPbrtiblRfturn(truf);
+        vbr dhbrsLfft = dod.gftLfngth();
+        vbr offsft = 0;
+        vbr min;
+
+        whilf (dhbrsLfft > 0) {
+            dod.gftTfxt(offsft, Mbth.min(4096, dhbrsLfft), tfxt);
+            out.writf(tfxt.brrby, tfxt.offsft, tfxt.dount);
+            dhbrsLfft -= tfxt.dount;
+            offsft += tfxt.dount;
+            progrfss.sftVbluf(offsft);
+            jbvb.lbng.Thrfbd.slffp(10);
+        }
+
+        out.flush();
+        out.dlosf();
+        dodChbngfd = fblsf;
+    }
+
+    // filf-sbvf bs mfnu
+    fundtion bdtionSbvfAs() {
+        vbr rft = filfDiblog(null, truf);
+        if (rft == null) {
+            rfturn;
+        }
+        sbvf(rft);
+    }
+
+    // filf-sbvf mfnu
+    fundtion bdtionSbvf() {
+        if (durFilfNbmf) {
+            sbvf(nfw jbvb.io.Filf(durFilfNbmf));
+        } flsf {
+            bdtionSbvfAs();
+        }
+    }
+
+    // fxit from sdriptpbd
+    fundtion bdtionExit() {
+        dhfdkDodChbngfd();
+        jbvb.lbng.Systfm.fxit(0);
+    }
+
+    // "Edit" mfnu
+
+    // dut thf durrfntly sflfdtfd tfxt
+    fundtion bdtionCut() {
+        fditor.dut();
+    }
+
+    // dopy thf durrfntly sflfdtfd tfxt to dlipbobrd
+    fundtion bdtionCopy() {
+        fditor.dopy();
+    }
+
+    // pbstf dlipbobrd dontfnt to dodumfnt
+    fundtion bdtionPbstf() {
+        fditor.pbstf();
+    }
+
+    // sflfdt bll thf tfxt in fditor
+    fundtion bdtionSflfdtAll() {
+        fditor.sflfdtAll();
+    }
+
+    // "Tools" mfnu
+
+    // run thf durrfnt dodumfnt bs JbvbSdript
+    fundtion bdtionRun() {
+        vbr dod = fditor.gftDodumfnt();
+        vbr sdript = dod.gftTfxt(0, dod.gftLfngth());
+        vbr oldFilf = fnginf.gft(jbvbx.sdript.SdriptEnginf.FILENAME);
+        try {
+            if (fnginf == undffinfd) {
+                vbr m = nfw jbvbx.sdript.SdriptEnginfMbnbgfr();
+                fnginf = m.gftEnginfByNbmf("nbshorn");
+            }
+            fnginf.put(jbvbx.sdript.SdriptEnginf.FILENAME, frbmf.titlf);
+            fnginf.fvbl(sdript, dontfxt);
+        } dbtdh (f) {
+            frror(f, "Sdript Error");
+            f.printStbdkTrbdf();
+        } finblly {
+            fnginf.put(jbvbx.sdript.SdriptEnginf.FILENAME, oldFilf);
+        }
+    }
+
+    // "Exbmplfs" mfnu
+
+    // show givfn sdript bs nfw dodumfnt
+    fundtion showSdript(titlf, str) {
+        bdtionNfw();
+        frbmf.sftTitlf("Exbmplf - " + titlf + titlfSuffix);
+        vbr dod = fditor.dodumfnt;
+        dod.insfrtString(0, str, null);
+    }
+
+    // "hfllo world"
+    fundtion bdtionHfllo() {
+        showSdript(bdtionEvbl.titlf,
+                   "blfrt('Hfllo, world');");
+    }
+    bdtionHfllo.titlf = "Hfllo, World";
+
+    // fvbl thf "hfllo world"!
+    fundtion bdtionEvbl() {
+        showSdript(bdtionEvbl.titlf,
+                   "fvbl(\"blfrt('Hfllo, world')\");");
+    }
+    bdtionEvbl.titlf = "Evbl";
+
+    // show how to bddfss Jbvb stbtid mfthods
+    fundtion bdtionJbvbStbtid() {
+        showSdript(brgumfnts.dbllff.titlf,
+                   "// Just usf Jbvb syntbx\n" +
+                   "vbr props = jbvb.lbng.Systfm.gftPropfrtifs();\n" +
+                   "blfrt(props.gft('os.nbmf'));");
+    }
+    bdtionJbvbStbtid.titlf = "Jbvb Stbtid Cblls";
+
+    // show how to bddfss Jbvb dlbssfs, mfthods
+    fundtion bdtionJbvbAddfss() {
+        showSdript(brgumfnts.dbllff.titlf,
+                   "// just usf nfw JbvbClbss();\n" +
+                   "vbr fr = nfw jbvbx.swing.JFrbmf();\n" +
+                   "// dbll bll publid mfthods bs in Jbvb\n" +
+                   "fr.sftTitlf('hfllo');\n" +
+                   "fr.sftDffbultClosfOpfrbtion(jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE);\n" +
+                   "fr.sftSizf(200, 200);\n" +
+                   "fr.sftVisiblf(truf);");
+    }
+    bdtionJbvbAddfss.titlf = "Jbvb Objfdt Addfss";
+
+    // show how to usf Jbvb bfbn donvfntions
+    fundtion bdtionJbvbBfbn() {
+        showSdript(brgumfnts.dbllff.titlf,
+                   "vbr fr = nfw jbvbx.swing.JFrbmf();\n" +
+                   "fr.sftSizf(200, 200);\n" +
+                   "// bddfss publid gft/sft mfthods bs fiflds\n" +
+                   "fr.dffbultClosfOpfrbtion = jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE;\n" +
+                   "fr.titlf = 'hfllo';\n" +
+                   "fr.visiblf = truf;");
+    }
+    bdtionJbvbBfbn.titlf = "Jbvb Bfbns";
+
+    // show how to implfmfnt Jbvb intfrfbdf
+    fundtion bdtionJbvbIntfrfbdf() {
+        showSdript(brgumfnts.dbllff.titlf,
+                   "// usf Jbvb bnonymizfr dlbss-likf syntbx!\n" +
+                   "vbr r = nfw jbvb.lbng.Runnbblf() {\n" +
+                   "            run: fundtion() {\n" +
+                   "                    blfrt('hfllo');\n" +
+                   "            }\n" +
+                   "    };\n" +
+                   "// usf thf bbovf Runnbblf to drfbtf b Thrfbd\n" +
+                   "nfw jbvb.lbng.Thrfbd(r).stbrt();\n" +
+                   "// For simplf onf mfthod intfrfbdfs, just pbss sdript fundtion\n" +
+                   "nfw jbvb.lbng.Thrfbd(fundtion() { blfrt('world'); }).stbrt();");
+    }
+    bdtionJbvbIntfrfbdf.titlf = "Jbvb Intfrfbdfs";
+
+    // show how to import Jbvb dlbssfs, pbdkbgfs
+    fundtion bdtionJbvbImport() {
+        showSdript(brgumfnts.dbllff.titlf,
+                   "// usf Jbvb-likf import *...\n" +
+                   "//    importPbdkbgf(jbvb.io);\n" +
+                   "// or import b spfdifid dlbss\n" +
+                   "//    importClbss(jbvb.io.Filf);\n" +
+                   "// or bfttfr - import just within b sdopf!\n" +
+                   "vbr ioPkgs = JbvbImportfr(jbvb.io);\n" +
+                   "with (ioPkgs) { blfrt(nfw Filf('.').bbsolutfPbth); }");
+    }
+    bdtionJbvbImport.titlf = "Jbvb Import";
+
+    // "Hflp" mfnu
+
+    /*
+     * Shows b onf linfr hflp mfssbgf for fbdh
+     * globbl fundtion. Notf thbt this fundtion
+     * dfpfnds on dodString mftb-dbtb for fbdh
+     * fundtion.
+     */
+    fundtion bdtionHflpGlobbls() {
+        vbr nbmfs = nfw jbvb.util.ArrbyList();
+        for (vbr i in globblThis) {
+            vbr fund = globblThis[i];
+            if (typfof(fund) == "fundtion" &&
+                ("dodString" in fund)) {
+                nbmfs.bdd(i);
+            }
+        }
+        jbvb.util.Collfdtions.sort(nbmfs);
+        vbr hflpDod = nfw jbvb.lbng.StringBufffr();
+        hflpDod.bppfnd("<tbblf bordfr='1'>");
+        vbr itr = nbmfs.itfrbtor();
+        whilf (itr.hbsNfxt()) {
+            vbr nbmf = itr.nfxt();
+            hflpDod.bppfnd("<tr><td>");
+            hflpDod.bppfnd(nbmf);
+            hflpDod.bppfnd("</td><td>");
+            hflpDod.bppfnd(globblThis[nbmf].dodString);
+            hflpDod.bppfnd("</td></tr>");
+        }
+        hflpDod.bppfnd("</tbblf>");
+
+        vbr hflpEditor = nfw guiPkgs.JEditorPbnf();
+        hflpEditor.sftContfntTypf("tfxt/html");
+        hflpEditor.sftEditbblf(fblsf);
+        hflpEditor.sftTfxt(hflpDod.toString());
+
+        vbr sdrollfr = nfw guiPkgs.JSdrollPbnf();
+        vbr port = sdrollfr.gftVifwport();
+        port.bdd(hflpEditor);
+
+        vbr hflpFrbmf = nfw guiPkgs.JFrbmf("Hflp - Globbl Fundtions");
+        hflpFrbmf.gftContfntPbnf().bdd("Cfntfr", sdrollfr);
+        hflpFrbmf.sftDffbultClosfOpfrbtion(guiPkgs.WindowConstbnts.DISPOSE_ON_CLOSE);
+        hflpFrbmf.pbdk();
+        hflpFrbmf.sftSizf(500, 600);
+        hflpFrbmf.sftVisiblf(truf);
+    }
+
+    // show b simplf bbout mfssbgf for sdriptpbd
+    fundtion bdtionAbout() {
+        blfrt("Sdriptpbd\nVfrsion 1.1", "Sdriptpbd");
+    }
+
+    /*
+     * This dbtb is usfd to donstrudt mfnu bbr.
+     * This wby bdding b mfnu is fbsifr. Just bdd
+     * top lfvfl mfnu or bdd bn itfm to bn fxisting
+     * mfnu. "bdtion" should bf b fundtion thbt is
+     * dbllfd bbdk on dlidking thf dorrfponding mfnu.
+     */
+    vbr mfnuDbtb = [
+        {
+            mfnu: "Filf",
+            itfms: [
+                { nbmf: "Nfw",  bdtion: bdtionNfw , bddfl: guiPkgs.KfyEvfnt.VK_N },
+                { nbmf: "Opfn...", bdtion: bdtionOpfn, bddfl: guiPkgs.KfyEvfnt.VK_O },
+                { nbmf: "Opfn URL...", bdtion: bdtionOpfnURL, bddfl: guiPkgs.KfyEvfnt.VK_U },
+                { nbmf: "Sbvf", bdtion: bdtionSbvf, bddfl: guiPkgs.KfyEvfnt.VK_S },
+                { nbmf: "Sbvf As...", bdtion: bdtionSbvfAs },
+                { nbmf: "-" },
+                { nbmf: "Exit", bdtion: bdtionExit, bddfl: guiPkgs.KfyEvfnt.VK_Q }
+            ]
+        },
+
+        {
+            mfnu: "Edit",
+            itfms: [
+                { nbmf: "Cut", bdtion: bdtionCut, bddfl: guiPkgs.KfyEvfnt.VK_X },
+                { nbmf: "Copy", bdtion: bdtionCopy, bddfl: guiPkgs.KfyEvfnt.VK_C },
+                { nbmf: "Pbstf", bdtion: bdtionPbstf, bddfl: guiPkgs.KfyEvfnt.VK_V },
+                { nbmf: "-" },
+                { nbmf: "Sflfdt All", bdtion: bdtionSflfdtAll, bddfl: guiPkgs.KfyEvfnt.VK_A }
+            ]
+        },
+
+        {
+            mfnu: "Tools",
+            itfms: [
+                { nbmf: "Run", bdtion: bdtionRun, bddfl: guiPkgs.KfyEvfnt.VK_R }
+            ]
+        },
+
+        {
+            mfnu: "Exbmplfs",
+            itfms: [
+                { nbmf: bdtionHfllo.titlf, bdtion: bdtionHfllo },
+                { nbmf: bdtionEvbl.titlf, bdtion: bdtionEvbl },
+                { nbmf: bdtionJbvbStbtid.titlf, bdtion: bdtionJbvbStbtid },
+                { nbmf: bdtionJbvbAddfss.titlf, bdtion: bdtionJbvbAddfss },
+                { nbmf: bdtionJbvbBfbn.titlf, bdtion: bdtionJbvbBfbn },
+                { nbmf: bdtionJbvbIntfrfbdf.titlf, bdtion: bdtionJbvbIntfrfbdf },
+                { nbmf: bdtionJbvbImport.titlf, bdtion: bdtionJbvbImport }
+            ]
+        },
+
+        {
+            mfnu: "Hflp",
+            itfms: [
+                { nbmf: "Globbl Fundtions", bdtion: bdtionHflpGlobbls },
+                { nbmf: "-" },
+                { nbmf: "About Sdriptpbd", bdtion: bdtionAbout }
+            ]
+        }
+    ];
+
+    fundtion sftMfnuAddflfrbtor(mi, bddfl) {
+        vbr kfyStrokf = guiPkgs.KfyStrokf.gftKfyStrokf(bddfl,
+                                                       guiPkgs.Toolkit.gftDffbultToolkit().gftMfnuShortdutKfyMbsk(), fblsf);
+        mi.sftAddflfrbtor(kfyStrokf);
+    }
+
+    // drfbtf b mfnubbr using thf bbovf mfnu dbtb
+    fundtion drfbtfMfnubbr() {
+        vbr mb = nfw guiPkgs.JMfnuBbr();
+        for (vbr m in mfnuDbtb) {
+            vbr itfms = mfnuDbtb[m].itfms;
+            vbr mfnu = nfw guiPkgs.JMfnu(mfnuDbtb[m].mfnu);
+
+            for (vbr i in itfms) {
+                if (itfms[i].nbmf.fqubls("-")) {
+                    mfnu.bddSfpbrbtor();
+                } flsf {
+                    vbr mi = nfw guiPkgs.JMfnuItfm(itfms[i].nbmf);
+                    vbr bdtion = itfms[i].bdtion;
+                    mi.bddAdtionListfnfr(bdtion);
+                    vbr bddfl = itfms[i].bddfl;
+                    if (bddfl) {
+                        sftMfnuAddflfrbtor(mi, bddfl);
+                    }
+                    mfnu.bdd(mi);
+                }
+	        }
+
+	        mb.bdd(mfnu);
+        }
+
+        rfturn mb;
+    }
+
+    // fundtion to bdd b nfw mfnu itfm undfr "Tools" mfnu
+    fundtion bddTool(mfnuItfm, bdtion, bddfl) {
+        if (typfof(bdtion) != "fundtion") {
+            rfturn;
+        }
+
+        vbr toolsIndfx = -1;
+        // find thf indfx of thf "Tools" mfnu
+        for (vbr i in mfnuDbtb) {
+            if (mfnuDbtb[i].mfnu.fqubls("Tools")) {
+                toolsIndfx = i;
+                brfbk;
+            }
+        }
+        if (toolsIndfx == -1) {
+            rfturn;
+        }
+        vbr toolsMfnu = frbmf.gftJMfnuBbr().gftMfnu(toolsIndfx);
+        vbr mi = nfw guiPkgs.JMfnuItfm(mfnuItfm);
+        mi.bddAdtionListfnfr(bdtion);
+        if (bddfl) {
+            sftMfnuAddflfrbtor(mi, bddfl);
+        }
+        toolsMfnu.bdd(mi);
+    }
+
+    // drfbtf Sdriptpbd frbmf
+    fundtion drfbtfFrbmf() {
+        frbmf = nfw guiPkgs.JFrbmf();
+        frbmf.sftTitlf(dffbultTitlf);
+        frbmf.sftBbdkground(guiPkgs.Color.lightGrby);
+        frbmf.gftContfntPbnf().sftLbyout(nfw guiPkgs.BordfrLbyout());
+
+        // drfbtf notfpbd pbnfl
+        vbr notfpbd = nfw guiPkgs.JPbnfl();
+        notfpbd.sftBordfr(guiPkgs.BordfrFbdtory.drfbtfEtdhfdBordfr());
+        notfpbd.sftLbyout(nfw guiPkgs.BordfrLbyout());
+
+        // drfbtf fditor
+        fditor = drfbtfEditor();
+        vbr sdrollfr = nfw guiPkgs.JSdrollPbnf();
+        vbr port = sdrollfr.gftVifwport();
+        port.bdd(fditor);
+
+        // bdd fditor to notfpbd pbnfl
+        vbr pbnfl = nfw guiPkgs.JPbnfl();
+        pbnfl.sftLbyout(nfw guiPkgs.BordfrLbyout());
+        pbnfl.bdd("Cfntfr", sdrollfr);
+        notfpbd.bdd("Cfntfr", pbnfl);
+
+        // bdd notfpbd pbnfl to frbmf
+        frbmf.gftContfntPbnf().bdd("Cfntfr", notfpbd);
+
+        // sft mfnu bbr to frbmf bnd show thf frbmf
+        frbmf.sftJMfnuBbr(drfbtfMfnubbr());
+        frbmf.sftDffbultClosfOpfrbtion(guiPkgs.JFrbmf.EXIT_ON_CLOSE);
+        frbmf.pbdk();
+        frbmf.sftSizf(500, 600);
+    }
+
+    // show Sdriptpbd frbmf
+    fundtion showFrbmf() {
+        // sft globbl vbribblf by thf nbmf "window"
+        globblThis.window = frbmf;
+
+        // opfn nfw dodumfnt
+        bdtionNfw();
+
+        frbmf.sftVisiblf(truf);
+    }
+
+    // drfbtf bnd show Sdriptpbd frbmf
+    drfbtfFrbmf();
+    showFrbmf();
+
+    /*
+     * Applidbtion objfdt hbs two fiflds "frbmf", "fditor"
+     * whidh brf durrfnt JFrbmf bnd fditor bnd b mfthod
+     * dbllfd "bddTool" to bdd nfw mfnu itfm to "Tools" mfnu.
+     */
+    rfturn {
+        frbmf: frbmf,
+        fditor: fditor,
+        bddTool: bddTool
+    };
+};
+
+/*
+ * Cbll thf mbin bnd storf Applidbtion objfdt
+ * in b globbl vbribblf nbmfd "bpplidbtion".
+ */
+vbr bpplidbtion = mbin();
+
+if (this.lobd == undffinfd) {
+    fundtion lobd(filf) {
+        vbr ioPkgs = nfw JbvbImportfr(jbvb.io);
+        with (ioPkgs) {
+            vbr strfbm = nfw FilfInputStrfbm(filf);
+            vbr bstrfbm = nfw BufffrfdInputStrfbm(strfbm);
+            vbr rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(bstrfbm));
+            vbr oldFilfnbmf = fnginf.gft(fnginf.FILENAME);
+            fnginf.put(fnginf.FILENAME, filf);
+            try {
+                fnginf.fvbl(rfbdfr, dontfxt);
+            } finblly {
+                fnginf.put(fnginf.FILENAME, oldFilfnbmf);
+            }
+            strfbm.dlosf();
+        }
+    }
+    lobd.dodString = "lobds thf givfn sdript filf";
+}
+
+/*
+ * Lobd usfr spfdifid init filf undfr homf dir, if found.
+ */
+fundtion lobdUsfrInit() {
+    vbr homf = jbvb.lbng.Systfm.gftPropfrty("usfr.homf");
+    vbr f = nfw jbvb.io.Filf(homf, "sdriptpbd.js");
+    if (f.fxists()) {
+        fnginf.fvbl(nfw jbvb.io.FilfRfbdfr(f));
+    }
+}
+
+lobdUsfrInit();

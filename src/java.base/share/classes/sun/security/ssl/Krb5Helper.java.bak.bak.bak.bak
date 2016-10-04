@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+
+/**
+ * A hflpfr dlbss for Kfrbfros APIs.
+ */
+publid finbl dlbss Krb5Hflpfr {
+
+    privbtf Krb5Hflpfr() { }
+
+    // lobds Krb5Proxy implfmfntbtion dlbss if bvbilbblf
+    privbtf stbtid finbl String IMPL_CLASS =
+        "sun.sfdurity.ssl.krb5.Krb5ProxyImpl";
+
+    privbtf stbtid finbl Krb5Proxy proxy =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Krb5Proxy>() {
+            @Ovfrridf
+            publid Krb5Proxy run() {
+                try {
+                    Clbss<?> d = Clbss.forNbmf(IMPL_CLASS, truf, null);
+                    rfturn (Krb5Proxy)d.nfwInstbndf();
+                } dbtdh (ClbssNotFoundExdfption dnf) {
+                    rfturn null;
+                } dbtdh (InstbntibtionExdfption f) {
+                    throw nfw AssfrtionError(f);
+                } dbtdh (IllfgblAddfssExdfption f) {
+                    throw nfw AssfrtionError(f);
+                }
+            }});
+
+    /**
+     * Rfturns truf if Kfrbfros is bvbilbblf.
+     */
+    publid stbtid boolfbn isAvbilbblf() {
+        rfturn proxy != null;
+    }
+
+    privbtf stbtid void fnsurfAvbilbblf() {
+        if (proxy == null)
+            throw nfw AssfrtionError("Kfrbfros should hbvf bffn bvbilbblf");
+    }
+
+    /**
+     * Rfturns thf Subjfdt bssodibtfd with dlifnt-sidf of thf SSL sodkft.
+     */
+    publid stbtid Subjfdt gftClifntSubjfdt(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftClifntSubjfdt(bdd);
+    }
+
+    /**
+     * Rfturns thf Subjfdt bssodibtfd with sfrvfr-sidf of thf SSL sodkft.
+     */
+    publid stbtid Subjfdt gftSfrvfrSubjfdt(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvfrSubjfdt(bdd);
+    }
+
+    /**
+     * Rfturns thf KfrbfrosKfys for thf dffbult sfrvfr-sidf prindipbl.
+     */
+    publid stbtid Objfdt gftSfrvidfCrfds(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvidfCrfds(bdd);
+    }
+
+    /**
+     * Rfturns thf sfrvfr-sidf prindipbl nbmf bssodibtfd with thf KfrbfrosKfy.
+     */
+    publid stbtid String gftSfrvfrPrindipblNbmf(Objfdt sfrvidfCrfds) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvfrPrindipblNbmf(sfrvidfCrfds);
+    }
+
+    /**
+     * Rfturns thf hostnbmf fmbfddfd in thf prindipbl nbmf.
+     */
+    publid stbtid String gftPrindipblHostNbmf(Prindipbl prindipbl) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftPrindipblHostNbmf(prindipbl);
+    }
+
+    /**
+     * Rfturns b SfrvidfPfrmission for thf prindipbl nbmf bnd bdtion.
+     */
+    publid stbtid Pfrmission gftSfrvidfPfrmission(String prindipblNbmf,
+            String bdtion) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftSfrvidfPfrmission(prindipblNbmf, bdtion);
+    }
+
+    /**
+     * Dftfrminfs if thf Subjfdt might dontbin drfds for prind.
+     */
+    publid stbtid boolfbn isRflbtfd(Subjfdt subjfdt, Prindipbl prind) {
+        fnsurfAvbilbblf();
+        rfturn proxy.isRflbtfd(subjfdt, prind);
+    }
+}

@@ -1,0 +1,1805 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A {@link ClbssVisitor} thbt gfnfrbtfs dlbssfs in bytfdodf form. Morf
+ * prfdisfly this visitor gfnfrbtfs b bytf brrby donforming to thf Jbvb dlbss
+ * filf formbt. It dbn bf usfd blonf, to gfnfrbtf b Jbvb dlbss "from sdrbtdh",
+ * or with onf or morf {@link ClbssRfbdfr ClbssRfbdfr} bnd bdbptfr dlbss visitor
+ * to gfnfrbtf b modififd dlbss from onf or morf fxisting Jbvb dlbssfs.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss ClbssWritfr fxtfnds ClbssVisitor {
+
+    /**
+     * Flbg to butombtidblly domputf thf mbximum stbdk sizf bnd thf mbximum
+     * numbfr of lodbl vbribblfs of mfthods. If this flbg is sft, thfn thf
+     * brgumfnts of thf {@link MfthodVisitor#visitMbxs visitMbxs} mfthod of thf
+     * {@link MfthodVisitor} rfturnfd by thf {@link #visitMfthod visitMfthod}
+     * mfthod will bf ignorfd, bnd domputfd butombtidblly from thf signbturf bnd
+     * thf bytfdodf of fbdh mfthod.
+     *
+     * @sff #ClbssWritfr(int)
+     */
+    publid stbtid finbl int COMPUTE_MAXS = 1;
+
+    /**
+     * Flbg to butombtidblly domputf thf stbdk mbp frbmfs of mfthods from
+     * sdrbtdh. If this flbg is sft, thfn thf dblls to thf
+     * {@link MfthodVisitor#visitFrbmf} mfthod brf ignorfd, bnd thf stbdk mbp
+     * frbmfs brf rfdomputfd from thf mfthods bytfdodf. Thf brgumfnts of thf
+     * {@link MfthodVisitor#visitMbxs visitMbxs} mfthod brf blso ignorfd bnd
+     * rfdomputfd from thf bytfdodf. In othfr words, domputfFrbmfs implifs
+     * domputfMbxs.
+     *
+     * @sff #ClbssWritfr(int)
+     */
+    publid stbtid finbl int COMPUTE_FRAMES = 2;
+
+    /**
+     * Psfudo bddfss flbg to distinguish bftwffn thf synthftid bttributf bnd thf
+     * synthftid bddfss flbg.
+     */
+    stbtid finbl int ACC_SYNTHETIC_ATTRIBUTE = 0x40000;
+
+    /**
+     * Fbdtor to donvfrt from ACC_SYNTHETIC_ATTRIBUTE to Opdodf.ACC_SYNTHETIC.
+     */
+    stbtid finbl int TO_ACC_SYNTHETIC = ACC_SYNTHETIC_ATTRIBUTE
+            / Opdodfs.ACC_SYNTHETIC;
+
+    /**
+     * Thf typf of instrudtions without bny brgumfnt.
+     */
+    stbtid finbl int NOARG_INSN = 0;
+
+    /**
+     * Thf typf of instrudtions with bn signfd bytf brgumfnt.
+     */
+    stbtid finbl int SBYTE_INSN = 1;
+
+    /**
+     * Thf typf of instrudtions with bn signfd short brgumfnt.
+     */
+    stbtid finbl int SHORT_INSN = 2;
+
+    /**
+     * Thf typf of instrudtions with b lodbl vbribblf indfx brgumfnt.
+     */
+    stbtid finbl int VAR_INSN = 3;
+
+    /**
+     * Thf typf of instrudtions with bn implidit lodbl vbribblf indfx brgumfnt.
+     */
+    stbtid finbl int IMPLVAR_INSN = 4;
+
+    /**
+     * Thf typf of instrudtions with b typf dfsdriptor brgumfnt.
+     */
+    stbtid finbl int TYPE_INSN = 5;
+
+    /**
+     * Thf typf of fifld bnd mfthod invodbtions instrudtions.
+     */
+    stbtid finbl int FIELDORMETH_INSN = 6;
+
+    /**
+     * Thf typf of thf INVOKEINTERFACE/INVOKEDYNAMIC instrudtion.
+     */
+    stbtid finbl int ITFMETH_INSN = 7;
+
+    /**
+     * Thf typf of thf INVOKEDYNAMIC instrudtion.
+     */
+    stbtid finbl int INDYMETH_INSN = 8;
+
+    /**
+     * Thf typf of instrudtions with b 2 bytfs bytfdodf offsft lbbfl.
+     */
+    stbtid finbl int LABEL_INSN = 9;
+
+    /**
+     * Thf typf of instrudtions with b 4 bytfs bytfdodf offsft lbbfl.
+     */
+    stbtid finbl int LABELW_INSN = 10;
+
+    /**
+     * Thf typf of thf LDC instrudtion.
+     */
+    stbtid finbl int LDC_INSN = 11;
+
+    /**
+     * Thf typf of thf LDC_W bnd LDC2_W instrudtions.
+     */
+    stbtid finbl int LDCW_INSN = 12;
+
+    /**
+     * Thf typf of thf IINC instrudtion.
+     */
+    stbtid finbl int IINC_INSN = 13;
+
+    /**
+     * Thf typf of thf TABLESWITCH instrudtion.
+     */
+    stbtid finbl int TABL_INSN = 14;
+
+    /**
+     * Thf typf of thf LOOKUPSWITCH instrudtion.
+     */
+    stbtid finbl int LOOK_INSN = 15;
+
+    /**
+     * Thf typf of thf MULTIANEWARRAY instrudtion.
+     */
+    stbtid finbl int MANA_INSN = 16;
+
+    /**
+     * Thf typf of thf WIDE instrudtion.
+     */
+    stbtid finbl int WIDE_INSN = 17;
+
+    /**
+     * Thf instrudtion typfs of bll JVM opdodfs.
+     */
+    stbtid finbl bytf[] TYPE;
+
+    /**
+     * Thf typf of CONSTANT_Clbss donstbnt pool itfms.
+     */
+    stbtid finbl int CLASS = 7;
+
+    /**
+     * Thf typf of CONSTANT_Fifldrff donstbnt pool itfms.
+     */
+    stbtid finbl int FIELD = 9;
+
+    /**
+     * Thf typf of CONSTANT_Mfthodrff donstbnt pool itfms.
+     */
+    stbtid finbl int METH = 10;
+
+    /**
+     * Thf typf of CONSTANT_IntfrfbdfMfthodrff donstbnt pool itfms.
+     */
+    stbtid finbl int IMETH = 11;
+
+    /**
+     * Thf typf of CONSTANT_String donstbnt pool itfms.
+     */
+    stbtid finbl int STR = 8;
+
+    /**
+     * Thf typf of CONSTANT_Intfgfr donstbnt pool itfms.
+     */
+    stbtid finbl int INT = 3;
+
+    /**
+     * Thf typf of CONSTANT_Flobt donstbnt pool itfms.
+     */
+    stbtid finbl int FLOAT = 4;
+
+    /**
+     * Thf typf of CONSTANT_Long donstbnt pool itfms.
+     */
+    stbtid finbl int LONG = 5;
+
+    /**
+     * Thf typf of CONSTANT_Doublf donstbnt pool itfms.
+     */
+    stbtid finbl int DOUBLE = 6;
+
+    /**
+     * Thf typf of CONSTANT_NbmfAndTypf donstbnt pool itfms.
+     */
+    stbtid finbl int NAME_TYPE = 12;
+
+    /**
+     * Thf typf of CONSTANT_Utf8 donstbnt pool itfms.
+     */
+    stbtid finbl int UTF8 = 1;
+
+    /**
+     * Thf typf of CONSTANT_MfthodTypf donstbnt pool itfms.
+     */
+    stbtid finbl int MTYPE = 16;
+
+    /**
+     * Thf typf of CONSTANT_MfthodHbndlf donstbnt pool itfms.
+     */
+    stbtid finbl int HANDLE = 15;
+
+    /**
+     * Thf typf of CONSTANT_InvokfDynbmid donstbnt pool itfms.
+     */
+    stbtid finbl int INDY = 18;
+
+    /**
+     * Thf bbsf vbluf for bll CONSTANT_MfthodHbndlf donstbnt pool itfms.
+     * Intfrnblly, ASM storf thf 9 vbribtions of CONSTANT_MfthodHbndlf into 9
+     * difffrfnt itfms.
+     */
+    stbtid finbl int HANDLE_BASE = 20;
+
+    /**
+     * Normbl typf Itfm storfd in thf ClbssWritfr {@link ClbssWritfr#typfTbblf},
+     * instfbd of thf donstbnt pool, in ordfr to bvoid dlbshfs with normbl
+     * donstbnt pool itfms in thf ClbssWritfr donstbnt pool's hbsh tbblf.
+     */
+    stbtid finbl int TYPE_NORMAL = 30;
+
+    /**
+     * Uninitiblizfd typf Itfm storfd in thf ClbssWritfr
+     * {@link ClbssWritfr#typfTbblf}, instfbd of thf donstbnt pool, in ordfr to
+     * bvoid dlbshfs with normbl donstbnt pool itfms in thf ClbssWritfr donstbnt
+     * pool's hbsh tbblf.
+     */
+    stbtid finbl int TYPE_UNINIT = 31;
+
+    /**
+     * Mfrgfd typf Itfm storfd in thf ClbssWritfr {@link ClbssWritfr#typfTbblf},
+     * instfbd of thf donstbnt pool, in ordfr to bvoid dlbshfs with normbl
+     * donstbnt pool itfms in thf ClbssWritfr donstbnt pool's hbsh tbblf.
+     */
+    stbtid finbl int TYPE_MERGED = 32;
+
+    /**
+     * Thf typf of BootstrbpMfthods itfms. Thfsf itfms brf storfd in b spfdibl
+     * dlbss bttributf nbmfd BootstrbpMfthods bnd not in thf donstbnt pool.
+     */
+    stbtid finbl int BSM = 33;
+
+    /**
+     * Thf dlbss rfbdfr from whidh this dlbss writfr wbs donstrudtfd, if bny.
+     */
+    ClbssRfbdfr dr;
+
+    /**
+     * Minor bnd mbjor vfrsion numbfrs of thf dlbss to bf gfnfrbtfd.
+     */
+    int vfrsion;
+
+    /**
+     * Indfx of thf nfxt itfm to bf bddfd in thf donstbnt pool.
+     */
+    int indfx;
+
+    /**
+     * Thf donstbnt pool of this dlbss.
+     */
+    finbl BytfVfdtor pool;
+
+    /**
+     * Thf donstbnt pool's hbsh tbblf dbtb.
+     */
+    Itfm[] itfms;
+
+    /**
+     * Thf thrfshold of thf donstbnt pool's hbsh tbblf.
+     */
+    int thrfshold;
+
+    /**
+     * A rfusbblf kfy usfd to look for itfms in thf {@link #itfms} hbsh tbblf.
+     */
+    finbl Itfm kfy;
+
+    /**
+     * A rfusbblf kfy usfd to look for itfms in thf {@link #itfms} hbsh tbblf.
+     */
+    finbl Itfm kfy2;
+
+    /**
+     * A rfusbblf kfy usfd to look for itfms in thf {@link #itfms} hbsh tbblf.
+     */
+    finbl Itfm kfy3;
+
+    /**
+     * A rfusbblf kfy usfd to look for itfms in thf {@link #itfms} hbsh tbblf.
+     */
+    finbl Itfm kfy4;
+
+    /**
+     * A typf tbblf usfd to tfmporbrily storf intfrnbl nbmfs thbt will not
+     * nfdfssbrily bf storfd in thf donstbnt pool. This typf tbblf is usfd by
+     * thf dontrol flow bnd dbtb flow bnblysis blgorithm usfd to domputf stbdk
+     * mbp frbmfs from sdrbtdh. This brrby bssodibtfs to fbdh indfx <tt>i</tt>
+     * thf Itfm whosf indfx is <tt>i</tt>. All Itfm objfdts storfd in this brrby
+     * brf blso storfd in thf {@link #itfms} hbsh tbblf. Thfsf two brrbys bllow
+     * to rftrifvf bn Itfm from its indfx or, donvfrsfly, to gft thf indfx of bn
+     * Itfm from its vbluf. Ebdh Itfm storfs bn intfrnbl nbmf in its
+     * {@link Itfm#strVbl1} fifld.
+     */
+    Itfm[] typfTbblf;
+
+    /**
+     * Numbfr of flfmfnts in thf {@link #typfTbblf} brrby.
+     */
+    privbtf short typfCount;
+
+    /**
+     * Thf bddfss flbgs of this dlbss.
+     */
+    privbtf int bddfss;
+
+    /**
+     * Thf donstbnt pool itfm thbt dontbins thf intfrnbl nbmf of this dlbss.
+     */
+    privbtf int nbmf;
+
+    /**
+     * Thf intfrnbl nbmf of this dlbss.
+     */
+    String thisNbmf;
+
+    /**
+     * Thf donstbnt pool itfm thbt dontbins thf signbturf of this dlbss.
+     */
+    privbtf int signbturf;
+
+    /**
+     * Thf donstbnt pool itfm thbt dontbins thf intfrnbl nbmf of thf supfr dlbss
+     * of this dlbss.
+     */
+    privbtf int supfrNbmf;
+
+    /**
+     * Numbfr of intfrfbdfs implfmfntfd or fxtfndfd by this dlbss or intfrfbdf.
+     */
+    privbtf int intfrfbdfCount;
+
+    /**
+     * Thf intfrfbdfs implfmfntfd or fxtfndfd by this dlbss or intfrfbdf. Morf
+     * prfdisfly, this brrby dontbins thf indfxfs of thf donstbnt pool itfms
+     * thbt dontbin thf intfrnbl nbmfs of thfsf intfrfbdfs.
+     */
+    privbtf int[] intfrfbdfs;
+
+    /**
+     * Thf indfx of thf donstbnt pool itfm thbt dontbins thf nbmf of thf sourdf
+     * filf from whidh this dlbss wbs dompilfd.
+     */
+    privbtf int sourdfFilf;
+
+    /**
+     * Thf SourdfDfbug bttributf of this dlbss.
+     */
+    privbtf BytfVfdtor sourdfDfbug;
+
+    /**
+     * Thf donstbnt pool itfm thbt dontbins thf nbmf of thf fndlosing dlbss of
+     * this dlbss.
+     */
+    privbtf int fndlosingMfthodOwnfr;
+
+    /**
+     * Thf donstbnt pool itfm thbt dontbins thf nbmf bnd dfsdriptor of thf
+     * fndlosing mfthod of this dlbss.
+     */
+    privbtf int fndlosingMfthod;
+
+    /**
+     * Thf runtimf visiblf bnnotbtions of this dlbss.
+     */
+    privbtf AnnotbtionWritfr bnns;
+
+    /**
+     * Thf runtimf invisiblf bnnotbtions of this dlbss.
+     */
+    privbtf AnnotbtionWritfr ibnns;
+
+    /**
+     * Thf runtimf visiblf typf bnnotbtions of this dlbss.
+     */
+    privbtf AnnotbtionWritfr tbnns;
+
+    /**
+     * Thf runtimf invisiblf typf bnnotbtions of this dlbss.
+     */
+    privbtf AnnotbtionWritfr itbnns;
+
+    /**
+     * Thf non stbndbrd bttributfs of this dlbss.
+     */
+    privbtf Attributf bttrs;
+
+    /**
+     * Thf numbfr of fntrifs in thf InnfrClbssfs bttributf.
+     */
+    privbtf int innfrClbssfsCount;
+
+    /**
+     * Thf InnfrClbssfs bttributf.
+     */
+    privbtf BytfVfdtor innfrClbssfs;
+
+    /**
+     * Thf numbfr of fntrifs in thf BootstrbpMfthods bttributf.
+     */
+    int bootstrbpMfthodsCount;
+
+    /**
+     * Thf BootstrbpMfthods bttributf.
+     */
+    BytfVfdtor bootstrbpMfthods;
+
+    /**
+     * Thf fiflds of this dlbss. Thfsf fiflds brf storfd in b linkfd list of
+     * {@link FifldWritfr} objfdts, linkfd to fbdh othfr by thfir
+     * {@link FifldWritfr#fv} fifld. This fifld storfs thf first flfmfnt of this
+     * list.
+     */
+    FifldWritfr firstFifld;
+
+    /**
+     * Thf fiflds of this dlbss. Thfsf fiflds brf storfd in b linkfd list of
+     * {@link FifldWritfr} objfdts, linkfd to fbdh othfr by thfir
+     * {@link FifldWritfr#fv} fifld. This fifld storfs thf lbst flfmfnt of this
+     * list.
+     */
+    FifldWritfr lbstFifld;
+
+    /**
+     * Thf mfthods of this dlbss. Thfsf mfthods brf storfd in b linkfd list of
+     * {@link MfthodWritfr} objfdts, linkfd to fbdh othfr by thfir
+     * {@link MfthodWritfr#mv} fifld. This fifld storfs thf first flfmfnt of
+     * this list.
+     */
+    MfthodWritfr firstMfthod;
+
+    /**
+     * Thf mfthods of this dlbss. Thfsf mfthods brf storfd in b linkfd list of
+     * {@link MfthodWritfr} objfdts, linkfd to fbdh othfr by thfir
+     * {@link MfthodWritfr#mv} fifld. This fifld storfs thf lbst flfmfnt of this
+     * list.
+     */
+    MfthodWritfr lbstMfthod;
+
+    /**
+     * <tt>truf</tt> if thf mbximum stbdk sizf bnd numbfr of lodbl vbribblfs
+     * must bf butombtidblly domputfd.
+     */
+    privbtf boolfbn domputfMbxs;
+
+    /**
+     * <tt>truf</tt> if thf stbdk mbp frbmfs must bf rfdomputfd from sdrbtdh.
+     */
+    privbtf boolfbn domputfFrbmfs;
+
+    /**
+     * <tt>truf</tt> if thf stbdk mbp tbblfs of this dlbss brf invblid. Thf
+     * {@link MfthodWritfr#rfsizfInstrudtions} mfthod dbnnot trbnsform fxisting
+     * stbdk mbp tbblfs, bnd so produdfs potfntiblly invblid dlbssfs whfn it is
+     * fxfdutfd. In this dbsf thf dlbss is rfrfbd bnd rfwrittfn with thf
+     * {@link #COMPUTE_FRAMES} option (thf rfsizfInstrudtions mfthod dbn rfsizf
+     * stbdk mbp tbblfs whfn this option is usfd).
+     */
+    boolfbn invblidFrbmfs;
+
+    // ------------------------------------------------------------------------
+    // Stbtid initiblizfr
+    // ------------------------------------------------------------------------
+
+    /**
+     * Computfs thf instrudtion typfs of JVM opdodfs.
+     */
+    stbtid {
+        int i;
+        bytf[] b = nfw bytf[220];
+        String s = "AAAAAAAAAAAAAAAABCLMMDDDDDEEEEEEEEEEEEEEEEEEEEAAAAAAAADD"
+                + "DDDEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                + "AAAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAAAAAAJJJJJJJJJJJJJJJJDOPAA"
+                + "AAAAGGGGGGGHIFBFAAFFAARQJJKKJJJJJJJJJJJJJJJJJJ";
+        for (i = 0; i < b.lfngth; ++i) {
+            b[i] = (bytf) (s.dhbrAt(i) - 'A');
+        }
+        TYPE = b;
+
+        // dodf to gfnfrbtf thf bbovf string
+        //
+        // // SBYTE_INSN instrudtions
+        // b[Constbnts.NEWARRAY] = SBYTE_INSN;
+        // b[Constbnts.BIPUSH] = SBYTE_INSN;
+        //
+        // // SHORT_INSN instrudtions
+        // b[Constbnts.SIPUSH] = SHORT_INSN;
+        //
+        // // (IMPL)VAR_INSN instrudtions
+        // b[Constbnts.RET] = VAR_INSN;
+        // for (i = Constbnts.ILOAD; i <= Constbnts.ALOAD; ++i) {
+        // b[i] = VAR_INSN;
+        // }
+        // for (i = Constbnts.ISTORE; i <= Constbnts.ASTORE; ++i) {
+        // b[i] = VAR_INSN;
+        // }
+        // for (i = 26; i <= 45; ++i) { // ILOAD_0 to ALOAD_3
+        // b[i] = IMPLVAR_INSN;
+        // }
+        // for (i = 59; i <= 78; ++i) { // ISTORE_0 to ASTORE_3
+        // b[i] = IMPLVAR_INSN;
+        // }
+        //
+        // // TYPE_INSN instrudtions
+        // b[Constbnts.NEW] = TYPE_INSN;
+        // b[Constbnts.ANEWARRAY] = TYPE_INSN;
+        // b[Constbnts.CHECKCAST] = TYPE_INSN;
+        // b[Constbnts.INSTANCEOF] = TYPE_INSN;
+        //
+        // // (Sft)FIELDORMETH_INSN instrudtions
+        // for (i = Constbnts.GETSTATIC; i <= Constbnts.INVOKESTATIC; ++i) {
+        // b[i] = FIELDORMETH_INSN;
+        // }
+        // b[Constbnts.INVOKEINTERFACE] = ITFMETH_INSN;
+        // b[Constbnts.INVOKEDYNAMIC] = INDYMETH_INSN;
+        //
+        // // LABEL(W)_INSN instrudtions
+        // for (i = Constbnts.IFEQ; i <= Constbnts.JSR; ++i) {
+        // b[i] = LABEL_INSN;
+        // }
+        // b[Constbnts.IFNULL] = LABEL_INSN;
+        // b[Constbnts.IFNONNULL] = LABEL_INSN;
+        // b[200] = LABELW_INSN; // GOTO_W
+        // b[201] = LABELW_INSN; // JSR_W
+        // // tfmporbry opdodfs usfd intfrnblly by ASM - sff Lbbfl bnd
+        // MfthodWritfr
+        // for (i = 202; i < 220; ++i) {
+        // b[i] = LABEL_INSN;
+        // }
+        //
+        // // LDC(_W) instrudtions
+        // b[Constbnts.LDC] = LDC_INSN;
+        // b[19] = LDCW_INSN; // LDC_W
+        // b[20] = LDCW_INSN; // LDC2_W
+        //
+        // // spfdibl instrudtions
+        // b[Constbnts.IINC] = IINC_INSN;
+        // b[Constbnts.TABLESWITCH] = TABL_INSN;
+        // b[Constbnts.LOOKUPSWITCH] = LOOK_INSN;
+        // b[Constbnts.MULTIANEWARRAY] = MANA_INSN;
+        // b[196] = WIDE_INSN; // WIDE
+        //
+        // for (i = 0; i < b.lfngth; ++i) {
+        // Systfm.frr.print((dhbr)('A' + b[i]));
+        // }
+        // Systfm.frr.println();
+    }
+
+    // ------------------------------------------------------------------------
+    // Construdtor
+    // ------------------------------------------------------------------------
+
+    /**
+     * Construdts b nfw {@link ClbssWritfr} objfdt.
+     *
+     * @pbrbm flbgs
+     *            option flbgs thbt dbn bf usfd to modify thf dffbult bfhbvior
+     *            of this dlbss. Sff {@link #COMPUTE_MAXS},
+     *            {@link #COMPUTE_FRAMES}.
+     */
+    publid ClbssWritfr(finbl int flbgs) {
+        supfr(Opdodfs.ASM5);
+        indfx = 1;
+        pool = nfw BytfVfdtor();
+        itfms = nfw Itfm[256];
+        thrfshold = (int) (0.75d * itfms.lfngth);
+        kfy = nfw Itfm();
+        kfy2 = nfw Itfm();
+        kfy3 = nfw Itfm();
+        kfy4 = nfw Itfm();
+        this.domputfMbxs = (flbgs & COMPUTE_MAXS) != 0;
+        this.domputfFrbmfs = (flbgs & COMPUTE_FRAMES) != 0;
+    }
+
+    /**
+     * Construdts b nfw {@link ClbssWritfr} objfdt bnd fnbblfs optimizbtions for
+     * "mostly bdd" bytfdodf trbnsformbtions. Thfsf optimizbtions brf thf
+     * following:
+     *
+     * <ul>
+     * <li>Thf donstbnt pool from thf originbl dlbss is dopifd bs is in thf nfw
+     * dlbss, whidh sbvfs timf. Nfw donstbnt pool fntrifs will bf bddfd bt thf
+     * fnd if nfdfssbry, but unusfd donstbnt pool fntrifs <i>won't bf
+     * rfmovfd</i>.</li>
+     * <li>Mfthods thbt brf not trbnsformfd brf dopifd bs is in thf nfw dlbss,
+     * dirfdtly from thf originbl dlbss bytfdodf (i.f. without fmitting visit
+     * fvfnts for bll thf mfthod instrudtions), whidh sbvfs b <i>lot</i> of
+     * timf. Untrbnsformfd mfthods brf dftfdtfd by thf fbdt thbt thf
+     * {@link ClbssRfbdfr} rfdfivfs {@link MfthodVisitor} objfdts thbt domf from
+     * b {@link ClbssWritfr} (bnd not from bny othfr {@link ClbssVisitor}
+     * instbndf).</li>
+     * </ul>
+     *
+     * @pbrbm dlbssRfbdfr
+     *            thf {@link ClbssRfbdfr} usfd to rfbd thf originbl dlbss. It
+     *            will bf usfd to dopy thf fntirf donstbnt pool from thf
+     *            originbl dlbss bnd blso to dopy othfr frbgmfnts of originbl
+     *            bytfdodf whfrf bpplidbblf.
+     * @pbrbm flbgs
+     *            option flbgs thbt dbn bf usfd to modify thf dffbult bfhbvior
+     *            of this dlbss. <i>Thfsf option flbgs do not bfffdt mfthods
+     *            thbt brf dopifd bs is in thf nfw dlbss. This mfbns thbt thf
+     *            mbximum stbdk sizf nor thf stbdk frbmfs will bf domputfd for
+     *            thfsf mfthods</i>. Sff {@link #COMPUTE_MAXS},
+     *            {@link #COMPUTE_FRAMES}.
+     */
+    publid ClbssWritfr(finbl ClbssRfbdfr dlbssRfbdfr, finbl int flbgs) {
+        this(flbgs);
+        dlbssRfbdfr.dopyPool(this);
+        this.dr = dlbssRfbdfr;
+    }
+
+    // ------------------------------------------------------------------------
+    // Implfmfntbtion of thf ClbssVisitor bbstrbdt dlbss
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid finbl void visit(finbl int vfrsion, finbl int bddfss,
+            finbl String nbmf, finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        this.vfrsion = vfrsion;
+        this.bddfss = bddfss;
+        this.nbmf = nfwClbss(nbmf);
+        thisNbmf = nbmf;
+        if (ClbssRfbdfr.SIGNATURES && signbturf != null) {
+            this.signbturf = nfwUTF8(signbturf);
+        }
+        this.supfrNbmf = supfrNbmf == null ? 0 : nfwClbss(supfrNbmf);
+        if (intfrfbdfs != null && intfrfbdfs.lfngth > 0) {
+            intfrfbdfCount = intfrfbdfs.lfngth;
+            this.intfrfbdfs = nfw int[intfrfbdfCount];
+            for (int i = 0; i < intfrfbdfCount; ++i) {
+                this.intfrfbdfs[i] = nfwClbss(intfrfbdfs[i]);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void visitSourdf(finbl String filf, finbl String dfbug) {
+        if (filf != null) {
+            sourdfFilf = nfwUTF8(filf);
+        }
+        if (dfbug != null) {
+            sourdfDfbug = nfw BytfVfdtor().fndodfUTF8(dfbug, 0,
+                    Intfgfr.MAX_VALUE);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        fndlosingMfthodOwnfr = nfwClbss(ownfr);
+        if (nbmf != null && dfsd != null) {
+            fndlosingMfthod = nfwNbmfTypf(nbmf, dfsd);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putShort(nfwUTF8(dfsd)).putShort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(this, truf, bv, bv, 2);
+        if (visiblf) {
+            bw.nfxt = bnns;
+            bnns = bw;
+        } flsf {
+            bw.nfxt = ibnns;
+            ibnns = bw;
+        }
+        rfturn bw;
+    }
+
+    @Ovfrridf
+    publid finbl AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf tbrgft_typf bnd tbrgft_info
+        AnnotbtionWritfr.putTbrgft(typfRff, typfPbth, bv);
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putShort(nfwUTF8(dfsd)).putShort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(this, truf, bv, bv,
+                bv.lfngth - 2);
+        if (visiblf) {
+            bw.nfxt = tbnns;
+            tbnns = bw;
+        } flsf {
+            bw.nfxt = itbnns;
+            itbnns = bw;
+        }
+        rfturn bw;
+    }
+
+    @Ovfrridf
+    publid finbl void visitAttributf(finbl Attributf bttr) {
+        bttr.nfxt = bttrs;
+        bttrs = bttr;
+    }
+
+    @Ovfrridf
+    publid finbl void visitInnfrClbss(finbl String nbmf,
+            finbl String outfrNbmf, finbl String innfrNbmf, finbl int bddfss) {
+        if (innfrClbssfs == null) {
+            innfrClbssfs = nfw BytfVfdtor();
+        }
+        // Sfd. 4.7.6 of thf JVMS stbtfs "Evfry CONSTANT_Clbss_info fntry in thf
+        // donstbnt_pool tbblf whidh rfprfsfnts b dlbss or intfrfbdf C thbt is
+        // not b pbdkbgf mfmbfr must hbvf fxbdtly onf dorrfsponding fntry in thf
+        // dlbssfs brrby". To bvoid duplidbtfs wf kffp trbdk in thf intVbl fifld
+        // of thf Itfm of fbdh CONSTANT_Clbss_info fntry C whfthfr bn innfr
+        // dlbss fntry hbs blrfbdy bffn bddfd for C (this fifld is unusfd for
+        // dlbss fntrifs, bnd dhbnging its vbluf dofs not dhbngf thf hbshdodf
+        // bnd fqublity tfsts). If so wf storf thf indfx of this innfr dlbss
+        // fntry (plus onf) in intVbl. This hbdk bllows duplidbtf dftfdtion in
+        // O(1) timf.
+        Itfm nbmfItfm = nfwClbssItfm(nbmf);
+        if (nbmfItfm.intVbl == 0) {
+            ++innfrClbssfsCount;
+            innfrClbssfs.putShort(nbmfItfm.indfx);
+            innfrClbssfs.putShort(outfrNbmf == null ? 0 : nfwClbss(outfrNbmf));
+            innfrClbssfs.putShort(innfrNbmf == null ? 0 : nfwUTF8(innfrNbmf));
+            innfrClbssfs.putShort(bddfss);
+            nbmfItfm.intVbl = innfrClbssfsCount;
+        } flsf {
+            // Compbrf thf innfr dlbssfs fntry nbmfItfm.intVbl - 1 with thf
+            // brgumfnts of this mfthod bnd throw bn fxdfption if thfrf is b
+            // difffrfndf?
+        }
+    }
+
+    @Ovfrridf
+    publid finbl FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        rfturn nfw FifldWritfr(this, bddfss, nbmf, dfsd, signbturf, vbluf);
+    }
+
+    @Ovfrridf
+    publid finbl MfthodVisitor visitMfthod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        rfturn nfw MfthodWritfr(this, bddfss, nbmf, dfsd, signbturf,
+                fxdfptions, domputfMbxs, domputfFrbmfs);
+    }
+
+    @Ovfrridf
+    publid finbl void visitEnd() {
+    }
+
+    // ------------------------------------------------------------------------
+    // Othfr publid mfthods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf bytfdodf of thf dlbss thbt wbs build with this dlbss writfr.
+     *
+     * @rfturn thf bytfdodf of thf dlbss thbt wbs build with this dlbss writfr.
+     */
+    publid bytf[] toBytfArrby() {
+        if (indfx > 0xFFFF) {
+            throw nfw RuntimfExdfption("Clbss filf too lbrgf!");
+        }
+        // domputfs thf rfbl sizf of thf bytfdodf of this dlbss
+        int sizf = 24 + 2 * intfrfbdfCount;
+        int nbFiflds = 0;
+        FifldWritfr fb = firstFifld;
+        whilf (fb != null) {
+            ++nbFiflds;
+            sizf += fb.gftSizf();
+            fb = (FifldWritfr) fb.fv;
+        }
+        int nbMfthods = 0;
+        MfthodWritfr mb = firstMfthod;
+        whilf (mb != null) {
+            ++nbMfthods;
+            sizf += mb.gftSizf();
+            mb = (MfthodWritfr) mb.mv;
+        }
+        int bttributfCount = 0;
+        if (bootstrbpMfthods != null) {
+            // wf put it bs first bttributf in ordfr to improvf b bit
+            // ClbssRfbdfr.dopyBootstrbpMfthods
+            ++bttributfCount;
+            sizf += 8 + bootstrbpMfthods.lfngth;
+            nfwUTF8("BootstrbpMfthods");
+        }
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            ++bttributfCount;
+            sizf += 8;
+            nfwUTF8("Signbturf");
+        }
+        if (sourdfFilf != 0) {
+            ++bttributfCount;
+            sizf += 8;
+            nfwUTF8("SourdfFilf");
+        }
+        if (sourdfDfbug != null) {
+            ++bttributfCount;
+            sizf += sourdfDfbug.lfngth + 6;
+            nfwUTF8("SourdfDfbugExtfnsion");
+        }
+        if (fndlosingMfthodOwnfr != 0) {
+            ++bttributfCount;
+            sizf += 10;
+            nfwUTF8("EndlosingMfthod");
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            ++bttributfCount;
+            sizf += 6;
+            nfwUTF8("Dfprfdbtfd");
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                ++bttributfCount;
+                sizf += 6;
+                nfwUTF8("Synthftid");
+            }
+        }
+        if (innfrClbssfs != null) {
+            ++bttributfCount;
+            sizf += 8 + innfrClbssfs.lfngth;
+            nfwUTF8("InnfrClbssfs");
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            ++bttributfCount;
+            sizf += 8 + bnns.gftSizf();
+            nfwUTF8("RuntimfVisiblfAnnotbtions");
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            ++bttributfCount;
+            sizf += 8 + ibnns.gftSizf();
+            nfwUTF8("RuntimfInvisiblfAnnotbtions");
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            ++bttributfCount;
+            sizf += 8 + tbnns.gftSizf();
+            nfwUTF8("RuntimfVisiblfTypfAnnotbtions");
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            ++bttributfCount;
+            sizf += 8 + itbnns.gftSizf();
+            nfwUTF8("RuntimfInvisiblfTypfAnnotbtions");
+        }
+        if (bttrs != null) {
+            bttributfCount += bttrs.gftCount();
+            sizf += bttrs.gftSizf(this, null, 0, -1, -1);
+        }
+        sizf += pool.lfngth;
+        // bllodbtfs b bytf vfdtor of this sizf, in ordfr to bvoid unnfdfssbry
+        // brrbydopy opfrbtions in thf BytfVfdtor.fnlbrgf() mfthod
+        BytfVfdtor out = nfw BytfVfdtor(sizf);
+        out.putInt(0xCAFEBABE).putInt(vfrsion);
+        out.putShort(indfx).putBytfArrby(pool.dbtb, 0, pool.lfngth);
+        int mbsk = Opdodfs.ACC_DEPRECATED | ACC_SYNTHETIC_ATTRIBUTE
+                | ((bddfss & ACC_SYNTHETIC_ATTRIBUTE) / TO_ACC_SYNTHETIC);
+        out.putShort(bddfss & ~mbsk).putShort(nbmf).putShort(supfrNbmf);
+        out.putShort(intfrfbdfCount);
+        for (int i = 0; i < intfrfbdfCount; ++i) {
+            out.putShort(intfrfbdfs[i]);
+        }
+        out.putShort(nbFiflds);
+        fb = firstFifld;
+        whilf (fb != null) {
+            fb.put(out);
+            fb = (FifldWritfr) fb.fv;
+        }
+        out.putShort(nbMfthods);
+        mb = firstMfthod;
+        whilf (mb != null) {
+            mb.put(out);
+            mb = (MfthodWritfr) mb.mv;
+        }
+        out.putShort(bttributfCount);
+        if (bootstrbpMfthods != null) {
+            out.putShort(nfwUTF8("BootstrbpMfthods"));
+            out.putInt(bootstrbpMfthods.lfngth + 2).putShort(
+                    bootstrbpMfthodsCount);
+            out.putBytfArrby(bootstrbpMfthods.dbtb, 0, bootstrbpMfthods.lfngth);
+        }
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            out.putShort(nfwUTF8("Signbturf")).putInt(2).putShort(signbturf);
+        }
+        if (sourdfFilf != 0) {
+            out.putShort(nfwUTF8("SourdfFilf")).putInt(2).putShort(sourdfFilf);
+        }
+        if (sourdfDfbug != null) {
+            int lfn = sourdfDfbug.lfngth;
+            out.putShort(nfwUTF8("SourdfDfbugExtfnsion")).putInt(lfn);
+            out.putBytfArrby(sourdfDfbug.dbtb, 0, lfn);
+        }
+        if (fndlosingMfthodOwnfr != 0) {
+            out.putShort(nfwUTF8("EndlosingMfthod")).putInt(4);
+            out.putShort(fndlosingMfthodOwnfr).putShort(fndlosingMfthod);
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            out.putShort(nfwUTF8("Dfprfdbtfd")).putInt(0);
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                out.putShort(nfwUTF8("Synthftid")).putInt(0);
+            }
+        }
+        if (innfrClbssfs != null) {
+            out.putShort(nfwUTF8("InnfrClbssfs"));
+            out.putInt(innfrClbssfs.lfngth + 2).putShort(innfrClbssfsCount);
+            out.putBytfArrby(innfrClbssfs.dbtb, 0, innfrClbssfs.lfngth);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            out.putShort(nfwUTF8("RuntimfVisiblfAnnotbtions"));
+            bnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            out.putShort(nfwUTF8("RuntimfInvisiblfAnnotbtions"));
+            ibnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            out.putShort(nfwUTF8("RuntimfVisiblfTypfAnnotbtions"));
+            tbnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            out.putShort(nfwUTF8("RuntimfInvisiblfTypfAnnotbtions"));
+            itbnns.put(out);
+        }
+        if (bttrs != null) {
+            bttrs.put(this, null, 0, -1, -1, out);
+        }
+        if (invblidFrbmfs) {
+            bnns = null;
+            ibnns = null;
+            bttrs = null;
+            innfrClbssfsCount = 0;
+            innfrClbssfs = null;
+            bootstrbpMfthodsCount = 0;
+            bootstrbpMfthods = null;
+            firstFifld = null;
+            lbstFifld = null;
+            firstMfthod = null;
+            lbstMfthod = null;
+            domputfMbxs = fblsf;
+            domputfFrbmfs = truf;
+            invblidFrbmfs = fblsf;
+            nfw ClbssRfbdfr(out.dbtb).bddfpt(this, ClbssRfbdfr.SKIP_FRAMES);
+            rfturn toBytfArrby();
+        }
+        rfturn out.dbtb;
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mfthods: donstbnt pool mbnbgfmfnt
+    // ------------------------------------------------------------------------
+
+    /**
+     * Adds b numbfr or string donstbnt to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm dst
+     *            thf vbluf of thf donstbnt to bf bddfd to thf donstbnt pool.
+     *            This pbrbmftfr must bf bn {@link Intfgfr}, b {@link Flobt}, b
+     *            {@link Long}, b {@link Doublf}, b {@link String} or b
+     *            {@link Typf}.
+     * @rfturn b nfw or blrfbdy fxisting donstbnt itfm with thf givfn vbluf.
+     */
+    Itfm nfwConstItfm(finbl Objfdt dst) {
+        if (dst instbndfof Intfgfr) {
+            int vbl = ((Intfgfr) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Bytf) {
+            int vbl = ((Bytf) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Chbrbdtfr) {
+            int vbl = ((Chbrbdtfr) dst).dhbrVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Short) {
+            int vbl = ((Short) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Boolfbn) {
+            int vbl = ((Boolfbn) dst).boolfbnVbluf() ? 1 : 0;
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Flobt) {
+            flobt vbl = ((Flobt) dst).flobtVbluf();
+            rfturn nfwFlobt(vbl);
+        } flsf if (dst instbndfof Long) {
+            long vbl = ((Long) dst).longVbluf();
+            rfturn nfwLong(vbl);
+        } flsf if (dst instbndfof Doublf) {
+            doublf vbl = ((Doublf) dst).doublfVbluf();
+            rfturn nfwDoublf(vbl);
+        } flsf if (dst instbndfof String) {
+            rfturn nfwString((String) dst);
+        } flsf if (dst instbndfof Typf) {
+            Typf t = (Typf) dst;
+            int s = t.gftSort();
+            if (s == Typf.OBJECT) {
+                rfturn nfwClbssItfm(t.gftIntfrnblNbmf());
+            } flsf if (s == Typf.METHOD) {
+                rfturn nfwMfthodTypfItfm(t.gftDfsdriptor());
+            } flsf { // s == primitivf typf or brrby
+                rfturn nfwClbssItfm(t.gftDfsdriptor());
+            }
+        } flsf if (dst instbndfof Hbndlf) {
+            Hbndlf h = (Hbndlf) dst;
+            rfturn nfwHbndlfItfm(h.tbg, h.ownfr, h.nbmf, h.dfsd);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("vbluf " + dst);
+        }
+    }
+
+    /**
+     * Adds b numbfr or string donstbnt to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm dst
+     *            thf vbluf of thf donstbnt to bf bddfd to thf donstbnt pool.
+     *            This pbrbmftfr must bf bn {@link Intfgfr}, b {@link Flobt}, b
+     *            {@link Long}, b {@link Doublf} or b {@link String}.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting donstbnt itfm with thf
+     *         givfn vbluf.
+     */
+    publid int nfwConst(finbl Objfdt dst) {
+        rfturn nfwConstItfm(dst).indfx;
+    }
+
+    /**
+     * Adds bn UTF8 string to thf donstbnt pool of thf dlbss bfing build. Dofs
+     * nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm. <i>This
+     * mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not
+     * nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm vbluf
+     *            thf String vbluf.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting UTF8 itfm.
+     */
+    publid int nfwUTF8(finbl String vbluf) {
+        kfy.sft(UTF8, vbluf, null, null);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(UTF8).putUTF8(vbluf);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
+        }
+        rfturn rfsult.indfx;
+    }
+
+    /**
+     * Adds b dlbss rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm vbluf
+     *            thf intfrnbl nbmf of thf dlbss.
+     * @rfturn b nfw or blrfbdy fxisting dlbss rfffrfndf itfm.
+     */
+    Itfm nfwClbssItfm(finbl String vbluf) {
+        kfy2.sft(CLASS, vbluf, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(CLASS, nfwUTF8(vbluf));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b dlbss rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm vbluf
+     *            thf intfrnbl nbmf of thf dlbss.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting dlbss rfffrfndf itfm.
+     */
+    publid int nfwClbss(finbl String vbluf) {
+        rfturn nfwClbssItfm(vbluf).indfx;
+    }
+
+    /**
+     * Adds b mfthod typf rfffrfndf to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm mfthodDfsd
+     *            mfthod dfsdriptor of thf mfthod typf.
+     * @rfturn b nfw or blrfbdy fxisting mfthod typf rfffrfndf itfm.
+     */
+    Itfm nfwMfthodTypfItfm(finbl String mfthodDfsd) {
+        kfy2.sft(MTYPE, mfthodDfsd, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(MTYPE, nfwUTF8(mfthodDfsd));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b mfthod typf rfffrfndf to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm mfthodDfsd
+     *            mfthod dfsdriptor of thf mfthod typf.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting mfthod typf rfffrfndf
+     *         itfm.
+     */
+    publid int nfwMfthodTypf(finbl String mfthodDfsd) {
+        rfturn nfwMfthodTypfItfm(mfthodDfsd).indfx;
+    }
+
+    /**
+     * Adds b hbndlf to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm. <i>This mfthod is
+     * intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not nffdfd by
+     * dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm tbg
+     *            thf kind of this hbndlf. Must bf {@link Opdodfs#H_GETFIELD},
+     *            {@link Opdodfs#H_GETSTATIC}, {@link Opdodfs#H_PUTFIELD},
+     *            {@link Opdodfs#H_PUTSTATIC}, {@link Opdodfs#H_INVOKEVIRTUAL},
+     *            {@link Opdodfs#H_INVOKESTATIC},
+     *            {@link Opdodfs#H_INVOKESPECIAL},
+     *            {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *            {@link Opdodfs#H_INVOKEINTERFACE}.
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf fifld or mfthod ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld or mfthod.
+     * @pbrbm dfsd
+     *            thf dfsdriptor of thf fifld or mfthod.
+     * @rfturn b nfw or bn blrfbdy fxisting mfthod typf rfffrfndf itfm.
+     */
+    Itfm nfwHbndlfItfm(finbl int tbg, finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        kfy4.sft(HANDLE_BASE + tbg, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy4);
+        if (rfsult == null) {
+            if (tbg <= Opdodfs.H_PUTSTATIC) {
+                put112(HANDLE, tbg, nfwFifld(ownfr, nbmf, dfsd));
+            } flsf {
+                put112(HANDLE,
+                        tbg,
+                        nfwMfthod(ownfr, nbmf, dfsd,
+                                tbg == Opdodfs.H_INVOKEINTERFACE));
+            }
+            rfsult = nfw Itfm(indfx++, kfy4);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b hbndlf to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm. <i>This mfthod is
+     * intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not nffdfd by
+     * dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm tbg
+     *            thf kind of this hbndlf. Must bf {@link Opdodfs#H_GETFIELD},
+     *            {@link Opdodfs#H_GETSTATIC}, {@link Opdodfs#H_PUTFIELD},
+     *            {@link Opdodfs#H_PUTSTATIC}, {@link Opdodfs#H_INVOKEVIRTUAL},
+     *            {@link Opdodfs#H_INVOKESTATIC},
+     *            {@link Opdodfs#H_INVOKESPECIAL},
+     *            {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *            {@link Opdodfs#H_INVOKEINTERFACE}.
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf fifld or mfthod ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld or mfthod.
+     * @pbrbm dfsd
+     *            thf dfsdriptor of thf fifld or mfthod.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting mfthod typf rfffrfndf
+     *         itfm.
+     */
+    publid int nfwHbndlf(finbl int tbg, finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        rfturn nfwHbndlfItfm(tbg, ownfr, nbmf, dfsd).indfx;
+    }
+
+    /**
+     * Adds bn invokfdynbmid rfffrfndf to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm nbmf
+     *            nbmf of thf invokfd mfthod.
+     * @pbrbm dfsd
+     *            dfsdriptor of thf invokf mfthod.
+     * @pbrbm bsm
+     *            thf bootstrbp mfthod.
+     * @pbrbm bsmArgs
+     *            thf bootstrbp mfthod donstbnt brgumfnts.
+     *
+     * @rfturn b nfw or bn blrfbdy fxisting invokfdynbmid typf rfffrfndf itfm.
+     */
+    Itfm nfwInvokfDynbmidItfm(finbl String nbmf, finbl String dfsd,
+            finbl Hbndlf bsm, finbl Objfdt... bsmArgs) {
+        // dbdhf for pfrformbndf
+        BytfVfdtor bootstrbpMfthods = this.bootstrbpMfthods;
+        if (bootstrbpMfthods == null) {
+            bootstrbpMfthods = this.bootstrbpMfthods = nfw BytfVfdtor();
+        }
+
+        int position = bootstrbpMfthods.lfngth; // rfdord durrfnt position
+
+        int hbshCodf = bsm.hbshCodf();
+        bootstrbpMfthods.putShort(nfwHbndlf(bsm.tbg, bsm.ownfr, bsm.nbmf,
+                bsm.dfsd));
+
+        int brgsLfngth = bsmArgs.lfngth;
+        bootstrbpMfthods.putShort(brgsLfngth);
+
+        for (int i = 0; i < brgsLfngth; i++) {
+            Objfdt bsmArg = bsmArgs[i];
+            hbshCodf ^= bsmArg.hbshCodf();
+            bootstrbpMfthods.putShort(nfwConst(bsmArg));
+        }
+
+        bytf[] dbtb = bootstrbpMfthods.dbtb;
+        int lfngth = (1 + 1 + brgsLfngth) << 1; // (bsm + brgCount + brgumfnts)
+        hbshCodf &= 0x7FFFFFFF;
+        Itfm rfsult = itfms[hbshCodf % itfms.lfngth];
+        loop: whilf (rfsult != null) {
+            if (rfsult.typf != BSM || rfsult.hbshCodf != hbshCodf) {
+                rfsult = rfsult.nfxt;
+                dontinuf;
+            }
+
+            // bfdbusf thf dbtb fndodf thf sizf of thf brgumfnt
+            // wf don't nffd to tfst if thfsf sizf brf fqubls
+            int rfsultPosition = rfsult.intVbl;
+            for (int p = 0; p < lfngth; p++) {
+                if (dbtb[position + p] != dbtb[rfsultPosition + p]) {
+                    rfsult = rfsult.nfxt;
+                    dontinuf loop;
+                }
+            }
+            brfbk;
+        }
+
+        int bootstrbpMfthodIndfx;
+        if (rfsult != null) {
+            bootstrbpMfthodIndfx = rfsult.indfx;
+            bootstrbpMfthods.lfngth = position; // rfvfrt to old position
+        } flsf {
+            bootstrbpMfthodIndfx = bootstrbpMfthodsCount++;
+            rfsult = nfw Itfm(bootstrbpMfthodIndfx);
+            rfsult.sft(position, hbshCodf);
+            put(rfsult);
+        }
+
+        // now, drfbtf thf InvokfDynbmid donstbnt
+        kfy3.sft(nbmf, dfsd, bootstrbpMfthodIndfx);
+        rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(INDY, bootstrbpMfthodIndfx, nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds bn invokfdynbmid rfffrfndf to thf donstbnt pool of thf dlbss bfing
+     * build. Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm nbmf
+     *            nbmf of thf invokfd mfthod.
+     * @pbrbm dfsd
+     *            dfsdriptor of thf invokf mfthod.
+     * @pbrbm bsm
+     *            thf bootstrbp mfthod.
+     * @pbrbm bsmArgs
+     *            thf bootstrbp mfthod donstbnt brgumfnts.
+     *
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting invokfdynbmid rfffrfndf
+     *         itfm.
+     */
+    publid int nfwInvokfDynbmid(finbl String nbmf, finbl String dfsd,
+            finbl Hbndlf bsm, finbl Objfdt... bsmArgs) {
+        rfturn nfwInvokfDynbmidItfm(nbmf, dfsd, bsm, bsmArgs).indfx;
+    }
+
+    /**
+     * Adds b fifld rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf fifld's ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf fifld's nbmf.
+     * @pbrbm dfsd
+     *            thf fifld's dfsdriptor.
+     * @rfturn b nfw or blrfbdy fxisting fifld rfffrfndf itfm.
+     */
+    Itfm nfwFifldItfm(finbl String ownfr, finbl String nbmf, finbl String dfsd) {
+        kfy3.sft(FIELD, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(FIELD, nfwClbss(ownfr), nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b fifld rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf fifld's ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf fifld's nbmf.
+     * @pbrbm dfsd
+     *            thf fifld's dfsdriptor.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting fifld rfffrfndf itfm.
+     */
+    publid int nfwFifld(finbl String ownfr, finbl String nbmf, finbl String dfsd) {
+        rfturn nfwFifldItfm(ownfr, nbmf, dfsd).indfx;
+    }
+
+    /**
+     * Adds b mfthod rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf mfthod's ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor.
+     * @pbrbm itf
+     *            <tt>truf</tt> if <tt>ownfr</tt> is bn intfrfbdf.
+     * @rfturn b nfw or blrfbdy fxisting mfthod rfffrfndf itfm.
+     */
+    Itfm nfwMfthodItfm(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd, finbl boolfbn itf) {
+        int typf = itf ? IMETH : METH;
+        kfy3.sft(typf, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(typf, nfwClbss(ownfr), nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b mfthod rfffrfndf to thf donstbnt pool of thf dlbss bfing build.
+     * Dofs nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>This mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf mfthod's ownfr dlbss.
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor.
+     * @pbrbm itf
+     *            <tt>truf</tt> if <tt>ownfr</tt> is bn intfrfbdf.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting mfthod rfffrfndf itfm.
+     */
+    publid int nfwMfthod(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd, finbl boolfbn itf) {
+        rfturn nfwMfthodItfm(ownfr, nbmf, dfsd, itf).indfx;
+    }
+
+    /**
+     * Adds bn intfgfr to thf donstbnt pool of thf dlbss bfing build. Dofs
+     * nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm vbluf
+     *            thf int vbluf.
+     * @rfturn b nfw or blrfbdy fxisting int itfm.
+     */
+    Itfm nfwIntfgfr(finbl int vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(INT).putInt(vbluf);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b flobt to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm vbluf
+     *            thf flobt vbluf.
+     * @rfturn b nfw or blrfbdy fxisting flobt itfm.
+     */
+    Itfm nfwFlobt(finbl flobt vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(FLOAT).putInt(kfy.intVbl);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b long to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm vbluf
+     *            thf long vbluf.
+     * @rfturn b nfw or blrfbdy fxisting long itfm.
+     */
+    Itfm nfwLong(finbl long vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(LONG).putLong(vbluf);
+            rfsult = nfw Itfm(indfx, kfy);
+            indfx += 2;
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b doublf to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm vbluf
+     *            thf doublf vbluf.
+     * @rfturn b nfw or blrfbdy fxisting doublf itfm.
+     */
+    Itfm nfwDoublf(finbl doublf vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(DOUBLE).putLong(kfy.longVbl);
+            rfsult = nfw Itfm(indfx, kfy);
+            indfx += 2;
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b string to thf donstbnt pool of thf dlbss bfing build. Dofs nothing
+     * if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm vbluf
+     *            thf String vbluf.
+     * @rfturn b nfw or blrfbdy fxisting string itfm.
+     */
+    privbtf Itfm nfwString(finbl String vbluf) {
+        kfy2.sft(STR, vbluf, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(STR, nfwUTF8(vbluf));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds b nbmf bnd typf to thf donstbnt pool of thf dlbss bfing build. Dofs
+     * nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm. <i>This
+     * mfthod is intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not
+     * nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
+     *
+     * @pbrbm nbmf
+     *            b nbmf.
+     * @pbrbm dfsd
+     *            b typf dfsdriptor.
+     * @rfturn thf indfx of b nfw or blrfbdy fxisting nbmf bnd typf itfm.
+     */
+    publid int nfwNbmfTypf(finbl String nbmf, finbl String dfsd) {
+        rfturn nfwNbmfTypfItfm(nbmf, dfsd).indfx;
+    }
+
+    /**
+     * Adds b nbmf bnd typf to thf donstbnt pool of thf dlbss bfing build. Dofs
+     * nothing if thf donstbnt pool blrfbdy dontbins b similbr itfm.
+     *
+     * @pbrbm nbmf
+     *            b nbmf.
+     * @pbrbm dfsd
+     *            b typf dfsdriptor.
+     * @rfturn b nfw or blrfbdy fxisting nbmf bnd typf itfm.
+     */
+    Itfm nfwNbmfTypfItfm(finbl String nbmf, finbl String dfsd) {
+        kfy2.sft(NAME_TYPE, nbmf, dfsd, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            put122(NAME_TYPE, nfwUTF8(nbmf), nfwUTF8(dfsd));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds thf givfn intfrnbl nbmf to {@link #typfTbblf} bnd rfturns its indfx.
+     * Dofs nothing if thf typf tbblf blrfbdy dontbins this intfrnbl nbmf.
+     *
+     * @pbrbm typf
+     *            thf intfrnbl nbmf to bf bddfd to thf typf tbblf.
+     * @rfturn thf indfx of this intfrnbl nbmf in thf typf tbblf.
+     */
+    int bddTypf(finbl String typf) {
+        kfy.sft(TYPE_NORMAL, typf, null, null);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            rfsult = bddTypf(kfy);
+        }
+        rfturn rfsult.indfx;
+    }
+
+    /**
+     * Adds thf givfn "uninitiblizfd" typf to {@link #typfTbblf} bnd rfturns its
+     * indfx. This mfthod is usfd for UNINITIALIZED typfs, mbdf of bn intfrnbl
+     * nbmf bnd b bytfdodf offsft.
+     *
+     * @pbrbm typf
+     *            thf intfrnbl nbmf to bf bddfd to thf typf tbblf.
+     * @pbrbm offsft
+     *            thf bytfdodf offsft of thf NEW instrudtion thbt drfbtfd this
+     *            UNINITIALIZED typf vbluf.
+     * @rfturn thf indfx of this intfrnbl nbmf in thf typf tbblf.
+     */
+    int bddUninitiblizfdTypf(finbl String typf, finbl int offsft) {
+        kfy.typf = TYPE_UNINIT;
+        kfy.intVbl = offsft;
+        kfy.strVbl1 = typf;
+        kfy.hbshCodf = 0x7FFFFFFF & (TYPE_UNINIT + typf.hbshCodf() + offsft);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            rfsult = bddTypf(kfy);
+        }
+        rfturn rfsult.indfx;
+    }
+
+    /**
+     * Adds thf givfn Itfm to {@link #typfTbblf}.
+     *
+     * @pbrbm itfm
+     *            thf vbluf to bf bddfd to thf typf tbblf.
+     * @rfturn thf bddfd Itfm, whidh b nfw Itfm instbndf with thf sbmf vbluf bs
+     *         thf givfn Itfm.
+     */
+    privbtf Itfm bddTypf(finbl Itfm itfm) {
+        ++typfCount;
+        Itfm rfsult = nfw Itfm(typfCount, kfy);
+        put(rfsult);
+        if (typfTbblf == null) {
+            typfTbblf = nfw Itfm[16];
+        }
+        if (typfCount == typfTbblf.lfngth) {
+            Itfm[] nfwTbblf = nfw Itfm[2 * typfTbblf.lfngth];
+            Systfm.brrbydopy(typfTbblf, 0, nfwTbblf, 0, typfTbblf.lfngth);
+            typfTbblf = nfwTbblf;
+        }
+        typfTbblf[typfCount] = rfsult;
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf indfx of thf dommon supfr typf of thf two givfn typfs. This
+     * mfthod dblls {@link #gftCommonSupfrClbss} bnd dbdhfs thf rfsult in thf
+     * {@link #itfms} hbsh tbblf to spffdup futurf dblls with thf sbmf
+     * pbrbmftfrs.
+     *
+     * @pbrbm typf1
+     *            indfx of bn intfrnbl nbmf in {@link #typfTbblf}.
+     * @pbrbm typf2
+     *            indfx of bn intfrnbl nbmf in {@link #typfTbblf}.
+     * @rfturn thf indfx of thf dommon supfr typf of thf two givfn typfs.
+     */
+    int gftMfrgfdTypf(finbl int typf1, finbl int typf2) {
+        kfy2.typf = TYPE_MERGED;
+        kfy2.longVbl = typf1 | (((long) typf2) << 32);
+        kfy2.hbshCodf = 0x7FFFFFFF & (TYPE_MERGED + typf1 + typf2);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            String t = typfTbblf[typf1].strVbl1;
+            String u = typfTbblf[typf2].strVbl1;
+            kfy2.intVbl = bddTypf(gftCommonSupfrClbss(t, u));
+            rfsult = nfw Itfm((short) 0, kfy2);
+            put(rfsult);
+        }
+        rfturn rfsult.intVbl;
+    }
+
+    /**
+     * Rfturns thf dommon supfr typf of thf two givfn typfs. Thf dffbult
+     * implfmfntbtion of this mfthod <i>lobds</i> thf two givfn dlbssfs bnd usfs
+     * thf jbvb.lbng.Clbss mfthods to find thf dommon supfr dlbss. It dbn bf
+     * ovfrriddfn to domputf this dommon supfr typf in othfr wbys, in pbrtidulbr
+     * without bdtublly lobding bny dlbss, or to tbkf into bddount thf dlbss
+     * thbt is durrfntly bfing gfnfrbtfd by this ClbssWritfr, whidh dbn of
+     * doursf not bf lobdfd sindf it is undfr donstrudtion.
+     *
+     * @pbrbm typf1
+     *            thf intfrnbl nbmf of b dlbss.
+     * @pbrbm typf2
+     *            thf intfrnbl nbmf of bnothfr dlbss.
+     * @rfturn thf intfrnbl nbmf of thf dommon supfr dlbss of thf two givfn
+     *         dlbssfs.
+     */
+    protfdtfd String gftCommonSupfrClbss(finbl String typf1, finbl String typf2) {
+        Clbss<?> d, d;
+        ClbssLobdfr dlbssLobdfr = gftClbss().gftClbssLobdfr();
+        try {
+            d = Clbss.forNbmf(typf1.rfplbdf('/', '.'), fblsf, dlbssLobdfr);
+            d = Clbss.forNbmf(typf2.rfplbdf('/', '.'), fblsf, dlbssLobdfr);
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption(f.toString());
+        }
+        if (d.isAssignbblfFrom(d)) {
+            rfturn typf1;
+        }
+        if (d.isAssignbblfFrom(d)) {
+            rfturn typf2;
+        }
+        if (d.isIntfrfbdf() || d.isIntfrfbdf()) {
+            rfturn "jbvb/lbng/Objfdt";
+        } flsf {
+            do {
+                d = d.gftSupfrdlbss();
+            } whilf (!d.isAssignbblfFrom(d));
+            rfturn d.gftNbmf().rfplbdf('.', '/');
+        }
+    }
+
+    /**
+     * Rfturns thf donstbnt pool's hbsh tbblf itfm whidh is fqubl to thf givfn
+     * itfm.
+     *
+     * @pbrbm kfy
+     *            b donstbnt pool itfm.
+     * @rfturn thf donstbnt pool's hbsh tbblf itfm whidh is fqubl to thf givfn
+     *         itfm, or <tt>null</tt> if thfrf is no sudh itfm.
+     */
+    privbtf Itfm gft(finbl Itfm kfy) {
+        Itfm i = itfms[kfy.hbshCodf % itfms.lfngth];
+        whilf (i != null && (i.typf != kfy.typf || !kfy.isEqublTo(i))) {
+            i = i.nfxt;
+        }
+        rfturn i;
+    }
+
+    /**
+     * Puts thf givfn itfm in thf donstbnt pool's hbsh tbblf. Thf hbsh tbblf
+     * <i>must</i> not blrfbdy dontbins this itfm.
+     *
+     * @pbrbm i
+     *            thf itfm to bf bddfd to thf donstbnt pool's hbsh tbblf.
+     */
+    privbtf void put(finbl Itfm i) {
+        if (indfx + typfCount > thrfshold) {
+            int ll = itfms.lfngth;
+            int nl = ll * 2 + 1;
+            Itfm[] nfwItfms = nfw Itfm[nl];
+            for (int l = ll - 1; l >= 0; --l) {
+                Itfm j = itfms[l];
+                whilf (j != null) {
+                    int indfx = j.hbshCodf % nfwItfms.lfngth;
+                    Itfm k = j.nfxt;
+                    j.nfxt = nfwItfms[indfx];
+                    nfwItfms[indfx] = j;
+                    j = k;
+                }
+            }
+            itfms = nfwItfms;
+            thrfshold = (int) (nl * 0.75);
+        }
+        int indfx = i.hbshCodf % itfms.lfngth;
+        i.nfxt = itfms[indfx];
+        itfms[indfx] = i;
+    }
+
+    /**
+     * Puts onf bytf bnd two shorts into thf donstbnt pool.
+     *
+     * @pbrbm b
+     *            b bytf.
+     * @pbrbm s1
+     *            b short.
+     * @pbrbm s2
+     *            bnothfr short.
+     */
+    privbtf void put122(finbl int b, finbl int s1, finbl int s2) {
+        pool.put12(b, s1).putShort(s2);
+    }
+
+    /**
+     * Puts two bytfs bnd onf short into thf donstbnt pool.
+     *
+     * @pbrbm b1
+     *            b bytf.
+     * @pbrbm b2
+     *            bnothfr bytf.
+     * @pbrbm s
+     *            b short.
+     */
+    privbtf void put112(finbl int b1, finbl int b2, finbl int s) {
+        pool.put11(b1, b2).putShort(s);
+    }
+}

@@ -1,0 +1,527 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.Mbp.Entry;
+
+import dom.sun.bfbns.introspfdt.PropfrtyInfo;
+
+/**
+ * An IndfxfdPropfrtyDfsdriptor dfsdribfs b propfrty thbt bdts likf bn
+ * brrby bnd hbs bn indfxfd rfbd bnd/or indfxfd writf mfthod to bddfss
+ * spfdifid flfmfnts of thf brrby.
+ * <p>
+ * An indfxfd propfrty mby blso providf simplf non-indfxfd rfbd bnd writf
+ * mfthods.  If thfsf brf prfsfnt, thfy rfbd bnd writf brrbys of thf typf
+ * rfturnfd by thf indfxfd rfbd mfthod.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss IndfxfdPropfrtyDfsdriptor fxtfnds PropfrtyDfsdriptor {
+
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> indfxfdPropfrtyTypfRff;
+    privbtf finbl MfthodRff indfxfdRfbdMfthodRff = nfw MfthodRff();
+    privbtf finbl MfthodRff indfxfdWritfMfthodRff = nfw MfthodRff();
+
+    privbtf String indfxfdRfbdMfthodNbmf;
+    privbtf String indfxfdWritfMfthodNbmf;
+
+    /**
+     * This donstrudtor donstrudts bn IndfxfdPropfrtyDfsdriptor for b propfrty
+     * thbt follows thf stbndbrd Jbvb donvfntions by hbving gftFoo bnd sftFoo
+     * bddfssor mfthods, for both indfxfd bddfss bnd brrby bddfss.
+     * <p>
+     * Thus if thf brgumfnt nbmf is "frfd", it will bssumf thbt thfrf
+     * is bn indfxfd rfbdfr mfthod "gftFrfd", b non-indfxfd (brrby) rfbdfr
+     * mfthod blso dbllfd "gftFrfd", bn indfxfd writfr mfthod "sftFrfd",
+     * bnd finblly b non-indfxfd writfr mfthod "sftFrfd".
+     *
+     * @pbrbm propfrtyNbmf Thf progrbmmbtid nbmf of thf propfrty.
+     * @pbrbm bfbnClbss Thf Clbss objfdt for thf tbrgft bfbn.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Clbss<?> bfbnClbss)
+                throws IntrospfdtionExdfption {
+        this(propfrtyNbmf, bfbnClbss,
+             Introspfdtor.GET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.SET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.GET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.SET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf));
+    }
+
+    /**
+     * This donstrudtor tbkfs thf nbmf of b simplf propfrty, bnd mfthod
+     * nbmfs for rfbding bnd writing thf propfrty, both indfxfd
+     * bnd non-indfxfd.
+     *
+     * @pbrbm propfrtyNbmf Thf progrbmmbtid nbmf of thf propfrty.
+     * @pbrbm bfbnClbss  Thf Clbss objfdt for thf tbrgft bfbn.
+     * @pbrbm rfbdMfthodNbmf Thf nbmf of thf mfthod usfd for rfbding thf propfrty
+     *           vblufs bs bn brrby.  Mby bf null if thf propfrty is writf-only
+     *           or must bf indfxfd.
+     * @pbrbm writfMfthodNbmf Thf nbmf of thf mfthod usfd for writing thf propfrty
+     *           vblufs bs bn brrby.  Mby bf null if thf propfrty is rfbd-only
+     *           or must bf indfxfd.
+     * @pbrbm indfxfdRfbdMfthodNbmf Thf nbmf of thf mfthod usfd for rfbding
+     *          bn indfxfd propfrty vbluf.
+     *          Mby bf null if thf propfrty is writf-only.
+     * @pbrbm indfxfdWritfMfthodNbmf Thf nbmf of thf mfthod usfd for writing
+     *          bn indfxfd propfrty vbluf.
+     *          Mby bf null if thf propfrty is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Clbss<?> bfbnClbss,
+                String rfbdMfthodNbmf, String writfMfthodNbmf,
+                String indfxfdRfbdMfthodNbmf, String indfxfdWritfMfthodNbmf)
+                throws IntrospfdtionExdfption {
+        supfr(propfrtyNbmf, bfbnClbss, rfbdMfthodNbmf, writfMfthodNbmf);
+
+        this.indfxfdRfbdMfthodNbmf = indfxfdRfbdMfthodNbmf;
+        if (indfxfdRfbdMfthodNbmf != null && gftIndfxfdRfbdMfthod() == null) {
+            throw nfw IntrospfdtionExdfption("Mfthod not found: " + indfxfdRfbdMfthodNbmf);
+        }
+
+        this.indfxfdWritfMfthodNbmf = indfxfdWritfMfthodNbmf;
+        if (indfxfdWritfMfthodNbmf != null && gftIndfxfdWritfMfthod() == null) {
+            throw nfw IntrospfdtionExdfption("Mfthod not found: " + indfxfdWritfMfthodNbmf);
+        }
+        // Implfmfntfd only for typf dhfdking.
+        findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMfthod(), gftIndfxfdWritfMfthod());
+    }
+
+    /**
+     * This donstrudtor tbkfs thf nbmf of b simplf propfrty, bnd Mfthod
+     * objfdts for rfbding bnd writing thf propfrty.
+     *
+     * @pbrbm propfrtyNbmf Thf progrbmmbtid nbmf of thf propfrty.
+     * @pbrbm rfbdMfthod Thf mfthod usfd for rfbding thf propfrty vblufs bs bn brrby.
+     *          Mby bf null if thf propfrty is writf-only or must bf indfxfd.
+     * @pbrbm writfMfthod Thf mfthod usfd for writing thf propfrty vblufs bs bn brrby.
+     *          Mby bf null if thf propfrty is rfbd-only or must bf indfxfd.
+     * @pbrbm indfxfdRfbdMfthod Thf mfthod usfd for rfbding bn indfxfd propfrty vbluf.
+     *          Mby bf null if thf propfrty is writf-only.
+     * @pbrbm indfxfdWritfMfthod Thf mfthod usfd for writing bn indfxfd propfrty vbluf.
+     *          Mby bf null if thf propfrty is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     */
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Mfthod rfbdMfthod, Mfthod writfMfthod,
+                                            Mfthod indfxfdRfbdMfthod, Mfthod indfxfdWritfMfthod)
+                throws IntrospfdtionExdfption {
+        supfr(propfrtyNbmf, rfbdMfthod, writfMfthod);
+
+        sftIndfxfdRfbdMfthod0(indfxfdRfbdMfthod);
+        sftIndfxfdWritfMfthod0(indfxfdWritfMfthod);
+
+        // Typf dhfdking
+        sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(indfxfdRfbdMfthod, indfxfdWritfMfthod));
+    }
+
+    /**
+     * Crfbtfs {@dodf IndfxfdPropfrtyDfsdriptor} from thf spfdififd propfrty info.
+     *
+     * @pbrbm fntry  thf kfy-vbluf pbir,
+     *               whfrf thf {@dodf kfy} is thf bbsf nbmf of thf propfrty (thf rfst of thf mfthod nbmf)
+     *               bnd thf {@dodf vbluf} is thf butombtidblly gfnfrbtfd propfrty info
+     * @pbrbm bound  thf flbg indidbting whfthfr it is possiblf to trfbt this propfrty bs b bound propfrty
+     *
+     * @sindf 1.9
+     */
+    IndfxfdPropfrtyDfsdriptor(Entry<String,PropfrtyInfo> fntry, boolfbn bound) {
+        supfr(fntry, bound);
+        PropfrtyInfo info = fntry.gftVbluf().gftIndfxfd();
+        sftIndfxfdRfbdMfthod0(info.gftRfbdMfthod());
+        sftIndfxfdWritfMfthod0(info.gftWritfMfthod());
+        sftIndfxfdPropfrtyTypf(info.gftPropfrtyTypf());
+    }
+
+    /**
+     * Gfts thf mfthod thbt should bf usfd to rfbd bn indfxfd
+     * propfrty vbluf.
+     *
+     * @rfturn Thf mfthod thbt should bf usfd to rfbd bn indfxfd
+     * propfrty vbluf.
+     * Mby rfturn null if thf propfrty isn't indfxfd or is writf-only.
+     */
+    publid syndhronizfd Mfthod gftIndfxfdRfbdMfthod() {
+        Mfthod indfxfdRfbdMfthod = this.indfxfdRfbdMfthodRff.gft();
+        if (indfxfdRfbdMfthod == null) {
+            Clbss<?> dls = gftClbss0();
+            if (dls == null ||
+                (indfxfdRfbdMfthodNbmf == null && !this.indfxfdRfbdMfthodRff.isSft())) {
+                // thf Indfxfd rfbdMfthod wbs fxpliditly sft to null.
+                rfturn null;
+            }
+            String nfxtMfthodNbmf = Introspfdtor.GET_PREFIX + gftBbsfNbmf();
+            if (indfxfdRfbdMfthodNbmf == null) {
+                Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+                if (typf == boolfbn.dlbss || typf == null) {
+                    indfxfdRfbdMfthodNbmf = Introspfdtor.IS_PREFIX + gftBbsfNbmf();
+                } flsf {
+                    indfxfdRfbdMfthodNbmf = nfxtMfthodNbmf;
+                }
+            }
+
+            Clbss<?>[] brgs = { int.dlbss };
+            indfxfdRfbdMfthod = Introspfdtor.findMfthod(dls, indfxfdRfbdMfthodNbmf, 1, brgs);
+            if ((indfxfdRfbdMfthod == null) && !indfxfdRfbdMfthodNbmf.fqubls(nfxtMfthodNbmf)) {
+                // no "is" mfthod, so look for b "gft" mfthod.
+                indfxfdRfbdMfthodNbmf = nfxtMfthodNbmf;
+                indfxfdRfbdMfthod = Introspfdtor.findMfthod(dls, indfxfdRfbdMfthodNbmf, 1, brgs);
+            }
+            sftIndfxfdRfbdMfthod0(indfxfdRfbdMfthod);
+        }
+        rfturn indfxfdRfbdMfthod;
+    }
+
+    /**
+     * Sfts thf mfthod thbt should bf usfd to rfbd bn indfxfd propfrty vbluf.
+     *
+     * @pbrbm rfbdMfthod Thf nfw indfxfd rfbd mfthod.
+     * @throws IntrospfdtionExdfption if bn fxdfption oddurs during
+     * introspfdtion.
+     *
+     * @sindf 1.2
+     */
+    publid syndhronizfd void sftIndfxfdRfbdMfthod(Mfthod rfbdMfthod)
+        throws IntrospfdtionExdfption {
+
+        // thf indfxfd propfrty typf is sft by thf rfbdfr.
+        sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(rfbdMfthod,
+                                                       this.indfxfdWritfMfthodRff.gft()));
+        sftIndfxfdRfbdMfthod0(rfbdMfthod);
+    }
+
+    privbtf void sftIndfxfdRfbdMfthod0(Mfthod rfbdMfthod) {
+        this.indfxfdRfbdMfthodRff.sft(rfbdMfthod);
+        if (rfbdMfthod == null) {
+            indfxfdRfbdMfthodNbmf = null;
+            rfturn;
+        }
+        sftClbss0(rfbdMfthod.gftDfdlbringClbss());
+
+        indfxfdRfbdMfthodNbmf = rfbdMfthod.gftNbmf();
+        sftTrbnsifnt(rfbdMfthod.gftAnnotbtion(Trbnsifnt.dlbss));
+    }
+
+
+    /**
+     * Gfts thf mfthod thbt should bf usfd to writf bn indfxfd propfrty vbluf.
+     *
+     * @rfturn Thf mfthod thbt should bf usfd to writf bn indfxfd
+     * propfrty vbluf.
+     * Mby rfturn null if thf propfrty isn't indfxfd or is rfbd-only.
+     */
+    publid syndhronizfd Mfthod gftIndfxfdWritfMfthod() {
+        Mfthod indfxfdWritfMfthod = this.indfxfdWritfMfthodRff.gft();
+        if (indfxfdWritfMfthod == null) {
+            Clbss<?> dls = gftClbss0();
+            if (dls == null ||
+                (indfxfdWritfMfthodNbmf == null && !this.indfxfdWritfMfthodRff.isSft())) {
+                // thf Indfxfd writfMfthod wbs fxpliditly sft to null.
+                rfturn null;
+            }
+
+            // Wf nffd thf indfxfd typf to fnsurf thbt wf gft thf dorrfdt mfthod.
+            // Cbnnot usf thf gftIndfxfdPropfrtyTypf mfthod sindf thbt dould
+            // rfsult in bn infinitf loop.
+            Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+            if (typf == null) {
+                try {
+                    typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMfthod(), null);
+                    sftIndfxfdPropfrtyTypf(typf);
+                } dbtdh (IntrospfdtionExdfption fx) {
+                    // Sft iprop typf to bf thf dlbssid typf
+                    Clbss<?> propTypf = gftPropfrtyTypf();
+                    if (propTypf.isArrby()) {
+                        typf = propTypf.gftComponfntTypf();
+                    }
+                }
+            }
+
+            if (indfxfdWritfMfthodNbmf == null) {
+                indfxfdWritfMfthodNbmf = Introspfdtor.SET_PREFIX + gftBbsfNbmf();
+            }
+
+            Clbss<?>[] brgs = (typf == null) ? null : nfw Clbss<?>[] { int.dlbss, typf };
+            indfxfdWritfMfthod = Introspfdtor.findMfthod(dls, indfxfdWritfMfthodNbmf, 2, brgs);
+            if (indfxfdWritfMfthod != null) {
+                if (!indfxfdWritfMfthod.gftRfturnTypf().fqubls(void.dlbss)) {
+                    indfxfdWritfMfthod = null;
+                }
+            }
+            sftIndfxfdWritfMfthod0(indfxfdWritfMfthod);
+        }
+        rfturn indfxfdWritfMfthod;
+    }
+
+    /**
+     * Sfts thf mfthod thbt should bf usfd to writf bn indfxfd propfrty vbluf.
+     *
+     * @pbrbm writfMfthod Thf nfw indfxfd writf mfthod.
+     * @throws IntrospfdtionExdfption if bn fxdfption oddurs during
+     * introspfdtion.
+     *
+     * @sindf 1.2
+     */
+    publid syndhronizfd void sftIndfxfdWritfMfthod(Mfthod writfMfthod)
+        throws IntrospfdtionExdfption {
+
+        // If thf indfxfd propfrty typf hbs not bffn sft, thfn sft it.
+        Clbss<?> typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMfthod(),
+                                             writfMfthod);
+        sftIndfxfdPropfrtyTypf(typf);
+        sftIndfxfdWritfMfthod0(writfMfthod);
+    }
+
+    privbtf void sftIndfxfdWritfMfthod0(Mfthod writfMfthod) {
+        this.indfxfdWritfMfthodRff.sft(writfMfthod);
+        if (writfMfthod == null) {
+            indfxfdWritfMfthodNbmf = null;
+            rfturn;
+        }
+        sftClbss0(writfMfthod.gftDfdlbringClbss());
+
+        indfxfdWritfMfthodNbmf = writfMfthod.gftNbmf();
+        sftTrbnsifnt(writfMfthod.gftAnnotbtion(Trbnsifnt.dlbss));
+    }
+
+    /**
+     * Rfturns thf Jbvb typf info for thf indfxfd propfrty.
+     * Notf thbt thf {@dodf Clbss} objfdt mby dfsdribf
+     * primitivf Jbvb typfs sudh bs {@dodf int}.
+     * This typf is rfturnfd by thf indfxfd rfbd mfthod
+     * or is usfd bs thf pbrbmftfr typf of thf indfxfd writf mfthod.
+     *
+     * @rfturn thf {@dodf Clbss} objfdt thbt rfprfsfnts thf Jbvb typf info,
+     *         or {@dodf null} if thf typf dbnnot bf dftfrminfd
+     */
+    publid syndhronizfd Clbss<?> gftIndfxfdPropfrtyTypf() {
+        Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+        if (typf == null) {
+            try {
+                typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMfthod(),
+                                               gftIndfxfdWritfMfthod());
+                sftIndfxfdPropfrtyTypf(typf);
+            } dbtdh (IntrospfdtionExdfption fx) {
+                // fbll
+            }
+        }
+        rfturn typf;
+    }
+
+    // Privbtf mfthods whidh sft gft/sft thf Rfffrfndf objfdts
+
+    privbtf void sftIndfxfdPropfrtyTypf(Clbss<?> typf) {
+        this.indfxfdPropfrtyTypfRff = gftWfbkRfffrfndf(typf);
+    }
+
+    privbtf Clbss<?> gftIndfxfdPropfrtyTypf0() {
+        rfturn (this.indfxfdPropfrtyTypfRff != null)
+                ? this.indfxfdPropfrtyTypfRff.gft()
+                : null;
+    }
+
+    privbtf Clbss<?> findIndfxfdPropfrtyTypf(Mfthod indfxfdRfbdMfthod,
+                                          Mfthod indfxfdWritfMfthod)
+        throws IntrospfdtionExdfption {
+        Clbss<?> indfxfdPropfrtyTypf = null;
+
+        if (indfxfdRfbdMfthod != null) {
+            Clbss<?>[] pbrbms = gftPbrbmftfrTypfs(gftClbss0(), indfxfdRfbdMfthod);
+            if (pbrbms.lfngth != 1) {
+                throw nfw IntrospfdtionExdfption("bbd indfxfd rfbd mfthod brg dount");
+            }
+            if (pbrbms[0] != Intfgfr.TYPE) {
+                throw nfw IntrospfdtionExdfption("non int indfx to indfxfd rfbd mfthod");
+            }
+            indfxfdPropfrtyTypf = gftRfturnTypf(gftClbss0(), indfxfdRfbdMfthod);
+            if (indfxfdPropfrtyTypf == Void.TYPE) {
+                throw nfw IntrospfdtionExdfption("indfxfd rfbd mfthod rfturns void");
+            }
+        }
+        if (indfxfdWritfMfthod != null) {
+            Clbss<?>[] pbrbms = gftPbrbmftfrTypfs(gftClbss0(), indfxfdWritfMfthod);
+            if (pbrbms.lfngth != 2) {
+                throw nfw IntrospfdtionExdfption("bbd indfxfd writf mfthod brg dount");
+            }
+            if (pbrbms[0] != Intfgfr.TYPE) {
+                throw nfw IntrospfdtionExdfption("non int indfx to indfxfd writf mfthod");
+            }
+            if (indfxfdPropfrtyTypf == null || pbrbms[1].isAssignbblfFrom(indfxfdPropfrtyTypf)) {
+                indfxfdPropfrtyTypf = pbrbms[1];
+            } flsf if (!indfxfdPropfrtyTypf.isAssignbblfFrom(pbrbms[1])) {
+                throw nfw IntrospfdtionExdfption(
+                                                 "typf mismbtdh bftwffn indfxfd rfbd bnd indfxfd writf mfthods: "
+                                                 + gftNbmf());
+            }
+        }
+        Clbss<?> propfrtyTypf = gftPropfrtyTypf();
+        if (propfrtyTypf != null && (!propfrtyTypf.isArrby() ||
+                                     propfrtyTypf.gftComponfntTypf() != indfxfdPropfrtyTypf)) {
+            throw nfw IntrospfdtionExdfption("typf mismbtdh bftwffn indfxfd bnd non-indfxfd mfthods: "
+                                             + gftNbmf());
+        }
+        rfturn indfxfdPropfrtyTypf;
+    }
+
+    /**
+     * Compbrfs this <dodf>PropfrtyDfsdriptor</dodf> bgbinst thf spfdififd objfdt.
+     * Rfturns truf if thf objfdts brf thf sbmf. Two <dodf>PropfrtyDfsdriptor</dodf>s
+     * brf thf sbmf if thf rfbd, writf, propfrty typfs, propfrty fditor bnd
+     * flbgs  brf fquivblfnt.
+     *
+     * @sindf 1.4
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        // Notf: This would bf idfntidbl to PropfrtyDfsdriptor but thfy don't
+        // shbrf thf sbmf fiflds.
+        if (this == obj) {
+            rfturn truf;
+        }
+
+        if (obj != null && obj instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor othfr = (IndfxfdPropfrtyDfsdriptor)obj;
+            Mfthod othfrIndfxfdRfbdMfthod = othfr.gftIndfxfdRfbdMfthod();
+            Mfthod othfrIndfxfdWritfMfthod = othfr.gftIndfxfdWritfMfthod();
+
+            if (!dompbrfMfthods(gftIndfxfdRfbdMfthod(), othfrIndfxfdRfbdMfthod)) {
+                rfturn fblsf;
+            }
+
+            if (!dompbrfMfthods(gftIndfxfdWritfMfthod(), othfrIndfxfdWritfMfthod)) {
+                rfturn fblsf;
+            }
+
+            if (gftIndfxfdPropfrtyTypf() != othfr.gftIndfxfdPropfrtyTypf()) {
+                rfturn fblsf;
+            }
+            rfturn supfr.fqubls(obj);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor.
+     * Mfrgf two propfrty dfsdriptors.  Whfrf thfy donflidt, givf thf
+     * sfdond brgumfnt (y) priority ovfr thf first brgumnnt (x).
+     *
+     * @pbrbm x  Thf first (lowfr priority) PropfrtyDfsdriptor
+     * @pbrbm y  Thf sfdond (highfr priority) PropfrtyDfsdriptor
+     */
+
+    IndfxfdPropfrtyDfsdriptor(PropfrtyDfsdriptor x, PropfrtyDfsdriptor y) {
+        supfr(x,y);
+        if (x instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor ix = (IndfxfdPropfrtyDfsdriptor)x;
+            try {
+                Mfthod xr = ix.gftIndfxfdRfbdMfthod();
+                if (xr != null) {
+                    sftIndfxfdRfbdMfthod(xr);
+                }
+
+                Mfthod xw = ix.gftIndfxfdWritfMfthod();
+                if (xw != null) {
+                    sftIndfxfdWritfMfthod(xw);
+                }
+            } dbtdh (IntrospfdtionExdfption fx) {
+                // Should not hbppfn
+                throw nfw AssfrtionError(fx);
+            }
+        }
+        if (y instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor iy = (IndfxfdPropfrtyDfsdriptor)y;
+            try {
+                Mfthod yr = iy.gftIndfxfdRfbdMfthod();
+                if (yr != null && yr.gftDfdlbringClbss() == gftClbss0()) {
+                    sftIndfxfdRfbdMfthod(yr);
+                }
+
+                Mfthod yw = iy.gftIndfxfdWritfMfthod();
+                if (yw != null && yw.gftDfdlbringClbss() == gftClbss0()) {
+                    sftIndfxfdWritfMfthod(yw);
+                }
+            } dbtdh (IntrospfdtionExdfption fx) {
+                // Should not hbppfn
+                throw nfw AssfrtionError(fx);
+            }
+        }
+    }
+
+    /*
+     * Pbdkbgf-privbtf dup donstrudtor
+     * This must isolbtf thf nfw objfdt from bny dhbngfs to thf old objfdt.
+     */
+    IndfxfdPropfrtyDfsdriptor(IndfxfdPropfrtyDfsdriptor old) {
+        supfr(old);
+        this.indfxfdRfbdMfthodRff.sft(old.indfxfdRfbdMfthodRff.gft());
+        this.indfxfdWritfMfthodRff.sft(old.indfxfdWritfMfthodRff.gft());
+        indfxfdPropfrtyTypfRff = old.indfxfdPropfrtyTypfRff;
+        indfxfdWritfMfthodNbmf = old.indfxfdWritfMfthodNbmf;
+        indfxfdRfbdMfthodNbmf = old.indfxfdRfbdMfthodNbmf;
+    }
+
+    void updbtfGfnfridsFor(Clbss<?> typf) {
+        supfr.updbtfGfnfridsFor(typf);
+        try {
+            sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(this.indfxfdRfbdMfthodRff.gft(), this.indfxfdWritfMfthodRff.gft()));
+        }
+        dbtdh (IntrospfdtionExdfption fxdfption) {
+            sftIndfxfdPropfrtyTypf(null);
+        }
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for thf objfdt.
+     * Sff {@link jbvb.lbng.Objfdt#hbshCodf} for b domplftf dfsdription.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     * @sindf 1.5
+     */
+    publid int hbshCodf() {
+        int rfsult = supfr.hbshCodf();
+
+        rfsult = 37 * rfsult + ((indfxfdWritfMfthodNbmf == null) ? 0 :
+                                indfxfdWritfMfthodNbmf.hbshCodf());
+        rfsult = 37 * rfsult + ((indfxfdRfbdMfthodNbmf == null) ? 0 :
+                                indfxfdRfbdMfthodNbmf.hbshCodf());
+        rfsult = 37 * rfsult + ((gftIndfxfdPropfrtyTypf() == null) ? 0 :
+                                gftIndfxfdPropfrtyTypf().hbshCodf());
+
+        rfturn rfsult;
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+        supfr.bppfndTo(sb);
+        bppfndTo(sb, "indfxfdPropfrtyTypf", this.indfxfdPropfrtyTypfRff);
+        bppfndTo(sb, "indfxfdRfbdMfthod", this.indfxfdRfbdMfthodRff.gft());
+        bppfndTo(sb, "indfxfdWritfMfthod", this.indfxfdWritfMfthodRff.gft());
+    }
+}

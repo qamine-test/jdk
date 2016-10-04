@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import java.beans.PropertyChangeEvent;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bwt.*;
 
 /**
- * Provides the look and feel for a styled text editor in the
- * Synth look and feel.
+ * Providfs tif look bnd fffl for b stylfd tfxt fditor in tif
+ * Synti look bnd fffl.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Shannon Hickey
- * @since 1.7
+ * @butior  Sibnnon Hidkfy
+ * @sindf 1.7
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class SynthTextPaneUI extends SynthEditorPaneUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SyntiTfxtPbnfUI fxtfnds SyntiEditorPbnfUI {
 
     /**
-     * Creates a UI for the JTextPane.
+     * Crfbtfs b UI for tif JTfxtPbnf.
      *
-     * @param c the JTextPane object
-     * @return the UI object
+     * @pbrbm d tif JTfxtPbnf objfdt
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthTextPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiTfxtPbnfUI();
     }
 
     /**
-     * Fetches the name used as a key to lookup properties through the
-     * UIManager.  This is used as a prefix to all the standard
-     * text properties.
+     * Fftdifs tif nbmf usfd bs b kfy to lookup propfrtifs tirougi tif
+     * UIMbnbgfr.  Tiis is usfd bs b prffix to bll tif stbndbrd
+     * tfxt propfrtifs.
      *
-     * @return the name ("TextPane")
+     * @rfturn tif nbmf ("TfxtPbnf")
      */
-    @Override
-    protected String getPropertyPrefix() {
-        return "TextPane";
+    @Ovfrridf
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "TfxtPbnf";
     }
 
     /**
-     * Installs the UI for a component.  This does the following
-     * things.
+     * Instblls tif UI for b domponfnt.  Tiis dofs tif following
+     * tiings.
      * <ol>
      * <li>
-     * Sets opaqueness of the associated component according to its style,
-     * if the opaque property has not already been set by the client program.
+     * Sfts opbqufnfss of tif bssodibtfd domponfnt bddording to its stylf,
+     * if tif opbquf propfrty ibs not blrfbdy bffn sft by tif dlifnt progrbm.
      * <li>
-     * Installs the default caret and highlighter into the
-     * associated component. These properties are only set if their
-     * current value is either {@code null} or an instance of
-     * {@link UIResource}.
+     * Instblls tif dffbult dbrft bnd iigiligitfr into tif
+     * bssodibtfd domponfnt. Tifsf propfrtifs brf only sft if tifir
+     * durrfnt vbluf is fitifr {@dodf null} or bn instbndf of
+     * {@link UIRfsourdf}.
      * <li>
-     * Attaches to the editor and model.  If there is no
-     * model, a default one is created.
+     * Attbdifs to tif fditor bnd modfl.  If tifrf is no
+     * modfl, b dffbult onf is drfbtfd.
      * <li>
-     * Creates the view factory and the view hierarchy used
-     * to represent the model.
+     * Crfbtfs tif vifw fbdtory bnd tif vifw iifrbrdiy usfd
+     * to rfprfsfnt tif modfl.
      * </ol>
      *
-     * @param c the editor component
-     * @see javax.swing.plaf.basic.BasicTextUI#installUI
-     * @see ComponentUI#installUI
+     * @pbrbm d tif fditor domponfnt
+     * @sff jbvbx.swing.plbf.bbsid.BbsidTfxtUI#instbllUI
+     * @sff ComponfntUI#instbllUI
      */
-    @Override
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        updateForeground(c.getForeground());
-        updateFont(c.getFont());
+    @Ovfrridf
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        updbtfForfground(d.gftForfground());
+        updbtfFont(d.gftFont());
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * If the font, foreground or document has changed, the
-     * the appropriate property is set in the default style of
-     * the document.
+     * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd
+     * on tif bssodibtfd JTfxtComponfnt.  Tiis is b iook
+     * wiidi UI implfmfntbtions mby dibngf to rfflfdt iow tif
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * If tif font, forfground or dodumfnt ibs dibngfd, tif
+     * tif bppropribtf propfrty is sft in tif dffbult stylf of
+     * tif dodumfnt.
      *
-     * @param evt the property change event
+     * @pbrbm fvt tif propfrty dibngf fvfnt
      */
-    @Override
-    protected void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
+    @Ovfrridf
+    protfdtfd void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        supfr.propfrtyCibngf(fvt);
 
-        String name = evt.getPropertyName();
+        String nbmf = fvt.gftPropfrtyNbmf();
 
-        if (name.equals("foreground")) {
-            updateForeground((Color)evt.getNewValue());
-        } else if (name.equals("font")) {
-            updateFont((Font)evt.getNewValue());
-        } else if (name.equals("document")) {
-            JComponent comp = getComponent();
-            updateForeground(comp.getForeground());
-            updateFont(comp.getFont());
+        if (nbmf.fqubls("forfground")) {
+            updbtfForfground((Color)fvt.gftNfwVbluf());
+        } flsf if (nbmf.fqubls("font")) {
+            updbtfFont((Font)fvt.gftNfwVbluf());
+        } flsf if (nbmf.fqubls("dodumfnt")) {
+            JComponfnt domp = gftComponfnt();
+            updbtfForfground(domp.gftForfground());
+            updbtfFont(domp.gftFont());
         }
     }
 
     /**
-     * Update the color in the default style of the document.
+     * Updbtf tif dolor in tif dffbult stylf of tif dodumfnt.
      *
-     * @param color the new color to use or null to remove the color attribute
-     *              from the document's style
+     * @pbrbm dolor tif nfw dolor to usf or null to rfmovf tif dolor bttributf
+     *              from tif dodumfnt's stylf
      */
-    private void updateForeground(Color color) {
-        StyledDocument doc = (StyledDocument)getComponent().getDocument();
-        Style style = doc.getStyle(StyleContext.DEFAULT_STYLE);
+    privbtf void updbtfForfground(Color dolor) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
 
-        if (style == null) {
-            return;
+        if (stylf == null) {
+            rfturn;
         }
 
-        if (color == null) {
-            style.removeAttribute(StyleConstants.Foreground);
-        } else {
-            StyleConstants.setForeground(style, color);
+        if (dolor == null) {
+            stylf.rfmovfAttributf(StylfConstbnts.Forfground);
+        } flsf {
+            StylfConstbnts.sftForfground(stylf, dolor);
         }
     }
 
     /**
-     * Update the font in the default style of the document.
+     * Updbtf tif font in tif dffbult stylf of tif dodumfnt.
      *
-     * @param font the new font to use or null to remove the font attribute
-     *             from the document's style
+     * @pbrbm font tif nfw font to usf or null to rfmovf tif font bttributf
+     *             from tif dodumfnt's stylf
      */
-    private void updateFont(Font font) {
-        StyledDocument doc = (StyledDocument)getComponent().getDocument();
-        Style style = doc.getStyle(StyleContext.DEFAULT_STYLE);
+    privbtf void updbtfFont(Font font) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
 
-        if (style == null) {
-            return;
+        if (stylf == null) {
+            rfturn;
         }
 
         if (font == null) {
-            style.removeAttribute(StyleConstants.FontFamily);
-            style.removeAttribute(StyleConstants.FontSize);
-            style.removeAttribute(StyleConstants.Bold);
-            style.removeAttribute(StyleConstants.Italic);
-        } else {
-            StyleConstants.setFontFamily(style, font.getName());
-            StyleConstants.setFontSize(style, font.getSize());
-            StyleConstants.setBold(style, font.isBold());
-            StyleConstants.setItalic(style, font.isItalic());
+            stylf.rfmovfAttributf(StylfConstbnts.FontFbmily);
+            stylf.rfmovfAttributf(StylfConstbnts.FontSizf);
+            stylf.rfmovfAttributf(StylfConstbnts.Bold);
+            stylf.rfmovfAttributf(StylfConstbnts.Itblid);
+        } flsf {
+            StylfConstbnts.sftFontFbmily(stylf, font.gftNbmf());
+            StylfConstbnts.sftFontSizf(stylf, font.gftSizf());
+            StylfConstbnts.sftBold(stylf, font.isBold());
+            StylfConstbnts.sftItblid(stylf, font.isItblid());
         }
     }
 
-    @Override
-    void paintBackground(SynthContext context, Graphics g, JComponent c) {
-        context.getPainter().paintTextPaneBackground(context, g, 0, 0,
-                                                  c.getWidth(), c.getHeight());
+    @Ovfrridf
+    void pbintBbdkground(SyntiContfxt dontfxt, Grbpiids g, JComponfnt d) {
+        dontfxt.gftPbintfr().pbintTfxtPbnfBbdkground(dontfxt, g, 0, 0,
+                                                  d.gftWidti(), d.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintTextPaneBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintTfxtPbnfBordfr(dontfxt, g, x, y, w, i);
     }
 }

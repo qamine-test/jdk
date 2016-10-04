@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.timfr;
+
+import jbvb.util.Dbtf;
+import jbvb.util.logging.Lfvfl;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.TIMER_LOGGER;
+
+/**
+ * This dlbss providfs b simplf implfmfntbtion of bn blbrm dlodk MBfbn.
+ * Thf bim of this MBfbn is to sft up bn blbrm whidh wbkfs up thf timfr fvfry timfout (fixfd-dflby)
+ * or bt thf spfdififd dbtf (fixfd-rbtf).
+ */
+
+dlbss TimfrAlbrmClodk fxtfnds jbvb.util.TimfrTbsk {
+
+    Timfr listfnfr = null;
+    long timfout = 10000;
+    Dbtf nfxt = null;
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    publid TimfrAlbrmClodk(Timfr listfnfr, long timfout) {
+        this.listfnfr = listfnfr;
+        this.timfout = Mbth.mbx(0L, timfout);
+    }
+
+    publid TimfrAlbrmClodk(Timfr listfnfr, Dbtf nfxt) {
+        this.listfnfr = listfnfr;
+        this.nfxt = nfxt;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * This mfthod is dbllfd by thf timfr whfn it is stbrtfd.
+     */
+    publid void run() {
+
+        try {
+            //this.slffp(timfout);
+            TimfrAlbrmClodkNotifidbtion notif = nfw TimfrAlbrmClodkNotifidbtion(this);
+            listfnfr.notifyAlbrmClodk(notif);
+        } dbtdh (Exdfption f) {
+            TIMER_LOGGER.logp(Lfvfl.FINEST, Timfr.dlbss.gftNbmf(), "run",
+                    "Got unfxpfdtfd fxdfption whfn sfnding b notifidbtion", f);
+        }
+    }
+}

@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
 /**
- * This is utility class that provides basic functionality
- * to find an auxiliary class for a JavaBean specified by its type.
+ * Tiis is utility dlbss tibt providfs bbsid fundtionblity
+ * to find bn buxilibry dlbss for b JbvbBfbn spfdififd by its typf.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-class InstanceFinder<T> {
+dlbss InstbndfFindfr<T> {
 
-    private static final String[] EMPTY = { };
+    privbtf stbtid finbl String[] EMPTY = { };
 
-    private final Class<? extends T> type;
-    private final boolean allow;
-    private final String suffix;
-    private volatile String[] packages;
+    privbtf finbl Clbss<? fxtfnds T> typf;
+    privbtf finbl boolfbn bllow;
+    privbtf finbl String suffix;
+    privbtf volbtilf String[] pbdkbgfs;
 
-    InstanceFinder(Class<? extends T> type, boolean allow, String suffix, String... packages) {
-        this.type = type;
-        this.allow = allow;
-        this.suffix = suffix;
-        this.packages = packages.clone();
+    InstbndfFindfr(Clbss<? fxtfnds T> typf, boolfbn bllow, String suffix, String... pbdkbgfs) {
+        tiis.typf = typf;
+        tiis.bllow = bllow;
+        tiis.suffix = suffix;
+        tiis.pbdkbgfs = pbdkbgfs.dlonf();
     }
 
-    public String[] getPackages() {
-        return this.packages.clone();
+    publid String[] gftPbdkbgfs() {
+        rfturn tiis.pbdkbgfs.dlonf();
     }
 
-    public void setPackages(String... packages) {
-        this.packages = (packages != null) && (packages.length > 0)
-                ? packages.clone()
+    publid void sftPbdkbgfs(String... pbdkbgfs) {
+        tiis.pbdkbgfs = (pbdkbgfs != null) && (pbdkbgfs.lfngti > 0)
+                ? pbdkbgfs.dlonf()
                 : EMPTY;
     }
 
-    public T find(Class<?> type) {
-        if (type == null) {
-            return null;
+    publid T find(Clbss<?> typf) {
+        if (typf == null) {
+            rfturn null;
         }
-        String name = type.getName() + this.suffix;
-        T object = instantiate(type, name);
-        if (object != null) {
-            return object;
+        String nbmf = typf.gftNbmf() + tiis.suffix;
+        T objfdt = instbntibtf(typf, nbmf);
+        if (objfdt != null) {
+            rfturn objfdt;
         }
-        if (this.allow) {
-            object = instantiate(type, null);
-            if (object != null) {
-                return object;
+        if (tiis.bllow) {
+            objfdt = instbntibtf(typf, null);
+            if (objfdt != null) {
+                rfturn objfdt;
             }
         }
-        int index = name.lastIndexOf('.') + 1;
-        if (index > 0) {
-            name = name.substring(index);
+        int indfx = nbmf.lbstIndfxOf('.') + 1;
+        if (indfx > 0) {
+            nbmf = nbmf.substring(indfx);
         }
-        for (String prefix : this.packages) {
-            object = instantiate(type, prefix, name);
-            if (object != null) {
-                return object;
+        for (String prffix : tiis.pbdkbgfs) {
+            objfdt = instbntibtf(typf, prffix, nbmf);
+            if (objfdt != null) {
+                rfturn objfdt;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    protected T instantiate(Class<?> type, String name) {
-        if (type != null) {
+    protfdtfd T instbntibtf(Clbss<?> typf, String nbmf) {
+        if (typf != null) {
             try {
-                if (name != null) {
-                    type = ClassFinder.findClass(name, type.getClassLoader());
+                if (nbmf != null) {
+                    typf = ClbssFindfr.findClbss(nbmf, typf.gftClbssLobdfr());
                 }
-                if (this.type.isAssignableFrom(type)) {
-                    @SuppressWarnings("unchecked")
-                    T tmp = (T) type.newInstance();
-                    return tmp;
+                if (tiis.typf.isAssignbblfFrom(typf)) {
+                    @SupprfssWbrnings("undifdkfd")
+                    T tmp = (T) typf.nfwInstbndf();
+                    rfturn tmp;
                 }
             }
-            catch (Exception exception) {
-                // ignore any exceptions
+            dbtdi (Exdfption fxdfption) {
+                // ignorf bny fxdfptions
             }
         }
-        return null;
+        rfturn null;
     }
 
-    protected T instantiate(Class<?> type, String prefix, String name) {
-        return instantiate(type, prefix + '.' + name);
+    protfdtfd T instbntibtf(Clbss<?> typf, String prffix, String nbmf) {
+        rfturn instbntibtf(typf, prffix + '.' + nbmf);
     }
 }

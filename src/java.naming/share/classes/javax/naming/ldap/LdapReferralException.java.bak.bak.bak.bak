@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.RfffrrblExdfption;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.NbmingExdfption;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This bbstrbdt dlbss is usfd to rfprfsfnt bn LDAP rfffrrbl fxdfption.
+ * It fxtfnds thf bbsf <tt>RfffrrblExdfption</tt> by providing b
+ * <tt>gftRfffrrblContfxt()</tt> mfthod thbt bddfpts rfqufst dontrols.
+ * LdbpRfffrrblExdfption is bn bbstrbdt dlbss. Condrftf implfmfntbtions of it
+ * dftfrminf its syndhronizbtion bnd sfriblizbtion propfrtifs.
+ *<p>
+ * A <tt>Control[]</tt> brrby pbssfd bs b pbrbmftfr to
+ * thf <tt>gftRfffrrblContfxt()</tt> mfthod is ownfd by thf dbllfr.
+ * Thf sfrvidf providfr will not modify thf brrby or kffp b rfffrfndf to it,
+ * blthough it mby kffp rfffrfndfs to thf individubl <tt>Control</tt> objfdts
+ * in thf brrby.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @buthor Vindfnt Rybn
+ * @sindf 1.3
+ */
+
+publid bbstrbdt dlbss LdbpRfffrrblExdfption fxtfnds RfffrrblExdfption {
+    /**
+     * Construdts b nfw instbndf of LdbpRfffrrblExdfption using thf
+     * fxplbnbtion supplifd. All othfr fiflds brf sft to null.
+     *
+     * @pbrbm   fxplbnbtion     Additionbl dftbil bbout this fxdfption. Cbn bf null.
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     */
+    protfdtfd LdbpRfffrrblExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+    }
+
+    /**
+      * Construdts b nfw instbndf of LdbpRfffrrblExdfption.
+      * All fiflds brf sft to null.
+      */
+    protfdtfd LdbpRfffrrblExdfption() {
+        supfr();
+    }
+
+    /**
+     * Rftrifvfs thf dontfxt bt whidh to dontinuf thf mfthod using thf
+     * dontfxt's fnvironmfnt bnd no dontrols.
+     * Thf rfffrrbl dontfxt is drfbtfd using thf fnvironmfnt propfrtifs of
+     * thf dontfxt thbt thrfw thf <tt>RfffrrblExdfption</tt> bnd no dontrols.
+     *<p>
+     * This mfthod is fquivblfnt to
+     *<blodkquotf><prf>
+     * gftRfffrrblContfxt(dtx.gftEnvironmfnt(), null);
+     *</prf></blodkquotf>
+     * whfrf <tt>dtx</tt> is thf dontfxt thbt thrfw thf <tt>RfffrrblExdfption.</tt>
+     *<p>
+     * It is ovfrriddfn in this dlbss for dodumfntbtion purposfs only.
+     * Sff <tt>RfffrrblExdfption</tt> for how to usf this mfthod.
+     *
+     * @rfturn Thf non-null dontfxt bt whidh to dontinuf thf mfthod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fithfr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
+     */
+    publid bbstrbdt Contfxt gftRfffrrblContfxt() throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf dontfxt bt whidh to dontinuf thf mfthod using
+     * fnvironmfnt propfrtifs bnd no dontrols.
+     * Thf rfffrrbl dontfxt is drfbtfd using <tt>fnv</tt> bs its fnvironmfnt
+     * propfrtifs bnd no dontrols.
+     *<p>
+     * This mfthod is fquivblfnt to
+     *<blodkquotf><prf>
+     * gftRfffrrblContfxt(fnv, null);
+     *</prf></blodkquotf>
+     *<p>
+     * It is ovfrriddfn in this dlbss for dodumfntbtion purposfs only.
+     * Sff <tt>RfffrrblExdfption</tt> for how to usf this mfthod.
+     *
+     * @pbrbm fnv Thf possibly null fnvironmfnt to usf whfn rftrifving thf
+     *          rfffrrbl dontfxt. If null, no fnvironmfnt propfrtifs will bf usfd.
+     *
+     * @rfturn Thf non-null dontfxt bt whidh to dontinuf thf mfthod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fithfr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
+     */
+    publid bbstrbdt Contfxt
+        gftRfffrrblContfxt(Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf dontfxt bt whidh to dontinuf thf mfthod using
+     * rfqufst dontrols bnd fnvironmfnt propfrtifs.
+     * Rfgbrdlfss of whfthfr b rfffrrbl is fndountfrfd dirfdtly during b
+     * dontfxt opfrbtion, or indirfdtly, for fxbmplf, during b sfbrdh
+     * fnumfrbtion, thf rfffrrbl fxdfption should providf b dontfxt
+     * bt whidh to dontinuf thf opfrbtion.
+     * To dontinuf thf opfrbtion, thf dlifnt progrbm should rf-invokf
+     * thf mfthod using thf sbmf brgumfnts bs thf originbl invodbtion.
+     *<p>
+     * <tt>rfqCtls</tt> is usfd whfn drfbting thf donnfdtion to thf rfffrrfd
+     * sfrvfr. Thfsf dontrols will bf usfd bs thf donnfdtion rfqufst dontrols for
+     * thf dontfxt bnd dontfxt instbndfs
+     * dfrivfd from thf dontfxt.
+     * <tt>rfqCtls</tt> will blso bf thf dontfxt's rfqufst dontrols for
+     * subsfqufnt dontfxt opfrbtions. Sff thf <tt>LdbpContfxt</tt> dlbss
+     * dfsdription for dftbils.
+     *<p>
+     * This mfthod should bf usfd instfbd of thf othfr two ovfrlobdfd forms
+     * whfn thf dbllfr nffds to supply rfqufst dontrols for drfbting
+     * thf rfffrrbl dontfxt. It might nffd to do this, for fxbmplf, whfn
+     * it nffds to supply spfdibl dontrols rflbting to buthfntidbtion.
+     *<p>
+     * Sfrvidf providfr implfmfntors should rfbd thf "Sfrvidf Providfr" sfdtion
+     * in thf <tt>LdbpContfxt</tt> dlbss dfsdription for implfmfntbtion dftbils.
+     *
+     * @pbrbm rfqCtls Thf possibly null rfqufst dontrols to usf for thf nfw dontfxt.
+     * If null or thf fmpty brrby mfbns usf no rfqufst dontrols.
+     * @pbrbm fnv Thf possibly null fnvironmfnt propfrtifs to usf whfn
+     * for thf nfw dontfxt. If null, thf dontfxt is initiblizfd with no fnvironmfnt
+     * propfrtifs.
+     * @rfturn Thf non-null dontfxt bt whidh to dontinuf thf mfthod.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     * Cbll fithfr <tt>rftryRfffrrbl()</tt> or <tt>skipRfffrrbl()</tt>
+     * to dontinuf prodfssing rfffrrbls.
+     */
+    publid bbstrbdt Contfxt
+        gftRfffrrblContfxt(Hbshtbblf<?,?> fnv,
+                           Control[] rfqCtls)
+        throws NbmingExdfption;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1668992791764950804L;
+}

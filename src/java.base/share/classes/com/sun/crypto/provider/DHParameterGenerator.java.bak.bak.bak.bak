@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
+
+/*
+ * This dlbss gfnfrbtfs pbrbmftfrs for thf Diffif-Hfllmbn blgorithm.
+ * Thf pbrbmftfrs brf b primf, b bbsf, bnd optionblly thf lfngth in bits of
+ * thf privbtf vbluf.
+ *
+ * <p>Thf Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts thf sizf in bits of thf
+ * primf modulus bnd thf sizf in bits of thf rbndom fxponfnt bs input.
+ * Thf sizf of thf primf modulus dffbults to 1024 bits.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.AlgorithmPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ * @sff DHPbrbmftfrs
+ */
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+fxtfnds AlgorithmPbrbmftfrGfnfrbtorSpi {
+
+    // Thf sizf in bits of thf primf modulus
+    privbtf int primfSizf = 1024;
+
+    // Thf sizf in bits of thf rbndom fxponfnt (privbtf vbluf)
+    privbtf int fxponfntSizf = 0;
+
+    // Thf sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom = null;
+
+    privbtf stbtid void dhfdkKfySizf(int kfysizf)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+        if ((kfysizf != 2048) &&
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Kfysizf must bf multiplf of 64 rbnging from "
+                + "512 to 1024 (indlusivf), or 2048");
+        }
+    }
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * bnd sourdf of rbndomnfss.
+     * Thf kfysizf is spfdififd bs thf sizf in bits of thf primf modulus.
+     *
+     * @pbrbm kfysizf thf kfysizf (sizf of primf modulus) in bits
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     */
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        // Rf-usfs DSA pbrbmftfrs bnd thus hbvf thf sbmf rbngf
+        try {
+            dhfdkKfySizf(kfysizf);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption fx) {
+            throw nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+        }
+        this.primfSizf = kfysizf;
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor with b sft of pbrbmftfr
+     * gfnfrbtion vblufs, whidh spfdify thf sizf of thf primf modulus bnd
+     * thf sizf of thf rbndom fxponfnt, both in bits.
+     *
+     * @pbrbm pbrbms thf sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for this pbrbmftfr gfnfrbtor
+     */
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd gfnPbrbmSpfd,
+                              SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr typf");
+        }
+
+        DHGfnPbrbmftfrSpfd dhPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+
+        primfSizf = dhPbrbmSpfd.gftPrimfSizf();
+
+        // Rf-usfs DSA pbrbmftfrs bnd thus hbvf thf sbmf rbngf
+        dhfdkKfySizf(primfSizf);
+
+        fxponfntSizf = dhPbrbmSpfd.gftExponfntSizf();
+        if (fxponfntSizf <= 0) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Exponfnt sizf must bf grfbtfr thbn zfro");
+        }
+
+        // Rfquirf fxponfntSizf < primfSizf
+        if (fxponfntSizf >= primfSizf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Exponfnt sizf must bf lfss thbn modulus sizf");
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf pbrbmftfrs.
+     *
+     * @rfturn thf nfw AlgorithmPbrbmftfrs objfdt
+     */
+    protfdtfd AlgorithmPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+        AlgorithmPbrbmftfrs blgPbrbms = null;
+
+        if (this.fxponfntSizf == 0) {
+            this.fxponfntSizf = this.primfSizf - 1;
+        }
+
+        if (this.rbndom == null)
+            this.rbndom = SunJCE.gftRbndom();
+
+        try {
+            AlgorithmPbrbmftfrGfnfrbtor pbrbmGfn;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
+
+            pbrbmGfn = AlgorithmPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn.init(this.primfSizf, rbndom);
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+
+            DHPbrbmftfrSpfd dhPbrbmSpfd;
+            if (this.fxponfntSizf > 0) {
+                dhPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  this.fxponfntSizf);
+            } flsf {
+                dhPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                                                  dsbPbrbmSpfd.gftG());
+            }
+            blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf("DH",
+                    SunJCE.gftInstbndf());
+            blgPbrbms.init(dhPbrbmSpfd);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
+            // this should nfvfr hbppfn
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            // this should nfvfr hbppfn, bfdbusf wf providf it
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        }
+        rfturn blgPbrbms;
+    }
+}

@@ -1,0 +1,548 @@
+/*
+ * Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.nio.dhbrsft.*;
+
+finbl dlbss CompoundTfxtSupport {
+
+    privbtf stbtid finbl dlbss ControlSfqufndf {
+
+        finbl int hbsh;
+        finbl bytf[] fsdSfqufndf;
+        finbl bytf[] fndoding;
+
+        ControlSfqufndf(bytf[] fsdSfqufndf) {
+            this(fsdSfqufndf, null);
+        }
+        ControlSfqufndf(bytf[] fsdSfqufndf, bytf[] fndoding) {
+            if (fsdSfqufndf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+
+            this.fsdSfqufndf = fsdSfqufndf;
+            this.fndoding = fndoding;
+
+            int hbsh = 0;
+            int lfngth = fsdSfqufndf.lfngth;
+
+            for (int i = 0; i < fsdSfqufndf.lfngth; i++) {
+                hbsh += (((int)fsdSfqufndf[i]) & 0xff) << (i % 4);
+            }
+            if (fndoding != null) {
+                for (int i = 0; i < fndoding.lfngth; i++) {
+                    hbsh += (((int)fndoding[i]) & 0xff) << (i % 4);
+                }
+                lfngth += 2 /* M L */ + fndoding.lfngth + 1 /* 0x02 */;
+            }
+
+            this.hbsh = hbsh;
+
+            if (MAX_CONTROL_SEQUENCE_LEN < lfngth) {
+                MAX_CONTROL_SEQUENCE_LEN = lfngth;
+            }
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (this == obj) {
+                rfturn truf;
+            }
+            if (!(obj instbndfof ControlSfqufndf)) {
+                rfturn fblsf;
+            }
+            ControlSfqufndf rhs = (ControlSfqufndf)obj;
+            if (fsdSfqufndf != rhs.fsdSfqufndf) {
+                if (fsdSfqufndf.lfngth != rhs.fsdSfqufndf.lfngth) {
+                    rfturn fblsf;
+                }
+                for (int i = 0; i < fsdSfqufndf.lfngth; i++) {
+                    if (fsdSfqufndf[i] != rhs.fsdSfqufndf[i]) {
+                        rfturn fblsf;
+                    }
+                }
+            }
+            if (fndoding != rhs.fndoding) {
+                if (fndoding == null || rhs.fndoding == null ||
+                    fndoding.lfngth != rhs.fndoding.lfngth)
+                {
+                    rfturn fblsf;
+                }
+                for (int i = 0; i < fndoding.lfngth; i++) {
+                    if (fndoding[i] != rhs.fndoding[i]) {
+                        rfturn fblsf;
+                    }
+                }
+            }
+            rfturn truf;
+        }
+
+        publid int hbshCodf() {
+            rfturn hbsh;
+        }
+
+        ControlSfqufndf dondbtfnbtf(ControlSfqufndf rhs) {
+            if (fndoding != null) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("dbnnot dondbtfnbtf to b non-stbndbrd dhbrsft fsdbpf " +
+                     "sfqufndf");
+            }
+
+            int lfn = fsdSfqufndf.lfngth + rhs.fsdSfqufndf.lfngth;
+            bytf[] nfwEsdSfqufndf = nfw bytf[lfn];
+            Systfm.brrbydopy(fsdSfqufndf, 0, nfwEsdSfqufndf, 0,
+                             fsdSfqufndf.lfngth);
+            Systfm.brrbydopy(rhs.fsdSfqufndf, 0, nfwEsdSfqufndf,
+                             fsdSfqufndf.lfngth, rhs.fsdSfqufndf.lfngth);
+            rfturn nfw ControlSfqufndf(nfwEsdSfqufndf, rhs.fndoding);
+        }
+    }
+
+    stbtid int MAX_CONTROL_SEQUENCE_LEN;
+
+    /**
+     * Mbps b GL or GR fsdbpf sfqufndf to bn fndoding.
+     */
+    privbtf stbtid finbl Mbp<ControlSfqufndf, String> sfqufndfToEndodingMbp;
+
+    /**
+     * Indidbtfs whfthfr b pbrtidulbr fndoding wbnts thf high bit turnfd on
+     * or off.
+     */
+    privbtf stbtid finbl Mbp<ControlSfqufndf, Boolfbn> highBitsMbp;
+
+    /**
+     * Mbps bn fndoding to bn fsdbpf sfqufndf. Rbthfr thbn mbnbgf two
+     * donvfrtfrs in ChbrToBytfCOMPOUND_TEXT, wf output fsdbpf sfqufndfs whidh
+     * modify both GL bnd GR if nfdfssbry. This mbkfs thf output slightly lfss
+     * fffidifnt, but our dodf mudh simplfr.
+     */
+    privbtf stbtid finbl Mbp<String, ControlSfqufndf> fndodingToSfqufndfMbp;
+
+    /**
+     * Thf kfys of 'fndodingToSfqufndfMbp', sortfd in prfffrfntibl ordfr.
+     */
+    privbtf stbtid finbl List<String> fndodings;
+
+    stbtid {
+        HbshMbp<ControlSfqufndf, String> tSfqufndfToEndodingMbp =
+            nfw HbshMbp<>(33, 1.0f);
+        HbshMbp<ControlSfqufndf, Boolfbn> tHighBitsMbp =
+            nfw HbshMbp<>(31, 1.0f);
+        HbshMbp<String, ControlSfqufndf> tEndodingToSfqufndfMbp =
+            nfw HbshMbp<>(21, 1.0f);
+        ArrbyList<String> tEndodings = nfw ArrbyList<>(21);
+
+        if (!(isEndodingSupportfd("US-ASCII") &&
+              isEndodingSupportfd("ISO-8859-1")))
+        {
+            throw nfw ExdfptionInInitiblizfrError
+                ("US-ASCII bnd ISO-8859-1 unsupportfd");
+        }
+
+        ControlSfqufndf lfftAsdii = // high bit off, lfbvf off
+            nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x42 });
+        tSfqufndfToEndodingMbp.put(lfftAsdii, "US-ASCII");
+        tHighBitsMbp.put(lfftAsdii, Boolfbn.FALSE);
+
+        {
+            ControlSfqufndf rightAsdii = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x42 });
+            tSfqufndfToEndodingMbp.put(rightAsdii, "US-ASCII");
+            tHighBitsMbp.put(rightAsdii, Boolfbn.FALSE);
+        }
+
+        {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x41 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-1");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-1", fullSft);
+            tEndodings.bdd("ISO-8859-1");
+        }
+        if (isEndodingSupportfd("ISO-8859-2")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x42 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-2");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-2", fullSft);
+            tEndodings.bdd("ISO-8859-2");
+        }
+        if (isEndodingSupportfd("ISO-8859-3")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x43 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-3");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-3", fullSft);
+            tEndodings.bdd("ISO-8859-3");
+        }
+        if (isEndodingSupportfd("ISO-8859-4")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x44 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-4");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-4", fullSft);
+            tEndodings.bdd("ISO-8859-4");
+        }
+        if (isEndodingSupportfd("ISO-8859-5")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x4C });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-5");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-5", fullSft);
+            tEndodings.bdd("ISO-8859-5");
+        }
+        if (isEndodingSupportfd("ISO-8859-6")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x47 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-6");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-6", fullSft);
+            tEndodings.bdd("ISO-8859-6");
+        }
+        if (isEndodingSupportfd("ISO-8859-7")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x46 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-7");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-7", fullSft);
+            tEndodings.bdd("ISO-8859-7");
+        }
+        if (isEndodingSupportfd("ISO-8859-8")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x48 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-8");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-8", fullSft);
+            tEndodings.bdd("ISO-8859-8");
+        }
+        if (isEndodingSupportfd("ISO-8859-9")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x4D });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-9");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-9", fullSft);
+            tEndodings.bdd("ISO-8859-9");
+        }
+        if (isEndodingSupportfd("JIS_X0201")) {
+            ControlSfqufndf glLfft = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x4A });
+            ControlSfqufndf glRight = // high bit off, turn on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x49 });
+            ControlSfqufndf grLfft = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x4A });
+            ControlSfqufndf grRight = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x49 });
+            tSfqufndfToEndodingMbp.put(glLfft, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(glRight, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(grLfft, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(grRight, "JIS_X0201");
+            tHighBitsMbp.put(glLfft, Boolfbn.FALSE);
+            tHighBitsMbp.put(glRight, Boolfbn.TRUE);
+            tHighBitsMbp.put(grLfft, Boolfbn.FALSE);
+            tHighBitsMbp.put(grRight, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = glLfft.dondbtfnbtf(grRight);
+            tEndodingToSfqufndfMbp.put("JIS_X0201", fullSft);
+            tEndodings.bdd("JIS_X0201");
+        }
+        if (isEndodingSupportfd("X11GB2312")) {
+            ControlSfqufndf lfftHblf =  // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x41 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x41 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11GB2312");
+            tSfqufndfToEndodingMbp.put(rightHblf, "X11GB2312");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11GB2312", lfftHblf);
+            tEndodings.bdd("X11GB2312");
+        }
+        if (isEndodingSupportfd("x-JIS0208")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x42 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x42 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "x-JIS0208");
+            tSfqufndfToEndodingMbp.put(rightHblf, "x-JIS0208");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("x-JIS0208", lfftHblf);
+            tEndodings.bdd("x-JIS0208");
+        }
+        if (isEndodingSupportfd("X11KSC5601")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x43 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x43 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11KSC5601");
+            tSfqufndfToEndodingMbp.put(rightHblf, "X11KSC5601");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11KSC5601", lfftHblf);
+            tEndodings.bdd("X11KSC5601");
+        }
+
+        // Endodings not listfd in Compound Tfxt Endoding spfd
+
+        // Esd sfq: -b
+        if (isEndodingSupportfd("ISO-8859-15")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x62 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "ISO-8859-15");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-15", fullSft);
+            tEndodings.bdd("ISO-8859-15");
+        }
+        // Esd sfq: -T
+        if (isEndodingSupportfd("TIS-620")) {
+            ControlSfqufndf rightHblf = // high bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x54 });
+            tSfqufndfToEndodingMbp.put(rightHblf, "TIS-620");
+            tHighBitsMbp.put(rightHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rightHblf);
+            tEndodingToSfqufndfMbp.put("TIS-620", fullSft);
+            tEndodings.bdd("TIS-620");
+        }
+        if (isEndodingSupportfd("JIS_X0212-1990")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x44 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x44 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "JIS_X0212-1990");
+            tSfqufndfToEndodingMbp.put(rightHblf, "JIS_X0212-1990");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("JIS_X0212-1990", lfftHblf);
+            tEndodings.bdd("JIS_X0212-1990");
+        }
+        if (isEndodingSupportfd("X11CNS11643P1")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x47 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x47 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P1");
+            tSfqufndfToEndodingMbp.put(rightHblf, "X11CNS11643P1");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P1", lfftHblf);
+            tEndodings.bdd("X11CNS11643P1");
+        }
+        if (isEndodingSupportfd("X11CNS11643P2")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x48 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x48 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P2");
+            tSfqufndfToEndodingMbp.put(rightHblf, "X11CNS11643P2");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P2", lfftHblf);
+            tEndodings.bdd("X11CNS11643P2");
+        }
+        if (isEndodingSupportfd("X11CNS11643P3")) {
+            ControlSfqufndf lfftHblf = // high bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x49 });
+            ControlSfqufndf rightHblf = // high bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x49 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P3");
+            tSfqufndfToEndodingMbp.put(rightHblf, "X11CNS11643P3");
+            tHighBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHighBitsMbp.put(rightHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P3", lfftHblf);
+            tEndodings.bdd("X11CNS11643P3");
+        }
+        // Esd sfq: %/2??SUN-KSC5601.1992-3
+        if (isEndodingSupportfd("x-Johbb")) {
+            // 0x32 looks wrong. It's dopifd from thf Sun X11 Compound Tfxt
+            // support dodf. It implifs thbt bll Johbb dhbrbdtfrs domprisf two
+            // odtfts, whidh isn't truf. Johbb supports thf ASCII/KS-Rombn
+            // dhbrbdtfrs from 0x21-0x7E with singlf-bytf rfprfsfntbtions.
+            ControlSfqufndf johbb = nfw ControlSfqufndf(
+                nfw bytf[] { 0x1b, 0x25, 0x2f, 0x32 },
+                nfw bytf[] { 0x53, 0x55, 0x4f, 0x2d, 0x4b, 0x53, 0x43, 0x35,
+                             0x36, 0x30, 0x31, 0x2f, 0x31, 0x39, 0x39, 0x32,
+                             0x2d, 0x33 });
+            tSfqufndfToEndodingMbp.put(johbb, "x-Johbb");
+            tEndodingToSfqufndfMbp.put("x-Johbb", johbb);
+            tEndodings.bdd("x-Johbb");
+        }
+        // Esd sfq: %/2??SUN-BIG5-1
+        if (isEndodingSupportfd("Big5")) {
+            // 0x32 looks wrong. It's dopifd from thf Sun X11 Compound Tfxt
+            // support dodf. It implifs thbt bll Big5 dhbrbdtfrs domprisf two
+            // odtfts, whidh isn't truf. Big5 supports thf ASCII/CNS-Rombn
+            // dhbrbdtfrs from 0x21-0x7E with singlf-bytf rfprfsfntbtions.
+            ControlSfqufndf big5 = nfw ControlSfqufndf(
+                nfw bytf[] { 0x1b, 0x25, 0x2f, 0x32 },
+                nfw bytf[] { 0x53, 0x55, 0x4f, 0x2d, 0x42, 0x49, 0x47, 0x35,
+                             0x2d, 0x31 });
+            tSfqufndfToEndodingMbp.put(big5, "Big5");
+            tEndodingToSfqufndfMbp.put("Big5", big5);
+            tEndodings.bdd("Big5");
+        }
+
+        sfqufndfToEndodingMbp =
+            Collfdtions.unmodifibblfMbp(tSfqufndfToEndodingMbp);
+        highBitsMbp = Collfdtions.unmodifibblfMbp(tHighBitsMbp);
+        fndodingToSfqufndfMbp =
+            Collfdtions.unmodifibblfMbp(tEndodingToSfqufndfMbp);
+        fndodings = Collfdtions.unmodifibblfList(tEndodings);
+    }
+
+    privbtf stbtid boolfbn isEndodingSupportfd(String fndoding) {
+        try {
+            if (Chbrsft.isSupportfd(fndoding))
+                rfturn truf;
+        } dbtdh (IllfgblArgumfntExdfption x) { }
+        rfturn (gftDfdodfr(fndoding) != null &&
+                gftEndodfr(fndoding) != null);
+    }
+
+
+    // For Dfdodfr
+    stbtid ChbrsftDfdodfr gftStbndbrdDfdodfr(bytf[] fsdSfqufndf) {
+        rfturn gftNonStbndbrdDfdodfr(fsdSfqufndf, null);
+    }
+    stbtid boolfbn gftHighBit(bytf[] fsdSfqufndf) {
+        Boolfbn bool = highBitsMbp.gft(nfw ControlSfqufndf(fsdSfqufndf));
+        rfturn (bool == Boolfbn.TRUE);
+    }
+    stbtid ChbrsftDfdodfr gftNonStbndbrdDfdodfr(bytf[] fsdSfqufndf,
+                                                       bytf[] fndoding) {
+        rfturn gftDfdodfr(sfqufndfToEndodingMbp.gft
+            (nfw ControlSfqufndf(fsdSfqufndf, fndoding)));
+    }
+    stbtid ChbrsftDfdodfr gftDfdodfr(String fnd) {
+        if (fnd == null) {
+            rfturn null;
+        }
+        Chbrsft ds = null;
+        try {
+            ds = Chbrsft.forNbmf(fnd);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            Clbss<?> dls;
+            try {
+                dls = Clbss.forNbmf("sun.bwt.motif." + fnd);
+            } dbtdh (ClbssNotFoundExdfption ff) {
+                rfturn null;
+            }
+            try {
+                ds = (Chbrsft)dls.nfwInstbndf();
+            } dbtdh (InstbntibtionExdfption ff) {
+                rfturn null;
+            } dbtdh (IllfgblAddfssExdfption ff) {
+                rfturn null;
+            }
+        }
+        try {
+            rfturn ds.nfwDfdodfr();
+        } dbtdh (UnsupportfdOpfrbtionExdfption f) {}
+        rfturn null;
+    }
+
+
+    // For Endodfr
+    stbtid bytf[] gftEsdbpfSfqufndf(String fndoding) {
+        ControlSfqufndf sfq = fndodingToSfqufndfMbp.gft(fndoding);
+        if (sfq != null) {
+            rfturn sfq.fsdSfqufndf;
+        }
+        rfturn null;
+    }
+    stbtid bytf[] gftEndoding(String fndoding) {
+        ControlSfqufndf sfq = fndodingToSfqufndfMbp.gft(fndoding);
+        if (sfq != null) {
+            rfturn sfq.fndoding;
+        }
+        rfturn null;
+    }
+    stbtid List<String> gftEndodings() {
+        rfturn fndodings;
+    }
+    stbtid ChbrsftEndodfr gftEndodfr(String fnd) {
+        if (fnd == null) {
+            rfturn null;
+        }
+        Chbrsft ds = null;
+        try {
+            ds = Chbrsft.forNbmf(fnd);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            Clbss<?> dls;
+            try {
+                dls = Clbss.forNbmf("sun.bwt.motif." + fnd);
+            } dbtdh (ClbssNotFoundExdfption ff) {
+                rfturn null;
+            }
+            try {
+                ds = (Chbrsft)dls.nfwInstbndf();
+            } dbtdh (InstbntibtionExdfption ff) {
+                rfturn null;
+            } dbtdh (IllfgblAddfssExdfption ff) {
+                rfturn null;
+            }
+        }
+        try {
+            rfturn ds.nfwEndodfr();
+        } dbtdh (Throwbblf f) {}
+        rfturn null;
+    }
+
+    // Not bn instbntibblf dlbss
+    privbtf CompoundTfxtSupport() {}
+}

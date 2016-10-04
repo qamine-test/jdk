@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.applet;
+pbdkbgf jbvb.bpplft;
 
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.image.ColorModel;
-import java.net.URL;
-import java.util.Enumeration;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Iterator;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.nft.URL;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
 
 /**
- * This interface corresponds to an applet's environment: the
- * document containing the applet and the other applets in the same
- * document.
+ * Tiis intfrfbdf dorrfsponds to bn bpplft's fnvironmfnt: tif
+ * dodumfnt dontbining tif bpplft bnd tif otifr bpplfts in tif sbmf
+ * dodumfnt.
  * <p>
- * The methods in this interface can be used by an applet to obtain
- * information about its environment.
+ * Tif mftiods in tiis intfrfbdf dbn bf usfd by bn bpplft to obtbin
+ * informbtion bbout its fnvironmfnt.
  *
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public interface AppletContext {
+publid intfrfbdf ApplftContfxt {
     /**
-     * Creates an audio clip.
+     * Crfbtfs bn budio dlip.
      *
-     * @param   url   an absolute URL giving the location of the audio clip.
-     * @return  the audio clip at the specified URL.
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif budio dlip.
+     * @rfturn  tif budio dlip bt tif spfdififd URL.
      */
-    AudioClip getAudioClip(URL url);
+    AudioClip gftAudioClip(URL url);
 
     /**
-     * Returns an <code>Image</code> object that can then be painted on
-     * the screen. The <code>url</code> argument that is
-     * passed as an argument must specify an absolute URL.
+     * Rfturns bn <dodf>Imbgf</dodf> objfdt tibt dbn tifn bf pbintfd on
+     * tif sdrffn. Tif <dodf>url</dodf> brgumfnt tibt is
+     * pbssfd bs bn brgumfnt must spfdify bn bbsolutf URL.
      * <p>
-     * This method always returns immediately, whether or not the image
-     * exists. When the applet attempts to draw the image on the screen,
-     * the data will be loaded. The graphics primitives that draw the
-     * image will incrementally paint on the screen.
+     * Tiis mftiod blwbys rfturns immfdibtfly, wiftifr or not tif imbgf
+     * fxists. Wifn tif bpplft bttfmpts to drbw tif imbgf on tif sdrffn,
+     * tif dbtb will bf lobdfd. Tif grbpiids primitivfs tibt drbw tif
+     * imbgf will indrfmfntblly pbint on tif sdrffn.
      *
-     * @param   url   an absolute URL giving the location of the image.
-     * @return  the image at the specified URL.
-     * @see     java.awt.Image
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif imbgf.
+     * @rfturn  tif imbgf bt tif spfdififd URL.
+     * @sff     jbvb.bwt.Imbgf
      */
-    Image getImage(URL url);
+    Imbgf gftImbgf(URL url);
 
     /**
-     * Finds and returns the applet in the document represented by this
-     * applet context with the given name. The name can be set in the
-     * HTML tag by setting the <code>name</code> attribute.
+     * Finds bnd rfturns tif bpplft in tif dodumfnt rfprfsfntfd by tiis
+     * bpplft dontfxt witi tif givfn nbmf. Tif nbmf dbn bf sft in tif
+     * HTML tbg by sftting tif <dodf>nbmf</dodf> bttributf.
      *
-     * @param   name   an applet name.
-     * @return  the applet with the given name, or <code>null</code> if
+     * @pbrbm   nbmf   bn bpplft nbmf.
+     * @rfturn  tif bpplft witi tif givfn nbmf, or <dodf>null</dodf> if
      *          not found.
      */
-    Applet getApplet(String name);
+    Applft gftApplft(String nbmf);
 
     /**
-     * Finds all the applets in the document represented by this applet
-     * context.
+     * Finds bll tif bpplfts in tif dodumfnt rfprfsfntfd by tiis bpplft
+     * dontfxt.
      *
-     * @return  an enumeration of all applets in the document represented by
-     *          this applet context.
+     * @rfturn  bn fnumfrbtion of bll bpplfts in tif dodumfnt rfprfsfntfd by
+     *          tiis bpplft dontfxt.
      */
-    Enumeration<Applet> getApplets();
+    Enumfrbtion<Applft> gftApplfts();
 
     /**
-     * Requests that the browser or applet viewer show the Web page
-     * indicated by the <code>url</code> argument. The browser or
-     * applet viewer determines which window or frame to display the
-     * Web page. This method may be ignored by applet contexts that
-     * are not browsers.
+     * Rfqufsts tibt tif browsfr or bpplft vifwfr siow tif Wfb pbgf
+     * indidbtfd by tif <dodf>url</dodf> brgumfnt. Tif browsfr or
+     * bpplft vifwfr dftfrminfs wiidi window or frbmf to displby tif
+     * Wfb pbgf. Tiis mftiod mby bf ignorfd by bpplft dontfxts tibt
+     * brf not browsfrs.
      *
-     * @param   url   an absolute URL giving the location of the document.
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif dodumfnt.
      */
-    void showDocument(URL url);
+    void siowDodumfnt(URL url);
 
     /**
-     * Requests that the browser or applet viewer show the Web page
-     * indicated by the <code>url</code> argument. The
-     * <code>target</code> argument indicates in which HTML frame the
-     * document is to be displayed.
-     * The target argument is interpreted as follows:
+     * Rfqufsts tibt tif browsfr or bpplft vifwfr siow tif Wfb pbgf
+     * indidbtfd by tif <dodf>url</dodf> brgumfnt. Tif
+     * <dodf>tbrgft</dodf> brgumfnt indidbtfs in wiidi HTML frbmf tif
+     * dodumfnt is to bf displbyfd.
+     * Tif tbrgft brgumfnt is intfrprftfd bs follows:
      *
-     * <center><table border="3" summary="Target arguments and their descriptions">
-     * <tr><th>Target Argument</th><th>Description</th></tr>
-     * <tr><td><code>"_self"</code>  <td>Show in the window and frame that
-     *                                   contain the applet.</tr>
-     * <tr><td><code>"_parent"</code><td>Show in the applet's parent frame. If
-     *                                   the applet's frame has no parent frame,
-     *                                   acts the same as "_self".</tr>
-     * <tr><td><code>"_top"</code>   <td>Show in the top-level frame of the applet's
-     *                                   window. If the applet's frame is the
-     *                                   top-level frame, acts the same as "_self".</tr>
-     * <tr><td><code>"_blank"</code> <td>Show in a new, unnamed
-     *                                   top-level window.</tr>
-     * <tr><td><i>name</i><td>Show in the frame or window named <i>name</i>. If
-     *                        a target named <i>name</i> does not already exist, a
-     *                        new top-level window with the specified name is created,
-     *                        and the document is shown there.</tr>
-     * </table> </center>
+     * <dfntfr><tbblf bordfr="3" summbry="Tbrgft brgumfnts bnd tifir dfsdriptions">
+     * <tr><ti>Tbrgft Argumfnt</ti><ti>Dfsdription</ti></tr>
+     * <tr><td><dodf>"_sflf"</dodf>  <td>Siow in tif window bnd frbmf tibt
+     *                                   dontbin tif bpplft.</tr>
+     * <tr><td><dodf>"_pbrfnt"</dodf><td>Siow in tif bpplft's pbrfnt frbmf. If
+     *                                   tif bpplft's frbmf ibs no pbrfnt frbmf,
+     *                                   bdts tif sbmf bs "_sflf".</tr>
+     * <tr><td><dodf>"_top"</dodf>   <td>Siow in tif top-lfvfl frbmf of tif bpplft's
+     *                                   window. If tif bpplft's frbmf is tif
+     *                                   top-lfvfl frbmf, bdts tif sbmf bs "_sflf".</tr>
+     * <tr><td><dodf>"_blbnk"</dodf> <td>Siow in b nfw, unnbmfd
+     *                                   top-lfvfl window.</tr>
+     * <tr><td><i>nbmf</i><td>Siow in tif frbmf or window nbmfd <i>nbmf</i>. If
+     *                        b tbrgft nbmfd <i>nbmf</i> dofs not blrfbdy fxist, b
+     *                        nfw top-lfvfl window witi tif spfdififd nbmf is drfbtfd,
+     *                        bnd tif dodumfnt is siown tifrf.</tr>
+     * </tbblf> </dfntfr>
      * <p>
-     * An applet viewer or browser is free to ignore <code>showDocument</code>.
+     * An bpplft vifwfr or browsfr is frff to ignorf <dodf>siowDodumfnt</dodf>.
      *
-     * @param   url   an absolute URL giving the location of the document.
-     * @param   target   a <code>String</code> indicating where to display
-     *                   the page.
+     * @pbrbm   url   bn bbsolutf URL giving tif lodbtion of tif dodumfnt.
+     * @pbrbm   tbrgft   b <dodf>String</dodf> indidbting wifrf to displby
+     *                   tif pbgf.
      */
-    public void showDocument(URL url, String target);
+    publid void siowDodumfnt(URL url, String tbrgft);
 
     /**
-     * Requests that the argument string be displayed in the
-     * "status window". Many browsers and applet viewers
-     * provide such a window, where the application can inform users of
-     * its current state.
+     * Rfqufsts tibt tif brgumfnt string bf displbyfd in tif
+     * "stbtus window". Mbny browsfrs bnd bpplft vifwfrs
+     * providf sudi b window, wifrf tif bpplidbtion dbn inform usfrs of
+     * its durrfnt stbtf.
      *
-     * @param   status   a string to display in the status window.
+     * @pbrbm   stbtus   b string to displby in tif stbtus window.
      */
-    void showStatus(String status);
+    void siowStbtus(String stbtus);
 
     /**
-     * Associates the specified stream with the specified key in this
-     * applet context. If the applet context previously contained a mapping
-     * for this key, the old value is replaced.
+     * Assodibtfs tif spfdififd strfbm witi tif spfdififd kfy in tiis
+     * bpplft dontfxt. If tif bpplft dontfxt prfviously dontbinfd b mbpping
+     * for tiis kfy, tif old vbluf is rfplbdfd.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdi
+     * dodfbbsf. In otifr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * tif strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
      *
-     * @param key key with which the specified value is to be associated.
-     * @param stream stream to be associated with the specified key. If this
-     *               parameter is <code>null</code>, the specified key is removed
-     *               in this applet context.
-     * @throws IOException if the stream size exceeds a certain
-     *         size limit. Size limit is decided by the implementor of this
-     *         interface.
-     * @since 1.4
+     * @pbrbm kfy kfy witi wiidi tif spfdififd vbluf is to bf bssodibtfd.
+     * @pbrbm strfbm strfbm to bf bssodibtfd witi tif spfdififd kfy. If tiis
+     *               pbrbmftfr is <dodf>null</dodf>, tif spfdififd kfy is rfmovfd
+     *               in tiis bpplft dontfxt.
+     * @tirows IOExdfption if tif strfbm sizf fxdffds b dfrtbin
+     *         sizf limit. Sizf limit is dfdidfd by tif implfmfntor of tiis
+     *         intfrfbdf.
+     * @sindf 1.4
      */
-    public void setStream(String key, InputStream stream)throws IOException;
+    publid void sftStrfbm(String kfy, InputStrfbm strfbm)tirows IOExdfption;
 
     /**
-     * Returns the stream to which specified key is associated within this
-     * applet context. Returns <tt>null</tt> if the applet context contains
-     * no stream for this key.
+     * Rfturns tif strfbm to wiidi spfdififd kfy is bssodibtfd witiin tiis
+     * bpplft dontfxt. Rfturns <tt>null</tt> if tif bpplft dontfxt dontbins
+     * no strfbm for tiis kfy.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdi
+     * dodfbbsf. In otifr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * tif strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
      *
-     * @return the stream to which this applet context maps the key
-     * @param key key whose associated stream is to be returned.
-     * @since 1.4
+     * @rfturn tif strfbm to wiidi tiis bpplft dontfxt mbps tif kfy
+     * @pbrbm kfy kfy wiosf bssodibtfd strfbm is to bf rfturnfd.
+     * @sindf 1.4
      */
-    public InputStream getStream(String key);
+    publid InputStrfbm gftStrfbm(String kfy);
 
     /**
-     * Finds all the keys of the streams in this applet context.
+     * Finds bll tif kfys of tif strfbms in tiis bpplft dontfxt.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For sfdurity rfbsons, mbpping of strfbms bnd kfys fxists for fbdi
+     * dodfbbsf. In otifr words, bpplft from onf dodfbbsf dbnnot bddfss
+     * tif strfbms drfbtfd by bn bpplft from b difffrfnt dodfbbsf
      *
-     * @return  an Iterator of all the names of the streams in this applet
-     *          context.
-     * @since 1.4
+     * @rfturn  bn Itfrbtor of bll tif nbmfs of tif strfbms in tiis bpplft
+     *          dontfxt.
+     * @sindf 1.4
      */
-    public Iterator<String> getStreamKeys();
+    publid Itfrbtor<String> gftStrfbmKfys();
 }

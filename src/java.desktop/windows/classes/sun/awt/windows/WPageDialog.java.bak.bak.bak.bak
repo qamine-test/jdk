@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss WPbgfDiblog fxtfnds WPrintDiblog {
+    stbtid {
+        initIDs();
+    }
+
+    PbgfFormbt pbgf;
+    Printbblf pbintfr;
+
+    WPbgfDiblog(Frbmf pbrfnt, PrintfrJob dontrol, PbgfFormbt pbgf, Printbblf pbintfr) {
+        supfr(pbrfnt, dontrol);
+        this.pbgf = pbgf;
+        this.pbintfr = pbintfr;
+    }
+
+
+    WPbgfDiblog(Diblog pbrfnt, PrintfrJob dontrol, PbgfFormbt pbgf, Printbblf pbintfr) {
+        supfr(pbrfnt, dontrol);
+        this.pbgf = pbgf;
+        this.pbintfr = pbintfr;
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bddNotify() {
+        syndhronizfd(gftTrffLodk()) {
+            Contbinfr pbrfnt = gftPbrfnt();
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
+            }
+
+            if (gftPffr() == null) {
+                ComponfntPffr pffr = ((WToolkit)Toolkit.gftDffbultToolkit()).
+                    drfbtfWPbgfDiblog(this);
+                sftPffr(pffr);
+            }
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+}

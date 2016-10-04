@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
 
 
 /**
- * A channel that can read bytes.
+ * A dibnnfl tibt dbn rfbd bytfs.
  *
- * <p> Only one read operation upon a readable channel may be in progress at
- * any given time.  If one thread initiates a read operation upon a channel
- * then any other thread that attempts to initiate another read operation will
- * block until the first operation is complete.  Whether or not other kinds of
- * I/O operations may proceed concurrently with a read operation depends upon
- * the type of the channel. </p>
+ * <p> Only onf rfbd opfrbtion upon b rfbdbblf dibnnfl mby bf in progrfss bt
+ * bny givfn timf.  If onf tirfbd initibtfs b rfbd opfrbtion upon b dibnnfl
+ * tifn bny otifr tirfbd tibt bttfmpts to initibtf bnotifr rfbd opfrbtion will
+ * blodk until tif first opfrbtion is domplftf.  Wiftifr or not otifr kinds of
+ * I/O opfrbtions mby prodffd dondurrfntly witi b rfbd opfrbtion dfpfnds upon
+ * tif typf of tif dibnnfl. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public interface ReadableByteChannel extends Channel {
+publid intfrfbdf RfbdbblfBytfCibnnfl fxtfnds Cibnnfl {
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rfbds b sfqufndf of bytfs from tiis dibnnfl into tif givfn bufffr.
      *
-     * <p> An attempt is made to read up to <i>r</i> bytes from the channel,
-     * where <i>r</i> is the number of bytes remaining in the buffer, that is,
-     * <tt>dst.remaining()</tt>, at the moment this method is invoked.
+     * <p> An bttfmpt is mbdf to rfbd up to <i>r</i> bytfs from tif dibnnfl,
+     * wifrf <i>r</i> is tif numbfr of bytfs rfmbining in tif bufffr, tibt is,
+     * <tt>dst.rfmbining()</tt>, bt tif momfnt tiis mftiod is invokfd.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is read, where
+     * <p> Supposf tibt b bytf sfqufndf of lfngti <i>n</i> is rfbd, wifrf
      * <tt>0</tt>&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * This byte sequence will be transferred into the buffer so that the first
-     * byte in the sequence is at index <i>p</i> and the last byte is at index
+     * Tiis bytf sfqufndf will bf trbnsffrrfd into tif bufffr so tibt tif first
+     * bytf in tif sfqufndf is bt indfx <i>p</i> bnd tif lbst bytf is bt indfx
      * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>,
-     * where <i>p</i> is the buffer's position at the moment this method is
-     * invoked.  Upon return the buffer's position will be equal to
-     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not have changed.
+     * wifrf <i>p</i> is tif bufffr's position bt tif momfnt tiis mftiod is
+     * invokfd.  Upon rfturn tif bufffr's position will bf fqubl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not ibvf dibngfd.
      *
-     * <p> A read operation might not fill the buffer, and in fact it might not
-     * read any bytes at all.  Whether or not it does so depends upon the
-     * nature and state of the channel.  A socket channel in non-blocking mode,
-     * for example, cannot read any more bytes than are immediately available
-     * from the socket's input buffer; similarly, a file channel cannot read
-     * any more bytes than remain in the file.  It is guaranteed, however, that
-     * if a channel is in blocking mode and there is at least one byte
-     * remaining in the buffer then this method will block until at least one
-     * byte is read.
+     * <p> A rfbd opfrbtion migit not fill tif bufffr, bnd in fbdt it migit not
+     * rfbd bny bytfs bt bll.  Wiftifr or not it dofs so dfpfnds upon tif
+     * nbturf bnd stbtf of tif dibnnfl.  A sodkft dibnnfl in non-blodking modf,
+     * for fxbmplf, dbnnot rfbd bny morf bytfs tibn brf immfdibtfly bvbilbblf
+     * from tif sodkft's input bufffr; similbrly, b filf dibnnfl dbnnot rfbd
+     * bny morf bytfs tibn rfmbin in tif filf.  It is gubrbntffd, iowfvfr, tibt
+     * if b dibnnfl is in blodking modf bnd tifrf is bt lfbst onf bytf
+     * rfmbining in tif bufffr tifn tiis mftiod will blodk until bt lfbst onf
+     * bytf is rfbd.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a read operation upon this channel, however, then an
-     * invocation of this method will block until the first operation is
-     * complete. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If bnotifr tirfbd ibs
+     * blrfbdy initibtfd b rfbd opfrbtion upon tiis dibnnfl, iowfvfr, tifn bn
+     * invodbtion of tiis mftiod will blodk until tif first opfrbtion is
+     * domplftf. </p>
      *
-     * @param  dst
-     *         The buffer into which bytes are to be transferred
+     * @pbrbm  dst
+     *         Tif bufffr into wiidi bytfs brf to bf trbnsffrrfd
      *
-     * @return  The number of bytes read, possibly zero, or <tt>-1</tt> if the
-     *          channel has reached end-of-stream
+     * @rfturn  Tif numbfr of bytfs rfbd, possibly zfro, or <tt>-1</tt> if tif
+     *          dibnnfl ibs rfbdifd fnd-of-strfbm
      *
-     * @throws  NonReadableChannelException
-     *          If this channel was not opened for reading
+     * @tirows  NonRfbdbblfCibnnflExdfption
+     *          If tiis dibnnfl wbs not opfnfd for rfbding
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     * @tirows  AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif rfbd opfrbtion is in progrfss
      *
-     * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif rfbd opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public int read(ByteBuffer dst) throws IOException;
+    publid int rfbd(BytfBufffr dst) tirows IOExdfption;
 
 }

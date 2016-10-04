@@ -1,0 +1,1131 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+
+import jbvb.tfxt.Formbt;
+import jbvb.tfxt.NumbfrFormbt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.plbf.ProgrfssBbrUI;
+
+
+/**
+ * A domponfnt thbt visublly displbys thf progrfss of somf tbsk.  As thf tbsk
+ * progrfssfs towbrds domplftion, thf progrfss bbr displbys thf
+ * tbsk's pfrdfntbgf of domplftion.
+ * This pfrdfntbgf is typidblly rfprfsfntfd visublly by b rfdtbnglf whidh
+ * stbrts out fmpty bnd grbdublly bfdomfs fillfd in bs thf tbsk progrfssfs.
+ * In bddition, thf progrfss bbr dbn displby b tfxtubl rfprfsfntbtion of this
+ * pfrdfntbgf.
+ * <p>
+ * {@dodf JProgrfssBbr} usfs b {@dodf BoundfdRbngfModfl} bs its dbtb modfl,
+ * with thf {@dodf vbluf} propfrty rfprfsfnting thf "durrfnt" stbtf of thf tbsk,
+ * bnd thf {@dodf minimum} bnd {@dodf mbximum} propfrtifs rfprfsfnting thf
+ * bfginning bnd fnd points, rfspfdtivfly.
+ * <p>
+ * To indidbtf thbt b tbsk of unknown lfngth is fxfduting,
+ * you dbn put b progrfss bbr into indftfrminbtf modf.
+ * Whilf thf bbr is in indftfrminbtf modf,
+ * it bnimbtfs donstbntly to show thbt work is oddurring.
+ * As soon bs you dbn dftfrminf thf tbsk's lfngth bnd bmount of progrfss,
+ * you should updbtf thf progrfss bbr's vbluf
+ * bnd switdh it bbdk to dftfrminbtf modf.
+ *
+ * <p>
+ *
+ * Hfrf is bn fxbmplf of drfbting b progrfss bbr,
+ * whfrf <dodf>tbsk</dodf> is bn objfdt (rfprfsfnting somf pifdf of work)
+ * whidh rfturns informbtion bbout thf progrfss of thf tbsk:
+ *
+ *<prf>
+ *progrfssBbr = nfw JProgrfssBbr(0, tbsk.gftLfngthOfTbsk());
+ *progrfssBbr.sftVbluf(0);
+ *progrfssBbr.sftStringPbintfd(truf);
+ *</prf>
+ *
+ * Hfrf is bn fxbmplf of qufrying thf durrfnt stbtf of thf tbsk, bnd using
+ * thf rfturnfd vbluf to updbtf thf progrfss bbr:
+ *
+ *<prf>
+ *progrfssBbr.sftVbluf(tbsk.gftCurrfnt());
+ *</prf>
+ *
+ * Hfrf is bn fxbmplf of putting b progrfss bbr into
+ * indftfrminbtf modf,
+ * bnd thfn switdhing bbdk to dftfrminbtf modf
+ * ondf thf lfngth of thf tbsk is known:
+ *
+ *<prf>
+ *progrfssBbr = nfw JProgrfssBbr();
+ *<fm>...//whfn thf tbsk of (initiblly) unknown lfngth bfgins:</fm>
+ *progrfssBbr.sftIndftfrminbtf(truf);
+ *<fm>...//do somf work; gft lfngth of tbsk...</fm>
+ *progrfssBbr.sftMbximum(nfwLfngth);
+ *progrfssBbr.sftVbluf(nfwVbluf);
+ *progrfssBbr.sftIndftfrminbtf(fblsf);
+ *</prf>
+ *
+ * <p>
+ *
+ * For domplftf fxbmplfs bnd furthfr dodumfntbtion sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.html" tbrgft="_top">How to Monitor Progrfss</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.plbf.bbsid.BbsidProgrfssBbrUI
+ * @sff jbvbx.swing.BoundfdRbngfModfl
+ * @sff jbvbx.swing.SwingWorkfr
+ *
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A domponfnt thbt displbys bn intfgfr vbluf.
+ *
+ * @buthor Midhbfl C. Albfrs
+ * @buthor Kbthy Wblrbth
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JProgrfssBbr fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     */
+    privbtf stbtid finbl String uiClbssID = "ProgrfssBbrUI";
+
+    /**
+     * Whfthfr thf progrfss bbr is horizontbl or vfrtidbl.
+     * Thf dffbult is <dodf>HORIZONTAL</dodf>.
+     *
+     * @sff #sftOrifntbtion
+     */
+    protfdtfd int orifntbtion;
+
+    /**
+     * Whfthfr to displby b bordfr bround thf progrfss bbr.
+     * Thf dffbult is <dodf>truf</dodf>.
+     *
+     * @sff #sftBordfrPbintfd
+     */
+    protfdtfd boolfbn pbintBordfr;
+
+    /**
+     * Thf objfdt thbt holds thf dbtb for thf progrfss bbr.
+     *
+     * @sff #sftModfl
+     */
+    protfdtfd BoundfdRbngfModfl modfl;
+
+    /**
+     * An optionbl string thbt dbn bf displbyfd on thf progrfss bbr.
+     * Thf dffbult is <dodf>null</dodf>. Sftting this to b non-<dodf>null</dodf>
+     * vbluf dofs not imply thbt thf string will bf displbyfd.
+     * To displby thf string, {@dodf pbintString} must bf {@dodf truf}.
+     *
+     * @sff #sftString
+     * @sff #sftStringPbintfd
+     */
+    protfdtfd String progrfssString;
+
+    /**
+     * Whfthfr to displby b string of tfxt on thf progrfss bbr.
+     * Thf dffbult is <dodf>fblsf</dodf>.
+     * Sftting this to <dodf>truf</dodf> dbusfs b tfxtubl
+     * displby of thf progrfss to bf rfndfrfd on thf progrfss bbr. If
+     * thf <dodf>progrfssString</dodf> is <dodf>null</dodf>,
+     * thf pfrdfntbgf of domplftion is displbyfd on thf progrfss bbr.
+     * Othfrwisf, thf <dodf>progrfssString</dodf> is
+     * rfndfrfd on thf progrfss bbr.
+     *
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     */
+    protfdtfd boolfbn pbintString;
+
+    /**
+     * Thf dffbult minimum for b progrfss bbr is 0.
+     */
+    stbtid finbl privbtf int dffbultMinimum = 0;
+    /**
+     * Thf dffbult mbximum for b progrfss bbr is 100.
+     */
+    stbtid finbl privbtf int dffbultMbximum = 100;
+    /**
+     * Thf dffbult orifntbtion for b progrfss bbr is <dodf>HORIZONTAL</dodf>.
+     */
+    stbtid finbl privbtf int dffbultOrifntbtion = HORIZONTAL;
+
+    /**
+     * Only onf <dodf>ChbngfEvfnt</dodf> is nffdfd pfr instbndf sindf thf
+     * fvfnt's only intfrfsting propfrty is thf immutbblf sourdf, whidh
+     * is thf progrfss bbr.
+     * Thf fvfnt is lbzily drfbtfd thf first timf thbt bn
+     * fvfnt notifidbtion is firfd.
+     *
+     * @sff #firfStbtfChbngfd
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+    /**
+     * Listfns for dhbngf fvfnts sfnt by thf progrfss bbr's modfl,
+     * rfdispbtdhing thfm
+     * to dhbngf-fvfnt listfnfrs rfgistfrfd upon
+     * this progrfss bbr.
+     *
+     * @sff #drfbtfChbngfListfnfr
+     */
+    protfdtfd ChbngfListfnfr dhbngfListfnfr = null;
+
+    /**
+     * Formbt usfd whfn displbying pfrdfnt domplftf.
+     */
+    privbtf trbnsifnt Formbt formbt;
+
+    /**
+     * Whfthfr thf progrfss bbr is indftfrminbtf (<dodf>truf</dodf>) or
+     * normbl (<dodf>fblsf</dodf>); thf dffbult is <dodf>fblsf</dodf>.
+     *
+     * @sff #sftIndftfrminbtf
+     * @sindf 1.4
+     */
+    privbtf boolfbn indftfrminbtf;
+
+
+   /**
+     * Crfbtfs b horizontbl progrfss bbr
+     * thbt displbys b bordfr but no progrfss string.
+     * Thf initibl bnd minimum vblufs brf 0,
+     * bnd thf mbximum is 100.
+     *
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
+     */
+    publid JProgrfssBbr()
+    {
+        this(dffbultOrifntbtion);
+    }
+
+   /**
+     * Crfbtfs b progrfss bbr with thf spfdififd orifntbtion,
+     * whidh dbn bf
+     * fithfr {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     * Thf initibl bnd minimum vblufs brf 0,
+     * bnd thf mbximum is 100.
+     *
+     * @pbrbm orifnt  thf dfsirfd orifntbtion of thf progrfss bbr
+     * @throws IllfgblArgumfntExdfption if {@dodf orifnt} is bn illfgbl vbluf
+     *
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
+     */
+    publid JProgrfssBbr(int orifnt)
+    {
+        this(orifnt, dffbultMinimum, dffbultMbximum);
+    }
+
+
+    /**
+     * Crfbtfs b horizontbl progrfss bbr
+     * with thf spfdififd minimum bnd mbximum.
+     * Sfts thf initibl vbluf of thf progrfss bbr to thf spfdififd minimum.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     * <p>
+     * Thf <dodf>BoundfdRbngfModfl</dodf> thbt holds thf progrfss bbr's dbtb
+     * hbndlfs bny issufs thbt mby brisf from impropfrly sftting thf
+     * minimum, initibl, bnd mbximum vblufs on thf progrfss bbr.
+     * Sff thf {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     *
+     * @pbrbm min  thf minimum vbluf of thf progrfss bbr
+     * @pbrbm mbx  thf mbximum vbluf of thf progrfss bbr
+     *
+     * @sff BoundfdRbngfModfl
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
+     */
+    publid JProgrfssBbr(int min, int mbx)
+    {
+        this(dffbultOrifntbtion, min, mbx);
+    }
+
+
+    /**
+     * Crfbtfs b progrfss bbr using thf spfdififd orifntbtion,
+     * minimum, bnd mbximum.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     * Sfts thf initibl vbluf of thf progrfss bbr to thf spfdififd minimum.
+     * <p>
+     * Thf <dodf>BoundfdRbngfModfl</dodf> thbt holds thf progrfss bbr's dbtb
+     * hbndlfs bny issufs thbt mby brisf from impropfrly sftting thf
+     * minimum, initibl, bnd mbximum vblufs on thf progrfss bbr.
+     * Sff thf {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     *
+     * @pbrbm orifnt  thf dfsirfd orifntbtion of thf progrfss bbr
+     * @pbrbm min  thf minimum vbluf of thf progrfss bbr
+     * @pbrbm mbx  thf mbximum vbluf of thf progrfss bbr
+     * @throws IllfgblArgumfntExdfption if {@dodf orifnt} is bn illfgbl vbluf
+     *
+     * @sff BoundfdRbngfModfl
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
+     */
+    publid JProgrfssBbr(int orifnt, int min, int mbx)
+    {
+        // Crfbting thf modfl this wby is b bit simplistid, but
+        //  I bflifvf thbt it is thf thf most dommon usbgf of this
+        //  domponfnt - it's whbt pfoplf will fxpfdt.
+        sftModfl(nfw DffbultBoundfdRbngfModfl(min, 0, min, mbx));
+        updbtfUI();
+
+        sftOrifntbtion(orifnt);      // dodumfntfd with sft/gftOrifntbtion()
+        sftBordfrPbintfd(truf);      // dodumfntfd with is/sftBordfrPbintfd()
+        sftStringPbintfd(fblsf);     // sff sftStringPbintfd
+        sftString(null);             // sff gftString
+        sftIndftfrminbtf(fblsf);     // sff sftIndftfrminbtf
+    }
+
+
+    /**
+     * Crfbtfs b horizontbl progrfss bbr
+     * thbt usfs thf spfdififd modfl
+     * to hold thf progrfss bbr's dbtb.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     *
+     * @pbrbm nfwModfl  thf dbtb modfl for thf progrfss bbr
+     *
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
+     */
+    publid JProgrfssBbr(BoundfdRbngfModfl nfwModfl)
+    {
+        sftModfl(nfwModfl);
+        updbtfUI();
+
+        sftOrifntbtion(dffbultOrifntbtion);  // sff sftOrifntbtion()
+        sftBordfrPbintfd(truf);              // sff sftBordfrPbintfd()
+        sftStringPbintfd(fblsf);             // sff sftStringPbintfd
+        sftString(null);                     // sff gftString
+        sftIndftfrminbtf(fblsf);             // sff sftIndftfrminbtf
+    }
+
+
+    /**
+     * Rfturns {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}, dfpfnding on thf orifntbtion
+     * of thf progrfss bbr. Thf dffbult orifntbtion is
+     * {@dodf SwingConstbnts.HORIZONTAL}.
+     *
+     * @rfturn <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @sff #sftOrifntbtion
+     */
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
+    }
+
+
+   /**
+     * Sfts thf progrfss bbr's orifntbtion to <dodf>nfwOrifntbtion</dodf>,
+     * whidh must bf {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}. Thf dffbult orifntbtion
+     * is {@dodf SwingConstbnts.HORIZONTAL}.
+     *
+     * @pbrbm  nfwOrifntbtion  <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @fxdfption      IllfgblArgumfntExdfption    if <dodf>nfwOrifntbtion</dodf>
+     *                                              is bn illfgbl vbluf
+     * @sff #gftOrifntbtion
+     *
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Sft thf progrfss bbr's orifntbtion.
+     */
+    publid void sftOrifntbtion(int nfwOrifntbtion) {
+        if (orifntbtion != nfwOrifntbtion) {
+            switdh (nfwOrifntbtion) {
+            dbsf VERTICAL:
+            dbsf HORIZONTAL:
+                int oldOrifntbtion = orifntbtion;
+                orifntbtion = nfwOrifntbtion;
+                firfPropfrtyChbngf("orifntbtion", oldOrifntbtion, nfwOrifntbtion);
+                if (bddfssiblfContfxt != null) {
+                    bddfssiblfContfxt.firfPropfrtyChbngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            ((oldOrifntbtion == VERTICAL)
+                             ? AddfssiblfStbtf.VERTICAL
+                             : AddfssiblfStbtf.HORIZONTAL),
+                            ((orifntbtion == VERTICAL)
+                             ? AddfssiblfStbtf.VERTICAL
+                             : AddfssiblfStbtf.HORIZONTAL));
+                }
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption(nfwOrifntbtion +
+                                             " is not b lfgbl orifntbtion");
+            }
+            rfvblidbtf();
+        }
+    }
+
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>stringPbintfd</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>stringPbintfd</dodf> propfrty
+     * @sff    #sftStringPbintfd
+     * @sff    #sftString
+     */
+    publid boolfbn isStringPbintfd() {
+        rfturn pbintString;
+    }
+
+
+    /**
+     * Sfts thf vbluf of thf <dodf>stringPbintfd</dodf> propfrty,
+     * whidh dftfrminfs whfthfr thf progrfss bbr
+     * should rfndfr b progrfss string.
+     * Thf dffbult is <dodf>fblsf</dodf>, mfbning
+     * no string is pbintfd.
+     * Somf look bnd fffls might not support progrfss strings
+     * or might support thfm only whfn thf progrfss bbr is in dftfrminbtf modf.
+     *
+     * @pbrbm   b       <dodf>truf</dodf> if thf progrfss bbr should rfndfr b string
+     * @sff     #isStringPbintfd
+     * @sff     #sftString
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Whfthfr thf progrfss bbr should rfndfr b string.
+     */
+    publid void sftStringPbintfd(boolfbn b) {
+        //PENDING: spfdify thbt string not pbintfd whfn in indftfrminbtf modf?
+        //         or just lfbvf thbt to thf L&F?
+        boolfbn oldVbluf = pbintString;
+        pbintString = b;
+        firfPropfrtyChbngf("stringPbintfd", oldVbluf, pbintString);
+        if (pbintString != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+
+    /**
+     * Rfturns b {@dodf String} rfprfsfntbtion of thf durrfnt progrfss.
+     * By dffbult, this rfturns b simplf pfrdfntbgf {@dodf String} bbsfd on
+     * thf vbluf rfturnfd from {@dodf gftPfrdfntComplftf}.  An fxbmplf
+     * would bf thf "42%".  You dbn dhbngf this by dblling {@dodf sftString}.
+     *
+     * @rfturn thf vbluf of thf progrfss string, or b simplf pfrdfntbgf string
+     *         if thf progrfss string is {@dodf null}
+     * @sff    #sftString
+     */
+    publid String gftString(){
+        if (progrfssString != null) {
+            rfturn progrfssString;
+        } flsf {
+            if (formbt == null) {
+                formbt = NumbfrFormbt.gftPfrdfntInstbndf();
+            }
+            rfturn formbt.formbt(nfw Doublf(gftPfrdfntComplftf()));
+        }
+    }
+
+    /**
+     * Sfts thf vbluf of thf progrfss string. By dffbult,
+     * this string is <dodf>null</dodf>, implying thf built-in bfhbvior of
+     * using b simplf pfrdfnt string.
+     * If you hbvf providfd b dustom progrfss string bnd wbnt to rfvfrt to
+     * thf built-in bfhbvior, sft thf string bbdk to <dodf>null</dodf>.
+     * <p>
+     * Thf progrfss string is pbintfd only if
+     * thf <dodf>isStringPbintfd</dodf> mfthod rfturns <dodf>truf</dodf>.
+     *
+     * @pbrbm  s       thf vbluf of thf progrfss string
+     * @sff    #gftString
+     * @sff    #sftStringPbintfd
+     * @sff    #isStringPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Spfdififs thf progrfss string to pbint
+     */
+    publid void sftString(String s){
+        String oldVbluf = progrfssString;
+        progrfssString = s;
+        firfPropfrtyChbngf("string", oldVbluf, progrfssString);
+        if (progrfssString == null || oldVbluf == null || !progrfssString.fqubls(oldVbluf)) {
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns thf pfrdfnt domplftf for thf progrfss bbr.
+     * Notf thbt this numbfr is bftwffn 0.0 bnd 1.0.
+     *
+     * @rfturn thf pfrdfnt domplftf for this progrfss bbr
+     */
+    publid doublf gftPfrdfntComplftf() {
+        long spbn = modfl.gftMbximum() - modfl.gftMinimum();
+        doublf durrfntVbluf = modfl.gftVbluf();
+        doublf pd = (durrfntVbluf - modfl.gftMinimum()) / spbn;
+        rfturn pd;
+    }
+
+    /**
+     * Rfturns thf <dodf>bordfrPbintfd</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>bordfrPbintfd</dodf> propfrty
+     * @sff    #sftBordfrPbintfd
+     * @bfbninfo
+     *  dfsdription: Dofs thf progrfss bbr pbint its bordfr
+     */
+    publid boolfbn isBordfrPbintfd() {
+        rfturn pbintBordfr;
+    }
+
+    /**
+     * Sfts thf <dodf>bordfrPbintfd</dodf> propfrty, whidh is
+     * <dodf>truf</dodf> if thf progrfss bbr should pbint its bordfr.
+     * Thf dffbult vbluf for this propfrty is <dodf>truf</dodf>.
+     * Somf look bnd fffls might not implfmfnt pbintfd bordfrs;
+     * thfy will ignorf this propfrty.
+     *
+     * @pbrbm   b       <dodf>truf</dodf> if thf progrfss bbr
+     *                  should pbint its bordfr;
+     *                  othfrwisf, <dodf>fblsf</dodf>
+     * @sff     #isBordfrPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Whfthfr thf progrfss bbr should pbint its bordfr.
+     */
+    publid void sftBordfrPbintfd(boolfbn b) {
+        boolfbn oldVbluf = pbintBordfr;
+        pbintBordfr = b;
+        firfPropfrtyChbngf("bordfrPbintfd", oldVbluf, pbintBordfr);
+        if (pbintBordfr != oldVbluf) {
+            rfpbint();
+        }
+    }
+
+    /**
+     * Pbints thf progrfss bbr's bordfr if thf <dodf>bordfrPbintfd</dodf>
+     * propfrty is <dodf>truf</dodf>.
+     *
+     * @pbrbm g  thf <dodf>Grbphids</dodf> dontfxt within whidh to pbint thf bordfr
+     * @sff #pbint
+     * @sff #sftBordfr
+     * @sff #isBordfrPbintfd
+     * @sff #sftBordfrPbintfd
+     */
+    protfdtfd void pbintBordfr(Grbphids g) {
+        if (isBordfrPbintfd()) {
+            supfr.pbintBordfr(g);
+        }
+    }
+
+
+    /**
+     * Rfturns thf look-bnd-fffl objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf <dodf>ProgrfssBbrUI</dodf> objfdt thbt rfndfrs this domponfnt
+     */
+    publid ProgrfssBbrUI gftUI() {
+        rfturn (ProgrfssBbrUI)ui;
+    }
+
+    /**
+     * Sfts thf look-bnd-fffl objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  b <dodf>ProgrfssBbrUI</dodf> objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(ProgrfssBbrUI ui) {
+        supfr.sftUI(ui);
+    }
+
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ProgrfssBbrUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf look-bnd-fffl dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "ProgrfssBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string thbt spfdififs thf nbmf of thf look-bnd-fffl dlbss.
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /* Wf pbss fbdh Chbngf fvfnt to thf listfnfrs with thf
+     * thf progrfss bbr bs thf fvfnt sourdf.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf dlbss ModflListfnfr implfmfnts ChbngfListfnfr, Sfriblizbblf {
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            firfStbtfChbngfd();
+        }
+    }
+
+    /**
+     * Subdlbssfs thbt wbnt to hbndlf dhbngf fvfnts
+     * from thf modfl difffrfntly
+     * dbn ovfrridf this to rfturn
+     * bn instbndf of b dustom <dodf>ChbngfListfnfr</dodf> implfmfntbtion.
+     * Thf dffbult {@dodf ChbngfListfnfr} simply dblls thf
+     * {@dodf firfStbtfChbngfd} mfthod to forwbrd {@dodf ChbngfEvfnt}s
+     * to thf {@dodf ChbngfListfnfr}s thbt hbvf bffn bddfd dirfdtly to thf
+     * progrfss bbr.
+     *
+     * @rfturn thf instbndf of b dustom {@dodf ChbngfListfnfr} implfmfntbtion.
+     * @sff #dhbngfListfnfr
+     * @sff #firfStbtfChbngfd
+     * @sff jbvbx.swing.fvfnt.ChbngfListfnfr
+     * @sff jbvbx.swing.BoundfdRbngfModfl
+     */
+    protfdtfd ChbngfListfnfr drfbtfChbngfListfnfr() {
+        rfturn nfw ModflListfnfr();
+    }
+
+    /**
+     * Adds thf spfdififd <dodf>ChbngfListfnfr</dodf> to thf progrfss bbr.
+     *
+     * @pbrbm l thf <dodf>ChbngfListfnfr</dodf> to bdd
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf> from thf progrfss bbr.
+     *
+     * @pbrbm l thf <dodf>ChbngfListfnfr</dodf> to rfmovf
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>ChbngfListfnfr</dodf>s bddfd
+     * to this progrfss bbr with <dodf>bddChbngfListfnfr</dodf>.
+     *
+     * @rfturn bll of thf <dodf>ChbngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+    /**
+     * Sfnd b {@dodf ChbngfEvfnt}, whosf sourdf is this {@dodf JProgrfssBbr}, to
+     * bll {@dodf ChbngfListfnfr}s thbt hbvf rfgistfrfd intfrfst in
+     * {@dodf ChbngfEvfnt}s.
+     * This mfthod is dbllfd fbdh timf b {@dodf ChbngfEvfnt} is rfdfivfd from
+     * thf modfl.
+     * <p>
+     *
+     * Thf fvfnt instbndf is drfbtfd if nfdfssbry, bnd storfd in
+     * {@dodf dhbngfEvfnt}.
+     *
+     * @sff #bddChbngfListfnfr
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ChbngfListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (dhbngfEvfnt == null)
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf dbtb modfl usfd by this progrfss bbr.
+     *
+     * @rfturn thf <dodf>BoundfdRbngfModfl</dodf> durrfntly in usf
+     * @sff #sftModfl
+     * @sff    BoundfdRbngfModfl
+     */
+    publid BoundfdRbngfModfl gftModfl() {
+        rfturn modfl;
+    }
+
+    /**
+     * Sfts thf dbtb modfl usfd by thf <dodf>JProgrfssBbr</dodf>.
+     * Notf thbt thf {@dodf BoundfdRbngfModfl}'s {@dodf fxtfnt} is not usfd,
+     * bnd is sft to {@dodf 0}.
+     *
+     * @pbrbm  nfwModfl thf <dodf>BoundfdRbngfModfl</dodf> to usf
+     *
+     * @bfbninfo
+     *    fxpfrt: truf
+     * dfsdription: Thf dbtb modfl usfd by thf JProgrfssBbr.
+     */
+    publid void sftModfl(BoundfdRbngfModfl nfwModfl) {
+        // PENDING(???) sftting thf sbmf modfl to multiplf bbrs is brokfn; listfnfrs
+        BoundfdRbngfModfl oldModfl = gftModfl();
+
+        if (nfwModfl != oldModfl) {
+            if (oldModfl != null) {
+                oldModfl.rfmovfChbngfListfnfr(dhbngfListfnfr);
+                dhbngfListfnfr = null;
+            }
+
+            modfl = nfwModfl;
+
+            if (nfwModfl != null) {
+                dhbngfListfnfr = drfbtfChbngfListfnfr();
+                nfwModfl.bddChbngfListfnfr(dhbngfListfnfr);
+            }
+
+            if (bddfssiblfContfxt != null) {
+                bddfssiblfContfxt.firfPropfrtyChbngf(
+                        AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                        (oldModfl== null
+                         ? null : Intfgfr.vblufOf(oldModfl.gftVbluf())),
+                        (nfwModfl== null
+                         ? null : Intfgfr.vblufOf(nfwModfl.gftVbluf())));
+            }
+
+            if (modfl != null) {
+                modfl.sftExtfnt(0);
+            }
+            rfpbint();
+        }
+    }
+
+
+    /* All of thf modfl mfthods brf implfmfntfd by dflfgbtion. */
+
+    /**
+     * Rfturns thf progrfss bbr's durrfnt {@dodf vbluf}
+     * from thf <dodf>BoundfdRbngfModfl</dodf>.
+     * Thf vbluf is blwbys bftwffn thf
+     * minimum bnd mbximum vblufs, indlusivf.
+     *
+     * @rfturn  thf durrfnt vbluf of thf progrfss bbr
+     * @sff     #sftVbluf
+     * @sff     BoundfdRbngfModfl#gftVbluf
+     */
+    publid int gftVbluf() { rfturn gftModfl().gftVbluf(); }
+
+    /**
+     * Rfturns thf progrfss bbr's {@dodf minimum} vbluf
+     * from thf <dodf>BoundfdRbngfModfl</dodf>.
+     *
+     * @rfturn  thf progrfss bbr's minimum vbluf
+     * @sff     #sftMinimum
+     * @sff     BoundfdRbngfModfl#gftMinimum
+     */
+    publid int gftMinimum() { rfturn gftModfl().gftMinimum(); }
+
+    /**
+     * Rfturns thf progrfss bbr's {@dodf mbximum} vbluf
+     * from thf <dodf>BoundfdRbngfModfl</dodf>.
+     *
+     * @rfturn  thf progrfss bbr's mbximum vbluf
+     * @sff     #sftMbximum
+     * @sff     BoundfdRbngfModfl#gftMbximum
+     */
+    publid int gftMbximum() { rfturn gftModfl().gftMbximum(); }
+
+    /**
+     * Sfts thf progrfss bbr's durrfnt vbluf to {@dodf n}.  This mfthod
+     * forwbrds thf nfw vbluf to thf modfl.
+     * <p>
+     * Thf dbtb modfl (bn instbndf of {@dodf BoundfdRbngfModfl})
+     * hbndlfs bny mbthfmbtidbl
+     * issufs brising from bssigning fbulty vblufs.  Sff thf
+     * {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If thf nfw vbluf is difffrfnt from thf prfvious vbluf,
+     * bll dhbngf listfnfrs brf notififd.
+     *
+     * @pbrbm   n       thf nfw vbluf
+     * @sff     #gftVbluf
+     * @sff     #bddChbngfListfnfr
+     * @sff     BoundfdRbngfModfl#sftVbluf
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Thf progrfss bbr's durrfnt vbluf.
+     */
+    publid void sftVbluf(int n) {
+        BoundfdRbngfModfl brm = gftModfl();
+        int oldVbluf = brm.gftVbluf();
+        brm.sftVbluf(n);
+
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyChbngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(brm.gftVbluf()));
+        }
+    }
+
+    /**
+     * Sfts thf progrfss bbr's minimum vbluf
+     * (storfd in thf progrfss bbr's dbtb modfl) to <dodf>n</dodf>.
+     * <p>
+     * Thf dbtb modfl (b <dodf>BoundfdRbngfModfl</dodf> instbndf)
+     * hbndlfs bny mbthfmbtidbl
+     * issufs brising from bssigning fbulty vblufs.
+     * Sff thf {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If thf minimum vbluf is difffrfnt from thf prfvious minimum,
+     * bll dhbngf listfnfrs brf notififd.
+     *
+     * @pbrbm  n       thf nfw minimum
+     * @sff    #gftMinimum
+     * @sff    #bddChbngfListfnfr
+     * @sff    BoundfdRbngfModfl#sftMinimum
+     * @bfbninfo
+     *  prfffrrfd: truf
+     * dfsdription: Thf progrfss bbr's minimum vbluf.
+     */
+    publid void sftMinimum(int n) { gftModfl().sftMinimum(n); }
+
+    /**
+     * Sfts thf progrfss bbr's mbximum vbluf
+     * (storfd in thf progrfss bbr's dbtb modfl) to <dodf>n</dodf>.
+     * <p>
+     * Thf undfrlying <dodf>BoundfdRbngfModfl</dodf> hbndlfs bny mbthfmbtidbl
+     * issufs brising from bssigning fbulty vblufs.
+     * Sff thf {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If thf mbximum vbluf is difffrfnt from thf prfvious mbximum,
+     * bll dhbngf listfnfrs brf notififd.
+     *
+     * @pbrbm  n       thf nfw mbximum
+     * @sff    #gftMbximum
+     * @sff    #bddChbngfListfnfr
+     * @sff    BoundfdRbngfModfl#sftMbximum
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Thf progrfss bbr's mbximum vbluf.
+     */
+    publid void sftMbximum(int n) { gftModfl().sftMbximum(n); }
+
+    /**
+     * Sfts thf <dodf>indftfrminbtf</dodf> propfrty of thf progrfss bbr,
+     * whidh dftfrminfs whfthfr thf progrfss bbr is in dftfrminbtf
+     * or indftfrminbtf modf.
+     * An indftfrminbtf progrfss bbr dontinuously displbys bnimbtion
+     * indidbting thbt bn opfrbtion of unknown lfngth is oddurring.
+     * By dffbult, this propfrty is <dodf>fblsf</dodf>.
+     * Somf look bnd fffls might not support indftfrminbtf progrfss bbrs;
+     * thfy will ignorf this propfrty.
+     *
+     * <p>
+     *
+     * Sff
+     * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.html" tbrgft="_top">How to Monitor Progrfss</b>
+     * for fxbmplfs of using indftfrminbtf progrfss bbrs.
+     *
+     * @pbrbm nfwVbluf  <dodf>truf</dodf> if thf progrfss bbr
+     *                  should dhbngf to indftfrminbtf modf;
+     *                  <dodf>fblsf</dodf> if it should rfvfrt to normbl.
+     *
+     * @sff #isIndftfrminbtf
+     * @sff jbvbx.swing.plbf.bbsid.BbsidProgrfssBbrUI
+     *
+     * @sindf 1.4
+     *
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Sft whfthfr thf progrfss bbr is indftfrminbtf (truf)
+     *               or normbl (fblsf).
+     */
+    publid void sftIndftfrminbtf(boolfbn nfwVbluf) {
+        boolfbn oldVbluf = indftfrminbtf;
+        indftfrminbtf = nfwVbluf;
+        firfPropfrtyChbngf("indftfrminbtf", oldVbluf, indftfrminbtf);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>indftfrminbtf</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>indftfrminbtf</dodf> propfrty
+     * @sff    #sftIndftfrminbtf
+     *
+     * @sindf 1.4
+     *
+     * @bfbninfo
+     *  dfsdription: Is thf progrfss bbr indftfrminbtf (truf)
+     *               or normbl (fblsf)?
+     */
+    publid boolfbn isIndftfrminbtf() {
+        rfturn indftfrminbtf;
+    }
+
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JProgrfssBbr</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs. Thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JProgrfssBbr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
+                                    "HORIZONTAL" : "VERTICAL");
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String progrfssStringString = (progrfssString != null ?
+                                       progrfssString : "");
+        String pbintStringString = (pbintString ?
+                                    "truf" : "fblsf");
+        String indftfrminbtfString = (indftfrminbtf ?
+                                    "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",orifntbtion=" + orifntbtionString +
+        ",pbintBordfr=" + pbintBordfrString +
+        ",pbintString=" + pbintStringString +
+        ",progrfssString=" + progrfssStringString +
+        ",indftfrminbtfString=" + indftfrminbtfString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf <dodf>AddfssiblfContfxt</dodf> bssodibtfd with this
+     * <dodf>JProgrfssBbr</dodf>. For progrfss bbrs, thf
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs thf form of bn
+     * <dodf>AddfssiblfJProgrfssBbr</dodf>.
+     * A nfw <dodf>AddfssiblfJProgrfssBbr</dodf> instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn <dodf>AddfssiblfJProgrfssBbr</dodf> thbt sfrvfs bs thf
+     *         <dodf>AddfssiblfContfxt</dodf> of this <dodf>JProgrfssBbr</dodf>
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this ProgrfssBbr.
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJProgrfssBbr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JProgrfssBbr</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to progrfss bbr usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJProgrfssBbr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
+
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining thf durrfnt stbtf
+         * of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftModfl().gftVblufIsAdjusting()) {
+                stbtfs.bdd(AddfssiblfStbtf.BUSY);
+            }
+            if (gftOrifntbtion() == VERTICAL) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
+            }
+            rfturn stbtfs;
+        }
+
+        /**
+         * Gfts thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PROGRESS_BAR;
+        }
+
+        /**
+         * Gfts thf <dodf>AddfssiblfVbluf</dodf> bssodibtfd with this objfdt.  In thf
+         * implfmfntbtion of thf Jbvb Addfssibility API for this dlbss,
+         * rfturns this objfdt, whidh is rfsponsiblf for implfmfnting thf
+         * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn this;
+        }
+
+        /**
+         * Gfts thf bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn thf durrfnt vbluf of this objfdt
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftVbluf());
+        }
+
+        /**
+         * Sfts thf vbluf of this objfdt bs b <dodf>Numbfr</dodf>.
+         *
+         * @rfturn <dodf>truf</dodf> if thf vbluf wbs sft
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            // TIGER- 4422535
+            if (n == null) {
+                rfturn fblsf;
+            }
+            sftVbluf(n.intVbluf());
+            rfturn truf;
+        }
+
+        /**
+         * Gfts thf minimum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn thf minimum vbluf of this objfdt
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMinimum());
+        }
+
+        /**
+         * Gfts thf mbximum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn thf mbximum vbluf of this objfdt
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            // TIGER - 4422362
+            rfturn Intfgfr.vblufOf(modfl.gftMbximum() - modfl.gftExtfnt());
+        }
+
+    } // AddfssiblfJProgrfssBbr
+}

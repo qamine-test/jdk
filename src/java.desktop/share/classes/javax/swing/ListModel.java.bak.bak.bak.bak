@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.fvfnt.ListDbtbListfnfr;
+
+/**
+ * This intfrfbdf dffinfs thf mfthods domponfnts likf JList usf
+ * to gft thf vbluf of fbdh dfll in b list bnd thf lfngth of thf list.
+ * Logidblly thf modfl is b vfdtor, indidfs vbry from 0 to
+ * ListDbtbModfl.gftSizf() - 1.  Any dhbngf to thf dontfnts or
+ * lfngth of thf dbtb modfl must bf rfportfd to bll of thf
+ * ListDbtbListfnfrs.
+ *
+ * @pbrbm <E> thf typf of thf flfmfnts of this modfl
+ *
+ * @buthor Hbns Mullfr
+ * @sff JList
+ * @sindf 1.2
+ */
+publid intfrfbdf ListModfl<E>
+{
+  /**
+   * Rfturns thf lfngth of thf list.
+   * @rfturn thf lfngth of thf list
+   */
+  int gftSizf();
+
+  /**
+   * Rfturns thf vbluf bt thf spfdififd indfx.
+   * @pbrbm indfx thf rfqufstfd indfx
+   * @rfturn thf vbluf bt <dodf>indfx</dodf>
+   */
+  E gftElfmfntAt(int indfx);
+
+  /**
+   * Adds b listfnfr to thf list thbt's notififd fbdh timf b dhbngf
+   * to thf dbtb modfl oddurs.
+   * @pbrbm l thf <dodf>ListDbtbListfnfr</dodf> to bf bddfd
+   */
+  void bddListDbtbListfnfr(ListDbtbListfnfr l);
+
+  /**
+   * Rfmovfs b listfnfr from thf list thbt's notififd fbdh timf b
+   * dhbngf to thf dbtb modfl oddurs.
+   * @pbrbm l thf <dodf>ListDbtbListfnfr</dodf> to bf rfmovfd
+   */
+  void rfmovfListDbtbListfnfr(ListDbtbListfnfr l);
+}

@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
+pbdkbgf sun.nft.www;
 
-import java.net.URL;
-import java.util.*;
+import jbvb.nft.URL;
+import jbvb.util.*;
 
 /**
- * A class to represent an active connection to an object
- * represented by a URL.
- * @author  James Gosling
+ * A dlbss to rfprfsfnt bn bdtivf donnfdtion to bn objfdt
+ * rfprfsfntfd by b URL.
+ * @butior  Jbmfs Gosling
  */
 
-abstract public class URLConnection extends java.net.URLConnection {
+bbstrbdt publid dlbss URLConnfdtion fxtfnds jbvb.nft.URLConnfdtion {
 
-    /** The URL that it is connected to */
+    /** Tif URL tibt it is donnfdtfd to */
 
-    private String contentType;
-    private int contentLength = -1;
+    privbtf String dontfntTypf;
+    privbtf int dontfntLfngti = -1;
 
-    protected MessageHeader properties;
+    protfdtfd MfssbgfHfbdfr propfrtifs;
 
-    /** Create a URLConnection object.  These should not be created directly:
-        instead they should be created by protocol handers in response to
-        URL.openConnection.
-        @param  u       The URL that this connects to.
+    /** Crfbtf b URLConnfdtion objfdt.  Tifsf siould not bf drfbtfd dirfdtly:
+        instfbd tify siould bf drfbtfd by protodol ibndfrs in rfsponsf to
+        URL.opfnConnfdtion.
+        @pbrbm  u       Tif URL tibt tiis donnfdts to.
      */
-    public URLConnection (URL u) {
-        super(u);
-        properties = new MessageHeader();
+    publid URLConnfdtion (URL u) {
+        supfr(u);
+        propfrtifs = nfw MfssbgfHfbdfr();
     }
 
-    /** Call this routine to get the property list for this object.
-     * Properties (like content-type) that have explicit getXX() methods
-     * associated with them should be accessed using those methods.  */
-    public MessageHeader getProperties() {
-        return properties;
+    /** Cbll tiis routinf to gft tif propfrty list for tiis objfdt.
+     * Propfrtifs (likf dontfnt-typf) tibt ibvf fxplidit gftXX() mftiods
+     * bssodibtfd witi tifm siould bf bddfssfd using tiosf mftiods.  */
+    publid MfssbgfHfbdfr gftPropfrtifs() {
+        rfturn propfrtifs;
     }
 
-    /** Call this routine to set the property list for this object. */
-    public void setProperties(MessageHeader properties) {
-        this.properties = properties;
+    /** Cbll tiis routinf to sft tif propfrty list for tiis objfdt. */
+    publid void sftPropfrtifs(MfssbgfHfbdfr propfrtifs) {
+        tiis.propfrtifs = propfrtifs;
     }
 
-    public void setRequestProperty(String key, String value) {
-        if(connected)
-            throw new IllegalAccessError("Already connected");
-        if (key == null)
-            throw new NullPointerException ("key cannot be null");
-        properties.set(key, value);
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        if(donnfdtfd)
+            tirow nfw IllfgblAddfssError("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            tirow nfw NullPointfrExdfption ("kfy dbnnot bf null");
+        propfrtifs.sft(kfy, vbluf);
     }
 
     /**
-     * The following three methods addRequestProperty, getRequestProperty,
-     * and getRequestProperties were copied from the superclass implementation
-     * before it was changed by CR:6230836, to maintain backward compatibility.
+     * Tif following tirff mftiods bddRfqufstPropfrty, gftRfqufstPropfrty,
+     * bnd gftRfqufstPropfrtifs wfrf dopifd from tif supfrdlbss implfmfntbtion
+     * bfforf it wbs dibngfd by CR:6230836, to mbintbin bbdkwbrd dompbtibility.
      */
-    public void addRequestProperty(String key, String value) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        if (key == null)
-            throw new NullPointerException ("key is null");
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            tirow nfw NullPointfrExdfption ("kfy is null");
     }
 
-    public String getRequestProperty(String key) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        return null;
+    publid String gftRfqufstPropfrty(String kfy) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        rfturn null;
     }
 
-    public Map<String,List<String>> getRequestProperties() {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        return Collections.emptyMap();
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        rfturn Collfdtions.fmptyMbp();
     }
 
-    public String getHeaderField(String name) {
+    publid String gftHfbdfrFifld(String nbmf) {
         try {
-            getInputStream();
-        } catch (Exception e) {
-            return null;
+            gftInputStrfbm();
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
-        return properties == null ? null : properties.findValue(name);
+        rfturn propfrtifs == null ? null : propfrtifs.findVbluf(nbmf);
     }
 
     /**
-     * Return the key for the nth header field. Returns null if
-     * there are fewer than n fields.  This can be used to iterate
-     * through all the headers in the message.
+     * Rfturn tif kfy for tif nti ifbdfr fifld. Rfturns null if
+     * tifrf brf ffwfr tibn n fiflds.  Tiis dbn bf usfd to itfrbtf
+     * tirougi bll tif ifbdfrs in tif mfssbgf.
      */
-    public String getHeaderFieldKey(int n) {
+    publid String gftHfbdfrFifldKfy(int n) {
         try {
-            getInputStream();
-        } catch (Exception e) {
-            return null;
+            gftInputStrfbm();
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
-        MessageHeader props = properties;
-        return props == null ? null : props.getKey(n);
+        MfssbgfHfbdfr props = propfrtifs;
+        rfturn props == null ? null : props.gftKfy(n);
     }
 
     /**
-     * Return the value for the nth header field. Returns null if
-     * there are fewer than n fields.  This can be used in conjunction
-     * with getHeaderFieldKey to iterate through all the headers in the message.
+     * Rfturn tif vbluf for tif nti ifbdfr fifld. Rfturns null if
+     * tifrf brf ffwfr tibn n fiflds.  Tiis dbn bf usfd in donjundtion
+     * witi gftHfbdfrFifldKfy to itfrbtf tirougi bll tif ifbdfrs in tif mfssbgf.
      */
-    public String getHeaderField(int n) {
+    publid String gftHfbdfrFifld(int n) {
         try {
-            getInputStream();
-        } catch (Exception e) {
-            return null;
+            gftInputStrfbm();
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
-        MessageHeader props = properties;
-        return props == null ? null : props.getValue(n);
+        MfssbgfHfbdfr props = propfrtifs;
+        rfturn props == null ? null : props.gftVbluf(n);
     }
 
-    /** Call this routine to get the content-type associated with this
-     * object.
+    /** Cbll tiis routinf to gft tif dontfnt-typf bssodibtfd witi tiis
+     * objfdt.
      */
-    public String getContentType() {
-        if (contentType == null)
-            contentType = getHeaderField("content-type");
-        if (contentType == null) {
-            String ct = null;
+    publid String gftContfntTypf() {
+        if (dontfntTypf == null)
+            dontfntTypf = gftHfbdfrFifld("dontfnt-typf");
+        if (dontfntTypf == null) {
+            String dt = null;
             try {
-                ct = guessContentTypeFromStream(getInputStream());
-            } catch(java.io.IOException e) {
+                dt = gufssContfntTypfFromStrfbm(gftInputStrfbm());
+            } dbtdi(jbvb.io.IOExdfption f) {
             }
-            String ce = properties.findValue("content-encoding");
-            if (ct == null) {
-                ct = properties.findValue("content-type");
+            String df = propfrtifs.findVbluf("dontfnt-fndoding");
+            if (dt == null) {
+                dt = propfrtifs.findVbluf("dontfnt-typf");
 
-                if (ct == null)
-                    if (url.getFile().endsWith("/"))
-                        ct = "text/html";
-                    else
-                        ct = guessContentTypeFromName(url.getFile());
+                if (dt == null)
+                    if (url.gftFilf().fndsWiti("/"))
+                        dt = "tfxt/itml";
+                    flsf
+                        dt = gufssContfntTypfFromNbmf(url.gftFilf());
             }
 
             /*
-             * If the Mime header had a Content-encoding field and its value
-             * was not one of the values that essentially indicate no
-             * encoding, we force the content type to be unknown. This will
-             * cause a save dialog to be presented to the user.  It is not
-             * ideal but is better than what we were previously doing, namely
-             * bringing up an image tool for compressed tar files.
+             * If tif Mimf ifbdfr ibd b Contfnt-fndoding fifld bnd its vbluf
+             * wbs not onf of tif vblufs tibt fssfntiblly indidbtf no
+             * fndoding, wf fordf tif dontfnt typf to bf unknown. Tiis will
+             * dbusf b sbvf diblog to bf prfsfntfd to tif usfr.  It is not
+             * idfbl but is bfttfr tibn wibt wf wfrf prfviously doing, nbmfly
+             * bringing up bn imbgf tool for domprfssfd tbr filfs.
              */
 
-            if (ct == null || ce != null &&
-                    !(ce.equalsIgnoreCase("7bit")
-                      || ce.equalsIgnoreCase("8bit")
-                      || ce.equalsIgnoreCase("binary")))
-                ct = "content/unknown";
-            setContentType(ct);
+            if (dt == null || df != null &&
+                    !(df.fqublsIgnorfCbsf("7bit")
+                      || df.fqublsIgnorfCbsf("8bit")
+                      || df.fqublsIgnorfCbsf("binbry")))
+                dt = "dontfnt/unknown";
+            sftContfntTypf(dt);
         }
-        return contentType;
+        rfturn dontfntTypf;
     }
 
     /**
-     * Set the content type of this URL to a specific value.
-     * @param   type    The content type to use.  One of the
-     *                  content_* static variables in this
-     *                  class should be used.
-     *                  eg. setType(URL.content_html);
+     * Sft tif dontfnt typf of tiis URL to b spfdifid vbluf.
+     * @pbrbm   typf    Tif dontfnt typf to usf.  Onf of tif
+     *                  dontfnt_* stbtid vbribblfs in tiis
+     *                  dlbss siould bf usfd.
+     *                  fg. sftTypf(URL.dontfnt_itml);
      */
-    public void setContentType(String type) {
-        contentType = type;
-        properties.set("content-type", type);
+    publid void sftContfntTypf(String typf) {
+        dontfntTypf = typf;
+        propfrtifs.sft("dontfnt-typf", typf);
     }
 
-    /** Call this routine to get the content-length associated with this
-     * object.
+    /** Cbll tiis routinf to gft tif dontfnt-lfngti bssodibtfd witi tiis
+     * objfdt.
      */
-    public int getContentLength() {
+    publid int gftContfntLfngti() {
         try {
-            getInputStream();
-        } catch (Exception e) {
-            return -1;
+            gftInputStrfbm();
+        } dbtdi (Exdfption f) {
+            rfturn -1;
         }
-        int l = contentLength;
+        int l = dontfntLfngti;
         if (l < 0) {
             try {
-                l = Integer.parseInt(properties.findValue("content-length"));
-                setContentLength(l);
-            } catch(Exception e) {
+                l = Intfgfr.pbrsfInt(propfrtifs.findVbluf("dontfnt-lfngti"));
+                sftContfntLfngti(l);
+            } dbtdi(Exdfption f) {
             }
         }
-        return l;
+        rfturn l;
     }
 
-    /** Call this routine to set the content-length associated with this
-     * object.
+    /** Cbll tiis routinf to sft tif dontfnt-lfngti bssodibtfd witi tiis
+     * objfdt.
      */
-    protected void setContentLength(int length) {
-        contentLength = length;
-        properties.set("content-length", String.valueOf(length));
+    protfdtfd void sftContfntLfngti(int lfngti) {
+        dontfntLfngti = lfngti;
+        propfrtifs.sft("dontfnt-lfngti", String.vblufOf(lfngti));
     }
 
     /**
-     * Returns true if the data associated with this URL can be cached.
+     * Rfturns truf if tif dbtb bssodibtfd witi tiis URL dbn bf dbdifd.
      */
-    public boolean canCache() {
-        return url.getFile().indexOf('?') < 0   /* && url.postData == null
+    publid boolfbn dbnCbdif() {
+        rfturn url.gftFilf().indfxOf('?') < 0   /* && url.postDbtb == null
                 REMIND */ ;
     }
 
     /**
-     * Call this to close the connection and flush any remaining data.
-     * Overriders must remember to call super.close()
+     * Cbll tiis to dlosf tif donnfdtion bnd flusi bny rfmbining dbtb.
+     * Ovfrridfrs must rfmfmbfr to dbll supfr.dlosf()
      */
-    public void close() {
+    publid void dlosf() {
         url = null;
     }
 
-    private static HashMap<String,Void> proxiedHosts = new HashMap<>();
+    privbtf stbtid HbsiMbp<String,Void> proxifdHosts = nfw HbsiMbp<>();
 
-    public synchronized static void setProxiedHost(String host) {
-        proxiedHosts.put(host.toLowerCase(), null);
+    publid syndironizfd stbtid void sftProxifdHost(String iost) {
+        proxifdHosts.put(iost.toLowfrCbsf(), null);
     }
 
-    public synchronized static boolean isProxiedHost(String host) {
-        return proxiedHosts.containsKey(host.toLowerCase());
+    publid syndironizfd stbtid boolfbn isProxifdHost(String iost) {
+        rfturn proxifdHosts.dontbinsKfy(iost.toLowfrCbsf());
     }
 }

@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss HbshPrintJobAttributfSft providfs bn bttributf sft
+ * whidh inhfrits its implfmfntbtion from dlbss {@link HbshAttributfSft
+ * HbshAttributfSft} bnd fnfordfs thf sfmbntid rfstridtions of intfrfbdf
+ * {@link PrintJobAttributfSft PrintJobAttributfSft}.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss HbshPrintJobAttributfSft fxtfnds HbshAttributfSft
+    implfmfnts PrintJobAttributfSft, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4204473656070350348L;
+
+    /**
+     * Construdt b nfw, fmpty hbsh print job bttributf sft.
+     */
+    publid HbshPrintJobAttributfSft() {
+        supfr(PrintJobAttributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw hbsh print job bttributf sft,
+     * initiblly populbtfd with thf givfn vbluf.
+     *
+     * @pbrbm  bttributf  Attributf vbluf to bdd to thf sft.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>bttributf</CODE> is null.
+     */
+    publid HbshPrintJobAttributfSft(PrintJobAttributf bttributf) {
+        supfr(bttributf, PrintJobAttributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw hbsh print job bttributf sft,
+     * initiblly populbtfd with thf vblufs from thf givfn brrby.
+     * Thf nfw bttributf sft is populbtfd
+     * by bdding thf flfmfnts of <CODE>bttributfs</CODE> brrby to thf sft in
+     * sfqufndf, stbrting bt indfx 0. Thus, lbtfr brrby flfmfnts mby rfplbdf
+     * fbrlifr brrby flfmfnts if thf brrby dontbins duplidbtf bttributf
+     * vblufs or bttributf dbtfgorifs.
+     *
+     * @pbrbm  bttributfs Arrby of bttributf vblufs to bdd to thf sft.
+     *                    If null, bn fmpty bttributf sft is donstrudtfd.
+     *
+     * @fxdfption  NullPointfrExdfption (undhfdkfd fxdfption)
+     * Thrown if bny flfmfnt of <CODE>bttributfs</CODE>  is null.
+     */
+    publid HbshPrintJobAttributfSft(PrintJobAttributf[] bttributfs) {
+        supfr (bttributfs, PrintJobAttributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw bttributf sft, initiblly populbtfd with thf
+     * vblufs from thf  givfn sft whfrf thf mfmbfrs of thf bttributf sft
+     * brf rfstridtfd to thf <dodf>PrintJobAttributf</dodf> intfrfbdf.
+     *
+     * @pbrbm  bttributfs sft of bttributf vblufs to initiblisf thf sft. If
+     *                    null, bn fmpty bttributf sft is donstrudtfd.
+     *
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is not bn instbndf of
+     * <CODE>PrintJobAttributf</CODE>.
+     */
+    publid HbshPrintJobAttributfSft(PrintJobAttributfSft bttributfs) {
+        supfr(bttributfs, PrintJobAttributf.dlbss);
+    }
+}

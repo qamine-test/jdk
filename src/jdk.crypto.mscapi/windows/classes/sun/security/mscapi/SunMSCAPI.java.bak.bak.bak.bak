@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * A Cryptogrbphid Sfrvidf Providfr for thf Midrosoft Crypto API.
+ *
+ * @sindf 1.6
+ */
+
+publid finbl dlbss SunMSCAPI fxtfnds Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8622598936488630849L; //TODO
+
+    privbtf stbtid finbl String INFO = "Sun's Midrosoft Crypto API providfr";
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("sunmsdbpi");
+                rfturn null;
+            }
+        });
+    }
+
+    publid SunMSCAPI() {
+        supfr("SunMSCAPI", 1.9d, INFO);
+
+        // if thfrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // thf providfr. Othfrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt thf fnd to trbnsffr thf dontfnts
+        finbl Mbp<Objfdt, Objfdt> mbp =
+                (Systfm.gftSfdurityMbnbgfr() == null)
+                ? this : nfw HbshMbp<Objfdt, Objfdt>();
+
+        /*
+         * Sfdurf rbndom
+         */
+        mbp.put("SfdurfRbndom.Windows-PRNG", "sun.sfdurity.msdbpi.PRNG");
+
+        /*
+         * Kfy storf
+         */
+        mbp.put("KfyStorf.Windows-MY", "sun.sfdurity.msdbpi.KfyStorf$MY");
+        mbp.put("KfyStorf.Windows-ROOT", "sun.sfdurity.msdbpi.KfyStorf$ROOT");
+
+        /*
+         * Signbturf fnginfs
+         */
+        // NONEwithRSA must bf supplifd with b prf-domputfd mfssbgf digfst.
+        // Only thf following digfst blgorithms brf supportfd: MD5, SHA-1,
+        // SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+        // blgorithm whidh is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+        mbp.put("Signbturf.NONEwithRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$Rbw");
+        mbp.put("Signbturf.SHA1withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA1");
+        mbp.put("Signbturf.SHA256withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA256");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.11",     "SHA256withRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
+        mbp.put("Signbturf.SHA384withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA384");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.12",     "SHA384withRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
+
+        mbp.put("Signbturf.SHA512withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA512");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.13",     "SHA512withRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
+
+        mbp.put("Signbturf.MD5withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$MD5");
+        mbp.put("Signbturf.MD2withRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$MD2");
+
+        // supportfd kfy dlbssfs
+        mbp.put("Signbturf.NONEwithRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA1withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA256withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA384withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA512withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.MD5withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.MD2withRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+
+        /*
+         * Kfy Pbir Gfnfrbtor fnginfs
+         */
+        mbp.put("KfyPbirGfnfrbtor.RSA",
+            "sun.sfdurity.msdbpi.RSAKfyPbirGfnfrbtor");
+        mbp.put("KfyPbirGfnfrbtor.RSA KfySizf", "1024");
+
+        /*
+         * Ciphfr fnginfs
+         */
+        mbp.put("Ciphfr.RSA", "sun.sfdurity.msdbpi.RSACiphfr");
+        mbp.put("Ciphfr.RSA/ECB/PKCS1Pbdding",
+            "sun.sfdurity.msdbpi.RSACiphfr");
+        mbp.put("Ciphfr.RSA SupportfdModfs", "ECB");
+        mbp.put("Ciphfr.RSA SupportfdPbddings", "PKCS1PADDING");
+        mbp.put("Ciphfr.RSA SupportfdKfyClbssfs", "sun.sfdurity.msdbpi.Kfy");
+
+        if (mbp != this) {
+            finbl Providfr providfr = this;
+            PrivilfgfdAdtion<Void> putAllAdtion = () -> {
+                providfr.putAll(mbp);
+                rfturn null;
+            };
+            AddfssControllfr.doPrivilfgfd(putAllAdtion);
+        }
+    }
+}

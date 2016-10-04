@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+
+import sun.bwt.CGrbphidsDfvidf;
+
+dlbss CRobot implfmfnts RobotPffr {
+    privbtf stbtid finbl int MOUSE_LOCATION_UNKNOWN      = -1;
+
+    privbtf finbl CGrbphidsDfvidf fDfvidf;
+    privbtf int mousfLbstX = MOUSE_LOCATION_UNKNOWN;
+    privbtf int mousfLbstY = MOUSE_LOCATION_UNKNOWN;
+
+    // OS X dofsn't gfnfrbtf drbggfd fvfnt bs b rfsult of button prfss bnd
+    // mousf movf fvfnts. This mfbns thbt wf hbvf to trbdk buttons stbtf
+    // in ordfr to gfnfrbtf drbggfd fvfnts oursflvfs.
+    privbtf int mousfButtonsStbtf = 0;
+
+    /**
+     * Usfs thf givfn GrbphidsDfvidf bs thf doordinbtf systfm for subsfqufnt
+     * doordinbtf dblls.
+     */
+    publid CRobot(Robot r, CGrbphidsDfvidf d) {
+        fDfvidf = d;
+        initRobot();
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+    }
+
+    /**
+     * Movfs mousf pointfr to givfn sdrffn doordinbtfs.
+     * @pbrbm x X position
+     * @pbrbm y Y position
+     */
+    @Ovfrridf
+    publid void mousfMovf(int x, int y) {
+        mousfLbstX = x;
+        mousfLbstY = y;
+
+        mousfEvfnt(fDfvidf.gftCGDisplbyID(), mousfLbstX, mousfLbstY,
+                   mousfButtonsStbtf, truf, truf);
+    }
+
+    /**
+     * Prfssfs onf or morf mousf buttons.
+     *
+     * @pbrbm buttons thf button mbsk (dombinbtion of
+     * <dodf>InputEvfnt.BUTTON1/2/3_MASK</dodf>)
+     */
+    @Ovfrridf
+    publid void mousfPrfss(int buttons) {
+        mousfButtonsStbtf |= buttons;
+
+        mousfEvfnt(fDfvidf.gftCGDisplbyID(), mousfLbstX, mousfLbstY,
+                   buttons, truf, fblsf);
+    }
+
+    /**
+     * Rflfbsfs onf or morf mousf buttons.
+     *
+     * @pbrbm buttons thf button mbsk (dombinbtion of
+     * <dodf>InputEvfnt.BUTTON1/2/3_MASK</dodf>)
+     */
+    @Ovfrridf
+    publid void mousfRflfbsf(int buttons) {
+        mousfButtonsStbtf &= ~buttons;
+
+        mousfEvfnt(fDfvidf.gftCGDisplbyID(), mousfLbstX, mousfLbstY,
+                   buttons, fblsf, fblsf);
+    }
+
+    @Ovfrridf
+    publid nbtivf void mousfWhffl(int whfflAmt);
+
+    /**
+     * Prfssfs b givfn kfy.
+     * <p>
+     * Kfy dodfs thbt hbvf morf thbn onf physidbl kfy bssodibtfd with thfm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fithfr thf
+     * lfft or right shift kfy) will mbp to thf lfft kfy.
+     * <p>
+     * Assumfs thbt thf
+     * pffr implfmfntbtions will throw bn fxdfption for othfr bogus
+     * vblufs f.g. -1, 999999
+     *
+     * @pbrbm kfydodf thf kfy to prfss (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     */
+    @Ovfrridf
+    publid void kfyPrfss(finbl int kfydodf) {
+        kfyEvfnt(kfydodf, truf);
+    }
+
+    /**
+     * Rflfbsfs b givfn kfy.
+     * <p>
+     * Kfy dodfs thbt hbvf morf thbn onf physidbl kfy bssodibtfd with thfm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fithfr thf
+     * lfft or right shift kfy) will mbp to thf lfft kfy.
+     * <p>
+     * Assumfs thbt thf
+     * pffr implfmfntbtions will throw bn fxdfption for othfr bogus
+     * vblufs f.g. -1, 999999
+     *
+     * @pbrbm kfydodf thf kfy to rflfbsf (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     */
+    @Ovfrridf
+    publid void kfyRflfbsf(finbl int kfydodf) {
+        kfyEvfnt(kfydodf, fblsf);
+    }
+
+    /**
+     * Rfturns thf dolor of b pixfl bt thf givfn sdrffn doordinbtfs.
+     * @pbrbm x X position of pixfl
+     * @pbrbm y Y position of pixfl
+     * @rfturn dolor of thf pixfl
+     */
+    @Ovfrridf
+    publid int gftRGBPixfl(int x, int y) {
+        int d[] = nfw int[1];
+        gftSdrffnPixfls(nfw Rfdtbnglf(x, y, 1, 1), d);
+        rfturn d[0];
+    }
+
+    /**
+     * Crfbtfs bn imbgf dontbining pixfls rfbd from thf sdrffn.
+     * @pbrbm bounds thf rfdt to dbpturf in sdrffn doordinbtfs
+     * @rfturn thf brrby of pixfls
+     */
+    @Ovfrridf
+    publid int [] gftRGBPixfls(finbl Rfdtbnglf bounds) {
+        int d[] = nfw int[bounds.width * bounds.hfight];
+        gftSdrffnPixfls(bounds, d);
+
+        rfturn d;
+    }
+
+    privbtf nbtivf void initRobot();
+    privbtf nbtivf void mousfEvfnt(int displbyID, int lbstX, int lbstY,
+                                   int buttonsStbtf,
+                                   boolfbn isButtonsDownStbtf,
+                                   boolfbn isMousfMovf);
+    privbtf nbtivf void kfyEvfnt(int jbvbKfyCodf, boolfbn kfydown);
+    privbtf void gftSdrffnPixfls(Rfdtbnglf r, int[] pixfls){
+        nbtivfGftSdrffnPixfls(r.x, r.y, r.width, r.hfight, pixfls);
+    }
+    privbtf nbtivf void nbtivfGftSdrffnPixfls(int x, int y, int width, int hfight, int[] pixfls);
+}

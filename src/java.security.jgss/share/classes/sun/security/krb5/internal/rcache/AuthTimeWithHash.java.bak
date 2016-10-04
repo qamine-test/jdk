@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5.internal.rcache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
 
-import java.util.Objects;
+import jbvb.util.Objfdts;
 
 /**
- * The class represents a new style replay cache entry. It can be either used
- * inside memory or in a dfl file.
+ * Tif dlbss rfprfsfnts b nfw stylf rfplby dbdif fntry. It dbn bf fitifr usfd
+ * insidf mfmory or in b dfl filf.
  */
-public class AuthTimeWithHash extends AuthTime
-        implements Comparable<AuthTimeWithHash> {
+publid dlbss AutiTimfWitiHbsi fxtfnds AutiTimf
+        implfmfnts Compbrbblf<AutiTimfWitiHbsi> {
 
-    final String hash;
-
-    /**
-     * Constructs a new <code>AuthTimeWithHash</code>.
-     */
-    public AuthTimeWithHash(String client, String server,
-            int ctime, int cusec, String hash) {
-        super(client, server, ctime, cusec);
-        this.hash = hash;
-    }
+    finbl String ibsi;
 
     /**
-     * Compares if an object equals to an <code>AuthTimeWithHash</code> object.
-     * @param o an object.
-     * @return true if two objects are equivalent, otherwise, return false.
+     * Construdts b nfw <dodf>AutiTimfWitiHbsi</dodf>.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AuthTimeWithHash)) return false;
-        AuthTimeWithHash that = (AuthTimeWithHash)o;
-        return Objects.equals(hash, that.hash)
-                && Objects.equals(client, that.client)
-                && Objects.equals(server, that.server)
-                && ctime == that.ctime
-                && cusec == that.cusec;
+    publid AutiTimfWitiHbsi(String dlifnt, String sfrvfr,
+            int dtimf, int dusfd, String ibsi) {
+        supfr(dlifnt, sfrvfr, dtimf, dusfd);
+        tiis.ibsi = ibsi;
     }
 
     /**
-     * Returns a hash code for this <code>AuthTimeWithHash</code> object.
+     * Compbrfs if bn objfdt fqubls to bn <dodf>AutiTimfWitiHbsi</dodf> objfdt.
+     * @pbrbm o bn objfdt.
+     * @rfturn truf if two objfdts brf fquivblfnt, otifrwisf, rfturn fblsf.
      */
-    @Override
-    public int hashCode() {
-        return Objects.hash(hash);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) rfturn truf;
+        if (!(o instbndfof AutiTimfWitiHbsi)) rfturn fblsf;
+        AutiTimfWitiHbsi tibt = (AutiTimfWitiHbsi)o;
+        rfturn Objfdts.fqubls(ibsi, tibt.ibsi)
+                && Objfdts.fqubls(dlifnt, tibt.dlifnt)
+                && Objfdts.fqubls(sfrvfr, tibt.sfrvfr)
+                && dtimf == tibt.dtimf
+                && dusfd == tibt.dusfd;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%d/%06d/%s/%s", ctime, cusec, hash, client);
+    /**
+     * Rfturns b ibsi dodf for tiis <dodf>AutiTimfWitiHbsi</dodf> objfdt.
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(ibsi);
     }
 
-    @Override
-    public int compareTo(AuthTimeWithHash other) {
-        int cmp = 0;
-        if (ctime != other.ctime) {
-            cmp = Integer.compare(ctime, other.ctime);
-        } else if (cusec != other.cusec) {
-            cmp = Integer.compare(cusec, other.cusec);
-        } else {
-            cmp = hash.compareTo(other.hash);
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt("%d/%06d/%s/%s", dtimf, dusfd, ibsi, dlifnt);
+    }
+
+    @Ovfrridf
+    publid int dompbrfTo(AutiTimfWitiHbsi otifr) {
+        int dmp = 0;
+        if (dtimf != otifr.dtimf) {
+            dmp = Intfgfr.dompbrf(dtimf, otifr.dtimf);
+        } flsf if (dusfd != otifr.dusfd) {
+            dmp = Intfgfr.dompbrf(dusfd, otifr.dusfd);
+        } flsf {
+            dmp = ibsi.dompbrfTo(otifr.ibsi);
         }
-        return cmp;
+        rfturn dmp;
     }
 
     /**
-     * Compares with a possibly old style object. Used
-     * in DflCache$Storage#loadAndCheck.
-     * @return true if all AuthTime fields are the same
+     * Compbrfs witi b possibly old stylf objfdt. Usfd
+     * in DflCbdif$Storbgf#lobdAndCifdk.
+     * @rfturn truf if bll AutiTimf fiflds brf tif sbmf
      */
-    public boolean isSameIgnoresHash(AuthTime old) {
-        return  client.equals(old.client) &&
-                server.equals(old.server) &&
-                ctime == old.ctime &&
-                cusec == old.cusec;
+    publid boolfbn isSbmfIgnorfsHbsi(AutiTimf old) {
+        rfturn  dlifnt.fqubls(old.dlifnt) &&
+                sfrvfr.fqubls(old.sfrvfr) &&
+                dtimf == old.dtimf &&
+                dusfd == old.dusfd;
     }
 
-    // Methods used when saved in a dfl file. See DflCache.java
+    // Mftiods usfd wifn sbvfd in b dfl filf. Sff DflCbdif.jbvb
 
     /**
-     * Encodes to be used in a dfl file
-     * @param withHash write new style if true
+     * Endodfs to bf usfd in b dfl filf
+     * @pbrbm witiHbsi writf nfw stylf if truf
      */
-    @Override
-    public byte[] encode(boolean withHash) {
-        String cstring;
+    @Ovfrridf
+    publid bytf[] fndodf(boolfbn witiHbsi) {
+        String dstring;
         String sstring;
-        if (withHash) {
-            cstring = "";
-            sstring = String.format("HASH:%s %d:%s %d:%s", hash,
-                    client.length(), client,
-                    server.length(), server);
-        } else {
-            cstring = client;
-            sstring = server;
+        if (witiHbsi) {
+            dstring = "";
+            sstring = String.formbt("HASH:%s %d:%s %d:%s", ibsi,
+                    dlifnt.lfngti(), dlifnt,
+                    sfrvfr.lfngti(), sfrvfr);
+        } flsf {
+            dstring = dlifnt;
+            sstring = sfrvfr;
         }
-        return encode0(cstring, sstring);
+        rfturn fndodf0(dstring, sstring);
     }
 }

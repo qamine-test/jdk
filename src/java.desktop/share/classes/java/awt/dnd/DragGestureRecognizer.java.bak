@@ -1,479 +1,479 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.event.InputEvent;
-import java.awt.Component;
-import java.awt.Point;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
 
-import java.io.InvalidObjectException;
-import java.util.Collections;
-import java.util.TooManyListenersException;
-import java.util.ArrayList;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.TooMbnyListfnfrsExdfption;
+import jbvb.util.ArrbyList;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The <code>DragGestureRecognizer</code> is an
- * abstract base class for the specification
- * of a platform-dependent listener that can be associated with a particular
- * <code>Component</code> in order to
- * identify platform-dependent drag initiating gestures.
+ * Tif <dodf>DrbgGfsturfRfdognizfr</dodf> is bn
+ * bbstrbdt bbsf dlbss for tif spfdifidbtion
+ * of b plbtform-dfpfndfnt listfnfr tibt dbn bf bssodibtfd witi b pbrtidulbr
+ * <dodf>Componfnt</dodf> in ordfr to
+ * idfntify plbtform-dfpfndfnt drbg initibting gfsturfs.
  * <p>
- * The appropriate <code>DragGestureRecognizer</code>
- * subclass instance is obtained from the
- * {@link DragSource} associated with
- * a particular <code>Component</code>, or from the <code>Toolkit</code> object via its
- * {@link java.awt.Toolkit#createDragGestureRecognizer createDragGestureRecognizer()}
- * method.
+ * Tif bppropribtf <dodf>DrbgGfsturfRfdognizfr</dodf>
+ * subdlbss instbndf is obtbinfd from tif
+ * {@link DrbgSourdf} bssodibtfd witi
+ * b pbrtidulbr <dodf>Componfnt</dodf>, or from tif <dodf>Toolkit</dodf> objfdt vib its
+ * {@link jbvb.bwt.Toolkit#drfbtfDrbgGfsturfRfdognizfr drfbtfDrbgGfsturfRfdognizfr()}
+ * mftiod.
  * <p>
- * Once the <code>DragGestureRecognizer</code>
- * is associated with a particular <code>Component</code>
- * it will register the appropriate listener interfaces on that
- * <code>Component</code>
- * in order to track the input events delivered to the <code>Component</code>.
+ * Ondf tif <dodf>DrbgGfsturfRfdognizfr</dodf>
+ * is bssodibtfd witi b pbrtidulbr <dodf>Componfnt</dodf>
+ * it will rfgistfr tif bppropribtf listfnfr intfrfbdfs on tibt
+ * <dodf>Componfnt</dodf>
+ * in ordfr to trbdk tif input fvfnts dflivfrfd to tif <dodf>Componfnt</dodf>.
  * <p>
- * Once the <code>DragGestureRecognizer</code> identifies a sequence of events
- * on the <code>Component</code> as a drag initiating gesture, it will notify
- * its unicast <code>DragGestureListener</code> by
+ * Ondf tif <dodf>DrbgGfsturfRfdognizfr</dodf> idfntififs b sfqufndf of fvfnts
+ * on tif <dodf>Componfnt</dodf> bs b drbg initibting gfsturf, it will notify
+ * its unidbst <dodf>DrbgGfsturfListfnfr</dodf> by
  * invoking its
- * {@link java.awt.dnd.DragGestureListener#dragGestureRecognized gestureRecognized()}
- * method.
+ * {@link jbvb.bwt.dnd.DrbgGfsturfListfnfr#drbgGfsturfRfdognizfd gfsturfRfdognizfd()}
+ * mftiod.
  * <P>
- * When a concrete <code>DragGestureRecognizer</code>
- * instance detects a drag initiating
- * gesture on the <code>Component</code> it is associated with,
- * it fires a {@link DragGestureEvent} to
- * the <code>DragGestureListener</code> registered on
- * its unicast event source for <code>DragGestureListener</code>
- * events. This <code>DragGestureListener</code> is responsible
- * for causing the associated
- * <code>DragSource</code> to start the Drag and Drop operation (if
- * appropriate).
+ * Wifn b dondrftf <dodf>DrbgGfsturfRfdognizfr</dodf>
+ * instbndf dftfdts b drbg initibting
+ * gfsturf on tif <dodf>Componfnt</dodf> it is bssodibtfd witi,
+ * it firfs b {@link DrbgGfsturfEvfnt} to
+ * tif <dodf>DrbgGfsturfListfnfr</dodf> rfgistfrfd on
+ * its unidbst fvfnt sourdf for <dodf>DrbgGfsturfListfnfr</dodf>
+ * fvfnts. Tiis <dodf>DrbgGfsturfListfnfr</dodf> is rfsponsiblf
+ * for dbusing tif bssodibtfd
+ * <dodf>DrbgSourdf</dodf> to stbrt tif Drbg bnd Drop opfrbtion (if
+ * bppropribtf).
  *
- * @author Laurence P. G. Cable
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @butior Lburfndf P. G. Cbblf
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgSourdf
  */
 
-public abstract class DragGestureRecognizer implements Serializable {
+publid bbstrbdt dlbss DrbgGfsturfRfdognizfr implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = 8996673345831063337L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8996673345831063337L;
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used
-     * in this Drag and Drop operation, the <code>Component</code>
-     * this <code>DragGestureRecognizer</code> should "observe"
-     * for drag initiating gestures, the action(s) supported
-     * for this Drag and Drop operation, and the
-     * <code>DragGestureListener</code> to notify
-     * once a drag initiating gesture has been detected.
+     * Construdt b nfw <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> to bf usfd
+     * in tiis Drbg bnd Drop opfrbtion, tif <dodf>Componfnt</dodf>
+     * tiis <dodf>DrbgGfsturfRfdognizfr</dodf> siould "obsfrvf"
+     * for drbg initibting gfsturfs, tif bdtion(s) supportfd
+     * for tiis Drbg bnd Drop opfrbtion, bnd tif
+     * <dodf>DrbgGfsturfListfnfr</dodf> to notify
+     * ondf b drbg initibting gfsturf ibs bffn dftfdtfd.
      *
-     * @param ds  the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code>
-     * will use to process the Drag and Drop operation
+     * @pbrbm ds  tif <dodf>DrbgSourdf</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * will usf to prodfss tif Drbg bnd Drop opfrbtion
      *
-     * @param c the <code>Component</code>
-     * this <code>DragGestureRecognizer</code>
-     * should "observe" the event stream to,
-     * in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>, the
-     * <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm d tif <dodf>Componfnt</dodf>
+     * tiis <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * siould "obsfrvf" tif fvfnt strfbm to,
+     * in ordfr to dftfdt b drbg initibting gfsturf.
+     * If tiis vbluf is <dodf>null</dodf>, tif
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * is not bssodibtfd witi bny <dodf>Componfnt</dodf>.
      *
-     * @param sa  the set (logical OR) of the
-     * <code>DnDConstants</code>
-     * that this Drag and Drop operation will support
+     * @pbrbm sb  tif sft (logidbl OR) of tif
+     * <dodf>DnDConstbnts</dodf>
+     * tibt tiis Drbg bnd Drop opfrbtion will support
      *
-     * @param dgl the <code>DragGestureRecognizer</code>
-     * to notify when a drag gesture is detected
+     * @pbrbm dgl tif <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * to notify wifn b drbg gfsturf is dftfdtfd
      *
-     * @throws IllegalArgumentException
-     * if ds is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption
+     * if ds is <dodf>null</dodf>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c, int sa, DragGestureListener dgl) {
-        super();
+    protfdtfd DrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int sb, DrbgGfsturfListfnfr dgl) {
+        supfr();
 
-        if (ds == null) throw new IllegalArgumentException("null DragSource");
+        if (ds == null) tirow nfw IllfgblArgumfntExdfption("null DrbgSourdf");
 
-        dragSource    = ds;
-        component     = c;
-        sourceActions = sa & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
+        drbgSourdf    = ds;
+        domponfnt     = d;
+        sourdfAdtions = sb & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
 
         try {
-            if (dgl != null) addDragGestureListener(dgl);
-        } catch (TooManyListenersException tmle) {
-            // cant happen ...
+            if (dgl != null) bddDrbgGfsturfListfnfr(dgl);
+        } dbtdi (TooMbnyListfnfrsExdfption tmlf) {
+            // dbnt ibppfn ...
         }
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used in this
-     * Drag and Drop
-     * operation, the <code>Component</code> this
-     * <code>DragGestureRecognizer</code> should "observe"
-     * for drag initiating gestures, and the action(s)
-     * supported for this Drag and Drop operation.
+     * Construdt b nfw <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> to bf usfd in tiis
+     * Drbg bnd Drop
+     * opfrbtion, tif <dodf>Componfnt</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> siould "obsfrvf"
+     * for drbg initibting gfsturfs, bnd tif bdtion(s)
+     * supportfd for tiis Drbg bnd Drop opfrbtion.
      *
-     * @param ds  the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code> will use to
-     * process the Drag and Drop operation
+     * @pbrbm ds  tif <dodf>DrbgSourdf</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> will usf to
+     * prodfss tif Drbg bnd Drop opfrbtion
      *
-     * @param c   the <code>Component</code> this
-     * <code>DragGestureRecognizer</code> should "observe" the event
-     * stream to, in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>, the
-     * <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm d   tif <dodf>Componfnt</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> siould "obsfrvf" tif fvfnt
+     * strfbm to, in ordfr to dftfdt b drbg initibting gfsturf.
+     * If tiis vbluf is <dodf>null</dodf>, tif
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * is not bssodibtfd witi bny <dodf>Componfnt</dodf>.
      *
-     * @param sa the set (logical OR) of the <code>DnDConstants</code>
-     * that this Drag and Drop operation will support
+     * @pbrbm sb tif sft (logidbl OR) of tif <dodf>DnDConstbnts</dodf>
+     * tibt tiis Drbg bnd Drop opfrbtion will support
      *
-     * @throws IllegalArgumentException
-     * if ds is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption
+     * if ds is <dodf>null</dodf>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c, int sa) {
-        this(ds, c, sa, null);
+    protfdtfd DrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int sb) {
+        tiis(ds, d, sb, null);
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used
-     * in this Drag and Drop operation, and
-     * the <code>Component</code> this
-     * <code>DragGestureRecognizer</code>
-     * should "observe" for drag initiating gestures.
+     * Construdt b nfw <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> to bf usfd
+     * in tiis Drbg bnd Drop opfrbtion, bnd
+     * tif <dodf>Componfnt</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * siould "obsfrvf" for drbg initibting gfsturfs.
      *
-     * @param ds the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code>
-     * will use to process the Drag and Drop operation
+     * @pbrbm ds tif <dodf>DrbgSourdf</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * will usf to prodfss tif Drbg bnd Drop opfrbtion
      *
-     * @param c the <code>Component</code>
-     * this <code>DragGestureRecognizer</code>
-     * should "observe" the event stream to,
-     * in order to detect a drag initiating gesture.
-     * If this value is <code>null</code>,
-     * the <code>DragGestureRecognizer</code>
-     * is not associated with any <code>Component</code>.
+     * @pbrbm d tif <dodf>Componfnt</dodf>
+     * tiis <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * siould "obsfrvf" tif fvfnt strfbm to,
+     * in ordfr to dftfdt b drbg initibting gfsturf.
+     * If tiis vbluf is <dodf>null</dodf>,
+     * tif <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * is not bssodibtfd witi bny <dodf>Componfnt</dodf>.
      *
-     * @throws IllegalArgumentException
-     * if ds is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption
+     * if ds is <dodf>null</dodf>.
      */
 
-    protected DragGestureRecognizer(DragSource ds, Component c) {
-        this(ds, c, DnDConstants.ACTION_NONE);
+    protfdtfd DrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
     }
 
     /**
-     * Construct a new <code>DragGestureRecognizer</code>
-     * given the <code>DragSource</code> to be used in this
-     * Drag and Drop operation.
+     * Construdt b nfw <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * givfn tif <dodf>DrbgSourdf</dodf> to bf usfd in tiis
+     * Drbg bnd Drop opfrbtion.
      *
-     * @param ds the <code>DragSource</code> this
-     * <code>DragGestureRecognizer</code> will
-     * use to process the Drag and Drop operation
+     * @pbrbm ds tif <dodf>DrbgSourdf</dodf> tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> will
+     * usf to prodfss tif Drbg bnd Drop opfrbtion
      *
-     * @throws IllegalArgumentException
-     * if ds is <code>null</code>.
+     * @tirows IllfgblArgumfntExdfption
+     * if ds is <dodf>null</dodf>.
      */
 
-    protected DragGestureRecognizer(DragSource ds) {
-        this(ds, null);
+    protfdtfd DrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+        tiis(ds, null);
     }
 
     /**
-     * register this DragGestureRecognizer's Listeners with the Component
+     * rfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
      *
-     * subclasses must override this method
+     * subdlbssfs must ovfrridf tiis mftiod
      */
 
-    protected abstract void registerListeners();
+    protfdtfd bbstrbdt void rfgistfrListfnfrs();
 
     /**
-     * unregister this DragGestureRecognizer's Listeners with the Component
+     * unrfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
      *
-     * subclasses must override this method
+     * subdlbssfs must ovfrridf tiis mftiod
      */
 
-    protected abstract void unregisterListeners();
+    protfdtfd bbstrbdt void unrfgistfrListfnfrs();
 
     /**
-     * This method returns the <code>DragSource</code>
-     * this <code>DragGestureRecognizer</code>
-     * will use in order to process the Drag and Drop
-     * operation.
+     * Tiis mftiod rfturns tif <dodf>DrbgSourdf</dodf>
+     * tiis <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * will usf in ordfr to prodfss tif Drbg bnd Drop
+     * opfrbtion.
      *
-     * @return the DragSource
+     * @rfturn tif DrbgSourdf
      */
 
-    public DragSource getDragSource() { return dragSource; }
+    publid DrbgSourdf gftDrbgSourdf() { rfturn drbgSourdf; }
 
     /**
-     * This method returns the <code>Component</code>
-     * that is to be "observed" by the
-     * <code>DragGestureRecognizer</code>
-     * for drag initiating gestures.
+     * Tiis mftiod rfturns tif <dodf>Componfnt</dodf>
+     * tibt is to bf "obsfrvfd" by tif
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * for drbg initibting gfsturfs.
      *
-     * @return The Component this DragGestureRecognizer
-     * is associated with
+     * @rfturn Tif Componfnt tiis DrbgGfsturfRfdognizfr
+     * is bssodibtfd witi
      */
 
-    public synchronized Component getComponent() { return component; }
+    publid syndironizfd Componfnt gftComponfnt() { rfturn domponfnt; }
 
     /**
-     * set the Component that the DragGestureRecognizer is associated with
+     * sft tif Componfnt tibt tif DrbgGfsturfRfdognizfr is bssodibtfd witi
      *
-     * registerListeners() and unregisterListeners() are called as a side
-     * effect as appropriate.
+     * rfgistfrListfnfrs() bnd unrfgistfrListfnfrs() brf dbllfd bs b sidf
+     * ffffdt bs bppropribtf.
      *
-     * @param c The <code>Component</code> or <code>null</code>
+     * @pbrbm d Tif <dodf>Componfnt</dodf> or <dodf>null</dodf>
      */
 
-    public synchronized void setComponent(Component c) {
-        if (component != null && dragGestureListener != null)
-            unregisterListeners();
+    publid syndironizfd void sftComponfnt(Componfnt d) {
+        if (domponfnt != null && drbgGfsturfListfnfr != null)
+            unrfgistfrListfnfrs();
 
-        component = c;
+        domponfnt = d;
 
-        if (component != null && dragGestureListener != null)
-            registerListeners();
+        if (domponfnt != null && drbgGfsturfListfnfr != null)
+            rfgistfrListfnfrs();
     }
 
     /**
-     * This method returns an int representing the
-     * type of action(s) this Drag and Drop
-     * operation will support.
+     * Tiis mftiod rfturns bn int rfprfsfnting tif
+     * typf of bdtion(s) tiis Drbg bnd Drop
+     * opfrbtion will support.
      *
-     * @return the currently permitted source action(s)
+     * @rfturn tif durrfntly pfrmittfd sourdf bdtion(s)
      */
 
-    public synchronized int getSourceActions() { return sourceActions; }
+    publid syndironizfd int gftSourdfAdtions() { rfturn sourdfAdtions; }
 
     /**
-     * This method sets the permitted source drag action(s)
-     * for this Drag and Drop operation.
+     * Tiis mftiod sfts tif pfrmittfd sourdf drbg bdtion(s)
+     * for tiis Drbg bnd Drop opfrbtion.
      *
-     * @param actions the permitted source drag action(s)
+     * @pbrbm bdtions tif pfrmittfd sourdf drbg bdtion(s)
      */
 
-    public synchronized void setSourceActions(int actions) {
-        sourceActions = actions & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
+    publid syndironizfd void sftSourdfAdtions(int bdtions) {
+        sourdfAdtions = bdtions & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
     }
 
     /**
-     * This method returns the first event in the
-     * series of events that initiated
-     * the Drag and Drop operation.
+     * Tiis mftiod rfturns tif first fvfnt in tif
+     * sfrifs of fvfnts tibt initibtfd
+     * tif Drbg bnd Drop opfrbtion.
      *
-     * @return the initial event that triggered the drag gesture
+     * @rfturn tif initibl fvfnt tibt triggfrfd tif drbg gfsturf
      */
 
-    public InputEvent getTriggerEvent() { return events.isEmpty() ? null : events.get(0); }
+    publid InputEvfnt gftTriggfrEvfnt() { rfturn fvfnts.isEmpty() ? null : fvfnts.gft(0); }
 
     /**
-     * Reset the Recognizer, if its currently recognizing a gesture, ignore
+     * Rfsft tif Rfdognizfr, if its durrfntly rfdognizing b gfsturf, ignorf
      * it.
      */
 
-    public void resetRecognizer() { events.clear(); }
+    publid void rfsftRfdognizfr() { fvfnts.dlfbr(); }
 
     /**
-     * Register a new <code>DragGestureListener</code>.
+     * Rfgistfr b nfw <dodf>DrbgGfsturfListfnfr</dodf>.
      *
-     * @param dgl the <code>DragGestureListener</code> to register
-     * with this <code>DragGestureRecognizer</code>.
+     * @pbrbm dgl tif <dodf>DrbgGfsturfListfnfr</dodf> to rfgistfr
+     * witi tiis <dodf>DrbgGfsturfRfdognizfr</dodf>.
      *
-     * @throws java.util.TooManyListenersException if a
-     * <code>DragGestureListener</code> has already been added.
+     * @tirows jbvb.util.TooMbnyListfnfrsExdfption if b
+     * <dodf>DrbgGfsturfListfnfr</dodf> ibs blrfbdy bffn bddfd.
      */
 
-    public synchronized void addDragGestureListener(DragGestureListener dgl) throws TooManyListenersException {
-        if (dragGestureListener != null)
-            throw new TooManyListenersException();
-        else {
-            dragGestureListener = dgl;
+    publid syndironizfd void bddDrbgGfsturfListfnfr(DrbgGfsturfListfnfr dgl) tirows TooMbnyListfnfrsExdfption {
+        if (drbgGfsturfListfnfr != null)
+            tirow nfw TooMbnyListfnfrsExdfption();
+        flsf {
+            drbgGfsturfListfnfr = dgl;
 
-            if (component != null) registerListeners();
+            if (domponfnt != null) rfgistfrListfnfrs();
         }
     }
 
     /**
-     * unregister the current DragGestureListener
+     * unrfgistfr tif durrfnt DrbgGfsturfListfnfr
      *
-     * @param dgl the <code>DragGestureListener</code> to unregister
-     * from this <code>DragGestureRecognizer</code>
+     * @pbrbm dgl tif <dodf>DrbgGfsturfListfnfr</dodf> to unrfgistfr
+     * from tiis <dodf>DrbgGfsturfRfdognizfr</dodf>
      *
-     * @throws IllegalArgumentException if
-     * dgl is not (equal to) the currently registered <code>DragGestureListener</code>.
+     * @tirows IllfgblArgumfntExdfption if
+     * dgl is not (fqubl to) tif durrfntly rfgistfrfd <dodf>DrbgGfsturfListfnfr</dodf>.
      */
 
-    public synchronized void removeDragGestureListener(DragGestureListener dgl) {
-        if (dragGestureListener == null || !dragGestureListener.equals(dgl))
-            throw new IllegalArgumentException();
-        else {
-            dragGestureListener = null;
+    publid syndironizfd void rfmovfDrbgGfsturfListfnfr(DrbgGfsturfListfnfr dgl) {
+        if (drbgGfsturfListfnfr == null || !drbgGfsturfListfnfr.fqubls(dgl))
+            tirow nfw IllfgblArgumfntExdfption();
+        flsf {
+            drbgGfsturfListfnfr = null;
 
-            if (component != null) unregisterListeners();
+            if (domponfnt != null) unrfgistfrListfnfrs();
         }
     }
 
     /**
-     * Notify the DragGestureListener that a Drag and Drop initiating
-     * gesture has occurred. Then reset the state of the Recognizer.
+     * Notify tif DrbgGfsturfListfnfr tibt b Drbg bnd Drop initibting
+     * gfsturf ibs oddurrfd. Tifn rfsft tif stbtf of tif Rfdognizfr.
      *
-     * @param dragAction The action initially selected by the users gesture
-     * @param p          The point (in Component coords) where the gesture originated
+     * @pbrbm drbgAdtion Tif bdtion initiblly sflfdtfd by tif usfrs gfsturf
+     * @pbrbm p          Tif point (in Componfnt doords) wifrf tif gfsturf originbtfd
      */
-    protected synchronized void fireDragGestureRecognized(int dragAction, Point p) {
+    protfdtfd syndironizfd void firfDrbgGfsturfRfdognizfd(int drbgAdtion, Point p) {
         try {
-            if (dragGestureListener != null) {
-                dragGestureListener.dragGestureRecognized(new DragGestureEvent(this, dragAction, p, events));
+            if (drbgGfsturfListfnfr != null) {
+                drbgGfsturfListfnfr.drbgGfsturfRfdognizfd(nfw DrbgGfsturfEvfnt(tiis, drbgAdtion, p, fvfnts));
             }
-        } finally {
-            events.clear();
+        } finblly {
+            fvfnts.dlfbr();
         }
     }
 
     /**
-     * Listeners registered on the Component by this Recognizer shall record
-     * all Events that are recognized as part of the series of Events that go
-     * to comprise a Drag and Drop initiating gesture via this API.
+     * Listfnfrs rfgistfrfd on tif Componfnt by tiis Rfdognizfr sibll rfdord
+     * bll Evfnts tibt brf rfdognizfd bs pbrt of tif sfrifs of Evfnts tibt go
+     * to domprisf b Drbg bnd Drop initibting gfsturf vib tiis API.
      * <P>
-     * This method is used by a <code>DragGestureRecognizer</code>
-     * implementation to add an <code>InputEvent</code>
-     * subclass (that it believes is one in a series
-     * of events that comprise a Drag and Drop operation)
-     * to the array of events that this
-     * <code>DragGestureRecognizer</code> maintains internally.
+     * Tiis mftiod is usfd by b <dodf>DrbgGfsturfRfdognizfr</dodf>
+     * implfmfntbtion to bdd bn <dodf>InputEvfnt</dodf>
+     * subdlbss (tibt it bflifvfs is onf in b sfrifs
+     * of fvfnts tibt domprisf b Drbg bnd Drop opfrbtion)
+     * to tif brrby of fvfnts tibt tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> mbintbins intfrnblly.
      *
-     * @param awtie the <code>InputEvent</code>
-     * to add to this <code>DragGestureRecognizer</code>'s
-     * internal array of events. Note that <code>null</code>
-     * is not a valid value, and will be ignored.
+     * @pbrbm bwtif tif <dodf>InputEvfnt</dodf>
+     * to bdd to tiis <dodf>DrbgGfsturfRfdognizfr</dodf>'s
+     * intfrnbl brrby of fvfnts. Notf tibt <dodf>null</dodf>
+     * is not b vblid vbluf, bnd will bf ignorfd.
      */
 
-    protected synchronized void appendEvent(InputEvent awtie) {
-        events.add(awtie);
+    protfdtfd syndironizfd void bppfndEvfnt(InputEvfnt bwtif) {
+        fvfnts.bdd(bwtif);
     }
 
     /**
-     * Serializes this <code>DragGestureRecognizer</code>. This method first
-     * performs default serialization. Then, this object's
-     * <code>DragGestureListener</code> is written out if and only if it can be
-     * serialized. If not, <code>null</code> is written instead.
+     * Sfriblizfs tiis <dodf>DrbgGfsturfRfdognizfr</dodf>. Tiis mftiod first
+     * pfrforms dffbult sfriblizbtion. Tifn, tiis objfdt's
+     * <dodf>DrbgGfsturfListfnfr</dodf> is writtfn out if bnd only if it dbn bf
+     * sfriblizfd. If not, <dodf>null</dodf> is writtfn instfbd.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>DragGestureListener</code>, or
-     *             <code>null</code>.
-     * @since 1.4
+     * @sfriblDbtb Tif dffbult sfriblizbblf fiflds, in blpibbftidbl ordfr,
+     *             followfd by fitifr b <dodf>DrbgGfsturfListfnfr</dodf>, or
+     *             <dodf>null</dodf>.
+     * @sindf 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        s.writeObject(SerializationTester.test(dragGestureListener)
-                      ? dragGestureListener : null);
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(drbgGfsturfListfnfr)
+                      ? drbgGfsturfListfnfr : null);
     }
 
     /**
-     * Deserializes this <code>DragGestureRecognizer</code>. This method first
-     * performs default deserialization for all non-<code>transient</code>
-     * fields. This object's <code>DragGestureListener</code> is then
-     * deserialized as well by using the next object in the stream.
+     * Dfsfriblizfs tiis <dodf>DrbgGfsturfRfdognizfr</dodf>. Tiis mftiod first
+     * pfrforms dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf>
+     * fiflds. Tiis objfdt's <dodf>DrbgGfsturfListfnfr</dodf> is tifn
+     * dfsfriblizfd bs wfll by using tif nfxt objfdt in tif strfbm.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
 
-        DragSource newDragSource = (DragSource)f.get("dragSource", null);
-        if (newDragSource == null) {
-            throw new InvalidObjectException("null DragSource");
+        DrbgSourdf nfwDrbgSourdf = (DrbgSourdf)f.gft("drbgSourdf", null);
+        if (nfwDrbgSourdf == null) {
+            tirow nfw InvblidObjfdtExdfption("null DrbgSourdf");
         }
-        dragSource = newDragSource;
+        drbgSourdf = nfwDrbgSourdf;
 
-        component = (Component)f.get("component", null);
-        sourceActions = f.get("sourceActions", 0) & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
-        events = (ArrayList<InputEvent>)f.get("events", new ArrayList<>(1));
+        domponfnt = (Componfnt)f.gft("domponfnt", null);
+        sourdfAdtions = f.gft("sourdfAdtions", 0) & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
+        fvfnts = (ArrbyList<InputEvfnt>)f.gft("fvfnts", nfw ArrbyList<>(1));
 
-        dragGestureListener = (DragGestureListener)s.readObject();
+        drbgGfsturfListfnfr = (DrbgGfsturfListfnfr)s.rfbdObjfdt();
     }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * The <code>DragSource</code>
-     * associated with this
-     * <code>DragGestureRecognizer</code>.
+     * Tif <dodf>DrbgSourdf</dodf>
+     * bssodibtfd witi tiis
+     * <dodf>DrbgGfsturfRfdognizfr</dodf>.
      *
-     * @serial
+     * @sfribl
      */
-    protected DragSource          dragSource;
+    protfdtfd DrbgSourdf          drbgSourdf;
 
     /**
-     * The <code>Component</code>
-     * associated with this <code>DragGestureRecognizer</code>.
+     * Tif <dodf>Componfnt</dodf>
+     * bssodibtfd witi tiis <dodf>DrbgGfsturfRfdognizfr</dodf>.
      *
-     * @serial
+     * @sfribl
      */
-    protected Component           component;
+    protfdtfd Componfnt           domponfnt;
 
     /**
-     * The <code>DragGestureListener</code>
-     * associated with this <code>DragGestureRecognizer</code>.
+     * Tif <dodf>DrbgGfsturfListfnfr</dodf>
+     * bssodibtfd witi tiis <dodf>DrbgGfsturfRfdognizfr</dodf>.
      */
-    protected transient DragGestureListener dragGestureListener;
+    protfdtfd trbnsifnt DrbgGfsturfListfnfr drbgGfsturfListfnfr;
 
   /**
-   * An <code>int</code> representing
-   * the type(s) of action(s) used
-   * in this Drag and Drop operation.
+   * An <dodf>int</dodf> rfprfsfnting
+   * tif typf(s) of bdtion(s) usfd
+   * in tiis Drbg bnd Drop opfrbtion.
    *
-   * @serial
+   * @sfribl
    */
-  protected int  sourceActions;
+  protfdtfd int  sourdfAdtions;
 
    /**
-    * The list of events (in order) that
-    * the <code>DragGestureRecognizer</code>
-    * "recognized" as a "gesture" that triggers a drag.
+    * Tif list of fvfnts (in ordfr) tibt
+    * tif <dodf>DrbgGfsturfRfdognizfr</dodf>
+    * "rfdognizfd" bs b "gfsturf" tibt triggfrs b drbg.
     *
-    * @serial
+    * @sfribl
     */
-   protected ArrayList<InputEvent> events = new ArrayList<InputEvent>(1);
+   protfdtfd ArrbyList<InputEvfnt> fvfnts = nfw ArrbyList<InputEvfnt>(1);
 }

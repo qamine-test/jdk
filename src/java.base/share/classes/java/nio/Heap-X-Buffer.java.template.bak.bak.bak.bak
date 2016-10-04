@@ -1,0 +1,601 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf jbvb.nio;
+
+
+/**
+#if[rw]
+ * A rfbd/writf Hfbp$Typf$Bufffr.
+#flsf[rw]
+ * A rfbd-only Hfbp$Typf$Bufffr.  This dlbss fxtfnds thf dorrfsponding
+ * rfbd/writf dlbss, ovfrriding thf mutbtion mfthods to throw b {@link
+ * RfbdOnlyBufffrExdfption} bnd ovfrriding thf vifw-bufffr mfthods to rfturn bn
+ * instbndf of this dlbss rbthfr thbn of thf supfrdlbss.
+#fnd[rw]
+ */
+
+dlbss Hfbp$Typf$Bufffr$RW$
+    fxtfnds {#if[ro]?Hfbp}$Typf$Bufffr
+{
+
+    // For spffd thfsf fiflds brf bdtublly dfdlbrfd in X-Bufffr;
+    // thfsf dfdlbrbtions brf hfrf bs dodumfntbtion
+    /*
+#if[rw]
+    protfdtfd finbl $typf$[] hb;
+    protfdtfd finbl int offsft;
+#fnd[rw]
+    */
+
+    Hfbp$Typf$Bufffr$RW$(int dbp, int lim) {            // pbdkbgf-privbtf
+#if[rw]
+        supfr(-1, 0, lim, dbp, nfw $typf$[dbp], 0);
+        /*
+        hb = nfw $typf$[dbp];
+        offsft = 0;
+        */
+#flsf[rw]
+        supfr(dbp, lim);
+        this.isRfbdOnly = truf;
+#fnd[rw]
+    }
+
+    Hfbp$Typf$Bufffr$RW$($typf$[] buf, int off, int lfn) { // pbdkbgf-privbtf
+#if[rw]
+        supfr(-1, off, off + lfn, buf.lfngth, buf, 0);
+        /*
+        hb = buf;
+        offsft = 0;
+        */
+#flsf[rw]
+        supfr(buf, off, lfn);
+        this.isRfbdOnly = truf;
+#fnd[rw]
+    }
+
+    protfdtfd Hfbp$Typf$Bufffr$RW$($typf$[] buf,
+                                   int mbrk, int pos, int lim, int dbp,
+                                   int off)
+    {
+#if[rw]
+        supfr(mbrk, pos, lim, dbp, buf, off);
+        /*
+        hb = buf;
+        offsft = off;
+        */
+#flsf[rw]
+        supfr(buf, mbrk, pos, lim, dbp, off);
+        this.isRfbdOnly = truf;
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr slidf() {
+        rfturn nfw Hfbp$Typf$Bufffr$RW$(hb,
+                                        -1,
+                                        0,
+                                        this.rfmbining(),
+                                        this.rfmbining(),
+                                        this.position() + offsft);
+    }
+
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw Hfbp$Typf$Bufffr$RW$(hb,
+                                        this.mbrkVbluf(),
+                                        this.position(),
+                                        this.limit(),
+                                        this.dbpbdity(),
+                                        offsft);
+    }
+
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
+#if[rw]
+        rfturn nfw Hfbp$Typf$BufffrR(hb,
+                                     this.mbrkVbluf(),
+                                     this.position(),
+                                     this.limit(),
+                                     this.dbpbdity(),
+                                     offsft);
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
+    }
+
+#if[rw]
+
+    protfdtfd int ix(int i) {
+        rfturn i + offsft;
+    }
+
+    publid $typf$ gft() {
+        rfturn hb[ix(nfxtGftIndfx())];
+    }
+
+    publid $typf$ gft(int i) {
+        rfturn hb[ix(dhfdkIndfx(i))];
+    }
+
+#if[strfbmbblfTypf]
+    $typf$ gftUndhfdkfd(int i) {
+	rfturn hb[ix(i)];
+    }
+#fnd[strfbmbblfTypf]
+
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngth) {
+        dhfdkBounds(offsft, lfngth, dst.lfngth);
+        if (lfngth > rfmbining())
+            throw nfw BufffrUndfrflowExdfption();
+        Systfm.brrbydopy(hb, ix(position()), dst, offsft, lfngth);
+        position(position() + lfngth);
+        rfturn this;
+    }
+
+    publid boolfbn isDirfdt() {
+        rfturn fblsf;
+    }
+
+#fnd[rw]
+
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
+    }
+
+    publid $Typf$Bufffr put($typf$ x) {
+#if[rw]
+        hb[ix(nfxtPutIndfx())] = x;
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put(int i, $typf$ x) {
+#if[rw]
+        hb[ix(dhfdkIndfx(i))] = x;
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngth) {
+#if[rw]
+        dhfdkBounds(offsft, lfngth, srd.lfngth);
+        if (lfngth > rfmbining())
+            throw nfw BufffrOvfrflowExdfption();
+        Systfm.brrbydopy(srd, offsft, hb, ix(position()), lfngth);
+        position(position() + lfngth);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
+#if[rw]
+        if (srd instbndfof Hfbp$Typf$Bufffr) {
+            if (srd == this)
+                throw nfw IllfgblArgumfntExdfption();
+            Hfbp$Typf$Bufffr sb = (Hfbp$Typf$Bufffr)srd;
+            int n = sb.rfmbining();
+            if (n > rfmbining())
+                throw nfw BufffrOvfrflowExdfption();
+            Systfm.brrbydopy(sb.hb, sb.ix(sb.position()),
+                             hb, ix(position()), n);
+            sb.position(sb.position() + n);
+            position(position() + n);
+        } flsf if (srd.isDirfdt()) {
+            int n = srd.rfmbining();
+            if (n > rfmbining())
+                throw nfw BufffrOvfrflowExdfption();
+            srd.gft(hb, ix(position()), n);
+            position(position() + n);
+        } flsf {
+            supfr.put(srd);
+        }
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr dompbdt() {
+#if[rw]
+        Systfm.brrbydopy(hb, ix(position()), hb, ix(0), rfmbining());
+        position(rfmbining());
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+
+
+#if[bytf]
+
+    bytf _gft(int i) {                          // pbdkbgf-privbtf
+        rfturn hb[i];
+    }
+
+    void _put(int i, bytf b) {                  // pbdkbgf-privbtf
+#if[rw]
+        hb[i] = b;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    // dhbr
+
+#if[rw]
+
+    publid dhbr gftChbr() {
+        rfturn Bits.gftChbr(this, ix(nfxtGftIndfx(2)), bigEndibn);
+    }
+
+    publid dhbr gftChbr(int i) {
+        rfturn Bits.gftChbr(this, ix(dhfdkIndfx(i, 2)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putChbr(dhbr x) {
+#if[rw]
+        Bits.putChbr(this, ix(nfxtPutIndfx(2)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putChbr(int i, dhbr x) {
+#if[rw]
+        Bits.putChbr(this, ix(dhfdkIndfx(i, 2)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid ChbrBufffr bsChbrBufffr() {
+        int sizf = this.rfmbining() >> 1;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (ChbrBufffr)(nfw BytfBufffrAsChbrBufffr$RW$B(this,
+                                                               -1,
+                                                               0,
+                                                               sizf,
+                                                               sizf,
+                                                               off))
+                : (ChbrBufffr)(nfw BytfBufffrAsChbrBufffr$RW$L(this,
+                                                               -1,
+                                                               0,
+                                                               sizf,
+                                                               sizf,
+                                                               off)));
+    }
+
+
+    // short
+
+#if[rw]
+
+    publid short gftShort() {
+        rfturn Bits.gftShort(this, ix(nfxtGftIndfx(2)), bigEndibn);
+    }
+
+    publid short gftShort(int i) {
+        rfturn Bits.gftShort(this, ix(dhfdkIndfx(i, 2)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putShort(short x) {
+#if[rw]
+        Bits.putShort(this, ix(nfxtPutIndfx(2)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putShort(int i, short x) {
+#if[rw]
+        Bits.putShort(this, ix(dhfdkIndfx(i, 2)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid ShortBufffr bsShortBufffr() {
+        int sizf = this.rfmbining() >> 1;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (ShortBufffr)(nfw BytfBufffrAsShortBufffr$RW$B(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off))
+                : (ShortBufffr)(nfw BytfBufffrAsShortBufffr$RW$L(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off)));
+    }
+
+
+    // int
+
+#if[rw]
+
+    publid int gftInt() {
+        rfturn Bits.gftInt(this, ix(nfxtGftIndfx(4)), bigEndibn);
+    }
+
+    publid int gftInt(int i) {
+        rfturn Bits.gftInt(this, ix(dhfdkIndfx(i, 4)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putInt(int x) {
+#if[rw]
+        Bits.putInt(this, ix(nfxtPutIndfx(4)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putInt(int i, int x) {
+#if[rw]
+        Bits.putInt(this, ix(dhfdkIndfx(i, 4)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid IntBufffr bsIntBufffr() {
+        int sizf = this.rfmbining() >> 2;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (IntBufffr)(nfw BytfBufffrAsIntBufffr$RW$B(this,
+                                                             -1,
+                                                             0,
+                                                             sizf,
+                                                             sizf,
+                                                             off))
+                : (IntBufffr)(nfw BytfBufffrAsIntBufffr$RW$L(this,
+                                                             -1,
+                                                             0,
+                                                             sizf,
+                                                             sizf,
+                                                             off)));
+    }
+
+
+    // long
+
+#if[rw]
+
+    publid long gftLong() {
+        rfturn Bits.gftLong(this, ix(nfxtGftIndfx(8)), bigEndibn);
+    }
+
+    publid long gftLong(int i) {
+        rfturn Bits.gftLong(this, ix(dhfdkIndfx(i, 8)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putLong(long x) {
+#if[rw]
+        Bits.putLong(this, ix(nfxtPutIndfx(8)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putLong(int i, long x) {
+#if[rw]
+        Bits.putLong(this, ix(dhfdkIndfx(i, 8)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid LongBufffr bsLongBufffr() {
+        int sizf = this.rfmbining() >> 3;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (LongBufffr)(nfw BytfBufffrAsLongBufffr$RW$B(this,
+                                                               -1,
+                                                               0,
+                                                               sizf,
+                                                               sizf,
+                                                               off))
+                : (LongBufffr)(nfw BytfBufffrAsLongBufffr$RW$L(this,
+                                                               -1,
+                                                               0,
+                                                               sizf,
+                                                               sizf,
+                                                               off)));
+    }
+
+
+    // flobt
+
+#if[rw]
+
+    publid flobt gftFlobt() {
+        rfturn Bits.gftFlobt(this, ix(nfxtGftIndfx(4)), bigEndibn);
+    }
+
+    publid flobt gftFlobt(int i) {
+        rfturn Bits.gftFlobt(this, ix(dhfdkIndfx(i, 4)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putFlobt(flobt x) {
+#if[rw]
+        Bits.putFlobt(this, ix(nfxtPutIndfx(4)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putFlobt(int i, flobt x) {
+#if[rw]
+        Bits.putFlobt(this, ix(dhfdkIndfx(i, 4)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid FlobtBufffr bsFlobtBufffr() {
+        int sizf = this.rfmbining() >> 2;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (FlobtBufffr)(nfw BytfBufffrAsFlobtBufffr$RW$B(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off))
+                : (FlobtBufffr)(nfw BytfBufffrAsFlobtBufffr$RW$L(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off)));
+    }
+
+
+    // doublf
+
+#if[rw]
+
+    publid doublf gftDoublf() {
+        rfturn Bits.gftDoublf(this, ix(nfxtGftIndfx(8)), bigEndibn);
+    }
+
+    publid doublf gftDoublf(int i) {
+        rfturn Bits.gftDoublf(this, ix(dhfdkIndfx(i, 8)), bigEndibn);
+    }
+
+#fnd[rw]
+
+    publid $Typf$Bufffr putDoublf(doublf x) {
+#if[rw]
+        Bits.putDoublf(this, ix(nfxtPutIndfx(8)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr putDoublf(int i, doublf x) {
+#if[rw]
+        Bits.putDoublf(this, ix(dhfdkIndfx(i, 8)), x, bigEndibn);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid DoublfBufffr bsDoublfBufffr() {
+        int sizf = this.rfmbining() >> 3;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (DoublfBufffr)(nfw BytfBufffrAsDoublfBufffr$RW$B(this,
+                                                                   -1,
+                                                                   0,
+                                                                   sizf,
+                                                                   sizf,
+                                                                   off))
+                : (DoublfBufffr)(nfw BytfBufffrAsDoublfBufffr$RW$L(this,
+                                                                   -1,
+                                                                   0,
+                                                                   sizf,
+                                                                   sizf,
+                                                                   off)));
+    }
+
+
+#fnd[bytf]
+
+
+#if[dhbr]
+
+    String toString(int stbrt, int fnd) {               // pbdkbgf-privbtf
+        try {
+            rfturn nfw String(hb, stbrt + offsft, fnd - stbrt);
+        } dbtdh (StringIndfxOutOfBoundsExdfption x) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+
+    // --- Mfthods to support ChbrSfqufndf ---
+
+    publid ChbrBufffr subSfqufndf(int stbrt, int fnd) {
+        if ((stbrt < 0)
+            || (fnd > lfngth())
+            || (stbrt > fnd))
+            throw nfw IndfxOutOfBoundsExdfption();
+        int pos = position();
+        rfturn nfw HfbpChbrBufffr$RW$(hb,
+                                      -1,
+                                      pos + stbrt,
+                                      pos + fnd,
+                                      dbpbdity(),
+                                      offsft);
+    }
+
+#fnd[dhbr]
+
+
+#if[!bytf]
+
+    publid BytfOrdfr ordfr() {
+        rfturn BytfOrdfr.nbtivfOrdfr();
+    }
+
+#fnd[!bytf]
+
+}

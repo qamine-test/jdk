@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
 /**
- * <code>DocumentFilter</code>, as the name implies, is a filter for the
- * <code>Document</code> mutation methods. When a <code>Document</code>
- * containing a <code>DocumentFilter</code> is modified (either through
- * <code>insert</code> or <code>remove</code>), it forwards the appropriate
- * method invocation to the <code>DocumentFilter</code>. The
- * default implementation allows the modification to
- * occur. Subclasses can filter the modifications by conditionally invoking
- * methods on the superclass, or invoking the necessary methods on
- * the passed in <code>FilterBypass</code>. Subclasses should NOT call back
- * into the Document for the modification
- * instead call into the superclass or the <code>FilterBypass</code>.
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * into tif Dodumfnt for tif modifidbtion
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
  * <p>
- * When <code>remove</code> or <code>insertString</code> is invoked
- * on the <code>DocumentFilter</code>, the <code>DocumentFilter</code>
- * may callback into the
- * <code>FilterBypass</code> multiple times, or for different regions, but
- * it should not callback into the <code>FilterBypass</code> after returning
- * from the <code>remove</code> or <code>insertString</code> method.
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * mby dbllbbdk into tif
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
  * <p>
- * By default, text related document mutation methods such as
- * <code>insertString</code>, <code>replace</code> and <code>remove</code>
- * in <code>AbstractDocument</code> use <code>DocumentFilter</code> when
- * available, and <code>Element</code> related mutation methods such as
- * <code>create</code>, <code>insert</code> and <code>removeElement</code> in
- * <code>DefaultStyledDocument</code> do not use <code>DocumentFilter</code>.
- * If a method doesn't follow these defaults, this must be explicitly stated
- * in the method documentation.
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * in tif mftiod dodumfntbtion.
  *
- * @see javax.swing.text.Document
- * @see javax.swing.text.AbstractDocument
- * @see javax.swing.text.DefaultStyledDocument
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class DocumentFilter {
+publid dlbss DodumfntFiltfr {
     /**
-     * Invoked prior to removal of the specified region in the
-     * specified Document. Subclasses that want to conditionally allow
-     * removal should override this and only call supers implementation as
-     * necessary, or call directly into the <code>FilterBypass</code> as
-     * necessary.
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry.
      *
-     * @param fb FilterBypass that can be used to mutate Document
-     * @param offset the offset from the beginning &gt;= 0
-     * @param length the number of characters to remove &gt;= 0
-     * @exception BadLocationException  some portion of the removal range
-     *   was not a valid part of the document.  The location in the exception
-     *   is the first bad position encountered.
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   is tif first bbd position fndountfrfd.
      */
-    public void remove(FilterBypass fb, int offset, int length) throws
-                       BadLocationException {
-        fb.remove(offset, length);
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+                       BbdLodbtionExdfption {
+        fb.rfmovf(offsft, lfngti);
     }
 
     /**
-     * Invoked prior to insertion of text into the
-     * specified Document. Subclasses that want to conditionally allow
-     * insertion should override this and only call supers implementation as
-     * necessary, or call directly into the FilterBypass.
+     * Invokfd prior to insfrtion of tfxt into tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
      *
-     * @param fb FilterBypass that can be used to mutate Document
-     * @param offset  the offset into the document to insert the content &gt;= 0.
-     *    All positions that track change at or after the given location
-     *    will move.
-     * @param string the string to insert
-     * @param attr      the attributes to associate with the inserted
-     *   content.  This may be null if there are no attributes.
-     * @exception BadLocationException  the given insert position is not a
-     *   valid position within the document
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
+     *    will movf.
+     * @pbrbm string tif string to insfrt
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     *   vblid position witiin tif dodumfnt
      */
-    public void insertString(FilterBypass fb, int offset, String string,
-                             AttributeSet attr) throws BadLocationException {
-        fb.insertString(offset, string, attr);
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+        fb.insfrtString(offsft, string, bttr);
     }
 
     /**
-     * Invoked prior to replacing a region of text in the
-     * specified Document. Subclasses that want to conditionally allow
-     * replace should override this and only call supers implementation as
-     * necessary, or call directly into the FilterBypass.
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
      *
-     * @param fb FilterBypass that can be used to mutate Document
-     * @param offset Location in Document
-     * @param length Length of text to delete
-     * @param text Text to insert, null indicates no text to insert
-     * @param attrs AttributeSet indicating attributes of inserted text,
-     *              null is legal.
-     * @exception BadLocationException  the given insert position is not a
-     *   valid position within the document
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     *              null is lfgbl.
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     *   vblid position witiin tif dodumfnt
      */
-    public void replace(FilterBypass fb, int offset, int length, String text,
-                        AttributeSet attrs) throws BadLocationException {
-        fb.replace(offset, length, text, attrs);
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
     }
 
 
     /**
-     * Used as a way to circumvent calling back into the Document to
-     * change it. Document implementations that wish to support
-     * a DocumentFilter must provide an implementation that will
-     * not callback into the DocumentFilter when the following methods
-     * are invoked from the DocumentFilter.
-     * @since 1.4
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * brf invokfd from tif DodumfntFiltfr.
+     * @sindf 1.4
      */
-    public static abstract class FilterBypass {
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
         /**
-         * Returns the Document the mutation is occurring on.
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
          *
-         * @return Document that remove/insertString will operate on
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
          */
-        public abstract Document getDocument();
+        publid bbstrbdt Dodumfnt gftDodumfnt();
 
         /**
-         * Removes the specified region of text, bypassing the
-         * DocumentFilter.
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * DodumfntFiltfr.
          *
-         * @param offset the offset from the beginning &gt;= 0
-         * @param length the number of characters to remove &gt;= 0
-         * @exception BadLocationException some portion of the removal range
-         *   was not a valid part of the document.  The location in the
-         *   exception is the first bad position encountered.
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   fxdfption is tif first bbd position fndountfrfd.
          */
-        public abstract void remove(int offset, int length) throws
-                             BadLocationException;
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+                             BbdLodbtionExdfption;
 
         /**
-         * Inserts the specified text, bypassing the
-         * DocumentFilter.
-         * @param offset  the offset into the document to insert the
-         *   content &gt;= 0. All positions that track change at or after the
-         *   given location will move.
-         * @param string the string to insert
-         * @param attr the attributes to associate with the inserted
-         *   content.  This may be null if there are no attributes.
-         * @exception BadLocationException  the given insert position is not a
-         *   valid position within the document
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * DodumfntFiltfr.
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   givfn lodbtion will movf.
+         * @pbrbm string tif string to insfrt
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         *   vblid position witiin tif dodumfnt
          */
-        public abstract void insertString(int offset, String string,
-                                          AttributeSet attr) throws
-                                   BadLocationException;
+        publid bbstrbdt void insfrtString(int offsft, String string,
+                                          AttributfSft bttr) tirows
+                                   BbdLodbtionExdfption;
 
         /**
-         * Deletes the region of text from <code>offset</code> to
-         * <code>offset + length</code>, and replaces it with
-         *  <code>text</code>.
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         *  <dodf>tfxt</dodf>.
          *
-         * @param offset Location in Document
-         * @param length Length of text to delete
-         * @param string Text to insert, null indicates no text to insert
-         * @param attrs AttributeSet indicating attributes of inserted text,
-         *              null is legal.
-         * @exception BadLocationException  the given insert is not a
-         *   valid position within the document
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         *              null is lfgbl.
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         *   vblid position witiin tif dodumfnt
          */
-        public abstract void replace(int offset, int length, String string,
-                                          AttributeSet attrs) throws
-                                   BadLocationException;
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+                                          AttributfSft bttrs) tirows
+                                   BbdLodbtionExdfption;
     }
 }

@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management.counter.perf;
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
 
-import sun.management.counter.*;
-import java.nio.*;
-import java.util.*;
-import java.util.regex.*;
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
 
-public class PerfInstrumentation {
-    private ByteBuffer buffer;
-    private Prologue prologue;
-    private long lastModificationTime;
-    private long lastUsed;
-    private int  nextEntry;
-    private SortedMap<String, Counter>  map;
+publid dlbss PfrfInstrumfntbtion {
+    privbtf BytfBufffr bufffr;
+    privbtf Prologuf prologuf;
+    privbtf long lbstModifidbtionTimf;
+    privbtf long lbstUsfd;
+    privbtf int  nfxtEntry;
+    privbtf SortfdMbp<String, Countfr>  mbp;
 
-    public PerfInstrumentation(ByteBuffer b) {
-        prologue = new Prologue(b);
-        buffer = b;
-        buffer.order(prologue.getByteOrder());
+    publid PfrfInstrumfntbtion(BytfBufffr b) {
+        prologuf = nfw Prologuf(b);
+        bufffr = b;
+        bufffr.ordfr(prologuf.gftBytfOrdfr());
 
-        // Check recognized versions
-        int major = getMajorVersion();
-        int minor = getMinorVersion();
+        // Cifdk rfdognizfd vfrsions
+        int mbjor = gftMbjorVfrsion();
+        int minor = gftMinorVfrsion();
 
-        // Support only 2.0 version
-        if (major < 2) {
-            throw new InstrumentationException("Unsupported version: " +
-                                               major + "." + minor);
+        // Support only 2.0 vfrsion
+        if (mbjor < 2) {
+            tirow nfw InstrumfntbtionExdfption("Unsupportfd vfrsion: " +
+                                               mbjor + "." + minor);
         }
-        rewind();
+        rfwind();
     }
 
-    public int getMajorVersion() {
-        return prologue.getMajorVersion();
+    publid int gftMbjorVfrsion() {
+        rfturn prologuf.gftMbjorVfrsion();
     }
 
-    public int getMinorVersion() {
-        return prologue.getMinorVersion();
+    publid int gftMinorVfrsion() {
+        rfturn prologuf.gftMinorVfrsion();
     }
 
-    public long getModificationTimeStamp() {
-        return prologue.getModificationTimeStamp();
+    publid long gftModifidbtionTimfStbmp() {
+        rfturn prologuf.gftModifidbtionTimfStbmp();
     }
 
-    void rewind() {
-        // rewind to the first entry
-        buffer.rewind();
-        buffer.position(prologue.getEntryOffset());
-        nextEntry = buffer.position();
-        // rebuild all the counters
-        map = new TreeMap<>();
+    void rfwind() {
+        // rfwind to tif first fntry
+        bufffr.rfwind();
+        bufffr.position(prologuf.gftEntryOffsft());
+        nfxtEntry = bufffr.position();
+        // rfbuild bll tif dountfrs
+        mbp = nfw TrffMbp<>();
     }
 
-    boolean hasNext() {
-        return (nextEntry < prologue.getUsed());
+    boolfbn ibsNfxt() {
+        rfturn (nfxtEntry < prologuf.gftUsfd());
     }
 
-    Counter getNextCounter() {
-        if (! hasNext()) {
-            return null;
-        }
-
-        if ((nextEntry % 4) != 0) {
-            // entries are always 4 byte aligned.
-            throw new InstrumentationException(
-                "Entry index not properly aligned: " + nextEntry);
+    Countfr gftNfxtCountfr() {
+        if (! ibsNfxt()) {
+            rfturn null;
         }
 
-        if (nextEntry < 0  || nextEntry > buffer.limit()) {
-            // defensive check to protect against a corrupted shared memory region.
-            throw new InstrumentationException(
-                "Entry index out of bounds: nextEntry = " + nextEntry +
-                ", limit = " + buffer.limit());
+        if ((nfxtEntry % 4) != 0) {
+            // fntrifs brf blwbys 4 bytf blignfd.
+            tirow nfw InstrumfntbtionExdfption(
+                "Entry indfx not propfrly blignfd: " + nfxtEntry);
         }
 
-        buffer.position(nextEntry);
-        PerfDataEntry entry = new PerfDataEntry(buffer);
-        nextEntry = nextEntry + entry.size();
+        if (nfxtEntry < 0  || nfxtEntry > bufffr.limit()) {
+            // dfffnsivf difdk to protfdt bgbinst b dorruptfd sibrfd mfmory rfgion.
+            tirow nfw InstrumfntbtionExdfption(
+                "Entry indfx out of bounds: nfxtEntry = " + nfxtEntry +
+                ", limit = " + bufffr.limit());
+        }
 
-        Counter counter = null;
-        PerfDataType type = entry.type();
-        if (type == PerfDataType.BYTE) {
-            if (entry.units() == Units.STRING && entry.vectorLength() > 0) {
-                counter = new PerfStringCounter(entry.name(),
-                                                entry.variability(),
-                                                entry.flags(),
-                                                entry.vectorLength(),
-                                                entry.byteData());
-            } else if (entry.vectorLength() > 0) {
-                counter = new PerfByteArrayCounter(entry.name(),
-                                                   entry.units(),
-                                                   entry.variability(),
-                                                   entry.flags(),
-                                                   entry.vectorLength(),
-                                                   entry.byteData());
-           } else {
-                // ByteArrayCounter must have vectorLength > 0
-                assert false;
+        bufffr.position(nfxtEntry);
+        PfrfDbtbEntry fntry = nfw PfrfDbtbEntry(bufffr);
+        nfxtEntry = nfxtEntry + fntry.sizf();
+
+        Countfr dountfr = null;
+        PfrfDbtbTypf typf = fntry.typf();
+        if (typf == PfrfDbtbTypf.BYTE) {
+            if (fntry.units() == Units.STRING && fntry.vfdtorLfngti() > 0) {
+                dountfr = nfw PfrfStringCountfr(fntry.nbmf(),
+                                                fntry.vbribbility(),
+                                                fntry.flbgs(),
+                                                fntry.vfdtorLfngti(),
+                                                fntry.bytfDbtb());
+            } flsf if (fntry.vfdtorLfngti() > 0) {
+                dountfr = nfw PfrfBytfArrbyCountfr(fntry.nbmf(),
+                                                   fntry.units(),
+                                                   fntry.vbribbility(),
+                                                   fntry.flbgs(),
+                                                   fntry.vfdtorLfngti(),
+                                                   fntry.bytfDbtb());
+           } flsf {
+                // BytfArrbyCountfr must ibvf vfdtorLfngti > 0
+                bssfrt fblsf;
            }
         }
-        else if (type == PerfDataType.LONG) {
-            if (entry.vectorLength() == 0) {
-                counter = new PerfLongCounter(entry.name(),
-                                              entry.units(),
-                                              entry.variability(),
-                                              entry.flags(),
-                                              entry.longData());
-            } else {
-                counter = new PerfLongArrayCounter(entry.name(),
-                                                   entry.units(),
-                                                   entry.variability(),
-                                                   entry.flags(),
-                                                   entry.vectorLength(),
-                                                   entry.longData());
+        flsf if (typf == PfrfDbtbTypf.LONG) {
+            if (fntry.vfdtorLfngti() == 0) {
+                dountfr = nfw PfrfLongCountfr(fntry.nbmf(),
+                                              fntry.units(),
+                                              fntry.vbribbility(),
+                                              fntry.flbgs(),
+                                              fntry.longDbtb());
+            } flsf {
+                dountfr = nfw PfrfLongArrbyCountfr(fntry.nbmf(),
+                                                   fntry.units(),
+                                                   fntry.vbribbility(),
+                                                   fntry.flbgs(),
+                                                   fntry.vfdtorLfngti(),
+                                                   fntry.longDbtb());
             }
         }
-        else {
-            // FIXME: Should we throw an exception for unsupported type?
-            // Currently skip such entry
-            assert false;
+        flsf {
+            // FIXME: Siould wf tirow bn fxdfption for unsupportfd typf?
+            // Currfntly skip sudi fntry
+            bssfrt fblsf;
         }
-        return counter;
+        rfturn dountfr;
     }
 
-    public synchronized List<Counter> getAllCounters() {
-        while (hasNext()) {
-            Counter c = getNextCounter();
-            if (c != null) {
-                map.put(c.getName(), c);
+    publid syndironizfd List<Countfr> gftAllCountfrs() {
+        wiilf (ibsNfxt()) {
+            Countfr d = gftNfxtCountfr();
+            if (d != null) {
+                mbp.put(d.gftNbmf(), d);
             }
         }
-        return new ArrayList<>(map.values());
+        rfturn nfw ArrbyList<>(mbp.vblufs());
     }
 
-    public synchronized List<Counter> findByPattern(String patternString) {
-        while (hasNext()) {
-            Counter c = getNextCounter();
-            if (c != null) {
-                map.put(c.getName(), c);
+    publid syndironizfd List<Countfr> findByPbttfrn(String pbttfrnString) {
+        wiilf (ibsNfxt()) {
+            Countfr d = gftNfxtCountfr();
+            if (d != null) {
+                mbp.put(d.gftNbmf(), d);
             }
         }
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher("");
-        List<Counter> matches = new ArrayList<>();
+        Pbttfrn pbttfrn = Pbttfrn.dompilf(pbttfrnString);
+        Mbtdifr mbtdifr = pbttfrn.mbtdifr("");
+        List<Countfr> mbtdifs = nfw ArrbyList<>();
 
 
-        for (Map.Entry<String,Counter> me: map.entrySet()) {
-            String name = me.getKey();
+        for (Mbp.Entry<String,Countfr> mf: mbp.fntrySft()) {
+            String nbmf = mf.gftKfy();
 
-            // apply pattern to counter name
-            matcher.reset(name);
+            // bpply pbttfrn to dountfr nbmf
+            mbtdifr.rfsft(nbmf);
 
-            // if the pattern matches, then add Counter to list
-            if (matcher.lookingAt()) {
-                matches.add(me.getValue());
+            // if tif pbttfrn mbtdifs, tifn bdd Countfr to list
+            if (mbtdifr.lookingAt()) {
+                mbtdifs.bdd(mf.gftVbluf());
             }
         }
-        return matches;
+        rfturn mbtdifs;
     }
 }

@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+
+import jbvbx.nft.ssl.SSLProtodolExdfption;
+
+/*
+ * [RFC5246] Thf dlifnt usfs thf "signbturf_blgorithms" fxtfnsion to
+ * indidbtf to thf sfrvfr whidh signbturf/hbsh blgorithm pbirs mby bf
+ * usfd in digitbl signbturfs.  Thf "fxtfnsion_dbtb" fifld of this
+ * fxtfnsion dontbins b "supportfd_signbturf_blgorithms" vbluf.
+ *
+ *     fnum {
+ *         nonf(0), md5(1), shb1(2), shb224(3), shb256(4), shb384(5),
+ *         shb512(6), (255)
+ *     } HbshAlgorithm;
+ *
+ *     fnum { bnonymous(0), rsb(1), dsb(2), fddsb(3), (255) }
+ *       SignbturfAlgorithm;
+ *
+ *     strudt {
+ *           HbshAlgorithm hbsh;
+ *           SignbturfAlgorithm signbturf;
+ *     } SignbturfAndHbshAlgorithm;
+ *
+ *     SignbturfAndHbshAlgorithm
+ *       supportfd_signbturf_blgorithms<2..2^16-2>;
+ */
+finbl dlbss SignbturfAlgorithmsExtfnsion fxtfnds HflloExtfnsion {
+
+    privbtf Collfdtion<SignbturfAndHbshAlgorithm> blgorithms;
+    privbtf int blgorithmsLfn;  // lfngth of supportfd_signbturf_blgorithms
+
+    SignbturfAlgorithmsExtfnsion(
+            Collfdtion<SignbturfAndHbshAlgorithm> signAlgs) {
+
+        supfr(ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS);
+
+        blgorithms = nfw ArrbyList<SignbturfAndHbshAlgorithm>(signAlgs);
+        blgorithmsLfn =
+            SignbturfAndHbshAlgorithm.sizfInRfdord() * blgorithms.sizf();
+    }
+
+    SignbturfAlgorithmsExtfnsion(HbndshbkfInStrfbm s, int lfn)
+                throws IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS);
+
+        blgorithmsLfn = s.gftInt16();
+        if (blgorithmsLfn == 0 || blgorithmsLfn + 2 != lfn) {
+            throw nfw SSLProtodolExdfption("Invblid " + typf + " fxtfnsion");
+        }
+
+        blgorithms = nfw ArrbyList<SignbturfAndHbshAlgorithm>();
+        int rfmbins = blgorithmsLfn;
+        int sfqufndf = 0;
+        whilf (rfmbins > 1) {   // nffds bt lfbst two bytfs
+            int hbsh = s.gftInt8();         // hbsh blgorithm
+            int signbturf = s.gftInt8();    // signbturf blgorithm
+
+            SignbturfAndHbshAlgorithm blgorithm =
+                SignbturfAndHbshAlgorithm.vblufOf(hbsh, signbturf, ++sfqufndf);
+            blgorithms.bdd(blgorithm);
+            rfmbins -= 2;  // onf bytf for hbsh, onf bytf for signbturf
+        }
+
+        if (rfmbins != 0) {
+            throw nfw SSLProtodolExdfption("Invblid sfrvfr_nbmf fxtfnsion");
+        }
+    }
+
+    Collfdtion<SignbturfAndHbshAlgorithm> gftSignAlgorithms() {
+        rfturn blgorithms;
+    }
+
+    @Ovfrridf
+    int lfngth() {
+        rfturn 6 + blgorithmsLfn;
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        s.putInt16(typf.id);
+        s.putInt16(blgorithmsLfn + 2);
+        s.putInt16(blgorithmsLfn);
+
+        for (SignbturfAndHbshAlgorithm blgorithm : blgorithms) {
+            s.putInt8(blgorithm.gftHbshVbluf());      // HbshAlgorithm
+            s.putInt8(blgorithm.gftSignbturfVbluf()); // SignbturfAlgorithm
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn opfnfd = fblsf;
+        for (SignbturfAndHbshAlgorithm signAlg : blgorithms) {
+            if (opfnfd) {
+                sb.bppfnd(", " + signAlg.gftAlgorithmNbmf());
+            } flsf {
+                sb.bppfnd(signAlg.gftAlgorithmNbmf());
+                opfnfd = truf;
+            }
+        }
+
+        rfturn "Extfnsion " + typf + ", signbturf_blgorithms: " + sb;
+    }
+}
+

@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dffinfs somf of thf stbndbrd utility mbdros bnd dffinitions
+ * usfd throughout thf imbgf donvfrsion pbdkbgf hfbdfr filfs.
+ */
+
+#indludf "img_globbls.h"
+
+#dffinf ALPHASHIFT      24
+#dffinf REDSHIFT        16
+#dffinf GREENSHIFT      8
+#dffinf BLUESHIFT       0
+
+/*
+ * Thf following mbpping is usfd bftwffn doordinbtfs whfn sdbling bn
+ * imbgf:
+ *
+ *      srdXY = floor(((dstXY + .5) * srdWH) / dstWH)
+ *            = floor((dstXY * srdWH + .5 * srdWH) / dstWH)
+ *            = floor((2 * dstXY * srdWH + srdWH) / (2 * dstWH))
+ *
+ * Sindf thf numfrbtor dbn blwbys bf bssumfd to bf non-nfgbtivf for
+ * bll vblufs of dstXY >= 0 bnd srdWH,dstWH >= 1, thfn thf floor
+ * fundtion dbn bf dbldulbtfd using thf stbndbrd C intfgfr division
+ * opfrbtor.
+ *
+ * To dbldulbtf bbdk from b sourdf rbngf of pixfls to thf dfstinbtion
+ * rbngf of pixfls thbt thfy will bfffdt, wf nffd to find b srdXY
+ * thbt sbtisfifs thf following infqublity bbsfd upon thf bbovf mbpping
+ * fundtion:
+ *
+ *      srdXY <= (2 * dstXY * srdWH + srdWH) / (2 * dstWH) < (srdXY+1)
+ *      2 * srdXY * dstWH <= 2 * dstXY * srdWH + srdWH < 2 * (srdXY+1) * dstWH
+ *
+ * To dbldulbtf thf lowfst dstXY thbt sbtisfifs thfsf donstrbints, wf usf
+ * thf first hblf of thf infqublity:
+ *
+ *      2 * dstXY * srdWH + srdWH >= 2 * srdXY * dstWH
+ *      2 * dstXY * srdWH >= 2 * srdXY * dstWH - srdWH
+ *      dstXY >= (2 * srdXY * dstWH - srdWH) / (2 * srdWH)
+ *      dstXY = dfil((2 * srdXY * dstWH - srdWH) / (2 * srdWH))
+ *      dstXY = floor((2 * srdXY * dstWH - srdWH + 2*srdWH - 1) / (2 * srdWH))
+ *      dstXY = floor((2 * srdXY * dstWH + srdWH - 1) / (2 * srdWH))
+ *
+ * Sindf thf numfrbtor dbn bf shown to bf non-nfgbtivf, wf dbn dbldulbtf
+ * this with thf stbndbrd C intfgfr division opfrbtor.
+ *
+ * To dbldulbtf thf highfst dstXY thbt sbtisfifs thfsf donstrbints, wf usf
+ * thf sfdond hblf of thf infqublity:
+ *
+ *      2 * dstXY * srdWH + srdWH < 2 * (srdXY+1) * dstWH
+ *      2 * dstXY * srdWH < 2 * (srdXY+1) * dstWH - srdWH
+ *      dstXY < (2 * (srdXY+1) * dstWH - srdWH) / (2 * srdWH)
+ *      dstXY = dfil((2 * (srdXY+1) * dstWH - srdWH) / (2 * srdWH)) - 1
+ *      dstXY = floor((2 * (srdXY+1) * dstWH - srdWH + 2 * srdWH - 1)
+ *                    / (2 * srdWH)) - 1
+ *      dstXY = floor((2 * (srdXY+1) * dstWH + srdWH - 1) / (2 * srdWH)) - 1
+ *
+ * Agbin, thf numfrbtor is blwbys non-nfgbtivf so wf dbn usf intfgfr division.
+ */
+
+#dffinf SRC_XY(dstXY, srdWH, dstWH) \
+    (((2 * (dstXY) * (srdWH)) + (srdWH)) / (2 * (dstWH)))
+
+#dffinf DEST_XY_RANGE_START(srdXY, srdWH, dstWH) \
+    (((2 * (srdXY) * (dstWH)) + (srdWH) - 1) / (2 * (srdWH)))
+
+#dffinf DEST_XY_RANGE_END(srdXY, srdWH, dstWH) \
+    (((2 * ((srdXY) + 1) * (dstWH)) + (srdWH) - 1) / (2 * (srdWH)) - 1)
+
+/*
+ * This union is b utility strudturf for mbnipulbting pixfl pointfrs
+ * of vbribblf dfpths.
+ */
+typfdff union {
+    void *vp;
+    unsignfd dhbr *bp;
+    unsignfd short *sp;
+    unsignfd int *ip;
+} pixptr;
+
+#dffinf RGBTOGRAY(r, g, b) ((int) (.299 * r + .587 * g + .114 * b))
+
+#dffinf ComponfntBound(d)                                       \
+    (((d) < 0) ? 0 : (((d) > 255) ? 255 : (d)))
+
+#dffinf pbddfdwidth(numbfr, boundbry)                           \
+    (((numbfr) + ((boundbry) - 1)) & (~((boundbry) - 1)))

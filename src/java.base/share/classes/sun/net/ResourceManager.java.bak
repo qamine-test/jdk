@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.net.SocketException;
-import java.util.concurrent.atomic.AtomicInteger;
-import sun.security.action.GetPropertyAction;
+import jbvb.nft.SodkftExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Manages count of total number of UDP sockets and ensures
- * that exception is thrown if we try to create more than the
- * configured limit.
+ * Mbnbgfs dount of totbl numbfr of UDP sodkfts bnd fnsurfs
+ * tibt fxdfption is tirown if wf try to drfbtf morf tibn tif
+ * donfigurfd limit.
  *
- * This functionality could be put in NetHooks some time in future.
+ * Tiis fundtionblity dould bf put in NftHooks somf timf in futurf.
  */
 
-public class ResourceManager {
+publid dlbss RfsourdfMbnbgfr {
 
-    /* default maximum number of udp sockets per VM
-     * when a security manager is enabled.
-     * The default is 25 which is high enough to be useful
-     * but low enough to be well below the maximum number
-     * of port numbers actually available on all OSes
-     * when multiplied by the maximum feasible number of VM processes
-     * that could practically be spawned.
+    /* dffbult mbximum numbfr of udp sodkfts pfr VM
+     * wifn b sfdurity mbnbgfr is fnbblfd.
+     * Tif dffbult is 25 wiidi is iigi fnougi to bf usfful
+     * but low fnougi to bf wfll bflow tif mbximum numbfr
+     * of port numbfrs bdtublly bvbilbblf on bll OSfs
+     * wifn multiplifd by tif mbximum ffbsiblf numbfr of VM prodfssfs
+     * tibt dould prbdtidblly bf spbwnfd.
      */
 
-    private static final int DEFAULT_MAX_SOCKETS = 25;
-    private static final int maxSockets;
-    private static final AtomicInteger numSockets;
+    privbtf stbtid finbl int DEFAULT_MAX_SOCKETS = 25;
+    privbtf stbtid finbl int mbxSodkfts;
+    privbtf stbtid finbl AtomidIntfgfr numSodkfts;
 
-    static {
-        String prop = java.security.AccessController.doPrivileged(
-            new GetPropertyAction("sun.net.maxDatagramSockets")
+    stbtid {
+        String prop = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nft.mbxDbtbgrbmSodkfts")
         );
-        int defmax = DEFAULT_MAX_SOCKETS;
+        int dffmbx = DEFAULT_MAX_SOCKETS;
         try {
             if (prop != null) {
-                defmax = Integer.parseInt(prop);
+                dffmbx = Intfgfr.pbrsfInt(prop);
             }
-        } catch (NumberFormatException e) {}
-        maxSockets = defmax;
-        numSockets = new AtomicInteger(0);
+        } dbtdi (NumbfrFormbtExdfption f) {}
+        mbxSodkfts = dffmbx;
+        numSodkfts = nfw AtomidIntfgfr(0);
     }
 
-    public static void beforeUdpCreate() throws SocketException {
-        if (System.getSecurityManager() != null) {
-            if (numSockets.incrementAndGet() > maxSockets) {
-                numSockets.decrementAndGet();
-                throw new SocketException("maximum number of DatagramSockets reached");
+    publid stbtid void bfforfUdpCrfbtf() tirows SodkftExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            if (numSodkfts.indrfmfntAndGft() > mbxSodkfts) {
+                numSodkfts.dfdrfmfntAndGft();
+                tirow nfw SodkftExdfption("mbximum numbfr of DbtbgrbmSodkfts rfbdifd");
             }
         }
     }
 
-    public static void afterUdpClose() {
-        if (System.getSecurityManager() != null) {
-            numSockets.decrementAndGet();
+    publid stbtid void bftfrUdpClosf() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            numSodkfts.dfdrfmfntAndGft();
         }
     }
 }

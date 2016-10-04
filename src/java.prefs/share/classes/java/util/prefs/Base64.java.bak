@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
 /**
- * Static methods for translating Base64 encoded strings to byte arrays
- * and vice-versa.
+ * Stbtid mftiods for trbnslbting Bbsf64 fndodfd strings to bytf brrbys
+ * bnd vidf-vfrsb.
  *
- * @author  Josh Bloch
- * @see     Preferences
- * @since   1.4
+ * @butior  Josi Blodi
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
  */
-class Base64 {
+dlbss Bbsf64 {
     /**
-     * Translates the specified byte array into a Base64 string as per
-     * Preferences.put(byte[]).
+     * Trbnslbtfs tif spfdififd bytf brrby into b Bbsf64 string bs pfr
+     * Prfffrfndfs.put(bytf[]).
      */
-    static String byteArrayToBase64(byte[] a) {
-        return byteArrayToBase64(a, false);
+    stbtid String bytfArrbyToBbsf64(bytf[] b) {
+        rfturn bytfArrbyToBbsf64(b, fblsf);
     }
 
     /**
-     * Translates the specified byte array into an "alternate representation"
-     * Base64 string.  This non-standard variant uses an alphabet that does
-     * not contain the uppercase alphabetic characters, which makes it
-     * suitable for use in situations where case-folding occurs.
+     * Trbnslbtfs tif spfdififd bytf brrby into bn "bltfrnbtf rfprfsfntbtion"
+     * Bbsf64 string.  Tiis non-stbndbrd vbribnt usfs bn blpibbft tibt dofs
+     * not dontbin tif uppfrdbsf blpibbftid dibrbdtfrs, wiidi mbkfs it
+     * suitbblf for usf in situbtions wifrf dbsf-folding oddurs.
      */
-    static String byteArrayToAltBase64(byte[] a) {
-        return byteArrayToBase64(a, true);
+    stbtid String bytfArrbyToAltBbsf64(bytf[] b) {
+        rfturn bytfArrbyToBbsf64(b, truf);
     }
 
-    private static String byteArrayToBase64(byte[] a, boolean alternate) {
-        int aLen = a.length;
-        int numFullGroups = aLen/3;
-        int numBytesInPartialGroup = aLen - 3*numFullGroups;
-        int resultLen = 4*((aLen + 2)/3);
-        StringBuilder result = new StringBuilder(resultLen);
-        char[] intToAlpha = (alternate ? intToAltBase64 : intToBase64);
+    privbtf stbtid String bytfArrbyToBbsf64(bytf[] b, boolfbn bltfrnbtf) {
+        int bLfn = b.lfngti;
+        int numFullGroups = bLfn/3;
+        int numBytfsInPbrtiblGroup = bLfn - 3*numFullGroups;
+        int rfsultLfn = 4*((bLfn + 2)/3);
+        StringBuildfr rfsult = nfw StringBuildfr(rfsultLfn);
+        dibr[] intToAlpib = (bltfrnbtf ? intToAltBbsf64 : intToBbsf64);
 
-        // Translate all full groups from byte array elements to Base64
+        // Trbnslbtf bll full groups from bytf brrby flfmfnts to Bbsf64
         int inCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int byte0 = a[inCursor++] & 0xff;
-            int byte1 = a[inCursor++] & 0xff;
-            int byte2 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-            result.append(intToAlpha[(byte1 << 2)&0x3f | (byte2 >> 6)]);
-            result.append(intToAlpha[byte2 & 0x3f]);
+            int bytf0 = b[inCursor++] & 0xff;
+            int bytf1 = b[inCursor++] & 0xff;
+            int bytf2 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlpib[bytf0 >> 2]);
+            rfsult.bppfnd(intToAlpib[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+            rfsult.bppfnd(intToAlpib[(bytf1 << 2)&0x3f | (bytf2 >> 6)]);
+            rfsult.bppfnd(intToAlpib[bytf2 & 0x3f]);
         }
 
-        // Translate partial group if present
-        if (numBytesInPartialGroup != 0) {
-            int byte0 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            if (numBytesInPartialGroup == 1) {
-                result.append(intToAlpha[(byte0 << 4) & 0x3f]);
-                result.append("==");
-            } else {
-                // assert numBytesInPartialGroup == 2;
-                int byte1 = a[inCursor++] & 0xff;
-                result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-                result.append(intToAlpha[(byte1 << 2)&0x3f]);
-                result.append('=');
+        // Trbnslbtf pbrtibl group if prfsfnt
+        if (numBytfsInPbrtiblGroup != 0) {
+            int bytf0 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlpib[bytf0 >> 2]);
+            if (numBytfsInPbrtiblGroup == 1) {
+                rfsult.bppfnd(intToAlpib[(bytf0 << 4) & 0x3f]);
+                rfsult.bppfnd("==");
+            } flsf {
+                // bssfrt numBytfsInPbrtiblGroup == 2;
+                int bytf1 = b[inCursor++] & 0xff;
+                rfsult.bppfnd(intToAlpib[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+                rfsult.bppfnd(intToAlpib[(bytf1 << 2)&0x3f]);
+                rfsult.bppfnd('=');
             }
         }
-        // assert inCursor == a.length;
-        // assert result.length() == resultLen;
-        return result.toString();
+        // bssfrt inCursor == b.lfngti;
+        // bssfrt rfsult.lfngti() == rfsultLfn;
+        rfturn rfsult.toString();
     }
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Base64 Alphabet" equivalents as specified
-     * in Table 1 of RFC 2045.
+     * Tiis brrby is b lookup tbblf tibt trbnslbtfs 6-bit positivf intfgfr
+     * indfx vblufs into tifir "Bbsf64 Alpibbft" fquivblfnts bs spfdififd
+     * in Tbblf 1 of RFC 2045.
      */
-    private static final char intToBase64[] = {
+    privbtf stbtid finbl dibr intToBbsf64[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'd', 'd', 'f', 'f', 'g', 'i', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Alternate Base64 Alphabet" equivalents.
-     * This is NOT the real Base64 Alphabet as per in Table 1 of RFC 2045.
-     * This alternate alphabet does not use the capital letters.  It is
-     * designed for use in environments where "case folding" occurs.
+     * Tiis brrby is b lookup tbblf tibt trbnslbtfs 6-bit positivf intfgfr
+     * indfx vblufs into tifir "Altfrnbtf Bbsf64 Alpibbft" fquivblfnts.
+     * Tiis is NOT tif rfbl Bbsf64 Alpibbft bs pfr in Tbblf 1 of RFC 2045.
+     * Tiis bltfrnbtf blpibbft dofs not usf tif dbpitbl lfttfrs.  It is
+     * dfsignfd for usf in fnvironmfnts wifrf "dbsf folding" oddurs.
      */
-    private static final char intToAltBase64[] = {
+    privbtf stbtid finbl dibr intToAltBbsf64[] = {
         '!', '"', '#', '$', '%', '&', '\'', '(', ')', ',', '-', '.', ':',
         ';', '<', '>', '@', '[', ']', '^',  '`', '_', '{', '|', '}', '~',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g',  'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'd', 'd', 'f', 'f', 'g',  'i', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't',  'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6',  '7', '8', '9', '+', '?'
     };
 
     /**
-     * Translates the specified Base64 string (as per Preferences.get(byte[]))
-     * into a byte array.
+     * Trbnslbtfs tif spfdififd Bbsf64 string (bs pfr Prfffrfndfs.gft(bytf[]))
+     * into b bytf brrby.
      *
-     * @throw IllegalArgumentException if <tt>s</tt> is not a valid Base64
+     * @tirow IllfgblArgumfntExdfption if <tt>s</tt> is not b vblid Bbsf64
      *        string.
      */
-    static byte[] base64ToByteArray(String s) {
-        return base64ToByteArray(s, false);
+    stbtid bytf[] bbsf64ToBytfArrby(String s) {
+        rfturn bbsf64ToBytfArrby(s, fblsf);
     }
 
     /**
-     * Translates the specified "alternate representation" Base64 string
-     * into a byte array.
+     * Trbnslbtfs tif spfdififd "bltfrnbtf rfprfsfntbtion" Bbsf64 string
+     * into b bytf brrby.
      *
-     * @throw IllegalArgumentException or ArrayOutOfBoundsException
-     *        if <tt>s</tt> is not a valid alternate representation
-     *        Base64 string.
+     * @tirow IllfgblArgumfntExdfption or ArrbyOutOfBoundsExdfption
+     *        if <tt>s</tt> is not b vblid bltfrnbtf rfprfsfntbtion
+     *        Bbsf64 string.
      */
-    static byte[] altBase64ToByteArray(String s) {
-        return base64ToByteArray(s, true);
+    stbtid bytf[] bltBbsf64ToBytfArrby(String s) {
+        rfturn bbsf64ToBytfArrby(s, truf);
     }
 
-    private static byte[] base64ToByteArray(String s, boolean alternate) {
-        byte[] alphaToInt = (alternate ?  altBase64ToInt : base64ToInt);
-        int sLen = s.length();
-        int numGroups = sLen/4;
-        if (4*numGroups != sLen)
-            throw new IllegalArgumentException(
-                "String length must be a multiple of four.");
-        int missingBytesInLastGroup = 0;
+    privbtf stbtid bytf[] bbsf64ToBytfArrby(String s, boolfbn bltfrnbtf) {
+        bytf[] blpibToInt = (bltfrnbtf ?  bltBbsf64ToInt : bbsf64ToInt);
+        int sLfn = s.lfngti();
+        int numGroups = sLfn/4;
+        if (4*numGroups != sLfn)
+            tirow nfw IllfgblArgumfntExdfption(
+                "String lfngti must bf b multiplf of four.");
+        int missingBytfsInLbstGroup = 0;
         int numFullGroups = numGroups;
-        if (sLen != 0) {
-            if (s.charAt(sLen-1) == '=') {
-                missingBytesInLastGroup++;
+        if (sLfn != 0) {
+            if (s.dibrAt(sLfn-1) == '=') {
+                missingBytfsInLbstGroup++;
                 numFullGroups--;
             }
-            if (s.charAt(sLen-2) == '=')
-                missingBytesInLastGroup++;
+            if (s.dibrAt(sLfn-2) == '=')
+                missingBytfsInLbstGroup++;
         }
-        byte[] result = new byte[3*numGroups - missingBytesInLastGroup];
+        bytf[] rfsult = nfw bytf[3*numGroups - missingBytfsInLbstGroup];
 
-        // Translate all full groups from base64 to byte array elements
+        // Trbnslbtf bll full groups from bbsf64 to bytf brrby flfmfnts
         int inCursor = 0, outCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int ch0 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch1 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch2 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch3 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
-            result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
-            result[outCursor++] = (byte) ((ch2 << 6) | ch3);
+            int di0 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            int di1 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            int di2 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            int di3 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            rfsult[outCursor++] = (bytf) ((di0 << 2) | (di1 >> 4));
+            rfsult[outCursor++] = (bytf) ((di1 << 4) | (di2 >> 2));
+            rfsult[outCursor++] = (bytf) ((di2 << 6) | di3);
         }
 
-        // Translate partial group, if present
-        if (missingBytesInLastGroup != 0) {
-            int ch0 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch1 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
+        // Trbnslbtf pbrtibl group, if prfsfnt
+        if (missingBytfsInLbstGroup != 0) {
+            int di0 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            int di1 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+            rfsult[outCursor++] = (bytf) ((di0 << 2) | (di1 >> 4));
 
-            if (missingBytesInLastGroup == 1) {
-                int ch2 = base64toInt(s.charAt(inCursor++), alphaToInt);
-                result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
+            if (missingBytfsInLbstGroup == 1) {
+                int di2 = bbsf64toInt(s.dibrAt(inCursor++), blpibToInt);
+                rfsult[outCursor++] = (bytf) ((di1 << 4) | (di2 >> 2));
             }
         }
-        // assert inCursor == s.length()-missingBytesInLastGroup;
-        // assert outCursor == result.length;
-        return result;
+        // bssfrt inCursor == s.lfngti()-missingBytfsInLbstGroup;
+        // bssfrt outCursor == rfsult.lfngti;
+        rfturn rfsult;
     }
 
     /**
-     * Translates the specified character, which is assumed to be in the
-     * "Base 64 Alphabet" into its equivalent 6-bit positive integer.
+     * Trbnslbtfs tif spfdififd dibrbdtfr, wiidi is bssumfd to bf in tif
+     * "Bbsf 64 Alpibbft" into its fquivblfnt 6-bit positivf intfgfr.
      *
-     * @throw IllegalArgumentException or ArrayOutOfBoundsException if
-     *        c is not in the Base64 Alphabet.
+     * @tirow IllfgblArgumfntExdfption or ArrbyOutOfBoundsExdfption if
+     *        d is not in tif Bbsf64 Alpibbft.
      */
-    private static int base64toInt(char c, byte[] alphaToInt) {
-        int result = alphaToInt[c];
-        if (result < 0)
-            throw new IllegalArgumentException("Illegal character " + c);
-        return result;
+    privbtf stbtid int bbsf64toInt(dibr d, bytf[] blpibToInt) {
+        int rfsult = blpibToInt[d];
+        if (rfsult < 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dibrbdtfr " + d);
+        rfturn rfsult;
     }
 
     /**
-     * This array is a lookup table that translates unicode characters
-     * drawn from the "Base64 Alphabet" (as specified in Table 1 of RFC 2045)
-     * into their 6-bit positive integer equivalents.  Characters that
-     * are not in the Base64 alphabet but fall within the bounds of the
-     * array are translated to -1.
+     * Tiis brrby is b lookup tbblf tibt trbnslbtfs unidodf dibrbdtfrs
+     * drbwn from tif "Bbsf64 Alpibbft" (bs spfdififd in Tbblf 1 of RFC 2045)
+     * into tifir 6-bit positivf intfgfr fquivblfnts.  Cibrbdtfrs tibt
+     * brf not in tif Bbsf64 blpibbft but fbll witiin tif bounds of tif
+     * brrby brf trbnslbtfd to -1.
      */
-    private static final byte base64ToInt[] = {
+    privbtf stbtid finbl bytf bbsf64ToInt[] = {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54,
@@ -222,10 +222,10 @@ class Base64 {
     };
 
     /**
-     * This array is the analogue of base64ToInt, but for the nonstandard
-     * variant that avoids the use of uppercase alphabetic characters.
+     * Tiis brrby is tif bnbloguf of bbsf64ToInt, but for tif nonstbndbrd
+     * vbribnt tibt bvoids tif usf of uppfrdbsf blpibbftid dibrbdtfrs.
      */
-    private static final byte altBase64ToInt[] = {
+    privbtf stbtid finbl bytf bltBbsf64ToInt[] = {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1,
         2, 3, 4, 5, 6, 7, 8, -1, 62, 9, 10, 11, -1 , 52, 53, 54, 55, 56, 57,
@@ -236,25 +236,25 @@ class Base64 {
         51, 22, 23, 24, 25
     };
 
-    public static void main(String args[]) {
-        int numRuns  = Integer.parseInt(args[0]);
-        int numBytes = Integer.parseInt(args[1]);
-        java.util.Random rnd = new java.util.Random();
+    publid stbtid void mbin(String brgs[]) {
+        int numRuns  = Intfgfr.pbrsfInt(brgs[0]);
+        int numBytfs = Intfgfr.pbrsfInt(brgs[1]);
+        jbvb.util.Rbndom rnd = nfw jbvb.util.Rbndom();
         for (int i=0; i<numRuns; i++) {
-            for (int j=0; j<numBytes; j++) {
-                byte[] arr = new byte[j];
+            for (int j=0; j<numBytfs; j++) {
+                bytf[] brr = nfw bytf[j];
                 for (int k=0; k<j; k++)
-                    arr[k] = (byte)rnd.nextInt();
+                    brr[k] = (bytf)rnd.nfxtInt();
 
-                String s = byteArrayToBase64(arr);
-                byte [] b = base64ToByteArray(s);
-                if (!java.util.Arrays.equals(arr, b))
-                    System.out.println("Dismal failure!");
+                String s = bytfArrbyToBbsf64(brr);
+                bytf [] b = bbsf64ToBytfArrby(s);
+                if (!jbvb.util.Arrbys.fqubls(brr, b))
+                    Systfm.out.println("Dismbl fbilurf!");
 
-                s = byteArrayToAltBase64(arr);
-                b = altBase64ToByteArray(s);
-                if (!java.util.Arrays.equals(arr, b))
-                    System.out.println("Alternate dismal failure!");
+                s = bytfArrbyToAltBbsf64(brr);
+                b = bltBbsf64ToBytfArrby(s);
+                if (!jbvb.util.Arrbys.fqubls(brr, b))
+                    Systfm.out.println("Altfrnbtf dismbl fbilurf!");
             }
         }
     }

@@ -1,0 +1,376 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.timfr;
+
+
+
+// jbvb imports
+//
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//import jbvb.io.Sfriblizbblf;
+// fnd of NPCTE fix for bugId 4464388
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+
+/**
+ * Exposfs thf mbnbgfmfnt intfrfbdf of thf timfr MBfbn.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf TimfrMBfbn {
+
+    /**
+     * Stbrts thf timfr.
+     * <P>
+     * If thfrf is onf or morf timfr notifidbtions bfforf thf timf in thf list of notifidbtions, thf notifidbtion
+     * is sfnt bddording to thf <CODE>sfndPbstNotifidbtions</CODE> flbg bnd thfn, updbtfd
+     * bddording to its pfriod bnd rfmbining numbfr of oddurrfndfs.
+     * If thf timfr notifidbtion dbtf rfmbins fbrlifr thbn thf durrfnt dbtf, this notifidbtion is just rfmovfd
+     * from thf list of notifidbtions.
+     */
+    publid void stbrt();
+
+    /**
+     * Stops thf timfr.
+     */
+    publid void stop();
+
+    /**
+     * Crfbtfs b nfw timfr notifidbtion with thf spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into thf list of notifidbtions with b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
+     * <P>
+     * If thf timfr notifidbtion to bf insfrtfd hbs b dbtf thbt is bfforf thf durrfnt dbtf,
+     * thf mfthod bfhbvfs bs if thf spfdififd dbtf wfrf thf durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, thf notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, thf first notifidbtion is dflivfrfd immfdibtfly bnd thf
+     * subsfqufnt onfs brf spbdfd bs spfdififd by thf pfriod pbrbmftfr.
+     * <P>
+     * Notf thbt ondf thf timfr notifidbtion hbs bffn bddfd into thf list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
+     * <P>
+     * In thf dbsf of b pfriodid notifidbtion, thf vbluf of pbrbmftfr <i>fixfdRbtf</i> is usfd to
+     * spfdify thf fxfdution sdhfmf, bs spfdififd in {@link jbvb.util.Timfr}.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     * @pbrbm mfssbgf Thf timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Thf timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Thf dbtf whfn thf notifidbtion oddurs.
+     * @pbrbm pfriod Thf pfriod of thf timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Thf totbl numbfr thf timfr notifidbtion will bf fmittfd.
+     * @pbrbm fixfdRbtf If <dodf>truf</dodf> bnd if thf notifidbtion is pfriodid, thf notifidbtion
+     *                  is sdhfdulfd with b <i>fixfd-rbtf</i> fxfdution sdhfmf. If
+     *                  <dodf>fblsf</dodf> bnd if thf notifidbtion is pfriodid, thf notifidbtion
+     *                  is sdhfdulfd with b <i>fixfd-dflby</i> fxfdution sdhfmf. Ignorfd if thf
+     *                  notifidbtion is not pfriodid.
+     *
+     * @rfturn Thf idfntififr of thf nfw drfbtfd timfr notifidbtion.
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf dbtf is {@dodf null} or
+     * thf pfriod or thf numbfr of oddurrfndfs is nfgbtivf.
+     *
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long)
+     */
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndhronizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                                Dbtf dbtf, long pfriod, long nbOddurfndfs)
+// fnd of NPCTE fix for bugId 4464388
+
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod, long nbOddurfndfs, boolfbn fixfdRbtf)
+        throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Crfbtfs b nfw timfr notifidbtion with thf spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into thf list of notifidbtions with b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
+     * <P>
+     * If thf timfr notifidbtion to bf insfrtfd hbs b dbtf thbt is bfforf thf durrfnt dbtf,
+     * thf mfthod bfhbvfs bs if thf spfdififd dbtf wfrf thf durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, thf notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, thf first notifidbtion is dflivfrfd immfdibtfly bnd thf
+     * subsfqufnt onfs brf spbdfd bs spfdififd by thf pfriod pbrbmftfr.
+     * <P>
+     * Notf thbt ondf thf timfr notifidbtion hbs bffn bddfd into thf list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
+     * <P>
+     * In thf dbsf of b pfriodid notifidbtion, usfs b <i>fixfd-dflby</i> fxfdution sdhfmf, bs spfdififd in
+     * {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i> fxfdution sdhfmf, usf
+     * {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)} instfbd.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     * @pbrbm mfssbgf Thf timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Thf timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Thf dbtf whfn thf notifidbtion oddurs.
+     * @pbrbm pfriod Thf pfriod of thf timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Thf totbl numbfr thf timfr notifidbtion will bf fmittfd.
+     *
+     * @rfturn Thf idfntififr of thf nfw drfbtfd timfr notifidbtion.
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf dbtf is {@dodf null} or
+     * thf pfriod or thf numbfr of oddurrfndfs is nfgbtivf.
+     *
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)
+     */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndhronizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
+
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod, long nbOddurfndfs)
+        throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Crfbtfs b nfw timfr notifidbtion with thf spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into thf list of notifidbtions with b givfn dbtf
+     * bnd pfriod bnd b null numbfr of oddurrfndfs.
+     * <P>
+     * Thf timfr notifidbtion will rfpfbt dontinuously using thf timfr pfriod using b <i>fixfd-dflby</i>
+     * fxfdution sdhfmf, bs spfdififd in {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i>
+     * fxfdution sdhfmf, usf {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long,
+     * boolfbn)} instfbd.
+     * <P>
+     * If thf timfr notifidbtion to bf insfrtfd hbs b dbtf thbt is bfforf thf durrfnt dbtf,
+     * thf mfthod bfhbvfs bs if thf spfdififd dbtf wfrf thf durrfnt dbtf. Thf
+     * first notifidbtion is dflivfrfd immfdibtfly bnd thf subsfqufnt onfs brf
+     * spbdfd bs spfdififd by thf pfriod pbrbmftfr.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     * @pbrbm mfssbgf Thf timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Thf timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Thf dbtf whfn thf notifidbtion oddurs.
+     * @pbrbm pfriod Thf pfriod of thf timfr notifidbtion (in millisfdonds).
+     *
+     * @rfturn Thf idfntififr of thf nfw drfbtfd timfr notifidbtion.
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf dbtf is {@dodf null} or
+     * thf pfriod is nfgbtivf.
+     */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndhronizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
+
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                   Dbtf dbtf, long pfriod)
+        throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Crfbtfs b nfw timfr notifidbtion with thf spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into thf list of notifidbtions with b givfn dbtf
+     * bnd b null pfriod bnd numbfr of oddurrfndfs.
+     * <P>
+     * Thf timfr notifidbtion will bf hbndlfd ondf bt thf spfdififd dbtf.
+     * <P>
+     * If thf timfr notifidbtion to bf insfrtfd hbs b dbtf thbt is bfforf thf durrfnt dbtf,
+     * thf mfthod bfhbvfs bs if thf spfdififd dbtf wfrf thf durrfnt dbtf bnd thf
+     * notifidbtion is dflivfrfd immfdibtfly.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     * @pbrbm mfssbgf Thf timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Thf timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Thf dbtf whfn thf notifidbtion oddurs.
+     *
+     * @rfturn Thf idfntififr of thf nfw drfbtfd timfr notifidbtion.
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf dbtf is {@dodf null}.
+     */
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndhronizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb, Dbtf dbtf)
+//      throws jbvb.lbng.IllfgblArgumfntExdfption {
+// fnd of NPCTE fix for bugId 4464388
+
+    publid Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb, Dbtf dbtf)
+        throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Rfmovfs thf timfr notifidbtion dorrfsponding to thf spfdififd idfntififr from thf list of notifidbtions.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Thf spfdififd idfntififr dofs not dorrfspond to bny timfr notifidbtion
+     * in thf list of notifidbtions of this timfr MBfbn.
+     */
+    publid void rfmovfNotifidbtion(Intfgfr id) throws InstbndfNotFoundExdfption;
+
+    /**
+     * Rfmovfs bll thf timfr notifidbtions dorrfsponding to thf spfdififd typf from thf list of notifidbtions.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Thf spfdififd typf dofs not dorrfspond to bny timfr notifidbtion
+     * in thf list of notifidbtions of this timfr MBfbn.
+     */
+    publid void rfmovfNotifidbtions(String typf) throws InstbndfNotFoundExdfption;
+
+    /**
+     * Rfmovfs bll thf timfr notifidbtions from thf list of notifidbtions
+     * bnd rfsfts thf dountfr usfd to updbtf thf timfr notifidbtion idfntififrs.
+     */
+    publid void rfmovfAllNotifidbtions();
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf numbfr of timfr notifidbtions rfgistfrfd into thf list of notifidbtions.
+     *
+     * @rfturn Thf numbfr of timfr notifidbtions.
+     */
+    publid int gftNbNotifidbtions();
+
+    /**
+     * Gfts bll timfr notifidbtion idfntififrs rfgistfrfd into thf list of notifidbtions.
+     *
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll thf timfr notifidbtion idfntififrs.
+     * <BR>Thf vfdtor is fmpty if thfrf is no timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid Vfdtor<Intfgfr> gftAllNotifidbtionIDs();
+
+    /**
+     * Gfts bll thf idfntififrs of timfr notifidbtions dorrfsponding to thf spfdififd typf.
+     *
+     * @pbrbm typf Thf timfr notifidbtion typf.
+     *
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll thf idfntififrs of
+     * timfr notifidbtions with thf spfdififd <CODE>typf</CODE>.
+     * <BR>Thf vfdtor is fmpty if thfrf is no timfr notifidbtions rfgistfrfd for this timfr MBfbn
+     * with thf spfdififd <CODE>typf</CODE>.
+     */
+    publid Vfdtor<Intfgfr> gftNotifidbtionIDs(String typf);
+
+    /**
+     * Gfts thf timfr notifidbtion typf dorrfsponding to thf spfdififd idfntififr.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn Thf timfr notifidbtion typf or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid String gftNotifidbtionTypf(Intfgfr id);
+
+    /**
+     * Gfts thf timfr notifidbtion dftbilfd mfssbgf dorrfsponding to thf spfdififd idfntififr.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn Thf timfr notifidbtion dftbilfd mfssbgf or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid String gftNotifidbtionMfssbgf(Intfgfr id);
+
+    /**
+     * Gfts thf timfr notifidbtion usfr dbtb objfdt dorrfsponding to thf spfdififd idfntififr.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn Thf timfr notifidbtion usfr dbtb objfdt or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    // NPCTE fix for bugId 4464388, fsd 0 , MR , 03 sfpt 2001 , to bf bddfd bftfr modifidbtion of jmx spfd
+    //publid Sfriblizbblf gftNotifidbtionUsfrDbtb(Intfgfr id);
+    // fnd of NPCTE fix for bugId 4464388
+    publid Objfdt gftNotifidbtionUsfrDbtb(Intfgfr id);
+    /**
+     * Gfts b dopy of thf dbtf bssodibtfd to b timfr notifidbtion.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn A dopy of thf dbtf or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid Dbtf gftDbtf(Intfgfr id);
+
+    /**
+     * Gfts b dopy of thf pfriod (in millisfdonds) bssodibtfd to b timfr notifidbtion.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn A dopy of thf pfriod or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid Long gftPfriod(Intfgfr id);
+
+    /**
+     * Gfts b dopy of thf rfmbining numbfr of oddurrfndfs bssodibtfd to b timfr notifidbtion.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn A dopy of thf rfmbining numbfr of oddurrfndfs or null if thf idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for this timfr MBfbn.
+     */
+    publid Long gftNbOddurfndfs(Intfgfr id);
+
+    /**
+     * Gfts b dopy of thf flbg indidbting whfthfr b pfriodid notifidbtion is
+     * fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
+     *
+     * @pbrbm id Thf timfr notifidbtion idfntififr.
+     *
+     * @rfturn A dopy of thf flbg indidbting whfthfr b pfriodid notifidbtion is
+     *         fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
+     */
+    publid Boolfbn gftFixfdRbtf(Intfgfr id);
+
+    /**
+     * Gfts thf flbg indidbting whfthfr or not thf timfr sfnds pbst notifidbtions.
+     *
+     * @rfturn Thf pbst notifidbtions sfnding on/off flbg vbluf.
+     *
+     * @sff #sftSfndPbstNotifidbtions
+     */
+    publid boolfbn gftSfndPbstNotifidbtions();
+
+    /**
+     * Sfts thf flbg indidbting whfthfr thf timfr sfnds pbst notifidbtions or not.
+     *
+     * @pbrbm vbluf Thf pbst notifidbtions sfnding on/off flbg vbluf.
+     *
+     * @sff #gftSfndPbstNotifidbtions
+     */
+    publid void sftSfndPbstNotifidbtions(boolfbn vbluf);
+
+    /**
+     * Tfsts whfthfr thf timfr MBfbn is bdtivf.
+     * A timfr MBfbn is mbrkfd bdtivf whfn thf {@link #stbrt stbrt} mfthod is dbllfd.
+     * It bfdomfs inbdtivf whfn thf {@link #stop stop} mfthod is dbllfd.
+     *
+     * @rfturn <CODE>truf</CODE> if thf timfr MBfbn is bdtivf, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn isAdtivf();
+
+    /**
+     * Tfsts whfthfr thf list of timfr notifidbtions is fmpty.
+     *
+     * @rfturn <CODE>truf</CODE> if thf list of timfr notifidbtions is fmpty, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn isEmpty();
+}

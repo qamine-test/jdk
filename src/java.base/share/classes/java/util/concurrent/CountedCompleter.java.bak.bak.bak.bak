@@ -1,0 +1,767 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A {@link ForkJoinTbsk} with b domplftion bdtion pfrformfd whfn
+ * triggfrfd bnd thfrf brf no rfmbining pfnding bdtions.
+ * CountfdComplftfrs brf in gfnfrbl morf robust in thf
+ * prfsfndf of subtbsk stblls bnd blodkbgf thbn brf othfr forms of
+ * ForkJoinTbsks, but brf lfss intuitivf to progrbm.  Usfs of
+ * CountfdComplftfr brf similbr to thosf of othfr domplftion bbsfd
+ * domponfnts (sudh bs {@link jbvb.nio.dhbnnfls.ComplftionHbndlfr})
+ * fxdfpt thbt multiplf <fm>pfnding</fm> domplftions mby bf nfdfssbry
+ * to triggfr thf domplftion bdtion {@link #onComplftion(CountfdComplftfr)},
+ * not just onf.
+ * Unlfss initiblizfd othfrwisf, thf {@linkplbin #gftPfndingCount pfnding
+ * dount} stbrts bt zfro, but mby bf (btomidblly) dhbngfd using
+ * mfthods {@link #sftPfndingCount}, {@link #bddToPfndingCount}, bnd
+ * {@link #dompbrfAndSftPfndingCount}. Upon invodbtion of {@link
+ * #tryComplftf}, if thf pfnding bdtion dount is nonzfro, it is
+ * dfdrfmfntfd; othfrwisf, thf domplftion bdtion is pfrformfd, bnd if
+ * this domplftfr itsflf hbs b domplftfr, thf prodfss is dontinufd
+ * with its domplftfr.  As is thf dbsf with rflbtfd syndhronizbtion
+ * domponfnts sudh bs {@link jbvb.util.dondurrfnt.Phbsfr Phbsfr} bnd
+ * {@link jbvb.util.dondurrfnt.Sfmbphorf Sfmbphorf}, thfsf mfthods
+ * bfffdt only intfrnbl dounts; thfy do not fstbblish bny furthfr
+ * intfrnbl bookkffping. In pbrtidulbr, thf idfntitifs of pfnding
+ * tbsks brf not mbintbinfd. As illustrbtfd bflow, you dbn drfbtf
+ * subdlbssfs thbt do rfdord somf or bll pfnding tbsks or thfir
+ * rfsults whfn nffdfd.  As illustrbtfd bflow, utility mfthods
+ * supporting dustomizbtion of domplftion trbvfrsbls brf blso
+ * providfd. Howfvfr, bfdbusf CountfdComplftfrs providf only bbsid
+ * syndhronizbtion mfdhbnisms, it mby bf usfful to drfbtf furthfr
+ * bbstrbdt subdlbssfs thbt mbintbin linkbgfs, fiflds, bnd bdditionbl
+ * support mfthods bppropribtf for b sft of rflbtfd usbgfs.
+ *
+ * <p>A dondrftf CountfdComplftfr dlbss must dffinf mfthod {@link
+ * #domputf}, thbt should in most dbsfs (bs illustrbtfd bflow), invokf
+ * {@dodf tryComplftf()} ondf bfforf rfturning. Thf dlbss mby blso
+ * optionblly ovfrridf mfthod {@link #onComplftion(CountfdComplftfr)}
+ * to pfrform bn bdtion upon normbl domplftion, bnd mfthod
+ * {@link #onExdfptionblComplftion(Throwbblf, CountfdComplftfr)} to
+ * pfrform bn bdtion upon bny fxdfption.
+ *
+ * <p>CountfdComplftfrs most oftfn do not bfbr rfsults, in whidh dbsf
+ * thfy brf normblly dfdlbrfd bs {@dodf CountfdComplftfr<Void>}, bnd
+ * will blwbys rfturn {@dodf null} bs b rfsult vbluf.  In othfr dbsfs,
+ * you should ovfrridf mfthod {@link #gftRbwRfsult} to providf b
+ * rfsult from {@dodf join(), invokf()}, bnd rflbtfd mfthods.  In
+ * gfnfrbl, this mfthod should rfturn thf vbluf of b fifld (or b
+ * fundtion of onf or morf fiflds) of thf CountfdComplftfr objfdt thbt
+ * holds thf rfsult upon domplftion. Mfthod {@link #sftRbwRfsult} by
+ * dffbult plbys no rolf in CountfdComplftfrs.  It is possiblf, but
+ * rbrfly bpplidbblf, to ovfrridf this mfthod to mbintbin othfr
+ * objfdts or fiflds holding rfsult dbtb.
+ *
+ * <p>A CountfdComplftfr thbt dofs not itsflf hbvf b domplftfr (i.f.,
+ * onf for whidh {@link #gftComplftfr} rfturns {@dodf null}) dbn bf
+ * usfd bs b rfgulbr ForkJoinTbsk with this bddfd fundtionblity.
+ * Howfvfr, bny domplftfr thbt in turn hbs bnothfr domplftfr sfrvfs
+ * only bs bn intfrnbl hflpfr for othfr domputbtions, so its own tbsk
+ * stbtus (bs rfportfd in mfthods sudh bs {@link ForkJoinTbsk#isDonf})
+ * is brbitrbry; this stbtus dhbngfs only upon fxplidit invodbtions of
+ * {@link #domplftf}, {@link ForkJoinTbsk#dbndfl},
+ * {@link ForkJoinTbsk#domplftfExdfptionblly(Throwbblf)} or upon
+ * fxdfptionbl domplftion of mfthod {@dodf domputf}. Upon bny
+ * fxdfptionbl domplftion, thf fxdfption mby bf rflbyfd to b tbsk's
+ * domplftfr (bnd its domplftfr, bnd so on), if onf fxists bnd it hbs
+ * not othfrwisf blrfbdy domplftfd. Similbrly, dbndflling bn intfrnbl
+ * CountfdComplftfr hbs only b lodbl ffffdt on thbt domplftfr, so is
+ * not oftfn usfful.
+ *
+ * <p><b>Sbmplf Usbgfs.</b>
+ *
+ * <p><b>Pbrbllfl rfdursivf dfdomposition.</b> CountfdComplftfrs mby
+ * bf brrbngfd in trffs similbr to thosf oftfn usfd with {@link
+ * RfdursivfAdtion}s, blthough thf donstrudtions involvfd in sftting
+ * thfm up typidblly vbry. Hfrf, thf domplftfr of fbdh tbsk is its
+ * pbrfnt in thf domputbtion trff. Evfn though thfy fntbil b bit morf
+ * bookkffping, CountfdComplftfrs mby bf bfttfr dhoidfs whfn bpplying
+ * b possibly timf-donsuming opfrbtion (thbt dbnnot bf furthfr
+ * subdividfd) to fbdh flfmfnt of bn brrby or dollfdtion; fspfdiblly
+ * whfn thf opfrbtion tbkfs b signifidbntly difffrfnt bmount of timf
+ * to domplftf for somf flfmfnts thbn othfrs, fithfr bfdbusf of
+ * intrinsid vbribtion (for fxbmplf I/O) or buxilibry ffffdts sudh bs
+ * gbrbbgf dollfdtion.  Bfdbusf CountfdComplftfrs providf thfir own
+ * dontinubtions, othfr thrfbds nffd not blodk wbiting to pfrform
+ * thfm.
+ *
+ * <p>For fxbmplf, hfrf is bn initibl vfrsion of b dlbss thbt usfs
+ * dividf-by-two rfdursivf dfdomposition to dividf work into singlf
+ * pifdfs (lfbf tbsks). Evfn whfn work is split into individubl dblls,
+ * trff-bbsfd tfdhniqufs brf usublly prfffrbblf to dirfdtly forking
+ * lfbf tbsks, bfdbusf thfy rfdudf intfr-thrfbd dommunidbtion bnd
+ * improvf lobd bblbnding. In thf rfdursivf dbsf, thf sfdond of fbdh
+ * pbir of subtbsks to finish triggfrs domplftion of its pbrfnt
+ * (bfdbusf no rfsult dombinbtion is pfrformfd, thf dffbult no-op
+ * implfmfntbtion of mfthod {@dodf onComplftion} is not ovfrriddfn).
+ * A stbtid utility mfthod sfts up thf bbsf tbsk bnd invokfs it
+ * (hfrf, impliditly using thf {@link ForkJoinPool#dommonPool()}).
+ *
+ * <prf> {@dodf
+ * dlbss MyOpfrbtion<E> { void bpply(E f) { ... }  }
+ *
+ * dlbss ForEbdh<E> fxtfnds CountfdComplftfr<Void> {
+ *
+ *   publid stbtid <E> void forEbdh(E[] brrby, MyOpfrbtion<E> op) {
+ *     nfw ForEbdh<E>(null, brrby, op, 0, brrby.lfngth).invokf();
+ *   }
+ *
+ *   finbl E[] brrby; finbl MyOpfrbtion<E> op; finbl int lo, hi;
+ *   ForEbdh(CountfdComplftfr<?> p, E[] brrby, MyOpfrbtion<E> op, int lo, int hi) {
+ *     supfr(p);
+ *     this.brrby = brrby; this.op = op; this.lo = lo; this.hi = hi;
+ *   }
+ *
+ *   publid void domputf() { // vfrsion 1
+ *     if (hi - lo >= 2) {
+ *       int mid = (lo + hi) >>> 1;
+ *       sftPfndingCount(2); // must sft pfnding dount bfforf fork
+ *       nfw ForEbdh(this, brrby, op, mid, hi).fork(); // right dhild
+ *       nfw ForEbdh(this, brrby, op, lo, mid).fork(); // lfft dhild
+ *     }
+ *     flsf if (hi > lo)
+ *       op.bpply(brrby[lo]);
+ *     tryComplftf();
+ *   }
+ * }}</prf>
+ *
+ * This dfsign dbn bf improvfd by notiding thbt in thf rfdursivf dbsf,
+ * thf tbsk hbs nothing to do bftfr forking its right tbsk, so dbn
+ * dirfdtly invokf its lfft tbsk bfforf rfturning. (This is bn bnblog
+ * of tbil rfdursion rfmovbl.)  Also, bfdbusf thf tbsk rfturns upon
+ * fxfduting its lfft tbsk (rbthfr thbn fblling through to invokf
+ * {@dodf tryComplftf}) thf pfnding dount is sft to onf:
+ *
+ * <prf> {@dodf
+ * dlbss ForEbdh<E> ...
+ *   publid void domputf() { // vfrsion 2
+ *     if (hi - lo >= 2) {
+ *       int mid = (lo + hi) >>> 1;
+ *       sftPfndingCount(1); // only onf pfnding
+ *       nfw ForEbdh(this, brrby, op, mid, hi).fork(); // right dhild
+ *       nfw ForEbdh(this, brrby, op, lo, mid).domputf(); // dirfdt invokf
+ *     }
+ *     flsf {
+ *       if (hi > lo)
+ *         op.bpply(brrby[lo]);
+ *       tryComplftf();
+ *     }
+ *   }
+ * }</prf>
+ *
+ * As b furthfr improvfmfnt, notidf thbt thf lfft tbsk nffd not fvfn fxist.
+ * Instfbd of drfbting b nfw onf, wf dbn itfrbtf using thf originbl tbsk,
+ * bnd bdd b pfnding dount for fbdh fork.  Additionblly, bfdbusf no tbsk
+ * in this trff implfmfnts bn {@link #onComplftion(CountfdComplftfr)} mfthod,
+ * {@dodf tryComplftf()} dbn bf rfplbdfd with {@link #propbgbtfComplftion}.
+ *
+ * <prf> {@dodf
+ * dlbss ForEbdh<E> ...
+ *   publid void domputf() { // vfrsion 3
+ *     int l = lo,  h = hi;
+ *     whilf (h - l >= 2) {
+ *       int mid = (l + h) >>> 1;
+ *       bddToPfndingCount(1);
+ *       nfw ForEbdh(this, brrby, op, mid, h).fork(); // right dhild
+ *       h = mid;
+ *     }
+ *     if (h > l)
+ *       op.bpply(brrby[l]);
+ *     propbgbtfComplftion();
+ *   }
+ * }</prf>
+ *
+ * Additionbl improvfmfnts of sudh dlbssfs might fntbil prfdomputing
+ * pfnding dounts so thbt thfy dbn bf fstbblishfd in donstrudtors,
+ * spfdiblizing dlbssfs for lfbf stfps, subdividing by sby, four,
+ * instfbd of two pfr itfrbtion, bnd using bn bdbptivf thrfshold
+ * instfbd of blwbys subdividing down to singlf flfmfnts.
+ *
+ * <p><b>Sfbrdhing.</b> A trff of CountfdComplftfrs dbn sfbrdh for b
+ * vbluf or propfrty in difffrfnt pbrts of b dbtb strudturf, bnd
+ * rfport b rfsult in bn {@link
+ * jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf AtomidRfffrfndf} bs
+ * soon bs onf is found. Thf othfrs dbn poll thf rfsult to bvoid
+ * unnfdfssbry work. (You dould bdditionblly {@linkplbin #dbndfl
+ * dbndfl} othfr tbsks, but it is usublly simplfr bnd morf fffidifnt
+ * to just lft thfm notidf thbt thf rfsult is sft bnd if so skip
+ * furthfr prodfssing.)  Illustrbting bgbin with bn brrby using full
+ * pbrtitioning (bgbin, in prbdtidf, lfbf tbsks will blmost blwbys
+ * prodfss morf thbn onf flfmfnt):
+ *
+ * <prf> {@dodf
+ * dlbss Sfbrdhfr<E> fxtfnds CountfdComplftfr<E> {
+ *   finbl E[] brrby; finbl AtomidRfffrfndf<E> rfsult; finbl int lo, hi;
+ *   Sfbrdhfr(CountfdComplftfr<?> p, E[] brrby, AtomidRfffrfndf<E> rfsult, int lo, int hi) {
+ *     supfr(p);
+ *     this.brrby = brrby; this.rfsult = rfsult; this.lo = lo; this.hi = hi;
+ *   }
+ *   publid E gftRbwRfsult() { rfturn rfsult.gft(); }
+ *   publid void domputf() { // similbr to ForEbdh vfrsion 3
+ *     int l = lo,  h = hi;
+ *     whilf (rfsult.gft() == null && h >= l) {
+ *       if (h - l >= 2) {
+ *         int mid = (l + h) >>> 1;
+ *         bddToPfndingCount(1);
+ *         nfw Sfbrdhfr(this, brrby, rfsult, mid, h).fork();
+ *         h = mid;
+ *       }
+ *       flsf {
+ *         E x = brrby[l];
+ *         if (mbtdhfs(x) && rfsult.dompbrfAndSft(null, x))
+ *           quiftlyComplftfRoot(); // root tbsk is now joinbblf
+ *         brfbk;
+ *       }
+ *     }
+ *     tryComplftf(); // normblly domplftf whfthfr or not found
+ *   }
+ *   boolfbn mbtdhfs(E f) { ... } // rfturn truf if found
+ *
+ *   publid stbtid <E> E sfbrdh(E[] brrby) {
+ *       rfturn nfw Sfbrdhfr<E>(null, brrby, nfw AtomidRfffrfndf<E>(), 0, brrby.lfngth).invokf();
+ *   }
+ * }}</prf>
+ *
+ * In this fxbmplf, bs wfll bs othfrs in whidh tbsks hbvf no othfr
+ * ffffdts fxdfpt to dompbrfAndSft b dommon rfsult, thf trbiling
+ * undonditionbl invodbtion of {@dodf tryComplftf} dould bf mbdf
+ * donditionbl ({@dodf if (rfsult.gft() == null) tryComplftf();})
+ * bfdbusf no furthfr bookkffping is rfquirfd to mbnbgf domplftions
+ * ondf thf root tbsk domplftfs.
+ *
+ * <p><b>Rfdording subtbsks.</b> CountfdComplftfr tbsks thbt dombinf
+ * rfsults of multiplf subtbsks usublly nffd to bddfss thfsf rfsults
+ * in mfthod {@link #onComplftion(CountfdComplftfr)}. As illustrbtfd in thf following
+ * dlbss (thbt pfrforms b simplififd form of mbp-rfdudf whfrf mbppings
+ * bnd rfdudtions brf bll of typf {@dodf E}), onf wby to do this in
+ * dividf bnd donqufr dfsigns is to hbvf fbdh subtbsk rfdord its
+ * sibling, so thbt it dbn bf bddfssfd in mfthod {@dodf onComplftion}.
+ * This tfdhniquf bpplifs to rfdudtions in whidh thf ordfr of
+ * dombining lfft bnd right rfsults dofs not mbttfr; ordfrfd
+ * rfdudtions rfquirf fxplidit lfft/right dfsignbtions.  Vbribnts of
+ * othfr strfbmlinings sffn in thf bbovf fxbmplfs mby blso bpply.
+ *
+ * <prf> {@dodf
+ * dlbss MyMbppfr<E> { E bpply(E v) {  ...  } }
+ * dlbss MyRfdudfr<E> { E bpply(E x, E y) {  ...  } }
+ * dlbss MbpRfdudfr<E> fxtfnds CountfdComplftfr<E> {
+ *   finbl E[] brrby; finbl MyMbppfr<E> mbppfr;
+ *   finbl MyRfdudfr<E> rfdudfr; finbl int lo, hi;
+ *   MbpRfdudfr<E> sibling;
+ *   E rfsult;
+ *   MbpRfdudfr(CountfdComplftfr<?> p, E[] brrby, MyMbppfr<E> mbppfr,
+ *              MyRfdudfr<E> rfdudfr, int lo, int hi) {
+ *     supfr(p);
+ *     this.brrby = brrby; this.mbppfr = mbppfr;
+ *     this.rfdudfr = rfdudfr; this.lo = lo; this.hi = hi;
+ *   }
+ *   publid void domputf() {
+ *     if (hi - lo >= 2) {
+ *       int mid = (lo + hi) >>> 1;
+ *       MbpRfdudfr<E> lfft = nfw MbpRfdudfr(this, brrby, mbppfr, rfdudfr, lo, mid);
+ *       MbpRfdudfr<E> right = nfw MbpRfdudfr(this, brrby, mbppfr, rfdudfr, mid, hi);
+ *       lfft.sibling = right;
+ *       right.sibling = lfft;
+ *       sftPfndingCount(1); // only right is pfnding
+ *       right.fork();
+ *       lfft.domputf();     // dirfdtly fxfdutf lfft
+ *     }
+ *     flsf {
+ *       if (hi > lo)
+ *           rfsult = mbppfr.bpply(brrby[lo]);
+ *       tryComplftf();
+ *     }
+ *   }
+ *   publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+ *     if (dbllfr != this) {
+ *       MbpRfdudfr<E> dhild = (MbpRfdudfr<E>)dbllfr;
+ *       MbpRfdudfr<E> sib = dhild.sibling;
+ *       if (sib == null || sib.rfsult == null)
+ *         rfsult = dhild.rfsult;
+ *       flsf
+ *         rfsult = rfdudfr.bpply(dhild.rfsult, sib.rfsult);
+ *     }
+ *   }
+ *   publid E gftRbwRfsult() { rfturn rfsult; }
+ *
+ *   publid stbtid <E> E mbpRfdudf(E[] brrby, MyMbppfr<E> mbppfr, MyRfdudfr<E> rfdudfr) {
+ *     rfturn nfw MbpRfdudfr<E>(null, brrby, mbppfr, rfdudfr,
+ *                              0, brrby.lfngth).invokf();
+ *   }
+ * }}</prf>
+ *
+ * Hfrf, mfthod {@dodf onComplftion} tbkfs b form dommon to mbny
+ * domplftion dfsigns thbt dombinf rfsults. This dbllbbdk-stylf mfthod
+ * is triggfrfd ondf pfr tbsk, in fithfr of thf two difffrfnt dontfxts
+ * in whidh thf pfnding dount is, or bfdomfs, zfro: (1) by b tbsk
+ * itsflf, if its pfnding dount is zfro upon invodbtion of {@dodf
+ * tryComplftf}, or (2) by bny of its subtbsks whfn thfy domplftf bnd
+ * dfdrfmfnt thf pfnding dount to zfro. Thf {@dodf dbllfr} brgumfnt
+ * distinguishfs dbsfs.  Most oftfn, whfn thf dbllfr is {@dodf this},
+ * no bdtion is nfdfssbry. Othfrwisf thf dbllfr brgumfnt dbn bf usfd
+ * (usublly vib b dbst) to supply b vbluf (bnd/or links to othfr
+ * vblufs) to bf dombinfd.  Assuming propfr usf of pfnding dounts, thf
+ * bdtions insidf {@dodf onComplftion} oddur (ondf) upon domplftion of
+ * b tbsk bnd its subtbsks. No bdditionbl syndhronizbtion is rfquirfd
+ * within this mfthod to fnsurf thrfbd sbffty of bddfssfs to fiflds of
+ * this tbsk or othfr domplftfd tbsks.
+ *
+ * <p><b>Complftion Trbvfrsbls</b>. If using {@dodf onComplftion} to
+ * prodfss domplftions is inbpplidbblf or indonvfnifnt, you dbn usf
+ * mfthods {@link #firstComplftf} bnd {@link #nfxtComplftf} to drfbtf
+ * dustom trbvfrsbls.  For fxbmplf, to dffinf b MbpRfdudfr thbt only
+ * splits out right-hbnd tbsks in thf form of thf third ForEbdh
+ * fxbmplf, thf domplftions must doopfrbtivfly rfdudf blong
+ * unfxhbustfd subtbsk links, whidh dbn bf donf bs follows:
+ *
+ * <prf> {@dodf
+ * dlbss MbpRfdudfr<E> fxtfnds CountfdComplftfr<E> { // vfrsion 2
+ *   finbl E[] brrby; finbl MyMbppfr<E> mbppfr;
+ *   finbl MyRfdudfr<E> rfdudfr; finbl int lo, hi;
+ *   MbpRfdudfr<E> forks, nfxt; // rfdord subtbsk forks in list
+ *   E rfsult;
+ *   MbpRfdudfr(CountfdComplftfr<?> p, E[] brrby, MyMbppfr<E> mbppfr,
+ *              MyRfdudfr<E> rfdudfr, int lo, int hi, MbpRfdudfr<E> nfxt) {
+ *     supfr(p);
+ *     this.brrby = brrby; this.mbppfr = mbppfr;
+ *     this.rfdudfr = rfdudfr; this.lo = lo; this.hi = hi;
+ *     this.nfxt = nfxt;
+ *   }
+ *   publid void domputf() {
+ *     int l = lo,  h = hi;
+ *     whilf (h - l >= 2) {
+ *       int mid = (l + h) >>> 1;
+ *       bddToPfndingCount(1);
+ *       (forks = nfw MbpRfdudfr(this, brrby, mbppfr, rfdudfr, mid, h, forks)).fork();
+ *       h = mid;
+ *     }
+ *     if (h > l)
+ *       rfsult = mbppfr.bpply(brrby[l]);
+ *     // prodfss domplftions by rfduding blong bnd bdvbnding subtbsk links
+ *     for (CountfdComplftfr<?> d = firstComplftf(); d != null; d = d.nfxtComplftf()) {
+ *       for (MbpRfdudfr t = (MbpRfdudfr)d, s = t.forks;  s != null; s = t.forks = s.nfxt)
+ *         t.rfsult = rfdudfr.bpply(t.rfsult, s.rfsult);
+ *     }
+ *   }
+ *   publid E gftRbwRfsult() { rfturn rfsult; }
+ *
+ *   publid stbtid <E> E mbpRfdudf(E[] brrby, MyMbppfr<E> mbppfr, MyRfdudfr<E> rfdudfr) {
+ *     rfturn nfw MbpRfdudfr<E>(null, brrby, mbppfr, rfdudfr,
+ *                              0, brrby.lfngth, null).invokf();
+ *   }
+ * }}</prf>
+ *
+ * <p><b>Triggfrs.</b> Somf CountfdComplftfrs brf thfmsflvfs nfvfr
+ * forkfd, but instfbd sfrvf bs bits of plumbing in othfr dfsigns;
+ * indluding thosf in whidh thf domplftion of onf or morf bsynd tbsks
+ * triggfrs bnothfr bsynd tbsk. For fxbmplf:
+ *
+ * <prf> {@dodf
+ * dlbss HfbdfrBuildfr fxtfnds CountfdComplftfr<...> { ... }
+ * dlbss BodyBuildfr fxtfnds CountfdComplftfr<...> { ... }
+ * dlbss PbdkftSfndfr fxtfnds CountfdComplftfr<...> {
+ *   PbdkftSfndfr(...) { supfr(null, 1); ... } // triggfr on sfdond domplftion
+ *   publid void domputf() { } // nfvfr dbllfd
+ *   publid void onComplftion(CountfdComplftfr<?> dbllfr) { sfndPbdkft(); }
+ * }
+ * // sbmplf usf:
+ * PbdkftSfndfr p = nfw PbdkftSfndfr();
+ * nfw HfbdfrBuildfr(p, ...).fork();
+ * nfw BodyBuildfr(p, ...).fork();
+ * }</prf>
+ *
+ * @sindf 1.8
+ * @buthor Doug Lfb
+ */
+publid bbstrbdt dlbss CountfdComplftfr<T> fxtfnds ForkJoinTbsk<T> {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5232453752276485070L;
+
+    /** This tbsk's domplftfr, or null if nonf */
+    finbl CountfdComplftfr<?> domplftfr;
+    /** Thf numbfr of pfnding tbsks until domplftion */
+    volbtilf int pfnding;
+
+    /**
+     * Crfbtfs b nfw CountfdComplftfr with thf givfn domplftfr
+     * bnd initibl pfnding dount.
+     *
+     * @pbrbm domplftfr this tbsk's domplftfr, or {@dodf null} if nonf
+     * @pbrbm initiblPfndingCount thf initibl pfnding dount
+     */
+    protfdtfd CountfdComplftfr(CountfdComplftfr<?> domplftfr,
+                               int initiblPfndingCount) {
+        this.domplftfr = domplftfr;
+        this.pfnding = initiblPfndingCount;
+    }
+
+    /**
+     * Crfbtfs b nfw CountfdComplftfr with thf givfn domplftfr
+     * bnd bn initibl pfnding dount of zfro.
+     *
+     * @pbrbm domplftfr this tbsk's domplftfr, or {@dodf null} if nonf
+     */
+    protfdtfd CountfdComplftfr(CountfdComplftfr<?> domplftfr) {
+        this.domplftfr = domplftfr;
+    }
+
+    /**
+     * Crfbtfs b nfw CountfdComplftfr with no domplftfr
+     * bnd bn initibl pfnding dount of zfro.
+     */
+    protfdtfd CountfdComplftfr() {
+        this.domplftfr = null;
+    }
+
+    /**
+     * Thf mbin domputbtion pfrformfd by this tbsk.
+     */
+    publid bbstrbdt void domputf();
+
+    /**
+     * Pfrforms bn bdtion whfn mfthod {@link #tryComplftf} is invokfd
+     * bnd thf pfnding dount is zfro, or whfn thf undonditionbl
+     * mfthod {@link #domplftf} is invokfd.  By dffbult, this mfthod
+     * dofs nothing. You dbn distinguish dbsfs by dhfdking thf
+     * idfntity of thf givfn dbllfr brgumfnt. If not fqubl to {@dodf
+     * this}, thfn it is typidblly b subtbsk thbt mby dontbin rfsults
+     * (bnd/or links to othfr rfsults) to dombinf.
+     *
+     * @pbrbm dbllfr thf tbsk invoking this mfthod (whidh mby
+     * bf this tbsk itsflf)
+     */
+    publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+    }
+
+    /**
+     * Pfrforms bn bdtion whfn mfthod {@link
+     * #domplftfExdfptionblly(Throwbblf)} is invokfd or mfthod {@link
+     * #domputf} throws bn fxdfption, bnd this tbsk hbs not blrfbdy
+     * othfrwisf domplftfd normblly. On fntry to this mfthod, this tbsk
+     * {@link ForkJoinTbsk#isComplftfdAbnormblly}.  Thf rfturn vbluf
+     * of this mfthod dontrols furthfr propbgbtion: If {@dodf truf}
+     * bnd this tbsk hbs b domplftfr thbt hbs not domplftfd, thfn thbt
+     * domplftfr is blso domplftfd fxdfptionblly, with thf sbmf
+     * fxdfption bs this domplftfr.  Thf dffbult implfmfntbtion of
+     * this mfthod dofs nothing fxdfpt rfturn {@dodf truf}.
+     *
+     * @pbrbm fx thf fxdfption
+     * @pbrbm dbllfr thf tbsk invoking this mfthod (whidh mby
+     * bf this tbsk itsflf)
+     * @rfturn {@dodf truf} if this fxdfption should bf propbgbtfd to this
+     * tbsk's domplftfr, if onf fxists
+     */
+    publid boolfbn onExdfptionblComplftion(Throwbblf fx, CountfdComplftfr<?> dbllfr) {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf domplftfr fstbblishfd in this tbsk's donstrudtor,
+     * or {@dodf null} if nonf.
+     *
+     * @rfturn thf domplftfr
+     */
+    publid finbl CountfdComplftfr<?> gftComplftfr() {
+        rfturn domplftfr;
+    }
+
+    /**
+     * Rfturns thf durrfnt pfnding dount.
+     *
+     * @rfturn thf durrfnt pfnding dount
+     */
+    publid finbl int gftPfndingCount() {
+        rfturn pfnding;
+    }
+
+    /**
+     * Sfts thf pfnding dount to thf givfn vbluf.
+     *
+     * @pbrbm dount thf dount
+     */
+    publid finbl void sftPfndingCount(int dount) {
+        pfnding = dount;
+    }
+
+    /**
+     * Adds (btomidblly) thf givfn vbluf to thf pfnding dount.
+     *
+     * @pbrbm dfltb thf vbluf to bdd
+     */
+    publid finbl void bddToPfndingCount(int dfltb) {
+        U.gftAndAddInt(this, PENDING, dfltb);
+    }
+
+    /**
+     * Sfts (btomidblly) thf pfnding dount to thf givfn dount only if
+     * it durrfntly holds thf givfn fxpfdtfd vbluf.
+     *
+     * @pbrbm fxpfdtfd thf fxpfdtfd vbluf
+     * @pbrbm dount thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid finbl boolfbn dompbrfAndSftPfndingCount(int fxpfdtfd, int dount) {
+        rfturn U.dompbrfAndSwbpInt(this, PENDING, fxpfdtfd, dount);
+    }
+
+    /**
+     * If thf pfnding dount is nonzfro, (btomidblly) dfdrfmfnts it.
+     *
+     * @rfturn thf initibl (undfdrfmfntfd) pfnding dount holding on fntry
+     * to this mfthod
+     */
+    publid finbl int dfdrfmfntPfndingCountUnlfssZfro() {
+        int d;
+        do {} whilf ((d = pfnding) != 0 &&
+                     !U.dompbrfAndSwbpInt(this, PENDING, d, d - 1));
+        rfturn d;
+    }
+
+    /**
+     * Rfturns thf root of thf durrfnt domputbtion; i.f., this
+     * tbsk if it hbs no domplftfr, flsf its domplftfr's root.
+     *
+     * @rfturn thf root of thf durrfnt domputbtion
+     */
+    publid finbl CountfdComplftfr<?> gftRoot() {
+        CountfdComplftfr<?> b = this, p;
+        whilf ((p = b.domplftfr) != null)
+            b = p;
+        rfturn b;
+    }
+
+    /**
+     * If thf pfnding dount is nonzfro, dfdrfmfnts thf dount;
+     * othfrwisf invokfs {@link #onComplftion(CountfdComplftfr)}
+     * bnd thfn similbrly trifs to domplftf this tbsk's domplftfr,
+     * if onf fxists, flsf mbrks this tbsk bs domplftf.
+     */
+    publid finbl void tryComplftf() {
+        CountfdComplftfr<?> b = this, s = b;
+        for (int d;;) {
+            if ((d = b.pfnding) == 0) {
+                b.onComplftion(s);
+                if ((b = (s = b).domplftfr) == null) {
+                    s.quiftlyComplftf();
+                    rfturn;
+                }
+            }
+            flsf if (U.dompbrfAndSwbpInt(b, PENDING, d, d - 1))
+                rfturn;
+        }
+    }
+
+    /**
+     * Equivblfnt to {@link #tryComplftf} but dofs not invokf {@link
+     * #onComplftion(CountfdComplftfr)} blong thf domplftion pbth:
+     * If thf pfnding dount is nonzfro, dfdrfmfnts thf dount;
+     * othfrwisf, similbrly trifs to domplftf this tbsk's domplftfr, if
+     * onf fxists, flsf mbrks this tbsk bs domplftf. This mfthod mby bf
+     * usfful in dbsfs whfrf {@dodf onComplftion} should not, or nffd
+     * not, bf invokfd for fbdh domplftfr in b domputbtion.
+     */
+    publid finbl void propbgbtfComplftion() {
+        CountfdComplftfr<?> b = this, s = b;
+        for (int d;;) {
+            if ((d = b.pfnding) == 0) {
+                if ((b = (s = b).domplftfr) == null) {
+                    s.quiftlyComplftf();
+                    rfturn;
+                }
+            }
+            flsf if (U.dompbrfAndSwbpInt(b, PENDING, d, d - 1))
+                rfturn;
+        }
+    }
+
+    /**
+     * Rfgbrdlfss of pfnding dount, invokfs
+     * {@link #onComplftion(CountfdComplftfr)}, mbrks this tbsk bs
+     * domplftf bnd furthfr triggfrs {@link #tryComplftf} on this
+     * tbsk's domplftfr, if onf fxists.  Thf givfn rbwRfsult is
+     * usfd bs bn brgumfnt to {@link #sftRbwRfsult} bfforf invoking
+     * {@link #onComplftion(CountfdComplftfr)} or mbrking this tbsk
+     * bs domplftf; its vbluf is mfbningful only for dlbssfs
+     * ovfrriding {@dodf sftRbwRfsult}.  This mfthod dofs not modify
+     * thf pfnding dount.
+     *
+     * <p>This mfthod mby bf usfful whfn fording domplftion bs soon bs
+     * bny onf (vfrsus bll) of sfvfrbl subtbsk rfsults brf obtbinfd.
+     * Howfvfr, in thf dommon (bnd rfdommfndfd) dbsf in whidh {@dodf
+     * sftRbwRfsult} is not ovfrriddfn, this ffffdt dbn bf obtbinfd
+     * morf simply using {@dodf quiftlyComplftfRoot();}.
+     *
+     * @pbrbm rbwRfsult thf rbw rfsult
+     */
+    publid void domplftf(T rbwRfsult) {
+        CountfdComplftfr<?> p;
+        sftRbwRfsult(rbwRfsult);
+        onComplftion(this);
+        quiftlyComplftf();
+        if ((p = domplftfr) != null)
+            p.tryComplftf();
+    }
+
+    /**
+     * If this tbsk's pfnding dount is zfro, rfturns this tbsk;
+     * othfrwisf dfdrfmfnts its pfnding dount bnd rfturns {@dodf
+     * null}. This mfthod is dfsignfd to bf usfd with {@link
+     * #nfxtComplftf} in domplftion trbvfrsbl loops.
+     *
+     * @rfturn this tbsk, if pfnding dount wbs zfro, flsf {@dodf null}
+     */
+    publid finbl CountfdComplftfr<?> firstComplftf() {
+        for (int d;;) {
+            if ((d = pfnding) == 0)
+                rfturn this;
+            flsf if (U.dompbrfAndSwbpInt(this, PENDING, d, d - 1))
+                rfturn null;
+        }
+    }
+
+    /**
+     * If this tbsk dofs not hbvf b domplftfr, invokfs {@link
+     * ForkJoinTbsk#quiftlyComplftf} bnd rfturns {@dodf null}.  Or, if
+     * thf domplftfr's pfnding dount is non-zfro, dfdrfmfnts thbt
+     * pfnding dount bnd rfturns {@dodf null}.  Othfrwisf, rfturns thf
+     * domplftfr.  This mfthod dbn bf usfd bs pbrt of b domplftion
+     * trbvfrsbl loop for homogfnfous tbsk hifrbrdhifs:
+     *
+     * <prf> {@dodf
+     * for (CountfdComplftfr<?> d = firstComplftf();
+     *      d != null;
+     *      d = d.nfxtComplftf()) {
+     *   // ... prodfss d ...
+     * }}</prf>
+     *
+     * @rfturn thf domplftfr, or {@dodf null} if nonf
+     */
+    publid finbl CountfdComplftfr<?> nfxtComplftf() {
+        CountfdComplftfr<?> p;
+        if ((p = domplftfr) != null)
+            rfturn p.firstComplftf();
+        flsf {
+            quiftlyComplftf();
+            rfturn null;
+        }
+    }
+
+    /**
+     * Equivblfnt to {@dodf gftRoot().quiftlyComplftf()}.
+     */
+    publid finbl void quiftlyComplftfRoot() {
+        for (CountfdComplftfr<?> b = this, p;;) {
+            if ((p = b.domplftfr) == null) {
+                b.quiftlyComplftf();
+                rfturn;
+            }
+            b = p;
+        }
+    }
+
+    /**
+     * If this tbsk hbs not domplftfd, bttfmpts to prodfss bt most thf
+     * givfn numbfr of othfr unprodfssfd tbsks for whidh this tbsk is
+     * on thf domplftion pbth, if bny brf known to fxist.
+     *
+     * @pbrbm mbxTbsks thf mbximum numbfr of tbsks to prodfss.  If
+     *                 lfss thbn or fqubl to zfro, thfn no tbsks brf
+     *                 prodfssfd.
+     */
+    publid finbl void hflpComplftf(int mbxTbsks) {
+        Thrfbd t; ForkJoinWorkfrThrfbd wt;
+        if (mbxTbsks > 0 && stbtus >= 0) {
+            if ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd)
+                (wt = (ForkJoinWorkfrThrfbd)t).pool.
+                    hflpComplftf(wt.workQufuf, this, mbxTbsks);
+            flsf
+                ForkJoinPool.dommon.fxtfrnblHflpComplftf(this, mbxTbsks);
+        }
+    }
+
+    /**
+     * Supports ForkJoinTbsk fxdfption propbgbtion.
+     */
+    void intfrnblPropbgbtfExdfption(Throwbblf fx) {
+        CountfdComplftfr<?> b = this, s = b;
+        whilf (b.onExdfptionblComplftion(fx, s) &&
+               (b = (s = b).domplftfr) != null && b.stbtus >= 0 &&
+               b.rfdordExdfptionblComplftion(fx) == EXCEPTIONAL)
+            ;
+    }
+
+    /**
+     * Implfmfnts fxfdution donvfntions for CountfdComplftfrs.
+     */
+    protfdtfd finbl boolfbn fxfd() {
+        domputf();
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf rfsult of thf domputbtion. By dffbult
+     * rfturns {@dodf null}, whidh is bppropribtf for {@dodf Void}
+     * bdtions, but in othfr dbsfs should bf ovfrriddfn, blmost
+     * blwbys to rfturn b fifld or fundtion of b fifld thbt
+     * holds thf rfsult upon domplftion.
+     *
+     * @rfturn thf rfsult of thf domputbtion
+     */
+    publid T gftRbwRfsult() { rfturn null; }
+
+    /**
+     * A mfthod thbt rfsult-bfbring CountfdComplftfrs mby optionblly
+     * usf to hflp mbintbin rfsult dbtb.  By dffbult, dofs nothing.
+     * Ovfrridfs brf not rfdommfndfd. Howfvfr, if this mfthod is
+     * ovfrriddfn to updbtf fxisting objfdts or fiflds, thfn it must
+     * in gfnfrbl bf dffinfd to bf thrfbd-sbff.
+     */
+    protfdtfd void sftRbwRfsult(T t) { }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long PENDING;
+    stbtid {
+        try {
+            U = sun.misd.Unsbff.gftUnsbff();
+            PENDING = U.objfdtFifldOffsft
+                (CountfdComplftfr.dlbss.gftDfdlbrfdFifld("pfnding"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+}

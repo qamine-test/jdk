@@ -1,0 +1,296 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+
+/**
+ * An fxdfption indidbting onf of b vbrifty of problfms fndountfrfd whfn
+ * vblidbting b dfrtifidbtion pbth.
+ * <p>
+ * A {@dodf CfrtPbthVblidbtorExdfption} providfs support for wrbpping
+ * fxdfptions. Thf {@link #gftCbusf gftCbusf} mfthod rfturns thf throwbblf,
+ * if bny, thbt dbusfd this fxdfption to bf thrown.
+ * <p>
+ * A {@dodf CfrtPbthVblidbtorExdfption} mby blso indludf thf
+ * dfrtifidbtion pbth thbt wbs bfing vblidbtfd whfn thf fxdfption wbs thrown,
+ * thf indfx of thf dfrtifidbtf in thf dfrtifidbtion pbth thbt dbusfd thf
+ * fxdfption to bf thrown, bnd thf rfbson thbt dbusfd thf fbilurf. Usf thf
+ * {@link #gftCfrtPbth gftCfrtPbth}, {@link #gftIndfx gftIndfx}, bnd
+ * {@link #gftRfbson gftRfbson} mfthods to rftrifvf this informbtion.
+ *
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff CfrtPbthVblidbtor
+ *
+ * @sindf       1.4
+ * @buthor      Ybssir Ellfy
+ */
+publid dlbss CfrtPbthVblidbtorExdfption fxtfnds GfnfrblSfdurityExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3083180014971893139L;
+
+    /**
+     * @sfribl thf indfx of thf dfrtifidbtf in thf dfrtifidbtion pbth
+     * thbt dbusfd thf fxdfption to bf thrown
+     */
+    privbtf int indfx = -1;
+
+    /**
+     * @sfribl thf {@dodf CfrtPbth} thbt wbs bfing vblidbtfd whfn
+     * thf fxdfption wbs thrown
+     */
+    privbtf CfrtPbth dfrtPbth;
+
+    /**
+     * @sfribl thf rfbson thf vblidbtion fbilfd
+     */
+    privbtf Rfbson rfbson = BbsidRfbson.UNSPECIFIED;
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} with
+     * no dftbil mfssbgf.
+     */
+    publid CfrtPbthVblidbtorExdfption() {
+        this(null, null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} with thf givfn
+     * dftbil mfssbgf. A dftbil mfssbgf is b {@dodf String} thbt
+     * dfsdribfs this pbrtidulbr fxdfption.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     */
+    publid CfrtPbthVblidbtorExdfption(String msg) {
+        this(msg, null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} thbt wrbps thf
+     * spfdififd throwbblf. This bllows bny fxdfption to bf donvfrtfd into b
+     * {@dodf CfrtPbthVblidbtorExdfption}, whilf rftbining informbtion
+     * bbout thf wrbppfd fxdfption, whidh mby bf usfful for dfbugging. Thf
+     * dftbil mfssbgf is sft to ({@dodf dbusf==null ? null : dbusf.toString()})
+     * (whidh typidblly dontbins thf dlbss bnd dftbil mfssbgf of
+     * dbusf).
+     *
+     * @pbrbm dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     * {@link #gftCbusf gftCbusf()} mfthod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     */
+    publid CfrtPbthVblidbtorExdfption(Throwbblf dbusf) {
+        this((dbusf == null ? null : dbusf.toString()), dbusf);
+    }
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} with thf spfdififd
+     * dftbil mfssbgf bnd dbusf.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     * @pbrbm dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     * {@link #gftCbusf gftCbusf()} mfthod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     */
+    publid CfrtPbthVblidbtorExdfption(String msg, Throwbblf dbusf) {
+        this(msg, dbusf, null, -1);
+    }
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} with thf spfdififd
+     * dftbil mfssbgf, dbusf, dfrtifidbtion pbth, bnd indfx.
+     *
+     * @pbrbm msg thf dftbil mfssbgf (or {@dodf null} if nonf)
+     * @pbrbm dbusf thf dbusf (or {@dodf null} if nonf)
+     * @pbrbm dfrtPbth thf dfrtifidbtion pbth thbt wbs in thf prodfss of
+     * bfing vblidbtfd whfn thf frror wbs fndountfrfd
+     * @pbrbm indfx thf indfx of thf dfrtifidbtf in thf dfrtifidbtion pbth
+     * thbt dbusfd thf frror (or -1 if not bpplidbblf). Notf thbt
+     * thf list of dfrtifidbtfs in b {@dodf CfrtPbth} is zfro bbsfd.
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     * {@dodf (indfx < -1 || (dfrtPbth != null && indfx >=
+     * dfrtPbth.gftCfrtifidbtfs().sizf()) }
+     * @throws IllfgblArgumfntExdfption if {@dodf dfrtPbth} is
+     * {@dodf null} bnd {@dodf indfx} is not -1
+     */
+    publid CfrtPbthVblidbtorExdfption(String msg, Throwbblf dbusf,
+            CfrtPbth dfrtPbth, int indfx) {
+        this(msg, dbusf, dfrtPbth, indfx, BbsidRfbson.UNSPECIFIED);
+    }
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthVblidbtorExdfption} with thf spfdififd
+     * dftbil mfssbgf, dbusf, dfrtifidbtion pbth, indfx, bnd rfbson.
+     *
+     * @pbrbm msg thf dftbil mfssbgf (or {@dodf null} if nonf)
+     * @pbrbm dbusf thf dbusf (or {@dodf null} if nonf)
+     * @pbrbm dfrtPbth thf dfrtifidbtion pbth thbt wbs in thf prodfss of
+     * bfing vblidbtfd whfn thf frror wbs fndountfrfd
+     * @pbrbm indfx thf indfx of thf dfrtifidbtf in thf dfrtifidbtion pbth
+     * thbt dbusfd thf frror (or -1 if not bpplidbblf). Notf thbt
+     * thf list of dfrtifidbtfs in b {@dodf CfrtPbth} is zfro bbsfd.
+     * @pbrbm rfbson thf rfbson thf vblidbtion fbilfd
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     * {@dodf (indfx < -1 || (dfrtPbth != null && indfx >=
+     * dfrtPbth.gftCfrtifidbtfs().sizf()) }
+     * @throws IllfgblArgumfntExdfption if {@dodf dfrtPbth} is
+     * {@dodf null} bnd {@dodf indfx} is not -1
+     * @throws NullPointfrExdfption if {@dodf rfbson} is {@dodf null}
+     *
+     * @sindf 1.7
+     */
+    publid CfrtPbthVblidbtorExdfption(String msg, Throwbblf dbusf,
+            CfrtPbth dfrtPbth, int indfx, Rfbson rfbson) {
+        supfr(msg, dbusf);
+        if (dfrtPbth == null && indfx != -1) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if (indfx < -1 ||
+            (dfrtPbth != null && indfx >= dfrtPbth.gftCfrtifidbtfs().sizf())) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        if (rfbson == null) {
+            throw nfw NullPointfrExdfption("rfbson dbn't bf null");
+        }
+        this.dfrtPbth = dfrtPbth;
+        this.indfx = indfx;
+        this.rfbson = rfbson;
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtion pbth thbt wbs bfing vblidbtfd whfn
+     * thf fxdfption wbs thrown.
+     *
+     * @rfturn thf {@dodf CfrtPbth} thbt wbs bfing vblidbtfd whfn
+     * thf fxdfption wbs thrown (or {@dodf null} if not spfdififd)
+     */
+    publid CfrtPbth gftCfrtPbth() {
+        rfturn this.dfrtPbth;
+    }
+
+    /**
+     * Rfturns thf indfx of thf dfrtifidbtf in thf dfrtifidbtion pbth
+     * thbt dbusfd thf fxdfption to bf thrown. Notf thbt thf list of
+     * dfrtifidbtfs in b {@dodf CfrtPbth} is zfro bbsfd. If no
+     * indfx hbs bffn sft, -1 is rfturnfd.
+     *
+     * @rfturn thf indfx thbt hbs bffn sft, or -1 if nonf hbs bffn sft
+     */
+    publid int gftIndfx() {
+        rfturn this.indfx;
+    }
+
+    /**
+     * Rfturns thf rfbson thbt thf vblidbtion fbilfd. Thf rfbson is
+     * bssodibtfd with thf indfx of thf dfrtifidbtf rfturnfd by
+     * {@link #gftIndfx}.
+     *
+     * @rfturn thf rfbson thbt thf vblidbtion fbilfd, or
+     *    {@dodf BbsidRfbson.UNSPECIFIED} if b rfbson hbs not bffn
+     *    spfdififd
+     *
+     * @sindf 1.7
+     */
+    publid Rfbson gftRfbson() {
+        rfturn this.rfbson;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        throws ClbssNotFoundExdfption, IOExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        if (rfbson == null) {
+            rfbson = BbsidRfbson.UNSPECIFIED;
+        }
+        if (dfrtPbth == null && indfx != -1) {
+            throw nfw InvblidObjfdtExdfption("dfrtpbth is null bnd indfx != -1");
+        }
+        if (indfx < -1 ||
+            (dfrtPbth != null && indfx >= dfrtPbth.gftCfrtifidbtfs().sizf())) {
+            throw nfw InvblidObjfdtExdfption("indfx out of rbngf");
+        }
+    }
+
+    /**
+     * Thf rfbson thf vblidbtion blgorithm fbilfd.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid intfrfbdf Rfbson fxtfnds jbvb.io.Sfriblizbblf { }
+
+
+    /**
+     * Thf BbsidRfbson fnumfrbtfs thf potfntibl rfbsons thbt b dfrtifidbtion
+     * pbth of bny typf mby bf invblid.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid fnum BbsidRfbson implfmfnts Rfbson {
+        /**
+         * Unspfdififd rfbson.
+         */
+        UNSPECIFIED,
+
+        /**
+         * Thf dfrtifidbtf is fxpirfd.
+         */
+        EXPIRED,
+
+        /**
+         * Thf dfrtifidbtf is not yft vblid.
+         */
+        NOT_YET_VALID,
+
+        /**
+         * Thf dfrtifidbtf is rfvokfd.
+         */
+        REVOKED,
+
+        /**
+         * Thf rfvodbtion stbtus of thf dfrtifidbtf dould not bf dftfrminfd.
+         */
+        UNDETERMINED_REVOCATION_STATUS,
+
+        /**
+         * Thf signbturf is invblid.
+         */
+        INVALID_SIGNATURE,
+
+        /**
+         * Thf publid kfy or thf signbturf blgorithm hbs bffn donstrbinfd.
+         */
+        ALGORITHM_CONSTRAINED
+    }
+}

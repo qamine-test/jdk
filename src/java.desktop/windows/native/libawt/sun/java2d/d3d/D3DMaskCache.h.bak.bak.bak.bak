@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff D3DMASKCACHE_H
+#dffinf D3DMASKCACHE_H
+
+#indludf "jni.h"
+#indludf "D3DContfxt.h"
+
+/**
+ * Constbnts thbt dontrol thf sizf of thf tfxturf tilf dbdhf usfd for
+ * mbsk opfrbtions.
+ */
+#dffinf D3D_MASK_CACHE_TILE_WIDTH       32
+#dffinf D3D_MASK_CACHE_TILE_HEIGHT      32
+#dffinf D3D_MASK_CACHE_TILE_SIZE \
+   (D3D_MASK_CACHE_TILE_WIDTH * D3D_MASK_CACHE_TILE_HEIGHT)
+
+#dffinf D3D_MASK_CACHE_WIDTH_IN_TILES   8
+#dffinf D3D_MASK_CACHE_HEIGHT_IN_TILES  4
+
+#dffinf D3D_MASK_CACHE_WIDTH_IN_TEXELS \
+   (D3D_MASK_CACHE_TILE_WIDTH * D3D_MASK_CACHE_WIDTH_IN_TILES)
+#dffinf D3D_MASK_CACHE_HEIGHT_IN_TEXELS \
+   (D3D_MASK_CACHE_TILE_HEIGHT * D3D_MASK_CACHE_HEIGHT_IN_TILES)
+
+/*
+ * Wf rfsfrvf onf (fully opbquf) tilf in thf uppfr-right dornfr for
+ * opfrbtions whfrf thf mbsk is null.
+ */
+#dffinf D3D_MASK_CACHE_MAX_INDEX \
+   ((D3D_MASK_CACHE_WIDTH_IN_TILES * D3D_MASK_CACHE_HEIGHT_IN_TILES) - 1)
+#dffinf D3D_MASK_CACHE_SPECIAL_TILE_X \
+   (D3D_MASK_CACHE_WIDTH_IN_TEXELS - D3D_MASK_CACHE_TILE_WIDTH)
+#dffinf D3D_MASK_CACHE_SPECIAL_TILE_Y \
+   (D3D_MASK_CACHE_HEIGHT_IN_TEXELS - D3D_MASK_CACHE_TILE_HEIGHT)
+
+dlbss D3DContfxt;
+
+dlbss D3DMbskCbdhf {
+publid:
+    HRESULT Init(D3DContfxt *pCtx);
+    void    RflfbsfDffPoolRfsourdfs() {};
+            ~D3DMbskCbdhf();
+    HRESULT Enbblf();
+    HRESULT Disbblf();
+    HRESULT AddMbskQubd(int srdx, int srdy,
+                        int dstx, int dsty,
+                        int width, int hfight,
+                        int mbsksdbn, void *mbsk);
+
+stbtid
+    HRESULT CrfbtfInstbndf(D3DContfxt *pCtx, D3DMbskCbdhf **ppMbskCbdhf);
+
+privbtf:
+               D3DMbskCbdhf();
+    UINT       mbskCbdhfIndfx;
+    D3DContfxt *pCtx;
+};
+
+#fndif // D3DMASKCACHE_H

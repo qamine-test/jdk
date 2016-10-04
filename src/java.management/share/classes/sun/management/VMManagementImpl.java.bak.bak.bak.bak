@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import sun.misd.Pfrf;
+import sun.mbnbgfmfnt.dountfr.*;
+import sun.mbnbgfmfnt.dountfr.pfrf.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Implfmfntbtion of VMMbnbgfmfnt intfrfbdf thbt bddfssfs thf mbnbgfmfnt
+ * bttributfs bnd opfrbtions lodblly within thf sbmf Jbvb virtubl
+ * mbdhinf.
+ */
+dlbss VMMbnbgfmfntImpl implfmfnts VMMbnbgfmfnt {
+
+    privbtf stbtid String vfrsion;
+
+    privbtf stbtid boolfbn dompTimfMonitoringSupport;
+    privbtf stbtid boolfbn thrfbdContfntionMonitoringSupport;
+    privbtf stbtid boolfbn durrfntThrfbdCpuTimfSupport;
+    privbtf stbtid boolfbn othfrThrfbdCpuTimfSupport;
+    privbtf stbtid boolfbn bootClbssPbthSupport;
+    privbtf stbtid boolfbn objfdtMonitorUsbgfSupport;
+    privbtf stbtid boolfbn syndhronizfrUsbgfSupport;
+    privbtf stbtid boolfbn thrfbdAllodbtfdMfmorySupport;
+    privbtf stbtid boolfbn gdNotifidbtionSupport;
+    privbtf stbtid boolfbn rfmotfDibgnostidCommbndsSupport;
+
+
+    stbtid {
+        vfrsion = gftVfrsion0();
+        if (vfrsion == null) {
+            throw nfw AssfrtionError("Invblid Mbnbgfmfnt Vfrsion");
+        }
+        initOptionblSupportFiflds();
+    }
+    privbtf nbtivf stbtid String gftVfrsion0();
+    privbtf nbtivf stbtid void initOptionblSupportFiflds();
+
+    // Optionbl supports
+    publid boolfbn isCompilbtionTimfMonitoringSupportfd() {
+        rfturn dompTimfMonitoringSupport;
+    }
+
+    publid boolfbn isThrfbdContfntionMonitoringSupportfd() {
+        rfturn thrfbdContfntionMonitoringSupport;
+    }
+
+    publid boolfbn isCurrfntThrfbdCpuTimfSupportfd() {
+        rfturn durrfntThrfbdCpuTimfSupport;
+    }
+
+    publid boolfbn isOthfrThrfbdCpuTimfSupportfd() {
+        rfturn othfrThrfbdCpuTimfSupport;
+    }
+
+    publid boolfbn isBootClbssPbthSupportfd() {
+        rfturn bootClbssPbthSupport;
+    }
+
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+        rfturn objfdtMonitorUsbgfSupport;
+    }
+
+    publid boolfbn isSyndhronizfrUsbgfSupportfd() {
+        rfturn syndhronizfrUsbgfSupport;
+    }
+
+    publid boolfbn isThrfbdAllodbtfdMfmorySupportfd() {
+        rfturn thrfbdAllodbtfdMfmorySupport;
+    }
+
+    publid boolfbn isGdNotifidbtionSupportfd() {
+        rfturn gdNotifidbtionSupport;
+    }
+
+    publid boolfbn isRfmotfDibgnostidCommbndsSupportfd() {
+        rfturn rfmotfDibgnostidCommbndsSupport;
+    }
+
+    publid nbtivf boolfbn isThrfbdContfntionMonitoringEnbblfd();
+    publid nbtivf boolfbn isThrfbdCpuTimfEnbblfd();
+    publid nbtivf boolfbn isThrfbdAllodbtfdMfmoryEnbblfd();
+
+    // Clbss Lobding Subsystfm
+    publid int    gftLobdfdClbssCount() {
+        long dount = gftTotblClbssCount() - gftUnlobdfdClbssCount();
+        rfturn (int) dount;
+    }
+    publid nbtivf long gftTotblClbssCount();
+    publid nbtivf long gftUnlobdfdClbssCount();
+
+    publid nbtivf boolfbn gftVfrbosfClbss();
+
+    // Mfmory Subsystfm
+    publid nbtivf boolfbn gftVfrbosfGC();
+
+    // Runtimf Subsystfm
+    publid String   gftMbnbgfmfntVfrsion() {
+        rfturn vfrsion;
+    }
+
+    publid String gftVmId() {
+        int pid = gftProdfssId();
+        String hostnbmf = "lodblhost";
+        try {
+            hostnbmf = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdh (UnknownHostExdfption f) {
+            // ignorf
+        }
+
+        rfturn pid + "@" + hostnbmf;
+    }
+    privbtf nbtivf int gftProdfssId();
+
+    publid String   gftVmNbmf() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.nbmf");
+    }
+
+    publid String   gftVmVfndor() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.vfndor");
+    }
+    publid String   gftVmVfrsion() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.vfrsion");
+    }
+    publid String   gftVmSpfdNbmf()  {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf");
+    }
+    publid String   gftVmSpfdVfndor() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor");
+    }
+    publid String   gftVmSpfdVfrsion() {
+        rfturn Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion");
+    }
+    publid String   gftClbssPbth() {
+        rfturn Systfm.gftPropfrty("jbvb.dlbss.pbth");
+    }
+    publid String   gftLibrbryPbth()  {
+        rfturn Systfm.gftPropfrty("jbvb.librbry.pbth");
+    }
+
+    publid String   gftBootClbssPbth( ) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.boot.dlbss.pbth"));
+    }
+
+    publid long gftUptimf() {
+        rfturn gftUptimf0();
+    }
+
+    privbtf List<String> vmArgs = null;
+    publid syndhronizfd List<String> gftVmArgumfnts() {
+        if (vmArgs == null) {
+            String[] brgs = gftVmArgumfnts0();
+            List<String> l = ((brgs != null && brgs.lfngth != 0) ? Arrbys.bsList(brgs) :
+                                        Collfdtions.<String>fmptyList());
+            vmArgs = Collfdtions.unmodifibblfList(l);
+        }
+        rfturn vmArgs;
+    }
+    publid nbtivf String[] gftVmArgumfnts0();
+
+    publid nbtivf long gftStbrtupTimf();
+    privbtf nbtivf long gftUptimf0();
+    publid nbtivf int gftAvbilbblfProdfssors();
+
+    // Compilbtion Subsystfm
+    publid String   gftCompilfrNbmf() {
+        String nbmf =  AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("sun.mbnbgfmfnt.dompilfr");
+                }
+            });
+        rfturn nbmf;
+    }
+    publid nbtivf long gftTotblCompilfTimf();
+
+    // Thrfbd Subsystfm
+    publid nbtivf long gftTotblThrfbdCount();
+    publid nbtivf int  gftLivfThrfbdCount();
+    publid nbtivf int  gftPfbkThrfbdCount();
+    publid nbtivf int  gftDbfmonThrfbdCount();
+
+    // Opfrbting Systfm
+    publid String gftOsNbmf() {
+        rfturn Systfm.gftPropfrty("os.nbmf");
+    }
+    publid String gftOsArdh() {
+        rfturn Systfm.gftPropfrty("os.brdh");
+    }
+    publid String gftOsVfrsion() {
+        rfturn Systfm.gftPropfrty("os.vfrsion");
+    }
+
+    // Hotspot-spfdifid runtimf support
+    publid nbtivf long gftSbffpointCount();
+    publid nbtivf long gftTotblSbffpointTimf();
+    publid nbtivf long gftSbffpointSyndTimf();
+    publid nbtivf long gftTotblApplidbtionNonStoppfdTimf();
+
+    publid nbtivf long gftLobdfdClbssSizf();
+    publid nbtivf long gftUnlobdfdClbssSizf();
+    publid nbtivf long gftClbssLobdingTimf();
+    publid nbtivf long gftMfthodDbtbSizf();
+    publid nbtivf long gftInitiblizfdClbssCount();
+    publid nbtivf long gftClbssInitiblizbtionTimf();
+    publid nbtivf long gftClbssVfrifidbtionTimf();
+
+    // Pfrformbndf Countfr Support
+    privbtf PfrfInstrumfntbtion pfrfInstr = null;
+    privbtf boolfbn noPfrfDbtb = fblsf;
+
+    privbtf syndhronizfd PfrfInstrumfntbtion gftPfrfInstrumfntbtion() {
+        if (noPfrfDbtb || pfrfInstr != null) {
+             rfturn pfrfInstr;
+        }
+
+        // donstrudt PfrfInstrumfntbtion objfdt
+        Pfrf pfrf =  AddfssControllfr.doPrivilfgfd(nfw Pfrf.GftPfrfAdtion());
+        try {
+            BytfBufffr bb = pfrf.bttbdh(0, "r");
+            if (bb.dbpbdity() == 0) {
+                noPfrfDbtb = truf;
+                rfturn null;
+            }
+            pfrfInstr = nfw PfrfInstrumfntbtion(bb);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            // If thf shbrfd mfmory dofsn't fxist f.g. if -XX:-UsfPfrfDbtb
+            // wbs sft
+            noPfrfDbtb = truf;
+        } dbtdh (IOExdfption f) {
+            throw nfw AssfrtionError(f);
+        }
+        rfturn pfrfInstr;
+    }
+
+    publid List<Countfr> gftIntfrnblCountfrs(String pbttfrn) {
+        PfrfInstrumfntbtion pfrf = gftPfrfInstrumfntbtion();
+        if (pfrf != null) {
+            rfturn pfrf.findByPbttfrn(pbttfrn);
+        } flsf {
+            rfturn Collfdtions.fmptyList();
+        }
+    }
+}

@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net;
+pbdkbgf jbvbx.nft;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.SocketException;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.SodkftExdfption;
 
 /**
- * This class creates server sockets.  It may be subclassed by other
- * factories, which create particular types of server sockets.  This
- * provides a general framework for the addition of public socket-level
- * functionality.  It is the server side analogue of a socket factory,
- * and similarly provides a way to capture a variety of policies related
- * to the sockets being constructed.
+ * Tiis dlbss drfbtfs sfrvfr sodkfts.  It mby bf subdlbssfd by otifr
+ * fbdtorifs, wiidi drfbtf pbrtidulbr typfs of sfrvfr sodkfts.  Tiis
+ * providfs b gfnfrbl frbmfwork for tif bddition of publid sodkft-lfvfl
+ * fundtionblity.  It is tif sfrvfr sidf bnbloguf of b sodkft fbdtory,
+ * bnd similbrly providfs b wby to dbpturf b vbrifty of polidifs rflbtfd
+ * to tif sodkfts bfing donstrudtfd.
  *
- * <P> Like socket factories, server Socket factory instances have
- * methods used to create sockets. There is also an environment
- * specific default server socket factory; frameworks will often use
- * their own customized factory.
+ * <P> Likf sodkft fbdtorifs, sfrvfr Sodkft fbdtory instbndfs ibvf
+ * mftiods usfd to drfbtf sodkfts. Tifrf is blso bn fnvironmfnt
+ * spfdifid dffbult sfrvfr sodkft fbdtory; frbmfworks will oftfn usf
+ * tifir own dustomizfd fbdtory.
  *
- * @since 1.4
- * @see SocketFactory
+ * @sindf 1.4
+ * @sff SodkftFbdtory
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public abstract class ServerSocketFactory
+publid bbstrbdt dlbss SfrvfrSodkftFbdtory
 {
     //
-    // NOTE:  JDK 1.1 bug in class GC, this can get collected
-    // even though it's always accessible via getDefault().
+    // NOTE:  JDK 1.1 bug in dlbss GC, tiis dbn gft dollfdtfd
+    // fvfn tiougi it's blwbys bddfssiblf vib gftDffbult().
     //
-    private static ServerSocketFactory          theFactory;
+    privbtf stbtid SfrvfrSodkftFbdtory          tifFbdtory;
 
 
     /**
-     * Creates a server socket factory.
+     * Crfbtfs b sfrvfr sodkft fbdtory.
      */
-    protected ServerSocketFactory() { /* NOTHING */ }
+    protfdtfd SfrvfrSodkftFbdtory() { /* NOTHING */ }
 
     /**
-     * Returns a copy of the environment's default socket factory.
+     * Rfturns b dopy of tif fnvironmfnt's dffbult sodkft fbdtory.
      *
-     * @return the <code>ServerSocketFactory</code>
+     * @rfturn tif <dodf>SfrvfrSodkftFbdtory</dodf>
      */
-    public static ServerSocketFactory getDefault()
+    publid stbtid SfrvfrSodkftFbdtory gftDffbult()
     {
-        synchronized (ServerSocketFactory.class) {
-            if (theFactory == null) {
+        syndironizfd (SfrvfrSodkftFbdtory.dlbss) {
+            if (tifFbdtory == null) {
                 //
-                // Different implementations of this method could
-                // work rather differently.  For example, driving
-                // this from a system property, or using a different
-                // implementation than JavaSoft's.
+                // Difffrfnt implfmfntbtions of tiis mftiod dould
+                // work rbtifr difffrfntly.  For fxbmplf, driving
+                // tiis from b systfm propfrty, or using b difffrfnt
+                // implfmfntbtion tibn JbvbSoft's.
                 //
-                theFactory = new DefaultServerSocketFactory();
+                tifFbdtory = nfw DffbultSfrvfrSodkftFbdtory();
             }
         }
 
-        return theFactory;
+        rfturn tifFbdtory;
     }
 
 
     /**
-     * Returns an unbound server socket.  The socket is configured with
-     * the socket options (such as accept timeout) given to this factory.
+     * Rfturns bn unbound sfrvfr sodkft.  Tif sodkft is donfigurfd witi
+     * tif sodkft options (sudi bs bddfpt timfout) givfn to tiis fbdtory.
      *
-     * @return the unbound socket
-     * @throws IOException if the socket cannot be created
-     * @see java.net.ServerSocket#bind(java.net.SocketAddress)
-     * @see java.net.ServerSocket#bind(java.net.SocketAddress, int)
-     * @see java.net.ServerSocket#ServerSocket()
+     * @rfturn tif unbound sodkft
+     * @tirows IOExdfption if tif sodkft dbnnot bf drfbtfd
+     * @sff jbvb.nft.SfrvfrSodkft#bind(jbvb.nft.SodkftAddrfss)
+     * @sff jbvb.nft.SfrvfrSodkft#bind(jbvb.nft.SodkftAddrfss, int)
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft()
      */
-    public ServerSocket createServerSocket() throws IOException {
-        throw new SocketException("Unbound server sockets not implemented");
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft() tirows IOExdfption {
+        tirow nfw SodkftExdfption("Unbound sfrvfr sodkfts not implfmfntfd");
     }
 
     /**
-     * Returns a server socket bound to the specified port.
-     * The socket is configured with the socket options
-     * (such as accept timeout) given to this factory.
+     * Rfturns b sfrvfr sodkft bound to tif spfdififd port.
+     * Tif sodkft is donfigurfd witi tif sodkft options
+     * (sudi bs bddfpt timfout) givfn to tiis fbdtory.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkListfn</dodf>
+     * mftiod is dbllfd witi tif <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf tif opfrbtion is bllowfd. Tiis dould rfsult
+     * in b SfdurityExdfption.
      *
-     * @param port the port to listen to
-     * @return the <code>ServerSocket</code>
-     * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int)
+     * @pbrbm port tif port to listfn to
+     * @rfturn tif <dodf>SfrvfrSodkft</dodf>
+     * @tirows IOExdfption for nftworking frrors
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkListfn</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int)
      */
-    public abstract ServerSocket createServerSocket(int port)
-        throws IOException;
+    publid bbstrbdt SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+        tirows IOExdfption;
 
 
     /**
-     * Returns a server socket bound to the specified port, and uses the
-     * specified connection backlog.  The socket is configured with
-     * the socket options (such as accept timeout) given to this factory.
+     * Rfturns b sfrvfr sodkft bound to tif spfdififd port, bnd usfs tif
+     * spfdififd donnfdtion bbdklog.  Tif sodkft is donfigurfd witi
+     * tif sodkft options (sudi bs bddfpt timfout) givfn to tiis fbdtory.
      * <P>
-     * The <code>backlog</code> argument must be a positive
-     * value greater than 0. If the value passed if equal or less
-     * than 0, then the default value will be assumed.
+     * Tif <dodf>bbdklog</dodf> brgumfnt must bf b positivf
+     * vbluf grfbtfr tibn 0. If tif vbluf pbssfd if fqubl or lfss
+     * tibn 0, tifn tif dffbult vbluf will bf bssumfd.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkListfn</dodf>
+     * mftiod is dbllfd witi tif <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf tif opfrbtion is bllowfd. Tiis dould rfsult
+     * in b SfdurityExdfption.
      *
-     * @param port the port to listen to
-     * @param backlog how many connections are queued
-     * @return the <code>ServerSocket</code>
-     * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int, int)
+     * @pbrbm port tif port to listfn to
+     * @pbrbm bbdklog iow mbny donnfdtions brf qufufd
+     * @rfturn tif <dodf>SfrvfrSodkft</dodf>
+     * @tirows IOExdfption for nftworking frrors
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkListfn</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int, int)
      */
-    public abstract ServerSocket
-    createServerSocket(int port, int backlog)
-    throws IOException;
+    publid bbstrbdt SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog)
+    tirows IOExdfption;
 
 
     /**
-     * Returns a server socket bound to the specified port,
-     * with a specified listen backlog and local IP.
+     * Rfturns b sfrvfr sodkft bound to tif spfdififd port,
+     * witi b spfdififd listfn bbdklog bnd lodbl IP.
      * <P>
-     * The <code>ifAddress</code> argument can be used on a multi-homed
-     * host for a <code>ServerSocket</code> that will only accept connect
-     * requests to one of its addresses. If <code>ifAddress</code> is null,
-     * it will accept connections on all local addresses. The socket is
-     * configured with the socket options (such as accept timeout) given
-     * to this factory.
+     * Tif <dodf>ifAddrfss</dodf> brgumfnt dbn bf usfd on b multi-iomfd
+     * iost for b <dodf>SfrvfrSodkft</dodf> tibt will only bddfpt donnfdt
+     * rfqufsts to onf of its bddrfssfs. If <dodf>ifAddrfss</dodf> is null,
+     * it will bddfpt donnfdtions on bll lodbl bddrfssfs. Tif sodkft is
+     * donfigurfd witi tif sodkft options (sudi bs bddfpt timfout) givfn
+     * to tiis fbdtory.
      * <P>
-     * The <code>backlog</code> argument must be a positive
-     * value greater than 0. If the value passed if equal or less
-     * than 0, then the default value will be assumed.
+     * Tif <dodf>bbdklog</dodf> brgumfnt must bf b positivf
+     * vbluf grfbtfr tibn 0. If tif vbluf pbssfd if fqubl or lfss
+     * tibn 0, tifn tif dffbult vbluf will bf bssumfd.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkListfn</dodf>
+     * mftiod is dbllfd witi tif <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf tif opfrbtion is bllowfd. Tiis dould rfsult
+     * in b SfdurityExdfption.
      *
-     * @param port the port to listen to
-     * @param backlog how many connections are queued
-     * @param ifAddress the network interface address to use
-     * @return the <code>ServerSocket</code>
-     * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int, int, java.net.InetAddress)
+     * @pbrbm port tif port to listfn to
+     * @pbrbm bbdklog iow mbny donnfdtions brf qufufd
+     * @pbrbm ifAddrfss tif nftwork intfrfbdf bddrfss to usf
+     * @rfturn tif <dodf>SfrvfrSodkft</dodf>
+     * @tirows IOExdfption for nftworking frrors
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkListfn</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int, int, jbvb.nft.InftAddrfss)
      */
-    public abstract ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
-    throws IOException;
+    publid bbstrbdt SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    tirows IOExdfption;
 }
 
 
 //
-// The default factory has NO intelligence.  In fact it's not clear
-// what sort of intelligence servers need; the onus is on clients,
-// who have to know how to tunnel etc.
+// Tif dffbult fbdtory ibs NO intflligfndf.  In fbdt it's not dlfbr
+// wibt sort of intflligfndf sfrvfrs nffd; tif onus is on dlifnts,
+// wio ibvf to know iow to tunnfl ftd.
 //
-class DefaultServerSocketFactory extends ServerSocketFactory {
+dlbss DffbultSfrvfrSodkftFbdtory fxtfnds SfrvfrSodkftFbdtory {
 
-    DefaultServerSocketFactory()
+    DffbultSfrvfrSodkftFbdtory()
     {
         /* NOTHING */
     }
 
-    public ServerSocket createServerSocket()
-    throws IOException
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft()
+    tirows IOExdfption
     {
-        return new ServerSocket();
+        rfturn nfw SfrvfrSodkft();
     }
 
-    public ServerSocket createServerSocket(int port)
-    throws IOException
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+    tirows IOExdfption
     {
-        return new ServerSocket(port);
+        rfturn nfw SfrvfrSodkft(port);
     }
 
-    public ServerSocket createServerSocket(int port, int backlog)
-    throws IOException
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port, int bbdklog)
+    tirows IOExdfption
     {
-        return new ServerSocket(port, backlog);
+        rfturn nfw SfrvfrSodkft(port, bbdklog);
     }
 
-    public ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
-    throws IOException
+    publid SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    tirows IOExdfption
     {
-        return new ServerSocket(port, backlog, ifAddress);
+        rfturn nfw SfrvfrSodkft(port, bbdklog, ifAddrfss);
     }
 }

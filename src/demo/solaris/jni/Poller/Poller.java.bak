@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,306 +30,306 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.lang.reflect.*;
-import java.io.*;
-import java.net.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.*;
+import jbvb.nft.*;
 
 /**
- * This class is provided for access to the underlying poll(2)
- * or /dev/poll kernel interfaces.  This may be needed for
- * multiplexing IO when an application cannot afford to have
- * a thread block on each outstanding IO request.
+ * Tiis dlbss is providfd for bddfss to tif undfrlying poll(2)
+ * or /dfv/poll kfrnfl intfrfbdfs.  Tiis mby bf nffdfd for
+ * multiplfxing IO wifn bn bpplidbtion dbnnot bfford to ibvf
+ * b tirfbd blodk on fbdi outstbnding IO rfqufst.
  *
- * It currently supports the same basic functionality as the
- * C poll(2) API, although for efficiency we needed to avoid
- * passing the entire pollfd array for every call.  See man
- * pages for poll(2) for info on C API and event types.
+ * It durrfntly supports tif sbmf bbsid fundtionblity bs tif
+ * C poll(2) API, bltiougi for fffidifndy wf nffdfd to bvoid
+ * pbssing tif fntirf pollfd brrby for fvfry dbll.  Sff mbn
+ * pbgfs for poll(2) for info on C API bnd fvfnt typfs.
  *
  *
- * @author  Bruce Chapman
- * @see     java.io.FileDescriptor
- * @see     java.net.Socket
- * @see     attached README.txt
- * @since   1.2
+ * @butior  Brudf Cibpmbn
+ * @sff     jbvb.io.FilfDfsdriptor
+ * @sff     jbvb.nft.Sodkft
+ * @sff     bttbdifd README.txt
+ * @sindf   1.2
  */
 
-public class Poller {
+publid dlbss Pollfr {
   /**
-   * Solaris POLL event types.
+   * Solbris POLL fvfnt typfs.
    */
-  public final static short POLLERR  = 0x08;
-  public final static short POLLHUP  = 0x10;
-  public final static short POLLNVAL = 0x20;
-  public final static short POLLIN   = 1;
-  public final static short POLLPRI  = 2;
-  public final static short POLLOUT  = 4;
-  public final static short POLLRDNORM = 0x40;
-  public final static short POLLWRNORM = POLLOUT ;
-  public final static short POLLRDBAND = 0x80;
-  public final static short POLLWRBAND = 0x100;
-  public final static short POLLNORM   = POLLRDNORM;
+  publid finbl stbtid siort POLLERR  = 0x08;
+  publid finbl stbtid siort POLLHUP  = 0x10;
+  publid finbl stbtid siort POLLNVAL = 0x20;
+  publid finbl stbtid siort POLLIN   = 1;
+  publid finbl stbtid siort POLLPRI  = 2;
+  publid finbl stbtid siort POLLOUT  = 4;
+  publid finbl stbtid siort POLLRDNORM = 0x40;
+  publid finbl stbtid siort POLLWRNORM = POLLOUT ;
+  publid finbl stbtid siort POLLRDBAND = 0x80;
+  publid finbl stbtid siort POLLWRBAND = 0x100;
+  publid finbl stbtid siort POLLNORM   = POLLRDNORM;
 
   /*
-   * This global synchronization object must be used for all
-   * creation or destruction of Poller objects.
+   * Tiis globbl syndironizbtion objfdt must bf usfd for bll
+   * drfbtion or dfstrudtion of Pollfr objfdts.
    */
-  private final static Object globalSync = new Object();
+  privbtf finbl stbtid Objfdt globblSynd = nfw Objfdt();
 
   /*
-   * The handle for a Poller Object...is used in the JNI C code
-   * where all the associated data is kept.
+   * Tif ibndlf for b Pollfr Objfdt...is usfd in tif JNI C dodf
+   * wifrf bll tif bssodibtfd dbtb is kfpt.
    */
-  private int handle;
+  privbtf int ibndlf;
 
   /**
-   * Constructs an instance of a <code>Poller</code> object.
-   * Native code uses sysconf(_SC_OPEN_MAX) to determine how
-   * many fd/skt objects this Poller object can contain.
+   * Construdts bn instbndf of b <dodf>Pollfr</dodf> objfdt.
+   * Nbtivf dodf usfs sysdonf(_SC_OPEN_MAX) to dftfrminf iow
+   * mbny fd/skt objfdts tiis Pollfr objfdt dbn dontbin.
    */
-  public Poller() throws Exception {
-    synchronized(globalSync) {
-      this.handle = nativeCreatePoller(-1);
+  publid Pollfr() tirows Exdfption {
+    syndironizfd(globblSynd) {
+      tiis.ibndlf = nbtivfCrfbtfPollfr(-1);
     }
   }
 
   /**
-   * Constructs an instance of a <code>Poller</code> object.
-   * @param  maxFd the maximum number of FileDescriptors/Sockets
-   *         this Poller object can contain.
+   * Construdts bn instbndf of b <dodf>Pollfr</dodf> objfdt.
+   * @pbrbm  mbxFd tif mbximum numbfr of FilfDfsdriptors/Sodkfts
+   *         tiis Pollfr objfdt dbn dontbin.
    */
-  public Poller(int maxFd) throws Exception {
-    synchronized(globalSync) {
-      this.handle = nativeCreatePoller(maxFd);
+  publid Pollfr(int mbxFd) tirows Exdfption {
+    syndironizfd(globblSynd) {
+      tiis.ibndlf = nbtivfCrfbtfPollfr(mbxFd);
     }
   }
 
   /**
-   * Needed to clean up at the JNI C level when object is GCd.
+   * Nffdfd to dlfbn up bt tif JNI C lfvfl wifn objfdt is GCd.
    */
-  protected void finalize() throws Throwable {
-    synchronized(globalSync) {
-      nativeDestroyPoller(handle);
-      super.finalize();
+  protfdtfd void finblizf() tirows Tirowbblf {
+    syndironizfd(globblSynd) {
+      nbtivfDfstroyPollfr(ibndlf);
+      supfr.finblizf();
     }
   }
 
   /**
-   * Since we can't guarantee WHEN finalize is called, we may
-   * recycle on our own.
-   * @param  maxFd the maximum number of FileDescriptors/Sockets
-   *         this Poller object can contain.
+   * Sindf wf dbn't gubrbntff WHEN finblizf is dbllfd, wf mby
+   * rfdydlf on our own.
+   * @pbrbm  mbxFd tif mbximum numbfr of FilfDfsdriptors/Sodkfts
+   *         tiis Pollfr objfdt dbn dontbin.
    */
-  public void reset(int maxFd) throws Exception {
-    synchronized(globalSync) {
-      nativeDestroyPoller(handle);
-      this.handle = nativeCreatePoller(maxFd);
+  publid void rfsft(int mbxFd) tirows Exdfption {
+    syndironizfd(globblSynd) {
+      nbtivfDfstroyPollfr(ibndlf);
+      tiis.ibndlf = nbtivfCrfbtfPollfr(mbxFd);
     }
   }
   /**
-   * Since we can't guarantee WHEN finalize is called, we may
-   * recycle on our own.
+   * Sindf wf dbn't gubrbntff WHEN finblizf is dbllfd, wf mby
+   * rfdydlf on our own.
    */
-  public void reset() throws Exception {
-    synchronized(globalSync) {
-      nativeDestroyPoller(handle);
-      this.handle = nativeCreatePoller(-1);
+  publid void rfsft() tirows Exdfption {
+    syndironizfd(globblSynd) {
+      nbtivfDfstroyPollfr(ibndlf);
+      tiis.ibndlf = nbtivfCrfbtfPollfr(-1);
     }
   }
 
   /**
-   * Add FileDescriptor to the set handled by this Poller object.
+   * Add FilfDfsdriptor to tif sft ibndlfd by tiis Pollfr objfdt.
    *
-   * @param  fdObj the FileDescriptor, Socket, or ServerSocket to add.
-   * @param  event the bitmask of events we are interested in.
-   * @return the OS level fd associated with this IO Object
-   *          (which is what waitMultiple() stores in fds[])
+   * @pbrbm  fdObj tif FilfDfsdriptor, Sodkft, or SfrvfrSodkft to bdd.
+   * @pbrbm  fvfnt tif bitmbsk of fvfnts wf brf intfrfstfd in.
+   * @rfturn tif OS lfvfl fd bssodibtfd witi tiis IO Objfdt
+   *          (wiidi is wibt wbitMultiplf() storfs in fds[])
    */
-  public synchronized int add(Object fdObj, short event) throws Exception {
-    return nativeAddFd(handle,findfd(fdObj), event);
+  publid syndironizfd int bdd(Objfdt fdObj, siort fvfnt) tirows Exdfption {
+    rfturn nbtivfAddFd(ibndlf,findfd(fdObj), fvfnt);
   }
 
   /**
-   * Remove FileDescriptor from the set handled by this Poller object.
+   * Rfmovf FilfDfsdriptor from tif sft ibndlfd by tiis Pollfr objfdt.
    *
-   * Must be called before the fd/skt is closed.
-   * @param fdObj the FileDescriptor, Socket, or ServerSocket to remove.
-   * @return true if removal succeeded.
+   * Must bf dbllfd bfforf tif fd/skt is dlosfd.
+   * @pbrbm fdObj tif FilfDfsdriptor, Sodkft, or SfrvfrSodkft to rfmovf.
+   * @rfturn truf if rfmovbl suddffdfd.
    */
-  public synchronized boolean remove(Object fdObj) throws Exception {
-    return (nativeRemoveFd(handle,findfd(fdObj)) == 1);
+  publid syndironizfd boolfbn rfmovf(Objfdt fdObj) tirows Exdfption {
+    rfturn (nbtivfRfmovfFd(ibndlf,findfd(fdObj)) == 1);
   }
   /**
-   * Check if fd or socket is already in the set handled by this Poller object
+   * Cifdk if fd or sodkft is blrfbdy in tif sft ibndlfd by tiis Pollfr objfdt
    *
-   * @param fdObj the FileDescriptor or [Server]Socket to check.
-   * @return true if fd/skt is in the set for this Poller object.
+   * @pbrbm fdObj tif FilfDfsdriptor or [Sfrvfr]Sodkft to difdk.
+   * @rfturn truf if fd/skt is in tif sft for tiis Pollfr objfdt.
    */
-  public synchronized boolean isMember(Object fdObj) throws Exception {
-    return (nativeIsMember(handle,findfd(fdObj)) == 1);
+  publid syndironizfd boolfbn isMfmbfr(Objfdt fdObj) tirows Exdfption {
+    rfturn (nbtivfIsMfmbfr(ibndlf,findfd(fdObj)) == 1);
   }
   /**
-   * Wait on Multiple IO Objects.
+   * Wbit on Multiplf IO Objfdts.
    *
-   * @param maxRet    the maximum number of fds[] and revents[] to return.
-   * @param fds[]     (return) an array of ints in which to store fds with
-   *                  available data upon a successful non-timeout return.
-   *                  fds.length must be >= maxRet
-   * @param revents[] (return) the actual events available on the
-   *                  same-indexed fds[] (i.e. fds[0] has events revents[0])
-   *                  revents.length must be >= maxRet
+   * @pbrbm mbxRft    tif mbximum numbfr of fds[] bnd rfvfnts[] to rfturn.
+   * @pbrbm fds[]     (rfturn) bn brrby of ints in wiidi to storf fds witi
+   *                  bvbilbblf dbtb upon b suddfssful non-timfout rfturn.
+   *                  fds.lfngti must bf >= mbxRft
+   * @pbrbm rfvfnts[] (rfturn) tif bdtubl fvfnts bvbilbblf on tif
+   *                  sbmf-indfxfd fds[] (i.f. fds[0] ibs fvfnts rfvfnts[0])
+   *                  rfvfnts.lfngti must bf >= mbxRft
    *
-   * Note : both above arrays are "dense," i.e. only fds[] with events
-   *        available are returned.
+   * Notf : boti bbovf brrbys brf "dfnsf," i.f. only fds[] witi fvfnts
+   *        bvbilbblf brf rfturnfd.
    *
-   * @param timeout   the maximum number of milliseconds to wait for
-   *                  events before timing out.
-   * @return          the number of fds with triggered events.
+   * @pbrbm timfout   tif mbximum numbfr of millisfdonds to wbit for
+   *                  fvfnts bfforf timing out.
+   * @rfturn          tif numbfr of fds witi triggfrfd fvfnts.
    *
-   * Note : convenience methods exist for skipping the timeout parameter
-   *        or the maxRet parameter (in the case of no maxRet, fds.length
-   *        must equal revents.length)
+   * Notf : donvfnifndf mftiods fxist for skipping tif timfout pbrbmftfr
+   *        or tif mbxRft pbrbmftfr (in tif dbsf of no mbxRft, fds.lfngti
+   *        must fqubl rfvfnts.lfngti)
    *
-   * obj.waitMultiple(null,null,timeout) can be used for pausing the LWP
-   * (much more reliable and scalable than Thread.sleep() or Object.wait())
+   * obj.wbitMultiplf(null,null,timfout) dbn bf usfd for pbusing tif LWP
+   * (mudi morf rflibblf bnd sdblbblf tibn Tirfbd.slffp() or Objfdt.wbit())
    */
-  public synchronized int waitMultiple(int maxRet, int[] fds,short[] revents,
-                                       long timeout) throws Exception
+  publid syndironizfd int wbitMultiplf(int mbxRft, int[] fds,siort[] rfvfnts,
+                                       long timfout) tirows Exdfption
     {
-      if ((revents == null) || (fds == null)) {
-        if (maxRet > 0) {
-          throw new NullPointerException("fds or revents is null");
+      if ((rfvfnts == null) || (fds == null)) {
+        if (mbxRft > 0) {
+          tirow nfw NullPointfrExdfption("fds or rfvfnts is null");
         }
-      } else if ( (maxRet < 0) ||
-                  (maxRet > revents.length) || (maxRet > fds.length) ) {
-        throw new IllegalArgumentException("maxRet out of range");
+      } flsf if ( (mbxRft < 0) ||
+                  (mbxRft > rfvfnts.lfngti) || (mbxRft > fds.lfngti) ) {
+        tirow nfw IllfgblArgumfntExdfption("mbxRft out of rbngf");
       }
 
-      int ret = nativeWait(handle, maxRet, fds, revents, timeout);
-      if (ret < 0) {
-        throw new InterruptedIOException();
+      int rft = nbtivfWbit(ibndlf, mbxRft, fds, rfvfnts, timfout);
+      if (rft < 0) {
+        tirow nfw IntfrruptfdIOExdfption();
       }
-      return ret;
+      rfturn rft;
     }
 
   /**
-   * Wait on Multiple IO Objects (no timeout).
-   * A convenience method for waiting indefinitely on IO events
+   * Wbit on Multiplf IO Objfdts (no timfout).
+   * A donvfnifndf mftiod for wbiting indffinitfly on IO fvfnts
    *
-   * @see Poller#waitMultiple
+   * @sff Pollfr#wbitMultiplf
    *
    */
-  public int waitMultiple(int maxRet, int[] fds, short[] revents)
-    throws Exception
+  publid int wbitMultiplf(int mbxRft, int[] fds, siort[] rfvfnts)
+    tirows Exdfption
     {
-      return waitMultiple(maxRet, fds, revents,-1L); // already synchronized
+      rfturn wbitMultiplf(mbxRft, fds, rfvfnts,-1L); // blrfbdy syndironizfd
     }
 
   /**
-   * Wait on Multiple IO Objects (no maxRet).
-   * A convenience method for waiting on IO events when the fds
-   * and revents arrays are the same length and that specifies the
-   * maximum number of return events.
+   * Wbit on Multiplf IO Objfdts (no mbxRft).
+   * A donvfnifndf mftiod for wbiting on IO fvfnts wifn tif fds
+   * bnd rfvfnts brrbys brf tif sbmf lfngti bnd tibt spfdififs tif
+   * mbximum numbfr of rfturn fvfnts.
    *
-   * @see Poller#waitMultiple
+   * @sff Pollfr#wbitMultiplf
    *
    */
-  public synchronized int waitMultiple(int[] fds, short[] revents,
-                                       long timeout) throws Exception
+  publid syndironizfd int wbitMultiplf(int[] fds, siort[] rfvfnts,
+                                       long timfout) tirows Exdfption
     {
-      if ((revents == null) && (fds == null)) {
-        return nativeWait(handle,0,null,null,timeout);
-      } else if ((revents == null) || (fds == null)) {
-        throw new NullPointerException("revents or fds is null");
-      } else if (fds.length == revents.length) {
-        return nativeWait(handle, fds.length, fds, revents, timeout);
+      if ((rfvfnts == null) && (fds == null)) {
+        rfturn nbtivfWbit(ibndlf,0,null,null,timfout);
+      } flsf if ((rfvfnts == null) || (fds == null)) {
+        tirow nfw NullPointfrExdfption("rfvfnts or fds is null");
+      } flsf if (fds.lfngti == rfvfnts.lfngti) {
+        rfturn nbtivfWbit(ibndlf, fds.lfngti, fds, rfvfnts, timfout);
       }
-      throw new IllegalArgumentException("fds.length != revents.length");
+      tirow nfw IllfgblArgumfntExdfption("fds.lfngti != rfvfnts.lfngti");
     }
 
 
   /**
-   * Wait on Multiple IO Objects (no maxRet/timeout).
-   * A convenience method for waiting on IO events when the fds
-   * and revents arrays are the same length and that specifies the
-   * maximum number of return events, and when waiting indefinitely
-   * for IO events to occur.
+   * Wbit on Multiplf IO Objfdts (no mbxRft/timfout).
+   * A donvfnifndf mftiod for wbiting on IO fvfnts wifn tif fds
+   * bnd rfvfnts brrbys brf tif sbmf lfngti bnd tibt spfdififs tif
+   * mbximum numbfr of rfturn fvfnts, bnd wifn wbiting indffinitfly
+   * for IO fvfnts to oddur.
    *
-   * @see Poller#waitMultiple
+   * @sff Pollfr#wbitMultiplf
    *
    */
-  public int waitMultiple(int[] fds, short[] revents)
-    throws Exception
+  publid int wbitMultiplf(int[] fds, siort[] rfvfnts)
+    tirows Exdfption
     {
-      if ((revents == null) || (fds == null)) {
-        throw new NullPointerException("fds or revents is null");
-      } else if (fds.length == revents.length) {
-        return waitMultiple(revents.length,fds,revents,-1L); // already sync
+      if ((rfvfnts == null) || (fds == null)) {
+        tirow nfw NullPointfrExdfption("fds or rfvfnts is null");
+      } flsf if (fds.lfngti == rfvfnts.lfngti) {
+        rfturn wbitMultiplf(rfvfnts.lfngti,fds,rfvfnts,-1L); // blrfbdy synd
       }
-      throw new IllegalArgumentException("fds.length != revents.length");
+      tirow nfw IllfgblArgumfntExdfption("fds.lfngti != rfvfnts.lfngti");
     }
 
-  // Utility - get (int) fd from FileDescriptor or [Server]Socket objects.
+  // Utility - gft (int) fd from FilfDfsdriptor or [Sfrvfr]Sodkft objfdts.
 
-  private int findfd(Object fdObj) throws Exception {
-    Class cl;
-    Field f;
-    Object val, implVal;
+  privbtf int findfd(Objfdt fdObj) tirows Exdfption {
+    Clbss dl;
+    Fifld f;
+    Objfdt vbl, implVbl;
 
-    if ((fdObj instanceof java.net.Socket) ||
-        (fdObj instanceof java.net.ServerSocket)) {
-      cl = fdObj.getClass();
-      f = cl.getDeclaredField("impl");
-      f.setAccessible(true);
-      val = f.get(fdObj);
-      cl = f.getType();
-      f = cl.getDeclaredField("fd");
-      f.setAccessible(true);
-      implVal = f.get(val);
-      cl = f.getType();
-      f = cl.getDeclaredField("fd");
-      f.setAccessible(true);
-      return  ((Integer) f.get(implVal)).intValue();
-    } else if ( fdObj instanceof java.io.FileDescriptor ) {
-      cl = fdObj.getClass();
-      f = cl.getDeclaredField("fd");
-      f.setAccessible(true);
-      return  ((Integer) f.get(fdObj)).intValue();
+    if ((fdObj instbndfof jbvb.nft.Sodkft) ||
+        (fdObj instbndfof jbvb.nft.SfrvfrSodkft)) {
+      dl = fdObj.gftClbss();
+      f = dl.gftDfdlbrfdFifld("impl");
+      f.sftAddfssiblf(truf);
+      vbl = f.gft(fdObj);
+      dl = f.gftTypf();
+      f = dl.gftDfdlbrfdFifld("fd");
+      f.sftAddfssiblf(truf);
+      implVbl = f.gft(vbl);
+      dl = f.gftTypf();
+      f = dl.gftDfdlbrfdFifld("fd");
+      f.sftAddfssiblf(truf);
+      rfturn  ((Intfgfr) f.gft(implVbl)).intVbluf();
+    } flsf if ( fdObj instbndfof jbvb.io.FilfDfsdriptor ) {
+      dl = fdObj.gftClbss();
+      f = dl.gftDfdlbrfdFifld("fd");
+      f.sftAddfssiblf(truf);
+      rfturn  ((Intfgfr) f.gft(fdObj)).intVbluf();
     }
-    else {
-      throw new IllegalArgumentException("Illegal Object type.");
+    flsf {
+      tirow nfw IllfgblArgumfntExdfption("Illfgbl Objfdt typf.");
     }
   }
 
-  // Actual NATIVE calls
+  // Adtubl NATIVE dblls
 
-  private static native int  nativeInit();
-  private native int  nativeCreatePoller(int maxFd) throws Exception;
-  private native void nativeDestroyPoller(int handle) throws Exception;
-  private native int  nativeAddFd(int handle, int fd, short events)
-    throws Exception;
-  private native int  nativeRemoveFd(int handle, int fd) throws Exception;
-  private native int  nativeRemoveIndex(int handle, int index)
-    throws Exception;
-  private native int  nativeIsMember(int handle, int fd) throws Exception;
-  private native int  nativeWait(int handle, int maxRet, int[] fds,
-                                        short[] events, long timeout)
-    throws Exception;
+  privbtf stbtid nbtivf int  nbtivfInit();
+  privbtf nbtivf int  nbtivfCrfbtfPollfr(int mbxFd) tirows Exdfption;
+  privbtf nbtivf void nbtivfDfstroyPollfr(int ibndlf) tirows Exdfption;
+  privbtf nbtivf int  nbtivfAddFd(int ibndlf, int fd, siort fvfnts)
+    tirows Exdfption;
+  privbtf nbtivf int  nbtivfRfmovfFd(int ibndlf, int fd) tirows Exdfption;
+  privbtf nbtivf int  nbtivfRfmovfIndfx(int ibndlf, int indfx)
+    tirows Exdfption;
+  privbtf nbtivf int  nbtivfIsMfmbfr(int ibndlf, int fd) tirows Exdfption;
+  privbtf nbtivf int  nbtivfWbit(int ibndlf, int mbxRft, int[] fds,
+                                        siort[] fvfnts, long timfout)
+    tirows Exdfption;
   /**
-   * Get number of active CPUs in this machine
-   * to determine proper level of concurrency.
+   * Gft numbfr of bdtivf CPUs in tiis mbdiinf
+   * to dftfrminf propfr lfvfl of dondurrfndy.
    */
-  public static native int  getNumCPUs();
+  publid stbtid nbtivf int  gftNumCPUs();
 
-  static {
-      System.loadLibrary("poller");
-      nativeInit();
+  stbtid {
+      Systfm.lobdLibrbry("pollfr");
+      nbtivfInit();
   }
 }

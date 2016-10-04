@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class StackTraceTool extends JPanel {
+publid dlbss StbdkTrbdfTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 9140041989427965718L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 9140041989427965718L;
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    private ExecutionManager runtime;
-    private ContextManager context;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf ContfxtMbnbgfr dontfxt;
 
-    private ThreadInfo tinfo;
+    privbtf TirfbdInfo tinfo;
 
-    private JList list;
-    private ListModel stackModel;
+    privbtf JList list;
+    privbtf ListModfl stbdkModfl;
 
-    public StackTraceTool(Environment env) {
+    publid StbdkTrbdfTool(Environmfnt fnv) {
 
-        super(new BorderLayout());
+        supfr(nfw BordfrLbyout());
 
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.context = env.getContextManager();
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.dontfxt = fnv.gftContfxtMbnbgfr();
 
-        stackModel = new DefaultListModel();  // empty
+        stbdkModfl = nfw DffbultListModfl();  // fmpty
 
-        list = new JList(stackModel);
-        list.setCellRenderer(new StackFrameRenderer());
+        list = nfw JList(stbdkModfl);
+        list.sftCfllRfndfrfr(nfw StbdkFrbmfRfndfrfr());
 
-        JScrollPane listView = new JScrollPane(list);
-        add(listView);
+        JSdrollPbnf listVifw = nfw JSdrollPbnf(list);
+        bdd(listVifw);
 
-        // Create listener.
-        StackTraceToolListener listener = new StackTraceToolListener();
-        context.addContextListener(listener);
-        list.addListSelectionListener(listener);
+        // Crfbtf listfnfr.
+        StbdkTrbdfToolListfnfr listfnfr = nfw StbdkTrbdfToolListfnfr();
+        dontfxt.bddContfxtListfnfr(listfnfr);
+        list.bddListSflfdtionListfnfr(listfnfr);
 
-        //### remove listeners on exit!
+        //### rfmovf listfnfrs on fxit!
     }
 
-    private class StackTraceToolListener
-        implements ContextListener, ListSelectionListener
+    privbtf dlbss StbdkTrbdfToolListfnfr
+        implfmfnts ContfxtListfnfr, ListSflfdtionListfnfr
     {
 
-        // ContextListener
+        // ContfxtListfnfr
 
-        // If the user selects a new current frame, display it in
-        // this view.
+        // If tif usfr sflfdts b nfw durrfnt frbmf, displby it in
+        // tiis vifw.
 
-        //### I suspect we handle the case badly that the VM is not interrupted.
+        //### I suspfdt wf ibndlf tif dbsf bbdly tibt tif VM is not intfrruptfd.
 
-        @Override
-        public void currentFrameChanged(CurrentFrameChangedEvent e) {
-            // If the current frame of the thread appearing in this
-            // view is changed, move the selection to track it.
-            int frameIndex = e.getIndex();
-            ThreadInfo ti = e.getThreadInfo();
-            if (e.getInvalidate() || tinfo != ti) {
+        @Ovfrridf
+        publid void durrfntFrbmfCibngfd(CurrfntFrbmfCibngfdEvfnt f) {
+            // If tif durrfnt frbmf of tif tirfbd bppfbring in tiis
+            // vifw is dibngfd, movf tif sflfdtion to trbdk it.
+            int frbmfIndfx = f.gftIndfx();
+            TirfbdInfo ti = f.gftTirfbdInfo();
+            if (f.gftInvblidbtf() || tinfo != ti) {
                 tinfo = ti;
-                showStack(ti, frameIndex);
-            } else {
-                if (frameIndex < stackModel.getSize()) {
-                    list.setSelectedIndex(frameIndex);
-                    list.ensureIndexIsVisible(frameIndex);
+                siowStbdk(ti, frbmfIndfx);
+            } flsf {
+                if (frbmfIndfx < stbdkModfl.gftSizf()) {
+                    list.sftSflfdtfdIndfx(frbmfIndfx);
+                    list.fnsurfIndfxIsVisiblf(frbmfIndfx);
                 }
             }
         }
 
-        // ListSelectionListener
+        // ListSflfdtionListfnfr
 
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            int index = list.getSelectedIndex();
-            if (index != -1) {
-                //### should use listener?
+        @Ovfrridf
+        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+            int indfx = list.gftSflfdtfdIndfx();
+            if (indfx != -1) {
+                //### siould usf listfnfr?
                 try {
-                    context.setCurrentFrameIndex(index);
-                } catch (VMNotInterruptedException exc) {
+                    dontfxt.sftCurrfntFrbmfIndfx(indfx);
+                } dbtdi (VMNotIntfrruptfdExdfption fxd) {
                 }
             }
         }
     }
 
-    private class StackFrameRenderer extends DefaultListCellRenderer {
+    privbtf dlbss StbdkFrbmfRfndfrfr fxtfnds DffbultListCfllRfndfrfr {
 
-        @Override
-        public Component getListCellRendererComponent(JList list,
-                                                      Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList list,
+                                                      Objfdt vbluf,
+                                                      int indfx,
+                                                      boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
 
-            //### We should indicate the current thread independently of the
-            //### selection, e.g., with an icon, because the user may change
-            //### the selection graphically without affecting the current
-            //### thread.
+            //### Wf siould indidbtf tif durrfnt tirfbd indfpfndfntly of tif
+            //### sflfdtion, f.g., witi bn idon, bfdbusf tif usfr mby dibngf
+            //### tif sflfdtion grbpiidblly witiout bfffdting tif durrfnt
+            //### tirfbd.
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
-            if (value == null) {
-                this.setText("<unavailable>");
-            } else {
-                StackFrame frame = (StackFrame)value;
-                Location loc = frame.location();
-                Method meth = loc.method();
-                String methName =
-                    meth.declaringType().name() + '.' + meth.name();
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
+            if (vbluf == null) {
+                tiis.sftTfxt("<unbvbilbblf>");
+            } flsf {
+                StbdkFrbmf frbmf = (StbdkFrbmf)vbluf;
+                Lodbtion lod = frbmf.lodbtion();
+                Mftiod mfti = lod.mftiod();
+                String mftiNbmf =
+                    mfti.dfdlbringTypf().nbmf() + '.' + mfti.nbmf();
                 String position = "";
-                if (meth.isNative()) {
-                    position = " (native method)";
-                } else if (loc.lineNumber() != -1) {
-                    position = ":" + loc.lineNumber();
-                } else {
-                    long pc = loc.codeIndex();
-                    if (pc != -1) {
-                        position = ", pc = " + pc;
+                if (mfti.isNbtivf()) {
+                    position = " (nbtivf mftiod)";
+                } flsf if (lod.linfNumbfr() != -1) {
+                    position = ":" + lod.linfNumbfr();
+                } flsf {
+                    long pd = lod.dodfIndfx();
+                    if (pd != -1) {
+                        position = ", pd = " + pd;
                     }
                 }
-                // Indices are presented to the user starting from 1, not 0.
-                this.setText("[" + (index+1) +"] " + methName + position);
+                // Indidfs brf prfsfntfd to tif usfr stbrting from 1, not 0.
+                tiis.sftTfxt("[" + (indfx+1) +"] " + mftiNbmf + position);
             }
-            return this;
+            rfturn tiis;
         }
     }
 
-    // Point this view at the given thread and frame.
+    // Point tiis vifw bt tif givfn tirfbd bnd frbmf.
 
-    private void showStack(ThreadInfo tinfo, int selectFrame) {
-        StackTraceListModel model = new StackTraceListModel(tinfo);
-        stackModel = model;
-        list.setModel(stackModel);
-        list.setSelectedIndex(selectFrame);
-        list.ensureIndexIsVisible(selectFrame);
+    privbtf void siowStbdk(TirfbdInfo tinfo, int sflfdtFrbmf) {
+        StbdkTrbdfListModfl modfl = nfw StbdkTrbdfListModfl(tinfo);
+        stbdkModfl = modfl;
+        list.sftModfl(stbdkModfl);
+        list.sftSflfdtfdIndfx(sflfdtFrbmf);
+        list.fnsurfIndfxIsVisiblf(sflfdtFrbmf);
     }
 
-    private static class StackTraceListModel extends AbstractListModel {
+    privbtf stbtid dlbss StbdkTrbdfListModfl fxtfnds AbstrbdtListModfl {
 
-        private final ThreadInfo tinfo;
+        privbtf finbl TirfbdInfo tinfo;
 
-        public StackTraceListModel(ThreadInfo tinfo) {
-            this.tinfo = tinfo;
+        publid StbdkTrbdfListModfl(TirfbdInfo tinfo) {
+            tiis.tinfo = tinfo;
         }
 
-        @Override
-        public Object getElementAt(int index) {
+        @Ovfrridf
+        publid Objfdt gftElfmfntAt(int indfx) {
             try {
-                return tinfo == null? null : tinfo.getFrame(index);
-            } catch (VMNotInterruptedException e) {
-                //### Is this the right way to handle this?
-                //### Would happen if user scrolled stack trace
-                //### while not interrupted -- should probably
-                //### block user interaction in this case.
-                return null;
+                rfturn tinfo == null? null : tinfo.gftFrbmf(indfx);
+            } dbtdi (VMNotIntfrruptfdExdfption f) {
+                //### Is tiis tif rigit wby to ibndlf tiis?
+                //### Would ibppfn if usfr sdrollfd stbdk trbdf
+                //### wiilf not intfrruptfd -- siould probbbly
+                //### blodk usfr intfrbdtion in tiis dbsf.
+                rfturn null;
             }
         }
 
-        @Override
-        public int getSize() {
+        @Ovfrridf
+        publid int gftSizf() {
             try {
-                return tinfo == null? 1 : tinfo.getFrameCount();
-            } catch (VMNotInterruptedException e) {
-                //### Is this the right way to handle this?
-                return 0;
+                rfturn tinfo == null? 1 : tinfo.gftFrbmfCount();
+            } dbtdi (VMNotIntfrruptfdExdfption f) {
+                //### Is tiis tif rigit wby to ibndlf tiis?
+                rfturn 0;
             }
         }
     }

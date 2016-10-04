@@ -1,487 +1,487 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "utf_util.h"
-#include "stream.h"
-#include "inStream.h"
-#include "transport.h"
-#include "bag.h"
-#include "commonRef.h"
-#include "FrameID.h"
+#indludf "util.i"
+#indludf "utf_util.i"
+#indludf "strfbm.i"
+#indludf "inStrfbm.i"
+#indludf "trbnsport.i"
+#indludf "bbg.i"
+#indludf "dommonRff.i"
+#indludf "FrbmfID.i"
 
-#define INITIAL_REF_ALLOC 50
-#define SMALLEST(a, b) ((a) < (b)) ? (a) : (b)
+#dffinf INITIAL_REF_ALLOC 50
+#dffinf SMALLEST(b, b) ((b) < (b)) ? (b) : (b)
 
 /*
- * TO DO: Support processing of replies through command input streams.
+ * TO DO: Support prodfssing of rfplifs tirougi dommbnd input strfbms.
  */
 void
-inStream_init(PacketInputStream *stream, jdwpPacket packet)
+inStrfbm_init(PbdkftInputStrfbm *strfbm, jdwpPbdkft pbdkft)
 {
-    stream->packet = packet;
-    stream->error = JDWP_ERROR(NONE);
-    stream->left = packet.type.cmd.len;
-    stream->current = packet.type.cmd.data;
-    stream->refs = bagCreateBag(sizeof(jobject), INITIAL_REF_ALLOC);
-    if (stream->refs == NULL) {
-        stream->error = JDWP_ERROR(OUT_OF_MEMORY);
+    strfbm->pbdkft = pbdkft;
+    strfbm->frror = JDWP_ERROR(NONE);
+    strfbm->lfft = pbdkft.typf.dmd.lfn;
+    strfbm->durrfnt = pbdkft.typf.dmd.dbtb;
+    strfbm->rffs = bbgCrfbtfBbg(sizfof(jobjfdt), INITIAL_REF_ALLOC);
+    if (strfbm->rffs == NULL) {
+        strfbm->frror = JDWP_ERROR(OUT_OF_MEMORY);
     }
 }
 
 jint
-inStream_id(PacketInputStream *stream)
+inStrfbm_id(PbdkftInputStrfbm *strfbm)
 {
-    return stream->packet.type.cmd.id;
+    rfturn strfbm->pbdkft.typf.dmd.id;
 }
 
-jbyte
-inStream_command(PacketInputStream *stream)
+jbytf
+inStrfbm_dommbnd(PbdkftInputStrfbm *strfbm)
 {
-    return stream->packet.type.cmd.cmd;
+    rfturn strfbm->pbdkft.typf.dmd.dmd;
 }
 
-static jdwpError
-readBytes(PacketInputStream *stream, void *dest, int size)
+stbtid jdwpError
+rfbdBytfs(PbdkftInputStrfbm *strfbm, void *dfst, int sizf)
 {
-    if (stream->error) {
-        return stream->error;
+    if (strfbm->frror) {
+        rfturn strfbm->frror;
     }
 
-    if (size > stream->left) {
-        stream->error = JDWP_ERROR(INTERNAL);
-        return stream->error;
+    if (sizf > strfbm->lfft) {
+        strfbm->frror = JDWP_ERROR(INTERNAL);
+        rfturn strfbm->frror;
     }
 
-    if (dest) {
-        (void)memcpy(dest, stream->current, size);
+    if (dfst) {
+        (void)mfmdpy(dfst, strfbm->durrfnt, sizf);
     }
-    stream->current += size;
-    stream->left -= size;
+    strfbm->durrfnt += sizf;
+    strfbm->lfft -= sizf;
 
-    return stream->error;
+    rfturn strfbm->frror;
 }
 
 jdwpError
-inStream_skipBytes(PacketInputStream *stream, jint size) {
-    return readBytes(stream, NULL, size);
+inStrfbm_skipBytfs(PbdkftInputStrfbm *strfbm, jint sizf) {
+    rfturn rfbdBytfs(strfbm, NULL, sizf);
 }
 
-jboolean
-inStream_readBoolean(PacketInputStream *stream)
+jboolfbn
+inStrfbm_rfbdBoolfbn(PbdkftInputStrfbm *strfbm)
 {
-    jbyte flag = 0;
-    (void)readBytes(stream, &flag, sizeof(flag));
-    if (stream->error) {
-        return 0;
-    } else {
-        return flag ? JNI_TRUE : JNI_FALSE;
+    jbytf flbg = 0;
+    (void)rfbdBytfs(strfbm, &flbg, sizfof(flbg));
+    if (strfbm->frror) {
+        rfturn 0;
+    } flsf {
+        rfturn flbg ? JNI_TRUE : JNI_FALSE;
     }
 }
 
-jbyte
-inStream_readByte(PacketInputStream *stream)
+jbytf
+inStrfbm_rfbdBytf(PbdkftInputStrfbm *strfbm)
 {
-    jbyte val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return val;
+    jbytf vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn vbl;
 }
 
-jbyte *
-inStream_readBytes(PacketInputStream *stream, int length, jbyte *buf)
+jbytf *
+inStrfbm_rfbdBytfs(PbdkftInputStrfbm *strfbm, int lfngti, jbytf *buf)
 {
-    (void)readBytes(stream, buf, length);
-    return buf;
+    (void)rfbdBytfs(strfbm, buf, lfngti);
+    rfturn buf;
 }
 
-jchar
-inStream_readChar(PacketInputStream *stream)
+jdibr
+inStrfbm_rfbdCibr(PbdkftInputStrfbm *strfbm)
 {
-    jchar val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_CHAR(val);
+    jdibr vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_CHAR(vbl);
 }
 
-jshort
-inStream_readShort(PacketInputStream *stream)
+jsiort
+inStrfbm_rfbdSiort(PbdkftInputStrfbm *strfbm)
 {
-    jshort val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_SHORT(val);
+    jsiort vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_SHORT(vbl);
 }
 
 jint
-inStream_readInt(PacketInputStream *stream)
+inStrfbm_rfbdInt(PbdkftInputStrfbm *strfbm)
 {
-    jint val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_INT(val);
+    jint vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_INT(vbl);
 }
 
 jlong
-inStream_readLong(PacketInputStream *stream)
+inStrfbm_rfbdLong(PbdkftInputStrfbm *strfbm)
 {
-    jlong val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_LONG(val);
+    jlong vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_LONG(vbl);
 }
 
-jfloat
-inStream_readFloat(PacketInputStream *stream)
+jflobt
+inStrfbm_rfbdFlobt(PbdkftInputStrfbm *strfbm)
 {
-    jfloat val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_FLOAT(val);
+    jflobt vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_FLOAT(vbl);
 }
 
-jdouble
-inStream_readDouble(PacketInputStream *stream)
+jdoublf
+inStrfbm_rfbdDoublf(PbdkftInputStrfbm *strfbm)
 {
-    jdouble val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_DOUBLE(val);
+    jdoublf vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_DOUBLE(vbl);
 }
 
 /*
- * Read an object from the stream. The ID used in the wire protocol
- * is converted to a reference which is returned. The reference is
- * global and strong, but it should *not* be deleted by the caller
- * since it is freed when this stream is destroyed.
+ * Rfbd bn objfdt from tif strfbm. Tif ID usfd in tif wirf protodol
+ * is donvfrtfd to b rfffrfndf wiidi is rfturnfd. Tif rfffrfndf is
+ * globbl bnd strong, but it siould *not* bf dflftfd by tif dbllfr
+ * sindf it is frffd wifn tiis strfbm is dfstroyfd.
  */
-jobject
-inStream_readObjectRef(JNIEnv *env, PacketInputStream *stream)
+jobjfdt
+inStrfbm_rfbdObjfdtRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject ref;
-    jobject *refPtr;
-    jlong id = inStream_readLong(stream);
-    if (stream->error) {
-        return NULL;
+    jobjfdt rff;
+    jobjfdt *rffPtr;
+    jlong id = inStrfbm_rfbdLong(strfbm);
+    if (strfbm->frror) {
+        rfturn NULL;
     }
     if (id == NULL_OBJECT_ID) {
-        return NULL;
+        rfturn NULL;
     }
 
-    ref = commonRef_idToRef(env, id);
-    if (ref == NULL) {
-        stream->error = JDWP_ERROR(INVALID_OBJECT);
-        return NULL;
+    rff = dommonRff_idToRff(fnv, id);
+    if (rff == NULL) {
+        strfbm->frror = JDWP_ERROR(INVALID_OBJECT);
+        rfturn NULL;
     }
 
-    refPtr = bagAdd(stream->refs);
-    if (refPtr == NULL) {
-        commonRef_idToRef_delete(env, ref);
-        return NULL;
+    rffPtr = bbgAdd(strfbm->rffs);
+    if (rffPtr == NULL) {
+        dommonRff_idToRff_dflftf(fnv, rff);
+        rfturn NULL;
     }
 
-    *refPtr = ref;
-    return ref;
+    *rffPtr = rff;
+    rfturn rff;
 }
 
 /*
- * Read a raw object id from the stream. This should be used rarely.
- * Normally, inStream_readObjectRef is preferred since it takes care
- * of reference conversion and tracking. Only code that needs to
- * perform maintence of the commonRef hash table uses this function.
+ * Rfbd b rbw objfdt id from tif strfbm. Tiis siould bf usfd rbrfly.
+ * Normblly, inStrfbm_rfbdObjfdtRff is prfffrrfd sindf it tbkfs dbrf
+ * of rfffrfndf donvfrsion bnd trbdking. Only dodf tibt nffds to
+ * pfrform mbintfndf of tif dommonRff ibsi tbblf usfs tiis fundtion.
  */
 jlong
-inStream_readObjectID(PacketInputStream *stream)
+inStrfbm_rfbdObjfdtID(PbdkftInputStrfbm *strfbm)
 {
-    return inStream_readLong(stream);
+    rfturn inStrfbm_rfbdLong(strfbm);
 }
 
-jclass
-inStream_readClassRef(JNIEnv *env, PacketInputStream *stream)
+jdlbss
+inStrfbm_rfbdClbssRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isClass(object)) {
-        stream->error = JDWP_ERROR(INVALID_CLASS);
-        return NULL;
+    if (!isClbss(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_CLASS);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
-jthread
-inStream_readThreadRef(JNIEnv *env, PacketInputStream *stream)
+jtirfbd
+inStrfbm_rfbdTirfbdRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isThread(object)) {
-        stream->error = JDWP_ERROR(INVALID_THREAD);
-        return NULL;
+    if (!isTirfbd(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_THREAD);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
-jthreadGroup
-inStream_readThreadGroupRef(JNIEnv *env, PacketInputStream *stream)
+jtirfbdGroup
+inStrfbm_rfbdTirfbdGroupRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isThreadGroup(object)) {
-        stream->error = JDWP_ERROR(INVALID_THREAD_GROUP);
-        return NULL;
+    if (!isTirfbdGroup(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_THREAD_GROUP);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
 jstring
-inStream_readStringRef(JNIEnv *env, PacketInputStream *stream)
+inStrfbm_rfbdStringRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isString(object)) {
-        stream->error = JDWP_ERROR(INVALID_STRING);
-        return NULL;
+    if (!isString(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_STRING);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
-jclass
-inStream_readClassLoaderRef(JNIEnv *env, PacketInputStream *stream)
+jdlbss
+inStrfbm_rfbdClbssLobdfrRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isClassLoader(object)) {
-        stream->error = JDWP_ERROR(INVALID_CLASS_LOADER);
-        return NULL;
+    if (!isClbssLobdfr(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_CLASS_LOADER);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
-jarray
-inStream_readArrayRef(JNIEnv *env, PacketInputStream *stream)
+jbrrby
+inStrfbm_rfbdArrbyRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
-    if (object == NULL) {
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could bf frror or just tif null rfffrfndf. In fitifr dbsf,
          * stop now.
          */
-        return NULL;
+        rfturn NULL;
     }
-    if (!isArray(object)) {
-        stream->error = JDWP_ERROR(INVALID_ARRAY);
-        return NULL;
+    if (!isArrby(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_ARRAY);
+        rfturn NULL;
     }
-    return object;
+    rfturn objfdt;
 }
 
 /*
- * Next 3 functions read an Int and convert to a Pointer!?
- * If sizeof(jxxxID) == 8 we must read these values as Longs.
+ * Nfxt 3 fundtions rfbd bn Int bnd donvfrt to b Pointfr!?
+ * If sizfof(jxxxID) == 8 wf must rfbd tifsf vblufs bs Longs.
  */
-FrameID
-inStream_readFrameID(PacketInputStream *stream)
+FrbmfID
+inStrfbm_rfbdFrbmfID(PbdkftInputStrfbm *strfbm)
 {
-    if (sizeof(FrameID) == 8) {
+    if (sizfof(FrbmfID) == 8) {
         /*LINTED*/
-        return (FrameID)inStream_readLong(stream);
-    } else {
+        rfturn (FrbmfID)inStrfbm_rfbdLong(strfbm);
+    } flsf {
         /*LINTED*/
-        return (FrameID)inStream_readInt(stream);
+        rfturn (FrbmfID)inStrfbm_rfbdInt(strfbm);
     }
 }
 
-jmethodID
-inStream_readMethodID(PacketInputStream *stream)
+jmftiodID
+inStrfbm_rfbdMftiodID(PbdkftInputStrfbm *strfbm)
 {
-    if (sizeof(jmethodID) == 8) {
+    if (sizfof(jmftiodID) == 8) {
         /*LINTED*/
-        return (jmethodID)(intptr_t)inStream_readLong(stream);
-    } else {
+        rfturn (jmftiodID)(intptr_t)inStrfbm_rfbdLong(strfbm);
+    } flsf {
         /*LINTED*/
-        return (jmethodID)(intptr_t)inStream_readInt(stream);
+        rfturn (jmftiodID)(intptr_t)inStrfbm_rfbdInt(strfbm);
     }
 }
 
-jfieldID
-inStream_readFieldID(PacketInputStream *stream)
+jfifldID
+inStrfbm_rfbdFifldID(PbdkftInputStrfbm *strfbm)
 {
-    if (sizeof(jfieldID) == 8) {
+    if (sizfof(jfifldID) == 8) {
         /*LINTED*/
-        return (jfieldID)(intptr_t)inStream_readLong(stream);
-    } else {
+        rfturn (jfifldID)(intptr_t)inStrfbm_rfbdLong(strfbm);
+    } flsf {
         /*LINTED*/
-        return (jfieldID)(intptr_t)inStream_readInt(stream);
+        rfturn (jfifldID)(intptr_t)inStrfbm_rfbdInt(strfbm);
     }
 }
 
-jlocation
-inStream_readLocation(PacketInputStream *stream)
+jlodbtion
+inStrfbm_rfbdLodbtion(PbdkftInputStrfbm *strfbm)
 {
-    return (jlocation)inStream_readLong(stream);
+    rfturn (jlodbtion)inStrfbm_rfbdLong(strfbm);
 }
 
-char *
-inStream_readString(PacketInputStream *stream)
+dibr *
+inStrfbm_rfbdString(PbdkftInputStrfbm *strfbm)
 {
-    int length;
-    char *string;
+    int lfngti;
+    dibr *string;
 
-    length = inStream_readInt(stream);
-    string = jvmtiAllocate(length + 1);
+    lfngti = inStrfbm_rfbdInt(strfbm);
+    string = jvmtiAllodbtf(lfngti + 1);
     if (string != NULL) {
-        int new_length;
+        int nfw_lfngti;
 
-        (void)readBytes(stream, string, length);
-        string[length] = '\0';
+        (void)rfbdBytfs(strfbm, string, lfngti);
+        string[lfngti] = '\0';
 
-        /* This is Standard UTF-8, convert to Modified UTF-8 if necessary */
-        new_length = utf8sToUtf8mLength((jbyte*)string, length);
-        if ( new_length != length ) {
-            char *new_string;
+        /* Tiis is Stbndbrd UTF-8, donvfrt to Modififd UTF-8 if nfdfssbry */
+        nfw_lfngti = utf8sToUtf8mLfngti((jbytf*)string, lfngti);
+        if ( nfw_lfngti != lfngti ) {
+            dibr *nfw_string;
 
-            new_string = jvmtiAllocate(new_length+1);
-            utf8sToUtf8m((jbyte*)string, length, (jbyte*)new_string, new_length);
-            jvmtiDeallocate(string);
-            return new_string;
+            nfw_string = jvmtiAllodbtf(nfw_lfngti+1);
+            utf8sToUtf8m((jbytf*)string, lfngti, (jbytf*)nfw_string, nfw_lfngti);
+            jvmtiDfbllodbtf(string);
+            rfturn nfw_string;
         }
     }
-    return string;
+    rfturn string;
 }
 
-jboolean
-inStream_endOfInput(PacketInputStream *stream)
+jboolfbn
+inStrfbm_fndOfInput(PbdkftInputStrfbm *strfbm)
 {
-    return (stream->left > 0);
+    rfturn (strfbm->lfft > 0);
 }
 
 jdwpError
-inStream_error(PacketInputStream *stream)
+inStrfbm_frror(PbdkftInputStrfbm *strfbm)
 {
-    return stream->error;
+    rfturn strfbm->frror;
 }
 
 void
-inStream_clearError(PacketInputStream *stream) {
-    stream->error = JDWP_ERROR(NONE);
+inStrfbm_dlfbrError(PbdkftInputStrfbm *strfbm) {
+    strfbm->frror = JDWP_ERROR(NONE);
 }
 
-jvalue
-inStream_readValue(PacketInputStream *stream, jbyte *typeKeyPtr)
+jvbluf
+inStrfbm_rfbdVbluf(PbdkftInputStrfbm *strfbm, jbytf *typfKfyPtr)
 {
-    jvalue value;
-    jbyte typeKey = inStream_readByte(stream);
-    if (stream->error) {
-        value.j = 0L;
-        return value;
+    jvbluf vbluf;
+    jbytf typfKfy = inStrfbm_rfbdBytf(strfbm);
+    if (strfbm->frror) {
+        vbluf.j = 0L;
+        rfturn vbluf;
     }
 
-    if (isObjectTag(typeKey)) {
-        value.l = inStream_readObjectRef(getEnv(), stream);
-    } else {
-        switch (typeKey) {
-            case JDWP_TAG(BYTE):
-                value.b = inStream_readByte(stream);
-                break;
+    if (isObjfdtTbg(typfKfy)) {
+        vbluf.l = inStrfbm_rfbdObjfdtRff(gftEnv(), strfbm);
+    } flsf {
+        switdi (typfKfy) {
+            dbsf JDWP_TAG(BYTE):
+                vbluf.b = inStrfbm_rfbdBytf(strfbm);
+                brfbk;
 
-            case JDWP_TAG(CHAR):
-                value.c = inStream_readChar(stream);
-                break;
+            dbsf JDWP_TAG(CHAR):
+                vbluf.d = inStrfbm_rfbdCibr(strfbm);
+                brfbk;
 
-            case JDWP_TAG(FLOAT):
-                value.f = inStream_readFloat(stream);
-                break;
+            dbsf JDWP_TAG(FLOAT):
+                vbluf.f = inStrfbm_rfbdFlobt(strfbm);
+                brfbk;
 
-            case JDWP_TAG(DOUBLE):
-                value.d = inStream_readDouble(stream);
-                break;
+            dbsf JDWP_TAG(DOUBLE):
+                vbluf.d = inStrfbm_rfbdDoublf(strfbm);
+                brfbk;
 
-            case JDWP_TAG(INT):
-                value.i = inStream_readInt(stream);
-                break;
+            dbsf JDWP_TAG(INT):
+                vbluf.i = inStrfbm_rfbdInt(strfbm);
+                brfbk;
 
-            case JDWP_TAG(LONG):
-                value.j = inStream_readLong(stream);
-                break;
+            dbsf JDWP_TAG(LONG):
+                vbluf.j = inStrfbm_rfbdLong(strfbm);
+                brfbk;
 
-            case JDWP_TAG(SHORT):
-                value.s = inStream_readShort(stream);
-                break;
+            dbsf JDWP_TAG(SHORT):
+                vbluf.s = inStrfbm_rfbdSiort(strfbm);
+                brfbk;
 
-            case JDWP_TAG(BOOLEAN):
-                value.z = inStream_readBoolean(stream);
-                break;
-            default:
-                stream->error = JDWP_ERROR(INVALID_TAG);
-                break;
+            dbsf JDWP_TAG(BOOLEAN):
+                vbluf.z = inStrfbm_rfbdBoolfbn(strfbm);
+                brfbk;
+            dffbult:
+                strfbm->frror = JDWP_ERROR(INVALID_TAG);
+                brfbk;
         }
     }
-    if (typeKeyPtr) {
-        *typeKeyPtr = typeKey;
+    if (typfKfyPtr) {
+        *typfKfyPtr = typfKfy;
     }
-    return value;
+    rfturn vbluf;
 }
 
-static jboolean
-deleteRef(void *elementPtr, void *arg)
+stbtid jboolfbn
+dflftfRff(void *flfmfntPtr, void *brg)
 {
-    JNIEnv *env = arg;
-    jobject *refPtr = elementPtr;
-    commonRef_idToRef_delete(env, *refPtr);
-    return JNI_TRUE;
+    JNIEnv *fnv = brg;
+    jobjfdt *rffPtr = flfmfntPtr;
+    dommonRff_idToRff_dflftf(fnv, *rffPtr);
+    rfturn JNI_TRUE;
 }
 
 void
-inStream_destroy(PacketInputStream *stream)
+inStrfbm_dfstroy(PbdkftInputStrfbm *strfbm)
 {
-    if (stream->packet.type.cmd.data != NULL) {
-    jvmtiDeallocate(stream->packet.type.cmd.data);
+    if (strfbm->pbdkft.typf.dmd.dbtb != NULL) {
+    jvmtiDfbllodbtf(strfbm->pbdkft.typf.dmd.dbtb);
     }
 
-    (void)bagEnumerateOver(stream->refs, deleteRef, (void *)getEnv());
-    bagDestroyBag(stream->refs);
+    (void)bbgEnumfrbtfOvfr(strfbm->rffs, dflftfRff, (void *)gftEnv());
+    bbgDfstroyBbg(strfbm->rffs);
 }

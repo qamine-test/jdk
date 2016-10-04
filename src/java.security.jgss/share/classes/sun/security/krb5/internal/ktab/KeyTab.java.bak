@@ -1,524 +1,524 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ktab;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
 
-import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import sun.security.jgss.krb5.ServiceCreds;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import sun.sfdurity.jgss.krb5.SfrvidfCrfds;
 
 /**
- * This class represents key table. The key table functions deal with storing
- * and retrieving service keys for use in authentication exchanges.
+ * Tiis dlbss rfprfsfnts kfy tbblf. Tif kfy tbblf fundtions dfbl witi storing
+ * bnd rftrifving sfrvidf kfys for usf in butifntidbtion fxdibngfs.
  *
- * A KeyTab object is always constructed, if the file specified does not
- * exist, it's still valid but empty. If there is an I/O error or file format
- * error, it's invalid.
+ * A KfyTbb objfdt is blwbys donstrudtfd, if tif filf spfdififd dofs not
+ * fxist, it's still vblid but fmpty. If tifrf is bn I/O frror or filf formbt
+ * frror, it's invblid.
  *
- * The class is immutable on the read side (the write side is only used by
- * the ktab tool).
+ * Tif dlbss is immutbblf on tif rfbd sidf (tif writf sidf is only usfd by
+ * tif ktbb tool).
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  */
-public class KeyTab implements KeyTabConstants {
+publid dlbss KfyTbb implfmfnts KfyTbbConstbnts {
 
-    private static final boolean DEBUG = Krb5.DEBUG;
-    private static String defaultTabName = null;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
+    privbtf stbtid String dffbultTbbNbmf = null;
 
-    // Attention: Currently there is no way to remove a keytab from this map,
-    // this might lead to a memory leak.
-    private static Map<String,KeyTab> map = new HashMap<>();
+    // Attfntion: Currfntly tifrf is no wby to rfmovf b kfytbb from tiis mbp,
+    // tiis migit lfbd to b mfmory lfbk.
+    privbtf stbtid Mbp<String,KfyTbb> mbp = nfw HbsiMbp<>();
 
-    // KeyTab file does not exist. Note: a missing keytab is still valid
-    private boolean isMissing = false;
+    // KfyTbb filf dofs not fxist. Notf: b missing kfytbb is still vblid
+    privbtf boolfbn isMissing = fblsf;
 
-    // KeyTab file is invalid, possibly an I/O error or a file format error.
-    private boolean isValid = true;
+    // KfyTbb filf is invblid, possibly bn I/O frror or b filf formbt frror.
+    privbtf boolfbn isVblid = truf;
 
-    private final String tabName;
-    private long lastModified;
-    private int kt_vno = KRB5_KT_VNO;
+    privbtf finbl String tbbNbmf;
+    privbtf long lbstModififd;
+    privbtf int kt_vno = KRB5_KT_VNO;
 
-    private Vector<KeyTabEntry> entries = new Vector<>();
+    privbtf Vfdtor<KfyTbbEntry> fntrifs = nfw Vfdtor<>();
 
     /**
-     * Constructs a KeyTab object.
+     * Construdts b KfyTbb objfdt.
      *
-     * If there is any I/O error or format errot during the loading, the
-     * isValid flag is set to false, and all half-read entries are dismissed.
-     * @param filename path name for the keytab file, must not be null
+     * If tifrf is bny I/O frror or formbt frrot during tif lobding, tif
+     * isVblid flbg is sft to fblsf, bnd bll iblf-rfbd fntrifs brf dismissfd.
+     * @pbrbm filfnbmf pbti nbmf for tif kfytbb filf, must not bf null
      */
-    private KeyTab(String filename) {
-        tabName = filename;
+    privbtf KfyTbb(String filfnbmf) {
+        tbbNbmf = filfnbmf;
         try {
-            lastModified = new File(tabName).lastModified();
-            try (KeyTabInputStream kis =
-                    new KeyTabInputStream(new FileInputStream(filename))) {
-                load(kis);
+            lbstModififd = nfw Filf(tbbNbmf).lbstModififd();
+            try (KfyTbbInputStrfbm kis =
+                    nfw KfyTbbInputStrfbm(nfw FilfInputStrfbm(filfnbmf))) {
+                lobd(kis);
             }
-        } catch (FileNotFoundException e) {
-            entries.clear();
-            isMissing = true;
-        } catch (Exception ioe) {
-            entries.clear();
-            isValid = false;
+        } dbtdi (FilfNotFoundExdfption f) {
+            fntrifs.dlfbr();
+            isMissing = truf;
+        } dbtdi (Exdfption iof) {
+            fntrifs.dlfbr();
+            isVblid = fblsf;
         }
     }
 
     /**
-     * Read a keytab file. Returns a new object and save it into cache when
-     * new content (modified since last read) is available. If keytab file is
-     * invalid, the old object will be returned. This is a safeguard for
-     * partial-written keytab files or non-stable network. Please note that
-     * a missing keytab is valid, which is equivalent to an empty keytab.
+     * Rfbd b kfytbb filf. Rfturns b nfw objfdt bnd sbvf it into dbdif wifn
+     * nfw dontfnt (modififd sindf lbst rfbd) is bvbilbblf. If kfytbb filf is
+     * invblid, tif old objfdt will bf rfturnfd. Tiis is b sbffgubrd for
+     * pbrtibl-writtfn kfytbb filfs or non-stbblf nftwork. Plfbsf notf tibt
+     * b missing kfytbb is vblid, wiidi is fquivblfnt to bn fmpty kfytbb.
      *
-     * @param s file name of keytab, must not be null
-     * @return the keytab object, can be invalid, but never null.
+     * @pbrbm s filf nbmf of kfytbb, must not bf null
+     * @rfturn tif kfytbb objfdt, dbn bf invblid, but nfvfr null.
      */
-    private synchronized static KeyTab getInstance0(String s) {
-        long lm = new File(s).lastModified();
-        KeyTab old = map.get(s);
-        if (old != null && old.isValid() && old.lastModified == lm) {
-            return old;
+    privbtf syndironizfd stbtid KfyTbb gftInstbndf0(String s) {
+        long lm = nfw Filf(s).lbstModififd();
+        KfyTbb old = mbp.gft(s);
+        if (old != null && old.isVblid() && old.lbstModififd == lm) {
+            rfturn old;
         }
-        KeyTab ktab = new KeyTab(s);
-        if (ktab.isValid()) {               // A valid new keytab
-            map.put(s, ktab);
-            return ktab;
-        } else if (old != null) {           // An existing old one
-            return old;
-        } else {
-            return ktab;                    // first read is invalid
+        KfyTbb ktbb = nfw KfyTbb(s);
+        if (ktbb.isVblid()) {               // A vblid nfw kfytbb
+            mbp.put(s, ktbb);
+            rfturn ktbb;
+        } flsf if (old != null) {           // An fxisting old onf
+            rfturn old;
+        } flsf {
+            rfturn ktbb;                    // first rfbd is invblid
         }
     }
 
     /**
-     * Gets a KeyTab object.
-     * @param s the key tab file name.
-     * @return the KeyTab object, never null.
+     * Gfts b KfyTbb objfdt.
+     * @pbrbm s tif kfy tbb filf nbmf.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
      */
-    public static KeyTab getInstance(String s) {
+    publid stbtid KfyTbb gftInstbndf(String s) {
         if (s == null) {
-            return getInstance();
-        } else {
-            return getInstance0(normalize(s));
+            rfturn gftInstbndf();
+        } flsf {
+            rfturn gftInstbndf0(normblizf(s));
         }
     }
 
     /**
-     * Gets a KeyTab object.
-     * @param file the key tab file.
-     * @return the KeyTab object, never null.
+     * Gfts b KfyTbb objfdt.
+     * @pbrbm filf tif kfy tbb filf.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
      */
-    public static KeyTab getInstance(File file) {
-        if (file == null) {
-            return getInstance();
-        } else {
-            return getInstance0(file.getPath());
+    publid stbtid KfyTbb gftInstbndf(Filf filf) {
+        if (filf == null) {
+            rfturn gftInstbndf();
+        } flsf {
+            rfturn gftInstbndf0(filf.gftPbti());
         }
     }
 
     /**
-     * Gets the default KeyTab object.
-     * @return the KeyTab object, never null.
+     * Gfts tif dffbult KfyTbb objfdt.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
      */
-    public static KeyTab getInstance() {
-        return getInstance(getDefaultTabName());
+    publid stbtid KfyTbb gftInstbndf() {
+        rfturn gftInstbndf(gftDffbultTbbNbmf());
     }
 
-    public boolean isMissing() {
-        return isMissing;
+    publid boolfbn isMissing() {
+        rfturn isMissing;
     }
 
-    public boolean isValid() {
-        return isValid;
+    publid boolfbn isVblid() {
+        rfturn isVblid;
     }
 
     /**
-     * The location of keytab file will be read from the configuration file
-     * If it is not specified, consider user.home as the keytab file's
-     * default location.
-     * @return never null
+     * Tif lodbtion of kfytbb filf will bf rfbd from tif donfigurbtion filf
+     * If it is not spfdififd, donsidfr usfr.iomf bs tif kfytbb filf's
+     * dffbult lodbtion.
+     * @rfturn nfvfr null
      */
-    private static String getDefaultTabName() {
-        if (defaultTabName != null) {
-            return defaultTabName;
-        } else {
-            String kname = null;
+    privbtf stbtid String gftDffbultTbbNbmf() {
+        if (dffbultTbbNbmf != null) {
+            rfturn dffbultTbbNbmf;
+        } flsf {
+            String knbmf = null;
             try {
-                String keytab_names = Config.getInstance().get
-                        ("libdefaults", "default_keytab_name");
-                if (keytab_names != null) {
-                    StringTokenizer st = new StringTokenizer(keytab_names, " ");
-                    while (st.hasMoreTokens()) {
-                        kname = normalize(st.nextToken());
-                        if (new File(kname).exists()) {
-                            break;
+                String kfytbb_nbmfs = Config.gftInstbndf().gft
+                        ("libdffbults", "dffbult_kfytbb_nbmf");
+                if (kfytbb_nbmfs != null) {
+                    StringTokfnizfr st = nfw StringTokfnizfr(kfytbb_nbmfs, " ");
+                    wiilf (st.ibsMorfTokfns()) {
+                        knbmf = normblizf(st.nfxtTokfn());
+                        if (nfw Filf(knbmf).fxists()) {
+                            brfbk;
                         }
                     }
                 }
-            } catch (KrbException e) {
-                kname = null;
+            } dbtdi (KrbExdfption f) {
+                knbmf = null;
             }
 
-            if (kname == null) {
-                String user_home =
-                        java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.home"));
+            if (knbmf == null) {
+                String usfr_iomf =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.iomf"));
 
-                if (user_home == null) {
-                    user_home =
-                        java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.dir"));
+                if (usfr_iomf == null) {
+                    usfr_iomf =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.dir"));
                 }
 
-                kname = user_home + File.separator  + "krb5.keytab";
+                knbmf = usfr_iomf + Filf.sfpbrbtor  + "krb5.kfytbb";
             }
-            defaultTabName = kname;
-            return kname;
+            dffbultTbbNbmf = knbmf;
+            rfturn knbmf;
         }
     }
 
     /**
-     * Normalizes some common keytab name formats into the bare file name.
-     * For example, FILE:/etc/krb5.keytab to /etc/krb5.keytab
-     * @param name never null
-     * @return never null
+     * Normblizfs somf dommon kfytbb nbmf formbts into tif bbrf filf nbmf.
+     * For fxbmplf, FILE:/ftd/krb5.kfytbb to /ftd/krb5.kfytbb
+     * @pbrbm nbmf nfvfr null
+     * @rfturn nfvfr null
      */
-    // This method is used in this class and Krb5LoginModule
-    public static String normalize(String name) {
-        String kname;
-        if ((name.length() >= 5) &&
-            (name.substring(0, 5).equalsIgnoreCase("FILE:"))) {
-            kname = name.substring(5);
-        } else if ((name.length() >= 9) &&
-                (name.substring(0, 9).equalsIgnoreCase("ANY:FILE:"))) {
-            // this format found in MIT's krb5.ini.
-            kname = name.substring(9);
-        } else if ((name.length() >= 7) &&
-                (name.substring(0, 7).equalsIgnoreCase("SRVTAB:"))) {
-            // this format found in MIT's krb5.ini.
-            kname = name.substring(7);
-        } else
-            kname = name;
-        return kname;
+    // Tiis mftiod is usfd in tiis dlbss bnd Krb5LoginModulf
+    publid stbtid String normblizf(String nbmf) {
+        String knbmf;
+        if ((nbmf.lfngti() >= 5) &&
+            (nbmf.substring(0, 5).fqublsIgnorfCbsf("FILE:"))) {
+            knbmf = nbmf.substring(5);
+        } flsf if ((nbmf.lfngti() >= 9) &&
+                (nbmf.substring(0, 9).fqublsIgnorfCbsf("ANY:FILE:"))) {
+            // tiis formbt found in MIT's krb5.ini.
+            knbmf = nbmf.substring(9);
+        } flsf if ((nbmf.lfngti() >= 7) &&
+                (nbmf.substring(0, 7).fqublsIgnorfCbsf("SRVTAB:"))) {
+            // tiis formbt found in MIT's krb5.ini.
+            knbmf = nbmf.substring(7);
+        } flsf
+            knbmf = nbmf;
+        rfturn knbmf;
     }
 
-    private void load(KeyTabInputStream kis)
-        throws IOException, RealmException {
+    privbtf void lobd(KfyTbbInputStrfbm kis)
+        tirows IOExdfption, RfblmExdfption {
 
-        entries.clear();
-        kt_vno = kis.readVersion();
+        fntrifs.dlfbr();
+        kt_vno = kis.rfbdVfrsion();
         if (kt_vno == KRB5_KT_VNO_1) {
-            kis.setNativeByteOrder();
+            kis.sftNbtivfBytfOrdfr();
         }
-        int entryLength = 0;
-        KeyTabEntry entry;
-        while (kis.available() > 0) {
-            entryLength = kis.readEntryLength();
-            entry = kis.readEntry(entryLength, kt_vno);
+        int fntryLfngti = 0;
+        KfyTbbEntry fntry;
+        wiilf (kis.bvbilbblf() > 0) {
+            fntryLfngti = kis.rfbdEntryLfngti();
+            fntry = kis.rfbdEntry(fntryLfngti, kt_vno);
             if (DEBUG) {
-                System.out.println(">>> KeyTab: load() entry length: " +
-                        entryLength + "; type: " +
-                        (entry != null? entry.keyType : 0));
+                Systfm.out.println(">>> KfyTbb: lobd() fntry lfngti: " +
+                        fntryLfngti + "; typf: " +
+                        (fntry != null? fntry.kfyTypf : 0));
             }
-            if (entry != null)
-                entries.addElement(entry);
+            if (fntry != null)
+                fntrifs.bddElfmfnt(fntry);
         }
     }
 
     /**
-     * Returns a principal name in this keytab. Used by
-     * {@link ServiceCreds#getKKeys()}.
+     * Rfturns b prindipbl nbmf in tiis kfytbb. Usfd by
+     * {@link SfrvidfCrfds#gftKKfys()}.
      */
-    public PrincipalName getOneName() {
-        int size = entries.size();
-        return size > 0 ? entries.elementAt(size-1).service : null;
+    publid PrindipblNbmf gftOnfNbmf() {
+        int sizf = fntrifs.sizf();
+        rfturn sizf > 0 ? fntrifs.flfmfntAt(sizf-1).sfrvidf : null;
     }
 
     /**
-     * Reads all keys for a service from the keytab file that have
-     * etypes that have been configured for use.
-     * @param service the PrincipalName of the requested service
-     * @return an array containing all the service keys, never null
+     * Rfbds bll kfys for b sfrvidf from tif kfytbb filf tibt ibvf
+     * ftypfs tibt ibvf bffn donfigurfd for usf.
+     * @pbrbm sfrvidf tif PrindipblNbmf of tif rfqufstfd sfrvidf
+     * @rfturn bn brrby dontbining bll tif sfrvidf kfys, nfvfr null
      */
-    public EncryptionKey[] readServiceKeys(PrincipalName service) {
-        KeyTabEntry entry;
-        EncryptionKey key;
-        int size = entries.size();
-        ArrayList<EncryptionKey> keys = new ArrayList<>(size);
+    publid EndryptionKfy[] rfbdSfrvidfKfys(PrindipblNbmf sfrvidf) {
+        KfyTbbEntry fntry;
+        EndryptionKfy kfy;
+        int sizf = fntrifs.sizf();
+        ArrbyList<EndryptionKfy> kfys = nfw ArrbyList<>(sizf);
         if (DEBUG) {
-            System.out.println("Looking for keys for: " + service);
+            Systfm.out.println("Looking for kfys for: " + sfrvidf);
         }
-        for (int i = size-1; i >= 0; i--) {
-            entry = entries.elementAt(i);
-            if (entry.service.match(service)) {
-                if (EType.isSupported(entry.keyType)) {
-                    key = new EncryptionKey(entry.keyblock,
-                                        entry.keyType,
-                                        entry.keyVersion);
-                    keys.add(key);
+        for (int i = sizf-1; i >= 0; i--) {
+            fntry = fntrifs.flfmfntAt(i);
+            if (fntry.sfrvidf.mbtdi(sfrvidf)) {
+                if (ETypf.isSupportfd(fntry.kfyTypf)) {
+                    kfy = nfw EndryptionKfy(fntry.kfyblodk,
+                                        fntry.kfyTypf,
+                                        fntry.kfyVfrsion);
+                    kfys.bdd(kfy);
                     if (DEBUG) {
-                        System.out.println("Added key: " + entry.keyType +
-                            "version: " + entry.keyVersion);
+                        Systfm.out.println("Addfd kfy: " + fntry.kfyTypf +
+                            "vfrsion: " + fntry.kfyVfrsion);
                     }
-                } else if (DEBUG) {
-                    System.out.println("Found unsupported keytype (" +
-                        entry.keyType + ") for " + service);
+                } flsf if (DEBUG) {
+                    Systfm.out.println("Found unsupportfd kfytypf (" +
+                        fntry.kfyTypf + ") for " + sfrvidf);
                 }
             }
         }
-        size = keys.size();
-        EncryptionKey[] retVal = keys.toArray(new EncryptionKey[size]);
+        sizf = kfys.sizf();
+        EndryptionKfy[] rftVbl = kfys.toArrby(nfw EndryptionKfy[sizf]);
 
-        // Sort the keys by kvno. Sometimes we must choose a single key (say,
-        // generate encrypted timestamp in AS-REQ). A key with a higher KVNO
-        // sounds like a newer one.
-        Arrays.sort(retVal, new Comparator<EncryptionKey>() {
-            @Override
-            public int compare(EncryptionKey o1, EncryptionKey o2) {
-                return o2.getKeyVersionNumber().intValue()
-                        - o1.getKeyVersionNumber().intValue();
+        // Sort tif kfys by kvno. Somftimfs wf must dioosf b singlf kfy (sby,
+        // gfnfrbtf fndryptfd timfstbmp in AS-REQ). A kfy witi b iigifr KVNO
+        // sounds likf b nfwfr onf.
+        Arrbys.sort(rftVbl, nfw Compbrbtor<EndryptionKfy>() {
+            @Ovfrridf
+            publid int dompbrf(EndryptionKfy o1, EndryptionKfy o2) {
+                rfturn o2.gftKfyVfrsionNumbfr().intVbluf()
+                        - o1.gftKfyVfrsionNumbfr().intVbluf();
             }
         });
 
-        return retVal;
+        rfturn rftVbl;
     }
 
 
 
     /**
-     * Searches for the service entry in the keytab file.
-     * The etype of the key must be one that has been configured
-     * to be used.
-     * @param service the PrincipalName of the requested service.
-     * @return true if the entry is found, otherwise, return false.
+     * Sfbrdifs for tif sfrvidf fntry in tif kfytbb filf.
+     * Tif ftypf of tif kfy must bf onf tibt ibs bffn donfigurfd
+     * to bf usfd.
+     * @pbrbm sfrvidf tif PrindipblNbmf of tif rfqufstfd sfrvidf.
+     * @rfturn truf if tif fntry is found, otifrwisf, rfturn fblsf.
      */
-    public boolean findServiceEntry(PrincipalName service) {
-        KeyTabEntry entry;
-        for (int i = 0; i < entries.size(); i++) {
-            entry = entries.elementAt(i);
-            if (entry.service.match(service)) {
-                if (EType.isSupported(entry.keyType)) {
-                    return true;
-                } else if (DEBUG) {
-                    System.out.println("Found unsupported keytype (" +
-                        entry.keyType + ") for " + service);
+    publid boolfbn findSfrvidfEntry(PrindipblNbmf sfrvidf) {
+        KfyTbbEntry fntry;
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            fntry = fntrifs.flfmfntAt(i);
+            if (fntry.sfrvidf.mbtdi(sfrvidf)) {
+                if (ETypf.isSupportfd(fntry.kfyTypf)) {
+                    rfturn truf;
+                } flsf if (DEBUG) {
+                    Systfm.out.println("Found unsupportfd kfytypf (" +
+                        fntry.kfyTypf + ") for " + sfrvidf);
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public String tabName() {
-        return tabName;
+    publid String tbbNbmf() {
+        rfturn tbbNbmf;
     }
 
     /////////////////// THE WRITE SIDE ///////////////////////
-    /////////////// only used by ktab tool //////////////////
+    /////////////// only usfd by ktbb tool //////////////////
 
     /**
-     * Adds a new entry in the key table.
-     * @param service the service which will have a new entry in the key table.
-     * @param psswd the password which generates the key.
-     * @param kvno the kvno to use, -1 means automatic increasing
-     * @param append false if entries with old kvno would be removed.
-     * Note: if kvno is not -1, entries with the same kvno are always removed
+     * Adds b nfw fntry in tif kfy tbblf.
+     * @pbrbm sfrvidf tif sfrvidf wiidi will ibvf b nfw fntry in tif kfy tbblf.
+     * @pbrbm psswd tif pbssword wiidi gfnfrbtfs tif kfy.
+     * @pbrbm kvno tif kvno to usf, -1 mfbns butombtid indrfbsing
+     * @pbrbm bppfnd fblsf if fntrifs witi old kvno would bf rfmovfd.
+     * Notf: if kvno is not -1, fntrifs witi tif sbmf kvno brf blwbys rfmovfd
      */
-    public void addEntry(PrincipalName service, char[] psswd,
-            int kvno, boolean append) throws KrbException {
-        addEntry(service, service.getSalt(), psswd, kvno, append);
+    publid void bddEntry(PrindipblNbmf sfrvidf, dibr[] psswd,
+            int kvno, boolfbn bppfnd) tirows KrbExdfption {
+        bddEntry(sfrvidf, sfrvidf.gftSblt(), psswd, kvno, bppfnd);
     }
 
-    // Called by KDC test
-    public void addEntry(PrincipalName service, String salt, char[] psswd,
-            int kvno, boolean append) throws KrbException {
+    // Cbllfd by KDC tfst
+    publid void bddEntry(PrindipblNbmf sfrvidf, String sblt, dibr[] psswd,
+            int kvno, boolfbn bppfnd) tirows KrbExdfption {
 
-        EncryptionKey[] encKeys = EncryptionKey.acquireSecretKeys(
-            psswd, salt);
+        EndryptionKfy[] fndKfys = EndryptionKfy.bdquirfSfdrftKfys(
+            psswd, sblt);
 
-        // There should be only one maximum KVNO value for all etypes, so that
-        // all added keys can have the same KVNO.
+        // Tifrf siould bf only onf mbximum KVNO vbluf for bll ftypfs, so tibt
+        // bll bddfd kfys dbn ibvf tif sbmf KVNO.
 
-        int maxKvno = 0;    // only useful when kvno == -1
-        for (int i = entries.size()-1; i >= 0; i--) {
-            KeyTabEntry e = entries.get(i);
-            if (e.service.match(service)) {
-                if (e.keyVersion > maxKvno) {
-                    maxKvno = e.keyVersion;
+        int mbxKvno = 0;    // only usfful wifn kvno == -1
+        for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+            KfyTbbEntry f = fntrifs.gft(i);
+            if (f.sfrvidf.mbtdi(sfrvidf)) {
+                if (f.kfyVfrsion > mbxKvno) {
+                    mbxKvno = f.kfyVfrsion;
                 }
-                if (!append || e.keyVersion == kvno) {
-                    entries.removeElementAt(i);
+                if (!bppfnd || f.kfyVfrsion == kvno) {
+                    fntrifs.rfmovfElfmfntAt(i);
                 }
             }
         }
         if (kvno == -1) {
-            kvno = maxKvno + 1;
+            kvno = mbxKvno + 1;
         }
 
-        for (int i = 0; encKeys != null && i < encKeys.length; i++) {
-            int keyType = encKeys[i].getEType();
-            byte[] keyValue = encKeys[i].getBytes();
+        for (int i = 0; fndKfys != null && i < fndKfys.lfngti; i++) {
+            int kfyTypf = fndKfys[i].gftETypf();
+            bytf[] kfyVbluf = fndKfys[i].gftBytfs();
 
-            KeyTabEntry newEntry = new KeyTabEntry(service,
-                            service.getRealm(),
-                            new KerberosTime(System.currentTimeMillis()),
-                                               kvno, keyType, keyValue);
-            entries.addElement(newEntry);
+            KfyTbbEntry nfwEntry = nfw KfyTbbEntry(sfrvidf,
+                            sfrvidf.gftRfblm(),
+                            nfw KfrbfrosTimf(Systfm.durrfntTimfMillis()),
+                                               kvno, kfyTypf, kfyVbluf);
+            fntrifs.bddElfmfnt(nfwEntry);
         }
     }
 
     /**
-     * Gets the list of service entries in key table.
-     * @return array of <code>KeyTabEntry</code>.
+     * Gfts tif list of sfrvidf fntrifs in kfy tbblf.
+     * @rfturn brrby of <dodf>KfyTbbEntry</dodf>.
      */
-    public KeyTabEntry[] getEntries() {
-        KeyTabEntry[] kentries = new KeyTabEntry[entries.size()];
-        for (int i = 0; i < kentries.length; i++) {
-            kentries[i] = entries.elementAt(i);
+    publid KfyTbbEntry[] gftEntrifs() {
+        KfyTbbEntry[] kfntrifs = nfw KfyTbbEntry[fntrifs.sizf()];
+        for (int i = 0; i < kfntrifs.lfngti; i++) {
+            kfntrifs[i] = fntrifs.flfmfntAt(i);
         }
-        return kentries;
+        rfturn kfntrifs;
     }
 
     /**
-     * Creates a new default key table.
+     * Crfbtfs b nfw dffbult kfy tbblf.
      */
-    public synchronized static KeyTab create()
-        throws IOException, RealmException {
-        String dname = getDefaultTabName();
-        return create(dname);
+    publid syndironizfd stbtid KfyTbb drfbtf()
+        tirows IOExdfption, RfblmExdfption {
+        String dnbmf = gftDffbultTbbNbmf();
+        rfturn drfbtf(dnbmf);
     }
 
     /**
-     * Creates a new default key table.
+     * Crfbtfs b nfw dffbult kfy tbblf.
      */
-    public synchronized static KeyTab create(String name)
-        throws IOException, RealmException {
+    publid syndironizfd stbtid KfyTbb drfbtf(String nbmf)
+        tirows IOExdfption, RfblmExdfption {
 
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(name))) {
-            kos.writeVersion(KRB5_KT_VNO);
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(nbmf))) {
+            kos.writfVfrsion(KRB5_KT_VNO);
         }
-        return new KeyTab(name);
+        rfturn nfw KfyTbb(nbmf);
     }
 
     /**
-     * Saves the file at the directory.
+     * Sbvfs tif filf bt tif dirfdtory.
      */
-    public synchronized void save() throws IOException {
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(tabName))) {
-            kos.writeVersion(kt_vno);
-            for (int i = 0; i < entries.size(); i++) {
-                kos.writeEntry(entries.elementAt(i));
+    publid syndironizfd void sbvf() tirows IOExdfption {
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(tbbNbmf))) {
+            kos.writfVfrsion(kt_vno);
+            for (int i = 0; i < fntrifs.sizf(); i++) {
+                kos.writfEntry(fntrifs.flfmfntAt(i));
             }
         }
     }
 
     /**
-     * Removes entries from the key table.
-     * @param service the service <code>PrincipalName</code>.
-     * @param etype the etype to match, remove all if -1
-     * @param kvno what kvno to remove, -1 for all, -2 for old
-     * @return the number of entries deleted
+     * Rfmovfs fntrifs from tif kfy tbblf.
+     * @pbrbm sfrvidf tif sfrvidf <dodf>PrindipblNbmf</dodf>.
+     * @pbrbm ftypf tif ftypf to mbtdi, rfmovf bll if -1
+     * @pbrbm kvno wibt kvno to rfmovf, -1 for bll, -2 for old
+     * @rfturn tif numbfr of fntrifs dflftfd
      */
-    public int deleteEntries(PrincipalName service, int etype, int kvno) {
-        int count = 0;
+    publid int dflftfEntrifs(PrindipblNbmf sfrvidf, int ftypf, int kvno) {
+        int dount = 0;
 
-        // Remember the highest KVNO for each etype. Used for kvno == -2
-        Map<Integer,Integer> highest = new HashMap<>();
+        // Rfmfmbfr tif iigifst KVNO for fbdi ftypf. Usfd for kvno == -2
+        Mbp<Intfgfr,Intfgfr> iigifst = nfw HbsiMbp<>();
 
-        for (int i = entries.size()-1; i >= 0; i--) {
-            KeyTabEntry e = entries.get(i);
-            if (service.match(e.getService())) {
-                if (etype == -1 || e.keyType == etype) {
+        for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+            KfyTbbEntry f = fntrifs.gft(i);
+            if (sfrvidf.mbtdi(f.gftSfrvidf())) {
+                if (ftypf == -1 || f.kfyTypf == ftypf) {
                     if (kvno == -2) {
-                        // Two rounds for kvno == -2. In the first round (here),
-                        // only find out highest KVNO for each etype
-                        if (highest.containsKey(e.keyType)) {
-                            int n = highest.get(e.keyType);
-                            if (e.keyVersion > n) {
-                                highest.put(e.keyType, e.keyVersion);
+                        // Two rounds for kvno == -2. In tif first round (ifrf),
+                        // only find out iigifst KVNO for fbdi ftypf
+                        if (iigifst.dontbinsKfy(f.kfyTypf)) {
+                            int n = iigifst.gft(f.kfyTypf);
+                            if (f.kfyVfrsion > n) {
+                                iigifst.put(f.kfyTypf, f.kfyVfrsion);
                             }
-                        } else {
-                            highest.put(e.keyType, e.keyVersion);
+                        } flsf {
+                            iigifst.put(f.kfyTypf, f.kfyVfrsion);
                         }
-                    } else if (kvno == -1 || e.keyVersion == kvno) {
-                        entries.removeElementAt(i);
-                        count++;
+                    } flsf if (kvno == -1 || f.kfyVfrsion == kvno) {
+                        fntrifs.rfmovfElfmfntAt(i);
+                        dount++;
                     }
                 }
             }
         }
 
-        // Second round for kvno == -2, remove old entries
+        // Sfdond round for kvno == -2, rfmovf old fntrifs
         if (kvno == -2) {
-            for (int i = entries.size()-1; i >= 0; i--) {
-                KeyTabEntry e = entries.get(i);
-                if (service.match(e.getService())) {
-                    if (etype == -1 || e.keyType == etype) {
-                        int n = highest.get(e.keyType);
-                        if (e.keyVersion != n) {
-                            entries.removeElementAt(i);
-                            count++;
+            for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+                KfyTbbEntry f = fntrifs.gft(i);
+                if (sfrvidf.mbtdi(f.gftSfrvidf())) {
+                    if (ftypf == -1 || f.kfyTypf == ftypf) {
+                        int n = iigifst.gft(f.kfyTypf);
+                        if (f.kfyVfrsion != n) {
+                            fntrifs.rfmovfElfmfntAt(i);
+                            dount++;
                         }
                     }
                 }
             }
         }
-        return count;
+        rfturn dount;
     }
 
     /**
-     * Creates key table file version.
-     * @param file the key table file.
-     * @exception IOException.
+     * Crfbtfs kfy tbblf filf vfrsion.
+     * @pbrbm filf tif kfy tbblf filf.
+     * @fxdfption IOExdfption.
      */
-    public synchronized void createVersion(File file) throws IOException {
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(file))) {
-            kos.write16(KRB5_KT_VNO);
+    publid syndironizfd void drfbtfVfrsion(Filf filf) tirows IOExdfption {
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(filf))) {
+            kos.writf16(KRB5_KT_VNO);
         }
     }
 }

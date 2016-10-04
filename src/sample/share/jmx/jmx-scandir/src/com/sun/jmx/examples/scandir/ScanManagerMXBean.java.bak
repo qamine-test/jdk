@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,288 +30,288 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import java.io.IOException;
-import java.util.Map;
-import javax.management.InstanceNotFoundException;
-import javax.management.JMException;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.JMExdfption;
 
 /**
- * The <code>ScanManagerMXBean</code> is responsible for applying a
- * configuration, starting and scheduling directory scans, and reporting
- * application state.
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is rfsponsiblf for bpplying b
+ * donfigurbtion, stbrting bnd sdifduling dirfdtory sdbns, bnd rfporting
+ * bpplidbtion stbtf.
  * <p>
- * The <code>ScanManagerMXBean</code> is a singleton MBean: there can be
- * at most one instance of such an MBean registered in a given MBeanServer.
- * The name of that MBean is a constant defined in
- * {@link ScanManager#SCAN_MANAGER_NAME ScanManager.SCAN_MANAGER_NAME}.
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is b singlfton MBfbn: tifrf dbn bf
+ * bt most onf instbndf of sudi bn MBfbn rfgistfrfd in b givfn MBfbnSfrvfr.
+ * Tif nbmf of tibt MBfbn is b donstbnt dffinfd in
+ * {@link SdbnMbnbgfr#SCAN_MANAGER_NAME SdbnMbnbgfr.SCAN_MANAGER_NAME}.
  * </p>
  * <p>
- * The <code>ScanManagerMXBean</code> is the entry point of the <i>scandir</i>
- * application management interface. It is from this MBean that all other
- * MBeans will be created and registered.
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is tif fntry point of tif <i>sdbndir</i>
+ * bpplidbtion mbnbgfmfnt intfrfbdf. It is from tiis MBfbn tibt bll otifr
+ * MBfbns will bf drfbtfd bnd rfgistfrfd.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  **/
-public interface ScanManagerMXBean {
+publid intfrfbdf SdbnMbnbgfrMXBfbn {
     /**
-     * This state tells whether directory scans are running, scheduled,
-     * successfully completed, or stopped.
+     * Tiis stbtf tflls wiftifr dirfdtory sdbns brf running, sdifdulfd,
+     * suddfssfully domplftfd, or stoppfd.
      * <p>
-     * The {@link #CLOSED} state means
-     * that the {@link ScanManagerMXBean} was closed and is no longer usable.
-     * This state is used when the {@link ScanManagerMXBean} needs to be
-     * unregistered.
+     * Tif {@link #CLOSED} stbtf mfbns
+     * tibt tif {@link SdbnMbnbgfrMXBfbn} wbs dlosfd bnd is no longfr usbblf.
+     * Tiis stbtf is usfd wifn tif {@link SdbnMbnbgfrMXBfbn} nffds to bf
+     * unrfgistfrfd.
      * </p>
      **/
-    public enum ScanState {
+    publid fnum SdbnStbtf {
         /**
-         * Scanning of directories is in process.
+         * Sdbnning of dirfdtorifs is in prodfss.
          **/
         RUNNING,
 
         /**
-         * Scanning of directories is not in process, but is scheduled
-         * for a later date.
+         * Sdbnning of dirfdtorifs is not in prodfss, but is sdifdulfd
+         * for b lbtfr dbtf.
          **/
         SCHEDULED,
 
         /**
-         * Scanning is successfully completed.
+         * Sdbnning is suddfssfully domplftfd.
          **/
         COMPLETED,
 
         /**
-         * Scanning is stopped. No scanning is scheduled.
+         * Sdbnning is stoppfd. No sdbnning is sdifdulfd.
          **/
         STOPPED,
 
         /**
-         * close() was called.
+         * dlosf() wbs dbllfd.
          **/
         CLOSED
 
     }
 
     /**
-     * Returns the current state of the application.
-     * @return the current state of the application.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * Rfturns tif durrfnt stbtf of tif bpplidbtion.
+     * @rfturn tif durrfnt stbtf of tif bpplidbtion.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public ScanState getState()
-        throws IOException, InstanceNotFoundException;
+    publid SdbnStbtf gftStbtf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Schedule a scan session for a later date.
+     * Sdifdulf b sdbn sfssion for b lbtfr dbtf.
      * <p>
-     * A scan session is a background task that will sequentially call {@link
-     * DirectoryScannerMXBean#scan scan()} on every {@link
-     * DirectoryScannerMXBean} configured for this MBean.
+     * A sdbn sfssion is b bbdkground tbsk tibt will sfqufntiblly dbll {@link
+     * DirfdtorySdbnnfrMXBfbn#sdbn sdbn()} on fvfry {@link
+     * DirfdtorySdbnnfrMXBfbn} donfigurfd for tiis MBfbn.
      * </p>
-     * @see #getDirectoryScanners
-     * @param delay The first scan session will be started after
-     *        the given delay. 0 means start now.
-     * @param interval Scan session will be rescheduled periodically
-     *        at the specified interval. The interval starts at the
-     *        the end of the scan session: if a scan session takes
-     *        on average x milliseconds to complete, then a scan session will
-     *        be started on average every x+interval milliseconds.
-     *        if (interval == 0) then scan session will not be
-     *        rescheduled, and will run only once.
-     * @throws IllegalStateException if a scan session is already
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @sff #gftDirfdtorySdbnnfrs
+     * @pbrbm dflby Tif first sdbn sfssion will bf stbrtfd bftfr
+     *        tif givfn dflby. 0 mfbns stbrt now.
+     * @pbrbm intfrvbl Sdbn sfssion will bf rfsdifdulfd pfriodidblly
+     *        bt tif spfdififd intfrvbl. Tif intfrvbl stbrts bt tif
+     *        tif fnd of tif sdbn sfssion: if b sdbn sfssion tbkfs
+     *        on bvfrbgf x millisfdonds to domplftf, tifn b sdbn sfssion will
+     *        bf stbrtfd on bvfrbgf fvfry x+intfrvbl millisfdonds.
+     *        if (intfrvbl == 0) tifn sdbn sfssion will not bf
+     *        rfsdifdulfd, bnd will run only ondf.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is blrfbdy
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void schedule(long delay, long interval)
-        throws IOException, InstanceNotFoundException;
+    publid void sdifdulf(long dflby, long intfrvbl)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
 
     /**
-     * Stops current running or scheduled scan sessions if any.
+     * Stops durrfnt running or sdifdulfd sdbn sfssions if bny.
      * <p>
-     * A scan session is a background task that will sequentially call {@link
-     * DirectoryScannerMXBean#scan scan()} on every {@link
-     * DirectoryScannerMXBean} configured for this MBean.
-     * </p>
-     * <p>
-     * Scan sessions are started/scheduled by calls to {@link #start start} or
-     * {@link #schedule schedule}.
-     * </p>
-     * After this method completes the state of the application will
-     * be {@link ScanState#STOPPED}.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
-     **/
-    public void stop()
-        throws IOException, InstanceNotFoundException;
-
-    /**
-     * Switches the state to CLOSED.
-     * When closed, this MBean cannot be used any more.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
-     **/
-    public void close()
-        throws IOException, InstanceNotFoundException;
-
-    /**
-     * Starts a scan session immediately.
-     * This is equivalent to {@link #schedule(long,long) schedule(0,0)}.
-     * @throws IllegalStateException if a scan session is already
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
-     **/
-    public void start()
-        throws IOException, InstanceNotFoundException;
-
-    /**
-     * Gets the list of directory scanners configured for this MBean.
-     * @return A {@code Map<String,DirectoryScannerMXBean>} where the
-     *         key in the map is the value of the <code>name=</code> key
-     *         of the {@link DirectoryScannerMXBean} ObjectName.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
-     **/
-    public Map<String,DirectoryScannerMXBean> getDirectoryScanners()
-        throws IOException, JMException;
-
-    /**
-     * Apply the configuration handled by the {@link
-     * #getConfigurationMBean configuration MBean}.
-     * <p>
-     * When the configuration is applied, all the {@link DirectoryScannerMXBean}
-     * created by this MBean will be unregistered, and new {@link
-     * DirectoryScannerMXBean} will be created and registered from the
-     * new {@link ScanDirConfigMXBean#getConfiguration configuration data}.
+     * A sdbn sfssion is b bbdkground tbsk tibt will sfqufntiblly dbll {@link
+     * DirfdtorySdbnnfrMXBfbn#sdbn sdbn()} on fvfry {@link
+     * DirfdtorySdbnnfrMXBfbn} donfigurfd for tiis MBfbn.
      * </p>
      * <p>
-     * The initial result log configuration held by the {@link
-     * #getConfigurationMBean configuration MBean} will also be pushed to the
-     * {@link ResultLogManagerMXBean}. If you don't want to lose your current
-     * {@link ResultLogManagerMXBean} configuration, you should therefore call
-     * {@link #applyCurrentResultLogConfig
-     * applyCurrentResultLogConfig} before calling
-     * {@link #applyConfiguration applyConfiguration}
+     * Sdbn sfssions brf stbrtfd/sdifdulfd by dblls to {@link #stbrt stbrt} or
+     * {@link #sdifdulf sdifdulf}.
      * </p>
-     * @param fromMemory if {@code true}, the configuration will be applied
-     *        from memory. if {@code false}, the {@code ScanManagerMXBean} will
-     *        ask the {@link
-     * #getConfigurationMBean configuration MBean} to {@link
-     * ScanDirConfigMXBean#load reload its configuration} before applying
+     * Aftfr tiis mftiod domplftfs tif stbtf of tif bpplidbtion will
+     * bf {@link SdbnStbtf#STOPPED}.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void stop()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Switdifs tif stbtf to CLOSED.
+     * Wifn dlosfd, tiis MBfbn dbnnot bf usfd bny morf.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void dlosf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Stbrts b sdbn sfssion immfdibtfly.
+     * Tiis is fquivblfnt to {@link #sdifdulf(long,long) sdifdulf(0,0)}.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is blrfbdy
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void stbrt()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts tif list of dirfdtory sdbnnfrs donfigurfd for tiis MBfbn.
+     * @rfturn A {@dodf Mbp<String,DirfdtorySdbnnfrMXBfbn>} wifrf tif
+     *         kfy in tif mbp is tif vbluf of tif <dodf>nbmf=</dodf> kfy
+     *         of tif {@link DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     **/
+    publid Mbp<String,DirfdtorySdbnnfrMXBfbn> gftDirfdtorySdbnnfrs()
+        tirows IOExdfption, JMExdfption;
+
+    /**
+     * Apply tif donfigurbtion ibndlfd by tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn}.
+     * <p>
+     * Wifn tif donfigurbtion is bpplifd, bll tif {@link DirfdtorySdbnnfrMXBfbn}
+     * drfbtfd by tiis MBfbn will bf unrfgistfrfd, bnd nfw {@link
+     * DirfdtorySdbnnfrMXBfbn} will bf drfbtfd bnd rfgistfrfd from tif
+     * nfw {@link SdbnDirConfigMXBfbn#gftConfigurbtion donfigurbtion dbtb}.
+     * </p>
+     * <p>
+     * Tif initibl rfsult log donfigurbtion ifld by tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} will blso bf pusifd to tif
+     * {@link RfsultLogMbnbgfrMXBfbn}. If you don't wbnt to losf your durrfnt
+     * {@link RfsultLogMbnbgfrMXBfbn} donfigurbtion, you siould tifrfforf dbll
+     * {@link #bpplyCurrfntRfsultLogConfig
+     * bpplyCurrfntRfsultLogConfig} bfforf dblling
+     * {@link #bpplyConfigurbtion bpplyConfigurbtion}
+     * </p>
+     * @pbrbm fromMfmory if {@dodf truf}, tif donfigurbtion will bf bpplifd
+     *        from mfmory. if {@dodf fblsf}, tif {@dodf SdbnMbnbgfrMXBfbn} will
+     *        bsk tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} to {@link
+     * SdbnDirConfigMXBfbn#lobd rflobd its donfigurbtion} bfforf bpplying
      * it.
-     * @throws IllegalStateException if a scan session is
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
      **/
-    public void applyConfiguration(boolean fromMemory)
-        throws IOException, JMException;
+    publid void bpplyConfigurbtion(boolfbn fromMfmory)
+        tirows IOExdfption, JMExdfption;
     /**
-     * Replaces the {@link
-     * #getConfigurationMBean configuration MBean}'s {@link
-     * com.sun.jmx.examples.scandir.config.ScanManagerConfig#getInitialResultLogConfig
-     * initial result log configuration} with the current {@link
-     * ResultLogManagerMXBean}
-     * configuration. This prevents the <code>ResultLogManagerMXBean</code>
-     * current configuration from being reset when {@link #applyConfiguration
-     * applyConfiguration} is called.
-     * @param toMemory if {@code true} only replaces the initial result log
-     *                 configuration held in memory.
-     *                 if {@code false}, the {@link
-     * #getConfigurationMBean configuration MBean} will be asked to commit
-     * the whole configuration to the configuration file.
+     * Rfplbdfs tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn}'s {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig#gftInitiblRfsultLogConfig
+     * initibl rfsult log donfigurbtion} witi tif durrfnt {@link
+     * RfsultLogMbnbgfrMXBfbn}
+     * donfigurbtion. Tiis prfvfnts tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf>
+     * durrfnt donfigurbtion from bfing rfsft wifn {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion} is dbllfd.
+     * @pbrbm toMfmory if {@dodf truf} only rfplbdfs tif initibl rfsult log
+     *                 donfigurbtion ifld in mfmory.
+     *                 if {@dodf fblsf}, tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} will bf bskfd to dommit
+     * tif wiolf donfigurbtion to tif donfigurbtion filf.
      *
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
      **/
-    public void applyCurrentResultLogConfig(boolean toMemory)
-        throws IOException, JMException;
+    publid void bpplyCurrfntRfsultLogConfig(boolfbn toMfmory)
+        tirows IOExdfption, JMExdfption;
 
     /**
-     * Instruct the {@code ScanManagerMXBean} to use another {@link
-     * ScanDirConfigMXBean configuration MBean}.
-     * <p>This method doesn't {@link #applyConfiguration apply} the new
-     * configuration. If you want to apply the new configuration, you should
-     * additionally call {@link #applyConfiguration
-     * applyConfiguration(true|false)}. Note that you cannot apply a
-     * configuration as long as a scan session is scheduled or running.
-     * In that case you will need to wait for that session to complete
-     * or call {@link #stop} to stop it.
+     * Instrudt tif {@dodf SdbnMbnbgfrMXBfbn} to usf bnotifr {@link
+     * SdbnDirConfigMXBfbn donfigurbtion MBfbn}.
+     * <p>Tiis mftiod dofsn't {@link #bpplyConfigurbtion bpply} tif nfw
+     * donfigurbtion. If you wbnt to bpply tif nfw donfigurbtion, you siould
+     * bdditionblly dbll {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion(truf|fblsf)}. Notf tibt you dbnnot bpply b
+     * donfigurbtion bs long bs b sdbn sfssion is sdifdulfd or running.
+     * In tibt dbsf you will nffd to wbit for tibt sfssion to domplftf
+     * or dbll {@link #stop} to stop it.
      * </p>
-     * @param config A proxy to the {@link ScanDirConfigMXBean} that holds
-     * the new configuration for the application.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @pbrbm donfig A proxy to tif {@link SdbnDirConfigMXBfbn} tibt iolds
+     * tif nfw donfigurbtion for tif bpplidbtion.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      */
-    public void setConfigurationMBean(ScanDirConfigMXBean config)
-        throws IOException, InstanceNotFoundException;
+    publid void sftConfigurbtionMBfbn(SdbnDirConfigMXBfbn donfig)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
     /**
-     * Gets the current configuration MBean.
-     * @return A proxy to the current configuration MBean.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * Gfts tif durrfnt donfigurbtion MBfbn.
+     * @rfturn A proxy to tif durrfnt donfigurbtion MBfbn.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public ScanDirConfigMXBean getConfigurationMBean()
-        throws IOException, InstanceNotFoundException;
+    publid SdbnDirConfigMXBfbn gftConfigurbtionMBfbn()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
     /**
-     * This method creates a new alternate {@link ScanDirConfigMXBean}.
+     * Tiis mftiod drfbtfs b nfw bltfrnbtf {@link SdbnDirConfigMXBfbn}.
      *
-     * <p>You will need to call {@link #setConfigurationMBean
-     * setConfigurationMBean} if you
-     * want this new {@link ScanDirConfigMXBean} to become the
-     * current configuration MBean.
+     * <p>You will nffd to dbll {@link #sftConfigurbtionMBfbn
+     * sftConfigurbtionMBfbn} if you
+     * wbnt tiis nfw {@link SdbnDirConfigMXBfbn} to bfdomf tif
+     * durrfnt donfigurbtion MBfbn.
      * </p>
      * <p>
-     * This new {@link ScanDirConfigMXBean} will be unregistered automatically
-     * by the {@code ScanManagerMXBean} when the {@code ScanManagerMXBean}
-     * is unregistered.
+     * Tiis nfw {@link SdbnDirConfigMXBfbn} will bf unrfgistfrfd butombtidblly
+     * by tif {@dodf SdbnMbnbgfrMXBfbn} wifn tif {@dodf SdbnMbnbgfrMXBfbn}
+     * is unrfgistfrfd.
      * </p>
-     * @param name The short name for the new {@link ScanDirConfigMXBean}.
-     *        This name will be used in the ObjectName <code>name=</code> key
-     *        of the new {@link ScanDirConfigMXBean}.
-     * @param filename The path of the file from which the new {@link
-     *        ScanDirConfigMXBean} can {@link ScanDirConfigMXBean#load load} or
-     *        {@link ScanDirConfigMXBean#save save} its configuration data.
-     *        Note that even if the file exists and contain a valid
-     *        configuration, you will still need to call {@link
-     *        ScanDirConfigMXBean#load load} to make the {@link
-     *        ScanDirConfigMXBean} load its configuration data.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
-     * @return A proxy to the created {@link ScanDirConfigMXBean}.
+     * @pbrbm nbmf Tif siort nbmf for tif nfw {@link SdbnDirConfigMXBfbn}.
+     *        Tiis nbmf will bf usfd in tif ObjfdtNbmf <dodf>nbmf=</dodf> kfy
+     *        of tif nfw {@link SdbnDirConfigMXBfbn}.
+     * @pbrbm filfnbmf Tif pbti of tif filf from wiidi tif nfw {@link
+     *        SdbnDirConfigMXBfbn} dbn {@link SdbnDirConfigMXBfbn#lobd lobd} or
+     *        {@link SdbnDirConfigMXBfbn#sbvf sbvf} its donfigurbtion dbtb.
+     *        Notf tibt fvfn if tif filf fxists bnd dontbin b vblid
+     *        donfigurbtion, you will still nffd to dbll {@link
+     *        SdbnDirConfigMXBfbn#lobd lobd} to mbkf tif {@link
+     *        SdbnDirConfigMXBfbn} lobd its donfigurbtion dbtb.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     * @rfturn A proxy to tif drfbtfd {@link SdbnDirConfigMXBfbn}.
      */
-    public ScanDirConfigMXBean createOtherConfigurationMBean(String name,
-            String filename)
-        throws JMException, IOException;
+    publid SdbnDirConfigMXBfbn drfbtfOtifrConfigurbtionMBfbn(String nbmf,
+            String filfnbmf)
+        tirows JMExdfption, IOExdfption;
 }

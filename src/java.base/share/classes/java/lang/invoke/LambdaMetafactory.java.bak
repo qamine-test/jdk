@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.io.Serializable;
-import java.util.Arrays;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Arrbys;
 
 /**
- * <p>Methods to facilitate the creation of simple "function objects" that
- * implement one or more interfaces by delegation to a provided {@link MethodHandle},
- * possibly after type adaptation and partial evaluation of arguments.  These
- * methods are typically used as <em>bootstrap methods</em> for {@code invokedynamic}
- * call sites, to support the <em>lambda expression</em> and <em>method
- * reference expression</em> features of the Java Programming Language.
+ * <p>Mftiods to fbdilitbtf tif drfbtion of simplf "fundtion objfdts" tibt
+ * implfmfnt onf or morf intfrfbdfs by dflfgbtion to b providfd {@link MftiodHbndlf},
+ * possibly bftfr typf bdbptbtion bnd pbrtibl fvblubtion of brgumfnts.  Tifsf
+ * mftiods brf typidblly usfd bs <fm>bootstrbp mftiods</fm> for {@dodf invokfdynbmid}
+ * dbll sitfs, to support tif <fm>lbmbdb fxprfssion</fm> bnd <fm>mftiod
+ * rfffrfndf fxprfssion</fm> ffbturfs of tif Jbvb Progrbmming Lbngubgf.
  *
- * <p>Indirect access to the behavior specified by the provided {@code MethodHandle}
- * proceeds in order through three phases:
+ * <p>Indirfdt bddfss to tif bfibvior spfdififd by tif providfd {@dodf MftiodHbndlf}
+ * prodffds in ordfr tirougi tirff pibsfs:
  * <ul>
- *     <li><em>Linkage</em> occurs when the methods in this class are invoked.
- *     They take as arguments an interface to be implemented (typically a
- *     <em>functional interface</em>, one with a single abstract method), a
- *     name and signature of a method from that interface to be implemented, a
- *     method handle describing the desired implementation behavior
- *     for that method, and possibly other additional metadata, and produce a
- *     {@link CallSite} whose target can be used to create suitable function
- *     objects.  Linkage may involve dynamically loading a new class that
- *     implements the target interface. The {@code CallSite} can be considered a
- *     "factory" for function objects and so these linkage methods are referred
- *     to as "metafactories".</li>
+ *     <li><fm>Linkbgf</fm> oddurs wifn tif mftiods in tiis dlbss brf invokfd.
+ *     Tify tbkf bs brgumfnts bn intfrfbdf to bf implfmfntfd (typidblly b
+ *     <fm>fundtionbl intfrfbdf</fm>, onf witi b singlf bbstrbdt mftiod), b
+ *     nbmf bnd signbturf of b mftiod from tibt intfrfbdf to bf implfmfntfd, b
+ *     mftiod ibndlf dfsdribing tif dfsirfd implfmfntbtion bfibvior
+ *     for tibt mftiod, bnd possibly otifr bdditionbl mftbdbtb, bnd produdf b
+ *     {@link CbllSitf} wiosf tbrgft dbn bf usfd to drfbtf suitbblf fundtion
+ *     objfdts.  Linkbgf mby involvf dynbmidblly lobding b nfw dlbss tibt
+ *     implfmfnts tif tbrgft intfrfbdf. Tif {@dodf CbllSitf} dbn bf donsidfrfd b
+ *     "fbdtory" for fundtion objfdts bnd so tifsf linkbgf mftiods brf rfffrrfd
+ *     to bs "mftbfbdtorifs".</li>
  *
- *     <li><em>Capture</em> occurs when the {@code CallSite}'s target is
- *     invoked, typically through an {@code invokedynamic} call site,
- *     producing a function object.  This may occur many times for
- *     a single factory {@code CallSite}.  Capture may involve allocation of a
- *     new function object, or may return an existing function object.  The
- *     behavior {@code MethodHandle} may have additional parameters beyond those
- *     of the specified interface method; these are referred to as <em>captured
- *     parameters</em>, which must be provided as arguments to the
- *     {@code CallSite} target, and which may be early-bound to the behavior
- *     {@code MethodHandle}.  The number of captured parameters and their types
- *     are determined during linkage.</li>
+ *     <li><fm>Cbpturf</fm> oddurs wifn tif {@dodf CbllSitf}'s tbrgft is
+ *     invokfd, typidblly tirougi bn {@dodf invokfdynbmid} dbll sitf,
+ *     produding b fundtion objfdt.  Tiis mby oddur mbny timfs for
+ *     b singlf fbdtory {@dodf CbllSitf}.  Cbpturf mby involvf bllodbtion of b
+ *     nfw fundtion objfdt, or mby rfturn bn fxisting fundtion objfdt.  Tif
+ *     bfibvior {@dodf MftiodHbndlf} mby ibvf bdditionbl pbrbmftfrs bfyond tiosf
+ *     of tif spfdififd intfrfbdf mftiod; tifsf brf rfffrrfd to bs <fm>dbpturfd
+ *     pbrbmftfrs</fm>, wiidi must bf providfd bs brgumfnts to tif
+ *     {@dodf CbllSitf} tbrgft, bnd wiidi mby bf fbrly-bound to tif bfibvior
+ *     {@dodf MftiodHbndlf}.  Tif numbfr of dbpturfd pbrbmftfrs bnd tifir typfs
+ *     brf dftfrminfd during linkbgf.</li>
  *
- *     <li><em>Invocation</em> occurs when an implemented interface method
- *     is invoked on a function object.  This may occur many times for a single
- *     function object.  The method referenced by the behavior {@code MethodHandle}
- *     is invoked with the captured arguments and any additional arguments
- *     provided on invocation, as if by {@link MethodHandle#invoke(Object...)}.</li>
+ *     <li><fm>Invodbtion</fm> oddurs wifn bn implfmfntfd intfrfbdf mftiod
+ *     is invokfd on b fundtion objfdt.  Tiis mby oddur mbny timfs for b singlf
+ *     fundtion objfdt.  Tif mftiod rfffrfndfd by tif bfibvior {@dodf MftiodHbndlf}
+ *     is invokfd witi tif dbpturfd brgumfnts bnd bny bdditionbl brgumfnts
+ *     providfd on invodbtion, bs if by {@link MftiodHbndlf#invokf(Objfdt...)}.</li>
  * </ul>
  *
- * <p>It is sometimes useful to restrict the set of inputs or results permitted
- * at invocation.  For example, when the generic interface {@code Predicate<T>}
- * is parameterized as {@code Predicate<String>}, the input must be a
- * {@code String}, even though the method to implement allows any {@code Object}.
- * At linkage time, an additional {@link MethodType} parameter describes the
- * "instantiated" method type; on invocation, the arguments and eventual result
- * are checked against this {@code MethodType}.
+ * <p>It is somftimfs usfful to rfstridt tif sft of inputs or rfsults pfrmittfd
+ * bt invodbtion.  For fxbmplf, wifn tif gfnfrid intfrfbdf {@dodf Prfdidbtf<T>}
+ * is pbrbmftfrizfd bs {@dodf Prfdidbtf<String>}, tif input must bf b
+ * {@dodf String}, fvfn tiougi tif mftiod to implfmfnt bllows bny {@dodf Objfdt}.
+ * At linkbgf timf, bn bdditionbl {@link MftiodTypf} pbrbmftfr dfsdribfs tif
+ * "instbntibtfd" mftiod typf; on invodbtion, tif brgumfnts bnd fvfntubl rfsult
+ * brf difdkfd bgbinst tiis {@dodf MftiodTypf}.
  *
- * <p>This class provides two forms of linkage methods: a standard version
- * ({@link #metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)})
- * using an optimized protocol, and an alternate version
- * {@link #altMetafactory(MethodHandles.Lookup, String, MethodType, Object...)}).
- * The alternate version is a generalization of the standard version, providing
- * additional control over the behavior of the generated function objects via
- * flags and additional arguments.  The alternate version adds the ability to
- * manage the following attributes of function objects:
+ * <p>Tiis dlbss providfs two forms of linkbgf mftiods: b stbndbrd vfrsion
+ * ({@link #mftbfbdtory(MftiodHbndlfs.Lookup, String, MftiodTypf, MftiodTypf, MftiodHbndlf, MftiodTypf)})
+ * using bn optimizfd protodol, bnd bn bltfrnbtf vfrsion
+ * {@link #bltMftbfbdtory(MftiodHbndlfs.Lookup, String, MftiodTypf, Objfdt...)}).
+ * Tif bltfrnbtf vfrsion is b gfnfrblizbtion of tif stbndbrd vfrsion, providing
+ * bdditionbl dontrol ovfr tif bfibvior of tif gfnfrbtfd fundtion objfdts vib
+ * flbgs bnd bdditionbl brgumfnts.  Tif bltfrnbtf vfrsion bdds tif bbility to
+ * mbnbgf tif following bttributfs of fundtion objfdts:
  *
  * <ul>
- *     <li><em>Bridging.</em>  It is sometimes useful to implement multiple
- *     variations of the method signature, involving argument or return type
- *     adaptation.  This occurs when multiple distinct VM signatures for a method
- *     are logically considered to be the same method by the language.  The
- *     flag {@code FLAG_BRIDGES} indicates that a list of additional
- *     {@code MethodType}s will be provided, each of which will be implemented
- *     by the resulting function object.  These methods will share the same
- *     name and instantiated type.</li>
+ *     <li><fm>Bridging.</fm>  It is somftimfs usfful to implfmfnt multiplf
+ *     vbribtions of tif mftiod signbturf, involving brgumfnt or rfturn typf
+ *     bdbptbtion.  Tiis oddurs wifn multiplf distindt VM signbturfs for b mftiod
+ *     brf logidblly donsidfrfd to bf tif sbmf mftiod by tif lbngubgf.  Tif
+ *     flbg {@dodf FLAG_BRIDGES} indidbtfs tibt b list of bdditionbl
+ *     {@dodf MftiodTypf}s will bf providfd, fbdi of wiidi will bf implfmfntfd
+ *     by tif rfsulting fundtion objfdt.  Tifsf mftiods will sibrf tif sbmf
+ *     nbmf bnd instbntibtfd typf.</li>
  *
- *     <li><em>Multiple interfaces.</em>  If needed, more than one interface
- *     can be implemented by the function object.  (These additional interfaces
- *     are typically marker interfaces with no methods.)  The flag {@code FLAG_MARKERS}
- *     indicates that a list of additional interfaces will be provided, each of
- *     which should be implemented by the resulting function object.</li>
+ *     <li><fm>Multiplf intfrfbdfs.</fm>  If nffdfd, morf tibn onf intfrfbdf
+ *     dbn bf implfmfntfd by tif fundtion objfdt.  (Tifsf bdditionbl intfrfbdfs
+ *     brf typidblly mbrkfr intfrfbdfs witi no mftiods.)  Tif flbg {@dodf FLAG_MARKERS}
+ *     indidbtfs tibt b list of bdditionbl intfrfbdfs will bf providfd, fbdi of
+ *     wiidi siould bf implfmfntfd by tif rfsulting fundtion objfdt.</li>
  *
- *     <li><em>Serializability.</em>  The generated function objects do not
- *     generally support serialization.  If desired, {@code FLAG_SERIALIZABLE}
- *     can be used to indicate that the function objects should be serializable.
- *     Serializable function objects will use, as their serialized form,
- *     instances of the class {@code SerializedLambda}, which requires additional
- *     assistance from the capturing class (the class described by the
- *     {@link MethodHandles.Lookup} parameter {@code caller}); see
- *     {@link SerializedLambda} for details.</li>
+ *     <li><fm>Sfriblizbbility.</fm>  Tif gfnfrbtfd fundtion objfdts do not
+ *     gfnfrblly support sfriblizbtion.  If dfsirfd, {@dodf FLAG_SERIALIZABLE}
+ *     dbn bf usfd to indidbtf tibt tif fundtion objfdts siould bf sfriblizbblf.
+ *     Sfriblizbblf fundtion objfdts will usf, bs tifir sfriblizfd form,
+ *     instbndfs of tif dlbss {@dodf SfriblizfdLbmbdb}, wiidi rfquirfs bdditionbl
+ *     bssistbndf from tif dbpturing dlbss (tif dlbss dfsdribfd by tif
+ *     {@link MftiodHbndlfs.Lookup} pbrbmftfr {@dodf dbllfr}); sff
+ *     {@link SfriblizfdLbmbdb} for dftbils.</li>
  * </ul>
  *
- * <p>Assume the linkage arguments are as follows:
+ * <p>Assumf tif linkbgf brgumfnts brf bs follows:
  * <ul>
- *      <li>{@code invokedType} (describing the {@code CallSite} signature) has
- *      K parameters of types (D1..Dk) and return type Rd;</li>
- *      <li>{@code samMethodType} (describing the implemented method type) has N
- *      parameters, of types (U1..Un) and return type Ru;</li>
- *      <li>{@code implMethod} (the {@code MethodHandle} providing the
- *      implementation has M parameters, of types (A1..Am) and return type Ra
- *      (if the method describes an instance method, the method type of this
- *      method handle already includes an extra first argument corresponding to
- *      the receiver);</li>
- *      <li>{@code instantiatedMethodType} (allowing restrictions on invocation)
- *      has N parameters, of types (T1..Tn) and return type Rt.</li>
+ *      <li>{@dodf invokfdTypf} (dfsdribing tif {@dodf CbllSitf} signbturf) ibs
+ *      K pbrbmftfrs of typfs (D1..Dk) bnd rfturn typf Rd;</li>
+ *      <li>{@dodf sbmMftiodTypf} (dfsdribing tif implfmfntfd mftiod typf) ibs N
+ *      pbrbmftfrs, of typfs (U1..Un) bnd rfturn typf Ru;</li>
+ *      <li>{@dodf implMftiod} (tif {@dodf MftiodHbndlf} providing tif
+ *      implfmfntbtion ibs M pbrbmftfrs, of typfs (A1..Am) bnd rfturn typf Rb
+ *      (if tif mftiod dfsdribfs bn instbndf mftiod, tif mftiod typf of tiis
+ *      mftiod ibndlf blrfbdy indludfs bn fxtrb first brgumfnt dorrfsponding to
+ *      tif rfdfivfr);</li>
+ *      <li>{@dodf instbntibtfdMftiodTypf} (bllowing rfstridtions on invodbtion)
+ *      ibs N pbrbmftfrs, of typfs (T1..Tn) bnd rfturn typf Rt.</li>
  * </ul>
  *
- * <p>Then the following linkage invariants must hold:
+ * <p>Tifn tif following linkbgf invbribnts must iold:
  * <ul>
- *     <li>Rd is an interface</li>
- *     <li>{@code implMethod} is a <em>direct method handle</em></li>
- *     <li>{@code samMethodType} and {@code instantiatedMethodType} have the same
- *     arity N, and for i=1..N, Ti and Ui are the same type, or Ti and Ui are
- *     both reference types and Ti is a subtype of Ui</li>
- *     <li>Either Rt and Ru are the same type, or both are reference types and
- *     Rt is a subtype of Ru</li>
+ *     <li>Rd is bn intfrfbdf</li>
+ *     <li>{@dodf implMftiod} is b <fm>dirfdt mftiod ibndlf</fm></li>
+ *     <li>{@dodf sbmMftiodTypf} bnd {@dodf instbntibtfdMftiodTypf} ibvf tif sbmf
+ *     brity N, bnd for i=1..N, Ti bnd Ui brf tif sbmf typf, or Ti bnd Ui brf
+ *     boti rfffrfndf typfs bnd Ti is b subtypf of Ui</li>
+ *     <li>Eitifr Rt bnd Ru brf tif sbmf typf, or boti brf rfffrfndf typfs bnd
+ *     Rt is b subtypf of Ru</li>
  *     <li>K + N = M</li>
  *     <li>For i=1..K, Di = Ai</li>
- *     <li>For i=1..N, Ti is adaptable to Aj, where j=i+k</li>
- *     <li>The return type Rt is void, or the return type Ra is not void and is
- *     adaptable to Rt</li>
+ *     <li>For i=1..N, Ti is bdbptbblf to Aj, wifrf j=i+k</li>
+ *     <li>Tif rfturn typf Rt is void, or tif rfturn typf Rb is not void bnd is
+ *     bdbptbblf to Rt</li>
  * </ul>
  *
- * <p>Further, at capture time, if {@code implMethod} corresponds to an instance
- * method, and there are any capture arguments ({@code K > 0}), then the first
- * capture argument (corresponding to the receiver) must be non-null.
+ * <p>Furtifr, bt dbpturf timf, if {@dodf implMftiod} dorrfsponds to bn instbndf
+ * mftiod, bnd tifrf brf bny dbpturf brgumfnts ({@dodf K > 0}), tifn tif first
+ * dbpturf brgumfnt (dorrfsponding to tif rfdfivfr) must bf non-null.
  *
- * <p>A type Q is considered adaptable to S as follows:
- * <table summary="adaptable types">
- *     <tr><th>Q</th><th>S</th><th>Link-time checks</th><th>Invocation-time checks</th></tr>
+ * <p>A typf Q is donsidfrfd bdbptbblf to S bs follows:
+ * <tbblf summbry="bdbptbblf typfs">
+ *     <tr><ti>Q</ti><ti>S</ti><ti>Link-timf difdks</ti><ti>Invodbtion-timf difdks</ti></tr>
  *     <tr>
- *         <td>Primitive</td><td>Primitive</td>
- *         <td>Q can be converted to S via a primitive widening conversion</td>
- *         <td>None</td>
+ *         <td>Primitivf</td><td>Primitivf</td>
+ *         <td>Q dbn bf donvfrtfd to S vib b primitivf widfning donvfrsion</td>
+ *         <td>Nonf</td>
  *     </tr>
  *     <tr>
- *         <td>Primitive</td><td>Reference</td>
- *         <td>S is a supertype of the Wrapper(Q)</td>
- *         <td>Cast from Wrapper(Q) to S</td>
+ *         <td>Primitivf</td><td>Rfffrfndf</td>
+ *         <td>S is b supfrtypf of tif Wrbppfr(Q)</td>
+ *         <td>Cbst from Wrbppfr(Q) to S</td>
  *     </tr>
  *     <tr>
- *         <td>Reference</td><td>Primitive</td>
- *         <td>for parameter types: Q is a primitive wrapper and Primitive(Q)
- *         can be widened to S
- *         <br>for return types: If Q is a primitive wrapper, check that
- *         Primitive(Q) can be widened to S</td>
- *         <td>If Q is not a primitive wrapper, cast Q to the base Wrapper(S);
- *         for example Number for numeric types</td>
+ *         <td>Rfffrfndf</td><td>Primitivf</td>
+ *         <td>for pbrbmftfr typfs: Q is b primitivf wrbppfr bnd Primitivf(Q)
+ *         dbn bf widfnfd to S
+ *         <br>for rfturn typfs: If Q is b primitivf wrbppfr, difdk tibt
+ *         Primitivf(Q) dbn bf widfnfd to S</td>
+ *         <td>If Q is not b primitivf wrbppfr, dbst Q to tif bbsf Wrbppfr(S);
+ *         for fxbmplf Numbfr for numfrid typfs</td>
  *     </tr>
  *     <tr>
- *         <td>Reference</td><td>Reference</td>
- *         <td>for parameter types: S is a supertype of Q
- *         <br>for return types: none</td>
- *         <td>Cast from Q to S</td>
+ *         <td>Rfffrfndf</td><td>Rfffrfndf</td>
+ *         <td>for pbrbmftfr typfs: S is b supfrtypf of Q
+ *         <br>for rfturn typfs: nonf</td>
+ *         <td>Cbst from Q to S</td>
  *     </tr>
- * </table>
+ * </tbblf>
  *
- * @apiNote These linkage methods are designed to support the evaluation
- * of <em>lambda expressions</em> and <em>method references</em> in the Java
- * Language.  For every lambda expressions or method reference in the source code,
- * there is a target type which is a functional interface.  Evaluating a lambda
- * expression produces an object of its target type. The recommended mechanism
- * for evaluating lambda expressions is to desugar the lambda body to a method,
- * invoke an invokedynamic call site whose static argument list describes the
- * sole method of the functional interface and the desugared implementation
- * method, and returns an object (the lambda object) that implements the target
- * type. (For method references, the implementation method is simply the
- * referenced method; no desugaring is needed.)
+ * @bpiNotf Tifsf linkbgf mftiods brf dfsignfd to support tif fvblubtion
+ * of <fm>lbmbdb fxprfssions</fm> bnd <fm>mftiod rfffrfndfs</fm> in tif Jbvb
+ * Lbngubgf.  For fvfry lbmbdb fxprfssions or mftiod rfffrfndf in tif sourdf dodf,
+ * tifrf is b tbrgft typf wiidi is b fundtionbl intfrfbdf.  Evblubting b lbmbdb
+ * fxprfssion produdfs bn objfdt of its tbrgft typf. Tif rfdommfndfd mfdibnism
+ * for fvblubting lbmbdb fxprfssions is to dfsugbr tif lbmbdb body to b mftiod,
+ * invokf bn invokfdynbmid dbll sitf wiosf stbtid brgumfnt list dfsdribfs tif
+ * solf mftiod of tif fundtionbl intfrfbdf bnd tif dfsugbrfd implfmfntbtion
+ * mftiod, bnd rfturns bn objfdt (tif lbmbdb objfdt) tibt implfmfnts tif tbrgft
+ * typf. (For mftiod rfffrfndfs, tif implfmfntbtion mftiod is simply tif
+ * rfffrfndfd mftiod; no dfsugbring is nffdfd.)
  *
- * <p>The argument list of the implementation method and the argument list of
- * the interface method(s) may differ in several ways.  The implementation
- * methods may have additional arguments to accommodate arguments captured by
- * the lambda expression; there may also be differences resulting from permitted
- * adaptations of arguments, such as casting, boxing, unboxing, and primitive
- * widening. (Varargs adaptations are not handled by the metafactories; these are
- * expected to be handled by the caller.)
+ * <p>Tif brgumfnt list of tif implfmfntbtion mftiod bnd tif brgumfnt list of
+ * tif intfrfbdf mftiod(s) mby difffr in sfvfrbl wbys.  Tif implfmfntbtion
+ * mftiods mby ibvf bdditionbl brgumfnts to bddommodbtf brgumfnts dbpturfd by
+ * tif lbmbdb fxprfssion; tifrf mby blso bf difffrfndfs rfsulting from pfrmittfd
+ * bdbptbtions of brgumfnts, sudi bs dbsting, boxing, unboxing, bnd primitivf
+ * widfning. (Vbrbrgs bdbptbtions brf not ibndlfd by tif mftbfbdtorifs; tifsf brf
+ * fxpfdtfd to bf ibndlfd by tif dbllfr.)
  *
- * <p>Invokedynamic call sites have two argument lists: a static argument list
- * and a dynamic argument list.  The static argument list is stored in the
- * constant pool; the dynamic argument is pushed on the operand stack at capture
- * time.  The bootstrap method has access to the entire static argument list
- * (which in this case, includes information describing the implementation method,
- * the target interface, and the target interface method(s)), as well as a
- * method signature describing the number and static types (but not the values)
- * of the dynamic arguments and the static return type of the invokedynamic site.
+ * <p>Invokfdynbmid dbll sitfs ibvf two brgumfnt lists: b stbtid brgumfnt list
+ * bnd b dynbmid brgumfnt list.  Tif stbtid brgumfnt list is storfd in tif
+ * donstbnt pool; tif dynbmid brgumfnt is pusifd on tif opfrbnd stbdk bt dbpturf
+ * timf.  Tif bootstrbp mftiod ibs bddfss to tif fntirf stbtid brgumfnt list
+ * (wiidi in tiis dbsf, indludfs informbtion dfsdribing tif implfmfntbtion mftiod,
+ * tif tbrgft intfrfbdf, bnd tif tbrgft intfrfbdf mftiod(s)), bs wfll bs b
+ * mftiod signbturf dfsdribing tif numbfr bnd stbtid typfs (but not tif vblufs)
+ * of tif dynbmid brgumfnts bnd tif stbtid rfturn typf of tif invokfdynbmid sitf.
  *
- * @implNote The implementation method is described with a method handle. In
- * theory, any method handle could be used. Currently supported are direct method
- * handles representing invocation of virtual, interface, constructor and static
- * methods.
+ * @implNotf Tif implfmfntbtion mftiod is dfsdribfd witi b mftiod ibndlf. In
+ * tifory, bny mftiod ibndlf dould bf usfd. Currfntly supportfd brf dirfdt mftiod
+ * ibndlfs rfprfsfnting invodbtion of virtubl, intfrfbdf, donstrudtor bnd stbtid
+ * mftiods.
  */
-public class LambdaMetafactory {
+publid dlbss LbmbdbMftbfbdtory {
 
-    /** Flag for alternate metafactories indicating the lambda object
-     * must be serializable */
-    public static final int FLAG_SERIALIZABLE = 1 << 0;
-
-    /**
-     * Flag for alternate metafactories indicating the lambda object implements
-     * other marker interfaces
-     * besides Serializable
-     */
-    public static final int FLAG_MARKERS = 1 << 1;
+    /** Flbg for bltfrnbtf mftbfbdtorifs indidbting tif lbmbdb objfdt
+     * must bf sfriblizbblf */
+    publid stbtid finbl int FLAG_SERIALIZABLE = 1 << 0;
 
     /**
-     * Flag for alternate metafactories indicating the lambda object requires
-     * additional bridge methods
+     * Flbg for bltfrnbtf mftbfbdtorifs indidbting tif lbmbdb objfdt implfmfnts
+     * otifr mbrkfr intfrfbdfs
+     * bfsidfs Sfriblizbblf
      */
-    public static final int FLAG_BRIDGES = 1 << 2;
-
-    private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
-    private static final MethodType[] EMPTY_MT_ARRAY = new MethodType[0];
+    publid stbtid finbl int FLAG_MARKERS = 1 << 1;
 
     /**
-     * Facilitates the creation of simple "function objects" that implement one
-     * or more interfaces by delegation to a provided {@link MethodHandle},
-     * after appropriate type adaptation and partial evaluation of arguments.
-     * Typically used as a <em>bootstrap method</em> for {@code invokedynamic}
-     * call sites, to support the <em>lambda expression</em> and <em>method
-     * reference expression</em> features of the Java Programming Language.
-     *
-     * <p>This is the standard, streamlined metafactory; additional flexibility
-     * is provided by {@link #altMetafactory(MethodHandles.Lookup, String, MethodType, Object...)}.
-     * A general description of the behavior of this method is provided
-     * {@link LambdaMetafactory above}.
-     *
-     * <p>When the target of the {@code CallSite} returned from this method is
-     * invoked, the resulting function objects are instances of a class which
-     * implements the interface named by the return type of {@code invokedType},
-     * declares a method with the name given by {@code invokedName} and the
-     * signature given by {@code samMethodType}.  It may also override additional
-     * methods from {@code Object}.
-     *
-     * @param caller Represents a lookup context with the accessibility
-     *               privileges of the caller.  When used with {@code invokedynamic},
-     *               this is stacked automatically by the VM.
-     * @param invokedName The name of the method to implement.  When used with
-     *                    {@code invokedynamic}, this is provided by the
-     *                    {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     * @param invokedType The expected signature of the {@code CallSite}.  The
-     *                    parameter types represent the types of capture variables;
-     *                    the return type is the interface to implement.   When
-     *                    used with {@code invokedynamic}, this is provided by
-     *                    the {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     *                    In the event that the implementation method is an
-     *                    instance method and this signature has any parameters,
-     *                    the first parameter in the invocation signature must
-     *                    correspond to the receiver.
-     * @param samMethodType Signature and return type of method to be implemented
-     *                      by the function object.
-     * @param implMethod A direct method handle describing the implementation
-     *                   method which should be called (with suitable adaptation
-     *                   of argument types, return types, and with captured
-     *                   arguments prepended to the invocation arguments) at
-     *                   invocation time.
-     * @param instantiatedMethodType The signature and return type that should
-     *                               be enforced dynamically at invocation time.
-     *                               This may be the same as {@code samMethodType},
-     *                               or may be a specialization of it.
-     * @return a CallSite whose target can be used to perform capture, generating
-     *         instances of the interface named by {@code invokedType}
-     * @throws LambdaConversionException If any of the linkage invariants
-     *                                   described {@link LambdaMetafactory above}
-     *                                   are violated
+     * Flbg for bltfrnbtf mftbfbdtorifs indidbting tif lbmbdb objfdt rfquirfs
+     * bdditionbl bridgf mftiods
      */
-    public static CallSite metafactory(MethodHandles.Lookup caller,
-                                       String invokedName,
-                                       MethodType invokedType,
-                                       MethodType samMethodType,
-                                       MethodHandle implMethod,
-                                       MethodType instantiatedMethodType)
-            throws LambdaConversionException {
-        AbstractValidatingLambdaMetafactory mf;
-        mf = new InnerClassLambdaMetafactory(caller, invokedType,
-                                             invokedName, samMethodType,
-                                             implMethod, instantiatedMethodType,
-                                             false, EMPTY_CLASS_ARRAY, EMPTY_MT_ARRAY);
-        mf.validateMetafactoryArgs();
-        return mf.buildCallSite();
+    publid stbtid finbl int FLAG_BRIDGES = 1 << 2;
+
+    privbtf stbtid finbl Clbss<?>[] EMPTY_CLASS_ARRAY = nfw Clbss<?>[0];
+    privbtf stbtid finbl MftiodTypf[] EMPTY_MT_ARRAY = nfw MftiodTypf[0];
+
+    /**
+     * Fbdilitbtfs tif drfbtion of simplf "fundtion objfdts" tibt implfmfnt onf
+     * or morf intfrfbdfs by dflfgbtion to b providfd {@link MftiodHbndlf},
+     * bftfr bppropribtf typf bdbptbtion bnd pbrtibl fvblubtion of brgumfnts.
+     * Typidblly usfd bs b <fm>bootstrbp mftiod</fm> for {@dodf invokfdynbmid}
+     * dbll sitfs, to support tif <fm>lbmbdb fxprfssion</fm> bnd <fm>mftiod
+     * rfffrfndf fxprfssion</fm> ffbturfs of tif Jbvb Progrbmming Lbngubgf.
+     *
+     * <p>Tiis is tif stbndbrd, strfbmlinfd mftbfbdtory; bdditionbl flfxibility
+     * is providfd by {@link #bltMftbfbdtory(MftiodHbndlfs.Lookup, String, MftiodTypf, Objfdt...)}.
+     * A gfnfrbl dfsdription of tif bfibvior of tiis mftiod is providfd
+     * {@link LbmbdbMftbfbdtory bbovf}.
+     *
+     * <p>Wifn tif tbrgft of tif {@dodf CbllSitf} rfturnfd from tiis mftiod is
+     * invokfd, tif rfsulting fundtion objfdts brf instbndfs of b dlbss wiidi
+     * implfmfnts tif intfrfbdf nbmfd by tif rfturn typf of {@dodf invokfdTypf},
+     * dfdlbrfs b mftiod witi tif nbmf givfn by {@dodf invokfdNbmf} bnd tif
+     * signbturf givfn by {@dodf sbmMftiodTypf}.  It mby blso ovfrridf bdditionbl
+     * mftiods from {@dodf Objfdt}.
+     *
+     * @pbrbm dbllfr Rfprfsfnts b lookup dontfxt witi tif bddfssibility
+     *               privilfgfs of tif dbllfr.  Wifn usfd witi {@dodf invokfdynbmid},
+     *               tiis is stbdkfd butombtidblly by tif VM.
+     * @pbrbm invokfdNbmf Tif nbmf of tif mftiod to implfmfnt.  Wifn usfd witi
+     *                    {@dodf invokfdynbmid}, tiis is providfd by tif
+     *                    {@dodf NbmfAndTypf} of tif {@dodf InvokfDynbmid}
+     *                    strudturf bnd is stbdkfd butombtidblly by tif VM.
+     * @pbrbm invokfdTypf Tif fxpfdtfd signbturf of tif {@dodf CbllSitf}.  Tif
+     *                    pbrbmftfr typfs rfprfsfnt tif typfs of dbpturf vbribblfs;
+     *                    tif rfturn typf is tif intfrfbdf to implfmfnt.   Wifn
+     *                    usfd witi {@dodf invokfdynbmid}, tiis is providfd by
+     *                    tif {@dodf NbmfAndTypf} of tif {@dodf InvokfDynbmid}
+     *                    strudturf bnd is stbdkfd butombtidblly by tif VM.
+     *                    In tif fvfnt tibt tif implfmfntbtion mftiod is bn
+     *                    instbndf mftiod bnd tiis signbturf ibs bny pbrbmftfrs,
+     *                    tif first pbrbmftfr in tif invodbtion signbturf must
+     *                    dorrfspond to tif rfdfivfr.
+     * @pbrbm sbmMftiodTypf Signbturf bnd rfturn typf of mftiod to bf implfmfntfd
+     *                      by tif fundtion objfdt.
+     * @pbrbm implMftiod A dirfdt mftiod ibndlf dfsdribing tif implfmfntbtion
+     *                   mftiod wiidi siould bf dbllfd (witi suitbblf bdbptbtion
+     *                   of brgumfnt typfs, rfturn typfs, bnd witi dbpturfd
+     *                   brgumfnts prfpfndfd to tif invodbtion brgumfnts) bt
+     *                   invodbtion timf.
+     * @pbrbm instbntibtfdMftiodTypf Tif signbturf bnd rfturn typf tibt siould
+     *                               bf fnfordfd dynbmidblly bt invodbtion timf.
+     *                               Tiis mby bf tif sbmf bs {@dodf sbmMftiodTypf},
+     *                               or mby bf b spfdiblizbtion of it.
+     * @rfturn b CbllSitf wiosf tbrgft dbn bf usfd to pfrform dbpturf, gfnfrbting
+     *         instbndfs of tif intfrfbdf nbmfd by {@dodf invokfdTypf}
+     * @tirows LbmbdbConvfrsionExdfption If bny of tif linkbgf invbribnts
+     *                                   dfsdribfd {@link LbmbdbMftbfbdtory bbovf}
+     *                                   brf violbtfd
+     */
+    publid stbtid CbllSitf mftbfbdtory(MftiodHbndlfs.Lookup dbllfr,
+                                       String invokfdNbmf,
+                                       MftiodTypf invokfdTypf,
+                                       MftiodTypf sbmMftiodTypf,
+                                       MftiodHbndlf implMftiod,
+                                       MftiodTypf instbntibtfdMftiodTypf)
+            tirows LbmbdbConvfrsionExdfption {
+        AbstrbdtVblidbtingLbmbdbMftbfbdtory mf;
+        mf = nfw InnfrClbssLbmbdbMftbfbdtory(dbllfr, invokfdTypf,
+                                             invokfdNbmf, sbmMftiodTypf,
+                                             implMftiod, instbntibtfdMftiodTypf,
+                                             fblsf, EMPTY_CLASS_ARRAY, EMPTY_MT_ARRAY);
+        mf.vblidbtfMftbfbdtoryArgs();
+        rfturn mf.buildCbllSitf();
     }
 
     /**
-     * Facilitates the creation of simple "function objects" that implement one
-     * or more interfaces by delegation to a provided {@link MethodHandle},
-     * after appropriate type adaptation and partial evaluation of arguments.
-     * Typically used as a <em>bootstrap method</em> for {@code invokedynamic}
-     * call sites, to support the <em>lambda expression</em> and <em>method
-     * reference expression</em> features of the Java Programming Language.
+     * Fbdilitbtfs tif drfbtion of simplf "fundtion objfdts" tibt implfmfnt onf
+     * or morf intfrfbdfs by dflfgbtion to b providfd {@link MftiodHbndlf},
+     * bftfr bppropribtf typf bdbptbtion bnd pbrtibl fvblubtion of brgumfnts.
+     * Typidblly usfd bs b <fm>bootstrbp mftiod</fm> for {@dodf invokfdynbmid}
+     * dbll sitfs, to support tif <fm>lbmbdb fxprfssion</fm> bnd <fm>mftiod
+     * rfffrfndf fxprfssion</fm> ffbturfs of tif Jbvb Progrbmming Lbngubgf.
      *
-     * <p>This is the general, more flexible metafactory; a streamlined version
-     * is provided by {@link #metafactory(java.lang.invoke.MethodHandles.Lookup,
-     * String, MethodType, MethodType, MethodHandle, MethodType)}.
-     * A general description of the behavior of this method is provided
-     * {@link LambdaMetafactory above}.
+     * <p>Tiis is tif gfnfrbl, morf flfxiblf mftbfbdtory; b strfbmlinfd vfrsion
+     * is providfd by {@link #mftbfbdtory(jbvb.lbng.invokf.MftiodHbndlfs.Lookup,
+     * String, MftiodTypf, MftiodTypf, MftiodHbndlf, MftiodTypf)}.
+     * A gfnfrbl dfsdription of tif bfibvior of tiis mftiod is providfd
+     * {@link LbmbdbMftbfbdtory bbovf}.
      *
-     * <p>The argument list for this method includes three fixed parameters,
-     * corresponding to the parameters automatically stacked by the VM for the
-     * bootstrap method in an {@code invokedynamic} invocation, and an {@code Object[]}
-     * parameter that contains additional parameters.  The declared argument
-     * list for this method is:
+     * <p>Tif brgumfnt list for tiis mftiod indludfs tirff fixfd pbrbmftfrs,
+     * dorrfsponding to tif pbrbmftfrs butombtidblly stbdkfd by tif VM for tif
+     * bootstrbp mftiod in bn {@dodf invokfdynbmid} invodbtion, bnd bn {@dodf Objfdt[]}
+     * pbrbmftfr tibt dontbins bdditionbl pbrbmftfrs.  Tif dfdlbrfd brgumfnt
+     * list for tiis mftiod is:
      *
-     * <pre>{@code
-     *  CallSite altMetafactory(MethodHandles.Lookup caller,
-     *                          String invokedName,
-     *                          MethodType invokedType,
-     *                          Object... args)
-     * }</pre>
+     * <prf>{@dodf
+     *  CbllSitf bltMftbfbdtory(MftiodHbndlfs.Lookup dbllfr,
+     *                          String invokfdNbmf,
+     *                          MftiodTypf invokfdTypf,
+     *                          Objfdt... brgs)
+     * }</prf>
      *
-     * <p>but it behaves as if the argument list is as follows:
+     * <p>but it bfibvfs bs if tif brgumfnt list is bs follows:
      *
-     * <pre>{@code
-     *  CallSite altMetafactory(MethodHandles.Lookup caller,
-     *                          String invokedName,
-     *                          MethodType invokedType,
-     *                          MethodType samMethodType,
-     *                          MethodHandle implMethod,
-     *                          MethodType instantiatedMethodType,
-     *                          int flags,
-     *                          int markerInterfaceCount,  // IF flags has MARKERS set
-     *                          Class... markerInterfaces, // IF flags has MARKERS set
-     *                          int bridgeCount,           // IF flags has BRIDGES set
-     *                          MethodType... bridges      // IF flags has BRIDGES set
+     * <prf>{@dodf
+     *  CbllSitf bltMftbfbdtory(MftiodHbndlfs.Lookup dbllfr,
+     *                          String invokfdNbmf,
+     *                          MftiodTypf invokfdTypf,
+     *                          MftiodTypf sbmMftiodTypf,
+     *                          MftiodHbndlf implMftiod,
+     *                          MftiodTypf instbntibtfdMftiodTypf,
+     *                          int flbgs,
+     *                          int mbrkfrIntfrfbdfCount,  // IF flbgs ibs MARKERS sft
+     *                          Clbss... mbrkfrIntfrfbdfs, // IF flbgs ibs MARKERS sft
+     *                          int bridgfCount,           // IF flbgs ibs BRIDGES sft
+     *                          MftiodTypf... bridgfs      // IF flbgs ibs BRIDGES sft
      *                          )
-     * }</pre>
+     * }</prf>
      *
-     * <p>Arguments that appear in the argument list for
-     * {@link #metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)}
-     * have the same specification as in that method.  The additional arguments
-     * are interpreted as follows:
+     * <p>Argumfnts tibt bppfbr in tif brgumfnt list for
+     * {@link #mftbfbdtory(MftiodHbndlfs.Lookup, String, MftiodTypf, MftiodTypf, MftiodHbndlf, MftiodTypf)}
+     * ibvf tif sbmf spfdifidbtion bs in tibt mftiod.  Tif bdditionbl brgumfnts
+     * brf intfrprftfd bs follows:
      * <ul>
-     *     <li>{@code flags} indicates additional options; this is a bitwise
-     *     OR of desired flags.  Defined flags are {@link #FLAG_BRIDGES},
-     *     {@link #FLAG_MARKERS}, and {@link #FLAG_SERIALIZABLE}.</li>
-     *     <li>{@code markerInterfaceCount} is the number of additional interfaces
-     *     the function object should implement, and is present if and only if the
-     *     {@code FLAG_MARKERS} flag is set.</li>
-     *     <li>{@code markerInterfaces} is a variable-length list of additional
-     *     interfaces to implement, whose length equals {@code markerInterfaceCount},
-     *     and is present if and only if the {@code FLAG_MARKERS} flag is set.</li>
-     *     <li>{@code bridgeCount} is the number of additional method signatures
-     *     the function object should implement, and is present if and only if
-     *     the {@code FLAG_BRIDGES} flag is set.</li>
-     *     <li>{@code bridges} is a variable-length list of additional
-     *     methods signatures to implement, whose length equals {@code bridgeCount},
-     *     and is present if and only if the {@code FLAG_BRIDGES} flag is set.</li>
+     *     <li>{@dodf flbgs} indidbtfs bdditionbl options; tiis is b bitwisf
+     *     OR of dfsirfd flbgs.  Dffinfd flbgs brf {@link #FLAG_BRIDGES},
+     *     {@link #FLAG_MARKERS}, bnd {@link #FLAG_SERIALIZABLE}.</li>
+     *     <li>{@dodf mbrkfrIntfrfbdfCount} is tif numbfr of bdditionbl intfrfbdfs
+     *     tif fundtion objfdt siould implfmfnt, bnd is prfsfnt if bnd only if tif
+     *     {@dodf FLAG_MARKERS} flbg is sft.</li>
+     *     <li>{@dodf mbrkfrIntfrfbdfs} is b vbribblf-lfngti list of bdditionbl
+     *     intfrfbdfs to implfmfnt, wiosf lfngti fqubls {@dodf mbrkfrIntfrfbdfCount},
+     *     bnd is prfsfnt if bnd only if tif {@dodf FLAG_MARKERS} flbg is sft.</li>
+     *     <li>{@dodf bridgfCount} is tif numbfr of bdditionbl mftiod signbturfs
+     *     tif fundtion objfdt siould implfmfnt, bnd is prfsfnt if bnd only if
+     *     tif {@dodf FLAG_BRIDGES} flbg is sft.</li>
+     *     <li>{@dodf bridgfs} is b vbribblf-lfngti list of bdditionbl
+     *     mftiods signbturfs to implfmfnt, wiosf lfngti fqubls {@dodf bridgfCount},
+     *     bnd is prfsfnt if bnd only if tif {@dodf FLAG_BRIDGES} flbg is sft.</li>
      * </ul>
      *
-     * <p>Each class named by {@code markerInterfaces} is subject to the same
-     * restrictions as {@code Rd}, the return type of {@code invokedType},
-     * as described {@link LambdaMetafactory above}.  Each {@code MethodType}
-     * named by {@code bridges} is subject to the same restrictions as
-     * {@code samMethodType}, as described {@link LambdaMetafactory above}.
+     * <p>Ebdi dlbss nbmfd by {@dodf mbrkfrIntfrfbdfs} is subjfdt to tif sbmf
+     * rfstridtions bs {@dodf Rd}, tif rfturn typf of {@dodf invokfdTypf},
+     * bs dfsdribfd {@link LbmbdbMftbfbdtory bbovf}.  Ebdi {@dodf MftiodTypf}
+     * nbmfd by {@dodf bridgfs} is subjfdt to tif sbmf rfstridtions bs
+     * {@dodf sbmMftiodTypf}, bs dfsdribfd {@link LbmbdbMftbfbdtory bbovf}.
      *
-     * <p>When FLAG_SERIALIZABLE is set in {@code flags}, the function objects
-     * will implement {@code Serializable}, and will have a {@code writeReplace}
-     * method that returns an appropriate {@link SerializedLambda}.  The
-     * {@code caller} class must have an appropriate {@code $deserializeLambda$}
-     * method, as described in {@link SerializedLambda}.
+     * <p>Wifn FLAG_SERIALIZABLE is sft in {@dodf flbgs}, tif fundtion objfdts
+     * will implfmfnt {@dodf Sfriblizbblf}, bnd will ibvf b {@dodf writfRfplbdf}
+     * mftiod tibt rfturns bn bppropribtf {@link SfriblizfdLbmbdb}.  Tif
+     * {@dodf dbllfr} dlbss must ibvf bn bppropribtf {@dodf $dfsfriblizfLbmbdb$}
+     * mftiod, bs dfsdribfd in {@link SfriblizfdLbmbdb}.
      *
-     * <p>When the target of the {@code CallSite} returned from this method is
-     * invoked, the resulting function objects are instances of a class with
-     * the following properties:
+     * <p>Wifn tif tbrgft of tif {@dodf CbllSitf} rfturnfd from tiis mftiod is
+     * invokfd, tif rfsulting fundtion objfdts brf instbndfs of b dlbss witi
+     * tif following propfrtifs:
      * <ul>
-     *     <li>The class implements the interface named by the return type
-     *     of {@code invokedType} and any interfaces named by {@code markerInterfaces}</li>
-     *     <li>The class declares methods with the name given by {@code invokedName},
-     *     and the signature given by {@code samMethodType} and additional signatures
-     *     given by {@code bridges}</li>
-     *     <li>The class may override methods from {@code Object}, and may
-     *     implement methods related to serialization.</li>
+     *     <li>Tif dlbss implfmfnts tif intfrfbdf nbmfd by tif rfturn typf
+     *     of {@dodf invokfdTypf} bnd bny intfrfbdfs nbmfd by {@dodf mbrkfrIntfrfbdfs}</li>
+     *     <li>Tif dlbss dfdlbrfs mftiods witi tif nbmf givfn by {@dodf invokfdNbmf},
+     *     bnd tif signbturf givfn by {@dodf sbmMftiodTypf} bnd bdditionbl signbturfs
+     *     givfn by {@dodf bridgfs}</li>
+     *     <li>Tif dlbss mby ovfrridf mftiods from {@dodf Objfdt}, bnd mby
+     *     implfmfnt mftiods rflbtfd to sfriblizbtion.</li>
      * </ul>
      *
-     * @param caller Represents a lookup context with the accessibility
-     *               privileges of the caller.  When used with {@code invokedynamic},
-     *               this is stacked automatically by the VM.
-     * @param invokedName The name of the method to implement.  When used with
-     *                    {@code invokedynamic}, this is provided by the
-     *                    {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     * @param invokedType The expected signature of the {@code CallSite}.  The
-     *                    parameter types represent the types of capture variables;
-     *                    the return type is the interface to implement.   When
-     *                    used with {@code invokedynamic}, this is provided by
-     *                    the {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     *                    In the event that the implementation method is an
-     *                    instance method and this signature has any parameters,
-     *                    the first parameter in the invocation signature must
-     *                    correspond to the receiver.
-     * @param  args       An {@code Object[]} array containing the required
-     *                    arguments {@code samMethodType}, {@code implMethod},
-     *                    {@code instantiatedMethodType}, {@code flags}, and any
-     *                    optional arguments, as described
-     *                    {@link #altMetafactory(MethodHandles.Lookup, String, MethodType, Object...)} above}
-     * @return a CallSite whose target can be used to perform capture, generating
-     *         instances of the interface named by {@code invokedType}
-     * @throws LambdaConversionException If any of the linkage invariants
-     *                                   described {@link LambdaMetafactory above}
-     *                                   are violated
+     * @pbrbm dbllfr Rfprfsfnts b lookup dontfxt witi tif bddfssibility
+     *               privilfgfs of tif dbllfr.  Wifn usfd witi {@dodf invokfdynbmid},
+     *               tiis is stbdkfd butombtidblly by tif VM.
+     * @pbrbm invokfdNbmf Tif nbmf of tif mftiod to implfmfnt.  Wifn usfd witi
+     *                    {@dodf invokfdynbmid}, tiis is providfd by tif
+     *                    {@dodf NbmfAndTypf} of tif {@dodf InvokfDynbmid}
+     *                    strudturf bnd is stbdkfd butombtidblly by tif VM.
+     * @pbrbm invokfdTypf Tif fxpfdtfd signbturf of tif {@dodf CbllSitf}.  Tif
+     *                    pbrbmftfr typfs rfprfsfnt tif typfs of dbpturf vbribblfs;
+     *                    tif rfturn typf is tif intfrfbdf to implfmfnt.   Wifn
+     *                    usfd witi {@dodf invokfdynbmid}, tiis is providfd by
+     *                    tif {@dodf NbmfAndTypf} of tif {@dodf InvokfDynbmid}
+     *                    strudturf bnd is stbdkfd butombtidblly by tif VM.
+     *                    In tif fvfnt tibt tif implfmfntbtion mftiod is bn
+     *                    instbndf mftiod bnd tiis signbturf ibs bny pbrbmftfrs,
+     *                    tif first pbrbmftfr in tif invodbtion signbturf must
+     *                    dorrfspond to tif rfdfivfr.
+     * @pbrbm  brgs       An {@dodf Objfdt[]} brrby dontbining tif rfquirfd
+     *                    brgumfnts {@dodf sbmMftiodTypf}, {@dodf implMftiod},
+     *                    {@dodf instbntibtfdMftiodTypf}, {@dodf flbgs}, bnd bny
+     *                    optionbl brgumfnts, bs dfsdribfd
+     *                    {@link #bltMftbfbdtory(MftiodHbndlfs.Lookup, String, MftiodTypf, Objfdt...)} bbovf}
+     * @rfturn b CbllSitf wiosf tbrgft dbn bf usfd to pfrform dbpturf, gfnfrbting
+     *         instbndfs of tif intfrfbdf nbmfd by {@dodf invokfdTypf}
+     * @tirows LbmbdbConvfrsionExdfption If bny of tif linkbgf invbribnts
+     *                                   dfsdribfd {@link LbmbdbMftbfbdtory bbovf}
+     *                                   brf violbtfd
      */
-    public static CallSite altMetafactory(MethodHandles.Lookup caller,
-                                          String invokedName,
-                                          MethodType invokedType,
-                                          Object... args)
-            throws LambdaConversionException {
-        MethodType samMethodType = (MethodType)args[0];
-        MethodHandle implMethod = (MethodHandle)args[1];
-        MethodType instantiatedMethodType = (MethodType)args[2];
-        int flags = (Integer) args[3];
-        Class<?>[] markerInterfaces;
-        MethodType[] bridges;
-        int argIndex = 4;
-        if ((flags & FLAG_MARKERS) != 0) {
-            int markerCount = (Integer) args[argIndex++];
-            markerInterfaces = new Class<?>[markerCount];
-            System.arraycopy(args, argIndex, markerInterfaces, 0, markerCount);
-            argIndex += markerCount;
+    publid stbtid CbllSitf bltMftbfbdtory(MftiodHbndlfs.Lookup dbllfr,
+                                          String invokfdNbmf,
+                                          MftiodTypf invokfdTypf,
+                                          Objfdt... brgs)
+            tirows LbmbdbConvfrsionExdfption {
+        MftiodTypf sbmMftiodTypf = (MftiodTypf)brgs[0];
+        MftiodHbndlf implMftiod = (MftiodHbndlf)brgs[1];
+        MftiodTypf instbntibtfdMftiodTypf = (MftiodTypf)brgs[2];
+        int flbgs = (Intfgfr) brgs[3];
+        Clbss<?>[] mbrkfrIntfrfbdfs;
+        MftiodTypf[] bridgfs;
+        int brgIndfx = 4;
+        if ((flbgs & FLAG_MARKERS) != 0) {
+            int mbrkfrCount = (Intfgfr) brgs[brgIndfx++];
+            mbrkfrIntfrfbdfs = nfw Clbss<?>[mbrkfrCount];
+            Systfm.brrbydopy(brgs, brgIndfx, mbrkfrIntfrfbdfs, 0, mbrkfrCount);
+            brgIndfx += mbrkfrCount;
         }
-        else
-            markerInterfaces = EMPTY_CLASS_ARRAY;
-        if ((flags & FLAG_BRIDGES) != 0) {
-            int bridgeCount = (Integer) args[argIndex++];
-            bridges = new MethodType[bridgeCount];
-            System.arraycopy(args, argIndex, bridges, 0, bridgeCount);
-            argIndex += bridgeCount;
+        flsf
+            mbrkfrIntfrfbdfs = EMPTY_CLASS_ARRAY;
+        if ((flbgs & FLAG_BRIDGES) != 0) {
+            int bridgfCount = (Intfgfr) brgs[brgIndfx++];
+            bridgfs = nfw MftiodTypf[bridgfCount];
+            Systfm.brrbydopy(brgs, brgIndfx, bridgfs, 0, bridgfCount);
+            brgIndfx += bridgfCount;
         }
-        else
-            bridges = EMPTY_MT_ARRAY;
+        flsf
+            bridgfs = EMPTY_MT_ARRAY;
 
-        boolean isSerializable = ((flags & FLAG_SERIALIZABLE) != 0);
-        if (isSerializable) {
-            boolean foundSerializableSupertype = Serializable.class.isAssignableFrom(invokedType.returnType());
-            for (Class<?> c : markerInterfaces)
-                foundSerializableSupertype |= Serializable.class.isAssignableFrom(c);
-            if (!foundSerializableSupertype) {
-                markerInterfaces = Arrays.copyOf(markerInterfaces, markerInterfaces.length + 1);
-                markerInterfaces[markerInterfaces.length-1] = Serializable.class;
+        boolfbn isSfriblizbblf = ((flbgs & FLAG_SERIALIZABLE) != 0);
+        if (isSfriblizbblf) {
+            boolfbn foundSfriblizbblfSupfrtypf = Sfriblizbblf.dlbss.isAssignbblfFrom(invokfdTypf.rfturnTypf());
+            for (Clbss<?> d : mbrkfrIntfrfbdfs)
+                foundSfriblizbblfSupfrtypf |= Sfriblizbblf.dlbss.isAssignbblfFrom(d);
+            if (!foundSfriblizbblfSupfrtypf) {
+                mbrkfrIntfrfbdfs = Arrbys.dopyOf(mbrkfrIntfrfbdfs, mbrkfrIntfrfbdfs.lfngti + 1);
+                mbrkfrIntfrfbdfs[mbrkfrIntfrfbdfs.lfngti-1] = Sfriblizbblf.dlbss;
             }
         }
 
-        AbstractValidatingLambdaMetafactory mf
-                = new InnerClassLambdaMetafactory(caller, invokedType,
-                                                  invokedName, samMethodType,
-                                                  implMethod,
-                                                  instantiatedMethodType,
-                                                  isSerializable,
-                                                  markerInterfaces, bridges);
-        mf.validateMetafactoryArgs();
-        return mf.buildCallSite();
+        AbstrbdtVblidbtingLbmbdbMftbfbdtory mf
+                = nfw InnfrClbssLbmbdbMftbfbdtory(dbllfr, invokfdTypf,
+                                                  invokfdNbmf, sbmMftiodTypf,
+                                                  implMftiod,
+                                                  instbntibtfdMftiodTypf,
+                                                  isSfriblizbblf,
+                                                  mbrkfrIntfrfbdfs, bridgfs);
+        mf.vblidbtfMftbfbdtoryArgs();
+        rfturn mf.buildCbllSitf();
     }
 }

@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.KrbException;
-import sun.security.krb5.Asn1Exception;
-import sun.security.util.*;
-import java.util.Vector;
-import java.util.ArrayList;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
-import java.io.IOException;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm;
 
 /**
- * Implements the ASN.1 HostAddresses type.
+ * Implfmfnts tif ASN.1 HostAddrfssfs typf.
  *
  * <xmp>
- * HostAddresses   -- NOTE: subtly different from rfc1510,
- *                 -- but has a value mapping and encodes the same
- *         ::= SEQUENCE OF HostAddress
+ * HostAddrfssfs   -- NOTE: subtly difffrfnt from rfd1510,
+ *                 -- but ibs b vbluf mbpping bnd fndodfs tif sbmf
+ *         ::= SEQUENCE OF HostAddrfss
  *
- * HostAddress     ::= SEQUENCE  {
- *         addr-type       [0] Int32,
- *         address         [1] OCTET STRING
+ * HostAddrfss     ::= SEQUENCE  {
+ *         bddr-typf       [0] Int32,
+ *         bddrfss         [1] OCTET STRING
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
 
-public class HostAddresses implements Cloneable {
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
-    private HostAddress[] addresses = null;
-    private volatile int hashCode = 0;
+publid dlbss HostAddrfssfs implfmfnts Clonfbblf {
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+    privbtf HostAddrfss[] bddrfssfs = null;
+    privbtf volbtilf int ibsiCodf = 0;
 
-    public HostAddresses(HostAddress[] new_addresses) throws IOException {
-        if (new_addresses != null) {
-           addresses = new HostAddress[new_addresses.length];
-           for (int i = 0; i < new_addresses.length; i++) {
-                if (new_addresses[i] == null) {
-                   throw new IOException("Cannot create a HostAddress");
-                } else {
-                   addresses[i] = (HostAddress)new_addresses[i].clone();
+    publid HostAddrfssfs(HostAddrfss[] nfw_bddrfssfs) tirows IOExdfption {
+        if (nfw_bddrfssfs != null) {
+           bddrfssfs = nfw HostAddrfss[nfw_bddrfssfs.lfngti];
+           for (int i = 0; i < nfw_bddrfssfs.lfngti; i++) {
+                if (nfw_bddrfssfs[i] == null) {
+                   tirow nfw IOExdfption("Cbnnot drfbtf b HostAddrfss");
+                } flsf {
+                   bddrfssfs[i] = (HostAddrfss)nfw_bddrfssfs[i].dlonf();
                 }
            }
         }
     }
 
-    public HostAddresses() throws UnknownHostException {
-        addresses = new HostAddress[1];
-        addresses[0] = new HostAddress();
+    publid HostAddrfssfs() tirows UnknownHostExdfption {
+        bddrfssfs = nfw HostAddrfss[1];
+        bddrfssfs[0] = nfw HostAddrfss();
     }
 
-    private HostAddresses(int dummy) {}
+    privbtf HostAddrfssfs(int dummy) {}
 
-    public HostAddresses(PrincipalName serverPrincipal)
-        throws UnknownHostException, KrbException {
+    publid HostAddrfssfs(PrindipblNbmf sfrvfrPrindipbl)
+        tirows UnknownHostExdfption, KrbExdfption {
 
-        String[] components = serverPrincipal.getNameStrings();
+        String[] domponfnts = sfrvfrPrindipbl.gftNbmfStrings();
 
-        if (serverPrincipal.getNameType() != PrincipalName.KRB_NT_SRV_HST ||
-            components.length < 2)
-            throw new KrbException(Krb5.KRB_ERR_GENERIC, "Bad name");
+        if (sfrvfrPrindipbl.gftNbmfTypf() != PrindipblNbmf.KRB_NT_SRV_HST ||
+            domponfnts.lfngti < 2)
+            tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC, "Bbd nbmf");
 
-        String host = components[1];
-        InetAddress addr[] = InetAddress.getAllByName(host);
-        HostAddress hAddrs[] = new HostAddress[addr.length];
+        String iost = domponfnts[1];
+        InftAddrfss bddr[] = InftAddrfss.gftAllByNbmf(iost);
+        HostAddrfss iAddrs[] = nfw HostAddrfss[bddr.lfngti];
 
-        for (int i = 0; i < addr.length; i++) {
-            hAddrs[i] = new HostAddress(addr[i]);
+        for (int i = 0; i < bddr.lfngti; i++) {
+            iAddrs[i] = nfw HostAddrfss(bddr[i]);
         }
 
-        addresses = hAddrs;
+        bddrfssfs = iAddrs;
     }
 
-    public Object clone() {
-        HostAddresses new_hostAddresses = new HostAddresses(0);
-        if (addresses != null) {
-            new_hostAddresses.addresses = new HostAddress[addresses.length];
-            for (int i = 0; i < addresses.length; i++) {
-                new_hostAddresses.addresses[i] =
-                        (HostAddress)addresses[i].clone();
+    publid Objfdt dlonf() {
+        HostAddrfssfs nfw_iostAddrfssfs = nfw HostAddrfssfs(0);
+        if (bddrfssfs != null) {
+            nfw_iostAddrfssfs.bddrfssfs = nfw HostAddrfss[bddrfssfs.lfngti];
+            for (int i = 0; i < bddrfssfs.lfngti; i++) {
+                nfw_iostAddrfssfs.bddrfssfs[i] =
+                        (HostAddrfss)bddrfssfs[i].dlonf();
             }
         }
-        return new_hostAddresses;
+        rfturn nfw_iostAddrfssfs;
     }
 
-    public boolean inList(HostAddress addr) {
-        if (addresses != null) {
-            for (int i = 0; i < addresses.length; i++)
-                if (addresses[i].equals(addr))
-                    return true;
+    publid boolfbn inList(HostAddrfss bddr) {
+        if (bddrfssfs != null) {
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                if (bddrfssfs[i].fqubls(bddr))
+                    rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public int hashCode() {
-        if (hashCode == 0) {
-            int result = 17;
-            if (addresses != null) {
-                for (int i=0; i < addresses.length; i++)  {
-                    result = 37*result + addresses[i].hashCode();
+    publid int ibsiCodf() {
+        if (ibsiCodf == 0) {
+            int rfsult = 17;
+            if (bddrfssfs != null) {
+                for (int i=0; i < bddrfssfs.lfngti; i++)  {
+                    rfsult = 37*rfsult + bddrfssfs[i].ibsiCodf();
                 }
             }
-            hashCode = result;
+            ibsiCodf = rfsult;
         }
-        return hashCode;
+        rfturn ibsiCodf;
 
     }
 
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        if (!(obj instanceof HostAddresses)) {
-            return false;
+        if (!(obj instbndfof HostAddrfssfs)) {
+            rfturn fblsf;
         }
 
-        HostAddresses addrs = (HostAddresses)obj;
-        if ((addresses == null && addrs.addresses != null) ||
-            (addresses != null && addrs.addresses == null))
-            return false;
-        if (addresses != null && addrs.addresses != null) {
-            if (addresses.length != addrs.addresses.length)
-                return false;
-            for (int i = 0; i < addresses.length; i++)
-                if (!addresses[i].equals(addrs.addresses[i]))
-                    return false;
+        HostAddrfssfs bddrs = (HostAddrfssfs)obj;
+        if ((bddrfssfs == null && bddrs.bddrfssfs != null) ||
+            (bddrfssfs != null && bddrs.bddrfssfs == null))
+            rfturn fblsf;
+        if (bddrfssfs != null && bddrs.bddrfssfs != null) {
+            if (bddrfssfs.lfngti != bddrs.bddrfssfs.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                if (!bddrfssfs[i].fqubls(bddrs.bddrfssfs[i]))
+                    rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
    /**
-    * Constructs a new <code>HostAddresses</code> object.
-    * @param encoding a single DER-encoded value.
-    * @exception Asn1Exception if an error occurs while decoding an
-    * ASN1 encoded data.
-    * @exception IOException if an I/O error occurs while reading
-    * encoded data.
+    * Construdts b nfw <dodf>HostAddrfssfs</dodf> objfdt.
+    * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+    * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+    * ASN1 fndodfd dbtb.
+    * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+    * fndodfd dbtb.
     */
-    public HostAddresses(DerValue encoding)
-        throws  Asn1Exception, IOException {
-        Vector<HostAddress> tempAddresses = new Vector<>();
-        DerValue der = null;
-        while (encoding.getData().available() > 0) {
-            der = encoding.getData().getDerValue();
-            tempAddresses.addElement(new HostAddress(der));
+    publid HostAddrfssfs(DfrVbluf fndoding)
+        tirows  Asn1Exdfption, IOExdfption {
+        Vfdtor<HostAddrfss> tfmpAddrfssfs = nfw Vfdtor<>();
+        DfrVbluf dfr = null;
+        wiilf (fndoding.gftDbtb().bvbilbblf() > 0) {
+            dfr = fndoding.gftDbtb().gftDfrVbluf();
+            tfmpAddrfssfs.bddElfmfnt(nfw HostAddrfss(dfr));
         }
-        if (tempAddresses.size() > 0) {
-            addresses = new HostAddress[tempAddresses.size()];
-            tempAddresses.copyInto(addresses);
+        if (tfmpAddrfssfs.sizf() > 0) {
+            bddrfssfs = nfw HostAddrfss[tfmpAddrfssfs.sizf()];
+            tfmpAddrfssfs.dopyInto(bddrfssfs);
         }
     }
 
 
    /**
-    * Encodes a <code>HostAddresses</code> object.
-    * @return byte array of encoded <code>HostAddresses</code> object.
-    * @exception Asn1Exception if an error occurs while decoding an
-    * ASN1 encoded data.
-    * @exception IOException if an I/O error occurs while reading
-    * encoded data.
+    * Endodfs b <dodf>HostAddrfssfs</dodf> objfdt.
+    * @rfturn bytf brrby of fndodfd <dodf>HostAddrfssfs</dodf> objfdt.
+    * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+    * ASN1 fndodfd dbtb.
+    * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+    * fndodfd dbtb.
     */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
 
-        if (addresses != null && addresses.length > 0) {
-            for (int i = 0; i < addresses.length; i++)
-                bytes.write(addresses[i].asn1Encode());
+        if (bddrfssfs != null && bddrfssfs.lfngti > 0) {
+            for (int i = 0; i < bddrfssfs.lfngti; i++)
+                bytfs.writf(bddrfssfs[i].bsn1Endodf());
         }
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
     /**
-     * Parse (unmarshal) a <code>HostAddresses</code> from a DER input stream.
-     * This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrsf (unmbrsibl) b <dodf>HostAddrfssfs</dodf> from b DER input strfbm.
+     * Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception if an Asn1Exception occurs.
-     * @param data the Der input stream value, which contains one or more
-     * marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional.
-     * @return an instance of <code>HostAddresses</code>.
+     * @fxdfption Asn1Exdfption if bn Asn1Exdfption oddurs.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or morf
+     * mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if tiis dbtb fifld is optionbl.
+     * @rfturn bn instbndf of <dodf>HostAddrfssfs</dodf>.
      */
-    public static HostAddresses parse(DerInputStream data,
-                                      byte explicitTag, boolean optional)
-        throws Asn1Exception, IOException {
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag))
-            return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        } else {
-            DerValue subDer = der.getData().getDerValue();
-            return new HostAddresses(subDer);
+    publid stbtid HostAddrfssfs pbrsf(DfrInputStrfbm dbtb,
+                                      bytf fxpliditTbg, boolfbn optionbl)
+        tirows Asn1Exdfption, IOExdfption {
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw HostAddrfssfs(subDfr);
         }
     }
 
     /**
-         * Writes data field values in <code>HostAddresses</code> in FCC
-         * format to a <code>CCacheOutputStream</code>.
+         * Writfs dbtb fifld vblufs in <dodf>HostAddrfssfs</dodf> in FCC
+         * formbt to b <dodf>CCbdifOutputStrfbm</dodf>.
          *
-         * @param cos a <code>CCacheOutputStream</code> to be written to.
-         * @exception IOException if an I/O exception occurs.
-         * @see sun.security.krb5.internal.ccache.CCacheOutputStream
+         * @pbrbm dos b <dodf>CCbdifOutputStrfbm</dodf> to bf writtfn to.
+         * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+         * @sff sun.sfdurity.krb5.intfrnbl.ddbdif.CCbdifOutputStrfbm
          */
 
-    public void writeAddrs(CCacheOutputStream cos) throws IOException {
-        cos.write32(addresses.length);
-        for (int i = 0; i < addresses.length; i++) {
-            cos.write16(addresses[i].addrType);
-            cos.write32(addresses[i].address.length);
-            cos.write(addresses[i].address, 0,
-                      addresses[i].address.length);
+    publid void writfAddrs(CCbdifOutputStrfbm dos) tirows IOExdfption {
+        dos.writf32(bddrfssfs.lfngti);
+        for (int i = 0; i < bddrfssfs.lfngti; i++) {
+            dos.writf16(bddrfssfs[i].bddrTypf);
+            dos.writf32(bddrfssfs[i].bddrfss.lfngti);
+            dos.writf(bddrfssfs[i].bddrfss, 0,
+                      bddrfssfs[i].bddrfss.lfngti);
         }
     }
 
 
-    public InetAddress[] getInetAddresses() {
+    publid InftAddrfss[] gftInftAddrfssfs() {
 
-        if (addresses == null || addresses.length == 0)
-            return null;
+        if (bddrfssfs == null || bddrfssfs.lfngti == 0)
+            rfturn null;
 
-        ArrayList<InetAddress> ipAddrs = new ArrayList<>(addresses.length);
+        ArrbyList<InftAddrfss> ipAddrs = nfw ArrbyList<>(bddrfssfs.lfngti);
 
-        for (int i = 0; i < addresses.length; i++) {
+        for (int i = 0; i < bddrfssfs.lfngti; i++) {
             try {
-                if ((addresses[i].addrType == Krb5.ADDRTYPE_INET) ||
-                    (addresses[i].addrType == Krb5.ADDRTYPE_INET6)) {
-                    ipAddrs.add(addresses[i].getInetAddress());
+                if ((bddrfssfs[i].bddrTypf == Krb5.ADDRTYPE_INET) ||
+                    (bddrfssfs[i].bddrTypf == Krb5.ADDRTYPE_INET6)) {
+                    ipAddrs.bdd(bddrfssfs[i].gftInftAddrfss());
                 }
-            } catch (java.net.UnknownHostException e) {
-                // Should not happen since IP address given
-                return null;
+            } dbtdi (jbvb.nft.UnknownHostExdfption f) {
+                // Siould not ibppfn sindf IP bddrfss givfn
+                rfturn null;
             }
         }
 
-        InetAddress[] retVal = new InetAddress[ipAddrs.size()];
-        return ipAddrs.toArray(retVal);
+        InftAddrfss[] rftVbl = nfw InftAddrfss[ipAddrs.sizf()];
+        rfturn ipAddrs.toArrby(rftVbl);
 
     }
 
     /**
-     * Returns all the IP addresses of the local host.
+     * Rfturns bll tif IP bddrfssfs of tif lodbl iost.
      */
-    public static HostAddresses getLocalAddresses() throws IOException
+    publid stbtid HostAddrfssfs gftLodblAddrfssfs() tirows IOExdfption
     {
-        String hostname = null;
-        InetAddress[] inetAddresses = null;
+        String iostnbmf = null;
+        InftAddrfss[] inftAddrfssfs = null;
         try {
-            InetAddress localHost = InetAddress.getLocalHost();
-            hostname = localHost.getHostName();
-            inetAddresses = InetAddress.getAllByName(hostname);
-            HostAddress[] hAddresses = new HostAddress[inetAddresses.length];
-            for (int i = 0; i < inetAddresses.length; i++)
+            InftAddrfss lodblHost = InftAddrfss.gftLodblHost();
+            iostnbmf = lodblHost.gftHostNbmf();
+            inftAddrfssfs = InftAddrfss.gftAllByNbmf(iostnbmf);
+            HostAddrfss[] iAddrfssfs = nfw HostAddrfss[inftAddrfssfs.lfngti];
+            for (int i = 0; i < inftAddrfssfs.lfngti; i++)
                 {
-                    hAddresses[i] = new HostAddress(inetAddresses[i]);
+                    iAddrfssfs[i] = nfw HostAddrfss(inftAddrfssfs[i]);
                 }
             if (DEBUG) {
-                System.out.println(">>> KrbKdcReq local addresses for "
-                                   + hostname + " are: ");
+                Systfm.out.println(">>> KrbKddRfq lodbl bddrfssfs for "
+                                   + iostnbmf + " brf: ");
 
-                for (int i = 0; i < inetAddresses.length; i++) {
-                    System.out.println("\n\t" + inetAddresses[i]);
-                    if (inetAddresses[i] instanceof Inet4Address)
-                        System.out.println("IPv4 address");
-                    if (inetAddresses[i] instanceof Inet6Address)
-                        System.out.println("IPv6 address");
+                for (int i = 0; i < inftAddrfssfs.lfngti; i++) {
+                    Systfm.out.println("\n\t" + inftAddrfssfs[i]);
+                    if (inftAddrfssfs[i] instbndfof Inft4Addrfss)
+                        Systfm.out.println("IPv4 bddrfss");
+                    if (inftAddrfssfs[i] instbndfof Inft6Addrfss)
+                        Systfm.out.println("IPv6 bddrfss");
                 }
             }
-            return (new HostAddresses(hAddresses));
-        } catch (Exception exc) {
-            throw new IOException(exc.toString());
+            rfturn (nfw HostAddrfssfs(iAddrfssfs));
+        } dbtdi (Exdfption fxd) {
+            tirow nfw IOExdfption(fxd.toString());
         }
 
     }
 
     /**
-     * Creates a new HostAddresses instance from the supplied list
-     * of InetAddresses.
+     * Crfbtfs b nfw HostAddrfssfs instbndf from tif supplifd list
+     * of InftAddrfssfs.
      */
-    public HostAddresses(InetAddress[] inetAddresses)
+    publid HostAddrfssfs(InftAddrfss[] inftAddrfssfs)
     {
-        if (inetAddresses == null)
+        if (inftAddrfssfs == null)
             {
-                addresses = null;
-                return;
+                bddrfssfs = null;
+                rfturn;
             }
 
-        addresses = new HostAddress[inetAddresses.length];
-        for (int i = 0; i < inetAddresses.length; i++)
-            addresses[i] = new HostAddress(inetAddresses[i]);
+        bddrfssfs = nfw HostAddrfss[inftAddrfssfs.lfngti];
+        for (int i = 0; i < inftAddrfssfs.lfngti; i++)
+            bddrfssfs[i] = nfw HostAddrfss(inftAddrfssfs[i]);
     }
 }

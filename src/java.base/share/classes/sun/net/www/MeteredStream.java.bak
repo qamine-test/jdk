@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
+pbdkbgf sun.nft.www;
 
-import java.net.URL;
-import java.util.*;
-import java.io.*;
-import sun.net.ProgressSource;
-import sun.net.www.http.ChunkedInputStream;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.io.*;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.www.ittp.CiunkfdInputStrfbm;
 
 
-public class MeteredStream extends FilterInputStream {
+publid dlbss MftfrfdStrfbm fxtfnds FiltfrInputStrfbm {
 
-    // Instance variables.
-    /* if expected != -1, after we've read >= expected, we're "closed" and return -1
-     * from subsequest read() 's
+    // Instbndf vbribblfs.
+    /* if fxpfdtfd != -1, bftfr wf'vf rfbd >= fxpfdtfd, wf'rf "dlosfd" bnd rfturn -1
+     * from subsfqufst rfbd() 's
      */
-    protected boolean closed = false;
-    protected long expected;
-    protected long count = 0;
-    protected long markedCount = 0;
-    protected int markLimit = -1;
-    protected ProgressSource pi;
+    protfdtfd boolfbn dlosfd = fblsf;
+    protfdtfd long fxpfdtfd;
+    protfdtfd long dount = 0;
+    protfdtfd long mbrkfdCount = 0;
+    protfdtfd int mbrkLimit = -1;
+    protfdtfd ProgrfssSourdf pi;
 
-    public MeteredStream(InputStream is, ProgressSource pi, long expected)
+    publid MftfrfdStrfbm(InputStrfbm is, ProgrfssSourdf pi, long fxpfdtfd)
     {
-        super(is);
+        supfr(is);
 
-        this.pi = pi;
-        this.expected = expected;
+        tiis.pi = pi;
+        tiis.fxpfdtfd = fxpfdtfd;
 
         if (pi != null) {
-            pi.updateProgress(0, expected);
+            pi.updbtfProgrfss(0, fxpfdtfd);
         }
     }
 
-    private final void justRead(long n) throws IOException   {
+    privbtf finbl void justRfbd(long n) tirows IOExdfption   {
         if (n == -1) {
 
             /*
-             * don't close automatically when mark is set and is valid;
-             * cannot reset() after close()
+             * don't dlosf butombtidblly wifn mbrk is sft bnd is vblid;
+             * dbnnot rfsft() bftfr dlosf()
              */
-            if (!isMarked()) {
-                close();
+            if (!isMbrkfd()) {
+                dlosf();
             }
-            return;
+            rfturn;
         }
 
-        count += n;
+        dount += n;
 
         /**
-         * If read beyond the markLimit, invalidate the mark
+         * If rfbd bfyond tif mbrkLimit, invblidbtf tif mbrk
          */
-        if (count - markedCount > markLimit) {
-            markLimit = -1;
+        if (dount - mbrkfdCount > mbrkLimit) {
+            mbrkLimit = -1;
         }
 
         if (pi != null)
-            pi.updateProgress(count, expected);
+            pi.updbtfProgrfss(dount, fxpfdtfd);
 
-        if (isMarked()) {
-            return;
+        if (isMbrkfd()) {
+            rfturn;
         }
 
-        // if expected length is known, we could determine if
-        // read overrun.
-        if (expected > 0)   {
-            if (count >= expected) {
-                close();
+        // if fxpfdtfd lfngti is known, wf dould dftfrminf if
+        // rfbd ovfrrun.
+        if (fxpfdtfd > 0)   {
+            if (dount >= fxpfdtfd) {
+                dlosf();
             }
         }
     }
 
     /**
-     * Returns true if the mark is valid, false otherwise
+     * Rfturns truf if tif mbrk is vblid, fblsf otifrwisf
      */
-    private boolean isMarked() {
+    privbtf boolfbn isMbrkfd() {
 
-        if (markLimit < 0) {
-            return false;
+        if (mbrkLimit < 0) {
+            rfturn fblsf;
         }
 
-        // mark is set, but is not valid anymore
-        if (count - markedCount > markLimit) {
-           return false;
+        // mbrk is sft, but is not vblid bnymorf
+        if (dount - mbrkfdCount > mbrkLimit) {
+           rfturn fblsf;
         }
 
-        // mark still holds
-        return true;
+        // mbrk still iolds
+        rfturn truf;
     }
 
-    public synchronized int read() throws java.io.IOException {
-        if (closed) {
-            return -1;
+    publid syndironizfd int rfbd() tirows jbvb.io.IOExdfption {
+        if (dlosfd) {
+            rfturn -1;
         }
-        int c = in.read();
-        if (c != -1) {
-            justRead(1);
-        } else {
-            justRead(c);
+        int d = in.rfbd();
+        if (d != -1) {
+            justRfbd(1);
+        } flsf {
+            justRfbd(d);
         }
-        return c;
+        rfturn d;
     }
 
-    public synchronized int read(byte b[], int off, int len)
-                throws java.io.IOException {
-        if (closed) {
-            return -1;
+    publid syndironizfd int rfbd(bytf b[], int off, int lfn)
+                tirows jbvb.io.IOExdfption {
+        if (dlosfd) {
+            rfturn -1;
         }
-        int n = in.read(b, off, len);
-        justRead(n);
-        return n;
+        int n = in.rfbd(b, off, lfn);
+        justRfbd(n);
+        rfturn n;
     }
 
-    public synchronized long skip(long n) throws IOException {
+    publid syndironizfd long skip(long n) tirows IOExdfption {
 
-        // REMIND: what does skip do on EOF????
-        if (closed) {
-            return 0;
+        // REMIND: wibt dofs skip do on EOF????
+        if (dlosfd) {
+            rfturn 0;
         }
 
-        if (in instanceof ChunkedInputStream) {
+        if (in instbndfof CiunkfdInputStrfbm) {
             n = in.skip(n);
         }
-        else {
-            // just skip min(n, num_bytes_left)
-            long min = (n > expected - count) ? expected - count: n;
+        flsf {
+            // just skip min(n, num_bytfs_lfft)
+            long min = (n > fxpfdtfd - dount) ? fxpfdtfd - dount: n;
             n = in.skip(min);
         }
-        justRead(n);
-        return n;
+        justRfbd(n);
+        rfturn n;
     }
 
-    public void close() throws IOException {
-        if (closed) {
-            return;
+    publid void dlosf() tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
         if (pi != null)
-            pi.finishTracking();
+            pi.finisiTrbdking();
 
-        closed = true;
-        in.close();
+        dlosfd = truf;
+        in.dlosf();
     }
 
-    public synchronized int available() throws IOException {
-        return closed ? 0: in.available();
+    publid syndironizfd int bvbilbblf() tirows IOExdfption {
+        rfturn dlosfd ? 0: in.bvbilbblf();
     }
 
-    public synchronized void mark(int readLimit) {
-        if (closed) {
-            return;
+    publid syndironizfd void mbrk(int rfbdLimit) {
+        if (dlosfd) {
+            rfturn;
         }
-        super.mark(readLimit);
+        supfr.mbrk(rfbdLimit);
 
         /*
-         * mark the count to restore upon reset
+         * mbrk tif dount to rfstorf upon rfsft
          */
-        markedCount = count;
-        markLimit = readLimit;
+        mbrkfdCount = dount;
+        mbrkLimit = rfbdLimit;
     }
 
-    public synchronized void reset() throws IOException {
-        if (closed) {
-            return;
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
 
-        if (!isMarked()) {
-            throw new IOException ("Resetting to an invalid mark");
+        if (!isMbrkfd()) {
+            tirow nfw IOExdfption ("Rfsftting to bn invblid mbrk");
         }
 
-        count = markedCount;
-        super.reset();
+        dount = mbrkfdCount;
+        supfr.rfsft();
     }
 
-    public boolean markSupported() {
-        if (closed) {
-            return false;
+    publid boolfbn mbrkSupportfd() {
+        if (dlosfd) {
+            rfturn fblsf;
         }
-        return super.markSupported();
+        rfturn supfr.mbrkSupportfd();
     }
 
-    protected void finalize() throws Throwable {
+    protfdtfd void finblizf() tirows Tirowbblf {
         try {
-            close();
+            dlosf();
             if (pi != null)
-                pi.close();
+                pi.dlosf();
         }
-        finally {
-            // Call super class
-            super.finalize();
+        finblly {
+            // Cbll supfr dlbss
+            supfr.finblizf();
         }
     }
 }

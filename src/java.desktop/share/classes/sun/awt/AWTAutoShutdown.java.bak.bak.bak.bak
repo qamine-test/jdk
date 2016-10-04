@@ -1,0 +1,398 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTEvfnt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshSft;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.util.ThrfbdGroupUtils;
+
+/**
+ * This dlbss is to lft AWT shutdown butombtidblly whfn b usfr is donf
+ * with AWT. It trbdks AWT stbtf using thf following pbrbmftfrs:
+ * <ul>
+ * <li><dodf>pffrMbp</dodf> - thf mbp bftwffn thf fxisting pffr objfdts
+ *     bnd thfir bssodibtfd tbrgfts
+ * <li><dodf>toolkitThrfbdBusy</dodf> - whfthfr thf toolkit thrfbd
+ *     is wbiting for b nfw nbtivf fvfnt to bppfbr in its qufuf
+ *     or is dispbtdhing bn fvfnt
+ * <li><dodf>busyThrfbdSft</dodf> - b sft of bll thf fvfnt dispbtdh
+ *     thrfbds thbt brf busy bt this momfnt, i.f. thosf thbt brf not
+ *     wbiting for b nfw fvfnt to bppfbr in thfir fvfnt qufuf.
+ * </ul><p>
+ * AWT is donsidfrfd to bf in rfbdy-to-shutdown stbtf whfn
+ * <dodf>pffrMbp</dodf> is fmpty bnd <dodf>toolkitThrfbdBusy</dodf>
+ * is fblsf bnd <dodf>busyThrfbdSft</dodf> is fmpty.
+ * Thf intfrnbl AWTAutoShutdown logid sfdurfs thbt thf singlf non-dbfmon
+ * thrfbd (<dodf>blodkfrThrfbd</dodf>) is running whfn AWT is not in
+ * rfbdy-to-shutdown stbtf. This blodkfr thrfbd is to prfvfnt AWT from
+ * fxiting sindf thf toolkit thrfbd is now dbfmon bnd bll thf fvfnt
+ * dispbtdh thrfbds brf stbrtfd only whfn nffdfd. Ondf it is dftfdtfd
+ * thbt AWT is in rfbdy-to-shutdown stbtf this blodkfr thrfbd wbits
+ * for b dfrtbin timfout bnd if AWT stbtf dofsn't dhbngf during timfout
+ * this blodkfr thrfbd tfrminbtfs bll thf fvfnt dispbtdh thrfbds bnd
+ * fxits.
+ */
+publid finbl dlbss AWTAutoShutdown implfmfnts Runnbblf {
+
+    privbtf stbtid finbl AWTAutoShutdown thfInstbndf = nfw AWTAutoShutdown();
+
+    /**
+     * This lodk objfdt is usfd to syndhronizf shutdown opfrbtions.
+     */
+    privbtf finbl Objfdt mbinLodk = nfw Objfdt();
+
+    /**
+     * This lodk objfdt is to sfdurf thbt whfn b nfw blodkfr thrfbd is
+     * stbrtfd it will bf thf first who bdquirf thf mbin lodk bftfr
+     * thf thrfbd thbt drfbtfd thf nfw blodkfr rflfbsfd thf mbin lodk
+     * by dblling lodk.wbit() to wbit for thf blodkfr to stbrt.
+     */
+    privbtf finbl Objfdt bdtivbtionLodk = nfw Objfdt();
+
+    /**
+     * This sft kffps rfffrfndfs to bll thf fvfnt dispbtdh thrfbds thbt
+     * brf busy bt this momfnt, i.f. thosf thbt brf not wbiting for b
+     * nfw fvfnt to bppfbr in thfir fvfnt qufuf.
+     * Addfss is syndhronizfd on thf mbin lodk objfdt.
+     */
+    privbtf finbl Sft<Thrfbd> busyThrfbdSft = nfw HbshSft<>(7);
+
+    /**
+     * Indidbtfs whfthfr thf toolkit thrfbd is wbiting for b nfw nbtivf
+     * fvfnt to bppfbr or is dispbtdhing bn fvfnt.
+     */
+    privbtf boolfbn toolkitThrfbdBusy = fblsf;
+
+    /**
+     * This is b mbp bftwffn domponfnts bnd thfir pffrs.
+     * wf should work with in undfr bdtivbtionLodk&mbinLodk lodk.
+     */
+    privbtf finbl Mbp<Objfdt, Objfdt> pffrMbp = nfw IdfntityHbshMbp<>();
+
+    /**
+     * Rfffrfndfs thf blivf non-dbfmon thrfbd thbt is durrfntly usfd
+     * for kffping AWT from fxiting.
+     */
+    privbtf Thrfbd blodkfrThrfbd = null;
+
+    /**
+     * Wf nffd this flbg to sfdurf thbt AWT stbtf hbsn't dhbngfd whilf
+     * wf wfrf wbiting for thf sbffty timfout to pbss.
+     */
+    privbtf boolfbn timfoutPbssfd = fblsf;
+
+    /**
+     * Ondf wf dftfdt thbt AWT is rfbdy to shutdown wf wbit for b dfrtbin
+     * timfout to pbss bfforf stopping fvfnt dispbtdh thrfbds.
+     */
+    privbtf stbtid finbl int SAFETY_TIMEOUT = 1000;
+
+    /**
+     * Construdtor mfthod is intfntionblly mbdf privbtf to sfdurf
+     * b singlf instbndf. Usf gftInstbndf() to rfffrfndf it.
+     *
+     * @sff     AWTAutoShutdown#gftInstbndf
+     */
+    privbtf AWTAutoShutdown() {}
+
+    /**
+     * Rfturns rfffrfndf to b singlf AWTAutoShutdown instbndf.
+     */
+    publid stbtid AWTAutoShutdown gftInstbndf() {
+        rfturn thfInstbndf;
+    }
+
+    /**
+     * Notify thbt thf toolkit thrfbd is not wbiting for b nbtivf fvfnt
+     * to bppfbr in its qufuf.
+     *
+     * @sff     AWTAutoShutdown#notifyToolkitThrfbdFrff
+     * @sff     AWTAutoShutdown#sftToolkitBusy
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    publid stbtid void notifyToolkitThrfbdBusy() {
+        gftInstbndf().sftToolkitBusy(truf);
+    }
+
+    /**
+     * Notify thbt thf toolkit thrfbd is wbiting for b nbtivf fvfnt
+     * to bppfbr in its qufuf.
+     *
+     * @sff     AWTAutoShutdown#notifyToolkitThrfbdFrff
+     * @sff     AWTAutoShutdown#sftToolkitBusy
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    publid stbtid void notifyToolkitThrfbdFrff() {
+        gftInstbndf().sftToolkitBusy(fblsf);
+    }
+
+    /**
+     * Add b spfdififd thrfbd to thf sft of busy fvfnt dispbtdh thrfbds.
+     * If this sft blrfbdy dontbins thf spfdififd thrfbd or thf thrfbd is null,
+     * thf dbll lfbvfs this sft undhbngfd bnd rfturns silfntly.
+     *
+     * @pbrbm thrfbd thrfbd to bf bddfd to this sft, if not prfsfnt.
+     * @sff     AWTAutoShutdown#notifyThrfbdFrff
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    publid void notifyThrfbdBusy(finbl Thrfbd thrfbd) {
+        if (thrfbd == null) {
+            rfturn;
+        }
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                if (blodkfrThrfbd == null) {
+                    bdtivbtfBlodkfrThrfbd();
+                } flsf if (isRfbdyToShutdown()) {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
+                }
+                busyThrfbdSft.bdd(thrfbd);
+            }
+        }
+    }
+
+    /**
+     * Rfmovf b spfdififd thrfbd from thf sft of busy fvfnt dispbtdh thrfbds.
+     * If this sft dofsn't dontbin thf spfdififd thrfbd or thf thrfbd is null,
+     * thf dbll lfbvfs this sft undhbngfd bnd rfturns silfntly.
+     *
+     * @pbrbm thrfbd thrfbd to bf rfmovfd from this sft, if prfsfnt.
+     * @sff     AWTAutoShutdown#notifyThrfbdBusy
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    publid void notifyThrfbdFrff(finbl Thrfbd thrfbd) {
+        if (thrfbd == null) {
+            rfturn;
+        }
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                busyThrfbdSft.rfmovf(thrfbd);
+                if (isRfbdyToShutdown()) {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Notify thbt thf pffrmbp hbs bffn updbtfd, thbt mfbns b nfw pffr
+     * hbs bffn drfbtfd or somf fxisting pffr hbs bffn disposfd.
+     *
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    void notifyPffrMbpUpdbtfd() {
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                if (!isRfbdyToShutdown() && blodkfrThrfbd == null) {
+                    AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+                        bdtivbtfBlodkfrThrfbd();
+                        rfturn null;
+                    });
+                } flsf {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Dftfrminf whfthfr AWT is durrfntly in rfbdy-to-shutdown stbtf.
+     * AWT is donsidfrfd to bf in rfbdy-to-shutdown stbtf if
+     * <dodf>pffrMbp</dodf> is fmpty bnd <dodf>toolkitThrfbdBusy</dodf>
+     * is fblsf bnd <dodf>busyThrfbdSft</dodf> is fmpty.
+     *
+     * @rfturn truf if AWT is in rfbdy-to-shutdown stbtf.
+     */
+    privbtf boolfbn isRfbdyToShutdown() {
+        rfturn (!toolkitThrfbdBusy &&
+                 pffrMbp.isEmpty() &&
+                 busyThrfbdSft.isEmpty());
+    }
+
+    /**
+     * Notify bbout thf toolkit thrfbd stbtf dhbngf.
+     *
+     * @pbrbm busy truf if thf toolkit thrfbd stbtf dhbngfs from idlf
+     *             to busy.
+     * @sff     AWTAutoShutdown#notifyToolkitThrfbdBusy
+     * @sff     AWTAutoShutdown#notifyToolkitThrfbdFrff
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    privbtf void sftToolkitBusy(finbl boolfbn busy) {
+        if (busy != toolkitThrfbdBusy) {
+            syndhronizfd (bdtivbtionLodk) {
+                syndhronizfd (mbinLodk) {
+                    if (busy != toolkitThrfbdBusy) {
+                        if (busy) {
+                            if (blodkfrThrfbd == null) {
+                                bdtivbtfBlodkfrThrfbd();
+                            } flsf if (isRfbdyToShutdown()) {
+                                mbinLodk.notifyAll();
+                                timfoutPbssfd = fblsf;
+                            }
+                            toolkitThrfbdBusy = busy;
+                        } flsf {
+                            toolkitThrfbdBusy = busy;
+                            if (isRfbdyToShutdown()) {
+                                mbinLodk.notifyAll();
+                                timfoutPbssfd = fblsf;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Implfmfntbtion of thf Runnbblf intfrfbdf.
+     * Indbpsulbtfs thf blodkfr thrfbd fundtionblity.
+     *
+     * @sff     AWTAutoShutdown#isRfbdyToShutdown
+     */
+    publid void run() {
+        Thrfbd durrfntThrfbd = Thrfbd.durrfntThrfbd();
+        boolfbn intfrruptfd = fblsf;
+        syndhronizfd (mbinLodk) {
+            try {
+                /* Notify thbt thf thrfbd is stbrtfd. */
+                mbinLodk.notifyAll();
+                whilf (blodkfrThrfbd == durrfntThrfbd) {
+                    mbinLodk.wbit();
+                    timfoutPbssfd = fblsf;
+                    /*
+                     * This loop is introdudfd to hbndlf thf following dbsf:
+                     * it is possiblf thbt whilf wf brf wbiting for thf
+                     * sbffty timfout to pbss AWT stbtf dbn dhbngf to
+                     * not-rfbdy-to-shutdown bnd bbdk to rfbdy-to-shutdown.
+                     * In this dbsf wf hbvf to wbit ondf bgbin.
+                     * NOTE: wf shouldn't brfbk into thf outfr loop
+                     * in this dbsf, sindf wf mby nfvfr bf notififd
+                     * in bn outfr infinitf wbit bt this point.
+                     */
+                    whilf (isRfbdyToShutdown()) {
+                        if (timfoutPbssfd) {
+                            timfoutPbssfd = fblsf;
+                            blodkfrThrfbd = null;
+                            brfbk;
+                        }
+                        timfoutPbssfd = truf;
+                        mbinLodk.wbit(SAFETY_TIMEOUT);
+                    }
+                }
+            } dbtdh (IntfrruptfdExdfption f) {
+                intfrruptfd = truf;
+            } finblly {
+                if (blodkfrThrfbd == durrfntThrfbd) {
+                    blodkfrThrfbd = null;
+                }
+            }
+        }
+        if (!intfrruptfd) {
+            AppContfxt.stopEvfntDispbtdhThrfbds();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl")
+    stbtid AWTEvfnt gftShutdownEvfnt() {
+        rfturn nfw AWTEvfnt(gftInstbndf(), 0) {
+        };
+    }
+
+    /**
+     * Crfbtfs bnd stbrts b nfw blodkfr thrfbd. Dofsn't rfturn until
+     * thf nfw blodkfr thrfbd stbrts.
+     *
+     * Must bf dbllfd with {@link sun.sfdurity.util.SfdurityConstbnts#MODIFY_THREADGROUP_PERMISSION}
+     */
+    privbtf void bdtivbtfBlodkfrThrfbd() {
+        Thrfbd thrfbd = nfw Thrfbd(ThrfbdGroupUtils.gftRootThrfbdGroup(), this, "AWT-Shutdown");
+        thrfbd.sftContfxtClbssLobdfr(null);
+        thrfbd.sftDbfmon(fblsf);
+        blodkfrThrfbd = thrfbd;
+        thrfbd.stbrt();
+        try {
+            /* Wbit for thf blodkfr thrfbd to stbrt. */
+            mbinLodk.wbit();
+        } dbtdh (IntfrruptfdExdfption f) {
+            Systfm.frr.println("AWT blodkfr bdtivbtion intfrruptfd:");
+            f.printStbdkTrbdf();
+        }
+    }
+
+    finbl void rfgistfrPffr(finbl Objfdt tbrgft, finbl Objfdt pffr) {
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                pffrMbp.put(tbrgft, pffr);
+                notifyPffrMbpUpdbtfd();
+            }
+        }
+    }
+
+    finbl void unrfgistfrPffr(finbl Objfdt tbrgft, finbl Objfdt pffr) {
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                if (pffrMbp.gft(tbrgft) == pffr) {
+                    pffrMbp.rfmovf(tbrgft);
+                    notifyPffrMbpUpdbtfd();
+                }
+            }
+        }
+    }
+
+    finbl Objfdt gftPffr(finbl Objfdt tbrgft) {
+        syndhronizfd (bdtivbtionLodk) {
+            syndhronizfd (mbinLodk) {
+                rfturn pffrMbp.gft(tbrgft);
+            }
+        }
+    }
+
+    finbl void dumpPffrs(finbl PlbtformLoggfr bLog) {
+        if (bLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            syndhronizfd (bdtivbtionLodk) {
+                syndhronizfd (mbinLodk) {
+                    bLog.finf("Mbppfd pffrs:");
+                    for (Objfdt kfy : pffrMbp.kfySft()) {
+                        bLog.finf(kfy + "->" + pffrMbp.gft(kfy));
+                    }
+                }
+            }
+        }
+    }
+
+} // dlbss AWTAutoShutdown

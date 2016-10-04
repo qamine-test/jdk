@@ -1,448 +1,448 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.*;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvbx.nbming.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
-import org.omg.CosNaming.NameComponent;
+import org.omg.CosNbming.NbmfComponfnt;
 
 /**
-  * Parsing routines for NameParser as well as COS Naming stringified names.
-  * This is used by CNCtx to create a NameComponent[] object and vice versa.
-  * It follows Section 4.5 of Interoperable Naming Service (INS) 98-10-11.
-  * In summary, the stringified form is a left-to-right, forward-slash
-  * separated name. id and kinds are separated by '.'. backslash is the
-  * escape character.
+  * Pbrsing routinfs for NbmfPbrsfr bs wfll bs COS Nbming stringififd nbmfs.
+  * Tiis is usfd by CNCtx to drfbtf b NbmfComponfnt[] objfdt bnd vidf vfrsb.
+  * It follows Sfdtion 4.5 of Intfropfrbblf Nbming Sfrvidf (INS) 98-10-11.
+  * In summbry, tif stringififd form is b lfft-to-rigit, forwbrd-slbsi
+  * sfpbrbtfd nbmf. id bnd kinds brf sfpbrbtfd by '.'. bbdkslbsi is tif
+  * fsdbpf dibrbdtfr.
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
 
-final public class CNNameParser implements NameParser {
+finbl publid dlbss CNNbmfPbrsfr implfmfnts NbmfPbrsfr {
 
-    private static final Properties mySyntax = new Properties();
-    private static final char kindSeparator = '.';
-    private static final char compSeparator = '/';
-    private static final char escapeChar = '\\';
-    static {
-        mySyntax.put("jndi.syntax.direction", "left_to_right");
-        mySyntax.put("jndi.syntax.separator", ""+compSeparator);
-        mySyntax.put("jndi.syntax.escape", ""+escapeChar);
+    privbtf stbtid finbl Propfrtifs mySyntbx = nfw Propfrtifs();
+    privbtf stbtid finbl dibr kindSfpbrbtor = '.';
+    privbtf stbtid finbl dibr dompSfpbrbtor = '/';
+    privbtf stbtid finbl dibr fsdbpfCibr = '\\';
+    stbtid {
+        mySyntbx.put("jndi.syntbx.dirfdtion", "lfft_to_rigit");
+        mySyntbx.put("jndi.syntbx.sfpbrbtor", ""+dompSfpbrbtor);
+        mySyntbx.put("jndi.syntbx.fsdbpf", ""+fsdbpfCibr);
     };
 
   /**
-    * Constructs a new name parser for parsing names in INS syntax.
+    * Construdts b nfw nbmf pbrsfr for pbrsing nbmfs in INS syntbx.
     */
-    public CNNameParser() {
+    publid CNNbmfPbrsfr() {
     }
 
   /**
-    * Returns a CompoundName given a string in INS syntax.
-    * @param name The non-null string representation of the name.
-    * @return a non-null CompoundName
+    * Rfturns b CompoundNbmf givfn b string in INS syntbx.
+    * @pbrbm nbmf Tif non-null string rfprfsfntbtion of tif nbmf.
+    * @rfturn b non-null CompoundNbmf
     */
-    public Name parse(String name) throws NamingException {
-        Vector<String> comps = insStringToStringifiedComps(name);
-        return new CNCompoundName(comps.elements());
+    publid Nbmf pbrsf(String nbmf) tirows NbmingExdfption {
+        Vfdtor<String> domps = insStringToStringififdComps(nbmf);
+        rfturn nfw CNCompoundNbmf(domps.flfmfnts());
     }
 
     /**
-     * Creates a NameComponent[] from a Name structure.
-     * Used by CNCtx to convert the input Name arg into a NameComponent[].
-     * @param a CompoundName or a CompositeName;
-     * each component must be the stringified form of a NameComponent.
+     * Crfbtfs b NbmfComponfnt[] from b Nbmf strudturf.
+     * Usfd by CNCtx to donvfrt tif input Nbmf brg into b NbmfComponfnt[].
+     * @pbrbm b CompoundNbmf or b CompositfNbmf;
+     * fbdi domponfnt must bf tif stringififd form of b NbmfComponfnt.
      */
-    static NameComponent[] nameToCosName(Name name)
-        throws InvalidNameException {
-            int len = name.size();
-            if (len == 0) {
-                return new NameComponent[0];
+    stbtid NbmfComponfnt[] nbmfToCosNbmf(Nbmf nbmf)
+        tirows InvblidNbmfExdfption {
+            int lfn = nbmf.sizf();
+            if (lfn == 0) {
+                rfturn nfw NbmfComponfnt[0];
             }
 
-            NameComponent[] answer = new NameComponent[len];
-            for (int i = 0; i < len; i++) {
-                answer[i] = parseComponent(name.get(i));
+            NbmfComponfnt[] bnswfr = nfw NbmfComponfnt[lfn];
+            for (int i = 0; i < lfn; i++) {
+                bnswfr[i] = pbrsfComponfnt(nbmf.gft(i));
             }
-            return answer;
+            rfturn bnswfr;
     }
 
     /**
-     * Returns the INS stringified form of a NameComponent[].
-     * Used by CNCtx.getNameInNamespace(), CNCompoundName.toString().
+     * Rfturns tif INS stringififd form of b NbmfComponfnt[].
+     * Usfd by CNCtx.gftNbmfInNbmfspbdf(), CNCompoundNbmf.toString().
      */
-    static String cosNameToInsString(NameComponent[] cname) {
-      StringBuilder str = new StringBuilder();
-      for ( int i = 0; i < cname.length; i++) {
+    stbtid String dosNbmfToInsString(NbmfComponfnt[] dnbmf) {
+      StringBuildfr str = nfw StringBuildfr();
+      for ( int i = 0; i < dnbmf.lfngti; i++) {
           if ( i > 0) {
-              str.append(compSeparator);
+              str.bppfnd(dompSfpbrbtor);
           }
-          str.append(stringifyComponent(cname[i]));
+          str.bppfnd(stringifyComponfnt(dnbmf[i]));
       }
-      return str.toString();
+      rfturn str.toString();
     }
 
     /**
-     * Creates a CompositeName from a NameComponent[].
-     * Used by ExceptionMapper and CNBindingEnumeration to convert
-     * a NameComponent[] into a composite name.
+     * Crfbtfs b CompositfNbmf from b NbmfComponfnt[].
+     * Usfd by ExdfptionMbppfr bnd CNBindingEnumfrbtion to donvfrt
+     * b NbmfComponfnt[] into b dompositf nbmf.
      */
-    static Name cosNameToName(NameComponent[] cname) {
-        Name nm = new CompositeName();
-        for ( int i = 0; cname != null && i < cname.length; i++) {
+    stbtid Nbmf dosNbmfToNbmf(NbmfComponfnt[] dnbmf) {
+        Nbmf nm = nfw CompositfNbmf();
+        for ( int i = 0; dnbmf != null && i < dnbmf.lfngti; i++) {
             try {
-                nm.add(stringifyComponent(cname[i]));
-            } catch (InvalidNameException e) {
-                // ignore
+                nm.bdd(stringifyComponfnt(dnbmf[i]));
+            } dbtdi (InvblidNbmfExdfption f) {
+                // ignorf
             }
         }
-        return nm;
+        rfturn nm;
     }
 
     /**
-     * Converts an INS-syntax string name into a Vector in which
-     * each element of the vector contains a stringified form of
-     * a NameComponent.
+     * Convfrts bn INS-syntbx string nbmf into b Vfdtor in wiidi
+     * fbdi flfmfnt of tif vfdtor dontbins b stringififd form of
+     * b NbmfComponfnt.
      */
-    private static Vector<String> insStringToStringifiedComps(String str)
-        throws InvalidNameException {
+    privbtf stbtid Vfdtor<String> insStringToStringififdComps(String str)
+        tirows InvblidNbmfExdfption {
 
-        int len = str.length();
-        Vector<String> components = new Vector<>(10);
-        char[] id = new char[len];
-        char[] kind = new char[len];
+        int lfn = str.lfngti();
+        Vfdtor<String> domponfnts = nfw Vfdtor<>(10);
+        dibr[] id = nfw dibr[lfn];
+        dibr[] kind = nfw dibr[lfn];
         int idCount, kindCount;
-        boolean idMode;
-        for (int i = 0; i < len; ) {
-            idCount = kindCount = 0; // reset for new component
-            idMode = true;           // always start off parsing id
-            while (i < len) {
-                if (str.charAt(i) == compSeparator) {
-                    break;
+        boolfbn idModf;
+        for (int i = 0; i < lfn; ) {
+            idCount = kindCount = 0; // rfsft for nfw domponfnt
+            idModf = truf;           // blwbys stbrt off pbrsing id
+            wiilf (i < lfn) {
+                if (str.dibrAt(i) == dompSfpbrbtor) {
+                    brfbk;
 
-                } else if (str.charAt(i) == escapeChar) {
-                    if (i + 1 >= len) {
-                        throw new InvalidNameException(str +
-                            ": unescaped \\ at end of component");
-                    } else if (isMeta(str.charAt(i+1))) {
-                        ++i; // skip escape and let meta through
-                        if (idMode) {
-                            id[idCount++] = str.charAt(i++);
-                        } else {
-                            kind[kindCount++] = str.charAt(i++);
+                } flsf if (str.dibrAt(i) == fsdbpfCibr) {
+                    if (i + 1 >= lfn) {
+                        tirow nfw InvblidNbmfExdfption(str +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                    } flsf if (isMftb(str.dibrAt(i+1))) {
+                        ++i; // skip fsdbpf bnd lft mftb tirougi
+                        if (idModf) {
+                            id[idCount++] = str.dibrAt(i++);
+                        } flsf {
+                            kind[kindCount++] = str.dibrAt(i++);
                         }
-                    } else {
-                        throw new InvalidNameException(str +
-                            ": invalid character being escaped");
+                    } flsf {
+                        tirow nfw InvblidNbmfExdfption(str +
+                            ": invblid dibrbdtfr bfing fsdbpfd");
                     }
 
-                } else if (idMode && str.charAt(i) == kindSeparator) {
-                    // just look for the first kindSeparator
-                    ++i; // skip kind separator
-                    idMode = false;
+                } flsf if (idModf && str.dibrAt(i) == kindSfpbrbtor) {
+                    // just look for tif first kindSfpbrbtor
+                    ++i; // skip kind sfpbrbtor
+                    idModf = fblsf;
 
-                } else {
-                    if (idMode) {
-                        id[idCount++] = str.charAt(i++);
-                    } else {
-                        kind[kindCount++] = str.charAt(i++);
+                } flsf {
+                    if (idModf) {
+                        id[idCount++] = str.dibrAt(i++);
+                    } flsf {
+                        kind[kindCount++] = str.dibrAt(i++);
                     }
                 }
             }
-            components.addElement(stringifyComponent(
-                new NameComponent(new String(id, 0, idCount),
-                    new String(kind, 0, kindCount))));
+            domponfnts.bddElfmfnt(stringifyComponfnt(
+                nfw NbmfComponfnt(nfw String(id, 0, idCount),
+                    nfw String(kind, 0, kindCount))));
 
-            if (i < len) {
-                ++i; // skip separator
+            if (i < lfn) {
+                ++i; // skip sfpbrbtor
             }
         }
 
-        return components;
+        rfturn domponfnts;
     }
 
     /**
-     * Return a NameComponent given its stringified form.
+     * Rfturn b NbmfComponfnt givfn its stringififd form.
      */
-    private static NameComponent parseComponent(String compStr)
-    throws InvalidNameException {
-        NameComponent comp = new NameComponent();
-        int kindSep = -1;
-        int len = compStr.length();
+    privbtf stbtid NbmfComponfnt pbrsfComponfnt(String dompStr)
+    tirows InvblidNbmfExdfption {
+        NbmfComponfnt domp = nfw NbmfComponfnt();
+        int kindSfp = -1;
+        int lfn = dompStr.lfngti();
 
         int j = 0;
-        char[] newStr = new char[len];
-        boolean escaped = false;
+        dibr[] nfwStr = nfw dibr[lfn];
+        boolfbn fsdbpfd = fblsf;
 
-        // Find the kind separator
-        for (int i = 0; i < len && kindSep < 0; i++) {
-            if (escaped) {
-                newStr[j++] = compStr.charAt(i);
-                escaped = false;
-            } else if (compStr.charAt(i) == escapeChar) {
-                if (i + 1 >= len) {
-                    throw new InvalidNameException(compStr +
-                            ": unescaped \\ at end of component");
-                } else if (isMeta(compStr.charAt(i+1))) {
-                    escaped = true;
-                } else {
-                    throw new InvalidNameException(compStr +
-                        ": invalid character being escaped");
+        // Find tif kind sfpbrbtor
+        for (int i = 0; i < lfn && kindSfp < 0; i++) {
+            if (fsdbpfd) {
+                nfwStr[j++] = dompStr.dibrAt(i);
+                fsdbpfd = fblsf;
+            } flsf if (dompStr.dibrAt(i) == fsdbpfCibr) {
+                if (i + 1 >= lfn) {
+                    tirow nfw InvblidNbmfExdfption(dompStr +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                } flsf if (isMftb(dompStr.dibrAt(i+1))) {
+                    fsdbpfd = truf;
+                } flsf {
+                    tirow nfw InvblidNbmfExdfption(dompStr +
+                        ": invblid dibrbdtfr bfing fsdbpfd");
                 }
-            } else if (compStr.charAt(i) == kindSeparator) {
-                kindSep = i;
-            } else {
-                newStr[j++] = compStr.charAt(i);
+            } flsf if (dompStr.dibrAt(i) == kindSfpbrbtor) {
+                kindSfp = i;
+            } flsf {
+                nfwStr[j++] = dompStr.dibrAt(i);
             }
         }
 
-        // Set id
-        comp.id = new String(newStr, 0, j);
+        // Sft id
+        domp.id = nfw String(nfwStr, 0, j);
 
-        // Set kind
-        if (kindSep < 0) {
-            comp.kind = "";  // no kind separator
-        } else {
-            // unescape kind
+        // Sft kind
+        if (kindSfp < 0) {
+            domp.kind = "";  // no kind sfpbrbtor
+        } flsf {
+            // unfsdbpf kind
             j = 0;
-            escaped = false;
-            for (int i = kindSep+1; i < len; i++) {
-                if (escaped) {
-                    newStr[j++] = compStr.charAt(i);
-                    escaped = false;
-                } else if (compStr.charAt(i) == escapeChar) {
-                    if (i + 1 >= len) {
-                        throw new InvalidNameException(compStr +
-                            ": unescaped \\ at end of component");
-                    } else if (isMeta(compStr.charAt(i+1))) {
-                        escaped = true;
-                    } else {
-                        throw new InvalidNameException(compStr +
-                            ": invalid character being escaped");
+            fsdbpfd = fblsf;
+            for (int i = kindSfp+1; i < lfn; i++) {
+                if (fsdbpfd) {
+                    nfwStr[j++] = dompStr.dibrAt(i);
+                    fsdbpfd = fblsf;
+                } flsf if (dompStr.dibrAt(i) == fsdbpfCibr) {
+                    if (i + 1 >= lfn) {
+                        tirow nfw InvblidNbmfExdfption(dompStr +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                    } flsf if (isMftb(dompStr.dibrAt(i+1))) {
+                        fsdbpfd = truf;
+                    } flsf {
+                        tirow nfw InvblidNbmfExdfption(dompStr +
+                            ": invblid dibrbdtfr bfing fsdbpfd");
                     }
-                } else {
-                    newStr[j++] = compStr.charAt(i);
+                } flsf {
+                    nfwStr[j++] = dompStr.dibrAt(i);
                 }
             }
-            comp.kind = new String(newStr, 0, j);
+            domp.kind = nfw String(nfwStr, 0, j);
         }
-        return comp;
+        rfturn domp;
     }
 
-    private static String stringifyComponent(NameComponent comp) {
-        StringBuilder one = new StringBuilder(escape(comp.id));
-        if (comp.kind != null && !comp.kind.equals("")) {
-            one.append(kindSeparator + escape(comp.kind));
+    privbtf stbtid String stringifyComponfnt(NbmfComponfnt domp) {
+        StringBuildfr onf = nfw StringBuildfr(fsdbpf(domp.id));
+        if (domp.kind != null && !domp.kind.fqubls("")) {
+            onf.bppfnd(kindSfpbrbtor + fsdbpf(domp.kind));
         }
-        if (one.length() == 0) {
-            return ""+kindSeparator;  // if neither id nor kind specified
-        } else {
-            return one.toString();
+        if (onf.lfngti() == 0) {
+            rfturn ""+kindSfpbrbtor;  // if nfitifr id nor kind spfdififd
+        } flsf {
+            rfturn onf.toString();
         }
     }
 
     /**
-     * Returns a string with '.', '\', '/' escaped. Used when
-     * stringifying the name into its INS stringified form.
+     * Rfturns b string witi '.', '\', '/' fsdbpfd. Usfd wifn
+     * stringifying tif nbmf into its INS stringififd form.
      */
-    private static String escape(String str) {
-        if (str.indexOf(kindSeparator) < 0 &&
-            str.indexOf(compSeparator) < 0 &&
-            str.indexOf(escapeChar) < 0) {
-            return str;                         // no meta characters to escape
-        } else {
-            int len = str.length();
+    privbtf stbtid String fsdbpf(String str) {
+        if (str.indfxOf(kindSfpbrbtor) < 0 &&
+            str.indfxOf(dompSfpbrbtor) < 0 &&
+            str.indfxOf(fsdbpfCibr) < 0) {
+            rfturn str;                         // no mftb dibrbdtfrs to fsdbpf
+        } flsf {
+            int lfn = str.lfngti();
             int j = 0;
-            char[] newStr = new char[len+len];
-            for (int i = 0; i < len; i++) {
-                if (isMeta(str.charAt(i))) {
-                    newStr[j++] = escapeChar;   // escape meta character
+            dibr[] nfwStr = nfw dibr[lfn+lfn];
+            for (int i = 0; i < lfn; i++) {
+                if (isMftb(str.dibrAt(i))) {
+                    nfwStr[j++] = fsdbpfCibr;   // fsdbpf mftb dibrbdtfr
                 }
-                newStr[j++] = str.charAt(i);
+                nfwStr[j++] = str.dibrAt(i);
             }
-            return new String(newStr, 0, j);
+            rfturn nfw String(nfwStr, 0, j);
         }
     }
 
     /**
-     * In INS, there are three meta characters: '.', '/' and '\'.
+     * In INS, tifrf brf tirff mftb dibrbdtfrs: '.', '/' bnd '\'.
      */
-    private static boolean isMeta(char ch) {
-        switch (ch) {
-        case kindSeparator:
-        case compSeparator:
-        case escapeChar:
-            return true;
+    privbtf stbtid boolfbn isMftb(dibr di) {
+        switdi (di) {
+        dbsf kindSfpbrbtor:
+        dbsf dompSfpbrbtor:
+        dbsf fsdbpfCibr:
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * An implementation of CompoundName that bypasses the parsing
-     * and stringifying code of the default CompoundName.
+     * An implfmfntbtion of CompoundNbmf tibt bypbssfs tif pbrsing
+     * bnd stringifying dodf of tif dffbult CompoundNbmf.
      */
-    static final class CNCompoundName extends CompoundName {
-        CNCompoundName(Enumeration<String> enum_) {
-            super(enum_, CNNameParser.mySyntax);
+    stbtid finbl dlbss CNCompoundNbmf fxtfnds CompoundNbmf {
+        CNCompoundNbmf(Enumfrbtion<String> fnum_) {
+            supfr(fnum_, CNNbmfPbrsfr.mySyntbx);
         }
 
-        public Object clone() {
-            return new CNCompoundName(getAll());
+        publid Objfdt dlonf() {
+            rfturn nfw CNCompoundNbmf(gftAll());
         }
 
-        public Name getPrefix(int posn) {
-            Enumeration<String> comps = super.getPrefix(posn).getAll();
-            return new CNCompoundName(comps);
+        publid Nbmf gftPrffix(int posn) {
+            Enumfrbtion<String> domps = supfr.gftPrffix(posn).gftAll();
+            rfturn nfw CNCompoundNbmf(domps);
         }
 
-        public Name getSuffix(int posn) {
-            Enumeration<String> comps = super.getSuffix(posn).getAll();
-            return new CNCompoundName(comps);
+        publid Nbmf gftSuffix(int posn) {
+            Enumfrbtion<String> domps = supfr.gftSuffix(posn).gftAll();
+            rfturn nfw CNCompoundNbmf(domps);
         }
 
-        public String toString() {
+        publid String toString() {
             try {
-                // Convert Name to NameComponent[] then stringify
-                return cosNameToInsString(nameToCosName(this));
-            } catch (InvalidNameException e) {
-                return super.toString();
+                // Convfrt Nbmf to NbmfComponfnt[] tifn stringify
+                rfturn dosNbmfToInsString(nbmfToCosNbmf(tiis));
+            } dbtdi (InvblidNbmfExdfption f) {
+                rfturn supfr.toString();
             }
         }
 
-        private static final long serialVersionUID = -6599252802678482317L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -6599252802678482317L;
     }
 
-// for testing only
+// for tfsting only
 /*
-    private static void print(String input) {
+    privbtf stbtid void print(String input) {
         try {
-            System.out.println("\n >>>>>> input: " + input);
+            Systfm.out.println("\n >>>>>> input: " + input);
 
-            System.out.println("--Compound Name: ");
-            NameParser parser = new CNNameParser();
-            Name name = parser.parse(input);
-            for (int i = 0; i < name.size(); i++) {
-                System.out.println("\t" + i + ": " + name.get(i));
-                NameComponent cp = parseComponent(name.get(i));
-                System.out.println("\t\t" + "id: " + cp.id + ";kind: " + cp.kind);
+            Systfm.out.println("--Compound Nbmf: ");
+            NbmfPbrsfr pbrsfr = nfw CNNbmfPbrsfr();
+            Nbmf nbmf = pbrsfr.pbrsf(input);
+            for (int i = 0; i < nbmf.sizf(); i++) {
+                Systfm.out.println("\t" + i + ": " + nbmf.gft(i));
+                NbmfComponfnt dp = pbrsfComponfnt(nbmf.gft(i));
+                Systfm.out.println("\t\t" + "id: " + dp.id + ";kind: " + dp.kind);
             }
-            System.out.println("\t" + name.toString());
+            Systfm.out.println("\t" + nbmf.toString());
 
-            System.out.println("--Composite Name: ");
-            Name composite = new CompositeName(input);
-            for (int i = 0; i < composite.size(); i++) {
-                System.out.println("\t" + i+": " + composite.get(i));
+            Systfm.out.println("--Compositf Nbmf: ");
+            Nbmf dompositf = nfw CompositfNbmf(input);
+            for (int i = 0; i < dompositf.sizf(); i++) {
+                Systfm.out.println("\t" + i+": " + dompositf.gft(i));
             }
-            System.out.println("\t" + composite.toString());
+            Systfm.out.println("\t" + dompositf.toString());
 
-            System.out.println("--Composite To NameComponent");
-            NameComponent[] names = nameToCosName(composite);
-            for (int i = 0; i < composite.size(); i++) {
-                System.out.println("\t" + i+": id: " + names[i].id + "; kind: " + names[i].kind);
+            Systfm.out.println("--Compositf To NbmfComponfnt");
+            NbmfComponfnt[] nbmfs = nbmfToCosNbmf(dompositf);
+            for (int i = 0; i < dompositf.sizf(); i++) {
+                Systfm.out.println("\t" + i+": id: " + nbmfs[i].id + "; kind: " + nbmfs[i].kind);
             }
-            System.out.println("\t" + cosNameToInsString(names));
-        } catch (NamingException e) {
-            System.out.println(e);
+            Systfm.out.println("\t" + dosNbmfToInsString(nbmfs));
+        } dbtdi (NbmingExdfption f) {
+            Systfm.out.println(f);
         }
     }
 
-    private static void checkName(Name name, String[] comps) throws Exception {
-        if (name.size() != comps.length) {
-            throw new Exception(
-                "test failed; incorrect component count in " + name + "; " +
-                "expecting " + comps.length + " got " + name.size());
+    privbtf stbtid void difdkNbmf(Nbmf nbmf, String[] domps) tirows Exdfption {
+        if (nbmf.sizf() != domps.lfngti) {
+            tirow nfw Exdfption(
+                "tfst fbilfd; indorrfdt domponfnt dount in " + nbmf + "; " +
+                "fxpfdting " + domps.lfngti + " got " + nbmf.sizf());
         }
-        for (int i = 0; i < name.size(); i++) {
-            if (!comps[i].equals(name.get(i))) {
-                throw new Exception (
-                    "test failed; invalid component in " + name + "; " +
-                    "expecting '" + comps[i] + "' got '" + name.get(i) + "'");
+        for (int i = 0; i < nbmf.sizf(); i++) {
+            if (!domps[i].fqubls(nbmf.gft(i))) {
+                tirow nfw Exdfption (
+                    "tfst fbilfd; invblid domponfnt in " + nbmf + "; " +
+                    "fxpfdting '" + domps[i] + "' got '" + nbmf.gft(i) + "'");
             }
         }
     }
 
-    private static void checkCompound(NameParser parser,
-        String input, String[] comps) throws Exception {
-        checkName(parser.parse(input), comps);
+    privbtf stbtid void difdkCompound(NbmfPbrsfr pbrsfr,
+        String input, String[] domps) tirows Exdfption {
+        difdkNbmf(pbrsfr.pbrsf(input), domps);
     }
 
-    private static void checkComposite(String input, String[] comps)
-    throws Exception {
-        checkName(new CompositeName(input), comps);
+    privbtf stbtid void difdkCompositf(String input, String[] domps)
+    tirows Exdfption {
+        difdkNbmf(nfw CompositfNbmf(input), domps);
     }
 
-    private static String[] compounds = {
-        "a/b/c",
-        "a.b/c.d",
-        "a",
+    privbtf stbtid String[] dompounds = {
+        "b/b/d",
+        "b.b/d.d",
+        "b",
         ".",
-        "a.",
-        "c.d",
-        ".e",
-        "a/x\\/y\\/z/b",
-        "a\\.b.c\\.d/e.f",
-        "a/b\\\\/c",
+        "b.",
+        "d.d",
+        ".f",
+        "b/x\\/y\\/z/b",
+        "b\\.b.d\\.d/f.f",
+        "b/b\\\\/d",
         "x\\\\.y",
         "x\\.y",
         "x.\\\\y",
         "x.y\\\\",
         "\\\\x.y",
-        "a.b\\.c/d"
+        "b.b\\.d/d"
     };
-    private static String[][] compoundComps = {
-        {"a", "b", "c"},
-        {"a.b", "c.d"},
-        {"a"},
+    privbtf stbtid String[][] dompoundComps = {
+        {"b", "b", "d"},
+        {"b.b", "d.d"},
+        {"b"},
         {"."},
-        {"a"},
-        {"c.d"},
-        {".e"},
-        {"a", "x\\/y\\/z", "b"},
-        {"a\\.b.c\\.d", "e.f"},
-        {"a", "b\\\\", "c"},
+        {"b"},
+        {"d.d"},
+        {".f"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.d\\.d", "f.f"},
+        {"b", "b\\\\", "d"},
         {"x\\\\.y"},
         {"x\\.y"},
         {"x.\\\\y"},
         {"x.y\\\\"},
         {"\\\\x.y"},
-        {"a.b\\.c", "d"},
+        {"b.b\\.d", "d"},
     };
 
-    private static String[] composites = {
-        "a/b/c",
-        "a.b/c.d",
-        "a",
+    privbtf stbtid String[] dompositfs = {
+        "b/b/d",
+        "b.b/d.d",
+        "b",
         ".",
-        "a.",
-        "c.d",
-        ".e",
-        "a/x\\\\\\/y\\\\\\/z/b",
-        "a\\\\.b.c\\\\.d/e.f",
-        "a/b\\\\\\\\/c",
+        "b.",
+        "d.d",
+        ".f",
+        "b/x\\\\\\/y\\\\\\/z/b",
+        "b\\\\.b.d\\\\.d/f.f",
+        "b/b\\\\\\\\/d",
         "x\\\\\\.y",
         "x\\\\.y",
         "x.\\\\\\\\y",
@@ -450,17 +450,17 @@ final public class CNNameParser implements NameParser {
         "\\\\\\\\x.y"
     };
 
-    private static String[][] compositeComps = {
-        {"a", "b", "c"},
-        {"a.b", "c.d"},
-        {"a"},
+    privbtf stbtid String[][] dompositfComps = {
+        {"b", "b", "d"},
+        {"b.b", "d.d"},
+        {"b"},
         {"."},
-        {"a."},  // unlike compound, kind sep is not consumed
-        {"c.d"},
-        {".e"},
-        {"a", "x\\/y\\/z", "b"},
-        {"a\\.b.c\\.d", "e.f"},
-        {"a", "b\\\\", "c"},
+        {"b."},  // unlikf dompound, kind sfp is not donsumfd
+        {"d.d"},
+        {".f"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.d\\.d", "f.f"},
+        {"b", "b\\\\", "d"},
         {"x\\\\.y"},
         {"x\\.y"},
         {"x.\\\\y"},
@@ -468,12 +468,12 @@ final public class CNNameParser implements NameParser {
         {"\\\\x.y"}
     };
 
-    public static void main(String[] args) throws Exception {
-        if (args.length > 0) {
-            for (int i = 0; i < args.length; i++) {
-                print(args[0]);
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+        if (brgs.lfngti > 0) {
+            for (int i = 0; i < brgs.lfngti; i++) {
+                print(brgs[0]);
             }
-        } else {
+        } flsf {
             print("x\\\\.y");
             print("x\\.y");
             print("x.\\\\y");
@@ -481,20 +481,20 @@ final public class CNNameParser implements NameParser {
             print("\\\\x.y");
         }
 
-        NameParser parser = new com.sun.jndi.cosnaming.CNNameParser();
-        for (int i = 0; i < compounds.length; i++) {
-            checkCompound(parser, compounds[i], compoundComps[i]);
+        NbmfPbrsfr pbrsfr = nfw dom.sun.jndi.dosnbming.CNNbmfPbrsfr();
+        for (int i = 0; i < dompounds.lfngti; i++) {
+            difdkCompound(pbrsfr, dompounds[i], dompoundComps[i]);
         }
-        for (int i = 0; i < composites.length; i++) {
-            checkComposite(composites[i], compositeComps[i]);
+        for (int i = 0; i < dompositfs.lfngti; i++) {
+            difdkCompositf(dompositfs[i], dompositfComps[i]);
         }
 
-        System.out.println("hardwire");
-        NameComponent[] foo = new NameComponent[1];
-        foo[0] = new NameComponent("foo\\", "bar");
+        Systfm.out.println("ibrdwirf");
+        NbmfComponfnt[] foo = nfw NbmfComponfnt[1];
+        foo[0] = nfw NbmfComponfnt("foo\\", "bbr");
 
-        System.out.println(cosNameToInsString(foo));
-        System.out.println(cosNameToName(foo));
+        Systfm.out.println(dosNbmfToInsString(foo));
+        Systfm.out.println(dosNbmfToNbmf(foo));
     }
 */
 }

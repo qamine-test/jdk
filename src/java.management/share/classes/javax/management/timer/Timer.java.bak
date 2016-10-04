@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.timer;
+pbdkbgf jbvbx.mbnbgfmfnt.timfr;
 
-import static com.sun.jmx.defaults.JmxProperties.TIMER_LOGGER;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
-import java.util.logging.Level;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.TIMER_LOGGER;
+import jbvb.util.ArrbyList;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.TrffSft;
+import jbvb.util.Vfdtor;
+import jbvb.util.logging.Lfvfl;
 
 // jmx imports
 //
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
  *
- * Provides the implementation of the timer MBean.
- * The timer MBean sends out an alarm at a specified time
- * that wakes up all the listeners registered to receive timer notifications.
+ * Providfs tif implfmfntbtion of tif timfr MBfbn.
+ * Tif timfr MBfbn sfnds out bn blbrm bt b spfdififd timf
+ * tibt wbkfs up bll tif listfnfrs rfgistfrfd to rfdfivf timfr notifidbtions.
  * <P>
  *
- * This class manages a list of dated timer notifications.
- * A method allows users to add/remove as many notifications as required.
- * When a timer notification is emitted by the timer and becomes obsolete,
- * it is automatically removed from the list of timer notifications.
- * <BR>Additional timer notifications can be added into regularly repeating notifications.
+ * Tiis dlbss mbnbgfs b list of dbtfd timfr notifidbtions.
+ * A mftiod bllows usfrs to bdd/rfmovf bs mbny notifidbtions bs rfquirfd.
+ * Wifn b timfr notifidbtion is fmittfd by tif timfr bnd bfdomfs obsolftf,
+ * it is butombtidblly rfmovfd from tif list of timfr notifidbtions.
+ * <BR>Additionbl timfr notifidbtions dbn bf bddfd into rfgulbrly rfpfbting notifidbtions.
  * <P>
  *
- * Note:
+ * Notf:
  * <OL>
- * <LI>When sending timer notifications, the timer updates the notification sequence number
- * irrespective of the notification type.
- * <LI>The timer service relies on the system date of the host where the <CODE>Timer</CODE> class is loaded.
- * Listeners may receive untimely notifications
- * if their host has a different system date.
- * To avoid such problems, synchronize the system date of all host machines where timing is needed.
- * <LI>The default behavior for periodic notifications is <i>fixed-delay execution</i>, as
- *     specified in {@link java.util.Timer}. In order to use <i>fixed-rate execution</i>, use the
- *     overloaded {@link #addNotification(String, String, Object, Date, long, long, boolean)} method.
- * <LI>Notification listeners are potentially all executed in the same
- * thread.  Therefore, they should execute rapidly to avoid holding up
- * other listeners or perturbing the regularity of fixed-delay
- * executions.  See {@link NotificationBroadcasterSupport}.
+ * <LI>Wifn sfnding timfr notifidbtions, tif timfr updbtfs tif notifidbtion sfqufndf numbfr
+ * irrfspfdtivf of tif notifidbtion typf.
+ * <LI>Tif timfr sfrvidf rflifs on tif systfm dbtf of tif iost wifrf tif <CODE>Timfr</CODE> dlbss is lobdfd.
+ * Listfnfrs mby rfdfivf untimfly notifidbtions
+ * if tifir iost ibs b difffrfnt systfm dbtf.
+ * To bvoid sudi problfms, syndironizf tif systfm dbtf of bll iost mbdiinfs wifrf timing is nffdfd.
+ * <LI>Tif dffbult bfibvior for pfriodid notifidbtions is <i>fixfd-dflby fxfdution</i>, bs
+ *     spfdififd in {@link jbvb.util.Timfr}. In ordfr to usf <i>fixfd-rbtf fxfdution</i>, usf tif
+ *     ovfrlobdfd {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)} mftiod.
+ * <LI>Notifidbtion listfnfrs brf potfntiblly bll fxfdutfd in tif sbmf
+ * tirfbd.  Tifrfforf, tify siould fxfdutf rbpidly to bvoid iolding up
+ * otifr listfnfrs or pfrturbing tif rfgulbrity of fixfd-dflby
+ * fxfdutions.  Sff {@link NotifidbtionBrobddbstfrSupport}.
  * </OL>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class Timer extends NotificationBroadcasterSupport
-        implements TimerMBean, MBeanRegistration {
+publid dlbss Timfr fxtfnds NotifidbtionBrobddbstfrSupport
+        implfmfnts TimfrMBfbn, MBfbnRfgistrbtion {
 
 
     /*
@@ -88,34 +88,34 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Number of milliseconds in one second.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Numbfr of millisfdonds in onf sfdond.
+     * Usfful donstbnt for tif <CODE>bddNotifidbtion</CODE> mftiod.
      */
-    public static final long ONE_SECOND = 1000;
+    publid stbtid finbl long ONE_SECOND = 1000;
 
     /**
-     * Number of milliseconds in one minute.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Numbfr of millisfdonds in onf minutf.
+     * Usfful donstbnt for tif <CODE>bddNotifidbtion</CODE> mftiod.
      */
-    public static final long ONE_MINUTE = 60*ONE_SECOND;
+    publid stbtid finbl long ONE_MINUTE = 60*ONE_SECOND;
 
     /**
-     * Number of milliseconds in one hour.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Numbfr of millisfdonds in onf iour.
+     * Usfful donstbnt for tif <CODE>bddNotifidbtion</CODE> mftiod.
      */
-    public static final long ONE_HOUR   = 60*ONE_MINUTE;
+    publid stbtid finbl long ONE_HOUR   = 60*ONE_MINUTE;
 
     /**
-     * Number of milliseconds in one day.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Numbfr of millisfdonds in onf dby.
+     * Usfful donstbnt for tif <CODE>bddNotifidbtion</CODE> mftiod.
      */
-    public static final long ONE_DAY    = 24*ONE_HOUR;
+    publid stbtid finbl long ONE_DAY    = 24*ONE_HOUR;
 
     /**
-     * Number of milliseconds in one week.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Numbfr of millisfdonds in onf wffk.
+     * Usfful donstbnt for tif <CODE>bddNotifidbtion</CODE> mftiod.
      */
-    public static final long ONE_WEEK   = 7*ONE_DAY;
+    publid stbtid finbl long ONE_WEEK   = 7*ONE_DAY;
 
     /*
      * ------------------------------------------
@@ -124,47 +124,47 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Table containing all the timer notifications of this timer,
-     * with the associated date, period and number of occurrences.
+     * Tbblf dontbining bll tif timfr notifidbtions of tiis timfr,
+     * witi tif bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs.
      */
-    final private Map<Integer,Object[]> timerTable =
-        new HashMap<>();
+    finbl privbtf Mbp<Intfgfr,Objfdt[]> timfrTbblf =
+        nfw HbsiMbp<>();
 
     /**
-     * Past notifications sending on/off flag value.
-     * This attribute is used to specify if the timer has to send past notifications after start.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Pbst notifidbtions sfnding on/off flbg vbluf.
+     * Tiis bttributf is usfd to spfdify if tif timfr ibs to sfnd pbst notifidbtions bftfr stbrt.
+     * <BR>Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean sendPastNotifications = false;
+    privbtf boolfbn sfndPbstNotifidbtions = fblsf;
 
     /**
-     * Timer state.
-     * The default value is set to <CODE>false</CODE>.
+     * Timfr stbtf.
+     * Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private transient boolean isActive = false;
+    privbtf trbnsifnt boolfbn isAdtivf = fblsf;
 
     /**
-     * Timer sequence number.
-     * The default value is set to 0.
+     * Timfr sfqufndf numbfr.
+     * Tif dffbult vbluf is sft to 0.
      */
-    private transient long sequenceNumber = 0;
+    privbtf trbnsifnt long sfqufndfNumbfr = 0;
 
-    // Flags needed to keep the indexes of the objects in the array.
+    // Flbgs nffdfd to kffp tif indfxfs of tif objfdts in tif brrby.
     //
-    private static final int TIMER_NOTIF_INDEX     = 0;
-    private static final int TIMER_DATE_INDEX      = 1;
-    private static final int TIMER_PERIOD_INDEX    = 2;
-    private static final int TIMER_NB_OCCUR_INDEX  = 3;
-    private static final int ALARM_CLOCK_INDEX     = 4;
-    private static final int FIXED_RATE_INDEX      = 5;
+    privbtf stbtid finbl int TIMER_NOTIF_INDEX     = 0;
+    privbtf stbtid finbl int TIMER_DATE_INDEX      = 1;
+    privbtf stbtid finbl int TIMER_PERIOD_INDEX    = 2;
+    privbtf stbtid finbl int TIMER_NB_OCCUR_INDEX  = 3;
+    privbtf stbtid finbl int ALARM_CLOCK_INDEX     = 4;
+    privbtf stbtid finbl int FIXED_RATE_INDEX      = 5;
 
     /**
-     * The notification counter ID.
-     * Used to keep the max key value inserted into the timer table.
+     * Tif notifidbtion dountfr ID.
+     * Usfd to kffp tif mbx kfy vbluf insfrtfd into tif timfr tbblf.
      */
-    volatile private int counterID = 0;
+    volbtilf privbtf int dountfrID = 0;
 
-    private java.util.Timer timer;
+    privbtf jbvb.util.Timfr timfr;
 
     /*
      * ------------------------------------------
@@ -173,9 +173,9 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public Timer() {
+    publid Timfr() {
     }
 
     /*
@@ -185,804 +185,804 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Allows the timer MBean to perform any operations it needs before being registered
-     * in the MBean server.
+     * Allows tif timfr MBfbn to pfrform bny opfrbtions it nffds bfforf bfing rfgistfrfd
+     * in tif MBfbn sfrvfr.
      * <P>
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      *
-     * @param server The MBean server in which the timer MBean will be registered.
-     * @param name The object name of the timer MBean.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif timfr MBfbn will bf rfgistfrfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif timfr MBfbn.
      *
-     * @return The name of the timer MBean registered.
+     * @rfturn Tif nbmf of tif timfr MBfbn rfgistfrfd.
      *
-     * @exception java.lang.Exception
+     * @fxdfption jbvb.lbng.Exdfption
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-        throws java.lang.Exception {
-        return name;
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        tirows jbvb.lbng.Exdfption {
+        rfturn nbmf;
     }
 
     /**
-     * Allows the timer MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.
+     * Allows tif timfr MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs fbilfd.
      * <P>
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    public void postRegister (Boolean registrationDone) {
+    publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
     }
 
     /**
-     * Allows the timer MBean to perform any operations it needs before being unregistered
-     * by the MBean server.
+     * Allows tif timfr MBfbn to pfrform bny opfrbtions it nffds bfforf bfing unrfgistfrfd
+     * by tif MBfbn sfrvfr.
      * <P>
-     * Stops the timer.
+     * Stops tif timfr.
      *
-     * @exception java.lang.Exception
+     * @fxdfption jbvb.lbng.Exdfption
      */
-    public void preDeregister() throws java.lang.Exception {
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "preDeregister", "stop the timer");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "prfDfrfgistfr", "stop tif timfr");
 
-        // Stop the timer.
+        // Stop tif timfr.
         //
         stop();
     }
 
     /**
-     * Allows the timer MBean to perform any operations needed after having been
-     * unregistered by the MBean server.
+     * Allows tif timfr MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd by tif MBfbn sfrvfr.
      * <P>
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    public void postDeregister() {
+    publid void postDfrfgistfr() {
     }
 
     /*
-     * This overrides the method in NotificationBroadcasterSupport.
-     * Return the MBeanNotificationInfo[] array for this MBean.
-     * The returned array has one element to indicate that the MBean
-     * can emit TimerNotification.  The array of type strings
-     * associated with this entry is a snapshot of the current types
-     * that were given to addNotification.
+     * Tiis ovfrridfs tif mftiod in NotifidbtionBrobddbstfrSupport.
+     * Rfturn tif MBfbnNotifidbtionInfo[] brrby for tiis MBfbn.
+     * Tif rfturnfd brrby ibs onf flfmfnt to indidbtf tibt tif MBfbn
+     * dbn fmit TimfrNotifidbtion.  Tif brrby of typf strings
+     * bssodibtfd witi tiis fntry is b snbpsiot of tif durrfnt typfs
+     * tibt wfrf givfn to bddNotifidbtion.
      */
-    public synchronized MBeanNotificationInfo[] getNotificationInfo() {
-        Set<String> notifTypes = new TreeSet<String>();
-        for (Object[] entry : timerTable.values()) {
-            TimerNotification notif = (TimerNotification)
-                entry[TIMER_NOTIF_INDEX];
-            notifTypes.add(notif.getType());
+    publid syndironizfd MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        Sft<String> notifTypfs = nfw TrffSft<String>();
+        for (Objfdt[] fntry : timfrTbblf.vblufs()) {
+            TimfrNotifidbtion notif = (TimfrNotifidbtion)
+                fntry[TIMER_NOTIF_INDEX];
+            notifTypfs.bdd(notif.gftTypf());
         }
-        String[] notifTypesArray =
-            notifTypes.toArray(new String[0]);
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(notifTypesArray,
-                                      TimerNotification.class.getName(),
-                                      "Notification sent by Timer MBean")
+        String[] notifTypfsArrby =
+            notifTypfs.toArrby(nfw String[0]);
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(notifTypfsArrby,
+                                      TimfrNotifidbtion.dlbss.gftNbmf(),
+                                      "Notifidbtion sfnt by Timfr MBfbn")
         };
     }
 
     /**
-     * Starts the timer.
+     * Stbrts tif timfr.
      * <P>
-     * If there is one or more timer notifications before the time in the list of notifications, the notification
-     * is sent according to the <CODE>sendPastNotifications</CODE> flag and then, updated
-     * according to its period and remaining number of occurrences.
-     * If the timer notification date remains earlier than the current date, this notification is just removed
-     * from the list of notifications.
+     * If tifrf is onf or morf timfr notifidbtions bfforf tif timf in tif list of notifidbtions, tif notifidbtion
+     * is sfnt bddording to tif <CODE>sfndPbstNotifidbtions</CODE> flbg bnd tifn, updbtfd
+     * bddording to its pfriod bnd rfmbining numbfr of oddurrfndfs.
+     * If tif timfr notifidbtion dbtf rfmbins fbrlifr tibn tif durrfnt dbtf, tiis notifidbtion is just rfmovfd
+     * from tif list of notifidbtions.
      */
-    public synchronized void start() {
+    publid syndironizfd void stbrt() {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "start", "starting the timer");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "stbrt", "stbrting tif timfr");
 
-        // Start the TimerAlarmClock.
+        // Stbrt tif TimfrAlbrmClodk.
         //
-        if (isActive == false) {
+        if (isAdtivf == fblsf) {
 
-            timer = new java.util.Timer();
+            timfr = nfw jbvb.util.Timfr();
 
-            TimerAlarmClock alarmClock;
-            Date date;
+            TimfrAlbrmClodk blbrmClodk;
+            Dbtf dbtf;
 
-            Date currentDate = new Date();
+            Dbtf durrfntDbtf = nfw Dbtf();
 
-            // Send or not past notifications depending on the flag.
-            // Update the date and the number of occurrences of past notifications
-            // to make them later than the current date.
+            // Sfnd or not pbst notifidbtions dfpfnding on tif flbg.
+            // Updbtf tif dbtf bnd tif numbfr of oddurrfndfs of pbst notifidbtions
+            // to mbkf tifm lbtfr tibn tif durrfnt dbtf.
             //
-            sendPastNotifications(currentDate, sendPastNotifications);
+            sfndPbstNotifidbtions(durrfntDbtf, sfndPbstNotifidbtions);
 
-            // Update and start all the TimerAlarmClocks.
-            // Here, all the notifications in the timer table are later than the current date.
+            // Updbtf bnd stbrt bll tif TimfrAlbrmClodks.
+            // Hfrf, bll tif notifidbtions in tif timfr tbblf brf lbtfr tibn tif durrfnt dbtf.
             //
-            for (Object[] obj : timerTable.values()) {
+            for (Objfdt[] obj : timfrTbblf.vblufs()) {
 
-                // Retrieve the date notification and the TimerAlarmClock.
+                // Rftrifvf tif dbtf notifidbtion bnd tif TimfrAlbrmClodk.
                 //
-                date = (Date)obj[TIMER_DATE_INDEX];
+                dbtf = (Dbtf)obj[TIMER_DATE_INDEX];
 
-                // Update all the TimerAlarmClock timeouts and start them.
+                // Updbtf bll tif TimfrAlbrmClodk timfouts bnd stbrt tifm.
                 //
-                boolean fixedRate = ((Boolean)obj[FIXED_RATE_INDEX]).booleanValue();
-                if (fixedRate)
+                boolfbn fixfdRbtf = ((Boolfbn)obj[FIXED_RATE_INDEX]).boolfbnVbluf();
+                if (fixfdRbtf)
                 {
-                  alarmClock = new TimerAlarmClock(this, date);
-                  obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                  timer.schedule(alarmClock, alarmClock.next);
+                  blbrmClodk = nfw TimfrAlbrmClodk(tiis, dbtf);
+                  obj[ALARM_CLOCK_INDEX] = (Objfdt)blbrmClodk;
+                  timfr.sdifdulf(blbrmClodk, blbrmClodk.nfxt);
                 }
-                else
+                flsf
                 {
-                  alarmClock = new TimerAlarmClock(this, (date.getTime() - currentDate.getTime()));
-                  obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                  timer.schedule(alarmClock, alarmClock.timeout);
+                  blbrmClodk = nfw TimfrAlbrmClodk(tiis, (dbtf.gftTimf() - durrfntDbtf.gftTimf()));
+                  obj[ALARM_CLOCK_INDEX] = (Objfdt)blbrmClodk;
+                  timfr.sdifdulf(blbrmClodk, blbrmClodk.timfout);
                 }
             }
 
-            // Set the state to ON.
+            // Sft tif stbtf to ON.
             //
-            isActive = true;
+            isAdtivf = truf;
 
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "start", "timer started");
-        } else {
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "start", "the timer is already activated");
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "stbrt", "timfr stbrtfd");
+        } flsf {
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "stbrt", "tif timfr is blrfbdy bdtivbtfd");
         }
     }
 
     /**
-     * Stops the timer.
+     * Stops tif timfr.
      */
-    public synchronized void stop() {
+    publid syndironizfd void stop() {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "stop", "stopping the timer");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "stop", "stopping tif timfr");
 
-        // Stop the TimerAlarmClock.
+        // Stop tif TimfrAlbrmClodk.
         //
-        if (isActive == true) {
+        if (isAdtivf == truf) {
 
-            for (Object[] obj : timerTable.values()) {
+            for (Objfdt[] obj : timfrTbblf.vblufs()) {
 
-                // Stop all the TimerAlarmClock.
+                // Stop bll tif TimfrAlbrmClodk.
                 //
-                TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-                if (alarmClock != null) {
-//                     alarmClock.interrupt();
+                TimfrAlbrmClodk blbrmClodk = (TimfrAlbrmClodk)obj[ALARM_CLOCK_INDEX];
+                if (blbrmClodk != null) {
+//                     blbrmClodk.intfrrupt();
 //                     try {
-//                         // Wait until the thread die.
+//                         // Wbit until tif tirfbd dif.
 //                         //
-//                         alarmClock.join();
-//                     } catch (InterruptedException ex) {
-//                         // Ignore...
+//                         blbrmClodk.join();
+//                     } dbtdi (IntfrruptfdExdfption fx) {
+//                         // Ignorf...
 //                     }
-//                     // Remove the reference on the TimerAlarmClock.
+//                     // Rfmovf tif rfffrfndf on tif TimfrAlbrmClodk.
 //                     //
 
-                    alarmClock.cancel();
+                    blbrmClodk.dbndfl();
                 }
             }
 
-            timer.cancel();
+            timfr.dbndfl();
 
-            // Set the state to OFF.
+            // Sft tif stbtf to OFF.
             //
-            isActive = false;
+            isAdtivf = fblsf;
 
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "stop", "timer stopped");
-        } else {
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "stop", "the timer is already deactivated");
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "stop", "timfr stoppfd");
+        } flsf {
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "stop", "tif timfr is blrfbdy dfbdtivbtfd");
         }
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, tif notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, tif first notifidbtion is dflivfrfd immfdibtfly bnd tif
+     * subsfqufnt onfs brf spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Notf tibt ondf tif timfr notifidbtion ibs bffn bddfd into tif list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
      * <P>
-     * In the case of a periodic notification, the value of parameter <i>fixedRate</i> is used to
-     * specify the execution scheme, as specified in {@link java.util.Timer}.
+     * In tif dbsf of b pfriodid notifidbtion, tif vbluf of pbrbmftfr <i>fixfdRbtf</i> is usfd to
+     * spfdify tif fxfdution sdifmf, bs spfdififd in {@link jbvb.util.Timfr}.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
-     * @param fixedRate If <code>true</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-rate</i> execution scheme. If
-     *                  <code>false</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-delay</i> execution scheme. Ignored if the
-     *                  notification is not periodic.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Tif totbl numbfr tif timfr notifidbtion will bf fmittfd.
+     * @pbrbm fixfdRbtf If <dodf>truf</dodf> bnd if tif notifidbtion is pfriodid, tif notifidbtion
+     *                  is sdifdulfd witi b <i>fixfd-rbtf</i> fxfdution sdifmf. If
+     *                  <dodf>fblsf</dodf> bnd if tif notifidbtion is pfriodid, tif notifidbtion
+     *                  is sdifdulfd witi b <i>fixfd-dflby</i> fxfdution sdifmf. Ignorfd if tif
+     *                  notifidbtion is not pfriodid.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod or tif numbfr of oddurrfndfs is nfgbtivf.
      *
-     * @see #addNotification(String, String, Object, Date, long, long)
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                                Date date, long period, long nbOccurences)
-// end of NPCTE fix for bugId 4464388
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                                Dbtf dbtf, long pfriod, long nbOddurfndfs)
+// fnd of NPCTE fix for bugId 4464388
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period, long nbOccurences, boolean fixedRate)
-        throws java.lang.IllegalArgumentException {
+    publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                                Dbtf dbtf, long pfriod, long nbOddurfndfs, boolfbn fixfdRbtf)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
-        if (date == null) {
-            throw new java.lang.IllegalArgumentException("Timer notification date cannot be null.");
+        if (dbtf == null) {
+            tirow nfw jbvb.lbng.IllfgblArgumfntExdfption("Timfr notifidbtion dbtf dbnnot bf null.");
         }
 
-        // Check that all the timer notification attributes are valid.
+        // Cifdk tibt bll tif timfr notifidbtion bttributfs brf vblid.
         //
 
-        // Invalid timer period value exception:
-        // Check that the period and the nbOccurences are POSITIVE VALUES.
+        // Invblid timfr pfriod vbluf fxdfption:
+        // Cifdk tibt tif pfriod bnd tif nbOddurfndfs brf POSITIVE VALUES.
         //
-        if ((period < 0) || (nbOccurences < 0)) {
-            throw new java.lang.IllegalArgumentException("Negative values for the periodicity");
+        if ((pfriod < 0) || (nbOddurfndfs < 0)) {
+            tirow nfw jbvb.lbng.IllfgblArgumfntExdfption("Nfgbtivf vblufs for tif pfriodidity");
         }
 
-        Date currentDate = new Date();
+        Dbtf durrfntDbtf = nfw Dbtf();
 
-        // Update the date if it is before the current date.
+        // Updbtf tif dbtf if it is bfforf tif durrfnt dbtf.
         //
-        if (currentDate.after(date)) {
+        if (durrfntDbtf.bftfr(dbtf)) {
 
-            date.setTime(currentDate.getTime());
-            if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-                TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                        "addNotification",
-                        "update timer notification to add with:" +
-                        "\n\tNotification date = " + date);
+            dbtf.sftTimf(durrfntDbtf.gftTimf());
+            if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                        "bddNotifidbtion",
+                        "updbtf timfr notifidbtion to bdd witi:" +
+                        "\n\tNotifidbtion dbtf = " + dbtf);
             }
         }
 
-        // Create and add the timer notification into the timer table.
+        // Crfbtf bnd bdd tif timfr notifidbtion into tif timfr tbblf.
         //
-        Integer notifID = Integer.valueOf(++counterID);
+        Intfgfr notifID = Intfgfr.vblufOf(++dountfrID);
 
-        // The sequenceNumber and the timeStamp attributes are updated
-        // when the notification is emitted by the timer.
+        // Tif sfqufndfNumbfr bnd tif timfStbmp bttributfs brf updbtfd
+        // wifn tif notifidbtion is fmittfd by tif timfr.
         //
-        TimerNotification notif = new TimerNotification(type, this, 0, 0, message, notifID);
-        notif.setUserData(userData);
+        TimfrNotifidbtion notif = nfw TimfrNotifidbtion(typf, tiis, 0, 0, mfssbgf, notifID);
+        notif.sftUsfrDbtb(usfrDbtb);
 
-        Object[] obj = new Object[6];
+        Objfdt[] obj = nfw Objfdt[6];
 
-        TimerAlarmClock alarmClock;
-        if (fixedRate)
+        TimfrAlbrmClodk blbrmClodk;
+        if (fixfdRbtf)
         {
-          alarmClock = new TimerAlarmClock(this, date);
+          blbrmClodk = nfw TimfrAlbrmClodk(tiis, dbtf);
         }
-        else
+        flsf
         {
-          alarmClock = new TimerAlarmClock(this, (date.getTime() - currentDate.getTime()));
+          blbrmClodk = nfw TimfrAlbrmClodk(tiis, (dbtf.gftTimf() - durrfntDbtf.gftTimf()));
         }
 
         // Fix bug 00417.B
-        // The date registered into the timer is a clone from the date parameter.
+        // Tif dbtf rfgistfrfd into tif timfr is b dlonf from tif dbtf pbrbmftfr.
         //
-        Date d = new Date(date.getTime());
+        Dbtf d = nfw Dbtf(dbtf.gftTimf());
 
-        obj[TIMER_NOTIF_INDEX] = (Object)notif;
-        obj[TIMER_DATE_INDEX] = (Object)d;
-        obj[TIMER_PERIOD_INDEX] = (Object) period;
-        obj[TIMER_NB_OCCUR_INDEX] = (Object) nbOccurences;
-        obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-        obj[FIXED_RATE_INDEX] = Boolean.valueOf(fixedRate);
+        obj[TIMER_NOTIF_INDEX] = (Objfdt)notif;
+        obj[TIMER_DATE_INDEX] = (Objfdt)d;
+        obj[TIMER_PERIOD_INDEX] = (Objfdt) pfriod;
+        obj[TIMER_NB_OCCUR_INDEX] = (Objfdt) nbOddurfndfs;
+        obj[ALARM_CLOCK_INDEX] = (Objfdt)blbrmClodk;
+        obj[FIXED_RATE_INDEX] = Boolfbn.vblufOf(fixfdRbtf);
 
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-            StringBuilder strb = new StringBuilder()
-            .append("adding timer notification:\n\t")
-            .append("Notification source = ")
-            .append(notif.getSource())
-            .append("\n\tNotification type = ")
-            .append(notif.getType())
-            .append("\n\tNotification ID = ")
-            .append(notifID)
-            .append("\n\tNotification date = ")
-            .append(d)
-            .append("\n\tNotification period = ")
-            .append(period)
-            .append("\n\tNotification nb of occurrences = ")
-            .append(nbOccurences)
-            .append("\n\tNotification executes at fixed rate = ")
-            .append(fixedRate);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "addNotification", strb.toString());
+        if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            StringBuildfr strb = nfw StringBuildfr()
+            .bppfnd("bdding timfr notifidbtion:\n\t")
+            .bppfnd("Notifidbtion sourdf = ")
+            .bppfnd(notif.gftSourdf())
+            .bppfnd("\n\tNotifidbtion typf = ")
+            .bppfnd(notif.gftTypf())
+            .bppfnd("\n\tNotifidbtion ID = ")
+            .bppfnd(notifID)
+            .bppfnd("\n\tNotifidbtion dbtf = ")
+            .bppfnd(d)
+            .bppfnd("\n\tNotifidbtion pfriod = ")
+            .bppfnd(pfriod)
+            .bppfnd("\n\tNotifidbtion nb of oddurrfndfs = ")
+            .bppfnd(nbOddurfndfs)
+            .bppfnd("\n\tNotifidbtion fxfdutfs bt fixfd rbtf = ")
+            .bppfnd(fixfdRbtf);
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "bddNotifidbtion", strb.toString());
         }
 
-        timerTable.put(notifID, obj);
+        timfrTbblf.put(notifID, obj);
 
-        // Update and start the TimerAlarmClock.
+        // Updbtf bnd stbrt tif TimfrAlbrmClodk.
         //
-        if (isActive == true) {
-          if (fixedRate)
+        if (isAdtivf == truf) {
+          if (fixfdRbtf)
           {
-            timer.schedule(alarmClock, alarmClock.next);
+            timfr.sdifdulf(blbrmClodk, blbrmClodk.nfxt);
           }
-          else
+          flsf
           {
-            timer.schedule(alarmClock, alarmClock.timeout);
+            timfr.sdifdulf(blbrmClodk, blbrmClodk.timfout);
           }
         }
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "addNotification", "timer notification added");
-        return notifID;
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "bddNotifidbtion", "timfr notifidbtion bddfd");
+        rfturn notifID;
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf,
+     * pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. <BR>
+     * For ondf-off notifidbtions, tif notifidbtion is dflivfrfd immfdibtfly. <BR>
+     * For pfriodid notifidbtions, tif first notifidbtion is dflivfrfd immfdibtfly bnd tif
+     * subsfqufnt onfs brf spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Notf tibt ondf tif timfr notifidbtion ibs bffn bddfd into tif list of notifidbtions,
+     * its bssodibtfd dbtf, pfriod bnd numbfr of oddurrfndfs dbnnot bf updbtfd.
      * <P>
-     * In the case of a periodic notification, uses a <i>fixed-delay</i> execution scheme, as specified in
-     * {@link java.util.Timer}. In order to use a <i>fixed-rate</i> execution scheme, use
-     * {@link #addNotification(String, String, Object, Date, long, long, boolean)} instead.
+     * In tif dbsf of b pfriodid notifidbtion, usfs b <i>fixfd-dflby</i> fxfdution sdifmf, bs spfdififd in
+     * {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i> fxfdution sdifmf, usf
+     * {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)} instfbd.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
+     * @pbrbm nbOddurfndfs Tif totbl numbfr tif timfr notifidbtion will bf fmittfd.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod or tif numbfr of oddurrfndfs is nfgbtivf.
      *
-     * @see #addNotification(String, String, Object, Date, long, long, boolean)
+     * @sff #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long, boolfbn)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
-// end of NPCTE fix for bugId 4464388 */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period, long nbOccurences)
-        throws java.lang.IllegalArgumentException {
+    publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                                Dbtf dbtf, long pfriod, long nbOddurfndfs)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
-      return addNotification(type, message, userData, date, period, nbOccurences, false);
+      rfturn bddNotifidbtion(typf, mfssbgf, usfrDbtb, dbtf, pfriod, nbOddurfndfs, fblsf);
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and period and a null number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf
+     * bnd pfriod bnd b null numbfr of oddurrfndfs.
      * <P>
-     * The timer notification will repeat continuously using the timer period using a <i>fixed-delay</i>
-     * execution scheme, as specified in {@link java.util.Timer}. In order to use a <i>fixed-rate</i>
-     * execution scheme, use {@link #addNotification(String, String, Object, Date, long, long,
-     * boolean)} instead.
+     * Tif timfr notifidbtion will rfpfbt dontinuously using tif timfr pfriod using b <i>fixfd-dflby</i>
+     * fxfdution sdifmf, bs spfdififd in {@link jbvb.util.Timfr}. In ordfr to usf b <i>fixfd-rbtf</i>
+     * fxfdution sdifmf, usf {@link #bddNotifidbtion(String, String, Objfdt, Dbtf, long, long,
+     * boolfbn)} instfbd.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. The
-     * first notification is delivered immediately and the subsequent ones are
-     * spaced as specified by the period parameter.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf. Tif
+     * first notifidbtion is dflivfrfd immfdibtfly bnd tif subsfqufnt onfs brf
+     * spbdfd bs spfdififd by tif pfriod pbrbmftfr.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
+     * @pbrbm pfriod Tif pfriod of tif timfr notifidbtion (in millisfdonds).
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period is negative.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null} or
+     * tif pfriod is nfgbtivf.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
-// end of NPCTE fix for bugId 4464388 */
+// NPCTE fix for bugId 4464388, fsd 0,  MR , to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb,
+//                                              Dbtf dbtf, long pfriod)
+// fnd of NPCTE fix for bugId 4464388 */
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period)
-        throws java.lang.IllegalArgumentException {
+    publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb,
+                                                Dbtf dbtf, long pfriod)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
-        return (addNotification(type, message, userData, date, period, 0));
+        rfturn (bddNotifidbtion(typf, mfssbgf, usfrDbtb, dbtf, pfriod, 0));
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and a null period and number of occurrences.
+     * Crfbtfs b nfw timfr notifidbtion witi tif spfdififd <CODE>typf</CODE>, <CODE>mfssbgf</CODE>
+     * bnd <CODE>usfrDbtb</CODE> bnd insfrts it into tif list of notifidbtions witi b givfn dbtf
+     * bnd b null pfriod bnd numbfr of oddurrfndfs.
      * <P>
-     * The timer notification will be handled once at the specified date.
+     * Tif timfr notifidbtion will bf ibndlfd ondf bt tif spfdififd dbtf.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date and the
-     * notification is delivered immediately.
+     * If tif timfr notifidbtion to bf insfrtfd ibs b dbtf tibt is bfforf tif durrfnt dbtf,
+     * tif mftiod bfibvfs bs if tif spfdififd dbtf wfrf tif durrfnt dbtf bnd tif
+     * notifidbtion is dflivfrfd immfdibtfly.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
+     * @pbrbm typf Tif timfr notifidbtion typf.
+     * @pbrbm mfssbgf Tif timfr notifidbtion dftbilfd mfssbgf.
+     * @pbrbm usfrDbtb Tif timfr notifidbtion usfr dbtb objfdt.
+     * @pbrbm dbtf Tif dbtf wifn tif notifidbtion oddurs.
      *
-     * @return The identifier of the new created timer notification.
+     * @rfturn Tif idfntififr of tif nfw drfbtfd timfr notifidbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null}.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif dbtf is {@dodf null}.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData, Date date)
-//      throws java.lang.IllegalArgumentException {
-// end of NPCTE fix for bugId 4464388
+// NPCTE fix for bugId 4464388, fsd 0,  MR, to bf bddfd bftfr modifidbtion of jmx spfd
+//  publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Sfriblizbblf usfrDbtb, Dbtf dbtf)
+//      tirows jbvb.lbng.IllfgblArgumfntExdfption {
+// fnd of NPCTE fix for bugId 4464388
 
-    public synchronized Integer addNotification(String type, String message, Object userData, Date date)
-        throws java.lang.IllegalArgumentException {
+    publid syndironizfd Intfgfr bddNotifidbtion(String typf, String mfssbgf, Objfdt usfrDbtb, Dbtf dbtf)
+        tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
 
-        return (addNotification(type, message, userData, date, 0, 0));
+        rfturn (bddNotifidbtion(typf, mfssbgf, usfrDbtb, dbtf, 0, 0));
     }
 
     /**
-     * Removes the timer notification corresponding to the specified identifier from the list of notifications.
+     * Rfmovfs tif timfr notifidbtion dorrfsponding to tif spfdififd idfntififr from tif list of notifidbtions.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @exception InstanceNotFoundException The specified identifier does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd idfntififr dofs not dorrfspond to bny timfr notifidbtion
+     * in tif list of notifidbtions of tiis timfr MBfbn.
      */
-    public synchronized void removeNotification(Integer id) throws InstanceNotFoundException {
+    publid syndironizfd void rfmovfNotifidbtion(Intfgfr id) tirows InstbndfNotFoundExdfption {
 
-        // Check that the notification to remove is effectively in the timer table.
+        // Cifdk tibt tif notifidbtion to rfmovf is ffffdtivfly in tif timfr tbblf.
         //
-        if (timerTable.containsKey(id) == false) {
-            throw new InstanceNotFoundException("Timer notification to remove not in the list of notifications");
+        if (timfrTbblf.dontbinsKfy(id) == fblsf) {
+            tirow nfw InstbndfNotFoundExdfption("Timfr notifidbtion to rfmovf not in tif list of notifidbtions");
         }
 
-        // Stop the TimerAlarmClock.
+        // Stop tif TimfrAlbrmClodk.
         //
-        Object[] obj = timerTable.get(id);
-        TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-        if (alarmClock != null) {
-//             alarmClock.interrupt();
+        Objfdt[] obj = timfrTbblf.gft(id);
+        TimfrAlbrmClodk blbrmClodk = (TimfrAlbrmClodk)obj[ALARM_CLOCK_INDEX];
+        if (blbrmClodk != null) {
+//             blbrmClodk.intfrrupt();
 //             try {
-//                 // Wait until the thread die.
+//                 // Wbit until tif tirfbd dif.
 //                 //
-//                 alarmClock.join();
-//             } catch (InterruptedException e) {
-//                 // Ignore...
+//                 blbrmClodk.join();
+//             } dbtdi (IntfrruptfdExdfption f) {
+//                 // Ignorf...
 //             }
-//             // Remove the reference on the TimerAlarmClock.
+//             // Rfmovf tif rfffrfndf on tif TimfrAlbrmClodk.
 //             //
-            alarmClock.cancel();
+            blbrmClodk.dbndfl();
         }
 
-        // Remove the timer notification from the timer table.
+        // Rfmovf tif timfr notifidbtion from tif timfr tbblf.
         //
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-            StringBuilder strb = new StringBuilder()
-            .append("removing timer notification:")
-            .append("\n\tNotification source = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getSource())
-            .append("\n\tNotification type = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType())
-            .append("\n\tNotification ID = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getNotificationID())
-            .append("\n\tNotification date = ")
-            .append(obj[TIMER_DATE_INDEX])
-            .append("\n\tNotification period = ")
-            .append(obj[TIMER_PERIOD_INDEX])
-            .append("\n\tNotification nb of occurrences = ")
-            .append(obj[TIMER_NB_OCCUR_INDEX])
-            .append("\n\tNotification executes at fixed rate = ")
-            .append(obj[FIXED_RATE_INDEX]);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "removeNotification", strb.toString());
+        if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            StringBuildfr strb = nfw StringBuildfr()
+            .bppfnd("rfmoving timfr notifidbtion:")
+            .bppfnd("\n\tNotifidbtion sourdf = ")
+            .bppfnd(((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftSourdf())
+            .bppfnd("\n\tNotifidbtion typf = ")
+            .bppfnd(((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftTypf())
+            .bppfnd("\n\tNotifidbtion ID = ")
+            .bppfnd(((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftNotifidbtionID())
+            .bppfnd("\n\tNotifidbtion dbtf = ")
+            .bppfnd(obj[TIMER_DATE_INDEX])
+            .bppfnd("\n\tNotifidbtion pfriod = ")
+            .bppfnd(obj[TIMER_PERIOD_INDEX])
+            .bppfnd("\n\tNotifidbtion nb of oddurrfndfs = ")
+            .bppfnd(obj[TIMER_NB_OCCUR_INDEX])
+            .bppfnd("\n\tNotifidbtion fxfdutfs bt fixfd rbtf = ")
+            .bppfnd(obj[FIXED_RATE_INDEX]);
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "rfmovfNotifidbtion", strb.toString());
         }
 
-        timerTable.remove(id);
+        timfrTbblf.rfmovf(id);
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeNotification", "timer notification removed");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "rfmovfNotifidbtion", "timfr notifidbtion rfmovfd");
     }
 
     /**
-     * Removes all the timer notifications corresponding to the specified type from the list of notifications.
+     * Rfmovfs bll tif timfr notifidbtions dorrfsponding to tif spfdififd typf from tif list of notifidbtions.
      *
-     * @param type The timer notification type.
+     * @pbrbm typf Tif timfr notifidbtion typf.
      *
-     * @exception InstanceNotFoundException The specified type does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd typf dofs not dorrfspond to bny timfr notifidbtion
+     * in tif list of notifidbtions of tiis timfr MBfbn.
      */
-    public synchronized void removeNotifications(String type) throws InstanceNotFoundException {
+    publid syndironizfd void rfmovfNotifidbtions(String typf) tirows InstbndfNotFoundExdfption {
 
-        Vector<Integer> v = getNotificationIDs(type);
+        Vfdtor<Intfgfr> v = gftNotifidbtionIDs(typf);
 
         if (v.isEmpty())
-            throw new InstanceNotFoundException("Timer notifications to remove not in the list of notifications");
+            tirow nfw InstbndfNotFoundExdfption("Timfr notifidbtions to rfmovf not in tif list of notifidbtions");
 
-        for (Integer i : v)
-            removeNotification(i);
+        for (Intfgfr i : v)
+            rfmovfNotifidbtion(i);
     }
 
     /**
-     * Removes all the timer notifications from the list of notifications
-     * and resets the counter used to update the timer notification identifiers.
+     * Rfmovfs bll tif timfr notifidbtions from tif list of notifidbtions
+     * bnd rfsfts tif dountfr usfd to updbtf tif timfr notifidbtion idfntififrs.
      */
-    public synchronized void removeAllNotifications() {
+    publid syndironizfd void rfmovfAllNotifidbtions() {
 
-        TimerAlarmClock alarmClock;
+        TimfrAlbrmClodk blbrmClodk;
 
-        for (Object[] obj : timerTable.values()) {
+        for (Objfdt[] obj : timfrTbblf.vblufs()) {
 
-            // Stop the TimerAlarmClock.
+            // Stop tif TimfrAlbrmClodk.
             //
-            alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-//             if (alarmClock != null) {
-//                 alarmClock.interrupt();
+            blbrmClodk = (TimfrAlbrmClodk)obj[ALARM_CLOCK_INDEX];
+//             if (blbrmClodk != null) {
+//                 blbrmClodk.intfrrupt();
 //                 try {
-//                     // Wait until the thread die.
+//                     // Wbit until tif tirfbd dif.
 //                     //
-//                     alarmClock.join();
-//                 } catch (InterruptedException ex) {
-//                     // Ignore...
+//                     blbrmClodk.join();
+//                 } dbtdi (IntfrruptfdExdfption fx) {
+//                     // Ignorf...
 //                 }
-                  // Remove the reference on the TimerAlarmClock.
+                  // Rfmovf tif rfffrfndf on tif TimfrAlbrmClodk.
                   //
 //             }
-            alarmClock.cancel();
+            blbrmClodk.dbndfl();
         }
 
-        // Remove all the timer notifications from the timer table.
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "removing all timer notifications");
+        // Rfmovf bll tif timfr notifidbtions from tif timfr tbblf.
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "rfmovfAllNotifidbtions", "rfmoving bll timfr notifidbtions");
 
-        timerTable.clear();
+        timfrTbblf.dlfbr();
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "all timer notifications removed");
-        // Reset the counterID.
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "rfmovfAllNotifidbtions", "bll timfr notifidbtions rfmovfd");
+        // Rfsft tif dountfrID.
         //
-        counterID = 0;
+        dountfrID = 0;
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "timer notification counter ID reset");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "rfmovfAllNotifidbtions", "timfr notifidbtion dountfr ID rfsft");
     }
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the number of timer notifications registered into the list of notifications.
+     * Gfts tif numbfr of timfr notifidbtions rfgistfrfd into tif list of notifidbtions.
      *
-     * @return The number of timer notifications.
+     * @rfturn Tif numbfr of timfr notifidbtions.
      */
-    public synchronized int getNbNotifications() {
-        return timerTable.size();
+    publid syndironizfd int gftNbNotifidbtions() {
+        rfturn timfrTbblf.sizf();
     }
 
     /**
-     * Gets all timer notification identifiers registered into the list of notifications.
+     * Gfts bll timfr notifidbtion idfntififrs rfgistfrfd into tif list of notifidbtions.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the timer notification identifiers.
-     * <BR>The vector is empty if there is no timer notification registered for this timer MBean.
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll tif timfr notifidbtion idfntififrs.
+     * <BR>Tif vfdtor is fmpty if tifrf is no timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized Vector<Integer> getAllNotificationIDs() {
-        return new Vector<Integer>(timerTable.keySet());
+    publid syndironizfd Vfdtor<Intfgfr> gftAllNotifidbtionIDs() {
+        rfturn nfw Vfdtor<Intfgfr>(timfrTbblf.kfySft());
     }
 
     /**
-     * Gets all the identifiers of timer notifications corresponding to the specified type.
+     * Gfts bll tif idfntififrs of timfr notifidbtions dorrfsponding to tif spfdififd typf.
      *
-     * @param type The timer notification type.
+     * @pbrbm typf Tif timfr notifidbtion typf.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the identifiers of
-     * timer notifications with the specified <CODE>type</CODE>.
-     * <BR>The vector is empty if there is no timer notifications registered for this timer MBean
-     * with the specified <CODE>type</CODE>.
+     * @rfturn A vfdtor of <CODE>Intfgfr</CODE> objfdts dontbining bll tif idfntififrs of
+     * timfr notifidbtions witi tif spfdififd <CODE>typf</CODE>.
+     * <BR>Tif vfdtor is fmpty if tifrf is no timfr notifidbtions rfgistfrfd for tiis timfr MBfbn
+     * witi tif spfdififd <CODE>typf</CODE>.
      */
-    public synchronized Vector<Integer> getNotificationIDs(String type) {
+    publid syndironizfd Vfdtor<Intfgfr> gftNotifidbtionIDs(String typf) {
 
         String s;
 
-        Vector<Integer> v = new Vector<Integer>();
+        Vfdtor<Intfgfr> v = nfw Vfdtor<Intfgfr>();
 
-        for (Map.Entry<Integer,Object[]> entry : timerTable.entrySet()) {
-            Object[] obj = entry.getValue();
-            s = ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType();
-            if ((type == null) ? s == null : type.equals(s))
-                v.addElement(entry.getKey());
+        for (Mbp.Entry<Intfgfr,Objfdt[]> fntry : timfrTbblf.fntrySft()) {
+            Objfdt[] obj = fntry.gftVbluf();
+            s = ((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftTypf();
+            if ((typf == null) ? s == null : typf.fqubls(s))
+                v.bddElfmfnt(fntry.gftKfy());
         }
-        return v;
+        rfturn v;
     }
-    // 5089997: return is Vector<Integer> not Vector<TimerNotification>
+    // 5089997: rfturn is Vfdtor<Intfgfr> not Vfdtor<TimfrNotifidbtion>
 
     /**
-     * Gets the timer notification type corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion typf dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification type or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion typf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized String getNotificationType(Integer id) {
+    publid syndironizfd String gftNotifidbtionTypf(Intfgfr id) {
 
-        Object[] obj = timerTable.get(id);
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType() );
+            rfturn ( ((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftTypf() );
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets the timer notification detailed message corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion dftbilfd mfssbgf dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification detailed message or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion dftbilfd mfssbgf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized String getNotificationMessage(Integer id) {
+    publid syndironizfd String gftNotifidbtionMfssbgf(Intfgfr id) {
 
-        Object[] obj = timerTable.get(id);
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getMessage() );
+            rfturn ( ((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftMfssbgf() );
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets the timer notification user data object corresponding to the specified identifier.
+     * Gfts tif timfr notifidbtion usfr dbtb objfdt dorrfsponding to tif spfdififd idfntififr.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return The timer notification user data object or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn Tif timfr notifidbtion usfr dbtb objfdt or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    // NPCTE fix for bugId 4464388, esc 0, MR, 03 sept 2001, to be added after modification of jmx spec
-    //public Serializable getNotificationUserData(Integer id) {
-    // end of NPCTE fix for bugId 4464388
+    // NPCTE fix for bugId 4464388, fsd 0, MR, 03 sfpt 2001, to bf bddfd bftfr modifidbtion of jmx spfd
+    //publid Sfriblizbblf gftNotifidbtionUsfrDbtb(Intfgfr id) {
+    // fnd of NPCTE fix for bugId 4464388
 
-    public synchronized Object getNotificationUserData(Integer id) {
-        Object[] obj = timerTable.get(id);
+    publid syndironizfd Objfdt gftNotifidbtionUsfrDbtb(Intfgfr id) {
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getUserData() );
+            rfturn ( ((TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX]).gftUsfrDbtb() );
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets a copy of the date associated to a timer notification.
+     * Gfts b dopy of tif dbtf bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the date or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif dbtf or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized Date getDate(Integer id) {
+    publid syndironizfd Dbtf gftDbtf(Intfgfr id) {
 
-        Object[] obj = timerTable.get(id);
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            Date date = (Date)obj[TIMER_DATE_INDEX];
-            return (new Date(date.getTime()));
+            Dbtf dbtf = (Dbtf)obj[TIMER_DATE_INDEX];
+            rfturn (nfw Dbtf(dbtf.gftTimf()));
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets a copy of the period (in milliseconds) associated to a timer notification.
+     * Gfts b dopy of tif pfriod (in millisfdonds) bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the period or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif pfriod or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized Long getPeriod(Integer id) {
+    publid syndironizfd Long gftPfriod(Intfgfr id) {
 
-        Object[] obj = timerTable.get(id);
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            return (Long)obj[TIMER_PERIOD_INDEX];
+            rfturn (Long)obj[TIMER_PERIOD_INDEX];
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets a copy of the remaining number of occurrences associated to a timer notification.
+     * Gfts b dopy of tif rfmbining numbfr of oddurrfndfs bssodibtfd to b timfr notifidbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the remaining number of occurrences or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @rfturn A dopy of tif rfmbining numbfr of oddurrfndfs or null if tif idfntififr is not mbppfd to bny
+     * timfr notifidbtion rfgistfrfd for tiis timfr MBfbn.
      */
-    public synchronized Long getNbOccurences(Integer id) {
+    publid syndironizfd Long gftNbOddurfndfs(Intfgfr id) {
 
-        Object[] obj = timerTable.get(id);
+        Objfdt[] obj = timfrTbblf.gft(id);
         if (obj != null) {
-            return (Long)obj[TIMER_NB_OCCUR_INDEX];
+            rfturn (Long)obj[TIMER_NB_OCCUR_INDEX];
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets a copy of the flag indicating whether a periodic notification is
-     * executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * Gfts b dopy of tif flbg indidbting wiftifr b pfriodid notifidbtion is
+     * fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id Tif timfr notifidbtion idfntififr.
      *
-     * @return A copy of the flag indicating whether a periodic notification is
-     *         executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * @rfturn A dopy of tif flbg indidbting wiftifr b pfriodid notifidbtion is
+     *         fxfdutfd bt <i>fixfd-dflby</i> or bt <i>fixfd-rbtf</i>.
      */
-    public synchronized Boolean getFixedRate(Integer id) {
+    publid syndironizfd Boolfbn gftFixfdRbtf(Intfgfr id) {
 
-      Object[] obj = timerTable.get(id);
+      Objfdt[] obj = timfrTbblf.gft(id);
       if (obj != null) {
-        Boolean fixedRate = (Boolean)obj[FIXED_RATE_INDEX];
-        return (Boolean.valueOf(fixedRate.booleanValue()));
+        Boolfbn fixfdRbtf = (Boolfbn)obj[FIXED_RATE_INDEX];
+        rfturn (Boolfbn.vblufOf(fixfdRbtf.boolfbnVbluf()));
       }
-      return null;
+      rfturn null;
     }
 
     /**
-     * Gets the flag indicating whether or not the timer sends past notifications.
-     * <BR>The default value of the past notifications sending on/off flag is <CODE>false</CODE>.
+     * Gfts tif flbg indidbting wiftifr or not tif timfr sfnds pbst notifidbtions.
+     * <BR>Tif dffbult vbluf of tif pbst notifidbtions sfnding on/off flbg is <CODE>fblsf</CODE>.
      *
-     * @return The past notifications sending on/off flag value.
+     * @rfturn Tif pbst notifidbtions sfnding on/off flbg vbluf.
      *
-     * @see #setSendPastNotifications
+     * @sff #sftSfndPbstNotifidbtions
      */
-    public boolean getSendPastNotifications() {
-        return sendPastNotifications;
+    publid boolfbn gftSfndPbstNotifidbtions() {
+        rfturn sfndPbstNotifidbtions;
     }
 
     /**
-     * Sets the flag indicating whether the timer sends past notifications or not.
-     * <BR>The default value of the past notifications sending on/off flag is <CODE>false</CODE>.
+     * Sfts tif flbg indidbting wiftifr tif timfr sfnds pbst notifidbtions or not.
+     * <BR>Tif dffbult vbluf of tif pbst notifidbtions sfnding on/off flbg is <CODE>fblsf</CODE>.
      *
-     * @param value The past notifications sending on/off flag value.
+     * @pbrbm vbluf Tif pbst notifidbtions sfnding on/off flbg vbluf.
      *
-     * @see #getSendPastNotifications
+     * @sff #gftSfndPbstNotifidbtions
      */
-    public void setSendPastNotifications(boolean value) {
-        sendPastNotifications = value;
+    publid void sftSfndPbstNotifidbtions(boolfbn vbluf) {
+        sfndPbstNotifidbtions = vbluf;
     }
 
     /**
-     * Tests whether the timer MBean is active.
-     * A timer MBean is marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is called.
-     * <BR>The default value of the active on/off flag is <CODE>false</CODE>.
+     * Tfsts wiftifr tif timfr MBfbn is bdtivf.
+     * A timfr MBfbn is mbrkfd bdtivf wifn tif {@link #stbrt stbrt} mftiod is dbllfd.
+     * It bfdomfs inbdtivf wifn tif {@link #stop stop} mftiod is dbllfd.
+     * <BR>Tif dffbult vbluf of tif bdtivf on/off flbg is <CODE>fblsf</CODE>.
      *
-     * @return <CODE>true</CODE> if the timer MBean is active, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif timfr MBfbn is bdtivf, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean isActive() {
-        return isActive;
+    publid boolfbn isAdtivf() {
+        rfturn isAdtivf;
     }
 
     /**
-     * Tests whether the list of timer notifications is empty.
+     * Tfsts wiftifr tif list of timfr notifidbtions is fmpty.
      *
-     * @return <CODE>true</CODE> if the list of timer notifications is empty, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif list of timfr notifidbtions is fmpty, <CODE>fblsf</CODE> otifrwisf.
      */
-    public synchronized boolean isEmpty() {
-        return (timerTable.isEmpty());
+    publid syndironizfd boolfbn isEmpty() {
+        rfturn (timfrTbblf.isEmpty());
     }
 
     /*
@@ -992,172 +992,172 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Sends or not past notifications depending on the specified flag.
+     * Sfnds or not pbst notifidbtions dfpfnding on tif spfdififd flbg.
      *
-     * @param currentDate The current date.
-     * @param currentFlag The flag indicating if past notifications must be sent or not.
+     * @pbrbm durrfntDbtf Tif durrfnt dbtf.
+     * @pbrbm durrfntFlbg Tif flbg indidbting if pbst notifidbtions must bf sfnt or not.
      */
-    private synchronized void sendPastNotifications(Date currentDate, boolean currentFlag) {
+    privbtf syndironizfd void sfndPbstNotifidbtions(Dbtf durrfntDbtf, boolfbn durrfntFlbg) {
 
-        TimerNotification notif;
-        Integer notifID;
-        Date date;
+        TimfrNotifidbtion notif;
+        Intfgfr notifID;
+        Dbtf dbtf;
 
-        ArrayList<Object[]> values =
-            new ArrayList<Object[]>(timerTable.values());
+        ArrbyList<Objfdt[]> vblufs =
+            nfw ArrbyList<Objfdt[]>(timfrTbblf.vblufs());
 
-        for (Object[] obj : values) {
+        for (Objfdt[] obj : vblufs) {
 
-            // Retrieve the timer notification and the date notification.
+            // Rftrifvf tif timfr notifidbtion bnd tif dbtf notifidbtion.
             //
-            notif = (TimerNotification)obj[TIMER_NOTIF_INDEX];
-            notifID = notif.getNotificationID();
-            date = (Date)obj[TIMER_DATE_INDEX];
+            notif = (TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX];
+            notifID = notif.gftNotifidbtionID();
+            dbtf = (Dbtf)obj[TIMER_DATE_INDEX];
 
-            // Update the timer notification while:
-            //  - the timer notification date is earlier than the current date
-            //  - the timer notification has not been removed from the timer table.
+            // Updbtf tif timfr notifidbtion wiilf:
+            //  - tif timfr notifidbtion dbtf is fbrlifr tibn tif durrfnt dbtf
+            //  - tif timfr notifidbtion ibs not bffn rfmovfd from tif timfr tbblf.
             //
-            while ( (currentDate.after(date)) && (timerTable.containsKey(notifID)) ) {
+            wiilf ( (durrfntDbtf.bftfr(dbtf)) && (timfrTbblf.dontbinsKfy(notifID)) ) {
 
-                if (currentFlag == true) {
-                    if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-                        StringBuilder strb = new StringBuilder()
-                        .append("sending past timer notification:")
-                        .append("\n\tNotification source = ")
-                        .append(notif.getSource())
-                        .append("\n\tNotification type = ")
-                        .append(notif.getType())
-                        .append("\n\tNotification ID = ")
-                        .append(notif.getNotificationID())
-                        .append("\n\tNotification date = ")
-                        .append(date)
-                        .append("\n\tNotification period = ")
-                        .append(obj[TIMER_PERIOD_INDEX])
-                        .append("\n\tNotification nb of occurrences = ")
-                        .append(obj[TIMER_NB_OCCUR_INDEX])
-                        .append("\n\tNotification executes at fixed rate = ")
-                        .append(obj[FIXED_RATE_INDEX]);
-                        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                                "sendPastNotifications", strb.toString());
+                if (durrfntFlbg == truf) {
+                    if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        StringBuildfr strb = nfw StringBuildfr()
+                        .bppfnd("sfnding pbst timfr notifidbtion:")
+                        .bppfnd("\n\tNotifidbtion sourdf = ")
+                        .bppfnd(notif.gftSourdf())
+                        .bppfnd("\n\tNotifidbtion typf = ")
+                        .bppfnd(notif.gftTypf())
+                        .bppfnd("\n\tNotifidbtion ID = ")
+                        .bppfnd(notif.gftNotifidbtionID())
+                        .bppfnd("\n\tNotifidbtion dbtf = ")
+                        .bppfnd(dbtf)
+                        .bppfnd("\n\tNotifidbtion pfriod = ")
+                        .bppfnd(obj[TIMER_PERIOD_INDEX])
+                        .bppfnd("\n\tNotifidbtion nb of oddurrfndfs = ")
+                        .bppfnd(obj[TIMER_NB_OCCUR_INDEX])
+                        .bppfnd("\n\tNotifidbtion fxfdutfs bt fixfd rbtf = ")
+                        .bppfnd(obj[FIXED_RATE_INDEX]);
+                        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                                "sfndPbstNotifidbtions", strb.toString());
                     }
-                    sendNotification(date, notif);
+                    sfndNotifidbtion(dbtf, notif);
 
-                    TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                            "sendPastNotifications", "past timer notification sent");
+                    TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                            "sfndPbstNotifidbtions", "pbst timfr notifidbtion sfnt");
                 }
 
-                // Update the date and the number of occurrences of the timer notification.
+                // Updbtf tif dbtf bnd tif numbfr of oddurrfndfs of tif timfr notifidbtion.
                 //
-                updateTimerTable(notif.getNotificationID());
+                updbtfTimfrTbblf(notif.gftNotifidbtionID());
             }
         }
     }
 
     /**
-     * If the timer notification is not periodic, it is removed from the list of notifications.
+     * If tif timfr notifidbtion is not pfriodid, it is rfmovfd from tif list of notifidbtions.
      * <P>
-     * If the timer period of the timer notification has a non null periodicity,
-     * the date of the timer notification is updated by adding the periodicity.
-     * The associated TimerAlarmClock is updated by setting its timeout to the period value.
+     * If tif timfr pfriod of tif timfr notifidbtion ibs b non null pfriodidity,
+     * tif dbtf of tif timfr notifidbtion is updbtfd by bdding tif pfriodidity.
+     * Tif bssodibtfd TimfrAlbrmClodk is updbtfd by sftting its timfout to tif pfriod vbluf.
      * <P>
-     * If the timer period has a defined number of occurrences, the timer
-     * notification is updated if the number of occurrences has not yet been reached.
-     * Otherwise it is removed from the list of notifications.
+     * If tif timfr pfriod ibs b dffinfd numbfr of oddurrfndfs, tif timfr
+     * notifidbtion is updbtfd if tif numbfr of oddurrfndfs ibs not yft bffn rfbdifd.
+     * Otifrwisf it is rfmovfd from tif list of notifidbtions.
      *
-     * @param notifID The timer notification identifier to update.
+     * @pbrbm notifID Tif timfr notifidbtion idfntififr to updbtf.
      */
-    private synchronized void updateTimerTable(Integer notifID) {
+    privbtf syndironizfd void updbtfTimfrTbblf(Intfgfr notifID) {
 
-        // Retrieve the timer notification and the TimerAlarmClock.
+        // Rftrifvf tif timfr notifidbtion bnd tif TimfrAlbrmClodk.
         //
-        Object[] obj = timerTable.get(notifID);
-        Date date = (Date)obj[TIMER_DATE_INDEX];
-        Long period = (Long)obj[TIMER_PERIOD_INDEX];
-        Long nbOccurences = (Long)obj[TIMER_NB_OCCUR_INDEX];
-        Boolean fixedRate = (Boolean)obj[FIXED_RATE_INDEX];
-        TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
+        Objfdt[] obj = timfrTbblf.gft(notifID);
+        Dbtf dbtf = (Dbtf)obj[TIMER_DATE_INDEX];
+        Long pfriod = (Long)obj[TIMER_PERIOD_INDEX];
+        Long nbOddurfndfs = (Long)obj[TIMER_NB_OCCUR_INDEX];
+        Boolfbn fixfdRbtf = (Boolfbn)obj[FIXED_RATE_INDEX];
+        TimfrAlbrmClodk blbrmClodk = (TimfrAlbrmClodk)obj[ALARM_CLOCK_INDEX];
 
-        if (period.longValue() != 0) {
+        if (pfriod.longVbluf() != 0) {
 
-            // Update the date and the number of occurrences of the timer notification
-            // and the TimerAlarmClock time out.
+            // Updbtf tif dbtf bnd tif numbfr of oddurrfndfs of tif timfr notifidbtion
+            // bnd tif TimfrAlbrmClodk timf out.
             // NOTES :
-            //   nbOccurences = 0 notifies an infinite periodicity.
-            //   nbOccurences = 1 notifies a finite periodicity that has reached its end.
-            //   nbOccurences > 1 notifies a finite periodicity that has not yet reached its end.
+            //   nbOddurfndfs = 0 notififs bn infinitf pfriodidity.
+            //   nbOddurfndfs = 1 notififs b finitf pfriodidity tibt ibs rfbdifd its fnd.
+            //   nbOddurfndfs > 1 notififs b finitf pfriodidity tibt ibs not yft rfbdifd its fnd.
             //
-            if ((nbOccurences.longValue() == 0) || (nbOccurences.longValue() > 1)) {
+            if ((nbOddurfndfs.longVbluf() == 0) || (nbOddurfndfs.longVbluf() > 1)) {
 
-                date.setTime(date.getTime() + period.longValue());
-                obj[TIMER_NB_OCCUR_INDEX] = Long.valueOf(java.lang.Math.max(0L, (nbOccurences.longValue() - 1)));
-                nbOccurences = (Long)obj[TIMER_NB_OCCUR_INDEX];
+                dbtf.sftTimf(dbtf.gftTimf() + pfriod.longVbluf());
+                obj[TIMER_NB_OCCUR_INDEX] = Long.vblufOf(jbvb.lbng.Mbti.mbx(0L, (nbOddurfndfs.longVbluf() - 1)));
+                nbOddurfndfs = (Long)obj[TIMER_NB_OCCUR_INDEX];
 
-                if (isActive == true) {
-                  if (fixedRate.booleanValue())
+                if (isAdtivf == truf) {
+                  if (fixfdRbtf.boolfbnVbluf())
                   {
-                    alarmClock = new TimerAlarmClock(this, date);
-                    obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                    timer.schedule(alarmClock, alarmClock.next);
+                    blbrmClodk = nfw TimfrAlbrmClodk(tiis, dbtf);
+                    obj[ALARM_CLOCK_INDEX] = (Objfdt)blbrmClodk;
+                    timfr.sdifdulf(blbrmClodk, blbrmClodk.nfxt);
                   }
-                  else
+                  flsf
                   {
-                    alarmClock = new TimerAlarmClock(this, period.longValue());
-                    obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                    timer.schedule(alarmClock, alarmClock.timeout);
+                    blbrmClodk = nfw TimfrAlbrmClodk(tiis, pfriod.longVbluf());
+                    obj[ALARM_CLOCK_INDEX] = (Objfdt)blbrmClodk;
+                    timfr.sdifdulf(blbrmClodk, blbrmClodk.timfout);
                   }
                 }
-                if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-                    TimerNotification notif = (TimerNotification)obj[TIMER_NOTIF_INDEX];
-                    StringBuilder strb = new StringBuilder()
-                    .append("update timer notification with:")
-                    .append("\n\tNotification source = ")
-                    .append(notif.getSource())
-                    .append("\n\tNotification type = ")
-                    .append(notif.getType())
-                    .append("\n\tNotification ID = ")
-                    .append(notifID)
-                    .append("\n\tNotification date = ")
-                    .append(date)
-                    .append("\n\tNotification period = ")
-                    .append(period)
-                    .append("\n\tNotification nb of occurrences = ")
-                    .append(nbOccurences)
-                    .append("\n\tNotification executes at fixed rate = ")
-                    .append(fixedRate);
-                    TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                            "updateTimerTable", strb.toString());
+                if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    TimfrNotifidbtion notif = (TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX];
+                    StringBuildfr strb = nfw StringBuildfr()
+                    .bppfnd("updbtf timfr notifidbtion witi:")
+                    .bppfnd("\n\tNotifidbtion sourdf = ")
+                    .bppfnd(notif.gftSourdf())
+                    .bppfnd("\n\tNotifidbtion typf = ")
+                    .bppfnd(notif.gftTypf())
+                    .bppfnd("\n\tNotifidbtion ID = ")
+                    .bppfnd(notifID)
+                    .bppfnd("\n\tNotifidbtion dbtf = ")
+                    .bppfnd(dbtf)
+                    .bppfnd("\n\tNotifidbtion pfriod = ")
+                    .bppfnd(pfriod)
+                    .bppfnd("\n\tNotifidbtion nb of oddurrfndfs = ")
+                    .bppfnd(nbOddurfndfs)
+                    .bppfnd("\n\tNotifidbtion fxfdutfs bt fixfd rbtf = ")
+                    .bppfnd(fixfdRbtf);
+                    TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                            "updbtfTimfrTbblf", strb.toString());
                 }
             }
-            else {
-                if (alarmClock != null) {
-//                     alarmClock.interrupt();
+            flsf {
+                if (blbrmClodk != null) {
+//                     blbrmClodk.intfrrupt();
 //                     try {
-//                         // Wait until the thread die.
+//                         // Wbit until tif tirfbd dif.
 //                         //
-//                         alarmClock.join();
-//                     } catch (InterruptedException e) {
-//                         // Ignore...
+//                         blbrmClodk.join();
+//                     } dbtdi (IntfrruptfdExdfption f) {
+//                         // Ignorf...
 //                     }
-                    alarmClock.cancel();
+                    blbrmClodk.dbndfl();
                 }
-                timerTable.remove(notifID);
+                timfrTbblf.rfmovf(notifID);
             }
         }
-        else {
-            if (alarmClock != null) {
-//                 alarmClock.interrupt();
+        flsf {
+            if (blbrmClodk != null) {
+//                 blbrmClodk.intfrrupt();
 //                 try {
-//                     // Wait until the thread die.
+//                     // Wbit until tif tirfbd dif.
 //                     //
-//                     alarmClock.join();
-//                 } catch (InterruptedException e) {
-//                     // Ignore...
+//                     blbrmClodk.join();
+//                 } dbtdi (IntfrruptfdExdfption f) {
+//                     // Ignorf...
 //                 }
 
-                   alarmClock.cancel();
+                   blbrmClodk.dbndfl();
             }
-            timerTable.remove(notifID);
+            timfrTbblf.rfmovf(notifID);
         }
     }
 
@@ -1168,75 +1168,75 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * This method is called by the timer each time
-     * the TimerAlarmClock has exceeded its timeout.
+     * Tiis mftiod is dbllfd by tif timfr fbdi timf
+     * tif TimfrAlbrmClodk ibs fxdffdfd its timfout.
      *
-     * @param notification The TimerAlarmClock notification.
+     * @pbrbm notifidbtion Tif TimfrAlbrmClodk notifidbtion.
      */
-    @SuppressWarnings("deprecation")
-    void notifyAlarmClock(TimerAlarmClockNotification notification) {
+    @SupprfssWbrnings("dfprfdbtion")
+    void notifyAlbrmClodk(TimfrAlbrmClodkNotifidbtion notifidbtion) {
 
-        TimerNotification timerNotification = null;
-        Date timerDate = null;
+        TimfrNotifidbtion timfrNotifidbtion = null;
+        Dbtf timfrDbtf = null;
 
-        // Retrieve the timer notification associated to the alarm-clock.
+        // Rftrifvf tif timfr notifidbtion bssodibtfd to tif blbrm-dlodk.
         //
-        TimerAlarmClock alarmClock = (TimerAlarmClock)notification.getSource();
+        TimfrAlbrmClodk blbrmClodk = (TimfrAlbrmClodk)notifidbtion.gftSourdf();
 
-        synchronized(Timer.this) {
-            for (Object[] obj : timerTable.values()) {
-                if (obj[ALARM_CLOCK_INDEX] == alarmClock) {
-                    timerNotification = (TimerNotification)obj[TIMER_NOTIF_INDEX];
-                    timerDate = (Date)obj[TIMER_DATE_INDEX];
-                    break;
+        syndironizfd(Timfr.tiis) {
+            for (Objfdt[] obj : timfrTbblf.vblufs()) {
+                if (obj[ALARM_CLOCK_INDEX] == blbrmClodk) {
+                    timfrNotifidbtion = (TimfrNotifidbtion)obj[TIMER_NOTIF_INDEX];
+                    timfrDbtf = (Dbtf)obj[TIMER_DATE_INDEX];
+                    brfbk;
                 }
             }
         }
 
-        // Notify the timer.
+        // Notify tif timfr.
         //
-        sendNotification(timerDate, timerNotification);
+        sfndNotifidbtion(timfrDbtf, timfrNotifidbtion);
 
-        // Update the notification and the TimerAlarmClock timeout.
+        // Updbtf tif notifidbtion bnd tif TimfrAlbrmClodk timfout.
         //
-        updateTimerTable(timerNotification.getNotificationID());
+        updbtfTimfrTbblf(timfrNotifidbtion.gftNotifidbtionID());
     }
 
     /**
-     * This method is used by the timer MBean to update and send a timer
-     * notification to all the listeners registered for this kind of notification.
+     * Tiis mftiod is usfd by tif timfr MBfbn to updbtf bnd sfnd b timfr
+     * notifidbtion to bll tif listfnfrs rfgistfrfd for tiis kind of notifidbtion.
      *
-     * @param timeStamp The notification emission date.
-     * @param notification The timer notification to send.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     * @pbrbm notifidbtion Tif timfr notifidbtion to sfnd.
      */
-    void sendNotification(Date timeStamp, TimerNotification notification) {
+    void sfndNotifidbtion(Dbtf timfStbmp, TimfrNotifidbtion notifidbtion) {
 
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-            StringBuilder strb = new StringBuilder()
-            .append("sending timer notification:")
-            .append("\n\tNotification source = ")
-            .append(notification.getSource())
-            .append("\n\tNotification type = ")
-            .append(notification.getType())
-            .append("\n\tNotification ID = ")
-            .append(notification.getNotificationID())
-            .append("\n\tNotification date = ")
-            .append(timeStamp);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "sendNotification", strb.toString());
+        if (TIMER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            StringBuildfr strb = nfw StringBuildfr()
+            .bppfnd("sfnding timfr notifidbtion:")
+            .bppfnd("\n\tNotifidbtion sourdf = ")
+            .bppfnd(notifidbtion.gftSourdf())
+            .bppfnd("\n\tNotifidbtion typf = ")
+            .bppfnd(notifidbtion.gftTypf())
+            .bppfnd("\n\tNotifidbtion ID = ")
+            .bppfnd(notifidbtion.gftNotifidbtionID())
+            .bppfnd("\n\tNotifidbtion dbtf = ")
+            .bppfnd(timfStbmp);
+            TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                    "sfndNotifidbtion", strb.toString());
         }
-        long curSeqNumber;
-        synchronized(this) {
-            sequenceNumber = sequenceNumber + 1;
-            curSeqNumber = sequenceNumber;
+        long durSfqNumbfr;
+        syndironizfd(tiis) {
+            sfqufndfNumbfr = sfqufndfNumbfr + 1;
+            durSfqNumbfr = sfqufndfNumbfr;
         }
-        synchronized (notification) {
-            notification.setTimeStamp(timeStamp.getTime());
-            notification.setSequenceNumber(curSeqNumber);
-            this.sendNotification((TimerNotification)notification.cloneTimerNotification());
+        syndironizfd (notifidbtion) {
+            notifidbtion.sftTimfStbmp(timfStbmp.gftTimf());
+            notifidbtion.sftSfqufndfNumbfr(durSfqNumbfr);
+            tiis.sfndNotifidbtion((TimfrNotifidbtion)notifidbtion.dlonfTimfrNotifidbtion());
         }
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "sendNotification", "timer notification sent");
+        TIMER_LOGGER.logp(Lfvfl.FINER, Timfr.dlbss.gftNbmf(),
+                "sfndNotifidbtion", "timfr notifidbtion sfnt");
     }
 }

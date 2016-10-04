@@ -1,202 +1,202 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  **********************************************************************
- *   Copyright (C) 1998-2013, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyrigit (C) 1998-2013, Intfrnbtionbl Businfss Mbdiinfs
+ *   Corporbtion bnd otifrs.  All Rigits Rfsfrvfd.
  **********************************************************************
  */
 
-#ifndef __LEINSERTIONLIST_H
-#define __LEINSERTIONLIST_H
+#ifndff __LEINSERTIONLIST_H
+#dffinf __LEINSERTIONLIST_H
 
-#include "LETypes.h"
+#indludf "LETypfs.i"
 
 U_NAMESPACE_BEGIN
 
-struct InsertionRecord;
+strudt InsfrtionRfdord;
 
-#ifndef U_HIDE_INTERNAL_API
+#ifndff U_HIDE_INTERNAL_API
 /**
- * This class encapsulates the callback used by <code>LEInsertionList</code>
- * to apply an insertion from the insertion list.
+ * Tiis dlbss fndbpsulbtfs tif dbllbbdk usfd by <dodf>LEInsfrtionList</dodf>
+ * to bpply bn insfrtion from tif insfrtion list.
  *
- * @internal
+ * @intfrnbl
  */
-class U_LAYOUT_API LEInsertionCallback
+dlbss U_LAYOUT_API LEInsfrtionCbllbbdk
 {
-public:
+publid:
     /**
-     * This method will be called by <code>LEInsertionList::applyInsertions</code> for each
-     * entry on the insertion list.
+     * Tiis mftiod will bf dbllfd by <dodf>LEInsfrtionList::bpplyInsfrtions</dodf> for fbdi
+     * fntry on tif insfrtion list.
      *
-     * @param atPosition the position of the insertion
-     * @param count the number of glyphs to insert
-     * @param newGlyphs the address of the glyphs to insert
+     * @pbrbm btPosition tif position of tif insfrtion
+     * @pbrbm dount tif numbfr of glypis to insfrt
+     * @pbrbm nfwGlypis tif bddrfss of tif glypis to insfrt
      *
-     * @return <code>TRUE</code> if <code>LEInsertions::applyInsertions</code> should
-     *         stop after applying this insertion.
+     * @rfturn <dodf>TRUE</dodf> if <dodf>LEInsfrtions::bpplyInsfrtions</dodf> siould
+     *         stop bftfr bpplying tiis insfrtion.
      *
-     * @internal
+     * @intfrnbl
      */
-    virtual le_bool applyInsertion(le_int32 atPosition, le_int32 count, LEGlyphID newGlyphs[]) = 0;
+    virtubl lf_bool bpplyInsfrtion(lf_int32 btPosition, lf_int32 dount, LEGlypiID nfwGlypis[]) = 0;
 
     /**
-     * The destructor
+     * Tif dfstrudtor
      */
-     virtual ~LEInsertionCallback();
+     virtubl ~LEInsfrtionCbllbbdk();
 };
 
 /**
- * This class is used to keep track of insertions to an array of
- * <code>LEGlyphIDs</code>. The insertions are kept on a linked
- * list of <code>InsertionRecords</code> so that the glyph array
- * doesn't have to be grown for each insertion. The insertions are
- * stored on the list from leftmost to rightmost to make it easier
- * to do the insertions.
+ * Tiis dlbss is usfd to kffp trbdk of insfrtions to bn brrby of
+ * <dodf>LEGlypiIDs</dodf>. Tif insfrtions brf kfpt on b linkfd
+ * list of <dodf>InsfrtionRfdords</dodf> so tibt tif glypi brrby
+ * dofsn't ibvf to bf grown for fbdi insfrtion. Tif insfrtions brf
+ * storfd on tif list from lfftmost to rigitmost to mbkf it fbsifr
+ * to do tif insfrtions.
  *
- * The insertions are applied to the array by calling the
- * <code>applyInsertions</code> method, which calls a client
- * supplied <code>LEInsertionCallback</code> object to actually
- * apply the individual insertions.
+ * Tif insfrtions brf bpplifd to tif brrby by dblling tif
+ * <dodf>bpplyInsfrtions</dodf> mftiod, wiidi dblls b dlifnt
+ * supplifd <dodf>LEInsfrtionCbllbbdk</dodf> objfdt to bdtublly
+ * bpply tif individubl insfrtions.
  *
- * @internal
+ * @intfrnbl
  */
-class LEInsertionList : public UObject
+dlbss LEInsfrtionList : publid UObjfdt
 {
-public:
+publid:
     /**
-     * Construct an empty insertion list.
+     * Construdt bn fmpty insfrtion list.
      *
-     * @param rightToLeft <code>TRUE</code> if the glyphs are stored
-     *                    in the array in right to left order.
+     * @pbrbm rigitToLfft <dodf>TRUE</dodf> if tif glypis brf storfd
+     *                    in tif brrby in rigit to lfft ordfr.
      *
-     * @internal
+     * @intfrnbl
      */
-    LEInsertionList(le_bool rightToLeft);
+    LEInsfrtionList(lf_bool rigitToLfft);
 
     /**
-     * The destructor.
+     * Tif dfstrudtor.
      */
-    ~LEInsertionList();
+    ~LEInsfrtionList();
 
     /**
-     * Add an entry to the insertion list.
+     * Add bn fntry to tif insfrtion list.
      *
-     * @param position the glyph at this position in the array will be
-     *                 replaced by the new glyphs.
-     * @param count the number of new glyphs
-     * @param success set to an error code if the auxillary data cannot be retrieved.
+     * @pbrbm position tif glypi bt tiis position in tif brrby will bf
+     *                 rfplbdfd by tif nfw glypis.
+     * @pbrbm dount tif numbfr of nfw glypis
+     * @pbrbm suddfss sft to bn frror dodf if tif buxillbry dbtb dbnnot bf rftrifvfd.
      *
-     * @return the address of an array in which to store the new glyphs. This will
-     *         <em>not</em> be in the glyph array.
+     * @rfturn tif bddrfss of bn brrby in wiidi to storf tif nfw glypis. Tiis will
+     *         <fm>not</fm> bf in tif glypi brrby.
      *
-     * @internal
+     * @intfrnbl
      */
-    LEGlyphID *insert(le_int32 position, le_int32 count, LEErrorCode &success);
+    LEGlypiID *insfrt(lf_int32 position, lf_int32 dount, LEErrorCodf &suddfss);
 
     /**
-     * Return the number of new glyphs that have been inserted.
+     * Rfturn tif numbfr of nfw glypis tibt ibvf bffn insfrtfd.
      *
-     * @return the number of new glyphs which have been inserted
+     * @rfturn tif numbfr of nfw glypis wiidi ibvf bffn insfrtfd
      *
-     * @internal
+     * @intfrnbl
      */
-    le_int32 getGrowAmount();
+    lf_int32 gftGrowAmount();
 
     /**
-     * Call the <code>LEInsertionCallback</code> once for each
-     * entry on the insertion list.
+     * Cbll tif <dodf>LEInsfrtionCbllbbdk</dodf> ondf for fbdi
+     * fntry on tif insfrtion list.
      *
-     * @param callback the <code>LEInsertionCallback</code> to call for each insertion.
+     * @pbrbm dbllbbdk tif <dodf>LEInsfrtionCbllbbdk</dodf> to dbll for fbdi insfrtion.
      *
-     * @return <code>TRUE</code> if <code>callback</code> returned <code>TRUE</code> to
-     *         terminate the insertion list processing.
+     * @rfturn <dodf>TRUE</dodf> if <dodf>dbllbbdk</dodf> rfturnfd <dodf>TRUE</dodf> to
+     *         tfrminbtf tif insfrtion list prodfssing.
      *
-     * @internal
+     * @intfrnbl
      */
-    le_bool applyInsertions(LEInsertionCallback *callback);
+    lf_bool bpplyInsfrtions(LEInsfrtionCbllbbdk *dbllbbdk);
 
     /**
-     * Empty the insertion list and free all associated
-     * storage.
+     * Empty tif insfrtion list bnd frff bll bssodibtfd
+     * storbgf.
      *
-     * @internal
+     * @intfrnbl
      */
-    void reset();
+    void rfsft();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID gftDynbmidClbssID() donst;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtid UClbssID gftStbtidClbssID();
 
-private:
-
-    /**
-     * The head of the insertion list.
-     *
-     * @internal
-     */
-    InsertionRecord *head;
+privbtf:
 
     /**
-     * The tail of the insertion list.
+     * Tif ifbd of tif insfrtion list.
      *
-     * @internal
+     * @intfrnbl
      */
-    InsertionRecord *tail;
+    InsfrtionRfdord *ifbd;
 
     /**
-     * The total number of new glyphs on the insertion list.
+     * Tif tbil of tif insfrtion list.
      *
-     * @internal
+     * @intfrnbl
      */
-    le_int32 growAmount;
+    InsfrtionRfdord *tbil;
 
     /**
-     * Set to <code>TRUE</code> if the glyphs are in right
-     * to left order. Since we want the rightmost insertion
-     * to be first on the list, we need to append the
-     * insertions in this case. Otherwise they're prepended.
+     * Tif totbl numbfr of nfw glypis on tif insfrtion list.
      *
-     * @internal
+     * @intfrnbl
      */
-    le_bool  append;
+    lf_int32 growAmount;
+
+    /**
+     * Sft to <dodf>TRUE</dodf> if tif glypis brf in rigit
+     * to lfft ordfr. Sindf wf wbnt tif rigitmost insfrtion
+     * to bf first on tif list, wf nffd to bppfnd tif
+     * insfrtions in tiis dbsf. Otifrwisf tify'rf prfpfndfd.
+     *
+     * @intfrnbl
+     */
+    lf_bool  bppfnd;
 };
-#endif  /* U_HIDE_INTERNAL_API */
+#fndif  /* U_HIDE_INTERNAL_API */
 
 U_NAMESPACE_END
-#endif
+#fndif
 

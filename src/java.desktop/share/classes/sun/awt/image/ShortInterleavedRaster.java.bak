@@ -1,772 +1,772 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.RasterFormatException;
-import java.awt.image.SampleModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferUShort;
-import java.awt.Rectangle;
-import java.awt.Point;
+pbdkbgf sun.bwt.imbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.RbstfrFormbtExdfption;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrUSiort;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Point;
 
 /**
- * This class defines a Raster with pixels consisting of one or more 16-bit
- * data elements stored in close proximity to each other in a short integer
- * array.  The bit precision per data element is that
- * of the data type (that is, the bit precision for this Raster is 16).
- * There is only one pixel stride and one scanline stride for all
- * bands.  This type of Raster can be used with a
- * ComponentColorModel if there are multiple bands, or a
- * IndexColorModel if there is only one band.
+ * Tiis dlbss dffinfs b Rbstfr witi pixfls donsisting of onf or morf 16-bit
+ * dbtb flfmfnts storfd in dlosf proximity to fbdi otifr in b siort intfgfr
+ * brrby.  Tif bit prfdision pfr dbtb flfmfnt is tibt
+ * of tif dbtb typf (tibt is, tif bit prfdision for tiis Rbstfr is 16).
+ * Tifrf is only onf pixfl stridf bnd onf sdbnlinf stridf for bll
+ * bbnds.  Tiis typf of Rbstfr dbn bf usfd witi b
+ * ComponfntColorModfl if tifrf brf multiplf bbnds, or b
+ * IndfxColorModfl if tifrf is only onf bbnd.
  * <p>
- * For example, 5-6-5 RGB image data can be represented by a
- * ShortInterleavedRaster using a SinglePixelPackedSampleModel and
- * a ComponentColorModel.
+ * For fxbmplf, 5-6-5 RGB imbgf dbtb dbn bf rfprfsfntfd by b
+ * SiortIntfrlfbvfdRbstfr using b SinglfPixflPbdkfdSbmplfModfl bnd
+ * b ComponfntColorModfl.
  *
  *
  */
-public class ShortInterleavedRaster extends ShortComponentRaster {
+publid dlbss SiortIntfrlfbvfdRbstfr fxtfnds SiortComponfntRbstfr {
 
-    /** A cached copy of minX + width for use in bounds checks. */
-    private int maxX;
+    /** A dbdifd dopy of minX + widti for usf in bounds difdks. */
+    privbtf int mbxX;
 
-    /** A cached copy of minY + height for use in bounds checks. */
-    private int maxY;
+    /** A dbdifd dopy of minY + ifigit for usf in bounds difdks. */
+    privbtf int mbxY;
 
     /**
-     *  Constructs a ShortInterleavedRaster with the given SampleModel.
-     *  The Raster's upper left corner is origin and it is the same
-     *  size as the SampleModel.  A DataBuffer large enough to describe the
-     *  Raster is automatically created.  SampleModel must be of type
-     *  PixelInterleavedSampleModel or SinglePixelPackedSampleModel.
-     *  @param sampleModel     The SampleModel that specifies the layout.
-     *  @param origin          The Point that specified the origin.
+     *  Construdts b SiortIntfrlfbvfdRbstfr witi tif givfn SbmplfModfl.
+     *  Tif Rbstfr's uppfr lfft dornfr is origin bnd it is tif sbmf
+     *  sizf bs tif SbmplfModfl.  A DbtbBufffr lbrgf fnougi to dfsdribf tif
+     *  Rbstfr is butombtidblly drfbtfd.  SbmplfModfl must bf of typf
+     *  PixflIntfrlfbvfdSbmplfModfl or SinglfPixflPbdkfdSbmplfModfl.
+     *  @pbrbm sbmplfModfl     Tif SbmplfModfl tibt spfdififs tif lbyout.
+     *  @pbrbm origin          Tif Point tibt spfdififd tif origin.
      */
-    public ShortInterleavedRaster(SampleModel sampleModel, Point origin) {
-        this(sampleModel,
-             sampleModel.createDataBuffer(),
-             new Rectangle(origin.x,
+    publid SiortIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl, Point origin) {
+        tiis(sbmplfModfl,
+             sbmplfModfl.drfbtfDbtbBufffr(),
+             nfw Rfdtbnglf(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmplfModfl.gftWidti(),
+                           sbmplfModfl.gftHfigit()),
              origin,
              null);
     }
 
     /**
-     * Constructs a ShortInterleavedRaster with the given SampleModel
-     * and DataBuffer.  The Raster's upper left corner is origin and
-     * it is the same sizes the SampleModel.  The DataBuffer is not
-     * initialized and must be a DataBufferUShort compatible with SampleModel.
-     * SampleModel must be of type PixelInterleavedSampleModel or
-     * SinglePixelPackedSampleModel.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferUShort that contains the image data.
-     * @param origin          The Point that specifies the origin.
+     * Construdts b SiortIntfrlfbvfdRbstfr witi tif givfn SbmplfModfl
+     * bnd DbtbBufffr.  Tif Rbstfr's uppfr lfft dornfr is origin bnd
+     * it is tif sbmf sizfs tif SbmplfModfl.  Tif DbtbBufffr is not
+     * initiblizfd bnd must bf b DbtbBufffrUSiort dompbtiblf witi SbmplfModfl.
+     * SbmplfModfl must bf of typf PixflIntfrlfbvfdSbmplfModfl or
+     * SinglfPixflPbdkfdSbmplfModfl.
+     * @pbrbm sbmplfModfl     Tif SbmplfModfl tibt spfdififs tif lbyout.
+     * @pbrbm dbtbBufffr      Tif DbtbBufffrUSiort tibt dontbins tif imbgf dbtb.
+     * @pbrbm origin          Tif Point tibt spfdififs tif origin.
      */
-    public ShortInterleavedRaster(SampleModel sampleModel,
-                                   DataBuffer dataBuffer,
+    publid SiortIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl,
+                                   DbtbBufffr dbtbBufffr,
                                    Point origin) {
-        this(sampleModel,
-             dataBuffer,
-             new Rectangle(origin.x,
+        tiis(sbmplfModfl,
+             dbtbBufffr,
+             nfw Rfdtbnglf(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmplfModfl.gftWidti(),
+                           sbmplfModfl.gftHfigit()),
              origin,
              null);
     }
 
     /**
-     * Constructs a ShortInterleavedRaster with the given SampleModel,
-     * DataBuffer, and parent.  DataBuffer must be a DataBufferUShort and
-     * SampleModel must be of type PixelInterleavedSampleModel or
-     * SinglePixelPackedSampleModel.  When translated into the base Raster's
-     * coordinate system, aRegion must be contained by the base Raster.
-     * Origin is the coodinate in the new Raster's coordinate system of
-     * the origin of the base Raster.  (The base Raster is the Raster's
-     * ancestor which has no parent.)
+     * Construdts b SiortIntfrlfbvfdRbstfr witi tif givfn SbmplfModfl,
+     * DbtbBufffr, bnd pbrfnt.  DbtbBufffr must bf b DbtbBufffrUSiort bnd
+     * SbmplfModfl must bf of typf PixflIntfrlfbvfdSbmplfModfl or
+     * SinglfPixflPbdkfdSbmplfModfl.  Wifn trbnslbtfd into tif bbsf Rbstfr's
+     * doordinbtf systfm, bRfgion must bf dontbinfd by tif bbsf Rbstfr.
+     * Origin is tif doodinbtf in tif nfw Rbstfr's doordinbtf systfm of
+     * tif origin of tif bbsf Rbstfr.  (Tif bbsf Rbstfr is tif Rbstfr's
+     * bndfstor wiidi ibs no pbrfnt.)
      *
-     * Note that this constructor should generally be called by other
-     * constructors or create methods, it should not be used directly.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferUShort that contains the image data.
-     * @param aRegion         The Rectangle that specifies the image area.
-     * @param origin          The Point that specifies the origin.
-     * @param parent          The parent (if any) of this raster.
+     * Notf tibt tiis donstrudtor siould gfnfrblly bf dbllfd by otifr
+     * donstrudtors or drfbtf mftiods, it siould not bf usfd dirfdtly.
+     * @pbrbm sbmplfModfl     Tif SbmplfModfl tibt spfdififs tif lbyout.
+     * @pbrbm dbtbBufffr      Tif DbtbBufffrUSiort tibt dontbins tif imbgf dbtb.
+     * @pbrbm bRfgion         Tif Rfdtbnglf tibt spfdififs tif imbgf brfb.
+     * @pbrbm origin          Tif Point tibt spfdififs tif origin.
+     * @pbrbm pbrfnt          Tif pbrfnt (if bny) of tiis rbstfr.
      */
-    public ShortInterleavedRaster(SampleModel sampleModel,
-                                   DataBuffer dataBuffer,
-                                   Rectangle aRegion,
+    publid SiortIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl,
+                                   DbtbBufffr dbtbBufffr,
+                                   Rfdtbnglf bRfgion,
                                    Point origin,
-                                   ShortInterleavedRaster parent) {
+                                   SiortIntfrlfbvfdRbstfr pbrfnt) {
 
-        super(sampleModel, dataBuffer, aRegion, origin, parent);
-        this.maxX = minX + width;
-        this.maxY = minY + height;
+        supfr(sbmplfModfl, dbtbBufffr, bRfgion, origin, pbrfnt);
+        tiis.mbxX = minX + widti;
+        tiis.mbxY = minY + ifigit;
 
-        if(!(dataBuffer instanceof DataBufferUShort)) {
-            throw new RasterFormatException("ShortInterleavedRasters must "+
-                                            "have ushort DataBuffers");
+        if(!(dbtbBufffr instbndfof DbtbBufffrUSiort)) {
+            tirow nfw RbstfrFormbtExdfption("SiortIntfrlfbvfdRbstfrs must "+
+                                            "ibvf usiort DbtbBufffrs");
         }
 
-        DataBufferUShort dbus = (DataBufferUShort)dataBuffer;
-        this.data = stealData(dbus, 0);
+        DbtbBufffrUSiort dbus = (DbtbBufffrUSiort)dbtbBufffr;
+        tiis.dbtb = stfblDbtb(dbus, 0);
 
-        // REMIND: need case for interleaved ComponentSampleModel
-        if ((sampleModel instanceof PixelInterleavedSampleModel) ||
-            (sampleModel instanceof ComponentSampleModel &&
-             sampleModel.getNumBands() == 1)) {
-            ComponentSampleModel csm = (ComponentSampleModel)sampleModel;
+        // REMIND: nffd dbsf for intfrlfbvfd ComponfntSbmplfModfl
+        if ((sbmplfModfl instbndfof PixflIntfrlfbvfdSbmplfModfl) ||
+            (sbmplfModfl instbndfof ComponfntSbmplfModfl &&
+             sbmplfModfl.gftNumBbnds() == 1)) {
+            ComponfntSbmplfModfl dsm = (ComponfntSbmplfModfl)sbmplfModfl;
 
-            this.scanlineStride = csm.getScanlineStride();
-            this.pixelStride = csm.getPixelStride();
-            this.dataOffsets = csm.getBandOffsets();
-            int xOffset = aRegion.x - origin.x;
-            int yOffset = aRegion.y - origin.y;
-            for (int i = 0; i < getNumDataElements(); i++) {
-                dataOffsets[i] += xOffset*pixelStride+yOffset*scanlineStride;
+            tiis.sdbnlinfStridf = dsm.gftSdbnlinfStridf();
+            tiis.pixflStridf = dsm.gftPixflStridf();
+            tiis.dbtbOffsfts = dsm.gftBbndOffsfts();
+            int xOffsft = bRfgion.x - origin.x;
+            int yOffsft = bRfgion.y - origin.y;
+            for (int i = 0; i < gftNumDbtbElfmfnts(); i++) {
+                dbtbOffsfts[i] += xOffsft*pixflStridf+yOffsft*sdbnlinfStridf;
             }
-        } else if (sampleModel instanceof SinglePixelPackedSampleModel) {
-            SinglePixelPackedSampleModel sppsm =
-                    (SinglePixelPackedSampleModel)sampleModel;
-            this.scanlineStride = sppsm.getScanlineStride();
-            this.pixelStride    = 1;
-            this.dataOffsets = new int[1];
-            this.dataOffsets[0] = dbus.getOffset();
-            int xOffset = aRegion.x - origin.x;
-            int yOffset = aRegion.y - origin.y;
-            dataOffsets[0] += xOffset+yOffset*scanlineStride;
-        } else {
-            throw new RasterFormatException("ShortInterleavedRasters must "+
-              "have PixelInterleavedSampleModel, SinglePixelPackedSampleModel"+
-              " or 1 band ComponentSampleModel.  Sample model is "+
-              sampleModel);
+        } flsf if (sbmplfModfl instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+            SinglfPixflPbdkfdSbmplfModfl sppsm =
+                    (SinglfPixflPbdkfdSbmplfModfl)sbmplfModfl;
+            tiis.sdbnlinfStridf = sppsm.gftSdbnlinfStridf();
+            tiis.pixflStridf    = 1;
+            tiis.dbtbOffsfts = nfw int[1];
+            tiis.dbtbOffsfts[0] = dbus.gftOffsft();
+            int xOffsft = bRfgion.x - origin.x;
+            int yOffsft = bRfgion.y - origin.y;
+            dbtbOffsfts[0] += xOffsft+yOffsft*sdbnlinfStridf;
+        } flsf {
+            tirow nfw RbstfrFormbtExdfption("SiortIntfrlfbvfdRbstfrs must "+
+              "ibvf PixflIntfrlfbvfdSbmplfModfl, SinglfPixflPbdkfdSbmplfModfl"+
+              " or 1 bbnd ComponfntSbmplfModfl.  Sbmplf modfl is "+
+              sbmplfModfl);
         }
-        this.bandOffset = this.dataOffsets[0];
-        verify();
+        tiis.bbndOffsft = tiis.dbtbOffsfts[0];
+        vfrify();
     }
 
     /**
-     * Returns a copy of the data offsets array. For each band the data offset
-     * is the index into the band's data array, of the first sample of the
-     * band.
+     * Rfturns b dopy of tif dbtb offsfts brrby. For fbdi bbnd tif dbtb offsft
+     * is tif indfx into tif bbnd's dbtb brrby, of tif first sbmplf of tif
+     * bbnd.
      */
-    public int[] getDataOffsets() {
-        return dataOffsets.clone();
+    publid int[] gftDbtbOffsfts() {
+        rfturn dbtbOffsfts.dlonf();
     }
 
     /**
-     * Returns the data offset for the specified band.  The data offset
-     * is the index into the data array in which the first sample
-     * of the first scanline is stored.
-     * @param band  The band whose offset is returned.
+     * Rfturns tif dbtb offsft for tif spfdififd bbnd.  Tif dbtb offsft
+     * is tif indfx into tif dbtb brrby in wiidi tif first sbmplf
+     * of tif first sdbnlinf is storfd.
+     * @pbrbm bbnd  Tif bbnd wiosf offsft is rfturnfd.
      */
-    public int getDataOffset(int band) {
-        return dataOffsets[band];
+    publid int gftDbtbOffsft(int bbnd) {
+        rfturn dbtbOffsfts[bbnd];
     }
 
     /**
-     * Returns the scanline stride -- the number of data array elements between
-     * a given sample and the same sample in the same column of the next row.
+     * Rfturns tif sdbnlinf stridf -- tif numbfr of dbtb brrby flfmfnts bftwffn
+     * b givfn sbmplf bnd tif sbmf sbmplf in tif sbmf dolumn of tif nfxt row.
      */
-    public int getScanlineStride() {
-        return scanlineStride;
+    publid int gftSdbnlinfStridf() {
+        rfturn sdbnlinfStridf;
     }
 
     /**
-     * Returns pixel stride -- the number of data array elements  between two
-     * samples for the same band on the same scanline.
+     * Rfturns pixfl stridf -- tif numbfr of dbtb brrby flfmfnts  bftwffn two
+     * sbmplfs for tif sbmf bbnd on tif sbmf sdbnlinf.
      */
-    public int getPixelStride() {
-        return pixelStride;
+    publid int gftPixflStridf() {
+        rfturn pixflStridf;
     }
 
     /**
-     * Returns a reference to the data array.
+     * Rfturns b rfffrfndf to tif dbtb brrby.
      */
-    public short[] getDataStorage() {
-        return data;
+    publid siort[] gftDbtbStorbgf() {
+        rfturn dbtb;
     }
 
     /**
-     * Returns the data elements for all bands at the specified
-     * location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * Rfturns tif dbtb flfmfnts for bll bbnds bt tif spfdififd
+     * lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtf is out of bounds.
+     * A ClbssCbstExdfption will bf tirown if tif input objfdt is non null
+     * bnd rfffrfndfs bnytiing otifr tibn bn brrby of trbnsffrTypf.
+     * @pbrbm x        Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm outDbtb  An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngti gftNumDbtbElfmfnts().
+     *                 If null bn brrby of bppropribtf typf bnd sizf will bf
+     *                 bllodbtfd.
+     * @rfturn         An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() witi tif rfqufst pixfl dbtb.
      */
-    public Object getDataElements(int x, int y, Object obj) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid Objfdt gftDbtbElfmfnts(int x, int y, Objfdt obj) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x >= tiis.mbxX) || (y >= tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        short outData[];
+        siort outDbtb[];
         if (obj == null) {
-            outData = new short[numDataElements];
-        } else {
-            outData = (short[])obj;
+            outDbtb = nfw siort[numDbtbElfmfnts];
+        } flsf {
+            outDbtb = (siort[])obj;
         }
-        int off = (y-minY)*scanlineStride +
-                  (x-minX)*pixelStride;
+        int off = (y-minY)*sdbnlinfStridf +
+                  (x-minX)*pixflStridf;
 
-        for (int band = 0; band < numDataElements; band++) {
-            outData[band] = data[dataOffsets[band] + off];
+        for (int bbnd = 0; bbnd < numDbtbElfmfnts; bbnd++) {
+            outDbtb[bbnd] = dbtb[dbtbOffsfts[bbnd] + off];
         }
 
-        return outData;
+        rfturn outDbtb;
     }
 
     /**
-     * Returns an array  of data elements from the specified rectangular
-     * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * <pre>
-     *       short[] bandData = (short[])Raster.getDataElements(x, y, w, h, null);
-     *       int numDataElements = Raster.getBands();
-     *       short[] pixel = new short[numDataElements];
-     *       // To find the data element at location (x2, y2)
-     *       System.arraycopy(bandData, ((y2-y)*w + (x2-x))*numDataElements,
-     *                        pixel, 0, numDataElements);
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * Rfturns bn brrby  of dbtb flfmfnts from tif spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * A ClbssCbstExdfption will bf tirown if tif input objfdt is non null
+     * bnd rfffrfndfs bnytiing otifr tibn bn brrby of trbnsffrTypf.
+     * <prf>
+     *       siort[] bbndDbtb = (siort[])Rbstfr.gftDbtbElfmfnts(x, y, w, i, null);
+     *       int numDbtbElfmfnts = Rbstfr.gftBbnds();
+     *       siort[] pixfl = nfw siort[numDbtbElfmfnts];
+     *       // To find tif dbtb flfmfnt bt lodbtion (x2, y2)
+     *       Systfm.brrbydopy(bbndDbtb, ((y2-y)*w + (x2-x))*numDbtbElfmfnts,
+     *                        pixfl, 0, numDbtbElfmfnts);
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm widti    Widti of tif pixfl rfdtbnglf.
+     * @pbrbm ifigit   Hfigit of tif pixfl rfdtbnglf.
+     * @pbrbm outDbtb  An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngti w*i*gftNumDbtbElfmfnts().
+     *                 If null bn brrby of bppropribtf typf bnd sizf will bf
+     *                 bllodbtfd.
+     * @rfturn         An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() witi tif rfqufst pixfl dbtb.
      */
-    public Object getDataElements(int x, int y, int w, int h, Object obj) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid Objfdt gftDbtbElfmfnts(int x, int y, int w, int i, Objfdt obj) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        short outData[];
+        siort outDbtb[];
         if (obj == null) {
-            outData = new short[w*h*numDataElements];
-        } else {
-            outData = (short[])obj;
+            outDbtb = nfw siort[w*i*numDbtbElfmfnts];
+        } flsf {
+            outDbtb = (siort[])obj;
         }
-        int yoff = (y-minY)*scanlineStride +
-                   (x-minX)*pixelStride;
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
 
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    outData[off++] = data[dataOffsets[c] + xoff];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                for (int d = 0; d < numDbtbElfmfnts; d++) {
+                    outDbtb[off++] = dbtb[dbtbOffsfts[d] + xoff];
                 }
             }
         }
 
-        return outData;
+        rfturn outDbtb;
     }
 
     /**
-     * Returns a short integer array of data elements from the
-     * specified rectangular region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * <pre>
-     *       short[] bandData = Raster.getShortData(x, y, w, h, null);
-     *       // To find the data element at location (x2, y2)
-     *       short dataElenent = bandData[((y2-y)*w + (x2-x))];
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the sample rectangle.
-     * @param height   Height of the sample rectangle.
-     * @param band     The band to return.
-     * @param outData  If non-null, data elements for all bands
-     *                 at the specified location are returned in this array.
-     * @return         Data array with data elements for all bands.
+     * Rfturns b siort intfgfr brrby of dbtb flfmfnts from tif
+     * spfdififd rfdtbngulbr rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * <prf>
+     *       siort[] bbndDbtb = Rbstfr.gftSiortDbtb(x, y, w, i, null);
+     *       // To find tif dbtb flfmfnt bt lodbtion (x2, y2)
+     *       siort dbtbElfnfnt = bbndDbtb[((y2-y)*w + (x2-x))];
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm widti    Widti of tif sbmplf rfdtbnglf.
+     * @pbrbm ifigit   Hfigit of tif sbmplf rfdtbnglf.
+     * @pbrbm bbnd     Tif bbnd to rfturn.
+     * @pbrbm outDbtb  If non-null, dbtb flfmfnts for bll bbnds
+     *                 bt tif spfdififd lodbtion brf rfturnfd in tiis brrby.
+     * @rfturn         Dbtb brrby witi dbtb flfmfnts for bll bbnds.
      */
-    public short[] getShortData(int x, int y, int w, int h,
-                               int band, short[] outData) {
-        // Bounds check for 'band' will be performed automatically
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid siort[] gftSiortDbtb(int x, int y, int w, int i,
+                               int bbnd, siort[] outDbtb) {
+        // Bounds difdk for 'bbnd' will bf pfrformfd butombtidblly
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        if (outData == null) {
-            outData = new short[numDataElements*w*h];
+        if (outDbtb == null) {
+            outDbtb = nfw siort[numDbtbElfmfnts*w*i];
         }
-        int yoff =  (y-minY)*scanlineStride +
-                    (x-minX)*pixelStride+ dataOffsets[band];
+        int yoff =  (y-minY)*sdbnlinfStridf +
+                    (x-minX)*pixflStridf+ dbtbOffsfts[bbnd];
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        if (pixelStride == 1) {
-            if (scanlineStride == w) {
-                System.arraycopy(data, yoff, outData, 0, w*h);
+        if (pixflStridf == 1) {
+            if (sdbnlinfStridf == w) {
+                Systfm.brrbydopy(dbtb, yoff, outDbtb, 0, w*i);
             }
-            else {
-                for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
-                    System.arraycopy(data, yoff, outData, off, w);
+            flsf {
+                for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(dbtb, yoff, outDbtb, off, w);
                     off += w;
                 }
             }
         }
-        else {
-            for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        flsf {
+            for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
                 xoff = yoff;
-                for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                    outData[off++] = data[xoff];
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
                 }
             }
         }
 
-        return outData;
+        rfturn outDbtb;
     }
 
     /**
-     * Returns a short integer array  of data elements from the
-     * specified rectangular region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * <pre>
-     *       short[] bandData = Raster.getShortData(x, y, w, h, null);
-     *       int numDataElements = Raster.getNumBands();
-     *       short[] pixel = new short[numDataElements];
-     *       // To find the data element at location (x2, y2)
-     *       System.arraycopy(bandData, ((y2-y)*w + (x2-x))*numDataElements,
-     *                        pixel, 0, numDataElements);
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param outData  If non-null, data elements for all bands
-     *                 at the specified location are returned in this array.
-     * @return         Data array with data elements for all bands.
+     * Rfturns b siort intfgfr brrby  of dbtb flfmfnts from tif
+     * spfdififd rfdtbngulbr rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * <prf>
+     *       siort[] bbndDbtb = Rbstfr.gftSiortDbtb(x, y, w, i, null);
+     *       int numDbtbElfmfnts = Rbstfr.gftNumBbnds();
+     *       siort[] pixfl = nfw siort[numDbtbElfmfnts];
+     *       // To find tif dbtb flfmfnt bt lodbtion (x2, y2)
+     *       Systfm.brrbydopy(bbndDbtb, ((y2-y)*w + (x2-x))*numDbtbElfmfnts,
+     *                        pixfl, 0, numDbtbElfmfnts);
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm widti    Widti of tif pixfl rfdtbnglf.
+     * @pbrbm ifigit   Hfigit of tif pixfl rfdtbnglf.
+     * @pbrbm outDbtb  If non-null, dbtb flfmfnts for bll bbnds
+     *                 bt tif spfdififd lodbtion brf rfturnfd in tiis brrby.
+     * @rfturn         Dbtb brrby witi dbtb flfmfnts for bll bbnds.
      */
-    public short[] getShortData(int x, int y, int w, int h, short[] outData) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid siort[] gftSiortDbtb(int x, int y, int w, int i, siort[] outDbtb) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        if (outData == null) {
-            outData = new short[numDataElements*w*h];
+        if (outDbtb == null) {
+            outDbtb = nfw siort[numDbtbElfmfnts*w*i];
         }
-        int yoff = (y-minY)*scanlineStride +
-                   (x-minX)*pixelStride;
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    outData[off++] = data[dataOffsets[c] + xoff];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                for (int d = 0; d < numDbtbElfmfnts; d++) {
+                    outDbtb[off++] = dbtb[dbtbOffsfts[d] + xoff];
                 }
             }
         }
 
-        return outData;
+        rfturn outDbtb;
     }
 
     /**
-     * Stores the data elements for all bands at the specified location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements()
-     *                 containing the pixel data to place at x,y.
+     * Storfs tif dbtb flfmfnts for bll bbnds bt tif spfdififd lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtf is out of bounds.
+     * A ClbssCbstExdfption will bf tirown if tif input objfdt is non null
+     * bnd rfffrfndfs bnytiing otifr tibn bn brrby of trbnsffrTypf.
+     * @pbrbm x        Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm inDbtb   An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngti gftNumDbtbElfmfnts()
+     *                 dontbining tif pixfl dbtb to plbdf bt x,y.
      */
-    public void setDataElements(int x, int y, Object obj) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftDbtbElfmfnts(int x, int y, Objfdt obj) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x >= tiis.mbxX) || (y >= tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        short inData[] = (short[])obj;
-        int off = (y-minY)*scanlineStride +
-                  (x-minX)*pixelStride;
-        for (int i = 0; i < numDataElements; i++) {
-            data[dataOffsets[i] + off] = inData[i];
+        siort inDbtb[] = (siort[])obj;
+        int off = (y-minY)*sdbnlinfStridf +
+                  (x-minX)*pixflStridf;
+        for (int i = 0; i < numDbtbElfmfnts; i++) {
+            dbtb[dbtbOffsfts[i] + off] = inDbtb[i];
         }
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Stores the Raster data at the specified location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * @param x          The X coordinate of the pixel location.
-     * @param y          The Y coordinate of the pixel location.
-     * @param inRaster   Raster of data to place at x,y location.
+     * Storfs tif Rbstfr dbtb bt tif spfdififd lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * @pbrbm x          Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y          Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm inRbstfr   Rbstfr of dbtb to plbdf bt x,y lodbtion.
      */
-    public void setDataElements(int x, int y, Raster inRaster) {
-        int dstOffX = x + inRaster.getMinX();
-        int dstOffY = y + inRaster.getMinY();
-        int width  = inRaster.getWidth();
-        int height = inRaster.getHeight();
-        if ((dstOffX < this.minX) || (dstOffY < this.minY) ||
-            (dstOffX + width > this.maxX) || (dstOffY + height > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftDbtbElfmfnts(int x, int y, Rbstfr inRbstfr) {
+        int dstOffX = x + inRbstfr.gftMinX();
+        int dstOffY = y + inRbstfr.gftMinY();
+        int widti  = inRbstfr.gftWidti();
+        int ifigit = inRbstfr.gftHfigit();
+        if ((dstOffX < tiis.minX) || (dstOffY < tiis.minY) ||
+            (dstOffX + widti > tiis.mbxX) || (dstOffY + ifigit > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
 
-        setDataElements(dstOffX, dstOffY, width, height, inRaster);
+        sftDbtbElfmfnts(dstOffX, dstOffY, widti, ifigit, inRbstfr);
     }
 
     /**
-     * Stores the Raster data at the specified location.
-     * @param dstX The absolute X coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param dstY The absolute Y coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param width      The number of pixels to store horizontally
-     * @param height     The number of pixels to store vertically
-     * @param inRaster   Raster of data to place at x,y location.
+     * Storfs tif Rbstfr dbtb bt tif spfdififd lodbtion.
+     * @pbrbm dstX Tif bbsolutf X doordinbtf of tif dfstinbtion pixfl
+     * tibt will rfdfivf b dopy of tif uppfr-lfft pixfl of tif
+     * inRbstfr
+     * @pbrbm dstY Tif bbsolutf Y doordinbtf of tif dfstinbtion pixfl
+     * tibt will rfdfivf b dopy of tif uppfr-lfft pixfl of tif
+     * inRbstfr
+     * @pbrbm widti      Tif numbfr of pixfls to storf iorizontblly
+     * @pbrbm ifigit     Tif numbfr of pixfls to storf vfrtidblly
+     * @pbrbm inRbstfr   Rbstfr of dbtb to plbdf bt x,y lodbtion.
      */
-    private void setDataElements(int dstX, int dstY,
-                                 int width, int height,
-                                 Raster inRaster) {
-        // Assume bounds checking has been performed previously
-        if (width <= 0 || height <= 0) {
-            return;
+    privbtf void sftDbtbElfmfnts(int dstX, int dstY,
+                                 int widti, int ifigit,
+                                 Rbstfr inRbstfr) {
+        // Assumf bounds difdking ibs bffn pfrformfd prfviously
+        if (widti <= 0 || ifigit <= 0) {
+            rfturn;
         }
 
-        // Write inRaster (minX, minY) to (dstX, dstY)
+        // Writf inRbstfr (minX, minY) to (dstX, dstY)
 
-        int srcOffX = inRaster.getMinX();
-        int srcOffY = inRaster.getMinY();
-        Object tdata = null;
+        int srdOffX = inRbstfr.gftMinX();
+        int srdOffY = inRbstfr.gftMinY();
+        Objfdt tdbtb = null;
 
-//      REMIND: Do something faster!
-//      if (inRaster instanceof ShortInterleavedRaster) {
+//      REMIND: Do somftiing fbstfr!
+//      if (inRbstfr instbndfof SiortIntfrlfbvfdRbstfr) {
 //      }
 
-        for (int startY=0; startY < height; startY++) {
-            // Grab one scanline at a time
-            tdata = inRaster.getDataElements(srcOffX, srcOffY+startY,
-                                             width, 1, tdata);
-            setDataElements(dstX, dstY + startY, width, 1, tdata);
+        for (int stbrtY=0; stbrtY < ifigit; stbrtY++) {
+            // Grbb onf sdbnlinf bt b timf
+            tdbtb = inRbstfr.gftDbtbElfmfnts(srdOffX, srdOffY+stbrtY,
+                                             widti, 1, tdbtb);
+            sftDbtbElfmfnts(dstX, dstY + stbrtY, widti, 1, tdbtb);
         }
     }
 
     /**
-     * Stores an array of data elements into the specified rectangular
-     * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * for the nth band at location (x2, y2) would be found at:
-     * <pre>
-     *      inData[((y2-y)*w + (x2-x))*numDataElements + n]
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements()
-     *                 containing the pixel data to place between x,y and
-     *                 x+h, y+h.
+     * Storfs bn brrby of dbtb flfmfnts into tif spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * A ClbssCbstExdfption will bf tirown if tif input objfdt is non null
+     * bnd rfffrfndfs bnytiing otifr tibn bn brrby of trbnsffrTypf.
+     * Tif dbtb flfmfnts in tif
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Tibt is, b dbtb flfmfnt
+     * for tif nti bbnd bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x))*numDbtbElfmfnts + n]
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Widti of tif pixfl rfdtbnglf.
+     * @pbrbm i        Hfigit of tif pixfl rfdtbnglf.
+     * @pbrbm inDbtb   An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngti w*i*gftNumDbtbElfmfnts()
+     *                 dontbining tif pixfl dbtb to plbdf bftwffn x,y bnd
+     *                 x+i, y+i.
      */
-    public void setDataElements(int x, int y, int w, int h, Object obj) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftDbtbElfmfnts(int x, int y, int w, int i, Objfdt obj) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        short inData[] = (short[])obj;
-        int yoff = (y-minY)*scanlineStride +
-                   (x-minX)*pixelStride;
+        siort inDbtb[] = (siort[])obj;
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    data[dataOffsets[c] + xoff] = inData[off++];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                for (int d = 0; d < numDbtbElfmfnts; d++) {
+                    dbtb[dbtbOffsfts[d] + xoff] = inDbtb[off++];
                 }
             }
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Stores a short integer array of data elements into the
-     * specified rectangular region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * at location (x2, y2) would be found at:
-     * <pre>
-     *      inData[((y2-y)*w + (x2-x))]
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param band     The band to set.
-     * @param inData   The data elements to be stored.
+     * Storfs b siort intfgfr brrby of dbtb flfmfnts into tif
+     * spfdififd rfdtbngulbr rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * Tif dbtb flfmfnts in tif
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Tibt is, b dbtb flfmfnt
+     * bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x))]
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Widti of tif pixfl rfdtbnglf.
+     * @pbrbm i        Hfigit of tif pixfl rfdtbnglf.
+     * @pbrbm bbnd     Tif bbnd to sft.
+     * @pbrbm inDbtb   Tif dbtb flfmfnts to bf storfd.
      */
-    public void putShortData(int x, int y, int w, int h,
-                             int band, short[] inData) {
-        // Bounds check for 'band' will be performed automatically
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void putSiortDbtb(int x, int y, int w, int i,
+                             int bbnd, siort[] inDbtb) {
+        // Bounds difdk for 'bbnd' will bf pfrformfd butombtidblly
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int yoff =  (y-minY)*scanlineStride +
-                    (x-minX)*pixelStride + dataOffsets[band];
+        int yoff =  (y-minY)*sdbnlinfStridf +
+                    (x-minX)*pixflStridf + dbtbOffsfts[bbnd];
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        if (pixelStride == 1) {
-            if (scanlineStride == w) {
-                System.arraycopy(inData, 0, data, yoff, w*h);
+        if (pixflStridf == 1) {
+            if (sdbnlinfStridf == w) {
+                Systfm.brrbydopy(inDbtb, 0, dbtb, yoff, w*i);
             }
-            else {
-                for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
-                    System.arraycopy(inData, off, data, yoff, w);
+            flsf {
+                for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(inDbtb, off, dbtb, yoff, w);
                     off += w;
                 }
             }
         }
-        else {
-            for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        flsf {
+            for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
                 xoff = yoff;
-                for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                    data[xoff] = inData[off++];
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
                 }
             }
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Stores a short integer array of data elements into the
-     * specified rectangular region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * for the nth band at location (x2, y2) would be found at:
-     * <pre>
-     *      inData[((y2-y)*w + (x2-x))*numDataElements + n]
-     * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   The data elements to be stored.
+     * Storfs b siort intfgfr brrby of dbtb flfmfnts into tif
+     * spfdififd rfdtbngulbr rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf tirown bt runtimf
+     * if tif pixfl doordinbtfs brf out of bounds.
+     * Tif dbtb flfmfnts in tif
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Tibt is, b dbtb flfmfnt
+     * for tif nti bbnd bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x))*numDbtbElfmfnts + n]
+     * </prf>
+     * @pbrbm x        Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Widti of tif pixfl rfdtbnglf.
+     * @pbrbm i        Hfigit of tif pixfl rfdtbnglf.
+     * @pbrbm inDbtb   Tif dbtb flfmfnts to bf storfd.
      */
-    public void putShortData(int x, int y, int w, int h, short[] inData) {
-        if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void putSiortDbtb(int x, int y, int w, int i, siort[] inDbtb) {
+        if ((x < tiis.minX) || (y < tiis.minY) ||
+            (x + w > tiis.mbxX) || (y + i > tiis.mbxY)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int yoff = (y-minY)*scanlineStride +
-                   (x-minX)*pixelStride;
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < i; ystbrt++, yoff += sdbnlinfStridf) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    data[dataOffsets[c] + xoff] = inData[off++];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                for (int d = 0; d < numDbtbElfmfnts; d++) {
+                    dbtb[dbtbOffsfts[d] + xoff] = inDbtb[off++];
                 }
             }
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Creates a subraster given a region of the raster.  The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this raster to the upper-left corner
-     * of the subraster.  A subset of the bands of the parent Raster may
-     * be specified.  If this is null, then all the bands are present in the
-     * subRaster. A translation to the subRaster may also be specified.
-     * Note that the subraster will reference the same
-     * band objects as the parent raster, but using different offsets.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subraster.
-     * @param y0              Translated Y origin of the subraster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent raster.
+     * Crfbtfs b subrbstfr givfn b rfgion of tif rbstfr.  Tif x bnd y
+     * doordinbtfs spfdify tif iorizontbl bnd vfrtidbl offsfts
+     * from tif uppfr-lfft dornfr of tiis rbstfr to tif uppfr-lfft dornfr
+     * of tif subrbstfr.  A subsft of tif bbnds of tif pbrfnt Rbstfr mby
+     * bf spfdififd.  If tiis is null, tifn bll tif bbnds brf prfsfnt in tif
+     * subRbstfr. A trbnslbtion to tif subRbstfr mby blso bf spfdififd.
+     * Notf tibt tif subrbstfr will rfffrfndf tif sbmf
+     * bbnd objfdts bs tif pbrfnt rbstfr, but using difffrfnt offsfts.
+     * @pbrbm x               X offsft.
+     * @pbrbm y               Y offsft.
+     * @pbrbm widti           Widti (in pixfls) of tif subrbstfr.
+     * @pbrbm ifigit          Hfigit (in pixfls) of tif subrbstfr.
+     * @pbrbm x0              Trbnslbtfd X origin of tif subrbstfr.
+     * @pbrbm y0              Trbnslbtfd Y origin of tif subrbstfr.
+     * @pbrbm bbndList        Arrby of bbnd indidfs.
+     * @fxdfption RbstfrFormbtExdfption
+     *            if tif spfdififd bounding box is outsidf of tif pbrfnt rbstfr.
      */
-    public Raster createChild (int x, int y,
-                               int width, int height,
-                               int x0, int y0, int[] bandList) {
-        WritableRaster newRaster = createWritableChild(x, y,
-                                                       width, height,
+    publid Rbstfr drfbtfCiild (int x, int y,
+                               int widti, int ifigit,
+                               int x0, int y0, int[] bbndList) {
+        WritbblfRbstfr nfwRbstfr = drfbtfWritbblfCiild(x, y,
+                                                       widti, ifigit,
                                                        x0, y0,
-                                                       bandList);
-        return (Raster) newRaster;
+                                                       bbndList);
+        rfturn (Rbstfr) nfwRbstfr;
     }
 
     /**
-     * Creates a Writable subRaster given a region of the Raster. The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this Raster to the upper-left corner
-     * of the subRaster.  A subset of the bands of the parent Raster may
-     * be specified.  If this is null, then all the bands are present in the
-     * subRaster. A translation to the subRaster may also be specified.
-     * Note that the subRaster will reference the same
-     * DataBuffers as the parent Raster, but using different offsets.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subraster.
-     * @param y0              Translated Y origin of the subraster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent Raster.
+     * Crfbtfs b Writbblf subRbstfr givfn b rfgion of tif Rbstfr. Tif x bnd y
+     * doordinbtfs spfdify tif iorizontbl bnd vfrtidbl offsfts
+     * from tif uppfr-lfft dornfr of tiis Rbstfr to tif uppfr-lfft dornfr
+     * of tif subRbstfr.  A subsft of tif bbnds of tif pbrfnt Rbstfr mby
+     * bf spfdififd.  If tiis is null, tifn bll tif bbnds brf prfsfnt in tif
+     * subRbstfr. A trbnslbtion to tif subRbstfr mby blso bf spfdififd.
+     * Notf tibt tif subRbstfr will rfffrfndf tif sbmf
+     * DbtbBufffrs bs tif pbrfnt Rbstfr, but using difffrfnt offsfts.
+     * @pbrbm x               X offsft.
+     * @pbrbm y               Y offsft.
+     * @pbrbm widti           Widti (in pixfls) of tif subrbstfr.
+     * @pbrbm ifigit          Hfigit (in pixfls) of tif subrbstfr.
+     * @pbrbm x0              Trbnslbtfd X origin of tif subrbstfr.
+     * @pbrbm y0              Trbnslbtfd Y origin of tif subrbstfr.
+     * @pbrbm bbndList        Arrby of bbnd indidfs.
+     * @fxdfption RbstfrFormbtExdfption
+     *            if tif spfdififd bounding box is outsidf of tif pbrfnt Rbstfr.
      */
-    public WritableRaster createWritableChild(int x, int y,
-                                              int width, int height,
+    publid WritbblfRbstfr drfbtfWritbblfCiild(int x, int y,
+                                              int widti, int ifigit,
                                               int x0, int y0,
-                                              int[] bandList) {
-        if (x < this.minX) {
-            throw new RasterFormatException("x lies outside the raster");
+                                              int[] bbndList) {
+        if (x < tiis.minX) {
+            tirow nfw RbstfrFormbtExdfption("x lifs outsidf tif rbstfr");
         }
-        if (y < this.minY) {
-            throw new RasterFormatException("y lies outside the raster");
+        if (y < tiis.minY) {
+            tirow nfw RbstfrFormbtExdfption("y lifs outsidf tif rbstfr");
         }
-        if ((x+width < x) || (x+width > this.minX + this.width)) {
-            throw new RasterFormatException("(x + width) is outside of Raster");
+        if ((x+widti < x) || (x+widti > tiis.minX + tiis.widti)) {
+            tirow nfw RbstfrFormbtExdfption("(x + widti) is outsidf of Rbstfr");
         }
-        if ((y+height < y) || (y+height > this.minY + this.height)) {
-            throw new RasterFormatException("(y + height) is outside of Raster");
+        if ((y+ifigit < y) || (y+ifigit > tiis.minY + tiis.ifigit)) {
+            tirow nfw RbstfrFormbtExdfption("(y + ifigit) is outsidf of Rbstfr");
         }
 
-        SampleModel sm;
+        SbmplfModfl sm;
 
-        if (bandList != null)
-            sm = sampleModel.createSubsetSampleModel(bandList);
-        else
-            sm = sampleModel;
+        if (bbndList != null)
+            sm = sbmplfModfl.drfbtfSubsftSbmplfModfl(bbndList);
+        flsf
+            sm = sbmplfModfl;
 
-        int deltaX = x0 - x;
-        int deltaY = y0 - y;
+        int dfltbX = x0 - x;
+        int dfltbY = y0 - y;
 
-        return new ShortInterleavedRaster(sm,
-                                       dataBuffer,
-                                       new Rectangle(x0, y0, width, height),
-                                       new Point(sampleModelTranslateX+deltaX,
-                                                 sampleModelTranslateY+deltaY),
-                                       this);
+        rfturn nfw SiortIntfrlfbvfdRbstfr(sm,
+                                       dbtbBufffr,
+                                       nfw Rfdtbnglf(x0, y0, widti, ifigit),
+                                       nfw Point(sbmplfModflTrbnslbtfX+dfltbX,
+                                                 sbmplfModflTrbnslbtfY+dfltbY),
+                                       tiis);
     }
 
     /**
-     * Creates a Raster with the same layout but using a different
-     * width and height, and with new zeroed data arrays.
+     * Crfbtfs b Rbstfr witi tif sbmf lbyout but using b difffrfnt
+     * widti bnd ifigit, bnd witi nfw zfrofd dbtb brrbys.
      */
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
-        if (w <= 0 || h <=0) {
-            throw new RasterFormatException("negative "+
-                                          ((w <= 0) ? "width" : "height"));
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int i) {
+        if (w <= 0 || i <=0) {
+            tirow nfw RbstfrFormbtExdfption("nfgbtivf "+
+                                          ((w <= 0) ? "widti" : "ifigit"));
         }
 
-        SampleModel sm = sampleModel.createCompatibleSampleModel(w, h);
+        SbmplfModfl sm = sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(w, i);
 
-        return new ShortInterleavedRaster(sm, new Point(0, 0));
+        rfturn nfw SiortIntfrlfbvfdRbstfr(sm, nfw Point(0, 0));
     }
 
     /**
-     * Creates a Raster with the same layout and the same
-     * width and height, and with new zeroed data arrays.  If
-     * the Raster is a subRaster, this will call
-     * createCompatibleRaster(width, height).
+     * Crfbtfs b Rbstfr witi tif sbmf lbyout bnd tif sbmf
+     * widti bnd ifigit, bnd witi nfw zfrofd dbtb brrbys.  If
+     * tif Rbstfr is b subRbstfr, tiis will dbll
+     * drfbtfCompbtiblfRbstfr(widti, ifigit).
      */
-    public WritableRaster createCompatibleWritableRaster() {
-        return createCompatibleWritableRaster(width,height);
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr() {
+        rfturn drfbtfCompbtiblfWritbblfRbstfr(widti,ifigit);
     }
 
-    public String toString() {
-        return new String ("ShortInterleavedRaster: width = "+width
-                           +" height = " + height
-                           +" #numDataElements "+numDataElements);
-                           // +" xOff = "+xOffset+" yOff = "+yOffset);
+    publid String toString() {
+        rfturn nfw String ("SiortIntfrlfbvfdRbstfr: widti = "+widti
+                           +" ifigit = " + ifigit
+                           +" #numDbtbElfmfnts "+numDbtbElfmfnts);
+                           // +" xOff = "+xOffsft+" yOff = "+yOffsft);
     }
 
 }

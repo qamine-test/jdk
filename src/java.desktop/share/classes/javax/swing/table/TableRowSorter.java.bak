@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import java.text.Collator;
-import java.util.*;
-import javax.swing.DefaultRowSorter;
-import javax.swing.RowFilter;
-import javax.swing.SortOrder;
+import jbvb.tfxt.Collbtor;
+import jbvb.util.*;
+import jbvbx.swing.DffbultRowSortfr;
+import jbvbx.swing.RowFiltfr;
+import jbvbx.swing.SortOrdfr;
 
 /**
- * An implementation of <code>RowSorter</code> that provides sorting
- * and filtering using a <code>TableModel</code>.
- * The following example shows adding sorting to a <code>JTable</code>:
- * <pre>
- *   TableModel myModel = createMyTableModel();
- *   JTable table = new JTable(myModel);
- *   table.setRowSorter(new TableRowSorter(myModel));
- * </pre>
- * This will do all the wiring such that when the user does the appropriate
- * gesture, such as clicking on the column header, the table will
- * visually sort.
+ * An implfmfntbtion of <dodf>RowSortfr</dodf> tibt providfs sorting
+ * bnd filtfring using b <dodf>TbblfModfl</dodf>.
+ * Tif following fxbmplf siows bdding sorting to b <dodf>JTbblf</dodf>:
+ * <prf>
+ *   TbblfModfl myModfl = drfbtfMyTbblfModfl();
+ *   JTbblf tbblf = nfw JTbblf(myModfl);
+ *   tbblf.sftRowSortfr(nfw TbblfRowSortfr(myModfl));
+ * </prf>
+ * Tiis will do bll tif wiring sudi tibt wifn tif usfr dofs tif bppropribtf
+ * gfsturf, sudi bs dlidking on tif dolumn ifbdfr, tif tbblf will
+ * visublly sort.
  * <p>
- * <code>JTable</code>'s row-based methods and <code>JTable</code>'s
- * selection model refer to the view and not the underlying
- * model. Therefore, it is necessary to convert between the two.  For
- * example, to get the selection in terms of <code>myModel</code>
- * you need to convert the indices:
- * <pre>
- *   int[] selection = table.getSelectedRows();
- *   for (int i = 0; i &lt; selection.length; i++) {
- *     selection[i] = table.convertRowIndexToModel(selection[i]);
+ * <dodf>JTbblf</dodf>'s row-bbsfd mftiods bnd <dodf>JTbblf</dodf>'s
+ * sflfdtion modfl rfffr to tif vifw bnd not tif undfrlying
+ * modfl. Tifrfforf, it is nfdfssbry to donvfrt bftwffn tif two.  For
+ * fxbmplf, to gft tif sflfdtion in tfrms of <dodf>myModfl</dodf>
+ * you nffd to donvfrt tif indidfs:
+ * <prf>
+ *   int[] sflfdtion = tbblf.gftSflfdtfdRows();
+ *   for (int i = 0; i &lt; sflfdtion.lfngti; i++) {
+ *     sflfdtion[i] = tbblf.donvfrtRowIndfxToModfl(sflfdtion[i]);
  *   }
- * </pre>
- * Similarly to select a row in <code>JTable</code> based on
- * a coordinate from the underlying model do the inverse:
- * <pre>
- *   table.setRowSelectionInterval(table.convertRowIndexToView(row),
- *                                 table.convertRowIndexToView(row));
- * </pre>
+ * </prf>
+ * Similbrly to sflfdt b row in <dodf>JTbblf</dodf> bbsfd on
+ * b doordinbtf from tif undfrlying modfl do tif invfrsf:
+ * <prf>
+ *   tbblf.sftRowSflfdtionIntfrvbl(tbblf.donvfrtRowIndfxToVifw(row),
+ *                                 tbblf.donvfrtRowIndfxToVifw(row));
+ * </prf>
  * <p>
- * The previous example assumes you have not enabled filtering.  If you
- * have enabled filtering <code>convertRowIndexToView</code> will return
- * -1 for locations that are not visible in the view.
+ * Tif prfvious fxbmplf bssumfs you ibvf not fnbblfd filtfring.  If you
+ * ibvf fnbblfd filtfring <dodf>donvfrtRowIndfxToVifw</dodf> will rfturn
+ * -1 for lodbtions tibt brf not visiblf in tif vifw.
  * <p>
- * <code>TableRowSorter</code> uses <code>Comparator</code>s for doing
- * comparisons. The following defines how a <code>Comparator</code> is
- * chosen for a column:
+ * <dodf>TbblfRowSortfr</dodf> usfs <dodf>Compbrbtor</dodf>s for doing
+ * dompbrisons. Tif following dffinfs iow b <dodf>Compbrbtor</dodf> is
+ * diosfn for b dolumn:
  * <ol>
- * <li>If a <code>Comparator</code> has been specified for the column by the
- *     <code>setComparator</code> method, use it.
- * <li>If the column class as returned by <code>getColumnClass</code> is
- *     <code>String</code>, use the <code>Comparator</code> returned by
- *     <code>Collator.getInstance()</code>.
- * <li>If the column class implements <code>Comparable</code>, use a
- *     <code>Comparator</code> that invokes the <code>compareTo</code>
- *     method.
- * <li>If a <code>TableStringConverter</code> has been specified, use it
- *     to convert the values to <code>String</code>s and then use the
- *     <code>Comparator</code> returned by <code>Collator.getInstance()</code>.
- * <li>Otherwise use the <code>Comparator</code> returned by
- *     <code>Collator.getInstance()</code> on the results from
- *     calling <code>toString</code> on the objects.
+ * <li>If b <dodf>Compbrbtor</dodf> ibs bffn spfdififd for tif dolumn by tif
+ *     <dodf>sftCompbrbtor</dodf> mftiod, usf it.
+ * <li>If tif dolumn dlbss bs rfturnfd by <dodf>gftColumnClbss</dodf> is
+ *     <dodf>String</dodf>, usf tif <dodf>Compbrbtor</dodf> rfturnfd by
+ *     <dodf>Collbtor.gftInstbndf()</dodf>.
+ * <li>If tif dolumn dlbss implfmfnts <dodf>Compbrbblf</dodf>, usf b
+ *     <dodf>Compbrbtor</dodf> tibt invokfs tif <dodf>dompbrfTo</dodf>
+ *     mftiod.
+ * <li>If b <dodf>TbblfStringConvfrtfr</dodf> ibs bffn spfdififd, usf it
+ *     to donvfrt tif vblufs to <dodf>String</dodf>s bnd tifn usf tif
+ *     <dodf>Compbrbtor</dodf> rfturnfd by <dodf>Collbtor.gftInstbndf()</dodf>.
+ * <li>Otifrwisf usf tif <dodf>Compbrbtor</dodf> rfturnfd by
+ *     <dodf>Collbtor.gftInstbndf()</dodf> on tif rfsults from
+ *     dblling <dodf>toString</dodf> on tif objfdts.
  * </ol>
  * <p>
- * In addition to sorting <code>TableRowSorter</code> provides the ability
- * to filter.  A filter is specified using the <code>setFilter</code>
- * method. The following example will only show rows containing the string
+ * In bddition to sorting <dodf>TbblfRowSortfr</dodf> providfs tif bbility
+ * to filtfr.  A filtfr is spfdififd using tif <dodf>sftFiltfr</dodf>
+ * mftiod. Tif following fxbmplf will only siow rows dontbining tif string
  * "foo":
- * <pre>
- *   TableModel myModel = createMyTableModel();
- *   TableRowSorter sorter = new TableRowSorter(myModel);
- *   sorter.setRowFilter(RowFilter.regexFilter(".*foo.*"));
- *   JTable table = new JTable(myModel);
- *   table.setRowSorter(sorter);
- * </pre>
+ * <prf>
+ *   TbblfModfl myModfl = drfbtfMyTbblfModfl();
+ *   TbblfRowSortfr sortfr = nfw TbblfRowSortfr(myModfl);
+ *   sortfr.sftRowFiltfr(RowFiltfr.rfgfxFiltfr(".*foo.*"));
+ *   JTbblf tbblf = nfw JTbblf(myModfl);
+ *   tbblf.sftRowSortfr(sortfr);
+ * </prf>
  * <p>
- * If the underlying model structure changes (the
- * <code>modelStructureChanged</code> method is invoked) the following
- * are reset to their default values: <code>Comparator</code>s by
- * column, current sort order, and whether each column is sortable. The default
- * sort order is natural (the same as the model), and columns are
- * sortable by default.
+ * If tif undfrlying modfl strudturf dibngfs (tif
+ * <dodf>modflStrudturfCibngfd</dodf> mftiod is invokfd) tif following
+ * brf rfsft to tifir dffbult vblufs: <dodf>Compbrbtor</dodf>s by
+ * dolumn, durrfnt sort ordfr, bnd wiftifr fbdi dolumn is sortbblf. Tif dffbult
+ * sort ordfr is nbturbl (tif sbmf bs tif modfl), bnd dolumns brf
+ * sortbblf by dffbult.
  * <p>
- * <code>TableRowSorter</code> has one formal type parameter: the type
- * of the model.  Passing in a type that corresponds exactly to your
- * model allows you to filter based on your model without casting.
- * Refer to the documentation of <code>RowFilter</code> for an example
- * of this.
+ * <dodf>TbblfRowSortfr</dodf> ibs onf formbl typf pbrbmftfr: tif typf
+ * of tif modfl.  Pbssing in b typf tibt dorrfsponds fxbdtly to your
+ * modfl bllows you to filtfr bbsfd on your modfl witiout dbsting.
+ * Rfffr to tif dodumfntbtion of <dodf>RowFiltfr</dodf> for bn fxbmplf
+ * of tiis.
  * <p>
- * <b>WARNING:</b> <code>DefaultTableModel</code> returns a column
- * class of <code>Object</code>.  As such all comparisons will
- * be done using <code>toString</code>.  This may be unnecessarily
- * expensive.  If the column only contains one type of value, such as
- * an <code>Integer</code>, you should override <code>getColumnClass</code> and
- * return the appropriate <code>Class</code>.  This will dramatically
- * increase the performance of this class.
+ * <b>WARNING:</b> <dodf>DffbultTbblfModfl</dodf> rfturns b dolumn
+ * dlbss of <dodf>Objfdt</dodf>.  As sudi bll dompbrisons will
+ * bf donf using <dodf>toString</dodf>.  Tiis mby bf unnfdfssbrily
+ * fxpfnsivf.  If tif dolumn only dontbins onf typf of vbluf, sudi bs
+ * bn <dodf>Intfgfr</dodf>, you siould ovfrridf <dodf>gftColumnClbss</dodf> bnd
+ * rfturn tif bppropribtf <dodf>Clbss</dodf>.  Tiis will drbmbtidblly
+ * indrfbsf tif pfrformbndf of tiis dlbss.
  *
- * @param <M> the type of the model, which must be an implementation of
- *            <code>TableModel</code>
- * @see javax.swing.JTable
- * @see javax.swing.RowFilter
- * @see javax.swing.table.DefaultTableModel
- * @see java.text.Collator
- * @see java.util.Comparator
- * @since 1.6
+ * @pbrbm <M> tif typf of tif modfl, wiidi must bf bn implfmfntbtion of
+ *            <dodf>TbblfModfl</dodf>
+ * @sff jbvbx.swing.JTbblf
+ * @sff jbvbx.swing.RowFiltfr
+ * @sff jbvbx.swing.tbblf.DffbultTbblfModfl
+ * @sff jbvb.tfxt.Collbtor
+ * @sff jbvb.util.Compbrbtor
+ * @sindf 1.6
  */
-public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, Integer> {
+publid dlbss TbblfRowSortfr<M fxtfnds TbblfModfl> fxtfnds DffbultRowSortfr<M, Intfgfr> {
     /**
-     * Comparator that uses compareTo on the contents.
+     * Compbrbtor tibt usfs dompbrfTo on tif dontfnts.
      */
-    private static final Comparator<?> COMPARABLE_COMPARATOR =
-            new ComparableComparator();
+    privbtf stbtid finbl Compbrbtor<?> COMPARABLE_COMPARATOR =
+            nfw CompbrbblfCompbrbtor();
 
     /**
-     * Underlying model.
+     * Undfrlying modfl.
      */
-    private M tableModel;
+    privbtf M tbblfModfl;
 
     /**
-     * For toString conversions.
+     * For toString donvfrsions.
      */
-    private TableStringConverter stringConverter;
+    privbtf TbblfStringConvfrtfr stringConvfrtfr;
 
 
     /**
-     * Creates a <code>TableRowSorter</code> with an empty model.
+     * Crfbtfs b <dodf>TbblfRowSortfr</dodf> witi bn fmpty modfl.
      */
-    public TableRowSorter() {
-        this(null);
+    publid TbblfRowSortfr() {
+        tiis(null);
     }
 
     /**
-     * Creates a <code>TableRowSorter</code> using <code>model</code>
-     * as the underlying <code>TableModel</code>.
+     * Crfbtfs b <dodf>TbblfRowSortfr</dodf> using <dodf>modfl</dodf>
+     * bs tif undfrlying <dodf>TbblfModfl</dodf>.
      *
-     * @param model the underlying <code>TableModel</code> to use,
-     *        <code>null</code> is treated as an empty model
+     * @pbrbm modfl tif undfrlying <dodf>TbblfModfl</dodf> to usf,
+     *        <dodf>null</dodf> is trfbtfd bs bn fmpty modfl
      */
-    public TableRowSorter(M model) {
-        setModel(model);
+    publid TbblfRowSortfr(M modfl) {
+        sftModfl(modfl);
     }
 
     /**
-     * Sets the <code>TableModel</code> to use as the underlying model
-     * for this <code>TableRowSorter</code>.  A value of <code>null</code>
-     * can be used to set an empty model.
+     * Sfts tif <dodf>TbblfModfl</dodf> to usf bs tif undfrlying modfl
+     * for tiis <dodf>TbblfRowSortfr</dodf>.  A vbluf of <dodf>null</dodf>
+     * dbn bf usfd to sft bn fmpty modfl.
      *
-     * @param model the underlying model to use, or <code>null</code>
+     * @pbrbm modfl tif undfrlying modfl to usf, or <dodf>null</dodf>
      */
-    public void setModel(M model) {
-        tableModel = model;
-        setModelWrapper(new TableRowSorterModelWrapper());
+    publid void sftModfl(M modfl) {
+        tbblfModfl = modfl;
+        sftModflWrbppfr(nfw TbblfRowSortfrModflWrbppfr());
     }
 
     /**
-     * Sets the object responsible for converting values from the
-     * model to strings.  If non-<code>null</code> this
-     * is used to convert any object values, that do not have a
-     * registered <code>Comparator</code>, to strings.
+     * Sfts tif objfdt rfsponsiblf for donvfrting vblufs from tif
+     * modfl to strings.  If non-<dodf>null</dodf> tiis
+     * is usfd to donvfrt bny objfdt vblufs, tibt do not ibvf b
+     * rfgistfrfd <dodf>Compbrbtor</dodf>, to strings.
      *
-     * @param stringConverter the object responsible for converting values
-     *        from the model to strings
+     * @pbrbm stringConvfrtfr tif objfdt rfsponsiblf for donvfrting vblufs
+     *        from tif modfl to strings
      */
-    public void setStringConverter(TableStringConverter stringConverter) {
-        this.stringConverter = stringConverter;
+    publid void sftStringConvfrtfr(TbblfStringConvfrtfr stringConvfrtfr) {
+        tiis.stringConvfrtfr = stringConvfrtfr;
     }
 
     /**
-     * Returns the object responsible for converting values from the
-     * model to strings.
+     * Rfturns tif objfdt rfsponsiblf for donvfrting vblufs from tif
+     * modfl to strings.
      *
-     * @return object responsible for converting values to strings.
+     * @rfturn objfdt rfsponsiblf for donvfrting vblufs to strings.
      */
-    public TableStringConverter getStringConverter() {
-        return stringConverter;
+    publid TbblfStringConvfrtfr gftStringConvfrtfr() {
+        rfturn stringConvfrtfr;
     }
 
     /**
-     * Returns the <code>Comparator</code> for the specified
-     * column.  If a <code>Comparator</code> has not been specified using
-     * the <code>setComparator</code> method a <code>Comparator</code>
-     * will be returned based on the column class
-     * (<code>TableModel.getColumnClass</code>) of the specified column.
-     * If the column class is <code>String</code>,
-     * <code>Collator.getInstance</code> is returned.  If the
-     * column class implements <code>Comparable</code> a private
-     * <code>Comparator</code> is returned that invokes the
-     * <code>compareTo</code> method.  Otherwise
-     * <code>Collator.getInstance</code> is returned.
+     * Rfturns tif <dodf>Compbrbtor</dodf> for tif spfdififd
+     * dolumn.  If b <dodf>Compbrbtor</dodf> ibs not bffn spfdififd using
+     * tif <dodf>sftCompbrbtor</dodf> mftiod b <dodf>Compbrbtor</dodf>
+     * will bf rfturnfd bbsfd on tif dolumn dlbss
+     * (<dodf>TbblfModfl.gftColumnClbss</dodf>) of tif spfdififd dolumn.
+     * If tif dolumn dlbss is <dodf>String</dodf>,
+     * <dodf>Collbtor.gftInstbndf</dodf> is rfturnfd.  If tif
+     * dolumn dlbss implfmfnts <dodf>Compbrbblf</dodf> b privbtf
+     * <dodf>Compbrbtor</dodf> is rfturnfd tibt invokfs tif
+     * <dodf>dompbrfTo</dodf> mftiod.  Otifrwisf
+     * <dodf>Collbtor.gftInstbndf</dodf> is rfturnfd.
      *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public Comparator<?> getComparator(int column) {
-        Comparator<?> comparator = super.getComparator(column);
-        if (comparator != null) {
-            return comparator;
+    publid Compbrbtor<?> gftCompbrbtor(int dolumn) {
+        Compbrbtor<?> dompbrbtor = supfr.gftCompbrbtor(dolumn);
+        if (dompbrbtor != null) {
+            rfturn dompbrbtor;
         }
-        Class<?> columnClass = getModel().getColumnClass(column);
-        if (columnClass == String.class) {
-            return Collator.getInstance();
+        Clbss<?> dolumnClbss = gftModfl().gftColumnClbss(dolumn);
+        if (dolumnClbss == String.dlbss) {
+            rfturn Collbtor.gftInstbndf();
         }
-        if (Comparable.class.isAssignableFrom(columnClass)) {
-            return COMPARABLE_COMPARATOR;
+        if (Compbrbblf.dlbss.isAssignbblfFrom(dolumnClbss)) {
+            rfturn COMPARABLE_COMPARATOR;
         }
-        return Collator.getInstance();
+        rfturn Collbtor.gftInstbndf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    protected boolean useToString(int column) {
-        Comparator<?> comparator = super.getComparator(column);
-        if (comparator != null) {
-            return false;
+    protfdtfd boolfbn usfToString(int dolumn) {
+        Compbrbtor<?> dompbrbtor = supfr.gftCompbrbtor(dolumn);
+        if (dompbrbtor != null) {
+            rfturn fblsf;
         }
-        Class<?> columnClass = getModel().getColumnClass(column);
-        if (columnClass == String.class) {
-            return false;
+        Clbss<?> dolumnClbss = gftModfl().gftColumnClbss(dolumn);
+        if (dolumnClbss == String.dlbss) {
+            rfturn fblsf;
         }
-        if (Comparable.class.isAssignableFrom(columnClass)) {
-            return false;
+        if (Compbrbblf.dlbss.isAssignbblfFrom(dolumnClbss)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Implementation of DefaultRowSorter.ModelWrapper that delegates to a
-     * TableModel.
+     * Implfmfntbtion of DffbultRowSortfr.ModflWrbppfr tibt dflfgbtfs to b
+     * TbblfModfl.
      */
-    private class TableRowSorterModelWrapper extends ModelWrapper<M,Integer> {
-        public M getModel() {
-            return tableModel;
+    privbtf dlbss TbblfRowSortfrModflWrbppfr fxtfnds ModflWrbppfr<M,Intfgfr> {
+        publid M gftModfl() {
+            rfturn tbblfModfl;
         }
 
-        public int getColumnCount() {
-            return (tableModel == null) ? 0 : tableModel.getColumnCount();
+        publid int gftColumnCount() {
+            rfturn (tbblfModfl == null) ? 0 : tbblfModfl.gftColumnCount();
         }
 
-        public int getRowCount() {
-            return (tableModel == null) ? 0 : tableModel.getRowCount();
+        publid int gftRowCount() {
+            rfturn (tbblfModfl == null) ? 0 : tbblfModfl.gftRowCount();
         }
 
-        public Object getValueAt(int row, int column) {
-            return tableModel.getValueAt(row, column);
+        publid Objfdt gftVblufAt(int row, int dolumn) {
+            rfturn tbblfModfl.gftVblufAt(row, dolumn);
         }
 
-        public String getStringValueAt(int row, int column) {
-            TableStringConverter converter = getStringConverter();
-            if (converter != null) {
-                // Use the converter
-                String value = converter.toString(
-                        tableModel, row, column);
-                if (value != null) {
-                    return value;
+        publid String gftStringVblufAt(int row, int dolumn) {
+            TbblfStringConvfrtfr donvfrtfr = gftStringConvfrtfr();
+            if (donvfrtfr != null) {
+                // Usf tif donvfrtfr
+                String vbluf = donvfrtfr.toString(
+                        tbblfModfl, row, dolumn);
+                if (vbluf != null) {
+                    rfturn vbluf;
                 }
-                return "";
+                rfturn "";
             }
 
-            // No converter, use getValueAt followed by toString
-            Object o = getValueAt(row, column);
+            // No donvfrtfr, usf gftVblufAt followfd by toString
+            Objfdt o = gftVblufAt(row, dolumn);
             if (o == null) {
-                return "";
+                rfturn "";
             }
             String string = o.toString();
             if (string == null) {
-                return "";
+                rfturn "";
             }
-            return string;
+            rfturn string;
         }
 
-        public Integer getIdentifier(int index) {
-            return index;
+        publid Intfgfr gftIdfntififr(int indfx) {
+            rfturn indfx;
         }
     }
 
 
-    private static class ComparableComparator implements Comparator<Object> {
-        @SuppressWarnings("unchecked")
-        public int compare(Object o1, Object o2) {
-            return ((Comparable)o1).compareTo(o2);
+    privbtf stbtid dlbss CompbrbblfCompbrbtor implfmfnts Compbrbtor<Objfdt> {
+        @SupprfssWbrnings("undifdkfd")
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
+            rfturn ((Compbrbblf)o1).dompbrfTo(o2);
         }
     }
 }

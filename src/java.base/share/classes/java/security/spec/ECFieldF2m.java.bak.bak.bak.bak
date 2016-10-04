@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Arrbys;
+
+/**
+ * This immutbblf dlbss dffinfs bn flliptid durvf (EC)
+ * dhbrbdtfristid 2 finitf fifld.
+ *
+ * @sff ECFifld
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss ECFifldF2m implfmfnts ECFifld {
+
+    privbtf int m;
+    privbtf int[] ks;
+    privbtf BigIntfgfr rp;
+
+    /**
+     * Crfbtfs bn flliptid durvf dhbrbdtfristid 2 finitf
+     * fifld whidh hbs 2^{@dodf m} flfmfnts with normbl bbsis.
+     * @pbrbm m with 2^{@dodf m} bfing thf numbfr of flfmfnts.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf m}
+     * is not positivf.
+     */
+    publid ECFifldF2m(int m) {
+        if (m <= 0) {
+            throw nfw IllfgblArgumfntExdfption("m is not positivf");
+        }
+        this.m = m;
+        this.ks = null;
+        this.rp = null;
+    }
+
+    /**
+     * Crfbtfs bn flliptid durvf dhbrbdtfristid 2 finitf
+     * fifld whidh hbs 2^{@dodf m} flfmfnts with
+     * polynomibl bbsis.
+     * Thf rfdudtion polynomibl for this fifld is bbsfd
+     * on {@dodf rp} whosf i-th bit dorrfsponds to
+     * thf i-th dofffidifnt of thf rfdudtion polynomibl.<p>
+     * Notf: A vblid rfdudtion polynomibl is fithfr b
+     * trinomibl (X^{@dodf m} + X^{@dodf k} + 1
+     * with {@dodf m} &gt; {@dodf k} &gt;= 1) or b
+     * pfntbnomibl (X^{@dodf m} + X^{@dodf k3}
+     * + X^{@dodf k2} + X^{@dodf k1} + 1 with
+     * {@dodf m} &gt; {@dodf k3} &gt; {@dodf k2}
+     * &gt; {@dodf k1} &gt;= 1).
+     * @pbrbm m with 2^{@dodf m} bfing thf numbfr of flfmfnts.
+     * @pbrbm rp thf BigIntfgfr whosf i-th bit dorrfsponds to
+     * thf i-th dofffidifnt of thf rfdudtion polynomibl.
+     * @fxdfption NullPointfrExdfption if {@dodf rp} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf m}
+     * is not positivf, or {@dodf rp} dofs not rfprfsfnt
+     * b vblid rfdudtion polynomibl.
+     */
+    publid ECFifldF2m(int m, BigIntfgfr rp) {
+        // dhfdk m bnd rp
+        this.m = m;
+        this.rp = rp;
+        if (m <= 0) {
+            throw nfw IllfgblArgumfntExdfption("m is not positivf");
+        }
+        int bitCount = this.rp.bitCount();
+        if (!this.rp.tfstBit(0) || !this.rp.tfstBit(m) ||
+            ((bitCount != 3) && (bitCount != 5))) {
+            throw nfw IllfgblArgumfntExdfption
+                ("rp dofs not rfprfsfnt b vblid rfdudtion polynomibl");
+        }
+        // donvfrt rp into ks
+        BigIntfgfr tfmp = this.rp.dlfbrBit(0).dlfbrBit(m);
+        this.ks = nfw int[bitCount-2];
+        for (int i = this.ks.lfngth-1; i >= 0; i--) {
+            int indfx = tfmp.gftLowfstSftBit();
+            this.ks[i] = indfx;
+            tfmp = tfmp.dlfbrBit(indfx);
+        }
+    }
+
+    /**
+     * Crfbtfs bn flliptid durvf dhbrbdtfristid 2 finitf
+     * fifld whidh hbs 2^{@dodf m} flfmfnts with
+     * polynomibl bbsis. Thf rfdudtion polynomibl for this
+     * fifld is bbsfd on {@dodf ks} whosf dontfnt
+     * dontbins thf ordfr of thf middlf tfrm(s) of thf
+     * rfdudtion polynomibl.
+     * Notf: A vblid rfdudtion polynomibl is fithfr b
+     * trinomibl (X^{@dodf m} + X^{@dodf k} + 1
+     * with {@dodf m} &gt; {@dodf k} &gt;= 1) or b
+     * pfntbnomibl (X^{@dodf m} + X^{@dodf k3}
+     * + X^{@dodf k2} + X^{@dodf k1} + 1 with
+     * {@dodf m} &gt; {@dodf k3} &gt; {@dodf k2}
+     * &gt; {@dodf k1} &gt;= 1), so {@dodf ks} should
+     * hbvf lfngth 1 or 3.
+     * @pbrbm m with 2^{@dodf m} bfing thf numbfr of flfmfnts.
+     * @pbrbm ks thf ordfr of thf middlf tfrm(s) of thf
+     * rfdudtion polynomibl. Contfnts of this brrby brf dopifd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if {@dodf ks} is null.
+     * @fxdfption IllfgblArgumfntExdfption if{@dodf m}
+     * is not positivf, or thf lfngth of {@dodf ks}
+     * is nfithfr 1 nor 3, or vblufs in {@dodf ks}
+     * brf not bftwffn {@dodf m}-1 bnd 1 (indlusivf)
+     * bnd in dfsdfnding ordfr.
+     */
+    publid ECFifldF2m(int m, int[] ks) {
+        // dhfdk m bnd ks
+        this.m = m;
+        this.ks = ks.dlonf();
+        if (m <= 0) {
+            throw nfw IllfgblArgumfntExdfption("m is not positivf");
+        }
+        if ((this.ks.lfngth != 1) && (this.ks.lfngth != 3)) {
+            throw nfw IllfgblArgumfntExdfption
+                ("lfngth of ks is nfithfr 1 nor 3");
+        }
+        for (int i = 0; i < this.ks.lfngth; i++) {
+            if ((this.ks[i] < 1) || (this.ks[i] > m-1)) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("ks["+ i + "] is out of rbngf");
+            }
+            if ((i != 0) && (this.ks[i] >= this.ks[i-1])) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("vblufs in ks brf not in dfsdfnding ordfr");
+            }
+        }
+        // donvfrt ks into rp
+        this.rp = BigIntfgfr.ONE;
+        this.rp = rp.sftBit(m);
+        for (int j = 0; j < this.ks.lfngth; j++) {
+            rp = rp.sftBit(this.ks[j]);
+        }
+    }
+
+    /**
+     * Rfturns thf fifld sizf in bits whidh is {@dodf m}
+     * for this dhbrbdtfristid 2 finitf fifld.
+     * @rfturn thf fifld sizf in bits.
+     */
+    publid int gftFifldSizf() {
+        rfturn m;
+    }
+
+    /**
+     * Rfturns thf vbluf {@dodf m} of this dhbrbdtfristid
+     * 2 finitf fifld.
+     * @rfturn {@dodf m} with 2^{@dodf m} bfing thf
+     * numbfr of flfmfnts.
+     */
+    publid int gftM() {
+        rfturn m;
+    }
+
+    /**
+     * Rfturns b BigIntfgfr whosf i-th bit dorrfsponds to thf
+     * i-th dofffidifnt of thf rfdudtion polynomibl for polynomibl
+     * bbsis or null for normbl bbsis.
+     * @rfturn b BigIntfgfr whosf i-th bit dorrfsponds to thf
+     * i-th dofffidifnt of thf rfdudtion polynomibl for polynomibl
+     * bbsis or null for normbl bbsis.
+     */
+    publid BigIntfgfr gftRfdudtionPolynomibl() {
+        rfturn rp;
+    }
+
+    /**
+     * Rfturns bn intfgfr brrby whidh dontbins thf ordfr of thf
+     * middlf tfrm(s) of thf rfdudtion polynomibl for polynomibl
+     * bbsis or null for normbl bbsis.
+     * @rfturn bn intfgfr brrby whidh dontbins thf ordfr of thf
+     * middlf tfrm(s) of thf rfdudtion polynomibl for polynomibl
+     * bbsis or null for normbl bbsis. A nfw brrby is rfturnfd
+     * fbdh timf this mfthod is dbllfd.
+     */
+    publid int[] gftMidTfrmsOfRfdudtionPolynomibl() {
+        if (ks == null) {
+            rfturn null;
+        } flsf {
+            rfturn ks.dlonf();
+        }
+    }
+
+    /**
+     * Compbrfs this finitf fifld for fqublity with thf
+     * spfdififd objfdt.
+     * @pbrbm obj thf objfdt to bf dompbrfd.
+     * @rfturn truf if {@dodf obj} is bn instbndf
+     * of ECFifldF2m bnd both {@dodf m} bnd thf rfdudtion
+     * polynomibl mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) rfturn truf;
+        if (obj instbndfof ECFifldF2m) {
+            // no nffd to dompbrf rp hfrf sindf ks bnd rp
+            // should bf fquivblfnt
+            rfturn ((m == ((ECFifldF2m)obj).m) &&
+                    (Arrbys.fqubls(ks, ((ECFifldF2m) obj).ks)));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this dhbrbdtfristid 2
+     * finitf fifld.
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        int vbluf = m << 5;
+        vbluf += (rp==null? 0:rp.hbshCodf());
+        // no nffd to involvf ks hfrf sindf ks bnd rp
+        // should bf fquivblfnt.
+        rfturn vbluf;
+    }
+}

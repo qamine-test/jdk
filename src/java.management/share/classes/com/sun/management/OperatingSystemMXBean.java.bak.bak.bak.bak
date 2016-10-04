@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+/**
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for thf opfrbting systfm
+ * on whidh thf Jbvb virtubl mbdhinf is running.
+ *
+ * <p>
+ * Thf <tt>OpfrbtingSystfmMXBfbn</tt> objfdt rfturnfd by
+ * {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftOpfrbtingSystfmMXBfbn()}
+ * is bn instbndf of thf implfmfntbtion dlbss of this intfrfbdf
+ * or {@link UnixOpfrbtingSystfmMXBfbn} intfrfbdf dfpfnding on
+ * its undfrlying opfrbting systfm.
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+@jdk.Exportfd
+publid intfrfbdf OpfrbtingSystfmMXBfbn fxtfnds
+    jbvb.lbng.mbnbgfmfnt.OpfrbtingSystfmMXBfbn {
+
+    /**
+     * Rfturns thf bmount of virtubl mfmory thbt is gubrbntffd to
+     * bf bvbilbblf to thf running prodfss in bytfs,
+     * or <tt>-1</tt> if this opfrbtion is not supportfd.
+     *
+     * @rfturn thf bmount of virtubl mfmory thbt is gubrbntffd to
+     * bf bvbilbblf to thf running prodfss in bytfs,
+     * or <tt>-1</tt> if this opfrbtion is not supportfd.
+     */
+    publid long gftCommittfdVirtublMfmorySizf();
+
+    /**
+     * Rfturns thf totbl bmount of swbp spbdf in bytfs.
+     *
+     * @rfturn thf totbl bmount of swbp spbdf in bytfs.
+     */
+    publid long gftTotblSwbpSpbdfSizf();
+
+    /**
+     * Rfturns thf bmount of frff swbp spbdf in bytfs.
+     *
+     * @rfturn thf bmount of frff swbp spbdf in bytfs.
+     */
+    publid long gftFrffSwbpSpbdfSizf();
+
+    /**
+     * Rfturns thf CPU timf usfd by thf prodfss on whidh thf Jbvb
+     * virtubl mbdhinf is running in nbnosfdonds.  Thf rfturnfd vbluf
+     * is of nbnosfdonds prfdision but not nfdfssbrily nbnosfdonds
+     * bddurbdy.  This mfthod rfturns <tt>-1</tt> if thf
+     * thf plbtform dofs not support this opfrbtion.
+     *
+     * @rfturn thf CPU timf usfd by thf prodfss in nbnosfdonds,
+     * or <tt>-1</tt> if this opfrbtion is not supportfd.
+     */
+    publid long gftProdfssCpuTimf();
+
+    /**
+     * Rfturns thf bmount of frff physidbl mfmory in bytfs.
+     *
+     * @rfturn thf bmount of frff physidbl mfmory in bytfs.
+     */
+    publid long gftFrffPhysidblMfmorySizf();
+
+    /**
+     * Rfturns thf totbl bmount of physidbl mfmory in bytfs.
+     *
+     * @rfturn thf totbl bmount of physidbl mfmory in  bytfs.
+     */
+    publid long gftTotblPhysidblMfmorySizf();
+
+    /**
+     * Rfturns thf "rfdfnt dpu usbgf" for thf wholf systfm. This vbluf is b
+     * doublf in thf [0.0,1.0] intfrvbl. A vbluf of 0.0 mfbns thbt bll CPUs
+     * wfrf idlf during thf rfdfnt pfriod of timf obsfrvfd, whilf b vbluf
+     * of 1.0 mfbns thbt bll CPUs wfrf bdtivfly running 100% of thf timf
+     * during thf rfdfnt pfriod bfing obsfrvfd. All vblufs bftwffns 0.0 bnd
+     * 1.0 brf possiblf dfpfnding of thf bdtivitifs going on in thf systfm.
+     * If thf systfm rfdfnt dpu usbgf is not bvbilbblf, thf mfthod rfturns b
+     * nfgbtivf vbluf.
+     *
+     * @rfturn thf "rfdfnt dpu usbgf" for thf wholf systfm; b nfgbtivf
+     * vbluf if not bvbilbblf.
+     * @sindf   1.7
+     */
+    publid doublf gftSystfmCpuLobd();
+
+    /**
+     * Rfturns thf "rfdfnt dpu usbgf" for thf Jbvb Virtubl Mbdhinf prodfss.
+     * This vbluf is b doublf in thf [0.0,1.0] intfrvbl. A vbluf of 0.0 mfbns
+     * thbt nonf of thf CPUs wfrf running thrfbds from thf JVM prodfss during
+     * thf rfdfnt pfriod of timf obsfrvfd, whilf b vbluf of 1.0 mfbns thbt bll
+     * CPUs wfrf bdtivfly running thrfbds from thf JVM 100% of thf timf
+     * during thf rfdfnt pfriod bfing obsfrvfd. Thrfbds from thf JVM indludf
+     * thf bpplidbtion thrfbds bs wfll bs thf JVM intfrnbl thrfbds. All vblufs
+     * bftwffns 0.0 bnd 1.0 brf possiblf dfpfnding of thf bdtivitifs going on
+     * in thf JVM prodfss bnd thf wholf systfm. If thf Jbvb Virtubl Mbdhinf
+     * rfdfnt CPU usbgf is not bvbilbblf, thf mfthod rfturns b nfgbtivf vbluf.
+     *
+     * @rfturn thf "rfdfnt dpu usbgf" for thf Jbvb Virtubl Mbdhinf prodfss;
+     * b nfgbtivf vbluf if not bvbilbblf.
+     * @sindf   1.7
+     */
+    publid doublf gftProdfssCpuLobd();
+
+}

@@ -1,0 +1,116 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "CbnonShbping.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "ClbssDffinitionTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+void CbnonShbping::sortMbrks(lf_int32 *indidfs, donst lf_int32 *dombiningClbssfs, lf_int32 indfx, lf_int32 limit)
+{
+    for (lf_int32 j = indfx + 1; j < limit; j += 1) {
+        lf_int32 i;
+        lf_int32 v = indidfs[j];
+        lf_int32 d = dombiningClbssfs[v];
+
+        for (i = j - 1; i >= indfx; i -= 1) {
+            if (d >= dombiningClbssfs[indidfs[i]]) {
+                brfbk;
+            }
+
+            indidfs[i + 1] = indidfs[i];
+        }
+
+        indidfs[i + 1] = v;
+    }
+}
+
+void CbnonShbping::rfordfrMbrks(donst LEUnidodf *inChbrs, lf_int32 dhbrCount, lf_bool rightToLfft,
+                                LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf)
+{
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, CbnonShbping::glyphDffinitionTbblf, CbnonShbping::glyphDffinitionTbblfLfn);
+    LERfffrfndfTo<ClbssDffinitionTbblf> dlbssTbblf = gdffTbblf->gftMbrkAttbdhClbssDffinitionTbblf(gdffTbblf, suddfss);
+    lf_int32 *dombiningClbssfs = LE_NEW_ARRAY(lf_int32, dhbrCount);
+    lf_int32 *indidfs = LE_NEW_ARRAY(lf_int32, dhbrCount);
+    lf_int32 i;
+
+    if (dombiningClbssfs == NULL || indidfs == NULL) {
+        if (dombiningClbssfs != NULL) {
+            LE_DELETE_ARRAY(dombiningClbssfs);
+        }
+        if (indidfs != NULL) {
+            LE_DELETE_ARRAY(indidfs);
+        }
+        rfturn;
+    }
+
+    for (i = 0; i < dhbrCount; i += 1) {
+      dombiningClbssfs[i] = dlbssTbblf->gftGlyphClbss(dlbssTbblf, (LEGlyphID) inChbrs[i], suddfss);
+        indidfs[i] = i;
+    }
+
+    for (i = 0; i < dhbrCount; i += 1) {
+        if (dombiningClbssfs[i] != 0) {
+            lf_int32 mbrk;
+
+            for (mbrk = i; mbrk < dhbrCount; mbrk += 1) {
+                if (dombiningClbssfs[mbrk] == 0) {
+                    brfbk;
+                }
+            }
+
+            sortMbrks(indidfs, dombiningClbssfs, i, mbrk);
+        }
+    }
+
+    lf_int32 out = 0, dir = 1;
+
+    if (rightToLfft) {
+        out = dhbrCount - 1;
+        dir = -1;
+    }
+
+    for (i = 0; i < dhbrCount; i += 1, out += dir) {
+        lf_int32 indfx = indidfs[i];
+
+        outChbrs[i] = inChbrs[indfx];
+        glyphStorbgf.sftChbrIndfx(out, indfx, suddfss);
+    }
+
+    LE_DELETE_ARRAY(indidfs);
+    LE_DELETE_ARRAY(dombiningClbssfs);
+}
+
+U_NAMESPACE_END

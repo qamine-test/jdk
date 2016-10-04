@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.nft.URI;
+
+/**
+ * This dlbss donsists fxdlusivfly of stbtid mfthods thbt rfturn b {@link Pbth}
+ * by donvfrting b pbth string or {@link URI}.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss Pbths {
+    privbtf Pbths() { }
+
+    /**
+     * Convfrts b pbth string, or b sfqufndf of strings thbt whfn joinfd form
+     * b pbth string, to b {@dodf Pbth}. If {@dodf morf} dofs not spfdify bny
+     * flfmfnts thfn thf vbluf of thf {@dodf first} pbrbmftfr is thf pbth string
+     * to donvfrt. If {@dodf morf} spfdififs onf or morf flfmfnts thfn fbdh
+     * non-fmpty string, indluding {@dodf first}, is donsidfrfd to bf b sfqufndf
+     * of nbmf flfmfnts (sff {@link Pbth}) bnd is joinfd to form b pbth string.
+     * Thf dftbils bs to how thf Strings brf joinfd is providfr spfdifid but
+     * typidblly thfy will bf joinfd using thf {@link FilfSystfm#gftSfpbrbtor
+     * nbmf-sfpbrbtor} bs thf sfpbrbtor. For fxbmplf, if thf nbmf sfpbrbtor is
+     * "{@dodf /}" bnd {@dodf gftPbth("/foo","bbr","gus")} is invokfd, thfn thf
+     * pbth string {@dodf "/foo/bbr/gus"} is donvfrtfd to b {@dodf Pbth}.
+     * A {@dodf Pbth} rfprfsfnting bn fmpty pbth is rfturnfd if {@dodf first}
+     * is thf fmpty string bnd {@dodf morf} dofs not dontbin bny non-fmpty
+     * strings.
+     *
+     * <p> Thf {@dodf Pbth} is obtbinfd by invoking thf {@link FilfSystfm#gftPbth
+     * gftPbth} mfthod of thf {@link FilfSystfms#gftDffbult dffbult} {@link
+     * FilfSystfm}.
+     *
+     * <p> Notf thbt whilf this mfthod is vfry donvfnifnt, using it will imply
+     * bn bssumfd rfffrfndf to thf dffbult {@dodf FilfSystfm} bnd limit thf
+     * utility of thf dblling dodf. Hfndf it should not bf usfd in librbry dodf
+     * intfndfd for flfxiblf rfusf. A morf flfxiblf bltfrnbtivf is to usf bn
+     * fxisting {@dodf Pbth} instbndf bs bn bndhor, sudh bs:
+     * <prf>
+     *     Pbth dir = ...
+     *     Pbth pbth = dir.rfsolvf("filf");
+     * </prf>
+     *
+     * @pbrbm   first
+     *          thf pbth string or initibl pbrt of thf pbth string
+     * @pbrbm   morf
+     *          bdditionbl strings to bf joinfd to form thf pbth string
+     *
+     * @rfturn  thf rfsulting {@dodf Pbth}
+     *
+     * @throws  InvblidPbthExdfption
+     *          if thf pbth string dbnnot bf donvfrtfd to b {@dodf Pbth}
+     *
+     * @sff FilfSystfm#gftPbth
+     */
+    publid stbtid Pbth gft(String first, String... morf) {
+        rfturn FilfSystfms.gftDffbult().gftPbth(first, morf);
+    }
+
+    /**
+     * Convfrts thf givfn URI to b {@link Pbth} objfdt.
+     *
+     * <p> This mfthod itfrbtfs ovfr thf {@link FilfSystfmProvidfr#instbllfdProvidfrs()
+     * instbllfd} providfrs to lodbtf thf providfr thbt is idfntififd by thf
+     * URI {@link URI#gftSdhfmf sdhfmf} of thf givfn URI. URI sdhfmfs brf
+     * dompbrfd without rfgbrd to dbsf. If thf providfr is found thfn its {@link
+     * FilfSystfmProvidfr#gftPbth gftPbth} mfthod is invokfd to donvfrt thf
+     * URI.
+     *
+     * <p> In thf dbsf of thf dffbult providfr, idfntififd by thf URI sdhfmf
+     * "filf", thf givfn URI hbs b non-fmpty pbth domponfnt, bnd undffinfd qufry
+     * bnd frbgmfnt domponfnts. Whfthfr thf buthority domponfnt mby bf prfsfnt
+     * is plbtform spfdifid. Thf rfturnfd {@dodf Pbth} is bssodibtfd with thf
+     * {@link FilfSystfms#gftDffbult dffbult} filf systfm.
+     *
+     * <p> Thf dffbult providfr providfs b similbr <fm>round-trip</fm> gubrbntff
+     * to thf {@link jbvb.io.Filf} dlbss. For b givfn {@dodf Pbth} <i>p</i> it
+     * is gubrbntffd thbt
+     * <blodkquotf><tt>
+     * Pbths.gft(</tt><i>p</i><tt>.{@link Pbth#toUri() toUri}()).fqubls(</tt>
+     * <i>p</i><tt>.{@link Pbth#toAbsolutfPbth() toAbsolutfPbth}())</tt>
+     * </blodkquotf>
+     * so long bs thf originbl {@dodf Pbth}, thf {@dodf URI}, bnd thf nfw {@dodf
+     * Pbth} brf bll drfbtfd in (possibly difffrfnt invodbtions of) thf sbmf
+     * Jbvb virtubl mbdhinf. Whfthfr othfr providfrs mbkf bny gubrbntffs is
+     * providfr spfdifid bnd thfrfforf unspfdififd.
+     *
+     * @pbrbm   uri
+     *          thf URI to donvfrt
+     *
+     * @rfturn  thf rfsulting {@dodf Pbth}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if prfdonditions on thf {@dodf uri} pbrbmftfr do not hold. Thf
+     *          formbt of thf URI is providfr spfdifid.
+     * @throws  FilfSystfmNotFoundExdfption
+     *          Thf filf systfm, idfntififd by thf URI, dofs not fxist bnd
+     *          dbnnot bf drfbtfd butombtidblly, or thf providfr idfntififd by
+     *          thf URI's sdhfmf domponfnt is not instbllfd
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission to bddfss thf filf systfm
+     */
+    publid stbtid Pbth gft(URI uri) {
+        String sdhfmf =  uri.gftSdhfmf();
+        if (sdhfmf == null)
+            throw nfw IllfgblArgumfntExdfption("Missing sdhfmf");
+
+        // dhfdk for dffbult providfr to bvoid lobding of instbllfd providfrs
+        if (sdhfmf.fqublsIgnorfCbsf("filf"))
+            rfturn FilfSystfms.gftDffbult().providfr().gftPbth(uri);
+
+        // try to find providfr
+        for (FilfSystfmProvidfr providfr: FilfSystfmProvidfr.instbllfdProvidfrs()) {
+            if (providfr.gftSdhfmf().fqublsIgnorfCbsf(sdhfmf)) {
+                rfturn providfr.gftPbth(uri);
+            }
+        }
+
+        throw nfw FilfSystfmNotFoundExdfption("Providfr \"" + sdhfmf + "\" not instbllfd");
+    }
+}

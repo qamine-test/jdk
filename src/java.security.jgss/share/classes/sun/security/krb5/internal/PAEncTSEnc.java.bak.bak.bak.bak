@@ -1,0 +1,116 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * Implfmfnts thf ASN.1 PAEndTSEnd typf.
+ *
+ * <xmp>
+ * PA-ENC-TS-ENC                ::= SEQUENCE {
+ *      pbtimfstbmp     [0] KfrbfrosTimf -- dlifnt's timf --,
+ *      pbusfd          [1] Midrosfdonds OPTIONAL
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss PAEndTSEnd {
+    publid KfrbfrosTimf pATimfStbmp;
+    publid Intfgfr pAUSfd; //optionbl
+
+    publid PAEndTSEnd(
+                      KfrbfrosTimf nfw_pATimfStbmp,
+                      Intfgfr nfw_pAUSfd
+                          ) {
+        pATimfStbmp = nfw_pATimfStbmp;
+        pAUSfd = nfw_pAUSfd;
+    }
+
+    publid PAEndTSEnd() {
+        KfrbfrosTimf now = KfrbfrosTimf.now();
+        pATimfStbmp = now;
+        pAUSfd = now.gftMidroSfdonds();
+    }
+
+    /**
+     * Construdts b PAEndTSEnd objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid PAEndTSEnd(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        pATimfStbmp = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x00, fblsf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            dfr = fndoding.gftDbtb().gftDfrVbluf();
+            if ((dfr.gftTbg() & 0x1F) == 0x01) {
+                pAUSfd = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+            }
+            flsf throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+    }
+
+
+    /**
+     * Endodfs b PAEndTSEnd objfdt.
+     * @rfturn thf bytf brrby of fndodfd PAEndTSEnd objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), pATimfStbmp.bsn1Endodf());
+        if (pAUSfd != null) {
+            tfmp = nfw DfrOutputStrfbm();
+            tfmp.putIntfgfr(BigIntfgfr.vblufOf(pAUSfd.intVbluf()));
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), tfmp);
+        }
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+}

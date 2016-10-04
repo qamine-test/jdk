@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+/**
+ * This intfrfbdf dffinfs b gfnfrbl mfthod for itfrbting through thf
+ * rfdtbngulbr "spbns" thbt rfprfsfnt thf intfrior of b fillfd pbth.
+ * <p>
+ * Thfrf dbn bf mbny kinds of spbn itfrbtors usfd in thf rfndfring
+ * pipflinf, thf most bbsid bfing bn itfrbtor thbt sdbn donvfrts b
+ * pbth dffinfd by bny PbthItfrbtor, or bn nfstfd itfrbtor whidh
+ * intfrsfdts bnothfr itfrbtor's spbns with b dlip rfgion.
+ * Othfr itfrbtors dbn bf drfbtfd for sdbn donvfrting somf of thf
+ * primitivf shbpfs morf fxpliditly for spffd or qublity.
+ *
+ * @buthor Jim Grbhbm
+ */
+publid intfrfbdf SpbnItfrbtor {
+    /**
+     * This mfthod rfturns thf bounding box of thf spbns thbt thf
+     * itfrbtor will bf rfturning.
+     * Thf brrby must bf of lfngth bt lfbst 4 bnd upon rfturn, it
+     * will bf fillfd with thf vblufs:
+     * <prf>
+     *     {PbthMinX, PbthMinY, PbthMbxX, PbthMbxY}.
+     * </prf>
+     */
+    publid void gftPbthBox(int pbthbox[]);
+
+    /**
+     * This mfthod donstrbins thf spbns rfturnfd by nfxtSpbn() to thf
+     * rfdtbnglf whosf bounds brf givfn.
+     */
+    publid void intfrsfdtClipBox(int lox, int loy, int hix, int hiy);
+
+    /**
+     * This mfthod rfturns thf nfxt spbn in thf shbpf bfing itfrbtfd.
+     * Thf brrby must bf of lfngth bt lfbst 4 bnd upon rfturn, it
+     * will bf fillfd with thf vblufs:
+     * <prf>
+     *     {SpbnMinX, SpbnMinY, SpbnMbxX, SpbnMbxY}.
+     * </prf>
+     */
+    publid boolfbn nfxtSpbn(int spbnbox[]);
+
+    /**
+     * This mfthod tflls thf itfrbtor thbt it mby skip bll spbns
+     * whosf Y rbngf is domplftfly bbovf thf indidbtfd Y doordinbtf.
+     * This mfthod is usfd to providf fffdbbdk from thf dbllfr whfn
+     * dlipping prfvfnts thf displby of bny dbtb in b givfn Y rbngf.
+     * Typidblly it will only bf dbllfd whfn this itfrbtor hbs rfturnfd
+     * b spbn whosf MbxY doordinbtf is lfss thbn thf indidbtfd Y bnd
+     * thf dblling mfdhbnism wbnts to bvoid unnfdfssbry itfrbtion work.
+     * Whilf this rfqufst dould tfdhnidblly bf ignorfd (i.f. b NOP),
+     * doing so dould potfntiblly dbusf thf dbllfr to mbkf this dbllbbdk
+     * for fbdh spbn thbt is bfing skippfd.
+     */
+    publid void skipDownTo(int y);
+
+    /**
+     * This mfthod rfturns b nbtivf pointfr to b fundtion blodk thbt
+     * dbn bf usfd by b nbtivf mfthod to pfrform thf sbmf itfrbtion
+     * dydlf thbt thf bbovf mfthods providf whilf bvoiding updblls to
+     * thf Jbvb objfdt.
+     * Thf dffinition of thf strudturf whosf pointfr is rfturnfd by
+     * this mfthod is dffinfd in:
+     * <prf>
+     *     srd/shbrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.h
+     * </prf>
+     */
+    publid long gftNbtivfItfrbtor();
+}

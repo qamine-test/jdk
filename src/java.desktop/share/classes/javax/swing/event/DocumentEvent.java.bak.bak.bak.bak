@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvbx.swing.undo.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Intfrfbdf for dodumfnt dhbngf notifidbtions.  This providfs
+ * dftbilfd informbtion to Dodumfnt obsfrvfrs bbout how thf
+ * Dodumfnt dhbngfd.  It providfs high lfvfl informbtion sudh
+ * bs typf of dhbngf bnd whfrf it oddurrfd, bs wfll bs thf morf
+ * dftbilfd strudturbl dhbngfs (Whbt Elfmfnts wfrf insfrtfd bnd
+ * rfmovfd).
+ *
+ * @buthor  Timothy Prinzing
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff DodumfntListfnfr
+ */
+publid intfrfbdf DodumfntEvfnt {
+
+    /**
+     * Rfturns thf offsft within thf dodumfnt of thf stbrt
+     * of thf dhbngf.
+     *
+     * @rfturn thf offsft &gt;= 0
+     */
+    publid int gftOffsft();
+
+    /**
+     * Rfturns thf lfngth of thf dhbngf.
+     *
+     * @rfturn thf lfngth &gt;= 0
+     */
+    publid int gftLfngth();
+
+    /**
+     * Gfts thf dodumfnt thbt sourdfd thf dhbngf fvfnt.
+     *
+     * @rfturn thf dodumfnt
+     */
+    publid Dodumfnt gftDodumfnt();
+
+    /**
+     * Gfts thf typf of fvfnt.
+     *
+     * @rfturn thf typf
+     */
+    publid EvfntTypf gftTypf();
+
+    /**
+     * Gfts thf dhbngf informbtion for thf givfn flfmfnt.
+     * Thf dhbngf informbtion dfsdribfs whbt flfmfnts wfrf
+     * bddfd bnd rfmovfd bnd thf lodbtion.  If thfrf wfrf
+     * no dhbngfs, null is rfturnfd.
+     * <p>
+     * This mfthod is for obsfrvfrs to disdovfr thf strudturbl
+     * dhbngfs thbt wfrf mbdf.  This mfbns thbt only flfmfnts
+     * thbt fxistfd prior to thf mutbtion (bnd still fxist bftfr
+     * thf mutbtion) nffd to hbvf ElfmfntChbngf rfdords.
+     * Thf dhbngfs mbdf bvbilbblf nffd not bf rfdursivf.
+     * <p>
+     * For fxbmplf, if thf bn flfmfnt is rfmovfd from it's
+     * pbrfnt, this mfthod should rfport thbt thf pbrfnt
+     * dhbngfd bnd providf bn ElfmfntChbngf implfmfntbtion
+     * thbt dfsdribfs thf dhbngf to thf pbrfnt.  If thf
+     * dhild flfmfnt rfmovfd hbd dhildrfn, thfsf flfmfnts
+     * do not nffd to bf rfportfd bs rfmovfd.
+     * <p>
+     * If bn dhild flfmfnt is insfrt into b pbrfnt flfmfnt,
+     * thf pbrfnt flfmfnt should rfport b dhbngf.  If thf
+     * dhild flfmfnt blso hbd flfmfnts insfrtfd into it
+     * (grbnddhildrfn to thf pbrfnt) thfsf flfmfnts nffd
+     * not rfport dhbngf.
+     *
+     * @pbrbm flfm thf flfmfnt
+     * @rfturn thf dhbngf informbtion, or null if thf
+     *   flfmfnt wbs not modififd
+     */
+    publid ElfmfntChbngf gftChbngf(Elfmfnt flfm);
+
+    /**
+     * Enumfrbtion for dodumfnt fvfnt typfs
+     */
+    publid stbtid finbl dlbss EvfntTypf {
+
+        privbtf EvfntTypf(String s) {
+            typfString = s;
+        }
+
+        /**
+         * Insfrt typf.
+         */
+        publid stbtid finbl EvfntTypf INSERT = nfw EvfntTypf("INSERT");
+
+        /**
+         * Rfmovf typf.
+         */
+        publid stbtid finbl EvfntTypf REMOVE = nfw EvfntTypf("REMOVE");
+
+        /**
+         * Chbngf typf.
+         */
+        publid stbtid finbl EvfntTypf CHANGE = nfw EvfntTypf("CHANGE");
+
+        /**
+         * Convfrts thf typf to b string.
+         *
+         * @rfturn thf string
+         */
+        publid String toString() {
+            rfturn typfString;
+        }
+
+        privbtf String typfString;
+    }
+
+    /**
+     * Dfsdribfs dhbngfs mbdf to b spfdifid flfmfnt.
+     */
+    publid intfrfbdf ElfmfntChbngf {
+
+        /**
+         * Rfturns thf flfmfnt rfprfsfntfd.  This is thf flfmfnt
+         * thbt wbs dhbngfd.
+         *
+         * @rfturn thf flfmfnt
+         */
+        publid Elfmfnt gftElfmfnt();
+
+        /**
+         * Fftdhfs thf indfx within thf flfmfnt rfprfsfntfd.
+         * This is thf lodbtion thbt dhildrfn wfrf bddfd
+         * bnd/or rfmovfd.
+         *
+         * @rfturn thf indfx &gt;= 0
+         */
+        publid int gftIndfx();
+
+        /**
+         * Gfts thf dhild flfmfnts thbt wfrf rfmovfd from thf
+         * givfn pbrfnt flfmfnt.  Thf flfmfnt brrby rfturnfd is
+         * sortfd in thf ordfr thbt thf flfmfnts usfd to lif in
+         * thf dodumfnt, bnd must bf dontiguous.
+         *
+         * @rfturn thf dhild flfmfnts
+         */
+        publid Elfmfnt[] gftChildrfnRfmovfd();
+
+        /**
+         * Gfts thf dhild flfmfnts thbt wfrf bddfd to thf givfn
+         * pbrfnt flfmfnt.  Thf flfmfnt brrby rfturnfd is in thf
+         * ordfr thbt thf flfmfnts lif in thf dodumfnt, bnd must
+         * bf dontiguous.
+         *
+         * @rfturn thf dhild flfmfnts
+         */
+        publid Elfmfnt[] gftChildrfnAddfd();
+
+    }
+}

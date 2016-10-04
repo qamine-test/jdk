@@ -1,0 +1,1540 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// Extfrnbl Jbvb Addfssibility links:
+//
+// <http://jbvb.sun.dom/j2sf/1.4.2/dods/guidf/bddfss/indfx.html>
+// <http://www-106.ibm.dom/dfvflopfrworks/librbry/j-bddfss/?n-j-10172>
+// <http://brdhivfs.jbvb.sun.dom/brdhivfs/jbvb-bddfss.html> (Sun's mbiling list for Jbvb bddfssibility)
+
+#import "JbvbComponfntAddfssibility.h"
+
+#import "sun_lwbwt_mbdosx_CAddfssibility.h"
+
+#import <AppKit/AppKit.h>
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+#import <dlfdn.h>
+
+#import "JbvbAddfssibilityAdtion.h"
+#import "JbvbAddfssibilityUtilitifs.h"
+#import "JbvbTfxtAddfssibility.h"
+#import "ThrfbdUtilitifs.h"
+#import "AWTVifw.h"
+
+
+// thfsf donstbnts brf duplidbtfd in CAddfssibility.jbvb
+#dffinf JAVA_AX_ALL_CHILDREN (-1)
+#dffinf JAVA_AX_SELECTED_CHILDREN (-2)
+#dffinf JAVA_AX_VISIBLE_CHILDREN (-3)
+// If thf vbluf is >=0, it's bn indfx
+
+stbtid JNF_STATIC_MEMBER_CACHE(jm_gftChildrfnAndRolfs, sjd_CAddfssibility, "gftChildrfnAndRolfs", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;IZ)[Ljbvb/lbng/Objfdt;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfComponfnt, sjd_CAddfssibility, "gftAddfssiblfComponfnt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfComponfnt;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfVbluf, sjd_CAddfssibility, "gftAddfssiblfVbluf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfVbluf;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfNbmf, sjd_CAddfssibility, "gftAddfssiblfNbmf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfDfsdription, sjd_CAddfssibility, "gftAddfssiblfDfsdription", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_isFodusTrbvfrsbblf, sjd_CAddfssibility, "isFodusTrbvfrsbblf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Z");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfIndfxInPbrfnt, sjd_CAddfssibility, "gftAddfssiblfIndfxInPbrfnt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)I");
+
+stbtid JNF_CLASS_CACHE(sjd_CAddfssiblf, "sun/lwbwt/mbdosx/CAddfssiblf");
+
+stbtid JNF_MEMBER_CACHE(jf_ptr, sjd_CAddfssiblf, "ptr", "J");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftCAddfssiblf, sjd_CAddfssiblf, "gftCAddfssiblf", "(Ljbvbx/bddfssibility/Addfssiblf;)Lsun/lwbwt/mbdosx/CAddfssiblf;");
+
+
+stbtid jobjfdt sAddfssibilityClbss = NULL;
+
+// sAttributfNbmfsForRolfCbdhf holds thf nbmfs of thf bttributfs to whidh fbdh jbvb
+// AddfssiblfRolf rfsponds (sff AddfssiblfRolf.jbvb).
+// This dbdhf is qufrifd bfforf bttfmpting to bddfss b givfn bttributf for b pbrtidulbr rolf.
+stbtid NSMutbblfDidtionbry *sAttributfNbmfsForRolfCbdhf = nil;
+stbtid NSObjfdt *sAttributfNbmfsLOCK = nil;
+
+
+@intfrfbdf TbbGroupAddfssibility : JbvbComponfntAddfssibility {
+    NSIntfgfr _numTbbs;
+}
+
+- (id)durrfntTbbWithEnv:(JNIEnv *)fnv withAxContfxt:(jobjfdt)bxContfxt;
+- (NSArrby *)tbbControlsWithEnv:(JNIEnv *)fnv withTbbGroupAxContfxt:(jobjfdt)bxContfxt withTbbCodf:(NSIntfgfr)whidhTbbs bllowIgnorfd:(BOOL)bllowIgnorfd;
+- (NSArrby *)dontfntsWithEnv:(JNIEnv *)fnv withTbbGroupAxContfxt:(jobjfdt)bxContfxt withTbbCodf:(NSIntfgfr)whidhTbbs bllowIgnorfd:(BOOL)bllowIgnorfd;
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv;
+
+- (NSArrby *)bddfssibilityArrbyAttributfVblufs:(NSString *)bttributf indfx:(NSUIntfgfr)indfx mbxCount:(NSUIntfgfr)mbxCount;
+- (NSArrby *)bddfssibilityChildrfnAttributf;
+- (id) bddfssibilityTbbsAttributf;
+- (BOOL)bddfssibilityIsTbbsAttributfSfttbblf;
+- (NSArrby *)bddfssibilityContfntsAttributf;
+- (BOOL)bddfssibilityIsContfntsAttributfSfttbblf;
+- (id) bddfssibilityVblufAttributf;
+
+@fnd
+
+
+@intfrfbdf TbbGroupControlAddfssibility : JbvbComponfntAddfssibility {
+    jobjfdt fTbbGroupAxContfxt;
+}
+- (id)initWithPbrfnt:(NSObjfdt *)pbrfnt withEnv:(JNIEnv *)fnv withAddfssiblf:(jobjfdt)bddfssiblf withIndfx:(jint)indfx withTbbGroup:(jobjfdt)tbbGroup withVifw:(NSVifw *)vifw withJbvbRolf:(NSString *)jbvbRolf;
+- (jobjfdt)tbbGroup;
+- (void)gftAdtionsWithEnv:(JNIEnv *)fnv;
+
+- (id)bddfssibilityVblufAttributf;
+@fnd
+
+
+@intfrfbdf SdrollArfbAddfssibility : JbvbComponfntAddfssibility {
+
+}
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv;
+- (NSArrby *)bddfssibilityContfntsAttributf;
+- (BOOL)bddfssibilityIsContfntsAttributfSfttbblf;
+- (id)bddfssibilityVfrtidblSdrollBbrAttributf;
+- (BOOL)bddfssibilityIsVfrtidblSdrollBbrAttributfSfttbblf;
+- (id)bddfssibilityHorizontblSdrollBbrAttributf;
+- (BOOL)bddfssibilityIsHorizontblSdrollBbrAttributfSfttbblf;
+@fnd
+
+
+@implfmfntbtion JbvbComponfntAddfssibility
+
+- (NSString *)dfsdription
+{
+    rfturn [NSString stringWithFormbt:@"%@(titlf:'%@', dfsd:'%@', vbluf:'%@')", [sflf bddfssibilityRolfAttributf],
+        [sflf bddfssibilityTitlfAttributf], [sflf bddfssibilityRolfDfsdriptionAttributf], [sflf bddfssibilityVblufAttributf]];
+}
+
+- (id)initWithPbrfnt:(NSObjfdt *)pbrfnt withEnv:(JNIEnv *)fnv withAddfssiblf:(jobjfdt)bddfssiblf withIndfx:(jint)indfx withVifw:(NSVifw *)vifw withJbvbRolf:(NSString *)jbvbRolf
+{
+    sflf = [supfr init];
+    if (sflf)
+    {
+        fPbrfnt = [pbrfnt rftbin];
+        fVifw = [vifw rftbin];
+        fJbvbRolf = [jbvbRolf rftbin];
+
+        fAddfssiblf = JNFNfwGlobblRff(fnv, bddfssiblf);
+        fComponfnt = JNFNfwGlobblRff(fnv, [(AWTVifw *)fVifw bwtComponfnt:fnv]);
+
+        fIndfx = indfx;
+
+        fAdtions = nil;
+        fAdtionsLOCK = [[NSObjfdt bllod] init];
+    }
+    rfturn sflf;
+}
+
+- (void)unrfgistfrFromCodobAXSystfm
+{
+    AWT_ASSERT_APPKIT_THREAD;
+    stbtid dispbtdh_ondf_t initiblizf_unrfgistfrUniqufId_ondf;
+    stbtid void (*unrfgistfrUniqufId)(id);
+    dispbtdh_ondf(&initiblizf_unrfgistfrUniqufId_ondf, ^{
+        void *jrsFwk = dlopfn("/Systfm/Librbry/Frbmfworks/JbvbVM.frbmfwork/Frbmfworks/JbvbRuntimfSupport.frbmfwork/JbvbRuntimfSupport", RTLD_LAZY | RTLD_LOCAL);
+        unrfgistfrUniqufId = dlsym(jrsFwk, "JRSAddfssibilityUnrfgistfrUniqufIdForUIElfmfnt");
+    });
+    if (unrfgistfrUniqufId) unrfgistfrUniqufId(sflf);
+}
+
+- (void)dfbllod
+{
+    [sflf unrfgistfrFromCodobAXSystfm];
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    JNFDflftfGlobblRff(fnv, fAddfssiblf);
+    fAddfssiblf = NULL;
+
+    JNFDflftfGlobblRff(fnv, fComponfnt);
+    fComponfnt = NULL;
+
+    [fPbrfnt rflfbsf];
+    fPbrfnt = nil;
+
+    [fNSRolf rflfbsf];
+    fNSRolf = nil;
+
+    [fJbvbRolf rflfbsf];
+    fJbvbRolf = nil;
+
+    [fVifw rflfbsf];
+    fVifw = nil;
+
+    [fAdtions rflfbsf];
+    fAdtions = nil;
+
+    [fAdtionsLOCK rflfbsf];
+    fAdtionsLOCK = nil;
+
+    [supfr dfbllod];
+}
+
+- (void)postVblufChbngfd
+{
+    AWT_ASSERT_APPKIT_THREAD;
+    NSAddfssibilityPostNotifidbtion(sflf, NSAddfssibilityVblufChbngfdNotifidbtion);
+}
+
+- (void)postSflfdtionChbngfd
+{
+    AWT_ASSERT_APPKIT_THREAD;
+    NSAddfssibilityPostNotifidbtion(sflf, NSAddfssibilitySflfdtfdTfxtChbngfdNotifidbtion);
+}
+
+- (BOOL)isEqubl:(id)bnObjfdt
+{
+    if (![bnObjfdt isKindOfClbss:[sflf dlbss]]) rfturn NO;
+    JbvbComponfntAddfssibility *bddfssibility = (JbvbComponfntAddfssibility *)bnObjfdt;
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    rfturn (*fnv)->IsSbmfObjfdt(fnv, bddfssibility->fAddfssiblf, fAddfssiblf);
+}
+
+- (BOOL)isAddfssiblfWithEnv:(JNIEnv *)fnv forAddfssiblf:(jobjfdt)bddfssiblf
+{
+    rfturn (*fnv)->IsSbmfObjfdt(fnv, fAddfssiblf, bddfssiblf);
+}
+
++ (void)initiblizf
+{
+    if (sAttributfNbmfsForRolfCbdhf == nil) {
+        sAttributfNbmfsLOCK = [[NSObjfdt bllod] init];
+        sAttributfNbmfsForRolfCbdhf = [[NSMutbblfDidtionbry bllod] initWithCbpbdity:10];
+    }
+
+    if (sRolfs == nil) {
+        initiblizfRolfs();
+    }
+
+    if (sAddfssibilityClbss == NULL) {
+        JNF_STATIC_MEMBER_CACHE(jm_gftAddfssibility, sjd_CAddfssibility, "gftAddfssibility", "([Ljbvb/lbng/String;)Lsun/lwbwt/mbdosx/CAddfssibility;");
+
+#ifdff JAVA_AX_NO_IGNORES
+        NSArrby *ignorfdKfys = [NSArrby brrby];
+#flsf
+        NSArrby *ignorfdKfys = [sRolfs bllKfysForObjfdt:JbvbAddfssibilityIgnorf];
+#fndif
+        jobjfdtArrby rfsult = NULL;
+        jsizf dount = [ignorfdKfys dount];
+
+        JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+        stbtid JNF_CLASS_CACHE(jd_String, "jbvb/lbng/String");
+        rfsult = JNFNfwObjfdtArrby(fnv, &jd_String, dount);
+        if (!rfsult) {
+            NSLog(@"In %s, dbn't drfbtf Jbvb brrby of String objfdts", __FUNCTION__);
+            rfturn;
+        }
+
+        NSIntfgfr i;
+        for (i = 0; i < dount; i++) {
+            jstring jString = JNFNSToJbvbString(fnv, [ignorfdKfys objfdtAtIndfx:i]);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, jString);
+            (*fnv)->DflftfLodblRff(fnv, jString);
+        }
+
+        sAddfssibilityClbss = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssibility, rfsult); // AWT_THREADING Sbff (known objfdt)
+    }
+}
+
++ (void)postFodusChbngfd:(id)mfssbgf
+{
+    AWT_ASSERT_APPKIT_THREAD;
+    NSAddfssibilityPostNotifidbtion([NSApp bddfssibilityFodusfdUIElfmfnt], NSAddfssibilityFodusfdUIElfmfntChbngfdNotifidbtion);
+}
+
++ (jobjfdt) gftCAddfssiblf:(jobjfdt)jbddfssiblf withEnv:(JNIEnv *)fnv {
+    if (JNFIsInstbndfOf(fnv, jbddfssiblf, &sjd_CAddfssiblf)) {
+        rfturn jbddfssiblf;
+    }
+    flsf if (JNFIsInstbndfOf(fnv, jbddfssiblf, &sjd_Addfssiblf)) {
+        rfturn JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftCAddfssiblf, jbddfssiblf);
+    }
+    rfturn NULL;
+}
+
++ (NSArrby *)dhildrfnOfPbrfnt:(JbvbComponfntAddfssibility *)pbrfnt withEnv:(JNIEnv *)fnv withChildrfnCodf:(NSIntfgfr)whidhChildrfn bllowIgnorfd:(BOOL)bllowIgnorfd
+{
+    jobjfdtArrby jdhildrfnAndRolfs = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftChildrfnAndRolfs, pbrfnt->fAddfssiblf, pbrfnt->fComponfnt, whidhChildrfn, bllowIgnorfd); // AWT_THREADING Sbff (AWTRunLoop)
+    if (jdhildrfnAndRolfs == NULL) rfturn nil;
+
+    jsizf brrbyLfn = (*fnv)->GftArrbyLfngth(fnv, jdhildrfnAndRolfs);
+    NSMutbblfArrby *dhildrfn = [NSMutbblfArrby brrbyWithCbpbdity:brrbyLfn/2]; //dhildrfnAndRolfs brrby dontbins two flfmfnts (dhild, rolf) for fbdh dhild
+
+    NSIntfgfr i;
+    NSUIntfgfr dhildIndfx = (whidhChildrfn >= 0) ? whidhChildrfn : 0; // if wf'rf gftting onf pbrtidulbr dhild, mbkf surf to sft its indfx dorrfdtly
+    for(i = 0; i < brrbyLfn; i+=2)
+    {
+        jobjfdt /* Addfssiblf */ jdhild = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, jdhildrfnAndRolfs, i);
+        jobjfdt /* String */ jdhildJbvbRolf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, jdhildrfnAndRolfs, i+1);
+
+        NSString *dhildJbvbRolf = nil;
+        if (jdhildJbvbRolf != NULL) {
+            dhildJbvbRolf = JNFJbvbToNSString(fnv, JNFGftObjfdtFifld(fnv, jdhildJbvbRolf, sjf_kfy));
+        }
+
+        JbvbComponfntAddfssibility *dhild = [sflf drfbtfWithPbrfnt:pbrfnt bddfssiblf:jdhild rolf:dhildJbvbRolf indfx:dhildIndfx withEnv:fnv withVifw:pbrfnt->fVifw];
+        [dhildrfn bddObjfdt:dhild];
+        dhildIndfx++;
+    }
+
+    rfturn dhildrfn;
+}
+
++ (JbvbComponfntAddfssibility *)drfbtfWithAddfssiblf:(jobjfdt)jbddfssiblf withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw
+{
+    jobjfdt jdomponfnt = [(AWTVifw *)vifw bwtComponfnt:fnv];
+    jint indfx = JNFCbllStbtidIntMfthod(fnv, sjm_gftAddfssiblfIndfxInPbrfnt, jbddfssiblf, jdomponfnt);
+    NSString *jbvbRolf = gftJbvbRolf(fnv, jbddfssiblf, jdomponfnt);
+
+    rfturn [sflf drfbtfWithAddfssiblf:jbddfssiblf rolf:jbvbRolf indfx:indfx withEnv:fnv withVifw:vifw];
+}
+
++ (JbvbComponfntAddfssibility *) drfbtfWithAddfssiblf:(jobjfdt)jbddfssiblf rolf:(NSString *)jbvbRolf indfx:(jint)indfx withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw
+{
+    rfturn [sflf drfbtfWithPbrfnt:nil bddfssiblf:jbddfssiblf rolf:jbvbRolf indfx:indfx withEnv:fnv withVifw:vifw];
+}
+
++ (JbvbComponfntAddfssibility *) drfbtfWithPbrfnt:(JbvbComponfntAddfssibility *)pbrfnt bddfssiblf:(jobjfdt)jbddfssiblf rolf:(NSString *)jbvbRolf indfx:(jint)indfx withEnv:(JNIEnv *)fnv withVifw:(NSVifw *)vifw
+{
+    // try to fftdh thf jCAX from Jbvb, bnd rfturn butorflfbsfd
+    jobjfdt jCAX = [JbvbComponfntAddfssibility gftCAddfssiblf:jbddfssiblf withEnv:fnv];
+    if (jCAX == NULL) rfturn nil;
+    JbvbComponfntAddfssibility *vbluf = (JbvbComponfntAddfssibility *) jlong_to_ptr(JNFGftLongFifld(fnv, jCAX, jf_ptr));
+    if (vbluf != nil) rfturn [[vbluf rftbin] butorflfbsf];
+
+    // othfrwisf, drfbtf b nfw instbndf
+    JbvbComponfntAddfssibility *nfwChild = nil;
+    if ([jbvbRolf isEqublToString:@"pbgftbblist"]) {
+        nfwChild = [TbbGroupAddfssibility bllod];
+    } flsf if ([jbvbRolf isEqublToString:@"sdrollpbnf"]) {
+        nfwChild = [SdrollArfbAddfssibility bllod];
+    } flsf {
+        NSString *nsRolf = [sRolfs objfdtForKfy:jbvbRolf];
+        if ([nsRolf isEqublToString:NSAddfssibilityStbtidTfxtRolf] || [nsRolf isEqublToString:NSAddfssibilityTfxtArfbRolf] || [nsRolf isEqublToString:NSAddfssibilityTfxtFifldRolf]) {
+            nfwChild = [JbvbTfxtAddfssibility bllod];
+        } flsf {
+            nfwChild = [JbvbComponfntAddfssibility bllod];
+        }
+    }
+
+    // must init frfshly -bllod'd objfdt
+    [nfwChild initWithPbrfnt:pbrfnt withEnv:fnv withAddfssiblf:jCAX withIndfx:indfx withVifw:vifw withJbvbRolf:jbvbRolf]; // must init nfw instbndf
+
+    // must hbrd rftbin pointfr pokfd into Jbvb objfdt
+    [nfwChild rftbin];
+    JNFSftLongFifld(fnv, jCAX, jf_ptr, ptr_to_jlong(nfwChild));
+
+    // rfturn butorflfbsfd instbndf
+    rfturn [nfwChild butorflfbsf];
+}
+
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftInitiblAttributfStbtfs, sjd_CAddfssibility, "gftInitiblAttributfStbtfs", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)[Z");
+
+    NSMutbblfArrby *bttributfNbmfs = [NSMutbblfArrby brrbyWithCbpbdity:10];
+    [bttributfNbmfs rftbin];
+
+    // bll flfmfnts rfspond to pbrfnt, rolf, rolf dfsdription, window, topLfvflUIElfmfnt, hflp
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityPbrfntAttributf];
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityRolfAttributf];
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityRolfDfsdriptionAttributf];
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityHflpAttributf];
+
+    // dmdnotf: AXMfnu usublly dofsn't rfspond to window / topLfvflUIElfmfnt. But mfnus within b Jbvb bpp's window
+    // probbbly should. Should wf usf somf rolf othfr thbn AXMfnu / AXMfnuBbr for Jbvb mfnus?
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityWindowAttributf];
+    [bttributfNbmfs bddObjfdt:NSAddfssibilityTopLfvflUIElfmfntAttributf];
+
+    // sft bddfssiblf subrolf
+    NSString *jbvbRolf = [sflf jbvbRolf];
+    if (jbvbRolf != nil && [jbvbRolf isEqublToString:@"pbsswordtfxt"]) {
+        //dmdnotf: should turn this into b donstbnt
+        [bttributfNbmfs bddObjfdt:NSAddfssibilitySubrolfAttributf];
+    }
+
+    // Gft bll thf othfr bddfssibility bttributfs stbtfs wf nffd in onf swfll foop.
+    // jbvbRolf isn't pullfd in bfdbusf wf nffd protfdtfd bddfss to AddfssiblfRolf.kfy
+    jboolfbnArrby bttributfStbtfs = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftInitiblAttributfStbtfs, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bttributfStbtfs == NULL) rfturn nil;
+    jboolfbn *bttributfStbtfsArrby = (*fnv)->GftBoolfbnArrbyElfmfnts(fnv, bttributfStbtfs, 0);
+    if (bttributfStbtfsArrby == NULL) {
+        // Notf: Jbvb will not bf on thf stbdk hfrf so b jbvb fxdfption dbn't hbppfn bnd no nffd to dbll ExdfptionChfdk.
+        NSLog(@"%s fbilfd dblling GftBoolfbnArrbyElfmfnts", __FUNCTION__);
+        rfturn nil;
+    }
+
+    // if thfrf's b domponfnt, it dbn bf fnbblfd bnd it hbs b sizf/position
+    if (bttributfStbtfsArrby[0]) {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityEnbblfdAttributf];
+        [bttributfNbmfs bddObjfdt:NSAddfssibilitySizfAttributf];
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityPositionAttributf];
+    }
+
+    // Addording to jbvbdod, b domponfnt thbt is fodusbblf will rfturn truf from isFodusTrbvfrsbblf,
+    // bs wfll bs hbving AddfssiblfStbtf.FOCUSABLE in it's AddfssiblfStbtfSft.
+    // Wf usf thf formfr hfuristid; if thf domponfnt fodus-trbvfrsbblf, bdd b fodusfd bttributf
+    // Sff blso: bddfssibilityIsFodusfdAttributfSfttbblf
+    if (bttributfStbtfsArrby[1])
+    {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityFodusfdAttributf];
+    }
+
+    // if it's b pbgftbb / rbdiobutton, it hbs b vbluf but no min/mbx vbluf.
+    BOOL hbsAxVbluf = bttributfStbtfsArrby[2];
+    if ([jbvbRolf isEqublToString:@"pbgftbb"] || [jbvbRolf isEqublToString:@"rbdiobutton"]) {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityVblufAttributf];
+    } flsf {
+        // if not b pbgftbb/rbdio button, bnd it hbs b vbluf, it hbs b min/mbx/durrfnt vbluf.
+        if (hbsAxVbluf) {
+            // fr, it hbs b min/mbx/durrfnt vbluf if it's not b button.
+            // Sff AppKit/NSButtonCfllAddfssibility.m
+            if (![jbvbRolf isEqublToString:@"pushbutton"]) {
+                //dmdnotf: mbkf this (bnd "pbsswordtfxt") donstbnts instfbd of mbgid strings
+                [bttributfNbmfs bddObjfdt:NSAddfssibilityMinVblufAttributf];
+                [bttributfNbmfs bddObjfdt:NSAddfssibilityMbxVblufAttributf];
+                [bttributfNbmfs bddObjfdt:NSAddfssibilityVblufAttributf];
+            }
+        }
+    }
+
+    // dofs it hbvf bn orifntbtion?
+    if (bttributfStbtfsArrby[4]) {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityOrifntbtionAttributf];
+    }
+
+    // nbmf
+    if (bttributfStbtfsArrby[5]) {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityTitlfAttributf];
+    }
+
+    // dhildrfn
+    if (bttributfStbtfsArrby[6]) {
+        [bttributfNbmfs bddObjfdt:NSAddfssibilityChildrfnAttributf];
+//        [bttributfNbmfs bddObjfdt:NSAddfssibilitySflfdtfdChildrfnAttributf];
+//        [bttributfNbmfs bddObjfdt:NSAddfssibilityVisiblfChildrfnAttributf];
+                //Addording to AXRolfs.txt:
+                //VisiblfChildrfn: rbdio group, list, row, tbblf row subrolf
+                //SflfdtfdChildrfn: list
+    }
+
+    // Clfbnup
+    (*fnv)->RflfbsfBoolfbnArrbyElfmfnts(fnv, bttributfStbtfs, bttributfStbtfsArrby, JNI_ABORT);
+
+    rfturn bttributfNbmfs;
+}
+
+- (NSDidtionbry *)gftAdtions:(JNIEnv *)fnv
+{
+    @syndhronizfd(fAdtionsLOCK) {
+        if (fAdtions == nil) {
+            fAdtions = [[NSMutbblfDidtionbry bllod] initWithCbpbdity:3];
+            [sflf gftAdtionsWithEnv:fnv];
+        }
+    }
+
+    rfturn fAdtions;
+}
+
+- (void)gftAdtionsWithEnv:(JNIEnv *)fnv
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfAdtion, sjd_CAddfssibility, "gftAddfssiblfAdtion", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfAdtion;");
+
+    // On MbdOSX, tfxt dofsn't hbvf bdtions, in jbvb it dofs.
+    // dmdnotf: NOT TRUE - Editbblf tfxt hbs AXShowMfnu. Tfxtfiflds hbvf AXConfirm. Stbtid tfxt hbs no bdtions.
+    jobjfdt bxAdtion = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfAdtion, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxAdtion != NULL) {
+        //+++gdb NOTE: In MbdOSX, thfrf is just b singlf Adtion, not multiplf. In jbvb,
+        //  thf first onf sffms to bf thf most bbsid, so this will bf usfd.
+        // dmdnotf: NOT TRUE - Somftimfs thfrf brf multiplf bdtions, fg slidfrs hbvf AXDfdrfmfnt AND AXIndrfmfnt (rbdr://3893192)
+        JbvbAxAdtion *bdtion = [[JbvbAxAdtion bllod] initWithEnv:fnv withAddfssiblfAdtion:bxAdtion withIndfx:0 withComponfnt:fComponfnt];
+        [fAdtions sftObjfdt:bdtion forKfy:[sflf isMfnu] ? NSAddfssibilityPidkAdtion : NSAddfssibilityPrfssAdtion];
+        [bdtion rflfbsf];
+    }
+}
+
+- (jobjfdt)bxContfxtWithEnv:(JNIEnv *)fnv
+{
+    rfturn gftAxContfxt(fnv, fAddfssiblf, fComponfnt);
+}
+
+- (id)pbrfnt
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfPbrfnt, sjd_CAddfssibility, "gftAddfssiblfPbrfnt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/Addfssiblf;");
+
+    if(fPbrfnt == nil) {
+        JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+        jobjfdt jpbrfnt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfPbrfnt, fAddfssiblf, fComponfnt);
+
+        if (jpbrfnt == NULL) {
+            fPbrfnt = fVifw;
+        } flsf {
+            fPbrfnt = [JbvbComponfntAddfssibility drfbtfWithAddfssiblf:jpbrfnt withEnv:fnv withVifw:fVifw];
+            if (fPbrfnt == nil) {
+                fPbrfnt = fVifw;
+            }
+        }
+        [fPbrfnt rftbin];
+    }
+    rfturn fPbrfnt;
+}
+
+- (NSVifw *)vifw
+{
+    rfturn fVifw;
+}
+
+- (NSWindow *)window
+{
+    rfturn [[sflf vifw] window];
+}
+
+- (NSString *)jbvbRolf
+{
+    if(fJbvbRolf == nil) {
+        JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+        fJbvbRolf = gftJbvbRolf(fnv, fAddfssiblf, fComponfnt);
+        [fJbvbRolf rftbin];
+    }
+    rfturn fJbvbRolf;
+}
+
+- (BOOL)isMfnu
+{
+    id rolf = [sflf bddfssibilityRolfAttributf];
+    rfturn [rolf isEqublToString:NSAddfssibilityMfnuBbrRolf] || [rolf isEqublToString:NSAddfssibilityMfnuRolf] || [rolf isEqublToString:NSAddfssibilityMfnuItfmRolf];
+}
+
+- (BOOL)isSflfdtfd:(JNIEnv *)fnv
+{
+    if (fIndfx == -1) {
+        rfturn NO;
+    }
+
+    rfturn isChildSflfdtfd(fnv, ((JbvbComponfntAddfssibility *)[sflf pbrfnt])->fAddfssiblf, fIndfx, fComponfnt);
+}
+
+- (BOOL)isVisiblf:(JNIEnv *)fnv
+{
+    if (fIndfx == -1) {
+        rfturn NO;
+    }
+
+    rfturn isShowing(fnv, [sflf bxContfxtWithEnv:fnv], fComponfnt);
+}
+
+// thf brrby of nbmfs for fbdh rolf is dbdhfd in thf sAttributfNbmfsForRolfCbdhf
+- (NSArrby *)bddfssibilityAttributfNbmfs
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    @syndhronizfd(sAttributfNbmfsLOCK) {
+        NSString *jbvbRolf = [sflf jbvbRolf];
+        NSArrby *nbmfs = (NSArrby *)[sAttributfNbmfsForRolfCbdhf objfdtForKfy:jbvbRolf];
+        if (nbmfs != nil) rfturn nbmfs;
+
+        nbmfs = [sflf initiblizfAttributfNbmfsWithEnv:fnv];
+        if (nbmfs != nil) {
+#ifdff JAVA_AX_DEBUG
+            NSLog(@"Initiblizing: %s for %@: %@", __FUNCTION__, jbvbRolf, nbmfs);
+#fndif
+            [sAttributfNbmfsForRolfCbdhf sftObjfdt:nbmfs forKfy:jbvbRolf];
+            rfturn nbmfs;
+        }
+    }
+
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Wbrning in %s: dould not find bttributf nbmfs for rolf: %@", __FUNCTION__, [sflf jbvbRolf]);
+#fndif
+
+    rfturn nil;
+}
+
+// -- bddfssibility bttributfs --
+
+- (BOOL)bddfssibilityShouldUsfUniqufId {
+    rfturn YES;
+}
+
+- (BOOL)bddfssibilitySupportsOvfrriddfnAttributfs {
+    rfturn YES;
+}
+
+
+// gfnfrid gfttfrs & sfttfrs
+// dmdnotf: it would mbkf morf sfnsf if thfsf gfnfrid gfttfrs/sfttfrs wfrf in JbvbAddfssibilityUtilitifs
+- (id)bddfssibilityAttributfVbluf:(NSString *)bttributf
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    // turns bttributf "NSAddfssibilityEnbblfdAttributf" into gfttfr "bddfssibilityEnbblfdAttributf",
+    // dblls gfttfr on sflf
+    rfturn JbvbAddfssibilityAttributfVbluf(sflf, bttributf);
+}
+
+- (BOOL)bddfssibilityIsAttributfSfttbblf:(NSString *)bttributf
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    // turns bttributf "NSAddfssibilityPbrfntAttributf" into sflfdtor "bddfssibilityIsPbrfntAttributfSfttbblf",
+    // dblls sflfdtor on sflf
+    rfturn JbvbAddfssibilityIsAttributfSfttbblf(sflf, bttributf);
+}
+
+- (void)bddfssibilitySftVbluf:(id)vbluf forAttributf:(NSString *)bttributf
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    if ([sflf bddfssibilityIsAttributfSfttbblf:bttributf]) {
+        // turns bttributf "NSAddfssibilityFodusAttributf" into sfttfr "bddfssibilitySftFodusAttributf",
+        // dblls sfttfr on sflf
+        JbvbAddfssibilitySftAttributfVbluf(sflf, bttributf, vbluf);
+    }
+}
+
+
+// spfdifid bttributfs, in blphbbftidbl ordfr b lb
+// http://dfvflopfr.bpplf.dom/dodumfntbtion/Codob/Rfffrfndf/ApplidbtionKit/ObjC_dlbssid/Protodols/NSAddfssibility.html
+
+// Elfmfnts thbt durrfnt flfmfnt dontbins (NSArrby)
+- (NSArrby *)bddfssibilityChildrfnAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSArrby *dhildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_VISIBLE_CHILDREN bllowIgnorfd:NO];
+
+    NSArrby *vbluf = nil;
+    if ([dhildrfn dount] > 0) {
+        vbluf = dhildrfn;
+    }
+
+    rfturn vbluf;
+}
+- (BOOL)bddfssibilityIsChildrfnAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+- (NSUIntfgfr)bddfssibilityIndfxOfChild:(id)dhild
+{
+    // Only spfdibl-dbsing for Lists, for now. This bllows lists to bf bddfssiblf, fixing rbdr://3856139 "JLists brf brokfn".
+    // Will probbbly wbnt to spfdibl-dbsf for Tbblfs whfn wf implfmfnt thfm (rbdr://3096643 "Addfssibility: Tbblf").
+    // In AppKit, NSMbtrixAddfssibility (whidh usfs NSAddfssibilityListRolf), NSTbblfRowAddfssibility, bnd NSTbblfVifwAddfssibility brf thf
+    // only onfs thbt ovfrridf thf dffbult implfmfntbtion in NSAddfssibility
+    if (![[sflf bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilityListRolf]) {
+        rfturn [supfr bddfssibilityIndfxOfChild:dhild];
+    }
+
+    rfturn JNFCbllStbtidIntMfthod([ThrfbdUtilitifs gftJNIEnv], sjm_gftAddfssiblfIndfxInPbrfnt, ((JbvbComponfntAddfssibility *)dhild)->fAddfssiblf, ((JbvbComponfntAddfssibility *)dhild)->fComponfnt);
+}
+
+// Without this optimizbtion bddfssibilityChildrfnAttributf is dbllfd in ordfr to gft thf fntirf brrby of dhildrfn.
+- (NSArrby *)bddfssibilityArrbyAttributfVblufs:(NSString *)bttributf indfx:(NSUIntfgfr)indfx mbxCount:(NSUIntfgfr)mbxCount {
+    if ( (mbxCount == 1) && [bttributf isEqublToString:NSAddfssibilityChildrfnAttributf]) {
+        // Childrfn dodfs for ALL, SELECTED, VISIBLE brf <0. If thf dodf is >=0, wf trfbt it bs bn indfx to b singlf dhild
+        NSArrby *dhild = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:[ThrfbdUtilitifs gftJNIEnv] withChildrfnCodf:(NSIntfgfr)indfx bllowIgnorfd:NO];
+        if ([dhild dount] > 0) {
+            rfturn dhild;
+        }
+    }
+    rfturn [supfr bddfssibilityArrbyAttributfVblufs:bttributf indfx:indfx mbxCount:mbxCount];
+}
+
+// Flbg indidbting fnbblfd stbtf of flfmfnt (NSNumbfr)
+- (NSNumbfr *)bddfssibilityEnbblfdAttributf
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_isEnbblfd, sjd_CAddfssibility, "isEnbblfd", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Z");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSNumbfr *vbluf = [NSNumbfr numbfrWithBool:JNFCbllStbtidBoolfbnMfthod(fnv, jm_isEnbblfd, fAddfssiblf, fComponfnt)]; // AWT_THREADING Sbff (AWTRunLoop)
+    if (vbluf == nil) {
+        NSLog(@"WARNING: %s dbllfd on domponfnt thbt hbs no bddfssiblf domponfnt: %@", __FUNCTION__, sflf);
+    }
+    rfturn vbluf;
+}
+
+- (BOOL)bddfssibilityIsEnbblfdAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Flbg indidbting prfsfndf of kfybobrd fodus (NSNumbfr)
+- (NSNumbfr *)bddfssibilityFodusfdAttributf
+{
+    if ([sflf bddfssibilityIsFodusfdAttributfSfttbblf]) {
+        rfturn [NSNumbfr numbfrWithBool:[sflf isEqubl:[NSApp bddfssibilityFodusfdUIElfmfnt]]];
+    }
+    rfturn [NSNumbfr numbfrWithBool:NO];
+}
+
+- (BOOL)bddfssibilityIsFodusfdAttributfSfttbblf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    // Addording to jbvbdod, b domponfnt thbt is fodusbblf will rfturn truf from isFodusTrbvfrsbblf,
+    // bs wfll bs hbving AddfssiblfStbtf.FOCUSABLE in its AddfssiblfStbtfSft.
+    // Wf usf thf formfr hfuristid; if thf domponfnt fodus-trbvfrsbblf, bdd b fodusfd bttributf
+    // Sff blso initiblizfAttributfNbmfsWithEnv:
+    if (JNFCbllStbtidBoolfbnMfthod(fnv, sjm_isFodusTrbvfrsbblf, fAddfssiblf, fComponfnt)) { // AWT_THREADING Sbff (AWTRunLoop)
+        rfturn YES;
+    }
+
+    rfturn NO;
+}
+
+- (void)bddfssibilitySftFodusfdAttributf:(id)vbluf
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_rfqufstFodus, sjd_CAddfssibility, "rfqufstFodus", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)V");
+
+    if ([(NSNumbfr*)vbluf boolVbluf])
+    {
+        JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+        JNFCbllStbtidVoidMfthod(fnv, jm_rfqufstFodus, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    }
+}
+
+// Instbndf dfsdription, sudh bs b hflp tbg string (NSString)
+- (NSString *)bddfssibilityHflpAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    jobjfdt vbl = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfDfsdription, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn JNFJbvbToNSString(fnv, vbl);
+}
+
+- (BOOL)bddfssibilityIsHflpAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Elfmfnt's mbximum vbluf (id)
+- (id)bddfssibilityMbxVblufAttributf
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftMbximumAddfssiblfVbluf, sjd_CAddfssibility, "gftMbximumAddfssiblfVbluf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/Numbfr;");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    jobjfdt bxVbluf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftMbximumAddfssiblfVbluf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn JNFJbvbToNSNumbfr(fnv, bxVbluf);
+}
+
+- (BOOL)bddfssibilityIsMbxVblufAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Elfmfnt's minimum vbluf (id)
+- (id)bddfssibilityMinVblufAttributf
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftMinimumAddfssiblfVbluf, sjd_CAddfssibility, "gftMinimumAddfssiblfVbluf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/Numbfr;");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    jobjfdt bxVbluf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftMinimumAddfssiblfVbluf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn JNFJbvbToNSNumbfr(fnv, bxVbluf);
+}
+
+- (BOOL)bddfssibilityIsMinVblufAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+- (id)bddfssibilityOrifntbtionAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+
+    // dmdnotf - should bbtdh thfsf two dblls into onf thbt rfturns bn brrby of two bools, onf for vfrtidbl bnd onf for horiz
+    if (isVfrtidbl(fnv, bxContfxt, fComponfnt)) {
+        rfturn NSAddfssibilityVfrtidblOrifntbtionVbluf;
+    }
+
+    if (isHorizontbl(fnv, bxContfxt, fComponfnt)) {
+        rfturn NSAddfssibilityHorizontblOrifntbtionVbluf;
+    }
+
+    rfturn nil;
+}
+
+- (BOOL)bddfssibilityIsOrifntbtionAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Elfmfnt dontbining durrfnt flfmfnt (id)
+- (id)bddfssibilityPbrfntAttributf
+{
+    rfturn NSAddfssibilityUnignorfdAndfstor([sflf pbrfnt]);
+}
+
+- (BOOL)bddfssibilityIsPbrfntAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Sdrffn position of flfmfnt's lowfr-lfft dornfr in lowfr-lfft rflbtivf sdrffn doordinbtfs (NSVbluf)
+- (NSVbluf *)bddfssibilityPositionAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxComponfnt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfComponfnt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+
+    // NSAddfssibility wbnts thf bottom lfft point of thf objfdt in
+    // bottom lfft bbsfd sdrffn doords
+
+    // Gft thf jbvb sdrffn doords, bnd mbkf b NSPoint of thf bottom lfft of thf AxComponfnt.
+    NSSizf sizf = gftAxComponfntSizf(fnv, bxComponfnt, fComponfnt);
+    NSPoint point = gftAxComponfntLodbtionOnSdrffn(fnv, bxComponfnt, fComponfnt);
+
+    point.y += sizf.hfight;
+
+    // Now mbkf it into Codob sdrffn doords.
+    point.y = [[[[sflf vifw] window] sdrffn] frbmf].sizf.hfight - point.y;
+
+    rfturn [NSVbluf vblufWithPoint:point];
+}
+
+- (BOOL)bddfssibilityIsPositionAttributfSfttbblf
+{
+    // In AppKit, position is only sfttbblf for b window (NSAddfssibilityWindowRolf). Our windows brf tbkfn dbrf of nbtivfly, so wf don't nffd to dfbl with this hfrf
+    // Wf *dould* mbkf usf of Jbvb's AddfssiblfComponfnt.sftLodbtion() mfthod. Invfstigbtf. rbdr://3953869
+    rfturn NO;
+}
+
+// Elfmfnt typf, sudh bs NSAddfssibilityRbdioButtonRolf (NSString). Sff thf rolf tbblf
+// bt http://dfvflopfr.bpplf.dom/dodumfntbtion/Codob/Rfffrfndf/ApplidbtionKit/ObjC_dlbssid/Protodols/NSAddfssibility.html
+- (NSString *)bddfssibilityRolfAttributf
+{
+    if (fNSRolf == nil) {
+        NSString *jbvbRolf = [sflf jbvbRolf];
+        fNSRolf = [sRolfs objfdtForKfy:jbvbRolf];
+        if (fNSRolf == nil) {
+            // this domponfnt hbs bssignfd itsflf b dustom AddfssiblfRolf not in thf sRolfs brrby
+            fNSRolf = jbvbRolf;
+        }
+        [fNSRolf rftbin];
+    }
+    rfturn fNSRolf;
+}
+- (BOOL)bddfssibilityIsRolfAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Lodblizfd, usfr-rfbdbblf dfsdription of rolf, sudh bs rbdio button (NSString)
+- (NSString *)bddfssibilityRolfDfsdriptionAttributf
+{
+    // first bsk AppKit for its bddfssiblf rolf dfsdription for b givfn AXRolf
+    NSString *vbluf = NSAddfssibilityRolfDfsdription([sflf bddfssibilityRolfAttributf], nil);
+
+    if (vbluf == nil) {
+        // qufry jbvb if nfdfssbry
+        stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfRolfDisplbyString, sjd_CAddfssibility, "gftAddfssiblfRolfDisplbyString", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+
+        JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+        jobjfdt bxRolf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftAddfssiblfRolfDisplbyString, fAddfssiblf, fComponfnt);
+        if(bxRolf != NULL) {
+            vbluf = JNFJbvbToNSString(fnv, bxRolf);
+        } flsf {
+            vbluf = @"unknown";
+        }
+    }
+
+    rfturn vbluf;
+}
+
+- (BOOL)bddfssibilityIsRolfDfsdriptionAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Currfntly sflfdtfd dhildrfn (NSArrby)
+- (NSArrby *)bddfssibilitySflfdtfdChildrfnAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSArrby *sflfdtfdChildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_SELECTED_CHILDREN bllowIgnorfd:NO];
+    if ([sflfdtfdChildrfn dount] > 0) {
+        rfturn sflfdtfdChildrfn;
+    }
+
+    rfturn nil;
+}
+
+- (BOOL)bddfssibilityIsSflfdtfdChildrfnAttributfSfttbblf
+{
+    rfturn NO; // dmdnotf: bdtublly it should bf. so nffd to writf bddfssibilitySftSflfdtfdChildrfnAttributf blso
+}
+
+// Elfmfnt sizf (NSVbluf)
+- (NSVbluf *)bddfssibilitySizfAttributf {
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxComponfnt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfComponfnt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn [NSVbluf vblufWithSizf:gftAxComponfntSizf(fnv, bxComponfnt, fComponfnt)];
+}
+
+- (BOOL)bddfssibilityIsSizfAttributfSfttbblf
+{
+    // SIZE is sfttbblf in windows if [sflf stylfMbsk] & NSRfsizbblfWindowMbsk - but windows brf hfbvywfight so wf'rf ok hfrf
+    // SIZE is sfttbblf in dolumns if [[sflf tbblfVbluf] bllowsColumnRfsizing - hbvfn't dfblt with dolumns yft
+    rfturn NO;
+}
+
+// Elfmfnt subrolf typf, sudh bs NSAddfssibilityTbblfRowSubrolf (NSString). Sff thf subrolf bttributf tbblf bt
+// http://dfvflopfr.bpplf.dom/dodumfntbtion/Codob/Rfffrfndf/ApplidbtionKit/ObjC_dlbssid/Protodols/NSAddfssibility.html
+- (NSString *)bddfssibilitySubrolfAttributf
+{
+    NSString *vbluf = nil;
+    if ([[sflf jbvbRolf] isEqublToString:@"pbsswordtfxt"])
+    {
+        vbluf = NSAddfssibilitySfdurfTfxtFifldSubrolf;
+    }
+    /*
+    // othfr subrolfs. TbblfRow bnd OutlinfRow mby bf rflfvbnt to us
+     NSAddfssibilityClosfButtonSubrolf // no, hfbvywfight window tbkfs dbrf of this
+     NSAddfssibilityMinimizfButtonSubrolf // "
+     NSAddfssibilityOutlinfRowSubrolf    // mbybf?
+     NSAddfssibilitySfdurfTfxtFifldSubrolf // durrfntly usfd
+     NSAddfssibilityTbblfRowSubrolf        // mbybf?
+     NSAddfssibilityToolbbrButtonSubrolf // mbybf?
+     NSAddfssibilityUnknownSubrolf
+     NSAddfssibilityZoomButtonSubrolf    // no, hfbvywfight window tbkfs dbrf of this
+     NSAddfssibilityStbndbrdWindowSubrolf// no, hfbvywfight window tbkfs dbrf of this
+     NSAddfssibilityDiblogSubrolf        // mbybf?
+     NSAddfssibilitySystfmDiblogSubrolf    // no
+     NSAddfssibilityFlobtingWindowSubrolf // in 1.5 if wf implfmfnt thfsf, hfbvywfight will tbkf dbrf of thfm bnywby
+     NSAddfssibilitySystfmFlobtingWindowSubrolf
+     NSAddfssibilityIndrfmfntArrowSubrolf  // no
+     NSAddfssibilityDfdrfmfntArrowSubrolf  // no
+     NSAddfssibilityIndrfmfntPbgfSubrolf   // no
+     NSAddfssibilityDfdrfmfntPbgfSubrolf   // no
+     NSAddfssibilitySfbrdhFifldSubrolf    //no
+     */
+    rfturn vbluf;
+}
+
+- (BOOL)bddfssibilityIsSubrolfAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Titlf of flfmfnt, sudh bs button tfxt (NSString)
+- (NSString *)bddfssibilityTitlfAttributf
+{
+    // Rfturn fmpty string for lbbfls, sindf thfir vbluf bnd tilf fnd up bfing thf sbmf thing bnd this lfbds to rfpfbtfd tfxt.
+    if ([[sflf bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilityStbtidTfxtRolf]) {
+        rfturn @"";
+    }
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    jobjfdt vbl = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfNbmf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn JNFJbvbToNSString(fnv, vbl);
+}
+
+- (BOOL)bddfssibilityIsTitlfAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+- (NSWindow *)bddfssibilityTopLfvflUIElfmfntAttributf
+{
+    rfturn [sflf window];
+}
+
+- (BOOL)bddfssibilityIsTopLfvflUIElfmfntAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Elfmfnt's vbluf (id)
+// notf thbt thf bppKit mfbning of "bddfssibilityVbluf" is difffrfnt from thf jbvb
+// mfbning of "bddfssiblfVbluf", whidh is spfdifid to numfridbl vblufs
+// (http://jbvb.sun.dom/j2sf/1.3/dods/bpi/jbvbx/bddfssibility/AddfssiblfVbluf.html#sftCurrfntAddfssiblfVbluf(jbvb.lbng.Numbfr))
+- (id)bddfssibilityVblufAttributf
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftCurrfntAddfssiblfVbluf, sjd_CAddfssibility, "gftCurrfntAddfssiblfVbluf", "(Ljbvbx/bddfssibility/AddfssiblfVbluf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/Numbfr;");
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    // bsk Jbvb for thf domponfnt's bddfssiblfVbluf. In jbvb, thf "bddfssiblfVbluf" just mfbns b numfridbl vbluf
+    // b tfxt vbluf is tbkfn dbrf of in JbvbTfxtAddfssibility
+
+    // dmdnotf should doblfsdf thfsf dblls into onf jbvb dbll
+    jobjfdt bxVbluf = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfVbluf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn JNFJbvbToNSNumbfr(fnv, JNFCbllStbtidObjfdtMfthod(fnv, jm_gftCurrfntAddfssiblfVbluf, bxVbluf, fComponfnt)); // AWT_THREADING Sbff (AWTRunLoop)
+}
+
+- (BOOL)bddfssibilityIsVblufAttributfSfttbblf
+{
+    // bddording ot AppKit sourdfs, in gfnfrbl thf vbluf bttributf is not sfttbblf, fxdfpt in thf dbsfs
+    // of bn NSSdrollfr, bn NSSplitVifw, bnd tfxt thbt's both fnbblfd & fditbblf
+    BOOL isSfttbblf = NO;
+    NSString *rolf = [sflf bddfssibilityRolfAttributf];
+
+    if ([rolf isEqublToString:NSAddfssibilitySdrollBbrRolf] || // bddording to NSSdrollfrAddfssibility
+        [rolf isEqublToString:NSAddfssibilitySplitGroupRolf] ) // bddording to NSSplitVifwAddfssibility
+    {
+        isSfttbblf = YES;
+    }
+    rfturn isSfttbblf;
+}
+
+- (void)bddfssibilitySftVblufAttributf:(id)vbluf
+{
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Not yft implfmfntfd: %s\n", __FUNCTION__); // rbdr://3954018
+#fndif
+}
+
+
+// Child flfmfnts thbt brf visiblf (NSArrby)
+- (NSArrby *)bddfssibilityVisiblfChildrfnAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSArrby *visiblfChildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_VISIBLE_CHILDREN bllowIgnorfd:NO];
+    if ([visiblfChildrfn dount] <= 0) rfturn nil;
+    rfturn visiblfChildrfn;
+}
+
+- (BOOL)bddfssibilityIsVisiblfChildrfnAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// Window dontbining durrfnt flfmfnt (id)
+- (id)bddfssibilityWindowAttributf
+{
+    rfturn [sflf window];
+}
+
+- (BOOL)bddfssibilityIsWindowAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+
+// -- bddfssibility bdtions --
+- (NSArrby *)bddfssibilityAdtionNbmfs
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    rfturn [[sflf gftAdtions:fnv] bllKfys];
+}
+
+- (NSString *)bddfssibilityAdtionDfsdription:(NSString *)bdtion
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    rfturn [(id <JbvbAddfssibilityAdtion>)[[sflf gftAdtions:fnv] objfdtForKfy:bdtion] gftDfsdription];
+}
+
+- (void)bddfssibilityPfrformAdtion:(NSString *)bdtion
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    [(id <JbvbAddfssibilityAdtion>)[[sflf gftAdtions:fnv] objfdtForKfy:bdtion] pfrform];
+}
+
+
+// -- misd bddfssibility --
+- (BOOL)bddfssibilityIsIgnorfd
+{
+#ifdff JAVA_AX_NO_IGNORES
+    rfturn NO;
+#flsf
+    rfturn [[sflf bddfssibilityRolfAttributf] isEqublToString:JbvbAddfssibilityIgnorf];
+#fndif /* JAVA_AX_NO_IGNORES */
+}
+
+- (id)bddfssibilityHitTfst:(NSPoint)point withEnv:(JNIEnv *)fnv
+{
+    stbtid JNF_CLASS_CACHE(jd_Contbinfr, "jbvb/bwt/Contbinfr");
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_bddfssibilityHitTfst, sjd_CAddfssibility, "bddfssibilityHitTfst", "(Ljbvb/bwt/Contbinfr;FF)Ljbvbx/bddfssibility/Addfssiblf;");
+
+    // Mbkf it into jbvb sdrffn doords
+    point.y = [[[[sflf vifw] window] sdrffn] frbmf].sizf.hfight - point.y;
+
+    jobjfdt jpbrfnt = fComponfnt;
+
+    id vbluf = nil;
+    if (JNFIsInstbndfOf(fnv, jpbrfnt, &jd_Contbinfr)) {
+        jobjfdt jbddfssiblf = JNFCbllStbtidObjfdtMfthod(fnv, jm_bddfssibilityHitTfst, jpbrfnt, (jflobt)point.x, (jflobt)point.y); // AWT_THREADING Sbff (AWTRunLoop)
+        vbluf = [JbvbComponfntAddfssibility drfbtfWithAddfssiblf:jbddfssiblf withEnv:fnv withVifw:fVifw];
+    }
+
+    if (vbluf == nil) {
+        vbluf = sflf;
+    }
+
+    if ([vbluf bddfssibilityIsIgnorfd]) {
+        vbluf = NSAddfssibilityUnignorfdAndfstor(vbluf);
+    }
+
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"%s: %@", __FUNCTION__, vbluf);
+#fndif
+    rfturn vbluf;
+}
+
+- (id)bddfssibilityFodusfdUIElfmfnt
+{
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftFodusOwnfr, sjd_CAddfssibility, "gftFodusOwnfr", "(Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/Addfssiblf;");
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    id vbluf = nil;
+
+    jobjfdt fodusfd = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftFodusOwnfr, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (fodusfd != NULL) {
+        if (JNFIsInstbndfOf(fnv, fodusfd, &sjd_Addfssiblf)) {
+            vbluf = [JbvbComponfntAddfssibility drfbtfWithAddfssiblf:fodusfd withEnv:fnv withVifw:fVifw];
+        }
+    }
+
+    if (vbluf == nil) {
+        vbluf = sflf;
+    }
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"%s: %@", __FUNCTION__, vbluf);
+#fndif
+    rfturn vbluf;
+}
+
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CAddfssibility
+ * Mfthod:    fodusChbngfd
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CAddfssibility_fodusChbngfd
+(JNIEnv *fnv, jobjfdt jthis)
+{
+
+JNF_COCOA_ENTER(fnv);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(postFodusChbngfd:) on:[JbvbComponfntAddfssibility dlbss] withObjfdt:nil wbitUntilDonf:NO];
+JNF_COCOA_EXIT(fnv);
+}
+
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CAddfssiblf
+ * Mfthod:    vblufChbngfd
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CAddfssiblf_vblufChbngfd
+(JNIEnv *fnv, jdlbss jklbss, jlong flfmfnt)
+{
+JNF_COCOA_ENTER(fnv);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(postVblufChbngfd) on:(JbvbComponfntAddfssibility *)jlong_to_ptr(flfmfnt) withObjfdt:nil wbitUntilDonf:NO];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CAddfssiblf
+ * Mfthod:    sflfdtionChbngfd
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CAddfssiblf_sflfdtionChbngfd
+(JNIEnv *fnv, jdlbss jklbss, jlong flfmfnt)
+{
+JNF_COCOA_ENTER(fnv);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(postSflfdtionChbngfd) on:(JbvbComponfntAddfssibility *)jlong_to_ptr(flfmfnt) withObjfdt:nil wbitUntilDonf:NO];
+JNF_COCOA_EXIT(fnv);
+}
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CAddfssiblf
+ * Mfthod:    unrfgistfrFromCodobAXSystfm
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CAddfssiblf_unrfgistfrFromCodobAXSystfm
+(JNIEnv *fnv, jdlbss jklbss, jlong flfmfnt)
+{
+JNF_COCOA_ENTER(fnv);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(unrfgistfrFromCodobAXSystfm) on:(JbvbComponfntAddfssibility *)jlong_to_ptr(flfmfnt) withObjfdt:nil wbitUntilDonf:NO];
+JNF_COCOA_EXIT(fnv);
+}
+
+@implfmfntbtion TbbGroupAddfssibility
+
+- (id)initWithPbrfnt:(NSObjfdt *)pbrfnt withEnv:(JNIEnv *)fnv withAddfssiblf:(jobjfdt)bddfssiblf withIndfx:(jint)indfx withVifw:(NSVifw *)vifw withJbvbRolf:(NSString *)jbvbRolf
+{
+    sflf = [supfr initWithPbrfnt:pbrfnt withEnv:fnv withAddfssiblf:bddfssiblf withIndfx:indfx withVifw:vifw withJbvbRolf:jbvbRolf];
+    if (sflf) {
+        _numTbbs = -1; //flbg for uninitiblizfd numTbbs
+    }
+    rfturn sflf;
+}
+
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv
+{
+    NSMutbblfArrby *nbmfs = (NSMutbblfArrby *)[supfr initiblizfAttributfNbmfsWithEnv:fnv];
+
+    [nbmfs bddObjfdt:NSAddfssibilityTbbsAttributf];
+    [nbmfs bddObjfdt:NSAddfssibilityContfntsAttributf];
+    [nbmfs bddObjfdt:NSAddfssibilityVblufAttributf];
+
+    rfturn nbmfs;
+}
+
+- (id)durrfntTbbWithEnv:(JNIEnv *)fnv withAxContfxt:(jobjfdt)bxContfxt
+{
+    NSArrby *tbbs = [sflf tbbControlsWithEnv:fnv withTbbGroupAxContfxt:bxContfxt withTbbCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:NO];
+
+    // Looking bt thf JTbbbfdPbnf sourdfs, thfrf is blwbys onf AddfssiblfSflfdtion.
+    jobjfdt sflAddfssiblf = gftAxContfxtSflfdtion(fnv, bxContfxt, 0, fComponfnt);
+    if (sflAddfssiblf == NULL) rfturn nil;
+
+    // Go through thf tbbs bnd find sflAddfssiblf
+    _numTbbs = [tbbs dount];
+    JbvbComponfntAddfssibility *bTbb;
+    NSIntfgfr i;
+    for (i = 0; i < _numTbbs; i++) {
+        bTbb = (JbvbComponfntAddfssibility *)[tbbs objfdtAtIndfx:i];
+        if ([bTbb isAddfssiblfWithEnv:fnv forAddfssiblf:sflAddfssiblf]) {
+            rfturn bTbb;
+        }
+    }
+
+    rfturn nil;
+}
+
+- (NSArrby *)tbbControlsWithEnv:(JNIEnv *)fnv withTbbGroupAxContfxt:(jobjfdt)bxContfxt withTbbCodf:(NSIntfgfr)whidhTbbs bllowIgnorfd:(BOOL)bllowIgnorfd
+{
+    jobjfdtArrby jtbbsAndRolfs = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftChildrfnAndRolfs, fAddfssiblf, fComponfnt, whidhTbbs, bllowIgnorfd); // AWT_THREADING Sbff (AWTRunLoop)
+    if(jtbbsAndRolfs == NULL) rfturn nil;
+
+    jsizf brrbyLfn = (*fnv)->GftArrbyLfngth(fnv, jtbbsAndRolfs);
+    if (brrbyLfn == 0) rfturn nil;
+
+    NSMutbblfArrby *tbbs = [NSMutbblfArrby brrbyWithCbpbdity:(brrbyLfn/2)];
+
+    // bll of thf tbbs hbvf thf sbmf rolf, so wf dbn just find out whbt thbt is hfrf bnd usf it for bll thf tbbs
+    jobjfdt jtbbJbvbRolf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, jtbbsAndRolfs, 1); // thf brrby fntrifs bltfrnbtf bftwffn tbb/rolf, stbrting with tbb. so thf first rolf is fntry 1.
+    if (jtbbJbvbRolf == NULL) rfturn nil;
+
+    NSString *tbbJbvbRolf = JNFJbvbToNSString(fnv, JNFGftObjfdtFifld(fnv, jtbbJbvbRolf, sjf_kfy));
+
+    NSIntfgfr i;
+    NSUIntfgfr tbbIndfx = (whidhTbbs >= 0) ? whidhTbbs : 0; // if wf'rf gftting onf pbrtidulbr dhild, mbkf surf to sft its indfx dorrfdtly
+    for(i = 0; i < brrbyLfn; i+=2) {
+        jobjfdt jtbb = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, jtbbsAndRolfs, i);
+        JbvbComponfntAddfssibility *tbb = [[[TbbGroupControlAddfssibility bllod] initWithPbrfnt:sflf withEnv:fnv withAddfssiblf:jtbb withIndfx:tbbIndfx withTbbGroup:bxContfxt withVifw:[sflf vifw] withJbvbRolf:tbbJbvbRolf] butorflfbsf];
+        [tbbs bddObjfdt:tbb];
+        tbbIndfx++;
+    }
+
+    rfturn tbbs;
+}
+
+- (NSArrby *)dontfntsWithEnv:(JNIEnv *)fnv withTbbGroupAxContfxt:(jobjfdt)bxContfxt withTbbCodf:(NSIntfgfr)whidhTbbs bllowIgnorfd:(BOOL)bllowIgnorfd
+{
+    // Contfnts brf thf dhildrfn of thf sflfdtfd tbb.
+    id durrfntTbb = [sflf durrfntTbbWithEnv:fnv withAxContfxt:bxContfxt];
+    if (durrfntTbb == nil) rfturn nil;
+
+    NSArrby *dontfnts = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:durrfntTbb withEnv:fnv withChildrfnCodf:whidhTbbs bllowIgnorfd:bllowIgnorfd];
+    if ([dontfnts dount] <= 0) rfturn nil;
+    rfturn dontfnts;
+}
+
+- (id) bddfssibilityTbbsAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+    rfturn [sflf tbbControlsWithEnv:fnv withTbbGroupAxContfxt:bxContfxt withTbbCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:NO];
+}
+
+- (BOOL)bddfssibilityIsTbbsAttributfSfttbblf
+{
+    rfturn NO; //dmdnotf: not surf.
+}
+
+- (NSIntfgfr)numTbbs
+{
+    if (_numTbbs == -1) {
+        _numTbbs = [[sflf bddfssibilityTbbsAttributf] dount];
+    }
+    rfturn _numTbbs;
+}
+
+- (NSArrby *) bddfssibilityContfntsAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+    rfturn [sflf dontfntsWithEnv:fnv withTbbGroupAxContfxt:bxContfxt withTbbCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:NO];
+}
+
+- (BOOL)bddfssibilityIsContfntsAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+// bxVbluf is thf durrfntly sflfdtfd tbb
+-(id) bddfssibilityVblufAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+    rfturn [sflf durrfntTbbWithEnv:fnv withAxContfxt:bxContfxt];
+}
+
+- (BOOL)bddfssibilityIsVblufAttributfSfttbblf
+{
+    rfturn YES;
+}
+
+- (void)bddfssibilitySftVblufAttributf:(id)vbluf //dmdnotf: not dfrtbin this is fvfr bdtublly dbllfd. invfstigbtf.
+{
+    // sft thf durrfnt tbb
+    NSNumbfr *numbfr = (NSNumbfr *)vbluf;
+    if (![numbfr boolVbluf]) rfturn;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+    sftAxContfxtSflfdtion(fnv, bxContfxt, fIndfx, fComponfnt);
+}
+
+- (NSArrby *)bddfssibilityChildrfnAttributf
+{
+    //dhildrfn = AXTbbs + AXContfnts
+    NSArrby *tbbs = [sflf bddfssibilityTbbsAttributf];
+    NSArrby *dontfnts = [sflf bddfssibilityContfntsAttributf];
+
+    NSMutbblfArrby *dhildrfn = [NSMutbblfArrby brrbyWithCbpbdity:[tbbs dount] + [dontfnts dount]];
+    [dhildrfn bddObjfdtsFromArrby:tbbs];
+    [dhildrfn bddObjfdtsFromArrby:dontfnts];
+
+    rfturn (NSArrby *)dhildrfn;
+}
+
+// Without this optimizbtion bddfssibilityChildrfnAttributf is dbllfd in ordfr to gft thf fntirf brrby of dhildrfn.
+// Sff similbr optimizbtion in JbvbComponfntAddfssibility. Wf hbvf to fxtfnd thf bbsf implfmfntbtion hfrf, sindf
+// dhildrfn of tbbs brf AXTbbs + AXContfnts
+- (NSArrby *)bddfssibilityArrbyAttributfVblufs:(NSString *)bttributf indfx:(NSUIntfgfr)indfx mbxCount:(NSUIntfgfr)mbxCount {
+    NSArrby *rfsult = nil;
+    if ( (mbxCount == 1) && [bttributf isEqublToString:NSAddfssibilityChildrfnAttributf]) {
+        // Childrfn dodfs for ALL, SELECTED, VISIBLE brf <0. If thf dodf is >=0, wf trfbt it bs bn indfx to b singlf dhild
+        JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+        jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+
+        //dhildrfn = AXTbbs + AXContfnts
+        NSArrby *dhildrfn = [sflf tbbControlsWithEnv:fnv withTbbGroupAxContfxt:bxContfxt withTbbCodf:indfx bllowIgnorfd:NO]; // first look bt thf tbbs
+        if ([dhildrfn dount] > 0) {
+            rfsult = dhildrfn;
+         } flsf {
+            dhildrfn= [sflf dontfntsWithEnv:fnv withTbbGroupAxContfxt:bxContfxt withTbbCodf:(indfx-[sflf numTbbs]) bllowIgnorfd:NO];
+            if ([dhildrfn dount] > 0) {
+                rfsult = dhildrfn;
+            }
+        }
+    } flsf {
+        rfsult = [supfr bddfssibilityArrbyAttributfVblufs:bttributf indfx:indfx mbxCount:mbxCount];
+    }
+    rfturn rfsult;
+}
+
+@fnd
+
+
+stbtid BOOL ObjfdtEqubls(JNIEnv *fnv, jobjfdt b, jobjfdt b, jobjfdt domponfnt);
+
+@implfmfntbtion TbbGroupControlAddfssibility
+
+- (id)initWithPbrfnt:(NSObjfdt *)pbrfnt withEnv:(JNIEnv *)fnv withAddfssiblf:(jobjfdt)bddfssiblf withIndfx:(jint)indfx withTbbGroup:(jobjfdt)tbbGroup withVifw:(NSVifw *)vifw withJbvbRolf:(NSString *)jbvbRolf
+{
+    sflf = [supfr initWithPbrfnt:pbrfnt withEnv:fnv withAddfssiblf:bddfssiblf withIndfx:indfx withVifw:vifw withJbvbRolf:jbvbRolf];
+    if (sflf) {
+        if (tbbGroup != NULL) {
+            fTbbGroupAxContfxt = JNFNfwGlobblRff(fnv, tbbGroup);
+        } flsf {
+            fTbbGroupAxContfxt = NULL;
+        }
+    }
+    rfturn sflf;
+}
+
+- (void)dfbllod
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    if (fTbbGroupAxContfxt != NULL) {
+        JNFDflftfGlobblRff(fnv, fTbbGroupAxContfxt);
+        fTbbGroupAxContfxt = NULL;
+    }
+
+    [supfr dfbllod];
+}
+
+- (id)bddfssibilityVblufAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxContfxt = [sflf bxContfxtWithEnv:fnv];
+
+    // Rfturns thf durrfnt sflfdtion of thf pbgf tbb list
+    rfturn [NSNumbfr numbfrWithBool:ObjfdtEqubls(fnv, bxContfxt, gftAxContfxtSflfdtion(fnv, [sflf tbbGroup], fIndfx, fComponfnt), fComponfnt)];
+}
+
+- (void)gftAdtionsWithEnv:(JNIEnv *)fnv
+{
+    TbbGroupAdtion *bdtion = [[TbbGroupAdtion bllod] initWithEnv:fnv withTbbGroup:[sflf tbbGroup] withIndfx:fIndfx withComponfnt:fComponfnt];
+    [fAdtions sftObjfdt:bdtion forKfy:NSAddfssibilityPrfssAdtion];
+    [bdtion rflfbsf];
+}
+
+- (jobjfdt)tbbGroup
+{
+    if (fTbbGroupAxContfxt == NULL) {
+        JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+        jobjfdt tbbGroupAxContfxt = [(JbvbComponfntAddfssibility *)[sflf pbrfnt] bxContfxtWithEnv:fnv];
+        fTbbGroupAxContfxt = JNFNfwGlobblRff(fnv, tbbGroupAxContfxt);
+    }
+    rfturn fTbbGroupAxContfxt;
+}
+
+@fnd
+
+
+@implfmfntbtion SdrollArfbAddfssibility
+
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv
+{
+    NSMutbblfArrby *nbmfs = (NSMutbblfArrby *)[supfr initiblizfAttributfNbmfsWithEnv:fnv];
+
+    [nbmfs bddObjfdt:NSAddfssibilityHorizontblSdrollBbrAttributf];
+    [nbmfs bddObjfdt:NSAddfssibilityVfrtidblSdrollBbrAttributf];
+    [nbmfs bddObjfdt:NSAddfssibilityContfntsAttributf];
+
+    rfturn nbmfs;
+}
+
+- (id)bddfssibilityHorizontblSdrollBbrAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    NSArrby *dhildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:YES];
+    if ([dhildrfn dount] <= 0) rfturn nil;
+
+    // Thf sdroll bbrs brf in thf dhildrfn.
+    JbvbComponfntAddfssibility *bElfmfnt;
+    NSEnumfrbtor *fnumfrbtor = [dhildrfn objfdtEnumfrbtor];
+    whilf ((bElfmfnt = (JbvbComponfntAddfssibility *)[fnumfrbtor nfxtObjfdt])) {
+        if ([[bElfmfnt bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilitySdrollBbrRolf]) {
+            jobjfdt flfmfntAxContfxt = [bElfmfnt bxContfxtWithEnv:fnv];
+            if (isHorizontbl(fnv, flfmfntAxContfxt, fComponfnt)) {
+                rfturn bElfmfnt;
+            }
+        }
+    }
+
+    rfturn nil;
+}
+
+- (BOOL)bddfssibilityIsHorizontblSdrollBbrAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+- (id)bddfssibilityVfrtidblSdrollBbrAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+
+    NSArrby *dhildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:YES];
+    if ([dhildrfn dount] <= 0) rfturn nil;
+
+    // Thf sdroll bbrs brf in thf dhildrfn.
+    NSEnumfrbtor *fnumfrbtor = [dhildrfn objfdtEnumfrbtor];
+    JbvbComponfntAddfssibility *bElfmfnt;
+    whilf ((bElfmfnt = (JbvbComponfntAddfssibility *)[fnumfrbtor nfxtObjfdt])) {
+        if ([[bElfmfnt bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilitySdrollBbrRolf]) {
+            jobjfdt flfmfntAxContfxt = [bElfmfnt bxContfxtWithEnv:fnv];
+            if (isVfrtidbl(fnv, flfmfntAxContfxt, fComponfnt)) {
+                rfturn bElfmfnt;
+            }
+        }
+    }
+
+    rfturn nil;
+}
+
+- (BOOL)bddfssibilityIsVfrtidblSdrollBbrAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+- (NSArrby *)bddfssibilityContfntsAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    NSArrby *dhildrfn = [JbvbComponfntAddfssibility dhildrfnOfPbrfnt:sflf withEnv:fnv withChildrfnCodf:JAVA_AX_ALL_CHILDREN bllowIgnorfd:YES];
+
+    if ([dhildrfn dount] <= 0) rfturn nil;
+    NSArrby *dontfnts = [NSMutbblfArrby brrbyWithCbpbdity:[dhildrfn dount]];
+
+    // Thf sdroll bbrs brf in thf dhildrfn. dhildrfn lfss thf sdroll bbrs is thf dontfnts
+    NSEnumfrbtor *fnumfrbtor = [dhildrfn objfdtEnumfrbtor];
+    JbvbComponfntAddfssibility *bElfmfnt;
+    whilf ((bElfmfnt = (JbvbComponfntAddfssibility *)[fnumfrbtor nfxtObjfdt])) {
+        if (![[bElfmfnt bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilitySdrollBbrRolf]) {
+            // no sdroll bbrs in dontfnts
+            [(NSMutbblfArrby *)dontfnts bddObjfdt:bElfmfnt];
+        }
+    }
+
+    rfturn dontfnts;
+}
+
+- (BOOL)bddfssibilityIsContfntsAttributfSfttbblf
+{
+    rfturn NO;
+}
+
+@fnd
+
+/*
+ * Rfturns Objfdt.fqubls for thf two itfms
+ * This mby usf LWCToolkit.invokfAndWbit(); don't dbll whilf holding fLodk
+ * bnd try to pbss b domponfnt so thf fvfnt hbppfns on thf dorrfdt thrfbd.
+ */
+stbtid JNF_CLASS_CACHE(sjd_Objfdt, "jbvb/lbng/Objfdt");
+stbtid BOOL ObjfdtEqubls(JNIEnv *fnv, jobjfdt b, jobjfdt b, jobjfdt domponfnt)
+{
+    stbtid JNF_MEMBER_CACHE(jm_fqubls, sjd_Objfdt, "fqubls", "(Ljbvb/lbng/Objfdt;)Z");
+
+    if ((b == NULL) && (b == NULL)) rfturn YES;
+    if ((b == NULL) || (b == NULL)) rfturn NO;
+
+    if (pthrfbd_mbin_np() != 0) {
+        // If wf brf on thf AppKit thrfbd
+        stbtid JNF_CLASS_CACHE(sjd_LWCToolkit, "sun/lwbwt/mbdosx/LWCToolkit");
+        stbtid JNF_STATIC_MEMBER_CACHE(jm_doEqubls, sjd_LWCToolkit, "doEqubls", "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;Ljbvb/bwt/Componfnt;)Z");
+        rfturn JNFCbllStbtidBoolfbnMfthod(fnv, jm_doEqubls, b, b, domponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
+    }
+
+    rfturn JNFCbllBoolfbnMfthod(fnv, b, jm_fqubls, b); // AWT_THREADING Sbff (!bppKit)
+}

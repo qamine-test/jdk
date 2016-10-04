@@ -1,379 +1,379 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * Private implementation class for EnumSet, for "jumbo" enum types
- * (i.e., those with more than 64 elements).
+ * Privbtf implfmfntbtion dlbss for EnumSft, for "jumbo" fnum typfs
+ * (i.f., tiosf witi morf tibn 64 flfmfnts).
  *
- * @author Josh Bloch
- * @since 1.5
- * @serial exclude
+ * @butior Josi Blodi
+ * @sindf 1.5
+ * @sfribl fxdludf
  */
-class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
-    private static final long serialVersionUID = 334349849919042784L;
+dlbss JumboEnumSft<E fxtfnds Enum<E>> fxtfnds EnumSft<E> {
+    privbtf stbtid finbl long sfriblVfrsionUID = 334349849919042784L;
 
     /**
-     * Bit vector representation of this set.  The ith bit of the jth
-     * element of this array represents the  presence of universe[64*j +i]
-     * in this set.
+     * Bit vfdtor rfprfsfntbtion of tiis sft.  Tif iti bit of tif jti
+     * flfmfnt of tiis brrby rfprfsfnts tif  prfsfndf of univfrsf[64*j +i]
+     * in tiis sft.
      */
-    private long elements[];
+    privbtf long flfmfnts[];
 
-    // Redundant - maintained for performance
-    private int size = 0;
+    // Rfdundbnt - mbintbinfd for pfrformbndf
+    privbtf int sizf = 0;
 
-    JumboEnumSet(Class<E>elementType, Enum<?>[] universe) {
-        super(elementType, universe);
-        elements = new long[(universe.length + 63) >>> 6];
+    JumboEnumSft(Clbss<E>flfmfntTypf, Enum<?>[] univfrsf) {
+        supfr(flfmfntTypf, univfrsf);
+        flfmfnts = nfw long[(univfrsf.lfngti + 63) >>> 6];
     }
 
-    void addRange(E from, E to) {
-        int fromIndex = from.ordinal() >>> 6;
-        int toIndex = to.ordinal() >>> 6;
+    void bddRbngf(E from, E to) {
+        int fromIndfx = from.ordinbl() >>> 6;
+        int toIndfx = to.ordinbl() >>> 6;
 
-        if (fromIndex == toIndex) {
-            elements[fromIndex] = (-1L >>>  (from.ordinal() - to.ordinal() - 1))
-                            << from.ordinal();
-        } else {
-            elements[fromIndex] = (-1L << from.ordinal());
-            for (int i = fromIndex + 1; i < toIndex; i++)
-                elements[i] = -1;
-            elements[toIndex] = -1L >>> (63 - to.ordinal());
+        if (fromIndfx == toIndfx) {
+            flfmfnts[fromIndfx] = (-1L >>>  (from.ordinbl() - to.ordinbl() - 1))
+                            << from.ordinbl();
+        } flsf {
+            flfmfnts[fromIndfx] = (-1L << from.ordinbl());
+            for (int i = fromIndfx + 1; i < toIndfx; i++)
+                flfmfnts[i] = -1;
+            flfmfnts[toIndfx] = -1L >>> (63 - to.ordinbl());
         }
-        size = to.ordinal() - from.ordinal() + 1;
+        sizf = to.ordinbl() - from.ordinbl() + 1;
     }
 
-    void addAll() {
-        for (int i = 0; i < elements.length; i++)
-            elements[i] = -1;
-        elements[elements.length - 1] >>>= -universe.length;
-        size = universe.length;
+    void bddAll() {
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            flfmfnts[i] = -1;
+        flfmfnts[flfmfnts.lfngti - 1] >>>= -univfrsf.lfngti;
+        sizf = univfrsf.lfngti;
     }
 
-    void complement() {
-        for (int i = 0; i < elements.length; i++)
-            elements[i] = ~elements[i];
-        elements[elements.length - 1] &= (-1L >>> -universe.length);
-        size = universe.length - size;
+    void domplfmfnt() {
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            flfmfnts[i] = ~flfmfnts[i];
+        flfmfnts[flfmfnts.lfngti - 1] &= (-1L >>> -univfrsf.lfngti);
+        sizf = univfrsf.lfngti - sizf;
     }
 
     /**
-     * Returns an iterator over the elements contained in this set.  The
-     * iterator traverses the elements in their <i>natural order</i> (which is
-     * the order in which the enum constants are declared). The returned
-     * Iterator is a "weakly consistent" iterator that will never throw {@link
-     * ConcurrentModificationException}.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts dontbinfd in tiis sft.  Tif
+     * itfrbtor trbvfrsfs tif flfmfnts in tifir <i>nbturbl ordfr</i> (wiidi is
+     * tif ordfr in wiidi tif fnum donstbnts brf dfdlbrfd). Tif rfturnfd
+     * Itfrbtor is b "wfbkly donsistfnt" itfrbtor tibt will nfvfr tirow {@link
+     * CondurrfntModifidbtionExdfption}.
      *
-     * @return an iterator over the elements contained in this set
+     * @rfturn bn itfrbtor ovfr tif flfmfnts dontbinfd in tiis sft
      */
-    public Iterator<E> iterator() {
-        return new EnumSetIterator<>();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw EnumSftItfrbtor<>();
     }
 
-    private class EnumSetIterator<E extends Enum<E>> implements Iterator<E> {
+    privbtf dlbss EnumSftItfrbtor<E fxtfnds Enum<E>> implfmfnts Itfrbtor<E> {
         /**
-         * A bit vector representing the elements in the current "word"
-         * of the set not yet returned by this iterator.
+         * A bit vfdtor rfprfsfnting tif flfmfnts in tif durrfnt "word"
+         * of tif sft not yft rfturnfd by tiis itfrbtor.
          */
-        long unseen;
+        long unsffn;
 
         /**
-         * The index corresponding to unseen in the elements array.
+         * Tif indfx dorrfsponding to unsffn in tif flfmfnts brrby.
          */
-        int unseenIndex = 0;
+        int unsffnIndfx = 0;
 
         /**
-         * The bit representing the last element returned by this iterator
-         * but not removed, or zero if no such element exists.
+         * Tif bit rfprfsfnting tif lbst flfmfnt rfturnfd by tiis itfrbtor
+         * but not rfmovfd, or zfro if no sudi flfmfnt fxists.
          */
-        long lastReturned = 0;
+        long lbstRfturnfd = 0;
 
         /**
-         * The index corresponding to lastReturned in the elements array.
+         * Tif indfx dorrfsponding to lbstRfturnfd in tif flfmfnts brrby.
          */
-        int lastReturnedIndex = 0;
+        int lbstRfturnfdIndfx = 0;
 
-        EnumSetIterator() {
-            unseen = elements[0];
+        EnumSftItfrbtor() {
+            unsffn = flfmfnts[0];
         }
 
-        @Override
-        public boolean hasNext() {
-            while (unseen == 0 && unseenIndex < elements.length - 1)
-                unseen = elements[++unseenIndex];
-            return unseen != 0;
+        @Ovfrridf
+        publid boolfbn ibsNfxt() {
+            wiilf (unsffn == 0 && unsffnIndfx < flfmfnts.lfngti - 1)
+                unsffn = flfmfnts[++unsffnIndfx];
+            rfturn unsffn != 0;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public E next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            lastReturned = unseen & -unseen;
-            lastReturnedIndex = unseenIndex;
-            unseen -= lastReturned;
-            return (E) universe[(lastReturnedIndex << 6)
-                                + Long.numberOfTrailingZeros(lastReturned)];
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid E nfxt() {
+            if (!ibsNfxt())
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRfturnfd = unsffn & -unsffn;
+            lbstRfturnfdIndfx = unsffnIndfx;
+            unsffn -= lbstRfturnfd;
+            rfturn (E) univfrsf[(lbstRfturnfdIndfx << 6)
+                                + Long.numbfrOfTrbilingZfros(lbstRfturnfd)];
         }
 
-        @Override
-        public void remove() {
-            if (lastReturned == 0)
-                throw new IllegalStateException();
-            final long oldElements = elements[lastReturnedIndex];
-            elements[lastReturnedIndex] &= ~lastReturned;
-            if (oldElements != elements[lastReturnedIndex]) {
-                size--;
+        @Ovfrridf
+        publid void rfmovf() {
+            if (lbstRfturnfd == 0)
+                tirow nfw IllfgblStbtfExdfption();
+            finbl long oldElfmfnts = flfmfnts[lbstRfturnfdIndfx];
+            flfmfnts[lbstRfturnfdIndfx] &= ~lbstRfturnfd;
+            if (oldElfmfnts != flfmfnts[lbstRfturnfdIndfx]) {
+                sizf--;
             }
-            lastReturned = 0;
+            lbstRfturnfd = 0;
         }
     }
 
     /**
-     * Returns the number of elements in this set.
+     * Rfturns tif numbfr of flfmfnts in tiis sft.
      *
-     * @return the number of elements in this set
+     * @rfturn tif numbfr of flfmfnts in tiis sft
      */
-    public int size() {
-        return size;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins no flfmfnts.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @rfturn <tt>truf</tt> if tiis sft dontbins no flfmfnts
      */
-    public boolean isEmpty() {
-        return size == 0;
+    publid boolfbn isEmpty() {
+        rfturn sizf == 0;
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt.
      *
-     * @param e element to be checked for containment in this collection
-     * @return <tt>true</tt> if this set contains the specified element
+     * @pbrbm f flfmfnt to bf difdkfd for dontbinmfnt in tiis dollfdtion
+     * @rfturn <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object e) {
-        if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
+    publid boolfbn dontbins(Objfdt f) {
+        if (f == null)
+            rfturn fblsf;
+        Clbss<?> fClbss = f.gftClbss();
+        if (fClbss != flfmfntTypf && fClbss.gftSupfrdlbss() != flfmfntTypf)
+            rfturn fblsf;
 
-        int eOrdinal = ((Enum<?>)e).ordinal();
-        return (elements[eOrdinal >>> 6] & (1L << eOrdinal)) != 0;
+        int fOrdinbl = ((Enum<?>)f).ordinbl();
+        rfturn (flfmfnts[fOrdinbl >>> 6] & (1L << fOrdinbl)) != 0;
     }
 
-    // Modification Operations
+    // Modifidbtion Opfrbtions
 
     /**
-     * Adds the specified element to this set if it is not already present.
+     * Adds tif spfdififd flfmfnt to tiis sft if it is not blrfbdy prfsfnt.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if the set changed as a result of the call
+     * @pbrbm f flfmfnt to bf bddfd to tiis sft
+     * @rfturn <tt>truf</tt> if tif sft dibngfd bs b rfsult of tif dbll
      *
-     * @throws NullPointerException if <tt>e</tt> is null
+     * @tirows NullPointfrExdfption if <tt>f</tt> is null
      */
-    public boolean add(E e) {
-        typeCheck(e);
+    publid boolfbn bdd(E f) {
+        typfCifdk(f);
 
-        int eOrdinal = e.ordinal();
-        int eWordNum = eOrdinal >>> 6;
+        int fOrdinbl = f.ordinbl();
+        int fWordNum = fOrdinbl >>> 6;
 
-        long oldElements = elements[eWordNum];
-        elements[eWordNum] |= (1L << eOrdinal);
-        boolean result = (elements[eWordNum] != oldElements);
-        if (result)
-            size++;
-        return result;
-    }
-
-    /**
-     * Removes the specified element from this set if it is present.
-     *
-     * @param e element to be removed from this set, if present
-     * @return <tt>true</tt> if the set contained the specified element
-     */
-    public boolean remove(Object e) {
-        if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
-        int eOrdinal = ((Enum<?>)e).ordinal();
-        int eWordNum = eOrdinal >>> 6;
-
-        long oldElements = elements[eWordNum];
-        elements[eWordNum] &= ~(1L << eOrdinal);
-        boolean result = (elements[eWordNum] != oldElements);
-        if (result)
-            size--;
-        return result;
-    }
-
-    // Bulk Operations
-
-    /**
-     * Returns <tt>true</tt> if this set contains all of the elements
-     * in the specified collection.
-     *
-     * @param c collection to be checked for containment in this set
-     * @return <tt>true</tt> if this set contains all of the elements
-     *        in the specified collection
-     * @throws NullPointerException if the specified collection is null
-     */
-    public boolean containsAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.containsAll(c);
-
-        JumboEnumSet<?> es = (JumboEnumSet<?>)c;
-        if (es.elementType != elementType)
-            return es.isEmpty();
-
-        for (int i = 0; i < elements.length; i++)
-            if ((es.elements[i] & ~elements[i]) != 0)
-                return false;
-        return true;
+        long oldElfmfnts = flfmfnts[fWordNum];
+        flfmfnts[fWordNum] |= (1L << fOrdinbl);
+        boolfbn rfsult = (flfmfnts[fWordNum] != oldElfmfnts);
+        if (rfsult)
+            sizf++;
+        rfturn rfsult;
     }
 
     /**
-     * Adds all of the elements in the specified collection to this set.
+     * Rfmovfs tif spfdififd flfmfnt from tiis sft if it is prfsfnt.
      *
-     * @param c collection whose elements are to be added to this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws NullPointerException if the specified collection or any of
-     *     its elements are null
+     * @pbrbm f flfmfnt to bf rfmovfd from tiis sft, if prfsfnt
+     * @rfturn <tt>truf</tt> if tif sft dontbinfd tif spfdififd flfmfnt
      */
-    public boolean addAll(Collection<? extends E> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.addAll(c);
+    publid boolfbn rfmovf(Objfdt f) {
+        if (f == null)
+            rfturn fblsf;
+        Clbss<?> fClbss = f.gftClbss();
+        if (fClbss != flfmfntTypf && fClbss.gftSupfrdlbss() != flfmfntTypf)
+            rfturn fblsf;
+        int fOrdinbl = ((Enum<?>)f).ordinbl();
+        int fWordNum = fOrdinbl >>> 6;
 
-        JumboEnumSet<?> es = (JumboEnumSet<?>)c;
-        if (es.elementType != elementType) {
-            if (es.isEmpty())
-                return false;
-            else
-                throw new ClassCastException(
-                    es.elementType + " != " + elementType);
+        long oldElfmfnts = flfmfnts[fWordNum];
+        flfmfnts[fWordNum] &= ~(1L << fOrdinbl);
+        boolfbn rfsult = (flfmfnts[fWordNum] != oldElfmfnts);
+        if (rfsult)
+            sizf--;
+        rfturn rfsult;
+    }
+
+    // Bulk Opfrbtions
+
+    /**
+     * Rfturns <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts
+     * in tif spfdififd dollfdtion.
+     *
+     * @pbrbm d dollfdtion to bf difdkfd for dontbinmfnt in tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts
+     *        in tif spfdififd dollfdtion
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     */
+    publid boolfbn dontbinsAll(Collfdtion<?> d) {
+        if (!(d instbndfof JumboEnumSft))
+            rfturn supfr.dontbinsAll(d);
+
+        JumboEnumSft<?> fs = (JumboEnumSft<?>)d;
+        if (fs.flfmfntTypf != flfmfntTypf)
+            rfturn fs.isEmpty();
+
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            if ((fs.flfmfnts[i] & ~flfmfnts[i]) != 0)
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * Adds bll of tif flfmfnts in tif spfdififd dollfdtion to tiis sft.
+     *
+     * @pbrbm d dollfdtion wiosf flfmfnts brf to bf bddfd to tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny of
+     *     its flfmfnts brf null
+     */
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        if (!(d instbndfof JumboEnumSft))
+            rfturn supfr.bddAll(d);
+
+        JumboEnumSft<?> fs = (JumboEnumSft<?>)d;
+        if (fs.flfmfntTypf != flfmfntTypf) {
+            if (fs.isEmpty())
+                rfturn fblsf;
+            flsf
+                tirow nfw ClbssCbstExdfption(
+                    fs.flfmfntTypf + " != " + flfmfntTypf);
         }
 
-        for (int i = 0; i < elements.length; i++)
-            elements[i] |= es.elements[i];
-        return recalculateSize();
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            flfmfnts[i] |= fs.flfmfnts[i];
+        rfturn rfdbldulbtfSizf();
     }
 
     /**
-     * Removes from this set all of its elements that are contained in
-     * the specified collection.
+     * Rfmovfs from tiis sft bll of its flfmfnts tibt brf dontbinfd in
+     * tif spfdififd dollfdtion.
      *
-     * @param c elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d flfmfnts to bf rfmovfd from tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean removeAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.removeAll(c);
+    publid boolfbn rfmovfAll(Collfdtion<?> d) {
+        if (!(d instbndfof JumboEnumSft))
+            rfturn supfr.rfmovfAll(d);
 
-        JumboEnumSet<?> es = (JumboEnumSet<?>)c;
-        if (es.elementType != elementType)
-            return false;
+        JumboEnumSft<?> fs = (JumboEnumSft<?>)d;
+        if (fs.flfmfntTypf != flfmfntTypf)
+            rfturn fblsf;
 
-        for (int i = 0; i < elements.length; i++)
-            elements[i] &= ~es.elements[i];
-        return recalculateSize();
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            flfmfnts[i] &= ~fs.flfmfnts[i];
+        rfturn rfdbldulbtfSizf();
     }
 
     /**
-     * Retains only the elements in this set that are contained in the
-     * specified collection.
+     * Rftbins only tif flfmfnts in tiis sft tibt brf dontbinfd in tif
+     * spfdififd dollfdtion.
      *
-     * @param c elements to be retained in this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d flfmfnts to bf rftbinfd in tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean retainAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.retainAll(c);
+    publid boolfbn rftbinAll(Collfdtion<?> d) {
+        if (!(d instbndfof JumboEnumSft))
+            rfturn supfr.rftbinAll(d);
 
-        JumboEnumSet<?> es = (JumboEnumSet<?>)c;
-        if (es.elementType != elementType) {
-            boolean changed = (size != 0);
-            clear();
-            return changed;
+        JumboEnumSft<?> fs = (JumboEnumSft<?>)d;
+        if (fs.flfmfntTypf != flfmfntTypf) {
+            boolfbn dibngfd = (sizf != 0);
+            dlfbr();
+            rfturn dibngfd;
         }
 
-        for (int i = 0; i < elements.length; i++)
-            elements[i] &= es.elements[i];
-        return recalculateSize();
+        for (int i = 0; i < flfmfnts.lfngti; i++)
+            flfmfnts[i] &= fs.flfmfnts[i];
+        rfturn rfdbldulbtfSizf();
     }
 
     /**
-     * Removes all of the elements from this set.
+     * Rfmovfs bll of tif flfmfnts from tiis sft.
      */
-    public void clear() {
-        Arrays.fill(elements, 0);
-        size = 0;
+    publid void dlfbr() {
+        Arrbys.fill(flfmfnts, 0);
+        sizf = 0;
     }
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the given object is also a set, the two sets have
-     * the same size, and every member of the given set is contained in
-     * this set.
+     * Compbrfs tif spfdififd objfdt witi tiis sft for fqublity.  Rfturns
+     * <tt>truf</tt> if tif givfn objfdt is blso b sft, tif two sfts ibvf
+     * tif sbmf sizf, bnd fvfry mfmbfr of tif givfn sft is dontbinfd in
+     * tiis sft.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o objfdt to bf dompbrfd for fqublity witi tiis sft
+     * @rfturn <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis sft
      */
-    public boolean equals(Object o) {
-        if (!(o instanceof JumboEnumSet))
-            return super.equals(o);
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof JumboEnumSft))
+            rfturn supfr.fqubls(o);
 
-        JumboEnumSet<?> es = (JumboEnumSet<?>)o;
-        if (es.elementType != elementType)
-            return size == 0 && es.size == 0;
+        JumboEnumSft<?> fs = (JumboEnumSft<?>)o;
+        if (fs.flfmfntTypf != flfmfntTypf)
+            rfturn sizf == 0 && fs.sizf == 0;
 
-        return Arrays.equals(es.elements, elements);
+        rfturn Arrbys.fqubls(fs.flfmfnts, flfmfnts);
     }
 
     /**
-     * Recalculates the size of the set.  Returns true if it's changed.
+     * Rfdbldulbtfs tif sizf of tif sft.  Rfturns truf if it's dibngfd.
      */
-    private boolean recalculateSize() {
-        int oldSize = size;
-        size = 0;
-        for (long elt : elements)
-            size += Long.bitCount(elt);
+    privbtf boolfbn rfdbldulbtfSizf() {
+        int oldSizf = sizf;
+        sizf = 0;
+        for (long flt : flfmfnts)
+            sizf += Long.bitCount(flt);
 
-        return size != oldSize;
+        rfturn sizf != oldSizf;
     }
 
-    public EnumSet<E> clone() {
-        JumboEnumSet<E> result = (JumboEnumSet<E>) super.clone();
-        result.elements = result.elements.clone();
-        return result;
+    publid EnumSft<E> dlonf() {
+        JumboEnumSft<E> rfsult = (JumboEnumSft<E>) supfr.dlonf();
+        rfsult.flfmfnts = rfsult.flfmfnts.dlonf();
+        rfturn rfsult;
     }
 }

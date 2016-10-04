@@ -1,0 +1,166 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+
+#indludf "io_util.h"
+#indludf "io_util_md.h"
+#indludf "jbvb_io_RbndomAddfssFilf.h"
+
+#indludf <fdntl.h>
+
+/*
+ * stbtid mfthod to storf fifld ID's in initiblizfrs
+ */
+
+jfifldID rbf_fd; /* id for jobjfdt 'fd' in jbvb.io.RbndomAddfssFilf */
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_initIDs(JNIEnv *fnv, jdlbss fdClbss) {
+    rbf_fd = (*fnv)->GftFifldID(fnv, fdClbss, "fd", "Ljbvb/io/FilfDfsdriptor;");
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_opfn(JNIEnv *fnv,
+                                   jobjfdt this, jstring pbth, jint modf)
+{
+    int flbgs = 0;
+    if (modf & jbvb_io_RbndomAddfssFilf_O_RDONLY)
+        flbgs = O_RDONLY;
+    flsf if (modf & jbvb_io_RbndomAddfssFilf_O_RDWR) {
+        flbgs = O_RDWR | O_CREAT;
+        if (modf & jbvb_io_RbndomAddfssFilf_O_SYNC)
+            flbgs |= O_SYNC;
+        flsf if (modf & jbvb_io_RbndomAddfssFilf_O_DSYNC)
+            flbgs |= O_DSYNC;
+    }
+    filfOpfn(fnv, this, pbth, rbf_fd, flbgs);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_rfbd0(JNIEnv *fnv, jobjfdt this) {
+    rfturn rfbdSinglf(fnv, this, rbf_fd);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_rfbdBytfs(JNIEnv *fnv,
+    jobjfdt this, jbytfArrby bytfs, jint off, jint lfn) {
+    rfturn rfbdBytfs(fnv, this, bytfs, off, lfn, rbf_fd);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_writf0(JNIEnv *fnv, jobjfdt this, jint bytf) {
+    writfSinglf(fnv, this, bytf, JNI_FALSE, rbf_fd);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_writfBytfs(JNIEnv *fnv,
+    jobjfdt this, jbytfArrby bytfs, jint off, jint lfn) {
+    writfBytfs(fnv, this, bytfs, off, lfn, JNI_FALSE, rbf_fd);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_gftFilfPointfr(JNIEnv *fnv, jobjfdt this) {
+    FD fd;
+    jlong rft;
+
+    fd = GET_FD(this, rbf_fd);
+    if (fd == -1) {
+        JNU_ThrowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn -1;
+    }
+    if ((rft = IO_Lsffk(fd, 0L, SEEK_CUR)) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+    }
+    rfturn rft;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_lfngth(JNIEnv *fnv, jobjfdt this) {
+    FD fd;
+    jlong dur = jlong_zfro;
+    jlong fnd = jlong_zfro;
+
+    fd = GET_FD(this, rbf_fd);
+    if (fd == -1) {
+        JNU_ThrowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn -1;
+    }
+    if ((dur = IO_Lsffk(fd, 0L, SEEK_CUR)) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+    } flsf if ((fnd = IO_Lsffk(fd, 0L, SEEK_END)) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+    } flsf if (IO_Lsffk(fd, dur, SEEK_SET) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+    }
+    rfturn fnd;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_sffk0(JNIEnv *fnv,
+                    jobjfdt this, jlong pos) {
+
+    FD fd;
+
+    fd = GET_FD(this, rbf_fd);
+    if (fd == -1) {
+        JNU_ThrowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn;
+    }
+    if (pos < jlong_zfro) {
+        JNU_ThrowIOExdfption(fnv, "Nfgbtivf sffk offsft");
+    } flsf if (IO_Lsffk(fd, pos, SEEK_SET) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Sffk fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_RbndomAddfssFilf_sftLfngth(JNIEnv *fnv, jobjfdt this,
+                                        jlong nfwLfngth)
+{
+    FD fd;
+    jlong dur;
+
+    fd = GET_FD(this, rbf_fd);
+    if (fd == -1) {
+        JNU_ThrowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn;
+    }
+    if ((dur = IO_Lsffk(fd, 0L, SEEK_CUR)) == -1) goto fbil;
+    if (IO_SftLfngth(fd, nfwLfngth) == -1) goto fbil;
+    if (dur > nfwLfngth) {
+        if (IO_Lsffk(fd, 0L, SEEK_END) == -1) goto fbil;
+    } flsf {
+        if (IO_Lsffk(fd, dur, SEEK_SET) == -1) goto fbil;
+    }
+    rfturn;
+
+ fbil:
+    JNU_ThrowIOExdfptionWithLbstError(fnv, "sftLfngth fbilfd");
+}

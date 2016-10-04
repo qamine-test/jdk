@@ -1,675 +1,675 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jndi.toolkit.dir;
+pbdkbgf dom.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.Locale;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
 
 /**
-  * A class for parsing LDAP search filters (defined in RFC 1960, 2254)
+  * A dlbss for pbrsing LDAP sfbrdi filtfrs (dffinfd in RFC 1960, 2254)
   *
-  * @author Jon Ruiz
-  * @author Rosanna Lee
+  * @butior Jon Ruiz
+  * @butior Rosbnnb Lff
   */
-public class SearchFilter implements AttrFilter {
+publid dlbss SfbrdiFiltfr implfmfnts AttrFiltfr {
 
-    interface StringFilter extends AttrFilter {
-        public void parse() throws InvalidSearchFilterException;
+    intfrfbdf StringFiltfr fxtfnds AttrFiltfr {
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption;
     }
 
-    // %%% "filter" and "pos" are not declared "private" due to bug 4064984.
-    String                      filter;
+    // %%% "filtfr" bnd "pos" brf not dfdlbrfd "privbtf" duf to bug 4064984.
+    String                      filtfr;
     int                         pos;
-    private StringFilter        rootFilter;
+    privbtf StringFiltfr        rootFiltfr;
 
-    protected static final boolean debug = false;
+    protfdtfd stbtid finbl boolfbn dfbug = fblsf;
 
-    protected static final char         BEGIN_FILTER_TOKEN = '(';
-    protected static final char         END_FILTER_TOKEN = ')';
-    protected static final char         AND_TOKEN = '&';
-    protected static final char         OR_TOKEN = '|';
-    protected static final char         NOT_TOKEN = '!';
-    protected static final char         EQUAL_TOKEN = '=';
-    protected static final char         APPROX_TOKEN = '~';
-    protected static final char         LESS_TOKEN = '<';
-    protected static final char         GREATER_TOKEN = '>';
-    protected static final char         EXTEND_TOKEN = ':';
-    protected static final char         WILDCARD_TOKEN = '*';
+    protfdtfd stbtid finbl dibr         BEGIN_FILTER_TOKEN = '(';
+    protfdtfd stbtid finbl dibr         END_FILTER_TOKEN = ')';
+    protfdtfd stbtid finbl dibr         AND_TOKEN = '&';
+    protfdtfd stbtid finbl dibr         OR_TOKEN = '|';
+    protfdtfd stbtid finbl dibr         NOT_TOKEN = '!';
+    protfdtfd stbtid finbl dibr         EQUAL_TOKEN = '=';
+    protfdtfd stbtid finbl dibr         APPROX_TOKEN = '~';
+    protfdtfd stbtid finbl dibr         LESS_TOKEN = '<';
+    protfdtfd stbtid finbl dibr         GREATER_TOKEN = '>';
+    protfdtfd stbtid finbl dibr         EXTEND_TOKEN = ':';
+    protfdtfd stbtid finbl dibr         WILDCARD_TOKEN = '*';
 
-    public SearchFilter(String filter) throws InvalidSearchFilterException {
-        this.filter = filter;
+    publid SfbrdiFiltfr(String filtfr) tirows InvblidSfbrdiFiltfrExdfption {
+        tiis.filtfr = filtfr;
         pos = 0;
-        normalizeFilter();
-        rootFilter = this.createNextFilter();
+        normblizfFiltfr();
+        rootFiltfr = tiis.drfbtfNfxtFiltfr();
     }
 
-    // Returns true if targetAttrs passes the filter
-    public boolean check(Attributes targetAttrs) throws NamingException {
-        if (targetAttrs == null)
-            return false;
+    // Rfturns truf if tbrgftAttrs pbssfs tif filtfr
+    publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+        if (tbrgftAttrs == null)
+            rfturn fblsf;
 
-        return rootFilter.check(targetAttrs);
+        rfturn rootFiltfr.difdk(tbrgftAttrs);
     }
 
     /*
-     * Utility routines used by member classes
+     * Utility routinfs usfd by mfmbfr dlbssfs
      */
 
-    // does some pre-processing on the string to make it look exactly lik
-    // what the parser expects. This only needs to be called once.
-    protected void normalizeFilter() {
-        skipWhiteSpace(); // get rid of any leading whitespaces
+    // dofs somf prf-prodfssing on tif string to mbkf it look fxbdtly lik
+    // wibt tif pbrsfr fxpfdts. Tiis only nffds to bf dbllfd ondf.
+    protfdtfd void normblizfFiltfr() {
+        skipWiitfSpbdf(); // gft rid of bny lfbding wiitfspbdfs
 
-        // Sometimes, search filters don't have "(" and ")" - add them
-        if(getCurrentChar() != BEGIN_FILTER_TOKEN) {
-            filter = BEGIN_FILTER_TOKEN + filter + END_FILTER_TOKEN;
+        // Somftimfs, sfbrdi filtfrs don't ibvf "(" bnd ")" - bdd tifm
+        if(gftCurrfntCibr() != BEGIN_FILTER_TOKEN) {
+            filtfr = BEGIN_FILTER_TOKEN + filtfr + END_FILTER_TOKEN;
         }
-        // this would be a good place to strip whitespace if desired
+        // tiis would bf b good plbdf to strip wiitfspbdf if dfsirfd
 
-        if(debug) {System.out.println("SearchFilter: normalized filter:" +
-                                      filter);}
+        if(dfbug) {Systfm.out.println("SfbrdiFiltfr: normblizfd filtfr:" +
+                                      filtfr);}
     }
 
-    private void skipWhiteSpace() {
-        while (Character.isWhitespace(getCurrentChar())) {
-            consumeChar();
+    privbtf void skipWiitfSpbdf() {
+        wiilf (Cibrbdtfr.isWiitfspbdf(gftCurrfntCibr())) {
+            donsumfCibr();
         }
     }
 
-    protected StringFilter createNextFilter()
-        throws InvalidSearchFilterException {
-        StringFilter filter;
+    protfdtfd StringFiltfr drfbtfNfxtFiltfr()
+        tirows InvblidSfbrdiFiltfrExdfption {
+        StringFiltfr filtfr;
 
-        skipWhiteSpace();
+        skipWiitfSpbdf();
 
         try {
-            // make sure every filter starts with "("
-            if(getCurrentChar() != BEGIN_FILTER_TOKEN) {
-                throw new InvalidSearchFilterException("expected \"" +
+            // mbkf surf fvfry filtfr stbrts witi "("
+            if(gftCurrfntCibr() != BEGIN_FILTER_TOKEN) {
+                tirow nfw InvblidSfbrdiFiltfrExdfption("fxpfdtfd \"" +
                                                        BEGIN_FILTER_TOKEN +
-                                                       "\" at position " +
+                                                       "\" bt position " +
                                                        pos);
             }
 
-            // skip past the "("
-            this.consumeChar();
+            // skip pbst tif "("
+            tiis.donsumfCibr();
 
-            skipWhiteSpace();
+            skipWiitfSpbdf();
 
-            // use the next character to determine the type of filter
-            switch(getCurrentChar()) {
-            case AND_TOKEN:
-                if (debug) {System.out.println("SearchFilter: creating AND");}
-                filter = new CompoundFilter(true);
-                filter.parse();
-                break;
-            case OR_TOKEN:
-                if (debug) {System.out.println("SearchFilter: creating OR");}
-                filter = new CompoundFilter(false);
-                filter.parse();
-                break;
-            case NOT_TOKEN:
-                if (debug) {System.out.println("SearchFilter: creating OR");}
-                filter = new NotFilter();
-                filter.parse();
-                break;
-            default:
-                if (debug) {System.out.println("SearchFilter: creating SIMPLE");}
-                filter = new AtomicFilter();
-                filter.parse();
-                break;
+            // usf tif nfxt dibrbdtfr to dftfrminf tif typf of filtfr
+            switdi(gftCurrfntCibr()) {
+            dbsf AND_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting AND");}
+                filtfr = nfw CompoundFiltfr(truf);
+                filtfr.pbrsf();
+                brfbk;
+            dbsf OR_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting OR");}
+                filtfr = nfw CompoundFiltfr(fblsf);
+                filtfr.pbrsf();
+                brfbk;
+            dbsf NOT_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting OR");}
+                filtfr = nfw NotFiltfr();
+                filtfr.pbrsf();
+                brfbk;
+            dffbult:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting SIMPLE");}
+                filtfr = nfw AtomidFiltfr();
+                filtfr.pbrsf();
+                brfbk;
             }
 
-            skipWhiteSpace();
+            skipWiitfSpbdf();
 
-            // make sure every filter ends with ")"
-            if(getCurrentChar() != END_FILTER_TOKEN) {
-                throw new InvalidSearchFilterException("expected \"" +
+            // mbkf surf fvfry filtfr fnds witi ")"
+            if(gftCurrfntCibr() != END_FILTER_TOKEN) {
+                tirow nfw InvblidSfbrdiFiltfrExdfption("fxpfdtfd \"" +
                                                        END_FILTER_TOKEN +
-                                                       "\" at position " +
+                                                       "\" bt position " +
                                                        pos);
             }
 
-            // skip past the ")"
-            this.consumeChar();
-        } catch (InvalidSearchFilterException e) {
-            if (debug) {System.out.println("rethrowing e");}
-            throw e; // just rethrow these
+            // skip pbst tif ")"
+            tiis.donsumfCibr();
+        } dbtdi (InvblidSfbrdiFiltfrExdfption f) {
+            if (dfbug) {Systfm.out.println("rftirowing f");}
+            tirow f; // just rftirow tifsf
 
-        // catch all - any uncaught exception while parsing will end up here
-        } catch  (Exception e) {
-            if(debug) {System.out.println(e.getMessage());e.printStackTrace();}
-            throw new InvalidSearchFilterException("Unable to parse " +
-                    "character " + pos + " in \""+
-                    this.filter + "\"");
+        // dbtdi bll - bny undbugit fxdfption wiilf pbrsing will fnd up ifrf
+        } dbtdi  (Exdfption f) {
+            if(dfbug) {Systfm.out.println(f.gftMfssbgf());f.printStbdkTrbdf();}
+            tirow nfw InvblidSfbrdiFiltfrExdfption("Unbblf to pbrsf " +
+                    "dibrbdtfr " + pos + " in \""+
+                    tiis.filtfr + "\"");
         }
 
-        return filter;
+        rfturn filtfr;
     }
 
-    protected char getCurrentChar() {
-        return filter.charAt(pos);
+    protfdtfd dibr gftCurrfntCibr() {
+        rfturn filtfr.dibrAt(pos);
     }
 
-    protected char relCharAt(int i) {
-        return filter.charAt(pos + i);
+    protfdtfd dibr rflCibrAt(int i) {
+        rfturn filtfr.dibrAt(pos + i);
     }
 
-    protected void consumeChar() {
+    protfdtfd void donsumfCibr() {
         pos++;
     }
 
-    protected void consumeChars(int i) {
+    protfdtfd void donsumfCibrs(int i) {
         pos += i;
     }
 
-    protected int relIndexOf(int ch) {
-        return filter.indexOf(ch, pos) - pos;
+    protfdtfd int rflIndfxOf(int di) {
+        rfturn filtfr.indfxOf(di, pos) - pos;
     }
 
-    protected String relSubstring(int beginIndex, int endIndex){
-        if(debug){System.out.println("relSubString: " + beginIndex +
-                                     " " + endIndex);}
-        return filter.substring(beginIndex+pos, endIndex+pos);
+    protfdtfd String rflSubstring(int bfginIndfx, int fndIndfx){
+        if(dfbug){Systfm.out.println("rflSubString: " + bfginIndfx +
+                                     " " + fndIndfx);}
+        rfturn filtfr.substring(bfginIndfx+pos, fndIndfx+pos);
     }
 
 
    /**
-     * A class for dealing with compound filters ("and" & "or" filters).
+     * A dlbss for dfbling witi dompound filtfrs ("bnd" & "or" filtfrs).
      */
-    final class CompoundFilter implements StringFilter {
-        private Vector<StringFilter>  subFilters;
-        private boolean polarity;
+    finbl dlbss CompoundFiltfr implfmfnts StringFiltfr {
+        privbtf Vfdtor<StringFiltfr>  subFiltfrs;
+        privbtf boolfbn polbrity;
 
-        CompoundFilter(boolean polarity) {
-            subFilters = new Vector<>();
-            this.polarity = polarity;
+        CompoundFiltfr(boolfbn polbrity) {
+            subFiltfrs = nfw Vfdtor<>();
+            tiis.polbrity = polbrity;
         }
 
-        public void parse() throws InvalidSearchFilterException {
-            SearchFilter.this.consumeChar(); // consume the "&"
-            while(SearchFilter.this.getCurrentChar() != END_FILTER_TOKEN) {
-                if (debug) {System.out.println("CompoundFilter: adding");}
-                StringFilter filter = SearchFilter.this.createNextFilter();
-                subFilters.addElement(filter);
-                skipWhiteSpace();
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
+            SfbrdiFiltfr.tiis.donsumfCibr(); // donsumf tif "&"
+            wiilf(SfbrdiFiltfr.tiis.gftCurrfntCibr() != END_FILTER_TOKEN) {
+                if (dfbug) {Systfm.out.println("CompoundFiltfr: bdding");}
+                StringFiltfr filtfr = SfbrdiFiltfr.tiis.drfbtfNfxtFiltfr();
+                subFiltfrs.bddElfmfnt(filtfr);
+                skipWiitfSpbdf();
             }
         }
 
-        public boolean check(Attributes targetAttrs) throws NamingException {
-            for(int i = 0; i<subFilters.size(); i++) {
-                StringFilter filter = subFilters.elementAt(i);
-                if(filter.check(targetAttrs) != this.polarity) {
-                    return !polarity;
+        publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+            for(int i = 0; i<subFiltfrs.sizf(); i++) {
+                StringFiltfr filtfr = subFiltfrs.flfmfntAt(i);
+                if(filtfr.difdk(tbrgftAttrs) != tiis.polbrity) {
+                    rfturn !polbrity;
                 }
             }
-            return polarity;
+            rfturn polbrity;
         }
-    } /* CompoundFilter */
+    } /* CompoundFiltfr */
 
    /**
-     * A class for dealing with NOT filters
+     * A dlbss for dfbling witi NOT filtfrs
      */
-    final class NotFilter implements StringFilter {
-        private StringFilter    filter;
+    finbl dlbss NotFiltfr implfmfnts StringFiltfr {
+        privbtf StringFiltfr    filtfr;
 
-        public void parse() throws InvalidSearchFilterException {
-            SearchFilter.this.consumeChar(); // consume the "!"
-            filter = SearchFilter.this.createNextFilter();
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
+            SfbrdiFiltfr.tiis.donsumfCibr(); // donsumf tif "!"
+            filtfr = SfbrdiFiltfr.tiis.drfbtfNfxtFiltfr();
         }
 
-        public boolean check(Attributes targetAttrs) throws NamingException {
-            return !filter.check(targetAttrs);
+        publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+            rfturn !filtfr.difdk(tbrgftAttrs);
         }
-    } /* notFilter */
+    } /* notFiltfr */
 
-    // note: declared here since member classes can't have static variables
-    static final int EQUAL_MATCH = 1;
-    static final int APPROX_MATCH = 2;
-    static final int GREATER_MATCH = 3;
-    static final int LESS_MATCH = 4;
+    // notf: dfdlbrfd ifrf sindf mfmbfr dlbssfs dbn't ibvf stbtid vbribblfs
+    stbtid finbl int EQUAL_MATCH = 1;
+    stbtid finbl int APPROX_MATCH = 2;
+    stbtid finbl int GREATER_MATCH = 3;
+    stbtid finbl int LESS_MATCH = 4;
 
     /**
-     * A class for dealing with atomic filters
+     * A dlbss for dfbling witi btomid filtfrs
      */
-    final class AtomicFilter implements StringFilter {
-        private String attrID;
-        private String value;
-        private int    matchType;
+    finbl dlbss AtomidFiltfr implfmfnts StringFiltfr {
+        privbtf String bttrID;
+        privbtf String vbluf;
+        privbtf int    mbtdiTypf;
 
-        public void parse() throws InvalidSearchFilterException {
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
 
-            skipWhiteSpace();
-
-            try {
-                // find the end
-                int endPos = SearchFilter.this.relIndexOf(END_FILTER_TOKEN);
-
-                //determine the match type
-                int i = SearchFilter.this.relIndexOf(EQUAL_TOKEN);
-                if(debug) {System.out.println("AtomicFilter: = at " + i);}
-                int qualifier = SearchFilter.this.relCharAt(i-1);
-                switch(qualifier) {
-                case APPROX_TOKEN:
-                    if (debug) {System.out.println("Atomic: APPROX found");}
-                    matchType = APPROX_MATCH;
-                    attrID = SearchFilter.this.relSubstring(0, i-1);
-                    value = SearchFilter.this.relSubstring(i+1, endPos);
-                    break;
-
-                case GREATER_TOKEN:
-                    if (debug) {System.out.println("Atomic: GREATER found");}
-                    matchType = GREATER_MATCH;
-                    attrID = SearchFilter.this.relSubstring(0, i-1);
-                    value = SearchFilter.this.relSubstring(i+1, endPos);
-                    break;
-
-                case LESS_TOKEN:
-                    if (debug) {System.out.println("Atomic: LESS found");}
-                    matchType = LESS_MATCH;
-                    attrID = SearchFilter.this.relSubstring(0, i-1);
-                    value = SearchFilter.this.relSubstring(i+1, endPos);
-                    break;
-
-                case EXTEND_TOKEN:
-                    if(debug) {System.out.println("Atomic: EXTEND found");}
-                    throw new OperationNotSupportedException("Extensible match not supported");
-
-                default:
-                    if (debug) {System.out.println("Atomic: EQUAL found");}
-                    matchType = EQUAL_MATCH;
-                    attrID = SearchFilter.this.relSubstring(0,i);
-                    value = SearchFilter.this.relSubstring(i+1, endPos);
-                    break;
-                }
-
-                attrID = attrID.trim();
-                value = value.trim();
-
-                //update our position
-                SearchFilter.this.consumeChars(endPos);
-
-            } catch (Exception e) {
-                if (debug) {System.out.println(e.getMessage());
-                            e.printStackTrace();}
-                InvalidSearchFilterException sfe =
-                    new InvalidSearchFilterException("Unable to parse " +
-                    "character " + SearchFilter.this.pos + " in \""+
-                    SearchFilter.this.filter + "\"");
-                sfe.setRootCause(e);
-                throw(sfe);
-            }
-
-            if(debug) {System.out.println("AtomicFilter: " + attrID + "=" +
-                                          value);}
-        }
-
-        public boolean check(Attributes targetAttrs) {
-            Enumeration<?> candidates;
+            skipWiitfSpbdf();
 
             try {
-                Attribute attr = targetAttrs.get(attrID);
-                if(attr == null) {
-                    return false;
+                // find tif fnd
+                int fndPos = SfbrdiFiltfr.tiis.rflIndfxOf(END_FILTER_TOKEN);
+
+                //dftfrminf tif mbtdi typf
+                int i = SfbrdiFiltfr.tiis.rflIndfxOf(EQUAL_TOKEN);
+                if(dfbug) {Systfm.out.println("AtomidFiltfr: = bt " + i);}
+                int qublififr = SfbrdiFiltfr.tiis.rflCibrAt(i-1);
+                switdi(qublififr) {
+                dbsf APPROX_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: APPROX found");}
+                    mbtdiTypf = APPROX_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf GREATER_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: GREATER found");}
+                    mbtdiTypf = GREATER_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf LESS_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: LESS found");}
+                    mbtdiTypf = LESS_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf EXTEND_TOKEN:
+                    if(dfbug) {Systfm.out.println("Atomid: EXTEND found");}
+                    tirow nfw OpfrbtionNotSupportfdExdfption("Extfnsiblf mbtdi not supportfd");
+
+                dffbult:
+                    if (dfbug) {Systfm.out.println("Atomid: EQUAL found");}
+                    mbtdiTypf = EQUAL_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0,i);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
                 }
-                candidates = attr.getAll();
-            } catch (NamingException ne) {
-                if (debug) {System.out.println("AtomicFilter: should never " +
-                                               "here");}
-                return false;
+
+                bttrID = bttrID.trim();
+                vbluf = vbluf.trim();
+
+                //updbtf our position
+                SfbrdiFiltfr.tiis.donsumfCibrs(fndPos);
+
+            } dbtdi (Exdfption f) {
+                if (dfbug) {Systfm.out.println(f.gftMfssbgf());
+                            f.printStbdkTrbdf();}
+                InvblidSfbrdiFiltfrExdfption sff =
+                    nfw InvblidSfbrdiFiltfrExdfption("Unbblf to pbrsf " +
+                    "dibrbdtfr " + SfbrdiFiltfr.tiis.pos + " in \""+
+                    SfbrdiFiltfr.tiis.filtfr + "\"");
+                sff.sftRootCbusf(f);
+                tirow(sff);
             }
 
-            while(candidates.hasMoreElements()) {
-                String val = candidates.nextElement().toString();
-                if (debug) {System.out.println("Atomic: comparing: " + val);}
-                switch(matchType) {
-                case APPROX_MATCH:
-                case EQUAL_MATCH:
-                    if(substringMatch(this.value, val)) {
-                    if (debug) {System.out.println("Atomic: EQUAL match");}
-                        return true;
-                    }
-                    break;
-                case GREATER_MATCH:
-                    if (debug) {System.out.println("Atomic: GREATER match");}
-                    if(val.compareTo(this.value) >= 0) {
-                        return true;
-                    }
-                    break;
-                case LESS_MATCH:
-                    if (debug) {System.out.println("Atomic: LESS match");}
-                    if(val.compareTo(this.value) <= 0) {
-                        return true;
-                    }
-                    break;
-                default:
-                    if (debug) {System.out.println("AtomicFilter: unknown " +
-                                                   "matchType");}
-                }
-            }
-            return false;
+            if(dfbug) {Systfm.out.println("AtomidFiltfr: " + bttrID + "=" +
+                                          vbluf);}
         }
 
-        // used for substring comparisons (where proto has "*" wildcards
-        private boolean substringMatch(String proto, String value) {
-            // simple case 1: "*" means attribute presence is being tested
-            if(proto.equals(Character.toString(WILDCARD_TOKEN))) {
-                if(debug) {System.out.println("simple presence assertion");}
-                return true;
-            }
+        publid boolfbn difdk(Attributfs tbrgftAttrs) {
+            Enumfrbtion<?> dbndidbtfs;
 
-            // simple case 2: if there are no wildcards, call String.equals()
-            if(proto.indexOf(WILDCARD_TOKEN) == -1) {
-                return proto.equalsIgnoreCase(value);
-            }
-
-            if(debug) {System.out.println("doing substring comparison");}
-            // do the work: make sure all the substrings are present
-            int currentPos = 0;
-            StringTokenizer subStrs = new StringTokenizer(proto, "*", false);
-
-            // do we need to begin with the first token?
-            if(proto.charAt(0) != WILDCARD_TOKEN &&
-                    !value.toLowerCase(Locale.ENGLISH).startsWith(
-                        subStrs.nextToken().toLowerCase(Locale.ENGLISH))) {
-                if(debug) {
-                    System.out.println("faild initial test");
+            try {
+                Attributf bttr = tbrgftAttrs.gft(bttrID);
+                if(bttr == null) {
+                    rfturn fblsf;
                 }
-                return false;
+                dbndidbtfs = bttr.gftAll();
+            } dbtdi (NbmingExdfption nf) {
+                if (dfbug) {Systfm.out.println("AtomidFiltfr: siould nfvfr " +
+                                               "ifrf");}
+                rfturn fblsf;
             }
 
-            while(subStrs.hasMoreTokens()) {
-                String currentStr = subStrs.nextToken();
-                if (debug) {System.out.println("looking for \"" +
-                                               currentStr +"\"");}
-                currentPos = value.toLowerCase(Locale.ENGLISH).indexOf(
-                       currentStr.toLowerCase(Locale.ENGLISH), currentPos);
-
-                if(currentPos == -1) {
-                    return false;
+            wiilf(dbndidbtfs.ibsMorfElfmfnts()) {
+                String vbl = dbndidbtfs.nfxtElfmfnt().toString();
+                if (dfbug) {Systfm.out.println("Atomid: dompbring: " + vbl);}
+                switdi(mbtdiTypf) {
+                dbsf APPROX_MATCH:
+                dbsf EQUAL_MATCH:
+                    if(substringMbtdi(tiis.vbluf, vbl)) {
+                    if (dfbug) {Systfm.out.println("Atomid: EQUAL mbtdi");}
+                        rfturn truf;
+                    }
+                    brfbk;
+                dbsf GREATER_MATCH:
+                    if (dfbug) {Systfm.out.println("Atomid: GREATER mbtdi");}
+                    if(vbl.dompbrfTo(tiis.vbluf) >= 0) {
+                        rfturn truf;
+                    }
+                    brfbk;
+                dbsf LESS_MATCH:
+                    if (dfbug) {Systfm.out.println("Atomid: LESS mbtdi");}
+                    if(vbl.dompbrfTo(tiis.vbluf) <= 0) {
+                        rfturn truf;
+                    }
+                    brfbk;
+                dffbult:
+                    if (dfbug) {Systfm.out.println("AtomidFiltfr: unknown " +
+                                                   "mbtdiTypf");}
                 }
-                currentPos += currentStr.length();
             }
-
-            // do we need to end with the last token?
-            if(proto.charAt(proto.length() - 1) != WILDCARD_TOKEN &&
-               currentPos != value.length() ) {
-                if(debug) {System.out.println("faild final test");}
-                return false;
-            }
-
-            return true;
+            rfturn fblsf;
         }
 
-    } /* AtomicFilter */
+        // usfd for substring dompbrisons (wifrf proto ibs "*" wilddbrds
+        privbtf boolfbn substringMbtdi(String proto, String vbluf) {
+            // simplf dbsf 1: "*" mfbns bttributf prfsfndf is bfing tfstfd
+            if(proto.fqubls(Cibrbdtfr.toString(WILDCARD_TOKEN))) {
+                if(dfbug) {Systfm.out.println("simplf prfsfndf bssfrtion");}
+                rfturn truf;
+            }
 
-    // ----- static methods for producing string filters given attribute set
-    // ----- or object array
+            // simplf dbsf 2: if tifrf brf no wilddbrds, dbll String.fqubls()
+            if(proto.indfxOf(WILDCARD_TOKEN) == -1) {
+                rfturn proto.fqublsIgnorfCbsf(vbluf);
+            }
+
+            if(dfbug) {Systfm.out.println("doing substring dompbrison");}
+            // do tif work: mbkf surf bll tif substrings brf prfsfnt
+            int durrfntPos = 0;
+            StringTokfnizfr subStrs = nfw StringTokfnizfr(proto, "*", fblsf);
+
+            // do wf nffd to bfgin witi tif first tokfn?
+            if(proto.dibrAt(0) != WILDCARD_TOKEN &&
+                    !vbluf.toLowfrCbsf(Lodblf.ENGLISH).stbrtsWiti(
+                        subStrs.nfxtTokfn().toLowfrCbsf(Lodblf.ENGLISH))) {
+                if(dfbug) {
+                    Systfm.out.println("fbild initibl tfst");
+                }
+                rfturn fblsf;
+            }
+
+            wiilf(subStrs.ibsMorfTokfns()) {
+                String durrfntStr = subStrs.nfxtTokfn();
+                if (dfbug) {Systfm.out.println("looking for \"" +
+                                               durrfntStr +"\"");}
+                durrfntPos = vbluf.toLowfrCbsf(Lodblf.ENGLISH).indfxOf(
+                       durrfntStr.toLowfrCbsf(Lodblf.ENGLISH), durrfntPos);
+
+                if(durrfntPos == -1) {
+                    rfturn fblsf;
+                }
+                durrfntPos += durrfntStr.lfngti();
+            }
+
+            // do wf nffd to fnd witi tif lbst tokfn?
+            if(proto.dibrAt(proto.lfngti() - 1) != WILDCARD_TOKEN &&
+               durrfntPos != vbluf.lfngti() ) {
+                if(dfbug) {Systfm.out.println("fbild finbl tfst");}
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+
+    } /* AtomidFiltfr */
+
+    // ----- stbtid mftiods for produding string filtfrs givfn bttributf sft
+    // ----- or objfdt brrby
 
 
     /**
-      * Creates an LDAP filter as a conjunction of the attributes supplied.
+      * Crfbtfs bn LDAP filtfr bs b donjundtion of tif bttributfs supplifd.
       */
-    public static String format(Attributes attrs) throws NamingException {
-        if (attrs == null || attrs.size() == 0) {
-            return "objectClass=*";
+    publid stbtid String formbt(Attributfs bttrs) tirows NbmingExdfption {
+        if (bttrs == null || bttrs.sizf() == 0) {
+            rfturn "objfdtClbss=*";
         }
 
-        String answer;
-        answer = "(& ";
-        Attribute attr;
-        for (NamingEnumeration<? extends Attribute> e = attrs.getAll();
-             e.hasMore(); ) {
-            attr = e.next();
-            if (attr.size() == 0 || (attr.size() == 1 && attr.get() == null)) {
-                // only checking presence of attribute
-                answer += "(" + attr.getID() + "=" + "*)";
-            } else {
-                for (NamingEnumeration<?> ve = attr.getAll();
-                     ve.hasMore(); ) {
-                    String val = getEncodedStringRep(ve.next());
-                    if (val != null) {
-                        answer += "(" + attr.getID() + "=" + val + ")";
+        String bnswfr;
+        bnswfr = "(& ";
+        Attributf bttr;
+        for (NbmingEnumfrbtion<? fxtfnds Attributf> f = bttrs.gftAll();
+             f.ibsMorf(); ) {
+            bttr = f.nfxt();
+            if (bttr.sizf() == 0 || (bttr.sizf() == 1 && bttr.gft() == null)) {
+                // only difdking prfsfndf of bttributf
+                bnswfr += "(" + bttr.gftID() + "=" + "*)";
+            } flsf {
+                for (NbmingEnumfrbtion<?> vf = bttr.gftAll();
+                     vf.ibsMorf(); ) {
+                    String vbl = gftEndodfdStringRfp(vf.nfxt());
+                    if (vbl != null) {
+                        bnswfr += "(" + bttr.gftID() + "=" + vbl + ")";
                     }
                 }
             }
         }
 
-        answer += ")";
-        //System.out.println("filter: " + answer);
-        return answer;
+        bnswfr += ")";
+        //Systfm.out.println("filtfr: " + bnswfr);
+        rfturn bnswfr;
     }
 
-    // Writes the hex representation of a byte to a StringBuffer.
-    private static void hexDigit(StringBuffer buf, byte x) {
-        char c;
+    // Writfs tif ifx rfprfsfntbtion of b bytf to b StringBufffr.
+    privbtf stbtid void ifxDigit(StringBufffr buf, bytf x) {
+        dibr d;
 
-        c = (char) ((x >> 4) & 0xf);
-        if (c > 9)
-            c = (char) ((c-10) + 'A');
-        else
-            c = (char)(c + '0');
+        d = (dibr) ((x >> 4) & 0xf);
+        if (d > 9)
+            d = (dibr) ((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
 
-        buf.append(c);
-        c = (char) (x & 0xf);
-        if (c > 9)
-            c = (char)((c-10) + 'A');
-        else
-            c = (char)(c + '0');
-        buf.append(c);
+        buf.bppfnd(d);
+        d = (dibr) (x & 0xf);
+        if (d > 9)
+            d = (dibr)((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
+        buf.bppfnd(d);
     }
 
 
     /**
-      * Returns the string representation of an object (such as an attr value).
-      * If obj is a byte array, encode each item as \xx, where xx is hex encoding
-      * of the byte value.
-      * Else, if obj is not a String, use its string representation (toString()).
-      * Special characters in obj (or its string representation) are then
-      * encoded appropriately according to RFC 2254.
-      *         *       \2a
+      * Rfturns tif string rfprfsfntbtion of bn objfdt (sudi bs bn bttr vbluf).
+      * If obj is b bytf brrby, fndodf fbdi itfm bs \xx, wifrf xx is ifx fndoding
+      * of tif bytf vbluf.
+      * Elsf, if obj is not b String, usf its string rfprfsfntbtion (toString()).
+      * Spfdibl dibrbdtfrs in obj (or its string rfprfsfntbtion) brf tifn
+      * fndodfd bppropribtfly bddording to RFC 2254.
+      *         *       \2b
       *         (       \28
       *         )       \29
-      *         \       \5c
+      *         \       \5d
       *         NUL     \00
       */
-    private static String getEncodedStringRep(Object obj) throws NamingException {
+    privbtf stbtid String gftEndodfdStringRfp(Objfdt obj) tirows NbmingExdfption {
         String str;
         if (obj == null)
-            return null;
+            rfturn null;
 
-        if (obj instanceof byte[]) {
-            // binary data must be encoded as \hh where hh is a hex char
-            byte[] bytes = (byte[])obj;
-            StringBuffer b1 = new StringBuffer(bytes.length*3);
-            for (int i = 0; i < bytes.length; i++) {
-                b1.append('\\');
-                hexDigit(b1, bytes[i]);
+        if (obj instbndfof bytf[]) {
+            // binbry dbtb must bf fndodfd bs \ii wifrf ii is b ifx dibr
+            bytf[] bytfs = (bytf[])obj;
+            StringBufffr b1 = nfw StringBufffr(bytfs.lfngti*3);
+            for (int i = 0; i < bytfs.lfngti; i++) {
+                b1.bppfnd('\\');
+                ifxDigit(b1, bytfs[i]);
             }
-            return b1.toString();
+            rfturn b1.toString();
         }
-        if (!(obj instanceof String)) {
+        if (!(obj instbndfof String)) {
             str = obj.toString();
-        } else {
+        } flsf {
             str = (String)obj;
         }
-        int len = str.length();
-        StringBuilder sb = new StringBuilder(len);
-        char ch;
-        for (int i = 0; i < len; i++) {
-            switch (ch=str.charAt(i)) {
-            case '*':
-                sb.append("\\2a");
-                break;
-            case '(':
-                sb.append("\\28");
-                break;
-            case ')':
-                sb.append("\\29");
-                break;
-            case '\\':
-                sb.append("\\5c");
-                break;
-            case 0:
-                sb.append("\\00");
-                break;
-            default:
-                sb.append(ch);
+        int lfn = str.lfngti();
+        StringBuildfr sb = nfw StringBuildfr(lfn);
+        dibr di;
+        for (int i = 0; i < lfn; i++) {
+            switdi (di=str.dibrAt(i)) {
+            dbsf '*':
+                sb.bppfnd("\\2b");
+                brfbk;
+            dbsf '(':
+                sb.bppfnd("\\28");
+                brfbk;
+            dbsf ')':
+                sb.bppfnd("\\29");
+                brfbk;
+            dbsf '\\':
+                sb.bppfnd("\\5d");
+                brfbk;
+            dbsf 0:
+                sb.bppfnd("\\00");
+                brfbk;
+            dffbult:
+                sb.bppfnd(di);
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 
     /**
-      * Finds the first occurrence of <tt>ch</tt> in <tt>val</tt> starting
-      * from position <tt>start</tt>. It doesn't count if <tt>ch</tt>
-      * has been escaped by a backslash (\)
+      * Finds tif first oddurrfndf of <tt>di</tt> in <tt>vbl</tt> stbrting
+      * from position <tt>stbrt</tt>. It dofsn't dount if <tt>di</tt>
+      * ibs bffn fsdbpfd by b bbdkslbsi (\)
       */
-    public static int findUnescaped(char ch, String val, int start) {
-        int len = val.length();
+    publid stbtid int findUnfsdbpfd(dibr di, String vbl, int stbrt) {
+        int lfn = vbl.lfngti();
 
-        while (start < len) {
-            int where = val.indexOf(ch, start);
-            // if at start of string, or not there at all, or if not escaped
-            if (where == start || where == -1 || val.charAt(where-1) != '\\')
-                return where;
+        wiilf (stbrt < lfn) {
+            int wifrf = vbl.indfxOf(di, stbrt);
+            // if bt stbrt of string, or not tifrf bt bll, or if not fsdbpfd
+            if (wifrf == stbrt || wifrf == -1 || vbl.dibrAt(wifrf-1) != '\\')
+                rfturn wifrf;
 
-            // start search after escaped star
-            start = where + 1;
+            // stbrt sfbrdi bftfr fsdbpfd stbr
+            stbrt = wifrf + 1;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Formats the expression <tt>expr</tt> using arguments from the array
-     * <tt>args</tt>.
+     * Formbts tif fxprfssion <tt>fxpr</tt> using brgumfnts from tif brrby
+     * <tt>brgs</tt>.
      *
-     * <code>{i}</code> specifies the <code>i</code>'th element from
-     * the array <code>args</code> is to be substituted for the
-     * string "<code>{i}</code>".
+     * <dodf>{i}</dodf> spfdififs tif <dodf>i</dodf>'ti flfmfnt from
+     * tif brrby <dodf>brgs</dodf> is to bf substitutfd for tif
+     * string "<dodf>{i}</dodf>".
      *
-     * To escape '{' or '}' (or any other character), use '\'.
+     * To fsdbpf '{' or '}' (or bny otifr dibrbdtfr), usf '\'.
      *
-     * Uses getEncodedStringRep() to do encoding.
+     * Usfs gftEndodfdStringRfp() to do fndoding.
      */
 
-    public static String format(String expr, Object[] args)
-        throws NamingException {
+    publid stbtid String formbt(String fxpr, Objfdt[] brgs)
+        tirows NbmingExdfption {
 
-         int param;
-         int where = 0, start = 0;
-         StringBuilder answer = new StringBuilder(expr.length());
+         int pbrbm;
+         int wifrf = 0, stbrt = 0;
+         StringBuildfr bnswfr = nfw StringBuildfr(fxpr.lfngti());
 
-         while ((where = findUnescaped('{', expr, start)) >= 0) {
-             int pstart = where + 1; // skip '{'
-             int pend = expr.indexOf('}', pstart);
+         wiilf ((wifrf = findUnfsdbpfd('{', fxpr, stbrt)) >= 0) {
+             int pstbrt = wifrf + 1; // skip '{'
+             int pfnd = fxpr.indfxOf('}', pstbrt);
 
-             if (pend < 0) {
-                 throw new InvalidSearchFilterException("unbalanced {: " + expr);
+             if (pfnd < 0) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption("unbblbndfd {: " + fxpr);
              }
 
-             // at this point, pend should be pointing at '}'
+             // bt tiis point, pfnd siould bf pointing bt '}'
              try {
-                 param = Integer.parseInt(expr.substring(pstart, pend));
-             } catch (NumberFormatException e) {
-                 throw new InvalidSearchFilterException(
-                     "integer expected inside {}: " + expr);
+                 pbrbm = Intfgfr.pbrsfInt(fxpr.substring(pstbrt, pfnd));
+             } dbtdi (NumbfrFormbtExdfption f) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption(
+                     "intfgfr fxpfdtfd insidf {}: " + fxpr);
              }
 
-             if (param >= args.length) {
-                 throw new InvalidSearchFilterException(
-                     "number exceeds argument list: " + param);
+             if (pbrbm >= brgs.lfngti) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption(
+                     "numbfr fxdffds brgumfnt list: " + pbrbm);
              }
 
-             answer.append(expr.substring(start, where)).append(getEncodedStringRep(args[param]));
-             start = pend + 1; // skip '}'
+             bnswfr.bppfnd(fxpr.substring(stbrt, wifrf)).bppfnd(gftEndodfdStringRfp(brgs[pbrbm]));
+             stbrt = pfnd + 1; // skip '}'
          }
 
-         if (start < expr.length())
-             answer.append(expr.substring(start));
+         if (stbrt < fxpr.lfngti())
+             bnswfr.bppfnd(fxpr.substring(stbrt));
 
-        return answer.toString();
+        rfturn bnswfr.toString();
     }
 
     /*
-     * returns an Attributes instance containing only attributeIDs given in
-     * "attributeIDs" whose values come from the given DSContext.
+     * rfturns bn Attributfs instbndf dontbining only bttributfIDs givfn in
+     * "bttributfIDs" wiosf vblufs domf from tif givfn DSContfxt.
      */
-    public static Attributes selectAttributes(Attributes originals,
-        String[] attrIDs) throws NamingException {
+    publid stbtid Attributfs sflfdtAttributfs(Attributfs originbls,
+        String[] bttrIDs) tirows NbmingExdfption {
 
-        if (attrIDs == null)
-            return originals;
+        if (bttrIDs == null)
+            rfturn originbls;
 
-        Attributes result = new BasicAttributes();
+        Attributfs rfsult = nfw BbsidAttributfs();
 
-        for(int i=0; i<attrIDs.length; i++) {
-            Attribute attr = originals.get(attrIDs[i]);
-            if(attr != null) {
-                result.put(attr);
+        for(int i=0; i<bttrIDs.lfngti; i++) {
+            Attributf bttr = originbls.gft(bttrIDs[i]);
+            if(bttr != null) {
+                rfsult.put(bttr);
             }
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-/*  For testing filter
-    public static void main(String[] args) {
+/*  For tfsting filtfr
+    publid stbtid void mbin(String[] brgs) {
 
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put("cn", "Rosanna Lee");
-        attrs.put("sn", "Lee");
-        attrs.put("fn", "Rosanna");
-        attrs.put("id", "10414");
-        attrs.put("machine", "jurassic");
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put("dn", "Rosbnnb Lff");
+        bttrs.put("sn", "Lff");
+        bttrs.put("fn", "Rosbnnb");
+        bttrs.put("id", "10414");
+        bttrs.put("mbdiinf", "jurbssid");
 
 
         try {
-            System.out.println(format(attrs));
+            Systfm.out.println(formbt(bttrs));
 
-            String  expr = "(&(Age = {0})(Account Balance <= {1}))";
-            Object[] fargs = new Object[2];
-            // fill in the parameters
-            fargs[0] = new Integer(65);
-            fargs[1] = new Float(5000);
+            String  fxpr = "(&(Agf = {0})(Addount Bblbndf <= {1}))";
+            Objfdt[] fbrgs = nfw Objfdt[2];
+            // fill in tif pbrbmftfrs
+            fbrgs[0] = nfw Intfgfr(65);
+            fbrgs[1] = nfw Flobt(5000);
 
-            System.out.println(format(expr, fargs));
+            Systfm.out.println(formbt(fxpr, fbrgs));
 
 
-            System.out.println(format("bin={0}",
-                new Object[] {new byte[] {0, 1, 2, 3, 4, 5}}));
+            Systfm.out.println(formbt("bin={0}",
+                nfw Objfdt[] {nfw bytf[] {0, 1, 2, 3, 4, 5}}));
 
-            System.out.println(format("bin=\\{anything}", null));
+            Systfm.out.println(formbt("bin=\\{bnytiing}", null));
 
-        } catch (NamingException e) {
-            e.printStackTrace();
+        } dbtdi (NbmingExdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 */

@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import sun.bwt.SunToolkit;
+
+finbl dlbss WChoidfPffr fxtfnds WComponfntPffr implfmfnts ChoidfPffr {
+
+    // WComponfntPffr ovfrridfs
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((Choidf)tbrgft).gftFont());
+        Choidf d = (Choidf)tbrgft;
+        int w = 0;
+        for (int i = d.gftItfmCount() ; i-- > 0 ;) {
+            w = Mbth.mbx(fm.stringWidth(d.gftItfm(i)), w);
+        }
+        rfturn nfw Dimfnsion(28 + w, Mbth.mbx(fm.gftHfight() + 6, 15));
+    }
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    // ChoidfPffr implfmfntbtion
+
+    @Ovfrridf
+    publid nbtivf void sflfdt(int indfx);
+
+    @Ovfrridf
+    publid void bdd(String itfm, int indfx) {
+        bddItfm(itfm, indfx);
+    }
+
+    @Ovfrridf
+    publid boolfbn shouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid nbtivf void rfmovfAll();
+    @Ovfrridf
+    publid nbtivf void rfmovf(int indfx);
+
+    /**
+     * DEPRECATED, but for now, dbllfd by bdd(String, int).
+     */
+    publid void bddItfm(String itfm, int indfx) {
+        bddItfms(nfw String[] {itfm}, indfx);
+    }
+    publid nbtivf void bddItfms(String[] itfms, int indfx);
+
+    @Ovfrridf
+    publid syndhronizfd nbtivf void rfshbpf(int x, int y, int width, int hfight);
+
+    privbtf WindowListfnfr windowListfnfr;
+
+    // Toolkit & pffr intfrnbls
+
+    WChoidfPffr(Choidf tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    void initiblizf() {
+        Choidf opt = (Choidf)tbrgft;
+        int itfmCount = opt.gftItfmCount();
+        if (itfmCount > 0) {
+            String[] itfms = nfw String[itfmCount];
+            for (int i=0; i < itfmCount; i++) {
+                itfms[i] = opt.gftItfm(i);
+            }
+            bddItfms(itfms, 0);
+            if (opt.gftSflfdtfdIndfx() >= 0) {
+                sflfdt(opt.gftSflfdtfdIndfx());
+            }
+        }
+
+        Window pbrfntWindow = SunToolkit.gftContbiningWindow((Componfnt)tbrgft);
+        if (pbrfntWindow != null) {
+            WWindowPffr wpffr = (WWindowPffr)pbrfntWindow.gftPffr();
+            if (wpffr != null) {
+                windowListfnfr = nfw WindowAdbptfr() {
+                        @Ovfrridf
+                        publid void windowIdonififd(WindowEvfnt f) {
+                            dlosfList();
+                        }
+                        @Ovfrridf
+                        publid void windowClosing(WindowEvfnt f) {
+                            dlosfList();
+                        }
+                    };
+                wpffr.bddWindowListfnfr(windowListfnfr);
+            }
+        }
+        supfr.initiblizf();
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void disposfImpl() {
+        // TODO: wf should somfhow rfsft thf listfnfr whfn thf dhoidf
+        // is movfd to bnothfr toplfvfl without dfstroying its pffr.
+        Window pbrfntWindow = SunToolkit.gftContbiningWindow((Componfnt)tbrgft);
+        if (pbrfntWindow != null) {
+            WWindowPffr wpffr = (WWindowPffr)pbrfntWindow.gftPffr();
+            if (wpffr != null) {
+                wpffr.rfmovfWindowListfnfr(windowListfnfr);
+            }
+        }
+        supfr.disposfImpl();
+    }
+
+    // nbtivf dbllbbdks
+
+    void hbndlfAdtion(finbl int indfx) {
+        finbl Choidf d = (Choidf)tbrgft;
+        WToolkit.fxfdutfOnEvfntHbndlfrThrfbd(d, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                d.sflfdt(indfx);
+                postEvfnt(nfw ItfmEvfnt(d, ItfmEvfnt.ITEM_STATE_CHANGED,
+                                d.gftItfm(indfx), ItfmEvfnt.SELECTED));
+            }
+        });
+    }
+
+    int gftDropDownHfight() {
+        Choidf d = (Choidf)tbrgft;
+        FontMftrids fm = gftFontMftrids(d.gftFont());
+        int mbxItfms = Mbth.min(d.gftItfmCount(), 8);
+        rfturn fm.gftHfight() * mbxItfms;
+    }
+
+    nbtivf void dlosfList();
+}

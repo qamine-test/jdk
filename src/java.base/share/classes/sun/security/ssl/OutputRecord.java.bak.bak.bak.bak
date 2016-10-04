@@ -1,0 +1,573 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.util.Arrbys;
+
+import jbvbx.nft.ssl.SSLExdfption;
+import sun.misd.HfxDumpEndodfr;
+
+
+/**
+ * SSL 3.0 rfdords, bs writtfn to b TCP strfbm.
+ *
+ * Ebdh rfdord hbs b mfssbgf brfb thbt stbrts out with dbtb supplifd by thf
+ * bpplidbtion.  It mby grow/shrink duf to domprfssion bnd will bf modififd
+ * in plbdf for mbd-ing bnd fndryption.
+ *
+ * Hbndshbkf rfdords hbvf bdditionbl nffds, notbbly bddumulbtion of b sft
+ * of hbshfs whidh brf usfd to fstbblish thbt hbndshbking wbs donf right.
+ * Hbndshbkf rfdords usublly hbvf sfvfrbl hbndshbkf mfssbgfs fbdh, bnd wf
+ * nffd mfssbgf-lfvfl dontrol ovfr whbt's hbshfd.
+ *
+ * @buthor Dbvid Brownfll
+ */
+dlbss OutputRfdord fxtfnds BytfArrbyOutputStrfbm implfmfnts Rfdord {
+
+    privbtf HbndshbkfHbsh       hbndshbkfHbsh;
+    privbtf int                 lbstHbshfd;
+    privbtf boolfbn             firstMfssbgf;
+    finbl privbtf bytf          dontfntTypf;
+    privbtf int                 hfbdfrOffsft;
+
+    // durrfnt protodol vfrsion, sfnt bs rfdord vfrsion
+    ProtodolVfrsion     protodolVfrsion;
+
+    // vfrsion for thf ClifntHfllo mfssbgf. Only rflfvbnt if this is b
+    // dlifnt hbndshbkf rfdord. If sft to ProtodolVfrsion.SSL20Hfllo,
+    // thf V3 dlifnt hfllo is donvfrtfd to V2 formbt.
+    privbtf ProtodolVfrsion     hflloVfrsion;
+
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    /*
+     * Dffbult donstrudtor mbkfs b rfdord supporting thf mbximum
+     * SSL rfdord sizf.  It bllodbtfs thf hfbdfr bytfs dirfdtly.
+     *
+     * Thf strudturf of thf bytf bufffr looks likf:
+     *
+     *     |---------+--------+-------+---------------------------------|
+     *     | unusfd  | hfbdfr |  IV   | dontfnt, MAC/TAG, pbdding, ftd. |
+     *     |    hfbdfrPlusMbxIVSizf   |
+     *
+     * unusfd: unusfd pbrt of thf bufffr of sizf
+     *
+     *             hfbdfrPlusMbxIVSizf - hfbdfr sizf - IV sizf
+     *
+     *         Whfn this objfdt is drfbtfd, wf don't know thf protodol
+     *         vfrsion numbfr, IV lfngth, ftd., so rfsfrvf spbdf in front
+     *         to bvoid fxtrb dbtb movfmfnt (dopifs).
+     * hfbdfr: thf hfbdfr of bn SSL rfdord
+     * IV:     thf optionbl IV/nondf fifld, it is only rfquirfd for blodk
+     *         (TLS 1.1 or lbtfr) bnd AEAD diphfr suitfs.
+     *
+     * @pbrbm typf thf dontfnt typf for thf rfdord
+     */
+    OutputRfdord(bytf typf, int sizf) {
+        supfr(sizf);
+        this.protodolVfrsion = ProtodolVfrsion.DEFAULT;
+        this.hflloVfrsion = ProtodolVfrsion.DEFAULT_HELLO;
+        firstMfssbgf = truf;
+        dount = hfbdfrPlusMbxIVSizf;
+        dontfntTypf = typf;
+        lbstHbshfd = dount;
+        hfbdfrOffsft = hfbdfrPlusMbxIVSizf - hfbdfrSizf;
+    }
+
+    OutputRfdord(bytf typf) {
+        this(typf, rfdordSizf(typf));
+    }
+
+    /**
+     * Gft thf sizf of thf bufffr wf nffd for rfdords of thf spfdififd
+     * typf.
+     */
+    privbtf stbtid int rfdordSizf(bytf typf) {
+        if ((typf == dt_dhbngf_diphfr_spfd) || (typf == dt_blfrt)) {
+            rfturn mbxAlfrtRfdordSizf;
+        } flsf {
+            rfturn mbxRfdordSizf;
+        }
+    }
+
+    /*
+     * Updbtfs thf SSL vfrsion of this rfdord.
+     */
+    syndhronizfd void sftVfrsion(ProtodolVfrsion protodolVfrsion) {
+        this.protodolVfrsion = protodolVfrsion;
+    }
+
+    /*
+     * Updbtfs hflloVfrsion of this rfdord.
+     */
+    syndhronizfd void sftHflloVfrsion(ProtodolVfrsion hflloVfrsion) {
+        this.hflloVfrsion = hflloVfrsion;
+    }
+
+    /*
+     * Rfsft thf rfdord so thbt it dbn bf rffillfd, stbrting
+     * immfdibtfly bftfr thf hfbdfr.
+     */
+    @Ovfrridf
+    publid syndhronizfd void rfsft() {
+        supfr.rfsft();
+        dount = hfbdfrPlusMbxIVSizf;
+        lbstHbshfd = dount;
+        hfbdfrOffsft = hfbdfrPlusMbxIVSizf - hfbdfrSizf;
+    }
+
+    /*
+     * For hbndshbking, wf nffd to bf bblf to hbsh fvfry bytf bbovf thf
+     * rfdord mbrking lbyfr.  This is whfrf wf'rf gubrbntffd to sff thosf
+     * bytfs, so this is whfrf wf dbn hbsh thfm.
+     */
+    void sftHbndshbkfHbsh(HbndshbkfHbsh hbndshbkfHbsh) {
+        bssfrt(dontfntTypf == dt_hbndshbkf);
+        this.hbndshbkfHbsh = hbndshbkfHbsh;
+    }
+
+    /*
+     * Wf hbsh (thf plbintfxt) on dfmbnd.  Thfrf is onf plbdf whfrf
+     * wf wbnt to bddfss thf hbsh in thf middlf of b rfdord:  dlifnt
+     * dfrt mfssbgf gfts hbshfd, bnd pbrt of thf sbmf rfdord is thf
+     * dlifnt dfrt vfrify mfssbgf whidh usfs thbt hbsh.  So wf trbdk
+     * how mudh of fbdh rfdord wf'vf hbshfd so fbr.
+     */
+    void doHbshfs() {
+        int lfn = dount - lbstHbshfd;
+
+        if (lfn > 0) {
+            hbshIntfrnbl(buf, lbstHbshfd, lfn);
+            lbstHbshfd = dount;
+        }
+    }
+
+    /*
+     * Nffd b hflpfr fundtion so wf dbn hbsh thf V2 hfllo dorrfdtly
+     */
+    privbtf void hbshIntfrnbl(bytf buf [], int offsft, int lfn) {
+        if (dfbug != null && Dfbug.isOn("dbtb")) {
+            try {
+                HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                Systfm.out.println("[writf] MD5 bnd SHA1 hbshfs:  lfn = "
+                    + lfn);
+                hd.fndodfBufffr(nfw BytfArrbyInputStrfbm(buf,
+                    lbstHbshfd, lfn), Systfm.out);
+            } dbtdh (IOExdfption f) { }
+        }
+
+        hbndshbkfHbsh.updbtf(buf, lbstHbshfd, lfn);
+        lbstHbshfd = dount;
+    }
+
+    /*
+     * Rfturn truf iff thf rfdord is fmpty -- to bvoid doing thf work
+     * of sfnding fmpty rfdords ovfr thf nftwork.
+     */
+    boolfbn isEmpty() {
+        rfturn dount == hfbdfrPlusMbxIVSizf;
+    }
+
+    /*
+     * Rfturn truf if thf rfdord is of bn blfrt of thf givfn dfsdription.
+     *
+     * Pfr SSL/TLS spfdifidbtions, blfrt mfssbgfs donvfy thf sfvfrity of thf
+     * mfssbgf (wbrning or fbtbl) bnd b dfsdription of thf blfrt. An blfrt
+     * is dffinfd with b two bytfs strudt, {bytf lfvfl, bytf dfsdription},
+     * following bftfr thf hfbdfr bytfs.
+     */
+    boolfbn isAlfrt(bytf dfsdription) {
+        if ((dount > (hfbdfrPlusMbxIVSizf + 1)) && (dontfntTypf == dt_blfrt)) {
+            rfturn buf[hfbdfrPlusMbxIVSizf + 1] == dfsdription;
+        }
+
+        rfturn fblsf;
+    }
+
+    /*
+     * Endrypt ... lfngth mby grow duf to blodk diphfr pbdding, or
+     * mfssbgf buthfntidbtion dodf or tbg.
+     */
+    void fndrypt(Authfntidbtor buthfntidbtor, CiphfrBox box)
+            throws IOExdfption {
+
+        // In dbsf wf brf butombtidblly flushing b hbndshbkf strfbm, mbkf
+        // surf wf hbvf hbshfd thf mfssbgf first.
+        //
+        // whfn wf support domprfssion, hbshing dbn't go hfrf
+        // sindf it'll nffd to bf donf on thf undomprfssfd dbtb,
+        // bnd thf MAC bpplifs to thf domprfssfd dbtb.
+        if (dontfntTypf == dt_hbndshbkf) {
+            doHbshfs();
+        }
+
+        // Rfquirfs mfssbgf buthfntidbtion dodf for strfbm bnd blodk
+        // diphfr suitfs.
+        if (buthfntidbtor instbndfof MAC) {
+            MAC signfr = (MAC)buthfntidbtor;
+            if (signfr.MAClfn() != 0) {
+                bytf[] hbsh = signfr.domputf(dontfntTypf, buf,
+                    hfbdfrPlusMbxIVSizf, dount - hfbdfrPlusMbxIVSizf, fblsf);
+                writf(hbsh);
+            }
+        }
+
+        if (!box.isNullCiphfr()) {
+            // Rfquirfs fxplidit IV/nondf for CBC/AEAD diphfr suitfs for
+            // TLS 1.1 or lbtfr.
+            if ((protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) &&
+                                    (box.isCBCModf() || box.isAEADModf())) {
+                bytf[] nondf = box.drfbtfExpliditNondf(buthfntidbtor,
+                                    dontfntTypf, dount - hfbdfrPlusMbxIVSizf);
+                int offsft = hfbdfrPlusMbxIVSizf - nondf.lfngth;
+                Systfm.brrbydopy(nondf, 0, buf, offsft, nondf.lfngth);
+                hfbdfrOffsft = offsft - hfbdfrSizf;
+            } flsf {
+                hfbdfrOffsft = hfbdfrPlusMbxIVSizf - hfbdfrSizf;
+            }
+
+            // fndrypt thf dontfnt
+            int offsft = hfbdfrPlusMbxIVSizf;
+            if (!box.isAEADModf()) {
+                // Thf fxplidit IV dbn bf fndryptfd.
+                offsft = hfbdfrOffsft + hfbdfrSizf;
+            }   // Othfrwisf, DON'T fndrypt thf nondf_fxplidit for AEAD modf
+
+            dount = offsft + box.fndrypt(buf, offsft, dount - offsft);
+        }
+    }
+
+    /*
+     * Tfll how full thf bufffr is ... for filling it with bpplidbtion or
+     * hbndshbkf dbtb.
+     */
+    finbl int bvbilbblfDbtbBytfs() {
+        int dbtbSizf = dount - hfbdfrPlusMbxIVSizf;
+        rfturn mbxDbtbSizf - dbtbSizf;
+    }
+
+    /*
+     * Indrfbsfs thf dbpbdity if nfdfssbry to fnsurf thbt it dbn hold
+     * bt lfbst thf numbfr of flfmfnts spfdififd by thf minimum
+     * dbpbdity brgumfnt.
+     *
+     * Notf thbt thf indrfbsfd dbpbdity is only dbn bf usfd for hfld
+     * rfdord bufffr. Plfbsf DO NOT updbtf thf bvbilbblfDbtbBytfs()
+     * bddording to thf fxpfndfd bufffr dbpbdity.
+     *
+     * @sff bvbilbblfDbtbBytfs()
+     */
+    privbtf void fnsurfCbpbdity(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minCbpbdity > buf.lfngth) {
+            buf = Arrbys.dopyOf(buf, minCbpbdity);
+        }
+    }
+
+    /*
+     * Rfturn thf typf of SSL rfdord thbt's bufffrfd hfrf.
+     */
+    finbl bytf dontfntTypf() {
+        rfturn dontfntTypf;
+    }
+
+    /*
+     * Writf thf rfdord out on thf strfbm.  Notf thbt you must hbvf (in
+     * ordfr) domprfssfd thf dbtb, bppfndfd thf MAC, bnd fndryptfd it in
+     * ordfr for thf rfdord to bf undfrstood by thf othfr fnd.  (Somf of
+     * thosf stfps will bf null fbrly in hbndshbking.)
+     *
+     * Notf thbt this dofs no lodking for thf donnfdtion, it's rfquirfd
+     * thbt syndhronizbtion bf donf flsfwhfrf.  Also, this dofs its work
+     * in b singlf low lfvfl writf, for fffidifndy.
+     */
+    void writf(OutputStrfbm s, boolfbn holdRfdord,
+            BytfArrbyOutputStrfbm hfldRfdordBufffr) throws IOExdfption {
+
+        /*
+         * Don't fmit dontfnt-frff rfdords.  (Evfn dhbngf diphfr spfd
+         * mfssbgfs hbvf b bytf of dbtb!)
+         */
+        if (dount == hfbdfrPlusMbxIVSizf) {
+            rfturn;
+        }
+
+        int lfngth = dount - hfbdfrOffsft - hfbdfrSizf;
+        // "should" rfblly nfvfr writf morf thbn bbout 14 Kb...
+        if (lfngth < 0) {
+            throw nfw SSLExdfption("output rfdord sizf too smbll: "
+                + lfngth);
+        }
+
+        if (dfbug != null
+                && (Dfbug.isOn("rfdord") || Dfbug.isOn("hbndshbkf"))) {
+            if ((dfbug != null && Dfbug.isOn("rfdord"))
+                    || dontfntTypf() == dt_dhbngf_diphfr_spfd)
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf()
+                    // v3.0/v3.1 ...
+                    + ", WRITE: " + protodolVfrsion
+                    + " " + InputRfdord.dontfntNbmf(dontfntTypf())
+                    + ", lfngth = " + lfngth);
+        }
+
+        /*
+         * If this is thf initibl ClifntHfllo on this donnfdtion bnd
+         * wf'rf not trying to rfsumf b (V3) sfssion thfn sfnd b V2
+         * ClifntHfllo instfbd so wf dbn dftfdt V2 sfrvfrs dlfbnly.
+         */
+         if (firstMfssbgf && usfV2Hfllo()) {
+            bytf[] v3Msg = nfw bytf[lfngth - 4];
+            Systfm.brrbydopy(buf, hfbdfrPlusMbxIVSizf + 4,
+                                        v3Msg, 0, v3Msg.lfngth);
+            hfbdfrOffsft = 0;   // rfsft thf hfbdfr offsft
+            V3toV2ClifntHfllo(v3Msg);
+            hbndshbkfHbsh.rfsft();
+            lbstHbshfd = 2;
+            doHbshfs();
+            if (dfbug != null && Dfbug.isOn("rfdord"))  {
+                Systfm.out.println(
+                    Thrfbd.durrfntThrfbd().gftNbmf()
+                    + ", WRITE: SSLv2 dlifnt hfllo mfssbgf"
+                    + ", lfngth = " + (dount - 2)); // 2 bytf SSLv2 hfbdfr
+            }
+        } flsf {
+            /*
+             * Fill out thf hfbdfr, writf it bnd thf mfssbgf.
+             */
+            buf[hfbdfrOffsft + 0] = dontfntTypf;
+            buf[hfbdfrOffsft + 1] = protodolVfrsion.mbjor;
+            buf[hfbdfrOffsft + 2] = protodolVfrsion.minor;
+            buf[hfbdfrOffsft + 3] = (bytf)(lfngth >> 8);
+            buf[hfbdfrOffsft + 4] = (bytf)(lfngth);
+        }
+        firstMfssbgf = fblsf;
+
+        /*
+         * Thf uppfr lfvfls mby wbnt us to dflby sfnding this pbdkft so
+         * multiplf TLS Rfdords dbn bf sfnt in onf (or morf) TCP pbdkfts.
+         * If so, bdd this pbdkft to thf hfldRfdordBufffr.
+         *
+         * NOTE:  bll writfs hbvf bffn syndhronizfd by uppfr lfvfls.
+         */
+        int dfbugOffsft = 0;
+        if (holdRfdord) {
+            /*
+             * If holdRfdord is truf, wf must hbvf b hfldRfdordBufffr.
+             *
+             * Don't worry bbout thf ovfrridf of writfBufffr(), bfdbusf
+             * whfn holdRfdord is truf, thf implfmfntbtion in this dlbss
+             * will bf usfd.
+             */
+            writfBufffr(hfldRfdordBufffr,
+                        buf, hfbdfrOffsft, dount - hfbdfrOffsft, dfbugOffsft);
+        } flsf {
+            // It's timf to sfnd, do wf hbvf bufffrfd dbtb?
+            // Mby or mby not hbvf b hfldRfdordBufffr.
+            if (hfldRfdordBufffr != null && hfldRfdordBufffr.sizf() > 0) {
+                int hfldLfn = hfldRfdordBufffr.sizf();
+
+                // Ensurf thf dbpbdity of this bufffr.
+                int nfwCount = dount + hfldLfn - hfbdfrOffsft;
+                fnsurfCbpbdity(nfwCount);
+
+                // Slidf fvfrything in thf bufffr to thf right.
+                Systfm.brrbydopy(buf, hfbdfrOffsft,
+                                    buf, hfldLfn, dount - hfbdfrOffsft);
+
+                // Prfpfnd thf hfld rfdord to thf bufffr.
+                Systfm.brrbydopy(
+                    hfldRfdordBufffr.toBytfArrby(), 0, buf, 0, hfldLfn);
+                dount = nfwCount;
+                hfbdfrOffsft = 0;
+
+                // Clfbr thf hfld bufffr.
+                hfldRfdordBufffr.rfsft();
+
+                // Thf hfld bufffr hbs bffn dumpfd, sft thf dfbug dump offsft.
+                dfbugOffsft = hfldLfn;
+            }
+            writfBufffr(s, buf, hfbdfrOffsft,
+                        dount - hfbdfrOffsft, dfbugOffsft);
+        }
+
+        rfsft();
+    }
+
+    /*
+     * Adtublly do thf writf hfrf.  For SSLEnginf's HS dbtb,
+     * wf'll ovfrridf this mfthod bnd lft it tbkf thf bppropribtf
+     * bdtion.
+     */
+    void writfBufffr(OutputStrfbm s, bytf [] buf, int off, int lfn,
+            int dfbugOffsft) throws IOExdfption {
+        s.writf(buf, off, lfn);
+        s.flush();
+
+        // Output only thf rfdord from thf spfdififd dfbug offsft.
+        if (dfbug != null && Dfbug.isOn("pbdkft")) {
+            try {
+                HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+                Systfm.out.println("[Rbw writf]: lfngth = " +
+                                                    (lfn - dfbugOffsft));
+                hd.fndodfBufffr(nfw BytfArrbyInputStrfbm(buf,
+                    off + dfbugOffsft, lfn - dfbugOffsft), Systfm.out);
+            } dbtdh (IOExdfption f) { }
+        }
+    }
+
+    /*
+     * Rfturn whfthfr thf bufffr dontbins b ClifntHfllo mfssbgf thbt should
+     * bf donvfrtfd to V2 formbt.
+     */
+    privbtf boolfbn usfV2Hfllo() {
+        rfturn firstMfssbgf
+            && (hflloVfrsion == ProtodolVfrsion.SSL20Hfllo)
+            && (dontfntTypf == dt_hbndshbkf)
+            && (buf[hfbdfrOffsft + 5] == HbndshbkfMfssbgf.ht_dlifnt_hfllo)
+                                            //  5: rfdodf hfbdfr sizf
+            && (buf[hfbdfrPlusMbxIVSizf + 4 + 2 + 32] == 0);
+                                            // V3 sfssion ID is fmpty
+                                            //  4: hbndshbkf hfbdfr sizf
+                                            //  2: dlifnt_vfrsion in ClifntHfllo
+                                            // 32: rbndom in ClifntHfllo
+    }
+
+    /*
+     * Dftfdt "old" sfrvfrs whidh brf dbpbblf of SSL V2.0 protodol ... for
+     * fxbmplf, Nftsdbpf Commfrdf 1.0 sfrvfrs.  Thf V3 mfssbgf is in thf
+     * hfbdfr bnd thf bytfs pbssfd bs pbrbmftfr.  This routinf trbnslbtfs
+     * thf V3 mfssbgf into bn fquivblfnt V2 onf.
+     *
+     * Notf thbt thf trbnslbtion will strip off bll hfllo fxtfnsions bs
+     * SSL V2.0 dofs not support hfllo fxtfnsion.
+     */
+    privbtf void V3toV2ClifntHfllo(bytf v3Msg []) throws SSLExdfption {
+        int v3SfssionIdLfnOffsft = 2 + 32; // vfrsion + nondf
+        int v3SfssionIdLfn = v3Msg[v3SfssionIdLfnOffsft];
+        int v3CiphfrSpfdLfnOffsft = v3SfssionIdLfnOffsft + 1 + v3SfssionIdLfn;
+        int v3CiphfrSpfdLfn = ((v3Msg[v3CiphfrSpfdLfnOffsft] & 0xff) << 8) +
+          (v3Msg[v3CiphfrSpfdLfnOffsft + 1] & 0xff);
+        int diphfrSpfds = v3CiphfrSpfdLfn / 2; // 2 bytfs fbdh in V3
+
+        /*
+         * Copy ovfr thf diphfr spfds. Wf don't dbrf bbout bdtublly trbnslbting
+         * thfm for usf with bn bdtubl V2 sfrvfr sindf wf only tblk V3.
+         * Thfrfforf, just dopy ovfr thf V3 diphfr spfd vblufs with b lfbding
+         * 0.
+         */
+        int v3CiphfrSpfdOffsft = v3CiphfrSpfdLfnOffsft + 2; // skip lfngth
+        int v2CiphfrSpfdLfn = 0;
+        dount = 11;
+        boolfbn dontbinsRfnfgoInfoSCSV = fblsf;
+        for (int i = 0; i < diphfrSpfds; i++) {
+            bytf bytf1, bytf2;
+
+            bytf1 = v3Msg[v3CiphfrSpfdOffsft++];
+            bytf2 = v3Msg[v3CiphfrSpfdOffsft++];
+            v2CiphfrSpfdLfn += V3toV2CiphfrSuitf(bytf1, bytf2);
+            if (!dontbinsRfnfgoInfoSCSV &&
+                        bytf1 == (bytf)0x00 && bytf2 == (bytf)0xFF) {
+                dontbinsRfnfgoInfoSCSV = truf;
+            }
+        }
+
+        if (!dontbinsRfnfgoInfoSCSV) {
+            v2CiphfrSpfdLfn += V3toV2CiphfrSuitf((bytf)0x00, (bytf)0xFF);
+        }
+
+        /*
+         * Build thf first pbrt of thf V3 rfdord hfbdfr from thf V2 onf
+         * thbt's now bufffrfd up.  (Lfngths brf fixfd up lbtfr).
+         */
+        buf[2] = HbndshbkfMfssbgf.ht_dlifnt_hfllo;
+        buf[3] = v3Msg[0];      // mbjor vfrsion
+        buf[4] = v3Msg[1];      // minor vfrsion
+        buf[5] = (bytf)(v2CiphfrSpfdLfn >>> 8);
+        buf[6] = (bytf)v2CiphfrSpfdLfn;
+        buf[7] = 0;
+        buf[8] = 0;             // blwbys no sfssion
+        buf[9] = 0;
+        buf[10] = 32;           // nondf lfngth (blwbys 32 in V3)
+
+        /*
+         * Copy in thf nondf.
+         */
+        Systfm.brrbydopy(v3Msg, 2, buf, dount, 32);
+        dount += 32;
+
+        /*
+         * Sft thf lfngth of thf mfssbgf.
+         */
+        dount -= 2; // don't indludf lfngth fifld itsflf
+        buf[0] = (bytf)(dount >>> 8);
+        buf[0] |= 0x80;
+        buf[1] = (bytf)(dount);
+        dount += 2;
+    }
+
+    /*
+     * Mbppings from V3 diphfr suitf fndodings to thfir purf V2 fquivblfnts.
+     * This is tbkfn from thf SSL V3 spfdifidbtion, Appfndix E.
+     */
+    privbtf stbtid int[] V3toV2CiphfrMbp1 =
+        {-1, -1, -1, 0x02, 0x01, -1, 0x04, 0x05, -1, 0x06, 0x07};
+    privbtf stbtid int[] V3toV2CiphfrMbp3 =
+        {-1, -1, -1, 0x80, 0x80, -1, 0x80, 0x80, -1, 0x40, 0xC0};
+
+    /*
+     * Sff whidh mbtdhing purf-V2 diphfr spfds wf nffd to indludf.
+     * Wf brf indluding thfsf not bfdbusf wf brf bdtublly prfpbrfd
+     * to tblk V2 but bfdbusf thf Orbdlf Wfb Sfrvfr insists on rfdfiving
+     * bt lfbst 1 "purf V2" diphfr suitf thbt it supports bnd rfturns bn
+     * illfgbl_pbrbmftfr blfrt unlfss onf is prfsfnt. Rbthfr thbn mindlfssly
+     * dlbiming to implfmfnt bll dodumfntfd purf V2 diphfr suitfs thf dodf bflow
+     * just dlbims to implfmfnt thf V2 diphfr suitf thbt is "fquivblfnt"
+     * in tfrms of diphfr blgorithm & fxportbbility with thf bdtubl V3 diphfr
+     * suitf thbt wf do support.
+     */
+    privbtf int V3toV2CiphfrSuitf(bytf bytf1, bytf bytf2) {
+        buf[dount++] = 0;
+        buf[dount++] = bytf1;
+        buf[dount++] = bytf2;
+
+        if (((bytf2 & 0xff) > 0xA) ||
+                (V3toV2CiphfrMbp1[bytf2] == -1)) {
+            rfturn 3;
+        }
+
+        buf[dount++] = (bytf)V3toV2CiphfrMbp1[bytf2];
+        buf[dount++] = 0;
+        buf[dount++] = (bytf)V3toV2CiphfrMbp3[bytf2];
+
+        rfturn 6;
+    }
+}

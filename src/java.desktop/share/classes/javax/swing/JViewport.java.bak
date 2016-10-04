@@ -1,1769 +1,1769 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.beans.Transient;
-import javax.swing.plaf.ViewportUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bfbns.Trbnsifnt;
+import jbvbx.swing.plbf.VifwportUI;
 
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.accessibility.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The "viewport" or "porthole" through which you see the underlying
- * information. When you scroll, what moves is the viewport. It is like
- * peering through a camera's viewfinder. Moving the viewfinder upwards
- * brings new things into view at the top of the picture and loses
- * things that were at the bottom.
+ * Tif "vifwport" or "portiolf" tirougi wiidi you sff tif undfrlying
+ * informbtion. Wifn you sdroll, wibt movfs is tif vifwport. It is likf
+ * pffring tirougi b dbmfrb's vifwfindfr. Moving tif vifwfindfr upwbrds
+ * brings nfw tiings into vifw bt tif top of tif pidturf bnd losfs
+ * tiings tibt wfrf bt tif bottom.
  * <p>
- * By default, <code>JViewport</code> is opaque. To change this, use the
- * <code>setOpaque</code> method.
+ * By dffbult, <dodf>JVifwport</dodf> is opbquf. To dibngf tiis, usf tif
+ * <dodf>sftOpbquf</dodf> mftiod.
  * <p>
- * <b>NOTE:</b>We have implemented a faster scrolling algorithm that
- * does not require a buffer to draw in. The algorithm works as follows:
- * <ol><li>The view and parent view and checked to see if they are
- * <code>JComponents</code>,
- * if they aren't, stop and repaint the whole viewport.
- * <li>If the viewport is obscured by an ancestor, stop and repaint the whole
- * viewport.
- * <li>Compute the region that will become visible, if it is as big as
- * the viewport, stop and repaint the whole view region.
- * <li>Obtain the ancestor <code>Window</code>'s graphics and
- * do a <code>copyArea</code> on the scrolled region.
- * <li>Message the view to repaint the newly visible region.
- * <li>The next time paint is invoked on the viewport, if the clip region
- * is smaller than the viewport size a timer is kicked off to repaint the
- * whole region.
+ * <b>NOTE:</b>Wf ibvf implfmfntfd b fbstfr sdrolling blgoritim tibt
+ * dofs not rfquirf b bufffr to drbw in. Tif blgoritim works bs follows:
+ * <ol><li>Tif vifw bnd pbrfnt vifw bnd difdkfd to sff if tify brf
+ * <dodf>JComponfnts</dodf>,
+ * if tify brfn't, stop bnd rfpbint tif wiolf vifwport.
+ * <li>If tif vifwport is obsdurfd by bn bndfstor, stop bnd rfpbint tif wiolf
+ * vifwport.
+ * <li>Computf tif rfgion tibt will bfdomf visiblf, if it is bs big bs
+ * tif vifwport, stop bnd rfpbint tif wiolf vifw rfgion.
+ * <li>Obtbin tif bndfstor <dodf>Window</dodf>'s grbpiids bnd
+ * do b <dodf>dopyArfb</dodf> on tif sdrollfd rfgion.
+ * <li>Mfssbgf tif vifw to rfpbint tif nfwly visiblf rfgion.
+ * <li>Tif nfxt timf pbint is invokfd on tif vifwport, if tif dlip rfgion
+ * is smbllfr tibn tif vifwport sizf b timfr is kidkfd off to rfpbint tif
+ * wiolf rfgion.
  * </ol>
- * In general this approach is much faster. Compared to the backing store
- * approach this avoids the overhead of maintaining an offscreen buffer and
- * having to do two <code>copyArea</code>s.
- * Compared to the non backing store case this
- * approach will greatly reduce the painted region.
+ * In gfnfrbl tiis bpprobdi is mudi fbstfr. Compbrfd to tif bbdking storf
+ * bpprobdi tiis bvoids tif ovfrifbd of mbintbining bn offsdrffn bufffr bnd
+ * ibving to do two <dodf>dopyArfb</dodf>s.
+ * Compbrfd to tif non bbdking storf dbsf tiis
+ * bpprobdi will grfbtly rfdudf tif pbintfd rfgion.
  * <p>
- * This approach can cause slower times than the backing store approach
- * when the viewport is obscured by another window, or partially offscreen.
- * When another window
- * obscures the viewport the copyArea will copy garbage and a
- * paint event will be generated by the system to inform us we need to
- * paint the newly exposed region. The only way to handle this is to
- * repaint the whole viewport, which can cause slower performance than the
- * backing store case. In most applications very rarely will the user be
- * scrolling while the viewport is obscured by another window or offscreen,
- * so this optimization is usually worth the performance hit when obscured.
+ * Tiis bpprobdi dbn dbusf slowfr timfs tibn tif bbdking storf bpprobdi
+ * wifn tif vifwport is obsdurfd by bnotifr window, or pbrtiblly offsdrffn.
+ * Wifn bnotifr window
+ * obsdurfs tif vifwport tif dopyArfb will dopy gbrbbgf bnd b
+ * pbint fvfnt will bf gfnfrbtfd by tif systfm to inform us wf nffd to
+ * pbint tif nfwly fxposfd rfgion. Tif only wby to ibndlf tiis is to
+ * rfpbint tif wiolf vifwport, wiidi dbn dbusf slowfr pfrformbndf tibn tif
+ * bbdking storf dbsf. In most bpplidbtions vfry rbrfly will tif usfr bf
+ * sdrolling wiilf tif vifwport is obsdurfd by bnotifr window or offsdrffn,
+ * so tiis optimizbtion is usublly worti tif pfrformbndf iit wifn obsdurfd.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Hans Muller
- * @author Philip Milne
- * @see JScrollPane
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @butior Piilip Milnf
+ * @sff JSdrollPbnf
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JViewport extends JComponent implements Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JVifwport fxtfnds JComponfnt implfmfnts Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ViewportUI";
+    privbtf stbtid finbl String uiClbssID = "VifwportUI";
 
-    /** Property used to indicate window blitting should not be done.
+    /** Propfrty usfd to indidbtf window blitting siould not bf donf.
      */
-    static final Object EnableWindowBlit = "EnableWindowBlit";
-
-    /**
-     * True when the viewport dimensions have been determined.
-     * The default is false.
-     */
-    protected boolean isViewSizeSet = false;
+    stbtid finbl Objfdt EnbblfWindowBlit = "EnbblfWindowBlit";
 
     /**
-     * The last <code>viewPosition</code> that we've painted, so we know how
-     * much of the backing store image is valid.
+     * Truf wifn tif vifwport dimfnsions ibvf bffn dftfrminfd.
+     * Tif dffbult is fblsf.
      */
-    protected Point lastPaintPosition = null;
+    protfdtfd boolfbn isVifwSizfSft = fblsf;
 
     /**
-     * True when this viewport is maintaining an offscreen image of its
-     * contents, so that some scrolling can take place using fast "bit-blit"
-     * operations instead of by accessing the view object to construct the
-     * display.  The default is <code>false</code>.
+     * Tif lbst <dodf>vifwPosition</dodf> tibt wf'vf pbintfd, so wf know iow
+     * mudi of tif bbdking storf imbgf is vblid.
+     */
+    protfdtfd Point lbstPbintPosition = null;
+
+    /**
+     * Truf wifn tiis vifwport is mbintbining bn offsdrffn imbgf of its
+     * dontfnts, so tibt somf sdrolling dbn tbkf plbdf using fbst "bit-blit"
+     * opfrbtions instfbd of by bddfssing tif vifw objfdt to donstrudt tif
+     * displby.  Tif dffbult is <dodf>fblsf</dodf>.
      *
-     * @deprecated As of Java 2 platform v1.3
-     * @see #setScrollMode
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3
+     * @sff #sftSdrollModf
      */
-    @Deprecated
-    protected boolean backingStore = false;
+    @Dfprfdbtfd
+    protfdtfd boolfbn bbdkingStorf = fblsf;
 
-    /** The view image used for a backing store. */
-    transient protected Image backingStoreImage = null;
+    /** Tif vifw imbgf usfd for b bbdking storf. */
+    trbnsifnt protfdtfd Imbgf bbdkingStorfImbgf = null;
 
     /**
-     * The <code>scrollUnderway</code> flag is used for components like
-     * <code>JList</code>.  When the downarrow key is pressed on a
-     * <code>JList</code> and the selected
-     * cell is the last in the list, the <code>scrollpane</code> autoscrolls.
-     * Here, the old selected cell needs repainting and so we need
-     * a flag to make the viewport do the optimized painting
-     * only when there is an explicit call to
-     * <code>setViewPosition(Point)</code>.
-     * When <code>setBounds</code> is called through other routes,
-     * the flag is off and the view repaints normally.  Another approach
-     * would be to remove this from the <code>JViewport</code>
-     * class and have the <code>JList</code> manage this case by using
-     * <code>setBackingStoreEnabled</code>.  The default is
-     * <code>false</code>.
+     * Tif <dodf>sdrollUndfrwby</dodf> flbg is usfd for domponfnts likf
+     * <dodf>JList</dodf>.  Wifn tif downbrrow kfy is prfssfd on b
+     * <dodf>JList</dodf> bnd tif sflfdtfd
+     * dfll is tif lbst in tif list, tif <dodf>sdrollpbnf</dodf> butosdrolls.
+     * Hfrf, tif old sflfdtfd dfll nffds rfpbinting bnd so wf nffd
+     * b flbg to mbkf tif vifwport do tif optimizfd pbinting
+     * only wifn tifrf is bn fxplidit dbll to
+     * <dodf>sftVifwPosition(Point)</dodf>.
+     * Wifn <dodf>sftBounds</dodf> is dbllfd tirougi otifr routfs,
+     * tif flbg is off bnd tif vifw rfpbints normblly.  Anotifr bpprobdi
+     * would bf to rfmovf tiis from tif <dodf>JVifwport</dodf>
+     * dlbss bnd ibvf tif <dodf>JList</dodf> mbnbgf tiis dbsf by using
+     * <dodf>sftBbdkingStorfEnbblfd</dodf>.  Tif dffbult is
+     * <dodf>fblsf</dodf>.
      */
-    protected boolean scrollUnderway = false;
+    protfdtfd boolfbn sdrollUndfrwby = fblsf;
 
     /*
-     * Listener that is notified each time the view changes size.
+     * Listfnfr tibt is notififd fbdi timf tif vifw dibngfs sizf.
      */
-    private ComponentListener viewListener = null;
+    privbtf ComponfntListfnfr vifwListfnfr = null;
 
-    /* Only one <code>ChangeEvent</code> is needed per
-     * <code>JViewport</code> instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+    /* Only onf <dodf>CibngfEvfnt</dodf> is nffdfd pfr
+     * <dodf>JVifwport</dodf> instbndf sindf tif
+     * fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.  Tif sourdf
+     * of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
      */
-    private transient ChangeEvent changeEvent = null;
+    privbtf trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
     /**
-      * Use <code>graphics.copyArea</code> to implement scrolling.
-      * This is the fastest for most applications.
+      * Usf <dodf>grbpiids.dopyArfb</dodf> to implfmfnt sdrolling.
+      * Tiis is tif fbstfst for most bpplidbtions.
       *
-      * @see #setScrollMode
-      * @since 1.3
+      * @sff #sftSdrollModf
+      * @sindf 1.3
       */
-    public static final int BLIT_SCROLL_MODE = 1;
+    publid stbtid finbl int BLIT_SCROLL_MODE = 1;
 
     /**
-      * Draws viewport contents into an offscreen image.
-      * This was previously the default mode for <code>JTable</code>.
-      * This mode may offer advantages over "blit mode"
-      * in some cases, but it requires a large chunk of extra RAM.
+      * Drbws vifwport dontfnts into bn offsdrffn imbgf.
+      * Tiis wbs prfviously tif dffbult modf for <dodf>JTbblf</dodf>.
+      * Tiis modf mby offfr bdvbntbgfs ovfr "blit modf"
+      * in somf dbsfs, but it rfquirfs b lbrgf diunk of fxtrb RAM.
       *
-      * @see #setScrollMode
-      * @since 1.3
+      * @sff #sftSdrollModf
+      * @sindf 1.3
       */
-    public static final int BACKINGSTORE_SCROLL_MODE = 2;
+    publid stbtid finbl int BACKINGSTORE_SCROLL_MODE = 2;
 
     /**
-      * This mode uses the very simple method of redrawing the entire
-      * contents of the scrollpane each time it is scrolled.
-      * This was the default behavior in Swing 1.0 and Swing 1.1.
-      * Either of the other two options will provide better performance
-      * in most cases.
+      * Tiis modf usfs tif vfry simplf mftiod of rfdrbwing tif fntirf
+      * dontfnts of tif sdrollpbnf fbdi timf it is sdrollfd.
+      * Tiis wbs tif dffbult bfibvior in Swing 1.0 bnd Swing 1.1.
+      * Eitifr of tif otifr two options will providf bfttfr pfrformbndf
+      * in most dbsfs.
       *
-      * @see #setScrollMode
-      * @since 1.3
+      * @sff #sftSdrollModf
+      * @sindf 1.3
       */
-    public static final int SIMPLE_SCROLL_MODE = 0;
+    publid stbtid finbl int SIMPLE_SCROLL_MODE = 0;
 
     /**
-      * @see #setScrollMode
-      * @since 1.3
+      * @sff #sftSdrollModf
+      * @sindf 1.3
       */
-    private int scrollMode = BLIT_SCROLL_MODE;
+    privbtf int sdrollModf = BLIT_SCROLL_MODE;
 
     //
     // Window blitting:
     //
-    // As mentioned in the javadoc when using windowBlit a paint event
-    // will be generated by the system if copyArea copies a non-visible
-    // portion of the view (in other words, it copies garbage). We are
-    // not guaranteed to receive the paint event before other mouse events,
-    // so we can not be sure we haven't already copied garbage a bunch of
-    // times to different parts of the view. For that reason when a blit
-    // happens and the Component is obscured (the check for obscurity
-    // is not supported on all platforms and is checked via ComponentPeer
-    // methods) the ivar repaintAll is set to true. When paint is received
-    // if repaintAll is true (we previously did a blit) it is set to
-    // false, and if the clip region is smaller than the viewport
-    // waitingForRepaint is set to true and a timer is started. When
-    // the timer fires if waitingForRepaint is true, repaint is invoked.
-    // In the mean time, if the view is asked to scroll and waitingForRepaint
-    // is true, a blit will not happen, instead the non-backing store case
-    // of scrolling will happen, which will reset waitingForRepaint.
-    // waitingForRepaint is set to false in paint when the clip rect is
-    // bigger (or equal) to the size of the viewport.
-    // A Timer is used instead of just a repaint as it appeared to offer
-    // better performance.
+    // As mfntionfd in tif jbvbdod wifn using windowBlit b pbint fvfnt
+    // will bf gfnfrbtfd by tif systfm if dopyArfb dopifs b non-visiblf
+    // portion of tif vifw (in otifr words, it dopifs gbrbbgf). Wf brf
+    // not gubrbntffd to rfdfivf tif pbint fvfnt bfforf otifr mousf fvfnts,
+    // so wf dbn not bf surf wf ibvfn't blrfbdy dopifd gbrbbgf b bundi of
+    // timfs to difffrfnt pbrts of tif vifw. For tibt rfbson wifn b blit
+    // ibppfns bnd tif Componfnt is obsdurfd (tif difdk for obsdurity
+    // is not supportfd on bll plbtforms bnd is difdkfd vib ComponfntPffr
+    // mftiods) tif ivbr rfpbintAll is sft to truf. Wifn pbint is rfdfivfd
+    // if rfpbintAll is truf (wf prfviously did b blit) it is sft to
+    // fblsf, bnd if tif dlip rfgion is smbllfr tibn tif vifwport
+    // wbitingForRfpbint is sft to truf bnd b timfr is stbrtfd. Wifn
+    // tif timfr firfs if wbitingForRfpbint is truf, rfpbint is invokfd.
+    // In tif mfbn timf, if tif vifw is bskfd to sdroll bnd wbitingForRfpbint
+    // is truf, b blit will not ibppfn, instfbd tif non-bbdking storf dbsf
+    // of sdrolling will ibppfn, wiidi will rfsft wbitingForRfpbint.
+    // wbitingForRfpbint is sft to fblsf in pbint wifn tif dlip rfdt is
+    // biggfr (or fqubl) to tif sizf of tif vifwport.
+    // A Timfr is usfd instfbd of just b rfpbint bs it bppfbrfd to offfr
+    // bfttfr pfrformbndf.
 
 
     /**
-     * This is set to true in <code>setViewPosition</code>
-     * if doing a window blit and the viewport is obscured.
+     * Tiis is sft to truf in <dodf>sftVifwPosition</dodf>
+     * if doing b window blit bnd tif vifwport is obsdurfd.
      */
-    private transient boolean repaintAll;
+    privbtf trbnsifnt boolfbn rfpbintAll;
 
     /**
-     * This is set to true in paint, if <code>repaintAll</code>
-     * is true and the clip rectangle does not match the bounds.
-     * If true, and scrolling happens the
-     * repaint manager is not cleared which then allows for the repaint
-     * previously invoked to succeed.
+     * Tiis is sft to truf in pbint, if <dodf>rfpbintAll</dodf>
+     * is truf bnd tif dlip rfdtbnglf dofs not mbtdi tif bounds.
+     * If truf, bnd sdrolling ibppfns tif
+     * rfpbint mbnbgfr is not dlfbrfd wiidi tifn bllows for tif rfpbint
+     * prfviously invokfd to suddffd.
      */
-    private transient boolean waitingForRepaint;
+    privbtf trbnsifnt boolfbn wbitingForRfpbint;
 
     /**
-     * Instead of directly invoking repaint, a <code>Timer</code>
-     * is started and when it fires, repaint is invoked.
+     * Instfbd of dirfdtly invoking rfpbint, b <dodf>Timfr</dodf>
+     * is stbrtfd bnd wifn it firfs, rfpbint is invokfd.
      */
-    private transient Timer repaintTimer;
+    privbtf trbnsifnt Timfr rfpbintTimfr;
 
     /**
-     * Set to true in paintView when paint is invoked.
+     * Sft to truf in pbintVifw wifn pbint is invokfd.
      */
-    private transient boolean inBlitPaint;
+    privbtf trbnsifnt boolfbn inBlitPbint;
 
     /**
-     * Whether or not a valid view has been installed.
+     * Wiftifr or not b vblid vifw ibs bffn instbllfd.
      */
-    private boolean hasHadValidView;
+    privbtf boolfbn ibsHbdVblidVifw;
 
     /**
-     * When view is changed we have to synchronize scrollbar values
-     * with viewport (see the BasicScrollPaneUI#syncScrollPaneWithViewport method).
-     * This flag allows to invoke that method while ScrollPaneLayout#layoutContainer
+     * Wifn vifw is dibngfd wf ibvf to syndironizf sdrollbbr vblufs
+     * witi vifwport (sff tif BbsidSdrollPbnfUI#syndSdrollPbnfWitiVifwport mftiod).
+     * Tiis flbg bllows to invokf tibt mftiod wiilf SdrollPbnfLbyout#lbyoutContbinfr
      * is running.
      */
-    private boolean viewChanged;
+    privbtf boolfbn vifwCibngfd;
 
-    /** Creates a <code>JViewport</code>. */
-    public JViewport() {
-        super();
-        setLayout(createLayoutManager());
-        setOpaque(true);
-        updateUI();
-        setInheritsPopupMenu(true);
+    /** Crfbtfs b <dodf>JVifwport</dodf>. */
+    publid JVifwport() {
+        supfr();
+        sftLbyout(drfbtfLbyoutMbnbgfr());
+        sftOpbquf(truf);
+        updbtfUI();
+        sftInifritsPopupMfnu(truf);
     }
 
 
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Rfturns tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return a <code>ViewportUI</code> object
-     * @since 1.3
+     * @rfturn b <dodf>VifwportUI</dodf> objfdt
+     * @sindf 1.3
      */
-    public ViewportUI getUI() {
-        return (ViewportUI)ui;
+    publid VifwportUI gftUI() {
+        rfturn (VifwportUI)ui;
     }
 
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>ViewportUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
-     * @since 1.3
+     * @pbrbm ui  tif <dodf>VifwportUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
+     * @sindf 1.3
      */
-    public void setUI(ViewportUI ui) {
-        super.setUI(ui);
+    publid void sftUI(VifwportUI ui) {
+        supfr.sftUI(ui);
     }
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ViewportUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((VifwportUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Rfturns b string tibt spfdififs tif nbmf of tif L&bmp;F dlbss
+     * tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "ViewportUI"
+     * @rfturn tif string "VifwportUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Sets the <code>JViewport</code>'s one lightweight child,
-     * which can be <code>null</code>.
-     * (Since there is only one child which occupies the entire viewport,
-     * the <code>constraints</code> and <code>index</code>
-     * arguments are ignored.)
+     * Sfts tif <dodf>JVifwport</dodf>'s onf ligitwfigit diild,
+     * wiidi dbn bf <dodf>null</dodf>.
+     * (Sindf tifrf is only onf diild wiidi oddupifs tif fntirf vifwport,
+     * tif <dodf>donstrbints</dodf> bnd <dodf>indfx</dodf>
+     * brgumfnts brf ignorfd.)
      *
-     * @param child       the lightweight <code>child</code> of the viewport
-     * @param constraints the <code>constraints</code> to be respected
-     * @param index       the index
-     * @see #setView
+     * @pbrbm diild       tif ligitwfigit <dodf>diild</dodf> of tif vifwport
+     * @pbrbm donstrbints tif <dodf>donstrbints</dodf> to bf rfspfdtfd
+     * @pbrbm indfx       tif indfx
+     * @sff #sftVifw
      */
-    protected void addImpl(Component child, Object constraints, int index) {
-      setView(child);
+    protfdtfd void bddImpl(Componfnt diild, Objfdt donstrbints, int indfx) {
+      sftVifw(diild);
     }
 
 
     /**
-     * Removes the <code>Viewport</code>s one lightweight child.
+     * Rfmovfs tif <dodf>Vifwport</dodf>s onf ligitwfigit diild.
      *
-     * @see #setView
+     * @sff #sftVifw
      */
-    public void remove(Component child) {
-        child.removeComponentListener(viewListener);
-        super.remove(child);
+    publid void rfmovf(Componfnt diild) {
+        diild.rfmovfComponfntListfnfr(vifwListfnfr);
+        supfr.rfmovf(diild);
     }
 
     /**
-     * Scrolls the view so that <code>Rectangle</code>
-     * within the view becomes visible.
+     * Sdrolls tif vifw so tibt <dodf>Rfdtbnglf</dodf>
+     * witiin tif vifw bfdomfs visiblf.
      * <p>
-     * This attempts to validate the view before scrolling if the
-     * view is currently not valid - <code>isValid</code> returns false.
-     * To avoid excessive validation when the containment hierarchy is
-     * being created this will not validate if one of the ancestors does not
-     * have a peer, or there is no validate root ancestor, or one of the
-     * ancestors is not a <code>Window</code> or <code>Applet</code>.
+     * Tiis bttfmpts to vblidbtf tif vifw bfforf sdrolling if tif
+     * vifw is durrfntly not vblid - <dodf>isVblid</dodf> rfturns fblsf.
+     * To bvoid fxdfssivf vblidbtion wifn tif dontbinmfnt iifrbrdiy is
+     * bfing drfbtfd tiis will not vblidbtf if onf of tif bndfstors dofs not
+     * ibvf b pffr, or tifrf is no vblidbtf root bndfstor, or onf of tif
+     * bndfstors is not b <dodf>Window</dodf> or <dodf>Applft</dodf>.
      * <p>
-     * Note that this method will not scroll outside of the
-     * valid viewport; for example, if <code>contentRect</code> is larger
-     * than the viewport, scrolling will be confined to the viewport's
+     * Notf tibt tiis mftiod will not sdroll outsidf of tif
+     * vblid vifwport; for fxbmplf, if <dodf>dontfntRfdt</dodf> is lbrgfr
+     * tibn tif vifwport, sdrolling will bf donfinfd to tif vifwport's
      * bounds.
      *
-     * @param contentRect the <code>Rectangle</code> to display
-     * @see JComponent#isValidateRoot
-     * @see java.awt.Component#isValid
-     * @see java.awt.Component#getPeer
+     * @pbrbm dontfntRfdt tif <dodf>Rfdtbnglf</dodf> to displby
+     * @sff JComponfnt#isVblidbtfRoot
+     * @sff jbvb.bwt.Componfnt#isVblid
+     * @sff jbvb.bwt.Componfnt#gftPffr
      */
-    public void scrollRectToVisible(Rectangle contentRect) {
-        Component view = getView();
+    publid void sdrollRfdtToVisiblf(Rfdtbnglf dontfntRfdt) {
+        Componfnt vifw = gftVifw();
 
-        if (view == null) {
-            return;
-        } else {
-            if (!view.isValid()) {
-                // If the view is not valid, validate. scrollRectToVisible
-                // may fail if the view is not valid first, contentRect
-                // could be bigger than invalid size.
-                validateView();
+        if (vifw == null) {
+            rfturn;
+        } flsf {
+            if (!vifw.isVblid()) {
+                // If tif vifw is not vblid, vblidbtf. sdrollRfdtToVisiblf
+                // mby fbil if tif vifw is not vblid first, dontfntRfdt
+                // dould bf biggfr tibn invblid sizf.
+                vblidbtfVifw();
             }
             int dx, dy;
 
-            dx = positionAdjustment(getWidth(), contentRect.width, contentRect.x);
-            dy = positionAdjustment(getHeight(), contentRect.height, contentRect.y);
+            dx = positionAdjustmfnt(gftWidti(), dontfntRfdt.widti, dontfntRfdt.x);
+            dy = positionAdjustmfnt(gftHfigit(), dontfntRfdt.ifigit, dontfntRfdt.y);
 
             if (dx != 0 || dy != 0) {
-                Point viewPosition = getViewPosition();
-                Dimension viewSize = view.getSize();
-                int startX = viewPosition.x;
-                int startY = viewPosition.y;
-                Dimension extent = getExtentSize();
+                Point vifwPosition = gftVifwPosition();
+                Dimfnsion vifwSizf = vifw.gftSizf();
+                int stbrtX = vifwPosition.x;
+                int stbrtY = vifwPosition.y;
+                Dimfnsion fxtfnt = gftExtfntSizf();
 
-                viewPosition.x -= dx;
-                viewPosition.y -= dy;
-                // Only constrain the location if the view is valid. If the
-                // the view isn't valid, it typically indicates the view
-                // isn't visible yet and most likely has a bogus size as will
-                // we, and therefore we shouldn't constrain the scrolling
-                if (view.isValid()) {
-                    if (getParent().getComponentOrientation().isLeftToRight()) {
-                        if (viewPosition.x + extent.width > viewSize.width) {
-                            viewPosition.x = Math.max(0, viewSize.width - extent.width);
-                        } else if (viewPosition.x < 0) {
-                            viewPosition.x = 0;
+                vifwPosition.x -= dx;
+                vifwPosition.y -= dy;
+                // Only donstrbin tif lodbtion if tif vifw is vblid. If tif
+                // tif vifw isn't vblid, it typidblly indidbtfs tif vifw
+                // isn't visiblf yft bnd most likfly ibs b bogus sizf bs will
+                // wf, bnd tifrfforf wf siouldn't donstrbin tif sdrolling
+                if (vifw.isVblid()) {
+                    if (gftPbrfnt().gftComponfntOrifntbtion().isLfftToRigit()) {
+                        if (vifwPosition.x + fxtfnt.widti > vifwSizf.widti) {
+                            vifwPosition.x = Mbti.mbx(0, vifwSizf.widti - fxtfnt.widti);
+                        } flsf if (vifwPosition.x < 0) {
+                            vifwPosition.x = 0;
                         }
-                    } else {
-                        if (extent.width > viewSize.width) {
-                            viewPosition.x = viewSize.width - extent.width;
-                        } else {
-                            viewPosition.x = Math.max(0, Math.min(viewSize.width - extent.width, viewPosition.x));
+                    } flsf {
+                        if (fxtfnt.widti > vifwSizf.widti) {
+                            vifwPosition.x = vifwSizf.widti - fxtfnt.widti;
+                        } flsf {
+                            vifwPosition.x = Mbti.mbx(0, Mbti.min(vifwSizf.widti - fxtfnt.widti, vifwPosition.x));
                         }
                     }
-                    if (viewPosition.y + extent.height > viewSize.height) {
-                        viewPosition.y = Math.max(0, viewSize.height -
-                                                  extent.height);
+                    if (vifwPosition.y + fxtfnt.ifigit > vifwSizf.ifigit) {
+                        vifwPosition.y = Mbti.mbx(0, vifwSizf.ifigit -
+                                                  fxtfnt.ifigit);
                     }
-                    else if (viewPosition.y < 0) {
-                        viewPosition.y = 0;
+                    flsf if (vifwPosition.y < 0) {
+                        vifwPosition.y = 0;
                     }
                 }
-                if (viewPosition.x != startX || viewPosition.y != startY) {
-                    setViewPosition(viewPosition);
-                    // NOTE: How JViewport currently works with the
-                    // backing store is not foolproof. The sequence of
-                    // events when setViewPosition
-                    // (scrollRectToVisible) is called is to reset the
-                    // views bounds, which causes a repaint on the
-                    // visible region and sets an ivar indicating
-                    // scrolling (scrollUnderway). When
-                    // JViewport.paint is invoked if scrollUnderway is
-                    // true, the backing store is blitted.  This fails
-                    // if between the time setViewPosition is invoked
-                    // and paint is received another repaint is queued
-                    // indicating part of the view is invalid. There
-                    // is no way for JViewport to notice another
-                    // repaint has occurred and it ends up blitting
-                    // what is now a dirty region and the repaint is
-                    // never delivered.
-                    // It just so happens JTable encounters this
-                    // behavior by way of scrollRectToVisible, for
-                    // this reason scrollUnderway is set to false
-                    // here, which effectively disables the backing
-                    // store.
-                    scrollUnderway = false;
+                if (vifwPosition.x != stbrtX || vifwPosition.y != stbrtY) {
+                    sftVifwPosition(vifwPosition);
+                    // NOTE: How JVifwport durrfntly works witi tif
+                    // bbdking storf is not foolproof. Tif sfqufndf of
+                    // fvfnts wifn sftVifwPosition
+                    // (sdrollRfdtToVisiblf) is dbllfd is to rfsft tif
+                    // vifws bounds, wiidi dbusfs b rfpbint on tif
+                    // visiblf rfgion bnd sfts bn ivbr indidbting
+                    // sdrolling (sdrollUndfrwby). Wifn
+                    // JVifwport.pbint is invokfd if sdrollUndfrwby is
+                    // truf, tif bbdking storf is blittfd.  Tiis fbils
+                    // if bftwffn tif timf sftVifwPosition is invokfd
+                    // bnd pbint is rfdfivfd bnotifr rfpbint is qufufd
+                    // indidbting pbrt of tif vifw is invblid. Tifrf
+                    // is no wby for JVifwport to notidf bnotifr
+                    // rfpbint ibs oddurrfd bnd it fnds up blitting
+                    // wibt is now b dirty rfgion bnd tif rfpbint is
+                    // nfvfr dflivfrfd.
+                    // It just so ibppfns JTbblf fndountfrs tiis
+                    // bfibvior by wby of sdrollRfdtToVisiblf, for
+                    // tiis rfbson sdrollUndfrwby is sft to fblsf
+                    // ifrf, wiidi ffffdtivfly disbblfs tif bbdking
+                    // storf.
+                    sdrollUndfrwby = fblsf;
                 }
             }
         }
     }
 
     /**
-     * Ascends the <code>Viewport</code>'s parents stopping when
-     * a component is found that returns
-     * <code>true</code> to <code>isValidateRoot</code>.
-     * If all the <code>Component</code>'s  parents are visible,
-     * <code>validate</code> will then be invoked on it. The
-     * <code>RepaintManager</code> is then invoked with
-     * <code>removeInvalidComponent</code>. This
-     * is the synchronous version of a <code>revalidate</code>.
+     * Asdfnds tif <dodf>Vifwport</dodf>'s pbrfnts stopping wifn
+     * b domponfnt is found tibt rfturns
+     * <dodf>truf</dodf> to <dodf>isVblidbtfRoot</dodf>.
+     * If bll tif <dodf>Componfnt</dodf>'s  pbrfnts brf visiblf,
+     * <dodf>vblidbtf</dodf> will tifn bf invokfd on it. Tif
+     * <dodf>RfpbintMbnbgfr</dodf> is tifn invokfd witi
+     * <dodf>rfmovfInvblidComponfnt</dodf>. Tiis
+     * is tif syndironous vfrsion of b <dodf>rfvblidbtf</dodf>.
      */
-    private void validateView() {
-        Component validateRoot = SwingUtilities.getValidateRoot(this, false);
+    privbtf void vblidbtfVifw() {
+        Componfnt vblidbtfRoot = SwingUtilitifs.gftVblidbtfRoot(tiis, fblsf);
 
-        if (validateRoot == null) {
-            return;
+        if (vblidbtfRoot == null) {
+            rfturn;
         }
 
-        // Validate the root.
-        validateRoot.validate();
+        // Vblidbtf tif root.
+        vblidbtfRoot.vblidbtf();
 
-        // And let the RepaintManager it does not have to validate from
-        // validateRoot anymore.
-        RepaintManager rm = RepaintManager.currentManager(this);
+        // And lft tif RfpbintMbnbgfr it dofs not ibvf to vblidbtf from
+        // vblidbtfRoot bnymorf.
+        RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(tiis);
 
         if (rm != null) {
-            rm.removeInvalidComponent((JComponent)validateRoot);
+            rm.rfmovfInvblidComponfnt((JComponfnt)vblidbtfRoot);
         }
     }
 
-     /*  Used by the scrollRectToVisible method to determine the
-      *  proper direction and amount to move by. The integer variables are named
-      *  width, but this method is applicable to height also. The code assumes that
-      *  parentWidth/childWidth are positive and childAt can be negative.
+     /*  Usfd by tif sdrollRfdtToVisiblf mftiod to dftfrminf tif
+      *  propfr dirfdtion bnd bmount to movf by. Tif intfgfr vbribblfs brf nbmfd
+      *  widti, but tiis mftiod is bpplidbblf to ifigit blso. Tif dodf bssumfs tibt
+      *  pbrfntWidti/diildWidti brf positivf bnd diildAt dbn bf nfgbtivf.
       */
-    private int positionAdjustment(int parentWidth, int childWidth, int childAt)    {
+    privbtf int positionAdjustmfnt(int pbrfntWidti, int diildWidti, int diildAt)    {
 
         //   +-----+
-        //   | --- |     No Change
+        //   | --- |     No Cibngf
         //   +-----+
-        if (childAt >= 0 && childWidth + childAt <= parentWidth)    {
-            return 0;
+        if (diildAt >= 0 && diildWidti + diildAt <= pbrfntWidti)    {
+            rfturn 0;
         }
 
         //   +-----+
-        //  ---------   No Change
+        //  ---------   No Cibngf
         //   +-----+
-        if (childAt <= 0 && childWidth + childAt >= parentWidth) {
-            return 0;
+        if (diildAt <= 0 && diildWidti + diildAt >= pbrfntWidti) {
+            rfturn 0;
         }
 
         //   +-----+          +-----+
         //   |   ----    ->   | ----|
         //   +-----+          +-----+
-        if (childAt > 0 && childWidth <= parentWidth)    {
-            return -childAt + parentWidth - childWidth;
+        if (diildAt > 0 && diildWidti <= pbrfntWidti)    {
+            rfturn -diildAt + pbrfntWidti - diildWidti;
         }
 
         //   +-----+             +-----+
         //   |  --------  ->     |--------
         //   +-----+             +-----+
-        if (childAt >= 0 && childWidth >= parentWidth)   {
-            return -childAt;
+        if (diildAt >= 0 && diildWidti >= pbrfntWidti)   {
+            rfturn -diildAt;
         }
 
         //   +-----+          +-----+
         // ----    |     ->   |---- |
         //   +-----+          +-----+
-        if (childAt <= 0 && childWidth <= parentWidth)   {
-            return -childAt;
+        if (diildAt <= 0 && diildWidti <= pbrfntWidti)   {
+            rfturn -diildAt;
         }
 
         //   +-----+             +-----+
         //-------- |      ->   --------|
         //   +-----+             +-----+
-        if (childAt < 0 && childWidth >= parentWidth)    {
-            return -childAt + parentWidth - childWidth;
+        if (diildAt < 0 && diildWidti >= pbrfntWidti)    {
+            rfturn -diildAt + pbrfntWidti - diildWidti;
         }
 
-        return 0;
+        rfturn 0;
     }
 
 
     /**
-     * The viewport "scrolls" its child (called the "view") by the
-     * normal parent/child clipping (typically the view is moved in
-     * the opposite direction of the scroll).  A non-<code>null</code> border,
-     * or non-zero insets, isn't supported, to prevent the geometry
-     * of this component from becoming complex enough to inhibit
-     * subclassing.  To create a <code>JViewport</code> with a border,
-     * add it to a <code>JPanel</code> that has a border.
-     * <p>Note:  If <code>border</code> is non-<code>null</code>, this
-     * method will throw an exception as borders are not supported on
-     * a <code>JViewPort</code>.
+     * Tif vifwport "sdrolls" its diild (dbllfd tif "vifw") by tif
+     * normbl pbrfnt/diild dlipping (typidblly tif vifw is movfd in
+     * tif oppositf dirfdtion of tif sdroll).  A non-<dodf>null</dodf> bordfr,
+     * or non-zfro insfts, isn't supportfd, to prfvfnt tif gfomftry
+     * of tiis domponfnt from bfdoming domplfx fnougi to iniibit
+     * subdlbssing.  To drfbtf b <dodf>JVifwport</dodf> witi b bordfr,
+     * bdd it to b <dodf>JPbnfl</dodf> tibt ibs b bordfr.
+     * <p>Notf:  If <dodf>bordfr</dodf> is non-<dodf>null</dodf>, tiis
+     * mftiod will tirow bn fxdfption bs bordfrs brf not supportfd on
+     * b <dodf>JVifwPort</dodf>.
      *
-     * @param border the <code>Border</code> to set
-     * @exception IllegalArgumentException this method is not implemented
+     * @pbrbm bordfr tif <dodf>Bordfr</dodf> to sft
+     * @fxdfption IllfgblArgumfntExdfption tiis mftiod is not implfmfntfd
      */
-    public final void setBorder(Border border) {
-        if (border != null) {
-            throw new IllegalArgumentException("JViewport.setBorder() not supported");
+    publid finbl void sftBordfr(Bordfr bordfr) {
+        if (bordfr != null) {
+            tirow nfw IllfgblArgumfntExdfption("JVifwport.sftBordfr() not supportfd");
         }
     }
 
 
     /**
-     * Returns the insets (border) dimensions as (0,0,0,0), since borders
-     * are not supported on a <code>JViewport</code>.
+     * Rfturns tif insfts (bordfr) dimfnsions bs (0,0,0,0), sindf bordfrs
+     * brf not supportfd on b <dodf>JVifwport</dodf>.
      *
-     * @return a <code>Rectangle</code> of zero dimension and zero origin
-     * @see #setBorder
+     * @rfturn b <dodf>Rfdtbnglf</dodf> of zfro dimfnsion bnd zfro origin
+     * @sff #sftBordfr
      */
-    public final Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    publid finbl Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
     /**
-     * Returns an <code>Insets</code> object containing this
-     * <code>JViewport</code>s inset values.  The passed-in
-     * <code>Insets</code> object will be reinitialized, and
-     * all existing values within this object are overwritten.
+     * Rfturns bn <dodf>Insfts</dodf> objfdt dontbining tiis
+     * <dodf>JVifwport</dodf>s insft vblufs.  Tif pbssfd-in
+     * <dodf>Insfts</dodf> objfdt will bf rfinitiblizfd, bnd
+     * bll fxisting vblufs witiin tiis objfdt brf ovfrwrittfn.
      *
-     * @param insets the <code>Insets</code> object which can be reused
-     * @return this viewports inset values
-     * @see #getInsets
-     * @beaninfo
-     *   expert: true
+     * @pbrbm insfts tif <dodf>Insfts</dodf> objfdt wiidi dbn bf rfusfd
+     * @rfturn tiis vifwports insft vblufs
+     * @sff #gftInsfts
+     * @bfbninfo
+     *   fxpfrt: truf
      */
-    public final Insets getInsets(Insets insets) {
-        insets.left = insets.top = insets.right = insets.bottom = 0;
-        return insets;
+    publid finbl Insfts gftInsfts(Insfts insfts) {
+        insfts.lfft = insfts.top = insfts.rigit = insfts.bottom = 0;
+        rfturn insfts;
     }
 
 
-    private Graphics getBackingStoreGraphics(Graphics g) {
-        Graphics bsg = backingStoreImage.getGraphics();
-        bsg.setColor(g.getColor());
-        bsg.setFont(g.getFont());
-        bsg.setClip(g.getClipBounds());
-        return bsg;
+    privbtf Grbpiids gftBbdkingStorfGrbpiids(Grbpiids g) {
+        Grbpiids bsg = bbdkingStorfImbgf.gftGrbpiids();
+        bsg.sftColor(g.gftColor());
+        bsg.sftFont(g.gftFont());
+        bsg.sftClip(g.gftClipBounds());
+        rfturn bsg;
     }
 
 
-    private void paintViaBackingStore(Graphics g) {
-        Graphics bsg = getBackingStoreGraphics(g);
+    privbtf void pbintVibBbdkingStorf(Grbpiids g) {
+        Grbpiids bsg = gftBbdkingStorfGrbpiids(g);
         try {
-            super.paint(bsg);
-            g.drawImage(backingStoreImage, 0, 0, this);
-        } finally {
-            bsg.dispose();
+            supfr.pbint(bsg);
+            g.drbwImbgf(bbdkingStorfImbgf, 0, 0, tiis);
+        } finblly {
+            bsg.disposf();
         }
     }
 
-    private void paintViaBackingStore(Graphics g, Rectangle oClip) {
-        Graphics bsg = getBackingStoreGraphics(g);
+    privbtf void pbintVibBbdkingStorf(Grbpiids g, Rfdtbnglf oClip) {
+        Grbpiids bsg = gftBbdkingStorfGrbpiids(g);
         try {
-            super.paint(bsg);
-            g.setClip(oClip);
-            g.drawImage(backingStoreImage, 0, 0, this);
-        } finally {
-            bsg.dispose();
+            supfr.pbint(bsg);
+            g.sftClip(oClip);
+            g.drbwImbgf(bbdkingStorfImbgf, 0, 0, tiis);
+        } finblly {
+            bsg.disposf();
         }
     }
 
     /**
-     * The <code>JViewport</code> overrides the default implementation of
-     * this method (in <code>JComponent</code>) to return false.
-     * This ensures
-     * that the drawing machinery will call the <code>Viewport</code>'s
-     * <code>paint</code>
-     * implementation rather than messaging the <code>JViewport</code>'s
-     * children directly.
+     * Tif <dodf>JVifwport</dodf> ovfrridfs tif dffbult implfmfntbtion of
+     * tiis mftiod (in <dodf>JComponfnt</dodf>) to rfturn fblsf.
+     * Tiis fnsurfs
+     * tibt tif drbwing mbdiinfry will dbll tif <dodf>Vifwport</dodf>'s
+     * <dodf>pbint</dodf>
+     * implfmfntbtion rbtifr tibn mfssbging tif <dodf>JVifwport</dodf>'s
+     * diildrfn dirfdtly.
      *
-     * @return false
+     * @rfturn fblsf
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return false;
+    publid boolfbn isOptimizfdDrbwingEnbblfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns true if scroll mode is a {@code BACKINGSTORE_SCROLL_MODE} to cause
-     * painting to originate from {@code JViewport}, or one of its
-     * ancestors. Otherwise returns {@code false}.
+     * Rfturns truf if sdroll modf is b {@dodf BACKINGSTORE_SCROLL_MODE} to dbusf
+     * pbinting to originbtf from {@dodf JVifwport}, or onf of its
+     * bndfstors. Otifrwisf rfturns {@dodf fblsf}.
      *
-     * @return true if scroll mode is a {@code BACKINGSTORE_SCROLL_MODE}.
-     * @see JComponent#isPaintingOrigin()
+     * @rfturn truf if sdroll modf is b {@dodf BACKINGSTORE_SCROLL_MODE}.
+     * @sff JComponfnt#isPbintingOrigin()
      */
-    protected boolean isPaintingOrigin() {
-        return scrollMode == BACKINGSTORE_SCROLL_MODE;
+    protfdtfd boolfbn isPbintingOrigin() {
+        rfturn sdrollModf == BACKINGSTORE_SCROLL_MODE;
     }
 
 
     /**
-     * Only used by the paint method below.
+     * Only usfd by tif pbint mftiod bflow.
      */
-    private Point getViewLocation() {
-        Component view = getView();
-        if (view != null) {
-            return view.getLocation();
+    privbtf Point gftVifwLodbtion() {
+        Componfnt vifw = gftVifw();
+        if (vifw != null) {
+            rfturn vifw.gftLodbtion();
         }
-        else {
-            return new Point(0,0);
+        flsf {
+            rfturn nfw Point(0,0);
         }
     }
 
     /**
-     * Depending on whether the <code>backingStore</code> is enabled,
-     * either paint the image through the backing store or paint
-     * just the recently exposed part, using the backing store
-     * to "blit" the remainder.
-     * <blockquote>
-     * The term "blit" is the pronounced version of the PDP-10
-     * BLT (BLock Transfer) instruction, which copied a block of
-     * bits. (In case you were curious.)
-     * </blockquote>
+     * Dfpfnding on wiftifr tif <dodf>bbdkingStorf</dodf> is fnbblfd,
+     * fitifr pbint tif imbgf tirougi tif bbdking storf or pbint
+     * just tif rfdfntly fxposfd pbrt, using tif bbdking storf
+     * to "blit" tif rfmbindfr.
+     * <blodkquotf>
+     * Tif tfrm "blit" is tif pronoundfd vfrsion of tif PDP-10
+     * BLT (BLodk Trbnsffr) instrudtion, wiidi dopifd b blodk of
+     * bits. (In dbsf you wfrf durious.)
+     * </blodkquotf>
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint
      */
-    public void paint(Graphics g)
+    publid void pbint(Grbpiids g)
     {
-        int width = getWidth();
-        int height = getHeight();
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
 
-        if ((width <= 0) || (height <= 0)) {
-            return;
+        if ((widti <= 0) || (ifigit <= 0)) {
+            rfturn;
         }
 
-        if (inBlitPaint) {
-            // We invoked paint as part of copyArea cleanup, let it through.
-            super.paint(g);
-            return;
+        if (inBlitPbint) {
+            // Wf invokfd pbint bs pbrt of dopyArfb dlfbnup, lft it tirougi.
+            supfr.pbint(g);
+            rfturn;
         }
 
-        if (repaintAll) {
-            repaintAll = false;
-            Rectangle clipB = g.getClipBounds();
-            if (clipB.width < getWidth() ||
-                clipB.height < getHeight()) {
-                waitingForRepaint = true;
-                if (repaintTimer == null) {
-                    repaintTimer = createRepaintTimer();
+        if (rfpbintAll) {
+            rfpbintAll = fblsf;
+            Rfdtbnglf dlipB = g.gftClipBounds();
+            if (dlipB.widti < gftWidti() ||
+                dlipB.ifigit < gftHfigit()) {
+                wbitingForRfpbint = truf;
+                if (rfpbintTimfr == null) {
+                    rfpbintTimfr = drfbtfRfpbintTimfr();
                 }
-                repaintTimer.stop();
-                repaintTimer.start();
-                // We really don't need to paint, a future repaint will
-                // take care of it, but if we don't we get an ugly flicker.
+                rfpbintTimfr.stop();
+                rfpbintTimfr.stbrt();
+                // Wf rfblly don't nffd to pbint, b futurf rfpbint will
+                // tbkf dbrf of it, but if wf don't wf gft bn ugly flidkfr.
             }
-            else {
-                if (repaintTimer != null) {
-                    repaintTimer.stop();
+            flsf {
+                if (rfpbintTimfr != null) {
+                    rfpbintTimfr.stop();
                 }
-                waitingForRepaint = false;
+                wbitingForRfpbint = fblsf;
             }
         }
-        else if (waitingForRepaint) {
-            // Need a complete repaint before resetting waitingForRepaint
-            Rectangle clipB = g.getClipBounds();
-            if (clipB.width >= getWidth() &&
-                clipB.height >= getHeight()) {
-                waitingForRepaint = false;
-                repaintTimer.stop();
+        flsf if (wbitingForRfpbint) {
+            // Nffd b domplftf rfpbint bfforf rfsftting wbitingForRfpbint
+            Rfdtbnglf dlipB = g.gftClipBounds();
+            if (dlipB.widti >= gftWidti() &&
+                dlipB.ifigit >= gftHfigit()) {
+                wbitingForRfpbint = fblsf;
+                rfpbintTimfr.stop();
             }
         }
 
-        if (!backingStore || isBlitting() || getView() == null) {
-            super.paint(g);
-            lastPaintPosition = getViewLocation();
-            return;
+        if (!bbdkingStorf || isBlitting() || gftVifw() == null) {
+            supfr.pbint(g);
+            lbstPbintPosition = gftVifwLodbtion();
+            rfturn;
         }
 
-        // If the view is smaller than the viewport and we are not opaque
-        // (that is, we won't paint our background), we should set the
-        // clip. Otherwise, as the bounds of the view vary, we will
-        // blit garbage into the exposed areas.
-        Rectangle viewBounds = getView().getBounds();
-        if (!isOpaque()) {
-            g.clipRect(0, 0, viewBounds.width, viewBounds.height);
+        // If tif vifw is smbllfr tibn tif vifwport bnd wf brf not opbquf
+        // (tibt is, wf won't pbint our bbdkground), wf siould sft tif
+        // dlip. Otifrwisf, bs tif bounds of tif vifw vbry, wf will
+        // blit gbrbbgf into tif fxposfd brfbs.
+        Rfdtbnglf vifwBounds = gftVifw().gftBounds();
+        if (!isOpbquf()) {
+            g.dlipRfdt(0, 0, vifwBounds.widti, vifwBounds.ifigit);
         }
 
-        if (backingStoreImage == null) {
-            // Backing store is enabled but this is the first call to paint.
-            // Create the backing store, paint it and then copy to g.
-            // The backing store image will be created with the size of
-            // the viewport. We must make sure the clip region is the
-            // same size, otherwise when scrolling the backing image
-            // the region outside of the clipped region will not be painted,
-            // and result in empty areas.
-            backingStoreImage = createImage(width, height);
-            Rectangle clip = g.getClipBounds();
-            if (clip.width != width || clip.height != height) {
-                if (!isOpaque()) {
-                    g.setClip(0, 0, Math.min(viewBounds.width, width),
-                              Math.min(viewBounds.height, height));
+        if (bbdkingStorfImbgf == null) {
+            // Bbdking storf is fnbblfd but tiis is tif first dbll to pbint.
+            // Crfbtf tif bbdking storf, pbint it bnd tifn dopy to g.
+            // Tif bbdking storf imbgf will bf drfbtfd witi tif sizf of
+            // tif vifwport. Wf must mbkf surf tif dlip rfgion is tif
+            // sbmf sizf, otifrwisf wifn sdrolling tif bbdking imbgf
+            // tif rfgion outsidf of tif dlippfd rfgion will not bf pbintfd,
+            // bnd rfsult in fmpty brfbs.
+            bbdkingStorfImbgf = drfbtfImbgf(widti, ifigit);
+            Rfdtbnglf dlip = g.gftClipBounds();
+            if (dlip.widti != widti || dlip.ifigit != ifigit) {
+                if (!isOpbquf()) {
+                    g.sftClip(0, 0, Mbti.min(vifwBounds.widti, widti),
+                              Mbti.min(vifwBounds.ifigit, ifigit));
                 }
-                else {
-                    g.setClip(0, 0, width, height);
+                flsf {
+                    g.sftClip(0, 0, widti, ifigit);
                 }
-                paintViaBackingStore(g, clip);
+                pbintVibBbdkingStorf(g, dlip);
             }
-            else {
-                paintViaBackingStore(g);
+            flsf {
+                pbintVibBbdkingStorf(g);
             }
         }
-        else {
-            if (!scrollUnderway || lastPaintPosition.equals(getViewLocation())) {
-                // No scrolling happened: repaint required area via backing store.
-                paintViaBackingStore(g);
-            } else {
-                // The image was scrolled. Manipulate the backing store and flush it to g.
-                Point blitFrom = new Point();
-                Point blitTo = new Point();
-                Dimension blitSize = new Dimension();
-                Rectangle blitPaint = new Rectangle();
+        flsf {
+            if (!sdrollUndfrwby || lbstPbintPosition.fqubls(gftVifwLodbtion())) {
+                // No sdrolling ibppfnfd: rfpbint rfquirfd brfb vib bbdking storf.
+                pbintVibBbdkingStorf(g);
+            } flsf {
+                // Tif imbgf wbs sdrollfd. Mbnipulbtf tif bbdking storf bnd flusi it to g.
+                Point blitFrom = nfw Point();
+                Point blitTo = nfw Point();
+                Dimfnsion blitSizf = nfw Dimfnsion();
+                Rfdtbnglf blitPbint = nfw Rfdtbnglf();
 
-                Point newLocation = getViewLocation();
-                int dx = newLocation.x - lastPaintPosition.x;
-                int dy = newLocation.y - lastPaintPosition.y;
-                boolean canBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize, blitPaint);
-                if (!canBlit) {
-                    // The image was either moved diagonally or
-                    // moved by more than the image size: paint normally.
-                    paintViaBackingStore(g);
-                } else {
+                Point nfwLodbtion = gftVifwLodbtion();
+                int dx = nfwLodbtion.x - lbstPbintPosition.x;
+                int dy = nfwLodbtion.y - lbstPbintPosition.y;
+                boolfbn dbnBlit = domputfBlit(dx, dy, blitFrom, blitTo, blitSizf, blitPbint);
+                if (!dbnBlit) {
+                    // Tif imbgf wbs fitifr movfd dibgonblly or
+                    // movfd by morf tibn tif imbgf sizf: pbint normblly.
+                    pbintVibBbdkingStorf(g);
+                } flsf {
                     int bdx = blitTo.x - blitFrom.x;
                     int bdy = blitTo.y - blitFrom.y;
 
-                    // Move the relevant part of the backing store.
-                    Rectangle clip = g.getClipBounds();
-                    // We don't want to inherit the clip region when copying
-                    // bits, if it is inherited it will result in not moving
-                    // all of the image resulting in garbage appearing on
-                    // the screen.
-                    g.setClip(0, 0, width, height);
-                    Graphics bsg = getBackingStoreGraphics(g);
+                    // Movf tif rflfvbnt pbrt of tif bbdking storf.
+                    Rfdtbnglf dlip = g.gftClipBounds();
+                    // Wf don't wbnt to inifrit tif dlip rfgion wifn dopying
+                    // bits, if it is inifritfd it will rfsult in not moving
+                    // bll of tif imbgf rfsulting in gbrbbgf bppfbring on
+                    // tif sdrffn.
+                    g.sftClip(0, 0, widti, ifigit);
+                    Grbpiids bsg = gftBbdkingStorfGrbpiids(g);
                     try {
-                        bsg.copyArea(blitFrom.x, blitFrom.y, blitSize.width, blitSize.height, bdx, bdy);
+                        bsg.dopyArfb(blitFrom.x, blitFrom.y, blitSizf.widti, blitSizf.ifigit, bdx, bdy);
 
-                        g.setClip(clip.x, clip.y, clip.width, clip.height);
-                        // Paint the rest of the view; the part that has just been exposed.
-                        Rectangle r = viewBounds.intersection(blitPaint);
-                        bsg.setClip(r);
-                        super.paint(bsg);
+                        g.sftClip(dlip.x, dlip.y, dlip.widti, dlip.ifigit);
+                        // Pbint tif rfst of tif vifw; tif pbrt tibt ibs just bffn fxposfd.
+                        Rfdtbnglf r = vifwBounds.intfrsfdtion(blitPbint);
+                        bsg.sftClip(r);
+                        supfr.pbint(bsg);
 
-                        // Copy whole of the backing store to g.
-                        g.drawImage(backingStoreImage, 0, 0, this);
-                    } finally {
-                        bsg.dispose();
+                        // Copy wiolf of tif bbdking storf to g.
+                        g.drbwImbgf(bbdkingStorfImbgf, 0, 0, tiis);
+                    } finblly {
+                        bsg.disposf();
                     }
                 }
             }
         }
-        lastPaintPosition = getViewLocation();
-        scrollUnderway = false;
+        lbstPbintPosition = gftVifwLodbtion();
+        sdrollUndfrwby = fblsf;
     }
 
 
     /**
-     * Sets the bounds of this viewport.  If the viewport's width
-     * or height has changed, fire a <code>StateChanged</code> event.
+     * Sfts tif bounds of tiis vifwport.  If tif vifwport's widti
+     * or ifigit ibs dibngfd, firf b <dodf>StbtfCibngfd</dodf> fvfnt.
      *
-     * @param x left edge of the origin
-     * @param y top edge of the origin
-     * @param w width in pixels
-     * @param h height in pixels
+     * @pbrbm x lfft fdgf of tif origin
+     * @pbrbm y top fdgf of tif origin
+     * @pbrbm w widti in pixfls
+     * @pbrbm i ifigit in pixfls
      *
-     * @see JComponent#reshape(int, int, int, int)
+     * @sff JComponfnt#rfsibpf(int, int, int, int)
      */
-    public void reshape(int x, int y, int w, int h) {
-        boolean sizeChanged = (getWidth() != w) || (getHeight() != h);
-        if (sizeChanged) {
-            backingStoreImage = null;
+    publid void rfsibpf(int x, int y, int w, int i) {
+        boolfbn sizfCibngfd = (gftWidti() != w) || (gftHfigit() != i);
+        if (sizfCibngfd) {
+            bbdkingStorfImbgf = null;
         }
-        super.reshape(x, y, w, h);
-        if (sizeChanged || viewChanged) {
-            viewChanged = false;
+        supfr.rfsibpf(x, y, w, i);
+        if (sizfCibngfd || vifwCibngfd) {
+            vifwCibngfd = fblsf;
 
-            fireStateChanged();
+            firfStbtfCibngfd();
         }
     }
 
 
     /**
-      * Used to control the method of scrolling the viewport contents.
-      * You may want to change this mode to get maximum performance for your
-      * use case.
+      * Usfd to dontrol tif mftiod of sdrolling tif vifwport dontfnts.
+      * You mby wbnt to dibngf tiis modf to gft mbximum pfrformbndf for your
+      * usf dbsf.
       *
-      * @param mode one of the following values:
+      * @pbrbm modf onf of tif following vblufs:
       * <ul>
-      * <li> JViewport.BLIT_SCROLL_MODE
-      * <li> JViewport.BACKINGSTORE_SCROLL_MODE
-      * <li> JViewport.SIMPLE_SCROLL_MODE
+      * <li> JVifwport.BLIT_SCROLL_MODE
+      * <li> JVifwport.BACKINGSTORE_SCROLL_MODE
+      * <li> JVifwport.SIMPLE_SCROLL_MODE
       * </ul>
       *
-      * @see #BLIT_SCROLL_MODE
-      * @see #BACKINGSTORE_SCROLL_MODE
-      * @see #SIMPLE_SCROLL_MODE
+      * @sff #BLIT_SCROLL_MODE
+      * @sff #BACKINGSTORE_SCROLL_MODE
+      * @sff #SIMPLE_SCROLL_MODE
       *
-      * @beaninfo
-      *        bound: false
-      *  description: Method of moving contents for incremental scrolls.
-      *         enum: BLIT_SCROLL_MODE JViewport.BLIT_SCROLL_MODE
-      *               BACKINGSTORE_SCROLL_MODE JViewport.BACKINGSTORE_SCROLL_MODE
-      *               SIMPLE_SCROLL_MODE JViewport.SIMPLE_SCROLL_MODE
+      * @bfbninfo
+      *        bound: fblsf
+      *  dfsdription: Mftiod of moving dontfnts for indrfmfntbl sdrolls.
+      *         fnum: BLIT_SCROLL_MODE JVifwport.BLIT_SCROLL_MODE
+      *               BACKINGSTORE_SCROLL_MODE JVifwport.BACKINGSTORE_SCROLL_MODE
+      *               SIMPLE_SCROLL_MODE JVifwport.SIMPLE_SCROLL_MODE
       *
-      * @since 1.3
+      * @sindf 1.3
       */
-    public void setScrollMode(int mode) {
-        scrollMode = mode;
-        backingStore = mode == BACKINGSTORE_SCROLL_MODE;
+    publid void sftSdrollModf(int modf) {
+        sdrollModf = modf;
+        bbdkingStorf = modf == BACKINGSTORE_SCROLL_MODE;
     }
 
     /**
-      * Returns the current scrolling mode.
+      * Rfturns tif durrfnt sdrolling modf.
       *
-      * @return the <code>scrollMode</code> property
-      * @see #setScrollMode
-      * @since 1.3
+      * @rfturn tif <dodf>sdrollModf</dodf> propfrty
+      * @sff #sftSdrollModf
+      * @sindf 1.3
       */
-    public int getScrollMode() {
-        return scrollMode;
+    publid int gftSdrollModf() {
+        rfturn sdrollModf;
     }
 
     /**
-     * Returns <code>true</code> if this viewport is maintaining
-     * an offscreen image of its contents.
+     * Rfturns <dodf>truf</dodf> if tiis vifwport is mbintbining
+     * bn offsdrffn imbgf of its dontfnts.
      *
-     * @return <code>true</code> if <code>scrollMode</code> is
-     *    <code>BACKINGSTORE_SCROLL_MODE</code>
+     * @rfturn <dodf>truf</dodf> if <dodf>sdrollModf</dodf> is
+     *    <dodf>BACKINGSTORE_SCROLL_MODE</dodf>
      *
-     * @deprecated As of Java 2 platform v1.3, replaced by
-     *             <code>getScrollMode()</code>.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3, rfplbdfd by
+     *             <dodf>gftSdrollModf()</dodf>.
      */
-    @Deprecated
-    public boolean isBackingStoreEnabled() {
-        return scrollMode == BACKINGSTORE_SCROLL_MODE;
+    @Dfprfdbtfd
+    publid boolfbn isBbdkingStorfEnbblfd() {
+        rfturn sdrollModf == BACKINGSTORE_SCROLL_MODE;
     }
 
 
     /**
-     * If true if this viewport will maintain an offscreen
-     * image of its contents.  The image is used to reduce the cost
-     * of small one dimensional changes to the <code>viewPosition</code>.
-     * Rather than repainting the entire viewport we use
-     * <code>Graphics.copyArea</code> to effect some of the scroll.
+     * If truf if tiis vifwport will mbintbin bn offsdrffn
+     * imbgf of its dontfnts.  Tif imbgf is usfd to rfdudf tif dost
+     * of smbll onf dimfnsionbl dibngfs to tif <dodf>vifwPosition</dodf>.
+     * Rbtifr tibn rfpbinting tif fntirf vifwport wf usf
+     * <dodf>Grbpiids.dopyArfb</dodf> to ffffdt somf of tif sdroll.
      *
-     * @param enabled if true, maintain an offscreen backing store
+     * @pbrbm fnbblfd if truf, mbintbin bn offsdrffn bbdking storf
      *
-     * @deprecated As of Java 2 platform v1.3, replaced by
-     *             <code>setScrollMode()</code>.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3, rfplbdfd by
+     *             <dodf>sftSdrollModf()</dodf>.
      */
-    @Deprecated
-    public void setBackingStoreEnabled(boolean enabled) {
-        if (enabled) {
-            setScrollMode(BACKINGSTORE_SCROLL_MODE);
-        } else {
-            setScrollMode(BLIT_SCROLL_MODE);
+    @Dfprfdbtfd
+    publid void sftBbdkingStorfEnbblfd(boolfbn fnbblfd) {
+        if (fnbblfd) {
+            sftSdrollModf(BACKINGSTORE_SCROLL_MODE);
+        } flsf {
+            sftSdrollModf(BLIT_SCROLL_MODE);
         }
     }
 
-    private boolean isBlitting() {
-        Component view = getView();
-        return (scrollMode == BLIT_SCROLL_MODE) &&
-               (view instanceof JComponent) && view.isOpaque();
+    privbtf boolfbn isBlitting() {
+        Componfnt vifw = gftVifw();
+        rfturn (sdrollModf == BLIT_SCROLL_MODE) &&
+               (vifw instbndfof JComponfnt) && vifw.isOpbquf();
     }
 
 
     /**
-     * Returns the <code>JViewport</code>'s one child or <code>null</code>.
+     * Rfturns tif <dodf>JVifwport</dodf>'s onf diild or <dodf>null</dodf>.
      *
-     * @return the viewports child, or <code>null</code> if none exists
+     * @rfturn tif vifwports diild, or <dodf>null</dodf> if nonf fxists
      *
-     * @see #setView
+     * @sff #sftVifw
      */
-    public Component getView() {
-        return (getComponentCount() > 0) ? getComponent(0) : null;
+    publid Componfnt gftVifw() {
+        rfturn (gftComponfntCount() > 0) ? gftComponfnt(0) : null;
     }
 
     /**
-     * Sets the <code>JViewport</code>'s one lightweight child
-     * (<code>view</code>), which can be <code>null</code>.
+     * Sfts tif <dodf>JVifwport</dodf>'s onf ligitwfigit diild
+     * (<dodf>vifw</dodf>), wiidi dbn bf <dodf>null</dodf>.
      *
-     * @param view the viewport's new lightweight child
+     * @pbrbm vifw tif vifwport's nfw ligitwfigit diild
      *
-     * @see #getView
+     * @sff #gftVifw
      */
-    public void setView(Component view) {
+    publid void sftVifw(Componfnt vifw) {
 
-        /* Remove the viewport's existing children, if any.
-         * Note that removeAll() isn't used here because it
-         * doesn't call remove() (which JViewport overrides).
+        /* Rfmovf tif vifwport's fxisting diildrfn, if bny.
+         * Notf tibt rfmovfAll() isn't usfd ifrf bfdbusf it
+         * dofsn't dbll rfmovf() (wiidi JVifwport ovfrridfs).
          */
-        int n = getComponentCount();
+        int n = gftComponfntCount();
         for(int i = n - 1; i >= 0; i--) {
-            remove(getComponent(i));
+            rfmovf(gftComponfnt(i));
         }
 
-        isViewSizeSet = false;
+        isVifwSizfSft = fblsf;
 
-        if (view != null) {
-            super.addImpl(view, null, -1);
-            viewListener = createViewListener();
-            view.addComponentListener(viewListener);
+        if (vifw != null) {
+            supfr.bddImpl(vifw, null, -1);
+            vifwListfnfr = drfbtfVifwListfnfr();
+            vifw.bddComponfntListfnfr(vifwListfnfr);
         }
 
-        if (hasHadValidView) {
-            // Only fire a change if a view has been installed.
-            fireStateChanged();
+        if (ibsHbdVblidVifw) {
+            // Only firf b dibngf if b vifw ibs bffn instbllfd.
+            firfStbtfCibngfd();
         }
-        else if (view != null) {
-            hasHadValidView = true;
+        flsf if (vifw != null) {
+            ibsHbdVblidVifw = truf;
         }
 
-        viewChanged = true;
+        vifwCibngfd = truf;
 
-        revalidate();
-        repaint();
+        rfvblidbtf();
+        rfpbint();
     }
 
 
     /**
-     * If the view's size hasn't been explicitly set, return the
-     * preferred size, otherwise return the view's current size.
-     * If there is no view, return 0,0.
+     * If tif vifw's sizf ibsn't bffn fxpliditly sft, rfturn tif
+     * prfffrrfd sizf, otifrwisf rfturn tif vifw's durrfnt sizf.
+     * If tifrf is no vifw, rfturn 0,0.
      *
-     * @return a <code>Dimension</code> object specifying the size of the view
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt spfdifying tif sizf of tif vifw
      */
-    public Dimension getViewSize() {
-        Component view = getView();
+    publid Dimfnsion gftVifwSizf() {
+        Componfnt vifw = gftVifw();
 
-        if (view == null) {
-            return new Dimension(0,0);
+        if (vifw == null) {
+            rfturn nfw Dimfnsion(0,0);
         }
-        else if (isViewSizeSet) {
-            return view.getSize();
+        flsf if (isVifwSizfSft) {
+            rfturn vifw.gftSizf();
         }
-        else {
-            return view.getPreferredSize();
+        flsf {
+            rfturn vifw.gftPrfffrrfdSizf();
         }
     }
 
 
     /**
-     * Sets the size of the view.  A state changed event will be fired.
+     * Sfts tif sizf of tif vifw.  A stbtf dibngfd fvfnt will bf firfd.
      *
-     * @param newSize a <code>Dimension</code> object specifying the new
-     *          size of the view
+     * @pbrbm nfwSizf b <dodf>Dimfnsion</dodf> objfdt spfdifying tif nfw
+     *          sizf of tif vifw
      */
-    public void setViewSize(Dimension newSize) {
-        Component view = getView();
-        if (view != null) {
-            Dimension oldSize = view.getSize();
-            if (!newSize.equals(oldSize)) {
-                // scrollUnderway will be true if this is invoked as the
-                // result of a validate and setViewPosition was previously
-                // invoked.
-                scrollUnderway = false;
-                view.setSize(newSize);
-                isViewSizeSet = true;
-                fireStateChanged();
+    publid void sftVifwSizf(Dimfnsion nfwSizf) {
+        Componfnt vifw = gftVifw();
+        if (vifw != null) {
+            Dimfnsion oldSizf = vifw.gftSizf();
+            if (!nfwSizf.fqubls(oldSizf)) {
+                // sdrollUndfrwby will bf truf if tiis is invokfd bs tif
+                // rfsult of b vblidbtf bnd sftVifwPosition wbs prfviously
+                // invokfd.
+                sdrollUndfrwby = fblsf;
+                vifw.sftSizf(nfwSizf);
+                isVifwSizfSft = truf;
+                firfStbtfCibngfd();
             }
         }
     }
 
     /**
-     * Returns the view coordinates that appear in the upper left
-     * hand corner of the viewport, or 0,0 if there's no view.
+     * Rfturns tif vifw doordinbtfs tibt bppfbr in tif uppfr lfft
+     * ibnd dornfr of tif vifwport, or 0,0 if tifrf's no vifw.
      *
-     * @return a <code>Point</code> object giving the upper left coordinates
+     * @rfturn b <dodf>Point</dodf> objfdt giving tif uppfr lfft doordinbtfs
      */
-    public Point getViewPosition() {
-        Component view = getView();
-        if (view != null) {
-            Point p = view.getLocation();
+    publid Point gftVifwPosition() {
+        Componfnt vifw = gftVifw();
+        if (vifw != null) {
+            Point p = vifw.gftLodbtion();
             p.x = -p.x;
             p.y = -p.y;
-            return p;
+            rfturn p;
         }
-        else {
-            return new Point(0,0);
+        flsf {
+            rfturn nfw Point(0,0);
         }
     }
 
 
     /**
-     * Sets the view coordinates that appear in the upper left
-     * hand corner of the viewport, does nothing if there's no view.
+     * Sfts tif vifw doordinbtfs tibt bppfbr in tif uppfr lfft
+     * ibnd dornfr of tif vifwport, dofs notiing if tifrf's no vifw.
      *
-     * @param p  a <code>Point</code> object giving the upper left coordinates
+     * @pbrbm p  b <dodf>Point</dodf> objfdt giving tif uppfr lfft doordinbtfs
      */
-    public void setViewPosition(Point p)
+    publid void sftVifwPosition(Point p)
     {
-        Component view = getView();
-        if (view == null) {
-            return;
+        Componfnt vifw = gftVifw();
+        if (vifw == null) {
+            rfturn;
         }
 
         int oldX, oldY, x = p.x, y = p.y;
 
-        /* Collect the old x,y values for the views location
-         * and do the song and dance to avoid allocating
-         * a Rectangle object if we don't have to.
+        /* Collfdt tif old x,y vblufs for tif vifws lodbtion
+         * bnd do tif song bnd dbndf to bvoid bllodbting
+         * b Rfdtbnglf objfdt if wf don't ibvf to.
          */
-        if (view instanceof JComponent) {
-            JComponent c = (JComponent)view;
-            oldX = c.getX();
-            oldY = c.getY();
+        if (vifw instbndfof JComponfnt) {
+            JComponfnt d = (JComponfnt)vifw;
+            oldX = d.gftX();
+            oldY = d.gftY();
         }
-        else {
-            Rectangle r = view.getBounds();
+        flsf {
+            Rfdtbnglf r = vifw.gftBounds();
             oldX = r.x;
             oldY = r.y;
         }
 
-        /* The view scrolls in the opposite direction to mouse
-         * movement.
+        /* Tif vifw sdrolls in tif oppositf dirfdtion to mousf
+         * movfmfnt.
          */
-        int newX = -x;
-        int newY = -y;
+        int nfwX = -x;
+        int nfwY = -y;
 
-        if ((oldX != newX) || (oldY != newY)) {
-            if (!waitingForRepaint && isBlitting() && canUseWindowBlitter()) {
-                RepaintManager rm = RepaintManager.currentManager(this);
-                // The cast to JComponent will work, if view is not
-                // a JComponent, isBlitting will return false.
-                JComponent jview = (JComponent)view;
-                Rectangle dirty = rm.getDirtyRegion(jview);
-                if (dirty == null || !dirty.contains(jview.getVisibleRect())) {
-                    rm.beginPaint();
+        if ((oldX != nfwX) || (oldY != nfwY)) {
+            if (!wbitingForRfpbint && isBlitting() && dbnUsfWindowBlittfr()) {
+                RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(tiis);
+                // Tif dbst to JComponfnt will work, if vifw is not
+                // b JComponfnt, isBlitting will rfturn fblsf.
+                JComponfnt jvifw = (JComponfnt)vifw;
+                Rfdtbnglf dirty = rm.gftDirtyRfgion(jvifw);
+                if (dirty == null || !dirty.dontbins(jvifw.gftVisiblfRfdt())) {
+                    rm.bfginPbint();
                     try {
-                        Graphics g = JComponent.safelyGetGraphics(this);
-                        flushViewDirtyRegion(g, dirty);
-                        view.setLocation(newX, newY);
-                        Rectangle r = new Rectangle(
-                            0, 0, getWidth(), Math.min(getHeight(), jview.getHeight()));
-                        g.setClip(r);
-                        // Repaint the complete component if the blit succeeded
-                        // and needsRepaintAfterBlit returns true.
-                        repaintAll = (windowBlitPaint(g) &&
-                                      needsRepaintAfterBlit());
-                        g.dispose();
-                        rm.notifyRepaintPerformed(this, r.x, r.y, r.width, r.height);
-                        rm.markCompletelyClean((JComponent)getParent());
-                        rm.markCompletelyClean(this);
-                        rm.markCompletelyClean(jview);
-                    } finally {
-                        rm.endPaint();
+                        Grbpiids g = JComponfnt.sbfflyGftGrbpiids(tiis);
+                        flusiVifwDirtyRfgion(g, dirty);
+                        vifw.sftLodbtion(nfwX, nfwY);
+                        Rfdtbnglf r = nfw Rfdtbnglf(
+                            0, 0, gftWidti(), Mbti.min(gftHfigit(), jvifw.gftHfigit()));
+                        g.sftClip(r);
+                        // Rfpbint tif domplftf domponfnt if tif blit suddffdfd
+                        // bnd nffdsRfpbintAftfrBlit rfturns truf.
+                        rfpbintAll = (windowBlitPbint(g) &&
+                                      nffdsRfpbintAftfrBlit());
+                        g.disposf();
+                        rm.notifyRfpbintPfrformfd(tiis, r.x, r.y, r.widti, r.ifigit);
+                        rm.mbrkComplftflyClfbn((JComponfnt)gftPbrfnt());
+                        rm.mbrkComplftflyClfbn(tiis);
+                        rm.mbrkComplftflyClfbn(jvifw);
+                    } finblly {
+                        rm.fndPbint();
                     }
                 }
-                else {
-                    // The visible region is dirty, no point in doing copyArea
-                    view.setLocation(newX, newY);
-                    repaintAll = false;
+                flsf {
+                    // Tif visiblf rfgion is dirty, no point in doing dopyArfb
+                    vifw.sftLodbtion(nfwX, nfwY);
+                    rfpbintAll = fblsf;
                 }
             }
-            else {
-                scrollUnderway = true;
-                // This calls setBounds(), and then repaint().
-                view.setLocation(newX, newY);
-                repaintAll = false;
+            flsf {
+                sdrollUndfrwby = truf;
+                // Tiis dblls sftBounds(), bnd tifn rfpbint().
+                vifw.sftLodbtion(nfwX, nfwY);
+                rfpbintAll = fblsf;
             }
-            // we must validate the hierarchy to not break the hw/lw mixing
-            revalidate();
-            fireStateChanged();
+            // wf must vblidbtf tif iifrbrdiy to not brfbk tif iw/lw mixing
+            rfvblidbtf();
+            firfStbtfCibngfd();
         }
     }
 
 
     /**
-     * Returns a rectangle whose origin is <code>getViewPosition</code>
-     * and size is <code>getExtentSize</code>.
-     * This is the visible part of the view, in view coordinates.
+     * Rfturns b rfdtbnglf wiosf origin is <dodf>gftVifwPosition</dodf>
+     * bnd sizf is <dodf>gftExtfntSizf</dodf>.
+     * Tiis is tif visiblf pbrt of tif vifw, in vifw doordinbtfs.
      *
-     * @return a <code>Rectangle</code> giving the visible part of
-     *          the view using view coordinates.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> giving tif visiblf pbrt of
+     *          tif vifw using vifw doordinbtfs.
      */
-    public Rectangle getViewRect() {
-        return new Rectangle(getViewPosition(), getExtentSize());
+    publid Rfdtbnglf gftVifwRfdt() {
+        rfturn nfw Rfdtbnglf(gftVifwPosition(), gftExtfntSizf());
     }
 
 
     /**
-     * Computes the parameters for a blit where the backing store image
-     * currently contains <code>oldLoc</code> in the upper left hand corner
-     * and we're scrolling to <code>newLoc</code>.
-     * The parameters are modified
-     * to return the values required for the blit.
+     * Computfs tif pbrbmftfrs for b blit wifrf tif bbdking storf imbgf
+     * durrfntly dontbins <dodf>oldLod</dodf> in tif uppfr lfft ibnd dornfr
+     * bnd wf'rf sdrolling to <dodf>nfwLod</dodf>.
+     * Tif pbrbmftfrs brf modififd
+     * to rfturn tif vblufs rfquirfd for tif blit.
      *
-     * @param dx  the horizontal delta
-     * @param dy  the vertical delta
-     * @param blitFrom the <code>Point</code> we're blitting from
-     * @param blitTo the <code>Point</code> we're blitting to
-     * @param blitSize the <code>Dimension</code> of the area to blit
-     * @param blitPaint the area to blit
-     * @return  true if the parameters are modified and we're ready to blit;
-     *          false otherwise
+     * @pbrbm dx  tif iorizontbl dfltb
+     * @pbrbm dy  tif vfrtidbl dfltb
+     * @pbrbm blitFrom tif <dodf>Point</dodf> wf'rf blitting from
+     * @pbrbm blitTo tif <dodf>Point</dodf> wf'rf blitting to
+     * @pbrbm blitSizf tif <dodf>Dimfnsion</dodf> of tif brfb to blit
+     * @pbrbm blitPbint tif brfb to blit
+     * @rfturn  truf if tif pbrbmftfrs brf modififd bnd wf'rf rfbdy to blit;
+     *          fblsf otifrwisf
      */
-    protected boolean computeBlit(
+    protfdtfd boolfbn domputfBlit(
         int dx,
         int dy,
         Point blitFrom,
         Point blitTo,
-        Dimension blitSize,
-        Rectangle blitPaint)
+        Dimfnsion blitSizf,
+        Rfdtbnglf blitPbint)
     {
-        int dxAbs = Math.abs(dx);
-        int dyAbs = Math.abs(dy);
-        Dimension extentSize = getExtentSize();
+        int dxAbs = Mbti.bbs(dx);
+        int dyAbs = Mbti.bbs(dy);
+        Dimfnsion fxtfntSizf = gftExtfntSizf();
 
-        if ((dx == 0) && (dy != 0) && (dyAbs < extentSize.height)) {
+        if ((dx == 0) && (dy != 0) && (dyAbs < fxtfntSizf.ifigit)) {
             if (dy < 0) {
                 blitFrom.y = -dy;
                 blitTo.y = 0;
-                blitPaint.y = extentSize.height + dy;
+                blitPbint.y = fxtfntSizf.ifigit + dy;
             }
-            else {
+            flsf {
                 blitFrom.y = 0;
                 blitTo.y = dy;
-                blitPaint.y = 0;
+                blitPbint.y = 0;
             }
 
-            blitPaint.x = blitFrom.x = blitTo.x = 0;
+            blitPbint.x = blitFrom.x = blitTo.x = 0;
 
-            blitSize.width = extentSize.width;
-            blitSize.height = extentSize.height - dyAbs;
+            blitSizf.widti = fxtfntSizf.widti;
+            blitSizf.ifigit = fxtfntSizf.ifigit - dyAbs;
 
-            blitPaint.width = extentSize.width;
-            blitPaint.height = dyAbs;
+            blitPbint.widti = fxtfntSizf.widti;
+            blitPbint.ifigit = dyAbs;
 
-            return true;
+            rfturn truf;
         }
 
-        else if ((dy == 0) && (dx != 0) && (dxAbs < extentSize.width)) {
+        flsf if ((dy == 0) && (dx != 0) && (dxAbs < fxtfntSizf.widti)) {
             if (dx < 0) {
                 blitFrom.x = -dx;
                 blitTo.x = 0;
-                blitPaint.x = extentSize.width + dx;
+                blitPbint.x = fxtfntSizf.widti + dx;
             }
-            else {
+            flsf {
                 blitFrom.x = 0;
                 blitTo.x = dx;
-                blitPaint.x = 0;
+                blitPbint.x = 0;
             }
 
-            blitPaint.y = blitFrom.y = blitTo.y = 0;
+            blitPbint.y = blitFrom.y = blitTo.y = 0;
 
-            blitSize.width = extentSize.width - dxAbs;
-            blitSize.height = extentSize.height;
+            blitSizf.widti = fxtfntSizf.widti - dxAbs;
+            blitSizf.ifigit = fxtfntSizf.ifigit;
 
-            blitPaint.width = dxAbs;
-            blitPaint.height = extentSize.height;
+            blitPbint.widti = dxAbs;
+            blitPbint.ifigit = fxtfntSizf.ifigit;
 
-            return true;
+            rfturn truf;
         }
 
-        else {
-            return false;
-        }
-    }
-
-
-    /**
-     * Returns the size of the visible part of the view in view coordinates.
-     *
-     * @return a <code>Dimension</code> object giving the size of the view
-     */
-    @Transient
-    public Dimension getExtentSize() {
-        return getSize();
-    }
-
-
-    /**
-     * Converts a size in pixel coordinates to view coordinates.
-     * Subclasses of viewport that support "logical coordinates"
-     * will override this method.
-     *
-     * @param size  a <code>Dimension</code> object using pixel coordinates
-     * @return a <code>Dimension</code> object converted to view coordinates
-     */
-    public Dimension toViewCoordinates(Dimension size) {
-        return new Dimension(size);
-    }
-
-    /**
-     * Converts a point in pixel coordinates to view coordinates.
-     * Subclasses of viewport that support "logical coordinates"
-     * will override this method.
-     *
-     * @param p  a <code>Point</code> object using pixel coordinates
-     * @return a <code>Point</code> object converted to view coordinates
-     */
-    public Point toViewCoordinates(Point p) {
-        return new Point(p);
-    }
-
-
-    /**
-     * Sets the size of the visible part of the view using view coordinates.
-     *
-     * @param newExtent  a <code>Dimension</code> object specifying
-     *          the size of the view
-     */
-    public void setExtentSize(Dimension newExtent) {
-        Dimension oldExtent = getExtentSize();
-        if (!newExtent.equals(oldExtent)) {
-            setSize(newExtent);
-            fireStateChanged();
+        flsf {
+            rfturn fblsf;
         }
     }
 
+
     /**
-     * A listener for the view.
+     * Rfturns tif sizf of tif visiblf pbrt of tif vifw in vifw doordinbtfs.
+     *
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt giving tif sizf of tif vifw
+     */
+    @Trbnsifnt
+    publid Dimfnsion gftExtfntSizf() {
+        rfturn gftSizf();
+    }
+
+
+    /**
+     * Convfrts b sizf in pixfl doordinbtfs to vifw doordinbtfs.
+     * Subdlbssfs of vifwport tibt support "logidbl doordinbtfs"
+     * will ovfrridf tiis mftiod.
+     *
+     * @pbrbm sizf  b <dodf>Dimfnsion</dodf> objfdt using pixfl doordinbtfs
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt donvfrtfd to vifw doordinbtfs
+     */
+    publid Dimfnsion toVifwCoordinbtfs(Dimfnsion sizf) {
+        rfturn nfw Dimfnsion(sizf);
+    }
+
+    /**
+     * Convfrts b point in pixfl doordinbtfs to vifw doordinbtfs.
+     * Subdlbssfs of vifwport tibt support "logidbl doordinbtfs"
+     * will ovfrridf tiis mftiod.
+     *
+     * @pbrbm p  b <dodf>Point</dodf> objfdt using pixfl doordinbtfs
+     * @rfturn b <dodf>Point</dodf> objfdt donvfrtfd to vifw doordinbtfs
+     */
+    publid Point toVifwCoordinbtfs(Point p) {
+        rfturn nfw Point(p);
+    }
+
+
+    /**
+     * Sfts tif sizf of tif visiblf pbrt of tif vifw using vifw doordinbtfs.
+     *
+     * @pbrbm nfwExtfnt  b <dodf>Dimfnsion</dodf> objfdt spfdifying
+     *          tif sizf of tif vifw
+     */
+    publid void sftExtfntSizf(Dimfnsion nfwExtfnt) {
+        Dimfnsion oldExtfnt = gftExtfntSizf();
+        if (!nfwExtfnt.fqubls(oldExtfnt)) {
+            sftSizf(nfwExtfnt);
+            firfStbtfCibngfd();
+        }
+    }
+
+    /**
+     * A listfnfr for tif vifw.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class ViewListener extends ComponentAdapter implements Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss VifwListfnfr fxtfnds ComponfntAdbptfr implfmfnts Sfriblizbblf
     {
-        public void componentResized(ComponentEvent e) {
-            fireStateChanged();
-            revalidate();
+        publid void domponfntRfsizfd(ComponfntEvfnt f) {
+            firfStbtfCibngfd();
+            rfvblidbtf();
         }
     }
 
     /**
-     * Creates a listener for the view.
-     * @return a <code>ViewListener</code>
+     * Crfbtfs b listfnfr for tif vifw.
+     * @rfturn b <dodf>VifwListfnfr</dodf>
      */
-    protected ViewListener createViewListener() {
-        return new ViewListener();
+    protfdtfd VifwListfnfr drfbtfVifwListfnfr() {
+        rfturn nfw VifwListfnfr();
     }
 
 
     /**
-     * Subclassers can override this to install a different
-     * layout manager (or <code>null</code>) in the constructor.  Returns
-     * the <code>LayoutManager</code> to install on the <code>JViewport</code>.
+     * Subdlbssfrs dbn ovfrridf tiis to instbll b difffrfnt
+     * lbyout mbnbgfr (or <dodf>null</dodf>) in tif donstrudtor.  Rfturns
+     * tif <dodf>LbyoutMbnbgfr</dodf> to instbll on tif <dodf>JVifwport</dodf>.
      *
-     * @return a <code>LayoutManager</code>
+     * @rfturn b <dodf>LbyoutMbnbgfr</dodf>
      */
-    protected LayoutManager createLayoutManager() {
-        return ViewportLayout.SHARED_INSTANCE;
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn VifwportLbyout.SHARED_INSTANCE;
     }
 
 
     /**
-     * Adds a <code>ChangeListener</code> to the list that is
-     * notified each time the view's
-     * size, position, or the viewport's extent size has changed.
+     * Adds b <dodf>CibngfListfnfr</dodf> to tif list tibt is
+     * notififd fbdi timf tif vifw's
+     * sizf, position, or tif vifwport's fxtfnt sizf ibs dibngfd.
      *
-     * @param l the <code>ChangeListener</code> to add
-     * @see #removeChangeListener
-     * @see #setViewPosition
-     * @see #setViewSize
-     * @see #setExtentSize
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to bdd
+     * @sff #rfmovfCibngfListfnfr
+     * @sff #sftVifwPosition
+     * @sff #sftVifwSizf
+     * @sff #sftExtfntSizf
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from the list that's notified each
-     * time the views size, position, or the viewports extent size
-     * has changed.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tif list tibt's notififd fbdi
+     * timf tif vifws sizf, position, or tif vifwports fxtfnt sizf
+     * ibs dibngfd.
      *
-     * @param l the <code>ChangeListener</code> to remove
-     * @see #addChangeListener
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to rfmovf
+     * @sff #bddCibngfListfnfr
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this JViewport with addChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis JVifwport witi bddCibngfListfnfr().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Notifies all <code>ChangeListeners</code> when the views
-     * size, position, or the viewports extent size has changed.
+     * Notififs bll <dodf>CibngfListfnfrs</dodf> wifn tif vifws
+     * sizf, position, or tif vifwports fxtfnt sizf ibs dibngfd.
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
-     * @see EventListenerList
+     * @sff #bddCibngfListfnfr
+     * @sff #rfmovfCibngfListfnfr
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged()
+    protfdtfd void firfStbtfCibngfd()
     {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == CibngfListfnfr.dlbss) {
+                if (dibngfEvfnt == null) {
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
                 }
-                ((ChangeListener)listeners[i + 1]).stateChanged(changeEvent);
+                ((CibngfListfnfr)listfnfrs[i + 1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * Always repaint in the parents coordinate system to make sure
-     * only one paint is performed by the <code>RepaintManager</code>.
+     * Alwbys rfpbint in tif pbrfnts doordinbtf systfm to mbkf surf
+     * only onf pbint is pfrformfd by tif <dodf>RfpbintMbnbgfr</dodf>.
      *
-     * @param     tm   maximum time in milliseconds before update
-     * @param     x    the <code>x</code> coordinate (pixels over from left)
-     * @param     y    the <code>y</code> coordinate (pixels down from top)
-     * @param     w    the width
-     * @param     h   the height
-     * @see       java.awt.Component#update(java.awt.Graphics)
+     * @pbrbm     tm   mbximum timf in millisfdonds bfforf updbtf
+     * @pbrbm     x    tif <dodf>x</dodf> doordinbtf (pixfls ovfr from lfft)
+     * @pbrbm     y    tif <dodf>y</dodf> doordinbtf (pixfls down from top)
+     * @pbrbm     w    tif widti
+     * @pbrbm     i   tif ifigit
+     * @sff       jbvb.bwt.Componfnt#updbtf(jbvb.bwt.Grbpiids)
      */
-    public void repaint(long tm, int x, int y, int w, int h) {
-        Container parent = getParent();
-        if(parent != null)
-            parent.repaint(tm,x+getX(),y+getY(),w,h);
-        else
-            super.repaint(tm,x,y,w,h);
+    publid void rfpbint(long tm, int x, int y, int w, int i) {
+        Contbinfr pbrfnt = gftPbrfnt();
+        if(pbrfnt != null)
+            pbrfnt.rfpbint(tm,x+gftX(),y+gftY(),w,i);
+        flsf
+            supfr.rfpbint(tm,x,y,w,i);
     }
 
 
     /**
-     * Returns a string representation of this <code>JViewport</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JVifwport</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JViewport</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JVifwport</dodf>
      */
-    protected String paramString() {
-        String isViewSizeSetString = (isViewSizeSet ?
-                                      "true" : "false");
-        String lastPaintPositionString = (lastPaintPosition != null ?
-                                          lastPaintPosition.toString() : "");
-        String scrollUnderwayString = (scrollUnderway ?
-                                       "true" : "false");
+    protfdtfd String pbrbmString() {
+        String isVifwSizfSftString = (isVifwSizfSft ?
+                                      "truf" : "fblsf");
+        String lbstPbintPositionString = (lbstPbintPosition != null ?
+                                          lbstPbintPosition.toString() : "");
+        String sdrollUndfrwbyString = (sdrollUndfrwby ?
+                                       "truf" : "fblsf");
 
-        return super.paramString() +
-        ",isViewSizeSet=" + isViewSizeSetString +
-        ",lastPaintPosition=" + lastPaintPositionString +
-        ",scrollUnderway=" + scrollUnderwayString;
+        rfturn supfr.pbrbmString() +
+        ",isVifwSizfSft=" + isVifwSizfSftString +
+        ",lbstPbintPosition=" + lbstPbintPositionString +
+        ",sdrollUndfrwby=" + sdrollUndfrwbyString;
     }
 
     //
-    // Following is used when doBlit is true.
+    // Following is usfd wifn doBlit is truf.
     //
 
     /**
-     * Notifies listeners of a property change. This is subclassed to update
-     * the <code>windowBlit</code> property.
-     * (The <code>putClientProperty</code> property is final).
+     * Notififs listfnfrs of b propfrty dibngf. Tiis is subdlbssfd to updbtf
+     * tif <dodf>windowBlit</dodf> propfrty.
+     * (Tif <dodf>putClifntPropfrty</dodf> propfrty is finbl).
      *
-     * @param propertyName a string containing the property name
-     * @param oldValue the old value of the property
-     * @param newValue  the new value of the property
+     * @pbrbm propfrtyNbmf b string dontbining tif propfrty nbmf
+     * @pbrbm oldVbluf tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf  tif nfw vbluf of tif propfrty
      */
-    protected void firePropertyChange(String propertyName, Object oldValue,
-                                      Object newValue) {
-        super.firePropertyChange(propertyName, oldValue, newValue);
-        if (propertyName.equals(EnableWindowBlit)) {
-            if (newValue != null) {
-                setScrollMode(BLIT_SCROLL_MODE);
-            } else {
-                setScrollMode(SIMPLE_SCROLL_MODE);
+    protfdtfd void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf,
+                                      Objfdt nfwVbluf) {
+        supfr.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
+        if (propfrtyNbmf.fqubls(EnbblfWindowBlit)) {
+            if (nfwVbluf != null) {
+                sftSdrollModf(BLIT_SCROLL_MODE);
+            } flsf {
+                sftSdrollModf(SIMPLE_SCROLL_MODE);
             }
         }
     }
 
     /**
-     * Returns true if the component needs to be completely repainted after
-     * a blit and a paint is received.
+     * Rfturns truf if tif domponfnt nffds to bf domplftfly rfpbintfd bftfr
+     * b blit bnd b pbint is rfdfivfd.
      */
-    private boolean needsRepaintAfterBlit() {
-        // Find the first heavy weight ancestor. isObscured and
-        // canDetermineObscurity are only appropriate for heavy weights.
-        Component heavyParent = getParent();
+    privbtf boolfbn nffdsRfpbintAftfrBlit() {
+        // Find tif first ifbvy wfigit bndfstor. isObsdurfd bnd
+        // dbnDftfrminfObsdurity brf only bppropribtf for ifbvy wfigits.
+        Componfnt ifbvyPbrfnt = gftPbrfnt();
 
-        while (heavyParent != null && heavyParent.isLightweight()) {
-            heavyParent = heavyParent.getParent();
+        wiilf (ifbvyPbrfnt != null && ifbvyPbrfnt.isLigitwfigit()) {
+            ifbvyPbrfnt = ifbvyPbrfnt.gftPbrfnt();
         }
 
-        if (heavyParent != null) {
-            ComponentPeer peer = heavyParent.getPeer();
+        if (ifbvyPbrfnt != null) {
+            ComponfntPffr pffr = ifbvyPbrfnt.gftPffr();
 
-            if (peer != null && peer.canDetermineObscurity() &&
-                                !peer.isObscured()) {
-                // The peer says we aren't obscured, therefore we can assume
-                // that we won't later be messaged to paint a portion that
-                // we tried to blit that wasn't valid.
-                // It is certainly possible that when we blited we were
-                // obscured, and by the time this is invoked we aren't, but the
-                // chances of that happening are pretty slim.
-                return false;
+            if (pffr != null && pffr.dbnDftfrminfObsdurity() &&
+                                !pffr.isObsdurfd()) {
+                // Tif pffr sbys wf brfn't obsdurfd, tifrfforf wf dbn bssumf
+                // tibt wf won't lbtfr bf mfssbgfd to pbint b portion tibt
+                // wf trifd to blit tibt wbsn't vblid.
+                // It is dfrtbinly possiblf tibt wifn wf blitfd wf wfrf
+                // obsdurfd, bnd by tif timf tiis is invokfd wf brfn't, but tif
+                // dibndfs of tibt ibppfning brf prftty slim.
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private Timer createRepaintTimer() {
-        Timer timer = new Timer(300, new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                // waitingForRepaint will be false if a paint came down
-                // with the complete clip rect, in which case we don't
-                // have to cause a repaint.
-                if (waitingForRepaint) {
-                    repaint();
+    privbtf Timfr drfbtfRfpbintTimfr() {
+        Timfr timfr = nfw Timfr(300, nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt bf) {
+                // wbitingForRfpbint will bf fblsf if b pbint dbmf down
+                // witi tif domplftf dlip rfdt, in wiidi dbsf wf don't
+                // ibvf to dbusf b rfpbint.
+                if (wbitingForRfpbint) {
+                    rfpbint();
                 }
             }
         });
-        timer.setRepeats(false);
-        return timer;
+        timfr.sftRfpfbts(fblsf);
+        rfturn timfr;
     }
 
     /**
-     * If the repaint manager has a dirty region for the view, the view is
-     * asked to paint.
+     * If tif rfpbint mbnbgfr ibs b dirty rfgion for tif vifw, tif vifw is
+     * bskfd to pbint.
      *
-     * @param g  the <code>Graphics</code> context within which to paint
+     * @pbrbm g  tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint
      */
-    private void flushViewDirtyRegion(Graphics g, Rectangle dirty) {
-        JComponent view = (JComponent) getView();
-        if(dirty != null && dirty.width > 0 && dirty.height > 0) {
-            dirty.x += view.getX();
-            dirty.y += view.getY();
-            Rectangle clip = g.getClipBounds();
-            if (clip == null) {
-                // Only happens in 1.2
-                g.setClip(0, 0, getWidth(), getHeight());
+    privbtf void flusiVifwDirtyRfgion(Grbpiids g, Rfdtbnglf dirty) {
+        JComponfnt vifw = (JComponfnt) gftVifw();
+        if(dirty != null && dirty.widti > 0 && dirty.ifigit > 0) {
+            dirty.x += vifw.gftX();
+            dirty.y += vifw.gftY();
+            Rfdtbnglf dlip = g.gftClipBounds();
+            if (dlip == null) {
+                // Only ibppfns in 1.2
+                g.sftClip(0, 0, gftWidti(), gftHfigit());
             }
-            g.clipRect(dirty.x, dirty.y, dirty.width, dirty.height);
-            clip = g.getClipBounds();
-            // Only paint the dirty region if it is visible.
-            if (clip.width > 0 && clip.height > 0) {
-                paintView(g);
+            g.dlipRfdt(dirty.x, dirty.y, dirty.widti, dirty.ifigit);
+            dlip = g.gftClipBounds();
+            // Only pbint tif dirty rfgion if it is visiblf.
+            if (dlip.widti > 0 && dlip.ifigit > 0) {
+                pbintVifw(g);
             }
         }
     }
 
     /**
-     * Used when blitting.
+     * Usfd wifn blitting.
      *
-     * @param g  the <code>Graphics</code> context within which to paint
-     * @return true if blitting succeeded; otherwise false
+     * @pbrbm g  tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint
+     * @rfturn truf if blitting suddffdfd; otifrwisf fblsf
      */
-    private boolean windowBlitPaint(Graphics g) {
-        int width = getWidth();
-        int height = getHeight();
+    privbtf boolfbn windowBlitPbint(Grbpiids g) {
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
 
-        if ((width == 0) || (height == 0)) {
-            return false;
+        if ((widti == 0) || (ifigit == 0)) {
+            rfturn fblsf;
         }
 
-        boolean retValue;
-        RepaintManager rm = RepaintManager.currentManager(this);
-        JComponent view = (JComponent) getView();
+        boolfbn rftVbluf;
+        RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(tiis);
+        JComponfnt vifw = (JComponfnt) gftVifw();
 
-        if (lastPaintPosition == null ||
-            lastPaintPosition.equals(getViewLocation())) {
-            paintView(g);
-            retValue = false;
-        } else {
-            // The image was scrolled. Manipulate the backing store and flush
+        if (lbstPbintPosition == null ||
+            lbstPbintPosition.fqubls(gftVifwLodbtion())) {
+            pbintVifw(g);
+            rftVbluf = fblsf;
+        } flsf {
+            // Tif imbgf wbs sdrollfd. Mbnipulbtf tif bbdking storf bnd flusi
             // it to g.
-            Point blitFrom = new Point();
-            Point blitTo = new Point();
-            Dimension blitSize = new Dimension();
-            Rectangle blitPaint = new Rectangle();
+            Point blitFrom = nfw Point();
+            Point blitTo = nfw Point();
+            Dimfnsion blitSizf = nfw Dimfnsion();
+            Rfdtbnglf blitPbint = nfw Rfdtbnglf();
 
-            Point newLocation = getViewLocation();
-            int dx = newLocation.x - lastPaintPosition.x;
-            int dy = newLocation.y - lastPaintPosition.y;
-            boolean canBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize,
-                                          blitPaint);
-            if (!canBlit) {
-                paintView(g);
-                retValue = false;
-            } else {
-                // Prepare the rest of the view; the part that has just been
-                // exposed.
-                Rectangle r = view.getBounds().intersection(blitPaint);
-                r.x -= view.getX();
-                r.y -= view.getY();
+            Point nfwLodbtion = gftVifwLodbtion();
+            int dx = nfwLodbtion.x - lbstPbintPosition.x;
+            int dy = nfwLodbtion.y - lbstPbintPosition.y;
+            boolfbn dbnBlit = domputfBlit(dx, dy, blitFrom, blitTo, blitSizf,
+                                          blitPbint);
+            if (!dbnBlit) {
+                pbintVifw(g);
+                rftVbluf = fblsf;
+            } flsf {
+                // Prfpbrf tif rfst of tif vifw; tif pbrt tibt ibs just bffn
+                // fxposfd.
+                Rfdtbnglf r = vifw.gftBounds().intfrsfdtion(blitPbint);
+                r.x -= vifw.gftX();
+                r.y -= vifw.gftY();
 
-                blitDoubleBuffered(view, g, r.x, r.y, r.width, r.height,
+                blitDoublfBufffrfd(vifw, g, r.x, r.y, r.widti, r.ifigit,
                                    blitFrom.x, blitFrom.y, blitTo.x, blitTo.y,
-                                   blitSize.width, blitSize.height);
-                retValue = true;
+                                   blitSizf.widti, blitSizf.ifigit);
+                rftVbluf = truf;
             }
         }
-        lastPaintPosition = getViewLocation();
-        return retValue;
+        lbstPbintPosition = gftVifwLodbtion();
+        rfturn rftVbluf;
     }
 
     //
-    // NOTE: the code below uses paintForceDoubleBuffered for historical
-    // reasons.  If we're going to allow a blit we've already accounted for
-    // everything that paintImmediately and _paintImmediately does, for that
-    // reason we call into paintForceDoubleBuffered to diregard whether or
-    // not setDoubleBuffered(true) was invoked on the view.
+    // NOTE: tif dodf bflow usfs pbintFordfDoublfBufffrfd for iistoridbl
+    // rfbsons.  If wf'rf going to bllow b blit wf'vf blrfbdy bddountfd for
+    // fvfrytiing tibt pbintImmfdibtfly bnd _pbintImmfdibtfly dofs, for tibt
+    // rfbson wf dbll into pbintFordfDoublfBufffrfd to dirfgbrd wiftifr or
+    // not sftDoublfBufffrfd(truf) wbs invokfd on tif vifw.
     //
 
-    private void blitDoubleBuffered(JComponent view, Graphics g,
-                                    int clipX, int clipY, int clipW, int clipH,
+    privbtf void blitDoublfBufffrfd(JComponfnt vifw, Grbpiids g,
+                                    int dlipX, int dlipY, int dlipW, int dlipH,
                                     int blitFromX, int blitFromY, int blitToX, int blitToY,
                                     int blitW, int blitH) {
         // NOTE:
-        //   blitFrom/blitTo are in JViewport coordinates system
-        //     not the views coordinate space.
-        //   clip* are in the views coordinate space.
-        RepaintManager rm = RepaintManager.currentManager(this);
+        //   blitFrom/blitTo brf in JVifwport doordinbtfs systfm
+        //     not tif vifws doordinbtf spbdf.
+        //   dlip* brf in tif vifws doordinbtf spbdf.
+        RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(tiis);
         int bdx = blitToX - blitFromX;
         int bdy = blitToY - blitFromY;
 
-        Composite oldComposite = null;
-        // Shift the scrolled region
-        if (g instanceof Graphics2D) {
-            Graphics2D g2d = (Graphics2D) g;
-            oldComposite = g2d.getComposite();
-            g2d.setComposite(AlphaComposite.Src);
+        Compositf oldCompositf = null;
+        // Siift tif sdrollfd rfgion
+        if (g instbndfof Grbpiids2D) {
+            Grbpiids2D g2d = (Grbpiids2D) g;
+            oldCompositf = g2d.gftCompositf();
+            g2d.sftCompositf(AlpibCompositf.Srd);
         }
-        rm.copyArea(this, g, blitFromX, blitFromY, blitW, blitH, bdx, bdy,
-                    false);
-        if (oldComposite != null) {
-            ((Graphics2D) g).setComposite(oldComposite);
+        rm.dopyArfb(tiis, g, blitFromX, blitFromY, blitW, blitH, bdx, bdy,
+                    fblsf);
+        if (oldCompositf != null) {
+            ((Grbpiids2D) g).sftCompositf(oldCompositf);
         }
-        // Paint the newly exposed region.
-        int x = view.getX();
-        int y = view.getY();
-        g.translate(x, y);
-        g.setClip(clipX, clipY, clipW, clipH);
-        view.paintForceDoubleBuffered(g);
-        g.translate(-x, -y);
+        // Pbint tif nfwly fxposfd rfgion.
+        int x = vifw.gftX();
+        int y = vifw.gftY();
+        g.trbnslbtf(x, y);
+        g.sftClip(dlipX, dlipY, dlipW, dlipH);
+        vifw.pbintFordfDoublfBufffrfd(g);
+        g.trbnslbtf(-x, -y);
     }
 
     /**
-     * Called to paint the view, usually when <code>blitPaint</code>
-     * can not blit.
+     * Cbllfd to pbint tif vifw, usublly wifn <dodf>blitPbint</dodf>
+     * dbn not blit.
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint
      */
-    private void paintView(Graphics g) {
-        Rectangle clip = g.getClipBounds();
-        JComponent view = (JComponent)getView();
+    privbtf void pbintVifw(Grbpiids g) {
+        Rfdtbnglf dlip = g.gftClipBounds();
+        JComponfnt vifw = (JComponfnt)gftVifw();
 
-        if (view.getWidth() >= getWidth()) {
-            // Graphics is relative to JViewport, need to map to view's
-            // coordinates space.
-            int x = view.getX();
-            int y = view.getY();
-            g.translate(x, y);
-            g.setClip(clip.x - x, clip.y - y, clip.width, clip.height);
-            view.paintForceDoubleBuffered(g);
-            g.translate(-x, -y);
-            g.setClip(clip.x, clip.y, clip.width, clip.height);
+        if (vifw.gftWidti() >= gftWidti()) {
+            // Grbpiids is rflbtivf to JVifwport, nffd to mbp to vifw's
+            // doordinbtfs spbdf.
+            int x = vifw.gftX();
+            int y = vifw.gftY();
+            g.trbnslbtf(x, y);
+            g.sftClip(dlip.x - x, dlip.y - y, dlip.widti, dlip.ifigit);
+            vifw.pbintFordfDoublfBufffrfd(g);
+            g.trbnslbtf(-x, -y);
+            g.sftClip(dlip.x, dlip.y, dlip.widti, dlip.ifigit);
         }
-        else {
-            // To avoid any problems that may result from the viewport being
-            // bigger than the view we start painting from the viewport.
+        flsf {
+            // To bvoid bny problfms tibt mby rfsult from tif vifwport bfing
+            // biggfr tibn tif vifw wf stbrt pbinting from tif vifwport.
             try {
-                inBlitPaint = true;
-                paintForceDoubleBuffered(g);
-            } finally {
-                inBlitPaint = false;
+                inBlitPbint = truf;
+                pbintFordfDoublfBufffrfd(g);
+            } finblly {
+                inBlitPbint = fblsf;
             }
         }
     }
 
     /**
-     * Returns true if the viewport is not obscured by one of its ancestors,
-     * or its ancestors children and if the viewport is showing. Blitting
-     * when the view isn't showing will work,
-     * or rather <code>copyArea</code> will work,
-     * but will not produce the expected behavior.
+     * Rfturns truf if tif vifwport is not obsdurfd by onf of its bndfstors,
+     * or its bndfstors diildrfn bnd if tif vifwport is siowing. Blitting
+     * wifn tif vifw isn't siowing will work,
+     * or rbtifr <dodf>dopyArfb</dodf> will work,
+     * but will not produdf tif fxpfdtfd bfibvior.
      */
-    private boolean canUseWindowBlitter() {
-        if (!isShowing() || (!(getParent() instanceof JComponent) &&
-                             !(getView() instanceof JComponent))) {
-            return false;
+    privbtf boolfbn dbnUsfWindowBlittfr() {
+        if (!isSiowing() || (!(gftPbrfnt() instbndfof JComponfnt) &&
+                             !(gftVifw() instbndfof JComponfnt))) {
+            rfturn fblsf;
         }
-        if (isPainting()) {
-            // We're in the process of painting, don't blit. If we were
-            // to blit we would draw on top of what we're already drawing,
-            // so bail.
-            return false;
-        }
-
-        Rectangle dirtyRegion = RepaintManager.currentManager(this).
-                                getDirtyRegion((JComponent)getParent());
-
-        if (dirtyRegion != null && dirtyRegion.width > 0 &&
-            dirtyRegion.height > 0) {
-            // Part of the scrollpane needs to be repainted too, don't blit.
-            return false;
+        if (isPbinting()) {
+            // Wf'rf in tif prodfss of pbinting, don't blit. If wf wfrf
+            // to blit wf would drbw on top of wibt wf'rf blrfbdy drbwing,
+            // so bbil.
+            rfturn fblsf;
         }
 
-        Rectangle clip = new Rectangle(0,0,getWidth(),getHeight());
-        Rectangle oldClip = new Rectangle();
-        Rectangle tmp2 = null;
-        Container parent;
-        Component lastParent = null;
-        int x, y, w, h;
+        Rfdtbnglf dirtyRfgion = RfpbintMbnbgfr.durrfntMbnbgfr(tiis).
+                                gftDirtyRfgion((JComponfnt)gftPbrfnt());
 
-        for(parent = this; parent != null && isLightweightComponent(parent); parent = parent.getParent()) {
-            x = parent.getX();
-            y = parent.getY();
-            w = parent.getWidth();
-            h = parent.getHeight();
+        if (dirtyRfgion != null && dirtyRfgion.widti > 0 &&
+            dirtyRfgion.ifigit > 0) {
+            // Pbrt of tif sdrollpbnf nffds to bf rfpbintfd too, don't blit.
+            rfturn fblsf;
+        }
 
-            oldClip.setBounds(clip);
-            SwingUtilities.computeIntersection(0, 0, w, h, clip);
-            if(!clip.equals(oldClip))
-                return false;
+        Rfdtbnglf dlip = nfw Rfdtbnglf(0,0,gftWidti(),gftHfigit());
+        Rfdtbnglf oldClip = nfw Rfdtbnglf();
+        Rfdtbnglf tmp2 = null;
+        Contbinfr pbrfnt;
+        Componfnt lbstPbrfnt = null;
+        int x, y, w, i;
 
-            if(lastParent != null && parent instanceof JComponent &&
-               !((JComponent)parent).isOptimizedDrawingEnabled()) {
-                Component comps[] = parent.getComponents();
-                int index = 0;
+        for(pbrfnt = tiis; pbrfnt != null && isLigitwfigitComponfnt(pbrfnt); pbrfnt = pbrfnt.gftPbrfnt()) {
+            x = pbrfnt.gftX();
+            y = pbrfnt.gftY();
+            w = pbrfnt.gftWidti();
+            i = pbrfnt.gftHfigit();
 
-                for(int i = comps.length - 1 ;i >= 0; i--) {
-                    if(comps[i] == lastParent) {
-                        index = i - 1;
-                        break;
+            oldClip.sftBounds(dlip);
+            SwingUtilitifs.domputfIntfrsfdtion(0, 0, w, i, dlip);
+            if(!dlip.fqubls(oldClip))
+                rfturn fblsf;
+
+            if(lbstPbrfnt != null && pbrfnt instbndfof JComponfnt &&
+               !((JComponfnt)pbrfnt).isOptimizfdDrbwingEnbblfd()) {
+                Componfnt domps[] = pbrfnt.gftComponfnts();
+                int indfx = 0;
+
+                for(int i = domps.lfngti - 1 ;i >= 0; i--) {
+                    if(domps[i] == lbstPbrfnt) {
+                        indfx = i - 1;
+                        brfbk;
                     }
                 }
 
-                while(index >= 0) {
-                    tmp2 = comps[index].getBounds(tmp2);
+                wiilf(indfx >= 0) {
+                    tmp2 = domps[indfx].gftBounds(tmp2);
 
-                    if(tmp2.intersects(clip))
-                        return false;
-                    index--;
+                    if(tmp2.intfrsfdts(dlip))
+                        rfturn fblsf;
+                    indfx--;
                 }
             }
-            clip.x += x;
-            clip.y += y;
-            lastParent = parent;
+            dlip.x += x;
+            dlip.y += y;
+            lbstPbrfnt = pbrfnt;
         }
-        if (parent == null) {
-            // No Window parent.
-            return false;
+        if (pbrfnt == null) {
+            // No Window pbrfnt.
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JViewport.
-     * For viewports, the AccessibleContext takes the form of an
-     * AccessibleJViewport.
-     * A new AccessibleJViewport instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JVifwport.
+     * For vifwports, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJVifwport.
+     * A nfw AddfssiblfJVifwport instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJViewport that serves as the
-     *         AccessibleContext of this JViewport
+     * @rfturn bn AddfssiblfJVifwport tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JVifwport
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJViewport();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJVifwport();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JViewport</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to viewport user-interface elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JVifwport</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to vifwport usfr-intfrfbdf flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJViewport extends AccessibleJComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJVifwport fxtfnds AddfssiblfJComponfnt {
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of
-         * the object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of
+         * tif objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.VIEWPORT;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.VIEWPORT;
         }
-    } // inner class AccessibleJViewport
+    } // innfr dlbss AddfssiblfJVifwport
 }

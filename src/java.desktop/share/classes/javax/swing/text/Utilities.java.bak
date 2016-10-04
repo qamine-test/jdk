@@ -1,1078 +1,1078 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.Graphics;
-import java.awt.FontMetrics;
-import java.awt.Shape;
-import java.awt.Toolkit;
-import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.font.TextAttribute;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.TfxtLbyout;
+import jbvb.bwt.font.TfxtAttributf;
 
-import java.text.*;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.text.ParagraphView.Row;
-import sun.swing.SwingUtilities2;
+import jbvb.tfxt.*;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.tfxt.PbrbgrbpiVifw.Row;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * A collection of methods to deal with various text
- * related activities.
+ * A dollfdtion of mftiods to dfbl witi vbrious tfxt
+ * rflbtfd bdtivitifs.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public class Utilities {
+publid dlbss Utilitifs {
     /**
-     * If <code>view</code>'s container is a <code>JComponent</code> it
-     * is returned, after casting.
+     * If <dodf>vifw</dodf>'s dontbinfr is b <dodf>JComponfnt</dodf> it
+     * is rfturnfd, bftfr dbsting.
      */
-    static JComponent getJComponent(View view) {
-        if (view != null) {
-            Component component = view.getContainer();
-            if (component instanceof JComponent) {
-                return (JComponent)component;
+    stbtid JComponfnt gftJComponfnt(Vifw vifw) {
+        if (vifw != null) {
+            Componfnt domponfnt = vifw.gftContbinfr();
+            if (domponfnt instbndfof JComponfnt) {
+                rfturn (JComponfnt)domponfnt;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Draws the given text, expanding any tabs that are contained
-     * using the given tab expansion technique.  This particular
-     * implementation renders in a 1.1 style coordinate system
-     * where ints are used and 72dpi is assumed.
+     * Drbws tif givfn tfxt, fxpbnding bny tbbs tibt brf dontbinfd
+     * using tif givfn tbb fxpbnsion tfdiniquf.  Tiis pbrtidulbr
+     * implfmfntbtion rfndfrs in b 1.1 stylf doordinbtf systfm
+     * wifrf ints brf usfd bnd 72dpi is bssumfd.
      *
-     * @param s  the source of the text
-     * @param x  the X origin &gt;= 0
-     * @param y  the Y origin &gt;= 0
-     * @param g  the graphics context
-     * @param e  how to expand the tabs.  If this value is null,
-     *   tabs will be expanded as a space character.
-     * @param startOffset starting offset of the text in the document &gt;= 0
-     * @return  the X location at the end of the rendered text
+     * @pbrbm s  tif sourdf of tif tfxt
+     * @pbrbm x  tif X origin &gt;= 0
+     * @pbrbm y  tif Y origin &gt;= 0
+     * @pbrbm g  tif grbpiids dontfxt
+     * @pbrbm f  iow to fxpbnd tif tbbs.  If tiis vbluf is null,
+     *   tbbs will bf fxpbndfd bs b spbdf dibrbdtfr.
+     * @pbrbm stbrtOffsft stbrting offsft of tif tfxt in tif dodumfnt &gt;= 0
+     * @rfturn  tif X lodbtion bt tif fnd of tif rfndfrfd tfxt
      */
-    public static final int drawTabbedText(Segment s, int x, int y, Graphics g,
-                                           TabExpander e, int startOffset) {
-        return drawTabbedText(null, s, x, y, g, e, startOffset);
+    publid stbtid finbl int drbwTbbbfdTfxt(Sfgmfnt s, int x, int y, Grbpiids g,
+                                           TbbExpbndfr f, int stbrtOffsft) {
+        rfturn drbwTbbbfdTfxt(null, s, x, y, g, f, stbrtOffsft);
     }
 
     /**
-     * Draws the given text, expanding any tabs that are contained
-     * using the given tab expansion technique.  This particular
-     * implementation renders in a 1.1 style coordinate system
-     * where ints are used and 72dpi is assumed.
+     * Drbws tif givfn tfxt, fxpbnding bny tbbs tibt brf dontbinfd
+     * using tif givfn tbb fxpbnsion tfdiniquf.  Tiis pbrtidulbr
+     * implfmfntbtion rfndfrs in b 1.1 stylf doordinbtf systfm
+     * wifrf ints brf usfd bnd 72dpi is bssumfd.
      *
-     * @param view View requesting rendering, may be null.
-     * @param s  the source of the text
-     * @param x  the X origin &gt;= 0
-     * @param y  the Y origin &gt;= 0
-     * @param g  the graphics context
-     * @param e  how to expand the tabs.  If this value is null,
-     *   tabs will be expanded as a space character.
-     * @param startOffset starting offset of the text in the document &gt;= 0
-     * @return  the X location at the end of the rendered text
+     * @pbrbm vifw Vifw rfqufsting rfndfring, mby bf null.
+     * @pbrbm s  tif sourdf of tif tfxt
+     * @pbrbm x  tif X origin &gt;= 0
+     * @pbrbm y  tif Y origin &gt;= 0
+     * @pbrbm g  tif grbpiids dontfxt
+     * @pbrbm f  iow to fxpbnd tif tbbs.  If tiis vbluf is null,
+     *   tbbs will bf fxpbndfd bs b spbdf dibrbdtfr.
+     * @pbrbm stbrtOffsft stbrting offsft of tif tfxt in tif dodumfnt &gt;= 0
+     * @rfturn  tif X lodbtion bt tif fnd of tif rfndfrfd tfxt
      */
-    static final int drawTabbedText(View view,
-                                Segment s, int x, int y, Graphics g,
-                                TabExpander e, int startOffset) {
-        return drawTabbedText(view, s, x, y, g, e, startOffset, null);
+    stbtid finbl int drbwTbbbfdTfxt(Vifw vifw,
+                                Sfgmfnt s, int x, int y, Grbpiids g,
+                                TbbExpbndfr f, int stbrtOffsft) {
+        rfturn drbwTbbbfdTfxt(vifw, s, x, y, g, f, stbrtOffsft, null);
     }
 
-    // In addition to the previous method it can extend spaces for
-    // justification.
+    // In bddition to tif prfvious mftiod it dbn fxtfnd spbdfs for
+    // justifidbtion.
     //
-    // all params are the same as in the preious method except the last
-    // one:
-    // @param justificationData justificationData for the row.
-    // if null not justification is needed
-    static final int drawTabbedText(View view,
-                                Segment s, int x, int y, Graphics g,
-                                TabExpander e, int startOffset,
-                                int [] justificationData) {
-        JComponent component = getJComponent(view);
-        FontMetrics metrics = SwingUtilities2.getFontMetrics(component, g);
-        int nextX = x;
-        char[] txt = s.array;
-        int txtOffset = s.offset;
-        int flushLen = 0;
-        int flushIndex = s.offset;
-        int spaceAddon = 0;
-        int spaceAddonLeftoverEnd = -1;
-        int startJustifiableContent = 0;
-        int endJustifiableContent = 0;
-        if (justificationData != null) {
-            int offset = - startOffset + txtOffset;
-            View parent = null;
-            if (view != null
-                  && (parent = view.getParent()) != null) {
-                offset += parent.getStartOffset();
+    // bll pbrbms brf tif sbmf bs in tif prfious mftiod fxdfpt tif lbst
+    // onf:
+    // @pbrbm justifidbtionDbtb justifidbtionDbtb for tif row.
+    // if null not justifidbtion is nffdfd
+    stbtid finbl int drbwTbbbfdTfxt(Vifw vifw,
+                                Sfgmfnt s, int x, int y, Grbpiids g,
+                                TbbExpbndfr f, int stbrtOffsft,
+                                int [] justifidbtionDbtb) {
+        JComponfnt domponfnt = gftJComponfnt(vifw);
+        FontMftrids mftrids = SwingUtilitifs2.gftFontMftrids(domponfnt, g);
+        int nfxtX = x;
+        dibr[] txt = s.brrby;
+        int txtOffsft = s.offsft;
+        int flusiLfn = 0;
+        int flusiIndfx = s.offsft;
+        int spbdfAddon = 0;
+        int spbdfAddonLfftovfrEnd = -1;
+        int stbrtJustifibblfContfnt = 0;
+        int fndJustifibblfContfnt = 0;
+        if (justifidbtionDbtb != null) {
+            int offsft = - stbrtOffsft + txtOffsft;
+            Vifw pbrfnt = null;
+            if (vifw != null
+                  && (pbrfnt = vifw.gftPbrfnt()) != null) {
+                offsft += pbrfnt.gftStbrtOffsft();
             }
-            spaceAddon =
-                justificationData[Row.SPACE_ADDON];
-            spaceAddonLeftoverEnd =
-                justificationData[Row.SPACE_ADDON_LEFTOVER_END] + offset;
-            startJustifiableContent =
-                justificationData[Row.START_JUSTIFIABLE] + offset;
-            endJustifiableContent =
-                justificationData[Row.END_JUSTIFIABLE] + offset;
+            spbdfAddon =
+                justifidbtionDbtb[Row.SPACE_ADDON];
+            spbdfAddonLfftovfrEnd =
+                justifidbtionDbtb[Row.SPACE_ADDON_LEFTOVER_END] + offsft;
+            stbrtJustifibblfContfnt =
+                justifidbtionDbtb[Row.START_JUSTIFIABLE] + offsft;
+            fndJustifibblfContfnt =
+                justifidbtionDbtb[Row.END_JUSTIFIABLE] + offsft;
         }
-        int n = s.offset + s.count;
-        for (int i = txtOffset; i < n; i++) {
+        int n = s.offsft + s.dount;
+        for (int i = txtOffsft; i < n; i++) {
             if (txt[i] == '\t'
-                || ((spaceAddon != 0 || i <= spaceAddonLeftoverEnd)
+                || ((spbdfAddon != 0 || i <= spbdfAddonLfftovfrEnd)
                     && (txt[i] == ' ')
-                    && startJustifiableContent <= i
-                    && i <= endJustifiableContent
+                    && stbrtJustifibblfContfnt <= i
+                    && i <= fndJustifibblfContfnt
                     )) {
-                if (flushLen > 0) {
-                    nextX = SwingUtilities2.drawChars(component, g, txt,
-                                                flushIndex, flushLen, x, y);
-                    flushLen = 0;
+                if (flusiLfn > 0) {
+                    nfxtX = SwingUtilitifs2.drbwCibrs(domponfnt, g, txt,
+                                                flusiIndfx, flusiLfn, x, y);
+                    flusiLfn = 0;
                 }
-                flushIndex = i + 1;
+                flusiIndfx = i + 1;
                 if (txt[i] == '\t') {
-                    if (e != null) {
-                        nextX = (int) e.nextTabStop((float) nextX, startOffset + i - txtOffset);
-                    } else {
-                        nextX += metrics.charWidth(' ');
+                    if (f != null) {
+                        nfxtX = (int) f.nfxtTbbStop((flobt) nfxtX, stbrtOffsft + i - txtOffsft);
+                    } flsf {
+                        nfxtX += mftrids.dibrWidti(' ');
                     }
-                } else if (txt[i] == ' ') {
-                    nextX += metrics.charWidth(' ') + spaceAddon;
-                    if (i <= spaceAddonLeftoverEnd) {
-                        nextX++;
+                } flsf if (txt[i] == ' ') {
+                    nfxtX += mftrids.dibrWidti(' ') + spbdfAddon;
+                    if (i <= spbdfAddonLfftovfrEnd) {
+                        nfxtX++;
                     }
                 }
-                x = nextX;
-            } else if ((txt[i] == '\n') || (txt[i] == '\r')) {
-                if (flushLen > 0) {
-                    nextX = SwingUtilities2.drawChars(component, g, txt,
-                                                flushIndex, flushLen, x, y);
-                    flushLen = 0;
+                x = nfxtX;
+            } flsf if ((txt[i] == '\n') || (txt[i] == '\r')) {
+                if (flusiLfn > 0) {
+                    nfxtX = SwingUtilitifs2.drbwCibrs(domponfnt, g, txt,
+                                                flusiIndfx, flusiLfn, x, y);
+                    flusiLfn = 0;
                 }
-                flushIndex = i + 1;
-                x = nextX;
-            } else {
-                flushLen += 1;
+                flusiIndfx = i + 1;
+                x = nfxtX;
+            } flsf {
+                flusiLfn += 1;
             }
         }
-        if (flushLen > 0) {
-            nextX = SwingUtilities2.drawChars(component, g,txt, flushIndex,
-                                              flushLen, x, y);
+        if (flusiLfn > 0) {
+            nfxtX = SwingUtilitifs2.drbwCibrs(domponfnt, g,txt, flusiIndfx,
+                                              flusiLfn, x, y);
         }
-        return nextX;
+        rfturn nfxtX;
     }
 
     /**
-     * Determines the width of the given segment of text taking tabs
-     * into consideration.  This is implemented in a 1.1 style coordinate
-     * system where ints are used and 72dpi is assumed.
+     * Dftfrminfs tif widti of tif givfn sfgmfnt of tfxt tbking tbbs
+     * into donsidfrbtion.  Tiis is implfmfntfd in b 1.1 stylf doordinbtf
+     * systfm wifrf ints brf usfd bnd 72dpi is bssumfd.
      *
-     * @param s  the source of the text
-     * @param metrics the font metrics to use for the calculation
-     * @param x  the X origin &gt;= 0
-     * @param e  how to expand the tabs.  If this value is null,
-     *   tabs will be expanded as a space character.
-     * @param startOffset starting offset of the text in the document &gt;= 0
-     * @return  the width of the text
+     * @pbrbm s  tif sourdf of tif tfxt
+     * @pbrbm mftrids tif font mftrids to usf for tif dbldulbtion
+     * @pbrbm x  tif X origin &gt;= 0
+     * @pbrbm f  iow to fxpbnd tif tbbs.  If tiis vbluf is null,
+     *   tbbs will bf fxpbndfd bs b spbdf dibrbdtfr.
+     * @pbrbm stbrtOffsft stbrting offsft of tif tfxt in tif dodumfnt &gt;= 0
+     * @rfturn  tif widti of tif tfxt
      */
-    public static final int getTabbedTextWidth(Segment s, FontMetrics metrics, int x,
-                                               TabExpander e, int startOffset) {
-        return getTabbedTextWidth(null, s, metrics, x, e, startOffset, null);
+    publid stbtid finbl int gftTbbbfdTfxtWidti(Sfgmfnt s, FontMftrids mftrids, int x,
+                                               TbbExpbndfr f, int stbrtOffsft) {
+        rfturn gftTbbbfdTfxtWidti(null, s, mftrids, x, f, stbrtOffsft, null);
     }
 
 
-    // In addition to the previous method it can extend spaces for
-    // justification.
+    // In bddition to tif prfvious mftiod it dbn fxtfnd spbdfs for
+    // justifidbtion.
     //
-    // all params are the same as in the preious method except the last
-    // one:
-    // @param justificationData justificationData for the row.
-    // if null not justification is needed
-    static final int getTabbedTextWidth(View view, Segment s, FontMetrics metrics, int x,
-                                        TabExpander e, int startOffset,
-                                        int[] justificationData) {
-        int nextX = x;
-        char[] txt = s.array;
-        int txtOffset = s.offset;
-        int n = s.offset + s.count;
-        int charCount = 0;
-        int spaceAddon = 0;
-        int spaceAddonLeftoverEnd = -1;
-        int startJustifiableContent = 0;
-        int endJustifiableContent = 0;
-        if (justificationData != null) {
-            int offset = - startOffset + txtOffset;
-            View parent = null;
-            if (view != null
-                  && (parent = view.getParent()) != null) {
-                offset += parent.getStartOffset();
+    // bll pbrbms brf tif sbmf bs in tif prfious mftiod fxdfpt tif lbst
+    // onf:
+    // @pbrbm justifidbtionDbtb justifidbtionDbtb for tif row.
+    // if null not justifidbtion is nffdfd
+    stbtid finbl int gftTbbbfdTfxtWidti(Vifw vifw, Sfgmfnt s, FontMftrids mftrids, int x,
+                                        TbbExpbndfr f, int stbrtOffsft,
+                                        int[] justifidbtionDbtb) {
+        int nfxtX = x;
+        dibr[] txt = s.brrby;
+        int txtOffsft = s.offsft;
+        int n = s.offsft + s.dount;
+        int dibrCount = 0;
+        int spbdfAddon = 0;
+        int spbdfAddonLfftovfrEnd = -1;
+        int stbrtJustifibblfContfnt = 0;
+        int fndJustifibblfContfnt = 0;
+        if (justifidbtionDbtb != null) {
+            int offsft = - stbrtOffsft + txtOffsft;
+            Vifw pbrfnt = null;
+            if (vifw != null
+                  && (pbrfnt = vifw.gftPbrfnt()) != null) {
+                offsft += pbrfnt.gftStbrtOffsft();
             }
-            spaceAddon =
-                justificationData[Row.SPACE_ADDON];
-            spaceAddonLeftoverEnd =
-                justificationData[Row.SPACE_ADDON_LEFTOVER_END] + offset;
-            startJustifiableContent =
-                justificationData[Row.START_JUSTIFIABLE] + offset;
-            endJustifiableContent =
-                justificationData[Row.END_JUSTIFIABLE] + offset;
+            spbdfAddon =
+                justifidbtionDbtb[Row.SPACE_ADDON];
+            spbdfAddonLfftovfrEnd =
+                justifidbtionDbtb[Row.SPACE_ADDON_LEFTOVER_END] + offsft;
+            stbrtJustifibblfContfnt =
+                justifidbtionDbtb[Row.START_JUSTIFIABLE] + offsft;
+            fndJustifibblfContfnt =
+                justifidbtionDbtb[Row.END_JUSTIFIABLE] + offsft;
         }
 
-        for (int i = txtOffset; i < n; i++) {
+        for (int i = txtOffsft; i < n; i++) {
             if (txt[i] == '\t'
-                || ((spaceAddon != 0 || i <= spaceAddonLeftoverEnd)
+                || ((spbdfAddon != 0 || i <= spbdfAddonLfftovfrEnd)
                     && (txt[i] == ' ')
-                    && startJustifiableContent <= i
-                    && i <= endJustifiableContent
+                    && stbrtJustifibblfContfnt <= i
+                    && i <= fndJustifibblfContfnt
                     )) {
-                nextX += metrics.charsWidth(txt, i-charCount, charCount);
-                charCount = 0;
+                nfxtX += mftrids.dibrsWidti(txt, i-dibrCount, dibrCount);
+                dibrCount = 0;
                 if (txt[i] == '\t') {
-                    if (e != null) {
-                        nextX = (int) e.nextTabStop((float) nextX,
-                                                    startOffset + i - txtOffset);
-                    } else {
-                        nextX += metrics.charWidth(' ');
+                    if (f != null) {
+                        nfxtX = (int) f.nfxtTbbStop((flobt) nfxtX,
+                                                    stbrtOffsft + i - txtOffsft);
+                    } flsf {
+                        nfxtX += mftrids.dibrWidti(' ');
                     }
-                } else if (txt[i] == ' ') {
-                    nextX += metrics.charWidth(' ') + spaceAddon;
-                    if (i <= spaceAddonLeftoverEnd) {
-                        nextX++;
+                } flsf if (txt[i] == ' ') {
+                    nfxtX += mftrids.dibrWidti(' ') + spbdfAddon;
+                    if (i <= spbdfAddonLfftovfrEnd) {
+                        nfxtX++;
                     }
                 }
-            } else if(txt[i] == '\n') {
-            // Ignore newlines, they take up space and we shouldn't be
-            // counting them.
-                nextX += metrics.charsWidth(txt, i - charCount, charCount);
-                charCount = 0;
-            } else {
-                charCount++;
+            } flsf if(txt[i] == '\n') {
+            // Ignorf nfwlinfs, tify tbkf up spbdf bnd wf siouldn't bf
+            // dounting tifm.
+                nfxtX += mftrids.dibrsWidti(txt, i - dibrCount, dibrCount);
+                dibrCount = 0;
+            } flsf {
+                dibrCount++;
         }
         }
-        nextX += metrics.charsWidth(txt, n - charCount, charCount);
-        return nextX - x;
+        nfxtX += mftrids.dibrsWidti(txt, n - dibrCount, dibrCount);
+        rfturn nfxtX - x;
     }
 
     /**
-     * Determines the relative offset into the given text that
-     * best represents the given span in the view coordinate
-     * system.  This is implemented in a 1.1 style coordinate
-     * system where ints are used and 72dpi is assumed.
+     * Dftfrminfs tif rflbtivf offsft into tif givfn tfxt tibt
+     * bfst rfprfsfnts tif givfn spbn in tif vifw doordinbtf
+     * systfm.  Tiis is implfmfntfd in b 1.1 stylf doordinbtf
+     * systfm wifrf ints brf usfd bnd 72dpi is bssumfd.
      *
-     * @param s  the source of the text
-     * @param metrics the font metrics to use for the calculation
-     * @param x0 the starting view location representing the start
-     *   of the given text &gt;= 0.
-     * @param x  the target view location to translate to an
-     *   offset into the text &gt;= 0.
-     * @param e  how to expand the tabs.  If this value is null,
-     *   tabs will be expanded as a space character.
-     * @param startOffset starting offset of the text in the document &gt;= 0
-     * @return  the offset into the text &gt;= 0
+     * @pbrbm s  tif sourdf of tif tfxt
+     * @pbrbm mftrids tif font mftrids to usf for tif dbldulbtion
+     * @pbrbm x0 tif stbrting vifw lodbtion rfprfsfnting tif stbrt
+     *   of tif givfn tfxt &gt;= 0.
+     * @pbrbm x  tif tbrgft vifw lodbtion to trbnslbtf to bn
+     *   offsft into tif tfxt &gt;= 0.
+     * @pbrbm f  iow to fxpbnd tif tbbs.  If tiis vbluf is null,
+     *   tbbs will bf fxpbndfd bs b spbdf dibrbdtfr.
+     * @pbrbm stbrtOffsft stbrting offsft of tif tfxt in tif dodumfnt &gt;= 0
+     * @rfturn  tif offsft into tif tfxt &gt;= 0
      */
-    public static final int getTabbedTextOffset(Segment s, FontMetrics metrics,
-                                             int x0, int x, TabExpander e,
-                                             int startOffset) {
-        return getTabbedTextOffset(s, metrics, x0, x, e, startOffset, true);
+    publid stbtid finbl int gftTbbbfdTfxtOffsft(Sfgmfnt s, FontMftrids mftrids,
+                                             int x0, int x, TbbExpbndfr f,
+                                             int stbrtOffsft) {
+        rfturn gftTbbbfdTfxtOffsft(s, mftrids, x0, x, f, stbrtOffsft, truf);
     }
 
-    static final int getTabbedTextOffset(View view, Segment s, FontMetrics metrics,
-                                         int x0, int x, TabExpander e,
-                                         int startOffset,
-                                         int[] justificationData) {
-        return getTabbedTextOffset(view, s, metrics, x0, x, e, startOffset, true,
-                                   justificationData);
+    stbtid finbl int gftTbbbfdTfxtOffsft(Vifw vifw, Sfgmfnt s, FontMftrids mftrids,
+                                         int x0, int x, TbbExpbndfr f,
+                                         int stbrtOffsft,
+                                         int[] justifidbtionDbtb) {
+        rfturn gftTbbbfdTfxtOffsft(vifw, s, mftrids, x0, x, f, stbrtOffsft, truf,
+                                   justifidbtionDbtb);
     }
 
-    public static final int getTabbedTextOffset(Segment s,
-                                                FontMetrics metrics,
-                                                int x0, int x, TabExpander e,
-                                                int startOffset,
-                                                boolean round) {
-        return getTabbedTextOffset(null, s, metrics, x0, x, e, startOffset, round, null);
+    publid stbtid finbl int gftTbbbfdTfxtOffsft(Sfgmfnt s,
+                                                FontMftrids mftrids,
+                                                int x0, int x, TbbExpbndfr f,
+                                                int stbrtOffsft,
+                                                boolfbn round) {
+        rfturn gftTbbbfdTfxtOffsft(null, s, mftrids, x0, x, f, stbrtOffsft, round, null);
     }
 
-    // In addition to the previous method it can extend spaces for
-    // justification.
+    // In bddition to tif prfvious mftiod it dbn fxtfnd spbdfs for
+    // justifidbtion.
     //
-    // all params are the same as in the preious method except the last
-    // one:
-    // @param justificationData justificationData for the row.
-    // if null not justification is needed
-    static final int getTabbedTextOffset(View view,
-                                         Segment s,
-                                         FontMetrics metrics,
-                                         int x0, int x, TabExpander e,
-                                         int startOffset,
-                                         boolean round,
-                                         int[] justificationData) {
+    // bll pbrbms brf tif sbmf bs in tif prfious mftiod fxdfpt tif lbst
+    // onf:
+    // @pbrbm justifidbtionDbtb justifidbtionDbtb for tif row.
+    // if null not justifidbtion is nffdfd
+    stbtid finbl int gftTbbbfdTfxtOffsft(Vifw vifw,
+                                         Sfgmfnt s,
+                                         FontMftrids mftrids,
+                                         int x0, int x, TbbExpbndfr f,
+                                         int stbrtOffsft,
+                                         boolfbn round,
+                                         int[] justifidbtionDbtb) {
         if (x0 >= x) {
-            // x before x0, return.
-            return 0;
+            // x bfforf x0, rfturn.
+            rfturn 0;
         }
-        int nextX = x0;
-        // s may be a shared segment, so it is copied prior to calling
-        // the tab expander
-        char[] txt = s.array;
-        int txtOffset = s.offset;
-        int txtCount = s.count;
-        int spaceAddon = 0 ;
-        int spaceAddonLeftoverEnd = -1;
-        int startJustifiableContent = 0 ;
-        int endJustifiableContent = 0;
-        if (justificationData != null) {
-            int offset = - startOffset + txtOffset;
-            View parent = null;
-            if (view != null
-                  && (parent = view.getParent()) != null) {
-                offset += parent.getStartOffset();
+        int nfxtX = x0;
+        // s mby bf b sibrfd sfgmfnt, so it is dopifd prior to dblling
+        // tif tbb fxpbndfr
+        dibr[] txt = s.brrby;
+        int txtOffsft = s.offsft;
+        int txtCount = s.dount;
+        int spbdfAddon = 0 ;
+        int spbdfAddonLfftovfrEnd = -1;
+        int stbrtJustifibblfContfnt = 0 ;
+        int fndJustifibblfContfnt = 0;
+        if (justifidbtionDbtb != null) {
+            int offsft = - stbrtOffsft + txtOffsft;
+            Vifw pbrfnt = null;
+            if (vifw != null
+                  && (pbrfnt = vifw.gftPbrfnt()) != null) {
+                offsft += pbrfnt.gftStbrtOffsft();
             }
-            spaceAddon =
-                justificationData[Row.SPACE_ADDON];
-            spaceAddonLeftoverEnd =
-                justificationData[Row.SPACE_ADDON_LEFTOVER_END] + offset;
-            startJustifiableContent =
-                justificationData[Row.START_JUSTIFIABLE] + offset;
-            endJustifiableContent =
-                justificationData[Row.END_JUSTIFIABLE] + offset;
+            spbdfAddon =
+                justifidbtionDbtb[Row.SPACE_ADDON];
+            spbdfAddonLfftovfrEnd =
+                justifidbtionDbtb[Row.SPACE_ADDON_LEFTOVER_END] + offsft;
+            stbrtJustifibblfContfnt =
+                justifidbtionDbtb[Row.START_JUSTIFIABLE] + offsft;
+            fndJustifibblfContfnt =
+                justifidbtionDbtb[Row.END_JUSTIFIABLE] + offsft;
         }
-        int n = s.offset + s.count;
-        for (int i = s.offset; i < n; i++) {
+        int n = s.offsft + s.dount;
+        for (int i = s.offsft; i < n; i++) {
             if (txt[i] == '\t'
-                || ((spaceAddon != 0 || i <= spaceAddonLeftoverEnd)
+                || ((spbdfAddon != 0 || i <= spbdfAddonLfftovfrEnd)
                     && (txt[i] == ' ')
-                    && startJustifiableContent <= i
-                    && i <= endJustifiableContent
+                    && stbrtJustifibblfContfnt <= i
+                    && i <= fndJustifibblfContfnt
                     )){
                 if (txt[i] == '\t') {
-                    if (e != null) {
-                        nextX = (int) e.nextTabStop((float) nextX,
-                                                    startOffset + i - txtOffset);
-                    } else {
-                        nextX += metrics.charWidth(' ');
+                    if (f != null) {
+                        nfxtX = (int) f.nfxtTbbStop((flobt) nfxtX,
+                                                    stbrtOffsft + i - txtOffsft);
+                    } flsf {
+                        nfxtX += mftrids.dibrWidti(' ');
                     }
-                } else if (txt[i] == ' ') {
-                    nextX += metrics.charWidth(' ') + spaceAddon;
-                    if (i <= spaceAddonLeftoverEnd) {
-                        nextX++;
+                } flsf if (txt[i] == ' ') {
+                    nfxtX += mftrids.dibrWidti(' ') + spbdfAddon;
+                    if (i <= spbdfAddonLfftovfrEnd) {
+                        nfxtX++;
                     }
                 }
-            } else {
-                nextX += metrics.charWidth(txt[i]);
+            } flsf {
+                nfxtX += mftrids.dibrWidti(txt[i]);
             }
-            if (x < nextX) {
-                // found the hit position... return the appropriate side
-                int offset;
+            if (x < nfxtX) {
+                // found tif iit position... rfturn tif bppropribtf sidf
+                int offsft;
 
-                // the length of the string measured as a whole may differ from
-                // the sum of individual character lengths, for example if
-                // fractional metrics are enabled; and we must guard from this.
+                // tif lfngti of tif string mfbsurfd bs b wiolf mby difffr from
+                // tif sum of individubl dibrbdtfr lfngtis, for fxbmplf if
+                // frbdtionbl mftrids brf fnbblfd; bnd wf must gubrd from tiis.
                 if (round) {
-                    offset = i + 1 - txtOffset;
+                    offsft = i + 1 - txtOffsft;
 
-                    int width = metrics.charsWidth(txt, txtOffset, offset);
-                    int span = x - x0;
+                    int widti = mftrids.dibrsWidti(txt, txtOffsft, offsft);
+                    int spbn = x - x0;
 
-                    if (span < width) {
-                        while (offset > 0) {
-                            int nextWidth = offset > 1 ? metrics.charsWidth(txt, txtOffset, offset - 1) : 0;
+                    if (spbn < widti) {
+                        wiilf (offsft > 0) {
+                            int nfxtWidti = offsft > 1 ? mftrids.dibrsWidti(txt, txtOffsft, offsft - 1) : 0;
 
-                            if (span >= nextWidth) {
-                                if (span - nextWidth < width - span) {
-                                    offset--;
+                            if (spbn >= nfxtWidti) {
+                                if (spbn - nfxtWidti < widti - spbn) {
+                                    offsft--;
                                 }
 
-                                break;
+                                brfbk;
                             }
 
-                            width = nextWidth;
-                            offset--;
+                            widti = nfxtWidti;
+                            offsft--;
                         }
                     }
-                } else {
-                    offset = i - txtOffset;
+                } flsf {
+                    offsft = i - txtOffsft;
 
-                    while (offset > 0 && metrics.charsWidth(txt, txtOffset, offset) > (x - x0)) {
-                        offset--;
+                    wiilf (offsft > 0 && mftrids.dibrsWidti(txt, txtOffsft, offsft) > (x - x0)) {
+                        offsft--;
                     }
                 }
 
-                return offset;
+                rfturn offsft;
             }
         }
 
-        // didn't find, return end offset
-        return txtCount;
+        // didn't find, rfturn fnd offsft
+        rfturn txtCount;
     }
 
     /**
-     * Determine where to break the given text to fit
-     * within the given span. This tries to find a word boundary.
-     * @param s  the source of the text
-     * @param metrics the font metrics to use for the calculation
-     * @param x0 the starting view location representing the start
-     *   of the given text.
-     * @param x  the target view location to translate to an
-     *   offset into the text.
-     * @param e  how to expand the tabs.  If this value is null,
-     *   tabs will be expanded as a space character.
-     * @param startOffset starting offset in the document of the text
-     * @return  the offset into the given text
+     * Dftfrminf wifrf to brfbk tif givfn tfxt to fit
+     * witiin tif givfn spbn. Tiis trifs to find b word boundbry.
+     * @pbrbm s  tif sourdf of tif tfxt
+     * @pbrbm mftrids tif font mftrids to usf for tif dbldulbtion
+     * @pbrbm x0 tif stbrting vifw lodbtion rfprfsfnting tif stbrt
+     *   of tif givfn tfxt.
+     * @pbrbm x  tif tbrgft vifw lodbtion to trbnslbtf to bn
+     *   offsft into tif tfxt.
+     * @pbrbm f  iow to fxpbnd tif tbbs.  If tiis vbluf is null,
+     *   tbbs will bf fxpbndfd bs b spbdf dibrbdtfr.
+     * @pbrbm stbrtOffsft stbrting offsft in tif dodumfnt of tif tfxt
+     * @rfturn  tif offsft into tif givfn tfxt
      */
-    public static final int getBreakLocation(Segment s, FontMetrics metrics,
-                                             int x0, int x, TabExpander e,
-                                             int startOffset) {
-        char[] txt = s.array;
-        int txtOffset = s.offset;
-        int txtCount = s.count;
-        int index = Utilities.getTabbedTextOffset(s, metrics, x0, x,
-                                                  e, startOffset, false);
+    publid stbtid finbl int gftBrfbkLodbtion(Sfgmfnt s, FontMftrids mftrids,
+                                             int x0, int x, TbbExpbndfr f,
+                                             int stbrtOffsft) {
+        dibr[] txt = s.brrby;
+        int txtOffsft = s.offsft;
+        int txtCount = s.dount;
+        int indfx = Utilitifs.gftTbbbfdTfxtOffsft(s, mftrids, x0, x,
+                                                  f, stbrtOffsft, fblsf);
 
-        if (index >= txtCount - 1) {
-            return txtCount;
+        if (indfx >= txtCount - 1) {
+            rfturn txtCount;
         }
 
-        for (int i = txtOffset + index; i >= txtOffset; i--) {
-            char ch = txt[i];
-            if (ch < 256) {
-                // break on whitespace
-                if (Character.isWhitespace(ch)) {
-                    index = i - txtOffset + 1;
-                    break;
+        for (int i = txtOffsft + indfx; i >= txtOffsft; i--) {
+            dibr di = txt[i];
+            if (di < 256) {
+                // brfbk on wiitfspbdf
+                if (Cibrbdtfr.isWiitfspbdf(di)) {
+                    indfx = i - txtOffsft + 1;
+                    brfbk;
                 }
-            } else {
-                // a multibyte char found; use BreakIterator to find line break
-                BreakIterator bit = BreakIterator.getLineInstance();
-                bit.setText(s);
-                int breakPos = bit.preceding(i + 1);
-                if (breakPos > txtOffset) {
-                    index = breakPos - txtOffset;
+            } flsf {
+                // b multibytf dibr found; usf BrfbkItfrbtor to find linf brfbk
+                BrfbkItfrbtor bit = BrfbkItfrbtor.gftLinfInstbndf();
+                bit.sftTfxt(s);
+                int brfbkPos = bit.prfdfding(i + 1);
+                if (brfbkPos > txtOffsft) {
+                    indfx = brfbkPos - txtOffsft;
                 }
-                break;
+                brfbk;
             }
         }
-        return index;
+        rfturn indfx;
     }
 
     /**
-     * Determines the starting row model position of the row that contains
-     * the specified model position.  The component given must have a
-     * size to compute the result.  If the component doesn't have a size
-     * a value of -1 will be returned.
+     * Dftfrminfs tif stbrting row modfl position of tif row tibt dontbins
+     * tif spfdififd modfl position.  Tif domponfnt givfn must ibvf b
+     * sizf to domputf tif rfsult.  If tif domponfnt dofsn't ibvf b sizf
+     * b vbluf of -1 will bf rfturnfd.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the position &gt;= 0 if the request can be computed, otherwise
-     *  a value of -1 will be returned.
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif position &gt;= 0 if tif rfqufst dbn bf domputfd, otifrwisf
+     *  b vbluf of -1 will bf rfturnfd.
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getRowStart(JTextComponent c, int offs) throws BadLocationException {
-        Rectangle r = c.modelToView(offs);
+    publid stbtid finbl int gftRowStbrt(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        Rfdtbnglf r = d.modflToVifw(offs);
         if (r == null) {
-            return -1;
+            rfturn -1;
         }
-        int lastOffs = offs;
+        int lbstOffs = offs;
         int y = r.y;
-        while ((r != null) && (y == r.y)) {
-            // Skip invisible elements
-            if(r.height !=0) {
-                offs = lastOffs;
+        wiilf ((r != null) && (y == r.y)) {
+            // Skip invisiblf flfmfnts
+            if(r.ifigit !=0) {
+                offs = lbstOffs;
             }
-            lastOffs -= 1;
-            r = (lastOffs >= 0) ? c.modelToView(lastOffs) : null;
+            lbstOffs -= 1;
+            r = (lbstOffs >= 0) ? d.modflToVifw(lbstOffs) : null;
         }
-        return offs;
+        rfturn offs;
     }
 
     /**
-     * Determines the ending row model position of the row that contains
-     * the specified model position.  The component given must have a
-     * size to compute the result.  If the component doesn't have a size
-     * a value of -1 will be returned.
+     * Dftfrminfs tif fnding row modfl position of tif row tibt dontbins
+     * tif spfdififd modfl position.  Tif domponfnt givfn must ibvf b
+     * sizf to domputf tif rfsult.  If tif domponfnt dofsn't ibvf b sizf
+     * b vbluf of -1 will bf rfturnfd.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the position &gt;= 0 if the request can be computed, otherwise
-     *  a value of -1 will be returned.
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif position &gt;= 0 if tif rfqufst dbn bf domputfd, otifrwisf
+     *  b vbluf of -1 will bf rfturnfd.
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getRowEnd(JTextComponent c, int offs) throws BadLocationException {
-        Rectangle r = c.modelToView(offs);
+    publid stbtid finbl int gftRowEnd(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        Rfdtbnglf r = d.modflToVifw(offs);
         if (r == null) {
-            return -1;
+            rfturn -1;
         }
-        int n = c.getDocument().getLength();
-        int lastOffs = offs;
+        int n = d.gftDodumfnt().gftLfngti();
+        int lbstOffs = offs;
         int y = r.y;
-        while ((r != null) && (y == r.y)) {
-            // Skip invisible elements
-            if (r.height !=0) {
-                offs = lastOffs;
+        wiilf ((r != null) && (y == r.y)) {
+            // Skip invisiblf flfmfnts
+            if (r.ifigit !=0) {
+                offs = lbstOffs;
             }
-            lastOffs += 1;
-            r = (lastOffs <= n) ? c.modelToView(lastOffs) : null;
+            lbstOffs += 1;
+            r = (lbstOffs <= n) ? d.modflToVifw(lbstOffs) : null;
         }
-        return offs;
+        rfturn offs;
     }
 
     /**
-     * Determines the position in the model that is closest to the given
-     * view location in the row above.  The component given must have a
-     * size to compute the result.  If the component doesn't have a size
-     * a value of -1 will be returned.
+     * Dftfrminfs tif position in tif modfl tibt is dlosfst to tif givfn
+     * vifw lodbtion in tif row bbovf.  Tif domponfnt givfn must ibvf b
+     * sizf to domputf tif rfsult.  If tif domponfnt dofsn't ibvf b sizf
+     * b vbluf of -1 will bf rfturnfd.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @param x the X coordinate &gt;= 0
-     * @return the position &gt;= 0 if the request can be computed, otherwise
-     *  a value of -1 will be returned.
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @rfturn tif position &gt;= 0 if tif rfqufst dbn bf domputfd, otifrwisf
+     *  b vbluf of -1 will bf rfturnfd.
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getPositionAbove(JTextComponent c, int offs, int x) throws BadLocationException {
-        int lastOffs = getRowStart(c, offs) - 1;
-        if (lastOffs < 0) {
-            return -1;
+    publid stbtid finbl int gftPositionAbovf(JTfxtComponfnt d, int offs, int x) tirows BbdLodbtionExdfption {
+        int lbstOffs = gftRowStbrt(d, offs) - 1;
+        if (lbstOffs < 0) {
+            rfturn -1;
         }
-        int bestSpan = Integer.MAX_VALUE;
+        int bfstSpbn = Intfgfr.MAX_VALUE;
         int y = 0;
-        Rectangle r = null;
-        if (lastOffs >= 0) {
-            r = c.modelToView(lastOffs);
+        Rfdtbnglf r = null;
+        if (lbstOffs >= 0) {
+            r = d.modflToVifw(lbstOffs);
             y = r.y;
         }
-        while ((r != null) && (y == r.y)) {
-            int span = Math.abs(r.x - x);
-            if (span < bestSpan) {
-                offs = lastOffs;
-                bestSpan = span;
+        wiilf ((r != null) && (y == r.y)) {
+            int spbn = Mbti.bbs(r.x - x);
+            if (spbn < bfstSpbn) {
+                offs = lbstOffs;
+                bfstSpbn = spbn;
             }
-            lastOffs -= 1;
-            r = (lastOffs >= 0) ? c.modelToView(lastOffs) : null;
+            lbstOffs -= 1;
+            r = (lbstOffs >= 0) ? d.modflToVifw(lbstOffs) : null;
         }
-        return offs;
+        rfturn offs;
     }
 
     /**
-     * Determines the position in the model that is closest to the given
-     * view location in the row below.  The component given must have a
-     * size to compute the result.  If the component doesn't have a size
-     * a value of -1 will be returned.
+     * Dftfrminfs tif position in tif modfl tibt is dlosfst to tif givfn
+     * vifw lodbtion in tif row bflow.  Tif domponfnt givfn must ibvf b
+     * sizf to domputf tif rfsult.  If tif domponfnt dofsn't ibvf b sizf
+     * b vbluf of -1 will bf rfturnfd.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @param x the X coordinate &gt;= 0
-     * @return the position &gt;= 0 if the request can be computed, otherwise
-     *  a value of -1 will be returned.
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @rfturn tif position &gt;= 0 if tif rfqufst dbn bf domputfd, otifrwisf
+     *  b vbluf of -1 will bf rfturnfd.
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getPositionBelow(JTextComponent c, int offs, int x) throws BadLocationException {
-        int lastOffs = getRowEnd(c, offs) + 1;
-        if (lastOffs <= 0) {
-            return -1;
+    publid stbtid finbl int gftPositionBflow(JTfxtComponfnt d, int offs, int x) tirows BbdLodbtionExdfption {
+        int lbstOffs = gftRowEnd(d, offs) + 1;
+        if (lbstOffs <= 0) {
+            rfturn -1;
         }
-        int bestSpan = Integer.MAX_VALUE;
-        int n = c.getDocument().getLength();
+        int bfstSpbn = Intfgfr.MAX_VALUE;
+        int n = d.gftDodumfnt().gftLfngti();
         int y = 0;
-        Rectangle r = null;
-        if (lastOffs <= n) {
-            r = c.modelToView(lastOffs);
+        Rfdtbnglf r = null;
+        if (lbstOffs <= n) {
+            r = d.modflToVifw(lbstOffs);
             y = r.y;
         }
-        while ((r != null) && (y == r.y)) {
-            int span = Math.abs(x - r.x);
-            if (span < bestSpan) {
-                offs = lastOffs;
-                bestSpan = span;
+        wiilf ((r != null) && (y == r.y)) {
+            int spbn = Mbti.bbs(x - r.x);
+            if (spbn < bfstSpbn) {
+                offs = lbstOffs;
+                bfstSpbn = spbn;
             }
-            lastOffs += 1;
-            r = (lastOffs <= n) ? c.modelToView(lastOffs) : null;
+            lbstOffs += 1;
+            r = (lbstOffs <= n) ? d.modflToVifw(lbstOffs) : null;
         }
-        return offs;
+        rfturn offs;
     }
 
     /**
-     * Determines the start of a word for the given model location.
-     * Uses BreakIterator.getWordInstance() to actually get the words.
+     * Dftfrminfs tif stbrt of b word for tif givfn modfl lodbtion.
+     * Usfs BrfbkItfrbtor.gftWordInstbndf() to bdtublly gft tif words.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the location in the model of the word start &gt;= 0
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif lodbtion in tif modfl of tif word stbrt &gt;= 0
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getWordStart(JTextComponent c, int offs) throws BadLocationException {
-        Document doc = c.getDocument();
-        Element line = getParagraphElement(c, offs);
-        if (line == null) {
-            throw new BadLocationException("No word at " + offs, offs);
+    publid stbtid finbl int gftWordStbrt(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        Dodumfnt dod = d.gftDodumfnt();
+        Elfmfnt linf = gftPbrbgrbpiElfmfnt(d, offs);
+        if (linf == null) {
+            tirow nfw BbdLodbtionExdfption("No word bt " + offs, offs);
         }
-        int lineStart = line.getStartOffset();
-        int lineEnd = Math.min(line.getEndOffset(), doc.getLength());
+        int linfStbrt = linf.gftStbrtOffsft();
+        int linfEnd = Mbti.min(linf.gftEndOffsft(), dod.gftLfngti());
 
-        Segment seg = SegmentCache.getSharedSegment();
-        doc.getText(lineStart, lineEnd - lineStart, seg);
-        if(seg.count > 0) {
-            BreakIterator words = BreakIterator.getWordInstance(c.getLocale());
-            words.setText(seg);
-            int wordPosition = seg.offset + offs - lineStart;
-            if(wordPosition >= words.last()) {
-                wordPosition = words.last() - 1;
+        Sfgmfnt sfg = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(linfStbrt, linfEnd - linfStbrt, sfg);
+        if(sfg.dount > 0) {
+            BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(d.gftLodblf());
+            words.sftTfxt(sfg);
+            int wordPosition = sfg.offsft + offs - linfStbrt;
+            if(wordPosition >= words.lbst()) {
+                wordPosition = words.lbst() - 1;
             }
             words.following(wordPosition);
-            offs = lineStart + words.previous() - seg.offset;
+            offs = linfStbrt + words.prfvious() - sfg.offsft;
         }
-        SegmentCache.releaseSharedSegment(seg);
-        return offs;
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(sfg);
+        rfturn offs;
     }
 
     /**
-     * Determines the end of a word for the given location.
-     * Uses BreakIterator.getWordInstance() to actually get the words.
+     * Dftfrminfs tif fnd of b word for tif givfn lodbtion.
+     * Usfs BrfbkItfrbtor.gftWordInstbndf() to bdtublly gft tif words.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the location in the model of the word end &gt;= 0
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif lodbtion in tif modfl of tif word fnd &gt;= 0
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getWordEnd(JTextComponent c, int offs) throws BadLocationException {
-        Document doc = c.getDocument();
-        Element line = getParagraphElement(c, offs);
-        if (line == null) {
-            throw new BadLocationException("No word at " + offs, offs);
+    publid stbtid finbl int gftWordEnd(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        Dodumfnt dod = d.gftDodumfnt();
+        Elfmfnt linf = gftPbrbgrbpiElfmfnt(d, offs);
+        if (linf == null) {
+            tirow nfw BbdLodbtionExdfption("No word bt " + offs, offs);
         }
-        int lineStart = line.getStartOffset();
-        int lineEnd = Math.min(line.getEndOffset(), doc.getLength());
+        int linfStbrt = linf.gftStbrtOffsft();
+        int linfEnd = Mbti.min(linf.gftEndOffsft(), dod.gftLfngti());
 
-        Segment seg = SegmentCache.getSharedSegment();
-        doc.getText(lineStart, lineEnd - lineStart, seg);
-        if(seg.count > 0) {
-            BreakIterator words = BreakIterator.getWordInstance(c.getLocale());
-            words.setText(seg);
-            int wordPosition = offs - lineStart + seg.offset;
-            if(wordPosition >= words.last()) {
-                wordPosition = words.last() - 1;
+        Sfgmfnt sfg = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(linfStbrt, linfEnd - linfStbrt, sfg);
+        if(sfg.dount > 0) {
+            BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(d.gftLodblf());
+            words.sftTfxt(sfg);
+            int wordPosition = offs - linfStbrt + sfg.offsft;
+            if(wordPosition >= words.lbst()) {
+                wordPosition = words.lbst() - 1;
             }
-            offs = lineStart + words.following(wordPosition) - seg.offset;
+            offs = linfStbrt + words.following(wordPosition) - sfg.offsft;
         }
-        SegmentCache.releaseSharedSegment(seg);
-        return offs;
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(sfg);
+        rfturn offs;
     }
 
     /**
-     * Determines the start of the next word for the given location.
-     * Uses BreakIterator.getWordInstance() to actually get the words.
+     * Dftfrminfs tif stbrt of tif nfxt word for tif givfn lodbtion.
+     * Usfs BrfbkItfrbtor.gftWordInstbndf() to bdtublly gft tif words.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the location in the model of the word start &gt;= 0
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif lodbtion in tif modfl of tif word stbrt &gt;= 0
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getNextWord(JTextComponent c, int offs) throws BadLocationException {
-        int nextWord;
-        Element line = getParagraphElement(c, offs);
-        for (nextWord = getNextWordInParagraph(c, line, offs, false);
-             nextWord == BreakIterator.DONE;
-             nextWord = getNextWordInParagraph(c, line, offs, true)) {
+    publid stbtid finbl int gftNfxtWord(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        int nfxtWord;
+        Elfmfnt linf = gftPbrbgrbpiElfmfnt(d, offs);
+        for (nfxtWord = gftNfxtWordInPbrbgrbpi(d, linf, offs, fblsf);
+             nfxtWord == BrfbkItfrbtor.DONE;
+             nfxtWord = gftNfxtWordInPbrbgrbpi(d, linf, offs, truf)) {
 
-            // didn't find in this line, try the next line
-            offs = line.getEndOffset();
-            line = getParagraphElement(c, offs);
+            // didn't find in tiis linf, try tif nfxt linf
+            offs = linf.gftEndOffsft();
+            linf = gftPbrbgrbpiElfmfnt(d, offs);
         }
-        return nextWord;
+        rfturn nfxtWord;
     }
 
     /**
-     * Finds the next word in the given elements text.  The first
-     * parameter allows searching multiple paragraphs where even
-     * the first offset is desired.
-     * Returns the offset of the next word, or BreakIterator.DONE
-     * if there are no more words in the element.
+     * Finds tif nfxt word in tif givfn flfmfnts tfxt.  Tif first
+     * pbrbmftfr bllows sfbrdiing multiplf pbrbgrbpis wifrf fvfn
+     * tif first offsft is dfsirfd.
+     * Rfturns tif offsft of tif nfxt word, or BrfbkItfrbtor.DONE
+     * if tifrf brf no morf words in tif flfmfnt.
      */
-    static int getNextWordInParagraph(JTextComponent c, Element line, int offs, boolean first) throws BadLocationException {
-        if (line == null) {
-            throw new BadLocationException("No more words", offs);
+    stbtid int gftNfxtWordInPbrbgrbpi(JTfxtComponfnt d, Elfmfnt linf, int offs, boolfbn first) tirows BbdLodbtionExdfption {
+        if (linf == null) {
+            tirow nfw BbdLodbtionExdfption("No morf words", offs);
         }
-        Document doc = line.getDocument();
-        int lineStart = line.getStartOffset();
-        int lineEnd = Math.min(line.getEndOffset(), doc.getLength());
-        if ((offs >= lineEnd) || (offs < lineStart)) {
-            throw new BadLocationException("No more words", offs);
+        Dodumfnt dod = linf.gftDodumfnt();
+        int linfStbrt = linf.gftStbrtOffsft();
+        int linfEnd = Mbti.min(linf.gftEndOffsft(), dod.gftLfngti());
+        if ((offs >= linfEnd) || (offs < linfStbrt)) {
+            tirow nfw BbdLodbtionExdfption("No morf words", offs);
         }
-        Segment seg = SegmentCache.getSharedSegment();
-        doc.getText(lineStart, lineEnd - lineStart, seg);
-        BreakIterator words = BreakIterator.getWordInstance(c.getLocale());
-        words.setText(seg);
-        if ((first && (words.first() == (seg.offset + offs - lineStart))) &&
-            (! Character.isWhitespace(seg.array[words.first()]))) {
+        Sfgmfnt sfg = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(linfStbrt, linfEnd - linfStbrt, sfg);
+        BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(d.gftLodblf());
+        words.sftTfxt(sfg);
+        if ((first && (words.first() == (sfg.offsft + offs - linfStbrt))) &&
+            (! Cibrbdtfr.isWiitfspbdf(sfg.brrby[words.first()]))) {
 
-            return offs;
+            rfturn offs;
         }
-        int wordPosition = words.following(seg.offset + offs - lineStart);
-        if ((wordPosition == BreakIterator.DONE) ||
-            (wordPosition >= seg.offset + seg.count)) {
-                // there are no more words on this line.
-                return BreakIterator.DONE;
+        int wordPosition = words.following(sfg.offsft + offs - linfStbrt);
+        if ((wordPosition == BrfbkItfrbtor.DONE) ||
+            (wordPosition >= sfg.offsft + sfg.dount)) {
+                // tifrf brf no morf words on tiis linf.
+                rfturn BrfbkItfrbtor.DONE;
         }
-        // if we haven't shot past the end... check to
-        // see if the current boundary represents whitespace.
-        // if so, we need to try again
-        char ch = seg.array[wordPosition];
-        if (! Character.isWhitespace(ch)) {
-            return lineStart + wordPosition - seg.offset;
+        // if wf ibvfn't siot pbst tif fnd... difdk to
+        // sff if tif durrfnt boundbry rfprfsfnts wiitfspbdf.
+        // if so, wf nffd to try bgbin
+        dibr di = sfg.brrby[wordPosition];
+        if (! Cibrbdtfr.isWiitfspbdf(di)) {
+            rfturn linfStbrt + wordPosition - sfg.offsft;
         }
 
-        // it was whitespace, try again.  The assumption
-        // is that it must be a word start if the last
-        // one had whitespace following it.
-        wordPosition = words.next();
-        if (wordPosition != BreakIterator.DONE) {
-            offs = lineStart + wordPosition - seg.offset;
-            if (offs != lineEnd) {
-                return offs;
+        // it wbs wiitfspbdf, try bgbin.  Tif bssumption
+        // is tibt it must bf b word stbrt if tif lbst
+        // onf ibd wiitfspbdf following it.
+        wordPosition = words.nfxt();
+        if (wordPosition != BrfbkItfrbtor.DONE) {
+            offs = linfStbrt + wordPosition - sfg.offsft;
+            if (offs != linfEnd) {
+                rfturn offs;
             }
         }
-        SegmentCache.releaseSharedSegment(seg);
-        return BreakIterator.DONE;
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(sfg);
+        rfturn BrfbkItfrbtor.DONE;
     }
 
 
     /**
-     * Determine the start of the prev word for the given location.
-     * Uses BreakIterator.getWordInstance() to actually get the words.
+     * Dftfrminf tif stbrt of tif prfv word for tif givfn lodbtion.
+     * Usfs BrfbkItfrbtor.gftWordInstbndf() to bdtublly gft tif words.
      *
-     * @param c the editor
-     * @param offs the offset in the document &gt;= 0
-     * @return the location in the model of the word start &gt;= 0
-     * @exception BadLocationException if the offset is out of range
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif lodbtion in tif modfl of tif word stbrt &gt;= 0
+     * @fxdfption BbdLodbtionExdfption if tif offsft is out of rbngf
      */
-    public static final int getPreviousWord(JTextComponent c, int offs) throws BadLocationException {
-        int prevWord;
-        Element line = getParagraphElement(c, offs);
-        for (prevWord = getPrevWordInParagraph(c, line, offs);
-             prevWord == BreakIterator.DONE;
-             prevWord = getPrevWordInParagraph(c, line, offs)) {
+    publid stbtid finbl int gftPrfviousWord(JTfxtComponfnt d, int offs) tirows BbdLodbtionExdfption {
+        int prfvWord;
+        Elfmfnt linf = gftPbrbgrbpiElfmfnt(d, offs);
+        for (prfvWord = gftPrfvWordInPbrbgrbpi(d, linf, offs);
+             prfvWord == BrfbkItfrbtor.DONE;
+             prfvWord = gftPrfvWordInPbrbgrbpi(d, linf, offs)) {
 
-            // didn't find in this line, try the prev line
-            offs = line.getStartOffset() - 1;
-            line = getParagraphElement(c, offs);
+            // didn't find in tiis linf, try tif prfv linf
+            offs = linf.gftStbrtOffsft() - 1;
+            linf = gftPbrbgrbpiElfmfnt(d, offs);
         }
-        return prevWord;
+        rfturn prfvWord;
     }
 
     /**
-     * Finds the previous word in the given elements text.  The first
-     * parameter allows searching multiple paragraphs where even
-     * the first offset is desired.
-     * Returns the offset of the next word, or BreakIterator.DONE
-     * if there are no more words in the element.
+     * Finds tif prfvious word in tif givfn flfmfnts tfxt.  Tif first
+     * pbrbmftfr bllows sfbrdiing multiplf pbrbgrbpis wifrf fvfn
+     * tif first offsft is dfsirfd.
+     * Rfturns tif offsft of tif nfxt word, or BrfbkItfrbtor.DONE
+     * if tifrf brf no morf words in tif flfmfnt.
      */
-    static int getPrevWordInParagraph(JTextComponent c, Element line, int offs) throws BadLocationException {
-        if (line == null) {
-            throw new BadLocationException("No more words", offs);
+    stbtid int gftPrfvWordInPbrbgrbpi(JTfxtComponfnt d, Elfmfnt linf, int offs) tirows BbdLodbtionExdfption {
+        if (linf == null) {
+            tirow nfw BbdLodbtionExdfption("No morf words", offs);
         }
-        Document doc = line.getDocument();
-        int lineStart = line.getStartOffset();
-        int lineEnd = line.getEndOffset();
-        if ((offs > lineEnd) || (offs < lineStart)) {
-            throw new BadLocationException("No more words", offs);
+        Dodumfnt dod = linf.gftDodumfnt();
+        int linfStbrt = linf.gftStbrtOffsft();
+        int linfEnd = linf.gftEndOffsft();
+        if ((offs > linfEnd) || (offs < linfStbrt)) {
+            tirow nfw BbdLodbtionExdfption("No morf words", offs);
         }
-        Segment seg = SegmentCache.getSharedSegment();
-        doc.getText(lineStart, lineEnd - lineStart, seg);
-        BreakIterator words = BreakIterator.getWordInstance(c.getLocale());
-        words.setText(seg);
-        if (words.following(seg.offset + offs - lineStart) == BreakIterator.DONE) {
-            words.last();
+        Sfgmfnt sfg = SfgmfntCbdif.gftSibrfdSfgmfnt();
+        dod.gftTfxt(linfStbrt, linfEnd - linfStbrt, sfg);
+        BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(d.gftLodblf());
+        words.sftTfxt(sfg);
+        if (words.following(sfg.offsft + offs - linfStbrt) == BrfbkItfrbtor.DONE) {
+            words.lbst();
         }
-        int wordPosition = words.previous();
-        if (wordPosition == (seg.offset + offs - lineStart)) {
-            wordPosition = words.previous();
-        }
-
-        if (wordPosition == BreakIterator.DONE) {
-            // there are no more words on this line.
-            return BreakIterator.DONE;
-        }
-        // if we haven't shot past the end... check to
-        // see if the current boundary represents whitespace.
-        // if so, we need to try again
-        char ch = seg.array[wordPosition];
-        if (! Character.isWhitespace(ch)) {
-            return lineStart + wordPosition - seg.offset;
+        int wordPosition = words.prfvious();
+        if (wordPosition == (sfg.offsft + offs - linfStbrt)) {
+            wordPosition = words.prfvious();
         }
 
-        // it was whitespace, try again.  The assumption
-        // is that it must be a word start if the last
-        // one had whitespace following it.
-        wordPosition = words.previous();
-        if (wordPosition != BreakIterator.DONE) {
-            return lineStart + wordPosition - seg.offset;
+        if (wordPosition == BrfbkItfrbtor.DONE) {
+            // tifrf brf no morf words on tiis linf.
+            rfturn BrfbkItfrbtor.DONE;
         }
-        SegmentCache.releaseSharedSegment(seg);
-        return BreakIterator.DONE;
+        // if wf ibvfn't siot pbst tif fnd... difdk to
+        // sff if tif durrfnt boundbry rfprfsfnts wiitfspbdf.
+        // if so, wf nffd to try bgbin
+        dibr di = sfg.brrby[wordPosition];
+        if (! Cibrbdtfr.isWiitfspbdf(di)) {
+            rfturn linfStbrt + wordPosition - sfg.offsft;
+        }
+
+        // it wbs wiitfspbdf, try bgbin.  Tif bssumption
+        // is tibt it must bf b word stbrt if tif lbst
+        // onf ibd wiitfspbdf following it.
+        wordPosition = words.prfvious();
+        if (wordPosition != BrfbkItfrbtor.DONE) {
+            rfturn linfStbrt + wordPosition - sfg.offsft;
+        }
+        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(sfg);
+        rfturn BrfbkItfrbtor.DONE;
     }
 
     /**
-     * Determines the element to use for a paragraph/line.
+     * Dftfrminfs tif flfmfnt to usf for b pbrbgrbpi/linf.
      *
-     * @param c the editor
-     * @param offs the starting offset in the document &gt;= 0
-     * @return the element
+     * @pbrbm d tif fditor
+     * @pbrbm offs tif stbrting offsft in tif dodumfnt &gt;= 0
+     * @rfturn tif flfmfnt
      */
-    public static final Element getParagraphElement(JTextComponent c, int offs) {
-        Document doc = c.getDocument();
-        if (doc instanceof StyledDocument) {
-            return ((StyledDocument)doc).getParagraphElement(offs);
+    publid stbtid finbl Elfmfnt gftPbrbgrbpiElfmfnt(JTfxtComponfnt d, int offs) {
+        Dodumfnt dod = d.gftDodumfnt();
+        if (dod instbndfof StylfdDodumfnt) {
+            rfturn ((StylfdDodumfnt)dod).gftPbrbgrbpiElfmfnt(offs);
         }
-        Element map = doc.getDefaultRootElement();
-        int index = map.getElementIndex(offs);
-        Element paragraph = map.getElement(index);
-        if ((offs >= paragraph.getStartOffset()) && (offs < paragraph.getEndOffset())) {
-            return paragraph;
+        Elfmfnt mbp = dod.gftDffbultRootElfmfnt();
+        int indfx = mbp.gftElfmfntIndfx(offs);
+        Elfmfnt pbrbgrbpi = mbp.gftElfmfnt(indfx);
+        if ((offs >= pbrbgrbpi.gftStbrtOffsft()) && (offs < pbrbgrbpi.gftEndOffsft())) {
+            rfturn pbrbgrbpi;
         }
-        return null;
+        rfturn null;
     }
 
-    static boolean isComposedTextElement(Document doc, int offset) {
-        Element elem = doc.getDefaultRootElement();
-        while (!elem.isLeaf()) {
-            elem = elem.getElement(elem.getElementIndex(offset));
+    stbtid boolfbn isComposfdTfxtElfmfnt(Dodumfnt dod, int offsft) {
+        Elfmfnt flfm = dod.gftDffbultRootElfmfnt();
+        wiilf (!flfm.isLfbf()) {
+            flfm = flfm.gftElfmfnt(flfm.gftElfmfntIndfx(offsft));
         }
-        return isComposedTextElement(elem);
+        rfturn isComposfdTfxtElfmfnt(flfm);
     }
 
-    static boolean isComposedTextElement(Element elem) {
-        AttributeSet as = elem.getAttributes();
-        return isComposedTextAttributeDefined(as);
+    stbtid boolfbn isComposfdTfxtElfmfnt(Elfmfnt flfm) {
+        AttributfSft bs = flfm.gftAttributfs();
+        rfturn isComposfdTfxtAttributfDffinfd(bs);
     }
 
-    static boolean isComposedTextAttributeDefined(AttributeSet as) {
-        return ((as != null) &&
-                (as.isDefined(StyleConstants.ComposedTextAttribute)));
+    stbtid boolfbn isComposfdTfxtAttributfDffinfd(AttributfSft bs) {
+        rfturn ((bs != null) &&
+                (bs.isDffinfd(StylfConstbnts.ComposfdTfxtAttributf)));
     }
 
     /**
-     * Draws the given composed text passed from an input method.
+     * Drbws tif givfn domposfd tfxt pbssfd from bn input mftiod.
      *
-     * @param view View hosting text
-     * @param attr the attributes containing the composed text
-     * @param g  the graphics context
-     * @param x  the X origin
-     * @param y  the Y origin
-     * @param p0 starting offset in the composed text to be rendered
-     * @param p1 ending offset in the composed text to be rendered
-     * @return  the new insertion position
+     * @pbrbm vifw Vifw iosting tfxt
+     * @pbrbm bttr tif bttributfs dontbining tif domposfd tfxt
+     * @pbrbm g  tif grbpiids dontfxt
+     * @pbrbm x  tif X origin
+     * @pbrbm y  tif Y origin
+     * @pbrbm p0 stbrting offsft in tif domposfd tfxt to bf rfndfrfd
+     * @pbrbm p1 fnding offsft in tif domposfd tfxt to bf rfndfrfd
+     * @rfturn  tif nfw insfrtion position
      */
-    static int drawComposedText(View view, AttributeSet attr, Graphics g,
+    stbtid int drbwComposfdTfxt(Vifw vifw, AttributfSft bttr, Grbpiids g,
                                 int x, int y, int p0, int p1)
-                                     throws BadLocationException {
-        Graphics2D g2d = (Graphics2D)g;
-        AttributedString as = (AttributedString)attr.getAttribute(
-            StyleConstants.ComposedTextAttribute);
-        as.addAttribute(TextAttribute.FONT, g.getFont());
+                                     tirows BbdLodbtionExdfption {
+        Grbpiids2D g2d = (Grbpiids2D)g;
+        AttributfdString bs = (AttributfdString)bttr.gftAttributf(
+            StylfConstbnts.ComposfdTfxtAttributf);
+        bs.bddAttributf(TfxtAttributf.FONT, g.gftFont());
 
         if (p0 >= p1)
-            return x;
+            rfturn x;
 
-        AttributedCharacterIterator aci = as.getIterator(null, p0, p1);
-        return x + (int)SwingUtilities2.drawString(
-                             getJComponent(view), g2d,aci,x,y);
+        AttributfdCibrbdtfrItfrbtor bdi = bs.gftItfrbtor(null, p0, p1);
+        rfturn x + (int)SwingUtilitifs2.drbwString(
+                             gftJComponfnt(vifw), g2d,bdi,x,y);
     }
 
     /**
-     * Paints the composed text in a GlyphView
+     * Pbints tif domposfd tfxt in b GlypiVifw
      */
-    static void paintComposedText(Graphics g, Rectangle alloc, GlyphView v) {
-        if (g instanceof Graphics2D) {
-            Graphics2D g2d = (Graphics2D) g;
-            int p0 = v.getStartOffset();
-            int p1 = v.getEndOffset();
-            AttributeSet attrSet = v.getElement().getAttributes();
-            AttributedString as =
-                (AttributedString)attrSet.getAttribute(StyleConstants.ComposedTextAttribute);
-            int start = v.getElement().getStartOffset();
-            int y = alloc.y + alloc.height - (int)v.getGlyphPainter().getDescent(v);
-            int x = alloc.x;
+    stbtid void pbintComposfdTfxt(Grbpiids g, Rfdtbnglf bllod, GlypiVifw v) {
+        if (g instbndfof Grbpiids2D) {
+            Grbpiids2D g2d = (Grbpiids2D) g;
+            int p0 = v.gftStbrtOffsft();
+            int p1 = v.gftEndOffsft();
+            AttributfSft bttrSft = v.gftElfmfnt().gftAttributfs();
+            AttributfdString bs =
+                (AttributfdString)bttrSft.gftAttributf(StylfConstbnts.ComposfdTfxtAttributf);
+            int stbrt = v.gftElfmfnt().gftStbrtOffsft();
+            int y = bllod.y + bllod.ifigit - (int)v.gftGlypiPbintfr().gftDfsdfnt(v);
+            int x = bllod.x;
 
-            //Add text attributes
-            as.addAttribute(TextAttribute.FONT, v.getFont());
-            as.addAttribute(TextAttribute.FOREGROUND, v.getForeground());
-            if (StyleConstants.isBold(v.getAttributes())) {
-                as.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+            //Add tfxt bttributfs
+            bs.bddAttributf(TfxtAttributf.FONT, v.gftFont());
+            bs.bddAttributf(TfxtAttributf.FOREGROUND, v.gftForfground());
+            if (StylfConstbnts.isBold(v.gftAttributfs())) {
+                bs.bddAttributf(TfxtAttributf.WEIGHT, TfxtAttributf.WEIGHT_BOLD);
             }
-            if (StyleConstants.isItalic(v.getAttributes())) {
-                as.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+            if (StylfConstbnts.isItblid(v.gftAttributfs())) {
+                bs.bddAttributf(TfxtAttributf.POSTURE, TfxtAttributf.POSTURE_OBLIQUE);
             }
-            if (v.isUnderline()) {
-                as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+            if (v.isUndfrlinf()) {
+                bs.bddAttributf(TfxtAttributf.UNDERLINE, TfxtAttributf.UNDERLINE_ON);
             }
-            if (v.isStrikeThrough()) {
-                as.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+            if (v.isStrikfTirougi()) {
+                bs.bddAttributf(TfxtAttributf.STRIKETHROUGH, TfxtAttributf.STRIKETHROUGH_ON);
             }
-            if (v.isSuperscript()) {
-                as.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER);
+            if (v.isSupfrsdript()) {
+                bs.bddAttributf(TfxtAttributf.SUPERSCRIPT, TfxtAttributf.SUPERSCRIPT_SUPER);
             }
-            if (v.isSubscript()) {
-                as.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
+            if (v.isSubsdript()) {
+                bs.bddAttributf(TfxtAttributf.SUPERSCRIPT, TfxtAttributf.SUPERSCRIPT_SUB);
             }
 
-            // draw
-            AttributedCharacterIterator aci = as.getIterator(null, p0 - start, p1 - start);
-            SwingUtilities2.drawString(getJComponent(v),
-                                       g2d,aci,x,y);
+            // drbw
+            AttributfdCibrbdtfrItfrbtor bdi = bs.gftItfrbtor(null, p0 - stbrt, p1 - stbrt);
+            SwingUtilitifs2.drbwString(gftJComponfnt(v),
+                                       g2d,bdi,x,y);
         }
     }
 
     /*
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convfnifndf fundtion for dftfrmining ComponfntOrifntbtion.  Hflps us
+     * bvoid ibving Mungf dirfdtivfs tirougiout tif dodf.
      */
-    static boolean isLeftToRight( java.awt.Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtid boolfbn isLfftToRigit( jbvb.bwt.Componfnt d ) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
     }
 
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
+     * Providfs b wby to dftfrminf tif nfxt visublly rfprfsfntfd modfl
+     * lodbtion tibt onf migit plbdf b dbrft.  Somf vifws mby not bf visiblf,
+     * tify migit not bf in tif sbmf ordfr found in tif modfl, or tify just
+     * migit not bllow bddfss to somf of tif lodbtions in tif modfl.
      * <p>
-     * This implementation assumes the views are layed out in a logical
-     * manner. That is, that the view at index x + 1 is visually after
-     * the View at index x, and that the View at index x - 1 is visually
-     * before the View at x. There is support for reversing this behavior
-     * only if the passed in <code>View</code> is an instance of
-     * <code>CompositeView</code>. The <code>CompositeView</code>
-     * must then override the <code>flipEastAndWestAtEnds</code> method.
+     * Tiis implfmfntbtion bssumfs tif vifws brf lbyfd out in b logidbl
+     * mbnnfr. Tibt is, tibt tif vifw bt indfx x + 1 is visublly bftfr
+     * tif Vifw bt indfx x, bnd tibt tif Vifw bt indfx x - 1 is visublly
+     * bfforf tif Vifw bt x. Tifrf is support for rfvfrsing tiis bfibvior
+     * only if tif pbssfd in <dodf>Vifw</dodf> is bn instbndf of
+     * <dodf>CompositfVifw</dodf>. Tif <dodf>CompositfVifw</dodf>
+     * must tifn ovfrridf tif <dodf>flipEbstAndWfstAtEnds</dodf> mftiod.
      *
-     * @param v View to query
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
+     * @pbrbm v Vifw to qufry
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion tif dirfdtion from tif durrfnt position tibt dbn
+     *  bf tiougit of bs tif brrow kfys typidblly found on b kfybobrd;
+     *  tiis mby bf onf of tif following:
      *  <ul>
-     *  <li><code>SwingConstants.WEST</code>
-     *  <li><code>SwingConstants.EAST</code>
-     *  <li><code>SwingConstants.NORTH</code>
-     *  <li><code>SwingConstants.SOUTH</code>
+     *  <li><dodf>SwingConstbnts.WEST</dodf>
+     *  <li><dodf>SwingConstbnts.EAST</dodf>
+     *  <li><dodf>SwingConstbnts.NORTH</dodf>
+     *  <li><dodf>SwingConstbnts.SOUTH</dodf>
      *  </ul>
-     * @param biasRet an array contain the bias that was checked
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
+     * @pbrbm bibsRft bn brrby dontbin tif bibs tibt wbs difdkfd
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif nfxt
+     *  lodbtion visubl position
+     * @fxdfption BbdLodbtionExdfption
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf> is invblid
      */
-    static int getNextVisualPositionFrom(View v, int pos, Position.Bias b,
-                                          Shape alloc, int direction,
-                                          Position.Bias[] biasRet)
-                             throws BadLocationException {
-        if (v.getViewCount() == 0) {
-            // Nothing to do.
-            return pos;
+    stbtid int gftNfxtVisublPositionFrom(Vifw v, int pos, Position.Bibs b,
+                                          Sibpf bllod, int dirfdtion,
+                                          Position.Bibs[] bibsRft)
+                             tirows BbdLodbtionExdfption {
+        if (v.gftVifwCount() == 0) {
+            // Notiing to do.
+            rfturn pos;
         }
-        boolean top = (direction == SwingConstants.NORTH ||
-                       direction == SwingConstants.WEST);
-        int retValue;
+        boolfbn top = (dirfdtion == SwingConstbnts.NORTH ||
+                       dirfdtion == SwingConstbnts.WEST);
+        int rftVbluf;
         if (pos == -1) {
-            // Start from the first View.
-            int childIndex = (top) ? v.getViewCount() - 1 : 0;
-            View child = v.getView(childIndex);
-            Shape childBounds = v.getChildAllocation(childIndex, alloc);
-            retValue = child.getNextVisualPositionFrom(pos, b, childBounds,
-                                                       direction, biasRet);
-            if (retValue == -1 && !top && v.getViewCount() > 1) {
-                // Special case that should ONLY happen if first view
-                // isn't valid (can happen when end position is put at
-                // beginning of line.
-                child = v.getView(1);
-                childBounds = v.getChildAllocation(1, alloc);
-                retValue = child.getNextVisualPositionFrom(-1, biasRet[0],
-                                                           childBounds,
-                                                           direction, biasRet);
+            // Stbrt from tif first Vifw.
+            int diildIndfx = (top) ? v.gftVifwCount() - 1 : 0;
+            Vifw diild = v.gftVifw(diildIndfx);
+            Sibpf diildBounds = v.gftCiildAllodbtion(diildIndfx, bllod);
+            rftVbluf = diild.gftNfxtVisublPositionFrom(pos, b, diildBounds,
+                                                       dirfdtion, bibsRft);
+            if (rftVbluf == -1 && !top && v.gftVifwCount() > 1) {
+                // Spfdibl dbsf tibt siould ONLY ibppfn if first vifw
+                // isn't vblid (dbn ibppfn wifn fnd position is put bt
+                // bfginning of linf.
+                diild = v.gftVifw(1);
+                diildBounds = v.gftCiildAllodbtion(1, bllod);
+                rftVbluf = diild.gftNfxtVisublPositionFrom(-1, bibsRft[0],
+                                                           diildBounds,
+                                                           dirfdtion, bibsRft);
             }
         }
-        else {
-            int increment = (top) ? -1 : 1;
-            int childIndex;
-            if (b == Position.Bias.Backward && pos > 0) {
-                childIndex = v.getViewIndex(pos - 1, Position.Bias.Forward);
+        flsf {
+            int indrfmfnt = (top) ? -1 : 1;
+            int diildIndfx;
+            if (b == Position.Bibs.Bbdkwbrd && pos > 0) {
+                diildIndfx = v.gftVifwIndfx(pos - 1, Position.Bibs.Forwbrd);
             }
-            else {
-                childIndex = v.getViewIndex(pos, Position.Bias.Forward);
+            flsf {
+                diildIndfx = v.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
             }
-            View child = v.getView(childIndex);
-            Shape childBounds = v.getChildAllocation(childIndex, alloc);
-            retValue = child.getNextVisualPositionFrom(pos, b, childBounds,
-                                                       direction, biasRet);
-            if ((direction == SwingConstants.EAST ||
-                 direction == SwingConstants.WEST) &&
-                (v instanceof CompositeView) &&
-                ((CompositeView)v).flipEastAndWestAtEnds(pos, b)) {
-                increment *= -1;
+            Vifw diild = v.gftVifw(diildIndfx);
+            Sibpf diildBounds = v.gftCiildAllodbtion(diildIndfx, bllod);
+            rftVbluf = diild.gftNfxtVisublPositionFrom(pos, b, diildBounds,
+                                                       dirfdtion, bibsRft);
+            if ((dirfdtion == SwingConstbnts.EAST ||
+                 dirfdtion == SwingConstbnts.WEST) &&
+                (v instbndfof CompositfVifw) &&
+                ((CompositfVifw)v).flipEbstAndWfstAtEnds(pos, b)) {
+                indrfmfnt *= -1;
             }
-            childIndex += increment;
-            if (retValue == -1 && childIndex >= 0 &&
-                                  childIndex < v.getViewCount()) {
-                child = v.getView(childIndex);
-                childBounds = v.getChildAllocation(childIndex, alloc);
-                retValue = child.getNextVisualPositionFrom(
-                                     -1, b, childBounds, direction, biasRet);
-                // If there is a bias change, it is a fake position
-                // and we should skip it. This is usually the result
-                // of two elements side be side flowing the same way.
-                if (retValue == pos && biasRet[0] != b) {
-                    return getNextVisualPositionFrom(v, pos, biasRet[0],
-                                                     alloc, direction,
-                                                     biasRet);
+            diildIndfx += indrfmfnt;
+            if (rftVbluf == -1 && diildIndfx >= 0 &&
+                                  diildIndfx < v.gftVifwCount()) {
+                diild = v.gftVifw(diildIndfx);
+                diildBounds = v.gftCiildAllodbtion(diildIndfx, bllod);
+                rftVbluf = diild.gftNfxtVisublPositionFrom(
+                                     -1, b, diildBounds, dirfdtion, bibsRft);
+                // If tifrf is b bibs dibngf, it is b fbkf position
+                // bnd wf siould skip it. Tiis is usublly tif rfsult
+                // of two flfmfnts sidf bf sidf flowing tif sbmf wby.
+                if (rftVbluf == pos && bibsRft[0] != b) {
+                    rfturn gftNfxtVisublPositionFrom(v, pos, bibsRft[0],
+                                                     bllod, dirfdtion,
+                                                     bibsRft);
                 }
             }
-            else if (retValue != -1 && biasRet[0] != b &&
-                     ((increment == 1 && child.getEndOffset() == retValue) ||
-                      (increment == -1 &&
-                       child.getStartOffset() == retValue)) &&
-                     childIndex >= 0 && childIndex < v.getViewCount()) {
-                // Reached the end of a view, make sure the next view
-                // is a different direction.
-                child = v.getView(childIndex);
-                childBounds = v.getChildAllocation(childIndex, alloc);
-                Position.Bias originalBias = biasRet[0];
-                int nextPos = child.getNextVisualPositionFrom(
-                                    -1, b, childBounds, direction, biasRet);
-                if (biasRet[0] == b) {
-                    retValue = nextPos;
+            flsf if (rftVbluf != -1 && bibsRft[0] != b &&
+                     ((indrfmfnt == 1 && diild.gftEndOffsft() == rftVbluf) ||
+                      (indrfmfnt == -1 &&
+                       diild.gftStbrtOffsft() == rftVbluf)) &&
+                     diildIndfx >= 0 && diildIndfx < v.gftVifwCount()) {
+                // Rfbdifd tif fnd of b vifw, mbkf surf tif nfxt vifw
+                // is b difffrfnt dirfdtion.
+                diild = v.gftVifw(diildIndfx);
+                diildBounds = v.gftCiildAllodbtion(diildIndfx, bllod);
+                Position.Bibs originblBibs = bibsRft[0];
+                int nfxtPos = diild.gftNfxtVisublPositionFrom(
+                                    -1, b, diildBounds, dirfdtion, bibsRft);
+                if (bibsRft[0] == b) {
+                    rftVbluf = nfxtPos;
                 }
-                else {
-                    biasRet[0] = originalBias;
+                flsf {
+                    bibsRft[0] = originblBibs;
                 }
             }
         }
-        return retValue;
+        rfturn rftVbluf;
     }
 }

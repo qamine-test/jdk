@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.ByteArrayOutputStream;
-import java.security.*;
-import java.util.Locale;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.sfdurity.*;
+import jbvb.util.Lodblf;
 
 /**
- * Abstraction for the SSL/TLS hash of all handshake messages that is
- * maintained to verify the integrity of the negotiation. Internally,
- * it consists of an MD5 and an SHA1 digest. They are used in the client
- * and server finished messages and in certificate verify messages (if sent).
+ * Abstrbdtion for tif SSL/TLS ibsi of bll ibndsibkf mfssbgfs tibt is
+ * mbintbinfd to vfrify tif intfgrity of tif nfgotibtion. Intfrnblly,
+ * it donsists of bn MD5 bnd bn SHA1 digfst. Tify brf usfd in tif dlifnt
+ * bnd sfrvfr finisifd mfssbgfs bnd in dfrtifidbtf vfrify mfssbgfs (if sfnt).
  *
- * This class transparently deals with cloneable and non-cloneable digests.
+ * Tiis dlbss trbnspbrfntly dfbls witi dlonfbblf bnd non-dlonfbblf digfsts.
  *
- * This class now supports TLS 1.2 also. The key difference for TLS 1.2
- * is that you cannot determine the hash algorithms for CertificateVerify
- * at a early stage. On the other hand, it's simpler than TLS 1.1 (and earlier)
- * that there is no messy MD5+SHA1 digests.
+ * Tiis dlbss now supports TLS 1.2 blso. Tif kfy difffrfndf for TLS 1.2
+ * is tibt you dbnnot dftfrminf tif ibsi blgoritims for CfrtifidbtfVfrify
+ * bt b fbrly stbgf. On tif otifr ibnd, it's simplfr tibn TLS 1.1 (bnd fbrlifr)
+ * tibt tifrf is no mfssy MD5+SHA1 digfsts.
  *
- * You need to obey these conventions when using this class:
+ * You nffd to obfy tifsf donvfntions wifn using tiis dlbss:
  *
- * 1. protocolDetermined(version) should be called when the negotiated
- * protocol version is determined.
+ * 1. protodolDftfrminfd(vfrsion) siould bf dbllfd wifn tif nfgotibtfd
+ * protodol vfrsion is dftfrminfd.
  *
- * 2. Before protocolDetermined() is called, only update(), and reset()
- * and setFinishedAlg() can be called.
+ * 2. Bfforf protodolDftfrminfd() is dbllfd, only updbtf(), bnd rfsft()
+ * bnd sftFinisifdAlg() dbn bf dbllfd.
  *
- * 3. After protocolDetermined() is called, reset() cannot be called.
+ * 3. Aftfr protodolDftfrminfd() is dbllfd, rfsft() dbnnot bf dbllfd.
  *
- * 4. After protocolDetermined() is called, if the version is pre-TLS 1.2,
- * getFinishedHash() cannot be called. Otherwise,
- * getMD5Clone() and getSHAClone() cannot be called.
+ * 4. Aftfr protodolDftfrminfd() is dbllfd, if tif vfrsion is prf-TLS 1.2,
+ * gftFinisifdHbsi() dbnnot bf dbllfd. Otifrwisf,
+ * gftMD5Clonf() bnd gftSHAClonf() dbnnot bf dbllfd.
  *
- * 5. getMD5Clone() and getSHAClone() can only be called after
- * protocolDetermined() is called and version is pre-TLS 1.2.
+ * 5. gftMD5Clonf() bnd gftSHAClonf() dbn only bf dbllfd bftfr
+ * protodolDftfrminfd() is dbllfd bnd vfrsion is prf-TLS 1.2.
  *
- * 6. getFinishedHash() can only be called after protocolDetermined()
- * and setFinishedAlg() have been called and the version is TLS 1.2.
+ * 6. gftFinisifdHbsi() dbn only bf dbllfd bftfr protodolDftfrminfd()
+ * bnd sftFinisifdAlg() ibvf bffn dbllfd bnd tif vfrsion is TLS 1.2.
  *
- * Suggestion: Call protocolDetermined() and setFinishedAlg()
- * as early as possible.
+ * Suggfstion: Cbll protodolDftfrminfd() bnd sftFinisifdAlg()
+ * bs fbrly bs possiblf.
  *
- * Example:
- * <pre>
- * HandshakeHash hh = new HandshakeHash(...)
- * hh.protocolDetermined(ProtocolVersion.TLS12);
- * hh.update(clientHelloBytes);
- * hh.setFinishedAlg("SHA-256");
- * hh.update(serverHelloBytes);
+ * Exbmplf:
+ * <prf>
+ * HbndsibkfHbsi ii = nfw HbndsibkfHbsi(...)
+ * ii.protodolDftfrminfd(ProtodolVfrsion.TLS12);
+ * ii.updbtf(dlifntHflloBytfs);
+ * ii.sftFinisifdAlg("SHA-256");
+ * ii.updbtf(sfrvfrHflloBytfs);
  * ...
- * hh.update(CertificateVerifyBytes);
+ * ii.updbtf(CfrtifidbtfVfrifyBytfs);
  * ...
- * hh.update(finished1);
- * byte[] finDigest1 = hh.getFinishedHash();
- * hh.update(finished2);
- * byte[] finDigest2 = hh.getFinishedHash();
- * </pre>
+ * ii.updbtf(finisifd1);
+ * bytf[] finDigfst1 = ii.gftFinisifdHbsi();
+ * ii.updbtf(finisifd2);
+ * bytf[] finDigfst2 = ii.gftFinisifdHbsi();
+ * </prf>
  */
-final class HandshakeHash {
+finbl dlbss HbndsibkfHbsi {
 
     // Common
 
     // -1:  unknown
     //  1:  <=TLS 1.1
     //  2:  TLS 1.2
-    private int version = -1;
-    private ByteArrayOutputStream data = new ByteArrayOutputStream();
+    privbtf int vfrsion = -1;
+    privbtf BytfArrbyOutputStrfbm dbtb = nfw BytfArrbyOutputStrfbm();
 
     // For TLS 1.1
-    private MessageDigest md5, sha;
-    private final int clonesNeeded;    // needs to be saved for later use
+    privbtf MfssbgfDigfst md5, sib;
+    privbtf finbl int dlonfsNffdfd;    // nffds to bf sbvfd for lbtfr usf
 
     // For TLS 1.2
-    private MessageDigest finMD;
+    privbtf MfssbgfDigfst finMD;
 
     /**
-     * Create a new HandshakeHash. needCertificateVerify indicates whether
-     * a hash for the certificate verify message is required.
+     * Crfbtf b nfw HbndsibkfHbsi. nffdCfrtifidbtfVfrify indidbtfs wiftifr
+     * b ibsi for tif dfrtifidbtf vfrify mfssbgf is rfquirfd.
      */
-    HandshakeHash(boolean needCertificateVerify) {
-        clonesNeeded = needCertificateVerify ? 3 : 2;
+    HbndsibkfHbsi(boolfbn nffdCfrtifidbtfVfrify) {
+        dlonfsNffdfd = nffdCfrtifidbtfVfrify ? 3 : 2;
     }
 
-    void update(byte[] b, int offset, int len) {
-        switch (version) {
-            case 1:
-                md5.update(b, offset, len);
-                sha.update(b, offset, len);
-                break;
-            default:
+    void updbtf(bytf[] b, int offsft, int lfn) {
+        switdi (vfrsion) {
+            dbsf 1:
+                md5.updbtf(b, offsft, lfn);
+                sib.updbtf(b, offsft, lfn);
+                brfbk;
+            dffbult:
                 if (finMD != null) {
-                    finMD.update(b, offset, len);
+                    finMD.updbtf(b, offsft, lfn);
                 }
-                data.write(b, offset, len);
-                break;
+                dbtb.writf(b, offsft, lfn);
+                brfbk;
         }
     }
 
     /**
-     * Reset the remaining digests. Note this does *not* reset the number of
-     * digest clones that can be obtained. Digests that have already been
-     * cloned and are gone remain gone.
+     * Rfsft tif rfmbining digfsts. Notf tiis dofs *not* rfsft tif numbfr of
+     * digfst dlonfs tibt dbn bf obtbinfd. Digfsts tibt ibvf blrfbdy bffn
+     * dlonfd bnd brf gonf rfmbin gonf.
      */
-    void reset() {
-        if (version != -1) {
-            throw new RuntimeException(
-                    "reset() can be only be called before protocolDetermined");
+    void rfsft() {
+        if (vfrsion != -1) {
+            tirow nfw RuntimfExdfption(
+                    "rfsft() dbn bf only bf dbllfd bfforf protodolDftfrminfd");
         }
-        data.reset();
+        dbtb.rfsft();
     }
 
 
-    void protocolDetermined(ProtocolVersion pv) {
+    void protodolDftfrminfd(ProtodolVfrsion pv) {
 
-        // Do not set again, will ignore
-        if (version != -1) return;
+        // Do not sft bgbin, will ignorf
+        if (vfrsion != -1) rfturn;
 
-        version = pv.compareTo(ProtocolVersion.TLS12) >= 0 ? 2 : 1;
-        switch (version) {
-            case 1:
-                // initiate md5, sha and call update on saved array
+        vfrsion = pv.dompbrfTo(ProtodolVfrsion.TLS12) >= 0 ? 2 : 1;
+        switdi (vfrsion) {
+            dbsf 1:
+                // initibtf md5, sib bnd dbll updbtf on sbvfd brrby
                 try {
-                    md5 = CloneableDigest.getDigest("MD5", clonesNeeded);
-                    sha = CloneableDigest.getDigest("SHA", clonesNeeded);
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException
-                                ("Algorithm MD5 or SHA not available", e);
+                    md5 = ClonfbblfDigfst.gftDigfst("MD5", dlonfsNffdfd);
+                    sib = ClonfbblfDigfst.gftDigfst("SHA", dlonfsNffdfd);
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    tirow nfw RuntimfExdfption
+                                ("Algoritim MD5 or SHA not bvbilbblf", f);
                 }
-                byte[] bytes = data.toByteArray();
-                update(bytes, 0, bytes.length);
-                break;
-            case 2:
-                break;
+                bytf[] bytfs = dbtb.toBytfArrby();
+                updbtf(bytfs, 0, bytfs.lfngti);
+                brfbk;
+            dbsf 2:
+                brfbk;
         }
     }
 
     /////////////////////////////////////////////////////////////
-    // Below are old methods for pre-TLS 1.1
+    // Bflow brf old mftiods for prf-TLS 1.1
     /////////////////////////////////////////////////////////////
 
     /**
-     * Return a new MD5 digest updated with all data hashed so far.
+     * Rfturn b nfw MD5 digfst updbtfd witi bll dbtb ibsifd so fbr.
      */
-    MessageDigest getMD5Clone() {
-        if (version != 1) {
-            throw new RuntimeException(
-                    "getMD5Clone() can be only be called for TLS 1.1");
+    MfssbgfDigfst gftMD5Clonf() {
+        if (vfrsion != 1) {
+            tirow nfw RuntimfExdfption(
+                    "gftMD5Clonf() dbn bf only bf dbllfd for TLS 1.1");
         }
-        return cloneDigest(md5);
+        rfturn dlonfDigfst(md5);
     }
 
     /**
-     * Return a new SHA digest updated with all data hashed so far.
+     * Rfturn b nfw SHA digfst updbtfd witi bll dbtb ibsifd so fbr.
      */
-    MessageDigest getSHAClone() {
-        if (version != 1) {
-            throw new RuntimeException(
-                    "getSHAClone() can be only be called for TLS 1.1");
+    MfssbgfDigfst gftSHAClonf() {
+        if (vfrsion != 1) {
+            tirow nfw RuntimfExdfption(
+                    "gftSHAClonf() dbn bf only bf dbllfd for TLS 1.1");
         }
-        return cloneDigest(sha);
+        rfturn dlonfDigfst(sib);
     }
 
-    private static MessageDigest cloneDigest(MessageDigest digest) {
+    privbtf stbtid MfssbgfDigfst dlonfDigfst(MfssbgfDigfst digfst) {
         try {
-            return (MessageDigest)digest.clone();
-        } catch (CloneNotSupportedException e) {
-            // cannot occur for digests generated via CloneableDigest
-            throw new RuntimeException("Could not clone digest", e);
+            rfturn (MfssbgfDigfst)digfst.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // dbnnot oddur for digfsts gfnfrbtfd vib ClonfbblfDigfst
+            tirow nfw RuntimfExdfption("Could not dlonf digfst", f);
         }
     }
 
     /////////////////////////////////////////////////////////////
-    // Below are new methods for TLS 1.2
+    // Bflow brf nfw mftiods for TLS 1.2
     /////////////////////////////////////////////////////////////
 
-    private static String normalizeAlgName(String alg) {
-        alg = alg.toUpperCase(Locale.US);
-        if (alg.startsWith("SHA")) {
-            if (alg.length() == 3) {
-                return "SHA-1";
+    privbtf stbtid String normblizfAlgNbmf(String blg) {
+        blg = blg.toUppfrCbsf(Lodblf.US);
+        if (blg.stbrtsWiti("SHA")) {
+            if (blg.lfngti() == 3) {
+                rfturn "SHA-1";
             }
-            if (alg.charAt(3) != '-') {
-                return "SHA-" + alg.substring(3);
+            if (blg.dibrAt(3) != '-') {
+                rfturn "SHA-" + blg.substring(3);
             }
         }
-        return alg;
+        rfturn blg;
     }
     /**
-     * Specifies the hash algorithm used in Finished. This should be called
-     * based in info in ServerHello.
-     * Can be called multiple times.
+     * Spfdififs tif ibsi blgoritim usfd in Finisifd. Tiis siould bf dbllfd
+     * bbsfd in info in SfrvfrHfllo.
+     * Cbn bf dbllfd multiplf timfs.
      */
-    void setFinishedAlg(String s) {
+    void sftFinisifdAlg(String s) {
         if (s == null) {
-            throw new RuntimeException(
-                    "setFinishedAlg's argument cannot be null");
+            tirow nfw RuntimfExdfption(
+                    "sftFinisifdAlg's brgumfnt dbnnot bf null");
         }
 
-        // Can be called multiple times, but only set once
-        if (finMD != null) return;
+        // Cbn bf dbllfd multiplf timfs, but only sft ondf
+        if (finMD != null) rfturn;
 
         try {
-            finMD = CloneableDigest.getDigest(normalizeAlgName(s), 2);
-        } catch (NoSuchAlgorithmException e) {
-            throw new Error(e);
+            finMD = ClonfbblfDigfst.gftDigfst(normblizfAlgNbmf(s), 2);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw Error(f);
         }
-        finMD.update(data.toByteArray());
+        finMD.updbtf(dbtb.toBytfArrby());
     }
 
-    byte[] getAllHandshakeMessages() {
-        return data.toByteArray();
+    bytf[] gftAllHbndsibkfMfssbgfs() {
+        rfturn dbtb.toBytfArrby();
     }
 
     /**
-     * Calculates the hash in Finished. Must be called after setFinishedAlg().
-     * This method can be called twice, for Finished messages of the server
-     * side and client side respectively.
+     * Cbldulbtfs tif ibsi in Finisifd. Must bf dbllfd bftfr sftFinisifdAlg().
+     * Tiis mftiod dbn bf dbllfd twidf, for Finisifd mfssbgfs of tif sfrvfr
+     * sidf bnd dlifnt sidf rfspfdtivfly.
      */
-    byte[] getFinishedHash() {
+    bytf[] gftFinisifdHbsi() {
         try {
-            return cloneDigest(finMD).digest();
-        } catch (Exception e) {
-            throw new Error("BAD");
+            rfturn dlonfDigfst(finMD).digfst();
+        } dbtdi (Exdfption f) {
+            tirow nfw Error("BAD");
         }
     }
 }
 
 /**
- * A wrapper for MessageDigests that simulates cloning of non-cloneable
- * digests. It uses the standard MessageDigest API and therefore can be used
- * transparently in place of a regular digest.
+ * A wrbppfr for MfssbgfDigfsts tibt simulbtfs dloning of non-dlonfbblf
+ * digfsts. It usfs tif stbndbrd MfssbgfDigfst API bnd tifrfforf dbn bf usfd
+ * trbnspbrfntly in plbdf of b rfgulbr digfst.
  *
- * Note that we extend the MessageDigest class directly rather than
- * MessageDigestSpi. This works because MessageDigest was originally designed
- * this way in the JDK 1.1 days which allows us to avoid creating an internal
- * provider.
+ * Notf tibt wf fxtfnd tif MfssbgfDigfst dlbss dirfdtly rbtifr tibn
+ * MfssbgfDigfstSpi. Tiis works bfdbusf MfssbgfDigfst wbs originblly dfsignfd
+ * tiis wby in tif JDK 1.1 dbys wiidi bllows us to bvoid drfbting bn intfrnbl
+ * providfr.
  *
- * It can be "cloned" a limited number of times, which is specified at
- * construction time. This is achieved by internally maintaining n digests
- * in parallel. Consequently, it is only 1/n-th times as fast as the original
- * digest.
+ * It dbn bf "dlonfd" b limitfd numbfr of timfs, wiidi is spfdififd bt
+ * donstrudtion timf. Tiis is bdiifvfd by intfrnblly mbintbining n digfsts
+ * in pbrbllfl. Consfqufntly, it is only 1/n-ti timfs bs fbst bs tif originbl
+ * digfst.
  *
- * Example:
- *   MessageDigest md = CloneableDigest.getDigest("SHA", 2);
- *   md.update(data1);
- *   MessageDigest md2 = (MessageDigest)md.clone();
- *   md2.update(data2);
- *   byte[] d1 = md2.digest(); // digest of data1 || data2
- *   md.update(data3);
- *   byte[] d2 = md.digest();  // digest of data1 || data3
+ * Exbmplf:
+ *   MfssbgfDigfst md = ClonfbblfDigfst.gftDigfst("SHA", 2);
+ *   md.updbtf(dbtb1);
+ *   MfssbgfDigfst md2 = (MfssbgfDigfst)md.dlonf();
+ *   md2.updbtf(dbtb2);
+ *   bytf[] d1 = md2.digfst(); // digfst of dbtb1 || dbtb2
+ *   md.updbtf(dbtb3);
+ *   bytf[] d2 = md.digfst();  // digfst of dbtb1 || dbtb3
  *
- * This class is not thread safe.
+ * Tiis dlbss is not tirfbd sbff.
  *
  */
-final class CloneableDigest extends MessageDigest implements Cloneable {
+finbl dlbss ClonfbblfDigfst fxtfnds MfssbgfDigfst implfmfnts Clonfbblf {
 
     /**
-     * The individual MessageDigests. Initially, all elements are non-null.
-     * When clone() is called, the non-null element with the maximum index is
-     * returned and the array element set to null.
+     * Tif individubl MfssbgfDigfsts. Initiblly, bll flfmfnts brf non-null.
+     * Wifn dlonf() is dbllfd, tif non-null flfmfnt witi tif mbximum indfx is
+     * rfturnfd bnd tif brrby flfmfnt sft to null.
      *
-     * All non-null element are always in the same state.
+     * All non-null flfmfnt brf blwbys in tif sbmf stbtf.
      */
-    private final MessageDigest[] digests;
+    privbtf finbl MfssbgfDigfst[] digfsts;
 
-    private CloneableDigest(MessageDigest digest, int n, String algorithm)
-            throws NoSuchAlgorithmException {
-        super(algorithm);
-        digests = new MessageDigest[n];
-        digests[0] = digest;
+    privbtf ClonfbblfDigfst(MfssbgfDigfst digfst, int n, String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        supfr(blgoritim);
+        digfsts = nfw MfssbgfDigfst[n];
+        digfsts[0] = digfst;
         for (int i = 1; i < n; i++) {
-            digests[i] = JsseJce.getMessageDigest(algorithm);
+            digfsts[i] = JssfJdf.gftMfssbgfDigfst(blgoritim);
         }
     }
 
     /**
-     * Return a MessageDigest for the given algorithm that can be cloned the
-     * specified number of times. If the default implementation supports
-     * cloning, it is returned. Otherwise, an instance of this class is
-     * returned.
+     * Rfturn b MfssbgfDigfst for tif givfn blgoritim tibt dbn bf dlonfd tif
+     * spfdififd numbfr of timfs. If tif dffbult implfmfntbtion supports
+     * dloning, it is rfturnfd. Otifrwisf, bn instbndf of tiis dlbss is
+     * rfturnfd.
      */
-    static MessageDigest getDigest(String algorithm, int n)
-            throws NoSuchAlgorithmException {
-        MessageDigest digest = JsseJce.getMessageDigest(algorithm);
+    stbtid MfssbgfDigfst gftDigfst(String blgoritim, int n)
+            tirows NoSudiAlgoritimExdfption {
+        MfssbgfDigfst digfst = JssfJdf.gftMfssbgfDigfst(blgoritim);
         try {
-            digest.clone();
-            // already cloneable, use it
-            return digest;
-        } catch (CloneNotSupportedException e) {
-            return new CloneableDigest(digest, n, algorithm);
+            digfst.dlonf();
+            // blrfbdy dlonfbblf, usf it
+            rfturn digfst;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            rfturn nfw ClonfbblfDigfst(digfst, n, blgoritim);
         }
     }
 
     /**
-     * Check if this object is still usable. If it has already been cloned the
-     * maximum number of times, there are no digests left and this object can no
-     * longer be used.
+     * Cifdk if tiis objfdt is still usbblf. If it ibs blrfbdy bffn dlonfd tif
+     * mbximum numbfr of timfs, tifrf brf no digfsts lfft bnd tiis objfdt dbn no
+     * longfr bf usfd.
      */
-    private void checkState() {
-        // XXX handshaking currently doesn't stop updating hashes...
-        // if (digests[0] == null) {
-        //     throw new IllegalStateException("no digests left");
+    privbtf void difdkStbtf() {
+        // XXX ibndsibking durrfntly dofsn't stop updbting ibsifs...
+        // if (digfsts[0] == null) {
+        //     tirow nfw IllfgblStbtfExdfption("no digfsts lfft");
         // }
     }
 
-    @Override
-    protected int engineGetDigestLength() {
-        checkState();
-        return digests[0].getDigestLength();
+    @Ovfrridf
+    protfdtfd int fnginfGftDigfstLfngti() {
+        difdkStbtf();
+        rfturn digfsts[0].gftDigfstLfngti();
     }
 
-    @Override
-    protected void engineUpdate(byte b) {
-        checkState();
-        for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].update(b);
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf b) {
+        difdkStbtf();
+        for (int i = 0; (i < digfsts.lfngti) && (digfsts[i] != null); i++) {
+            digfsts[i].updbtf(b);
         }
     }
 
-    @Override
-    protected void engineUpdate(byte[] b, int offset, int len) {
-        checkState();
-        for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].update(b, offset, len);
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf[] b, int offsft, int lfn) {
+        difdkStbtf();
+        for (int i = 0; (i < digfsts.lfngti) && (digfsts[i] != null); i++) {
+            digfsts[i].updbtf(b, offsft, lfn);
         }
     }
 
-    @Override
-    protected byte[] engineDigest() {
-        checkState();
-        byte[] digest = digests[0].digest();
-        digestReset();
-        return digest;
+    @Ovfrridf
+    protfdtfd bytf[] fnginfDigfst() {
+        difdkStbtf();
+        bytf[] digfst = digfsts[0].digfst();
+        digfstRfsft();
+        rfturn digfst;
     }
 
-    @Override
-    protected int engineDigest(byte[] buf, int offset, int len)
-            throws DigestException {
-        checkState();
-        int n = digests[0].digest(buf, offset, len);
-        digestReset();
-        return n;
+    @Ovfrridf
+    protfdtfd int fnginfDigfst(bytf[] buf, int offsft, int lfn)
+            tirows DigfstExdfption {
+        difdkStbtf();
+        int n = digfsts[0].digfst(buf, offsft, lfn);
+        digfstRfsft();
+        rfturn n;
     }
 
     /**
-     * Reset all digests after a digest() call. digests[0] has already been
-     * implicitly reset by the digest() call and does not need to be reset
-     * again.
+     * Rfsft bll digfsts bftfr b digfst() dbll. digfsts[0] ibs blrfbdy bffn
+     * impliditly rfsft by tif digfst() dbll bnd dofs not nffd to bf rfsft
+     * bgbin.
      */
-    private void digestReset() {
-        for (int i = 1; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].reset();
+    privbtf void digfstRfsft() {
+        for (int i = 1; (i < digfsts.lfngti) && (digfsts[i] != null); i++) {
+            digfsts[i].rfsft();
         }
     }
 
-    @Override
-    protected void engineReset() {
-        checkState();
-        for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].reset();
+    @Ovfrridf
+    protfdtfd void fnginfRfsft() {
+        difdkStbtf();
+        for (int i = 0; (i < digfsts.lfngti) && (digfsts[i] != null); i++) {
+            digfsts[i].rfsft();
         }
     }
 
-    @Override
-    public Object clone() {
-        checkState();
-        for (int i = digests.length - 1; i >= 0; i--) {
-            if (digests[i] != null) {
-                MessageDigest digest = digests[i];
-                digests[i] = null;
-                return digest;
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        difdkStbtf();
+        for (int i = digfsts.lfngti - 1; i >= 0; i--) {
+            if (digfsts[i] != null) {
+                MfssbgfDigfst digfst = digfsts[i];
+                digfsts[i] = null;
+                rfturn digfst;
             }
         }
-        // cannot occur
-        throw new InternalError();
+        // dbnnot oddur
+        tirow nfw IntfrnblError();
     }
 
 }

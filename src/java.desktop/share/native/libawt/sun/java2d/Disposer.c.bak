@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include "jni_util.h"
-#include "Disposer.h"
+#indludf "jni_util.i"
+#indludf "Disposfr.i"
 
-static jmethodID addRecordMID = NULL;
-static jclass dispClass = NULL;
+stbtid jmftiodID bddRfdordMID = NULL;
+stbtid jdlbss dispClbss = NULL;
 
 /*
- * Class:     sun_java2d_Disposer
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_Disposfr
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_Disposer_initIDs(JNIEnv *env, jclass disposerClass)
+Jbvb_sun_jbvb2d_Disposfr_initIDs(JNIEnv *fnv, jdlbss disposfrClbss)
 {
-    addRecordMID = (*env)->GetStaticMethodID(env, disposerClass, "addRecord",
-                                             "(Ljava/lang/Object;JJ)V");
-    if (addRecordMID != 0) {
-        dispClass = (*env)->NewGlobalRef(env, disposerClass);
+    bddRfdordMID = (*fnv)->GftStbtidMftiodID(fnv, disposfrClbss, "bddRfdord",
+                                             "(Ljbvb/lbng/Objfdt;JJ)V");
+    if (bddRfdordMID != 0) {
+        dispClbss = (*fnv)->NfwGlobblRff(fnv, disposfrClbss);
     }
 }
 
 JNIEXPORT void JNICALL
-Disposer_AddRecord(JNIEnv *env, jobject obj, GeneralDisposeFunc disposer, jlong pData) {
+Disposfr_AddRfdord(JNIEnv *fnv, jobjfdt obj, GfnfrblDisposfFund disposfr, jlong pDbtb) {
 
-    if (dispClass == NULL) {
-        /* Needed to initialize the Disposer class as it may be not yet referenced */
-        jclass clazz = (*env)->FindClass(env, "sun/java2d/Disposer");
-        if ((*env)->ExceptionCheck(env)) {
-            // If there's exception pending, we'll just return.
-            return;
+    if (dispClbss == NULL) {
+        /* Nffdfd to initiblizf tif Disposfr dlbss bs it mby bf not yft rfffrfndfd */
+        jdlbss dlbzz = (*fnv)->FindClbss(fnv, "sun/jbvb2d/Disposfr");
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            // If tifrf's fxdfption pfnding, wf'll just rfturn.
+            rfturn;
         }
     }
 
-    (*env)->CallStaticVoidMethod(env, dispClass, addRecordMID,
-                                 obj, ptr_to_jlong(disposer), pData);
+    (*fnv)->CbllStbtidVoidMftiod(fnv, dispClbss, bddRfdordMID,
+                                 obj, ptr_to_jlong(disposfr), pDbtb);
 }
 
 /*
- * Class:     sun_java2d_DefaultDisposerRecord
- * Method:    invokeNativeDispose
- * Signature: (JJ)V
+ * Clbss:     sun_jbvb2d_DffbultDisposfrRfdord
+ * Mftiod:    invokfNbtivfDisposf
+ * Signbturf: (JJ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_DefaultDisposerRecord_invokeNativeDispose(JNIEnv *env, jclass dispClass,
-                                             jlong disposer, jlong pData)
+Jbvb_sun_jbvb2d_DffbultDisposfrRfdord_invokfNbtivfDisposf(JNIEnv *fnv, jdlbss dispClbss,
+                                             jlong disposfr, jlong pDbtb)
 {
-    if (disposer != 0 && pData != 0) {
-        GeneralDisposeFunc *disposeMethod = (GeneralDisposeFunc*)(jlong_to_ptr(disposer));
-        disposeMethod(env, pData);
+    if (disposfr != 0 && pDbtb != 0) {
+        GfnfrblDisposfFund *disposfMftiod = (GfnfrblDisposfFund*)(jlong_to_ptr(disposfr));
+        disposfMftiod(fnv, pDbtb);
     }
 }

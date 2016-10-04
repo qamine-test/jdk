@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.util.logging.PlbtformLoggfr;
+
+dlbss WMfnuItfmPffr fxtfnds WObjfdtPffr implfmfnts MfnuItfmPffr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.WMfnuItfmPffr");
+
+    stbtid {
+        initIDs();
+    }
+
+    String shortdutLbbfl;
+    //WMfnuBbrPffr fxtfnds WMfnuPffr
+    //so pbrfnt is blwbys instbndfof WMfnuPffr
+    protfdtfd WMfnuPffr pbrfnt;
+
+    // MfnuItfmPffr implfmfntbtion
+
+    privbtf syndhronizfd nbtivf void _disposf();
+    protfdtfd void disposfImpl() {
+        WToolkit.tbrgftDisposfdPffr(tbrgft, this);
+        _disposf();
+    }
+
+    publid void sftEnbblfd(boolfbn b) {
+        fnbblf(b);
+    }
+
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     */
+    publid void fnbblf() {
+        fnbblf(truf);
+    }
+
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     */
+    publid void disbblf() {
+        fnbblf(fblsf);
+    }
+
+    publid void rfbdShortdutLbbfl() {
+        //Fix for 6288578: PIT. Windows: Shortduts displbyfd for thf mfnuitfms in b popup mfnu
+        WMfnuPffr bndfstor = pbrfnt;
+        whilf (bndfstor != null && !(bndfstor instbndfof WMfnuBbrPffr)) {
+            bndfstor = bndfstor.pbrfnt;
+        }
+        if (bndfstor instbndfof WMfnuBbrPffr) {
+            MfnuShortdut sd = ((MfnuItfm)tbrgft).gftShortdut();
+            shortdutLbbfl = (sd != null) ? sd.toString() : null;
+        } flsf {
+            shortdutLbbfl = null;
+        }
+    }
+
+    publid void sftLbbfl(String lbbfl) {
+        //Fix for 6288578: PIT. Windows: Shortduts displbyfd for thf mfnuitfms in b popup mfnu
+        rfbdShortdutLbbfl();
+        _sftLbbfl(lbbfl);
+    }
+    publid nbtivf void _sftLbbfl(String lbbfl);
+
+    // Toolkit & pffr intfrnbls
+
+    privbtf finbl boolfbn isChfdkbox;
+
+    protfdtfd WMfnuItfmPffr() {
+        isChfdkbox = fblsf;
+    }
+    WMfnuItfmPffr(MfnuItfm tbrgft) {
+        this(tbrgft, fblsf);
+    }
+
+    WMfnuItfmPffr(MfnuItfm tbrgft, boolfbn isChfdkbox) {
+        this.tbrgft = tbrgft;
+        this.pbrfnt = (WMfnuPffr) WToolkit.tbrgftToPffr(tbrgft.gftPbrfnt());
+        this.isChfdkbox = isChfdkbox;
+        drfbtf(pbrfnt);
+        // fix for 5088782: dhfdk if mfnu objfdt is drfbtfd suddfssfully
+        dhfdkMfnuCrfbtion();
+        //Fix for 6288578: PIT. Windows: Shortduts displbyfd for thf mfnuitfms in b popup mfnu
+        rfbdShortdutLbbfl();
+    }
+
+    protfdtfd void dhfdkMfnuCrfbtion()
+    {
+        // fix for 5088782: dhfdk if mfnu pffr is drfbtfd suddfssfully
+        if (pDbtb == 0)
+        {
+            if (drfbtfError != null)
+            {
+                throw drfbtfError;
+            }
+            flsf
+            {
+                throw nfw IntfrnblError("douldn't drfbtf mfnu pffr");
+            }
+        }
+
+    }
+
+    /*
+     * Post bn fvfnt. Qufuf it for fxfdution by thf dbllbbdk thrfbd.
+     */
+    void postEvfnt(AWTEvfnt fvfnt) {
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(tbrgft), fvfnt);
+    }
+
+    nbtivf void drfbtf(WMfnuPffr pbrfnt);
+
+    nbtivf void fnbblf(boolfbn f);
+
+    // nbtivf dbllbbdks
+
+    void hbndlfAdtion(finbl long whfn, finbl int modififrs) {
+        WToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                          ((MfnuItfm)tbrgft).
+                                              gftAdtionCommbnd(), whfn,
+                                          modififrs));
+            }
+        });
+    }
+
+    privbtf stbtid Font dffbultMfnuFont;
+
+    stbtid {
+        dffbultMfnuFont = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion <Font> () {
+                publid Font run() {
+                    try {
+                        RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("sun.bwt.windows.bwtLodblizbtion");
+                        rfturn Font.dfdodf(rb.gftString("mfnuFont"));
+                    } dbtdh (MissingRfsourdfExdfption f) {
+                        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            log.finf("WMfnuItfmPffr: " + f.gftMfssbgf()+". Using dffbult MfnuItfm font.", f);
+                        }
+                        rfturn nfw Font("SbnSfrif", Font.PLAIN, 11);
+                    }
+                }
+            });
+    }
+
+    stbtid Font gftDffbultFont() {
+        rfturn dffbultMfnuFont;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    privbtf nbtivf void _sftFont(Font f);
+
+    publid void sftFont(finbl Font f) {
+        _sftFont(f);
+    }
+}

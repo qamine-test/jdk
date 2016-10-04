@@ -1,0 +1,611 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.dolor;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+import sun.jbvb2d.dmm.PCMM;
+import sun.jbvb2d.dmm.CMSMbnbgfr;
+
+
+/**
+ * This bbstrbdt dlbss is usfd to sfrvf bs b dolor spbdf tbg to idfntify thf
+ * spfdifid dolor spbdf of b Color objfdt or, vib b ColorModfl objfdt,
+ * of bn Imbgf, b BufffrfdImbgf, or b GrbphidsDfvidf.  It dontbins
+ * mfthods thbt trbnsform dolors in b spfdifid dolor spbdf to/from sRGB
+ * bnd to/from b wfll-dffinfd CIEXYZ dolor spbdf.
+ * <p>
+ * For purposfs of thf mfthods in this dlbss, dolors brf rfprfsfntfd bs
+ * brrbys of dolor domponfnts rfprfsfntfd bs flobts in b normblizfd rbngf
+ * dffinfd by fbdh ColorSpbdf.  For mbny ColorSpbdfs (f.g. sRGB), this
+ * rbngf is 0.0 to 1.0.  Howfvfr, somf ColorSpbdfs hbvf domponfnts whosf
+ * vblufs hbvf b difffrfnt rbngf.  Mfthods brf providfd to inquirf pfr
+ * domponfnt minimum bnd mbximum normblizfd vblufs.
+ * <p>
+ * Sfvfrbl vbribblfs brf dffinfd for purposfs of rfffrring to dolor
+ * spbdf typfs (f.g. TYPE_RGB, TYPE_XYZ, ftd.) bnd to rfffr to spfdifid
+ * dolor spbdfs (f.g. CS_sRGB bnd CS_CIEXYZ).
+ * sRGB is b proposfd stbndbrd RGB dolor spbdf.  For morf informbtion,
+ * sff <A hrff="http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html">
+ * http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html
+ * </A>.
+ * <p>
+ * Thf purposf of thf mfthods to trbnsform to/from thf wfll-dffinfd
+ * CIEXYZ dolor spbdf is to support donvfrsions bftwffn bny two dolor
+ * spbdfs bt b rfbsonbbly high dfgrff of bddurbdy.  It is fxpfdtfd thbt
+ * pbrtidulbr implfmfntbtions of subdlbssfs of ColorSpbdf (f.g.
+ * ICC_ColorSpbdf) will support high pfrformbndf donvfrsion bbsfd on
+ * undfrlying plbtform dolor mbnbgfmfnt systfms.
+ * <p>
+ * Thf CS_CIEXYZ spbdf usfd by thf toCIEXYZ/fromCIEXYZ mfthods dbn bf
+ * dfsdribfd bs follows:
+<prf>
+
+&nbsp;     CIEXYZ
+&nbsp;     vifwing illuminbndf: 200 lux
+&nbsp;     vifwing whitf point: CIE D50
+&nbsp;     mfdib whitf point: "thbt of b pfrffdtly rfflfdting diffusfr" -- D50
+&nbsp;     mfdib blbdk point: 0 lux or 0 Rfflfdtbndf
+&nbsp;     flbrf: 1 pfrdfnt
+&nbsp;     surround: 20pfrdfnt of thf mfdib whitf point
+&nbsp;     mfdib dfsdription: rfflfdtion print (i.f., RLAB, Hunt vifwing mfdib)
+&nbsp;     notf: For dfvflopfrs drfbting bn ICC profilf for this donvfrsion
+&nbsp;           spbdf, thf following is bpplidbblf.  Usf b simplf Von Krifs
+&nbsp;           whitf point bdbptbtion foldfd into thf 3X3 mbtrix pbrbmftfrs
+&nbsp;           bnd fold thf flbrf bnd surround ffffdts into thf thrff
+&nbsp;           onf-dimfnsionbl lookup tbblfs (bssuming onf usfs thf minimbl
+&nbsp;           modfl for monitors).
+
+</prf>
+ *
+ * @sff ICC_ColorSpbdf
+ */
+
+publid bbstrbdt dlbss ColorSpbdf implfmfnts jbvb.io.Sfriblizbblf {
+
+    stbtid finbl long sfriblVfrsionUID = -409452704308689724L;
+
+    privbtf int typf;
+    privbtf int numComponfnts;
+    privbtf trbnsifnt String [] dompNbmf = null;
+
+    // Cbdhf of singlftons for thf prfdffinfd dolor spbdfs.
+    privbtf stbtid ColorSpbdf sRGBspbdf;
+    privbtf stbtid ColorSpbdf XYZspbdf;
+    privbtf stbtid ColorSpbdf PYCCspbdf;
+    privbtf stbtid ColorSpbdf GRAYspbdf;
+    privbtf stbtid ColorSpbdf LINEAR_RGBspbdf;
+
+    /**
+     * Any of thf fbmily of XYZ dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_XYZ = 0;
+
+    /**
+     * Any of thf fbmily of Lbb dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_Lbb = 1;
+
+    /**
+     * Any of thf fbmily of Luv dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_Luv = 2;
+
+    /**
+     * Any of thf fbmily of YCbCr dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_YCbCr = 3;
+
+    /**
+     * Any of thf fbmily of Yxy dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_Yxy = 4;
+
+    /**
+     * Any of thf fbmily of RGB dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_RGB = 5;
+
+    /**
+     * Any of thf fbmily of GRAY dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_GRAY = 6;
+
+    /**
+     * Any of thf fbmily of HSV dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_HSV = 7;
+
+    /**
+     * Any of thf fbmily of HLS dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_HLS = 8;
+
+    /**
+     * Any of thf fbmily of CMYK dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_CMYK = 9;
+
+    /**
+     * Any of thf fbmily of CMY dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_CMY = 11;
+
+    /**
+     * Gfnfrid 2 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_2CLR = 12;
+
+    /**
+     * Gfnfrid 3 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_3CLR = 13;
+
+    /**
+     * Gfnfrid 4 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_4CLR = 14;
+
+    /**
+     * Gfnfrid 5 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_5CLR = 15;
+
+    /**
+     * Gfnfrid 6 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_6CLR = 16;
+
+    /**
+     * Gfnfrid 7 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_7CLR = 17;
+
+    /**
+     * Gfnfrid 8 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_8CLR = 18;
+
+    /**
+     * Gfnfrid 9 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_9CLR = 19;
+
+    /**
+     * Gfnfrid 10 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_ACLR = 20;
+
+    /**
+     * Gfnfrid 11 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_BCLR = 21;
+
+    /**
+     * Gfnfrid 12 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_CCLR = 22;
+
+    /**
+     * Gfnfrid 13 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_DCLR = 23;
+
+    /**
+     * Gfnfrid 14 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_ECLR = 24;
+
+    /**
+     * Gfnfrid 15 domponfnt dolor spbdfs.
+     */
+    @Nbtivf publid stbtid finbl int TYPE_FCLR = 25;
+
+    /**
+     * Thf sRGB dolor spbdf dffinfd bt
+     * <A hrff="http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html">
+     * http://www.w3.org/pub/WWW/Grbphids/Color/sRGB.html
+     * </A>.
+     */
+    @Nbtivf publid stbtid finbl int CS_sRGB = 1000;
+
+    /**
+     * A built-in linfbr RGB dolor spbdf.  This spbdf is bbsfd on thf
+     * sbmf RGB primbrifs bs CS_sRGB, but hbs b linfbr tonf rfprodudtion durvf.
+     */
+    @Nbtivf publid stbtid finbl int CS_LINEAR_RGB = 1004;
+
+    /**
+     * Thf CIEXYZ donvfrsion dolor spbdf dffinfd bbovf.
+     */
+    @Nbtivf publid stbtid finbl int CS_CIEXYZ = 1001;
+
+    /**
+     * Thf Photo YCC donvfrsion dolor spbdf.
+     */
+    @Nbtivf publid stbtid finbl int CS_PYCC = 1002;
+
+    /**
+     * Thf built-in linfbr grby sdblf dolor spbdf.
+     */
+    @Nbtivf publid stbtid finbl int CS_GRAY = 1003;
+
+
+    /**
+     * Construdts b ColorSpbdf objfdt givfn b dolor spbdf typf
+     * bnd thf numbfr of domponfnts.
+     * @pbrbm typf onf of thf <CODE>ColorSpbdf</CODE> typf donstbnts
+     * @pbrbm numdomponfnts thf numbfr of domponfnts in thf dolor spbdf
+     */
+    protfdtfd ColorSpbdf (int typf, int numdomponfnts) {
+        this.typf = typf;
+        this.numComponfnts = numdomponfnts;
+    }
+
+
+    /**
+     * Rfturns b ColorSpbdf rfprfsfnting onf of thf spfdifid
+     * prfdffinfd dolor spbdfs.
+     * @pbrbm dolorspbdf b spfdifid dolor spbdf idfntififd by onf of
+     *        thf prfdffinfd dlbss donstbnts (f.g. CS_sRGB, CS_LINEAR_RGB,
+     *        CS_CIEXYZ, CS_GRAY, or CS_PYCC)
+     * @rfturn thf rfqufstfd <CODE>ColorSpbdf</CODE> objfdt
+     */
+    // NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    publid stbtid ColorSpbdf gftInstbndf (int dolorspbdf)
+    {
+    ColorSpbdf    thfColorSpbdf;
+
+        switdh (dolorspbdf) {
+        dbsf CS_sRGB:
+            syndhronizfd(ColorSpbdf.dlbss) {
+                if (sRGBspbdf == null) {
+                    ICC_Profilf thfProfilf = ICC_Profilf.gftInstbndf (CS_sRGB);
+                    sRGBspbdf = nfw ICC_ColorSpbdf (thfProfilf);
+                }
+
+                thfColorSpbdf = sRGBspbdf;
+            }
+            brfbk;
+
+        dbsf CS_CIEXYZ:
+            syndhronizfd(ColorSpbdf.dlbss) {
+                if (XYZspbdf == null) {
+                    ICC_Profilf thfProfilf =
+                        ICC_Profilf.gftInstbndf (CS_CIEXYZ);
+                    XYZspbdf = nfw ICC_ColorSpbdf (thfProfilf);
+                }
+
+                thfColorSpbdf = XYZspbdf;
+            }
+            brfbk;
+
+        dbsf CS_PYCC:
+            syndhronizfd(ColorSpbdf.dlbss) {
+                if (PYCCspbdf == null) {
+                    ICC_Profilf thfProfilf = ICC_Profilf.gftInstbndf (CS_PYCC);
+                    PYCCspbdf = nfw ICC_ColorSpbdf (thfProfilf);
+                }
+
+                thfColorSpbdf = PYCCspbdf;
+            }
+            brfbk;
+
+
+        dbsf CS_GRAY:
+            syndhronizfd(ColorSpbdf.dlbss) {
+                if (GRAYspbdf == null) {
+                    ICC_Profilf thfProfilf = ICC_Profilf.gftInstbndf (CS_GRAY);
+                    GRAYspbdf = nfw ICC_ColorSpbdf (thfProfilf);
+                    /* to bllow bddfss from jbvb.bwt.ColorModfl */
+                    CMSMbnbgfr.GRAYspbdf = GRAYspbdf;
+                }
+
+                thfColorSpbdf = GRAYspbdf;
+            }
+            brfbk;
+
+
+        dbsf CS_LINEAR_RGB:
+            syndhronizfd(ColorSpbdf.dlbss) {
+                if (LINEAR_RGBspbdf == null) {
+                    ICC_Profilf thfProfilf =
+                        ICC_Profilf.gftInstbndf(CS_LINEAR_RGB);
+                    LINEAR_RGBspbdf = nfw ICC_ColorSpbdf (thfProfilf);
+                    /* to bllow bddfss from jbvb.bwt.ColorModfl */
+                    CMSMbnbgfr.LINEAR_RGBspbdf = LINEAR_RGBspbdf;
+                }
+
+                thfColorSpbdf = LINEAR_RGBspbdf;
+            }
+            brfbk;
+
+
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption ("Unknown dolor spbdf");
+        }
+
+        rfturn thfColorSpbdf;
+    }
+
+
+    /**
+     * Rfturns truf if thf ColorSpbdf is CS_sRGB.
+     * @rfturn <CODE>truf</CODE> if this is b <CODE>CS_sRGB</CODE> dolor
+     *         spbdf, <dodf>fblsf</dodf> if it is not
+     */
+    publid boolfbn isCS_sRGB () {
+        /* REMIND - mbkf surf wf know sRGBspbdf fxists blrfbdy */
+        rfturn (this == sRGBspbdf);
+    }
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in this ColorSpbdf
+     * into b vbluf in thf dffbult CS_sRGB dolor spbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using blgorithms dfsignfd
+     * to produdf thf bfst pfrdfptubl mbtdh bftwffn input bnd output
+     * dolors.  In ordfr to do dolorimftrid donvfrsion of dolor vblufs,
+     * you should usf thf <dodf>toCIEXYZ</dodf>
+     * mfthod of this dolor spbdf to first donvfrt from thf input
+     * dolor spbdf to thf CS_CIEXYZ dolor spbdf, bnd thfn usf thf
+     * <dodf>fromCIEXYZ</dodf> mfthod of thf CS_sRGB dolor spbdf to
+     * donvfrt from CS_CIEXYZ to thf output dolor spbdf.
+     * Sff {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for furthfr informbtion.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst thf numbfr
+     *        of domponfnts in this ColorSpbdf
+     * @rfturn b flobt brrby of lfngth 3
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     *         bt lfbst thf numbfr of domponfnts in this ColorSpbdf
+     */
+    publid bbstrbdt flobt[] toRGB(flobt[] dolorvbluf);
+
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in thf dffbult CS_sRGB
+     * dolor spbdf into this ColorSpbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using blgorithms dfsignfd
+     * to produdf thf bfst pfrdfptubl mbtdh bftwffn input bnd output
+     * dolors.  In ordfr to do dolorimftrid donvfrsion of dolor vblufs,
+     * you should usf thf <dodf>toCIEXYZ</dodf>
+     * mfthod of thf CS_sRGB dolor spbdf to first donvfrt from thf input
+     * dolor spbdf to thf CS_CIEXYZ dolor spbdf, bnd thfn usf thf
+     * <dodf>fromCIEXYZ</dodf> mfthod of this dolor spbdf to
+     * donvfrt from CS_CIEXYZ to thf output dolor spbdf.
+     * Sff {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for furthfr informbtion.
+     *
+     * @pbrbm rgbvbluf b flobt brrby with lfngth of bt lfbst 3
+     * @rfturn b flobt brrby with lfngth fqubl to thf numbfr of
+     *         domponfnts in this ColorSpbdf
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     *         bt lfbst 3
+     */
+    publid bbstrbdt flobt[] fromRGB(flobt[] rgbvbluf);
+
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in this ColorSpbdf
+     * into thf CS_CIEXYZ donvfrsion dolor spbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using rflbtivf dolorimftry,
+     * bs dffinfd by thf Intfrnbtionbl Color Consortium stbndbrd.  This
+     * mfbns thbt thf XYZ vblufs rfturnfd by this mfthod brf rfprfsfntfd
+     * rflbtivf to thf D50 whitf point of thf CS_CIEXYZ dolor spbdf.
+     * This rfprfsfntbtion is usfful in b two-stfp dolor donvfrsion
+     * prodfss in whidh dolors brf trbnsformfd from bn input dolor
+     * spbdf to CS_CIEXYZ bnd thfn to bn output dolor spbdf.  This
+     * rfprfsfntbtion is not thf sbmf bs thf XYZ vblufs thbt would
+     * bf mfbsurfd from thf givfn dolor vbluf by b dolorimftfr.
+     * A furthfr trbnsformbtion is nfdfssbry to domputf thf XYZ vblufs
+     * thbt would bf mfbsurfd using durrfnt CIE rfdommfndfd prbdtidfs.
+     * Sff thf {@link ICC_ColorSpbdf#toCIEXYZ(flobt[]) toCIEXYZ} mfthod of
+     * <dodf>ICC_ColorSpbdf</dodf> for furthfr informbtion.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst thf numbfr
+     *        of domponfnts in this ColorSpbdf
+     * @rfturn b flobt brrby of lfngth 3
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     *         bt lfbst thf numbfr of domponfnts in this ColorSpbdf.
+     */
+    publid bbstrbdt flobt[] toCIEXYZ(flobt[] dolorvbluf);
+
+
+    /**
+     * Trbnsforms b dolor vbluf bssumfd to bf in thf CS_CIEXYZ donvfrsion
+     * dolor spbdf into this ColorSpbdf.
+     * <p>
+     * This mfthod trbnsforms dolor vblufs using rflbtivf dolorimftry,
+     * bs dffinfd by thf Intfrnbtionbl Color Consortium stbndbrd.  This
+     * mfbns thbt thf XYZ brgumfnt vblufs tbkfn by this mfthod brf rfprfsfntfd
+     * rflbtivf to thf D50 whitf point of thf CS_CIEXYZ dolor spbdf.
+     * This rfprfsfntbtion is usfful in b two-stfp dolor donvfrsion
+     * prodfss in whidh dolors brf trbnsformfd from bn input dolor
+     * spbdf to CS_CIEXYZ bnd thfn to bn output dolor spbdf.  Thf dolor
+     * vblufs rfturnfd by this mfthod brf not thosf thbt would produdf
+     * thf XYZ vbluf pbssfd to thf mfthod whfn mfbsurfd by b dolorimftfr.
+     * If you hbvf XYZ vblufs dorrfsponding to mfbsurfmfnts mbdf using
+     * durrfnt CIE rfdommfndfd prbdtidfs, thfy must bf donvfrtfd to D50
+     * rflbtivf vblufs bfforf bfing pbssfd to this mfthod.
+     * Sff thf {@link ICC_ColorSpbdf#fromCIEXYZ(flobt[]) fromCIEXYZ} mfthod of
+     * <dodf>ICC_ColorSpbdf</dodf> for furthfr informbtion.
+     *
+     * @pbrbm dolorvbluf b flobt brrby with lfngth of bt lfbst 3
+     * @rfturn b flobt brrby with lfngth fqubl to thf numbfr of
+     *         domponfnts in this ColorSpbdf
+     * @throws ArrbyIndfxOutOfBoundsExdfption if brrby lfngth is not
+     *         bt lfbst 3
+     */
+    publid bbstrbdt flobt[] fromCIEXYZ(flobt[] dolorvbluf);
+
+    /**
+     * Rfturns thf dolor spbdf typf of this ColorSpbdf (for fxbmplf
+     * TYPE_RGB, TYPE_XYZ, ...).  Thf typf dffinfs thf
+     * numbfr of domponfnts of thf dolor spbdf bnd thf intfrprftbtion,
+     * f.g. TYPE_RGB idfntififs b dolor spbdf with thrff domponfnts - rfd,
+     * grffn, bnd bluf.  It dofs not dffinf thf pbrtidulbr dolor
+     * dhbrbdtfristids of thf spbdf, f.g. thf dhrombtiditifs of thf
+     * primbrifs.
+     *
+     * @rfturn thf typf donstbnt thbt rfprfsfnts thf typf of this
+     *         <CODE>ColorSpbdf</CODE>
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf numbfr of domponfnts of this ColorSpbdf.
+     * @rfturn Thf numbfr of domponfnts in this <CODE>ColorSpbdf</CODE>.
+     */
+    publid int gftNumComponfnts() {
+        rfturn numComponfnts;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf domponfnt givfn thf domponfnt indfx.
+     *
+     * @pbrbm idx thf domponfnt indfx
+     * @rfturn thf nbmf of thf domponfnt bt thf spfdififd indfx
+     * @throws IllfgblArgumfntExdfption if <dodf>idx</dodf> is
+     *         lfss thbn 0 or grfbtfr thbn numComponfnts - 1
+     */
+    publid String gftNbmf (int idx) {
+        /* REMIND - hbndlf dommon dbsfs hfrf */
+        if ((idx < 0) || (idx > numComponfnts - 1)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Componfnt indfx out of rbngf: " + idx);
+        }
+
+        if (dompNbmf == null) {
+            switdh (typf) {
+                dbsf ColorSpbdf.TYPE_XYZ:
+                    dompNbmf = nfw String[] {"X", "Y", "Z"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_Lbb:
+                    dompNbmf = nfw String[] {"L", "b", "b"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_Luv:
+                    dompNbmf = nfw String[] {"L", "u", "v"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_YCbCr:
+                    dompNbmf = nfw String[] {"Y", "Cb", "Cr"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_Yxy:
+                    dompNbmf = nfw String[] {"Y", "x", "y"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_RGB:
+                    dompNbmf = nfw String[] {"Rfd", "Grffn", "Bluf"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_GRAY:
+                    dompNbmf = nfw String[] {"Grby"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_HSV:
+                    dompNbmf = nfw String[] {"Huf", "Sbturbtion", "Vbluf"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_HLS:
+                    dompNbmf = nfw String[] {"Huf", "Lightnfss",
+                                             "Sbturbtion"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_CMYK:
+                    dompNbmf = nfw String[] {"Cybn", "Mbgfntb", "Yfllow",
+                                             "Blbdk"};
+                    brfbk;
+                dbsf ColorSpbdf.TYPE_CMY:
+                    dompNbmf = nfw String[] {"Cybn", "Mbgfntb", "Yfllow"};
+                    brfbk;
+                dffbult:
+                    String [] tmp = nfw String[numComponfnts];
+                    for (int i = 0; i < tmp.lfngth; i++) {
+                        tmp[i] = "Unnbmfd dolor domponfnt(" + i + ")";
+                    }
+                    dompNbmf = tmp;
+            }
+        }
+        rfturn dompNbmf[idx];
+    }
+
+    /**
+     * Rfturns thf minimum normblizfd dolor domponfnt vbluf for thf
+     * spfdififd domponfnt.  Thf dffbult implfmfntbtion in this bbstrbdt
+     * dlbss rfturns 0.0 for bll domponfnts.  Subdlbssfs should ovfrridf
+     * this mfthod if nfdfssbry.
+     *
+     * @pbrbm domponfnt thf domponfnt indfx
+     * @rfturn thf minimum normblizfd domponfnt vbluf
+     * @throws IllfgblArgumfntExdfption if domponfnt is lfss thbn 0 or
+     *         grfbtfr thbn numComponfnts - 1
+     * @sindf 1.4
+     */
+    publid flobt gftMinVbluf(int domponfnt) {
+        if ((domponfnt < 0) || (domponfnt > numComponfnts - 1)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Componfnt indfx out of rbngf: " + domponfnt);
+        }
+        rfturn 0.0f;
+    }
+
+    /**
+     * Rfturns thf mbximum normblizfd dolor domponfnt vbluf for thf
+     * spfdififd domponfnt.  Thf dffbult implfmfntbtion in this bbstrbdt
+     * dlbss rfturns 1.0 for bll domponfnts.  Subdlbssfs should ovfrridf
+     * this mfthod if nfdfssbry.
+     *
+     * @pbrbm domponfnt thf domponfnt indfx
+     * @rfturn thf mbximum normblizfd domponfnt vbluf
+     * @throws IllfgblArgumfntExdfption if domponfnt is lfss thbn 0 or
+     *         grfbtfr thbn numComponfnts - 1
+     * @sindf 1.4
+     */
+    publid flobt gftMbxVbluf(int domponfnt) {
+        if ((domponfnt < 0) || (domponfnt > numComponfnts - 1)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Componfnt indfx out of rbngf: " + domponfnt);
+        }
+        rfturn 1.0f;
+    }
+
+    /* Rfturns truf if dspbdf is thf XYZspbdf.
+     */
+    stbtid boolfbn isCS_CIEXYZ(ColorSpbdf dspbdf) {
+        rfturn (dspbdf == XYZspbdf);
+    }
+}

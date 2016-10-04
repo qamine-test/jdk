@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.tools.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
-import com.sun.jdi.*;
+import dom.sun.tools.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import dom.sun.jdi.*;
 
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.InterruptedIOException;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
 
-abstract class AbstractLauncher extends ConnectorImpl implements LaunchingConnector {
+bbstrbdt dlbss AbstrbdtLbundifr fxtfnds ConnfdtorImpl implfmfnts LbundiingConnfdtor {
 
-    abstract public VirtualMachine
-        launch(Map<String,? extends Connector.Argument> arguments)
-                                 throws IOException,
-                                        IllegalConnectorArgumentsException,
-                                        VMStartException;
-    abstract public String name();
-    abstract public String description();
+    bbstrbdt publid VirtublMbdiinf
+        lbundi(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+                                 tirows IOExdfption,
+                                        IllfgblConnfdtorArgumfntsExdfption,
+                                        VMStbrtExdfption;
+    bbstrbdt publid String nbmf();
+    bbstrbdt publid String dfsdription();
 
-    ThreadGroup grp;
+    TirfbdGroup grp;
 
-    AbstractLauncher() {
-        super();
+    AbstrbdtLbundifr() {
+        supfr();
 
-        grp = Thread.currentThread().getThreadGroup();
-        ThreadGroup parent = null;
-        while ((parent = grp.getParent()) != null) {
-            grp = parent;
+        grp = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+        TirfbdGroup pbrfnt = null;
+        wiilf ((pbrfnt = grp.gftPbrfnt()) != null) {
+            grp = pbrfnt;
         }
     }
 
-    String[] tokenizeCommand(String command, char quote) {
-        String quoteStr = String.valueOf(quote); // easier to deal with
+    String[] tokfnizfCommbnd(String dommbnd, dibr quotf) {
+        String quotfStr = String.vblufOf(quotf); // fbsifr to dfbl witi
 
         /*
-         * Tokenize the command, respecting the given quote character.
+         * Tokfnizf tif dommbnd, rfspfdting tif givfn quotf dibrbdtfr.
          */
-        StringTokenizer tokenizer = new StringTokenizer(command,
-                                                        quote + " \t\r\n\f",
-                                                        true);
-        String quoted = null;
-        String pending = null;
-        List<String> tokenList = new ArrayList<String>();
-        while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken();
-            if (quoted != null) {
-                if (token.equals(quoteStr)) {
-                    tokenList.add(quoted);
-                    quoted = null;
-                } else {
-                    quoted += token;
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(dommbnd,
+                                                        quotf + " \t\r\n\f",
+                                                        truf);
+        String quotfd = null;
+        String pfnding = null;
+        List<String> tokfnList = nfw ArrbyList<String>();
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            String tokfn = tokfnizfr.nfxtTokfn();
+            if (quotfd != null) {
+                if (tokfn.fqubls(quotfStr)) {
+                    tokfnList.bdd(quotfd);
+                    quotfd = null;
+                } flsf {
+                    quotfd += tokfn;
                 }
-            } else if (pending != null) {
-                if (token.equals(quoteStr)) {
-                    quoted = pending;
-                } else if ((token.length() == 1) &&
-                           Character.isWhitespace(token.charAt(0))) {
-                    tokenList.add(pending);
-                } else {
-                    throw new InternalException("Unexpected token: " + token);
+            } flsf if (pfnding != null) {
+                if (tokfn.fqubls(quotfStr)) {
+                    quotfd = pfnding;
+                } flsf if ((tokfn.lfngti() == 1) &&
+                           Cibrbdtfr.isWiitfspbdf(tokfn.dibrAt(0))) {
+                    tokfnList.bdd(pfnding);
+                } flsf {
+                    tirow nfw IntfrnblExdfption("Unfxpfdtfd tokfn: " + tokfn);
                 }
-                pending = null;
-            } else {
-                if (token.equals(quoteStr)) {
-                    quoted = "";
-                } else if ((token.length() == 1) &&
-                           Character.isWhitespace(token.charAt(0))) {
-                    // continue
-                } else {
-                    pending = token;
+                pfnding = null;
+            } flsf {
+                if (tokfn.fqubls(quotfStr)) {
+                    quotfd = "";
+                } flsf if ((tokfn.lfngti() == 1) &&
+                           Cibrbdtfr.isWiitfspbdf(tokfn.dibrAt(0))) {
+                    // dontinuf
+                } flsf {
+                    pfnding = tokfn;
                 }
             }
         }
 
         /*
-         * Add final token.
+         * Add finbl tokfn.
          */
-        if (pending != null) {
-            tokenList.add(pending);
+        if (pfnding != null) {
+            tokfnList.bdd(pfnding);
         }
 
         /*
-         * An unclosed quote at the end of the command. Do an
-         * implicit end quote.
+         * An undlosfd quotf bt tif fnd of tif dommbnd. Do bn
+         * implidit fnd quotf.
          */
-        if (quoted != null) {
-            tokenList.add(quoted);
+        if (quotfd != null) {
+            tokfnList.bdd(quotfd);
         }
 
-        String[] tokenArray = new String[tokenList.size()];
-        for (int i = 0; i < tokenList.size(); i++) {
-            tokenArray[i] = tokenList.get(i);
+        String[] tokfnArrby = nfw String[tokfnList.sizf()];
+        for (int i = 0; i < tokfnList.sizf(); i++) {
+            tokfnArrby[i] = tokfnList.gft(i);
         }
-        return tokenArray;
+        rfturn tokfnArrby;
     }
 
-    protected VirtualMachine launch(String[] commandArray, String address,
-                                    TransportService.ListenKey listenKey,
-                                    TransportService ts)
-                                    throws IOException, VMStartException {
-        Helper helper = new Helper(commandArray, address, listenKey, ts);
-        helper.launchAndAccept();
+    protfdtfd VirtublMbdiinf lbundi(String[] dommbndArrby, String bddrfss,
+                                    TrbnsportSfrvidf.ListfnKfy listfnKfy,
+                                    TrbnsportSfrvidf ts)
+                                    tirows IOExdfption, VMStbrtExdfption {
+        Hflpfr iflpfr = nfw Hflpfr(dommbndArrby, bddrfss, listfnKfy, ts);
+        iflpfr.lbundiAndAddfpt();
 
-        VirtualMachineManager manager =
-            Bootstrap.virtualMachineManager();
+        VirtublMbdiinfMbnbgfr mbnbgfr =
+            Bootstrbp.virtublMbdiinfMbnbgfr();
 
-        return manager.createVirtualMachine(helper.connection(),
-                                            helper.process());
+        rfturn mbnbgfr.drfbtfVirtublMbdiinf(iflpfr.donnfdtion(),
+                                            iflpfr.prodfss());
     }
 
     /**
-     * This class simply provides a context for a single launch and
-     * accept. It provides instance fields that can be used by
-     * all threads involved. This stuff can't be in the Connector proper
-     * because the connector is a singleton and is not specific to any
-     * one launch.
+     * Tiis dlbss simply providfs b dontfxt for b singlf lbundi bnd
+     * bddfpt. It providfs instbndf fiflds tibt dbn bf usfd by
+     * bll tirfbds involvfd. Tiis stuff dbn't bf in tif Connfdtor propfr
+     * bfdbusf tif donnfdtor is b singlfton bnd is not spfdifid to bny
+     * onf lbundi.
      */
-    private class Helper {
-        private final String address;
-        private TransportService.ListenKey listenKey;
-        private TransportService ts;
-        private final String[] commandArray;
-        private Process process = null;
-        private Connection connection = null;
-        private IOException acceptException = null;
-        private boolean exited = false;
+    privbtf dlbss Hflpfr {
+        privbtf finbl String bddrfss;
+        privbtf TrbnsportSfrvidf.ListfnKfy listfnKfy;
+        privbtf TrbnsportSfrvidf ts;
+        privbtf finbl String[] dommbndArrby;
+        privbtf Prodfss prodfss = null;
+        privbtf Connfdtion donnfdtion = null;
+        privbtf IOExdfption bddfptExdfption = null;
+        privbtf boolfbn fxitfd = fblsf;
 
-        Helper(String[] commandArray, String address, TransportService.ListenKey listenKey,
-            TransportService ts) {
-            this.commandArray = commandArray;
-            this.address = address;
-            this.listenKey = listenKey;
-            this.ts = ts;
+        Hflpfr(String[] dommbndArrby, String bddrfss, TrbnsportSfrvidf.ListfnKfy listfnKfy,
+            TrbnsportSfrvidf ts) {
+            tiis.dommbndArrby = dommbndArrby;
+            tiis.bddrfss = bddrfss;
+            tiis.listfnKfy = listfnKfy;
+            tiis.ts = ts;
         }
 
-        String commandString() {
+        String dommbndString() {
             String str = "";
-            for (int i = 0; i < commandArray.length; i++) {
+            for (int i = 0; i < dommbndArrby.lfngti; i++) {
                 if (i > 0) {
                     str += " ";
                 }
-                str += commandArray[i];
+                str += dommbndArrby[i];
             }
-            return str;
+            rfturn str;
         }
 
-        synchronized void launchAndAccept() throws
-                                IOException, VMStartException {
+        syndironizfd void lbundiAndAddfpt() tirows
+                                IOExdfption, VMStbrtExdfption {
 
-            process = Runtime.getRuntime().exec(commandArray);
+            prodfss = Runtimf.gftRuntimf().fxfd(dommbndArrby);
 
-            Thread acceptingThread = acceptConnection();
-            Thread monitoringThread = monitorTarget();
+            Tirfbd bddfptingTirfbd = bddfptConnfdtion();
+            Tirfbd monitoringTirfbd = monitorTbrgft();
             try {
-                while ((connection == null) &&
-                       (acceptException == null) &&
-                       !exited) {
-                    wait();
+                wiilf ((donnfdtion == null) &&
+                       (bddfptExdfption == null) &&
+                       !fxitfd) {
+                    wbit();
                 }
 
-                if (exited) {
-                    throw new VMStartException(
-                        "VM initialization failed for: " + commandString(), process);
+                if (fxitfd) {
+                    tirow nfw VMStbrtExdfption(
+                        "VM initiblizbtion fbilfd for: " + dommbndString(), prodfss);
                 }
-                if (acceptException != null) {
-                    // Rethrow the exception in this thread
-                    throw acceptException;
+                if (bddfptExdfption != null) {
+                    // Rftirow tif fxdfption in tiis tirfbd
+                    tirow bddfptExdfption;
                 }
-            } catch (InterruptedException e) {
-                throw new InterruptedIOException("Interrupted during accept");
-            } finally {
-                acceptingThread.interrupt();
-                monitoringThread.interrupt();
+            } dbtdi (IntfrruptfdExdfption f) {
+                tirow nfw IntfrruptfdIOExdfption("Intfrruptfd during bddfpt");
+            } finblly {
+                bddfptingTirfbd.intfrrupt();
+                monitoringTirfbd.intfrrupt();
             }
         }
 
-        Process process() {
-            return process;
+        Prodfss prodfss() {
+            rfturn prodfss;
         }
 
-        Connection connection() {
-            return connection;
+        Connfdtion donnfdtion() {
+            rfturn donnfdtion;
         }
 
-        synchronized void notifyOfExit() {
-            exited = true;
+        syndironizfd void notifyOfExit() {
+            fxitfd = truf;
             notify();
         }
 
-        synchronized void notifyOfConnection(Connection connection) {
-            this.connection = connection;
+        syndironizfd void notifyOfConnfdtion(Connfdtion donnfdtion) {
+            tiis.donnfdtion = donnfdtion;
             notify();
         }
 
-        synchronized void notifyOfAcceptException(IOException acceptException) {
-            this.acceptException = acceptException;
+        syndironizfd void notifyOfAddfptExdfption(IOExdfption bddfptExdfption) {
+            tiis.bddfptExdfption = bddfptExdfption;
             notify();
         }
 
-        Thread monitorTarget() {
-            Thread thread = new Thread(grp,
-                                       "launched target monitor") {
-                public void run() {
+        Tirfbd monitorTbrgft() {
+            Tirfbd tirfbd = nfw Tirfbd(grp,
+                                       "lbundifd tbrgft monitor") {
+                publid void run() {
                     try {
-                        process.waitFor();
+                        prodfss.wbitFor();
                         /*
-                         * Notify waiting thread of VM error termination
+                         * Notify wbiting tirfbd of VM frror tfrminbtion
                          */
                         notifyOfExit();
-                    } catch (InterruptedException e) {
-                        // Connection has been established, stop monitoring
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // Connfdtion ibs bffn fstbblisifd, stop monitoring
                     }
                 }
             };
-            thread.setDaemon(true);
-            thread.start();
-            return thread;
+            tirfbd.sftDbfmon(truf);
+            tirfbd.stbrt();
+            rfturn tirfbd;
         }
 
-        Thread acceptConnection() {
-            Thread thread = new Thread(grp,
-                                       "connection acceptor") {
-                public void run() {
+        Tirfbd bddfptConnfdtion() {
+            Tirfbd tirfbd = nfw Tirfbd(grp,
+                                       "donnfdtion bddfptor") {
+                publid void run() {
                     try {
-                        Connection connection = ts.accept(listenKey, 0, 0);
+                        Connfdtion donnfdtion = ts.bddfpt(listfnKfy, 0, 0);
                         /*
-                         * Notify waiting thread of connection
+                         * Notify wbiting tirfbd of donnfdtion
                          */
-                        notifyOfConnection(connection);
-                    } catch (InterruptedIOException e) {
-                        // VM terminated, stop accepting
-                    } catch (IOException e) {
-                        // Report any other exception to waiting thread
-                        notifyOfAcceptException(e);
+                        notifyOfConnfdtion(donnfdtion);
+                    } dbtdi (IntfrruptfdIOExdfption f) {
+                        // VM tfrminbtfd, stop bddfpting
+                    } dbtdi (IOExdfption f) {
+                        // Rfport bny otifr fxdfption to wbiting tirfbd
+                        notifyOfAddfptExdfption(f);
                     }
                 }
             };
-            thread.setDaemon(true);
-            thread.start();
-            return thread;
+            tirfbd.sftDbfmon(truf);
+            tirfbd.stbrt();
+            rfturn tirfbd;
         }
     }
 }

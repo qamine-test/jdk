@@ -1,0 +1,875 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.lbng.NullPointfrExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.misd.IOUtils;
+import sun.nft.www.PbrsfUtil;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * This dlbss dffinfs thf dlbss lobdfr for lobding bpplft dlbssfs bnd
+ * rfsourdfs. It fxtfnds URLClbssLobdfr to sfbrdh thf bpplft dodf bbsf
+ * for thf dlbss or rfsourdf bftfr dhfdking bny lobdfd JAR filfs.
+ */
+publid dlbss ApplftClbssLobdfr fxtfnds URLClbssLobdfr {
+    privbtf URL bbsf;   /* bpplft dodf bbsf URL */
+    privbtf CodfSourdf dodfsourdf; /* dodfsourdf for thf bbsf URL */
+    privbtf AddfssControlContfxt bdd;
+    privbtf boolfbn fxdfptionStbtus = fblsf;
+
+    privbtf finbl Objfdt thrfbdGroupSyndhronizfr = nfw Objfdt();
+    privbtf finbl Objfdt grbbRflfbsfSyndhronizfr = nfw Objfdt();
+
+    privbtf boolfbn dodfbbsfLookup = truf;
+    privbtf volbtilf boolfbn bllowRfdursivfDirfdtoryRfbd = truf;
+
+    /*
+     * Crfbtfs b nfw ApplftClbssLobdfr for thf spfdififd bbsf URL.
+     */
+    protfdtfd ApplftClbssLobdfr(URL bbsf) {
+        supfr(nfw URL[0]);
+        this.bbsf = bbsf;
+        this.dodfsourdf =
+            nfw CodfSourdf(bbsf, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+        bdd = AddfssControllfr.gftContfxt();
+    }
+
+    publid void disbblfRfdursivfDirfdtoryRfbd() {
+        bllowRfdursivfDirfdtoryRfbd = fblsf;
+    }
+
+
+    /**
+     * Sft thf dodfbbsf lookup flbg.
+     */
+    void sftCodfbbsfLookup(boolfbn dodfbbsfLookup)  {
+        this.dodfbbsfLookup = dodfbbsfLookup;
+    }
+
+    /*
+     * Rfturns thf bpplft dodf bbsf URL.
+     */
+    URL gftBbsfURL() {
+        rfturn bbsf;
+    }
+
+    /*
+     * Rfturns thf URLs usfd for lobding dlbssfs bnd rfsourdfs.
+     */
+    publid URL[] gftURLs() {
+        URL[] jbrs = supfr.gftURLs();
+        URL[] urls = nfw URL[jbrs.lfngth + 1];
+        Systfm.brrbydopy(jbrs, 0, urls, 0, jbrs.lfngth);
+        urls[urls.lfngth - 1] = bbsf;
+        rfturn urls;
+    }
+
+    /*
+     * Adds thf spfdififd JAR filf to thf sfbrdh pbth of lobdfd JAR filfs.
+     * Chbngfd modififr to protfdtfd in ordfr to bf bblf to ovfrwritf bddJbr()
+     * in PluginClbssLobdfr.jbvb
+     */
+    protfdtfd void bddJbr(String nbmf) throws IOExdfption {
+        URL url;
+        try {
+            url = nfw URL(bbsf, nbmf);
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("nbmf");
+        }
+        bddURL(url);
+        // DEBUG
+        //URL[] urls = gftURLs();
+        //for (int i = 0; i < urls.lfngth; i++) {
+        //    Systfm.out.println("url[" + i + "] = " + urls[i]);
+        //}
+    }
+
+    /*
+     * Ovfrridf lobdClbss so thbt dlbss lobding frrors dbn bf dbught in
+     * ordfr to print bfttfr frror mfssbgfs.
+     */
+    publid syndhronizfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        throws ClbssNotFoundExdfption
+    {
+        // First dhfdk if wf hbvf pfrmission to bddfss thf pbdkbgf. This
+        // should go bwby ondf wf'vf bddfd support for fxportfd pbdkbgfs.
+        int i = nbmf.lbstIndfxOf('.');
+        if (i != -1) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null)
+                sm.dhfdkPbdkbgfAddfss(nbmf.substring(0, i));
+        }
+        try {
+            rfturn supfr.lobdClbss(nbmf, rfsolvf);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            //printError(nbmf, f.gftExdfption());
+            throw f;
+        } dbtdh (RuntimfExdfption f) {
+            //printError(nbmf, f);
+            throw f;
+        } dbtdh (Error f) {
+            //printError(nbmf, f);
+            throw f;
+        }
+    }
+
+    /*
+     * Finds thf bpplft dlbss with thf spfdififd nbmf. First sfbrdhfs
+     * lobdfd JAR filfs thfn thf bpplft dodf bbsf for thf dlbss.
+     */
+    protfdtfd Clbss<?> findClbss(String nbmf) throws ClbssNotFoundExdfption {
+
+        int indfx = nbmf.indfxOf(';');
+        String dookif = "";
+        if(indfx != -1) {
+                dookif = nbmf.substring(indfx, nbmf.lfngth());
+                nbmf = nbmf.substring(0, indfx);
+        }
+
+        // dhfdk lobdfd JAR filfs
+        try {
+            rfturn supfr.findClbss(nbmf);
+        } dbtdh (ClbssNotFoundExdfption f) {
+        }
+
+        // Othfrwisf, try lobding thf dlbss from thf dodf bbsf URL
+
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.ho]
+        if (dodfbbsfLookup == fblsf)
+            throw nfw ClbssNotFoundExdfption(nbmf);
+
+//      finbl String pbth = nbmf.rfplbdf('.', '/').dondbt(".dlbss").dondbt(dookif);
+        String fndodfdNbmf = PbrsfUtil.fndodfPbth(nbmf.rfplbdf('.', '/'), fblsf);
+        finbl String pbth = (nfw StringBufffr(fndodfdNbmf)).bppfnd(".dlbss").bppfnd(dookif).toString();
+        try {
+            bytf[] b = AddfssControllfr.doPrivilfgfd(
+                               nfw PrivilfgfdExdfptionAdtion<bytf[]>() {
+                publid bytf[] run() throws IOExdfption {
+                   try {
+                        URL finblURL = nfw URL(bbsf, pbth);
+
+                        // Mbkf surf thf dodfbbsf won't bf modififd
+                        if (bbsf.gftProtodol().fqubls(finblURL.gftProtodol()) &&
+                            bbsf.gftHost().fqubls(finblURL.gftHost()) &&
+                            bbsf.gftPort() == finblURL.gftPort()) {
+                            rfturn gftBytfs(finblURL);
+                        }
+                        flsf {
+                            rfturn null;
+                        }
+                    } dbtdh (Exdfption f) {
+                        rfturn null;
+                    }
+                }
+            }, bdd);
+
+            if (b != null) {
+                rfturn dffinfClbss(nbmf, b, 0, b.lfngth, dodfsourdf);
+            } flsf {
+                throw nfw ClbssNotFoundExdfption(nbmf);
+            }
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw nfw ClbssNotFoundExdfption(nbmf, f.gftExdfption());
+        }
+    }
+
+    /**
+     * Rfturns thf pfrmissions for thf givfn dodfsourdf objfdt.
+     * Thf implfmfntbtion of this mfthod first dblls supfr.gftPfrmissions,
+     * to gft thf pfrmissions
+     * grbntfd by thf supfr dlbss, bnd thfn bdds bdditionbl pfrmissions
+     * bbsfd on thf URL of thf dodfsourdf.
+     * <p>
+     * If thf protodol is "filf"
+     * bnd thf pbth spfdififs b filf, pfrmission is grbntfd to rfbd bll filfs
+     * bnd (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in
+     * thbt dirfdtory. This is so bpplfts with b dodfbbsf of
+     * filf:/blbh/somf.jbr dbn rfbd in filf:/blbh/, whidh is nffdfd to
+     * bf bbdkwbrd dompbtiblf. Wf blso bdd pfrmission to donnfdt bbdk to
+     * thf "lodblhost".
+     *
+     * @pbrbm dodfsourdf thf dodfsourdf
+     * @throws NullPointfrExdfption if {@dodf dodfsourdf} is {@dodf null}.
+     * @rfturn thf pfrmissions grbntfd to thf dodfsourdf
+     */
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
+    {
+        finbl PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+
+        URL url = dodfsourdf.gftLodbtion();
+
+        String pbth = null;
+        Pfrmission p;
+
+        try {
+            p = url.opfnConnfdtion().gftPfrmission();
+        } dbtdh (jbvb.io.IOExdfption iof) {
+            p = null;
+        }
+
+        if (p instbndfof FilfPfrmission) {
+            pbth = p.gftNbmf();
+        } flsf if ((p == null) && (url.gftProtodol().fqubls("filf"))) {
+            pbth = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorChbr);
+            pbth = PbrsfUtil.dfdodf(pbth);
+        }
+
+        if (pbth != null) {
+            finbl String rbwPbth = pbth;
+            if (!pbth.fndsWith(Filf.sfpbrbtor)) {
+                int fndIndfx = pbth.lbstIndfxOf(Filf.sfpbrbtorChbr);
+                if (fndIndfx != -1) {
+                        pbth = pbth.substring(0, fndIndfx + 1) + "-";
+                        pfrms.bdd(nfw FilfPfrmission(pbth,
+                            SfdurityConstbnts.FILE_READ_ACTION));
+                }
+            }
+            finbl Filf f = nfw Filf(rbwPbth);
+            finbl boolfbn isDirfdtory = f.isDirfdtory();
+            // grbnt dodfbbsf rfdursivf rfbd pfrmission
+            // this should only bf grbntfd to non-UNC filf URL dodfbbsf bnd
+            // thf dodfsourdf pbth must fithfr bf b dirfdtory, or b filf
+            // thbt fnds with .jbr or .zip
+            if (bllowRfdursivfDirfdtoryRfbd && (isDirfdtory ||
+                    rbwPbth.toLowfrCbsf().fndsWith(".jbr") ||
+                    rbwPbth.toLowfrCbsf().fndsWith(".zip"))) {
+
+            Pfrmission bpfrm;
+                try {
+                    bpfrm = bbsf.opfnConnfdtion().gftPfrmission();
+                } dbtdh (jbvb.io.IOExdfption iof) {
+                    bpfrm = null;
+                }
+                if (bpfrm instbndfof FilfPfrmission) {
+                    String bpbth = bpfrm.gftNbmf();
+                    if (bpbth.fndsWith(Filf.sfpbrbtor)) {
+                        bpbth += "-";
+                    }
+                    pfrms.bdd(nfw FilfPfrmission(bpbth,
+                        SfdurityConstbnts.FILE_READ_ACTION));
+                } flsf if ((bpfrm == null) && (bbsf.gftProtodol().fqubls("filf"))) {
+                    String bpbth = bbsf.gftFilf().rfplbdf('/', Filf.sfpbrbtorChbr);
+                    bpbth = PbrsfUtil.dfdodf(bpbth);
+                    if (bpbth.fndsWith(Filf.sfpbrbtor)) {
+                        bpbth += "-";
+                    }
+                    pfrms.bdd(nfw FilfPfrmission(bpbth, SfdurityConstbnts.FILE_READ_ACTION));
+                }
+
+            }
+        }
+        rfturn pfrms;
+    }
+
+    /*
+     * Rfturns thf dontfnts of thf spfdififd URL bs bn brrby of bytfs.
+     */
+    privbtf stbtid bytf[] gftBytfs(URL url) throws IOExdfption {
+        URLConnfdtion ud = url.opfnConnfdtion();
+        if (ud instbndfof jbvb.nft.HttpURLConnfdtion) {
+            jbvb.nft.HttpURLConnfdtion hud = (jbvb.nft.HttpURLConnfdtion) ud;
+            int dodf = hud.gftRfsponsfCodf();
+            if (dodf >= jbvb.nft.HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                throw nfw IOExdfption("opfn HTTP donnfdtion fbilfd.");
+            }
+        }
+        int lfn = ud.gftContfntLfngth();
+
+        // Fixfd #4507227: Slow pfrformbndf to lobd
+        // dlbss bnd rfsourdfs. [stbnlfyh]
+        //
+        // Usf bufffrfd input strfbm [stbnlfyh]
+        InputStrfbm in = nfw BufffrfdInputStrfbm(ud.gftInputStrfbm());
+
+        bytf[] b;
+        try {
+            b = IOUtils.rfbdFully(in, lfn, truf);
+        } finblly {
+            in.dlosf();
+        }
+        rfturn b;
+    }
+
+    // Objfdt for syndhronizbtion bround gftRfsourdfAsStrfbm()
+    privbtf Objfdt syndRfsourdfAsStrfbm = nfw Objfdt();
+    privbtf Objfdt syndRfsourdfAsStrfbmFromJbr = nfw Objfdt();
+
+    // Flbg to indidbtf gftRfsourdfAsStrfbm() is in dbll
+    privbtf boolfbn rfsourdfAsStrfbmInCbll = fblsf;
+    privbtf boolfbn rfsourdfAsStrfbmFromJbrInCbll = fblsf;
+
+    /**
+     * Rfturns bn input strfbm for rfbding thf spfdififd rfsourdf.
+     *
+     * Thf sfbrdh ordfr is dfsdribfd in thf dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.<p>
+     *
+     * @pbrbm  nbmf thf rfsourdf nbmf
+     * @rfturn bn input strfbm for rfbding thf rfsourdf, or <dodf>null</dodf>
+     *         if thf rfsourdf dould not bf found
+     * @sindf  1.1
+     */
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf)
+    {
+
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("nbmf");
+        }
+
+        try
+        {
+            InputStrfbm is = null;
+
+            // Fixfd #4507227: Slow pfrformbndf to lobd
+            // dlbss bnd rfsourdfs. [stbnlfyh]
+            //
+            // Thf following is usfd to bvoid dblling
+            // ApplftClbssLobdfr.findRfsourdf() in
+            // supfr.gftRfsourdfAsStrfbm(). Othfrwisf,
+            // unnfdfssbry donnfdtion will bf mbdf.
+            //
+            syndhronizfd(syndRfsourdfAsStrfbm)
+            {
+                rfsourdfAsStrfbmInCbll = truf;
+
+                // Cbll supfr dlbss
+                is = supfr.gftRfsourdfAsStrfbm(nbmf);
+
+                rfsourdfAsStrfbmInCbll = fblsf;
+            }
+
+            // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+            // during rfsourdf rfqufsts. [stbnlfy.ho]
+            if (dodfbbsfLookup == truf && is == null)
+            {
+                // If rfsourdf dbnnot bf obtbinfd,
+                // try to downlobd it from dodfbbsf
+                URL url = nfw URL(bbsf, PbrsfUtil.fndodfPbth(nbmf, fblsf));
+                is = url.opfnStrfbm();
+            }
+
+            rfturn is;
+        }
+        dbtdh (Exdfption f)
+        {
+            rfturn null;
+        }
+    }
+
+
+    /**
+     * Rfturns bn input strfbm for rfbding thf spfdififd rfsourdf from thf
+     * thf lobdfd jbr filfs.
+     *
+     * Thf sfbrdh ordfr is dfsdribfd in thf dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.<p>
+     *
+     * @pbrbm  nbmf thf rfsourdf nbmf
+     * @rfturn bn input strfbm for rfbding thf rfsourdf, or <dodf>null</dodf>
+     *         if thf rfsourdf dould not bf found
+     * @sindf  1.1
+     */
+    publid InputStrfbm gftRfsourdfAsStrfbmFromJbr(String nbmf) {
+
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("nbmf");
+        }
+
+        try {
+            InputStrfbm is = null;
+            syndhronizfd(syndRfsourdfAsStrfbmFromJbr) {
+                rfsourdfAsStrfbmFromJbrInCbll = truf;
+                // Cbll supfr dlbss
+                is = supfr.gftRfsourdfAsStrfbm(nbmf);
+                rfsourdfAsStrfbmFromJbrInCbll = fblsf;
+            }
+
+            rfturn is;
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        }
+    }
+
+
+    /*
+     * Finds thf bpplft rfsourdf with thf spfdififd nbmf. First dhfdks
+     * lobdfd JAR filfs thfn thf bpplft dodf bbsf for thf rfsourdf.
+     */
+    publid URL findRfsourdf(String nbmf) {
+        // dhfdk lobdfd JAR filfs
+        URL url = supfr.findRfsourdf(nbmf);
+
+        // 6215746:  Disbblf META-INF/* lookup from dodfbbsf in
+        // bpplft/plugin dlbsslobdfr. [stbnlfy.ho]
+        if (nbmf.stbrtsWith("META-INF/"))
+            rfturn url;
+
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.ho]
+        if (dodfbbsfLookup == fblsf)
+            rfturn url;
+
+        if (url == null)
+        {
+            //#4805170, if it is b dbll from Applft.gftImbgf()
+            //wf should dhfdk for thf imbgf only in thf brdhivfs
+            boolfbn insidfGftRfsourdfAsStrfbmFromJbr = fblsf;
+                syndhronizfd(syndRfsourdfAsStrfbmFromJbr) {
+                insidfGftRfsourdfAsStrfbmFromJbr = rfsourdfAsStrfbmFromJbrInCbll;
+            }
+
+            if (insidfGftRfsourdfAsStrfbmFromJbr) {
+                rfturn null;
+            }
+
+            // Fixfd #4507227: Slow pfrformbndf to lobd
+            // dlbss bnd rfsourdfs. [stbnlfyh]
+            //
+            // Chfdk if gftRfsourdfAsStrfbm is dbllfd.
+            //
+            boolfbn insidfGftRfsourdfAsStrfbm = fblsf;
+
+            syndhronizfd(syndRfsourdfAsStrfbm)
+            {
+                insidfGftRfsourdfAsStrfbm = rfsourdfAsStrfbmInCbll;
+            }
+
+            // If gftRfsourdfAsStrfbm is dbllfd, don't
+            // triggfr thf following dodf. Othfrwisf,
+            // unnfdfssbry donnfdtion will bf mbdf.
+            //
+            if (insidfGftRfsourdfAsStrfbm == fblsf)
+            {
+                // othfrwisf, try thf dodf bbsf
+                try {
+                    url = nfw URL(bbsf, PbrsfUtil.fndodfPbth(nbmf, fblsf));
+                    // dhfdk if rfsourdf fxists
+                    if(!rfsourdfExists(url))
+                        url = null;
+                } dbtdh (Exdfption f) {
+                    // bll fxdfptions, indluding sfdurity fxdfptions, brf dbught
+                    url = null;
+                }
+            }
+        }
+        rfturn url;
+    }
+
+
+    privbtf boolfbn rfsourdfExists(URL url) {
+        // Chfdk if thf rfsourdf fxists.
+        // It blmost works to just try to do bn opfnConnfdtion() but
+        // HttpURLConnfdtion will rfturn truf on HTTP_BAD_REQUEST
+        // whfn thf rfqufstfd nbmf fnds in ".html", ".htm", bnd ".txt"
+        // bnd wf wbnt to bf bblf to hbndlf thfsf
+        //
+        // Also, dbnnot just opfn b donnfdtion for things likf FilfURLConnfdtion,
+        // bfdbusf thfy suddffd whfn donnfdting to b nonfxistfnt filf.
+        // So, in thosf dbsfs wf opfn bnd dlosf bn input strfbm.
+        boolfbn ok = truf;
+        try {
+            URLConnfdtion donn = url.opfnConnfdtion();
+            if (donn instbndfof jbvb.nft.HttpURLConnfdtion) {
+                jbvb.nft.HttpURLConnfdtion hdonn =
+                    (jbvb.nft.HttpURLConnfdtion) donn;
+
+                // To rfdudf ovfrhfbd, using http HEAD mfthod instfbd of GET mfthod
+                hdonn.sftRfqufstMfthod("HEAD");
+
+                int dodf = hdonn.gftRfsponsfCodf();
+                if (dodf == jbvb.nft.HttpURLConnfdtion.HTTP_OK) {
+                    rfturn truf;
+                }
+                if (dodf >= jbvb.nft.HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                /**
+                 * Fix for #4182052 - stbnlfyh
+                 *
+                 * Thf sbmf donnfdtion should bf rfusfd to bvoid multiplf
+                 * HTTP donnfdtions
+                 */
+
+                // our bfst gufss for thf othfr dbsfs
+                InputStrfbm is = donn.gftInputStrfbm();
+                is.dlosf();
+            }
+        } dbtdh (Exdfption fx) {
+            ok = fblsf;
+        }
+        rfturn ok;
+    }
+
+    /*
+     * Rfturns bn fnumfrbtion of bll thf bpplft rfsourdfs with thf spfdififd
+     * nbmf. First dhfdks lobdfd JAR filfs thfn thf bpplft dodf bbsf for bll
+     * bvbilbblf rfsourdfs.
+     */
+    @Ovfrridf
+    publid Enumfrbtion<URL> findRfsourdfs(String nbmf) throws IOExdfption {
+
+        finbl Enumfrbtion<URL> f = supfr.findRfsourdfs(nbmf);
+
+        // 6215746:  Disbblf META-INF/* lookup from dodfbbsf in
+        // bpplft/plugin dlbsslobdfr. [stbnlfy.ho]
+        if (nbmf.stbrtsWith("META-INF/"))
+            rfturn f;
+
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.ho]
+        if (dodfbbsfLookup == fblsf)
+            rfturn f;
+
+        URL u = nfw URL(bbsf, PbrsfUtil.fndodfPbth(nbmf, fblsf));
+        if (!rfsourdfExists(u)) {
+            u = null;
+        }
+
+        finbl URL url = u;
+        rfturn nfw Enumfrbtion<URL>() {
+            privbtf boolfbn donf;
+            publid URL nfxtElfmfnt() {
+                if (!donf) {
+                    if (f.hbsMorfElfmfnts()) {
+                        rfturn f.nfxtElfmfnt();
+                    }
+                    donf = truf;
+                    if (url != null) {
+                        rfturn url;
+                    }
+                }
+                throw nfw NoSudhElfmfntExdfption();
+            }
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn !donf && (f.hbsMorfElfmfnts() || url != null);
+            }
+        };
+    }
+
+    /*
+     * Lobd bnd rfsolvf thf filf spfdififd by thf bpplft tbg CODE
+     * bttributf. Thf brgumfnt dbn fithfr bf thf rflbtivf pbth
+     * of thf dlbss filf itsflf or just thf nbmf of thf dlbss.
+     */
+    Clbss<?> lobdCodf(String nbmf) throws ClbssNotFoundExdfption {
+        // first donvfrt bny '/' or nbtivf filf sfpbrbtor to .
+        nbmf = nbmf.rfplbdf('/', '.');
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorChbr, '.');
+
+        // dfbl with URL rfwriting
+        String dookif = null;
+        int indfx = nbmf.indfxOf(';');
+        if(indfx != -1) {
+                dookif = nbmf.substring(indfx, nbmf.lfngth());
+                nbmf = nbmf.substring(0, indfx);
+        }
+
+        // sbvf thbt nbmf for lbtfr
+        String fullNbmf = nbmf;
+        // thfn strip off bny suffixfs
+        if (nbmf.fndsWith(".dlbss") || nbmf.fndsWith(".jbvb")) {
+            nbmf = nbmf.substring(0, nbmf.lbstIndfxOf('.'));
+        }
+        try {
+                if(dookif != null)
+                        nbmf = (nfw StringBufffr(nbmf)).bppfnd(dookif).toString();
+            rfturn lobdClbss(nbmf);
+        } dbtdh (ClbssNotFoundExdfption f) {
+        }
+        // thfn if it didn't fnd with .jbvb or .dlbss, or in thf
+        // rfblly pbthologidbl dbsf of b dlbss nbmfd dlbss or jbvb
+        if(dookif != null)
+                fullNbmf = (nfw StringBufffr(fullNbmf)).bppfnd(dookif).toString();
+
+        rfturn lobdClbss(fullNbmf);
+    }
+
+    /*
+     * Thf thrfbdgroup thbt thf bpplfts lobdfd by this dlbsslobdfr livf
+     * in. In thf sun.* implfmfntbtion of bpplfts, thf sfdurity mbnbgfr's
+     * (ApplftSfdurity) gftThrfbdGroup rfturns thf thrfbd group of thf
+     * first bpplft on thf stbdk, whidh is thf bpplft's thrfbd group.
+     */
+    privbtf ApplftThrfbdGroup thrfbdGroup;
+    privbtf AppContfxt bppContfxt;
+
+    publid ThrfbdGroup gftThrfbdGroup() {
+      syndhronizfd (thrfbdGroupSyndhronizfr) {
+        if (thrfbdGroup == null || thrfbdGroup.isDfstroyfd()) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    thrfbdGroup = nfw ApplftThrfbdGroup(bbsf + "-thrfbdGroup");
+                    // thrfbdGroup.sftDbfmon(truf);
+                    // thrfbdGroup is now dfstroyfd by AppContfxt.disposf()
+
+                    // Crfbtf thf nfw AppContfxt from within b Thrfbd bflonging
+                    // to thf nfwly drfbtfd ThrfbdGroup, bnd wbit for thf
+                    // drfbtion to domplftf bfforf rfturning from this mfthod.
+                    AppContfxtCrfbtor drfbtorThrfbd = nfw AppContfxtCrfbtor(thrfbdGroup);
+
+                    // Sindf this thrfbd will lbtfr bf usfd to lbundh thf
+                    // bpplft's AWT-fvfnt dispbtdh thrfbd bnd wf wbnt thf bpplft
+                    // dodf fxfduting thf AWT dbllbbdks to usf thfir own dlbss
+                    // lobdfr rbthfr thbn thf systfm dlbss lobdfr, fxpliditly
+                    // sft thf dontfxt dlbss lobdfr to thf ApplftClbssLobdfr.
+                    drfbtorThrfbd.sftContfxtClbssLobdfr(ApplftClbssLobdfr.this);
+
+                    drfbtorThrfbd.stbrt();
+                    try {
+                        syndhronizfd(drfbtorThrfbd.syndObjfdt) {
+                            whilf (!drfbtorThrfbd.drfbtfd) {
+                                drfbtorThrfbd.syndObjfdt.wbit();
+                            }
+                        }
+                    } dbtdh (IntfrruptfdExdfption f) { }
+                    bppContfxt = drfbtorThrfbd.bppContfxt;
+                    rfturn null;
+                }
+            });
+        }
+        rfturn thrfbdGroup;
+      }
+    }
+
+    /*
+     * Gft thf AppContfxt, if bny, dorrfsponding to this ApplftClbssLobdfr.
+     */
+    publid AppContfxt gftAppContfxt()  {
+        rfturn bppContfxt;
+    }
+
+    int usbgfCount = 0;
+
+    /**
+     * Grbb this ApplftClbssLobdfr bnd its ThrfbdGroup/AppContfxt, so thfy
+     * won't bf dfstroyfd.
+     */
+publid     void grbb() {
+        syndhronizfd(grbbRflfbsfSyndhronizfr) {
+            usbgfCount++;
+        }
+        gftThrfbdGroup(); // Mbkf surf ThrfbdGroup/AppContfxt fxist
+    }
+
+    protfdtfd void sftExdfptionStbtus()
+    {
+        fxdfptionStbtus = truf;
+    }
+
+    publid boolfbn gftExdfptionStbtus()
+    {
+        rfturn fxdfptionStbtus;
+    }
+
+    /**
+     * Rflfbsf this ApplftClbssLobdfr bnd its ThrfbdGroup/AppContfxt.
+     * If nothing flsf hbs grbbbfd this ApplftClbssLobdfr, its ThrfbdGroup
+     * bnd AppContfxt will bf dfstroyfd.
+     *
+     * Bfdbusf this mfthod mby dfstroy thf ApplftClbssLobdfr's ThrfbdGroup,
+     * this mfthod should NOT bf dbllfd from within thf ApplftClbssLobdfr's
+     * ThrfbdGroup.
+     *
+     * Chbngfd modififr to protfdtfd in ordfr to bf bblf to ovfrwritf this
+     * fundtion in PluginClbssLobdfr.jbvb
+     */
+    protfdtfd void rflfbsf() {
+
+        AppContfxt tfmpAppContfxt = null;
+
+        syndhronizfd(grbbRflfbsfSyndhronizfr) {
+            if (usbgfCount > 1)  {
+                --usbgfCount;
+            } flsf {
+                syndhronizfd(thrfbdGroupSyndhronizfr) {
+                    tfmpAppContfxt = rfsftAppContfxt();
+                }
+            }
+        }
+
+        // Disposf bppContfxt outsidf bny synd blodk to
+        // prfvfnt potfntibl dfbdlodk.
+        if (tfmpAppContfxt != null)  {
+            try {
+                tfmpAppContfxt.disposf(); // nukf thf world!
+            } dbtdh (IllfgblThrfbdStbtfExdfption f) { }
+        }
+    }
+
+    /*
+     * rfsft dlbsslobdfr's AppContfxt bnd ThrfbdGroup
+     * This mfthod is for subdlbss PluginClbssLobdfr to
+     * rfsft supfrdlbss's AppContfxt bnd ThrfbdGroup but do
+     * not disposf thf AppContfxt. PluginClbssLobdfr dofs not
+     * usf UsbgfCount to dfdidf whfthfr to disposf AppContfxt
+     *
+     * @rfturn prfvious AppContfxt
+     */
+    protfdtfd AppContfxt rfsftAppContfxt() {
+        AppContfxt tfmpAppContfxt = null;
+
+        syndhronizfd(thrfbdGroupSyndhronizfr) {
+            // Storf bpp dontfxt in tfmp vbribblf
+            tfmpAppContfxt = bppContfxt;
+            usbgfCount = 0;
+            bppContfxt = null;
+            thrfbdGroup = null;
+        }
+        rfturn tfmpAppContfxt;
+    }
+
+
+    // Hbsh mbp to storf bpplft dompbtibility info
+    privbtf HbshMbp<String, Boolfbn> jdk11ApplftInfo = nfw HbshMbp<>();
+    privbtf HbshMbp<String, Boolfbn> jdk12ApplftInfo = nfw HbshMbp<>();
+
+    /**
+     * Sft bpplft tbrgft lfvfl bs JDK 1.1.
+     *
+     * @pbrbm dlbzz Applft dlbss.
+     * @pbrbm bool truf if JDK is tbrgftfd for JDK 1.1;
+     *             fblsf othfrwisf.
+     */
+    void sftJDK11Tbrgft(Clbss<?> dlbzz, boolfbn bool)
+    {
+         jdk11ApplftInfo.put(dlbzz.toString(), Boolfbn.vblufOf(bool));
+    }
+
+    /**
+     * Sft bpplft tbrgft lfvfl bs JDK 1.2.
+     *
+     * @pbrbm dlbzz Applft dlbss.
+     * @pbrbm bool truf if JDK is tbrgftfd for JDK 1.2;
+     *             fblsf othfrwisf.
+     */
+    void sftJDK12Tbrgft(Clbss<?> dlbzz, boolfbn bool)
+    {
+        jdk12ApplftInfo.put(dlbzz.toString(), Boolfbn.vblufOf(bool));
+    }
+
+    /**
+     * Dftfrminf if bpplft is tbrgftfd for JDK 1.1.
+     *
+     * @pbrbm bpplft Applft dlbss.
+     * @rfturn TRUE if bpplft is tbrgftfd for JDK 1.1;
+     *         FALSE if bpplft is not;
+     *         null if bpplft is unknown.
+     */
+    Boolfbn isJDK11Tbrgft(Clbss<?> dlbzz)
+    {
+        rfturn jdk11ApplftInfo.gft(dlbzz.toString());
+    }
+
+    /**
+     * Dftfrminf if bpplft is tbrgftfd for JDK 1.2.
+     *
+     * @pbrbm bpplft Applft dlbss.
+     * @rfturn TRUE if bpplft is tbrgftfd for JDK 1.2;
+     *         FALSE if bpplft is not;
+     *         null if bpplft is unknown.
+     */
+    Boolfbn isJDK12Tbrgft(Clbss<?> dlbzz)
+    {
+        rfturn jdk12ApplftInfo.gft(dlbzz.toString());
+    }
+
+    privbtf stbtid ApplftMfssbgfHbndlfr mh =
+        nfw ApplftMfssbgfHbndlfr("bpplftdlbsslobdfr");
+
+    /*
+     * Prints b dlbss lobding frror mfssbgf.
+     */
+    privbtf stbtid void printError(String nbmf, Throwbblf f) {
+        String s = null;
+        if (f == null) {
+            s = mh.gftMfssbgf("filfnotfound", nbmf);
+        } flsf if (f instbndfof IOExdfption) {
+            s = mh.gftMfssbgf("filfiofxdfption", nbmf);
+        } flsf if (f instbndfof ClbssFormbtError) {
+            s = mh.gftMfssbgf("filfformbt", nbmf);
+        } flsf if (f instbndfof ThrfbdDfbth) {
+            s = mh.gftMfssbgf("filfdfbth", nbmf);
+        } flsf if (f instbndfof Error) {
+            s = mh.gftMfssbgf("filffrror", f.toString(), nbmf);
+        }
+        if (s != null) {
+            Systfm.frr.println(s);
+        }
+    }
+}
+
+/*
+ * Thf AppContfxtCrfbtor dlbss is usfd to drfbtf bn AppContfxt from within
+ * b Thrfbd bflonging to thf nfw AppContfxt's ThrfbdGroup.  To wbit for
+ * this opfrbtion to domplftf bfforf dontinuing, wbit for thf notifyAll()
+ * opfrbtion on thf syndObjfdt to oddur.
+ */
+dlbss AppContfxtCrfbtor fxtfnds Thrfbd  {
+    Objfdt syndObjfdt = nfw Objfdt();
+    AppContfxt bppContfxt = null;
+    volbtilf boolfbn drfbtfd = fblsf;
+
+    AppContfxtCrfbtor(ThrfbdGroup group)  {
+        supfr(group, "AppContfxtCrfbtor");
+    }
+
+    publid void run()  {
+        bppContfxt = SunToolkit.drfbtfNfwAppContfxt();
+        drfbtfd = truf;
+        syndhronizfd(syndObjfdt) {
+            syndObjfdt.notifyAll();
+        }
+    } // run()
+
+} // dlbss AppContfxtCrfbtor

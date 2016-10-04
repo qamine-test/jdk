@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,92 +30,92 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Example code to list/set/get/delete the user-defined attributes of a file.
+ * Exbmplf dodf to list/sft/gft/dflftf tif usfr-dffinfd bttributfs of b filf.
  */
 
-public class Xdd {
+publid dlbss Xdd {
 
-    static void usage() {
-        System.out.println("Usage: java Xdd <file>");
-        System.out.println("       java Xdd -set <name>=<value> <file>");
-        System.out.println("       java Xdd -get <name> <file>");
-        System.out.println("       java Xdd -del <name> <file>");
-        System.exit(-1);
+    stbtid void usbgf() {
+        Systfm.out.println("Usbgf: jbvb Xdd <filf>");
+        Systfm.out.println("       jbvb Xdd -sft <nbmf>=<vbluf> <filf>");
+        Systfm.out.println("       jbvb Xdd -gft <nbmf> <filf>");
+        Systfm.out.println("       jbvb Xdd -dfl <nbmf> <filf>");
+        Systfm.fxit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        // one or three parameters
-        if (args.length != 1 && args.length != 3)
-            usage();
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        // onf or tirff pbrbmftfrs
+        if (brgs.lfngti != 1 && brgs.lfngti != 3)
+            usbgf();
 
-        Path file = (args.length == 1) ?
-            Paths.get(args[0]) : Paths.get(args[2]);
+        Pbti filf = (brgs.lfngti == 1) ?
+            Pbtis.gft(brgs[0]) : Pbtis.gft(brgs[2]);
 
-        // check that user defined attributes are supported by the file store
-        FileStore store = Files.getFileStore(file);
-        if (!store.supportsFileAttributeView(UserDefinedFileAttributeView.class)) {
-            System.err.format("UserDefinedFileAttributeView not supported on %s\n", store);
-            System.exit(-1);
+        // difdk tibt usfr dffinfd bttributfs brf supportfd by tif filf storf
+        FilfStorf storf = Filfs.gftFilfStorf(filf);
+        if (!storf.supportsFilfAttributfVifw(UsfrDffinfdFilfAttributfVifw.dlbss)) {
+            Systfm.frr.formbt("UsfrDffinfdFilfAttributfVifw not supportfd on %s\n", storf);
+            Systfm.fxit(-1);
 
         }
-        UserDefinedFileAttributeView view =
-            Files.getFileAttributeView(file, UserDefinedFileAttributeView.class);
+        UsfrDffinfdFilfAttributfVifw vifw =
+            Filfs.gftFilfAttributfVifw(filf, UsfrDffinfdFilfAttributfVifw.dlbss);
 
-        // list user defined attributes
-        if (args.length == 1) {
-            System.out.println("    Size  Name");
-            System.out.println("--------  --------------------------------------");
-            for (String name: view.list()) {
-                System.out.format("%8d  %s\n", view.size(name), name);
+        // list usfr dffinfd bttributfs
+        if (brgs.lfngti == 1) {
+            Systfm.out.println("    Sizf  Nbmf");
+            Systfm.out.println("--------  --------------------------------------");
+            for (String nbmf: vifw.list()) {
+                Systfm.out.formbt("%8d  %s\n", vifw.sizf(nbmf), nbmf);
             }
-            return;
+            rfturn;
         }
 
-        // Add/replace a file's user defined attribute
-        if (args[0].equals("-set")) {
-            // name=value
-            String[] s = args[1].split("=");
-            if (s.length != 2)
-                usage();
-            String name = s[0];
-            String value = s[1];
-            view.write(name, Charset.defaultCharset().encode(value));
-            return;
+        // Add/rfplbdf b filf's usfr dffinfd bttributf
+        if (brgs[0].fqubls("-sft")) {
+            // nbmf=vbluf
+            String[] s = brgs[1].split("=");
+            if (s.lfngti != 2)
+                usbgf();
+            String nbmf = s[0];
+            String vbluf = s[1];
+            vifw.writf(nbmf, Cibrsft.dffbultCibrsft().fndodf(vbluf));
+            rfturn;
         }
 
-        // Print out the value of a file's user defined attribute
-        if (args[0].equals("-get")) {
-            String name = args[1];
-            int size = view.size(name);
-            ByteBuffer buf = ByteBuffer.allocateDirect(size);
-            view.read(name, buf);
+        // Print out tif vbluf of b filf's usfr dffinfd bttributf
+        if (brgs[0].fqubls("-gft")) {
+            String nbmf = brgs[1];
+            int sizf = vifw.sizf(nbmf);
+            BytfBufffr buf = BytfBufffr.bllodbtfDirfdt(sizf);
+            vifw.rfbd(nbmf, buf);
             buf.flip();
-            System.out.println(Charset.defaultCharset().decode(buf).toString());
-            return;
+            Systfm.out.println(Cibrsft.dffbultCibrsft().dfdodf(buf).toString());
+            rfturn;
         }
 
-        // Delete a file's user defined attribute
-        if (args[0].equals("-del")) {
-            view.delete(args[1]);
-            return;
+        // Dflftf b filf's usfr dffinfd bttributf
+        if (brgs[0].fqubls("-dfl")) {
+            vifw.dflftf(brgs[1]);
+            rfturn;
         }
 
-        // option not recognized
-        usage();
+        // option not rfdognizfd
+        usbgf();
     }
  }

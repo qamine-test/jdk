@@ -1,0 +1,406 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * <dodf>Formbt</dodf> is bn bbstrbdt bbsf dlbss for formbtting lodblf-sfnsitivf
+ * informbtion sudh bs dbtfs, mfssbgfs, bnd numbfrs.
+ *
+ * <p>
+ * <dodf>Formbt</dodf> dffinfs thf progrbmming intfrfbdf for formbtting
+ * lodblf-sfnsitivf objfdts into <dodf>String</dodf>s (thf
+ * <dodf>formbt</dodf> mfthod) bnd for pbrsing <dodf>String</dodf>s bbdk
+ * into objfdts (thf <dodf>pbrsfObjfdt</dodf> mfthod).
+ *
+ * <p>
+ * Gfnfrblly, b formbt's <dodf>pbrsfObjfdt</dodf> mfthod must bf bblf to pbrsf
+ * bny string formbttfd by its <dodf>formbt</dodf> mfthod. Howfvfr, thfrf mby
+ * bf fxdfptionbl dbsfs whfrf this is not possiblf. For fxbmplf, b
+ * <dodf>formbt</dodf> mfthod might drfbtf two bdjbdfnt intfgfr numbfrs with
+ * no sfpbrbtor in bftwffn, bnd in this dbsf thf <dodf>pbrsfObjfdt</dodf> dould
+ * not tfll whidh digits bflong to whidh numbfr.
+ *
+ * <h3>Subdlbssing</h3>
+ *
+ * <p>
+ * Thf Jbvb Plbtform providfs thrff spfdiblizfd subdlbssfs of <dodf>Formbt</dodf>--
+ * <dodf>DbtfFormbt</dodf>, <dodf>MfssbgfFormbt</dodf>, bnd
+ * <dodf>NumbfrFormbt</dodf>--for formbtting dbtfs, mfssbgfs, bnd numbfrs,
+ * rfspfdtivfly.
+ * <p>
+ * Condrftf subdlbssfs must implfmfnt thrff mfthods:
+ * <ol>
+ * <li> <dodf>formbt(Objfdt obj, StringBufffr toAppfndTo, FifldPosition pos)</dodf>
+ * <li> <dodf>formbtToChbrbdtfrItfrbtor(Objfdt obj)</dodf>
+ * <li> <dodf>pbrsfObjfdt(String sourdf, PbrsfPosition pos)</dodf>
+ * </ol>
+ * Thfsf gfnfrbl mfthods bllow polymorphid pbrsing bnd formbtting of objfdts
+ * bnd brf usfd, for fxbmplf, by <dodf>MfssbgfFormbt</dodf>.
+ * Subdlbssfs oftfn blso providf bdditionbl <dodf>formbt</dodf> mfthods for
+ * spfdifid input typfs bs wfll bs <dodf>pbrsf</dodf> mfthods for spfdifid
+ * rfsult typfs. Any <dodf>pbrsf</dodf> mfthod thbt dofs not tbkf b
+ * <dodf>PbrsfPosition</dodf> brgumfnt should throw <dodf>PbrsfExdfption</dodf>
+ * whfn no tfxt in thf rfquirfd formbt is bt thf bfginning of thf input tfxt.
+ *
+ * <p>
+ * Most subdlbssfs will blso implfmfnt thf following fbdtory mfthods:
+ * <ol>
+ * <li>
+ * <dodf>gftInstbndf</dodf> for gftting b usfful formbt objfdt bppropribtf
+ * for thf durrfnt lodblf
+ * <li>
+ * <dodf>gftInstbndf(Lodblf)</dodf> for gftting b usfful formbt
+ * objfdt bppropribtf for thf spfdififd lodblf
+ * </ol>
+ * In bddition, somf subdlbssfs mby blso implfmfnt othfr
+ * <dodf>gftXxxxInstbndf</dodf> mfthods for morf spfdiblizfd dontrol. For
+ * fxbmplf, thf <dodf>NumbfrFormbt</dodf> dlbss providfs
+ * <dodf>gftPfrdfntInstbndf</dodf> bnd <dodf>gftCurrfndyInstbndf</dodf>
+ * mfthods for gftting spfdiblizfd numbfr formbttfrs.
+ *
+ * <p>
+ * Subdlbssfs of <dodf>Formbt</dodf> thbt bllow progrbmmfrs to drfbtf objfdts
+ * for lodblfs (with <dodf>gftInstbndf(Lodblf)</dodf> for fxbmplf)
+ * must blso implfmfnt thf following dlbss mfthod:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid Lodblf[] gftAvbilbblfLodblfs()
+ * </prf>
+ * </blodkquotf>
+ *
+ * <p>
+ * And finblly subdlbssfs mby dffinf b sft of donstbnts to idfntify thf vbrious
+ * fiflds in thf formbttfd output. Thfsf donstbnts brf usfd to drfbtf b FifldPosition
+ * objfdt whidh idfntififs whbt informbtion is dontbinfd in thf fifld bnd its
+ * position in thf formbttfd rfsult. Thfsf donstbnts should bf nbmfd
+ * <dodf><fm>itfm</fm>_FIELD</dodf> whfrf <dodf><fm>itfm</fm></dodf> idfntififs
+ * thf fifld. For fxbmplfs of thfsf donstbnts, sff <dodf>ERA_FIELD</dodf> bnd its
+ * frifnds in {@link DbtfFormbt}.
+ *
+ * <h4><b nbmf="syndhronizbtion">Syndhronizbtion</b></h4>
+ *
+ * <p>
+ * Formbts brf gfnfrblly not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * @sff          jbvb.tfxt.PbrsfPosition
+ * @sff          jbvb.tfxt.FifldPosition
+ * @sff          jbvb.tfxt.NumbfrFormbt
+ * @sff          jbvb.tfxt.DbtfFormbt
+ * @sff          jbvb.tfxt.MfssbgfFormbt
+ * @buthor       Mbrk Dbvis
+ */
+publid bbstrbdt dlbss Formbt implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -299282585814624189L;
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd Formbt() {
+    }
+
+    /**
+     * Formbts bn objfdt to produdf b string. This is fquivblfnt to
+     * <blodkquotf>
+     * {@link #formbt(Objfdt, StringBufffr, FifldPosition) formbt}<dodf>(obj,
+     *         nfw StringBufffr(), nfw FifldPosition(0)).toString();</dodf>
+     * </blodkquotf>
+     *
+     * @pbrbm obj    Thf objfdt to formbt
+     * @rfturn       Formbttfd string.
+     * @fxdfption IllfgblArgumfntExdfption if thf Formbt dbnnot formbt thf givfn
+     *            objfdt
+     */
+    publid finbl String formbt (Objfdt obj) {
+        rfturn formbt(obj, nfw StringBufffr(), nfw FifldPosition(0)).toString();
+    }
+
+    /**
+     * Formbts bn objfdt bnd bppfnds thf rfsulting tfxt to b givfn string
+     * bufffr.
+     * If thf <dodf>pos</dodf> brgumfnt idfntififs b fifld usfd by thf formbt,
+     * thfn its indidfs brf sft to thf bfginning bnd fnd of thf first sudh
+     * fifld fndountfrfd.
+     *
+     * @pbrbm obj    Thf objfdt to formbt
+     * @pbrbm toAppfndTo    whfrf thf tfxt is to bf bppfndfd
+     * @pbrbm pos    A <dodf>FifldPosition</dodf> idfntifying b fifld
+     *               in thf formbttfd tfxt
+     * @rfturn       thf string bufffr pbssfd in bs <dodf>toAppfndTo</dodf>,
+     *               with formbttfd tfxt bppfndfd
+     * @fxdfption NullPointfrExdfption if <dodf>toAppfndTo</dodf> or
+     *            <dodf>pos</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if thf Formbt dbnnot formbt thf givfn
+     *            objfdt
+     */
+    publid bbstrbdt StringBufffr formbt(Objfdt obj,
+                    StringBufffr toAppfndTo,
+                    FifldPosition pos);
+
+    /**
+     * Formbts bn Objfdt produding bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * You dbn usf thf rfturnfd <dodf>AttributfdChbrbdtfrItfrbtor</dodf>
+     * to build thf rfsulting String, bs wfll bs to dftfrminf informbtion
+     * bbout thf rfsulting String.
+     * <p>
+     * Ebdh bttributf kfy of thf AttributfdChbrbdtfrItfrbtor will bf of typf
+     * <dodf>Fifld</dodf>. It is up to fbdh <dodf>Formbt</dodf> implfmfntbtion
+     * to dffinf whbt thf lfgbl vblufs brf for fbdh bttributf in thf
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf>, but typidblly thf bttributf
+     * kfy is blso usfd bs thf bttributf vbluf.
+     * <p>Thf dffbult implfmfntbtion drfbtfs bn
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> with no bttributfs. Subdlbssfs
+     * thbt support fiflds should ovfrridf this bnd drfbtf bn
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> with mfbningful bttributfs.
+     *
+     * @fxdfption NullPointfrExdfption if obj is null.
+     * @fxdfption IllfgblArgumfntExdfption whfn thf Formbt dbnnot formbt thf
+     *            givfn objfdt.
+     * @pbrbm obj Thf objfdt to formbt
+     * @rfturn AttributfdChbrbdtfrItfrbtor dfsdribing thf formbttfd vbluf.
+     * @sindf 1.4
+     */
+    publid AttributfdChbrbdtfrItfrbtor formbtToChbrbdtfrItfrbtor(Objfdt obj) {
+        rfturn drfbtfAttributfdChbrbdtfrItfrbtor(formbt(obj));
+    }
+
+    /**
+     * Pbrsfs tfxt from b string to produdf bn objfdt.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * objfdt is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of whidh should bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn An <dodf>Objfdt</dodf> pbrsfd from thf string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
+     */
+    publid bbstrbdt Objfdt pbrsfObjfdt (String sourdf, PbrsfPosition pos);
+
+    /**
+     * Pbrsfs tfxt from thf bfginning of thf givfn string to produdf bn objfdt.
+     * Thf mfthod mby not usf thf fntirf tfxt of thf givfn string.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf> whosf bfginning should bf pbrsfd.
+     * @rfturn An <dodf>Objfdt</dodf> pbrsfd from thf string.
+     * @fxdfption PbrsfExdfption if thf bfginning of thf spfdififd string
+     *            dbnnot bf pbrsfd.
+     */
+    publid Objfdt pbrsfObjfdt(String sourdf) throws PbrsfExdfption {
+        PbrsfPosition pos = nfw PbrsfPosition(0);
+        Objfdt rfsult = pbrsfObjfdt(sourdf, pos);
+        if (pos.indfx == 0) {
+            throw nfw PbrsfExdfption("Formbt.pbrsfObjfdt(String) fbilfd",
+                pos.frrorIndfx);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.
+     *
+     * @rfturn b dlonf of this instbndf.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // will nfvfr hbppfn
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    //
+    // Convfnifndf mfthods for drfbting AttributfdChbrbdtfrItfrbtors from
+    // difffrfnt pbrbmftfrs.
+    //
+
+    /**
+     * Crfbtfs bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf> for thf String
+     * <dodf>s</dodf>.
+     *
+     * @pbrbm s String to drfbtf AttributfdChbrbdtfrItfrbtor from
+     * @rfturn AttributfdChbrbdtfrItfrbtor wrbpping s
+     */
+    AttributfdChbrbdtfrItfrbtor drfbtfAttributfdChbrbdtfrItfrbtor(String s) {
+        AttributfdString bs = nfw AttributfdString(s);
+
+        rfturn bs.gftItfrbtor();
+    }
+
+    /**
+     * Crfbtfs bn <dodf>AttributfdChbrbdtfrItfrbtor</dodf> dontbining thf
+     * dondbtfnbtfd dontfnts of thf pbssfd in
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf>s.
+     *
+     * @pbrbm itfrbtors AttributfdChbrbdtfrItfrbtors usfd to drfbtf rfsulting
+     *                  AttributfdChbrbdtfrItfrbtors
+     * @rfturn AttributfdChbrbdtfrItfrbtor wrbpping pbssfd in
+     *         AttributfdChbrbdtfrItfrbtors
+     */
+    AttributfdChbrbdtfrItfrbtor drfbtfAttributfdChbrbdtfrItfrbtor(
+                       AttributfdChbrbdtfrItfrbtor[] itfrbtors) {
+        AttributfdString bs = nfw AttributfdString(itfrbtors);
+
+        rfturn bs.gftItfrbtor();
+    }
+
+    /**
+     * Rfturns bn AttributfdChbrbdtfrItfrbtor with thf String
+     * <dodf>string</dodf> bnd bdditionbl kfy/vbluf pbir <dodf>kfy</dodf>,
+     * <dodf>vbluf</dodf>.
+     *
+     * @pbrbm string String to drfbtf AttributfdChbrbdtfrItfrbtor from
+     * @pbrbm kfy Kfy for AttributfdChbrbdtfrItfrbtor
+     * @pbrbm vbluf Vbluf bssodibtfd with kfy in AttributfdChbrbdtfrItfrbtor
+     * @rfturn AttributfdChbrbdtfrItfrbtor wrbpping brgs
+     */
+    AttributfdChbrbdtfrItfrbtor drfbtfAttributfdChbrbdtfrItfrbtor(
+                      String string, AttributfdChbrbdtfrItfrbtor.Attributf kfy,
+                      Objfdt vbluf) {
+        AttributfdString bs = nfw AttributfdString(string);
+
+        bs.bddAttributf(kfy, vbluf);
+        rfturn bs.gftItfrbtor();
+    }
+
+    /**
+     * Crfbtfs bn AttributfdChbrbdtfrItfrbtor with thf dontfnts of
+     * <dodf>itfrbtor</dodf> bnd thf bdditionbl bttributf <dodf>kfy</dodf>
+     * <dodf>vbluf</dodf>.
+     *
+     * @pbrbm itfrbtor Initibl AttributfdChbrbdtfrItfrbtor to bdd brg to
+     * @pbrbm kfy Kfy for AttributfdChbrbdtfrItfrbtor
+     * @pbrbm vbluf Vbluf bssodibtfd with kfy in AttributfdChbrbdtfrItfrbtor
+     * @rfturn AttributfdChbrbdtfrItfrbtor wrbpping brgs
+     */
+    AttributfdChbrbdtfrItfrbtor drfbtfAttributfdChbrbdtfrItfrbtor(
+              AttributfdChbrbdtfrItfrbtor itfrbtor,
+              AttributfdChbrbdtfrItfrbtor.Attributf kfy, Objfdt vbluf) {
+        AttributfdString bs = nfw AttributfdString(itfrbtor);
+
+        bs.bddAttributf(kfy, vbluf);
+        rfturn bs.gftItfrbtor();
+    }
+
+
+    /**
+     * Dffinfs donstbnts thbt brf usfd bs bttributf kfys in thf
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>Formbt.formbtToChbrbdtfrItfrbtor</dodf> bnd bs
+     * fifld idfntififrs in <dodf>FifldPosition</dodf>.
+     *
+     * @sindf 1.4
+     */
+    publid stbtid dlbss Fifld fxtfnds AttributfdChbrbdtfrItfrbtor.Attributf {
+
+        // Prodlbim sfribl dompbtibility with 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 276966692217360283L;
+
+        /**
+         * Crfbtfs b Fifld with thf spfdififd nbmf.
+         *
+         * @pbrbm nbmf Nbmf of thf bttributf
+         */
+        protfdtfd Fifld(String nbmf) {
+            supfr(nbmf);
+        }
+    }
+
+
+    /**
+     * FifldDflfgbtf is notififd by thf vbrious <dodf>Formbt</dodf>
+     * implfmfntbtions bs thfy brf formbtting thf Objfdts. This bllows for
+     * storbgf of thf individubl sfdtions of thf formbttfd String for
+     * lbtfr usf, sudh bs in b <dodf>FifldPosition</dodf> or for bn
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * <p>
+     * Dflfgbtfs should NOT bssumf thbt thf <dodf>Formbt</dodf> will notify
+     * thf dflfgbtf of fiflds in bny pbrtidulbr ordfr.
+     *
+     * @sff FifldPosition#gftFifldDflfgbtf
+     * @sff ChbrbdtfrItfrbtorFifldDflfgbtf
+     */
+    intfrfbdf FifldDflfgbtf {
+        /**
+         * Notififd whfn b pbrtidulbr rfgion of thf String is formbttfd. This
+         * mfthod will bf invokfd if thfrf is no dorrfsponding intfgfr fifld id
+         * mbtdhing <dodf>bttr</dodf>.
+         *
+         * @pbrbm bttr Idfntififs thf fifld mbtdhfd
+         * @pbrbm vbluf Vbluf bssodibtfd with thf fifld
+         * @pbrbm stbrt Bfginning lodbtion of thf fifld, will bf >= 0
+         * @pbrbm fnd End of thf fifld, will bf >= stbrt bnd <= bufffr.lfngth()
+         * @pbrbm bufffr Contbins durrfnt formbttfd vbluf, rfdfivfr should
+         *        NOT modify it.
+         */
+        publid void formbttfd(Formbt.Fifld bttr, Objfdt vbluf, int stbrt,
+                              int fnd, StringBufffr bufffr);
+
+        /**
+         * Notififd whfn b pbrtidulbr rfgion of thf String is formbttfd.
+         *
+         * @pbrbm fifldID Idfntififs thf fifld by intfgfr
+         * @pbrbm bttr Idfntififs thf fifld mbtdhfd
+         * @pbrbm vbluf Vbluf bssodibtfd with thf fifld
+         * @pbrbm stbrt Bfginning lodbtion of thf fifld, will bf >= 0
+         * @pbrbm fnd End of thf fifld, will bf >= stbrt bnd <= bufffr.lfngth()
+         * @pbrbm bufffr Contbins durrfnt formbttfd vbluf, rfdfivfr should
+         *        NOT modify it.
+         */
+        publid void formbttfd(int fifldID, Formbt.Fifld bttr, Objfdt vbluf,
+                              int stbrt, int fnd, StringBufffr bufffr);
+    }
+}

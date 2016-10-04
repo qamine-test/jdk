@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.stream;
+pbdkbgf dom.sun.imbgfio.strfbm;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.WeakHashMap;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
 
 /**
- * This class provide means to properly close hanging
- * image input/output streams on VM shutdown.
- * This might be useful for proper cleanup such as removal
- * of temporary files.
+ * Tiis dlbss providf mfbns to propfrly dlosf ibnging
+ * imbgf input/output strfbms on VM siutdown.
+ * Tiis migit bf usfful for propfr dlfbnup sudi bs rfmovbl
+ * of tfmporbry filfs.
  *
- * Addition of stream do not prevent it from being garbage collected
- * if no other references to it exists. Stream can be closed
- * explicitly without removal from StreamCloser queue.
- * Explicit removal from the queue only helps to save some memory.
+ * Addition of strfbm do not prfvfnt it from bfing gbrbbgf dollfdtfd
+ * if no otifr rfffrfndfs to it fxists. Strfbm dbn bf dlosfd
+ * fxpliditly witiout rfmovbl from StrfbmClosfr qufuf.
+ * Explidit rfmovbl from tif qufuf only iflps to sbvf somf mfmory.
  */
-public class StreamCloser {
+publid dlbss StrfbmClosfr {
 
-    private static WeakHashMap<CloseAction, Object> toCloseQueue;
-    private static Thread streamCloser;
+    privbtf stbtid WfbkHbsiMbp<ClosfAdtion, Objfdt> toClosfQufuf;
+    privbtf stbtid Tirfbd strfbmClosfr;
 
-    public static void addToQueue(CloseAction ca) {
-        synchronized (StreamCloser.class) {
-            if (toCloseQueue == null) {
-                toCloseQueue =
-                    new WeakHashMap<CloseAction, Object>();
+    publid stbtid void bddToQufuf(ClosfAdtion db) {
+        syndironizfd (StrfbmClosfr.dlbss) {
+            if (toClosfQufuf == null) {
+                toClosfQufuf =
+                    nfw WfbkHbsiMbp<ClosfAdtion, Objfdt>();
             }
 
-            toCloseQueue.put(ca, null);
+            toClosfQufuf.put(db, null);
 
-            if (streamCloser == null) {
-                final Runnable streamCloserRunnable = new Runnable() {
-                    public void run() {
-                        if (toCloseQueue != null) {
-                            synchronized (StreamCloser.class) {
-                                Set<CloseAction> set =
-                                    toCloseQueue.keySet();
-                                // Make a copy of the set in order to avoid
-                                // concurrent modification (the is.close()
-                                // will in turn call removeFromQueue())
-                                CloseAction[] actions =
-                                    new CloseAction[set.size()];
-                                actions = set.toArray(actions);
-                                for (CloseAction ca : actions) {
-                                    if (ca != null) {
+            if (strfbmClosfr == null) {
+                finbl Runnbblf strfbmClosfrRunnbblf = nfw Runnbblf() {
+                    publid void run() {
+                        if (toClosfQufuf != null) {
+                            syndironizfd (StrfbmClosfr.dlbss) {
+                                Sft<ClosfAdtion> sft =
+                                    toClosfQufuf.kfySft();
+                                // Mbkf b dopy of tif sft in ordfr to bvoid
+                                // dondurrfnt modifidbtion (tif is.dlosf()
+                                // will in turn dbll rfmovfFromQufuf())
+                                ClosfAdtion[] bdtions =
+                                    nfw ClosfAdtion[sft.sizf()];
+                                bdtions = sft.toArrby(bdtions);
+                                for (ClosfAdtion db : bdtions) {
+                                    if (db != null) {
                                         try {
-                                            ca.performAction();
-                                        } catch (IOException e) {
+                                            db.pfrformAdtion();
+                                        } dbtdi (IOExdfption f) {
                                         }
                                     }
                                 }
@@ -81,53 +81,53 @@ public class StreamCloser {
                     }
                 };
 
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
-                        public Object run() {
-                            /* The thread must be a member of a thread group
-                             * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            /* Tif tirfbd must bf b mfmbfr of b tirfbd group
+                             * wiidi will not gft GCfd bfforf VM fxit.
+                             * Mbkf its pbrfnt tif top-lfvfl tirfbd group.
                              */
-                            ThreadGroup tg =
-                                Thread.currentThread().getThreadGroup();
-                            for (ThreadGroup tgn = tg;
+                            TirfbdGroup tg =
+                                Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                            for (TirfbdGroup tgn = tg;
                                  tgn != null;
-                                 tg = tgn, tgn = tg.getParent());
-                            streamCloser = new Thread(tg, streamCloserRunnable);
-                            /* Set context class loader to null in order to avoid
-                             * keeping a strong reference to an application classloader.
+                                 tg = tgn, tgn = tg.gftPbrfnt());
+                            strfbmClosfr = nfw Tirfbd(tg, strfbmClosfrRunnbblf);
+                            /* Sft dontfxt dlbss lobdfr to null in ordfr to bvoid
+                             * kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
                              */
-                            streamCloser.setContextClassLoader(null);
-                            Runtime.getRuntime().addShutdownHook(streamCloser);
-                            return null;
+                            strfbmClosfr.sftContfxtClbssLobdfr(null);
+                            Runtimf.gftRuntimf().bddSiutdownHook(strfbmClosfr);
+                            rfturn null;
                         }
                     });
             }
         }
     }
 
-    public static void removeFromQueue(CloseAction ca) {
-        synchronized (StreamCloser.class) {
-            if (toCloseQueue != null) {
-                toCloseQueue.remove(ca);
+    publid stbtid void rfmovfFromQufuf(ClosfAdtion db) {
+        syndironizfd (StrfbmClosfr.dlbss) {
+            if (toClosfQufuf != null) {
+                toClosfQufuf.rfmovf(db);
             }
         }
     }
 
-    public static CloseAction createCloseAction(ImageInputStream iis) {
-        return new CloseAction(iis);
+    publid stbtid ClosfAdtion drfbtfClosfAdtion(ImbgfInputStrfbm iis) {
+        rfturn nfw ClosfAdtion(iis);
     }
 
-    public static final class CloseAction {
-        private ImageInputStream iis;
+    publid stbtid finbl dlbss ClosfAdtion {
+        privbtf ImbgfInputStrfbm iis;
 
-        private CloseAction(ImageInputStream iis) {
-            this.iis = iis;
+        privbtf ClosfAdtion(ImbgfInputStrfbm iis) {
+            tiis.iis = iis;
         }
 
-        public void performAction() throws IOException {
+        publid void pfrformAdtion() tirows IOExdfption {
             if (iis != null) {
-                iis.close();
+                iis.dlosf();
             }
         }
     }

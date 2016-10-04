@@ -1,407 +1,407 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
 /**
- * This class provides support for general purpose decompression using the
- * popular ZLIB compression library. The ZLIB compression library was
- * initially developed as part of the PNG graphics standard and is not
- * protected by patents. It is fully described in the specifications at
- * the <a href="package-summary.html#package_description">java.util.zip
- * package description</a>.
+ * Tiis dlbss providfs support for gfnfrbl purposf dfdomprfssion using tif
+ * populbr ZLIB domprfssion librbry. Tif ZLIB domprfssion librbry wbs
+ * initiblly dfvflopfd bs pbrt of tif PNG grbpiids stbndbrd bnd is not
+ * protfdtfd by pbtfnts. It is fully dfsdribfd in tif spfdifidbtions bt
+ * tif <b irff="pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+ * pbdkbgf dfsdription</b>.
  *
- * <p>The following code fragment demonstrates a trivial compression
- * and decompression of a string using <tt>Deflater</tt> and
- * <tt>Inflater</tt>.
+ * <p>Tif following dodf frbgmfnt dfmonstrbtfs b trivibl domprfssion
+ * bnd dfdomprfssion of b string using <tt>Dfflbtfr</tt> bnd
+ * <tt>Inflbtfr</tt>.
  *
- * <blockquote><pre>
+ * <blodkquotf><prf>
  * try {
- *     // Encode a String into bytes
- *     String inputString = "blahblahblah\u20AC\u20AC";
- *     byte[] input = inputString.getBytes("UTF-8");
+ *     // Endodf b String into bytfs
+ *     String inputString = "blbiblbiblbi\u20AC\u20AC";
+ *     bytf[] input = inputString.gftBytfs("UTF-8");
  *
- *     // Compress the bytes
- *     byte[] output = new byte[100];
- *     Deflater compresser = new Deflater();
- *     compresser.setInput(input);
- *     compresser.finish();
- *     int compressedDataLength = compresser.deflate(output);
+ *     // Comprfss tif bytfs
+ *     bytf[] output = nfw bytf[100];
+ *     Dfflbtfr domprfssfr = nfw Dfflbtfr();
+ *     domprfssfr.sftInput(input);
+ *     domprfssfr.finisi();
+ *     int domprfssfdDbtbLfngti = domprfssfr.dfflbtf(output);
  *
- *     // Decompress the bytes
- *     Inflater decompresser = new Inflater();
- *     decompresser.setInput(output, 0, compressedDataLength);
- *     byte[] result = new byte[100];
- *     int resultLength = decompresser.inflate(result);
- *     decompresser.end();
+ *     // Dfdomprfss tif bytfs
+ *     Inflbtfr dfdomprfssfr = nfw Inflbtfr();
+ *     dfdomprfssfr.sftInput(output, 0, domprfssfdDbtbLfngti);
+ *     bytf[] rfsult = nfw bytf[100];
+ *     int rfsultLfngti = dfdomprfssfr.inflbtf(rfsult);
+ *     dfdomprfssfr.fnd();
  *
- *     // Decode the bytes into a String
- *     String outputString = new String(result, 0, resultLength, "UTF-8");
- * } catch(java.io.UnsupportedEncodingException ex) {
- *     // handle
- * } catch (java.util.zip.DataFormatException ex) {
- *     // handle
+ *     // Dfdodf tif bytfs into b String
+ *     String outputString = nfw String(rfsult, 0, rfsultLfngti, "UTF-8");
+ * } dbtdi(jbvb.io.UnsupportfdEndodingExdfption fx) {
+ *     // ibndlf
+ * } dbtdi (jbvb.util.zip.DbtbFormbtExdfption fx) {
+ *     // ibndlf
  * }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
- * @see         Deflater
- * @author      David Connelly
+ * @sff         Dfflbtfr
+ * @butior      Dbvid Connflly
  *
  */
-public
-class Inflater {
+publid
+dlbss Inflbtfr {
 
-    private final ZStreamRef zsRef;
-    private byte[] buf = defaultBuf;
-    private int off, len;
-    private boolean finished;
-    private boolean needDict;
-    private long bytesRead;
-    private long bytesWritten;
+    privbtf finbl ZStrfbmRff zsRff;
+    privbtf bytf[] buf = dffbultBuf;
+    privbtf int off, lfn;
+    privbtf boolfbn finisifd;
+    privbtf boolfbn nffdDidt;
+    privbtf long bytfsRfbd;
+    privbtf long bytfsWrittfn;
 
-    private static final byte[] defaultBuf = new byte[0];
+    privbtf stbtid finbl bytf[] dffbultBuf = nfw bytf[0];
 
-    static {
-        /* Zip library is loaded from System.initializeSystemClass */
+    stbtid {
+        /* Zip librbry is lobdfd from Systfm.initiblizfSystfmClbss */
         initIDs();
     }
 
     /**
-     * Creates a new decompressor. If the parameter 'nowrap' is true then
-     * the ZLIB header and checksum fields will not be used. This provides
-     * compatibility with the compression format used by both GZIP and PKZIP.
+     * Crfbtfs b nfw dfdomprfssor. If tif pbrbmftfr 'nowrbp' is truf tifn
+     * tif ZLIB ifbdfr bnd difdksum fiflds will not bf usfd. Tiis providfs
+     * dompbtibility witi tif domprfssion formbt usfd by boti GZIP bnd PKZIP.
      * <p>
-     * Note: When using the 'nowrap' option it is also necessary to provide
-     * an extra "dummy" byte as input. This is required by the ZLIB native
-     * library in order to support certain optimizations.
+     * Notf: Wifn using tif 'nowrbp' option it is blso nfdfssbry to providf
+     * bn fxtrb "dummy" bytf bs input. Tiis is rfquirfd by tif ZLIB nbtivf
+     * librbry in ordfr to support dfrtbin optimizbtions.
      *
-     * @param nowrap if true then support GZIP compatible compression
+     * @pbrbm nowrbp if truf tifn support GZIP dompbtiblf domprfssion
      */
-    public Inflater(boolean nowrap) {
-        zsRef = new ZStreamRef(init(nowrap));
+    publid Inflbtfr(boolfbn nowrbp) {
+        zsRff = nfw ZStrfbmRff(init(nowrbp));
     }
 
     /**
-     * Creates a new decompressor.
+     * Crfbtfs b nfw dfdomprfssor.
      */
-    public Inflater() {
-        this(false);
+    publid Inflbtfr() {
+        tiis(fblsf);
     }
 
     /**
-     * Sets input data for decompression. Should be called whenever
-     * needsInput() returns true indicating that more input data is
-     * required.
-     * @param b the input data bytes
-     * @param off the start offset of the input data
-     * @param len the length of the input data
-     * @see Inflater#needsInput
+     * Sfts input dbtb for dfdomprfssion. Siould bf dbllfd wifnfvfr
+     * nffdsInput() rfturns truf indidbting tibt morf input dbtb is
+     * rfquirfd.
+     * @pbrbm b tif input dbtb bytfs
+     * @pbrbm off tif stbrt offsft of tif input dbtb
+     * @pbrbm lfn tif lfngti of tif input dbtb
+     * @sff Inflbtfr#nffdsInput
      */
-    public void setInput(byte[] b, int off, int len) {
+    publid void sftInput(bytf[] b, int off, int lfn) {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            this.buf = b;
-            this.off = off;
-            this.len = len;
+        syndironizfd (zsRff) {
+            tiis.buf = b;
+            tiis.off = off;
+            tiis.lfn = lfn;
         }
     }
 
     /**
-     * Sets input data for decompression. Should be called whenever
-     * needsInput() returns true indicating that more input data is
-     * required.
-     * @param b the input data bytes
-     * @see Inflater#needsInput
+     * Sfts input dbtb for dfdomprfssion. Siould bf dbllfd wifnfvfr
+     * nffdsInput() rfturns truf indidbting tibt morf input dbtb is
+     * rfquirfd.
+     * @pbrbm b tif input dbtb bytfs
+     * @sff Inflbtfr#nffdsInput
      */
-    public void setInput(byte[] b) {
-        setInput(b, 0, b.length);
+    publid void sftInput(bytf[] b) {
+        sftInput(b, 0, b.lfngti);
     }
 
     /**
-     * Sets the preset dictionary to the given array of bytes. Should be
-     * called when inflate() returns 0 and needsDictionary() returns true
-     * indicating that a preset dictionary is required. The method getAdler()
-     * can be used to get the Adler-32 value of the dictionary needed.
-     * @param b the dictionary data bytes
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @see Inflater#needsDictionary
-     * @see Inflater#getAdler
+     * Sfts tif prfsft didtionbry to tif givfn brrby of bytfs. Siould bf
+     * dbllfd wifn inflbtf() rfturns 0 bnd nffdsDidtionbry() rfturns truf
+     * indidbting tibt b prfsft didtionbry is rfquirfd. Tif mftiod gftAdlfr()
+     * dbn bf usfd to gft tif Adlfr-32 vbluf of tif didtionbry nffdfd.
+     * @pbrbm b tif didtionbry dbtb bytfs
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif lfngti of tif dbtb
+     * @sff Inflbtfr#nffdsDidtionbry
+     * @sff Inflbtfr#gftAdlfr
      */
-    public void setDictionary(byte[] b, int off, int len) {
+    publid void sftDidtionbry(bytf[] b, int off, int lfn) {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            ensureOpen();
-            setDictionary(zsRef.address(), b, off, len);
-            needDict = false;
-        }
-    }
-
-    /**
-     * Sets the preset dictionary to the given array of bytes. Should be
-     * called when inflate() returns 0 and needsDictionary() returns true
-     * indicating that a preset dictionary is required. The method getAdler()
-     * can be used to get the Adler-32 value of the dictionary needed.
-     * @param b the dictionary data bytes
-     * @see Inflater#needsDictionary
-     * @see Inflater#getAdler
-     */
-    public void setDictionary(byte[] b) {
-        setDictionary(b, 0, b.length);
-    }
-
-    /**
-     * Returns the total number of bytes remaining in the input buffer.
-     * This can be used to find out what bytes still remain in the input
-     * buffer after decompression has finished.
-     * @return the total number of bytes remaining in the input buffer
-     */
-    public int getRemaining() {
-        synchronized (zsRef) {
-            return len;
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            sftDidtionbry(zsRff.bddrfss(), b, off, lfn);
+            nffdDidt = fblsf;
         }
     }
 
     /**
-     * Returns true if no data remains in the input buffer. This can
-     * be used to determine if #setInput should be called in order
-     * to provide more input.
-     * @return true if no data remains in the input buffer
+     * Sfts tif prfsft didtionbry to tif givfn brrby of bytfs. Siould bf
+     * dbllfd wifn inflbtf() rfturns 0 bnd nffdsDidtionbry() rfturns truf
+     * indidbting tibt b prfsft didtionbry is rfquirfd. Tif mftiod gftAdlfr()
+     * dbn bf usfd to gft tif Adlfr-32 vbluf of tif didtionbry nffdfd.
+     * @pbrbm b tif didtionbry dbtb bytfs
+     * @sff Inflbtfr#nffdsDidtionbry
+     * @sff Inflbtfr#gftAdlfr
      */
-    public boolean needsInput() {
-        synchronized (zsRef) {
-            return len <= 0;
+    publid void sftDidtionbry(bytf[] b) {
+        sftDidtionbry(b, 0, b.lfngti);
+    }
+
+    /**
+     * Rfturns tif totbl numbfr of bytfs rfmbining in tif input bufffr.
+     * Tiis dbn bf usfd to find out wibt bytfs still rfmbin in tif input
+     * bufffr bftfr dfdomprfssion ibs finisifd.
+     * @rfturn tif totbl numbfr of bytfs rfmbining in tif input bufffr
+     */
+    publid int gftRfmbining() {
+        syndironizfd (zsRff) {
+            rfturn lfn;
         }
     }
 
     /**
-     * Returns true if a preset dictionary is needed for decompression.
-     * @return true if a preset dictionary is needed for decompression
-     * @see Inflater#setDictionary
+     * Rfturns truf if no dbtb rfmbins in tif input bufffr. Tiis dbn
+     * bf usfd to dftfrminf if #sftInput siould bf dbllfd in ordfr
+     * to providf morf input.
+     * @rfturn truf if no dbtb rfmbins in tif input bufffr
      */
-    public boolean needsDictionary() {
-        synchronized (zsRef) {
-            return needDict;
+    publid boolfbn nffdsInput() {
+        syndironizfd (zsRff) {
+            rfturn lfn <= 0;
         }
     }
 
     /**
-     * Returns true if the end of the compressed data stream has been
-     * reached.
-     * @return true if the end of the compressed data stream has been
-     * reached
+     * Rfturns truf if b prfsft didtionbry is nffdfd for dfdomprfssion.
+     * @rfturn truf if b prfsft didtionbry is nffdfd for dfdomprfssion
+     * @sff Inflbtfr#sftDidtionbry
      */
-    public boolean finished() {
-        synchronized (zsRef) {
-            return finished;
+    publid boolfbn nffdsDidtionbry() {
+        syndironizfd (zsRff) {
+            rfturn nffdDidt;
         }
     }
 
     /**
-     * Uncompresses bytes into specified buffer. Returns actual number
-     * of bytes uncompressed. A return value of 0 indicates that
-     * needsInput() or needsDictionary() should be called in order to
-     * determine if more input data or a preset dictionary is required.
-     * In the latter case, getAdler() can be used to get the Adler-32
-     * value of the dictionary required.
-     * @param b the buffer for the uncompressed data
-     * @param off the start offset of the data
-     * @param len the maximum number of uncompressed bytes
-     * @return the actual number of uncompressed bytes
-     * @exception DataFormatException if the compressed data format is invalid
-     * @see Inflater#needsInput
-     * @see Inflater#needsDictionary
+     * Rfturns truf if tif fnd of tif domprfssfd dbtb strfbm ibs bffn
+     * rfbdifd.
+     * @rfturn truf if tif fnd of tif domprfssfd dbtb strfbm ibs bffn
+     * rfbdifd
      */
-    public int inflate(byte[] b, int off, int len)
-        throws DataFormatException
+    publid boolfbn finisifd() {
+        syndironizfd (zsRff) {
+            rfturn finisifd;
+        }
+    }
+
+    /**
+     * Undomprfssfs bytfs into spfdififd bufffr. Rfturns bdtubl numbfr
+     * of bytfs undomprfssfd. A rfturn vbluf of 0 indidbtfs tibt
+     * nffdsInput() or nffdsDidtionbry() siould bf dbllfd in ordfr to
+     * dftfrminf if morf input dbtb or b prfsft didtionbry is rfquirfd.
+     * In tif lbttfr dbsf, gftAdlfr() dbn bf usfd to gft tif Adlfr-32
+     * vbluf of tif didtionbry rfquirfd.
+     * @pbrbm b tif bufffr for tif undomprfssfd dbtb
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif mbximum numbfr of undomprfssfd bytfs
+     * @rfturn tif bdtubl numbfr of undomprfssfd bytfs
+     * @fxdfption DbtbFormbtExdfption if tif domprfssfd dbtb formbt is invblid
+     * @sff Inflbtfr#nffdsInput
+     * @sff Inflbtfr#nffdsDidtionbry
+     */
+    publid int inflbtf(bytf[] b, int off, int lfn)
+        tirows DbtbFormbtExdfption
     {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            ensureOpen();
-            int thisLen = this.len;
-            int n = inflateBytes(zsRef.address(), b, off, len);
-            bytesWritten += n;
-            bytesRead += (thisLen - this.len);
-            return n;
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            int tiisLfn = tiis.lfn;
+            int n = inflbtfBytfs(zsRff.bddrfss(), b, off, lfn);
+            bytfsWrittfn += n;
+            bytfsRfbd += (tiisLfn - tiis.lfn);
+            rfturn n;
         }
     }
 
     /**
-     * Uncompresses bytes into specified buffer. Returns actual number
-     * of bytes uncompressed. A return value of 0 indicates that
-     * needsInput() or needsDictionary() should be called in order to
-     * determine if more input data or a preset dictionary is required.
-     * In the latter case, getAdler() can be used to get the Adler-32
-     * value of the dictionary required.
-     * @param b the buffer for the uncompressed data
-     * @return the actual number of uncompressed bytes
-     * @exception DataFormatException if the compressed data format is invalid
-     * @see Inflater#needsInput
-     * @see Inflater#needsDictionary
+     * Undomprfssfs bytfs into spfdififd bufffr. Rfturns bdtubl numbfr
+     * of bytfs undomprfssfd. A rfturn vbluf of 0 indidbtfs tibt
+     * nffdsInput() or nffdsDidtionbry() siould bf dbllfd in ordfr to
+     * dftfrminf if morf input dbtb or b prfsft didtionbry is rfquirfd.
+     * In tif lbttfr dbsf, gftAdlfr() dbn bf usfd to gft tif Adlfr-32
+     * vbluf of tif didtionbry rfquirfd.
+     * @pbrbm b tif bufffr for tif undomprfssfd dbtb
+     * @rfturn tif bdtubl numbfr of undomprfssfd bytfs
+     * @fxdfption DbtbFormbtExdfption if tif domprfssfd dbtb formbt is invblid
+     * @sff Inflbtfr#nffdsInput
+     * @sff Inflbtfr#nffdsDidtionbry
      */
-    public int inflate(byte[] b) throws DataFormatException {
-        return inflate(b, 0, b.length);
+    publid int inflbtf(bytf[] b) tirows DbtbFormbtExdfption {
+        rfturn inflbtf(b, 0, b.lfngti);
     }
 
     /**
-     * Returns the ADLER-32 value of the uncompressed data.
-     * @return the ADLER-32 value of the uncompressed data
+     * Rfturns tif ADLER-32 vbluf of tif undomprfssfd dbtb.
+     * @rfturn tif ADLER-32 vbluf of tif undomprfssfd dbtb
      */
-    public int getAdler() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return getAdler(zsRef.address());
+    publid int gftAdlfr() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn gftAdlfr(zsRff.bddrfss());
         }
     }
 
     /**
-     * Returns the total number of compressed bytes input so far.
+     * Rfturns tif totbl numbfr of domprfssfd bytfs input so fbr.
      *
-     * <p>Since the number of bytes may be greater than
-     * Integer.MAX_VALUE, the {@link #getBytesRead()} method is now
-     * the preferred means of obtaining this information.</p>
+     * <p>Sindf tif numbfr of bytfs mby bf grfbtfr tibn
+     * Intfgfr.MAX_VALUE, tif {@link #gftBytfsRfbd()} mftiod is now
+     * tif prfffrrfd mfbns of obtbining tiis informbtion.</p>
      *
-     * @return the total number of compressed bytes input so far
+     * @rfturn tif totbl numbfr of domprfssfd bytfs input so fbr
      */
-    public int getTotalIn() {
-        return (int) getBytesRead();
+    publid int gftTotblIn() {
+        rfturn (int) gftBytfsRfbd();
     }
 
     /**
-     * Returns the total number of compressed bytes input so far.
+     * Rfturns tif totbl numbfr of domprfssfd bytfs input so fbr.
      *
-     * @return the total (non-negative) number of compressed bytes input so far
-     * @since 1.5
+     * @rfturn tif totbl (non-nfgbtivf) numbfr of domprfssfd bytfs input so fbr
+     * @sindf 1.5
      */
-    public long getBytesRead() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return bytesRead;
+    publid long gftBytfsRfbd() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn bytfsRfbd;
         }
     }
 
     /**
-     * Returns the total number of uncompressed bytes output so far.
+     * Rfturns tif totbl numbfr of undomprfssfd bytfs output so fbr.
      *
-     * <p>Since the number of bytes may be greater than
-     * Integer.MAX_VALUE, the {@link #getBytesWritten()} method is now
-     * the preferred means of obtaining this information.</p>
+     * <p>Sindf tif numbfr of bytfs mby bf grfbtfr tibn
+     * Intfgfr.MAX_VALUE, tif {@link #gftBytfsWrittfn()} mftiod is now
+     * tif prfffrrfd mfbns of obtbining tiis informbtion.</p>
      *
-     * @return the total number of uncompressed bytes output so far
+     * @rfturn tif totbl numbfr of undomprfssfd bytfs output so fbr
      */
-    public int getTotalOut() {
-        return (int) getBytesWritten();
+    publid int gftTotblOut() {
+        rfturn (int) gftBytfsWrittfn();
     }
 
     /**
-     * Returns the total number of uncompressed bytes output so far.
+     * Rfturns tif totbl numbfr of undomprfssfd bytfs output so fbr.
      *
-     * @return the total (non-negative) number of uncompressed bytes output so far
-     * @since 1.5
+     * @rfturn tif totbl (non-nfgbtivf) numbfr of undomprfssfd bytfs output so fbr
+     * @sindf 1.5
      */
-    public long getBytesWritten() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return bytesWritten;
+    publid long gftBytfsWrittfn() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn bytfsWrittfn;
         }
     }
 
     /**
-     * Resets inflater so that a new set of input data can be processed.
+     * Rfsfts inflbtfr so tibt b nfw sft of input dbtb dbn bf prodfssfd.
      */
-    public void reset() {
-        synchronized (zsRef) {
-            ensureOpen();
-            reset(zsRef.address());
-            buf = defaultBuf;
-            finished = false;
-            needDict = false;
-            off = len = 0;
-            bytesRead = bytesWritten = 0;
+    publid void rfsft() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfsft(zsRff.bddrfss());
+            buf = dffbultBuf;
+            finisifd = fblsf;
+            nffdDidt = fblsf;
+            off = lfn = 0;
+            bytfsRfbd = bytfsWrittfn = 0;
         }
     }
 
     /**
-     * Closes the decompressor and discards any unprocessed input.
-     * This method should be called when the decompressor is no longer
-     * being used, but will also be called automatically by the finalize()
-     * method. Once this method is called, the behavior of the Inflater
-     * object is undefined.
+     * Closfs tif dfdomprfssor bnd disdbrds bny unprodfssfd input.
+     * Tiis mftiod siould bf dbllfd wifn tif dfdomprfssor is no longfr
+     * bfing usfd, but will blso bf dbllfd butombtidblly by tif finblizf()
+     * mftiod. Ondf tiis mftiod is dbllfd, tif bfibvior of tif Inflbtfr
+     * objfdt is undffinfd.
      */
-    public void end() {
-        synchronized (zsRef) {
-            long addr = zsRef.address();
-            zsRef.clear();
-            if (addr != 0) {
-                end(addr);
+    publid void fnd() {
+        syndironizfd (zsRff) {
+            long bddr = zsRff.bddrfss();
+            zsRff.dlfbr();
+            if (bddr != 0) {
+                fnd(bddr);
                 buf = null;
             }
         }
     }
 
     /**
-     * Closes the decompressor when garbage is collected.
+     * Closfs tif dfdomprfssor wifn gbrbbgf is dollfdtfd.
      */
-    protected void finalize() {
-        end();
+    protfdtfd void finblizf() {
+        fnd();
     }
 
-    private void ensureOpen () {
-        assert Thread.holdsLock(zsRef);
-        if (zsRef.address() == 0)
-            throw new NullPointerException("Inflater has been closed");
+    privbtf void fnsurfOpfn () {
+        bssfrt Tirfbd.ioldsLodk(zsRff);
+        if (zsRff.bddrfss() == 0)
+            tirow nfw NullPointfrExdfption("Inflbtfr ibs bffn dlosfd");
     }
 
-    boolean ended() {
-        synchronized (zsRef) {
-            return zsRef.address() == 0;
+    boolfbn fndfd() {
+        syndironizfd (zsRff) {
+            rfturn zsRff.bddrfss() == 0;
         }
     }
 
-    private native static void initIDs();
-    private native static long init(boolean nowrap);
-    private native static void setDictionary(long addr, byte[] b, int off,
-                                             int len);
-    private native int inflateBytes(long addr, byte[] b, int off, int len)
-            throws DataFormatException;
-    private native static int getAdler(long addr);
-    private native static void reset(long addr);
-    private native static void end(long addr);
+    privbtf nbtivf stbtid void initIDs();
+    privbtf nbtivf stbtid long init(boolfbn nowrbp);
+    privbtf nbtivf stbtid void sftDidtionbry(long bddr, bytf[] b, int off,
+                                             int lfn);
+    privbtf nbtivf int inflbtfBytfs(long bddr, bytf[] b, int off, int lfn)
+            tirows DbtbFormbtExdfption;
+    privbtf nbtivf stbtid int gftAdlfr(long bddr);
+    privbtf nbtivf stbtid void rfsft(long bddr);
+    privbtf nbtivf stbtid void fnd(long bddr);
 }

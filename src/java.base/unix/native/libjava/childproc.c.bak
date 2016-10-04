@@ -1,385 +1,385 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <limits.h>
+#indludf <dirfnt.i>
+#indludf <frrno.i>
+#indludf <fdntl.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <unistd.i>
+#indludf <limits.i>
 
-#include "childproc.h"
+#indludf "diildprod.i"
 
 
-ssize_t
-restartableWrite(int fd, const void *buf, size_t count)
+ssizf_t
+rfstbrtbblfWritf(int fd, donst void *buf, sizf_t dount)
 {
-    ssize_t result;
-    RESTARTABLE(write(fd, buf, count), result);
-    return result;
+    ssizf_t rfsult;
+    RESTARTABLE(writf(fd, buf, dount), rfsult);
+    rfturn rfsult;
 }
 
 int
-restartableDup2(int fd_from, int fd_to)
+rfstbrtbblfDup2(int fd_from, int fd_to)
 {
-    int err;
-    RESTARTABLE(dup2(fd_from, fd_to), err);
-    return err;
+    int frr;
+    RESTARTABLE(dup2(fd_from, fd_to), frr);
+    rfturn frr;
 }
 
 int
-closeSafely(int fd)
+dlosfSbffly(int fd)
 {
-    return (fd == -1) ? 0 : close(fd);
+    rfturn (fd == -1) ? 0 : dlosf(fd);
 }
 
 int
-isAsciiDigit(char c)
+isAsdiiDigit(dibr d)
 {
-  return c >= '0' && c <= '9';
+  rfturn d >= '0' && d <= '9';
 }
 
-#ifdef _ALLBSD_SOURCE
-#define FD_DIR "/dev/fd"
-#define dirent64 dirent
-#define readdir64 readdir
-#elif defined(_AIX)
-/* AIX does not understand '/proc/self' - it requires the real process ID */
-#define FD_DIR aix_fd_dir
-#else
-#define FD_DIR "/proc/self/fd"
-#endif
+#ifdff _ALLBSD_SOURCE
+#dffinf FD_DIR "/dfv/fd"
+#dffinf dirfnt64 dirfnt
+#dffinf rfbddir64 rfbddir
+#flif dffinfd(_AIX)
+/* AIX dofs not undfrstbnd '/prod/sflf' - it rfquirfs tif rfbl prodfss ID */
+#dffinf FD_DIR bix_fd_dir
+#flsf
+#dffinf FD_DIR "/prod/sflf/fd"
+#fndif
 
 int
-closeDescriptors(void)
+dlosfDfsdriptors(void)
 {
     DIR *dp;
-    struct dirent64 *dirp;
+    strudt dirfnt64 *dirp;
     int from_fd = FAIL_FILENO + 1;
 
-    /* We're trying to close all file descriptors, but opendir() might
-     * itself be implemented using a file descriptor, and we certainly
-     * don't want to close that while it's in use.  We assume that if
-     * opendir() is implemented using a file descriptor, then it uses
-     * the lowest numbered file descriptor, just like open().  So we
-     * close a couple explicitly.  */
+    /* Wf'rf trying to dlosf bll filf dfsdriptors, but opfndir() migit
+     * itsflf bf implfmfntfd using b filf dfsdriptor, bnd wf dfrtbinly
+     * don't wbnt to dlosf tibt wiilf it's in usf.  Wf bssumf tibt if
+     * opfndir() is implfmfntfd using b filf dfsdriptor, tifn it usfs
+     * tif lowfst numbfrfd filf dfsdriptor, just likf opfn().  So wf
+     * dlosf b douplf fxpliditly.  */
 
-    close(from_fd);          /* for possible use by opendir() */
-    close(from_fd + 1);      /* another one for good luck */
+    dlosf(from_fd);          /* for possiblf usf by opfndir() */
+    dlosf(from_fd + 1);      /* bnotifr onf for good ludk */
 
-#if defined(_AIX)
-    /* AIX does not understand '/proc/self' - it requires the real process ID */
-    char aix_fd_dir[32];     /* the pid has at most 19 digits */
-    snprintf(aix_fd_dir, 32, "/proc/%d/fd", getpid());
-#endif
+#if dffinfd(_AIX)
+    /* AIX dofs not undfrstbnd '/prod/sflf' - it rfquirfs tif rfbl prodfss ID */
+    dibr bix_fd_dir[32];     /* tif pid ibs bt most 19 digits */
+    snprintf(bix_fd_dir, 32, "/prod/%d/fd", gftpid());
+#fndif
 
-    if ((dp = opendir(FD_DIR)) == NULL)
-        return 0;
+    if ((dp = opfndir(FD_DIR)) == NULL)
+        rfturn 0;
 
-    /* We use readdir64 instead of readdir to work around Solaris bug
-     * 6395699: /proc/self/fd fails to report file descriptors >= 1024 on Solaris 9
+    /* Wf usf rfbddir64 instfbd of rfbddir to work bround Solbris bug
+     * 6395699: /prod/sflf/fd fbils to rfport filf dfsdriptors >= 1024 on Solbris 9
      */
-    while ((dirp = readdir64(dp)) != NULL) {
+    wiilf ((dirp = rfbddir64(dp)) != NULL) {
         int fd;
-        if (isAsciiDigit(dirp->d_name[0]) &&
-            (fd = strtol(dirp->d_name, NULL, 10)) >= from_fd + 2)
-            close(fd);
+        if (isAsdiiDigit(dirp->d_nbmf[0]) &&
+            (fd = strtol(dirp->d_nbmf, NULL, 10)) >= from_fd + 2)
+            dlosf(fd);
     }
 
-    closedir(dp);
+    dlosfdir(dp);
 
-    return 1;
+    rfturn 1;
 }
 
 int
-moveDescriptor(int fd_from, int fd_to)
+movfDfsdriptor(int fd_from, int fd_to)
 {
     if (fd_from != fd_to) {
-        if ((restartableDup2(fd_from, fd_to) == -1) ||
-            (close(fd_from) == -1))
-            return -1;
+        if ((rfstbrtbblfDup2(fd_from, fd_to) == -1) ||
+            (dlosf(fd_from) == -1))
+            rfturn -1;
     }
-    return 0;
+    rfturn 0;
 }
 
 int
-magicNumber() {
-    return 43110;
+mbgidNumbfr() {
+    rfturn 43110;
 }
 
 /*
- * Reads nbyte bytes from file descriptor fd into buf,
- * The read operation is retried in case of EINTR or partial reads.
+ * Rfbds nbytf bytfs from filf dfsdriptor fd into buf,
+ * Tif rfbd opfrbtion is rftrifd in dbsf of EINTR or pbrtibl rfbds.
  *
- * Returns number of bytes read (normally nbyte, but may be less in
- * case of EOF).  In case of read errors, returns -1 and sets errno.
+ * Rfturns numbfr of bytfs rfbd (normblly nbytf, but mby bf lfss in
+ * dbsf of EOF).  In dbsf of rfbd frrors, rfturns -1 bnd sfts frrno.
  */
-ssize_t
-readFully(int fd, void *buf, size_t nbyte)
+ssizf_t
+rfbdFully(int fd, void *buf, sizf_t nbytf)
 {
-    ssize_t remaining = nbyte;
+    ssizf_t rfmbining = nbytf;
     for (;;) {
-        ssize_t n = read(fd, buf, remaining);
+        ssizf_t n = rfbd(fd, buf, rfmbining);
         if (n == 0) {
-            return nbyte - remaining;
-        } else if (n > 0) {
-            remaining -= n;
-            if (remaining <= 0)
-                return nbyte;
-            /* We were interrupted in the middle of reading the bytes.
-             * Unlikely, but possible. */
-            buf = (void *) (((char *)buf) + n);
-        } else if (errno == EINTR) {
-            /* Strange signals like SIGJVM1 are possible at any time.
-             * See http://www.dreamsongs.com/WorseIsBetter.html */
-        } else {
-            return -1;
+            rfturn nbytf - rfmbining;
+        } flsf if (n > 0) {
+            rfmbining -= n;
+            if (rfmbining <= 0)
+                rfturn nbytf;
+            /* Wf wfrf intfrruptfd in tif middlf of rfbding tif bytfs.
+             * Unlikfly, but possiblf. */
+            buf = (void *) (((dibr *)buf) + n);
+        } flsf if (frrno == EINTR) {
+            /* Strbngf signbls likf SIGJVM1 brf possiblf bt bny timf.
+             * Sff ittp://www.drfbmsongs.dom/WorsfIsBfttfr.itml */
+        } flsf {
+            rfturn -1;
         }
     }
 }
 
 void
-initVectorFromBlock(const char**vector, const char* block, int count)
+initVfdtorFromBlodk(donst dibr**vfdtor, donst dibr* blodk, int dount)
 {
     int i;
-    const char *p;
-    for (i = 0, p = block; i < count; i++) {
-        /* Invariant: p always points to the start of a C string. */
-        vector[i] = p;
-        while (*(p++));
+    donst dibr *p;
+    for (i = 0, p = blodk; i < dount; i++) {
+        /* Invbribnt: p blwbys points to tif stbrt of b C string. */
+        vfdtor[i] = p;
+        wiilf (*(p++));
     }
-    vector[count] = NULL;
+    vfdtor[dount] = NULL;
 }
 
 /**
- * Exec FILE as a traditional Bourne shell script (i.e. one without #!).
- * If we could do it over again, we would probably not support such an ancient
- * misfeature, but compatibility wins over sanity.  The original support for
- * this was imported accidentally from execvp().
+ * Exfd FILE bs b trbditionbl Bournf sifll sdript (i.f. onf witiout #!).
+ * If wf dould do it ovfr bgbin, wf would probbbly not support sudi bn bndifnt
+ * misffbturf, but dompbtibility wins ovfr sbnity.  Tif originbl support for
+ * tiis wbs importfd bddidfntblly from fxfdvp().
  */
 void
-execve_as_traditional_shell_script(const char *file,
-                                   const char *argv[],
-                                   const char *const envp[])
+fxfdvf_bs_trbditionbl_sifll_sdript(donst dibr *filf,
+                                   donst dibr *brgv[],
+                                   donst dibr *donst fnvp[])
 {
-    /* Use the extra word of space provided for us in argv by caller. */
-    const char *argv0 = argv[0];
-    const char *const *end = argv;
-    while (*end != NULL)
-        ++end;
-    memmove(argv+2, argv+1, (end-argv) * sizeof(*end));
-    argv[0] = "/bin/sh";
-    argv[1] = file;
-    execve(argv[0], (char **) argv, (char **) envp);
-    /* Can't even exec /bin/sh?  Big trouble, but let's soldier on... */
-    memmove(argv+1, argv+2, (end-argv) * sizeof(*end));
-    argv[0] = argv0;
+    /* Usf tif fxtrb word of spbdf providfd for us in brgv by dbllfr. */
+    donst dibr *brgv0 = brgv[0];
+    donst dibr *donst *fnd = brgv;
+    wiilf (*fnd != NULL)
+        ++fnd;
+    mfmmovf(brgv+2, brgv+1, (fnd-brgv) * sizfof(*fnd));
+    brgv[0] = "/bin/si";
+    brgv[1] = filf;
+    fxfdvf(brgv[0], (dibr **) brgv, (dibr **) fnvp);
+    /* Cbn't fvfn fxfd /bin/si?  Big troublf, but lft's soldifr on... */
+    mfmmovf(brgv+1, brgv+2, (fnd-brgv) * sizfof(*fnd));
+    brgv[0] = brgv0;
 }
 
 /**
- * Like execve(2), except that in case of ENOEXEC, FILE is assumed to
- * be a shell script and the system default shell is invoked to run it.
+ * Likf fxfdvf(2), fxdfpt tibt in dbsf of ENOEXEC, FILE is bssumfd to
+ * bf b sifll sdript bnd tif systfm dffbult sifll is invokfd to run it.
  */
 void
-execve_with_shell_fallback(int mode, const char *file,
-                           const char *argv[],
-                           const char *const envp[])
+fxfdvf_witi_sifll_fbllbbdk(int modf, donst dibr *filf,
+                           donst dibr *brgv[],
+                           donst dibr *donst fnvp[])
 {
-    if (mode == MODE_CLONE || mode == MODE_VFORK) {
-        /* shared address space; be very careful. */
-        execve(file, (char **) argv, (char **) envp);
-        if (errno == ENOEXEC)
-            execve_as_traditional_shell_script(file, argv, envp);
-    } else {
-        /* unshared address space; we can mutate environ. */
-        environ = (char **) envp;
-        execvp(file, (char **) argv);
+    if (modf == MODE_CLONE || modf == MODE_VFORK) {
+        /* sibrfd bddrfss spbdf; bf vfry dbrfful. */
+        fxfdvf(filf, (dibr **) brgv, (dibr **) fnvp);
+        if (frrno == ENOEXEC)
+            fxfdvf_bs_trbditionbl_sifll_sdript(filf, brgv, fnvp);
+    } flsf {
+        /* unsibrfd bddrfss spbdf; wf dbn mutbtf fnviron. */
+        fnviron = (dibr **) fnvp;
+        fxfdvp(filf, (dibr **) brgv);
     }
 }
 
 /**
- * 'execvpe' should have been included in the Unix standards,
- * and is a GNU extension in glibc 2.10.
+ * 'fxfdvpf' siould ibvf bffn indludfd in tif Unix stbndbrds,
+ * bnd is b GNU fxtfnsion in glibd 2.10.
  *
- * JDK_execvpe is identical to execvp, except that the child environment is
- * specified via the 3rd argument instead of being inherited from environ.
+ * JDK_fxfdvpf is idfntidbl to fxfdvp, fxdfpt tibt tif diild fnvironmfnt is
+ * spfdififd vib tif 3rd brgumfnt instfbd of bfing inifritfd from fnviron.
  */
 void
-JDK_execvpe(int mode, const char *file,
-            const char *argv[],
-            const char *const envp[])
+JDK_fxfdvpf(int modf, donst dibr *filf,
+            donst dibr *brgv[],
+            donst dibr *donst fnvp[])
 {
-    if (envp == NULL || (char **) envp == environ) {
-        execvp(file, (char **) argv);
-        return;
+    if (fnvp == NULL || (dibr **) fnvp == fnviron) {
+        fxfdvp(filf, (dibr **) brgv);
+        rfturn;
     }
 
-    if (*file == '\0') {
-        errno = ENOENT;
-        return;
+    if (*filf == '\0') {
+        frrno = ENOENT;
+        rfturn;
     }
 
-    if (strchr(file, '/') != NULL) {
-        execve_with_shell_fallback(mode, file, argv, envp);
-    } else {
-        /* We must search PATH (parent's, not child's) */
-        char expanded_file[PATH_MAX];
-        int filelen = strlen(file);
-        int sticky_errno = 0;
-        const char * const * dirs;
-        for (dirs = parentPathv; *dirs; dirs++) {
-            const char * dir = *dirs;
-            int dirlen = strlen(dir);
-            if (filelen + dirlen + 2 >= PATH_MAX) {
-                errno = ENAMETOOLONG;
-                continue;
+    if (strdir(filf, '/') != NULL) {
+        fxfdvf_witi_sifll_fbllbbdk(modf, filf, brgv, fnvp);
+    } flsf {
+        /* Wf must sfbrdi PATH (pbrfnt's, not diild's) */
+        dibr fxpbndfd_filf[PATH_MAX];
+        int filflfn = strlfn(filf);
+        int stidky_frrno = 0;
+        donst dibr * donst * dirs;
+        for (dirs = pbrfntPbtiv; *dirs; dirs++) {
+            donst dibr * dir = *dirs;
+            int dirlfn = strlfn(dir);
+            if (filflfn + dirlfn + 2 >= PATH_MAX) {
+                frrno = ENAMETOOLONG;
+                dontinuf;
             }
-            memcpy(expanded_file, dir, dirlen);
-            if (expanded_file[dirlen - 1] != '/')
-                expanded_file[dirlen++] = '/';
-            memcpy(expanded_file + dirlen, file, filelen);
-            expanded_file[dirlen + filelen] = '\0';
-            execve_with_shell_fallback(mode, expanded_file, argv, envp);
-            /* There are 3 responses to various classes of errno:
-             * return immediately, continue (especially for ENOENT),
-             * or continue with "sticky" errno.
+            mfmdpy(fxpbndfd_filf, dir, dirlfn);
+            if (fxpbndfd_filf[dirlfn - 1] != '/')
+                fxpbndfd_filf[dirlfn++] = '/';
+            mfmdpy(fxpbndfd_filf + dirlfn, filf, filflfn);
+            fxpbndfd_filf[dirlfn + filflfn] = '\0';
+            fxfdvf_witi_sifll_fbllbbdk(modf, fxpbndfd_filf, brgv, fnvp);
+            /* Tifrf brf 3 rfsponsfs to vbrious dlbssfs of frrno:
+             * rfturn immfdibtfly, dontinuf (fspfdiblly for ENOENT),
+             * or dontinuf witi "stidky" frrno.
              *
-             * From exec(3):
+             * From fxfd(3):
              *
-             * If permission is denied for a file (the attempted
-             * execve returned EACCES), these functions will continue
-             * searching the rest of the search path.  If no other
-             * file is found, however, they will return with the
-             * global variable errno set to EACCES.
+             * If pfrmission is dfnifd for b filf (tif bttfmptfd
+             * fxfdvf rfturnfd EACCES), tifsf fundtions will dontinuf
+             * sfbrdiing tif rfst of tif sfbrdi pbti.  If no otifr
+             * filf is found, iowfvfr, tify will rfturn witi tif
+             * globbl vbribblf frrno sft to EACCES.
              */
-            switch (errno) {
-            case EACCES:
-                sticky_errno = errno;
+            switdi (frrno) {
+            dbsf EACCES:
+                stidky_frrno = frrno;
                 /* FALLTHRU */
-            case ENOENT:
-            case ENOTDIR:
-#ifdef ELOOP
-            case ELOOP:
-#endif
-#ifdef ESTALE
-            case ESTALE:
-#endif
-#ifdef ENODEV
-            case ENODEV:
-#endif
-#ifdef ETIMEDOUT
-            case ETIMEDOUT:
-#endif
-                break; /* Try other directories in PATH */
-            default:
-                return;
+            dbsf ENOENT:
+            dbsf ENOTDIR:
+#ifdff ELOOP
+            dbsf ELOOP:
+#fndif
+#ifdff ESTALE
+            dbsf ESTALE:
+#fndif
+#ifdff ENODEV
+            dbsf ENODEV:
+#fndif
+#ifdff ETIMEDOUT
+            dbsf ETIMEDOUT:
+#fndif
+                brfbk; /* Try otifr dirfdtorifs in PATH */
+            dffbult:
+                rfturn;
             }
         }
-        if (sticky_errno != 0)
-            errno = sticky_errno;
+        if (stidky_frrno != 0)
+            frrno = stidky_frrno;
     }
 }
 
 /**
- * Child process after a successful fork() or clone().
- * This function must not return, and must be prepared for either all
- * of its address space to be shared with its parent, or to be a copy.
- * It must not modify global variables such as "environ".
+ * Ciild prodfss bftfr b suddfssful fork() or dlonf().
+ * Tiis fundtion must not rfturn, bnd must bf prfpbrfd for fitifr bll
+ * of its bddrfss spbdf to bf sibrfd witi its pbrfnt, or to bf b dopy.
+ * It must not modify globbl vbribblfs sudi bs "fnviron".
  */
 int
-childProcess(void *arg)
+diildProdfss(void *brg)
 {
-    const ChildStuff* p = (const ChildStuff*) arg;
+    donst CiildStuff* p = (donst CiildStuff*) brg;
 
-    /* Close the parent sides of the pipes.
-       Closing pipe fds here is redundant, since closeDescriptors()
-       would do it anyways, but a little paranoia is a good thing. */
-    if ((closeSafely(p->in[1])   == -1) ||
-        (closeSafely(p->out[0])  == -1) ||
-        (closeSafely(p->err[0])  == -1) ||
-        (closeSafely(p->childenv[0])  == -1) ||
-        (closeSafely(p->childenv[1])  == -1) ||
-        (closeSafely(p->fail[0]) == -1))
-        goto WhyCantJohnnyExec;
+    /* Closf tif pbrfnt sidfs of tif pipfs.
+       Closing pipf fds ifrf is rfdundbnt, sindf dlosfDfsdriptors()
+       would do it bnywbys, but b littlf pbrbnoib is b good tiing. */
+    if ((dlosfSbffly(p->in[1])   == -1) ||
+        (dlosfSbffly(p->out[0])  == -1) ||
+        (dlosfSbffly(p->frr[0])  == -1) ||
+        (dlosfSbffly(p->diildfnv[0])  == -1) ||
+        (dlosfSbffly(p->diildfnv[1])  == -1) ||
+        (dlosfSbffly(p->fbil[0]) == -1))
+        goto WiyCbntJoinnyExfd;
 
-    /* Give the child sides of the pipes the right fileno's. */
-    /* Note: it is possible for in[0] == 0 */
-    if ((moveDescriptor(p->in[0] != -1 ?  p->in[0] : p->fds[0],
+    /* Givf tif diild sidfs of tif pipfs tif rigit filfno's. */
+    /* Notf: it is possiblf for in[0] == 0 */
+    if ((movfDfsdriptor(p->in[0] != -1 ?  p->in[0] : p->fds[0],
                         STDIN_FILENO) == -1) ||
-        (moveDescriptor(p->out[1]!= -1 ? p->out[1] : p->fds[1],
+        (movfDfsdriptor(p->out[1]!= -1 ? p->out[1] : p->fds[1],
                         STDOUT_FILENO) == -1))
-        goto WhyCantJohnnyExec;
+        goto WiyCbntJoinnyExfd;
 
-    if (p->redirectErrorStream) {
-        if ((closeSafely(p->err[1]) == -1) ||
-            (restartableDup2(STDOUT_FILENO, STDERR_FILENO) == -1))
-            goto WhyCantJohnnyExec;
-    } else {
-        if (moveDescriptor(p->err[1] != -1 ? p->err[1] : p->fds[2],
+    if (p->rfdirfdtErrorStrfbm) {
+        if ((dlosfSbffly(p->frr[1]) == -1) ||
+            (rfstbrtbblfDup2(STDOUT_FILENO, STDERR_FILENO) == -1))
+            goto WiyCbntJoinnyExfd;
+    } flsf {
+        if (movfDfsdriptor(p->frr[1] != -1 ? p->frr[1] : p->fds[2],
                            STDERR_FILENO) == -1)
-            goto WhyCantJohnnyExec;
+            goto WiyCbntJoinnyExfd;
     }
 
-    if (moveDescriptor(p->fail[1], FAIL_FILENO) == -1)
-        goto WhyCantJohnnyExec;
+    if (movfDfsdriptor(p->fbil[1], FAIL_FILENO) == -1)
+        goto WiyCbntJoinnyExfd;
 
-    /* close everything */
-    if (closeDescriptors() == 0) { /* failed,  close the old way */
-        int max_fd = (int)sysconf(_SC_OPEN_MAX);
+    /* dlosf fvfrytiing */
+    if (dlosfDfsdriptors() == 0) { /* fbilfd,  dlosf tif old wby */
+        int mbx_fd = (int)sysdonf(_SC_OPEN_MAX);
         int fd;
-        for (fd = FAIL_FILENO + 1; fd < max_fd; fd++)
-            if (close(fd) == -1 && errno != EBADF)
-                goto WhyCantJohnnyExec;
+        for (fd = FAIL_FILENO + 1; fd < mbx_fd; fd++)
+            if (dlosf(fd) == -1 && frrno != EBADF)
+                goto WiyCbntJoinnyExfd;
     }
 
-    /* change to the new working directory */
-    if (p->pdir != NULL && chdir(p->pdir) < 0)
-        goto WhyCantJohnnyExec;
+    /* dibngf to tif nfw working dirfdtory */
+    if (p->pdir != NULL && didir(p->pdir) < 0)
+        goto WiyCbntJoinnyExfd;
 
-    if (fcntl(FAIL_FILENO, F_SETFD, FD_CLOEXEC) == -1)
-        goto WhyCantJohnnyExec;
+    if (fdntl(FAIL_FILENO, F_SETFD, FD_CLOEXEC) == -1)
+        goto WiyCbntJoinnyExfd;
 
-    JDK_execvpe(p->mode, p->argv[0], p->argv, p->envv);
+    JDK_fxfdvpf(p->modf, p->brgv[0], p->brgv, p->fnvv);
 
- WhyCantJohnnyExec:
-    /* We used to go to an awful lot of trouble to predict whether the
-     * child would fail, but there is no reliable way to predict the
-     * success of an operation without *trying* it, and there's no way
-     * to try a chdir or exec in the parent.  Instead, all we need is a
-     * way to communicate any failure back to the parent.  Easy; we just
-     * send the errno back to the parent over a pipe in case of failure.
-     * The tricky thing is, how do we communicate the *success* of exec?
-     * We use FD_CLOEXEC together with the fact that a read() on a pipe
-     * yields EOF when the write ends (we have two of them!) are closed.
+ WiyCbntJoinnyExfd:
+    /* Wf usfd to go to bn bwful lot of troublf to prfdidt wiftifr tif
+     * diild would fbil, but tifrf is no rflibblf wby to prfdidt tif
+     * suddfss of bn opfrbtion witiout *trying* it, bnd tifrf's no wby
+     * to try b didir or fxfd in tif pbrfnt.  Instfbd, bll wf nffd is b
+     * wby to dommunidbtf bny fbilurf bbdk to tif pbrfnt.  Ebsy; wf just
+     * sfnd tif frrno bbdk to tif pbrfnt ovfr b pipf in dbsf of fbilurf.
+     * Tif tridky tiing is, iow do wf dommunidbtf tif *suddfss* of fxfd?
+     * Wf usf FD_CLOEXEC togftifr witi tif fbdt tibt b rfbd() on b pipf
+     * yiflds EOF wifn tif writf fnds (wf ibvf two of tifm!) brf dlosfd.
      */
     {
-        int errnum = errno;
-        restartableWrite(FAIL_FILENO, &errnum, sizeof(errnum));
+        int frrnum = frrno;
+        rfstbrtbblfWritf(FAIL_FILENO, &frrnum, sizfof(frrnum));
     }
-    close(FAIL_FILENO);
-    _exit(-1);
-    return 0;  /* Suppress warning "no return value from function" */
+    dlosf(FAIL_FILENO);
+    _fxit(-1);
+    rfturn 0;  /* Supprfss wbrning "no rfturn vbluf from fundtion" */
 }

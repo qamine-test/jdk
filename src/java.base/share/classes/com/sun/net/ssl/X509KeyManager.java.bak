@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.X509KeyManager
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.X509KfyMbnbgfr
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.security.KeyManagementException;
-import java.security.PrivateKey;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
+import jbvb.sfdurity.KfyMbnbgfmfntExdfption;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * Instances of this interface manage which X509 certificate-based
- * key pairs are used to authenticate the local side of a secure
- * socket. The individual entries are identified by unique alias names.
+ * Instbndfs of tiis intfrfbdf mbnbgf wiidi X509 dfrtifidbtf-bbsfd
+ * kfy pbirs brf usfd to butifntidbtf tif lodbl sidf of b sfdurf
+ * sodkft. Tif individubl fntrifs brf idfntififd by uniquf blibs nbmfs.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.X509KeyManager}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.X509KfyMbnbgfr}.
  */
-@Deprecated
-public interface X509KeyManager extends KeyManager {
+@Dfprfdbtfd
+publid intfrfbdf X509KfyMbnbgfr fxtfnds KfyMbnbgfr {
     /**
-     * Get the matching aliases for authenticating the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Gft tif mbtdiing blibsfs for butifntidbting tif dlifnt sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names
-     * @return the matching alias names
+     * @pbrbm kfyTypf tif kfy blgoritim typf nbmf
+     * @pbrbm issufrs tif list of bddfptbblf CA issufr subjfdt nbmfs
+     * @rfturn tif mbtdiing blibs nbmfs
      */
-    public String[] getClientAliases(String keyType, Principal[] issuers);
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs);
 
     /**
-     * Choose an alias to authenticate the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif dlifnt sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names
-     * @return the alias name for the desired key
+     * @pbrbm kfyTypf tif kfy blgoritim typf nbmf
+     * @pbrbm issufrs tif list of bddfptbblf CA issufr subjfdt nbmfs
+     * @rfturn tif blibs nbmf for tif dfsirfd kfy
      */
-    public String chooseClientAlias(String keyType, Principal[] issuers);
+    publid String dioosfClifntAlibs(String kfyTypf, Prindipbl[] issufrs);
 
     /**
-     * Get the matching aliases for authenticating the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Gft tif mbtdiing blibsfs for butifntidbting tif sfrvfr sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names
-     * @return the matching alias names
+     * @pbrbm kfyTypf tif kfy blgoritim typf nbmf
+     * @pbrbm issufrs tif list of bddfptbblf CA issufr subjfdt nbmfs
+     * @rfturn tif mbtdiing blibs nbmfs
      */
-    public String[] getServerAliases(String keyType, Principal[] issuers);
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs);
 
     /**
-     * Choose an alias to authenticate the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif sfrvfr sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names
-     * @return the alias name for the desired key
+     * @pbrbm kfyTypf tif kfy blgoritim typf nbmf
+     * @pbrbm issufrs tif list of bddfptbblf CA issufr subjfdt nbmfs
+     * @rfturn tif blibs nbmf for tif dfsirfd kfy
      */
-    public String chooseServerAlias(String keyType, Principal[] issuers);
+    publid String dioosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs);
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Rfturns tif dfrtifidbtf dibin bssodibtfd witi tif givfn blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs tif blibs nbmf
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last)
+     * @rfturn tif dfrtifidbtf dibin (ordfrfd witi tif usfr's dfrtifidbtf first
+     * bnd tif root dfrtifidbtf butiority lbst)
      */
-    public X509Certificate[] getCertificateChain(String alias);
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfCibin(String blibs);
 
     /*
-     * Returns the key associated with the given alias.
+     * Rfturns tif kfy bssodibtfd witi tif givfn blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs tif blibs nbmf
      *
-     * @return the requested key
+     * @rfturn tif rfqufstfd kfy
      */
-    public PrivateKey getPrivateKey(String alias);
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs);
 }

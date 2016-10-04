@@ -1,328 +1,328 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.keytool;
+pbdkbgf sun.sfdurity.tools.kfytool;
 
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateEncodingException;
-import java.security.*;
-import java.util.Date;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption;
+import jbvb.sfdurity.*;
+import jbvb.util.Dbtf;
 
-import sun.security.pkcs10.PKCS10;
-import sun.security.x509.*;
+import sun.sfdurity.pkds10.PKCS10;
+import sun.sfdurity.x509.*;
 
 
 /**
- * Generate a pair of keys, and provide access to them.  This class is
- * provided primarily for ease of use.
+ * Gfnfrbtf b pbir of kfys, bnd providf bddfss to tifm.  Tiis dlbss is
+ * providfd primbrily for fbsf of usf.
  *
- * <P>This provides some simple certificate management functionality.
- * Specifically, it allows you to create self-signed X.509 certificates
- * as well as PKCS 10 based certificate signing requests.
+ * <P>Tiis providfs somf simplf dfrtifidbtf mbnbgfmfnt fundtionblity.
+ * Spfdifidblly, it bllows you to drfbtf sflf-signfd X.509 dfrtifidbtfs
+ * bs wfll bs PKCS 10 bbsfd dfrtifidbtf signing rfqufsts.
  *
- * <P>Keys for some public key signature algorithms have algorithm
- * parameters, such as DSS/DSA.  Some sites' Certificate Authorities
- * adopt fixed algorithm parameters, which speeds up some operations
- * including key generation and signing.  <em>At this time, this interface
- * does not provide a way to provide such algorithm parameters, e.g.
- * by providing the CA certificate which includes those parameters.</em>
+ * <P>Kfys for somf publid kfy signbturf blgoritims ibvf blgoritim
+ * pbrbmftfrs, sudi bs DSS/DSA.  Somf sitfs' Cfrtifidbtf Autioritifs
+ * bdopt fixfd blgoritim pbrbmftfrs, wiidi spffds up somf opfrbtions
+ * indluding kfy gfnfrbtion bnd signing.  <fm>At tiis timf, tiis intfrfbdf
+ * dofs not providf b wby to providf sudi blgoritim pbrbmftfrs, f.g.
+ * by providing tif CA dfrtifidbtf wiidi indludfs tiosf pbrbmftfrs.</fm>
  *
- * <P>Also, note that at this time only signature-capable keys may be
- * acquired through this interface.  Diffie-Hellman keys, used for secure
- * key exchange, may be supported later.
+ * <P>Also, notf tibt bt tiis timf only signbturf-dbpbblf kfys mby bf
+ * bdquirfd tirougi tiis intfrfbdf.  Diffif-Hfllmbn kfys, usfd for sfdurf
+ * kfy fxdibngf, mby bf supportfd lbtfr.
  *
- * @author David Brownell
- * @author Hemma Prafullchandra
- * @see PKCS10
- * @see X509CertImpl
+ * @butior Dbvid Brownfll
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff PKCS10
+ * @sff X509CfrtImpl
  */
-public final class CertAndKeyGen {
+publid finbl dlbss CfrtAndKfyGfn {
     /**
-     * Creates a CertAndKeyGen object for a particular key type
-     * and signature algorithm.
+     * Crfbtfs b CfrtAndKfyGfn objfdt for b pbrtidulbr kfy typf
+     * bnd signbturf blgoritim.
      *
-     * @param keyType type of key, e.g. "RSA", "DSA"
-     * @param sigAlg name of the signature algorithm, e.g. "MD5WithRSA",
-     *          "MD2WithRSA", "SHAwithDSA".
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
+     * @pbrbm kfyTypf typf of kfy, f.g. "RSA", "DSA"
+     * @pbrbm sigAlg nbmf of tif signbturf blgoritim, f.g. "MD5WitiRSA",
+     *          "MD2WitiRSA", "SHAwitiDSA".
+     * @fxdfption NoSudiAlgoritimExdfption on unrfdognizfd blgoritims.
      */
-    public CertAndKeyGen (String keyType, String sigAlg)
-    throws NoSuchAlgorithmException
+    publid CfrtAndKfyGfn (String kfyTypf, String sigAlg)
+    tirows NoSudiAlgoritimExdfption
     {
-        keyGen = KeyPairGenerator.getInstance(keyType);
-        this.sigAlg = sigAlg;
+        kfyGfn = KfyPbirGfnfrbtor.gftInstbndf(kfyTypf);
+        tiis.sigAlg = sigAlg;
     }
 
     /**
-     * Creates a CertAndKeyGen object for a particular key type,
-     * signature algorithm, and provider.
+     * Crfbtfs b CfrtAndKfyGfn objfdt for b pbrtidulbr kfy typf,
+     * signbturf blgoritim, bnd providfr.
      *
-     * @param keyType type of key, e.g. "RSA", "DSA"
-     * @param sigAlg name of the signature algorithm, e.g. "MD5WithRSA",
-     *          "MD2WithRSA", "SHAwithDSA".
-     * @param providerName name of the provider
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
-     * @exception NoSuchProviderException on unrecognized providers.
+     * @pbrbm kfyTypf typf of kfy, f.g. "RSA", "DSA"
+     * @pbrbm sigAlg nbmf of tif signbturf blgoritim, f.g. "MD5WitiRSA",
+     *          "MD2WitiRSA", "SHAwitiDSA".
+     * @pbrbm providfrNbmf nbmf of tif providfr
+     * @fxdfption NoSudiAlgoritimExdfption on unrfdognizfd blgoritims.
+     * @fxdfption NoSudiProvidfrExdfption on unrfdognizfd providfrs.
      */
-    public CertAndKeyGen (String keyType, String sigAlg, String providerName)
-    throws NoSuchAlgorithmException, NoSuchProviderException
+    publid CfrtAndKfyGfn (String kfyTypf, String sigAlg, String providfrNbmf)
+    tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        if (providerName == null) {
-            keyGen = KeyPairGenerator.getInstance(keyType);
-        } else {
+        if (providfrNbmf == null) {
+            kfyGfn = KfyPbirGfnfrbtor.gftInstbndf(kfyTypf);
+        } flsf {
             try {
-                keyGen = KeyPairGenerator.getInstance(keyType, providerName);
-            } catch (Exception e) {
-                // try first available provider instead
-                keyGen = KeyPairGenerator.getInstance(keyType);
+                kfyGfn = KfyPbirGfnfrbtor.gftInstbndf(kfyTypf, providfrNbmf);
+            } dbtdi (Exdfption f) {
+                // try first bvbilbblf providfr instfbd
+                kfyGfn = KfyPbirGfnfrbtor.gftInstbndf(kfyTypf);
             }
         }
-        this.sigAlg = sigAlg;
+        tiis.sigAlg = sigAlg;
     }
 
     /**
-     * Sets the source of random numbers used when generating keys.
-     * If you do not provide one, a system default facility is used.
-     * You may wish to provide your own source of random numbers
-     * to get a reproducible sequence of keys and signatures, or
-     * because you may be able to take advantage of strong sources
-     * of randomness/entropy in your environment.
+     * Sfts tif sourdf of rbndom numbfrs usfd wifn gfnfrbting kfys.
+     * If you do not providf onf, b systfm dffbult fbdility is usfd.
+     * You mby wisi to providf your own sourdf of rbndom numbfrs
+     * to gft b rfprodudiblf sfqufndf of kfys bnd signbturfs, or
+     * bfdbusf you mby bf bblf to tbkf bdvbntbgf of strong sourdfs
+     * of rbndomnfss/fntropy in your fnvironmfnt.
      */
-    public void         setRandom (SecureRandom generator)
+    publid void         sftRbndom (SfdurfRbndom gfnfrbtor)
     {
-        prng = generator;
+        prng = gfnfrbtor;
     }
 
-    // want "public void generate (X509Certificate)" ... inherit DSA/D-H param
+    // wbnt "publid void gfnfrbtf (X509Cfrtifidbtf)" ... inifrit DSA/D-H pbrbm
 
     /**
-     * Generates a random public/private key pair, with a given key
-     * size.  Different algorithms provide different degrees of security
-     * for the same key size, because of the "work factor" involved in
-     * brute force attacks.  As computers become faster, it becomes
-     * easier to perform such attacks.  Small keys are to be avoided.
+     * Gfnfrbtfs b rbndom publid/privbtf kfy pbir, witi b givfn kfy
+     * sizf.  Difffrfnt blgoritims providf difffrfnt dfgrffs of sfdurity
+     * for tif sbmf kfy sizf, bfdbusf of tif "work fbdtor" involvfd in
+     * brutf fordf bttbdks.  As domputfrs bfdomf fbstfr, it bfdomfs
+     * fbsifr to pfrform sudi bttbdks.  Smbll kfys brf to bf bvoidfd.
      *
-     * <P>Note that not all values of "keyBits" are valid for all
-     * algorithms, and not all public key algorithms are currently
-     * supported for use in X.509 certificates.  If the algorithm
-     * you specified does not produce X.509 compatible keys, an
-     * invalid key exception is thrown.
+     * <P>Notf tibt not bll vblufs of "kfyBits" brf vblid for bll
+     * blgoritims, bnd not bll publid kfy blgoritims brf durrfntly
+     * supportfd for usf in X.509 dfrtifidbtfs.  If tif blgoritim
+     * you spfdififd dofs not produdf X.509 dompbtiblf kfys, bn
+     * invblid kfy fxdfption is tirown.
      *
-     * @param keyBits the number of bits in the keys.
-     * @exception InvalidKeyException if the environment does not
-     *  provide X.509 public keys for this signature algorithm.
+     * @pbrbm kfyBits tif numbfr of bits in tif kfys.
+     * @fxdfption InvblidKfyExdfption if tif fnvironmfnt dofs not
+     *  providf X.509 publid kfys for tiis signbturf blgoritim.
      */
-    public void generate (int keyBits)
-    throws InvalidKeyException
+    publid void gfnfrbtf (int kfyBits)
+    tirows InvblidKfyExdfption
     {
-        KeyPair pair;
+        KfyPbir pbir;
 
         try {
             if (prng == null) {
-                prng = new SecureRandom();
+                prng = nfw SfdurfRbndom();
             }
-            keyGen.initialize(keyBits, prng);
-            pair = keyGen.generateKeyPair();
+            kfyGfn.initiblizf(kfyBits, prng);
+            pbir = kfyGfn.gfnfrbtfKfyPbir();
 
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+        } dbtdi (Exdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
         }
 
-        publicKey = pair.getPublic();
-        privateKey = pair.getPrivate();
+        publidKfy = pbir.gftPublid();
+        privbtfKfy = pbir.gftPrivbtf();
 
-        // publicKey's format must be X.509 otherwise
-        // the whole CertGen part of this class is broken.
-        if (!"X.509".equalsIgnoreCase(publicKey.getFormat())) {
-            throw new IllegalArgumentException("publicKey's is not X.509, but "
-                    + publicKey.getFormat());
+        // publidKfy's formbt must bf X.509 otifrwisf
+        // tif wiolf CfrtGfn pbrt of tiis dlbss is brokfn.
+        if (!"X.509".fqublsIgnorfCbsf(publidKfy.gftFormbt())) {
+            tirow nfw IllfgblArgumfntExdfption("publidKfy's is not X.509, but "
+                    + publidKfy.gftFormbt());
         }
     }
 
 
     /**
-     * Returns the public key of the generated key pair if it is of type
-     * <code>X509Key</code>, or null if the public key is of a different type.
+     * Rfturns tif publid kfy of tif gfnfrbtfd kfy pbir if it is of typf
+     * <dodf>X509Kfy</dodf>, or null if tif publid kfy is of b difffrfnt typf.
      *
-     * XXX Note: This behaviour is needed for backwards compatibility.
-     * What this method really should return is the public key of the
-     * generated key pair, regardless of whether or not it is an instance of
-     * <code>X509Key</code>. Accordingly, the return type of this method
-     * should be <code>PublicKey</code>.
+     * XXX Notf: Tiis bfibviour is nffdfd for bbdkwbrds dompbtibility.
+     * Wibt tiis mftiod rfblly siould rfturn is tif publid kfy of tif
+     * gfnfrbtfd kfy pbir, rfgbrdlfss of wiftifr or not it is bn instbndf of
+     * <dodf>X509Kfy</dodf>. Addordingly, tif rfturn typf of tiis mftiod
+     * siould bf <dodf>PublidKfy</dodf>.
      */
-    public X509Key getPublicKey()
+    publid X509Kfy gftPublidKfy()
     {
-        if (!(publicKey instanceof X509Key)) {
-            return null;
+        if (!(publidKfy instbndfof X509Kfy)) {
+            rfturn null;
         }
-        return (X509Key)publicKey;
+        rfturn (X509Kfy)publidKfy;
     }
 
     /**
-     * Always returns the public key of the generated key pair. Used
-     * by KeyTool only.
+     * Alwbys rfturns tif publid kfy of tif gfnfrbtfd kfy pbir. Usfd
+     * by KfyTool only.
      *
-     * The publicKey is not necessarily to be an instance of
-     * X509Key in some JCA/JCE providers, for example SunPKCS11.
+     * Tif publidKfy is not nfdfssbrily to bf bn instbndf of
+     * X509Kfy in somf JCA/JCE providfrs, for fxbmplf SunPKCS11.
      */
-    public PublicKey getPublicKeyAnyway() {
-        return publicKey;
+    publid PublidKfy gftPublidKfyAnywby() {
+        rfturn publidKfy;
     }
 
     /**
-     * Returns the private key of the generated key pair.
+     * Rfturns tif privbtf kfy of tif gfnfrbtfd kfy pbir.
      *
-     * <P><STRONG><em>Be extremely careful when handling private keys.
-     * When private keys are not kept secret, they lose their ability
-     * to securely authenticate specific entities ... that is a huge
-     * security risk!</em></STRONG>
+     * <P><STRONG><fm>Bf fxtrfmfly dbrfful wifn ibndling privbtf kfys.
+     * Wifn privbtf kfys brf not kfpt sfdrft, tify losf tifir bbility
+     * to sfdurfly butifntidbtf spfdifid fntitifs ... tibt is b iugf
+     * sfdurity risk!</fm></STRONG>
      */
-    public PrivateKey getPrivateKey ()
+    publid PrivbtfKfy gftPrivbtfKfy ()
     {
-        return privateKey;
+        rfturn privbtfKfy;
     }
 
     /**
-     * Returns a self-signed X.509v3 certificate for the public key.
-     * The certificate is immediately valid. No extensions.
+     * Rfturns b sflf-signfd X.509v3 dfrtifidbtf for tif publid kfy.
+     * Tif dfrtifidbtf is immfdibtfly vblid. No fxtfnsions.
      *
-     * <P>Such certificates normally are used to identify a "Certificate
-     * Authority" (CA).  Accordingly, they will not always be accepted by
-     * other parties.  However, such certificates are also useful when
-     * you are bootstrapping your security infrastructure, or deploying
-     * system prototypes.
+     * <P>Sudi dfrtifidbtfs normblly brf usfd to idfntify b "Cfrtifidbtf
+     * Autiority" (CA).  Addordingly, tify will not blwbys bf bddfptfd by
+     * otifr pbrtifs.  Howfvfr, sudi dfrtifidbtfs brf blso usfful wifn
+     * you brf bootstrbpping your sfdurity infrbstrudturf, or dfploying
+     * systfm prototypfs.
      *
-     * @param myname X.500 name of the subject (who is also the issuer)
-     * @param firstDate the issue time of the certificate
-     * @param validity how long the certificate should be valid, in seconds
-     * @exception CertificateException on certificate handling errors.
-     * @exception InvalidKeyException on key handling errors.
-     * @exception SignatureException on signature handling errors.
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
-     * @exception NoSuchProviderException on unrecognized providers.
+     * @pbrbm mynbmf X.500 nbmf of tif subjfdt (wio is blso tif issufr)
+     * @pbrbm firstDbtf tif issuf timf of tif dfrtifidbtf
+     * @pbrbm vblidity iow long tif dfrtifidbtf siould bf vblid, in sfdonds
+     * @fxdfption CfrtifidbtfExdfption on dfrtifidbtf ibndling frrors.
+     * @fxdfption InvblidKfyExdfption on kfy ibndling frrors.
+     * @fxdfption SignbturfExdfption on signbturf ibndling frrors.
+     * @fxdfption NoSudiAlgoritimExdfption on unrfdognizfd blgoritims.
+     * @fxdfption NoSudiProvidfrExdfption on unrfdognizfd providfrs.
      */
-    public X509Certificate getSelfCertificate (
-            X500Name myname, Date firstDate, long validity)
-    throws CertificateException, InvalidKeyException, SignatureException,
-        NoSuchAlgorithmException, NoSuchProviderException
+    publid X509Cfrtifidbtf gftSflfCfrtifidbtf (
+            X500Nbmf mynbmf, Dbtf firstDbtf, long vblidity)
+    tirows CfrtifidbtfExdfption, InvblidKfyExdfption, SignbturfExdfption,
+        NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        return getSelfCertificate(myname, firstDate, validity, null);
+        rfturn gftSflfCfrtifidbtf(mynbmf, firstDbtf, vblidity, null);
     }
 
-    // Like above, plus a CertificateExtensions argument, which can be null.
-    public X509Certificate getSelfCertificate (X500Name myname, Date firstDate,
-            long validity, CertificateExtensions ext)
-    throws CertificateException, InvalidKeyException, SignatureException,
-        NoSuchAlgorithmException, NoSuchProviderException
+    // Likf bbovf, plus b CfrtifidbtfExtfnsions brgumfnt, wiidi dbn bf null.
+    publid X509Cfrtifidbtf gftSflfCfrtifidbtf (X500Nbmf mynbmf, Dbtf firstDbtf,
+            long vblidity, CfrtifidbtfExtfnsions fxt)
+    tirows CfrtifidbtfExdfption, InvblidKfyExdfption, SignbturfExdfption,
+        NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        X509CertImpl    cert;
-        Date            lastDate;
+        X509CfrtImpl    dfrt;
+        Dbtf            lbstDbtf;
 
         try {
-            lastDate = new Date ();
-            lastDate.setTime (firstDate.getTime () + validity * 1000);
+            lbstDbtf = nfw Dbtf ();
+            lbstDbtf.sftTimf (firstDbtf.gftTimf () + vblidity * 1000);
 
-            CertificateValidity interval =
-                                   new CertificateValidity(firstDate,lastDate);
+            CfrtifidbtfVblidity intfrvbl =
+                                   nfw CfrtifidbtfVblidity(firstDbtf,lbstDbtf);
 
-            X509CertInfo info = new X509CertInfo();
-            // Add all mandatory attributes
-            info.set(X509CertInfo.VERSION,
-                     new CertificateVersion(CertificateVersion.V3));
-            info.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber(
-                    new java.util.Random().nextInt() & 0x7fffffff));
-            AlgorithmId algID = AlgorithmId.get(sigAlg);
-            info.set(X509CertInfo.ALGORITHM_ID,
-                     new CertificateAlgorithmId(algID));
-            info.set(X509CertInfo.SUBJECT, myname);
-            info.set(X509CertInfo.KEY, new CertificateX509Key(publicKey));
-            info.set(X509CertInfo.VALIDITY, interval);
-            info.set(X509CertInfo.ISSUER, myname);
-            if (ext != null) info.set(X509CertInfo.EXTENSIONS, ext);
+            X509CfrtInfo info = nfw X509CfrtInfo();
+            // Add bll mbndbtory bttributfs
+            info.sft(X509CfrtInfo.VERSION,
+                     nfw CfrtifidbtfVfrsion(CfrtifidbtfVfrsion.V3));
+            info.sft(X509CfrtInfo.SERIAL_NUMBER, nfw CfrtifidbtfSfriblNumbfr(
+                    nfw jbvb.util.Rbndom().nfxtInt() & 0x7fffffff));
+            AlgoritimId blgID = AlgoritimId.gft(sigAlg);
+            info.sft(X509CfrtInfo.ALGORITHM_ID,
+                     nfw CfrtifidbtfAlgoritimId(blgID));
+            info.sft(X509CfrtInfo.SUBJECT, mynbmf);
+            info.sft(X509CfrtInfo.KEY, nfw CfrtifidbtfX509Kfy(publidKfy));
+            info.sft(X509CfrtInfo.VALIDITY, intfrvbl);
+            info.sft(X509CfrtInfo.ISSUER, mynbmf);
+            if (fxt != null) info.sft(X509CfrtInfo.EXTENSIONS, fxt);
 
-            cert = new X509CertImpl(info);
-            cert.sign(privateKey, this.sigAlg);
+            dfrt = nfw X509CfrtImpl(info);
+            dfrt.sign(privbtfKfy, tiis.sigAlg);
 
-            return (X509Certificate)cert;
+            rfturn (X509Cfrtifidbtf)dfrt;
 
-        } catch (IOException e) {
-             throw new CertificateEncodingException("getSelfCert: " +
-                                                    e.getMessage());
+        } dbtdi (IOExdfption f) {
+             tirow nfw CfrtifidbtfEndodingExdfption("gftSflfCfrt: " +
+                                                    f.gftMfssbgf());
         }
     }
 
-    // Keep the old method
-    public X509Certificate getSelfCertificate (X500Name myname, long validity)
-    throws CertificateException, InvalidKeyException, SignatureException,
-        NoSuchAlgorithmException, NoSuchProviderException
+    // Kffp tif old mftiod
+    publid X509Cfrtifidbtf gftSflfCfrtifidbtf (X500Nbmf mynbmf, long vblidity)
+    tirows CfrtifidbtfExdfption, InvblidKfyExdfption, SignbturfExdfption,
+        NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        return getSelfCertificate(myname, new Date(), validity);
+        rfturn gftSflfCfrtifidbtf(mynbmf, nfw Dbtf(), vblidity);
     }
 
     /**
-     * Returns a PKCS #10 certificate request.  The caller uses either
-     * <code>PKCS10.print</code> or <code>PKCS10.toByteArray</code>
-     * operations on the result, to get the request in an appropriate
-     * transmission format.
+     * Rfturns b PKCS #10 dfrtifidbtf rfqufst.  Tif dbllfr usfs fitifr
+     * <dodf>PKCS10.print</dodf> or <dodf>PKCS10.toBytfArrby</dodf>
+     * opfrbtions on tif rfsult, to gft tif rfqufst in bn bppropribtf
+     * trbnsmission formbt.
      *
-     * <P>PKCS #10 certificate requests are sent, along with some proof
-     * of identity, to Certificate Authorities (CAs) which then issue
-     * X.509 public key certificates.
+     * <P>PKCS #10 dfrtifidbtf rfqufsts brf sfnt, blong witi somf proof
+     * of idfntity, to Cfrtifidbtf Autioritifs (CAs) wiidi tifn issuf
+     * X.509 publid kfy dfrtifidbtfs.
      *
-     * @param myname X.500 name of the subject
-     * @exception InvalidKeyException on key handling errors.
-     * @exception SignatureException on signature handling errors.
+     * @pbrbm mynbmf X.500 nbmf of tif subjfdt
+     * @fxdfption InvblidKfyExdfption on kfy ibndling frrors.
+     * @fxdfption SignbturfExdfption on signbturf ibndling frrors.
      */
-    public PKCS10 getCertRequest (X500Name myname)
-    throws InvalidKeyException, SignatureException
+    publid PKCS10 gftCfrtRfqufst (X500Nbmf mynbmf)
+    tirows InvblidKfyExdfption, SignbturfExdfption
     {
-        PKCS10  req = new PKCS10 (publicKey);
+        PKCS10  rfq = nfw PKCS10 (publidKfy);
 
         try {
-            Signature signature = Signature.getInstance(sigAlg);
-            signature.initSign (privateKey);
-            req.encodeAndSign(myname, signature);
+            Signbturf signbturf = Signbturf.gftInstbndf(sigAlg);
+            signbturf.initSign (privbtfKfy);
+            rfq.fndodfAndSign(mynbmf, signbturf);
 
-        } catch (CertificateException e) {
-            throw new SignatureException (sigAlg + " CertificateException");
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw SignbturfExdfption (sigAlg + " CfrtifidbtfExdfption");
 
-        } catch (IOException e) {
-            throw new SignatureException (sigAlg + " IOException");
+        } dbtdi (IOExdfption f) {
+            tirow nfw SignbturfExdfption (sigAlg + " IOExdfption");
 
-        } catch (NoSuchAlgorithmException e) {
-            // "can't happen"
-            throw new SignatureException (sigAlg + " unavailable?");
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // "dbn't ibppfn"
+            tirow nfw SignbturfExdfption (sigAlg + " unbvbilbblf?");
         }
-        return req;
+        rfturn rfq;
     }
 
-    private SecureRandom        prng;
-    private String              sigAlg;
-    private KeyPairGenerator    keyGen;
-    private PublicKey           publicKey;
-    private PrivateKey          privateKey;
+    privbtf SfdurfRbndom        prng;
+    privbtf String              sigAlg;
+    privbtf KfyPbirGfnfrbtor    kfyGfn;
+    privbtf PublidKfy           publidKfy;
+    privbtf PrivbtfKfy          privbtfKfy;
 }

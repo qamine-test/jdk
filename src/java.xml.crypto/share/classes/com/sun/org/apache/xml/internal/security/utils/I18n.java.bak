@@ -1,168 +1,168 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * The Internationalization (I18N) pack.
+ * Tif Intfrnbtionblizbtion (I18N) pbdk.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class I18n {
+publid dlbss I18n {
 
-    /** Field NOT_INITIALIZED_MSG */
-    public static final String NOT_INITIALIZED_MSG =
-        "You must initialize the xml-security library correctly before you use it. "
-        + "Call the static method \"com.sun.org.apache.xml.internal.security.Init.init();\" to do that "
-        + "before you use any functionality from that library.";
+    /** Fifld NOT_INITIALIZED_MSG */
+    publid stbtid finbl String NOT_INITIALIZED_MSG =
+        "You must initiblizf tif xml-sfdurity librbry dorrfdtly bfforf you usf it. "
+        + "Cbll tif stbtid mftiod \"dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.Init.init();\" to do tibt "
+        + "bfforf you usf bny fundtionblity from tibt librbry.";
 
-    /** Field resourceBundle */
-    private static ResourceBundle resourceBundle;
+    /** Fifld rfsourdfBundlf */
+    privbtf stbtid RfsourdfBundlf rfsourdfBundlf;
 
-    /** Field alreadyInitialized */
-    private static boolean alreadyInitialized = false;
+    /** Fifld blrfbdyInitiblizfd */
+    privbtf stbtid boolfbn blrfbdyInitiblizfd = fblsf;
 
     /**
-     * Constructor I18n
+     * Construdtor I18n
      *
      */
-    private I18n() {
-        // we don't allow instantiation
+    privbtf I18n() {
+        // wf don't bllow instbntibtion
     }
 
     /**
-     * Method translate
+     * Mftiod trbnslbtf
      *
-     * translates a message ID into an internationalized String, see alse
-     * <CODE>XMLSecurityException.getExceptionMEssage()</CODE>. The strings are
-     * stored in the <CODE>ResourceBundle</CODE>, which is identified in
-     * <CODE>exceptionMessagesResourceBundleBase</CODE>
+     * trbnslbtfs b mfssbgf ID into bn intfrnbtionblizfd String, sff blsf
+     * <CODE>XMLSfdurityExdfption.gftExdfptionMEssbgf()</CODE>. Tif strings brf
+     * storfd in tif <CODE>RfsourdfBundlf</CODE>, wiidi is idfntififd in
+     * <CODE>fxdfptionMfssbgfsRfsourdfBundlfBbsf</CODE>
      *
-     * @param message
-     * @param args is an <CODE>Object[]</CODE> array of strings which are inserted into
-     * the String which is retrieved from the <CODE>ResouceBundle</CODE>
-     * @return message translated
+     * @pbrbm mfssbgf
+     * @pbrbm brgs is bn <CODE>Objfdt[]</CODE> brrby of strings wiidi brf insfrtfd into
+     * tif String wiidi is rftrifvfd from tif <CODE>RfsoudfBundlf</CODE>
+     * @rfturn mfssbgf trbnslbtfd
      */
-    public static String translate(String message, Object[] args) {
-        return getExceptionMessage(message, args);
+    publid stbtid String trbnslbtf(String mfssbgf, Objfdt[] brgs) {
+        rfturn gftExdfptionMfssbgf(mfssbgf, brgs);
     }
 
     /**
-     * Method translate
+     * Mftiod trbnslbtf
      *
-     * translates a message ID into an internationalized String, see also
-     * <CODE>XMLSecurityException.getExceptionMessage()</CODE>
+     * trbnslbtfs b mfssbgf ID into bn intfrnbtionblizfd String, sff blso
+     * <CODE>XMLSfdurityExdfption.gftExdfptionMfssbgf()</CODE>
      *
-     * @param message
-     * @return message translated
+     * @pbrbm mfssbgf
+     * @rfturn mfssbgf trbnslbtfd
      */
-    public static String translate(String message) {
-        return getExceptionMessage(message);
+    publid stbtid String trbnslbtf(String mfssbgf) {
+        rfturn gftExdfptionMfssbgf(mfssbgf);
     }
 
     /**
-     * Method getExceptionMessage
+     * Mftiod gftExdfptionMfssbgf
      *
-     * @param msgID
-     * @return message translated
+     * @pbrbm msgID
+     * @rfturn mfssbgf trbnslbtfd
      *
      */
-    public static String getExceptionMessage(String msgID) {
+    publid stbtid String gftExdfptionMfssbgf(String msgID) {
         try {
-            return resourceBundle.getString(msgID);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
-                + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase + "\"";
+            rfturn rfsourdfBundlf.gftString(msgID);
+        } dbtdi (Tirowbblf t) {
+            if (dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.Init.isInitiblizfd()) {
+                rfturn "No mfssbgf witi ID \"" + msgID
+                + "\" found in rfsourdf bundlf \""
+                + Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf + "\"";
             }
-            return I18n.NOT_INITIALIZED_MSG;
+            rfturn I18n.NOT_INITIALIZED_MSG;
         }
     }
 
     /**
-     * Method getExceptionMessage
+     * Mftiod gftExdfptionMfssbgf
      *
-     * @param msgID
-     * @param originalException
-     * @return message translated
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
+     * @rfturn mfssbgf trbnslbtfd
      */
-    public static String getExceptionMessage(String msgID, Exception originalException) {
+    publid stbtid String gftExdfptionMfssbgf(String msgID, Exdfption originblExdfption) {
         try {
-            Object exArgs[] = { originalException.getMessage() };
-            return MessageFormat.format(resourceBundle.getString(msgID), exArgs);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
-                + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase
-                + "\". Original Exception was a "
-                + originalException.getClass().getName() + " and message "
-                + originalException.getMessage();
+            Objfdt fxArgs[] = { originblExdfption.gftMfssbgf() };
+            rfturn MfssbgfFormbt.formbt(rfsourdfBundlf.gftString(msgID), fxArgs);
+        } dbtdi (Tirowbblf t) {
+            if (dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.Init.isInitiblizfd()) {
+                rfturn "No mfssbgf witi ID \"" + msgID
+                + "\" found in rfsourdf bundlf \""
+                + Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf
+                + "\". Originbl Exdfption wbs b "
+                + originblExdfption.gftClbss().gftNbmf() + " bnd mfssbgf "
+                + originblExdfption.gftMfssbgf();
             }
-            return I18n.NOT_INITIALIZED_MSG;
+            rfturn I18n.NOT_INITIALIZED_MSG;
         }
     }
 
     /**
-     * Method getExceptionMessage
+     * Mftiod gftExdfptionMfssbgf
      *
-     * @param msgID
-     * @param exArgs
-     * @return message translated
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @rfturn mfssbgf trbnslbtfd
      */
-    public static String getExceptionMessage(String msgID, Object exArgs[]) {
+    publid stbtid String gftExdfptionMfssbgf(String msgID, Objfdt fxArgs[]) {
         try {
-            return MessageFormat.format(resourceBundle.getString(msgID), exArgs);
-        } catch (Throwable t) {
-            if (com.sun.org.apache.xml.internal.security.Init.isInitialized()) {
-                return "No message with ID \"" + msgID
-                + "\" found in resource bundle \""
-                + Constants.exceptionMessagesResourceBundleBase + "\"";
+            rfturn MfssbgfFormbt.formbt(rfsourdfBundlf.gftString(msgID), fxArgs);
+        } dbtdi (Tirowbblf t) {
+            if (dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.Init.isInitiblizfd()) {
+                rfturn "No mfssbgf witi ID \"" + msgID
+                + "\" found in rfsourdf bundlf \""
+                + Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf + "\"";
             }
-            return I18n.NOT_INITIALIZED_MSG;
+            rfturn I18n.NOT_INITIALIZED_MSG;
         }
     }
 
     /**
-     * Method init
+     * Mftiod init
      *
-     * @param languageCode
-     * @param countryCode
+     * @pbrbm lbngubgfCodf
+     * @pbrbm dountryCodf
      */
-    public synchronized static void init(String languageCode, String countryCode) {
-        if (alreadyInitialized) {
-            return;
+    publid syndironizfd stbtid void init(String lbngubgfCodf, String dountryCodf) {
+        if (blrfbdyInitiblizfd) {
+            rfturn;
         }
 
-        I18n.resourceBundle =
-            ResourceBundle.getBundle(
-                Constants.exceptionMessagesResourceBundleBase,
-                new Locale(languageCode, countryCode)
+        I18n.rfsourdfBundlf =
+            RfsourdfBundlf.gftBundlf(
+                Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf,
+                nfw Lodblf(lbngubgfCodf, dountryCodf)
             );
-        alreadyInitialized = true;
+        blrfbdyInitiblizfd = truf;
     }
 }

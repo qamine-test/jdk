@@ -1,1173 +1,1173 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.awt.IllegalComponentStateException;
-import java.awt.MouseInfo;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.bwt.IllfgblComponfntStbtfExdfption;
+import jbvb.bwt.MousfInfo;
+import sun.bwt.SunToolkit;
 
 /**
- * An event which indicates that a mouse action occurred in a component.
- * A mouse action is considered to occur in a particular component if and only
- * if the mouse cursor is over the unobscured part of the component's bounds
- * when the action happens.
- * For lightweight components, such as Swing's components, mouse events
- * are only dispatched to the component if the mouse event type has been
- * enabled on the component. A mouse event type is enabled by adding the
- * appropriate mouse-based {@code EventListener} to the component
- * ({@link MouseListener} or {@link MouseMotionListener}), or by invoking
- * {@link Component#enableEvents(long)} with the appropriate mask parameter
- * ({@code AWTEvent.MOUSE_EVENT_MASK} or {@code AWTEvent.MOUSE_MOTION_EVENT_MASK}).
- * If the mouse event type has not been enabled on the component, the
- * corresponding mouse events are dispatched to the first ancestor that
- * has enabled the mouse event type.
+ * An fvfnt wiidi indidbtfs tibt b mousf bdtion oddurrfd in b domponfnt.
+ * A mousf bdtion is donsidfrfd to oddur in b pbrtidulbr domponfnt if bnd only
+ * if tif mousf dursor is ovfr tif unobsdurfd pbrt of tif domponfnt's bounds
+ * wifn tif bdtion ibppfns.
+ * For ligitwfigit domponfnts, sudi bs Swing's domponfnts, mousf fvfnts
+ * brf only dispbtdifd to tif domponfnt if tif mousf fvfnt typf ibs bffn
+ * fnbblfd on tif domponfnt. A mousf fvfnt typf is fnbblfd by bdding tif
+ * bppropribtf mousf-bbsfd {@dodf EvfntListfnfr} to tif domponfnt
+ * ({@link MousfListfnfr} or {@link MousfMotionListfnfr}), or by invoking
+ * {@link Componfnt#fnbblfEvfnts(long)} witi tif bppropribtf mbsk pbrbmftfr
+ * ({@dodf AWTEvfnt.MOUSE_EVENT_MASK} or {@dodf AWTEvfnt.MOUSE_MOTION_EVENT_MASK}).
+ * If tif mousf fvfnt typf ibs not bffn fnbblfd on tif domponfnt, tif
+ * dorrfsponding mousf fvfnts brf dispbtdifd to tif first bndfstor tibt
+ * ibs fnbblfd tif mousf fvfnt typf.
  *<p>
- * For example, if a {@code MouseListener} has been added to a component, or
- * {@code enableEvents(AWTEvent.MOUSE_EVENT_MASK)} has been invoked, then all
- * the events defined by {@code MouseListener} are dispatched to the component.
- * On the other hand, if a {@code MouseMotionListener} has not been added and
- * {@code enableEvents} has not been invoked with
- * {@code AWTEvent.MOUSE_MOTION_EVENT_MASK}, then mouse motion events are not
- * dispatched to the component. Instead the mouse motion events are
- * dispatched to the first ancestors that has enabled mouse motion
- * events.
+ * For fxbmplf, if b {@dodf MousfListfnfr} ibs bffn bddfd to b domponfnt, or
+ * {@dodf fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK)} ibs bffn invokfd, tifn bll
+ * tif fvfnts dffinfd by {@dodf MousfListfnfr} brf dispbtdifd to tif domponfnt.
+ * On tif otifr ibnd, if b {@dodf MousfMotionListfnfr} ibs not bffn bddfd bnd
+ * {@dodf fnbblfEvfnts} ibs not bffn invokfd witi
+ * {@dodf AWTEvfnt.MOUSE_MOTION_EVENT_MASK}, tifn mousf motion fvfnts brf not
+ * dispbtdifd to tif domponfnt. Instfbd tif mousf motion fvfnts brf
+ * dispbtdifd to tif first bndfstors tibt ibs fnbblfd mousf motion
+ * fvfnts.
  * <P>
- * This low-level event is generated by a component object for:
+ * Tiis low-lfvfl fvfnt is gfnfrbtfd by b domponfnt objfdt for:
  * <ul>
- * <li>Mouse Events
+ * <li>Mousf Evfnts
  *     <ul>
- *     <li>a mouse button is pressed
- *     <li>a mouse button is released
- *     <li>a mouse button is clicked (pressed and released)
- *     <li>the mouse cursor enters the unobscured part of component's geometry
- *     <li>the mouse cursor exits the unobscured part of component's geometry
+ *     <li>b mousf button is prfssfd
+ *     <li>b mousf button is rflfbsfd
+ *     <li>b mousf button is dlidkfd (prfssfd bnd rflfbsfd)
+ *     <li>tif mousf dursor fntfrs tif unobsdurfd pbrt of domponfnt's gfomftry
+ *     <li>tif mousf dursor fxits tif unobsdurfd pbrt of domponfnt's gfomftry
  *     </ul>
- * <li> Mouse Motion Events
+ * <li> Mousf Motion Evfnts
  *     <ul>
- *     <li>the mouse is moved
- *     <li>the mouse is dragged
+ *     <li>tif mousf is movfd
+ *     <li>tif mousf is drbggfd
  *     </ul>
  * </ul>
  * <P>
- * A <code>MouseEvent</code> object is passed to every
- * <code>MouseListener</code>
- * or <code>MouseAdapter</code> object which is registered to receive
- * the "interesting" mouse events using the component's
- * <code>addMouseListener</code> method.
- * (<code>MouseAdapter</code> objects implement the
- * <code>MouseListener</code> interface.) Each such listener object
- * gets a <code>MouseEvent</code> containing the mouse event.
+ * A <dodf>MousfEvfnt</dodf> objfdt is pbssfd to fvfry
+ * <dodf>MousfListfnfr</dodf>
+ * or <dodf>MousfAdbptfr</dodf> objfdt wiidi is rfgistfrfd to rfdfivf
+ * tif "intfrfsting" mousf fvfnts using tif domponfnt's
+ * <dodf>bddMousfListfnfr</dodf> mftiod.
+ * (<dodf>MousfAdbptfr</dodf> objfdts implfmfnt tif
+ * <dodf>MousfListfnfr</dodf> intfrfbdf.) Ebdi sudi listfnfr objfdt
+ * gfts b <dodf>MousfEvfnt</dodf> dontbining tif mousf fvfnt.
  * <P>
- * A <code>MouseEvent</code> object is also passed to every
- * <code>MouseMotionListener</code> or
- * <code>MouseMotionAdapter</code> object which is registered to receive
- * mouse motion events using the component's
- * <code>addMouseMotionListener</code>
- * method. (<code>MouseMotionAdapter</code> objects implement the
- * <code>MouseMotionListener</code> interface.) Each such listener object
- * gets a <code>MouseEvent</code> containing the mouse motion event.
+ * A <dodf>MousfEvfnt</dodf> objfdt is blso pbssfd to fvfry
+ * <dodf>MousfMotionListfnfr</dodf> or
+ * <dodf>MousfMotionAdbptfr</dodf> objfdt wiidi is rfgistfrfd to rfdfivf
+ * mousf motion fvfnts using tif domponfnt's
+ * <dodf>bddMousfMotionListfnfr</dodf>
+ * mftiod. (<dodf>MousfMotionAdbptfr</dodf> objfdts implfmfnt tif
+ * <dodf>MousfMotionListfnfr</dodf> intfrfbdf.) Ebdi sudi listfnfr objfdt
+ * gfts b <dodf>MousfEvfnt</dodf> dontbining tif mousf motion fvfnt.
  * <P>
- * When a mouse button is clicked, events are generated and sent to the
- * registered <code>MouseListener</code>s.
- * The state of modal keys can be retrieved using {@link InputEvent#getModifiers}
- * and {@link InputEvent#getModifiersEx}.
- * The button mask returned by {@link InputEvent#getModifiers} reflects
- * only the button that changed state, not the current state of all buttons.
- * (Note: Due to overlap in the values of ALT_MASK/BUTTON2_MASK and
- * META_MASK/BUTTON3_MASK, this is not always true for mouse events involving
- * modifier keys).
- * To get the state of all buttons and modifier keys, use
- * {@link InputEvent#getModifiersEx}.
- * The button which has changed state is returned by {@link MouseEvent#getButton}
+ * Wifn b mousf button is dlidkfd, fvfnts brf gfnfrbtfd bnd sfnt to tif
+ * rfgistfrfd <dodf>MousfListfnfr</dodf>s.
+ * Tif stbtf of modbl kfys dbn bf rftrifvfd using {@link InputEvfnt#gftModififrs}
+ * bnd {@link InputEvfnt#gftModififrsEx}.
+ * Tif button mbsk rfturnfd by {@link InputEvfnt#gftModififrs} rfflfdts
+ * only tif button tibt dibngfd stbtf, not tif durrfnt stbtf of bll buttons.
+ * (Notf: Duf to ovfrlbp in tif vblufs of ALT_MASK/BUTTON2_MASK bnd
+ * META_MASK/BUTTON3_MASK, tiis is not blwbys truf for mousf fvfnts involving
+ * modififr kfys).
+ * To gft tif stbtf of bll buttons bnd modififr kfys, usf
+ * {@link InputEvfnt#gftModififrsEx}.
+ * Tif button wiidi ibs dibngfd stbtf is rfturnfd by {@link MousfEvfnt#gftButton}
  * <P>
- * For example, if the first mouse button is pressed, events are sent in the
- * following order:
+ * For fxbmplf, if tif first mousf button is prfssfd, fvfnts brf sfnt in tif
+ * following ordfr:
  * <PRE>
- *    <b   >id           </b   >   <b   >modifiers   </b   > <b   >button </b   >
- *    <code>MOUSE_PRESSED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
- *    <code>MOUSE_RELEASED</code>: <code>BUTTON1_MASK</code> <code>BUTTON1</code>
- *    <code>MOUSE_CLICKED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
+ *    <b   >id           </b   >   <b   >modififrs   </b   > <b   >button </b   >
+ *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
+ *    <dodf>MOUSE_RELEASED</dodf>: <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
+ *    <dodf>MOUSE_CLICKED</dodf>:  <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
  * </PRE>
- * When multiple mouse buttons are pressed, each press, release, and click
- * results in a separate event.
+ * Wifn multiplf mousf buttons brf prfssfd, fbdi prfss, rflfbsf, bnd dlidk
+ * rfsults in b sfpbrbtf fvfnt.
  * <P>
- * For example, if the user presses <b>button 1</b> followed by
- * <b>button 2</b>, and then releases them in the same order,
- * the following sequence of events is generated:
+ * For fxbmplf, if tif usfr prfssfs <b>button 1</b> followfd by
+ * <b>button 2</b>, bnd tifn rflfbsfs tifm in tif sbmf ordfr,
+ * tif following sfqufndf of fvfnts is gfnfrbtfd:
  * <PRE>
- *    <b   >id           </b   >   <b   >modifiers   </b   > <b   >button </b   >
- *    <code>MOUSE_PRESSED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
- *    <code>MOUSE_PRESSED</code>:  <code>BUTTON2_MASK</code> <code>BUTTON2</code>
- *    <code>MOUSE_RELEASED</code>: <code>BUTTON1_MASK</code> <code>BUTTON1</code>
- *    <code>MOUSE_CLICKED</code>:  <code>BUTTON1_MASK</code> <code>BUTTON1</code>
- *    <code>MOUSE_RELEASED</code>: <code>BUTTON2_MASK</code> <code>BUTTON2</code>
- *    <code>MOUSE_CLICKED</code>:  <code>BUTTON2_MASK</code> <code>BUTTON2</code>
+ *    <b   >id           </b   >   <b   >modififrs   </b   > <b   >button </b   >
+ *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
+ *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON2_MASK</dodf> <dodf>BUTTON2</dodf>
+ *    <dodf>MOUSE_RELEASED</dodf>: <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
+ *    <dodf>MOUSE_CLICKED</dodf>:  <dodf>BUTTON1_MASK</dodf> <dodf>BUTTON1</dodf>
+ *    <dodf>MOUSE_RELEASED</dodf>: <dodf>BUTTON2_MASK</dodf> <dodf>BUTTON2</dodf>
+ *    <dodf>MOUSE_CLICKED</dodf>:  <dodf>BUTTON2_MASK</dodf> <dodf>BUTTON2</dodf>
  * </PRE>
- * If <b>button 2</b> is released first, the
- * <code>MOUSE_RELEASED</code>/<code>MOUSE_CLICKED</code> pair
- * for <code>BUTTON2_MASK</code> arrives first,
- * followed by the pair for <code>BUTTON1_MASK</code>.
+ * If <b>button 2</b> is rflfbsfd first, tif
+ * <dodf>MOUSE_RELEASED</dodf>/<dodf>MOUSE_CLICKED</dodf> pbir
+ * for <dodf>BUTTON2_MASK</dodf> brrivfs first,
+ * followfd by tif pbir for <dodf>BUTTON1_MASK</dodf>.
  * <p>
- * Some extra mouse buttons are added to extend the standard set of buttons
- * represented by the following constants:{@code BUTTON1}, {@code BUTTON2}, and {@code BUTTON3}.
- * Extra buttons have no assigned {@code BUTTONx}
- * constants as well as their button masks have no assigned {@code BUTTONx_DOWN_MASK}
- * constants. Nevertheless, ordinal numbers starting from 4 may be
- * used as button numbers (button ids). Values obtained by the
- * {@link InputEvent#getMaskForButton(int) getMaskForButton(button)} method may be used
- * as button masks.
+ * Somf fxtrb mousf buttons brf bddfd to fxtfnd tif stbndbrd sft of buttons
+ * rfprfsfntfd by tif following donstbnts:{@dodf BUTTON1}, {@dodf BUTTON2}, bnd {@dodf BUTTON3}.
+ * Extrb buttons ibvf no bssignfd {@dodf BUTTONx}
+ * donstbnts bs wfll bs tifir button mbsks ibvf no bssignfd {@dodf BUTTONx_DOWN_MASK}
+ * donstbnts. Nfvfrtiflfss, ordinbl numbfrs stbrting from 4 mby bf
+ * usfd bs button numbfrs (button ids). Vblufs obtbinfd by tif
+ * {@link InputEvfnt#gftMbskForButton(int) gftMbskForButton(button)} mftiod mby bf usfd
+ * bs button mbsks.
  * <p>
- * {@code MOUSE_DRAGGED} events are delivered to the {@code Component}
- * in which the mouse button was pressed until the mouse button is released
- * (regardless of whether the mouse position is within the bounds of the
- * {@code Component}).  Due to platform-dependent Drag&amp;Drop implementations,
- * {@code MOUSE_DRAGGED} events may not be delivered during a native
- * Drag&amp;Drop operation.
+ * {@dodf MOUSE_DRAGGED} fvfnts brf dflivfrfd to tif {@dodf Componfnt}
+ * in wiidi tif mousf button wbs prfssfd until tif mousf button is rflfbsfd
+ * (rfgbrdlfss of wiftifr tif mousf position is witiin tif bounds of tif
+ * {@dodf Componfnt}).  Duf to plbtform-dfpfndfnt Drbg&bmp;Drop implfmfntbtions,
+ * {@dodf MOUSE_DRAGGED} fvfnts mby not bf dflivfrfd during b nbtivf
+ * Drbg&bmp;Drop opfrbtion.
  *
- * In a multi-screen environment mouse drag events are delivered to the
- * <code>Component</code> even if the mouse position is outside the bounds of the
- * <code>GraphicsConfiguration</code> associated with that
- * <code>Component</code>. However, the reported position for mouse drag events
- * in this case may differ from the actual mouse position:
+ * In b multi-sdrffn fnvironmfnt mousf drbg fvfnts brf dflivfrfd to tif
+ * <dodf>Componfnt</dodf> fvfn if tif mousf position is outsidf tif bounds of tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> bssodibtfd witi tibt
+ * <dodf>Componfnt</dodf>. Howfvfr, tif rfportfd position for mousf drbg fvfnts
+ * in tiis dbsf mby difffr from tif bdtubl mousf position:
  * <ul>
- * <li>In a multi-screen environment without a virtual device:
+ * <li>In b multi-sdrffn fnvironmfnt witiout b virtubl dfvidf:
  * <br>
- * The reported coordinates for mouse drag events are clipped to fit within the
- * bounds of the <code>GraphicsConfiguration</code> associated with
- * the <code>Component</code>.
- * <li>In a multi-screen environment with a virtual device:
+ * Tif rfportfd doordinbtfs for mousf drbg fvfnts brf dlippfd to fit witiin tif
+ * bounds of tif <dodf>GrbpiidsConfigurbtion</dodf> bssodibtfd witi
+ * tif <dodf>Componfnt</dodf>.
+ * <li>In b multi-sdrffn fnvironmfnt witi b virtubl dfvidf:
  * <br>
- * The reported coordinates for mouse drag events are clipped to fit within the
- * bounds of the virtual device associated with the <code>Component</code>.
+ * Tif rfportfd doordinbtfs for mousf drbg fvfnts brf dlippfd to fit witiin tif
+ * bounds of tif virtubl dfvidf bssodibtfd witi tif <dodf>Componfnt</dodf>.
  * </ul>
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code MouseEvent} instance is not
- * in the range from {@code MOUSE_FIRST} to {@code MOUSE_LAST}-1
- * ({@code MOUSE_WHEEL} is not acceptable).
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf MousfEvfnt} instbndf is not
+ * in tif rbngf from {@dodf MOUSE_FIRST} to {@dodf MOUSE_LAST}-1
+ * ({@dodf MOUSE_WHEEL} is not bddfptbblf).
  *
- * @author Carl Quinn
+ * @butior Cbrl Quinn
  *
- * @see MouseAdapter
- * @see MouseListener
- * @see MouseMotionAdapter
- * @see MouseMotionListener
- * @see MouseWheelListener
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mouselistener.html">Tutorial: Writing a Mouse Listener</a>
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mousemotionlistener.html">Tutorial: Writing a Mouse Motion Listener</a>
+ * @sff MousfAdbptfr
+ * @sff MousfListfnfr
+ * @sff MousfMotionAdbptfr
+ * @sff MousfMotionListfnfr
+ * @sff MousfWifflListfnfr
+ * @sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/mousflistfnfr.itml">Tutoribl: Writing b Mousf Listfnfr</b>
+ * @sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/mousfmotionlistfnfr.itml">Tutoribl: Writing b Mousf Motion Listfnfr</b>
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public class MouseEvent extends InputEvent {
+publid dlbss MousfEvfnt fxtfnds InputEvfnt {
 
     /**
-     * The first number in the range of ids used for mouse events.
+     * Tif first numbfr in tif rbngf of ids usfd for mousf fvfnts.
      */
-    public static final int MOUSE_FIRST         = 500;
+    publid stbtid finbl int MOUSE_FIRST         = 500;
 
     /**
-     * The last number in the range of ids used for mouse events.
+     * Tif lbst numbfr in tif rbngf of ids usfd for mousf fvfnts.
      */
-    public static final int MOUSE_LAST          = 507;
+    publid stbtid finbl int MOUSE_LAST          = 507;
 
     /**
-     * The "mouse clicked" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is pressed and released.
+     * Tif "mousf dlidkfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn b mousf button is prfssfd bnd rflfbsfd.
      */
-    public static final int MOUSE_CLICKED = MOUSE_FIRST;
+    publid stbtid finbl int MOUSE_CLICKED = MOUSE_FIRST;
 
     /**
-     * The "mouse pressed" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is pushed down.
+     * Tif "mousf prfssfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn b mousf button is pusifd down.
      */
-    public static final int MOUSE_PRESSED = 1 + MOUSE_FIRST; //Event.MOUSE_DOWN
+    publid stbtid finbl int MOUSE_PRESSED = 1 + MOUSE_FIRST; //Evfnt.MOUSE_DOWN
 
     /**
-     * The "mouse released" event. This <code>MouseEvent</code>
-     * occurs when a mouse button is let up.
+     * Tif "mousf rflfbsfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn b mousf button is lft up.
      */
-    public static final int MOUSE_RELEASED = 2 + MOUSE_FIRST; //Event.MOUSE_UP
+    publid stbtid finbl int MOUSE_RELEASED = 2 + MOUSE_FIRST; //Evfnt.MOUSE_UP
 
     /**
-     * The "mouse moved" event. This <code>MouseEvent</code>
-     * occurs when the mouse position changes.
+     * Tif "mousf movfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn tif mousf position dibngfs.
      */
-    public static final int MOUSE_MOVED = 3 + MOUSE_FIRST; //Event.MOUSE_MOVE
+    publid stbtid finbl int MOUSE_MOVED = 3 + MOUSE_FIRST; //Evfnt.MOUSE_MOVE
 
     /**
-     * The "mouse entered" event. This <code>MouseEvent</code>
-     * occurs when the mouse cursor enters the unobscured part of component's
-     * geometry.
+     * Tif "mousf fntfrfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn tif mousf dursor fntfrs tif unobsdurfd pbrt of domponfnt's
+     * gfomftry.
      */
-    public static final int MOUSE_ENTERED = 4 + MOUSE_FIRST; //Event.MOUSE_ENTER
+    publid stbtid finbl int MOUSE_ENTERED = 4 + MOUSE_FIRST; //Evfnt.MOUSE_ENTER
 
     /**
-     * The "mouse exited" event. This <code>MouseEvent</code>
-     * occurs when the mouse cursor exits the unobscured part of component's
-     * geometry.
+     * Tif "mousf fxitfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn tif mousf dursor fxits tif unobsdurfd pbrt of domponfnt's
+     * gfomftry.
      */
-    public static final int MOUSE_EXITED = 5 + MOUSE_FIRST; //Event.MOUSE_EXIT
+    publid stbtid finbl int MOUSE_EXITED = 5 + MOUSE_FIRST; //Evfnt.MOUSE_EXIT
 
     /**
-     * The "mouse dragged" event. This <code>MouseEvent</code>
-     * occurs when the mouse position changes while a mouse button is pressed.
+     * Tif "mousf drbggfd" fvfnt. Tiis <dodf>MousfEvfnt</dodf>
+     * oddurs wifn tif mousf position dibngfs wiilf b mousf button is prfssfd.
      */
-    public static final int MOUSE_DRAGGED = 6 + MOUSE_FIRST; //Event.MOUSE_DRAG
+    publid stbtid finbl int MOUSE_DRAGGED = 6 + MOUSE_FIRST; //Evfnt.MOUSE_DRAG
 
     /**
-     * The "mouse wheel" event.  This is the only <code>MouseWheelEvent</code>.
-     * It occurs when a mouse equipped with a wheel has its wheel rotated.
-     * @since 1.4
+     * Tif "mousf wiffl" fvfnt.  Tiis is tif only <dodf>MousfWifflEvfnt</dodf>.
+     * It oddurs wifn b mousf fquippfd witi b wiffl ibs its wiffl rotbtfd.
+     * @sindf 1.4
      */
-    public static final int MOUSE_WHEEL = 7 + MOUSE_FIRST;
+    publid stbtid finbl int MOUSE_WHEEL = 7 + MOUSE_FIRST;
 
     /**
-     * Indicates no mouse buttons; used by {@link #getButton}.
-     * @since 1.4
+     * Indidbtfs no mousf buttons; usfd by {@link #gftButton}.
+     * @sindf 1.4
      */
-    public static final int NOBUTTON = 0;
+    publid stbtid finbl int NOBUTTON = 0;
 
     /**
-     * Indicates mouse button #1; used by {@link #getButton}.
-     * @since 1.4
+     * Indidbtfs mousf button #1; usfd by {@link #gftButton}.
+     * @sindf 1.4
      */
-    public static final int BUTTON1 = 1;
+    publid stbtid finbl int BUTTON1 = 1;
 
     /**
-     * Indicates mouse button #2; used by {@link #getButton}.
-     * @since 1.4
+     * Indidbtfs mousf button #2; usfd by {@link #gftButton}.
+     * @sindf 1.4
      */
-    public static final int BUTTON2 = 2;
+    publid stbtid finbl int BUTTON2 = 2;
 
     /**
-     * Indicates mouse button #3; used by {@link #getButton}.
-     * @since 1.4
+     * Indidbtfs mousf button #3; usfd by {@link #gftButton}.
+     * @sindf 1.4
      */
-    public static final int BUTTON3 = 3;
+    publid stbtid finbl int BUTTON3 = 3;
 
     /**
-     * The mouse event's x coordinate.
-     * The x value is relative to the component that fired the event.
+     * Tif mousf fvfnt's x doordinbtf.
+     * Tif x vbluf is rflbtivf to tif domponfnt tibt firfd tif fvfnt.
      *
-     * @serial
-     * @see #getX()
+     * @sfribl
+     * @sff #gftX()
      */
     int x;
 
     /**
-     * The mouse event's y coordinate.
-     * The y value is relative to the component that fired the event.
+     * Tif mousf fvfnt's y doordinbtf.
+     * Tif y vbluf is rflbtivf to tif domponfnt tibt firfd tif fvfnt.
      *
-     * @serial
-     * @see #getY()
+     * @sfribl
+     * @sff #gftY()
      */
     int y;
 
     /**
-     * The mouse event's x absolute coordinate.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Tif mousf fvfnt's x bbsolutf doordinbtf.
+     * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif
+     * dfsktop brfb dould spbn multiplf piysidbl sdrffn dfvidfs,
+     * tiis doordinbtf is rflbtivf to tif virtubl doordinbtf systfm.
+     * Otifrwisf, tiis doordinbtf is rflbtivf to tif doordinbtf systfm
+     * bssodibtfd witi tif Componfnt's GrbpiidsConfigurbtion.
      *
-     * @serial
+     * @sfribl
    */
-    private int xAbs;
+    privbtf int xAbs;
 
     /**
-     * The mouse event's y absolute coordinate.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Tif mousf fvfnt's y bbsolutf doordinbtf.
+     * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif
+     * dfsktop brfb dould spbn multiplf piysidbl sdrffn dfvidfs,
+     * tiis doordinbtf is rflbtivf to tif virtubl doordinbtf systfm.
+     * Otifrwisf, tiis doordinbtf is rflbtivf to tif doordinbtf systfm
+     * bssodibtfd witi tif Componfnt's GrbpiidsConfigurbtion.
      *
-     * @serial
+     * @sfribl
      */
-    private int yAbs;
+    privbtf int yAbs;
 
     /**
-     * Indicates the number of quick consecutive clicks of
-     * a mouse button.
-     * clickCount will be valid for only three mouse events :<BR>
-     * <code>MOUSE_CLICKED</code>,
-     * <code>MOUSE_PRESSED</code> and
-     * <code>MOUSE_RELEASED</code>.
-     * For the above, the <code>clickCount</code> will be at least 1.
-     * For all other events the count will be 0.
+     * Indidbtfs tif numbfr of quidk donsfdutivf dlidks of
+     * b mousf button.
+     * dlidkCount will bf vblid for only tirff mousf fvfnts :<BR>
+     * <dodf>MOUSE_CLICKED</dodf>,
+     * <dodf>MOUSE_PRESSED</dodf> bnd
+     * <dodf>MOUSE_RELEASED</dodf>.
+     * For tif bbovf, tif <dodf>dlidkCount</dodf> will bf bt lfbst 1.
+     * For bll otifr fvfnts tif dount will bf 0.
      *
-     * @serial
-     * @see #getClickCount()
+     * @sfribl
+     * @sff #gftClidkCount()
      */
-    int clickCount;
+    int dlidkCount;
 
     /**
-     * Indicates which, if any, of the mouse buttons has changed state.
+     * Indidbtfs wiidi, if bny, of tif mousf buttons ibs dibngfd stbtf.
      *
-     * The valid values are ranged from 0 to the value returned by the
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()} method.
-     * This range already includes constants {@code NOBUTTON}, {@code BUTTON1},
-     * {@code BUTTON2}, and {@code BUTTON3}
-     * if these buttons are present. So it is allowed to use these constants too.
-     * For example, for a mouse with two buttons this field may contain the following values:
+     * Tif vblid vblufs brf rbngfd from 0 to tif vbluf rfturnfd by tif
+     * {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()} mftiod.
+     * Tiis rbngf blrfbdy indludfs donstbnts {@dodf NOBUTTON}, {@dodf BUTTON1},
+     * {@dodf BUTTON2}, bnd {@dodf BUTTON3}
+     * if tifsf buttons brf prfsfnt. So it is bllowfd to usf tifsf donstbnts too.
+     * For fxbmplf, for b mousf witi two buttons tiis fifld mby dontbin tif following vblufs:
      * <ul>
-     * <li> 0 ({@code NOBUTTON})
-     * <li> 1 ({@code BUTTON1})
-     * <li> 2 ({@code BUTTON2})
+     * <li> 0 ({@dodf NOBUTTON})
+     * <li> 1 ({@dodf BUTTON1})
+     * <li> 2 ({@dodf BUTTON2})
      * </ul>
-     * If a mouse has 5 buttons, this field may contain the following values:
+     * If b mousf ibs 5 buttons, tiis fifld mby dontbin tif following vblufs:
      * <ul>
-     * <li> 0 ({@code NOBUTTON})
-     * <li> 1 ({@code BUTTON1})
-     * <li> 2 ({@code BUTTON2})
-     * <li> 3 ({@code BUTTON3})
+     * <li> 0 ({@dodf NOBUTTON})
+     * <li> 1 ({@dodf BUTTON1})
+     * <li> 2 ({@dodf BUTTON2})
+     * <li> 3 ({@dodf BUTTON3})
      * <li> 4
      * <li> 5
      * </ul>
-     * If support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled()} disabled by Java
-     * then the field may not contain the value larger than {@code BUTTON3}.
-     * @serial
-     * @see #getButton()
-     * @see java.awt.Toolkit#areExtraMouseButtonsEnabled()
+     * If support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd()} disbblfd by Jbvb
+     * tifn tif fifld mby not dontbin tif vbluf lbrgfr tibn {@dodf BUTTON3}.
+     * @sfribl
+     * @sff #gftButton()
+     * @sff jbvb.bwt.Toolkit#brfExtrbMousfButtonsEnbblfd()
      */
     int button;
 
     /**
-     * A property used to indicate whether a Popup Menu
-     * should appear  with a certain gestures.
-     * If <code>popupTrigger</code> = <code>false</code>,
-     * no popup menu should appear.  If it is <code>true</code>
-     * then a popup menu should appear.
+     * A propfrty usfd to indidbtf wiftifr b Popup Mfnu
+     * siould bppfbr  witi b dfrtbin gfsturfs.
+     * If <dodf>popupTriggfr</dodf> = <dodf>fblsf</dodf>,
+     * no popup mfnu siould bppfbr.  If it is <dodf>truf</dodf>
+     * tifn b popup mfnu siould bppfbr.
      *
-     * @serial
-     * @see java.awt.PopupMenu
-     * @see #isPopupTrigger()
+     * @sfribl
+     * @sff jbvb.bwt.PopupMfnu
+     * @sff #isPopupTriggfr()
      */
-    boolean popupTrigger = false;
+    boolfbn popupTriggfr = fblsf;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -991214153494842848L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -991214153494842848L;
 
     /**
-     * A number of buttons available on the mouse at the {@code Toolkit} machinery startup.
+     * A numbfr of buttons bvbilbblf on tif mousf bt tif {@dodf Toolkit} mbdiinfry stbrtup.
      */
-    private static int cachedNumberOfButtons;
+    privbtf stbtid int dbdifdNumbfrOfButtons;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
-        final Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
-            cachedNumberOfButtons = ((SunToolkit)tk).getNumberOfButtons();
-        } else {
-            //It's expected that some toolkits (Headless,
-            //whatever besides SunToolkit) could also operate.
-            cachedNumberOfButtons = 3;
+        finbl Toolkit tk = Toolkit.gftDffbultToolkit();
+        if (tk instbndfof SunToolkit) {
+            dbdifdNumbfrOfButtons = ((SunToolkit)tk).gftNumbfrOfButtons();
+        } flsf {
+            //It's fxpfdtfd tibt somf toolkits (Hfbdlfss,
+            //wibtfvfr bfsidfs SunToolkit) dould blso opfrbtf.
+            dbdifdNumbfrOfButtons = 3;
         }
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     *  accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     *  bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Returns the absolute x, y position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * these coordinates are relative to the virtual coordinate system.
-     * Otherwise, these coordinates are relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Rfturns tif bbsolutf x, y position of tif fvfnt.
+     * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif
+     * dfsktop brfb dould spbn multiplf piysidbl sdrffn dfvidfs,
+     * tifsf doordinbtfs brf rflbtivf to tif virtubl doordinbtf systfm.
+     * Otifrwisf, tifsf doordinbtfs brf rflbtivf to tif doordinbtf systfm
+     * bssodibtfd witi tif Componfnt's GrbpiidsConfigurbtion.
      *
-     * @return a <code>Point</code> object containing the absolute  x
-     *  and y coordinates.
+     * @rfturn b <dodf>Point</dodf> objfdt dontbining tif bbsolutf  x
+     *  bnd y doordinbtfs.
      *
-     * @see java.awt.GraphicsConfiguration
-     * @since 1.6
+     * @sff jbvb.bwt.GrbpiidsConfigurbtion
+     * @sindf 1.6
      */
-    public Point getLocationOnScreen(){
-      return new Point(xAbs, yAbs);
+    publid Point gftLodbtionOnSdrffn(){
+      rfturn nfw Point(xAbs, yAbs);
     }
 
     /**
-     * Returns the absolute horizontal x position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Rfturns tif bbsolutf iorizontbl x position of tif fvfnt.
+     * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif
+     * dfsktop brfb dould spbn multiplf piysidbl sdrffn dfvidfs,
+     * tiis doordinbtf is rflbtivf to tif virtubl doordinbtf systfm.
+     * Otifrwisf, tiis doordinbtf is rflbtivf to tif doordinbtf systfm
+     * bssodibtfd witi tif Componfnt's GrbpiidsConfigurbtion.
      *
-     * @return x  an integer indicating absolute horizontal position.
+     * @rfturn x  bn intfgfr indidbting bbsolutf iorizontbl position.
      *
-     * @see java.awt.GraphicsConfiguration
-     * @since 1.6
+     * @sff jbvb.bwt.GrbpiidsConfigurbtion
+     * @sindf 1.6
      */
-    public int getXOnScreen() {
-        return xAbs;
+    publid int gftXOnSdrffn() {
+        rfturn xAbs;
     }
 
     /**
-     * Returns the absolute vertical y position of the event.
-     * In a virtual device multi-screen environment in which the
-     * desktop area could span multiple physical screen devices,
-     * this coordinate is relative to the virtual coordinate system.
-     * Otherwise, this coordinate is relative to the coordinate system
-     * associated with the Component's GraphicsConfiguration.
+     * Rfturns tif bbsolutf vfrtidbl y position of tif fvfnt.
+     * In b virtubl dfvidf multi-sdrffn fnvironmfnt in wiidi tif
+     * dfsktop brfb dould spbn multiplf piysidbl sdrffn dfvidfs,
+     * tiis doordinbtf is rflbtivf to tif virtubl doordinbtf systfm.
+     * Otifrwisf, tiis doordinbtf is rflbtivf to tif doordinbtf systfm
+     * bssodibtfd witi tif Componfnt's GrbpiidsConfigurbtion.
      *
-     * @return y  an integer indicating absolute vertical position.
+     * @rfturn y  bn intfgfr indidbting bbsolutf vfrtidbl position.
      *
-     * @see java.awt.GraphicsConfiguration
-     * @since 1.6
+     * @sff jbvb.bwt.GrbpiidsConfigurbtion
+     * @sindf 1.6
      */
-    public int getYOnScreen() {
-        return yAbs;
+    publid int gftYOnSdrffn() {
+        rfturn yAbs;
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
-     * specified source component,
-     * type, time, modifiers, coordinates, click count, popupTrigger flag,
-     * and button number.
+     * Construdts b <dodf>MousfEvfnt</dodf> objfdt witi tif
+     * spfdififd sourdf domponfnt,
+     * typf, timf, modififrs, doordinbtfs, dlidk dount, popupTriggfr flbg,
+     * bnd button numbfr.
      * <p>
-     * Creating an invalid event (such
-     * as by using more than one of the old _MASKs, or modifier/button
-     * values which don't match) results in unspecified behavior.
-     * An invocation of the form
-     * <tt>MouseEvent(source, id, when, modifiers, x, y, clickCount, popupTrigger, button)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt> {@link #MouseEvent(Component, int, long, int, int, int,
-     * int, int, int, boolean, int) MouseEvent}(source, id, when, modifiers,
-     * x, y, xAbs, yAbs, clickCount, popupTrigger, button)</tt>
-     * where xAbs and yAbs defines as source's location on screen plus
-     * relative coordinates x and y.
-     * xAbs and yAbs are set to zero if the source is not showing.
-     * This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Crfbting bn invblid fvfnt (sudi
+     * bs by using morf tibn onf of tif old _MASKs, or modififr/button
+     * vblufs wiidi don't mbtdi) rfsults in unspfdififd bfibvior.
+     * An invodbtion of tif form
+     * <tt>MousfEvfnt(sourdf, id, wifn, modififrs, x, y, dlidkCount, popupTriggfr, button)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
+     * <tt> {@link #MousfEvfnt(Componfnt, int, long, int, int, int,
+     * int, int, int, boolfbn, int) MousfEvfnt}(sourdf, id, wifn, modififrs,
+     * x, y, xAbs, yAbs, dlidkCount, popupTriggfr, button)</tt>
+     * wifrf xAbs bnd yAbs dffinfs bs sourdf's lodbtion on sdrffn plus
+     * rflbtivf doordinbtfs x bnd y.
+     * xAbs bnd yAbs brf sft to zfro if tif sourdf is not siowing.
+     * Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
-     *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
-     *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
-     *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @param button       An integer that indicates, which of the mouse buttons has
-     *                     changed its state.
-     * The following rules are applied to this parameter:
+     * @pbrbm sourdf       Tif <dodf>Componfnt</dodf> tibt originbtfd tif fvfnt
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link MousfEvfnt}
+     * @pbrbm wifn         A long intfgfr tibt givfs tif timf tif fvfnt oddurrfd.
+     *                     Pbssing nfgbtivf or zfro vbluf
+     *                     is not rfdommfndfd
+     * @pbrbm modififrs    b modififr mbsk dfsdribing tif modififr kfys bnd mousf
+     *                     buttons (for fxbmplf, siift, dtrl, blt, bnd mftb) tibt
+     *                     brf down during tif fvfnt.
+     *                     Only fxtfndfd modififrs brf bllowfd to bf usfd bs b
+     *                     vbluf for tiis pbrbmftfr (sff tif {@link InputEvfnt#gftModififrsEx}
+     *                     dlbss for tif dfsdription of fxtfndfd modififrs).
+     *                     Pbssing nfgbtivf pbrbmftfr
+     *                     is not rfdommfndfd.
+     *                     Zfro vbluf mfbns tibt no modififrs wfrf pbssfd
+     * @pbrbm x            Tif iorizontbl x doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm y            Tif vfrtidbl y doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm dlidkCount   Tif numbfr of mousf dlidks bssodibtfd witi fvfnt.
+     *                       Pbssing nfgbtivf vbluf
+     *                       is not rfdommfndfd
+     * @pbrbm popupTriggfr A boolfbn tibt fqubls {@dodf truf} if tiis fvfnt
+     *                     is b triggfr for b popup mfnu
+     * @pbrbm button       An intfgfr tibt indidbtfs, wiidi of tif mousf buttons ibs
+     *                     dibngfd its stbtf.
+     * Tif following rulfs brf bpplifd to tiis pbrbmftfr:
      * <ul>
-     * <li>If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects only with the standard buttons:
-     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, and
-     * {@code BUTTON3}.
-     * <li> If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects with
-     * the standard buttons.
-     * In case the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java, then
-     * in addition to the standard buttons, {@code MouseEvent} objects can be created
-     * using buttons from the range starting from 4 to
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * if the mouse has more than three buttons.
+     * <li>If support for tif fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * tifn it is bllowfd to drfbtf {@dodf MousfEvfnt} objfdts only witi tif stbndbrd buttons:
+     * {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2}, bnd
+     * {@dodf BUTTON3}.
+     * <li> If support for tif fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * tifn it is bllowfd to drfbtf {@dodf MousfEvfnt} objfdts witi
+     * tif stbndbrd buttons.
+     * In dbsf tif support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb, tifn
+     * in bddition to tif stbndbrd buttons, {@dodf MousfEvfnt} objfdts dbn bf drfbtfd
+     * using buttons from tif rbngf stbrting from 4 to
+     * {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}
+     * if tif mousf ibs morf tibn tirff buttons.
      * </ul>
-     * @throws IllegalArgumentException if {@code button} is less then zero
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @throws IllegalArgumentException if {@code button} is greater then BUTTON3 and the support for extended mouse buttons is
-     *                                  {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if {@code button} is greater then the
-     *                                  {@link java.awt.MouseInfo#getNumberOfButtons() current number of buttons} and the support
-     *                                  for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled}
-     *                                  by Java
-     * @throws IllegalArgumentException if an invalid <code>button</code>
-     *            value is passed in
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see #getSource()
-     * @see #getID()
-     * @see #getWhen()
-     * @see #getModifiers()
-     * @see #getX()
-     * @see #getY()
-     * @see #getClickCount()
-     * @see #isPopupTrigger()
-     * @see #getButton()
-     * @since 1.4
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is lfss tifn zfro
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is grfbtfr tifn BUTTON3 bnd tif support for fxtfndfd mousf buttons is
+     *                                  {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is grfbtfr tifn tif
+     *                                  {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() durrfnt numbfr of buttons} bnd tif support
+     *                                  for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd}
+     *                                  by Jbvb
+     * @tirows IllfgblArgumfntExdfption if bn invblid <dodf>button</dodf>
+     *            vbluf is pbssfd in
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftWifn()
+     * @sff #gftModififrs()
+     * @sff #gftX()
+     * @sff #gftY()
+     * @sff #gftClidkCount()
+     * @sff #isPopupTriggfr()
+     * @sff #gftButton()
+     * @sindf 1.4
      */
-    public MouseEvent(Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger,
+    publid MousfEvfnt(Componfnt sourdf, int id, long wifn, int modififrs,
+                      int x, int y, int dlidkCount, boolfbn popupTriggfr,
                       int button)
     {
-        this(source, id, when, modifiers, x, y, 0, 0, clickCount, popupTrigger, button);
-        Point eventLocationOnScreen = new Point(0, 0);
+        tiis(sourdf, id, wifn, modififrs, x, y, 0, 0, dlidkCount, popupTriggfr, button);
+        Point fvfntLodbtionOnSdrffn = nfw Point(0, 0);
         try {
-          eventLocationOnScreen = source.getLocationOnScreen();
-          this.xAbs = eventLocationOnScreen.x + x;
-          this.yAbs = eventLocationOnScreen.y + y;
-        } catch (IllegalComponentStateException e){
-          this.xAbs = 0;
-          this.yAbs = 0;
+          fvfntLodbtionOnSdrffn = sourdf.gftLodbtionOnSdrffn();
+          tiis.xAbs = fvfntLodbtionOnSdrffn.x + x;
+          tiis.yAbs = fvfntLodbtionOnSdrffn.y + y;
+        } dbtdi (IllfgblComponfntStbtfExdfption f){
+          tiis.xAbs = 0;
+          tiis.yAbs = 0;
         }
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
-     * specified source component,
-     * type, modifiers, coordinates, click count, and popupTrigger flag.
-     * An invocation of the form
-     * <tt>MouseEvent(source, id, when, modifiers, x, y, clickCount, popupTrigger)</tt>
-     * behaves in exactly the same way as the invocation
-     * <tt> {@link #MouseEvent(Component, int, long, int, int, int,
-     * int, int, int, boolean, int) MouseEvent}(source, id, when, modifiers,
-     * x, y, xAbs, yAbs, clickCount, popupTrigger, MouseEvent.NOBUTTON)</tt>
-     * where xAbs and yAbs defines as source's location on screen plus
-     * relative coordinates x and y.
-     * xAbs and yAbs are set to zero if the source is not showing.
-     * This method throws an <code>IllegalArgumentException</code>
-     * if <code>source</code> is <code>null</code>.
+     * Construdts b <dodf>MousfEvfnt</dodf> objfdt witi tif
+     * spfdififd sourdf domponfnt,
+     * typf, modififrs, doordinbtfs, dlidk dount, bnd popupTriggfr flbg.
+     * An invodbtion of tif form
+     * <tt>MousfEvfnt(sourdf, id, wifn, modififrs, x, y, dlidkCount, popupTriggfr)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
+     * <tt> {@link #MousfEvfnt(Componfnt, int, long, int, int, int,
+     * int, int, int, boolfbn, int) MousfEvfnt}(sourdf, id, wifn, modififrs,
+     * x, y, xAbs, yAbs, dlidkCount, popupTriggfr, MousfEvfnt.NOBUTTON)</tt>
+     * wifrf xAbs bnd yAbs dffinfs bs sourdf's lodbtion on sdrffn plus
+     * rflbtivf doordinbtfs x bnd y.
+     * xAbs bnd yAbs brf sft to zfro if tif sourdf is not siowing.
+     * Tiis mftiod tirows bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
-     *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
-     *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
-     *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see #getSource()
-     * @see #getID()
-     * @see #getWhen()
-     * @see #getModifiers()
-     * @see #getX()
-     * @see #getY()
-     * @see #getClickCount()
-     * @see #isPopupTrigger()
+     * @pbrbm sourdf       Tif <dodf>Componfnt</dodf> tibt originbtfd tif fvfnt
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link MousfEvfnt}
+     * @pbrbm wifn         A long intfgfr tibt givfs tif timf tif fvfnt oddurrfd.
+     *                     Pbssing nfgbtivf or zfro vbluf
+     *                     is not rfdommfndfd
+     * @pbrbm modififrs    b modififr mbsk dfsdribing tif modififr kfys bnd mousf
+     *                     buttons (for fxbmplf, siift, dtrl, blt, bnd mftb) tibt
+     *                     brf down during tif fvfnt.
+     *                     Only fxtfndfd modififrs brf bllowfd to bf usfd bs b
+     *                     vbluf for tiis pbrbmftfr (sff tif {@link InputEvfnt#gftModififrsEx}
+     *                     dlbss for tif dfsdription of fxtfndfd modififrs).
+     *                     Pbssing nfgbtivf pbrbmftfr
+     *                     is not rfdommfndfd.
+     *                     Zfro vbluf mfbns tibt no modififrs wfrf pbssfd
+     * @pbrbm x            Tif iorizontbl x doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm y            Tif vfrtidbl y doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm dlidkCount   Tif numbfr of mousf dlidks bssodibtfd witi fvfnt.
+     *                       Pbssing nfgbtivf vbluf
+     *                       is not rfdommfndfd
+     * @pbrbm popupTriggfr A boolfbn tibt fqubls {@dodf truf} if tiis fvfnt
+     *                     is b triggfr for b popup mfnu
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftWifn()
+     * @sff #gftModififrs()
+     * @sff #gftX()
+     * @sff #gftY()
+     * @sff #gftClidkCount()
+     * @sff #isPopupTriggfr()
      */
-     public MouseEvent(Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger) {
-        this(source, id, when, modifiers, x, y, clickCount, popupTrigger, NOBUTTON);
+     publid MousfEvfnt(Componfnt sourdf, int id, long wifn, int modififrs,
+                      int x, int y, int dlidkCount, boolfbn popupTriggfr) {
+        tiis(sourdf, id, wifn, modififrs, x, y, dlidkCount, popupTriggfr, NOBUTTON);
      }
 
 
-    /* if the button is an extra button and it is released or clicked then in Xsystem its state
-       is not modified. Exclude this button number from ExtModifiers mask.*/
-    transient private boolean shouldExcludeButtonFromExtModifiers = false;
+    /* if tif button is bn fxtrb button bnd it is rflfbsfd or dlidkfd tifn in Xsystfm its stbtf
+       is not modififd. Exdludf tiis button numbfr from ExtModififrs mbsk.*/
+    trbnsifnt privbtf boolfbn siouldExdludfButtonFromExtModififrs = fblsf;
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public int getModifiersEx() {
-        int tmpModifiers = modifiers;
-        if (shouldExcludeButtonFromExtModifiers) {
-            tmpModifiers &= ~(InputEvent.getMaskForButton(getButton()));
+    publid int gftModififrsEx() {
+        int tmpModififrs = modififrs;
+        if (siouldExdludfButtonFromExtModififrs) {
+            tmpModififrs &= ~(InputEvfnt.gftMbskForButton(gftButton()));
         }
-        return tmpModifiers & ~JDK_1_3_MODIFIERS;
+        rfturn tmpModififrs & ~JDK_1_3_MODIFIERS;
     }
 
     /**
-     * Constructs a <code>MouseEvent</code> object with the
-     * specified source component,
-     * type, time, modifiers, coordinates, absolute coordinates, click count, popupTrigger flag,
-     * and button number.
+     * Construdts b <dodf>MousfEvfnt</dodf> objfdt witi tif
+     * spfdififd sourdf domponfnt,
+     * typf, timf, modififrs, doordinbtfs, bbsolutf doordinbtfs, dlidk dount, popupTriggfr flbg,
+     * bnd button numbfr.
      * <p>
-     * Creating an invalid event (such
-     * as by using more than one of the old _MASKs, or modifier/button
-     * values which don't match) results in unspecified behavior.
-     * Even if inconsistent values for relative and absolute coordinates are
-     * passed to the constructor, the mouse event instance is still
-     * created and no exception is thrown.
-     * This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Crfbting bn invblid fvfnt (sudi
+     * bs by using morf tibn onf of tif old _MASKs, or modififr/button
+     * vblufs wiidi don't mbtdi) rfsults in unspfdififd bfibvior.
+     * Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs brf
+     * pbssfd to tif donstrudtor, tif mousf fvfnt instbndf is still
+     * drfbtfd bnd no fxdfption is tirown.
+     * Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source       The <code>Component</code> that originated the event
-     * @param id              An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link MouseEvent}
-     * @param when         A long integer that gives the time the event occurred.
-     *                     Passing negative or zero value
-     *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
-     *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @param x            The horizontal x coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param y            The vertical y coordinate for the mouse location.
-     *                       It is allowed to pass negative values
-     * @param xAbs           The absolute horizontal x coordinate for the mouse location
-     *                       It is allowed to pass negative values
-     * @param yAbs           The absolute vertical y coordinate for the mouse location
-     *                       It is allowed to pass negative values
-     * @param clickCount   The number of mouse clicks associated with event.
-     *                       Passing negative value
-     *                       is not recommended
-     * @param popupTrigger A boolean that equals {@code true} if this event
-     *                     is a trigger for a popup menu
-     * @param button       An integer that indicates, which of the mouse buttons has
-     *                     changed its state.
-     * The following rules are applied to this parameter:
+     * @pbrbm sourdf       Tif <dodf>Componfnt</dodf> tibt originbtfd tif fvfnt
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link MousfEvfnt}
+     * @pbrbm wifn         A long intfgfr tibt givfs tif timf tif fvfnt oddurrfd.
+     *                     Pbssing nfgbtivf or zfro vbluf
+     *                     is not rfdommfndfd
+     * @pbrbm modififrs    b modififr mbsk dfsdribing tif modififr kfys bnd mousf
+     *                     buttons (for fxbmplf, siift, dtrl, blt, bnd mftb) tibt
+     *                     brf down during tif fvfnt.
+     *                     Only fxtfndfd modififrs brf bllowfd to bf usfd bs b
+     *                     vbluf for tiis pbrbmftfr (sff tif {@link InputEvfnt#gftModififrsEx}
+     *                     dlbss for tif dfsdription of fxtfndfd modififrs).
+     *                     Pbssing nfgbtivf pbrbmftfr
+     *                     is not rfdommfndfd.
+     *                     Zfro vbluf mfbns tibt no modififrs wfrf pbssfd
+     * @pbrbm x            Tif iorizontbl x doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm y            Tif vfrtidbl y doordinbtf for tif mousf lodbtion.
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm xAbs           Tif bbsolutf iorizontbl x doordinbtf for tif mousf lodbtion
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm yAbs           Tif bbsolutf vfrtidbl y doordinbtf for tif mousf lodbtion
+     *                       It is bllowfd to pbss nfgbtivf vblufs
+     * @pbrbm dlidkCount   Tif numbfr of mousf dlidks bssodibtfd witi fvfnt.
+     *                       Pbssing nfgbtivf vbluf
+     *                       is not rfdommfndfd
+     * @pbrbm popupTriggfr A boolfbn tibt fqubls {@dodf truf} if tiis fvfnt
+     *                     is b triggfr for b popup mfnu
+     * @pbrbm button       An intfgfr tibt indidbtfs, wiidi of tif mousf buttons ibs
+     *                     dibngfd its stbtf.
+     * Tif following rulfs brf bpplifd to tiis pbrbmftfr:
      * <ul>
-     * <li>If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects only with the standard buttons:
-     * {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, and
-     * {@code BUTTON3}.
-     * <li> If support for the extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to create {@code MouseEvent} objects with
-     * the standard buttons.
-     * In case the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java, then
-     * in addition to the standard buttons, {@code MouseEvent} objects can be created
-     * using buttons from the range starting from 4 to
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * if the mouse has more than three buttons.
+     * <li>If support for tif fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * tifn it is bllowfd to drfbtf {@dodf MousfEvfnt} objfdts only witi tif stbndbrd buttons:
+     * {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2}, bnd
+     * {@dodf BUTTON3}.
+     * <li> If support for tif fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * tifn it is bllowfd to drfbtf {@dodf MousfEvfnt} objfdts witi
+     * tif stbndbrd buttons.
+     * In dbsf tif support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb, tifn
+     * in bddition to tif stbndbrd buttons, {@dodf MousfEvfnt} objfdts dbn bf drfbtfd
+     * using buttons from tif rbngf stbrting from 4 to
+     * {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}
+     * if tif mousf ibs morf tibn tirff buttons.
      * </ul>
-     * @throws IllegalArgumentException if {@code button} is less then zero
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @throws IllegalArgumentException if {@code button} is greater then BUTTON3 and the support for extended mouse buttons is
-     *                                  {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if {@code button} is greater then the
-     *                                  {@link java.awt.MouseInfo#getNumberOfButtons() current number of buttons} and the support
-     *                                  for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled}
-     *                                  by Java
-     * @throws IllegalArgumentException if an invalid <code>button</code>
-     *            value is passed in
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see #getSource()
-     * @see #getID()
-     * @see #getWhen()
-     * @see #getModifiers()
-     * @see #getX()
-     * @see #getY()
-     * @see #getXOnScreen()
-     * @see #getYOnScreen()
-     * @see #getClickCount()
-     * @see #isPopupTrigger()
-     * @see #getButton()
-     * @see #button
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see InputEvent#getMaskForButton(int)
-     * @since 1.6
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is lfss tifn zfro
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is grfbtfr tifn BUTTON3 bnd tif support for fxtfndfd mousf buttons is
+     *                                  {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is grfbtfr tifn tif
+     *                                  {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() durrfnt numbfr of buttons} bnd tif support
+     *                                  for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd}
+     *                                  by Jbvb
+     * @tirows IllfgblArgumfntExdfption if bn invblid <dodf>button</dodf>
+     *            vbluf is pbssfd in
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftWifn()
+     * @sff #gftModififrs()
+     * @sff #gftX()
+     * @sff #gftY()
+     * @sff #gftXOnSdrffn()
+     * @sff #gftYOnSdrffn()
+     * @sff #gftClidkCount()
+     * @sff #isPopupTriggfr()
+     * @sff #gftButton()
+     * @sff #button
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff InputEvfnt#gftMbskForButton(int)
+     * @sindf 1.6
      */
-    public MouseEvent(Component source, int id, long when, int modifiers,
+    publid MousfEvfnt(Componfnt sourdf, int id, long wifn, int modififrs,
                       int x, int y, int xAbs, int yAbs,
-                      int clickCount, boolean popupTrigger, int button)
+                      int dlidkCount, boolfbn popupTriggfr, int button)
     {
-        super(source, id, when, modifiers);
-        this.x = x;
-        this.y = y;
-        this.xAbs = xAbs;
-        this.yAbs = yAbs;
-        this.clickCount = clickCount;
-        this.popupTrigger = popupTrigger;
+        supfr(sourdf, id, wifn, modififrs);
+        tiis.x = x;
+        tiis.y = y;
+        tiis.xAbs = xAbs;
+        tiis.yAbs = yAbs;
+        tiis.dlidkCount = dlidkCount;
+        tiis.popupTriggfr = popupTriggfr;
         if (button < NOBUTTON){
-            throw new IllegalArgumentException("Invalid button value :" + button);
+            tirow nfw IllfgblArgumfntExdfption("Invblid button vbluf :" + button);
         }
         if (button > BUTTON3) {
-            if (!Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled()){
-                throw new IllegalArgumentException("Extra mouse events are disabled " + button);
-            } else {
-                if (button > cachedNumberOfButtons) {
-                    throw new IllegalArgumentException("Nonexistent button " + button);
+            if (!Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd()){
+                tirow nfw IllfgblArgumfntExdfption("Extrb mousf fvfnts brf disbblfd " + button);
+            } flsf {
+                if (button > dbdifdNumbfrOfButtons) {
+                    tirow nfw IllfgblArgumfntExdfption("Nonfxistfnt button " + button);
                 }
             }
-            // XToolkit: extra buttons are not reporting about their state correctly.
-            // Being pressed they report the state=0 both on the press and on the release.
-            // For 1-3 buttons the state value equals zero on press and non-zero on release.
-            // Other modifiers like Shift, ALT etc seem report well with extra buttons.
-            // The problem reveals as follows: one button is pressed and then another button is pressed and released.
-            // So, the getModifiersEx() would not be zero due to a first button and we will skip this modifier.
-            // This may have to be moved into the peer code instead if possible.
+            // XToolkit: fxtrb buttons brf not rfporting bbout tifir stbtf dorrfdtly.
+            // Bfing prfssfd tify rfport tif stbtf=0 boti on tif prfss bnd on tif rflfbsf.
+            // For 1-3 buttons tif stbtf vbluf fqubls zfro on prfss bnd non-zfro on rflfbsf.
+            // Otifr modififrs likf Siift, ALT ftd sffm rfport wfll witi fxtrb buttons.
+            // Tif problfm rfvfbls bs follows: onf button is prfssfd bnd tifn bnotifr button is prfssfd bnd rflfbsfd.
+            // So, tif gftModififrsEx() would not bf zfro duf to b first button bnd wf will skip tiis modififr.
+            // Tiis mby ibvf to bf movfd into tif pffr dodf instfbd if possiblf.
 
-            if (getModifiersEx() != 0) { //There is at least one more button in a pressed state.
-                if (id == MouseEvent.MOUSE_RELEASED || id == MouseEvent.MOUSE_CLICKED){
-                    shouldExcludeButtonFromExtModifiers = true;
+            if (gftModififrsEx() != 0) { //Tifrf is bt lfbst onf morf button in b prfssfd stbtf.
+                if (id == MousfEvfnt.MOUSE_RELEASED || id == MousfEvfnt.MOUSE_CLICKED){
+                    siouldExdludfButtonFromExtModififrs = truf;
                 }
             }
         }
 
-        this.button = button;
+        tiis.button = button;
 
-        if ((getModifiers() != 0) && (getModifiersEx() == 0)) {
-            setNewModifiers();
-        } else if ((getModifiers() == 0) &&
-                   (getModifiersEx() != 0 || button != NOBUTTON) &&
+        if ((gftModififrs() != 0) && (gftModififrsEx() == 0)) {
+            sftNfwModififrs();
+        } flsf if ((gftModififrs() == 0) &&
+                   (gftModififrsEx() != 0 || button != NOBUTTON) &&
                    (button <= BUTTON3))
         {
-            setOldModifiers();
+            sftOldModififrs();
         }
     }
 
     /**
-     * Returns the horizontal x position of the event relative to the
-     * source component.
+     * Rfturns tif iorizontbl x position of tif fvfnt rflbtivf to tif
+     * sourdf domponfnt.
      *
-     * @return x  an integer indicating horizontal position relative to
-     *            the component
+     * @rfturn x  bn intfgfr indidbting iorizontbl position rflbtivf to
+     *            tif domponfnt
      */
-    public int getX() {
-        return x;
+    publid int gftX() {
+        rfturn x;
     }
 
     /**
-     * Returns the vertical y position of the event relative to the
-     * source component.
+     * Rfturns tif vfrtidbl y position of tif fvfnt rflbtivf to tif
+     * sourdf domponfnt.
      *
-     * @return y  an integer indicating vertical position relative to
-     *            the component
+     * @rfturn y  bn intfgfr indidbting vfrtidbl position rflbtivf to
+     *            tif domponfnt
      */
-    public int getY() {
-        return y;
+    publid int gftY() {
+        rfturn y;
     }
 
     /**
-     * Returns the x,y position of the event relative to the source component.
+     * Rfturns tif x,y position of tif fvfnt rflbtivf to tif sourdf domponfnt.
      *
-     * @return a <code>Point</code> object containing the x and y coordinates
-     *         relative to the source component
+     * @rfturn b <dodf>Point</dodf> objfdt dontbining tif x bnd y doordinbtfs
+     *         rflbtivf to tif sourdf domponfnt
      *
      */
-    public Point getPoint() {
+    publid Point gftPoint() {
         int x;
         int y;
-        synchronized (this) {
-            x = this.x;
-            y = this.y;
+        syndironizfd (tiis) {
+            x = tiis.x;
+            y = tiis.y;
         }
-        return new Point(x, y);
+        rfturn nfw Point(x, y);
     }
 
     /**
-     * Translates the event's coordinates to a new position
-     * by adding specified <code>x</code> (horizontal) and <code>y</code>
-     * (vertical) offsets.
+     * Trbnslbtfs tif fvfnt's doordinbtfs to b nfw position
+     * by bdding spfdififd <dodf>x</dodf> (iorizontbl) bnd <dodf>y</dodf>
+     * (vfrtidbl) offsfts.
      *
-     * @param x the horizontal x value to add to the current x
-     *          coordinate position
-     * @param y the vertical y value to add to the current y
-                coordinate position
+     * @pbrbm x tif iorizontbl x vbluf to bdd to tif durrfnt x
+     *          doordinbtf position
+     * @pbrbm y tif vfrtidbl y vbluf to bdd to tif durrfnt y
+                doordinbtf position
      */
-    public synchronized void translatePoint(int x, int y) {
-        this.x += x;
-        this.y += y;
+    publid syndironizfd void trbnslbtfPoint(int x, int y) {
+        tiis.x += x;
+        tiis.y += y;
     }
 
     /**
-     * Returns the number of mouse clicks associated with this event.
+     * Rfturns tif numbfr of mousf dlidks bssodibtfd witi tiis fvfnt.
      *
-     * @return integer value for the number of clicks
+     * @rfturn intfgfr vbluf for tif numbfr of dlidks
      */
-    public int getClickCount() {
-        return clickCount;
+    publid int gftClidkCount() {
+        rfturn dlidkCount;
     }
 
     /**
-     * Returns which, if any, of the mouse buttons has changed state.
-     * The returned value is ranged
-     * from 0 to the {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     * value.
-     * The returned value includes at least the following constants:
+     * Rfturns wiidi, if bny, of tif mousf buttons ibs dibngfd stbtf.
+     * Tif rfturnfd vbluf is rbngfd
+     * from 0 to tif {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}
+     * vbluf.
+     * Tif rfturnfd vbluf indludfs bt lfbst tif following donstbnts:
      * <ul>
-     * <li> {@code NOBUTTON}
-     * <li> {@code BUTTON1}
-     * <li> {@code BUTTON2}
-     * <li> {@code BUTTON3}
+     * <li> {@dodf NOBUTTON}
+     * <li> {@dodf BUTTON1}
+     * <li> {@dodf BUTTON2}
+     * <li> {@dodf BUTTON3}
      * </ul>
-     * It is allowed to use those constants to compare with the returned button number in the application.
-     * For example,
-     * <pre>
-     * if (anEvent.getButton() == MouseEvent.BUTTON1) {
-     * </pre>
-     * In particular, for a mouse with one, two, or three buttons this method may return the following values:
+     * It is bllowfd to usf tiosf donstbnts to dompbrf witi tif rfturnfd button numbfr in tif bpplidbtion.
+     * For fxbmplf,
+     * <prf>
+     * if (bnEvfnt.gftButton() == MousfEvfnt.BUTTON1) {
+     * </prf>
+     * In pbrtidulbr, for b mousf witi onf, two, or tirff buttons tiis mftiod mby rfturn tif following vblufs:
      * <ul>
-     * <li> 0 ({@code NOBUTTON})
-     * <li> 1 ({@code BUTTON1})
-     * <li> 2 ({@code BUTTON2})
-     * <li> 3 ({@code BUTTON3})
+     * <li> 0 ({@dodf NOBUTTON})
+     * <li> 1 ({@dodf BUTTON1})
+     * <li> 2 ({@dodf BUTTON2})
+     * <li> 3 ({@dodf BUTTON3})
      * </ul>
-     * Button numbers greater then {@code BUTTON3} have no constant identifier. So if a mouse with five buttons is
-     * installed, this method may return the following values:
+     * Button numbfrs grfbtfr tifn {@dodf BUTTON3} ibvf no donstbnt idfntififr. So if b mousf witi fivf buttons is
+     * instbllfd, tiis mftiod mby rfturn tif following vblufs:
      * <ul>
-     * <li> 0 ({@code NOBUTTON})
-     * <li> 1 ({@code BUTTON1})
-     * <li> 2 ({@code BUTTON2})
-     * <li> 3 ({@code BUTTON3})
+     * <li> 0 ({@dodf NOBUTTON})
+     * <li> 1 ({@dodf BUTTON1})
+     * <li> 2 ({@dodf BUTTON2})
+     * <li> 3 ({@dodf BUTTON3})
      * <li> 4
      * <li> 5
      * </ul>
      * <p>
-     * Note: If support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then the AWT event subsystem does not produce mouse events for the extended mouse
-     * buttons. So it is not expected that this method returns anything except {@code NOBUTTON}, {@code BUTTON1},
-     * {@code BUTTON2}, {@code BUTTON3}.
+     * Notf: If support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * tifn tif AWT fvfnt subsystfm dofs not produdf mousf fvfnts for tif fxtfndfd mousf
+     * buttons. So it is not fxpfdtfd tibt tiis mftiod rfturns bnytiing fxdfpt {@dodf NOBUTTON}, {@dodf BUTTON1},
+     * {@dodf BUTTON2}, {@dodf BUTTON3}.
      *
-     * @return one of the values from 0 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}
-     *         if support for the extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java.
-     *         That range includes {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2}, {@code BUTTON3};
+     * @rfturn onf of tif vblufs from 0 to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}
+     *         if support for tif fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb.
+     *         Tibt rbngf indludfs {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2}, {@dodf BUTTON3};
      *         <br>
-     *         {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2} or {@code BUTTON3}
-     *         if support for the extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @since 1.4
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see #MouseEvent(Component, int, long, int, int, int, int, int, int, boolean, int)
-     * @see InputEvent#getMaskForButton(int)
+     *         {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} or {@dodf BUTTON3}
+     *         if support for tif fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @sindf 1.4
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff #MousfEvfnt(Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sff InputEvfnt#gftMbskForButton(int)
      */
-    public int getButton() {
-        return button;
+    publid int gftButton() {
+        rfturn button;
     }
 
     /**
-     * Returns whether or not this mouse event is the popup menu
-     * trigger event for the platform.
-     * <p><b>Note</b>: Popup menus are triggered differently
-     * on different systems. Therefore, <code>isPopupTrigger</code>
-     * should be checked in both <code>mousePressed</code>
-     * and <code>mouseReleased</code>
-     * for proper cross-platform functionality.
+     * Rfturns wiftifr or not tiis mousf fvfnt is tif popup mfnu
+     * triggfr fvfnt for tif plbtform.
+     * <p><b>Notf</b>: Popup mfnus brf triggfrfd difffrfntly
+     * on difffrfnt systfms. Tifrfforf, <dodf>isPopupTriggfr</dodf>
+     * siould bf difdkfd in boti <dodf>mousfPrfssfd</dodf>
+     * bnd <dodf>mousfRflfbsfd</dodf>
+     * for propfr dross-plbtform fundtionblity.
      *
-     * @return boolean, true if this event is the popup menu trigger
-     *         for this platform
+     * @rfturn boolfbn, truf if tiis fvfnt is tif popup mfnu triggfr
+     *         for tiis plbtform
      */
-    public boolean isPopupTrigger() {
-        return popupTrigger;
+    publid boolfbn isPopupTriggfr() {
+        rfturn popupTriggfr;
     }
 
     /**
-     * Returns a <code>String</code> instance describing the modifier keys and
-     * mouse buttons that were down during the event, such as "Shift",
-     * or "Ctrl+Shift". These strings can be localized by changing
-     * the <code>awt.properties</code> file.
+     * Rfturns b <dodf>String</dodf> instbndf dfsdribing tif modififr kfys bnd
+     * mousf buttons tibt wfrf down during tif fvfnt, sudi bs "Siift",
+     * or "Ctrl+Siift". Tifsf strings dbn bf lodblizfd by dibnging
+     * tif <dodf>bwt.propfrtifs</dodf> filf.
      * <p>
-     * Note that the <code>InputEvent.ALT_MASK</code> and
-     * <code>InputEvent.BUTTON2_MASK</code> have equal values,
-     * so the "Alt" string is returned for both modifiers.  Likewise,
-     * the <code>InputEvent.META_MASK</code> and
-     * <code>InputEvent.BUTTON3_MASK</code> have equal values,
-     * so the "Meta" string is returned for both modifiers.
+     * Notf tibt tif <dodf>InputEvfnt.ALT_MASK</dodf> bnd
+     * <dodf>InputEvfnt.BUTTON2_MASK</dodf> ibvf fqubl vblufs,
+     * so tif "Alt" string is rfturnfd for boti modififrs.  Likfwisf,
+     * tif <dodf>InputEvfnt.META_MASK</dodf> bnd
+     * <dodf>InputEvfnt.BUTTON3_MASK</dodf> ibvf fqubl vblufs,
+     * so tif "Mftb" string is rfturnfd for boti modififrs.
      * <p>
-     * Note that passing negative parameter is incorrect,
-     * and will cause the returning an unspecified string.
-     * Zero parameter means that no modifiers were passed and will
-     * cause the returning an empty string.
+     * Notf tibt pbssing nfgbtivf pbrbmftfr is indorrfdt,
+     * bnd will dbusf tif rfturning bn unspfdififd string.
+     * Zfro pbrbmftfr mfbns tibt no modififrs wfrf pbssfd bnd will
+     * dbusf tif rfturning bn fmpty string.
      *
-     * @param modifiers A modifier mask describing the modifier keys and
-     *                  mouse buttons that were down during the event
-     * @return string   string text description of the combination of modifier
-     *                  keys and mouse buttons that were down during the event
-     * @see InputEvent#getModifiersExText(int)
-     * @since 1.4
+     * @pbrbm modififrs A modififr mbsk dfsdribing tif modififr kfys bnd
+     *                  mousf buttons tibt wfrf down during tif fvfnt
+     * @rfturn string   string tfxt dfsdription of tif dombinbtion of modififr
+     *                  kfys bnd mousf buttons tibt wfrf down during tif fvfnt
+     * @sff InputEvfnt#gftModififrsExTfxt(int)
+     * @sindf 1.4
      */
-    public static String getMouseModifiersText(int modifiers) {
-        StringBuilder buf = new StringBuilder();
-        if ((modifiers & InputEvent.ALT_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.alt", "Alt"));
-            buf.append("+");
+    publid stbtid String gftMousfModififrsTfxt(int modififrs) {
+        StringBuildfr buf = nfw StringBuildfr();
+        if ((modififrs & InputEvfnt.ALT_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.blt", "Alt"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.META_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.meta", "Meta"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.META_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.mftb", "Mftb"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.control", "Ctrl"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.CTRL_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.dontrol", "Ctrl"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.shift", "Shift"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.SHIFT_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.siift", "Siift"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.ALT_GRAPH_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.altGraph", "Alt Graph"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.ALT_GRAPH_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.bltGrbpi", "Alt Grbpi"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.BUTTON1_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button1", "Button1"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.BUTTON1_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.button1", "Button1"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.BUTTON2_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button2", "Button2"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.BUTTON2_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.button2", "Button2"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.BUTTON3_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.button3", "Button3"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.BUTTON3_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.button3", "Button3"));
+            buf.bppfnd("+");
         }
 
-        int mask;
+        int mbsk;
 
-        // TODO: add a toolkit field that holds a number of button on the mouse.
-        // As the method getMouseModifiersText() is static and obtain
-        // an integer as a parameter then we may not restrict this with the number
-        // of buttons installed on the mouse.
-        // It's a temporary solution. We need to somehow hold the number of buttons somewhere else.
-        for (int i = 1; i <= cachedNumberOfButtons; i++){
-            mask = InputEvent.getMaskForButton(i);
-            if ((modifiers & mask) != 0 &&
-                buf.indexOf(Toolkit.getProperty("AWT.button"+i, "Button"+i)) == -1) //1,2,3 buttons may already be there; so don't duplicate it.
+        // TODO: bdd b toolkit fifld tibt iolds b numbfr of button on tif mousf.
+        // As tif mftiod gftMousfModififrsTfxt() is stbtid bnd obtbin
+        // bn intfgfr bs b pbrbmftfr tifn wf mby not rfstridt tiis witi tif numbfr
+        // of buttons instbllfd on tif mousf.
+        // It's b tfmporbry solution. Wf nffd to somfiow iold tif numbfr of buttons somfwifrf flsf.
+        for (int i = 1; i <= dbdifdNumbfrOfButtons; i++){
+            mbsk = InputEvfnt.gftMbskForButton(i);
+            if ((modififrs & mbsk) != 0 &&
+                buf.indfxOf(Toolkit.gftPropfrty("AWT.button"+i, "Button"+i)) == -1) //1,2,3 buttons mby blrfbdy bf tifrf; so don't duplidbtf it.
             {
-                buf.append(Toolkit.getProperty("AWT.button"+i, "Button"+i));
-                buf.append("+");
+                buf.bppfnd(Toolkit.gftPropfrty("AWT.button"+i, "Button"+i));
+                buf.bppfnd("+");
             }
         }
 
-        if (buf.length() > 0) {
-            buf.setLength(buf.length()-1); // remove trailing '+'
+        if (buf.lfngti() > 0) {
+            buf.sftLfngti(buf.lfngti()-1); // rfmovf trbiling '+'
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
      *
-     * @return a string identifying the event and its attributes
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
      */
-    public String paramString() {
-        StringBuilder str = new StringBuilder(80);
+    publid String pbrbmString() {
+        StringBuildfr str = nfw StringBuildfr(80);
 
-        switch(id) {
-          case MOUSE_PRESSED:
-              str.append("MOUSE_PRESSED");
-              break;
-          case MOUSE_RELEASED:
-              str.append("MOUSE_RELEASED");
-              break;
-          case MOUSE_CLICKED:
-              str.append("MOUSE_CLICKED");
-              break;
-          case MOUSE_ENTERED:
-              str.append("MOUSE_ENTERED");
-              break;
-          case MOUSE_EXITED:
-              str.append("MOUSE_EXITED");
-              break;
-          case MOUSE_MOVED:
-              str.append("MOUSE_MOVED");
-              break;
-          case MOUSE_DRAGGED:
-              str.append("MOUSE_DRAGGED");
-              break;
-          case MOUSE_WHEEL:
-              str.append("MOUSE_WHEEL");
-              break;
-           default:
-              str.append("unknown type");
+        switdi(id) {
+          dbsf MOUSE_PRESSED:
+              str.bppfnd("MOUSE_PRESSED");
+              brfbk;
+          dbsf MOUSE_RELEASED:
+              str.bppfnd("MOUSE_RELEASED");
+              brfbk;
+          dbsf MOUSE_CLICKED:
+              str.bppfnd("MOUSE_CLICKED");
+              brfbk;
+          dbsf MOUSE_ENTERED:
+              str.bppfnd("MOUSE_ENTERED");
+              brfbk;
+          dbsf MOUSE_EXITED:
+              str.bppfnd("MOUSE_EXITED");
+              brfbk;
+          dbsf MOUSE_MOVED:
+              str.bppfnd("MOUSE_MOVED");
+              brfbk;
+          dbsf MOUSE_DRAGGED:
+              str.bppfnd("MOUSE_DRAGGED");
+              brfbk;
+          dbsf MOUSE_WHEEL:
+              str.bppfnd("MOUSE_WHEEL");
+              brfbk;
+           dffbult:
+              str.bppfnd("unknown typf");
         }
 
-        // (x,y) coordinates
-        str.append(",(").append(x).append(",").append(y).append(")");
-        str.append(",absolute(").append(xAbs).append(",").append(yAbs).append(")");
+        // (x,y) doordinbtfs
+        str.bppfnd(",(").bppfnd(x).bppfnd(",").bppfnd(y).bppfnd(")");
+        str.bppfnd(",bbsolutf(").bppfnd(xAbs).bppfnd(",").bppfnd(yAbs).bppfnd(")");
 
         if (id != MOUSE_DRAGGED && id != MOUSE_MOVED){
-            str.append(",button=").append(getButton());
+            str.bppfnd(",button=").bppfnd(gftButton());
         }
 
-        if (getModifiers() != 0) {
-            str.append(",modifiers=").append(getMouseModifiersText(modifiers));
+        if (gftModififrs() != 0) {
+            str.bppfnd(",modififrs=").bppfnd(gftMousfModififrsTfxt(modififrs));
         }
 
-        if (getModifiersEx() != 0) {
-            //Using plain "modifiers" here does show an excluded extended buttons in the string event representation.
-            //getModifiersEx() solves the problem.
-            str.append(",extModifiers=").append(getModifiersExText(getModifiersEx()));
+        if (gftModififrsEx() != 0) {
+            //Using plbin "modififrs" ifrf dofs siow bn fxdludfd fxtfndfd buttons in tif string fvfnt rfprfsfntbtion.
+            //gftModififrsEx() solvfs tif problfm.
+            str.bppfnd(",fxtModififrs=").bppfnd(gftModififrsExTfxt(gftModififrsEx()));
         }
 
-        str.append(",clickCount=").append(clickCount);
+        str.bppfnd(",dlidkCount=").bppfnd(dlidkCount);
 
-        return str.toString();
+        rfturn str.toString();
     }
 
     /**
-     * Sets new modifiers by the old ones.
-     * Also sets button.
+     * Sfts nfw modififrs by tif old onfs.
+     * Also sfts button.
      */
-    private void setNewModifiers() {
-        if ((modifiers & BUTTON1_MASK) != 0) {
-            modifiers |= BUTTON1_DOWN_MASK;
+    privbtf void sftNfwModififrs() {
+        if ((modififrs & BUTTON1_MASK) != 0) {
+            modififrs |= BUTTON1_DOWN_MASK;
         }
-        if ((modifiers & BUTTON2_MASK) != 0) {
-            modifiers |= BUTTON2_DOWN_MASK;
+        if ((modififrs & BUTTON2_MASK) != 0) {
+            modififrs |= BUTTON2_DOWN_MASK;
         }
-        if ((modifiers & BUTTON3_MASK) != 0) {
-            modifiers |= BUTTON3_DOWN_MASK;
+        if ((modififrs & BUTTON3_MASK) != 0) {
+            modififrs |= BUTTON3_DOWN_MASK;
         }
         if (id == MOUSE_PRESSED
             || id == MOUSE_RELEASED
             || id == MOUSE_CLICKED)
         {
-            if ((modifiers & BUTTON1_MASK) != 0) {
+            if ((modififrs & BUTTON1_MASK) != 0) {
                 button = BUTTON1;
-                modifiers &= ~BUTTON2_MASK & ~BUTTON3_MASK;
+                modififrs &= ~BUTTON2_MASK & ~BUTTON3_MASK;
                 if (id != MOUSE_PRESSED) {
-                    modifiers &= ~BUTTON1_DOWN_MASK;
+                    modififrs &= ~BUTTON1_DOWN_MASK;
                 }
-            } else if ((modifiers & BUTTON2_MASK) != 0) {
+            } flsf if ((modififrs & BUTTON2_MASK) != 0) {
                 button = BUTTON2;
-                modifiers &= ~BUTTON1_MASK & ~BUTTON3_MASK;
+                modififrs &= ~BUTTON1_MASK & ~BUTTON3_MASK;
                 if (id != MOUSE_PRESSED) {
-                    modifiers &= ~BUTTON2_DOWN_MASK;
+                    modififrs &= ~BUTTON2_DOWN_MASK;
                 }
-            } else if ((modifiers & BUTTON3_MASK) != 0) {
+            } flsf if ((modififrs & BUTTON3_MASK) != 0) {
                 button = BUTTON3;
-                modifiers &= ~BUTTON1_MASK & ~BUTTON2_MASK;
+                modififrs &= ~BUTTON1_MASK & ~BUTTON2_MASK;
                 if (id != MOUSE_PRESSED) {
-                    modifiers &= ~BUTTON3_DOWN_MASK;
+                    modififrs &= ~BUTTON3_DOWN_MASK;
                 }
             }
         }
-        if ((modifiers & InputEvent.ALT_MASK) != 0) {
-            modifiers |= InputEvent.ALT_DOWN_MASK;
+        if ((modififrs & InputEvfnt.ALT_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_DOWN_MASK;
         }
-        if ((modifiers & InputEvent.META_MASK) != 0) {
-            modifiers |= InputEvent.META_DOWN_MASK;
+        if ((modififrs & InputEvfnt.META_MASK) != 0) {
+            modififrs |= InputEvfnt.META_DOWN_MASK;
         }
-        if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-            modifiers |= InputEvent.SHIFT_DOWN_MASK;
+        if ((modififrs & InputEvfnt.SHIFT_MASK) != 0) {
+            modififrs |= InputEvfnt.SHIFT_DOWN_MASK;
         }
-        if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-            modifiers |= InputEvent.CTRL_DOWN_MASK;
+        if ((modififrs & InputEvfnt.CTRL_MASK) != 0) {
+            modififrs |= InputEvfnt.CTRL_DOWN_MASK;
         }
-        if ((modifiers & InputEvent.ALT_GRAPH_MASK) != 0) {
-            modifiers |= InputEvent.ALT_GRAPH_DOWN_MASK;
+        if ((modififrs & InputEvfnt.ALT_GRAPH_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_GRAPH_DOWN_MASK;
         }
     }
 
     /**
-     * Sets old modifiers by the new ones.
+     * Sfts old modififrs by tif nfw onfs.
      */
-    private void setOldModifiers() {
+    privbtf void sftOldModififrs() {
         if (id == MOUSE_PRESSED
             || id == MOUSE_RELEASED
             || id == MOUSE_CLICKED)
         {
-            switch(button) {
-            case BUTTON1:
-                modifiers |= BUTTON1_MASK;
-                break;
-            case BUTTON2:
-                modifiers |= BUTTON2_MASK;
-                break;
-            case BUTTON3:
-                modifiers |= BUTTON3_MASK;
-                break;
+            switdi(button) {
+            dbsf BUTTON1:
+                modififrs |= BUTTON1_MASK;
+                brfbk;
+            dbsf BUTTON2:
+                modififrs |= BUTTON2_MASK;
+                brfbk;
+            dbsf BUTTON3:
+                modififrs |= BUTTON3_MASK;
+                brfbk;
             }
-        } else {
-            if ((modifiers & BUTTON1_DOWN_MASK) != 0) {
-                modifiers |= BUTTON1_MASK;
+        } flsf {
+            if ((modififrs & BUTTON1_DOWN_MASK) != 0) {
+                modififrs |= BUTTON1_MASK;
             }
-            if ((modifiers & BUTTON2_DOWN_MASK) != 0) {
-                modifiers |= BUTTON2_MASK;
+            if ((modififrs & BUTTON2_DOWN_MASK) != 0) {
+                modififrs |= BUTTON2_MASK;
             }
-            if ((modifiers & BUTTON3_DOWN_MASK) != 0) {
-                modifiers |= BUTTON3_MASK;
+            if ((modififrs & BUTTON3_DOWN_MASK) != 0) {
+                modififrs |= BUTTON3_MASK;
             }
         }
-        if ((modifiers & ALT_DOWN_MASK) != 0) {
-            modifiers |= ALT_MASK;
+        if ((modififrs & ALT_DOWN_MASK) != 0) {
+            modififrs |= ALT_MASK;
         }
-        if ((modifiers & META_DOWN_MASK) != 0) {
-            modifiers |= META_MASK;
+        if ((modififrs & META_DOWN_MASK) != 0) {
+            modififrs |= META_MASK;
         }
-        if ((modifiers & SHIFT_DOWN_MASK) != 0) {
-            modifiers |= SHIFT_MASK;
+        if ((modififrs & SHIFT_DOWN_MASK) != 0) {
+            modififrs |= SHIFT_MASK;
         }
-        if ((modifiers & CTRL_DOWN_MASK) != 0) {
-            modifiers |= CTRL_MASK;
+        if ((modififrs & CTRL_DOWN_MASK) != 0) {
+            modififrs |= CTRL_MASK;
         }
-        if ((modifiers & ALT_GRAPH_DOWN_MASK) != 0) {
-            modifiers |= ALT_GRAPH_MASK;
+        if ((modififrs & ALT_GRAPH_DOWN_MASK) != 0) {
+            modififrs |= ALT_GRAPH_MASK;
         }
     }
 
     /**
-     * Sets new modifiers by the old ones.
-     * @serial
+     * Sfts nfw modififrs by tif old onfs.
+     * @sfribl
      */
-    private void readObject(ObjectInputStream s)
-      throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        if (getModifiers() != 0 && getModifiersEx() == 0) {
-            setNewModifiers();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        if (gftModififrs() != 0 && gftModififrsEx() == 0) {
+            sftNfwModififrs();
         }
     }
 }

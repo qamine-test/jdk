@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * This is b support dlbss to mbkf it fbsifr for pfoplf to providf
+ * BfbnInfo dlbssfs.
+ * <p>
+ * It dffbults to providing "noop" informbtion, bnd dbn bf sflfdtivfly
+ * ovfrridfn to providf morf fxplidit informbtion on dhosfn topids.
+ * Whfn thf introspfdtor sffs thf "noop" vblufs, it will bpply low
+ * lfvfl introspfdtion bnd dfsign pbttfrns to butombtidblly bnblyzf
+ * thf tbrgft bfbn.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss SimplfBfbnInfo implfmfnts BfbnInfo {
+
+    /**
+     * Dfny knowlfdgf bbout thf dlbss bnd dustomizfr of thf bfbn.
+     * You dbn ovfrridf this if you wish to providf fxplidit info.
+     */
+    publid BfbnDfsdriptor gftBfbnDfsdriptor() {
+        rfturn null;
+    }
+
+    /**
+     * Dfny knowlfdgf of propfrtifs. You dbn ovfrridf this
+     * if you wish to providf fxplidit propfrty info.
+     */
+    publid PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors() {
+        rfturn null;
+    }
+
+    /**
+     * Dfny knowlfdgf of b dffbult propfrty. You dbn ovfrridf this
+     * if you wish to dffinf b dffbult propfrty for thf bfbn.
+     */
+    publid int gftDffbultPropfrtyIndfx() {
+        rfturn -1;
+    }
+
+    /**
+     * Dfny knowlfdgf of fvfnt sfts. You dbn ovfrridf this
+     * if you wish to providf fxplidit fvfnt sft info.
+     */
+    publid EvfntSftDfsdriptor[] gftEvfntSftDfsdriptors() {
+        rfturn null;
+    }
+
+    /**
+     * Dfny knowlfdgf of b dffbult fvfnt. You dbn ovfrridf this
+     * if you wish to dffinf b dffbult fvfnt for thf bfbn.
+     */
+    publid int gftDffbultEvfntIndfx() {
+        rfturn -1;
+    }
+
+    /**
+     * Dfny knowlfdgf of mfthods. You dbn ovfrridf this
+     * if you wish to providf fxplidit mfthod info.
+     */
+    publid MfthodDfsdriptor[] gftMfthodDfsdriptors() {
+        rfturn null;
+    }
+
+    /**
+     * Clbim thfrf brf no othfr rflfvbnt BfbnInfo objfdts.  You
+     * mby ovfrridf this if you wbnt to (for fxbmplf) rfturn b
+     * BfbnInfo for b bbsf dlbss.
+     */
+    publid BfbnInfo[] gftAdditionblBfbnInfo() {
+        rfturn null;
+    }
+
+    /**
+     * Clbim thfrf brf no idons bvbilbblf.  You dbn ovfrridf
+     * this if you wbnt to providf idons for your bfbn.
+     */
+    publid jbvb.bwt.Imbgf gftIdon(int idonKind) {
+        rfturn null;
+    }
+
+    /**
+     * This is b utility mfthod to hflp in lobding idon imbgfs.
+     * It tbkfs thf nbmf of b rfsourdf filf bssodibtfd with thf
+     * durrfnt objfdt's dlbss filf bnd lobds bn imbgf objfdt
+     * from thbt filf.  Typidblly imbgfs will bf GIFs.
+     *
+     * @pbrbm rfsourdfNbmf  A pbthnbmf rflbtivf to thf dirfdtory
+     *          holding thf dlbss filf of thf durrfnt dlbss.  For fxbmplf,
+     *          "wombbt.gif".
+     * @rfturn  bn imbgf objfdt.  Mby bf null if thf lobd fbilfd.
+     */
+    publid jbvb.bwt.Imbgf lobdImbgf(finbl String rfsourdfNbmf) {
+        try {
+            finbl Clbss<?> d = gftClbss();
+            jbvb.bwt.imbgf.ImbgfProdudfr ip = (jbvb.bwt.imbgf.ImbgfProdudfr)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        jbvb.nft.URL url;
+                        if ((url = d.gftRfsourdf(rfsourdfNbmf)) == null) {
+                            rfturn null;
+                        } flsf {
+                            try {
+                                rfturn url.gftContfnt();
+                            } dbtdh (jbvb.io.IOExdfption iof) {
+                                rfturn null;
+                            }
+                        }
+                    }
+            });
+
+            if (ip == null)
+                rfturn null;
+            jbvb.bwt.Toolkit tk = jbvb.bwt.Toolkit.gftDffbultToolkit();
+            rfturn tk.drfbtfImbgf(ip);
+        } dbtdh (Exdfption fx) {
+            rfturn null;
+        }
+    }
+
+}

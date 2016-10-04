@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * A {@code BooleanControl} provides the ability to switch between two possible
- * settings that affect a line's audio. The settings are boolean values
- * ({@code true} and {@code false}). A graphical user interface might represent
- * the control by a two-state button, an on/off switch, two mutually exclusive
- * buttons, or a checkbox (among other possibilities). For example, depressing a
- * button might activate a {@link BooleanControl.Type#MUTE MUTE} control to
- * silence the line's audio.
+ * A {@dodf BoolfbnControl} providfs tif bbility to switdi bftwffn two possiblf
+ * sfttings tibt bfffdt b linf's budio. Tif sfttings brf boolfbn vblufs
+ * ({@dodf truf} bnd {@dodf fblsf}). A grbpiidbl usfr intfrfbdf migit rfprfsfnt
+ * tif dontrol by b two-stbtf button, bn on/off switdi, two mutublly fxdlusivf
+ * buttons, or b difdkbox (bmong otifr possibilitifs). For fxbmplf, dfprfssing b
+ * button migit bdtivbtf b {@link BoolfbnControl.Typf#MUTE MUTE} dontrol to
+ * silfndf tif linf's budio.
  * <p>
- * As with other {@code Control} subclasses, a method is provided that returns
- * string labels for the values, suitable for display in the user interface.
+ * As witi otifr {@dodf Control} subdlbssfs, b mftiod is providfd tibt rfturns
+ * string lbbfls for tif vblufs, suitbblf for displby in tif usfr intfrfbdf.
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public abstract class BooleanControl extends Control {
+publid bbstrbdt dlbss BoolfbnControl fxtfnds Control {
 
     /**
-     * The {@code true} state label, such as "true" or "on".
+     * Tif {@dodf truf} stbtf lbbfl, sudi bs "truf" or "on".
      */
-    private final String trueStateLabel;
+    privbtf finbl String trufStbtfLbbfl;
 
     /**
-     * The {@code false} state label, such as "false" or "off".
+     * Tif {@dodf fblsf} stbtf lbbfl, sudi bs "fblsf" or "off".
      */
-    private final String falseStateLabel;
+    privbtf finbl String fblsfStbtfLbbfl;
 
     /**
-     * The current value.
+     * Tif durrfnt vbluf.
      */
-    private boolean value;
+    privbtf boolfbn vbluf;
 
     /**
-     * Constructs a new boolean control object with the given parameters.
+     * Construdts b nfw boolfbn dontrol objfdt witi tif givfn pbrbmftfrs.
      *
-     * @param  type the type of control represented this float control object
-     * @param  initialValue the initial control value
-     * @param  trueStateLabel the label for the state represented by
-     *         {@code true}, such as "true" or "on"
-     * @param  falseStateLabel the label for the state represented by
-     *         {@code false}, such as "false" or "off"
+     * @pbrbm  typf tif typf of dontrol rfprfsfntfd tiis flobt dontrol objfdt
+     * @pbrbm  initiblVbluf tif initibl dontrol vbluf
+     * @pbrbm  trufStbtfLbbfl tif lbbfl for tif stbtf rfprfsfntfd by
+     *         {@dodf truf}, sudi bs "truf" or "on"
+     * @pbrbm  fblsfStbtfLbbfl tif lbbfl for tif stbtf rfprfsfntfd by
+     *         {@dodf fblsf}, sudi bs "fblsf" or "off"
      */
-    protected BooleanControl(Type type, boolean initialValue, String trueStateLabel, String falseStateLabel) {
+    protfdtfd BoolfbnControl(Typf typf, boolfbn initiblVbluf, String trufStbtfLbbfl, String fblsfStbtfLbbfl) {
 
-        super(type);
-        this.value = initialValue;
-        this.trueStateLabel = trueStateLabel;
-        this.falseStateLabel = falseStateLabel;
+        supfr(typf);
+        tiis.vbluf = initiblVbluf;
+        tiis.trufStbtfLbbfl = trufStbtfLbbfl;
+        tiis.fblsfStbtfLbbfl = fblsfStbtfLbbfl;
     }
 
     /**
-     * Constructs a new boolean control object with the given parameters. The
-     * labels for the {@code true} and {@code false} states default to "true"
-     * and "false".
+     * Construdts b nfw boolfbn dontrol objfdt witi tif givfn pbrbmftfrs. Tif
+     * lbbfls for tif {@dodf truf} bnd {@dodf fblsf} stbtfs dffbult to "truf"
+     * bnd "fblsf".
      *
-     * @param  type the type of control represented by this float control object
-     * @param  initialValue the initial control value
+     * @pbrbm  typf tif typf of dontrol rfprfsfntfd by tiis flobt dontrol objfdt
+     * @pbrbm  initiblVbluf tif initibl dontrol vbluf
      */
-    protected BooleanControl(Type type, boolean initialValue) {
-        this(type, initialValue, "true", "false");
+    protfdtfd BoolfbnControl(Typf typf, boolfbn initiblVbluf) {
+        tiis(typf, initiblVbluf, "truf", "fblsf");
     }
 
     /**
-     * Sets the current value for the control. The default implementation simply
-     * sets the value as indicated. Some controls require that their line be
-     * open before they can be affected by setting a value.
+     * Sfts tif durrfnt vbluf for tif dontrol. Tif dffbult implfmfntbtion simply
+     * sfts tif vbluf bs indidbtfd. Somf dontrols rfquirf tibt tifir linf bf
+     * opfn bfforf tify dbn bf bfffdtfd by sftting b vbluf.
      *
-     * @param  value desired new value
+     * @pbrbm  vbluf dfsirfd nfw vbluf
      */
-    public void setValue(boolean value) {
-        this.value = value;
+    publid void sftVbluf(boolfbn vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Obtains this control's current value.
+     * Obtbins tiis dontrol's durrfnt vbluf.
      *
-     * @return current value
+     * @rfturn durrfnt vbluf
      */
-    public boolean getValue() {
-        return value;
+    publid boolfbn gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Obtains the label for the specified state.
+     * Obtbins tif lbbfl for tif spfdififd stbtf.
      *
-     * @param  state the state whose label will be returned
-     * @return the label for the specified state, such as "true" or "on" for
-     *         {@code true}, or "false" or "off" for {@code false}
+     * @pbrbm  stbtf tif stbtf wiosf lbbfl will bf rfturnfd
+     * @rfturn tif lbbfl for tif spfdififd stbtf, sudi bs "truf" or "on" for
+     *         {@dodf truf}, or "fblsf" or "off" for {@dodf fblsf}
      */
-    public String getStateLabel(boolean state) {
-        return ((state == true) ? trueStateLabel : falseStateLabel);
+    publid String gftStbtfLbbfl(boolfbn stbtf) {
+        rfturn ((stbtf == truf) ? trufStbtfLbbfl : fblsfStbtfLbbfl);
     }
 
     /**
-     * Provides a string representation of the control.
+     * Providfs b string rfprfsfntbtion of tif dontrol.
      *
-     * @return a string description
+     * @rfturn b string dfsdription
      */
-    @Override
-    public String toString() {
-        return new String(super.toString() + " with current value: " + getStateLabel(getValue()));
+    @Ovfrridf
+    publid String toString() {
+        rfturn nfw String(supfr.toString() + " witi durrfnt vbluf: " + gftStbtfLbbfl(gftVbluf()));
     }
 
     /**
-     * An instance of the {@code BooleanControl.Type} class identifies one kind
-     * of boolean control. Static instances are provided for the common types.
+     * An instbndf of tif {@dodf BoolfbnControl.Typf} dlbss idfntififs onf kind
+     * of boolfbn dontrol. Stbtid instbndfs brf providfd for tif dommon typfs.
      *
-     * @author Kara Kytle
-     * @since 1.3
+     * @butior Kbrb Kytlf
+     * @sindf 1.3
      */
-    public static class Type extends Control.Type {
+    publid stbtid dlbss Typf fxtfnds Control.Typf {
 
         /**
-         * Represents a control for the mute status of a line. Note that mute
-         * status does not affect gain.
+         * Rfprfsfnts b dontrol for tif mutf stbtus of b linf. Notf tibt mutf
+         * stbtus dofs not bfffdt gbin.
          */
-        public static final Type MUTE                           = new Type("Mute");
+        publid stbtid finbl Typf MUTE                           = nfw Typf("Mutf");
 
         /**
-         * Represents a control for whether reverberation is applied to a line.
-         * Note that the status of this control not affect the reverberation
-         * settings for a line, but does affect whether these settings are used.
+         * Rfprfsfnts b dontrol for wiftifr rfvfrbfrbtion is bpplifd to b linf.
+         * Notf tibt tif stbtus of tiis dontrol not bfffdt tif rfvfrbfrbtion
+         * sfttings for b linf, but dofs bfffdt wiftifr tifsf sfttings brf usfd.
          */
-        public static final Type APPLY_REVERB           = new Type("Apply Reverb");
+        publid stbtid finbl Typf APPLY_REVERB           = nfw Typf("Apply Rfvfrb");
 
         /**
-         * Constructs a new boolean control type.
+         * Construdts b nfw boolfbn dontrol typf.
          *
-         * @param name the name of the new boolean control type
+         * @pbrbm nbmf tif nbmf of tif nfw boolfbn dontrol typf
          */
-        protected Type(final String name) {
-            super(name);
+        protfdtfd Typf(finbl String nbmf) {
+            supfr(nbmf);
         }
     }
 }

@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Linux spfdifid systfm dblls.
+ */
+
+dlbss LinuxNbtivfDispbtdhfr fxtfnds UnixNbtivfDispbtdhfr {
+    privbtf LinuxNbtivfDispbtdhfr() { }
+
+   /**
+    * FILE *sftmntfnt(donst dhbr *filfnbmf, donst dhbr *typf);
+    */
+    stbtid long sftmntfnt(bytf[] filfnbmf, bytf[] typf) throws UnixExdfption {
+        NbtivfBufffr pbthBufffr = NbtivfBufffrs.bsNbtivfBufffr(filfnbmf);
+        NbtivfBufffr typfBufffr = NbtivfBufffrs.bsNbtivfBufffr(typf);
+        try {
+            rfturn sftmntfnt0(pbthBufffr.bddrfss(), typfBufffr.bddrfss());
+        } finblly {
+            typfBufffr.rflfbsf();
+            pbthBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long sftmntfnt0(long pbthAddrfss, long typfAddrfss)
+        throws UnixExdfption;
+
+    /**
+     * int gftmntfnt(FILE *fp, strudt mnttbb *mp, int lfn);
+     */
+    stbtid nbtivf int gftmntfnt(long fp, UnixMountEntry fntry)
+        throws UnixExdfption;
+
+    /**
+     * int fndmntfnt(FILE* filfp);
+     */
+    stbtid nbtivf void fndmntfnt(long strfbm) throws UnixExdfption;
+
+    /**
+     * ssizf_t fgftxbttr(int filfdfs, donst dhbr *nbmf, void *vbluf, sizf_t sizf);
+     */
+    stbtid int fgftxbttr(int filfdfs, bytf[] nbmf, long vblufAddrfss,
+                         int vblufLfn) throws UnixExdfption
+    {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
+        try {
+            rfturn fgftxbttr0(filfdfs, bufffr.bddrfss(), vblufAddrfss, vblufLfn);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid nbtivf int fgftxbttr0(int filfdfs, long nbmfAddrfss,
+        long vblufAddrfss, int vblufLfn) throws UnixExdfption;
+
+    /**
+     *  fsftxbttr(int filfdfs, donst dhbr *nbmf, donst void *vbluf, sizf_t sizf, int flbgs);
+     */
+    stbtid void fsftxbttr(int filfdfs, bytf[] nbmf, long vblufAddrfss,
+        int vblufLfn) throws UnixExdfption
+    {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
+        try {
+            fsftxbttr0(filfdfs, bufffr.bddrfss(), vblufAddrfss, vblufLfn);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid nbtivf void fsftxbttr0(int filfdfs, long nbmfAddrfss,
+        long vblufAddrfss, int vblufLfn) throws UnixExdfption;
+
+    /**
+     * frfmovfxbttr(int filfdfs, donst dhbr *nbmf);
+     */
+    stbtid void frfmovfxbttr(int filfdfs, bytf[] nbmf) throws UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
+        try {
+            frfmovfxbttr0(filfdfs, bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid nbtivf void frfmovfxbttr0(int filfdfs, long nbmfAddrfss)
+        throws UnixExdfption;
+
+    /**
+     * sizf_t flistxbttr(int filfdfs, donst dhbr *list, sizf_t sizf)
+     */
+    stbtid nbtivf int flistxbttr(int filfdfs, long listAddrfss, int sizf)
+        throws UnixExdfption;
+
+    // initiblizf
+    privbtf stbtid nbtivf void init();
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+        }});
+        init();
+    }
+}

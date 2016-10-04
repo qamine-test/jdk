@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvbx.nft.ssl.SSLHbndshbkfExdfption;
+
+/*
+ * Mfssbgf usfd by dlifnts to sfnd thfir Diffif-Hfllmbn publid
+ * kfys to sfrvfrs.
+ *
+ * @buthor Dbvid Brownfll
+ */
+finbl dlbss DHClifntKfyExdhbngf fxtfnds HbndshbkfMfssbgf {
+
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn ht_dlifnt_kfy_fxdhbngf;
+    }
+
+    /*
+     * This vbluf mby bf fmpty if it wbs indludfd in thf
+     * dlifnt's dfrtifidbtf ...
+     */
+    privbtf bytf dh_Yd[];               // 1 to 2^16 -1 bytfs
+
+    BigIntfgfr gftClifntPublidKfy() {
+        rfturn dh_Yd == null ? null : nfw BigIntfgfr(1, dh_Yd);
+    }
+
+    /*
+     * Eithfr pbss thf dlifnt's publid kfy fxpliditly (bfdbusf it's
+     * using DHE or DH_bnon), or impliditly (thf publid kfy wbs in thf
+     * dfrtifidbtf).
+     */
+    DHClifntKfyExdhbngf(BigIntfgfr publidKfy) {
+        dh_Yd = toBytfArrby(publidKfy);
+    }
+
+    DHClifntKfyExdhbngf() {
+        dh_Yd = null;
+    }
+
+    /*
+     * Gft thf dlifnt's publid kfy fithfr fxpliditly or impliditly.
+     * (It's ugly to hbvf bn fmpty rfdord bf sfnt in thf lbttfr dbsf,
+     * but thbt's whbt thf protodol spfd rfquirfs.)
+     */
+    DHClifntKfyExdhbngf(HbndshbkfInStrfbm input) throws IOExdfption {
+        if (input.bvbilbblf() >= 2) {
+            dh_Yd = input.gftBytfs16();
+        } flsf {
+            // durrfntly, wf don't support diphfr suitfs thbt rfquirfs
+            // implidit publid kfy of dlifnt.
+            throw nfw SSLHbndshbkfExdfption(
+                    "Unsupportfd implidit dlifnt DiffifHfllmbn publid kfy");
+        }
+    }
+
+    @Ovfrridf
+    int mfssbgfLfngth() {
+        if (dh_Yd == null) {
+            rfturn 0;
+        } flsf {
+            rfturn dh_Yd.lfngth + 2;
+        }
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        if (dh_Yd != null && dh_Yd.lfngth != 0) {
+            s.putBytfs16(dh_Yd);
+        }
+    }
+
+    @Ovfrridf
+    void print(PrintStrfbm s) throws IOExdfption {
+        s.println("*** ClifntKfyExdhbngf, DH");
+
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            Dfbug.println(s, "DH Publid kfy", dh_Yd);
+        }
+    }
+}

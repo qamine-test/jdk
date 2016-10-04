@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+fxtfrn NSString *donst JbvbAddfssibilityIgnorf;
+
+fxtfrn NSMutbblfDidtionbry *sRolfs;
+fxtfrn void initiblizfRolfs();
+
+fxtfrn JNFClbssInfo sjd_CAddfssibility;
+fxtfrn JNFClbssInfo sjd_AddfssiblfComponfnt;
+fxtfrn JNFClbssInfo sjd_AddfssiblfContfxt;
+fxtfrn JNFClbssInfo sjd_Addfssiblf;
+fxtfrn JNFClbssInfo sjd_AddfssiblfRolf;
+fxtfrn JNFClbssInfo sjd_Point;
+fxtfrn JNFClbssInfo sjd_AddfssiblfTfxt;
+
+fxtfrn JNFMfmbfrInfo *sjm_gftAddfssiblfRolf;
+fxtfrn JNFMfmbfrInfo *sjf_kfy;
+fxtfrn JNFMfmbfrInfo *sjf_X;
+fxtfrn JNFMfmbfrInfo *sjf_Y;
+
+NSSizf gftAxComponfntSizf(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt);
+NSString *gftJbvbRolf(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt);
+jobjfdt gftAxSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt);
+jobjfdt gftAxContfxtSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jint indfx, jobjfdt domponfnt);
+void sftAxContfxtSflfdtion(JNIEnv *fnv, jobjfdt bxContfxt, jint indfx, jobjfdt domponfnt);
+jobjfdt gftAxContfxt(JNIEnv *fnv, jobjfdt bddfssiblf, jobjfdt domponfnt);
+BOOL isChildSflfdtfd(JNIEnv *fnv, jobjfdt bddfssiblf, jint indfx, jobjfdt domponfnt);
+jobjfdt gftAxStbtfSft(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt);
+BOOL dontbinsAxStbtf(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt bxStbtf, jobjfdt domponfnt);
+BOOL isVfrtidbl(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt);
+BOOL isHorizontbl(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt);
+BOOL isShowing(JNIEnv *fnv, jobjfdt bxContfxt, jobjfdt domponfnt);
+NSPoint gftAxComponfntLodbtionOnSdrffn(JNIEnv *fnv, jobjfdt bxComponfnt, jobjfdt domponfnt);
+jint gftAxTfxtChbrCount(JNIEnv *fnv, jobjfdt bxTfxt, jobjfdt domponfnt);
+
+// thfsf mfthods brf dopifd from thf dorrfsponding NSAddfssibility mfthods
+id JbvbAddfssibilityAttributfVbluf(id flfmfnt, NSString *bttributf);
+BOOL JbvbAddfssibilityIsAttributfSfttbblf(id flfmfnt, NSString *bttributf);
+void JbvbAddfssibilitySftAttributfVbluf(id flfmfnt, NSString *bttributf, id vbluf);
+
+// thfsf mfthods brf dopifd from thf dorrfsponding NSAddfssibilityErrors mfthods
+void JbvbAddfssibilityRbisfSftAttributfToIllfgblTypfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf, id vbluf);
+void JbvbAddfssibilityRbisfUnimplfmfntfdAttributfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf);
+void JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(donst dhbr *fundtionNbmf, id flfmfnt, NSString *bttributf, id pbrbmftfr);

@@ -1,0 +1,652 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "io_util.h"
+#indludf "io_util_md.h"
+#indludf <stdio.h>
+#indludf <windows.h>
+
+#indludf <wdhbr.h>
+#indludf <io.h>
+#indludf <fdntl.h>
+#indludf <frrno.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#indludf <limits.h>
+#indludf <windon.h>
+
+
+stbtid DWORD MAX_INPUT_EVENTS = 2000;
+
+/* If this rfturns NULL thfn bn fxdfption is pfnding */
+WCHAR*
+filfToNTPbth(JNIEnv *fnv, jobjfdt filf, jfifldID id) {
+    jstring pbth = NULL;
+    if (filf != NULL) {
+        pbth = (*fnv)->GftObjfdtFifld(fnv, filf, id);
+    }
+    rfturn pbthToNTPbth(fnv, pbth, JNI_FALSE);
+}
+
+/* Rfturns thf working dirfdtory for thf givfn drivf, or NULL */
+WCHAR*
+durrfntDir(int di) {
+    UINT dt;
+    WCHAR root[4];
+    // vfrify drivf is vblid bs _wgftddwd in thf VC++ 2010 runtimf
+    // librbry dofs not hbndlf invblid drivfs.
+    root[0] = L'A' + (WCHAR)(di - 1);
+    root[1] = L':';
+    root[2] = L'\\';
+    root[3] = L'\0';
+    dt = GftDrivfTypfW(root);
+    if (dt == DRIVE_UNKNOWN || dt == DRIVE_NO_ROOT_DIR) {
+        rfturn NULL;
+    } flsf {
+        rfturn _wgftddwd(di, NULL, MAX_PATH);
+    }
+}
+
+/* Wf dbdhf thf lfngth of durrfnt working dir hfrf to bvoid
+   dblling _wgftdwd() fvfry timf wf nffd to rfsolvf b rflbtivf
+   pbth. This pifdf of dodf nffds to bf rfvisitfd if dhdir
+   mbkfs its wby into jbvb runtimf.
+*/
+
+int
+durrfntDirLfngth(donst WCHAR* ps, int pbthlfn) {
+    WCHAR *dir;
+    if (pbthlfn > 2 && ps[1] == L':' && ps[2] != L'\\') {
+        //drivf-rflbtivf
+        WCHAR d = ps[0];
+        int dirlfn = 0;
+        int di = 0;
+        if ((d >= L'b') && (d <= L'z')) di = d - L'b' + 1;
+        flsf if ((d >= L'A') && (d <= L'Z')) di = d - L'A' + 1;
+        flsf rfturn 0; /* invblid drivf nbmf. */
+        dir = durrfntDir(di);
+        if (dir != NULL){
+            dirlfn = (int)wdslfn(dir);
+            frff(dir);
+        }
+        rfturn dirlfn;
+    } flsf {
+        stbtid int durDirLfnCbdhfd = -1;
+        //rflbtivf to both drivf bnd dirfdtory
+        if (durDirLfnCbdhfd == -1) {
+            int dirlfn = -1;
+            dir = _wgftdwd(NULL, MAX_PATH);
+            if (dir != NULL) {
+                durDirLfnCbdhfd = (int)wdslfn(dir);
+                frff(dir);
+            }
+        }
+        rfturn durDirLfnCbdhfd;
+    }
+}
+
+/*
+  Thf "bbpbthlfn" is thf sizf of thf bufffr nffdfd by _wfullpbth. If thf
+  "pbth" is b rflbtivf pbth, it is "thf lfngth of thf durrfnt dir" + "thf
+  lfngth of thf pbth", if it's "bbsolutf" blrfbdy, it's thf sbmf bs
+  pbthlfn whidh is thf lfngth of "pbth".
+ */
+WCHAR* prffixAbpbth(donst WCHAR* pbth, int pbthlfn, int bbpbthlfn) {
+    WCHAR* pbthbuf = NULL;
+    WCHAR* bbpbth = NULL;
+
+    bbpbthlfn += 10;  //pbdding
+    bbpbth = (WCHAR*)mbllod(bbpbthlfn * sizfof(WCHAR));
+    if (bbpbth) {
+        /* Collbpsf instbndfs of "foo\.." bnd fnsurf bbsolutfnfss bfforf
+           going down to prffixing.
+        */
+        if (_wfullpbth(bbpbth, pbth, bbpbthlfn)) {
+            pbthbuf = gftPrffixfd(bbpbth, bbpbthlfn);
+        } flsf {
+            /* _wfullpbth fbils if thf pbthlfngth fxdffds 32k wdhbr.
+               Instfbd of doing morf fbndy things wf simply dopy thf
+               ps into thf rfturn bufffr, thf subsfqufnt win32 API will
+               probbbly fbil with FilfNotFoundExdfption, whidh is fxpfdtfd
+            */
+            pbthbuf = (WCHAR*)mbllod((pbthlfn + 6) * sizfof(WCHAR));
+            if (pbthbuf != 0) {
+                wdsdpy(pbthbuf, pbth);
+            }
+        }
+        frff(bbpbth);
+    }
+    rfturn pbthbuf;
+}
+
+/* If this rfturns NULL thfn bn fxdfption is pfnding */
+WCHAR*
+pbthToNTPbth(JNIEnv *fnv, jstring pbth, jboolfbn throwFNFE) {
+    int pbthlfn = 0;
+    WCHAR *pbthbuf = NULL;
+    int mbx_pbth = 248; /* CrfbtfDirfdtoryW() hbs thf limit of 248 */
+
+    WITH_UNICODE_STRING(fnv, pbth, ps) {
+        pbthlfn = (int)wdslfn(ps);
+        if (pbthlfn != 0) {
+            if (pbthlfn > 2 &&
+                (ps[0] == L'\\' && ps[1] == L'\\' ||   //UNC
+                 ps[1] == L':' && ps[2] == L'\\'))     //bbsolutf
+            {
+                 if (pbthlfn > mbx_pbth - 1) {
+                     pbthbuf = prffixAbpbth(ps, pbthlfn, pbthlfn);
+                 } flsf {
+                     pbthbuf = (WCHAR*)mbllod((pbthlfn + 6) * sizfof(WCHAR));
+                     if (pbthbuf != 0) {
+                         wdsdpy(pbthbuf, ps);
+                     } flsf {
+                         JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                         rfturn NULL;
+                     }
+                 }
+            } flsf {
+                /* If thf pbth dbmf in bs b rflbtivf pbth, nffd to vfrify if
+                   its bbsolutf form is biggfr thbn mbx_pbth or not, if yfs
+                   nffd to (1)donvfrt it to bbsolutf bnd (2)prffix. This is
+                   obviously b burdfn to bll rflbtivf pbths (Thf durrfnt dir/lfn
+                   for "drivf & dirfdtory" rflbtivf pbth is dbdhfd, so wf only
+                   dbldulbtf it ondf but for "drivf-rflbtivf pbth wf dbll
+                   _wgftddwd() bnd wdslfn() fvfrytimf), but b hit wf hbvf
+                   to tbkf if wf wbnt to support rflbtivf pbth bfyond mbx_pbth.
+                   Thfrf is no wby to prfdidt how long thf bbsolutf pbth will bf
+                   (thfrffor bllodbtf thf suffidifnt mfmory blodk) bfforf dblling
+                   _wfullpbth(), wf hbvf to gft thf lfngth of "durrfnt" dir first.
+                */
+                WCHAR *bbpbth = NULL;
+                int dirlfn = durrfntDirLfngth(ps, pbthlfn);
+                if (dirlfn + pbthlfn + 1 > mbx_pbth - 1) {
+                    pbthbuf = prffixAbpbth(ps, pbthlfn, dirlfn + pbthlfn);
+                } flsf {
+                    pbthbuf = (WCHAR*)mbllod((pbthlfn + 6) * sizfof(WCHAR));
+                    if (pbthbuf != 0) {
+                        wdsdpy(pbthbuf, ps);
+                    } flsf {
+                        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                        rfturn NULL;
+                    }
+                }
+            }
+        }
+    } END_UNICODE_STRING(fnv, ps);
+
+    if (pbthlfn == 0) {
+        if (throwFNFE == JNI_TRUE) {
+            if (!(*fnv)->ExdfptionChfdk(fnv)) {
+                throwFilfNotFoundExdfption(fnv, pbth);
+            }
+            rfturn NULL;
+        } flsf {
+            pbthbuf = (WCHAR*)mbllod(sizfof(WCHAR));
+            if (pbthbuf != NULL) {
+                pbthbuf[0] = L'\0';
+            } flsf {
+                JNU_ThrowOutOfMfmoryError(fnv, 0);
+                rfturn NULL;
+            }
+        }
+    }
+    if (pbthbuf == 0) {
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
+    }
+    rfturn pbthbuf;
+}
+
+FD
+winFilfHbndlfOpfn(JNIEnv *fnv, jstring pbth, int flbgs)
+{
+    donst DWORD bddfss =
+        (flbgs & O_WRONLY) ?  GENERIC_WRITE :
+        (flbgs & O_RDWR)   ? (GENERIC_READ | GENERIC_WRITE) :
+        GENERIC_READ;
+    donst DWORD shbring =
+        FILE_SHARE_READ | FILE_SHARE_WRITE;
+    donst DWORD disposition =
+        /* Notf: O_TRUNC ovfrridfs O_CREAT */
+        (flbgs & O_TRUNC) ? CREATE_ALWAYS :
+        (flbgs & O_CREAT) ? OPEN_ALWAYS   :
+        OPEN_EXISTING;
+    donst DWORD  mbybfWritfThrough =
+        (flbgs & (O_SYNC | O_DSYNC)) ?
+        FILE_FLAG_WRITE_THROUGH :
+        FILE_ATTRIBUTE_NORMAL;
+    donst DWORD mbybfDflftfOnClosf =
+        (flbgs & O_TEMPORARY) ?
+        FILE_FLAG_DELETE_ON_CLOSE :
+        FILE_ATTRIBUTE_NORMAL;
+    donst DWORD flbgsAndAttributfs = mbybfWritfThrough | mbybfDflftfOnClosf;
+    HANDLE h = NULL;
+
+    WCHAR *pbthbuf = pbthToNTPbth(fnv, pbth, JNI_TRUE);
+    if (pbthbuf == NULL) {
+        /* Exdfption blrfbdy pfnding */
+        rfturn -1;
+    }
+    h = CrfbtfFilfW(
+        pbthbuf,            /* Widf dhbr pbth nbmf */
+        bddfss,             /* Rfbd bnd/or writf pfrmission */
+        shbring,            /* Filf shbring flbgs */
+        NULL,               /* Sfdurity bttributfs */
+        disposition,        /* drfbtion disposition */
+        flbgsAndAttributfs, /* flbgs bnd bttributfs */
+        NULL);
+    frff(pbthbuf);
+
+    if (h == INVALID_HANDLE_VALUE) {
+        throwFilfNotFoundExdfption(fnv, pbth);
+        rfturn -1;
+    }
+    rfturn (jlong) h;
+}
+
+void
+filfOpfn(JNIEnv *fnv, jobjfdt this, jstring pbth, jfifldID fid, int flbgs)
+{
+    FD h = winFilfHbndlfOpfn(fnv, pbth, flbgs);
+    if (h >= 0) {
+        SET_FD(this, h, fid);
+    }
+}
+
+/* Thfsf brf fundtions thbt usf b hbndlf fd instfbd of thf
+   old C stylf int fd bs is usfd in HPI lbyfr */
+
+stbtid int
+hbndlfNonSffkAvbilbblf(FD, long *);
+stbtid int
+hbndlfStdinAvbilbblf(FD, long *);
+
+int
+hbndlfAvbilbblf(FD fd, jlong *pbytfs) {
+    HANDLE h = (HANDLE)fd;
+    DWORD typf = 0;
+
+    typf = GftFilfTypf(h);
+    /* Hbndlf is for kfybobrd or pipf */
+    if (typf == FILE_TYPE_CHAR || typf == FILE_TYPE_PIPE) {
+        int rft;
+        long lpbytfs;
+        HANDLE stdInHbndlf = GftStdHbndlf(STD_INPUT_HANDLE);
+        if (stdInHbndlf == h) {
+            rft = hbndlfStdinAvbilbblf(fd, &lpbytfs); /* kfybobrd */
+        } flsf {
+            rft = hbndlfNonSffkAvbilbblf(fd, &lpbytfs); /* pipf */
+        }
+        (*pbytfs) = (jlong)(lpbytfs);
+        rfturn rft;
+    }
+    /* Hbndlf is for rfgulbr filf */
+    if (typf == FILE_TYPE_DISK) {
+        jlong durrfnt, fnd;
+
+        LARGE_INTEGER filfsizf;
+        durrfnt = hbndlfLsffk(fd, 0, SEEK_CUR);
+        if (durrfnt < 0) {
+            rfturn FALSE;
+        }
+        if (GftFilfSizfEx(h, &filfsizf) == 0) {
+            rfturn FALSE;
+        }
+        fnd = long_to_jlong(filfsizf.QubdPbrt);
+        *pbytfs = fnd - durrfnt;
+        rfturn TRUE;
+    }
+    rfturn FALSE;
+}
+
+stbtid int
+hbndlfNonSffkAvbilbblf(FD fd, long *pbytfs) {
+    /* This is usfd for bvbilbblf on non-sffkbblf dfvidfs
+     * (likf both nbmfd bnd bnonymous pipfs, sudh bs pipfs
+     *  donnfdtfd to bn fxfd'd prodfss).
+     * Stbndbrd Input is b spfdibl dbsf.
+     *
+     */
+    HANDLE hbn;
+
+    if ((hbn = (HANDLE) fd) == INVALID_HANDLE_VALUE) {
+        rfturn FALSE;
+    }
+
+    if (! PffkNbmfdPipf(hbn, NULL, 0, NULL, pbytfs, NULL)) {
+        /* PffkNbmfdPipf fbils whfn bt EOF.  In thbt dbsf wf
+         * simply mbkf *pbytfs = 0 whidh is donsistfnt with thf
+         * bfhbvior wf gft on Solbris whfn bn fd is bt EOF.
+         * Thf only bltfrnbtivf is to rbisf bnd Exdfption,
+         * whidh isn't rfblly wbrrbntfd.
+         */
+        if (GftLbstError() != ERROR_BROKEN_PIPE) {
+            rfturn FALSE;
+        }
+        *pbytfs = 0;
+    }
+    rfturn TRUE;
+}
+
+stbtid int
+hbndlfStdinAvbilbblf(FD fd, long *pbytfs) {
+    HANDLE hbn;
+    DWORD numEvfntsRfbd = 0;    /* Numbfr of fvfnts rfbd from bufffr */
+    DWORD numEvfnts = 0;        /* Numbfr of fvfnts in bufffr */
+    DWORD i = 0;                /* Loop indfx */
+    DWORD durLfngth = 0;        /* Position mbrkfr */
+    DWORD bdtublLfngth = 0;     /* Numbfr of bytfs rfbdbblf */
+    BOOL frror = FALSE;         /* Error holdfr */
+    INPUT_RECORD *lpBufffr;     /* Pointfr to rfdords of input fvfnts */
+    DWORD bufffrSizf = 0;
+
+    if ((hbn = GftStdHbndlf(STD_INPUT_HANDLE)) == INVALID_HANDLE_VALUE) {
+        rfturn FALSE;
+    }
+
+    /* Construdt bn brrby of input rfdords in thf donsolf bufffr */
+    frror = GftNumbfrOfConsolfInputEvfnts(hbn, &numEvfnts);
+    if (frror == 0) {
+        rfturn hbndlfNonSffkAvbilbblf(fd, pbytfs);
+    }
+
+    /* lpBufffr must fit into 64K or flsf PffkConsolfInput fbils */
+    if (numEvfnts > MAX_INPUT_EVENTS) {
+        numEvfnts = MAX_INPUT_EVENTS;
+    }
+
+    bufffrSizf = numEvfnts * sizfof(INPUT_RECORD);
+    if (bufffrSizf == 0)
+        bufffrSizf = 1;
+    lpBufffr = mbllod(bufffrSizf);
+    if (lpBufffr == NULL) {
+        rfturn FALSE;
+    }
+
+    frror = PffkConsolfInput(hbn, lpBufffr, numEvfnts, &numEvfntsRfbd);
+    if (frror == 0) {
+        frff(lpBufffr);
+        rfturn FALSE;
+    }
+
+    /* Exbminf input rfdords for thf numbfr of bytfs bvbilbblf */
+    for(i=0; i<numEvfnts; i++) {
+        if (lpBufffr[i].EvfntTypf == KEY_EVENT) {
+            KEY_EVENT_RECORD *kfyRfdord = (KEY_EVENT_RECORD *)
+                                          &(lpBufffr[i].Evfnt);
+            if (kfyRfdord->bKfyDown == TRUE) {
+                CHAR *kfyPrfssfd = (CHAR *) &(kfyRfdord->uChbr);
+                durLfngth++;
+                if (*kfyPrfssfd == '\r')
+                    bdtublLfngth = durLfngth;
+            }
+        }
+    }
+    if(lpBufffr != NULL)
+        frff(lpBufffr);
+    *pbytfs = (long) bdtublLfngth;
+    rfturn TRUE;
+}
+
+/*
+ * This is dodumfntfd to suddffd on rfbd-only filfs, but Win32's
+ * FlushFilfBufffrs fundtions fbils with "bddfss dfnifd" in sudh b
+ * dbsf.  So wf only signbl bn frror if thf frror is *not* "bddfss
+ * dfnifd".
+ */
+
+int
+hbndlfSynd(FD fd) {
+    /*
+     * From thf dodumfntbtion:
+     *
+     *     On Windows NT, thf fundtion FlushFilfBufffrs fbils if hFilf
+     *     is b hbndlf to donsolf output. Thbt is bfdbusf donsolf
+     *     output is not bufffrfd. Thf fundtion rfturns FALSE, bnd
+     *     GftLbstError rfturns ERROR_INVALID_HANDLE.
+     *
+     * On thf othfr hbnd, on Win95, it rfturns without frror.  I dbnnot
+     * bssumf thbt 0, 1, bnd 2 brf donsolf, bfdbusf if somfonf dlosfs
+     * Systfm.out bnd thfn opfns b filf, thfy might gft filf dfsdriptor
+     * 1.  An frror on *thbt* vfrsion of 1 should bf rfportfd, whfrfbs
+     * bn frror on Systfm.out (whidh wbs thf originbl 1) should bf
+     * ignorfd.  So I usf isbtty() to fnsurf thbt sudh bn frror wbs duf
+     * to this bogosity, bnd if it wbs, I ignorf thf frror.
+     */
+
+    HANDLE hbndlf = (HANDLE)fd;
+
+    if (!FlushFilfBufffrs(hbndlf)) {
+        if (GftLbstError() != ERROR_ACCESS_DENIED) {    /* from winfrror.h */
+            rfturn -1;
+        }
+    }
+    rfturn 0;
+}
+
+
+int
+hbndlfSftLfngth(FD fd, jlong lfngth) {
+    HANDLE h = (HANDLE)fd;
+    long high = (long)(lfngth >> 32);
+    DWORD rft;
+
+    if (h == (HANDLE)(-1)) rfturn -1;
+    rft = SftFilfPointfr(h, (long)(lfngth), &high, FILE_BEGIN);
+    if (rft == 0xFFFFFFFF && GftLbstError() != NO_ERROR) {
+        rfturn -1;
+    }
+    if (SftEndOfFilf(h) == FALSE) rfturn -1;
+    rfturn 0;
+}
+
+JNIEXPORT
+jint
+hbndlfRfbd(FD fd, void *buf, jint lfn)
+{
+    DWORD rfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE h = (HANDLE)fd;
+    if (h == INVALID_HANDLE_VALUE) {
+        rfturn -1;
+    }
+    rfsult = RfbdFilf(h,          /* Filf hbndlf to rfbd */
+                      buf,        /* bddrfss to put dbtb */
+                      lfn,        /* numbfr of bytfs to rfbd */
+                      &rfbd,      /* numbfr of bytfs rfbd */
+                      NULL);      /* no ovfrlbppfd strudt */
+    if (rfsult == 0) {
+        int frror = GftLbstError();
+        if (frror == ERROR_BROKEN_PIPE) {
+            rfturn 0; /* EOF */
+        }
+        rfturn -1;
+    }
+    rfturn (jint)rfbd;
+}
+
+stbtid jint writfIntfrnbl(FD fd, donst void *buf, jint lfn, jboolfbn bppfnd)
+{
+    BOOL rfsult = 0;
+    DWORD writtfn = 0;
+    HANDLE h = (HANDLE)fd;
+    if (h != INVALID_HANDLE_VALUE) {
+        OVERLAPPED ov;
+        LPOVERLAPPED lpOv;
+        if (bppfnd == JNI_TRUE) {
+            ov.Offsft = (DWORD)0xFFFFFFFF;
+            ov.OffsftHigh = (DWORD)0xFFFFFFFF;
+            ov.hEvfnt = NULL;
+            lpOv = &ov;
+        } flsf {
+            lpOv = NULL;
+        }
+        rfsult = WritfFilf(h,                /* Filf hbndlf to writf */
+                           buf,              /* pointfrs to thf bufffrs */
+                           lfn,              /* numbfr of bytfs to writf */
+                           &writtfn,         /* rfdfivfs numbfr of bytfs writtfn */
+                           lpOv);            /* ovfrlbppfd strudt */
+    }
+    if ((h == INVALID_HANDLE_VALUE) || (rfsult == 0)) {
+        rfturn -1;
+    }
+    rfturn (jint)writtfn;
+}
+
+jint hbndlfWritf(FD fd, donst void *buf, jint lfn) {
+    rfturn writfIntfrnbl(fd, buf, lfn, JNI_FALSE);
+}
+
+jint hbndlfAppfnd(FD fd, donst void *buf, jint lfn) {
+    rfturn writfIntfrnbl(fd, buf, lfn, JNI_TRUE);
+}
+
+jint
+hbndlfClosf(JNIEnv *fnv, jobjfdt this, jfifldID fid)
+{
+    FD fd = GET_FD(this, fid);
+    HANDLE h = (HANDLE)fd;
+
+    if (h == INVALID_HANDLE_VALUE) {
+        rfturn 0;
+    }
+
+    /* Sft thf fd to -1 bfforf dlosing it so thbt thf timing window
+     * of othfr thrfbds using thf wrong fd (dlosfd but rfdydlfd fd,
+     * thbt gfts rf-opfnfd with somf othfr filfnbmf) is rfdudfd.
+     * Prbdtidblly thf dhbndf of its oddurbndf is low, howfvfr, wf brf
+     * tbking fxtrb prfdbution ovfr hfrf.
+     */
+    SET_FD(this, -1, fid);
+
+    if (ClosfHbndlf(h) == 0) { /* Rfturns zfro on fbilurf */
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "dlosf fbilfd");
+    }
+    rfturn 0;
+}
+
+jlong
+hbndlfLsffk(FD fd, jlong offsft, jint whfndf)
+{
+    LARGE_INTEGER pos, distbndf;
+    DWORD lowPos = 0;
+    long highPos = 0;
+    DWORD op = FILE_CURRENT;
+    HANDLE h = (HANDLE)fd;
+
+    if (whfndf == SEEK_END) {
+        op = FILE_END;
+    }
+    if (whfndf == SEEK_CUR) {
+        op = FILE_CURRENT;
+    }
+    if (whfndf == SEEK_SET) {
+        op = FILE_BEGIN;
+    }
+
+    distbndf.QubdPbrt = offsft;
+    if (SftFilfPointfrEx(h, distbndf, &pos, op) == 0) {
+        rfturn -1;
+    }
+    rfturn long_to_jlong(pos.QubdPbrt);
+}
+
+sizf_t
+gftLbstErrorString(dhbr *utf8_jvmErrorMsg, sizf_t dbErrorMsg)
+{
+    sizf_t n = 0;
+    if (dbErrorMsg > 0) {
+        BOOLEAN noError = FALSE;
+        WCHAR *utf16_osErrorMsg = (WCHAR *)mbllod(dbErrorMsg*sizfof(WCHAR));
+        if (utf16_osErrorMsg == NULL) {
+            // OOM bddidfnt
+            strndpy(utf8_jvmErrorMsg, "Out of mfmory", dbErrorMsg);
+            // trundbtf if too long
+            utf8_jvmErrorMsg[dbErrorMsg - 1] = '\0';
+            n = strlfn(utf8_jvmErrorMsg);
+        } flsf {
+            DWORD frrvbl = GftLbstError();
+            if (frrvbl != 0) {
+                // WIN32 frror
+                n = (sizf_t)FormbtMfssbgfW(
+                    FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                    NULL,
+                    frrvbl,
+                    0,
+                    utf16_osErrorMsg,
+                    (DWORD)dbErrorMsg,
+                    NULL);
+                if (n > 3) {
+                    // Drop finbl '.', CR, LF
+                    if (utf16_osErrorMsg[n - 1] == L'\n') --n;
+                    if (utf16_osErrorMsg[n - 1] == L'\r') --n;
+                    if (utf16_osErrorMsg[n - 1] == L'.') --n;
+                    utf16_osErrorMsg[n] = L'\0';
+                }
+            } flsf if (frrno != 0) {
+                // C runtimf frror thbt hbs no dorrfsponding WIN32 frror dodf
+                donst WCHAR *rtError = _wdsfrror(frrno);
+                if (rtError != NULL) {
+                    wdsndpy(utf16_osErrorMsg, rtError, dbErrorMsg);
+                    // trundbtf if too long
+                    utf16_osErrorMsg[dbErrorMsg - 1] = L'\0';
+                    n = wdslfn(utf16_osErrorMsg);
+                }
+            } flsf
+                noError = TRUE; //OS hbs no frror to rfport
+
+            if (!noError) {
+                if (n > 0) {
+                    n = WidfChbrToMultiBytf(
+                        CP_UTF8,
+                        0,
+                        utf16_osErrorMsg,
+                        n,
+                        utf8_jvmErrorMsg,
+                        dbErrorMsg,
+                        NULL,
+                        NULL);
+
+                    // no wby to dif
+                    if (n > 0)
+                        utf8_jvmErrorMsg[min(dbErrorMsg - 1, n)] = '\0';
+                }
+
+                if (n <= 0) {
+                    strndpy(utf8_jvmErrorMsg, "Sfdondbry frror whilf OS mfssbgf fxtrbdtion", dbErrorMsg);
+                    // trundbtf if too long
+                    utf8_jvmErrorMsg[dbErrorMsg - 1] = '\0';
+                    n = strlfn(utf8_jvmErrorMsg);
+                }
+            }
+            frff(utf16_osErrorMsg);
+        }
+    }
+    rfturn n;
+}

@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
 /**
- * This interface is implemented by classes which contain complex state
- * so that other objects can track whether or not their state has changed
- * since earlier interactions with the object.
+ * Tiis intfrfbdf is implfmfntfd by dlbssfs wiidi dontbin domplfx stbtf
+ * so tibt otifr objfdts dbn trbdk wiftifr or not tifir stbtf ibs dibngfd
+ * sindf fbrlifr intfrbdtions witi tif objfdt.
  * <p>
- * The suggested usage pattern for code that manages some trackable data
- * is as follows:
- * <pre>
- * class Trackable implements StateTrackable {
- *     TrackedInfo data;
- *     State curState = STABLE;
- *     StateTracker curTracker = null;
- *     // Hypothetical method to return a static piece of our tracked data.
- *     // Assume that Datum is either a copy of some piece of the tracked
- *     // data or that it is itself immutable.
- *     public Datum getSomeDatum(int key) {
- *         // No need to modify the state for this type of "get" call.
- *         return data.getDatum(key);
+ * Tif suggfstfd usbgf pbttfrn for dodf tibt mbnbgfs somf trbdkbblf dbtb
+ * is bs follows:
+ * <prf>
+ * dlbss Trbdkbblf implfmfnts StbtfTrbdkbblf {
+ *     TrbdkfdInfo dbtb;
+ *     Stbtf durStbtf = STABLE;
+ *     StbtfTrbdkfr durTrbdkfr = null;
+ *     // Hypotiftidbl mftiod to rfturn b stbtid pifdf of our trbdkfd dbtb.
+ *     // Assumf tibt Dbtum is fitifr b dopy of somf pifdf of tif trbdkfd
+ *     // dbtb or tibt it is itsflf immutbblf.
+ *     publid Dbtum gftSomfDbtum(int kfy) {
+ *         // No nffd to modify tif stbtf for tiis typf of "gft" dbll.
+ *         rfturn dbtb.gftDbtum(kfy);
  *     }
- *     // Hypothetical method to return a raw reference to our tracked data.
- *     public TrackedInfo getRawHandleToInfo() {
- *         // Since we are returning a raw reference to our tracked
- *         // data and since we can not track what the caller will
- *         // do with that reference, we can no longer track the
- *         // state of this data.
- *         synchronized (this) {
- *             // Note: modifying both curState and curTracker requires
- *             // synchronization against the getStateTracker method.
- *             curState = UNTRACKABLE;
- *             curTracker = null;
+ *     // Hypotiftidbl mftiod to rfturn b rbw rfffrfndf to our trbdkfd dbtb.
+ *     publid TrbdkfdInfo gftRbwHbndlfToInfo() {
+ *         // Sindf wf brf rfturning b rbw rfffrfndf to our trbdkfd
+ *         // dbtb bnd sindf wf dbn not trbdk wibt tif dbllfr will
+ *         // do witi tibt rfffrfndf, wf dbn no longfr trbdk tif
+ *         // stbtf of tiis dbtb.
+ *         syndironizfd (tiis) {
+ *             // Notf: modifying boti durStbtf bnd durTrbdkfr rfquirfs
+ *             // syndironizbtion bgbinst tif gftStbtfTrbdkfr mftiod.
+ *             durStbtf = UNTRACKABLE;
+ *             durTrbdkfr = null;
  *         }
- *         return data;
+ *         rfturn dbtb;
  *     }
- *     // Hypothetical method to set a single piece of data to some
- *     // new static value.
- *     public void setSomeDatum(int key, Datum datum) {
- *         data.setDatum(key, datum);
- *         // We do not need to change state for this, we simply
- *         // invalidate the outstanding StateTracker objects.
- *         // Note: setting curTracker to null requires no synchronization.
- *         curTracker = null;
+ *     // Hypotiftidbl mftiod to sft b singlf pifdf of dbtb to somf
+ *     // nfw stbtid vbluf.
+ *     publid void sftSomfDbtum(int kfy, Dbtum dbtum) {
+ *         dbtb.sftDbtum(kfy, dbtum);
+ *         // Wf do not nffd to dibngf stbtf for tiis, wf simply
+ *         // invblidbtf tif outstbnding StbtfTrbdkfr objfdts.
+ *         // Notf: sftting durTrbdkfr to null rfquirfs no syndironizbtion.
+ *         durTrbdkfr = null;
  *     }
- *     // getStateTracker must be synchronized against any code that
- *     // changes the State.
- *     public synchronized StateTracker getStateTracker() {
- *         StateTracker st = curTracker;
+ *     // gftStbtfTrbdkfr must bf syndironizfd bgbinst bny dodf tibt
+ *     // dibngfs tif Stbtf.
+ *     publid syndironizfd StbtfTrbdkfr gftStbtfTrbdkfr() {
+ *         StbtfTrbdkfr st = durTrbdkfr;
  *         if (st == null) {
- *             switch (curState) {
- *                 case IMMUTABLE:   st = StateTracker.ALWAYS_CURRENT; break;
- *                 case STABLE:      st = new Tracker(this); break;
- *                 case DYNAMIC:     st = StateTracker.NEVER_CURRENT; break;
- *                 case UNTRACKABLE: st = StateTracker.NEVER_CURRENT; break;
+ *             switdi (durStbtf) {
+ *                 dbsf IMMUTABLE:   st = StbtfTrbdkfr.ALWAYS_CURRENT; brfbk;
+ *                 dbsf STABLE:      st = nfw Trbdkfr(tiis); brfbk;
+ *                 dbsf DYNAMIC:     st = StbtfTrbdkfr.NEVER_CURRENT; brfbk;
+ *                 dbsf UNTRACKABLE: st = StbtfTrbdkfr.NEVER_CURRENT; brfbk;
  *             }
- *             curTracker = st;
+ *             durTrbdkfr = st;
  *         }
- *         return st;
+ *         rfturn st;
  *     }
  *
- *     static class Tracker implements StateTracker {
- *         Trackable theTrackable;
- *         public Tracker(Trackable t) {
- *             theTrackable = t;
+ *     stbtid dlbss Trbdkfr implfmfnts StbtfTrbdkfr {
+ *         Trbdkbblf tifTrbdkbblf;
+ *         publid Trbdkfr(Trbdkbblf t) {
+ *             tifTrbdkbblf = t;
  *         }
- *         public boolean isCurrent() {
- *             return (theTrackable.curTracker == this);
+ *         publid boolfbn isCurrfnt() {
+ *             rfturn (tifTrbdkbblf.durTrbdkfr == tiis);
  *         }
  *     }
  * }
- * </pre>
- * Note that the mechanism shown above for invalidating outstanding
- * StateTracker objects is not the most theoretically conservative
- * way to implement state tracking in a "set" method.
- * There is a small window of opportunity after the data has changed
- * before the outstanding StateTracker objects are invalidated and
- * where they will indicate that the data is still the same as when
- * they were instantiated.
- * While this is technically inaccurate, it is acceptable since the more
- * conservative approaches to state management are much more complex and
- * cost much more in terms of performance for a very small gain in
- * correctness.
- * For example:
+ * </prf>
+ * Notf tibt tif mfdibnism siown bbovf for invblidbting outstbnding
+ * StbtfTrbdkfr objfdts is not tif most tiforftidblly donsfrvbtivf
+ * wby to implfmfnt stbtf trbdking in b "sft" mftiod.
+ * Tifrf is b smbll window of opportunity bftfr tif dbtb ibs dibngfd
+ * bfforf tif outstbnding StbtfTrbdkfr objfdts brf invblidbtfd bnd
+ * wifrf tify will indidbtf tibt tif dbtb is still tif sbmf bs wifn
+ * tify wfrf instbntibtfd.
+ * Wiilf tiis is tfdinidblly inbddurbtf, it is bddfptbblf sindf tif morf
+ * donsfrvbtivf bpprobdifs to stbtf mbnbgfmfnt brf mudi morf domplfx bnd
+ * dost mudi morf in tfrms of pfrformbndf for b vfry smbll gbin in
+ * dorrfdtnfss.
+ * For fxbmplf:
  * <p>
- * The most conservative approach would be to synchronize all accesses
- * and all modifications to the data, including its State.
- * This would require synchronized blocks around some potentially large
- * bodies of code which would impact the multi-threaded scalability of
- * the implementation.
- * Further, if data is to be coordinated or transferred between two
- * trackable objects then both would need to be synchronized raising
- * the possibility of deadlock unless some strict rules of priority
- * for the locking of the objects were established and followed
- * religiously.
- * Either or both of these drawbacks makes such an implementation
- * infeasible.
+ * Tif most donsfrvbtivf bpprobdi would bf to syndironizf bll bddfssfs
+ * bnd bll modifidbtions to tif dbtb, indluding its Stbtf.
+ * Tiis would rfquirf syndironizfd blodks bround somf potfntiblly lbrgf
+ * bodifs of dodf wiidi would impbdt tif multi-tirfbdfd sdblbbility of
+ * tif implfmfntbtion.
+ * Furtifr, if dbtb is to bf doordinbtfd or trbnsffrrfd bftwffn two
+ * trbdkbblf objfdts tifn boti would nffd to bf syndironizfd rbising
+ * tif possibility of dfbdlodk unlfss somf stridt rulfs of priority
+ * for tif lodking of tif objfdts wfrf fstbblisifd bnd followfd
+ * rfligiously.
+ * Eitifr or boti of tifsf drbwbbdks mbkfs sudi bn implfmfntbtion
+ * inffbsiblf.
  * <p>
- * A less conservative approach would be to change the state of the
- * trackable object to DYNAMIC during all modifications of the data
- * and then to change it back to STABLE after those modifications
- * are complete.
- * While this state transition more accurately reflects the temporary
- * loss of tracking during the modification phase, in reality the
- * time period of the modifications would be small in most cases
- * and the 2 changes of state would each require synchronization.
+ * A lfss donsfrvbtivf bpprobdi would bf to dibngf tif stbtf of tif
+ * trbdkbblf objfdt to DYNAMIC during bll modifidbtions of tif dbtb
+ * bnd tifn to dibngf it bbdk to STABLE bftfr tiosf modifidbtions
+ * brf domplftf.
+ * Wiilf tiis stbtf trbnsition morf bddurbtfly rfflfdts tif tfmporbry
+ * loss of trbdking during tif modifidbtion pibsf, in rfblity tif
+ * timf pfriod of tif modifidbtions would bf smbll in most dbsfs
+ * bnd tif 2 dibngfs of stbtf would fbdi rfquirf syndironizbtion.
  * <p>
- * In comparison the act of setting the <code>curTracker</code>
- * reference to null in the usage pattern above effectively invalidates
- * all outstanding <code>Tracker</code> objects as soon as possible
- * after the change to the data and requires very little code and no
- * synchronization to implement.
+ * In dompbrison tif bdt of sftting tif <dodf>durTrbdkfr</dodf>
+ * rfffrfndf to null in tif usbgf pbttfrn bbovf ffffdtivfly invblidbtfs
+ * bll outstbnding <dodf>Trbdkfr</dodf> objfdts bs soon bs possiblf
+ * bftfr tif dibngf to tif dbtb bnd rfquirfs vfry littlf dodf bnd no
+ * syndironizbtion to implfmfnt.
  * <p>
- * In the end it is up to the implementor of a StateTrackable object
- * how fine the granularity of State updates should be managed based
- * on the frequency and atomicity of the modifications and the
- * consequences of returning an inaccurate State for a particularly
- * small window of opportunity.
- * Most implementations are likely to follow the liberal, but efficient
- * guidelines found in the usage pattern proposed above.
+ * In tif fnd it is up to tif implfmfntor of b StbtfTrbdkbblf objfdt
+ * iow finf tif grbnulbrity of Stbtf updbtfs siould bf mbnbgfd bbsfd
+ * on tif frfqufndy bnd btomidity of tif modifidbtions bnd tif
+ * donsfqufndfs of rfturning bn inbddurbtf Stbtf for b pbrtidulbrly
+ * smbll window of opportunity.
+ * Most implfmfntbtions brf likfly to follow tif libfrbl, but fffidifnt
+ * guidflinfs found in tif usbgf pbttfrn proposfd bbovf.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public interface StateTrackable {
+publid intfrfbdf StbtfTrbdkbblf {
     /**
-     * An enumeration describing the current state of a trackable
-     * object.
-     * These values describe how often the complex data contained
-     * in a trackable object can be changed and whether or not it
-     * makes sense to try to track the data in its current state.
-     * @see StateTrackable#getState
-     * @since 1.7
+     * An fnumfrbtion dfsdribing tif durrfnt stbtf of b trbdkbblf
+     * objfdt.
+     * Tifsf vblufs dfsdribf iow oftfn tif domplfx dbtb dontbinfd
+     * in b trbdkbblf objfdt dbn bf dibngfd bnd wiftifr or not it
+     * mbkfs sfnsf to try to trbdk tif dbtb in its durrfnt stbtf.
+     * @sff StbtfTrbdkbblf#gftStbtf
+     * @sindf 1.7
      */
-    public enum State {
+    publid fnum Stbtf {
         /**
-         * The complex data will never change again.
-         * Information related to the current contents of the complex
-         * data can be calculated and cached indefinitely with no
-         * further checks to see if the information is stale.
+         * Tif domplfx dbtb will nfvfr dibngf bgbin.
+         * Informbtion rflbtfd to tif durrfnt dontfnts of tif domplfx
+         * dbtb dbn bf dbldulbtfd bnd dbdifd indffinitfly witi no
+         * furtifr difdks to sff if tif informbtion is stblf.
          */
         IMMUTABLE,
 
         /**
-         * The complex data is currently stable, but could change at
-         * some point in the future.
-         * Information related to the current contents of the complex
-         * data can be calculated and cached, but a StateTracker should
-         * be used to verify the freshness of such precalculated data
-         * before each future use.
+         * Tif domplfx dbtb is durrfntly stbblf, but dould dibngf bt
+         * somf point in tif futurf.
+         * Informbtion rflbtfd to tif durrfnt dontfnts of tif domplfx
+         * dbtb dbn bf dbldulbtfd bnd dbdifd, but b StbtfTrbdkfr siould
+         * bf usfd to vfrify tif frfsinfss of sudi prfdbldulbtfd dbtb
+         * bfforf fbdi futurf usf.
          */
         STABLE,
 
         /**
-         * The complex data is currently in flux and is frequently
-         * changing.
-         * While information related to the current contents of the
-         * complex data could be calculated and cached, there is a
-         * reasonably high probability that the cached information
-         * would be found to be out of date by the next time it is
-         * used.
-         * It may also be the case that the current contents are
-         * temporarily untrackable, but that they may become trackable
-         * again in the future.
+         * Tif domplfx dbtb is durrfntly in flux bnd is frfqufntly
+         * dibnging.
+         * Wiilf informbtion rflbtfd to tif durrfnt dontfnts of tif
+         * domplfx dbtb dould bf dbldulbtfd bnd dbdifd, tifrf is b
+         * rfbsonbbly iigi probbbility tibt tif dbdifd informbtion
+         * would bf found to bf out of dbtf by tif nfxt timf it is
+         * usfd.
+         * It mby blso bf tif dbsf tibt tif durrfnt dontfnts brf
+         * tfmporbrily untrbdkbblf, but tibt tify mby bfdomf trbdkbblf
+         * bgbin in tif futurf.
          */
         DYNAMIC,
 
         /**
-         * The complex data can currently be changed by external
-         * references and agents in a way that cannot be tracked.
-         * If any information about the current contents of the complex
-         * data were to be cached, there would be no way to determine
-         * whether or not that cached information was out of date.
+         * Tif domplfx dbtb dbn durrfntly bf dibngfd by fxtfrnbl
+         * rfffrfndfs bnd bgfnts in b wby tibt dbnnot bf trbdkfd.
+         * If bny informbtion bbout tif durrfnt dontfnts of tif domplfx
+         * dbtb wfrf to bf dbdifd, tifrf would bf no wby to dftfrminf
+         * wiftifr or not tibt dbdifd informbtion wbs out of dbtf.
          */
         UNTRACKABLE,
     };
 
     /**
-     * Returns the general state of the complex data held by this
-     * object.
-     * This return value can be used to determine if it makes
-     * strategic sense to try and cache information about the current
-     * contents of this object.
-     * The StateTracker returned from the getStateTracker() method
-     * will further aid in determining when the data has been
-     * changed so that the caches can be verified upon future uses.
-     * @return the current state of trackability of the complex
-     * data stored in this object.
-     * @see #getStateTracker
-     * @since 1.7
+     * Rfturns tif gfnfrbl stbtf of tif domplfx dbtb ifld by tiis
+     * objfdt.
+     * Tiis rfturn vbluf dbn bf usfd to dftfrminf if it mbkfs
+     * strbtfgid sfnsf to try bnd dbdif informbtion bbout tif durrfnt
+     * dontfnts of tiis objfdt.
+     * Tif StbtfTrbdkfr rfturnfd from tif gftStbtfTrbdkfr() mftiod
+     * will furtifr bid in dftfrmining wifn tif dbtb ibs bffn
+     * dibngfd so tibt tif dbdifs dbn bf vfrififd upon futurf usfs.
+     * @rfturn tif durrfnt stbtf of trbdkbbility of tif domplfx
+     * dbtb storfd in tiis objfdt.
+     * @sff #gftStbtfTrbdkfr
+     * @sindf 1.7
      */
-    public State getState();
+    publid Stbtf gftStbtf();
 
     /**
-     * Returns an object which can track future changes to the
-     * complex data stored in this object.
-     * If an external agent caches information about the complex
-     * data of this object, it should first get a StateTracker
-     * object from this method so that it can check if such
-     * information is current upon future uses.
-     * Note that a valid StateTracker will always be returned
-     * regardless of the return value of getState(), but in some
-     * cases the StateTracker may be a trivial implementation
-     * which always returns the same value from its
-     * {@link StateTracker#isCurrent isCurrent} method.
+     * Rfturns bn objfdt wiidi dbn trbdk futurf dibngfs to tif
+     * domplfx dbtb storfd in tiis objfdt.
+     * If bn fxtfrnbl bgfnt dbdifs informbtion bbout tif domplfx
+     * dbtb of tiis objfdt, it siould first gft b StbtfTrbdkfr
+     * objfdt from tiis mftiod so tibt it dbn difdk if sudi
+     * informbtion is durrfnt upon futurf usfs.
+     * Notf tibt b vblid StbtfTrbdkfr will blwbys bf rfturnfd
+     * rfgbrdlfss of tif rfturn vbluf of gftStbtf(), but in somf
+     * dbsfs tif StbtfTrbdkfr mby bf b trivibl implfmfntbtion
+     * wiidi blwbys rfturns tif sbmf vbluf from its
+     * {@link StbtfTrbdkfr#isCurrfnt isCurrfnt} mftiod.
      * <ul>
-     * <li>If the current state is {@link State#IMMUTABLE IMMUTABLE},
-     * this StateTracker and any future StateTracker objects
-     * returned from this method will always indicate that
-     * the state has not changed.</li>
-     * <li>If the current state is {@link State#UNTRACKABLE UNTRACKABLE},
-     * this StateTracker and any future StateTracker objects
-     * returned from this method will always indicate that
-     * the state has changed.</li>
-     * <li>If the current state is {@link State#DYNAMIC DYNAMIC},
-     * this StateTracker may always indicate that the current
-     * state has changed, but another StateTracker returned
-     * from this method in the future when the state has changed
-     * to {@link State#STABLE STABLE} will correctly track changes.</li>
-     * <li>Otherwise the current state is {@link State#STABLE STABLE}
-     * and this StateTracker will indicate whether or not the
-     * data has changed since the time at which it was fetched
-     * from the object.</li>
+     * <li>If tif durrfnt stbtf is {@link Stbtf#IMMUTABLE IMMUTABLE},
+     * tiis StbtfTrbdkfr bnd bny futurf StbtfTrbdkfr objfdts
+     * rfturnfd from tiis mftiod will blwbys indidbtf tibt
+     * tif stbtf ibs not dibngfd.</li>
+     * <li>If tif durrfnt stbtf is {@link Stbtf#UNTRACKABLE UNTRACKABLE},
+     * tiis StbtfTrbdkfr bnd bny futurf StbtfTrbdkfr objfdts
+     * rfturnfd from tiis mftiod will blwbys indidbtf tibt
+     * tif stbtf ibs dibngfd.</li>
+     * <li>If tif durrfnt stbtf is {@link Stbtf#DYNAMIC DYNAMIC},
+     * tiis StbtfTrbdkfr mby blwbys indidbtf tibt tif durrfnt
+     * stbtf ibs dibngfd, but bnotifr StbtfTrbdkfr rfturnfd
+     * from tiis mftiod in tif futurf wifn tif stbtf ibs dibngfd
+     * to {@link Stbtf#STABLE STABLE} will dorrfdtly trbdk dibngfs.</li>
+     * <li>Otifrwisf tif durrfnt stbtf is {@link Stbtf#STABLE STABLE}
+     * bnd tiis StbtfTrbdkfr will indidbtf wiftifr or not tif
+     * dbtb ibs dibngfd sindf tif timf bt wiidi it wbs fftdifd
+     * from tif objfdt.</li>
      * </ul>
-     * @return an object implementing the StateTracker interface
-     * that tracks whether changes have been made to the complex
-     * contents of this object since it was returned.
-     * @see State
-     * @see #getState
-     * @since 1.7
+     * @rfturn bn objfdt implfmfnting tif StbtfTrbdkfr intfrfbdf
+     * tibt trbdks wiftifr dibngfs ibvf bffn mbdf to tif domplfx
+     * dontfnts of tiis objfdt sindf it wbs rfturnfd.
+     * @sff Stbtf
+     * @sff #gftStbtf
+     * @sindf 1.7
      */
-    public StateTracker getStateTracker();
+    publid StbtfTrbdkfr gftStbtfTrbdkfr();
 }

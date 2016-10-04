@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.FocusTraversalPolicy;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.io.*;
+import jbvb.bwt.FodusTrbvfrsblPolidy;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Window;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.io.*;
 
 
 /**
- * A FocusTraversalPolicy which provides support for legacy applications which
- * handle focus traversal via JComponent.setNextFocusableComponent or by
- * installing a custom DefaultFocusManager. If a specific traversal has not
- * been hard coded, then that traversal is provided either by the custom
- * DefaultFocusManager, or by a wrapped FocusTraversalPolicy instance.
+ * A FodusTrbvfrsblPolidy wiidi providfs support for lfgbdy bpplidbtions wiidi
+ * ibndlf fodus trbvfrsbl vib JComponfnt.sftNfxtFodusbblfComponfnt or by
+ * instblling b dustom DffbultFodusMbnbgfr. If b spfdifid trbvfrsbl ibs not
+ * bffn ibrd dodfd, tifn tibt trbvfrsbl is providfd fitifr by tif dustom
+ * DffbultFodusMbnbgfr, or by b wrbppfd FodusTrbvfrsblPolidy instbndf.
  *
- * @author David Mendenhall
+ * @butior Dbvid Mfndfnibll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
-    implements Serializable
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss LfgbdyGlufFodusTrbvfrsblPolidy fxtfnds FodusTrbvfrsblPolidy
+    implfmfnts Sfriblizbblf
 {
-    private transient FocusTraversalPolicy delegatePolicy;
-    private transient DefaultFocusManager delegateManager;
+    privbtf trbnsifnt FodusTrbvfrsblPolidy dflfgbtfPolidy;
+    privbtf trbnsifnt DffbultFodusMbnbgfr dflfgbtfMbnbgfr;
 
-    private HashMap<Component, Component> forwardMap = new HashMap<Component, Component>(),
-        backwardMap = new HashMap<Component, Component>();
+    privbtf HbsiMbp<Componfnt, Componfnt> forwbrdMbp = nfw HbsiMbp<Componfnt, Componfnt>(),
+        bbdkwbrdMbp = nfw HbsiMbp<Componfnt, Componfnt>();
 
-    LegacyGlueFocusTraversalPolicy(FocusTraversalPolicy delegatePolicy) {
-        this.delegatePolicy = delegatePolicy;
+    LfgbdyGlufFodusTrbvfrsblPolidy(FodusTrbvfrsblPolidy dflfgbtfPolidy) {
+        tiis.dflfgbtfPolidy = dflfgbtfPolidy;
     }
-    LegacyGlueFocusTraversalPolicy(DefaultFocusManager delegateManager) {
-        this.delegateManager = delegateManager;
-    }
-
-    void setNextFocusableComponent(Component left, Component right) {
-        forwardMap.put(left, right);
-        backwardMap.put(right, left);
-    }
-    void unsetNextFocusableComponent(Component left, Component right) {
-        forwardMap.remove(left);
-        backwardMap.remove(right);
+    LfgbdyGlufFodusTrbvfrsblPolidy(DffbultFodusMbnbgfr dflfgbtfMbnbgfr) {
+        tiis.dflfgbtfMbnbgfr = dflfgbtfMbnbgfr;
     }
 
-    public Component getComponentAfter(Container focusCycleRoot,
-                                       Component aComponent) {
-        Component hardCoded = aComponent, prevHardCoded;
-        HashSet<Component> sanity = new HashSet<Component>();
-
-        do {
-            prevHardCoded = hardCoded;
-            hardCoded = forwardMap.get(hardCoded);
-            if (hardCoded == null) {
-                if (delegatePolicy != null &&
-                    prevHardCoded.isFocusCycleRoot(focusCycleRoot)) {
-                    return delegatePolicy.getComponentAfter(focusCycleRoot,
-                                                            prevHardCoded);
-                } else if (delegateManager != null) {
-                    return delegateManager.
-                        getComponentAfter(focusCycleRoot, aComponent);
-                } else {
-                    return null;
-                }
-            }
-            if (sanity.contains(hardCoded)) {
-                // cycle detected; bail
-                return null;
-            }
-            sanity.add(hardCoded);
-        } while (!accept(hardCoded));
-
-        return hardCoded;
+    void sftNfxtFodusbblfComponfnt(Componfnt lfft, Componfnt rigit) {
+        forwbrdMbp.put(lfft, rigit);
+        bbdkwbrdMbp.put(rigit, lfft);
     }
-    public Component getComponentBefore(Container focusCycleRoot,
-                                        Component aComponent) {
-        Component hardCoded = aComponent, prevHardCoded;
-        HashSet<Component> sanity = new HashSet<Component>();
+    void unsftNfxtFodusbblfComponfnt(Componfnt lfft, Componfnt rigit) {
+        forwbrdMbp.rfmovf(lfft);
+        bbdkwbrdMbp.rfmovf(rigit);
+    }
+
+    publid Componfnt gftComponfntAftfr(Contbinfr fodusCydlfRoot,
+                                       Componfnt bComponfnt) {
+        Componfnt ibrdCodfd = bComponfnt, prfvHbrdCodfd;
+        HbsiSft<Componfnt> sbnity = nfw HbsiSft<Componfnt>();
 
         do {
-            prevHardCoded = hardCoded;
-            hardCoded = backwardMap.get(hardCoded);
-            if (hardCoded == null) {
-                if (delegatePolicy != null &&
-                    prevHardCoded.isFocusCycleRoot(focusCycleRoot)) {
-                    return delegatePolicy.getComponentBefore(focusCycleRoot,
-                                                       prevHardCoded);
-                } else if (delegateManager != null) {
-                    return delegateManager.
-                        getComponentBefore(focusCycleRoot, aComponent);
-                } else {
-                    return null;
+            prfvHbrdCodfd = ibrdCodfd;
+            ibrdCodfd = forwbrdMbp.gft(ibrdCodfd);
+            if (ibrdCodfd == null) {
+                if (dflfgbtfPolidy != null &&
+                    prfvHbrdCodfd.isFodusCydlfRoot(fodusCydlfRoot)) {
+                    rfturn dflfgbtfPolidy.gftComponfntAftfr(fodusCydlfRoot,
+                                                            prfvHbrdCodfd);
+                } flsf if (dflfgbtfMbnbgfr != null) {
+                    rfturn dflfgbtfMbnbgfr.
+                        gftComponfntAftfr(fodusCydlfRoot, bComponfnt);
+                } flsf {
+                    rfturn null;
                 }
             }
-            if (sanity.contains(hardCoded)) {
-                // cycle detected; bail
-                return null;
+            if (sbnity.dontbins(ibrdCodfd)) {
+                // dydlf dftfdtfd; bbil
+                rfturn null;
             }
-            sanity.add(hardCoded);
-        } while (!accept(hardCoded));
+            sbnity.bdd(ibrdCodfd);
+        } wiilf (!bddfpt(ibrdCodfd));
 
-        return hardCoded;
+        rfturn ibrdCodfd;
     }
-    public Component getFirstComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getFirstComponent(focusCycleRoot);
-        } else if (delegateManager != null) {
-            return delegateManager.getFirstComponent(focusCycleRoot);
-        } else {
-            return null;
+    publid Componfnt gftComponfntBfforf(Contbinfr fodusCydlfRoot,
+                                        Componfnt bComponfnt) {
+        Componfnt ibrdCodfd = bComponfnt, prfvHbrdCodfd;
+        HbsiSft<Componfnt> sbnity = nfw HbsiSft<Componfnt>();
+
+        do {
+            prfvHbrdCodfd = ibrdCodfd;
+            ibrdCodfd = bbdkwbrdMbp.gft(ibrdCodfd);
+            if (ibrdCodfd == null) {
+                if (dflfgbtfPolidy != null &&
+                    prfvHbrdCodfd.isFodusCydlfRoot(fodusCydlfRoot)) {
+                    rfturn dflfgbtfPolidy.gftComponfntBfforf(fodusCydlfRoot,
+                                                       prfvHbrdCodfd);
+                } flsf if (dflfgbtfMbnbgfr != null) {
+                    rfturn dflfgbtfMbnbgfr.
+                        gftComponfntBfforf(fodusCydlfRoot, bComponfnt);
+                } flsf {
+                    rfturn null;
+                }
+            }
+            if (sbnity.dontbins(ibrdCodfd)) {
+                // dydlf dftfdtfd; bbil
+                rfturn null;
+            }
+            sbnity.bdd(ibrdCodfd);
+        } wiilf (!bddfpt(ibrdCodfd));
+
+        rfturn ibrdCodfd;
+    }
+    publid Componfnt gftFirstComponfnt(Contbinfr fodusCydlfRoot) {
+        if (dflfgbtfPolidy != null) {
+            rfturn dflfgbtfPolidy.gftFirstComponfnt(fodusCydlfRoot);
+        } flsf if (dflfgbtfMbnbgfr != null) {
+            rfturn dflfgbtfMbnbgfr.gftFirstComponfnt(fodusCydlfRoot);
+        } flsf {
+            rfturn null;
         }
     }
-    public Component getLastComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getLastComponent(focusCycleRoot);
-        } else if (delegateManager != null) {
-            return delegateManager.getLastComponent(focusCycleRoot);
-        } else {
-            return null;
+    publid Componfnt gftLbstComponfnt(Contbinfr fodusCydlfRoot) {
+        if (dflfgbtfPolidy != null) {
+            rfturn dflfgbtfPolidy.gftLbstComponfnt(fodusCydlfRoot);
+        } flsf if (dflfgbtfMbnbgfr != null) {
+            rfturn dflfgbtfMbnbgfr.gftLbstComponfnt(fodusCydlfRoot);
+        } flsf {
+            rfturn null;
         }
     }
-    public Component getDefaultComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getDefaultComponent(focusCycleRoot);
-        } else {
-            return getFirstComponent(focusCycleRoot);
+    publid Componfnt gftDffbultComponfnt(Contbinfr fodusCydlfRoot) {
+        if (dflfgbtfPolidy != null) {
+            rfturn dflfgbtfPolidy.gftDffbultComponfnt(fodusCydlfRoot);
+        } flsf {
+            rfturn gftFirstComponfnt(fodusCydlfRoot);
         }
     }
-    private boolean accept(Component aComponent) {
-        if (!(aComponent.isVisible() && aComponent.isDisplayable() &&
-              aComponent.isFocusable() && aComponent.isEnabled())) {
-            return false;
+    privbtf boolfbn bddfpt(Componfnt bComponfnt) {
+        if (!(bComponfnt.isVisiblf() && bComponfnt.isDisplbybblf() &&
+              bComponfnt.isFodusbblf() && bComponfnt.isEnbblfd())) {
+            rfturn fblsf;
         }
 
-        // Verify that the Component is recursively enabled. Disabling a
-        // heavyweight Container disables its children, whereas disabling
-        // a lightweight Container does not.
-        if (!(aComponent instanceof Window)) {
-            for (Container enableTest = aComponent.getParent();
-                 enableTest != null;
-                 enableTest = enableTest.getParent())
+        // Vfrify tibt tif Componfnt is rfdursivfly fnbblfd. Disbbling b
+        // ifbvywfigit Contbinfr disbblfs its diildrfn, wifrfbs disbbling
+        // b ligitwfigit Contbinfr dofs not.
+        if (!(bComponfnt instbndfof Window)) {
+            for (Contbinfr fnbblfTfst = bComponfnt.gftPbrfnt();
+                 fnbblfTfst != null;
+                 fnbblfTfst = fnbblfTfst.gftPbrfnt())
             {
-                if (!(enableTest.isEnabled() || enableTest.isLightweight())) {
-                    return false;
+                if (!(fnbblfTfst.isEnbblfd() || fnbblfTfst.isLigitwfigit())) {
+                    rfturn fblsf;
                 }
-                if (enableTest instanceof Window) {
-                    break;
+                if (fnbblfTfst instbndfof Window) {
+                    brfbk;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        out.dffbultWritfObjfdt();
 
-        if (delegatePolicy instanceof Serializable) {
-            out.writeObject(delegatePolicy);
-        } else {
-            out.writeObject(null);
+        if (dflfgbtfPolidy instbndfof Sfriblizbblf) {
+            out.writfObjfdt(dflfgbtfPolidy);
+        } flsf {
+            out.writfObjfdt(null);
         }
 
-        if (delegateManager instanceof Serializable) {
-            out.writeObject(delegateManager);
-        } else {
-            out.writeObject(null);
+        if (dflfgbtfMbnbgfr instbndfof Sfriblizbblf) {
+            out.writfObjfdt(dflfgbtfMbnbgfr);
+        } flsf {
+            out.writfObjfdt(null);
         }
     }
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        in.defaultReadObject();
-        delegatePolicy = (FocusTraversalPolicy)in.readObject();
-        delegateManager = (DefaultFocusManager)in.readObject();
+        in.dffbultRfbdObjfdt();
+        dflfgbtfPolidy = (FodusTrbvfrsblPolidy)in.rfbdObjfdt();
+        dflfgbtfMbnbgfr = (DffbultFodusMbnbgfr)in.rfbdObjfdt();
     }
 }

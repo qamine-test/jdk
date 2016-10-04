@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Rectangle;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Rfdtbnglf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
 
 /**
- * This class contains a number of static utility methods that may be
- * called (via reflection) by a third-party library, such as JOGL, in order
- * to interoperate with the OGL-based Java 2D pipeline.
+ * Tiis dlbss dontbins b numbfr of stbtid utility mftiods tibt mby bf
+ * dbllfd (vib rfflfdtion) by b tiird-pbrty librbry, sudi bs JOGL, in ordfr
+ * to intfropfrbtf witi tif OGL-bbsfd Jbvb 2D pipflinf.
  *
- * WARNING: These methods are being made available as a temporary measure
- * until we offer a more complete, public solution.  Like any sun.* class,
- * this class is not an officially supported public API; it may be modified
- * at will or removed completely in a future release.
+ * WARNING: Tifsf mftiods brf bfing mbdf bvbilbblf bs b tfmporbry mfbsurf
+ * until wf offfr b morf domplftf, publid solution.  Likf bny sun.* dlbss,
+ * tiis dlbss is not bn offidiblly supportfd publid API; it mby bf modififd
+ * bt will or rfmovfd domplftfly in b futurf rflfbsf.
  */
-class OGLUtilities {
+dlbss OGLUtilitifs {
 
     /**
-     * These OGL-specific surface type constants are the same as those
-     * defined in the OGLSurfaceData class and are duplicated here so that
-     * clients of this API can access them more easily via reflection.
+     * Tifsf OGL-spfdifid surfbdf typf donstbnts brf tif sbmf bs tiosf
+     * dffinfd in tif OGLSurfbdfDbtb dlbss bnd brf duplidbtfd ifrf so tibt
+     * dlifnts of tiis API dbn bddfss tifm morf fbsily vib rfflfdtion.
      */
-    public static final int UNDEFINED       = OGLSurfaceData.UNDEFINED;
-    public static final int WINDOW          = OGLSurfaceData.WINDOW;
-    public static final int PBUFFER         = OGLSurfaceData.PBUFFER;
-    public static final int TEXTURE         = OGLSurfaceData.TEXTURE;
-    public static final int FLIP_BACKBUFFER = OGLSurfaceData.FLIP_BACKBUFFER;
-    public static final int FBOBJECT        = OGLSurfaceData.FBOBJECT;
+    publid stbtid finbl int UNDEFINED       = OGLSurfbdfDbtb.UNDEFINED;
+    publid stbtid finbl int WINDOW          = OGLSurfbdfDbtb.WINDOW;
+    publid stbtid finbl int PBUFFER         = OGLSurfbdfDbtb.PBUFFER;
+    publid stbtid finbl int TEXTURE         = OGLSurfbdfDbtb.TEXTURE;
+    publid stbtid finbl int FLIP_BACKBUFFER = OGLSurfbdfDbtb.FLIP_BACKBUFFER;
+    publid stbtid finbl int FBOBJECT        = OGLSurfbdfDbtb.FBOBJECT;
 
-    private OGLUtilities() {
+    privbtf OGLUtilitifs() {
     }
 
     /**
-     * Returns true if the current thread is the OGL QueueFlusher thread.
+     * Rfturns truf if tif durrfnt tirfbd is tif OGL QufufFlusifr tirfbd.
      */
-    public static boolean isQueueFlusherThread() {
-        return OGLRenderQueue.isQueueFlusherThread();
+    publid stbtid boolfbn isQufufFlusifrTirfbd() {
+        rfturn OGLRfndfrQufuf.isQufufFlusifrTirfbd();
     }
 
     /**
-     * Invokes the given Runnable on the OGL QueueFlusher thread with the
-     * OpenGL context corresponding to the given Graphics object made
-     * current.  It is legal for OpenGL code executed in the given
-     * Runnable to change the current OpenGL context; it will be reset
-     * once the Runnable completes.  No guarantees are made as to the
-     * state of the OpenGL context of the Graphics object; for
-     * example, calling code must set the scissor box using the return
-     * value from {@link #getOGLScissorBox} to avoid drawing
-     * over other Swing components, and must typically set the OpenGL
-     * viewport using the return value from {@link #getOGLViewport} to
-     * make the client's OpenGL rendering appear in the correct place
-     * relative to the scissor region.
+     * Invokfs tif givfn Runnbblf on tif OGL QufufFlusifr tirfbd witi tif
+     * OpfnGL dontfxt dorrfsponding to tif givfn Grbpiids objfdt mbdf
+     * durrfnt.  It is lfgbl for OpfnGL dodf fxfdutfd in tif givfn
+     * Runnbblf to dibngf tif durrfnt OpfnGL dontfxt; it will bf rfsft
+     * ondf tif Runnbblf domplftfs.  No gubrbntffs brf mbdf bs to tif
+     * stbtf of tif OpfnGL dontfxt of tif Grbpiids objfdt; for
+     * fxbmplf, dblling dodf must sft tif sdissor box using tif rfturn
+     * vbluf from {@link #gftOGLSdissorBox} to bvoid drbwing
+     * ovfr otifr Swing domponfnts, bnd must typidblly sft tif OpfnGL
+     * vifwport using tif rfturn vbluf from {@link #gftOGLVifwport} to
+     * mbkf tif dlifnt's OpfnGL rfndfring bppfbr in tif dorrfdt plbdf
+     * rflbtivf to tif sdissor rfgion.
      *
-     * In order to avoid deadlock, it is important that the given Runnable
-     * does not attempt to acquire the AWT lock, as that will be handled
-     * automatically as part of the <code>rq.flushAndInvokeNow()</code> step.
+     * In ordfr to bvoid dfbdlodk, it is importbnt tibt tif givfn Runnbblf
+     * dofs not bttfmpt to bdquirf tif AWT lodk, bs tibt will bf ibndlfd
+     * butombtidblly bs pbrt of tif <dodf>rq.flusiAndInvokfNow()</dodf> stfp.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * if null, the step making a context current to the destination surface
-     * will be skipped
-     * @param r the action to be performed on the QFT; cannot be null
-     * @return true if the operation completed successfully, or false if
-     * there was any problem making a context current to the surface
-     * associated with the given Graphics object
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * if null, tif stfp mbking b dontfxt durrfnt to tif dfstinbtion surfbdf
+     * will bf skippfd
+     * @pbrbm r tif bdtion to bf pfrformfd on tif QFT; dbnnot bf null
+     * @rfturn truf if tif opfrbtion domplftfd suddfssfully, or fblsf if
+     * tifrf wbs bny problfm mbking b dontfxt durrfnt to tif surfbdf
+     * bssodibtfd witi tif givfn Grbpiids objfdt
      */
-    public static boolean invokeWithOGLContextCurrent(Graphics g, Runnable r) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    publid stbtid boolfbn invokfWitiOGLContfxtCurrfnt(Grbpiids g, Runnbblf r) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
             if (g != null) {
-                if (!(g instanceof SunGraphics2D)) {
-                    return false;
+                if (!(g instbndfof SunGrbpiids2D)) {
+                    rfturn fblsf;
                 }
-                SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-                if (!(sData instanceof OGLSurfaceData)) {
-                    return false;
+                SurfbdfDbtb sDbtb = ((SunGrbpiids2D)g).surfbdfDbtb;
+                if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+                    rfturn fblsf;
                 }
 
-                // make a context current to the destination surface
-                OGLContext.validateContext((OGLSurfaceData)sData);
+                // mbkf b dontfxt durrfnt to tif dfstinbtion surfbdf
+                OGLContfxt.vblidbtfContfxt((OGLSurfbdfDbtb)sDbtb);
             }
 
-            // invoke the given runnable on the QFT
-            rq.flushAndInvokeNow(r);
+            // invokf tif givfn runnbblf on tif QFT
+            rq.flusiAndInvokfNow(r);
 
-            // invalidate the current context so that the next time we render
-            // with Java 2D, the context state will be completely revalidated
-            OGLContext.invalidateCurrentContext();
-        } finally {
-            rq.unlock();
+            // invblidbtf tif durrfnt dontfxt so tibt tif nfxt timf wf rfndfr
+            // witi Jbvb 2D, tif dontfxt stbtf will bf domplftfly rfvblidbtfd
+            OGLContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Invokes the given Runnable on the OGL QueueFlusher thread with the
-     * "shared" OpenGL context (corresponding to the given
-     * GraphicsConfiguration object) made current.  This method is typically
-     * used when the Runnable needs a current context to complete its
-     * operation, but does not require that the context be made current to
-     * a particular surface.  For example, an application may call this
-     * method so that the given Runnable can query the OpenGL capabilities
-     * of the given GraphicsConfiguration, without making a context current
-     * to a dummy surface (or similar hacky techniques).
+     * Invokfs tif givfn Runnbblf on tif OGL QufufFlusifr tirfbd witi tif
+     * "sibrfd" OpfnGL dontfxt (dorrfsponding to tif givfn
+     * GrbpiidsConfigurbtion objfdt) mbdf durrfnt.  Tiis mftiod is typidblly
+     * usfd wifn tif Runnbblf nffds b durrfnt dontfxt to domplftf its
+     * opfrbtion, but dofs not rfquirf tibt tif dontfxt bf mbdf durrfnt to
+     * b pbrtidulbr surfbdf.  For fxbmplf, bn bpplidbtion mby dbll tiis
+     * mftiod so tibt tif givfn Runnbblf dbn qufry tif OpfnGL dbpbbilitifs
+     * of tif givfn GrbpiidsConfigurbtion, witiout mbking b dontfxt durrfnt
+     * to b dummy surfbdf (or similbr ibdky tfdiniqufs).
      *
-     * In order to avoid deadlock, it is important that the given Runnable
-     * does not attempt to acquire the AWT lock, as that will be handled
-     * automatically as part of the <code>rq.flushAndInvokeNow()</code> step.
+     * In ordfr to bvoid dfbdlodk, it is importbnt tibt tif givfn Runnbblf
+     * dofs not bttfmpt to bdquirf tif AWT lodk, bs tibt will bf ibndlfd
+     * butombtidblly bs pbrt of tif <dodf>rq.flusiAndInvokfNow()</dodf> stfp.
      *
-     * @param config the GraphicsConfiguration object whose "shared"
-     * context will be made current during this operation; if this value is
-     * null or if OpenGL is not enabled for the GraphicsConfiguration, this
-     * method will return false
-     * @param r the action to be performed on the QFT; cannot be null
-     * @return true if the operation completed successfully, or false if
-     * there was any problem making the shared context current
+     * @pbrbm donfig tif GrbpiidsConfigurbtion objfdt wiosf "sibrfd"
+     * dontfxt will bf mbdf durrfnt during tiis opfrbtion; if tiis vbluf is
+     * null or if OpfnGL is not fnbblfd for tif GrbpiidsConfigurbtion, tiis
+     * mftiod will rfturn fblsf
+     * @pbrbm r tif bdtion to bf pfrformfd on tif QFT; dbnnot bf null
+     * @rfturn truf if tif opfrbtion domplftfd suddfssfully, or fblsf if
+     * tifrf wbs bny problfm mbking tif sibrfd dontfxt durrfnt
      */
-    public static boolean
-        invokeWithOGLSharedContextCurrent(GraphicsConfiguration config,
-                                          Runnable r)
+    publid stbtid boolfbn
+        invokfWitiOGLSibrfdContfxtCurrfnt(GrbpiidsConfigurbtion donfig,
+                                          Runnbblf r)
     {
-        if (!(config instanceof OGLGraphicsConfig)) {
-            return false;
+        if (!(donfig instbndfof OGLGrbpiidsConfig)) {
+            rfturn fblsf;
         }
 
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            // make the "shared" context current for the given GraphicsConfig
-            OGLContext.setScratchSurface((OGLGraphicsConfig)config);
+            // mbkf tif "sibrfd" dontfxt durrfnt for tif givfn GrbpiidsConfig
+            OGLContfxt.sftSdrbtdiSurfbdf((OGLGrbpiidsConfig)donfig);
 
-            // invoke the given runnable on the QFT
-            rq.flushAndInvokeNow(r);
+            // invokf tif givfn runnbblf on tif QFT
+            rq.flusiAndInvokfNow(r);
 
-            // invalidate the current context so that the next time we render
-            // with Java 2D, the context state will be completely revalidated
-            OGLContext.invalidateCurrentContext();
-        } finally {
-            rq.unlock();
+            // invblidbtf tif durrfnt dontfxt so tibt tif nfxt timf wf rfndfr
+            // witi Jbvb 2D, tif dontfxt stbtf will bf domplftfly rfvblidbtfd
+            OGLContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the Rectangle describing the OpenGL viewport on the
-     * Java 2D surface associated with the given Graphics object and
-     * component width and height. When a third-party library is
-     * performing OpenGL rendering directly into the visible region of
-     * the associated surface, this viewport helps the application
-     * position the OpenGL output correctly on that surface.
+     * Rfturns tif Rfdtbnglf dfsdribing tif OpfnGL vifwport on tif
+     * Jbvb 2D surfbdf bssodibtfd witi tif givfn Grbpiids objfdt bnd
+     * domponfnt widti bnd ifigit. Wifn b tiird-pbrty librbry is
+     * pfrforming OpfnGL rfndfring dirfdtly into tif visiblf rfgion of
+     * tif bssodibtfd surfbdf, tiis vifwport iflps tif bpplidbtion
+     * position tif OpfnGL output dorrfdtly on tibt surfbdf.
      *
-     * Note that the x/y values in the returned Rectangle object represent
-     * the lower-left corner of the viewport region, relative to the
-     * lower-left corner of the given surface.
+     * Notf tibt tif x/y vblufs in tif rfturnfd Rfdtbnglf objfdt rfprfsfnt
+     * tif lowfr-lfft dornfr of tif vifwport rfgion, rflbtivf to tif
+     * lowfr-lfft dornfr of tif givfn surfbdf.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @param componentWidth width of the component to be painted
-     * @param componentHeight height of the component to be painted
-     * @return a Rectangle describing the OpenGL viewport for the given
-     * destination surface and component dimensions, or null if the given
-     * Graphics object is invalid
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @pbrbm domponfntWidti widti of tif domponfnt to bf pbintfd
+     * @pbrbm domponfntHfigit ifigit of tif domponfnt to bf pbintfd
+     * @rfturn b Rfdtbnglf dfsdribing tif OpfnGL vifwport for tif givfn
+     * dfstinbtion surfbdf bnd domponfnt dimfnsions, or null if tif givfn
+     * Grbpiids objfdt is invblid
      */
-    public static Rectangle getOGLViewport(Graphics g,
-                                           int componentWidth,
-                                           int componentHeight)
+    publid stbtid Rfdtbnglf gftOGLVifwport(Grbpiids g,
+                                           int domponfntWidti,
+                                           int domponfntHfigit)
     {
-        if (!(g instanceof SunGraphics2D)) {
-            return null;
+        if (!(g instbndfof SunGrbpiids2D)) {
+            rfturn null;
         }
 
-        SunGraphics2D sg2d = (SunGraphics2D)g;
-        SurfaceData sData = sg2d.surfaceData;
+        SunGrbpiids2D sg2d = (SunGrbpiids2D)g;
+        SurfbdfDbtb sDbtb = sg2d.surfbdfDbtb;
 
-        // this is the upper-left origin of the region to be painted,
-        // relative to the upper-left origin of the surface
-        // (in Java2D coordinates)
-        int x0 = sg2d.transX;
-        int y0 = sg2d.transY;
+        // tiis is tif uppfr-lfft origin of tif rfgion to bf pbintfd,
+        // rflbtivf to tif uppfr-lfft origin of tif surfbdf
+        // (in Jbvb2D doordinbtfs)
+        int x0 = sg2d.trbnsX;
+        int y0 = sg2d.trbnsY;
 
-        // this is the lower-left origin of the region to be painted,
-        // relative to the lower-left origin of the surface
-        // (in OpenGL coordinates)
-        Rectangle surfaceBounds = sData.getBounds();
+        // tiis is tif lowfr-lfft origin of tif rfgion to bf pbintfd,
+        // rflbtivf to tif lowfr-lfft origin of tif surfbdf
+        // (in OpfnGL doordinbtfs)
+        Rfdtbnglf surfbdfBounds = sDbtb.gftBounds();
         int x1 = x0;
-        int y1 = surfaceBounds.height - (y0 + componentHeight);
+        int y1 = surfbdfBounds.ifigit - (y0 + domponfntHfigit);
 
-        return new Rectangle(x1, y1, componentWidth, componentHeight);
+        rfturn nfw Rfdtbnglf(x1, y1, domponfntWidti, domponfntHfigit);
     }
 
     /**
-     * Returns the Rectangle describing the OpenGL scissor box on the
-     * Java 2D surface associated with the given Graphics object.  When a
-     * third-party library is performing OpenGL rendering directly
-     * into the visible region of the associated surface, this scissor box
-     * must be set to avoid drawing over existing rendering results.
+     * Rfturns tif Rfdtbnglf dfsdribing tif OpfnGL sdissor box on tif
+     * Jbvb 2D surfbdf bssodibtfd witi tif givfn Grbpiids objfdt.  Wifn b
+     * tiird-pbrty librbry is pfrforming OpfnGL rfndfring dirfdtly
+     * into tif visiblf rfgion of tif bssodibtfd surfbdf, tiis sdissor box
+     * must bf sft to bvoid drbwing ovfr fxisting rfndfring rfsults.
      *
-     * Note that the x/y values in the returned Rectangle object represent
-     * the lower-left corner of the scissor region, relative to the
-     * lower-left corner of the given surface.
+     * Notf tibt tif x/y vblufs in tif rfturnfd Rfdtbnglf objfdt rfprfsfnt
+     * tif lowfr-lfft dornfr of tif sdissor rfgion, rflbtivf to tif
+     * lowfr-lfft dornfr of tif givfn surfbdf.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return a Rectangle describing the OpenGL scissor box for the given
-     * Graphics object and corresponding destination surface, or null if the
-     * given Graphics object is invalid or the clip region is non-rectangular
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn b Rfdtbnglf dfsdribing tif OpfnGL sdissor box for tif givfn
+     * Grbpiids objfdt bnd dorrfsponding dfstinbtion surfbdf, or null if tif
+     * givfn Grbpiids objfdt is invblid or tif dlip rfgion is non-rfdtbngulbr
      */
-    public static Rectangle getOGLScissorBox(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
-            return null;
+    publid stbtid Rfdtbnglf gftOGLSdissorBox(Grbpiids g) {
+        if (!(g instbndfof SunGrbpiids2D)) {
+            rfturn null;
         }
 
-        SunGraphics2D sg2d = (SunGraphics2D)g;
-        SurfaceData sData = sg2d.surfaceData;
-        Region r = sg2d.getCompClip();
-        if (!r.isRectangular()) {
-            // caller probably doesn't know how to handle shape clip
-            // appropriately, so just return null (Swing currently never
-            // sets a shape clip, but that could change in the future)
-            return null;
+        SunGrbpiids2D sg2d = (SunGrbpiids2D)g;
+        SurfbdfDbtb sDbtb = sg2d.surfbdfDbtb;
+        Rfgion r = sg2d.gftCompClip();
+        if (!r.isRfdtbngulbr()) {
+            // dbllfr probbbly dofsn't know iow to ibndlf sibpf dlip
+            // bppropribtfly, so just rfturn null (Swing durrfntly nfvfr
+            // sfts b sibpf dlip, but tibt dould dibngf in tif futurf)
+            rfturn null;
         }
 
-        // this is the upper-left origin of the scissor box relative to the
-        // upper-left origin of the surface (in Java 2D coordinates)
-        int x0 = r.getLoX();
-        int y0 = r.getLoY();
+        // tiis is tif uppfr-lfft origin of tif sdissor box rflbtivf to tif
+        // uppfr-lfft origin of tif surfbdf (in Jbvb 2D doordinbtfs)
+        int x0 = r.gftLoX();
+        int y0 = r.gftLoY();
 
-        // this is the width and height of the scissor region
-        int w = r.getWidth();
-        int h = r.getHeight();
+        // tiis is tif widti bnd ifigit of tif sdissor rfgion
+        int w = r.gftWidti();
+        int i = r.gftHfigit();
 
-        // this is the lower-left origin of the scissor box relative to the
-        // lower-left origin of the surface (in OpenGL coordinates)
-        Rectangle surfaceBounds = sData.getBounds();
+        // tiis is tif lowfr-lfft origin of tif sdissor box rflbtivf to tif
+        // lowfr-lfft origin of tif surfbdf (in OpfnGL doordinbtfs)
+        Rfdtbnglf surfbdfBounds = sDbtb.gftBounds();
         int x1 = x0;
-        int y1 = surfaceBounds.height - (y0 + h);
+        int y1 = surfbdfBounds.ifigit - (y0 + i);
 
-        return new Rectangle(x1, y1, w, h);
+        rfturn nfw Rfdtbnglf(x1, y1, w, i);
     }
 
     /**
-     * Returns an Object identifier for the Java 2D surface associated with
-     * the given Graphics object.  This identifier may be used to determine
-     * whether the surface has changed since the last invocation of this
-     * operation, and thereby whether the OpenGL state corresponding to the
-     * old surface must be destroyed and recreated.
+     * Rfturns bn Objfdt idfntififr for tif Jbvb 2D surfbdf bssodibtfd witi
+     * tif givfn Grbpiids objfdt.  Tiis idfntififr mby bf usfd to dftfrminf
+     * wiftifr tif surfbdf ibs dibngfd sindf tif lbst invodbtion of tiis
+     * opfrbtion, bnd tifrfby wiftifr tif OpfnGL stbtf dorrfsponding to tif
+     * old surfbdf must bf dfstroyfd bnd rfdrfbtfd.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return an identifier for the surface associated with the given
-     * Graphics object, or null if the given Graphics object is invalid
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn bn idfntififr for tif surfbdf bssodibtfd witi tif givfn
+     * Grbpiids objfdt, or null if tif givfn Grbpiids objfdt is invblid
      */
-    public static Object getOGLSurfaceIdentifier(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
-            return null;
+    publid stbtid Objfdt gftOGLSurfbdfIdfntififr(Grbpiids g) {
+        if (!(g instbndfof SunGrbpiids2D)) {
+            rfturn null;
         }
-        return ((SunGraphics2D)g).surfaceData;
+        rfturn ((SunGrbpiids2D)g).surfbdfDbtb;
     }
 
     /**
-     * Returns one of the OGL-specific surface type constants (defined in
-     * this class), which describes the surface associated with the given
-     * Graphics object.
+     * Rfturns onf of tif OGL-spfdifid surfbdf typf donstbnts (dffinfd in
+     * tiis dlbss), wiidi dfsdribfs tif surfbdf bssodibtfd witi tif givfn
+     * Grbpiids objfdt.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return a constant that describes the surface associated with the
-     * given Graphics object; if the given Graphics object is invalid (i.e.
-     * is not associated with an OpenGL surface) this method will return
-     * <code>OGLUtilities.UNDEFINED</code>
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn b donstbnt tibt dfsdribfs tif surfbdf bssodibtfd witi tif
+     * givfn Grbpiids objfdt; if tif givfn Grbpiids objfdt is invblid (i.f.
+     * is not bssodibtfd witi bn OpfnGL surfbdf) tiis mftiod will rfturn
+     * <dodf>OGLUtilitifs.UNDEFINED</dodf>
      */
-    public static int getOGLSurfaceType(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
-            return UNDEFINED;
+    publid stbtid int gftOGLSurfbdfTypf(Grbpiids g) {
+        if (!(g instbndfof SunGrbpiids2D)) {
+            rfturn UNDEFINED;
         }
-        SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-        if (!(sData instanceof OGLSurfaceData)) {
-            return UNDEFINED;
+        SurfbdfDbtb sDbtb = ((SunGrbpiids2D)g).surfbdfDbtb;
+        if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+            rfturn UNDEFINED;
         }
-        return ((OGLSurfaceData)sData).getType();
+        rfturn ((OGLSurfbdfDbtb)sDbtb).gftTypf();
     }
 
     /**
-     * Returns the OpenGL texture target constant (either GL_TEXTURE_2D
-     * or GL_TEXTURE_RECTANGLE_ARB) for the surface associated with the
-     * given Graphics object.  This method is only useful for those surface
-     * types that are backed by an OpenGL texture, namely {@code TEXTURE},
-     * {@code FBOBJECT}, and (on Windows only) {@code PBUFFER}.
+     * Rfturns tif OpfnGL tfxturf tbrgft donstbnt (fitifr GL_TEXTURE_2D
+     * or GL_TEXTURE_RECTANGLE_ARB) for tif surfbdf bssodibtfd witi tif
+     * givfn Grbpiids objfdt.  Tiis mftiod is only usfful for tiosf surfbdf
+     * typfs tibt brf bbdkfd by bn OpfnGL tfxturf, nbmfly {@dodf TEXTURE},
+     * {@dodf FBOBJECT}, bnd (on Windows only) {@dodf PBUFFER}.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return the texture target constant for the surface associated with the
-     * given Graphics object; if the given Graphics object is invalid (i.e.
-     * is not associated with an OpenGL surface), or the associated surface
-     * is not backed by an OpenGL texture, this method will return zero.
+     * @pbrbm g tif Grbpiids objfdt for tif dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn tif tfxturf tbrgft donstbnt for tif surfbdf bssodibtfd witi tif
+     * givfn Grbpiids objfdt; if tif givfn Grbpiids objfdt is invblid (i.f.
+     * is not bssodibtfd witi bn OpfnGL surfbdf), or tif bssodibtfd surfbdf
+     * is not bbdkfd by bn OpfnGL tfxturf, tiis mftiod will rfturn zfro.
      */
-    public static int getOGLTextureType(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
-            return 0;
+    publid stbtid int gftOGLTfxturfTypf(Grbpiids g) {
+        if (!(g instbndfof SunGrbpiids2D)) {
+            rfturn 0;
         }
-        SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-        if (!(sData instanceof OGLSurfaceData)) {
-            return 0;
+        SurfbdfDbtb sDbtb = ((SunGrbpiids2D)g).surfbdfDbtb;
+        if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+            rfturn 0;
         }
-        return ((OGLSurfaceData)sData).getTextureTarget();
+        rfturn ((OGLSurfbdfDbtb)sDbtb).gftTfxturfTbrgft();
     }
 }

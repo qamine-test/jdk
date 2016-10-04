@@ -1,0 +1,370 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.spi.GSSNbmfSpi;
+import sun.sfdurity.jgss.spi.GSSCrfdfntiblSpi;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.jgss.krb5.Krb5NbmfElfmfnt;
+import sun.sfdurity.jgss.spnfgo.SpNfgoCrfdElfmfnt;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Vfdtor;
+import jbvb.util.Itfrbtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buth.login.LoginContfxt;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.util.ConsolfCbllbbdkHbndlfr;
+
+/**
+ * Thf GSSUtilImplfmfntbtion thbt knows how to work with thf intfrnbls of
+ * thf GSS-API.
+ */
+publid dlbss GSSUtil {
+
+    publid stbtid finbl Oid GSS_KRB5_MECH_OID =
+                GSSUtil.drfbtfOid("1.2.840.113554.1.2.2");
+    publid stbtid finbl Oid GSS_KRB5_MECH_OID2 =
+                GSSUtil.drfbtfOid("1.3.5.1.5.2");
+
+    publid stbtid finbl Oid GSS_SPNEGO_MECH_OID =
+                GSSUtil.drfbtfOid("1.3.6.1.5.5.2");
+
+    publid stbtid finbl Oid NT_GSS_KRB5_PRINCIPAL =
+                GSSUtil.drfbtfOid("1.2.840.113554.1.2.2.1");
+
+    privbtf stbtid finbl String DEFAULT_HANDLER =
+            "buth.login.dffbultCbllbbdkHbndlfr";
+
+    stbtid finbl boolfbn DEBUG;
+    stbtid {
+        DEBUG = (AddfssControllfr.doPrivilfgfd
+                        (nfw GftBoolfbnAdtion("sun.sfdurity.jgss.dfbug"))).
+                                boolfbnVbluf();
+    }
+
+    stbtid void dfbug(String mfssbgf) {
+        if (DEBUG) {
+            bssfrt(mfssbgf != null);
+            Systfm.out.println(mfssbgf);
+        }
+    }
+
+    // NOTE: this mfthod is only for drfbting Oid objfdts with
+    // known to bf vblid <dodf>oidStr</dodf> givfn it ignorfs
+    // thf GSSExdfption
+    publid stbtid Oid drfbtfOid(String oidStr) {
+        try {
+            rfturn nfw Oid(oidStr);
+        } dbtdh (GSSExdfption f) {
+            dfbug("Ignorfd invblid OID: " + oidStr);
+            rfturn null;
+        }
+    }
+
+    publid stbtid boolfbn isSpNfgoMfdh(Oid oid) {
+        rfturn (GSS_SPNEGO_MECH_OID.fqubls(oid));
+    }
+
+    publid stbtid boolfbn isKfrbfrosMfdh(Oid oid) {
+        rfturn (GSS_KRB5_MECH_OID.fqubls(oid) ||
+                GSS_KRB5_MECH_OID2.fqubls(oid));
+
+    }
+
+    publid stbtid String gftMfdhStr(Oid oid) {
+        if (isSpNfgoMfdh(oid)) {
+            rfturn "SPNEGO";
+        } flsf if (isKfrbfrosMfdh(oid)) {
+            rfturn "Kfrbfros V5";
+        } flsf {
+            rfturn oid.toString();
+        }
+    }
+
+    /**
+     * Notf: Thf durrfnt impl only works with Sun's impl of
+     * GSSNbmf bnd GSSCrfdfntibl sindf it dfpfnds on pbdkbgf
+     * privbtf APIs.
+     */
+    publid stbtid Subjfdt gftSubjfdt(GSSNbmf nbmf,
+                                     GSSCrfdfntibl drfds) {
+
+        HbshSft<Objfdt> privCrfdfntibls = null;
+        HbshSft<Objfdt> pubCrfdfntibls = nfw HbshSft<Objfdt>(); // fmpty Sft
+
+        Sft<GSSCrfdfntiblSpi> gssCrfdfntibls = null;
+
+        Sft<KfrbfrosPrindipbl> krb5Prindipbls =
+                                nfw HbshSft<KfrbfrosPrindipbl>();
+
+        if (nbmf instbndfof GSSNbmfImpl) {
+            try {
+                GSSNbmfSpi nf = ((GSSNbmfImpl) nbmf).gftElfmfnt
+                    (GSS_KRB5_MECH_OID);
+                String krbNbmf = nf.toString();
+                if (nf instbndfof Krb5NbmfElfmfnt) {
+                    krbNbmf =
+                        ((Krb5NbmfElfmfnt) nf).gftKrb5PrindipblNbmf().gftNbmf();
+                }
+                KfrbfrosPrindipbl krbPrind = nfw KfrbfrosPrindipbl(krbNbmf);
+                krb5Prindipbls.bdd(krbPrind);
+            } dbtdh (GSSExdfption gf) {
+                dfbug("Skippfd nbmf " + nbmf + " duf to " + gf);
+            }
+        }
+
+        if (drfds instbndfof GSSCrfdfntiblImpl) {
+            gssCrfdfntibls = ((GSSCrfdfntiblImpl) drfds).gftElfmfnts();
+            privCrfdfntibls = nfw HbshSft<Objfdt>(gssCrfdfntibls.sizf());
+            populbtfCrfdfntibls(privCrfdfntibls, gssCrfdfntibls);
+        } flsf {
+            privCrfdfntibls = nfw HbshSft<Objfdt>(); // fmpty Sft
+        }
+        dfbug("Crfbtfd Subjfdt with thf following");
+        dfbug("prindipbls=" + krb5Prindipbls);
+        dfbug("publid drfds=" + pubCrfdfntibls);
+        dfbug("privbtf drfds=" + privCrfdfntibls);
+
+        rfturn nfw Subjfdt(fblsf, krb5Prindipbls, pubCrfdfntibls,
+                           privCrfdfntibls);
+
+    }
+
+    /**
+     * Populbtfs thf sft drfdfntibls with flfmfnts from gssCrfdfntibls. At
+     * thf sbmf timf, it donvfrts bny subdlbssfs of KfrbfrosTidkft
+     * into KfrbfrosTidkft instbndfs bnd bny subdlbssfs of KfrbfrosKfy into
+     * KfrbfrosKfy instbndfs. (It is not dfsirbblf to fxposf thf dustomfr
+     * to sun.sfdurity.jgss.krb5.Krb5InitCrfdfntibl whidh fxtfnds
+     * KfrbfrosTidkft bnd sun.sfdurity.jgss.krb5.Kbr5AddfptCrfdfntibl whidh
+     * fxtfnds KfrbfrosKfy.)
+     */
+    privbtf stbtid void populbtfCrfdfntibls(Sft<Objfdt> drfdfntibls,
+                                            Sft<?> gssCrfdfntibls) {
+
+        Objfdt drfd;
+
+        Itfrbtor<?> flfmfnts = gssCrfdfntibls.itfrbtor();
+        whilf (flfmfnts.hbsNfxt()) {
+
+            drfd = flfmfnts.nfxt();
+
+            // Rftrifvf thf intfrnbl drfd out of SpNfgoCrfdElfmfnt
+            if (drfd instbndfof SpNfgoCrfdElfmfnt) {
+                drfd = ((SpNfgoCrfdElfmfnt) drfd).gftIntfrnblCrfd();
+            }
+
+            if (drfd instbndfof KfrbfrosTidkft) {
+                if (!drfd.gftClbss().gftNbmf().fqubls
+                    ("jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft")) {
+                    KfrbfrosTidkft tfmpTkt = (KfrbfrosTidkft) drfd;
+                    drfd = nfw KfrbfrosTidkft(tfmpTkt.gftEndodfd(),
+                                              tfmpTkt.gftClifnt(),
+                                              tfmpTkt.gftSfrvfr(),
+                                              tfmpTkt.gftSfssionKfy().gftEndodfd(),
+                                              tfmpTkt.gftSfssionKfyTypf(),
+                                              tfmpTkt.gftFlbgs(),
+                                              tfmpTkt.gftAuthTimf(),
+                                              tfmpTkt.gftStbrtTimf(),
+                                              tfmpTkt.gftEndTimf(),
+                                              tfmpTkt.gftRfnfwTill(),
+                                              tfmpTkt.gftClifntAddrfssfs());
+                }
+                drfdfntibls.bdd(drfd);
+            } flsf if (drfd instbndfof KfrbfrosKfy) {
+                if (!drfd.gftClbss().gftNbmf().fqubls
+                    ("jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy")) {
+                    KfrbfrosKfy tfmpKfy = (KfrbfrosKfy) drfd;
+                    drfd = nfw KfrbfrosKfy(tfmpKfy.gftPrindipbl(),
+                                           tfmpKfy.gftEndodfd(),
+                                           tfmpKfy.gftKfyTypf(),
+                                           tfmpKfy.gftVfrsionNumbfr());
+                }
+                drfdfntibls.bdd(drfd);
+            } flsf {
+                // Ignorf non-KfrbfrosTidkft bnd non-KfrbfrosKfy flfmfnts
+                dfbug("Skippfd drfd flfmfnt: " + drfd);
+            }
+        }
+    }
+
+    /**
+     * Authfntidbtf using thf login modulf from thf spfdififd
+     * donfigurbtion fntry.
+     *
+     * @pbrbm dbllfr thf dbllfr of JAAS Login
+     * @pbrbm mfdh thf mfdh to bf usfd
+     * @rfturn thf buthfntidbtfd subjfdt
+     */
+    publid stbtid Subjfdt login(GSSCbllfr dbllfr, Oid mfdh) throws LoginExdfption {
+
+        CbllbbdkHbndlfr db = null;
+        if (dbllfr instbndfof HttpCbllfr) {
+            db = nfw sun.nft.www.protodol.http.spnfgo.NfgotibtfCbllbbdkHbndlfr(
+                    ((HttpCbllfr)dbllfr).info());
+        } flsf {
+            String dffbultHbndlfr =
+                    jbvb.sfdurity.Sfdurity.gftPropfrty(DEFAULT_HANDLER);
+            // gft thf dffbult dbllbbdk hbndlfr
+            if ((dffbultHbndlfr != null) && (dffbultHbndlfr.lfngth() != 0)) {
+                db = null;
+            } flsf {
+                db = nfw ConsolfCbllbbdkHbndlfr();
+            }
+        }
+
+        // Nfw instbndf of LoginConfigImpl must bf drfbtfd for fbdh login,
+        // sindf thf fntry nbmf is not pbssfd bs thf first brgumfnt, but
+        // gfnfrbtfd with dbllfr bnd mfdh insidf LoginConfigImpl
+        LoginContfxt ld = nfw LoginContfxt("", null, db,
+                nfw LoginConfigImpl(dbllfr, mfdh));
+        ld.login();
+        rfturn ld.gftSubjfdt();
+    }
+
+    /**
+     * Dftfrminfs if thf bpplidbtion dofsn't mind if thf mfdhbnism obtbins
+     * thf rfquirfd drfdfntibls from outsidf of thf durrfnt Subjfdt. Our
+     * Kfrbfros v5 mfdhbnism would do b JAAS login on bfhblf of thf
+     * bpplidbtion if this wfrf thf dbsf.
+     *
+     * Thf bpplidbtion indidbtfs this by fxpliditly sftting thf systfm
+     * propfrty jbvbx.sfdurity.buth.usfSubjfdtCrfdsOnly to fblsf.
+     */
+    publid stbtid boolfbn usfSubjfdtCrfdsOnly(GSSCbllfr dbllfr) {
+
+        // HTTP/SPNEGO dofsn't usf thf stbndbrd JAAS frbmfwork. Instfbd, it
+        // usfs thf jbvb.nft.Authfntidbtor stylf, thfrfforf blwbys rfturn
+        // fblsf hfrf.
+        if (dbllfr instbndfof HttpCbllfr) {
+            rfturn fblsf;
+        }
+        /*
+         * Don't usf GftBoolfbnAdtion bfdbusf thf dffbult vbluf in thf JRE
+         * (whfn this is unsft) hbs to trfbtfd bs truf.
+         */
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jbvbx.sfdurity.buth.usfSubjfdtCrfdsOnly",
+                "truf"));
+        /*
+         * This propfrty hbs to bf fxpliditly sft to "fblsf". Invblid
+         * vblufs should bf ignorfd bnd thf dffbult "truf" bssumfd.
+         */
+        rfturn (!propVbluf.fqublsIgnorfCbsf("fblsf"));
+    }
+
+    /**
+     * Dftfrminfs thf SPNEGO intfropfrbbility modf with Midrosoft;
+     * by dffbult it is sft to truf.
+     *
+     * To disbblf it, thf bpplidbtion indidbtfs this by fxpliditly sftting
+     * thf systfm propfrty sun.sfdurity.spnfgo.intfrop to fblsf.
+     */
+    publid stbtid boolfbn usfMSIntfrop() {
+        /*
+         * Don't usf GftBoolfbnAdtion bfdbusf thf dffbult vbluf in thf JRE
+         * (whfn this is unsft) hbs to trfbtfd bs truf.
+         */
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.sfdurity.spnfgo.msintfrop",
+                "truf"));
+        /*
+         * This propfrty hbs to bf fxpliditly sft to "fblsf". Invblid
+         * vblufs should bf ignorfd bnd thf dffbult "truf" bssumfd.
+         */
+        rfturn (!propVbluf.fqublsIgnorfCbsf("fblsf"));
+    }
+
+    /**
+     * Sfbrdhfs thf privbtf drfdfntibls of durrfnt Subjfdt with thf
+     * spfdififd dritfrib bnd rfturns thf mbtdhing GSSCrfdfntiblSpi
+     * objfdt out of Sun's impl of GSSCrfdfntibl. Rfturns null if
+     * no Subjfdt prfsfnt or b Vfdtor whidh dontbins 0 or morf
+     * mbtdhing GSSCrfdfntiblSpi objfdts.
+     */
+    publid stbtid <T fxtfnds GSSCrfdfntiblSpi> Vfdtor<T>
+            sfbrdhSubjfdt(finbl GSSNbmfSpi nbmf,
+                          finbl Oid mfdh,
+                          finbl boolfbn initibtf,
+                          finbl Clbss<? fxtfnds T> drfdCls) {
+        dfbug("Sfbrdh Subjfdt for " + gftMfdhStr(mfdh) +
+              (initibtf? " INIT" : " ACCEPT") + " drfd (" +
+              (nbmf == null? "<<DEF>>" : nbmf.toString()) + ", " +
+              drfdCls.gftNbmf() + ")");
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        try {
+            Vfdtor<T> drfds =
+                AddfssControllfr.doPrivilfgfd
+                (nfw PrivilfgfdExdfptionAdtion<Vfdtor<T>>() {
+                    publid Vfdtor<T> run() throws Exdfption {
+                        Subjfdt bddSubj = Subjfdt.gftSubjfdt(bdd);
+                        Vfdtor<T> rfsult = null;
+                        if (bddSubj != null) {
+                            rfsult = nfw Vfdtor<T>();
+                            Itfrbtor<GSSCrfdfntiblImpl> itfrbtor =
+                                bddSubj.gftPrivbtfCrfdfntibls
+                                (GSSCrfdfntiblImpl.dlbss).itfrbtor();
+                            whilf (itfrbtor.hbsNfxt()) {
+                                GSSCrfdfntiblImpl drfd = itfrbtor.nfxt();
+                                dfbug("...Found drfd" + drfd);
+                                try {
+                                    GSSCrfdfntiblSpi df =
+                                        drfd.gftElfmfnt(mfdh, initibtf);
+                                    dfbug("......Found flfmfnt: " + df);
+                                    if (df.gftClbss().fqubls(drfdCls) &&
+                                        (nbmf == null ||
+                                         nbmf.fqubls((Objfdt) df.gftNbmf()))) {
+                                        rfsult.bdd(drfdCls.dbst(df));
+                                    } flsf {
+                                        dfbug("......Disdbrd flfmfnt");
+                                    }
+                                } dbtdh (GSSExdfption gf) {
+                                    dfbug("...Disdbrd drfd (" + gf + ")");
+                                }
+                            }
+                        } flsf dfbug("No Subjfdt");
+                        rfturn rfsult;
+                    }
+                });
+            rfturn drfds;
+        } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+            dfbug("Unfxpfdtfd fxdfption whfn sfbrdhing Subjfdt:");
+            if (DEBUG) pbf.printStbdkTrbdf();
+            rfturn null;
+        }
+    }
+}

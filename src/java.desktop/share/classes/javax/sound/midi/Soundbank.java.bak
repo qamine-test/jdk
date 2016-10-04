@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
 
 /**
- * A <code>Soundbank</code> contains a set of <code>Instruments</code>
- * that can be loaded into a <code>Synthesizer</code>.
- * Note that a Java Sound <code>Soundbank</code> is different from a MIDI bank.
- * MIDI permits up to 16383 banks, each containing up to 128 instruments
- * (also sometimes called programs, patches, or timbres).
- * However, a <code>Soundbank</code> can contain 16383 times 128 instruments,
- * because the instruments within a <code>Soundbank</code> are indexed by both
- * a MIDI program number and a MIDI bank number (via a <code>Patch</code>
- * object). Thus, a <code>Soundbank</code> can be thought of as a collection
- * of MIDI banks.
+ * A <dodf>Soundbbnk</dodf> dontbins b sft of <dodf>Instrumfnts</dodf>
+ * tibt dbn bf lobdfd into b <dodf>Syntifsizfr</dodf>.
+ * Notf tibt b Jbvb Sound <dodf>Soundbbnk</dodf> is difffrfnt from b MIDI bbnk.
+ * MIDI pfrmits up to 16383 bbnks, fbdi dontbining up to 128 instrumfnts
+ * (blso somftimfs dbllfd progrbms, pbtdifs, or timbrfs).
+ * Howfvfr, b <dodf>Soundbbnk</dodf> dbn dontbin 16383 timfs 128 instrumfnts,
+ * bfdbusf tif instrumfnts witiin b <dodf>Soundbbnk</dodf> brf indfxfd by boti
+ * b MIDI progrbm numbfr bnd b MIDI bbnk numbfr (vib b <dodf>Pbtdi</dodf>
+ * objfdt). Tius, b <dodf>Soundbbnk</dodf> dbn bf tiougit of bs b dollfdtion
+ * of MIDI bbnks.
  * <p>
- * <code>Soundbank</code> includes methods that return <code>String</code>
- * objects containing the sound bank's name, manufacturer, version number, and
- * description.  The precise content and format of these strings is left
- * to the implementor.
+ * <dodf>Soundbbnk</dodf> indludfs mftiods tibt rfturn <dodf>String</dodf>
+ * objfdts dontbining tif sound bbnk's nbmf, mbnufbdturfr, vfrsion numbfr, bnd
+ * dfsdription.  Tif prfdisf dontfnt bnd formbt of tifsf strings is lfft
+ * to tif implfmfntor.
  * <p>
- * Different synthesizers use a variety of synthesis techniques.  A common
- * one is wavetable synthesis, in which a segment of recorded sound is
- * played back, often with looping and pitch change.  The Downloadable Sound
- * (DLS) format uses segments of recorded sound, as does the Headspace Engine.
- * <code>Soundbanks</code> and <code>Instruments</code> that are based on
- * wavetable synthesis (or other uses of stored sound recordings) should
- * typically implement the <code>getResources()</code>
- * method to provide access to these recorded segments.  This is optional,
- * however; the method can return an zero-length array if the synthesis technique
- * doesn't use sampled sound (FM synthesis and physical modeling are examples
- * of such techniques), or if it does but the implementor chooses not to make the
- * samples accessible.
+ * Difffrfnt syntifsizfrs usf b vbrifty of syntifsis tfdiniqufs.  A dommon
+ * onf is wbvftbblf syntifsis, in wiidi b sfgmfnt of rfdordfd sound is
+ * plbyfd bbdk, oftfn witi looping bnd pitdi dibngf.  Tif Downlobdbblf Sound
+ * (DLS) formbt usfs sfgmfnts of rfdordfd sound, bs dofs tif Hfbdspbdf Enginf.
+ * <dodf>Soundbbnks</dodf> bnd <dodf>Instrumfnts</dodf> tibt brf bbsfd on
+ * wbvftbblf syntifsis (or otifr usfs of storfd sound rfdordings) siould
+ * typidblly implfmfnt tif <dodf>gftRfsourdfs()</dodf>
+ * mftiod to providf bddfss to tifsf rfdordfd sfgmfnts.  Tiis is optionbl,
+ * iowfvfr; tif mftiod dbn rfturn bn zfro-lfngti brrby if tif syntifsis tfdiniquf
+ * dofsn't usf sbmplfd sound (FM syntifsis bnd piysidbl modfling brf fxbmplfs
+ * of sudi tfdiniqufs), or if it dofs but tif implfmfntor dioosfs not to mbkf tif
+ * sbmplfs bddfssiblf.
  *
- * @see Synthesizer#getDefaultSoundbank
- * @see Synthesizer#isSoundbankSupported
- * @see Synthesizer#loadInstruments(Soundbank, Patch[])
- * @see Patch
- * @see Instrument
- * @see SoundbankResource
+ * @sff Syntifsizfr#gftDffbultSoundbbnk
+ * @sff Syntifsizfr#isSoundbbnkSupportfd
+ * @sff Syntifsizfr#lobdInstrumfnts(Soundbbnk, Pbtdi[])
+ * @sff Pbtdi
+ * @sff Instrumfnt
+ * @sff SoundbbnkRfsourdf
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
  */
 
-public interface Soundbank {
+publid intfrfbdf Soundbbnk {
 
 
     /**
-     * Obtains the name of the sound bank.
-     * @return a <code>String</code> naming the sound bank
+     * Obtbins tif nbmf of tif sound bbnk.
+     * @rfturn b <dodf>String</dodf> nbming tif sound bbnk
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Obtains the version string for the sound bank.
-     * @return a <code>String</code> that indicates the sound bank's version
+     * Obtbins tif vfrsion string for tif sound bbnk.
+     * @rfturn b <dodf>String</dodf> tibt indidbtfs tif sound bbnk's vfrsion
      */
-    public String getVersion();
+    publid String gftVfrsion();
 
     /**
-     * Obtains a <code>string</code> naming the company that provides the
-     * sound bank
-     * @return the vendor string
+     * Obtbins b <dodf>string</dodf> nbming tif dompbny tibt providfs tif
+     * sound bbnk
+     * @rfturn tif vfndor string
      */
-    public String getVendor();
+    publid String gftVfndor();
 
     /**
-     * Obtains a textual description of the sound bank, suitable for display.
-     * @return a <code>String</code> that describes the sound bank
+     * Obtbins b tfxtubl dfsdription of tif sound bbnk, suitbblf for displby.
+     * @rfturn b <dodf>String</dodf> tibt dfsdribfs tif sound bbnk
      */
-    public String getDescription();
+    publid String gftDfsdription();
 
 
     /**
-     * Extracts a list of non-Instrument resources contained in the sound bank.
-     * @return an array of resources, excluding instruments.  If the sound bank contains
-     * no resources (other than instruments), returns an array of length 0.
+     * Extrbdts b list of non-Instrumfnt rfsourdfs dontbinfd in tif sound bbnk.
+     * @rfturn bn brrby of rfsourdfs, fxdluding instrumfnts.  If tif sound bbnk dontbins
+     * no rfsourdfs (otifr tibn instrumfnts), rfturns bn brrby of lfngti 0.
      */
-    public SoundbankResource[] getResources();
+    publid SoundbbnkRfsourdf[] gftRfsourdfs();
 
 
     /**
-     * Obtains a list of instruments contained in this sound bank.
-     * @return an array of the <code>Instruments</code> in this
-     * <code>SoundBank</code>
-     * If the sound bank contains no instruments, returns an array of length 0.
+     * Obtbins b list of instrumfnts dontbinfd in tiis sound bbnk.
+     * @rfturn bn brrby of tif <dodf>Instrumfnts</dodf> in tiis
+     * <dodf>SoundBbnk</dodf>
+     * If tif sound bbnk dontbins no instrumfnts, rfturns bn brrby of lfngti 0.
      *
-     * @see Synthesizer#getLoadedInstruments
-     * @see #getInstrument(Patch)
+     * @sff Syntifsizfr#gftLobdfdInstrumfnts
+     * @sff #gftInstrumfnt(Pbtdi)
      */
-    public Instrument[] getInstruments();
+    publid Instrumfnt[] gftInstrumfnts();
 
     /**
-     * Obtains an <code>Instrument</code> from the given <code>Patch</code>.
-     * @param patch a <code>Patch</code> object specifying the bank index
-     * and program change number
-     * @return the requested instrument, or <code>null</code> if the
-     * sound bank doesn't contain that instrument
+     * Obtbins bn <dodf>Instrumfnt</dodf> from tif givfn <dodf>Pbtdi</dodf>.
+     * @pbrbm pbtdi b <dodf>Pbtdi</dodf> objfdt spfdifying tif bbnk indfx
+     * bnd progrbm dibngf numbfr
+     * @rfturn tif rfqufstfd instrumfnt, or <dodf>null</dodf> if tif
+     * sound bbnk dofsn't dontbin tibt instrumfnt
      *
-     * @see #getInstruments
-     * @see Synthesizer#loadInstruments(Soundbank, Patch[])
+     * @sff #gftInstrumfnts
+     * @sff Syntifsizfr#lobdInstrumfnts(Soundbbnk, Pbtdi[])
      */
-    public Instrument getInstrument(Patch patch);
+    publid Instrumfnt gftInstrumfnt(Pbtdi pbtdi);
 
 
 }

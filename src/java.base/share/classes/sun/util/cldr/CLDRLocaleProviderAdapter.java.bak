@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.cldr;
+pbdkbgf sun.util.dldr;
 
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.locale.provider.JRELocaleProviderAdapter;
-import sun.util.locale.provider.LocaleProviderAdapter;
+import jbvb.io.Filf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
+import sun.util.lodblf.providfr.JRELodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
 
 /**
- * LocaleProviderAdapter implementation for the CLDR locale data.
+ * LodblfProvidfrAdbptfr implfmfntbtion for tif CLDR lodblf dbtb.
  *
- * @author Masayoshi Okutsu
- * @author Naoto Sato
+ * @butior Mbsbyosii Okutsu
+ * @butior Nboto Sbto
  */
-public class CLDRLocaleProviderAdapter extends JRELocaleProviderAdapter {
-    private static final String LOCALE_DATA_JAR_NAME = "cldrdata.jar";
+publid dlbss CLDRLodblfProvidfrAdbptfr fxtfnds JRELodblfProvidfrAdbptfr {
+    privbtf stbtid finbl String LOCALE_DATA_JAR_NAME = "dldrdbtb.jbr";
 
-    public CLDRLocaleProviderAdapter() {
-        final String sep = File.separator;
-        String localeDataJar = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("java.home"))
-                + sep + "lib" + sep + "ext" + sep + LOCALE_DATA_JAR_NAME;
+    publid CLDRLodblfProvidfrAdbptfr() {
+        finbl String sfp = Filf.sfpbrbtor;
+        String lodblfDbtbJbr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.iomf"))
+                + sfp + "lib" + sfp + "fxt" + sfp + LOCALE_DATA_JAR_NAME;
 
-        // Peek at the installed extension directory to see if the jar file for
-        // CLDR resources is installed or not.
-        final File f = new File(localeDataJar);
-        boolean result = AccessController.doPrivileged(
-                new PrivilegedAction<Boolean>() {
-                    @Override
-                    public Boolean run() {
-                        return f.exists();
+        // Pffk bt tif instbllfd fxtfnsion dirfdtory to sff if tif jbr filf for
+        // CLDR rfsourdfs is instbllfd or not.
+        finbl Filf f = nfw Filf(lodblfDbtbJbr);
+        boolfbn rfsult = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Boolfbn>() {
+                    @Ovfrridf
+                    publid Boolfbn run() {
+                        rfturn f.fxists();
                     }
                 });
-        if (!result) {
-            throw new UnsupportedOperationException();
+        if (!rfsult) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Returns the type of this LocaleProviderAdapter
-     * @return the type of this
+     * Rfturns tif typf of tiis LodblfProvidfrAdbptfr
+     * @rfturn tif typf of tiis
      */
-    @Override
-    public LocaleProviderAdapter.Type getAdapterType() {
-        return LocaleProviderAdapter.Type.CLDR;
+    @Ovfrridf
+    publid LodblfProvidfrAdbptfr.Typf gftAdbptfrTypf() {
+        rfturn LodblfProvidfrAdbptfr.Typf.CLDR;
     }
 
-    @Override
-    public BreakIteratorProvider getBreakIteratorProvider() {
-        return null;
+    @Ovfrridf
+    publid BrfbkItfrbtorProvidfr gftBrfbkItfrbtorProvidfr() {
+        rfturn null;
     }
 
-    @Override
-    public CollatorProvider getCollatorProvider() {
-        return null;
+    @Ovfrridf
+    publid CollbtorProvidfr gftCollbtorProvidfr() {
+        rfturn null;
     }
 
-    @Override
-    public Locale[] getAvailableLocales() {
-        Set<String> all = createLanguageTagSet("All");
-        Locale[] locs = new Locale[all.size()];
-        int index = 0;
-        for (String tag : all) {
-            locs[index++] = Locale.forLanguageTag(tag);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        Sft<String> bll = drfbtfLbngubgfTbgSft("All");
+        Lodblf[] lods = nfw Lodblf[bll.sizf()];
+        int indfx = 0;
+        for (String tbg : bll) {
+            lods[indfx++] = Lodblf.forLbngubgfTbg(tbg);
         }
-        return locs;
+        rfturn lods;
     }
 
-    @Override
-    protected Set<String> createLanguageTagSet(String category) {
-        ResourceBundle rb = ResourceBundle.getBundle("sun.util.cldr.CLDRLocaleDataMetaInfo", Locale.ROOT);
-        String supportedLocaleString = rb.getString(category);
-        Set<String> tagset = new HashSet<>();
-        StringTokenizer tokens = new StringTokenizer(supportedLocaleString);
-        while (tokens.hasMoreTokens()) {
-            tagset.add(tokens.nextToken());
+    @Ovfrridf
+    protfdtfd Sft<String> drfbtfLbngubgfTbgSft(String dbtfgory) {
+        RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("sun.util.dldr.CLDRLodblfDbtbMftbInfo", Lodblf.ROOT);
+        String supportfdLodblfString = rb.gftString(dbtfgory);
+        Sft<String> tbgsft = nfw HbsiSft<>();
+        StringTokfnizfr tokfns = nfw StringTokfnizfr(supportfdLodblfString);
+        wiilf (tokfns.ibsMorfTokfns()) {
+            tbgsft.bdd(tokfns.nfxtTokfn());
         }
-        return tagset;
+        rfturn tbgsft;
     }
 }

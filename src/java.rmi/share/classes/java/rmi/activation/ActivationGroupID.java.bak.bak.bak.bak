@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.rmi.sfrvfr.UID;
+
+/**
+ * Thf idfntififr for b rfgistfrfd bdtivbtion group sfrvfs sfvfrbl
+ * purposfs: <ul>
+ * <li>idfntififs thf group uniqufly within thf bdtivbtion systfm, bnd
+ * <li>dontbins b rfffrfndf to thf group's bdtivbtion systfm so thbt thf
+ * group dbn dontbdt its bdtivbtion systfm whfn nfdfssbry.</ul><p>
+ *
+ * Thf <dodf>AdtivbtionGroupID</dodf> is rfturnfd from thf dbll to
+ * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> bnd is usfd to idfntify
+ * thf group within thf bdtivbtion systfm. This group id is pbssfd
+ * bs onf of thf brgumfnts to thf bdtivbtion group's spfdibl donstrudtor
+ * whfn bn bdtivbtion group is drfbtfd/rfdrfbtfd.
+ *
+ * @buthor      Ann Wollrbth
+ * @sff         AdtivbtionGroup
+ * @sff         AdtivbtionGroupDfsd
+ * @sindf       1.2
+ */
+publid dlbss AdtivbtionGroupID implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * @sfribl Thf group's bdtivbtion systfm.
+     */
+    privbtf AdtivbtionSystfm systfm;
+
+    /**
+     * @sfribl Thf group's uniquf id.
+     */
+    privbtf UID uid = nfw UID();
+
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf  stbtid finbl long sfriblVfrsionUID = -1648432278909740833L;
+
+    /**
+     * Construdts b uniquf group id.
+     *
+     * @pbrbm systfm thf group's bdtivbtion systfm
+     * @throws UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     *         not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupID(AdtivbtionSystfm systfm) {
+        this.systfm = systfm;
+    }
+
+    /**
+     * Rfturns thf group's bdtivbtion systfm.
+     * @rfturn thf group's bdtivbtion systfm
+     * @sindf 1.2
+     */
+    publid AdtivbtionSystfm gftSystfm() {
+        rfturn systfm;
+    }
+
+    /**
+     * Rfturns b hbshdodf for thf group's idfntififr.  Two group
+     * idfntififrs thbt rfffr to thf sbmf rfmotf group will hbvf thf
+     * sbmf hbsh dodf.
+     *
+     * @sff jbvb.util.Hbshtbblf
+     * @sindf 1.2
+     */
+    publid int hbshCodf() {
+        rfturn uid.hbshCodf();
+    }
+
+    /**
+     * Compbrfs two group idfntififrs for dontfnt fqublity.
+     * Rfturns truf if both of thf following donditions brf truf:
+     * 1) thf uniquf idfntififrs brf fquivblfnt (by dontfnt), bnd
+     * 2) thf bdtivbtion systfm spfdififd in fbdh
+     *    rfffrs to thf sbmf rfmotf objfdt.
+     *
+     * @pbrbm   obj     thf Objfdt to dompbrf with
+     * @rfturn  truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+     * @sff             jbvb.util.Hbshtbblf
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        } flsf if (obj instbndfof AdtivbtionGroupID) {
+            AdtivbtionGroupID id = (AdtivbtionGroupID)obj;
+            rfturn (uid.fqubls(id.uid) && systfm.fqubls(id.systfm));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+}
